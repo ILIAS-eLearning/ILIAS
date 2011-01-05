@@ -306,7 +306,18 @@ class ilSCORM13Player
 		$config['langstrings'] = $langstrings;
 		
 		//template variables	
-		$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "Modules/Scorm2004");
+		//$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "Modules/Scorm2004");
+		$this->tpl = new ilTemplate("tpl.scorm2004.player.html", true, true, "Modules/Scorm2004");
+
+		// include ilias rte css, if given
+		$rte_css = $this->slm->getDataDirectory()."/ilias_css_4_2/css/style.css";
+		if (is_file($rte_css))
+		{
+			$this->tpl->setCurrentBlock("rte_css");
+			$this->tpl->setVariable("RTE_CSS", $rte_css);
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		$this->tpl->setVariable('YUI_PATH', ilYuiUtil::getLocalPath());

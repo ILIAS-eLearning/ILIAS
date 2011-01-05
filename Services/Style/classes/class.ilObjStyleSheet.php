@@ -252,7 +252,8 @@ class ilObjStyleSheet extends ilObject
 			"page_tnav", "page_bnav", "page_lnav", "page_rnav", "page_lnavlink", "page_rnavlink",
 			"page_lnavimage", "page_rnavimage"),
 		"glo" => array("glo_overlay", "glo_ovtitle", "glo_ovclink", "glo_ovuglink", "glo_ovuglistlink"),
-		"sco" => array("sco_title", "sco_keyw", "sco_desc", "sco_desct", "sco_obj", "sco_objt")
+		"sco" => array("sco_title", "sco_keyw", "sco_desc", "sco_desct", "sco_obj", "sco_objt",
+			"rte_menu")
 		);
 
 	// these types are expandable, i.e. the user can define new style classes
@@ -293,6 +294,7 @@ class ilObjStyleSheet extends ilObject
 		"sco_obj" => "div",
 		"sco_desct" => "div",
 		"sco_objt" => "div",
+		"rte_menu" => "div",
 		"list_o" => "ol",
 		"list_u" => "ul",
 		"list_item" => "li",
@@ -380,6 +382,7 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "sco_keyw", "class" => "Keywords"),
 			array("type" => "sco_obj", "class" => "Objective"),
 			array("type" => "sco_objt", "class" => "ObjectiveTop"),
+			array("type" => "rte_menu", "class" => "RTEMenu"),
 			array("type" => "list_o", "class" => "NumberedList"),
 			array("type" => "list_u", "class" => "BulletedList"),
 			array("type" => "list_item", "class" => "StandardListItem"),

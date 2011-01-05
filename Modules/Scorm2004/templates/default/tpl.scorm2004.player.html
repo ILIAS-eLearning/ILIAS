@@ -10,6 +10,9 @@
 		
 		<link type="text/css" href="{LOCATION_STYLESHEET}" rel="stylesheet"/>
 		<link type="text/css" href="{BASE_DIR}templates/default/player.css" rel="stylesheet"/>
+		<!-- BEGIN rte_css -->
+		<link type="text/css" href="{RTE_CSS}" rel="stylesheet"/>
+		<!-- END rte_css -->
 
 		<base target="frmResource" />
 		
@@ -29,8 +32,8 @@
 
 		<table {VAL_DISPLAY} id="toolbarTable" width="100%" height="100%" style="height: 100%" cellspacing="0" cellpadding="0" border="0" summary="">
 			<tr height="1%">
-				<td class="submit">	
-						<div style="clear:both; margin: 1px 8px 3px 8px;" class="il_ContainerItemCommands">
+				<td>	
+						<div class="iosRTEMenu ilc_rte_menu_RTEMenu" style="clear:both;">
 							
 								<a target="_self" href="#" class="il_ContainerItemCommand" onclick="toggleView();" id="treeToggle">{btnhidetree}</a>
 								&nbsp;
