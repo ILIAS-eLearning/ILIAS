@@ -51,6 +51,9 @@ class ilAuthContainerSOAP extends Auth_Container
 	 */
 	public function __construct()
 	{
+		$_POST['username'] = $_GET['ext_uid'];
+		$_POST['password'] = $_GET['soap_pw'];
+		
 		parent::__construct();
 		$this->initClient();
 	}
@@ -94,7 +97,7 @@ class ilAuthContainerSOAP extends Auth_Container
 	public function fetchData($a_username,$a_password,$isChallengeResponse = false)
 	{
 		$GLOBALS['ilLog']->write(__METHOD__.': Soap auth fetch data');
-		
+
 		// check whether external user exists in ILIAS database
 		$local_user = ilObjUser::_checkExternalAuthAccount("soap", $a_username);
 		
@@ -125,7 +128,7 @@ class ilAuthContainerSOAP extends Auth_Container
 //echo "<br>== Response ==";
 //echo "<br>Valid: -".$valid["valid"]."-";
 //echo '<br><pre>' . htmlspecialchars($this->soap_client->response, ENT_QUOTES) . '</pre>';
-
+		
 		if (trim($valid["valid"]) == "false")
 		{
 			$valid["valid"] = false;
