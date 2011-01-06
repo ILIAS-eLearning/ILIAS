@@ -1819,7 +1819,7 @@ restore starts here
 				$this->writeScanLogLine("Stopped purging after ".($count - 1)." objects, because count limit was reached: ".$count_limit);
 				break;
 			}
-			if ($node["deleted_timestamp"] < $timestamp_limit)
+			if ($node["deleted_timestamp"] > $timestamp_limit)
 			{
 				$this->writeScanLogLine("Stopped purging after ".($count - 1)." objects, because timestamp limit was reached: ".date("c", $timestamp_limit));
 				break;
