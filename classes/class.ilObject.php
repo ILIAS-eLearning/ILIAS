@@ -637,7 +637,6 @@ class ilObject
 
 		//$this->id = $ilDB->getLastInsertId();
 
-
 		
 		// Save long form of description if is rbac object
 		if($objDefinition->isRBACObject($this->getType()))
@@ -1700,7 +1699,7 @@ class ilObject
 		$new_obj = new $class_name(0, false);
 		$new_obj->setOwner($ilUser->getId());
 		$new_obj->setTitle($title);
-		$new_obj->setDescription($this->getDescription());
+		$new_obj->setDescription($this->getLongDescription());
 		$new_obj->setType($this->getType());
 		// Choose upload mode to avoid creation of additional settings, db entries ...
 		$new_obj->create(true);
