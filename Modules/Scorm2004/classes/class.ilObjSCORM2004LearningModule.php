@@ -47,7 +47,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		return true;
 	}
 
-
 	/**
 	* read manifest file
 	* @access	public
@@ -1431,6 +1430,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		
 		$a_xml_writer = new ilXmlWriter;
 
+		// export metadata
 		$this->exportXMLMetaData($a_xml_writer);
 		$metadata_xml = $a_xml_writer->xmlDumpMem(false);
 		$a_xml_writer->_XmlWriter;
@@ -1441,6 +1441,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args,NULL);
 		xslt_free($xh);
 		file_put_contents($a_target_dir.'/indexMD.xml',$output);
+
+		// export glossary
 		if($this->getAssignedGlossary()!=0)
 		{
 			ilUtil::makeDir($a_target_dir."/glossary");
@@ -1496,12 +1498,19 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$ver = "2004";
 		}
 
-		// content css
+		// Export special items (entry page...)
+		if ($ver = "2004")
+		{
+			$this->exportScormSpecialItems($a_inst, $a_target_dir, $expLog);
+		}
+
+		// add content css (note: this is also done per item)
 		$css_dir = $a_target_dir."/ilias_css_4_2";
 		ilUtil::makeDir($css_dir);
 		include_once("./Modules/Scorm2004/classes/class.ilScormExportUtil.php");
 		ilScormExportUtil::exportContentCSS($this, $css_dir);
-		
+
+		// add manifest
 		include_once("class.ilContObjectManifestBuilder.php");
 		$manifestBuilder = new ilContObjectManifestBuilder($this);
 		$manifestBuilder->buildManifest($ver,$revision);
@@ -1513,7 +1522,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args,NULL);
 		xslt_free($xh);
 		fputs(fopen($a_target_dir.'/index.html','w+'),$output);
-		
+
+		// copy xsd files to target
 		switch ($ver)
 		{
 			case "2004":
@@ -1717,6 +1727,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	function exportHTMLScoObjects($a_inst, $a_target_dir, &$expLog)
 	{
 		global $ilBench;
+
 		$tree = new ilTree($this->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
@@ -1735,7 +1746,22 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			}
 		}
 	}
-	/* get public export file
+
+	/**
+	 * Export special items (entry page...)
+	 */
+	function exportScormSpecialItems($a_inst, $a_target_dir, $expLog)
+	{
+		if ($this->getEntryPage())
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004SpecialItem.php");
+			ilSCORM2004SpecialItem::exportSCORM($a_inst, $a_target_dir, $expLog);
+		}
+	}
+
+
+	/**
+	 * get public export file
 	 *
 	 * @param	string		$a_type		type ("xml" / "html")
 	 *

@@ -3721,3 +3721,13 @@ while ($r = $ilDB->fetchAssoc($set))
 		);
 }
 ?>
+<#3210>
+<?php
+$ilDB->addTableColumn("sahs_lm", "entry_page", array(
+	"type" => "integer",
+	"notnull" => true,
+	"default" => 0,
+	"length" => 4
+));
+
+?>

@@ -101,6 +101,7 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setModuleVersion($lm_rec["module_version"]);
 			$this->setAssignedGlossary($lm_rec["glossary"]);
 			$this->setTries($lm_rec["question_tries"]);
+			$this->setEntryPage($lm_rec["entry_page"]);
 			$this->setSession(ilUtil::yn2tf($lm_rec["unlimited_session"]));
 			$this->setNoMenu(ilUtil::yn2tf($lm_rec["no_menu"]));
 			$this->setHideNavig(ilUtil::yn2tf($lm_rec["hide_navig"]));
@@ -179,6 +180,23 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		return $this->tries;
 	}
+
+	/**
+	 * Set entry page (true/false, prototype)
+	 */
+	public function setEntryPage($a_val)
+	{
+		$this->entry_page = $a_val;
+	}
+
+	/**
+	 * Get entry page (true/false, prototype)
+	 */
+	public function getEntryPage()
+	{
+		return $this->entry_page;
+	}
+
 	
 	static function _getTries($a_id)
 	{
@@ -507,6 +525,7 @@ class ilObjSAHSLearningModule extends ilObject
 				no_menu = %s,
 				hide_navig = %s,
 				debug = %s,
+				entry_page = %s,
 				debugpw = %s
 				
 			WHERE id = %s', 
@@ -527,6 +546,7 @@ class ilObjSAHSLearningModule extends ilObject
 				'text',
 				'text',
 				'text',
+				'integer',
 				'text',
 				'integer'
 				), 
@@ -547,6 +567,7 @@ class ilObjSAHSLearningModule extends ilObject
 				ilUtil::tf2yn($this->getNoMenu()),
 				ilUtil::tf2yn($this->getHideNavig()),
 				ilUtil::tf2yn($this->getDebug()),
+				$this->getEntryPage(),
 				$this->getDebugPw(),
 				$this->getId())
 		);

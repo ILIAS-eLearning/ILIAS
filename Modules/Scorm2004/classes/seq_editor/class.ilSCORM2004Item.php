@@ -208,7 +208,7 @@ class ilSCORM2004Item
 		$output = preg_replace('/(<)([a-z]+|[A-Z]+)/','<imsss:$2',$output);
 		$output = preg_replace('/(<\/)([a-z]+|[A-Z]+)/','</imsss:$2',$output);
 		$output = preg_replace('/\n/','',$output);
-		
+
 		return $output; 
 	}
 	

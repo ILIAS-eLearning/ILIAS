@@ -117,7 +117,6 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		$this->exportXMLMetaData($a_xml_writer);
 		$metadata_xml = $a_xml_writer->xmlDumpMem(false);
 		$a_xml_writer->_XmlWriter;
-		
 		$xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/metadata.xsl");
 		$args = array( '/_xml' => $metadata_xml , '/_xsl' => $xsl );
 		$xh = xslt_create();
@@ -303,7 +302,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 	function exportHTMLPageObjects($a_inst, $a_target_dir, &$expLog, $mode)
 	{
 		global $tpl, $ilCtrl, $ilBench,$ilLog, $lng;
-		
+
 		include_once "./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php";
 		include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModuleGUI.php";
 		include_once "./Services/MetaData/classes/class.ilMD.php";
@@ -327,92 +326,66 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		//
 		// alex, 4 Apr 09
 		//
-		
-		$output = '
-		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-			<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-			<head>
-				<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-				<meta http-equiv="X-UA-Compatible" content="IE=7" />
-				<link rel="stylesheet" type="text/css" href="./css/system.css" />
-				<link rel="stylesheet" type="text/css" href="./css/style.css" />
-				<link rel="stylesheet" type="text/css" href="./css/accordion.css" />
-				<link rel="stylesheet" type="text/css" href="./css/yahoo/container.css" />
-				<script src="./js/scorm.js" type="text/javascript" language="JavaScript1.2"></script>
-				<script src="./js/jquery.js" type="text/javascript" language="JavaScript1.2"></script>
-				<script src="./js/jquery-ui-min.js" type="text/javascript" language="JavaScript1.2"></script>
-				<script src="./js/pager.js" type="text/javascript" language="JavaScript1.2"></script>
-				<script src="./js/pure.js" type="text/javascript" language="JavaScript1.2"></script>
-				<script src="./js/yahoo/yahoo-min.js" type="text/javascript" language="JavaScript1.2"></script>
-				<script src="./js/yahoo/yahoo-dom-event.js" type="text/javascript" language="JavaScript1.2"></script>
-				<script src="./js/yahoo/container_core-min.js" type="text/javascript" language="JavaScript1.2"></script>
-				<script src="./js/yahoo/animation-min.js" type="text/javascript" language="JavaScript1.2"></script>
-				<script src="./js/Basic.js" type="text/javascript" language="JavaScript1.2"></script>
-				<script src="./js/ilOverlay.js" type="text/javascript" language="JavaScript1.2"></script>
-				<script src="./js/questions_'. $this->getId().'.js" type="text/javascript" language="JavaScript1.2"></script>
-				<link rel="stylesheet" type="text/css" href="./css/question_handling.css" />
-				<script type="text/javascript" language="JavaScript1.2">
-					ilAddOnLoad(function () {init(0);});
-				</script>
-				<script src="./js/accordion.js" type="text/javascript" language="JavaScript1.2"></script>
-				<title>'.$this->getTitle().'</title>
-			</head>
-			<body class="yui-skin-sam" onunload="finish();">';
-			//<body onLoad="init(0);" onunload="finish();">';
-			// add init(0) per script, see above;
-			// otherwise accordion.js cannot add another function to the onload event.
-			
-		if($mode!='pdf')
-		$output .=	'<!-- BEGIN ilLMNavigation -->
-					<div class="ilc_page_tnav_TopNavigation">
-					<!-- BEGIN ilLMNavigation_Prev -->
-					<div class="ilc_page_lnav_LeftNavigation">
-					<a class="ilc_page_lnavlink_LeftNavigationLink">
-					<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="./images/spacer.gif" alt="" title="" />&nbsp;Prev</a>
-					</div>
-					<!-- END ilLMNavigation_Prev -->
-					<!-- BEGIN ilLMNavigation_Next -->
-					<div class="ilc_page_rnav_RightNavigation">
-					<a class="ilc_page_rnavlink_RightNavigationLink">Next&nbsp;<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="./images/spacer.gif" alt="" title="" /></a>
-					</div>
-					<!-- END ilLMNavigation_Next -->
-					<div style="clear:both;"></div>
-					</div>
-					<!-- END ilLMNavigation -->';
-		
-		$output .='<table class="ilc_page_cont_PageContainer" width="100%" cellspacing="0" cellpadding="0" style="display: table;">
-				   <tbody><tr><td><div class="ilc_page_Page">';
-		if($mode!='pdf')
-			$output .='<div class="ilc_sco_title_Title">'.$this->getTitle().'</div>';
+
+		$sco_tpl = new ilTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
+		if ($mode != 'pdf')
+		{
+			// previous/next navigation
+			$sco_tpl->setCurrentBlock("ilLMNavigation");
+			$sco_tpl->setVariable("TXT_PREVIOUS", $lng->txt("previous"));
+			$sco_tpl->setVariable("TXT_NEXT", $lng->txt("next"));
+			$sco_tpl->parseCurrentBlock();
+			$sco_tpl->setCurrentBlock("ilLMNavigation2");
+			$sco_tpl->setVariable("TXT_PREVIOUS", $lng->txt("previous"));
+			$sco_tpl->setVariable("TXT_NEXT", $lng->txt("next"));
+			$sco_tpl->parseCurrentBlock();
+
+			// title
+			$sco_tpl->setCurrentBlock("title");
+			$sco_tpl->setVariable("SCO_TITLE", $this->getTitle());
+			$sco_tpl->parseCurrentBlock();
+
+			$sco_tpl->touchBlock("init");
+			$sco_tpl->touchBlock("finish");
+		}
 		else
-			$output .='<h1>'.$this->getTitle().'</h1>';
-			
+		{
+			// title
+			$sco_tpl->setCurrentBlock("pdf_title");
+			$sco_tpl->setVariable("SCO_TITLE", $this->getTitle());
+			$sco_tpl->parseCurrentBlock();
+
+			$sco_tpl->touchBlock("pdf_break");
+		}
+					
 		// sco description
 		if (trim($sco_description) != "")
 		{
-			$output .='<div class="ilc_sco_desct_DescriptionTop">'.$lng->txt("description").'</div>';
-			$output .='<div class="ilc_sco_desc_Description">'.$sco_description.'</div>';
+			$sco_tpl->setCurrentBlock("sco_desc");
+			$sco_tpl->setVariable("TXT_DESC", $lng->txt("description"));
+			$sco_tpl->setVariable("VAL_DESC", $sco_description);
+			$sco_tpl->parseCurrentBlock();
 		}
 		
 		// sco objective(s)
 		$objs = $this->getObjectives();
 		if (count($objs) > 0)
 		{
-			$output .='<div class="ilc_sco_objt_ObjectiveTop">'.$lng->txt("sahs_objectives").'</div>';
 			foreach ($objs as $objective)
 			{
-				$output .= '<div class="ilc_sco_obj_Objective">'.nl2br($objective->getObjectiveID()).'</div>';
+				$sco_tpl->setCurrentBlock("sco_obj");
+				$sco_tpl->setVariable("VAL_OBJECTIVE", nl2br($objective->getObjectiveID()));
+				$sco_tpl->parseCurrentBlock();
 			}
-			$output .= "</div>";
-		}		
-		$output .='</td><tr></table>';
+			$sco_tpl->setCurrentBlock("sco_objs");
+			$sco_tpl->setVariable("TXT_OBJECTIVES", $lng->txt("sahs_objectives"));
+			$sco_tpl->parseCurrentBlock();
+		}
+
 		
 		//notify Question Exporter of new SCO
 		require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
 		ilQuestionExporter::indicateNewSco();
-
-		if($mode=='pdf') $output .='<!-- PAGE BREAK -->';
 
 		// init export (this initialises glossary template)
 		ilSCORM2004PageGUI::initExport();
@@ -431,10 +404,10 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 				$page_obj->setGlossaryOverviewInfo(
 					ilSCORM2004ScoGUI::getGlossaryOverviewId(), $this);
 			}
-			$output .= '<table class="ilc_page_cont_PageContainer" width="100%" cellspacing="0" cellpadding="0" style="display: table;"><tbody><tr><td><div class="ilc_page_Page">'.$page_obj->showPage("export")."</div></td></tr></table>";
-			if($mode=='pdf') $output .='<!-- PAGE BREAK -->';
+
+			$page_output = $page_obj->showPage("export");
+
 			// collect media objects
-			$ilBench->start("ContentObjectExport", "exportPageObject_CollectMedia");
 			$mob_ids = $page_obj->getSCORM2004Page()->collectMediaObjects(false);
 			foreach($mob_ids as $mob_id)
 			{
@@ -443,7 +416,6 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 				if($media_obj->hasFullscreenItem())
 					$media_obj->exportMediaFullscreen($a_target_dir, $page_obj->getPageObject());
 			}
-			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectMedia");
 
 			// collect glossary items
 			$int_links = $page_obj->getPageObject()->getInternalLinks(true);
@@ -484,13 +456,11 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 			}
 //exit;
 			// collect all file items
-			$ilBench->start("ContentObjectExport", "exportPageObject_CollectFileItems");
 			$file_ids = $page_obj->getSCORM2004Page()->collectFileItems();
 			foreach($file_ids as $file_id)
 			{
 				$this->file_ids[$file_id] = $file_id;
 			}
-			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectFileItems");
 			
 			if($mode=='pdf') 
 			{
@@ -501,34 +471,33 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 					$q_gui =& assQuestionGUI::_getQuestionGUI("", $q_id);
 					$q_gui->outAdditionalOutput();
 					$html = $q_gui->getPreview(TRUE);
-					$output = preg_replace("/&#123;&#123;&#123;&#123;&#123;Question;il__qst_".$q_id."&#125;&#125;&#125;&#125;&#125;/i",$html,$output);				
+					$page_output = preg_replace("/&#123;&#123;&#123;&#123;&#123;Question;il__qst_".$q_id."&#125;&#125;&#125;&#125;&#125;/i",$html,$page_output);
 				}
 			}
+
+			if ($mode == 'pdf')
+			{
+				$sco_tpl->touchBlock("pdf_pg_break");
+			}
+			$sco_tpl->setCurrentBlock("page");
+			$sco_tpl->setVariable("PAGE", $page_output);
+			$sco_tpl->parseCurrentBlock();
 		}
+
+		// glossary
+		if ($mode!='pdf')
+		{
+			$sco_tpl->setVariable("GLOSSARY_HTML",
+				ilSCORM2004PageGUI::getGlossaryHTML($this));
+		}
+
+		// sco id and title
+		$sco_tpl->setVariable("SCO_ID", $this->getId());
+		$sco_tpl->setVariable("SCO_TITLE", $this->getTitle());
+
 		
-		if($mode!='pdf')
-		$output.= ilSCORM2004PageGUI::getGlossaryHTML($this);
-		
-		if($mode!='pdf') 
-		$output .=	'<!-- BEGIN ilLMNavigation2 -->
-					<div class="ilc_page_bnav_BottomNavigation">
-					<!-- BEGIN ilLMNavigation_Prev -->
-					<div class="ilc_page_lnav_LeftNavigation">
-					<a class="ilc_page_lnavlink_LeftNavigationLink">
-					<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="./images/spacer.gif" alt="" title="" />&nbsp;Prev</a>
-					</div>
-					<!-- END ilLMNavigation_Prev -->
-					<!-- BEGIN ilLMNavigation_Next -->
-					<div class="ilc_page_rnav_RightNavigation">
-					<a class="ilc_page_rnavlink_RightNavigationLink">Next&nbsp;<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="./images/spacer.gif" alt="" title="" /></a>
-					</div>
-					<!-- END ilLMNavigation_Next -->
-					<div style="clear:both;"></div>
-					</div>
-					<!-- END ilLMNavigation2 -->';
-		
-		$output .= '</body></html>';
-		
+		$output = $sco_tpl->get();
+
 		if($mode=='pdf')
 			$output = preg_replace("/<div class=\"ilc_page_title_PageTitle\">(.*?)<\/div>/i","<h2>$1</h2>",$output);
 		
