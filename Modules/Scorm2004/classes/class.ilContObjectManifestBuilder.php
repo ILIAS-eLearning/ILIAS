@@ -121,7 +121,13 @@ class ilContObjectManifestBuilder
 		$attrs = array();
 		$this->writer->xmlElement("title", $attrs, $this->cont_obj->getTitle());
 
-		
+		// entry page
+		if ($this->version == "2004" && $this->cont_obj->getEntryPage())
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004SpecialItem.php");
+			ilSCORM2004SpecialItem::addEntryPageItemXML($this->writer,
+				$this->cont_obj);
+		}
         
 		// write item hierarchy
 		//$this->writeItemHierarchy();
@@ -146,6 +152,15 @@ class ilContObjectManifestBuilder
 		// resources start tag
 		$attrs = array();
 		$this->writer->xmlStartTag("resources", $attrs);
+
+		// entry page resource
+		if ($this->version == "2004" && $this->cont_obj->getEntryPage())
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004SpecialItem.php");
+			ilSCORM2004SpecialItem::addEntryPageResourceXML($this->writer,
+				$this->cont_obj);
+		}
+
 
 		// write resources
 		$this->writeResources();

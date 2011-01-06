@@ -323,6 +323,10 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$ni->setMaxLength(3);
 		$ni->setSize(3);
 		$this->form->addItem($ni);
+
+		// use entry page
+		$cb = new ilCheckboxInputGUI($lng->txt("entry_page"), "entry_page");
+		$this->form->addItem($cb);
 		
 		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
 		$parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
@@ -360,6 +364,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$values["glossary"] = $this->lng->txt("cont_no_glossary");
 		}
 		$values["q_tries"] = $this->object->getTries();
+		$values["entry_page"] = $this->object->getEntryPage();
 	
 		$this->form->setValuesByArray($values);
 	}
@@ -390,6 +395,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			if ($this->form->checkInput())
 			{
 				$this->object->setTries($_POST["q_tries"]);
+				$this->object->setEntryPage($_POST["entry_page"]);
 			}
 		}
 		$this->object->update();
