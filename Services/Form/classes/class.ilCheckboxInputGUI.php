@@ -155,6 +155,13 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]);
 
 		$ok = $this->checkSubItemsInput();
+
+		// only not ok, if checkbox not checked
+		if (!$ok && $_POST[$this->getPostVar()] == "")
+		{
+			$ok = true;
+		}
+
 		return $ok;
 	}
 	
