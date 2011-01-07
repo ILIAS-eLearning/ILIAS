@@ -871,7 +871,7 @@ class ilMailFormGUI
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
 		include_once 'Services/Mail/classes/class.ilMailForm.php';
 		
-		$search = "%" . $_REQUEST["query"] . "%";
+		$search = $_REQUEST["query"];
 		$result = new stdClass();
 		$result->response = new stdClass();
 		$result->response->results = array();
@@ -883,7 +883,7 @@ class ilMailFormGUI
 		}
 		
 		$mailFormObj = new ilMailForm;
-		$result = $mailFormObj->getRecipientAsync($search);
+		$result = $mailFormObj->getRecipientAsync("%" .$search. "%", $search);
 	
 		echo ilJsonUtil::encode($result);
 		exit;

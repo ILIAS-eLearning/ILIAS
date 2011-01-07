@@ -3,13 +3,23 @@
 
 /**
 * @author Nadia Krzywon
-* @version $Id:$
+* @version $Id$
 */
 class ilMailForm
 {
 	private $allow_smtp = null;
 	private $user_id = null;
+	private $setMap = array();	
+	private $result;
+    private $max_entries = 20;
 	
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @access	public
+	 * 
+	 */
 	public function __construct()
 	{
 		global $ilUser, $rbacsystem;
@@ -17,14 +27,53 @@ class ilMailForm
 		$this->allow_smtp = $rbacsystem->checkAccess('smtp_mail', MAIL_SETTINGS_ID);
 		$this->user_id = $ilUser->getId();
 		
+		$this->result = new stdClass();
+		$this->result->response = new stdClass();
+		$this->result->response->results = array();				
 	}
-
-	public function getRecipientAsync($a_search)
+	
+	/**
+	 * 
+	 * Adds a result for mail recipient auto complete
+	 *
+	 * @access	private
+	 * @throws	ilException
+	 * 
+	 */
+	private function addResult($login, $firstname, $lastname, $type) 
 	{
-		global $ilDB;
-		
-		$ilDB->setLimit(0,20);
+		if(count($this->result->response->results) > $this->max_entries)
+		{
+			throw new ilException();
+		}
 
+		if (isset($this->setMap[$login]))
+			return;
+
+		$tmp = new stdClass();
+		$tmp->login = $login;
+		$tmp->firstname = $firstname;
+		$tmp->lastname = $lastname;
+
+		$this->result->response->results[] = $tmp;
+
+		$this->setMap[$login] = 1;
+	}	
+
+	/**
+	 * 
+	 * Called by class ilMailFormGUI
+	 * 
+	 * @param	string		search string surrounded with wildcards
+	 * @param	string		native search string
+	 * @return	stdClass	search result as an object of type stdClass
+	 * @access	public
+	 * 
+	 */
+	public function getRecipientAsync($a_search, $a_native_search)
+	{
+		global $ilDB;		
+		
 		$query =
 			"SELECT DISTINCT
 				abook.login login,
@@ -34,14 +83,12 @@ class ilMailForm
 			FROM addressbook abook
 			WHERE abook.user_id = ".$ilDB->quote($this->user_id,'integer')."
 			AND abook.login IS NOT NULL
-			AND (".$ilDB->like('abook.login', 'text', $a_search)."
+			AND (". $ilDB->like('abook.login', 'text', $a_search)."
 					OR ".$ilDB->like('abook.firstname', 'text', $a_search)."
 					OR ".$ilDB->like('abook.lastname', 'text', $a_search)."
 			)";
 
-		$union_query_1 = "
-			UNION
-			SELECT DISTINCT
+		$union_query_1 = "SELECT DISTINCT
 				abook.email login,
 				abook.firstname firstname,
 				abook.lastname lastname,
@@ -49,64 +96,78 @@ class ilMailForm
 			FROM addressbook abook
 			WHERE abook.user_id = ".$ilDB->quote($this->user_id,'integer')."
 			AND abook.login IS NULL
-			AND (". $ilDB->like('abook.email', 'text', $a_search)."
+			AND (".$ilDB->like('abook.email', 'text', $a_search)."
 					OR ".$ilDB->like('abook.firstname', 'text', $a_search)."
 					OR ".$ilDB->like('abook.lastname', 'text', $a_search)."
 			)";
 
-		$union_query_2 = "
-			UNION
-			SELECT DISTINCT
+		$union_query_2 = "SELECT DISTINCT
 				mail.rcp_to login,
 				'' firstname,
 				'' lastname,
 				'mail' type
 			FROM mail
 			WHERE ".$ilDB->like('mail.rcp_to', 'text', $a_search)."
-			AND sender_id =".$ilDB->quote($this->user_id,'integer')."
+			AND sender_id = ".$ilDB->quote($this->user_id,'integer')."
 			AND mail.sender_id = mail.user_id";
+		
+		$queries = array(
+			'addressbook_1' => $query,
+			'mail' => $union_query_2
+		);
+		
+		if($this->allow_smtp == 1)
+			$queries['addressbook_2'] = $union_query_1;
+				
+		include_once 'Services/Utilities/classes/class.ilStr.php';
 
-		if($this->allow_smtp == 1) $query .= $union_query_1;
-
-		$query .= $union_query_2;
-	
-		$query_res = $ilDB->query($query);
-
-		$setMap = array();
-		$i = 0;
-		while ($row = $ilDB->fetchObject($query_res))
+		try
 		{
-			if ($i > 20)
-				break;
-			if (isset($setMap[$row->login]))
-				continue;
-			$parts = array();
-			if (strpos($row->login, ',') || strpos($row->login, ';'))
+			// MySql: Join the array values for mysql to one select statement
+			if($ilDB->getDbType() != 'oracle')
+				$queries['all'] = implode(' UNION ', $queries);				
+			
+			foreach($queries as $type => $query)
 			{
-				$parts = split("[ ]*[;,][ ]*", trim($row->login));
-				foreach($parts as $part)
+				// Oracle: Distincts do no work with clobs
+				if('mail' == $type && $ilDB->getDbType() == 'oracle')
 				{
-					$tmp = new stdClass();
-					$tmp->login = $part;
-					$i++;
-					$setMap[$part] = 1;
+					$query = str_replace('DISTINCT', '', $query);
+				}				
+				
+				$ilDB->setLimit(0,20);
+				$query_res = $ilDB->query( $query );
+				
+				while($row = $ilDB->fetchObject($query_res))
+				{
+					if($row->type == 'mail')
+					{
+						if(strpos($row->login, ',') || strpos($row->login, ';'))
+						{
+							$parts = preg_split("/[ ]*[;,][ ]*/", trim($row->login));
+							foreach($parts as $part)
+							{
+								if(ilStr::strPos(ilStr::strToLower($part), ilStr::strToLower($a_native_search)) !== false)
+								{
+									$this->addResult($part, '', '', 'mail');
+								}						
+							}
+						}
+						else
+						{
+							$this->addResult($row->login, '', '', 'mail');
+						}
+					}				
+					else
+					{
+						$this->addResult($row->login, $row->firstname, $row->lastname, 'addressbook');
+					}
 				}
 			}
-			else
-			{
-				$tmp = new stdClass();
-				$tmp->login = $row->login;
-				if (in_array($row->public_profile, array('y','g')) || $row->type = 'addressbook')
-				{
-					$tmp->firstname = $row->firstname;
-					$tmp->lastname = $row->lastname;
-				}
-				$result->response->results[] = $tmp;
-				$i++;
-				$setMap[$row->login] = 1;
-			}
-		}
-		$result->response->total = count($result->response->results);
+		} catch(ilException $e) {}
+		
+		$result = $this->result;		
+		$result->response->total = count($this->result->response->results);		
 
 		return $result;
 	}
