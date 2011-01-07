@@ -423,7 +423,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TXT_MOVE_LM_STYLE", $this->lng->txt("sty_move_lm_styles"));
 		$this->tpl->setVariable("TXT_FROM", $this->lng->txt("from"));
-		$this->tpl->setVariable("TXT_TO", $this->lng->txt("to"));
+		$this->tpl->setVariable("TXT_TO", $this->lng->txt("style_move_style_into"));
 		$this->tpl->setVariable("TXT_MOVE_LM_STYLE", $this->lng->txt("sty_move_lm_styles"));
 		$this->tpl->setVariable("TXT_MOVE_STYLE", $this->lng->txt("sty_move_style"));
 		$this->tpl->setVariable("SELECT_FROM",
