@@ -683,7 +683,10 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$complete->setRequired(false);
 		$complete->setRows(10);
 		$complete->setCols(80);
-		$complete->setUseRte(true);
+		if (!$this->getPreventRteUsage())
+		{
+			$complete->setUseRte(true);
+		}
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$complete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
 		$complete->addPlugin("latex");
@@ -697,7 +700,10 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$incomplete->setRequired(false);
 		$incomplete->setRows(10);
 		$incomplete->setCols(80);
-		$incomplete->setUseRte(true);
+		if (!$this->getPreventRteUsage())
+		{
+			$incomplete->setUseRte(true);
+		}
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$incomplete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
 		$incomplete->addPlugin("latex");
@@ -727,7 +733,10 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		}
 
 		global $ilAccess;
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))	$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
+		if ($ilAccess->checkAccess("write", "", $this->ref_id) || $this->getSelfAssessmentEditingMode())
+		{
+			$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
+		}
 		if ($save)
 		{
 			$form->setValuesByPost();

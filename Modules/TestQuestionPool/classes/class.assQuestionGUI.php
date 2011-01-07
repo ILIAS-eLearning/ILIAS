@@ -953,7 +953,11 @@ class assQuestionGUI
 		$form->addItem($incomplete);
 
 		global $ilAccess;
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))	$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
+		if ($ilAccess->checkAccess("write", "", $this->ref_id) || $this->getSelfAssessmentEditingMode())
+		{
+			$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
+		}
+
 		if ($save)
 		{
 			$form->setValuesByPost();
