@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Form/classes/class.ilHierarchyFormGUI.php");
 
@@ -86,11 +66,13 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				}
 			}
 
-			// sco inserts
+			// sco/asset inserts
 			if ($a_node["type"] == "sco" || (($a_node["type"] == "chap" || $a_node["type"] == "seqc") && count($a_childs) == 0))
 			{
 				if ($a_node["type"] == "chap" || $a_node["type"] == "seqc")
 				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_ass"), "cmd" => "insertAsset", "multi" => 10);
+					$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10);
 					$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10,
 						"as_subitem" => true);
 					if ($ilUser->clipboardHasObjectsOfType("sco"))
@@ -102,6 +84,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				else
 				{
 					$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10);
+					$cmds[] = array("text" => $lng->txt("sahs_insert_ass"), "cmd" => "insertAsset", "multi" => 10);
 					if ($ilUser->clipboardHasObjectsOfType("sco"))
 					{
 						$cmds[] = array("text" => $lng->txt("sahs_insert_sco_from_clip"),
@@ -133,6 +116,9 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 		{
 			if ($a_node["type"] == "" && $a_node["node_id"] == 1)	// top node
 			{
+				// scos
+				$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10);
+
 				// chapters
 				$cmds[] = array("text" => $lng->txt("sahs_insert_chapter"), "cmd" => "insertChapter", "multi" => 10);
 				if ($ilUser->clipboardHasObjectsOfType("chap"))
@@ -279,6 +265,14 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				$commands[] = array("text" => $lng->txt("edit"),
 					"link" => $ilCtrl->getLinkTargetByClass(array("ilobjscorm2004learningmodulegui",
 						"ilscorm2004scogui"), "showOrganization"));
+				break;
+
+			case "ass":
+				$ilCtrl->setParameterByClass("ilscorm2004assetgui", "obj_id",
+					$a_item["node_id"]);
+				$commands[] = array("text" => $lng->txt("edit"),
+					"link" => $ilCtrl->getLinkTargetByClass(array("ilobjscorm2004learningmodulegui",
+						"ilscorm2004assetgui"), "showOrganization"));
 				break;
 
 			case "chap":
