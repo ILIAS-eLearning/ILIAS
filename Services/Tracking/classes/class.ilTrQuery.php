@@ -1228,14 +1228,8 @@ class ilTrQuery
 		$result = array("cnt"=>0, "set"=>NULL);
 	    if(sizeof($a_obj_ids))
 		{
-			$fields = array("usr_data.usr_id", "login", "status", "percentage", 
-				"read_event.obj_id", "last_access", "spent_seconds+childs_spent_seconds as spent_seconds");
-			
 			$where = array();
 			$where[] = "usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
-			$where[] = "(read_event.obj_id IS NULL OR ut_lp_marks.obj_id IS NULL OR read_event.obj_id = ut_lp_marks.obj_id)";
-			$where[] = "(read_event.usr_id IS NULL OR ut_lp_marks.usr_id IS NULL OR read_event.usr_id = ut_lp_marks.usr_id)";
-
 			if($a_user_filter)
 			{
 				$where[] = $ilDB->like("usr_data.login", "text", "%".$a_user_filter."%");
@@ -1244,53 +1238,56 @@ class ilTrQuery
 			// users
 			$left = "";
 			$a_users = self::getParticipantsForObject($a_parent_obj_id);
-
-			// check status
-			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
-			foreach($a_obj_ids as $obj_id)
-			{
-				ilLPStatus::checkStatusForObject($obj_id, $a_users);
-			}
-
 			if (is_array($a_users))
 			{
 				$left = "LEFT";
 				$where[] = $ilDB->in("usr_data.usr_id", $a_users, false, "integer");
 			}
 
-			$query = " FROM usr_data ".$left." JOIN read_event ON (read_event.usr_id = usr_data.usr_id".
-				" AND ".$ilDB->in("read_event.obj_id", $a_obj_ids, "", "integer").")".
-				" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id ".
-				" AND ".$ilDB->in("ut_lp_marks.obj_id", $a_obj_ids, "", "integer").")".
-				self::buildFilters($where, $a_filters);
+			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 
-			$queries = array(array("fields"=>$fields, "query"=>$query));
+			$fields = array("usr_data.usr_id", "login", "status", "percentage",
+				"last_access", "spent_seconds+childs_spent_seconds as spent_seconds");
 
 			if(!$a_order_field)
 			{
 				$a_order_field = "login";
 			}
 
-			$result = self::executeQueries($queries, $a_order_field, $a_order_dir, $a_offset, $a_limit);
-			if($result["cnt"])
+			$raw = array();
+			foreach($a_obj_ids as $obj_id)
 			{
-				$result["users"] = $a_users;
-				
-				$tmp = array();
-				foreach($result["set"] as $idx => $row)
+				// check status
+				ilLPStatus::checkStatusForObject($obj_id, $a_users);
+
+				// one request for each object
+				$query = " FROM usr_data ".$left." JOIN read_event ON (read_event.usr_id = usr_data.usr_id".
+					" AND read_event.obj_id = ".$ilDB->quote($obj_id, "integer").")".
+					" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id ".
+					" AND ut_lp_marks.obj_id = ".$ilDB->quote($obj_id, "integer").")".
+					self::buildFilters($where, $a_filters);
+
+				$raw = self::executeQueries(array(array("fields"=>$fields, "query"=>$query)), $a_order_field);
+				if($raw["cnt"])
 				{
-					$tmp[$row["usr_id"]]["login"] = $row["login"];
-					$tmp[$row["usr_id"]]["usr_id"] = $row["usr_id"];
-					$tmp[$row["usr_id"]]["objects"][$row["obj_id"]] = array("status"=>$row["status"],
-						"percentage"=>$row["percentage"]);
-					if($row["obj_id"] == $a_parent_obj_id)
+					// convert to final structure
+					foreach($raw["set"] as $idx => $row)
 					{
-						$tmp[$row["usr_id"]]["last_access"] = $row["last_access"];
-						$tmp[$row["usr_id"]]["spent_seconds"] = $row["spent_seconds"];
+						$result["set"][$row["usr_id"]]["login"] = $row["login"];
+						$result["set"][$row["usr_id"]]["usr_id"] = $row["usr_id"];
+						$result["set"][$row["usr_id"]]["objects"][$obj_id] = array("status"=>$row["status"],
+							"percentage"=>$row["percentage"]);
+						if($obj_id == $a_parent_obj_id)
+						{
+							$result["set"][$row["usr_id"]]["last_access"] = $row["last_access"];
+							$result["set"][$row["usr_id"]]["spent_seconds"] = $row["spent_seconds"];
+						}
 					}
 				}
-				$result["set"] = $tmp;
 			}
+
+			$result["cnt"] = sizeof($result["set"]);
+			$result["users"] = $a_users;			
 		}
 		return $result;
 	}
