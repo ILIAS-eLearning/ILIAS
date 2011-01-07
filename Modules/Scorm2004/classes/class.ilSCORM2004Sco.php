@@ -332,12 +332,12 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		{
 			// previous/next navigation
 			$sco_tpl->setCurrentBlock("ilLMNavigation");
-			$sco_tpl->setVariable("TXT_PREVIOUS", $lng->txt("previous"));
-			$sco_tpl->setVariable("TXT_NEXT", $lng->txt("next"));
+			$sco_tpl->setVariable("TXT_PREVIOUS", $lng->txt('scplayer_previous'));
+			$sco_tpl->setVariable("TXT_NEXT", $lng->txt('scplayer_next'));
 			$sco_tpl->parseCurrentBlock();
 			$sco_tpl->setCurrentBlock("ilLMNavigation2");
-			$sco_tpl->setVariable("TXT_PREVIOUS", $lng->txt("previous"));
-			$sco_tpl->setVariable("TXT_NEXT", $lng->txt("next"));
+			$sco_tpl->setVariable("TXT_PREVIOUS", $lng->txt('scplayer_previous'));
+			$sco_tpl->setVariable("TXT_NEXT", $lng->txt('scplayer_next'));
 			$sco_tpl->parseCurrentBlock();
 
 			// title
