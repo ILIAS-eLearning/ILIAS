@@ -370,7 +370,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 	*/
 	function saveTabs()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 
 		if (is_array($_POST["caption"]))
 		{
@@ -381,6 +381,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 			$this->content_obj->savePositions($_POST["position"]);
 		}
 		$this->updated = $this->pg_obj->update();
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "editTabs");
 	}
 
@@ -393,6 +394,8 @@ class ilPCTabsGUI extends ilPageContentGUI
 		
 		$this->content_obj->addTab($lng->txt("cont_new_tab"));
 		$this->updated = $this->pg_obj->update();
+
+		ilUtil::sendSuccess($lng->txt("cont_added_tab"), true);
 		$ilCtrl->redirect($this, "editTabs");
 	}
 	
