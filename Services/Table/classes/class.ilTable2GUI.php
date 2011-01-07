@@ -1069,7 +1069,8 @@ class ilTable2GUI extends ilTableGUI
 	*/
 	function addSelectionButton($a_sel_var, $a_options, $a_cmd, $a_text, $a_default_selection = '')
 	{
-		$this->sel_buttons[] = array("sel_var" => $a_sel_var, "options" => $a_options, "selected" => $a_default_selection, "cmd" => $a_cmd, "text" => $a_text);
+echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try to move the drop-down to ilToolbarGUI.";
+//		$this->sel_buttons[] = array("sel_var" => $a_sel_var, "options" => $a_options, "selected" => $a_default_selection, "cmd" => $a_cmd, "text" => $a_text);
 	}
 	
 	/**
