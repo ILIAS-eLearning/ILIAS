@@ -72,6 +72,23 @@ class ilMainMenuGUI
 	}
 
 	/**
+	 * Set target parameter for login (public sector).
+	 * This is used by the main menu
+	 */
+	public function setLoginTargetPar($a_val)
+	{
+		$this->login_target_par = $a_val;
+	}
+
+	/**
+	 * Get target parameter for login
+	 */
+	public function getLoginTargetPar()
+	{
+		return $this->login_target_par;
+	}
+
+	/**
 	* set all template variables (images, scripts, target frames, ...)
 	*/
 	function setTemplateVars()
@@ -171,7 +188,11 @@ class ilMainMenuGUI
 				$this->tpl->setVariable("TXT_LOGIN",$lng->txt("log_in"));
 				
 				$target_str = "";
-				if ($_GET["ref_id"] != "")
+				if ($this->getLoginTargetPar() != "")
+				{
+					$target_str = $this->getLoginTargetPar();
+				}
+				else if ($_GET["ref_id"] != "")
 				{
 					if ($tree->isInTree($_GET["ref_id"]) && $_GET["ref_id"] != $tree->getRootId())
 					{

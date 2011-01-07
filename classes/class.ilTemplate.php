@@ -668,7 +668,8 @@ class ilTemplate extends ilTemplateX
 	function getMainMenu()
 	{
 		global $ilMainMenu;
-		
+
+		$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
 		$this->main_menu = $ilMainMenu->getHTML();
 	}
 	
@@ -1536,6 +1537,23 @@ class ilTemplate extends ilTemplateX
 		
 		$this->upper_icon = $a_link;
 		$this->upper_icon_frame = $a_frame;
+	}
+
+	/**
+	 * Set target parameter for login (public sector).
+	 * This is used by the main menu
+	 */
+	public function setLoginTargetPar($a_val)
+	{
+		$this->login_target_par = $a_val;
+	}
+
+	/**
+	 * Get target parameter for login
+	 */
+	public function getLoginTargetPar()
+	{
+		return $this->login_target_par;
 	}
 
 	/**

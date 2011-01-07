@@ -297,6 +297,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$wtpl->setVariable("PERMA_LINK", $perma_link->getHTML());
 		
 		$wtpl->setVariable("PAGE", parent::preview());
+
+		$tpl->setLoginTargetPar("wiki_".$_GET["ref_id"].$append);
 		
 		//highlighting
 		if ($_GET["srcstring"] != "")

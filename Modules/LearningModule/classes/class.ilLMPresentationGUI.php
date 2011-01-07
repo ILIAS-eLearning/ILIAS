@@ -938,7 +938,13 @@ class ilLMPresentationGUI
 		{
 			$ilMainMenu->setSmallMode(false);
 		}
-		
+
+		$page_id = $this->getCurrentPageId();
+		if ($page_id > 0)
+		{
+			$ilMainMenu->setLoginTargetPar("pg_".$page_id."_".$this->lm->getRefId());
+		}
+
 		$this->tpl->touchBlock("mm_intro");
 		$this->tpl->touchBlock("mm_outro");
 		$this->tpl->touchBlock("pg_intro");
@@ -1155,7 +1161,6 @@ class ilLMPresentationGUI
 				$page_id."_".$this->lm->getRefId(),
 				"",
 				"_top");
-			
 
 			$title = $this->lm->getTitle();
 			$pg_title = ilLMPageObject::_getPresentationTitle($page_id,
