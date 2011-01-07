@@ -70,6 +70,13 @@ class ilSCORM2004NodeFactory
 				$obj->read();
 				break;
 
+			case "ass":
+				$obj =& new ilSCORM2004Asset($a_slm_object);
+				$obj->setId($obj_rec["obj_id"]);
+				$obj->setDataRecord($obj_rec);
+				$obj->read();
+				break;
+
 			case "page":
 				$obj =& new ilSCORM2004PageNode($a_slm_object, 0, $a_halt);
 				$obj->setId($obj_rec["obj_id"]);

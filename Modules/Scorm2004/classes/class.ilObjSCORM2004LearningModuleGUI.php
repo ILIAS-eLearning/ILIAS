@@ -15,7 +15,7 @@ include_once("./Services/Style/classes/class.ilPageLayout.php");
 *
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilInfoScreenGUI, ilSCORM2004ChapterGUI, ilSCORM2004SeqChapterGUI, ilSCORM2004PageNodeGUI, ilSCORM2004ScoGUI
-* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilCertificateGUI, ilObjStyleSheetGUI, ilNoteGUI
+* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilCertificateGUI, ilObjStyleSheetGUI, ilNoteGUI, ilSCORM2004AssetGUI
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilLicenseGUI
 *
 * @ingroup ModulesScormAicc
@@ -91,6 +91,14 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
 				$sco_gui = new ilSCORM2004ScoGUI($this->object, $_GET["obj_id"]);
 				$sco_gui->setParentGUI($this);
+				return $ilCtrl->forwardCommand($sco_gui);
+				break;
+
+			// assets
+			case "ilscorm2004assetgui":
+				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004AssetGUI.php");
+				$ass_gui = new ilSCORM2004AssetGUI($this->object, $_GET["obj_id"]);
+				$ass_gui->setParentGUI($this);
 				return $ilCtrl->forwardCommand($sco_gui);
 				break;
 
@@ -1777,6 +1785,57 @@ function showTrackingItem()
 			$ilCtrl->redirect($this, "showOrganization", "node_".$node_id);
 		}
 		return array("node_id" => $node_id, "items" => $sco_ids);
+	}
+
+	/**
+	 * Insert (multiple) assets at node
+	 */
+	function insertAsset($a_redirect = true)
+	{
+		global $ilCtrl, $lng;
+
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
+
+		$slm_tree =& new ilTree($this->object->getId());
+		$slm_tree->setTreeTablePK("slm_id");
+		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+
+		$num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
+		$node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
+
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Asset.php");
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
+
+		if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild())	// insert after node id
+		{
+			$parent_id = $slm_tree->getParentId($node_id);
+			$target = $node_id;
+		}
+		else													// insert as first child
+		{
+			$parent_id = $node_id;
+			$target = IL_FIRST_NODE;
+		}
+
+		$ass_ids = array();
+		for ($i = 1; $i <= $num; $i++)
+		{
+			$ass = new ilSCORM2004Asset($this->object);
+			$ass->setTitle($lng->txt("sahs_new_asset"));
+			$ass->setSLMId($this->object->getId());
+			$ass->create();
+			ilSCORM2004Node::putInTree($ass, $parent_id, $target);
+			$ass_ids[] = $ass->getId();
+		}
+		$ass_ids = array_reverse($ass_ids);
+		$ass_ids = implode($ass_ids, ":");
+
+		if ($a_redirect)
+		{
+			$ilCtrl->setParameter($this, "highlight", $ass_ids);
+			$ilCtrl->redirect($this, "showOrganization", "node_".$node_id);
+		}
+		return array("node_id" => $node_id, "items" => $ass_ids);
 	}
 
 	/**

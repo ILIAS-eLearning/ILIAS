@@ -3729,5 +3729,8 @@ $ilDB->addTableColumn("sahs_lm", "entry_page", array(
 	"default" => 0,
 	"length" => 4
 ));
-
+?>
+<#3211>
+<?php
+	$ilCtrlStructureReader->getStructure();
 ?>

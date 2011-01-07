@@ -350,6 +350,15 @@ class ilSCORM2004NodeGUI
 							"showOrganization"), "", 0, $path[$i]["type"],
 							ilUtil::getImagePath("icon_sco_s.gif"));
 						break;
+
+					case "ass":
+						$ilCtrl->setParameterByClass("ilscorm2004assetgui", "obj_id",
+							$path[$i]["child"]);
+						$ilLocator->addItem($path[$i]["title"],
+							$ilCtrl->getLinkTargetByClass("ilscorm2004assetgui",
+							"showOrganization"), "", 0, $path[$i]["type"],
+							ilUtil::getImagePath("icon_sca_s.gif"));
+						break;
 						
 					case "page":
 					
