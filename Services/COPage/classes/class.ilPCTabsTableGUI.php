@@ -36,7 +36,6 @@ class ilPCTabsTableGUI extends ilTable2GUI
 		
 		$this->addMultiCommand("confirmTabsDeletion", $lng->txt("delete"));
 		$this->addCommandButton("saveTabs", $lng->txt("save"));
-		$this->addCommandButton("addTab", $lng->txt("cont_add_tab"));
 		
 		$this->setTitle($lng->txt("cont_tabs"));
 	}
@@ -50,9 +49,9 @@ class ilPCTabsTableGUI extends ilTable2GUI
 		global $lng, $ilCtrl;
 
 		$this->pos += 10;
-		$this->tpl->setVariable("POS", $this->pos);
+		$this->tpl->setVariable("POS", ilUtil::prepareFormOutput($this->pos));
 		$this->tpl->setVariable("TID", $a_set["hier_id"].":".$a_set["pc_id"]);
-		$this->tpl->setVariable("VAL_CAPTION", $a_set["caption"]);
+		$this->tpl->setVariable("VAL_CAPTION", ilUtil::prepareFormOutput($a_set["caption"]));
 	}
 
 }

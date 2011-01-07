@@ -356,8 +356,11 @@ class ilPCTabsGUI extends ilPageContentGUI
 	*/
 	function editTabs()
 	{
-		global $tpl, $ilTabs;
-		
+		global $tpl, $ilTabs, $ilCtrl, $ilToolbar, $lng;
+
+		$ilToolbar->addButton($lng->txt("cont_add_tab"),
+			$ilCtrl->getLinkTarget($this, "addTab"));
+
 		$this->setTabs();
 		$ilTabs->activateTab("cont_tabs");
 		include_once("./Services/COPage/classes/class.ilPCTabsTableGUI.php");
@@ -374,11 +377,13 @@ class ilPCTabsGUI extends ilPageContentGUI
 
 		if (is_array($_POST["caption"]))
 		{
-			$this->content_obj->saveCaptions($_POST["caption"]);
+			$captions = ilUtil::stripSlashesArray($_POST["caption"]);
+			$this->content_obj->saveCaptions($captions);
 		}
 		if (is_array($_POST["position"]))
 		{
-			$this->content_obj->savePositions($_POST["position"]);
+			$positions = ilUtil::stripSlashesArray($_POST["position"]);
+			$this->content_obj->savePositions($positions);
 		}
 		$this->updated = $this->pg_obj->update();
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
