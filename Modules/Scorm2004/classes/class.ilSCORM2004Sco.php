@@ -223,7 +223,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		ilUtil::makeDir($a_target_dir.'/css');
 		ilUtil::makeDir($a_target_dir.'/objects');
 		ilUtil::makeDir($a_target_dir.'/images');
-		$this->exportHTMLPageObjects($a_inst, $a_target_dir, &$expLog, 'pdf');
+		$this->exportHTMLPageObjects($a_inst, $a_target_dir, $expLog, 'pdf');
 	}
 	
 	function exportPDF($a_inst, $a_target_dir, &$expLog)
@@ -231,7 +231,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		global $tpl, $lng, $ilCtrl;
 		$a_xml_writer = new ilXmlWriter;
 		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
-		$this->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, &$expLog,$a_xml_writer);
+		$this->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog,$a_xml_writer);
 		$a_xml_writer->xmlEndTag("ContentObject");
 		copy('./templates/default/images/icon_attachment_s.png',$a_target_dir."/icon_attachment_s.png");
 		include_once 'Services/Transformation/classes/class.ilXML2FO.php';
@@ -265,7 +265,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 	function exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, &$expLog, &$a_xml_writer)
 	{
 		
-		$this->exportHTML4PDF($a_inst, $a_target_dir, &$expLog);
+		$this->exportHTML4PDF($a_inst, $a_target_dir, $expLog);
 		global $tpl, $lng, $ilCtrl;
 		$this->exportXMLPageObjects($a_target_dir, $a_xml_writer, $a_inst, $expLog);
 		$this->exportXMLMediaObjects($a_xml_writer, $a_inst, $a_target_dir, $expLog);

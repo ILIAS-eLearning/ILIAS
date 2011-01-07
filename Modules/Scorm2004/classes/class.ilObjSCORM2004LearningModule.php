@@ -1454,9 +1454,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			// set xml header
 			$glo_xml_writer->xmlHeader();
 			$glos = new ilObjGlossary($this->getAssignedGlossary(), false);
-			//$glos->exportHTML($a_target_dir."/glossary", &$expLog);
+			//$glos->exportHTML($a_target_dir."/glossary", $expLog);
 			$glos_export = new ilGlossaryExport($glos,"xml");
-			$glos->exportXML($glo_xml_writer,$glos_export->getInstId(), $a_target_dir."/glossary", &$expLog);
+			$glos->exportXML($glo_xml_writer,$glos_export->getInstId(), $a_target_dir."/glossary", $expLog);
 			$glo_xml_writer->xmlDumpFile($a_target_dir."/glossary/glossary.xml");
 			$glo_xml_writer->_XmlWriter;
 		}
@@ -1557,7 +1557,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$sco_folder = $a_target_dir."/".$sco['obj_id'];
 			ilUtil::makeDir($sco_folder);
 			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
-			$node->exportHTML4PDF($a_inst, $sco_folder, &$expLog);
+			$node->exportHTML4PDF($a_inst, $sco_folder, $expLog);
 		}
 	}
 	
@@ -1576,7 +1576,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$sco_folder = $a_target_dir."/".$sco['obj_id'];
 			ilUtil::makeDir($sco_folder);
 			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
-			$node->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, &$expLog, $a_xml_writer);
+			$node->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog, $a_xml_writer);
 		}
         if($this->getAssignedGlossary()!=0)
         {
@@ -1585,7 +1585,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             include_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
             $glos = new ilObjGlossary($this->getAssignedGlossary(), false);
             $glos_export = new ilGlossaryExport($glos,"xml");
-            $glos->exportXML($a_xml_writer,$glos_export->getInstId(), $a_target_dir."/glossary", &$expLog);
+            $glos->exportXML($a_xml_writer,$glos_export->getInstId(), $a_target_dir."/glossary", $expLog);
         }
         copy('./templates/default/images/icon_attachment_s.png',$a_target_dir."/icon_attachment_s.png");
 		$a_xml_writer->xmlEndTag("ContentObject");
@@ -1715,7 +1715,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$sco_folder = $a_target_dir."/".$sco['obj_id'];
 			ilUtil::makeDir($sco_folder);
 			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
-			$node->exportScorm($a_inst, $sco_folder, $ver, &$expLog);
+			$node->exportScorm($a_inst, $sco_folder, $ver, $expLog);
 		}
 	}
 
@@ -1737,12 +1737,12 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$sco_folder = $a_target_dir."/".$sco['obj_id'];
 			ilUtil::makeDir($sco_folder);
 			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
-			$node->exportHTML($a_inst, $sco_folder, &$expLog);
+			$node->exportHTML($a_inst, $sco_folder, $expLog);
 			if($this->getAssignedGlossary()!=0)
 			{
 				include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 				$glos = new ilObjGlossary($this->getAssignedGlossary(),false);
-				//$glos->exportHTML($sco_folder."/glossary", &$expLog);
+				//$glos->exportHTML($sco_folder."/glossary", $expLog);
 			}
 		}
 	}
