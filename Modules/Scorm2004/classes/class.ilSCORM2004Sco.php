@@ -345,7 +345,18 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 			$sco_tpl->setVariable("SCO_TITLE", $this->getTitle());
 			$sco_tpl->parseCurrentBlock();
 
-			$sco_tpl->touchBlock("init");
+			// init and question lang vars
+			$sco_tpl->setCurrentBlock("init");
+			$lvs = array("wrong_answers", "tries_remaining",
+				"please_try_again", "all_answers_correct",
+				"nr_of_tries_exceeded", "correct_answers_shown");
+			foreach ($lvs as $lv)
+			{
+				$sco_tpl->setVariable("TXT_".strtoupper($lv),
+					$lng->txt("cont_".$lv));
+			}
+			$sco_tpl->parseCurrentBlock();
+
 			$sco_tpl->touchBlock("finish");
 		}
 		else
