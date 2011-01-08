@@ -122,8 +122,8 @@ class ilCtrl
 			
 			if ($service == "")
 			{
-				echo "Could not find entry in modules.xml or services.xml for".
-					$baseClass;
+				echo "Could not find entry in modules.xml or services.xml for ".
+					$baseClass." <br/>".str_replace("&", "<br />&", htmlentities($_SERVER["REQUEST_URI"]));
 				exit;
 			}
 
