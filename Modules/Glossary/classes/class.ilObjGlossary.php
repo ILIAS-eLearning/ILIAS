@@ -328,8 +328,10 @@ class ilObjGlossary extends ilObject
 		if ($this->isVirtual())
 		{	
 			$glo_ids = array();
-			
-			switch ($this->getVirtualMode())
+
+
+			$virtual_mode = $this->getRefId() ? $this->getVirtualMode() : '';
+			switch ($virtual_mode)
 			{
 				case "level":
 					$glo_arr = $tree->getChildsByType($tree->getParentId($this->getRefId()),"glo");
