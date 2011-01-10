@@ -3734,3 +3734,61 @@ $ilDB->addTableColumn("sahs_lm", "entry_page", array(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3212>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3213>
+<?php
+// convert old qpl export files
+$qpl_export_base = ilUtil::getDataDir()."/qpl_data/";
+// quit if import dir not available
+if (@is_dir($qpl_export_base) && is_writeable($qpl_export_base))
+{
+	// open directory
+	$h_dir = dir($qpl_export_base);
+
+	// get files and save the in the array
+	while ($entry = $h_dir->read())
+	{
+		if ($entry != "." && $entry != "..")
+		{
+			if (@is_dir($qpl_export_base . $entry))
+			{
+				$q_dir = dir($qpl_export_base . $entry);
+				while ($q_entry = $q_dir->read())
+				{
+					if ($q_entry != "." and $q_entry != "..")
+					{
+						if (@is_dir($qpl_export_base . $entry . '/' . $q_entry) && strcmp($q_entry, 'export') == 0)
+						{
+							$exp_dir = dir($qpl_export_base . $entry . '/' . $q_entry);
+							while ($exp_entry = $exp_dir->read())
+							{
+								if (@is_file($qpl_export_base . $entry . '/' . $q_entry . '/' . $exp_entry))
+								{
+									$res = preg_match("/^([0-9]{10}_{2}[0-9]+_{2})(qpl__)*([0-9]+)\.(zip)\$/", $exp_entry, $matches);
+									if ($res)
+									{
+										switch ($matches[4])
+										{
+											case 'zip':
+												if (!@is_dir($qpl_export_base . $entry . '/' .  'export_zip')) ilUtil::makeDir($qpl_export_base . $entry . '/' . 'export_zip');
+												@rename($qpl_export_base . $entry . '/' . $q_entry . '/' . $exp_entry, $qpl_export_base . $entry . '/' . 'export_zip' . '/' . $matches[1].'qpl_'.$matches[3].'.zip');
+												break;
+										}
+									}
+								}
+							}
+							$exp_dir->close();
+							if (@is_dir($qpl_export_base . $entry . '/' . $q_entry)) ilUtil::delDir($qpl_export_base . $entry . '/' . $q_entry);
+						}
+					}
+				}
+				$q_dir->close();
+			}
+		}
+	}
+	$h_dir->close();
+}
+?>

@@ -35,6 +35,7 @@
 * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextSubsetGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: assSingleChoiceGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesTestQuestionPool
@@ -172,6 +173,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('qpl');
 				$this->ctrl->forwardCommand($cp);
+				break;
+				
+			case "ilexportgui":
+				include_once("./Services/Export/classes/class.ilExportGUI.php");
+				$exp_gui = new ilExportGUI($this);
+				$exp_gui->addFormat("zip", $this->lng->txt('qpl_export_xml'), $this, "createExportQTI");
+				$exp_gui->addFormat("xls", $this->lng->txt('qpl_export_excel'), $this, "createExportExcel");
+	//			$exp_gui->addCustomColumn($lng->txt("cont_public_access"), $this, "getPublicAccessColValue");
+	//			$exp_gui->addCustomMultiCommand($lng->txt("cont_public_access"), $this, "publishExportFile");
+				$ret = $this->ctrl->forwardCommand($exp_gui);
 				break;
 				
 			case "ilobjquestionpoolgui":
@@ -1054,129 +1065,33 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "questions");
 	}
 	
-	/*
-	* list all export files
-	*/
-	function exportObject()
-	{
-		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolExportTableGUI.php";
-		$table_gui = new ilQuestionPoolExportTableGUI($this, 'export');
-		$export_dir = $this->object->getExportDirectory();
-		$export_files = $this->object->getExportFiles($export_dir);
-		$data = array();
-		foreach ($export_files as $exp_file)
-		{
-			$file_arr = explode("__", $exp_file);
-			array_push($data, array('file' => $exp_file, 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => filesize($export_dir."/".$exp_file)));
-		}
-		$table_gui->setData($data);
-		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
-	}
-
-	
 	/**
 	* create export file
 	*/
-	function createExportFileObject()
+	function createExportQTI()
 	{
 		global $rbacsystem;
 		if ($rbacsystem->checkAccess("write", $_GET['ref_id']))
 		{
 			include_once("./Modules/TestQuestionPool/classes/class.ilQuestionpoolExport.php");
 			$question_ids =& $this->object->getAllQuestionIds();
-			$qpl_exp = new ilQuestionpoolExport($this->object, $_POST["exporttype"], $question_ids);
+			$qpl_exp = new ilQuestionpoolExport($this->object, 'xml', $question_ids);
 			$qpl_exp->buildExportFile();
-			$this->ctrl->redirect($this, "export");
-		}
-		else
-		{
-			ilUtil::sendInfo("cannot_export_qpl", TRUE);
-			$this->ctrl->redirect($this, "export");
+			$this->ctrl->redirectByClass("ilexportgui", "");
 		}
 	}
-	
-	/**
-	* download export file
-	*/
-	function downloadExportFileObject()
+
+	function createExportExcel()
 	{
-		if(!isset($_POST["file"]))
+		global $rbacsystem;
+		if ($rbacsystem->checkAccess("write", $_GET['ref_id']))
 		{
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
-			$this->ctrl->redirect($this, "export");
+			include_once("./Modules/TestQuestionPool/classes/class.ilQuestionpoolExport.php");
+			$question_ids =& $this->object->getAllQuestionIds();
+			$qpl_exp = new ilQuestionpoolExport($this->object, 'xls', $question_ids);
+			$qpl_exp->buildExportFile();
+			$this->ctrl->redirectByClass("ilexportgui", "");
 		}
-
-		if (count($_POST["file"]) > 1)
-		{
-			ilUtil::sendInfo($this->lng->txt("cont_select_max_one_item"), true);
-			$this->ctrl->redirect($this, "export");
-		}
-
-
-		$export_dir = $this->object->getExportDirectory();
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
-			$_POST["file"][0]);
-		$this->ctrl->redirect($this, "export");
-	}
-
-	/**
-	* confirmation screen for export file deletion
-	*/
-	function confirmDeleteExportFileObject()
-	{
-		if(!isset($_POST["file"]))
-		{
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
-			$this->ctrl->redirect($this, "export");
-		}
-
-		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
-		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolExportTableGUI.php";
-		$table_gui = new ilQuestionPoolExportTableGUI($this, 'export', true);
-		$export_dir = $this->object->getExportDirectory();
-		$data = array();
-		foreach ($_POST['file'] as $exp_file)
-		{
-			$file_arr = explode("__", $exp_file);
-			array_push($data, array('file' => $exp_file, 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => filesize($export_dir."/".$exp_file)));
-		}
-		$table_gui->setData($data);
-		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
-	}
-
-
-	/**
-	* cancel deletion of export files
-	*/
-	function cancelDeleteExportFileObject()
-	{
-		session_unregister("ilExportFiles");
-		$this->ctrl->redirect($this, "export");
-	}
-
-	/**
-	* delete export files
-	*/
-	function deleteExportFileObject()
-	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$export_dir = $this->object->getExportDirectory();
-		foreach($_POST['file'] as $file)
-		{
-			$exp_file = $export_dir."/".$file;
-			include_once "./Services/Utilities/classes/class.ilStr.php";
-			$exp_dir = $export_dir."/".ilStr::subStr($file, 0, ilStr::strLen($file) - 4);
-			if (@is_file($exp_file))
-			{
-				unlink($exp_file);
-			}
-			if (@is_dir($exp_dir))
-			{
-				ilUtil::delDir($exp_dir);
-			}
-		}
-		$this->ctrl->redirect($this, "export");
 	}
 
 	/**
@@ -1324,13 +1239,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		global $ilAccess;
-		
-		$next_class = $this->ctrl->getNextClass($this);
+
+		$next_class = strtolower($this->ctrl->getNextClass());
 		switch ($next_class)
 		{
 			case "":
 			case "ilpermissiongui":
 			case "ilmdeditorgui":
+			case "ilexportgui":
 				break;
 			default:
 				return;
@@ -1395,21 +1311,27 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			 array("print"),
 			 "", "");
 
-		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']))
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			// meta data
 			$tabs_gui->addTarget("meta_data",
 				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
 				 "", "ilmdeditorgui");
 
-			// export
-			$tabs_gui->addTarget("export",
-				 $this->ctrl->getLinkTarget($this,'export'),
-				 array("export", "createExportFile", "confirmDeleteExportFile", "downloadExportFile"),
-				 "", "");
+//			$tabs_gui->addTarget("export",
+//				 $this->ctrl->getLinkTarget($this,'export'),
+//				 array("export", "createExportFile", "confirmDeleteExportFile", "downloadExportFile"),
+//				 "", "");
 		}
 
-		if ($ilAccess->checkAccess("edit_permission", "", $_GET['ref_id']))
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("export",
+				$this->ctrl->getLinkTargetByClass("ilexportgui", ""),
+				"", "ilexportgui");
+		}
+
+		if ($ilAccess->checkAccess("edit_permission", "", $this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
