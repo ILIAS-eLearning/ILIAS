@@ -4506,7 +4506,7 @@ class ilObjSurvey extends ilObject
 	*/
 	function getSurveyCodesForExport($a_array)
 	{
-		global $ilDB;
+		global $ilDB, $ilUser;
 
 		$result = $ilDB->queryF("SELECT svy_anonymous.*, svy_finished.state FROM svy_anonymous ".
 			"LEFT JOIN svy_finished ON svy_anonymous.survey_key = svy_finished.anonymous_id ".
@@ -4515,7 +4515,8 @@ class ilObjSurvey extends ilObject
 			array($this->getSurveyId())
 		);
 		$export = "";
-		$lang = ($_POST["lang"] != 1) ? "&lang=" . $_POST["lang"] : "";
+		$default_lang = $ilUser->getPref("survey_code_language");
+		$lang = (strlen($default_lang)) ? "&lang=" . $default_lang : "";
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			if (in_array($row["survey_key"], $a_array) || (count($a_array) == 0))
