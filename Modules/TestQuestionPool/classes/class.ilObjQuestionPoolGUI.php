@@ -759,8 +759,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		ilUtil::sendQuestion($this->lng->txt("qpl_confirm_delete_questions"));
 		$deleteable_questions =& $this->object->getDeleteableQuestionDetails($_POST["q_id"]);
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $this->ref_id) ? true : false)), true);
-		$table_gui->setEditable($rbacsystem->checkAccess('write', $this->ref_id));
+		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)), true);
+		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
 		$table_gui->setData($deleteable_questions);
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
@@ -844,8 +844,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_questionbrowser.html", "Modules/TestQuestionPool");
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $this->ref_id) ? true : false)));
-		$table_gui->setEditable($rbacsystem->checkAccess('write', $this->ref_id));
+		$table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)));
+		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
 		$arrFilter = array();
 		foreach ($table_gui->getFilterItems() as $item)
 		{
@@ -858,7 +858,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$table_gui->setData($data);
 		$this->tpl->setVariable('TABLE', $table_gui->getHTML());	
 
-		if ($rbacsystem->checkAccess('write', $this->ref_id))
+		if ($rbacsystem->checkAccess('write', $_GET['ref_id']))
 		{
 			$this->tpl->setCurrentBlock("QTypes");
 			$types =& $this->object->getQuestionTypes();
@@ -1080,7 +1080,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function createExportFileObject()
 	{
 		global $rbacsystem;
-		if ($rbacsystem->checkAccess("write", $this->ref_id))
+		if ($rbacsystem->checkAccess("write", $_GET['ref_id']))
 		{
 			include_once("./Modules/TestQuestionPool/classes/class.ilQuestionpoolExport.php");
 			$question_ids =& $this->object->getAllQuestionIds();
@@ -1380,7 +1380,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				"toggleGraphicalAnswers", "deleteAnswer", "deleteImage", "removeJavaapplet"),
 			 "", "", $force_active);
 
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']))
 		{
 			// properties
 			$tabs_gui->addTarget("settings",
@@ -1395,7 +1395,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			 array("print"),
 			 "", "");
 
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']))
 		{
 			// meta data
 			$tabs_gui->addTarget("meta_data",
@@ -1409,7 +1409,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				 "", "");
 		}
 
-		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
+		if ($ilAccess->checkAccess("edit_permission", "", $_GET['ref_id']))
 		{
 			$tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
