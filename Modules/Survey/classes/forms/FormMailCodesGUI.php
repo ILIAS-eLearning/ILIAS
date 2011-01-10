@@ -64,11 +64,6 @@ class FormMailCodesGUI extends ilPropertyFormGUI
 		$this->subject->setRequired(true);
 		$this->addItem($this->subject);
 
-		$this->messagetype = new ilCheckboxInputGUI($this->lng->txt('type'), 'm_type');
-		$this->messagetype->setOptionTitle($this->lng->txt('system_message'));
-		$this->messagetype->setValue('system');
-		$this->addItem($this->messagetype);
-
 		$this->sendtype = new ilRadioGroupInputGUI($this->lng->txt('recipients'), "m_notsent");
 		$this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("send_to_all"), 0, ''));
 		$this->sendtype->addOption(new ilCheckboxOption($this->lng->txt("not_sent_only"), 1, ''));
