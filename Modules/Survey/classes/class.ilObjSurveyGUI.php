@@ -2320,15 +2320,31 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
-		global $ilUser;
+		global $ilUser, $ilToolbar;
 		if ($this->object->getAnonymize() != 1)
 		{
 			return ilUtil::sendInfo($this->lng->txt("survey_codes_no_anonymization"));
 		}
 
+		$default_lang = $ilUser->getPref("survey_code_language");
+
+		// creation buttons
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+		$languages = $this->lng->getInstalledLanguages();
+		$options = array();
+		foreach ($languages as $lang)
+		{
+			$options[$lang] = $this->lng->txt("lang_$lang");
+		}
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$si = new ilSelectInputGUI($this->lng->txt("survey_codes_lang"), "lang");
+		$si->setOptions($options);
+		$si->setValue($default_lang);
+		$ilToolbar->addInputItem($si, true);
+		$ilToolbar->addFormButton($this->lng->txt("set"), "setCodeLanguage");
+
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyCodesTableGUI.php";
 		$table_gui = new ilSurveyCodesTableGUI($this, 'codes');
-		$default_lang = $ilUser->getPref("survey_code_language");
 		$survey_codes =& $this->object->getSurveyCodesTableData($default_lang);
 		$table_gui->setData($survey_codes);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_codes.html", true);

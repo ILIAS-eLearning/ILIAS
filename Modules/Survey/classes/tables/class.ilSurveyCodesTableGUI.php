@@ -54,7 +54,6 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 		$this->counter = 1;
 		$this->confirmdelete = $confirmdelete;
 		
-		$this->setTopCommands(false);
 		$this->setFormName('codesform');
 		$this->setStyle('table', 'fullwidth');
 
@@ -78,15 +77,6 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 		{
 			$this->addMultiCommand('exportCodes', $this->lng->txt('export'));
 			$this->addMultiCommand('deleteCodes', $this->lng->txt('delete'));
-
-			$languages = $lng->getInstalledLanguages();
-			$data = array();
-			foreach ($languages as $lang)
-			{
-				$data[$lang] = $this->lng->txt("lang_$lang");
-			}
-			global $ilUser;
-			$this->addSelectionButton('lang', $data, 'setCodeLanguage', $this->lng->txt("survey_codes_lang"), $ilUser->getPref("survey_code_language"));
 			$this->addCommandButton('exportAllCodes', $this->lng->txt('export_all_survey_codes'));
 		}
 
