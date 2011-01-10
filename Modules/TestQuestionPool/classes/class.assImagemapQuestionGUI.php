@@ -763,7 +763,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		}
 
 		global $ilAccess;
-		if ($ilAccess->checkAccess("write", "", $this->ref_id) || $this->getSelfAssessmentEditingMode())
+		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']) || $this->getSelfAssessmentEditingMode())
 		{
 			$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
 		}

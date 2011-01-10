@@ -953,7 +953,7 @@ class assQuestionGUI
 		$form->addItem($incomplete);
 
 		global $ilAccess;
-		if ($ilAccess->checkAccess("write", "", $this->ref_id) || $this->getSelfAssessmentEditingMode())
+		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']) || $this->getSelfAssessmentEditingMode())
 		{
 			$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
 		}
@@ -1139,7 +1139,7 @@ class assQuestionGUI
 				$form->addItem($hidden);
 				$form->addItem($question);
 			}
-			if ($ilAccess->checkAccess("write", "", $this->ref_id))	$form->addCommandButton("suggestedsolution", $this->lng->txt("save"));
+			if ($ilAccess->checkAccess("write", "", $_GET['ref_id']))	$form->addCommandButton("suggestedsolution", $this->lng->txt("save"));
 			
 			if ($save)
 			{
@@ -1172,7 +1172,7 @@ class assQuestionGUI
 		$savechange = (strcmp($this->ctrl->getCmd(), "saveSuggestedSolution") == 0) ? TRUE : FALSE;
 
 		$changeoutput = "";
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']))
 		{
 			$formchange = new ilPropertyFormGUI();
 			$formchange->setFormAction($this->ctrl->getFormAction($this));
