@@ -742,9 +742,13 @@ class ilObjQuestionPool extends ilObject
 			$this->ilias->raiseError("Creation of Questionpool Directory failed.",$this->ilias->error_obj->FATAL);
 		}
 		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
-		$export_dir = $qpl_dir."/export";
-		ilUtil::makeDir($export_dir);
-		if(!@is_dir($export_dir))
+		ilUtil::makeDir($this->getExportDirectory('xls'));
+		if(!@is_dir($this->getExportDirectory('xls')))
+		{
+			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+		ilUtil::makeDir($this->getExportDirectory('zip'));
+		if(!@is_dir($this->getExportDirectory('zip')))
 		{
 			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
 		}
@@ -753,49 +757,20 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* get export directory of questionpool
 	*/
-	function getExportDirectory()
+	function getExportDirectory($type = "")
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$export_dir = ilUtil::getDataDir()."/qpl_data"."/qpl_".$this->getId()."/export";
+		switch ($type)
+		{
+			case 'xls':
+			case 'zip':
+				$export_dir = ilUtil::getDataDir()."/qpl_data"."/qpl_".$this->getId()."/export_$type";
+				break;
+			default:
+				$export_dir = ilUtil::getDataDir()."/qpl_data"."/qpl_".$this->getId()."/export";
+				break;
+		}
 		return $export_dir;
-	}
-	
-	/**
-	* get export files
-	*/
-	function getExportFiles($dir)
-	{
-		// quit if import dir not available
-		if (!@is_dir($dir) or
-			!is_writeable($dir))
-		{
-			return array();
-		}
-		// open directory
-		$dir = dir($dir);
-
-		// initialize array
-		$file = array();
-
-		// get files and save the in the array
-		while ($entry = $dir->read())
-		{
-			if ($entry != "." and
-				$entry != ".." and
-				(substr($entry, -4) == ".zip" or substr($entry, -4) == ".xls") and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(qpl__)*[0-9]+\.(zip|xls)\$", $entry))
-			{
-				$file[] = $entry;
-			}
-		}
-
-		// close import directory
-		$dir->close();
-
-		// sort files
-		sort ($file);
-		reset ($file);
-		return $file;
 	}
 
 	/**

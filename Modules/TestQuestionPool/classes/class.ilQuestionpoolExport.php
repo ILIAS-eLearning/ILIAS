@@ -67,18 +67,20 @@ class ilQuestionpoolExport
 		switch($this->mode)
 		{
 			case "xls":
-				$this->export_dir = $this->qpl_obj->getExportDirectory();
+				$this->export_dir = $this->qpl_obj->getExportDirectory('xls');
 				$this->filename = $date."__".$this->inst_id."__".
-					"qpl"."__".$this->qpl_obj->getId() . ".xls";
+					"qpl"."_".$this->qpl_obj->getId() . ".xls";
+				$this->zipfilename = $date."__".$this->inst_id."__".
+					"qpl"."_".$this->qpl_obj->getId() . ".zip";
 				break;
 			case "xml":
 			default:
-				$this->export_dir = $this->qpl_obj->getExportDirectory();
+				$this->export_dir = $this->qpl_obj->getExportDirectory('zip');
 				$this->subdir = $date."__".$this->inst_id."__".
-					"qpl"."__".$this->qpl_obj->getId();
+					"qpl"."_".$this->qpl_obj->getId();
 				$this->filename = $this->subdir.".xml";
 				$this->qti_filename = $date."__".$this->inst_id."__".
-					"qti"."__".$this->qpl_obj->getId().".xml";
+					"qti"."_".$this->qpl_obj->getId().".xml";
 				break;
 		}
 	}
@@ -175,8 +177,12 @@ class ilQuestionpoolExport
 
 		// zip the file
 		$ilBench->start("QuestionpoolExport", "buildExportFile_zipFile");
-		ilUtil::zip($this->export_dir."/".$this->subdir,
-			$this->export_dir."/".$this->subdir.".zip");
+		ilUtil::zip($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".zip");
+		if (@is_dir($this->export_dir."/".$this->subdir))
+		{
+			ilUtil::delDir($this->export_dir."/".$this->subdir);
+		}
+
 		$ilBench->stop("QuestionpoolExport", "buildExportFile_zipFile");
 
 		// destroy writer object
@@ -269,6 +275,8 @@ class ilQuestionpoolExport
 			$row++;
 		}
 		$workbook->close();
+		ilUtil::zip($this->export_dir . "/" . $this->filename, $this->export_dir . "/" . $this->zipfilename);
+		if (@file_exists($this->export_dir . "/" . $this->filename)) @unlink($this->export_dir . "/" . $this->filename);
 	}
 }
 
