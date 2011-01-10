@@ -975,75 +975,37 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		if (strcmp($action, "accessRestrict") == 0) return $this->setAccessRestrictionObject();
 
 		unset($this->data);
-		$this->data["cols"] = array("type", "title", "description", "last_change");
+		
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setHeaderText($this->lng->txt("info_" . $action . "_sure"));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancel" . $action);
+		$cgui->setConfirm($this->lng->txt("confirm"), "confirm" . $action);
 
 		foreach($_POST["id"] as $id)
 		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
+			$user = new ilObjUser($id);
 
-			$this->data["data"]["$id"] = array(
-				"type"        => $obj_data->getType(),
-				"title"       => $obj_data->getTitle(),
-				"desc"        => $obj_data->getDescription(),
-				"last_update" => $obj_data->getLastUpdateDate());
-		}
-
-		$this->data["buttons"] = array( "cancel" . $action  => $this->lng->txt("cancel"),
-								  "confirm" . $action  => $this->lng->txt("confirm"));
-
-		$this->getTemplateFile("confirm");
-
-		ilUtil::sendQuestion($this->lng->txt("info_" . $action . "_sure"));
-
-		$this->tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this));
-
-		// BEGIN TABLE HEADER
-		foreach ($this->data["cols"] as $key)
-		{
-			$this->tpl->setCurrentBlock("table_header");
-			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
-			$this->tpl->parseCurrentBlock();
-		}
-		// END TABLE HEADER
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-
-		foreach($this->data["data"] as $key => $value)
-		{
-			// BEGIN TABLE CELL
-			foreach($value as $key => $cell_data)
+			$login = $user->getLastLogin();
+			if(!$login)
 			{
-				$this->tpl->setCurrentBlock("table_cell");
-
-				// CREATE TEXT STRING
-				if($key == "type")
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
-				}
-				else
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
-				}
-				$this->tpl->parseCurrentBlock();
+				$login = $this->lng->txt("never");
+			}
+			else
+			{
+				$login = ilDatePresentation::formatDate(new ilDateTime($login, IL_CAL_DATETIME));
 			}
 
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->parseCurrentBlock();
-			// END TABLE CELL
-		}
-		// END TABLE DATA
+			$caption = $user->getFullname()." (".$user->getLogin().")".", ".
+				$user->getEmail()." -  ".$this->lng->txt("last_login").": ".$login;
 
-		// BEGIN OPERATION_BTN
-		foreach($this->data["buttons"] as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
+			// the post data is actually not used, see saved_post
+			$cgui->addItem("user_id[]", $i, $caption);
 		}
+
+		$this->tpl->setContent($cgui->getHTML());
 	}
 
 	/**
