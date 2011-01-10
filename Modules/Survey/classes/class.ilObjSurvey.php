@@ -4643,10 +4643,10 @@ class ilObjSurvey extends ilObject
 		}
 	}
 
-	function sendCodes($mail_type, $not_sent, $subject, $message)
+	function sendCodes($not_sent, $subject, $message)
 	{
 		include_once "./Services/Mail/classes/class.ilMail.php";
-		$user_id = ($mail_type == 'system') ? ANONYMOUS_USER_ID : $this->getOwner();
+		$user_id = $this->getOwner();
 		$mail = new ilMail($user_id);
 		$recipients = $this->getExternalCodeRecipients();
 		foreach ($recipients as $data)
