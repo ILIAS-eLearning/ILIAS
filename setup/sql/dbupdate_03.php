@@ -2471,8 +2471,14 @@ if(!$ilDB->tableExists('export_options'))
 	if(!$ilDB->tableColumnExists('svy_svy','mailnotification'))
 	{
 		$ilDB->addTableColumn("svy_svy", "mailnotification", array("type" => "integer", "length" => 1, "notnull" => false));
-		$ilDB->addTableColumn("svy_svy", "mailaddresses", array("type" => "text", "length" => 2000, "notnull" => true));
-		$ilDB->addTableColumn("svy_svy", "mailparticipantdata", array("type" => "text", "length" => 4000, "notnull" => true));
+	}
+	if(!$ilDB->tableColumnExists('svy_svy','mailaddresses'))
+	{
+		$ilDB->addTableColumn("svy_svy", "mailaddresses", array("type" => "text", "length" => 2000, "notnull" => false));
+	}
+	if(!$ilDB->tableColumnExists('svy_svy','mailparticipantdata'))
+	{
+		$ilDB->addTableColumn("svy_svy", "mailparticipantdata", array("type" => "text", "length" => 4000, "notnull" => false));
 	}
 ?>
 <#3126>
