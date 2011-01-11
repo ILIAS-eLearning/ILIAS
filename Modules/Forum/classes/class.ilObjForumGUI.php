@@ -159,6 +159,21 @@ class ilObjForumGUI extends ilObjectGUI
 				break;
 
 			default:
+
+				// alex, 11 Jan 2011:
+				// I inserted this workaround due to bug report 6971.
+				// In general the command handling is quite obscure here.
+				// The form action of the table should be filled
+				// with $ilCtrl->getFormAction(..) not with $ilCtrl->getLinkTarget(..)
+				// Commands should be determined with $ilCtrl->getCmd() not
+				// with accessing $_POST['selected_cmd'], since this is internal
+				// of ilTable2GUI/ilCtrl and may change.
+				if (isset($_POST["select_cmd2"]))
+				{
+					$_POST['selected_cmd'] = $_POST["selected_cmd2"];
+				}
+
+
 				if($_POST['selected_cmd'] != null)
 				{
 						$member_cmd = array('enableAdminForceNoti','disableAdminForceNoti','enableHideUserToggleNoti','disableHideUserToggleNoti');
