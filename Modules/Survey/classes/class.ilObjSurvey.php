@@ -764,8 +764,8 @@ class ilObjSurvey extends ilObject
 				"anonymize" => array("text", $this->getAnonymize()),
 				"show_question_titles" => array("text", $this->getShowQuestionTitles()),
 				"mailnotification" => array('integer', ($this->getMailNotification()) ? 1 : 0),
-				"mailaddresses" => array('text', $this->getMailAddresses()),
-				"mailparticipantdata" => array('text', $this->getMailParticipantData()),
+				"mailaddresses" => array('text', strlen($this->getMailAddresses()) ? $this->getMailAddresses() : NULL),
+				"mailparticipantdata" => array('text', strlen($this->getMailParticipantData()) ? $this->getMailParticipantData() : NULL),
 				"tstamp" => array("integer", time())
 			));
 			$this->setSurveyId($next_id);
@@ -786,8 +786,8 @@ class ilObjSurvey extends ilObject
 				"anonymize" => array("text", $this->getAnonymize()),
 				"show_question_titles" => array("text", $this->getShowQuestionTitles()),
 				"mailnotification" => array('integer', ($this->getMailNotification()) ? 1 : 0),
-				"mailaddresses" => array('text', $this->getMailAddresses()),
-				"mailparticipantdata" => array('text', $this->getMailParticipantData()),
+				"mailaddresses" => array('text', strlen($this->getMailAddresses()) ? $this->getMailAddresses() : NULL),
+				"mailparticipantdata" => array('text', strlen($this->getMailParticipantData()) ? $this->getMailParticipantData() : NULL),
 				"tstamp" => array("integer", time())
 			), array(
 			"survey_id" => array("integer", $this->getSurveyId())
