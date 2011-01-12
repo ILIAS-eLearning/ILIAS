@@ -432,9 +432,9 @@ class ilSoapUtils extends ilSoapAdministration
 		$options = $cp_options->getOptions($node['child']);
 		$mappings = $cp_options->getMappings();
 		
-		if(!$ilAccess->checkAccess('write','',$node['child']))
+		if(!$ilAccess->checkAccess('delete','',$node['child']))
 		{
-			$ilLog->write(__METHOD__.': No write permission granted: '.$source_id.', '.$node['title'].', '.$node['type']);
+			$ilLog->write(__METHOD__.': No delete permission granted: '.$source_id.', '.$node['title'].', '.$node['type']);
 			return false;
 			
 		}
