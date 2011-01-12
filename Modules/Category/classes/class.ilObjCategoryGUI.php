@@ -1200,61 +1200,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		include_once("./Services/User/classes/class.ilUserTableGUI.php");
 		$utab = new ilUserTableGUI($this, 'listUsers',ilUserTableGUI::MODE_LOCAL_USER);
 		$this->tpl->setVariable('USERS_TABLE',$utab->getHTML());
-		return;
-		
-		
-		$counter = 0;
-		$editable = false;
 
-		// pre sort
-		$users = ilLocalUser::_getUserData($_SESSION['filtered_users'][$this->object->getRefId()]);
-		$this->all_users_count = count($users);
-
-		$users = ilUtil::sortArray($users,$_GET["sort_by"] ? $_GET['sort_by'] : 'login',$_GET["sort_order"]);
-		$users = array_slice($users,$_GET["offset"],$ilUser->getPref('hits_per_page'));
-
-		foreach($users as $user_data)
-		{
-			if($user_data['time_limit_owner'] == $this->object->getRefId())
-			{
-				$editable = true;
-				$f_result[$counter][]	= ilUtil::formCheckbox(in_array($user_data['usr_id'],$_SESSION['delete_users']) ? 1 : 0,
-															   "user_ids[]",$user_data['usr_id']);
-
-				$this->ctrl->setParameterByClass('ilobjusergui','obj_id',$user_data['usr_id']);
-				$f_result[$counter][]	= '<a  href="'.$this->ctrl->getLinkTargetByClass('ilobjusergui','edit').'">'.
-					$user_data['login'].'</a>';
-			}
-			else
-			{
-				$f_result[$counter][]	= '&nbsp;';
-				$f_result[$counter][]	= $user_data['login'];
-			}
-
-			$f_result[$counter][]	= $user_data['firstname'];
-			$f_result[$counter][]	= $user_data['lastname'];
-
-			
-			switch($user_data['time_limit_owner'])
-			{
-				case 7:
-					$f_result[$counter][]	= $this->lng->txt('global');
-					break;
-
-				default:
-					$f_result[$counter][] = ($title = ilObject::_lookupTitle(ilObject::_lookupObjId($user_data['time_limit_owner']))) ?
-						$title : '';
-			}
-			
-			// role assignment
-			$this->ctrl->setParameter($this,'obj_id',$user_data['usr_id']);
-			$f_result[$counter][]	= '<a class="il_ContainerItemCommand" href="'.$this->ctrl->getLinkTarget($this,'assignRoles').'">'.
-				$this->lng->txt('edit').'</a>';
-			
-			++$counter;
-		}
-		$this->__showUsersTable($f_result,"listUsersObject",$editable);
-		
 		return true;
 	}
 

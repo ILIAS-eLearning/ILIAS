@@ -174,7 +174,9 @@ class ilUserTableGUI extends ilTable2GUI
 		
 		if($this->getMode() == self::MODE_USER_FOLDER)
 		{
-			$user_filter = array();
+			// All accessible users
+			include_once './Services/User/classes/class.ilLocalUser.php';
+			$user_filter = ilLocalUser::_getFolderIds();
 		}
 		else
 		{
@@ -189,7 +191,7 @@ class ilUserTableGUI extends ilTable2GUI
 				$user_filter = ilLocalUser::_getFolderIds();
 			}
 		}
-		
+
 		include_once("./Services/User/classes/class.ilUserQuery.php");
 		
 		$additional_fields = $this->getSelectedColumns();
