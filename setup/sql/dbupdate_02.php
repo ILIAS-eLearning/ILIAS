@@ -6533,8 +6533,14 @@ ALTER TABLE `shib_role_assignment` ADD `plugin_id` INT( 3 ) NOT NULL AFTER `plug
 ?>
 <#1385>
 <?php
-	include_once("./Services/Migration/DBUpdate_1385/classes/class.ilStyleMigration.php");
-	ilStyleMigration::addMissingStyleCharacteristics();
+	$setting = new ilSetting();
+	$se_db = (int) $setting->get("se_db");
+
+	if($se_db <= 26)
+	{
+		include_once("./Services/Migration/DBUpdate_1385/classes/class.ilStyleMigration.php");
+		ilStyleMigration::addMissingStyleCharacteristics();
+	}
 ?>
 <#1386>
 <?php
@@ -6543,64 +6549,75 @@ ALTER TABLE `shib_role_assignment` ADD `plugin_id` INT( 3 ) NOT NULL AFTER `plug
 	
 	if ($unirstep <= 6)
 	{
-		$q = "UPDATE `style_char` SET type = 'media' WHERE `characteristic` = 'Media' OR `characteristic` = 'MediaCaption'";
-		$ilDB->query($q);
-	
-		$q = "UPDATE `style_parameter` SET type = 'media' WHERE `class` = 'Media' OR `class` = 'MediaCaption'";
-		$ilDB->query($q);
-	
-		$q = "UPDATE `style_parameter` SET type = 'media_caption' WHERE `class` = 'MediaCaption'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_char` SET type = 'media_caption' WHERE `characteristic` = 'MediaCaption'";
-		$ilDB->query($q);
-				
-		$q = "UPDATE `style_parameter` SET tag = 'div' WHERE `class` = 'MediaCaption'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_char` SET type = 'media_caption' WHERE `characteristic` = 'MediaCaption'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_char` SET type = 'media_cont', characteristic = 'MediaContainer' WHERE `characteristic` = 'Media'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_parameter` SET type = 'media_cont', class = 'MediaContainer' WHERE `class` = 'Media'";
-		$ilDB->query($q);
-				
-		$q = "UPDATE `style_char` SET type = 'page_fn' WHERE `characteristic` = 'Footnote'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_char` SET type = 'page_nav' WHERE `characteristic` = 'LMNavigation'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_char` SET type = 'page_title' WHERE `characteristic` = 'PageTitle'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_parameter` SET type = 'page_fn' WHERE `class` = 'Footnote'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_parameter` SET type = 'page_nav' WHERE `class` = 'LMNavigation'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_parameter` SET type = 'page_title' WHERE `class` = 'PageTitle'";
-		$ilDB->query($q);
-	
-		$q = "UPDATE `style_char` SET type = 'page_cont', characteristic = 'PageContainer' WHERE `characteristic` = 'Page'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_parameter` SET tag = 'table', type = 'page_cont', class = 'PageContainer' WHERE `class` = 'Page'";
-		$ilDB->query($q);
-	
-		$q = "UPDATE `style_char` SET type = 'sco_title' WHERE `characteristic` = 'Title' AND type = 'sco'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_parameter` SET type = 'sco_title' WHERE `class` = 'Title' AND type = 'sco'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_char` SET type = 'sco_desc' WHERE `characteristic` = 'Description' AND type = 'sco'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_parameter` SET type = 'sco_desc' WHERE `class` = 'Description' AND type = 'sco'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_char` SET type = 'sco_keyw' WHERE `characteristic` = 'Keywords' AND type = 'sco'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_parameter` SET type = 'sco_keyw' WHERE `class` = 'Keywords' AND type = 'sco'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_char` SET type = 'sco_obj' WHERE `characteristic` = 'Objective' AND type = 'sco'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_parameter` SET type = 'sco_obj' WHERE `class` = 'Objective' AND type = 'sco'";
-		$ilDB->query($q);
+		$setting = new ilSetting();
+		$se_db = (int) $setting->get("se_db");
+
+		if($se_db <= 31)
+		{
+			$q = "UPDATE `style_char` SET type = 'media' WHERE `characteristic` = 'Media' OR `characteristic` = 'MediaCaption'";
+			$ilDB->query($q);
+
+			$q = "UPDATE `style_parameter` SET type = 'media' WHERE `class` = 'Media' OR `class` = 'MediaCaption'";
+			$ilDB->query($q);
+
+			$q = "UPDATE `style_parameter` SET type = 'media_caption' WHERE `class` = 'MediaCaption'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_char` SET type = 'media_caption' WHERE `characteristic` = 'MediaCaption'";
+			$ilDB->query($q);
+
+			$q = "UPDATE `style_parameter` SET tag = 'div' WHERE `class` = 'MediaCaption'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_char` SET type = 'media_caption' WHERE `characteristic` = 'MediaCaption'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_char` SET type = 'media_cont', characteristic = 'MediaContainer' WHERE `characteristic` = 'Media'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_parameter` SET type = 'media_cont', class = 'MediaContainer' WHERE `class` = 'Media'";
+			$ilDB->query($q);
+
+			$q = "UPDATE `style_char` SET type = 'page_fn' WHERE `characteristic` = 'Footnote'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_char` SET type = 'page_nav' WHERE `characteristic` = 'LMNavigation'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_char` SET type = 'page_title' WHERE `characteristic` = 'PageTitle'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_parameter` SET type = 'page_fn' WHERE `class` = 'Footnote'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_parameter` SET type = 'page_nav' WHERE `class` = 'LMNavigation'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_parameter` SET type = 'page_title' WHERE `class` = 'PageTitle'";
+			$ilDB->query($q);
+
+			$q = "UPDATE `style_char` SET type = 'page_cont', characteristic = 'PageContainer' WHERE `characteristic` = 'Page'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_parameter` SET tag = 'table', type = 'page_cont', class = 'PageContainer' WHERE `class` = 'Page'";
+			$ilDB->query($q);
+
+			$q = "UPDATE `style_char` SET type = 'sco_title' WHERE `characteristic` = 'Title' AND type = 'sco'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_parameter` SET type = 'sco_title' WHERE `class` = 'Title' AND type = 'sco'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_char` SET type = 'sco_desc' WHERE `characteristic` = 'Description' AND type = 'sco'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_parameter` SET type = 'sco_desc' WHERE `class` = 'Description' AND type = 'sco'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_char` SET type = 'sco_keyw' WHERE `characteristic` = 'Keywords' AND type = 'sco'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_parameter` SET type = 'sco_keyw' WHERE `class` = 'Keywords' AND type = 'sco'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_char` SET type = 'sco_obj' WHERE `characteristic` = 'Objective' AND type = 'sco'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_parameter` SET type = 'sco_obj' WHERE `class` = 'Objective' AND type = 'sco'";
+			$ilDB->query($q);
+		}
 	}
 ?>
 <#1387>
 <?php
+$setting = new ilSetting();
+$se_db = (int) $setting->get("se_db");
+
+if($se_db <= 38)
+{
 
 	// force rewriting of page container style
 	$q = "DELETE FROM `style_char` WHERE type = 'page_cont'";
@@ -6610,6 +6627,7 @@ ALTER TABLE `shib_role_assignment` ADD `plugin_id` INT( 3 ) NOT NULL AFTER `plug
 
 	include_once("./Services/Migration/DBUpdate_1385/classes/class.ilStyleMigration.php");
 	ilStyleMigration::_addMissingStyleClassesToAllStyles();
+}
 ?>
 <#1388>
 UPDATE `style_data` SET `uptodate` = 0;
@@ -6620,27 +6638,34 @@ UPDATE `style_data` SET `uptodate` = 0;
 	
 	if ($unirstep <= 8)
 	{
-		$q = "UPDATE `style_char` SET characteristic = 'TextInput' WHERE type = 'qinput'";
-		$ilDB->query($q);
-		$q = "UPDATE `style_parameter` SET class = 'TextInput' WHERE type = 'qinput'";
-		$ilDB->query($q);
-	
-		// add LongTextInput
-		$sts = $ilDB->prepare("SELECT * FROM object_data WHERE type = 'sty'");
-		$sets = $ilDB->execute($sts);
-		
-		while ($recs = $ilDB->fetchAssoc($sets))
+		$setting = new ilSetting();
+		$se_db = (int) $setting->get("se_db");
+
+		if($se_db <= 39)
 		{
-			$id = $recs["obj_id"];
-			
-			$st = $ilDB->prepare("SELECT * FROM style_char WHERE type = ? AND style_id = ?",
-				array("text", "integer"));
-			$set = $ilDB->execute($st, array("qlinput", $id));
-			if (!($rec = $ilDB->fetchAssoc($set)))
+
+			$q = "UPDATE `style_char` SET characteristic = 'TextInput' WHERE type = 'qinput'";
+			$ilDB->query($q);
+			$q = "UPDATE `style_parameter` SET class = 'TextInput' WHERE type = 'qinput'";
+			$ilDB->query($q);
+
+			// add LongTextInput
+			$sts = $ilDB->prepare("SELECT * FROM object_data WHERE type = 'sty'");
+			$sets = $ilDB->execute($sts);
+
+			while ($recs = $ilDB->fetchAssoc($sets))
 			{
-				$q = "INSERT INTO `style_char` (style_id, type, characteristic) VALUES ".
-					"(".$ilDB->quote($id).",".$ilDB->quote("qlinput").",".$ilDB->quote("LongTextInput").")";
-				$ilDB->query($q);
+				$id = $recs["obj_id"];
+
+				$st = $ilDB->prepare("SELECT * FROM style_char WHERE type = ? AND style_id = ?",
+					array("text", "integer"));
+				$set = $ilDB->execute($st, array("qlinput", $id));
+				if (!($rec = $ilDB->fetchAssoc($set)))
+				{
+					$q = "INSERT INTO `style_char` (style_id, type, characteristic) VALUES ".
+						"(".$ilDB->quote($id).",".$ilDB->quote("qlinput").",".$ilDB->quote("LongTextInput").")";
+					$ilDB->query($q);
+				}
 			}
 		}
 	}
@@ -11712,80 +11737,94 @@ ALTER TABLE `frm_posts_tree` CHANGE `date` `fpt_date` DATETIME NULL DEFAULT NULL
 
 <#2396>
 <?php
-$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
-while ($rec = $ilDB->fetchAssoc($set))
+$setting = new ilSetting();
+$se_db = (int) $setting->get("se_db");
+
+if($se_db <= 47)
 {
-	$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
-		"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
-		"characteristic = ".$ilDB->quote("FileListItemLink", "text")." AND ".
-		"type = ".$ilDB->quote("flist_a", "text"));
-	if (!$ilDB->fetchAssoc($set2))
+	$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
+	while ($rec = $ilDB->fetchAssoc($set))
 	{
-		$ilDB->manipulate("INSERT INTO style_char (style_id, type, characteristic)".
-			" VALUES (".
-			$ilDB->quote($rec["obj_id"], "integer").",".
-			$ilDB->quote("flist_a", "text").",".
-			$ilDB->quote("FileListItemLink", "text").")");
+		$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
+			"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
+			"characteristic = ".$ilDB->quote("FileListItemLink", "text")." AND ".
+			"type = ".$ilDB->quote("flist_a", "text"));
+		if (!$ilDB->fetchAssoc($set2))
+		{
+			$ilDB->manipulate("INSERT INTO style_char (style_id, type, characteristic)".
+				" VALUES (".
+				$ilDB->quote($rec["obj_id"], "integer").",".
+				$ilDB->quote("flist_a", "text").",".
+				$ilDB->quote("FileListItemLink", "text").")");
+		}
 	}
 }
-
 ?>
 
 <#2397>
 <?php
-$ilDB->query("ALTER TABLE style_char ADD COLUMN hide TINYINT NOT NULL DEFAULT 0");
+if (!$ilDB->tableColumnExists("style_char", "hide"))
+{
+	$ilDB->query("ALTER TABLE style_char ADD COLUMN hide TINYINT NOT NULL DEFAULT 0");
+}
 ?>
 
 <#2398>
 <?php
-$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
-while ($rec = $ilDB->fetchAssoc($set))
+$setting = new ilSetting();
+$se_db = (int) $setting->get("se_db");
+
+if($se_db <= 49)
 {
-	$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
-		"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
-		"characteristic = ".$ilDB->quote("Important", "text")." AND ".
-		"type = ".$ilDB->quote("text_inline", "text"));
-	if (!$ilDB->fetchAssoc($set2))
+	$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
+	while ($rec = $ilDB->fetchAssoc($set))
 	{
-		$ilDB->manipulate("INSERT INTO style_char (style_id, type, characteristic)".
-			" VALUES (".
-			$ilDB->quote($rec["obj_id"], "integer").",".
-			$ilDB->quote("text_inline", "text").",".
-			$ilDB->quote("Important", "text").")");
-		$nid = $ilDB->nextId("style_parameter");
-		$ilDB->manipulate("INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)".
-			" VALUES (".
-			$ilDB->quote($nid, "integer").",".
-			$ilDB->quote($rec["obj_id"], "integer").",".
-			$ilDB->quote("text_inline", "text").",".
-			$ilDB->quote("Important", "text").",".
-			$ilDB->quote("span", "text").",".
-			$ilDB->quote("text-decoration", "text").",".
-			$ilDB->quote("underline", "text").
-			")");
-	}
-	$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
-		"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
-		"characteristic = ".$ilDB->quote("Accent", "text")." AND ".
-		"type = ".$ilDB->quote("text_inline", "text"));
-	if (!$ilDB->fetchAssoc($set2))
-	{
-		$ilDB->manipulate("INSERT INTO style_char (style_id, type, characteristic)".
-			" VALUES (".
-			$ilDB->quote($rec["obj_id"], "integer").",".
-			$ilDB->quote("text_inline", "text").",".
-			$ilDB->quote("Accent", "text").")");
-		$nid = $ilDB->nextId("style_parameter");
-		$ilDB->manipulate("INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)".
-			" VALUES (".
-			$ilDB->quote($nid, "integer").",".
-			$ilDB->quote($rec["obj_id"], "integer").",".
-			$ilDB->quote("text_inline", "text").",".
-			$ilDB->quote("Accent", "text").",".
-			$ilDB->quote("span", "text").",".
-			$ilDB->quote("color", "text").",".
-			$ilDB->quote("#E000E0", "text").
-			")");
+		$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
+			"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
+			"characteristic = ".$ilDB->quote("Important", "text")." AND ".
+			"type = ".$ilDB->quote("text_inline", "text"));
+		if (!$ilDB->fetchAssoc($set2))
+		{
+			$ilDB->manipulate("INSERT INTO style_char (style_id, type, characteristic)".
+				" VALUES (".
+				$ilDB->quote($rec["obj_id"], "integer").",".
+				$ilDB->quote("text_inline", "text").",".
+				$ilDB->quote("Important", "text").")");
+			$nid = $ilDB->nextId("style_parameter");
+			$ilDB->manipulate("INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)".
+				" VALUES (".
+				$ilDB->quote($nid, "integer").",".
+				$ilDB->quote($rec["obj_id"], "integer").",".
+				$ilDB->quote("text_inline", "text").",".
+				$ilDB->quote("Important", "text").",".
+				$ilDB->quote("span", "text").",".
+				$ilDB->quote("text-decoration", "text").",".
+				$ilDB->quote("underline", "text").
+				")");
+		}
+		$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
+			"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
+			"characteristic = ".$ilDB->quote("Accent", "text")." AND ".
+			"type = ".$ilDB->quote("text_inline", "text"));
+		if (!$ilDB->fetchAssoc($set2))
+		{
+			$ilDB->manipulate("INSERT INTO style_char (style_id, type, characteristic)".
+				" VALUES (".
+				$ilDB->quote($rec["obj_id"], "integer").",".
+				$ilDB->quote("text_inline", "text").",".
+				$ilDB->quote("Accent", "text").")");
+			$nid = $ilDB->nextId("style_parameter");
+			$ilDB->manipulate("INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)".
+				" VALUES (".
+				$ilDB->quote($nid, "integer").",".
+				$ilDB->quote($rec["obj_id"], "integer").",".
+				$ilDB->quote("text_inline", "text").",".
+				$ilDB->quote("Accent", "text").",".
+				$ilDB->quote("span", "text").",".
+				$ilDB->quote("color", "text").",".
+				$ilDB->quote("#E000E0", "text").
+				")");
+		}
 	}
 }
 ?>
@@ -11906,209 +11945,223 @@ if (!$ilDB->tableExists("page_style_usage"))
 
 <#2402>
 <?php
-$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
-while ($rec = $ilDB->fetchAssoc($set))	// all styles
-{
-	$ast = array(
-		array("tag" => "div", "type" => "va_cntr", "class" => "VAccordCntr",
-			"par" => array(
-				array("name" => "margin-top", "value" => "5px")
-				)),
-		array("tag" => "div", "type" => "va_icntr", "class" => "VAccordICntr",
-			"par" => array(
-				array("name" => "background-color", "value" => "#FFFFFF"),
-				array("name" => "margin-bottom", "value" => "5px"),
-				array("name" => "border-width", "value" => "1px"),
-				array("name" => "border-color", "value" => "#9EADBA"),
-				array("name" => "border-style", "value" => "solid")
-				)),
-		array("tag" => "div", "type" => "va_ihead", "class" => "VAccordIHead",
-			"par" => array(
-				array("name" => "padding-left", "value" => "24px"),
-				array("name" => "padding-right", "value" => "3px"),
-				array("name" => "padding-bottom", "value" => "3px"),
-				array("name" => "padding-top", "value" => "3px"),
-				array("name" => "background-color", "value" => "#E2EAF4"),
-				array("name" => "text-align", "value" => "left"),
-				array("name" => "cursor", "value" => "pointer"),
-				array("name" => "background-image", "value" => "accordion_arrow.gif"),
-				array("name" => "background-repeat", "value" => "no-repeat"),
-				array("name" => "background-position", "value" => "3px 4px"),
-				)),
-		array("tag" => "div", "type" => "va_ihead", "class" => "VAccordIHead:hover",
-			"par" => array(
-				array("name" => "background-color", "value" => "#D2D8E2")
-				)),
-		array("tag" => "div", "type" => "va_icont", "class" => "VAccordICont",
-			"par" => array(
-				array("name" => "background-color", "value" => "#FFFFFF"),
-				array("name" => "padding", "value" => "3px")
-				)),
-				
-		array("tag" => "div", "type" => "ha_cntr", "class" => "HAccordCntr",
-			"par" => array(
-				)),
-		array("tag" => "div", "type" => "ha_icntr", "class" => "HAccordICntr",
-			"par" => array(
-				array("name" => "background-color", "value" => "#FFFFFF"),
-				array("name" => "margin-right", "value" => "5px"),
-				array("name" => "border-width", "value" => "1px"),
-				array("name" => "border-color", "value" => "#9EADBA"),
-				array("name" => "border-style", "value" => "solid")
-				)),
-		array("tag" => "div", "type" => "ha_ihead", "class" => "HAccordIHead",
-			"par" => array(
-				array("name" => "padding-left", "value" => "20px"),
-				array("name" => "padding-right", "value" => "10px"),
-				array("name" => "padding-bottom", "value" => "3px"),
-				array("name" => "padding-top", "value" => "3px"),
-				array("name" => "background-color", "value" => "#E2EAF4"),
-				array("name" => "text-align", "value" => "left"),
-				array("name" => "cursor", "value" => "pointer"),
-				array("name" => "background-image", "value" => "haccordion_arrow.gif"),
-				array("name" => "background-repeat", "value" => "no-repeat"),
-				array("name" => "background-position", "value" => "3px 4px"),
-				)),
-		array("tag" => "div", "type" => "ha_ihead", "class" => "HAccordIHead:hover",
-			"par" => array(
-				array("name" => "background-color", "value" => "#D2D8E2")
-				)),
-		array("tag" => "div", "type" => "ha_icont", "class" => "HAccordICont",
-			"par" => array(
-				array("name" => "background-color", "value" => "#FFFFFF"),
-				array("name" => "padding", "value" => "3px")
-				)),
-				);
-				
-	foreach($ast as $st)
-	{
-			
-		$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
-			"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
-			"characteristic = ".$ilDB->quote($st["class"], "text")." AND ".
-			"type = ".$ilDB->quote($st["type"], "text"));
-		if (!$ilDB->fetchAssoc($set2))
-		{
-			$q = "INSERT INTO style_char (style_id, type, characteristic)".
-				" VALUES (".
-				$ilDB->quote($rec["obj_id"], "integer").",".
-				$ilDB->quote($st["type"], "text").",".
-				$ilDB->quote($st["class"], "text").")";
+$setting = new ilSetting();
+$se_db = (int) $setting->get("se_db");
 
-			$ilDB->manipulate($q);
-			foreach ($st["par"] as $par)
+if($se_db <= 56)
+{
+	$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
+	while ($rec = $ilDB->fetchAssoc($set))	// all styles
+	{
+		$ast = array(
+			array("tag" => "div", "type" => "va_cntr", "class" => "VAccordCntr",
+				"par" => array(
+					array("name" => "margin-top", "value" => "5px")
+					)),
+			array("tag" => "div", "type" => "va_icntr", "class" => "VAccordICntr",
+				"par" => array(
+					array("name" => "background-color", "value" => "#FFFFFF"),
+					array("name" => "margin-bottom", "value" => "5px"),
+					array("name" => "border-width", "value" => "1px"),
+					array("name" => "border-color", "value" => "#9EADBA"),
+					array("name" => "border-style", "value" => "solid")
+					)),
+			array("tag" => "div", "type" => "va_ihead", "class" => "VAccordIHead",
+				"par" => array(
+					array("name" => "padding-left", "value" => "24px"),
+					array("name" => "padding-right", "value" => "3px"),
+					array("name" => "padding-bottom", "value" => "3px"),
+					array("name" => "padding-top", "value" => "3px"),
+					array("name" => "background-color", "value" => "#E2EAF4"),
+					array("name" => "text-align", "value" => "left"),
+					array("name" => "cursor", "value" => "pointer"),
+					array("name" => "background-image", "value" => "accordion_arrow.gif"),
+					array("name" => "background-repeat", "value" => "no-repeat"),
+					array("name" => "background-position", "value" => "3px 4px"),
+					)),
+			array("tag" => "div", "type" => "va_ihead", "class" => "VAccordIHead:hover",
+				"par" => array(
+					array("name" => "background-color", "value" => "#D2D8E2")
+					)),
+			array("tag" => "div", "type" => "va_icont", "class" => "VAccordICont",
+				"par" => array(
+					array("name" => "background-color", "value" => "#FFFFFF"),
+					array("name" => "padding", "value" => "3px")
+					)),
+
+			array("tag" => "div", "type" => "ha_cntr", "class" => "HAccordCntr",
+				"par" => array(
+					)),
+			array("tag" => "div", "type" => "ha_icntr", "class" => "HAccordICntr",
+				"par" => array(
+					array("name" => "background-color", "value" => "#FFFFFF"),
+					array("name" => "margin-right", "value" => "5px"),
+					array("name" => "border-width", "value" => "1px"),
+					array("name" => "border-color", "value" => "#9EADBA"),
+					array("name" => "border-style", "value" => "solid")
+					)),
+			array("tag" => "div", "type" => "ha_ihead", "class" => "HAccordIHead",
+				"par" => array(
+					array("name" => "padding-left", "value" => "20px"),
+					array("name" => "padding-right", "value" => "10px"),
+					array("name" => "padding-bottom", "value" => "3px"),
+					array("name" => "padding-top", "value" => "3px"),
+					array("name" => "background-color", "value" => "#E2EAF4"),
+					array("name" => "text-align", "value" => "left"),
+					array("name" => "cursor", "value" => "pointer"),
+					array("name" => "background-image", "value" => "haccordion_arrow.gif"),
+					array("name" => "background-repeat", "value" => "no-repeat"),
+					array("name" => "background-position", "value" => "3px 4px"),
+					)),
+			array("tag" => "div", "type" => "ha_ihead", "class" => "HAccordIHead:hover",
+				"par" => array(
+					array("name" => "background-color", "value" => "#D2D8E2")
+					)),
+			array("tag" => "div", "type" => "ha_icont", "class" => "HAccordICont",
+				"par" => array(
+					array("name" => "background-color", "value" => "#FFFFFF"),
+					array("name" => "padding", "value" => "3px")
+					)),
+					);
+
+		foreach($ast as $st)
+		{
+
+			$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
+				"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
+				"characteristic = ".$ilDB->quote($st["class"], "text")." AND ".
+				"type = ".$ilDB->quote($st["type"], "text"));
+			if (!$ilDB->fetchAssoc($set2))
 			{
-				$nid = $ilDB->nextId("style_parameter");
-				$q = "INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)".
+				$q = "INSERT INTO style_char (style_id, type, characteristic)".
 					" VALUES (".
-					$ilDB->quote($nid, "integer").",".
 					$ilDB->quote($rec["obj_id"], "integer").",".
 					$ilDB->quote($st["type"], "text").",".
-					$ilDB->quote($st["class"], "text").",".
-					$ilDB->quote($st["tag"], "text").",".
-					$ilDB->quote($par["name"], "text").",".
-					$ilDB->quote($par["value"], "text").
-					")";
+					$ilDB->quote($st["class"], "text").")";
 
-			$ilDB->manipulate($q);
+				$ilDB->manipulate($q);
+				foreach ($st["par"] as $par)
+				{
+					$nid = $ilDB->nextId("style_parameter");
+					$q = "INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)".
+						" VALUES (".
+						$ilDB->quote($nid, "integer").",".
+						$ilDB->quote($rec["obj_id"], "integer").",".
+						$ilDB->quote($st["type"], "text").",".
+						$ilDB->quote($st["class"], "text").",".
+						$ilDB->quote($st["tag"], "text").",".
+						$ilDB->quote($par["name"], "text").",".
+						$ilDB->quote($par["value"], "text").
+						")";
+
+				$ilDB->manipulate($q);
+				}
 			}
 		}
 	}
 }
-
 ?>
 
 <#2403>
 <?php
+$setting = new ilSetting();
+$se_db = (int) $setting->get("se_db");
 
-$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
-while ($rec = $ilDB->fetchAssoc($set))	// all styles
+if($se_db <= 57)
 {
-	$ast = array(
-		array("type" => "vaccordion", "name" => "VerticalAccordion",
-			"class" => array(
-				array("class_type" => "va_cntr", "class" => "VAccordCntr"),
-				array("class_type" => "va_icntr", "class" => "VAccordICntr"),
-				array("class_type" => "va_ihead", "class" => "VAccordIHead"),
-				array("class_type" => "va_icont", "class" => "VAccordICont")
-				)),
-		array("type" => "haccordion", "name" => "HorizontalAccordion",
-			"class" => array(
-				array("class_type" => "ha_cntr", "class" => "HAccordCntr"),
-				array("class_type" => "ha_icntr", "class" => "HAccordICntr"),
-				array("class_type" => "ha_ihead", "class" => "HAccordIHead"),
-				array("class_type" => "ha_icont", "class" => "HAccordICont")
-				))
-				);
-				
-	foreach($ast as $st)
+	$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
+	while ($rec = $ilDB->fetchAssoc($set))	// all styles
 	{
-			
-		$set2 = $ilDB->query("SELECT * FROM style_template WHERE ".
-			"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
-			"temp_type = ".$ilDB->quote($st["type"], "text")." AND ".
-			"name = ".$ilDB->quote($st["name"], "text"));
-		if (!$ilDB->fetchAssoc($set2))
+		$ast = array(
+			array("type" => "vaccordion", "name" => "VerticalAccordion",
+				"class" => array(
+					array("class_type" => "va_cntr", "class" => "VAccordCntr"),
+					array("class_type" => "va_icntr", "class" => "VAccordICntr"),
+					array("class_type" => "va_ihead", "class" => "VAccordIHead"),
+					array("class_type" => "va_icont", "class" => "VAccordICont")
+					)),
+			array("type" => "haccordion", "name" => "HorizontalAccordion",
+				"class" => array(
+					array("class_type" => "ha_cntr", "class" => "HAccordCntr"),
+					array("class_type" => "ha_icntr", "class" => "HAccordICntr"),
+					array("class_type" => "ha_ihead", "class" => "HAccordIHead"),
+					array("class_type" => "ha_icont", "class" => "HAccordICont")
+					))
+					);
+
+		foreach($ast as $st)
 		{
-			$nid = $ilDB->nextId("style_template");
-			$q = "INSERT INTO style_template (id, style_id, name, temp_type)".
-				" VALUES (".
-				$ilDB->quote($nid, "integer").",".
-				$ilDB->quote($rec["obj_id"], "integer").",".
-				$ilDB->quote($st["name"], "text").",".
-				$ilDB->quote($st["type"], "text").")";
-			$ilDB->manipulate($q);
-			$tid = $ilDB->getLastInsertId();
-			
-			foreach ($st["class"] as $c)
+
+			$set2 = $ilDB->query("SELECT * FROM style_template WHERE ".
+				"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
+				"temp_type = ".$ilDB->quote($st["type"], "text")." AND ".
+				"name = ".$ilDB->quote($st["name"], "text"));
+			if (!$ilDB->fetchAssoc($set2))
 			{
-				$q = "INSERT INTO style_template_class (template_id, class_type, class)".
+				$nid = $ilDB->nextId("style_template");
+				$q = "INSERT INTO style_template (id, style_id, name, temp_type)".
 					" VALUES (".
-					$ilDB->quote($tid, "integer").",".
-					$ilDB->quote($c["class_type"], "text").",".
-					$ilDB->quote($c["class"], "text").
-					")";
-			$ilDB->manipulate($q);
+					$ilDB->quote($nid, "integer").",".
+					$ilDB->quote($rec["obj_id"], "integer").",".
+					$ilDB->quote($st["name"], "text").",".
+					$ilDB->quote($st["type"], "text").")";
+				$ilDB->manipulate($q);
+				$tid = $ilDB->getLastInsertId();
+
+				foreach ($st["class"] as $c)
+				{
+					$q = "INSERT INTO style_template_class (template_id, class_type, class)".
+						" VALUES (".
+						$ilDB->quote($tid, "integer").",".
+						$ilDB->quote($c["class_type"], "text").",".
+						$ilDB->quote($c["class"], "text").
+						")";
+				$ilDB->manipulate($q);
+				}
 			}
 		}
 	}
 }
-
 ?>
 
 <#2404>
 <?php
+$setting = new ilSetting();
+$se_db = (int) $setting->get("se_db");
 
-$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
-
-while ($rec = $ilDB->fetchAssoc($set))	// all styles
+if($se_db <= 58)
 {
-	$imgs = array("accordion_arrow.gif", "haccordion_arrow.gif");
-	
-	$a_style_id = $rec["obj_id"];
-	
-	$sty_data_dir = CLIENT_WEB_DIR."/sty";
-	ilUtil::makeDir($sty_data_dir);
+	$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
 
-	$style_dir = $sty_data_dir."/sty_".$a_style_id;
-	ilUtil::makeDir($style_dir);
-
-	// create images subdirectory
-	$im_dir = $style_dir."/images";
-	ilUtil::makeDir($im_dir);
-
-	// create thumbnails directory
-	$thumb_dir = $style_dir."/images/thumbnails";
-	ilUtil::makeDir($thumb_dir);
-	
-//	ilObjStyleSheet::_createImagesDirectory($rec["obj_id"]);
-	$imdir = CLIENT_WEB_DIR."/sty/sty_".$a_style_id.
-			"/images";
-	foreach($imgs as $cim)
+	while ($rec = $ilDB->fetchAssoc($set))	// all styles
 	{
-		if (!is_file($imdir."/".$cim))
+		$imgs = array("accordion_arrow.gif", "haccordion_arrow.gif");
+
+		$a_style_id = $rec["obj_id"];
+
+		$sty_data_dir = CLIENT_WEB_DIR."/sty";
+		ilUtil::makeDir($sty_data_dir);
+
+		$style_dir = $sty_data_dir."/sty_".$a_style_id;
+		ilUtil::makeDir($style_dir);
+
+		// create images subdirectory
+		$im_dir = $style_dir."/images";
+		ilUtil::makeDir($im_dir);
+
+		// create thumbnails directory
+		$thumb_dir = $style_dir."/images/thumbnails";
+		ilUtil::makeDir($thumb_dir);
+
+	//	ilObjStyleSheet::_createImagesDirectory($rec["obj_id"]);
+		$imdir = CLIENT_WEB_DIR."/sty/sty_".$a_style_id.
+				"/images";
+		foreach($imgs as $cim)
 		{
-			copy("./Services/Style/basic_style/images/".$cim, $imdir."/".$cim);
+			if (!is_file($imdir."/".$cim))
+			{
+				copy("./Services/Style/basic_style/images/".$cim, $imdir."/".$cim);
+			}
 		}
 	}
 }
@@ -12145,46 +12198,51 @@ if (!$ilDB->tableExists("style_setting"))
 
 <#2406>
 <?php
+$setting = new ilSetting();
+$se_db = (int) $setting->get("se_db");
 
-$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
-while ($rec = $ilDB->fetchAssoc($set))	// all styles
+if($se_db <= 60)
 {
-	$ast = array(
-		array("tag" => "div", "type" => "sco_desct", "class" => "DescriptionTop",
-			"par" => array()),
-		array("tag" => "div", "type" => "sco_objt", "class" => "ObjectiveTop",
-			"par" => array())
-				);
-				
-	foreach($ast as $st)
+	$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
+	while ($rec = $ilDB->fetchAssoc($set))	// all styles
 	{
-			
-		$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
-			"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
-			"characteristic = ".$ilDB->quote($st["class"], "text")." AND ".
-			"type = ".$ilDB->quote($st["type"], "text"));
-		if (!$ilDB->fetchAssoc($set2))
+		$ast = array(
+			array("tag" => "div", "type" => "sco_desct", "class" => "DescriptionTop",
+				"par" => array()),
+			array("tag" => "div", "type" => "sco_objt", "class" => "ObjectiveTop",
+				"par" => array())
+					);
+
+		foreach($ast as $st)
 		{
-			$q = "INSERT INTO style_char (style_id, type, characteristic)".
-				" VALUES (".
-				$ilDB->quote($rec["obj_id"], "integer").",".
-				$ilDB->quote($st["type"], "text").",".
-				$ilDB->quote($st["class"], "text").")";
-			$ilDB->manipulate($q);
-			foreach ($st["par"] as $par)
+
+			$set2 = $ilDB->query("SELECT * FROM style_char WHERE ".
+				"style_id = ".$ilDB->quote($rec["obj_id"], "integer")." AND ".
+				"characteristic = ".$ilDB->quote($st["class"], "text")." AND ".
+				"type = ".$ilDB->quote($st["type"], "text"));
+			if (!$ilDB->fetchAssoc($set2))
 			{
-				$nid = $ilDB->nextId("style_parameter");
-				$q = "INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)".
+				$q = "INSERT INTO style_char (style_id, type, characteristic)".
 					" VALUES (".
-					$ilDB->quote($nid, "integer").",".
 					$ilDB->quote($rec["obj_id"], "integer").",".
 					$ilDB->quote($st["type"], "text").",".
-					$ilDB->quote($st["class"], "text").",".
-					$ilDB->quote($st["tag"], "text").",".
-					$ilDB->quote($par["name"], "text").",".
-					$ilDB->quote($par["value"], "text").
-					")";
-			$ilDB->manipulate($q);
+					$ilDB->quote($st["class"], "text").")";
+				$ilDB->manipulate($q);
+				foreach ($st["par"] as $par)
+				{
+					$nid = $ilDB->nextId("style_parameter");
+					$q = "INSERT INTO style_parameter (id, style_id, type, class, tag, parameter, value)".
+						" VALUES (".
+						$ilDB->quote($nid, "integer").",".
+						$ilDB->quote($rec["obj_id"], "integer").",".
+						$ilDB->quote($st["type"], "text").",".
+						$ilDB->quote($st["class"], "text").",".
+						$ilDB->quote($st["tag"], "text").",".
+						$ilDB->quote($par["name"], "text").",".
+						$ilDB->quote($par["value"], "text").
+						")";
+				$ilDB->manipulate($q);
+				}
 			}
 		}
 	}
@@ -12953,59 +13011,63 @@ if (!$ilDB->tableExists("page_layout"))
 
 <#2467>
 <?php
+$setting = new ilSetting();
+$se_db = (int) $setting->get("se_db");
 
-$ilDB->query("DELETE FROM page_layout");
+if($se_db <= 20)
+{
+	$ilDB->query("DELETE FROM page_layout");
 
-$ilDB->query("DELETE FROM page_object WHERE(parent_type='stys');");
-
-
-$ilDB->query("INSERT INTO page_layout(layout_id,title,description,active) values (1,'1A Simple text page with accompanying media','Example description',1);");
-
-$ilDB->query("INSERT INTO page_object(page_id,parent_type,content)
-values (1,'stys','<PageObject><PageContent PCID=\"9f77db1d8a478497d69b99d938faa8ff\"><Paragraph Language=\"en\" Characteristic=\"Headline1\">Headline 1</Paragraph></PageContent><PageContent PCID=\"134d24457cbc90ea1bf1a1323d7c3a89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"ccade07caf9fd13e8c7012f29c9510be\"><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"66%\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"500px\"/></PageContent></TableData><TableData PCID=\"46ac4936082485f457c7041278b5c5f5\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"300px\"/></PageContent></TableData> </TableRow></Table></PageContent></PageObject>');");
-
-//second
-
-$ilDB->query("INSERT INTO page_layout(layout_id,title,active) values (2,'1C Text page with accompanying media and test',1);");
-
-$ilDB->query("INSERT INTO page_object(page_id,parent_type,content)
-values (2,'stys','<PageObject><PageContent PCID=\"9f77db1d8a478497d69b99d938faa8ff\"><Paragraph Language=\"en\" Characteristic=\"Headline1\">Headline 1</Paragraph></PageContent><PageContent PCID=\"134d24457cbc90ea1bf1a1323d7c3a89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"ccade07caf9fd13e8c7012f29c9510be\"><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"66%\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"300px\"/></PageContent><PageContent PCID=\"3f77eb1d8a478493d69b99d438fda8f\"><PlaceHolder ContentClass=\"Question\" Height=\"200px\"/></PageContent></TableData><TableData PCID=\"46ac4936082485f457c7041278b5c5f5\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"300px\"/></PageContent></TableData> </TableRow></Table></PageContent></PageObject>');");
-
-//third
-
-$ilDB->query("INSERT INTO page_layout(layout_id,title,active) values (3,'1E Text page with accompanying media followed by test and text',1);");
-
-$query = "SELECT LAST_INSERT_ID() as id";
-$res = $ilDB->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-
-$ilDB->query("INSERT INTO page_object(page_id,parent_type,content)
-values (3,'stys','<PageObject><PageContent PCID=\"9f77db1d8a478497d69b99d938faa8ff\"><Paragraph Language=\"en\" Characteristic=\"Headline1\">Headline 1</Paragraph></PageContent><PageContent PCID=\"134d24457cbc90ea1bf1a1323d7c3a89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"ccade07caf9fd13e8c7012f29c9510be\"><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"66%\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"300px\"/></PageContent><PageContent PCID=\"3f77eb1d8a478493d69b99d438fda8f\"><PlaceHolder ContentClass=\"Question\" Height=\"200px\"/></PageContent><PageContent PCID=\"9b77eb1d8a478197d69b99d938fea8f\"><PlaceHolder ContentClass=\"Text\" Height=\"200px\"/></PageContent></TableData><TableData PCID=\"46ac4936082485f457c7041278b5c5f5\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"300px\"/></PageContent></TableData> </TableRow></Table></PageContent></PageObject>');");
+	$ilDB->query("DELETE FROM page_object WHERE(parent_type='stys');");
 
 
-//fourth
+	$ilDB->query("INSERT INTO page_layout(layout_id,title,description,active) values (1,'1A Simple text page with accompanying media','Example description',1);");
 
-$ilDB->query("INSERT INTO page_layout(layout_id,title,active) values (4,'2C Simple media page with accompanying text and test',1);");
+	$ilDB->query("INSERT INTO page_object(page_id,parent_type,content)
+	values (1,'stys','<PageObject><PageContent PCID=\"9f77db1d8a478497d69b99d938faa8ff\"><Paragraph Language=\"en\" Characteristic=\"Headline1\">Headline 1</Paragraph></PageContent><PageContent PCID=\"134d24457cbc90ea1bf1a1323d7c3a89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"ccade07caf9fd13e8c7012f29c9510be\"><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"66%\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"500px\"/></PageContent></TableData><TableData PCID=\"46ac4936082485f457c7041278b5c5f5\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"300px\"/></PageContent></TableData> </TableRow></Table></PageContent></PageObject>');");
 
-$query = "SELECT LAST_INSERT_ID() as id";
-$res = $ilDB->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+	//second
 
-$ilDB->query("INSERT INTO page_object(page_id,parent_type,content)
-values (4,'stys','<PageObject><PageContent PCID=\"9f77db1d8a478497d69b99d938faa8ff\"><Paragraph Language=\"en\" Characteristic=\"Headline1\">Headline 1</Paragraph></PageContent><PageContent PCID=\"134d24457cbc90ea1bf1a1323d7c3a89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"ccade07caf9fd13e8c7012f29c9510be\"><TableData PCID=\"46ac4936082485f457c7041278b5c5f5\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"300px\"/></PageContent></TableData><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"66%\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"300px\"/></PageContent><PageContent PCID=\"3f77eb1d8a478493d69b99d438fda8f\"><PlaceHolder ContentClass=\"Question\" Height=\"200px\"/></PageContent></TableData></TableRow></Table></PageContent></PageObject>');");
+	$ilDB->query("INSERT INTO page_layout(layout_id,title,active) values (2,'1C Text page with accompanying media and test',1);");
 
-//fifth
+	$ilDB->query("INSERT INTO page_object(page_id,parent_type,content)
+	values (2,'stys','<PageObject><PageContent PCID=\"9f77db1d8a478497d69b99d938faa8ff\"><Paragraph Language=\"en\" Characteristic=\"Headline1\">Headline 1</Paragraph></PageContent><PageContent PCID=\"134d24457cbc90ea1bf1a1323d7c3a89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"ccade07caf9fd13e8c7012f29c9510be\"><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"66%\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"300px\"/></PageContent><PageContent PCID=\"3f77eb1d8a478493d69b99d438fda8f\"><PlaceHolder ContentClass=\"Question\" Height=\"200px\"/></PageContent></TableData><TableData PCID=\"46ac4936082485f457c7041278b5c5f5\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"300px\"/></PageContent></TableData> </TableRow></Table></PageContent></PageObject>');");
+
+	//third
+
+	$ilDB->query("INSERT INTO page_layout(layout_id,title,active) values (3,'1E Text page with accompanying media followed by test and text',1);");
+
+	$query = "SELECT LAST_INSERT_ID() as id";
+	$res = $ilDB->query($query);
+	$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+	$ilDB->query("INSERT INTO page_object(page_id,parent_type,content)
+	values (3,'stys','<PageObject><PageContent PCID=\"9f77db1d8a478497d69b99d938faa8ff\"><Paragraph Language=\"en\" Characteristic=\"Headline1\">Headline 1</Paragraph></PageContent><PageContent PCID=\"134d24457cbc90ea1bf1a1323d7c3a89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"ccade07caf9fd13e8c7012f29c9510be\"><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"66%\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"300px\"/></PageContent><PageContent PCID=\"3f77eb1d8a478493d69b99d438fda8f\"><PlaceHolder ContentClass=\"Question\" Height=\"200px\"/></PageContent><PageContent PCID=\"9b77eb1d8a478197d69b99d938fea8f\"><PlaceHolder ContentClass=\"Text\" Height=\"200px\"/></PageContent></TableData><TableData PCID=\"46ac4936082485f457c7041278b5c5f5\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"300px\"/></PageContent></TableData> </TableRow></Table></PageContent></PageObject>');");
 
 
-$ilDB->query("INSERT INTO page_layout(layout_id,title,active) values (5,'7C Vertical component navigation page with media and text',1);");
+	//fourth
 
-$query = "SELECT LAST_INSERT_ID() as id";
-$res = $ilDB->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+	$ilDB->query("INSERT INTO page_layout(layout_id,title,active) values (4,'2C Simple media page with accompanying text and test',1);");
 
-$ilDB->query("INSERT INTO page_object(page_id,parent_type,content)
-values (5,'stys','<PageObject><PageContent PCID=\"9f77db1d8a478497d69b99d938faa8ff\"><Paragraph Language=\"en\" Characteristic=\"Headline1\">Headline 1</Paragraph></PageContent><PageContent PCID=\"134d24457cbc90ea1bf1a1323d7c3a89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"ccade07caf9fd13e8c7012f29c9510be\"><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"100%\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"300px\"/></PageContent></TableData> </TableRow><TableRow PCID=\"efade08caf9fd13e8c7012f29c9510be\"><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"100%\"><PageContent PCID=\"124d24457cbc90ea1bf1a1323d7c3b89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"dfade09caf9fd13e8c7012f29c9510be\"><TableData PCID=\"e4e417c08feebeafb1487e60a2e245a5\" Width=\"33%\"><PageContent PCID=\"3e77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Media\" Height=\"150px\"/></PageContent><PageContent PCID=\"4e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Text\" Height=\"250px\"/></PageContent></TableData><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a5\" Width=\"33%\"><PageContent PCID=\"3a77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Media\" Height=\"150px\"/></PageContent><PageContent PCID=\"4ea7eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Text\" Height=\"250px\"/></PageContent></TableData><TableData PCID=\"b4e417c08feebeafb1487e60a2e245a5\" Width=\"33%\"><PageContent PCID=\"3b77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Media\" Height=\"150px\"/></PageContent><PageContent PCID=\"4b77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Text\" Height=\"250px\"/></PageContent></TableData></TableRow></Table></PageContent></TableData></TableRow></Table></PageContent></PageObject>');");
+	$query = "SELECT LAST_INSERT_ID() as id";
+	$res = $ilDB->query($query);
+	$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 
+	$ilDB->query("INSERT INTO page_object(page_id,parent_type,content)
+	values (4,'stys','<PageObject><PageContent PCID=\"9f77db1d8a478497d69b99d938faa8ff\"><Paragraph Language=\"en\" Characteristic=\"Headline1\">Headline 1</Paragraph></PageContent><PageContent PCID=\"134d24457cbc90ea1bf1a1323d7c3a89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"ccade07caf9fd13e8c7012f29c9510be\"><TableData PCID=\"46ac4936082485f457c7041278b5c5f5\"><PageContent PCID=\"2e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Media\" Height=\"300px\"/></PageContent></TableData><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"66%\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"300px\"/></PageContent><PageContent PCID=\"3f77eb1d8a478493d69b99d438fda8f\"><PlaceHolder ContentClass=\"Question\" Height=\"200px\"/></PageContent></TableData></TableRow></Table></PageContent></PageObject>');");
+
+	//fifth
+
+
+	$ilDB->query("INSERT INTO page_layout(layout_id,title,active) values (5,'7C Vertical component navigation page with media and text',1);");
+
+	$query = "SELECT LAST_INSERT_ID() as id";
+	$res = $ilDB->query($query);
+	$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+	$ilDB->query("INSERT INTO page_object(page_id,parent_type,content)
+	values (5,'stys','<PageObject><PageContent PCID=\"9f77db1d8a478497d69b99d938faa8ff\"><Paragraph Language=\"en\" Characteristic=\"Headline1\">Headline 1</Paragraph></PageContent><PageContent PCID=\"134d24457cbc90ea1bf1a1323d7c3a89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"ccade07caf9fd13e8c7012f29c9510be\"><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"100%\"><PageContent PCID=\"1f77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Text\" Height=\"300px\"/></PageContent></TableData> </TableRow><TableRow PCID=\"efade08caf9fd13e8c7012f29c9510be\"><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a4\" Width=\"100%\"><PageContent PCID=\"124d24457cbc90ea1bf1a1323d7c3b89\"><Table Language=\"en\" Border=\"0px\" CellPadding=\"2px\" CellSpacing=\"0px\" HorizontalAlign=\"Left\" Width=\"100%\"><TableRow PCID=\"dfade09caf9fd13e8c7012f29c9510be\"><TableData PCID=\"e4e417c08feebeafb1487e60a2e245a5\" Width=\"33%\"><PageContent PCID=\"3e77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Media\" Height=\"150px\"/></PageContent><PageContent PCID=\"4e77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Text\" Height=\"250px\"/></PageContent></TableData><TableData PCID=\"a4e417c08feebeafb1487e60a2e245a5\" Width=\"33%\"><PageContent PCID=\"3a77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Media\" Height=\"150px\"/></PageContent><PageContent PCID=\"4ea7eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Text\" Height=\"250px\"/></PageContent></TableData><TableData PCID=\"b4e417c08feebeafb1487e60a2e245a5\" Width=\"33%\"><PageContent PCID=\"3b77eb1d8a478497d69b99d938fda8f\"><PlaceHolder ContentClass=\"Media\" Height=\"150px\"/></PageContent><PageContent PCID=\"4b77eb1d8a478497d69b99d938fda8e\"><PlaceHolder ContentClass=\"Text\" Height=\"250px\"/></PageContent></TableData></TableRow></Table></PageContent></TableData></TableRow></Table></PageContent></PageObject>');");
+}
 ?>
 
 <#2468>
