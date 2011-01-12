@@ -54,6 +54,8 @@ class ilTimingCache
 		
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
+
 		global $ilObjDataCache;
 		$obj_id = $ilObjDataCache->lookupObjId($a_ref_id);
 
@@ -80,8 +82,10 @@ class ilTimingCache
 			}
 		}
 
-		if($objDefinition->isContainer(ilObject::_lookupType($obj_id)))
-		{
+		// objective_ids would get confused with ref_ids !
+        if(ilLPObjSettings::_lookupMode($obj_id) != LP_MODE_OBJECTIVES &&
+            $objDefinition->isContainer(ilObject::_lookupType($obj_id)))
+        {
 			// No check subitems
 			foreach(ilLPCollectionCache::_getItems($obj_id) as $item)
 			{
