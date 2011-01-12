@@ -3,12 +3,12 @@
 {KIOSK_HEAD}
 <!-- END kiosk_options -->
 <div id="tst_output">
+<form id="taForm" name="test_output" method="post" style="clear: both;" {ENCTYPE} action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
 <div id="tst_left">{LIST_OF_QUESTIONS}</div>
 <div id="tst_right">
 <!-- BEGIN enableprocessingtime -->
 <div id="workingtime"><span id="userworkingtime">{USER_WORKING_TIME}</span><span id="timeleft">{USER_REMAINING_TIME}</span></div>
 <!-- END enableprocessingtime -->
-<form id="taForm" name="test_output" method="post" style="clear: both;" {ENCTYPE} action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
 <input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
 <table class="fullwidth_invisible">
 		<tr>
@@ -107,7 +107,6 @@
 <!-- END navigation_bottom -->
 <p></p>
 <input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
-</form>
 <!-- BEGIN js_initialize -->
 {JS_INITIALIZE}
 <!-- END js_initialize -->
@@ -171,4 +170,5 @@
 </script>
 <div id="autosavemessage" style="font-style: italic; border: 1px #666 solid; background-color: #ffffe0; position: fixed; right: 0; top: 0;"></div>
 </div>
+</form>
 </div>
