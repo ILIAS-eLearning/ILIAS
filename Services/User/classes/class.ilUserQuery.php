@@ -141,7 +141,7 @@ class ilUserQuery
 			$where = " AND";
 		}
 		
-		if($a_user_folder_filter)
+		if(!is_null($a_user_folder_filter))
 		{
 			$add = $where." ".$ilDB->in('time_limit_owner',$a_user_folder_filter,false,'integer');
 			$query.= $add;
