@@ -1743,12 +1743,6 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		/*
-		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
-		}
-		*/
     	$selected_users = ($_POST["user_id"]) ? $_POST["user_id"] : array($_GET["user_id"]);
 
 		if ($selected_users[0]=== NULL)
@@ -1780,24 +1774,29 @@ class ilObjRoleGUI extends ilObjectGUI
 			}
 		}
 
-		// raise error if last role was taken from a user...
-		if (count($last_role) > 0)
-		{
-			$user_list = implode(", ",$last_role);
-			$this->ilias->raiseError($this->lng->txt("msg_is_last_role").": ".$user_list."<br/>".$this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
-		}
 		
 		// ... else perform deassignment
 		foreach ($selected_users as $user)
         {
-			$rbacadmin->deassignUser($this->object->getId(),$user);
+			if(!isset($last_role[$user]))
+			{
+				$rbacadmin->deassignUser($this->object->getId(), $user);
+			}
 		}
 
     	// update object data entry (to update last modification date)
 		$this->object->update();
 
-		ilUtil::sendSuccess($this->lng->txt("msg_userassignment_changed"),true);
-
+		// raise error if last role was taken from a user...
+		if(count($last_role))
+		{
+			$user_list = implode(", ",$last_role);
+			ilUtil::sendFailure($this->lng->txt('msg_is_last_role').': '.$user_list.'<br />'.$this->lng->txt('msg_min_one_role'),true);
+		}
+		else
+		{
+			ilUtil::sendSuccess($this->lng->txt("msg_userassignment_changed"), true);
+		}
 		$this->ctrl->redirect($this,'userassignment');
 	}
 	
