@@ -66,7 +66,15 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->saveParameter($this, "sequence");
 		$this->ctrl->saveParameter($this, "active_id");
-
+		if (preg_match("/^gotoquestion_(\\d+)$/", $cmd, $matches))
+		{
+			$cmd = "gotoquestion";
+			if (strlen($matches[1]))
+			{
+				$this->ctrl->setParameter($this, 'gotosequence', $matches[1]);
+			}
+			
+		}
 		if ($_GET["active_id"])
 		{
 			$this->object->setTestSession($_GET["active_id"]);
@@ -794,6 +802,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 					$ilUser->writePref("tst_javascript", $_GET["tst_javascript"]);
 				}
 				$this->sequence = $this->calculateSequence();	
+				if (strlen($_GET['gotosequence'])) $this->sequence = $_GET['gotosequence'];
 				$this->object->getTestSession()->setLastSequence($this->sequence);
 				$this->object->getTestSession()->saveToDb();
 				$this->outTestPage();
@@ -1575,10 +1584,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$active = ($row['sequence'] == $this->sequence) ? ' active' : '';
 				$template->setVariable('CLASS', ($row['walked_through']) ? ('answered'.$active) : ('unanswered'.$active));
 				$template->setVariable('ITEM', ilUtil::prepareFormOutput($row['title']));
-				$template->setVariable('HREF', $row['href']);
+				$template->setVariable('SEQUENCE', $row['sequence']);
 				$template->parseCurrentBlock();
-				$template->setVariable('LIST_OF_QUESTIONS', $this->lng->txt('list_of_questions'));
 			}
+			$template->setVariable('LIST_OF_QUESTIONS', $this->lng->txt('list_of_questions'));
 			$this->tpl->setVariable('LIST_OF_QUESTIONS', $template->get());
 		}
 	}

@@ -346,6 +346,28 @@ ul.shortlist li.active {
 	font-weight: bold;
 }
 
+div.shortlist input[type="submit"]
+{
+	background-color: transparent;
+	text-decoration:none;
+	color:#0033AA;
+	border: none;
+	font-size: 100%;
+	display: block;
+	white-space: normal;
+	text-align: left;
+}
+
+div.shortlist input[type="submit"].active
+{
+	font-weight: bold;
+}
+
+div.shortlist input[type="submit"]:hover
+{
+	text-decoration: underline;
+}
+
 .number {
 	text-align: right;
 }
