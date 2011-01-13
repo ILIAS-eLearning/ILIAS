@@ -443,8 +443,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');
 
 				$mytpl->setCurrentBlock('weekdays');
-				$mytpl->setVariable('TXT_WEEKDAY', $date_info['weekday']);
-				$mytpl->setVariable('TXT_DATE', $date_info['mday'].' '.$date_info['month']);
+				$mytpl->setVariable('TXT_WEEKDAY', ilCalendarUtil:: _numericDayToString($date_info['wday']));
+				$mytpl->setVariable('TXT_DATE', $date_info['mday'].' '.ilCalendarUtil:: _numericMonthToString($date_info['mon']));
 				$mytpl->parseCurrentBlock();
 
 				$slots = array();
