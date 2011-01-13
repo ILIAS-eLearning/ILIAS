@@ -3798,3 +3798,23 @@ if (@is_dir($qpl_export_base) && is_writeable($qpl_export_base))
 	$h_dir->close();
 }
 ?>
+<#3214>
+<?php
+if($ilDB->tableColumnExists('svy_svy','mailaddresses'))
+{
+	$ilDB->addTableColumn("svy_svy", "mailaddresses_tmp", array("type" => "text", "length" => 2000, "notnull" => false, "default" => null));
+	$ilDB->manipulate('UPDATE svy_svy SET mailaddresses_tmp = mailaddresses');
+	$ilDB->dropTableColumn('svy_svy', 'mailaddresses');
+	$ilDB->renameTableColumn("svy_svy", "mailaddresses_tmp", "mailaddresses");
+}
+?>
+<#3215>
+<?php
+if($ilDB->tableColumnExists('svy_svy','mailparticipantdata'))
+{
+	$ilDB->addTableColumn("svy_svy", "mailparticipantdata_tmp", array("type" => "text", "length" => 4000, "notnull" => false, "default" => null));
+	$ilDB->manipulate('UPDATE svy_svy SET mailparticipantdata_tmp = mailparticipantdata');
+	$ilDB->dropTableColumn('svy_svy', 'mailparticipantdata');
+	$ilDB->renameTableColumn("svy_svy", "mailparticipantdata_tmp", "mailparticipantdata");
+}
+?>
