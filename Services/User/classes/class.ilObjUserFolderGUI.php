@@ -3933,7 +3933,7 @@ else
 	/**
 	 * goto target group
 	 */
-	function _goto()
+	function _goto($a_user)
 	{
 		global $ilAccess, $ilErr, $lng;
 
@@ -3941,7 +3941,7 @@ else
 
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
-			ilUtil::redirect("ilias.php?baseClass=ilAdministrationGUI&ref_id=".$a_target);
+			ilUtil::redirect("ilias.php?baseClass=ilAdministrationGUI&ref_id=".$a_target."&jmpToUser=".$a_user);
 			exit;
 		}
 		else
@@ -3958,6 +3958,20 @@ else
 			}
 		}
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+	}
+
+	/**
+	 * Jump to edit screen for user
+	 */
+	function jumpToUserObject()
+	{
+		global $ilCtrl;
+
+		if (((int) $_GET["jmpToUser"]) > 0 && ilObject::_lookupType((int)$_GET["jmpToUser"]) == "usr")
+		{
+			$ilCtrl->setParameterByClass("ilobjusergui", "obj_id", (int) $_GET["jmpToUser"]);
+			$ilCtrl->redirectByClass("ilobjusergui", "view");
+		}
 	}
 
 	
