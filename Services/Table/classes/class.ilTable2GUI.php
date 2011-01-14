@@ -525,6 +525,13 @@ class ilTable2GUI extends ilTableGUI
 		{
 			$this->optional_filters[] = $a_input_item;
 		}
+
+		// restore filter values (from stored view)
+		if($this->restore_filter_values &&
+			array_key_exists($a_input_item->getFieldId(), $this->restore_filter_values))
+		{
+			$this->setFilterValue($a_input_item, $this->restore_filter_values[$a_input_item->getFieldId()]);
+		}
 	}
 
 	/**
@@ -2558,6 +2565,8 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		$this->determineSelectedColumns();
 		$this->determineSelectedFilters();
 
+		// "filter" show/hide is not saved
+
 		$result = array();
 		$result["order"] = $this->getOrderField();
 		$result["direction"] = $this->getOrderDirection();
@@ -2565,11 +2574,73 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		$result["rows"] = $this->getLimit();
 		$result["selfields"] = $this->getSelectedColumns();
 		$result["selfilters"] = $this->getSelectedFilters();
-		// "filter" show/hide is not saved
+
+		// gather filter values
+		if($this->filters)
+		{
+			foreach($this->filters as $item)
+			{
+				$result["filter_values"][$item->getFieldId()] = $this->getFilterValue($item);
+			}
+		}
+		if($this->optional_filters && $result["selfilters"])
+		{
+			foreach($this->optional_filters as $item)
+			{
+				if(in_array($item->getFieldId(), $result["selfilters"]))
+				{
+					$result["filter_values"][$item->getFieldId()] = $this->getFilterValue($item);
+				}
+			}
+		}
 
 		return $result;
 	}
 
+	/**
+	 * Get current filter value
+	 *
+	 * @param ilFormPropertyGUI $a_item
+	 * @return mixed
+	 */
+	protected function getFilterValue(ilFormPropertyGUI $a_item)
+	{
+		if(method_exists($a_item, "getChecked"))
+		{
+			return $a_item->getChecked();
+		}
+		else if(method_exists($a_item, "getValue"))
+		{
+			return $a_item->getValue();
+		}
+		else if(method_exists($a_item, "getDate"))
+		{
+			return $a_item->getDate()->get(IL_CAL_DATE);
+		}
+	}
+
+	/**
+	 * Set current filter value
+	 *
+	 * @param ilFormPropertyGUI $a_item
+	 * @param mixed $a_value
+	 */
+	protected function SetFilterValue(ilFormPropertyGUI $a_item, $a_value)
+	{
+		if(method_exists($a_item, "setChecked"))
+		{
+			$a_item->setChecked($a_value);
+		}
+		else if(method_exists($a_item, "setValue"))
+		{
+			$a_item->setValue($a_value);
+		}
+		else if(method_exists($a_item, "setDate"))
+		{
+			$a_item->setDate(new ilDate($a_value, IL_CAL_DATE));
+		}
+		$a_item->writeToSession();
+	}
 
 	/**
 	 * Set context
@@ -2657,6 +2728,13 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 					$this->storeProperty($property, $value);
 				}
 			}
+
+			$data["filter_values"] = unserialize($data["filter_values"]);
+			if($data["filter_values"])
+			{
+				$this->restore_filter_values = $data["filter_values"];
+			}
+
 			return true;
 		}
 		return false;
@@ -2678,6 +2756,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 			$storage = new ilTableTemplatesStorage();
 
 			$state = $this->getCurrentState();
+			$state["filter_values"] = serialize($state["filter_values"]);
 			$state["selfields"] = serialize($state["selfields"]);
 			$state["selfilters"] = serialize($state["selfilters"]);
 
