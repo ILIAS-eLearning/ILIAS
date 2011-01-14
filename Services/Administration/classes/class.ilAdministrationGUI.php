@@ -289,8 +289,18 @@ class ilAdministrationGUI
 			{
 				$this->ctrl->setParameter($this, "ref_id", USER_FOLDER_ID);
 				$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
-				$fs_gui->setMainFrameSource(
-					$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view"));
+				if (((int) $_GET["jmpToUser"]) > 0 && ilObject::_lookupType((int)$_GET["jmpToUser"]) == "usr")
+				{
+					$this->ctrl->setParameterByClass("ilobjuserfoldergui", "jmpToUser",
+						(int)$_GET["jmpToUser"]);
+					$fs_gui->setMainFrameSource(
+						$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "jumpToUser"));
+				}
+				else
+				{
+					$fs_gui->setMainFrameSource(
+						$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view"));
+				}
 		$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
 			}
 			else
