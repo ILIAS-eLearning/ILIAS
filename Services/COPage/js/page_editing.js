@@ -203,7 +203,6 @@ function showMenu(id, x, y)
 	
 	var obj = document.getElementById(id);
 obj.style.visibility = '';
-console.log("show at " + x + ":" + y);
 YAHOO.util.Dom.setXY(obj, [x,y], true);
 
 /*	obj.style.visibility = '';
