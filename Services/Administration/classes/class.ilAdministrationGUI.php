@@ -508,7 +508,8 @@ class ilAdministrationGUI
 			{
 				$path = ilUtil::getImagePath("icon_".$c["type"]."_s.gif");
 			}
-			$alt = $lng->txt("icon")." ".$lng->txt("obj_".$c["type"]);
+			//$alt = $lng->txt("icon")." ".$lng->txt("obj_".$c["type"]);
+			$alt = "";
 
 			// output item
 			if ($rbacsystem->checkAccess('read', $c["ref_id"]))

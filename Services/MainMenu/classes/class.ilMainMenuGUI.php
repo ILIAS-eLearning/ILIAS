@@ -626,6 +626,9 @@ class ilMainMenuGUI
 
 		}
 
+		$selection->setTriggerEvent("mouseover");
+		$selection->setAutoHide(true);
+
 		$html = $selection->getHTML();
 		$a_tpl->setVariable($id_up."_DROP_DOWN", $html);
 		$a_tpl->parseCurrentBlock();
