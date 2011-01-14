@@ -30,6 +30,8 @@ class ilAdvancedSelectionListGUI
 	protected $toggle = false;
 	protected $asynch_url = false;
 	protected $selected_value = "";
+	protected $trigger_event = "click";
+	protected $auto_hide = false;
 	
 	/*
 	
@@ -285,7 +287,39 @@ class ilAdvancedSelectionListGUI
 	{
 		return $this->access_key;
 	}
-	
+
+	/**
+	 * Set trigger event
+	 */
+	public function setTriggerEvent($a_val)
+	{
+		$this->trigger_event = $a_val;
+	}
+
+	/**
+	 * Get trigger event
+	 */
+	public function getTriggerEvent()
+	{
+		return $this->trigger_event;
+	}
+
+	/**
+	 * Set auto hide
+	 */
+	public function setAutoHide($a_val)
+	{
+		$this->auto_hide = $a_val;
+	}
+
+	/**
+	 * Get auto hide
+	 */
+	public function getAutoHide()
+	{
+		return $this->auto_hide;
+	}
+
 	/**
 	* Set "onClick"- Mode
 	*
@@ -590,7 +624,9 @@ class ilAdvancedSelectionListGUI
 			include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
 			$tpl->setVariable("ACCKEY", ilAccessKeyGUI::getAttribute($this->getAccessKey()));
 		}
-		
+
+		$cfg["trigger_event"] = $this->getTriggerEvent();
+		$cfg["auto_hide"] = $this->getAutoHide();
 		$cfg["anchor_id"] = "ilAdvSelListAnchorElement_".$this->getId();
 		$cfg["asynch"] = $this->getAsynch()
 			? true

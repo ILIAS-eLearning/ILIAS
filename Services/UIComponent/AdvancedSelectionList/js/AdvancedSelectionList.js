@@ -12,9 +12,9 @@ ilAdvancedSelectionListFunc.prototype =
 
 		ilOverlay.add('ilAdvSelListTable_' + id,
 			{yuicfg: {visible: false, context: [cfg.anchor_id, 'tl', 'bl', ["beforeShow", "windowResize"]]},
-			trigger: cfg.anchor_id, trigger_event: "click", anchor_id: cfg.anchor_id,
+			trigger: cfg.anchor_id, trigger_event: cfg.trigger_event, anchor_id: cfg.anchor_id,
 			toggle_el: cfg.toggle_el, toggle_class_on: cfg.toggle_class_on,
-			asynch: cfg.asynch, asynch_url: cfg.asynch_url});
+			asynch: cfg.asynch, asynch_url: cfg.asynch_url, auto_hide: cfg.auto_hide});
 	},
 			
 	itemOn: function (obj)

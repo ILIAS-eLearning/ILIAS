@@ -12,11 +12,12 @@ ilOverlayFunc.prototype =
 	closeCnt: {},
 	closeProcessRunning: {},
 	toggle: {},
-	waitMouseOut: 20,
+	waitMouseOut: 2,
 	waitAfterClicked: 20,
 	
 	add: function (id, cfg)
 	{
+//cfg.auto_hide = true;
 		ilOverlayFunc.prototype.overlays[id] =
 			new YAHOO.widget.Overlay(id, cfg.yuicfg);
 		ilOverlayFunc.prototype.cfg[id] = cfg;
@@ -35,6 +36,7 @@ ilOverlayFunc.prototype =
 		
 		if (cfg.trigger)
 		{
+//cfg.trigger_event = "mouseover";
 			this.addTrigger(cfg.trigger, cfg.trigger_event, id, cfg.anchor_id,
 							cfg.fixed_center, 'tl', 'bl');
 			//YAHOO.util.Event.addListener(trigger, "click",
@@ -46,20 +48,15 @@ ilOverlayFunc.prototype =
 	
 	addTrigger: function (tr_id, tr_ev, ov_id, anchor_id, center, ov_corner, anch_corner)
 	{
-		// out-commented this line due to bug 6724
-//		if (typeof(ilOverlayFunc.prototype.trigger[tr_id]) == "undefined")
-//		{
-			ilOverlayFunc.prototype.trigger[tr_id] =
-				{trigger_event: tr_ev, overlay_id: ov_id, anchor_id: anchor_id, center: center,
-				ov_corner: ov_corner, anch_corner: anch_corner};
-			var trigger = document.getElementById(tr_id);
+		ilOverlayFunc.prototype.trigger[tr_id] =
+			{trigger_event: tr_ev, overlay_id: ov_id, anchor_id: anchor_id, center: center,
+			ov_corner: ov_corner, anch_corner: anch_corner};
+		var trigger = document.getElementById(tr_id);
 
-			// added this line instead due to bug 6724
-			YAHOO.util.Event.removeListener(trigger, "click");
-
-			YAHOO.util.Event.addListener(trigger, "click",
-				function(event) {ilOverlay.togglePerTrigger(event, tr_id); return false;});
-//		}
+		// added this line instead due to bug 6724
+		YAHOO.util.Event.removeListener(trigger, tr_ev);
+		YAHOO.util.Event.addListener(trigger, tr_ev,
+			function(event) {ilOverlay.togglePerTrigger(event, tr_id); return false;});
 	},
 	
 	getCfg: function (id, name)
@@ -83,15 +80,19 @@ ilOverlayFunc.prototype =
 		var center = ilOverlayFunc.prototype.trigger[tr_id].center;
 		var ov_corner = ilOverlayFunc.prototype.trigger[tr_id].ov_corner;
 		var anch_corner = ilOverlayFunc.prototype.trigger[tr_id].anch_corner;
-		this.toggle(e, ov_id, anchor_id, center, ov_corner, anch_corner)
+		this.toggle(e, ov_id, anchor_id, center, ov_corner, anch_corner,
+			ilOverlayFunc.prototype.trigger[tr_id].trigger_event)
 	},
 	
 	// toggle overlay	
-	toggle: function (e, id, anchor_id, center, ov_corner, anch_corner)
+	toggle: function (e, id, anchor_id, center, ov_corner, anch_corner, tr_ev)
 	{
 		if (ilOverlayFunc.prototype.overlays[id].cfg.getProperty('visible'))
 		{
-			this.hide(e, id);
+			if (tr_ev != "mouseover")
+			{
+				this.hide(e, id);
+			}
 		}
 		else
 		{
