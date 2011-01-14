@@ -11,7 +11,8 @@ var cmd_called = false;
 ilAddOnLoad(function(){var preloader = new Image();
 preloader.src = "./templates/default/images/loader.gif";});
 
-document.onmousemove=followmouse1;
+//document.onmousemove=followmouse1;
+YAHOO.util.Event.addListener(document, 'mousemove', followmouse1);
 
 /**
 * Get inner height of window
@@ -185,10 +186,15 @@ function doMouseOut(id, mclass)
 
 function followmouse1(e) 
 {
-    if (!e) var e = window.event;
+//    if (!e) var e = window.event;
     
-	Mposx = ilGetMouseX(e);
-	Mposy = ilGetMouseY(e);
+//	Mposx = ilGetMouseX(e);
+//	Mposy = ilGetMouseY(e);
+
+	var t = YAHOO.util.Event.getXY(e);
+	Mposx = t[0];
+	Mposy = t[1];
+
 }
 
 function showMenu(id, x, y)
@@ -196,8 +202,11 @@ function showMenu(id, x, y)
 	if (cmd_called) return;
 	
 	var obj = document.getElementById(id);
+obj.style.visibility = '';
+console.log("show at " + x + ":" + y);
+YAHOO.util.Dom.setXY(obj, [x,y], true);
 
-	obj.style.visibility = '';
+/*	obj.style.visibility = '';
 	obj.style.left = x + 10 + "px";
 	obj.style.top = y + "px";
 	
@@ -207,11 +216,6 @@ function showMenu(id, x, y)
 	var yoff = ilGetWinPageYOffset();
 	var top = ilGetOffsetTop(obj);
 	
-/*alert("menu.offsetTop:" + top
-	+ "\nmenu.offsetHeight:" + obj.offsetHeight
-	+ "\nwin.innerHeight:" + wih
-	+ "\nwin.pageYOffset:" + yoff
-	);*/
 	if (Mposx > w)
 	{
 		obj.style.left = Mposx - (obj.offsetWidth + 10) + "px";
@@ -221,6 +225,7 @@ function showMenu(id, x, y)
 	{
 		obj.style.top = (wih + yoff - (obj.offsetHeight + 10)) + "px";
 	}
+*/
 }
 
 function hideMenu(id)
