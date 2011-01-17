@@ -549,11 +549,17 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$def_cap = new ilNonEditableValueGUI("", "def_caption");
 			$op1->addSubItem($def_cap);
 		$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
-			$caption = new ilTextInputGUI("", "st_caption");
 		$rad_caption->addOption($op1);
+
+			$caption = new ilTextAreaInputGUI("", "st_caption");
+			$caption->setCols(30);
+			$caption->setRows(2);
+			$op2->addSubItem($caption);
+
+			/*$caption = new ilTextInputGUI("", "st_caption");
 			$caption->setSize(40);
 			$caption->setMaxLength(200);
-			$op2->addSubItem($caption);
+			$op2->addSubItem($caption);*/
 		$rad_caption->addOption($op2);
 		$this->form_gui->addItem($rad_caption);
 
@@ -661,11 +667,17 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				$def_cap = new ilNonEditableValueGUI("", "full_def_caption");
 				$op1->addSubItem($def_cap);
 			$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
-				$caption = new ilTextInputGUI("", "full_caption");
 			$rad_caption->addOption($op1);
+
+				$caption = new ilTextAreaInputGUI("", "full_caption");
+				$caption->setCols(30);
+				$caption->setRows(2);
+				$op2->addSubItem($caption);
+
+				/*$caption = new ilTextInputGUI("", "full_caption");
 				$caption->setSize(40);
 				$caption->setMaxLength(200);
-				$op2->addSubItem($caption);
+				$op2->addSubItem($caption);*/
 			$rad_caption->addOption($op2);
 			$this->form_gui->addItem($rad_caption);
 			
@@ -934,7 +946,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		}
 		else
 		{
-			$std_alias_item->setCaption($_POST["st_caption"]);
+			$std_alias_item->setCaption(ilUtil::stripSlashes($_POST["st_caption"]));
 		}
 
 		// text representation
@@ -999,7 +1011,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				}
 				else
 				{
-					$full_alias_item->setCaption($_POST["full_caption"]);
+					$full_alias_item->setCaption(ilUtil::stripSlashes($_POST["full_caption"]));
 				}
 
 				// fullscreen text representation
