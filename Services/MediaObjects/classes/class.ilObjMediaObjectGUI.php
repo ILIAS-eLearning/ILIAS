@@ -301,10 +301,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->form_gui->addItem($radio_size);
 		
 		// standard caption
-		$caption = new ilTextInputGUI($lng->txt("cont_caption"), "standard_caption");
+		$caption = new ilTextAreaInputGUI($lng->txt("cont_caption"), "standard_caption");
+		$caption->setCols(30);
+		$caption->setRows(2);
+		$this->form_gui->addItem($caption);
+
+		/*$caption = new ilTextInputGUI($lng->txt("cont_caption"), "standard_caption");
 		$caption->setSize(40);
 		$caption->setMaxLength(200);
-		$this->form_gui->addItem($caption);
+		$this->form_gui->addItem($caption);*/
 		
 		// text representation (alt text)
 		if ($a_mode == "edit" && is_int(strpos($std_item->getFormat(), "image")))
@@ -418,10 +423,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->form_gui->addItem($radio_size);
 		
 		// fullscreen caption
-		$caption = new ilTextInputGUI($lng->txt("cont_caption"), "full_caption");
+		$caption = new ilTextAreaInputGUI($lng->txt("cont_caption"), "full_caption");
+		$caption->setCols(30);
+		$caption->setRows(2);
+		$this->form_gui->addItem($caption);
+
+		/*$caption = new ilTextInputGUI($lng->txt("cont_caption"), "full_caption");
 		$caption->setSize(40);
 		$caption->setMaxLength(200);
-		$this->form_gui->addItem($caption);
+		$this->form_gui->addItem($caption);*/
 		
 		// text representation (alt text)
 		if ($a_mode == "edit" && $this->object->hasFullscreenItem() && is_int(strpos($std_item->getFormat(), "image")))
