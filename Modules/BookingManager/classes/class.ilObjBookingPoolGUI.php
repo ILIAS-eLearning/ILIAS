@@ -459,9 +459,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 					}
 				}
 				
-				$old  = 0;
 				$last = array_pop(array_keys($hours));
-				$in = false;
+				$slot_captions = array();
 				foreach($hours as $hour => $period)
 				{
 					$dates[$hour][0] = $period;
@@ -479,9 +478,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 						}
 					}
 
-					$compare = $hour.'59';
 					if(sizeof($slots))
 					{
+						$in = false;
 						foreach($slots as $slot)
 						{
 							$slot_from = mktime(substr($slot['from'], 0, 2), substr($slot['from'], 2, 2), 0, $date_info["mon"], $date_info["mday"], $date_info["year"]);
@@ -493,28 +492,32 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 								continue;
 							}
 
-							if(($slot['to'] <= $compare && $slot['to'] > $old) || ($slot['to'] > $compare && $hour == $last))
-							{
-								$in = false;
-							}
-							if(($slot['from'] <= $compare && $slot['from'] > $old) || ($slot['from'] < $compare && !$old))
+							// is slot active in current hour?
+							if((int)$slot['from'] < (int)$hour."59" && (int)$slot['to'] > (int)$hour."00")
 							{
 								$from = ilDatePresentation::formatDate(new ilDateTime($slot_from, IL_CAL_UNIX));
 								$from = array_pop(explode(' ', $from));
 								$to = ilDatePresentation::formatDate(new ilDateTime($slot_to, IL_CAL_UNIX));
 								$to = array_pop(explode(' ', $to));
-								
-								$dates[$hour][$column]['caption'] = $from.'-'.$to;
-								$dates[$hour][$column]['id'] = $slot_from.'_'.$slot_to;
-								$in = $slot_from.'_'.$slot_to;
+
+								// show caption (first hour) of slot
+								$id = $slot_from.'_'.$slot_to;
+								if(!in_array($id, $slot_captions))
+								{
+									$dates[$hour][$column]['caption'] = $from.'-'.$to;
+									$dates[$hour][$column]['id'] = $id;
+									$slot_captions[] = $id;
+								}
+
+								$in = true;
 							}
 						}
+						// (any) active slot
 						if($in)
 						{
 							$dates[$hour][$column]['in_slot'] = $in;
 						}
 					}
-					$old = $compare;
 				}
 			}
 
