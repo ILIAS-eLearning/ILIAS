@@ -504,8 +504,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 								$id = $slot_from.'_'.$slot_to;
 								if(!in_array($id, $slot_captions))
 								{
-									$dates[$hour][$column]['caption'] = $from.'-'.$to;
-									$dates[$hour][$column]['id'] = $id;
+									$dates[$hour][$column]['captions'][$id] = $from.'-'.$to;
 									$slot_captions[] = $id;
 								}
 
@@ -550,12 +549,14 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 					{
 						if(isset($days[$loop]['caption']))
 						{
-							
-							$mytpl->setCurrentBlock('choice');
-							$mytpl->setVariable('TXT_DATE', $days[$loop]['caption']);
-							$mytpl->setVariable('VALUE_DATE', $days[$loop]['id']);
-							$mytpl->setVariable('DATE_COLOR', $color[$loop]);
-							$mytpl->parseCurrentBlock();
+							foreach($days[$loop]['captions'] as $slot_id => $slot_caption)
+							{
+								$mytpl->setCurrentBlock('choice');
+								$mytpl->setVariable('TXT_DATE', $slot_caption);
+								$mytpl->setVariable('VALUE_DATE', $slot_id);
+								$mytpl->setVariable('DATE_COLOR', $color[$loop]);
+								$mytpl->parseCurrentBlock();
+							}
 
 							$mytpl->setCurrentBlock('dates');
 							$mytpl->setVariable('DUMMY', '');
