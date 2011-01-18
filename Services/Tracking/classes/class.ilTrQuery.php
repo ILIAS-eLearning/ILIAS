@@ -171,7 +171,7 @@ class ilTrQuery
 	/**
 	 * Get all user-based tracking data for object
 	 *
-	 * @param	int		$a_obj_id
+	 * @param	int		$a_ref_id
 	 * @param	string	$a_order_field
 	 * @param	string	$a_order_dir
 	 * @param	int		$a_offset
@@ -182,7 +182,7 @@ class ilTrQuery
 	 * @param	arry	$privacy_fields
 	 * @return	array	cnt, set
 	 */
-	static function getUserDataForObject($a_obj_id, $a_order_field = "", $a_order_dir = "", 
+	static function getUserDataForObject($a_ref_id, $a_order_field = "", $a_order_dir = "",
 		$a_offset = 0, $a_limit = 9999, array $a_filters = NULL, array $a_additional_fields = NULL,
 		$check_agreement = false, $privacy_fields = NULL)
 	{
@@ -196,11 +196,13 @@ class ilTrQuery
 
 		// users
 		$left = "";
-		$a_users = self::getParticipantsForObject($a_obj_id);
+		$a_users = self::getParticipantsForObject($a_ref_id);
+
+		$obj_id = ilObject::_lookupObjectId($a_ref_id);
 
 		// check whether status (for all relevant users) exists
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
-		ilLPStatus::checkStatusForObject($a_obj_id, $a_users);
+		ilLPStatus::checkStatusForObject($obj_id, $a_users);
 
 		if (is_array($a_users))
 		{
@@ -209,9 +211,9 @@ class ilTrQuery
 		}
 
 		$query = " FROM usr_data ".$left." JOIN read_event ON (read_event.usr_id = usr_data.usr_id".
-			" AND read_event.obj_id = ".$ilDB->quote($a_obj_id, "integer").")".
+			" AND read_event.obj_id = ".$ilDB->quote($obj_id, "integer").")".
 			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id ".
-			" AND ut_lp_marks.obj_id = ".$ilDB->quote($a_obj_id, "integer").")".
+			" AND ut_lp_marks.obj_id = ".$ilDB->quote($obj_id, "integer").")".
 			" LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = ".$ilDB->quote("language", "text").")".
 			self::buildFilters($where, $a_filters);
 
@@ -241,7 +243,7 @@ class ilTrQuery
 			{
 				// admins/tutors (write-access) will never have agreement ?!
 				include_once "Services/Membership/classes/class.ilMemberAgreement.php";
-				$agreements = ilMemberAgreement::lookupAcceptedAgreements($a_obj_id);
+				$agreements = ilMemberAgreement::lookupAcceptedAgreements($obj_id);
 
 
 				
@@ -525,16 +527,17 @@ class ilTrQuery
 		$objects = self::getObjectIds($a_parent_obj_id, $a_parent_ref_id, false);
 
 		// object data
-		$set = $ilDB->query("SELECT obj_id,title,type FROM object_data WHERE ".$ilDB->in("obj_id", $objects["object_ids"], false, "integer"));
+		$set = $ilDB->query("SELECT obj_id,title,type FROM object_data".
+			" WHERE ".$ilDB->in("obj_id", $objects["object_ids"], false, "integer"));
 		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$object_data[$rec["obj_id"]] = $rec;
 		}
-	
+
 		$result = array();
-		foreach($objects["object_ids"] as $object_id)
+		foreach($objects["ref_ids"] as $object_id => $ref_id)
 		{
-			$object_result = self::getSummaryDataForObject($object_id, $fields, $a_filters);
+			$object_result = self::getSummaryDataForObject($ref_id, $fields, $a_filters);
 			if(sizeof($object_result))
 			{
 				$result[] = array_merge($object_data[$object_id], $object_result);
@@ -553,12 +556,12 @@ class ilTrQuery
 	/**
 	 * Get all aggregated tracking data for object
 	 *
-	 * @param	int		$a_obj_id
+	 * @param	int		$a_ref_id
 	 * @param	array	$fields
 	 * @param	array	$a_filters
 	 * @return	array
 	 */
-	protected static function getSummaryDataForObject($a_obj_id, array $fields, array $a_filters = NULL)
+	protected static function getSummaryDataForObject($a_ref_id, array $fields, array $a_filters = NULL)
 	{
 		global $ilDB;
 
@@ -566,7 +569,7 @@ class ilTrQuery
 		$where[] = "usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
 
 		// users
-		$a_users = self::getParticipantsForObject($a_obj_id);
+		$a_users = self::getParticipantsForObject($a_ref_id);
 		$left = "";
 		if (is_array($a_users) && sizeof($a_users))
 		{
@@ -574,10 +577,11 @@ class ilTrQuery
 			$where[] = $ilDB->in("usr_data.usr_id", $a_users, false, "integer");
 		}
 
+		$obj_id = ilObject::_lookupObjectId($a_ref_id);
 		$query = " FROM usr_data ".$left." JOIN read_event ON (read_event.usr_id = usr_data.usr_id".
-			" AND obj_id = ".$ilDB->quote($a_obj_id, "integer").")".
+			" AND obj_id = ".$ilDB->quote($obj_id, "integer").")".
 			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id ".
-			" AND ut_lp_marks.obj_id = ".$ilDB->quote($a_obj_id, "integer").")".
+			" AND ut_lp_marks.obj_id = ".$ilDB->quote($obj_id, "integer").")".
 			" LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = ".$ilDB->quote("language", "text").")".
 			self::buildFilters($where, $a_filters, true);
 
@@ -673,44 +677,45 @@ class ilTrQuery
 	/**
 	 * Get participant ids for given object
 	 *
-	 * @param	int		$a_obj_id
+	 * @param	int		$a_ref_id
 	 * @return	array
 	 */
-	public static function getParticipantsForObject($a_obj_id)
+	public static function getParticipantsForObject($a_ref_id)
 	{
 		global $tree;
 		
 		$a_users = NULL;
+		$obj_id = ilObject::_lookupObjectId($a_ref_id);
 
 		// @todo: move this to a parent or type related class later
-		switch(ilObject::_lookupType($a_obj_id))
+		switch(ilObject::_lookupType($obj_id))
 		{
 			case "crs":
 				include_once "Modules/Course/classes/class.ilCourseParticipants.php";
-				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+				$member_obj = ilCourseParticipants::_getInstanceByObjId($obj_id);
 				$a_users = $member_obj->getMembers();
 				break;
 
 			case "grp":
 				include_once "Modules/Group/classes/class.ilGroupParticipants.php";
-				$member_obj = ilGroupParticipants::_getInstanceByObjId($a_obj_id);
+				$member_obj = ilGroupParticipants::_getInstanceByObjId($obj_id);
 				$a_users = $member_obj->getMembers();
 				break;
 
 			case "sahs":
 				include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
-				$subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
+				$subtype = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 				switch ($subtype)
 				{
 					case 'scorm2004':
 						/* based on cmi_gobjective, data is not mandatory?
 						include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-						$a_users = ilSCORM2004Tracking::_getTrackedUsers($a_obj_id);
+						$a_users = ilSCORM2004Tracking::_getTrackedUsers($obj_id);
 						*/
 						
 						// based on cmi_node/cp_node, used for scorm tracking data views
 						include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
-						$mod = new ilObjSCORM2004LearningModule($a_obj_id, false);
+						$mod = new ilObjSCORM2004LearningModule($obj_id, false);
 						$all = $mod->getTrackedUsers("");
 						$a_users = array();
 						if($all)
@@ -724,7 +729,7 @@ class ilTrQuery
 
 					default:
 						include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
-						$a_users = ilObjSCORMTracking::_getTrackedUsers($a_obj_id);
+						$a_users = ilObjSCORMTracking::_getTrackedUsers($obj_id);
 						break;
 				}
 				break;
@@ -732,14 +737,14 @@ class ilTrQuery
 			case "exc":
 				include_once("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 				include_once("./Modules/Exercise/classes/class.ilObjExercise.php");
-				$exc = new ilObjExercise($a_obj_id, false);
+				$exc = new ilObjExercise($obj_id, false);
 				$members = new ilExerciseMembers($exc);
 				$a_users = $members->getMembers();
 				break;
 
 			case "tst":
 				include_once("./Services/Tracking/classes/class.ilLPStatusTestFinished.php");
-				$a_users = ilLPStatusTestFinished::getParticipants($a_obj_id);
+				$a_users = ilLPStatusTestFinished::getParticipants($obj_id);
 				break;
 
 			case "fold":
@@ -748,15 +753,14 @@ class ilTrQuery
 			case "dbk":
 			case "sess":
 				// walk path to find course or group object and use members of that object
-				$ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));
-				$path = $tree->getPathId($ref_id);
+				$path = $tree->getPathId($a_ref_id);
 				array_pop($path);
 				foreach(array_reverse($path) as $path_ref_id)
 				{
 					$type = ilObject::_lookupType($path_ref_id, true);
 					if($type == "crs" || $type == "grp")
 					{
-						return self::getParticipantsForObject(ilObject::_lookupObjectId($path_ref_id));
+						return self::getParticipantsForObject($path_ref_id);
 					}
 				}
 				break;
@@ -1216,12 +1220,12 @@ class ilTrQuery
     /**
 	 * Get status matrix for users on objects
 	 *
-	 * @param	int		$a_parent_obj_id
+	 * @param	int		$a_parent_ref_id
 	 * @param	array	$a_obj_ids
 	 * @param	string	$a_user_filter
 	 * @return	array	cnt, set
 	 */
-	static function getUserObjectMatrix($a_parent_obj_id, $a_obj_ids, $a_user_filter = NULL)
+	static function getUserObjectMatrix($a_parent_ref_id, $a_obj_ids, $a_user_filter = NULL)
 	{
 		global $ilDB;
 
@@ -1237,7 +1241,7 @@ class ilTrQuery
 
 			// users
 			$left = "";
-			$a_users = self::getParticipantsForObject($a_parent_obj_id);
+			$a_users = self::getParticipantsForObject($a_parent_ref_id);
 			if (is_array($a_users))
 			{
 				$left = "LEFT";
@@ -1254,6 +1258,7 @@ class ilTrQuery
 				$a_order_field = "login";
 			}
 
+			$parent_obj_id = ilObject::_lookupObjectId($a_parent_ref_id);
 			$raw = array();
 			foreach($a_obj_ids as $obj_id)
 			{
@@ -1277,7 +1282,7 @@ class ilTrQuery
 						$result["set"][$row["usr_id"]]["usr_id"] = $row["usr_id"];
 						$result["set"][$row["usr_id"]]["objects"][$obj_id] = array("status"=>$row["status"],
 							"percentage"=>$row["percentage"]);
-						if($obj_id == $a_parent_obj_id)
+						if($obj_id == $parent_obj_id)
 						{
 							$result["set"][$row["usr_id"]]["last_access"] = $row["last_access"];
 							$result["set"][$row["usr_id"]]["spent_seconds"] = $row["spent_seconds"];

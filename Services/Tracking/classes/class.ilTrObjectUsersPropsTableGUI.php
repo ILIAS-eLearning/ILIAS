@@ -249,9 +249,9 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 				$check_agreement = true;
 			}
 		}
-		
+
 		$tr_data = ilTrQuery::getUserDataForObject(
-			$this->obj_id,
+			$this->ref_id,
 			ilUtil::stripSlashes($this->getOrderField()),
 			ilUtil::stripSlashes($this->getOrderDirection()),
 			ilUtil::stripSlashes($this->getOffset()),
@@ -266,7 +266,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		{
 			$this->resetOffset();
 			$tr_data = ilTrQuery::getUserDataForObject(
-				$this->obj_id,
+				$this->ref_id,
 				ilUtil::stripSlashes($this->getOrderField()),
 				ilUtil::stripSlashes($this->getOrderDirection()),
 				ilUtil::stripSlashes($this->getOffset()),
