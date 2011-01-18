@@ -924,6 +924,7 @@ class ilObjSurvey extends ilObject
 			case ANONYMIZE_OFF:
 			case ANONYMIZE_ON:
 			case ANONYMIZE_FREEACCESS:
+			case ANONYMIZE_CODE_ALL:
 				$this->anonymize = $a_anonymize;
 				break;
 			default:
@@ -940,6 +941,18 @@ class ilObjSurvey extends ilObject
 	function getAnonymize()
 	{
 		return ($this->anonymize) ? $this->anonymize : 0;
+	}
+	
+	function isAccessibleWithCodeForAll()
+	{
+		if ($this->getAnonymize() == ANONYMIZE_CODE_ALL)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**
