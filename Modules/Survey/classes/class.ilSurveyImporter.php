@@ -39,13 +39,19 @@ class ilSurveyImporter extends ilXmlImporter
 		
 		list($xml_file) = $this->parseXmlFileNames();
 
-		$pool_ref = $a_mapping->getMapping('Services/Container','spl',$a_id);
+		$pool_ref = $a_mapping->getMapping('Services/Container','spl',$newObj->getId());
 		$pool_obj = ilObject::_lookupObjId($pool_ref);
 		
 		$spl = new ilObjSurveyQuestionPool($pool_obj, FALSE);	
 		$import = new SurveyImportParser($spl, $xml_file, TRUE);
 		$import->setSurveyObject($newObj);
 		$import->startParsing();
+
+		// Finally delete tmp question pool
+		if($spl->getType() == 'spl')
+		{
+			$spl->delete();
+		}
 
 		$a_mapping->addMapping("Modules/Survey", "svy", $a_id, $newObj->getId());
 
