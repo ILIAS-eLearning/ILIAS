@@ -3302,9 +3302,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$anonymize_key = NULL;
 		if ($this->object->getAnonymize() == 1)
 		{
-			if ($_SESSION["anonymous_id"])
+			if ($_SESSION["anonymous_id"][$this->object->getId()])
 			{
-				$anonymize_key = $_SESSION["anonymous_id"];
+				$anonymize_key = $_SESSION["anonymous_id"][$this->object->getId()];
 			}
 			else if ($_POST["anonymous_id"])
 			{
@@ -3345,7 +3345,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// output of start/resume buttons for anonymized surveys
 			else if ($this->object->getAnonymize() && !$this->object->isAccessibleWithoutCode())
 			{
-				if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_POST["anonymous_id"]) == 0) && (strlen($_SESSION["anonymous_id"]) == 0))
+				if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_POST["anonymous_id"]) == 0) && (strlen($_SESSION["anonymous_id"][$this->object->getId()]) == 0))
 				{
 					$info->setFormAction($this->ctrl->getFormAction($this, "infoScreen"));
 					$info->addSection($this->lng->txt("anonymization"));
@@ -3365,15 +3365,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$anonymize_key = $_POST["anonymous_id"];
 						}
 					}
-					else if (strlen($_SESSION["anonymous_id"]) > 0)
+					else if (strlen($_SESSION["anonymous_id"][$this->object->getId()]) > 0)
 					{
-						if (!$this->object->checkSurveyCode($_SESSION["anonymous_id"]))
+						if (!$this->object->checkSurveyCode($_SESSION["anonymous_id"][$this->object->getId()]))
 						{
 							ilUtil::sendInfo($this->lng->txt("wrong_survey_code_used"));
 						}
 						else
 						{
-							$anonymize_key = $_SESSION["anonymous_id"];
+							$anonymize_key = $_SESSION["anonymous_id"][$this->object->getId()];
 						}
 					}
 					else
@@ -3848,7 +3848,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			if (strlen($a_access_code))
 			{
-				$_SESSION["anonymous_id"] = $a_access_code;
+				$_SESSION["anonymous_id"][$this->object->getId()] = $a_access_code;
 				$_GET["baseClass"] = "ilObjSurveyGUI";
 				$_GET["cmd"] = "infoScreen";
 				$_GET["ref_id"] = $a_target;
