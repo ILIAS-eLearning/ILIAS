@@ -136,7 +136,7 @@ class ilSurveyExecutionGUI
 				$anonymize_key = $this->object->getAnonymousId($_POST["anonymous_id"]);
 				if ($anonymize_key)
 				{
-					$_SESSION["anonymous_id"] = $anonymize_key;
+					$_SESSION["anonymous_id"][$this->object->getId()] = $anonymize_key;
 				}
 				else
 				{
@@ -152,7 +152,7 @@ class ilSurveyExecutionGUI
 		{
 			if ($this->object->checkSurveyCode($_POST["anonymous_id"]))
 			{
-				$_SESSION["anonymous_id"] = $_POST["anonymous_id"];
+				$_SESSION["anonymous_id"][$this->object->getId()] = $_POST["anonymous_id"];
 			}
 			else
 			{
@@ -165,24 +165,24 @@ class ilSurveyExecutionGUI
 			$anonymous_id = $this->object->getUserSurveyCode($ilUser->getId());
 			if (strlen($anonymous_id))
 			{
-				$_SESSION["anonymous_id"] = $anonymous_id;
+				$_SESSION["anonymous_id"][$this->object->getId()] = $anonymous_id;
 			}
 			else
 			{
-				$_SESSION["anonymous_id"] = $this->object->createNewAccessCode();
+				$_SESSION["anonymous_id"][$this->object->getId()] = $this->object->createNewAccessCode();
 			}
 		}
 		
 		$activepage = "";
 		if ($resume)
 		{
-			$activepage = $this->object->getLastActivePage($_SESSION["finished_id"]);
+			$activepage = $this->object->getLastActivePage($_SESSION["finished_id"][$this->object->getId()]);
 			$direction = 0;
 		}
 		// explicitly set the survey started!
-		if ($this->object->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"]) === FALSE)
+		if ($this->object->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"][$this->object->getId()]) === FALSE)
 		{
-			$_SESSION["finished_id"] = $this->object->startSurvey($ilUser->getId(), $_SESSION["anonymous_id"]);
+			$_SESSION["finished_id"][$this->object->getId()] = $this->object->startSurvey($ilUser->getId(), $_SESSION["anonymous_id"][$this->object->getId()]);
 		}
 		if (strlen($activepage)) $this->ctrl->setParameter($this, "qid", $activepage);
 		$this->ctrl->setParameter($this, "activecommand", "default");
@@ -288,13 +288,13 @@ class ilSurveyExecutionGUI
 		global $ilUser;
 		
 		// security check if someone tries to go into a survey using an URL to one of the questions
-		$canStart = $this->object->canStartSurvey($_SESSION["anonymous_id"]);
+		$canStart = $this->object->canStartSurvey($_SESSION["anonymous_id"][$this->object->getId()]);
 		if (!$canStart["result"])
 		{
 			ilUtil::sendInfo(implode("<br />", $canStart["messages"]), TRUE);
 			$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
 		}
-		$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"]);
+		$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"][$this->object->getId()]);
 		if ($survey_started === FALSE)
 		{
 			ilUtil::sendInfo($this->lng->txt("survey_use_start_button"), TRUE);
@@ -312,7 +312,7 @@ class ilSurveyExecutionGUI
 				$constraint_true = ($page[0]['constraints'][0]['conjunction'] == 0) ? true : false;
 				foreach ($page[0]["constraints"] as $constraint)
 				{
-					$working_data = $this->object->loadWorkingData($constraint["question"], $_SESSION["finished_id"]);
+					$working_data = $this->object->loadWorkingData($constraint["question"], $_SESSION["finished_id"][$this->object->getId()]);
 					if ($constraint['conjunction'] == 0)
 					{
 						// and
@@ -338,8 +338,8 @@ class ilSurveyExecutionGUI
 		}
 		else if ($page === 1)
 		{
-			$this->object->finishSurvey($ilUser->id, $_SESSION["anonymous_id"]);
-			if (array_key_exists("anonymous_id", $_SESSION)) unset($_SESSION["anonymous_id"]);
+			$this->object->finishSurvey($ilUser->id, $_SESSION["anonymous_id"][$this->object->getId()]);
+			if (array_key_exists("anonymous_id", $_SESSION)) unset($_SESSION["anonymous_id"][$this->object->getId()]);
 			$this->runShowFinishedPage();
 			return;
 		}
@@ -391,7 +391,7 @@ class ilSurveyExecutionGUI
 				}
 				else
 				{
-					$working_data = $this->object->loadWorkingData($data["question_id"], $_SESSION["finished_id"]);
+					$working_data = $this->object->loadWorkingData($data["question_id"], $_SESSION["finished_id"][$this->object->getId()]);
 				}
 				$question_gui->object->setObligatory($data["obligatory"]);
 				$error_messages = array();
@@ -416,8 +416,8 @@ class ilSurveyExecutionGUI
 			$this->outNavigationButtons("bottom", $page);
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "redirectQuestion"));
 		}
-		$this->object->setPage($_SESSION["finished_id"], $page[0]['question_id']);
-		$this->object->setStartTime($_SESSION["finished_id"], $first_question);
+		$this->object->setPage($_SESSION["finished_id"][$this->object->getId()], $page[0]['question_id']);
+		$this->object->setStartTime($_SESSION["finished_id"][$this->object->getId()], $first_question);
 	}
 	
 	/**
@@ -436,7 +436,7 @@ class ilSurveyExecutionGUI
 			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->object->setEndTime($_SESSION["finished_id"]);
+		$this->object->setEndTime($_SESSION["finished_id"][$this->object->getId()]);
 		// check users input when it is a metric question
 		unset($_SESSION["svy_errors"]);
 		$_SESSION["postdata"] = $_POST;
@@ -548,17 +548,17 @@ class ilSurveyExecutionGUI
 		{
 			$user_id = $ilUser->getId();
 			// delete old answers
-			$this->object->deleteWorkingData($data["question_id"], $_SESSION["finished_id"]);
+			$this->object->deleteWorkingData($data["question_id"], $_SESSION["finished_id"][$this->object->getId()]);
 
-			if ($this->object->isSurveyStarted($user_id, $_SESSION["anonymous_id"]) === false)
+			if ($this->object->isSurveyStarted($user_id, $_SESSION["anonymous_id"][$this->object->getId()]) === false)
 			{
-				$_SESSION["finished_id"] = $this->object->startSurvey($user_id, $_SESSION["anonymous_id"]);
+				$_SESSION["finished_id"][$this->object->getId()] = $this->object->startSurvey($user_id, $_SESSION["anonymous_id"][$this->object->getId()]);
 			}
 			if ($this->object->getAnonymize())
 			{
 				$user_id = 0;
 			}
-			$question->saveUserInput($_POST, $_SESSION["finished_id"]);
+			$question->saveUserInput($_POST, $_SESSION["finished_id"][$this->object->getId()]);
 			return 0;
 		}
 		else
@@ -589,7 +589,7 @@ class ilSurveyExecutionGUI
 */
 	function runShowFinishedPage()
 	{
-		unset($_SESSION["anonymous_id"]);
+		unset($_SESSION["anonymous_id"][$this->object->getId()]);
 		if (strlen($this->object->getOutro()) == 0)
 		{
 			$this->ctrl->redirectByClass("ilobjsurveygui", "backToRepository");
