@@ -3296,8 +3296,8 @@ common#:#login_time#:#Online-Zeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#login_to_ilias_via_cas#:#Bei ILIAS über zentrales Authentifizierungssystem anmelden
 common#:#login_to_ilias_via_shibboleth#:#Bei ILIAS anmelden über
-common#:#loginname_already_exists#:#Dieser Login-Name existiert bereits.
-common#:#loginname_settings#:#Einstellungen Login-Name
+common#:#loginname_already_exists#:#Dieser Benutzername existiert bereits.
+common#:#loginname_settings#:#Einstellungen Benutzername
 common#:#logout#:#Abmelden
 common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
 common#:#logs#:#Log-Daten
@@ -4702,7 +4702,7 @@ common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
 common#:#usr_inactive_only#:#Nur nicht-aktive Benutzer
 common#:#usr_limited_access_only#:#Nur Benutzer mit Zugangsbefristung
 common#:#usr_new#:#Neuer Benutzer
-common#:#usr_settings_explanation_profile#:#Wird die Checkbox 'Anzeigen' aktiviert, erscheint ein Datenfeld im Registrierformular und im Persönlichen Profil auf dem Schreibtisch. Die Einstellung 'Änderbar' bezieht sich nur auf das Persönliche Profil und bewirkt, dass der Benutzer die Daten ändern kann. Die Einstellung 'Erforderliche Angabe' macht ein Eingabefeld sowohl bei der Registrierung als auch im Persönlichen Profil zu einem Pflichteingabefeld. Unabhängig von diesen Einstellung können Systemadministratoren alle Daten in der Benutzeradministration ändern.
+common#:#usr_settings_explanation_profile#:#Bestimmen Sie in der folgenden Tabelle, welche Felder für einen Benutzer sichtbar und welche änderbar sind. Ist ein Datenfeld 'Sichtbar', werden die Daten angezeigt, können aber nicht geändert werden. Ist ein Datenfeld 'Änderbar' kann der Benutzer die Daten nachträglich ändern. Bei der Einstellung 'Erforderliche Angabe' ist die Eingabe verpflichtend. Unabhängig von diesen Einstellungen können Systemadministratoren alle Daten in der Benutzeradministration ändern.
 common#:#usr_settings_header_profile#:#Einstellungen für die Benutzerkonten
 common#:#usr_settings_header_profile_profile#:#Einstellungen für das persönliche Profil
 common#:#usr_settings_saved#:#Die globalen Nutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert!
