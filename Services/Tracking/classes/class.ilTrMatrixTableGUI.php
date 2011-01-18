@@ -164,7 +164,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			// we need these for the timing warnings
 			$this->ref_ids = $collection["ref_ids"];
 
-			$data = ilTrQuery::getUserObjectMatrix($this->obj_id, $collection["object_ids"], $this->filter["name"]);
+			$data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"], $this->filter["name"]);
 
 			if($collection["objectives_parent_id"] && $data["users"])
 			{
