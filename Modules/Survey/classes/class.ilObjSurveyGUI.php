@@ -274,6 +274,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 				if ($anonymize)
 				{
 					if (strcmp($_POST['anonymization_options'], 'anonymize_without_code') == 0) $anonymize = ANONYMIZE_FREEACCESS;
+					if (strcmp($_POST['anonymization_options'], 'anonymize_with_code') == 0) $anonymize = ANONYMIZE_ON;
+					if (strcmp($_POST['anonymization_options'], 'anonymize_with_code_all') == 0) $anonymize = ANONYMIZE_CODE_ALL;
 				}
 				$this->object->setAnonymize($anonymize);
 			}
@@ -395,7 +397,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$anonymization_options->addOption(new ilCheckboxOption($this->lng->txt("anonymize_without_code"), 'anonymize_without_code', ''));
 		$anonymization_options->addOption(new ilCheckboxOption($this->lng->txt("anonymize_with_code"), 'anonymize_with_code', ''));
-		$anonymization_options->setValue(($this->object->isAccessibleWithoutCode()) ? 'anonymize_without_code' : 'anonymize_with_code');
+		$anonymization_options->addOption(new ilCheckboxOption($this->lng->txt("anonymize_with_code_all"), 'anonymize_with_code_all', ''));
+		$anonymization_options->setValue(($this->object->isAccessibleWithoutCode()) ? 'anonymize_without_code' : (($this->object->isAccessibleWithCodeForAll()) ? 'anonymize_with_code_all' : 'anonymize_with_code'));
 
 		$anonymization->addSubItem($anonymization_options);
 		$form->addItem($anonymization);
@@ -2321,7 +2324,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
 		global $ilUser, $ilToolbar;
-		if ($this->object->getAnonymize() != 1)
+		if ($this->object->getAnonymize() != 1 && !$this->object->isAccessibleWithCodeForAll())
 		{
 			return ilUtil::sendInfo($this->lng->txt("survey_codes_no_anonymization"));
 		}
@@ -3345,7 +3348,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// output of start/resume buttons for anonymized surveys
 			else if ($this->object->getAnonymize() && !$this->object->isAccessibleWithoutCode())
 			{
-				if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID) && (strlen($_POST["anonymous_id"]) == 0) && (strlen($_SESSION["anonymous_id"][$this->object->getId()]) == 0))
+				if (($_SESSION["AccountId"] == ANONYMOUS_USER_ID || $this->object->isAccessibleWithCodeForAll()) && (strlen($_POST["anonymous_id"]) == 0) && (strlen($_SESSION["anonymous_id"][$this->object->getId()]) == 0))
 				{
 					$info->setFormAction($this->ctrl->getFormAction($this, "infoScreen"));
 					$info->addSection($this->lng->txt("anonymization"));
@@ -3788,7 +3791,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 array("maintenance", "deleteAllUserData"),
 				 "");
 
-			if ($this->object->getAnonymize() == 1)
+			if ($this->object->getAnonymize() == 1 || $this->object->isAccessibleWithCodeForAll())
 			{
 				// code
 				$tabs_gui->addTarget("codes",
