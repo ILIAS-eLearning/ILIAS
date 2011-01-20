@@ -3100,7 +3100,7 @@ common#:#installed#:#Installiert
 common#:#installed_local#:#Mit lokaler Version installiert
 common#:#instant_messengers#:#Instant Messengers
 common#:#institution#:#Institution
-common#:#internal_local_roles_only#:#Lokale Rollen (nur autom. erstellte)
+common#:#internal_local_roles_only#:#Lokale Rollen (nur automatisch erstellte)
 common#:#internal_system#:#Internes System
 common#:#invalid_visible_required_options_selected#:#Alle Felder deren Option "Erforderliche Angabe" gesetzt ist müssen ebenso die Option "Sichtbar im Registrierungsformular" gesetzt haben.
 common#:#invisible_block#:#Unsichtbarer Block
