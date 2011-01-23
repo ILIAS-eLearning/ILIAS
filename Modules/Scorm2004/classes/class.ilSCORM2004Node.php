@@ -48,10 +48,12 @@ class ilSCORM2004Node
 		$this->id = $a_id;
 		$this->setSLMObject($a_slm_object);
 		$this->setSLMId($a_slm_object->getId());
-		
-		$this->tree = new ilTree($a_slm_object->getId());
+
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
+		$this->tree = new ilSCORM2004Tree($a_slm_object->getId());
+		/*$this->tree = new ilTree($a_slm_object->getId());
 		$this->tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-		$this->tree->setTreeTablePK("slm_id");
+		$this->tree->setTreeTablePK("slm_id");*/
 
 		if($a_id != 0)
 		{

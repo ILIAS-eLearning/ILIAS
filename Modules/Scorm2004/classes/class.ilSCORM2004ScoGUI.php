@@ -76,7 +76,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
 				$md_gui =& new ilMDEditorGUI($this->slm_object->getID(),
-				$this->node_object->getId(), $this->node_object->getType());
+					$this->node_object->getId(), $this->node_object->getType());
 				$md_gui->addObserver($this->node_object,'MDUpdateListener','General');
 				$ilCtrl->forwardCommand($md_gui);
 				break;
@@ -96,12 +96,11 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	}
 
 	/**
-	 * Show Sequencing
+	 * Show learning objectives
 	 */
 	function showProperties()
 	{
 		global $tpl,$lng,$ilTabs;
-
 
 		$this->setTabs();
 		$this->setLocator();
@@ -248,6 +247,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 
 	function getEditTree()
 	{
+die("deprecated");
 		$slm_tree = new ilTree($this->node_object->getId(),$this->slm_object->getId());
 		$slm_tree->setTreeTablePK("slm_id");
 		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');

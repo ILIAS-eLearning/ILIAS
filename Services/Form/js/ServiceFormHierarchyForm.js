@@ -83,6 +83,11 @@ function ilGetOffsetTop(el)
 
 function ilGetMouseX(e)
 {
+	var t = YAHOO.util.Event.getXY(e);
+	return t[0];
+
+
+
 	if (e.pageX)
 	{
 		return e.pageX;
@@ -99,6 +104,10 @@ function ilGetMouseX(e)
 
 function ilGetMouseY(e)
 {
+	var t = YAHOO.util.Event.getXY(e);
+	return t[1];
+
+
 	if (e.pageY)
 	{
 		return e.pageY;
@@ -210,6 +219,12 @@ function showMenu(id, x, y)
 	var obj = document.getElementById(id);
 	
 	if (!obj) return;
+
+obj.style.visibility = '';
+YAHOO.util.Dom.setXY(obj, [x,y], true);
+return;
+
+
 /* alert("x:" + x + " y:" + y); */
 	obj.style.visibility = '';
 	obj.style.left = x + 10 + "px";
