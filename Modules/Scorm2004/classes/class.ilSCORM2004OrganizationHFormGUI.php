@@ -30,18 +30,19 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 	/**
 	* Get menu items
 	*/
-	function getMenuItems($a_node, $a_depth, $a_first_child = false, $a_next_sibling = null, $a_childs)
+	function getMenuItems($a_node, $a_depth, $a_first_child = false, $a_next_sibling = null, $a_childs = null)
 	{
 		global $lng, $ilUser;
-		
+
 		$cmds = array();
-		
+//echo "+".$a_depth."-";
 		if (!$a_first_child)		// drop area of node
 		{
 			// page inserts
-			if ($a_node["type"] == "page" || ($a_node["type"] == "sco" && count($a_childs) == 0))
+			if ($a_node["type"] == "page" || ($a_node["type"] == "sco" && count($a_childs) == 0) ||
+				($a_node["type"] == "ass" && count($a_childs) == 0))
 			{
-				if ($a_node["type"] == "sco")
+				if ($a_node["type"] == "sco" || $a_node["type"] == "ass")
 				{
 					$cmds[] = array("text" => $lng->txt("sahs_insert_page"), "cmd" => "insertPage", "multi" => 10,
 						"as_subitem" => true);
@@ -67,7 +68,8 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 			}
 
 			// sco/asset inserts
-			if ($a_node["type"] == "sco" || (($a_node["type"] == "chap" || $a_node["type"] == "seqc") && count($a_childs) == 0))
+			if ($a_node["type"] == "sco" || $a_node["type"] == "ass"
+				|| (($a_node["type"] == "chap" || $a_node["type"] == "seqc") && count($a_childs) == 0))
 			{
 				if ($a_node["type"] == "chap" || $a_node["type"] == "seqc")
 				{
@@ -83,12 +85,31 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				}
 				else
 				{
+					// scos
 					$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10);
-					$cmds[] = array("text" => $lng->txt("sahs_insert_ass"), "cmd" => "insertAsset", "multi" => 10);
 					if ($ilUser->clipboardHasObjectsOfType("sco"))
 					{
 						$cmds[] = array("text" => $lng->txt("sahs_insert_sco_from_clip"),
 							"cmd" => "insertScoClip");
+					}
+
+					// assets
+					$cmds[] = array("text" => $lng->txt("sahs_insert_ass"), "cmd" => "insertAsset", "multi" => 10);
+					if ($ilUser->clipboardHasObjectsOfType("ass"))
+					{
+						$cmds[] = array("text" => $lng->txt("sahs_insert_ass_from_clip"),
+							"cmd" => "insertAssetClip");
+					}
+
+					// chapters
+					if ($a_node["depth"] == 2)
+					{
+						$cmds[] = array("text" => $lng->txt("sahs_insert_chapter"), "cmd" => "insertChapter", "multi" => 10);
+						if ($ilUser->clipboardHasObjectsOfType("chap"))
+						{
+							$cmds[] = array("text" => $lng->txt("sahs_insert_chap_from_clip"),
+								"cmd" => "insertChapterClip");
+						}
 					}
 				}
 			}
@@ -118,6 +139,19 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 			{
 				// scos
 				$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10);
+				if ($ilUser->clipboardHasObjectsOfType("sco"))
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_sco_from_clip"),
+						"cmd" => "insertScoClip");
+				}
+
+				// assets
+				$cmds[] = array("text" => $lng->txt("sahs_insert_ass"), "cmd" => "insertAsset", "multi" => 10);
+				if ($ilUser->clipboardHasObjectsOfType("ass"))
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_ass_from_clip"),
+						"cmd" => "insertAssClip");
+				}
 
 				// chapters
 				$cmds[] = array("text" => $lng->txt("sahs_insert_chapter"), "cmd" => "insertChapter", "multi" => 10);
@@ -131,10 +165,16 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 			if ($a_node["type"] == "chap" || $a_node["type"] == "seqc")
 			{
 				$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10);
+				$cmds[] = array("text" => $lng->txt("sahs_insert_ass"), "cmd" => "insertAsset", "multi" => 10);
 				if ($ilUser->clipboardHasObjectsOfType("sco"))
 				{
 					$cmds[] = array("text" => $lng->txt("sahs_insert_sco_from_clip"),
 						"cmd" => "insertScoClip");
+				}
+				if ($ilUser->clipboardHasObjectsOfType("ass"))
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_ass_from_clip"),
+						"cmd" => "insertAssClip");
 				}
 			}
 			if ($a_node["type"] == "sco" || $a_node["type"] == "ass")
