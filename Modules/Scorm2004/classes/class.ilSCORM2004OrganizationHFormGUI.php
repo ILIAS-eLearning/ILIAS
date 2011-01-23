@@ -137,7 +137,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 						"cmd" => "insertScoClip");
 				}
 			}
-			if ($a_node["type"] == "sco")
+			if ($a_node["type"] == "sco" || $a_node["type"] == "ass")
 			{
 				$cmds[] = array("text" => $lng->txt("sahs_insert_page"), "cmd" => "insertPage", "multi" => 10);
 				$cmds[] = array("text" => $lng->txt("sahs_insert_pagelayout"), "cmd" => "insertTemplateGUI", "multi" => 10); 

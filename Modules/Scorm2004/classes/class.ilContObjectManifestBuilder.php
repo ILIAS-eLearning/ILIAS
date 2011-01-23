@@ -131,9 +131,12 @@ class ilContObjectManifestBuilder
         
 		// write item hierarchy
 		//$this->writeItemHierarchy();
-		$tree = new ilTree($this->cont_obj->getId());
-		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-		$tree->setTreeTablePK("slm_id");
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
+		$tree = new ilSCORM2004Tree($this->cont_obj->getId());
+
+		//$tree = new ilTree($this->cont_obj->getId());
+		//$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+		//$tree->setTreeTablePK("slm_id");
 		$this->writeItemHierarchyRec($tree,$tree->getRootId());
 		
 		
@@ -196,10 +199,13 @@ class ilContObjectManifestBuilder
 	{
 		include_once("Services/MetaData/classes/class.ilMD2XML.php");
 		require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
-		
-		$tree = new ilTree($this->cont_obj->getId());
-		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-		$tree->setTreeTablePK("slm_id");
+
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
+		$tree = new ilSCORM2004Tree($this->cont_obj->getId());
+
+		//$tree = new ilTree($this->cont_obj->getId());
+		//$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+		//$tree->setTreeTablePK("slm_id");
 		$last_type = "";
 		foreach($tree->getFilteredSubTree($tree->getRootId(),Array('page')) as $obj)
 		{
@@ -278,9 +284,12 @@ class ilContObjectManifestBuilder
 	 */
 	function writeResources()
 	{
-		$tree = new ilTree($this->cont_obj->getId());
-		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-		$tree->setTreeTablePK("slm_id");
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
+		$tree = new ilSCORM2004Tree($this->cont_obj->getId());
+
+		//$tree = new ilTree($this->cont_obj->getId());
+		//$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+		//$tree->setTreeTablePK("slm_id");
 		foreach($tree->getSubTree($tree->getNodeData($tree->root_id),true,'sco') as $obj)
 		{
 			$attrs = array();
@@ -349,10 +358,14 @@ class ilContObjectManifestBuilder
 				$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/images/".basename($fileref)), "");
 			}
 			}
-			chdir($currdir);	
-			$pagetree = new ilTree($this->cont_obj->getId());
-			$pagetree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-			$pagetree->setTreeTablePK("slm_id");
+			chdir($currdir);
+
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
+			$pagetree = new ilSCORM2004Tree($this->cont_obj->getId());
+
+			//$pagetree = new ilTree($this->cont_obj->getId());
+			//$pagetree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+			//$pagetree->setTreeTablePK("slm_id");
 			foreach($pagetree->getSubTree($pagetree->getNodeData($obj['obj_id']),false,'page') as $page)
 			{
 				$page_obj = new ilSCORM2004Page($page);

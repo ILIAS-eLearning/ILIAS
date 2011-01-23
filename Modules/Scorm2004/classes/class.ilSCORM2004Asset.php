@@ -20,7 +20,7 @@ class ilSCORM2004Asset extends ilSCORM2004Sco
 	 *
 	 * @param object SCORM LM object
 	 */
-	function ilSCORM2004Sco($a_slm_object, $a_id = 0)
+	function __construct($a_slm_object, $a_id = 0)
 	{
 		parent::ilSCORM2004Node($a_slm_object, $a_id);
 		$this->setType("ass");

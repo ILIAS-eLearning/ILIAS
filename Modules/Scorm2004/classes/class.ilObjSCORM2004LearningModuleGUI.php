@@ -99,7 +99,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004AssetGUI.php");
 				$ass_gui = new ilSCORM2004AssetGUI($this->object, $_GET["obj_id"]);
 				$ass_gui->setParentGUI($this);
-				return $ilCtrl->forwardCommand($sco_gui);
+				return $ilCtrl->forwardCommand($ass_gui);
 				break;
 
 				// pages
