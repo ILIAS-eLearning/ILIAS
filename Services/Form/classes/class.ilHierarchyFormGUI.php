@@ -468,7 +468,9 @@ class ilHierarchyFormGUI extends ilFormGUI
 		{
 			$childs[] = array("node_id" => $tree_child["child"],
 				"title" => $tree_child["title"],
-				"type" => $tree_child["type"]);
+				"type" => $tree_child["type"],
+				"depth" => $tree_child["depth"]
+				);
 		}
 		
 		return $childs;
@@ -722,7 +724,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 		{
 			return "";
 		}
-		
+
 		$childs = $this->getChilds($a_par_node["node_id"]);
 		$a_childs = $childs;
 		$html = "";
@@ -738,7 +740,6 @@ class ilHierarchyFormGUI extends ilFormGUI
 			$ttpl->parseCurrentBlock();
 	
 			$this->manageDragAndDrop($a_par_node, $a_depth, true, null, $childs);
-
 			$menu_items = $this->getMenuItems($a_par_node, $a_depth, true, null, $childs);
 //var_dump($menu_items);
 			if (count($menu_items) > 0)
@@ -804,6 +805,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 				$next_sibling = ($i < (count($childs) - 1))
 					? $next_sibling = $childs[$i+1]
 					: null;
+
 				$this->renderChild($ttpl, $childs[$i], $a_depth, $next_sibling);
 				$last_child = $child;
 			}
