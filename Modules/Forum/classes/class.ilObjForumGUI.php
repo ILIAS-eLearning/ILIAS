@@ -570,8 +570,16 @@ class ilObjForumGUI extends ilObjectGUI
 						
 						if ($num_posts > 0)
 						{
+							$default_view = $this->objProperties->getDefaultView();
+							$link = $this->ctrl->getLinkTarget($this, 'showThreadFrameset');
+
+							if($default_view == '2') # sort_by_date
+							{
+								$link .= '&viewmode=flat';
+							}
+
 							$result[$counter]['th_title'] = "<div><a href=\"".
-                                $this->ctrl->getLinkTarget($this, 'showThreadFrameset').
+								$link.
 								"\">".$thread->getSubject()."</a></div>".$result[$counter]['th_title'];
 						}						
 					
