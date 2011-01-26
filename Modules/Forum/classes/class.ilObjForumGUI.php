@@ -3067,12 +3067,12 @@ class ilObjForumGUI extends ilObjectGUI
 						}
 						
 						// Add target="_top"
-						$node->setMessage(
+						$node->setMessage(nl2br(
 							preg_replace(
 								'/<a((?![^>]+target="[^>]*")[^>]*)>/ims',
 							 	'<a target="_top"$1>',
-							 	$node->getMessage()
-							)						
+							 	$node->getMessage())
+							)
 						);
 						
 						if ($spanClass != "")
