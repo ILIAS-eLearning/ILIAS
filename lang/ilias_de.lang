@@ -1669,9 +1669,9 @@ common#:#all_roles#:#Alle Rollen
 common#:#all_topics#:#Alle Themen
 common#:#all_tsts#:#Alle Tests
 common#:#all_users#:#Alle Benutzer
-common#:#allow_assign_users#:#Benutzerzuweisung für lokale Administratoren erlauben.
+common#:#allow_assign_users#:#Benutzerzuweisung für lokale Administratoren erlauben
 common#:#allow_override_alert#:#Die Regeln der .htaccess-Datei können nicht ausgewertet werden.
-common#:#allow_register#:#Verfügbar im Registrierformular
+common#:#allow_register#:#Verfügbar im Registrierungsformular
 common#:#alm#:#Lernmodul AICC
 common#:#alm_added#:#AICC-Lernmodul angelegt
 common#:#alm_create#:#Neues AICC-Lernmodul anlegen
@@ -4145,7 +4145,7 @@ common#:#role_edit#:#Rolle bearbeiten
 common#:#role_header_edit_users#:#Benutzerzuweisung ändern
 common#:#role_list_users#:#Benutzer auflisten
 common#:#role_mailto#:#Mail an alle zugewiesenen Benutzer
-common#:#role_new#:#Neue Rolle
+common#:#role_new#:#Neue Rolle anlegen
 common#:#role_new_search#:#Neue Suche
 common#:#role_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
 common#:#role_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
