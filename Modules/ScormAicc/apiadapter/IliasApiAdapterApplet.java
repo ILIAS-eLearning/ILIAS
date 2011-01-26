@@ -21,6 +21,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.net.*;
 import java.io.*;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 public	class IliasApiAdapterApplet
 	extends java.applet.Applet
@@ -237,11 +239,11 @@ public	class IliasApiAdapterApplet
 		}
 	}
 
-	private final String IliasCommit () {
+	private String IliasCommit() {// </editor-fold>
 		if (IliasSahsId == null) return "false";
 
 		core.transEnd();
-		StringBuffer P = new StringBuffer();
+		StringBuilder P = new StringBuilder();
 		Hashtable ins = core.getTransNew ();
 		Hashtable mod = core.getTransMod ();
 		core.transBegin();
@@ -268,7 +270,7 @@ public	class IliasApiAdapterApplet
 		}
 
 		//HttpURLConnection po;
-		URLConnection po;
+		final URLConnection po;
 
 		try {
 			//po = (HttpURLConnection) ( new java.net.URL (
@@ -294,7 +296,23 @@ public	class IliasApiAdapterApplet
 			//po.setRequestMethod ("POST");
 			po.setAllowUserInteraction (false);
 
-			OutputStream os = po.getOutputStream();
+			// Do as privileged action as workaround for
+			// http://forums.oracle.com/forums/thread.jspa?threadID=1772674
+			ObjectOutputStream os = null;
+			os = (ObjectOutputStream) AccessController.doPrivileged(new PrivilegedAction()
+			{
+				public Object run() {
+					try {
+						return new ObjectOutputStream(po.getOutputStream());
+					}
+					catch(Exception e) {
+						say(e.getMessage());
+					}
+					return null;
+				}
+			}
+			);
+
 			say ("post:" +P.toString());
 			os.write (P.toString().getBytes());
 			os.close ();
