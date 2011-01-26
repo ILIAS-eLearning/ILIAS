@@ -1362,7 +1362,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				'login'		=> $member->getLogin(),
 				'firstname'	=> $member->getFirstname(),
 				'lastname'	=> $member->getLastname(),
-				'attending_as' => $radio1.' '.$this->lng->txt('ilinc_docent').'<br/ '.$radio2.' '.$this->lng->txt('ilinc_student'),
+				'attending_as' => $radio1.' '.$this->lng->txt('ilinc_docent').'<br />'.$radio2.' '.$this->lng->txt('ilinc_student'),
 				'grp_role'	=> ilUtil::formSelect($mem_status, 'member_status_select['.$member->getId().'][]', $stati, true, true, 3)
 			);
 		}
