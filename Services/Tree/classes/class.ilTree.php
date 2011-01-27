@@ -1438,7 +1438,7 @@ class ilTree
 		$inClause = 'd.title IN (';
 		for ($i=0; $i < count($titlePath); $i++)
 		{
-			$titlePath[$i] = strtolower(UtfNormal::toNFC($titlePath[$i]));
+			$titlePath[$i] = ilStr::strToLower(UtfNormal::toNFC($titlePath[$i]));
 			if ($i > 0) $inClause .= ',';
 			$inClause .= $ilDB->quote($titlePath[$i],'text');
 		}
@@ -1481,7 +1481,7 @@ class ilTree
 			$pathElementFound = false; 
 			foreach ($rows as $row) {
 				if ($row['parent'] == $parent && 
-				strtolower($row['title']) == $titlePath[$i])
+				ilStr::strToLower($row['title']) == $titlePath[$i])
 				{
 					// FIXME - We should test here, if the user has 
 					// 'visible' permission for the object.

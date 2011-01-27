@@ -88,7 +88,7 @@ class ilStr
 		}		
 	}
 
-	function strToLower($a_string)
+	public static function strToLower($a_string)
 	{
 		if (function_exists("mb_strtolower"))
 		{
