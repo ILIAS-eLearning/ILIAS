@@ -3818,3 +3818,12 @@ if($ilDB->tableColumnExists('svy_svy','mailparticipantdata'))
 	$ilDB->renameTableColumn("svy_svy", "mailparticipantdata_tmp", "mailparticipantdata");
 }
 ?>
+<#3216>
+<?php
+$ilDB->addTableColumn("page_layout", "style_id", array(
+	"type" => "integer",
+	"notnull" => false,
+	"default" => 0,
+	"length" => 4
+));
+?>
