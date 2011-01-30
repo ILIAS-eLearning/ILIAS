@@ -69,50 +69,101 @@ class ilPageLayout
 	public function getId() {
 		return $this->layout_id;
 	}
+
+	/**
+	 * Set style id
+	 */
+	public function setStyleId($a_val)
+	{
+		$this->style_id = $a_val;
+	}
+
+	/**
+	 * Get style id
+	 */
+	public function getStyleId()
+	{
+		return $this->style_id;
+	}
 	
-	
-	public function activate($a_setting=true) {
+	/**
+	 * (De-)Activate layout
+	 *
+	 * @param boolean $a_setting true/false
+	 */
+	public function activate($a_setting=true)
+	{
 		global $ilias, $ilDB;
+
 		$query = "UPDATE page_layout SET active=".$ilDB->quote($a_setting, "integer").
 			" WHERE layout_id =".$ilDB->quote($this->layout_id, "integer");
 		$result = $ilDB->manipulate($query);
 	}
-	
-	public function delete($a_setting=true) {
+
+	/**
+	 * Delete page layout
+	 */
+	public function delete()
+	{
 		global $ilias, $ilDB;
+
 		$query = "DELETE FROM page_layout WHERE layout_id =".$ilDB->quote($this->layout_id, "integer");
 		$result = $ilDB->manipulate($query);
 	}
-	
-	public function update() {
+
+	/**
+	 * Update page layout
+	 */
+	public function update()
+	{
 		global $ilias, $ilDB;
+
 		$query = "UPDATE page_layout SET title=".$ilDB->quote($this->title, "text").
-				  ",description =".$ilDB->quote($this->description, "text").
-				  ",active =".$ilDB->quote($this->active, "integer").
-				   " WHERE layout_id =".$ilDB->quote($this->layout_id, "integer");
+			",description =".$ilDB->quote($this->description, "text").
+			",active =".$ilDB->quote($this->active, "integer").
+			",style_id =".$ilDB->quote($this->getStyleId(), "integer").
+			" WHERE layout_id =".$ilDB->quote($this->layout_id, "integer");
+	
 		$result = $ilDB->manipulate($query);
 	}
-	
-	public function readObject() {
+
+	/**
+	 * Read page layout
+	 */
+	public function readObject()
+	{
 		global $ilias, $ilDB;
 		$query = "SELECT * FROM page_layout WHERE layout_id =".$ilDB->quote($this->layout_id, "integer");
 		$result = $ilDB->query($query);
 		$row = $ilDB->fetchAssoc($result);
-		$this->title=$row['title'];
+		$this->title = $row['title'];
+		$this->setStyleId($row['style_id']);
 		$this->description=$row['description'];
 		$this->active=$row['active'];
 	}
-	
-	public function getXMLContent() {
+
+	/**
+	 * Get xml content
+	 * 
+	 * @return string content xml
+	 */
+	public function getXMLContent()
+	{
 		global $ilias, $ilDB;
-         $r = $ilias->db->query("SELECT content FROM page_object WHERE parent_type='stys' AND page_id=".
-								 $ilDB->quote($this->layout_id));
-	     $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+
+        $r = $ilias->db->query("SELECT content FROM page_object WHERE parent_type='stys' AND page_id=".
+			$ilDB->quote($this->layout_id));
+	    $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+
 		return $row['content'];
 	}
 	
-	
-	public function getPreview() {
+
+	/**
+	 * Get preview
+	 */
+	public function getPreview()
+	{
 		return $this->generatePreview();	
 	}
 		
