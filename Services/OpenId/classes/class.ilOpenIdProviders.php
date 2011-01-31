@@ -80,6 +80,27 @@ class ilOpenIdProviders
 		}
 		return $options;
 	}
+
+	/**
+	 * Return the default provider, if there is only one.
+	 * Otherwise return "0" for --select one --
+	 *
+	 * @return int
+	 */
+	public function getSelectedProvider()
+	{
+		include_once './Services/OpenId/classes/class.ilOpenIdSettings.php';
+		if(count($this->getProvider()) != 1 or !ilOpenIdSettings::getInstance()->forcedProviderSelection())
+		{
+			return 0;
+		}
+
+		foreach($this->getProvider() as $pro)
+		{
+			return $pro->getId();
+		}
+		return 0;
+	}
 	
 	/**
 	 * Read providers
