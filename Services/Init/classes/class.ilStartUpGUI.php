@@ -1411,6 +1411,7 @@ class ilStartUpGUI
 		include_once './Services/OpenId/classes/class.ilOpenIdProviders.php';
 		$pro = new ilSelectInputGUI($lng->txt('auth_openid_provider'),'oid_provider');
 		$pro->setOptions(ilOpenIdProviders::getInstance()->getProviderSelection());
+		$pro->setValue(ilOpenIdProviders::getInstance()->getSelectedProvider());
 		$form->addItem($pro);
 		
 		
