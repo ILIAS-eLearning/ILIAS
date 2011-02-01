@@ -10378,7 +10378,7 @@ common#:#settings_for_all_members#:#Globale Einstellung für alle Kurs/Gruppen M
 common#:#settings_per_users#:#Einstellungen pro Kurs/Gruppen Mitglieder
 user#:#enable_local_user_administration#:#Lokale Benutzerverwaltung aktivieren
 user#:#enable_local_user_administration_info#:#Wenn aktiviert, können Benutzerzugänge in Kategorien angelegt und verwaltet werden.
-user#:#restrict_user_access#:#Eingeschänkter Zugriff auf Benutzerkonten
+user#:#restrict_user_access#:#Eingeschränkter Zugriff auf Benutzerkonten
 user#:#restrict_user_access_info#:#Aktivieren Sie diese Option nur, wenn Sie den Zugriff auf Benutzerkonten beschränken möchten. Wenn aktiviert, benötigen Benutzer das Recht "Lesezugriff auf Benutzerkonten", um auf lokale Benutzerkonten in Kategorien und auf die globalen Benutzerkonten zugreifen zu können.
 common#:#backto_lua#:#Zurück zur lokalen Benutzerverwaltung
 common#:#sort_inherit_prefix#:#Standard
