@@ -3288,9 +3288,9 @@ common#:#login#:#Benutzername
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Benutzerdaten
 common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
-common#:#login_information#:#Logininformationen
-common#:#login_information_desc#:#Geben Sie hier für die jeweilige Sprache eine Logininformation ein.
-common#:#login_information_settings_saved#:#Die Logininformationen wurden erfolgreich gespeichert
+common#:#login_information#:#Login-Informationen
+common#:#login_information_desc#:#Geben Sie hier für die jeweilige Sprache eine Login-Information ein.
+common#:#login_information_settings_saved#:#Die Login-Informationen wurden erfolgreich gespeichert
 common#:#login_invalid#:#Der gewählte Benutzername ist nicht erlaubt! Ihr Benutzername muss mindestens drei Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Online-Zeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
