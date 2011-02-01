@@ -8906,7 +8906,7 @@ registration#:#reg_type_confirmation#:#Registrieren mit E-Mail-Bestätigung
 registration#:#reg_type_confirmation_info#:#Bei dieser Registrierungsmethode erhält der neue Benutzer zunächst per E-Mail-Adresse einen Bestätigungslink zugesandt. Wird dieser bestätigt, erfolgt die automatische Freischaltung des Benutzerkontos.
 registration#:#reg_unknown_recipients#:#Die folgenden Benutzer sind nicht gültig:
 registration#:#registration_settings#:#Neuanmeldungen
-registration#:#registration_user_new_account_mail#:#Benachrichtigung über Neuanmeldung editieren#
+registration#:#registration_user_new_account_mail#:#Benachrichtigung über Neuanmeldung editieren
 registration#:#registration_tab_settings#:#Einstellungen für die Neuanmeldung
 registration#:#registration_tab_codes#:#Registrierungscodes
 registration#:#registration_reg_type_codes#:#Registrieren mit Codes
