@@ -40,7 +40,7 @@ administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Die Locale-Einstellung beeinflusst die alphabetische Sortierung in Listen. Beispiele sind nl_NL oder de_DE. Es können mehrere Werte angegeben werden (kommagetrennt). Der erste gültige Wert wird genutzt.
 administration#:#adm_repository_cache_time#:#Zeitspanne Magazin-Cache
 administration#:#adm_repository_cache_time_info#:#Cache-Zeit für Magazinzugriffe. Setzen Sie den Wert auf 0, um den Cache zu deaktivieren. Höhere Werte verbessern die Performanz des Magazins, können aber zur Anzeige von fehlenden Berechtigungen führen.
-administration#:#allow_change_loginname#:#Ändern von Benutzernamen im 'Persönlichen Profil' möglich
+administration#:#allow_change_loginname#:#Ändern des Benutzernamens im Persönlichen Profil
 administration#:#analysis_options#:#Analyse-Optionen
 administration#:#analyze_data#:#Analysiere und repariere Datenintegrität
 administration#:#analyzing#:#Analysiert...
