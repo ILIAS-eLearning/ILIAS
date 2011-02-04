@@ -27,8 +27,7 @@ class ilMailAddressbook
 			'SELECT DISTINCT
 				abook.login login,
 				abook.firstname firstname,
-				abook.lastname lastname,
-				"addressbook" type
+				abook.lastname lastname
 			FROM addressbook abook
 			WHERE abook.user_id = '.$ilDB->quote($this->user_id, 'integer').'
 			AND ( '. $ilDB->like('abook.login', 'text', $search).' 
