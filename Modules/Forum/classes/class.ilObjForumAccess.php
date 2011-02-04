@@ -151,7 +151,7 @@ class ilObjForumAccess extends ilObjectAccess
 			$frm_id = $rec["top_pk"];
 			$res = $ilDB->queryf("SELECT COUNT(*) cnt
 				FROM frm_posts JOIN frm_threads ON (frm_posts.pos_thr_fk = frm_threads.thr_pk) 
-				WHERE pos_thr_fk IN (SELECT thr_pk FROM frm_threads WHERE thr_top_fk = %s)".
+				WHERE frm_threads.thr_top_fk = %s".
 				$act_clause,
 				array('integer'), array($frm_id));
 			
@@ -181,7 +181,7 @@ class ilObjForumAccess extends ilObjectAccess
 			$frm_id = $rec["top_pk"];
 			$res = $ilDB->queryf("SELECT COUNT(*) cnt
 				FROM frm_user_read INNER JOIN frm_posts ON (frm_user_read.post_id = frm_posts.pos_pk) 
-				WHERE frm_user_read.usr_id = %s AND thread_id IN (SELECT thr_pk FROM frm_threads WHERE thr_top_fk = %s)".
+				WHERE frm_user_read.usr_id = %s AND frm_posts.pos_top_fk = %s".
 				$act_clause,
 				array('integer', 'integer'), array($ilUser->getId(), $frm_id));
 			
