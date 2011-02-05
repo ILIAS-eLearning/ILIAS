@@ -236,7 +236,7 @@ class ilObjectGUI
 	protected function prepareOutput()
 	{
 		global $ilLocator, $tpl, $ilUser;
-		
+
 		$this->tpl->getStandardTemplate();
 		// administration prepare output
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")

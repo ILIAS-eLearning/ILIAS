@@ -1757,8 +1757,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	{
 		if ($this->getEntryPage())
 		{
-			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004SpecialItem.php");
-			ilSCORM2004SpecialItem::exportSCORM($a_inst, $a_target_dir, $expLog);
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004EntryAsset.php");
+			$entry_asset = new ilSCORM2004EntryAsset($this);
+			$entry_asset->exportSCORM($a_inst, $a_target_dir, $expLog);
 		}
 	}
 
@@ -1792,10 +1793,30 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		}
 	}
 
+	/**
+	 *
+	 */
 	function setPublicExportFile($a_type, $a_file)
 	{
 		$this->public_export_file[$a_type] = $a_file;
 	}
 
-} // END class.ilObjSCORM2004LearningModule
+	/**
+	 * Create entry page
+	 */
+	function createEntryPage($a_layout_id)
+	{
+		global $lng;
+
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
+		$page = new ilSCORM2004PageNode($this);
+		$page->setTitle($lng->txt("cont_entry_page"));
+		$page->setSLMId($this->getId());
+		$page->create(false, $a_layout_id);
+		$this->setEntryPage($page->getId());
+		$this->update();
+	}
+
+
+}
 ?>

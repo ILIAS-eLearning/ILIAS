@@ -124,8 +124,8 @@ class ilContObjectManifestBuilder
 		// entry page
 		if ($this->version == "2004" && $this->cont_obj->getEntryPage())
 		{
-			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004SpecialItem.php");
-			ilSCORM2004SpecialItem::addEntryPageItemXML($this->writer,
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004EntryAsset.php");
+			ilSCORM2004EntryAsset::addEntryPageItemXML($this->writer,
 				$this->cont_obj);
 		}
         
@@ -159,8 +159,8 @@ class ilContObjectManifestBuilder
 		// entry page resource
 		if ($this->version == "2004" && $this->cont_obj->getEntryPage())
 		{
-			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004SpecialItem.php");
-			ilSCORM2004SpecialItem::addEntryPageResourceXML($this->writer,
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004EntryAsset.php");
+			ilSCORM2004EntryAsset::addEntryPageResourceXML($this->writer,
 				$this->cont_obj);
 		}
 

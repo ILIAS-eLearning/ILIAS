@@ -303,7 +303,7 @@ class ilSCORM2004NodeGUI
 		
 		$ilLocator->addRepositoryItems($_GET["ref_id"]);
 		$this->getParentGUI()->addLocatorItems();
-		
+
 		if ($_GET["obj_id"] > 0)
 		{
 			$tree = new ilTree($this->slm_object->getId());
@@ -352,21 +352,6 @@ class ilSCORM2004NodeGUI
 						break;
 						
 					case "page":
-					
-						// content styles
-						include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-						$tpl->setCurrentBlock("ContentStyle");
-						$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-							ilObjStyleSheet::getContentStylePath($this->slm_object->getStyleSheetId()));
-						$tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET",
-							ilObjStyleSheet::getPlaceHolderStylePath());
-						$tpl->parseCurrentBlock();
-						
-						$tpl->setCurrentBlock("SyntaxStyle");
-						$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-							ilObjStyleSheet::getSyntaxStylePath());
-						$tpl->parseCurrentBlock();
-					
 						$ilCtrl->setParameterByClass("ilscorm2004pagegui", "obj_id",
 							$path[$i]["child"]);
 						$ilLocator->addItem($path[$i]["title"],
@@ -383,6 +368,28 @@ class ilSCORM2004NodeGUI
 	}
 
 	/**
+	 * Set content style sheet
+	 */
+	function setContentStyle()
+	{
+		global $tpl;
+		
+		// content styles
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$tpl->setCurrentBlock("ContentStyle");
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->slm_object->getStyleSheetId()));
+		$tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET",
+			ilObjStyleSheet::getPlaceHolderStylePath());
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("SyntaxStyle");
+		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
+		$tpl->parseCurrentBlock();
+	}
+
+		/**
 	* Copy items to clipboard
 	*/
 	function copyItems($a_return = "showOrganization")
