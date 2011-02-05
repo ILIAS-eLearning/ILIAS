@@ -44,7 +44,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function executeCommand()
 	{
-		global $ilAccess, $ilCtrl, $tpl, $ilTabs;
+		global $ilAccess, $ilCtrl, $tpl, $ilTabs, $lng;
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -104,6 +104,12 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
 				// pages
 			case "ilscorm2004pagenodegui":
+				if ($this->object->getEntryPage() == $_GET["obj_id"])
+				{
+					$ilTabs->setBackTarget($lng->txt("back"),
+						$ilCtrl->getLinkTarget($this, "listSpecialPages"));
+				}
+
 				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNodeGUI.php");
 				$page_gui = new ilSCORM2004PageNodeGUI($this->object, $_GET["obj_id"]);
 				$page_gui->setParentGUI($this);
@@ -332,10 +338,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$ni->setSize(3);
 		$this->form->addItem($ni);
 
-		// use entry page
-		$cb = new ilCheckboxInputGUI($lng->txt("entry_page"), "entry_page");
-		$this->form->addItem($cb);
-		
 		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
 		$parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
 		
@@ -372,7 +374,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$values["glossary"] = $this->lng->txt("cont_no_glossary");
 		}
 		$values["q_tries"] = $this->object->getTries();
-		$values["entry_page"] = $this->object->getEntryPage();
 	
 		$this->form->setValuesByArray($values);
 	}
@@ -403,7 +404,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			if ($this->form->checkInput())
 			{
 				$this->object->setTries($_POST["q_tries"]);
-				$this->object->setEntryPage($_POST["entry_page"]);
 			}
 		}
 		$this->object->update();
@@ -1560,7 +1560,12 @@ function showTrackingItem()
 			$ilTabs->addSubTab("general_settings",
 				$lng->txt("general_settings"),
 				$ilCtrl->getLinkTarget($this, 'properties'));
-				
+
+			// special pages
+			$ilTabs->addSubTab("special_pages",
+				$lng->txt("cont_special_pages"),
+				$ilCtrl->getLinkTarget($this, 'listSpecialPages'));
+
 			// style properties
 			$ilTabs->addSubTab("style",
 				$lng->txt("cont_style"),
@@ -1619,8 +1624,8 @@ function showTrackingItem()
 		$form_gui = new ilSCORM2004OrganizationHFormGUI();
 		$form_gui->setParentCommand($a_gui_obj, $a_gui_cmd);
 		$form_gui->setFormAction($a_form_action);
-		$form_gui->setTitle($a_title);
-		$form_gui->setIcon($a_icon);
+//		$form_gui->setTitle($a_title);
+//		$form_gui->setIcon($a_icon);
 		$form_gui->setTree($slm_tree);
 		$form_gui->setCurrentTopNodeId($a_top_node);
 		$form_gui->addMultiCommand($lng->txt("delete"), "deleteNodes");
@@ -2001,7 +2006,8 @@ function showTrackingItem()
 	/**
 	 * Displays GUI to select template for page
 	 */
-	function insertTemplateGUI($a_redirect = true) {
+	function insertTemplateGUI($a_redirect = true, $a_mode = "")
+	{
 		global $ilCtrl,$lng, $tpl;
 		
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
@@ -2061,7 +2067,20 @@ function showTrackingItem()
 		$ilCtrl->saveParameter($this,"obj_id");
 	
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("BTN_NAME", "insertTemplate");
+		if ($a_mode == "entry_page")
+		{
+			$this->tpl->setVariable("BTN_NAME", "createEntryPage");
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_INSERT", $this->lng->txt("create"));
+			$this->tpl->setVariable("CMD_CANCEL", "listSpecialPages");
+		}
+		else
+		{
+			$this->tpl->setVariable("BTN_NAME", "insertTemplate");
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_INSERT", $this->lng->txt("insert"));
+			$this->tpl->setVariable("CMD_CANCEL", "showOrganization");
+		}
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_INSERT", $this->lng->txt("insert"));
 		$this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("change"));
@@ -2630,5 +2649,105 @@ function showTrackingItem()
 		ilUtil::redirect("ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=".$this->object->getRefID()."&envEditor=1");
 	}
 
-} // END class.ilObjSCORM2004LearningModuleGUI
+	/**
+	 * List special pages
+	 */
+	function listSpecialPages()
+	{
+		global $ilToolbar, $ilCtrl, $lng, $tpl, $ilTabs;
+
+		$ilTabs->activateTab("settings");
+		$this->setSubTabs("settings", "special_pages");
+
+		if ($this->object->getEntryPage() == 0)
+		{
+			$ilToolbar->addButton($lng->txt("cont_create_entry_page"),
+				$ilCtrl->getLinkTarget($this, "selectEntryPageTemplate"));
+		}
+
+		include_once("./Modules/Scorm2004/classes/class.ilScormSpecialPagesTableGUI.php");
+		$tab = new ilScormSpecialPagesTableGUI($this, "listSpecialPages", $this->object);
+
+		$tpl->setContent($tab->getHTML());
+	}
+
+	/**
+	 * Select entry page template
+	 */
+	function selectEntryPageTemplate()
+	{
+		$this->insertTemplateGUI(false, "entry_page");
+	}
+
+	/**
+	 * Create entry page
+	 */
+	function createEntryPage()
+	{
+		global $ilCtrl;
+
+		$this->object->createEntryPage(
+			ilUtil::stripSlashes($_POST["layout_id"]));
+		$ilCtrl->redirect($this, "listSpecialPages");
+	}
+
+
+	/**
+	 * Confirm special page deletion
+	 */
+	function confirmSpecialPageDeletion()
+	{
+		global $ilCtrl, $tpl, $lng;
+
+		if (!is_array($_POST["page_id"]) || count($_POST["page_id"]) == 0)
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "listSpecialPages");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("cont_really_delete_special_pages"));
+			$cgui->setCancel($lng->txt("cancel"), "listSpecialPages");
+			$cgui->setConfirm($lng->txt("delete"), "deleteSpecialPages");
+
+			foreach ($_POST["page_id"] as $i)
+			{
+				if ($i == $this->object->getEntryPage())
+				{
+					$t = $lng->txt("cont_entry_page");
+				}
+
+				$cgui->addItem("page_id[]", $i, $t);
+			}
+
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+
+	/**
+	 * Delete special pages
+	 */
+	function deleteSpecialPages()
+	{
+		global $lng, $ilCtrl;
+
+		if (is_array($_POST["page_id"]))
+		{
+			foreach ($_POST["page_id"] as $i)
+			{
+				if ($i == $this->object->getEntryPage())
+				{
+					$this->object->setEntryPage(0);
+				}
+			}
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$this->object->update();
+		}
+		$ilCtrl->redirect($this, "listSpecialPages");
+	}
+
+}
 ?>

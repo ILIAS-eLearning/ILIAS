@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 
@@ -18,11 +18,10 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 {
 
 	var $q_media = null;		//media files in questions
+
 	/**
-	* Constructor
-	* @access	public
-	*/
-	
+	 * Constructor
+	 */
 	function ilSCORM2004Sco($a_slm_object, $a_id = 0)
 	{
 		parent::ilSCORM2004Node($a_slm_object, $a_id);
@@ -158,7 +157,7 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 
 	}
 	
-	function exportHTML($a_inst, $a_target_dir, &$expLog)
+	function exportHTML($a_inst, $a_target_dir, &$expLog, $a_asset_type = "sco")
 	{
 		ilUtil::makeDir($a_target_dir.'/css');
 		ilUtil::makeDir($a_target_dir.'/css/yahoo');
@@ -213,7 +212,8 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		
 		global $ilBench;
 		
-		$this->exportHTMLPageObjects($a_inst, $a_target_dir, $expLog, 'full');
+		$this->exportHTMLPageObjects($a_inst, $a_target_dir, $expLog, 'full',
+			$a_asset_type);
 		
 	}
 
@@ -299,7 +299,8 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		}
 	}
 	
-	function exportHTMLPageObjects($a_inst, $a_target_dir, &$expLog, $mode)
+	function exportHTMLPageObjects($a_inst, $a_target_dir, &$expLog, $mode,
+		$a_asset_type = "sco")
 	{
 		global $tpl, $ilCtrl, $ilBench,$ilLog, $lng;
 
@@ -311,10 +312,13 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		$tree = new ilTree($this->slm_id);
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
-		
-		$meta = new ilMD($this->getSLMId(), $this->getId(), $this->getType());
-				$desc_ids = $meta->getGeneral()->getDescriptionIds();
-				$sco_description = $meta->getGeneral()->getDescription($desc_ids[0])->getDescription();
+
+		if ($a_asset_type != "entry_asset")
+		{
+			$meta = new ilMD($this->getSLMId(), $this->getId(), $this->getType());
+					$desc_ids = $meta->getGeneral()->getDescriptionIds();
+			$sco_description = $meta->getGeneral()->getDescription($desc_ids[0])->getDescription();
+		}
 		
 		// @todo
 		// Why is that much HTML code in an application class?
@@ -330,20 +334,23 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 		$sco_tpl = new ilTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
 		if ($mode != 'pdf')
 		{
-			// previous/next navigation
-			$sco_tpl->setCurrentBlock("ilLMNavigation");
-			$sco_tpl->setVariable("TXT_PREVIOUS", $lng->txt('scplayer_previous'));
-			$sco_tpl->setVariable("TXT_NEXT", $lng->txt('scplayer_next'));
-			$sco_tpl->parseCurrentBlock();
-			$sco_tpl->setCurrentBlock("ilLMNavigation2");
-			$sco_tpl->setVariable("TXT_PREVIOUS", $lng->txt('scplayer_previous'));
-			$sco_tpl->setVariable("TXT_NEXT", $lng->txt('scplayer_next'));
-			$sco_tpl->parseCurrentBlock();
+			if ($a_asset_type != "entry_asset")
+			{
+				// previous/next navigation
+				$sco_tpl->setCurrentBlock("ilLMNavigation");
+				$sco_tpl->setVariable("TXT_PREVIOUS", $lng->txt('scplayer_previous'));
+				$sco_tpl->setVariable("TXT_NEXT", $lng->txt('scplayer_next'));
+				$sco_tpl->parseCurrentBlock();
+				$sco_tpl->setCurrentBlock("ilLMNavigation2");
+				$sco_tpl->setVariable("TXT_PREVIOUS", $lng->txt('scplayer_previous'));
+				$sco_tpl->setVariable("TXT_NEXT", $lng->txt('scplayer_next'));
+				$sco_tpl->parseCurrentBlock();
 
-			// title
-			$sco_tpl->setCurrentBlock("title");
-			$sco_tpl->setVariable("SCO_TITLE", $this->getTitle());
-			$sco_tpl->parseCurrentBlock();
+				// title
+				$sco_tpl->setCurrentBlock("title");
+				$sco_tpl->setVariable("SCO_TITLE", $this->getTitle());
+				$sco_tpl->parseCurrentBlock();
+			}
 
 			// init and question lang vars
 			$sco_tpl->setCurrentBlock("init");
@@ -377,22 +384,24 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 			$sco_tpl->setVariable("VAL_DESC", $sco_description);
 			$sco_tpl->parseCurrentBlock();
 		}
-		
-		// sco objective(s)
-		$objs = $this->getObjectives();
-		if (count($objs) > 0)
+
+		if ($a_asset_type == "sco")
 		{
-			foreach ($objs as $objective)
+			// sco objective(s)
+			$objs = $this->getObjectives();
+			if (count($objs) > 0)
 			{
-				$sco_tpl->setCurrentBlock("sco_obj");
-				$sco_tpl->setVariable("VAL_OBJECTIVE", nl2br($objective->getObjectiveID()));
+				foreach ($objs as $objective)
+				{
+					$sco_tpl->setCurrentBlock("sco_obj");
+					$sco_tpl->setVariable("VAL_OBJECTIVE", nl2br($objective->getObjectiveID()));
+					$sco_tpl->parseCurrentBlock();
+				}
+				$sco_tpl->setCurrentBlock("sco_objs");
+				$sco_tpl->setVariable("TXT_OBJECTIVES", $lng->txt("sahs_objectives"));
 				$sco_tpl->parseCurrentBlock();
 			}
-			$sco_tpl->setCurrentBlock("sco_objs");
-			$sco_tpl->setVariable("TXT_OBJECTIVES", $lng->txt("sahs_objectives"));
-			$sco_tpl->parseCurrentBlock();
 		}
-
 		
 		//notify Question Exporter of new SCO
 		require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
@@ -400,10 +409,19 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 
 		// init export (this initialises glossary template)
 		ilSCORM2004PageGUI::initExport();
-		$terms = $this->getGlossaryTermIds();
+		$terms = array();
+		if ($a_asset_type != "entry_asset")
+		{
+			$terms = $this->getGlossaryTermIds();
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
+			$pages = $tree->getSubTree($tree->getNodeData($this->getId()),true,'page');
+		}
+		else
+		{
+			$pages[] = array("obj_id" => $this->slm_object->getEntryPage());
+		}
 
-		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
-		foreach($tree->getSubTree($tree->getNodeData($this->getId()),true,'page') as $page)
+		foreach($pages as $page)
 		{
 			//echo(print_r($page));
 			$page_obj = new ilSCORM2004PageGUI($this->getType(),$page["obj_id"]);
@@ -490,9 +508,17 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 			{
 				$sco_tpl->touchBlock("pdf_pg_break");
 			}
-			$sco_tpl->setCurrentBlock("page");
-			$sco_tpl->setVariable("PAGE", $page_output);
-			$sco_tpl->parseCurrentBlock();
+
+			if ($a_asset_type != "entry_asset")
+			{
+				$sco_tpl->setCurrentBlock("page");
+				$sco_tpl->setVariable("PAGE", $page_output);
+				$sco_tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$sco_tpl->setVariable("ENTRY_PAGE", $page_output);
+			}
 		}
 
 		// glossary

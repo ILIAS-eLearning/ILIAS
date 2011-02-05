@@ -10969,4 +10969,6 @@ content#:#cont_added_tab#:#Tab created.
 sahs#:#sahs_new_asset#:#New Asset
 sahs#:#sahs_insert_ass#:#Insert Asset
 common#:#obj_ass#:#Asset
-sahs#:#entry_page#:#Entry Page
+content#:#cont_entry_page#:#Entry Page
+content#:#cont_create_entry_page#:#Create Entry Page
+content#:#cont_special_pages#:#Special Pages

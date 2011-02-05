@@ -182,7 +182,7 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 
 	/**
-	 * Set entry page (true/false, prototype)
+	 * Set entry page (page id)
 	 */
 	public function setEntryPage($a_val)
 	{
@@ -190,7 +190,7 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 
 	/**
-	 * Get entry page (true/false, prototype)
+	 * Get entry page (page id)
 	 */
 	public function getEntryPage()
 	{
