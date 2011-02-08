@@ -3746,7 +3746,7 @@ common#:#obj_pdts#:#Persönlicher Schreibtisch
 common#:#obj_pdts_desc#:#Persönlichen Schreibtisch anpassen
 common#:#obj_pg#:#Seite
 common#:#obj_ps#:#Datenschutz und Serversicherheit
-common#:#obj_ps_desc#:#Globale Einstellungen zum Datenschutz.
+common#:#obj_ps_desc#:#Globale Einstellungen für Datenschutz und Sicherheit
 common#:#obj_qpl#:#Fragenpool für Test
 common#:#obj_qpl_duplicate#:#Fragenpool für Test kopieren
 common#:#obj_qpl_select#:#-- Bitte wählen Sie einen Fragenpool für Test aus --
