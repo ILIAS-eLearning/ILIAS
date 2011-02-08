@@ -3827,3 +3827,7 @@ $ilDB->addTableColumn("page_layout", "style_id", array(
 	"length" => 4
 ));
 ?>
+<#3217>
+<?php 
+$ilDB->addIndex('frm_thread_access', array('access_last'), 'i1');
+?>
