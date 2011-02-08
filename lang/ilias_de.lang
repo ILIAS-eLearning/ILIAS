@@ -4015,7 +4015,7 @@ common#:#proxy_port_numeric#:#Der Port darf nur aus numerischen Zeichen bestehen
 common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#Um einen Proxy in ILIAS zu verwenden (z.B. für Webfeeds und die Überprüfung von Weblinks) aktivieren Sie bitte dieses Häkchen.
 common#:#ps_edit_permission#:#Rechteeinstellungen ändern
-common#:#ps_export_member_data#:#Erlaube den Zugriff von Mitgliederdaten
+common#:#ps_export_member_data#:#Erlaube den Zugriff auf Mitgliederdaten
 common#:#ps_read#:#Lesezugriff auf Datenschutzeinstellungen
 common#:#ps_visible#:#Einstellungen zum Datenschutz sind sichtbar
 common#:#ps_write#:#Schreibzugriff auf Datenschutzeinstellungen
@@ -8649,7 +8649,7 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwort
 ps#:#ps_export_admin#:#Administratoren
 ps#:#ps_export_confirm#:#Aktiviere Nutzungsvereinbarung für Kursmitglieder
 ps#:#ps_export_confirm_group#:#Aktiviere Nutzungsvereinbarung für Gruppenmitglieder
-ps#:#ps_export_course#:#Zugriff auf persönliche Daten im Kurs erlauben
+ps#:#ps_export_course#:#Persönliche Daten in Kursen anzeigen und exportieren
 ps#:#ps_export_data#:#Daten des Persönlichen Profils
 ps#:#ps_export_files#:#Exportdateien
 ps#:#ps_export_member#:#Teilnehmer
@@ -10640,7 +10640,7 @@ common#:#objs_book#:#Buchungspools
 book#:#book_pool_added#:#Ein Buchungspool wurde hinzugefügt.
 book#:#book_create_title#:#Buchungspool hinzufügen
 content#:#scplayer_next#:#Vor
-ps#:#ps_export_groups#:#Sichtbarkeit von Benutzerdaten in Gruppen
+ps#:#ps_export_groups#:#Persönliche Daten in Gruppen anzeigen und exportieren
 trac#:#trac_first_access#:#Erster Zugriff
 trac#:#trac_read_count#:#Zugriffe
 trac#:#trac_spent_seconds#:#Zeit
@@ -10837,7 +10837,7 @@ registration#:#reg_allow_codes_info#:#Benutzer können sich zusätzlich mit Code
 assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt
 rbac#:#rbac_repository_permissions#:#Magazinrechte
 rbac#:#rbac_admin_permissions#:#Administrationsrechte
-ps#:#ps_export_excel#:#Start Excel-Export
+ps#:#ps_export_excel#:#Starte Excel-Export
 survey#:#externaltext#:#Text importieren
 survey#:#externaltext_info#:#Der importierte Text muss in Zeilen und Spalten aufgeteilt sein. Spalten müssen per Semikolon getrennt sein. Die erste Zeile beinhaltet die Spaltentitel. Der Text muss mindestens einen Eintrag für die E-Mail-Adresse des jeweiligen Empfängers enthalten.
 survey#:#import_from_file#:#Import aus einer Datei
