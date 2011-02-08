@@ -247,7 +247,7 @@ class ilContObjectManifestBuilder
 			if($obj['type']=='') continue;
 			$attrs = array();
 			$attrs["identifier"] = "il_".IL_INST_ID."_".$obj['type']."_".$obj['obj_id'];
-			if($obj['type']=='sco') 
+			if($obj['type']=='sco' || $obj['type']=='ass')
 			{
 				$attrs["identifierref"] = $attrs["identifier"]."_ref";
 			}
@@ -262,7 +262,7 @@ class ilContObjectManifestBuilder
 			
 			if($this->version=="2004")
 			{
-				if($obj['type']=='sco') 
+				if($obj['type']=='sco' || $obj['type']=='ass')
 				{
 					$this->writer->xmlStartTag("metadata");
                     $this->writer->xmlElement("adlcp:location",null,$obj['obj_id']."/indexMD.xml");
@@ -270,7 +270,14 @@ class ilContObjectManifestBuilder
 				}	
 				require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
 				$seq_item = new ilSCORM2004Item($obj['obj_id']);
-				$this->writer->xmlData($this->writer->xmlFormatData($seq_item->exportAsXML()),false,false);
+				if ($obj['type'] == "sco")
+				{
+					$this->writer->xmlData($this->writer->xmlFormatData($seq_item->exportAsXML()),false,false);
+				}
+				else
+				{
+					$this->writer->xmlData($this->writer->xmlFormatData("<imsss:sequencing/>"),false,false);
+				}
 			}
 			$this->writer->xmlEndTag("item");	
 		}
@@ -278,9 +285,7 @@ class ilContObjectManifestBuilder
 	}
 
 	/**
-	 * write resources
-	 *
-	 * this first version only writes one resource for the whole learning module
+	 * Create resource entries for the learning module "PKG" and all SCOS and Assets
 	 */
 	function writeResources()
 	{
@@ -290,12 +295,19 @@ class ilContObjectManifestBuilder
 		//$tree = new ilTree($this->cont_obj->getId());
 		//$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		//$tree->setTreeTablePK("slm_id");
-		foreach($tree->getSubTree($tree->getNodeData($tree->root_id),true,'sco') as $obj)
+		foreach($tree->getSubTree($tree->getNodeData($tree->root_id),true,array('sco', 'ass')) as $obj)
 		{
 			$attrs = array();
 			$attrs["identifier"] = "il_".IL_INST_ID."_".$obj['type']."_".$obj['obj_id']."_ref";
 			$attrs["type"] = "webcontent";
-			$attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "sco";
+			if ($obj['type'] == "sco")
+			{
+				$attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "sco";
+			}
+			else
+			{
+				$attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
+			}
 			$attrs["href"] = "./".$obj['obj_id']."/index.html";
 			$this->writer->xmlStartTag("resource", $attrs, "");
 			$this->writer->xmlElement("dependency", array("identifierref"=>"il_".IL_INST_ID."_".$obj['type']."_".$obj['obj_id'].'ITSELF'), "");

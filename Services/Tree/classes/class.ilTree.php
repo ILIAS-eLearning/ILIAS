@@ -928,12 +928,17 @@ class ilTree
 		$fields = array('integer','integer','integer');
 		$data = array($a_node['lft'],$a_node['rgt'],$this->tree_id);
 		$type_str = '';
-		
-		if(strlen($a_type))
+
+		if (is_array($a_type))
 		{
-			$fields[] = 'text';
-			$data[] = $a_type;
-			$type_str = "AND ".$this->table_obj_data.".type= %s ";
+			$type_str = "AND ".$ilDB->in($this->table_obj_data.".type", $a_type, false, "text");
+		}
+		else if(strlen($a_type))
+		{
+			//$fields[] = 'text';
+			//$data[] = $a_type;
+			$type_str = "AND ".$this->table_obj_data.".type = ".
+				$ilDB->quote($a_type, "text");
 		}
 		
 		$query = "SELECT * FROM ".$this->table_tree." ".

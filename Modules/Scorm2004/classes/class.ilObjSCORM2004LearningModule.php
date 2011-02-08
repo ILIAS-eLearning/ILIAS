@@ -1428,6 +1428,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		return $file;
 	}
 
+	/**
+	 * Export (authoring) scorm package
+	 */
 	function exportScorm($a_inst, $a_target_dir, $ver, &$expLog)
 	{
 		
@@ -1712,13 +1715,25 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$tree = new ilTree($this->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
-		foreach($tree->getSubTree($tree->getNodeData($tree->getRootId()),true,'sco') as $sco)
+		foreach($tree->getSubTree($tree->getNodeData($tree->getRootId()),true,array('sco','ass')) as $sco)
 		{
-			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
-			$sco_folder = $a_target_dir."/".$sco['obj_id'];
-			ilUtil::makeDir($sco_folder);
-			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
-			$node->exportScorm($a_inst, $sco_folder, $ver, $expLog);
+			if ($sco['type'] == "sco")
+			{
+				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
+				$sco_folder = $a_target_dir."/".$sco['obj_id'];
+				ilUtil::makeDir($sco_folder);
+				$node = new ilSCORM2004Sco($this,$sco['obj_id']);
+				$node->exportScorm($a_inst, $sco_folder, $ver, $expLog);
+			}
+			if ($sco['type'] == "ass")
+			{
+				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Asset.php");
+				$sco_folder = $a_target_dir."/".$sco['obj_id'];
+				ilUtil::makeDir($sco_folder);
+				$node = new ilSCORM2004Asset($this,$sco['obj_id']);
+				$node->exportScorm($a_inst, $sco_folder, $ver, $expLog);
+			}
+
 		}
 	}
 
