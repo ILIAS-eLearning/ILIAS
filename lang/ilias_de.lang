@@ -8608,8 +8608,8 @@ pdesk#:#pdesk_intro2#:#Dies hier ist Ihr persönlicher Arbeitsbereich, auf dem S
 pdesk#:#pdesk_intro3#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
 pdesk#:#pdesk_intro4#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach auf Ihren Schreibtisch legen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Auf den Schreibtisch"</i>.
 ps#:#ps_account_security_mode#:#Account-Sicherheit
-ps#:#ps_account_security_mode_customized#:#Benutzerdefinierte Account-Sicherheit
-ps#:#ps_account_security_mode_default#:#Standardeinstellung für Account-Sicherheit
+ps#:#ps_account_security_mode_customized#:#Besondere Anforderungen
+ps#:#ps_account_security_mode_default#:#Standardeinstellung
 ps#:#ps_agreement_accepted#:#Nutzungsvereinbarung akzeptiert
 ps#:#crs_ps_agreement_req_info#:#Bitte stimmen Sie der Nutzungsvereinbarung zu, um auf die Kursinhalte zugreifen zu können.
 ps#:#grp_ps_agreement_req_info#:#Bitte stimmen Sie der Nutzungsvereinbarung zu, um auf die Gruppeninhalte zugreifen zu können.
