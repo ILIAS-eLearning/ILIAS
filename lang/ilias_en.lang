@@ -10704,12 +10704,12 @@ meta#:#meta_c_PS#:#Palestinian Territories (Occupied)
 meta#:#meta_c_RS#:#Serbia
 meta#:#meta_c_TL#:#Timor-Leste
 common#:#sel_country#:#Country
-book#:#book_booking_types#:#Types
+book#:#book_booking_types#:#Booking Objects
 book#:#book_schedules#:#Schedules
 book#:#book_no_of_objects#:#No. of Objects
 book#:#book_book#:#Book
 book#:#book_list_items#:#List Objects
-book#:#book_add_type#:#Add Type
+book#:#book_add_type#:#Add Type Of Booking Object
 book#:#book_back_to_list#:#Back to List
 book#:#book_edit_type#:#Edit Type
 book#:#book_group_objects#:#Group objects
@@ -10972,3 +10972,4 @@ common#:#obj_ass#:#Asset
 content#:#cont_entry_page#:#Entry Page
 content#:#cont_create_entry_page#:#Create Entry Page
 content#:#cont_special_pages#:#Special Pages
+book#:#book_schedule_warning#:#Currently, there is no schedule available. Before adding booking objects you need to create a schedule for booking.

@@ -80,32 +80,45 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 		$ilCtrl->setParameterByClass('ilBookingObjectGUI', 'type_id', $a_set['booking_type_id']);
 
 
-		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-		$alist = new ilAdvancedSelectionListGUI();
-		$alist->setId($a_set['booking_type_id']);
-		$alist->setListTitle($lng->txt("actions"));
+		$items = array();
 
 		if($a_set["schedule_id"] && $a_set["counter"] > 0)
 		{
-			$alist->addItem($lng->txt('book_book'), 'book', $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
+			$items['book'] = array($lng->txt('book_book'), $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
 		}
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id) || !$a_set["schedule_id"])
 		{
-			$alist->addItem($lng->txt('book_list_items'), 'list', $ilCtrl->getLinkTargetByClass('ilBookingObjectGUI', 'render'));
+			if($a_set["counter"] > 0)
+			{
+				$items['list'] = array($lng->txt('book_list_items'), $ilCtrl->getLinkTargetByClass('ilBookingObjectGUI', 'render'));
+			}
+			else
+			{
+				$items['add'] = array($lng->txt('book_add_object'), $ilCtrl->getLinkTargetByClass('ilBookingObjectGUI', 'create'));
+			}
 		}
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			if($a_set["counter"] == 0)
 			{
-				$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
+				$items['delete'] = array($lng->txt('delete'), $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
 			}
 
-			$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
+			$items['edit'] = array($lng->txt('edit'), $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
 		}
 
-		$this->tpl->setVariable("LAYER", $alist->getHTML());
+		if(sizeof($items))
+		{
+			$this->tpl->setCurrentBlock("actions");
+			foreach($items as $item)
+			{
+				$this->tpl->setVariable("ACTION_CAPTION", $item[0]);
+				$this->tpl->setVariable("ACTION_LINK", $item[1]);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 	}
 }
 ?>

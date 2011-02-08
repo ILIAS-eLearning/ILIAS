@@ -30,6 +30,16 @@ class ilBookingType
 	}
 
 	/**
+	 * Get id
+	 *
+	 * @return int
+	 */
+	function getId()
+	{
+		return $this->id;
+	}
+
+	/**
 	 * Set title
 	 * @param	string	$a_title
 	 */
@@ -110,10 +120,10 @@ class ilBookingType
 	{
 		global $ilDB;
 
-		$id = $ilDB->nextId('booking_type');
+		$this->id = $ilDB->nextId('booking_type');
 
 		return $ilDB->manipulate('INSERT INTO booking_type (booking_type_id,title,pool_id,'.
-			'schedule_id) VALUES ('.$ilDB->quote($id, 'integer').','.$ilDB->quote($this->getTitle(), 'text').
+			'schedule_id) VALUES ('.$ilDB->quote($this->id, 'integer').','.$ilDB->quote($this->getTitle(), 'text').
 			','.$ilDB->quote($this->getPoolId(), 'integer').','.$ilDB->quote($this->getScheduleId(), 'integer').')');
 	}
 

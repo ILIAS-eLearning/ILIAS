@@ -303,6 +303,21 @@ class ilBookingSchedule
 	}
 
 	/**
+	 * Check if given pool has any defined schedules
+	 * @param int $a_pool_id
+	 * @return bool
+	 */
+	static function hasExistingSchedules($a_pool_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT booking_schedule_id".
+			" FROM booking_schedule".
+			" WHERE pool_id = ".$ilDB->quote($a_pool_id, 'integer'));
+		return (bool)$ilDB->numRows($set);
+	}
+
+	/**
 	 * Get list of booking objects for given pool
 	 * @param	int	$a_pool_id
 	 * @return	array
