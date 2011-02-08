@@ -214,7 +214,7 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			$this->objProperties->setAnonymisation((int) $_POST['anonymized']);
 		}
-		if ($ilSetting->get('enable_fora_statistics'))
+		if ($ilSetting->get('enable_fora_statistics', false))
 		{
 			$this->objProperties->setStatisticsStatus((int) $_POST['statistics_enabled']);
 		}
@@ -279,7 +279,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$form->addItem($cb_prop);
 		}
 
-		if ($ilSetting->get('enable_fora_statistics'))
+		if ($ilSetting->get('enable_fora_statistics', false))
 		{
 			$cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_statistics_enabled'), 'statistics_enabled');
 			$cb_prop->setValue('1');
@@ -1011,7 +1011,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$tabs_gui->addTarget('frm_moderators', $this->ctrl->getLinkTargetByClass('ilForumModeratorsGUI', 'showModerators'), 'showModerators', get_class($this));			
 		}
 
-		if ($this->ilias->getSetting('enable_fora_statistics', true) &&
+		if ($this->ilias->getSetting('enable_fora_statistics', false) &&
 			($this->objProperties->isStatisticEnabled() || $ilAccess->checkAccess('write', '', $this->ref_id))) 
 		{
 			$force_active = ($_GET['cmd'] == 'showStatistics') ? true	: false;
@@ -1065,7 +1065,7 @@ class ilObjForumGUI extends ilObjectGUI
 		global $ilUser, $ilAccess;
 		
 		/// if globally deactivated, skip!!! intrusion detected
-		if (!$this->ilias->getSetting('enable_fora_statistics', true))
+		if (!$this->ilias->getSetting('enable_fora_statistics', false))
 		{
 			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
