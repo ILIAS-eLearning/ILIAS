@@ -2277,8 +2277,8 @@ common#:#desktop_items#:#Ausgewählte Angebote
 common#:#details#:#Details
 common#:#disable#:#ausschalten
 common#:#disable_admin_force#:#Benachrichtigung deaktivieren
-common#:#disable_anonymous_fora#:#"Identität verschleiern" für Foren deaktivieren
-common#:#disable_anonymous_fora_desc#:#Wenn diese Option ausgewählt ist, ist das Feature "Identität verschleiern" für Foren nicht mehr verfügbar. Ist das Feature in bestimmten Foren bereits aktiviert, kann dies jedoch noch rückgängig gemacht werden.
+common#:#disable_anonymous_fora#:#In Foren nicht "mit Pseudonym schreiben"
+common#:#disable_anonymous_fora_desc#:#Wenn aktiviert, steht die Funktion "mit Pseudonym schreiben" in Foren nicht mehr zur Verfügung. Ist diese in bestimmten Foren bereits aktiviert, kann dies jedoch noch rückgängig gemacht werden.
 common#:#disable_check#:#Nicht überprüfen
 common#:#disable_ext_lang_maint#:#Deaktiviere erweiterte Sprachenverwaltung
 common#:#disable_hide_user_toggle#:#Mitglied darf Benachrichtigung deaktivieren
