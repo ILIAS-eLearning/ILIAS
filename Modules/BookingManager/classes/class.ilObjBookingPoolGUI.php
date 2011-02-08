@@ -30,7 +30,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function executeCommand()
 	{
-		global $tpl, $ilTabs;
+		global $tpl, $ilTabs, $ilNavigationHistory;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -45,6 +45,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		{
 			$next_class = '';
 		}
+
+		$ilNavigationHistory->addItem($this->ref_id,
+				"./goto.php?target=book_".$this->ref_id, "book");
 
 		$this->prepareOutput();
 

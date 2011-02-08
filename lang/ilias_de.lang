@@ -10589,12 +10589,12 @@ trac#:#trac_matrix#:#Matrixansicht
 dateplaner#:#cal_ch_multi_edit_sequence#:#Termine editieren
 exp#:#export_created#:#Eine neue Exportdatei wurde erstellt.
 crs#:#crs_import#:#Kurs importieren
-book#:#book_booking_types#:#Typen
+book#:#book_booking_types#:#Buchungsobjekte
 book#:#book_schedules#:#Zeitpläne
 book#:#book_no_of_objects#:#Anzahl Objekte
 book#:#book_book#:#Buchen
 book#:#book_list_items#:#Objekte listen
-book#:#book_add_type#:#Typ hinzufügen
+book#:#book_add_type#:#Buchungsobjekt-Typ hinzufügen
 book#:#book_back_to_list#:#Zurück zur Liste
 book#:#book_edit_type#:#Typ ändern
 book#:#book_group_objects#:#Objekte gruppieren
@@ -10970,3 +10970,4 @@ content#:#cont_wrong_answers_single#:#Falsche Wahl.
 survey#:#question_changed_in_survey_only#:#Die Frage wurde nur in der Umfrage verändert
 style#:#style_move_style_into#:#In
 content#:#cont_added_tab#:#Register wurde hinzugefügt.
+book#:#book_schedule_warning#:#Es sind momentan keine Zeitpläne verfügbar. Um Buchungsobjekte anlegen zu können, muss zuerst ein Zeitplan angelegt werden.

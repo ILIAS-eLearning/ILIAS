@@ -52,6 +52,12 @@ class ilBookingTypeGUI
 	{
 		global $tpl, $lng, $ilCtrl, $ilAccess;
 
+		include_once "Modules/BookingManager/classes/class.ilBookingSchedule.php";
+		if(!ilBookingSchedule::hasExistingSchedules($this->obj_id))
+		{
+			ilUtil::sendFailure($lng->txt("book_schedule_warning"));
+		}
+
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			include_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
@@ -192,7 +198,8 @@ class ilBookingTypeGUI
 			$obj->save();
 
 			ilUtil::sendSuccess($lng->txt("book_type_added"));
-			$this->render();
+			$ilCtrl->setParameterByClass('ilbookingobjectgui', 'type_id', $obj->getId());
+			$ilCtrl->redirectByClass("ilbookingobjectgui", "create");
 		}
 		else
 		{
