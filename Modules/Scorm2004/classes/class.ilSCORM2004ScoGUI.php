@@ -100,65 +100,64 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	 */
 	function showProperties()
 	{
-		global $tpl,$lng,$ilTabs;
+		global $tpl, $lng, $ilTabs, $ilCtrl;
 
 		$this->setTabs();
 		$this->setLocator();
-		$ilTabs->setTabActive("sahs_learning_objectives");
-		include_once "./Services/Table/classes/class.ilTableGUI.php";
+		$ilTabs->setTabActive("properties");
 
-		// load template for table
-		$tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
 
-		// load template for table content data
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scormeditor_sco_properties.html", "Modules/Scorm2004");
+		// description
+		$ta = new ilTextAreaInputGUI($lng->txt("description"), "desc");
+		$ta->setRows(4);
+		$ta->setCols(55);
+		$form->setTitle($lng->txt("properties"));
+		$form->addItem($ta);
+		include_once "./Services/MetaData/classes/class.ilMD.php";
+		$meta = new ilMD($this->node_object->getSLMId(), $this->node_object->getId(), $this->node_object->getType());
+		$desc_ids = $meta->getGeneral()->getDescriptionIds();
+		$ta->setValue($meta->getGeneral()->getDescription($desc_ids[0])->getDescription());
 
-		$tbl = new ilTableGUI();
-		$tbl->enable("action");
-		$tbl->disable("sort");
-		$tbl->setTitle("Learning Objectives for ".$this->node_object->getTitle());
-		$tbl->setHeaderNames(array("", $lng->txt("title"),"Scope"));
-		$cols = array("", "title","scope");
-		$tbl->setHeaderVars($cols, $header_params);
+		// objectives
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($lng->txt("sahs_learning_objectives"));
+		$form->addItem($sh);
 
-		$tr_data = $this->node_object->getObjectives();
+		$objectives = $this->node_object->getObjectives();
 
-		$tpl->setVariable("COLUMN_COUNTS", 3);
-
-		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME", "updateProperties");
-		$tpl->setVariable("BTN_VALUE",  $lng->txt("save"));
-		$tpl->parseCurrentBlock();
-		$tbl->render();
-
-		foreach ($tr_data as $data)
+		foreach ($objectives as $ob)
 		{
-			$tpl->setCurrentBlock("tbl_content");
-			$tpl->setVariable("TITLE", $data->getObjectiveID());
-			$tpl->setVariable("NODE_ID", "obj_".$data->getId());
-			$tpl->setVariable("ICON" , ilUtil::getImagePath("icon_lobj.gif"));
-
-			$mappings = $data->getMappings();
+			// map info
+			$mappings = $ob->getMappings();
 			$mapinfo = null;
-			foreach($mappings as $map) {
+			foreach($mappings as $map)
+			{
 				$mapinfo .= $map->getTargetObjectiveID();
 			}
-			if ($mapinfo == null) {
+
+			if ($mapinfo == null)
+			{
 				$mapinfo = "local";
-			} else {
+			}
+			else
+			{
 				$mapinfo = "global to ".$mapinfo;
 			}
-			$tpl->setVariable("REFERENCE", $mapinfo);
-			$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-			$tpl->setVariable("CSS_ROW", $css_row);
-			$tpl->parseCurrentBlock();
+
+			// objective
+			$ta = new ilTextAreaInputGUI($mapinfo,
+				"obj_".$ob->getId());
+			$ta->setCols(55);
+			$ta->setRows(4);
+			$form->addItem($ta);
+			$ta->setValue($ob->getObjectiveID());
 		}
-		//block sequencing rules
-
-
-		//$tpl->touchBlock("adm_content");
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->addCommandButton("updateProperties",
+			$lng->txt("save"));
+		$tpl->setContent($form->getHTML());
 	}
 
 	/**
@@ -176,15 +175,25 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 				{
 					$empty=true;
 				} else {
-					$objective->setObjectiveID($value);
+					$objective->setObjectiveID(ilUtil::stripSlashes($value));
 					$objective->updateObjective();
 				}
 			}
 		}
+
+		include_once "./Services/MetaData/classes/class.ilMD.php";
+		$meta = new ilMD($this->node_object->getSLMId(), $this->node_object->getId(), $this->node_object->getType());
+		$gen = $meta->getGeneral();
+		$desc_ids = $gen->getDescriptionIds();
+		$des = $gen->getDescription($desc_ids[0]);
+		$des->setDescription(ilUtil::stripSlashes($_POST["desc"]));
+		$des->update();
+		$gen->update();
+
 		if (!$empty) {
 			ilUtil::sendInfo($lng->txt("saved_successfully"),true);
 		} else {
-			ilUtil::sendInfo("Objective titles can't be blank",true);
+			ilUtil::sendInfo($lng->txt("sahs_empty_objectives_are_not_allowed"), true);
 		}
 		$this->showProperties();
 	}
@@ -268,7 +277,7 @@ die("deprecated");
 
 		// properties (named learning objectives, since here is currently
 		// no other property)
-		$ilTabs->addTarget("sahs_learning_objectives",
+		$ilTabs->addTarget("properties",
 		$ilCtrl->getLinkTarget($this,'showProperties'),
 			 "showProperties", get_class($this));
 
@@ -350,8 +359,8 @@ die("deprecated");
 		include_once "./Services/MetaData/classes/class.ilMD.php";
 		
 		$meta = new ilMD($this->node_object->getSLMId(), $this->node_object->getId(), $this->node_object->getType());
-				$desc_ids = $meta->getGeneral()->getDescriptionIds();
-				$sco_description = $meta->getGeneral()->getDescription($desc_ids[0])->getDescription();
+		$desc_ids = $meta->getGeneral()->getDescriptionIds();
+		$sco_description = $meta->getGeneral()->getDescription($desc_ids[0])->getDescription();
 		
 		// @todo
 		// Why is that much HTML code in an application class?
