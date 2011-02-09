@@ -345,11 +345,6 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 				$sco_tpl->setVariable("TXT_PREVIOUS", $lng->txt('scplayer_previous'));
 				$sco_tpl->setVariable("TXT_NEXT", $lng->txt('scplayer_next'));
 				$sco_tpl->parseCurrentBlock();
-
-				// title
-				$sco_tpl->setCurrentBlock("title");
-				$sco_tpl->setVariable("SCO_TITLE", $this->getTitle());
-				$sco_tpl->parseCurrentBlock();
 			}
 
 			// init and question lang vars
@@ -363,46 +358,63 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 					$lng->txt("cont_".$lv));
 			}
 			$sco_tpl->parseCurrentBlock();
-
 			$sco_tpl->touchBlock("finish");
-		}
-		else
-		{
-			// title
-			$sco_tpl->setCurrentBlock("pdf_title");
-			$sco_tpl->setVariable("SCO_TITLE", $this->getTitle());
-			$sco_tpl->parseCurrentBlock();
 
-			$sco_tpl->touchBlock("pdf_break");
-		}
-					
-		// sco description
-		if (trim($sco_description) != "")
-		{
-			$sco_tpl->setCurrentBlock("sco_desc");
-			$sco_tpl->setVariable("TXT_DESC", $lng->txt("description"));
-			$sco_tpl->setVariable("VAL_DESC", $sco_description);
-			$sco_tpl->parseCurrentBlock();
 		}
 
-		if ($a_asset_type == "sco")
+		// meta page (meta info at SCO beginning) start...
+		if ($this->getType() == "sco")
 		{
-			// sco objective(s)
-			$objs = $this->getObjectives();
-			if (count($objs) > 0)
+			if ($mode != 'pdf')
 			{
-				foreach ($objs as $objective)
+				// title
+				if ($a_asset_type != "entry_asset")
 				{
-					$sco_tpl->setCurrentBlock("sco_obj");
-					$sco_tpl->setVariable("VAL_OBJECTIVE", nl2br($objective->getObjectiveID()));
+					$sco_tpl->setCurrentBlock("title");
+					$sco_tpl->setVariable("SCO_TITLE", $this->getTitle());
 					$sco_tpl->parseCurrentBlock();
 				}
-				$sco_tpl->setCurrentBlock("sco_objs");
-				$sco_tpl->setVariable("TXT_OBJECTIVES", $lng->txt("sahs_objectives"));
+			}
+			else
+			{
+				// title
+				$sco_tpl->setCurrentBlock("pdf_title");
+				$sco_tpl->setVariable("SCO_TITLE", $this->getTitle());
+				$sco_tpl->parseCurrentBlock();
+				$sco_tpl->touchBlock("pdf_break");
+			}
+
+			// sco description
+			if (trim($sco_description) != "")
+			{
+				$sco_tpl->setCurrentBlock("sco_desc");
+				$sco_tpl->setVariable("TXT_DESC", $lng->txt("description"));
+				$sco_tpl->setVariable("VAL_DESC", $sco_description);
 				$sco_tpl->parseCurrentBlock();
 			}
+
+			if ($a_asset_type == "sco")
+			{
+				// sco objective(s)
+				$objs = $this->getObjectives();
+				if (count($objs) > 0)
+				{
+					foreach ($objs as $objective)
+					{
+						$sco_tpl->setCurrentBlock("sco_obj");
+						$sco_tpl->setVariable("VAL_OBJECTIVE", nl2br($objective->getObjectiveID()));
+						$sco_tpl->parseCurrentBlock();
+					}
+					$sco_tpl->setCurrentBlock("sco_objs");
+					$sco_tpl->setVariable("TXT_OBJECTIVES", $lng->txt("sahs_objectives"));
+					$sco_tpl->parseCurrentBlock();
+				}
+			}
+			$sco_tpl->setCurrentBlock("meta_page");
+			$sco_tpl->parseCurrentBlock();
 		}
-		
+		// ... meta page (meta info at SCO beginning) end
+
 		//notify Question Exporter of new SCO
 		require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
 		ilQuestionExporter::indicateNewSco();

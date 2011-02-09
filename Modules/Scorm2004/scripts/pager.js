@@ -21,10 +21,16 @@ var pager =
 		jQuery('a.ilc_page_rnavlink_RightNavigationLink').bind("click", function(){pager.NextPage();});
 		jQuery('a.ilc_page_lnavlink_LeftNavigationLink').each(function(ix)
 			{
-				jQuery( this ).bind("click", function(){pager.PrevPage();});
-				jQuery( this ).hide();
+				jQuery(this).bind("click", function(){pager.PrevPage();});
+				//jQuery(this).hide();
+				jQuery(this).css("visibility", "hidden");
 			});
-			
+
+		var newPage = jQuery(pager.currentPage).nextAll('table.ilc_page_cont_PageContainer');
+		if (newPage.length==0)
+		{
+			jQuery('a.ilc_page_rnavlink_RightNavigationLink').hide();
+		}
 	},
 	NextPage : function()
 	{
@@ -35,9 +41,10 @@ var pager =
 			pager.currentPage = newPage[0];
 		
 			//fix for IE Bug...imagemap-highlights have to be restored when hidden
-			jQuery(pager.currentPage).show("fast",function(){ jQuery('.imagemap').maphilight({fade:true});});
+			jQuery(pager.currentPage).show("",function(){ jQuery('.imagemap').maphilight({fade:true});});
 		
-			jQuery('a.ilc_page_lnavlink_LeftNavigationLink').show();
+			//jQuery('a.ilc_page_lnavlink_LeftNavigationLink').show();
+			jQuery('a.ilc_page_lnavlink_LeftNavigationLink').css("visibility", "");
 			if(newPage.length==1){
 				jQuery('a.ilc_page_rnavlink_RightNavigationLink').hide();
 				if(typeof finishSCO == 'function') {
@@ -54,11 +61,12 @@ var pager =
 		{
 			jQuery(pager.currentPage).hide();
 			pager.currentPage = newPage[0];
-			jQuery(pager.currentPage).show("fast",function(){ jQuery('.imagemap').maphilight({fade:true});});
+			jQuery(pager.currentPage).show("",function(){ jQuery('.imagemap').maphilight({fade:true});});
 		
 			jQuery('a.ilc_page_rnavlink_RightNavigationLink').show();
 			if(newPage.length==1)
-			jQuery('a.ilc_page_lnavlink_LeftNavigationLink').hide();
+			//jQuery('a.ilc_page_lnavlink_LeftNavigationLink').hide();
+			jQuery('a.ilc_page_lnavlink_LeftNavigationLink').css("visibility", "hidden");
 		}
 	}
 };
