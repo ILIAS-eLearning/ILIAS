@@ -10973,3 +10973,5 @@ content#:#cont_entry_page#:#Entry Page
 content#:#cont_create_entry_page#:#Create Entry Page
 content#:#cont_special_pages#:#Special Pages
 book#:#book_schedule_warning#:#Currently, there is no schedule available. Before adding booking objects you need to create a schedule for booking.
+common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature "Posting with pseudonym" is not available in forums anymore.
+common#:#enable_anonymous_fora#:#Allow posting with pseudonym
