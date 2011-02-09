@@ -52,6 +52,8 @@ class ilMailSummaryNotification extends ilMailNotification
 		foreach($users as $user_id => $mail_data)
 		{
 			$this->initLanguage($user_id);
+			$user_lang = $this->getLanguage() ? $this->getLanguage() : $lng;
+
 			$this->initMail();
 
 			$this->setRecipients($user_id);
@@ -61,11 +63,11 @@ class ilMailSummaryNotification extends ilMailNotification
 			$this->appendBody("\n\n");
 			if(count($mail_data) == 1)
 			{
-				$this->appendBody(sprintf($lng->txt('mail_at_the_ilias_installation'), count($mail_data), ilUtil::_getHttpPath()));
+				$this->appendBody(sprintf($user_lang->txt('mail_at_the_ilias_installation'), count($mail_data), ilUtil::_getHttpPath()));
 			}
 			else
 			{
-				$this->appendBody(sprintf($lng->txt('mails_at_the_ilias_installation'), count($mail_data), ilUtil::_getHttpPath()));
+				$this->appendBody(sprintf($user_lang->txt('mails_at_the_ilias_installation'), count($mail_data), ilUtil::_getHttpPath()));
 			}
 			$this->appendBody("\n\n");
 			
@@ -75,23 +77,23 @@ class ilMailSummaryNotification extends ilMailNotification
 				$this->appendBody("----------------------------------------------------------------------------------------------");
 				$this->appendBody("\n\n");
 				$this->appendBody('#'.$counter."\n\n");
-				$this->appendBody($lng->txt('date') .": ".$mail['send_time']);
+				$this->appendBody($user_lang->txt('date') .": ".$mail['send_time']);
 				$this->appendBody("\n");
-				$this->appendBody($lng->txt('sender') .": ".ilObjUser::_lookupLogin($mail['sender_id'])."");
+				$this->appendBody($user_lang->txt('sender') .": ".ilObjUser::_lookupLogin($mail['sender_id'])."");
 				$this->appendBody("\n");
-				$this->appendBody($lng->txt('subject').": ". $mail['m_subject']);
+				$this->appendBody($user_lang->txt('subject').": ". $mail['m_subject']);
 				$this->appendBody("\n\n");
 
 				if($is_message_enabled == true)
 				{
-					$this->appendBody($lng->txt('message').": ". $mail['m_message']);
+					$this->appendBody($user_lang->txt('message').": ". $mail['m_message']);
 					$this->appendBody("\n\n");
 				}
 				++$counter;
 			}
 			$this->appendBody("----------------------------------------------------------------------------------------------");
 			$this->appendBody("\n\n");
-			$this->appendBody($lng->txt('follow_link_to_read_mails')." ");
+			$this->appendBody($user_lang->txt('follow_link_to_read_mails')." ");
 			$this->appendBody("\n");
 			$mailbox_link = ilUtil::_getHttpPath();
 			$mailbox_link .= "/goto.php?target=mail&client_id=".CLIENT_ID;
