@@ -210,7 +210,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->object->setDescription(ilUtil::stripSlashes(trim($_POST["desc"])));
 
 		$this->objProperties->setDefaultView(((int) $_POST['default_view']));
-		if (!$this->ilias->getSetting('disable_anonymous_fora') || $this->objProperties->isAnonymized())
+		if ($this->ilias->getSetting('enable_anonymous_fora') || $this->objProperties->isAnonymized())
 		{
 			$this->objProperties->setAnonymisation((int) $_POST['anonymized']);
 		}
@@ -270,7 +270,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$rg_pro->setValue($this->objProperties->getDefaultView());		
 		$form->addItem($rg_pro);	
 
-		if (!$ilSetting->get('disable_anonymous_fora') || $this->objProperties->isAnonymized())
+		if ($ilSetting->get('enable_anonymous_fora') || $this->objProperties->isAnonymized())
 		{	
 			$cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_anonymous_posting'),	'anonymized');
 			$cb_prop->setValue('1');
@@ -772,7 +772,8 @@ class ilObjForumGUI extends ilObjectGUI
 		$anonymize_gui = new ilCheckboxInputGUI($this->lng->txt('frm_anonymous_posting'), 'anonymized');
 		$anonymize_gui->setInfo($this->lng->txt('frm_anonymous_posting_desc'));
 		$anonymize_gui->setValue(1);
-		if($this->ilias->getSetting('disable_anonymous_fora', true))
+
+		if($this->ilias->getSetting('enable_anonymous_fora', false))
 			$anonymize_gui->setDisabled(true);
 		$this->create_form_gui->addItem($anonymize_gui);		
 		
@@ -909,7 +910,7 @@ class ilObjForumGUI extends ilObjectGUI
 			// save settings
 			$this->objProperties->setObjId($forumObj->getId());
 			$this->objProperties->setDefaultView(((int)$this->create_form_gui->getInput('sort')));
-			if($this->ilias->getSetting('disable_anonymous_fora', false) || $_POST['anonymized'])
+			if($this->ilias->getSetting('enable_anonymous_fora', true) || $_POST['anonymized'])
 			{
 				
 				$this->objProperties->setAnonymisation((int)$this->create_form_gui->getInput('anonymized'));

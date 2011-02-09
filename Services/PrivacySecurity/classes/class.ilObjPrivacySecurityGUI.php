@@ -196,9 +196,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$check->setChecked($privacy->enabledForaStatistics());
 		$form->addItem($check);
 
-		$check = new ilCheckboxInputGui($this->lng->txt('disable_anonymous_fora'), 'anonymous_fora');
-		$check->setInfo($this->lng->txt('disable_anonymous_fora_desc'));
-		$check->setChecked($privacy->disabledAnonymousFora());
+		$check = new ilCheckboxInputGui($this->lng->txt('enable_anonymous_fora'), 'anonymous_fora');
+		$check->setInfo($this->lng->txt('enable_anonymous_fora_desc'));
+		$check->setChecked($privacy->enabledAnonymousFora());
 		$form->addItem($check);
 
 		$check = new ilCheckboxInputGui($this->lng->txt('rbac_log'), 'rbac_log');
@@ -373,7 +373,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$privacy->showGroupAccessTimes((int) in_array('grp_access_times', $_POST['profile_protection']));
 		$privacy->showCourseAccessTimes((int) in_array('crs_access_times', $_POST['profile_protection']));
 		$privacy->enableForaStatistics ((int) $_POST['fora_statistics']);
-		$privacy->disableAnonymousFora ((int) $_POST['anonymous_fora']);
+		$privacy->enableAnonymousFora ((int) $_POST['anonymous_fora']);
 		$privacy->enableRbacLog((int) $_POST['rbac_log']);
 		$privacy->setRbacLogAge((int) $_POST['rbac_log_age']);
 

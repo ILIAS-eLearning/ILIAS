@@ -10971,3 +10971,5 @@ survey#:#question_changed_in_survey_only#:#Die Frage wurde nur in der Umfrage ve
 style#:#style_move_style_into#:#In
 content#:#cont_added_tab#:#Register wurde hinzugefügt.
 book#:#book_schedule_warning#:#Es sind momentan keine Zeitpläne verfügbar. Um Buchungsobjekte anlegen zu können, muss zuerst ein Zeitplan angelegt werden.
+common#:#enable_anonymous_fora_desc#:#Wenn deaktiviert, steht die Funktion "mit Pseudonym schreiben" in Foren nicht mehr zur Verfügung.
+common#:#enable_anonymous_fora#:#In Foren "mit Pseudonym schreiben"

@@ -3828,6 +3828,17 @@ $ilDB->addTableColumn("page_layout", "style_id", array(
 ));
 ?>
 <#3217>
-<?php 
+<?php
 $ilDB->addIndex('frm_thread_access', array('access_last'), 'i1');
+?>
+<#3218>
+<?php
+	$setting = new ilSetting();
+
+	$old_setting = $setting->get('disable_anonymous_fora');
+	$new_setting = $setting->set('enable_anonymous_fora', $old_setting ? false : true);
+
+	$ilDB->manipulateF('DELETE FROM settings WHERE keyword = %s',
+			array('text'), array('disable_anonymous_fora'));
+
 ?>
