@@ -1440,6 +1440,7 @@ class ilTree
 		// This is needed to ensure that we can compare title path strings with
 		// strings from the database.
 		require_once('include/Unicode/UtfNormal.php');
+		include_once './Services/Utilities/classes/class.ilStr.php';
 		$inClause = 'd.title IN (';
 		for ($i=0; $i < count($titlePath); $i++)
 		{
