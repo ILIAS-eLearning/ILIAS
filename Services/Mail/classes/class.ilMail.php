@@ -2515,10 +2515,12 @@ class ilMail
 			include_once('./Services/Language/classes/class.ilLanguageFactory.php');
 			$lang = ilLanguageFactory::_getLanguage();
 		}
+		$http_path = ilUtil::_getHttpPath();
+
 		$lang->loadLanguageModule('mail');
 		return sprintf($lang->txt('mail_auto_generated_info'),
 			$ilSetting->get('inst_name','ILIAS 4'),
-			ILIAS_HTTP_PATH."\n\n");
+			$http_path."\n\n");
 	}
 
 	/**
