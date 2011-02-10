@@ -40,14 +40,14 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 	}
 	
 	/**
-	* overwritten method
-	*/
-	function create($a_upload = false,$a_template = false)
+	 * Create sco
+	 */
+	function create($a_upload = false, $a_template = false, $a_call_parent_only = false)
 	{
 		include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
 		include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Objective.php");
 		parent::create($a_upload);
-		if (!$a_template) {
+		if (!$a_template && !$a_call_parent_only) {
 			$seq_item = new ilSCORM2004Item($this->getId());
 			$seq_item->insert();
 			$obj = new ilSCORM2004Objective($this->getId());
@@ -58,8 +58,8 @@ class ilSCORM2004Sco extends ilSCORM2004Node
 	}
 
 	/**
-	* Delete Nested Page Objects
-	*/
+	 * Delete Nested Page Objects
+	 */
 	private function delete_rec($a_delete_meta_data = true)
 	{
 		$childs = $this->tree->getChilds($this->getId());
