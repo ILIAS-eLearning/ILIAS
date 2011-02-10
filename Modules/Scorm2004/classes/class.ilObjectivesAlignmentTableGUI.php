@@ -43,7 +43,15 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
 	*/
 	function getScos()
 	{
-		$nodes = $this->tree->getChilds($this->chap);
+		if ($this->chap > 0)
+		{
+			$nodes = $this->tree->getChilds($this->chap);
+		}
+		else
+		{
+			$nodes = $this->tree->getSubTree($this->tree->getNodeData($this->tree->root_id),true,array('sco'));
+		}
+
 		$scos = array();
 
 		$nr = 1;
@@ -79,7 +87,8 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
 		foreach($tr_data as $data)
 		{
 			$this->tpl->setCurrentBlock("objective");
-			$this->tpl->setVariable("TXT_LEARNING_OBJECTIVE", $data->getObjectiveID());
+			$this->tpl->setVariable("TXT_LEARNING_OBJECTIVE",
+				ilSCORM2004Sco::convertLists($data->getObjectiveID()));
 			$this->tpl->setVariable("IMG_LOBJ", ilUtil::getImagePath("icon_lobj_s.gif"));
 			$this->tpl->parseCurrentBlock();
 		}

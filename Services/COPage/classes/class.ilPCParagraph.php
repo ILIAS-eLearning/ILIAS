@@ -643,7 +643,7 @@ echo htmlentities($a_text);*/
 	*
 	* @return	string	string ready for edit textarea
 	*/
-	function input2xmlReplaceLists($a_text)
+	static function input2xmlReplaceLists($a_text)
 	{
 		$rows = explode("<br />", $a_text."<br />");
 //var_dump($a_text);
@@ -651,7 +651,7 @@ echo htmlentities($a_text);*/
 		$old_level = 0;
 
 		$text = "";
-		
+
 		foreach ($rows as $row)
 		{
 			$level = 0;
@@ -667,7 +667,7 @@ echo htmlentities($a_text);*/
 			{
 				$level = 1;
 			}
-			
+
 			// end previous line
 			if ($level < $old_level)
 			{

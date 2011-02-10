@@ -109,10 +109,17 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 
+		// hide objectives page
+		$cb = new ilCheckboxInputGUI($lng->txt("sahs_hide_objectives_page"), "hide_objectives_page");
+		$cb->setInfo($lng->txt("sahs_hide_objectives_page_info"));
+		$form->addItem($cb);
+		$cb->setChecked($this->node_object->getHideObjectivePage());
+
 		// description
 		$ta = new ilTextAreaInputGUI($lng->txt("description"), "desc");
 		$ta->setRows(4);
 		$ta->setCols(55);
+		$ta->setInfo($lng->txt("sahs_list_info"));
 		$form->setTitle($lng->txt("properties"));
 		$form->addItem($ta);
 		include_once "./Services/MetaData/classes/class.ilMD.php";
@@ -151,6 +158,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 				"obj_".$ob->getId());
 			$ta->setCols(55);
 			$ta->setRows(4);
+			$ta->setInfo($lng->txt("sahs_list_info"));
 			$form->addItem($ta);
 			$ta->setValue($ob->getObjectiveID());
 		}
@@ -180,6 +188,9 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 				}
 			}
 		}
+
+		$this->node_object->setHideObjectivePage(ilUtil::stripSlashes($_POST["hide_objectives_page"]));
+		$this->node_object->update();
 
 		include_once "./Services/MetaData/classes/class.ilMD.php";
 		$meta = new ilMD($this->node_object->getSLMId(), $this->node_object->getId(), $this->node_object->getType());
