@@ -250,14 +250,7 @@ class ilContObjectManifestBuilder
 				}	
 				require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
 				$seq_item = new ilSCORM2004Item($obj['obj_id']);
-				//if ($obj['type'] == "sco")
-				//{
-					$this->writer->xmlData($this->writer->xmlFormatData($seq_item->exportAsXML()),false,false);
-				//}
-				//else
-				//{
-					$this->writer->xmlData($this->writer->xmlFormatData("<imsss:sequencing/>"),false,false);
-				//s}
+				$this->writer->xmlData($this->writer->xmlFormatData($seq_item->exportAsXML()),false,false);
 			}
 			$this->writer->xmlEndTag("item");	
 		}

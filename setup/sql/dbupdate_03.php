@@ -3842,3 +3842,38 @@ $ilDB->addIndex('frm_thread_access', array('access_last'), 'i1');
 			array('text'), array('disable_anonymous_fora'));
 
 ?>
+<#3219>
+<?php
+$fields = array(
+	'id' => array
+	(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'hide_obj_page' => array
+	(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+	)
+);
+$ilDB->createTable('sahs_sc13_sco', $fields);
+$ilDB->addPrimaryKey("sahs_sc13_sco", array("id"));
+	
+?>
+<#3220>
+<?php
+$set = $ilDB->query("SELECT * FROM sahs_sc13_tree_node WHERE ".
+	" type = ".$ilDB->quote("sco", "text")
+	);
+while ($rec = $ilDB->fetchAssoc($set))
+{
+	$ilDB->manipulate("INSERT INTO sahs_sc13_sco ".
+		"(id, hide_obj_page) VALUES (".
+		$ilDB->quote($rec["obj_id"], "integer").",".
+		$ilDB->quote(0, "integer").
+		")");
+}
+?>

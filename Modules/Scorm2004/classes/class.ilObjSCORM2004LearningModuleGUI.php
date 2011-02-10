@@ -1335,51 +1335,45 @@ function showTrackingItem()
 	 */
 	function showLearningObjectivesAlignment()
 	{
-		global $tpl, $lng, $ilCtrl;
+		global $tpl, $lng, $ilCtrl, $ilToolbar;
 
-		$oa_tpl = new ilTemplate("tpl.objectives_alignment.html", true, true, "Modules/Scorm2004");
-		
 		$chaps = $this->object->getTree()->getChilds(
 			$this->object->getTree()->getRootId());
 		$s_chaps = array();
 		foreach($chaps as $chap)
 		{
-			$s_chaps[$chap["child"]] = $chap["title"];
+			if ($chap["type"] == "chap")
+			{
+				$s_chaps[$chap["child"]] = $chap["title"];
+			}
 		}
-		reset($s_chaps);
-		if (count($s_chaps) > 0)
-		{
-			$cur_chap = $_SESSION["sahs_cur_chap"]
-				? $_SESSION["sahs_cur_chap"]
-				: key($s_chaps);
-			
-			$oa_tpl->setCurrentBlock("chapter_selection");
-			$oa_tpl->setVariable("CHAPTER_SELECTION",
-				ilUtil::formSelect($cur_chap, "chapter", $s_chaps, false, true));
-			$oa_tpl->setVariable("TXT_SELECT_CHAPTER",
-				$lng->txt("chapter"));
-			$oa_tpl->setVariable("TXT_CHANGE", $lng->txt("change"));
-			$oa_tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
-			$oa_tpl->setVariable("CMD_CHAP_SEL", "selectLObjChapter");
-			$oa_tpl->parseCurrentBlock();
+		$cur_chap = $_SESSION["sahs_cur_chap"]
+			? $_SESSION["sahs_cur_chap"]
+			: 0;
+
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$options = array(
+			"0" => $lng->txt("all")
+		);
+		$options = $options + $s_chaps;
+		$si = new ilSelectInputGUI($lng->txt("chapter"), "chapter");
+		$si->setOptions($options);
+		$si->setValue($cur_chap);
+		$ilToolbar->addInputItem($si, true);
+		$ilToolbar->addFormButton($lng->txt("change"), "selectLObjChapter");
 		
-			include_once("./Modules/Scorm2004/classes/class.ilObjectivesAlignmentTableGUI.php");
-			$obj_table = new ilObjectivesAlignmentTableGUI($this, "showLearningObjectivesAlignment",
-				$this->getEditTree(), $this->object, $cur_chap);
-			$oa_tpl->setVariable("LOBJ_TABLE", $obj_table->getHTML());
-			$tpl->setContent($oa_tpl->get());
-		}
-		else
-		{
-			ilUtil::sendInfo($lng->txt("sahs_oa_no_chapters"));
-		}
+		include_once("./Modules/Scorm2004/classes/class.ilObjectivesAlignmentTableGUI.php");
+		$obj_table = new ilObjectivesAlignmentTableGUI($this, "showLearningObjectivesAlignment",
+			$this->getEditTree(), $this->object, $cur_chap);
+		$tpl->setContent($obj_table->getHTML());
 	}
 
 	function selectLObjChapter()
 	{
 		global $ilCtrl;
 
-		$_SESSION["sahs_cur_chap"] = $_POST["chapter"];
+		$_SESSION["sahs_cur_chap"] = (int) $_POST["chapter"];
 		$ilCtrl->redirect($this, "showLearningObjectivesAlignment");
 	}
 	
