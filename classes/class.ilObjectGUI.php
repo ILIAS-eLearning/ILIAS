@@ -267,16 +267,20 @@ class ilObjectGUI
 		// do not fit
 		if ($this->getCreationMode() == true)
 		{
-			// get gui class of parent and call their title and description method
-			$obj_type = ilObject::_lookupType($_GET["ref_id"],true);
-			$class_name = $this->objDefinition->getClassName($obj_type);
-			$class = strtolower("ilObj".$class_name."GUI");
-			$class_path = $this->ctrl->lookupClassPath($class);
-			include_once($class_path);
-			$class_name = $this->ctrl->getClassForClasspath($class_path);
+			// repository vs. workspace
+			if($this->call_by_reference)
+			{
+				// get gui class of parent and call their title and description method
+				$obj_type = ilObject::_lookupType($_GET["ref_id"],true);
+				$class_name = $this->objDefinition->getClassName($obj_type);
+				$class = strtolower("ilObj".$class_name."GUI");
+				$class_path = $this->ctrl->lookupClassPath($class);
+				include_once($class_path);
+				$class_name = $this->ctrl->getClassForClasspath($class_path);
 //echo "<br>instantiating parent for title and description";
-			$this->parent_gui_obj = new $class_name("", $_GET["ref_id"], true, false);
-			$this->parent_gui_obj->setTitleAndDescription();
+				$this->parent_gui_obj = new $class_name("", $_GET["ref_id"], true, false);
+				$this->parent_gui_obj->setTitleAndDescription();
+			}
 		}
 		else
 		{
@@ -502,14 +506,18 @@ class ilObjectGUI
 		{
 			return;
 		}
-		
-		// todo: admin workaround
-		// in the future, objectgui classes should not be called in
-		// admin section anymore (rbac/trash handling in own classes)
-		$ref_id = ($_GET["ref_id"] != "")
-			? $_GET["ref_id"]
-			: $this->object->getRefId();
-		$ilLocator->addRepositoryItems($ref_id);
+
+		// repository vs. workspace
+		if($this->call_by_reference)
+		{
+			// todo: admin workaround
+			// in the future, objectgui classes should not be called in
+			// admin section anymore (rbac/trash handling in own classes)
+			$ref_id = ($_GET["ref_id"] != "")
+				? $_GET["ref_id"]
+				: $this->object->getRefId();
+			$ilLocator->addRepositoryItems($ref_id);
+		}
 		
 		if(!$this->creation_mode)
 		{

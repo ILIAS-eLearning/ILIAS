@@ -26,27 +26,40 @@ include_once("./classes/class.ilObjectGUI.php");
 */
 abstract class ilObject2GUI extends ilObjectGUI
 {
+	protected $object_id;
+	protected $node_id;
 	protected $creation_forms = array();
+	protected $id_type = array();
+	protected $parent_id;
+	public $tree;
+	protected $access_handler;
+
 	const CFORM_NEW = "new";
 	const CFORM_CLONE = "clone";
 	const CFORM_IMPORT = "import";
+
+	const OBJECT_ID = 0;
+	const REPOSITORY_NODE_ID = 1;
+	const WORKSPACE_NODE_ID = 2;
+	const REPOSITORY_OBJECT_ID = 3;
+	const WORKSPACE_OBJECT_ID = 4;
 	
 	/**
-	* Constructor.
-	*/
-	function __construct($a_id = 0, $a_call_by_reference = true)
+	 * Constructor
+	 *
+	 * @param int $a_id
+	 * @param int $a_id_type
+	 * @param int $a_parent_node_id
+	 */
+	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
-		global $objDefinition, $tpl, $ilCtrl, $ilErr, $lng, $ilTabs;
+		global $objDefinition, $tpl, $ilCtrl, $ilErr, $lng, $ilTabs, $tree, $ilAccess;
 		
 		$this->creation_forms = array(
 			ilObject2GUI::CFORM_NEW,
 			ilObject2GUI::CFORM_CLONE,
 			ilObject2GUI::CFORM_IMPORT
 			);
-
-		$this->type = $this->getType();
-		
-		$this->tabs_gui =& $ilTabs;
 
 		if (!isset($ilErr))
 		{
@@ -58,39 +71,92 @@ abstract class ilObject2GUI extends ilObjectGUI
 			$this->ilErr =& $ilErr;
 		}
 
+		$this->id_type = $a_id_type;
+		$this->parent_id = $a_parent_node_id;
+		$this->type = $this->getType();
+		$this->html = "";
+
+
+		// use globals instead?
+		$this->tabs_gui = $ilTabs;
 		$this->objDefinition = $objDefinition;
 		$this->tpl = $tpl;
-		$this->html = "";
 		$this->ctrl = $ilCtrl;
-
-		$params = array("ref_id");
-
-		if (!$a_call_by_reference)
-		{
-			$params = array("ref_id","obj_id");
-		}
-
-		$this->ctrl->saveParameter($this, $params);
-		
-		$this->id = $a_id;
-
-		$this->call_by_reference = $a_call_by_reference;
-		$this->creation_mode = false;
-		$this->ref_id = ($this->call_by_reference) ? $this->id : $_GET["ref_id"];
-		$this->obj_id = ($this->call_by_reference) ? $_GET["obj_id"] : $this->id;
 		$this->lng = $lng;
+
+		
+		$params = array();		
+		switch($this->id_type)
+		{
+			case self::REPOSITORY_NODE_ID:
+				$this->node_id = $a_id;
+				$this->object_id = ilObject::_lookupObjectId($this->node_id);
+				$this->tree = $tree;
+				$this->access_handler = $ilAccess;
+				$params[] = "ref_id";
+				break;
+
+			case self::REPOSITORY_OBJECT_ID:
+				$this->object_id = $a_id;
+				$this->tree = $tree;
+				$this->access_handler = $ilAccess;
+				$params[] = "obj_id"; // ???
+				break;
+
+			case self::WORKSPACE_NODE_ID:
+				global $ilUser;
+				$this->node_id = $a_id;
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+				$this->tree = new ilWorkspaceTree($ilUser->getId());
+				$this->object_id = ilWorkspaceTree::lookupObjectId($this->node_id);  
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+				$this->access_handler = new ilWorkspaceAccessHandler();
+				$params[] = "wsp_id";
+				break;
+
+			case self::WORKSPACE_OBJECT_ID:
+				global $ilUser;
+				$this->object_id = $a_id;
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+				$this->tree = new ilWorkspaceTree($ilUser->getId());
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+				$this->access_handler = new ilWorkspaceAccessHandler();
+				$params[] = "obj_id"; // ???
+				break;
+
+			case self::OBJECT_ID:
+				$this->object_id = $a_id;
+				include_once "Services/Objects/classes/class.ilDummyAccessHandler.php";
+			    $this->access_handler = new ilDummyAccessHandler();
+				$params[] = "obj_id";
+				break;
+		}
+		$this->ctrl->saveParameter($this, $params);
+
+
+		
+		// old stuff for legacy code (obsolete?)
+		if(!$this->object_id)
+		{
+			$this->creation_mode = true;
+		}
+		if($this->node_id)
+		{
+			$this->call_by_reference = true;
+		}
+		$this->ref_id = $this->node_id;
+		$this->obj_id = $this->object_id;
+
+
 
 		$this->assignObject();
 		
 		// set context
 		if (is_object($this->object))
 		{
-			if ($this->call_by_reference && $this->ref_id = $_GET["ref_id"])
-			{
-				$this->ctrl->setContext($this->object->getId(), 
-					$this->object->getType());
-			}
+			$this->ctrl->setContext($this->object->getId(), $this->object->getType());
 		}
+		
 		$this->afterConstructor();
 	}
 	
@@ -114,6 +180,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 		switch($next_class)
 		{
 			default:
+				// $this->prepareOutput(); ???
 				if(!$cmd)
 				{
 					$cmd = "view";
@@ -138,7 +205,88 @@ abstract class ilObject2GUI extends ilObjectGUI
 				break;
 		}*/
 	}
-	
+
+	final protected function assignObject()
+	{
+		if ($this->object_id != 0)
+		{
+			switch($this->id_type)
+			{				
+				case self::OBJECT_ID:
+				case self::REPOSITORY_OBJECT_ID:
+				case self::WORKSPACE_OBJECT_ID:
+					$this->object = ilObjectFactory::getInstanceByObjId($this->object_id);
+					break;
+
+				case self::REPOSITORY_NODE_ID:
+					$this->object = ilObjectFactory::getInstanceByRefId($this->node_id);
+					break;
+
+				case self::WORKSPACE_NODE_ID:
+					// to be discussed
+					$this->object = ilObjectFactory::getInstanceByObjId($this->object_id);
+					break;
+			}
+		}
+	}
+
+
+	/**
+	 * Get access handler
+	 *
+	 * @return object
+	 */
+	protected function getAccessHandler()
+	{
+		return $this->access_handler;
+	}
+
+	/**
+	 * set Locator
+	 */
+	final protected function setLocator()
+	{
+		global $ilLocator, $tpl;
+
+		if ($this->omit_locator)
+		{
+			return;
+		}
+
+		switch($this->id_type)
+		{
+			case self::REPOSITORY_NODE_ID:
+				$ref_id = $this->node_id
+					? $this->node_id
+					: $this->parent_id;
+				$ilLocator->addRepositoryItems($ref_id);
+				
+				// not so nice workaround: todo: handle $ilLocator as tabs in ilTemplate
+				if ($_GET["admin_mode"] == "" &&
+					strtolower($this->ctrl->getCmdClass()) == "ilobjrolegui")
+				{
+					$this->ctrl->setParameterByClass("ilobjrolegui",
+						"rolf_ref_id", $_GET["rolf_ref_id"]);
+					$this->ctrl->setParameterByClass("ilobjrolegui",
+						"obj_id", $_GET["obj_id"]);
+					$ilLocator->addItem($this->lng->txt("role"),
+						$this->ctrl->getLinkTargetByClass(array("ilpermissiongui",
+							"ilobjrolegui"), "perm"));
+				}
+				break;
+
+			case self::WORKSPACE_NODE_ID:
+				// :TODO:
+				break;
+		}
+
+		if($this->object_id)
+		{
+			$this->addLocatorItems();
+		}
+
+		$tpl->setLocator();
+	}
 	
 	/**
 	* Final/Private declaration of unchanged parent methods
@@ -146,15 +294,13 @@ abstract class ilObject2GUI extends ilObjectGUI
 	final public function withReferences() { return parent::withReferences(); }
 	final public function setCreationMode($a_mode = true) { return parent::setCreationMode($a_mode); }
 	final public function getCreationMode() { return parent::getCreationMode(); }
-	final protected function assignObject() { return parent::assignObject(); }
 	final protected function prepareOutput() { return parent::prepareOutput(); }
 	final protected function setTitleAndDescription() { return parent::setTitleAndDescription(); }
 	final protected function showUpperIcon() { return parent::showUpperIcon(); }
 //	final private function showMountWebfolderIcon() { return parent::showMountWebfolderIcon(); }
 	final public function getHTML() { return parent::getHTML(); }
-	final protected function setLocator() { return parent::setLocator(); }
 	final protected function omitLocator($a_omit = true) { return parent::omitLocator($a_omit); }
-	final protected  function getTargetFrame() { return parent::getTargetFrame(); }
+	final protected  function getTargetFrame($a_cmd, $a_target_frame = "") { return parent::getTargetFrame($a_cmd, $a_target_frame); }
 	final protected  function setTargetFrame($a_cmd, $a_target_frame) { return parent::setTargetFrame($a_cmd, $a_target_frame); }
 	final public function isVisible() { return parent::isVisible(); }
 	final protected function getCenterColumnHTML() { return parent::getCenterColumnHTML(); }
@@ -260,23 +406,23 @@ abstract class ilObject2GUI extends ilObjectGUI
 		$this->creation_forms[] = array("header" => $a_header,
 			"form" => $a_form);
 	}
-	
+
 	/**
 	* Create new object form
 	*
 	* @access	public
 	*/
-	function create()
+	function create($a_reuse_form = null)
 	{
-		global $rbacsystem, $tpl, $ilCtrl;
+		global $rbacsystem, $tpl, $ilCtrl, $ilErr;
 		
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		$new_type = $_REQUEST["new_type"];
 		$ilCtrl->setParameter($this, "new_type", $new_type);
-		$this->initCreationForms();
+		$this->initCreationForms($a_reuse_form);
 
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		if (!$this->getAccessHandler()->checkAccess("create", "", $this->parent_id, $new_type))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("permission_denied"));
 		}
 		else
 		{
@@ -297,7 +443,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	/**
 	 * Init creation froms
 	 */
-	protected function initCreationForms()
+	protected function initCreationForms($a_reuse_form = null)
 	{
 	}
 	
@@ -308,9 +454,9 @@ abstract class ilObject2GUI extends ilObjectGUI
 	{
 		global $lng;
 		
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-		
+		$new_type = $_REQUEST["new_type"];
 		$lng->loadLanguageModule($new_type);
+		
 		if (count($this->creation_forms) == 1)
 		{
 			$cf = $this->creation_forms[0];
@@ -390,23 +536,23 @@ $html.= $this->form->getHTML()."<br />";
 	*/
 	function save()
 	{
-		global $rbacsystem, $objDefinition, $tpl, $lng;
+		global $rbacsystem, $objDefinition, $tpl, $lng, $ilErr;
 
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		$new_type = $_REQUEST["new_type"];
 
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		if (!$this->getAccessHandler()->checkAccess("create", "", $this->parent_id, $new_type))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_create_permission"));
 		}
+		
 		$this->ctrl->setParameter($this, "new_type", $new_type);
 		$this->initEditForm("create", $new_type);
 		if ($this->form->checkInput())
-		{
-			
+		{			
 			$location = $objDefinition->getLocation($new_type);
 	
-				// create and insert object in objecttree
+			// create and insert object in objecttree
 			$class_name = "ilObj".$objDefinition->getClassName($new_type);
 			include_once($location."/class.".$class_name.".php");
 			$newObj = new $class_name();
@@ -414,9 +560,9 @@ $html.= $this->form->getHTML()."<br />";
 			$newObj->setTitle(ilUtil::stripSlashes($_POST["title"]));
 			$newObj->setDescription(ilUtil::stripSlashes($_POST["desc"]));
 			$newObj->create();
-			$newObj->createReference();
-			$newObj->putInTree($_GET["ref_id"]);
-			$newObj->setPermissions($_GET["ref_id"]);
+
+			$this->putObjectInTree($newObj, $this->parent_id);
+
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$this->afterSave($newObj);
 			return;
@@ -467,7 +613,6 @@ $html.= $this->form->getHTML()."<br />";
 		}
 	                
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
-	 
 	}
 
 	/**
@@ -483,7 +628,6 @@ $html.= $this->form->getHTML()."<br />";
 	/**
 	* cancel action and go back to previous page
 	* @access	public
-	*
 	*/
 	protected function cancel()
 	{
@@ -493,11 +637,25 @@ $html.= $this->form->getHTML()."<br />";
 	/**
 	* cancel action and go back to previous page
 	* @access	public
-	*
 	*/
 	final function cancelCreation($in_rep = false)
 	{
-		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
+		switch($this->id_type)
+		{
+			case self::REPOSITORY_NODE_ID:
+			case self::REPOSITORY_OBJECT_ID: // ???
+				ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$this->parent_id);
+				
+
+			case self::WORKSPACE_NODE_ID:
+			case self::WORKSPACE_OBJECT_ID:
+				ilUtil::redirect(); // TODO
+				break;
+
+			case self::OBJECT_ID:
+				// do nothing ???
+				break;
+		}		
 	}
 
 	/**
@@ -585,14 +743,14 @@ $html.= $this->form->getHTML()."<br />";
 	 */
 	function importFile()
 	{
-		global $rbacsystem, $objDefinition, $tpl, $lng;
+		global $rbacsystem, $objDefinition, $tpl, $lng, $ilErr;
 
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		$new_type = $_REQUEST["new_type"];
 
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		if (!$this->getAccessHandler()->checkAccess("create", "", $this->parent_id, $new_type))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("no_create_permission"));
 		}
 		$this->ctrl->setParameter($this, "new_type", $new_type);
 		$this->initImportForm($new_type);
@@ -600,17 +758,17 @@ $html.= $this->form->getHTML()."<br />";
 		{
 			// todo: make some check on manifest file
 			include_once("./Services/Export/classes/class.ilImport.php");
-			$imp = new ilImport((int) $_GET['ref_id']);
+			$imp = new ilImport((int)$this->parent_id);
 			$new_id = $imp->importObject($newObj, $_FILES["importfile"]["tmp_name"],
 				$_FILES["importfile"]["name"], $new_type);
 
 			// put new object id into tree
 			if ($new_id > 0)
 			{
+				// :TODO
 				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
-				$newObj->createReference();
-				$newObj->putInTree($_GET["ref_id"]);
-				$newObj->setPermissions($_GET["ref_id"]);
+				$this->putObjectInTree($newObj, $this->parent_id);
+
 				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 				$this->afterSave($newObj);
 			}
@@ -620,5 +778,50 @@ $html.= $this->form->getHTML()."<br />";
 		$this->form->setValuesByPost();
 		$tpl->setContent($this->form->getHtml());
 	}
-	
+
+	/**
+	 * Add object to tree at given position
+	 *
+	 * @param ilObject $a_obj
+	 * @param int $a_parent_node_id
+	 */
+	protected function putObjectInTree(ilObject $a_obj, $a_parent_node_id)
+	{
+		global $rbacreview;
+
+		switch($this->id_type)
+		{
+			case self::REPOSITORY_NODE_ID:
+			case self::REPOSITORY_OBJECT_ID:
+				if(!$this->node_id)
+				{
+					$a_obj->createReference();
+					$this->node_id = $a_obj->getRefId();
+				}
+				$a_obj->putInTree($a_parent_node_id);
+				$a_obj->setPermissions($a_parent_node_id);
+
+				// rbac log
+				include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+				$rbac_log_roles = $rbacreview->getParentRoleIds($a_obj->getRefId(), false);
+				$rbac_log = ilRbacLog::gatherFaPa($a_obj->getRefId(), array_keys($rbac_log_roles));
+				ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $a_obj->getRefId(), $rbac_log);
+				break;
+
+			case self::WORKSPACE_NODE_ID:
+			case self::WORKSPACE_OBJECT_ID:
+				if(!$this->node_id)
+				{
+					$this->node_id = $this->tree->addNode($a_parent_node_id, $this->object_id);
+				}
+				$this->getAccessHandler()->setPermissions($a_parent_node_id, $this->node_id);
+				break;
+
+			case self::OBJECT_ID:
+				// do nothing
+				break;
+		}
+	}
 }
+
+?>

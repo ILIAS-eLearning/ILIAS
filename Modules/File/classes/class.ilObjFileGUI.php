@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./classes/class.ilObjectGUI.php";
+require_once "./Services/Object/classes/class.ilObject2GUI.php";
 require_once "./Modules/File/classes/class.ilObjFile.php";
 require_once "./Modules/File/classes/class.ilObjFileAccess.php";
 
@@ -16,19 +16,14 @@ require_once "./Modules/File/classes/class.ilObjFileAccess.php";
 *
 * @ingroup ModulesFile
 */
-class ilObjFileGUI extends ilObjectGUI
+class ilObjFileGUI extends ilObject2GUI
 {
-	/**
-	* Constructor
-	* @access	public
-	*/
-	function ilObjFileGUI($a_data,$a_id,$a_call_by_reference = true, $a_prepare_output = true)
+	function getType()
 	{
-		$this->type = "file";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
-		$this->lng->loadLanguageModule('file');
+		return "file";
 	}
-	
+
+	// ???
 	function _forwards()
 	{
 		return array();
@@ -36,40 +31,39 @@ class ilObjFileGUI extends ilObjectGUI
 	
 	function executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilUser, $ilTabs;
-		
-		// add entry to navigation history
-		if (!$this->getCreationMode() &&
-			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
-		{
-			$ilNavigationHistory->addItem($_GET["ref_id"],
-				"repository.php?cmd=infoScreen&ref_id=".$_GET["ref_id"], "file");
-		}		
+		global $ilNavigationHistory, $ilCtrl, $ilUser, $ilTabs;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 	
-		if(!$this->getCreationMode())
+		if(!$this->getCreationMode() &&
+			$this->id_type == self::REPOSITORY_NODE_ID &&
+			$this->getAccessHandler()->checkAccess("read", "", $this->node_id))
 		{
+
+			// add entry to navigation history
+			$ilNavigationHistory->addItem($this->node_id,
+				"repository.php?cmd=infoScreen&ref_id=".$this->node_id, "file");
+
 			if(IS_PAYMENT_ENABLED)
 			{
 				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-				if(ANONYMOUS_USER_ID == $ilUser->getId()  && isset($_GET['transaction']))
+				if(ANONYMOUS_USER_ID == $ilUser->getId() && isset($_GET['transaction']))
 				{
 					$transaction = $_GET['transaction'];
 					include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 					$valid_transaction = ilPaymentBookings::_readBookingByTransaction($transaction);
 				}
 
-				if( ilPaymentObject::_isBuyable($this->object->getRefId() ) &&
-				   !ilPaymentObject::_hasAccess($this->object->getRefId(), $transaction) &&
+				if( ilPaymentObject::_isBuyable($this->node_id) &&
+				   !ilPaymentObject::_hasAccess($this->node_id, $transaction) &&
 				   !$valid_transaction)
 				{
 					$this->setLocator();
 					$this->tpl->getStandardTemplate();
 
 					include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
-					$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);
+					$pp = new ilShopPurchaseGUI((int)$this->node_id);
 					$ret = $this->ctrl->forwardCommand($pp);
 					return true;
 				}
@@ -123,133 +117,39 @@ class ilObjFileGUI extends ilObjectGUI
 			default:
 				if (empty($cmd))
 				{
-					// does not seem to work
-					//$this->ctrl->returnToParent($this);
-					//$cmd = "view";
 					$cmd = "infoScreen";
 				}
 
-				$cmd .= "Object";
 				$this->$cmd();
 				break;
 		}		
 	}
-
-	/**
-	* create new object form
-	*
-	* @access	public
-	*/
-	function createObject($a_reload_form = "")
+	
+	protected function initCreationForms($a_reuse_form = null)
 	{
-		global $rbacsystem, $ilCtrl;
+		// remove default forms
+		$this->creation_forms = array();
 
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
-		{
-			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
-		}
-
-		// fill in saved values in case of error
-		$this->getTemplateFile("new",$this->type);
-
-		if ($a_reload_form != "single_upload")
+		if($a_reuse_form != "single_upload")
 		{
 			$this->initSingleUploadForm("create");
 		}
-		$this->tpl->setVariable("SINGLE_UPLOAD_FORM", $this->single_form_gui->getHtml());
+		$this->addCreationForm($this->lng->txt("take_over_structure"), $this->single_form_gui);
 
-		if ($a_reload_form != "zip_upload")
+		if($a_reuse_form != "zip_upload")
 		{
 			$this->initZipUploadForm("create");
 		}
-
-		$this->tpl->setVariable("ZIP_UPLOAD_FORM", $this->zip_form_gui->getHtml());
-
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_TAKE_OVER_STRUCTURE", $this->lng->txt("take_over_structure"));
-		$this->tpl->setVariable("TXT_HEADER_ZIP", $this->lng->txt("header_zip"));
-		
-		$this->fillCloneTemplate('DUPLICATE','file');
+		$this->addCreationForm($this->lng->txt("header_zip"), $this->zip_form_gui);
 
 		if (DEVMODE == 1)
 		{
 			$this->initImportForm("file");
-			$this->tpl->setVariable("IMPORT", $this->form->getHTML());
-		}
-	}
-
-	/**
-	 * Init object import form
-	 *
-	 * @param        string        new type
-	 */
-	public function initImportForm($a_new_type = "")
-	{
-		global $lng, $ilCtrl;
-
-		$lng->loadLanguageModule("file");
-
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setTarget("_top");
-
-		// Import file
-		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
-		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
-		$fi->setSuffixes(array("zip"));
-		$fi->setRequired(true);
-		$this->form->addItem($fi);
-
-		$this->form->addCommandButton("importFile", $lng->txt("import"));
-		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
-		$this->form->setTitle($lng->txt($a_new_type."_import"));
-
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
-	}
-
-	/**
-	 * Import
-	 *
-	 * @access	public
-	 */
-	function importFileObject()
-	{
-		global $rbacsystem, $objDefinition, $tpl, $lng;
-
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
-		}
-		$this->ctrl->setParameter($this, "new_type", $new_type);
-		$this->initImportForm($new_type);
-		if ($this->form->checkInput())
-		{
-			// todo: make some check on manifest file
-			include_once("./Services/Export/classes/class.ilImport.php");
-			$imp = new ilImport((int) $_GET['ref_id']);
-			$new_id = $imp->importObject($newObj, $_FILES["importfile"]["tmp_name"],
-				$_FILES["importfile"]["name"], $new_type);
-			// put new object id into tree
-			if ($new_id > 0)
-			{
-				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
-				$newObj->createReference();
-				$newObj->putInTree($_GET["ref_id"]);
-				$newObj->setPermissions($_GET["ref_id"]);
-				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-				//$this->afterSave($newObj);
-				$this->ctrl->returnToParent($this);
-			}
-			return;
+			$this->addCreationForm("import", $this->form);
 		}
 
-		$this->form->setValuesByPost();
-		$tpl->setContent($this->form->getHtml());
+		// ???
+		// $this->fillCloneTemplate('DUPLICATE','file');
 	}
 
 	/**
@@ -359,13 +259,12 @@ class ilObjFileGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function saveUnzipObject()
+	function saveUnzip()
 	{
-		global $rbacsystem;
-		
 		$this->initZipUploadForm("create");
 		
-		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], "file")) {
+		if (!$this->getAccessHandler()->checkAccess("create", "", $this->parent_id, "file"))
+		{
 			if ($this->zip_form_gui->checkInput())
 			{
 				$zip_file = $this->zip_form_gui->getInput("zip_file");
@@ -378,14 +277,14 @@ class ilObjFileGUI extends ilObjectGUI
 				ilUtil::makeDir($newDir);
 
 				// Check if permission is granted for creation of object, if necessary
-				$type = ilObject::_lookupType((int) $_GET['ref_id'],true);
+				$type = ilObject::_lookupType((int)$this->parent_id, true);
 				if($type == 'cat' or $type == 'root')
 				{
-					$permission = $rbacsystem->checkAccess("create", $_GET["ref_id"], "cat");
+					$permission = $this->getAccessHandler()->checkAccess("create", "", $this->parent_id, "cat");
 					$containerType = "Category";
 				}
 				else {
-					$permission = $rbacsystem->checkAccess("create", $_GET["ref_id"], "fold");
+					$permission = $this->getAccessHandler()->checkAccess("create", "", $this->parent_id, "fold");
 					$containerType = "Folder";			
 				}
 
@@ -401,10 +300,10 @@ class ilObjFileGUI extends ilObjectGUI
 					$processDone = ilFileUtils::processZipFile( $newDir, 
 						$zip_file["tmp_name"],
 						($adopt_structure && $permission),
-						$_GET["ref_id"],
+						$this->parent_id,
 						$containerType,
 						true);
-					ilUtil::sendSuccess($this->lng->txt("file_added"),true);					
+					ilUtil::sendSuccess($this->lng->txt("file_added"),true);
 				}
 				catch (ilFileUtilsException $e) 
 				{
@@ -417,7 +316,7 @@ class ilObjFileGUI extends ilObjectGUI
 			else
 			{
 				$this->zip_form_gui->setValuesByPost();
-				$this->createObject("zip_upload");
+				$this->create("zip_upload");
 			}
 		}
 		else
@@ -431,7 +330,7 @@ class ilObjFileGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function saveObject()
+	function save()
 	{
 		global $objDefinition, $ilUser;
 
@@ -471,9 +370,9 @@ class ilObjFileGUI extends ilObjectGUI
 				"", $upload_file["name"], $upload_file["type"]));
 			$fileObj->setFileSize($upload_file["size"]);
 			$fileObj->create();
-			$fileObj->createReference();
-			$fileObj->putInTree($_GET["ref_id"]);
-			$fileObj->setPermissions($_GET["ref_id"]);
+
+			$this->putObjectInTree($fileObj, $this->parent_id);
+
 			// upload file to filesystem
 			$fileObj->createDirectory();
 			$fileObj->getUploadFile($upload_file["tmp_name"],
@@ -487,8 +386,12 @@ class ilObjFileGUI extends ilObjectGUI
 			}
 			// END ChangeEvent: Record write event.
 			ilUtil::sendSuccess($this->lng->txt("file_added"),true);
-			
+
+
+			// :TODO: workspace branching
 			$this->ctrl->setParameter($this, "ref_id", $fileObj->getRefId());
+
+			
 			if ($this->ctrl->getCmd() == "saveAndMeta")
 			{
 				$target = $this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilmdeditorgui"), "listSection", "", false, false);
@@ -503,7 +406,7 @@ class ilObjFileGUI extends ilObjectGUI
 		else
 		{
 			$this->single_form_gui->setValuesByPost();
-			$this->createObject("single_upload");
+			$this->create("single_upload");
 		}
 	}
 
@@ -512,9 +415,9 @@ class ilObjFileGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function saveAndMetaObject()
+	function saveAndMeta()
 	{
-		$this->saveObject();
+		$this->save();
 	}
 
 	/**
@@ -522,7 +425,7 @@ class ilObjFileGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function updateObject()
+	function update()
 	{
 		global $ilTabs;
 		
@@ -601,13 +504,13 @@ class ilObjFileGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function editObject()
+	function edit()
 	{
-		global $ilAccess, $ilTabs;
+		global $ilTabs, $ilErr;
 
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id))
+		if (!$this->getAccessHandler()->checkAccess("write", "", $this->node_id))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"));
 		}
 
 		$ilTabs->activateTab("id_edit");
@@ -617,40 +520,6 @@ class ilObjFileGUI extends ilObjectGUI
 		
 		$this->tpl->setContent($this->form->getHTML());
 		return true;
-
-
-		$fields = array();
-
-		if ($_SESSION["error_post_vars"])
-		{
-			// fill in saved values in case of error
-			$fields["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-			$fields["desc"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"], true);
-		}
-		else
-		{
-			$fields["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
-			$fields["desc"] = ilUtil::prepareFormOutput($this->object->getLongDescription());
-		}
-		
-		$this->getTemplateFile("edit");
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TITLE", $fields["title"]);
-		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
-		$this->tpl->setVariable("DESC", $fields["desc"]);
-		$this->tpl->setVariable("TXT_REPLACE_FILE", $this->lng->txt("replace_file"));
-		//$this->tpl->parseCurrentBlock();
-
-		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update",$this->ctrl->getFormAction($this, "update").$obj_str));
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("CMD_SUBMIT", "update");
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		//$this->tpl->parseCurrentBlock();
 	}
 	
 	protected function getPropertiesValues($a_mode = 'edit')
@@ -671,8 +540,6 @@ class ilObjFileGUI extends ilObjectGUI
 	 */
 	protected function initPropertiesForm($a_mode)
 	{
-		global $lng;
-		
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 
 		$this->form = new ilPropertyFormGUI();
@@ -683,7 +550,7 @@ class ilObjFileGUI extends ilObjectGUI
 			
 		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
 		$title->setValue($this->object->getTitle());
-		$title->setInfo($lng->txt("if_no_title_then_filename"));
+		$title->setInfo($this->lng->txt("if_no_title_then_filename"));
 		$this->form->addItem($title);
 		
 		$file = new ilFileInputGUI($this->lng->txt('obj_file'),'file');
@@ -691,17 +558,17 @@ class ilObjFileGUI extends ilObjectGUI
 //		$file->enableFileNameSelection('title');
 		$this->form->addItem($file);
 		
-			$group = new ilRadioGroupInputGUI('','replace');
-			$group->setValue(0);
-			
-			$replace = new ilRadioOption($this->lng->txt('replace_file'),1);
-			$replace->setInfo($this->lng->txt('replace_file_info'));
-			$group->addOption($replace);
-			
-			
-			$keep = new ilRadioOption($this->lng->txt('file_new_version'),0);
-			$keep->setInfo($this->lng->txt('file_new_version_info'));
-			$group->addOption($keep);
+		$group = new ilRadioGroupInputGUI('','replace');
+		$group->setValue(0);
+
+		$replace = new ilRadioOption($this->lng->txt('replace_file'),1);
+		$replace->setInfo($this->lng->txt('replace_file_info'));
+		$group->addOption($replace);
+
+
+		$keep = new ilRadioOption($this->lng->txt('file_new_version'),0);
+		$keep->setInfo($this->lng->txt('file_new_version_info'));
+		$group->addOption($keep);
 		
 		$file->addSubItem($group);
 			
@@ -711,16 +578,16 @@ class ilObjFileGUI extends ilObjectGUI
 		$this->form->addItem($desc);
 	}
 	
-	function sendFileObject()
+	function sendFile()
 	{
-		global $ilAccess, $ilUser, $ilCtrl;
+		global $ilUser, $ilCtrl;
 		
 		if(ANONYMOUS_USER_ID == $ilUser->getId() && isset($_GET['transaction']) )
 		{
 			$this->object->sendFile($_GET["hist_id"]);
 		}
 
-		if ($ilAccess->checkAccess("read", "", $this->ref_id))
+		if ($this->getAccessHandler()->checkAccess("read", "", $this->node_id))
 		{
 			// BEGIN ChangeEvent: Record read event.
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -750,11 +617,11 @@ class ilObjFileGUI extends ilObjectGUI
 	*/
 	function versionsObject()
 	{
-		global $ilAccess, $ilTabs;
+		global $ilTabs;
 		
 		$ilTabs->activateTab("id_versions");
 
-		if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		if (!$this->getAccessHandler()->checkAccess("write", "", $this->node_id))
 		{
 			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
 		}
@@ -766,7 +633,7 @@ class ilObjFileGUI extends ilObjectGUI
 		// not nice, should be changed, if ilCtrl handling
 		// has been introduced to administration
 		$hist_html = $hist_gui->getVersionsTable(
-			array("ref_id" => $_GET["ref_id"], "cmd" => "versions",
+			array("ref_id" => $this->node_id, "cmd" => "versions",
 			"cmdClass" =>$_GET["cmdClass"], "cmdNode" =>$_GET["cmdNode"]));
 		
 		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
@@ -789,33 +656,33 @@ class ilObjFileGUI extends ilObjectGUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess, $ilTabs;
+		global $ilTabs, $ilErr;
 		
 		$ilTabs->activateTab("id_info");
 
-		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		if (!$this->getAccessHandler()->checkAccess("visible", "", $this->node_id))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
 		}
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
-		if ($ilAccess->checkAccess("read", "sendfile", $this->ref_id))
+		if ($this->getAccessHandler()->checkAccess("read", "sendfile", $this->node_id))
 		{
 			$info->addButton($this->lng->txt("file_read"), $this->ctrl->getLinkTarget($this, "sendfile"));
 		}
 		
 		$info->enablePrivateNotes();
 		
-		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		if ($this->getAccessHandler()->checkAccess("read", "", $this->node_id))
 		{
 			$info->enableNews();
 		}
 
 		// no news editing for files, just notifications
 		$info->enableNewsEditing(false);
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		if ($this->getAccessHandler()->checkAccess("write", "", $this->node_id))
 		{
 			$news_set = new ilSetting("news");
 			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
@@ -851,25 +718,25 @@ class ilObjFileGUI extends ilObjectGUI
 	// get tabs
 	function setTabs()
 	{
-		global $ilAccess, $ilTabs, $lng;
+		global $ilTabs, $lng;
 
-		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
+		$this->ctrl->setParameter($this,"ref_id",$this->node_id);
 
-		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
+		if ($this->getAccessHandler()->checkAccess("visible", "", $this->node_id))
 		{
 			$ilTabs->addTab("id_info",
 				$lng->txt("info_short"),
 				$this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilinfoscreengui"), "showSummary"));
 		}
 
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		if ($this->getAccessHandler()->checkAccess("write", "", $this->node_id))
 		{
 			$ilTabs->addTab("id_edit",
 				$lng->txt("edit"),
 				$this->ctrl->getLinkTarget($this, "edit"));
 		}
 
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		if ($this->getAccessHandler()->checkAccess("write", "", $this->node_id))
 		{
 			$ilTabs->addTab("id_versions",
 				$lng->txt("versions"),
@@ -877,7 +744,7 @@ class ilObjFileGUI extends ilObjectGUI
 		}
 
 		// meta data
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		if ($this->getAccessHandler()->checkAccess("write", "", $this->node_id))
 		{
 			$ilTabs->addTab("id_meta",
 				$lng->txt("meta_data"),
@@ -885,14 +752,14 @@ class ilObjFileGUI extends ilObjectGUI
 		}
 
 		// export
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		if ($this->getAccessHandler()->checkAccess("write", "", $this->node_id))
 		{
 			$ilTabs->addTab("export",
 				$lng->txt("export"),
 				$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
 		}
 
-		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
+		if ($this->getAccessHandler()->checkAccess("edit_permission", "", $this->node_id))
 		{
 				$ilTabs->addTab("id_permissions",
 				$lng->txt("perm_settings"),
@@ -902,16 +769,16 @@ class ilObjFileGUI extends ilObjectGUI
 	
 	function _goto($a_target)
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $ilErr, $lng;
 
-		if ($ilAccess->checkAccess("visible", "", $a_target))
+		if ($this->getAccessHandler()->checkAccess("visible", "", $a_target))
 		{
 			$_GET["cmd"] = "infoScreen";
 			$_GET["ref_id"] = $a_target;
 			include("repository.php");
 			exit;
 		}
-		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		else if ($this->getAccessHandler()->checkAccess("read", "", ROOT_FOLDER_ID))
 		{
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
@@ -935,7 +802,7 @@ class ilObjFileGUI extends ilObjectGUI
 		
 		if (is_object($this->object))
 		{
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
 		}
 	}
 
