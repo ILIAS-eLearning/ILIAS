@@ -277,13 +277,24 @@ class ilRepositoryGUI
 					$class_name = $this->ctrl->getClassForClasspath($class_path);
 					if (!$this->creation_mode)
 					{
-						$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
+						if(is_subclass_of($class_name, "ilObject2GUI"))
+						{
+							$this->gui_obj = new $class_name($this->cur_ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
+						}
+						else
+						{
+							$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
+						}						
 					}
 					else
-					{	
-						// dirty walkaround for ilinc classrooms which need passed the ref_id of the parent iLinc course
-						if ($class_name == 'ilObjiLincClassroomGUI')
+					{
+						if(is_subclass_of($class_name, "ilObject2GUI"))
 						{
+							$this->gui_obj = new $class_name(null, ilObject2GUI::REPOSITORY_NODE_ID, $this->cur_ref_id);
+						}
+						// dirty walkaround for ilinc classrooms which need passed the ref_id of the parent iLinc course
+						else if ($class_name == 'ilObjiLincClassroomGUI')
+						{														
 							$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
 						}
 						else
