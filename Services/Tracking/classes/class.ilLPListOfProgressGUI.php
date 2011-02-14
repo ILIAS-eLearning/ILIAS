@@ -96,7 +96,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function details()
 	{
-		global $ilObjDataCache,$ilCtrl;
+		global $ilObjDataCache,$ilCtrl,$rbacsystem;
 
 		// Show back button to crs if called from crs. Otherwise if called from personal desktop or administration
 		// show back to list
@@ -137,10 +137,12 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		{
 			$obj_ids[ilObject::_lookupObjectId($ref_id)] = array($ref_id);
 		}
+
+		$personal_only = !$rbacsystem->checkAccess('edit_learning_progress',$this->getRefId());
 	
 		include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
 		$mode = ilLPObjSettings::_lookupMode($this->details_obj_id);
-		$lp_table = new ilLPProgressTableGUI($this, "details", $this->tracked_user, $obj_ids, true, $mode == LP_MODE_OBJECTIVES);
+		$lp_table = new ilLPProgressTableGUI($this, "details", $this->tracked_user, $obj_ids, true, $mode == LP_MODE_OBJECTIVES, $personal_only);
 		$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
 		
 		$this->tpl->setVariable("LEGEND",$this->__getLegendHTML());
