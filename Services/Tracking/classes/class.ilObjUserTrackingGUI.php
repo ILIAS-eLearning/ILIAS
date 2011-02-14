@@ -150,11 +150,11 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
 		$activate = new ilCheckboxGroupInputGUI($this->lng->txt('activate_tracking'));
 		$form->addItem($activate);
-		$tracking = new ilCheckboxInputGUI($this->lng->txt('trac_user_activities'), 'user_tracking');
-		$activate->addSubItem($tracking);
 		$lp = new ilCheckboxInputGUI($this->lng->txt('trac_learning_progress'), 'learning_progress_tracking');
 		$lp->setInfo($this->lng->txt('trac_learning_progress_settings_info'));
 		$activate->addSubItem($lp);
+		$tracking = new ilCheckboxInputGUI($this->lng->txt('trac_user_activities'), 'user_tracking');
+		$activate->addSubItem($tracking);
 		$event = new ilCheckboxInputGUI($this->lng->txt('trac_repository_changes'), 'change_event_tracking');
 		$activate->addSubItem($event);
 
