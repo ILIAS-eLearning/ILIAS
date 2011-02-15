@@ -737,6 +737,15 @@ class CASClient
 			{
 				$old_session = $_SESSION;
 				session_destroy();
+
+				// Fix for http://bugs.php.net/bug.php?id=32330
+				if(version_compare(PHP_VERSION, '5.3.0', '<'))
+				{
+					include_once './Services/Init/classes/class.ilInitialisation.php';
+					$init = new ilInitialisation();
+					$init->setSessionHandler();
+				}
+
 				// set up a new session, of name based on the ticket
 				$session_id = preg_replace('/[^\w]/', '', $ticket);
 				phpCAS :: trace("Session ID: ".$session_id);
