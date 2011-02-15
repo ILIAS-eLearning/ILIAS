@@ -524,11 +524,21 @@ class ilLDAPRoleGroupMapping
 			}
 			$search_base .= $server->getBaseDN();
 			
+			// try optional group user filter first
+			if($server->isMembershipOptional() and $server->getGroupUserFilter())
+			{
+				$userFilter = $server->getGroupUserFilter();
+			}
+			else
+			{
+				$userFilter = $server->getFilter();
+			}
+
 			$filter = sprintf('(&(%s=%s)%s)',
 				$server->getUserAttribute(),
 				$external_account,
-				$server->getFilter());
-			
+				$userFilter);
+
 			$res = $query_obj->query($search_base,$filter,$server->getUserScope(),array('dn'));
 			
 			if(!$res->numRows())
