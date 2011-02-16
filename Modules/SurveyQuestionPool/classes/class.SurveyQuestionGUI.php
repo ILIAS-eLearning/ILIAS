@@ -402,7 +402,16 @@ class SurveyQuestionGUI
 
 			$exp = new ilMaterialExplorer($this->ctrl->getLinkTarget($this, 'addMaterial'), get_class($this));
 
-			$exp->setExpand($_GET["expand"] ? $_GET["expand"] : $tree->getParentId($_GET["ref_id"]));
+			// expand current path (if no specific node given)
+			if(!$_GET["expand"])
+			{
+				$path = $tree->getPathId($_GET["ref_id"]);
+				$exp->setForceOpenPath($path);
+			}
+			else
+			{
+				$exp->setExpand($_GET["expand"]);
+			}
 			$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'addMaterial'));
 			$exp->setTargetGet("ref_id");
 			$exp->setRefId($_GET["ref_id"]);
