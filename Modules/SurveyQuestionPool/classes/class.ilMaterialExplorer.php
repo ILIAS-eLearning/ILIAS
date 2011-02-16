@@ -48,6 +48,8 @@ class ilMaterialExplorer extends ilExplorer
 	var $ref_id;
 	var $target_class;
 
+	var $force_open_path = array();
+
 /**
 * Constructor
 * @access	public
@@ -150,10 +152,30 @@ class ilMaterialExplorer extends ilExplorer
 		$tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
 		$tpl->parseCurrentBlock();
 
-		$tpl->setCurrentBlock("row");
-		$tpl->parseCurrentBlock();
+		// $tpl->setCurrentBlock("row");
+		// $tpl->parseCurrentBlock();
 
 		$this->output[] = $tpl->get();
+	}
+
+	/**
+	* set force open path
+	*/
+	function setForceOpenPath($a_path)
+	{
+		$this->force_open_path = $a_path;
+	}
+
+	/**
+	* force expansion of node
+	*/
+	function forceExpanded($a_obj_id)
+	{
+		if (in_array($a_obj_id, $this->force_open_path))
+		{
+			return true;
+		}
+		return false;
 	}
 
 } // END class ilSolutionExplorer
