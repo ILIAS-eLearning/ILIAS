@@ -13,14 +13,24 @@
 class ilPersonalWorkspaceGUI
 {
 	protected $tree; // [ilTree]
-	protected $root_id; // [int]
+	protected $node_id; // [int]
 	
 	/**
 	 * constructor
 	 */
 	public function __construct()
 	{
+		global $ilCtrl;
+
 		$this->initTree();
+
+		$ilCtrl->saveParameter($this, "wsp_id");
+
+		$this->node_id = $_REQUEST["wsp_id"];
+		if(!$this->node_id)
+		{
+			$this->node_id = $this->tree->getRootId();
+		}
 	}
 	
 	/**
@@ -30,31 +40,35 @@ class ilPersonalWorkspaceGUI
 	{
 		global $ilCtrl, $ilTabs, $lng;
 
-		$next_class = $ilCtrl->getNextClass();
 		$ilCtrl->setReturn($this, "show");
+
+		$next_class = $ilCtrl->getNextClass();		
 		$cmd = $ilCtrl->getCmd("show");
 
-		switch($next_class)
+		if($next_class)
 		{
-			case "ilobjfilegui":
-				$ilTabs->setBackTarget($lng->txt("back"), $ilCtrl->getLinkTarget($this, "show"));
-				include_once "Modules/File/classes/class.ilObjFileGUI.php";
-				if($cmd == "create" || $cmd == "save")
-				{
-					$gui = new ilObjFileGUI("", 0, false);
-					$gui->setCreationMode();
-				}
-				else
-				{
+			// $ilTabs->setBackTarget($lng->txt("back"), $ilCtrl->getLinkTarget($this, "show"));
 
-				}
-				$ilCtrl->forwardCommand($gui);
-				break;
-
-			default:
-				$this->$cmd();
-				break;
+			$class_path = $ilCtrl->lookupClassPath($next_class);
+			include_once($class_path);
+			$class_name = $ilCtrl->getClassForClasspath($class_path);
+			if($cmd == "create" || $cmd == "save")
+			{
+				$gui = new $class_name(null, ilObject2GUI::WORKSPACE_NODE_ID, $this->node_id);
+				$gui->setCreationMode();
+			}
+			else
+			{
+				$gui = new $class_name($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID, false);
+			}
+			$ilCtrl->forwardCommand($gui);
 		}
+		else
+		{
+			$this->$cmd();
+		}
+
+		$this->buildLocator();
 	}
 
 	/**
@@ -68,13 +82,10 @@ class ilPersonalWorkspaceGUI
 
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		$this->tree = new ilWorkspaceTree($user_id);
-		
-		$this->root_id = $this->tree->readRootId();
-		if(!$this->root_id)
+		if(!$this->tree->readRootId())
 		{
-			$this->tree->addTree($user_id, $user_id);
-			$this->root_id = $this->tree->readRootId();
-			$this->tree->createReference($this->root_id);
+			$root_id = $this->tree->createReference($user_id);
+			$this->tree->addTree($user_id, $root_id);			
 		}
 	}
 	
@@ -85,10 +96,99 @@ class ilPersonalWorkspaceGUI
 	{
 		global $tpl, $lng, $ilCtrl;
 
-		$tpl->setTitle($lng->txt("personal_workspace"));
+		// title/icon
+		$root = $this->tree->getNodeData($this->node_id);
+		if($root["type"] == "usr")
+		{
+			$title = $lng->txt("wsp_personal_workspace");
+			$icon = ilObject::_getIcon(ROOT_FOLDER_ID, "big");
+		}
+		else
+		{
+			$title = $root["title"];
+			$icon = ilObject::_getIcon($root["obj_id"], "big");
+		}
+		$tpl->setTitle($title);
+		$tpl->setTitleIcon($icon, $title);
 
-		$tpl->setContent("<a href=\"".$ilCtrl->getLinkTargetByClass("ilobjfilegui", "create")."\">datei test</a>");
+		$tree_tpl = new ilTemplate("tpl.workspace_node.html", true, true, "Services/PersonalWorkspace");
+
+		// actions
+		$tree_tpl->setCurrentBlock("action_item");
+		$tree_tpl->setVariable("ACTION_ITEM_URL", $ilCtrl->getLinkTargetByClass("ilobjfilegui", "create"));
+		$tree_tpl->setVariable("ACTION_ITEM_CAPTION", $lng->txt("wsp_add_file"));
+		$tree_tpl->parseCurrentBlock();
+
+		$nodes = $this->tree->getSubTree($root);
+		if($nodes)
+		{
+			// first node == root
+			array_shift($nodes);
+
+			foreach($nodes as $node)
+			{
+				$ilCtrl->setParameter($this, "wsp_id", $node["wsp_id"]);
+				$obj_class = "ilObj".$node["type"]."GUI";
+
+				// edit
+				$tree_tpl->setCurrentBlock("node_action");
+				$tree_tpl->setVariable("NODE_ACTION_URL", $ilCtrl->getLinkTargetByClass($obj_class, "edit"));
+				$tree_tpl->setVariable("NODE_ACTION_CAPTION", $lng->txt("edit"));
+				$tree_tpl->parseCurrentBlock();
+
+				// open
+				if($node["type"] == "fld")
+				{
+					$tree_tpl->setCurrentBlock("node_action");
+					$tree_tpl->setVariable("NODE_ACTION_URL", $ilCtrl->getLinkTarget($this, "show"));
+					$tree_tpl->setVariable("NODE_ACTION_CAPTION", "&raquo;");
+					$tree_tpl->parseCurrentBlock();
+				}
+
+				// icon/title
+				$tree_tpl->setCurrentBlock("node");
+				$tree_tpl->setVariable("NODE_CAPTION", $node["title"]);
+				$tree_tpl->parseCurrentBlock();
+			}
+		}
+
+		$tpl->setContent($tree_tpl->get());
+	}
+
+	/**
+	 * Build locator for current node
+	 */
+	protected function buildLocator()
+	{
+		global $lng, $ilCtrl, $ilLocator, $tpl;
+
+		$ilLocator->clearItems();
 		
+		$path = $this->tree->getPathFull($this->node_id);
+		foreach($path as $node)
+		{
+			switch($node["type"])
+			{
+				case "file":
+					$obj_class = "ilObj".$node["type"]."GUI";
+					$ilCtrl->setParameter($this, "wsp_id", $node["wsp_id"]);
+					$ilLocator->addItem($node["title"], $ilCtrl->getLinkTargetByClass($obj_class, "edit"));
+					break;
+
+				case "usr":
+					$ilCtrl->setParameter($this, "wsp_id", "");
+					$ilLocator->addItem($lng->txt("wsp_personal_workspace"), $ilCtrl->getLinkTarget($this, "show"));
+					break;
+
+				case "fld":
+					$ilCtrl->setParameter($this, "wsp_id", $node["wsp_id"]);
+					$ilLocator->addItem($node["title"], $ilCtrl->getLinkTarget($this, "show"));
+					break;
+			}
+		}
+
+		$tpl->setLocator();
+		$ilCtrl->setParameter($this, "wsp_id", $this->node_id);
 	}
 }
 

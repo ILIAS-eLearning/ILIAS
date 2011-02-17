@@ -369,8 +369,8 @@ class ilObjFileGUI extends ilObject2GUI
 			$fileObj->setFileType(ilMimeTypeUtil::getMimeType(
 				"", $upload_file["name"], $upload_file["type"]));
 			$fileObj->setFileSize($upload_file["size"]);
-			$fileObj->create();
-
+			$this->object_id = $fileObj->create();
+			
 			$this->putObjectInTree($fileObj, $this->parent_id);
 
 			// upload file to filesystem
@@ -387,11 +387,6 @@ class ilObjFileGUI extends ilObject2GUI
 			// END ChangeEvent: Record write event.
 			ilUtil::sendSuccess($this->lng->txt("file_added"),true);
 
-
-			// :TODO: workspace branching
-			$this->ctrl->setParameter($this, "ref_id", $fileObj->getRefId());
-
-			
 			if ($this->ctrl->getCmd() == "saveAndMeta")
 			{
 				$target = $this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilmdeditorgui"), "listSection", "", false, false);

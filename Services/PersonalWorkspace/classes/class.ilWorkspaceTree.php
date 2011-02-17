@@ -53,8 +53,9 @@ class ilWorkspaceTree extends ilTree
 	 * Get object id for node id
 	 *
 	 * @param int $a_node_id
+	 * @return int object id
 	 */
-	public static function lookupObjectId($a_node_id)
+	public function lookupObjectId($a_node_id)
 	{
 		global $ilDB;
 
@@ -64,6 +65,20 @@ class ilWorkspaceTree extends ilTree
 		$res = $ilDB->fetchAssoc($set);
 
 		return $res[$this->obj_pk];
+	}
+
+	/**
+	 * Add object to tree
+	 *
+	 * @param int $a_parent_node_id
+	 * @param int $a_object_id
+	 * @return int node id
+	 */
+	public function insertObject($a_parent_node_id, $a_object_id)
+	{
+		$node_id = $this->createReference($a_object_id);
+		$this->insertNode($node_id, $a_parent_node_id);
+		return $node_id;
 	}
 }
 
