@@ -148,6 +148,8 @@ class ilPersonalWorkspaceGUI
 				// icon/title
 				$tree_tpl->setCurrentBlock("node");
 				$tree_tpl->setVariable("NODE_CAPTION", $node["title"]);
+				$tree_tpl->setVariable("NODE_ICON_SRC", ilObject::_getIcon($node["obj_id"], "small"));
+				$tree_tpl->setVariable("NODE_ICON_ALT", $lng->txt("obj_".$node["type"]));
 				$tree_tpl->parseCurrentBlock();
 			}
 		}
