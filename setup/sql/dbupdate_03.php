@@ -3877,3 +3877,37 @@ while ($rec = $ilDB->fetchAssoc($set))
 		")");
 }
 ?>
+<#3221>
+<?php
+if(!$ilDB->tableExists('tree_workspace'))
+{
+	$fields = array (
+		'tree'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+		'child'   => array ('type' => 'integer', 'notnull' => true, 'length' => 4, 'default' => 0),
+		'parent'    => array ('type' => 'integer', 'length'  => 4,"notnull" => true,"default" => 0),
+		'lft'  => array ('type' => 'integer', 'length'  => 4,"notnull" => true,"default" => 0),
+		'rgt'  => array ('type' => 'integer', 'length'  => 4,"notnull" => true,"default" => 0),
+		'depth'  => array ('type' => 'integer', 'length'  => 2,"notnull" => true,"default" => 0)
+	  );
+  $ilDB->createTable('tree_workspace', $fields);
+  $ilDB->addIndex('tree_workspace', array('child'), 'i1');
+  $ilDB->addIndex('tree_workspace', array('parent'), 'i2');
+  $ilDB->addIndex('tree_workspace', array('tree'), 'i3');
+}
+?>
+<#3222>
+<?php
+if(!$ilDB->tableExists('object_reference_ws'))
+{
+	$fields = array (
+		'wsp_id'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+		'obj_id'   => array ('type' => 'integer', 'notnull' => true, 'length' => 4, 'default' => 0),
+		'deleted'    => array ('type' => 'timestamp', 'notnull' => false)
+	  );
+  $ilDB->createTable('object_reference_ws', $fields);
+  $ilDB->addPrimaryKey('object_reference_ws', array('wsp_id'));
+  $ilDB->addIndex('object_reference_ws', array('obj_id'), 'i1');
+  $ilDB->addIndex('object_reference_ws', array('deleted'), 'i2');
+  $ilDB->createSequence('object_reference_ws');
+}
+?>
