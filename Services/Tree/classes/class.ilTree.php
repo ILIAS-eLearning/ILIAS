@@ -572,7 +572,7 @@ class ilTree
 					#ilDB::_lockTables(array('tree' => 'WRITE'));
 					$ilDB->lockTables(
 						array(
-							0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+							0 => array('name' => $this->table_tree, 'type' => ilDB::LOCK_WRITE)));
 				}
 
 				// get left value of parent
@@ -619,7 +619,7 @@ class ilTree
 						#ilDB::_lockTables(array('tree' => 'WRITE'));
 						$ilDB->lockTables(
 							array(
-								0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+								0 => array('name' => $this->table_tree, 'type' => ilDB::LOCK_WRITE)));
 						
 					}
 
@@ -711,7 +711,7 @@ class ilTree
 						#ilDB::_lockTables(array('tree' => 'WRITE'));
 						$ilDB->lockTables(
 							array(
-								0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+								0 => array('name' => $this->table_tree, 'type' => ilDB::LOCK_WRITE)));
 
 					}
 
@@ -759,7 +759,7 @@ class ilTree
 					#ilDB::_lockTables(array('tree' => 'WRITE'));
 					$ilDB->lockTables(
 						array(
-							0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+							0 => array('name' => $this->table_tree, 'type' => ilDB::LOCK_WRITE)));
 					
 				}
 

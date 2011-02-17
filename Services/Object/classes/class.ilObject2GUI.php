@@ -108,7 +108,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				$this->node_id = $a_id;
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 				$this->tree = new ilWorkspaceTree($ilUser->getId());
-				$this->object_id = ilWorkspaceTree::lookupObjectId($this->node_id);  
+				$this->object_id = $this->tree->lookupObjectId($this->node_id);
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
 				$this->access_handler = new ilWorkspaceAccessHandler();
 				$params[] = "wsp_id";
@@ -559,7 +559,7 @@ $html.= $this->form->getHTML()."<br />";
 			$newObj->setType($new_type);
 			$newObj->setTitle(ilUtil::stripSlashes($_POST["title"]));
 			$newObj->setDescription(ilUtil::stripSlashes($_POST["desc"]));
-			$newObj->create();
+			$this->object_id = $newObj->create();
 
 			$this->putObjectInTree($newObj, $this->parent_id);
 
@@ -789,6 +789,8 @@ $html.= $this->form->getHTML()."<br />";
 	{
 		global $rbacreview;
 
+		$this->object_id = $a_obj->getId();
+
 		switch($this->id_type)
 		{
 			case self::REPOSITORY_NODE_ID:
@@ -803,18 +805,22 @@ $html.= $this->form->getHTML()."<br />";
 
 				// rbac log
 				include_once "Services/AccessControl/classes/class.ilRbacLog.php";
-				$rbac_log_roles = $rbacreview->getParentRoleIds($a_obj->getRefId(), false);
-				$rbac_log = ilRbacLog::gatherFaPa($a_obj->getRefId(), array_keys($rbac_log_roles));
-				ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $a_obj->getRefId(), $rbac_log);
+				$rbac_log_roles = $rbacreview->getParentRoleIds($this->node_id, false);
+				$rbac_log = ilRbacLog::gatherFaPa($this->node_id, array_keys($rbac_log_roles));
+				ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->node_id, $rbac_log);
+
+				$this->ctrl->setParameter($this, "ref_id", $this->node_id);
 				break;
 
 			case self::WORKSPACE_NODE_ID:
 			case self::WORKSPACE_OBJECT_ID:
 				if(!$this->node_id)
 				{
-					$this->node_id = $this->tree->addNode($a_parent_node_id, $this->object_id);
+					$this->node_id = $this->tree->insertObject($a_parent_node_id, $this->object_id);
 				}
 				$this->getAccessHandler()->setPermissions($a_parent_node_id, $this->node_id);
+
+				$this->ctrl->setParameter($this, "wsp_id", $this->node_id);
 				break;
 
 			case self::OBJECT_ID:
