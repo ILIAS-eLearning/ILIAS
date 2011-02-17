@@ -66,15 +66,15 @@ class ilPersonalWorkspaceGUI
 
 		$user_id = $ilUser->getId();
 
-		include_once "Services/Tree/classes/class.ilTree.php";
-		$this->tree = new ilTree($user_id);
-		$this->tree->setTableNames("tree_workspace", "object_data");
-
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		$this->tree = new ilWorkspaceTree($user_id);
+		
 		$this->root_id = $this->tree->readRootId();
 		if(!$this->root_id)
 		{
 			$this->tree->addTree($user_id, $user_id);
 			$this->root_id = $this->tree->readRootId();
+			$this->tree->createReference($this->root_id);
 		}
 	}
 	

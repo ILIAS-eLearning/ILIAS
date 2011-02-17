@@ -15,6 +15,7 @@ include_once "Services/Mail/classes/class.ilMail.php";
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI, ilFeedbackGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilMailAddressbookGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -223,9 +224,20 @@ class ilPersonalDesktopGUI
 				$mailgui = new ilMailAddressbookGUI();
 				$ret = $this->ctrl->forwardCommand($mailgui);
 				break;
+
+			case 'ilpersonalworkspacegui':
+				$this->getStandardTemplates();
+				$this->setTabs();
+				include_once 'Services/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php';
+				$wsgui = new ilPersonalWorkspaceGUI();
+				$ret = $this->ctrl->forwardCommand($wsgui);				
+				$this->tpl->show();
+				break;
+
 			case 'redirect':
 				$this->redirect();
 				break;
+
 			default:
 				$this->getStandardTemplates();
 				$this->setTabs();
@@ -698,6 +710,14 @@ return;
 	function jumpToContacts()
 	{
 		$this->ctrl->redirectByClass("ilmailaddressbookgui");
+	}
+
+	/**
+	 * Jump to personal workspace
+	 */
+	function jumpToWorkspace()
+	{
+		$this->ctrl->redirectByClass("ilpersonalworkspacegui");
 	}
 
 	function __loadNextClass()
