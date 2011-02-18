@@ -9,6 +9,7 @@
 * @version $Id: class.ilPersonalDesktopGUI.php 26976 2010-12-16 13:24:38Z akill $
 *
 * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjWorkspaceRootFolder, ilObjFileGUI, ilObjWorkspaceFolderGUI
+* @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjectCopyGUI
 */
 class ilPersonalWorkspaceGUI
 {
@@ -52,7 +53,7 @@ class ilPersonalWorkspaceGUI
 			$class_path = $ilCtrl->lookupClassPath($next_class);
 			include_once($class_path);
 			$class_name = $ilCtrl->getClassForClasspath($class_path);
-			if($cmd == "create" || $cmd == "save")
+			if($cmd == "create" || $cmd == "save" || $cmd == "cancelCreation")
 			{
 				$gui = new $class_name(null, ilObject2GUI::WORKSPACE_NODE_ID, $this->node_id);
 				$gui->setCreationMode();
@@ -120,17 +121,19 @@ class ilPersonalWorkspaceGUI
 		$tree_tpl = new ilTemplate("tpl.workspace_node.html", true, true, "Services/PersonalWorkspace");
 
 		// create subtypes
-		$subtypes = $objDefinition->getCreatableSubObjects("wsrt", ilObjectDefinition::MODE_WORKSPACE);
+		$subtypes = $objDefinition->getCreatableSubObjects($root["type"], ilObjectDefinition::MODE_WORKSPACE);
 		if($subtypes)
 		{
 			$tree_tpl->setCurrentBlock("action_item");
 			foreach(array_keys($subtypes) as $type)
 			{
 				$class = $objDefinition->getClassName($type);
+				$ilCtrl->setParameter($this, "new_type", $type);
 				$tree_tpl->setVariable("ACTION_ITEM_URL", $ilCtrl->getLinkTargetByClass("ilobj".$class."gui", "create"));
 				$tree_tpl->setVariable("ACTION_ITEM_CAPTION", $lng->txt("wsp_add_".$type));
 				$tree_tpl->parseCurrentBlock();
 			}
+			$ilCtrl->setParameter($this, "new_type", "");
 		}
 
 		$nodes = $this->tree->getSubTree($root);
@@ -142,7 +145,7 @@ class ilPersonalWorkspaceGUI
 			foreach($nodes as $node)
 			{
 				$ilCtrl->setParameter($this, "wsp_id", $node["wsp_id"]);
-				$obj_class = "ilObj".$node["type"]."GUI";
+				$obj_class = "ilObj".$objDefinition->getClassName($node["type"])."GUI";
 
 				// edit
 				$tree_tpl->setCurrentBlock("node_action");
@@ -151,7 +154,7 @@ class ilPersonalWorkspaceGUI
 				$tree_tpl->parseCurrentBlock();
 
 				// open
-				if($node["type"] == "fld")
+				if($objDefinition->isContainer($node["type"]))
 				{
 					$tree_tpl->setCurrentBlock("node_action");
 					$tree_tpl->setVariable("NODE_ACTION_URL", $ilCtrl->getLinkTarget($this, "show"));
@@ -176,29 +179,30 @@ class ilPersonalWorkspaceGUI
 	 */
 	protected function buildLocator()
 	{
-		global $lng, $ilCtrl, $ilLocator, $tpl;
+		global $lng, $ilCtrl, $ilLocator, $tpl, $objDefinition;
 
 		$ilLocator->clearItems();
 		
 		$path = $this->tree->getPathFull($this->node_id);
 		foreach($path as $node)
 		{
+			$obj_class = "ilObj".$objDefinition->getClassName($node["type"])."GUI";
+
 			switch($node["type"])
 			{
-				case "file":
-					$obj_class = "ilObj".$node["type"]."GUI";
-					$ilCtrl->setParameter($this, "wsp_id", $node["wsp_id"]);
-					$ilLocator->addItem($node["title"], $ilCtrl->getLinkTargetByClass($obj_class, "edit"));
-					break;
-
 				case "wsrt":
 					$ilCtrl->setParameter($this, "wsp_id", "");
 					$ilLocator->addItem($lng->txt("wsp_personal_workspace"), $ilCtrl->getLinkTarget($this, "show"));
 					break;
 
-				case "fld":
+				case $objDefinition->isContainer($node["type"]):
 					$ilCtrl->setParameter($this, "wsp_id", $node["wsp_id"]);
-					$ilLocator->addItem($node["title"], $ilCtrl->getLinkTarget($this, "show"));
+					$ilLocator->addItem($node["title"], $ilCtrl->getLinkTargetByClass($obj_class, "view"));
+					break;
+
+				default:
+					$ilCtrl->setParameter($this, "wsp_id", $node["wsp_id"]);
+					$ilLocator->addItem($node["title"], $ilCtrl->getLinkTargetByClass($obj_class, "edit"));
 					break;
 			}
 		}

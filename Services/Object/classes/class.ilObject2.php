@@ -37,8 +37,11 @@ abstract class ilObject2 extends ilObject
 		parent::read($a_force_db);
 		$this->doRead();
 	}
-	abstract protected function doRead();
-
+	protected function doRead()
+	{
+		
+	}
+	
 	final function getId() { return parent::getId(); }
 	final function setId($a_id) { return parent::setId($a_id); }
 	final function setRefId($a_id) { return parent::setRefId($a_id); }
@@ -76,7 +79,10 @@ abstract class ilObject2 extends ilObject
 		}
 	}
 
-	abstract protected function doCreate();
+	protected function doCreate()
+	{
+		
+	}
 	
 	protected function beforeCreate()
 	{
@@ -99,7 +105,10 @@ abstract class ilObject2 extends ilObject
 		return false;
 	}
 
-	abstract protected function doUpdate();
+	protected function doUpdate()
+	{
+		
+	}
 	
 	protected function beforeUpdate()
 	{
@@ -119,7 +128,10 @@ abstract class ilObject2 extends ilObject
 		return false;
 	}
 
-	abstract protected function doMDUpdateListener($a_element);
+	protected function doMDUpdateListener($a_element)
+	{
+		
+	}
 
 	protected function beforeMDUpdateListener($a_element)
 	{
@@ -139,7 +151,10 @@ abstract class ilObject2 extends ilObject
 		return false;
 	}
 
-	abstract protected function doCreateMetaData();
+	protected function doCreateMetaData()
+	{
+		
+	}
 
 	protected function beforeCreateMetaData()
 	{
@@ -159,7 +174,10 @@ abstract class ilObject2 extends ilObject
 		return false;
 	}
 
-	abstract protected function doUpdateMetaData();
+	protected function doUpdateMetaData()
+	{
+		
+	}
 
 	protected function beforeUpdateMetaData()
 	{
@@ -206,7 +224,10 @@ abstract class ilObject2 extends ilObject
 		return false;
 	}
 
-	abstract protected function doDelete();
+	protected function doDelete()
+	{
+
+	}
 	
 	protected function beforeDelete()
 	{
@@ -242,7 +263,10 @@ abstract class ilObject2 extends ilObject
 		}
 	}
 	
-	abstract protected function doCloneObject($a_target_id,$a_copy_id,$new_obj);
+	protected function doCloneObject($a_target_id,$a_copy_id,$new_obj)
+	{
+		
+	}
 	
 	protected function beforeCloneObject()
 	{
