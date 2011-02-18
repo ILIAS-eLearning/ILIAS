@@ -97,12 +97,24 @@ class ilObjDefReader extends ilSaxParser
 		switch ($a_name)
 		{
 			case 'object':
+
+				// if attributes are not given, set default (repository only)
+				if($a_attribs["repository"] === NULL)
+				{
+					$a_attribs["repository"] = true;
+				}
+				if($a_attribs["workspace"] === NULL)
+				{
+					$a_attribs["workspace"] = false;
+				}
+
 				$this->current_object = $a_attribs["id"];
 				$ilDB->manipulateF("INSERT INTO il_object_def (id, class_name, component,location,".
-					"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,default_pres_pos,sideblock,grp,system,export) VALUES ".
-					"(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+					"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,".
+					"default_pres_pos,sideblock,grp,system,export,repository,workspace) VALUES ".
+					"(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
 					array("text", "text", "text", "text", "integer", "integer", "text", "integer","integer","integer",
-						"integer","integer","integer","integer", "text", "integer",'integer'),
+						"integer","integer","integer","integer", "text", "integer", "integer", "integer", "integer"),
 					array(
 						$a_attribs["id"],
 						$a_attribs["class_name"],
@@ -120,7 +132,9 @@ class ilObjDefReader extends ilSaxParser
 						(int) $a_attribs["sideblock"],
 						$a_attribs["group"],
 						(int) $a_attribs["system"],
-						(int) $a_attribs['export']));
+						(int) $a_attribs["export"],
+						(int) $a_attribs["repository"],
+						(int) $a_attribs["workspace"]));
 				break;
 			
 			case "subobj":

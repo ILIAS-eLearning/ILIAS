@@ -3911,3 +3911,19 @@ if(!$ilDB->tableExists('object_reference_ws'))
   $ilDB->createSequence('object_reference_ws');
 }
 ?>
+<#3223>
+<?php
+if(!$ilDB->tableColumnExists('il_object_def','repository'))
+{
+	$ilDB->addTableColumn("il_object_def", "repository",
+		array("type" => "integer", "length" => 1, "notnull" => true, "default" => 1));
+}
+?>
+<#3224>
+<?php
+if(!$ilDB->tableColumnExists('il_object_def','workspace'))
+{
+	$ilDB->addTableColumn("il_object_def", "workspace",
+		array("type" => "integer", "length" => 1, "notnull" => true, "default" => 0));
+}
+?>
