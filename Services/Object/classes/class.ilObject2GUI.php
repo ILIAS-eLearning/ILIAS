@@ -328,10 +328,29 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 	// -> ilAdministration
 	final private function displayList() { return parent::displayList(); }
-	final public function view() { return parent::viewObject(); }
 //	final private function setAdminTabs() { return parent::setAdminTabs(); }
 	final public function getAdminTabs($a) { return parent::getAdminTabs($a); }
 	final protected function addAdminLocatorItems() { return parent::addAdminLocatorItems(); }
+
+	final public function view()
+	{
+		switch($this->id_type)
+		{
+			case self::REPOSITORY_NODE_ID:
+			case self::REPOSITORY_OBJECT_ID:
+				return parent::viewObject();
+
+			case self::WORKSPACE_NODE_ID:
+			case self::WORKSPACE_OBJECT_ID:
+				// temporary fix
+				$this->ctrl->setParameterByClass("ilpersonalworkspacegui", "wsp_id", $this->node_id);
+				$this->ctrl->redirectByClass("ilpersonalworkspacegui", "");
+
+			case self::OBJECT_ID:
+				// :TODO: should this ever occur?  do nothing or edit() ?!
+				break;
+		}
+	}
 	
 	/**
 	* Deprecated functions
