@@ -186,7 +186,6 @@ abstract class ilObject2GUI extends ilObjectGUI
 					$cmd = "view";
 				}
 				return $this->performCommand($cmd);
-				break;
 		}
 
 		return true;
@@ -311,25 +310,25 @@ abstract class ilObject2GUI extends ilObjectGUI
 	// -> ilContainerGUI
 	final protected function showPossibleSubObjects() { return parent::showPossibleSubObjects(); }
 	// -> ilRepUtilGUI
-	final public  function deleteObject() { return parent::deleteObject(); }	// done
-	final public  function trashObject() { return parent::trashObject(); }		// done
+	final public  function delete() { return parent::deleteObject(); }	// done
+	final public  function trash() { return parent::trashObject(); }		// done
 	// -> ilRepUtil
-	final public function undeleteObject() { return parent::undeleteObject(); } // done
-	final public function confirmedDeleteObject() { return parent::confirmedDeleteObject(); } // done
-	final public function cancelDeleteObject() { return parent::cancelDeleteObject(); } // ok
-	final public function removeFromSystemObject() { return parent::removeFromSystemObject(); } // done 
+	final public function undelete() { return parent::undeleteObject(); } // done
+	final public function confirmedDelete() { return parent::confirmedDeleteObject(); } // done
+	final public function cancelDelete() { return parent::cancelDeleteObject(); } // ok
+	final public function removeFromSystem() { return parent::removeFromSystemObject(); } // done 
 	final protected function redirectToRefId() { return parent::redirectToRefId(); } // ok
 	
 	// -> stefan
 	final protected function fillCloneTemplate($a_tpl_varname,$a_type) { return parent::fillCloneTemplate($a_tpl_varname,$a_type); }
 	final protected function fillCloneSearchTemplate($a_tpl_varname,$a_type) { return parent::fillCloneSearchTemplate($a_tpl_varname,$a_type); }
-	final protected function searchCloneSourceObject() { return parent::searchCloneSourceObject(); }
-	final public function cloneAllObject() { return parent::cloneAllObject(); }
+	final protected function searchCloneSource() { return parent::searchCloneSourceObject(); }
+	final public function cloneAll() { return parent::cloneAllObject(); }
 	final protected function buildCloneSelect($existing_objs) { return parent::buildCloneSelect($existing_objs); }
 
 	// -> ilAdministration
 	final private function displayList() { return parent::displayList(); }
-	final public function viewObject() { return parent::viewObject(); }
+	final public function view() { return parent::viewObject(); }
 //	final private function setAdminTabs() { return parent::setAdminTabs(); }
 	final public function getAdminTabs($a) { return parent::getAdminTabs($a); }
 	final protected function addAdminLocatorItems() { return parent::addAdminLocatorItems(); }
@@ -572,6 +571,11 @@ $html.= $this->form->getHTML()."<br />";
 		$tpl->setContent($this->form->getHtml());
 	}
 
+	protected function afterSave(ilObject $a_new_object)
+	{
+		$this->ctrl->returnToParent($this);
+	}
+
 	/**
 	* Init object creation form
 	*
@@ -640,6 +644,8 @@ $html.= $this->form->getHTML()."<br />";
 	*/
 	final function cancelCreation($in_rep = false)
 	{
+		global $ilCtrl;
+
 		switch($this->id_type)
 		{
 			case self::REPOSITORY_NODE_ID:
@@ -649,7 +655,8 @@ $html.= $this->form->getHTML()."<br />";
 
 			case self::WORKSPACE_NODE_ID:
 			case self::WORKSPACE_OBJECT_ID:
-				ilUtil::redirect(); // TODO
+				$ilCtrl->setParameterByClass("ilpersonalworkspacegui", "wsp_id", $this->parent_id);
+				$ilCtrl->redirectByClass("ilpersonalworkspacegui", "");
 				break;
 
 			case self::OBJECT_ID:
@@ -663,7 +670,7 @@ $html.= $this->form->getHTML()."<br />";
 	*
 	* @access	public
 	*/
-	function editObject()
+	function edit()
 	{
 		global $tpl;
 		
@@ -687,7 +694,7 @@ $html.= $this->form->getHTML()."<br />";
 	*
 	* @access	public
 	*/
-	function updateObject()
+	function update()
 	{
 		global $lng, $tpl;
 		
@@ -705,7 +712,7 @@ $html.= $this->form->getHTML()."<br />";
 		$tpl->setContent($this->form->getHtml());
 	}
 	
-	function afterUpdate()
+	protected function afterUpdate()
 	{
 		$this->ctrl->redirect($this);
 	}

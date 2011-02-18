@@ -10,7 +10,7 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
 *
-* @ilCtrl_Calls ilObjWorkspaceFolderGUI:
+* @ilCtrl_Calls ilObjWorkspaceFolderGUI: ilInfoScreenGUI, ilPermissionGUI, 
 *
 * @extends ilObject2GUI
 */
@@ -21,35 +21,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	function getType()
 	{
 		return "wsfold";
-	}
-
-	/**
-	* View folder
-	*/
-	function viewObject()
-	{
-		global $tree;
-
-		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
-		{
-			parent::viewObject();
-			return true;
-		}
-		$this->renderObject();
-		$this->tabs_gui->setTabActive('view_content');
-		return true;
-	}
-		
-	/**
-	* Render folder
-	*/
-	function renderObject()
-	{
-		global $ilTabs;
-		
-		$ilTabs->activateTab("view_content");
-		$ret =  parent::renderObject();
-		return $ret;
 	}
 
 	function &executeCommand()
@@ -157,7 +128,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 			default:
 
-				$this->prepareOutput();
+				// $this->prepareOutput();
 				// Dirty hack for course timings view
 				if($this->forwardToTimingsView())
 				{
@@ -168,7 +139,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 				{
 					$cmd = "view";
 				}
-				$cmd .= "Object";
 				$this->$cmd();
 				break;
 		}
@@ -182,25 +152,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		$this->folder_tree =& $a_tree;
 	}
 	
-	/**
-	 * Create object
-	 * @return 
-	 */
-	public function createObject()
-	{
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.fold_create.html','Modules/Folder');
-		$this->ctrl->setParameter($this,'new_type',$this->type);
-		
-		$this->initFormCreate();
-		
-		$this->tpl->setVariable('NEW_FOLDER',$this->form->getHTML());
-		$this->fillCloneTemplate('DUPLICATE', 'fold');
-		
-		$this->initImportForm("fold");
-		$this->tpl->setVariable("IMPORT_FORM", $this->form->getHTML());
-		
-	}
-
 	/**
 	 * Init object import form
 	 *
@@ -232,40 +183,10 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	}
 	
 	/**
-	 * Init creation form
-	 * @return 
-	 */
-	protected function initFormCreate()
-	{
-		if($this->form instanceof ilPropertyFormGUI)
-		{
-			return true;			
-		}
-		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($this->ctrl->getFormAction($this,'save'));
-		$this->form->setTableWidth('600px');
-		$this->form->setTitle($this->lng->txt($this->type.'_new'));
-		
-		// Title
-		$tit = new ilTextInputGUI($this->lng->txt('title'),'tit');
-		$tit->setRequired(true);
-		$tit->setMaxLength(128);
-		$this->form->addItem($tit);
-		
-		// Description
-		$des = new ilTextAreaInputGUI($this->lng->txt('description'),'des');
-		$this->form->addItem($des);
-		
-		$this->form->addCommandButton('save', $this->lng->txt('save'));
-		$this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
-	}
-	
-	/**
 	 * Import object
 	 * @return 
 	 */
-	public function importFileObject()
+	public function importFile()
 	{
 		global $lng;
 		
@@ -280,40 +201,17 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	 * Save object
 	 * @return 
 	 */
-	public function saveObject()
+	public function afterSave($fold)
 	{
-		global $ilUser;
-
-		$this->initFormCreate();
-		
-		if($this->form->checkInput())
-		{
-			$fold = parent::saveObject();
-			$fold->setTitle($this->form->getInput('tit'));
-			$fold->setDescription($this->form->getInput('des'));
-			
-			$fold->update();
-			
-			include_once 'Services/Tracking/classes/class.ilChangeEvent.php';
-			if (ilChangeEvent::_isActive())
-			{
-				ilChangeEvent::_recordWriteEvent($fold->getId(), $ilUser->getId(), 'create');
-			}
-			
-			include_once './classes/class.ilLink.php';
-			ilUtil::sendSuccess($this->lng->txt($this->type."_added"),true);
-			ilUtil::redirect('repository.php?ref_id='.$fold->getRefId());
-		}
-		$this->form->setValuesByPost();
-		$this->createObject();
+		$this->ctrl->returnToParent($this);
 	}
-	
 	
 	/**
 	 * Update object
 	 * @return 
 	 */
-	public function editObject()
+	/*
+	public function edit()
 	{
 		$this->tabs_gui->setTabActive('settings');
 		$this->initFormEdit();
@@ -328,9 +226,10 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		$this->tpl->setContent($this->form->getHTML());
 		return true;
 	}
+	 */
 	
-	
-	public function updateObject()
+	/*
+	public function update()
 	{
 		global $ilUser;
 
@@ -362,11 +261,13 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		$this->tpl->setContent($this->form->getHTML());
 		return true;
 	}
+	 */
 	
 	/**
 	 * Init edit form
 	 * @return 
 	 */
+	/*
 	protected function initFormEdit()
 	{
 		global $tree;
@@ -421,8 +322,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		$this->form->addCommandButton('update', $this->lng->txt('save'));
 		$this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
 	}
-	
-
+	*/
 
 	
 		/**
@@ -430,7 +330,8 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	*
 	* @access	public
 	*/
-	function updateObject2($a_return_to_parent = false)
+	/*
+	function update($a_return_to_parent = false)
 	{
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
@@ -457,6 +358,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 			$this->ctrl->redirect($this);
 		}
 	}
+	 */
 
 	// BEGIN ChangeEvent show info screen on folder object
 	/**
@@ -464,19 +366,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	* not very nice to set cmdClass/Cmd manually, if everything
 	* works through ilCtrl in the future this may be changed
 	*/
-	function showSummaryObject()
-	{
-		$this->ctrl->setCmd("showSummary");
-		$this->ctrl->setCmdClass("ilinfoscreengui");
-		$this->infoScreen();
-	}
-	
-	/**
-	* this one is called from the info button in the repository
-	* not very nice to set cmdClass/Cmd manually, if everything
-	* works through ilCtrl in the future this may be changed
-	*/
-	function infoScreenObject()
+	function showSummary()
 	{
 		$this->ctrl->setCmd("showSummary");
 		$this->ctrl->setCmdClass("ilinfoscreengui");
@@ -531,16 +421,16 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	/**
 	* Get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function setTabs()
 	{
 		global $rbacsystem, $ilUser, $lng, $ilCtrl,$ilAccess;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
-		$tabs_gui->setTabActive("");
+		$this->tabs_gui->setTabActive("");
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$tabs_gui->addTab("view_content", $lng->txt("content"),
+			$this->tabs_gui->addTab("view_content", $lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 
 			//BEGIN ChangeEvent add info tab to category object
@@ -548,9 +438,9 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
 				? true
 				: false;
-			$tabs_gui->addTarget("info_short",
+			$this->tabs_gui->addTarget("info_short",
 				 $this->ctrl->getLinkTargetByClass(
-				 array("ilobjfoldergui", "ilinfoscreengui"), "showSummary"),
+				 array("ilobjworkspacefoldergui", "ilinfoscreengui"), "showSummary"),
 				 array("showSummary","", "infoScreen"),
 				 "", "", $force_active);
 			//END ChangeEvent add info tab to category object
@@ -558,7 +448,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", "", "", ($ilCtrl->getCmd() == "edit"));
 		}
 
@@ -566,15 +456,15 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('learning_progress',
-								 $this->ctrl->getLinkTargetByClass(array('ilobjfoldergui','illearningprogressgui'),''),
+			$this->tabs_gui->addTarget('learning_progress',
+								 $this->ctrl->getLinkTargetByClass(array('ilobjworkspacefoldergui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 		
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				'export',
 				$this->ctrl->getLinkTargetByClass('ilexportgui',''),
 				'export',
@@ -585,14 +475,14 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 
 		// show clipboard in repository
 		if ($this->ctrl->getTargetScript() == "repository.php" and !empty($_SESSION['il_rep_clipboard']))
 		{
-			$tabs_gui->addTarget("clipboard",
+			$this->tabs_gui->addTarget("clipboard",
 				 $this->ctrl->getLinkTarget($this, "clipboard"), "clipboard", get_class($this));
 		}
 
@@ -688,7 +578,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	}
 
 
-	public function downloadFolderObject () {
+	public function downloadFolder() {
 		global $ilAccess, $ilErr, $lng;
 			
 		if (!$ilAccess->checkAccess("read", "", $this->ref_id))

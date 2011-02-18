@@ -15,6 +15,7 @@
 			<parent id="recf">recf</parent>
 			<parent id="root">root</parent>
 			<parent id="wsrt">wsrt</parent>
+			<parent id="wfld">wfld</parent>
 		</object>
 	</objects>
 </module>

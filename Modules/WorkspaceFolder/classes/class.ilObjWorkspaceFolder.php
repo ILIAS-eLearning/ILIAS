@@ -2,29 +2,23 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once "Services/Object/classes/class.ilObject2.php";
+
 /**
 * Class ilObjWorkspaceFolder
 *
 * @author Wolfgang Merkens <wmerkens@databay.de>
 * @version $Id: class.ilObjFolder.php 25528 2010-09-03 10:37:11Z smeyer $
 *
-* @extends ilObject
+* @extends ilObject2
 */
-class ilObjWorkspaceFolder extends ilObject
+class ilObjWorkspaceFolder extends ilObject2
 {
 	var $folder_tree;
 	
-	/**
-	* Constructor
-	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
-	*/
-	function __construct($a_id = 0,$a_call_by_reference = true)
+	function initType()
 	{
-		$this->type = "fold";
-		parent::__construct($a_id,$a_call_by_reference);
-		$this->lng->loadLanguageModule('fold');
+		$this->type = "wfld";
 	}
 
 	function setFolderTree($a_tree)
@@ -36,48 +30,18 @@ class ilObjWorkspaceFolder extends ilObject
 	 * Clone folder
 	 *
 	 * @access public
+	 * @param object clone
 	 * @param int target id
 	 * @param int copy id
-	 * 
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function doCloneObject($a_new_object, $a_target_id, $a_copy_id = 0)
 	{
-	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
-		
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
 		$obj_settings = new ilLPObjSettings($this->getId());
-		$obj_settings->cloneSettings($new_obj->getId());
-		unset($obj_settings);
-		
-		return $new_obj;
+		$obj_settings->cloneSettings($a_new_object->getId());
 	}
 
-	/**
-	* insert folder into grp_tree
-	*
-	*/
-	function putInTree($a_parent)
-	{
-		global $tree;
-		
-		if (!is_object($this->folder_tree))
-		{
-			$this->folder_tree =& $tree; 
-		}
-
-		if ($this->withReferences())
-		{
-			// put reference id into tree
-			$this->folder_tree->insertNode($this->getRefId(), $a_parent);
-		}
-		else
-		{
-			// put object id into tree
-			$this->folder_tree->insertNode($this->getId(), $a_parent);
-		}
-	}
-	
 	/**
 	 * Clone object dependencies (crs items, preconditions)
 	 *
@@ -234,24 +198,6 @@ class ilObjWorkspaceFolder extends ilObject
 		{
 			$items[$this->getRefId()]->addAdditionalSubItemInformation($a_item_data);
 		}
-	}
-	
-	/**
-	 * Overwritten read method
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function read()
-	{
-		global $tree;
-		
-		parent::read();
-		
-		// Inherit order type from parent course (if exists)
-		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
-		$this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
 	}
 
 } // END class.ilObjFolder
