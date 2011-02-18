@@ -25,7 +25,7 @@ abstract class ilObject2 extends ilObject
 		parent::ilObject($a_id, $a_reference);
 	}
 
-	abstract function initType();
+	abstract protected function initType();
 	
 	final function withReferences() { return parent::withReferences(); }
 
@@ -37,7 +37,7 @@ abstract class ilObject2 extends ilObject
 		parent::read($a_force_db);
 		$this->doRead();
 	}
-	abstract function doRead();
+	abstract protected function doRead();
 
 	final function getId() { return parent::getId(); }
 	final function setId($a_id) { return parent::setId($a_id); }
@@ -65,11 +65,18 @@ abstract class ilObject2 extends ilObject
 
 	final function create()
 	{
-		$this->beforeCreate();
-		$id = parent::create();
-		$this->doCreate();
+		if($this->beforeCreate())
+		{
+			$id = parent::create();
+			if($id)
+			{
+				$this->doCreate();
+				return $id;
+			}
+		}
 	}
-	abstract function doCreate();
+
+	abstract protected function doCreate();
 	
 	protected function beforeCreate()
 	{
@@ -91,16 +98,74 @@ abstract class ilObject2 extends ilObject
 		
 		return false;
 	}
-	abstract function doUpdate();
+
+	abstract protected function doUpdate();
 	
 	protected function beforeUpdate()
 	{
 		return true;
 	}
 
-	final function MDUpdateListener($a_element) { return parent::MDUpdateListener($a_element); }
-	final function createMetaData() { return parent::createMetaData(); }
-	final function updateMetaData() { return parent::updateMetaData(); }
+	final function MDUpdateListener($a_element) 
+	{
+		if($this->beforeMDUpdateListener($a_element))
+		{
+			if(parent::MDUpdateListener($a_element))
+			{
+				$this->doMDUpdateListener($a_element);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	abstract protected function doMDUpdateListener($a_element);
+
+	protected function beforeMDUpdateListener($a_element)
+	{
+		return true;
+	}
+
+	final function createMetaData()
+	{
+		if($this->beforeCreateMetaData())
+		{
+			if(parent::createMetaData())
+			{
+				$this->doCreateMetaData();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	abstract protected function doCreateMetaData();
+
+	protected function beforeCreateMetaData()
+	{
+		return true;
+	}
+
+	final function updateMetaData()
+	{
+		if($this->beforeUpdateMetaData())
+		{
+			if(parent::updateMetaData())
+			{
+				$this->doUpdateMetaData();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	abstract protected function doUpdateMetaData();
+
+	protected function beforeUpdateMetaData()
+	{
+		return true;
+	}
+	
 	final function deleteMetaData() { return parent::deleteMetaData(); }
 	final function updateOwner() { return parent::updateOwner(); }
 	final function _getIdForImportId($a_import_id) { return parent::_getIdForImportId($a_import_id); }
@@ -132,18 +197,16 @@ abstract class ilObject2 extends ilObject
 	{
 		if($this->beforeDelete())
 		{
-			if (!parent::delete())
+			if(parent::delete())
 			{
-				return false;
-			}
-			$this->doDelete();
-			
-			return true;
-		}
-		
+				$this->doDelete();
+				return true;
+			}			
+		}		
 		return false;
 	}
-	abstract function doDelete();
+
+	abstract protected function doDelete();
 	
 	protected function beforeDelete()
 	{
@@ -158,8 +221,8 @@ abstract class ilObject2 extends ilObject
 	final function setRegisterMode($a_bool) { return parent::setRegisterMode($a_bool); }
 	final function isUserRegistered($a_user_id = 0) { return parent::isUserRegistered($a_user_id); }
 	final function requireRegistration() { return parent::requireRegistration(); }
-	final function getXMLZip() { return parent::getXMLZip(); }
-	final function getHTMLDirectory() { return parent::getHTMLDirectory(); }
+	//final function getXMLZip() { return parent::getXMLZip(); }
+	//final function getHTMLDirectory() { return parent::getHTMLDirectory(); }
 	final static function _getObjectsByType($a_obj_type = "", $a_owner = "") { return parent::_getObjectsByType($a_obj_type, $a_owner); }
 	
 	final static function _prepareCloneSelection($a_ref_ids,$new_type) { return parent::_prepareCloneSelection($a_ref_ids,$new_type); }
@@ -168,14 +231,20 @@ abstract class ilObject2 extends ilObject
 	
 	final function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		$this->beforeClone();
-		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
-		$this->doClone($a_target_id,$a_copy_id,$new_obj);
-		return $new_obj;
+		if($this->beforeCloneObject())
+		{
+			$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+			if($new_obj)
+			{
+				$this->doCloneObject($a_target_id,$a_copy_id,$new_obj);
+				return $new_obj;
+			}
+		}
 	}
-	abstract function doClone($a_target_id,$a_copy_id,$new_obj);
 	
-	protected function beforeClone()
+	abstract protected function doCloneObject($a_target_id,$a_copy_id,$new_obj);
+	
+	protected function beforeCloneObject()
 	{
 		return true;
 	}
