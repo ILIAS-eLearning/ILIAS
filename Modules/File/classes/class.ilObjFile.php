@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./classes/class.ilObject.php";
+require_once "Services/Object/classes/class.ilObject2.php";
 include_once('Modules/File/classes/class.ilFSStorageFile.php');
 
 /** @defgroup ModulesFile Modules/File
@@ -15,7 +15,7 @@ include_once('Modules/File/classes/class.ilFSStorageFile.php');
 *
 * @ingroup ModulesFile
 */
-class ilObjFile extends ilObject
+class ilObjFile extends ilObject2
 {
 	var $filename;
 	var $filetype;
@@ -32,12 +32,11 @@ class ilObjFile extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjFile($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->version = 0;
-		$this->type = "file";
 		$this->raise_upload_error = true;
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 		
 		if($this->getId())
 		{
@@ -45,21 +44,23 @@ class ilObjFile extends ilObject
 		}
 	}
 
+	function initType()
+	{
+		$this->type = "file";
+	}
+
 	/**
 	* create object
 	* 
 	* @param bool upload mode (if enabled no entries in file_data will be done)
 	*/
-	function create($a_upload = false, $a_prevent_meta_data_creation = false)
+	protected function doCreate($a_upload = false, $a_prevent_meta_data_creation = false)
 	{
-		$new_id = parent::create();
-
 		//BEGIN WebDAV Move Property creation into a method of its own.
 		$this->createProperties($a_upload);
-		//END WebDAV Move Property creation into a method of its own.
-
-		return $new_id;		
+		//END WebDAV Move Property creation into a method of its own.	
 	}
+	
 	//BEGIN WebDAV: Move Property creation into a method of its own.
 	/**
 	 * The basic properties of a file object are stored in table object_data.
@@ -114,10 +115,8 @@ class ilObjFile extends ilObject
 	/**
 	* create file object meta data
 	*/
-	function createMetaData()
+	protected function doCreateMetaData()
 	{
-		parent::createMetaData();
-		
 		// add technical section with file size and format
 		$md_obj =& new ilMD($this->getId(),0,$this->getType());
 		$technical = $md_obj->addTechnical();
@@ -128,19 +127,8 @@ class ilObjFile extends ilObject
 		$format->save();
 		$technical->update();
 	}
-	
-	/**
-	* Meta data update listener
-	*
-	* Important note: Do never call create() or update()
-	* method of ilObject here. It would result in an
-	* endless loop: update object -> update meta -> update
-	* object -> ...
-	* Use static _writeTitle() ... methods instead.
-	*
-	* @param	string		$a_element
-	*/
-	function MDUpdateListener($a_element)
+
+	protected function beforeMDUpdateListener($a_element)
 	{
 		// Check file extension
 		// Removing the file extension is not allowed
@@ -152,11 +140,11 @@ class ilObjFile extends ilObject
 		}
 		$title = $this->checkFileExtension($this->getFileName(), $md_gen->getTitle());
 		$md_gen->setTitle($title);
-		$md_gen->update();		
+		$md_gen->update();
+	}
 
-		// handling for general section
-		parent::MDUpdateListener($a_element);
-		
+	protected function doMDUpdateListener($a_element)
+	{
 		// handling for technical section 
 		include_once 'Services/MetaData/classes/class.ilMD.php';
 //echo "-".$a_element."-";
@@ -180,8 +168,6 @@ class ilObjFile extends ilObject
 				}
 
 				break;
-
-			default:
 		}
 		return true;
 	}
@@ -297,12 +283,10 @@ class ilObjFile extends ilObject
 	/**
 	* read file properties
 	*/
-	function read()
+	protected function doRead()
 	{
 		global $ilDB;
 		
-		parent::read();
-
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
 		$r = $this->ilias->db->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
@@ -316,21 +300,21 @@ class ilObjFile extends ilObject
 		$this->initFileStorage();
 	}
 
-	/**
-	* update file
-	*/
-	function update()
+	protected function beforeUpdate()
 	{
-		global $ilDB;
-		
 		// no meta data handling for file list files
 		if ($this->getMode() != "filelist")
 		{
 			$this->updateMetaData();
 		}
-		parent::update();
-		
-		global $ilLog;
+	}
+
+	/**
+	* update file
+	*/
+	protected function doUpdate()
+	{
+		global $ilDB, $ilLog;
 		
 		//$ilLog->write(__METHOD__.' File type: '.$this->getFileType());
 		
@@ -348,10 +332,8 @@ class ilObjFile extends ilObject
 	/**
 	* update meta data
 	*/
-	function updateMetaData()
+	protected function doUpdateMetaData()
 	{
-		parent::updateMetaData();
-		
 		// add technical section with file size and format
 		$md_obj =& new ilMD($this->getId(),0,$this->getType());
 		if(!is_object($technical = $md_obj->getTechnical()))
@@ -708,24 +690,24 @@ class ilObjFile extends ilObject
 	 * Clone
 	 *
 	 * @access public
+	 * @param object clone
 	 * @param int target id
 	 * @param int copy id
 	 * 
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	protected function doCloneObject($a_new_obj,$a_target_id,$a_copy_id = 0)
 	{
 		global $ilDB;
-		
-	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
-	 	$new_obj->createDirectory();
-	 	$this->cloneMetaData($new_obj);
+
+	 	$a_new_obj->createDirectory();
+	 	$this->cloneMetaData($a_new_obj);
 	 	
 	 	// Copy all file versions
-	 	ilUtil::rCopy($this->getDirectory(),$new_obj->getDirectory());
+	 	ilUtil::rCopy($this->getDirectory(),$a_new_obj->getDirectory());
 	 	
 	 	// object created now copy other settings
 		$query = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,f_mode) VALUES (".
-				$ilDB->quote($new_obj->getId() ,'integer').",".
+				$ilDB->quote($a_new_obj->getId() ,'integer').",".
 				$ilDB->quote($this->getFileName() ,'text').",".
 				$ilDB->quote($this->getFileType() ,'text').",".
 				$ilDB->quote((int) $this->getFileSize() ,'integer').", ".
@@ -735,60 +717,48 @@ class ilObjFile extends ilObject
 
 		// copy history entries
 		require_once("classes/class.ilHistory.php");
-		ilHistory::_copyEntriesForObject($this->getId(),$new_obj->getId());
+		ilHistory::_copyEntriesForObject($this->getId(),$a_new_obj->getId());
 		
 		// add news notification
-		$new_obj->addNewsNotification("file_created");
+		$a_new_obj->addNewsNotification("file_created");
 
-	 	return $new_obj;
+	 	return $a_new_obj;
 	}
 	
-
-	/**
-	* delete file and all related data	
-	*
-	* @access	public
-	* @return	boolean	true if all object data were removed; false if only a references were removed
-	*/
-	function delete()
+	protected function beforeDelete()
 	{
 		global $ilDB;
 		
 		// check, if file is used somewhere
 		$usages = $this->getUsages();
-
 		if (count($usages) == 0)
 		{
-			// always call parent delete function first!!
-			if (!parent::delete())
-			{
-				return false;
-			}
-
-			// delete file data entry
-			$q = "DELETE FROM file_data WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
-			$this->ilias->db->query($q);
-			
-			// delete history entries
-			require_once("classes/class.ilHistory.php");
-			ilHistory::_removeEntriesForObject($this->getId());
-			
-			// delete entire directory and its content
-			if (@is_dir($this->getDirectory()))
-			{
-				ilUtil::delDir($this->getDirectory());
-			}
-			
-			// delete meta data
-			if ($this->getMode() != "filelist")
-			{
-				$this->deleteMetaData();
-			}
-
 			return true;
 		}
-
 		return false;
+	}
+
+	protected function doDelete()
+	{
+		// delete file data entry
+		$q = "DELETE FROM file_data WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
+		$this->ilias->db->query($q);
+
+		// delete history entries
+		require_once("classes/class.ilHistory.php");
+		ilHistory::_removeEntriesForObject($this->getId());
+
+		// delete entire directory and its content
+		if (@is_dir($this->getDirectory()))
+		{
+			ilUtil::delDir($this->getDirectory());
+		}
+
+		// delete meta data
+		if ($this->getMode() != "filelist")
+		{
+			$this->deleteMetaData();
+		}
 	}
 
 	/**

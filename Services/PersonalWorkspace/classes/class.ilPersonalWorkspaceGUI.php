@@ -191,7 +191,7 @@ class ilPersonalWorkspaceGUI
 					$ilLocator->addItem($node["title"], $ilCtrl->getLinkTargetByClass($obj_class, "edit"));
 					break;
 
-				case "usr":
+				case "wsrt":
 					$ilCtrl->setParameter($this, "wsp_id", "");
 					$ilLocator->addItem($lng->txt("wsp_personal_workspace"), $ilCtrl->getLinkTarget($this, "show"));
 					break;
