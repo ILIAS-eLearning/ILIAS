@@ -8,7 +8,7 @@
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id: class.ilPersonalDesktopGUI.php 26976 2010-12-16 13:24:38Z akill $
 *
-* @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjFileGUI
+* @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjWorkspaceRootFolder, ilObjFileGUI, ilObjWorkspaceFolderGUI
 */
 class ilPersonalWorkspaceGUI
 {
@@ -84,8 +84,14 @@ class ilPersonalWorkspaceGUI
 		$this->tree = new ilWorkspaceTree($user_id);
 		if(!$this->tree->readRootId())
 		{
-			$root_id = $this->tree->createReference($user_id);
-			$this->tree->addTree($user_id, $root_id);			
+			// create (workspace) root folder
+			$root = ilObjectFactory::getClassByType("wsrt");
+			$root = new $root(null);
+			$root->create();
+
+			$root_id = $this->tree->createReference($root->getId());
+			$this->tree->addTree($user_id, $root_id);
+			$this->tree->setRootId($root_id);
 		}
 	}
 	
@@ -94,11 +100,11 @@ class ilPersonalWorkspaceGUI
 	 */
 	protected function show()
 	{
-		global $tpl, $lng, $ilCtrl;
+		global $tpl, $lng, $ilCtrl, $objDefinition;
 
 		// title/icon
 		$root = $this->tree->getNodeData($this->node_id);
-		if($root["type"] == "usr")
+		if($root["type"] == "wsrt")
 		{
 			$title = $lng->txt("wsp_personal_workspace");
 			$icon = ilObject::_getIcon(ROOT_FOLDER_ID, "big");
@@ -113,11 +119,19 @@ class ilPersonalWorkspaceGUI
 
 		$tree_tpl = new ilTemplate("tpl.workspace_node.html", true, true, "Services/PersonalWorkspace");
 
-		// actions
-		$tree_tpl->setCurrentBlock("action_item");
-		$tree_tpl->setVariable("ACTION_ITEM_URL", $ilCtrl->getLinkTargetByClass("ilobjfilegui", "create"));
-		$tree_tpl->setVariable("ACTION_ITEM_CAPTION", $lng->txt("wsp_add_file"));
-		$tree_tpl->parseCurrentBlock();
+		// create subtypes
+		$subtypes = $objDefinition->getCreatableSubObjects("wsrt", ilObjectDefinition::MODE_WORKSPACE);
+		if($subtypes)
+		{
+			$tree_tpl->setCurrentBlock("action_item");
+			foreach(array_keys($subtypes) as $type)
+			{
+				$class = $objDefinition->getClassName($type);
+				$tree_tpl->setVariable("ACTION_ITEM_URL", $ilCtrl->getLinkTargetByClass("ilobj".$class."gui", "create"));
+				$tree_tpl->setVariable("ACTION_ITEM_CAPTION", $lng->txt("wsp_add_".$type));
+				$tree_tpl->parseCurrentBlock();
+			}
+		}
 
 		$nodes = $this->tree->getSubTree($root);
 		if($nodes)

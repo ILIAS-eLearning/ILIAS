@@ -35,6 +35,9 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	var $obj_data;
 
+	const MODE_REPOSITORY = 1;
+	const MODE_WORKSPACE = 2;
+
 	/**
 	* Constructor
 	* 
@@ -101,7 +104,9 @@ class ilObjectDefinition extends ilSaxParser
 				"system" => $rec["system"],
 				"default_pos" => $rec["default_pos"],
 				"sideblock" => $rec["sideblock"],
-				'export'	=> $rec['export']);
+				'export' => $rec['export'],
+				'repository' => $rec['repository'],
+				'workspace'	=> $rec['workspace']);
 			$this->obj_data[$rec["id"]]["subobjects"] = array();
 
             $defIds[] = $rec["id"];
@@ -574,10 +579,11 @@ class ilObjectDefinition extends ilSaxParser
 	* get only creatable subobjects by type
 	*
 	* @param	string	object type
+	* @param	integer	context
  	* @access	public
 	* @return	array	list of createable object types
 	*/
-	function getCreatableSubObjects($a_obj_type)
+	function getCreatableSubObjects($a_obj_type, $a_context = self::MODE_REPOSITORY)
 	{
 		$subobjects = $this->getSubObjects($a_obj_type);
 
@@ -590,8 +596,15 @@ class ilObjectDefinition extends ilSaxParser
 		// remove object types in development from list
 		foreach ($sub_types as $type)
 		{
-			
 			if ($this->getDevMode($type) || $this->isSystemObject($type))
+			{
+				unset($subobjects[$type]);
+			}
+			if ($a_context == self::MODE_REPOSITORY && !$this->isAllowedInRepository($type))
+			{
+				unset($subobjects[$type]);
+			}
+			if ($a_context == self::MODE_WORKSPACE && !$this->isAllowedInWorkspace($type))
 			{
 				unset($subobjects[$type]);
 			}
@@ -865,5 +878,28 @@ class ilObjectDefinition extends ilSaxParser
 		return $ret;
 	}
 
+	/**
+	* checks if object type can be used in repository context
+	*
+	* @param	string	object type
+	* @access	public
+	* @return bool
+	*/
+	function isAllowedInRepository($a_obj_name)
+	{
+		return (bool) $this->obj_data[$a_obj_name]["repository"];
+	}
+
+	/**
+	* checks if object type can be used in workspace context
+	*
+	* @param	string	object type
+	* @access	public
+	* @return bool
+	*/
+	function isAllowedInWorkspace($a_obj_name)
+	{
+		return (bool) $this->obj_data[$a_obj_name]["workspace"];
+	}
 }
 ?>
