@@ -10975,6 +10975,10 @@ content#:#cont_special_pages#:#Special Pages
 book#:#book_schedule_warning#:#Currently, there is no schedule available. Before adding booking objects you need to create a schedule for booking.
 common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature "Posting with pseudonym" is not available in forums anymore.
 common#:#enable_anonymous_fora#:#Allow posting with pseudonym
+content#:#cont_ed_insert_login_page_element#:#Insert Login Page Element
+content#:#cont_insert_login_page_element#:#Insert Login Page Element
+content#:#cont_update_login_page_element#:#Update Login Page Element
+common#:#enable_anonymous_fora#:#Allow posting with pseudonym
 sahs#:#sahs_hide_objectives_page#:#Hide Description/Objectives Page
 sahs#:#sahs_hide_objectives_page_info#:#If checked, the SCO description and objectives page will not be included in the presentation.
 sahs#:#sahs_list_info#:#Use leading * for bullet lists or leading # for numbered lists.

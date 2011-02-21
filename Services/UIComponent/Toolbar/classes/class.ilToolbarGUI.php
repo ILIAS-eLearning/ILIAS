@@ -60,7 +60,7 @@ class ilToolbarGUI
 	* @param	string		frame target
 	* @param	string		access key
 	*/
-	function addButton($a_txt, $a_cmd, $a_target = "", $a_acc_key = "", $a_additional_attrs = '')
+	public function addButton($a_txt, $a_cmd, $a_target = "", $a_acc_key = "", $a_additional_attrs = '')
 	{
 		$this->items[] = array("type" => "button", "txt" => $a_txt, "cmd" => $a_cmd,
 			"target" => $a_target, "acc_key" => $a_acc_key, 'add_attrs' => $a_additional_attrs);

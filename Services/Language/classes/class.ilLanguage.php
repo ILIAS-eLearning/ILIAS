@@ -347,7 +347,30 @@ class ilLanguage
 		
 		return "-".$a_id."-";
 	}
-	
+
+	/**
+	 * Lookup obj_id of language
+	 * @global ilDB $ilDB
+	 * @param string $a_lang_key
+	 * @return int
+	 */
+	public static function lookupId($a_lang_key)
+	{
+		global $ilDB;
+
+		$query = 'SELECT obj_id FROM object_data '.' '.
+		'WHERE title = '.$ilDB->quote($a_lang_key, 'text').' '.
+			'AND type = '.$ilDB->quote('lng','text');
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->obj_id;
+		}
+		return 0;
+	}
+
+
 	function getUsedTopics()
 	{
 		if (is_array($this->used_topics))

@@ -635,6 +635,14 @@
 		</xsl:call-template>
 	</xsl:if>
 
+	<!-- insert login page element -->
+	<xsl:if test = "$enable_login_page = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_lpe</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_login_page_element</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+
 	<!-- insert media object -->
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">insert_mob</xsl:with-param>
@@ -2812,6 +2820,29 @@
 <xsl:template match="Resources">
 	<div>
 		[list-<xsl:value-of select="./ResourceList/@Type"/>]
+		<xsl:call-template name="EditReturnAnchors"/>
+		<xsl:if test="$mode = 'edit'">
+			<!-- <xsl:value-of select="../@HierId"/> -->
+			<xsl:if test="$javascript='disable'">
+				<br />
+				<input type="checkbox" name="target[]">
+					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
+					</xsl:attribute>
+				</input>
+			</xsl:if>
+			<xsl:call-template name="EditMenu">
+				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="pc_id" select="../@PCID" />
+				<xsl:with-param name="edit">y</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+	</div>
+</xsl:template>
+
+<!-- Login Page -->
+<xsl:template match="LoginPageElement">
+	<div>
+		[list-<xsl:value-of select="./@Type"/>]
 		<xsl:call-template name="EditReturnAnchors"/>
 		<xsl:if test="$mode = 'edit'">
 			<!-- <xsl:value-of select="../@HierId"/> -->

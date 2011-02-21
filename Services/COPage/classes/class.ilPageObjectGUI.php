@@ -66,6 +66,8 @@ class ilPageObjectGUI
 	var $page_config = null;
 	var $enable_keywords = false;
 	var $enable_anchors = false;
+
+	private $enabledloginpage = false;
 	
 	/**
 	* Constructor
@@ -93,6 +95,7 @@ class ilPageObjectGUI
 		$this->setEnabledPCTabs(false);
 		$this->setEnabledFileLists(true);
 		$this->setEnabledRepositoryObjects(false);
+		$this->setEnabledLoginPage(false);
 		$this->setEnabledSelfAssessment(false);
 		$this->setEnabledPageFocus(true);
 		$this->setLayoutMode(false);
@@ -657,6 +660,24 @@ class ilPageObjectGUI
 	function getEnabledRepositoryObjects()
 	{
 		return $this->enabledrepositoryobjects;
+	}
+
+	/**
+	 * Set enable login page
+	 * @param bool $a_enablegloginpage
+	 */
+	public function setEnabledLoginPage($a_enablegloginpage)
+	{
+		$this->enabledloginpage = (bool) $a_enablegloginpage;
+	}
+
+	/**
+	 * Get enable login page
+	 * @return bool $enabledloginpage
+	 */
+	public function getEnabledLoginPage()
+	{
+		return $this->enabledloginpage;
 	}
 
 	/**
@@ -1715,6 +1736,7 @@ class ilPageObjectGUI
 						 'citate_to' => $this->lng->txt('citate_to'),
 						 'citate' => $this->lng->txt('citate'),
 						 'enable_rep_objects' => $this->getEnabledRepositoryObjects() ? "y" : "n",
+						 'enable_login_page' => $this->getEnabledLoginPage() ? "y" : "n",
 						 'enable_map' => $this->getEnabledMaps() ? "y" : "n",
 						 'enable_tabs' => $this->getEnabledPCTabs() ? "y" : "n",
 						 'enable_sa_qst' => $this->getEnabledSelfAssessment() ? "y" : "n",
@@ -2790,7 +2812,6 @@ class ilPageObjectGUI
 			require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
 			$a_output = "<script>var ScormApi=null;".ilQuestionExporter::questionsJS()."</script>".$a_output;
 		}
-
 		return $a_output;
 	}
 
