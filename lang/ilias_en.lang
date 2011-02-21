@@ -10978,7 +10978,6 @@ common#:#enable_anonymous_fora#:#Allow posting with pseudonym
 content#:#cont_ed_insert_login_page_element#:#Insert Login Page Element
 content#:#cont_insert_login_page_element#:#Insert Login Page Element
 content#:#cont_update_login_page_element#:#Update Login Page Element
-common#:#enable_anonymous_fora#:#Allow posting with pseudonym
 sahs#:#sahs_hide_objectives_page#:#Hide Description/Objectives Page
 sahs#:#sahs_hide_objectives_page_info#:#If checked, the SCO description and objectives page will not be included in the presentation.
 sahs#:#sahs_list_info#:#Use leading * for bullet lists or leading # for numbered lists.
