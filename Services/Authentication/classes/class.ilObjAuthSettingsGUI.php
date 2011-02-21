@@ -25,13 +25,16 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	function ilObjAuthSettingsGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		$this->type = "auth";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->lng->loadLanguageModule('registration');
 
 		define('LDAP_DEFAULT_PORT',389);
 		define('RADIUS_DEFAULT_PORT',1812);
+
 	}
+
+
 
 	function viewObject()
 	{
@@ -158,7 +161,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				$this->tpl->setVariable("CHK_SCRIPT", $checked);
 				break;
 
-                        case AUTH_APACHE: // apache
+			case AUTH_APACHE: // apache
 				$this->tpl->setVariable("CHK_APACHE", $checked);
 				break;
 		}
@@ -227,48 +230,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		}
 	}
 	
-	/**
-	 * saves the login information data
-	 *
-	 * @access public
-	 * @author Michael Jansen
-	 * 
-	 */
-	public function saveLoginInfoObject()
-	{		
-		global $rbacsystem, $lng,$ilSetting;		
-		
-		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		
-		$this->initLoginForm();
-		if ($this->form->checkInput())
-		{
-			if (is_array($_POST))
-			{
-				$this->loginSettings = new ilSetting("login_settings");
-				
-				foreach ($_POST as $key => $val)
-				{				
-					if (substr($key, 0, 14) == "login_message_")
-					{
-						$this->loginSettings->set($key, $val);
-					}
-				}
-			}
-			
-			if($_POST['default_auth_mode'])
-			{
-				$ilSetting->set('default_auth_mode',(int) $_POST['default_auth_mode']);
-			}
-			
-			ilUtil::sendSuccess($this->lng->txt("login_information_settings_saved"));
-		}
-		
-		$this->loginInfoObject();
-	}
 	
 	/**
 	 * displays login information of all installed languages
@@ -299,124 +260,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->initLoginForm();
 		$this->tpl->setVariable('LOGIN_INFO',$this->form->getHTML());
 	}
-		
-	/**
-	 * Init login form
-	 */
-	function initLoginForm()
-	{
-		global $rbacsystem, $lng,$ilSetting;
-		
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($this->ctrl->getFormAction($this,'saveLoginInfo'));
-		$this->form->setTableWidth('80%');
-		$this->form->setTitle($this->lng->txt('login_information'));
-		#$form->setInfo($this->lng->txt('login_information_desc'));
-		
-		$this->form->addCommandButton('saveLoginInfo',$this->lng->txt('save'));
-		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
-		
-		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
-		include_once('Services/Radius/classes/class.ilRadiusSettings.php');
-		$rad_settings = ilRadiusSettings::_getInstance();
-		if($ldap_id = ilLDAPServer::_getFirstActiveServer() or $rad_settings->isActive())
-		{
-			$select = new ilSelectInputGUI($this->lng->txt('default_auth_mode'),'default_auth_mode');
-			$select->setValue($ilSetting->get('default_auth_mode',AUTH_LOCAL));
-			$select->setInfo($this->lng->txt('default_auth_mode_info'));
-			$options[AUTH_LOCAL] = $this->lng->txt('auth_local');
-			if($ldap_id)
-			{
-				$options[AUTH_LDAP] = $this->lng->txt('auth_ldap');
-			}
-			if($rad_settings->isActive())
-			{
-				$options [AUTH_RADIUS] = $this->lng->txt('auth_radius');
-			}
-			$select->setOptions($options);
-			$this->form->addItem($select);
-		}
-							
-		if (!is_object($this->loginSettings))
-		{
-			$this->loginSettings = new ilSetting("login_settings");
-		} 
-		
-		$login_settings = $this->loginSettings->getAll();		
-		$languages = $lng->getInstalledLanguages();
-		$def_language = $lng->getDefaultLanguage();		
-		
-		foreach ($this->setDefLangFirst($def_language, $languages) as $lang_key)
-		{						
-			$add = "";
-			if ($lang_key == $def_language)
-			{
-				$add = " (".$lng->txt("default").")";
-			}			
-			
-			$textarea = new ilTextAreaInputGUI($lng->txt("meta_l_".$lang_key).$add,
-				'login_message_'.$lang_key);
-			$textarea->setRows(10);
-			$textarea->setValue($login_settings["login_message_".$lang_key]);
-			$textarea->setUseRte(true);
-			$this->form->addItem($textarea);
-			
-			unset($login_settings["login_message_".$lang_key]);
-		}
-				
-		foreach ($login_settings as $key => $message)
-		{
-			$lang_key = substr($key, strrpos($key, "_") + 1, strlen($key) - strrpos($key, "_"));
-			
-			$textarea = new ilTextAreaInputGUI($lng->txt("meta_l_".$lang_key).$add,
-				'login_message_'.$lang_key);
-			$textarea->setRows(10);
-			$textarea->setValue($message);
-			$textarea->setUseRte(true);
-			
-			if(!in_array($lang_key,$languages))
-			{
-				$textarea->setAlert($lng->txt("not_installed"));
-			}
-			$this->form->addItem($textarea);
-		}
-	}
-	
-	/**
-	 * 
-	 * returns an array of all installed languages, default language at the first position 
-	 *
-	 * @param string $a_def_language Default language of the current installation
-	 * @param array $a_languages Array of all installed languages
-	 * @return array $languages Array of the installed languages, default language at first position
-	 * @access public
-	 * @author Michael Jansen
-	 * 
-	 */
-	public function setDefLangFirst($a_def_language, $a_languages)
-	{		
-		if (is_array($a_languages) && $a_def_language != "")
-		{
-			$languages = array();
-			$languages[] = $a_def_language;
-			
-			foreach ($a_languages as $val)
-			{					
-				if (!in_array($val, $languages))
-				{					
-					$languages[] = $val;
-				}	
-			}			
-			
-			return $languages;
-		}
-		else
-		{		
-			return array();
-		}
-	}
-	
+
+
 	function cancelObject()
 	{
 		$this->ctrl->redirect($this, "authSettings");
@@ -1081,12 +926,17 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	 	ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 	 	$this->authSettingsObject();
 	}
-	
 
-	function &executeCommand()
+	/**
+	 * Execute command. Called from control class
+	 * @global ilAccessHandler $ilAccess
+	 * @global ilErrorHandling $ilErr
+	 * @return void
+	 */
+	public function executeCommand()
 	{
 		global $ilAccess,$ilErr;
-		
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
@@ -1152,6 +1002,17 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				include_once './Services/OpenId/classes/class.ilOpenIdSettingsGUI.php';
 				$os = new ilOpenIdSettingsGUI($this->object->getRefId());
 				$this->ctrl->forwardCommand($os);
+				break;
+
+			case 'ilauthloginpageeditorgui':
+				
+				$this->setSubTabs("authSettings");
+				$this->tabs_gui->setTabActive('authentication_settings');
+				$this->tabs_gui->setSubTabActive("login_information");
+
+				include_once './Services/Authentication/classes/class.ilAuthLoginPageEditorGUI.php';
+				$lpe = new ilAuthLoginPageEditorGUI($this->object->getRefId());
+				$this->ctrl->forwardCommand($lpe);
 				break;
 
 			default:
@@ -1249,9 +1110,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				
 				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
-					$this->tabs_gui->addSubTabTarget("login_information",
-													 $this->ctrl->getLinkTarget($this,'loginInfo'),
-													 "");
+					$this->tabs_gui->addSubTabTarget(
+						'login_information',
+						$this->ctrl->getLinkTargetByClass('ilauthloginpageeditorgui',''),
+						''
+					);
 				}				
 				break;				
 		}

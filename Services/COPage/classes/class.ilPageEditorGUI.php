@@ -17,7 +17,7 @@ include_once ("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSourceCodeGUI, ilInternalLinkGUI, ilPCQuestionGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSectionGUI, ilPCDataTableGUI, ilPCResourcesGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI, ilPCPluggedGUI, ilPCTabsGUI, IlPCPlaceHolderGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCContentIncludeGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCContentIncludeGUI, ilPCLoginPageElementGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -217,7 +217,7 @@ class ilPageEditorGUI
 			$hier_id = implode($cmd, "_");
 			$cmd = $_POST["command".$hier_id];
 		}
-//echo "<br>cmd:$cmd:";
+//echo "<br>cmd:$cmd:";exit;
 		// strip "c" "r" of table ids from hierarchical id
 		$first_hier_character = substr($hier_id, 0, 1);
 		if ($first_hier_character == "c" ||
@@ -226,7 +226,6 @@ class ilPageEditorGUI
 		{
 			$hier_id = substr($hier_id, 1);
 		}
-
 		$this->page->buildDom();
 		$this->page->addHierIDs();
 
@@ -324,6 +323,7 @@ class ilPageEditorGUI
 		//$next_class = $this->ctrl->getNextClass($this);
 //$this->ctrl->debug("+next_class:".$next_class."+");
 //echo("+next_class:".$next_class."+".$ctype."+");
+
 		if ($next_class == "")
 		{
 			switch($ctype)
@@ -380,6 +380,10 @@ class ilPageEditorGUI
 					
 				case "repobj":
 					$this->ctrl->setCmdClass("ilPCResourcesGUI");
+					break;
+
+				case 'lpe':
+					$this->ctrl->setCmdClass('ilPCLoginPageElementGUI');
 					break;
 
 				case "map":
@@ -601,6 +605,14 @@ class ilPageEditorGUI
 				include_once ("./Services/COPage/classes/class.ilPCResourcesGUI.php");
 				$res_gui =& new ilPCResourcesGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$ret =& $this->ctrl->forwardCommand($res_gui);
+				break;
+
+			// Login Page elements
+			case 'ilpcloginpageelementgui':
+				$this->tabs_gui->clearTargets();
+				include_once './Services/COPage/classes/class.ilPCLoginPageElementGUI.php';
+				$res_gui = new ilPCLoginPageElementGUI($this->page,$cont_obj,$hier_id,$pc_id);
+				$ret = $this->ctrl->forwardCommand($res_gui);
 				break;
 
 			// Map

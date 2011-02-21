@@ -671,6 +671,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$res->setHierId($a_hier_id);
 						$res->setPcId($a_pc_id);
 						return $res;
+
+					case 'LoginPageElement':
+						include_once './Services/COPage/classes/class.ilPCLoginPageElements.php';
+						$res = new ilPCLoginPageElements($this->dom);
+						$res->setNode($cont_node);
+						$res->setHierId($a_hier_id);
+						$res->setPcId($a_pcid);
+						return $res;
 						
 					case "Map":
 						require_once("./Services/COPage/classes/class.ilPCMap.php");
@@ -990,7 +998,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			"ed_new_item_after", "ed_copy_clip", "please_select", "ed_split_page",
 			"ed_item_up", "ed_item_down", "ed_row_up", "ed_row_down",
 			"ed_col_left", "ed_col_right", "ed_split_page_next","ed_enable",
-			"de_activate", "ed_insert_repobj", "ed_insert_map", "ed_insert_tabs",
+			"de_activate", "ed_insert_repobj", "ed_insert_login_page_element", "ed_insert_map", "ed_insert_tabs",
 			"ed_insert_pcqst", "empty_question", "ed_paste","question_placeh","media_placeh","text_placeh",
 			"ed_insert_plach","question_placehl","media_placehl","text_placehl",
 			"pc_flist", "pc_par", "pc_mob", "pc_qst", "pc_sec", "pc_dtab", "pc_tab",
