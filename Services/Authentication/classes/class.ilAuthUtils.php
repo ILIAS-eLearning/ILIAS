@@ -670,7 +670,7 @@ class ilAuthUtils
 	{
 		global $ilSetting;
 		
-		if ($ilSetting->get('usr_settings_hide_password'))
+		if($ilSetting->get('usr_settings_hide_password') or $ilSetting->get('usr_settings_disable_password'))
 		{
 			return false;
 		}
