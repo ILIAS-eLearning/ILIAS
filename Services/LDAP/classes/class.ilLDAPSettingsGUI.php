@@ -878,6 +878,7 @@ class ilLDAPSettingsGUI
 	{
 		$this->form_gui->setValuesByArray(array(
 			'active' => $this->server->isActive(),
+			'ds' => !$this->server->isAuthenticationEnabled(),
 			'server_name' => $this->server->getName(),
 			'server_url' => $this->server->getUrlString(), 
 			'version' => $this->server->getVersion(),
@@ -919,6 +920,11 @@ class ilLDAPSettingsGUI
 		$active = new ilCheckboxInputGUI($this->lng->txt('auth_ldap_enable'), 'active');
 		$active->setValue(1);
 		$this->form_gui->addItem($active);
+
+		$ds = new ilCheckboxInputGUI($this->lng->txt('ldap_as_ds'), 'ds');
+		$ds->setValue(1);
+		$ds->setInfo($this->lng->txt('ldap_as_ds_info'));
+		$this->form_gui->addItem($ds);
 
 		$servername = new ilTextInputGUI($this->lng->txt('ldap_server_name'), 'server_name');
 		$servername->setRequired(true);
@@ -1098,6 +1104,7 @@ class ilLDAPSettingsGUI
 		if($this->form_gui->checkInput())
  		{
 			$this->server->toggleActive((int)$this->form_gui->getInput('active'));
+			$this->server->enableAuthentication(!$this->form_gui->getInput('ds'));
 			$this->server->setName($this->form_gui->getInput('server_name'));
 			$this->server->setUrl($this->form_gui->getInput('server_url'));
 			$this->server->setVersion($this->form_gui->getInput('version'));

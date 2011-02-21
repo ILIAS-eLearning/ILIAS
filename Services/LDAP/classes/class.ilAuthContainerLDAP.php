@@ -177,74 +177,42 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	 */
 	public function loginObserver($a_username,$a_auth)
 	{
-		global $ilBench;
 		global $ilLog;
 		
-		$ilBench->start('Auth','LDAPLoginObserver');
 		$user_data = array_change_key_case($a_auth->getAuthData(),CASE_LOWER);
 		
 		$a_username = $this->extractUserName($user_data);
 
-		$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap",$a_username);
-		$users[$a_username] = $user_data;
-		
-		if($this->server->enabledSyncOnLogin())
-		{
-			if(!$user_data['ilInternalAccount'] and 
-				$this->server->isAccountMigrationEnabled() and 
-				!self::$force_creation)
-			{
-				$a_auth->logout();
-				$_SESSION['tmp_auth_mode'] = 'ldap';
-				$_SESSION['tmp_external_account'] = $a_username;
-				$_SESSION['tmp_pass'] = $_POST['password'];
-				
-				include_once('./Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php');
-				$roles = ilLDAPRoleAssignmentRules::getAssignmentsForCreation($a_username, $user_data);
-				$_SESSION['tmp_roles'] = array();
-				foreach($roles as $info)
-				{
-					if($info['action'] == ilLDAPRoleAssignmentRules::ROLE_ACTION_ASSIGN)
-					{
-						$_SESSION['tmp_roles'][] = $info['id'];	
-					}
-				}
-				$ilBench->stop('Auth','LDAPLoginObserver');
-				ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&cmd=showAccountMigration');
-			}
-			
-			// Refresh or create user data
-			$ilBench->start('Auth','LDAPUserSynchronization');
-			if($this->updateRequired($a_username))
-			{
-				#$GLOBALS['ilLog']->write(__METHOD__.': Starting update');
-				$this->initLDAPAttributeToUser();
-				$this->ldap_attr_to_user->setUserData($users);
-				$this->ldap_attr_to_user->refresh();
-				$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap",$a_username);
-			}
-			else
-			{
-				// User exists and no update required
-				$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap",$a_username);
-			}
-			$ilBench->stop('Auth','LDAPUserSynchronization');
-		}
+		include_once './Services/LDAP/classes/class.ilLDAPUserSynchronisation.php';
+		$sync = new ilLDAPUserSynchronisation('ldap', $this->server->getServerId());
+		$sync->setExternalAccount($a_username);
+		$sync->setUserData($user_data);
+		$sync->forceCreation(self::$force_creation);
 
-		if(!$user_data['ilInternalAccount'])
-		{
-			// No syncronisation allowed => create Error
-			$a_auth->status = AUTH_LDAP_NO_ILIAS_USER;
+		try {
+			$internal_account = $sync->sync();
+		}
+		catch(UnexpectedValueException $e) {
+			$GLOBALS['ilLog']->write(__METHOD__.': Login failed with message: '. $e->getMessage());
+			$a_auth->status = AUTH_WRONG_LOGIN;
 			$a_auth->logout();
-			$ilBench->stop('Auth','LDAPLoginObserver');
 			return false;
 		}
-		
-		// Finally setAuth
-		$a_auth->setAuth($user_data['ilInternalAccount']);
-		$ilBench->stop('Auth','LDAPLoginObserver');
+		catch(ilLDAPSynchronisationForbiddenException $e) {
+			// No syncronisation allowed => create Error
+			$GLOBALS['ilLog']->write(__METHOD__.': Login failed with message: '. $e->getMessage());
+			$a_auth->status = AUTH_LDAP_NO_ILIAS_USER;
+			$a_auth->logout();
+			return false;
+		}
+		catch(ilLDAPAccountMigrationRequiredException $e) {
+			$GLOBALS['ilLog']->write(__METHOD__.': Starting account migration.');
+			$a_auth->logout();
+			ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&cmd=showAccountMigration');
+		}
+
+		$a_auth->setAuth($internal_account);
 		return true;
-		
 	}
 	/**
 	 * Init LDAP attribute mapping

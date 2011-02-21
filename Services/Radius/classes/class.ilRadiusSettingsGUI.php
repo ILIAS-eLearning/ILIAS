@@ -89,6 +89,8 @@ class ilRadiusSettingsGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.settings.html','Services/Radius');
+
+		$this->lng->loadLanguageModule('auth');
 	 	
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -138,24 +140,72 @@ class ilRadiusSettingsGUI
 		$encoding->setInfo($this->lng->txt('auth_radius_charset_info'));
 		$form->addItem($encoding);
 		
-		
-		$check = new ilCheckboxInputGUI($this->lng->txt('auth_radius_sync'),'sync');
-		$check->setInfo($this->lng->txt('auth_radius_sync_info'));
-		$check->setChecked($this->settings->enabledCreation() ? 1 : 0);
-		$check->setValue(1);
-		
-		
+		// User synchronization
+		// 0: Disabled
+		// 1: Radius
+		// 2: LDAP
+		$sync = new ilRadioGroupInputGUI($this->lng->txt('auth_radius_sync'), 'sync');
+		$sync->setRequired(true);
+		#$sync->setInfo($this->lng->txt('auth_radius_sync_info'));
+		$form->addItem($sync);
+
+		// Disabled
+		$dis = new ilRadioOption(
+			$this->lng->txt('disabled'),
+			ilRadiusSettings::SYNC_DISABLED,
+			''
+		);
+		#$dis->setInfo($this->lng->txt('auth_radius_sync_disabled_info'));
+		$sync->addOption($dis);
+
+		// Radius
+		$rad = new ilRadioOption(
+			$this->lng->txt('auth_radius_sync_rad'),
+			ilRadiusSettings::SYNC_RADIUS,
+			''
+		);
+		$rad->setInfo($this->lng->txt('auth_radius_sync_rad_info'));
+		$sync->addOption($rad);
+
 		$select = new ilSelectInputGUI($this->lng->txt('auth_radius_role_select'),'role');
 		$select->setOptions($this->prepareRoleSelection());
 		$select->setValue($this->settings->getDefaultRole());
-		$check->addSubItem($select);
+		$rad->addSubItem($select);
 
 		$migr = new ilCheckboxInputGUI($this->lng->txt('auth_rad_migration'),'migration');
 		$migr->setInfo($this->lng->txt('auth_rad_migration_info'));
 		$migr->setChecked($this->settings->isAccountMigrationEnabled() ? 1 : 0);
 		$migr->setValue(1);
-		$check->addSubItem($migr);
-		$form->addItem($check);
+		$rad->addSubItem($migr);
+
+		// LDAP
+		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
+		$server_ids = ilLDAPServer::getAvailableDataSources(AUTH_RADIUS);
+		
+		if(count($server_ids))
+		{
+			$ldap = new ilRadioOption(
+				$this->lng->txt('auth_radius_ldap'),
+				ilRadiusSettings::SYNC_LDAP,
+				''
+			);
+			$ldap->setInfo($this->lng->txt('auth_radius_ldap_info'));
+			$sync->addOption($ldap);
+
+			// TODO Handle more than one LDAP configuration
+		}
+
+		if(ilLDAPServer::isDataSourceActive(AUTH_RADIUS))
+		{
+			$sync->setValue(ilRadiusSettings::SYNC_LDAP);
+		}
+		else
+		{
+			$sync->setValue(
+				$this->settings->enabledCreation() ?
+					ilRadiusSettings::SYNC_RADIUS :
+					ilRadiusSettings::SYNC_DISABLED);
+		}
 
 		$form->addCommandButton('save',$this->lng->txt('save'));
 		$this->tpl->setVariable('SETTINGS_TABLE',$form->getHTML());
@@ -175,11 +225,11 @@ class ilRadiusSettingsGUI
 	 	$this->settings->setSecret(ilUtil::stripSlashes($_POST['secret']));
 	 	$this->settings->setServerString(ilUtil::stripSlashes($_POST['servers']));
 	 	$this->settings->setDefaultRole((int) $_POST['role']);
-	 	$this->settings->enableCreation((int) $_POST['sync']);
 	 	$this->settings->enableAccountMigration((int) $_POST['migration']);
 	 	$this->settings->setCharset((int) $_POST['charset']);
-	 	
-	 	if(!$this->settings->validateRequired())
+		$this->settings->enableCreation(((int) $_POST['sync'] == ilRadiusSettings::SYNC_RADIUS) ? true : false);
+
+		if(!$this->settings->validateRequired())
 	 	{
 	 		ilUtil::sendFailure($this->lng->txt("fill_out_all_required_fields"));
 	 		$this->settings();
@@ -197,6 +247,24 @@ class ilRadiusSettingsGUI
 	 		$this->settings();
 	 		return false;
 	 	}
+
+		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
+		switch((int) $_POST['sync'])
+		{
+			case ilRadiusSettings::SYNC_DISABLED:
+				ilLDAPServer::toggleDataSource(AUTH_RADIUS,false);
+				break;
+
+			case ilRadiusSettings::SYNC_RADIUS:
+				ilLDAPServer::toggleDataSource(AUTH_RADIUS,false);
+				break;
+
+			case ilRadiusSettings::SYNC_LDAP:
+				// TODO: handle multiple ldap configurations
+				ilLDAPServer::toggleDataSource(AUTH_RADIUS,true);
+				break;
+		}
+
 	 	$this->settings->save();
 	 	ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 	 	$this->settings();

@@ -70,13 +70,15 @@ class ilLDAPCronSynchronization
 		 		if(is_array($users = $this->ldap_query->fetchUsers()))
 		 		{
 			 		// Deactivate ldap users that are not in the list
-			 		$this->deactivateUsers($users);
+			 		$this->deactivateUsers($this->current_server,$users);
 		 		}
 			
 		 		if(count($users))
 		 		{	
 			 		$this->log->write("LDAP: Starting update/creation of users ...");
 			 		$this->ldap_to_ilias = new ilLDAPAttributeToUser($this->current_server);
+					$this->ldap_to_ilias->setNewUserAuthMode($this->current_server->getAuthenticationMappingKey());
+					#$GLOBALS['ilLog']->write(print_r($users,true));
 			 		$this->ldap_to_ilias->setUserData($users);
 			 		$this->ldap_to_ilias->refresh();
 			 		$this->log->write("LDAP: Finished update/creation");
@@ -99,11 +101,11 @@ class ilLDAPCronSynchronization
 	 * @access private
 	 * 
 	 */
-	private function deactivateUsers($a_ldap_users)
+	private function deactivateUsers(ilLDAPServer $server,$a_ldap_users)
 	{
 	 	include_once './Services/User/classes/class.ilObjUser.php';
 	 	
-	 	foreach($ext = ilObjUser::_getExternalAccountsByAuthMode('ldap',true) as $usr_id => $external_account)
+	 	foreach($ext = ilObjUser::_getExternalAccountsByAuthMode($server->getAuthenticationMappingKey(),true) as $usr_id => $external_account)
 	 	{
 	 		if(!array_key_exists($external_account,$a_ldap_users))
 	 		{
