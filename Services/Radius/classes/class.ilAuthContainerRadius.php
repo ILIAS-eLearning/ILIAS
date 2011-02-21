@@ -63,6 +63,13 @@ class ilAuthContainerRadius extends Auth_Container_Radius
 		parent::__construct($this->radius_settings->toPearAuthArray());
 
 	}
+
+	/*
+	public function fetchData($username, $password, $challenge = null)
+	{
+		return true;
+	}
+	*/
 	
 	/**
 	 * Force creation of user accounts
@@ -83,9 +90,16 @@ class ilAuthContainerRadius extends Auth_Container_Radius
 	 */
 	public function loginObserver($a_username,$a_auth)
 	{
+		// Radius with ldap as data source
+		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
+		if(ilLDAPServer::isDataSourceActive(AUTH_RADIUS))
+		{
+			return $this->handleLDAPDataSource($a_auth,$a_username);
+		}
+
 		$user_data = array_change_key_case($a_auth->getAuthData(),CASE_LOWER);
 		$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("radius",$a_username);
-		
+
 		if(!$user_data['ilInternalAccount'])
 		{
 			if($this->radius_settings->enabledCreation())
@@ -143,6 +157,53 @@ class ilAuthContainerRadius extends Auth_Container_Radius
 		include_once('Services/Radius/classes/class.ilRadiusAttributeToUser.php');
 		$this->radius_user = new ilRadiusAttributeToUser();
 	}
+
+	/**
+	 * Handle ldap as data source
+	 * @param Auth $auth
+	 * @param string $ext_account
+	 */
+	protected function handleLDAPDataSource($a_auth,$ext_account)
+	{
+		include_once './Services/LDAP/classes/class.ilLDAPServer.php';
+		$server = ilLDAPServer::getInstanceByServerId(
+			ilLDAPServer::getDataSource(AUTH_RADIUS)
+		);
+
+		$GLOBALS['ilLog']->write(__METHOD__.'Using ldap data source');
+
+		include_once './Services/LDAP/classes/class.ilLDAPUserSynchronisation.php';
+		$sync = new ilLDAPUserSynchronisation('radius', $server->getServerId());
+		$sync->setExternalAccount($ext_account);
+		$sync->setUserData(array());
+		$sync->forceCreation($this->force_creation);
+
+		try {
+			$internal_account = $sync->sync();
+		}
+		catch(UnexpectedValueException $e) {
+			$GLOBALS['ilLog']->write(__METHOD__.': Login failed with message: '. $e->getMessage());
+			$a_auth->status = AUTH_WRONG_LOGIN;
+			$a_auth->logout();
+			return false;
+		}
+		catch(ilLDAPSynchronisationForbiddenException $e) {
+			// No syncronisation allowed => create Error
+			$GLOBALS['ilLog']->write(__METHOD__.': Login failed with message: '. $e->getMessage());
+			$a_auth->status = AUTH_RADIUS_NO_ILIAS_USER;
+			$a_auth->logout();
+			return false;
+		}
+		catch(ilLDAPAccountMigrationRequiredException $e) {
+			$GLOBALS['ilLog']->write(__METHOD__.': Starting account migration.');
+			$a_auth->logout();
+			ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&cmd=showAccountMigration');
+		}
+
+		$a_auth->setAuth($internal_account);
+		return true;
+	}
+
 }
 
 ?>

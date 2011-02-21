@@ -3927,3 +3927,37 @@ if(!$ilDB->tableColumnExists('il_object_def','workspace'))
 		array("type" => "integer", "length" => 1, "notnull" => true, "default" => 0));
 }
 ?>
+<#3225>
+<?php
+
+		if(!$ilDB->tableColumnExists('ldap_server_settings','authentication'))
+		{
+			$ilDB->addTableColumn(
+				'ldap_server_settings',
+				'authentication',
+				array(
+					'type' => 'integer',
+					'length' => '1',
+					'notnull' => true,
+					'default' => 1
+				)
+			);
+		}
+?>
+
+<#3226>
+<?php
+		if(!$ilDB->tableColumnExists('ldap_server_settings','authentication_type'))
+		{
+			$ilDB->addTableColumn(
+				'ldap_server_settings',
+				'authentication_type',
+				array(
+					'type' => 'integer',
+					'length' => '1',
+					'notnull' => true,
+					'default' => 0
+				)
+			);
+		}
+?>

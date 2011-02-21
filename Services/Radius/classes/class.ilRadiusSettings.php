@@ -33,6 +33,10 @@ class ilRadiusSettings
 {
 	const RADIUS_CHARSET_UTF8 = 0;
 	const RADIUS_CHARSET_LATIN1 = 1;
+
+	const SYNC_DISABLED = 0;
+	const SYNC_RADIUS = 1;
+	const SYNC_LDAP = 2;
 	
 	
 	private $settings;

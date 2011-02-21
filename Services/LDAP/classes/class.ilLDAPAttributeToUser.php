@@ -40,6 +40,8 @@ class ilLDAPAttributeToUser
 	private $user_data = array();
 	private $setting = null;
 	private $mapping = null;
+
+	private $new_user_auth_mode = 'ldap';
 	
 	/** 
 	 * Construct of ilLDAPAttribute2XML
@@ -76,6 +78,24 @@ class ilLDAPAttributeToUser
 	{
 		$this->user_data = $a_data;
 	}
+
+	/**
+	 * Set auth mode for new users.
+	 * E.g. radius for radius authenticated user with ldap data source
+	 * @param string $a_authmode
+	 */
+	public function setNewUserAuthMode($a_authmode)
+	{
+		$this->new_user_auth_mode = $a_authmode;
+	}
+
+	/**
+	 * Get auth mode for new users
+	 */
+	public function getNewUserAuthMode()
+	{
+		return $this->new_user_auth_mode;
+	}
 	
 	
 	/**
@@ -100,6 +120,7 @@ class ilLDAPAttributeToUser
 		$importParser->startParsing();
 		$debug = $importParser->getProtocol();
 		#var_dump("<pre>",$this->writer->xmlDumpMem(),"</pre>");
+		#print_r($this->writer->xmlDumpMem($format));
 		
 		return true;
 	}
@@ -134,8 +155,7 @@ class ilLDAPAttributeToUser
 				$this->writer->xmlStartTag('User',array('Id' => $usr_id,'Action' => 'Update'));
 				$this->writer->xmlElement('Login',array(),$user['ilInternalAccount']);
 				$this->writer->xmlElement('ExternalAccount',array(),$external_account);
-				$this->writer->xmlElement('AuthMode',array(type =>'ldap'),null);
-				
+				$this->writer->xmlElement('AuthMode',array(type => $this->getNewUserAuthMode()),null);
 				$rules = $this->mapping->getRulesForUpdate();
 				
 				include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
@@ -177,7 +197,10 @@ class ilLDAPAttributeToUser
 			// If auth_mode is 'default' (ldap) this status should remain.
 			if(!$user['ilInternalAccount'])
 			{
-				$this->writer->xmlElement('AuthMode',array('type' => 'ldap'),'ldap');
+				$this->writer->xmlElement('AuthMode',
+					array('type' => $this->getNewUserAuthMode()),
+					$this->getNewUserAuthMode()
+				);
 				$this->writer->xmlElement('ExternalAccount',array(),$external_account);
 			}
 			foreach($rules as $field => $data)

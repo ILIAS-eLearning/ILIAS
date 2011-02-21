@@ -378,7 +378,7 @@ class ilAuthUtils
 		}
 	}
 	
-	function _getAuthModeName($a_auth_key)
+	public static function _getAuthModeName($a_auth_key)
 	{
 		global $ilias;
 
@@ -517,8 +517,8 @@ class ilAuthUtils
 			return true;
 		}
 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
-		
-                if (count(ilLDAPServer::_getActiveServerList()))
+
+		if (count(ilLDAPServer::_getActiveServerList()))
 			return true;
 
 		global $ilSetting;
@@ -551,7 +551,8 @@ class ilAuthUtils
 			$options[AUTH_RADIUS]['txt'] = $rad_settings->getName();
 		}
 
-                if ($ilSetting->get('apache_active')) {
+		if ($ilSetting->get('apache_active'))
+		{
 			global $lng;
 			$apache_settings = new ilSetting('apache_auth');
 			$options[AUTH_APACHE]['txt'] = $apache_settings->get('name', $lng->txt('apache_auth'));

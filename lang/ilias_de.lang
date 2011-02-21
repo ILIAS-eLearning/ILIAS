@@ -10976,3 +10976,9 @@ common#:#enable_anonymous_fora#:#In Foren "mit Pseudonym schreiben"
 content#:#cont_ed_insert_login_page_element#:#Loginseitenelement einfügen
 content#:#cont_insert_login_page_element#:#Loginseitenelement einfügen
 content#:#cont_update_login_page_element#:#Loginseitenelement aktualisieren
+auth#:#auth_radius_sync_rad#:#Automatische Generierung von ILIAS-Benutzerkonten
+auth#:#auth_radius_sync_rad_info#:#Benutzer, die sich erfolgreich gegen Radius authentifiziert haben, jedoch über keinen ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
+auth#:#auth_radius_ldap#:#Synchronisierung über LDAP-Einstellungen
+auth#:#auth_radius_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutzerdaten und Rollenzuordnungen, gemäß der LDAP-Einstellungen vorgenommen.
+ldap#:#ldap_as_ds#:#Als Datenquelle verwenden
+ldap#:#ldap_as_ds_info#:#Wenn aktiviert, wird die LDAP-Konfiguration zur Benutzerdatensynchronisierung in Kombination mit anderen Authentifizierungsarten (CAS, Radius, ...) genutzt. Eine direkte Authentifizierung über LDAP ist nicht möglich.

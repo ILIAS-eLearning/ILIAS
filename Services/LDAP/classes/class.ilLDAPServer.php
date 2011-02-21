@@ -35,6 +35,9 @@ class ilLDAPServer
 	private $server_id = null;
 	private $fallback_urls = array();
 
+	private $enabled_authentication = true;
+	private $authentication_mapping = 0;
+
 	public function __construct($a_server_id = 0)
 	{
 		global $ilDB,$lng;
@@ -74,7 +77,7 @@ class ilLDAPServer
 		global $ilDB;
 		
 		$query = "SELECT server_id FROM ldap_server_settings ".
-			"WHERE active = 1 ".
+			"WHERE active = 1 AND authentication = 1 ".
 			"ORDER BY name ";
 		$res = $ilDB->query($query);
 		$server_ids = array();
@@ -192,16 +195,148 @@ class ilLDAPServer
 			return $servers[0];
 		}
 		return 0;
-	}	
+	}
+
+
+	public static function getAvailableDataSources($a_auth_mode)
+	{
+		global $ilDB;
+
+		$query = "SELECT server_id FROM ldap_server_settings ".
+			"WHERE active = ".$ilDB->quote(1,'integer')." ".
+			"AND authentication = ".$ilDB->quote(0,'integer')." ".
+			"AND ( authentication_type = ".$ilDB->quote($a_auth_mode,'integer')." ".
+			"OR authentication_type = ".$ilDB->quote(0,'integer').")";
+		$res = $ilDB->query($query);
+
+		$server_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$server_ids[] = $row->server_id;
+		}
+		return $server_ids;
+	}
+
+	/**
+	 * Check if a data source is active for a specific auth mode
+	 * @global ilDB $ilDB
+	 * @param int $a_auth_mode
+	 * @return bool
+	 */
+	public static function isDataSourceActive($a_auth_mode)
+	{
+		global $ilDB;
+
+		$query = "SELECT server_id FROM ldap_server_settings ".
+			"WHERE authentication_type = ".$ilDB->quote($a_auth_mode,'integer')." ".
+			"AND authentication = ".$ilDB->quote(0,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public static function getDataSource($a_auth_mode)
+	{
+		global $ilDB;
+
+		$query = "SELECT server_id FROM ldap_server_settings ".
+			"WHERE authentication_type = ".$ilDB->quote($a_auth_mode,'integer')." ".
+			"AND authentication = ".$ilDB->quote(0,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->server_id;
+		}
+		return 0;
+	}
+
+	/**
+	 * Toggle Data Source
+	 * @todo handle multiple ldap servers
+	 * @param int $a_auth_mode
+	 * @param int $a_status
+	 */
+	public static function toggleDataSource($a_auth_mode,$a_status)
+	{
+		global $ilDB;
+
+		if($a_status)
+		{
+			$query = "UPDATE ldap_server_settings ".
+				"SET authentication_type = ".$ilDB->quote($a_auth_mode,'integer')." ".
+				"WHERE authentication = ".$ilDB->quote(0,'integer');
+			$ilDB->query($query);
+		}
+		else
+		{
+			$query = "UPDATE ldap_server_settings ".
+				"SET authentication_type = ".$ilDB->quote(0,'integer')." ".
+				"WHERE authentication = ".$ilDB->quote(0,'integer');
+			$ilDB->query($query);
+		}
+		return true;
+	}
 	
 	// Set/Get
 	public function getServerId()
 	{
 		return $this->server_id;
 	}
-	
-	
-    public function toggleActive($a_status) 
+
+	/**
+	 * Enable authentication for this ldap server
+	 * @param bool $a_status
+	 */
+	public function enableAuthentication($a_status)
+	{
+		$this->enabled_authentication = (bool) $a_status;
+	}
+
+	/**
+	 * Check if authentication is enabled
+	 * @return bool
+	 */
+	public function isAuthenticationEnabled()
+	{
+		return (bool) $this->enabled_authentication;
+	}
+
+	/**
+	 * Set mapped authentication mapping
+	 * @param int $a_map
+	 */
+	public function setAuthenticationMapping($a_map)
+	{
+		$this->authentication_mapping = $a_map;
+	}
+
+	/**
+	 * Get authentication mode that is mapped
+	 * @return int
+	 */
+	public function getAuthenticationMapping()
+	{
+		return $this->authentication_mapping;
+	}
+
+	/**
+	 * Get authentication mapping key
+	 * Default is ldap
+	 * @return string
+	 */
+	public function getAuthenticationMappingKey()
+	{
+		if($this->isAuthenticationEnabled() or !$this->getAuthenticationMapping())
+		{
+			return 'ldap';
+		}
+		return ilAuthUtils::_getAuthModeName($this->getAuthenticationMapping());
+	}
+
+	public function toggleActive($a_status)
     {
         $this->active = $a_status;
     }
@@ -587,12 +722,12 @@ class ilLDAPServer
 		$query = 'INSERT INTO ldap_server_settings (server_id,active,name,url,version,base_dn,referrals,tls,bind_type,bind_user,bind_pass,'.
 			'search_base,user_scope,user_attribute,filter,group_dn,group_scope,group_filter,group_member,group_memberisdn,group_name,'.
 			'group_attribute,group_optional,group_user_filter,sync_on_login,sync_per_cron,role_sync_active,role_bind_dn,role_bind_pass,migration) '.
-			'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)';
+			'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)';
 		$res = $ilDB->queryF($query,
 			array(
 				'integer','integer','text','text','integer','text','integer','integer','integer','text','text','text','integer',
 				'text','text','text','integer','text','text','integer','text','text','integer','text','integer','integer','integer',
-				'text','text', 'integer'),
+				'text','text', 'integer','integer','integer'),
 			array(
 				$next_id,
 				$this->isActive(),
@@ -623,7 +758,9 @@ class ilLDAPServer
 				$this->enabledRoleSynchronization(),
 				$this->getRoleBindDN(),
 				$this->getRoleBindPassword(),
-				$this->isAccountMigrationEnabled()
+				$this->isAccountMigrationEnabled(),
+				$this->isAuthenticationEnabled(),
+				$this->getAuthenticationMapping()
 			));
 			
 		return $next_id;
@@ -662,7 +799,9 @@ class ilLDAPServer
 			"role_sync_active = ".$this->db->quote($this->enabledRoleSynchronization(),'integer').", ".
 			"role_bind_dn = ".$this->db->quote($this->getRoleBindDN(),'text').", ".
 			"role_bind_pass = ".$this->db->quote($this->getRoleBindPassword(),'text').", ".
-			"migration = ".$this->db->quote((int)$this->isAccountMigrationEnabled(),'integer')." ".
+			"migration = ".$this->db->quote((int)$this->isAccountMigrationEnabled(),'integer').", ".
+			'authentication = '.$this->db->quote((int) $this->isAuthenticationEnabled(),'integer').', '.
+			'authentication_type = '.$this->db->quote((int) $this->getAuthenticationMapping(),'integer').' '.
 			"WHERE server_id = ".$this->db->quote($this->getServerId(),'integer');
 			
 		$res = $ilDB->manipulate($query);
@@ -801,7 +940,6 @@ class ilLDAPServer
 			return true;
 		}
 		$query = "SELECT * FROM ldap_server_settings WHERE server_id = ".$this->db->quote($this->server_id)."";
-#		var_dump("<pre>",$query,"</pre>");
 		
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -835,6 +973,8 @@ class ilLDAPServer
 			$this->setRoleBindDN($row->role_bind_dn);
 			$this->setRoleBindPassword($row->role_bind_pass);
 			$this->enableAccountMigration($row->migration);
+			$this->enableAuthentication($row->authentication);
+			$this->setAuthenticationMapping($row->authentication_type);
 		}
 	}
 }
