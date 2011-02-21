@@ -10987,3 +10987,6 @@ auth#:#auth_radius_ldap#:#Synchronization using LDAP
 auth#:#auth_radius_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.
 ldap#:#ldap_as_ds#:#Use as Data Source
 ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS or Radius).
+auth#:#auth_sync#:#User Synchronisation
+auth#:#auth_sync_cas#:#Automatic generation of user accounts
+auth#:#auth_sync_cas_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against CAS, without having an ILIAS account yet.
