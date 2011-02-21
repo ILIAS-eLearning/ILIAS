@@ -8,7 +8,7 @@
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI, ilRadiusSettingsGUI
-* @ilCtrl_Calls ilObjAuthSettingsGUI: ilAuthShibbolethSettingsGUI, ilOpenIdSettingsGUI
+* @ilCtrl_Calls ilObjAuthSettingsGUI: ilAuthShibbolethSettingsGUI, ilOpenIdSettingsGUI, ilCASSettingsGUI
 * 
 * @extends ilObjectGUI
 */
@@ -331,156 +331,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->ctrl->redirect($this,'authSettings');
 	}
 	
-
-
-
-
-	/**
-	* Configure cas settings
-	* 
-	* @access	public
-	*/
-	function editCASObject()
-	{
-		global $rbacsystem, $rbacreview, $ilSetting;
-		
-		if (!$rbacsystem->checkAccess("read",$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->tabs_gui->setTabActive('auth_cas');
-		
-		// get template
-		$this->getTemplateFile("cas");
-		
-		// get all settings
-		$settings = $ilSetting->getAll();
-		
-		// get values in error case
-		if ($_SESSION["error_post_vars"])
-		{
-			if ($_SESSION["error_post_vars"]["cas"]["active"] == "1")
-			{
-				$this->tpl->setVariable("CHK_CAS_ACTIVE", "checked=\"checked\"");
-			}
-			if ($_SESSION["error_post_vars"]["cas"]["create_users"] == "1")
-			{
-				$this->tpl->setVariable("CHK_CREATE_USERS", "checked=\"checked\"");
-			}
-			if ($_SESSION["error_post_vars"]["cas"]["allow_local"] == "1")
-			{
-				$this->tpl->setVariable("CHK_ALLOW_LOCAL", "checked=\"checked\"");
-			}
-			
-			$this->tpl->setVariable("CAS_SERVER", $_SESSION["error_post_vars"]["cas"]["server"]);
-			$this->tpl->setVariable("CAS_PORT", $_SESSION["error_post_vars"]["cas"]["port"]);
-			$this->tpl->setVariable("CAS_URI", $_SESSION["error_post_vars"]["cas"]["uri"]);
-			$this->tpl->setVariable("CAS_LOGIN_INSTRUCTIONS", $_SESSION["error_post_vars"]["cas"]["login_instructions"]);
-			$current_default_role = $_SESSION["error_post_vars"]["cas"]["user_default_role"];
-		}
-		else
-		{
-			if ($settings["cas_active"] == "1")
-			{
-				$this->tpl->setVariable("CHK_CAS_ACTIVE", "checked=\"checked\"");
-			}
-			if ($settings["cas_create_users"] == "1")
-			{
-				$this->tpl->setVariable("CHK_CREATE_USERS", "checked=\"checked\"");
-			}
-			if ($settings["cas_allow_local"] == "1")
-			{
-				$this->tpl->setVariable("CHK_ALLOW_LOCAL", "checked=\"checked\"");
-			}
-			
-			$this->tpl->setVariable("CAS_SERVER", $settings["cas_server"]);
-			$this->tpl->setVariable("CAS_PORT", $settings["cas_port"]);
-			$this->tpl->setVariable("CAS_URI", $settings["cas_uri"]);
-			$this->tpl->setVariable("CAS_LOGIN_INSTRUCTIONS", $settings["cas_login_instructions"]);			
-			$current_default_role = $settings["cas_user_default_role"];
-		}
-		
-		// compose role list
-		$role_list = $rbacreview->getRolesByFilter(2,$this->object->getId());
-		if (!$current_default_role)
-		{
-			$current_default_role = 4;
-		}
-		$roles = array();
-		foreach ($role_list as $role)
-		{
-			$roles[$role['obj_id']] = $role['title'];
-		}
-		$selectElement = ilUtil::formSelect($current_default_role,
-			"cas[user_default_role]", $roles, false, true);
-		
-		$this->tpl->setVariable("CAS_USER_DEFAULT_ROLE", $selectElement);		
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("COLSPAN", 3);
-		$this->tpl->setVariable("TXT_CAS_TITLE", $this->lng->txt("auth_cas_auth"));
-		$this->tpl->setVariable("TXT_CAS_DESC", $this->lng->txt("auth_cas_auth_desc"));
-		$this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
-		$this->tpl->setVariable("TXT_CAS_ACTIVE", $this->lng->txt("active"));
-		$this->tpl->setVariable("TXT_CAS_SERVER", $this->lng->txt("server"));
-		$this->tpl->setVariable("TXT_CAS_SERVER_DESC", $this->lng->txt("auth_cas_server_desc"));
-		$this->tpl->setVariable("TXT_CAS_PORT", $this->lng->txt("port"));
-		$this->tpl->setVariable("TXT_CAS_PORT_DESC", $this->lng->txt("auth_cas_port_desc"));
-		$this->tpl->setVariable("TXT_CAS_URI", $this->lng->txt("uri"));
-		$this->tpl->setVariable("TXT_CAS_URI_DESC", $this->lng->txt("auth_cas_uri_desc"));
-		$this->tpl->setVariable("TXT_CAS_LOGIN_INSTRUCTIONS", $this->lng->txt("auth_login_instructions"));
-		$this->tpl->setVariable("TXT_CREATE_USERS", $this->lng->txt("auth_create_users"));
-		$this->tpl->setVariable("TXT_CREATE_USERS_DESC", $this->lng->txt("auth_cas_create_users_desc"));
-		$this->tpl->setVariable("TXT_CAS_USER_DEFAULT_ROLE", $this->lng->txt("auth_user_default_role"));
-		$this->tpl->setVariable("TXT_CAS_USER_DEFAULT_ROLE_DESC",
-			$this->lng->txt("auth_cas_user_default_role_desc"));
-		$this->tpl->setVariable("TXT_ALLOW_LOCAL", $this->lng->txt("auth_allow_local"));
-		$this->tpl->setVariable("TXT_ALLOW_LOCAL_DESC", $this->lng->txt("auth_cas_allow_local_desc"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("CMD_SUBMIT", "saveCAS");
-	}
-	
-	/**
-	* validates all input data, save them to database if correct and active chosen auth mode
-	* 
-	* @access	public
-	*/
-	function saveCASObject()
-	{
-         global $ilUser, $ilSetting, $rbacsystem;
-
- 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-        // validate required data 
-		if (!$_POST["cas"]["server"] or !$_POST["cas"]["port"])
-		{
-			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
-		}
-		
-		// validate port
-		if ((preg_match("/^[0-9]{0,5}$/",$_POST["cas"]["port"])) == false)
-		{
-			$this->ilias->raiseError($this->lng->txt("err_invalid_port"),$this->ilias->error_obj->MESSAGE);
-		}
-		
-		$ilSetting->set("cas_server", $_POST["cas"]["server"]);
-		$ilSetting->set("cas_port", $_POST["cas"]["port"]);
-		$ilSetting->set("cas_uri", $_POST["cas"]["uri"]);
-		$ilSetting->set("cas_login_instructions", $_POST["cas"]["login_instructions"]);
-		$ilSetting->set("cas_active", $_POST["cas"]["active"]);
-		$ilSetting->set("cas_create_users", $_POST["cas"]["create_users"]);
-		$ilSetting->set("cas_allow_local", $_POST["cas"]["allow_local"]);
-		$ilSetting->set("cas_active", $_POST["cas"]["active"]);
-		$ilSetting->set("cas_user_default_role", $_POST["cas"]["user_default_role"]);
-		ilUtil::sendSuccess($this->lng->txt("auth_cas_settings_saved"),true);
-		
-		$this->ctrl->redirect($this,'editCAS');
-	}
 
 	/**
 	* Configure soap settings
@@ -986,6 +836,14 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				$shib_settings_gui = new ilAuthShibbolethSettingsGUI($this->object->getRefId());
 				$this->ctrl->forwardCommand($shib_settings_gui);
 				break;
+
+			case 'ilcassettingsgui':
+
+				$this->tabs_gui->setTabActive('auth_cas');
+				include_once './Services/CAS/classes/class.ilCASSettingsGUI.php';
+				$cas_settings = new ilCASSettingsGUI($this->object->getRefId());
+				$this->ctrl->forwardCommand($cas_settings);
+				break;
 				
 			case 'ilradiussettingsgui':
 				
@@ -1062,8 +920,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			
 			$tabs_gui->addTarget('auth_shib',$this->ctrl->getLinkTargetByClass('ilauthshibbolethsettingsgui','settings'));
 
-			$tabs_gui->addTarget("auth_cas", $this->ctrl->getLinkTarget($this, "editCAS"),
-								   "", "", "");
+			$tabs_gui->addTarget(
+				'auth_cas',
+				$this->ctrl->getLinkTargetByClass('ilcassettingsgui','settings')
+			);
 								   
 			$tabs_gui->addTarget("auth_radius", $this->ctrl->getLinkTargetByClass('ilradiussettingsgui', "settings"),
 									   "", "", "");
