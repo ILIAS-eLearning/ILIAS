@@ -342,9 +342,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 			case self::WORKSPACE_NODE_ID:
 			case self::WORKSPACE_OBJECT_ID:
-				// temporary fix
-				$this->ctrl->setParameterByClass("ilpersonalworkspacegui", "wsp_id", $this->node_id);
-				$this->ctrl->redirectByClass("ilpersonalworkspacegui", "");
+				break;
 
 			case self::OBJECT_ID:
 				// :TODO: should this ever occur?  do nothing or edit() ?!
