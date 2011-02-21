@@ -41,19 +41,23 @@ class ilPersonalWorkspaceGUI
 	{
 		global $ilCtrl, $ilTabs, $lng, $objDefinition;
 
-		$ilCtrl->setReturn($this, "show");
+		$ilCtrl->setReturn($this, "render");
+		$cmd = $ilCtrl->getCmd();
 
 		// new type
 		if($_REQUEST["new_type"])
 		{
 			$class_name = $objDefinition->getClassName($_REQUEST["new_type"]);
 			$ilCtrl->setCmdClass("ilObj".$class_name."GUI");
-			$ilCtrl->setCmd("create");
+			if($cmd != "save")
+			{
+				$ilCtrl->setCmd("create");
+				$cmd = "create";
+			}
 		}
 
 		// root node
-		$next_class = $ilCtrl->getNextClass();
-		$cmd = $ilCtrl->getCmd();
+		$next_class = $ilCtrl->getNextClass();		
 		if(!$next_class)
 		{
 			$node = $this->tree->getNodeData($this->node_id);
@@ -80,7 +84,7 @@ class ilPersonalWorkspaceGUI
 		$this->renderLocator();
 		$this->renderTitle();
 
-		if($cmd == "" || $cmd == "render")
+		if(($cmd == "" || $cmd == "render") && !$_REQUEST["new_type"])
 		{
 			$this->renderToolbar();
 		}
@@ -204,20 +208,19 @@ class ilPersonalWorkspaceGUI
 		{
 			$obj_class = "ilObj".$objDefinition->getClassName($node["type"])."GUI";
 
+			$ilCtrl->setParameter($this, "wsp_id", $node["wsp_id"]);
+
 			switch($node["type"])
 			{
 				case "wsrt":
-					$ilCtrl->setParameter($this, "wsp_id", $node["wsp_id"]);
 					$ilLocator->addItem($lng->txt("wsp_personal_workspace"), $ilCtrl->getLinkTargetByClass($obj_class, "render"));
 					break;
 
 				case $objDefinition->isContainer($node["type"]):
-					$ilCtrl->setParameter($this, "wsp_id", $node["wsp_id"]);
 					$ilLocator->addItem($node["title"], $ilCtrl->getLinkTargetByClass($obj_class, "render"));
 					break;
 
 				default:
-					$ilCtrl->setParameter($this, "wsp_id", $node["wsp_id"]);
 					$ilLocator->addItem($node["title"], $ilCtrl->getLinkTargetByClass($obj_class, "edit"));
 					break;
 			}

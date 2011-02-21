@@ -86,21 +86,20 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 			foreach($nodes as $node)
 			{
-				$ilCtrl->setParameter($this, "wsp_id", $node["wsp_id"]);
+				$obj_class = "ilObj".$objDefinition->getClassName($node["type"])."GUI";
+				$ilCtrl->setParameterByClass($obj_class, "wsp_id", $node["wsp_id"]);
 
 				$template->setCurrentBlock("node_action");
-				$template->setVariable("NODE_ACTION_URL", $ilCtrl->getLinkTarget($this, "edit"));
+				$template->setVariable("NODE_ACTION_URL", $ilCtrl->getLinkTargetByClass($obj_class, "edit"));
 				$template->setVariable("NODE_ACTION_CAPTION", $lng->txt("edit"));
 				$template->parseCurrentBlock();
 
 				if($objDefinition->isContainer($node["type"]))
 				{
-					$template->setVariable("NODE_ACTION_URL", $ilCtrl->getLinkTarget($this, "render"));
+					$template->setVariable("NODE_ACTION_URL", $ilCtrl->getLinkTargetByClass($obj_class, "render"));
 					$template->setVariable("NODE_ACTION_CAPTION", "&raquo;");
 					$template->parseCurrentBlock();
 				}
-
-				$ilCtrl->setParameter($this, "wsp_id", "");
 
 				$template->setCurrentBlock("node");
 				$template->setVariable("NODE_ICON_SRC", ilObject::_getIcon($node["obj_id"], "small"));
