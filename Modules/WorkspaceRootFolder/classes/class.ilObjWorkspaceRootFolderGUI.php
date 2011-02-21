@@ -22,165 +22,85 @@ class ilObjWorkspaceRootFolderGUI extends ilObject2GUI
 		return "wsrt";
 	}
 
-	/**
-	* import categories form
-	*/
-	function importCategoriesFormObject ()
+	function setTabs()
 	{
-		ilObjCategoryGUI::_importCategoriesForm($this->ref_id, $this->tpl);
-	}
+		global $lng;
 
-	/**
-	* import cancelled
-	*
-	* @access private
-	*/
-	function importCancelledObject()
-	{
-		$this->ctrl->returnToParent($this);
-	}
+		$this->ctrl->setParameter($this,"wsp_id",$this->node_id);
 
-	/**
-	* import categories
-	*/
-	function importCategoriesObject()
-	{
-	  ilObjCategoryGUI::_importCategories($this->ref_id,0);
-	}
-
-
-	/**
-	 * import categories
-	 */
-	function importCategoriesWithRolObject()
-	{
-	  ilObjCategoryGUI::_importCategories($this->ref_id,1);
-	}
-
-	function getTabs(&$tabs_gui)
-	{
-		global $rbacsystem, $lng;
-
-		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
-
-		if ($rbacsystem->checkAccess('read',$this->ref_id))
+		if ($this->getAccessHandler()->checkAccess('read', '', $this->node_id))
 		{
-			$tabs_gui->addTab('view_content', $lng->txt("content"),
+			$this->tabs_gui->addTab('view_content', $lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 		}
 		
-		if ($rbacsystem->checkAccess('write',$this->ref_id))
+		if ($this->getAccessHandler()->checkAccess('write', '', $this->node_id))
 		{
 			$force_active = ($_GET["cmd"] == "edit")
 				? true
 				: false;
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
 				, "", $force_active);
 		}
-
-		// parent tabs (all container: edit_permission, clipboard, trash
-		parent::getTabs($tabs_gui);
-
 	}
 
 	function &executeCommand()
 	{
-		global $rbacsystem;
-
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		
 		switch($next_class)
 		{
-			case 'ilcontainerlinklistgui':
-				include_once("./classes/class.ilContainerLinkListGUI.php");
-				$link_list_gui =& new ilContainerLinkListGUI();
-				$ret =& $this->ctrl->forwardCommand($link_list_gui);
-				break;
-
-				// container page editing
-			case "ilpageobjectgui":
-				$this->prepareOutput(false);
-				$ret = $this->forwardToPageObject();
-				if ($ret != "")
-				{
-					$this->tpl->setContent($ret);
-				}
-				break;
-
-			case 'ilpermissiongui':
-				$this->prepareOutput();
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
-				break;
-
-			case "ilcolumngui":
-				$this->checkPermission("read");
-				$this->prepareOutput();
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
-				$this->renderObject();
-				break;
-
-			case 'ilobjectcopygui':
-				$this->prepareOutput();
-				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
-				$cp = new ilObjectCopyGUI($this);
-				$cp->setType('root');
-				$this->ctrl->forwardCommand($cp);
-				break;
-				
-			case "ilobjstylesheetgui":
-				$this->forwardToStyleSheet();
-				break;
-
 			default:
 				$this->prepareOutput();
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
-
 				if(!$cmd)
 				{
 					$cmd = "render";
 				}
-
-				$cmd .= "Object";
 				$this->$cmd();
-
 				break;
 		}
+		
 		return true;
 	}
 	
 	/**
 	* Render root folder
 	*/
-	function renderObject()
+	function render()
 	{
-		global $ilTabs;
+		global $ilUser;
 		
-		$ilTabs->activateTab("view_content");
-		$ret =  parent::renderObject();
-		return $ret;
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		$tree = new ilWorkspaceTree($ilUser->getId());
+		$node = $tree->getNodeData($this->node_id);
+		$nodes = $tree->getSubTree($node);
+		if(sizeof($nodes) > 1)
+		{
+			// remove current node (== root of subtree)
+			array_shift($nodes);
+
+			foreach($nodes as $node)
+			{
+				var_dump($node["title"]);
+
+			}
+		}
 	}
-	
 	
 	/**
 	* edit category
 	*
 	* @access	public
 	*/
-	function editObject()
+	function editOLD()
 	{
-		global $rbacsystem, $lng;
+		global $lng;
 
-		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+		if (!$this->getAccessHandler()->checkAccess("write", "", $this->node_id))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("permission_denied"));
 		}
 		
 		$this->ctrl->setParameter($this,"mode","edit");
@@ -330,36 +250,11 @@ class ilObjWorkspaceRootFolderGUI extends ilObject2GUI
 	}
 
 	/**
-	* called by prepare output 
-	*/
-	function setTitleAndDescription()
-	{
-		global $lng;
-
-		parent::setTitleAndDescription();
-		$this->tpl->setDescription("");
-		if (!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"))
-		{
-			if ($this->object->getTitle() == "ILIAS")
-			{
-				$this->tpl->setTitle($lng->txt("repository"));
-			}
-			else
-			{
-				if ($this->object->getDescription() != "")
-				{
-					$this->tpl->setTitle($this->object->getDescription());
-				}
-			}
-		}
-	}
-
-	/**
 	* updates object entry in object_data
 	*
 	* @access	public
 	*/
-	function updateObject()
+	function updateOLD()
 	{
 		global $rbacsystem;
 		if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
@@ -459,7 +354,7 @@ class ilObjWorkspaceRootFolderGUI extends ilObject2GUI
 	*
 	* @access	public
 	*/
-	function addTranslationObject()
+	function addTranslation()
 	{
 		if (!($_GET["mode"] != "create" or $_GET["mode"] != "edit"))
 		{
@@ -479,7 +374,7 @@ class ilObjWorkspaceRootFolderGUI extends ilObject2GUI
 	*
 	* @access	public
 	*/
-	function removeTranslationObject()
+	function removeTranslation()
 	{
 		if (!($_GET["mode"] != "create" or $_GET["mode"] != "edit"))
 		{
@@ -499,7 +394,7 @@ class ilObjWorkspaceRootFolderGUI extends ilObject2GUI
 	*
 	* @access	public
 	*/
-	function removeBigIconObject()
+	function removeBigIcon()
 	{
 		$_SESSION["translation_post"] = $_POST;
 		$this->object->removeBigIcon();
@@ -511,7 +406,7 @@ class ilObjWorkspaceRootFolderGUI extends ilObject2GUI
 	*
 	* @access	public
 	*/
-	function removeSmallIconObject()
+	function removeSmallIcon()
 	{
 
 		$_SESSION["translation_post"] = $_POST;
@@ -524,7 +419,7 @@ class ilObjWorkspaceRootFolderGUI extends ilObject2GUI
 	*
 	* @access	public
 	*/
-	function removeTinyIconObject()
+	function removeTinyIcon()
 	{
 
 		$_SESSION["translation_post"] = $_POST;
