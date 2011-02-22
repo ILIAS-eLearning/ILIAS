@@ -251,7 +251,7 @@ class ilCASSettingsGUI
 			$this->getSettings()->setActive($form->getInput('active'));
 			$this->getSettings()->setServer($form->getInput('server'));
 			$this->getSettings()->setPort($form->getInput('port'));
-			$this->getSettings()->getUri($form->getInput('uri'));
+			$this->getSettings()->setUri($form->getInput('uri'));
 			$this->getSettings()->setDefaultRole($form->getInput('role'));
 			$this->getSettings()->enableLocalAuthentication($form->getInput('local'));
 			$this->getSettings()->setLoginInstruction($form->getInput('instruction'));
