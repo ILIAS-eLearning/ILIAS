@@ -3937,8 +3937,8 @@ common#:#pays_read#:#Lesezugriff auf Paymenteinstellungen
 common#:#pays_visible#:#Paymenteinstellungen sind sichtbar
 common#:#pays_write#:#Paymenteinstellungen bearbeiten
 common#:#pd_enable_chatviewer#:#Chatviewer aktivieren
-common#:#pd_enable_contacts#:#Aktiviere Kontakte
-common#:#pd_enable_contacts_requires_mail#:#Benötigt Mail-Berechtigung
+common#:#pd_enable_contacts#:#Kontakte aktivieren
+common#:#pd_enable_contacts_requires_mail#:#Benötigt Berechtigung für Mail-System
 common#:#pd_items_news#:#Einschließlich Nachrichten der ausgewählten Objekte
 common#:#pd_items_news_info#:#Wenn aktiviert, werden alle Nachrichten der ausgewählten Objekte im Nachrichtenblock auf dem Persönlichen Schreibtisch angezeigt.
 common#:#pdf_export#:#PDF-Export
@@ -8576,15 +8576,15 @@ payment#:#vat_rate#:#Steuer-Prozentsatz
 payment#:#vat_title#:#Steuer-Titel
 payment#:#vat_unit#:#Steuer-Einheit
 payment#:#vats#:#Steuern
-pd#:#pd_enable_active_users#:#Aktiviere Block 'Aktive Benutzer'
-pd#:#pd_enable_block_moving#:#Aktiviere 'Verschieben der Blöcke'
+pd#:#pd_enable_active_users#:#Block 'Aktive Benutzer' aktivieren
+pd#:#pd_enable_block_moving#:#'Verschieben der Blöcke' aktivieren
 pd#:#pd_enable_block_moving_info#:#Erlaube Benutzern, ihren Persönlichen Schreibtisch anzupassen.
 pd#:#pd_enable_bookmarks#:#Bookmarks aktivieren
 pd#:#pd_enable_global_profiles#:#Globale Profile aktivieren
 pd#:#pd_enable_global_profiles_info#:#Die Option ermöglicht Benutzern, ihr Profil global (im Internet) zugänglich zu machen.
 pd#:#pd_enable_my_memberships#:#Aktiviere 'Meine Mitgliedschaften'
 pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
-pd#:#pd_enable_my_offers#:#Aktiviere 'Meine Angebote'
+pd#:#pd_enable_my_offers#:#'Meine Angebote' aktivieren
 pd#:#pd_enable_my_offers_info#:#Die Sicht 'Meine Angebote' enthält alle Objekte, die sich auf dem Persönlichen Schreibtisch des Benutzers befinden.
 pd#:#pd_enable_notes#:#Notizen aktivieren
 pd#:#pd_my_memberships#:#Meine Mitgliedschaften
