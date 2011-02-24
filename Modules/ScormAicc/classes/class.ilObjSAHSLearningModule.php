@@ -1,26 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "classes/class.ilObject.php";
 require_once "./Modules/ScormAicc/classes/class.ilObjSCORMValidator.php";
@@ -102,6 +82,8 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setAssignedGlossary($lm_rec["glossary"]);
 			$this->setTries($lm_rec["question_tries"]);
 			$this->setEntryPage($lm_rec["entry_page"]);
+			$this->setFinalLMPage($lm_rec["final_lm_page"]);
+			$this->setFinalScoPage($lm_rec["final_sco_page"]);
 			$this->setSession(ilUtil::yn2tf($lm_rec["unlimited_session"]));
 			$this->setNoMenu(ilUtil::yn2tf($lm_rec["no_menu"]));
 			$this->setHideNavig(ilUtil::yn2tf($lm_rec["hide_navig"]));
@@ -197,7 +179,38 @@ class ilObjSAHSLearningModule extends ilObject
 		return $this->entry_page;
 	}
 
-	
+	/**
+	 * Set final page of lm
+	 */
+	public function setFinalLMPage($a_val)
+	{
+		$this->final_lm_page = $a_val;
+	}
+
+	/**
+	 * Get final page of lm
+	 */
+	public function getFinalLMPage()
+	{
+		return $this->final_lm_page;
+	}
+
+	/**
+	 * Set final page of sco
+	 */
+	public function setFinalScoPage($a_val)
+	{
+		$this->final_sco_page = $a_val;
+	}
+
+	/**
+	 * Get final page of sco
+	 */
+	public function getFinalScoPage()
+	{
+		return $this->final_sco_page;
+	}
+
 	static function _getTries($a_id)
 	{
 		global $ilDB;
@@ -526,6 +539,8 @@ class ilObjSAHSLearningModule extends ilObject
 				hide_navig = %s,
 				debug = %s,
 				entry_page = %s,
+				final_lm_page = %s,
+				final_sco_page = %s,
 				debugpw = %s
 				
 			WHERE id = %s', 
@@ -546,6 +561,8 @@ class ilObjSAHSLearningModule extends ilObject
 				'text',
 				'text',
 				'text',
+				'integer',
+				'integer',
 				'integer',
 				'text',
 				'integer'
@@ -568,6 +585,8 @@ class ilObjSAHSLearningModule extends ilObject
 				ilUtil::tf2yn($this->getHideNavig()),
 				ilUtil::tf2yn($this->getDebug()),
 				$this->getEntryPage(),
+				$this->getFinalLMPage(),
+				$this->getFinalScoPage(),
 				$this->getDebugPw(),
 				$this->getId())
 		);

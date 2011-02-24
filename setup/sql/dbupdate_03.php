@@ -3877,6 +3877,7 @@ while ($rec = $ilDB->fetchAssoc($set))
 		")");
 }
 ?>
+
 <#3221>
 <?php
 if(!$ilDB->tableExists('tree_workspace'))
@@ -3961,3 +3962,49 @@ if(!$ilDB->tableColumnExists('il_object_def','workspace'))
 			);
 		}
 ?>
+<#3227>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("RTELogo", "rte_menu", "div",
+				array("float" => "left"));
+?>
+<#3228>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("RTELinkBar", "rte_menu", "div",
+				array());
+?>
+<#3229>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("RTELink", "rte_mlink", "a",
+				array());
+?>
+<#3230>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("RTELinkDisabled", "rte_mlink", "a",
+				array());
+?>
+<#3231>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("RTETree", "rte_tree", "div",
+				array());
+?>
+<#3232>
+<?php
+$ilDB->addTableColumn("sahs_lm", "final_sco_page", array(
+	"type" => "integer",
+	"notnull" => true,
+	"default" => 0,
+	"length" => 4
+));
+$ilDB->addTableColumn("sahs_lm", "final_lm_page", array(
+	"type" => "integer",
+	"notnull" => true,
+	"default" => 0,
+	"length" => 4
+));
+?>
+

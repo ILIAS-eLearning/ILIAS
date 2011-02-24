@@ -122,7 +122,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function editObject()
 	{
-		global $rbacsystem, $lng, $ilTabs, $ilCtrl, $ilToolbar;
+		global $rbacsystem, $lng, $ilTabs, $ilCtrl, $ilToolbar, $tpl;
 
 		$this->setSubTabs();
 		
@@ -138,6 +138,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			: "text_block";
 		$ilCtrl->setParameter($this, "style_type", $style_type);
 		$ilTabs->setSubTabActive("sty_".$style_type."_char");
+
+		// workaround to include default rte styles
+		if ($this->super_type == "rte")
+		{
+			$tpl->addCss("Modules/Scorm2004/templates/default/player.css");
+		}
 
 		// add new style?
 		$all_super_types = ilObjStyleSheet::_getStyleSuperTypes();
@@ -374,7 +380,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$var = str_replace("-", "_", $par);
 			$basepar_arr = explode(".", $par);
 			$basepar = $basepar_arr[0];
-//var_dump($basepar_arr);
 			if ($basepar_arr[1] != "" && $basepar_arr[1] != $cur_tag)
 			{
 				continue;
@@ -475,7 +480,14 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	function editTagStyleObject()
 	{
 		global $tpl;
-		
+
+		// workaround to include default rte styles
+		//if (in_array($_GET["style_type"], array("rte_menu")))
+		if ($this->super_type == "rte")
+		{
+			$tpl->addCss("Modules/Scorm2004/templates/default/player.css");
+		}
+
 		$cur = explode(".",$_GET["tag"]);
 		$cur_tag = $cur[0];
 		$cur_class = $cur[1];

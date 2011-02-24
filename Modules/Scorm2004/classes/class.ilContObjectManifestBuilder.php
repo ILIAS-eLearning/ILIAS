@@ -119,6 +119,13 @@ class ilContObjectManifestBuilder
 		//$tree->setTreeTablePK("slm_id");
 		$this->writeItemHierarchyRec($tree,$tree->getRootId());
 		
+		// final page
+		if ($this->version == "2004" && $this->cont_obj->getFinalLMPage())
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004FinalAsset.php");
+			ilSCORM2004FinalAsset::addFinalPageItemXML($this->writer,
+				$this->cont_obj);
+		}
 		
 		// sequencing information
 		if($this->version=="2004") {
@@ -141,6 +148,13 @@ class ilContObjectManifestBuilder
 		{
 			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004EntryAsset.php");
 			ilSCORM2004EntryAsset::addEntryPageResourceXML($this->writer,
+				$this->cont_obj);
+		}
+		// final page resource
+		if ($this->version == "2004" && $this->cont_obj->getFinalLMPage())
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004FinalAsset.php");
+			ilSCORM2004FinalAsset::addFinalPageResourceXML($this->writer,
 				$this->cont_obj);
 		}
 

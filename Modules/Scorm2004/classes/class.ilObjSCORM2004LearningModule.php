@@ -1776,6 +1776,12 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$entry_asset = new ilSCORM2004EntryAsset($this);
 			$entry_asset->exportSCORM($a_inst, $a_target_dir, $expLog);
 		}
+		if ($this->getFinalLMPage())
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004FinalAsset.php");
+			$final_asset = new ilSCORM2004FinalAsset($this);
+			$final_asset->exportSCORM($a_inst, $a_target_dir, $expLog);
+		}
 	}
 
 
@@ -1832,6 +1838,37 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$this->update();
 	}
 
+	/**
+	 * Create finalsco page
+	 */
+	function createFinalScoPage($a_layout_id)
+	{
+		global $lng;
+
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
+		$page = new ilSCORM2004PageNode($this);
+		$page->setTitle($lng->txt("cont_final_sco_page"));
+		$page->setSLMId($this->getId());
+		$page->create(false, $a_layout_id);
+		$this->setFinalScoPage($page->getId());
+		$this->update();
+	}
+
+	/**
+	 * Create final lm page
+	 */
+	function createFinalLMPage($a_layout_id)
+	{
+		global $lng;
+
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
+		$page = new ilSCORM2004PageNode($this);
+		$page->setTitle($lng->txt("cont_final_lm_page"));
+		$page->setSLMId($this->getId());
+		$page->create(false, $a_layout_id);
+		$this->setFinalLMPage($page->getId());
+		$this->update();
+	}
 
 }
 ?>
