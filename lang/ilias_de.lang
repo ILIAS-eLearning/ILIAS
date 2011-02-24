@@ -1336,11 +1336,11 @@ chat#:#chat_empty#:#Leeren
 chat#:#chat_enable_autoscroll#:#aktiviere automatisches Scrollen
 chat#:#chat_enter_valid_username#:#Bitte geben Sie einen gültigen Benutzernamen ein.
 chat#:#chat_export_all#:#Jeder mit Zugang zum Chatraum
-chat#:#chat_export_info#:#Zeigt eine Export Schaltfläche für den aktuellen Raum an. Nachrichten werden nach html exportiert.
+chat#:#chat_export_info#:#Zeigt eine Export-Schaltfläche für den aktuellen Chat-Raum an. Beiträge werden als HTML-Datei exportiert.
 chat#:#chat_export_moderator#:#Nur Moderatoren
-chat#:#chat_export_period#:#Export Zeitraum
-chat#:#chat_export_period_info#:#Exportiert die angegebene Anzahl von Tagen
-chat#:#chat_export_status#:#Export Berechtigungen
+chat#:#chat_export_period#:#Export-Zeitraum in Tagen
+chat#:#chat_export_period_info#:#Exportiert alle Beiträge aus diesem Zeitraum
+chat#:#chat_export_status#:#Export-Berechtigungen
 chat#:#chat_face#:#Schriftstil
 chat#:#chat_fuchsia#:#fuchsia
 chat#:#chat_general_settings#:#Allgemeine Einstellungen
@@ -1350,7 +1350,7 @@ chat#:#chat_hide_details#:#Details verbergen
 chat#:#chat_hide_smilies#:#Smileys verbergen
 chat#:#chat_hide_textformat#:#Textformat verbergen
 chat#:#chat_html_export#:#Export als HTML
-chat#:#chat_ilias#:#ILIAS Chat Modul
+chat#:#chat_ilias#:#ILIAS Chat-Modul
 chat#:#chat_image_path#:#Bildpfad
 chat#:#chat_inactive#:#Inaktiv
 chat#:#chat_input#:#Eingabe
@@ -1372,8 +1372,8 @@ chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#lime
 chat#:#chat_maroon#:#maroon
 chat#:#chat_message_notify#:#Chat-Benachrichtigungen
-chat#:#chat_message_notify_activate#:#Chat-Benachrichtigungen
-chat#:#chat_message_notify_deactivate#:#deaktiviere Nachrichtenhinweise
+chat#:#chat_message_notify_activate#:#Aktivieren
+chat#:#chat_message_notify_deactivate#:#Deaktivieren
 chat#:#chat_messages_deleted#:#Der Chatraum wurde zurückgesetzt.
 chat#:#chat_moderator_password#:#Moderatorenpasswort
 chat#:#chat_navy#:#navy
@@ -1446,15 +1446,15 @@ chat#:#chat_smiley_image_only_if_changed#:#Bitte geben Sie nur ein neues Bild an
 chat#:#chat_smiley_keyword#:#Smiley-Kürzel
 chat#:#chat_smiley_keywords#:#Smiley-Kürzel
 chat#:#chat_smiley_keywords_one_per_line_note#:#Sie können für jedes Smiley mehrere Kürzel als Zeichenfolge angeben. Jede Zeile wird als einzelnes Kürzel benutzt.
-chat#:#chat_smilies_activate#:#Aktiviere Smileys
-chat#:#chat_smilies_deactivate#:#Deaktiviere Smileys
+chat#:#chat_smilies_activate#:#Aktivieren
+chat#:#chat_smilies_deactivate#:#Deaktivieren
 chat#:#chat_smilies_dir_not_available#:#Das Smiley-Verzeichnis konnte nicht angelegt werden. Es können keine Smileys genutzt werden, bis dieses Problem behoben wurde.
 chat#:#chat_smilies_dir_not_exists#:#Das Verzeichnis mit den Smiley-Daten existiert nicht. Versuche es anzulegen.
 chat#:#chat_smilies_dir_not_writable#:#Das Smiley-Verzeichnis existiert, ist aber nicht beschreibbar. Es können daher keine neuen Smileys hinzugefügt werden.
-chat#:#chat_smilies_initialized#:#Die Smileys wurden erstellt und können nun benutzt werden
+chat#:#chat_smilies_initialized#:#Die Smileys wurden erstellt und können nun benutzt werden.
 chat#:#chat_smilies_status#:#Chat-Smileys
-chat#:#chat_sound_status_activate#:#Sounds aktivieren
-chat#:#chat_sound_status_deactivate#:#Sounds deaktvieren
+chat#:#chat_sound_status_activate#:#Aktivieren
+chat#:#chat_sound_status_deactivate#:#Deaktivieren
 chat#:#chat_sounds#:#Klänge
 chat#:#chat_start_recording#:#Aufnahme starten
 chat#:#chat_status#:#Status
