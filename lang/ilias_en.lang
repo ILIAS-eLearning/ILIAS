@@ -10990,3 +10990,12 @@ ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for 
 auth#:#auth_sync#:#User Synchronisation
 auth#:#auth_sync_cas#:#Automatic generation of user accounts
 auth#:#auth_sync_cas_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against CAS, without having an ILIAS account yet.
+content#:#cont_final_sco_page#:#Final Page for SCOs
+content#:#cont_final_lm_page#:#Final Page for Learning Module
+content#:#cont_really_delete_special_pages#:#Do you really want to delete the following special pages?
+content#:#cont_create_final_sco_page#:#Create Final Page for SCOs
+content#:#cont_create_final_lm_page#:#Create Final Page for Learning Module
+style#:#sty_rte_char#:#SCORM RTE
+style#:#sty_type_rte_menu#:#RTE Menu
+style#:#sty_type_rte_mlink#:#RTE Menu Link
+style#:#sty_type_rte_tree#:#RTE Tree Section

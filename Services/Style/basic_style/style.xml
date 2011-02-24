@@ -288,6 +288,17 @@
 <!-- RTE -->
 <Style Tag="div" Type="rte_menu" Class="RTEMenu">
 </Style>
+<Style Tag="div" Type="rte_menu" Class="RTELogo">
+	<StyleParameter Name="float" Value="left"/>
+</Style>
+<Style Tag="div" Type="rte_menu" Class="RTELinkBar">
+</Style>
+<Style Tag="a" Type="rte_mlink" Class="RTELink">
+</Style>
+<Style Tag="a" Type="rte_mlink" Class="RTELinkDisabled">
+</Style>
+<Style Tag="div" Type="rte_tree" Class="RTETree">
+</Style>
 
 <!-- Section -->
 <Style Tag="div" Type="section" Class="Additional">

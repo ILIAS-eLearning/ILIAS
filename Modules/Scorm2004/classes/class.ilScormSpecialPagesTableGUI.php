@@ -52,6 +52,16 @@ class ilScormSpecialPagesTableGUI extends ilTable2GUI
 			$sp[] = array("page_id" => $this->slm->getEntryPage(),
 				"purpose" => $lng->txt("cont_entry_page"));
 		}
+		if ($this->slm->getFinalScoPage() > 0)
+		{
+			$sp[] = array("page_id" => $this->slm->getFinalScoPage(),
+				"purpose" => $lng->txt("cont_final_sco_page"));
+		}
+		if ($this->slm->getFinalLMPage() > 0)
+		{
+			$sp[] = array("page_id" => $this->slm->getFinalLMPage(),
+				"purpose" => $lng->txt("cont_final_lm_page"));
+		}
 		$this->setData($sp);
 	}
 

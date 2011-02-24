@@ -2068,6 +2068,20 @@ function showTrackingItem()
 			$this->tpl->setVariable("TXT_INSERT", $this->lng->txt("create"));
 			$this->tpl->setVariable("CMD_CANCEL", "listSpecialPages");
 		}
+		else if ($a_mode == "final_sco_page")
+		{
+			$this->tpl->setVariable("BTN_NAME", "createFinalScoPage");
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_INSERT", $this->lng->txt("create"));
+			$this->tpl->setVariable("CMD_CANCEL", "listSpecialPages");
+		}
+		else if ($a_mode == "final_lm_page")
+		{
+			$this->tpl->setVariable("BTN_NAME", "createFinalLMPage");
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_INSERT", $this->lng->txt("create"));
+			$this->tpl->setVariable("CMD_CANCEL", "listSpecialPages");
+		}
 		else
 		{
 			$this->tpl->setVariable("BTN_NAME", "insertTemplate");
@@ -2658,6 +2672,16 @@ function showTrackingItem()
 			$ilToolbar->addButton($lng->txt("cont_create_entry_page"),
 				$ilCtrl->getLinkTarget($this, "selectEntryPageTemplate"));
 		}
+		if ($this->object->getFinalScoPage() == 0)
+		{
+			$ilToolbar->addButton($lng->txt("cont_create_final_sco_page"),
+				$ilCtrl->getLinkTarget($this, "selectFinalScoPageTemplate"));
+		}
+		if ($this->object->getFinalLMPage() == 0)
+		{
+			$ilToolbar->addButton($lng->txt("cont_create_final_lm_page"),
+				$ilCtrl->getLinkTarget($this, "selectFinalLMPageTemplate"));
+		}
 
 		include_once("./Modules/Scorm2004/classes/class.ilScormSpecialPagesTableGUI.php");
 		$tab = new ilScormSpecialPagesTableGUI($this, "listSpecialPages", $this->object);
@@ -2685,6 +2709,45 @@ function showTrackingItem()
 		$ilCtrl->redirect($this, "listSpecialPages");
 	}
 
+	/**
+	 * Select final sco page template
+	 */
+	function selectFinalScoPageTemplate()
+	{
+		$this->insertTemplateGUI(false, "final_sco_page");
+	}
+
+	/**
+	 * Create final sco page
+	 */
+	function createFinalScoPage()
+	{
+		global $ilCtrl;
+
+		$this->object->createFinalScoPage(
+			ilUtil::stripSlashes($_POST["layout_id"]));
+		$ilCtrl->redirect($this, "listSpecialPages");
+	}
+
+	/**
+	 * Select final lm page template
+	 */
+	function selectFinalLMPageTemplate()
+	{
+		$this->insertTemplateGUI(false, "final_lm_page");
+	}
+
+	/**
+	 * Create final lm page
+	 */
+	function createFinalLMPage()
+	{
+		global $ilCtrl;
+
+		$this->object->createFinalLMPage(
+			ilUtil::stripSlashes($_POST["layout_id"]));
+		$ilCtrl->redirect($this, "listSpecialPages");
+	}
 
 	/**
 	 * Confirm special page deletion
@@ -2713,6 +2776,14 @@ function showTrackingItem()
 				{
 					$t = $lng->txt("cont_entry_page");
 				}
+				if ($i == $this->object->getFinalScoPage())
+				{
+					$t = $lng->txt("cont_final_sco_page");
+				}
+				if ($i == $this->object->getFinalLMPage())
+				{
+					$t = $lng->txt("cont_final_lm_page");
+				}
 
 				$cgui->addItem("page_id[]", $i, $t);
 			}
@@ -2735,6 +2806,14 @@ function showTrackingItem()
 				if ($i == $this->object->getEntryPage())
 				{
 					$this->object->setEntryPage(0);
+				}
+				if ($i == $this->object->getFinalScoPage())
+				{
+					$this->object->setFinalScoPage(0);
+				}
+				if ($i == $this->object->getFinalLMPage())
+				{
+					$this->object->setFinalLMPage(0);
 				}
 			}
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);

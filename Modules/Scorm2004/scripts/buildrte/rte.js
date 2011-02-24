@@ -8909,6 +8909,8 @@ var log_auto_flush = false;
 
 var log_buffer = "";
 
+var ilRTEDisabledClass = 'ilc_rte_mlink_RTELinkDisabled';
+
 //disable logging controls
 
 if (disable_all_logging==true) {
@@ -9940,6 +9942,11 @@ function replaceClass(elm, oldname, newname)
 
 function toggleClass(elm, name, state) 
 {
+	if (name == "disabled")
+	{
+		name = ilRTEDisabledClass;
+	}
+
 	elm = all(elm);
 	if (state===undefined) {
 		state = !hasClass(elm, name);
@@ -10452,7 +10459,7 @@ function onDocumentClick (e)
 	
 	//integration of ADL Sqeuencer
 	
-	if (target.tagName !== 'A' || !target.id ||  target.className.match(/disabled/) )
+	if (target.tagName !== 'A' || !target.id ||  target.className.match(new RegExp(ilRTEDisabledClass)) )
 	{
 		// ignore clicks on other elements than A
 		// or non identified elements or disabled elements (non active Activities)

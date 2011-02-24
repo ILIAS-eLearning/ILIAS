@@ -144,7 +144,6 @@ class ilStyleTableGUI extends ilTable2GUI
 		// example
 		$this->tpl->setVariable("EXAMPLE",
 			ilObjStyleSheetGUI::getStyleExampleHTML($a_set["type"], $a_set["class"]));
-
 		$tag_str = ilObjStyleSheet::_determineTag($a_set["type"]).".".$a_set["class"];
 		$this->tpl->setVariable("TXT_TAG", $a_set["class"]);
 		$this->tpl->setVariable("TXT_TYPE", $lng->txt("sty_type_".$a_set["type"]));

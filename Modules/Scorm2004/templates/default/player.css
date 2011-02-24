@@ -222,3 +222,29 @@ div.iosRTEMenu
 	padding-left: 11px;
 	background-color: #F3F3F3;
 }
+
+div.iosRTELogo
+{
+	float:left;
+}
+a.ilc_rte_mlink_RTELink
+{
+	color: #2020C0;
+	font-size: 80%;
+	text-decoration: underline;
+}
+a.ilc_rte_mlink_RTELink:hover
+{
+}
+
+a.ilc_rte_mlink_RTELinkDisabled
+{
+	color: #A0A0A0;
+	background-color: #E0E0E0;
+	cursor: not-allowed;
+	text-decoration:none;
+}
+a.ilc_rte_mlink_RTELinkDisabled:hover
+{
+	text-decoration:none;
+}

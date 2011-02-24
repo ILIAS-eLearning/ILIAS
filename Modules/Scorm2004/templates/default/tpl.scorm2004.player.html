@@ -32,18 +32,20 @@
 
 		<table {VAL_DISPLAY} id="toolbarTable" width="100%" height="100%" style="height: 100%" cellspacing="0" cellpadding="0" border="0" summary="">
 			<tr height="1%">
-				<td>	
+				<td>
 						<div class="iosRTEMenu ilc_rte_menu_RTEMenu" style="clear:both;">
-							
-								<a target="_self" href="#" class="il_ContainerItemCommand" onclick="toggleView();" id="treeToggle">{btnhidetree}</a>
+							<div class="iosRTELogo ilc_rte_menu_RTELogo" ></div>
+							<div class="ilc_rte_menu_RTELinkBar">
+								<a target="_self" href="#" class="ilc_rte_mlink_RTELink" onclick="toggleView();" id="treeToggle">{btnhidetree}</a>
 								&nbsp;
-							
-								<a target="_self" href="#" class="il_ContainerItemCommand" id="navStart">{btnStart}</a>
-								<a target="_self" href="#" class="il_ContainerItemCommand" id="navExit">{btnExit}</a>
-								<a target="_self" href="#" class="il_ContainerItemCommand" id="navExitAll">{btnExitAll}</a>
-								<a target="_self" href="#" class="il_ContainerItemCommand" id="navSuspendAll">{btnSuspendAll}</a>
-								<a target="_self" href="#" class="il_ContainerItemCommand" id="navPrevious">&lt; {btnPrevious}</a>
-								<a target="_self" href="#" class="il_ContainerItemCommand" id="navContinue">{btnContinue} &gt;</a>
+								<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navStart">{btnStart}</a>
+								<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navExit">{btnExit}</a>
+								<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navExitAll">{btnExitAll}</a>
+								<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navSuspendAll">{btnSuspendAll}</a>
+								<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navPrevious">&lt; {btnPrevious}</a>
+								<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navContinue">{btnContinue} &gt;</a>
+							</div>
+							<div style="clear:both;"></div>
 						</div>
 					</div>
 				</td>
@@ -64,7 +66,7 @@
 			cellspacing="0" cellpadding="0" border="0" summary="">
 				<tr valign="top">
 				<td style="width:25%" width="25%" id="leftView">
-					<div id="treeView"></div>
+					<div id="treeView" class="ilc_rte_tree_RTETree"></div>
 					<div id="ilLog" style="font-size:9px; white-space:pre; overflow:scroll;"><pre id="ilLogPre" style="font-family:Verdana,Arial,Helvetica,sans-serif;"></pre></div>
 					<div id="treeControls" style="vertical-align:middle; margin-left:5px"><a id="toggleLog" href="#" onclick="toggleLog();" style="font-size:11px;">Show Log</a> &nbsp; &nbsp;<a id="toggleTree" href="#" onclick="toggleTree();" style="font-size:11px;">Collapse All</a> </div>
 				</td>

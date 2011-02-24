@@ -253,7 +253,8 @@ class ilObjStyleSheet extends ilObject
 			"page_lnavimage", "page_rnavimage"),
 		"glo" => array("glo_overlay", "glo_ovtitle", "glo_ovclink", "glo_ovuglink", "glo_ovuglistlink"),
 		"sco" => array("sco_title", "sco_keyw", "sco_desc", "sco_desct", "sco_obj", "sco_objt",
-			"rte_menu")
+			"rte_menu", "rte_mlink", "rte_tree"),
+		"rte" => array("rte_menu", "rte_mlink", "rte_tree")
 		);
 
 	// these types are expandable, i.e. the user can define new style classes
@@ -295,6 +296,8 @@ class ilObjStyleSheet extends ilObject
 		"sco_desct" => "div",
 		"sco_objt" => "div",
 		"rte_menu" => "div",
+		"rte_mlink" => "a",
+		"rte_tree" => "div",
 		"list_o" => "ol",
 		"list_u" => "ul",
 		"list_item" => "li",
@@ -383,6 +386,11 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "sco_obj", "class" => "Objective"),
 			array("type" => "sco_objt", "class" => "ObjectiveTop"),
 			array("type" => "rte_menu", "class" => "RTEMenu"),
+			array("type" => "rte_menu", "class" => "RTELogo"),
+			array("type" => "rte_menu", "class" => "RTELinkBar"),
+			array("type" => "rte_mlink", "class" => "RTELink"),
+			array("type" => "rte_mlink", "class" => "RTELinkDisabled"),
+			array("type" => "rte_tree", "class" => "RTETree"),
 			array("type" => "list_o", "class" => "NumberedList"),
 			array("type" => "list_u", "class" => "BulletedList"),
 			array("type" => "list_item", "class" => "StandardListItem"),

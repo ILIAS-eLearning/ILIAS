@@ -305,7 +305,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
 
-		if ($a_asset_type != "entry_asset")
+		if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset")
 		{
 			$meta = new ilMD($this->getSLMId(), $this->getId(), $this->getType());
 					$desc_ids = $meta->getGeneral()->getDescriptionIds();
@@ -326,7 +326,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$sco_tpl = new ilTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
 		if ($mode != 'pdf')
 		{
-			if ($a_asset_type != "entry_asset")
+			if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset")
 			{
 				// previous/next navigation
 				$sco_tpl->setCurrentBlock("ilLMNavigation");
@@ -360,7 +360,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			if ($mode != 'pdf')
 			{
 				// title
-				if ($a_asset_type != "entry_asset")
+				if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset")
 				{
 					$sco_tpl->setCurrentBlock("title");
 					$sco_tpl->setVariable("SCO_TITLE", $this->getTitle());
@@ -415,15 +415,24 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		// init export (this initialises glossary template)
 		ilSCORM2004PageGUI::initExport();
 		$terms = array();
-		if ($a_asset_type != "entry_asset")
+		if ($a_asset_type == "entry_asset")
+		{
+			$pages[] = array("obj_id" => $this->slm_object->getEntryPage());
+		}
+		else if ($a_asset_type == "final_asset")
+		{
+			$pages[] = array("obj_id" => $this->slm_object->getFinalLMPage());
+		}
+		else
 		{
 			$terms = $this->getGlossaryTermIds();
 			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
 			$pages = $tree->getSubTree($tree->getNodeData($this->getId()),true,'page');
-		}
-		else
-		{
-			$pages[] = array("obj_id" => $this->slm_object->getEntryPage());
+
+			if ($this->getSLMObject()->getFinalScoPage() > 0)
+			{
+				$pages[] = array("obj_id" => $this->getSLMObject()->getFinalScoPage());
+			}
 		}
 
 		foreach($pages as $page)
@@ -514,7 +523,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 				$sco_tpl->touchBlock("pdf_pg_break");
 			}
 
-			if ($a_asset_type != "entry_asset")
+			if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset")
 			{
 				$sco_tpl->setCurrentBlock("page");
 				$sco_tpl->setVariable("PAGE", $page_output);
@@ -628,7 +637,13 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$tree = new ilTree($this->slm_id);
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
-		foreach($tree->getSubTree($tree->getNodeData($this->getId()),true,'page') as $page)
+
+		$pages = $tree->getSubTree($tree->getNodeData($this->getId()),true,'page');
+		if ($this->getSLMObject()->getFinalScoPage() > 0)
+		{
+			$pages[] = array("obj_id" => $this->getSLMObject()->getFinalScoPage());
+		}
+		foreach($pages as $page)
 		{
 			$ilBench->start("ContentObjectExport", "exportPageObject");
 			$expLog->write(date("[y-m-d H:i:s] ")."Page Object ".$page["obj_id"]);
