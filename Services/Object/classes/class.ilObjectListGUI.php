@@ -26,6 +26,9 @@ class ilObjectListGUI
 	const DETAILS_MINIMAL = 10;
 	const DETAILS_SEARCH = 20 ;
 	const DETAILS_ALL = 30;
+
+	const CONTEXT_REPOSITORY = 1;
+	const CONTEXT_WORKSPACE = 2;
 	
 	var $ctrl;
 	var $description_enabled = true;
@@ -847,17 +850,37 @@ class ilObjectListGUI
 	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id="")
 	{
 		global $ilAccess;
-		
-		if (isset($this->access_cache[$a_permission]["-".$a_cmd][$a_ref_id]))
+
+		$cache_prefix = null;
+		if($this->context == self::CONTEXT_WORKSPACE)
 		{
-			return $this->access_cache[$a_permission]["-".$a_cmd][$a_ref_id];
+			$cache_prefix = "wsp";
+			if(!$this->ws_access)
+			{
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+				$this->ws_access = new ilWorkspaceAccessHandler();
+			}
 		}
-		$access = $ilAccess->checkAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id);
-		if ($ilAccess->getPreventCachingLastResult())
+
+		if (isset($this->access_cache[$a_permission]["-".$a_cmd][$cache_prefix.$a_ref_id]))
 		{
-			$this->prevent_access_caching = true;
+			return $this->access_cache[$a_permission]["-".$a_cmd][$cache_prefix.$a_ref_id];
 		}
-		$this->access_cache[$a_permission]["-".$a_cmd][$a_ref_id] = $access;
+
+		if($this->context == self::CONTEXT_REPOSITORY)
+		{
+			$access = $ilAccess->checkAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id);
+			if ($ilAccess->getPreventCachingLastResult())
+			{
+				$this->prevent_access_caching = true;
+			}
+		}
+		else
+		{
+			$access = $this->ws_access->checkAccess($a_permission,$a_cmd,$a_ref_id,$a_type);
+		}
+
+		$this->access_cache[$a_permission]["-".$a_cmd][$cache_prefix.$a_ref_id] = $access;
 		return $access;
 	}
 	
@@ -868,12 +891,14 @@ class ilObjectListGUI
 	* @param	int			$a_obj_id		object id
 	* @param	string		$a_title		title
 	* @param	string		$a_description	description
+	* @param	int			$a_context		tree/workspace
 	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
+	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "", $a_context = self::CONTEXT_REPOSITORY)
 	{
 		$this->access_cache = array();
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = $a_obj_id;
+		$this->context = $a_context;
 		$this->setTitle($a_title);
 		$this->setDescription($a_description);
 		#$this->description = $a_description;
@@ -921,29 +946,39 @@ class ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		// BEGIN WebDAV Get mount webfolder link.
-		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
-		if ($a_cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive())
+		if($this->context == self::CONTEXT_REPOSITORY)
 		{
-			require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-			$davServer = ilDAVServer::getInstance();
+			// BEGIN WebDAV Get mount webfolder link.
+			require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+			if ($a_cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive())
+			{
+				require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
+				$davServer = ilDAVServer::getInstance();
 
-			// XXX: The following is a very dirty, ugly trick. 
-			//        To mount URI needs to be put into two attributes:
-			//        href and folder. This hack returns both attributes
-			//        like this:  http://...mount_uri..." folder="http://...folder_uri...
-			return $davServer->getMountURI($this->ref_id).
-						'" folder="'.$davServer->getFolderURI($this->ref_id);
+				// XXX: The following is a very dirty, ugly trick.
+				//        To mount URI needs to be put into two attributes:
+				//        href and folder. This hack returns both attributes
+				//        like this:  http://...mount_uri..." folder="http://...folder_uri...
+				return $davServer->getMountURI($this->ref_id).
+							'" folder="'.$davServer->getFolderURI($this->ref_id);
+			}
+			// END WebDAV Get mount webfolder link.
+
+			// don't use ctrl here in the moment
+			return 'repository.php?ref_id='.$this->getCommandId().'&cmd='.$a_cmd;
+
+			/* separate method for this line
+			$cmd_link = $this->ctrl->getLinkTargetByClass($this->gui_class_name,
+				$a_cmd);
+			return $cmd_link;
+			*/
 		}
-		// END WebDAV Get mount webfolder link.
-
-		// don't use ctrl here in the moment
-		return 'repository.php?ref_id='.$this->getCommandId().'&cmd='.$a_cmd;
-
-		// separate method for this line
-		$cmd_link = $this->ctrl->getLinkTargetByClass($this->gui_class_name,
-			$a_cmd);
-		return $cmd_link;
+		else
+		{
+			$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", "");
+			$this->ctrl->setParameterByClass($this->gui_class_name, "wsp_id", $this->ref_id);
+			return $this->ctrl->getLinkTargetByClass($this->gui_class_name, $a_cmd);
+		}
 	}
 
 
@@ -2413,10 +2448,14 @@ class ilObjectListGUI
 	* @param	int			$a_obj_id		item object id
 	* @param	int			$a_title		item title
 	* @param	int			$a_description	item description
+	* @param	bool		$a_use_asynch
+	* @param	bool		$a_get_asynch_commands
+	* @param	string		$a_asynch_url
+	* @param	bool		$a_context	    workspace/tree context
 	* @return	string		html code
 	*/
 	function getListItemHTML($a_ref_id, $a_obj_id, $a_title, $a_description,
-		$a_use_asynch = false, $a_get_asynch_commands = false, $a_asynch_url = "")
+		$a_use_asynch = false, $a_get_asynch_commands = false, $a_asynch_url = "", $a_context = self::CONTEXT_REPOSITORY)
 	{
 		global $ilAccess, $ilBench, $ilUser, $ilCtrl;
 
@@ -2431,7 +2470,7 @@ class ilObjectListGUI
 		$ilBench->start("ilObjectListGUI", "1000_getListHTML_init$type");
 		$this->tpl = new ilTemplate ("tpl.container_list_item.html", true, true, false, "DEFAULT", false, true);
 		$this->ctpl = new ilTemplate ("tpl.container_list_item_commands.html", true, true, false, "DEFAULT", false, true);
-		$this->initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
+		$this->initItem($a_ref_id, $a_obj_id, $a_title, $a_description, $a_context);
 		$ilBench->stop("ilObjectListGUI", "1000_getListHTML_init$type");
 		
 		if ($a_use_asynch && $a_get_asynch_commands)
