@@ -71,57 +71,12 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	*/
 	function render()
 	{
-		global $ilUser, $tpl, $lng, $ilCtrl, $objDefinition;
-
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-		$tree = new ilWorkspaceTree($ilUser->getId());
-		$node = $tree->getNodeData($this->node_id);
-		$nodes = $tree->getSubTree($node);
-		if(sizeof($nodes) > 1)
-		{
-			// remove current node (== root of subtree)
-			array_shift($nodes);
-
-			$template = new ilTemplate("tpl.list_row.html", true, true, "Modules/WorkspaceFolder");
-			$template->setCurrentBlock("node");
-
-			foreach($nodes as $node)
-			{
-				$class = $objDefinition->getClassName($node["type"]);
-				$location = $objDefinition->getLocation($node["type"]);
-				$full_class = "ilObj".$class."ListGUI";
-
-				include_once($location."/class.".$full_class.".php");
-				$item_list_gui = new $full_class();
-
-				$item_list_gui->setDetailsLevel(ilObjectListGUI::DETAILS_ALL);
-				$item_list_gui->enableDelete(true);
-				$item_list_gui->enableCut(true);
-				$item_list_gui->enableSubscribe(true);
-				$item_list_gui->enablePayment(false);
-				$item_list_gui->enableLink(true);
-				$item_list_gui->enablePath(false);
-				$item_list_gui->enableLinkedPath(true);
-				$item_list_gui->enableSearchFragments(true);
-				$item_list_gui->enableRelevance(false);
-				$item_list_gui->enableIcon(true);
-				// $item_list_gui->enableCheckbox(false);
-
-				$item_list_gui->initItem($node["wsp_id"],$node["obj_id"],$node["title"],$node["description"]);
-				$item_list_gui->setContainerObject($this);
-				// $item_list_gui->setSeparateCommands(true);
-				
-				if($html = $item_list_gui->getListItemHTML($node["wsp_id"],$node["obj_id"],$node["title"],$node["description"]))
-				{
-					$template->setVariable("ITEM_LIST_NODE", $html);
-					$template->parseCurrentBlock();
-				}
-			}
-
-			$tpl->setContent($template->get());
-		}
+		global $tpl;
+		
+		include_once "Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderTableGUI.php";
+		$table = new ilObjWorkspaceFolderTableGUI($this, "render", $this->node_id);
+		$tpl->setContent($table->getHTML());
 	}
+}
 
-	
-} // END class.ilObjFolderGUI
 ?>
