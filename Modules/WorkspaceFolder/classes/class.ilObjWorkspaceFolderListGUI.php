@@ -28,12 +28,12 @@ class ilObjWorkspaceFolderListGUI extends ilObjectListGUI
 		$this->link_enabled = false;
 		$this->payment_enabled = false;
 		$this->info_screen_enabled = true;
-		$this->type = "fold";
-		$this->gui_class_name = "ilobjfoldergui";
+		$this->type = "wfld";
+		$this->gui_class_name = "ilobjworkspacefoldergui";
 
 		// general commands array
-		include_once('./Modules/Folder/classes/class.ilObjFolderAccess.php');
-		$this->commands = ilObjFolderAccess::_getCommands();
+		include_once('./Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderAccess.php');
+		$this->commands = ilObjWorkspaceFolderAccess::_getCommands();
 	}
 
 	// BEGIN WebDAV: Get parent properties

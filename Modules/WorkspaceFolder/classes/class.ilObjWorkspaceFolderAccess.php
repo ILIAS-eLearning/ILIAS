@@ -17,11 +17,11 @@ class ilObjWorkspaceFolderAccess extends ilObjectAccess
     private static $folderSettings; 
    
     private static function getFolderSettings() {
-        if (is_null (ilObjFolderAccess::$folderSettings))
+        if (is_null (ilObjWorkspaceFolderAccess::$folderSettings))
         {
-           ilObjFolderAccess::$folderSettings = new ilSetting('fold');
+           ilObjWorkspaceFolderAccess::$folderSettings = new ilSetting('fold');
         }
-        return ilObjFolderAccess::$folderSettings;
+        return ilObjWorkspaceFolderAccess::$folderSettings;
     }
      
     
@@ -44,7 +44,7 @@ class ilObjWorkspaceFolderAccess extends ilObjectAccess
 		// why here, why read permission? it just needs info_screen_enabled = true in ilObjCategoryListGUI (alex, 30.7.2008)
 		// this is not consistent, with all other objects...
 		//$commands[] = array("permission" => "read", "cmd" => "showSummary", "lang_var" => "info_short", "enable_anonymous" => "false");
-		if (ilObjFolderAccess::hasDownloadAction($_GET["ref_id"]))
+		if (ilObjWorkspaceFolderAccess::hasDownloadAction($_GET["ref_id"]))
 		{
 		    $commands[] = array("permission" => "read", "cmd" => "downloadFolder", "lang_var" => "download", "enable_anonymous" => "false");
 		}
@@ -71,7 +71,7 @@ class ilObjWorkspaceFolderAccess extends ilObjectAccess
 	private function hasDownloadAction ($ref_id)
 	{
 	    global $tree, $ilUser;
-	    $settings = ilObjFolderAccess::getFolderSettings();
+	    $settings = ilObjWorkspaceFolderAccess::getFolderSettings();
 		// default value should reflect previous behaviour (-> 0)
 	    if ($settings->get("enable_download_folder", 0) != 1)
 	        return false;

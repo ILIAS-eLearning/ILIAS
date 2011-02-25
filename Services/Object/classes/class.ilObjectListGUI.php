@@ -2419,7 +2419,7 @@ class ilObjectListGUI
 		$a_use_asynch = false, $a_get_asynch_commands = false, $a_asynch_url = "")
 	{
 		global $ilAccess, $ilBench, $ilUser, $ilCtrl;
-		
+
 		// this variable stores wheter any admin commands
 		// are included in the output
 		$this->adm_commands_included = false;

@@ -83,29 +83,39 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 			array_shift($nodes);
 
 			$template = new ilTemplate("tpl.list_row.html", true, true, "Modules/WorkspaceFolder");
+			$template->setCurrentBlock("node");
 
 			foreach($nodes as $node)
 			{
-				$obj_class = "ilObj".$objDefinition->getClassName($node["type"])."GUI";
-				$ilCtrl->setParameterByClass($obj_class, "wsp_id", $node["wsp_id"]);
+				$class = $objDefinition->getClassName($node["type"]);
+				$location = $objDefinition->getLocation($node["type"]);
+				$full_class = "ilObj".$class."ListGUI";
 
-				$template->setCurrentBlock("node_action");
-				$template->setVariable("NODE_ACTION_URL", $ilCtrl->getLinkTargetByClass($obj_class, "edit"));
-				$template->setVariable("NODE_ACTION_CAPTION", $lng->txt("edit"));
-				$template->parseCurrentBlock();
+				include_once($location."/class.".$full_class.".php");
+				$item_list_gui = new $full_class();
 
-				if($objDefinition->isContainer($node["type"]))
+				$item_list_gui->setDetailsLevel(ilObjectListGUI::DETAILS_ALL);
+				$item_list_gui->enableDelete(true);
+				$item_list_gui->enableCut(true);
+				$item_list_gui->enableSubscribe(true);
+				$item_list_gui->enablePayment(false);
+				$item_list_gui->enableLink(true);
+				$item_list_gui->enablePath(false);
+				$item_list_gui->enableLinkedPath(true);
+				$item_list_gui->enableSearchFragments(true);
+				$item_list_gui->enableRelevance(false);
+				$item_list_gui->enableIcon(true);
+				// $item_list_gui->enableCheckbox(false);
+
+				$item_list_gui->initItem($node["wsp_id"],$node["obj_id"],$node["title"],$node["description"]);
+				$item_list_gui->setContainerObject($this);
+				// $item_list_gui->setSeparateCommands(true);
+				
+				if($html = $item_list_gui->getListItemHTML($node["wsp_id"],$node["obj_id"],$node["title"],$node["description"]))
 				{
-					$template->setVariable("NODE_ACTION_URL", $ilCtrl->getLinkTargetByClass($obj_class, "render"));
-					$template->setVariable("NODE_ACTION_CAPTION", "&raquo;");
+					$template->setVariable("ITEM_LIST_NODE", $html);
 					$template->parseCurrentBlock();
 				}
-
-				$template->setCurrentBlock("node");
-				$template->setVariable("NODE_ICON_SRC", ilObject::_getIcon($node["obj_id"], "small"));
-				$template->setVariable("NODE_ICON_ALT", $lng->txt("obj_".$node["type"]));
-				$template->setVariable("NODE_CAPTION", $node["title"]);
-				$template->parseCurrentBlock();
 			}
 
 			$tpl->setContent($template->get());
