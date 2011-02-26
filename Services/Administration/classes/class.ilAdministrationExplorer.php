@@ -185,7 +185,7 @@ class ilAdministrationExplorer extends ilExplorer
 	*/
 	function modifyChilds($a_parent_id, $a_objects)
 	{
-		global $lng;
+		global $lng,$rbacsystem;
 		
 		if ($a_parent_id == SYSTEM_FOLDER_ID)
 		{
@@ -198,17 +198,20 @@ class ilAdministrationExplorer extends ilExplorer
 
 			// add entry for switching to repository admin
 			// note: please see showChilds methods which prevents infinite look
-			$new_objects[$lng->txt("repository_admin").":".ROOT_FOLDER_ID] =
-				array(
-				"tree" => 1,
-				"child" => ROOT_FOLDER_ID,
-				"ref_id" => ROOT_FOLDER_ID,
-				"depth" => 3,
-				"type" => "root",
-				"title" => $lng->txt("repository_admin"),
-				"description" => $lng->txt("repository_admin_desc"),
-				"desc" => $lng->txt("repository_admin_desc"),
-				);
+			if($rbacsystem->checkAccess('write',SYSTEM_FOLDER_ID))
+			{
+				$new_objects[$lng->txt("repository_admin").":".ROOT_FOLDER_ID] =
+					array(
+					"tree" => 1,
+					"child" => ROOT_FOLDER_ID,
+					"ref_id" => ROOT_FOLDER_ID,
+					"depth" => 3,
+					"type" => "root",
+					"title" => $lng->txt("repository_admin"),
+					"description" => $lng->txt("repository_admin_desc"),
+					"desc" => $lng->txt("repository_admin_desc"),
+					);
+			}
 			ksort($new_objects);
 			
 			return $new_objects;
