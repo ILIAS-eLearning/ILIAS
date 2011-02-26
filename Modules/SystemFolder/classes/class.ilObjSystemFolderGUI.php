@@ -1794,7 +1794,7 @@ return $this->showServerInfoObject();
 		}
 
 		// general settings
-		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("general_settings",
 				$this->ctrl->getLinkTarget($this, "showBasicSettings"),

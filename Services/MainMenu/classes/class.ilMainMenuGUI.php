@@ -464,7 +464,7 @@ class ilMainMenuGUI
 		}
 		return $script;
 	}
-	// STATIC
+
 	function _checkAdministrationPermission()
 	{
 		global $rbacsystem;
@@ -474,8 +474,6 @@ class ilMainMenuGUI
 			return true;
 		}
 		return false;
-		// Allow all local admins to use the administration
-		return count(ilUtil::_getObjectsByOperations('cat','cat_administrate_users')) ? true : false;
 	}
 	
 	function getHTML()
