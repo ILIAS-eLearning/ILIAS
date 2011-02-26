@@ -1303,7 +1303,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				$output["adopt"][$key]["css_row_adopt"] = ($key % 2 == 0) ? "tblrow1" : "tblrow2";
 				$output["adopt"][$key]["check_adopt"] = $radio;
 				$output["adopt"][$key]["role_id"] = $par["obj_id"];
-				$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
+				$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? $this->lng->txt('obj_role') : $this->lng->txt('obj_rolt'));
 				$output["adopt"][$key]["role_name"] = ilObjRole::_getTranslation($par["title"]);
 				$output["adopt"][$key]["role_desc"] = $par["desc"];
 				$key++;
@@ -1336,6 +1336,9 @@ class ilObjRoleGUI extends ilObjectGUI
 		$tpl->setVariable("FORMACTION_ADOPT",$output["formaction_adopt"]);
 		$tpl->setVariable("ADOPT",$this->lng->txt('copy'));
 		$tpl->setVariable("CANCEL",$this->lng->txt('cancel'));
+
+		$tpl->setVariable('HEAD_ROLE',$this->lng->txt('title'));
+		$tpl->setVariable('HEAD_TYPE',$this->lng->txt('type'));
 
 		$this->tpl->setContent($tpl->get());
 	}
@@ -1512,7 +1515,6 @@ class ilObjRoleGUI extends ilObjectGUI
 				$this->ctrl->redirect($this,'perm');
 			}
 		}
-
 		// New implementation
 		if($this->isChangeExistingObjectsConfirmationRequired() and !$a_show_admin_permissions)
 		{
