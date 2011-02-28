@@ -323,9 +323,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$page_gui->setEnabledMaps(true);
 		$ret = $page_gui->showPage();
 
-		var_dump($ret);
-		ob_end_flush();
-
 		//$ret =& $page_gui->executeCommand();
 		return $ret;
 	}
