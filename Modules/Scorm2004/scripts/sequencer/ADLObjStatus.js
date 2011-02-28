@@ -57,4 +57,4 @@ ADLObjStatus.prototype =
 	mHasMeasure: false,
 	mMeasure: 1.0,
 	mStatus: TRACK_UNKNOWN
-}
+};

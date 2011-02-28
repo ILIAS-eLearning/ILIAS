@@ -59,4 +59,4 @@ SeqObjective.prototype =
 	mActiveMeasure: true,
 	mMinMeasure: 1,
 	mContributesToRollup: false
-}
+};

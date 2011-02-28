@@ -175,7 +175,7 @@ class ilScorm2004Export
 
 		$ilBench->start("ContentObjectExport", "buildExportFile");
 
-		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
+		require_once("classes/class.ilXmlWriter.php");
 
 		// create directories
 		$this->createExportDirectory();
@@ -216,7 +216,7 @@ class ilScorm2004Export
 
 		$ilBench->start("ContentObjectExport", "buildExportFile");
 
-		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
+		require_once("classes/class.ilXmlWriter.php");
 
 		// create directories
 		$this->createExportDirectory();
@@ -254,7 +254,7 @@ class ilScorm2004Export
 		$result = "";
 		$ilBench->start("ContentObjectExport", "buildExportFile");
 
-		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
+		require_once("classes/class.ilXmlWriter.php");
 
 		// create directories
 		$this->createExportDirectory();
@@ -292,17 +292,10 @@ class ilScorm2004Export
 	function buildExportFilePDF()
 	{
 		global $ilBench;
-		/*include_once('./Services/WebServices/RPC/classes/class.ilRPCServerSettings.php');
-		$pp = ilRPCServerSettings::getInstance();
-		if(!$pp->isEnabled()||!$pp->pingServer())
-		{
-			$this->ilias->raiseError("Xml Rpc Server is not running. Check Administration/Webservices/Java-Server settings", $this->ilias->error_obj->MESSAGE);
-			return;
-		}*/
 
 		$ilBench->start("ContentObjectExport", "buildExportFile");
 
-		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
+		require_once("classes/class.ilXmlWriter.php");
 
 		// create directories
 		$this->createExportDirectory();
@@ -315,41 +308,23 @@ class ilScorm2004Export
 		$expLog->setLogFormat("");
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export");
 
-		$ilBench->start("ContentObjectExport", "buildExportFile_getXML");
-		$fo_string = $this->cont_obj->exportPDF($this->inst_id, $this->export_dir."/".$this->subdir, $expLog);
+		// get xml content
 		
+		$ilBench->start("ContentObjectExport", "buildExportFile_getXML");
+		$this->cont_obj->exportHTML4PDF($this->inst_id, $this->export_dir."/".$this->subdir, $expLog);
 		$ilBench->stop("ContentObjectExport", "buildExportFile_getXML");
 
 		$ilBench->start("ContentObjectExport", "buildExportFile_pdfFile");
-		fputs(fopen($this->export_dir."/".$this->subdir.'/temp.fo','w+'),$fo_string);
-		//include_once("classes/class.ilFOPUtil.php");
-		//ilFOPUtil::makePDF($this->export_dir."/".$this->subdir.'/temp.fo', $this->export_dir."/".$this->subdir.".pdf");
-		/*include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
-		$fo2pdf = new ilFO2PDF();
-		$fo2pdf->setFOString($fo_string);
-		$result = $fo2pdf->send();
-   		if(!$result)
-   			$this->ilias->raiseError('Error creating PDF ('.$fo2pdf->err->getLastError()->getMessage().')', $this->ilias->error_obj->MESSAGE);
-   		else
-			fputs(fopen($this->export_dir.'/'.$this->subdir.'.pdf','w+'),$result);*/   		
-		global $ilLog;
-		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
-		try
+		$files = $this->export_dir."/".$this->subdir."/index.html";
+		if($this->cont_obj->getType()=='sahs')
 		{
-			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo_string);
-			//ilUtil::deliverData($pdf_base64->scalar,'learning_progress.pdf','application/pdf');
-			fputs(fopen($this->export_dir.'/'.$this->subdir.'.pdf','w+'),$pdf_base64->scalar);
+			$tree = new ilTree($this->cont_obj_id);
+			$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+			$tree->setTreeTablePK("slm_id");
+			foreach($tree->getSubTree($tree->getNodeData($tree->getRootId()),true,'sco') as $sco)
+				$files .= ' '.$this->export_dir.'/'.$this->subdir.'/'.$sco['obj_id'].'/index.html';		
 		}
-		catch(XML_RPC2_FaultException $e)
-		{
-			ilUtil::sendFailure($e->getMessage(),true);
-			return false;
-		}
-		catch(Exception $e)
-		{
-			ilUtil::sendFailure($e->getMessage(),true);
-			return false;
-		}   		
+		ilUtil::htmlfile2pdf($files ,$this->export_dir."/".$this->subdir.".pdf");
 		$ilBench->stop("ContentObjectExport", "buildExportFile_pdfFile");
 		
 		ilUtil::delDir($this->export_dir."/".$this->subdir);

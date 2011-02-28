@@ -1,5 +1,25 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
 
 require_once("./Modules/Scorm2004/classes/class.ilSCORM2004NodeGUI.php");
 require_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
@@ -55,7 +75,6 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 				
 			case "ilscorm2004pagegui":
 				$tpl->getStandardTemplate();
-				$this->setContentStyle();
 				$this->setLocator();
 				// Determine whether the view of a learning resource should
 				// be shown in the frameset of ilias, or in a separate window.
@@ -66,27 +85,16 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php");
 				$page_gui =& new ilSCORM2004PageGUI($this->slm_object->getType(),
 					$this->node_object->getId(), 0,
-					$this->getParentGUI()->object->getId(),
-					$this->slm_object->getAssignedGlossary());
+					$this->getParentGUI()->object->getId());
 				$page_gui->setEditPreview(true);
 				$page_gui->setPresentationTitle($this->node_object->getTitle());
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->slm_object->getStyleSheetId(), "sahs"));
 
-				if ($this->node_object->tree->getParentId($this->node_object->getId()) > 0)
-				{
-					$sco = new ilSCORM2004Sco(
-								$this->node_object->getSLMObject(),
-								$this->node_object->tree->getParentId(
-								$this->node_object->getId()));
-					if (count($sco->getGlossaryTermIds()) > 1)
-					{
-						include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
-						$page_gui->setGlossaryOverviewInfo(
-							ilSCORM2004ScoGUI::getGlossaryOverviewId(), $sco);
-					}
-				}
+				//$page_gui->activateMetaDataEditor($this->content_object->getID(),
+				//	$this->obj->getId(), $this->obj->getType(),
+				//	$this->obj, "MDUpdateListener");
 				
 				$ilCtrl->setParameterByClass("ilobjscorm2004learningmodulegui",
 					"active_node", $_GET["obj_id"]);
@@ -98,8 +106,29 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 
 				// set page view link
 				$view_frame = ilFrameTargetInfo::_getFrame("MainContent");
-				$page_gui->setLinkParams("ref_id=".$this->slm_object->getRefId());				
+				//$page_gui->setViewPageLink(ILIAS_HTTP_PATH."/goto.php?target=pg_".$this->obj->getId().
+				//	"_".$_GET["ref_id"],
+				//	$view_frame);
+
+				//$page_gui->setTemplateTargetVar("ADM_CONTENT");
+				//$page_gui->setLinkXML($link_xml);
+				//$page_gui->enableChangeComments($this->content_object->isActiveHistoryUserComments());
+				//$page_gui->setFileDownloadLink("ilias.php?cmd=downloadFile&ref_id=".$_GET["ref_id"]."&baseClass=ilLMPresentationGUI");
+				//$page_gui->setFullscreenLink("ilias.php?cmd=fullscreen&ref_id=".$_GET["ref_id"]."&baseClass=ilLMPresentationGUI");
+				$page_gui->setLinkParams("ref_id=".$this->slm_object->getRefId());
+				//$page_gui->setSourcecodeDownloadScript("ilias.php?ref_id=".$_GET["ref_id"]."&baseClass=ilLMPresentationGUI");
+				/*$page_gui->setPresentationTitle(
+					ilLMPageObject::_getPresentationTitle($this->obj->getId(),
+					$this->content_object->getPageHeader(), $this->content_object->isActiveNumbering()));*/
+				//$page_gui->setLocator($contObjLocator);
+				//$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
+				
+				//$page_gui->setEnabledActivation(true);
+				//$page_gui->setActivationListener($this, "activatePage");
+				//$page_gui->setActivated($this->obj->getActive());
+				
 				$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.gif"));
+				//$tpl->setTitle($this->lng->txt("page").": ".$this->obj->getTitle());
 				
 				$page_gui->activateMetaDataEditor($this->slm_object->getID(),
 					$this->node_object->getId(), $this->node_object->getType(),

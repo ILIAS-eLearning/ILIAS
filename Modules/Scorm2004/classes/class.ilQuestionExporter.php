@@ -1,8 +1,27 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/*
+ +-----------------------------------------------------------------------------+
+ | ILIAS open source                                                           |
+ +-----------------------------------------------------------------------------+
+ | Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+ |                                                                             |
+ | This program is free software; you can redistribute it and/or               |
+ | modify it under the terms of the GNU General Public License                 |
+ | as published by the Free Software Foundation; either version 2              |
+ | of the License, or (at your option) any later version.                      |
+ |                                                                             |
+ | This program is distributed in the hope that it will be useful,             |
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+ | GNU General Public License for more details.                                |
+ |                                                                             |
+ | You should have received a copy of the GNU General Public License           |
+ | along with this program; if not, write to the Free Software                 |
+ | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+ +-----------------------------------------------------------------------------+
+ */
 
-
-require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
+//require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 
 /**
  * Scorm 2004 Question Exporter
@@ -11,8 +30,12 @@ require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
  *
  * @version $Id: class.ilQuestionExporter.php 12658 2006-11-29 08:51:48Z akill $
  *
- * @ingroup ModulesScormAicc
+ * @ingroup ModulesIliasLearningModule
  */
+
+require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
+
+
 class ilQuestionExporter
 {
 	static $exported = array(); //json data for all exported questions (class variable)
@@ -24,23 +47,22 @@ class ilQuestionExporter
 	var $ref_id;		// reference ID
 	var $inst_id;		// installation id
 	var $q_gui;			// Question GUI object
-	var $tpl;			// question template
-	var $json;			// json object for current question
-	var $json_decoded;	// json object (decoded) for current question
-	var $preview_mode;	// preview mode activated yes/no
-	
+	var $tpl;  //question template
+	var $json; //json object for current question
+	var $json_decoded; //json object (decoded) for current question
+	var $preview_mode; //preview mode activated yes/no
 	/**
 	 * Constructor
 	 * @access	public
 	 */
 	public function ilQuestionExporter($a_preview_mode = false)
 	{
-		global $ilDB, $ilias, $lng;
+		global $ilDB, $ilias;
 
 		$this->ref_id =& $a_ref_id;
 
+		$this->ilias =& $ilias;
 		$this->db =& $ilDB;
-		$this->lng = $lng;
 
 		$this->inst_id = IL_INST_ID;
 		
@@ -52,13 +74,13 @@ class ilQuestionExporter
 		if (!$a_preview_mode)
 		{
 			$this->tpl->setVariable("FORM_BEGIN", "<form>");
-			$this->tpl->setVariable("FORM_END", "</form>");
+			$this->tpl->setVariable("FORM_END", "<form>");
 		}
 
 	}
 	
 	
-	public function exportQuestion($a_ref_id, $a_image_path = null) {
+	public function exportQuestion($a_ref_id) {
 		
 		if ($a_ref_id != "")
 		{
@@ -74,7 +96,6 @@ class ilQuestionExporter
 		$type = $this->q_gui->object->getQuestionType();
 		if (method_exists($this,$type))
 		{
-			$this->q_gui->object->setExportImagePath($a_image_path);
 			$this->json = $this->q_gui->object->toJSON();
 			$this->json_decoded = json_decode($this->json);
 			self::$exported[$this->json_decoded->id] = $this->json;
@@ -113,32 +134,23 @@ class ilQuestionExporter
 		return $exportstring;
 	}
 	
-	private function setHeaderFooter()
-	{
+	private function setHeaderFooter() {
 		$this->tpl->setCurrentBlock("common");
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
 		$this->tpl->setVariable("VAL_TYPE", $this->json_decoded->type);
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	private function assSingleChoice()
-	{
+	private function assSingleChoice() {
 		$this->tpl->setCurrentBlock("singlechoice");
-		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
-		}
-		if($this->json_decoded->path)
-		{
-			$this->tpl->setVariable("HANDLE_IMAGES",
-				"ilias.questions.handleMCImages(".$this->json_decoded->id.");");
-		}
+		}		
 		$this->tpl->parseCurrentBlock();
 		foreach ($this->json_decoded->answers as $answer) {
 			if ($answer->image!="") {
 				array_push(self::$media_files,$this->q_gui->object->getImagePath().$answer->image);
-				array_push(self::$media_files,$this->q_gui->object->getImagePath()."thumb.".$answer->image);
 			}
 		}
 //		$this->setHeaderFooter();
@@ -147,21 +159,14 @@ class ilQuestionExporter
 	
 	private function assMultipleChoice() {
 		$this->tpl->setCurrentBlock("multiplechoice");
-		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
-		}
-		if($this->json_decoded->path)
-		{
-			$this->tpl->setVariable("HANDLE_IMAGES",
-				"ilias.questions.handleMCImages(".$this->json_decoded->id.");");
 		}
 		$this->tpl->parseCurrentBlock();
 		foreach ($this->json_decoded->answers as $answer) {
 			if ($answer->image!="") {
 				array_push(self::$media_files,$this->q_gui->object->getImagePath().$answer->image);
-				array_push(self::$media_files,$this->q_gui->object->getImagePath()."thumb.".$answer->image);
 			}
 		}
 //		$this->setHeaderFooter();
@@ -173,7 +178,6 @@ class ilQuestionExporter
 		$maxlength = $this->json_decoded->maxlength == 0 ? 4096 : $this->json_decoded->maxlength;
 		$this->tpl->setCurrentBlock("textquestion");
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
-		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		$this->tpl->setVariable("VAL_MAXLENGTH", $maxlength);
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
@@ -186,7 +190,6 @@ class ilQuestionExporter
 	private function assClozeTest() {
 		$this->tpl->setCurrentBlock("clozequestion");
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
-		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
 		}
@@ -198,26 +201,8 @@ class ilQuestionExporter
 	private function assOrderingQuestion() {
 		$this->tpl->setCurrentBlock("orderingquestion");
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
-		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
-		}
-		if($this->q_gui->object->getOrderingType() == OQ_PICTURES)
-		{
-			$this->tpl->setVariable("VAL_SUBTYPE", "_images");
-			$this->tpl->setVariable("HANDLE_IMAGES",
-				"ilias.questions.handleOrderingImages(".$this->json_decoded->id.");");
-
-			foreach ($this->json_decoded->answers as $answer) {
-				if ($answer->answertext!="") {
-					array_push(self::$media_files,$this->q_gui->object->getImagePath().$answer->answertext);
-					array_push(self::$media_files,$this->q_gui->object->getImagePath()."thumb.".$answer->answertext);
-				}
-			}
-		}
-		else
-		{
-			$this->tpl->setVariable("VAL_SUBTYPE", "_terms");
 		}
 		$this->tpl->parseCurrentBlock();
 //		$this->setHeaderFooter();
@@ -227,7 +212,6 @@ class ilQuestionExporter
 	private function assMatchingQuestion() {
 		$this->tpl->setCurrentBlock("matchingquestion");
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
-		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
 		}
@@ -237,7 +221,6 @@ class ilQuestionExporter
 	}
 	
 	private function assImagemapQuestion() {
-		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		array_push(self::$media_files,$this->q_gui->object->getImagePath().$this->q_gui->object->getImageFilename());
 		$this->tpl->setCurrentBlock("mapareas");
 		$areas = $this->json_decoded->answers;
@@ -258,43 +241,7 @@ class ilQuestionExporter
 //		$this->setHeaderFooter();	
 		return $this->tpl->get();
 	}
-
-	private function assTextSubset() {
-		$this->tpl->setCurrentBlock("textsubset");
-		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
-		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
-		$this->tpl->setVariable("VAL_MAXLENGTH", $maxlength);
-		if ($this->preview_mode) {
-			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
-		}
-		$this->tpl->parseCurrentBlock();
-//		$this->setHeaderFooter();
-		return $this->tpl->get();
-	}
-
-	private function assOrderingHorizontal() {
-		$this->tpl->setCurrentBlock("orderinghorizontal");
-		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
-		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
-		if ($this->preview_mode) {
-			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
-		}
-		$this->tpl->parseCurrentBlock();
-//		$this->setHeaderFooter();
-		return $this->tpl->get();	
-	}
-
-	private function assErrorText() {
-		$this->tpl->setCurrentBlock("errortext");
-		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
-		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
-		if ($this->preview_mode) {
-			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
-		}
-		$this->tpl->parseCurrentBlock();
-//		$this->setHeaderFooter();
-		return $this->tpl->get();
-	}
+	
 }
 
 ?>

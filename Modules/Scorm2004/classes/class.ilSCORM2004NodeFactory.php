@@ -1,12 +1,30 @@
 <?php
-
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
 
 require_once ("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
 require_once ("./Modules/Scorm2004/classes/class.ilSCORM2004Chapter.php");
 require_once ("./Modules/Scorm2004/classes/class.ilSCORM2004SeqChapter.php");
 require_once ("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
-require_once ("./Modules/Scorm2004/classes/class.ilSCORM2004Asset.php");
 
 /**
 * Class ilSCORM2004NodeFactory
@@ -47,13 +65,6 @@ class ilSCORM2004NodeFactory
 					
 			case "sco":
 				$obj =& new ilSCORM2004Sco($a_slm_object);
-				$obj->setId($obj_rec["obj_id"]);
-				$obj->setDataRecord($obj_rec);
-				$obj->read();
-				break;
-
-			case "ass":
-				$obj =& new ilSCORM2004Asset($a_slm_object);
 				$obj->setId($obj_rec["obj_id"]);
 				$obj->setDataRecord($obj_rec);
 				$obj->read();

@@ -62,5 +62,5 @@ ADLSeqUtilities.prototype =
 			this.status[iCourseID][iLearnerID] =
 			{satisfied: iSatisfied, measure: iMeasure, completed: iCompleted};
 	}
-}
+};
 var adl_seq_utilities = new ADLSeqUtilities();

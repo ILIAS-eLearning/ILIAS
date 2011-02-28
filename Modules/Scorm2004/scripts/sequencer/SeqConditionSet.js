@@ -286,4 +286,4 @@ SeqConditionSet.prototype =
 		}
 		return result;
 	}
-}
+};

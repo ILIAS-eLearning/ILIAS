@@ -168,4 +168,4 @@ SeqRule.prototype =
 		
 		return result;
 	}
-}
+};

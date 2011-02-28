@@ -1,5 +1,25 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
 
 include_once("./Services/Form/classes/class.ilHierarchyFormGUI.php");
 
@@ -30,19 +50,18 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 	/**
 	* Get menu items
 	*/
-	function getMenuItems($a_node, $a_depth, $a_first_child = false, $a_next_sibling = null, $a_childs = null)
+	function getMenuItems($a_node, $a_depth, $a_first_child = false, $a_next_sibling = null, $a_childs)
 	{
 		global $lng, $ilUser;
-
+		
 		$cmds = array();
-//echo "+".$a_depth."-";
+		
 		if (!$a_first_child)		// drop area of node
 		{
 			// page inserts
-			if ($a_node["type"] == "page" || ($a_node["type"] == "sco" && count($a_childs) == 0) ||
-				($a_node["type"] == "ass" && count($a_childs) == 0))
+			if ($a_node["type"] == "page" || ($a_node["type"] == "sco" && count($a_childs) == 0))
 			{
-				if ($a_node["type"] == "sco" || $a_node["type"] == "ass")
+				if ($a_node["type"] == "sco")
 				{
 					$cmds[] = array("text" => $lng->txt("sahs_insert_page"), "cmd" => "insertPage", "multi" => 10,
 						"as_subitem" => true);
@@ -67,14 +86,11 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				}
 			}
 
-			// sco/asset inserts
-			if ($a_node["type"] == "sco" || $a_node["type"] == "ass"
-				|| (($a_node["type"] == "chap" || $a_node["type"] == "seqc") && count($a_childs) == 0))
+			// sco inserts
+			if ($a_node["type"] == "sco" || (($a_node["type"] == "chap" || $a_node["type"] == "seqc") && count($a_childs) == 0))
 			{
 				if ($a_node["type"] == "chap" || $a_node["type"] == "seqc")
 				{
-					$cmds[] = array("text" => $lng->txt("sahs_insert_ass"), "cmd" => "insertAsset", "multi" => 10);
-					$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10);
 					$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10,
 						"as_subitem" => true);
 					if ($ilUser->clipboardHasObjectsOfType("sco"))
@@ -85,31 +101,11 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				}
 				else
 				{
-					// scos
 					$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10);
 					if ($ilUser->clipboardHasObjectsOfType("sco"))
 					{
 						$cmds[] = array("text" => $lng->txt("sahs_insert_sco_from_clip"),
 							"cmd" => "insertScoClip");
-					}
-
-					// assets
-					$cmds[] = array("text" => $lng->txt("sahs_insert_ass"), "cmd" => "insertAsset", "multi" => 10);
-					if ($ilUser->clipboardHasObjectsOfType("ass"))
-					{
-						$cmds[] = array("text" => $lng->txt("sahs_insert_ass_from_clip"),
-							"cmd" => "insertAssetClip");
-					}
-
-					// chapters
-					if ($a_node["depth"] == 2)
-					{
-						$cmds[] = array("text" => $lng->txt("sahs_insert_chapter"), "cmd" => "insertChapter", "multi" => 10);
-						if ($ilUser->clipboardHasObjectsOfType("chap"))
-						{
-							$cmds[] = array("text" => $lng->txt("sahs_insert_chap_from_clip"),
-								"cmd" => "insertChapterClip");
-						}
 					}
 				}
 			}
@@ -137,22 +133,6 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 		{
 			if ($a_node["type"] == "" && $a_node["node_id"] == 1)	// top node
 			{
-				// scos
-				$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10);
-				if ($ilUser->clipboardHasObjectsOfType("sco"))
-				{
-					$cmds[] = array("text" => $lng->txt("sahs_insert_sco_from_clip"),
-						"cmd" => "insertScoClip");
-				}
-
-				// assets
-				$cmds[] = array("text" => $lng->txt("sahs_insert_ass"), "cmd" => "insertAsset", "multi" => 10);
-				if ($ilUser->clipboardHasObjectsOfType("ass"))
-				{
-					$cmds[] = array("text" => $lng->txt("sahs_insert_ass_from_clip"),
-						"cmd" => "insertAssClip");
-				}
-
 				// chapters
 				$cmds[] = array("text" => $lng->txt("sahs_insert_chapter"), "cmd" => "insertChapter", "multi" => 10);
 				if ($ilUser->clipboardHasObjectsOfType("chap"))
@@ -165,19 +145,13 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 			if ($a_node["type"] == "chap" || $a_node["type"] == "seqc")
 			{
 				$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10);
-				$cmds[] = array("text" => $lng->txt("sahs_insert_ass"), "cmd" => "insertAsset", "multi" => 10);
 				if ($ilUser->clipboardHasObjectsOfType("sco"))
 				{
 					$cmds[] = array("text" => $lng->txt("sahs_insert_sco_from_clip"),
 						"cmd" => "insertScoClip");
 				}
-				if ($ilUser->clipboardHasObjectsOfType("ass"))
-				{
-					$cmds[] = array("text" => $lng->txt("sahs_insert_ass_from_clip"),
-						"cmd" => "insertAssClip");
-				}
 			}
-			if ($a_node["type"] == "sco" || $a_node["type"] == "ass")
+			if ($a_node["type"] == "sco")
 			{
 				$cmds[] = array("text" => $lng->txt("sahs_insert_page"), "cmd" => "insertPage", "multi" => 10);
 				$cmds[] = array("text" => $lng->txt("sahs_insert_pagelayout"), "cmd" => "insertTemplateGUI", "multi" => 10); 
@@ -305,14 +279,6 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				$commands[] = array("text" => $lng->txt("edit"),
 					"link" => $ilCtrl->getLinkTargetByClass(array("ilobjscorm2004learningmodulegui",
 						"ilscorm2004scogui"), "showOrganization"));
-				break;
-
-			case "ass":
-				$ilCtrl->setParameterByClass("ilscorm2004assetgui", "obj_id",
-					$a_item["node_id"]);
-				$commands[] = array("text" => $lng->txt("edit"),
-					"link" => $ilCtrl->getLinkTargetByClass(array("ilobjscorm2004learningmodulegui",
-						"ilscorm2004assetgui"), "showOrganization"));
 				break;
 
 			case "chap":

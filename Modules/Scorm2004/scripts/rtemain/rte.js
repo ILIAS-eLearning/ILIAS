@@ -192,10 +192,11 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 					
 					return setReturn(301, 'cannot be empty string', '');
 				}
-				var r = getValue(sPath, false);
+//				var r = getValue(sPath, false);
 				//log.info("Returned:"+ r.toString());
-				sclogdump("GetValue: Return: "+sPath + " : "+ r,"cmi");
-				return error ? '' : setReturn(0, '', r); 
+//				sclogdump("GetValue: Return: "+sPath + " : "+ r,"cmi");
+//				return error ? '' : setReturn(0, '', r); 
+				return GetValueIntern(sPath);
 				// TODO wrap in TRY CATCH
 			case TERMINATED:
 				sclogdump("Error 123: Terminated","error");
@@ -1243,8 +1244,13 @@ Runtime.onTerminate = function (data, msec) /// or user walks away
 	{
 		data.cmi.success_status = 'incomplete';
 	}
+	
+	// added to synchronize the new data. it might update the navigation
+	syncCMIADLTree();
+	
 	if (all("treeView")!=null) {
 		updateNav(true);
 	}
+	
 };
 
