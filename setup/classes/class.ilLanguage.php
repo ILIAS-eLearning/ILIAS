@@ -100,7 +100,6 @@ class ilLanguage
 	function ilLanguage($a_lang_key)
 	{
 		$this->lang_key = ($a_lang_key) ? $a_lang_key : $this->lang_default;
-		//$_GET["lang"] = $this->lang_key;  // only for downward compability (old setup)
 		$this->lang_path = ILIAS_ABSOLUTE_PATH."/lang";
 		$this->cust_lang_path = ILIAS_ABSOLUTE_PATH."/Customizing/global/lang";
 

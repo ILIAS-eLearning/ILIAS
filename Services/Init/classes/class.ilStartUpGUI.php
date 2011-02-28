@@ -73,8 +73,10 @@ class ilStartUpGUI
 	}
 
 	/**
-	* show login
-	*/
+	 * show login
+	 *
+	 * @global ilLanguage $lng
+	 */
 	function showLogin()
 	{
 		global $ilSetting, $ilAuth, $ilUser, $tpl, $ilIliasIniFile, $ilias, $lng;
@@ -92,12 +94,6 @@ class ilStartUpGUI
 			return;
 		}
 
-		// login language selection is post type
-		if (isset($_POST["lang"]) && $_POST["lang"] != "")
-		{
-			$_GET["lang"] = ilUtil::stripSlashes($_POST["lang"]);
-		}
-
 		// check for session cookies enabled
 		if (!isset($_COOKIE['iltest']))
 		{
@@ -110,8 +106,8 @@ class ilStartUpGUI
             	}
 				
 				ilUtil::setCookie("iltest","cookie",false);
-				//header('Location: '.$_SERVER['PHP_SELF']."?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".$_GET['client_id']."&lang=".$_GET['lang']);
-				header("Location: login.php?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".rawurlencode(CLIENT_ID)."&lang=".$_GET['lang'].$additional_params);
+				header("Location: login.php?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".
+					rawurlencode(CLIENT_ID)."&lang=".$lng->getLangKey().$additional_params);
 			}
 			else
 			{
@@ -186,22 +182,22 @@ class ilStartUpGUI
 			exit;
 		}
 
+		//
+		// Start new implementation here
+		//
+		//
+		//
+		
+		$this->parseLoginPageElements();
+
 		// Instantiate login template
 		// Use Shibboleth-only authentication if auth_mode is set to Shibboleth
 		$tpl->addBlockFile("CONTENT", "content", "tpl.login.html",
 			"Services/Init");
 
-		//language handling
-		if ($_GET["lang"] == "")
-		{
-			$_GET["lang"] = $ilIliasIniFile->readVariable("language","default");
-		}
 
-		//instantiate language
-		$lng = new ilLanguage($_GET["lang"]);
-
-                $tpl->setVariable("PAGETITLE", $lng->txt("startpage"));
- 		$tpl->setVariable("TXT_OK", $lng->txt("ok"));
+		$tpl->setVariable("PAGETITLE", $lng->txt("startpage"));
+		$tpl->setVariable("TXT_OK", $lng->txt("ok"));
 
 		$languages = $lng->getInstalledLanguages();
 
@@ -236,14 +232,14 @@ class ilStartUpGUI
 				$this->ctrl->getLinkTargetByClass("ilpasswordassistancegui", ""));
 			$tpl->setVariable("CMD_FORGOT_USERNAME",
 				$this->ctrl->getLinkTargetByClass("ilpasswordassistancegui", "showUsernameAssistanceForm"));
-			$tpl->setVariable("LANG_ID", $_GET["lang"]);
+			$tpl->setVariable("LANG_ID", $lng->getLangKey());
 			$tpl->parseCurrentBlock();
 		}
 
 		if ($ilSetting->get("pub_section"))
 		{
 			$tpl->setCurrentBlock("homelink");
-			$tpl->setVariable("CLIENT_ID","?client_id=".$_COOKIE["ilClientId"]."&lang=".$_GET["lang"]);
+			$tpl->setVariable("CLIENT_ID","?client_id=".$_COOKIE["ilClientId"]."&lang=".$lng->getLangKey());
 			$tpl->setVariable("TXT_HOME",$lng->txt("home"));
 			$tpl->parseCurrentBlock();
 		}
@@ -313,14 +309,7 @@ class ilStartUpGUI
 			$ilSetting->get("auth_mode") != AUTH_CAS)
 		{
 			$loginSettings = new ilSetting("login_settings");
-			if ($_GET["lang"] == false)
-			{				
-				$information = $loginSettings->get("login_message_".$lng->getDefaultLanguage());							
-			}
-			else
-			{				
-				$information = $loginSettings->get("login_message_".$_GET["lang"]);	
-			}
+			$information = $loginSettings->get("login_message_".$lng->getLangKey());
 						
 			if(strlen(trim($information)))
 			{
@@ -393,7 +382,7 @@ class ilStartUpGUI
 		$tpl->setVariable("LANG_FORM_ACTION",
 			$this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
-		$tpl->setVariable("LANG_ID", $_GET["lang"]);
+		$tpl->setVariable("LANG_ID", $lng->getLangKey());
 
 		if (isset($_GET['inactive']) && $_GET['inactive'])
 		{
@@ -512,6 +501,25 @@ class ilStartUpGUI
 		}
 
 		$tpl->show("DEFAULT", false);
+	}
+
+	/**
+	 * Parse login page elements
+	 * @global ilTemplate $tpl
+	 */
+	protected function parseLoginPageElements()
+	{
+		global $tpl;
+
+		$tpl->addBlockFile("CONTENT","content","tpl.login.html","Services/Init");
+
+		include_once './Services/Authentication/classes/class.ilAuthLoginPageEditorSettings.php';
+		$lpe = ilAuthLoginPageEditorSettings::getInstance();
+
+		if($lng = $lpe->getIliasEditorLanguage($_GET['lng']))
+		{
+
+		}
 	}
 	
 	function showFailure($a_mess)
@@ -748,7 +756,7 @@ class ilStartUpGUI
 		if ($ilSetting->get("pub_section"))
 		{
 			$tpl->setCurrentBlock("homelink");
-			$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$_GET['lang']);
+			$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$lng->getLangKey());
 			$tpl->setVariable("TXT_HOME",$lng->txt("home"));
 			$tpl->parseCurrentBlock();
 		}
@@ -767,7 +775,7 @@ class ilStartUpGUI
 		$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
 		$tpl->setVariable("TXT_LOGOUT_TEXT", $lng->txt("logout_text"));
 		$tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
-		$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$_GET['lang']);
+		$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$lng->getLangKey());
 
 		$tpl->show();
 	}
@@ -1078,28 +1086,6 @@ class ilStartUpGUI
 			//include_once "./include/inc.client_list.php";
 			exit();
 		}
-
-		/*
-		if ($_GET["cmd"] == "login")
-		{
-			$rep_ref_id = $_SESSION["il_rep_ref_id"];
-
-			$ilAuth->logout();
-			session_destroy();
-
-			// reset cookie
-			$client_id = $_COOKIE["ilClientId"];
-			setcookie ("ilClientId","");
-			$_COOKIE["ilClientId"] = "";
-
-			$_GET["client_id"] = $client_id;
-			$_GET["rep_ref_id"] = $rep_ref_id;
-
-
-			ilUtil::redirect("login.php?client_id=".$client_id."&lang=".$_GET['lang'].
-				"&rep_ref_id=".$rep_ref_id);
-		}*/
-
 
 		// if no start page was given, ILIAS defaults to the standard login page
 		if ($start == "")

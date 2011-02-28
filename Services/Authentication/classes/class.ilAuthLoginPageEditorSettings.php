@@ -61,6 +61,31 @@ class ilAuthLoginPageEditorSettings
 	}
 
 	/**
+	 * Get ilias editor language
+	 * @global <type> $lng
+	 * @param string $a_langkey
+	 * @return string
+	 */
+	public function getIliasEditorLanguage($a_langkey)
+	{
+		global $lng;
+
+		if($this->getMode() != self::MODE_IPE)
+		{
+			return '';
+		}
+		if($this->isIliasEditorEnabled($a_langkey))
+		{
+			return $a_langkey;
+		}
+		if($this->isIliasEditorEnabled($lng->getDefaultLanguage()))
+		{
+			return $lng->getDefaultLanguage();
+		}
+		return '';
+	}
+
+	/**
 	 * Enable editor for language
 	 */
 	public function enableIliasEditor($a_langkey,$a_status)
