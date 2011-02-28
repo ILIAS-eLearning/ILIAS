@@ -1386,4 +1386,4 @@ SeqActivity.prototype =
 		}
 		return objSet;
 	}
-}
+};

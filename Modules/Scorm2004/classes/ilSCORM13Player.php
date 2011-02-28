@@ -1,6 +1,25 @@
 <?php
-
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
 
 require_once("./Services/YUI/classes/class.ilYuiUtil.php");
 require_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
@@ -148,7 +167,6 @@ class ilSCORM13Player
 		$this->ctrl =& $ilCtrl;
 				
         $this->packageId=ilObject::_lookupObjectId($_GET['ref_id']);
-		$this->ref_id = $_GET['ref_id'];
 		$this->userId=$ilUser->getID();
 	
 		if ($_GET['envEditor'] != null) {
@@ -306,18 +324,7 @@ class ilSCORM13Player
 		$config['langstrings'] = $langstrings;
 		
 		//template variables	
-		//$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "Modules/Scorm2004");
-		$this->tpl = new ilTemplate("tpl.scorm2004.player.html", true, true, "Modules/Scorm2004");
-
-		// include ilias rte css, if given
-		$rte_css = $this->slm->getDataDirectory()."/ilias_css_4_2/css/style.css";
-		if (is_file($rte_css))
-		{
-			$this->tpl->setCurrentBlock("rte_css");
-			$this->tpl->setVariable("RTE_CSS", $rte_css);
-			$this->tpl->parseCurrentBlock();
-		}
-
+		$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "Modules/Scorm2004");
 		$this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		$this->tpl->setVariable('YUI_PATH', ilYuiUtil::getLocalPath());
@@ -726,10 +733,6 @@ class ilSCORM13Player
 				}	
 		    }
 		}
-	
-		// update learning progress
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
-		ilLPStatusWrapper::_updateStatus($package, $user);
 	}	
 	
 	public function specialPage() {
@@ -785,7 +788,7 @@ class ilSCORM13Player
 		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
 		$ilLog->write("Got data:". file_get_contents('php://input'));
 
-		$return = $this->setCMIData($this->userId, $this->packageId, $data, $this->ref_id);
+		$return = $this->setCMIData($this->userId, $this->packageId, $data);
 		
 		if ($this->jsMode) 
 		{
@@ -916,10 +919,8 @@ class ilSCORM13Player
 
 	private function removeCMIData($userId, $packageId, $cp_node_id=null) 
 	{
-		global $ilDB, $ilLog;
-
-//$ilLog->write("Remove CMI Data");
-
+		global $ilDB;
+		
 		$delorder = array('correct_response', 'objective', 'interaction', 'comment', 'node');
 		//error_log("Delete, User:".$userId."Package".$packageId."Node: ".$cp_node_id);
 		foreach($delorder as $k) 
@@ -1024,22 +1025,16 @@ class ilSCORM13Player
 				$values = array($cp_node_id, $userId);			
 				$ilDB->manipulateF($q, $types, $values);
 			}
-		}
-		
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
-		ilLPStatusWrapper::_updateStatus($packageId, $userId);
-
+		} 
 	}
 	
-	private function setCMIData($userId, $packageId, $data, $a_ref_id)
+	private function setCMIData($userId, $packageId, $data) 
 	{
 		global $ilDB, $ilLog;	
 	
 		$result = array();
 		$map = array();
-
-//$ilLog->write("Set CMI Data");
-
+		
 		if (!$data) return;
 	
 		$tables = array('node', 'comment', 'interaction', 'objective', 'correct_response');
@@ -1047,11 +1042,11 @@ class ilSCORM13Player
 		foreach($tables as $table)
 		{
 			$schem = & self::$schema[$table];
-//			$ilLog->write("SCORM: setCMIData, table -".$table."-".$data->objective);
+			$ilLog->write("SCORM: setCMIData, table -".$table."-".$data->objective);
 
 			if (!is_array($data->$table)) continue;			
 				
-//$ilLog->write("SCORM: setCMIData, table -".$table."-");
+$ilLog->write("SCORM: setCMIData, table -".$table."-");
 			
 			// build up numerical index for schema fields
 			$i = 0;
@@ -1120,27 +1115,14 @@ class ilSCORM13Player
 				{
 					case 'correct_response':
 						$row[$cmi_no] = $ilDB->nextId('cmi_correct_response');
-						// Alex: 11 Nov 2010: During investigation of bug
-						// 6799 I realised that the $row variable contains
-						// sometimes only one value or up to four values
-						// this makes the manipulateF fail.
-						// I added the following if statement, but
-						// the cause of the problem needs further investigation
-						if (count($row) == 3)
-						{
-							$ilDB->manipulateF('
-								INSERT INTO cmi_correct_response
-								(cmi_correct_resp_id, cmi_interaction_id, pattern)
-								VALUES (%s, %s, %s)',
-								array('integer', 'integer', 'text'),
-								$row
-							);
-						}
-						else
-						{
-							$ilLog->write("ERROR SCORM Player, setCMIData, incorrect number of values for cmi_correct_response.");
-							$ilLog->dump($row);
-						}
+
+						$ilDB->manipulateF('
+							INSERT INTO cmi_correct_response
+							(cmi_correct_resp_id, cmi_interaction_id, pattern)
+							VALUES (%s, %s, %s)',
+							array('integer', 'integer', 'text'),
+							$row
+						);
 						break;
 						
 					case 'comment':
@@ -1251,17 +1233,6 @@ class ilSCORM13Player
 				$map[$table][$cmi_id] = $row[$cmi_no];
 			}
 		}
-
-//$ilLog->write("-synching-");
-
-		// sync access number and time in read event table
-		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-		ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", $a_ref_id);
-		
-		// update learning progress status
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_updateStatus($packageId, $userId);
-		
 		return $result;
 	}
 	

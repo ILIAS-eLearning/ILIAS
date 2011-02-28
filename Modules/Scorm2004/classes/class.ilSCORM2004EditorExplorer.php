@@ -162,11 +162,6 @@ class ilScorm2004EditorExplorer extends ilExplorer
 				$ilCtrl->setParameterByClass("ilScorm2004ScoGUI", "obj_id", $a_node_id);
 				return $ilCtrl->getLinkTargetByClass("ilScorm2004ScoGUI", "showOrganization");
 				break;
-
-			case "ass":
-				$ilCtrl->setParameterByClass("ilScorm2004AssetGUI", "obj_id", $a_node_id);
-				return $ilCtrl->getLinkTargetByClass("ilScorm2004AssetGUI", "showOrganization");
-				break;
 		}
 	}
 

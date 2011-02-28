@@ -117,4 +117,4 @@ ADLTracking.prototype =
 			}
 		}
 	}
-}
+};

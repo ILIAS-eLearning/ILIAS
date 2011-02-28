@@ -65,4 +65,4 @@ ADLTOC.prototype =
 	mIsCurrent: false,
 	mIsSelectable: true,
 	mID: null
-}
+};

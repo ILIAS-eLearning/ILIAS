@@ -1,7 +1,27 @@
 <?php
+/*
+ +-----------------------------------------------------------------------------+
+ | ILIAS open source                                                           |
+ +-----------------------------------------------------------------------------+
+ | Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+ |                                                                             |
+ | This program is free software; you can redistribute it and/or               |
+ | modify it under the terms of the GNU General Public License                 |
+ | as published by the Free Software Foundation; either version 2              |
+ | of the License, or (at your option) any later version.                      |
+ |                                                                             |
+ | This program is distributed in the hope that it will be useful,             |
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+ | GNU General Public License for more details.                                |
+ |                                                                             |
+ | You should have received a copy of the GNU General Public License           |
+ | along with this program; if not, write to the Free Software                 |
+ | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+ +-----------------------------------------------------------------------------+
+ */
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+//require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 
 /**
  * Scorm 2004 Content Object Manifest export class
@@ -42,7 +62,7 @@ class ilContObjectManifestBuilder
 	 */
 	function buildManifest($ver, $revision = null)
 	{
-		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
+		require_once("classes/class.ilXmlWriter.php");
 		require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
 
 		$this->version = $ver;
@@ -101,22 +121,13 @@ class ilContObjectManifestBuilder
 		$attrs = array();
 		$this->writer->xmlElement("title", $attrs, $this->cont_obj->getTitle());
 
-		// entry page
-		if ($this->version == "2004" && $this->cont_obj->getEntryPage())
-		{
-			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004EntryAsset.php");
-			ilSCORM2004EntryAsset::addEntryPageItemXML($this->writer,
-				$this->cont_obj);
-		}
+		
         
 		// write item hierarchy
 		//$this->writeItemHierarchy();
-		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
-		$tree = new ilSCORM2004Tree($this->cont_obj->getId());
-
-		//$tree = new ilTree($this->cont_obj->getId());
-		//$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-		//$tree->setTreeTablePK("slm_id");
+		$tree = new ilTree($this->cont_obj->getId());
+		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+		$tree->setTreeTablePK("slm_id");
 		$this->writeItemHierarchyRec($tree,$tree->getRootId());
 		
 		// final page
@@ -193,13 +204,10 @@ class ilContObjectManifestBuilder
 	{
 		include_once("Services/MetaData/classes/class.ilMD2XML.php");
 		require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
-
-		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
-		$tree = new ilSCORM2004Tree($this->cont_obj->getId());
-
-		//$tree = new ilTree($this->cont_obj->getId());
-		//$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-		//$tree->setTreeTablePK("slm_id");
+		
+		$tree = new ilTree($this->cont_obj->getId());
+		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+		$tree->setTreeTablePK("slm_id");
 		$last_type = "";
 		foreach($tree->getFilteredSubTree($tree->getRootId(),Array('page')) as $obj)
 		{
@@ -241,7 +249,7 @@ class ilContObjectManifestBuilder
 			if($obj['type']=='') continue;
 			$attrs = array();
 			$attrs["identifier"] = "il_".IL_INST_ID."_".$obj['type']."_".$obj['obj_id'];
-			if($obj['type']=='sco' || $obj['type']=='ass')
+			if($obj['type']=='sco') 
 			{
 				$attrs["identifierref"] = $attrs["identifier"]."_ref";
 			}
@@ -256,7 +264,7 @@ class ilContObjectManifestBuilder
 			
 			if($this->version=="2004")
 			{
-				if($obj['type']=='sco' || $obj['type']=='ass')
+				if($obj['type']=='sco') 
 				{
 					$this->writer->xmlStartTag("metadata");
                     $this->writer->xmlElement("adlcp:location",null,$obj['obj_id']."/indexMD.xml");
@@ -272,29 +280,21 @@ class ilContObjectManifestBuilder
 	}
 
 	/**
-	 * Create resource entries for the learning module "PKG" and all SCOS and Assets
+	 * write resources
+	 *
+	 * this first version only writes one resource for the whole learning module
 	 */
 	function writeResources()
 	{
-		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
-		$tree = new ilSCORM2004Tree($this->cont_obj->getId());
-
-		//$tree = new ilTree($this->cont_obj->getId());
-		//$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-		//$tree->setTreeTablePK("slm_id");
-		foreach($tree->getSubTree($tree->getNodeData($tree->root_id),true,array('sco', 'ass')) as $obj)
+		$tree = new ilTree($this->cont_obj->getId());
+		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+		$tree->setTreeTablePK("slm_id");
+		foreach($tree->getSubTree($tree->getNodeData($tree->root_id),true,'sco') as $obj)
 		{
 			$attrs = array();
 			$attrs["identifier"] = "il_".IL_INST_ID."_".$obj['type']."_".$obj['obj_id']."_ref";
 			$attrs["type"] = "webcontent";
-			if ($obj['type'] == "sco")
-			{
-				$attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "sco";
-			}
-			else
-			{
-				$attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
-			}
+			$attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "sco";
 			$attrs["href"] = "./".$obj['obj_id']."/index.html";
 			$this->writer->xmlStartTag("resource", $attrs, "");
 			$this->writer->xmlElement("dependency", array("identifierref"=>"il_".IL_INST_ID."_".$obj['type']."_".$obj['obj_id'].'ITSELF'), "");
@@ -357,14 +357,10 @@ class ilContObjectManifestBuilder
 				$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/images/".basename($fileref)), "");
 			}
 			}
-			chdir($currdir);
-
-			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
-			$pagetree = new ilSCORM2004Tree($this->cont_obj->getId());
-
-			//$pagetree = new ilTree($this->cont_obj->getId());
-			//$pagetree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-			//$pagetree->setTreeTablePK("slm_id");
+			chdir($currdir);	
+			$pagetree = new ilTree($this->cont_obj->getId());
+			$pagetree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+			$pagetree->setTreeTablePK("slm_id");
 			foreach($pagetree->getSubTree($pagetree->getNodeData($obj['obj_id']),false,'page') as $page)
 			{
 				$page_obj = new ilSCORM2004Page($page);
@@ -414,5 +410,7 @@ class ilContObjectManifestBuilder
 	}
 
 }
+
+?>
 
 ?>
