@@ -264,12 +264,13 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	protected function getPossibleTypes()
 	{
 		global $lng;
-
-		return array('lm' => $lng->txt('learning_resources'),
+		
+		return array(
 					 'crs' => $lng->txt('objs_crs'),
-					 'tst' => $lng->txt('objs_tst'),
 					 'grp' => $lng->txt('objs_grp'),
-					 'exc' => $lng->txt('objs_exc'));
+					 'lm' => $lng->txt('learning_resources'),
+					 'exc' => $lng->txt('objs_exc'),
+				  	 'tst' => $lng->txt('objs_tst'));
 	}
 
 	protected function parseValue($id, $value, $type)
