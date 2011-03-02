@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./classes/class.ilObject.php";
+require_once "Services/Object/classes/class.ilObject2.php";
 
 /**
 * Class ilObjWorkspaceRootFolder
@@ -10,45 +10,18 @@ require_once "./classes/class.ilObject.php";
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id: class.ilObjRootFolder.php 23143 2010-03-09 12:15:33Z smeyer $Id: class.ilObjRootFolder.php,v 1.12 2003/11/20 17:04:19 shofmann Exp $
 *
-* @extends ilObject
+* @extends ilObject2
 */
-class ilObjWorkspaceRootFolder extends ilObject
+class ilObjWorkspaceRootFolder extends ilObject2
 {
-	/**
-	* Constructor
-	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
-	*/
-	function __construct($a_id,$a_call_by_reference = true)
+	function initType()
 	{
 		$this->type = "wsrt";
-		parent::__construct($a_id,$a_call_by_reference);
 	}
 
-	/**
-	* delete rootfolder and all related data
-	*
-	* @access	public
-	* @return	boolean	true if all object data were removed; false if only a references were removed
-	*/
-	function delete()
+	function beforeDelete()
 	{
-		// delete is disabled
-
-		$message = get_class($this)."::delete(): Can't delete root folder!";
-		$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		return false;
-
-		// always call parent delete function first!!
-		if (!parent::delete())
-		{
-			return false;
-		}
-
-		// put here rootfolder specific stuff
-
-		return true;;
 	}
 
 	/**

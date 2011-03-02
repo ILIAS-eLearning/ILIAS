@@ -265,8 +265,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	{
 		global $lng;
 		
-		return array(
-					 'crs' => $lng->txt('objs_crs'),
+		return array('crs' => $lng->txt('objs_crs'),
 					 'grp' => $lng->txt('objs_grp'),
 					 'lm' => $lng->txt('learning_resources'),
 					 'exc' => $lng->txt('objs_exc'),
