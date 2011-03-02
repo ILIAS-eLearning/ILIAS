@@ -32,25 +32,6 @@ class ilObjBlogListGUI extends ilObjectListGUI
 		include_once('./Modules/Blog/classes/class.ilObjBlogAccess.php');
 		$this->commands = ilObjBlogAccess::_getCommands();
 	}
-
-	/**
-	* Get command link url.
-	*
-	* @param	int			$a_ref_id		reference id
-	* @param	string		$a_cmd			command
-	*
-	*/
-	function getCommandLink($a_cmd)
-	{
-		// :TODO: ?!
-
-		// separate method for this line
-		$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
-
-		return $cmd_link;
-	}
-
-
 }
 
 ?>

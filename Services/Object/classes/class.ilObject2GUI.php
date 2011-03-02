@@ -342,7 +342,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 			case self::WORKSPACE_NODE_ID:
 			case self::WORKSPACE_OBJECT_ID:
-				break;
+				return $this->render();
 
 			case self::OBJECT_ID:
 				// :TODO: should this ever occur?  do nothing or edit() ?!

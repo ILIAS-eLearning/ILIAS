@@ -84,7 +84,7 @@ class ilPersonalWorkspaceGUI
 		$this->renderLocator();
 		$this->renderTitle();
 
-		if(($cmd == "" || $cmd == "render") && !$_REQUEST["new_type"])
+		if(($cmd == "" || $cmd == "render" || $cmd == "view") && !$_REQUEST["new_type"])
 		{
 			$this->renderToolbar();
 		}
