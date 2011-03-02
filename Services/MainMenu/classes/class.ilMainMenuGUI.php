@@ -288,13 +288,12 @@ class ilMainMenuGUI
 			$mail = new ilMail($_SESSION["AccountId"]);
 			if($rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId()))
 			{
-				if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
+				$add = '';
+
+				if( $new_mails = ilMailbox::_countNewMails($_SESSION["AccountId"]) )
 				{
-					$mbox = new ilMailbox($_SESSION["AccountId"]);
 					$mail = new ilMail($_SESSION['AccountId']);
-					$folder_id = $mbox->getInboxFolder();
-					$add = " ".sprintf($lng->txt("cnt_new"),
-						ilMailbox::_countNewMails($_SESSION["AccountId"]));
+					$add = " ".sprintf($lng->txt("cnt_new"), $new_mails);
 				}
 
 				$this->renderEntry($a_tpl, "mail",
