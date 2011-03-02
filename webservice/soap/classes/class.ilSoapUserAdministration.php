@@ -1307,7 +1307,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		include_once ("Services/Mail/classes/class.ilMailbox.php");
 		global $ilUser;
 
-		if (ilMailbox::hasNewMail($ilUser->getId()) > 0)
+		if (ilMailbox::_countNewMails($ilUser->getId()) > 0)
 		{
 			return true;
 		}

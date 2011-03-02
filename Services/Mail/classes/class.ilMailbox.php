@@ -253,54 +253,6 @@ class ilMailbox
 
 	/**
 	 * Static method 
-	 * check if new mail exists in inbox folder
-	 * @access	public
-	 * @static
-	 * @return	integer id of last mail or 0
-	 */
-	function hasNewMail($a_user_id)
-	{
-		global $ilDB;
-		global $ilias;
-
-		if (!$a_user_id)
-		{
-			return 0;
-		}
-
-		// CHECK FOR SYSTEM MAIL
-		$res = $ilDB->queryf('
-			SELECT mail_id FROM mail 
-			WHERE folder_id = %s 
-			AND user_id = %s
-			AND m_status = %s',
-			array('integer', 'integer', 'text'),
-			array('0', $a_user_id, 'unread'));
-
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-		
-		if($row->mail_id)
-		{
-			return $row->mail_id;
-		}
-
-		$res = $ilDB->queryf('
-			SELECT m.mail_id FROM mail m,mail_obj_data mo 
-			WHERE m.user_id = mo.user_id 
-			AND m.folder_id = mo.obj_id 
-			AND mo.m_type = %s
-			AND m.user_id = %s
-			AND m.m_status = %s',
-			array('text', 'integer', 'text'),
-			array('inbox', $a_user_id, 'unread'));
-
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-		
-		return $row ? $row->mail_id : 0;
-	}
-
-	/**
-	 * Static method 
 	 * check how many unread mails are in inbox
 	 * @access	public
 	 * @static
