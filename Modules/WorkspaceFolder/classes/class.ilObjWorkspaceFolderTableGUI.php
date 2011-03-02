@@ -45,11 +45,7 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		$tree = new ilWorkspaceTree($ilUser->getId());
-		$node = $tree->getNodeData($this->node_id);
-		$nodes = $tree->getSubTree($node);
-
-		// remove current node (== root of subtree)
-		array_shift($nodes);
+		$nodes = $tree->getChilds($this->node_id);
 		
 		$this->setData($nodes);
 	}

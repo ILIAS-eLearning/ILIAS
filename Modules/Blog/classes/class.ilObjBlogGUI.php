@@ -73,6 +73,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		global $tpl;
 
+		$tpl->setContent(":TODO:");
 	}
 }
 
