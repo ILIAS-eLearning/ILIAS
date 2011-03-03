@@ -220,13 +220,17 @@ class ilBlogPosting extends ilPageObject
 	 * Get all postings of blog
 	 *
 	 * @param int $a_blog_id
+	 * @param int $a_limit
+	 * @param int $a_offset
 	 * @return array
 	 */
-	static function getAllPostings($a_blog_id)
+	static function getAllPostings($a_blog_id, $a_limit = 100, $a_offset = 0)
 	{
 		global $ilDB;
 		
 		$pages = parent::getAllPages("blp", $a_blog_id);
+
+		$ilDB->setLimit($a_limit, $a_offset);
 		
 		$query = "SELECT * FROM il_blog_posting".
 			" WHERE blog_id = ".$ilDB->quote($a_blog_id, "integer").
@@ -244,6 +248,43 @@ class ilBlogPosting extends ilPageObject
 		}
 
 		return $post;
+	}
+
+	/**
+	 * Checks whether a posting exists
+	 *
+	 * @param int $a_blog_id
+	 * @param int $a_posting_id
+	 * @return bool
+	 */
+	static function exists($a_blog_id, $a_posting_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT id FROM il_blog_posting".
+			" WHERE blog_id = ".$ilDB->quote($a_blog_id, "integer").
+			" AND id = ".$ilDB->quote($a_posting_id, "integer");
+		$set = $ilDB->query($query);
+		if($rec = $ilDB->fetchAssoc($set))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Get newest posting for blog
+	 *
+	 * @param int $a_blog_id
+	 * @return int
+	 */
+	static function getLastPost($a_blog_id)
+	{
+		$data = self::getAllPostings($a_blog_id, 1);
+		if($data)
+		{
+			return array_pop(array_keys($data));
+		}
 	}
 }
 

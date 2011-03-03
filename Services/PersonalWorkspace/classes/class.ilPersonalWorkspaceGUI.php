@@ -211,11 +211,12 @@ class ilPersonalWorkspaceGUI
 			$ilCtrl->setParameter($this, "wsp_id", $node["wsp_id"]);
 
 			switch($node["type"])
-			{
+			{			
 				case "wsrt":
 					$ilLocator->addItem($lng->txt("wsp_personal_workspace"), $ilCtrl->getLinkTargetByClass($obj_class, "render"));
 					break;
 
+				case "blog":
 				case $objDefinition->isContainer($node["type"]):
 					$ilLocator->addItem($node["title"], $ilCtrl->getLinkTargetByClass($obj_class, "render"));
 					break;
