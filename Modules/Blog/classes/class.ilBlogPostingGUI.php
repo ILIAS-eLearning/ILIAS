@@ -17,12 +17,24 @@ include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
  */
 class ilBlogPostingGUI extends ilPageObjectGUI
 {
+	protected $node_id; // [int]
+	protected $access_handler; // [object]
+
 	/**
 	 * Constructor
+	 *
+	 * @param int $a_node
+	 * @param object $a_access_handler
+	 * @param int $a_id
+	 * @param int $a_old_nr
+	 * @return ilBlogPostingGUI
 	 */
-	function __construct($a_id = 0, $a_old_nr = 0)
+	function __construct($a_node_id, $a_access_handler, $a_id = 0, $a_old_nr = 0)
 	{
 		global $tpl;
+
+		$this->node_id = $a_node_id;
+		$this->access_handler = $a_access_handler;
 
 		parent::__construct("blp", $a_id, $a_old_nr);
 		
@@ -40,17 +52,23 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$this->setEnabledWikiLinks(false);
 		$this->setEnabledPCTabs(true);
 	}
-	
+
+	/**
+	 * Init internal data object
+	 *
+	 * @param string $a_parent_type
+	 * @param int $a_id
+	 * @param int $a_old_nr
+	 */
 	function initPageObject($a_parent_type, $a_id, $a_old_nr)
 	{
-		$page = new ilBlogPosting($a_id, $a_old_nr);
-		$this->setPageObject($page);
+		$this->setPageObject(new ilBlogPosting($a_id, $a_old_nr));
 	}
 
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $ilTabs;
 		
@@ -110,24 +128,33 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	}
 
 	/**
+	 * Centralized access management
+	 *
+	 * @param string $a_cmd
+	 * @return bool
+	 */
+	protected function checkAccess($a_cmd)
+	{
+		return $this->access_handler->checkAccess($a_cmd, "", $this->node_id);
+	}
+
+	/**
 	 * Preview blog posting
 	 */
 	function preview()
 	{
-		global $ilCtrl, $ilAccess, $lng, $tpl, $ilUser;
+		global $ilCtrl, $lng, $tpl, $ilUser;
 
-		// :TODO: get rid of ref_id
-		
 		$this->getBlogPosting()->increaseViewCnt();
 		
 		$wtpl = new ilTemplate("tpl.blog_page_view_main_column.html",
 			true, true, "Modules/blog");
 		
 		// page commands
-		// 
+		 
 		// delete
 		$page_commands = false;
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		if ($this->checkAccess("write"))
 		{
 			$wtpl->setCurrentBlock("page_command");
 			$wtpl->setVariable("HREF_PAGE_CMD",
@@ -159,7 +186,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$pg_id = $this->getBlogPosting()->getId();
 		$notes_gui = new ilNoteGUI($this->getBlogPosting()->getParentId(),
 			$pg_id, "wpg");
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		if ($this->checkAccess("write"))
 		{
 			$notes_gui->enablePublicNotesDeletion(true);
 		}
@@ -182,12 +209,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			? "_".$_GET["page"]
 			: "";
 		include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
-		$perma_link = new ilPermanentLinkGUI("blog", $_GET["ref_id"], $append);
+		$perma_link = new ilPermanentLinkGUI("blog", $this->node_id, $append);
 		$wtpl->setVariable("PERMA_LINK", $perma_link->getHTML());
 		
 		$wtpl->setVariable("PAGE", parent::preview());
 
-		$tpl->setLoginTargetPar("blog_".$_GET["ref_id"].$append);
+		$tpl->setLoginTargetPar("blog_".$this->node_id.$append);
 		
 		return $wtpl->get();
 	}
@@ -239,11 +266,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function deleteBlogPostingConfirmationScreen()
 	{
-		global $ilAccess, $tpl, $ilCtrl, $lng;
+		global $tpl, $ilCtrl, $lng;
 
-		// :TODO: get rid of ref_id
-		
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		if ($this->checkAccess("write"))
 		{
 			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 			$confirmation_gui = new ilConfirmationGUI();
@@ -286,11 +311,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	*/
 	function confirmBlogPostingDeletion()
 	{
-		global $ilAccess, $ilCtrl, $lng;
+		global $ilCtrl, $lng;
 
-		// :TODO: get rid of ref_id
-		
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		if ($this->checkAccess("write"))
 		{
 			$this->getBlogPosting()->delete();
 			ilUtil::sendSuccess($lng->txt("blog_posting_deleted"), true);

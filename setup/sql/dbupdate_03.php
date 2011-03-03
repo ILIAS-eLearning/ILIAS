@@ -4007,4 +4007,19 @@ $ilDB->addTableColumn("sahs_lm", "final_lm_page", array(
 	"length" => 4
 ));
 ?>
-
+<#3233>
+<?php
+if(!$ilDB->tableExists('il_blog_posting'))
+{
+	$fields = array (
+		'id' => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+		'blog_id' => array ('type' => 'integer', 'notnull' => true, 'length' => 4, 'default' => 0),
+		'title' => array ('type' => 'text', 'notnull' => false, 'length' => 400),
+		'created' => array ('type' => 'timestamp', 'notnull' => true)
+	  );
+  $ilDB->createTable('il_blog_posting', $fields);
+  $ilDB->addPrimaryKey('il_blog_posting', array('id'));
+  $ilDB->addIndex('il_blog_posting', array('created'), 'i1');
+  $ilDB->createSequence('il_blog_posting');
+}
+?>
