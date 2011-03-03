@@ -151,7 +151,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function preview()
 	{
-		global $ilCtrl, $lng, $tpl, $ilUser;
+		global $ilCtrl, $lng, $tpl, $ilUser, $ilToolbar;
+
+		$ilToolbar->addButton($lng->txt("blog_add_posting"),
+			$ilCtrl->getLinkTargetByClass("ilobjbloggui", "createPosting"));
 
 		$this->getBlogPosting()->increaseViewCnt();
 		
@@ -223,6 +226,39 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$wtpl->setVariable("PAGE", parent::preview());
 
 		$tpl->setLoginTargetPar("blog_".$this->node_id.$append);
+
+
+		// navigation
+
+		$items = array();
+		foreach(ilBlogPosting::getAllPostings($this->getBlogPosting()->getBlogId()) as $posting)
+		{
+			$month = substr($posting["created"]->get(IL_CAL_DATE), 0, 7);
+			$items[$month][$posting["id"]] = $posting;
+		}
+		foreach($items as $month => $postings)
+		{
+			$wtpl->setCurrentBlock("navigation_month_in");
+			$wtpl->setVariable("NAV_MONTH", $month);
+			$wtpl->parseCurrentBlock();
+
+			$wtpl->setCurrentBlock("navigation_item");
+			foreach($postings as $id => $posting)
+			{
+				$caption = ilDatePresentation::formatDate($posting["created"], IL_CAL_DATETIME).
+					", ".$posting["title"];
+
+				$ilCtrl->setParameter($this, "page", $id);
+				$wtpl->setVariable("NAV_ITEM_URL", $ilCtrl->getLinkTarget($this, "preview"));
+				$wtpl->setVariable("NAV_ITEM_CAPTION", $caption);
+				$wtpl->parseCurrentBlock();
+			}
+
+			$wtpl->touchBlock("navigation_month_out");
+		}
+
+		$ilCtrl->setParameter($this, "page", $this->getBlogPosting()->getId());
+
 		
 		return $wtpl->get();
 	}
