@@ -1,17 +1,35 @@
-<div style="margin-bottom:5px; text-align:right;">
-{RATING}
-<!-- BEGIN notification --><span class="small">{TXT_NOTIFICATION}: <a href="{URL_NOTIFICATION_TOGGLE_WIKI}">{TXT_NOTIFICATION_TOGGLE_WIKI}</a> {TXT_NOTIFICATION_TOGGLE_DIVIDER}
-<a href="{URL_NOTIFICATION_TOGGLE_PAGE}">{TXT_NOTIFICATION_TOGGLE_PAGE}</a></span><!-- END notification -->
+<div style="width:900px; border-right:1px solid #ccc; padding-right:25px; float:left;">
+	<div style="margin-bottom:5px; text-align:right;">
+	{RATING}
+	</div>
+	{PAGE}
+	<br />
+	<!-- BEGIN page_commands -->
+	<div class="il_ContainerItemCommands" style="float:right;">
+	<!-- BEGIN page_command -->
+	<a class="il_ContainerItemCommand" href="{HREF_PAGE_CMD}">{TXT_PAGE_CMD}</a>
+	<!-- END page_command -->
+	</div>
+	<!-- END page_commands -->
+	{PERMA_LINK}
+	<br />
+	{NOTES}
 </div>
-{PAGE}
-<br />
-<!-- BEGIN page_commands -->
-<div class="il_ContainerItemCommands" style="float:right;">
-<!-- BEGIN page_command -->
-<a class="il_ContainerItemCommand" href="{HREF_PAGE_CMD}">{TXT_PAGE_CMD}</a>
-<!-- END page_command -->
+<div style="float:left; margin-left:25px;">
+	<!-- BEGIN navigation -->
+	<ul>
+		<!-- BEGIN navigation_month_in -->
+		<li>{NAV_MONTH}
+			<ul>
+		<!-- END navigation_month_in -->
+		<!-- BEGIN navigation_item -->
+		<li><a href="{NAV_ITEM_URL}">{NAV_ITEM_CAPTION}</a></li>
+		<!-- END navigation_item -->
+		<!-- BEGIN navigation_month_out -->
+			</ul>
+		</li>
+		<!-- END navigation_month_out -->
+	</ul>
+	<!-- END navigation -->
 </div>
-<!-- END page_commands -->
-{PERMA_LINK}
-<br />
-{NOTES}
+<div style="clear:both;"></div>
