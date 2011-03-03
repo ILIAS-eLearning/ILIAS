@@ -787,7 +787,7 @@ class ilMailFormGUI
 		$inp = new ilTextInputGUI($this->lng->txt('subject'), 'm_subject');
 		$inp->setSize(50);
 		$inp->setRequired(true);
-		$inp->setValue(ilUtil::htmlencodePlainString($mailData["m_subject"], false));
+		$inp->setValue($mailData["m_subject"]);
 		$form_gui->addItem($inp);
 
 		// Attachments
