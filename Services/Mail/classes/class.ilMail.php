@@ -1284,7 +1284,9 @@ class ilMail
 			{
 				for ($i = 0;$i < count($tmp_names); $i++)
 				{
-					if (substr($tmp_names[$i]->mailbox,0,1) === '#')
+					if ( substr($tmp_names[$i]->mailbox,0,1) === '#' ||
+					   (substr($tmp_names[$i]->mailbox,0,1) === '"' &&
+						substr($tmp_names[$i]->mailbox,1,1) === '#' ) )
 					{
 						$role_ids = $rbacreview->searchRolesByMailboxAddressList($tmp_names[$i]->mailbox.'@'.$tmp_names[$i]->host);
 						foreach($role_ids as $role_id)
