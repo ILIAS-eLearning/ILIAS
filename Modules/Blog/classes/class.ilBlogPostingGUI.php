@@ -10,8 +10,8 @@ include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  *
- * @ilCtrl_Calls ilBlogPosting: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilBlogPosting: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
+ * @ilCtrl_Calls ilBlogPostingGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
+ * @ilCtrl_Calls ilBlogPostingGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
  *
  * @ingroup ModulesBlog
  */
@@ -75,6 +75,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 
+		$posting = $this->getBlogPosting();
+
 		switch($next_class)
 		{
 			case "ilnotegui":
@@ -98,11 +100,17 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 				$page_gui = new ilPageObjectGUI("blp",
 					$this->getPageObject()->getId(),
 					$this->getPageObject()->old_nr);
-				$page_gui->setPresentationTitle($this->getBlogPosting()->getTitle());
+				if($posting)
+				{
+					$this->setPresentationTitle($posting->getTitle());
+				}
 				return $ilCtrl->forwardCommand($page_gui);
 				
 			default:
-				$this->setPresentationTitle($this->getBlogPosting()->getTitle());
+				if($posting)
+				{
+					$this->setPresentationTitle($posting->getTitle());
+				}
 				return parent::executeCommand();
 		}
 	}
@@ -227,8 +235,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	function showPage()
 	{
 		$this->setTemplateOutput(false);
+
 		$this->setPresentationTitle($this->getBlogPosting()->getTitle());
 		$this->getBlogPosting()->increaseViewCnt();
+		
 		return parent::showPage();
 	}
 
@@ -253,12 +263,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	{
 		global $ilTabs, $ilCtrl;
 
-		parent::getTabs($a_activate);
+		// $ilCtrl->setParameterByClass("ilobjbloggui", "wsp_id", $this->getBlogPosting()->getParentId());
+		$ilCtrl->setParameterByClass("ilobjbloggui", "page", $this->getBlogPosting()->getId());
 
-		/*
-		$ilCtrl->setParameterByClass("ilobjbloggui", "wsp_id", $this->getBlogPosting()->getParentId());
-		$ilCtrl->setParameterByClass("ilobjbloggui", "page", $this->getBlogPosting()->getPageId());
-	    */
+		parent::getTabs($a_activate);
 	}
 
 	/**
