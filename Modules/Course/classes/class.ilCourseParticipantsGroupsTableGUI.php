@@ -77,7 +77,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 			foreach($groups as $idx => $group_data)
 			{
 				// check for group in group
-				if($group_data["parent"] != $this->ref_id  && $tree->checkForParentType($group_data["ref_id"], "grp"))
+				if($group_data["parent"] != $this->ref_id  && $tree->checkForParentType($group_data["ref_id"], "grp",true))
 				{
 					unset($groups[$idx]);
 				}
