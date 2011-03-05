@@ -1,25 +1,6 @@
 <?php
-/*
- +-----------------------------------------------------------------------------+
- | ILIAS open source                                                           |
- +-----------------------------------------------------------------------------+
- | Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
- |                                                                             |
- | This program is free software; you can redistribute it and/or               |
- | modify it under the terms of the GNU General Public License                 |
- | as published by the Free Software Foundation; either version 2              |
- | of the License, or (at your option) any later version.                      |
- |                                                                             |
- | This program is distributed in the hope that it will be useful,             |
- | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
- | GNU General Public License for more details.                                |
- |                                                                             |
- | You should have received a copy of the GNU General Public License           |
- | along with this program; if not, write to the Free Software                 |
- | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
- +-----------------------------------------------------------------------------+
- */
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Modules/Scorm2004/classes/class.ilSCORM2004NodeGUI.php");
 require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
@@ -95,7 +76,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
 				$md_gui =& new ilMDEditorGUI($this->slm_object->getID(),
-				$this->node_object->getId(), $this->node_object->getType());
+					$this->node_object->getId(), $this->node_object->getType());
 				$md_gui->addObserver($this->node_object,'MDUpdateListener','General');
 				$ilCtrl->forwardCommand($md_gui);
 				break;
@@ -115,70 +96,76 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	}
 
 	/**
-	 * Show Sequencing
+	 * Show learning objectives
 	 */
 	function showProperties()
 	{
-		global $tpl,$lng,$ilTabs;
-
+		global $tpl, $lng, $ilTabs, $ilCtrl;
 
 		$this->setTabs();
 		$this->setLocator();
-		$ilTabs->setTabActive("sahs_learning_objectives");
-		include_once "./Services/Table/classes/class.ilTableGUI.php";
+		$ilTabs->setTabActive("properties");
 
-		// load template for table
-		$tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
 
-		// load template for table content data
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scormeditor_sco_properties.html", "Modules/Scorm2004");
+		// hide objectives page
+		$cb = new ilCheckboxInputGUI($lng->txt("sahs_hide_objectives_page"), "hide_objectives_page");
+		$cb->setInfo($lng->txt("sahs_hide_objectives_page_info"));
+		$form->addItem($cb);
+		$cb->setChecked($this->node_object->getHideObjectivePage());
 
-		$tbl = new ilTableGUI();
-		$tbl->enable("action");
-		$tbl->disable("sort");
-		$tbl->setTitle("Learning Objectives for ".$this->node_object->getTitle());
-		$tbl->setHeaderNames(array("", $lng->txt("title"),"Scope"));
-		$cols = array("", "title","scope");
-		$tbl->setHeaderVars($cols, $header_params);
+		// description
+		$ta = new ilTextAreaInputGUI($lng->txt("description"), "desc");
+		$ta->setRows(4);
+		$ta->setCols(55);
+		$ta->setInfo($lng->txt("sahs_list_info"));
+		$form->setTitle($lng->txt("properties"));
+		$form->addItem($ta);
+		include_once "./Services/MetaData/classes/class.ilMD.php";
+		$meta = new ilMD($this->node_object->getSLMId(), $this->node_object->getId(), $this->node_object->getType());
+		$desc_ids = $meta->getGeneral()->getDescriptionIds();
+		$ta->setValue($meta->getGeneral()->getDescription($desc_ids[0])->getDescription());
 
-		$tr_data = $this->node_object->getObjectives();
+		// objectives
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($lng->txt("sahs_learning_objectives"));
+		$form->addItem($sh);
 
-		$tpl->setVariable("COLUMN_COUNTS", 3);
+		$objectives = $this->node_object->getObjectives();
 
-		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME", "updateProperties");
-		$tpl->setVariable("BTN_VALUE",  $lng->txt("save"));
-		$tpl->parseCurrentBlock();
-		$tbl->render();
-
-		foreach ($tr_data as $data)
+		foreach ($objectives as $ob)
 		{
-			$tpl->setCurrentBlock("tbl_content");
-			$tpl->setVariable("TITLE", $data->getObjectiveID());
-			$tpl->setVariable("NODE_ID", "obj_".$data->getId());
-			$tpl->setVariable("ICON" , ilUtil::getImagePath("icon_lobj.gif"));
-
-			$mappings = $data->getMappings();
+			// map info
+			$mappings = $ob->getMappings();
 			$mapinfo = null;
-			foreach($mappings as $map) {
+			foreach($mappings as $map)
+			{
 				$mapinfo .= $map->getTargetObjectiveID();
 			}
-			if ($mapinfo == null) {
+
+			if ($mapinfo == null)
+			{
 				$mapinfo = "local";
-			} else {
+			}
+			else
+			{
 				$mapinfo = "global to ".$mapinfo;
 			}
-			$tpl->setVariable("REFERENCE", $mapinfo);
-			$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-			$tpl->setVariable("CSS_ROW", $css_row);
-			$tpl->parseCurrentBlock();
+
+			// objective
+			$ta = new ilTextAreaInputGUI($mapinfo,
+				"obj_".$ob->getId());
+			$ta->setCols(55);
+			$ta->setRows(4);
+			$ta->setInfo($lng->txt("sahs_list_info"));
+			$form->addItem($ta);
+			$ta->setValue($ob->getObjectiveID());
 		}
-		//block sequencing rules
-
-
-		//$tpl->touchBlock("adm_content");
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->addCommandButton("updateProperties",
+			$lng->txt("save"));
+		$tpl->setContent($form->getHTML());
 	}
 
 	/**
@@ -196,15 +183,28 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 				{
 					$empty=true;
 				} else {
-					$objective->setObjectiveID($value);
+					$objective->setObjectiveID(ilUtil::stripSlashes($value));
 					$objective->updateObjective();
 				}
 			}
 		}
+
+		$this->node_object->setHideObjectivePage(ilUtil::stripSlashes($_POST["hide_objectives_page"]));
+		$this->node_object->update();
+
+		include_once "./Services/MetaData/classes/class.ilMD.php";
+		$meta = new ilMD($this->node_object->getSLMId(), $this->node_object->getId(), $this->node_object->getType());
+		$gen = $meta->getGeneral();
+		$desc_ids = $gen->getDescriptionIds();
+		$des = $gen->getDescription($desc_ids[0]);
+		$des->setDescription(ilUtil::stripSlashes($_POST["desc"]));
+		$des->update();
+		$gen->update();
+
 		if (!$empty) {
 			ilUtil::sendInfo($lng->txt("saved_successfully"),true);
 		} else {
-			ilUtil::sendInfo("Objective titles can't be blank",true);
+			ilUtil::sendInfo($lng->txt("sahs_empty_objectives_are_not_allowed"), true);
 		}
 		$this->showProperties();
 	}
@@ -267,6 +267,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 
 	function getEditTree()
 	{
+die("deprecated");
 		$slm_tree = new ilTree($this->node_object->getId(),$this->slm_object->getId());
 		$slm_tree->setTreeTablePK("slm_id");
 		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
@@ -287,7 +288,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 
 		// properties (named learning objectives, since here is currently
 		// no other property)
-		$ilTabs->addTarget("sahs_learning_objectives",
+		$ilTabs->addTarget("properties",
 		$ilCtrl->getLinkTarget($this,'showProperties'),
 			 "showProperties", get_class($this));
 
@@ -295,11 +296,6 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$ilTabs->addTarget("sahs_questions",
 		$ilCtrl->getLinkTarget($this,'sahs_questions'),
 			 "sahs_questions", get_class($this));
-
-		// preview
-		$ilTabs->addTarget("cont_preview",
-		$ilCtrl->getLinkTarget($this,'sco_preview'),
-			 "sco_preview", get_class($this));
 
 		// resources 
 		$ilTabs->addTarget("cont_files",
@@ -320,6 +316,11 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$ilTabs->addTarget("import",
 		$ilCtrl->getLinkTarget($this, "import"), "import",
 		get_class($this));
+		
+		// preview
+		$ilTabs->addNonTabbedLink("preview",
+			$lng->txt("cont_preview"),
+			$ilCtrl->getLinkTarget($this,'sco_preview'), "_blank");
 		
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_sco_b.gif"));
 		$tpl->setTitle(
@@ -343,7 +344,11 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	{
 		global $tpl, $ilCtrl, $lng;
 		
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$tpl->setBodyClass("");
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->slm_object->getStyleSheetId()));
@@ -355,8 +360,8 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/pager.js");
 
-		$this->setTabs();
-		$this->setLocator();
+//		$this->setTabs();
+//		$this->setLocator();
 		
 		$tree = new ilTree($this->slm_object->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
@@ -365,8 +370,8 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		include_once "./Services/MetaData/classes/class.ilMD.php";
 		
 		$meta = new ilMD($this->node_object->getSLMId(), $this->node_object->getId(), $this->node_object->getType());
-				$desc_ids = $meta->getGeneral()->getDescriptionIds();
-				$sco_description = $meta->getGeneral()->getDescription($desc_ids[0])->getDescription();
+		$desc_ids = $meta->getGeneral()->getDescriptionIds();
+		$sco_description = $meta->getGeneral()->getDescription($desc_ids[0])->getDescription();
 		
 		// @todo
 		// Why is that much HTML code in an application class?
@@ -384,12 +389,12 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 					<!-- BEGIN ilLMNavigation_Prev -->
 					<div class="ilc_page_lnav_LeftNavigation">
 					<a class="ilc_page_lnavlink_LeftNavigationLink">
-					<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" />&nbsp;Prev</a>
+					<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" />&nbsp;'.$lng->txt('scplayer_previous').'</a>
 					</div>
 					<!-- END ilLMNavigation_Prev -->
 					<!-- BEGIN ilLMNavigation_Next -->
 					<div class="ilc_page_rnav_RightNavigation">
-					<a class="ilc_page_rnavlink_RightNavigationLink">Next&nbsp;<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" /></a>
+					<a class="ilc_page_rnavlink_RightNavigationLink">'.$lng->txt('scplayer_next').'&nbsp;<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" /></a>
 					</div>
 					<!-- END ilLMNavigation_Next -->
 					<div style="clear:both;"></div>
@@ -418,12 +423,20 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		}
 		$output .='</td></tr></table>';
 		
+		// init export (this initialises glossary template)
+		ilSCORM2004PageGUI::initExport();
+		$terms = $this->node_object->getGlossaryTermIds();
 		foreach($tree->getSubTree($tree->getNodeData($this->node_object->getId()),true,'page') as $page)
 		{
 			$page_obj = new ilSCORM2004PageGUI($this->node_object->getType(),$page["obj_id"]);
 			$page_obj->setPresentationTitle($page["title"]);
 			$page_obj->setOutputMode(IL_PAGE_PREVIEW);
 			$page_obj->setStyleId($this->slm_object->getStyleSheetId());
+			if (count($terms) > 1)
+			{
+				$page_obj->setGlossaryOverviewInfo(
+					ilSCORM2004ScoGUI::getGlossaryOverviewId(), $this->node_object);
+			}
 			$output .= $page_obj->showPage("export");
 		}
 		$output .=	'<!-- BEGIN ilLMNavigation2 -->
@@ -431,30 +444,45 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 					<!-- BEGIN ilLMNavigation_Prev -->
 					<div class="ilc_page_lnav_LeftNavigation">
 					<a class="ilc_page_lnavlink_LeftNavigationLink">
-					<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" />&nbsp;Prev</a>
+					<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" />&nbsp;'.$lng->txt('scplayer_previous').'</a>
 					</div>
 					<!-- END ilLMNavigation_Prev -->
 					<!-- BEGIN ilLMNavigation_Next -->
 					<div class="ilc_page_rnav_RightNavigation">
-					<a class="ilc_page_rnavlink_RightNavigationLink">Next&nbsp;<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" /></a>
+					<a class="ilc_page_rnavlink_RightNavigationLink">'.$lng->txt('scplayer_next').'&nbsp;<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" /></a>
 					</div>
 					<!-- END ilLMNavigation_Next -->
 					<div style="clear:both;"></div>
 					</div>
 					<!-- END ilLMNavigation2 -->';
 
+		// append glossary entries on the sco level
+		$output.= ilSCORM2004PageGUI::getGlossaryHTML($this->node_object);
+		
 		//insert questions
 		require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
 		$output = preg_replace_callback("/(Question;)(il__qst_[0-9]+)/",array(get_class($this), 'insertQuestion'),$output);
 		$output = preg_replace("/&#123;/","",$output);
 		$output = preg_replace("/&#125;/","",$output);
 		$output = "<script>var ScormApi=null;".ilQuestionExporter::questionsJS()."</script>".$output;
-		
+
+		$tpl->addOnloadCode('
+			ilias.questions.txt.wrong_answers = "'.$lng->txt("cont_wrong_answers").'";
+			ilias.questions.txt.tries_remaining = "'.$lng->txt("cont_tries_remaining").'";
+			ilias.questions.txt.please_try_again = "'.$lng->txt("cont_please_try_again").'";
+			ilias.questions.txt.all_answers_correct = "'.$lng->txt("cont_all_answers_correct").'";
+			ilias.questions.txt.nr_of_tries_exceeded = "'.$lng->txt("cont_nr_of_tries_exceeded").'";
+			ilias.questions.txt.correct_answers_shown = "'.$lng->txt("cont_correct_answers_shown").'";
+			');
+
+
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
+		$tpl->addCss("./Modules/Scorm2004/templates/default/question_handling.css");
+		
 		//inline JS
 		$output .='<script type="text/javascript" src="./Modules/Scorm2004/scripts/questions/question_handling.js"></script>';
-		$tpl->setContent($output);
-		
+//		$tpl->setContent($output);
+		$tpl->setVariable("CONTENT", $output);
 	}
 	
 	//callback function for question export
@@ -957,6 +985,52 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	function cancel()
 	{
 		$this->ctrl->redirect($this, "showOrganization");
+	}
+	
+	/**
+	 * Get sco glossary overlay id
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getGlossaryOverviewId()
+	{
+		return "sco_glo_ov";
+	}
+	
+	/**
+	 * des
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getGloOverviewOv($a_sco)
+	{
+		global $lng;
+		
+		$tpl = new ilTemplate("tpl.sco_glossary_overview.html", true, true, "Modules/Scorm2004");
+		
+		$terms = $a_sco->getGlossaryTermIds();
+		foreach ($terms as $k => $t)
+		{
+			$tpl->setCurrentBlock("link");
+			$tpl->setVariable("TXT_LINK", $t);
+			$tpl->setVariable("ID_LINK", "glo_ov_t".$k);
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setVariable("DIV_ID", ilSCORM2004ScoGUI::getGlossaryOverviewId());
+		$tpl->setVariable("TXT_SCO_GLOSSARY", $lng->txt("cont_sco_glossary"));
+		$tpl->setVariable("TXT_CLOSE", $lng->txt("close"));
+
+		if (count($terms) > 1)
+		{
+			return $tpl->get();
+		}
+		else
+		{
+			return "";
+		}
 	}
 	
 }

@@ -391,5 +391,5 @@ SeqRollupRule.prototype =
 		return result;
 	}
 	
-};
+}
 

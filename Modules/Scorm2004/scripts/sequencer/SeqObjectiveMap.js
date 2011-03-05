@@ -56,8 +56,5 @@ SeqObjectiveMap.prototype =
 	mReadStatus: true,
 	mReadMeasure: true,
 	mWriteStatus: false,
-	mWriteMeasure: false,
-	
-	hasWriteMaps: function() {return this.mWriteStatus || this.mWriteMeasure;},
-	hasReadMaps: function() {return this.mReadStatus || this.mReadMeasure;}
-};
+	mWriteMeasure: false
+}

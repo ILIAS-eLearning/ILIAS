@@ -72,7 +72,7 @@ Walk.prototype =
 	at: null,
 	direction: FLOW_NONE,
 	endSession: false
-};
+}
 
 
 // ADLSequencer Class
@@ -143,8 +143,7 @@ ADLSequencer.prototype =
 			if (valid.mChoice != null)
 			{
 				// clone Object (Hashtable)
-				// was (true, oValid.mChoice, valid.mChoice)
-				oValid.mChoice = jQuery.extend(true, {}, valid.mChoice);//new clone(valid.mChoice);
+				oValid.mChoice = new clone(valid.mChoice);
 			}
 		}
 		else
@@ -156,7 +155,6 @@ ADLSequencer.prototype =
 			oValid.mChoice = null;
 			oValid.mTOC = null;
 		}
-		return oValid;
 	},
 	
 	setActivityTree: function (iTree)
@@ -287,7 +285,6 @@ ADLSequencer.prototype =
 						// If the activity's status changed, it may affect other 
 						// activities -- invoke rollup
 						var writeObjIDs = target.getObjIDs(iObjID, false);
-						this.invokeRollup(target, writeObjIDs);
 						// Revalidate the navigation requests
 						this.validateRequests();
 					}
@@ -316,14 +313,11 @@ ADLSequencer.prototype =
 					//var statusChange = target.setObjSatisfied(iObjID, iStatus);
 					var statusChange = target.setObjSatisfied( iStatus,{iObjID: iObjID});
 					
-									
 					if (statusChange)
 					{
 						// If the activity's status changed, it may affect other 
 						// activities -- invoke rollup
 						var writeObjIDs = target.getObjIDs(iObjID, false);
-					
-						this.invokeRollup(target, writeObjIDs);
 						
 						// Revalidate the navigation requests
 						this.validateRequests();
@@ -1590,12 +1584,7 @@ ADLSequencer.prototype =
 									// Only add if the activity is selected
 									if (act.getIsSelected())
 									{
-										do
-										{
-											rollupSet[act.getID()] = act.getDepth();
-											act = act.getParent();
-										}
-										while ( act != null && act != mSeqTree.getRoot() );
+										rollupSet[act.getID()] = act.getDepth();
 									}
 								}
 							}
@@ -1638,12 +1627,7 @@ ADLSequencer.prototype =
 							// Only add if the activity is selected
 							if (act.getIsSelected())
 							{
-								do
-								{
-									rollupSet[act.getID()] = act.getDepth();
-									act = act.getParent();
-								}
-								while ( act != null && act != mSeqTree.getRoot() );
+								rollupSet.put[act.getID()] = act.getDepth();
 							}
 						}
 					}
@@ -3220,34 +3204,10 @@ ADLSequencer.prototype =
 				}
 				
 				// Invoke rollup
-				this.invokeRollup(iTarget, this.getGlobalObjs(iTarget));            
+				this.invokeRollup(iTarget, null);            
 			}
 		}
 		return iTarget;
-	},
-	
-	getGlobalObjs: function (iTarget)
-	{
-		var objs = iTarget.getObjectives();
-		var writemaps = new Array();
-		if ( objs != null )
-		{
-			for ( var i = 0; i < objs.length; i++ )
-			{
-				var s = objs[i];
-				if ( s.mMaps != null )
-				{
-					for ( var m = 0; m < s.mMaps.length; m++ )
-					{
-						var map = s.mMaps[m];
-						if ( map.hasWriteMaps() )
-						{
-							writemaps.push(map.mGlobalObjID);
-						}
-					}
-				}
-			}
-		}
 	},
 
 	checkActivity: function (iTarget)
@@ -4234,4 +4194,4 @@ ADLSequencer.prototype =
 		
 		return toc;
 	}
-};
+}

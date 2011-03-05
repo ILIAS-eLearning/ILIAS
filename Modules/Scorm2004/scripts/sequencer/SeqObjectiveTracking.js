@@ -446,4 +446,4 @@ SeqObjectiveTracking.prototype =
 		
 		return byMeasure;
 	}
-};
+}

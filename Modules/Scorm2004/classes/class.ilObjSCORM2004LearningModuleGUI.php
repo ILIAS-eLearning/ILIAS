@@ -16,7 +16,6 @@ include_once("./Services/Style/classes/class.ilPageLayout.php");
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilInfoScreenGUI, ilSCORM2004ChapterGUI, ilSCORM2004SeqChapterGUI, ilSCORM2004PageNodeGUI, ilSCORM2004ScoGUI
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilCertificateGUI, ilObjStyleSheetGUI, ilNoteGUI, ilSCORM2004AssetGUI
-* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilCertificateGUI, ilObjStyleSheetGUI, ilNoteGUI
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilLicenseGUI
 *
 * @ingroup ModulesScormAicc
@@ -43,9 +42,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
-		global $ilAccess, $ilCtrl, $tpl, $ilTabs;
+		global $ilAccess, $ilCtrl, $tpl, $ilTabs, $lng;
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -95,8 +94,22 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 				return $ilCtrl->forwardCommand($sco_gui);
 				break;
 
+			// assets
+			case "ilscorm2004assetgui":
+				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004AssetGUI.php");
+				$ass_gui = new ilSCORM2004AssetGUI($this->object, $_GET["obj_id"]);
+				$ass_gui->setParentGUI($this);
+				return $ilCtrl->forwardCommand($ass_gui);
+				break;
+
 				// pages
 			case "ilscorm2004pagenodegui":
+				if ($this->object->getEntryPage() == $_GET["obj_id"])
+				{
+					$ilTabs->setBackTarget($lng->txt("back"),
+						$ilCtrl->getLinkTarget($this, "listSpecialPages"));
+				}
+
 				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNodeGUI.php");
 				$page_gui = new ilSCORM2004PageNodeGUI($this->object, $_GET["obj_id"]);
 				$page_gui->setParentGUI($this);
@@ -186,72 +199,44 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	*/
 	function properties()
 	{
-		global $rbacsystem, $tree, $tpl, $lng;
+		global $rbacsystem, $tree, $tpl, $lng, $ilToolbar;;
+		
+		$this->setSubTabs("settings", "general_settings");
 		
 		$lng->loadLanguageModule("style");
-		// edit button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		if ($this->object->editable!=1)
 		{
-			// view link
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",
-				"ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID());
-			$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
-			$this->tpl->parseCurrentBlock();
-	
+			// view
+			$ilToolbar->addButton($this->lng->txt("view"),
+				"ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID(),
+				"_blank");
+				
 			// upload new version
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "newModuleVersion"));
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_sc_new_version"));
-			$this->tpl->parseCurrentBlock();
+			$ilToolbar->addButton($this->lng->txt("cont_sc_new_version"),
+				$this->ctrl->getLinkTarget($this, "newModuleVersion"));
 		}
-		
-		if ($this->object->editable==1) {
-			// preview link
-			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this, "preview"));
-			$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
-			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_sc_preview"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		
-		// scorm lm properties
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm2004_properties.html", "Modules/Scorm2004");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
-
-		// version
-		$this->tpl->setVariable("TXT_VERSION", $this->lng->txt("cont_sc_version").":");
-		$this->tpl->setVariable("VAL_VERSION", $this->object->getModuleVersion());
-		
-	
-
-
-		//debug
-		/*
-		$this->tpl->setVariable("TXT_DEBUG", $this->lng->txt("cont_debug"));
-		$this->tpl->setVariable("CBOX_DEBUG", "cobj_debug");
-		$this->tpl->setVariable("VAL_DEBUG", "y");
-		if ($this->object->getDebug())
+		else
 		{
-			$this->tpl->setVariable("CHK_DEBUG", "checked");
+			// preview
+/*			$ilToolbar->addButton($this->lng->txt("cont_sc_preview"),
+				$this->ctrl->getLinkTarget($this, "preview"),
+				"_blank");*/
 		}
-		
-		// debug pw
-		$this->tpl->setVariable("TXT_DEBUGPW", $this->lng->txt("cont_debugpw"));
-		$this->tpl->setVariable("VAL_DEBUGPW", $this->object->getDebugPw());
-			
-		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", "saveProperties");
-		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-		$this->tpl->parseCurrentBlock();
-		*/
 
-		if ($this->object->editable!=1) {
+		
+		
+		if ($this->object->editable!=1)
+		{
+			// scorm lm properties
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm2004_properties.html", "Modules/Scorm2004");
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
+	
+			// version
+			$this->tpl->setVariable("TXT_VERSION", $this->lng->txt("cont_sc_version").":");
+			$this->tpl->setVariable("VAL_VERSION", $this->object->getModuleVersion());
+			
 			$this->tpl->setCurrentBlock("editable");
 			// online
 			$this->tpl->setVariable("TXT_ONLINE", $this->lng->txt("cont_online"));
@@ -291,134 +276,108 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$this->tpl->setVariable("MAX_ATTEMPTS", $this->lng->txt("cont_sc_max_attempt"));
 			$this->tpl->setVariable("VAL_MAX_ATTEMPT", $this->object->getMaxAttempt());
 			
-					//unlimited session
-		$this->tpl->setVariable("TXT_SESSION", $this->lng->txt("cont_sc_usession"));
-		$this->tpl->setVariable("CBOX_SESSION", "cobj_session");
-		$this->tpl->setVariable("VAL_SESSION", "y");
-		if ($this->object->getSession())
-		{
-			$this->tpl->setVariable("CHK_SESSION", "checked");
-		}
-		
-		
-		// disable top menu
-		$this->tpl->setVariable("TXT_NOMENU", $this->lng->txt("cont_nomenu"));
-		$this->tpl->setVariable("CBOX_NOMENU", "cobj_nomenu");
-		$this->tpl->setVariable("VAL_NOMENU", "y");
-		if ($this->object->getNoMenu())
-		{
-			$this->tpl->setVariable("CHK_NOMENU", "checked");
-		}
-			
-		//disable left-side navigation	
-		$this->tpl->setVariable("TXT_HIDENAVIG", $this->lng->txt("cont_hidenavig"));
-		$this->tpl->setVariable("CBOX_HIDENAVIG", "cobj_hidenavig");
-		$this->tpl->setVariable("VAL_HIDENAVIG", "y");
-		if ($this->object->getHideNavig())
-		{
-			$this->tpl->setVariable("CHK_HIDENAVIG", "checked");
-		}
-		
-		}
-
-		if ($this->object->editable==1) {
-			//overwrite version
-			$this->tpl->setVariable("TXT_VERSION", "");
-			$this->tpl->setVariable("VAL_VERSION", "");
-			
-			$this->tpl->setCurrentBlock("noneditable");
-		
-			//glossary
-			$this->tpl->setVariable("TXT_GLOSSARY", $this->lng->txt("glossary"));
-			$available_glossaries = array(0 => $this->lng->txt("cont_no_glossary"));
-			foreach($tree->getChildsByType($tree->getParentId($this->object->getRefID()),'glo') as $g)
+			//unlimited session
+			$this->tpl->setVariable("TXT_SESSION", $this->lng->txt("cont_sc_usession"));
+			$this->tpl->setVariable("CBOX_SESSION", "cobj_session");
+			$this->tpl->setVariable("VAL_SESSION", "y");
+			if ($this->object->getSession())
 			{
-				$available_glossaries[$g['child']] = $g['title'];
+				$this->tpl->setVariable("CHK_SESSION", "checked");
 			}
-			$sel_glossary = ilUtil::formSelect($this->object->getAssignedGlossary(),
-				"assigned_glossary", $available_glossaries, false, true);
-			$this->tpl->setVariable("VAL_GLOSSARY", $sel_glossary);
-
-			// style
-			$this->tpl->setVariable("TXT_STYLE", $this->lng->txt("cont_style"));
-			$fixed_style = $this->ilias->getSetting("fixed_content_style_id");
-
-
-			// default number question tries
-			$this->tpl->setVariable("TXT_QTRIES", $this->lng->txt("cont_qtries"));
-			$this->tpl->setVariable("VAL_QTRIES", $this->object->getTries());
 			
 			
-			if ($fixed_style > 0)
+			// disable top menu
+			$this->tpl->setVariable("TXT_NOMENU", $this->lng->txt("cont_nomenu"));
+			$this->tpl->setVariable("CBOX_NOMENU", "cobj_nomenu");
+			$this->tpl->setVariable("VAL_NOMENU", "y");
+			if ($this->object->getNoMenu())
 			{
-				$this->tpl->setVariable("VAL_STYLE",
-				ilObject::_lookupTitle($fixed_style)." (".
-				$this->lng->txt("global_fixed").")");
+				$this->tpl->setVariable("CHK_NOMENU", "checked");
 			}
-			else
+				
+			//disable left-side navigation	
+			$this->tpl->setVariable("TXT_HIDENAVIG", $this->lng->txt("cont_hidenavig"));
+			$this->tpl->setVariable("CBOX_HIDENAVIG", "cobj_hidenavig");
+			$this->tpl->setVariable("VAL_HIDENAVIG", "y");
+			if ($this->object->getHideNavig())
 			{
-				$this->tpl->setCurrentBlock("style_edit");
-				$style_id = $this->object->getStyleSheetId();
-
-				$st_styles = ilObjStyleSheet::_getStandardStyles(true, false,
-				$_GET["ref_id"]);
-
-				$st_styles[0] = $this->lng->txt("default");
-				ksort($st_styles);
-				$style_sel = ilUtil::formSelect ($style_id, "style_id",
-				$st_styles, false, true);
-
-				if ($style_id > 0)
-				{
-					// standard style
-					if (ilObjStyleSheet::_lookupStandard($style_id))
-					{
-						$this->tpl->setVariable("VAL_STYLE",
-						$style_sel);
-					}
-					// individual style
-					else
-					{
-						$this->tpl->setVariable("VAL_STYLE",
-						ilObject::_lookupTitle($style_id));
-						$this->tpl->setVariable("LINK_STYLE_EDIT",
-						$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
-						$this->tpl->setVariable("TXT_STYLE_EDIT",
-						$this->lng->txt("edit"));
-						//$this->tpl->setVariable("IMG_STYLE_EDIT",
-						//	ilUtil::getImagePath("icon_pencil.gif"));
-
-						// delete icon
-						$this->tpl->setVariable("LINK_STYLE_DROP",
-						$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
-						$this->tpl->setVariable("TXT_STYLE_DROP",
-						$this->lng->txt("delete"));
-						//$this->tpl->setVariable("IMG_STYLE_DROP",
-						//	ilUtil::getImagePath("delete.gif"));
-					}
-				}
-				if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id))
-				{
-					$this->tpl->setVariable("VAL_STYLE",
-					$style_sel);
-					$this->tpl->setVariable("LINK_STYLE_CREATE",
-					$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
-					$this->tpl->setVariable("TXT_STYLE_CREATE",
-					$this->lng->txt("sty_create_ind_style"));
-				}
-				$this->tpl->parseCurrentBlock();
+				$this->tpl->setVariable("CHK_HIDENAVIG", "checked");
 			}
+		
+			$this->tpl->setCurrentBlock("commands");
+			$this->tpl->setVariable("BTN_NAME", "saveProperties");
+			$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
 			$this->tpl->parseCurrentBlock();
 		}
 
+		if ($this->object->editable==1)
+		{
+			$this->initPropertiesEditableForm();
+			$this->getPropertiesEditableValues();
+			$tpl->setContent($this->form->getHTML());
+		}
+	}
+	
+	/**
+	 * Init properties (editable) form.
+	 */
+	public function initPropertiesEditableForm()
+	{
+		global $lng, $ilCtrl, $tree, $rbacsystem;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// glossary
+		$ne = new ilNonEditableValueGUI($lng->txt("obj_glo"), "glossary");
+		$this->form->addItem($ne);
 		
-		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", "saveProperties");
-		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-		$this->tpl->parseCurrentBlock();
+		// number of tries
+		$ni = new ilNumberInputGUI($lng->txt("cont_qtries"), "q_tries");
+		$ni->setMaxLength(3);
+		$ni->setSize(3);
+		$this->form->addItem($ni);
 
+		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
+		$parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
+		
+		if (ilObject::_lookupType($this->object->getAssignedGlossary()) != "glo")
+		{
+			if ($rbacsystem->checkAccess("create", $parent_ref_id, "glo"))
+			{
+				$this->form->addCommandButton("createGlossary", $lng->txt("cont_glo_create"));
+			}
+			$this->form->addCommandButton("assignGlossary", $lng->txt("cont_glo_assign"));
+		}
+		else
+		{
+			$this->form->addCommandButton("detachGlossary", $lng->txt("cont_glo_detach"));
+		}
+	                
+		$this->form->setTitle($lng->txt("cont_lm_properties"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	}
 
+	/**
+	 * Get current values for properties (editable) from 
+	 */
+	public function getPropertiesEditableValues()
+	{
+		$values = array();
+	
+		if (ilObject::_lookupType($this->object->getAssignedGlossary()) == "glo")
+		{
+			$values["glossary"] = ilObject::_lookupTitle($this->object->getAssignedGlossary());
+		}
+		else
+		{
+			$values["glossary"] = $this->lng->txt("cont_no_glossary");
+		}
+		$values["q_tries"] = $this->object->getTries();
+	
+		$this->form->setValuesByArray($values);
+	}
+	
 	/**
 	* save scorm 2004 module properties
 	*/
@@ -441,18 +400,159 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		}
 		else
 		{
-			if ($ilSetting->get("fixed_content_style_id") <= 0 &&
-			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
-			|| $this->object->getStyleSheetId() == 0))
+			$this->initPropertiesEditableForm();
+			if ($this->form->checkInput())
 			{
-				$this->object->setStyleSheetId($_POST["style_id"]);
+				$this->object->setTries($_POST["q_tries"]);
 			}
-			$this->object->setAssignedGlossary($_POST["assigned_glossary"]);
-			$this->object->setTries($_POST["q_tries"]);
 		}
 		$this->object->update();
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");
+	}
+
+	/**
+	 * Detach glossary
+	 */
+	function detachGlossary()
+	{
+		global $ilCtrl;
+		
+		$this->object->setAssignedGlossary(0);
+		$this->object->update();
+		$ilCtrl->redirect($this, "properties");
+	}
+	
+	/**
+	 * Create glossary
+	 */
+	function createGlossary()
+	{
+		global $tpl;
+	
+		$this->initGlossaryCreationForm();
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Init glossary creation form.
+	 */
+	public function initGlossaryCreationForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// title
+		$ti = new ilTextInputGUI($lng->txt("title"), "title");
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+		
+		// description
+		$ta = new ilTextAreaInputGUI($lng->txt("desc"), "description");
+		$this->form->addItem($ta);
+		
+		$this->form->addCommandButton("saveGlossary", $lng->txt("save"));
+		$this->form->addCommandButton("properties", $lng->txt("cancel"));
+	                
+		$this->form->setTitle($lng->txt("cont_glo_create"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+	
+	/**
+	 * Save glossary form
+	 */
+	public function saveGlossary()
+	{
+		global $tpl, $lng, $ilCtrl, $rbacsystem, $tree;
+	
+		$parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
+		if (!$rbacsystem->checkAccess("create", $parent_ref_id, "glo"))
+		{
+			ilUtil::sendFailure($lng->txt("no_permission"), true);
+			$ilCtrl->redirect($this, "properties");
+		}
+		
+		$this->initGlossaryCreationForm();
+		if ($this->form->checkInput())
+		{
+			include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
+			$newObj = new ilObjGlossary();
+			$newObj->setType("glo");
+			$newObj->setTitle($_POST["title"]);
+			$newObj->setDescription($_POST["description"]);
+			$newObj->setVirtualMode("none");
+			$newObj->create();
+			$newObj->createReference();
+			$newObj->putInTree($parent_ref_id);
+			$newObj->setPermissions($parent_ref_id);
+			$newObj->notify("new",$parent_ref_id,$_GET["parent_non_rbac_id"],$parent_ref_id,$newObj->getRefId());
+			
+			// perform save
+			$this->object->setAssignedGlossary($newObj->getId());
+			$this->object->update();
+			
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "properties");
+		}
+		
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+	
+	/**
+	 * Assign glossary
+	 */
+	function assignGlossary()
+	{
+		global $tpl, $ilCtrl, $tree;
+		
+		include_once("./Modules/Scorm2004/classes/class.ilGlossarySelectorGUI.php");
+		$exp = new ilGlossarySelectorGUI(
+			$ilCtrl->getLinkTarget($this, "selectGlossary"), "ilobjscorm2004learningmodulegui");
+		$exp->setSelectableTypes(array("glo"));
+		
+		if ($_GET["expand"] == "")
+		{
+			$expanded = $tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["expand"];
+		}
+		$exp->setExpand($expanded);
+		
+		$exp->setTargetGet("glo_id");
+		//$this->ctrl->setParameter($this, "target_type", $a_type);
+		//$ilCtrl->setParameter($this, "subCmd", "insertFromRepository");
+		$exp->setParamsGet($this->ctrl->getParameterArray($this, "assignGlossary"));
+		
+		// filter
+		$exp->setFiltered(true);
+		$exp->setFilterMode(IL_FM_POSITIVE);
+		$exp->addFilter("root");
+		$exp->addFilter("cat");
+		$exp->addFilter("grp");
+		$exp->addFilter("fold");
+		$exp->addFilter("crs");
+		$exp->addFilter("glo");
+
+		$exp->setOutput(0);
+
+		$tpl->setContent($exp->getOutput());	
+	}
+
+	/**
+	 * Select glossary
+	 */
+	function selectGlossary()
+	{
+		global $ilCtrl;
+		
+		$this->object->setAssignedGlossary(ilObject::_lookupObjId((int) $_GET["glo_ref_id"]));
+		$this->object->update();
+		$ilCtrl->redirect($this, "properties");
 	}
 	
 	/**
@@ -472,25 +572,137 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			}
 		}
 	}
-	
-/*
 
-	function showTrackingItems()
+	/**
+	 * Edit Stlye Properties
+	 */
+	function editStyleProperties()
 	{
-		global $lng, $tpl;
+		global $tpl;
 		
-		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004TrackingTableGUI.php");
-		$table_gui = new ilSCORM2004TrackingTableGUI($this, "showTrackingItems");
-				
-		$tr_data_sets = $this->object->getTrackedUsers();
-		$table_gui->setTitle($lng->txt("cont_tracking_data"));
-		$table_gui->setData($tr_data_sets);
-		$tpl->setContent($table_gui->getHTML());
+		$this->initStylePropertiesForm();
+		$tpl->setContent($this->form->getHTML());
 	}
-*/
-/**
-* show tracking data
-*/
+	
+	/**
+	 * Init style properties form
+	 */
+	function initStylePropertiesForm()
+	{
+		global $ilCtrl, $lng, $ilTabs, $ilSetting;
+		
+		$lng->loadLanguageModule("style");
+		$this->setSubTabs("settings", "style");
+		$ilTabs->setTabActive("settings");
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		$fixed_style = $ilSetting->get("fixed_content_style_id");
+		$style_id = $this->object->getStyleSheetId();
+
+		if ($fixed_style > 0)
+		{
+			$st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
+			$st->setValue(ilObject::_lookupTitle($fixed_style)." (".
+				$this->lng->txt("global_fixed").")");
+			$this->form->addItem($st);
+		}
+		else
+		{
+			$st_styles = ilObjStyleSheet::_getStandardStyles(true, false,
+				$_GET["ref_id"]);
+
+			$st_styles[0] = $this->lng->txt("default");
+			ksort($st_styles);
+
+			if ($style_id > 0)
+			{
+				// individual style
+				if (!ilObjStyleSheet::_lookupStandard($style_id))
+				{
+					$st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
+					$st->setValue(ilObject::_lookupTitle($style_id));
+					$this->form->addItem($st);
+
+//$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
+
+					// delete command
+					$this->form->addCommandButton("editStyle",
+						$lng->txt("cont_edit_style"));
+					$this->form->addCommandButton("deleteStyle",
+						$lng->txt("cont_delete_style"));
+//$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
+				}
+			}
+
+			if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id))
+			{
+				$style_sel = ilUtil::formSelect ($style_id, "style_id",
+					$st_styles, false, true);
+				$style_sel = new ilSelectInputGUI($lng->txt("cont_current_style"), "style_id");
+				$style_sel->setOptions($st_styles);
+				$style_sel->setValue($style_id);
+				$this->form->addItem($style_sel);
+//$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
+				$this->form->addCommandButton("saveStyleSettings",
+						$lng->txt("save"));
+				$this->form->addCommandButton("createStyle",
+					$lng->txt("sty_create_ind_style"));
+			}
+		}
+		$this->form->setTitle($lng->txt("cont_style"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+	
+	/**
+	 * Create Style
+	 */
+	function createStyle()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirectByClass("ilobjstylesheetgui", "create");
+	}
+	
+	/**
+	 * Edit Style
+	 */
+	function editStyle()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirectByClass("ilobjstylesheetgui", "edit");
+	}
+
+	/**
+	 * Delete Style
+	 */
+	function deleteStyle()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirectByClass("ilobjstylesheetgui", "delete");
+	}
+	
+	/**
+	 * Save style settings
+	 */
+	function saveStyleSettings()
+	{
+		global $ilSetting;
+	
+		if ($ilSetting->get("fixed_content_style_id") <= 0 &&
+			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
+			|| $this->object->getStyleSheetId() == 0))
+		{
+			$this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
+			$this->object->update();
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		}
+		$this->ctrl->redirect($this, "editStyleProperties");
+	}
+	
 /**
 * show tracking data
 */
@@ -515,7 +727,7 @@ function showTrackingItems()
 	// load template for table content data
 	$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scorm_track_items.html", "Modules/ScormAicc");
 
-	$num = 1;
+	$num = 5;
 
 	$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -755,9 +967,7 @@ function showTrackingItem()
 	{
 		if(!isset($_POST["user"]))
 		{
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
-			$this->ctrl->redirect($this, "showTrackingItems");
-			return;
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 		// SAVE POST VALUES
 		$_SESSION["scorm_user_delete"] = $_POST["user"];
@@ -851,6 +1061,8 @@ function showTrackingItem()
 	
 	/**
 	* Confirmed tracking deletion
+	*
+	* @todo alex, 14 Apr.: This does not confirm to our guidelines, please move DB access to application class
 	*/
 	function confirmedDeleteTracking()
 	{
@@ -885,6 +1097,10 @@ function showTrackingItem()
 				array('integer','integer'),
 				array($user,$sco));
  			}
+			
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+			ilLPStatusWrapper::_updateStatus($this->object->getId(), $user);
+
 	 	}
     
 	 	$this->ctrl->redirect($this, "showTrackingItems");
@@ -897,8 +1113,6 @@ function showTrackingItem()
 		if (!isset($_POST["user"]))
 		{
 			ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
-			$this->ctrl->redirect($this, "showTrackingItems");
-			return;
 		}
 		
 		foreach ($_POST["user"] as $user)
@@ -1121,51 +1335,45 @@ function showTrackingItem()
 	 */
 	function showLearningObjectivesAlignment()
 	{
-		global $tpl, $lng, $ilCtrl;
+		global $tpl, $lng, $ilCtrl, $ilToolbar;
 
-		$oa_tpl = new ilTemplate("tpl.objectives_alignment.html", true, true, "Modules/Scorm2004");
-		
 		$chaps = $this->object->getTree()->getChilds(
 			$this->object->getTree()->getRootId());
 		$s_chaps = array();
 		foreach($chaps as $chap)
 		{
-			$s_chaps[$chap["child"]] = $chap["title"];
+			if ($chap["type"] == "chap")
+			{
+				$s_chaps[$chap["child"]] = $chap["title"];
+			}
 		}
-		reset($s_chaps);
-		if (count($s_chaps) > 0)
-		{
-			$cur_chap = $_SESSION["sahs_cur_chap"]
-				? $_SESSION["sahs_cur_chap"]
-				: key($s_chaps);
-			
-			$oa_tpl->setCurrentBlock("chapter_selection");
-			$oa_tpl->setVariable("CHAPTER_SELECTION",
-				ilUtil::formSelect($cur_chap, "chapter", $s_chaps, false, true));
-			$oa_tpl->setVariable("TXT_SELECT_CHAPTER",
-				$lng->txt("chapter"));
-			$oa_tpl->setVariable("TXT_CHANGE", $lng->txt("change"));
-			$oa_tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
-			$oa_tpl->setVariable("CMD_CHAP_SEL", "selectLObjChapter");
-			$oa_tpl->parseCurrentBlock();
+		$cur_chap = $_SESSION["sahs_cur_chap"]
+			? $_SESSION["sahs_cur_chap"]
+			: 0;
+
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$options = array(
+			"0" => $lng->txt("all")
+		);
+		$options = $options + $s_chaps;
+		$si = new ilSelectInputGUI($lng->txt("chapter"), "chapter");
+		$si->setOptions($options);
+		$si->setValue($cur_chap);
+		$ilToolbar->addInputItem($si, true);
+		$ilToolbar->addFormButton($lng->txt("change"), "selectLObjChapter");
 		
-			include_once("./Modules/Scorm2004/classes/class.ilObjectivesAlignmentTableGUI.php");
-			$obj_table = new ilObjectivesAlignmentTableGUI($this, "showLearningObjectivesAlignment",
-				$this->getEditTree(), $this->object, $cur_chap);
-			$oa_tpl->setVariable("LOBJ_TABLE", $obj_table->getHTML());
-			$tpl->setContent($oa_tpl->get());
-		}
-		else
-		{
-			ilUtil::sendInfo($lng->txt("sahs_oa_no_chapters"));
-		}
+		include_once("./Modules/Scorm2004/classes/class.ilObjectivesAlignmentTableGUI.php");
+		$obj_table = new ilObjectivesAlignmentTableGUI($this, "showLearningObjectivesAlignment",
+			$this->getEditTree(), $this->object, $cur_chap);
+		$tpl->setContent($obj_table->getHTML());
 	}
 
 	function selectLObjChapter()
 	{
 		global $ilCtrl;
 
-		$_SESSION["sahs_cur_chap"] = $_POST["chapter"];
+		$_SESSION["sahs_cur_chap"] = (int) $_POST["chapter"];
 		$ilCtrl->redirect($this, "showLearningObjectivesAlignment");
 	}
 	
@@ -1243,7 +1451,7 @@ function showTrackingItem()
 	 */
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $ilAccess;
 
 		if ($this->ctrl->getCmd() == "delete")
 		{
@@ -1254,6 +1462,11 @@ function showTrackingItem()
 		{
 			return parent::getTabs($tabs_gui);
 		}
+
+		// organization
+		$tabs_gui->addTarget("sahs_organization",
+		$this->ctrl->getLinkTarget($this, "showOrganization"), "showOrganization",
+		get_class($this));
 
 		// info screen
 		$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui")
@@ -1275,16 +1488,6 @@ function showTrackingItem()
 			get_class($this));
 			*/
 
-		// edit meta
-		$tabs_gui->addTarget("meta_data",
-		$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "", "ilmdeditorgui");
-
-		// organization
-		$tabs_gui->addTarget("sahs_organization",
-		$this->ctrl->getLinkTarget($this, "showOrganization"), "showOrganization",
-		get_class($this));
-
 		/*
 		// sequencing
 		$tabs_gui->addTarget("sahs_sequencing",
@@ -1293,7 +1496,7 @@ function showTrackingItem()
 		*/
 		
 		// objective alignment
-		$tabs_gui->addTarget("sahs_objective_alignment",
+		$tabs_gui->addTarget("sahs_objectives_alignment",
 		$this->ctrl->getLinkTarget($this, "showLearningObjectivesAlignment"), "showLearningObjectivesAlignment",
 		get_class($this));
 
@@ -1309,19 +1512,64 @@ function showTrackingItem()
 			}
 			*/
 
+		// edit meta
+		$tabs_gui->addTarget("meta_data",
+		$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
+			 "", "ilmdeditorgui");
+
 		// export
 		$tabs_gui->addTarget("export",
 		$this->ctrl->getLinkTarget($this, "showExportList"), array("showExportList", 'confirmDeleteExportFile'),
 		get_class($this));
 
 		// perm
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		if ($ilAccess->checkAccess('edit_permission', '', $this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
+		
+		if ($this->object->editable==1)
+		{
+			// preview
+			$tabs_gui->addNonTabbedLink("preview",
+				$this->lng->txt("cont_sc_preview"),
+				$this->ctrl->getLinkTarget($this, "preview"),
+				"_blank");
+		}
+		
 	}
 
+	/**
+	 * Set sub tabs
+	 */
+	function setSubTabs($a_main_tab, $a_active)
+	{
+		global $ilTabs, $ilCtrl, $lng;
+
+		if ($a_main_tab == "settings" &&
+			$this->object->editable == 1)
+		{
+			// general properties
+			$ilTabs->addSubTab("general_settings",
+				$lng->txt("general_settings"),
+				$ilCtrl->getLinkTarget($this, 'properties'));
+
+			// special pages
+			$ilTabs->addSubTab("special_pages",
+				$lng->txt("cont_special_pages"),
+				$ilCtrl->getLinkTarget($this, 'listSpecialPages'));
+
+			// style properties
+			$ilTabs->addSubTab("style",
+				$lng->txt("cont_style"),
+				$ilCtrl->getLinkTarget($this, 'editStyleProperties'));
+
+			$ilTabs->activateSubTab($a_active);
+		}
+	}
+	
+	
 	/**
 	* Get editing tree object
 	*/
@@ -1370,8 +1618,8 @@ function showTrackingItem()
 		$form_gui = new ilSCORM2004OrganizationHFormGUI();
 		$form_gui->setParentCommand($a_gui_obj, $a_gui_cmd);
 		$form_gui->setFormAction($a_form_action);
-		$form_gui->setTitle($a_title);
-		$form_gui->setIcon($a_icon);
+//		$form_gui->setTitle($a_title);
+//		$form_gui->setIcon($a_icon);
 		$form_gui->setTree($slm_tree);
 		$form_gui->setCurrentTopNodeId($a_top_node);
 		$form_gui->addMultiCommand($lng->txt("delete"), "deleteNodes");
@@ -1539,6 +1787,57 @@ function showTrackingItem()
 	}
 
 	/**
+	 * Insert (multiple) assets at node
+	 */
+	function insertAsset($a_redirect = true)
+	{
+		global $ilCtrl, $lng;
+
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
+
+		$slm_tree =& new ilTree($this->object->getId());
+		$slm_tree->setTreeTablePK("slm_id");
+		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+
+		$num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
+		$node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
+
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Asset.php");
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
+
+		if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild())	// insert after node id
+		{
+			$parent_id = $slm_tree->getParentId($node_id);
+			$target = $node_id;
+		}
+		else													// insert as first child
+		{
+			$parent_id = $node_id;
+			$target = IL_FIRST_NODE;
+		}
+
+		$ass_ids = array();
+		for ($i = 1; $i <= $num; $i++)
+		{
+			$ass = new ilSCORM2004Asset($this->object);
+			$ass->setTitle($lng->txt("sahs_new_asset"));
+			$ass->setSLMId($this->object->getId());
+			$ass->create();
+			ilSCORM2004Node::putInTree($ass, $parent_id, $target);
+			$ass_ids[] = $ass->getId();
+		}
+		$ass_ids = array_reverse($ass_ids);
+		$ass_ids = implode($ass_ids, ":");
+
+		if ($a_redirect)
+		{
+			$ilCtrl->setParameter($this, "highlight", $ass_ids);
+			$ilCtrl->redirect($this, "showOrganization", "node_".$node_id);
+		}
+		return array("node_id" => $node_id, "items" => $ass_ids);
+	}
+
+	/**
 	 * Insert (multiple) pages at node
 	 */
 	function insertPage($a_redirect = true)
@@ -1701,7 +2000,8 @@ function showTrackingItem()
 	/**
 	 * Displays GUI to select template for page
 	 */
-	function insertTemplateGUI($a_redirect = true) {
+	function insertTemplateGUI($a_redirect = true, $a_mode = "")
+	{
 		global $ilCtrl,$lng, $tpl;
 		
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
@@ -1761,7 +2061,6 @@ function showTrackingItem()
 		$ilCtrl->saveParameter($this,"obj_id");
 	
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("BTN_NAME", "insertTemplate");
 		if ($a_mode == "entry_page")
 		{
 			$this->tpl->setVariable("BTN_NAME", "createEntryPage");
@@ -1956,7 +2255,10 @@ function showTrackingItem()
 
 		if ($a_form_action == "")
 		{
-			$this->ctrl->setParameter($this, "backcmd", $_GET["backcmd"]);
+			$cmd = ($_GET["backcmd"] == "")
+				? "showOrganization"
+				: $_GET["backcmd"];
+			$this->ctrl->setParameter($this, "backcmd", $cmd);
 			$a_form_action = $this->ctrl->getFormAction($this);
 		}
 		$confirmation_gui->setFormAction($a_form_action);
@@ -2355,7 +2657,6 @@ function showTrackingItem()
 		ilUtil::redirect("ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=".$this->object->getRefID()."&envEditor=1");
 	}
 
-} // END class.ilObjSCORM2004LearningModuleGUI
 	/**
 	 * List special pages
 	 */

@@ -6,6 +6,15 @@ ilias.questions = {
 	success: "not attempted"
 };
 
+ilias.questions.txt = {};
+ilias.questions.txt.wrong_answers = "Incorrect Items";
+ilias.questions.txt.wrong_answers_single = "Incorrect Choice.";
+ilias.questions.txt.tries_remaining = "Tries Remaining";
+ilias.questions.txt.please_try_again = "Please try again!";
+ilias.questions.txt.all_answers_correct = "Correct!";
+ilias.questions.txt.nr_of_tries_exceeded = "Number of tries exceeded.";
+ilias.questions.txt.correct_answers_shown = "Correct solution see above.";
+
 ilias.questions.init = function() {
 	ilias.questions.shuffle();
 };
@@ -42,8 +51,46 @@ ilias.questions.checkAnswers = function(a_id) {
 	var call = "ilias.questions."+questions[a_id].type+"("+a_id+")";
 	
 	eval(call);
+
+	// forward answer to self assessment question handler (non-scorm)
+	if (typeof ilCOPageQuestionHandler != "undefined")
+	{
+		ilCOPageQuestionHandler.processAnswer(questions[a_id].type, a_id, answers[a_id]);
+	}
 };
 
+ilias.questions.handleMCImages = function(a_id) {
+
+	if(questions[a_id].path === undefined)
+	{
+		return;
+	}
+
+	jQuery('div#container' + a_id + ' input.order').each(function(key, node){
+		for(var i=0;i<questions[a_id].answers.length;i++)
+		{
+			if(questions[a_id].answers[i].order == node.value)
+			{
+				var img = questions[a_id].answers[i].image;
+				if(img.length)
+				{
+					var text_node = jQuery(node).next();
+					if(questions[a_id].thumb > 0)
+					{
+						jQuery(text_node).before('<a class="image_details" href="' + questions[a_id].path + img + '" target="_blank">' +
+							'<img class="mc_image" src="' + questions[a_id].path + 'thumb.' + img + '" /></a>');
+					}
+					else
+					{
+						jQuery(text_node).before('<img class="mc_image" src="' + questions[a_id].path + img + '" />');
+					}
+					
+				}
+			}
+		}
+
+	});
+}
 
 ilias.questions.assSingleChoice = function(a_id) {
 
@@ -52,6 +99,7 @@ ilias.questions.assSingleChoice = function(a_id) {
 
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
+	answers[a_id].choice = [];
 			
 	for (var i=0;i<a_node.length;i++) {
 		if ((!a_node.get(i).checked && questions[a_id].answers[i][tocheck]>0) 
@@ -63,6 +111,10 @@ ilias.questions.assSingleChoice = function(a_id) {
 			
 		} else {
 			answers[a_id].answer[i]=true;
+		}
+		if (a_node.get(i).checked)
+		{
+			answers[a_id].choice.push(a_node.get(i).value);
 		}
 	}		
 	
@@ -76,6 +128,7 @@ ilias.questions.assMultipleChoice = function(a_id) {
 	
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
+	answers[a_id].choice = [];
 	
 	for (var i=0;i<a_node.length;i++) {
 		if ((!a_node.get(i).checked && questions[a_id].answers[i][tocheck]>0) 
@@ -88,6 +141,11 @@ ilias.questions.assMultipleChoice = function(a_id) {
 		} else {
 			answers[a_id].answer[i]=true;
 		}
+		if (a_node.get(i).checked)
+		{
+			answers[a_id].choice.push(a_node.get(i).value);
+		}
+
 	}		
 	ilias.questions.showFeedback(a_id);			
 };
@@ -108,6 +166,7 @@ ilias.questions.assOrderingQuestion = function(a_id) {
 	
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
+	answers[a_id].choice = [];
 	
 	for (var i=0;i<result.length;i++) {
 		if (i+1 != result[i])
@@ -118,8 +177,48 @@ ilias.questions.assOrderingQuestion = function(a_id) {
 		} else {
 			answers[a_id].answer[i]=true;
 		}
-		
+		answers[a_id].choice.push(result[i]);
 	}
+	ilias.questions.showFeedback(a_id);
+};
+
+
+ilias.questions.handleOrderingImages = function(a_id) {
+
+	if(questions[a_id].path === undefined)
+	{
+		return;
+	}
+
+	jQuery("ul#order" + a_id + " div.answertext").each(function(id, node){
+		var src = jQuery(node).html();
+		jQuery(node).html('<img src="' + questions[a_id].path + "thumb." + src + '" /><br />' +
+			'<a class="image_details" href="' + questions[a_id].path + src + '" target="_blank">(+)</a>');
+		jQuery(node).parent().height("auto");
+		// jQuery(node).parent().width("auto");
+	});
+};
+
+ilias.questions.assOrderingHorizontal = function(a_id) {
+
+	var result = jQuery('#order'+a_id).sortable('toArray');
+
+	answers[a_id].wrong = 0;
+	answers[a_id].passed = true;
+	answers[a_id].choice = [];
+
+	for (var i=0;i<result.length;i++) {
+		if (i+1 != result[i])
+		{
+			answers[a_id].passed = false;
+			answers[a_id].wrong ++;
+			answers[a_id].answer[i]=false;
+		} else {
+			answers[a_id].answer[i]=true;
+		}
+		answers[a_id].choice.push(result[i]);
+	}
+	
 	ilias.questions.showFeedback(a_id);
 };
 
@@ -148,15 +247,20 @@ ilias.questions.assImagemapQuestion = function(a_id) {
 	
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
+	answers[a_id].choice = [];
 		
 	for (var i=0;i<questions[a_id].answers.length;i++) {
-		if ((answers[a_id].areas[i]==false && questions[a_id].answers[i].points>=1) || (answers[a_id].areas[i]==true && questions[a_id].answers[i].points==0))
+		if ((answers[a_id].areas[i]==false && questions[a_id].answers[i].points>=1) || (answers[a_id].areas[i]==true && questions[a_id].answers[i].points<=0))
 		{
 			answers[a_id].passed = false;
 			answers[a_id].wrong++;
 			answers[a_id].answer[i]=false;
 		} else {
 			answers[a_id].answer[i]=true;
+		}
+		if (answers[a_id].areas[i] == true)
+		{
+			answers[a_id].choice.push(i);
 		}
 	}		
 	ilias.questions.showFeedback(a_id);
@@ -165,6 +269,7 @@ ilias.questions.assImagemapQuestion = function(a_id) {
 ilias.questions.assMatchingQuestion = function(a_id) {
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
+	answers[a_id].choice = [];
 	
 	for (var i=0;i<questions[a_id].pairs.length;i++)
 	{
@@ -173,7 +278,61 @@ ilias.questions.assMatchingQuestion = function(a_id) {
 			answers[a_id].passed = false;
 			answers[a_id].wrong++;
 		}
+		
+		answers[a_id].choice.push(questions[a_id].pairs[i].def_id + '-'
+			+ a_node.options[a_node.selectedIndex].id);
 	}
+	ilias.questions.showFeedback(a_id);
+};
+
+ilias.questions.assTextSubset = function(a_id) {
+	
+	answers[a_id].wrong = 0;
+	answers[a_id].passed = false;
+	answers[a_id].choice = [];
+
+	var correct_answer_given = false;
+	var a_node = jQuery('input[name="answers'+a_id+'[]"]');
+	for (var i=0;i<a_node.length;i++) {
+
+		var answer = a_node.get(i).value;
+		answers[a_id].choice.push(answer);
+
+		if(questions[a_id].matching_method == "ci")
+		{
+			answer = answer.toLowerCase();
+		}
+
+		var found = false;
+		for (var c=0;c<questions[a_id].correct_answers.length;c++)
+		{
+			var correct_answer = questions[a_id].correct_answers[c]["answertext"];
+			if(questions[a_id].matching_method == "ci")
+			{
+				correct_answer = correct_answer.toLowerCase();
+			}
+			if(correct_answer == answer)
+			{
+				found = true;
+			}
+		}
+		if(found === false)
+		{
+			answers[a_id].wrong++;
+			answers[a_id].answer[i] = false;
+		}
+		else
+		{
+			correct_answer_given = true;
+			answers[a_id].answer[i] = true;
+		}
+	}
+
+	if(correct_answer_given)
+	{
+		answers[a_id].passed = true;
+	}
+
 	ilias.questions.showFeedback(a_id);
 };
 
@@ -181,6 +340,7 @@ ilias.questions.assMatchingQuestion = function(a_id) {
 ilias.questions.assClozeTest = function(a_id) {
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
+	answers[a_id].choice = [];
 	
 	for (var i=0;i<questions[a_id].gaps.length;i++)
 	{
@@ -193,8 +353,9 @@ ilias.questions.assClozeTest = function(a_id) {
 				answers[a_id].wrong++;
 				answers[a_id].answer[i]=false;
 			} else {
-				answers[a_id].answer[i]=true;	
+				answers[a_id].answer[i]=true;
 			}
+			answers[a_id].choice.push(questions[a_id].gaps[i].item[selected].order);
 		}
 		if (type==0 || type==2) {
 			var a_node = jQuery('input#'+a_id+"_"+i).get(0);
@@ -212,6 +373,7 @@ ilias.questions.assClozeTest = function(a_id) {
 					}
 				}
 			}
+			answers[a_id].choice.push(a_node.value);
 		   if (value_found==false) {answers[a_id].passed = false; answers[a_id].wrong++; answers[a_id].answer[i]=false;}
 		}
 	}
@@ -241,22 +403,95 @@ ilias.questions.initClozeTest = function(a_id) {
 	jQuery("div#"+a_id).html(parsed);
 };
 
+ilias.questions.selectErrorText = function(a_id, node) {
+
+	if(questions[a_id].selected === undefined)
+	{
+		questions[a_id].selected = [];
+	}
+
+	var id = jQuery(node).parent().attr("id");
+	var id_index = jQuery.inArray(id, questions[a_id].selected);
+	
+	if(id_index > -1)
+	{
+		jQuery(node).removeClass("sel");
+		questions[a_id].selected.splice(id_index, 1);
+	}
+	else
+	{
+		jQuery(node).addClass("sel");
+		questions[a_id].selected.push(id);
+	}
+
+	jQuery(node).blur();
+};
+
+ilias.questions.assErrorText =function(a_id) {
+
+	answers[a_id].wrong = 0;
+	answers[a_id].passed = true;
+	answers[a_id].choice = [];
+
+	if(questions[a_id].selected === undefined)
+	{
+		answers[a_id].passed = false;
+	}
+	else
+	{
+		for(var i=0;i<questions[a_id].answers.length;i++)
+		{
+			if(jQuery.inArray(questions[a_id].answers[i]["order"], questions[a_id].selected) > -1)
+			{
+				var text_select = questions[a_id].answers[i]["answertext"];
+				var is_wrong = false;
+				for(var j=0;j<questions[a_id].correct_answers.length;j++)
+				{
+					if(text_select == questions[a_id].correct_answers[j]["answertext_wrong"])
+					{
+						is_wrong = true;
+					}
+				}
+				if(is_wrong === false)
+				{
+					answers[a_id].wrong++;
+					answers[a_id].passed = false;
+				}
+			}
+		}
+	}
+
+	ilias.questions.showFeedback(a_id);
+}
+
 ilias.questions.showFeedback =function(a_id) {
 	
 	jQuery('#feedback'+a_id).hide();
+
+	// "image map as single choice" not supported yet
+	if(questions[a_id].type == "assSingleChoice")
+	{
+		var txt_wrong_answers = ilias.questions.txt.wrong_answers_single;
+	}
+	else
+	{
+		var txt_wrong_answers = ilias.questions.txt.wrong_answers + ': ' +
+				answers[a_id].wrong ;
+	}
 	
 	if (answers[a_id].passed===true || (answers[a_id].tries >=questions[a_id].nr_of_tries && questions[a_id].nr_of_tries!=0)) {
 		jQuery('#button'+a_id).attr("disabled", "true");
 		if (answers[a_id].passed===true) {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedw_FeedbackWrong");				
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedr_FeedbackRight");	
-            jQuery('#feedback'+a_id).html('<b>All answers correct!</b><br>'+questions[a_id].feedback['allcorrect']);
+            jQuery('#feedback'+a_id).html('<b>' + ilias.questions.txt.all_answers_correct + '</b><br />'+questions[a_id].feedback['allcorrect']);
 			ilias.questions.showCorrectAnswers(a_id);
 			ilias.questions.scormHandler(a_id,"correct",ilias.questions.toJSONString(answers[a_id]));
 		} else {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");	
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");	
-            jQuery('#feedback'+a_id).html('<b>Number of tries exceeded!</b><br> Correct answers are shown above.<br>'+questions[a_id].feedback['allcorrect']);   
+            jQuery('#feedback'+a_id).html('<b>' + ilias.questions.txt.nr_of_tries_exceeded +
+				'</b><br />' + ilias.questions.txt.correct_answers_shown + '<br />'+questions[a_id].feedback['onenotcorrect']);
 			ilias.questions.showCorrectAnswers(a_id);
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
 		}
@@ -265,12 +500,15 @@ ilias.questions.showFeedback =function(a_id) {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");	
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");	
 			var rem = questions[a_id].nr_of_tries - answers[a_id].tries;
-			jQuery('#feedback'+a_id).html(answers[a_id].wrong+' answer(s) not correct.<br>'+rem+" tries remaining.<br>"+questions[a_id].feedback['onenotcorrect']);
+			jQuery('#feedback'+a_id).html(txt_wrong_answers + '<br />' +
+				ilias.questions.txt.tries_remaining + ': '+ rem +
+				"<br />" + questions[a_id].feedback['onenotcorrect']);
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
 		} else {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");	
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedw_FeedbackWrong");
-            jQuery('#feedback'+a_id).html(answers[a_id].wrong+' answer(s) not correct.<br> Please try again'+questions[a_id].feedback['onenotcorrect']);
+            jQuery('#feedback'+a_id).html(txt_wrong_answers + '<br /> ' +
+				ilias.questions.txt.please_try_again + '<br />' + questions[a_id].feedback['onenotcorrect']);
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
 		}	
 	}
@@ -327,6 +565,7 @@ ilias.questions.scormHandler = function(a_id,a_state,a_response) {
 ilias.questions.showCorrectAnswers =function(a_id) {
 	
 	switch (questions[a_id].type) {
+		
 		case 'assSingleChoice':	
 			for (var i=0;i<questions[a_id].answers.length;i++) {
 				if (questions[a_id].answers[i].points>=1) {
@@ -350,7 +589,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 				
 			}
 			break;
-			//end assSingleChoice
+			//end assMultipleChoice
 			
 		case 'assImagemapQuestion': 
 			//reinit map
@@ -366,6 +605,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 		   	//end assImagemapQuestion
 		
 		case 'assOrderingQuestion':
+		case 'assOrderingHorizontal':
 			var answers = questions[a_id].answers;
 			var answers_sorted = answers.sort(sortBySolutionorder);
 			var items=jQuery("#order"+a_id).children();
@@ -385,6 +625,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 			}
 		break;
 		//end assMatchingQuestion
+		
 		case 'assClozeTest':
 			for (var i=0;i<questions[a_id].gaps.length;i++) {
 				var type = questions[a_id].gaps[i].type;
@@ -416,7 +657,85 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 				}
 			}
 		break;
-		//end assMatchingQuestion
+		//end assClozeTest
+
+		case 'assTextSubset':
+			var a_node = jQuery('input[name="answers'+a_id+'[]"]');
+			var choice = [];
+			for (var i=0;i<a_node.length;i++) {
+
+				var answer = a_node.get(i).value;
+				jQuery(a_node[i]).attr("disabled",true);
+				
+				if(questions[a_id].matching_method == "ci")
+				{
+					answer = answer.toLowerCase();
+				}
+
+				var found = false;
+				for (var c=0;c<questions[a_id].correct_answers.length;c++)
+				{
+					var correct_answer = questions[a_id].correct_answers[c]["answertext"];
+					if(questions[a_id].matching_method == "ci")
+					{
+						correct_answer = correct_answer.toLowerCase();
+					}
+					if(correct_answer == answer)
+					{
+						found = true;
+						choice.push(c);
+					}
+				}
+				if(found === false)
+				{
+					jQuery(a_node[i]).attr("value", "");
+				}
+			}
+			var correct_info = "";
+			for (var c=0;c<questions[a_id].correct_answers.length;c++)
+			{
+				if($.inArray(c, choice) == -1)
+				{
+					correct_info = correct_info + "<li>" + questions[a_id].correct_answers[c]["answertext"] + "</li>";
+				}
+			}
+			if(correct_info.length)
+			{
+				var elements = jQuery("#container"+a_id+" > .ilc_answers");
+				elements.eq(elements.length -1).after("<ul>" + correct_info + "</ul>");
+			}
+			break;
+			//end assTextSubset
+
+		case 'assErrorText':
+			for(var i=0;i<questions[a_id].answers.length;i++)
+			{
+				var node = jQuery("div#container" + a_id + " span#" + questions[a_id].answers[i]["order"]);
+				if(node.length)
+				{
+					var is_wrong = false;
+					var correct = "";
+					for(var j=0;j<questions[a_id].correct_answers.length;j++)
+					{
+						if(questions[a_id].answers[i]["answertext"] == questions[a_id].correct_answers[j]["answertext_wrong"])
+						{
+							is_wrong = true;
+							correct = questions[a_id].correct_answers[j]["answertext_correct"];
+						}
+					}
+					if(is_wrong == false)
+					{
+						jQuery(node).html(questions[a_id].answers[i]["answertext"]);
+					}
+					else
+					{
+						jQuery(node).html('<span class="errortext_corrected">' +
+							questions[a_id].answers[i]["answertext"] + '</span>' + correct);
+					}
+				}
+			}
+			break;
+			//end assErrorText
 	}
 };
 
@@ -610,15 +929,23 @@ jQuery(document).ready(function() {
 		css3color = function(color, opacity) {
 			return 'rgba('+hex_to_decimal(color.substr(0,2))+','+hex_to_decimal(color.substr(2,2))+','+hex_to_decimal(color.substr(4,2))+','+opacity+')';
 		};
-		create_canvas_for = function(img) {
-			var c = jQuery('<canvas id="canvas_' + jQuery(this).attr("id") + ' style="width:'+img.width+'px;height:'+img.height+'px;"></canvas>').get(0);
+		create_canvas_for = function(img, id) {
+			var width = jQuery(img).attr("width");
+			var height = jQuery(img).attr("height");
+			if(typeof(img.width) == "number")
+			{
+				width = img.width;
+				height = img.height;
+			}
+			var c = jQuery('<canvas id="canvas_' + id + '" style="width:'+width+'px;height:'+height+'px;"></canvas>').get(0);
+			c.width = width;
+			c.height = height;
 			c.getContext("2d").clearRect(0, 0, c.width, c.height);
 			return c;
 		};
 		
 		add_shape_to = function(canvas, shape, coords, options, name)
 		{
-					
 			var i, context = canvas.getContext('2d');
 			context.beginPath();
 			
@@ -660,7 +987,7 @@ jQuery(document).ready(function() {
 			}
 		};
 			
-			clear_canvas = function(canvas, area) {
+		clear_canvas = function(canvas, area) {
 			canvas.getContext('2d').clearRect(0, 0, canvas.width,canvas.height);
 		};
 	} 
@@ -685,9 +1012,16 @@ jQuery(document).ready(function() {
 			document.namespaces.add("v", "urn:schemas-microsoft-com:vml"); 
 		}	
 		
-		create_canvas_for = function(img)
+		create_canvas_for = function(img, id)
 		{
-			return jQuery('<var id="iemainvmlcontainer" style="zoom:1;overflow:hidden;display:block;width:'+img.width+'px;height:'+img.height+'px;"></var>').get(0);
+			var width = jQuery(img).attr("width");
+			var height = jQuery(img).attr("height");
+			if(typeof(img.width) == "number")
+			{
+				width = img.width;
+				height = img.height;
+			}
+			return jQuery('<var id="canvas_' + id + '" style="zoom:1;overflow:hidden;display:block;width:'+width+'px;height:'+height+'px;"></var>').get(0);
 		};
 		
 		add_shape_to = function(canvas, shape, coords, options, name, id)
@@ -706,7 +1040,7 @@ jQuery(document).ready(function() {
 			} 
 			else if(shape == 'poly')
 			{
-   			e = jQuery('<v:shape id="canvas_' + id + '" name="'+name+'" filled="t" '+stroke+' coordorigin="0,0" coordsize="'+canvas.width+','+canvas.height+'" path="m '+coords[0]+','+coords[1]+' l '+coords.join(',')+' x e" style="zoom:1;margin:0;padding:0;display:block;position:absolute;top:0px;left:0px;width:'+canvas.width+'px;height:'+canvas.height+'px;"></v:shape>');
+				e = jQuery('<v:shape id="canvas_' + id + '" name="'+name+'" filled="t" '+stroke+' coordorigin="0,0" coordsize="'+parseInt(canvas.style.width)+','+parseInt(canvas.style.height)+'" path="m '+coords[0]+','+coords[1]+' l '+coords.join(',')+' x e" style="zoom:1;margin:0;padding:0;display:block;position:absolute;top:0px;left:0px;width:'+canvas.style.width+';height:'+canvas.style.height+';"></v:shape>');
 			} 
 			else if(shape == 'circ')
 			{
@@ -752,9 +1086,9 @@ jQuery(document).ready(function() {
 		
 		return this.each(function() {
 			
-			var img, wrap, options, map, canvas, canvas_always, mouseover, highlighted_shape;
+			var img, wrap, options, map, canvas, canvas_always, mouseover, highlighted_shape, question_id;
 			img = jQuery(this);
-		
+
 			if(!is_image_loaded(this)) {
 				// If the image isn't fully loaded, this won't work right.  Try again later.
 				return window.setTimeout(function() {
@@ -774,7 +1108,7 @@ jQuery(document).ready(function() {
 				var wrapper = img.parent();
 				img.insertBefore(wrapper);
 				wrapper.remove();
-				//alert('yes');
+				// alert('yes');
 			}
 
 			wrap = jQuery('<div>').css({display:'block',background:'url('+this.src+')',position:'relative',padding:0,width:this.width,height:this.height});
@@ -783,18 +1117,18 @@ jQuery(document).ready(function() {
 			if(jQuery.browser.msie) { img.css('filter', 'Alpha(opacity=0)'); }
 			
 			wrap.append(img);
+
+			question_id = img.attr('usemap');			
+		    question_id = question_id.substr(4);
 				
-			canvas = create_canvas_for(this);
+			canvas = create_canvas_for(this, question_id);
 			jQuery(canvas).css(canvas_style);
-			canvas.height = this.height;
-			canvas.width = this.width;
-			canvas.id = this.id;
-					
+			
 			mouseover = function(e)
 			{
 				var shape, area_options;
 				area_options = jQuery.metadata ? jQuery.extend({}, options, jQuery(this).metadata()) : options;
-		
+
 				if (area_options.linked)
 				{
 					var thislinked = area_options.linked;
@@ -827,30 +1161,28 @@ jQuery(document).ready(function() {
 			};
 			
 			
-			draw = function(object)
-			{
+			draw = function(object, target_canvas)
+			{				
 				var shape, area_options, object;
 				area_options = jQuery.metadata ? jQuery.extend({}, options, jQuery(this).metadata()) : options;		
 				
 				// NON IE
 				if(has_canvas)
 				{
-					canvas_always = create_canvas_for(img.get());
-				
+				    var arr_map = jQuery(object).attr("id").split("_");
+					var str_cmap = '.cmap' + arr_map[0];
+					canvas_always = create_canvas_for($(str_cmap).get(), jQuery(object).attr("id"));
 					jQuery(canvas_always).css(canvas_style);
-					canvas_always.width = img.width();
-					canvas_always.height = img.height();
-					canvas_always.id = 'canvas_' + jQuery(object).attr("id");
-														
-					img.before(canvas_always);
+					
+					$(str_cmap).before(canvas_always);
 				}
 									
 				shape = shape_from_area(object);
-				
+
 				// IE!
 				if (jQuery.browser.msie)
 				{
-					add_shape_to(canvas, shape[0], shape[1], area_options, "", jQuery(object).attr("id"));
+					add_shape_to(target_canvas, shape[0], shape[1], area_options, "", jQuery(object).attr("id"));
 				} 
 				else
 				{
@@ -859,7 +1191,7 @@ jQuery(document).ready(function() {
 			};
 			
 			mouseclick = function(e,id)
-			{
+			{				
 				var shape, area_options, object;
 				area_options = jQuery.metadata ? jQuery.extend({}, options, jQuery(this).metadata()) : options;	
 								
@@ -868,8 +1200,8 @@ jQuery(document).ready(function() {
 				}
 				else {
 					object = this;
-				}				
-				
+				}
+
 				if (!jQuery('#canvas_' + jQuery(object).attr('id')).attr('id'))
 				{
 					if (area_options.linked)
@@ -883,14 +1215,14 @@ jQuery(document).ready(function() {
 										
 							if (thislinked == area_options.linked) {
 								// alert(jQuery(this).attr('id') + ' ' + area_options.linked);
-								draw(this);				
+								draw(this, canvas);
 							}																			
 																											
 						});
 					}
 					else
 					{
-						draw(object);
+						draw(object, canvas);
 					}
 				}
 				else
@@ -931,16 +1263,34 @@ jQuery(document).ready(function() {
 						
 						if(area_options.alwaysOn)
 						{
-							draw(this);							
+							draw(this, canvas);
 						}
 					});
 				}
+				jQuery(map).find('area[coords]').unbind();
 				jQuery(map).find('area[coords]').mouseover(mouseover).mouseout(function(e) { clear_canvas(canvas); });
 				jQuery(map).find('area[coords]').click(mouseclick); 
 			}
 			
 			img.before(canvas); // if we put this after, the mouseover events wouldn't fire.
 			img.addClass('maphilighted');
+
+			// if question was not answered correctly yet, "reload" active areas
+			if(ilias.questions.answers[question_id] && ilias.questions.answers[question_id].passed != true)
+			{
+				for (i=0; i < ilias.questions.answers[question_id].areas.length; i++){
+					if(ilias.questions.answers[question_id].areas[i] == true)
+					{
+						var canvas_id = question_id + '_' + i;
+						if (!jQuery('#canvas_' + canvas_id).attr('id'))
+						{
+							var selected_area = jQuery(map).find('area[id="'+ canvas_id + '"]');
+							draw(jQuery(selected_area).get(0), canvas);
+						}
+					}
+				};
+			}
+
 		});
 	};
 

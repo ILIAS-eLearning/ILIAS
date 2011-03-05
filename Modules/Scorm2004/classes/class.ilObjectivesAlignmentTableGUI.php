@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("Services/Table/classes/class.ilTable2GUI.php");
 
@@ -62,7 +43,15 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
 	*/
 	function getScos()
 	{
-		$nodes = $this->tree->getChilds($this->chap);
+		if ($this->chap > 0)
+		{
+			$nodes = $this->tree->getChilds($this->chap);
+		}
+		else
+		{
+			$nodes = $this->tree->getSubTree($this->tree->getNodeData($this->tree->root_id),true,array('sco'));
+		}
+
 		$scos = array();
 
 		$nr = 1;
@@ -98,7 +87,8 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
 		foreach($tr_data as $data)
 		{
 			$this->tpl->setCurrentBlock("objective");
-			$this->tpl->setVariable("TXT_LEARNING_OBJECTIVE", $data->getObjectiveID());
+			$this->tpl->setVariable("TXT_LEARNING_OBJECTIVE",
+				ilSCORM2004Sco::convertLists($data->getObjectiveID()));
 			$this->tpl->setVariable("IMG_LOBJ", ilUtil::getImagePath("icon_lobj_s.gif"));
 			$this->tpl->parseCurrentBlock();
 		}

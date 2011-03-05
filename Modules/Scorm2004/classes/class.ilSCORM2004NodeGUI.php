@@ -1,26 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
-
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilSCORM2004NodeGUI
@@ -205,13 +184,25 @@ class ilSCORM2004NodeGUI
 	}
 
 	/**
-	* Insert Sco
-	*/
+	 * Insert Sco
+	 */
 	function insertSco()
 	{
 		global $ilCtrl;
 		
 		$res = $this->getParentGUI()->insertSco(false);
+		$ilCtrl->setParameter($this, "highlight", $res["items"]);
+		$ilCtrl->redirect($this, "showOrganization", "node_".$res["node_id"]);
+	}
+
+	/**
+	 * Insert Asset
+	 */
+	function insertAsset()
+	{
+		global $ilCtrl;
+
+		$res = $this->getParentGUI()->insertAsset(false);
 		$ilCtrl->setParameter($this, "highlight", $res["items"]);
 		$ilCtrl->redirect($this, "showOrganization", "node_".$res["node_id"]);
 	}
@@ -289,7 +280,6 @@ class ilSCORM2004NodeGUI
 	function cancelDelete()
 	{
 		global $ilCtrl;
-		
 		$ilCtrl->redirect($this, "showOrganization");
 	}
 
@@ -313,7 +303,7 @@ class ilSCORM2004NodeGUI
 		
 		$ilLocator->addRepositoryItems($_GET["ref_id"]);
 		$this->getParentGUI()->addLocatorItems();
-		
+
 		if ($_GET["obj_id"] > 0)
 		{
 			$tree = new ilTree($this->slm_object->getId());
@@ -351,23 +341,17 @@ class ilSCORM2004NodeGUI
 							"showOrganization"), "", 0, $path[$i]["type"],
 							ilUtil::getImagePath("icon_sco_s.gif"));
 						break;
+
+					case "ass":
+						$ilCtrl->setParameterByClass("ilscorm2004assetgui", "obj_id",
+							$path[$i]["child"]);
+						$ilLocator->addItem($path[$i]["title"],
+							$ilCtrl->getLinkTargetByClass("ilscorm2004assetgui",
+							"showOrganization"), "", 0, $path[$i]["type"],
+							ilUtil::getImagePath("icon_sca_s.gif"));
+						break;
 						
 					case "page":
-					
-						// content styles
-						include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-						$tpl->setCurrentBlock("ContentStyle");
-						$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-							ilObjStyleSheet::getContentStylePath($this->slm_object->getStyleSheetId()));
-						$tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET",
-							ilObjStyleSheet::getPlaceHolderStylePath());
-						$tpl->parseCurrentBlock();
-						
-						$tpl->setCurrentBlock("SyntaxStyle");
-						$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-							ilObjStyleSheet::getSyntaxStylePath());
-						$tpl->parseCurrentBlock();
-					
 						$ilCtrl->setParameterByClass("ilscorm2004pagegui", "obj_id",
 							$path[$i]["child"]);
 						$ilLocator->addItem($path[$i]["title"],
@@ -384,6 +368,28 @@ class ilSCORM2004NodeGUI
 	}
 
 	/**
+	 * Set content style sheet
+	 */
+	function setContentStyle()
+	{
+		global $tpl;
+		
+		// content styles
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$tpl->setCurrentBlock("ContentStyle");
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->slm_object->getStyleSheetId()));
+		$tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET",
+			ilObjStyleSheet::getPlaceHolderStylePath());
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("SyntaxStyle");
+		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
+		$tpl->parseCurrentBlock();
+	}
+
+		/**
 	* Copy items to clipboard
 	*/
 	function copyItems($a_return = "showOrganization")

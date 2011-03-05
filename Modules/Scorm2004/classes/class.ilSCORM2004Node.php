@@ -1,38 +1,20 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 require_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
 
 /**
-* Class 
-*
-* Base class for Scorm 2004 Nodes (Chapters, Pages, SCOs)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesScorm2004
-*/
+ * Class
+ *
+ * Base class for Scorm 2004 Nodes (Chapters, Pages, SCOs)
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ModulesScorm2004
+ */
 class ilSCORM2004Node
 {
 	var $slm_id;
@@ -48,10 +30,12 @@ class ilSCORM2004Node
 		$this->id = $a_id;
 		$this->setSLMObject($a_slm_object);
 		$this->setSLMId($a_slm_object->getId());
-		
-		$this->tree = new ilTree($a_slm_object->getId());
+
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
+		$this->tree = new ilSCORM2004Tree($a_slm_object->getId());
+		/*$this->tree = new ilTree($a_slm_object->getId());
 		$this->tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-		$this->tree->setTreeTablePK("slm_id");
+		$this->tree->setTreeTablePK("slm_id");*/
 
 		if($a_id != 0)
 		{
@@ -141,13 +125,23 @@ class ilSCORM2004Node
 	}
 
 	/**
-	* Set Scorm Learning Module Object
-	*
-	* @param	int		Scorm LM Object
-	*/
+	 * Set Scorm Learning Module Object
+	 *
+	 * @param	int		Scorm LM Object
+	 */
 	function setSLMObject($a_slm_obj)
 	{
 		$this->slm_object = $a_slm_obj;
+	}
+	
+	/**
+	 * Get scorm learning module object
+	 *
+	 * @return	int		Scorm LM Object
+	 */
+	function getSLMObject()
+	{
+		return $this->slm_object;
 	}
 
 	/**

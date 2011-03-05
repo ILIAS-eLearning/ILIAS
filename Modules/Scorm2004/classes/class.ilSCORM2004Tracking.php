@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilSCORM2004Tracking
@@ -203,6 +184,67 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 
 		return $info;
 	}
+
+	/**
+	 * Get overall scorm status
+	 * @param object $a_obj_id
+	 * @return 
+	 */
+	function _getProgressInfoOfUser($a_obj_id, $a_user_id)
+	{
+		global $ilDB, $ilLog;
+
+		$res = $ilDB->queryF('
+			SELECT * FROM cmi_gobjective
+			WHERE objective_id = %s
+			AND scope_id = %s AND user_id = %s', 
+			array('text', 'integer', 'integer'), 
+			array('-course_overall_status-', $a_obj_id, $a_user_id)
+		);
+		
+		$status = "not_attempted";
+		if ($row = $ilDB->fetchAssoc($res))
+		{
+			if (self::_isInProgress($row["status"], $row["status"]))
+			{
+				$status = "in_progress";
+			}
+			if (self::_isCompleted($row["status"], $row["status"]))
+			{
+				$status = "completed";
+			}
+			if (self::_isFailed($row["status"], $row["status"]))
+			{
+				$status = "failed";
+			}
+		}
+		return $status;
+	}
+
+	/**
+	 * Get all tracked users
+	 * @param object $a_obj_id
+	 * @return 
+	 */
+	function _getTrackedUsers($a_obj_id)
+	{
+		global $ilDB, $ilLog;
+
+		$res = $ilDB->queryF('
+			SELECT DISTINCT user_id FROM cmi_gobjective
+			WHERE objective_id = %s
+			AND scope_id = %s', 
+			array('text', 'integer'), 
+			array('-course_overall_status-', $a_obj_id)
+		);
+		
+		$users = array();
+		while ($row = $ilDB->fetchAssoc($res))
+		{
+			$users[] = $row["user_id"];
+		}
+		return $users;
+	}
 	
 	function _getItemProgressInfo($a_scorm_item_ids, $a_obj_id)
 	{
@@ -242,10 +284,173 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		}
 		return $info;
 	}
+	
+	public static function _getCollectionStatus($a_scos, $a_obj_id, $a_user_id)
+	{
+		global $ilDB;
+
+		$status = "not_attempted";
+		
+		if (is_array($a_scos))
+		{
+			$in = $ilDB->in('cp_node.cp_node_id', $a_scos, false, 'integer');
+
+			$res = $ilDB->queryF(
+				'SELECT cp_node.cp_node_id id,
+						cmi_node.completion_status completion, 
+						cmi_node.success_status success
+				 FROM cp_node, cmi_node 
+				 WHERE '.$in.'
+				 AND cp_node.cp_node_id = cmi_node.cp_node_id
+				 AND cp_node.slm_id = %s
+				AND cmi_node.user_id = %s',
+				array('integer', 'integer'),
+				array($a_obj_id, $a_user_id)
+			);
+	
+			
+			$cnt = 0;
+			$completed = true;
+			$failed = false;
+			while ($rec = $ilDB->fetchAssoc($res))
+			{
+				if ($rec["success"] == "failed")
+				{
+					$failed = true;
+				}
+				if ($rec["completion"] != "completed" && $rec["success"] != "passed")
+				{
+					$completed = false;
+				}
+				$cnt++;
+			}
+			if ($cnt > 0)
+			{
+				$status = "in_progress";
+			}
+			if ($completed && $cnt == count($a_scos))
+			{
+				$status = "completed";
+			}
+			if ($failed)
+			{
+				$status = "failed";
+			}
+
+		}
+		return $status;
+	}
+
+	public static function _countCompleted($a_scos, $a_obj_id, $a_user_id)
+	{
+		global $ilDB;
+		
+		if (is_array($a_scos))
+		{
+			$in = $ilDB->in('cp_node.cp_node_id', $a_scos, false, 'integer');
+
+			$res = $ilDB->queryF(
+				'SELECT cp_node.cp_node_id id,
+						cmi_node.completion_status completion, 
+						cmi_node.success_status success
+				 FROM cp_node, cmi_node 
+				 WHERE '.$in.'
+				 AND cp_node.cp_node_id = cmi_node.cp_node_id
+				 AND cp_node.slm_id = %s
+				AND cmi_node.user_id = %s',
+				array('integer', 'integer'),
+				array($a_obj_id, $a_user_id)
+			);
+	
+			
+			$cnt = 0;
+			while ($rec = $ilDB->fetchAssoc($res))
+			{
+				if ($rec["completion"] == "completed" || $rec["success"] == "passed")
+				{
+					$cnt++;
+				}
+			}
+
+		}
+		return $cnt;
+	}
 
 	/**
-	* 
-	*/
+	 * Synch read event table
+	 *
+	 * @param
+	 * @return
+	 */
+	function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id)
+	{
+		global $ilDB, $ilLog;
+
+		// get attempts
+		$val_set = $ilDB->queryF('
+		SELECT * FROM cmi_custom 
+		WHERE user_id = %s
+				AND sco_id = %s
+				AND lvalue = %s
+				AND obj_id = %s',
+		array('integer','integer', 'text','integer'),
+		array($a_user_id, 0,'package_attempts',$a_obj_id));
+		
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		
+		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
+		if ($val_rec["rvalue"] == null) {
+			$val_rec["rvalue"]="";
+		}
+
+		$attempts = $val_rec["rvalue"];
+
+		// time
+		$scos = array();
+		$val_set = $ilDB->queryF(
+			'SELECT cp_node_id FROM cp_node 
+			WHERE nodename = %s
+			AND cp_node.slm_id = %s',
+			array('text', 'integer'),
+			array('item', $a_obj_id)
+		);
+		while($val_rec = $ilDB->fetchAssoc($val_set))
+		{
+			array_push($scos,$val_rec['cp_node_id']);
+		}
+		$time = 0;
+		foreach ($scos as $sco) 
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
+			$data_set = $ilDB->queryF('
+				SELECT c_timestamp last_access, session_time, success_status, completion_status,
+					   c_raw, cp_node_id
+				FROM cmi_node 
+				WHERE cp_node_id = %s
+				AND user_id = %s',
+				array('integer','integer'),
+				array($sco, $a_user_id)
+			);
+			
+			while($data_rec = $ilDB->fetchAssoc($data_set))
+	   		{	
+	   			$sec = ilObjSCORM2004LearningModule::_ISODurationToCentisec($data_rec["session_time"]) / 100;
+//$ilLog->write("-".$sco."-".$data_rec["session_time"]."-".$sec."-");
+	   		}
+			$time += (int) $sec;
+			$sec = 0;
+//$ilLog->write("++".$time);
+		}
+
+		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
+		ilChangeEvent::_recordReadEvent($a_type, $a_ref_id,
+			$a_obj_id, $a_user_id, false, $attempts, $time);
+	}
+
+
+	/**
+	 * 
+	 */
 	static function _isCompleted($a_status, $a_satisfied)
 	{
 		if ($a_status == "completed")
