@@ -1703,6 +1703,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$this->public_export_file[$a_type] = $a_file;
 	}
 
+} // END class.ilObjSCORM2004LearningModule
 	/**
 	 * Create entry page
 	 */
@@ -1752,5 +1753,4 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	}
 
 }
-
 ?>
