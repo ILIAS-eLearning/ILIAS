@@ -316,5 +316,5 @@ SeqRollupRuleset.prototype =
 	
 		return 0;
 	}
-};
+}
 	

@@ -235,7 +235,7 @@ SeqActivityTree.prototype =
 						// Remove the activity from the 'lookat' list
 						walk = lookAt[0];
 						//delete lookAt[0];
-						lookAt.splice(0,1);
+						lookAt.splice(0,1)
 						// Remove the depth of the new activity from the 'depths' list
 						depth = depths[0];
 						//delete depths[0];
@@ -416,4 +416,4 @@ SeqActivityTree.prototype =
 		}
 		this.mObjScan = true;
 	}
-};
+}

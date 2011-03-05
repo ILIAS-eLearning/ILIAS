@@ -6,11 +6,12 @@
 		<div class="ilc_qanswer_Answer"><input type="radio" class="order@value" value="0" name="answers{VAL_ID}" /> <span class="answertext" /></span></div>
 		</span>	
 	<div id="feedback{VAL_ID}" style="display:none"></div>
-	<input type="button" class="ilc_qsubmit_Submit" {VAL_NO_DISPLAY} id="button{VAL_ID}" onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
+	<input type="button" class="ilc_qsubmit_Submit" {VAL_NO_DISPLAY} id="button{VAL_ID}" onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 	</div>
 <script>
 	ilias.questions.shuffle(questions[{VAL_ID}]);
-	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
+	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+	{HANDLE_IMAGES}
 </script>
 <!-- END singlechoice -->
 <!-- BEGIN multiplechoice -->
@@ -20,33 +21,37 @@
 		<div class="ilc_qanswer_Answer"><input type="checkbox" class="order@value" value="0" name="answers{VAL_ID}" /> <span class="answertext" /></span></div>
 		</span>	
 	<div id="feedback{VAL_ID}" style="display:none"></div>
-	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
+	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 	</div>
 <script>
 	ilias.questions.shuffle(questions[{VAL_ID}]);
 	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+	{HANDLE_IMAGES}
 </script>
 <!-- END multiplechoice -->
 <!-- BEGIN orderingquestion -->
 <div id="container{VAL_ID}" class="ilc_question_OrderingQuestion">
 <div class="ilc_qtitle_Title question id@id">qtitle</div>	
-<ul id="order{VAL_ID}">
-	<li class="answers order@id" style="list-style-type:circle; cursor:move; width:200px; border:1px; border-style:solid; margin:3px; padding:3px;"><div class="ilc_qanswer_Answer answertext"></div></li>
+<ul id="order{VAL_ID}" class="ordering ordering_vrt{VAL_SUBTYPE}">
+	<li class="answers order@id"><div class="ilc_qanswer_Answer answertext"></div></li>
 </ul>
 <div id="feedback{VAL_ID}" style="display:none"></div>
-<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
+<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 </div>
 <script>
-	ilias.questions.shuffle(questions[{VAL_ID}]);
-	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
-	jQuery("#order{VAL_ID}").sortable({});
+	$(document).ready(function() {
+		ilias.questions.shuffle(questions[{VAL_ID}]);
+		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+		{HANDLE_IMAGES}
+		jQuery("#order{VAL_ID}").sortable({axis: 'y', containment: '#container{VAL_ID}'});
+	});
 </script>
 <!-- END orderingquestion -->
 <!-- BEGIN clozequestion -->
 <div id="container{VAL_ID}" class="ilc_question_ClozeTest">
 <div class="ilc_qanswer_Answer question id@id">qtitle</div>	
 <div id="feedback{VAL_ID}" style="display:none"></div>
-<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
+<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 </div>
 <script>
 	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
@@ -58,7 +63,7 @@
 	<div class="ilc_qtitle_Title question id@id">qtitle</div>
 	<textarea class="ilc_qlinput_LongTextInput answer" id="textarea{VAL_ID}" cols="60" rows="5" maxlength="{VAL_MAXLENGTH}"></textarea>
 <div id="feedback{VAL_ID}" style="display:none"></div><br/>
-<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
+<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 </div>
 <script>
 	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
@@ -70,7 +75,7 @@
 	<div class="ilc_qtitle_Title question id@id">qtitle</div>
 	<img class="cmap{VAL_ID} imagemap image@src" src="url" usemap="#map{VAL_ID}" />
 	<div id="feedback{VAL_ID}" style="display:none"></div>
-	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
+	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 	</div>
 	<map class="map" name="map{VAL_ID}">
 		<!-- BEGIN mapareas -->
@@ -94,42 +99,94 @@
 <!-- BEGIN matchingquestion -->
 <div class="ilc_question_MatchingQuestion">
 <div class="ilc_qtitle_Title" id="qtitle{VAL_ID}">qtitle</div>
-<table id="container{VAL_ID}" cellspacing="0">
-  <tbody>
-	<tr>
-		<th valign="middle" style="font-weight:normal;" class="definition ilc_qanswer_Answer">Definition</th>
-		<th valign="middle" style="font-weight:normal;" class="ilc_qanswer_Answer">&nbsp;&harr;&nbsp;</th>
-		<th valign="middle" style="font-weight:normal;" class="termcolumn ilc_qanswer_Answer">
-			<select class="terms">
-				<option class="term">Term</option>
-			</select>
-		</th>
-	</tr>
-  </tbody>	
-</table>
-	<div class="transformation">
-		<div id="render{VAL_ID}"></div>
-	</div>
+	<table id="container{VAL_ID}" cellspacing="0">
+	  <tbody>
+		<tr>
+			<th valign="middle" style="font-weight:normal;" class="definition ilc_qanswer_Answer">Definition</th>
+			<th valign="middle" style="font-weight:normal;" class="ilc_qanswer_Answer">&nbsp;&harr;&nbsp;</th>
+			<th valign="middle" style="font-weight:normal;" class="termcolumn ilc_qanswer_Answer">
+				<select class="terms">
+					<option class="term">Term</option>
+				</select>
+			</th>
+		</tr>
+	  </tbody>
+	</table>
 	<div id="feedback{VAL_ID}" style="display:none"></div>
-	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="Submit Answers" />
-	</div>
-		
+	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
+</div>
 <script>
-var pairs = jQuery('#container{VAL_ID}').mapDirective({
-	'tbody tr': 'pair <- pairs',
-	'th.definition': 'pair.definition',
-	'select[id]':'pair.def_id'});
+	jQuery('div#qtitle{VAL_ID}').html(questions[{VAL_ID}].question);
 
-var terms = jQuery('select.terms', pairs).mapDirective({
-	'option.term': ['term <- pair.terms','term.term'],
-	 'option[id]':'term.id'});
+	var terms_dir = {
+		'option': {
+			'term <- terms': {
+				'.': 'term.term',
+				'@id':'term.id'}
+		}};
+	jQuery('select.terms').render(questions[{VAL_ID}].pairs[0], terms_dir);
 
-	jQuery('th.termcolumn', pairs).html(terms); 
-	$p.compile(pairs, 'f{VAL_ID}');
-	jQuery('table#container{VAL_ID}').hide();
-	jQuery('div#render{VAL_ID}').html( $p.render('f{VAL_ID}', questions[{VAL_ID}]) );
-	jQuery('div#qtitle{VAL_ID}').html( questions[{VAL_ID}].question);
-	
+	var pairs_dir = {
+		'tbody tr': {
+			'pair <- pairs': {
+				'th.definition': 'pair.definition',
+				'select@id':'pair.def_id'}
+		}};
+	jQuery('#container{VAL_ID}').render(questions[{VAL_ID}], pairs_dir);
 </script>
 <!-- END matchingquestion -->
+<!-- BEGIN textsubset -->
+<div id="container{VAL_ID}" class="ilc_question_TextQuestion">
+	<div class="ilc_qtitle_Title question id@id">qtitle</div>
+	<span class="ilc_answers answers">
+		<div class="ilc_qanswer_Answer"><span class="answernr"></span>. <input type="text" class="order" value="" name="answers{VAL_ID}[]" /> </div>
+		</span>	
+<div id="feedback{VAL_ID}" style="display:none"></div><br/>
+<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
+</div>
+<script>
+	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+</script>
+<!-- END textsubset -->
+<!-- BEGIN orderinghorizontal -->
+<div id="container{VAL_ID}" class="ilc_question_OrderingQuestion">
+<div class="ilc_qtitle_Title question id@id">qtitle</div>
+<div style="margin-bottom:10px">
+<ul id="order{VAL_ID}" class="ordering ordering_hrz">
+	<li class="answers order@id"><div class="ilc_qanswer_Answer answertext"></div></li>
+</ul>
+<br style="clear:left;" />
+</div>
+<div id="feedback{VAL_ID}" style="display:none"></div>
+<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
+</div>
+<script>
+	ilias.questions.shuffle(questions[{VAL_ID}]);
+	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+	jQuery("#order{VAL_ID}").sortable({axis: 'x', containment: '#container{VAL_ID}'});
+</script>
+<!-- END orderinghorizontal -->
+<!-- BEGIN errortext -->
+<div id="container{VAL_ID}" class="ilc_question_TextQuestion">
+	<div class="ilc_qtitle_Title question id@id">qtitle</div>
+	<div class="errortext">
+	<span class="ilc_answers answers">
+		<span class="ilc_qanswer_Answer order@id"><a href="#" class="answertext" onclick="ilias.questions.selectErrorText({VAL_ID}, this);"></a></span>
+	</span>
+	</div>
+<div id="feedback{VAL_ID}" style="display:none"></div><br/>
+<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
+</div>
+<script>
+	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+	jQuery('div#container{VAL_ID} a.answertext').each(function(key, value) {
+		if(jQuery(value).html() == "###")
+		{
+			jQuery(value).parent().after("<br />");
+			jQuery(value).parent().remove();
+			
+		}
+	});
+</script>
+<!-- END errortext -->
 {FORM_END}

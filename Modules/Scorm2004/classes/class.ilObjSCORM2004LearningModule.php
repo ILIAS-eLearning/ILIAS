@@ -1,26 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
 
@@ -66,7 +46,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		//$returnValue = $this->validator->validate();
 		return true;
 	}
-
 
 	/**
 	* read manifest file
@@ -393,6 +372,10 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				'AND cp_node_id IN (SELECT cp_node_id FROM cp_node WHERE slm_id = %s)', 
 				array('integer', 'integer'),
 				array($user, $this->getId()));
+			
+			// update learning progress
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+			ilLPStatusWrapper::_updateStatus($this->getId(), $user);
 		}
 	}
 	
@@ -423,7 +406,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	}
 	
 	
-	function getTrackingDataAgg($a_sco_id)
+	function getTrackingDataAgg($a_sco_id, $raw = false)
 	{
 		global $ilDB;
       
@@ -465,13 +448,21 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	   				} else {
 	   					$status = $data_rec["completion_status"];
 	   				}	
-	   			}	
-	   			$time = ilFormat::_secondsToString(self::_ISODurationToCentisec($data_rec["session_time"])/100);
-	   			$score = $data_rec["c_raw"];
-	   			$title = self::_lookupItemTitle($data_rec["cp_node_id"]);
-	   			$last_access=ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'],IL_CAL_UNIX));
-				 $data[] = array("user_id" => $data_rec["user_id"],
-				   	"score" => $score, "time" => $time, "status" => $status,"last_access"=>$last_access,"title"=>$title);
+	   			}
+				if(!$raw)
+				{
+					$time = ilFormat::_secondsToString(self::_ISODurationToCentisec($data_rec["session_time"])/100);
+					$score = $data_rec["c_raw"];
+					$title = self::_lookupItemTitle($data_rec["cp_node_id"]);
+					$last_access=ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'],IL_CAL_UNIX));
+					 $data[] = array("user_id" => $data_rec["user_id"],
+						"score" => $score, "time" => $time, "status" => $status,"last_access"=>$last_access,"title"=>$title);
+				}
+				else
+				{
+					$data_rec["session_time"] = self::_ISODurationToCentisec($data_rec["session_time"])/100;
+					$data[$data_rec["cp_node_id"]] = $data_rec;
+				}
 	   		}
       	}
 	  
@@ -500,6 +491,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		if ($val_rec["rvalue"] == null) {
 			$val_rec["rvalue"]="";
 		}
+
 		return $val_rec["rvalue"];
 	}
 	
@@ -686,6 +678,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$fhandle = fopen($a_file, "r");
 
 		$obj_id = $this->getID();
+		$users = array();
 
 		$fields = fgetcsv($fhandle, 4096, ';');
 		while(($csv_rows = fgetcsv($fhandle, 4096, ";")) !== FALSE) {
@@ -729,10 +722,20 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 						}
 						
 					}
+					$users[] = $user_id;
+					
 			  	} else {
 					//echo "Warning! User $csv_rows[0] does not exist in ILIAS. Data for this user was skipped.\n";
 				}
 		}
+		
+		// update learning progress
+		foreach ($users as $user_id)
+		{
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+			ilLPStatusWrapper::_updateStatus($this->getId(), $user_id);
+		}
+
 		return 0;
 	}
 	
@@ -1083,9 +1086,12 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	 */
 	function createScorm2004Tree()
 	{
-		$this->slm_tree =& new ilTree($this->getId());
-		$this->slm_tree->setTreeTablePK("slm_id");
-		$this->slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
+		$this->slm_tree = new ilSCORM2004Tree($this->getId());
+
+		//$this->slm_tree =& new ilTree($this->getId());
+		//$this->slm_tree->setTreeTablePK("slm_id");
+		//$this->slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$this->slm_tree->addTree($this->getId(), 1);
 		
 		//add seqinfo for rootNode
@@ -1422,11 +1428,15 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		return $file;
 	}
 
+	/**
+	 * Export (authoring) scorm package
+	 */
 	function exportScorm($a_inst, $a_target_dir, $ver, &$expLog)
 	{
 		
 		$a_xml_writer = new ilXmlWriter;
 
+		// export metadata
 		$this->exportXMLMetaData($a_xml_writer);
 		$metadata_xml = $a_xml_writer->xmlDumpMem(false);
 		$a_xml_writer->_XmlWriter;
@@ -1437,7 +1447,25 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args,NULL);
 		xslt_free($xh);
 		file_put_contents($a_target_dir.'/indexMD.xml',$output);
-		//die(htmlentities($metadata_xml).'<br/>'. htmlentities($output));		
+
+		// export glossary
+		if($this->getAssignedGlossary()!=0)
+		{
+			ilUtil::makeDir($a_target_dir."/glossary");
+			include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
+			include_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
+			$glo_xml_writer = new ilXmlWriter();
+			
+			$glo_xml_writer->xmlSetDtdDef("<!DOCTYPE ContentObject SYSTEM \"http://www.ilias.de/download/dtd/ilias_co_3_7.dtd\">");
+			// set xml header
+			$glo_xml_writer->xmlHeader();
+			$glos = new ilObjGlossary($this->getAssignedGlossary(), false);
+			//$glos->exportHTML($a_target_dir."/glossary", $expLog);
+			$glos_export = new ilGlossaryExport($glos,"xml");
+			$glos->exportXML($glo_xml_writer,$glos_export->getInstId(), $a_target_dir."/glossary", $expLog);
+			$glo_xml_writer->xmlDumpFile($a_target_dir."/glossary/glossary.xml");
+			$glo_xml_writer->_XmlWriter;
+		}
 		
 		$a_xml_writer = new ilXmlWriter;
 		// set dtd definition
@@ -1460,9 +1488,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		
 		// SCO Objects
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Sco Objects");
-		$ilBench->start("ContentObjectExport", "exportScoObjects");
 		$this->exportXMLScoObjects($a_inst, $a_target_dir, $ver, $expLog);
-		$ilBench->stop("ContentObjectExport", "exportScoObjects");
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Sco Objects");
 	
 		$a_xml_writer->xmlEndTag("ContentObject");
@@ -1477,7 +1503,20 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$revision ="3rd";
 			$ver = "2004";
 		}
-		
+
+		// Export special items (entry page...)
+		if ($ver = "2004")
+		{
+			$this->exportScormSpecialItems($a_inst, $a_target_dir, $expLog);
+		}
+
+		// add content css (note: this is also done per item)
+		$css_dir = $a_target_dir."/ilias_css_4_2";
+		ilUtil::makeDir($css_dir);
+		include_once("./Modules/Scorm2004/classes/class.ilScormExportUtil.php");
+		ilScormExportUtil::exportContentCSS($this, $css_dir);
+
+		// add manifest
 		include_once("class.ilContObjectManifestBuilder.php");
 		$manifestBuilder = new ilContObjectManifestBuilder($this);
 		$manifestBuilder->buildManifest($ver,$revision);
@@ -1489,7 +1528,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args,NULL);
 		xslt_free($xh);
 		fputs(fopen($a_target_dir.'/index.html','w+'),$output);
-		
+
+		// copy xsd files to target
 		switch ($ver)
 		{
 			case "2004":
@@ -1525,6 +1565,62 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
 			$node->exportHTML4PDF($a_inst, $sco_folder, $expLog);
 		}
+	}
+	
+	function exportPDF($a_inst, $a_target_dir, &$expLog)
+	{
+		global $ilBench;
+		$a_xml_writer = new ilXmlWriter;
+		$a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
+        $this->exportXMLMetaData($a_xml_writer);
+		$tree = new ilTree($this->getId());
+		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
+		$tree->setTreeTablePK("slm_id");
+		foreach($tree->getSubTree($tree->getNodeData($tree->getRootId()),true,'sco') as $sco)
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
+			$sco_folder = $a_target_dir."/".$sco['obj_id'];
+			ilUtil::makeDir($sco_folder);
+			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
+			$node->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog, $a_xml_writer);
+		}
+        if($this->getAssignedGlossary()!=0)
+        {
+            ilUtil::makeDir($a_target_dir."/glossary");
+            include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
+            include_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
+            $glos = new ilObjGlossary($this->getAssignedGlossary(), false);
+            $glos_export = new ilGlossaryExport($glos,"xml");
+            $glos->exportXML($a_xml_writer,$glos_export->getInstId(), $a_target_dir."/glossary", $expLog);
+        }
+        copy('./templates/default/images/icon_attachment_s.png',$a_target_dir."/icon_attachment_s.png");
+		$a_xml_writer->xmlEndTag("ContentObject");
+		include_once 'Services/Transformation/classes/class.ilXML2FO.php';
+		$xml2FO = new ilXML2FO();
+		$xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
+		$xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
+		$xml2FO->setXSLTParams(array ('target_dir' => $a_target_dir));
+		$xml2FO->transform();
+		$fo_string = $xml2FO->getFOString();
+        $fo_xml = simplexml_load_string($fo_string);
+        $fo_ext = $fo_xml->xpath("//fo:declarations");
+        $fo_ext = $fo_ext[0];
+        $results = array();
+        include_once "./Services/Utilities/classes/class.ilFileUtils.php";
+        ilFileUtils::recursive_dirscan($a_target_dir."/objects", $results);
+        if (is_array($results["file"]))
+		{
+            foreach ($results["file"] as $key => $value)
+            {
+                $e = $fo_ext->addChild("fox:embedded-file","","http://xml.apache.org/fop/extensions");
+                $e->addAttribute("src",$results[path][$key].$value);
+                $e->addAttribute("name",$value);
+                $e->addAttribute("desc","");
+            }
+        }
+        $fo_string = $fo_xml->asXML(); 
+		$a_xml_writer->_XmlWriter;
+		return $fo_string;
 	}
 	
 	function exportHTML($a_inst, $a_target_dir, &$expLog)
@@ -1596,7 +1692,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		foreach($tree->getFilteredSubTree($tree->getRootId(),Array('page')) as $obj)
 		{
 			if($obj['type']=='') continue;
-			$md2xml = new ilMD2XML($obj['obj_id'], 0, $obj['type']);
+			
+			//$md2xml = new ilMD2XML($obj['obj_id'], 0, $obj['type']);
+			$md2xml = new ilMD2XML($this->getId(), $obj['obj_id'], $obj['type']);
 			$md2xml->setExportMode(true);
 			$md2xml->startExport();
 			$a_xml_writer->appendXML($md2xml->getXML());
@@ -1617,13 +1715,25 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$tree = new ilTree($this->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
-		foreach($tree->getSubTree($tree->getNodeData($tree->getRootId()),true,'sco') as $sco)
+		foreach($tree->getSubTree($tree->getNodeData($tree->getRootId()),true,array('sco','ass')) as $sco)
 		{
-			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
-			$sco_folder = $a_target_dir."/".$sco['obj_id'];
-			ilUtil::makeDir($sco_folder);
-			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
-			$node->exportScorm($a_inst, $sco_folder, $ver, $expLog);
+			if ($sco['type'] == "sco")
+			{
+				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
+				$sco_folder = $a_target_dir."/".$sco['obj_id'];
+				ilUtil::makeDir($sco_folder);
+				$node = new ilSCORM2004Sco($this,$sco['obj_id']);
+				$node->exportScorm($a_inst, $sco_folder, $ver, $expLog);
+			}
+			if ($sco['type'] == "ass")
+			{
+				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Asset.php");
+				$sco_folder = $a_target_dir."/".$sco['obj_id'];
+				ilUtil::makeDir($sco_folder);
+				$node = new ilSCORM2004Asset($this,$sco['obj_id']);
+				$node->exportScorm($a_inst, $sco_folder, $ver, $expLog);
+			}
+
 		}
 	}
 
@@ -1635,6 +1745,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	function exportHTMLScoObjects($a_inst, $a_target_dir, &$expLog)
 	{
 		global $ilBench;
+
 		$tree = new ilTree($this->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
@@ -1645,9 +1756,14 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			ilUtil::makeDir($sco_folder);
 			$node = new ilSCORM2004Sco($this,$sco['obj_id']);
 			$node->exportHTML($a_inst, $sco_folder, $expLog);
+			if($this->getAssignedGlossary()!=0)
+			{
+				include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
+				$glos = new ilObjGlossary($this->getAssignedGlossary(),false);
+				//$glos->exportHTML($sco_folder."/glossary", $expLog);
+			}
 		}
 	}
-	/* get public export file
 
 	/**
 	 * Export special items (entry page...)
@@ -1698,12 +1814,14 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		}
 	}
 
+	/**
+	 *
+	 */
 	function setPublicExportFile($a_type, $a_file)
 	{
 		$this->public_export_file[$a_type] = $a_file;
 	}
 
-} // END class.ilObjSCORM2004LearningModule
 	/**
 	 * Create entry page
 	 */

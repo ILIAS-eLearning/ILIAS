@@ -88,7 +88,7 @@ function toggleLog() {
 	if (logState==false) {
 		elm.innerHTML="Hide Log";
 		logState=true;
-		onWindowResize();
+		onWindowResize()
 	} else {
 		elm.innerHTML="Show Log";
 		logState=false;
@@ -124,7 +124,7 @@ function sclog(mess, type)
 		if (elm) 
 		{
 			elm.innerHTML = elm.innerHTML + mess + '<br />';
-			sclogscroll();
+			sclogscroll()
 		}
 	}
 	else
@@ -143,7 +143,7 @@ function sclogflush()
 	if (elm) 
 	{
 		elm.innerHTML = elm.innerHTML + log_buffer;
-		sclogscroll();
+		sclogscroll()
 	}
 	log_buffer = "";
 }
@@ -172,7 +172,7 @@ function sclogdump(param, type)
 	
 	depth = 0;
 	
-	var pre = '';
+	var pre = ''
 	for (var j=0; j < depth; j++)
 	{
 		pre = pre + '    ';
@@ -525,7 +525,7 @@ function Duration (mixed)
 
 this.Duration = Duration;
 
-		Duration.prototype.set = function (obj)
+Duration.prototype.set = function (obj)
 {
 	this.value.setTime(obj && obj.valueOf ? obj.valueOf() : obj); } ;
 
@@ -568,7 +568,7 @@ Duration.toString = function (d)
 Duration.prototype.toString = function () 
 {
 	return Duration.toString(this.value);
-};
+}
 
 Duration.prototype.valueOf = function () 
 {
@@ -598,7 +598,7 @@ DateTime.parse = function (str, utc)
 		m[8] ? Number(m[8].substr(0,2)) : 0, // zhh
 		m[9] ? Number(m[9].substr(1,2)) : 0 // zmm
 	];
-	var z = a[7]==='Z' ? (new Date()).getTimezoneOffset() : ((a[8] || 0)*60 + (a[9] || 0)) * (a[7]==='-' ? -1 : 1);
+	var z = a[7]==='Z' ? (new Date()).getTimezoneOffset() : ((a[8] || 0)*60 + (a[9] || 0)) * (a[7]==='-' ? -1 : 1)
 	var d = new Date(a[0], a[1], a[2], a[3], a[4], a[5], a[6]);	
 	if (a[0]<1970 || a[0]>2038 || a[1]<0 || a[1]>12 || 
 		d.getMonth()!==a[1] || d.getDate()!==a[2] || 
@@ -1453,7 +1453,7 @@ function launchTarget(target) {
    
 	if (mlaunch.mSeqNonContent == null) {
 		//throw away API from previous sco and sync CMI and ADLTree
-		onItemDeliver(activities[mlaunch.mActivityID], false);
+		onItemDeliver(activities[mlaunch.mActivityID]);
 	} else {
 	  //call specialpage
 	  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
@@ -1564,7 +1564,7 @@ function launchNavType(navType) {
 		mlaunch = msequencer.navigate(NAV_CONTINUE);		
 	}
 		if (mlaunch.mActivityID) {
-			onItemDeliver(activities[mlaunch.mActivityID], false);
+			onItemDeliver(activities[mlaunch.mActivityID]);
 		} else {
 	  		//call specialpage
 	  		loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
@@ -1581,7 +1581,6 @@ function onDocumentClick (e)
 	
 	//integration of ADL Sqeuencer
 	
-	if (target.tagName !== 'A' || !target.id || target.className.match(/disabled/) )
 	if (target.tagName !== 'A' || !target.id ||  target.className.match(new RegExp(ilRTEDisabledClass)) )
 	{
 		// ignore clicks on other elements than A
@@ -1601,14 +1600,14 @@ function onDocumentClick (e)
 		if (e.altKey) {} // for special commands
 		else 
 		{
-			//throw away API from previous sco and sync CMI and ADLTree
-			onItemUndeliver();
 			mlaunch = msequencer.navigateStr( target.id.substr(3));
            
  			if (mlaunch.mSeqNonContent == null) {
-				//alert(activities[mlaunch.mActivityID]);
+				//alert(activities[mlaunch.mActivityID]);	
+				//throw away API from previous sco and sync CMI and ADLTree
+				onItemUndeliver();
 				statusHandler(mlaunch.mActivityID,"completion","unknown");
-				onItemDeliver(activities[mlaunch.mActivityID], false);
+				onItemDeliver(activities[mlaunch.mActivityID]);
 			//	setTimeout("updateNav()",2000);  //temporary fix for timing problems
 			} else {
 			  //call specialpage
@@ -1695,15 +1694,15 @@ function updateControls(controlState)
 {
 	
 	if (mlaunch!=null) {
-		toggleClass('navContinue', 'disabled', (mlaunch.mNavState.mContinue==false || ((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['continue'])=="object":false)));
-		toggleClass('navExit', 'disabled', (mlaunch.mNavState.mContinueExit==false || ((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['exit'])=="object":false)));
-		toggleClass('navPrevious', 'disabled', (mlaunch.mNavState.mPrevious==false || ((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['previous'])=="object":false)));
+		toggleClass('navContinue', 'disabled', (mlaunch.mNavState.mContinue==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['continue'])=="object"));
+		toggleClass('navExit', 'disabled', (mlaunch.mNavState.mContinueExit==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['exit'])=="object"));
+		toggleClass('navPrevious', 'disabled', (mlaunch.mNavState.mPrevious==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['previous'])=="object"));
 		toggleClass('navResumeAll', 'disabled', mlaunch.mNavState.mResume==false );
 		if (mlaunch.mActivityID) {
 			toggleClass('navExitAll', 'disabled', typeof(activities[mlaunch.mActivityID].hideLMSUIs['exitAll'])=="object");
 		}	
 		toggleClass('navStart', 'disabled', mlaunch.mNavState.mStart==false);
-		toggleClass('navSuspendAll', 'disabled', (mlaunch.mNavState.mSuspend==false || ((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['suspendAll'])=="object":false)));
+		toggleClass('navSuspendAll', 'disabled', (mlaunch.mNavState.mSuspend==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['suspendAll'])=="object"));
 	}	
 }
 
@@ -1968,7 +1967,7 @@ function init(config)
 	
 	var cam = this.config.cp_data || sendJSONRequest(this.config.cp_url);
 
-	if (!cam) return alert('Fatal: Could not load content data.');
+	if (!cam) return alert('Fatal: Could not load content data.')
 
 	// Step 2: load adlActivityTree
 	var adlAct = this.config.adlact_data || sendJSONRequest(this.config.adlact_url);
@@ -2161,7 +2160,7 @@ function init(config)
 	}
 		
 	if (mlaunch.mSeqNonContent == null) {
-		onItemDeliver(activities[mlaunch.mActivityID], wasSuspended);
+		onItemDeliver(activities[mlaunch.mActivityID]);
 	} else {
 		if (count==1 && tolaunch!=null) {
 			launchTarget(tolaunch);
@@ -2257,7 +2256,7 @@ function setParents(obj) {
 			var temp=obj[index];	
 			if (temp instanceof Array) {
 				if (temp.length>0) {
-					for (var i=0;i<temp.length;i++) {
+					for (var i=0;i<temp.length;i++) {
 						// get the object
 						temp[i]['mParent']=obj;
 						//check for further childs in array
@@ -2740,7 +2739,7 @@ function onWindowUnload ()
 	save();
 }
 
-function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing process (deliverSubProcess)
+function onItemDeliver(item) // onDeliver called from sequencing process (deliverSubProcess)
 {
 	var url = item.href, v;
 	// create api if associated resouce is of adl:scormType=sco
@@ -2836,27 +2835,17 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 			//explicitly set some entries
     		err = currentAPI.SetValueIntern("cmi.completion_status","unknown");
     		err = currentAPI.SetValueIntern("cmi.success_status","unknown");
-			
-			pubAPI.cmi.exit="";
-			if(item.entry!="resume"){
-				pubAPI.cmi.entry="ab-initio";
-				err = currentAPI.SetValueIntern("cmi.entry","ab-initio");
-			}
-			
-			//pubAPI.cmi.interactions = null;
-			//pubAPI.cmi.comments = null;
+			err = currentAPI.SetValueIntern("cmi.entry","ab-initio");
+			pubAPI.cmi.entry="ab-initio";
+			pubAPI.cmi.suspend_data = null;
 			pubAPI.cmi.total_time="PT0H0M0S";
 		} 
 		
 		//set resume manually if suspendALL happened before
-		//alert(wasSuspendAll);
-		if (item.exit=="suspend" || wasSuspendAll) {
+		if (item.exit=="suspend") {
 			pubAPI.cmi.entry="resume";
 			//clean suspend
-			pubAPI.cmi.exit="";	
-		}
-		else {
-			pubAPI.cmi.suspend_data = null;
+			pubAPI.cmi.exit="";
 		}
 		
 		//previous session has ended
@@ -2886,7 +2875,7 @@ function syncSharedCMI(item) {
 	var mStatusVector = msequencer.getObjStatusSet(item.id);
     var mObjStatus = new ADLObjStatus();
 	var obj;
-	var err;
+	var err
 	//for first attempt
 	
 	if( mStatusVector != null ) {		
@@ -2970,7 +2959,7 @@ function syncCMIADLTree(){
 
 	//get current activity
 	var act = msequencer.mSeqTree.getActivity(mlaunch.mActivityID);
-//alert("main.syncCMIADLTree:\nactivityid: " + mlaunch.mActivityID);	
+	
 	var primaryObjID = null;
     var foundPrimaryObj = false;
     var setPrimaryObjSuccess = false;
@@ -3003,7 +2992,6 @@ function syncCMIADLTree(){
 		}
 		obj = "cmi.objectives." + i + ".success_status";
         objMS= currentAPI.GetValueIntern(obj);
-//alert("main.syncCMIADLTree:\nobjMS: " + objMS + "\non this: " + obj);        
 		if( objMS=="passed" ) {
             msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "satisfied");
             if( foundPrimaryObj==true )
@@ -3225,16 +3213,8 @@ function onTerminate(data)
 				}
 			})(navReq.type, navReq.target), 0);
 		*/	
-	}
-	
-	// this will update the UI tree 
-	var valid = new ADLValidRequests();
-	valid = msequencer.getValidRequests(valid);
-	msequencer.mSeqTree.setValidRequests(valid);
-	mlaunch.mNavState = msequencer.mSeqTree.getValidRequests();
-	updateNav(false);
-	updateControls();
-	
+	}	
+//	updateNav(true);
 	return true;
 }
 
@@ -3314,7 +3294,7 @@ function updateNav(ignore) {
 			}
 			
 			//completed
-			if (node_stat_completion=="completed" || statusArray[[tree[i].mActivityID]]['completion'] == "completed") {
+			if (node_stat_completion=="completed" || statusArray[[tree[i].mActivityID]]['completion'] == "completed") {
 				removeClass(elm,"not_attempted",1);
 				removeClass(elm,"incomplete",1);
 				removeClass(elm,"browsed",1);
@@ -3375,7 +3355,7 @@ if(!(navigator && navigator.userAgent && navigator.userAgent.toLowerCase)) {
   	            }
   	            return valid;
   	        } else {
-  	            return false;
+  	            return false
   	        }
   	    }
 }
