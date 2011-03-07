@@ -204,9 +204,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$usr_data = ilObjUser::_getAllUserData(array("login","firstname","lastname",'last_login','online_time'),1);
 		$num_users = count($usr_data) - 1;
 
+		$sort_numeric = false;
+		if(in_array($_SESSION["usrf_sort_by"], array("last_login", "online_time")))
+		{
+			$sort_numeric = true;
+		}
 
 		// sort and slice array
-		$usr_data = ilUtil::sortArray($usr_data,$_SESSION["usrf_sort_by"],$_SESSION["usrf_sort_order"]);
+		$usr_data = ilUtil::sortArray($usr_data,$_SESSION["usrf_sort_by"],$_SESSION["usrf_sort_order"],$sort_numeric);
 		foreach ($usr_data as $idx => $val)
 		{
 			if ($val["usr_id"] == ANONYMOUS_USER_ID)
