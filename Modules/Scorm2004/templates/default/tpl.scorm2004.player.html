@@ -7,7 +7,11 @@
 		<script type="text/javascript">//<![CDATA[
 		Date.remoteOffset = (new Date()).getTime() - {TIMESTAMP};
 		//]]></script>
-		
+
+		<style>
+			{INLINE_CSS}
+		</style>
+
 		<link type="text/css" href="{LOCATION_STYLESHEET}" rel="stylesheet"/>
 		<link type="text/css" href="{BASE_DIR}templates/default/player.css" rel="stylesheet"/>
 		<!-- BEGIN rte_css -->
@@ -15,18 +19,7 @@
 		<!-- END rte_css -->
 
 		<base target="frmResource" />
-		
-		<style>
-			.asset { padding-left: 18px; background: url({IC_ASSET}) 0 0 no-repeat; } 
-			.completed { padding-left: 18px; background: url({IC_COMPLETED}) 0 0 no-repeat; } 
-			.not_attempted{padding-left: 18px; background: url({IC_NOTATTEMPTED}) 0 0 no-repeat;}
-			.running {padding-left: 18px; background: url({IC_RUNNING}) 0 0 no-repeat;}
-			.incomplete {padding-left: 18px; background: url({IC_INCOMPLETE}) 0 0 no-repeat;}
-			.passed {padding-left: 18px; background: url({IC_PASSED}) 0 0 no-repeat;}
-			.failed {padding-left: 18px; background: url({IC_FAILED}) 0 0 no-repeat;}
-			.browsed {padding-left: 18px; background: url({IC_BROWSED}) 0 0 no-repeat;}
-		</style>
-		
+				
 	</head>
 	<body class="loadingState">
 

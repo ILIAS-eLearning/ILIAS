@@ -4023,3 +4023,43 @@ if(!$ilDB->tableExists('il_blog_posting'))
   $ilDB->createSequence('il_blog_posting');
 }
 ?>
+<#3234>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("RTECourse", "rte_node", "td",
+				array());
+	ilDBUpdate3136::addStyleClass("RTEChapter", "rte_node", "td",
+				array());
+	ilDBUpdate3136::addStyleClass("RTESco", "rte_node", "td",
+				array());
+	ilDBUpdate3136::addStyleClass("RTEAsset", "rte_node", "td",
+				array());
+	ilDBUpdate3136::addStyleClass("RTECourseDisabled", "rte_node", "td",
+				array());
+	ilDBUpdate3136::addStyleClass("RTEChapterDisabled", "rte_node", "td",
+				array());
+	ilDBUpdate3136::addStyleClass("RTEScoDisabled", "rte_node", "td",
+				array());
+	ilDBUpdate3136::addStyleClass("RTEAssetDisabled", "rte_node", "td",
+				array());
+?>
+<#3235>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("RTEAsset", "rte_status", "a",
+				array());
+	ilDBUpdate3136::addStyleClass("RTECompleted", "rte_status", "a",
+				array());
+	ilDBUpdate3136::addStyleClass("RTENotAttempted", "rte_status", "a",
+				array());
+	ilDBUpdate3136::addStyleClass("RTERunning", "rte_status", "a",
+				array());
+	ilDBUpdate3136::addStyleClass("RTEIncomplete", "rte_status", "a",
+				array());
+	ilDBUpdate3136::addStyleClass("RTEPassed", "rte_status", "a",
+				array());
+	ilDBUpdate3136::addStyleClass("RTEFailed", "rte_status", "a",
+				array());
+	ilDBUpdate3136::addStyleClass("RTEBrowsed", "rte_status", "a",
+				array());
+?>

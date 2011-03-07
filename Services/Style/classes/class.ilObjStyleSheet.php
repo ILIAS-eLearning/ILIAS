@@ -252,9 +252,8 @@ class ilObjStyleSheet extends ilObject
 			"page_tnav", "page_bnav", "page_lnav", "page_rnav", "page_lnavlink", "page_rnavlink",
 			"page_lnavimage", "page_rnavimage"),
 		"glo" => array("glo_overlay", "glo_ovtitle", "glo_ovclink", "glo_ovuglink", "glo_ovuglistlink"),
-		"sco" => array("sco_title", "sco_keyw", "sco_desc", "sco_desct", "sco_obj", "sco_objt",
-			"rte_menu", "rte_mlink", "rte_tree"),
-		"rte" => array("rte_menu", "rte_mlink", "rte_tree")
+		"sco" => array("sco_title", "sco_keyw", "sco_desc", "sco_desct", "sco_obj", "sco_objt"),
+		"rte" => array("rte_menu", "rte_mlink", "rte_tree", "rte_node", "rte_status")
 		);
 
 	// these types are expandable, i.e. the user can define new style classes
@@ -298,6 +297,8 @@ class ilObjStyleSheet extends ilObject
 		"rte_menu" => "div",
 		"rte_mlink" => "a",
 		"rte_tree" => "div",
+		"rte_node" => "td",
+		"rte_status" => "a",
 		"list_o" => "ol",
 		"list_u" => "ul",
 		"list_item" => "li",
@@ -391,6 +392,22 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "rte_mlink", "class" => "RTELink"),
 			array("type" => "rte_mlink", "class" => "RTELinkDisabled"),
 			array("type" => "rte_tree", "class" => "RTETree"),
+			array("type" => "rte_node", "class" => "RTECourse"),
+			array("type" => "rte_node", "class" => "RTEChapter"),
+			array("type" => "rte_node", "class" => "RTESco"),
+			array("type" => "rte_node", "class" => "RTEAsset"),
+			array("type" => "rte_node", "class" => "RTECourseDisabled"),
+			array("type" => "rte_node", "class" => "RTEChapterDisabled"),
+			array("type" => "rte_node", "class" => "RTEScoDisabled"),
+			array("type" => "rte_node", "class" => "RTEAssetDisabled"),
+			array("type" => "rte_status", "class" => "RTEAsset"),
+			array("type" => "rte_status", "class" => "RTECompleted"),
+			array("type" => "rte_status", "class" => "RTENotAttempted"),
+			array("type" => "rte_status", "class" => "RTERunning"),
+			array("type" => "rte_status", "class" => "RTEIncomplete"),
+			array("type" => "rte_status", "class" => "RTEPassed"),
+			array("type" => "rte_status", "class" => "RTEFailed"),
+			array("type" => "rte_status", "class" => "RTEBrowsed"),
 			array("type" => "list_o", "class" => "NumberedList"),
 			array("type" => "list_u", "class" => "BulletedList"),
 			array("type" => "list_item", "class" => "StandardListItem"),
