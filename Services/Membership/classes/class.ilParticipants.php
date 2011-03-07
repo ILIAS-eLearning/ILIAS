@@ -1129,7 +1129,7 @@ class ilParticipants
 	 */
 	public function deleteSubscribers($a_usr_ids)
 	{
-		global $ilErr;
+		global $ilErr,$ilDB;
 		
 		if(!is_array($a_usr_ids) or !count($a_usr_ids))
 		{
@@ -1138,15 +1138,10 @@ class ilParticipants
 
 			return false;
 		}
-		foreach($a_usr_ids as $id)
-		{
-			if(!$this->deleteSubscriber($id))
-			{
-				$ilErr->appendMessage($this->lng->txt("error_delete_subscriber"));
-
-				return false;
-			}
-		}
+		$query = "DELETE FROM il_subscribers ".
+			"WHERE ".$ilDB->in('usr_id',(array) $a_usr_ids,false,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($this->obj_id,'integer');
+		$res = $ilDB->query($query);
 		return true;
 	}
 	
