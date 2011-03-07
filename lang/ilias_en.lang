@@ -10999,3 +10999,4 @@ style#:#sty_rte_char#:#SCORM RTE
 style#:#sty_type_rte_menu#:#RTE Menu
 style#:#sty_type_rte_mlink#:#RTE Menu Link
 style#:#sty_type_rte_tree#:#RTE Tree Section
+common#:#backto_lua#:#Back to Local User Administration
