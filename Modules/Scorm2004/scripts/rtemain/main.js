@@ -1581,7 +1581,8 @@ function onDocumentClick (e)
 	
 	//integration of ADL Sqeuencer
 	
-	if (target.tagName !== 'A' || !target.id ||  target.className.match(new RegExp(ilRTEDisabledClass)) )
+	if (target.tagName !== 'A' || !target.id ||  target.className.match(new RegExp(ilRTEDisabledClass))
+		||  target.className.match(new RegExp('ilc_rte_tlink_RTETreeLinkDisabled')))
 	{
 		// ignore clicks on other elements than A
 		// or non identified elements or disabled elements (non active Activities)
@@ -3271,7 +3272,15 @@ function updateNav(ignore) {
 		}
 		var elm = all(ITEM_PREFIX + tree[i].mActivityID);
 	//	if (!elm) {return;}
-		toggleClass(elm, 'disabled', disable); 
+//console.log("-" + ITEM_PREFIX + tree[i].mActivityID + "-" + disable + "-");
+		if (disable)
+		{
+			toggleClass(elm, 'ilc_rte_tlink_RTETreeLinkDisabled', 1);
+		}
+		else
+		{
+			toggleClass(elm, 'ilc_rte_tlink_RTETreeLink', 1);
+		}
 		//search for the node to change
 		//set icons
 		if (activities[tree[i].mActivityID].sco && activities[tree[i].mActivityID].href) {

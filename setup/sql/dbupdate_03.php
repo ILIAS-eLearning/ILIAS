@@ -4063,3 +4063,11 @@ if(!$ilDB->tableExists('il_blog_posting'))
 	ilDBUpdate3136::addStyleClass("RTEBrowsed", "rte_status", "a",
 				array());
 ?>
+<#3236>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("RTETreeLink", "rte_tlink", "a",
+				array());
+	ilDBUpdate3136::addStyleClass("RTETreeLinkDisabled", "rte_tlink", "a",
+				array());
+?>
