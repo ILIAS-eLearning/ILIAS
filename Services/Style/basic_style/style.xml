@@ -299,6 +299,39 @@
 </Style>
 <Style Tag="div" Type="rte_tree" Class="RTETree">
 </Style>
+<Style Tag="td" Type="rte_node" Class="RTECourse">
+</Style>
+<Style Tag="td" Type="rte_node" Class="RTEChapter">
+</Style>
+<Style Tag="td" Type="rte_node" Class="RTESco">
+</Style>
+<Style Tag="td" Type="rte_node" Class="RTEAsset">
+</Style>
+<Style Tag="td" Type="rte_node" Class="RTECourseDisabled">
+</Style>
+<Style Tag="td" Type="rte_node" Class="RTEChapterDisabled">
+</Style>
+<Style Tag="td" Type="rte_node" Class="RTEScoDisabled">
+</Style>
+<Style Tag="td" Type="rte_node" Class="RTEAssetDisabled">
+</Style>
+<Style Tag="a" Type="rte_status" Class="RTEAsset">
+</Style>
+<Style Tag="a" Type="rte_status" Class="RTECompleted">
+</Style>
+<Style Tag="a" Type="rte_status" Class="RTENotAttempted">
+</Style>
+<Style Tag="a" Type="rte_status" Class="RTERunning">
+</Style>
+<Style Tag="a" Type="rte_status" Class="RTEIncomplete">
+</Style>
+<Style Tag="a" Type="rte_status" Class="RTEPassed">
+</Style>
+<Style Tag="a" Type="rte_status" Class="RTEFailed">
+</Style>
+<Style Tag="a" Type="rte_status" Class="RTEBrowsed">
+</Style>
+
 
 <!-- Section -->
 <Style Tag="div" Type="section" Class="Additional">

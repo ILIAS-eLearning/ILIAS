@@ -330,14 +330,7 @@ class ilSCORM13Player
 		$this->tpl->setVariable('BASE_DIR', './Modules/Scorm2004/');
 		
 		//set icons path
-		$this->tpl->setVariable('IC_ASSET', ilUtil::getImagePath("scorm/asset_s.gif",false));	
-		$this->tpl->setVariable('IC_COMPLETED', ilUtil::getImagePath("scorm/completed_s.gif",false));	
-		$this->tpl->setVariable('IC_NOTATTEMPTED', ilUtil::getImagePath("scorm/not_attempted_s.gif",false));	
-		$this->tpl->setVariable('IC_RUNNING', ilUtil::getImagePath("scorm/running_s.gif",false));	
-		$this->tpl->setVariable('IC_INCOMPLETE', ilUtil::getImagePath("scorm/incomplete_s.gif",false));	
-		$this->tpl->setVariable('IC_PASSED', ilUtil::getImagePath("scorm/passed_s.gif",false));	
-		$this->tpl->setVariable('IC_FAILED', ilUtil::getImagePath("scorm/failed_s.gif",false));	
-		$this->tpl->setVariable('IC_BROWSED', ilUtil::getImagePath("scorm/browsed.gif",false));	
+		$this->tpl->setVariable('INLINE_CSS', ilSCORM13Player::getInlineCss());
 		
 		//include scripts
 		$this->tpl->setVariable('JS_SCRIPTS', 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getRTEjs&ref_id='.$_GET["ref_id"]);	
@@ -365,7 +358,24 @@ class ilSCORM13Player
 		
 		$this->tpl->show("DEFAULT", false);
 	}
-		
+
+	/**
+	 * Get inline css
+	 */
+	function getInlineCSS()
+	{
+		$is_tpl = new ilTemplate("tpl.scorm2004.inlinecss.html", true, true, "Modules/Scorm2004");
+		$is_tpl->setVariable('IC_ASSET', ilUtil::getImagePath("scorm/asset_s.gif",false));
+		$is_tpl->setVariable('IC_COMPLETED', ilUtil::getImagePath("scorm/completed_s.gif",false));
+		$is_tpl->setVariable('IC_NOTATTEMPTED', ilUtil::getImagePath("scorm/not_attempted_s.gif",false));
+		$is_tpl->setVariable('IC_RUNNING', ilUtil::getImagePath("scorm/running_s.gif",false));
+		$is_tpl->setVariable('IC_INCOMPLETE', ilUtil::getImagePath("scorm/incomplete_s.gif",false));
+		$is_tpl->setVariable('IC_PASSED', ilUtil::getImagePath("scorm/passed_s.gif",false));
+		$is_tpl->setVariable('IC_FAILED', ilUtil::getImagePath("scorm/failed_s.gif",false));
+		$is_tpl->setVariable('IC_BROWSED', ilUtil::getImagePath("scorm/browsed.gif",false));
+		return $is_tpl->get();
+	}
+
 	public function getCPData()
 	{
 		global $ilDB;

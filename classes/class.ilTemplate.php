@@ -33,6 +33,7 @@ class ilTemplate extends ilTemplateX
 	var $js_files_vp = array();	// version parameter flag
 	var $js_files_batch = array();	// version parameter flag
 	var $css_files = array();		// list of css files that should be included
+	var $inline_css = array();
 	var $admin_panel_commands = array();
 	
 	private $addFooter; // creates an output of the ILIAS footer
@@ -208,6 +209,7 @@ class ilTemplate extends ilTemplateX
 			
 			// these fill blocks in tpl.main.html
 			$this->fillCssFiles();
+			$this->fillInlineCss();
 			$this->fillContentStyle();
 			$this->fillBodyClass();
 			$this->fillOnLoadCode();
@@ -424,6 +426,7 @@ class ilTemplate extends ilTemplateX
 
 			// these fill blocks in tpl.main.html
 			$this->fillCssFiles();
+			$this->fillInlineCss();
 			//$this->fillJavaScriptFiles();
 			$this->fillContentStyle();
 
@@ -612,6 +615,11 @@ class ilTemplate extends ilTemplateX
 		}
 	}
 
+	/**
+	 * Fill in the css file tags
+	 * 
+	 * @param boolean $a_force
+	 */
 	function fillCssFiles($a_force = false)
 	{
 		if (!$this->blockExists("css_file"))
@@ -629,6 +637,26 @@ class ilTemplate extends ilTemplateX
 				$this->setVariable("CSS_MEDIA", $css["media"]);
 				$this->parseCurrentBlock();
 			}
+		}
+	}
+
+	/**
+	 * Fill in the inline css
+	 *
+	 * @param boolean $a_force
+	 */
+	function fillInlineCss()
+	{
+		if (!$this->blockExists("css_inline"))
+		{
+			return;
+		}
+		foreach($this->inline_css as $css)
+		{
+			$this->setCurrentBlock("css_file");
+			$this->setVariable("CSS_INLINE", $css["css"]);
+			//$this->setVariable("CSS_MEDIA", $css["media"]);
+			$this->parseCurrentBlock();
 		}
 	}
 
@@ -1715,14 +1743,22 @@ class ilTemplate extends ilTemplateX
 	}
 	
 	/**
-	* Add a css file that should be included in the header.
-	*/
+	 * Add a css file that should be included in the header.
+	 */
 	function addCss($a_css_file, $media = "screen")
 	{
 		if (!array_key_exists($a_css_file . $media, $this->css_files))
 		{
 			$this->css_files[$a_css_file . $media] = array("file" => $a_css_file, "media" => $media);
 		}
+	}
+
+	/**
+	 * Add a css file that should be included in the header.
+	 */
+	function addInlineCss($a_css, $media = "screen")
+	{
+		$this->inline_css[] = array("css" => $a_css, "media" => $media);
 	}
 	
 	/**

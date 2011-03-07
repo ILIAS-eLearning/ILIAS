@@ -1,4 +1,4 @@
-// Build: 2010126090911 
+// Build: 2011307113458 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -10614,19 +10614,19 @@ function setResource(id, url, base)
 	if (guiItem) 
 	{
 		removeClass(guiItem, "current");
-		removeClass(guiItem, "running");
+		removeClass(guiItem, "ilc_rte_status_RTERunning");
 		
 	}
 	guiItem = all(ITEM_PREFIX + id);
 	if (guiItem)
 	{
-		removeClass(guiItem,"not_attempted",1);
-		removeClass(guiItem,"incomplete",1);
-		removeClass(guiItem,"completed",1);
-		removeClass(guiItem,"failed",1);
-		removeClass(guiItem,"passed",1);
+		removeClass(guiItem,"ilc_rte_status_RTENotAttempted",1);
+		removeClass(guiItem,"ilc_rte_status_RTEIncomplete",1);
+		removeClass(guiItem,"ilc_rte_status_RTECompleted",1);
+		removeClass(guiItem,"ilc_rte_status_RTEFailed",1);
+		removeClass(guiItem,"ilc_rte_status_RTEPassed",1);
 		addClass(guiItem, "current");
-		addClass(guiItem,"running");
+		addClass(guiItem,"ilc_rte_status_RTERunning");
 	}
 	onWindowResize();
 	//reset
@@ -10720,7 +10720,7 @@ function buildNavTree(rootAct,name,tree){
 				//only include if visible
 				var id=rootAct.item[i].id;
 				if (mlaunch.mNavState.mChoice!=null) {
-					if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") { 
+					if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
 						var sub = new YAHOO.widget.TextNode({label:rootAct.item[i].title, id:ITEM_PREFIX + rootAct.item[i].id}, attach, true);
 						sub.href="#this";
 						sub.target="_self";
@@ -12125,8 +12125,10 @@ function updateNav(ignore) {
 	}	
 	var tree=msequencer.mSeqTree.mActivityMap;
 	var disable;
+	var first = true;
 	for (i in tree) {
 		var disable=true;
+		var disabled_str = "";
 		var test=null;
 		if (mlaunch.mNavState.mChoice!=null) {
 			test=mlaunch.mNavState.mChoice[i];
@@ -12136,6 +12138,7 @@ function updateNav(ignore) {
 				disable=false;
 			} else {
 				disable=true;
+				disabled_str="Disabled";
 			}
 		}
 		if (guiItem && ignore==true) {
@@ -12155,28 +12158,28 @@ function updateNav(ignore) {
 			var node_stat_completion=activities[tree[i].mActivityID].completion_status;
 			//not attempted
 			if (node_stat_completion==null || node_stat_completion=="not attempted") {
-				toggleClass(elm,"not_attempted",1);
+				toggleClass(elm,"ilc_rte_status_RTENotAttempted",1);
 			}
 		
 			//incomplete
 			if (node_stat_completion=="unknown" || node_stat_completion=="incomplete" || statusArray[[tree[i].mActivityID]]['completion'] == "unknown" ||
 				statusArray[[tree[i].mActivityID]]['completion'] == "incomplete") {
-				removeClass(elm,"not_attempted",1);
-				toggleClass(elm,"incomplete",1);	
+				removeClass(elm,"ilc_rte_status_RTENotAttempted",1);
+				toggleClass(elm,"ilc_rte_status_RTEIncomplete",1);
 			}
 			
 			//just in case-support not required due to spec
 			if (node_stat_completion=="browsed") {
-					removeClass(elm,"not_attempted",1);
-					toggleClass(elm,"browsed",1);
+					removeClass(elm,"ilc_rte_status_RTENotAttempted",1);
+					toggleClass(elm,"ilc_rte_status_RTEBrowsed",1);
 			}
 			
 			//completed
 			if (node_stat_completion=="completed" || statusArray[[tree[i].mActivityID]]['completion'] == "completed") {
 				removeClass(elm,"not_attempted",1);
-				removeClass(elm,"incomplete",1);
-				removeClass(elm,"browsed",1);
-				toggleClass(elm,"completed",1);	
+				removeClass(elm,"ilc_rte_status_RTEIncomplete",1);
+				removeClass(elm,"ilc_rte_status_RTEBrowsed",1);
+				toggleClass(elm,"ilc_rte_status_RTECompleted",1);
 			}
 			
 			//overwrite if we have information on success (interaction sco) - ignore success=unknown
@@ -12187,21 +12190,43 @@ function updateNav(ignore) {
 				
 				//passed
 				if (node_stat_success=="passed" || statusArray[[tree[i].mActivityID]]['success'] == "passed") {
-					removeClass(elm,"failed",1);
-					toggleClass(elm,"passed",1);
+					removeClass(elm,"ilc_rte_status_RTEFailed",1);
+					toggleClass(elm,"ilc_rte_status_RTEPassed",1);
 				//failed
 				} else {
-					removeClass(elm,"passed",1);
-					toggleClass(elm,"failed",1);
+					removeClass(elm,"ilc_rte_status_RTEPassed",1);
+					toggleClass(elm,"ilc_rte_status_RTEFailed",1);
 				}
 			}
+
+			if (elm.parentNode)
+			{
+				toggleClass(elm.parentNode,"ilc_rte_node_RTESco" + disabled_str,1);
+			}
+
 		} else {
 			if (elm && activities[tree[i].mActivityID].href) {
-				toggleClass(elm,"asset",1);
-			}	
+				toggleClass(elm,"ilc_rte_status_RTEAsset",1);
+				if (elm.parentNode)
+				{
+					toggleClass(elm.parentNode,"ilc_rte_node_RTEAsset" + disabled_str,1);
+				}
+			}
+			else if (!activities[tree[i].mActivityID].href && elm.parentNode)
+			{
+				if (!first)
+				{
+					toggleClass(elm.parentNode,"ilc_rte_node_RTEChapter" + disabled_str,1);
+				}
+				else
+				{
+					toggleClass(elm.parentNode,"ilc_rte_node_RTECourse" + disabled_str,1);
+				}
+			}
 		}
 		
 		//toggleClass(elm.parentNode, 'hidden', item.hidden);
+		first = false;
 	}
 }
 
