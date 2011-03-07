@@ -393,12 +393,13 @@ class ilObjGroupGUI extends ilContainerGUI
 	/**
 	 * save object
 	 *
+	 * @global ilTree
 	 * @access public
 	 * @return
 	 */
 	public function saveObject()
 	{
-		global $ilErr,$ilUser;
+		global $ilErr,$ilUser,$tree;
 		
 		$this->object = new ilObjGroup();
 		
@@ -441,8 +442,12 @@ class ilObjGroupGUI extends ilContainerGUI
 			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'create');
 		}
 		// END ChangeEvent: Record save object.
-		
-		
+
+		if($crs_refid = $tree->checkForParentType($this->object->getRefId(),'crs'))
+		{
+			include_once './Modules/Course/classes/class.ilCourseItems.php';
+			$tmp = new ilCourseItems($crs_refid,$this->object->getRefId());
+		}
 		ilUtil::sendSuccess($this->lng->txt("grp_added"),true);
 		
 		$this->ctrl->setParameter($this,'ref_id',$this->object->getRefId());
