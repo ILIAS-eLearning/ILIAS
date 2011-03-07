@@ -1534,7 +1534,8 @@ class ilObjRoleGUI extends ilObjectGUI
 				$start,
 				ilObjRole::MODE_PROTECTED_KEEP_LOCAL_POLICIES,
 				array('all'),
-				$a_show_admin_permissions ? array('adm') : array()
+				array()
+				#$a_show_admin_permissions ? array('adm') : array()
 			);
 		}
 		else
@@ -1543,7 +1544,8 @@ class ilObjRoleGUI extends ilObjectGUI
 				$start,
 				ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
 				array('all'),
-				$a_show_admin_permissions ? array('adm') : array()
+				array()
+				#$a_show_admin_permissions ? array('adm') : array()
 			);
 		}
 		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
