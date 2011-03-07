@@ -45,12 +45,16 @@
 	</xsl:template>
 <!-- Paragraph -->
 	<xsl:template match="Paragraph">
+		<xsl:if test="@Characteristic = 'Headline1' or @Characteristic = 'Headline2' or @Characteristic = 'Headline3'">
 		<div>
-			<xsl:if test="@Characteristic = 'Headline1'">
-				<xsl:attribute name="class">ilc_HeadlineThumb</xsl:attribute>
-			</xsl:if>
+			<xsl:attribute name="class">ilc_HeadlineThumb</xsl:attribute>
 			<xsl:apply-templates/>
 		</div>
+		</xsl:if>
+		<xsl:if test="@Characteristic != 'Headline1' and @Characteristic != 'Headline2' and @Characteristic != 'Headline3'">
+		<div class="ilc_PredTextPlaceHolderThumb" style="height:10px;">
+		</div>
+		</xsl:if>
 	</xsl:template>
 	<xsl:template match="Table">
 		<table style="border:1px;" cellpadding="0" cellspacing="0">
