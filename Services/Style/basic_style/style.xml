@@ -331,6 +331,10 @@
 </Style>
 <Style Tag="a" Type="rte_status" Class="RTEBrowsed">
 </Style>
+<Style Tag="a" Type="rte_tlink" Class="RTETreeLink">
+</Style>
+<Style Tag="a" Type="rte_tlink" Class="RTETreeLinkDisabled">
+</Style>
 
 
 <!-- Section -->

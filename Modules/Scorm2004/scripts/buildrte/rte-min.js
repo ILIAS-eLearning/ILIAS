@@ -1,4 +1,4 @@
-// Build: 2011307113458 
+// Build: 2011307164302 
 
 function ADLAuxiliaryResource()
 {}
@@ -2190,7 +2190,7 @@ if(navType==='Previous'){mlaunch=msequencer.navigate(NAV_PREVIOUS);}
 if(navType==='Continue'){mlaunch=msequencer.navigate(NAV_CONTINUE);}
 if(mlaunch.mActivityID){onItemDeliver(activities[mlaunch.mActivityID]);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
 function onDocumentClick(e)
-{e=new UIEvent(e);var target=e.srcElement;if(target.tagName!=='A'||!target.id||  target.className.match(new RegExp(ilRTEDisabledClass)))
+{e=new UIEvent(e);var target=e.srcElement;if(target.tagName!=='A'||!target.id||  target.className.match(new RegExp(ilRTEDisabledClass))||  target.className.match(new RegExp('ilc_rte_tlink_RTETreeLinkDisabled')))
 {}
 else if(target.id.substr(0,3)==='nav')
 {var navType=target.id.substr(3);launchNavType(navType);}
@@ -2520,7 +2520,11 @@ var tree=msequencer.mSeqTree.mActivityMap;var disable;var first=true;for(i in tr
 if(test){if(test['mIsSelectable']==true&&test['mIsEnabled']==true){disable=false;}else{disable=true;disabled_str="Disabled";}}
 if(guiItem&&ignore==true){if(guiItem.id==ITEM_PREFIX+tree[i].mActivityID)
 {continue;}}
-var elm=all(ITEM_PREFIX+tree[i].mActivityID);toggleClass(elm,'disabled',disable);if(activities[tree[i].mActivityID].sco&&activities[tree[i].mActivityID].href){var node_stat_completion=activities[tree[i].mActivityID].completion_status;if(node_stat_completion==null||node_stat_completion=="not attempted"){toggleClass(elm,"ilc_rte_status_RTENotAttempted",1);}
+var elm=all(ITEM_PREFIX+tree[i].mActivityID);if(disable)
+{toggleClass(elm,'ilc_rte_tlink_RTETreeLinkDisabled',1);}
+else
+{toggleClass(elm,'ilc_rte_tlink_RTETreeLink',1);}
+if(activities[tree[i].mActivityID].sco&&activities[tree[i].mActivityID].href){var node_stat_completion=activities[tree[i].mActivityID].completion_status;if(node_stat_completion==null||node_stat_completion=="not attempted"){toggleClass(elm,"ilc_rte_status_RTENotAttempted",1);}
 if(node_stat_completion=="unknown"||node_stat_completion=="incomplete"||statusArray[[tree[i].mActivityID]]['completion']=="unknown"||statusArray[[tree[i].mActivityID]]['completion']=="incomplete"){removeClass(elm,"ilc_rte_status_RTENotAttempted",1);toggleClass(elm,"ilc_rte_status_RTEIncomplete",1);}
 if(node_stat_completion=="browsed"){removeClass(elm,"ilc_rte_status_RTENotAttempted",1);toggleClass(elm,"ilc_rte_status_RTEBrowsed",1);}
 if(node_stat_completion=="completed"|| statusArray[[tree[i].mActivityID]]['completion']=="completed"){removeClass(elm,"not_attempted",1);removeClass(elm,"ilc_rte_status_RTEIncomplete",1);removeClass(elm,"ilc_rte_status_RTEBrowsed",1);toggleClass(elm,"ilc_rte_status_RTECompleted",1);}
