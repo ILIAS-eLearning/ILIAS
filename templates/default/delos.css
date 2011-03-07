@@ -2836,6 +2836,18 @@ div.ilc_TextPlaceHolderThumb
 	background: url(images/text_placeholder_thumb.png) no-repeat center center;
 }
 
+div.ilc_PredTextPlaceHolderThumb
+{
+	margin:1px;
+	padding: 5px 2px 5px 0px;
+	border-width: 1px;
+	font-size: 10px;
+	border-color: grey;
+	border-style: solid;
+	font-weight: bold;
+	background: url(images/pred_text_placeholder_thumb.png) no-repeat center center;
+}
+
 div.ilc_HeadlineThumb
 {
 	font-size: 11px;
