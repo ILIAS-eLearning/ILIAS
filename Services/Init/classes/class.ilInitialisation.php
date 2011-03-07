@@ -769,7 +769,8 @@ class ilInitialisation
 		if (!$ilUser->hasAcceptedUserAgreement() &&
 			$ilAuth->getAuth() &&
 			!$in_user_agreement &&
-			$ilUser->getId() != ANONYMOUS_USER_ID)
+			$ilUser->getId() != ANONYMOUS_USER_ID &&
+			$ilUser->checkTimeLimit())
 		{
 			if($ilAuth->supportsRedirects())
 			{
