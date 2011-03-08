@@ -4071,3 +4071,18 @@ if(!$ilDB->tableExists('il_blog_posting'))
 	ilDBUpdate3136::addStyleClass("RTETreeLinkDisabled", "rte_tlink", "a",
 				array());
 ?>
+
+<#3237>
+<?php
+// this is a fix for patched scorm editor installations (separate branch)
+if($ilDB->getDBType() == 'mysql')
+{
+	$set = $ilDB->query("SELECT max(id) mid FROM style_template");
+	$rec = $ilDB->fetchAssoc($set);
+	if ($rec["mid"] > 0)
+	{
+		$ilDB->manipulate("UPDATE style_template_seq SET ".
+			" sequence = ".$ilDB->quote($rec["mid"], "integer"));
+	}
+}
+?>
