@@ -78,9 +78,9 @@ class ilOverlayGUI
 	 * Set trigger element
 	 *
 	 * @param	string		element id
-	 * @param	string		event ("onclicke" or "onmouseover")
+	 * @param	string		event ("click" or "mouseover")
 	 */
-	function setTrigger($a_el_id, $a_event = "onclick", $a_trigger_anchor_el_id = null)
+	function setTrigger($a_el_id, $a_event = "click", $a_trigger_anchor_el_id = null)
 	{
 		$this->trigger_el_id = $a_el_id;
 		$this->trigger_event = $a_event;
