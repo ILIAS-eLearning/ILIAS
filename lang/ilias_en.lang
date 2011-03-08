@@ -11009,3 +11009,6 @@ style#:#sty_remove_global_default_state#:#Remove Global Default State
 style#:#sty_remove_global_fixed_state#:#Remove Global Fixed State
 style#:#sty_make_global_default#:#Make Global Default
 style#:#sty_make_global_fixed#:#Make Global Fixed
+content#:#cont_save_types#:#Save Types
+content#:#cont_layout_template#:#Layout Template
+content#:#cont_special_page#:#Special Content Page
