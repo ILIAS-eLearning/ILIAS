@@ -207,12 +207,83 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	*/
 	function editContentStylesObject()
 	{
-		global $rbacsystem, $ilias;
+		global $rbacsystem, $ilias, $tpl, $ilToolbar, $ilCtrl, $lng;
 		
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		if (true)
+		{
+			// this may not be cool, if styles are organised as (independent) Service
+			include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+
+			$from_styles = $to_styles = $data = array();
+			$styles = $this->object->getStyles();
+
+			foreach($styles as $style)
+			{
+				$style["active"] = ilObjStyleSheet::_lookupActive($style["id"]);
+				$style["lm_nr"] = ilObjContentObject::_getNrOfAssignedLMs($style["id"]);
+				$data[$style["title"].":".$style["id"]]
+					= $style;
+				if ($style["lm_nr"] > 0)
+				{
+					$from_styles[$style["id"]] = $style["title"];
+				}
+				if ($style["active"] > 0)
+				{
+					$to_styles[$style["id"]] = $style["title"];
+				}
+			}
+
+			// number of individual styles
+			if ($fixed_style <= 0)
+			{
+				$data[-1] =
+					array("title" => $this->lng->txt("sty_individual_styles"),
+						"id" => 0, "lm_nr" => ilObjContentObject::_getNrLMsIndividualStyles());
+				$from_styles[-1] = $this->lng->txt("sty_individual_styles");
+			}
+
+			// number of default style (fallback default style)
+			if ($default_style <= 0 && $fixed_style <= 0)
+			{
+				$data[0] =
+					array("title" => $this->lng->txt("sty_default_style"),
+						"id" => 0, "lm_nr" => ilObjContentObject::_getNrLMsNoStyle());
+				$from_styles[0] = $this->lng->txt("sty_default_style");
+				$to_styles[0] = $this->lng->txt("sty_default_style");
+			}
+
+			$ilToolbar->addButton($lng->txt("sty_add_content_style"),
+				$ilCtrl->getLinkTarget($this, "createStyle"));
+			$ilToolbar->addSeparator();
+			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+			
+			// from styles selector
+			$si = new ilSelectInputGUI($lng->txt("sty_move_lm_styles").": ".$lng->txt("sty_from"), "from_style");
+			$si->setOptions($from_styles);
+			$ilToolbar->addInputItem($si, true);
+
+			// from styles selector
+			$si = new ilSelectInputGUI($lng->txt("sty_to"), "to_style");
+			$si->setOptions($to_styles);
+			$ilToolbar->addInputItem($si, true);
+			$ilToolbar->addFormButton($lng->txt("sty_move_style"), "moveLMStyles");
+
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+
+			include_once("./Services/Style/classes/class.ilContentStylesTableGUI.php");
+			$table = new ilContentStylesTableGUI($this, "editContentStyles", $data, $this->object);
+			$tpl->setContent($table->getHTML());
+
+			return;
+		}
+
+
 		
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
@@ -460,29 +531,28 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		ilObjContentObject::_moveLMStyles(-1, $_GET["to_style"]);
 		$this->ctrl->redirect($this, "editContentStyles");
 	}
-	
-	
+
 	/**
-	* confirmation screen change (delete) individual styles
-	*/
+	 *
+	 */
 	function confirmDeleteIndividualStyles()
 	{
-		// load template content style settings
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.confirm.html");
-		$this->tpl->setVariable("CMD_OK", "moveIndividualStyles");
-		$this->tpl->setVariable("TXT_OK", $this->lng->txt("ok"));
-		$this->tpl->setVariable("CMD_CANCEL", "editContentStyles");
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_CONFIRM", $this->lng->txt("sty_confirm_del_ind_styles"));
-		$this->tpl->setVariable("TXT_CONTENT",
+		global $ilCtrl, $tpl, $lng;
+
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+
+		$ilCtrl->setParameter($this, "to_style", $_POST["to_style"]);
+
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($ilCtrl->getFormAction($this));
+		$cgui->setHeaderText($lng->txt("sty_confirm_del_ind_styles").": ".
 			sprintf($this->lng->txt("sty_confirm_del_ind_styles_desc"),
 			ilObject::_lookupTitle($_POST["to_style"])));
-		$this->ctrl->setParameter($this, "to_style", $_POST["to_style"]);
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormaction($this));
-		$this->tpl->parseCurrentBlock();
+		$cgui->setCancel($lng->txt("cancel"), "editContentStyles");
+		$cgui->setConfirm($lng->txt("ok"), "moveIndividualStyles");
+		$tpl->setContent($cgui->getHTML());
 	}
-	
-	
+		
 	/**
 	* edit system styles
 	*/
@@ -799,73 +869,58 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	
 	
 	/**
-	* toggle global default style
-	*
-	* @access	public
- 	*/
+	 * Toggle global default style
+ 	 */
 	function toggleGlobalDefaultObject()
 	{
-		global $ilias;
+		global $ilSetting, $lng;
 		
-		if (!isset($_POST["id"]))
+		if ($_GET["id"] > 0)
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(count($_POST["id"]) > 1)
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$ilias->deleteSetting("fixed_content_style_id");
-		$def_style = $ilias->getSetting("default_content_style_id");
+			$ilSetting->delete("fixed_content_style_id");
+			$def_style = $ilSetting->get("default_content_style_id");
 		
-		if ($def_style != $_POST["id"][0])
-		{
-			$ilias->setSetting("default_content_style_id", $_POST["id"][0]);
+			if ($def_style != $_GET["id"])
+			{
+				$ilSetting->set("default_content_style_id", (int) $_GET["id"]);
+			}
+			else
+			{
+				$ilSetting->delete("default_content_style_id");
+			}
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		}
-		else
-		{
-			$ilias->deleteSetting("default_content_style_id");
-		}
-		
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles", "", false, false));
 	}
 
 	/**
-	* toggle global fixed style
-	*
-	* @access	public
- 	*/
+	 * Toggle global fixed style
+ 	 */
 	function toggleGlobalFixedObject()
 	{
-		global $ilias;
+		global $ilSetting, $lng;
 		
-		if (!isset($_POST["id"]))
+		if ($_GET["id"] > 0)
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(count($_POST["id"]) > 1)
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$ilias->deleteSetting("default_content_style_id");
-		$fixed_style = $ilias->getSetting("fixed_content_style_id");
-		if ($fixed_style == $_POST["id"][0])
-		{
-			$ilias->deleteSetting("fixed_content_style_id");
-		}
-		else
-		{
-			$ilias->setSetting("fixed_content_style_id", $_POST["id"][0]);
+			$ilSetting->delete("default_content_style_id");
+			$fixed_style = $ilSetting->get("fixed_content_style_id");
+			if ($fixed_style == (int) $_GET["id"])
+			{
+				$ilSetting->delete("fixed_content_style_id");
+			}
+			else
+			{
+				$ilSetting->set("fixed_content_style_id", (int) $_GET["id"]);
+			}
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		}
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles", "", false, false));
 	}
 	
 	
 	/**
-	* save active styles
-	*/
+	 * Save active styles
+	 */
 	function saveActiveStylesObject()
 	{
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
@@ -874,11 +929,11 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		{
 			if ($_POST["std_".$style["id"]] == 1)
 			{
-				ilObjStyleSheet::_writeActive($style["id"], 1);
+				ilObjStyleSheet::_writeActive((int) $style["id"], 1);
 			}
 			else
 			{
-				ilObjStyleSheet::_writeActive($style["id"], 0);
+				ilObjStyleSheet::_writeActive((int) $style["id"], 0);
 			}
 		}
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, "editContentStyles", "", false, false));
@@ -949,38 +1004,32 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 	function setScopeObject()
 	{
-		if (!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		if ($_GET["id"] > 0)
+		{		
+			include_once ("./Services/Style/classes/class.ilStyleScopeExplorer.php");
+			$exp = new ilStyleScopeExplorer("repository.php?cmd=goto");
+			$exp->setExpandTarget("repository.php?cmd=showTree");
+			$exp->setTargetGet("ref_id");
+			$exp->setFilterMode(IL_FM_POSITIVE);
+			$exp->forceExpandAll(true, false);
+			$exp->addFilter("root");
+			$exp->addFilter("cat");
+
+			if ($_GET["expand"] == "")
+			{
+				$expanded = $this->tree->readRootId();
+			}
+			else
+			{
+				$expanded = $_GET["expand"];
+			}
+
+			$exp->setExpand($expanded);
+
+			// build html-output
+			$exp->setOutput(0);
+			$output = $exp->getOutput();
 		}
-
-
-		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html");
-		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.explorer.html");
-		
-		include_once ("./Services/Style/classes/class.ilStyleScopeExplorer.php");
-		$exp = new ilStyleScopeExplorer("repository.php?cmd=goto");
-		$exp->setExpandTarget("repository.php?cmd=showTree");
-		$exp->setTargetGet("ref_id");
-		$exp->setFilterMode(IL_FM_POSITIVE);
-		$exp->forceExpandAll(true, false);
-		$exp->addFilter("root");
-		$exp->addFilter("cat");
-
-		if ($_GET["expand"] == "")
-		{
-			$expanded = $this->tree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET["expand"];
-		}
-
-		$exp->setExpand($expanded);
-
-		// build html-output
-		$exp->setOutput(0);
-		$output = $exp->getOutput();
 
 		$this->tpl->setVariable("ADM_CONTENT", $output);
 	}
@@ -1333,5 +1382,16 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		}
 	}
 
-} // END class.ilObjStyleSettingsGUI
+	/**
+	 * Create new style
+	 */
+	function createStyleObject()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->setParameter($this, "new_type", "sty");
+		$ilCtrl->redirect($this, "create");
+	}
+
+}
 ?>

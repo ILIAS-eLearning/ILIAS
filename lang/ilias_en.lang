@@ -11002,3 +11002,10 @@ style#:#sty_type_rte_tree#:#RTE Tree Section
 style#:#sty_type_rte_node#:#RTE Tree Node
 style#:#sty_type_rte_status#:#RTE Status
 style#:#sty_type_rte_tlink#:#RTE Tree Node Link
+style#:#sty_from#:#From
+style#:#sty_to#:#To
+style#:#sty_add_content_style#:#Add Content Style
+style#:#sty_remove_global_default_state#:#Remove Global Default State
+style#:#sty_remove_global_fixed_state#:#Remove Global Fixed State
+style#:#sty_make_global_default#:#Make Global Default
+style#:#sty_make_global_fixed#:#Make Global Fixed

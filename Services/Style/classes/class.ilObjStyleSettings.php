@@ -97,14 +97,16 @@ class ilObjStyleSettings extends ilObject
 			" AND style_id = style_data.id";
 
 		$style_set = $ilDB->query($q);
+		$this->styles = array();
 		while ($style_rec = $ilDB->fetchAssoc($style_set))
 		{
 			$this->styles[$style_rec["style_id"]] =
 				array("id" => $style_rec["style_id"],
 				"title" => ilObject::_lookupTitle($style_rec["style_id"]),
 				"category" => $style_rec["category"]);
-//echo "<br>-".$style_rec["category"]."-";
 		}
+		$this->styles =
+			ilUtil::sortArray($this->styles, "title", "asc", false, true);
 	}
 	
 	/**
