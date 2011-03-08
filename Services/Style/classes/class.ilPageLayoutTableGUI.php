@@ -16,18 +16,23 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
 		global $ilCtrl, $lng;
+
+		$lng->loadLanguageModule("content");
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->addColumn("", "", "2%");
 		
-		$this->addColumn($lng->txt("active"), "", "6%");
-		$this->addColumn($lng->txt("thumbnail"), "", "22%");
-		$this->addColumn($lng->txt("title"), "", "40%");
-		$this->addColumn($lng->txt("description"), "", "30%");
+		$this->addColumn($lng->txt("active"));
+		$this->addColumn($lng->txt("thumbnail"));
+		$this->addColumn($lng->txt("title"));
+		$this->addColumn($lng->txt("description"));
+		$this->addColumn($lng->txt("obj_sty"));
+		$this->addColumn($lng->txt("type"));
 		
 		$this->addMultiCommand("activate", $lng->txt("activate"));
 		$this->addMultiCommand("deactivate", $lng->txt("deactivate"));
 		$this->addMultiCommand("deletePgl", $lng->txt("delete"));
+		$this->addCommandButton("savePageLayoutTypes", $lng->txt("cont_save_types"));
 		
 		$this->getPageLayouts();
 		
@@ -64,9 +69,9 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 		if ($a_set['active']) {
-			$this->tpl->setVariable("IMG_ACTIVE",ilUtil::getImagePath("icon_led_on_s.png"));
+			$this->tpl->setVariable("IMG_ACTIVE",ilUtil::getImagePath("icon_led_on_s.gif"));
 		}	else {
-			$this->tpl->setVariable("IMG_ACTIVE",ilUtil::getImagePath("icon_led_off_s.png"));
+			$this->tpl->setVariable("IMG_ACTIVE",ilUtil::getImagePath("icon_led_off_s.gif"));
 		}
 		$this->tpl->setVariable("VAL_TITLE", $a_set['title']);
 		$this->tpl->setVariable("VAL_DESCRIPTION", $a_set['description']);
@@ -77,7 +82,19 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 		
 		$pgl_obj = new ilPageLayout($a_set['layout_id']);
 		$this->tpl->setVariable("VAL_PREVIEW_HTML",$pgl_obj->getPreview());
-		
+
+		if ($a_set["style_id"] > 0)
+		{
+			$this->tpl->setVariable("STYLE",
+				ilObject::_lookupTitle($a_set["style_id"]));
+		}
+
+		$this->tpl->setVariable("TYPE",
+			ilUtil::formSelect($a_set["special_page"], "type[".$a_set["layout_id"]."]",
+				array("0" => $lng->txt("cont_layout_template"),
+					"1" => $lng->txt("cont_special_page")),
+				false, true)
+			);
 		
 	}
 

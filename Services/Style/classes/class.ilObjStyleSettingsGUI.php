@@ -1393,5 +1393,33 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$ilCtrl->redirect($this, "create");
 	}
 
+	/**
+	 * Save page layout types
+	 */
+	function savePageLayoutTypesObject()
+	{
+		global $lng, $ilCtrl;
+
+		include_once("./Services/Style/classes/class.ilPageLayout.php");
+
+		if (is_array($_POST["type"]))
+		{
+			foreach($_POST["type"] as $id => $t)
+			{
+				if ($id > 0)
+				{
+					$l = new ilPageLayout($id);
+					$l->readObject();
+					$l->setSpecialPage($t);
+					$l->update();
+				}
+			}
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"));
+		}
+
+		$ilCtrl->redirect($this, "viewPageLayouts");
+	}
+
+
 }
 ?>

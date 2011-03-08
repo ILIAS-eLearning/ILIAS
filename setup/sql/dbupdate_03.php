@@ -4086,3 +4086,12 @@ if($ilDB->getDBType() == 'mysql')
 	}
 }
 ?>
+<#3238>
+<?php
+$ilDB->addTableColumn("page_layout", "special_page", array(
+	"type" => "integer",
+	"notnull" => false,
+	"default" => 0,
+	"length" => 1
+));
+?>

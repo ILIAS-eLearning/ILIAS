@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilPageLayout
@@ -21,7 +21,8 @@ class ilPageLayout
 	var $description = null;
 	var $active = null;
 	
-	function ilPageLayout($a_id=null) {
+	function ilPageLayout($a_id=null)
+	{
 		global $ilias, $ilDB;
 		//create new instance
 		if ($a_id == null) {
@@ -85,7 +86,23 @@ class ilPageLayout
 	{
 		return $this->style_id;
 	}
-	
+
+	/**
+	 * Set special page
+	 */
+	public function setSpecialPage($a_val)
+	{
+		$this->special_page = $a_val;
+	}
+
+	/**
+	 * Get special page
+	 */
+	public function getSpecialPage()
+	{
+		return $this->special_page;
+	}
+
 	/**
 	 * (De-)Activate layout
 	 *
@@ -122,6 +139,7 @@ class ilPageLayout
 			",description =".$ilDB->quote($this->description, "text").
 			",active =".$ilDB->quote($this->active, "integer").
 			",style_id =".$ilDB->quote($this->getStyleId(), "integer").
+			",special_page =".$ilDB->quote((int) $this->getSpecialPage(), "integer").
 			" WHERE layout_id =".$ilDB->quote($this->layout_id, "integer");
 	
 		$result = $ilDB->manipulate($query);
@@ -138,6 +156,7 @@ class ilPageLayout
 		$row = $ilDB->fetchAssoc($result);
 		$this->title = $row['title'];
 		$this->setStyleId($row['style_id']);
+		$this->setSpecialPage($row['special_page']);
 		$this->description=$row['description'];
 		$this->active=$row['active'];
 	}
