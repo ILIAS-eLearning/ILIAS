@@ -140,23 +140,35 @@ class ilConfirmationGUI
 		ilUtil::sendQuestion($this->getHeaderText());
 		
 		include_once("./Services/Utilities/classes/class.ilConfirmationTableGUI.php");
-		$ctab = new ilConfirmationTableGUI($this->use_images);
-		$ctab->setData($this->item);
 
-		// other buttons
-		foreach ($this->buttons as $b)
+		// delete/handle items
+		if (count($this->item) > 0)
 		{
-			$ctab->addCommandButton($b["cmd"], $b["txt"]);
+			$ctab = new ilConfirmationTableGUI($this->use_images);
+			$ctab->setData($this->item);
+
+			// other buttons
+			foreach ($this->buttons as $b)
+			{
+				$ctab->addCommandButton($b["cmd"], $b["txt"]);
+			}
+			$ctab->addCommandButton($this->confirm_cmd, $this->confirm_txt);
+			$ctab->addCommandButton($this->cancel_cmd, $this->cancel_txt);
+			$ctab->setFormAction($this->getFormAction());
+			foreach ($this->hidden_item as $hidden_item)
+			{
+				$ctab->addHiddenInput($hidden_item["var"], $hidden_item["value"]);
+			}
+			return $ctab->getHTML();
 		}
-		$ctab->addCommandButton($this->confirm_cmd, $this->confirm_txt);
-		$ctab->addCommandButton($this->cancel_cmd, $this->cancel_txt);
-		$ctab->setFormAction($this->getFormAction());
-		foreach ($this->hidden_item as $hidden_item)
+		else // simple version, just ask for confirmation
 		{
-			$ctab->addHiddenInput($hidden_item["var"], $hidden_item["value"]);
+			$tb = new ilToolbarGUI();
+			$tb->setFormAction($this->getFormAction());
+			$tb->addFormButton($this->confirm_txt, $this->confirm_cmd);
+			$tb->addFormButton($this->cancel_txt, $this->cancel_cmd);
+			return $tb->getHTML();
 		}
-		
-		return $ctab->getHTML();
 	}
 }
 ?>
