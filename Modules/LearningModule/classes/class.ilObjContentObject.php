@@ -1895,7 +1895,7 @@ class ilObjContentObject extends ilObject
 			array("source" => ilYuiUtil::getLocalPath('animation/animation-min.js'),
 				"target" => $a_target_dir.'/js/yahoo/animation-min.js',
 				"type" => "js"),
-			array("source" => './Services/Javascript/js/Basic.js',
+			array("source" => './Services/JavaScript/js/Basic.js',
 				"target" => $a_target_dir.'/js/Basic.js',
 				"type" => "js"),
 			array("source" => './Services/Accordion/js/accordion.js',
