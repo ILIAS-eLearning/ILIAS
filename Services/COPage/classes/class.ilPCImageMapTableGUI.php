@@ -55,6 +55,11 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
 			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
 		$areas = $std_alias_item->getMapAreas();
 
+		foreach ($areas as $k => $a)
+		{
+			$areas[$k]["title"] = $a["Link"]["Title"];
+		}
+		$areas = ilUtil::sortArray($areas, "title", "asc", false, true);
 		$this->setData($areas);
 	}
 	
