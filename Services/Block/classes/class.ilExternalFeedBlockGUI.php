@@ -246,7 +246,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		$rel_tpl = new ilTemplate("tpl.js_enabler.html", true, true, "Services/Feeds");
 		$rel_tpl->setVariable("BLOCK_ID", "block_feed_".$this->getBlockId());
 		$rel_tpl->setVariable("TARGET", 
-			$ilCtrl->getLinkTargetByClass("ilexternalfeedblockgui", "enableJS", true));
+			$ilCtrl->getLinkTargetByClass("ilexternalfeedblockgui", "enableJS", true, "", false));
 			
 		return $rel_tpl->get();
 	}
