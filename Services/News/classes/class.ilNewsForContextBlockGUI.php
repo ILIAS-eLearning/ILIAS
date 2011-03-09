@@ -1224,7 +1224,7 @@ if (empty(self::$st_data))
 		$rel_tpl = new ilTemplate("tpl.js_enabler.html", true, true, "Services/News");
 		$rel_tpl->setVariable("BLOCK_ID", "block_".$this->getBlockType()."_".$this->getBlockId());
 		$rel_tpl->setVariable("TARGET", 
-			$ilCtrl->getLinkTargetByClass(strtolower(get_class($this)), "enableJS", true));
+			$ilCtrl->getLinkTargetByClass(strtolower(get_class($this)), "enableJS", true, "", false));
 			
 		return $rel_tpl->get();
 	}
