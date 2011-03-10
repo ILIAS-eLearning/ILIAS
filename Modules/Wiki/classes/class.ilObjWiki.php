@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** @defgroup ModulesWiki Modules/Wiki
  */
@@ -9,16 +9,17 @@ include_once "./classes/class.ilObject.php";
 include_once ("./Modules/Wiki/classes/class.ilWikiUtil.php");
 
 /**
-* Class ilObjWiki
-* 
-* @author Alex Killing <alex.killing@gmx.de> 
-* @version $Id$
-*
-* @ingroup ModulesWiki
-*/
+ * Class ilObjWiki
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ModulesWiki
+ */
 class ilObjWiki extends ilObject
 {
 	protected $online = false;
+	protected $public_notes = true;
 	
 	/**
 	* Constructor
@@ -70,6 +71,22 @@ class ilObjWiki extends ilObject
 	function getRating()
 	{
 		return $this->rating;
+	}
+
+	/**
+	 * Set public notes
+	 */
+	public function setPublicNotes($a_val)
+	{
+		$this->public_notes = $a_val;
+	}
+
+	/**
+	 * Get public notes
+	 */
+	public function getPublicNotes()
+	{
+		return $this->public_notes;
 	}
 
 	/**
@@ -163,6 +180,7 @@ class ilObjWiki extends ilObject
 			"startpage" => array("text", $this->getStartPage()),
 			"short" => array("text", $this->getShortTitle()),
 			"rating" => array("integer", (int) $this->getRating()),
+			"public_notes" => array("integer", (int) $this->getPublicNotes()),
 			"introduction" => array("clob", $this->getIntroduction())
 			));
 
@@ -203,6 +221,7 @@ class ilObjWiki extends ilObject
 			"startpage" => array("text", $this->getStartPage()),
 			"short" => array("text", $this->getShortTitle()),
 			"rating" => array("integer", $this->getRating()),
+			"public_notes" => array("integer", $this->getPublicNotes()),
 			"introduction" => array("clob", $this->getIntroduction())
 			), array(
 			"id" => array("integer", $this->getId())
@@ -243,6 +262,7 @@ class ilObjWiki extends ilObject
 		$this->setStartPage($rec["startpage"]);
 		$this->setShortTitle($rec["short"]);
 		$this->setRating($rec["rating"]);
+		$this->setPublicNotes($rec["public_notes"]);
 		$this->setIntroduction($rec["introduction"]);
 
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
@@ -392,15 +412,27 @@ class ilObjWiki extends ilObject
 	}
 	
 	/**
-	* Lookup whether rating is activated.
-	*
-	* @param	int			$a_wiki_id		Wiki ID
-	*
-	* @return	boolean		Rating activated?
-	*/
+	 * Lookup whether rating is activated.
+	 *
+	 * @param	int			$a_wiki_id		Wiki ID
+	 *
+	 * @return	boolean		Rating activated?
+	 */
 	static function _lookupRating($a_wiki_id)
 	{
 		return ilObjWiki::_lookup($a_wiki_id, "rating");
+	}
+
+	/**
+	 * Lookup whether public notes are activated
+	 *
+	 * @param	int			$a_wiki_id		Wiki ID
+	 *
+	 * @return	boolean		public notes activated?
+	 */
+	static function _lookupPublicNotes($a_wiki_id)
+	{
+		return ilObjWiki::_lookup($a_wiki_id, "public_notes");
 	}
 
 	/**
