@@ -10375,7 +10375,7 @@ trac#:#trac_summary#:#Zusammenfassung
 trac#:#trac_learners_back#:#Zurück zu Lernenden
 trac#:#trac_user_objects#:#Zurück zu Lernenden
 common#:#settings_for_all_members#:#Generelle Einstellung für alle Kurs-/Gruppenmitglieder
-common#:#settings_per_users#:#Individuelle Einstellung durch das Kurs-/Gruppenmitglied
+common#:#settings_per_users#:#Individuelle Einstellung für jedes Kurs-/Gruppenmitglied
 user#:#enable_local_user_administration#:#Lokale Benutzerverwaltung aktivieren
 user#:#enable_local_user_administration_info#:#Wenn aktiviert, können Benutzerzugänge in Kategorien angelegt und verwaltet werden.
 user#:#restrict_user_access#:#Eingeschränkter Zugriff auf Benutzerkonten
