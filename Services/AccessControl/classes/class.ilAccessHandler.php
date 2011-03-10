@@ -707,9 +707,15 @@ class ilAccessHandler
 	 */
 	function doStatusCheck($a_permission, $a_cmd, $a_ref_id,$a_user_id, $a_obj_id, $a_type)
 	{
-		global $objDefinition, $ilBench;
+		global $objDefinition, $ilBench, $ilPluginAdmin;
 		//echo "statusCheck<br/>";
 		$ilBench->start("AccessControl", "5000_checkAccess_object_check");
+
+		// check for a deactivated plugin
+		if ($objDefinition->isPluginTypeName($a_type) && !$objDefinition->isPlugin($a_type))
+		{
+			return false;
+		}
 
 		$class = $objDefinition->getClassName($a_type);
 		$location = $objDefinition->getLocation($a_type);
