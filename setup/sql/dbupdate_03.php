@@ -4095,3 +4095,12 @@ $ilDB->addTableColumn("page_layout", "special_page", array(
 	"length" => 1
 ));
 ?>
+<#3239>
+<?php
+$ilDB->addTableColumn("il_wiki_data", "public_notes", array(
+	"type" => "integer",
+	"notnull" => false,
+	"default" => 1,
+	"length" => 1
+));
+?>

@@ -272,10 +272,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			$notes_gui->enablePublicNotesDeletion(true);
 		}
 		$notes_gui->enablePrivateNotes();
-		//if ($this->lm->publicNotes())
-		//{
+		if (ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()))
+		{
 			$notes_gui->enablePublicNotes();
-		//}
+		}
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		if ($next_class == "ilnotegui")

@@ -302,6 +302,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$newObj->setStartPage($this->form_gui->getInput("startpage"));
 				$newObj->setShortTitle($this->form_gui->getInput("shorttitle"));
 				$newObj->setRating($this->form_gui->getInput("rating"));
+				$newObj->setPublicNotes($this->form_gui->getInput("public_notes"));
 				$newObj->setOnline($this->form_gui->getInput("online"));
 				$newObj->update();
 		
@@ -639,9 +640,15 @@ class ilObjWikiGUI extends ilObjectGUI
 		// Online
 		$online = new ilCheckboxInputGUI($lng->txt("online"), "online");
 		$this->form_gui->addItem($online);
-		
+
+		// rating
 		$rating = new ilCheckboxInputGUI($lng->txt("wiki_activate_rating"), "rating");
 		$this->form_gui->addItem($rating);
+
+		// public comments
+		$comments = new ilCheckboxInputGUI($lng->txt("wiki_public_comments"), "public_notes");
+		$this->form_gui->addItem($comments);
+
 
 		// Form action and save button
 		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_wiki.gif"));
@@ -684,6 +691,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$values["shorttitle"] = $this->object->getShortTitle();
 			$values["description"] = $this->object->getDescription();
 			$values["rating"] = $this->object->getRating();
+			$values["public_notes"] = $this->object->getPublicNotes();
 			$values["intro"] = $this->object->getIntroduction();
 
 			$this->form_gui->setValuesByArray($values);
@@ -718,6 +726,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->object->setStartPage($this->form_gui->getInput("startpage"));
 				$this->object->setShortTitle($this->form_gui->getInput("shorttitle"));
 				$this->object->setRating($this->form_gui->getInput("rating"));
+				$this->object->setPublicNotes($this->form_gui->getInput("public_notes"));
 				$this->object->setIntroduction($this->form_gui->getInput("intro"));
 				$this->object->update();
 			
