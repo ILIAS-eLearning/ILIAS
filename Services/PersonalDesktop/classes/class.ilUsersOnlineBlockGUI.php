@@ -304,7 +304,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 //			{
 				// instant messengers
 				// 1 indicates to use online status check
-				$im_arr = array("icq" => 1,
+				$im_arr = array("icq" => 0,
 								"yahoo" => 1,
 								"msn" => 0,
 								"aim" => 0,
@@ -323,6 +323,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 				{
 					if ($im_id = ilObjUser::_lookupIm($a_set["id"], $im_name))
 					{
+						$im_url = "#";
 						switch ($im_name)
 						{
 							case "icq":
@@ -340,7 +341,6 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 							case "msn":
 								$im_url = "http://messenger.live.com";
 								$im_img = ilUtil::getImagePath($im_name.'offline.gif'); // online check not possible
-		
 								break;
 		
 							case "aim":
