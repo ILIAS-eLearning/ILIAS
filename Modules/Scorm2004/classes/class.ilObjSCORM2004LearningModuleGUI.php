@@ -1110,7 +1110,7 @@ function showTrackingItem()
 	{
 		global $ilDB, $ilUser;
 		
-		if (!isset($_POST["user"]))
+		if (!isset($_POST["user"]) || !is_array($_POST["user"]))
 		{
 			ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
 		}
