@@ -477,13 +477,13 @@ class ilPCTabsGUI extends ilPageContentGUI
 
 		$ilTabs->setBackTarget($lng->txt("pg"),
 			$this->ctrl->getParentReturn($this));
-		
-		$ilTabs->addTarget("cont_edit_tabs",
-			$ilCtrl->getLinkTarget($this, "edit"), "edit",
-			get_class($this));
 
 		$ilTabs->addTarget("cont_tabs",
 			$ilCtrl->getLinkTarget($this, "editTabs"), "editTabs",
+			get_class($this));
+
+		$ilTabs->addTarget("cont_edit_tabs",
+			$ilCtrl->getLinkTarget($this, "edit"), "edit",
 			get_class($this));
 
 	}
