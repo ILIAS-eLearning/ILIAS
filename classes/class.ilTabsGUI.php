@@ -191,6 +191,7 @@ class ilTabsGUI
 	{
 		$this->target = array();
 		$this->sub_target = array();
+		$this->non_tabbed_link = array();
 		$this->back_title = "";
 		$this->back_target = "";
 		$this->back_2_target = "";
