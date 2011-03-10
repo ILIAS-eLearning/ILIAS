@@ -326,7 +326,7 @@ class ilObjectDefinition extends ilSaxParser
 
 	/**
 	* get RBAC status by type
-	* returns true if object type is a RBAC object type
+	* returns true if object type is an (activated) plugin type
 	*
 	* @param	string	object type
 	* @access	public
@@ -334,6 +334,17 @@ class ilObjectDefinition extends ilSaxParser
 	function isPlugin($a_obj_name)
 	{
 		return (bool) isset($this->obj_data[$a_obj_name]["plugin"]);
+	}
+
+	/**
+ 	 * Check if given type is a plugin type name (starts with an "x")
+	 *
+	 * @param	string	object type
+	 * @access	public
+	 */
+	function isPluginTypeName($a_str)
+	{
+		return (substr($a_str, 0, 1) == "x");
 	}
 
 	/**
