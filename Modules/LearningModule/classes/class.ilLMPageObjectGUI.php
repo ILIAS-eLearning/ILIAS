@@ -453,7 +453,7 @@ return;
 		{
 			$page_id = $a_target;
 		}
-		
+
 		// determine learning object
 		$lm_id = ilLMObject::_lookupContObjID($page_id);
 
@@ -488,8 +488,16 @@ return;
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
-			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
-				ilObject::_lookupTitle($lm_id)), true);
+			if ($lm_id > 0)
+			{
+				ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
+					ilObject::_lookupTitle($lm_id)), true);
+			}
+			else
+			{
+				$lng->loadLanguageModule("content");
+				ilUtil::sendFailure($lng->txt("page_does_not_exist"), true);
+			}
 			include("repository.php");
 			exit;
 		}
