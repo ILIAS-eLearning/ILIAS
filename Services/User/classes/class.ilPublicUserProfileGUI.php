@@ -155,11 +155,11 @@ class ilPublicUserProfileGUI
 	* @param	boolean	$no_ctrl			workaround for old insert public profile
 	*										implementation
 	*/
-	function getHTML($a_prevent_tabs = false)
+	function getHTML($a_preview = false)
 	{
 		global $ilSetting, $lng, $ilCtrl, $lng, $ilSetting, $ilTabs;
 
-		if (!$a_prevent_tabs)
+		if (!$a_preview)
 		{
 			$this->setTabs("profile");
 		}
@@ -236,7 +236,9 @@ class ilPublicUserProfileGUI
 		{
 			$tpl->setCurrentBlock("link");
 			$tpl->setVariable("TXT_LINK", $lng->txt("usr_link_to_profile"));
-			$tpl->setVariable("HREF_LINK", ILIAS_HTTP_PATH."/goto.php?client=".CLIENT_ID."&amp;target=usr_".$user->getId());
+			include_once("./classes/class.ilLink.php");
+			$tpl->setVariable("HREF_LINK",
+				ilLink::_getStaticLink($user->getId(), "usr"));
 			$tpl->parseCurrentBlock();
 		}
 		
@@ -611,7 +613,6 @@ class ilPublicUserProfileGUI
 		$back = ($this->getBackUrl() != "")
 			? $this->getBackUrl()
 			: $_GET["back_url"];
-
 
 		if ($back != "")
 		{
