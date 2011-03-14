@@ -25,6 +25,7 @@ class ilLPObjectsTableGUI extends ilLPTableBaseGUI
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($this->lng->txt("learning_progress"));
+		$this->setDescription($this->lng->txt("trac_learning_progress_objects_description"));
 		$this->setLimit(ilSearchSettings::getInstance()->getMaxHits());
 		$this->setLimit(9999);
 		

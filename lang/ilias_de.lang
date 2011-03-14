@@ -10986,3 +10986,5 @@ auth#:#auth_sync#:#Benutzer-Synchronisierung
 auth#:#auth_sync_cas#:#Automatische Generierung von ILIAS-Benutzerkonten
 auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über keinen ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
 content#:#page_does_not_exist#:#Leider existiert diese Seite nicht (mehr).
+trac#:#trac_learning_progress_of#:#Learning Progress of %s
+trac#:#trac_learning_progress_objects_description#:#Diese Liste zeigt eine Übersicht all Ihrer Kurse und Objekte.
