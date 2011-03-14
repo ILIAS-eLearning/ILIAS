@@ -185,8 +185,20 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 		$lm_data_dir = ilUtil::getWebspaceDir('filesystem')."/lm_data";
 		$lm_dir = $lm_data_dir.DIRECTORY_SEPARATOR."lm_".$a_id;
 		
-		return file_exists($lm_dir) ? ilUtil::dirsize($lm_dir) : 0;
-		
+		return file_exists($lm_dir) ? ilUtil::dirsize($lm_dir) : 0;		
+	}
+
+	/**
+	 * Type-specific implementation of general status
+	 *
+	 * Used in ListGUI and Learning Progress
+	 *
+	 * @param int $a_obj_id
+	 * @return bool
+	 */
+	static function _isOffline($a_obj_id)
+	{
+		return !self::_lookupOnline($a_obj_id);
 	}
 }
 

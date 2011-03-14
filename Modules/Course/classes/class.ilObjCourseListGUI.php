@@ -134,7 +134,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
 		// offline
 		include_once 'Modules/Course/classes/class.ilObjCourseAccess.php';
-		if(!ilObjCourseAccess::_isActivated($this->obj_id))
+		if(ilObjCourseAccess::_isOffline($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
 				"value" => $lng->txt("offline"));

@@ -260,83 +260,99 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$tpl->setVariable("ITEM_DESC",$this->lng->txt('trac_crs_items'));
 		$tpl->setVariable("ITEM_ASSIGNED",$this->lng->txt('trac_assigned'));
 
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
-		$tpl->setVariable("BTN_ASSIGN",$this->lng->txt('trac_collection_assign'));
-		$tpl->setVariable("BTN_DEASSIGN",$this->lng->txt('trac_collection_deassign'));
-
-		
+		// empty table
 		if(!ilLPCollections::_getCountPossibleItems($this->getRefId()) and !count($events))
 		{
 			$tpl->setCurrentBlock("no_items");
-			$tpl->setVariable("NO_ITEM_MESSAGE",$this->lng->txt('trac_no_items'));
+			$tpl->setVariable("NO_ITEM_MESSAGE",$this->lng->txt('no_items'));
 			$tpl->parseCurrentBlock();
 		}
-
-		// Show header
-		$tpl->addBlockFile('MATERIALS','materials','tpl.trac_collections_row.html','Services/Tracking');
-		$counter = 0;
-		// Show materials
-		foreach(ilLPCollections::_getPossibleItems($this->getRefId()) as $ref_id)
+		else
 		{
-			$obj_id = $ilObjDataCache->lookupObjId($ref_id);
-			$type = $ilObjDataCache->lookupType($obj_id);
+			// Show header
+			$tpl->addBlockFile('MATERIALS','materials','tpl.trac_collections_row.html','Services/Tracking');
+			$counter = 0;
+			// Show materials
+			foreach(ilLPCollections::_getPossibleItems($this->getRefId()) as $ref_id)
+			{
+				$obj_id = $ilObjDataCache->lookupObjId($ref_id);
+				$type = $ilObjDataCache->lookupType($obj_id);
 
-			$anonymized = $this->__checkItemAnonymized($obj_id,$type);
+				$anonymized = $this->__checkItemAnonymized($obj_id,$type);
 
-			$tpl->setCurrentBlock("materials");
+				$tpl->setCurrentBlock("materials");
+
+				$tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$type.'_s.gif'));
+				$tpl->setVariable('ALT_IMG',$this->lng->txt('obj_'.$type));
+
+				$mode = ilLPObjSettings::_lookupMode($obj_id);
+				if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_UNDEFINED)
+				{
+					$tpl->setVariable("COLL_MODE",
+									  $this->lng->txt('trac_mode').": ".
+									  ilLPObjSettings::_mode2Text($mode));
+				}
+				else
+				{
+					$tpl->setVariable("COLL_MODE",
+									  $this->lng->txt('trac_mode').":");
+					$tpl->setVariable("COLL_MODE_DEACTIVATED",
+									  ilLPObjSettings::_mode2Text($mode));
+				}
+				if($anonymized)
+				{
+					$tpl->setVariable("ANONYMIZED",$this->lng->txt('trac_anonymized_info_short'));
+				}
+
+				// offline
+				if($this->isObjectOffline($obj_id, $type))
+				{
+					$tpl->setCurrentBlock("offline");
+					$tpl->setVariable("TEXT_STATUS", $this->lng->txt("status"));
+					$tpl->setVariable("TEXT_OFFLINE", $this->lng->txt("offline"));
+					$tpl->parseCurrentBlock();
+				}
+				
+				// Link to settings
+				$tpl->setVariable("COLL_LINK",ilLink::_getLink($ref_id,$ilObjDataCache->lookupType($obj_id)));
+				$tpl->setVariable("COLL_FRAME",ilFrameTargetInfo::_getFrame('MainContent',$ilObjDataCache->lookupType($obj_id)));
+				$tpl->setVariable("COLL_DESC",$ilObjDataCache->lookupDescription($obj_id));
+				$tpl->setVariable("COLL_TITLE",$ilObjDataCache->lookupTitle($obj_id));
+				$tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+
+				if(!$anonymized)
+				{
+					$tpl->setVariable("CHECK_TRAC",ilUtil::formCheckbox(0,'item_ids[]',$ref_id));
+				}
+
+				$path = $this->__formatPath($tree->getPathFull($ref_id),$ref_id);
+				$tpl->setVariable("COLL_PATH",$this->lng->txt('path').": ".$path);
+
+				// Assigned
+				$tpl->setVariable("ASSIGNED_IMG_OK",$lp_collections->isAssigned($ref_id)
+								  ? ilUtil::getImagePath('icon_ok.gif')
+								  : ilUtil::getImagePath('icon_not_ok.gif'));
+				$tpl->setVariable("ASSIGNED_STATUS",$lp_collections->isAssigned($ref_id)
+								  ? $this->lng->txt('trac_assigned')
+								  : $this->lng->txt('trac_not_assigned'));
+
+
+				$tpl->parseCurrentBlock();
+			}
+
+
+			$tpl->setCurrentBlock("submits");
 			
-			$tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$type.'_s.gif'));
-			$tpl->setVariable('ALT_IMG',$this->lng->txt('obj_'.$type));
+			$tpl->setVariable("SELECT_ROW",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+			$tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
 
-			$mode = ilLPObjSettings::_lookupMode($obj_id);
-			if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_UNDEFINED)
-			{
-				$tpl->setVariable("COLL_MODE",
-								  $this->lng->txt('trac_mode').": ".
-								  ilLPObjSettings::_mode2Text($mode));
-			}
-			else
-			{
-				$tpl->setVariable("COLL_MODE",
-								  $this->lng->txt('trac_mode').":");
-				$tpl->setVariable("COLL_MODE_DEACTIVATED",
-								  ilLPObjSettings::_mode2Text($mode));
-			}
-			if($anonymized)
-			{
-				$tpl->setVariable("ANONYMIZED",$this->lng->txt('trac_anonymized_info_short'));
-			}
+			$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
+			$tpl->setVariable("BTN_ASSIGN",$this->lng->txt('trac_collection_assign'));
+			$tpl->setVariable("BTN_DEASSIGN",$this->lng->txt('trac_collection_deassign'));
 
-			// Link to settings
-			$tpl->setVariable("COLL_LINK",ilLink::_getLink($ref_id,$ilObjDataCache->lookupType($obj_id)));
-			$tpl->setVariable("COLL_FRAME",ilFrameTargetInfo::_getFrame('MainContent',$ilObjDataCache->lookupType($obj_id)));
-			$tpl->setVariable("COLL_DESC",$ilObjDataCache->lookupDescription($obj_id));
-			$tpl->setVariable("COLL_TITLE",$ilObjDataCache->lookupTitle($obj_id));
-			$tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-
-			if(!$anonymized)
-			{
-				$tpl->setVariable("CHECK_TRAC",ilUtil::formCheckbox(0,'item_ids[]',$ref_id));
-			}
-
-			$path = $this->__formatPath($tree->getPathFull($ref_id),$ref_id);
-			$tpl->setVariable("COLL_PATH",$this->lng->txt('path').": ".$path);
-
-			// Assigned
-			$tpl->setVariable("ASSIGNED_IMG_OK",$lp_collections->isAssigned($ref_id)
-							  ? ilUtil::getImagePath('icon_ok.gif') 
-							  : ilUtil::getImagePath('icon_not_ok.gif'));
-			$tpl->setVariable("ASSIGNED_STATUS",$lp_collections->isAssigned($ref_id)
-							  ? $this->lng->txt('trac_assigned')
-							  : $this->lng->txt('trac_not_assigned'));
-
-			
 			$tpl->parseCurrentBlock();
 		}
-			
-		$tpl->setVariable("SELECT_ROW",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-		$tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
-
+		
 		$this->tpl->setVariable("COLLECTION_TABLE",$tpl->get());
 	}
 	function __addInfo()
