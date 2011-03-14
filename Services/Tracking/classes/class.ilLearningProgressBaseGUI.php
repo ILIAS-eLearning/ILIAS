@@ -160,7 +160,7 @@ class ilLearningProgressBaseGUI
 
 	function __setSubTabs($a_active)
 	{
-		global $rbacsystem,$ilObjDataCache,$lng;
+		global $rbacsystem,$ilObjDataCache,$lng,$ilUser;
 
 
 		
@@ -171,9 +171,15 @@ class ilLearningProgressBaseGUI
 				$this->tabs_gui->addTarget('trac_progress',
 												 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
 												 "","","",$a_active == LP_ACTIVE_PROGRESS);
-				$this->tabs_gui->addTarget('trac_objects',
-												 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
-												 "","","",$a_active == LP_ACTIVE_OBJECTS);
+
+				// ownership is also checked by this method
+				$types = array("crs", "grp", "exc", "tst", "lm", "sahs", "htlm", "dbk");
+				if(ilUtil::_getObjectsByOperations($types, "edit_learning_progress", $ilUser->getId(), 1))
+				{
+					$this->tabs_gui->addTarget('trac_objects',
+													 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
+													 "","","",$a_active == LP_ACTIVE_OBJECTS);
+				}
 				break;
 
 
