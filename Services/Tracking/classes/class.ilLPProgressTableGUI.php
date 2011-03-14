@@ -19,7 +19,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_user = "", $obj_ids = NULL, $details = false, $objectives_mode = false, $personal_only = false)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $ilObjDataCache;
+		global $ilCtrl, $lng, $ilAccess, $lng, $ilObjDataCache, $ilUser;
 
 		$this->tracked_user = $a_user;
 		$this->obj_ids = $obj_ids;
@@ -44,7 +44,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->addColumn($this->lng->txt("path"), "", "20%");
 			$this->addColumn($this->lng->txt("actions"), "", "5%");
 
-			$this->setTitle($this->lng->txt("learning_progress"));
+			$this->setTitle(sprintf($this->lng->txt("trac_learning_progress_of"), $ilUser->getFullName()));
 			$this->initFilter();
 
 			$this->setSelectAllCheckbox("item_id");
