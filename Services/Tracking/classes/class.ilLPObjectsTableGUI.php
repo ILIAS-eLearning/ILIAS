@@ -81,6 +81,11 @@ class ilLPObjectsTableGUI extends ilLPTableBaseGUI
 			
 			include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 			$data = ilTrQuery::getObjectsStatus($obj_ids);
+			foreach($data as $idx => $item)
+			{
+				$data[$idx]["offline"] = ilLearningProgressBaseGUI::isObjectOffline($item["obj_id"], $item["type"]);
+			}
+
 			$this->setData($data);
 		}
 	}
@@ -96,6 +101,14 @@ class ilLPObjectsTableGUI extends ilLPTableBaseGUI
 		$this->tpl->setVariable("ICON_SRC", ilUtil::getTypeIconPath($a_set["type"], $a_set["obj_id"], "tiny"));
 		$this->tpl->setVariable("ICON_ALT", $lng->txt($a_set["type"]));
 		$this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
+
+		if($a_set["offline"])
+		{
+			$this->tpl->setCurrentBlock("offline");
+			$this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("status"));
+			$this->tpl->setVariable("TEXT_OFFLINE", $this->lng->txt("offline"));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$this->tpl->setVariable("STATUS_NOT_ATTEMPTED_VALUE", $a_set["status_not_attempted"]);
 		$this->tpl->setVariable("STATUS_IN_PROGRESS_VALUE", $a_set["status_in_progress"]);

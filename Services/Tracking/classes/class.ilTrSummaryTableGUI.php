@@ -273,6 +273,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				$data["set"][$idx]["title"] = $sess->getFirstAppointment()->appointmentToString();
 			}
 
+			$data["set"][$idx]["offline"] = ilLearningProgressBaseGUI::isObjectOffline($result["obj_id"], $result["type"]);
+
 			// percentages
 			$users_no = $result["user_total"];
 			$data["set"][$idx]["country"] = $this->getItemsPercentages($result["country"], $users_no);
@@ -463,6 +465,14 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($a_set["type"], $a_set["obj_id"], "tiny"));
 		$this->tpl->setVariable("ICON_ALT", $lng->txt($a_set["type"]));
 	    $this->tpl->setVariable("TITLE", $a_set["title"]);
+
+		if($a_set["offline"])
+		{
+			$this->tpl->setCurrentBlock("offline");
+			$this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("status"));
+			$this->tpl->setVariable("TEXT_OFFLINE", $this->lng->txt("offline"));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		foreach ($this->getSelectedColumns() as $c)
 		{

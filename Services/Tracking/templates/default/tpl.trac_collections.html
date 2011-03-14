@@ -9,6 +9,11 @@
 	  <tr>
 		<td class="tblrow1" colspan="4"><div class="il_info">{TABLE_INFO}</div></td>
 	  </tr>
+	  <!-- BEGIN no_items -->
+	  <tr class="tblrow1">
+		  <td class="std" colspan="4"><strong>{NO_ITEM_MESSAGE}</strong></td>
+	  </tr>
+	  <!-- END no_items -->
 	  <!-- BEGIN header_materials -->
 	  <tr class="tblheader">
 		<th class="std" colspan="4">{TXT_HEADER_MATERIALS}</th>
@@ -21,9 +26,10 @@
 	  </tr>
 	  <!-- END header_events -->
 	  {EVENT}
-	  <tr class=" {SELECT_ROW}">
+	  <!-- BEGIN submits -->
+	  <tr class="{SELECT_ROW}">
 		<td class="std" colspan="1"><input type="checkbox" name="all" value="check_all" onClick="CheckAll();"></td>
-		<td class="std" colspan="4">
+		<td class="std" colspan="3">
 		  <strong>{SELECT_ALL}</strong>
 		</td>
 	  </tr>
@@ -42,4 +48,5 @@
 		  </table>
 		</td>
 	  </tr>
+	  <!-- END submits -->
 	</table>

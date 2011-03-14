@@ -102,6 +102,10 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			if(!$this->objectives_mode)
 			{
 				$data = ilTrQuery::getObjectsStatusForUser($this->tracked_user->getId(), $obj_ids);
+				foreach($data as $idx => $item)
+				{
+					$data[$idx]["offline"] = ilLearningProgressBaseGUI::isObjectOffline($item["obj_id"], $item["type"]);
+				}
 			}
 			else
 			{
@@ -133,11 +137,19 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		{
 			$this->tpl->setVariable("PERCENTAGE_VALUE", sprintf("%d%%", $a_set["percentage"]));
 		}
-
+		
 		$this->tpl->setVariable("ICON_SRC", ilUtil::getTypeIconPath($a_set["type"], $a_set["obj_id"], "tiny"));
 		$this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
 		$this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
-		
+
+		if($a_set["offline"])
+		{
+			$this->tpl->setCurrentBlock("offline");
+			$this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("status"));
+			$this->tpl->setVariable("TEXT_OFFLINE", $this->lng->txt("offline"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setVariable("STATUS_ALT", ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
 		$this->tpl->setVariable("STATUS_IMG", ilLearningProgressBaseGUI::_getImagePathForStatus($a_set["status"]));
 

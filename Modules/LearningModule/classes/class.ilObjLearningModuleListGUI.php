@@ -202,7 +202,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 
 		include_once("./Modules/LearningModule/classes/class.ilObjLearningModuleAccess.php");
 
-		if (!ilObjLearningModuleAccess::_lookupOnline($this->obj_id))
+		if (ilObjLearningModuleAccess::_isOffline($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
 				"value" => $lng->txt("offline"));

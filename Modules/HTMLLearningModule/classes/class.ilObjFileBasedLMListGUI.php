@@ -158,7 +158,7 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 
 		include_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
 
-		if (!ilObjFileBasedLMAccess::_lookupOnline($this->obj_id))
+		if (ilObjFileBasedLMAccess::_isOffline($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
 				"value" => $lng->txt("offline"));

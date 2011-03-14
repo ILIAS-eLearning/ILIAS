@@ -784,6 +784,21 @@ function _getQuestionCount($test_id)
 		}
 		return false;
 	}
+
+	/**
+	 * Type-specific implementation of general status
+	 *
+	 * Used in ListGUI and Learning Progress
+	 *
+	 * @param int $a_obj_id
+	 * @return bool
+	 */
+	static function _isOffline($a_obj_id)
+	{
+		global $ilUser;		
+		return (self::_lookupOnlineTestAccess($a_obj_id, $ilUser->getId()) !== true) ||
+			(!ilObjTestAccess::_lookupCreationComplete($a_obj_id));
+	}
 }
 
 ?>

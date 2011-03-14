@@ -100,6 +100,19 @@ class ilObjectAccess
 		return false;
 	}
 
+	/**
+	 * Type-specific implementation of general status, has to be overwritten
+	 *
+	 * Used in ListGUI and Learning Progress
+	 *
+	 * @param int $a_obj_id
+	 * @return bool
+	 */
+	static function _isOffline($a_obj_id)
+	{
+		return null;
+	}
+
 }
 
 ?>

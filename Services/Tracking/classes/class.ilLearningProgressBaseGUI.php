@@ -752,6 +752,20 @@ class ilLearningProgressBaseGUI
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 		ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
 	}
+	
+	static function isObjectOffline($a_obj_id, $a_type = null)
+	{
+		global $objDefinition, $ilObjDataCache;
+
+		if(!$a_type)
+		{
+			$a_type = $ilObjDataCache->lookupType($a_obj_id);
+		}
+
+		$class = "ilObj".$objDefinition->getClassName($a_type)."Access";
+		include_once $objDefinition->getLocation($a_type)."/class.".$class.".php";
+		return $class::_isOffline($obj_id);
+	}
 }
 
 ?>
