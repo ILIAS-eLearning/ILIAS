@@ -4869,7 +4869,7 @@ content#:#cont_annex#:#Anhang
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Funktions-Präfix
 content#:#cont_areas_deleted#:#Bereiche gelöscht
-content#:#cont_assign_characteristic#:#Art zuordnen
+content#:#cont_assign_characteristic#:#Formatieren
 content#:#cont_assign_full#:#Als Vollansicht
 content#:#cont_assign_std#:#Als Standardansicht
 content#:#cont_assign_translation#:#Übersetzung zuordnen
@@ -4898,7 +4898,7 @@ content#:#cont_chapters#:#Kapitel
 content#:#cont_chapters_after_pages#:#Beachten Sie, dass innerhalb einer Ebene zunächst alle Seiten und dann erst die Unterkapitel aufgeführt werden.
 content#:#cont_chapters_and_pages#:#Kapitel und Seiten
 content#:#cont_chapters_only#:#Nur Kapitel
-content#:#cont_characteristic#:#Art
+content#:#cont_characteristic#:#Absatzformat
 content#:#cont_choose_characteristic#:#Art auswählen
 content#:#cont_choose_characteristic_section#:#Blöcke
 content#:#cont_choose_characteristic_text#:#Textelemente
