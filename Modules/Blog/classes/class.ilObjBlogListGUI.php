@@ -19,10 +19,10 @@ class ilObjBlogListGUI extends ilObjectListGUI
 	*/
 	function init()
 	{
-		$this->copy_enabled = false;
+		$this->copy_enabled = true;
 		$this->delete_enabled = true;
 		$this->cut_enabled = true;
-		$this->subscribe_enabled = true;
+		$this->subscribe_enabled = false;
 		$this->link_enabled = false;
 		$this->payment_enabled = false;
 		$this->type = "root";

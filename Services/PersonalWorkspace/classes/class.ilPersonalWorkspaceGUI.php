@@ -21,7 +21,9 @@ class ilPersonalWorkspaceGUI
 	 */
 	public function __construct()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
+
+		$lng->loadLanguageModule("wsp");
 
 		$this->initTree();
 
@@ -123,6 +125,7 @@ class ilPersonalWorkspaceGUI
 		{
 			$title = $lng->txt("wsp_personal_workspace");
 			$icon = ilObject::_getIcon(ROOT_FOLDER_ID, "big");
+			$tpl->setDescription($lng->txt("wsp_personal_workspace_description"));
 		}
 		else
 		{
@@ -130,7 +133,7 @@ class ilPersonalWorkspaceGUI
 			$icon = ilObject::_getIcon($root["obj_id"], "big");
 		}
 		$tpl->setTitle($title);
-		$tpl->setTitleIcon($icon, $title);
+		$tpl->setTitleIcon($icon, $title);		
 	}
 	
 	/**
@@ -142,40 +145,8 @@ class ilPersonalWorkspaceGUI
 
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-	
 
-		// folder tree
-
-		$options = array(""=>$lng->txt("wsp_root_folder"));
 		$root = $this->tree->getNodeData($this->node_id);
-		$nodes = $this->tree->getSubTree($root);
-		if($nodes)
-		{
-			// first node == root
-			array_shift($nodes);
-
-			foreach($nodes as $node)
-			{
-				// open
-				if($objDefinition->isContainer($node["type"]))
-				{
-					$options[$node["wsp_id"]] = str_repeat("-", $node["depth"]-1)." ".$node["title"];
-				}
-			}
-		}
-
-		if(sizeof($options) > 1)
-		{
-			$folders = new ilSelectInputGUI($lng->txt("wsp_folders"), "wsp_id");
-			$folders->setOptions($options);
-			$folders->addCustomAttribute("onChange=\"forms['ilToolbar'].submit();\"");
-			$ilToolbar->addInputItem($folders, "wsp_id");
-
-			$ilToolbar->addSeparator();
-		}
-
-
-		// (add) subtypes
 		$subtypes = $objDefinition->getCreatableSubObjects($root["type"], ilObjectDefinition::MODE_WORKSPACE);
 		if($subtypes)
 		{
@@ -184,13 +155,14 @@ class ilPersonalWorkspaceGUI
 			foreach(array_keys($subtypes) as $type)
 			{
 				$class = $objDefinition->getClassName($type);
-				$options[$type] = $lng->txt("wsp_add_".$type);
+				$options[$type] = $lng->txt("wsp_type_".$type);
 			}
 		
-			$types = new ilSelectInputGUI($lng->txt("wsp_resource"), "new_type");
+			$types = new ilSelectInputGUI($lng->txt("wsp_navigation_resource"), "new_type");
 			$types->setOptions($options);
-			$types->addCustomAttribute("onChange=\"forms['ilToolbar'].submit();\"");
 			$ilToolbar->addInputItem($types, "new_type");
+
+			$ilToolbar->addFormButton($lng->txt("ok"), "");
 		}
 	}
 

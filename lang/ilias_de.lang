@@ -10988,3 +10988,14 @@ auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiz
 content#:#page_does_not_exist#:#Leider existiert diese Seite nicht (mehr).
 trac#:#trac_learning_progress_of#:#Learning Progress of %s
 trac#:#trac_learning_progress_objects_description#:#Diese Liste zeigt eine Übersicht all Ihrer Kurse und Objekte.
+common#:#personal_workspace#:#Materialien
+wsp#:#wsp_personal_workspace#:#Materialien
+wsp#:#wsp_personal_workspace_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
+wsp#:#wsp_navigation_folders#:#Ordner anzeigen
+wsp#:#wsp_root_folder#:#Materialien
+wsp#:#wsp_navigation_resource#:#Neu hinzufügen
+wsp#:#wsp_type_file#:#Datei
+wsp#:#wsp_type_wfld#:#Ordner
+wsp#:#wsp_type_blog#:#Blog
+common#:#obj_wfld#:#Ordner
+common#:#obj_blog#:#Blog
