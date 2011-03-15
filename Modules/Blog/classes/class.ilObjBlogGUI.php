@@ -259,6 +259,11 @@ class ilObjBlogGUI extends ilObject2GUI
 			$wtpl->setVariable("TEXT_PERMALINK", $lng->txt("blog_permanent_link"));
 
 			// content
+			$page = new ilBlogPosting($item["id"]);
+			$page->buildDom();
+			$wtpl->setVariable("CONTENT", $page->getFirstParagraphText());
+			$wtpl->setVariable("URL_MORE", $preview); 
+			$wtpl->setVariable("TEXT_MORE", $lng->txt("blog_list_more"));
 
 			$wtpl->parseCurrentBlock();
 		}
