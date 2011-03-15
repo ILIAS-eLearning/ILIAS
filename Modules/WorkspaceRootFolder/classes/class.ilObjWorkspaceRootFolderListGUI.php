@@ -20,9 +20,9 @@ class ilObjWorkspaceRootFolderListGUI extends ilObjectListGUI
 	function init()
 	{
 		$this->copy_enabled = false;
-		$this->delete_enabled = true;
-		$this->cut_enabled = true;
-		$this->subscribe_enabled = true;
+		$this->delete_enabled = false;
+		$this->cut_enabled = false;
+		$this->subscribe_enabled = false;
 		$this->link_enabled = false;
 		$this->payment_enabled = false;
 		$this->type = "root";

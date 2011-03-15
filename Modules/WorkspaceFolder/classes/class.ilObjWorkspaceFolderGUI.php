@@ -16,11 +16,9 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
 */
 class ilObjWorkspaceFolderGUI extends ilObject2GUI
 {
-	var $folder_tree;		// folder tree
-
 	function getType()
 	{
-		return "wsfold";
+		return "wfld";
 	}
 
 	function setTabs()
@@ -71,11 +69,36 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	*/
 	function render()
 	{
-		global $tpl;
+		global $tpl, $ilUser;
 		
 		include_once "Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderTableGUI.php";
 		$table = new ilObjWorkspaceFolderTableGUI($this, "render", $this->node_id);
 		$tpl->setContent($table->getHTML());
+
+		include_once "Modules/WorkspaceFolder/classes/class.ilWorkspaceFolderExplorer.php";
+		$exp = new ilWorkspaceFolderExplorer($this->ctrl->getLinkTarget($this), $ilUser->getId());
+		$exp->setTargetGet("wsp_id");
+		$exp->setSessionExpandVariable('wspexpand');
+		$exp->setExpand($this->node_id);
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this));
+
+		/*
+		if ($_GET["wspexpand"] == "")
+		{
+			$mtree = new ilTree($_SESSION["AccountId"]);
+			$mtree->setTableNames('bookmark_tree','bookmark_data');
+			$expanded = $mtree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["mexpand"];
+		}
+		$exp->setExpand($expanded);
+		*/
+
+		$exp->highlightNode($this->node_id);
+		$exp->setOutput(0);
+		$tpl->setLeftContent($exp->getOutput());
 	}
 }
 

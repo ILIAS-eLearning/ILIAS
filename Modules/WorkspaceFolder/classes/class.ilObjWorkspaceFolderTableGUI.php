@@ -27,7 +27,7 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		// $this->setTitle(":TODO:");
 		$this->setLimit(999);
 
-		$this->addColumn("xxx");
+		$this->addColumn($this->lng->txt("content"));
 
 		// $this->setEnableHeader(true);
 		// $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -45,7 +45,7 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		$tree = new ilWorkspaceTree($ilUser->getId());
-		$nodes = $tree->getChilds($this->node_id);
+		$nodes = $tree->getChilds($this->node_id, "title");
 		
 		$this->setData($nodes);
 	}
@@ -64,11 +64,12 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		$item_list_gui->setDetailsLevel(ilObjectListGUI::DETAILS_ALL);
 		$item_list_gui->enableDelete(true);
 		$item_list_gui->enableCut(true);
-		$item_list_gui->enableSubscribe(true);
+		$item_list_gui->enableCopy(true);
+		$item_list_gui->enableSubscribe(false);
 		$item_list_gui->enablePayment(false);
-		$item_list_gui->enableLink(true);
+		$item_list_gui->enableLink(false);
 		$item_list_gui->enablePath(false);
-		$item_list_gui->enableLinkedPath(true);
+		$item_list_gui->enableLinkedPath(false);
 		$item_list_gui->enableSearchFragments(true);
 		$item_list_gui->enableRelevance(false);
 		$item_list_gui->enableIcon(true);

@@ -11016,3 +11016,14 @@ wiki#:#wiki_public_comments#:#Public Comments
 content#:#page_does_not_exist#:#We are sorry, but this page does not exist.
 trac#:#trac_learning_progress_of#:#Lernfortschritt von %s
 trac#:#trac_learning_progress_objects_description#:#This table shows an overview of all your courses and objects.
+common#:#personal_workspace#:#Resources
+wsp#:#wsp_personal_workspace#:#Resources
+wsp#:#wsp_personal_workspace_description#:#Here you can manage your private files, blogs and artifacts.
+wsp#:#wsp_navigation_folders#:#View Folder
+wsp#:#wsp_root_folder#:#Resources
+wsp#:#wsp_navigation_resource#:#Create New
+wsp#:#wsp_type_file#:#File
+wsp#:#wsp_type_wfld#:#Folder
+wsp#:#wsp_type_blog#:#Blog
+common#:#obj_wfld#:#Folder
+common#:#obj_blog#:#Blog
