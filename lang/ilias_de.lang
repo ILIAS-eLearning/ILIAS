@@ -10999,3 +10999,5 @@ wsp#:#wsp_type_wfld#:#Ordner
 wsp#:#wsp_type_blog#:#Blog
 common#:#obj_wfld#:#Ordner
 common#:#obj_blog#:#Blog
+wfld#:#wfld_new#:#Neuen Ordner anlegen
+wfld#:#wfld_add#:#Ordner anlegen

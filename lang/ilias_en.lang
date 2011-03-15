@@ -11027,3 +11027,5 @@ wsp#:#wsp_type_wfld#:#Folder
 wsp#:#wsp_type_blog#:#Blog
 common#:#obj_wfld#:#Folder
 common#:#obj_blog#:#Blog
+wfld#:#wfld_new#:#Create New Folder
+wfld#:#wfld_add#:#Create Folder

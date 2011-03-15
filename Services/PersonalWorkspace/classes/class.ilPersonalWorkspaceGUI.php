@@ -47,7 +47,7 @@ class ilPersonalWorkspaceGUI
 		$cmd = $ilCtrl->getCmd();
 
 		// new type
-		if($_REQUEST["new_type"])
+		if($_REQUEST["new_type"] && $cmd != "cancelCreation")
 		{
 			$class_name = $objDefinition->getClassName($_REQUEST["new_type"]);
 			$ilCtrl->setCmdClass("ilObj".$class_name."GUI");

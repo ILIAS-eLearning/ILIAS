@@ -555,13 +555,14 @@ $html.= $this->form->getHTML()."<br />";
 		global $rbacsystem, $objDefinition, $tpl, $lng, $ilErr;
 
 		$new_type = $_REQUEST["new_type"];
+		$lng->loadLanguageModule($new_type);
 
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
 		if (!$this->getAccessHandler()->checkAccess("create", "", $this->parent_id, $new_type))
 		{
 			$ilErr->raiseError($this->lng->txt("no_create_permission"));
 		}
-		
+
 		$this->ctrl->setParameter($this, "new_type", $new_type);
 		$this->initEditForm("create", $new_type);
 		if ($this->form->checkInput())
@@ -583,7 +584,7 @@ $html.= $this->form->getHTML()."<br />";
 			$this->afterSave($newObj);
 			return;
 		}
-		
+
 		$this->form->setValuesByPost();
 		$tpl->setContent($this->form->getHtml());
 	}
