@@ -29,8 +29,8 @@
 *
 */
 
-require_once("classes/class.ilExplorer.php");
-require_once("Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php");
+include_once("classes/class.ilExplorer.php");
+include_once("Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php");
 
 class ilWorkspaceFolderExplorer extends ilExplorer
 {

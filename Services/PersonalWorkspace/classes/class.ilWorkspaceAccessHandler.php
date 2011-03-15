@@ -38,7 +38,17 @@ class ilWorkspaceAccessHandler
 	 */
 	public function checkAccessOfUser($a_user_id,$a_permission, $a_cmd, $a_node_id, $a_type = "")
 	{
-		// :TODO:
+		// tree root is read-only
+		if($a_permission == "write")
+		{
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+			$tree = new ilWorkspaceTree($a_user_id);
+			if($tree->readRootId() == $a_node_id)
+			{
+				return false;
+			}
+		}
+
 		return true;
 	}
 

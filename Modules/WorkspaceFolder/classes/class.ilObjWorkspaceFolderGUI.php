@@ -23,7 +23,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 	function setTabs()
 	{
-		global $lng;
+		global $lng, $ilUser;
 
 		$this->ctrl->setParameter($this,"wsp_id",$this->node_id);
 
@@ -81,20 +81,11 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		$exp->setSessionExpandVariable('wspexpand');
 		$exp->setExpand($this->node_id);
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this));
-
-		/*
-		if ($_GET["wspexpand"] == "")
+		
+		if ($_GET["wspexpand"] != "")
 		{
-			$mtree = new ilTree($_SESSION["AccountId"]);
-			$mtree->setTableNames('bookmark_tree','bookmark_data');
-			$expanded = $mtree->readRootId();
+			$exp->setExpand($_GET["wspexpand"]);
 		}
-		else
-		{
-			$expanded = $_GET["mexpand"];
-		}
-		$exp->setExpand($expanded);
-		*/
 
 		$exp->highlightNode($this->node_id);
 		$exp->setOutput(0);
