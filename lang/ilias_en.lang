@@ -11029,3 +11029,8 @@ common#:#obj_wfld#:#Folder
 common#:#obj_blog#:#Blog
 wfld#:#wfld_new#:#Create New Folder
 wfld#:#wfld_add#:#Create Folder
+blog#:#blog_new#:#Create New Blog
+blog#:#blog_add#:#Create Blog
+blog#:#blog_add_posting#:#Add Posting
+blog#:#blog_permanent_link#:#Permalink
+blog#:#blog_comments#:#Comments

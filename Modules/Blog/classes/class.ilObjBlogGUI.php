@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObject2GUI.php";
+include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 
 /**
 * Class ilObjBlogGUI
@@ -16,6 +17,8 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
 */
 class ilObjBlogGUI extends ilObject2GUI
 {
+	protected $month; // [string]
+
 	function getType()
 	{
 		return "blog";
@@ -23,7 +26,7 @@ class ilObjBlogGUI extends ilObject2GUI
 
 	function setTabs()
 	{
-		global $lng;
+		global $lng, $ilTabs;
 
 		$this->ctrl->setParameter($this,"wsp_id",$this->node_id);
 
@@ -42,6 +45,11 @@ class ilObjBlogGUI extends ilObject2GUI
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
 				, "", $force_active);
 		}
+
+		/*
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$this->ctrl->getLinkTargetByClass("ilobjworkspacefoldergui", ""));
+		*/
 	}
 
 	function &executeCommand()
@@ -97,15 +105,22 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		global $ilCtrl, $lng;
 
-		// create new posting
-		include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
-		$posting = new ilBlogPosting();
-		$posting->setTitle($lng->txt("blog_new_posting_title"));
-		$posting->setBlogId($this->object->getId());
-		$posting->create();
+		if($_POST["title"])
+		{
+			// create new posting
+			include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
+			$posting = new ilBlogPosting();
+			$posting->setTitle($_POST["title"]);
+			$posting->setBlogId($this->object->getId());
+			$posting->create();
 
-		$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $posting->getId());
-		$ilCtrl->redirectByClass("ilblogpostinggui", "edit");
+			$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $posting->getId());
+			$ilCtrl->redirectByClass("ilblogpostinggui", "edit");
+		}
+		else
+		{
+			$ilCtrl->redirect($this, "render");
+		}
 	}
 
 	/**
@@ -114,8 +129,6 @@ class ilObjBlogGUI extends ilObject2GUI
 	function render()
 	{
 		global $tpl, $ilTabs, $ilCtrl, $lng, $ilToolbar;
-		
-		include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 
 		if(!$this->getAccessHandler()->checkAccess("read", "", $this->node_id))
 		{
@@ -124,9 +137,33 @@ class ilObjBlogGUI extends ilObject2GUI
 			return;
 		}
 
-		$ilToolbar->addButton($lng->txt("blog_add_posting"),
-			$ilCtrl->getLinkTarget($this, "createPosting"));
+		$this->month = $_REQUEST["bmn"];
+		$lng->loadLanguageModule("blog");
+		
+		// gather postings by month
+		$items = array();
+		foreach(ilBlogPosting::getAllPostings($this->object->getId()) as $posting)
+		{
+			$month = substr($posting["created"]->get(IL_CAL_DATE), 0, 7);
+			$items[$month][$posting["id"]] = $posting;
+		}
 
+		// current month
+		if(!$this->month)
+		{
+			$this->month = array_keys($items);
+			$this->month = array_shift($this->month);
+		}
+
+		$this->renderToolbar();
+
+		if($this->month)
+		{
+			$tpl->setContent($this->renderList($items[$this->month]));
+			$tpl->setRightContent($this->renderNavigation($items));
+		}
+		
+		/*
 		$ilTabs->clearTargets();
 
 		$post = ($_GET["page"] != "")
@@ -135,7 +172,6 @@ class ilObjBlogGUI extends ilObject2GUI
 		$_GET["page"] = $post;
 
 		// valid post?
-		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		if (!ilBlogPosting::exists($this->object->getId(), $post))
 		{
 			$post = ilBlogPosting::getLastPost($this->object->getId());
@@ -150,12 +186,10 @@ class ilObjBlogGUI extends ilObject2GUI
 			include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 			$bpost_gui = new ilBlogPostingGUI($this->node_id, $this->getAccessHandler(), $post);
 
-			/*
 			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 			$bpost_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 				$this->object->getStyleSheetId(), "wiki"));
 			$this->setContentStyleSheet();
-			*/
 
 			if (!$this->getAccessHandler()->checkAccess("write", "", $this->node_id) &&
 				!$this->getAccessHandler()->checkAccess("edit_content", "", $this->node_id))
@@ -169,6 +203,126 @@ class ilObjBlogGUI extends ilObject2GUI
 			
 			$tpl->setContent($html);
 		}
+		*/
+	}
+
+	function renderToolbar()
+	{
+		global $lng, $ilCtrl, $ilToolbar;
+
+		if($this->getAccessHandler()->checkAccess("write", "", $this->node_id) &&
+			 $this->getAccessHandler()->checkAccess("edit_content", "", $this->node_id))
+		{
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+
+			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+			$title = new ilTextInputGUI($lng->txt("title"), "title");
+			$ilToolbar->addInputItem($title, $lng->txt("title"));
+
+			$ilToolbar->addFormButton($lng->txt("blog_add_posting"), "createPosting");
+		}
+	}
+
+	function renderList(array $items)
+	{
+		global $lng, $ilCtrl;
+		
+		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/blog");
+
+		
+		foreach($items as $item)
+		{
+			$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $item["id"]);
+			$preview = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "preview");
+
+			// comments
+			if(true) // :TODO:
+			{
+				$wtpl->setCurrentBlock("comments");
+				$wtpl->setVariable("TEXT_COMMENTS", $lng->txt("blog_comments"));
+				$wtpl->setVariable("URL_COMMENTS", $preview);
+				$wtpl->setVariable("COUNT_COMMENTS", 0); // :TODO:
+				$wtpl->parseCurrentBlock();
+			}
+
+			$wtpl->setCurrentBlock("posting");
+			
+			// title
+			$wtpl->setVariable("URL_TITLE", $preview);
+			$wtpl->setVariable("TITLE", $item["title"]);
+			$wtpl->setVariable("DATETIME",
+				ilDatePresentation::formatDate($item["created"], IL_CAL_DATE));
+
+			// permanent link
+			$wtpl->setVariable("URL_PERMALINK", $preview); // :TODO:
+			$wtpl->setVariable("TEXT_PERMALINK", $lng->txt("blog_permanent_link"));
+
+			// content
+
+			$wtpl->parseCurrentBlock();
+		}
+
+		return $wtpl->get();
+	}
+
+	function renderNavigation(array $items)
+	{
+		global $ilCtrl;
+
+		$max_detail_postings = 10;
+
+		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+		$wtpl = new ilTemplate("tpl.blog_list_navigation.html",	true, true,
+			"Modules/blog");
+
+		$counter = 0;
+		foreach($items as $month => $postings)
+		{
+			$month_name = ilCalendarUtil::_numericMonthToString(substr($month, 6)).
+				" ".substr($month, 0, 4);
+
+			// list postings for month
+			if($counter < $max_detail_postings)
+			{
+				$wtpl->setCurrentBlock("navigation_month_details_in");
+				$wtpl->setVariable("NAV_MONTH", $month_name);
+				$wtpl->parseCurrentBlock();
+
+				$wtpl->setCurrentBlock("navigation_item");
+				foreach($postings as $id => $posting)
+				{
+					$counter++;
+
+					$caption = /* ilDatePresentation::formatDate($posting["created"], IL_CAL_DATETIME).
+						", ".*/ $posting["title"];
+
+					$ilCtrl->setParameter($this, "page", $id);
+					$wtpl->setVariable("NAV_ITEM_URL",
+						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "preview"));
+					$wtpl->setVariable("NAV_ITEM_CAPTION", $caption);
+					$wtpl->parseCurrentBlock();
+				}
+
+				$wtpl->touchBlock("navigation_month_details_out");
+			}
+			// summarized month
+			else
+			{
+				$ilCtrl->setParameter($this, "bmn", $month);
+
+				$wtpl->setCurrentBlock("navigation_month");
+				$wtpl->setVariable("MONTH_NAME", $month_name);
+				$wtpl->setVariable("MONTH_COUNT", sizeof($postings));
+				$wtpl->setVariable("URL_MONTH", 
+						$ilCtrl->getLinkTarget($this, "render"));
+				$wtpl->parseCurrentBlock();
+			}
+
+			$ilCtrl->setParameter($this, "bmn", $this->month);
+		}
+
+		return $wtpl->get();
 	}
 
 	function _goto($a_target)
