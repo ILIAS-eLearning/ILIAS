@@ -11001,3 +11001,8 @@ common#:#obj_wfld#:#Ordner
 common#:#obj_blog#:#Blog
 wfld#:#wfld_new#:#Neuen Ordner anlegen
 wfld#:#wfld_add#:#Ordner anlegen
+blog#:#blog_new#:#Neuen Blog anlegen
+blog#:#blog_add#:#Blog anlegen
+blog#:#blog_add_posting#:#Eintrag hinzufügen
+blog#:#blog_permanent_link#:#Permalink
+blog#:#blog_comments#:#Kommentare
