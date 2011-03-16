@@ -76,7 +76,7 @@ class ilObjBlogGUI extends ilObject2GUI
 
 	function &executeCommand()
 	{
-		global $ilCtrl, $tpl;
+		global $ilCtrl, $tpl, $ilTabs, $lng;
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -84,6 +84,11 @@ class ilObjBlogGUI extends ilObject2GUI
 		switch($next_class)
 		{
 			case 'ilblogpostinggui':
+
+				$ilCtrl->setParameter($this, "bmn", $_REQUEST["bmn"]);
+				$ilTabs->setBackTarget($lng->txt("back"),
+					$ilCtrl->getLinkTarget($this, ""));
+
 				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$bpost_gui = new ilBlogPostingGUI($this->node_id, $this->getAccessHandler(),
 					$_GET["page"], $_GET["old_nr"], $this->object->getNotesStatus());
@@ -161,7 +166,7 @@ class ilObjBlogGUI extends ilObject2GUI
 
 		$this->month = $_REQUEST["bmn"];
 		$lng->loadLanguageModule("blog");
-		
+
 		// gather postings by month
 		$items = array();
 		foreach(ilBlogPosting::getAllPostings($this->object->getId()) as $posting)
@@ -170,17 +175,22 @@ class ilObjBlogGUI extends ilObject2GUI
 			$items[$month][$posting["id"]] = $posting;
 		}
 
-		// current month
-		if(!$this->month)
-		{
-			$this->month = array_keys($items);
-			$this->month = array_shift($this->month);
-		}
-
 		$this->renderToolbar();
+		
+		if($items)
+		{			
+			// current month
+			if(!$this->month)
+			{
+				$this->month = array_keys($items);
+				$this->month = array_shift($this->month);
+			}
 
-		if($this->month)
-		{
+			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+			$tpl->setDescription(ilCalendarUtil::_numericMonthToString(substr($this->month, 6)).
+				" ".substr($this->month, 0, 4));
+
+			$ilCtrl->setParameter($this, "bmn", $this->month);
 			$tpl->setContent($this->renderList($items[$this->month]));
 			$tpl->setRightContent($this->renderNavigation($items));
 		}
@@ -276,8 +286,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		global $ilCtrl;
 
 		$max_detail_postings = 10;
-
-		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+		
 		$wtpl = new ilTemplate("tpl.blog_list_navigation.html",	true, true,
 			"Modules/blog");
 
@@ -287,13 +296,12 @@ class ilObjBlogGUI extends ilObject2GUI
 			$month_name = ilCalendarUtil::_numericMonthToString(substr($month, 6)).
 				" ".substr($month, 0, 4);
 
+			$ilCtrl->setParameter($this, "bmn", $month);
+			$month_url = $ilCtrl->getLinkTarget($this, "render");
+
 			// list postings for month
 			if($counter < $max_detail_postings)
 			{
-				$wtpl->setCurrentBlock("navigation_month_details_in");
-				$wtpl->setVariable("NAV_MONTH", $month_name);
-				$wtpl->parseCurrentBlock();
-
 				$wtpl->setCurrentBlock("navigation_item");
 				foreach($postings as $id => $posting)
 				{
@@ -309,7 +317,10 @@ class ilObjBlogGUI extends ilObject2GUI
 					$wtpl->parseCurrentBlock();
 				}
 
-				$wtpl->touchBlock("navigation_month_details_out");
+				$wtpl->setCurrentBlock("navigation_month_details");
+				$wtpl->setVariable("NAV_MONTH", $month_name);
+				$wtpl->setVariable("URL_MONTH", $month_url);
+				$wtpl->parseCurrentBlock();
 			}
 			// summarized month
 			else
@@ -317,15 +328,14 @@ class ilObjBlogGUI extends ilObject2GUI
 				$ilCtrl->setParameter($this, "bmn", $month);
 
 				$wtpl->setCurrentBlock("navigation_month");
-				$wtpl->setVariable("MONTH_NAME", $month_name);
+				$wtpl->setVariable("MONTH_NAME", $month_name);				
+				$wtpl->setVariable("URL_MONTH", $month_url);
 				$wtpl->setVariable("MONTH_COUNT", sizeof($postings));
-				$wtpl->setVariable("URL_MONTH", 
-						$ilCtrl->getLinkTarget($this, "render"));
 				$wtpl->parseCurrentBlock();
 			}
-
-			$ilCtrl->setParameter($this, "bmn", $this->month);
 		}
+
+		$ilCtrl->setParameter($this, "bmn", $this->month);
 
 		return $wtpl->get();
 	}
