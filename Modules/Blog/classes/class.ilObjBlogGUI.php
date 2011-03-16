@@ -65,6 +65,11 @@ class ilObjBlogGUI extends ilObject2GUI
 				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$bpost_gui = new ilBlogPostingGUI($this->node_id, $this->getAccessHandler(),
 					$_GET["page"], $_GET["old_nr"]);
+				
+				if (!$this->getAccessHandler()->checkAccess("write", "", $this->node_id))
+				{
+					$bpost_gui->setEnableEditing(false);
+				}
 
 				/*
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
@@ -73,11 +78,6 @@ class ilObjBlogGUI extends ilObject2GUI
 				$this->setContentStyleSheet();
 				*/
 
-				if (!$this->getAccessHandler()->checkAccess("write", "", $this->node_id) &&
-					!$this->getAccessHandler()->checkAccess("edit_content", "", $this->node_id))
-				{
-					$bpost_gui->setEnableEditing(false);
-				}
 				$ret = $ilCtrl->forwardCommand($bpost_gui);
 				if ($ret != "")
 				{
@@ -210,8 +210,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		global $lng, $ilCtrl, $ilToolbar;
 
-		if($this->getAccessHandler()->checkAccess("write", "", $this->node_id) &&
-			 $this->getAccessHandler()->checkAccess("edit_content", "", $this->node_id))
+		if($this->getAccessHandler()->checkAccess("write", "", $this->node_id))
 		{
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 
@@ -229,20 +228,41 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/blog");
-
 		
 		foreach($items as $item)
 		{
 			$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $item["id"]);
 			$preview = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "preview");
 
+			// actions
+			if($this->getAccessHandler()->checkAccess("write", "", $this->node_id))
+			{
+				include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+				$alist = new ilAdvancedSelectionListGUI();
+				$alist->setId($item["id"]);
+				$alist->setListTitle($lng->txt("actions"));
+				$alist->addItem($lng->txt("edit"), "edit", 
+					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit"));
+				$alist->addItem($lng->txt("delete"), "delete",
+					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "deleteBlogPostingConfirmationScreen"));
+
+				$wtpl->setCurrentBlock("actions");
+				$wtpl->setVariable("ACTION_SELECTOR", $alist->getHTML());
+				$wtpl->parseCurrentBlock();
+			}
+
 			// comments
 			if(true) // :TODO:
 			{
+				// count (public) notes
+				include_once("Services/Notes/classes/class.ilNote.php");
+				$count = sizeof(ilNote::_getNotesOfObject($this->obj_id, 
+					$item["id"], "wpg", IL_NOTE_PUBLIC));
+				
 				$wtpl->setCurrentBlock("comments");
 				$wtpl->setVariable("TEXT_COMMENTS", $lng->txt("blog_comments"));
 				$wtpl->setVariable("URL_COMMENTS", $preview);
-				$wtpl->setVariable("COUNT_COMMENTS", 0); // :TODO:
+				$wtpl->setVariable("COUNT_COMMENTS", $count);
 				$wtpl->parseCurrentBlock();
 			}
 
