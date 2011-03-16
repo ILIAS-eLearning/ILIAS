@@ -11007,3 +11007,6 @@ blog#:#blog_add_posting#:#Eintrag hinzufügen
 blog#:#blog_permanent_link#:#Permalink
 blog#:#blog_comments#:#Kommentare
 blog#:#blog_list_more#:#mehr
+blog#:#blog_posting_deletion_confirmation#:#Wollen Sie diesen Eintrag wirklich löschen?
+blog#:#blog_number_users_notes_or_comments#:#Anzahl Benutzer, die Notizen oder Kommentare zu diesem Eintrag verfasst haben.
+blog#:#blog_posting_deleted#:#Der Eintrag wurde gelöscht.

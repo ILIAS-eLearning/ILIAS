@@ -31,13 +31,15 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function __construct($a_node_id, $a_access_handler, $a_id = 0, $a_old_nr = 0)
 	{
-		global $tpl;
+		global $tpl, $lng;
+
+		$lng->loadLanguageModule("blog");
 
 		$this->node_id = $a_node_id;
 		$this->access_handler = $a_access_handler;
 
 		parent::__construct("blp", $a_id, $a_old_nr);
-		
+
 		// content style
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		
@@ -191,9 +193,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
 		// notes
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
-		$pg_id = $this->getBlogPosting()->getId();
 		$notes_gui = new ilNoteGUI($this->getBlogPosting()->getParentId(),
-			$pg_id, "wpg");
+			$this->getBlogPosting()->getId(), "wpg");
 		if ($this->checkAccess("write"))
 		{
 			$notes_gui->enablePublicNotesDeletion(true);
@@ -224,11 +225,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
 		$tpl->setLoginTargetPar("blog_".$this->node_id.$append);
 
-
-
 		$ilCtrl->setParameter($this, "page", $this->getBlogPosting()->getId());
 
-		
 		return $wtpl->get();
 	}
 
@@ -298,7 +296,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			// notes/comments
 			include_once("./Services/Notes/classes/class.ilNote.php");
 			$cnt_note_users = ilNote::getUserCount($this->getBlogPosting()->getParentId(),
-				$this->getBlogPosting()->getId(), "blp");
+				$this->getBlogPosting()->getId(), "wpg");
 			$dtpl->setVariable("TXT_NUMBER_USERS_NOTES_OR_COMMENTS",
 				$lng->txt("blog_number_users_notes_or_comments"));
 			$dtpl->setVariable("TXT_NR_NOTES_COMMENTS", $cnt_note_users);

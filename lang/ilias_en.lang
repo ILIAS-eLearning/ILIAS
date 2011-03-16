@@ -11035,3 +11035,6 @@ blog#:#blog_add_posting#:#Add Posting
 blog#:#blog_permanent_link#:#Permalink
 blog#:#blog_comments#:#Comments
 blog#:#blog_list_more#:#more
+blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the following entry?
+blog#:#blog_number_users_notes_or_comments#:#Number of users that attached notes or comments to this entry
+blog#:#blog_posting_deleted#:#The entry has been deleted.

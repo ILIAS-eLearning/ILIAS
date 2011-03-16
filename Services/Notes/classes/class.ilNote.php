@@ -520,9 +520,8 @@ class ilNote
 		$set = $ilDB->queryF("SELECT count(DISTINCT author) cnt FROM note WHERE ".
 			"rep_obj_id = %s AND obj_id = %s AND obj_type = %s",
 			array("integer", "integer", "text"),
-			array((int) $a_rep_obj_id, (int) $a_obj_id, (int) $a_type));
+			array((int) $a_rep_obj_id, (int) $a_obj_id, (string)$a_type));
 		$rec = $ilDB->fetchAssoc($set);
-		
 		return (int) $rec["cnt"];
 	}
 
