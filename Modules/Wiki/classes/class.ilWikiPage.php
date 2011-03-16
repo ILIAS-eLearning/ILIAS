@@ -182,13 +182,9 @@ class ilWikiPage extends ilPageObject
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		ilNotification::removeForObject(ilNotification::TYPE_WIKI_PAGE, $this->getId());
 		
-		// delete comments and notes of this page
-		// (we keep them first)
-		
 		// delete record of table il_wiki_data
 		$query = "DELETE FROM il_wiki_page".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
-
 		$ilDB->manipulate($query);
 		
 		// delete co page

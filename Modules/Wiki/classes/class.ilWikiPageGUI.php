@@ -263,30 +263,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		}
 
 		// notes
-		include_once("Services/Notes/classes/class.ilNoteGUI.php");
-		$pg_id = $this->getPageObject()->getId();
-		$notes_gui = new ilNoteGUI($this->getPageObject()->getParentId(),
-			$pg_id, "wpg");
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
-		{
-			$notes_gui->enablePublicNotesDeletion(true);
-		}
-		$notes_gui->enablePrivateNotes();
-		if (ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()))
-		{
-			$notes_gui->enablePublicNotes();
-		}
-		
-		$next_class = $this->ctrl->getNextClass($this);
-		if ($next_class == "ilnotegui")
-		{
-			$html = $this->ctrl->forwardCommand($notes_gui);
-		}
-		else
-		{	
-			$html = $notes_gui->getNotesHTML();
-		}
-		$wtpl->setVariable("NOTES", $html);
+		$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getPageObject(),
+			true, ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()),
+			$ilAccess->checkAccess("write", "", $_GET["ref_id"])));
 		
 		// permanent link
 		$append = ($_GET["page"] != "")
