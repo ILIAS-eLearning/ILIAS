@@ -24,6 +24,28 @@ class ilObjBlogGUI extends ilObject2GUI
 		return "blog";
 	}
 
+	protected function initCustomEditForm()
+	{
+		global $lng;
+
+		$lng->loadLanguageModule("blog");
+		
+		$notes = new ilCheckboxInputGUI($lng->txt("blog_enable_notes"), "notes");
+		$this->form->addItem($notes);		
+	}
+
+	protected function initCustomEditValues(array &$a_values)
+	{
+		$a_values["notes"] = $this->object->getNotesStatus();
+	}
+
+	protected function afterUpdate()
+	{
+		$this->object->updateNotesStatus($this->form->getInput("notes"));
+
+		parent::afterUpdate();
+	}
+
 	function setTabs()
 	{
 		global $lng, $ilTabs;
@@ -64,7 +86,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			case 'ilblogpostinggui':
 				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$bpost_gui = new ilBlogPostingGUI($this->node_id, $this->getAccessHandler(),
-					$_GET["page"], $_GET["old_nr"]);
+					$_GET["page"], $_GET["old_nr"], $this->object->getNotesStatus());
 				
 				if (!$this->getAccessHandler()->checkAccess("write", "", $this->node_id))
 				{
@@ -162,48 +184,6 @@ class ilObjBlogGUI extends ilObject2GUI
 			$tpl->setContent($this->renderList($items[$this->month]));
 			$tpl->setRightContent($this->renderNavigation($items));
 		}
-		
-		/*
-		$ilTabs->clearTargets();
-
-		$post = ($_GET["page"] != "")
-			? $_GET["page"]
-			: ilBlogPosting::getLastPost($this->object->getId());
-		$_GET["page"] = $post;
-
-		// valid post?
-		if (!ilBlogPosting::exists($this->object->getId(), $post))
-		{
-			$post = ilBlogPosting::getLastPost($this->object->getId());
-		}
-
-		// only if post
-		if ($post && ilBlogPosting::exists($this->object->getId(), $post))
-		{
-			// page exists, show it !
-			$ilCtrl->setParameter($this, "page", $post);
-
-			include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
-			$bpost_gui = new ilBlogPostingGUI($this->node_id, $this->getAccessHandler(), $post);
-
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-			$bpost_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-				$this->object->getStyleSheetId(), "wiki"));
-			$this->setContentStyleSheet();
-
-			if (!$this->getAccessHandler()->checkAccess("write", "", $this->node_id) &&
-				!$this->getAccessHandler()->checkAccess("edit_content", "", $this->node_id))
-			{
-				$bpost_gui->setEnableEditing(false);
-			}
-
-			$ilCtrl->setCmdClass("ilblogpostinggui");
-			$ilCtrl->setCmd("preview");
-			$html = $ilCtrl->forwardCommand($bpost_gui);
-			
-			$tpl->setContent($html);
-		}
-		*/
 	}
 
 	function renderToolbar()
@@ -252,7 +232,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			}
 
 			// comments
-			if(true) // :TODO:
+			if($this->object->getNotesStatus())
 			{
 				// count (public) notes
 				include_once("Services/Notes/classes/class.ilNote.php");

@@ -19,6 +19,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 {
 	protected $node_id; // [int]
 	protected $access_handler; // [object]
+	protected $enable_public_notes; // [bool]
 
 	/**
 	 * Constructor
@@ -27,9 +28,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 * @param object $a_access_handler
 	 * @param int $a_id
 	 * @param int $a_old_nr
+	 * @param bool $a_enable_notes
 	 * @return ilBlogPostingGUI
 	 */
-	function __construct($a_node_id, $a_access_handler, $a_id = 0, $a_old_nr = 0)
+	function __construct($a_node_id, $a_access_handler, $a_id = 0, $a_old_nr = 0, $a_enable_public_notes = true)
 	{
 		global $tpl, $lng;
 
@@ -37,6 +39,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
 		$this->node_id = $a_node_id;
 		$this->access_handler = $a_access_handler;
+		$this->enable_public_notes = (bool)$a_enable_public_notes;
 
 		parent::__construct("blp", $a_id, $a_old_nr);
 
@@ -195,12 +198,17 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
 		$notes_gui = new ilNoteGUI($this->getBlogPosting()->getParentId(),
 			$this->getBlogPosting()->getId(), "wpg");
-		if ($this->checkAccess("write"))
-		{
-			$notes_gui->enablePublicNotesDeletion(true);
-		}
 		$notes_gui->enablePrivateNotes();
-		$notes_gui->enablePublicNotes();
+
+		if($this->enable_public_notes)
+		{
+			if ($this->checkAccess("write"))
+			{
+				$notes_gui->enablePublicNotesDeletion(true);
+			}
+			$notes_gui->enablePublicNotes();
+		}
+		
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		if ($next_class == "ilnotegui")
