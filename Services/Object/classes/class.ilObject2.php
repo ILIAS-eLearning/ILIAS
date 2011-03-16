@@ -218,6 +218,7 @@ abstract class ilObject2 extends ilObject
 			if(parent::delete())
 			{
 				$this->doDelete();
+				$this->id = null;
 				return true;
 			}			
 		}		

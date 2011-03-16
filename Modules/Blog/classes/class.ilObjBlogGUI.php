@@ -179,20 +179,23 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		if($items)
 		{			
-			// current month
-			if(!$this->month)
+			// current month (if none given or empty)
+			if(!$this->month || !$items[$this->month])
 			{
 				$this->month = array_keys($items);
 				$this->month = array_shift($this->month);
 			}
 
-			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-			$tpl->setDescription(ilCalendarUtil::_numericMonthToString(substr($this->month, 6)).
-				" ".substr($this->month, 0, 4));
+			if($items[$this->month])
+			{
+				include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+				$tpl->setDescription(ilCalendarUtil::_numericMonthToString(substr($this->month, 6)).
+					" ".substr($this->month, 0, 4));
 
-			$ilCtrl->setParameter($this, "bmn", $this->month);
-			$tpl->setContent($this->renderList($items[$this->month]));
-			$tpl->setRightContent($this->renderNavigation($items));
+				$ilCtrl->setParameter($this, "bmn", $this->month);
+				$tpl->setContent($this->renderList($items[$this->month]));
+				$tpl->setRightContent($this->renderNavigation($items));
+			}
 		}
 	}
 
@@ -310,7 +313,7 @@ class ilObjBlogGUI extends ilObject2GUI
 					$caption = /* ilDatePresentation::formatDate($posting["created"], IL_CAL_DATETIME).
 						", ".*/ $posting["title"];
 
-					$ilCtrl->setParameter($this, "page", $id);
+					$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $id);
 					$wtpl->setVariable("NAV_ITEM_URL",
 						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "preview"));
 					$wtpl->setVariable("NAV_ITEM_CAPTION", $caption);

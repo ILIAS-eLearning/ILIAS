@@ -2248,14 +2248,16 @@ class ilPageObjectGUI
 		}
 		
 		$this->setOutputMode(IL_PAGE_EDIT);
+
+		$html = $this->showPage();
 		
 		// scorm2004-start
-		$html = $this->showPage();
 		if ($this->isEnabledNotes())
 		{
-			$html.= "<br /><br />".$this->getNotesHTML($a_mode = "");
+			$html.= "<br /><br />".$this->getNotesHTML();
 		}
-		// scorm2004-end
+		// scorm2004-end	
+	
 		return $html;
 	}
 
@@ -2692,31 +2694,57 @@ class ilPageObjectGUI
 	}
 
 	/**
-	* Get notes HTML
-	*/
-	function getNotesHTML($a_mode = "")
+	 * Get html for public and/or private notes
+	 *
+	 * @param bool $a_content_object
+	 * @param bool $a_enable_private_notes
+	 * @param bool $a_enable_public_notes
+	 * @param bool $a_enable_notes_deletion
+	 * @return string
+	 */
+	function getNotesHTML($a_content_object = null, $a_enable_private_notes = true, $a_enable_public_notes = false, $a_enable_notes_deletion = false)
 	{
 		global $ilCtrl;
-		
-		// notes
-		$ilCtrl->setParameter($this, "nodes_mode", $a_mode);
+
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
-		$notes_gui = new ilNoteGUI($this->notes_parent_id,
-			(int) $this->obj->getId(), "pg");
-//		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
-//		{
-//			$notes_gui->enablePublicNotesDeletion(true);
-//		}
-		$notes_gui->enablePrivateNotes();
-		$notes_gui->enablePublicNotes();
-		
-		$next_class = $ilCtrl->getNextClass($this);
+
+		// scorm 2004 page gui
+		if(!$a_content_object)
+		{
+			$notes_gui = new ilNoteGUI($this->notes_parent_id,
+				(int)$this->obj->getId(), "pg");
+
+			$a_enable_private_notes = true;
+			$a_enable_public_notes = true;
+			$a_enable_notes_deletion = false;
+		}
+		// wiki page gui, blog posting gui
+		else
+		{
+			$notes_gui = new ilNoteGUI($a_content_object->getParentId(),
+				$a_content_object->getId(), $a_content_object->getParentType());
+		}
+	
+		if($a_enable_private_notes)
+		{
+			$notes_gui->enablePrivateNotes();
+		}
+		if ($a_enable_public_notes)
+		{
+			$notes_gui->enablePublicNotes();
+			if ((bool)$a_enable_notes_deletion)
+			{
+				$notes_gui->enablePublicNotesDeletion(true);
+			}
+		}
+
+		$next_class = $this->ctrl->getNextClass($this);
 		if ($next_class == "ilnotegui")
 		{
 			$html = $this->ctrl->forwardCommand($notes_gui);
 		}
 		else
-		{	
+		{
 			$html = $notes_gui->getNotesHTML();
 		}
 		return $html;

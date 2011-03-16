@@ -33,7 +33,7 @@ class ilObjBlog extends ilObject2
 
 		if($this->id)
 		{
-			$ilDB->query("UPDATE il_blog".
+			$ilDB->manipulate("UPDATE il_blog".
 				" SET notes = ".$ilDB->quote($a_status, "integer").
 				" WHERE id = ".$ilDB->quote($this->id, "integer"));
 			$this->notes = (bool)$a_status;
@@ -56,7 +56,7 @@ class ilObjBlog extends ilObject2
 	{
 		global $ilDB;
 		
-		$ilDB->query("INSERT INTO il_blog (id,notes) VALUES (".
+		$ilDB->manipulate("INSERT INTO il_blog (id,notes) VALUES (".
 			$ilDB->quote($this->id, "integer").",".
 			$ilDB->quote(true, "integer"));
 	}
@@ -64,6 +64,17 @@ class ilObjBlog extends ilObject2
 	function getNotesStatus()
 	{
 		return $this->notes;
+	}
+
+	protected function doDelete()
+	{
+		global $ilDB;
+
+		include_once "Modules/Blog/classes/class.ilBlogPosting.php";
+		ilBlogPosting::deleteAllBlogPostings($this->id);
+
+		$ilDB->manipulate("DELETE FROM il_blog".
+			" WHERE id = ".$ilDB->quote($this->id, "integer"));
 	}
 }
 

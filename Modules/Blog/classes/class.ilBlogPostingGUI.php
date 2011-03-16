@@ -181,46 +181,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			$wtpl->parseCurrentBlock();
 		}
 
-		/*
-		// rating
-		if (ilObjBlog::_lookupRating($this->getBlogPosting()->getParentId())
-			&& $this->getBlogPosting()->old_nr == 0)
-		{
-			include_once("./Services/Rating/classes/class.ilRatingGUI.php");
-			$rating_gui = new ilRatingGUI();
-			$rating_gui->setObject($this->getBlogPosting()->getParentId(), "blog",
-				$this->getBlogPosting()->getId(), "blp");
-			$wtpl->setVariable("RATING", $ilCtrl->getHtml($rating_gui));
-		}
-	    */
-
 		// notes
-		include_once("Services/Notes/classes/class.ilNoteGUI.php");
-		$notes_gui = new ilNoteGUI($this->getBlogPosting()->getParentId(),
-			$this->getBlogPosting()->getId(), "wpg");
-		$notes_gui->enablePrivateNotes();
+		$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getBlogPosting(),
+			true, $this->enable_public_notes, $this->checkAccess("write")));
 
-		if($this->enable_public_notes)
-		{
-			if ($this->checkAccess("write"))
-			{
-				$notes_gui->enablePublicNotesDeletion(true);
-			}
-			$notes_gui->enablePublicNotes();
-		}
-		
-		
-		$next_class = $this->ctrl->getNextClass($this);
-		if ($next_class == "ilnotegui")
-		{
-			$html = $this->ctrl->forwardCommand($notes_gui);
-		}
-		else
-		{	
-			$html = $notes_gui->getNotesHTML();
-		}
-		$wtpl->setVariable("NOTES", $html);
-		
 		// permanent link
 		$append = ($_GET["page"] != "")
 			? "_".$_GET["page"]

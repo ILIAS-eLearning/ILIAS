@@ -2328,6 +2328,16 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			}
 		}
 
+		// delete public and private notes (see PageObjectGUI->getNotesHTML())
+		include_once("Services/Notes/classes/class.ilNote.php");
+		foreach(array(IL_NOTE_PRIVATE, IL_NOTE_PUBLIC) as $note_type)
+		{
+			foreach(ilNote::_getNotesOfObject($this->getParentId(), $this->getId(),
+				$this->getParentType(), $note_type) as $note)
+			{
+				$note->delete();
+			}
+		}
 	}
 
 	/**

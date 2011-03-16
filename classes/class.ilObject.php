@@ -1405,6 +1405,16 @@ class ilObject
 			include_once("./Services/Block/classes/class.ilBlockSetting.php");
 			ilBlockSetting::_deleteSettingsOfBlock($this->getId(), "news");
 
+			// remove notes (see infoscreen gui)
+			include_once("Services/Notes/classes/class.ilNote.php");
+			foreach(array(IL_NOTE_PRIVATE, IL_NOTE_PUBLIC) as $note_type)
+			{
+				foreach(ilNote::_getNotesOfObject($this->id, 0, $this->type, $note_type) as $note)
+				{
+					$note->delete();
+				}
+			}
+
 			$remove = true;
 		}
 		else

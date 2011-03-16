@@ -162,11 +162,6 @@ class ilBlogPosting extends ilPageObject
 	function delete()
 	{
 		global $ilDB;
-		
-		/* delete internal links information to this page
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
-		ilInternalLink::_deleteAllLinksToTarget("blp", $this->getId());
-		*/
 
 		$query = "DELETE FROM il_blog_posting".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
