@@ -293,7 +293,7 @@ function ilSubmitOnEnter(ev, form)
 }
 
 // layout test
-$(document).ready(function() {
+/*$(document).ready(function() {
 	$('#mainspacekeeper').css('height',$(window).height()- $('#mainscrolldiv').offset().top - 5);
 	$('#mainscrolldiv').addClass('iosMainScroll');
 	$('#mainscrolldiv').css('height',$(window).height()- $('#mainscrolldiv').offset().top - 15);
@@ -301,6 +301,6 @@ $(document).ready(function() {
 $(window).bind('resize',function(){
 	$('#mainspacekeeper').css('height',$(window).height() - $('#mainscrolldiv').offset().top - 5);
 	$('#mainscrolldiv').css('height',$(window).height()- $('#mainscrolldiv').offset().top - 15);
-});
+});*/
 
 
