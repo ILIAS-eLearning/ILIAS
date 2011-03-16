@@ -619,6 +619,12 @@ $html.= $this->form->getHTML()."<br />";
 		$ta->setCols(40);
 		$ta->setRows(2);
 		$this->form->addItem($ta);
+
+		// we are trying to minimize creation screens
+		if($a_mode == "edit")
+		{
+			$this->initCustomEditForm();
+		}
 	
 		// save and cancel commands
 		if ($a_mode == "create")
@@ -638,13 +644,36 @@ $html.= $this->form->getHTML()."<br />";
 	}
 
 	/**
+	 * Enables custom settings (in addition to title/description)
+	 */
+	protected function initCustomEditForm()
+	{
+
+	}
+
+	/**
 	* Get values for edit form
 	*/
 	function getEditFormValues()
 	{
+		$values = array();
+		
+		$this->initCustomEditValues($values);
+
 		$values["title"] = $this->object->getTitle();
 		$values["desc"] = $this->object->getDescription();
+
 		$this->form->setValuesByArray($values);
+	}
+
+	/**
+	 * Enables custom settings (in addition to title/description)
+	 * 
+	 * @param array $a_values
+	 */
+	protected function initCustomEditValues(array &$a_values)
+	{
+		
 	}
 	
 	/**
@@ -720,7 +749,7 @@ $html.= $this->form->getHTML()."<br />";
 		if ($this->form->checkInput())
 		{
 			$this->object->setTitle($_POST["title"]);
-			$this->object->setDescription($_POST["desc"]);
+			$this->object->setDescription($_POST["desc"]);			
 			$this->update = $this->object->update();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$this->afterUpdate();
@@ -729,7 +758,7 @@ $html.= $this->form->getHTML()."<br />";
 		$this->form->setValuesByPost();
 		$tpl->setContent($this->form->getHtml());
 	}
-	
+
 	protected function afterUpdate()
 	{
 		$this->ctrl->redirect($this);

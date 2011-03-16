@@ -4104,3 +4104,15 @@ $ilDB->addTableColumn("il_wiki_data", "public_notes", array(
 	"length" => 1
 ));
 ?>
+<#3240>
+<?php
+if(!$ilDB->tableExists('il_blog'))
+{
+	$fields = array (
+		'id' => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+		'notes' => array ('type' => 'integer', 'notnull' => false, 'length' => 1, 'default' => 1)
+	  );
+  $ilDB->createTable('il_blog', $fields);
+  $ilDB->addPrimaryKey('il_blog', array('id'));
+}
+?>
