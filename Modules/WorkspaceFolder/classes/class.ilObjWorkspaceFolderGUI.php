@@ -127,7 +127,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		}
 
 		// open current position
-		// using the explorer session storage direclty is basically a hack
+		// using the explorer session storage directly is basically a hack
 		// as we do not use setExpanded() [see below]
 		$_SESSION['paste_cut_wspexpand'] = array();
 		foreach((array)$this->tree->getPathId($parent_node) as $node_id)
@@ -135,6 +135,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 			$_SESSION['paste_cut_wspexpand'][] = $node_id;
 		}
 
+		// remember source node
 		$_SESSION['clipboard']['source_id'] = $current_node;
 
 		return $this->showMoveIntoObjectTree();
@@ -155,9 +156,8 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 			'tpl.paste_into_multiple_objects.html');
 
 		require_once 'Services/PersonalWorkspace/classes/class.ilWorkspaceExplorer.php';
-		$exp = new ilWorkspaceExplorer(ilWorkspaceExplorer::SEL_TYPE_RADIO, 
-			'repository.php?cmd=goto', 'paste_cut_wspexpand', $this->tree,
-			$this->getAccessHandler());
+		$exp = new ilWorkspaceExplorer(ilWorkspaceExplorer::SEL_TYPE_RADIO, '', 
+			'paste_cut_wspexpand', $this->tree, $this->getAccessHandler());
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'showMoveIntoObjectTree'));
 		$exp->setTargetGet('wsp_id');
 		$exp->setPostVar('node');

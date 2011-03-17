@@ -352,7 +352,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 		{
 			$children = $this->tree->getSubTree($this->tree->getNodeData($node_id));
 			foreach($children as $child)
-			{
+			{				
 				$this->deleteConfirmationItem($cgui, $child["wsp_id"]);
 			}
 		}
@@ -364,11 +364,18 @@ abstract class ilObject2GUI extends ilObjectGUI
 	{
 		global $lng;
 
-		$obj_id = $this->tree->lookupObjectId($node_id);
-
 		// see RepUtil
+
+		$obj_id = $this->tree->lookupObjectId($node_id);				
 		$type = ilObject::_lookupType($obj_id);
 		$title = call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'), $obj_id);
+
+		if(!$this->getAccessHandler()->checkAccess("delete", "", $node_id))
+		{
+			ilUtil::sendFailure($lng->txt("msg_no_perm_delete")." ".$title, true);
+			$this->ctrl->redirect($this);
+		}
+
 		$cgui->addItem("id[]", $node_id, $title,
 			ilObject::_getIcon($obj_id, "small", $type),
 			$lng->txt("icon")." ".$lng->txt("obj_".$type));
