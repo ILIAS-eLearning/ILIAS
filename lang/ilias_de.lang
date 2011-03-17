@@ -5719,7 +5719,7 @@ crs#:#crs_grouping_select_one#:#Bitte wählen Sie eine Kursgruppierung aus.
 crs#:#crs_groupings#:#Kursgruppierungen
 crs#:#crs_groupings_ask_delete#:#Kursgruppierung löschen
 crs#:#crs_grp_added_grouping#:#Eine neue Mitgliedschaftsbeschränkung wurde angelegt.
-crs#:#crs_grp_already_assigned#:#Da Sie bereits Mitglied in einem anderen verknüpften Kurs sind, können Sie diesem Kurs nicht beitreten!
+crs#:#crs_grp_already_assigned#:#Da Sie bereits Mitglied in einem der Kurse sind, können Sie nicht einem weiteren Kurs aus der Liste beitreten!
 crs#:#crs_grp_assign_crs#:#Kurs zuordnen
 crs#:#crs_grp_assigned_courses#:#Die ausgewählten Kurse wurden zugeordnet.
 crs#:#crs_grp_assigned_courses_info#:#Zugeordnete Kurse:
