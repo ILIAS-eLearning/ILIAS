@@ -80,6 +80,21 @@ class ilWorkspaceTree extends ilTree
 		$this->insertNode($node_id, $a_parent_node_id);
 		return $node_id;
 	}
+
+	/**
+	 * Delete object from reference table
+	 * 
+	 * @param int $a_node_id
+	 * @return bool
+	 */
+	public function deleteReference($a_node_id)
+	{
+		global $ilDB;
+
+		$query = "DELETE FROM ".$this->table_obj_reference.
+			" WHERE ".$this->ref_pk." = ".$ilDB->quote($a_node_id, "integer");
+		return $ilDB->manipulate($query);
+	}
 }
 
 ?>

@@ -286,7 +286,123 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 		$tpl->setLocator();
 	}
-	
+
+	public  function delete()
+	{
+		switch($this->id_type)
+		{
+			case self::REPOSITORY_NODE_ID:
+			case self::REPOSITORY_OBJECT_ID:
+				return parent::deleteObject();
+
+			case self::WORKSPACE_NODE_ID:
+			case self::WORKSPACE_OBJECT_ID:
+				return $this->deleteConfirmation();
+
+			case self::OBJECT_ID:
+				// :TODO: should this ever occur? 
+				break;
+		}
+	}
+
+	public function confirmedDelete()
+	{
+		switch($this->id_type)
+		{
+			case self::REPOSITORY_NODE_ID:
+			case self::REPOSITORY_OBJECT_ID:
+				return parent::confirmedDeleteObject();
+
+			case self::WORKSPACE_NODE_ID:
+			case self::WORKSPACE_OBJECT_ID:
+				return $this->deleteConfirmedObjects();
+
+			case self::OBJECT_ID:
+				// :TODO: should this ever occur? 
+				break;
+		}
+	}
+
+	protected function deleteConfirmation()
+	{
+		global $lng, $tpl, $objDefinition;
+
+		$node_id = $_REQUEST["item_ref_id"];
+		if (!$node_id)
+		{
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+			$this->ctrl->redirect($this, "");
+		}
+
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText($lng->txt("info_delete_sure")."<br/>".
+			$lng->txt("info_delete_warning_no_trash"));
+
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setCancel($lng->txt("cancel"), "cancelDelete");
+		$cgui->setConfirm($lng->txt("confirm"), "confirmedDelete");
+
+	    $a_ids = array($node_id);
+		foreach ($a_ids as $node_id)
+		{
+			$children = $this->tree->getSubTree($this->tree->getNodeData($node_id));
+			foreach($children as $child)
+			{
+				$this->deleteConfirmationItem($cgui, $child["wsp_id"]);
+			}
+		}
+		
+		$tpl->setContent($cgui->getHTML());
+	}
+
+	protected function deleteConfirmationItem(ilConfirmationGUI $cgui, $node_id)
+	{
+		global $lng;
+
+		$obj_id = $this->tree->lookupObjectId($node_id);
+
+		// see RepUtil
+		$type = ilObject::_lookupType($obj_id);
+		$title = call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'), $obj_id);
+		$cgui->addItem("id[]", $node_id, $title,
+			ilObject::_getIcon($obj_id, "small", $type),
+			$lng->txt("icon")." ".$lng->txt("obj_".$type));
+	}
+
+	protected function deleteConfirmedObjects()
+	{
+		global $lng, $objDefinition;
+
+		if(sizeof($_POST["id"]))
+		{
+			// redirect to parent of deleted node (no multiple node deletion yet)
+			$parent = $this->tree->getParentId($_REQUEST["wsp_id"]);
+
+			foreach($_POST["id"] as $node_id)
+			{
+				$node = $this->tree->getNodeData($node_id);
+
+				// object
+				$object = ilObjectFactory::getInstanceByObjId($node["obj_id"], false);
+			    $object->delete();
+
+				// tree/reference
+				$this->tree->deleteReference($node_id);
+				$this->tree->deleteTree($node);
+			}
+
+			$this->ctrl->setParameter($this, "wsp_id", $parent);
+			ilUtil::sendSuccess($lng->txt("msg_removed"), true);
+		}
+		else
+		{
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+		}
+
+		$this->ctrl->redirect($this, "");
+	}
+
 	/**
 	* Final/Private declaration of unchanged parent methods
 	*/
@@ -310,11 +426,9 @@ abstract class ilObject2GUI extends ilObjectGUI
 	// -> ilContainerGUI
 	final protected function showPossibleSubObjects() { return parent::showPossibleSubObjects(); }
 	// -> ilRepUtilGUI
-	final public  function delete() { return parent::deleteObject(); }	// done
 	final public  function trash() { return parent::trashObject(); }		// done
 	// -> ilRepUtil
 	final public function undelete() { return parent::undeleteObject(); } // done
-	final public function confirmedDelete() { return parent::confirmedDeleteObject(); } // done
 	final public function cancelDelete() { return parent::cancelDeleteObject(); } // ok
 	final public function removeFromSystem() { return parent::removeFromSystemObject(); } // done 
 	final protected function redirectToRefId() { return parent::redirectToRefId(); } // ok
