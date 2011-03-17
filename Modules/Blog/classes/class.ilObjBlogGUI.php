@@ -48,30 +48,26 @@ class ilObjBlogGUI extends ilObject2GUI
 
 	function setTabs()
 	{
-		global $lng, $ilTabs;
+		global $lng;
 
 		$this->ctrl->setParameter($this,"wsp_id",$this->node_id);
 
 		if ($this->getAccessHandler()->checkAccess('read', '', $this->node_id))
 		{
-			$this->tabs_gui->addTab('view_content', $lng->txt("content"),
+			$this->tabs_gui->addTab("content",
+				$lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 		}
 
 		if ($this->getAccessHandler()->checkAccess('write', '', $this->node_id))
 		{
-			$force_active = ($_GET["cmd"] == "edit")
-				? true
-				: false;
-			$this->tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
-				, "", $force_active);
+			$this->tabs_gui->addTab("id_edit",
+				$lng->txt("settings"),
+				$this->ctrl->getLinkTarget($this, "edit"));
 		}
 
-		/*
-		$ilTabs->setBackTarget($lng->txt("back"),
-			$this->ctrl->getLinkTargetByClass("ilobjworkspacefoldergui", ""));
-		*/
+		// will add permissions if needed
+		parent::setTabs();
 	}
 
 	function &executeCommand()
@@ -156,6 +152,8 @@ class ilObjBlogGUI extends ilObject2GUI
 	function render()
 	{
 		global $tpl, $ilTabs, $ilCtrl, $lng, $ilToolbar;
+
+		$ilTabs->activateTab("content");
 
 		if(!$this->getAccessHandler()->checkAccess("read", "", $this->node_id))
 		{

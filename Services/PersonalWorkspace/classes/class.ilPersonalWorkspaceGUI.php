@@ -41,7 +41,7 @@ class ilPersonalWorkspaceGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $lng, $objDefinition;
+		global $ilCtrl, $lng, $objDefinition;
 
 		$ilCtrl->setReturn($this, "render");
 		$cmd = $ilCtrl->getCmd();
