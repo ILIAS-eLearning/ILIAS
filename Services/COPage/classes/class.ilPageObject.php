@@ -2328,7 +2328,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			}
 		}
 
-		// delete public and private notes (see PageObjectGUI->getNotesHTML())
+		/* delete public and private notes (see PageObjectGUI->getNotesHTML())
+		  as they can be seen as personal data we are keeping them for now
 		include_once("Services/Notes/classes/class.ilNote.php");
 		foreach(array(IL_NOTE_PRIVATE, IL_NOTE_PUBLIC) as $note_type)
 		{
@@ -2338,6 +2339,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				$note->delete();
 			}
 		}
+		*/
 	}
 
 	/**
