@@ -349,6 +349,36 @@ abstract class ilObject2GUI extends ilObjectGUI
 				break;
 		}
 	}
+
+	protected function setTabs()
+	{
+		global $ilTabs, $lng;
+
+		// permission handling depends on context, had to be moved here
+
+		switch($this->id_type)
+		{
+			case self::REPOSITORY_NODE_ID:
+			case self::REPOSITORY_OBJECT_ID:
+				if ($this->getAccessHandler()->checkAccess("edit_permission", "", $this->node_id))
+				{
+					$ilTabs->addTab("id_permissions",
+						$lng->txt("perm_settings"),
+						$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
+				}
+				break;
+
+			case self::WORKSPACE_NODE_ID:
+			case self::WORKSPACE_OBJECT_ID:
+				if ($this->getAccessHandler()->checkAccess("edit_permission", "", $this->node_id))
+				{
+					$ilTabs->addTab("id_permissions",
+						$lng->txt("perm_settings"),
+						$this->ctrl->getLinkTarget($this, "editPermissions"));
+				}
+				break;
+		}
+	}
 	
 	/**
 	* Deprecated functions
@@ -373,7 +403,6 @@ abstract class ilObject2GUI extends ilObjectGUI
 	*/
 	protected function addLocatorItems() {}
 	public function copyWizardHasOptions($a_mode) { return false; }
-	protected function setTabs() { }
 	
 	/**
 	* Functions that must be overwritten
@@ -719,7 +748,9 @@ $html.= $this->form->getHTML()."<br />";
 	*/
 	function edit()
 	{
-		global $tpl;
+		global $tpl, $ilTabs;
+
+		$ilTabs->activateTab("id_edit");
 		
 		$this->initEditForm("edit");
 		$this->getEditFormValues();
@@ -881,6 +912,17 @@ $html.= $this->form->getHTML()."<br />";
 				// do nothing
 				break;
 		}
+	}
+
+	protected function editPermissions()
+	{
+		global $ilTabs;
+
+		$ilTabs->activateTab("id_permissions");
+
+		
+		
+		
 	}
 }
 

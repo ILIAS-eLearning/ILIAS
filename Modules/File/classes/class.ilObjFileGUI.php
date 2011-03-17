@@ -610,7 +610,7 @@ class ilObjFileGUI extends ilObject2GUI
 	*
 	* @access	public
 	*/
-	function versionsObject()
+	function versions()
 	{
 		global $ilTabs;
 		
@@ -634,18 +634,6 @@ class ilObjFileGUI extends ilObject2GUI
 		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
 	}
 	
-	/**
-	* this one is called from the info button in the repository
-	* not very nice to set cmdClass/Cmd manually, if everything
-	* works through ilCtrl in the future this may be changed
-	*/
-	function infoScreenObject()
-	{
-		$this->ctrl->setCmd("showSummary");
-		$this->ctrl->setCmdClass("ilinfoscreengui");
-		$this->infoScreen();
-	}
-
 	/**
 	* show information screen
 	*/
@@ -706,7 +694,9 @@ class ilObjFileGUI extends ilObject2GUI
 			$this->object->getVersion());
 
 		// forward the command
-		$this->ctrl->forwardCommand($info);
+	    $this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+	    $this->ctrl->forwardCommand($info);
 	}
 
 
@@ -754,12 +744,8 @@ class ilObjFileGUI extends ilObject2GUI
 				$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
 		}
 
-		if ($this->getAccessHandler()->checkAccess("edit_permission", "", $this->node_id))
-		{
-				$ilTabs->addTab("id_permissions",
-				$lng->txt("perm_settings"),
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
-		}
+		// will add permission tab if needed
+		parent::setTabs();
 	}
 	
 	function _goto($a_target)
