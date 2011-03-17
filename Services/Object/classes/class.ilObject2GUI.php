@@ -334,6 +334,10 @@ abstract class ilObject2GUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "");
 		}
 
+		// on cancel or fail we return to parent node
+		$parent_node = $this->tree->getParentId($node_id);
+		$this->ctrl->setParameter($this, "wsp_id", $parent_node);
+
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$cgui->setHeaderText($lng->txt("info_delete_sure")."<br/>".
