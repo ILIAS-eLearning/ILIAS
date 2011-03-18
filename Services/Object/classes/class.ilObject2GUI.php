@@ -287,6 +287,9 @@ abstract class ilObject2GUI extends ilObjectGUI
 		$tpl->setLocator();
 	}
 
+	/**
+	 * Display delete confirmation form (repository/workspace switch)
+	 */
 	public  function delete()
 	{
 		switch($this->id_type)
@@ -305,24 +308,11 @@ abstract class ilObject2GUI extends ilObjectGUI
 		}
 	}
 
-	public function confirmedDelete()
-	{
-		switch($this->id_type)
-		{
-			case self::REPOSITORY_NODE_ID:
-			case self::REPOSITORY_OBJECT_ID:
-				return parent::confirmedDeleteObject();
-
-			case self::WORKSPACE_NODE_ID:
-			case self::WORKSPACE_OBJECT_ID:
-				return $this->deleteConfirmedObjects();
-
-			case self::OBJECT_ID:
-				// :TODO: should this ever occur? 
-				break;
-		}
-	}
-
+	/**
+	 * Display delete confirmation form (workspace specific)
+	 *
+	 * This should probably be moved elsewhere as done with RepUtil
+	 */
 	protected function deleteConfirmation()
 	{
 		global $lng, $tpl, $objDefinition;
@@ -352,35 +342,54 @@ abstract class ilObject2GUI extends ilObjectGUI
 		{
 			$children = $this->tree->getSubTree($this->tree->getNodeData($node_id));
 			foreach($children as $child)
-			{				
-				$this->deleteConfirmationItem($cgui, $child["wsp_id"]);
+			{
+				$node_id = $child["wsp_id"];
+				$obj_id = $this->tree->lookupObjectId($node_id);
+				$type = ilObject::_lookupType($obj_id);
+				$title = call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'), $obj_id);
+
+				// if anything fails, abort the whole process
+				if(!$this->getAccessHandler()->checkAccess("delete", "", $node_id))
+				{
+					ilUtil::sendFailure($lng->txt("msg_no_perm_delete")." ".$title, true);
+					$this->ctrl->redirect($this);
+				}
+
+				$cgui->addItem("id[]", $node_id, $title,
+					ilObject::_getIcon($obj_id, "small", $type),
+					$lng->txt("icon")." ".$lng->txt("obj_".$type));
 			}
 		}
 		
 		$tpl->setContent($cgui->getHTML());
 	}
 
-	protected function deleteConfirmationItem(ilConfirmationGUI $cgui, $node_id)
+	/**
+	 * Delete objects (repository/workspace switch)
+	 */
+	public function confirmedDelete()
 	{
-		global $lng;
-
-		// see RepUtil
-
-		$obj_id = $this->tree->lookupObjectId($node_id);				
-		$type = ilObject::_lookupType($obj_id);
-		$title = call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'), $obj_id);
-
-		if(!$this->getAccessHandler()->checkAccess("delete", "", $node_id))
+		switch($this->id_type)
 		{
-			ilUtil::sendFailure($lng->txt("msg_no_perm_delete")." ".$title, true);
-			$this->ctrl->redirect($this);
-		}
+			case self::REPOSITORY_NODE_ID:
+			case self::REPOSITORY_OBJECT_ID:
+				return parent::confirmedDeleteObject();
 
-		$cgui->addItem("id[]", $node_id, $title,
-			ilObject::_getIcon($obj_id, "small", $type),
-			$lng->txt("icon")." ".$lng->txt("obj_".$type));
+			case self::WORKSPACE_NODE_ID:
+			case self::WORKSPACE_OBJECT_ID:
+				return $this->deleteConfirmedObjects();
+
+			case self::OBJECT_ID:
+				// :TODO: should this ever occur?
+				break;
+		}
 	}
 
+	/**
+	 * Delete objects (workspace specific)
+	 *
+	 * This should probably be moved elsewhere as done with RepUtil
+	 */
 	protected function deleteConfirmedObjects()
 	{
 		global $lng, $objDefinition;

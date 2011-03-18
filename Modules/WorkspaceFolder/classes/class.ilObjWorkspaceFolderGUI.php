@@ -93,6 +93,8 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	}
 
 	/**
+	 * Move node preparation
+	 *
 	 * cut object(s) out from a container and write the information to clipboard
 	 */
 	function cut()
@@ -141,6 +143,9 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		return $this->showMoveIntoObjectTree();
 	}
 
+	/**
+	 * Move node: select target (via explorer)
+	 */
 	function showMoveIntoObjectTree()
 	{
 		global $ilTabs;
@@ -186,6 +191,9 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('paste'));
 	}
 
+	/**
+	 * Move node: target has been selected, execute
+	 */
 	function performPasteIntoMultipleObjects()
 	{
 		global $objDefinition;
