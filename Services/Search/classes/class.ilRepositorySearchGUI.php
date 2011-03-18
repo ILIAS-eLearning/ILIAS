@@ -43,6 +43,7 @@ class ilRepositorySearchGUI
 	private $search_results = array();
 	
 	protected $add_options = array();
+	protected $object_selection = false;
 	
 	var $search_type = 'usr';
 
@@ -615,7 +616,7 @@ class ilRepositorySearchGUI
 	{
 		include_once './Services/Search/classes/class.ilRepositoryObjectResultTableGUI.php';
 		
-		$table = new ilRepositoryObjectResultTableGUI($this,'showSearchResults');
+		$table = new ilRepositoryObjectResultTableGUI($this,'showSearchResults',$this->object_selection);
 		$table->parseObjectIds($a_obj_ids);
 		
 		$this->tpl->setVariable('RES_TABLE',$table->getHTML());
@@ -630,7 +631,7 @@ class ilRepositorySearchGUI
 	{
 		include_once './Services/Search/classes/class.ilRepositoryObjectResultTableGUI.php';
 		
-		$table = new ilRepositoryObjectResultTableGUI($this,'showSearchResults');
+		$table = new ilRepositoryObjectResultTableGUI($this,'showSearchResults',$this->object_selection);
 		$table->parseObjectIds($a_obj_ids);
 		
 		$this->tpl->setVariable('RES_TABLE',$table->getHTML());
@@ -645,7 +646,7 @@ class ilRepositorySearchGUI
 	{
 		include_once './Services/Search/classes/class.ilRepositoryObjectResultTableGUI.php';
 		
-		$table = new ilRepositoryObjectResultTableGUI($this,'showSearchResults');
+		$table = new ilRepositoryObjectResultTableGUI($this,'showSearchResults',$this->object_selection);
 		$table->parseObjectIds($a_obj_ids);
 		
 		$this->tpl->setVariable('RES_TABLE',$table->getHTML());
@@ -736,6 +737,38 @@ class ilRepositorySearchGUI
 		}
 		
 		return true;
+	}
+
+	/**
+	 * Toggle object selection status
+	 *
+	 * @param bool $a_value
+	 */
+	public function allowObjectSelection($a_value = false)
+	{
+		$this->object_selection = (bool)$a_value;
+	}
+
+	/**
+	 * Return selection of course/group/roles to calling script
+	 */
+	protected function selectObject()
+	{
+		// get parameter is used e.g. in exercises to provide
+		// "add members of course" link
+		if ($_GET["list_obj"] != "" && !is_array($_POST['obj']))
+		{
+			$_POST['obj'][0] = $_GET["list_obj"];
+		}
+		if(!is_array($_POST['obj']) or !$_POST['obj'])
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			$this->showSearchResults();
+			return false;
+		}
+
+		$this->ctrl->setParameter($this->callback["class"], "obj", implode(";", $_POST["obj"]));
+		$this->ctrl->redirect($this->callback["class"], $this->callback["method"]);
 	}
 }
 ?>

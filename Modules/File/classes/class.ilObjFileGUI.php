@@ -12,7 +12,7 @@ require_once "./Modules/File/classes/class.ilObjFileAccess.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilShopPurchaseGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjFileGUI: ilExportGUI
+* @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilRepositorySearchGUI
 *
 * @ingroup ModulesFile
 */

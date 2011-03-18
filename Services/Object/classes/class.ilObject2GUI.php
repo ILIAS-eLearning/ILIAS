@@ -22,6 +22,7 @@ include_once("./classes/class.ilObjectGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
 * @ingroup ServicesObject
 */
 abstract class ilObject2GUI extends ilObjectGUI
@@ -110,7 +111,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				$this->tree = new ilWorkspaceTree($ilUser->getId());
 				$this->object_id = $this->tree->lookupObjectId($this->node_id);
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-				$this->access_handler = new ilWorkspaceAccessHandler();
+				$this->access_handler = new ilWorkspaceAccessHandler($this->tree);
 				$params[] = "wsp_id";
 				break;
 
@@ -120,7 +121,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 				$this->tree = new ilWorkspaceTree($ilUser->getId());
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-				$this->access_handler = new ilWorkspaceAccessHandler();
+				$this->access_handler = new ilWorkspaceAccessHandler($this->tree);
 				$params[] = "obj_id"; // ???
 				break;
 
@@ -179,32 +180,31 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case "ilrepositorysearchgui";				
+				$this->setTabs();
+				$this->tabs_gui->setTabActive('id_permissions');
+
+				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search->setCallback($this, 'addPermission');
+				$rep_search->allowObjectSelection(true);
+
+				$this->ctrl->setReturn($this, 'editpermissions');
+				$this->ctrl->forwardCommand($rep_search);
+				break;
+
 			default:
-				// $this->prepareOutput(); ???
+				$this->prepareOutput(); 
 				if(!$cmd)
 				{
-					$cmd = "view";
+					$cmd = "render";
 				}
-				return $this->performCommand($cmd);
+				return $this->$cmd();
 		}
 
 		return true;
 	}
 	
-	/**
-	* Handles all commmands of this class, centralizes permission checks
-	*/
-	function performCommand($cmd)
-	{
-/*		switch ($cmd)
-		{
-			case ...:
-				$this->checkPermission();
-				return $this->$cmd();
-				break;
-		}*/
-	}
-
 	final protected function assignObject()
 	{
 		if ($this->object_id != 0)
@@ -1048,15 +1048,68 @@ $html.= $this->form->getHTML()."<br />";
 		}
 	}
 
+	/*
+	 * WORKSPACE SPECIFIC [DRAFT]
+	 */
+
 	protected function editPermissions()
 	{
-		global $ilTabs;
+		global $ilTabs, $ilToolbar, $lng;
+
+		if (!$this->getAccessHandler()->checkAccess("edit_permission", "", $this->node_id))
+		{
+			$this->ctrl->redirect($this);
+		}
 
 		$ilTabs->activateTab("id_permissions");
 
+		$ilToolbar->addButton($this->lng->txt("add"),
+			$this->ctrl->getLinkTargetByClass("ilRepositorySearchGUI", "start"));
+
+		// table gui ...
 		
-		
-		
+	}
+
+	public function addPermission($a_users = null)
+	{
+		global $lng;
+
+		if (!$this->getAccessHandler()->checkAccess("edit_permission", "", $this->node_id))
+		{
+			$this->ctrl->redirect($this);
+		}
+
+		$object_ids = array();
+		if($this->ctrl->getCmd() == "addUser")
+		{
+			if($a_users)
+			{
+				$object_ids = $a_users;
+			}
+			else
+			{
+				// return to repository search gui
+				ilUtil::sendFailure($lng->txt('select_one'));
+				return;
+			}
+		}
+		else
+		{
+			if($_REQUEST["obj"])
+			{
+				$object_ids = explode(";", $_REQUEST["obj"]);
+			}
+		}
+
+		if($object_ids)
+		{
+			foreach($object_ids as $object_id)
+			{
+				$this->getAccessHandler()->addPermission($this->node_id, $object_id);
+			}
+		}
+
+		$this->ctrl->redirect($this, "editPermissions");
 	}
 }
 
