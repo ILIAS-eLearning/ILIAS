@@ -403,13 +403,16 @@ abstract class ilObject2GUI extends ilObjectGUI
 			{
 				$node = $this->tree->getNodeData($node_id);
 
-				// object
-				$object = ilObjectFactory::getInstanceByObjId($node["obj_id"], false);
-			    $object->delete();
-
 				// tree/reference
 				$this->tree->deleteReference($node_id);
 				$this->tree->deleteTree($node);
+
+				// permission
+				$this->getAccessHandler()->removePermission($node_id);
+
+				// object
+				$object = ilObjectFactory::getInstanceByObjId($node["obj_id"], false);
+			    $object->delete();
 			}
 
 			$this->ctrl->setParameter($this, "wsp_id", $parent);
@@ -1054,7 +1057,7 @@ $html.= $this->form->getHTML()."<br />";
 
 	protected function editPermissions()
 	{
-		global $ilTabs, $ilToolbar, $lng;
+		global $ilTabs, $ilToolbar, $lng, $tpl;
 
 		if (!$this->getAccessHandler()->checkAccess("edit_permission", "", $this->node_id))
 		{
@@ -1066,8 +1069,10 @@ $html.= $this->form->getHTML()."<br />";
 		$ilToolbar->addButton($this->lng->txt("add"),
 			$this->ctrl->getLinkTargetByClass("ilRepositorySearchGUI", "start"));
 
-		// table gui ...
-		
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessTableGUI.php";
+		$table = new ilWorkspaceAccessTableGUI($this, "editPermissions", $this->node_id, $this->getAccessHandler());
+
+		$tpl->setContent($table->getHTML());
 	}
 
 	public function addPermission($a_users = null)
@@ -1107,6 +1112,19 @@ $html.= $this->form->getHTML()."<br />";
 			{
 				$this->getAccessHandler()->addPermission($this->node_id, $object_id);
 			}
+		}
+
+		$this->ctrl->redirect($this, "editPermissions");
+	}
+
+	public function removePermission()
+	{
+		global $lng;
+
+		if($_REQUEST["obj_id"])
+		{
+			$this->getAccessHandler()->removePermission($this->node_id, (int)$_REQUEST["obj_id"]);
+		    ilUtil::sendSuccess($lng->txt("permission_removed"), true);
 		}
 
 		$this->ctrl->redirect($this, "editPermissions");

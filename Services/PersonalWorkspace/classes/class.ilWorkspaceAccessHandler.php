@@ -12,8 +12,15 @@ class ilWorkspaceAccessHandler
 {
 	protected $tree; // [ilTree]
 
-	public function __construct(ilTree $a_tree)
+	public function __construct(ilTree $a_tree = null)
 	{
+		global $ilUser;
+		
+		if(!$a_tree)
+		{
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+			$a_tree = new ilWorkspaceTree($ilUser->getId());
+		}
 		$this->tree = $a_tree;
 	}
 
@@ -115,11 +122,18 @@ class ilWorkspaceAccessHandler
 	 */
 	public function addPermission($a_node_id, $a_object_id)
 	{
-		global $ilDB;
+		global $ilDB, $ilUser;
+
+		// tree owner must not be added
+		if($this->tree->getTreeId() == $ilUser->getId() &&
+			$a_object_id == $ilUser->getId())
+		{
+			return;
+		}
 
 		$ilDB->manipulate("INSERT INTO acl_ws (node_id, object_id)".
 			" VALUES (".$ilDB->quote($a_node_id, "integer").", ".
-			$ilDB->quote($a_object_id, "integer"));
+			$ilDB->quote($a_object_id, "integer").")");
 	}
 
 	/**

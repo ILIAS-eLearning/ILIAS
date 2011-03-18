@@ -4116,3 +4116,15 @@ if(!$ilDB->tableExists('il_blog'))
   $ilDB->addPrimaryKey('il_blog', array('id'));
 }
 ?>
+<#3241>
+<?php
+if(!$ilDB->tableExists('acl_ws'))
+{
+	$fields = array (
+		'node_id' => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+		'object_id' => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0)
+	  );
+  $ilDB->createTable('acl_ws', $fields);
+  $ilDB->addPrimaryKey('acl_ws', array('node_id', 'object_id'));
+}
+?>
