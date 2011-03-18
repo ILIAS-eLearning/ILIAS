@@ -39,7 +39,7 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 	 * @param object $a_parent_obj
 	 * @param object $a_parent_cmd
 	 */
-	public function __construct($a_parent_obj,$a_parent_cmd)
+	public function __construct($a_parent_obj,$a_parent_cmd,$a_allow_object_selection = false)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
@@ -58,8 +58,12 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 		$this->setDefaultOrderDirection("asc");
 		$this->enable('select_all');
 		$this->setSelectAllCheckbox("obj[]");
-		
+
 		$this->addMultiCommand('listUsers', $this->lng->txt('grp_list_users'));
+		if((bool)$a_allow_object_selection)
+		{
+			$this->addMultiCommand('selectObject', $this->lng->txt('grp_select_object'));
+		}
 	}
 	
 	/**

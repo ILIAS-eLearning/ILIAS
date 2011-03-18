@@ -11,7 +11,7 @@ include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
 *
-* @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI
+* @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilRepositorySearchGUI
 *
 * @extends ilObject2GUI
 */
@@ -70,7 +70,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		parent::setTabs();
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $tpl, $ilTabs, $lng;
 
@@ -80,7 +80,6 @@ class ilObjBlogGUI extends ilObject2GUI
 		switch($next_class)
 		{
 			case 'ilblogpostinggui':
-
 				$ilCtrl->setParameter($this, "bmn", $_REQUEST["bmn"]);
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, ""));
@@ -109,13 +108,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				break;
 
 			default:
-				$this->prepareOutput();
-				if(!$cmd)
-				{
-					$cmd = "render";
-				}
-				$this->$cmd();
-				break;
+				return parent::executeCommand();
 		}
 
 		return true;

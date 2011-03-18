@@ -82,7 +82,6 @@ class ilPersonalWorkspaceGUI
 		}
 		$ilCtrl->forwardCommand($gui);
 
-
 		$this->renderLocator();
 		$this->renderTitle();
 
