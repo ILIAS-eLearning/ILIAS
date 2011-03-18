@@ -1,15 +1,11 @@
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
 * @module			language file French
 * @modulegroup		language
-* @author			Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @author			Laurent Merle <laurent.merle@gmail.com>
 * @version			$Id$
-* @il_server		http://localhost:8888/41-branch
-* @il_version		4.1.5 2011-03-10
-* @created			2011-03-15 12:05:28
-* @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -6391,7 +6387,7 @@ crs#:#crs_unlimited#:#Illimité
 crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"
 crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.
 crs#:#crs_unsubscribe_sure#:#Voulez-vous vous désabonner de ce cours ?
-crs#:#crs_unsubscribed_from_crs#:#Vous vous êtes abonné à ce cours
+crs#:#crs_unsubscribed_from_crs#:#Vous vous êtes désabonné à ce cours
 crs#:#crs_update_objective#:#Modifier objectifs pédagogiques
 crs#:#crs_update_subscr_request#:#Update Membership Request
 crs#:#crs_user_agreement#:#Released Data Types
