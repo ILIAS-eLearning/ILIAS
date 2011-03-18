@@ -2,6 +2,9 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once "Modules/Group/classes/class.ilGroupParticipants.php";
+include_once "Modules/Course/classes/class.ilCourseParticipants.php";
+
 /**
  * Access handler for personal workspace
  *
@@ -53,6 +56,8 @@ class ilWorkspaceAccessHandler
 	 */
 	public function checkAccessOfUser(ilTree $a_tree, $a_user_id, $a_permission, $a_cmd, $a_node_id, $a_type = "")
 	{
+		global $rbacreview;
+		
 		// tree root is read-only
 		if($a_permission == "write")
 		{
@@ -78,19 +83,31 @@ class ilWorkspaceAccessHandler
 				switch(ilObject::_lookupType($obj_id))
 				{
 					case "grp":
-						// :TODO:
+						// member of group?
+						if(ilGroupParticipants::_getInstanceByObjId($obj_id)->isAssigned($a_user_id))
+						{
+							return true;
+						}
 						break;
 
 					case "crs":
-						// :TODO:
+						// member of course?
+						if(ilCourseParticipants::_getInstanceByObjId($obj_id)->isAssigned($a_user_id))
+						{
+							return true;
+						}
 						break;
 
 					case "role":
-						// :TODO:
+						// has role?
+						if($rbacreview->isAssigned($a_user_id, $obj_id))
+						{
+							return true;
+						}
 						break;
 
 					case "usr":
-						// direct hit
+						// direct assignment
 						if($a_user_id == $obj_id)
 						{
 							return true;
