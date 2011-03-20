@@ -101,7 +101,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 
 	function exportScorm($a_inst, $a_target_dir, $ver, &$expLog)
 	{
-
 		copy('./xml/ilias_co_3_7.dtd',$a_target_dir.'/ilias_co_3_7.dtd');
 		copy('./Modules/Scorm2004/templates/xsl/sco.xsl',$a_target_dir.'/sco.xsl');
 
@@ -149,7 +148,24 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$a_xml_writer->xmlDumpFile($a_target_dir.'/index.xml', false);
 
 		$a_xml_writer->_XmlWriter;
-
+		
+		// export sco data (currently only objective) to sco.xml
+		if ($this->getType() == "sco")
+		{
+			$objectives_text = "";
+			$a_xml_writer = new ilXmlWriter;
+			
+			$tr_data = $this->getObjectives();
+			foreach ($tr_data as $data)
+			{
+				$objectives_text.= $data->getObjectiveID();
+			}
+			$a_xml_writer->xmlStartTag("sco");
+			$a_xml_writer->xmlElement("objective", null, $objectives_text);
+			$a_xml_writer->xmlEndTag("sco");
+			$a_xml_writer->xmlDumpFile($a_target_dir.'/sco.xml', false);
+			$a_xml_writer->_XmlWriter;
+		}
 	}
 
 	function exportHTML($a_inst, $a_target_dir, &$expLog, $a_asset_type = "sco")

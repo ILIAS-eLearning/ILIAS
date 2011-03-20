@@ -288,6 +288,44 @@ class ilSCORM13Package
 	  	$sco = new ilSCORM2004Sco($slm,$sco_id);
 	  	$this->dbImportSco($slm,$sco);
 	  	
+	  	// import sco.xml
+	  	$sco_xml_file = $this->packageFolder . '/sco.xml';
+	  	if (is_file($sco_xml_file))
+	  	{
+	  		$scodoc = new DOMDocument;
+	  		$scodoc->async = false;
+			if (!@$scodoc->load($sco_xml_file))
+			{
+				$this->diagnostic[] = 'XML of sco.xml not wellformed';
+				return false;
+			}
+			//$doc = new SimpleXMLElement($scodoc->saveXml());
+			//$l = $doc->xpath("/sco/objective");
+			$xpath = new DOMXPath($scodoc);
+			$nodes = $xpath->query("/sco/objective");
+			foreach($nodes as $node)
+			{
+				$t_node = $node->firstChild;
+				if (is_object($t_node))
+				{
+					$objective_text = $t_node->textContent;
+					if (trim($objective_text) != "")
+					{
+						$objs = $sco->getObjectives();
+						foreach ($objs as $o)
+						{
+							$mappings = $o->getMappings();
+							if ($mappings == null)
+							{
+								$ob = new ilScorm2004Objective($sco->getId(), $o->getId());
+								$ob->setObjectiveID($objective_text);
+								$ob->updateObjective();
+							}
+						}
+					}
+				}
+			}
+		}
 		return "";
 	}
 
