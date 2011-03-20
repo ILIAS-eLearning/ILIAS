@@ -1236,7 +1236,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		}
 
 		// handle scos
-		if ($source_obj->getType() == "sco")
+		if ($source_obj->getType() == "sco" || $source_obj->getType() == "ass")
 		{
 //echo "2";
 			$source_node = $this->slm_tree->getNodeData($source_id);
