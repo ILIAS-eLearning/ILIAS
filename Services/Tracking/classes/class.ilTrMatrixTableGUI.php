@@ -141,6 +141,9 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			}
 		}
 
+		$columns["status_changed"] = array("txt" => $this->lng->txt("trac_status_changed"),
+			"id" => "status_changed",
+			"default" => false);
 		$columns["last_access"] = array("txt" => $this->lng->txt("last_access"), 
 			"id" => "last_access",
 			"default" => false);
@@ -239,6 +242,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			{
 				case "last_access":
 				case "spent_seconds":
+				case 'status_changed':
 					$this->tpl->setCurrentBlock($c);
 					$this->tpl->setVariable("VAL_".strtoupper($c), $this->parseValue($c, $a_set[$c], ""));
 					$this->tpl->parseCurrentBlock();

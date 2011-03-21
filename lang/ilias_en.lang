@@ -10999,6 +10999,18 @@ style#:#sty_rte_char#:#SCORM RTE
 style#:#sty_type_rte_menu#:#RTE Menu
 style#:#sty_type_rte_mlink#:#RTE Menu Link
 style#:#sty_type_rte_tree#:#RTE Tree Section
+common#:#backto_lua#:#Back to Local User Administration
+content#:#page_does_not_exist#:#We are sorry, but this page does not exist.
+rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled
+rbac#:#precondition_not_obligatory_alt#:#Precondition is optional
+rbac#:#active_preconditions#:#Active Preconditions
+rbac#:#precondition_obligatory#:#Obligatory
+rbac#:#precondition_obligatory_info#:#Obligatory preconditions must be fulfilled, for having access.
+trac#:#trac_status_changed#:#Last Status Change
+trac#:#trac_group_materials#:#Group Materials
+trac#:#trac_release_materials#:#Disintegrate Material Group
+common#:#preconditions_obligatory_hint#:#Please edit the following preconditions
+common#:#preconditions_optional_hint#:#Please edit one of the following preconditions
 style#:#sty_type_rte_node#:#RTE Tree Node
 style#:#sty_type_rte_status#:#RTE Status
 style#:#sty_type_rte_tlink#:#RTE Tree Node Link
@@ -11043,4 +11055,4 @@ sahs#:#sahs_insert_ass_inside_chap#:#Insert Asset (inside chapter)
 sahs#:#sahs_insert_sco_inside_chap#:#Insert SCO (inside chapter)
 sahs#:#sahs_insert_sco_from_clip_inside_chap#:#Paste SCOs from Clipboard (inside chapter)
 sahs#:#sahs_insert_ass_from_clip_inside_chap#:#Paste Assets from Clipboard (inside chapter)
-sahs#:#sahs_insert_ass_from_clip#:#Paste Assets from Clipboard
+sahs#:#sahs_insert_ass_from_clip#:#Paste Assets from Clipboard>>>>>>> .r28161

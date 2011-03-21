@@ -134,7 +134,7 @@ class ilObjCourseGrouping
 	{
 		global $tree;
 
-		include_once './classes/class.ilConditionHandler.php';
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 		$condition_data = ilConditionHandler::_getConditionsOfTrigger($this->getType(),$this->getId());
 		$conditions = array();
 		foreach($condition_data as $condition)
@@ -152,7 +152,7 @@ class ilObjCourseGrouping
 	{
 		global $ilDB;
 		
-		include_once './classes/class.ilConditionHandler.php';
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
 		if($this->getId() and $this->getType() === 'crsg')
 		{
@@ -362,7 +362,7 @@ class ilObjCourseGrouping
 
 	function deassign($a_crs_ref_id,$a_course_id)
 	{
-		include_once './classes/class.ilConditionHandler.php';
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
 
 		$condh =& new ilConditionHandler();
@@ -391,7 +391,7 @@ class ilObjCourseGrouping
 	// PRIVATE
 	function __addCondition($a_target_ref_id,$a_target_obj_id)
 	{
-		include_once './classes/class.ilConditionHandler.php';
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
 		$tmp_condh =& new ilConditionHandler();
 		$tmp_condh->enableAutomaticValidation(false);
@@ -422,7 +422,7 @@ class ilObjCourseGrouping
 		// DELETE CONDITIONS
 		foreach($groupings = ilObjCourseGrouping::_getGroupings($a_course_id) as $grouping_id)
 		{
-			include_once './classes/class.ilConditionHandler.php';
+			include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
 			$condh =& new ilConditionHandler();
 			$condh->deleteByObjId($grouping_id);
@@ -468,7 +468,7 @@ class ilObjCourseGrouping
 	{
 		global $tree;
 
-		include_once './classes/class.ilConditionHandler.php';
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
 		// get all grouping ids the course is assigned to
 		foreach(ilConditionHandler::_getConditionsOfTarget($a_course_ref_id,$a_course_id,'crs') as $condition)
@@ -503,7 +503,7 @@ class ilObjCourseGrouping
 	{
 		global $ilUser,$lng,$tree;
 
-		include_once './classes/class.ilConditionHandler.php';
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 		
 		$user_id = is_null($a_user_id) ? $ilUser->getId() : $a_user_id;
 		
@@ -613,7 +613,7 @@ class ilObjCourseGrouping
 	{
 		global $tree,$ilObjDataCache,$ilAccess,$tree;
 
-		include_once './classes/class.ilConditionHandler.php';
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
 		$trigger_ids = array();
 		foreach(ilConditionHandler::_getConditionsOfTarget($container_obj->getRefId(),

@@ -495,7 +495,7 @@ class ilObjCourseGroupingGUI
 		$tmp_grouping = new ilObjCourseGrouping((int) $_GET['obj_id']);
 
 		// delete all existing conditions
-		include_once './classes/class.ilConditionHandler.php';
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 		
 		$condh = new ilConditionHandler();
 		$condh->deleteByObjId((int) $_GET['obj_id']);

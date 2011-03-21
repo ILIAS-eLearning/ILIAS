@@ -2578,6 +2578,11 @@ class ilObjTestGUI extends ilObjectGUI
 	function confirmDeleteAllUserResultsObject()
 	{
 		$this->object->removeAllTestEditings();
+
+		// Update lp status
+		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		ilLPStatusWrapper::_refreshStatus($this->object->getId());
+
 		ilUtil::sendSuccess($this->lng->txt("tst_all_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "participants");
 	}
@@ -2604,6 +2609,11 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		$this->object->removeSelectedTestResults($active_ids);
+
+		// Update lp status
+		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		ilLPStatusWrapper::_refreshStatus($this->object->getId());
+
 		ilUtil::sendSuccess($this->lng->txt("tst_selected_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "participants");
 	}

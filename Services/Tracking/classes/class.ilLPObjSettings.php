@@ -461,7 +461,7 @@ class ilLPObjSettings
 		{
 			return false;
 		}
-		include_once('classes/class.ilConditionHandler.php');
+		include_once('./Services/AccessControl/classes/class.ilConditionHandler.php');
 		if(count($conditions = ilConditionHandler::_getConditionsOfTrigger('sahs',$a_obj_id)))
 		{
 			return true;

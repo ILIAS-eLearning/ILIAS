@@ -84,6 +84,8 @@ class ilConditionHandler
 	var $value;
 	var $validation;
 
+	private $obligatory = true;
+
 	var $conditions;
 	static $cond_for_target_cache = array();
 	static $cond_target_rows = array();
@@ -359,6 +361,25 @@ class ilConditionHandler
 	}
 	
 	/**
+	 * Set obligatory status
+	 * @param bool $a_obl 
+	 */
+	public function setObligatory($a_obl)
+	{
+		$this->obligatory = $a_obl;
+	}
+
+	/**
+	 * Get obligatory status
+	 * @return obligatory status
+	 */
+	public function getObligatory()
+	{
+		return (bool) $this->obligatory;
+	}
+
+
+	/**
 	* enable automated validation
 	*/
 	function enableAutomaticValidation($a_validate = true)
@@ -414,7 +435,7 @@ class ilConditionHandler
 		// first insert, then validate: it's easier to check for circles if the new condition is in the db table
 		$next_id = $ilDB->nextId('conditions');
 		$query = 'INSERT INTO conditions (condition_id,target_ref_id,target_obj_id,target_type,'.
-			'trigger_ref_id,trigger_obj_id,trigger_type,operator,value,ref_handling) '.
+			'trigger_ref_id,trigger_obj_id,trigger_type,operator,value,ref_handling,obligatory) '.
 			'VALUES ('.
 			$ilDB->quote($next_id,'integer').','.
 			$ilDB->quote($this->getTargetRefId(),'integer').",".
@@ -425,7 +446,8 @@ class ilConditionHandler
 			$ilDB->quote($this->getTriggerType(),'text').",".
 			$ilDB->quote($this->getOperator(),'text').",".
 			$ilDB->quote($this->getValue(),'text').", ".
-			$ilDB->quote($this->getReferenceHandlingType(),'integer').
+			$ilDB->quote($this->getReferenceHandlingType(),'integer').', '.
+			$ilDB->quote($this->getObligatory(),'integer').
 			')';
 
 		$res = $ilDB->manipulate($query);
@@ -463,7 +485,8 @@ class ilConditionHandler
 			"target_ref_id = ".$ilDB->quote($this->getTargetRefId(),'integer').", ".
 			"operator = ".$ilDB->quote($this->getOperator(),'text').", ".
 			"value = ".$ilDB->quote($this->getValue(),'text').", ".
-			"ref_handling = ".$this->db->quote($this->getReferenceHandlingType(),'integer')." ".
+			"ref_handling = ".$this->db->quote($this->getReferenceHandlingType(),'integer').", ".
+			'obligatory = '.$this->db->quote($this->getObligatory(),'integer').' '.
 			"WHERE condition_id = ".$ilDB->quote($a_id,'integer');
 		$res = $ilDB->manipulate($query);
 
@@ -541,6 +564,7 @@ class ilConditionHandler
 			$tmp_array['operator']		= $row->operator;
 			$tmp_array['value']			= $row->value;
 			$tmp_array['ref_handling']  = $row->ref_handling;
+			$tmp_array['obligatory']	= $row->obligatory;
 
 			$conditions[] = $tmp_array;
 			unset($tmp_array);
@@ -672,6 +696,7 @@ class ilConditionHandler
 			$tmp_array['operator']		= $row->operator;
 			$tmp_array['value']			= $row->value;
 			$tmp_array['ref_handling']  = $row->ref_handling;
+			$tmp_array['obligatory']	= $row->obligatory;
 
 			return $tmp_array;
 		}
@@ -735,13 +760,21 @@ class ilConditionHandler
 		
 		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 
+		// First check obligatory conditions
+		$has_optional_conditions = false;
 		foreach(ilConditionHandler::_getConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type) as $condition)
 		{
+			if(!$condition['obligatory'])
+			{
+				$GLOBALS['ilLog']->write(__METHOD__ . ': Optional preconditions available');
+				$has_optional_conditions = true;
+				continue;
+			}
 			if($tree->isDeleted($condition['trigger_ref_id']))
 			{
 				continue;
 			}
-			
+
 			$ilBench->start("ilConditionHandler", "checkCondition");
 			$check = ilConditionHandler::_checkCondition($condition['id'],$a_usr_id);
 			$ilBench->stop("ilConditionHandler", "checkCondition");
@@ -752,7 +785,36 @@ class ilConditionHandler
 				return false;
 			}
 		}
-		return true;
+
+		if(!$has_optional_conditions)
+		{
+			return true;
+		}
+
+		// Now check optional preconditions
+		foreach(ilConditionHandler::_getConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type) as $condition)
+		{
+			if($condition['obligatory'])
+			{
+				continue;
+			}
+			if($tree->isDeleted($condition['trigger_ref_id']))
+			{
+				continue;
+			}
+			$check = ilConditionHandler::_checkCondition($condition['id'],$a_usr_id);
+
+			$GLOBALS['ilLog']->write(__METHOD__.': Result of optional check: '.($check ? "true" : "false"));
+
+			// One is sufficient
+			if($check)
+			{
+				return true;
+			}
+
+		}
+		// Not all optional preconditions fullfilled.
+		return false;
 	}
 
 	// PRIVATE

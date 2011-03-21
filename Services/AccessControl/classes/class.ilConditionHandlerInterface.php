@@ -30,17 +30,27 @@ class ilConditionHandlerInterface
 
 	var $automatic_validation = true;
 
-	function ilConditionHandlerInterface(&$gui_obj,$a_ref_id = null)
+	/**
+	 * Constructor
+	 * @global <type> $lng
+	 * @global <type> $tpl
+	 * @global <type> $tree
+	 * @global <type> $ilCtrl
+	 * @param <type> $gui_obj
+	 * @param <type> $a_ref_id
+	 */
+	public function ilConditionHandlerInterface($gui_obj,$a_ref_id = null)
 	{
 		global $lng,$tpl,$tree,$ilCtrl;
 
-		include_once "./classes/class.ilConditionHandler.php";
+		include_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 
 		$this->ch_obj =& new ilConditionHandler();
 
 		$this->ctrl =& $ilCtrl;
 		$this->gui_obj =& $gui_obj;
 		$this->lng =& $lng;
+		$this->lng->loadLanguageModule('rbac');
 		$this->tpl =& $tpl;
 		$this->tree =& $tree;
 		
@@ -74,7 +84,7 @@ class ilConditionHandlerInterface
 		return $_SESSION['precon_btn'] ? $_SESSION['precon_btn'] : array();
 	}
 
-	function &executeCommand()
+	public function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -169,7 +179,7 @@ class ilConditionHandlerInterface
 	{
 		echo 'deprecated';
 		
-		include_once "./classes/class.ilConditionHandler.php";
+		include_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 
 		$this->ch_obj =& new ilConditionHandler();
 
@@ -185,61 +195,28 @@ class ilConditionHandlerInterface
 		return true;
 	}
 
-
-	function listConditions()
+	/**
+	 * list conditions
+	 * @global ilToolbar 
+	 */
+	protected function listConditions()
 	{
-		global $ilObjDataCache;
+		global $ilToolbar;
 
-		$this->lng->loadLanguageModule('crs');
+		$ilToolbar->addButton($this->lng->txt('add_condition'),$this->ctrl->getLinkTarget($this,'selector'));
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.condition_handler_edit.html');
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_'.$this->getTargetType().'.gif'));
-		$this->tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('obj_'.$this->getTargetType()));
-		$this->tpl->setVariable("TABLE_TITLE",$this->getTargetTitle().' ('.$this->lng->txt('preconditions').')');
-
-		// Table header
-		$this->tpl->setVariable("HEAD_TITLE",$this->lng->txt('title'));
-		$this->tpl->setVariable("HEAD_CONDITION",$this->lng->txt('condition'));
-		
-		// Table footer
-		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
-		$this->tpl->setVariable("BTN_ADD",$this->lng->txt('add_condition'));
-		$this->tpl->setVariable("DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
-
-
-		if(!count($conditions = ilConditionHandler::_getConditionsOfTarget($this->getTargetRefId(),$this->getTargetId(), $this->getTargetType())))
-		{
-			$this->tpl->setVariable("EMPTY_TXT",$this->lng->txt('no_conditions_found'));
-			return true;
-		}
-
-		$counter = 0;
-		foreach($conditions as $condition)
-		{
-			$this->tpl->setCurrentBlock("table_content");
-			
-			$this->tpl->setVariable('TRIGGER_SRC',ilUtil::getImagePath('icon_'.$condition['trigger_type'].'_s.gif'));
-			$this->tpl->setVariable('TRIGGER_ALT',$this->lng->txt('obj_'.$condition['trigger_type']));
-			$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($counter++,"tblrow1","tblrow2"));
-			$this->tpl->setVariable("CHECKBOX",ilUtil::formCheckbox(0,"conditions[]",$condition['id']));
-			$this->tpl->setVariable("TITLE",$ilObjDataCache->lookupTitle($condition['trigger_obj_id']));
-			if(strlen($desc = $ilObjDataCache->lookupDescription($condition['trigger_obj_id'])))
-			{
-				$this->tpl->setVariable("DESCRIPTION",$desc);
-			}
-			$this->tpl->setVariable("OBJ_CONDITION",$this->lng->txt('condition_'.$condition['operator']));
-
-			// Edit link
-			$this->tpl->setVariable("EDIT",$this->lng->txt('edit'));
-
-			$this->ctrl->setParameter($this,'condition_id',$condition['id']);
-			$this->tpl->setVariable("EDIT_LINK",$this->ctrl->getLinkTarget($this,'edit'));
-			$this->ctrl->clearParameters($this);
-			$this->tpl->parseCurrentBlock();
-		}
-		return true;
+		include_once './Services/AccessControl/classes/class.ilConditionHandlerTableGUI.php';
+		$table = new ilConditionHandlerTableGUI($this,'listConditions');
+		$table->setConditions(
+			ilConditionHandler::_getConditionsOfTarget(
+				$this->getTargetRefId(),
+				$this->getTargetId(),
+				$this->getTargetType()
+			)
+		);
+		$this->tpl->setContent($table->getHTML());
 	}
+
 
 	function edit()
 	{
@@ -272,11 +249,12 @@ class ilConditionHandlerInterface
 		}
 
 		// Update condition
-		include_once 'classes/class.ilConditionHandler.php';
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 		$condition_handler = new ilConditionHandler();
 
 		$condition = ilConditionHandler::_getCondition((int) $_GET['condition_id']);
 		$condition_handler->setOperator($_POST['operator']);
+		$condition_handler->setObligatory((int) $_POST['obligatory']);
 		$condition_handler->setTargetRefId($this->getTargetRefId());
 		$condition_handler->setValue('');
 		switch($this->getTargetType())
@@ -314,7 +292,7 @@ class ilConditionHandlerInterface
 	{
 		if(!count($_POST['conditions']))
 		{
-			ilUtil::sendFailure('no_condition_selected');
+			ilUtil::sendFailure($this->lng->txt('no_condition_selected'));
 			$this->listConditions();
 			return true;
 		}
@@ -331,7 +309,9 @@ class ilConditionHandlerInterface
 	
 	function selector()
 	{
-		include_once ("classes/class.ilConditionSelector.php");
+		global $tree;
+
+		include_once ("./Services/AccessControl/classes/class.ilConditionSelector.php");
 
 		$this->tpl->addBlockFile('ADM_CONTENT', "adm_content", "tpl.condition_selector.html");
 
@@ -342,6 +322,13 @@ class ilConditionHandlerInterface
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'selector'));
 		$exp->setTargetGet("ref_id");
 		$exp->setRefId($this->getTargetRefId());
+
+		if($this->getTargetRefId())
+		{
+			$path = $tree->getPathId($this->getTargetRefId());
+			array_pop($path);
+			$exp->setForceOpenPath($path);
+		}
 
 		$exp->addFilter('crs');
 		$exp->addFilter('tst');
@@ -386,14 +373,12 @@ class ilConditionHandlerInterface
 
 			return false;
 		}
-		if(!strlen($_POST['operator']))
+		if(!$_POST['operator'])
 		{
-			ilUtil::sendFailure($this->lng->txt('no_operator_selected'));
+			ilUtil::sendFailure($this->lng->txt('err_check_input'));
 			$this->add();
-
 			return false;
 		}
-
 
 		$this->ch_obj->setTargetRefId($this->getTargetRefId());
 		$this->ch_obj->setTargetObjId($this->getTargetId());
@@ -418,6 +403,7 @@ class ilConditionHandlerInterface
 		$this->ch_obj->setTriggerObjId($trigger_obj->getId());
 		$this->ch_obj->setTriggerType($trigger_obj->getType());
 		$this->ch_obj->setOperator($_POST['operator']);
+		$this->ch_obj->setObligatory((int) $_POST['obligatory']);
 		$this->ch_obj->setValue('');
 
 		// Save assigned sco's
@@ -472,7 +458,7 @@ class ilConditionHandlerInterface
 	}
 	function __getConditionsOfTarget()
 	{
-		include_once './classes/class.ilConditionHandler.php';
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
 		foreach(ilConditionHandler::_getConditionsOfTarget($this->getTargetRefId(),$this->getTargetId(), $this->getTargetType()) as $condition)
 		{
@@ -527,9 +513,22 @@ class ilConditionHandlerInterface
 	 	$this->form = new ilPropertyFormGUI();
 	 	$this->ctrl->setParameter($this,'source_id',$a_source_id);
 	 	$this->form->setFormAction($this->ctrl->getFormAction($this));
+
+		$obl = new ilCheckboxInputGUI($this->lng->txt('precondition_obligatory'), 'obligatory');
+		$obl->setInfo($this->lng->txt('precondition_obligatory_info'));
+		$obl->setValue(1);
+		if($a_condition_id)
+		{
+			$obl->setChecked($condition['obligatory']);
+		}
+		else
+		{
+			$obl->setChecked(true);
+		}
+		$this->form->addItem($obl);
 	 	
 	 	$sel = new ilSelectInputGUI($this->lng->txt('condition'),'operator');
-		include_once "./classes/class.ilConditionHandler.php";
+		include_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 		$ch_obj = new ilConditionHandler();
 		$operators[0] = $this->lng->txt('select_one');
 		foreach($ch_obj->getOperatorsByTargetType($trigger_type) as $operator)

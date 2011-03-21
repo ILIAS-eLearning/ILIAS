@@ -3432,6 +3432,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	public function removeAllTestEditings($question_id = "")
 	{
 		global $ilDB;
+
 		// remove the question from tst_solutions
 		if ($question_id)
 		{

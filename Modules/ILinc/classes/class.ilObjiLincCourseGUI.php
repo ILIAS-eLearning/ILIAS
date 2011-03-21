@@ -814,7 +814,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		switch($next_class)
 		{
 			case "ilconditionhandlerinterface":
-				include_once './classes/class.ilConditionHandlerInterface.php';
+				include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
 
 				if($_GET['item_id'])
 				{

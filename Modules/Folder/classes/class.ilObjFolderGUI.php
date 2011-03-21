@@ -95,7 +95,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		{
 			case "ilconditionhandlerinterface":
 				$this->prepareOutput();
-				include_once './classes/class.ilConditionHandlerInterface.php';
+				include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
 
 				if($_GET['item_id'])
 				{
@@ -633,7 +633,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	// Methods for ConditionHandlerInterface
 	function initConditionHandlerGUI($item_id)
 	{
-		include_once './classes/class.ilConditionHandlerInterface.php';
+		include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
 
 		if(!is_object($this->chi_obj))
 		{

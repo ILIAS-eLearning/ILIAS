@@ -10,8 +10,9 @@
 */
 
 require_once("classes/class.ilExplorer.php");
+include_once './Services/Repository/classes/class.ilRepositoryExplorer.php';
 
-class ilConditionSelector extends ilExplorer
+class ilConditionSelector extends ilRepositoryExplorer
 {
 
 	/**

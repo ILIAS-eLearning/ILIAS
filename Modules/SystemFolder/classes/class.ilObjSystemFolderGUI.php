@@ -2003,13 +2003,13 @@ return $this->showServerInfoObject();
 	function showBasicSettingsObject()
 	{
 		global $tpl;
-		
+
 		$this->initBasicSettingsForm();
 		$this->setGeneralSettingsSubTabs("basic_settings");
 		
 		$tpl->setContent($this->form->getHTML());
 	}
-	
+
 	
 	/**
 	* Init basic settings form.

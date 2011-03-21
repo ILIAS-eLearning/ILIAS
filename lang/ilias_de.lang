@@ -1606,7 +1606,7 @@ common#:#active_roles#:#Aktive Rollen
 common#:#add#:#Hinzufügen
 common#:#add_author#:#Autor hinzufügen
 common#:#add_comments#:#Kommentare bearbeiten
-common#:#add_condition#:#Neue Bedingung erstellen
+common#:#add_condition#:#Neue Vorbedingung erstellen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_members#:#Mitglieder hinzufügen
 common#:#add_new_user_defined_field#:#Neues benutzerdefiniertes Feld anlegen
@@ -10985,7 +10985,18 @@ ldap#:#ldap_as_ds_info#:#Wenn aktiviert, wird die LDAP-Konfiguration zur Benutze
 auth#:#auth_sync#:#Benutzer-Synchronisierung
 auth#:#auth_sync_cas#:#Automatische Generierung von ILIAS-Benutzerkonten
 auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über keinen ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
+common#:#backto_lua#:#Zurück zur lokalen Benutzerverwaltung
 content#:#page_does_not_exist#:#Leider existiert diese Seite nicht (mehr).
+rbac#:#precondition_obligatory_alt#:#Die Vorbedingung muss erfüllt werden
+rbac#:#precondition_not_obligatory_alt#:#Die Vorbedingung ist optional
+rbac#:#active_preconditions#:#Aktive Vorbedingungen
+rbac#:#precondition_obligatory#:#Obligatorisch
+rbac#:#precondition_obligatory_info#:#Obligatorische Vorbedingen müssen erfüllt werden, um Zugriff zu erlangen.
+trac#:#trac_status_changed#:#Letzte Statusänderung
+trac#:#trac_group_materials#:#Materialien gruppieren
+trac#:#trac_release_materials#:#Gruppierung auflösen
+common#:#preconditions_obligatory_hint#:#Bitte bearbeiten Sie die folgenden Vorbedingungen, um Zugriff zu erlangen
+common#:#preconditions_optional_hint#:#Bitte bearbeiten Sie mindestens eine der folgenden Vorbedingungen, um Zugriff zu erlangen
 trac#:#trac_learning_progress_of#:#Learning Progress of %s
 trac#:#trac_learning_progress_objects_description#:#Diese Liste zeigt eine Übersicht all Ihrer Kurse und Objekte.
 common#:#personal_workspace#:#Materialien

@@ -164,6 +164,10 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			$cols["status"] = array(
 				"txt" => $lng->txt("trac_status"),
 				"default" => true);
+
+			$cols['status_changed'] = array(
+				'txt' => $lng->txt('trac_status_changed'),
+				'default' => false);
 		}
 
 		if($this->type != "lm")
@@ -317,6 +321,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 				case "last_access":
 				case "create_date":
 				case "birthday":
+				case 'status_changed':
 					$item = $this->addFilterItemByMetaType($column, ilTable2GUI::FILTER_DATE_RANGE, true, $meta["txt"]);
 					$this->filter[$column] = $item->getDate();
 					break;

@@ -4128,3 +4128,62 @@ if(!$ilDB->tableExists('acl_ws'))
   $ilDB->addPrimaryKey('acl_ws', array('node_id', 'object_id'));
 }
 ?>
+<#3242>
+<?php
+	if(!$ilDB->tableColumnExists('conditions', 'obligatory'))
+	{
+		$ilDB->addTableColumn(
+			'conditions',
+			'obligatory',
+			array(
+				'type' => 'integer',
+				'notnull' => true,
+				'length' => 1,
+				'default' => 1
+			)
+		);
+	}
+?>
+<#3243>
+<?php
+	if(!$ilDB->tableColumnExists('ut_lp_collections', 'grouping_id'))
+	{
+		$ilDB->addTableColumn(
+			'ut_lp_collections',
+			'grouping_id',
+			array(
+				'type'		=> 'integer',
+				'notnull'	=> true,
+				'length'	=> 4,
+				'default'	=> 0
+			)
+		);
+		$ilDB->addTableColumn(
+			'ut_lp_collections',
+			'num_obligatory',
+			array(
+				'type'		=> 'integer',
+				'notnull'	=> true,
+				'length'	=> 4,
+				'default'	=> 0
+			)
+		);
+	}
+?>
+<#3244>
+<?php
+	if(!$ilDB->tableColumnExists('ut_lp_collections', 'active'))
+	{
+		$ilDB->addTableColumn(
+			'ut_lp_collections',
+			'active',
+			array(
+				'type'		=> 'integer',
+				'notnull'	=> true,
+				'length'	=> 1,
+				'default'	=> 1
+			)
+		);
+
+	}
+?>

@@ -63,6 +63,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 		$lng_map = array("user_total" => "users", "first_access_min" => "trac_first_access",
 			"last_access_max" => "trac_last_access", "mark" => "trac_mark", "status" => "trac_status",
+			'status_changed_max' => 'trac_status_changed',
 			"spent_seconds_avg" => "trac_spent_seconds", "percentage_avg" => "trac_percentage",
 			"read_count_sum" => "trac_read_count", "read_count_avg" => "trac_read_count",
 			);
@@ -88,6 +89,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 		$all[] = "percentage_avg";
 		$all[] = "status";
+		$all[] = 'status_changed_max';
 		$all[] = "mark";
 
 		$privacy = array("gender", "city", "country", "sel_country");
@@ -180,6 +182,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		{
 			$this->filter["status"]--;
 		}
+
+		$item = $this->addFilterItemByMetaType("trac_status_changed", ilTable2GUI::FILTER_DATE_RANGE, true);
+		$this->filter["status_changed"] = $item->getDate();
 
 		$item = $this->addFilterItemByMetaType("mark", ilTable2GUI::FILTER_TEXT, true,
 			$lng->txt("trac_mark"));
@@ -404,9 +409,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			}
 			return "";
 		}
-
 		switch($id)
 		{
+			case 'status_changed':
 			case "first_access":
 			case "create_date":
 				$value = ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_DATETIME));
@@ -461,7 +466,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	protected function fillRow($a_set)
 	{
 		global $lng;
-
 		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($a_set["type"], $a_set["obj_id"], "tiny"));
 		$this->tpl->setVariable("ICON_ALT", $lng->txt($a_set["type"]));
 	    $this->tpl->setVariable("TITLE", $a_set["title"]);

@@ -36,7 +36,7 @@ class ilTrQuery
 			$sessions = self::getSessionData($a_user_id, $obj_ids);
 
 			$query = "SELECT object_data.obj_id, title, CASE WHEN status IS NULL THEN ".LP_STATUS_NOT_ATTEMPTED_NUM." ELSE status END AS status,".
-				" percentage, read_count+childs_read_count AS read_count, spent_seconds+childs_spent_seconds AS spent_seconds,".
+				" status_changed, percentage, read_count+childs_read_count AS read_count, spent_seconds+childs_spent_seconds AS spent_seconds,".
 				" u_mode, type, visits, mark, u_comment AS comment".
 				" FROM object_data".
 				" LEFT JOIN ut_lp_settings ON (ut_lp_settings.obj_id = object_data.obj_id)".
@@ -523,7 +523,7 @@ class ilTrQuery
 		
 		$fields = array();
 		self::buildColumns($fields, $a_additional_fields, true);
-		
+
 		$objects = self::getObjectIds($a_parent_obj_id, $a_parent_ref_id, false);
 
 		// object data
@@ -862,6 +862,9 @@ class ilTrQuery
 						}
 						// fallthrough
 
+					case 'status_changed':
+						// fallthrough
+						
 					case "registration":
 						if($id == "registration")
 						{
@@ -1250,7 +1253,7 @@ class ilTrQuery
 
 			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 
-			$fields = array("usr_data.usr_id", "login", "status", "percentage",
+			$fields = array("usr_data.usr_id", "login", "status", 'status_changed', "percentage",
 				"last_access", "spent_seconds+childs_spent_seconds as spent_seconds");
 
 			if(!$a_order_field)
@@ -1284,13 +1287,13 @@ class ilTrQuery
 							"percentage"=>$row["percentage"]);
 						if($obj_id == $parent_obj_id)
 						{
+							$result["set"][$row["usr_id"]]["status_changed"] = $row["status_changed"];
 							$result["set"][$row["usr_id"]]["last_access"] = $row["last_access"];
 							$result["set"][$row["usr_id"]]["spent_seconds"] = $row["spent_seconds"];
 						}
 					}
 				}
 			}
-
 			$result["cnt"] = sizeof($result["set"]);
 			$result["users"] = $a_users;			
 		}
