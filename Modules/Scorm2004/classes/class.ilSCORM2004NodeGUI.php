@@ -219,15 +219,22 @@ class ilSCORM2004NodeGUI
 		$ilCtrl->redirect($this, "showOrganization", "node_".$res["node_id"]);
 	}
 
-
-
 	/**
-	* Insert Page with Layout
-	*/
+	 * Insert Page with Layout
+	 */
 	function insertTemplateGUI()
 	{
 		global $ilCtrl;
 		$this->getParentGUI()->insertTemplateGUI(true);
+	}
+	
+	/**
+	 * Insert special page
+	 */
+	function insertSpecialPage()
+	{
+		global $ilCtrl;
+		$this->getParentGUI()->insertSpecialPage(true);
 	}
 	
 	/**

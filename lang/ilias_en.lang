@@ -10999,7 +10999,6 @@ style#:#sty_rte_char#:#SCORM RTE
 style#:#sty_type_rte_menu#:#RTE Menu
 style#:#sty_type_rte_mlink#:#RTE Menu Link
 style#:#sty_type_rte_tree#:#RTE Tree Section
-common#:#backto_lua#:#Back to Local User Administration
 content#:#page_does_not_exist#:#We are sorry, but this page does not exist.
 rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled
 rbac#:#precondition_not_obligatory_alt#:#Precondition is optional
@@ -11025,7 +11024,6 @@ content#:#cont_save_types#:#Save Types
 content#:#cont_layout_template#:#Layout Template
 content#:#cont_special_page#:#Special Content Page
 wiki#:#wiki_public_comments#:#Public Comments
-content#:#page_does_not_exist#:#We are sorry, but this page does not exist.
 trac#:#trac_learning_progress_of#:#Lernfortschritt von %s
 trac#:#trac_learning_progress_objects_description#:#This table shows an overview of all your courses and objects.
 common#:#personal_workspace#:#Resources
@@ -11055,4 +11053,7 @@ sahs#:#sahs_insert_ass_inside_chap#:#Insert Asset (inside chapter)
 sahs#:#sahs_insert_sco_inside_chap#:#Insert SCO (inside chapter)
 sahs#:#sahs_insert_sco_from_clip_inside_chap#:#Paste SCOs from Clipboard (inside chapter)
 sahs#:#sahs_insert_ass_from_clip_inside_chap#:#Paste Assets from Clipboard (inside chapter)
-sahs#:#sahs_insert_ass_from_clip#:#Paste Assets from Clipboard>>>>>>> .r28161
+sahs#:#sahs_insert_ass_from_clip#:#Paste Assets from Clipboard
+sahs#:#sahs_insert_special_page#:#Insert Special Page
+sahs#:#sahs_choose_page_template#:#Choose Page Template
+sahs#:#sahs_choose_special_page#:#Choose Special Page
