@@ -327,6 +327,15 @@ function init (n) {
                                 lesson_mode = 'normal' ? 'incomplete' : 'browsed'
                         );
                 }
+                
+                // init success status
+                if (ilias.questions != null)
+                {
+                	if (getValue ('cmi.success_status') != "passed")
+                	{
+                		ilias.questions.updateSuccessStatus();
+                	}
+                }
         }
         initTime = new Date();
         if (window.name && window.name.indexOf('standalone')!=-1) hide('initmsg');

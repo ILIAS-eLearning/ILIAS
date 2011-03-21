@@ -545,11 +545,43 @@ ilias.questions.scormHandler = function(a_id,a_state,a_response) {
 		setValue(i_key + answers[a_id].interactionId+".learner_response",a_response);
 		setValue(i_key + answers[a_id].interactionId+".result",a_state);
 	}
-	//set course success status
-	var status="passed";
+	
+	ilias.questions.updateSuccessStatus();
+};
+
+ilias.questions.updateSuccessStatus = function()
+{
+	var s_key;
+	var status = ilias.questions.determineSuccessStatus();
+	
+	if (ScormApi==null) {return;}
+	
+	if (status=="passed" || ScormApi.version=="1.3" ) {
+
+		switch (ScormApi.version) {
+			case '1.2':
+				s_key = "cmi.core.lesson_status";
+				break;
+			case '1.3':
+				s_key = "cmi.success_status";
+				break;
+		}
+
+		setValue(s_key,status);
+	}	
+}
+
+ilias.questions.determineSuccessStatus = function()
+{
+	var status = "";
+	var at_least_one = false;
 	for (var k in questions) {
 		var index=parseInt(k,10);
 		if (!isNaN(index)) {
+			if (status != "failed")
+			{
+				status = "passed";
+			}
 			if (!answers[index]) {
 				status = "failed";
 			} else {
@@ -557,10 +589,8 @@ ilias.questions.scormHandler = function(a_id,a_state,a_response) {
 			}
 		}
 	}
-	if (status=="passed" || ScormApi.version=="1.3" ) {
-		setValue(s_key,status);
-	}	
-};
+	return status;
+}
 
 ilias.questions.showCorrectAnswers =function(a_id) {
 	
