@@ -475,13 +475,26 @@ class ilSCORM2004NodeGUI
 	}
 
 	/**
-	* Insert scos from clipboard
-	*/
+	 * Insert scos from clipboard
+	 */
 	function insertScoClip()
 	{
 		global $ilCtrl, $ilUser;
 		
 		ilSCORM2004Node::insertScoClip($this->slm_object);
+		
+		$ilCtrl->redirect($this, "showOrganization",
+			"node_".ilSCORM2004OrganizationHFormGUI::getPostNodeId());
+	}
+
+	/**
+	 * Insert assets from clipboard
+	 */
+	function insertAssetClip()
+	{
+		global $ilCtrl, $ilUser;
+		
+		ilSCORM2004Node::insertAssetClip($this->slm_object);
 		
 		$ilCtrl->redirect($this, "showOrganization",
 			"node_".ilSCORM2004OrganizationHFormGUI::getPostNodeId());

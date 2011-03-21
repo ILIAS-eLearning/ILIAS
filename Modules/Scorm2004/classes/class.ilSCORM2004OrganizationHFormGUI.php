@@ -67,49 +67,70 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				}
 			}
 
-			// sco/asset inserts
-			if ($a_node["type"] == "sco" || $a_node["type"] == "ass"
-				|| (($a_node["type"] == "chap" || $a_node["type"] == "seqc") && count($a_childs) == 0))
+			// sco/asset inserts... in/after chapters
+			if ($a_node["type"] == "chap" || $a_node["type"] == "seqc")
 			{
-				if ($a_node["type"] == "chap" || $a_node["type"] == "seqc")
+				$cmds[] = array("text" => $lng->txt("sahs_insert_ass"), "cmd" => "insertAsset", "multi" => 10);
+				if (count($a_childs) == 0)
 				{
-					$cmds[] = array("text" => $lng->txt("sahs_insert_ass"), "cmd" => "insertAsset", "multi" => 10);
-					$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10);
-					$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10,
+					$cmds[] = array("text" => $lng->txt("sahs_insert_ass_inside_chap"), "cmd" => "insertAsset", "multi" => 10,
 						"as_subitem" => true);
-					if ($ilUser->clipboardHasObjectsOfType("sco"))
+				}
+				$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10);
+				if (count($a_childs) == 0)
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_sco_inside_chap"), "cmd" => "insertSco", "multi" => 10,
+						"as_subitem" => true);
+				}
+				if ($ilUser->clipboardHasObjectsOfType("sco"))
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_sco_from_clip"),
+						"cmd" => "insertScoClip", "as_subitem" => false);
+					if (count($a_childs) == 0)
 					{
-						$cmds[] = array("text" => $lng->txt("sahs_insert_sco_from_clip"),
+						$cmds[] = array("text" => $lng->txt("sahs_insert_sco_from_clip_inside_chap"),
 							"cmd" => "insertScoClip", "as_subitem" => true);
 					}
 				}
-				else
+				if ($ilUser->clipboardHasObjectsOfType("ass"))
 				{
-					// scos
-					$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10);
-					if ($ilUser->clipboardHasObjectsOfType("sco"))
+					$cmds[] = array("text" => $lng->txt("sahs_insert_ass_from_clip"),
+						"cmd" => "insertAssClip", "as_subitem" => false);
+					if (count($a_childs) == 0)
 					{
-						$cmds[] = array("text" => $lng->txt("sahs_insert_sco_from_clip"),
-							"cmd" => "insertScoClip");
+						$cmds[] = array("text" => $lng->txt("sahs_insert_ass_from_clip_inside_chap"),
+							"cmd" => "insertAssClip", "as_subitem" => true);
 					}
+				}
+			}
+			
+			// sco/asset inserts... after sco/assets
+			if ($a_node["type"] == "sco" || $a_node["type"] == "ass")
+			{
+				// scos
+				$cmds[] = array("text" => $lng->txt("sahs_insert_sco"), "cmd" => "insertSco", "multi" => 10);
+				if ($ilUser->clipboardHasObjectsOfType("sco"))
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_sco_from_clip"),
+						"cmd" => "insertScoClip");
+				}
 
-					// assets
-					$cmds[] = array("text" => $lng->txt("sahs_insert_ass"), "cmd" => "insertAsset", "multi" => 10);
-					if ($ilUser->clipboardHasObjectsOfType("ass"))
-					{
-						$cmds[] = array("text" => $lng->txt("sahs_insert_ass_from_clip"),
-							"cmd" => "insertAssetClip");
-					}
+				// assets
+				$cmds[] = array("text" => $lng->txt("sahs_insert_ass"), "cmd" => "insertAsset", "multi" => 10);
+				if ($ilUser->clipboardHasObjectsOfType("ass"))
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_ass_from_clip"),
+						"cmd" => "insertAssetClip");
+				}
 
-					// chapters
-					if ($a_node["depth"] == 2)
+				// chapters
+				if ($a_node["depth"] == 2)
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_chapter"), "cmd" => "insertChapter", "multi" => 10);
+					if ($ilUser->clipboardHasObjectsOfType("chap"))
 					{
-						$cmds[] = array("text" => $lng->txt("sahs_insert_chapter"), "cmd" => "insertChapter", "multi" => 10);
-						if ($ilUser->clipboardHasObjectsOfType("chap"))
-						{
-							$cmds[] = array("text" => $lng->txt("sahs_insert_chap_from_clip"),
-								"cmd" => "insertChapterClip");
-						}
+						$cmds[] = array("text" => $lng->txt("sahs_insert_chap_from_clip"),
+							"cmd" => "insertChapterClip");
 					}
 				}
 			}

@@ -625,6 +625,7 @@ class ilSCORM2004Node
 		$ilUser->clipboardDeleteObjectsOfType("page");
 		$ilUser->clipboardDeleteObjectsOfType("chap");
 		$ilUser->clipboardDeleteObjectsOfType("sco");
+		$ilUser->clipboardDeleteObjectsOfType("ass");
 		
 		// put them into the clipboard
 		$time = date("Y-m-d H:i:s", time());
@@ -768,14 +769,15 @@ class ilSCORM2004Node
 			$ilUser->clipboardDeleteObjectsOfType("page");
 			$ilUser->clipboardDeleteObjectsOfType("chap");
 			$ilUser->clipboardDeleteObjectsOfType("sco");
+			$ilUser->clipboardDeleteObjectsOfType("ass");
 			ilEditClipboard::clear();
 		}
 	}
 
 	/**
-	* Insert scos from clipboard
-	*/
-	static function insertScoClip($a_slm_obj)
+	 * Insert assets from clipboard
+	 */
+	static function insertAssClip($a_slm_obj, $a_type = "ass")
 	{
 		global $ilCtrl, $ilUser;
 		
@@ -800,7 +802,7 @@ class ilSCORM2004Node
 		}
 
 		// cut and paste
-		$scos = $ilUser->getClipboardObjects("sco");
+		$scos = $ilUser->getClipboardObjects($a_type);
 		$copied_nodes = array();
 		foreach ($scos as $sco)
 		{
@@ -816,8 +818,17 @@ class ilSCORM2004Node
 			$ilUser->clipboardDeleteObjectsOfType("page");
 			$ilUser->clipboardDeleteObjectsOfType("chap");
 			$ilUser->clipboardDeleteObjectsOfType("sco");
+			$ilUser->clipboardDeleteObjectsOfType("ass");
 			ilEditClipboard::clear();
 		}
+	}
+
+	/**
+	 * Insert scos from clipboard
+	 */
+	static function insertScoClip($a_slm_obj)
+	{
+		self::insertAssetClip($a_slm_obj, "sco");
 	}
 
 	/**
@@ -886,6 +897,7 @@ class ilSCORM2004Node
 			$ilUser->clipboardDeleteObjectsOfType("page");
 			$ilUser->clipboardDeleteObjectsOfType("chap");
 			$ilUser->clipboardDeleteObjectsOfType("sco");
+			$ilUser->clipboardDeleteObjectsOfType("ass");
 			ilEditClipboard::clear();
 		}
 	}
@@ -915,6 +927,11 @@ class ilSCORM2004Node
 		{
 			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
 			$item = new ilSCORM2004Sco($slm_obj, $a_item_id);
+		}
+		else if ($item_type == "ass")
+		{
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Asset.php");
+			$item = new ilSCORM2004Asset($slm_obj, $a_item_id);
 		}
 
 		$ilLog->write("Getting from clipboard type ".$item_type.", ".
