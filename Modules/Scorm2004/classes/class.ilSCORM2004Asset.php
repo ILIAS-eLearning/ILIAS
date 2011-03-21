@@ -307,6 +307,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		}
 	}
 
+	/**
+	 * Export HTML pages of SCO
+	 */
 	function exportHTMLPageObjects($a_inst, $a_target_dir, &$expLog, $mode,
 		$a_asset_type = "sco")
 	{
@@ -320,13 +323,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$tree = new ilTree($this->slm_id);
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$tree->setTreeTablePK("slm_id");
-
-		if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset")
-		{
-			$meta = new ilMD($this->getSLMId(), $this->getId(), $this->getType());
-					$desc_ids = $meta->getGeneral()->getDescriptionIds();
-			$sco_description = $meta->getGeneral()->getDescription($desc_ids[0])->getDescription();
-		}
 
 		// @todo
 		// Why is that much HTML code in an application class?
@@ -342,19 +338,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$sco_tpl = new ilTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
 		if ($mode != 'pdf')
 		{
-			if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset")
-			{
-				// previous/next navigation
-				$sco_tpl->setCurrentBlock("ilLMNavigation");
-				$sco_tpl->setVariable("TXT_PREVIOUS", $lng->txt('scplayer_previous'));
-				$sco_tpl->setVariable("TXT_NEXT", $lng->txt('scplayer_next'));
-				$sco_tpl->parseCurrentBlock();
-				$sco_tpl->setCurrentBlock("ilLMNavigation2");
-				$sco_tpl->setVariable("TXT_PREVIOUS", $lng->txt('scplayer_previous'));
-				$sco_tpl->setVariable("TXT_NEXT", $lng->txt('scplayer_next'));
-				$sco_tpl->parseCurrentBlock();
-			}
-
 			// init and question lang vars
 			$sco_tpl->setCurrentBlock("init");
 			$lvs = array("wrong_answers", "tries_remaining",
@@ -366,63 +349,46 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 					$lng->txt("cont_".$lv));
 			}
 			$sco_tpl->parseCurrentBlock();
-			$sco_tpl->touchBlock("finish");
+			
+			// style sheets needed
+			$styles = array("./css/system.css", "./css/style.css",
+				"./css/accordion.css", "./css/yahoo/container.css",
+				"./css/question_handling.css");
+			foreach ($styles as $style)
+			{
+				$sco_tpl->setCurrentBlock("style_sheet");
+				$sco_tpl->setVariable("STYLE_HREF", $style);
+				$sco_tpl->parseCurrentBlock();
+			}
+			
+			// scripts needed
+			$scripts = array("./js/scorm.js", "./js/jquery.js", "./js/jquery-ui-min.js",
+				"./js/pager.js", "./js/pure.js", "./js/yahoo/yahoo-min.js", "./js/yahoo/yahoo-dom-event.js",
+				"./js/yahoo/container_core-min.js", "./js/yahoo/animation-min.js", "./js/Basic.js",
+				"./js/ilOverlay.js", "./js/questions_".$this->getId().".js");
+			foreach ($scripts as $script)
+			{
+				$sco_tpl->setCurrentBlock("script");
+				$sco_tpl->setVariable("SCRIPT_SRC", $script);
+				$sco_tpl->parseCurrentBlock();
+			}
+			
+			
+			if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset")
+			{
+				self::renderNavigation($sco_tpl, "./images/spacer.gif");
+			}
 
+			$sco_tpl->touchBlock("finish");
 		}
+		// render head
+		$sco_tpl->setCurrentBlock("head");
+		$sco_tpl->setVariable("SCO_TITLE", $this->getTitle());
+		$sco_tpl->parseCurrentBlock();
+		$sco_tpl->touchBlock("tail");
 
 		// meta page (meta info at SCO beginning) start...
-		if ($this->getType() == "sco" && !$this->getHideObjectivePage())
-		{
-			if ($mode != 'pdf')
-			{
-				// title
-				if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset")
-				{
-					$sco_tpl->setCurrentBlock("title");
-					$sco_tpl->setVariable("SCO_TITLE", $this->getTitle());
-					$sco_tpl->parseCurrentBlock();
-				}
-			}
-			else
-			{
-				// title
-				$sco_tpl->setCurrentBlock("pdf_title");
-				$sco_tpl->setVariable("SCO_TITLE", $this->getTitle());
-				$sco_tpl->parseCurrentBlock();
-				$sco_tpl->touchBlock("pdf_break");
-			}
-
-			// sco description
-			if (trim($sco_description) != "")
-			{
-				$sco_tpl->setCurrentBlock("sco_desc");
-				$sco_tpl->setVariable("TXT_DESC", $lng->txt("description"));
-				include_once("./Services/COPage/classes/class.ilPCParagraph.php");
-				$sco_tpl->setVariable("VAL_DESC", self::convertLists($sco_description));
-				$sco_tpl->parseCurrentBlock();
-			}
-
-			if ($a_asset_type == "sco")
-			{
-				// sco objective(s)
-				$objs = $this->getObjectives();
-				if (count($objs) > 0)
-				{
-					foreach ($objs as $objective)
-					{
-						$sco_tpl->setCurrentBlock("sco_obj");
-						$sco_tpl->setVariable("VAL_OBJECTIVE", self::convertLists($objective->getObjectiveID()));
-						$sco_tpl->parseCurrentBlock();
-					}
-					$sco_tpl->setCurrentBlock("sco_objs");
-					$sco_tpl->setVariable("TXT_OBJECTIVES", $lng->txt("sahs_objectives"));
-					$sco_tpl->parseCurrentBlock();
-				}
-			}
-			$sco_tpl->setCurrentBlock("meta_page");
-			$sco_tpl->parseCurrentBlock();
-		}
-		// ... meta page (meta info at SCO beginning) end
+		self::renderMetaPage($sco_tpl, $this, $a_asset_type, $mode);
 
 		//notify Question Exporter of new SCO
 		require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
@@ -558,11 +524,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 				ilSCORM2004PageGUI::getGlossaryHTML($this));
 		}
 
-		// sco id and title
-		$sco_tpl->setVariable("SCO_ID", $this->getId());
-		$sco_tpl->setVariable("SCO_TITLE", $this->getTitle());
-
-
 		$output = $sco_tpl->get();
 
 		if($mode=='pdf')
@@ -600,6 +561,108 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$this->exportFileItems($a_target_dir, $expLog);
 
 	}
+	
+	/**
+	 * Render navigation
+	 *
+	 * @param object $a_tpl template
+	 * @param string $a_spacer_img path to spacer image
+	 */
+	static function renderNavigation($a_tpl, $a_spacer_img = "")
+	{
+		global $lng;
+		
+		if ($a_spacer_img = "")
+		{
+			$a_spacer_img = ilUtil::getImagePath("spacer.gif");
+		}
+		// previous/next navigation
+		$a_tpl->setCurrentBlock("ilLMNavigation");
+		$a_tpl->setVariable("TXT_PREVIOUS", $lng->txt('scplayer_previous'));
+		$a_tpl->setVariable("SRC_SPACER", $a_spacer_img);
+		$a_tpl->setVariable("TXT_NEXT", $lng->txt('scplayer_next'));
+		$a_tpl->parseCurrentBlock();
+		$a_tpl->setCurrentBlock("ilLMNavigation2");
+		$a_tpl->setVariable("TXT_PREVIOUS", $lng->txt('scplayer_previous'));
+		$a_tpl->setVariable("SRC_SPACER", $a_spacer_img);
+		$a_tpl->setVariable("TXT_NEXT", $lng->txt('scplayer_next'));
+		$a_tpl->parseCurrentBlock();
+	}
+	
+	/**
+	 * Render meta page (description/objectives at beginning)
+	 *
+	 * @param object $a_tpl template
+	 * @param object $a_sco SCO
+	 * @param string $a_asset_type asset type
+	 * @param string $a_mode mode
+	 */
+	static function renderMetaPage($a_tpl, $a_sco, $a_asset_type = "", $mode = "")
+	{
+		global $lng;
+		
+		if ($a_sco->getType() != "sco" || $a_sco->getHideObjectivePage())
+		{
+			return;
+		}
+		
+		if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset")
+		{
+			$meta = new ilMD($a_sco->getSLMId(), $a_sco->getId(), $a_sco->getType());
+			$desc_ids = $meta->getGeneral()->getDescriptionIds();
+			$sco_description = $meta->getGeneral()->getDescription($desc_ids[0])->getDescription();
+		}
+		
+		if ($mode != 'pdf')
+		{
+			// title
+			if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset")
+			{
+				$a_tpl->setCurrentBlock("title");
+				$a_tpl->setVariable("SCO_TITLE", $a_sco->getTitle());
+				$a_tpl->parseCurrentBlock();
+			}
+		}
+		else
+		{
+			// title
+			$a_tpl->setCurrentBlock("pdf_title");
+			$a_tpl->setVariable("SCO_TITLE", $a_sco->getTitle());
+			$a_tpl->parseCurrentBlock();
+			$a_tpl->touchBlock("pdf_break");
+		}
+
+		// sco description
+		if (trim($sco_description) != "")
+		{
+			$a_tpl->setCurrentBlock("sco_desc");
+			$a_tpl->setVariable("TXT_DESC", $lng->txt("description"));
+			include_once("./Services/COPage/classes/class.ilPCParagraph.php");
+			$a_tpl->setVariable("VAL_DESC", self::convertLists($sco_description));
+			$a_tpl->parseCurrentBlock();
+		}
+
+		if ($a_asset_type == "sco")
+		{
+			// sco objective(s)
+			$objs = $a_sco->getObjectives();
+			if (count($objs) > 0)
+			{
+				foreach ($objs as $objective)
+				{
+					$a_tpl->setCurrentBlock("sco_obj");
+					$a_tpl->setVariable("VAL_OBJECTIVE", self::convertLists($objective->getObjectiveID()));
+					$a_tpl->parseCurrentBlock();
+				}
+				$a_tpl->setCurrentBlock("sco_objs");
+				$a_tpl->setVariable("TXT_OBJECTIVES", $lng->txt("sahs_objectives"));
+				$a_tpl->parseCurrentBlock();
+			}
+		}
+		$a_tpl->setCurrentBlock("meta_page");
+		$a_tpl->parseCurrentBlock();
+	}
+	
 
 	/**
 	 * Convert * and # to lists

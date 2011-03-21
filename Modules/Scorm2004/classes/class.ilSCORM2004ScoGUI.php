@@ -340,12 +340,15 @@ die("deprecated");
 		$ilCtrl->redirect($this, "showOrganization");
 	}
 
+	/**
+	 * SCO preview
+	 */
 	function sco_preview()
 	{
 		global $tpl, $ilCtrl, $lng;
 		
+		// init main template
 		$tpl = new ilTemplate("tpl.main.html", true, true);
-		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$tpl->setBodyClass("");
@@ -354,14 +357,11 @@ die("deprecated");
 			ilObjStyleSheet::getContentStylePath($this->slm_object->getStyleSheetId()));
 		$tpl->parseCurrentBlock();
 		
+		// get javascript
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/pure.js");
-		
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/pager.js");
-
-//		$this->setTabs();
-//		$this->setLocator();
 		
 		$tree = new ilTree($this->slm_object->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
@@ -373,59 +373,21 @@ die("deprecated");
 		$desc_ids = $meta->getGeneral()->getDescriptionIds();
 		$sco_description = $meta->getGeneral()->getDescription($desc_ids[0])->getDescription();
 		
-		// @todo
-		// Why is that much HTML code in an application class?
-		// Please extract all this HTML to a tpl.<t_name>.html file and use
-		// placeholders and the template engine to insert data.
-		//
-		// There copy/paste code residenting in ilSCORM2004Sco. This
-		// should be merged.
-		//
-		// alex, 4 Apr 09
-		//
+		// get sco template
+		$sco_tpl = new ilTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
+		
+		// navigation
+		ilSCORM2004Asset::renderNavigation($sco_tpl);
 
-		$output =	'<!-- BEGIN ilLMNavigation -->
-					<div class="ilc_page_tnav_TopNavigation">
-					<!-- BEGIN ilLMNavigation_Prev -->
-					<div class="ilc_page_lnav_LeftNavigation">
-					<a class="ilc_page_lnavlink_LeftNavigationLink">
-					<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" />&nbsp;'.$lng->txt('scplayer_previous').'</a>
-					</div>
-					<!-- END ilLMNavigation_Prev -->
-					<!-- BEGIN ilLMNavigation_Next -->
-					<div class="ilc_page_rnav_RightNavigation">
-					<a class="ilc_page_rnavlink_RightNavigationLink">'.$lng->txt('scplayer_next').'&nbsp;<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" /></a>
-					</div>
-					<!-- END ilLMNavigation_Next -->
-					<div style="clear:both;"></div>
-					</div>
-					<!-- END ilLMNavigation -->';
-		
-		$output .='<table class="ilc_page_cont_PageContainer" width="100%" cellspacing="0" cellpadding="0" style="display: table;"><tbody><tr><td><div class="ilc_page_Page"><div class="ilc_sco_title_Title">'.$this->node_object->getTitle().'</div>';
-		
-		// sco description
-		if (trim($sco_description) != "")
-		{
-			$output .='<div class="ilc_sco_desct_DescriptionTop">'.$lng->txt("description").'</div>';
-			$output .='<div class="ilc_sco_desc_Description">'.$sco_description.'</div>';
-		}
-
-		// sco objective(s)
-		$objs = $this->node_object->getObjectives();
-		if (count($objs) > 0)
-		{
-			$output .='<div class="ilc_sco_objt_ObjectiveTop">'.$lng->txt("sahs_objectives").'</div>';
-			foreach ($objs as $objective)
-			{
-				$output .= '<div class="ilc_sco_obj_Objective">'.nl2br($objective->getObjectiveID()).'</div>';
-			}
-			$output .= "</div>";
-		}
-		$output .='</td></tr></table>';
-		
+		// meta page (description and objectives)
+		ilSCORM2004Asset::renderMetaPage($sco_tpl, $this->node_object,
+			$this->node_object->getType());
+				
 		// init export (this initialises glossary template)
 		ilSCORM2004PageGUI::initExport();
 		$terms = $this->node_object->getGlossaryTermIds();
+		
+		// render page
 		foreach($tree->getSubTree($tree->getNodeData($this->node_object->getId()),true,'page') as $page)
 		{
 			$page_obj = new ilSCORM2004PageGUI($this->node_object->getType(),$page["obj_id"]);
@@ -437,25 +399,13 @@ die("deprecated");
 				$page_obj->setGlossaryOverviewInfo(
 					ilSCORM2004ScoGUI::getGlossaryOverviewId(), $this->node_object);
 			}
-			$output .= $page_obj->showPage("export");
+			$sco_tpl->setCurrentBlock("page_preview");
+			$sco_tpl->setVariable("PAGE_PRV", $page_obj->showPage("export"));
+			$sco_tpl->parseCurrentBlock();
 		}
-		$output .=	'<!-- BEGIN ilLMNavigation2 -->
-					<div class="ilc_page_bnav_BottomNavigation">
-					<!-- BEGIN ilLMNavigation_Prev -->
-					<div class="ilc_page_lnav_LeftNavigation">
-					<a class="ilc_page_lnavlink_LeftNavigationLink">
-					<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" />&nbsp;'.$lng->txt('scplayer_previous').'</a>
-					</div>
-					<!-- END ilLMNavigation_Prev -->
-					<!-- BEGIN ilLMNavigation_Next -->
-					<div class="ilc_page_rnav_RightNavigation">
-					<a class="ilc_page_rnavlink_RightNavigationLink">'.$lng->txt('scplayer_next').'&nbsp;<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="/templates/default/images/spacer.gif" alt="" title="" /></a>
-					</div>
-					<!-- END ilLMNavigation_Next -->
-					<div style="clear:both;"></div>
-					</div>
-					<!-- END ilLMNavigation2 -->';
 
+		$output = $sco_tpl->get();
+					
 		// append glossary entries on the sco level
 		$output.= ilSCORM2004PageGUI::getGlossaryHTML($this->node_object);
 		
@@ -481,17 +431,16 @@ die("deprecated");
 		
 		//inline JS
 		$output .='<script type="text/javascript" src="./Modules/Scorm2004/scripts/questions/question_handling.js"></script>';
-//		$tpl->setContent($output);
 		$tpl->setVariable("CONTENT", $output);
 	}
 	
 	//callback function for question export
-	private function insertQuestion($matches) {
+	private function insertQuestion($matches)
+	{
 		$q_exporter = new ilQuestionExporter(false);
 		return $q_exporter->exportQuestion($matches[2]);
 	}
-	
-		
+
 	/**
 	* Select the export type of the SCORM 2004 module
 	*/
