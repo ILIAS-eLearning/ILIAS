@@ -242,12 +242,17 @@ class ilPageLayout
 	
 	}
 	
-	public static function getLayouts($a_active=false){
+	/**
+	 * Get layouts
+	 */
+	public static function getLayouts($a_active = false, $a_special_page = false)
+	{
 		global $ilDB;
 		$arr_layouts = array();
-		$add="";
-		if ($a_active) {
-			$add ="WHERE (active=1)";
+		$add = "WHERE special_page = ".$ilDB->quote($a_special_page, "integer");
+		if ($a_active)
+		{
+			$add.= " AND (active = 1)";
 		}
 		$query = "SELECT layout_id FROM page_layout $add ORDER BY title ";
 		$result = $ilDB->query($query);
@@ -255,12 +260,16 @@ class ilPageLayout
 		{
 			array_push($arr_layouts,new ilPageLayout($row['layout_id']));
 		}
+
 		return $arr_layouts;
 	}
 	
-	public static function activeLayouts()
+	/**
+	 * Get active layouts
+	 */
+	public static function activeLayouts($a_special_page = false)
 	{
-		return self::getLayouts(true);
+		return self::getLayouts(true, $a_special_page);
 	}
 	
 }

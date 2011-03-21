@@ -183,6 +183,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			case "sco":
 				$ilCtrl->setParameterByClass("ilscorm2004scogui", "highlight", $a_highlight_ids);
 				$ilCtrl->redirectByClass("ilscorm2004scogui", "showOrganization", $anchor);
+			case "ass":
+				$ilCtrl->setParameterByClass("ilscorm2004assetgui", "highlight", $a_highlight_ids);
+				$ilCtrl->redirectByClass("ilscorm2004assetgui", "showOrganization", $anchor);
 			case "chap":
 				$ilCtrl->setParameterByClass("ilscorm2004chaptergui", "highlight", $a_highlight_ids);
 				$ilCtrl->redirectByClass("ilscorm2004chaptergui", "showOrganization", $anchor);
@@ -1998,15 +2001,24 @@ function showTrackingItem()
 	}
 
 	/**
+	 * Insert special page
+	 */
+	function insertSpecialPage($a_redirect = true)
+	{
+		$this->insertTemplateGUI($a_redirect, true);
+	}
+	
+	
+	/**
 	 * Displays GUI to select template for page
 	 */
-	function insertTemplateGUI($a_redirect = true, $a_mode = "")
+	function insertTemplateGUI($a_redirect = true, $a_special_page = false)
 	{
 		global $ilCtrl,$lng, $tpl;
 		
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 		
-		$arr_templates = ilPageLayout::activeLayouts();
+		$arr_templates = ilPageLayout::activeLayouts($a_special_page);
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scormeditor_page_layout_chooser.html", "Modules/Scorm2004");
 
@@ -2061,39 +2073,23 @@ function showTrackingItem()
 		$ilCtrl->saveParameter($this,"obj_id");
 	
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		if ($a_mode == "entry_page")
-		{
-			$this->tpl->setVariable("BTN_NAME", "createEntryPage");
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_INSERT", $this->lng->txt("create"));
-			$this->tpl->setVariable("CMD_CANCEL", "listSpecialPages");
-		}
-		else if ($a_mode == "final_sco_page")
-		{
-			$this->tpl->setVariable("BTN_NAME", "createFinalScoPage");
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_INSERT", $this->lng->txt("create"));
-			$this->tpl->setVariable("CMD_CANCEL", "listSpecialPages");
-		}
-		else if ($a_mode == "final_lm_page")
-		{
-			$this->tpl->setVariable("BTN_NAME", "createFinalLMPage");
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_INSERT", $this->lng->txt("create"));
-			$this->tpl->setVariable("CMD_CANCEL", "listSpecialPages");
-		}
-		else
-		{
-			$this->tpl->setVariable("BTN_NAME", "insertTemplate");
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_INSERT", $this->lng->txt("insert"));
-			$this->tpl->setVariable("CMD_CANCEL", "showOrganization");
-		}
+
+		$this->tpl->setVariable("BTN_NAME", "insertTemplate");
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_INSERT", $this->lng->txt("create"));
+		$this->tpl->setVariable("CMD_CANCEL", "showOrganization");
+
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_INSERT", $this->lng->txt("insert"));
 		$this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("change"));
-		$this->tpl->setVariable("TXT_TITLE", "Choose Page Layout");
-		
+		if ($a_special_page)
+		{
+			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("sahs_choose_special_page"));
+		}
+		else
+		{
+			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("sahs_choose_page_template"));
+		}
 	}
 	
 	

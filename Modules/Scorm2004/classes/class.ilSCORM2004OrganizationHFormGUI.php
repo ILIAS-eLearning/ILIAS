@@ -34,6 +34,10 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 	{
 		global $lng, $ilUser;
 
+		include_once("./Services/Style/classes/class.ilPageLayout.php");
+		$page_layouts = (count(ilPageLayout::activeLayouts()) > 0);
+		$special_pages = (count(ilPageLayout::activeLayouts(true)) > 0);
+		
 		$cmds = array();
 //echo "+".$a_depth."-";
 		if (!$a_first_child)		// drop area of node
@@ -46,8 +50,16 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				{
 					$cmds[] = array("text" => $lng->txt("sahs_insert_page"), "cmd" => "insertPage", "multi" => 10,
 						"as_subitem" => true);
-					$cmds[] = array("text" => $lng->txt("sahs_insert_pagelayout"), "cmd" => "insertTemplateGUI", "multi" => 10,
-						"as_subitem" => true);
+					if ($page_layouts > 0)
+					{
+						$cmds[] = array("text" => $lng->txt("sahs_insert_pagelayout"), "cmd" => "insertTemplateGUI", "multi" => 10,
+							"as_subitem" => true);
+					}
+					if ($special_pages > 0)
+					{
+						$cmds[] = array("text" => $lng->txt("sahs_insert_special_page"), "cmd" => "insertSpecialPage", "multi" => 10,
+							"as_subitem" => true);
+					}
 					if ($ilUser->clipboardHasObjectsOfType("page"))
 					{
 						$cmds[] = array("text" => $lng->txt("sahs_insert_page_from_clip"),
@@ -57,8 +69,15 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				else
 				{
 					$cmds[] = array("text" => $lng->txt("sahs_insert_page"), "cmd" => "insertPage", "multi" => 10);
-					$cmds[] = array("text" => $lng->txt("sahs_insert_pagelayout"), "cmd" => "insertTemplateGUI", "multi" => 10);
-					
+					if ($page_layouts > 0)
+					{
+						$cmds[] = array("text" => $lng->txt("sahs_insert_pagelayout"), "cmd" => "insertTemplateGUI", "multi" => 10);
+					}
+					if ($special_pages > 0)
+					{
+						$cmds[] = array("text" => $lng->txt("sahs_insert_special_page"), "cmd" => "insertSpecialPage", "multi" => 10);
+					}
+
 					if ($ilUser->clipboardHasObjectsOfType("page"))
 					{
 						$cmds[] = array("text" => $lng->txt("sahs_insert_page_from_clip"),
@@ -201,7 +220,15 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 			if ($a_node["type"] == "sco" || $a_node["type"] == "ass")
 			{
 				$cmds[] = array("text" => $lng->txt("sahs_insert_page"), "cmd" => "insertPage", "multi" => 10);
-				$cmds[] = array("text" => $lng->txt("sahs_insert_pagelayout"), "cmd" => "insertTemplateGUI", "multi" => 10); 
+				if ($page_layouts > 0)
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_pagelayout"), "cmd" => "insertTemplateGUI", "multi" => 10);
+				}
+				if ($special_pages > 0)
+				{
+					$cmds[] = array("text" => $lng->txt("sahs_insert_special_page"), "cmd" => "insertSpecialPage", "multi" => 10);
+				}
+
 				if ($ilUser->clipboardHasObjectsOfType("page"))
 				{
 					$cmds[] = array("text" => $lng->txt("sahs_insert_page_from_clip"),
