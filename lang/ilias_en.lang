@@ -11039,3 +11039,8 @@ blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the 
 blog#:#blog_number_users_notes_or_comments#:#Number of users that attached notes or comments to this entry
 blog#:#blog_posting_deleted#:#The entry has been deleted.
 blog#:#blog_enable_notes#:#Public Comments
+sahs#:#sahs_insert_ass_inside_chap#:#Insert Asset (inside chapter)
+sahs#:#sahs_insert_sco_inside_chap#:#Insert SCO (inside chapter)
+sahs#:#sahs_insert_sco_from_clip_inside_chap#:#Paste SCOs from Clipboard (inside chapter)
+sahs#:#sahs_insert_ass_from_clip_inside_chap#:#Paste Assets from Clipboard (inside chapter)
+sahs#:#sahs_insert_ass_from_clip#:#Paste Assets from Clipboard

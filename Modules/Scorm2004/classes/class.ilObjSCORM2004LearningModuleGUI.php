@@ -2442,14 +2442,28 @@ function showTrackingItem()
 	}
 
 	/**
-	* Insert scos from clipboard
-	*/
+	 * Insert scos from clipboard
+	 */
 	function insertScoClip()
 	{
 		global $ilCtrl, $ilUser;
 		
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 		ilSCORM2004Node::insertScoClip($this->object);
+		
+		$ilCtrl->redirect($this, "showOrganization",
+			"node_".ilSCORM2004OrganizationHFormGUI::getPostNodeId());
+	}
+
+	/**
+	 * Insert assets from clipboard
+	 */
+	function insertAssClip()
+	{
+		global $ilCtrl, $ilUser;
+		
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
+		ilSCORM2004Node::insertAssClip($this->object);
 		
 		$ilCtrl->redirect($this, "showOrganization",
 			"node_".ilSCORM2004OrganizationHFormGUI::getPostNodeId());
