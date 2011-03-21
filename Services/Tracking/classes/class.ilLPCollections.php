@@ -54,6 +54,7 @@ class ilLPCollections
 	 		{
 	 			continue;
 	 		}
+			// @FIXME clone this and not add it
 	 		$new_collections->add($mappings[$item]);
 	 		$ilLog->write(__METHOD__.': Added learning progress collection.');
 	 	}
@@ -77,21 +78,263 @@ class ilLPCollections
 	function add($item_id)
 	{
 		global $ilDB;
-		
-		$query = "DELETE FROM ut_lp_collections ".
-			"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ".
-			"AND item_id = ".$ilDB->quote($item_id ,'integer')." ";
-		$res = $ilDB->manipulate($query);
-		
+
+		$query = "SELECT * FROM ut_lp_collections ".
+			"WHERE obj_id = ".$ilDB->quote($this->getObjId(),'integer')." ".
+			"AND item_id = ".$ilDB->quote($item_id,'integer');
+		$res = $ilDB->query($query);
+		if($res->numRows())
+		{
+			return true;
+		}
+
 		$query = "INSERT INTO ut_lp_collections (obj_id, item_id) ".
 			"VALUES( ".
 			$ilDB->quote($this->obj_id ,'integer').", ".
 			$ilDB->quote($item_id ,'integer').
 			")";
 		$res = $ilDB->manipulate($query);
+
 		$this->__read();
 
 		return true;
+	}
+
+	/**
+	 * Deactivate assignments
+	 */
+	public static function deactivate($a_obj_id,array $a_item_ids)
+	{
+		global $ilDB;
+
+		// Delete all non grouped items
+		$query = "DELETE FROM ut_lp_collections ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND ".$ilDB->in('item_id', $a_item_ids, false, 'integer')." ".
+			"AND grouping_id = ".$ilDB->quote(0, 'integer');
+		$ilDB->manipulate($query);
+
+		// Select all grouping ids and deactivate them
+		$query = "SELECT grouping_id FROM ut_lp_collections ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND ".$ilDB->in('item_id', $a_item_ids, false, 'integer');
+		$res = $ilDB->query($query);
+
+		$grouping_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$grouping_ids[] = $row->grouping_id;
+		}
+
+		$query = "UPDATE ut_lp_collections ".
+			"SET active = ".$ilDB->quote(0,'integer')." ".
+			"WHERE ".$ilDB->in('grouping_id', $grouping_ids, false, 'integer');
+		$ilDB->manipulate($query);
+		return;
+	}
+
+	/**
+	 * Activate assignment
+	 * @param int $a_obj_id
+	 * @param array $a_item_ids
+	 */
+	public static function activate($a_obj_id,array $a_item_ids)
+	{
+		global $ilDB;
+
+		// Add missing entries
+		$sql = "SELECT item_id FROM ut_lp_collections ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND ".$ilDB->in('item_id', $a_item_ids, false, 'integer');
+		$res = $ilDB->query($sql);
+
+		$items_existing = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$items_existing[] = $row->item_id;
+		}
+
+		$items_not_existing = array_diff($a_item_ids, $items_existing);
+		foreach($items_not_existing as $item)
+		{
+			$query = "INSERT INTO ut_lp_collections (obj_id,item_id,grouping_id,num_obligatory,active ) ".
+				"VALUES( ".
+				$ilDB->quote($a_obj_id,'integer').", ".
+				$ilDB->quote($item,'integer').", ".
+				$ilDB->quote(0,'integer').", ".
+				$ilDB->quote(0,'integer').", ".
+				$ilDB->quote(1,'integer')." ".
+				")";
+			$ilDB->manipulate($query);
+		}
+		// Select all grouping ids and activate them
+		$query = "SELECT grouping_id FROM ut_lp_collections ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND ".$ilDB->in('item_id', $a_item_ids, false, 'integer')." ".
+			"AND grouping_id > ".$ilDB->quote(0,'integer')." ";
+		$res = $ilDB->query($query);
+
+		$grouping_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$grouping_ids[] = $row->grouping_id;
+		}
+
+		$query = "UPDATE ut_lp_collections ".
+			"SET active = ".$ilDB->quote(1,'integer')." ".
+			"WHERE ".$ilDB->in('grouping_id', $grouping_ids, false, 'integer');
+		$ilDB->manipulate($query);
+		return;
+	}
+
+	/**
+	 * Create new grouping
+	 * @global ilDB
+	 */
+	public static function createNewGrouping($a_obj_id, array $a_ids)
+	{
+		global $ilDB;
+
+		// Activate each of this items
+		self::activate($a_obj_id, $a_ids);
+
+		// read all grouping ids and their item_ids
+		$query = "SELECT DISTINCT(grouping_id) grp_id FROM ut_lp_collections ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND ".$ilDB->in('item_id', $a_ids, false, 'integer')." ".
+			"AND grouping_id != 0 ";
+		$res = $ilDB->query($query);
+
+		$grp_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$grp_ids[] = $row->grp_id;
+		}
+
+		$query = "SELECT item_id FROM ut_lp_collections ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND ".$ilDB->in('grouping_id', $grp_ids, false, 'integer');
+		$res = $ilDB->query($query);
+
+		$all_item_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$all_item_ids[] = $row->item_id;
+		}
+
+		$all_item_ids = array_unique(array_merge($all_item_ids,$a_ids));
+
+		// release grouping
+		self::releaseGrouping($a_obj_id,$a_ids);
+
+		// Create new grouping
+		$query = "SELECT MAX(grouping_id) grp FROM ut_lp_collections ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"GROUP BY obj_id ";
+		$res = $ilDB->query($query);
+
+		$grp_id = 0;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$grp_id = $row->grp;
+		}
+		++$grp_id;
+
+		$query = "UPDATE ut_lp_collections SET ".
+			"grouping_id = ".$ilDB->quote($grp_id,'integer').", ".
+			"num_obligatory = 1, ".
+			"active = ".$ilDB->quote(1,'integer')." ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND ".$ilDB->in('item_id',$all_item_ids,false,'integer');
+		$ilDB->manipulate($query);
+
+		return;
+	}
+
+	/**
+	 * Release grouping of materials
+	 * @param int obj_id
+	 * @param array $a_ids
+	 */
+	public static function releaseGrouping($a_obj_id, array $a_ids)
+	{
+		global $ilDB;
+
+		$query = "SELECT grouping_id FROM ut_lp_collections ".
+			"WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
+			"AND ".$ilDB->in('item_id', $a_ids, false, 'integer')." ".
+			"AND grouping_id > 0 ";
+		$res = $ilDB->query($query);
+
+		$grp_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$grp_ids[] = $row->grouping_id;
+		}
+
+		$query = "UPDATE ut_lp_collections ".
+			"SET grouping_id = ".$ilDB->quote(0,'integer').", ".
+			"num_obligatory = 0 ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND " . $ilDB->in('grouping_id', $grp_ids, false, 'integer');
+		$ilDB->manipulate($query);
+		return true;
+	}
+
+
+
+
+	/**
+	 * Check if there is any grouped material assigned.
+	 * @global ilDB $ilDB
+	 * @param int $a_obj_id
+	 * @return bool
+	 */
+	public static function hasGroupedItems($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT item_id FROM ut_lp_collections ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND grouping_id > 0 ";
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false;
+	}
+
+	/**
+	 * Lookup grouped items
+	 * @global ilDB $ilDB
+	 * @param int $a_obj_id
+	 * @param int $item_id
+	 * @return array item ids grouped by grouping id
+	 */
+	public static function lookupGroupedItems($a_obj_id,$item_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT grouping_id FROM ut_lp_collections ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND item_id = ".$ilDB->quote($item_id,'integer');
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$grouping_id = $row->grouping_id;
+
+		if($grouping_id == 0)
+		{
+			return array();
+		}
+
+		$query = "SELECT item_id FROM ut_lp_collections ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND grouping_id = ".$ilDB->quote($grouping_id,'integer');
+		$res = $ilDB->query($query);
+
+		$items = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$items[] = $row->item_id;
+		}
+		return $items;
 	}
 
 	function delete($item_id)
@@ -110,7 +353,7 @@ class ilLPCollections
 
 
 	// Static
-	function _getPossibleItems($a_target_id)
+	public static function _getPossibleItems($a_target_id)
 	{
 		global $tree;
 
@@ -146,7 +389,7 @@ class ilLPCollections
 		return $all_possible ? $all_possible : array();
 	}
 
-	function _getCountPossibleItems($a_target_id)
+	public static function _getCountPossibleItems($a_target_id)
 	{
 		return count(ilLPCollections::_getPossibleItems($a_target_id));
 	}
@@ -206,7 +449,7 @@ class ilLPCollections
 	}
 
 
-	function _deleteAll($a_obj_id)
+	public static function _deleteAll($a_obj_id)
 	{
 		global $ilDB;
 
@@ -215,6 +458,33 @@ class ilLPCollections
 		$res = $ilDB->manipulate($query);
 
 		return true;
+	}
+
+	/**
+	 * Get groped items
+	 * @param int $a_obj_id
+	 * @return array
+	 */
+	public static function getGroupedItems($a_obj_id)
+	{
+		global $ilDB;
+
+		$items = self::_getItems($a_obj_id);
+
+		$query = "SELECT * FROM ut_lp_collections ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND active = 1";
+		$res = $ilDB->query($query);
+
+		$grouped = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if(in_array($row->item_id,$items))
+			{
+				$grouped[$row->grouping_id]['items'][] = $row->item_id;
+			}
+		}
+		return $grouped;
 	}
 
 	function &_getItems($a_obj_id)
@@ -245,12 +515,14 @@ class ilLPCollections
 				"JOIN object_reference obr ON item_id = ref_id ".
 				"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
 				"WHERE utc.obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+				"AND active = ".$ilDB->quote(1,'integer')." ".
 				"ORDER BY title";
 		}
 		else
 		{
 			// SAHS
-			$query = "SELECT * FROM ut_lp_collections WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
+			$query = "SELECT * FROM ut_lp_collections WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+				"AND active = ".$ilDB->quote(1,'integer');
 		}
 
 		$res = $ilDB->query($query);
@@ -306,11 +578,13 @@ class ilLPCollections
 				"JOIN object_reference obr ON item_id = ref_id ".
 				"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
 				"WHERE utc.obj_id = ".$this->db->quote($this->obj_id,'integer')." ".
+				"AND active = ".$ilDB->quote(1,'integer')." ".
 				"ORDER BY title";
 		}
 		else
 		{
-			$query = "SELECT * FROM ut_lp_collections WHERE obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ";
+			$query = "SELECT * FROM ut_lp_collections WHERE obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ".
+				"AND active = ".$ilDB->quote(1,'integer');
 		}
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

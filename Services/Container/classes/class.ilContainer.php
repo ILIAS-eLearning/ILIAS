@@ -623,7 +623,7 @@ class ilContainer extends ilObject
 				if (!in_array($t, array("_all", "_non_sess")) && !is_numeric($t))
 				{
 					// condition handler: preload conditions
-					include_once("./classes/class.ilConditionHandler.php");
+					include_once("./Services/AccessControl/classes/class.ilConditionHandler.php");
 					ilConditionHandler::preloadConditionsForTargetRecords($t,
 						$obj_ids_of_type[$t]);
 				}

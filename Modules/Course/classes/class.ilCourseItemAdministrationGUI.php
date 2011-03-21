@@ -84,7 +84,7 @@ class ilCourseItemAdministrationGUI
 			case 'ilconditionhandlerinterface':
 				
 				// preconditions for single course items
-				include_once './classes/class.ilConditionHandlerInterface.php';
+				include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
 				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
 				$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
 				$this->ctrl->forwardCommand($new_gui);

@@ -46,6 +46,17 @@ class ilLPCollectionCache
 		$cache[$a_obj_id] =& ilLPCollections::_getItems($a_obj_id);
 		return $cache[$a_obj_id];
 	}
+
+	public static function getGroupedItems($a_obj_id)
+	{
+		static $cache = array();
+
+		if(isset($cache[$a_obj_id]))
+		{
+			return $cache[$a_obj_id];
+		}
+		return $cache[$a_obj_id] = ilLPCollections::getGroupedItems($a_obj_id);
+	}
 		
 }
 ?>

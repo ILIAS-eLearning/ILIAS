@@ -175,6 +175,9 @@ class ilLPStatus
 	 * -- ilLPStatusWrapper->update()
 	 * -- ilLPListOfSettingsGUI->assign()
 	 * -- ilLPListOfSettingsGUI->deassign()
+	 * -- ilLPListOfSettingsGUI->groupMaterials()
+	 * -- ilLPListOfSettingsGUI->releaseMaterials()
+	 * -- ilObjTestGUI->confirmDeleteAllUserResultsObject @TODO move to ilObjTest but this can ba called for each single question
 	 *
 	 * - external time/access values for read events
 	 *   ilChangeEvent::_recordReadEvent($a_obj_id, $a_user_id, false, $attempts, $time);

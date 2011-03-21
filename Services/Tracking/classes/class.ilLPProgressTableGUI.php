@@ -37,6 +37,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->addColumn("", "", "1", true);
 			$this->addColumn($this->lng->txt("trac_title"), "title", "26%");
 			$this->addColumn($this->lng->txt("status"), "status", "7%");
+			$this->addColumn($this->lng->txt('trac_status_changed'),'status_changed','10%');
 			$this->addColumn($this->lng->txt("trac_percentage"), "percentage", "7%");
 			$this->addColumn($this->lng->txt("trac_mark"), "", "5%");
 			$this->addColumn($this->lng->txt("comment"), "", "10%");
@@ -63,6 +64,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 
 			$this->addColumn($this->lng->txt("trac_title"), "title", "31%");
 			$this->addColumn($this->lng->txt("status"), "status", "7%");
+			$this->addColumn($this->lng->txt('trac_status_changed'),'status_changed','10%');
 			$this->addColumn($this->lng->txt("trac_percentage"), "percentage", "7%");
 			$this->addColumn($this->lng->txt("trac_mark"), "", "5%");
 			$this->addColumn($this->lng->txt("comment"), "", "10%");
@@ -153,6 +155,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$this->tpl->setVariable("STATUS_ALT", ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
 		$this->tpl->setVariable("STATUS_IMG", ilLearningProgressBaseGUI::_getImagePathForStatus($a_set["status"]));
 
+		$this->tpl->setVariable('STATUS_CHANGED_VAL',  ilDatePresentation::formatDate(new ilDateTime($a_set['status_changed'],IL_CAL_DATETIME)));
+
 		$this->tpl->setVariable("MODE_TEXT", ilLPObjSettings::_mode2Text($a_set["u_mode"]));
 		$this->tpl->setVariable("MARK_VALUE", $a_set["mark"]);
 		$this->tpl->setVariable("COMMENT_TEXT", $a_set["comment"]);
@@ -222,10 +226,11 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$worksheet->write($a_row, 0, $this->lng->txt("type"));
 		$worksheet->write($a_row, 1, $this->lng->txt("trac_title"));
 		$worksheet->write($a_row, 2, $this->lng->txt("status"));
-		$worksheet->write($a_row, 3, $this->lng->txt("trac_percentage"));
-		$worksheet->write($a_row, 4, $this->lng->txt("trac_mark"));
-		$worksheet->write($a_row, 5, $this->lng->txt("comment"));
-		$worksheet->write($a_row, 6, $this->lng->txt("trac_mode"));
+		$worksheet->write($a_row, 3, $this->lng->txt("trac_status_changed"));
+		$worksheet->write($a_row, 4, $this->lng->txt("trac_percentage"));
+		$worksheet->write($a_row, 5, $this->lng->txt("trac_mark"));
+		$worksheet->write($a_row, 6, $this->lng->txt("comment"));
+		$worksheet->write($a_row, 7, $this->lng->txt("trac_mode"));
 		// $worksheet->write($a_row, 7, $this->lng->txt("path"));
 	}
 	
@@ -234,10 +239,15 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$worksheet->write($a_row, 0, $this->lng->txt($a_set["type"]));
 		$worksheet->write($a_row, 1, $a_set["title"]);
 		$worksheet->write($a_row, 2, ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
-		$worksheet->write($a_row, 3, sprintf("%d%%", $a_set["percentage"]));
-		$worksheet->write($a_row, 4, $a_set["mark"]);
-		$worksheet->write($a_row, 5, $a_set["comment"]);
-		$worksheet->write($a_row, 6, ilLPObjSettings::_mode2Text($a_set["u_mode"]));
+
+		ilDatePresentation::setUseRelativeDates(false);
+		$worksheet->write($a_row, 3, ilDatePresentation::formatDate(new ilDateTime($a_set['status_changed'],IL_CAL_DATETIME)));
+		ilDatePresentation::resetToDefaults();
+
+		$worksheet->write($a_row, 4, sprintf("%d%%", $a_set["percentage"]));
+		$worksheet->write($a_row, 5, $a_set["mark"]);
+		$worksheet->write($a_row, 6, $a_set["comment"]);
+		$worksheet->write($a_row, 7, ilLPObjSettings::_mode2Text($a_set["u_mode"]));
 
 		/*
 		// path
@@ -260,6 +270,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$a_csv->addColumn($this->lng->txt("type"));
 		$a_csv->addColumn($this->lng->txt("trac_title"));
 		$a_csv->addColumn($this->lng->txt("status"));
+		$a_csv->addColumn($this->lng->txt("trac_status_changed"));
 		$a_csv->addColumn($this->lng->txt("trac_percentage"));
 		$a_csv->addColumn($this->lng->txt("trac_mark"));
 		$a_csv->addColumn($this->lng->txt("comment"));
@@ -273,6 +284,11 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$a_csv->addColumn($this->lng->txt($a_set["type"]));
 		$a_csv->addColumn($a_set["title"]);
 		$a_csv->addColumn(ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
+
+		ilDatePresentation::setUseRelativeDates(false);
+		$a_csv->addColumn(ilDatePresentation::formatDate(new ilDateTime($a_set['status_changed'],IL_CAL_DATETIME)));
+		ilDatePresentation::resetToDefaults();
+
 		$a_csv->addColumn(sprintf("%d%%", $a_set["percentage"]));
 		$a_csv->addColumn($a_set["mark"]);
 		$a_csv->addColumn($a_set["comment"]);

@@ -295,8 +295,7 @@ class ilRegistrationSettingsGUI
 		$counter = 0;
 		foreach($rbacreview->getGlobalRoles() as $role)
 		{
-			if($role == SYSTEM_ROLE_ID or
-			   $role == ANONYMOUS_ROLE_ID)
+			if($role == SYSTEM_ROLE_ID or $role == ANONYMOUS_ROLE_ID)
 			{
 				continue;
 			}
@@ -749,8 +748,7 @@ class ilRegistrationSettingsGUI
 
 		foreach($rbacreview->getGlobalRoles() as $role_id)
 		{
-			if($role_id == SYSTEM_ROLE_ID or
-			   $role_id == ANONYMOUS_ROLE_ID)
+			if($role_id == ANONYMOUS_ROLE_ID)
 			{
 				continue;
 			}

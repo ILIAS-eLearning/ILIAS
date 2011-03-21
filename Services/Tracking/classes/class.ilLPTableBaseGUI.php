@@ -300,6 +300,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		{
 			case "first_access":
 			case "create_date":
+			case 'status_changed':
 				$value = ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_DATETIME));
 				break;
 
@@ -438,6 +439,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				 case "first_access":
 				 case "last_access":
 				 case "birthday":
+				 case 'status_changed':
 					 if($value)
 					 {
 						 if($value["from"])

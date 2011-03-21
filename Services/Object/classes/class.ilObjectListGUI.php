@@ -1707,45 +1707,50 @@ class ilObjectListGUI
 			$this->current_selection_list->getHTML());	
 	}
 
-	/**
-	* insert all missing preconditions
-	*/
-	function insertPreconditions()
+	protected function parseConditions($conditions,$obligatory = true)
 	{
 		global $ilAccess, $lng, $objDefinition,$tree;
 
-		include_once("classes/class.ilConditionHandler.php");
 
-		$missing_cond_exist = false;
-		
-		// do not show multi level conditions (messes up layout)
-		if ($this->condition_depth > 0)
-		{
-			return;
-		}
-		
-		// Sort by title
-		foreach(ilConditionHandler::_getConditionsOfTarget($this->ref_id, $this->obj_id) as $condition)
-		{
-			$condition['title'] = ilObject::_lookupTitle($condition['trigger_obj_id']);
-		}
-		
-		$conditions = ilConditionHandler::_getConditionsOfTarget($this->ref_id, $this->obj_id);
-		for($i = 0; $i < count($conditions); $i++)
-		{
-			$conditions[$i]['title'] = ilObject::_lookupTitle($conditions[$i]['trigger_obj_id']);
-		}
-
-		$conditions = ilUtil::sortArray($conditions,'title','DESC');
+		// Check if all conditions are fullfilled
+		$visible_conditions = array();
 		foreach($conditions as $condition)
 		{
+			if($obligatory and !$condition['obligatory'])
+			{
+				continue;
+			}
+			if(!$obligatory and $condition['obligatory'])
+			{
+				continue;
+			}
+
 			if($tree->isDeleted($condition['trigger_ref_id']))
 			{
 				continue;
 			}
+
 			include_once 'Services/Container/classes/class.ilMemberViewSettings.php';
-			if(ilConditionHandler::_checkCondition($condition['id']) and 
-				!ilMemberViewSettings::getInstance()->isActive())
+			$ok = ilConditionHandler::_checkCondition($condition['id']) and
+				!ilMemberViewSettings::getInstance()->isActive();
+			
+			if(!$ok)
+			{
+				$visible_conditions[] = $condition['id'];
+			}
+
+			if(!$obligatory and $ok)
+			{
+				// one optional is passed => don't show conditions
+				return true;
+			}
+		}
+
+
+
+		foreach($conditions as $condition)
+		{
+			if(!in_array($condition['id'], $visible_conditions))
 			{
 				continue;
 			}
@@ -1781,12 +1786,56 @@ class ilObjectListGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if ($missing_cond_exist)
+		if ($missing_cond_exist and $obligatory)
 		{
 			$this->tpl->setCurrentBlock("preconditions");
-			$this->tpl->setVariable("TXT_PRECONDITIONS", $lng->txt("preconditions"));
+			$this->tpl->setVariable("TXT_PRECONDITIONS", $lng->txt("preconditions_obligatory_hint"));
 			$this->tpl->parseCurrentBlock();
 		}
+		elseif($missing_cond_exist and !$obligatory)
+		{
+			$this->tpl->setCurrentBlock("preconditions");
+			$this->tpl->setVariable("TXT_PRECONDITIONS", $lng->txt("preconditions_optional_hint"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+	}
+
+	/**
+	* insert all missing preconditions
+	*/
+	function insertPreconditions()
+	{
+		global $ilAccess, $lng, $objDefinition,$tree;
+
+		include_once("./Services/AccessControl/classes/class.ilConditionHandler.php");
+
+		$missing_cond_exist = false;
+		
+		// do not show multi level conditions (messes up layout)
+		if ($this->condition_depth > 0)
+		{
+			return;
+		}
+
+		// Sort by title
+		/*
+		foreach(ilConditionHandler::_getConditionsOfTarget($this->ref_id, $this->obj_id) as $condition)
+		{
+			$condition['title'] = ilObject::_lookupTitle($condition['trigger_obj_id']);
+		}
+		*/
+
+		$conditions = ilConditionHandler::_getConditionsOfTarget($this->ref_id, $this->obj_id);
+		for($i = 0; $i < count($conditions); $i++)
+		{
+			$conditions[$i]['title'] = ilObject::_lookupTitle($conditions[$i]['trigger_obj_id']);
+		}
+		$conditions = ilUtil::sortArray($conditions,'title','DESC');
+
+		// Show obligatory and optional preconditions seperated
+		$this->parseConditions($conditions,true);
+		$this->parseConditions($conditions,false);
 	}
 
 	/**

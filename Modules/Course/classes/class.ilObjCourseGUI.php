@@ -4437,7 +4437,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case "ilconditionhandlerinterface":
-				include_once './classes/class.ilConditionHandlerInterface.php';
+				include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
 				
 				// preconditions for single course items
 				if($_GET['item_id'])
@@ -4809,7 +4809,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	// Methods for ConditionHandlerInterface
 	function initConditionHandlerGUI($item_id)
 	{
-		include_once './classes/class.ilConditionHandlerInterface.php';
+		include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
 
 		if(!is_object($this->chi_obj))
 		{

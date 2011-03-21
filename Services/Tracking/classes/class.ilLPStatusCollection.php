@@ -150,6 +150,15 @@ class ilLPStatusCollection extends ilLPStatus
 		return $users;
 	}
 
+	/**
+	 * Get completed users
+	 * New handling for optional grouped assignments.
+	 * @global <type> $ilBench
+	 * @global <type> $ilObjDataCache
+	 * @global <type> $tree
+	 * @param int $a_obj_id
+	 * @return array users
+	 */
 	function _getCompleted($a_obj_id)
 	{
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
@@ -157,6 +166,51 @@ class ilLPStatusCollection extends ilLPStatus
 		global $ilBench,$ilObjDataCache,$tree;
 		$ilBench->start('LearningProgress','9173_LPStatusCollection_completed');
 
+		// New handling for optional assignments
+		$counter = 0;
+		$users = array();
+		foreach(ilLPCollectionCache::getGroupedItems($a_obj_id) as $grouping_id => $grouping)
+		{
+			$isGrouping = $grouping_id ? true : false;
+			$grouping_completed = array();
+			foreach((array) $grouping['items'] as $item)
+			{
+				$item_id = $ilObjDataCache->lookupObjId($item);
+				$tmp_users = ilLPStatusWrapper::_getCompleted($item_id);
+				if($isGrouping)
+				{
+					// Collect
+					$grouping_completed = array_unique(array_merge($grouping_completed,$tmp_users));
+				}
+				else
+				{
+					if(!$counter++)
+					{
+						$users = $tmp_users;
+					}
+					else
+					{
+						$users = array_intersect($users,$tmp_users);
+					}
+				}
+			}
+			if($isGrouping)
+			{
+				// build intersection of users
+				if(!$counter++)
+				{
+					$users = $grouping_completed;
+				}
+				else
+				{
+					$users = array_intersect($users,$grouping_completed);
+				}
+			}
+		}
+
+
+
+/*
 		$counter = 0;
 		$users = array();
 		foreach(ilLPCollectionCache::_getItems($a_obj_id) as $item_id)
@@ -174,7 +228,7 @@ class ilLPStatusCollection extends ilLPStatus
 			}
 
 		}
-
+*/
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'crs':
@@ -214,12 +268,41 @@ class ilLPStatusCollection extends ilLPStatus
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 
 		$users = array();
+		foreach(ilLPCollectionCache::getGroupedItems($a_obj_id) as $grouping_id => $grouping)
+		{
+			$isGrouping = $grouping_id ? true : false;
+
+			$gr_failed = array();
+			$counter = 0;
+			foreach((array) $grouping['items'] as $item)
+			{
+				$item_id = $ilObjDataCache->lookupObjId($item);
+				$tmp_users = ilLPStatusWrapper::_getFailed($item_id);
+
+				if($isGrouping)
+				{
+					// All items of grouping must be failed for grouping status failed
+					$gr_failed = $counter ? array_intersect($gr_failed, $tmp_users) : $tmp_users;
+				}
+				else
+				{
+					// One item failed is sufficient for status failed.
+					$gr_failed = array_merge($gr_failed,$tmp_users);
+				}
+				$counter++;
+			}
+			$users = array_merge($users,$gr_failed);
+		}
+
+		/*
+		$users = array();
 		foreach(ilLPCollectionCache::_getItems($a_obj_id) as $item_id)
 		{
 			$item_id = $ilObjDataCache->lookupObjId($item_id);
 			$tmp_users = ilLPStatusWrapper::_getFailed($item_id);
 			$users = array_merge($users,$tmp_users);
 		}
+		 */
 		
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
@@ -292,7 +375,13 @@ class ilLPStatusCollection extends ilLPStatus
 	{
 		global $ilObjDataCache, $ilDB;
 
-		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+
+		$status['completed'] = true;
+		$status['failed'] = true;
+		$status['in_progress'] = true;
+
+
+		#$status = LP_STATUS_NOT_ATTEMPTED_NUM;
 		switch ($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case "crs":
@@ -301,9 +390,38 @@ class ilLPStatusCollection extends ilLPStatus
 				include_once "./Services/Tracking/classes/class.ilChangeEvent.php";
 				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
 				{
-					$status = LP_STATUS_IN_PROGRESS_NUM;
+					#$status = LP_STATUS_IN_PROGRESS_NUM;
+					$status['in_progress'] = true;
+
+				}
+<<<<<<< .working
+
+=======
+
+				include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
+				foreach(ilLPCollectionCache::getGroupedItems($a_obj_id) as $grouping_id => $grouping)
+				{
+					$isGrouping = $grouping_id ? true : false;
+					$status = self::determineGroupingStatus($status,$grouping['items'],$a_user_id,$isGrouping);
 				}
 
+				if($status['completed'])
+				{
+					return LP_STATUS_COMPLETED_NUM;
+				}
+				if($status['failed'])
+				{
+					return LP_STATUS_FAILED_NUM;
+				}
+				if($status['in_progress'])
+				{
+					return LP_STATUS_IN_PROGRESS_NUM;
+				}
+				return LP_STATUS_NOT_ATTEMPTED_NUM;
+		}
+
+		/*
+>>>>>>> .merge-rechts.r28161
 				$completed = true;
 				$failed = false;
 				include_once("./Services/Tracking/classes/class.ilLPCollectionCache.php");
@@ -338,6 +456,75 @@ class ilLPStatusCollection extends ilLPStatus
 				break;			
 		}
 
+		return $status;
+		 */
+	}
+
+	public static function determineGroupingStatus($status,$items,$user_id,$is_grouping)
+	{
+		global $ilObjDataCache;
+
+		include_once("./Services/Tracking/classes/class.ilLPCollectionCache.php");
+		foreach($items as $item_id)
+		{
+			$item_id = $ilObjDataCache->lookupObjId($item_id);
+			$gr_status = ilLPStatusWrapper::_determineStatus($item_id, $user_id);
+
+			if($gr_stat == LP_STATUS_FAILED_NUM)
+			{
+				$status['in_progress'] = true;
+				if($is_grouping)
+				{
+
+				}
+				else
+				{
+					$status['failed'] = true;
+					$status['completed'] = false;
+					return $status;
+				}
+			}
+			if($gr_status == LP_STATUS_COMPLETED_NUM)
+			{
+				$status['in_progress'] = true;
+				if($is_grouping)
+				{
+					$status['failed'] = false;
+					return $status;
+				}
+				else
+				{
+					
+				}
+			}
+			if($gr_status == LP_STATUS_IN_PROGRESS_NUM)
+			{
+				$status['in_progress'] = true;
+				if($is_grouping)
+				{
+					$status['failed'] = false;
+				}
+				else
+				{
+					$status['completed'] = false;
+				}
+			}
+			if($gr_status == LP_STATUS_NOT_ATTEMPTED_NUM)
+			{
+				if($is_grouping)
+				{
+					
+				}
+				else
+				{
+					$status['completed'] = false;
+				}
+			}
+		}
+		if($is_grouping)
+		{
+			$status['completed'] = false;
+		}
 		return $status;
 	}
 
