@@ -1,26 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<!-- BEGIN head --><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=7" />
-	<link rel="stylesheet" type="text/css" href="./css/system.css" />
-	<link rel="stylesheet" type="text/css" href="./css/style.css" />
-	<link rel="stylesheet" type="text/css" href="./css/accordion.css" />
-	<link rel="stylesheet" type="text/css" href="./css/yahoo/container.css" />
-	<script src="./js/scorm.js" type="text/javascript" language="JavaScript1.2"></script>
-	<script src="./js/jquery.js" type="text/javascript" language="JavaScript1.2"></script>
-	<script src="./js/jquery-ui-min.js" type="text/javascript" language="JavaScript1.2"></script>
-	<script src="./js/pager.js" type="text/javascript" language="JavaScript1.2"></script>
-	<script src="./js/pure.js" type="text/javascript" language="JavaScript1.2"></script>
-	<script src="./js/yahoo/yahoo-min.js" type="text/javascript" language="JavaScript1.2"></script>
-	<script src="./js/yahoo/yahoo-dom-event.js" type="text/javascript" language="JavaScript1.2"></script>
-	<script src="./js/yahoo/container_core-min.js" type="text/javascript" language="JavaScript1.2"></script>
-	<script src="./js/yahoo/animation-min.js" type="text/javascript" language="JavaScript1.2"></script>
-	<script src="./js/Basic.js" type="text/javascript" language="JavaScript1.2"></script>
-	<script src="./js/ilOverlay.js" type="text/javascript" language="JavaScript1.2"></script>
-	<script src="./js/questions_{SCO_ID}.js" type="text/javascript" language="JavaScript1.2"></script>
-	<link rel="stylesheet" type="text/css" href="./css/question_handling.css" />
+	<!-- BEGIN style_sheet --><link rel="stylesheet" type="text/css" href="{STYLE_HREF}" />
+	<!-- END style_sheet -->
+	<!-- BEGIN script --><script src="{SCRIPT_SRC}" type="text/javascript" language="JavaScript1.2"></script>
+	<!-- END script -->
 	<!-- BEGIN init --><script type="text/javascript" language="JavaScript1.2">
 		ilAddOnLoad(function () {init(0);
 			ilias.questions.txt.wrong_answers = "{TXT_WRONG_ANSWERS}";
@@ -33,13 +20,13 @@
 	</script><!-- END init -->
 	<script src="./js/accordion.js" type="text/javascript" language="JavaScript1.2"></script>
 	<title>{SCO_TITLE}</title>
-</head>
+</head><!-- END head -->
 <!-- BEGIN finish --><body class="yui-skin-sam" onunload="finish();"><!-- END finish -->
 <!-- BEGIN ilLMNavigation -->
 <div class="ilc_page_tnav_TopNavigation">
 <div class="ilc_page_lnav_LeftNavigation">
 <a class="ilc_page_lnavlink_LeftNavigationLink">
-<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="./images/spacer.gif" alt="" title="" />&nbsp;{TXT_PREVIOUS}</a>
+<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="{SRC_SPACER}" alt="" title="" />&nbsp;{TXT_PREVIOUS}</a>
 </div>
 <div class="ilc_page_rnav_RightNavigation">
 <a class="ilc_page_rnavlink_RightNavigationLink">{TXT_NEXT}&nbsp;<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="./images/spacer.gif" alt="" title="" /></a>
@@ -69,13 +56,13 @@
 <table class="ilc_page_cont_PageContainer" width="100%" cellspacing="0" cellpadding="0" style="display: table;">
 <tr><td><div class="ilc_page_Page">{PAGE}</div></td></tr></table>
 <!-- BEGIN pdf_pg_break --><!-- PAGE BREAK --><!-- END pdf_pg_break -->
-<!-- END page -->
+<!-- END page --><!-- BEGIN page_preview -->{PAGE_PRV}<!-- END page_preview -->
 {GLOSSARY_HTML}
 <!-- BEGIN ilLMNavigation2 -->
 <div class="ilc_page_bnav_BottomNavigation">
 <div class="ilc_page_lnav_LeftNavigation">
 <a class="ilc_page_lnavlink_LeftNavigationLink">
-<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="./images/spacer.gif" alt="" title="" />&nbsp;{TXT_PREVIOUS}</a>
+<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="{SRC_SPACER}" alt="" title="" />&nbsp;{TXT_PREVIOUS}</a>
 </div>
 <div class="ilc_page_rnav_RightNavigation">
 <a class="ilc_page_rnavlink_RightNavigationLink">{TXT_NEXT}&nbsp;<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="./images/spacer.gif" alt="" title="" /></a>
@@ -83,4 +70,4 @@
 <div style="clear:both;"></div>
 </div>
 <!-- END ilLMNavigation2 -->
-</body></html>
+<!-- BEGIN tail --></body></html><!-- END tail -->
