@@ -394,9 +394,6 @@ class ilLPStatusCollection extends ilLPStatus
 					$status['in_progress'] = true;
 
 				}
-<<<<<<< .working
-
-=======
 
 				include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 				foreach(ilLPCollectionCache::getGroupedItems($a_obj_id) as $grouping_id => $grouping)
@@ -419,45 +416,7 @@ class ilLPStatusCollection extends ilLPStatus
 				}
 				return LP_STATUS_NOT_ATTEMPTED_NUM;
 		}
-
-		/*
->>>>>>> .merge-rechts.r28161
-				$completed = true;
-				$failed = false;
-				include_once("./Services/Tracking/classes/class.ilLPCollectionCache.php");
-				foreach(ilLPCollectionCache::_getItems($a_obj_id) as $item_id)
-				{
-					$item_id = $ilObjDataCache->lookupObjId($item_id);
-					if (ilLPStatusWrapper::_determineStatus($item_id, $a_user_id)
-						!= LP_STATUS_COMPLETED_NUM)
-					{
-						$completed = false;
-					}
-					if (ilLPStatusWrapper::_determineStatus($item_id, $a_user_id)
-						== LP_STATUS_COMPLETED_NUM)
-					{
-						$status = LP_STATUS_IN_PROGRESS_NUM;
-					}
-					if (ilLPStatusWrapper::_determineStatus($item_id, $a_user_id)
-						== LP_STATUS_FAILED_NUM)
-					{
-						$failed = true;
-					}
-				}
-				if ($failed)
-				{
-					$status = LP_STATUS_FAILED_NUM;
-				}
-				else if ($completed)
-				{
-					$status = LP_STATUS_COMPLETED_NUM;
-				}
-
-				break;			
-		}
-
-		return $status;
-		 */
+		return LP_STATUS_NOT_ATTEMPTED_NUM;
 	}
 
 	public static function determineGroupingStatus($status,$items,$user_id,$is_grouping)
