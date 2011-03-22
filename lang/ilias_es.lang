@@ -382,7 +382,6 @@ assessment#:#dont_use_questionpool#:#No insertar la pregunta en un banco de preg
 assessment#:#duplicate#:#Duplicar
 assessment#:#duplicate_matching_values_selected#:#¡Ha seleccionado una pareja de valores duplicada!
 assessment#:#duplicate_order_values_entered#:#¡Ha introducido un orden de valores duplicado!
-assessment#:#duplicate_term_message#:#Ha introducido al menos un término duplicado. Por favor, utilice términos únicos.
 assessment#:#ects_allow_ects_grades#:#Mostrar la nota ECTS además de la nota recibida
 assessment#:#ects_fill_out_all_values#:#¡Por favor introduzca un valor para cada nota ECTS!
 assessment#:#ects_grade#:#nota ECTS
@@ -2419,7 +2418,6 @@ common#:#dbk_new#:#Nuevo Digilib Book
 common#:#dbk_read#:#Acceso de lectura a Digibook
 common#:#dbk_visible#:#Digibook es visible
 common#:#dbk_write#:#Editar Digibook
-common#:#DD_MM_YYYY#:#DD.MM.YYYY
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#deactivate#:#Poner inactiva
 common#:#decrease_attempts#:#Intentos - 1
@@ -3399,7 +3397,6 @@ common#:#ldap_version#:#versión de protocolo LDAP
 common#:#ldap_visible#:#La configuración LDAP es visible
 common#:#ldap_write#:#Editar configuración LDAP
 common#:#learning module#:#Módulo de aprendizaje
-common#:#learning_module#:#Módulo de aprendizaje
 common#:#learning_objects#:#Objetos de aprendizaje
 common#:#learning_progress#:#Progreso de aprendizaje
 common#:#learning_resourc#:#Recurso de aprendizaje
@@ -5839,7 +5836,6 @@ content#:#glo_usages#:#El glosario se utiliza en ...
 content#:#glo_used_in_scorm#:#El glosario es usado por el modulo SCORM. Si se borra, los enlaces al glosario se perderán y no podrán ser resueltos de nuevo.
 content#:#htlm_import#:#Importar Modulo de Aprendizaje HTML.
 content#:#HTML export#:#Exportar a HTML
-content#:#HTML_export#:#exportar a HTML
 content#:#import_sco_object#:#Importar SCO
 content#:#lm_menu_edit_entry#:#Editar entrada de menú
 content#:#lm_menu_entry_target#:#-Objetivo(Target)-
@@ -5855,14 +5851,11 @@ content#:#msg_page_no_public_access#:#La página solicitada no está disponible 
 content#:#msg_page_not_public#:#La página no es pública
 content#:#Pages#:#Páginas
 content#:#pages from#:#Páginas Desde
-content#:#pages_from#:#Páginas Desde
 content#:#par#:#Párrafo
 content#:#PDF export#:#exportar a PDF
-content#:#PDF_export#:#exportar a PDF
 content#:#pg#:#Página
 content#:#public_section#:#Sección Pública
 content#:#read offline#:#Leer Offline
-content#:#read_offline#:#Leer Offline
 content#:#saved_media_object#:#Objeto Media guardado.
 content#:#scorm_editable#:#Importación editable
 content#:#scorm_editable_comments#:#Sólo funcionan paquetes SCORM 1.2/2004
@@ -5897,7 +5890,6 @@ content#:#seq_toc#:#Desde la tabla de contenidos en la izquierda, escoja una act
 content#:#set_public_mode#:#Activar modo de acceso público
 content#:#st#:#Capítulo
 content#:#start export#:#Exportar
-content#:#start_export#:#Exportar
 content#:#text_repr#:#Representacion del Texto
 content#:#text_repr_info#:#Usado por el atributo "alt" de imagen
 crs#:#activation_times_not_valid#:#El período de disponibilidad no es válido.
@@ -7443,7 +7435,6 @@ grp#:#grp_reg_request_info#:#Los usuarios interesados enviarán una solicitud de
 grp#:#grp_reg_start#:#Inicio de registro:
 grp#:#grp_reg_subject#:#Mensaje
 grp#:#grp_registration_unlimited#:#Período de registro ilimitado
-grp#:#grp_reject_subscriber#:#Rechazado en grupo "%s"
 grp#:#grp_role_status#:#Rol/Estado
 grp#:#grp_search_users#:#Búsqueda de Usuarios.
 grp#:#grp_select_one_file#:#Por favor seleccione un fichero.
@@ -9164,7 +9155,6 @@ ps#:#ps_error_message_invalid_password_min_length#:#El tama&ntilde;o mínimo de 
 ps#:#ps_error_message_password_max_less_min#:#El tama&ntilde;o máximo de la contrase&ntilde;a no puede ser menor que el tama&ntilde;o mínimo.
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#El tama&ntilde;o mínimo de la contrase&ntilde;a no puede ser menor que 2 si la contrase&ntilde;a debe tener números y carácteres.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#El tamaño mínimo de la contraseña, no podrá ser inferior a 3 si la contraseña tiene que contener caracteres, números y caracteres especiales.El tamaño mínimo de la contraseña no podrá ser inferior a 3 si la contraseña tiene que contener caracteres, números y caracteres especiales.
-ps#:#ps_error_message_password_min3_because_chars_numbers_special#:#El tama&ntilde;o m&iacute;nimo de la contrase&ntilde;a no debe ser menor que 3 si la &eacute;sta contiene caracteres, n&uacute;meros y caracteres especiales.
 ps#:#ps_export_admin#:#Administradores
 ps#:#ps_export_confirm#:#Confirmación de Usuario al Entrar a los Cursos
 ps#:#ps_export_confirm_group#:#Confirmación de Usuario al Entrar a los grupos
@@ -9520,8 +9510,6 @@ rep#:#rep_intro4#:#En el siguiente formulario, introduzca un título y una descr
 rep#:#rep_intro5#:#Haciendo click en el título de la categoría puedes entrar dentro de la misma
 rep#:#rep_intro6#:#Después de ese procedimiento puedes añadir cualquier recurso de aprendizaje o trabajo a tus categorías.
 rep#:#rep_object_to_delete#:#Para borrar
-rep_robj_xavc#:#rep_robj_xavc_content#:#Contenido
-rep_robj_xavc#:#rep_robj_xavc_obj_xavc#:#Clase Virtual
 sahs#:#sahs_chapter#:#Cápitulo
 sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Por favor, seleccione solamente páginas, SCO o capítulos.
 sahs#:#sahs_insert_chapter#:#Insertar Capítulo
@@ -10974,4 +10962,102 @@ wiki#:#wiki_what_links_here#:#¿Qué enlaza aquí?
 wiki#:#wiki_what_links_to_page#:#¿Qué enlaza a la página "%s"?
 wiki#:#wiki_whole_wiki#:#Wiki completa
 wiki#:#wiki_wiki_page#:#Página Wiki
-wiki#:#wiki_wiki_search#:#Búsqueda Wiki
+wiki#:#wiki_wiki_search#:#Búsqueda Wikicommon#:#dd_mm_yyyy#:#DD.MM.YYYY###22 03 2011 new variable
+content#:#cont_localfile#:#Local File###22 03 2011 new variable
+survey#:#anonymize_with_code_all#:#Access with survey codes for all users###22 03 2011 new variable
+content#:#cont_wrong_answers_single#:#Incorrect Choice.###22 03 2011 new variable
+survey#:#question_changed_in_survey_only#:#Question was changed only in survey###22 03 2011 new variable
+style#:#style_move_style_into#:#Into###22 03 2011 new variable
+content#:#cont_added_tab#:#Tab created.###22 03 2011 new variable
+sahs#:#sahs_new_asset#:#New Asset###22 03 2011 new variable
+sahs#:#sahs_insert_ass#:#Insert Asset###22 03 2011 new variable
+common#:#obj_ass#:#Asset###22 03 2011 new variable
+book#:#book_schedule_warning#:#Currently, there is no schedule available. Before adding booking objects you need to create a schedule for booking.###22 03 2011 new variable
+common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature "Posting with pseudonym" is not available in forums anymore.###22 03 2011 new variable
+common#:#enable_anonymous_fora#:#Allow posting with pseudonym###22 03 2011 new variable
+content#:#cont_ed_insert_login_page_element#:#Insert Login Page Element###22 03 2011 new variable
+content#:#cont_insert_login_page_element#:#Insert Login Page Element###22 03 2011 new variable
+content#:#cont_update_login_page_element#:#Update Login Page Element###22 03 2011 new variable
+sahs#:#sahs_hide_objectives_page#:#Hide Description/Objectives Page###22 03 2011 new variable
+sahs#:#sahs_hide_objectives_page_info#:#If checked, the SCO description and objectives page will not be included in the presentation.###22 03 2011 new variable
+sahs#:#sahs_list_info#:#Use leading * for bullet lists or leading # for numbered lists.###22 03 2011 new variable
+auth#:#auth_radius_sync_rad#:#Automatic generation of user accounts###22 03 2011 new variable
+auth#:#auth_radius_sync_rad_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against Radius, without having an ILIAS account yet.###22 03 2011 new variable
+auth#:#auth_radius_ldap#:#Synchronization using LDAP###22 03 2011 new variable
+auth#:#auth_radius_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.###22 03 2011 new variable
+ldap#:#ldap_as_ds#:#Use as Data Source###22 03 2011 new variable
+ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS or Radius).###22 03 2011 new variable
+auth#:#auth_sync#:#User Synchronisation###22 03 2011 new variable
+auth#:#auth_sync_cas#:#Automatic generation of user accounts###22 03 2011 new variable
+auth#:#auth_sync_cas_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against CAS, without having an ILIAS account yet.###22 03 2011 new variable
+content#:#cont_final_sco_page#:#Final Page for SCOs###22 03 2011 new variable
+content#:#cont_final_lm_page#:#Final Page for Learning Module###22 03 2011 new variable
+content#:#cont_really_delete_special_pages#:#Do you really want to delete the following special pages?###22 03 2011 new variable
+content#:#cont_create_final_sco_page#:#Create Final Page for SCOs###22 03 2011 new variable
+content#:#cont_create_final_lm_page#:#Create Final Page for Learning Module###22 03 2011 new variable
+style#:#sty_rte_char#:#SCORM RTE###22 03 2011 new variable
+style#:#sty_type_rte_menu#:#RTE Menu###22 03 2011 new variable
+style#:#sty_type_rte_mlink#:#RTE Menu Link###22 03 2011 new variable
+style#:#sty_type_rte_tree#:#RTE Tree Section###22 03 2011 new variable
+content#:#page_does_not_exist#:#We are sorry, but this page does not exist.###22 03 2011 new variable
+rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled###22 03 2011 new variable
+rbac#:#precondition_not_obligatory_alt#:#Precondition is optional###22 03 2011 new variable
+rbac#:#active_preconditions#:#Active Preconditions###22 03 2011 new variable
+rbac#:#precondition_obligatory#:#Obligatory###22 03 2011 new variable
+rbac#:#precondition_obligatory_info#:#Obligatory preconditions must be fulfilled, for having access.###22 03 2011 new variable
+trac#:#trac_status_changed#:#Last Status Change###22 03 2011 new variable
+trac#:#trac_group_materials#:#Group Materials###22 03 2011 new variable
+trac#:#trac_release_materials#:#Disintegrate Material Group###22 03 2011 new variable
+common#:#preconditions_obligatory_hint#:#Please edit the following preconditions###22 03 2011 new variable
+common#:#preconditions_optional_hint#:#Please edit one of the following preconditions###22 03 2011 new variable
+style#:#sty_type_rte_node#:#RTE Tree Node###22 03 2011 new variable
+style#:#sty_type_rte_status#:#RTE Status###22 03 2011 new variable
+style#:#sty_type_rte_tlink#:#RTE Tree Node Link###22 03 2011 new variable
+style#:#sty_from#:#From###22 03 2011 new variable
+style#:#sty_to#:#To###22 03 2011 new variable
+style#:#sty_add_content_style#:#Add Content Style###22 03 2011 new variable
+style#:#sty_remove_global_default_state#:#Remove Global Default State###22 03 2011 new variable
+style#:#sty_remove_global_fixed_state#:#Remove Global Fixed State###22 03 2011 new variable
+style#:#sty_make_global_default#:#Make Global Default###22 03 2011 new variable
+style#:#sty_make_global_fixed#:#Make Global Fixed###22 03 2011 new variable
+content#:#cont_save_types#:#Save Types###22 03 2011 new variable
+content#:#cont_layout_template#:#Layout Template###22 03 2011 new variable
+content#:#cont_special_page#:#Special Content Page###22 03 2011 new variable
+wiki#:#wiki_public_comments#:#Public Comments###22 03 2011 new variable
+trac#:#trac_learning_progress_of#:#Lernfortschritt von %s###22 03 2011 new variable
+trac#:#trac_learning_progress_objects_description#:#This table shows an overview of all your courses and objects.###22 03 2011 new variable
+common#:#personal_workspace#:#Resources###22 03 2011 new variable
+wsp#:#wsp_personal_workspace#:#Resources###22 03 2011 new variable
+wsp#:#wsp_personal_workspace_description#:#Here you can manage your private files, blogs and artifacts.###22 03 2011 new variable
+wsp#:#wsp_navigation_folders#:#View Folder###22 03 2011 new variable
+wsp#:#wsp_root_folder#:#Resources###22 03 2011 new variable
+wsp#:#wsp_navigation_resource#:#Create New###22 03 2011 new variable
+wsp#:#wsp_type_file#:#File###22 03 2011 new variable
+wsp#:#wsp_type_wfld#:#Folder###22 03 2011 new variable
+wsp#:#wsp_type_blog#:#Blog###22 03 2011 new variable
+common#:#obj_wfld#:#Folder###22 03 2011 new variable
+common#:#obj_blog#:#Blog###22 03 2011 new variable
+wfld#:#wfld_new#:#Create New Folder###22 03 2011 new variable
+wfld#:#wfld_add#:#Create Folder###22 03 2011 new variable
+blog#:#blog_new#:#Create New Blog###22 03 2011 new variable
+blog#:#blog_add#:#Create Blog###22 03 2011 new variable
+blog#:#blog_add_posting#:#Add Posting###22 03 2011 new variable
+blog#:#blog_permanent_link#:#Permalink###22 03 2011 new variable
+blog#:#blog_comments#:#Comments###22 03 2011 new variable
+blog#:#blog_list_more#:#more###22 03 2011 new variable
+blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the following entry?###22 03 2011 new variable
+blog#:#blog_number_users_notes_or_comments#:#Number of users that attached notes or comments to this entry###22 03 2011 new variable
+blog#:#blog_posting_deleted#:#The entry has been deleted.###22 03 2011 new variable
+blog#:#blog_enable_notes#:#Public Comments###22 03 2011 new variable
+sahs#:#sahs_insert_ass_inside_chap#:#Insert Asset (inside chapter)###22 03 2011 new variable
+sahs#:#sahs_insert_sco_inside_chap#:#Insert SCO (inside chapter)###22 03 2011 new variable
+sahs#:#sahs_insert_sco_from_clip_inside_chap#:#Paste SCOs from Clipboard (inside chapter)###22 03 2011 new variable
+sahs#:#sahs_insert_ass_from_clip_inside_chap#:#Paste Assets from Clipboard (inside chapter)###22 03 2011 new variable
+sahs#:#sahs_insert_ass_from_clip#:#Paste Assets from Clipboard###22 03 2011 new variable
+sahs#:#sahs_insert_special_page#:#Insert Special Page###22 03 2011 new variable
+sahs#:#sahs_choose_page_template#:#Choose Page Template###22 03 2011 new variable
+sahs#:#sahs_choose_special_page#:#Choose Special Page###22 03 2011 new variable
+sahs#:#sahs_sco_final_message#:#You have successfully completed "%s".###22 03 2011 new variable
+content#:#cont_final_sco_page_info#:#A status page will be displayed at the end of a SCO, if all questions have been answered successfully.###22 03 2011 new variable
+content#:#cont_final_lm_page_info#:#A status page will be displayed, if all questions of the learning module have been answered successfully.###22 03 2011 new variable
+style#:#sty_type_sco_fmess#:#SCORM Final Message###22 03 2011 new variable

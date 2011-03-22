@@ -10969,9 +10969,6 @@ content#:#cont_added_tab#:#Tab created.
 sahs#:#sahs_new_asset#:#New Asset
 sahs#:#sahs_insert_ass#:#Insert Asset
 common#:#obj_ass#:#Asset
-content#:#cont_entry_page#:#Entry Page
-content#:#cont_create_entry_page#:#Create Entry Page
-content#:#cont_special_pages#:#Special Pages
 book#:#book_schedule_warning#:#Currently, there is no schedule available. Before adding booking objects you need to create a schedule for booking.
 common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature "Posting with pseudonym" is not available in forums anymore.
 common#:#enable_anonymous_fora#:#Allow posting with pseudonym
@@ -11057,3 +11054,7 @@ sahs#:#sahs_insert_ass_from_clip#:#Paste Assets from Clipboard
 sahs#:#sahs_insert_special_page#:#Insert Special Page
 sahs#:#sahs_choose_page_template#:#Choose Page Template
 sahs#:#sahs_choose_special_page#:#Choose Special Page
+sahs#:#sahs_sco_final_message#:#You have successfully completed "%s".
+content#:#cont_final_sco_page_info#:#A status page will be displayed at the end of a SCO, if all questions have been answered successfully.
+content#:#cont_final_lm_page_info#:#A status page will be displayed, if all questions of the learning module have been answered successfully.
+style#:#sty_type_sco_fmess#:#SCORM Final Message

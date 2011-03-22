@@ -81,7 +81,6 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setModuleVersion($lm_rec["module_version"]);
 			$this->setAssignedGlossary($lm_rec["glossary"]);
 			$this->setTries($lm_rec["question_tries"]);
-			$this->setEntryPage($lm_rec["entry_page"]);
 			$this->setFinalLMPage($lm_rec["final_lm_page"]);
 			$this->setFinalScoPage($lm_rec["final_sco_page"]);
 			$this->setSession(ilUtil::yn2tf($lm_rec["unlimited_session"]));
@@ -161,22 +160,6 @@ class ilObjSAHSLearningModule extends ilObject
 	function getTries()
 	{
 		return $this->tries;
-	}
-
-	/**
-	 * Set entry page (page id)
-	 */
-	public function setEntryPage($a_val)
-	{
-		$this->entry_page = $a_val;
-	}
-
-	/**
-	 * Get entry page (page id)
-	 */
-	public function getEntryPage()
-	{
-		return $this->entry_page;
 	}
 
 	/**
@@ -538,7 +521,6 @@ class ilObjSAHSLearningModule extends ilObject
 				no_menu = %s,
 				hide_navig = %s,
 				debug = %s,
-				entry_page = %s,
 				final_lm_page = %s,
 				final_sco_page = %s,
 				debugpw = %s
@@ -563,7 +545,6 @@ class ilObjSAHSLearningModule extends ilObject
 				'text',
 				'integer',
 				'integer',
-				'integer',
 				'text',
 				'integer'
 				), 
@@ -584,7 +565,6 @@ class ilObjSAHSLearningModule extends ilObject
 				ilUtil::tf2yn($this->getNoMenu()),
 				ilUtil::tf2yn($this->getHideNavig()),
 				ilUtil::tf2yn($this->getDebug()),
-				$this->getEntryPage(),
 				$this->getFinalLMPage(),
 				$this->getFinalScoPage(),
 				$this->getDebugPw(),

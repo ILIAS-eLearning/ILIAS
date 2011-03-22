@@ -284,6 +284,16 @@
 	<StyleParameter Name="margin-bottom" Value="20px"/>
 	<StyleParameter Name="margin-top" Value="5px"/>
 </Style>
+<Style Tag="div" Type="sco_fmess" Class="FinalMessage">
+	<StyleParameter Name="margin" Value="100px"/>
+	<StyleParameter Name="padding" Value="50px"/>
+	<StyleParameter Name="font-size" Value="125%"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-color" Value="#F0F0F0"/>
+	<StyleParameter Name="background-color" Value="#FAFAFA"/>
+	<StyleParameter Name="text-align" Value="center"/>
+</Style>
 
 <!-- RTE -->
 <Style Tag="div" Type="rte_menu" Class="RTEMenu">

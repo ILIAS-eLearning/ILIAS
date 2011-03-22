@@ -25,13 +25,43 @@ var pager =
 				//jQuery(this).hide();
 				jQuery(this).css("visibility", "hidden");
 			});
-
+		
+		pager.updateNextLink();
+	},
+	
+	updateNextLink: function()
+	{
 		var newPage = jQuery(pager.currentPage).nextAll('table.ilc_page_cont_PageContainer');
-		if (newPage.length==0)
+		var next_is_final_message = false;
+		
+		if (newPage.length == 1 && newPage[0].id == "sco_succ_message")
+		{
+			if(typeof finishSCO == 'function')
+			{
+				finishSCO();
+			}
+			if (ilias.questions.determineSuccessStatus() == "failed")
+			{
+				jQuery('a.ilc_page_rnavlink_RightNavigationLink').hide();
+			}
+			else
+			{
+				jQuery('a.ilc_page_rnavlink_RightNavigationLink').show();
+			}
+		}
+		else if (newPage.length==0)
 		{
 			jQuery('a.ilc_page_rnavlink_RightNavigationLink').hide();
+			if(typeof finishSCO == 'function') {
+				finishSCO();
+			}
+		}
+		else
+		{
+			jQuery('a.ilc_page_rnavlink_RightNavigationLink').show();
 		}
 	},
+	
 	NextPage : function()
 	{
 		var newPage = jQuery(pager.currentPage).nextAll('table.ilc_page_cont_PageContainer');
@@ -45,12 +75,7 @@ var pager =
 		
 			//jQuery('a.ilc_page_lnavlink_LeftNavigationLink').show();
 			jQuery('a.ilc_page_lnavlink_LeftNavigationLink').css("visibility", "");
-			if(newPage.length==1){
-				jQuery('a.ilc_page_rnavlink_RightNavigationLink').hide();
-				if(typeof finishSCO == 'function') {
-					finishSCO();
-				}
-			}	
+			pager.updateNextLink();
 		}
 	},
 	

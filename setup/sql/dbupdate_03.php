@@ -4187,3 +4187,11 @@ if(!$ilDB->tableExists('acl_ws'))
 
 	}
 ?>
+<#3245>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("FinalMessage", "sco_fmess", "div",
+		array("margin" => "100px", "padding" => "50px", "font-size" => "125%",
+			"border-width" => "1px", "border-style" => "solid", "border-color" => "#F0F0F0",
+			"background-color" => "#FAFAFA", "text-align" => "center"));
+?>
