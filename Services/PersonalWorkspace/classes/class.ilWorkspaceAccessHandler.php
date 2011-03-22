@@ -57,6 +57,8 @@ class ilWorkspaceAccessHandler
 	public function checkAccessOfUser(ilTree $a_tree, $a_user_id, $a_permission, $a_cmd, $a_node_id, $a_type = "")
 	{
 		global $rbacreview;
+
+		// :TODO: create permission for parent node with type ?!
 		
 		// tree root is read-only
 		if($a_permission == "write")
