@@ -693,7 +693,7 @@ class ilObjectGUI
 		$forms = array(
 			self::CFORM_NEW => $this->initCreateForm($a_new_type),
 			self::CFORM_IMPORT => $this->initImportForm($a_new_type),
-			self::CFORM_CLONE => $this->fillCloneTemplate(null, $new_type)
+			self::CFORM_CLONE => $this->fillCloneTemplate(null, $a_new_type)
 			);
 
 		return $forms;
@@ -926,7 +926,7 @@ class ilObjectGUI
 
 		$form->addCommandButton("update", $this->lng->txt("save"));
 		//$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
-		$form->setTitle($this->lng->txt("edit"));
+		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
 
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -1042,7 +1042,7 @@ class ilObjectGUI
 	/**
 	 * Import
 	 */
-	function importFile()
+	function importFileObject()
 	{
 		global $rbacsystem, $objDefinition, $tpl, $ilErr;
 
@@ -1074,7 +1074,7 @@ class ilObjectGUI
 
 				$this->putObjectInTree($newObj, $parent_id);
 				
-				$this->afterSave($newObj);
+				$this->afterImport($newObj);
 			}
 			return;
 		}
@@ -1082,6 +1082,17 @@ class ilObjectGUI
 		// display form to correct errors
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHtml());
+	}
+
+	/**
+	 * Post (successful) object import hook
+	 *
+	 * @param ilObject $a_new_object
+	 */
+	protected function afterImport(ilObject $a_new_object)
+	{
+		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+		$this->ctrl->returnToParent($this);
 	}
 
 	/**
@@ -1553,11 +1564,15 @@ class ilObjectGUI
 		$cp = new ilObjectCopyGUI($this);
 		$cp->setType($a_type);
 		$cp->setTarget($_GET['ref_id']);
-		$cp->showSourceSearch($a_tpl_varname);
-		return;
+		if($a_tpl_varname)
+		{
+			$cp->showSourceSearch($a_tpl_varname);
+		}
+		else
+		{
+			return $cp->showSourceSearch(null);
+		}
 	}
-	
-	
 	
 	/**
 	 * Clone single (not container object)

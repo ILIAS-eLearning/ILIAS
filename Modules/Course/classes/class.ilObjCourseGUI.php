@@ -146,125 +146,18 @@ class ilObjCourseGUI extends ilContainerGUI
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location,"",false,false));
 	}
 
-	function createObject()
-	{
-		global $rbacsystem;
-
-		// CHECK ACCESS
-		if(!$rbacsystem->checkAccess("create",$_GET["ref_id"],'crs'))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create"),$this->ilias->error_obj->MESSAGE);
-		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_create.html",'Modules/Course');
-		
-		$this->ctrl->setParameter($this, "new_type",'crs');
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "save"));
-		
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("crs_new"));
-		$this->tpl->setVariable("TYPE_IMG",
-			ilUtil::getImagePath("icon_crs.gif"));
-		$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_crs"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("crs_add"));
-		$this->tpl->setVariable("CMD_SUBMIT", "save");
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
-		$this->tpl->setVariable("TXT_DESC",$this->lng->txt('desc'));
-
-		$this->initCreateForm();
-		$this->tpl->setVariable('CRS_NEW',$this->form_gui->getHTML());
-
-		$this->initImportForm("crs");
-		$this->tpl->setVariable("IMPORT_FORM", $this->form->getHTML());
-
-		$this->fillCloneTemplate('DUPLICATE','crs');
-
-		return true;
-	}
-	
-	// Creation form
-	public function initCreateForm()
-	{
-		global $lng,$ilCtrl;
-		
-		$lng->loadLanguageModule("form");
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form_gui = new ilPropertyFormGUI();
-		$this->form_gui->setTableWidth("600px");
-		$this->form_gui->setTitle($lng->txt("crs_new"));
-		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_crs.gif"));
-		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
-
-		
-		// on creation: Type
-		$type_input = new ilHiddenInputGUI("new_type");
-		$type_input->setValue("crs");
-		$this->form_gui->addItem($type_input);
-		
-		// Title
-		$title_input = new ilTextInputGUI($lng->txt("title"), "title");
-		$title_input->setRequired(true);
-		$title_input->setMaxLength(128);
-		$this->form_gui->addItem($title_input);
-		
-		// Description
-		$desc_input = new ilTextAreaInputGUI($lng->txt("desc"), "desc");
-		$this->form_gui->addItem($desc_input);
-		
-
-		$this->form_gui->addCommandButton("save", $lng->txt("save"));
-		$this->form_gui->addCommandButton("cancel", $lng->txt("cancel"));
-	}
-	
 	/**
-	 * Init object import form
-	 *
-	 * @param        string        new type
-	 */
-	public function initImportForm($a_new_type = "")
-	{
-		global $lng, $ilCtrl;
-
-		$lng->loadLanguageModule("crs");
-
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setTableWidth('600px');
-		$this->form->setTarget("_top");
-
-		// Import file
-		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
-		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
-		$fi->setSuffixes(array("zip"));
-		$fi->setRequired(true);
-		$this->form->addItem($fi);
-
-		$this->form->addCommandButton("importFile", $lng->txt("import"));
-		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
-		$this->form->setTitle($lng->txt($a_new_type."_import"));
-
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
-	}
-	
-	/**
-	 * import file
+	 * add course admin after import file
 	 * @return 
 	 */
-	public function importFileObject()
+	protected function afterImport(ilObject $a_new_object)
 	{
-		global $lng,$ilUser;
-		
-		if($new_id = parent::importFileObject())
-		{
-			$part = new ilCourseParticipants($new_id);
-			$part->add($ilUser->getId(),ilCourseConstants::CRS_ADMIN);
-			$part->updateNotification($ilUser->getId(),1);
+		$part = new ilCourseParticipants($a_new_object->getId());
+		$part->add($ilUser->getId(), ilCourseConstants::CRS_ADMIN);
+		$part->updateNotification($ilUser->getId(), 1);
 
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-			$this->ctrl->returnToParent($this);
-		}
+		parent::afterImport($a_new_object);
 	}
-
 
 	function renderObject()
 	{
@@ -830,9 +723,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('crs_info_settings');
 	 	
-	 	$this->initInfoEditor();
+	 	$form = $this->initInfoEditor();
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.edit_info.html','Modules/Course');
-		$this->tpl->setVariable('INFO_TABLE',$this->form->getHTML());
+		$this->tpl->setVariable('INFO_TABLE',$form->getHTML());
 		
 		if(!count($files = ilCourseFile::_readFilesByCourse($this->object->getId())))
 		{
@@ -946,74 +839,74 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 	
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($this->ctrl->getFormAction($this,'updateInfo'));
-		$this->form->setMultipart(true);
-		$this->form->setTitle($this->lng->txt('crs_general_info'));
-		$this->form->addCommandButton('updateInfo',$this->lng->txt('save'));
-		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this,'updateInfo'));
+		$form->setMultipart(true);
+		$form->setTitle($this->lng->txt('crs_general_info'));
+		$form->addCommandButton('updateInfo',$this->lng->txt('save'));
+		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 		$area = new ilTextAreaInputGUI($this->lng->txt('crs_important_info'),'important');
 		$area->setValue($this->object->getImportantInformation());
 		$area->setRows(6);
 		$area->setCols(80);
-		$this->form->addItem($area);
+		$form->addItem($area);
 		
 		$area = new ilTextAreaInputGUI($this->lng->txt('crs_syllabus'),'syllabus');
 		$area->setValue($this->object->getSyllabus());
 		$area->setRows(6);
 		$area->setCols(80);
-		$this->form->addItem($area);
+		$form->addItem($area);
 		
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('crs_info_download'));
-		$this->form->addItem($section);
+		$form->addItem($section);
 		
 		$file = new ilFileInputGUI($this->lng->txt('crs_file'),'file');
 		$file->enableFileNameSelection('file_name');
-		$this->form->addItem($file);
+		$form->addItem($file);
 		
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('crs_contact'));
-		$this->form->addItem($section);
+		$form->addItem($section);
 		
 		$text = new ilTextInputGUI($this->lng->txt('crs_contact_name'),'contact_name');
 		$text->setValue($this->object->getContactName());
 		$text->setSize(40);
 		$text->setMaxLength(70);
-		$this->form->addItem($text);
+		$form->addItem($text);
 		
 		$text = new ilTextInputGUI($this->lng->txt('crs_contact_responsibility'),'contact_responsibility');
 		$text->setValue($this->object->getContactResponsibility());
 		$text->setSize(40);
 		$text->setMaxLength(70);
-		$this->form->addItem($text);
+		$form->addItem($text);
 
 		$text = new ilTextInputGUI($this->lng->txt('crs_contact_phone'),'contact_phone');
 		$text->setValue($this->object->getContactPhone());
 		$text->setSize(40);
 		$text->setMaxLength(40);
-		$this->form->addItem($text);
+		$form->addItem($text);
 
 		$text = new ilTextInputGUI($this->lng->txt('crs_contact_email'),'contact_email');
 		$text->setValue($this->object->getContactEmail());
 		$text->setInfo($this->lng->txt('crs_contact_email_info'));
 		$text->setSize(40);
 		$text->setMaxLength(255);
-		$this->form->addItem($text);
+		$form->addItem($text);
 
 		$area = new ilTextAreaInputGUI($this->lng->txt('crs_contact_consultation'),'contact_consultation');
 		$area->setValue($this->object->getContactConsultation());
 		$area->setRows(6);
 		$area->setCols(80);
-		$this->form->addItem($area);
+		$form->addItem($area);
 		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'crs',$this->object->getId());
 		$record_gui->setPropertyForm($this->form);
 		$record_gui->parse();
 
-		return true;
+		return $form;
 	}
 	
 	function updateInfoObject()
@@ -1149,7 +1042,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->editObject();
 			return false;
 		}
-		
 	}
 
 	/**
@@ -1208,7 +1100,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 	
-	
 	/**
 	 * edit object
 	 *
@@ -1217,15 +1108,11 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function editObject()
 	{
-		$this->checkPermission('write');
+		parent::editObject();
 		
 		$this->setSubTabs('properties');
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('crs_settings');
-		
-		$this->initForm();
-
-		$this->tpl->setContent($this->form->getHTML());
 	}
 	
 	/**
@@ -1235,23 +1122,19 @@ class ilObjCourseGUI extends ilContainerGUI
 	 * @param
 	 * @return
 	 */
-	protected function initForm()
+	protected function initEditForm()
 	{
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		include_once('./Services/Calendar/classes/class.ilDateTime.php');
 		
-		if(!is_object($this->form))
-		{
-			$this->form = new ilPropertyFormGUI();
-		}
-
-		$this->form->setTitle($this->lng->txt('crs_edit'));
-		$this->form->setTitleIcon(ilUtil::getImagePath('icon_crs_s.gif'));
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('crs_edit'));
+		$form->setTitleIcon(ilUtil::getImagePath('icon_crs_s.gif'));
 	
-		$this->form->addCommandButton('update',$this->lng->txt('save'));
-		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		$form->addCommandButton('update',$this->lng->txt('save'));
+		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
-		$this->form->setFormAction($this->ctrl->getFormAction($this,'update'));
+		$form->setFormAction($this->ctrl->getFormAction($this,'update'));
 		
 		// title
 		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
@@ -1260,14 +1143,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		$title->setSize(40);
 		$title->setMaxLength(128);
 		$title->setRequired(true);
-		$this->form->addItem($title);
+		$form->addItem($title);
 		
 		// desc
 		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
 		$desc->setValue($this->object->getLongDescription());
 		$desc->setRows(2);
 		$desc->setCols(40);
-		$this->form->addItem($desc);
+		$form->addItem($desc);
 		
 		// reg type
 		$act_type = new ilRadioGroupInputGUI($this->lng->txt('crs_visibility'),'activation_type');
@@ -1300,11 +1183,11 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 			$act_type->addOption($opt);
 		
-		$this->form->addItem($act_type);
+		$form->addItem($act_type);
 		
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('crs_reg'));
-		$this->form->addItem($section);
+		$form->addItem($section);
 		
 		$reg_type = new ilRadioGroupInputGUI($this->lng->txt('crs_reg_period'),'subscription_limitation_type');
 		$reg_type->setValue($this->object->getSubscriptionLimitationType());		
@@ -1334,7 +1217,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 			$reg_type->addOption($opt);
 
-		$this->form->addItem($reg_type);
+		$form->addItem($reg_type);
 		
 		
 		
@@ -1359,7 +1242,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$opt->addSubItem($pass);
 			$reg_proc->addOption($opt);
 
-		$this->form->addItem($reg_proc);
+		$form->addItem($reg_proc);
 		
 		// Registration codes
 		$reg_code = new ilCheckboxInputGUI('','reg_code_enabled');
@@ -1383,7 +1266,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		$reg_link = new ilHiddenInputGUI('reg_code');
 		$reg_link->setValue($this->object->getRegistrationAccessCode());
-		$this->form->addItem($reg_link);
+		$form->addItem($reg_link);
 		
 		
 		$link = new ilCustomInputGUI($this->lng->txt('crs_reg_code_link'));
@@ -1392,7 +1275,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$link->setHTML('<font class="small">'.$val.'</font>');
 		$reg_code->addSubItem($link);
 		
-		$this->form->addItem($reg_code);
+		$form->addItem($reg_code);
 		
 		
 		// Max members
@@ -1417,13 +1300,13 @@ class ilObjCourseGUI extends ilContainerGUI
 			$wait->setInfo($this->lng->txt('crs_wait_info'));
 			$lim->addSubItem($wait);
 		
-		$this->form->addItem($lim);
+		$form->addItem($lim);
 	
 		
 		$pres = new ilFormSectionHeaderGUI();
 		$pres->setTitle($this->lng->txt('crs_view_mode'));
 		
-		$this->form->addItem($pres);
+		$form->addItem($pres);
 		
 		// presentation type
 		$view_type = new ilRadioGroupInputGUI($this->lng->txt('crs_presentation_type'),'view_mode');
@@ -1472,7 +1355,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 			$view_type->addOption($opt);
 		*/
-		$this->form->addItem($view_type);
+		$form->addItem($view_type);
 		
 		// sorting type
 		$sort = new ilRadioGroupInputGUI($this->lng->txt('crs_sortorder_abo'),'order_type');
@@ -1491,7 +1374,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$sort->addOption($opt);
 			
 
-		$this->form->addItem($sort);
+		$form->addItem($sort);
 
 		$sess = new ilCheckboxInputGUI($this->lng->txt('sess_limit'),'sl');
 		$sess->setValue(1);
@@ -1520,23 +1403,25 @@ class ilObjCourseGUI extends ilContainerGUI
 			$next->setMaxLength(3);
 			$sess->addSubItem($next);
 			
-		$this->form->addItem($sess);
+		$form->addItem($sess);
 		
 		$further = new ilFormSectionHeaderGUI();
 		$further->setTitle($this->lng->txt('crs_further_settings'));
-		$this->form->addItem($further);
+		$form->addItem($further);
 		
 		$desk = new ilCheckboxInputGUI($this->lng->txt('crs_add_remove_from_desktop'),'abo');
 		$desk->setChecked($this->object->getAboStatus());
 		$desk->setInfo($this->lng->txt('crs_add_remove_from_desktop_info'));
-		$this->form->addItem($desk);
+		$form->addItem($desk);
 		
 		$mem = new ilCheckboxInputGUI($this->lng->txt('crs_show_members'),'show_members');
 		$mem->setChecked($this->object->getShowMembers());
 		$mem->setInfo($this->lng->txt('crs_show_members_info'));
-		$this->form->addItem($mem);
+		$form->addItem($mem);
 		
-		$this->fillECSExportSettings();
+		$this->fillECSExportSettings($form);
+
+		return $form;
 	}
 				
 	/**
@@ -1546,7 +1431,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 * @param
 	 * @return
 	 */
-	protected function fillECSExportSettings()
+	protected function fillECSExportSettings(ilPropertyFormGUI $a_form)
 	{
 		global $ilLog;
 		
@@ -1563,7 +1448,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$ecs = new ilFormSectionHeaderGUI();
 		$ecs->setTitle($this->lng->txt('ecs_export'));
-		$this->form->addItem($ecs);
+		$a_form->addItem($ecs);
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
 		$ecs_export = new ilECSExport($this->object->getId());
@@ -1578,7 +1463,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$on = new ilRadioOption($this->lng->txt('ecs_export_enabled'),1);
 			$exp->addOption($on);
 			
-		$this->form->addItem($exp);
+		$a_form->addItem($exp);
 
 		try
 		{
@@ -1632,7 +1517,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$hidden = new ilHiddenInputGUI('ecs_owner');
 				$owner_ids = $reader->getOwnMIDs();
 				$hidden->setValue($owner_ids[0]);
-				$this->form->addItem($hidden);
+				$a_form->addItem($hidden);
 			}
 			
 			#$publish_for = new ilCustomInputGUI('','');
@@ -1901,44 +1786,31 @@ class ilObjCourseGUI extends ilContainerGUI
 	* save object
 	* @access	public
 	*/
-	function saveObject()
+	function afterSave(ilObject $a_new_object)
 	{
-		global $rbacadmin,$ilUser;
+		global $rbacadmin, $ilUser;
 		
-		if(!$_POST['title'])
-		{
-			ilUtil::sendFailure($this->lng->txt('title_required'));
-			$this->createObject();
-			return false;
-		}
-		$newObj =& parent::saveObject();
-		$newObj->setTitle(ilUtil::stripSlashes($_POST['title']));
-		$newObj->setDescription(ilUtil::stripSlashes($_POST['desc']));
-		$newObj->initCourseMemberObject();
-		$newObj->members_obj->add($ilUser->getId(),IL_CRS_ADMIN);
-		$newObj->members_obj->updateNotification($ilUser->getId(),1);
-		$newObj->update();
-		
+		$a_new_object->initCourseMemberObject();
+		$a_new_object->members_obj->add($ilUser->getId(),IL_CRS_ADMIN);
+		$a_new_object->members_obj->updateNotification($ilUser->getId(),1);
+		$a_new_object->update();
 		
 		// BEGIN ChangeEvent: Record write event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 		if (ilChangeEvent::_isActive())
 		{
 			global $ilUser;
-			ilChangeEvent::_recordWriteEvent($newObj->getId(), $ilUser->getId(), 'create');
+			ilChangeEvent::_recordWriteEvent($a_new_object->getId(), $ilUser->getId(), 'create');
 		}
 		// END ChangeEvent: Record write event.
 
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("crs_added"),true);
 		
-		$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
+		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
 		ilUtil::redirect($this->getReturnLocation("save",
 			$this->ctrl->getLinkTarget($this, "edit", "", false, false)));
 	}
-
-
-
 	
 	function downloadArchivesObject()
 	{
