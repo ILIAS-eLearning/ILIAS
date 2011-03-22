@@ -648,7 +648,7 @@ class ilObjectCopyGUI
 		{
 			return false;
 		}
-		
+
 		$this->unsetSession();
 		$this->initFormSearch();
 
