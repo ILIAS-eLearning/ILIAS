@@ -4195,3 +4195,7 @@ if(!$ilDB->tableExists('acl_ws'))
 			"border-width" => "1px", "border-style" => "solid", "border-color" => "#F0F0F0",
 			"background-color" => "#FAFAFA", "text-align" => "center"));
 ?>
+<#3246>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
