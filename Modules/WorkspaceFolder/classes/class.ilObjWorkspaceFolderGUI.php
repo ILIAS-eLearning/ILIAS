@@ -36,7 +36,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 		if ($this->getAccessHandler()->checkAccess('write', '', $this->node_id))
 		{
-			$this->tabs_gui->addTab("id_edit",
+			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "edit"));
 		}

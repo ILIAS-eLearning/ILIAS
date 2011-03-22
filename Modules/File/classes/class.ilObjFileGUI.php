@@ -508,7 +508,7 @@ class ilObjFileGUI extends ilObject2GUI
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"));
 		}
 
-		$ilTabs->activateTab("id_edit");
+		$ilTabs->activateTab("settings");
 
 		$this->initPropertiesForm('edit');
 		$this->getPropertiesValues('edit');
@@ -716,7 +716,7 @@ class ilObjFileGUI extends ilObject2GUI
 
 		if ($this->getAccessHandler()->checkAccess("write", "", $this->node_id))
 		{
-			$ilTabs->addTab("id_edit",
+			$ilTabs->addTab("settings",
 				$lng->txt("edit"),
 				$this->ctrl->getLinkTarget($this, "edit"));
 		}

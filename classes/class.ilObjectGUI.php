@@ -644,6 +644,18 @@ class ilObjectGUI
 	}
 
 	/**
+	* cancel action and go back to previous page
+	* @access	public
+	*
+	*/
+	public function cancelObject($in_rep = false)
+	{
+		session_unregister("saved_post");
+
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
 	* create new object form
 	*
 	* @access	public
@@ -694,29 +706,44 @@ class ilObjectGUI
 	 */
 	final protected function getCreationFormsHTML(array $a_forms)
 	{
-		include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+		global $tpl;
 
-		$acc = new ilAccordionGUI();
-		$acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
-		$cnt = 1;
-		foreach ($a_forms as $cf)
+		// no accordion if there is just one form
+		if(sizeof($a_forms) == 1)
 		{
-			if (get_class($cf) == "ilPropertyFormGUI")
+			$a_forms = array_shift($a_forms);
+			if (get_class($a_forms) == "ilPropertyFormGUI")
 			{
-				$htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
-				$htpl->setVariable("IMG_ARROW", ilUtil::getImagePath("accordion_arrow.gif"));
-
-				$htpl->setVariable("TITLE", $this->lng->txt("option")." ".$cnt.": ".
-					$cf->getTitle());
-
-				$cf->setTitle(null);
-				$acc->addItem($htpl->get(), $cf->getHTML());
-
-				$cnt++;
+				return $a_forms->getHTML();
 			}
 		}
+		else
+		{
+			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 
-		return $acc->getHTML();
+			$acc = new ilAccordionGUI();
+			$acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
+			$cnt = 1;
+			foreach ($a_forms as $cf)
+			{
+				if (get_class($cf) == "ilPropertyFormGUI")
+				{
+					$htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
+					$htpl->setVariable("IMG_ARROW", ilUtil::getImagePath("accordion_arrow.gif"));
+
+					// move title from form to accordion
+					$htpl->setVariable("TITLE", $this->lng->txt("option")." ".$cnt.": ".
+						$cf->getTitle());
+					$cf->setTitle(null);
+					
+					$acc->addItem($htpl->get(), $cf->getHTML());
+
+					$cnt++;
+				}
+			}
+
+			return $acc->getHTML();
+		}
 	}
 
 	/**
@@ -875,6 +902,8 @@ class ilObjectGUI
 	protected function initEditForm()
 	{
 		global $lng, $ilCtrl;
+
+		$lng->loadLanguageModule($this->object->getType());
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();

@@ -24,26 +24,32 @@ class ilObjBlogGUI extends ilObject2GUI
 		return "blog";
 	}
 
-	protected function initCustomEditForm()
+	protected function initCreationForms($a_new_type)
+	{
+		$forms = parent::initCreationForms($a_new_type);
+
+		unset($forms[self::CFORM_IMPORT]);
+		unset($forms[self::CFORM_CLONE]);
+		
+		return $forms;
+	}
+
+	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
 		global $lng;
 
-		$lng->loadLanguageModule("blog");
-		
 		$notes = new ilCheckboxInputGUI($lng->txt("blog_enable_notes"), "notes");
-		$this->form->addItem($notes);		
+		$a_form->addItem($notes);
 	}
 
-	protected function initCustomEditValues(array &$a_values)
+	protected function getEditFormCustomValues(array &$a_values)
 	{
 		$a_values["notes"] = $this->object->getNotesStatus();
 	}
 
-	protected function afterUpdate()
+	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
-		$this->object->updateNotesStatus($this->form->getInput("notes"));
-
-		parent::afterUpdate();
+		$this->object->updateNotesStatus($a_form->getInput("notes"));
 	}
 
 	function setTabs()
@@ -61,7 +67,7 @@ class ilObjBlogGUI extends ilObject2GUI
 
 		if ($this->getAccessHandler()->checkAccess('write', '', $this->node_id))
 		{
-			$this->tabs_gui->addTab("id_edit",
+			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "edit"));
 		}
