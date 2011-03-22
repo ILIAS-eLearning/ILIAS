@@ -26,16 +26,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	var $output_prepared;
 
 	/**
-	* Constructor
-	*
-	* @access	public
-	*/
-	function __construct($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = false)
-	{
-		parent::__construct($a_id, $a_call_by_reference);
-	}
-	
-	/**
 	* Initialisation
 	*/
 	protected function afterConstructor()
@@ -294,113 +284,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		}
 	}
 
-	/**
-	 * Init creation forms
-	 */
-	function initCreationForms()
-	{
-		$this->deactivateCreationForm(ilObject2GUI::CFORM_CLONE);
-	}
-	
-	
 	function createMediaObject()
 	{
 		$this->ctrl->redirectByClass("ilobjmediaobjectgui", "create");
 	}
-	
-	// for admin compatiblity
-	function view()
-	{
-		$this->viewObject();
-	}
 
 	/**
-	* Init object creation form
-	*
-	* @param        int        $a_mode        Edit Mode
-	*/
-	public function initEditForm($a_mode = "edit", $a_new_type = "")
-	{
-		global $lng, $ilCtrl;
-	
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-		if ($a_mode != "edit")
-		{
-			$this->form->setTarget("_top");
-		}
-	
-		// title
-		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$ti->setMaxLength(128);
-		$ti->setSize(40);
-		$ti->setRequired(true);
-		$this->form->addItem($ti);
-		
-		// description
-		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-		$ta->setCols(40);
-		$ta->setRows(2);
-		$this->form->addItem($ta);
-		
-		if ($a_mode == "edit")
-		{
-			// default width
-			$ni = new ilNumberInputGUI($this->lng->txt("mep_default_width"), "default_width");
-			$ni->setMinValue(0);
-			$ni->setMaxLength(5);
-			$ni->setSize(5);
-			$this->form->addItem($ni);
-			
-			// default height
-			$ni = new ilNumberInputGUI($this->lng->txt("mep_default_height"), "default_height");
-			$ni->setMinValue(0);
-			$ni->setMaxLength(5);
-			$ni->setSize(5);
-			$ni->setInfo($this->lng->txt("mep_default_width_height_info"));
-			$this->form->addItem($ni);
-		}
-	
-		// save and cancel commands
-		if ($a_mode == "create")
-		{
-			$this->form->addCommandButton("save", $lng->txt($a_new_type."_add"));
-			$this->form->addCommandButton("cancelCreation", $lng->txt("cancel"));
-			$this->form->setTitle($lng->txt($a_new_type."_new"));
-		}
-		else
-		{
-			$this->form->addCommandButton("update", $lng->txt("save"));
-			//$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
-			$this->form->setTitle($lng->txt("edit"));
-		}
-	                
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
-	 
-	}
-
-	/**
-	* Get values for edit form
-	*/
-	function getEditFormValues()
-	{
-		$values["title"] = $this->object->getTitle();
-		$values["desc"] = $this->object->getDescription();
-		if ($this->object->getDefaultWidth() > 0)
-		{
-			$values["default_width"] = $this->object->getDefaultWidth();
-		}
-		if ($this->object->getDefaultHeight() > 0)
-		{
-			$values["default_height"] = $this->object->getDefaultHeight();
-		}
-		$this->form->setValuesByArray($values);
-	}
-
-	/**
-	* save object
-	* @access	public
-	*/
+	 * save object
+	 */
 	function afterSave($newObj)
 	{
 		// always send a message
@@ -410,86 +301,40 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=".$newObj->getRefId()."&cmd=edit");
 	}
 
-	/**
-	* edit properties of object (admin form)
-	*
-	* @access	public
-	*/
-	function editObject()
+	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
-		global $ilAccess, $tree, $tpl;
+		// default width
+		$ni = new ilNumberInputGUI($this->lng->txt("mep_default_width"), "default_width");
+		$ni->setMinValue(0);
+		$ni->setMaxLength(5);
+		$ni->setSize(5);
+		$a_form->addItem($ni);
 
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		// default height
+		$ni = new ilNumberInputGUI($this->lng->txt("mep_default_height"), "default_height");
+		$ni->setMinValue(0);
+		$ni->setMaxLength(5);
+		$ni->setSize(5);
+		$ni->setInfo($this->lng->txt("mep_default_width_height_info"));
+		$a_form->addItem($ni);
+	}
+
+	protected function getEditFormCustomValues(array &$a_values)
+	{
+		if ($this->object->getDefaultWidth() > 0)
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$a_values["default_width"] = $this->object->getDefaultWidth();
 		}
-
-		// edit button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		parent::editObject();
-	}
-
-	/**
-	* edit properties of object (module form)
-	*/
-	function edit()
-	{
-		$this->editObject();
-//		$this->tpl->show();
-	}
-
-	/**
-	* cancel editing
-	*/
-	protected function cancel()
-	{
-		$this->ctrl->redirect($this, $_GET["mep_mode"] ? $_GET["mep_mode"] : "listMedia");
-	}
-
-	/**
-	* update properties
-	*/
-	function update()
-	{
-		global $ilAccess;
-
-		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		if ($this->object->getDefaultHeight() > 0)
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$a_values["default_height"] = $this->object->getDefaultHeight();
 		}
-
-		$this->updateObject();
 	}
 
-	/**
-	* updates object entry in object_data
-	*
-	* @access	public
-	*/
-	function updateObject()
+	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
-		global $lng, $tpl;
-		
-		$this->initEditForm("edit");
-		if ($this->form->checkInput())
-		{
-			$this->object->setTitle($_POST["title"]);
-			$this->object->setDescription($_POST["desc"]);
-			$this->object->setDefaultWidth($_POST["default_width"]);
-			$this->object->setDefaultHeight($_POST["default_height"]);
-			$this->update = $this->object->update();
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-			$this->afterUpdate();
-			return;
-		}
-		$this->form->setValuesByPost();
-		$tpl->setContent($this->form->getHtml());
-	}
-
-	function afterUpdate()
-	{
-		$this->ctrl->redirect($this, "edit");
+		$this->object->setDefaultWidth($a_form->getInput("default_width"));
+		$this->object->setDefaultHeight($a_form->getInput("default_height"));
 	}
 
 	/**

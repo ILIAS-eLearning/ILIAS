@@ -74,6 +74,10 @@ class ilObjectGUI
 	var $sub_objects;
 	var $omit_locator = false;
 
+	const CFORM_NEW = 1;
+	const CFORM_IMPORT = 2;
+	const CFORM_CLONE = 3;
+
 	/**
 	* Constructor
 	* @access	public
@@ -646,9 +650,9 @@ class ilObjectGUI
 	*/
 	public function createObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $tpl;
 
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		$new_type = $_REQUEST["new_type"];
 
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
@@ -656,54 +660,110 @@ class ilObjectGUI
 		}
 		else
 		{
-			// fill in saved values in case of error
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
-
-			$this->getTemplateFile("edit",$new_type);
-			
-			// show obj type image
-			$this->tpl->setCurrentBlock("img");
-			$this->tpl->setVariable("TYPE_IMG",
-				ilUtil::getImagePath("icon_".$new_type.".gif"));
-			$this->tpl->setVariable("ALT_IMG",
-				$this->lng->txt("obj_".$new_type));
-			$this->tpl->parseCurrentBlock();
-
-			foreach ($data["fields"] as $key => $val)
-			{
-				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
-
-				if ($this->prepare_output)
-				{
-					$this->tpl->parseCurrentBlock();
-				}
-			}
+			$this->lng->loadLanguageModule($new_type);
 			$this->ctrl->setParameter($this, "new_type", $new_type);
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "save"));
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
-			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+			
+			$forms = $this->initCreationForms($new_type);
+			$tpl->setContent($this->getCreationFormsHTML($forms));
 		}
 	}
-	
 
 	/**
-	* cancel action and go back to previous page
-	* @access	public
-	*
-	*/
-	public function cancelObject($in_rep = false)
+	 * Init creation froms
+	 *
+	 * this will create the default creation forms: new, import, clone
+	 *
+	 * @param	string	$a_new_type
+	 * @return	array
+	 */
+	protected function initCreationForms($a_new_type)
 	{
-		session_unregister("saved_post");
+		$forms = array(
+			self::CFORM_NEW => $this->initCreateForm($a_new_type),
+			self::CFORM_IMPORT => $this->initImportForm($a_new_type),
+			self::CFORM_CLONE => $this->fillCloneTemplate(null, $new_type)
+			);
 
-		$this->ctrl->returnToParent($this);
+		return $forms;
+	}
+
+	/**
+	 * Get HTML for creation forms (accordion)
+	 *
+	 * @param array $a_forms
+	 */
+	final protected function getCreationFormsHTML(array $a_forms)
+	{
+		include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+
+		$acc = new ilAccordionGUI();
+		$acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
+		$cnt = 1;
+		foreach ($a_forms as $cf)
+		{
+			if (get_class($cf) == "ilPropertyFormGUI")
+			{
+				$htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
+				$htpl->setVariable("IMG_ARROW", ilUtil::getImagePath("accordion_arrow.gif"));
+
+				$htpl->setVariable("TITLE", $this->lng->txt("option")." ".$cnt.": ".
+					$cf->getTitle());
+
+				$cf->setTitle(null);
+				$acc->addItem($htpl->get(), $cf->getHTML());
+
+				$cnt++;
+			}
+		}
+
+		return $acc->getHTML();
+	}
+
+	/**
+	 * Init object creation form
+	 *
+	 * @param	string	$a_new_type
+	 * @return	ilPropertyFormGUI
+	 */
+	public function initCreateForm($a_new_type)
+	{
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setTarget("_top");
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt($a_new_type."_new"));
+
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setMaxLength(128);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$form->addItem($ti);
+
+		// description
+		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$ta->setCols(40);
+		$ta->setRows(2);
+		$form->addItem($ta);
+
+		$form->addCommandButton("save", $this->lng->txt($a_new_type."_add"));
+		$form->addCommandButton("cancelCreation", $this->lng->txt("cancel"));
+
+		/*
+		$form->addCommandButton("update", $lng->txt("save"));
+		$form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+		$form->setTitle($lng->txt("edit"));
+		*/
+
+		return $form;
+	}
+
+	/**
+	 * cancel create action and go back to repository parent
+	 */
+	public function cancelCreation()
+	{
+		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
 	}
 
 	/**
@@ -715,124 +775,284 @@ class ilObjectGUI
 	{
 		global $rbacsystem, $objDefinition, $rbacreview;
 
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		$parent_id = $_GET["ref_id"];
+		$new_type = $_REQUEST["new_type"];
+		
+		$this->lng->loadLanguageModule($new_type);
+		$this->ctrl->setParameter($this, "new_type", $new_type);
 
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		if (!$rbacsystem->checkAccess("create", $parent_id, $new_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 		}
-//echo ":".$_GET["new_type"].":".$_POST["new_type"].":";
-		$location = $objDefinition->getLocation($new_type);
 
-			// create and insert object in objecttree
-		$class_name = "ilObj".$objDefinition->getClassName($new_type);
-		include_once($location."/class.".$class_name.".php");
-		$newObj = new $class_name();
-		$newObj->setType($new_type);
-		$newObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-		$newObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$newObj->create();
-		$newObj->createReference();
-		$newObj->putInTree($_GET["ref_id"]);
-		$newObj->setPermissions($_GET["ref_id"]);
-		//$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+		$form = $this->initCreateForm($new_type);
+		if ($form->checkInput())
+		{
+			// create instance
+			$class_name = "ilObj".$objDefinition->getClassName($new_type);
+			$location = $objDefinition->getLocation($new_type);
+			include_once($location."/class.".$class_name.".php");
+			$newObj = new $class_name();
+			$newObj->setType($new_type);
+			$newObj->setTitle($form->getInput("title"));
+			$newObj->setDescription($form->getInput("desc"));
+			$newObj->create();
 
-		// rbac log
-		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
-		$rbac_log_roles = $rbacreview->getParentRoleIds($newObj->getRefId(), false);
-		$rbac_log = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles));
-		ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log);
+			$this->putObjectInTree($newObj, $parent_id);
 
-		return $newObj;
+			$this->afterSave($newObj);
+			return;
+		}
+
+		// display only this form to correct input
+		$form->setValuesByPost();
+		$tpl->setContent($form->getHtml());
 	}
 
 	/**
-	* edit object
-	*
-	* @access	public
-	*/
+	 * Add object to tree at given position
+	 *
+	 * @param ilObject $a_obj
+	 * @param int $a_parent_node_id
+	 */
+	protected function putObjectInTree(ilObject $a_obj, $a_parent_node_id)
+	{
+		global $rbacreview;
+
+		$a_obj->createReference();
+		$a_obj->putInTree($a_parent_node_id);
+		$a_obj->setPermissions($a_parent_node_id);
+
+		$this->obj_id = $a_obj->getId();
+		$this->ref_id = $a_obj->getRefId();
+
+		// rbac log
+		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+		$rbac_log_roles = $rbacreview->getParentRoleIds($this->ref_id, false);
+		$rbac_log = ilRbacLog::gatherFaPa($this->ref_id, array_keys($rbac_log_roles));
+		ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->ref_id, $rbac_log);
+	}
+
+	/**
+	 * Post (successful) object creation hook
+	 *
+	 * @param ilObject $a_new_object 
+	 */
+	protected function afterSave(ilObject $a_new_object)
+	{
+		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
+	 * edit object
+	 *
+	 * @access	public
+	 */
 	public function editObject()
 	{
-		global $rbacsystem;
+		global $tpl, $ilTabs, $rbacsystem;
 
 		if (!$rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$fields = array();
+		$ilTabs->activateTab("settings");
 
-		if ($_SESSION["error_post_vars"])
-		{
-			// fill in saved values in case of error
-			$fields["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-			$fields["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
-		}
-		else
-		{
-			$fields["title"] = ilUtil::prepareFormOutput($this->object->getTitle());
-			$fields["desc"] = ilUtil::stripSlashes($this->object->getLongDescription());
-		}
-
-		$this->displayEditForm($fields);
+		$form = $this->initEditForm();
+		$form->setValuesByArray($this->getEditFormValues());
+		$tpl->setContent($form->getHTML());
 	}
 
 	/**
-	* display edit form (usually called by editObject)
-	*
-	* @access	private
-	* @param	array	$fields		key/value pairs of input fields
-	*/
-	protected function displayEditForm($fields)
+	 * Init object edit form
+	 *
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initEditForm()
 	{
-		$this->getTemplateFile("edit");
+		global $lng, $ilCtrl;
 
-		foreach ($fields as $key => $val)
-		{
-			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), $val);
-//			$this->tpl->parseCurrentBlock();
-		}
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
 
-		//$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		if (!$this->call_by_reference)
-		{
-			$this->ctrl->setParameter($this, "obj_id", $this->obj_id);
-		}
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setMaxLength(128);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$form->addItem($ti);
 
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "update"));
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("CMD_SUBMIT", "update");
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		// description
+		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$ta->setCols(40);
+		$ta->setRows(2);
+		$form->addItem($ta);
+
+		$this->initEditCustomForm($form);
+
+		$form->addCommandButton("update", $this->lng->txt("save"));
+		//$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+		$form->setTitle($this->lng->txt("edit"));
+
+		$form->setFormAction($this->ctrl->getFormAction($this));
+
+		return $form;
+	}
+
+	/**
+	 * Add custom fields to update form
+	 *
+	 * @param	ilPropertyFormGUI	$a_form
+	 */
+	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
+	{
+		
+	}
+
+	/**
+	 * Get values for edit form
+	 *
+	 * @return array
+	 */
+	protected function getEditFormValues()
+	{
+		$values["title"] = $this->object->getTitle();
+		$values["desc"] = $this->object->getDescription();
+		$this->getEditFormCustomValues($values);
+		return $values;
+	}
+
+	/**
+	 * Add values to custom edit fields
+	 *
+	 * @param	array	$a_values
+	 */
+	protected function getEditFormCustomValues(array &$a_values)
+	{
 
 	}
 
-
 	/**
-	* updates object entry in object_data
-	*
-	* @access	public
-	*/
+	 * updates object entry in object_data
+	 */
 	public function updateObject()
 	{
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$this->update = $this->object->update();
-
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+		global $rbacsystem;
 		
-		$this->afterUpdate();
+		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$form = $this->initEditForm();
+		if($form->checkInput())
+		{
+			$this->object->setTitle($form->getInput("title"));
+			$this->object->setDescription($form->getInput("desc"));
+			$this->updateCustom($form);
+			$this->object->update();
+			
+			$this->afterUpdate();
+			return;
+		}
+
+		// display form again to correct errors
+		$form->setValuesByPost();
+		$tpl->setContent($form->getHtml());
 	}
-	
+
+	/**
+	 * Insert custom update form values into object
+	 *
+	 * @param	ilPropertyFormGUI	$a_form
+	 */
+	protected function updateCustom(ilPropertyFormGUI $a_form)
+	{
+
+	}
+
+	/**
+	 * Post (successful) object update hook
+	 */
 	protected function afterUpdate()
 	{
-		$this->ctrl->redirect($this);
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+		$this->ctrl->redirect($this, "edit");
 	}
 
+	/**
+	 * Init object import form
+	 *
+	 * @param	string	new type
+	 * @return	ilPropertyFormGUI
+	 */
+	protected function initImportForm($a_new_type)
+	{
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setTarget("_top");
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt($a_new_type."_import"));
+
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($this->lng->txt("import_file"), "importfile");
+		$fi->setSuffixes(array("zip"));
+		$form->addItem($fi);
+
+		$form->addCommandButton("importFile", $this->lng->txt("import"));
+		$form->addCommandButton("cancelCreation", $this->lng->txt("cancel"));
+	
+		return $form;
+	}
+
+	/**
+	 * Import
+	 */
+	function importFile()
+	{
+		global $rbacsystem, $objDefinition, $tpl, $ilErr;
+
+		$parent_id = $_GET["ref_id"];
+		$new_type = $_REQUEST["new_type"];
+
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->lng->loadLanguageModule($new_type);
+
+		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
+		if (!$rbacsystem->checkAccess("create", $parent_id, $new_type))
+		{
+			$ilErr->raiseError($this->lng->txt("no_create_permission"));
+		}
+		
+		$form = $this->initImportForm($new_type);
+		if ($form->checkInput())
+		{
+			// todo: make some check on manifest file
+			include_once("./Services/Export/classes/class.ilImport.php");
+			$imp = new ilImport((int)$parent_id);
+			$new_id = $imp->importObject(null, $_FILES["importfile"]["tmp_name"],
+				$_FILES["importfile"]["name"], $new_type);
+
+			// put new object id into tree
+			if ($new_id > 0)
+			{
+				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
+
+				$this->putObjectInTree($newObj, $parent_id);
+				
+				$this->afterSave($newObj);
+			}
+			return;
+		}
+
+		// display form to correct errors
+		$form->setValuesByPost();
+		$tpl->setContent($form->getHtml());
+	}
 
 	/**
 	* get form action for command (command is method name without "Object", e.g. "perm")
@@ -1299,7 +1519,6 @@ class ilObjectGUI
 	 */
 	protected function fillCloneTemplate($a_tpl_varname,$a_type)
 	{
-		
 		include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
 		$cp = new ilObjectCopyGUI($this);
 		$cp->setType($a_type);
