@@ -806,9 +806,6 @@ class ilObjectGUI
 		$parent_id = $_GET["ref_id"];
 		$new_type = $_REQUEST["new_type"];
 		
-		$this->lng->loadLanguageModule($new_type);
-		$this->ctrl->setParameter($this, "new_type", $new_type);
-
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
 		if (!$rbacsystem->checkAccess("create", $parent_id, $new_type))
 		{
@@ -835,6 +832,8 @@ class ilObjectGUI
 		}
 
 		// display only this form to correct input
+		$this->lng->loadLanguageModule($new_type);
+		$this->ctrl->setParameter($this, "new_type", $new_type);
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHtml());
 	}
@@ -1049,9 +1048,6 @@ class ilObjectGUI
 		$parent_id = $_GET["ref_id"];
 		$new_type = $_REQUEST["new_type"];
 
-		$this->ctrl->setParameter($this, "new_type", $new_type);
-		$this->lng->loadLanguageModule($new_type);
-
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
 		if (!$rbacsystem->checkAccess("create", $parent_id, $new_type))
 		{
@@ -1080,6 +1076,8 @@ class ilObjectGUI
 		}
 
 		// display form to correct errors
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->lng->loadLanguageModule($new_type);
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHtml());
 	}

@@ -1111,7 +1111,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		parent::editObject();
 		
 		$this->setSubTabs('properties');
-		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('crs_settings');
 	}
 	
