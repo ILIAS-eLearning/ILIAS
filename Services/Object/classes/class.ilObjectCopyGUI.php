@@ -650,9 +650,16 @@ class ilObjectCopyGUI
 		}
 		
 		$this->unsetSession();
-
 		$this->initFormSearch();
-		$tpl->setVariable($a_tplvar,$this->form->getHTML());
+
+		if($a_tplvar)
+		{
+			$tpl->setVariable($a_tplvar,$this->form->getHTML());
+		}
+		else
+		{
+			return $this->form;
+		}
 	}
 	
 	
@@ -663,7 +670,7 @@ class ilObjectCopyGUI
 	protected function sourceExists()
 	{
 		global $ilUser;
-	
+
 		return (bool) ilUtil::_getObjectsByOperations($this->getType(),'copy',$ilUser->getId(),1);
 	}
 	

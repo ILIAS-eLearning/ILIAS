@@ -266,7 +266,6 @@ class ilRepositoryGUI
 
 		switch ($next_class)
 		{
-			
 			default:
 				// forward all other classes to gui commands
 				if ($next_class != "" && $next_class != "ilrepositorygui")
