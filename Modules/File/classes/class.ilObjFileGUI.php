@@ -38,7 +38,7 @@ class ilObjFileGUI extends ilObject2GUI
 	
 		if(!$this->getCreationMode() &&
 			$this->id_type == self::REPOSITORY_NODE_ID &&
-			$this->getAccessHandler()->checkAccess("read", "", $this->node_id))
+			$this->checkPermissionBool("read"))
 		{
 
 			// add entry to navigation history
@@ -185,7 +185,7 @@ class ilObjFileGUI extends ilObject2GUI
 	{
 		global $objDefinition, $ilUser;
 
-		if (!$this->getAccessHandler()->checkAccess("create", "", $this->parent_id, "file"))
+		if (!$this->checkPermissionBool("create", "", "file"))
 		{
 			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
 		}
@@ -317,7 +317,7 @@ class ilObjFileGUI extends ilObject2GUI
 	{
 		$zip_form_gui = $this->initZipUploadForm();
 
-		if ($this->getAccessHandler()->checkAccess("create", "", $this->parent_id, "file"))
+		if ($this->checkPermissionBool("create", "", "file"))
 		{
 			if ($zip_form_gui->checkInput())
 			{
@@ -334,11 +334,11 @@ class ilObjFileGUI extends ilObject2GUI
 				$type = ilObject::_lookupType((int)$this->parent_id, true);
 				if($type == 'cat' or $type == 'root')
 				{
-					$permission = $this->getAccessHandler()->checkAccess("create", "", $this->parent_id, "cat");
+					$permission = $this->checkPermissionBool("create", "", "cat");
 					$containerType = "Category";
 				}
 				else {
-					$permission = $this->getAccessHandler()->checkAccess("create", "", $this->parent_id, "fold");
+					$permission = $this->checkPermissionBool("create", "", "fold");
 					$containerType = "Folder";			
 				}
 
@@ -465,7 +465,7 @@ class ilObjFileGUI extends ilObject2GUI
 	{
 		global $ilTabs, $ilErr;
 
-		if (!$this->getAccessHandler()->checkAccess("write", "", $this->node_id))
+		if (!$this->checkPermissionBool("write"))
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"));
 		}
@@ -539,7 +539,7 @@ class ilObjFileGUI extends ilObject2GUI
 			$this->object->sendFile($_GET["hist_id"]);
 		}
 
-		if ($this->getAccessHandler()->checkAccess("read", "", $this->node_id))
+		if ($this->checkPermissionBool("read"))
 		{
 			// BEGIN ChangeEvent: Record read event.
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -573,7 +573,7 @@ class ilObjFileGUI extends ilObject2GUI
 		
 		$ilTabs->activateTab("id_versions");
 
-		if (!$this->getAccessHandler()->checkAccess("write", "", $this->node_id))
+		if (!$this->checkPermissionBool("write"))
 		{
 			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
 		}
@@ -600,7 +600,7 @@ class ilObjFileGUI extends ilObject2GUI
 		
 		$ilTabs->activateTab("id_info");
 
-		if (!$this->getAccessHandler()->checkAccess("visible", "", $this->node_id))
+		if (!$this->checkPermissionBool("visible"))
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
 		}
@@ -608,21 +608,21 @@ class ilObjFileGUI extends ilObject2GUI
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
-		if ($this->getAccessHandler()->checkAccess("read", "sendfile", $this->node_id))
+		if ($this->checkPermissionBool("read", "sendfile"))
 		{
 			$info->addButton($this->lng->txt("file_read"), $this->ctrl->getLinkTarget($this, "sendfile"));
 		}
 		
 		$info->enablePrivateNotes();
 		
-		if ($this->getAccessHandler()->checkAccess("read", "", $this->node_id))
+		if ($this->checkPermissionBool("read"))
 		{
 			$info->enableNews();
 		}
 
 		// no news editing for files, just notifications
 		$info->enableNewsEditing(false);
-		if ($this->getAccessHandler()->checkAccess("write", "", $this->node_id))
+		if ($this->checkPermissionBool("write"))
 		{
 			$news_set = new ilSetting("news");
 			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
@@ -664,21 +664,21 @@ class ilObjFileGUI extends ilObject2GUI
 
 		$this->ctrl->setParameter($this,"ref_id",$this->node_id);
 
-		if ($this->getAccessHandler()->checkAccess("visible", "", $this->node_id))
+		if ($this->checkPermissionBool("visible"))
 		{
 			$ilTabs->addTab("id_info",
 				$lng->txt("info_short"),
 				$this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilinfoscreengui"), "showSummary"));
 		}
 
-		if ($this->getAccessHandler()->checkAccess("write", "", $this->node_id))
+		if ($this->checkPermissionBool("write"))
 		{
 			$ilTabs->addTab("settings",
 				$lng->txt("edit"),
 				$this->ctrl->getLinkTarget($this, "edit"));
 		}
 
-		if ($this->getAccessHandler()->checkAccess("write", "", $this->node_id))
+		if ($this->checkPermissionBool("write"))
 		{
 			$ilTabs->addTab("id_versions",
 				$lng->txt("versions"),
@@ -686,7 +686,7 @@ class ilObjFileGUI extends ilObject2GUI
 		}
 
 		// meta data
-		if ($this->getAccessHandler()->checkAccess("write", "", $this->node_id))
+		if ($this->checkPermissionBool("write"))
 		{
 			$ilTabs->addTab("id_meta",
 				$lng->txt("meta_data"),
@@ -694,7 +694,7 @@ class ilObjFileGUI extends ilObject2GUI
 		}
 
 		// export
-		if ($this->getAccessHandler()->checkAccess("write", "", $this->node_id))
+		if ($this->checkPermissionBool("write"))
 		{
 			$ilTabs->addTab("export",
 				$lng->txt("export"),
@@ -707,16 +707,18 @@ class ilObjFileGUI extends ilObject2GUI
 	
 	function _goto($a_target)
 	{
-		global $ilErr, $lng;
+		global $ilErr, $lng, $ilAccess;
 
-		if ($this->getAccessHandler()->checkAccess("visible", "", $a_target))
+		// static method, no workspace support yet
+
+		if ($ilAccess->checkAccess("visible", "", $a_target))
 		{
 			$_GET["cmd"] = "infoScreen";
 			$_GET["ref_id"] = $a_target;
 			include("repository.php");
 			exit;
 		}
-		else if ($this->getAccessHandler()->checkAccess("read", "", ROOT_FOLDER_ID))
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";
@@ -728,7 +730,6 @@ class ilObjFileGUI extends ilObject2GUI
 		}
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
-
 	}
 
 	/**

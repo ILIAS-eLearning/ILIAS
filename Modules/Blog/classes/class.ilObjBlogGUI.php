@@ -58,14 +58,14 @@ class ilObjBlogGUI extends ilObject2GUI
 
 		$this->ctrl->setParameter($this,"wsp_id",$this->node_id);
 
-		if ($this->getAccessHandler()->checkAccess('read', '', $this->node_id))
+		if ($this->checkPermissionBool("read"))
 		{
 			$this->tabs_gui->addTab("content",
 				$lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 		}
 
-		if ($this->getAccessHandler()->checkAccess('write', '', $this->node_id))
+		if ($this->checkPermissionBool("write"))
 		{
 			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
@@ -94,7 +94,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				$bpost_gui = new ilBlogPostingGUI($this->node_id, $this->getAccessHandler(),
 					$_GET["page"], $_GET["old_nr"], $this->object->getNotesStatus());
 				
-				if (!$this->getAccessHandler()->checkAccess("write", "", $this->node_id))
+				if (!$this->checkPermissionBool("write"))
 				{
 					$bpost_gui->setEnableEditing(false);
 				}
@@ -154,7 +154,7 @@ class ilObjBlogGUI extends ilObject2GUI
 
 		$ilTabs->activateTab("content");
 
-		if(!$this->getAccessHandler()->checkAccess("read", "", $this->node_id))
+		if(!$this->checkPermissionBool("read"))
 		{
 			ilUtil::sendInfo($lng->txt("no_permission"), true);
 			// $ilCtrl->redirect($this, "infoScreen");
@@ -200,7 +200,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		global $lng, $ilCtrl, $ilToolbar;
 
-		if($this->getAccessHandler()->checkAccess("write", "", $this->node_id))
+		if($this->checkPermissionBool("write"))
 		{
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 
@@ -225,7 +225,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			$preview = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "preview");
 
 			// actions
-			if($this->getAccessHandler()->checkAccess("write", "", $this->node_id))
+			if($this->checkPermissionBool("write"))
 			{
 				include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 				$alist = new ilAdvancedSelectionListGUI();

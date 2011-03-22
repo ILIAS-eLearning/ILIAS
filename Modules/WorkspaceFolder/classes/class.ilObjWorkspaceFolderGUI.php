@@ -27,14 +27,14 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 		$this->ctrl->setParameter($this,"wsp_id",$this->node_id);
 
-		if ($this->getAccessHandler()->checkAccess('read', '', $this->node_id))
+		if ($this->checkPermissionBool("read"))
 		{
 			$this->tabs_gui->addTab("content",
 				$lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 		}
 
-		if ($this->getAccessHandler()->checkAccess('write', '', $this->node_id))
+		if ($this->checkPermissionBool("write"))
 		{
 			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
@@ -115,7 +115,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		$no_cut = array();
 		foreach ($this->tree->getSubTree($this->tree->getNodeData($current_node)) as $node)
 		{
-			if (!$this->getAccessHandler()->checkAccess("delete", "", $node["wsp_id"]))
+			if (!$this->checkPermissionBool("delete", "", "", $node["wsp_id"]))
 			{
 				$obj = ilObjectFactory::getInstanceByObjId($node["obj_id"]);
 				$no_cut[$node["wsp_id"]] = $obj->getTitle();
@@ -224,7 +224,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 		$fail = array();
 
-		if(!$this->getAccessHandler()->checkAccess('create', '', $target_node_id, $source_object->getType()))
+		if(!$this->checkPermissionBool('create', '', $source_object->getType(), $target_node_id))
 		{
 			$fail[] = sprintf($this->lng->txt('msg_no_perm_paste_object_in_folder'),
 				$source_object->getTitle(), $target_object->getTitle());
