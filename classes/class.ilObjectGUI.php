@@ -735,6 +735,7 @@ class ilObjectGUI
 					$htpl->setVariable("TITLE", $this->lng->txt("option")." ".$cnt.": ".
 						$cf->getTitle());
 					$cf->setTitle(null);
+					$cf->setTitleIcon(null);
 					
 					$acc->addItem($htpl->get(), $cf->getHTML());
 

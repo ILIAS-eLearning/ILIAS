@@ -49,15 +49,10 @@ class ilPersonalWorkspaceGUI
 		$cmd = $ilCtrl->getCmd();
 
 		// new type
-		if($_REQUEST["new_type"] && $cmd != "cancelCreation")
+		if($_REQUEST["new_type"])
 		{
 			$class_name = $objDefinition->getClassName($_REQUEST["new_type"]);
 			$ilCtrl->setCmdClass("ilObj".$class_name."GUI");
-			if($cmd != "save")
-			{
-				$ilCtrl->setCmd("create");
-				$cmd = "create";
-			}
 		}
 
 		// root node
@@ -73,7 +68,7 @@ class ilPersonalWorkspaceGUI
 		$class_path = $ilCtrl->lookupClassPath($next_class);
 		include_once($class_path);
 		$class_name = $ilCtrl->getClassForClasspath($class_path);
-		if($cmd == "create" || $cmd == "save" || $cmd == "cancelCreation")
+		if($_REQUEST["new_type"])
 		{
 			$gui = new $class_name(null, ilObject2GUI::WORKSPACE_NODE_ID, $this->node_id);
 			$gui->setCreationMode();
@@ -163,7 +158,7 @@ class ilPersonalWorkspaceGUI
 			$types->setOptions($options);
 			$ilToolbar->addInputItem($types, "new_type");
 
-			$ilToolbar->addFormButton($lng->txt("ok"), "");
+			$ilToolbar->addFormButton($lng->txt("ok"), "create");
 		}
 	}
 

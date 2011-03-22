@@ -125,133 +125,187 @@ class ilObjFileGUI extends ilObject2GUI
 		}		
 	}
 	
-	protected function initCreationForms($a_reuse_form = null)
+	protected function initCreationForms()
 	{
-		// remove default forms
-		$this->creation_forms = array();
-
-		if($a_reuse_form != "single_upload")
-		{
-			$this->initSingleUploadForm("create");
-		}
-		$this->addCreationForm($this->lng->txt("take_over_structure"), $this->single_form_gui);
-
-		if($a_reuse_form != "zip_upload")
-		{
-			$this->initZipUploadForm("create");
-		}
-		$this->addCreationForm($this->lng->txt("header_zip"), $this->zip_form_gui);
-
-		if (DEVMODE == 1)
-		{
-			$this->initImportForm("file");
-			$this->addCreationForm("import", $this->form);
-		}
-
-		// ???
-		// $this->fillCloneTemplate('DUPLICATE','file');
+		$forms = array();
+		$forms[] = $this->initSingleUploadForm();
+		$forms[] = $this->initZipUploadForm();
+		return $forms;
 	}
 
 	/**
 	* FORM: Init single upload form.
-	*
-	* @param        int        $a_mode        "create" / "update" (not implemented)
 	*/
-	public function initSingleUploadForm($a_mode = "create")
+	public function initSingleUploadForm()
 	{
 		global $lng;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->single_form_gui = new ilPropertyFormGUI();
-		$this->single_form_gui->setMultipart(true);
+		$single_form_gui = new ilPropertyFormGUI();
+		$single_form_gui->setMultipart(true);
 		
 		// File Title
 		$in_title = new ilTextInputGUI($lng->txt("title"), "title");
 		$in_title->setInfo($this->lng->txt("if_no_title_then_filename"));
 		$in_title->setMaxLength(128);
 		$in_title->setSize(40);
-		$this->single_form_gui->addItem($in_title);
+		$single_form_gui->addItem($in_title);
 		
 		// File Description
 		$in_descr = new ilTextAreaInputGUI($lng->txt("description"), "description");
-		$this->single_form_gui->addItem($in_descr);
+		$single_form_gui->addItem($in_descr);
 		
 		// File
 		$in_file = new ilFileInputGUI($lng->txt("file"), "upload_file");
 		$in_file->setRequired(true);
-		$this->single_form_gui->addItem($in_file);
+		$single_form_gui->addItem($in_file);
 		
-		// save and cancel commands
-		if ($a_mode == "create")
+		$single_form_gui->addCommandButton("save", $this->lng->txt($this->type."_add"));
+		$single_form_gui->addCommandButton("saveAndMeta", $this->lng->txt("file_add_and_metadata"));
+		$single_form_gui->addCommandButton("cancel", $lng->txt("cancel"));
+		
+		$single_form_gui->setTableWidth("600px");
+		$single_form_gui->setTarget($this->getTargetFrame("save"));
+		$single_form_gui->setTitle($this->lng->txt($this->type."_new"));
+		$single_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $this->lng->txt('obj_file'));
+		
+		$this->ctrl->setParameter($this, "new_type", "file");
+	
+		$single_form_gui->setFormAction($this->ctrl->getFormAction($this));
+
+		return $single_form_gui;
+	}
+
+	/**
+	* save object
+	*
+	* @access	public
+	*/
+	function save()
+	{
+		global $objDefinition, $ilUser;
+
+		if (!$this->getAccessHandler()->checkAccess("create", "", $this->parent_id, "file"))
 		{
-			$this->single_form_gui->addCommandButton("save", $this->lng->txt($this->type."_add"));
-			$this->single_form_gui->addCommandButton("saveAndMeta", $this->lng->txt("file_add_and_metadata"));
-			$this->single_form_gui->addCommandButton("cancel", $lng->txt("cancel"));
+			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
+		}
+
+		$single_form_gui = $this->initSingleUploadForm();
+
+		if ($single_form_gui->checkInput())
+		{
+			$title = $single_form_gui->getInput("title");
+			$description = $single_form_gui->getInput("description");
+			$upload_file = $single_form_gui->getInput("upload_file");
+
+			if (trim($title) == "")
+			{
+				$title = $upload_file["name"];
+			}
+			else
+			{
+				// BEGIN WebDAV: Ensure that object title ends with the filename extension
+				$fileExtension = ilObjFileAccess::_getFileExtension($upload_file["name"]);
+				$titleExtension = ilObjFileAccess::_getFileExtension($title);
+				if ($titleExtension != $fileExtension && strlen($fileExtension) > 0)
+				{
+					$title .= '.'.$fileExtension;
+				}
+				// END WebDAV: Ensure that object title ends with the filename extension
+			}
+
+			// create and insert file in grp_tree
+			include_once("./Modules/File/classes/class.ilObjFile.php");
+			$fileObj = new ilObjFile();
+			$fileObj->setTitle($title);
+			$fileObj->setDescription($description);
+			$fileObj->setFileName($upload_file["name"]);
+			//$fileObj->setFileType($upload_file["type"]);
+			include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+			$fileObj->setFileType(ilMimeTypeUtil::getMimeType(
+				"", $upload_file["name"], $upload_file["type"]));
+			$fileObj->setFileSize($upload_file["size"]);
+			$this->object_id = $fileObj->create();
+
+			$this->putObjectInTree($fileObj, $this->parent_id);
+
+			// upload file to filesystem
+			$fileObj->createDirectory();
+			$fileObj->getUploadFile($upload_file["tmp_name"],
+				$upload_file["name"]);
+
+			// BEGIN ChangeEvent: Record write event.
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+			if (ilChangeEvent::_isActive())
+			{
+				ilChangeEvent::_recordWriteEvent($fileObj->getId(), $ilUser->getId(), 'create');
+			}
+			// END ChangeEvent: Record write event.
+			ilUtil::sendSuccess($this->lng->txt("file_added"),true);
+
+			if ($this->ctrl->getCmd() == "saveAndMeta")
+			{
+				$target = $this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilmdeditorgui"), "listSection", "", false, false);
+				$target = str_replace("new_type=", "nt=", $target);
+				ilUtil::redirect($this->getReturnLocation("save", $target));
+			}
+			else
+			{
+				$this->ctrl->returnToParent($this);
+			}
 		}
 		else
 		{
-			//$this->single_form_gui->addCommandButton("update", $lng->txt("save"));
-			//$this->single_form_gui->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+			$single_form_gui->setValuesByPost();
+			$this->tpl->setContent($single_form_gui->getHTML());
 		}
-		
-		$this->single_form_gui->setTableWidth("600px");
-		$this->single_form_gui->setTarget($this->getTargetFrame("save"));
-		$this->single_form_gui->setTitle($this->lng->txt($this->type."_new"));
-		$this->single_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $this->lng->txt('obj_file'));
-		
-		if ($a_mode == "create")
-		{
-			$this->ctrl->setParameter($this, "new_type", "file");
-		}
-		$this->single_form_gui->setFormAction($this->ctrl->getFormAction($this));
+	}
+
+	/**
+	* save object
+	*
+	* @access	public
+	*/
+	function saveAndMeta()
+	{
+		$this->save();
 	}
 
 	/**
 	* FORM: Init zip upload form.
-	*
-	* @param        int        $a_mode        "create" / "update" (not implemented)
 	*/
 	public function initZipUploadForm($a_mode = "create")
 	{
 		global $lng;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->zip_form_gui = new ilPropertyFormGUI();
-		$this->zip_form_gui->setMultipart(true);
+		$zip_form_gui = new ilPropertyFormGUI();
+		$zip_form_gui->setMultipart(true);
 				
 		// File
 		$in_file = new ilFileInputGUI($lng->txt("file"), "zip_file");
 		$in_file->setRequired(true);
 		$in_file->setSuffixes(array("zip"));
-		$this->zip_form_gui->addItem($in_file);
+		$zip_form_gui->addItem($in_file);
 
 		// Take over structure
 		$in_str = new ilCheckboxInputGUI($this->lng->txt("take_over_structure"), "adopt_structure");
 		$in_str->setInfo($this->lng->txt("take_over_structure_info"));
-		$this->zip_form_gui->addItem($in_str);
+		$zip_form_gui->addItem($in_str);
 		
-		// save and cancel commands
-		if ($a_mode == "create")
-		{
-			$this->zip_form_gui->addCommandButton("saveUnzip", $this->lng->txt($this->type."_add"));
-			$this->zip_form_gui->addCommandButton("cancel", $lng->txt("cancel"));
-		}
-		else
-		{
-			//$this->zip_form_gui->addCommandButton("update", $lng->txt("save"));
-			//$this->zip_form_gui->addCommandButton("cancelUpdate", $lng->txt("cancel"));
-		}
+		$zip_form_gui->addCommandButton("saveUnzip", $this->lng->txt($this->type."_add"));
+		$zip_form_gui->addCommandButton("cancel", $lng->txt("cancel"));
 		
-		$this->zip_form_gui->setTableWidth("600px");
-		$this->zip_form_gui->setTarget($this->getTargetFrame("save"));
-		$this->zip_form_gui->setTitle($this->lng->txt("header_zip"));
-		$this->zip_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $this->lng->txt('obj_file'));
+		$zip_form_gui->setTableWidth("600px");
+		$zip_form_gui->setTarget($this->getTargetFrame("save"));
+		$zip_form_gui->setTitle($this->lng->txt("header_zip"));
+		$zip_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $this->lng->txt('obj_file'));
 		
-		if ($a_mode == "create")
-		{
-			$this->ctrl->setParameter($this, "new_type", "file");
-		}
-		$this->zip_form_gui->setFormAction($this->ctrl->getFormAction($this));
+		$this->ctrl->setParameter($this, "new_type", "file");
+		
+		$zip_form_gui->setFormAction($this->ctrl->getFormAction($this));
+
+		return $zip_form_gui;
 	}
 
 	/**
@@ -261,14 +315,14 @@ class ilObjFileGUI extends ilObject2GUI
 	*/
 	function saveUnzip()
 	{
-		$this->initZipUploadForm("create");
-		
-		if (!$this->getAccessHandler()->checkAccess("create", "", $this->parent_id, "file"))
+		$zip_form_gui = $this->initZipUploadForm();
+
+		if ($this->getAccessHandler()->checkAccess("create", "", $this->parent_id, "file"))
 		{
-			if ($this->zip_form_gui->checkInput())
+			if ($zip_form_gui->checkInput())
 			{
-				$zip_file = $this->zip_form_gui->getInput("zip_file");
-				$adopt_structure = $this->zip_form_gui->getInput("adopt_structure");
+				$zip_file = $zip_form_gui->getInput("zip_file");
+				$adopt_structure = $zip_form_gui->getInput("adopt_structure");
 
 				include_once ("Services/Utilities/classes/class.ilFileUtils.php");
 
@@ -315,104 +369,14 @@ class ilObjFileGUI extends ilObject2GUI
 			}
 			else
 			{
-				$this->zip_form_gui->setValuesByPost();
-				$this->create("zip_upload");
+				$zip_form_gui->setValuesByPost();
+				$this->tpl->setContent($zip_form_gui->getHTML());
 			}
 		}
 		else
 		{
 			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
 		}
-	}
-
-	/**
-	* save object
-	*
-	* @access	public
-	*/
-	function save()
-	{
-		global $objDefinition, $ilUser;
-
-		$this->initSingleUploadForm("create");
-		
-		if ($this->single_form_gui->checkInput())
-		{
-			$title = $this->single_form_gui->getInput("title");
-			$description = $this->single_form_gui->getInput("description");
-			$upload_file = $this->single_form_gui->getInput("upload_file");
-
-			if (trim($title) == "")
-			{
-				$title = $upload_file["name"];
-			}
-			else
-			{
-				// BEGIN WebDAV: Ensure that object title ends with the filename extension
-				$fileExtension = ilObjFileAccess::_getFileExtension($upload_file["name"]);
-				$titleExtension = ilObjFileAccess::_getFileExtension($title);
-				if ($titleExtension != $fileExtension && strlen($fileExtension) > 0)
-				{
-					$title .= '.'.$fileExtension;
-				}
-				// END WebDAV: Ensure that object title ends with the filename extension
-			}
-
-			// create and insert file in grp_tree
-			include_once("./Modules/File/classes/class.ilObjFile.php");
-			$fileObj = new ilObjFile();
-			$fileObj->setTitle($title);
-			$fileObj->setDescription($description);
-			$fileObj->setFileName($upload_file["name"]);
-			//$fileObj->setFileType($upload_file["type"]);
-			include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
-			$fileObj->setFileType(ilMimeTypeUtil::getMimeType(
-				"", $upload_file["name"], $upload_file["type"]));
-			$fileObj->setFileSize($upload_file["size"]);
-			$this->object_id = $fileObj->create();
-			
-			$this->putObjectInTree($fileObj, $this->parent_id);
-
-			// upload file to filesystem
-			$fileObj->createDirectory();
-			$fileObj->getUploadFile($upload_file["tmp_name"],
-				$upload_file["name"]);
-	
-			// BEGIN ChangeEvent: Record write event.
-			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			if (ilChangeEvent::_isActive())
-			{
-				ilChangeEvent::_recordWriteEvent($fileObj->getId(), $ilUser->getId(), 'create');
-			}
-			// END ChangeEvent: Record write event.
-			ilUtil::sendSuccess($this->lng->txt("file_added"),true);
-
-			if ($this->ctrl->getCmd() == "saveAndMeta")
-			{
-				$target = $this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilmdeditorgui"), "listSection", "", false, false);
-				$target = str_replace("new_type=", "nt=", $target);
-				ilUtil::redirect($this->getReturnLocation("save", $target));
-			}
-			else
-			{
-				$this->ctrl->returnToParent($this);
-			}
-		}
-		else
-		{
-			$this->single_form_gui->setValuesByPost();
-			$this->create("single_upload");
-		}
-	}
-
-	/**
-	* save object
-	*
-	* @access	public
-	*/
-	function saveAndMeta()
-	{
-		$this->save();
 	}
 
 	/**
@@ -424,17 +388,16 @@ class ilObjFileGUI extends ilObject2GUI
 	{
 		global $ilTabs;
 		
-		$ilTabs->activateTab("id_edit");
-		
-		$this->initPropertiesForm('edit');
-		if(!$this->form->checkInput())
+		$form = $this->initPropertiesForm();
+		if(!$form->checkInput())
 		{
-			$this->form->setValuesByPost();
-			$this->tpl->setContent($this->form->getHTML());
+			$ilTabs->activateTab("settings");
+			$form->setValuesByPost();
+			$this->tpl->setContent($form->getHTML());
 			return false;	
 		}
 
-		$data = $this->form->getInput('file');		
+		$data = $form->getInput('file');		
 
 		// delete trailing '/' in filename
 		while (substr($data["name"],-1) == '/')
@@ -443,7 +406,7 @@ class ilObjFileGUI extends ilObject2GUI
 		}
 		
 		$filename = empty($data["name"]) ? $this->object->getFileName() : $data["name"];
-		$title = $this->form->getInput('title');
+		$title = $form->getInput('title');
 		if(strlen(trim($title)) == 0)
 		{
 			$title = $filename;
@@ -456,7 +419,7 @@ class ilObjFileGUI extends ilObject2GUI
 
 		if (!empty($data["name"]))
 		{
-			switch($this->form->getInput('replace'))
+			switch($form->getInput('replace'))
 			{
 				case 1:
 					$this->object->deleteVersions();
@@ -473,7 +436,7 @@ class ilObjFileGUI extends ilObject2GUI
 				"", $data["name"], $data["type"]));
 			$this->object->setFileSize($data['size']);
 		}
-		$this->object->setDescription($this->form->getInput('description'));
+		$this->object->setDescription($form->getInput('description'));
 		$this->update = $this->object->update();
 
 		// BEGIN ChangeEvent: Record update event.
@@ -492,7 +455,6 @@ class ilObjFileGUI extends ilObject2GUI
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,'edit','',false,false));
 	}
-
 	
 	/**
 	* edit object
@@ -510,21 +472,14 @@ class ilObjFileGUI extends ilObject2GUI
 
 		$ilTabs->activateTab("settings");
 
-		$this->initPropertiesForm('edit');
-		$this->getPropertiesValues('edit');
+		$form = $this->initPropertiesForm();
+
+		$val = array();
+		$val['title'] = $this->object->getTitle();
+		$val['description'] = $this->object->getLongDescription();
+		$form->setValuesByArray($val);
 		
-		$this->tpl->setContent($this->form->getHTML());
-		return true;
-	}
-	
-	protected function getPropertiesValues($a_mode = 'edit')
-	{
-		if($a_mode == 'edit')
-		{
-			$val['title'] = $this->object->getTitle();
-			$val['description'] = $this->object->getLongDescription();
-			$this->form->setValuesByArray($val);
-		}
+		$this->tpl->setContent($form->getHTML());
 		return true;
 	}
 	
@@ -533,25 +488,25 @@ class ilObjFileGUI extends ilObject2GUI
 	 * @param
 	 * @return
 	 */
-	protected function initPropertiesForm($a_mode)
+	protected function initPropertiesForm()
 	{
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($this->ctrl->getFormAction($this),'update');
-		$this->form->setTitle($this->lng->txt('file_edit'));
-		$this->form->addCommandButton('update',$this->lng->txt('save'));
-		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this),'update');
+		$form->setTitle($this->lng->txt('file_edit'));
+		$form->addCommandButton('update',$this->lng->txt('save'));
+		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
 			
 		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
 		$title->setValue($this->object->getTitle());
 		$title->setInfo($this->lng->txt("if_no_title_then_filename"));
-		$this->form->addItem($title);
+		$form->addItem($title);
 		
 		$file = new ilFileInputGUI($this->lng->txt('obj_file'),'file');
 		$file->setRequired(false);
 //		$file->enableFileNameSelection('title');
-		$this->form->addItem($file);
+		$form->addItem($file);
 		
 		$group = new ilRadioGroupInputGUI('','replace');
 		$group->setValue(0);
@@ -570,7 +525,9 @@ class ilObjFileGUI extends ilObject2GUI
 		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'description');
 		$desc->setRows(3);
 		#$desc->setCols(40);
-		$this->form->addItem($desc);
+		$form->addItem($desc);
+
+		return $form;
 	}
 	
 	function sendFile()
