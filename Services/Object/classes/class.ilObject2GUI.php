@@ -347,7 +347,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				$title = call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'), $obj_id);
 
 				// if anything fails, abort the whole process
-				if(!$this->getAccessHandler()->checkAccess("delete", "", $node_id))
+				if(!$this->checkPermissionBool("delete", "", "", $node_id))
 				{
 					ilUtil::sendFailure($lng->txt("msg_no_perm_delete")." ".$title, true);
 					$this->ctrl->redirect($this);
@@ -501,7 +501,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 		{
 			case self::REPOSITORY_NODE_ID:
 			case self::REPOSITORY_OBJECT_ID:
-				if ($this->getAccessHandler()->checkAccess("edit_permission", "", $this->node_id))
+				if ($this->checkPermissionBool("edit_permission"))
 				{
 					$ilTabs->addTab("id_permissions",
 						$lng->txt("perm_settings"),
@@ -511,7 +511,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 			case self::WORKSPACE_NODE_ID:
 			case self::WORKSPACE_OBJECT_ID:
-				if ($this->getAccessHandler()->checkAccess("edit_permission", "", $this->node_id))
+				if ($this->checkPermissionBool("edit_permission"))
 				{
 					$ilTabs->addTab("id_permissions",
 						$lng->txt("perm_settings"),
@@ -565,156 +565,13 @@ abstract class ilObject2GUI extends ilObjectGUI
 //	final protected function getActions() { die("ilObject2GUI::getActions() is deprecated."); }
 
 	/**
-	 * Create new object form
+	 * CRUD
 	 */
-	function create()
-	{
-		global $tpl, $ilErr, $lng, $ilCtrl;
-		
-		$new_type = $_REQUEST["new_type"];
-		
-		if (!$this->getAccessHandler()->checkAccess("create", "", $this->parent_id, $new_type))
-		{
-			$ilErr->raiseError($this->lng->txt("permission_denied"));
-		}
-		else
-		{
-			$lng->loadLanguageModule($new_type);
-			$ilCtrl->setParameter($this, "new_type", $new_type);
-
-			$forms = $this->initCreationForms($new_type);
-			$tpl->setContent($this->getCreationFormsHTML($forms));
-		}
-	}
-	
-	/**
-	* Save object
-	*
-	* @access	public
-	*/
-	function save()
-	{
-		global $rbacsystem, $objDefinition, $tpl, $lng, $ilErr, $ilCtrl;
-
-		$new_type = $_REQUEST["new_type"];
-		$lng->loadLanguageModule($new_type);
-		$ilCtrl->setParameter($this, "new_type", $new_type);
-
-		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$this->getAccessHandler()->checkAccess("create", "", $this->parent_id, $new_type))
-		{
-			$ilErr->raiseError($this->lng->txt("no_create_permission"));
-		}
-		
-		$form = $this->initCreateForm($new_type);
-		if ($form->checkInput())
-		{			
-			$location = $objDefinition->getLocation($new_type);
-	
-			// create and insert object in objecttree
-			$class_name = "ilObj".$objDefinition->getClassName($new_type);
-			include_once($location."/class.".$class_name.".php");
-			$newObj = new $class_name();
-			$newObj->setType($new_type);
-			$newObj->setTitle($form->getInput("title"));
-			$newObj->setDescription($form->getInput("desc"));
-			$this->object_id = $newObj->create();
-
-			$this->putObjectInTree($newObj, $this->parent_id);
-
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-			$this->afterSave($newObj);
-			return;
-		}
-
-		$form->setValuesByPost();
-		$tpl->setContent($form->getHtml());
-	}
-
-	/**
-	* cancel action and go back to previous page
-	* @access	public
-	*/
-	protected function cancel()
-	{
-		$this->ctrl->returnToParent($this);
-	}
-	
-	/**
-	 * cancel action and go back to previous page
-	 * @access	public
-	 */
-	final public function cancelCreation()
-	{
-		global $ilCtrl;
-
-		switch($this->id_type)
-		{
-			case self::REPOSITORY_NODE_ID:
-			case self::REPOSITORY_OBJECT_ID: // ???
-				ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$this->parent_id);				
-
-			case self::WORKSPACE_NODE_ID:
-			case self::WORKSPACE_OBJECT_ID:
-				$ilCtrl->setParameterByClass("ilpersonalworkspacegui", "wsp_id", $this->parent_id);
-				$ilCtrl->redirectByClass("ilpersonalworkspacegui", "");
-				break;
-
-			case self::OBJECT_ID:
-				// do nothing ???
-				break;
-		}		
-	}
-
-	/**
-	 * edit object
-	 *
-	 * @access	public
-	 */
-	public function edit()
-	{
-		global $tpl, $ilTabs;
-
-		if (!$this->getAccessHandler()->checkAccess("write", "", $this->node_id))
-		{
-			$this->ctrl->redirect($this);
-		}
-
-		$ilTabs->activateTab("settings");
-
-		$form = $this->initEditForm();
-		$form->setValuesByArray($this->getEditFormValues());
-		$tpl->setContent($form->getHTML());
-	}
-
-	/**
-	 * updates object entry in object_data
-	 */
-	function update()
-	{
-		global $lng, $tpl;
-
-		if (!$this->getAccessHandler()->checkAccess("write", "", $this->node_id))
-		{
-			$this->ctrl->redirect($this);
-		}
-		
-		$form = $this->initEditForm("edit");
-		if ($form->checkInput())
-		{
-			$this->object->setTitle($form->getInput("title"));
-			$this->object->setDescription($form->getInput("desc"));
-			$this->updateCustom($form);
-			$this->object->update();
-			
-			$this->afterUpdate();
-			return;
-		}
-
-		// display form again to correct errors
-		$form->setValuesByPost();
-		$tpl->setContent($form->getHtml());
-	}
+	public function create() { parent::createObject(); }
+	public function save() { parent::saveObject(); }
+	public function edit() { parent::editObject(); }
+	public function update() { parent::updateObject(); }
+	public function cancel() { parent::cancelObject(); }
 
 	/**
 	 * Import
@@ -723,43 +580,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 */
 	function importFile()
 	{
-		global $rbacsystem, $objDefinition, $tpl, $lng, $ilErr;
-
-		$new_type = $_REQUEST["new_type"];
-		
-		$this->ctrl->setParameter($this, "new_type", $new_type);
-		$lng->loadLanguageModule($new_type);
-
-		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$this->getAccessHandler()->checkAccess("create", "", $this->parent_id, $new_type))
-		{
-			$ilErr->raiseError($this->lng->txt("no_create_permission"));
-		}
-
-		$form = $this->initImportForm($new_type);
-		if ($form->checkInput())
-		{
-			// todo: make some check on manifest file
-			include_once("./Services/Export/classes/class.ilImport.php");
-			$imp = new ilImport((int)$this->parent_id);
-			$new_id = $imp->importObject(null, $_FILES["importfile"]["tmp_name"],
-				$_FILES["importfile"]["name"], $new_type);
-
-			// put new object id into tree
-			if ($new_id > 0)
-			{
-				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
-				
-				$this->putObjectInTree($newObj, $this->parent_id);
-
-				$this->afterSave($newObj);
-			}
-			return;
-		}
-
-		// display form to correct errors
-		$form->setValuesByPost();
-		$tpl->setContent($form->getHtml());
+		parent::importFileObject($this->parent_id);
 	}
 
 	/**
@@ -768,11 +589,16 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 * @param ilObject $a_obj
 	 * @param int $a_parent_node_id
 	 */
-	protected function putObjectInTree(ilObject $a_obj, $a_parent_node_id)
+	protected function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
 	{
 		global $rbacreview;
 
 		$this->object_id = $a_obj->getId();
+
+		if(!$a_parent_node_id)
+		{
+			$a_parent_node_id = $this->parent_id;
+		}
 
 		switch($this->id_type)
 		{
@@ -820,7 +646,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	{
 		global $ilTabs, $ilToolbar, $lng, $tpl;
 
-		if (!$this->getAccessHandler()->checkAccess("edit_permission", "", $this->node_id))
+		if (!$this->checkPermissionBool("edit_permission"))
 		{
 			$this->ctrl->redirect($this);
 		}
@@ -840,7 +666,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	{
 		global $lng;
 
-		if (!$this->getAccessHandler()->checkAccess("edit_permission", "", $this->node_id))
+		if (!$this->checkPermissionBool("edit_permission"))
 		{
 			$this->ctrl->redirect($this);
 		}
@@ -889,6 +715,36 @@ abstract class ilObject2GUI extends ilObjectGUI
 		}
 
 		$this->ctrl->redirect($this, "editPermissions");
+	}
+
+	/**
+	 * Check permission
+	 *
+	 * @param string $a_perm
+	 * @param string $a_cmd
+	 * @param string $a_type
+	 * @param int $a_node_id
+	 * @return bool
+	 */
+	protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_node_id = null)
+	{
+		if($a_perm == "create")
+		{
+			if(!$a_node_id)
+			{
+				$a_node_id = $this->parent_id;
+			}
+			return $this->getAccessHandler()->checkAccess($a_perm, $a_cmd, $a_node_id, $a_type);
+		}
+		else
+		{
+
+			if (!$a_node_id)
+			{
+				$a_node_id = $this->node_id;
+			}
+			return $this->getAccessHandler()->checkAccess($a_perm, $a_cmd, $a_node_id);
+		}
 	}
 }
 

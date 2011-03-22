@@ -1785,7 +1785,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	* save object
 	* @access	public
 	*/
-	function afterSave(ilObject $a_new_object)
+	protected function afterSave(ilObject $a_new_object)
 	{
 		global $rbacadmin, $ilUser;
 		

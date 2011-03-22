@@ -167,8 +167,6 @@ class ilObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $rbacsystem;
-
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
@@ -415,7 +413,7 @@ class ilObjectGUI
 	*/
 	function getAdminTabs(&$tabs_gui)
 	{
-		global $rbacsystem, $tree;
+		global $tree;
 
 		if ($_GET["admin_mode"] == "repository")
 		{
@@ -426,13 +424,13 @@ class ilObjectGUI
 			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "repository");
 		}
 		
-		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		if ($this->checkPermissionBool("visible,read"))
 		{
 			$tabs_gui->addTarget("view",
 				$this->ctrl->getLinkTarget($this, "view"), array("", "view"), get_class($this));
 		}
 		
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		if ($this->checkPermissionBool("edit_permission"))
 		{
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), "", "ilpermissiongui");
@@ -635,7 +633,7 @@ class ilObjectGUI
 	*/
 	public function removeFromSystemObject()
 	{
-		global $rbacsystem, $log, $ilAppEventHandler, $lng;
+		global $log, $ilAppEventHandler, $lng;
 		
 		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
 		$ru = new ilRepUtilGUI($this);
@@ -651,7 +649,6 @@ class ilObjectGUI
 	public function cancelObject($in_rep = false)
 	{
 		session_unregister("saved_post");
-
 		$this->ctrl->returnToParent($this);
 	}
 
@@ -662,11 +659,11 @@ class ilObjectGUI
 	*/
 	public function createObject()
 	{
-		global $rbacsystem, $tpl;
+		global $tpl;
 
 		$new_type = $_REQUEST["new_type"];
 
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		if (!$this->checkPermissionBool("create", "", $new_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -775,13 +772,7 @@ class ilObjectGUI
 		$form->addItem($ta);
 
 		$form->addCommandButton("save", $this->lng->txt($a_new_type."_add"));
-		$form->addCommandButton("cancelCreation", $this->lng->txt("cancel"));
-
-		/*
-		$form->addCommandButton("update", $lng->txt("save"));
-		$form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
-		$form->setTitle($lng->txt("edit"));
-		*/
+		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
 		return $form;
 	}
@@ -801,21 +792,24 @@ class ilObjectGUI
 	*/
 	public function saveObject()
 	{
-		global $rbacsystem, $objDefinition, $rbacreview;
+		global $objDefinition, $tpl;
 
-		$parent_id = $_GET["ref_id"];
 		$new_type = $_REQUEST["new_type"];
 		
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$rbacsystem->checkAccess("create", $parent_id, $new_type))
+		if (!$this->checkPermissionBool("create", "", $new_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 		}
 
 		$this->lng->loadLanguageModule($new_type);
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		
 		$form = $this->initCreateForm($new_type);
 		if ($form->checkInput())
 		{
+			$this->ctrl->setParameter($this, "new_type", "");
+
 			// create instance
 			$class_name = "ilObj".$objDefinition->getClassName($new_type);
 			$location = $objDefinition->getLocation($new_type);
@@ -826,14 +820,13 @@ class ilObjectGUI
 			$newObj->setDescription($form->getInput("desc"));
 			$newObj->create();
 
-			$this->putObjectInTree($newObj, $parent_id);
+			$this->putObjectInTree($newObj);
 
 			$this->afterSave($newObj);
 			return;
 		}
 
 		// display only this form to correct input
-		$this->ctrl->setParameter($this, "new_type", $new_type);
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHtml());
 	}
@@ -844,9 +837,14 @@ class ilObjectGUI
 	 * @param ilObject $a_obj
 	 * @param int $a_parent_node_id
 	 */
-	protected function putObjectInTree(ilObject $a_obj, $a_parent_node_id)
+	protected function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
 	{
 		global $rbacreview;
+
+		if(!$a_parent_node_id)
+		{
+			$a_parent_node_id = $_GET["ref_id"];
+		}
 
 		$a_obj->createReference();
 		$a_obj->putInTree($a_parent_node_id);
@@ -880,9 +878,9 @@ class ilObjectGUI
 	 */
 	public function editObject()
 	{
-		global $tpl, $ilTabs, $rbacsystem;
+		global $tpl, $ilTabs;
 
-		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+		if (!$this->checkPermissionBool("write"))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -970,9 +968,7 @@ class ilObjectGUI
 	 */
 	public function updateObject()
 	{
-		global $rbacsystem;
-		
-		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+		if (!$this->checkPermissionBool("write"))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -1033,7 +1029,7 @@ class ilObjectGUI
 		$form->addItem($fi);
 
 		$form->addCommandButton("importFile", $this->lng->txt("import"));
-		$form->addCommandButton("cancelCreation", $this->lng->txt("cancel"));
+		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 	
 		return $form;
 	}
@@ -1041,20 +1037,25 @@ class ilObjectGUI
 	/**
 	 * Import
 	 */
-	function importFileObject()
+	function importFileObject($parent_id = null)
 	{
-		global $rbacsystem, $objDefinition, $tpl, $ilErr;
+		global $objDefinition, $tpl, $ilErr;
 
-		$parent_id = $_GET["ref_id"];
+		if(!$parent_id)
+		{
+			$parent_id = $_GET["ref_id"];
+		}
 		$new_type = $_REQUEST["new_type"];
 
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$rbacsystem->checkAccess("create", $parent_id, $new_type))
+		if (!$this->checkPermissionBool("create", "", $new_type))
 		{
 			$ilErr->raiseError($this->lng->txt("no_create_permission"));
 		}
 
 		$this->lng->loadLanguageModule($new_type);
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		
 		$form = $this->initImportForm($new_type);
 		if ($form->checkInput())
 		{
@@ -1067,9 +1068,10 @@ class ilObjectGUI
 			// put new object id into tree
 			if ($new_id > 0)
 			{
+				$this->ctrl->setParameter($this, "new_type", "");
+				
 				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
-
-				$this->putObjectInTree($newObj, $parent_id);
+				$this->putObjectInTree($newObj);
 				
 				$this->afterImport($newObj);
 			}
@@ -1077,7 +1079,6 @@ class ilObjectGUI
 		}
 
 		// display form to correct errors
-		$this->ctrl->setParameter($this, "new_type", $new_type);
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHtml());
 	}
@@ -1196,16 +1197,16 @@ class ilObjectGUI
 	// BEGIN Security: Hide objects which aren't accessible by the user.
 	public function isVisible($a_ref_id,$a_type)
 	{
-		global $rbacsystem, $ilBench;
+		global $ilBench;
 		
 		$ilBench->start("Explorer", "setOutput_isVisible");
-		$visible = $rbacsystem->checkAccess('visible,read',$a_ref_id);
+		$visible = $this->checkPermissionBool("visible,read", "", "", $a_ref_id);
 		
 		if ($visible && $a_type == 'crs') {
 			global $tree;
 			if($crs_id = $tree->checkForParentType($a_ref_id,'crs'))
 			{
-				if(!$rbacsystem->checkAccess('write',$crs_id))
+				if(!$this->checkPermissionBool("write", "", "", $crs_id))
 				{
 					// Show only activated courses
 					$tmp_obj =& ilObjectFactory::getInstanceByRefId($crs_id,false);
@@ -1243,12 +1244,13 @@ class ilObjectGUI
 	*/
 	public function viewObject()
 	{
-		global $rbacsystem, $tpl;
+		global$tpl;
 
-		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		if (!$this->checkPermissionBool("visible,read"))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
+		
 		// BEGIN ChangeEvent: record read event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 		if (ilChangeEvent::_isActive())
@@ -1583,10 +1585,10 @@ class ilObjectGUI
 		include_once('classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		
-		global $ilAccess,$ilErr,$rbacsystem,$ilUser;
+		global $ilErr,$ilUser;
 		
 	 	$new_type = $_REQUEST['new_type'];
-	 	if(!$rbacsystem->checkAccess('create',(int) $_GET['ref_id'],$new_type))
+	 	if(!$this->checkPermissionBool("create", "", $new_type))
 	 	{
 	 		$ilErr->raiseError($this->lng->txt('permission_denied'));
 	 	}
@@ -1596,7 +1598,7 @@ class ilObjectGUI
 			$this->createObject();
 			return false;
 		}
-		if(!$ilAccess->checkAccess('write','',(int) $_REQUEST['clone_source'],$new_type))
+		if(!$this->checkPermissionBool("write", "", $new_type, (int)$_REQUEST['clone_source']))
 		{
 	 		$ilErr->raiseError($this->lng->txt('permission_denied'));
 		}
@@ -1641,7 +1643,7 @@ class ilObjectGUI
 	*/
 	protected function getCenterColumnHTML()
 	{
-		global $ilCtrl, $ilAccess;
+		global $ilCtrl;
 
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 
@@ -1689,7 +1691,7 @@ class ilObjectGUI
 	*/
 	protected function getRightColumnHTML()
 	{
-		global $ilUser, $lng, $ilCtrl, $ilAccess;
+		global $ilUser, $lng, $ilCtrl;
 		
 		$obj_id = ilObject::_lookupObjId($this->object->getRefId());
 		$obj_type = ilObject::_lookupType($obj_id);
@@ -1726,34 +1728,51 @@ class ilObjectGUI
 	*/
 	protected function setColumnSettings($column_gui)
 	{
-		global $ilAccess;
-
 		$column_gui->setRepositoryMode(true);
 		$column_gui->setEnableEdit(false);
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		if ($this->checkPermissionBool("write"))
 		{
 			$column_gui->setEnableEdit(true);
 		}
 	}
-	
-	protected function checkPermission($a_perm, $a_cmd = "")
-	{
-		global $ilAccess, $lng, $PHP_SELF;
-		
-		if (!is_object($this->object))
-		{
-			return;
-		}
 
-		if (!$ilAccess->checkAccess($a_perm, $a_cmd, $this->object->getRefId()))
+	/**
+	 * Check permission and redirect on error
+	 * 
+	 * @param string $a_perm
+	 * @param string $a_cmd
+	 * @param string $a_type
+	 * @param int $a_ref_id
+	 * @return bool
+	 */
+	protected function checkPermission($a_perm, $a_cmd = "", $a_type = "", $a_ref_id = null)
+	{
+		if (!$this->checkPermissionBool($a_perm, $a_cmd, $a_type, $a_ref_id))
 		{
 			$_SESSION["il_rep_ref_id"] = "";
 			ilUtil::sendFailure($lng->txt("permission_denied"), true);
 
-			if (!is_int(strpos($PHP_SELF, "goto.php")))
+			if (!is_int(strpos($_SERVER["PHP_SELF"], "goto.php")))
 			{
-				ilUtil::redirect("goto.php?target=".$this->object->getType()."_".
-					$this->object->getRefId());
+				// create: redirect to parent
+				if($a_perm == "create")
+				{
+					if(!$a_ref_id)
+					{
+						$a_ref_id = $_GET["ref_id"];
+					}
+					$type = ilObject::_lookupType($a_ref_id, true);
+					
+				}
+				else
+				{
+					if (!$a_ref_id)
+					{
+						$a_ref_id = $this->object->getRefId();
+					}
+					$type = $this->object->getType();
+				}
+				ilUtil::redirect("goto.php?target=".$type."_".$a_ref_id);
 			}
 			else	// we should never be here
 			{
@@ -1761,6 +1780,41 @@ class ilObjectGUI
 			}
 		}
 	}
-	
+
+	/**
+	 * Check permission
+	 * 
+	 * @param string $a_perm
+	 * @param string $a_cmd
+	 * @param string $a_type
+	 * @param int $a_ref_id
+	 * @return bool
+	 */
+	protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_ref_id = null)
+	{
+		global $ilAccess;
+		
+		if($a_perm == "create")
+		{
+			if(!$a_ref_id)
+			{
+				$a_ref_id = $_GET["ref_id"];
+			}
+			return $ilAccess->checkAccess($a_perm, $a_cmd, $a_ref_id, $a_type);
+		}
+		else
+		{
+			if (!is_object($this->object))
+			{
+				return;
+			}
+			if (!$a_ref_id)
+			{
+				$a_ref_id = $this->object->getRefId();
+			}
+			return $ilAccess->checkAccess($a_perm, $a_cmd, $a_ref_id);
+		}
+	}
 } // END class.ilObjectGUI (3.10: 2896 loc)
+
 ?>
