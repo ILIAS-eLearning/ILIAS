@@ -252,7 +252,7 @@ class ilObjStyleSheet extends ilObject
 			"page_tnav", "page_bnav", "page_lnav", "page_rnav", "page_lnavlink", "page_rnavlink",
 			"page_lnavimage", "page_rnavimage"),
 		"glo" => array("glo_overlay", "glo_ovtitle", "glo_ovclink", "glo_ovuglink", "glo_ovuglistlink"),
-		"sco" => array("sco_title", "sco_keyw", "sco_desc", "sco_desct", "sco_obj", "sco_objt"),
+		"sco" => array("sco_title", "sco_keyw", "sco_desc", "sco_desct", "sco_obj", "sco_objt", "sco_fmess"),
 		"rte" => array("rte_menu", "rte_mlink", "rte_tree", "rte_node", "rte_tlink","rte_status")
 		);
 
@@ -294,6 +294,7 @@ class ilObjStyleSheet extends ilObject
 		"sco_obj" => "div",
 		"sco_desct" => "div",
 		"sco_objt" => "div",
+		"sco_fmess" => "div",
 		"rte_menu" => "div",
 		"rte_mlink" => "a",
 		"rte_tree" => "div",
@@ -387,6 +388,7 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "sco_keyw", "class" => "Keywords"),
 			array("type" => "sco_obj", "class" => "Objective"),
 			array("type" => "sco_objt", "class" => "ObjectiveTop"),
+			array("type" => "sco_fmess", "class" => "FinalMessage"),
 			array("type" => "rte_menu", "class" => "RTEMenu"),
 			array("type" => "rte_menu", "class" => "RTELogo"),
 			array("type" => "rte_menu", "class" => "RTELinkBar"),

@@ -104,12 +104,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
 				// pages
 			case "ilscorm2004pagenodegui":
-				if ($this->object->getEntryPage() == $_GET["obj_id"])
-				{
-					$ilTabs->setBackTarget($lng->txt("back"),
-						$ilCtrl->getLinkTarget($this, "listSpecialPages"));
-				}
-
 				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNodeGUI.php");
 				$page_gui = new ilSCORM2004PageNodeGUI($this->object, $_GET["obj_id"]);
 				$page_gui->setParentGUI($this);
@@ -340,6 +334,16 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$ni->setMaxLength(3);
 		$ni->setSize(3);
 		$this->form->addItem($ni);
+		
+		// final sco page
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_final_sco_page"), "final_sco_page");
+		$cb->setInfo($this->lng->txt("cont_final_sco_page_info"));
+		$this->form->addItem($cb);
+		
+		// final lm page
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_final_lm_page"), "final_lm_page");
+		$cb->setInfo($this->lng->txt("cont_final_lm_page_info"));
+		$this->form->addItem($cb);
 
 		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
 		$parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
@@ -377,6 +381,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$values["glossary"] = $this->lng->txt("cont_no_glossary");
 		}
 		$values["q_tries"] = $this->object->getTries();
+		$values["final_sco_page"] = $this->object->getFinalScoPage();
+		$values["final_lm_page"] = $this->object->getFinalLMPage();
 	
 		$this->form->setValuesByArray($values);
 	}
@@ -407,6 +413,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			if ($this->form->checkInput())
 			{
 				$this->object->setTries($_POST["q_tries"]);
+				$this->object->setFinalScoPage($_POST["final_sco_page"]);
+				$this->object->setFinalLMPage($_POST["final_lm_page"]);
 			}
 		}
 		$this->object->update();
@@ -1558,11 +1566,6 @@ function showTrackingItem()
 				$lng->txt("general_settings"),
 				$ilCtrl->getLinkTarget($this, 'properties'));
 
-			// special pages
-			$ilTabs->addSubTab("special_pages",
-				$lng->txt("cont_special_pages"),
-				$ilCtrl->getLinkTarget($this, 'listSpecialPages'));
-
 			// style properties
 			$ilTabs->addSubTab("style",
 				$lng->txt("cont_style"),
@@ -2667,170 +2670,6 @@ function showTrackingItem()
 		ilUtil::redirect("ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=".$this->object->getRefID()."&envEditor=1");
 	}
 
-	/**
-	 * List special pages
-	 */
-	function listSpecialPages()
-	{
-		global $ilToolbar, $ilCtrl, $lng, $tpl, $ilTabs;
-
-		$ilTabs->activateTab("settings");
-		$this->setSubTabs("settings", "special_pages");
-
-		if ($this->object->getEntryPage() == 0)
-		{
-			$ilToolbar->addButton($lng->txt("cont_create_entry_page"),
-				$ilCtrl->getLinkTarget($this, "selectEntryPageTemplate"));
-		}
-		if ($this->object->getFinalScoPage() == 0)
-		{
-			$ilToolbar->addButton($lng->txt("cont_create_final_sco_page"),
-				$ilCtrl->getLinkTarget($this, "selectFinalScoPageTemplate"));
-		}
-		if ($this->object->getFinalLMPage() == 0)
-		{
-			$ilToolbar->addButton($lng->txt("cont_create_final_lm_page"),
-				$ilCtrl->getLinkTarget($this, "selectFinalLMPageTemplate"));
-		}
-
-		include_once("./Modules/Scorm2004/classes/class.ilScormSpecialPagesTableGUI.php");
-		$tab = new ilScormSpecialPagesTableGUI($this, "listSpecialPages", $this->object);
-
-		$tpl->setContent($tab->getHTML());
-	}
-
-	/**
-	 * Select entry page template
-	 */
-	function selectEntryPageTemplate()
-	{
-		$this->insertTemplateGUI(false, "entry_page");
-	}
-
-	/**
-	 * Create entry page
-	 */
-	function createEntryPage()
-	{
-		global $ilCtrl;
-
-		$this->object->createEntryPage(
-			ilUtil::stripSlashes($_POST["layout_id"]));
-		$ilCtrl->redirect($this, "listSpecialPages");
-	}
-
-	/**
-	 * Select final sco page template
-	 */
-	function selectFinalScoPageTemplate()
-	{
-		$this->insertTemplateGUI(false, "final_sco_page");
-	}
-
-	/**
-	 * Create final sco page
-	 */
-	function createFinalScoPage()
-	{
-		global $ilCtrl;
-
-		$this->object->createFinalScoPage(
-			ilUtil::stripSlashes($_POST["layout_id"]));
-		$ilCtrl->redirect($this, "listSpecialPages");
-	}
-
-	/**
-	 * Select final lm page template
-	 */
-	function selectFinalLMPageTemplate()
-	{
-		$this->insertTemplateGUI(false, "final_lm_page");
-	}
-
-	/**
-	 * Create final lm page
-	 */
-	function createFinalLMPage()
-	{
-		global $ilCtrl;
-
-		$this->object->createFinalLMPage(
-			ilUtil::stripSlashes($_POST["layout_id"]));
-		$ilCtrl->redirect($this, "listSpecialPages");
-	}
-
-	/**
-	 * Confirm special page deletion
-	 */
-	function confirmSpecialPageDeletion()
-	{
-		global $ilCtrl, $tpl, $lng;
-
-		if (!is_array($_POST["page_id"]) || count($_POST["page_id"]) == 0)
-		{
-			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
-			$ilCtrl->redirect($this, "listSpecialPages");
-		}
-		else
-		{
-			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
-			$cgui = new ilConfirmationGUI();
-			$cgui->setFormAction($ilCtrl->getFormAction($this));
-			$cgui->setHeaderText($lng->txt("cont_really_delete_special_pages"));
-			$cgui->setCancel($lng->txt("cancel"), "listSpecialPages");
-			$cgui->setConfirm($lng->txt("delete"), "deleteSpecialPages");
-
-			foreach ($_POST["page_id"] as $i)
-			{
-				if ($i == $this->object->getEntryPage())
-				{
-					$t = $lng->txt("cont_entry_page");
-				}
-				if ($i == $this->object->getFinalScoPage())
-				{
-					$t = $lng->txt("cont_final_sco_page");
-				}
-				if ($i == $this->object->getFinalLMPage())
-				{
-					$t = $lng->txt("cont_final_lm_page");
-				}
-
-				$cgui->addItem("page_id[]", $i, $t);
-			}
-
-			$tpl->setContent($cgui->getHTML());
-		}
-	}
-
-	/**
-	 * Delete special pages
-	 */
-	function deleteSpecialPages()
-	{
-		global $lng, $ilCtrl;
-
-		if (is_array($_POST["page_id"]))
-		{
-			foreach ($_POST["page_id"] as $i)
-			{
-				if ($i == $this->object->getEntryPage())
-				{
-					$this->object->setEntryPage(0);
-				}
-				if ($i == $this->object->getFinalScoPage())
-				{
-					$this->object->setFinalScoPage(0);
-				}
-				if ($i == $this->object->getFinalLMPage())
-				{
-					$this->object->setFinalLMPage(0);
-				}
-			}
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-			$this->object->update();
-		}
-		$ilCtrl->redirect($this, "listSpecialPages");
-	}
 
 }
 ?>

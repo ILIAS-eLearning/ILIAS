@@ -1275,7 +1275,7 @@ abstract class ilDB extends PEAR
 		if (!is_array($a_types) || !is_array($a_values) ||
 			count($a_types) != count($a_values))
 		{
-			$this->raisePearError("ilDB::queryF: types and values must be arrays of same size.");
+			$this->raisePearError("ilDB::queryF: Types and values must be arrays of same size. ($a_query)");
 		}
 		$quoted_values = array();
 		foreach($a_types as $k => $t)
@@ -1299,7 +1299,7 @@ abstract class ilDB extends PEAR
 		if (!is_array($a_types) || !is_array($a_values) ||
 			count($a_types) != count($a_values))
 		{
-			$this->raisePearError("ilDB::manipulateF: types and values must be arrays of same size.");
+			$this->raisePearError("ilDB::manipulateF: types and values must be arrays of same size. ($a_query)");
 		}
 		$quoted_values = array();
 		foreach($a_types as $k => $t)

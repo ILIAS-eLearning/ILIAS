@@ -591,6 +591,16 @@ div.ilc_sco_title_Title
 	margin-top: 5px;
 }
 
+div.ilc_sco_fmess_FinalMessage
+{
+	margin: 100px;
+	padding: 50px;
+	font-size: 125%;
+	border: 1px solid #F0F0F0;
+	background-color: #FAFAFA;
+	text-align: center;
+}
+
 /* RTE */
 div.ilc_rte_menu_RTEMenu
 {

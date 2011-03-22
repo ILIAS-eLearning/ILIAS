@@ -19,7 +19,7 @@ class ilScormSpecialPagesTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_slm)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
-
+die("deprecated");
 		$this->slm = $a_slm;
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->getSpecialPages();

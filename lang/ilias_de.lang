@@ -11021,3 +11021,44 @@ blog#:#blog_posting_deletion_confirmation#:#Wollen Sie diesen Eintrag wirklich l
 blog#:#blog_number_users_notes_or_comments#:#Anzahl Benutzer, die Notizen oder Kommentare zu diesem Eintrag verfasst haben.
 blog#:#blog_posting_deleted#:#Der Eintrag wurde gelöscht.
 blog#:#blog_enable_notes#:#Öffentliche Kommentare
+sahs#:#sahs_new_asset#:#New Asset###22 03 2011 new variable
+sahs#:#sahs_insert_ass#:#Insert Asset###22 03 2011 new variable
+common#:#obj_ass#:#Asset###22 03 2011 new variable
+sahs#:#sahs_hide_objectives_page#:#Hide Description/Objectives Page###22 03 2011 new variable
+sahs#:#sahs_hide_objectives_page_info#:#If checked, the SCO description and objectives page will not be included in the presentation.###22 03 2011 new variable
+sahs#:#sahs_list_info#:#Use leading * for bullet lists or leading # for numbered lists.###22 03 2011 new variable
+content#:#cont_final_sco_page#:#Final Page for SCOs###22 03 2011 new variable
+content#:#cont_final_lm_page#:#Final Page for Learning Module###22 03 2011 new variable
+content#:#cont_really_delete_special_pages#:#Do you really want to delete the following special pages?###22 03 2011 new variable
+content#:#cont_create_final_sco_page#:#Create Final Page for SCOs###22 03 2011 new variable
+content#:#cont_create_final_lm_page#:#Create Final Page for Learning Module###22 03 2011 new variable
+style#:#sty_rte_char#:#SCORM RTE###22 03 2011 new variable
+style#:#sty_type_rte_menu#:#RTE Menu###22 03 2011 new variable
+style#:#sty_type_rte_mlink#:#RTE Menu Link###22 03 2011 new variable
+style#:#sty_type_rte_tree#:#RTE Tree Section###22 03 2011 new variable
+style#:#sty_type_rte_node#:#RTE Tree Node###22 03 2011 new variable
+style#:#sty_type_rte_status#:#RTE Status###22 03 2011 new variable
+style#:#sty_type_rte_tlink#:#RTE Tree Node Link###22 03 2011 new variable
+style#:#sty_from#:#From###22 03 2011 new variable
+style#:#sty_to#:#To###22 03 2011 new variable
+style#:#sty_add_content_style#:#Add Content Style###22 03 2011 new variable
+style#:#sty_remove_global_default_state#:#Remove Global Default State###22 03 2011 new variable
+style#:#sty_remove_global_fixed_state#:#Remove Global Fixed State###22 03 2011 new variable
+style#:#sty_make_global_default#:#Make Global Default###22 03 2011 new variable
+style#:#sty_make_global_fixed#:#Make Global Fixed###22 03 2011 new variable
+content#:#cont_save_types#:#Save Types###22 03 2011 new variable
+content#:#cont_layout_template#:#Layout Template###22 03 2011 new variable
+content#:#cont_special_page#:#Special Content Page###22 03 2011 new variable
+wiki#:#wiki_public_comments#:#Public Comments###22 03 2011 new variable
+sahs#:#sahs_insert_ass_inside_chap#:#Insert Asset (inside chapter)###22 03 2011 new variable
+sahs#:#sahs_insert_sco_inside_chap#:#Insert SCO (inside chapter)###22 03 2011 new variable
+sahs#:#sahs_insert_sco_from_clip_inside_chap#:#Paste SCOs from Clipboard (inside chapter)###22 03 2011 new variable
+sahs#:#sahs_insert_ass_from_clip_inside_chap#:#Paste Assets from Clipboard (inside chapter)###22 03 2011 new variable
+sahs#:#sahs_insert_ass_from_clip#:#Paste Assets from Clipboard###22 03 2011 new variable
+sahs#:#sahs_insert_special_page#:#Insert Special Page###22 03 2011 new variable
+sahs#:#sahs_choose_page_template#:#Choose Page Template###22 03 2011 new variable
+sahs#:#sahs_choose_special_page#:#Choose Special Page###22 03 2011 new variable
+sahs#:#sahs_sco_final_message#:#You have successfully completed "%s".###22 03 2011 new variable
+content#:#cont_final_sco_page_info#:#A status page will be displayed at the end of a SCO, if all questions have been answered successfully.###22 03 2011 new variable
+content#:#cont_final_lm_page_info#:#A status page will be displayed, if all questions of the learning module have been answered successfully.###22 03 2011 new variable
+style#:#sty_type_sco_fmess#:#SCORM Final Message###22 03 2011 new variable

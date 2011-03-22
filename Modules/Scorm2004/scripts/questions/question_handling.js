@@ -547,6 +547,10 @@ ilias.questions.scormHandler = function(a_id,a_state,a_response) {
 	}
 	
 	ilias.questions.updateSuccessStatus();
+	if (pager != null)
+	{
+		pager.updateNextLink();
+	}
 };
 
 ilias.questions.updateSuccessStatus = function()

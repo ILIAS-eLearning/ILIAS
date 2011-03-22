@@ -102,12 +102,12 @@ class ilContObjectManifestBuilder
 		$this->writer->xmlElement("title", $attrs, $this->cont_obj->getTitle());
 
 		// entry page
-		if ($this->version == "2004" && $this->cont_obj->getEntryPage())
+		/*if ($this->version == "2004" && $this->cont_obj->getEntryPage())
 		{
 			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004EntryAsset.php");
 			ilSCORM2004EntryAsset::addEntryPageItemXML($this->writer,
 				$this->cont_obj);
-		}
+		}*/
         
 		// write item hierarchy
 		//$this->writeItemHierarchy();
@@ -120,12 +120,12 @@ class ilContObjectManifestBuilder
 		$this->writeItemHierarchyRec($tree,$tree->getRootId());
 		
 		// final page
-		if ($this->version == "2004" && $this->cont_obj->getFinalLMPage())
+		/*if ($this->version == "2004" && $this->cont_obj->getFinalLMPage())
 		{
 			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004FinalAsset.php");
 			ilSCORM2004FinalAsset::addFinalPageItemXML($this->writer,
 				$this->cont_obj);
-		}
+		}*/
 		
 		// sequencing information
 		if($this->version=="2004") {
@@ -144,19 +144,20 @@ class ilContObjectManifestBuilder
 		$this->writer->xmlStartTag("resources", $attrs);
 
 		// entry page resource
-		if ($this->version == "2004" && $this->cont_obj->getEntryPage())
+		/*if ($this->version == "2004" && $this->cont_obj->getEntryPage())
 		{
 			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004EntryAsset.php");
 			ilSCORM2004EntryAsset::addEntryPageResourceXML($this->writer,
 				$this->cont_obj);
-		}
+		}*/
+		
 		// final page resource
-		if ($this->version == "2004" && $this->cont_obj->getFinalLMPage())
+		/*if ($this->version == "2004" && $this->cont_obj->getFinalLMPage())
 		{
 			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004FinalAsset.php");
 			ilSCORM2004FinalAsset::addFinalPageResourceXML($this->writer,
 				$this->cont_obj);
-		}
+		}*/
 
 
 		// write resources

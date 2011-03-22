@@ -397,7 +397,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		// init export (this initialises glossary template)
 		ilSCORM2004PageGUI::initExport();
 		$terms = array();
-		if ($a_asset_type == "entry_asset")
+		/*if ($a_asset_type == "entry_asset")
 		{
 			$pages[] = array("obj_id" => $this->slm_object->getEntryPage());
 		}
@@ -406,16 +406,16 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			$pages[] = array("obj_id" => $this->slm_object->getFinalLMPage());
 		}
 		else
-		{
+		{*/
 			$terms = $this->getGlossaryTermIds();
 			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
 			$pages = $tree->getSubTree($tree->getNodeData($this->getId()),true,'page');
 
-			if ($this->getSLMObject()->getFinalScoPage() > 0)
+			/*if ($this->getSLMObject()->getFinalScoPage() > 0)
 			{
 				$pages[] = array("obj_id" => $this->getSLMObject()->getFinalScoPage());
-			}
-		}
+			}*/
+		//}
 
 		foreach($pages as $page)
 		{
@@ -517,6 +517,18 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			}
 		}
 
+		// final sco success message
+		if ($this->getSLMObject()->getFinalScoPage() && $mode != 'pdf' && $this->getType() == "sco")
+		{
+			$mtpl = new ilTemplate("tpl.final_message.html", true, true, "Modules/Scorm2004");
+			$mtpl->setVariable("MESS", sprintf($lng->txt("sahs_sco_final_message"),
+				$this->getTitle()));
+			$sco_tpl->setCurrentBlock("page");
+			$sco_tpl->setVariable("PAGE", $mtpl->get());
+			$sco_tpl->setVariable("PAGE_ID_ATTR", "id='sco_succ_message'");
+			$sco_tpl->parseCurrentBlock();
+		}
+		
 		// glossary
 		if ($mode!='pdf')
 		{
@@ -572,7 +584,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	{
 		global $lng;
 		
-		if ($a_spacer_img = "")
+		if ($a_spacer_img == "")
 		{
 			$a_spacer_img = ilUtil::getImagePath("spacer.gif");
 		}
@@ -718,10 +730,10 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$tree->setTreeTablePK("slm_id");
 
 		$pages = $tree->getSubTree($tree->getNodeData($this->getId()),true,'page');
-		if ($this->getSLMObject()->getFinalScoPage() > 0)
+		/*if ($this->getSLMObject()->getFinalScoPage() > 0)
 		{
 			$pages[] = array("obj_id" => $this->getSLMObject()->getFinalScoPage());
-		}
+		}*/
 		foreach($pages as $page)
 		{
 			$ilBench->start("ContentObjectExport", "exportPageObject");
