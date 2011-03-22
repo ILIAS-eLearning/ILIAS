@@ -812,6 +812,7 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 		}
 
+		$this->lng->loadLanguageModule($new_type);
 		$form = $this->initCreateForm($new_type);
 		if ($form->checkInput())
 		{
@@ -832,7 +833,6 @@ class ilObjectGUI
 		}
 
 		// display only this form to correct input
-		$this->lng->loadLanguageModule($new_type);
 		$this->ctrl->setParameter($this, "new_type", $new_type);
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHtml());
@@ -1053,7 +1053,8 @@ class ilObjectGUI
 		{
 			$ilErr->raiseError($this->lng->txt("no_create_permission"));
 		}
-		
+
+		$this->lng->loadLanguageModule($new_type);
 		$form = $this->initImportForm($new_type);
 		if ($form->checkInput())
 		{
@@ -1077,7 +1078,6 @@ class ilObjectGUI
 
 		// display form to correct errors
 		$this->ctrl->setParameter($this, "new_type", $new_type);
-		$this->lng->loadLanguageModule($new_type);
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHtml());
 	}
