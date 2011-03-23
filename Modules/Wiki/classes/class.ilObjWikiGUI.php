@@ -154,116 +154,16 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->checkPermission("read");
 		$this->gotoStartPageObject();
 	}
-	
-	/**
-	* create new object form
-	*
-	* @access	public
-	*/
-	function createObject()
+
+	protected function initCreationForms($a_new_type)
 	{
-		global $rbacsystem;
+		$this->initSettingsForm("create");
+		$this->getSettingsFormValues("create");
 
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		$forms = array(self::CFORM_NEW => $this->form_gui,
+			self::CFORM_IMPORT => $this->initImportForm($a_new_type));
 
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		else
-		{
-			global $tpl;
-			
-			$this->initSettingsForm("create");
-			$this->getSettingsFormValues("create");
-			$html1 = $this->form_gui->getHtml();
-
-			$this->initImportForm("wiki");
-			$html2 = $this->form->getHTML();
-
-			$tpl->setContent($html1."<br/><br/>".$html2);
-		}
-	}
-
-	/**
-	 * Init object import form
-	 *
-	 * @param        string        new type
-	 */
-	public function initImportForm($a_new_type = "")
-	{
-		global $lng, $ilCtrl;
-
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setTarget("_top");
-
-		// Import file
-		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
-		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
-		$fi->setSuffixes(array("zip"));
-		$this->form->addItem($fi);
-
-		$this->form->addCommandButton("importFile", $lng->txt("import"));
-		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
-		$this->form->setTitle($lng->txt($a_new_type."_import"));
-
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
-	}
-
-	/**
-	 * Import
-	 *
-	 * @access	public
-	 */
-	function importFileObject()
-	{
-		global $rbacsystem, $objDefinition, $tpl, $lng;
-
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
-		}
-		$this->ctrl->setParameter($this, "new_type", $new_type);
-		$this->initImportForm($new_type);
-		if ($this->form->checkInput())
-		{
-			// todo: make some check on manifest file
-			include_once("./Services/Export/classes/class.ilImport.php");
-			$imp = new ilImport((int) $_GET['ref_id']);
-			$new_id = $imp->importObject($newObj, $_FILES["importfile"]["tmp_name"],
-				$_FILES["importfile"]["name"], $new_type);
-
-			// put new object id into tree
-			if ($new_id > 0)
-			{
-				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
-				$newObj->createReference();
-				$newObj->putInTree($_GET["ref_id"]);
-				$newObj->setPermissions($_GET["ref_id"]);
-				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-				$this->afterSave($newObj);
-			}
-			return;
-		}
-
-		$this->form->setValuesByPost();
-		$tpl->setContent($this->form->getHtml());
-	}
-
-	/**
-	 * save object
-	 * @access	public
-	 */
-	function afterSave($newObj)
-	{
-		// always send a message
-		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
-
-		ilUtil::redirect(ilObjWikiGUI::getGotoLink($newObj->getRefId()));
+		return $forms;
 	}
 
 	/**
@@ -272,9 +172,9 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacadmin, $tpl, $lng, $rbacsystem;
+		global $tpl, $lng, $rbacsystem;
 
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], "wiki"))
+		if (!$this->checkPermissionBool("create", "", "wiki", $_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -289,38 +189,38 @@ class ilObjWikiGUI extends ilObjectGUI
 			}
 			else
 			{
-				// 
-				$_POST["Fobject"]["title"] = $this->form_gui->getInput("title");
-				$_POST["Fobject"]["desc"] = $this->form_gui->getInput("description");
-				
 				// create and insert forum in objecttree
-				$newObj = parent::saveObject();
-				
-				$newObj->setTitle($this->form_gui->getInput("title"));
-				$newObj->setDescription($this->form_gui->getInput("description"));
-				$newObj->setIntroduction($this->form_gui->getInput("intro"));
-				$newObj->setStartPage($this->form_gui->getInput("startpage"));
-				$newObj->setShortTitle($this->form_gui->getInput("shorttitle"));
-				$newObj->setRating($this->form_gui->getInput("rating"));
-				$newObj->setPublicNotes($this->form_gui->getInput("public_notes"));
-				$newObj->setOnline($this->form_gui->getInput("online"));
-				$newObj->update();
-		
-				// add first page
-				
-					
-				// always send a message
-				ilUtil::sendSuccess($this->lng->txt("object_added"),true);
-				
-				//ilUtil::redirect("ilias.php?baseClass=ilWikiHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=editSettings");
-				ilUtil::redirect(ilObjWikiGUI::getGotoLink($newObj->getRefId()));
+				$_POST["title"] = $this->form_gui->getInput("title");
+				$_POST["desc"] = $this->form_gui->getInput("description");
+				return parent::saveObject();
 			}
 		}
-
+	
 		$this->form_gui->setValuesByPost();
 		$tpl->setContent($this->form_gui->getHtml());
 	}
-	
+
+	/**
+	 * save object
+	 * @access	public
+	 */
+	function afterSave($newObj)
+	{
+		$newObj->setTitle($this->form_gui->getInput("title"));
+		$newObj->setDescription($this->form_gui->getInput("description"));
+		$newObj->setIntroduction($this->form_gui->getInput("intro"));
+		$newObj->setStartPage($this->form_gui->getInput("startpage"));
+		$newObj->setShortTitle($this->form_gui->getInput("shorttitle"));
+		$newObj->setRating($this->form_gui->getInput("rating"));
+		$newObj->setPublicNotes($this->form_gui->getInput("public_notes"));
+		$newObj->setOnline($this->form_gui->getInput("online"));
+		$newObj->update();
+
+		// always send a message
+		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
+		ilUtil::redirect(ilObjWikiGUI::getGotoLink($newObj->getRefId()));
+	}
+
 	/**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
