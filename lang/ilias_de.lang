@@ -1115,7 +1115,7 @@ barometer#:#statistics#:#Statistik
 barometer#:#status#:#Status
 barometer#:#table#:#Tabelle
 barometer#:#text#:#Text
-barometer#:#text_answer#:#Mit Kommentar
+barometer#:#text_answer#:#Mit Kommentarfeld
 barometer#:#time#:#Laufzeit
 barometer#:#title#:#Titel
 barometer#:#type#:#Beantwortung
@@ -1455,7 +1455,7 @@ chat#:#chat_smilies_initialized#:#Die Smileys wurden erstellt und können nun be
 chat#:#chat_smilies_status#:#Chat-Smileys
 chat#:#chat_sound_status_activate#:#Aktivieren
 chat#:#chat_sound_status_deactivate#:#Deaktivieren
-chat#:#chat_sounds#:#Klänge
+chat#:#chat_sounds#:#Akustische Hinweise
 chat#:#chat_start_recording#:#Aufnahme starten
 chat#:#chat_status#:#Status
 chat#:#chat_status_saved#:#Der Status wurde geändert
@@ -2012,7 +2012,7 @@ common#:#chat_edit_permission#:#Rechteeinstellungen ändern
 common#:#chat_enter_public_room#:#Öffentl. Chat
 common#:#chat_enter_public_room_tooltip#:#In den öffentl. Chat eintreten.
 common#:#chat_invite#:#Chat
-common#:#chat_invite_public_room#:#Öffentl. Chat
+common#:#chat_invite_public_room#:#Chat
 common#:#chat_invite_public_room_tooltip#:#In den öffentl. Chat einladen.
 common#:#chat_link_to_this_chat#:#Link zu diesem Chat
 common#:#chat_moderate#:#Chat moderieren
@@ -2121,7 +2121,7 @@ common#:#create_stylesheet#:#Style erstellen
 common#:#created#:#Erzeugt am
 common#:#cron_forum_notification#:#Foren-Benachrichtigungen versenden
 common#:#cron_forum_notification_cron#:#regelmäßig per Cron-Job
-common#:#cron_forum_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Mails an die Benutzer versendet, die bei bestimmten Foren-Themen benachrichtigt werden wollen, falls eine neue Nachricht vorliegt.
+common#:#cron_forum_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Mails an die Benutzer versendet, die bei bestimmten Foren-Themen über neue Beiträge benachrichtigt werden wollen.
 common#:#cron_forum_notification_directly#:#Sofort bei Neueintrag
 common#:#cron_forum_notification_never#:#Nie
 common#:#cron_jobs#:#Cron-Jobs
@@ -2130,7 +2130,7 @@ common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
 common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene Suchindex aktualisiert. Bitte konfigurieren Sie vorher den Lucene-Server unter 'Administration -> Suche'.
 common#:#cron_mail_notification#:#Mail-Benachrichtigungen versenden
 common#:#cron_mail_notification_cron#:#Regelmäßig per Cron-Job
-common#:#cron_mail_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Mails an die Benutzer versendet, die bei neuen Mails benachrichtigt werden wollen, falls neue Mails vorliegen.
+common#:#cron_mail_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Benutzer über neue Mails benachrichtigt.
 common#:#cron_mail_notification_never#:#Nie
 common#:#crs#:#Kurs
 common#:#crs_a#:#einen Kurs
@@ -2291,7 +2291,7 @@ common#:#disk_quota_last_reminder_sent#:#Letzte Quota-Erinnerung zugestellt
 common#:#disk_quota_last_reminder_sent_desc#:#Datum, an dem der Benutzer zum letzten Mal wegen Überschreitung der Disk Quota eine Erinnerungsnachricht erhalten hat.
 common#:#disk_quota_on_role_desc#:#Die Disk Quota einer Rolle wirkt sich auf alle Benutzerkonten aus, welche dieser Rolle zugeordnet sind.
 common#:#disk_quota_reminder_mail#:#Erinnerungsnachricht
-common#:#disk_quota_reminder_mail_desc#:#Die Disk Quota-Erinnerungsnachricht wird an alle aktiven Benutzer versandt, die Ihre Disk Quota überschritten haben. Der Versand erfolgt einmal täglich, wenn der ILIAS-Cronjob ausgeführt wird. Benutzer, die bereits eine Erinnerungsnachricht bekommen haben, erhalten diese alle sieben Tage solange sie ihre Disk Quota überschreiten.
+common#:#disk_quota_reminder_mail_desc#:#Die Disk Quota Erinnerungsnachricht wird an alle aktiven Benutzer versandt, die Ihre Disk Quota überschritten haben. Der Versand erfolgt einmal täglich. Benutzer die bereits eine Erinnerungsnachricht erhalten haben, erhalten diese alle 7 Tage erneut, bis dass ihre Disk Quota wieder unterschritten wird.
 common#:#disk_quota_report#:#Disk Quota-Bericht
 common#:#disk_quota_report_not_run_yet#:#Keine Disk Quota-Berichte vorhanden. Der tägliche Cronjob zur Ermittlung der Speicherverwendung muss zuerst ausgeführt werden.
 common#:#disk_space_used#:#Belegter Festplattenspeicher
@@ -3212,7 +3212,7 @@ common#:#link#:#Verknüpfen
 common#:#link_all#:#Alle verknüpfen
 common#:#link_check#:#Externe Links überprüfen
 common#:#link_check_body_top#:#Sie erhalten diese Nachricht, da sie über ungültige Weblinks der folgenden ILIAS Lerneinheiten informiert werden möchten:
-common#:#link_check_message_b#:#Benachrichtigung aktiv<br />Wenn diese Option ausgewählt ist, werden sie per Mail über tote Links benachrichtigt. Voraussetzung ist allerdings, dass der dazugehörige Cron-Job in der Administration aktiviert wurde.
+common#:#link_check_message_b#:#Benachrichtigung aktiv<br />Wenn diese Option ausgewählt ist, werden sie per Mail über ungültige Externe Links benachrichtigt. Voraussetzung ist allerdings, dass der dazugehörige Cron-Job in der Administration aktiviert wurde.
 common#:#link_check_message_disabled#:#Der Versand von Nachrichten ist deaktiviert.
 common#:#link_check_message_enabled#:#Der Versand von Nachrichten ist aktiviert.
 common#:#link_check_subject#:#[ILIAS] Weblink überprüfen
@@ -4343,7 +4343,7 @@ common#:#shib_zipcode#:#Attribut für Postleitzahl
 common#:#shop#:#Shop
 common#:#shop_actions#:#Aktionen
 common#:#short_inst_name#:#Kurztitel
-common#:#short_inst_name_info#:#Dieser Titel erscheint in der Kopfzeile des Browsers. Wird hier nichts eingetragen, erscheint 'ILIAS'
+common#:#short_inst_name_info#:#Dieser Titel erscheint in der Kopfzeile des Browsers. Wird hier nichts eingetragen, erscheint 'ILIAS'.
 common#:#show#:#Anzeigen
 common#:#show_details#:#Details anzeigen
 common#:#show_filter#:#Filter anzeigen
@@ -6684,9 +6684,9 @@ export#:#export_last_export#:#Letzter Export
 export#:#export_last_export_file#:#Letzte Exportdatei benutzen
 export#:#export_last_file#:#Letzte Datei
 export#:#export_omit#:#Auslassen
-export#:#export_omit_resource#:#Ressource auslassen
+export#:#export_omit_resource#:#Objekt auslassen
 export#:#export_resource#:#Ressource
-export#:#export_select_resources#:#Materialien auswählen
+export#:#export_select_resources#:#Objekte auswählen
 feed#:#block_feed_block_feed_url#:#URL des Webfeeds
 feed#:#block_feed_block_feed_url_info#:#Gültige RSS/Atom-URL erforderlich, z. B. http://www.ilias.de/rss.php
 feed#:#block_feed_block_head#:#Externer Webfeed
@@ -7966,7 +7966,7 @@ meta#:#meta_no_rights#:#Keine Metadaten für den Bereich 'Rechte und Lizenzen' v
 meta#:#meta_no_technical#:#Keine Metadaten für den Bereich 'Technische Angaben' vorhanden.
 meta#:#meta_none#:#Keins
 meta#:#meta_operating_system#:#Betriebssystem
-meta#:#meta_or_composite#:#...oder zusammengefasst...
+meta#:#meta_or_composite#:#... oder zusammengesetzt ...
 meta#:#meta_other#:#Andere
 meta#:#meta_other_plattform_requirements#:#Andere Plattform-Anforderungen
 meta#:#meta_pc_dos#:#PC-DOS
@@ -8661,7 +8661,7 @@ ps#:#ps_export_wait#:#Benutzer auf der Warteliste
 ps#:#ps_field_type#:#Datenfeldtyp
 ps#:#ps_files_deleted#:#Die Exportdateien wurden gelöscht.
 ps#:#ps_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen
-ps#:#ps_login_max_attempts_info#:# Setzt die maximal Anzahl von fehlgeschlagenen Anmeldeversuchen. Wenn der Wert auf 0 gesetzt ist, werden fehlgeschlagene Anmeldeversuche nicht gezählt.
+ps#:#ps_login_max_attempts_info#:# Bestimmt die maximal erlaubte Anzahl fehlgeschlagener Anmeldeversuche. Wenn der Wert auf 0 gesetzt ist, werden fehlgeschlagene Anmeldeversuche nicht gezählt.
 ps#:#ps_name_field#:#Name des Datenfeldes
 ps#:#ps_new_select_field#:#Neue Auswahlliste anlegen
 ps#:#ps_new_text_field#:#Neues Textfeld anlegen
@@ -8951,7 +8951,7 @@ sahs#:#sahs_organization#:#Organisation
 sahs#:#sahs_page#:#Seite
 sahs#:#sahs_properties#:#Eigenschaften
 sahs#:#sahs_questions#:#Fragen
-sahs#:#sahs_sco_objective#:#Ziele
+sahs#:#sahs_sco_objective#:#SCOs und ihre Lernziele
 sahs#:#sahs_sequencing#:#Sequencing
 sahs#:#sahs_unit#:#SCO
 search#:#add_members_header#:#Benutzer hinzufügen
@@ -10305,7 +10305,7 @@ content#:#cont_glo_create#:#Neues Glossar anlegen
 content#:#cont_glo_assign#:#Glossar zuweisen
 content#:#cont_glo_detach#:#Glossarzuweisung aufheben
 content#:#glo_usages#:#Glossar wird verwendet in...
-common#:#db_need_hotfix#:#Hotfix vorhanden. Bitte öffnen Sie das Setup!
+common#:#db_need_hotfix#:#Hotfix vorhanden. Bitte öffnen Sie das <a href="setup/setup.php">»Setup</a>!
 common#:#session_config#:#Session-Einstellungen
 common#:#session_config_maintenance_enabled#:#Änderungen durch den Client zugelassen
 common#:#session_config_maintenance_disabled#:#Änderungen durch den Client nicht zugelassen
