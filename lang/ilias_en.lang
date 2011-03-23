@@ -11058,3 +11058,6 @@ trac#:#trac_group_materials#:#Create Grouping with Optional Materials
 trac#:#trac_release_materials#:#Disintegrate Grouping with Optional Materials
 common#:#preconditions_obligatory_hint#:#You need to fullfill the following preconditions
 common#:#preconditions_optional_hint#:#Please fullfill one of the following preconditions
+book#:#book_new#:#Add Booking Pool
+book#:#book_add#:#Add
+book#:#book_edit#:#Edit Booking Pool
