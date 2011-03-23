@@ -2540,17 +2540,29 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	{
 		global $lng, $tree, $ilLocator;
 
-		//$ilLocator->clearItems();
-
-		$this->ctrl->addLocation(
-			"...",
-			"");
-
 		$par_id = $tree->getParentId($_GET["ref_id"]);
-		$this->ctrl->addLocation(
-			ilObject::_lookupTitle(ilObject::_lookupObjId($par_id)),
+		$parent_title = ilObject::_lookupTitle(ilObject::_lookupObjId($par_id));
+
+		// parent is not root folder, "shorten" locator
+		if($par_id != ROOT_FOLDER_ID)
+		{
+			$this->ctrl->addLocation("...",
+				"");
+		}
+		else
+		{
+			// if parent is root folder and has no custom title
+			// we adapt it [see $ilLocator->addRepositoryItems()]
+			if ($parent_title == "ILIAS")
+			{
+				$parent_title = $lng->txt("repository");
+			}
+		}
+
+		$this->ctrl->addLocation($parent_title,
 			"repository.php?cmd=frameset&amp;ref_id=".$par_id,
 			ilFrameTargetInfo::_getFrame("MainContent"), $par_id);
+		
 		if (!$a_omit_obj_id)
 		{
 			$obj_id = $_GET["obj_id"];
