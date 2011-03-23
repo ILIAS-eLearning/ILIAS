@@ -83,6 +83,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				$this->object_id = ilObject::_lookupObjectId($this->node_id);
 				$this->tree = $tree;
 				$this->access_handler = $ilAccess;
+				$this->call_by_reference = true;  // needed for prepareOutput()
 				$params[] = "ref_id";
 				break;
 
@@ -132,8 +133,6 @@ abstract class ilObject2GUI extends ilObjectGUI
 		}
 		if($this->node_id)
 		{
-			$this->call_by_reference = true;
-
 			// add parent node id if missing
 			if(!$this->parent_id && $this->tree)
 			{
@@ -143,7 +142,6 @@ abstract class ilObject2GUI extends ilObjectGUI
 		$this->ref_id = $this->node_id;
 		$this->obj_id = $this->object_id;
 		
-
 
 
 		$this->assignObject();
