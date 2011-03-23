@@ -896,7 +896,11 @@ class ilObjectGUI
 		$ilTabs->activateTab("settings");
 
 		$form = $this->initEditForm();
-		$form->setValuesByArray($this->getEditFormValues());
+		$values = $this->getEditFormValues();
+		if($values)
+		{
+			$form->setValuesByArray($values);
+		}
 		$tpl->setContent($form->getHTML());
 	}
 
@@ -976,6 +980,8 @@ class ilObjectGUI
 	 */
 	public function updateObject()
 	{
+		global $ilTabs, $tpl;
+		
 		if (!$this->checkPermissionBool("write"))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -994,6 +1000,7 @@ class ilObjectGUI
 		}
 
 		// display form again to correct errors
+		$ilTabs->activateTab("settings");
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHtml());
 	}
