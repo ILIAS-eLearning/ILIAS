@@ -101,163 +101,53 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		return true;
 	}
 
-	/**
-	 * Display creation form
-	 */
-	function createObject()
+	protected function initCreationForms($a_new_type)
 	{
-		global $tpl;
-
-		$form = $this->initForm();
-		$tpl->setContent($form->getHTML());
+		return array(self::CFORM_NEW => $this->initCreateForm($a_new_type));
 	}
 
-	/**
-	 * Display update form
-	 */
-	function editObject()
+	protected function afterSave(ilObject $a_new_object)
 	{
-		global $tpl;
+		$a_new_object->setOffline(true);
+		$a_new_object->setNumberOfSlots(4);
+		$a_new_object->update();
 
-		$this->tabs_gui->setTabActive('edit');
-
-		$form = $this->initForm("edit");
-		$tpl->setContent($form->getHTML());
-	}
-
-	/**
-	* Init property form
-	* @return	object
-	*/
-	function initForm($a_mode = "create")
-	{
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-
-		$form_gui = new ilPropertyFormGUI();
-
-		$title = new ilTextInputGUI($this->lng->txt("title"), "standard_title");
-		$title->setRequired(true);
-		$title->setSize(40);
-		$title->setMaxLength(120);
-		$form_gui->addItem($title);
-
-		$desc = new ilTextAreaInputGUI($this->lng->txt("description"), "description");
-		$desc->setCols(37);
-		$desc->setRows(2);
-		$form_gui->addItem($desc);
-
-		if ($a_mode == "edit")
-		{
-			$online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
-			$form_gui->addItem($online);
-
-			$public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
-			$public->setInfo($this->lng->txt("book_public_log_info"));
-			$form_gui->addItem($public);
-
-			$slots = new ilNumberInputGUI($this->lng->txt("book_slots_no"), "slots");
-			$slots->setRequired(true);
-			$slots->setSize(4);
-			$slots->setMinValue(1);
-			$slots->setMaxValue(24);
-			$slots->setInfo($this->lng->txt("book_slots_no_info"));
-			$form_gui->addItem($slots);
-
-			$form_gui->setTitle($this->lng->txt("settings"));
-			$title->setValue($this->object->getTitle());
-			$desc->setValue($this->object->getDescription());
-			$online->setChecked(!$this->object->isOffline());
-			$public->setChecked($this->object->hasPublicLog());
-			$slots->setValue($this->object->getNumberOfSlots());
-			$form_gui->addCommandButton("update", $this->lng->txt("save"));
-			$form_gui->addCommandButton("render", $this->lng->txt("cancel"));
-		}
-		else
-		{
-			$form_gui->setTitle($this->lng->txt("book_create_title"));
-			$form_gui->addCommandButton("save", $this->lng->txt("save"));
-			$form_gui->addCommandButton("cancel", $this->lng->txt("cancel"));
-		}
-		$form_gui->setFormAction($this->ctrl->getFormAction($this));
-
-		return $form_gui;
+		// always send a message
+		ilUtil::sendSuccess($this->lng->txt("book_pool_added"),true);
+		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
+		$this->ctrl->redirect($this, "edit");
 	}
 	
-	/**
-	* create new dataset
-	*/
-	function saveObject()
+	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
-		global $rbacadmin, $ilUser, $tpl, $ilCtrl;
+		$online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
+		$a_form->addItem($online);
 
-		$form = $this->initForm();
-		if($form->checkInput())
-		{
-			$_POST["new_type"] = "book";
-			$_POST["Fobject"]["title"] = $form->getInput("standard_title");
-			$_POST["Fobject"]["desc"] = $form->getInput("description");
+		$public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
+		$public->setInfo($this->lng->txt("book_public_log_info"));
+		$a_form->addItem($public);
 
-			// always call parent method first to create an object_data entry & a reference
-			$newObj = parent::saveObject();
-
-			$newObj->setOffline(true);
-			$newObj->setNumberOfSlots(4);
-			$newObj->update();
-			
-			// always send a message
-			ilUtil::sendSuccess($this->lng->txt("book_pool_added"),true);
-
-			// BEGIN ChangeEvent: Record object creation
-			global $ilUser;
-			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			if (ilChangeEvent::_isActive())
-			{
-				ilChangeEvent::_recordWriteEvent($newObj->getId(), $ilUser->getId(), 'create');
-			}
-			// END ChangeEvent: Record object creation
-
-			$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
-			$this->ctrl->redirect($this, "edit");
-		}
-		else
-		{
-			$form->setValuesByPost();
-			$tpl->setContent($form->getHTML());
-		}
-	}
-	
-	/**
-	* update dataset
-	*/
-	function updateObject()
-	{
-		global $rbacadmin, $ilUser, $tpl, $ilCtrl;
-
-		$form = $this->initForm("edit");
-		if($form->checkInput())
-		{
-			$_POST["Fobject"]["title"] = $form->getInput("standard_title");
-			$_POST["Fobject"]["desc"] = $form->getInput("description");
-
-			$this->object->setOffline(!$form->getInput('online'));
-			$this->object->setPublicLog($form->getInput('public'));
-			$this->object->setNumberOfSlots($form->getInput('slots'));
-
-			parent::updateObject();
-
-			$ilCtrl->redirect($this, "render");
-		}
-		else
-		{
-			$this->tabs_gui->setTabActive('edit');
-			$form->setValuesByPost();
-			$tpl->setContent($form->getHTML());
-		}
+		$slots = new ilNumberInputGUI($this->lng->txt("book_slots_no"), "slots");
+		$slots->setRequired(true);
+		$slots->setSize(4);
+		$slots->setMinValue(1);
+		$slots->setMaxValue(24);
+		$slots->setInfo($this->lng->txt("book_slots_no_info"));
+		$a_form->addItem($slots);
 	}
 
-	function afterUpdate()
+	protected function getEditFormCustomValues(array &$a_values)
 	{
-		
+		$a_values["online"] = !$this->object->isOffline();
+		$a_values["public"] = $this->object->hasPublicLog();
+		$a_values["slots"] = $this->object->getNumberOfSlots();
+	}
+
+	protected function updateCustom(ilPropertyFormGUI $a_form)
+	{
+		$this->object->setOffline(!$a_form->getInput('online'));
+		$this->object->setPublicLog($a_form->getInput('public'));
+		$this->object->setNumberOfSlots($a_form->getInput('slots'));
 	}
 
 	/**
@@ -294,7 +184,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				$this->lng->txt("book_schedules"),
 				$this->ctrl->getLinkTargetByClass("ilbookingschedulegui", "render"));
 
-			$this->tabs_gui->addTab("edit",
+			$this->tabs_gui->addTab("settings",
 				$this->lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "edit"));
 		}
