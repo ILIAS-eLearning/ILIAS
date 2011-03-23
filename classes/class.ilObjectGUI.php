@@ -750,7 +750,7 @@ class ilObjectGUI
 	 * @param	string	$a_new_type
 	 * @return	ilPropertyFormGUI
 	 */
-	public function initCreateForm($a_new_type)
+	protected function initCreateForm($a_new_type)
 	{
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -839,7 +839,7 @@ class ilObjectGUI
 	 */
 	protected function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
 	{
-		global $rbacreview;
+		global $rbacreview, $ilUser;
 
 		if(!$a_parent_node_id)
 		{
@@ -852,6 +852,14 @@ class ilObjectGUI
 
 		$this->obj_id = $a_obj->getId();
 		$this->ref_id = $a_obj->getRefId();
+
+		// BEGIN ChangeEvent: Record save object.
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		if (ilChangeEvent::_isActive())
+		{
+			ilChangeEvent::_recordWriteEvent($this->obj_id, $ilUser->getId(), 'create');
+		}
+		// END ChangeEvent: Record save object.
 
 		// rbac log
 		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
