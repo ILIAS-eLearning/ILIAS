@@ -709,7 +709,7 @@ class ilObjectGUI
 		if(sizeof($a_forms) == 1)
 		{
 			$a_forms = array_shift($a_forms);
-			if (get_class($a_forms) == "ilPropertyFormGUI")
+			if (is_object($a_forms) && get_class($a_forms) == "ilPropertyFormGUI")
 			{
 				return $a_forms->getHTML();
 			}
@@ -723,7 +723,7 @@ class ilObjectGUI
 			$cnt = 1;
 			foreach ($a_forms as $cf)
 			{
-				if (get_class($cf) == "ilPropertyFormGUI")
+				if (is_object($cf) && get_class($cf) == "ilPropertyFormGUI")
 				{
 					$htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
 					$htpl->setVariable("IMG_ARROW", ilUtil::getImagePath("accordion_arrow.gif"));
@@ -1052,7 +1052,7 @@ class ilObjectGUI
 	/**
 	 * Import
 	 */
-	function importFileObject($parent_id = null)
+	protected function importFileObject($parent_id = null)
 	{
 		global $objDefinition, $tpl, $ilErr;
 

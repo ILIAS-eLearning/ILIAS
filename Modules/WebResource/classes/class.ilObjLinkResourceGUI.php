@@ -126,97 +126,12 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 		return true;
 	}
 	
-	/**
-	 * Overwritten to offer object cloning
-	 *
-	 * @access public
-	 * @param
-	 * 
-	 */
-	public function createObject()
+	protected function initCreateForm($a_new_type)
 	{
-	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.webr_create.html','Modules/WebResource');
 		$this->initFormLink(self::LINK_MOD_CREATE);
-		$this->tpl->setVariable('LINK_FORM',$this->form->getHTML());
-		
-	 	$this->fillCloneTemplate('CLONE_WIZARD',$_REQUEST['new_type']);
-
-		$this->initImportForm("webr");
-		$this->tpl->setVariable("IMPORT_FORM", $this->form->getHTML());
+		return $this->form;
 	}
 
-	/**
-	 * Init object import form
-	 *
-	 * @param        string        new type
-	 */
-	public function initImportForm($a_new_type = "")
-	{
-		global $lng, $ilCtrl;
-
-		$lng->loadLanguageModule("webr");
-
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setTableWidth('600px');
-		$this->form->setTarget("_top");
-
-		// Import file
-		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
-		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
-		$fi->setSuffixes(array("zip"));
-		$fi->setRequired(true);
-		$this->form->addItem($fi);
-
-		$this->form->addCommandButton("importFile", $lng->txt("import"));
-		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
-		$this->form->setTitle($lng->txt($a_new_type."_import"));
-
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
-	}
-	
-	/**
-	 * Import
-	 *
-	 * @access	public
-	 */
-	protected function importFileObject()
-	{
-		global $rbacsystem, $objDefinition, $tpl, $lng, $ilErr;
-
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$rbacsystem->checkAccess("create", $this->object->getRefId(), $new_type))
-		{
-			$ilErr->raiseError($this->lng->txt('no_create_permission'),$ilErr->MESSAGE);
-		}
-		$this->ctrl->setParameter($this, "new_type", $new_type);
-		$this->initImportForm($new_type);
-		if ($this->form->checkInput())
-		{
-			include_once './Services/Export/classes/class.ilImport.php';
-			$imp = new ilImport((int) $_GET['ref_id']);
-			$new_id = $imp->importObject(null, $_FILES["importfile"]["tmp_name"],$_FILES["importfile"]["name"], $new_type);
-
-			// put new object id into tree
-			if ($new_id > 0)
-			{
-				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
-				$newObj->createReference();
-				$newObj->putInTree($_GET["ref_id"]);
-				$newObj->setPermissions($_GET["ref_id"]);
-				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-				$this->ctrl->returnToParent($this);
-			}
-			return;
-		}
-
-		$this->form->setValuesByPost();
-		$tpl->setContent($this->form->getHtml());
-	}
-	
-	
 	/**
 	 * Save new object
 	 * @access	public
@@ -224,48 +139,40 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 	public function saveObject()
 	{
 		global $ilCtrl;
-		
+
 		$this->initFormLink(self::LINK_MOD_CREATE);
 		if($this->checkLinkInput(self::LINK_MOD_CREATE,0,0))
 		{
 			// Save new object
-			$_POST['Fobject']['title'] = $_POST['tit'];
-			$_POST['Fobject']['desc'] = $_POST['des'];
-			$link_list = parent::saveObject();
-
-			// Save link
-			$this->link->setLinkResourceId($link_list->getId());
-			$link_id = $this->link->add();
-			
-			// Dynamic params
-			if(ilParameterAppender::_isEnabled() and is_object($this->dynamic))
-			{
-				$this->dynamic->setObjId($link_list->getId());
-				$this->dynamic->add($link_id);
-			}
-			
-			ilUtil::sendSuccess($this->lng->txt('webr_link_added'));
-			ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".
-				$link_list->getRefId()."&cmd=view");
-			return true;			
+			$_POST['title'] = $_POST['tit'];
+			$_POST['desc'] = $_POST['des'];
+			parent::saveObject();
 		}
-		// Data incomplete or invalid
-		ilUtil::sendFailure($this->lng->txt('err_check_input'));
-		$this->form->setValuesByPost();
-		
-	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.webr_create.html','Modules/WebResource');
-		$this->tpl->setVariable('LINK_FORM',$this->form->getHTML());
-		
-		$this->fillCloneTemplate('CLONE_WIZARD',$_REQUEST['new_type']);
-		return false;
-
-		
-		if ($_POST["Fobject"]["title"] == "")
+		else
 		{
-			ilUtil::sendFailure($this->lng->txt('please_enter_title'));
-			$this->createObject();
-			return false;
+			// Data incomplete or invalid
+			ilUtil::sendFailure($this->lng->txt('err_check_input'));
+			$this->form->setValuesByPost();
+			$this->tpl->setContent($this->form->getHTML());
 		}
+	}
+
+	protected function afterSave(ilObject $a_new_object)
+	{
+		// Save link
+		$this->link->setLinkResourceId($a_new_object->getId());
+		$link_id = $this->link->add();
+
+		// Dynamic params
+		if(ilParameterAppender::_isEnabled() and is_object($this->dynamic))
+		{
+			$this->dynamic->setObjId($a_new_object->getId());
+			$this->dynamic->add($link_id);
+		}
+
+		ilUtil::sendSuccess($this->lng->txt('webr_link_added'));
+		ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".
+			$a_new_object->getRefId()."&cmd=view");
 	}
 	
 	/**

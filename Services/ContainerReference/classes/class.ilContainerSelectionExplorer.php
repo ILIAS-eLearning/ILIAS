@@ -116,9 +116,11 @@ class ilContainerSelectionExplorer extends ilExplorer
 		$tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
 		$tpl->parseCurrentBlock();
 
+		/*
 		$tpl->setCurrentBlock("row");
 		$tpl->parseCurrentBlock();
-
+		*/
+		
 		$this->output[] = $tpl->get();
 	}
 	
