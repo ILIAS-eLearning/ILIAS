@@ -11003,10 +11003,6 @@ rbac#:#active_preconditions#:#Active Preconditions
 rbac#:#precondition_obligatory#:#Obligatory
 rbac#:#precondition_obligatory_info#:#Obligatory preconditions must be fulfilled, for having access.
 trac#:#trac_status_changed#:#Last Status Change
-trac#:#trac_group_materials#:#Group Materials
-trac#:#trac_release_materials#:#Disintegrate Material Group
-common#:#preconditions_obligatory_hint#:#Please edit the following preconditions
-common#:#preconditions_optional_hint#:#Please edit one of the following preconditions
 style#:#sty_type_rte_node#:#RTE Tree Node
 style#:#sty_type_rte_status#:#RTE Status
 style#:#sty_type_rte_tlink#:#RTE Tree Node Link
@@ -11058,3 +11054,7 @@ sahs#:#sahs_sco_final_message#:#You have successfully completed "%s".
 content#:#cont_final_sco_page_info#:#A status page will be displayed at the end of a SCO, if all questions have been answered successfully.
 content#:#cont_final_lm_page_info#:#A status page will be displayed, if all questions of the learning module have been answered successfully.
 style#:#sty_type_sco_fmess#:#SCORM Final Message
+trac#:#trac_group_materials#:#Create Grouping with Optional Materials
+trac#:#trac_release_materials#:#Disintegrate Grouping with Optional Materials
+common#:#preconditions_obligatory_hint#:#You need to fullfill the following preconditions
+common#:#preconditions_optional_hint#:#Please fullfill one of the following preconditions
