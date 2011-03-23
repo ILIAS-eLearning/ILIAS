@@ -176,11 +176,11 @@ class ilShopTopic
 			{
 				$statement = $this->db->manipulateF('
 					UPDATE payment_topic_usr_sort
-					SET ptus_usr_id = %s,
-						ptus_sorting = %s
-					WHERE ptus_pt_topic_fk = %s',
+					SET ptus_sorting = %s
+					WHERE ptus_usr_id = %s
+					AND	ptus_pt_topic_fk = %s',
 						array('integer', 'integer', 'integer'),
-						array( $ilUser->getId(), $this->getCustomSorting(),$this->getId())
+						array( $this->getCustomSorting(),$ilUser->getId(), $this->getId())
 				);
 			}
 			else
