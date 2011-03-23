@@ -2335,55 +2335,123 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	* show edit section of custom icons for container
 	* 
 	*/
-	function showCustomIconsEditing($a_input_colspan = 1)
+	function showCustomIconsEditing($a_input_colspan = 1, ilPropertyFormGUI $a_form = null, $a_as_section = true)
 	{
 		if ($this->ilias->getSetting("custom_icons"))
 		{
-			$this->tpl->addBlockFile("CONTAINER_ICONS", "container_icon_settings",
-				"tpl.container_icon_settings.html");
+			if(!$a_form)
+			{
+				$this->tpl->addBlockFile("CONTAINER_ICONS", "container_icon_settings",
+					"tpl.container_icon_settings.html");
 
-			if (($big_icon = $this->object->getBigIconPath()) != "")
-			{
-				$this->tpl->setCurrentBlock("big_icon");
-				$this->tpl->setVariable("SRC_BIG_ICON", $big_icon);
-				$this->tpl->parseCurrentBlock();
-			}
-			if ($this->object->getType() != "root")
-			{
-				if (($small_icon = $this->object->getSmallIconPath()) != "")
+				if (($big_icon = $this->object->getBigIconPath()) != "")
 				{
-					$this->tpl->setCurrentBlock("small_icon");
-					$this->tpl->setVariable("SRC_SMALL_ICON", $small_icon);
+					$this->tpl->setCurrentBlock("big_icon");
+					$this->tpl->setVariable("SRC_BIG_ICON", $big_icon);
 					$this->tpl->parseCurrentBlock();
 				}
-				$this->tpl->setCurrentBlock("small_icon_row");
-				$this->tpl->setVariable("SMALL_ICON", $this->lng->txt("standard_icon"));
-				$this->tpl->setVariable("SMALL_SIZE", "(".
-					$this->ilias->getSetting("custom_icon_small_width")."x".
-					$this->ilias->getSetting("custom_icon_small_height").")");
-				$this->tpl->setVariable("TXT_REMOVE_S", $this->lng->txt("remove"));
+				if ($this->object->getType() != "root")
+				{
+					if (($small_icon = $this->object->getSmallIconPath()) != "")
+					{
+						$this->tpl->setCurrentBlock("small_icon");
+						$this->tpl->setVariable("SRC_SMALL_ICON", $small_icon);
+						$this->tpl->parseCurrentBlock();
+					}
+					$this->tpl->setCurrentBlock("small_icon_row");
+					$this->tpl->setVariable("SMALL_ICON", $this->lng->txt("standard_icon"));
+					$this->tpl->setVariable("SMALL_SIZE", "(".
+						$this->ilias->getSetting("custom_icon_small_width")."x".
+						$this->ilias->getSetting("custom_icon_small_height").")");
+					$this->tpl->setVariable("TXT_REMOVE_S", $this->lng->txt("remove"));
+					$this->tpl->parseCurrentBlock();
+				}
+				if (($tiny_icon = $this->object->getTinyIconPath()) != "")
+				{
+					$this->tpl->setCurrentBlock("tiny_icon");
+					$this->tpl->setVariable("SRC_TINY_ICON", $tiny_icon);
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("container_icon_settings");
+				$this->tpl->setVariable("SPAN_TITLE", $a_input_colspan + 1);
+				$this->tpl->setVariable("SPAN_INPUT", $a_input_colspan);
+				$this->tpl->setVariable("ICON_SETTINGS", $this->lng->txt("icon_settings"));
+				$this->tpl->setVariable("BIG_ICON", $this->lng->txt("big_icon"));
+				$this->tpl->setVariable("TINY_ICON", $this->lng->txt("tiny_icon"));
+				$this->tpl->setVariable("BIG_SIZE", "(".
+					$this->ilias->getSetting("custom_icon_big_width")."x".
+					$this->ilias->getSetting("custom_icon_big_height").")");
+				$this->tpl->setVariable("TINY_SIZE", "(".
+					$this->ilias->getSetting("custom_icon_tiny_width")."x".
+					$this->ilias->getSetting("custom_icon_tiny_height").")");
+				$this->tpl->setVariable("TXT_REMOVE", $this->lng->txt("remove"));
 				$this->tpl->parseCurrentBlock();
 			}
-			if (($tiny_icon = $this->object->getTinyIconPath()) != "")
+			else
 			{
-				$this->tpl->setCurrentBlock("tiny_icon");
-				$this->tpl->setVariable("SRC_TINY_ICON", $tiny_icon);
-				$this->tpl->parseCurrentBlock();
+				$big_icon = $this->object->getBigIconPath();
+				$small_icon = $this->object->getSmallIconPath();
+				$tiny_icon = $this->object->getTinyIconPath();
+
+				if($a_as_section)
+				{					
+					$title = new ilFormSectionHeaderGUI();
+					$title->setTitle($this->lng->txt("icon_settings"));
+				}
+				else
+				{
+					$title = new ilCustomInputGUI($this->lng->txt("icon_settings"), "");
+				}
+				$a_form->addItem($title);
+
+				// big
+				$caption = $this->lng->txt("big_icon")." (".
+					$this->ilias->getSetting("custom_icon_big_width")."x".
+					$this->ilias->getSetting("custom_icon_big_height").")";
+				$icon = new ilImageFileInputGUI($caption, "cont_big_icon");
+				$icon->setImage($big_icon);
+				if($a_as_section)
+				{
+					$a_form->addItem($icon);
+				}
+				else
+				{
+					$title->addSubItem($icon);
+				}
+				
+				// small/standard
+				if ($this->object->getType() != "root")
+				{
+					$caption = $this->lng->txt("standard_icon")." (".
+						$this->ilias->getSetting("custom_icon_small_width")."x".
+						$this->ilias->getSetting("custom_icon_small_height").")";
+					$icon = new ilImageFileInputGUI($caption, "cont_small_icon");
+					$icon->setImage($small_icon);
+					if($a_as_section)
+					{
+						$a_form->addItem($icon);
+					}
+					else
+					{
+						$title->addSubItem($icon);
+					}
+				}
+
+				// tiny
+				$caption = $this->lng->txt("tiny_icon")." (".
+					$this->ilias->getSetting("custom_icon_tiny_width")."x".
+					$this->ilias->getSetting("custom_icon_tiny_height").")";
+				$icon = new ilImageFileInputGUI($caption, "cont_tiny_icon");
+				$icon->setImage($tiny_icon);
+				if($a_as_section)
+				{
+					$a_form->addItem($icon);
+				}
+				else
+				{
+					$title->addSubItem($icon);
+				}
 			}
-			$this->tpl->setCurrentBlock("container_icon_settings");
-			$this->tpl->setVariable("SPAN_TITLE", $a_input_colspan + 1);
-			$this->tpl->setVariable("SPAN_INPUT", $a_input_colspan);
-			$this->tpl->setVariable("ICON_SETTINGS", $this->lng->txt("icon_settings"));
-			$this->tpl->setVariable("BIG_ICON", $this->lng->txt("big_icon"));
-			$this->tpl->setVariable("TINY_ICON", $this->lng->txt("tiny_icon"));
-			$this->tpl->setVariable("BIG_SIZE", "(".
-				$this->ilias->getSetting("custom_icon_big_width")."x".
-				$this->ilias->getSetting("custom_icon_big_height").")");
-			$this->tpl->setVariable("TINY_SIZE", "(".
-				$this->ilias->getSetting("custom_icon_tiny_width")."x".
-				$this->ilias->getSetting("custom_icon_tiny_height").")");
-			$this->tpl->setVariable("TXT_REMOVE", $this->lng->txt("remove"));
-			$this->tpl->parseCurrentBlock();
 		}
 	}
 

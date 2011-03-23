@@ -402,151 +402,100 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 		return true;
 	}
-	
 
-	/**
-	* edit category
-	*
-	* @access	public
-	*/
-	function editObject()
+	function initEditForm()
 	{
-		global $rbacsystem;
+		$this->lng->loadLanguageModule($this->object->getType());
 
-		if (!$rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-		
-		$this->getSubTabs('edit');
-		$this->ctrl->setParameter($this,"mode","edit");
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
 
-		// for lang selection include metadata class
+
+		// list translations
+
 		include_once "./Services/MetaData/classes/class.ilMDLanguageItem.php";
 
-		$this->getTemplateFile("edit",'');
-		$this->showSortingSettings();
-		$array_push = true;
-
-		if ($_SESSION["error_post_vars"])
-		{
-			$_SESSION["translation_post"] = $_SESSION["error_post_vars"];
-			$_GET["mode"] = "session";
-			$array_push = false;
-		}
-
-		// load from db if edit category is called the first time
-		if (($_GET["mode"] != "session"))
-		{
-			$data = $this->object->getTranslations();
-			$_SESSION["translation_post"] = $data;
-			$array_push = false;
-		}	// remove a translation from session
-		elseif ($_GET["entry"] != 0)
-		{
-			array_splice($_SESSION["translation_post"]["Fobject"],$_GET["entry"],1,array());
-
-			if ($_GET["entry"] == $_SESSION["translation_post"]["default_language"])
-			{
-				$_SESSION["translation_post"]["default_language"] = "";
-			}
-		}
-
-		$data = $_SESSION["translation_post"];
-
-		// add additional translation form
-		if (!$_GET["entry"] and $array_push)
-		{
-			$count = array_push($data["Fobject"],array("title" => "","desc" => ""));
-		}
-		else
-		{
-			$count = count($data["Fobject"]);
-		}
-
-		// stripslashes in form?
-		$strip = isset($_SESSION["translation_post"]) ? true : false;
-
-		foreach ((array) $data["Fobject"] as $key => $val)
-		{
-			// add translation button
-			if ($key == $count -1)
-			{
-				$this->tpl->setCurrentBlock("addTranslation");
-				$this->tpl->setVariable("TXT_ADD_TRANSLATION",$this->lng->txt("add_translation")." >>");
-				$this->tpl->parseCurrentBlock();
-			}
-
-			// remove translation button
-			if ($key != 0)
-			{
-				$this->tpl->setCurrentBlock("removeTranslation");
-				$this->tpl->setVariable("TXT_REMOVE_TRANSLATION",$this->lng->txt("remove_translation"));
-				$this->ctrl->setParameter($this, "entry", $key);
-				$this->ctrl->setParameter($this, "mode", "edit");
-				$this->tpl->setVariable("LINK_REMOVE_TRANSLATION", $this->ctrl->getLinkTarget($this, "removeTranslation"));
-				$this->tpl->parseCurrentBlock();
-			}
-
-			// lang selection
-			$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", false);
-			$this->tpl->setVariable("SEL_NAME", "Fobject[".$key."][lang]");
-
-			$languages = ilMDLanguageItem::_getLanguages();
-
-			foreach ($languages as $code => $language)
-			{
-				$this->tpl->setCurrentBlock("lg_option");
-				$this->tpl->setVariable("VAL_LG", $code);
-				$this->tpl->setVariable("TXT_LG", $language);
-
-				if ($code == $val["lang"])
-				{
-					$this->tpl->setVariable("SELECTED", "selected=\"selected\"");
-				}
-
-				$this->tpl->parseCurrentBlock();
-			}
-
-			// object data
-			$this->tpl->setCurrentBlock("obj_form");
-
-			if ($key == 0)
-			{
-				$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
-			}
-			else
-			{
-				$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("translation")." ".$key);
-			}
-
-			if ($key == $data["default_language"])
-			{
-				$this->tpl->setVariable("CHECKED", "checked=\"checked\"");
-			}
-
-			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-			$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
-			$this->tpl->setVariable("TXT_DEFAULT", $this->lng->txt("default"));
-			$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-			$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($val["title"],$strip));
-			$this->tpl->setVariable("DESC", ilUtil::stripSlashes($val["desc"]));
-			$this->tpl->setVariable("NUM", $key);
-			$this->tpl->parseCurrentBlock();
-		}
+		$translations = $this->object->getTranslations();
+		$languages = ilMDLanguageItem::_getLanguages();
 		
-		$this->showCustomIconsEditing();
+		foreach($translations["Fobject"] as $idx => $trans)
+		{
+			$title = new ilCustomInputGUI($this->lng->txt("translation").": ".
+				$languages[$trans["lang"]], "");
+			if($idx)
+			{
+				$this->ctrl->setParameter($this, "rmvtr", $trans["lang"]);
+				$title->setHTML("<div align=\"right\" class=\"small\">".
+					"<a href=\"".$this->ctrl->getLinkTarget($this, "removeTranslation").
+					"\">".$this->lng->txt("remove_translation")."</a></div>");
+			}
+			$form->addItem($title);
 
-		// global
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "update"));
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("CMD_SUBMIT", "update");
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+			// title
+			$ti = new ilTextInputGUI($this->lng->txt("title"), "title_".$idx);
+			$ti->setMaxLength(128);
+			$ti->setSize(40);
+			$ti->setRequired(true);
+			$ti->setValue($trans["title"]);
+			$title->addSubItem($ti);
+
+			// description
+			$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc_".$idx);
+			$ta->setCols(40);
+			$ta->setRows(2);
+			$ta->setValue($trans["desc"]);
+			$title->addSubItem($ta);
+
+			// language
+			$tl = new ilSelectInputGUI($this->lng->txt("language"), "lang_".$idx);
+			$tl->setOptions($languages);
+			$tl->setRequired(true);
+			$tl->setValue($trans["lang"]);
+			$title->addSubItem($tl);
+
+			// default (form gui does not support "single" radiobutton yet)
+			$checked = ($idx == $translations["default_language"]) ? " checked=\"checked\"" : "";
+			$td = new ilCustomInputGUI($this->lng->txt("default"), "default");
+			$td->setHTML("<input type=\"radio\" name=\"default\" value=\"".$idx."\"".$checked." />");
+			$title->addSubItem($td);
+		}
+
+		
+		// sorting
+		
+		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
+		$settings = new ilContainerSortingSettings($this->object->getId());
+
+		$sort = new ilRadioGroupInputGUI($this->lng->txt('sorting_header'), "sorting");
+		$sort_title = new ilRadioOption($this->lng->txt('sorting_title_header'),
+			ilContainer::SORT_TITLE);
+		$sort_title->setInfo($this->lng->txt('sorting_info_title'));
+		$sort->addOption($sort_title);
+
+		$sort_manual = new ilRadioOption($this->lng->txt('sorting_manual_header'),
+			ilContainer::SORT_MANUAL);
+		$sort_manual->setInfo($this->lng->txt('sorting_info_manual'));
+		$sort->addOption($sort_manual);
+
+		$form->addItem($sort);
+
+
+		$this->showCustomIconsEditing(1, $form, false);
+		
+
+		$form->addCommandButton("update", $this->lng->txt("save"));
+		$form->addCommandButton("addTranslationForm", $this->lng->txt("add_translation"));		
+
+		return $form;
 	}
 
+	function getEditFormValues()
+	{
+		// values are set in initEditForm()
+	}
+	
 	/**
 	* updates object entry in object_data
 	*
@@ -556,100 +505,177 @@ class ilObjCategoryGUI extends ilContainerGUI
 	{
 		global $rbacsystem, $ilCtrl;
 		
-		if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		if (!$this->checkPermissionBool("write"))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 		else
 		{
-			$data = $_POST;
-
-			// default language set?
-			if (!isset($data["default_language"]))
+			// default language set? not part of form
+			if (!isset($_POST["default"]))
 			{
-				$this->ilias->raiseError($this->lng->txt("msg_no_default_language"),$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError($this->lng->txt("msg_no_default_language"),
+					$this->ilias->error_obj->MESSAGE);
 			}
 
-			// prepare array fro further checks
-			foreach ($data["Fobject"] as $key => $val)
+			$form = $this->initEditForm();
+			if($form->checkInput())
 			{
-				$langs[$key] = $val["lang"];
-			}
-
-			$langs = array_count_values($langs);
-
-			// all languages set?
-			if (array_key_exists("",$langs))
-			{
-				$this->ilias->raiseError($this->lng->txt("msg_no_language_selected"),$this->ilias->error_obj->MESSAGE);
-			}
-
-			// no single language is selected more than once?
-			if (array_sum($langs) > count($langs))
-			{
-				$this->ilias->raiseError($this->lng->txt("msg_multi_language_selected"),$this->ilias->error_obj->MESSAGE);
-			}
-
-			// copy default translation to variable for object data entry
-			$_POST["Fobject"]["title"] = $_POST["Fobject"][$_POST["default_language"]]["title"];
-			$_POST["Fobject"]["desc"] = $_POST["Fobject"][$_POST["default_language"]]["desc"];
-			
-			// check title
-			if (trim($_POST["Fobject"]["title"]) == "")
-			{
-				ilUtil::sendFailure($this->lng->txt("msg_no_title"), true);
-				$ilCtrl->redirect($this, "edit");
-			}
-
-			// first delete all translation entries...
-			$this->object->removeTranslations();
-
-			// ...and write new translations to object_translation
-			foreach ($data["Fobject"] as $key => $val)
-			{
-				if ($key == $data["default_language"])
+				// gather translation data
+				$langs = $trans = array();
+				$translations = $this->object->getTranslations();
+			    foreach(array_keys($translations["Fobject"]) as $idx)
 				{
-					$default = 1;
+					$trans[$idx] = array("title" => $form->getInput("title_".$idx),
+						"desc" => $form->getInput("desc_".$idx),
+						"lang" => $form->getInput("lang_".$idx));
+
+					$langs[] = $trans[$idx]["lang"];
 				}
-				else
+				unset($translations);
+
+				// check for duplicate languages
+				if(sizeof($langs) != sizeof(array_unique($langs)))
 				{
-					$default = 0;
+					$this->ilias->raiseError($this->lng->txt("msg_multi_language_selected"),
+						$this->ilias->error_obj->MESSAGE);
+				}
+				unset($langs);
+
+				// first delete all translation entries...
+				$this->object->removeTranslations();
+
+				// set translations
+				$default = $form->getInput("default");				
+				foreach($trans as $idx => $lang)
+				{
+					$is_default = false;
+					if($idx == $default)
+					{
+						$this->object->setTitle($lang["title"]);
+						$this->object->setDescription($lang["desc"]);
+						$is_default = true;
+					}
+
+					$this->object->addTranslation($lang["title"], $lang["desc"],
+						$lang["lang"], $is_default);
+				}
+				unset($trans);
+				
+				$this->object->update();
+
+				include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
+				$settings = new ilContainerSortingSettings($this->object->getId());
+				$settings->setSortMode($form->getInput("sorting"));
+				$settings->update();
+
+				// save custom icons
+				if ($this->ilias->getSetting("custom_icons"))
+				{
+					if($form->getItemByPostVar("cont_big_icon")->getDeletionFlag())
+					{
+						$this->object->removeBigIcon();
+					}
+					if($form->getItemByPostVar("cont_small_icon")->getDeletionFlag())
+					{
+						$this->object->removeSmallIcon();
+					}
+					if($form->getItemByPostVar("cont_tiny_icon")->getDeletionFlag())
+					{
+						$this->object->removeTinyIcon();
+					}
+
+					$this->object->saveIcons($_FILES["cont_big_icon"]['tmp_name'],
+						$_FILES["cont_small_icon"]['tmp_name'],
+						$_FILES["cont_tiny_icon"]['tmp_name']);
 				}
 
-				$this->object->addTranslation(ilUtil::stripSlashes($val["title"]),ilUtil::stripSlashes($val["desc"]),$val["lang"],$default);
+				// BEGIN ChangeEvent: Record update
+				global $ilUser;
+				require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+				if (ilChangeEvent::_isActive())
+				{
+					ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+					ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
+				}
+				// END ChangeEvent: Record update
+
+				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+				$this->ctrl->redirect($this, "edit");
 			}
 
-			// update object data entry with default translation
-			$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-			$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-			
-			//save custom icons
-			if ($this->ilias->getSetting("custom_icons"))
-			{
-				$this->object->saveIcons($_FILES["cont_big_icon"]['tmp_name'],
-					$_FILES["cont_small_icon"]['tmp_name'], $_FILES["cont_tiny_icon"]['tmp_name']);
-			}
-			
-			$this->update = $this->object->update();
+			// display form to correct errors
+			$this->tabs_gui->setTabActive("settings");
+			$form->setValuesByPost();
+			$this->tpl->setContent($form->getHTML());
+			// $this->editObject();
 		}
-		
-		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
-		$settings = new ilContainerSortingSettings($this->object->getId());
-		$settings->setSortMode((int) $_POST['sorting']);
-		$settings->update();
+	}
 
-		// BEGIN ChangeEvent: Record update
-		global $ilUser;
-		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-		if (ilChangeEvent::_isActive())
+	public function removeTranslationObject()
+	{
+		$id = $_REQUEST["rmvtr"];
+		if($id)
 		{
-			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
-			ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
+			$this->object->deleteTranslation($id);
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		}
-		// END ChangeEvent: Record update
+		$this->ctrl->redirect($this, "edit");
+	}
 
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getTargetScript()."?".$this->link_params));
+	protected function initTranslationForm()
+	{
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt($this->object->getType()."_edit").": ".
+			$this->lng->txt("translation"));
+
+		// remove used languages from selection
+		include_once "./Services/MetaData/classes/class.ilMDLanguageItem.php";
+		$languages = array(""=>"")+ilMDLanguageItem::_getLanguages();
+		$translations = $this->object->getTranslations();
+		foreach($translations["Fobject"] as $idx => $trans)
+		{
+			unset($languages[$trans["lang"]]);
+		}
+		unset($translations);
+
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setMaxLength(128);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$form->addItem($ti);
+
+		// description
+		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$ta->setCols(40);
+		$ta->setRows(2);
+		$form->addItem($ta);
+
+		// language
+		$tl = new ilSelectInputGUI($this->lng->txt("language"), "lang");
+		$tl->setOptions($languages);
+		$tl->setRequired(true);
+		$form->addItem($tl);
+
+		$form->addCommandButton("addTranslation", $this->lng->txt("save"));
+		$form->addCommandButton("edit", $this->lng->txt("cancel"));
+
+		return $form;
+	}
+
+	function addTranslationFormObject(ilPropertyFormGUI $a_form = null)
+	{
+		$this->tabs_gui->setTabActive("settings");
+		$this->lng->loadLanguageModule($this->object->getType());
+
+		if(!$a_form)
+		{
+			$a_form = $this->initTranslationForm();
+		}
+		$this->tpl->setContent($a_form->getHTML());
 	}
 
 	/**
@@ -659,79 +685,19 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function addTranslationObject()
 	{
-
 		$this->checkPermission("write");
-		if (!($_GET["mode"] != "create" or $_GET["mode"] != "edit"))
-		{
-			$message = get_class($this)."::addTranslationObject(): Missing or wrong parameter! mode: ".$_GET["mode"];
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
-		}
-		$_SESSION["translation_post"] = $_POST;
-		$this->ctrl->setParameter($this, "entry", 0);
-		$this->ctrl->setParameter($this, "mode", "session");
-		$this->ctrl->setParameter($this, "new_type", $_GET["new_type"]);
 
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"], "", false, false));
-	}
-
-	/**
-	* removes a translation form & save post vars to session
-	*
-	* @access	public
-	*/
-	function removeTranslationObject()
-	{
-		$this->checkPermission("write");
-		if (!($_GET["mode"] != "create" or $_GET["mode"] != "edit"))
+		$form = $this->initTranslationForm();
+		if($form->checkInput())
 		{
-			$message = get_class($this)."::removeTranslationObject(): Missing or wrong parameter! mode: ".$_GET["mode"];
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->object->addTranslation($form->getInput("title"),
+				$form->getInput("desc"), $form->getInput("lang"), false);
+
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			$this->ctrl->redirect($this, "edit");
 		}
 
-		$this->ctrl->setParameter($this, "entry", $_GET["entry"]);
-		$this->ctrl->setParameter($this, "mode", "session");
-		$this->ctrl->setParameter($this, "new_type", $_GET["new_type"]);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this, $_GET["mode"], "", false, false));
-
-	}
-
-	/**
-	* remove big icon
-	*
-	* @access	public
-	*/
-	function removeBigIconObject()
-	{
-		$this->checkPermission("write");
-		$_SESSION["translation_post"] = $_POST;
-		$this->object->removeBigIcon();
-		$this->ctrl->redirect($this, $_GET["mode"]);
-	}
-	
-	/**
-	* remove small icon
-	*
-	* @access	public
-	*/
-	function removeSmallIconObject()
-	{
-		$this->checkPermission("write");
-		$_SESSION["translation_post"] = $_POST;
-		$this->object->removeSmallIcon();
-		$this->ctrl->redirect($this, $_GET["mode"]);
-	}
-
-	/**
-	* remove big icon
-	*
-	* @access	public
-	*/
-	function removeTinyIconObject()
-	{
-		$this->checkPermission("write");
-		$_SESSION["translation_post"] = $_POST;
-		$this->object->removeTinyIcon();
-		$this->ctrl->redirect($this, $_GET["mode"]);
+		$this->addTranslationFormObject($form);
 	}
 
 	/**
@@ -1439,42 +1405,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 
-	}
-	
-	/**
-	 * show sorting settings
-	 *
-	 * @access protected
-	 */
-	protected function showSortingSettings()
-	{
-		$this->checkPermission("write");
-		
-		$this->tpl->setVariable('TXT_SORTING',$this->lng->txt('sorting_header'));
-		$this->tpl->setVariable('TXT_SORT_TITLE',$this->lng->txt('sorting_title_header'));
-		$this->tpl->setVariable('INFO_SORT_TITLE',$this->lng->txt('sorting_info_title'));
-		$this->tpl->setVariable('TXT_SORT_MANUAL',$this->lng->txt('sorting_manual_header'));
-		$this->tpl->setVariable('INFO_SORT_MANUAL',$this->lng->txt('sorting_info_manual'));
-		
-		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
-		if($this->getCreationMode())
-		{
-			$settings = new ilContainerSortingSettings(0);
-		}
-		else
-		{
-			$settings = new ilContainerSortingSettings($this->object->getId());
-		}
-		
-		
-		$this->tpl->setVariable('RADIO_SORT_TITLE',ilUtil::formRadioButton(
-			$settings->getSortMode() == ilContainer::SORT_TITLE,
-			'sorting',
-			ilContainer::SORT_TITLE));
-		$this->tpl->setVariable('RADIO_SORT_MANUAL',ilUtil::formRadioButton(
-			$settings->getSortMode() == ilContainer::SORT_MANUAL,
-			'sorting',
-			ilContainer::SORT_MANUAL));
 	}
 	
 	/**

@@ -128,6 +128,17 @@ class ilObjCategory extends ilContainer
 			$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->manipulate($query);
 	}
+
+	// remove translations of current category
+	function deleteTranslation($a_lang)
+	{
+		global $ilDB;
+
+		$query = "DELETE FROM object_translation WHERE obj_id= ".
+			$ilDB->quote($this->getId(),'integer')." AND lang_code = ".
+			$ilDB->quote($a_lang, 'text');
+		$res = $ilDB->manipulate($query);
+	}
 	
 	// add a new translation to current category
 	function addTranslation($a_title,$a_desc,$a_lang,$a_lang_default)
