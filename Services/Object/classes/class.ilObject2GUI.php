@@ -591,7 +591,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 */
 	protected function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
 	{
-		global $rbacreview;
+		global $rbacreview, $ilUser;
 
 		$this->object_id = $a_obj->getId();
 
@@ -636,6 +636,14 @@ abstract class ilObject2GUI extends ilObjectGUI
 				// do nothing
 				break;
 		}
+		
+		// BEGIN ChangeEvent: Record save object.
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		if (ilChangeEvent::_isActive())
+		{
+			ilChangeEvent::_recordWriteEvent($this->object_id, $ilUser->getId(), 'create');
+		}
+		// END ChangeEvent: Record save object.
 	}
 
 	/*
