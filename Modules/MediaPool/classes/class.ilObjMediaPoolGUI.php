@@ -284,9 +284,20 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		}
 	}
 
+	/**
+	 * obsolete?
+	 */
 	function createMediaObject()
 	{
 		$this->ctrl->redirectByClass("ilobjmediaobjectgui", "create");
+	}
+
+	protected function initCreationForms($a_new_type)
+	{
+		$forms = array(self::CFORM_NEW => $this->initCreateForm($a_new_type),
+			self::CFORM_IMPORT => $this->initImportForm($a_new_type));
+
+		return $forms;
 	}
 
 	/**
