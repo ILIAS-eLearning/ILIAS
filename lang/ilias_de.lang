@@ -11062,6 +11062,6 @@ sahs#:#sahs_sco_final_message#:#You have successfully completed "%s".###22 03 20
 content#:#cont_final_sco_page_info#:#A status page will be displayed at the end of a SCO, if all questions have been answered successfully.###22 03 2011 new variable
 content#:#cont_final_lm_page_info#:#A status page will be displayed, if all questions of the learning module have been answered successfully.###22 03 2011 new variable
 style#:#sty_type_sco_fmess#:#SCORM Final Message###22 03 2011 new variable
-book#:#book_new#:#Buchungspool hinzufügen
-book#:#book_add#:#Hinzufügen
+book#:#book_new#:#Neuer Buchungspool
+book#:#book_add#:#Buchungspool hinzufügen
 book#:#book_edit#:#Buchungspool bearbeiten
