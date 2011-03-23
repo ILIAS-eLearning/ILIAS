@@ -1757,9 +1757,6 @@ class ilObjectGUI
 	{
 		if (!$this->checkPermissionBool($a_perm, $a_cmd, $a_type, $a_ref_id))
 		{
-			$_SESSION["il_rep_ref_id"] = "";
-			ilUtil::sendFailure($lng->txt("permission_denied"), true);
-
 			if (!is_int(strpos($_SERVER["PHP_SELF"], "goto.php")))
 			{
 				// create: redirect to parent
@@ -1769,20 +1766,28 @@ class ilObjectGUI
 					{
 						$a_ref_id = $_GET["ref_id"];
 					}
-					$type = ilObject::_lookupType($a_ref_id, true);
-					
+					$type = ilObject::_lookupType($a_ref_id, true);					
 				}
 				else
 				{
+					// does this make sense?
+					if (!is_object($this->object))
+					{
+						return;
+					}
 					if (!$a_ref_id)
 					{
 						$a_ref_id = $this->object->getRefId();
 					}
 					$type = $this->object->getType();
 				}
+
+				$_SESSION["il_rep_ref_id"] = "";
+				ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 				ilUtil::redirect("goto.php?target=".$type."_".$a_ref_id);
 			}
-			else	// we should never be here
+			// we should never be here
+			else	
 			{
 				die("Permission Denied.");
 			}
@@ -1812,9 +1817,10 @@ class ilObjectGUI
 		}
 		else
 		{
+			// does this make sense?
 			if (!is_object($this->object))
 			{
-				return;
+				return false;
 			}
 			if (!$a_ref_id)
 			{
