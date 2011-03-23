@@ -2177,7 +2177,7 @@ class ilObjectListGUI
 		$this->current_selection_list->setAsynch($a_use_asynch && !$a_get_asynch_commands);
 		$this->current_selection_list->setAsynchUrl($a_asynch_url);
 		$this->current_selection_list->setListTitle($lng->txt("actions"));
-		$this->current_selection_list->setId("act_".$id_ref);
+		$this->current_selection_list->setId("act_".$id_ref.'_'.rand(1,10000));
 		$this->current_selection_list->setSelectionHeaderClass("small");
 		$this->current_selection_list->setItemLinkClass("xsmall");
 		$this->current_selection_list->setLinksMode("il_ContainerItemCommand2");
