@@ -86,7 +86,7 @@ class ilLPStatusCollection extends ilLPStatus
 					$users = array_diff((array) $users, ilLPStatusWrapper::_getFailed($a_obj_id));
 					return $users;
 				}
-				break;
+				// fallthrough
 				
 			default:
 				return array();
