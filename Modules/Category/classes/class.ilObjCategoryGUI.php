@@ -245,265 +245,31 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 	}
 
-	/**
-	* create new category form
-	*
-	* @access	public
-	*/
-	function createObject()
+	protected function initCreationForms($a_new_type)
 	{
-		global $rbacsystem;
-
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		else
-		{
-			//add template for buttons
-			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-			// only in administration
-			// to do: make this in repository work
-			if (false)
-			{
-				$this->tpl->setCurrentBlock("btn_cell");
-				$this->tpl->setVariable("BTN_LINK",
-				$this->ctrl->getLinkTarget($this, "importCategoriesForm"));
-				$this->tpl->setVariable("BTN_TXT", $this->lng->txt("import_categories"));
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->getTemplateFile("edit",$new_type);
-
-			$array_push = true;
-
-			if ($_SESSION["error_post_vars"])
-			{
-				$_SESSION["translation_post"] = $_SESSION["error_post_vars"];
-				$array_push = false;
-			}
-
-			// clear session data if a fresh category should be created
-			if (($_GET["mode"] != "session"))
-			{
-				unset($_SESSION["translation_post"]);
-			}	// remove a translation from session
-			elseif ($_GET["entry"] != 0)
-			{
-				array_splice($_SESSION["translation_post"]["Fobject"],$_GET["entry"],1,array());
-
-				if ($_GET["entry"] == $_SESSION["translation_post"]["default_language"])
-				{
-					$_SESSION["translation_post"]["default_language"] = "";
-				}
-			}
-
-			// stripslashes in form output?
-			$strip = isset($_SESSION["translation_post"]) ? true : false;
-
-			$data = $_SESSION["translation_post"];
-
-			if (!is_array($data["Fobject"]))
-			{
-				$data["Fobject"] = array();
-			}
-
-			// add additional translation form
-			if (!$_GET["entry"] and $array_push)
-			{
-				$count = array_push($data["Fobject"],array("title" => "","desc" => ""));
-			}
-			else
-			{
-				$count = count($data["Fobject"]);
-			}
-
-			foreach ($data["Fobject"] as $key => $val)
-			{
-				// add translation button
-				if ($key == $count -1)
-				{
-					$this->tpl->setCurrentBlock("addTranslation");
-					$this->tpl->setVariable("TXT_ADD_TRANSLATION",$this->lng->txt("add_translation")." >>");
-					$this->tpl->parseCurrentBlock();
-				}
-
-				// remove translation button
-				if ($key != 0)
-				{
-					$this->tpl->setCurrentBlock("removeTranslation");
-					$this->tpl->setVariable("TXT_REMOVE_TRANSLATION",$this->lng->txt("remove_translation"));
-					$this->ctrl->setParameter($this, "entry", $key);
-					$this->ctrl->setParameter($this, "new_type", $new_type);
-					$this->ctrl->setParameter($this, "mode", "create");
-					$this->tpl->setVariable("LINK_REMOVE_TRANSLATION", $this->ctrl->getLinkTarget($this, "removeTranslation"));
-
-					$this->tpl->parseCurrentBlock();
-				}
-
-				// lang selection
-				$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", false);
-				$this->tpl->setVariable("SEL_NAME", "Fobject[".$key."][lang]");
-
-				include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
-				$languages = ilMDLanguageItem::_getLanguages();
-
-				foreach($languages as $code => $language)
-				{
-					$this->tpl->setCurrentBlock("lg_option");
-					$this->tpl->setVariable("VAL_LG", $code);
-					$this->tpl->setVariable("TXT_LG", $language);
-
-					if ($count == 1 AND $code == $this->ilias->account->getPref("language") AND !isset($_SESSION["translation_post"]))
-					{
-						$this->tpl->setVariable("SELECTED", "selected=\"selected\"");
-					}
-					elseif ($code == $val["lang"])
-					{
-						$this->tpl->setVariable("SELECTED", "selected=\"selected\"");
-					}
-
-					$this->tpl->parseCurrentBlock();
-				}
-
-				if ($key == 0)
-				{
-					$this->tpl->setCurrentBlock("type_image");
-					$this->tpl->setVariable("TYPE_IMG",
-						ilUtil::getImagePath("icon_cat.gif"));
-					$this->tpl->parseCurrentBlock();
-				}
-				
-				// object data
-				$this->tpl->setCurrentBlock("obj_form");
-
-				if ($key == 0)
-				{
-					$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
-				}
-				else
-				{
-					$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("translation")." ".$key);
-				}
-
-				if ($key == $data["default_language"])
-				{
-					$this->tpl->setVariable("CHECKED", "checked=\"checked\"");
-				}
-
-				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-				$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
-				$this->tpl->setVariable("TXT_DEFAULT", $this->lng->txt("default"));
-				$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-				$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($val["title"],$strip));
-				$this->tpl->setVariable("DESC", ilUtil::stripSlashes($val["desc"]));
-				$this->tpl->setVariable("NUM", $key);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			// global
-			$this->ctrl->setParameter($this, "mode", "create");
-			$this->ctrl->setParameter($this, "new_type", $new_type);
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "save"));
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
-			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
-			$this->showSortingSettings();
-		}
-		
-		$this->fillCloneTemplate('CLONE_WIZARD','cat');
+		$forms = parent::initCreationForms($a_new_type);
+		unset($forms[self::CFORM_IMPORT]);
+		return $forms;
 	}
 
-	/**
-	* save category
-	* @access	public
-	*/
-	function saveObject()
+	protected function afterSave(ilObject $a_new_object)
 	{
-		global $ilErr;
+		global $ilUser;
 		
-		$data = $_POST;
+		// add default translation
+		$a_new_object->addTranslation($a_new_object->getTitle(),
+			$a_new_object->getDescription(), $ilUser->getPref("language"), true);
 
-		// default language set?
-		if (!isset($data["default_language"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_default_language"),$this->ilias->error_obj->MESSAGE);
-		}
-		
-		// check title
-		if(!$_POST['Fobject'][$_POST['default_language']]['title'])
-		{
-			ilUtil::sendFailure($this->lng->txt('please_enter_title'));
-			$this->createObject();
-			return false;
-		}
-
-		// prepare array fro further checks
-		foreach ($data["Fobject"] as $key => $val)
-		{
-			$langs[$key] = $val["lang"];
-		}
-
-		$langs = array_count_values($langs);
-
-		// all languages set?
-		if (array_key_exists("",$langs))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_language_selected"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// no single language is selected more than once?
-		if (array_sum($langs) > count($langs))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_multi_language_selected"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// copy default translation to variable for object data entry
-		$_POST["Fobject"]["title"] = $_POST["Fobject"][$_POST["default_language"]]["title"];
-		$_POST["Fobject"]["desc"] = $_POST["Fobject"][$_POST["default_language"]]["desc"];
-
-		// always call parent method first to create an object_data entry & a reference
-		$newObj = parent::saveObject();
-
-		// write translations to object_translation
-		foreach ($data["Fobject"] as $key => $val)
-		{
-			if ($key == $data["default_language"])
-			{
-				$default = 1;
-			}
-			else
-			{
-				$default = 0;
-			}
-
-			$newObj->addTranslation(ilUtil::stripSlashes($val["title"]),ilUtil::stripSlashes($val["desc"]),$val["lang"],$default);
-		}
-		
+		// default: sort by title
 		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
-		$settings = new ilContainerSortingSettings($newObj->getId());
-		$settings->setSortMode((int) $_POST['sorting']);
+		$settings = new ilContainerSortingSettings($a_new_object->getId());
+		$settings->setSortMode(ilContainer::SORT_TITLE);
 		$settings->save();
-		
 
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("cat_added"),true);
-		
-		// BEGIN ChangeEvent: Record object creation
-		global $ilUser;
-		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-		if (ilChangeEvent::_isActive())
-		{
-			ilChangeEvent::_recordWriteEvent($newObj->getId(), $ilUser->getId(), 'create');
-		}
-		// END ChangeEvent: Record object creation
-
-		$this->redirectToRefId($_GET["ref_id"]);
+		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
+		$this->redirectToRefId($a_new_object->getRefId(), "edit");
 	}
 	
 	/**
