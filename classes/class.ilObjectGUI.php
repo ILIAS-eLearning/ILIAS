@@ -1075,19 +1075,33 @@ class ilObjectGUI
 		$form = $this->initImportForm($new_type);
 		if ($form->checkInput())
 		{
-			// todo: make some check on manifest file
-			include_once("./Services/Export/classes/class.ilImport.php");
-			$imp = new ilImport((int)$parent_id);
+			// :todo: make some check on manifest file
+			
+			if($objDefinition->isContainer($new_type))
+			{
+				include_once './Services/Export/classes/class.ilImportContainer.php';
+				$imp = new ilImportContainer((int)$parent_id);
+			}
+			else
+			{
+				include_once("./Services/Export/classes/class.ilImport.php");
+				$imp = new ilImport((int)$parent_id);
+			}
+
 			$new_id = $imp->importObject(null, $_FILES["importfile"]["tmp_name"],
 				$_FILES["importfile"]["name"], $new_type);
 
-			// put new object id into tree
 			if ($new_id > 0)
 			{
 				$this->ctrl->setParameter($this, "new_type", "");
-				
+
 				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
-				$this->putObjectInTree($newObj);
+
+				// put new object id into tree - already done in import for containers
+				if(!$objDefinition->isContainer($new_type))
+				{
+					$this->putObjectInTree($newObj);
+				}
 				
 				$this->afterImport($newObj);
 			}

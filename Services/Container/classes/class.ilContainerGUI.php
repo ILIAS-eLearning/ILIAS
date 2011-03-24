@@ -3024,44 +3024,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		echo $html;
 		exit;
 	}
-	
-	/**
-	 * Import
-	 *
-	 * @access	public
-	 */
-	public function importFileObject()
-	{
-		global $rbacsystem, $objDefinition, $tpl, $lng, $ilErr;
 
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$rbacsystem->checkAccess("create", $_GET['ref_id'], $new_type))
-		{
-			$ilErr->raiseError($this->lng->txt('no_create_permission'),$ilErr->MESSAGE);
-		}
-		$this->ctrl->setParameter($this, "new_type", $new_type);
-		$this->initImportForm($new_type);
-		if ($this->form->checkInput())
-		{
-			include_once './Services/Export/classes/class.ilImportContainer.php';
-			$imp = new ilImportContainer((int) $_GET['ref_id']);
-			$new_id = $imp->importObject(null, $_FILES["importfile"]["tmp_name"],$_FILES["importfile"]["name"], $new_type);
-
-			// put new object id into tree
-			if ($new_id > 0)
-			{
-				return $new_id;
-			}
-			return false;
-		}
-
-		$this->form->setValuesByPost();
-		$tpl->setContent($this->form->getHtml());
-		return false;
-	}
-	
 	/**
 	 * Show webdav password instruction
 	 * @return 
