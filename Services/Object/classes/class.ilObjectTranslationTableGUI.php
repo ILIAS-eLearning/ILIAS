@@ -17,12 +17,13 @@ class ilObjectTranslationTableGUI extends ilTable2GUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_incl_desc = true)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_incl_desc = true, $a_base_cmd = "HeaderTitle")
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->incl_desc = $a_incl_desc;
+		$this->base_cmd = $a_base_cmd;
 		
 		$this->setLimit(9999);
 		
@@ -52,14 +53,13 @@ class ilObjectTranslationTableGUI extends ilTable2GUI
 	{
 		global $lng;
 
-		$this->addMultiCommand("deleteHeaderTitles", $lng->txt("remove"));
+		$this->addMultiCommand("delete".$this->base_cmd."s", $lng->txt("remove"));
 		if ($this->dataExists())
 		{
-			$this->addCommandButton("saveHeaderTitles", $lng->txt("save"));
+			$this->addCommandButton("save".$this->base_cmd."s", $lng->txt("save"));
 		}
-		$this->addCommandButton("addHeaderTitle", $lng->txt("add"));
+		$this->addCommandButton("add".$this->base_cmd, $lng->txt("add"));
 	}
-	
 	
 	/**
 	* Fill table row

@@ -403,64 +403,29 @@ class ilObjCategoryGUI extends ilContainerGUI
 		return true;
 	}
 
+	protected function setEditTabs($active_tab = "settings_misc")
+	{
+		$this->tabs_gui->addSubTab("settings_misc",
+			$this->lng->txt("settings"),
+			$this->ctrl->getLinkTarget($this, "edit"));
+
+		$this->tabs_gui->addSubTab("settings_trans",
+			$this->lng->txt("title_and_translations"),
+			$this->ctrl->getLinkTarget($this, "editTranslations"));
+
+		$this->tabs_gui->activateTab("settings");
+		$this->tabs_gui->activateSubTab($active_tab);
+	}
+
 	function initEditForm()
 	{
 		$this->lng->loadLanguageModule($this->object->getType());
+		$this->setEditTabs();
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
-
-
-		// list translations
-
-		include_once "./Services/MetaData/classes/class.ilMDLanguageItem.php";
-
-		$translations = $this->object->getTranslations();
-		$languages = ilMDLanguageItem::_getLanguages();
-		
-		foreach($translations["Fobject"] as $idx => $trans)
-		{
-			$title = new ilCustomInputGUI($this->lng->txt("translation").": ".
-				$languages[$trans["lang"]], "");
-			if($idx)
-			{
-				$this->ctrl->setParameter($this, "rmvtr", $trans["lang"]);
-				$title->setHTML("<div align=\"right\" class=\"small\">".
-					"<a href=\"".$this->ctrl->getLinkTarget($this, "removeTranslation").
-					"\">".$this->lng->txt("remove_translation")."</a></div>");
-			}
-			$form->addItem($title);
-
-			// title
-			$ti = new ilTextInputGUI($this->lng->txt("title"), "title_".$idx);
-			$ti->setMaxLength(128);
-			$ti->setSize(40);
-			$ti->setRequired(true);
-			$ti->setValue($trans["title"]);
-			$title->addSubItem($ti);
-
-			// description
-			$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc_".$idx);
-			$ta->setCols(40);
-			$ta->setRows(2);
-			$ta->setValue($trans["desc"]);
-			$title->addSubItem($ta);
-
-			// language
-			$tl = new ilSelectInputGUI($this->lng->txt("language"), "lang_".$idx);
-			$tl->setOptions($languages);
-			$tl->setRequired(true);
-			$tl->setValue($trans["lang"]);
-			$title->addSubItem($tl);
-
-			// default (form gui does not support "single" radiobutton yet)
-			$checked = ($idx == $translations["default_language"]) ? " checked=\"checked\"" : "";
-			$td = new ilCustomInputGUI($this->lng->txt("default"), "default");
-			$td->setHTML("<input type=\"radio\" name=\"default\" value=\"".$idx."\"".$checked." />");
-			$title->addSubItem($td);
-		}
 
 		
 		// sorting
@@ -510,59 +475,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 		else
 		{
-			// default language set? not part of form
-			if (!isset($_POST["default"]))
-			{
-				$this->ilias->raiseError($this->lng->txt("msg_no_default_language"),
-					$this->ilias->error_obj->MESSAGE);
-			}
-
 			$form = $this->initEditForm();
 			if($form->checkInput())
 			{
-				// gather translation data
-				$langs = $trans = array();
-				$translations = $this->object->getTranslations();
-			    foreach(array_keys($translations["Fobject"]) as $idx)
-				{
-					$trans[$idx] = array("title" => $form->getInput("title_".$idx),
-						"desc" => $form->getInput("desc_".$idx),
-						"lang" => $form->getInput("lang_".$idx));
-
-					$langs[] = $trans[$idx]["lang"];
-				}
-				unset($translations);
-
-				// check for duplicate languages
-				if(sizeof($langs) != sizeof(array_unique($langs)))
-				{
-					$this->ilias->raiseError($this->lng->txt("msg_multi_language_selected"),
-						$this->ilias->error_obj->MESSAGE);
-				}
-				unset($langs);
-
-				// first delete all translation entries...
-				$this->object->removeTranslations();
-
-				// set translations
-				$default = $form->getInput("default");				
-				foreach($trans as $idx => $lang)
-				{
-					$is_default = false;
-					if($idx == $default)
-					{
-						$this->object->setTitle($lang["title"]);
-						$this->object->setDescription($lang["desc"]);
-						$is_default = true;
-					}
-
-					$this->object->addTranslation($lang["title"], $lang["desc"],
-						$lang["lang"], $is_default);
-				}
-				unset($trans);
-				
-				$this->object->update();
-
 				include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
 				$settings = new ilContainerSortingSettings($this->object->getId());
 				$settings->setSortMode($form->getInput("sorting"));
@@ -604,98 +519,139 @@ class ilObjCategoryGUI extends ilContainerGUI
 			}
 
 			// display form to correct errors
-			$this->tabs_gui->setTabActive("settings");
+			$this->setEditTabs();
 			$form->setValuesByPost();
 			$this->tpl->setContent($form->getHTML());
 		}
 	}
 
-	public function removeTranslationObject()
+	/**
+	 * Edit title and translations
+	 */
+	function editTranslationsObject($a_get_post_values = false)
 	{
-		$id = $_REQUEST["rmvtr"];
-		if($id)
-		{
-			$this->object->deleteTranslation($id);
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-		}
-		$this->ctrl->redirect($this, "edit");
-	}
+		global $tpl;
 
-	protected function initTranslationForm()
-	{
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt($this->object->getType()."_edit").": ".
-			$this->lng->txt("translation"));
-
-		// remove used languages from selection
-		include_once "./Services/MetaData/classes/class.ilMDLanguageItem.php";
-		$languages = array(""=>"")+ilMDLanguageItem::_getLanguages();
-		$translations = $this->object->getTranslations();
-		foreach($translations["Fobject"] as $idx => $trans)
-		{
-			unset($languages[$trans["lang"]]);
-		}
-		unset($translations);
-
-		// title
-		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$ti->setMaxLength(128);
-		$ti->setSize(40);
-		$ti->setRequired(true);
-		$form->addItem($ti);
-
-		// description
-		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-		$ta->setCols(40);
-		$ta->setRows(2);
-		$form->addItem($ta);
-
-		// language
-		$tl = new ilSelectInputGUI($this->lng->txt("language"), "lang");
-		$tl->setOptions($languages);
-		$tl->setRequired(true);
-		$form->addItem($tl);
-
-		$form->addCommandButton("addTranslation", $this->lng->txt("save"));
-		$form->addCommandButton("edit", $this->lng->txt("cancel"));
-
-		return $form;
-	}
-
-	function addTranslationFormObject(ilPropertyFormGUI $a_form = null)
-	{
-		$this->tabs_gui->setTabActive("settings");
 		$this->lng->loadLanguageModule($this->object->getType());
+		$this->setEditTabs("settings_trans");
 
-		if(!$a_form)
+		include_once("./Services/Object/classes/class.ilObjectTranslationTableGUI.php");
+		$table = new ilObjectTranslationTableGUI($this, "editTranslations", true,
+			"Translation");
+		if ($a_get_post_values)
 		{
-			$a_form = $this->initTranslationForm();
+			$vals = array();
+			foreach($_POST["title"] as $k => $v)
+			{
+				$vals[] = array("title" => $v,
+					"desc" => $_POST["desc"][$k],
+					"lang" => $_POST["lang"][$k],
+					"default" => ($_POST["default"] == $k));
+			}
+			$table->setData($vals);
 		}
-		$this->tpl->setContent($a_form->getHTML());
+		else
+		{
+			$data = $this->object->getTranslations();
+			foreach($data["Fobject"] as $k => $v)
+			{
+				$data["Fobject"][$k]["default"] = ($k == $data["default_language"]);
+			}
+			$table->setData($data["Fobject"]);
+		}
+		$tpl->setContent($table->getHTML());
 	}
 
 	/**
-	* adds a translation form & save post vars to session
-	*
-	* @access	public
-	*/
-	function addTranslationObject()
+	 * Save title and translations
+	 */
+	function saveTranslationsObject()
 	{
-		$this->checkPermission("write");
-
-		$form = $this->initTranslationForm();
-		if($form->checkInput())
+		if (!$this->checkPermissionBool("write"))
 		{
-			$this->object->addTranslation($form->getInput("title"),
-				$form->getInput("desc"), $form->getInput("lang"), false);
-
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-			$this->ctrl->redirect($this, "edit");
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->addTranslationFormObject($form);
+		// default language set?
+		if (!isset($_POST["default"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("msg_no_default_language"));
+			return $this->editTranslationsObject(true);
+		}
+
+		// all languages set?
+		if (array_key_exists("",$_POST["lang"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("msg_no_language_selected"));
+			return $this->editTranslationsObject(true);
+		}
+
+		// no single language is selected more than once?
+		if (count(array_unique($_POST["lang"])) < count($_POST["lang"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("msg_multi_language_selected"));
+			return $this->editTranslationsObject(true);
+		}
+
+		// save the stuff
+		$this->object->removeTranslations();
+		foreach($_POST["title"] as $k => $v)
+		{
+			// update object data if default
+			$is_default = ($_POST["default"] == $k);
+			if($is_default)
+			{
+				$this->object->setTitle(ilUtil::stripSlashes($v));
+				$this->object->setDescription(ilUtil::stripSlashes($_POST["desc"][$k]));
+				$this->object->update();
+			}
+
+			$this->object->addTranslation(
+				ilUtil::stripSlashes($v),
+				ilUtil::stripSlashes($_POST["desc"][$k]),
+				ilUtil::stripSlashes($_POST["lang"][$k]),
+				$is_default);
+		}
+
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "editTranslations");
+	}
+
+	/**
+	 * Add a translation
+	 */
+	function addTranslationObject()
+	{
+		$k = max(array_keys($_POST["title"]));
+		$k++;
+		$_POST["title"][$k] = "";
+		$this->editTranslationsObject(true);
+	}
+
+	/**
+	 * Remove translation
+	 */
+	function deleteTranslationsObject()
+	{
+		foreach($_POST["title"] as $k => $v)
+		{			
+			if ($_POST["check"][$k])
+			{
+				// default translation cannot be deleted
+				if($k != $_POST["default"])
+				{
+					unset($_POST["title"][$k]);
+					unset($_POST["desc"][$k]);
+					unset($_POST["lang"][$k]);
+				}
+				else
+				{
+					ilUtil::sendFailure($this->lng->txt("msg_no_default_language"));
+					return $this->editTranslationsObject();
+				}
+			}
+		}
+		$this->saveTranslationsObject();
 	}
 
 	/**
