@@ -215,85 +215,6 @@ class ilObjFolderGUI extends ilContainerGUI
 	}
 	
 	/**
-	 * Create object
-	 * @return 
-	 */
-	public function createObject()
-	{
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.fold_create.html','Modules/Folder');
-		$this->ctrl->setParameter($this,'new_type',$this->type);
-		
-		$this->initFormCreate();
-		
-		$this->tpl->setVariable('NEW_FOLDER',$this->form->getHTML());
-		$this->fillCloneTemplate('DUPLICATE', 'fold');
-		
-		$this->initImportForm("fold");
-		$this->tpl->setVariable("IMPORT_FORM", $this->form->getHTML());
-		
-	}
-
-	/**
-	 * Init object import form
-	 *
-	 * @param        string        new type
-	 */
-	public function initImportForm($a_new_type = "")
-	{
-		global $lng, $ilCtrl;
-
-		$lng->loadLanguageModule("fold");
-
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setTableWidth('600px');
-		$this->form->setTarget("_top");
-
-		// Import file
-		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
-		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
-		$fi->setSuffixes(array("zip"));
-		$fi->setRequired(true);
-		$this->form->addItem($fi);
-
-		$this->form->addCommandButton("importFile", $lng->txt("import"));
-		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
-		$this->form->setTitle($lng->txt($a_new_type."_import"));
-
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
-	}
-	
-	/**
-	 * Init creation form
-	 * @return 
-	 */
-	protected function initFormCreate()
-	{
-		if($this->form instanceof ilPropertyFormGUI)
-		{
-			return true;			
-		}
-		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($this->ctrl->getFormAction($this,'save'));
-		$this->form->setTableWidth('600px');
-		$this->form->setTitle($this->lng->txt($this->type.'_new'));
-		
-		// Title
-		$tit = new ilTextInputGUI($this->lng->txt('title'),'tit');
-		$tit->setRequired(true);
-		$tit->setMaxLength(128);
-		$this->form->addItem($tit);
-		
-		// Description
-		$des = new ilTextAreaInputGUI($this->lng->txt('description'),'des');
-		$this->form->addItem($des);
-		
-		$this->form->addCommandButton('save', $this->lng->txt('save'));
-		$this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
-	}
-	
-	/**
 	 * Import object
 	 * @return 
 	 */
@@ -307,121 +228,9 @@ class ilObjFolderGUI extends ilContainerGUI
 			$this->ctrl->returnToParent($this);
 		}
 	}
-	
-	/**
-	 * Save object
-	 * @return 
-	 */
-	public function saveObject()
-	{
-		global $ilUser;
 
-		$this->initFormCreate();
-		
-		if($this->form->checkInput())
-		{
-			$fold = parent::saveObject();
-			$fold->setTitle($this->form->getInput('tit'));
-			$fold->setDescription($this->form->getInput('des'));
-			
-			$fold->update();
-			
-			include_once 'Services/Tracking/classes/class.ilChangeEvent.php';
-			if (ilChangeEvent::_isActive())
-			{
-				ilChangeEvent::_recordWriteEvent($fold->getId(), $ilUser->getId(), 'create');
-			}
-			
-			include_once './classes/class.ilLink.php';
-			ilUtil::sendSuccess($this->lng->txt($this->type."_added"),true);
-			ilUtil::redirect('repository.php?ref_id='.$fold->getRefId());
-		}
-		$this->form->setValuesByPost();
-		$this->createObject();
-	}
-	
-	
-	/**
-	 * Update object
-	 * @return 
-	 */
-	public function editObject()
+	protected function initEditCustomForm(ilPropertyFormGUI $a_form) 
 	{
-		$this->tabs_gui->setTabActive('settings');
-		$this->initFormEdit();
-		
-		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-		$this->form->getItemByPostVar('tit')->setValue($this->object->getTitle());
-		$this->form->getItemByPostVar('des')->setValue($this->object->getDescription());
-		$this->form->getItemByPostVar('sor')->setValue($this->object->getOrderType());
-#			ilContainerSortingSettings::_readSortMode($this->object->getId())
-#		);
-
-		$this->tpl->setContent($this->form->getHTML());
-		return true;
-	}
-	
-	
-	public function updateObject()
-	{
-		global $ilUser;
-
-		$this->initFormEdit();
-		if($this->form->checkInput())
-		{
-			$this->object->setTitle($this->form->getInput('tit'));
-			$this->object->setDescription($this->form->getInput('des'));
-			$this->object->update();
-			
-			// Save sorting
-			include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-			$sort = new ilContainerSortingSettings($this->object->getId());
-			$sort->setSortMode($this->form->getInput('sor'));
-			$sort->update();
-			
-			include_once 'Services/Tracking/classes/class.ilChangeEvent.php';
-			if (ilChangeEvent::_isActive())
-			{
-				ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
-				ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
-			}
-			
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-			$this->ctrl->redirect($this,'edit');
-		}
-		$this->form->setValuesByPost();
-		$this->tabs_gui->setTabActive('settings');
-		$this->tpl->setContent($this->form->getHTML());
-		return true;
-	}
-	
-	/**
-	 * Init edit form
-	 * @return 
-	 */
-	protected function initFormEdit()
-	{
-		global $tree;
-		
-		if($this->form instanceof ilPropertyFormGUI)
-		{
-			return true;			
-		}
-		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($this->ctrl->getFormAction($this,'update'));
-		$this->form->setTitle($this->lng->txt($this->type.'_edit'));
-		
-		// Title
-		$tit = new ilTextInputGUI($this->lng->txt('title'),'tit');
-		$tit->setRequired(true);
-		$tit->setMaxLength(128);
-		$this->form->addItem($tit);
-		
-		// Description
-		$des = new ilTextAreaInputGUI($this->lng->txt('description'),'des');
-		$this->form->addItem($des);
-		
 		// Sorting
 		$sog = new ilRadioGroupInputGUI($this->lng->txt('sorting_header'),'sor');
 		$sog->setRequired(true);
@@ -429,10 +238,8 @@ class ilObjFolderGUI extends ilContainerGUI
 		// implicit: there is always a group or course in the path
 		$sde = new ilRadioOption();
 		$sde->setValue(ilContainer::SORT_INHERIT);
-		
-		$title = $this->lng->txt('sort_inherit_prefix');
-		$title .= ' ('.ilContainerSortingSettings::sortModeToString(ilContainerSortingSettings::lookupSortModeFromParentContainer($this->object->getId())).') ';
-		$sde->setTitle($title);
+		$sde->setTitle($this->lng->txt('sort_inherit_prefix').' ('.
+			ilContainerSortingSettings::sortModeToString(ilContainerSortingSettings::lookupSortModeFromParentContainer($this->object->getId())).') ');
 		$sde->setInfo($this->lng->txt('sorting_info_inherit'));
 		$sog->addOption($sde);
 		
@@ -448,48 +255,27 @@ class ilObjFolderGUI extends ilContainerGUI
 		$sti->setInfo($this->lng->txt('sorting_info_manual'));
 		$sog->addOption($sti);
 		
-		$this->form->addItem($sog);
-
-		$this->form->addCommandButton('update', $this->lng->txt('save'));
-		$this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
+		$a_form->addItem($sog);
 	}
-	
 
-
-	
-		/**
-	* updates object entry in object_data
-	*
-	* @access	public
-	*/
-	function updateObject2($a_return_to_parent = false)
+	protected function getEditFormCustomValues(array &$a_values)
 	{
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$this->update = $this->object->update();
-
-		// BEGIN ChangeEvent: Record write event.
-		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-		if (ilChangeEvent::_isActive())
-		{
-			global $ilUser;
-			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
-			ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
-		}
-		// END ChangeEvent: Record write event.
-		
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-
-		if ($a_return_to_parent)
-		{
-			$this->ctrl->returnToParent($this);
-		}
-		else
-		{
-			$this->ctrl->redirect($this);
-		}
+		// we cannot use $this->object->getOrderType()
+		// if set to inherit it will be translated to parent setting
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		$sort = new ilContainerSortingSettings($this->object->getId());
+		$a_values["sor"] = $sort->getSortMode();
 	}
 
+	protected function updateCustom(ilPropertyFormGUI $a_form)
+	{
+		// Save sorting
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		$sort = new ilContainerSortingSettings($this->object->getId());
+		$sort->setSortMode($a_form->getInput('sor'));
+		$sort->update();
+	}
+	
 	// BEGIN ChangeEvent show info screen on folder object
 	/**
 	* this one is called from the info button in the repository
