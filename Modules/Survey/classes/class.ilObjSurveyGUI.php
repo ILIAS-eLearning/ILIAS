@@ -167,28 +167,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 
 	/**
-	* save object
-	* @access	public
-	*/
-	function saveObject()
-	{
-		global $rbacadmin;
-
-		if (!strlen($_POST['Fobject']['title']))
-		{
-			ilUtil::sendFailure($this->lng->txt('title_required'), true);
-			$this->ctrl->setParameter($this, 'new_type', $_GET['new_type']);
-			$this->ctrl->redirect($this, 'create');
-		}
-
-		// create and insert forum in objecttree
-		$newObj = parent::saveObject();
-		// always send a message
-		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
-		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=".$newObj->getRefId()."&cmd=properties");
-	}
-	
-	/**
 	* cancel action and go back to previous page
 	* @access	public
 	*
@@ -1974,166 +1952,33 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}	
 
-	/**
-	* display dialogue for importing tests
-	*
-	* @access	public
-	*/
-	function importObject()
+	protected function initImportForm($a_new_type)
 	{
-		$this->getTemplateFile("import", "svy");
-		$this->tpl->setCurrentBlock("option_qpl");
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setTarget("_top");
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt("import"));
+
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($this->lng->txt("import_file"), "importfile");
+		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
+		$form->addItem($fi);
+
 		include_once("./Modules/Survey/classes/class.ilObjSurvey.php");
 		$svy = new ilObjSurvey();
-		$questionpools =& $svy->getAvailableQuestionpools(TRUE, FALSE, TRUE);
-		if (count($questionpools) == 0)
-		{
-		}
-		else
-		{
-			foreach ($questionpools as $key => $value)
-			{
-				$this->tpl->setCurrentBlock("option_spl");
-				$this->tpl->setVariable("OPTION_VALUE", $key);
-				$this->tpl->setVariable("TXT_OPTION", $value);
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool"));
-		$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "import"));
-		$this->tpl->setVariable("BTN_NAME", "upload");
-		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("TXT_IMPORT_TST", $this->lng->txt("import_tst"));
-		$this->tpl->setVariable("TXT_SELECT_MODE", $this->lng->txt("select_mode"));
-		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
+		$questionspools = $svy->getAvailableQuestionpools(true, true, true);
 
-	}
+		$pools = new ilSelectInputGUI($this->lng->txt("select_questionpool_short"), "spl");
+		$pools->setOptions(array(""=>$this->lng->txt("select_questionpool_option")) + $questionspools);
+		$pools->setRequired(true);
+		$form->addItem($pools);
 
-	/**
-	* display status information or report errors messages
-	* in case of error
-	*
-	* @access	public
-	*/
-	function uploadObject($redirect = true)
-	{
-		if ($_POST["spl"] < 1)
-		{
-			ilUtil::sendInfo($this->lng->txt("svy_select_questionpools"));
-			$this->importObject();
-			return;
-		}
-		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
-		{
-			ilUtil::sendInfo($this->lng->txt("svy_select_file_for_import"));
-			$this->importObject();
-			return;
-		}
-		
-		include_once("./Modules/Survey/classes/class.ilObjSurvey.php");
-		$newObj = new ilObjSurvey();
-		$newObj->setType($_GET["new_type"]);
-		$newObj->setTitle("dummy");
-		$newObj->setDescription("dummy");
-		$newObj->create(true);
-		$newObj->createReference();
-		$newObj->putInTree($_GET["ref_id"]);
-		$newObj->setPermissions($_GET["ref_id"]);
-		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-		// copy uploaded file to import directory
-		$error = $newObj->importObject($_FILES["xmldoc"], $_POST["spl"]);
-		if (strlen($error)) 
-		{  
-			$newObj->delete();
-			$this->ilias->raiseError($error, $this->ilias->error_obj->MESSAGE);
-			return;
-		}
-		else
-		{
-			$ref_id = $newObj->getRefId();
-		}
-		if ($redirect)
-		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			ilUtil::redirect($this->getReturnLocation("upload",$this->ctrl->getTargetScript()."?".$this->link_params));
-		}
-		return $ref_id;
-	}
+		$form->addCommandButton("importFile", $this->lng->txt("import"));
+		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
-	/**
-	* form for new content object creation
-	*/
-	function createObject()
-	{
-		global $rbacsystem;
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		else
-		{
-			$this->getTemplateFile("create", $new_type);
-
-			include_once("./Modules/Survey/classes/class.ilObjSurvey.php");
-			$svy = new ilObjSurvey();
-			
-			$this->fillCloneTemplate('DUPLICATE','svy');
-			$questionpools =& $svy->getAvailableQuestionpools($use_obj_id = TRUE, $could_be_offline = TRUE, $showPath = TRUE);
-			if (count($questionpools) > 0)
-			{
-				foreach ($questionpools as $key => $value)
-				{
-					$this->tpl->setCurrentBlock("option_spl");
-					$this->tpl->setVariable("OPTION_VALUE", $key);
-					$this->tpl->setVariable("TXT_OPTION", $value);
-					if ($_POST["spl"] == $key)
-					{
-						$this->tpl->setVariable("OPTION_SELECTED", " selected=\"selected\"");				
-					}
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			// fill in saved values in case of error
-			$data = array();
-			$data["fields"] = array();
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-			$data["fields"]["desc"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]);
-
-			foreach ($data["fields"] as $key => $val)
-			{
-				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
-
-				if ($this->prepare_output)
-				{
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-
-			$this->ctrl->setParameter($this, "new_type", $this->type);
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "create"));
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
-			$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_short"));
-			$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool_option"));
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
-			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", ' target="'.
-				ilFrameTargetInfo::_getFrame("MainContent").'" ');
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
-			$this->tpl->setVariable("TXT_IMPORT_SVY", $this->lng->txt("import_svy"));
-			$this->tpl->setVariable("TXT_SVY_FILE", $this->lng->txt("svy_upload_file"));
-			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
-
-			$this->tpl->setVariable("TYPE_IMG", ilUtil::getImagePath('icon_svy.gif'));
-			$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_svy"));
-			$this->tpl->setVariable("TYPE_IMG2", ilUtil::getImagePath('icon_svy.gif'));
-			$this->tpl->setVariable("ALT_IMG2",$this->lng->txt("obj_svy"));
-		}
+		return $form;
 	}
 	
 	/**
@@ -2141,26 +1986,48 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function importFileObject()
 	{
-		if ($_POST["spl"] < 1)
-		{
-			ilUtil::sendInfo($this->lng->txt("svy_select_questionpools"));
-			$this->createObject();
-			return;
-		}
-		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
-		{
-			ilUtil::sendInfo($this->lng->txt("svy_select_file_for_import"));
-			$this->createObject();
-			return;
-		}
-		$this->ctrl->setParameter($this, "new_type", $this->type);
-		$ref_id = $this->uploadObject(false);
-		// always send a message
-		ilUtil::sendSuccess($this->lng->txt("object_imported"),true);
+		global $tpl, $ilErr;
 
-		ilUtil::redirect("ilias.php?ref_id=".$ref_id.
-			"&baseClass=ilObjSurveyGUI");
-//		$this->ctrl->redirect($this, "importFile");
+		$parent_id = $_GET["ref_id"];
+		$new_type = $_REQUEST["new_type"];
+
+		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
+		if (!$this->checkPermissionBool("create", "", $new_type))
+		{
+			$ilErr->raiseError($this->lng->txt("no_create_permission"));
+		}
+
+		$this->lng->loadLanguageModule($new_type);
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+
+		$form = $this->initImportForm($new_type);
+		if ($form->checkInput())
+		{
+			include_once("./Modules/Survey/classes/class.ilObjSurvey.php");
+			$newObj = new ilObjSurvey();
+			$newObj->setType($new_type);
+			$newObj->setTitle("dummy");
+			$newObj->setDescription("dummy");
+			$newObj->create(true);
+			$this->putObjectInTree($newObj);
+
+			// copy uploaded file to import directory
+			$error = $newObj->importObject($_FILES["importfile"], $form->getInput("spl"));
+			if (strlen($error))
+			{
+				$newObj->delete();
+				$this->ilias->raiseError($error, $this->ilias->error_obj->MESSAGE);
+				return;
+			}
+
+			ilUtil::sendSuccess($this->lng->txt("object_imported"),true);
+			ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
+				"&baseClass=ilObjSurveyGUI");
+		}
+		
+		// display form to correct errors
+		$form->setValuesByPost();
+		$tpl->setContent($form->getHtml());
 	}
 
   /*
