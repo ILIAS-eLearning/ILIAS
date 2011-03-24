@@ -329,7 +329,7 @@ class ilSCORM13Package
 		return "";
 	}
 
-	public function il_importLM($slm, $packageFolder)
+	public function il_importLM($slm, $packageFolder, $a_import_sequencing = false)
 	{
 		global $ilDB, $ilLog;
 		
@@ -338,13 +338,24 @@ class ilSCORM13Package
 	  	$this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';
 	  	$this->imsmanifest = new DOMDocument;
 	  	$this->imsmanifest->async = false;
+	  	$this->imsmanifest->formatOutput = false;
+	  	$this->imsmanifest->preserveWhiteSpace = false;
 	  	$this->slm = $slm;
 	  	if (!@$this->imsmanifest->load($this->imsmanifestFile))
 	  	{
 	  		$this->diagnostic[] = 'XML not wellformed';
 	  		return false;
 	  	}
-		$this->dbImportLM(simplexml_import_dom($this->imsmanifest->documentElement),$this->slm);
+	  	
+	  	$this->mani_xpath = new DOMXPath($this->imsmanifest);
+	  	$this->mani_xpath->registerNamespace("d", "http://www.imsproject.org/xsd/imscp_rootv1p1p2");
+	  	$this->mani_xpath->registerNamespace("imscp", "http://www.imsglobal.org/xsd/imscp_v1p1");
+	  	$this->mani_xpath->registerNamespace("imsss", "http://www.imsglobal.org/xsd/imsss");
+
+	  	
+		$this->dbImportLM(simplexml_import_dom($this->imsmanifest->documentElement), "",
+			$a_import_sequencing);
+		
 		if(is_dir($packageFolder."/glossary"))
 		{
 			$this->importGlossary($slm,$packageFolder."/glossary");
@@ -384,7 +395,7 @@ class ilSCORM13Package
 		$slm->update();
 	}
 	
-	function dbImportLM($node, $parent_id)
+	function dbImportLM($node, $parent_id = "", $a_import_sequencing = false)
 	{
 	
 		switch($node->getName())
@@ -394,9 +405,28 @@ class ilSCORM13Package
 				$this->slm_tree->setTreeTablePK("slm_id");
 				$this->slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 				$this->slm_tree->addTree($this->slm->getId(), 1);
+				
 				//add seqinfo for rootNode
 				include_once ("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Sequencing.php");
 				$seq_info = new ilSCORM2004Sequencing($this->slm->getId(),true);
+				
+				// get original sequencing information
+				$r = $this->mani_xpath->query("/d:manifest/d:organizations/d:organization/imsss:sequencing");
+				$this->imsmanifest->formatOutput = false;
+				foreach ($r as $n)
+				{
+					$seq_xml = trim(str_replace("imsss:", "", $this->imsmanifest->saveXML($n)));
+					if ($seq_xml != "")
+					{
+						$seq_info->setImportSeqXml('<?xml version="1.0"?>'.$seq_xml);
+					}
+					if ($a_import_sequencing)
+					{
+						$seq_info->setSeqXml('<?xml version="1.0"?>'.$seq_xml);
+						$seq_info->initDom();
+					}
+				}
+				
 				$seq_info->insert();
 				
 				if(file_exists($this->packageFolder . '/' . 'index.xml'))
@@ -423,8 +453,8 @@ class ilSCORM13Package
 					$chap->setTitle($node->title);
 					$chap->setSLMId($this->slm->getId());
 					$chap->create(true);
-					ilSCORM2004Node::putInTree($chap, "", "");
-					$parent_id=$chap->getId();
+					ilSCORM2004Node::putInTree($chap, $parent_id, "");
+					$parent_id = $chap->getId();
 					$doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');
 			  		$l = $doc->xpath ( "/ContentObject/StructureObject/MetaData[General/Identifier/@Entry='".$a['identifier']."']" );
 					if($l[0])
@@ -453,7 +483,7 @@ class ilSCORM13Package
 		{
 			foreach($node->children() as $child)
 			{
-				 $this->dbImportLM($child,$parent_id);
+				 $this->dbImportLM($child, $parent_id, $a_import_sequencing);
 			}
 		}
 	}

@@ -4199,3 +4199,20 @@ if(!$ilDB->tableExists('acl_ws'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3247>
+<?php
+	$ilDB->dropPrimaryKey("sahs_sc13_seq_item");
+	$ilDB->addPrimaryKey("sahs_sc13_seq_item",
+		array("sahs_sc13_tree_node_id", "rootlevel"));
+?>
+<#3248>
+<?php
+	$ilDB->addTableColumn("sahs_sc13_seq_item", "importseqxml", array(
+		"type" => "clob"));
+?>
+<#3249>
+<?php
+	$ilDB->addTableColumn("sahs_lm", "seq_exp_mode", array(
+		"type" => "integer", "length" => 1, "notnull" => false, "default" => 0));
+?>
+
