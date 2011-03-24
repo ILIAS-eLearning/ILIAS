@@ -1041,6 +1041,7 @@ class ilObjectGUI
 		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
 		$fi = new ilFileInputGUI($this->lng->txt("import_file"), "importfile");
 		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
 		$form->addItem($fi);
 
 		$form->addCommandButton("importFile", $this->lng->txt("import"));
