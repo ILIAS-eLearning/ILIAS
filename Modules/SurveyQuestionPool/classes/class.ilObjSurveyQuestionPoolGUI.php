@@ -147,31 +147,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
 	}
 
-
-	/**
-	* save object
-	*/
-	public function saveObject()
-	{
-		global $rbacadmin;
-
-		if (!strlen($_POST['Fobject']['title']))
-		{
-			ilUtil::sendFailure($this->lng->txt('title_required'), true);
-			$this->ctrl->setParameter($this, 'new_type', $_GET['new_type']);
-			$this->ctrl->redirect($this, 'create');
-		}
-
-		// create and insert forum in objecttree
-		$newObj = parent::saveObject();
-
-		// always send a message
-		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
-
-		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
-			"&baseClass=ilObjSurveyQuestionPoolGUI");
-	}
-	
 	/**
 	* Questionpool properties
 	*/
@@ -613,135 +588,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "export");
 	}
 
-	/**
-	* display dialogue for importing questionpools
-	*
-	* @access	public
-	*/
-	public function importObject()
+	protected function initCreationForms($a_new_type)
 	{
-		global $rbacsystem;
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		$this->getTemplateFile("import", "spl");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("BTN_NAME", "uploadSpl");
-		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("TXT_IMPORT_SPL", $this->lng->txt("import_spl"));
-		$this->tpl->setVariable("TXT_SELECT_MODE", $this->lng->txt("select_mode"));
-		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
-	}
+		$forms = array(self::CFORM_NEW => $this->initCreateForm($a_new_type),
+			self::CFORM_IMPORT => $this->initImportForm($a_new_type));
 
-	/**
-	* imports question(s) into the questionpool
-	*/
-	public function uploadSplObject($redirect = true)
-	{
-		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
-		{
-			ilUtil::sendInfo($this->lng->txt("spl_select_file_for_import"));
-			$this->importObject();
-			return;
-		}
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
-		// create new questionpool object
-		$newObj = new ilObjSurveyQuestionPool();
-		// set type of questionpool object
-		$newObj->setType($_GET["new_type"]);
-		// set title of questionpool object to "dummy"
-		$newObj->setTitle("dummy");
-		// create the questionpool class in the ILIAS database (object_data table)
-		$newObj->create(true);
-		// create a reference for the questionpool object in the ILIAS database (object_reference table)
-		$newObj->createReference();
-		// put the questionpool object in the administration tree
-		$newObj->putInTree($_GET["ref_id"]);
-		// get default permissions and set the permissions for the questionpool object
-		$newObj->setPermissions($_GET["ref_id"]);
-		// notify the questionpool object and all its parent objects that a "new" object was created
-		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-
-		// create import directory
-		$newObj->createImportDirectory();
-
-		// copy uploaded file to import directory
-		$file = pathinfo($_FILES["xmldoc"]["name"]);
-		$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], 
-			$_FILES["xmldoc"]["name"], $full_path);
-
-		// import qti data
-		$qtiresult = $newObj->importObject($full_path);
-
-		if ($redirect)
-		{
-			$this->ctrl->redirect($this, "cancel");
-		}
-		return $newObj->getRefId();
-	}
-
-	/**
-	* form for new content object creation
-	*/
-	public function createObject()
-	{
-		global $rbacsystem;
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		else
-		{
-			$this->getTemplateFile("create", $new_type);
-
-			include_once("./Modules/Survey/classes/class.ilObjSurvey.php");
-			$this->fillCloneTemplate('DUPLICATE','spl');
-			$this->tpl->setCurrentBlock("adm_content");
-
-			// fill in saved values in case of error
-			$data = array();
-			$data["fields"] = array();
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-			$data["fields"]["desc"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]);
-
-			foreach ($data["fields"] as $key => $val)
-			{
-				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
-
-				if ($this->prepare_output)
-				{
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-
-			$this->ctrl->setParameter($this, "new_type", $this->type);
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
-			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", ' target="'.
-				ilFrameTargetInfo::_getFrame("MainContent").'" ');
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
-			$this->tpl->setVariable("TXT_IMPORT_SPL", $this->lng->txt("import_spl"));
-			$this->tpl->setVariable("TXT_SPL_FILE", $this->lng->txt("spl_upload_file"));
-			$this->tpl->setVariable("NEW_TYPE", $this->type);
-			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
-
-			$this->tpl->setVariable("TYPE_IMG", ilUtil::getImagePath('icon_spl.gif'));
-			$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_spl"));
-			$this->tpl->setVariable("TYPE_IMG2", ilUtil::getImagePath('icon_spl.gif'));
-			$this->tpl->setVariable("ALT_IMG2",$this->lng->txt("obj_spl"));
-
-			$this->tpl->parseCurrentBlock();
-		}
+		return $forms;
 	}
 
 	/**
@@ -749,19 +601,51 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function importFileObject()
 	{
-		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
-		{
-			ilUtil::sendInfo($this->lng->txt("spl_select_file_for_import"));
-			$this->createObject();
-			return;
-		}
-		$this->ctrl->setParameter($this, "new_type", $this->type);
-		$ref_id = $this->uploadSplObject(false);
-		// always send a message
-		ilUtil::sendSuccess($this->lng->txt("object_imported"),true);
+		global $tpl, $ilErr;
 
-		ilUtil::redirect("ilias.php?ref_id=".$ref_id.
-			"&baseClass=ilObjSurveyQuestionPoolGUI");
+		$parent_id = $_GET["ref_id"];
+		$new_type = $_REQUEST["new_type"];
+
+		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
+		if (!$this->checkPermissionBool("create", "", $new_type))
+		{
+			$ilErr->raiseError($this->lng->txt("no_create_permission"));
+		}
+
+		$this->lng->loadLanguageModule($new_type);
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+
+		$form = $this->initImportForm($new_type);
+		if ($form->checkInput())
+		{
+			include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
+			$newObj = new ilObjSurveyQuestionPool();
+			$newObj->setType($new_type);
+			$newObj->setTitle("dummy");
+			$newObj->create(true);
+			$this->putObjectInTree($newObj);
+
+			$newObj->createImportDirectory();
+
+			// copy uploaded file to import directory
+			$upload = $_FILES["importfile"];
+			$file = pathinfo($upload["name"]);
+			$full_path = $newObj->getImportDirectory()."/".$upload["name"];
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
+			ilUtil::moveUploadedFile($upload["tmp_name"], $upload["name"], 
+				$full_path);
+
+			// import qti data
+			$qtiresult = $newObj->importObject($full_path);
+
+			ilUtil::sendSuccess($this->lng->txt("object_imported"),true);
+			ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
+				"&baseClass=ilObjSurveyQuestionPoolGUI");
+		}
+		
+		// display form to correct errors
+		$form->setValuesByPost();
+		$tpl->setContent($form->getHtml());
 	}
 
 	/**
