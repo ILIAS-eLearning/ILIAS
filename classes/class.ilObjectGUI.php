@@ -917,6 +917,8 @@ class ilObjectGUI
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
 
 		// title
 		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -935,9 +937,6 @@ class ilObjectGUI
 
 		$form->addCommandButton("update", $this->lng->txt("save"));
 		//$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
-		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
-
-		$form->setFormAction($this->ctrl->getFormAction($this));
 
 		return $form;
 	}

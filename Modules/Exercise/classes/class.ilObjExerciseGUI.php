@@ -190,98 +190,6 @@ class ilObjExerciseGUI extends ilObjectGUI
   		return true;
 	}
 
-	function createObject($a_reload = false)
-	{
-		global $tpl;
-		
-		$this->getTemplateFile("edit", "exc");
-		
-		if (!$a_reload)
-		{
-			$this->initPropertiesForm("create");
-		}
-		$this->tpl->setVariable("EDIT_FORM", $this->form_gui->getHtml());
-		
-		$this->fillCloneTemplate('DUPLICATE','exc');
-
-		$this->initImportForm("exc");
-		$this->tpl->setVariable("IMPORT", $this->form->getHTML());
-
-	}
-
-	/**
-	 * Init object import form
-	 *
-	 * @param        string        new type
-	 */
-	public function initImportForm($a_new_type = "")
-	{
-		global $lng, $ilCtrl;
-
-		$lng->loadLanguageModule("exc");
-
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setTarget("_top");
-
-		// Import file
-		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
-		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
-		$fi->setSuffixes(array("zip"));
-		$fi->setRequired(true);
-		$this->form->addItem($fi);
-
-		$this->form->addCommandButton("importFile", $lng->txt("import"));
-		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
-		$this->form->setTitle($lng->txt($a_new_type."_import"));
-		$ilCtrl->setParameter($this, "new_type", $a_new_type);
-
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
-	}
-
-	/**
-	 * Import
-	 *
-	 * @access	public
-	 */
-	function importFileObject()
-	{
-		global $rbacsystem, $objDefinition, $tpl, $lng;
-
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
-		}
-		$this->ctrl->setParameter($this, "new_type", $new_type);
-		$this->initImportForm($new_type);
-		if ($this->form->checkInput())
-		{
-			// todo: make some check on manifest file
-			include_once("./Services/Export/classes/class.ilImport.php");
-			$imp = new ilImport((int) $_GET['ref_id']);
-			$new_id = $imp->importObject($newObj, $_FILES["importfile"]["tmp_name"],
-				$_FILES["importfile"]["name"], $new_type);
-			// put new object id into tree
-			if ($new_id > 0)
-			{
-				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
-				$newObj->createReference();
-				$newObj->putInTree($_GET["ref_id"]);
-				$newObj->setPermissions($_GET["ref_id"]);
-				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-				//$this->afterSave($newObj);
-				$this->ctrl->returnToParent($this);
-			}
-			return;
-		}
-
-		$this->form->setValuesByPost();
-		$tpl->setContent($this->form->getHtml());
-	}
-
 	function viewObject()
 	{
 		$this->infoScreenObject();
@@ -648,297 +556,91 @@ class ilObjExerciseGUI extends ilObjectGUI
 		return true;
 	}
 
-	/**
-	* save object
-	* @access	public
-	*/
-	function saveObject()
+	protected function  afterSave(ilObject $a_new_object)
 	{
-		global $rbacadmin;
-	
-		$this->initPropertiesForm("create");
+		$a_new_object->saveData();
 
-		if ($this->form_gui->checkInput())
-		{
-			// always call parent method first to create an object_data entry & a reference
-			$newObj = parent::saveObject();
-		
-			// put here your object specific stuff	
-		
-			$newObj->setTitle($this->form_gui->getInput("title"));
-			$newObj->setDescription($this->form_gui->getInput("desc"));
-/*			$newObj->setInstruction($this->form_gui->getInput("instruction"));
-			$edit_date =
-				$this->form_gui->getItemByPostVar("edit_date")->getDate();
-			$newObj->setTimestamp($edit_date->get(IL_CAL_UNIX));*/
-			
-			$newObj->saveData();
-			$newObj->update();
-		
-			// always send a message
-			ilUtil::sendSuccess($this->lng->txt("exc_added"),true);
-			ilUtil::redirect("ilias.php?baseClass=ilExerciseHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=addAssignment");
-		}
-		else
-		{
-			$this->form_gui->setValuesByPost();
-			$this->createObject(true);
-		}
+		parent::afterSave($a_new_object);
 	}
-  
-	/**
-	 * Edit object
-	 */
-	function editObject()
-	{
-		global $rbacsystem, $tpl, $ilTabs;
 
-		$ilTabs->activateTab("settings");
-		
-		$this->checkPermission("write");
-
-		$this->getTemplateFile("edit", "exc");
-
-		$this->initPropertiesForm("edit");
-		$this->getPropertiesValues();
-
-		$this->tpl->setVariable("EDIT_FORM", $this->form_gui->getHtml());
-
-/*		$this->tpl->setCurrentBlock("FILES");
-		$this->tpl->setVariable("TXT_HEADER_FILE",$this->lng->txt("file_add"));
-		$this->tpl->setVariable("TXT_FILE",$this->lng->txt("file"));
-		$this->tpl->setVariable("TXT_UPLOAD",$this->lng->txt("upload"));
-		$this->tpl->setVariable("FORMACTION_FILE", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_HEADER_ZIP", $this->lng->txt("header_zip"));
-		$this->tpl->setVariable("CMD_FILE_SUBMIT","uploadFile");
-		$this->tpl->parseCurrentBlock();*/
-	}
-  
 	/**
 	* Init properties form.
-	*
-	* @param        int        $a_mode        "create"/"edit"
 	*/
-	public function initPropertiesForm($a_mode = "create")
+	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
-		global $lng, $ilCtrl;
+		$a_form->setTitle($this->lng->txt("exc_edit_exercise"));
+		
 
-		// init form
-		$lng->loadLanguageModule("form");
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form_gui = new ilPropertyFormGUI();
-		$this->form_gui->setTableWidth("600px");
-		if ($a_mode == "edit")
-		{
-			$this->form_gui->setTitle($lng->txt("exc_edit_exercise"));
-		}
-		else
-		{
-			$this->form_gui->setTitle($lng->txt("exc_new"));
-		}
-		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_exc.gif"));
-		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
+		// show submissions
+		$cb = new ilCheckboxInputGUI($this->lng->txt("exc_show_submissions"), "show_submissions");
+		$cb->setInfo($this->lng->txt("exc_show_submissions_info"));
+		$a_form->addItem($cb);
 
 		
-		// on creation: Type
-		if ($a_mode == "create")
-		{
-			$type_input = new ilHiddenInputGUI("new_type");
-			$type_input->setValue("exc");
-			$this->form_gui->addItem($type_input);
-		}
-		
-		// Title
-		$title_input = new ilTextInputGUI($lng->txt("title"), "title");
-		$title_input->setRequired(true);
-		$title_input->setMaxLength(128);
-		$this->form_gui->addItem($title_input);
-		
-		// Description
-		$desc_input = new ilTextAreaInputGUI($lng->txt("desc"), "desc");
-		$this->form_gui->addItem($desc_input);
-		
-/*		// Work Instructions
-		$desc_input = new ilTextAreaInputGUI($lng->txt("exc_instruction"), "instruction");
-		$this->form_gui->addItem($desc_input);
-		
-		// Edit until...
-		$edit_date = new ilDateTimeInputGUI($lng->txt("exc_edit_until"), "edit_date");
-		//$dt_prop->setDate(new ilDateTime("2006-12-24 15:44:00", IL_CAL_DATETIME);
-		$edit_date->setShowTime(true);
-		//$dt_prop->setInfo("Info text for the start date.");
-		$this->form_gui->addItem($edit_date);*/
+		// pass mode
+		$radg = new ilRadioGroupInputGUI($this->lng->txt("exc_pass_mode"), "pass_mode");
+	
+			$op1 = new ilRadioOption($this->lng->txt("exc_pass_all"), "all",
+				$this->lng->txt("exc_pass_all_info"));
+			$radg->addOption($op1);
+			$op2 = new ilRadioOption($this->lng->txt("exc_pass_minimum_nr"), "nr",
+				$this->lng->txt("exc_pass_minimum_nr_info"));
+			$radg->addOption($op2);
 
-		// files
-		if ($a_mode == "edit")
-		{
-			
-			// show submissions 
-			$cb = new ilCheckboxInputGUI($this->lng->txt("exc_show_submissions"), "show_submissions");
-			$cb->setInfo($this->lng->txt("exc_show_submissions_info"));
-			$this->form_gui->addItem($cb);
-			
-			// pass mode
-			$radg = new ilRadioGroupInputGUI($lng->txt("exc_pass_mode"), "pass_mode");
-			$radg->setValue("all");
-				$op1 = new ilRadioOption($lng->txt("exc_pass_all"), "all",
-					$lng->txt("exc_pass_all_info"));
-				$radg->addOption($op1);
-				$op2 = new ilRadioOption($lng->txt("exc_pass_minimum_nr"), "nr",
-					$lng->txt("exc_pass_minimum_nr_info"));
-				$radg->addOption($op2);
-				
-				// minimum number of assignments to pass
-				$ni = new ilNumberInputGUI($lng->txt("exc_min_nr"), "pass_nr");
-				$ni->setSize(4);
-				$ni->setMaxLength(4);
-				$ni->setRequired(true);
-				include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-				$mand = ilExAssignment::countMandatory($this->object->getId());
-				$min = max($mand, 1);
-				$ni->setMinValue($min);
-				$op2->addSubItem($ni);
-				
-			$this->form_gui->addItem($radg);
+			// minimum number of assignments to pass
+			$ni = new ilNumberInputGUI($this->lng->txt("exc_min_nr"), "pass_nr");
+			$ni->setSize(4);
+			$ni->setMaxLength(4);
+			$ni->setRequired(true);
+			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+			$mand = ilExAssignment::countMandatory($this->object->getId());
+			$min = max($mand, 1);
+			$ni->setMinValue($min);
+			$op2->addSubItem($ni);
+
+		$a_form->addItem($radg);
 
 
-			$cbox = new ilCheckboxInputGUI($lng->txt("exc_submission_notification"), "notification");
-		    $cbox->setInfo($lng->txt("exc_submission_notification_info"));
-			$this->form_gui->addItem($cbox);
-
-			
-/*			if(count($files = $this->object->getFiles()))
-			{
-				// Files section header
-				$files_head = new ilFormSectionHeaderGUI();
-				$files_head->setTitle($lng->txt("files"));
-				$this->form_gui->addItem($files_head);
-
-				foreach($files as $file)
-				{
-					$i++;
-					$file_cb = new ilCheckboxInputGUI($this->lng->txt("exc_ask_delete"),
-						"delete_file_".$i);
-					$file_cb->setOptionTitle($file["name"]);
-					$file_cb->setValue($file["name"]);
-					$this->form_gui->addItem($file_cb);
-				}
-			}
-*/
-		}
-
-		// save and cancel commands
-		if ($a_mode == "create")
-		{
-			$this->form_gui->addCommandButton("save", $lng->txt("save"));
-			$this->form_gui->addCommandButton("cancel", $lng->txt("cancel"));
-		}
-		else
-		{
-			$this->form_gui->addCommandButton("update", $lng->txt("save"));
-			$this->form_gui->addCommandButton("cancelEdit", $lng->txt("cancel"));
-		}
+		$cbox = new ilCheckboxInputGUI($this->lng->txt("exc_submission_notification"), "notification");
+		$cbox->setInfo($this->lng->txt("exc_submission_notification_info"));
+		$a_form->addItem($cbox);
 	}
 	
 	/**
 	* Get values for properties form
 	*/
-	function getPropertiesValues()
+	protected function getEditFormCustomValues(array &$a_values)
 	{
 		global $ilUser;
-		
-		$values["title"] = $this->object->getTitle();
-		$values["desc"] = $this->object->getLongDescription();
-		$values["pass_mode"] = $this->object->getPassMode();
-		$values["show_submissions"] = $this->object->getShowSubmissions();
 
-		if ($this->object->getPassMode() == "nr")
+		$a_values["desc"] = $this->object->getLongDescription();
+		$a_values["show_submissions"] = $this->object->getShowSubmissions();
+		$a_values["pass_mode"] = $this->object->getPassMode();
+		if ($a_values["pass_mode"] == "nr")
 		{
-			$values["pass_nr"] = $this->object->getPassNr();
+			$a_values["pass_nr"] = $this->object->getPassNr();
 		}
-//		$values["instruction"] = $this->object->getInstruction();
 
 		include_once "./Services/Notification/classes/class.ilNotification.php";
-		$values["notification"] = ilNotification::hasNotification(ilNotification::TYPE_EXERCISE_SUBMISSION, $ilUser->getId(), $this->object->getId());
-
-		$this->form_gui->setValuesByArray($values);
-
-		
-//echo "-".$this->object->getTimestamp()."-";
-/*		$edit_date = new ilDateTime($this->object->getTimestamp(), IL_CAL_UNIX);
-		$ed_item = $this->form_gui->getItemByPostVar("edit_date");
-		$ed_item->setDate($edit_date);*/
+		$a_values["notification"] = ilNotification::hasNotification(
+				ilNotification::TYPE_EXERCISE_SUBMISSION, $ilUser->getId(),
+				$this->object->getId());
 	}
-		
-	/**
-	* Update exercise from values from form
-	*/
-	function updateObject()
+
+	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
-		global $rbacsystem, $tpl, $ilUser;
-	
-		$this->checkPermission("write");
-		
-		$this->initPropertiesForm("edit");
-		if ($this->form_gui->checkInput())
+		global $ilUser;
+		$this->object->setShowSubmissions($a_form->getInput("show_submissions"));
+		$this->object->setPassMode($a_form->getInput("pass_mode"));		
+		if ($this->object->getPassMode() == "nr")
 		{
-			$this->object->setTitle($this->form_gui->getInput("title"));
-			$this->object->setDescription($this->form_gui->getInput("desc"));
-			$this->object->setPassMode($this->form_gui->getInput("pass_mode"));
-			$this->object->setShowSubmissions($this->form_gui->getInput("show_submissions"));
-			if ($this->object->getPassMode() == "nr")
-			{
-				$this->object->setPassNr($this->form_gui->getInput("pass_nr"));
-			}
-			
-/*			$this->object->setInstruction($this->form_gui->getInput("instruction"));
-			$edit_date =
-				$this->form_gui->getItemByPostVar("edit_date")->getDate();
-			$this->object->setTimestamp($edit_date->get(IL_CAL_UNIX));*/
-			
-			// delete files
-/*			$del_files = array();
-			foreach ($_POST as $k => $v)
-			{
-				if (substr($k, 0, 12) == "delete_file_" && $v != "")
-				{
-					$del_files[] = $v;
-				}
-			}
+			$this->object->setPassNr($a_form->getInput("pass_nr"));
+		}
 
-			$this->object->deleteFiles($del_files);*/
-			
-			$this->object->update();
-
-			include_once "./Services/Notification/classes/class.ilNotification.php";
-			ilNotification::setNotification(ilNotification::TYPE_EXERCISE_SUBMISSION, $ilUser->getId(), $this->object->getId(), (bool)$this->form_gui->getInput("notification"));
-			
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-			$this->ctrl->redirect($this, "edit");
-		}
-		else
-		{
-			$this->form_gui->setValuesByPost();
-			$tpl->setContent($this->form_gui->getHTML());
-		}
-		
-		return;
-	
-		$this->object->setInstruction(ilUtil::stripSlashes($_POST["Fobject"]["instruction"]));
-		$this->object->setDate($_POST["d_hour"],$_POST["d_minutes"],$_POST["d_day"],
-				$_POST["d_month"],$_POST["d_year"]);
-		if($_POST["delete_file"])
-		{
-			$this->object->deleteFiles($_POST["delete_file"]);
-		}
-			
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$this->update = $this->object->update();
-	
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-	
-		$this->ctrl->redirect($this, "edit");
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		ilNotification::setNotification(ilNotification::TYPE_EXERCISE_SUBMISSION,
+			$ilUser->getId(), $this->object->getId(),
+			(bool)$a_form->getInput("notification"));
 	}
   
 	function cancelEditObject()
