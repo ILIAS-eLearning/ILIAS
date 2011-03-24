@@ -48,10 +48,11 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->createDataDirectory();
 
 		$ilDB->manipulateF('
-			INSERT INTO sahs_lm (id, c_online, api_adapter, c_type, editable) 
-			VALUES (%s,%s,%s,%s,%s)', 
-			array('integer', 'text', 'text', 'text', 'integer'), 
-			array($this->getId(),'n','API', $this->getSubType(),(int)$this->getEditable()));
+			INSERT INTO sahs_lm (id, c_online, api_adapter, c_type, editable, seq_exp_mode) 
+			VALUES (%s,%s,%s,%s,%s,%s)', 
+			array('integer', 'text', 'text', 'text', 'integer','integer'), 
+			array($this->getId(),'n','API', $this->getSubType(),(int)$this->getEditable(),
+				(int)$this->getSequencingExpertMode()));
 	}
 
 	/**
@@ -88,6 +89,7 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setHideNavig(ilUtil::yn2tf($lm_rec["hide_navig"]));
 			$this->setDebug(ilUtil::yn2tf($lm_rec["debug"]));
 			$this->setDebugPw($lm_rec["debugpw"]);
+			$this->setSequencingExpertMode($lm_rec["seq_exp_mode"]);
 		}
 	}
 
@@ -465,6 +467,26 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 	
 	/**
+	 * Set sequencing expert mode
+	 *
+	 * @param boolean $a_val sequencing expert mode	
+	 */
+	function setSequencingExpertMode($a_val)
+	{
+		$this->seq_exp_mode = $a_val;
+	}
+	
+	/**
+	 * Get sequencing expert mode
+	 *
+	 * @return boolean sequencing expert mode
+	 */
+	function getSequencingExpertMode()
+	{
+		return $this->seq_exp_mode;
+	}
+
+	/**
 	* update meta data only
 	*/
 /*
@@ -523,6 +545,7 @@ class ilObjSAHSLearningModule extends ilObject
 				debug = %s,
 				final_lm_page = %s,
 				final_sco_page = %s,
+				seq_exp_mode = %s,
 				debugpw = %s
 				
 			WHERE id = %s', 
@@ -543,6 +566,7 @@ class ilObjSAHSLearningModule extends ilObject
 				'text',
 				'text',
 				'text',
+				'integer',
 				'integer',
 				'integer',
 				'text',
@@ -567,6 +591,7 @@ class ilObjSAHSLearningModule extends ilObject
 				ilUtil::tf2yn($this->getDebug()),
 				$this->getFinalLMPage(),
 				$this->getFinalScoPage(),
+				$this->getSequencingExpertMode(),
 				$this->getDebugPw(),
 				$this->getId())
 		);

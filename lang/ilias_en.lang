@@ -4280,7 +4280,7 @@ common#:#seconds#:#Second(s)
 common#:#sections#:#Sections
 common#:#select_all#:#Select All
 common#:#select_at_least_one_object#:#Please choose at least one object.
-common#:#select_file#:#Select file
+common#:#select_file#:#Select File
 common#:#select_max_one_item#:#Please select one item only
 common#:#select_mode#:#Select mode
 common#:#select_object_to_copy#:#Please select the object you want to copy
@@ -5554,7 +5554,7 @@ content#:#cont_update#:#Update
 content#:#cont_upload_dir_info#:#Server directory from which large SCORM and HTML packages can be copied instead of being uploaded. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.
 content#:#cont_upload_dir#:#Upload directory
 content#:#cont_upload_file#:#Upload File
-content#:#cont_uploaded_file#:#Existing file
+content#:#cont_uploaded_file#:#Existing File
 content#:#cont_url#:#URL
 content#:#cont_usage#:#Usage
 content#:#cont_use_same_resource_as_above#:#Use the same resource as above
@@ -5601,8 +5601,6 @@ content#:#pg#:#Page
 content#:#public_section#:#Public Area
 content#:#read offline#:#Read Offline
 content#:#saved_media_object#:#Saved media object.
-content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package
-content#:#scorm_editable#:#Import editable
 content#:#scplayer_collapsetree#:#Collapse All
 content#:#scplayer_continue#:#Continue
 content#:#scplayer_debugger#:#Show Debugger
@@ -11063,3 +11061,11 @@ book#:#book_add#:#Add Booking Pool
 book#:#book_edit#:#Edit Booking Pool
 common#:#glo_import#:#Import Glossary
 common#:#title_and_translations#:#Title and Translations
+sahs#:#sahs_authoring_mode_info#:#The package must have been created with the ILIAS SCORM editor and it must have been exported as SCORM 1.2/2004 package.
+sahs#:#sahs_authoring_mode#:#Authoring Mode
+sahs#:#sahs_std_sequencing#:#Standard Sequencing
+sahs#:#sahs_std_sequencing_info#:#Use ILIAS standard sequencing behaviour.
+sahs#:#sahs_import_sequencing#:#Import Sequencing
+sahs#:#sahs_import_sequencing_info#:#Import sequencing information from package (Sequencing Expert Mode).
+sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode
+sahs#:#sahs_activate_expert_mode_info#:#The sequencing expert mode allows you to directly edit the sequencing information of the package tree. If you are unsure what this means we recommend to use the default sequencing behaviour.

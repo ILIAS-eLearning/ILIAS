@@ -192,8 +192,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	}
 
 	/**
-	* scorm 2004 module properties
-	*/
+	 * Scorm 2004 module properties
+	 */
 	function properties()
 	{
 		global $rbacsystem, $tree, $tpl, $lng, $ilToolbar;;
@@ -1295,50 +1295,129 @@ function showTrackingItem()
 	 */
 	function showSequencing()
 	{
-		global $tpl,$lng,$ilTabs;
-
-		//navigation options
+		global $tpl, $lng, $ilTabs, $ilToolbar, $ilCtrl;
 		
-		$nav_settings = $this->object->getSequencingSettings();
-		$tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.scormeditor_course_sequencing.html", "Modules/Scorm2004");
-		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$tpl->setVariable("TXT_TITLE", "Sequencing Navigation Options for Module");
+		$ilTabs->setTabActive("sahs_sequencing");
+		
+		include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
 
-		$tpl->setVariable("BTN_NAME", "saveSequencing");
-		$tpl->setVariable("TXT_SAVE", $lng->txt('save'));
-
-		$tpl->setVariable("VAL_CHOICE", ilUtil::tf2yn($nav_settings->getChoice()));
-		$tpl->setVariable("VAL_FLOW", ilUtil::tf2yn($nav_settings->getFlow()));
-		$tpl->setVariable("VAL_FORWARDONLY", ilUtil::tf2yn($nav_settings->getForwardOnly()));
-
-		$tpl->setVariable("VAL_CHOICE", "y");
-		$tpl->setVariable("VAL_FLOW", "y");
-		$tpl->setVariable("VAL_FORWARDONLY", "y");
-
-		if ($nav_settings->getChoice())
+		if (!$this->object->getSequencingExpertMode())
 		{
-			$tpl->setVariable("CHK_CHOICE", "checked");
+			$ilToolbar->addButton($lng->txt("sahs_activate_expert_mode"),
+				$ilCtrl->getLinkTarget($this, "confirmExpertMode"));
 		}
-		if ($nav_settings->getFlow())
+		else
 		{
-			$tpl->setVariable("CHK_FLOW", "checked");
+			include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
+			$list = new ilNestedList();
+			$t = $this->object->getTree();
+			$root_node = $t->getNodeData($t->getRootId());
+			$nodes = $this->object->getTree()->getSubtree($root_node);
+			foreach ($nodes as $node)
+			{
+				if (in_array($node["type"], array("", "chap", "sco")))
+				{
+					$ntpl = new ilTemplate("tpl.seq_node.html", true, true, "Modules/Scorm2004");
+					$ntpl->setVariable("NODE_ID", $node["child"]);
+					if ($node["type"] == "")
+					{
+						$ntpl->setVariable("TITLE", $this->object->getTitle());
+						$item = new ilSCORM2004Item($this->object->getId(), true);
+					}
+					else
+					{
+						$ntpl->setVariable("TITLE", $node["title"]);
+						$item = new ilSCORM2004Item($node["child"]);
+					}
+					$ntpl->setVariable("SEQ_INFO",
+						ilUtil::prepareFormOutput($item->exportAsXML(false)));
+					$list->addListNode($ntpl->get(), $node["child"], $node["parent"]);
+				}
+			}
+			
+			$tb = new ilToolbarGUI();
+			$tb->addFormButton($lng->txt("save"), "saveSequencing");
+			$ftpl = new ilTemplate("tpl.sequencing.html", true, true, "Modules/Scorm2004");
+			$ftpl->setVariable("CONTENT", $list->getHTML());
+			$ftpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this));
+			$ftpl->setVariable("TB", $tb->getHTML());
+			$tpl->setContent($ftpl->get());
 		}
-		if ($nav_settings->getForwardOnly())
-		{
-			$tpl->setVariable("CHK_FORWARDONLY", "checked");
-		}
-		$tpl->parseCurrentBlock();
+	}
+	
+	/**
+	 * Confirm activation of expert mode
+	 */
+	function confirmExpertMode()
+	{
+		global $ilCtrl, $tpl, $lng, $ilTabs;
 		
 		$ilTabs->setTabActive("sahs_sequencing");
 			
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($ilCtrl->getFormAction($this));
+		$cgui->setHeaderText($lng->txt("sahs_activate_expert_mode_info"));
+		$cgui->setCancel($lng->txt("cancel"), "showSequencing");
+		$cgui->setConfirm($lng->txt("sahs_activate_expert_mode"), "activateExpertMode");
+		
+		$tpl->setContent($cgui->getHTML());
 	}
+	
+	/**
+	 * Activate expert mode
+	 *
+	 * @param
+	 * @return
+	 */
+	function activateExpertMode()
+	{
+		global $ilCtrl, $lng;
+		
+		$this->object->setSequencingExpertMode(true);
+		$this->object->update();
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "showSequencing");
+	}
+	
 
+	/**
+	 * Save sequencing
+	 */
 	function saveSequencing()
 	{
-		global $tpl,$lng;
-		ilUtil::sendInfo($lng->txt("saved_successfully"),false);
-		$this->object->updateSequencingSettings();
-		$this->showSequencing();
+		global $tpl,$lng, $ilCtrl;
+		
+		include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
+		$t = $this->object->getTree();
+		$root_node = $t->getNodeData($t->getRootId());
+		$nodes = $this->object->getTree()->getSubtree($root_node);
+		foreach ($nodes as $node)
+		{
+			if (in_array($node["type"], array("", "chap", "sco")))
+			{
+				if ($node["type"] == "")
+				{
+					$item = new ilSCORM2004Item($this->object->getId(), true);
+				}
+				else
+				{
+					$item = new ilSCORM2004Item($node["child"]);
+				}
+				$xml = '<?xml version="1.0"?>'.ilUtil::stripSlashes($_POST["seq"][$node["child"]], false);
+				
+				if ($node["type"] != "sco")
+				{
+					$item->setSeqXml($xml);
+					$item->initDom();
+					$item->update();
+				}
+			}
+		}
+		
+		ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+		
+		$ilCtrl->redirect($this, "showSequencing");
 	}
 
 	/**
@@ -1498,18 +1577,16 @@ function showTrackingItem()
 			$this->ctrl->getLinkTarget($this, "showTrackingItems"), "showTrackingItems",
 			get_class($this));
 			*/
-
-		/*
-		// sequencing
-		$tabs_gui->addTarget("sahs_sequencing",
-		$this->ctrl->getLinkTarget($this, "showSequencing"), "showSequencing",
-		get_class($this));
-		*/
 		
 		// objective alignment
 		$tabs_gui->addTarget("sahs_objectives_alignment",
 		$this->ctrl->getLinkTarget($this, "showLearningObjectivesAlignment"), "showLearningObjectivesAlignment",
 		get_class($this));
+
+		// sequencing
+		$tabs_gui->addTarget("sahs_sequencing",
+		$this->ctrl->getLinkTarget($this, "showSequencing"), "showSequencing",
+			get_class($this));
 
 		// learning progress
 		/*	Later, only if tracking data exists

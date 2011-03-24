@@ -33,7 +33,26 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		parent::ilObject($a_id,$a_call_by_reference);
 	}
 
-
+	/**
+	 * Set import sequencing
+	 *
+	 * @param boolean $a_val import sequencing information	
+	 */
+	function setImportSequencing($a_val)
+	{
+		$this->import_sequencing = $a_val;
+	}
+	
+	/**
+	 * Get import sequencing
+	 *
+	 * @return boolean import sequencing information
+	 */
+	function getImportSequencing()
+	{
+		return $this->import_sequencing;
+	}
+	
 	/**
 	* Validate all XML-Files in a SCOM-Directory
 	*
@@ -199,9 +218,15 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		// start SCORM 2004 package parser/importer
 		include_once ("./Modules/Scorm2004/classes/ilSCORM13Package.php");
 		$newPack = new ilSCORM13Package();
-		if ($_POST["editable"] == "y")
-			return $newPack->il_importLM($this,$this->getDataDirectory());
-		return $newPack->il_import($this->getDataDirectory(),$this->getId(),$this->ilias,$_POST["validate"]);
+		if ($this->getEditable())
+		{
+			return $newPack->il_importLM($this,$this->getDataDirectory(),
+				$this->getImportSequencing());
+		}
+		else
+		{
+			return $newPack->il_import($this->getDataDirectory(),$this->getId(),$this->ilias,$_POST["validate"]);
+		}
 	}
 
 

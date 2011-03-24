@@ -312,10 +312,19 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$this->form->addItem($cb);
 
 		// import for editing
-		$cb = new ilCheckboxInputGUI($this->lng->txt("scorm_editable"), "editable");
+		$cb = new ilCheckboxInputGUI($this->lng->txt("sahs_authoring_mode"), "editable");
 		$cb->setValue("y");
-		$cb->setInfo($this->lng->txt("scorm_editable_comments"));
+		$cb->setInfo($this->lng->txt("sahs_authoring_mode_info"));
 		$this->form->addItem($cb);
+		
+		// 
+		$radg = new ilRadioGroupInputGUI($lng->txt("sahs_sequencing"), "import_sequencing");
+		$radg->setValue(0);
+			$op1 = new ilRadioOption($lng->txt("sahs_std_sequencing"), 0,$lng->txt("sahs_std_sequencing_info"));
+			$radg->addOption($op1);
+			$op1 = new ilRadioOption($lng->txt("sahs_import_sequencing"), 1,$lng->txt("sahs_import_sequencing_info"));
+			$radg->addOption($op1);
+		$cb->addSubItem($radg);
 		
 
 		$this->form->addCommandButton("upload", $lng->txt("import"));
@@ -472,6 +481,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 				$newObj = new ilObjSCORM2004LearningModule();
 				$newObj->setEditable($_POST["editable"]=='y');
+				$newObj->setImportSequencing($_POST["import_sequencing"]);
 				break;
 
 			case "scorm":

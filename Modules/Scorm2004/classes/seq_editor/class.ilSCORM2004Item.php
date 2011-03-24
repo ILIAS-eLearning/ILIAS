@@ -16,8 +16,6 @@ require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004SeqNode.ph
  */
 class ilSCORM2004Item
 {
-	
-		
 	//db fields
 	private $id = null;
 	private $seqNodeId = null;
@@ -28,6 +26,7 @@ class ilSCORM2004Item
 	private $nomove = false;
 	private $importId = null;
 	private $seqXml = null;
+	private $importSeqXml = null;
 	private $rootLevel = false;
 		
 	protected $dom = null;
@@ -41,21 +40,14 @@ class ilSCORM2004Item
 		//different handling for organization level
 		$this->rootLevel = $a_rootlevel;
 		
-		if ($a_treeid !=null) {
+		if ($a_treeid != null)
+		{
 			$this->treeNodeId = $a_treeid;
 			$this->loadItem();
 			$this->dom = new DOMDocument();
-			if ($this->getSeqXml()!="") {
-				$this->dom->loadXML($this->getSeqXml());
-			} else {
-				$element = $this->dom->createElement('sequencing');
-				$this->dom->appendChild($element);
-				$this->setSeqXml($this->dom->saveXML());
-			}
+			$this->initDom();
 		}
-	
 	}
-	
 	
 	// **********************
 	// GETTER METHODS
@@ -105,11 +97,30 @@ class ilSCORM2004Item
 	{
 		return $this->rootLevel;
 	}
-	
+		
+	/**
+	 * Get import seq xml
+	 *
+	 * @return string xml
+	 */
+	function getImportSeqXml()
+	{
+		return $this->importSeqXml;
+	}
 	
 	// **********************
 	// Setter METHODS
 	// **********************
+
+	/**
+	 * Set import seq xml
+	 *
+	 * @param string $a_val xml	
+	 */
+	function setImportSeqXml($a_val)
+	{
+		$this->importSeqXml = $a_val;
+	}
 
 	public function setSeqNodeId($a_seqnodeid)
 	{
@@ -165,75 +176,107 @@ class ilSCORM2004Item
 	{
 		global $ilDB,$ilLog;
 		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".
-			$ilDB->quote($a_node_id, "integer");
+			$ilDB->quote($a_node_id, "integer").
+			" AND rootlevel = ".$ilDB->quote(false, "integer");
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 		return array("copy"=>!$obj_rec['nocopy'],"move"=>!$obj_rec['nomove'],"delete"=>!$obj_rec['nodelete']);
 	}
 	
-	// **********************
-	// Scorm2004 Sequencing Export
-	// **********************	
+	/**
+	 * Init dom
+	 */
+	function initDom()
+	{
+		if ($this->getSeqXml() != "")
+		{
+			$this->dom->loadXML($this->getSeqXml());
+		}
+		else
+		{
+			$element = $this->dom->createElement('sequencing');
+			$this->dom->appendChild($element);
+			$this->setSeqXml($this->dom->saveXML());
+		}
+	}
 	
-	public function exportAsXML() {
-		
-		//remove titles
+	
+	/**
+	 * Get sequencing information for export (use imsss namespace prefix)
+	 *
+	 * @return string sequencing xml
+	 */
+	public function exportAsXML($add_prefix = true)
+	{
+		// remove titles
+		// @todo: the objectives (titles) text should be stored outside of
+		// the sequencing information in the future
 		$xpath_obj = new DOMXPath($this->dom);
 		$obj_node_list = $xpath_obj->query('//objective | //primaryObjective');
 		for ($i=0;$i<$obj_node_list->length;$i++) {
 			$obj_node_list->item($i)->removeAttribute("title");
 		}
 		$output = $this->dom->saveXML();
+		
 		$output = preg_replace('/\<\?xml version="1.0"\?\>/','',$output);
-		$output = preg_replace('/(<)([a-z]+|[A-Z]+)/','<imsss:$2',$output);
-		$output = preg_replace('/(<\/)([a-z]+|[A-Z]+)/','</imsss:$2',$output);
+		if ($add_prefix)
+		{
+			$output = preg_replace('/(<)([a-z]+|[A-Z]+)/','<imsss:$2',$output);
+			$output = preg_replace('/(<\/)([a-z]+|[A-Z]+)/','</imsss:$2',$output);
+		}
 		$output = preg_replace('/\n/','',$output);
 
 		return $output; 
 	}
 	
-	// **********************
-	// Standard DB Operations for Object
-	// **********************
+	/**
+	 * Read data from DB into object
+	 */
 	public function loadItem()
 	{
 		global $ilDB;
 		$query = "SELECT * FROM sahs_sc13_seq_item WHERE (sahs_sc13_tree_node_id = ".$ilDB->quote($this->treeNodeId, "integer").
-				  " AND rootlevel =".$ilDB->quote($this->rootLevel, "integer").")";
+			" AND rootlevel =".$ilDB->quote($this->rootLevel, "integer").")";
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $ilDB->fetchAssoc($obj_set);
 		$this->seqXml = $obj_rec['seqxml'];
+		$this->importSeqXml = $obj_rec['importseqxml'];
 		$this->importId = $obj_rec['importid'];
 		$this->nocopy =  $obj_rec['nocopy'];
 		$this->nomove = $obj_rec['nomove'];
 		$this->nodelete = $obj_rec['nodelete'];
 	}
 	
-	
-	public function update($a_insert_node = false)
+	/**
+	 * Update item
+	 */
+	public function update()
 	{
 		$this->insert();
-		/*
-		global $ilDB;
-		$query = "UPDATE sahs_sc13_seq_item SET seqxml=".$ilDB->quote($this->dom->saveXML())." WHERE sahs_sc13_tree_node_id = ".$ilDB->quote($this->treeNodeId);
-		$obj_set = $ilDB->query($query);	
-		*/
 	}
 	
+	/**
+	 * Delete item
+	 */
 	public function delete($a_insert_node = false)
 	{
 		global $ilDB;
+		
 		$query = "DELETE FROM sahs_sc13_seq_item"." WHERE (sahs_sc13_tree_node_id = ".$ilDB->quote($this->treeNodeId, "integer").
 				  " AND rootlevel=".$ilDB->quote($this->rootLevel, "integer").")";
 		$obj_set = $ilDB->manipulate($query);	
 	}
 	
+	/**
+	 * Insert/replace sequencing item in db
+	 */
 	public function insert($import = false)
 	{
-
 		global $ilDB;
+		
 		$ilDB->replace("sahs_sc13_seq_item",
-			array("sahs_sc13_tree_node_id" => array("integer", $this->treeNodeId)),
+			array("sahs_sc13_tree_node_id" => array("integer", $this->treeNodeId),
+				"rootlevel" => array("integer", $this->rootLevel)),
 			array(
 				"importid" => array("text", $this->importId),
 				"seqnodeid" => array("integer", (int) $this->seqNodeId),
@@ -241,20 +284,11 @@ class ilSCORM2004Item
 				"nocopy" => array("integer", $this->nocopy),
 				"nodelete" => array("integer", $this->nodelete),
 				"nomove" => array("integer", $this->nomove),
-				"seqxml" => array("text", $this->dom->saveXML()),
-				"rootlevel" => array("integer", $this->rootLevel)
+				"seqxml" => array("clob", $this->dom->saveXML()),
+				"importseqxml" => array("clob", $this->getImportSeqXml())
 				));
-/*		$sql = "REPLACE INTO sahs_sc13_seq_item (`importid`,`seqnodeid`, `sahs_sc13_tree_node_id`".
-		 		", `sequencingid` ,`nocopy` ,`nodelete` ,`nomove`,`seqxml`,`rootlevel` )".
-				 " values(".$ilDB->quote($this->importId).",".$ilDB->quote($this->seqNodeId).",".$ilDB->quote($this->treeNodeId).",".
-						   $ilDB->quote($this->sequencingId).",".$ilDB->quote($this->nocopy).",".
-						   $ilDB->quote($this->nodelete).",".$ilDB->quote($this->nomove).",".
-						   $ilDB->quote($this->dom->saveXML()). ",".$ilDB->quote($this->rootLevel).");";
-		$result = $ilDB->query($sql);*/
 		return true;
 	}
-	
-	
 	
 }
 ?>
