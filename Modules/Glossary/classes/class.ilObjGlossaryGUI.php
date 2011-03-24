@@ -201,26 +201,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		return $form;
 	}
 
-	protected function initImportForm($a_new_type)
-	{
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setTarget("_top");
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt("import_glossary"));
-
-		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
-		$fi = new ilFileInputGUI($this->lng->txt("glo_upload_file"), "xmldoc");
-		$fi->setSuffixes(array("zip"));
-		$fi->setRequired(true);
-		$form->addItem($fi);
-
-		$form->addCommandButton("importFile", $this->lng->txt("import"));
-		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
-
-		return $form;
-	}
-
 	function importObject()
 	{
 		$this->createObject();
@@ -265,88 +245,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 
 		// display only this form to correct input
-		$form->setValuesByPost();
-		$tpl->setContent($form->getHtml());
-	}
-
-	/**
-	* display status information or report errors messages
-	* in case of error
-	*
-	* @access	public
-	*/
-	function importFileObject()
-	{
-		global $tpl;
-		
-		$new_type = $_REQUEST["new_type"];
-
-		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$this->checkPermissionBool("create", "", $new_type))
-		{
-			$ilErr->raiseError($this->lng->txt("no_create_permission"));
-		}
-
-		$this->lng->loadLanguageModule($new_type);
-		$this->ctrl->setParameter($this, "new_type", $new_type);
-
-		$form = $this->initImportForm($new_type);
-		if ($form->checkInput())
-		{
-			$this->ctrl->setParameter($this, "new_type", "");
-
-			// create and insert object in objecttree
-			include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
-			$newObj = new ilObjGlossary();
-			$newObj->setType($new_type);
-			$newObj->setTitle($_FILES["xmldoc"]["name"]);
-			$newObj->create(true);
-			$this->putObjectInTree($newObj);
-
-			// create import directory
-			$newObj->createImportDirectory();
-
-			// copy uploaded file to import directory
-			$file = pathinfo($_FILES["xmldoc"]["name"]);
-			$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
-
-			ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"],
-				$_FILES["xmldoc"]["name"], $full_path);
-
-			// unzip file
-			ilUtil::unzip($full_path);
-
-			// determine filename of xml file
-			$subdir = basename($file["basename"],".".$file["extension"]);
-			$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
-
-			// check whether subdirectory exists within zip file
-			if (!is_dir($newObj->getImportDirectory()."/".$subdir))
-			{
-				$this->ilias->raiseError(sprintf($this->lng->txt("cont_no_subdir_in_zip"), $subdir),
-					$this->ilias->error_obj->MESSAGE);
-			}
-
-			// check whether xml file exists within zip file
-			if (!is_file($xml_file))
-			{
-				$this->ilias->raiseError(sprintf($this->lng->txt("cont_zip_file_invalid"), $subdir."/".$subdir.".xml"),
-					$this->ilias->error_obj->MESSAGE);
-			}
-
-			include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
-			$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
-			$contParser->startParsing();
-			ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
-
-			// delete import directory
-			ilUtil::delDir($newObj->getImportDirectory());
-
-			ilUtil::sendSuccess($this->lng->txt("glo_added"),true);
-			ilUtil::redirect("ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$newObj->getRefId());
-		}
-
-		// display form to correct errors
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHtml());
 	}
