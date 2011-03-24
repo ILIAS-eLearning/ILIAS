@@ -160,6 +160,17 @@ class ilObjRootFolder extends ilContainer
 		return $data ? $data : array();
 	}
 
+	// remove translations of current category
+	function deleteTranslation($a_lang)
+	{
+		global $ilDB;
+
+		$query = "DELETE FROM object_translation WHERE obj_id= ".
+			$ilDB->quote($this->getId(),'integer')." AND lang_code = ".
+			$ilDB->quote($a_lang, 'text');
+		$res = $ilDB->manipulate($query);
+	}
+
 	// remove all Translations of current category
 	function removeTranslations()
 	{

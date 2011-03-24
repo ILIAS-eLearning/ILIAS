@@ -479,6 +479,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$sort_manual->setInfo($this->lng->txt('sorting_info_manual'));
 		$sort->addOption($sort_manual);
 
+		$sort->setValue($settings->getSortMode());
 		$form->addItem($sort);
 
 
@@ -503,8 +504,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function updateObject()
 	{
-		global $rbacsystem, $ilCtrl;
-		
 		if (!$this->checkPermissionBool("write"))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
@@ -608,7 +607,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->tabs_gui->setTabActive("settings");
 			$form->setValuesByPost();
 			$this->tpl->setContent($form->getHTML());
-			// $this->editObject();
 		}
 	}
 
