@@ -210,93 +210,17 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	/**
 	* no manual SCORM creation, only import at the time
 	*/
-	function createObject()
+	function  initCreationForms($a_new_type)
 	{
-		$this->ctrl->setParameter($this, "new_type", "sahs");
+		$forms = array();
+
 		$this->initUploadForm();
-		$html = $this->form->getHTML();
+		$forms[self::CFORM_IMPORT] = $this->form;
+
 		$this->initCreationForm();
-		$html.= "<br />".$this->form->getHTML();
-		$this->tpl->setContent($html);
-return;
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.slm_create.html", "Modules/ScormAicc");
-		
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.gif'));
-		
-		$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_sahs"));
-		
-		$this->ctrl->setParameter($this, "new_type", "sahs");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("CMD_SUBMIT", "save");
-		
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("scorm_new"));
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("scorm_add"));		
-		
-		$this->tpl->setVariable("BTN_NAME", "upload");
-		$this->tpl->setVariable("TARGET", ' target="'.ilFrameTargetInfo::_getFrame("MainContent").'" ');
-
-		$this->tpl->setVariable("TXT_SELECT_LMTYPE", $this->lng->txt("type"));
-		$this->tpl->setVariable("TXT_TYPE_AICC", $this->lng->txt("lm_type_aicc"));
-		$this->tpl->setVariable("TXT_TYPE_HACP", $this->lng->txt("lm_type_hacp"));
-		$this->tpl->setVariable("TXT_TYPE_SCORM", $this->lng->txt("lm_type_scorm"));
-
-		$this->tpl->setVariable("TXT_TYPE_SCORM2004", $this->lng->txt("lm_type_scorm2004"));
-		
-		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_sahs"));
-		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
-		$this->tpl->setVariable("TXT_VALIDATE_FILE", $this->lng->txt("cont_validate_file"));
-		$this->tpl->setVariable("TXT_EDITABLE_LM", $this->lng->txt("scorm_editable"));
-		$this->tpl->setVariable("TXT_EDITABLE_LM_COMMENTS", $this->lng->txt("scorm_editable_comments"));
-		
-
-		// get the value for the maximal uploadable filesize from the php.ini (if available)
-		$umf=get_cfg_var("upload_max_filesize");
-		// get the value for the maximal post data from the php.ini (if available)
-		$pms=get_cfg_var("post_max_size");
-		
-		//convert from short-string representation to "real" bytes
-		$multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
-		
-		$umf_parts=preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
-        $pms_parts=preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
-        
-        if (count($umf_parts) == 2) { $umf = $umf_parts[0]*$multiplier_a[$umf_parts[1]]; }
-        if (count($pms_parts) == 2) { $pms = $pms_parts[0]*$multiplier_a[$pms_parts[1]]; }
-        
-        // use the smaller one as limit
-		$max_filesize=min($umf, $pms);
-
-		if (!$max_filesize) $max_filesize=max($umf, $pms);
+		$forms[self::CFORM_NEW] = $this->form;
 	
-    	//format for display in mega-bytes
-		$max_filesize=sprintf("%.1f MB",$max_filesize/1024/1024);
-
-		// gives out the limit as a little notice
-		$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice")." $max_filesize");
-
-		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
-		if (ilUploadFiles::_getUploadDirectory())
-		{
-			$files = ilUploadFiles::_getUploadFiles();
-			foreach($files as $file)
-			{
-				$file = htmlspecialchars($file, ENT_QUOTES, "utf-8");
-				$this->tpl->setCurrentBlock("option_uploaded_file");
-				$this->tpl->setVariable("UPLOADED_FILENAME", $file);
-				$this->tpl->setVariable("TXT_UPLOADED_FILENAME", $file);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("select_uploaded_file");
-			$this->tpl->setVariable("TXT_SELECT_FROM_UPLOAD_DIR", $this->lng->txt("cont_select_from_upload_dir"));
-			$this->tpl->setVariable("TXT_UPLOADED_FILE", $this->lng->txt("cont_uploaded_file"));
-			$this->tpl->parseCurrentBlock();
-		}
-	
-		//$this->importObject();
+		return $forms;
 	}
 
 	/**
