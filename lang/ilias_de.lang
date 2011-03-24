@@ -6738,7 +6738,7 @@ form#:#form_password_required_for_auth#:#Für die gewählte Authentifizierungmet
 form#:#form_retype_password#:#Passwort nochmals eingeben
 form#:#form_seconds#:#Sekunden
 forum#:#activate_current_and_childs#:#Alle Beitrage freischalten
-forum#:#activate_new_posts#:#Freischalten neuer Nachrichten
+forum#:#activate_new_posts#:#Neue Beiträge freischalten
 forum#:#activate_only_current#:#Nur diesen Beitrag freischalten
 forum#:#activate_post#:#Freischalten
 forum#:#activate_post_txt#:#Möchten Sie wirklich diesen Beitrag und ggf. alle seine Folgebeiträge freischalten? Bitte beachten Sie, dass auch alle Elternbeiträge aktiviert werden.
