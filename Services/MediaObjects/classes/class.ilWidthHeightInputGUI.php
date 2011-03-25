@@ -172,8 +172,8 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
 	{
 		global $ilUser;
 		
-		$this->setWidth($a_values[$this->getPostVar()]["width"]);
-		$this->setHeight($a_values[$this->getPostVar()]["height"]);
+		$this->setWidth($a_values[$this->getPostVar()]["width"]["pre_value"]);
+		$this->setHeight($a_values[$this->getPostVar()]["height"]["pre_value"]);
 		$this->setConstrainProportions($a_values[$this->getPostVar()]["constr_prop"]);
 	}
 

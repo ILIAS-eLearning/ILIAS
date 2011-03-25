@@ -135,7 +135,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	/**
 	* Insert new media object form.
 	*/
-	function insert($a_post_cmd = "edpost", $a_submit_cmd = "create_mob")
+	function insert($a_post_cmd = "edpost", $a_submit_cmd = "create_mob", $a_input_error = false)
 	{
 		global $ilTabs, $tpl, $ilCtrl, $lng;
 		
@@ -173,9 +173,16 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				$ilTabs->setSubTabActive("cont_new_mob");
 				
 				include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-				$mob_gui = new ilObjMediaObjectGUI("");
-				$mob_gui->initForm("create");
-				$form = $mob_gui->getForm();
+				if ($a_input_error)
+				{
+					$form = $this->form;
+				}
+				else
+				{
+					$mob_gui = new ilObjMediaObjectGUI("");
+					$mob_gui->initForm("create");
+					$form = $mob_gui->getForm();
+				}
 				$form->setFormAction($ilCtrl->getFormAction($this));
 				$form->clearCommandButtons();
 				$form->addCommandButton("create_mob", $lng->txt("save"));
@@ -435,6 +442,16 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			}
 
 			$ilCtrl->returnToParent($this);
+		}
+		
+		// check form input
+		$mob_gui = new ilObjMediaObjectGUI("");
+		$mob_gui->initForm("create");
+		if (!$mob_gui->checkFormInput())
+		{
+			$this->form = $mob_gui->getForm();
+			$this->insert("edpost", "create_mob", true);
+			return;
 		}
 		
 		// create dummy object in db (we need an id)

@@ -233,6 +233,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$radio_prop = new ilRadioGroupInputGUI($lng->txt("cont_resource"), "standard_type");
 		$op1 = new ilRadioOption($lng->txt("cont_file"), "File");
 			$up = new ilFileInputGUI("", "standard_file");
+			$up->setSuffixes(ilObjMediaObject::getRestrictedFileTypes());
 			$up->setInfo("");
 			$op1->addSubItem($up);
 			$radio_prop->addOption($op1);
@@ -357,6 +358,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$radio_prop2->addOption($op4);
 		$op2 = new ilRadioOption($lng->txt("cont_file"), "File");
 			$up = new ilFileInputGUI("", "full_file");
+			$up->setSuffixes(ilObjMediaObject::getRestrictedFileTypes());
 			$up->setInfo("");
 			$op2->addSubItem($up);
 		$radio_prop2->addOption($op2);
@@ -598,7 +600,24 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		{
 			$this->form_gui->setValuesByPost();
 			$tpl->setContent($this->form_gui->getHTML());
+			return false;
 		}
+	}
+	
+	/**
+	 * chechInputForm
+	 *
+	 * @param
+	 * @return
+	 */
+	function checkFormInput()
+	{
+		if (!$this->form_gui->checkInput())
+		{
+			$this->form_gui->setValuesByPost();
+			return false;
+		}
+		return true;
 	}
 	
 	
@@ -880,7 +899,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	{
 		global $lng, $tpl;
 		
-		$this->initForm();
+		$this->initForm("edit");
 		if ($this->form_gui->checkInput())
 		{
 			$title = trim($_POST["standard_title"]);
