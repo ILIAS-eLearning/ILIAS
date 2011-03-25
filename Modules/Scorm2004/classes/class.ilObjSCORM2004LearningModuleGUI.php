@@ -1389,6 +1389,7 @@ function showTrackingItem()
 		global $tpl,$lng, $ilCtrl;
 		
 		include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
+		include_once("./Modules/Scorm2004/classes/class.ilScorm2004Sco.php");
 		$t = $this->object->getTree();
 		$root_node = $t->getNodeData($t->getRootId());
 		$nodes = $this->object->getTree()->getSubtree($root_node);
@@ -1406,16 +1407,34 @@ function showTrackingItem()
 				}
 				$xml = '<?xml version="1.0"?>'.ilUtil::stripSlashes($_POST["seq"][$node["child"]], false);
 				
-				if ($node["type"] != "sco")
+				$ob_texts = array();
+				if ($node["type"] == "sco")
 				{
-					$item->setSeqXml($xml);
-					$item->initDom();
-					$item->update();
+					$sco = new ilSCORM2004Sco($this->object, $node["child"]);
+					$objectives = $sco->getObjectives();
+					foreach ($objectives as $o)
+					{
+						$ob_texts[$o->getId()] = $o->getObjectiveId();
+					}
+				}
+				
+				$item->setSeqXml($xml);
+				$item->initDom();
+				$item->update();
+
+				if ($node["type"] == "sco")
+				{
+					foreach ($ob_texts as $id => $t)
+					{
+						$objective = new ilScorm2004Objective($node["child"], $id);
+						$objective->setObjectiveId($t);
+						$objective->updateObjective();
+					}
 				}
 			}
 		}
-		
-		ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		
 		$ilCtrl->redirect($this, "showSequencing");
 	}

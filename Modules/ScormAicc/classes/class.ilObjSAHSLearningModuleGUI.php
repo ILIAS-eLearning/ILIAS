@@ -482,6 +482,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$newObj = new ilObjSCORM2004LearningModule();
 				$newObj->setEditable($_POST["editable"]=='y');
 				$newObj->setImportSequencing($_POST["import_sequencing"]);
+				$newObj->setSequencingExpertMode($_POST["import_sequencing"]);
 				break;
 
 			case "scorm":

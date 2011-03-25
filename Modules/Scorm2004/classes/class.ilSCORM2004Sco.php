@@ -134,6 +134,41 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
 		return $sco;
 	}
 
+	/**
+	 * Get main objective
+	 *
+	 * @todo: This should be saved in a better way in the future
+	 */
+	function getMainObjectiveText()
+	{
+		$objectives = $this->getObjectives();
+
+		foreach ($objectives as $ob)
+		{
+			// map info
+			$mappings = $ob->getMappings();
+			$mapinfo = null;
+			foreach($mappings as $map)
+			{
+				$mapinfo .= $map->getTargetObjectiveID();
+			}
+
+			if ($mapinfo == null)
+			{
+				$mapinfo = "local";
+			}
+			else
+			{
+				$mapinfo = "global to ".$mapinfo;
+			}
+
+			if ($mapinfo == "local")
+			{
+				return $ob->getObjectiveID();
+			}
+		}
+	}
+	
 
 }
 ?>
