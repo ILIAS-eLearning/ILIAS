@@ -271,7 +271,6 @@ class ilSCORM13Package
 	{
 		global $ilDB, $ilLog;
 		
-		
 	  	$this->packageFolder=$packageFolder;
 	  	$this->packageId=$packageId;
 	  	$this->imsmanifestFile = $this->packageFolder . '/' . 'index.xml';
@@ -332,7 +331,7 @@ class ilSCORM13Package
 	public function il_importLM($slm, $packageFolder, $a_import_sequencing = false)
 	{
 		global $ilDB, $ilLog;
-		
+
 	  	$this->packageFolder=$packageFolder;
 	  	$this->packageId=$slm->getId();
 	  	$this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';
@@ -361,6 +360,7 @@ class ilSCORM13Package
 			$this->importGlossary($slm,$packageFolder."/glossary");
 		}
 	  	//die($slm->title);
+
 		return $slm->title;
 	}
 	
@@ -413,20 +413,14 @@ class ilSCORM13Package
 				// get original sequencing information
 				$r = $this->mani_xpath->query("/d:manifest/d:organizations/d:organization/imsss:sequencing");
 				$this->imsmanifest->formatOutput = false;
-				foreach ($r as $n)
+				if ($r)
 				{
-					$seq_xml = trim(str_replace("imsss:", "", $this->imsmanifest->saveXML($n)));
-					if ($seq_xml != "")
-					{
-						$seq_info->setImportSeqXml('<?xml version="1.0"?>'.$seq_xml);
-					}
+					$this->setSequencingInfo($r->item(0), $seq_info, $a_import_sequencing);
 					if ($a_import_sequencing)
 					{
-						$seq_info->setSeqXml('<?xml version="1.0"?>'.$seq_xml);
 						$seq_info->initDom();
 					}
 				}
-				
 				$seq_info->insert();
 				
 				if(file_exists($this->packageFolder . '/' . 'index.xml'))
@@ -453,6 +447,17 @@ class ilSCORM13Package
 					$chap->setTitle($node->title);
 					$chap->setSLMId($this->slm->getId());
 					$chap->create(true);
+			
+					// save sequencing information
+					$r = $this->mani_xpath->query("//d:item[@identifier='".$a['identifier']."']/imsss:sequencing");
+					if ($r)
+					{
+						$seq_info = new ilSCORM2004Sequencing($chap->getId());
+						$this->setSequencingInfo($r->item(0), $seq_info, $a_import_sequencing);
+						$seq_info->initDom();
+						$seq_info->insert();
+					}
+
 					ilSCORM2004Node::putInTree($chap, $parent_id, "");
 					$parent_id = $chap->getId();
 					$doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');
@@ -471,6 +476,18 @@ class ilSCORM13Package
 					$sco->setTitle($node->title);
 					$sco->setSLMId($this->slm->getId());
 					$sco->create(true);
+					
+					// save sequencing information
+					$r = $this->mani_xpath->query("//d:item[@identifier='".$a['identifier']."']/imsss:sequencing");
+					if ($r)
+					{
+						$seq_info = new ilSCORM2004Sequencing($sco->getId());
+						$this->setSequencingInfo($r->item(0), $seq_info, $a_import_sequencing,
+							"local_obj_".$sco->getID()."_0");
+						$seq_info->initDom();
+						$seq_info->insert();
+					}
+					
 					ilSCORM2004Node::putInTree($sco, $parent_id, "");
 					$newPack = new ilSCORM13Package();
 					$newPack->il_importSco($this->slm->getId(),$sco->getId(),$this->packageFolder."/".$match[1]);
@@ -488,6 +505,30 @@ class ilSCORM13Package
 		}
 	}
 
+	/**
+	 * Save sequencing ingo
+	 *
+	 * @param
+	 * @return
+	 */
+	function setSequencingInfo($a_node, $a_seq_info, $a_import_sequencing, $a_fix_obj_id = "")
+	{
+		$seq_xml = trim(str_replace("imsss:", "", $this->imsmanifest->saveXML($a_node)));
+		if ($seq_xml != "")
+		{
+			$a_seq_info->setImportSeqXml('<?xml version="1.0"?>'.$seq_xml);
+		}
+		if ($a_import_sequencing)
+		{
+			if ($a_fix_obj_id != "")
+			{
+				$seq_xml = preg_replace("/local_obj_[0-9]*_0/", $a_fix_obj_id, $seq_xml);
+			}
+			$a_seq_info->setSeqXml('<?xml version="1.0"?>'.$seq_xml);
+		}
+	}
+	
+	
 	private function setProgress($progress, $msg = '')
 	{
 		$this->progress = $progress;

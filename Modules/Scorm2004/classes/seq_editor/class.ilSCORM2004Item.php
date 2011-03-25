@@ -273,7 +273,7 @@ class ilSCORM2004Item
 	public function insert($import = false)
 	{
 		global $ilDB;
-		
+
 		$ilDB->replace("sahs_sc13_seq_item",
 			array("sahs_sc13_tree_node_id" => array("integer", $this->treeNodeId),
 				"rootlevel" => array("integer", $this->rootLevel)),
