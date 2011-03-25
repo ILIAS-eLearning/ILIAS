@@ -128,6 +128,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 			$mset = new ilSetting("mobs");		
 			$mset->set("mep_activate_pages", $_POST["activate_pages"]);
 			$mset->set("file_manager_always", $_POST["file_manager_always"]);
+			$mset->set("restricted_file_types", $_POST["restricted_file_types"]);
 			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "editSettings");
@@ -157,6 +158,14 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 		$cb = new ilCheckboxInputGUI($lng->txt("mobs_always_show_file_manager"), "file_manager_always");
 		$cb->setInfo($lng->txt("mobs_always_show_file_manager_info"));
 		$this->form->addItem($cb);
+		
+		// allowed file types
+		$ta = new ilTextAreaInputGUI($this->lng->txt("mobs_restrict_file_types"), "restricted_file_types");
+		//$ta->setCols();
+		//$ta->setRows();
+		$ta->setInfo($this->lng->txt("mobs_restrict_file_types_info"));
+		$this->form->addItem($ta);
+		
 
 		$this->form->addCommandButton("saveSettings", $lng->txt("save"));
 	                
@@ -174,6 +183,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 		$mset = new ilSetting("mobs");
 		$values["activate_pages"] = $mset->get("mep_activate_pages");
 		$values["file_manager_always"] = $mset->get("file_manager_always");
+		$values["restricted_file_types"] = $mset->get("restricted_file_types");
 	
 		$this->form->setValuesByArray($values);
 	}

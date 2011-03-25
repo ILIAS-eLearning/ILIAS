@@ -1624,5 +1624,28 @@ class ilObjMediaObject extends ilObject
 //var_dump($linked);
 		return $linked;
 	}
+	
+	/**
+	 * Get restricted file types
+	 */
+	static function getRestrictedFileTypes()
+	{
+		$mset = new ilSetting("mobs");		
+		$str = $mset->get("restricted_file_types");
+		$types = explode(",", $str);
+		$suffixes = array();
+		if (count($types) > 0)
+		{
+			foreach ($types as $k => $t)
+			{
+				if (($s = strtolower(trim($t))) != "")
+				{
+					$suffixes[] = $s;
+				}
+			}
+		}
+		return $suffixes;
+	}
+	
 }
 ?>

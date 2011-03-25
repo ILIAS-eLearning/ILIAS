@@ -238,7 +238,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 		
 		// check suffixes
 		if ($_FILES[$this->getPostVar()]["tmp_name"] != "" &&
-			is_array($this->getSuffixes()))
+			is_array($this->getSuffixes()) && count($this->getSuffixes()) > 0)
 		{
 			if (!in_array(strtolower($suffix), $this->getSuffixes()))
 			{
@@ -327,7 +327,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	{
 		global $lng;
 		
-		if (is_array($this->getSuffixes()))
+		if (is_array($this->getSuffixes()) && count($this->getSuffixes()) > 0)
 		{
 			$suff_str = $delim = "";
 			foreach($this->getSuffixes() as $suffix)

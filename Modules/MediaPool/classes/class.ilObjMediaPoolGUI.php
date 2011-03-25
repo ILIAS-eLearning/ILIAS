@@ -160,28 +160,26 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$this->setLocator();
 
 				//$ret =& $ilObjMediaObjectGUI->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($ilObjMediaObjectGUI);
+				$ret = $this->ctrl->forwardCommand($ilObjMediaObjectGUI);
 
-				switch($cmd)
+				if ($cmd == "save" && $ret != false)
 				{
-					case "save":
-						$mep_item = new ilMediaPoolItem();
-						$mep_item->setTitle($ret->getTitle());
-						$mep_item->setType("mob");
-						$mep_item->setForeignId($ret->getId());
-						$mep_item->create();
+					$mep_item = new ilMediaPoolItem();
+					$mep_item->setTitle($ret->getTitle());
+					$mep_item->setType("mob");
+					$mep_item->setForeignId($ret->getId());
+					$mep_item->create();
 
-						$parent = ($_GET["mepitem_id"] == "")
-							? $tree->getRootId()
-							: $_GET["mepitem_id"];
-						$tree->insertNode($mep_item->getId(), $parent);
-						ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&cmd=listMedia&ref_id=".
-							$_GET["ref_id"]."&mepitem_id=".$_GET["mepitem_id"]);
-						break;
-
-					default:
+					$parent = ($_GET["mepitem_id"] == "")
+						? $tree->getRootId()
+						: $_GET["mepitem_id"];
+					$tree->insertNode($mep_item->getId(), $parent);
+					ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&cmd=listMedia&ref_id=".
+						$_GET["ref_id"]."&mepitem_id=".$_GET["mepitem_id"]);
+				}
+				else
+				{
 						$this->tpl->show();
-						break;
 				}
 				break;
 
