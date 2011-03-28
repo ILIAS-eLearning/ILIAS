@@ -13,6 +13,17 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
 class ilCOPageImporter extends ilXmlImporter
 {
 	/**
+	 * Initialisation
+	 */
+	function init()
+	{
+		include_once("./Services/COPage/classes/class.ilCOPageDataset.php");
+		$this->ds = new ilCOPageDataSet();
+		$this->ds->setDSPrefix("ds");
+	}
+	
+	
+	/**
 	 * Import XML
 	 *
 	 * @param
@@ -20,21 +31,30 @@ class ilCOPageImporter extends ilXmlImporter
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
-//echo $a_id;
-//var_dump($a_xml);
 
-		$pg_id = $a_mapping->getMapping("Services/COPage", "pg", $a_id);
-		if ($pg_id != "")
+		if ($a_entity == "pgtp")
 		{
-			$id = explode(":", $pg_id);
-			if (count($id) == 2)
+			include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
+			$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
+				$a_xml, $this->ds, $a_mapping);
+		}
+
+		if ($a_entity == "pg")
+		{
+			$pg_id = $a_mapping->getMapping("Services/COPage", "pg", $a_id);
+
+			if ($pg_id != "")
 			{
-				include_once("./Services/COPage/classes/class.ilPageObject.php");
-				$new_page = new ilPageObject($id[0]);
-				$new_page->setId($id[1]);
-				$new_page->setXMLContent($a_xml);
-				//$new_page->saveMobUsage($a_xml); (will be done in final processing)
-				$new_page->createFromXML();
+				$id = explode(":", $pg_id);
+				if (count($id) == 2)
+				{
+					include_once("./Services/COPage/classes/class.ilPageObject.php");
+					$new_page = new ilPageObject($id[0]);
+					$new_page->setId($id[1]);
+					$new_page->setXMLContent($a_xml);
+					//$new_page->saveMobUsage($a_xml); (will be done in final processing)
+					$new_page->createFromXML();
+				}
 			}
 		}
 	}

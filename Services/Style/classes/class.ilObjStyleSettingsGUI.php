@@ -1052,18 +1052,14 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	*/
 	function viewPageLayoutsObject()
 	{
-		
-		global $tpl, $lng, $ilCtrl, $ilTabs;
+		global $tpl, $lng, $ilCtrl, $ilTabs, $ilToolbar;
 		
 		$ilTabs->setTabActive('page_layouts');
 		
-		$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK",
-			$ilCtrl->getLinkTarget($this, "createPgGUI"));
-		$tpl->setVariable("BTN_TXT",$lng->txt("sty_add_pgl"));
-		$tpl->parseCurrentBlock();
+		$ilToolbar->addButton($lng->txt("sty_add_pgl"),
+			$ilCtrl->getLinkTarget($this, "addPageLayout"));
+		$ilToolbar->addButton($lng->txt("sty_import_page_layout"),
+			$ilCtrl->getLinkTarget($this, "importPageLayoutForm"));
 
 		$oa_tpl = new ilTemplate("tpl.stys_pglayout.html", true, true, "Services/Style");
    		
@@ -1215,7 +1211,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	 	$this->ctrl->redirect($this, "viewPageLayouts");
 	}
 	
-	function createPgGUIObject()
+	function addPageLayoutObject()
 	{
     	global $ilCtrl, $lng, $ilTabs;
    
@@ -1281,7 +1277,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		if($_POST["pgl_title"] == "")
 		{
 				$this->ilias->raiseError($this->lng->txt("no_title"),$this->ilias->error_obj->MESSAGE);
-				$this->createPgGUIObject();
+				$this->addPageLayoutObject();
 				exit;
 		}
 		//create Page-Layout-Object first
@@ -1430,8 +1426,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$succ = $exp->exportEntity("pgtp", (int) $_GET["layout_id"], "4.2.0",
 			"Services/COPage", "Title", $tmpdir);
 		
-//		var_dump($succ); exit;
-		
 		if ($succ["success"])
 		{
 			ilUtil::deliverFile($succ["directory"]."/".$succ["file"], $succ["file"],
@@ -1447,5 +1441,67 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		}
 	}
 	
+	/**
+	 * Import page layout
+	 */
+	function importPageLayoutFormObject()
+	{
+		global $tpl, $ilTabs;
+		
+		$ilTabs->setTabActive('page_layouts');
+		$form = $this->initPageLayoutImportForm();
+		$tpl->setContent($form->getHTML());
+	}
+	
+	/**
+	 * Init page layout import form.
+	 */
+	public function initPageLayoutImportForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		
+		// template file
+		$fi = new ilFileInputGUI($lng->txt("file"), "file");
+		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
+		$form->addItem($fi);
+		
+		$form->addCommandButton("importPageLayout", $lng->txt("import"));
+		$form->addCommandButton("viewPageLayouts", $lng->txt("cancel"));
+	                
+		$form->setTitle($lng->txt("sty_import_page_layout"));
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		
+		return $form;
+	 }
+	 
+	 /**
+	  * Import page layout
+	  */
+	 public function importPageLayoutObject()
+	 {
+	 	global $tpl, $lng, $ilCtrl, $ilTabs;
+	 
+	 	$form = $this->initPageLayoutImportForm();
+	 	if ($form->checkInput())
+	 	{
+	 		include_once("./Services/Style/classes/class.ilPageLayout.php");
+	 		$pg = ilPageLayout::import($_FILES["file"]["name"], $_FILES["file"]["tmp_name"]);
+	 		if ($pg > 0)
+	 		{
+	 			ilUtil::sendSuccess($lng->txt("sty_imported_layout"), true);
+	 		}
+	 		$ilCtrl->redirect($this, "viewPageLayouts");
+	 	}
+	 	else
+	 	{
+	 		$ilTabs->setTabActive('page_layouts');
+	 		$form->setValuesByPost();
+	 		$tpl->setContent($form->getHtml());
+	 	}
+	 }
 }
 ?>

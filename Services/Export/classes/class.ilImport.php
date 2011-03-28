@@ -98,11 +98,22 @@ class ilImport
 	
 	
 	/**
+	 * Import entity
+	 */
+	final public function importEntity($a_tmp_file, $a_filename,
+		$a_entity, $a_component)
+	{
+		$this->importObject(null, $a_tmp_file, $a_filename, $a_entity, $a_component);
+	}
+	
+	
+	/**
 	 * Import repository object export file
 	 *
 	 * @param	string		absolute filename of temporary upload file
 	 */
-	final public function importObject($a_new_obj, $a_tmp_file, $a_filename, $a_type)
+	final public function importObject($a_new_obj, $a_tmp_file, $a_filename, $a_type,
+		$a_comp = "")
 	{
 		// create temporary directory
 		$tmpdir = ilUtil::ilTempnam();
@@ -112,7 +123,7 @@ class ilImport
 		$dir = $tmpdir."/".substr($a_filename, 0, strlen($a_filename) - 4);
 		
 		$GLOBALS['ilLog']->write(__METHOD__.': do import with dir '.$dir);
-		$new_id = $this->doImportObject($dir, $a_type);
+		$new_id = $this->doImportObject($dir, $a_type, $a_comp);
 		
 		// delete temporary directory
 		ilUtil::delDir($tmpdir);
@@ -126,12 +137,21 @@ class ilImport
 	 *
 	 * @param	string		absolute filename of temporary upload file
 	 */
-	protected function doImportObject($dir,$a_type)
+	protected function doImportObject($dir, $a_type, $a_component = "")
 	{
 		global $objDefinition, $tpl;
 
-		$comp = $objDefinition->getComponentForType($a_type);
-		$class = $objDefinition->getClassName($a_type);
+		if ($a_component == "")
+		{
+			$comp = $objDefinition->getComponentForType($a_type);
+			$class = $objDefinition->getClassName($a_type);
+		}
+		else
+		{
+			$comp = $a_component;
+			$c = explode("/", $comp);
+			$class = $c[count($c) - 1];
+		}
 
 		$this->comp = $comp;
 
@@ -160,7 +180,6 @@ class ilImport
 			$all_importers[] = $this->importer;
 			$this->importer->setImportDirectory($dir);
 			$this->importer->init();
-
 			$parser = new ilExportFileParser($dir."/".$expfile["path"],
 				$this, "processItemXml");
 		}
@@ -174,7 +193,7 @@ class ilImport
 		// we should only get on mapping here
 		$top_mapping = $this->mapping->getMappingsOfEntity($this->comp, $a_type);
 		$new_id = (int) current($top_mapping);
-//echo "end of ilImport::importObject()."; exit;
+
 		return $new_id;
 	}
 
