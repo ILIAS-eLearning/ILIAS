@@ -129,8 +129,7 @@ class ilMediaObjectDataSet extends ilDataSet
 							"Value" => "text"
 						);
 			}
-		}				
-		
+		}
 	}
 
 	/**

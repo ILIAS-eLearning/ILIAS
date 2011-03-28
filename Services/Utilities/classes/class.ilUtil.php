@@ -1974,7 +1974,8 @@ class ilUtil
 	* @param $mime Mime of the file
 	* @param $isInline Set this to true, if the file shall be shown in browser
 	*/
-	function deliverFile($a_file, $a_filename,$a_mime = '', $isInline = false, $removeAfterDelivery = false)
+	function deliverFile($a_file, $a_filename,$a_mime = '', $isInline = false, $removeAfterDelivery = false,
+		$a_exit_after = true)
 	{
 		if ($isInline) {
 			$disposition = "inline"; // "inline" to view file in browser
@@ -2025,7 +2026,10 @@ class ilUtil
 		{
 			unlink ($a_file);
 		}
-		exit;
+		if ($a_exit_after)
+		{
+			exit;
+		}
 	}
 
 

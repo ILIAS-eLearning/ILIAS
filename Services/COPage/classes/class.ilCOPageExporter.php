@@ -19,6 +19,10 @@ class ilCOPageExporter extends ilXmlExporter
 	 */
 	function init()
 	{
+		include_once("./Services/COPage/classes/class.ilCOPageDataSet.php");
+		$this->ds = new ilCOPageDataSet();
+		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+		$this->ds->setDSPrefix("ds");
 	}
 
 
@@ -32,48 +36,82 @@ class ilCOPageExporter extends ilXmlExporter
 	 */
 	function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
 	{
-
-		// get all media objects and files of the page
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		include_once("./Modules/File/classes/class.ilObjFile.php");
-		$mob_ids = array();
-		$file_ids = array();
-		foreach ($a_ids as $pg_id)
+		if ($a_entity == "pg")
 		{
-			$pg_id = explode(":", $pg_id);
-
-			// get media objects
-			$mids = ilObjMediaObject::_getMobsOfObject($pg_id[0].":pg", $pg_id[1]);
-			foreach ($mids as $mid)
+			// get all media objects and files of the page
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+			include_once("./Modules/File/classes/class.ilObjFile.php");
+			$mob_ids = array();
+			$file_ids = array();
+			foreach ($a_ids as $pg_id)
 			{
-				if (ilObject::_lookupType($mid) == "mob")
+				$pg_id = explode(":", $pg_id);
+	
+				// get media objects
+				$mids = ilObjMediaObject::_getMobsOfObject($pg_id[0].":pg", $pg_id[1]);
+				foreach ($mids as $mid)
 				{
-					$mob_ids[] = $mid;
+					if (ilObject::_lookupType($mid) == "mob")
+					{
+						$mob_ids[] = $mid;
+					}
+				}
+	
+				// get files
+				$files = ilObjFile::_getFilesOfObject($pg_id[0].":pg", $pg_id[1]);
+				foreach ($files as $file)
+				{
+					if (ilObject::_lookupType($file) == "file")
+					{
+						$file_ids[] = $file;
+					}
 				}
 			}
-
-			// get files
-			$files = ilObjFile::_getFilesOfObject($pg_id[0].":pg", $pg_id[1]);
-			foreach ($files as $file)
-			{
-				if (ilObject::_lookupType($file) == "file")
-				{
-					$file_ids[] = $file;
-				}
-			}
+	
+			return array (
+				array(
+					"component" => "Services/MediaObjects",
+					"entity" => "mob",
+					"ids" => $mob_ids),
+				array(
+					"component" => "Modules/File",
+					"entity" => "file",
+					"ids" => $file_ids)
+				);
 		}
-
-		return array (
-			array(
-				"component" => "Services/MediaObjects",
-				"entity" => "mob",
-				"ids" => $mob_ids),
-			array(
-				"component" => "Modules/File",
-				"entity" => "file",
-				"ids" => $file_ids)
-			);
+		
+		return array();
 	}
+	
+	/**
+	 * Get tail dependencies
+	 *
+	 * @param		string		entity
+	 * @param		string		target release
+	 * @param		array		ids
+	 * @return		array		array of array with keys "component", entity", "ids"
+	 */
+	function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+	{
+		if ($a_entity == "pgtp")
+		{
+			$pg_ids = array();
+			foreach ($a_ids as $id)
+			{
+				$pg_ids[] = "stys:".$id;
+			}
+	
+			return array(
+				array(
+					"component" => "Services/COPage",
+					"entity" => "pg",
+					"ids" => $pg_ids)
+				);
+		}
+		
+		return array();
+	}
+
 
 	/**
 	 * Get xml representation
@@ -85,21 +123,28 @@ class ilCOPageExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
 	{
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
-		
-		$id = explode(":", $a_id);
-
-		$page_object = new ilPageObject($id[0], $id[1]);
-		$page_object->buildDom();
-		$page_object->insertInstIntoIDs(IL_INST_ID);
-		$pxml = $page_object->getXMLFromDom(false, false, false, "", true);
-		$pxml = str_replace("&","&amp;", $pxml);
-		$xml = "<PageObject>";
-		$xml.= $pxml;
-		$xml.= "</PageObject>";
-		$page_object->freeDom();
-
-		return $xml;
+		if ($a_entity == "pg")
+		{
+			include_once("./Services/COPage/classes/class.ilPageObject.php");
+			
+			$id = explode(":", $a_id);
+	
+			$page_object = new ilPageObject($id[0], $id[1]);
+			$page_object->buildDom();
+			$page_object->insertInstIntoIDs(IL_INST_ID);
+			$pxml = $page_object->getXMLFromDom(false, false, false, "", true);
+			$pxml = str_replace("&","&amp;", $pxml);
+			$xml = "<PageObject>";
+			$xml.= $pxml;
+			$xml.= "</PageObject>";
+			$page_object->freeDom();
+	
+			return $xml;
+		}
+		if ($a_entity == "pgtp")
+		{
+			return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id, "", true, true);
+		}
 	}
 
 	/**
@@ -111,13 +156,26 @@ class ilCOPageExporter extends ilXmlExporter
 	 */
 	function getValidSchemaVersions($a_entity)
 	{
-		return array (
-			"4.1.0" => array(
-				"namespace" => "http://www.ilias.de/Services/COPage/pg/4_1",
-				"xsd_file" => "ilias_pg_4_1.xsd",
-				"min" => "4.1.0",
-				"max" => "")
-		);
+		if ($a_entity == "pg")
+		{
+			return array (
+				"4.1.0" => array(
+					"namespace" => "http://www.ilias.de/Services/COPage/pg/4_1",
+					"xsd_file" => "ilias_pg_4_1.xsd",
+					"min" => "4.1.0",
+					"max" => "")
+			);
+		}
+		if ($a_entity == "pgtp")
+		{
+			return array (
+				"4.2.0" => array(
+					"namespace" => "http://www.ilias.de/Services/COPage/pgtp/4_1",
+					"xsd_file" => "ilias_pgtp_4_1.xsd",
+					"min" => "4.2.0",
+					"max" => "")
+			);
+		}
 	}
 
 }

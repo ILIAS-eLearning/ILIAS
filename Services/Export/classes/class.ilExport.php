@@ -77,8 +77,12 @@ class ilExport
 	}
 	
 	/**
-	* Get date of last export file
-	*/
+	 * Get date of last export file
+	 *
+ 	 * @param int $a_obj_id object id
+	 * @param string $a_type export type ("xml", "html", ...), default "xml"
+	 * @param string $a_obj_type object type (optional, if not given, type is looked up)
+	 */
 	static function _getLastExportFileDate($a_obj_id, $a_type = "", $a_obj_type = "")
 	{
 		$files = ilExport::_getExportFiles($a_obj_id, $a_type, $a_obj_type);
@@ -91,8 +95,12 @@ class ilExport
 	}
 	
 	/**
-	* Get last export file information
-	*/
+	 * Get last export file information
+	 *
+ 	 * @param int $a_obj_id object id
+	 * @param string $a_type export type ("xml", "html", ...), default "xml"
+	 * @param string $a_obj_type object type (optional, if not given, type is looked up)
+	 */
 	static function _getLastExportFileInformation($a_obj_id, $a_type = "", $a_obj_type = "")
 	{
 		$files = ilExport::_getExportFiles($a_obj_id, $a_type, $a_obj_type);
@@ -105,12 +113,14 @@ class ilExport
 	}
 
 	/**
-	* Get export directory
-	*
-	* @param	integer		Object ID
-	* @param	string		Export Type ("xml", "html", ...)
-	* @param	string		Object Type
-	*/
+	 * Get export directory for an repository object
+	 *
+	 * @param int $a_obj_id object id
+	 * @param string $a_type export type ("xml", "html", ...), default "xml"
+	 * @param string $a_obj_type object type (optional, if not given, type is looked up)
+	 *
+	 * @return string export directory
+	 */
 	public static function _getExportDirectory($a_obj_id, $a_type = "xml", $a_obj_type = "")
 	{
 		global $objDefinition;
@@ -128,7 +138,6 @@ class ilExport
 			$dir .= ilFileSystemStorage::_createPathFromId($a_obj_id, $a_obj_type).DIRECTORY_SEPARATOR;
 			$dir .= ($a_type == 'xml' ? 'export' : 'export_'.$a_type);
 			return $dir;
-			
 		}
 
 		if ($a_type !=  "xml")
@@ -145,8 +154,8 @@ class ilExport
 	}
 
 	/**
-	* Get Export Files
-	*/
+	 * Get Export Files for a repository object
+	 */
 	function _getExportFiles($a_obj_id, $a_export_types = "", $a_obj_type = "")
 	{
 
@@ -318,13 +327,17 @@ class ilExport
 	 *    
 	 * 
 	 */
+
 	/**
 	 * Export an ILIAS object (the object type must be known by objDefinition)
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_type repository object type
+	 * @param int $a_id id of object or entity that shoudl be exported
+	 * @param string $a_target_release target release
+	 *
+	 * @return array success and info array
 	 */
-	function exportObject($a_type, $a_id, $a_target_release, $a_config = "")
+	function exportObject($a_type, $a_id, $a_target_release)
 	{
 		global $objDefinition, $tpl;
 				
@@ -363,10 +376,7 @@ class ilExport
 
 		$this->manifest_writer->xmlEndTag('Manifest');
 
-//$tpl->setContent($tpl->main_content."<pre>".htmlentities($manifest_writer->xmlDumpMem(true))."</pre>");
-
 		$this->manifest_writer->xmlDumpFile($this->export_run_dir."/manifest.xml", false);
-//echo "-".$export_run_dir."-";
 
 		// zip the file
 		ilUtil::zip($this->export_run_dir, $export_dir."/".$new_file);
@@ -383,11 +393,77 @@ class ilExport
 			$exp->setFilename($new_file);
 			$exp->create();
 		}
-//exit;
+
 		return array(
 			"success" => $success,
-			"file" => $filename,
-			"directory" => $directory
+			"file" => $new_file,
+			"directory" => $export_dir
+			);
+	}
+	
+	/**
+	 * Export an ILIAS entity
+	 *
+	 * @param string $a_entity entity type, e.g. "sty"
+	 * @param mixed $a_id entity id
+	 * @param string $a_target_release target release
+	 * @param string $a_component component that exports (e.g. "Services/Style")
+	 *
+	 * @return array success and info array
+	 */
+	function exportEntity($a_entity, $a_id, $a_target_release,
+		$a_component, $a_title, $a_export_dir, $a_type_for_file = "")
+	{
+		global $objDefinition, $tpl;
+		
+		if ($a_type_for_file == "")
+		{
+			$a_type_for_file = $a_entity;
+		}
+		
+		$comp = $a_component;
+		$c = explode("/", $comp);
+		$class = "il".$c[1]."Exporter";
+		
+		// manifest writer
+		include_once "./Services/Xml/classes/class.ilXmlWriter.php";
+		$this->manifest_writer = new ilXmlWriter();
+		$this->manifest_writer->xmlHeader();
+		$this->manifest_writer->xmlStartTag(
+			'Manifest',
+			array(
+				"MainEntity" => $a_entity, 
+				"Title" => $a_title, 
+				"TargetRelease" => $a_target_release,
+				"InstallationId" => IL_INST_ID, 
+				"InstallationUrl" => ILIAS_HTTP_PATH));
+
+		$export_dir = $a_export_dir;
+		$ts = time();
+		
+		// determine file name and subdirectory
+		$sub_dir = $ts.'__'.IL_INST_ID.'__'.$a_type_for_file.'_'.$a_id;
+		$new_file = $sub_dir.'.zip';
+		
+		$this->export_run_dir = $export_dir."/".$sub_dir;
+		ilUtil::makeDirParents($this->export_run_dir);
+
+		$this->cnt = array();
+		
+		$success = $this->processExporter($comp, $class, $a_entity, $a_target_release, $a_id);
+
+		$this->manifest_writer->xmlEndTag('Manifest');
+
+		$this->manifest_writer->xmlDumpFile($this->export_run_dir."/manifest.xml", false);
+
+		// zip the file
+		ilUtil::zip($this->export_run_dir, $export_dir."/".$new_file);
+		ilUtil::delDir($this->export_run_dir);
+
+		return array(
+			"success" => $success,
+			"file" => $new_file,
+			"directory" => $export_dir
 			);
 	}
 
