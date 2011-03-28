@@ -1,34 +1,28 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
-* Class ilO	bjStyleSettingsGUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* 
-* @ilCtrl_Calls ilObjStyleSettingsGUI: ilPermissionGUI, ilPageLayoutGUI
-* 
-* @extends ilObjectGUI
-*/
-
 include_once "./classes/class.ilObjectGUI.php";
 include_once("./Services/Style/classes/class.ilPageLayout.php");
 
-
+/**
+ * Style settings GUI class
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ * 
+ * @ilCtrl_Calls ilObjStyleSettingsGUI: ilPermissionGUI, ilPageLayoutGUI
+ * 
+ * @ingroup	ServicesStyle
+ */
 class ilObjStyleSettingsGUI extends ilObjectGUI
 {
-	/**
-	* Constructor
-	* @access public
-	*/
-	
-	
-	
 	//page_layout editing
 	var $peditor_active = false;
 	var $pg_id = null;
 	
+	/**
+	 * Constructor
+	 */
 	function ilObjStyleSettingsGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		global $lng,$ilCtrl;
@@ -46,6 +40,9 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$lng->loadLanguageModule("style");
 	}
 	
+	/**
+	 * Execute command
+	 */
 	function &executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
@@ -56,7 +53,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		}
 		
 		$this->prepareOutput();
-		
 		
 		switch($next_class)
 		{
@@ -96,9 +92,8 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	}
 	
 	/**
-	* save object
-	* @access	public
-	*/
+	 * Save object
+	 */
 	function saveObject()
 	{
 		global $rbacadmin;
@@ -1421,5 +1416,36 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	}
 
 
+	/**
+	 * Export page layout template object
+	 */
+	function exportLayoutObject()
+	{
+		include_once("./Services/Export/classes/class.ilExport.php");
+		$exp = new ilExport();
+		
+		$tmpdir = ilUtil::ilTempnam();
+		ilUtil::makeDir($tmpdir);
+
+		$succ = $exp->exportEntity("pgtp", (int) $_GET["layout_id"], "4.2.0",
+			"Services/COPage", "Title", $tmpdir);
+		
+//		var_dump($succ); exit;
+		
+		if ($succ["success"])
+		{
+			ilUtil::deliverFile($succ["directory"]."/".$succ["file"], $succ["file"],
+				"", false, false, false);
+		}
+		if (is_file($succ["directory"]."/".$succ["file"]))
+		{
+			unlink($succ["directory"]."/".$succ["file"]);
+		}
+		if (is_dir($succ["directory"]))
+		{
+			unlink($succ["directory"]);
+		}
+	}
+	
 }
 ?>

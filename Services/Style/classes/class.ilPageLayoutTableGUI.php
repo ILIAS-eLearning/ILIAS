@@ -28,6 +28,7 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("description"));
 		$this->addColumn($lng->txt("obj_sty"));
 		$this->addColumn($lng->txt("type"));
+		$this->addColumn($lng->txt("actions"));
 		
 		$this->addMultiCommand("activate", $lng->txt("activate"));
 		$this->addMultiCommand("deactivate", $lng->txt("deactivate"));
@@ -68,9 +69,22 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{
 		global $lng, $ilCtrl;
-		if ($a_set['active']) {
+		
+		// action
+		$ilCtrl->setParameter($this->parent_obj, "layout_id", $a_set['layout_id']);
+		$this->tpl->setCurrentBlock("action");
+		$this->tpl->setVariable("HREF_ACTION",
+			$ilCtrl->getLinkTarget($this->parent_obj, "exportLayout"));
+		$this->tpl->setVariable("TXT_ACTION", $lng->txt("export"));
+		$this->tpl->parseCurrentBlock();
+		$ilCtrl->setParameter($this->parent_obj, "layout_id", "");
+		
+		if ($a_set['active'])
+		{
 			$this->tpl->setVariable("IMG_ACTIVE",ilUtil::getImagePath("icon_led_on_s.gif"));
-		}	else {
+		}
+		else
+		{
 			$this->tpl->setVariable("IMG_ACTIVE",ilUtil::getImagePath("icon_led_off_s.gif"));
 		}
 		$this->tpl->setVariable("VAL_TITLE", $a_set['title']);

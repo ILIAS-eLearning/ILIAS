@@ -83,7 +83,8 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 				break;
 
 			case "ilpageobjectgui":
-				$page_gui = new ilPageObjectGUI("sahs",
+				// "stys" was "sahs" before
+				$page_gui = new ilPageObjectGUI("stys",
 					$this->getPageObject()->getId(), $this->getPageObject()->old_nr);
 				$page_gui->setStyleId($this->getStyleId());
 				$html = $ilCtrl->forwardCommand($page_gui);
