@@ -120,33 +120,21 @@ class ilCOPageDataSet extends ilDataSet
 	 */
 	function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
 	{
-//echo $a_entity;
-//var_dump($a_rec);
-mk(); die(); //@todo;
 		switch ($a_entity)
 		{
-			case "mep":
-				include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
-
-				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
-				{
-					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
-				}
-				else
-				{
-					$newObj = new ilObjMediaPool();
-					$newObj->setType("mep");
-					$newObj->create(true);
-				}
+			case "pgtp":
+				include_once("./Services/Style/classes/class.ilPageLayout.php");
+				$pt = new ilPageLayout();
+				$pt->setTitle($a_rec["Title"]);
+				$pt->setDescription($a_rec["Description"]);
+				$pt->setSpecialPage($a_rec["SpecialPage"]);
+				$pt->update();
 				
-				$newObj->setTitle($a_rec["Title"]);
-				$newObj->setDescription($a_rec["Description"]);
-				$newObj->setDefaultWidth($a_rec["DefaultWidth"]);
-				$newObj->setDefaultHeight($a_rec["DefaultHeight"]);
-				$newObj->update();
-				
-				$this->current_obj = $newObj;
-				$a_mapping->addMapping("Modules/MediaPool", "mep", $a_rec["Id"], $newObj->getId());
+				$this->current_obj = $pt;
+				$a_mapping->addMapping("Services/COPage", "pgtp", $a_rec["Id"],
+					$pt->getId());
+				$a_mapping->addMapping("Services/COPage", "pg", "stys:".$a_rec["Id"],
+					"stys:".$pt->getId());
 				break;
 		}
 	}

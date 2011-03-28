@@ -172,6 +172,7 @@ class ilCOPageExporter extends ilXmlExporter
 				"4.2.0" => array(
 					"namespace" => "http://www.ilias.de/Services/COPage/pgtp/4_1",
 					"xsd_file" => "ilias_pgtp_4_1.xsd",
+					"uses_dataset" => true,
 					"min" => "4.2.0",
 					"max" => "")
 			);

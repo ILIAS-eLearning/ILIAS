@@ -272,4 +272,21 @@ class ilPageLayout
 		return self::getLayouts(true, $a_special_page);
 	}
 	
+	/**
+	 * Import page layout
+	 *
+	 * @param string $a_filename file name
+	 * @param string $a_fiepath complete path (incl. name) to file
+	 *
+	 * @return object new object
+	 */
+	static function import($a_filename, $a_filepath)
+	{
+		include_once("./Services/Export/classes/class.ilImport.php");
+		$imp = new ilImport();
+		$imp->importEntity($a_filepath, $a_filename,
+			"pgtp", "Services/COPage");
+	}
+	
+	
 }
