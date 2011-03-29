@@ -404,7 +404,7 @@ class ilPersonalDesktopGUI
 	*/
 	function getLeftColumnHTML()
 	{
-		global $ilUser, $lng, $ilCtrl;
+		global $ilUser, $lng, $ilCtrl, $ilPluginAdmin;
 
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI("pd", IL_COL_LEFT);
@@ -426,6 +426,28 @@ class ilPersonalDesktopGUI
 			if (!$ilCtrl->isAsynch())
 			{
 				$html = $ilCtrl->getHTML($column_gui);
+				
+				// user interface hook [uihk]
+				$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+				$plugin_html = false;
+				foreach ($pl_names as $pl)
+				{
+					$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+					$gui_class = $ui_plugin->getUIClassInstance();
+					$resp = $gui_class->getHTML("Services/PersonalDesktop", "left_column",
+						array("main_menu_gui" => $this));
+					if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
+					{
+						$plugin_html = true;
+						break;		// first one wins
+					}
+				}
+
+				// combine plugin and default html
+				if ($plugin_html)
+				{
+					$html = $gui_class->modifyHTML($html, $resp);
+				}
 			}
 		}
 
