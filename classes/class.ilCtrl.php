@@ -816,6 +816,11 @@ class ilCtrl
 		{
 			echo "ERROR: Path not found. Source:".$a_source_node.
 				", Target:".$a_target_node;
+				
+			if (DEVMODE == 1)
+			{
+				debug_print_backtrace();
+			}
 			exit;
 		}
 //echo "<br>:::$a_source_node:::";
