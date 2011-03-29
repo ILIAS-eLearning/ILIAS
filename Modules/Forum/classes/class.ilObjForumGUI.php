@@ -197,86 +197,21 @@ class ilObjForumGUI extends ilObjectGUI
 		return true;
 	}
 
-	public function updateObject()
+	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
-		global $ilAccess, $ilSetting;
-
-		if (!$ilAccess->checkAccess('write', '', $_GET['ref_id']))
-		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-		}
+		global $ilSetting;
 		
-		$this->object->setTitle(ilUtil::stripSlashes(trim($_POST["title"])));
-		$this->object->setDescription(ilUtil::stripSlashes(trim($_POST["desc"])));
-
-		$this->objProperties->setDefaultView(((int) $_POST['default_view']));
-		if ($this->ilias->getSetting('enable_anonymous_fora') || $this->objProperties->isAnonymized())
-		{
-			$this->objProperties->setAnonymisation((int) $_POST['anonymized']);
-		}
-		if ($ilSetting->get('enable_fora_statistics', false))
-		{
-			$this->objProperties->setStatisticsStatus((int) $_POST['statistics_enabled']);
-		}
-		$this->objProperties->setPostActivation((int) $_POST['post_activation']);
-
-		if (strlen(trim($_POST['title'])))
-		{			
-			$this->objProperties->update();
-			$this->object->update();
-
-			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-            ilUtil::redirect($this->ctrl->getLinkTarget($this, 'edit', '', false, false));
-		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt('frm_title_required'));
-		}
-		
-		$this->editObject();		
-	
-		return true;
-	}
-	
-	public function editObject()
-	{
-		global $ilAccess, $ilSetting, $ilTabs;
-		$ilTabs->setTabActive('settings');
-		// subtabs
-		$this->settingsTabs();
-
-		if (!$ilAccess->checkAccess('write', '', $_GET['ref_id']))
-		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-		}		
-
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this, 'update'));		
-		$form->setTitle($this->lng->txt('settings'));
-		
-		$ti_prop = new ilTextInputGUI($this->lng->txt('title'), 'title');
-		$ti_prop->setValue($this->object->getTitle());
-		$form->addItem($ti_prop);
-		
-		$tai_prop = new ilTextAreaInputGUI($this->lng->txt('desc'), 'desc');
-		$tai_prop->setValue($this->object->getLongDescription());
-		$tai_prop->setRows(5);
-		$tai_prop->setCols(50);
-		$form->addItem($tai_prop);
-
 		$rg_pro = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'default_view');
 		$rg_pro->addOption(new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('answers'), '1'));
 		$rg_pro->addOption(new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('date'), '2'));
-		$rg_pro->setValue($this->objProperties->getDefaultView());		
-		$form->addItem($rg_pro);	
+		$a_form->addItem($rg_pro);
 
 		if ($ilSetting->get('enable_anonymous_fora') || $this->objProperties->isAnonymized())
-		{	
+		{
 			$cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_anonymous_posting'),	'anonymized');
 			$cb_prop->setValue('1');
 			$cb_prop->setInfo($this->lng->txt('frm_anonymous_posting_desc'));
-			$cb_prop->setChecked($this->objProperties->isAnonymized() ? 1 : 0);
-			$form->addItem($cb_prop);
+			$a_form->addItem($cb_prop);
 		}
 
 		if ($ilSetting->get('enable_fora_statistics', false))
@@ -284,65 +219,40 @@ class ilObjForumGUI extends ilObjectGUI
 			$cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_statistics_enabled'), 'statistics_enabled');
 			$cb_prop->setValue('1');
 			$cb_prop->setInfo($this->lng->txt('frm_statistics_enabled_desc'));
-			$cb_prop->setChecked($this->objProperties->isStatisticEnabled() ? 1 : 0);
-			$form->addItem($cb_prop);
-		}	
-		
+			$a_form->addItem($cb_prop);
+		}
+
 		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('activate_new_posts'), 'post_activation');
 		$cb_prop->setValue('1');
 		$cb_prop->setInfo($this->lng->txt('post_activation_desc'));
-		$cb_prop->setChecked($this->objProperties->isPostActivationEnabled() ? 1 : 0);
-		$form->addItem($cb_prop);		
-
-		$form->addCommandButton('update', $this->lng->txt('save'));
-		
-		$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
+		$a_form->addItem($cb_prop);
 	}
-	
-	/**
-	 * Import
-	 *
-	 * @access	public
-	 */
-	public function importFileObject()
+
+	protected function getEditFormCustomValues(array &$a_values)
 	{
-		global $rbacsystem, $objDefinition, $tpl, $lng, $ilErr;
+		$a_values['default_view'] = $this->objProperties->getDefaultView();
+		$a_values['anonymized'] = $this->objProperties->isAnonymized();
+		$a_values['statistics_enabled'] = $this->objProperties->isStatisticEnabled();
+		$a_values['post_activation'] = $this->objProperties->isPostActivationEnabled();
+	}
 
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+	protected function updateCustom(ilPropertyFormGUI $a_form)
+	{
+		global $ilSetting;
+		
+		$this->objProperties->setDefaultView((int)$a_form->getInput('default_view'));
+		if ($this->ilias->getSetting('enable_anonymous_fora') || $this->objProperties->isAnonymized())
 		{
-			$ilErr->raiseError($this->lng->txt("no_create_permission"), $ilErr->MESSAGE);
+			$this->objProperties->setAnonymisation((int)$a_form->getInput('anonymized'));
 		}
-		$this->ctrl->setParameter($this, "new_type", $new_type);
-		$this->initImportForm($new_type);
-		if ($this->form->checkInput())
+		if ($ilSetting->get('enable_fora_statistics', false))
 		{
-			// todo: make some check on manifest file
-			include_once("./Services/Export/classes/class.ilImport.php");
-			$imp = new ilImport((int) $_GET['ref_id']);
-			$new_id = $imp->importObject($newObj, $_FILES["importfile"]["tmp_name"],
-				$_FILES["importfile"]["name"], $new_type);
-			// put new object id into tree
-			if ($new_id > 0)
-			{
-				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
-				$newObj->createReference();
-				$newObj->putInTree($_GET["ref_id"]);
-				$newObj->setPermissions($_GET["ref_id"]);
-				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-				//$this->afterSave($newObj);
-				$this->ctrl->returnToParent($this);
-			}
-			return;
+			$this->objProperties->setStatisticsStatus((int)$a_form->getInput('statistics_enabled'));
 		}
-
-		$this->form->setValuesByPost();
-		$tpl->setContent($this->form->getHtml());
+		$this->objProperties->setPostActivation((int)$a_form->getInput('post_activation'));
+		$this->objProperties->update();
 	}
 	
-
 	public function editThreadObject($a_thread_id)
 	{
 		$this->ctrl->setParameter($this,'thr_pk', $a_thread_id);
@@ -795,84 +705,6 @@ class ilObjForumGUI extends ilObjectGUI
 	}
 	
 	/**
-	* @access private
-	*/
-	private function setForumCreateDefaultValues()
-	{
-		$this->create_form_gui->setValuesByArray(array(
-			'title' => '',
-			'desc' => '',
-			'sort' => 1,
-			'anonymized' => false,
-			'statistics_enabled' => false,
-			'post_activation' => false
-		));
-	}
-	
-	/**
-	* creation form
-	*/
-	function createObject($subbmitted_form = '')
-	{
-		global $rbacsystem;		
-
-		$new_type = $_POST['new_type'] ? $_POST['new_type'] : $_GET['new_type'];
-		if(!$rbacsystem->checkAccess('create', $_GET['ref_id'], $new_type))
-		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-		}
-		
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.frm_create.html', 'Modules/Forum');
-		
-		// create form
-		if($this->create_form_gui === null)
-			$this->initForumCreateForm($new_type);
-		if($subbmitted_form == 'create')
-			$this->create_form_gui->setValuesByPost();
-		else
-			$this->setForumCreateDefaultValues();		
-		$this->tpl->setVariable('CREATE_FORM', $this->create_form_gui->getHTML());
-
-		$this->fillCloneTemplate('DUPLICATE','frm');
-		
-		$this->initImportForm("frm");
-		$this->tpl->setVariable("IMPORT", $this->form->getHTML());
-		
-		return true;
-	}
-	
-	/**
-	 * Init object import form
-	 *
-	 * @param        string        new type
-	 */
-	public function initImportForm($a_new_type = "")
-	{
-		global $lng, $ilCtrl;
-
-		$lng->loadLanguageModule("frm");
-
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setTableWidth('600px');
-		$this->form->setTarget("_top");
-
-		// Import file
-		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
-		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
-		$fi->setSuffixes(array("zip"));
-		$fi->setRequired(true);
-		$this->form->addItem($fi);
-
-		$this->form->addCommandButton("importFile", $lng->txt("import"));
-		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
-		$this->form->setTitle($lng->txt($a_new_type."_import"));
-
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
-	}
-	
-
-	/**
 	* cancel action and go back to previous page
 	* @access	public
 	*
@@ -888,74 +720,34 @@ class ilObjForumGUI extends ilObjectGUI
 	* save object
 	* @access	public
 	*/
-	function saveObject($a_prevent_redirect = false)
+	protected function afterSave(ilObject $forumObj)
 	{
-		global $rbacadmin, $rbacsystem;
-
-		$new_type = $_POST['new_type'] ? $_POST['new_type'] : $_GET['new_type'];		
-		if(!$rbacsystem->checkAccess('create', $_GET['ref_id'], $new_type))
-		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-		}		
+		global $rbacadmin;
 		
-		$this->initForumCreateForm($new_type);
-		if($this->create_form_gui->checkInput())
-		{			
-			$_POST['Fobject']['title'] = $this->create_form_gui->getInput('title');
-			$_POST['Fobject']['desc'] =  $this->create_form_gui->getInput('desc');
-			
-			// create and insert forum in objecttree
-			$forumObj = parent::saveObject();
-			
-			// save settings
-			$this->objProperties->setObjId($forumObj->getId());
-			$this->objProperties->setDefaultView(((int)$this->create_form_gui->getInput('sort')));
-			if($this->ilias->getSetting('enable_anonymous_fora', true) || $_POST['anonymized'])
-			{
-				
-				$this->objProperties->setAnonymisation((int)$this->create_form_gui->getInput('anonymized'));
-			
-			}
-			else
-			{
-				$this->objProperties->setAnonymisation(0);
-			}			
-			if($this->ilias->getSetting('enable_fora_statistics', false))
-			{
-				$this->objProperties->setStatisticsStatus((int)$this->create_form_gui->getInput('statistics_enabled'));	
-			}	
-			else
-			{
-				$this->objProperties->setStatisticsStatus(0);				
-			}	
+		// save settings
+		$this->objProperties->setObjId($forumObj->getId());
+		$this->objProperties->setDefaultView(1);
+		$this->objProperties->setAnonymisation(0);
+		$this->objProperties->setStatisticsStatus(0);
+		$this->objProperties->setPostActivation(0);
+		$this->objProperties->insert();
 
-			$this->objProperties->setPostActivation((int) $_POST['post_activation']);
-			$this->objProperties->insert();		
-				
-			$forumObj->createSettings();
-	
-            // ...finally assign moderator role to creator of forum object
-            $roles = array();
-            $roles[0] = ilObjForum::_lookupModeratorRole($forumObj->getRefId());
+		$forumObj->createSettings();
 
-			$rbacadmin->assignUser($roles[0], $forumObj->getOwner(), 'n');
-			
-			// insert new forum as new topic into frm_data
-			$forumObj->saveData($roles);
-			
-			// always send a message
-			ilUtil::sendSuccess($this->lng->txt('frm_added'), true);
-						
-			$this->ctrl->setParameter($this, 'ref_id', $forumObj->getRefId());	
-			if(!$a_prevent_redirect)
-			{
-				ilUtil::redirect($this->ctrl->getLinkTarget($this, 'createThread', '', false, false));
-			}
-		}
-		else
-		{
-			return $this->createObject('create');
-		}		
+		// ...finally assign moderator role to creator of forum object
+		$roles = array();
+		$roles[0] = ilObjForum::_lookupModeratorRole($forumObj->getRefId());
+
+		$rbacadmin->assignUser($roles[0], $forumObj->getOwner(), 'n');
+
+		// insert new forum as new topic into frm_data
+		$forumObj->saveData($roles);
+
+		// always send a message
+		ilUtil::sendSuccess($this->lng->txt('frm_added'), true);
+
+		$this->ctrl->setParameter($this, 'ref_id', $forumObj->getRefId());
+		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'createThread', '', false, false));
 	}
 
 	function getTabs(&$tabs_gui)
