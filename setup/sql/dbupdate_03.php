@@ -4215,4 +4215,8 @@ if(!$ilDB->tableExists('acl_ws'))
 	$ilDB->addTableColumn("sahs_lm", "seq_exp_mode", array(
 		"type" => "integer", "length" => 1, "notnull" => false, "default" => 0));
 ?>
+<#3250>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
 

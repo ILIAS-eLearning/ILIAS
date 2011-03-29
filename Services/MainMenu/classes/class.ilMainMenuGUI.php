@@ -559,6 +559,10 @@ class ilMainMenuGUI
 				// profile
 				$selection->addItem($lng->txt("personal_profile"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
 					"", "", "_top");
+				
+				// settings
+				$selection->addItem($lng->txt("personal_settings"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSettings",
+					"", "", "_top");
 
 				// news
 				if ($ilSetting->get("block_activated_news"))

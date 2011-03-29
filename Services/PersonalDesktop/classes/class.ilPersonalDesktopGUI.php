@@ -15,7 +15,7 @@ include_once "Services/Mail/classes/class.ilMail.php";
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI, ilFeedbackGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilMailAddressbookGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -148,6 +148,15 @@ class ilPersonalDesktopGUI
 				include_once("./Services/User/classes/class.ilPersonalProfileGUI.php");
 				$profile_gui = new ilPersonalProfileGUI();
 				$ret =& $this->ctrl->forwardCommand($profile_gui);
+				break;
+				
+			// settings
+			case "ilpersonalsettingsgui":
+				$this->getStandardTemplates();
+				$this->setTabs();
+				include_once("./Services/User/classes/class.ilPersonalSettingsGUI.php");
+				$settings_gui = new ilPersonalSettingsGUI();
+				$ret =& $this->ctrl->forwardCommand($settings_gui);
 				break;
 			
 				// profile
@@ -665,11 +674,19 @@ return;
 	}
 	
 	/**
-	* workaround for menu in calendar only
-	*/
+	 * workaround for menu in calendar only
+	 */
 	function jumpToProfile()
 	{
 		$this->ctrl->redirectByClass("ilpersonalprofilegui");
+	}
+	
+	/**
+	 * workaround for menu in calendar only
+	 */
+	function jumpToSettings()
+	{
+		$this->ctrl->redirectByClass("ilpersonalsettingsgui");
 	}
 	
 	/**
