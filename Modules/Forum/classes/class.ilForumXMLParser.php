@@ -98,10 +98,10 @@ class ilForumXMLParser extends ilSaxParser
 				$this->contentArray = array();
 				break;
 
-			case 'ContentThumbnail':
+		/*	case 'ContentThumbnail':
 				$this->entity = 'content_thumb';
 				$this->content_thumbArray = array();
-				break;
+				break;*/
 		}
 	}
 
@@ -455,9 +455,9 @@ class ilForumXMLParser extends ilSaxParser
 					$x['content'] = $this->cdata;
 					break;
 
-				case 'ContentThumbnail':
+			/*	case 'ContentThumbnail':
 					$x['content_thumb'] = $this->cdata;
-					break;
+					break;*/
 
 				case 'Attachment':
 					$filedata = new ilFileDataForum($this->forum->getId(), $this->lastHandledPostId);
@@ -474,7 +474,7 @@ class ilForumXMLParser extends ilSaxParser
 						@copy($importPath, $newPath);
 					}
 
-					$importPathThumbnail = $this->content_thumbArray['content_thumb'];
+				/*	$importPathThumbnail = $this->content_thumbArray['content_thumb'];
 
 					if( strlen($importPathThumbnail) )
 					{
@@ -484,7 +484,7 @@ class ilForumXMLParser extends ilSaxParser
 						$thumbPath = $filedata->getThumbPath();
 						$newThumbnailPath = $thumbPath.'/'.$newThumbFilename;
 						@copy($importPathThumbnail, $newThumbnailPath);
-					}
+					}*/
 
 					break;
 		}
