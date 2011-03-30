@@ -82,7 +82,7 @@
 		<complexType>
 			<sequence>
 				<element name="Content" type="string" minOccurs="1" maxOccurs="1" />
-				<element name="ContentThumbnail" type="string" minOccurs="0" maxOccurs="1" />
+			<!--	<element name="ContentThumbnail" type="string" minOccurs="0" maxOccurs="1" /> -->
 			</sequence>
 		</complexType>
 	</element>
