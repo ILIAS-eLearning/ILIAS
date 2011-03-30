@@ -92,16 +92,19 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	*/
 	function save($a_feed_block)
 	{
-		global $rbacadmin, $ilUser;
-
 		// create and insert forum in objecttree
-		$_GET["new_type"] = "feed";
-		$_POST["Fobject"]["title"] = $a_feed_block->getTitle();
-		$_POST["Fobject"]["desc"] = $a_feed_block->getFeedUrl();
-		$newObj = parent::saveObject();
-		$newObj->setOwner($ilUser->getId());
-		$newObj->updateOwner();
-		$a_feed_block->setContextObjId($newObj->getId());
+		$_REQUEST["new_type"] = "feed";
+		$_POST["title"] = $a_feed_block->getTitle();
+		$_POST["desc"] = $a_feed_block->getFeedUrl();
+		parent::saveObject($a_feed_block);
+	}
+
+	function afterSave(ilObject $a_new_object, $a_feed_block)
+	{
+	    // saveObject() parameters are sent as array
+		$a_feed_block = $a_feed_block[0];
+
+		$a_feed_block->setContextObjId($a_new_object->getId());
 		$a_feed_block->setContextObjType("feed");
 	}
 	
@@ -124,12 +127,9 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	*/
 	function update($a_feed_block)
 	{
-		global $rbacadmin;
-
-		// update object
-		$_POST["Fobject"]["title"] = $a_feed_block->getTitle();
-		$_POST["Fobject"]["desc"] = $a_feed_block->getFeedUrl();
-		$newObj = parent::updateObject();
+		$_POST["title"] = $a_feed_block->getTitle();
+		$_POST["desc"] = $a_feed_block->getFeedUrl();
+		parent::updateObject();
 	}
 
 	/**
@@ -138,14 +138,11 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	*/
 	public function cancelUpdate()
 	{
-		global $ilCtrl, $tree;
-
+		global $tree;
 
 		$par = $tree->getParentId($_GET["ref_id"]);
 		$_GET["ref_id"] = $par;
 		$this->redirectToRefId($par);
-		
-		//$this->ctrl->returnToParent($this);
 	}
 
 	/**
@@ -154,13 +151,11 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	*/
 	public function afterUpdate()
 	{
-		global $ilCtrl, $tree;
+		global $tree;
 
-		// always send a message
 		$par = $tree->getParentId($_GET["ref_id"]);
 		$_GET["ref_id"] = $par;
 		$this->redirectToRefId($par);
-
 	}
 
 	/**
