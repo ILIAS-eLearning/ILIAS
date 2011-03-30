@@ -1,35 +1,16 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** 
-* Add a search box to main menu
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-*
-* @ingroup ServicesSearch
-*/
+ * Add a search box to main menu
+ * 
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * 
+ *
+ * @ingroup ServicesSearch
+ */
 class ilMainMenuSearchGUI
 {
 	protected $tpl = null;
@@ -39,7 +20,6 @@ class ilMainMenuSearchGUI
 	private $obj_id = 0;
 	private $type = '';
 	private $isContainer = true;
-	
 	
 	/**
 	 * Constructor
@@ -58,6 +38,8 @@ class ilMainMenuSearchGUI
 		$this->obj_id = ilObject::_lookupObjId($this->ref_id);
 		$this->type = ilObject::_lookupType($this->obj_id);
 
+		$lng->loadLanguageModule("search");
+		
 		/*
 		if(!$objDefinition->isContainer($this->type))
 		{
@@ -71,7 +53,7 @@ class ilMainMenuSearchGUI
 	
 	public function getHTML()
 	{
-		global $ilCtrl, $tpl;
+		global $ilCtrl, $tpl, $lng;
 		
 		if(!$this->isContainer)
 		{
@@ -79,18 +61,30 @@ class ilMainMenuSearchGUI
 		}
 		if($_GET['baseClass'] == 'ilSearchController')
 		{
-			return '';
+//			return '';
 		}
 		
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initAutocomplete();
-		$this->tpl = new ilTemplate('tpl.main_menu_search.html',true,true,'Services/Search');
+		$this->tpl = new ilTemplate('tpl.main_menu_search2.html',true,true,'Services/Search');
 		$this->tpl->setVariable('FORMACTION','ilias.php?baseClass=ilSearchController&cmd=post'.
 			'&rtoken='.$ilCtrl->getRequestToken().'&fallbackCmd=remoteSearch');
 		$this->tpl->setVariable('BTN_SEARCH',$this->lng->txt('search'));
 		$this->tpl->setVariable('CONT_REF_ID',ROOT_FOLDER_ID);
 		$this->tpl->setVariable('ID_AUTOCOMPLETE', "mm_sr_auto");
 		$this->tpl->setVariable('YUI_DATASOURCE', "ilias.php?baseClass=ilSearchController&cmd=autoComplete");
+		$this->tpl->setVariable('ARROW', ilUtil::getImagePath("mm_down_arrow_dark.gif"));
+		$this->tpl->setVariable('SRC_ICON', ilUtil::getImagePath("icon_seas_s.gif"));
+		$this->tpl->setVariable('TXT_LAST_SEARCH', " > ".$lng->txt("last_search_result"));
+		$this->tpl->setVariable('HREF_LAST_SEARCH', "ilias.php?baseClass=ilSearchController");
+		$this->tpl->setVariable('TXT_SEARCH', $lng->txt("search"));
+		
+		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+		$ov = new ilOverlayGUI("mm_search");
+		$ov->setTrigger("mm_search_trigger");
+		$ov->setAnchor("mm_search_trigger", "tr", "br");
+		$ov->setAutoHide(false);
+		$ov->add();
 		
 		return $this->tpl->get();
 	} 

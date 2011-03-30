@@ -274,10 +274,10 @@ class ilMainMenuGUI
 		include_once 'Services/Search/classes/class.ilSearchSettings.php';
 		if($rbacsystem->checkAccess('search',ilSearchSettings::_getSearchSettingRefId()))
 		{
-			$this->renderEntry($a_tpl, "search",
+/*			$this->renderEntry($a_tpl, "search",
 				$lng->txt("search"),
 				$this->getScriptTarget('ilias.php?baseClass=ilSearchController'),
-				$this->target);
+				$this->target); */
 		}
 
 		// mail
