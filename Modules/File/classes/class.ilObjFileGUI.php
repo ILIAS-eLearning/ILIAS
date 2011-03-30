@@ -35,16 +35,10 @@ class ilObjFileGUI extends ilObject2GUI
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-	
-		if(!$this->getCreationMode() &&
-			$this->id_type == self::REPOSITORY_NODE_ID &&
-			$this->checkPermissionBool("read"))
+
+		if(!$this->getCreationMode())
 		{
-
-			// add entry to navigation history
-			$ilNavigationHistory->addItem($this->node_id,
-				"repository.php?cmd=infoScreen&ref_id=".$this->node_id, "file");
-
+			// do not move this payment block!!
 			if(IS_PAYMENT_ENABLED)
 			{
 				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
@@ -54,7 +48,7 @@ class ilObjFileGUI extends ilObject2GUI
 					include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 					$valid_transaction = ilPaymentBookings::_readBookingByTransaction($transaction);
 				}
-
+			//(ilPaymentObject::_requiresPurchaseToAccess($this->node_id, $type = (isset($_GET['purchasetype']) ? $_GET['purchasetype'] : NULL) ))
 				if( ilPaymentObject::_isBuyable($this->node_id) &&
 				   !ilPaymentObject::_hasAccess($this->node_id, $transaction) &&
 				   !$valid_transaction)
@@ -67,6 +61,13 @@ class ilObjFileGUI extends ilObject2GUI
 					$ret = $this->ctrl->forwardCommand($pp);
 					return true;
 				}
+			}
+			else if($this->id_type == self::REPOSITORY_NODE_ID 
+				&& $this->checkPermissionBool("read"))
+			{
+				// add entry to navigation history
+				$ilNavigationHistory->addItem($this->node_id,
+					"repository.php?cmd=infoScreen&ref_id=".$this->node_id, "file");
 			}
 		}
 		
