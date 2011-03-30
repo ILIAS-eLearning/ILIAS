@@ -19,10 +19,7 @@ class ilForumExporter extends ilXmlExporter
 	 */
 	public function init()
 	{
-		/*include_once("./Modules/Forum/classes/class.ilForumDataSet.php");
-		$this->ds = new ilForumDataSet();
-		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
-		$this->ds->setDSPrefix("ds");*/
+		
 	}
 
 
