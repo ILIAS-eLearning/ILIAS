@@ -823,7 +823,15 @@ class ilObjectGUI
 			$this->putObjectInTree($newObj);
 
 			// additional paramters are added to afterSave()
-			$this->afterSave($newObj, func_get_args());
+			$args = func_get_args();
+			if($args)
+			{
+				$this->afterSave($newObj, $args);
+			}
+			else
+			{
+				$this->afterSave($newObj);
+			}
 			return;
 		}
 
