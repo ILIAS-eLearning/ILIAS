@@ -12,18 +12,6 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
  */
 class ilForumImporter extends ilXmlImporter
 {
-
-	/**
-	 * Initialisation
-	 */
-	public function init()
-	{
-		include_once("./Modules/Forum/classes/class.ilForumDataSet.php");
-		$this->ds = new ilForumDataSet();
-		$this->ds->setDSPrefix("ds");
-	}
-
-
 	/**
 	 * Import XML
 	 *
@@ -32,9 +20,27 @@ class ilForumImporter extends ilXmlImporter
 	 */
 	public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
-		include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
-		$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
-			$a_xml, $this->ds, $a_mapping);
+		include_once 'Modules/Forum/classes/class.ilObjForum.php';
+
+		// case i container
+		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
+		{
+			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
+		}
+		else	// case ii, non container
+		{
+			$newObj = new ilObjForum();
+			$newObj->setType('frm');
+			$newObj->create(true);
+		}
+
+		include_once 'Modules/Forum/classes/class.ilForumXMLParser.php';
+		$parser = new ilForumXMLParser($newObj, $a_xml);
+		$parser->setImportDirectory($this->getImportDirectory());
+		$parser->setImportInstallId($this->getInstallId());
+		$parser->startParsing();
+
+		$a_mapping->addMapping("Modules/Forum", "frm", $a_id, $newObj->getId());
 	}
 }
 ?>
