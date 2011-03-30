@@ -177,14 +177,14 @@ class ilForumXMLWriter extends ilXmlWriter
 						$content = $this->target_dir_relative."/".basename($file['path']);
 						$this->xmlElement("Content", null, $content);
 
-						// Attachment thumbnails (only in hsuhh branch !!!!!!!!!!!!!!!!!!)
-						$thumb = $tmp_file_obj->getThumbFilename($file);
+
+					/*	$thumb = $tmp_file_obj->getThumbFilename($file);
 						if($thumb)
 						{
 							copy($tmp_file_obj->getThumbPath().'/'.$thumb, $this->target_dir_absolute."/".$thumb);
 							$contentThumb = $this->target_dir_relative."/".$thumb;
 							$this->xmlElement("ContentThumbnail", null, $contentThumb);
-						}
+						}*/
 						++$i;
 						$this->xmlEndTag("Attachment");
 					}
