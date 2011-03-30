@@ -19,10 +19,10 @@ class ilForumExporter extends ilXmlExporter
 	 */
 	public function init()
 	{
-		include_once("./Modules/Forum/classes/class.ilForumDataSet.php");
+		/*include_once("./Modules/Forum/classes/class.ilForumDataSet.php");
 		$this->ds = new ilForumDataSet();
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
-		$this->ds->setDSPrefix("ds");
+		$this->ds->setDSPrefix("ds");*/
 	}
 
 
@@ -36,7 +36,20 @@ class ilForumExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
 	{
-		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id, "", true, true);
+		$xml = '';
+
+		include_once 'Modules/Forum/classes/class.ilForumXMLWriter.php';
+		if( ilObject::_lookupType($a_id) == 'frm' )
+		{
+			$writer = new ilForumXMLWriter();
+			$writer->setForumId($a_id);
+			ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
+			$writer->setFileTargetDirectories($this->getRelativeExportDirectory(), $this->getAbsoluteExportDirectory());
+			$writer->start();
+			$xml .= $writer->getXml();
+		}
+
+		return $xml;
 	}
 
 	/**
