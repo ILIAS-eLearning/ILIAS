@@ -5572,8 +5572,6 @@ content#:#pg#:#Seite
 content#:#public_section#:#Öffentlicher Bereich
 content#:#read offline#:#Offline lesen
 content#:#saved_media_object#:#Medienobjekt gespeichert
-content#:#scorm_editable#:#Zur Bearbeitung importieren
-content#:#scorm_editable_comments#:#Funktioniert nur mit SCORM 1.2/2004-Paketen
 content#:#scplayer_collapsetree#:#Baum einklappen
 content#:#scplayer_continue#:#Weiter
 content#:#scplayer_debugger#:#Debugger zeigen
@@ -11067,6 +11065,18 @@ book#:#book_add#:#Buchungspool hinzufügen
 book#:#book_edit#:#Buchungspool bearbeiten
 common#:#glo_import#:#Glossar importieren
 common#:#title_and_translations#:#Titel und Übersetzungen
+sahs#:#sahs_authoring_mode_info#:#The package must have been created with the ILIAS SCORM editor and it must have been exported as SCORM 1.2/2004 package.###01 04 2011 new variable
+sahs#:#sahs_authoring_mode#:#Authoring Mode###01 04 2011 new variable
+sahs#:#sahs_std_sequencing#:#Standard Sequencing###01 04 2011 new variable
+sahs#:#sahs_std_sequencing_info#:#Use ILIAS standard sequencing behaviour.###01 04 2011 new variable
+sahs#:#sahs_import_sequencing#:#Import Sequencing###01 04 2011 new variable
+sahs#:#sahs_import_sequencing_info#:#Import sequencing information from package (Sequencing Expert Mode).###01 04 2011 new variable
+sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode###01 04 2011 new variable
+sahs#:#sahs_activate_expert_mode_info#:#The sequencing expert mode allows you to directly edit the sequencing information of the package tree. If you are unsure what this means we recommend to use the default sequencing behaviour.###01 04 2011 new variable
+mep#:#mobs_restrict_file_types#:#Restrict File Types###01 04 2011 new variable
+mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.###01 04 2011 new variable
+common#:#personal_settings#:#Einstellungen
+common#:#rep_main_page#:#Hauptseite
 certificate#:#certificate_ph_scormmaxpoints#:#Maximal erreichbare Punktzahl im letzten SCO, in dem der Wert für score.max gesetzt wurde (bspw. geeignet für einen Abschlusstest)
 certificate#:#certificate_ph_login#:#Benutzername 
 certificate#:#certificate_var_user_login#:#emustermann
