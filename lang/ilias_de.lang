@@ -11067,3 +11067,6 @@ book#:#book_add#:#Buchungspool hinzufügen
 book#:#book_edit#:#Buchungspool bearbeiten
 common#:#glo_import#:#Glossar importieren
 common#:#title_and_translations#:#Titel und Übersetzungen
+certificate#:#certificate_ph_scormmaxpoints#:#Maximal erreichbare Punktzahl im letzten SCO, in dem der Wert für score.max gesetzt wurde (bspw. geeignet für einen Abschlusstest)
+certificate#:#certificate_ph_login#:#Benutzername 
+certificate#:#certificate_var_user_login#:#emustermann

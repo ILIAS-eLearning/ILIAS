@@ -65,6 +65,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		global $lng;
 		include_once "./classes/class.ilFormat.php";
 		$insert_tags = array(
+			"[USER_LOGIN]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_login")),
 			"[USER_FULLNAME]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_fullname")),
 			"[USER_FIRSTNAME]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_firstname")),
 			"[USER_LASTNAME]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_lastname")),
@@ -80,6 +81,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			"[USER_LASTACCESS]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()-(24*60*60*5)), "datetime", TRUE, FALSE),
 			"[SCORM_TITLE]" => ilUtil::prepareFormOutput($this->object->getTitle()),
 			"[SCORM_POINTS]" => number_format(80.7, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %",
+			"[SCORM_POINTS_MAX]" => number_format(90, 0, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")),
 			"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date", FALSE, FALSE),
 			"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE, FALSE)
 		);
@@ -122,8 +124,28 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			$m = $matches[2];
 			$d = $matches[3];
 		}
+		
+		$max_points = $this->object->getMaxPoints();
+		$txtMaxPoints = '';
+		if (is_null($max_points))
+		{
+			$txtMaxPoints = $lng->txt("certificate_points_notavailable");
+		}
+		else
+		{
+			if($max_points != floor($max_points))
+			{
+				$txtMaxPoints = number_format($max_points, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
+			}
+			else
+			{
+				$txtMaxPoints = $max_points;
+			}
+		}
+		
 		include_once "./classes/class.ilFormat.php";
 		$insert_tags = array(
+			"[USER_LOGIN]" => ilUtil::prepareFormOutput(trim($user_data["login"])),
 			"[USER_FULLNAME]" => ilUtil::prepareFormOutput(trim($user_data["title"] . " " . $user_data["firstname"] . " " . $user_data["lastname"])),
 			"[USER_FIRSTNAME]" => ilUtil::prepareFormOutput($user_data["firstname"]),
 			"[USER_LASTNAME]" => ilUtil::prepareFormOutput($user_data["lastname"]),
@@ -139,6 +161,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			"[USER_LASTACCESS]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime($params["last_access"]), "datetime", FALSE, FALSE),
 			"[SCORM_TITLE]" => ilUtil::prepareFormOutput($this->object->getTitle()),
 			"[SCORM_POINTS]" => $txtPoints,
+			"[SCORM_POINTS_MAX]" => $txtMaxPoints,
 			"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date", FALSE, FALSE),
 			"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE, FALSE)
 		);
@@ -157,6 +180,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		
 		$template = new ilTemplate("tpl.certificate_edit.html", TRUE, TRUE, "Modules/ScormAicc");
 		$template->setVariable("PH_INTRODUCTION", $lng->txt("certificate_ph_introduction"));
+		$template->setVariable("PH_USER_LOGIN", $lng->txt("certificate_ph_login"));
 		$template->setVariable("PH_USER_FULLNAME", $lng->txt("certificate_ph_fullname"));
 		$template->setVariable("PH_USER_FIRSTNAME", $lng->txt("certificate_ph_firstname"));
 		$template->setVariable("PH_USER_LASTNAME", $lng->txt("certificate_ph_lastname"));
@@ -175,6 +199,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		$template->setVariable("PH_USER_LASTACCESS", $lng->txt("certificate_ph_lastaccess"));
 		$template->setVariable("PH_SCORM_TITLE", $lng->txt("certificate_ph_scormtitle"));
 		$template->setVariable("PH_SCORM_POINTS", $lng->txt("certificate_ph_scormpoints"));
+		$template->setVariable("PH_SCORM_POINTS_MAX", $lng->txt("certificate_ph_scormmaxpoints"));
 		$template->setVariable("PH_DATE", $lng->txt("certificate_ph_date"));
 		$template->setVariable("PH_DATETIME", $lng->txt("certificate_ph_datetime"));
 		return $template->get();

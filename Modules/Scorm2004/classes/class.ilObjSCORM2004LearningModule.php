@@ -1846,6 +1846,63 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	{
 		$this->public_export_file[$a_type] = $a_file;
 	}
+	
+	/**
+	 * 
+	 * Returns score.max for the learning module, refered to the last sco where score.max is set.
+	 * 
+	 * @param	integer $a_id
+	 * @param	integer $a_user
+	 * @static
+	 * @return	float
+	 * 
+	 */
+	public static function _getMaxScoreForUser($a_id, $a_user) 
+	{
+		global $ilDB;		
+		
+		$scos = array();
+		
+		$result = $ilDB->query(
+			'SELECT cp_node.cp_node_id '
+		   .'FROM cp_node, cp_resource, cp_item '
+		   .'WHERE cp_item.cp_node_id = cp_node.cp_node_id '
+		   .'AND cp_item.resourceId = cp_resource.id '
+		   .'AND scormType = '.$ilDB->quote('sco', 'text').' '
+		   .'AND nodeName = '.$ilDB->quote('item', 'text').' '
+		   .'AND cp_node.slm_id = '.$ilDB->quote($a_id, 'integer').' '
+		   .'GROUP BY cp_node.cp_node_id'
+		);
+		
+		while($row = $ilDB->fetchAssoc($result)) 
+		{
+			array_push($scos, $row['cp_node_id']);
+		}
+		
+		$set = 0; //numbers of SCO that set cmi.score.scaled
+		$max = null;
+		for($i = 0; $i < count($scos); $i++)
+		{
+			$res = $ilDB->queryF(
+				'SELECT c_max FROM cmi_node WHERE (user_id = %s AND cp_node_id = %s)',
+				array('integer', 'integer'),
+				array($a_user, $scos[$i])
+			);
+			
+			if($ilDB->numRows($res) > 0) 
+			{
+				$row = $ilDB->fetchAssoc($res);
+				if($row['c_max'] != null)
+				{
+					$set++;
+					$max = $row['c_max'];
+				}
+			}
+		}	
+		$retVal = ($set == 1) ? $max : null;
+		
+		return $retVal;
+	}	
 
 	/**
 	 * Create entry page
