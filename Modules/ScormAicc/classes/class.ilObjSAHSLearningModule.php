@@ -848,6 +848,30 @@ class ilObjSAHSLearningModule extends ilObject
 			return null;
 		}
 	}
-
+	
+	/**
+	 * 
+	 * Returns score.max for the learning module, refered to the last sco where score.max is set.
+	 * This is called by the certificate generator if [SCORM_POINTS_MAX] is
+	 * inserted.
+	 * 
+	 * @access	public
+	 * @return	float
+	 * 
+	 */
+	public function getMaxPoints()
+	{
+		global $ilUser;
+		
+		if(strcmp($this->getSubType(), 'scorm2004') == 0)
+		{
+			$res = ilObjSCORM2004LearningModule::_getMaxScoreForUser($this->getId(), $ilUser->getId());
+			return $res;
+		}
+		else
+		{
+			return null;
+		}
+	}
 } // END class.ilObjSCORMLearningModule
 ?>
