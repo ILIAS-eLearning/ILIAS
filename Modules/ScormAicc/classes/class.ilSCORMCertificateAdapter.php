@@ -78,12 +78,12 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			"[USER_CITY]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_city")),
 			"[USER_ZIPCODE]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_zipcode")),
 			"[USER_COUNTRY]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_country")),
-			"[USER_LASTACCESS]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()-(24*60*60*5)), "datetime", TRUE, FALSE),
+			"[USER_LASTACCESS]" => ilDatePresentation::formatDate(new ilDateTime(time() - (24 * 60 * 60 * 5), IL_CAL_UNIX)),
 			"[SCORM_TITLE]" => ilUtil::prepareFormOutput($this->object->getTitle()),
 			"[SCORM_POINTS]" => number_format(80.7, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %",
 			"[SCORM_POINTS_MAX]" => number_format(90, 0, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")),
-			"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date", FALSE, FALSE),
-			"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE, FALSE)
+			"[DATE]" => ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX)),
+			"[DATETIME]" => ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
 		);
 		return $insert_tags;
 	}
@@ -158,12 +158,12 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			"[USER_CITY]" => ilUtil::prepareFormOutput($user_data["city"]),
 			"[USER_ZIPCODE]" => ilUtil::prepareFormOutput($user_data["zipcode"]),
 			"[USER_COUNTRY]" => ilUtil::prepareFormOutput($user_data["country"]),
-			"[USER_LASTACCESS]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime($params["last_access"]), "datetime", FALSE, FALSE),
+			"[USER_LASTACCESS]" => ilDatePresentation::formatDate(new ilDateTime($params["last_access"], IL_CAL_DATETIME)),
 			"[SCORM_TITLE]" => ilUtil::prepareFormOutput($this->object->getTitle()),
 			"[SCORM_POINTS]" => $txtPoints,
 			"[SCORM_POINTS_MAX]" => $txtMaxPoints,
-			"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date", FALSE, FALSE),
-			"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE, FALSE)
+			"[DATE]" => ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX)),
+			"[DATETIME]" => ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
 		);
 		return $insert_tags;
 	}

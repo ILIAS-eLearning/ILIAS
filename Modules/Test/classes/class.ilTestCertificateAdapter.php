@@ -84,8 +84,8 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 			"[RESULT_MARK_SHORT]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_result_mark_short")),
 			"[RESULT_MARK_LONG]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_result_mark_long")),
 			"[TEST_TITLE]" => ilUtil::prepareFormOutput($this->object->getTitle()),
-			"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date", FALSE, FALSE),
-			"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE, FALSE)
+			"[DATE]" => ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX)),
+			"[DATETIME]" => ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
 		);
 		return $insert_tags;
 	}
@@ -154,8 +154,8 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 			"[RESULT_MARK_SHORT]" => ilUtil::prepareFormOutput($mark_obj->getShortName()),
 			"[RESULT_MARK_LONG]" => ilUtil::prepareFormOutput($mark_obj->getOfficialName()),
 			"[TEST_TITLE]" => ilUtil::prepareFormOutput($this->object->getTitle()),
-			"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date", FALSE, FALSE),
-			"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE, FALSE)
+			"[DATE]" => ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX)),
+			"[DATETIME]" => ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
 		);
 		return $insert_tags;
 	}
