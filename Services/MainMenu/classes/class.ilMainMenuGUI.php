@@ -11,7 +11,7 @@
 class ilMainMenuGUI
 {
 	/**
-	* ilias object
+	* ilias objectm
 	* @var		object ilias
 	* @access	private
 	*/
@@ -28,8 +28,7 @@ class ilMainMenuGUI
 	*/
 	function ilMainMenuGUI($a_target = "_top", $a_use_start_template = false)
 	{
-		global $ilias;
-		
+		global $ilias, $rbacsystem;
 		
 		$this->tpl = new ilTemplate("tpl.main_menu.html", true, true,
 			"Services/MainMenu");
@@ -37,6 +36,17 @@ class ilMainMenuGUI
 		$this->target = $a_target;
 		$this->start_template = $a_use_start_template;
 		$this->small = false;
+		
+		$this->mail = false;
+		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		{
+			include_once "Services/Mail/classes/class.ilMail.php";
+			$mail = new ilMail($_SESSION["AccountId"]);
+			if ($rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId()))
+			{
+				$this->mail = true;
+			}
+		}
 	}
 	
 	function setSmallMode($a_small)
@@ -107,6 +117,8 @@ class ilMainMenuGUI
 				$this->tpl->setVariable('SEARCHBOX',$html);
 			}
 		}
+		
+		$this->renderStatusBox($this->tpl);
 
 		// user interface hook [uihk]
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
@@ -236,6 +248,37 @@ class ilMainMenuGUI
 		
 		$this->tpl->parseCurrentBlock();
 	}
+	
+	/**
+	 * Render status box
+	 */
+	function renderStatusBox($a_tpl)
+	{
+		global $rbacsysten;
+		
+		$box = false;
+		
+		// new mails?
+		if ($this->mail)
+		{
+			if ($new_mails = ilMailbox::_countNewMails($_SESSION["AccountId"]))
+			{
+				$a_tpl->setCurrentBlock("status_item");
+				$a_tpl->setVariable("STATUS_TXT", $new_mails);
+				$a_tpl->setVariable("STATUS_IMG", ilUtil::getImagePath("icon_mail_s.gif"));
+				$a_tpl->setVariable("STATUS_HREF", "ilias.php?baseClass=ilMailGUI");
+				$a_tpl->parseCurrentBlock();
+				$box = true;
+			}
+		}
+		
+		if ($box)
+		{
+			$a_tpl->setCurrentBlock("status_box");
+			$a_tpl->parseCurrentBlock();
+		}
+	}
+	
 
 	/**
 	 * desc
@@ -265,10 +308,19 @@ class ilMainMenuGUI
 		{
 			$title = $lng->txt("repository");
 		}
+		//$this->renderEntry($a_tpl, "repository",
+		//	$title,
+		//	ilLink::_getStaticLink(1,'root',true),
+		//	$this->target);
 		$this->renderEntry($a_tpl, "repository",
-			$title,
-			ilLink::_getStaticLink(1,'root',true),
-			$this->target);
+			$title, "#");
+		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+		$ov = new ilOverlayGUI("mm_rep_ov");
+		$ov->setTrigger("mm_rep_tr");
+		$ov->setAnchor("mm_rep_tr");
+		$ov->setAutoHide(false);
+		$ov->add();
+		
 
 		// search
 		include_once 'Services/Search/classes/class.ilSearchSettings.php';
@@ -281,7 +333,7 @@ class ilMainMenuGUI
 		}
 
 		// mail
-		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+/*		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 		{
 			include_once "Services/Mail/classes/class.ilMail.php";
 
@@ -302,7 +354,7 @@ class ilMainMenuGUI
 					$this->target);
 			}
 		}
-
+*/
 
 		// webshop
 		if(IS_PAYMENT_ENABLED)
@@ -367,7 +419,7 @@ class ilMainMenuGUI
 
 
 		// navigation history
-		require_once("Services/Navigation/classes/class.ilNavigationHistoryGUI.php");
+/*		require_once("Services/Navigation/classes/class.ilNavigationHistoryGUI.php");
 		$nav_hist = new ilNavigationHistoryGUI();
 		$nav_html = $nav_hist->getHTML();
 		if ($nav_html != "")
@@ -377,7 +429,7 @@ class ilMainMenuGUI
 			$a_tpl->setVariable("TXT_LAST_VISITED", $lng->txt("last_visited"));
 			$a_tpl->setVariable("NAVIGATION_HISTORY", $nav_html);
 			$a_tpl->parseCurrentBlock();
-		}
+		}*/
 
 
 		// chat messages
@@ -420,11 +472,53 @@ class ilMainMenuGUI
 	 */
 	function renderEntry($a_tpl, $a_id, $a_txt, $a_script, $a_target = "_top")
 	{
-		global $lng;
+		global $lng, $ilNavigationHistory;
+	
+		if ($a_id == "repository")
+		{
+			$items = $ilNavigationHistory->getItems();
+			reset($items);
+			$cnt = 0;
+			foreach($items as $item)
+			{
+				if ($cnt >= 20) break;
+				
+				if (!isset($item["ref_id"]) || !isset($_GET["ref_id"]) || $item["ref_id"] != $_GET["ref_id"])			// do not list current item
+				{
+					$obj_id = ilObject::_lookupObjId($item["ref_id"]);
+					//$selection->addItem($item["title"], $item["ref_id"], $item["link"],
+					//	ilObject::_getIcon($obj_id, "tiny", $item["type"]),
+					//	$lng->txt("obj_".$item["type"]), "_top");
+					
+					$a_tpl->setCurrentBlock("lv_item");
+					$a_tpl->setVariable("HREF_LV", $item["link"]);
+					$a_tpl->setVariable("TXT_LV", $item["title"]);
+					$a_tpl->parseCurrentBlock();
+					$cnt ++;
+				}
+			}
+			
+			if ($cnt > 0)
+			{
+				$a_tpl->setCurrentBlock("lv");
+				$a_tpl->setVariable("TXT_LAST_VISITED", $lng->txt("last_visited"));
+				$a_tpl->parseCurrentBlock();
+			}
+		}
 
 		$id = strtolower($a_id);
 		$id_up = strtoupper($a_id);
 		$a_tpl->setCurrentBlock("entry_".$id);
+		
+		if ($a_id == "repository")
+		{
+			include_once("./classes/class.ilLink.php");
+			$a_tpl->setVariable("TXT_MAIN_PAGE", $lng->txt("rep_main_page"));
+			$a_tpl->setVariable("HREF_MAIN_PAGE", ilLink::_getStaticLink(1,'root',true));
+			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.gif"));
+		}
+		
+		
 		$a_tpl->setVariable("TXT_".$id_up, $a_txt);
 		$a_tpl->setVariable("SCRIPT_".$id_up, $a_script);
 		$a_tpl->setVariable("TARGET_".$id_up, $a_target);
@@ -556,6 +650,13 @@ class ilMainMenuGUI
 				$selection->addItem($lng->txt("personal_workspace"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace",
 					"", "", "_top");
 
+				// mail
+				if ($this->mail)
+				{
+					$selection->addItem($lng->txt("mail"), "", "ilias.php?baseClass=ilMailGUI",
+						"", "", "_top");
+				}
+				
 				// profile
 				$selection->addItem($lng->txt("personal_profile"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
 					"", "", "_top");

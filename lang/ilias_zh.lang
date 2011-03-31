@@ -5487,8 +5487,6 @@ content#:#pg#:#页源于
 content#:#public_section#:#Public Section
 content#:#read offline#:#在线读
 content#:#saved_media_object#:#Saved media object.
-content#:#scorm_editable#:#Import editable
-content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package
 content#:#scplayer_continue#:#Continue
 content#:#scplayer_exit#:#Exit
 content#:#scplayer_exitall#:#Exit All
@@ -11076,3 +11074,20 @@ sahs#:#sahs_sco_final_message#:#You have successfully completed "%s".###22 03 20
 content#:#cont_final_sco_page_info#:#A status page will be displayed at the end of a SCO, if all questions have been answered successfully.###22 03 2011 new variable
 content#:#cont_final_lm_page_info#:#A status page will be displayed, if all questions of the learning module have been answered successfully.###22 03 2011 new variable
 style#:#sty_type_sco_fmess#:#SCORM Final Message###22 03 2011 new variable
+book#:#book_new#:#New Booking Pool###01 04 2011 new variable
+book#:#book_add#:#Add Booking Pool###01 04 2011 new variable
+book#:#book_edit#:#Edit Booking Pool###01 04 2011 new variable
+common#:#glo_import#:#Import Glossary###01 04 2011 new variable
+common#:#title_and_translations#:#Title and Translations###01 04 2011 new variable
+sahs#:#sahs_authoring_mode_info#:#The package must have been created with the ILIAS SCORM editor and it must have been exported as SCORM 1.2/2004 package.###01 04 2011 new variable
+sahs#:#sahs_authoring_mode#:#Authoring Mode###01 04 2011 new variable
+sahs#:#sahs_std_sequencing#:#Standard Sequencing###01 04 2011 new variable
+sahs#:#sahs_std_sequencing_info#:#Use ILIAS standard sequencing behaviour.###01 04 2011 new variable
+sahs#:#sahs_import_sequencing#:#Import Sequencing###01 04 2011 new variable
+sahs#:#sahs_import_sequencing_info#:#Import sequencing information from package (Sequencing Expert Mode).###01 04 2011 new variable
+sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode###01 04 2011 new variable
+sahs#:#sahs_activate_expert_mode_info#:#The sequencing expert mode allows you to directly edit the sequencing information of the package tree. If you are unsure what this means we recommend to use the default sequencing behaviour.###01 04 2011 new variable
+mep#:#mobs_restrict_file_types#:#Restrict File Types###01 04 2011 new variable
+mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.###01 04 2011 new variable
+common#:#personal_settings#:#Personal Settings###01 04 2011 new variable
+common#:#rep_main_page#:#Main Page###01 04 2011 new variable
