@@ -764,7 +764,11 @@ class ilLearningProgressBaseGUI
 
 		$class = "ilObj".$objDefinition->getClassName($a_type)."Access";
 		include_once $objDefinition->getLocation($a_type)."/class.".$class.".php";
-		return $class::_isOffline($obj_id);
+
+		return call_user_func(array($class,'_isOffline'),$obj_id);
+
+		// PHP 5.3 only ?
+		//return $class::_isOffline($obj_id);
 	}
 }
 
