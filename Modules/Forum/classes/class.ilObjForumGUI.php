@@ -3353,7 +3353,7 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		// form action
 		$this->create_topic_form_gui->setFormAction($this->ctrl->getFormAction($this, 'addThread'));
-	
+
 		if($this->objProperties->isAnonymized() == 1)
 		{			
 			$alias_gui = new ilTextInputGUI($this->lng->txt('forums_your_name'), 'alias');
@@ -3364,7 +3364,7 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 		else
 		{
-			$alias_gui = new ilNonEditableValueGUI($this->lng->txt('forums_your_name', 'alias'));
+			$alias_gui = new ilNonEditableValueGUI($this->lng->txt('forums_your_name'), 'alias');
 			$alias_gui->setValue($ilUser->getLogin());
 			$this->create_topic_form_gui->addItem($alias_gui);
 		}
@@ -3574,6 +3574,12 @@ class ilObjForumGUI extends ilObjectGUI
 		else
 		{
 			$this->create_topic_form_gui->setValuesByPost();
+
+			if(!$this->objProperties->isAnonymized())
+			{
+				$this->create_topic_form_gui->getItemByPostVar('alias')->setValue($ilUser->getLogin());
+			}
+
 			return $this->tpl->setContent($this->create_topic_form_gui->getHTML());
 		}
 	}	
