@@ -109,6 +109,7 @@ class ilFileDataForum extends ilFileData
 				if(!is_dir($this->forum_path.'/'.$file))
 				{
 					$files[] = array(
+						'path' 	   => $this->forum_path.'/'.$file,
 						'md5'	   => md5($this->obj_id.'_'.$this->pos_id.'_'.$rest),
 						'name'     => $rest,
 						'size'     => filesize($this->forum_path.'/'.$file),
@@ -139,6 +140,7 @@ class ilFileDataForum extends ilFileData
 					if(!is_dir($this->forum_path.'/'.$file))
 					{
 						$files[] = array(
+							'path' 	   => $this->forum_path.'/'.$file,
 							'md5'	   => md5($this->obj_id.'_'.$this->pos_id.'_'.$rest),
 							'name'     => $rest,
 							'size'     => filesize($this->forum_path.'/'.$file),
