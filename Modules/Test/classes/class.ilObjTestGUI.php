@@ -223,40 +223,33 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function importFileObject()
 	{
-		if (strcmp($_FILES["xmldoc"]["tmp_name"], "") == 0)
+		$form = $this->initImportForm($_REQUEST["new_type"]);
+		if($form->checkInput())
 		{
-			ilUtil::sendInfo($this->lng->txt("tst_select_file_for_import"));
-			$this->createObject();
-			return;
+			$this->ctrl->setParameter($this, "new_type", $this->type);
+			$this->uploadTstObject();
 		}
-		$this->ctrl->setParameter($this, "new_type", $this->type);
-		$this->uploadTstObject();
+
+		// display form to correct errors
+		$form->setValuesByPost();
+		$this->tpl->setContent($form->getHTML());
 	}
 	
 	/**
 	* save object
 	* @access	public
 	*/
-	function saveObject()
+	function afterSave(ilObject $a_new_object)
 	{
-		global $rbacadmin;
-
-		if (!strlen($_POST['Fobject']['title']))
-		{
-			ilUtil::sendFailure($this->lng->txt('title_required'), true);
-			$this->ctrl->setParameter($this, 'new_type', $_GET['new_type']);
-			$this->ctrl->redirect($this, 'create');
-		}
-		// create and insert forum in objecttree
-		$newObj = parent::saveObject();
 		if ($_POST["defaults"] > 0) 
 		{
-			$newObj->applyDefaults($_POST["defaults"]);
+			$a_new_object->applyDefaults($_POST["defaults"]);
 		}
 
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
-		ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&ref_id=".$newObj->getRefId()."&cmd=properties");
+		ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&ref_id=".
+			$a_new_object->getRefId()."&cmd=properties");
 	}
 
 	function backToRepositoryObject()
@@ -2767,102 +2760,92 @@ class ilObjTestGUI extends ilObjectGUI
 		$log =& ilObjAssessmentFolder::_getLog(0, time(), $this->object->getId(), TRUE);
 		$table_gui->setData($log);
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
-	}	
+	}
 
 	/**
 	* form for new content object creation
 	*/
-	function createObject()
+	protected function initCreateForm($a_new_type)
 	{
-		global $rbacsystem;
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setTarget("_top");
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt($a_new_type."_new"));
+
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setMaxLength(128);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$form->addItem($ti);
+
+		// description
+		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$ta->setCols(40);
+		$ta->setRows(2);
+		$form->addItem($ta);
+
+		// defaults
+		include_once("./Modules/Test/classes/class.ilObjTest.php");
+		$tst = new ilObjTest();
+		$defaults = $tst->getAvailableDefaults();
+		if (count($defaults))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$options = array(0 => $this->lng->txt("tst_defaults_dont_use"));
+			foreach ($defaults as $row)
+			{
+				$options[$row["test_defaults_id"]] = $row["name"];
+			}
+
+			$def = new ilSelectInputGUI($this->lng->txt("defaults"), "defaults");
+			$def->setOptions($options);
+			$form->addItem($def);
 		}
-		else
+
+		$form->addCommandButton("save", $this->lng->txt($a_new_type."_add"));
+		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+
+		return $form;
+
+	}
+
+	function initImportForm($a_new_type)
+	{
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setTarget("_top");
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt("import_tst"));
+
+		// file
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($this->lng->txt("import_file"), "xmldoc");
+		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
+		$form->addItem($fi);
+
+		// question pool
+		include_once("./Modules/Test/classes/class.ilObjTest.php");
+		$tst = new ilObjTest();
+		$questionpools = $tst->getAvailableQuestionpools(TRUE, FALSE, TRUE, TRUE);
+		if (count($questionpools))
 		{
-			$this->getTemplateFile("create", $new_type);
-
-			include_once("./Modules/Test/classes/class.ilObjTest.php");
-			$tst = new ilObjTest();
-			$questionpools =& $tst->getAvailableQuestionpools(TRUE, FALSE, TRUE, TRUE);
-			if (count($questionpools) == 0)
+			$options = array("-1" => $this->lng->txt("dont_use_questionpool"));
+			foreach ($questionpools as $key => $value)
 			{
-			}
-			else
-			{
-				foreach ($questionpools as $key => $value)
-				{
-					$this->tpl->setCurrentBlock("option_qpl");
-					$this->tpl->setVariable("OPTION_VALUE", $key);
-					$this->tpl->setVariable("TXT_OPTION", $value["title"]);
-					if ($_POST["qpl"] == $key)
-					{
-						$this->tpl->setVariable("OPTION_SELECTED", " selected=\"selected\"");
-					}
-					$this->tpl->parseCurrentBlock();
-				}
+				$options[$key] = $value["title"];
 			}
 
-			$defaults =& $tst->getAvailableDefaults();
-			if (count($defaults))
-			{
-				foreach ($defaults as $row)
-				{
-					$this->tpl->setCurrentBlock("defaults_row");
-					$this->tpl->setVariable("DEFAULTS_VALUE", $row["test_defaults_id"]);
-					$this->tpl->setVariable("DEFAULTS_NAME", ilUtil::prepareFormOutput($row["name"]));
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock("defaults");
-				$this->tpl->setVariable("TXT_DEFAULTS", $this->lng->txt("defaults"));
-				$this->tpl->setVariable("TEXT_NO_DEFAULTS", $this->lng->txt("tst_defaults_dont_use"));
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			$this->fillCloneTemplate('DUPLICATE','tst');
-			
-			$this->tpl->setCurrentBlock("adm_content");
-			
-			// fill in saved values in case of error
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
-			foreach ($data["fields"] as $key => $val)
-			{
-				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
-
-				if ($this->prepare_output)
-				{
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			$this->ctrl->setParameter($this, "new_type", $new_type);
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, 'save'));
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
-			$this->tpl->setVariable("TXT_SELECT_QUESTIONPOOL", $this->lng->txt("select_questionpool"));
-			$this->tpl->setVariable("OPTION_SELECT_QUESTIONPOOL", $this->lng->txt("dont_use_questionpool"));
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
-			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", ' target="'. ilFrameTargetInfo::_getFrame("MainContent").'" ');
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
-			$this->tpl->setVariable("TXT_IMPORT_TST", $this->lng->txt("import_tst"));
-			$this->tpl->setVariable("TXT_TST_FILE", $this->lng->txt("tst_upload_file"));
-			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
-
-			$this->tpl->setVariable("TYPE_IMG", ilUtil::getImagePath('icon_tst.gif'));
-			$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_tst"));
-			$this->tpl->setVariable("TYPE_IMG2", ilUtil::getImagePath('icon_tst.gif'));
-			$this->tpl->setVariable("ALT_IMG2",$this->lng->txt("obj_tst"));
-			$this->tpl->setVariable("NEW_TYPE", $new_type);
-			$this->tpl->parseCurrentBlock();
-
+			$pool = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "qpl");
+			$pool->setOptions($options);
+			$form->addItem($pool);
 		}
+
+		$form->addCommandButton("importFile", $this->lng->txt("import"));
+		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+
+		return $form;
 	}
 
  /**
