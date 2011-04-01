@@ -154,6 +154,11 @@ class ilRandomTestInputGUI extends ilSubEnabledFormPropertyGUI
 		{
 			if (is_array($foundvalues['count']))
 			{
+				if (count($foundvalues['qpl']) != count(array_unique($foundvalues['qpl'])))
+				{
+					$this->setAlert($lng->txt("msg_randompool_duplicate_qpl"));
+					return false;
+				}
 				// check question count
 				if ($this->getUseQuestionCount())
 				{
