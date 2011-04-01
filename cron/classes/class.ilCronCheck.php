@@ -134,7 +134,8 @@ class ilCronCheck
 				'ilCronDiskQuotaCheck::sendReminderMails',
 				// This entry refers to a task that is not completely implemented
 				#'ilPaymentShoppingCart::__deleteExpiredSessionsPSC',
-				'ilCronDeleteInactiveUserAccounts::run'
+				'ilCronDeleteInactiveUserAccounts::run',
+				'ilCronPaymentNotification::sendNotifications'
 		);
 
 		$this->possible_tasks = array(
@@ -245,6 +246,14 @@ class ilCronCheck
 					'method'		=> 'run',
 					'location'		=> 'Services/User',
 					'condition'		=> $ilias->getSetting('cron_inactive_user_delete', 0)
+				),
+
+				// Start sending Payment "Buy Extension" Reminder
+				'ilCronPaymentNotification::sendNotifications' => array(
+					'classname'		=> 'ilCronPaymentNotification',
+					'method'		=> 'sendNotifications',
+					'location'		=> 'cron',
+					'condition'		=> ($ilias->getSetting('payment_notifications') == 1)
 				)
 		);
 	}

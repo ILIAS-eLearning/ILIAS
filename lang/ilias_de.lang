@@ -11087,3 +11087,10 @@ trac#:#trac_grouped_material_obligatory_err#:#The number of obligatory materials
 rbac#:#precondition_obligatory_settings#:#Einstellungen für Vorbedinungen
 rbac#:#precondition_num_obligatory#:#Anzahl benötigter Materialien
 rbac#:#precondition_num_optional_info#:#Bitte geben Sie die minimale Anzahl der Materialien an, die notwendig ist, um die Vorbedingung zu erfüllen.
+common#:#payment_notification#:#Sende Payment Benachrichtigungen
+common#:#payment_notification_desc#:#Wenn aktiviert, erhalten die Benutzer eine Benachrichtigung um die Zugriffsdauer bereits gekaufter Objekte zu verlängern.
+common#:#payment_reminder_notification_subject#:#Die Zugriffsdauer bereits gekaufter Objekte endet bald.
+common#:#bought_objects_expire_soon#:#Für einige gekaufte Objekte endet bald die Zugriffdauer. Falls Sie die Zugriffsdauer verlängern möchten, können Sie für diese Objekte ist eine Verlängerung kaufen.
+common#:#access_enddate#:#Zugriffsenddatum
+payment#:#buy_extension#:#Verlängerung kaufen
+payment#:#extension_price#:#Verlängerungspreis

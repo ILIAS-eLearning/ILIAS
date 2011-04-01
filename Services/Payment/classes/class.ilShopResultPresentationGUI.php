@@ -4,6 +4,7 @@
 include_once 'Services/Payment/classes/class.ilPaymentPrices.php';
 include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 include_once 'Services/Payment/classes/class.ilFileDataShop.php';
+include_once 'Services/Payment/classes/class.ilShopUtils.php';
 
 /**
 * Class ilShopResultPresentationGUI
@@ -50,10 +51,35 @@ class ilShopResultPresentationGUI
 	{
 		// Get results
 		$results = $this->result->getResultsForPresentation();
-
-		return $html = $this->renderItemList($results);
+		$html = $this->renderItemList($results);
+		return $html;
 	}
+
+	function showSpecials()
+	{
+		// Get specials
+
+		$oContainerTpl = new ilTemplate ('tpl.shop_container.html', true, true, 'Services/Payment');
+		include_once './Services/Payment/classes/class.ilShopTopic.php';
+		include_once './Services/Payment/classes/class.ilShopTopics.php';
+		$results = $this->result;
+
+		ilShopTopics::_getInstance()->setIdFilter(false);
+		ilShopTopics::_getInstance()->read();
+		$topic_option = array();
+		if(count($topics = ilShopTopics::_getInstance()->getTopics()))
+		{
+			foreach($topics as $oTopic)
+			{
+				$this->renderItems($oContainerTpl, $results, array('id' => $oTopic->getId(), 'title' => $oTopic->getTitle()));
+	}
+			$this->renderItems($oContainerTpl, $results, array('id' => 0, 'title' => $this->lng->txt('payment_no_topic')));
+		}
+		$html = $oContainerTpl->get();
 	
+		return $html;
+	}
+
 	public function setTypeOrdering($a_type_ordering_array)
 	{
 		$this->type_ordering = $a_type_ordering_array;
@@ -101,6 +127,7 @@ class ilShopResultPresentationGUI
 	
 	private function renderItems($oContainerTpl, $results, $topic)
 	{
+		// main shop_content
 		global $ilUser;
 		
 		$items_counter = 0;
@@ -117,6 +144,7 @@ class ilShopResultPresentationGUI
 			{
 				foreach($results[$topic['id']][$act_type] as $key => $item)
 				{
+					// price presentation
 					$oPaymentObject =
 						new ilPaymentObject($ilUser, ilPaymentObject::_lookupPobjectId($item['ref_id']));					
 					$oPrice = new ilPaymentPrices($oPaymentObject->getPobjectId());
@@ -124,9 +152,20 @@ class ilShopResultPresentationGUI
 					
 					$results[$topic['id']][$act_type][$key]['price'] = $lowest_price['price'];
 
+					$paymethod_icon = ilShopUtils::_getPaymethodSymbol($oPaymentObject->getPayMethod());
+					if(!ilPaymentObject::_hasAccess($item['ref_id']))
+					{
+						$shoppingcart_icon = ilShopUtils::_addToShoppingCartSymbol($act_type, $item['ref_id']);
+					}
+					else $shoppingcart_icon = '';
+
 					$results[$topic['id']][$act_type][$key]['price_string'] =										 
 						($oPrice->getNumberOfPrices() > 1 ? $this->lng->txt('price_from').' ' : '').
-							ilPaymentPrices::_formatPriceToString($lowest_price['price']);
+						ilPaymentPrices::_formatPriceToString($lowest_price['price']).' '.
+						//shoppingcart icon
+						$results[$topic['id']][$act_type][$key]['shoppingcart_icon'] = $shoppingcart_icon.' '.
+						// paymethod icon
+						$results[$topic['id']][$act_type][$key]['paymethod_icon'] = $paymethod_icon;
 					// TODO: CURRENCY ilPaymentPrices::_formatPriceToString($lowest_price['price'], $lowest_price['currency']);
 					// authors
 					include_once 'Services/MetaData/classes/class.ilMD.php';
@@ -152,7 +191,7 @@ class ilShopResultPresentationGUI
 				}
 				
 				$results[$topic['id']][$act_type] = $this->sortResult($results[$topic['id']][$act_type]);				
-				
+
 				foreach($results[$topic['id']][$act_type] as $key => $item)
 				{
 					// get list gui class for each object type
@@ -161,7 +200,15 @@ class ilShopResultPresentationGUI
 						include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';	
 						$item_list_gui = ilObjectListGUIFactory::_getListGUIByType($item['type']);
 					}
-					
+############ test
+					$item_list_gui->initItem(
+						$item['ref_id'],
+						$item['obj_id'],
+						$item['title'],
+						$item['description'],
+						ilObjectListGUI::CONTEXT_SHOP
+					);
+#########
 					$item_list_gui->enableDelete(false);						
 					$item_list_gui->enableCut(false);
 					$item_list_gui->enableCopy(false);
@@ -169,7 +216,7 @@ class ilShopResultPresentationGUI
 					$item_list_gui->enableSubscribe(false);															
 				
 					$item_list_gui->enablePayment(true);
-					$item_list_gui->enableCommands(false);
+					$item_list_gui->enableCommands(true);
 					$item_list_gui->enablePath(false);
 					$item_list_gui->insertCommands();
 					
@@ -186,7 +233,31 @@ class ilShopResultPresentationGUI
 						$item_list_gui->enableInfoScreen(true);
 						$item_list_gui->enableCommands(true);
 					}
+					else
+	{
+						switch ($item['type'])
+						{
+							case 'sahs':
+								$demo_link = 'ilias.php?baseClass=ilSAHSPresentationGUI&ref_id='.$item['ref_id'].'&purchasetype=demo';
+								break;
 					
+							case 'lm':
+								$demo_link = 'ilias.php?baseClass=ilLMPresentationGUI&ref_id='.$item['ref_id'].'&purchasetype=demo';
+								break;
+# @TODO: EXC
+							case 'exc':
+								#$demo_link = 'repository.php?baseClass=ilExcerciseHandlerGUI&ref_id='.$item['ref_id'].'&purchasetype=demo';
+								$demo_link = $this->ctrl->getLinkTargetByClass('ilshoppurchasegui', 'showDemoVersion').'&purchasetype=demo&ref_id='.$item["ref_id"];
+							break;
+
+							default:
+								$demo_link = 'repository.php?ref_id='.$item['ref_id'].'&purchasetype=demo';
+								break;
+						}
+
+						$item['title'] = '<a href="'.$demo_link.'">'.$item["title"].'</a>';
+					}
+
 					$tpl_pinfo = new ilTemplate ('tpl.shop_item_info.html', true, true, 'Services/Payment');
 					if($item['price_string'] != '')
 					{							
@@ -207,19 +278,21 @@ class ilShopResultPresentationGUI
 					{
 						$tpl_pinfo->setCurrentBlock('image');
 						$tpl_pinfo->setVariable('SRC', $webpath_file);
-						$tpl_pinfo->setVariable('ALT', $item['title']);
+						$tpl_pinfo->setVariable('ALT', strip_tags($item['title']));
 						$tpl_pinfo->parseCurrentBlock();
 					}
 									
 					$item_list_gui->addSubItemHTML($tpl_pinfo->get());
-					
+
 					$html = $item_list_gui->getListItemHTML(
 						$item['ref_id'],
 						$item['obj_id'], 
 						$item['title'], 
-						$item['description']
+						$item['description'],
+						false, false, "",
+						ilObjectListGUI::CONTEXT_SHOP
 					);
-
+				
 					if($html)
 					{
 						$html = $this->__appendChildLinks($html, $item, $item_list_gui);
@@ -361,11 +434,11 @@ class ilShopResultPresentationGUI
 			return $html;
 		}
 		$tpl = new ilTemplate('tpl.detail_links.html',true,true,'Services/Search');
-		$tpl->setVariable("HITS",$this->lng->txt('search_hits'));
 
 		switch($item['type'])
 		{
 			case 'lm':
+				$tpl->setVariable("HITS",$this->lng->txt('search_hits'));
 				include_once 'Modules/LearningModule/classes/class.ilLMObject.php';
 				foreach($item['child'] as $child)
 				{
@@ -390,6 +463,7 @@ class ilShopResultPresentationGUI
 				break;
 
 			case 'frm':
+				$tpl->setVariable("HITS",$this->lng->txt('search_hits'));
 				include_once './Modules/Forum/classes/class.ilObjForum.php';
 				
 				foreach($item['child'] as $child)
@@ -409,6 +483,7 @@ class ilShopResultPresentationGUI
 				break;
 							
 			case 'glo':
+				$tpl->setVariable("HITS",$this->lng->txt('search_hits'));
 				include_once './Modules/Glossary/classes/class.ilGlossaryTerm.php';
 
 				$this->lng->loadLanguageModule('content');
@@ -424,6 +499,7 @@ class ilShopResultPresentationGUI
 				break;
 
 			case 'wiki':
+				$tpl->setVariable("HITS",$this->lng->txt('search_hits'));
 				include_once './Modules/Wiki/classes/class.ilWikiPage.php';
 				include_once './Modules/Wiki/classes/class.ilWikiUtil.php';
 
@@ -442,6 +518,7 @@ class ilShopResultPresentationGUI
 				break;
 
 			case 'mcst':
+				$tpl->setVariable("HITS",$this->lng->txt('search_hits'));
 				include_once("./Services/News/classes/class.ilNewsItem.php");
 			
 				foreach($item['child'] as $child)

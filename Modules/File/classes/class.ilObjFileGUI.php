@@ -41,22 +41,21 @@ class ilObjFileGUI extends ilObject2GUI
 			// do not move this payment block!!
 			if(IS_PAYMENT_ENABLED)
 			{
-				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
+				include_once './Services/Payment/classes/class.ilPaymentObject.php';
 				if(ANONYMOUS_USER_ID == $ilUser->getId() && isset($_GET['transaction']))
 				{
 					$transaction = $_GET['transaction'];
 					include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 					$valid_transaction = ilPaymentBookings::_readBookingByTransaction($transaction);
 				}
-			//(ilPaymentObject::_requiresPurchaseToAccess($this->node_id, $type = (isset($_GET['purchasetype']) ? $_GET['purchasetype'] : NULL) ))
-				if( ilPaymentObject::_isBuyable($this->node_id) &&
-				   !ilPaymentObject::_hasAccess($this->node_id, $transaction) &&
-				   !$valid_transaction)
+			
+				if(ilPaymentObject::_requiresPurchaseToAccess($this->node_id, $type = (isset($_GET['purchasetype'])
+						? $_GET['purchasetype'] : NULL) ))
 				{
 					$this->setLocator();
 					$this->tpl->getStandardTemplate();
 
-					include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
+					include_once './Services/Payment/classes/class.ilShopPurchaseGUI.php';
 					$pp = new ilShopPurchaseGUI((int)$this->node_id);
 					$ret = $this->ctrl->forwardCommand($pp);
 					return true;

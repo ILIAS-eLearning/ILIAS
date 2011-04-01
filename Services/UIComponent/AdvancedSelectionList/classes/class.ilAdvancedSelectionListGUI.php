@@ -117,6 +117,11 @@ class ilAdvancedSelectionListGUI
 			"link" => $a_link, "img" => $a_img, "alt" => $a_alt, "frame" => $a_frame,
 			"html" => $a_html, "prevent_background_click" => $a_prevent_background_click);
 	}
+
+	public function flush()
+	{
+		$this->items = array();
+	}
 	
 	/**
 	* Get items

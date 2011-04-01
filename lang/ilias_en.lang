@@ -11083,3 +11083,10 @@ trac#:#trac_grouped_material_obligatory_err#:#Die Anzahl der zu bestehenden Mate
 rbac#:#precondition_obligatory_settings#:#Precondition Settings
 rbac#:#precondition_num_obligatory#:#Number of Required Materials
 rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials which is required for fullfilling this precondition.
+common#:#payment_notification#:#Send Payment Notification
+common#:#payment_notification_desc#:#If enabled, users get a reminder to extend the duration of bought objects
+common#:#payment_reminder_notification_subject#:#The access duration af bought objects is ending soon.
+common#:#bought_objects_expire_soon#:#For some of your bought objects the access duration is ending soon. You are able to extend the access duration, by buying an extension for these objects.
+common#:#access_enddate#:#Access Enddate
+payment#:#buy_extension#:#Buy Extension
+payment#:#extension_price#:#Extension Price

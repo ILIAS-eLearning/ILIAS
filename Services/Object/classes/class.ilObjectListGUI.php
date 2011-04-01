@@ -29,6 +29,7 @@ class ilObjectListGUI
 
 	const CONTEXT_REPOSITORY = 1;
 	const CONTEXT_WORKSPACE = 2;
+	const CONTEXT_SHOP = 3;
 	
 	var $ctrl;
 	var $description_enabled = true;
@@ -867,7 +868,7 @@ class ilObjectListGUI
 			return $this->access_cache[$a_permission]["-".$a_cmd][$cache_prefix.$a_ref_id];
 		}
 
-		if($this->context == self::CONTEXT_REPOSITORY)
+		if($this->context == self::CONTEXT_REPOSITORY || $this->context == self::CONTEXT_SHOP)
 		{
 			$access = $ilAccess->checkAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id);
 			if ($ilAccess->getPreventCachingLastResult())
@@ -946,7 +947,7 @@ class ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		if($this->context == self::CONTEXT_REPOSITORY)
+		if($this->context == self::CONTEXT_REPOSITORY || $this->context == self::CONTEXT_SHOP)
 		{
 			// BEGIN WebDAV Get mount webfolder link.
 			require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
@@ -1610,21 +1611,120 @@ class ilObjectListGUI
 	*/
 	function insertPayment()
 	{
-		include_once 'Services/Payment/classes/class.ilPaymentObject.php';		
+		global $ilAccess,$ilObjDataCache,$ilUser;
 
-		if((bool)ilGeneralSettings::_getInstance()->get('shop_enabled') &&
-		   $this->payment_enabled &&
-		   ilPaymentObject::_isBuyable($this->ref_id))
-		{	
+		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
+		include_once 'Services/Payment/classes/class.ilPaymentBookings.php';
+#############
+/**/
+		if(IS_PAYMENT_ENABLED && $this->payment_enabled)
+		{
+			if(ilPaymentobject::_requiresPurchaseToAccess($this->ref_id))
+			{
+				if(ilPaymentBookings::_hasAccess(ilPaymentObject::_lookupPobjectId($a_ref_id), $ilUser->getId()))
+				{
+					// get additional information about order_date and duration
+
+					include_once './Services/Payment/classes/class.ilPaymentBookings.php';
+					$order_infos = array();
+					$order_infos = ilPaymentBookings::_lookupOrder(ilPaymentObject::_lookupPobjectId($this->ref_id));
+
+					if(count($order_infos) > 0)
+					{
+						global $lng;
+						$pay_lang = $lng;
+						$pay_lang->loadLanguageModule('payment');
+						$alert = true;
+						$a_newline = true;
+						$a_property = $pay_lang->txt('object_purchased_date');
+						$a_value = ilDatePresentation::formatDate(new ilDateTime($order_infos["order_date"],IL_CAL_UNIX));
+
+						$this->addCustomProperty($a_property, $a_value, $alert, $a_newline);
+
+						$alert = true;
+						$a_newline = true;
+						$a_property = $this->lng->txt('object_duration');
+						if($order_infos['duration'] == 0)
+							$a_value = $pay_lang->txt('unlimited_duration');
+						else
+							$a_value = $order_infos['duration'] .' '.$this->lng->txt('months');
+						$this->addCustomProperty($a_property, $a_value, $alert, $a_newline);
+					}
+
+					// check for extension prices
+					if(ilPaymentObject::_hasExtensions($this->ref_id))
+					{
+						$has_extension_prices = true;
+						$this->insertPaymentCommand($has_extension_prices);
+					}
+
+				}
+				else
+				{
+				#	$this->current_selection_list->flush();
+					$this->ctpl->setCurrentBlock('payment');
+					$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays.gif'));
+					$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_buyable'));
+					$this->ctpl->parseCurrentBlock();
+
+					$this->insertPaymentCommand();
+				}
+			}
+		}
+
+/*
+############## */
+
+
+/*		if(IS_PAYMENT_ENABLED
+		&& $this->payment_enabled
+		&& ilPaymentObject::_isBuyable($this->ref_id))
+		{
 			if(ilPaymentObject::_hasAccess($this->ref_id))
 			{
-				$this->ctpl->setCurrentBlock('payment');
-				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_access.gif'));
-				$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_payed_access'));
-				$this->ctpl->parseCurrentBlock();				
+
+#xy old
+#				$this->ctpl->setCurrentBlock('payment');
+#				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_access.gif'));
+#				$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_payed_access'));
+#				$this->ctpl->parseCurrentBlock();
+
+				if(ilPaymentObject::_hasExtensions($this->ref_id) )
+				{
+					$has_extension_prices = true;
+					$this->insertPaymentCommand($has_extension_prices);
+				}
+
+				include_once './Services/Payment/classes/class.ilPaymentBookings.php';
+				$order_infos = array();
+				$order_infos = ilPaymentBookings::_lookupOrder(ilPaymentObject::_lookupPobjectId($this->ref_id));
+
+				if(count($order_infos) > 0)
+				{
+					global $lng;
+					$pay_lang = $lng;
+					$pay_lang->loadLanguageModule('payment');
+					$alert = true;
+					$a_newline = true;
+					$a_property = $pay_lang->txt('object_purchased_date');
+					$a_value = ilDatePresentation::formatDate(new ilDateTime($order_infos["order_date"],IL_CAL_UNIX));
+
+					$this->addCustomProperty($a_property, $a_value, $alert, $a_newline);
+
+					$alert = true;
+					$a_newline = true;
+					$a_property = $this->lng->txt('object_duration');
+					if($order_infos['duration'] == 0)
+						$a_value = $pay_lang->txt('unlimited_duration');
+					else
+						$a_value = $order_infos['duration'] .' '.$this->lng->txt('months');
+					$this->addCustomProperty($a_property, $a_value, $alert, $a_newline);
+				}
 			}
 			else if(ilPaymentObject::_isInCart($this->ref_id))
 			{
+				$this->current_selection_list->flush();
+
 				$this->ctpl->setCurrentBlock('payment');
 				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_cart.gif'));
 				$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_in_sc'));
@@ -1634,6 +1734,8 @@ class ilObjectListGUI
 			}
 			else
 			{
+				$this->current_selection_list->flush();
+
 				$this->ctpl->setCurrentBlock('payment');
 				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays.gif'));
 				$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_buyable'));
@@ -1642,22 +1744,13 @@ class ilObjectListGUI
 				$this->insertPaymentCommand();
 			}
 		}
+ 
+ */
 	}
 	
-	protected function insertPaymentCommand()
+	protected function insertPaymentCommand($has_extension_prices = false)
 	{
-		include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
-		$this->current_selection_list = new ilAdvancedSelectionListGUI();
-		$this->current_selection_list->setListTitle($this->lng->txt("shop_actions"));
-		$this->current_selection_list->setId("act_".$this->ref_id);
-		$this->current_selection_list->setSelectionHeaderClass("small");
-		$this->current_selection_list->setItemLinkClass("xsmall");		
-		$this->current_selection_list->setLinksMode("il_ContainerItemCommand2");
-		$this->current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
-		$this->current_selection_list->setUseImages(false);		
-		$this->current_selection_list->setAdditionalToggleElement("lg_div_".$this->ref_id, "ilContainerListItemOuterHighlight");
-		
-		$commands = $this->getCommands($this->ref_id, $this->obj_id);		
+		$commands = $this->getCommands($this->ref_id, $this->obj_id);
 		foreach($commands as $command)
 		{ 
 			if($command['default'] === true)
@@ -1674,6 +1767,9 @@ class ilObjectListGUI
 						case 'lm':
 							$command['link'] = 'ilias.php?baseClass=ilLMPresentationGUI&ref_id='.$this->ref_id;
 							break;
+						case 'exc':
+							$command['link'] = 'ilias.php?baseClass=ilExcerciseHandlerGUI&ref_id='.$this->ref_id;
+						break;
 						
 						default:
 							$command['link'] = 'repository.php?ref_id='.$this->ref_id;
@@ -1693,18 +1789,16 @@ class ilObjectListGUI
 					$buy_link = $command['link'].(strpos($command['link'], '?') === false ? '?' : '&').'purchasetype=buy';
 				}
 
-				#$this->current_selection_list->addItem($this->lng->txt('payment_demo'), "", $command['link'].'&purchasetype=demo', $a_img, $this->lng->txt('payment_demo'), $command['frame']);
-				#$this->current_selection_list->addItem($this->lng->txt('buy'), "", $command['link'].'&purchasetype=buy', $a_img, $this->lng->txt('buy'), $command['frame']);
 				$this->current_selection_list->addItem($this->lng->txt('payment_demo'), "", $demo_link, $a_img, $this->lng->txt('payment_demo'), $command['frame']);
-				$this->current_selection_list->addItem($this->lng->txt('buy'), "", $buy_link, $a_img, $this->lng->txt('buy'), $command['frame']);
+				if($has_extension_prices == true)
+				{
+					$this->current_selection_list->addItem($this->lng->txt('buy_extension'), "", $buy_link, $a_img, $this->lng->txt('buy_extension'), $command['frame']);
+				}
+				else
+					$this->current_selection_list->addItem($this->lng->txt('buy'), "", $buy_link, $a_img, $this->lng->txt('buy'), $command['frame']);
 
 			}
 		}
-		
-		$this->ctrl->clearParametersByClass($this->gui_class_name);
-		
-		$this->ctpl->setVariable("COMMAND_SELECTION_LIST",
-			$this->current_selection_list->getHTML());	
 	}
 
 	protected function parseConditions($conditions,$obligatory = true)
@@ -1854,6 +1948,8 @@ class ilObjectListGUI
 	*/
 	function insertCommand($a_href, $a_text, $a_frame = "", $a_img = "", $a_cmd = "")
 	{
+		$this->ctpl = new ilTemplate ("tpl.container_list_item_commands.html", true, true, false, "DEFAULT", false, true);
+
 		if ($a_frame != "")
 		{
 			$this->ctpl->setCurrentBlock("item_frame");
@@ -2190,7 +2286,7 @@ class ilObjectListGUI
 		$this->current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 		$this->current_selection_list->setUseImages(false);
 		$this->current_selection_list->setAdditionalToggleElement("lg_div_".$id_ref, "ilContainerListItemOuterHighlight");
-		
+
 		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 		
 		$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", $this->ref_id);
@@ -2308,7 +2404,10 @@ class ilObjectListGUI
 			}
 			// END PATCH Lucene Search
 
-		}
+			}
+#xy	new
+			$this->insertPayment();
+#
 		$this->ctrl->clearParametersByClass($this->gui_class_name);
 
 		if ($a_use_asynch && $a_get_asynch_commands)
@@ -2563,10 +2662,14 @@ class ilObjectListGUI
 
 		// payment
 // todo
-		$ilBench->start("ilObjectListGUI", "5000_insert_pay");
+/*
+ * doesn't work for extension prices because current command list will be overwritten completely
+ * but it is nessesary to add the "buy-extension"-command to the "standard commands"
+ */
+/*		$ilBench->start("ilObjectListGUI", "5000_insert_pay");
 		$this->insertPayment();
 		$ilBench->stop("ilObjectListGUI", "5000_insert_pay");
-		
+*/
 		if($this->getProgressInfoStatus())
 		{
 			$this->insertProgressInfo();	

@@ -34,6 +34,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	public $pobject = null;
 	public $genSetData = null;
 
+	public $active_sub_tab;
 	/**
 	* Constructor
 	* @access public
@@ -364,6 +365,13 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			}
 			// check minimum one price
 			$prices_obj = new ilPaymentPrices((int) $_GET['pobject_id']);
+			$standard_prices = array();
+			$extension_prices = array();
+			$standard_prices = $price_obj->getPrices();
+			$extension_prices = $price_obj->getExtensionPrices();
+
+			$prices = array_merge($standard_prices, $extension_prices );
+
 			if(!count($prices_obj->getPrices()))
 			{
 				ilUtil::sendInfo($this->lng->txt('paya_edit_prices_first'));
@@ -414,7 +422,13 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
 
 		$price_obj = new ilPaymentPrices((int) $_GET['pobject_id']);
-		$prices = $price_obj->getPrices();
+		$standard_prices = array();
+		$extension_prices = array();
+		$standard_prices = $price_obj->getPrices();
+		$extension_prices = $price_obj->getExtensionPrices();
+
+		$prices = array_merge($standard_prices, $extension_prices );
+
 
 		// No prices created
 		if(!count($prices))
@@ -510,6 +524,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				$data[$counter]['price'] = ilUtil::formInput('prices['.$price['price_id'].'][price]', ilFormat::_getLocalMoneyFormat($price['price']));
 			#	$data[$counter]['currency_unit'] = $currency['unit']; #
 			$data[$counter]['currency_unit'] = $this->genSetData['currency_unit'];
+			$data[$counter]['extension'] = ilUtil::formCheckBox($price['extension'] ? 1 : 0,
+						'extension_ids[]', (int)$price['price_id']);
+
+
 			}
 			++$counter;
 		}
@@ -534,7 +552,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$tbl->addColumn('','month','10%');
 		$tbl->addColumn($this->lng->txt('unlimited_duration'), 'unlimitied_duration', '15%');
 		$tbl->addColumn($this->lng->txt('price_a'), 'price', '10%');
-		$tbl->addColumn($this->lng->txt('currency'), 'currency_unit', '50%');
+		$tbl->addColumn($this->lng->txt('currency'), 'currency_unit', '10%');
+		$tbl->addColumn($this->lng->txt('extension_price'), 'extension', '40%');
 		$tbl->setSelectAllCheckbox('price_id');
 		$tbl->addCommandButton('updatePrice',$this->lng->txt('paya_update_price'));
 		$tbl->addCommandButton('addPrice',$this->lng->txt('paya_add_price'));
@@ -630,6 +649,13 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$oCurrency->setValue($currency_options);
 		$form->addItem($oCurrency);
 /**/		
+
+		//extension
+		$oExtension = new ilCheckboxInputGUI($this->lng->txt('extension_price'), 'extension');
+		$oExtension->setChecked($_POST['extension'] == 1);
+
+		$form->addItem($oExtension);
+
 		$form->addCommandButton('performAddPrice',$this->lng->txt('paya_add_price'));
 		$form->addCommandButton('editPrices', $this->lng->txt('cancel'));		
 		$this->tpl->setVariable('FORM',$form->getHTML());
@@ -661,7 +687,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$prices->setDuration($_POST['duration']);
 		$prices->setPrice($_POST['price']);
 		$prices->setCurrency($currency['currency_id']); //test
-
+		$prices->setExtension($_POST['extension']);
 		if(!$prices->validate())
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_price_not_valid'));
@@ -764,6 +790,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$po->setDuration($price['duration']);
 			$po->setPrice($price['price']);
 			$po->setCurrency($old_price['currency']);
+			$po->setExtension($price['extension']);
 
 			if(!$po->validate())
 			{
@@ -803,6 +830,20 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 					$po->setUnlimitedDuration(0);	
 				}	
 			}
+			if(isset($_POST['extension_ids']))
+			{
+	 			$search = in_array((string)$price_id, $_POST['extension_ids']);
+
+				if( $search = in_array((string)$price_id, $_POST['extension_ids']))
+				{
+					$po->setExtension(1);
+				}
+				else
+				{
+					$po->setExtension(0);
+				}
+			}
+
 
 			$po->setDuration($price['duration']);	
 			$po->setPrice($price['price']);
@@ -2980,12 +3021,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				ilPayMethods::_PMenable($i);
 			}
 
-			if(!array_key_exists($i,$_POST['save_usr_adr']) && ilPayMethods::_EnabledSaveUserAddress($i) == 1)
+			if(!array_key_exists($i,(array)$_POST['save_usr_adr']) && ilPayMethods::_EnabledSaveUserAddress($i) == 1)
 			{
 				$askForDeletingAddresses[] = $i;
 			}
 			else 
-			if(!array_key_exists($i,$_POST['save_usr_adr']) && ilPayMethods::_EnabledSaveUserAddress($i) == 0)
+			if(!array_key_exists($i,(array)$_POST['save_usr_adr']) && ilPayMethods::_EnabledSaveUserAddress($i) == 0)
 			{
 				continue;
 			}
@@ -3548,9 +3589,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		{
 			foreach($prices as $price)
 			{
+				$txt_extension = '';
+				if($price['extension'] == 1)
+				{
+					$txt_extension = ' ('.$this->lng->txt('extension_price').') ';
+				}
 				$duration_options[$price['price_id']] = 
-					#$price['duration'].' '.$this->lng->txt('paya_months').', '.ilPaymentPrices::_getPriceString($price['price_id']);
-					$price['duration'].' '.$this->lng->txt('paya_months').', '. ilPaymentPrices::_getPrice($price['price_id']).' '.ilPaymentCurrency::_getUnit($price['currency']);
+				$price['duration'].' '.$this->lng->txt('paya_months').', '.$price['price'].' '. ilPaymentCurrency::_getUnit($price['currency'])
+						.$txt_extension;
 			}
 		}
 

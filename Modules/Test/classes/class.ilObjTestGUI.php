@@ -74,8 +74,7 @@ class ilObjTestGUI extends ilObjectGUI
 			if(IS_PAYMENT_ENABLED)
 			{
 				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-				if(ilPaymentObject::_isBuyable($this->object->getRefId()) &&
-				   !ilPaymentObject::_hasAccess($this->object->getRefId()))
+				if(ilPaymentObject::_requiresPurchaseToAccess($this->object->getRefId(), $type = (isset($_GET['purchasetype']) ? $_GET['purchasetype'] : NULL) ))
 				{
 					$this->setLocator();
 					$this->tpl->getStandardTemplate();

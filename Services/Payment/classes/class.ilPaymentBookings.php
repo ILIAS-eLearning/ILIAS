@@ -35,12 +35,13 @@ class ilPaymentBookings
 	public $email_extern = null;
 	public $name_extern= null;
 	public $currency_unit = null;
+	public $access_enddate = null;
 	public $admin_view = false;
 
 	/*
 	 * admin_view = true reads all statistic data (only_used in administration)
 	 */
-	function ilPaymentBookings($a_user_id = '',$a_admin_view = false)
+	public function ilPaymentBookings($a_user_id = '',$a_admin_view = false)
 	{
 		global $ilDB;
 	
@@ -48,7 +49,6 @@ class ilPaymentBookings
 		$this->user_id = $a_user_id;
 		$this->db = $ilDB;
 
-// TODO: CURRENCY
 		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
 		$genSet = new ilGeneralSettings();
 		$this->currency_unit = $genSet->get('currency_unit');		
@@ -282,170 +282,84 @@ class ilPaymentBookings
 		return $this->currency_unit;
 	}  
 	
+	public function setAccessEnddate($a_access_enddate)
+	{
+		$this->access_enddate = $a_access_enddate;
+	}
+	public function getAccessEnddate()
+	{
+		return $this->access_enddate;
+	}
+
 	public function add()
 	{
 		$next_id = $this->db->nextId('payment_statistic');
 		if(ilPayMethods::_EnabledSaveUserAddress((int)$this->getPayMethod()) == 1)
 		{
+			$statement = $this->db->insert('payment_statistic',
+			array(
+				'booking_id'	=> array('integer', $next_id),
+				'transaction'	=> array('text',	$this->getTransaction()),
+				'pobject_id'	=> array('integer',	$this->getPobjectId()),
+				'customer_id'	=> array('integer',	$this->getCustomerId()),
+				'b_vendor_id'	=> array('integer',	$this->getVendorId()),
+				'b_pay_method'	=> array('integer',	$this->getPayMethod()),
+				'order_date'	=> array('integer',	$this->getOrderDate()),
+				'duration'		=> array('text',	$this->getDuration()),
+				'price'			=> array('float',	$this->getPrice()),
+				'discount'		=> array('float',	$this->getDiscount()),
 		
-		$statement = $this->db->manipulateF('
-			INSERT INTO payment_statistic
-			(
-				booking_id,
-				transaction,
-				pobject_id,
-				customer_id,
-				b_vendor_id,
-				b_pay_method,
-				order_date,
-				duration,
-				price,
-				discount,
+				'payed'			=> array('integer',	$this->getPayedStatus()),
+				'access_granted'=> array('integer',	$this->getAccessStatus()),
+				'voucher'		=> array('text',	$this->getVoucher()),
+				'transaction_extern'=> array('text',$this->getTransactionExtern()),
+				'street'		=> array('text',	$this->getStreet()),
+				'po_box'		=> array('text',	$this->getPoBox()),
+				'zipcode'		=> array('text',	$this->getZipcode()),
+				'city'			=> array('text',	$this->getCity()),
+				'country'		=> array('text',	$this->getCountry()),
+				'vat_rate'		=> array('float',	$this->getVatRate()),
 				
-				payed,
-				access_granted,
-				voucher,
-				transaction_extern,
-				street,
-				po_box,
-				zipcode,
-				city,
-				country,
-				vat_rate,
-				
-				vat_unit,
-				object_title,
-				email_extern,
-				name_extern,
-				currency_unit
-				
-			)
-			VALUES 
-				( %s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s,%s,%s,%s,%s)',
-			array(	'integer',
-					'text', 
-					'integer', 
-					'integer', 
-					'integer',
-					'integer',
-					'integer',
-					'text',
-					'float', 
-					'float',  
-			
-					'integer',
-					'integer',
-					'text',
-					'text',
-					'text',
-					'text',
-					'text',
-					'text',
-					'text',
-					'float',
-			
-					'float',
-					'text',
-					'text',
-					'text',
-					'text'),
-			array(	$next_id,
-					$this->getTransaction(),
-					$this->getPobjectId(),
-					$this->getCustomerId(),
-					$this->getVendorId(),
-					$this->getPayMethod(),
-					$this->getOrderDate(),
-					$this->getDuration(),
-					$this->getPrice(),
-					$this->getDiscount(),
-					$this->getPayedStatus(),
-					$this->getAccessStatus(),
-					$this->getVoucher(),
-					$this->getTransactionExtern(),
-					$this->getStreet(),
-					$this->getPoBox(),
-					$this->getZipcode(),
-					$this->getCity(),
-					$this->getCountry(),
-					$this->getVatRate(),
-					$this->getVatUnit(),
-					$this->getObjectTitle(),
-					$this->getEmailExtern(),
-					$this->getNameExtern(),
-					$this->getCurrencyUnit()
+				'vat_unit'		=> array('float',	$this->getVatUnit()),
+				'object_title'	=> array('text',	$this->getObjectTitle()),
+				'email_extern'	=> array('text',	$this->getEmailExtern()),
+				'name_extern'	=> array('text',	$this->getNameExtern()),
+				'currency_unit'	=> array('text',	$this->getCurrencyUnit()),
+				'access_enddate'=> array('timestamp', $this->getAccessEnddate())
 				));
 		}
 		else
-		{#currency_unit
-			$statement = $this->db->manipulateF('
-			INSERT INTO payment_statistic
-			(
-				booking_id,
-				transaction,
-				pobject_id,
-				customer_id,
-				b_vendor_id,
-				b_pay_method,
-				order_date,
-				duration,
-				price,
-				discount,
+		{
+			$statement = $this->db->insert('payment_statistic',
+			array(
+				'booking_id'	=> array('integer', $next_id),
+				'transaction'	=> array('text',	$this->getTransaction()),
+				'pobject_id'	=> array('integer',	$this->getPobjectId()),
+				'customer_id'	=> array('integer',	$this->getCustomerId()),
+				'b_vendor_id'	=> array('integer',	$this->getVendorId()),
+				'b_pay_method'	=> array('integer',	$this->getPayMethod()),
+				'order_date'	=> array('integer',	$this->getOrderDate()),
+				'duration'		=> array('text',	$this->getDuration()),
+				'price'			=> array('float',	$this->getPrice()),
+				'discount'		=> array('float',	$this->getDiscount()),
 				
-				payed,
-				access_granted,
-				voucher,
-				transaction_extern,
-				vat_rate,
-				vat_unit,
-				object_title,
-				email_extern,
-				name_extern,
-				currency_unit
-			)
-			VALUES 
-				( %s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
-			array(	'integer',
-					'text', 
-					'integer', 
-					'integer', 
-					'integer',
-					'integer',
-					'integer',
-					'text',
-					'float',
-					'float',
+				'payed'			=> array('integer',	$this->getPayedStatus()),
+				'access_granted'=> array('integer',	$this->getAccessStatus()),
+				'voucher'		=> array('text',	$this->getVoucher()),
+				'transaction_extern'=> array('text',$this->getTransactionExtern()),
+#				'street'		=> array('text',	$this->getStreet()),
+#				'po_box'		=> array('text',	$this->getPoBox()),
+#				'zipcode'		=> array('text',	$this->getZipcode()),
+#				'city'			=> array('text',	$this->getCity()),
+#				'country'		=> array('text',	$this->getCountry()),
+				'vat_rate'		=> array('float',	$this->getVatRate()),
 			
-					'integer',
-					'integer',
-					'text',
-					'text',
-					'float',
-					'float',
-					'text',
-					'text',
-					'text',
-					'text'),
-			array(	$next_id,
-					$this->getTransaction(),
-					$this->getPobjectId(),
-					$this->getCustomerId(),
-					$this->getVendorId(),
-					$this->getPayMethod(),
-					$this->getOrderDate(),
-					$this->getDuration(),
-					$this->getPrice(),
-					$this->getDiscount(),
-					$this->getPayedStatus(),
-					$this->getAccessStatus(),
-					$this->getVoucher(),
-					$this->getTransactionExtern(),
-					$this->getVatRate(),
-					$this->getVatUnit(),
-					$this->getObjectTitle(),
-					$this->getEmailExtern(),
-					$this->getNameExtern(),
-					$this->getCurrencyUnit()
+				'vat_unit'		=> array('float',	$this->getVatUnit()),
+				'object_title'	=> array('text',	$this->getObjectTitle()),
+				'email_extern'	=> array('text',	$this->getEmailExtern()),
+				'name_extern'	=> array('text',	$this->getNameExtern()),
+				'currency_unit'	=> array('text',	$this->getCurrencyUnit()),
+				'access_enddate'=> array('timestamp', $this->getAccessEnddate())
 				));	
 		}
 		
@@ -484,12 +398,15 @@ class ilPaymentBookings
 		return false;
 	}
 
-	public function getBookingsOfCustomer($a_usr_id)
+	public static function getBookingsOfCustomer($a_usr_id)
 	{
+		global $ilDB;
+
 		if(ANONYMOUS_USER_ID == $a_usr_id)
 		return array();
 		
-		$res = $this->db->queryf('
+		$booking = array();
+		$res = $ilDB->queryf('
 			SELECT * from payment_statistic ps, payment_objects po
 			WHERE ps.pobject_id = po.pobject_id
 			AND customer_id = %s
@@ -498,12 +415,12 @@ class ilPaymentBookings
 			array($a_usr_id)
 		);
 
-		while($row = $this->db->fetchAssoc($res))
+		while($row = $ilDB->fetchAssoc($res))
 		{ 
 			$booking[$row['booking_id']] = $row;
 		}
 
-		return $booking ? $booking : array();
+		return $booking;
 	}
 
 	public function getBookings()
@@ -528,7 +445,7 @@ class ilPaymentBookings
 	}
 
 	// STATIC
-	public function _getCountBookingsByVendor($a_vendor_id)
+	public static function _getCountBookingsByVendor($a_vendor_id)
 	{
 		global $ilDB;
 
@@ -545,7 +462,7 @@ class ilPaymentBookings
 		return 0;
 	}
 
-	public function _getCountBookingsByCustomer($a_vendor_id)
+	public static function _getCountBookingsByCustomer($a_vendor_id)
 	{
 		global $ilDB;
 		
@@ -565,7 +482,7 @@ class ilPaymentBookings
 		return 0;
 	}
 	
-	public function _getCountBookingsByObject($a_pobject_id)
+	public static function _getCountBookingsByObject($a_pobject_id)
 	{
 		global $ilDB;
 
@@ -582,9 +499,9 @@ class ilPaymentBookings
 		return 0;
 	}
 
-	public function _hasAccess($a_pobject_id, $a_user_id = 0, $a_transaction = 0)
+	public static function _hasAccess($a_pobject_id, $a_user_id = 0, $a_transaction = 0)
 	{
-		global $ilDB, $ilias, $ilUser;
+		global $ilDB, $ilUser;
 
 		if(ANONYMOUS_USER_ID == $ilUser->getId() && !$a_transaction)
 		{
@@ -601,14 +518,14 @@ class ilPaymentBookings
 				AND access_granted = %s',
 				array('integer','text', 'integer', 'integer'),
 				array($a_pobject_id, $a_transaction, '1', '1'));
-			
 		}
 		else	
 		{
-			$usr_id = $a_user_id ? $a_user_id : $ilias->account->getId();
+			$usr_id = $a_user_id ? $a_user_id : $ilUser->getId();
 	
 			$res = $ilDB->queryf('
-				SELECT * FROM payment_statistic
+				SELECT order_date, duration, access_enddate
+				FROM payment_statistic
 				WHERE pobject_id = %s
 				AND customer_id = %s
 				AND payed = %s
@@ -618,30 +535,10 @@ class ilPaymentBookings
 		}
 		while($row = $ilDB->fetchObject($res))
 		{
-			$orderDateYear = date("Y", $row->order_date);
-			$orderDateMonth = date("m", $row->order_date);
-			$orderDateDay = date("d", $row->order_date);
-			$orderDateHour = date("H", $row->order_date);
-			$orderDateMinute = date("i", $row->order_date);
-			$orderDateSecond = date("s", $row->order_date);
-			
 			if($row->duration != 0)
 			{
-				if (($orderDateMonth + $row->duration) > 12)
-				{
-					$years = floor(($orderDateMonth + $row->duration) / 12);
-					$months = ($orderDateMonth + $row->duration) - (12 * $years);
-					$orderDateYear += $years;
-					$orderDateMonth = $months;
-				}
-				else
-				{
-					$orderDateMonth += $row->duration;
-				}
-				$startDate =  date("Y-m-d H:i:s", $row->order_date);
-				$endDate = date("Y-m-d H:i:s", mktime($orderDateHour, $orderDateMinute, $orderDateSecond, $orderDateMonth, $orderDateDay, $orderDateYear));
-				if (date("Y-m-d H:i:s") >= $startDate &&
-					date("Y-m-d H:i:s") <= $endDate)
+				if( time() >= $row->order_date
+					&& date("Y-m-d") <= $row->access_enddate)
 				{
 					return true;
 				}
@@ -653,13 +550,15 @@ class ilPaymentBookings
 	
 	public function _getActivation($a_pobject_id,$a_user_id = 0)
 	{
-		global $ilDB,$ilias;
+		global $ilDB, $ilUser;
+
 		if(ANONYMOUS_USER_ID == $a_user_id)
 		return false;
-		$usr_id = $a_user_id ? $a_user_id : $ilias->account->getId();
+		$usr_id = $a_user_id ? $a_user_id : $ilUser->getId();
 
-		$res = $this->db->queryf('
-			SELECT * FROM payment_statistic
+		$res = $ilDB->queryf('
+			SELECT order_date, duration, access_enddate
+			FROM payment_statistic
 			WHERE pobject_id = %s
 			AND customer_id = %s
 			AND payed = %s
@@ -667,104 +566,27 @@ class ilPaymentBookings
 			array('integer', 'integer', 'integer', 'integer'),
 			array($a_pobject_id, $usr_id, '1', '1'));
 		
-		while($row = $this->db->fetchObject($res))
+		while($row = $ilDB->fetchObject($res))
 		{
-			$orderDateYear = date("Y", $row->order_date);
-			$orderDateMonth = date("m", $row->order_date);
-			$orderDateDay = date("d", $row->order_date);
-			$orderDateHour = date("H", $row->order_date);
-			$orderDateMinute = date("i", $row->order_date);
-			$orderDateSecond = date("s", $row->order_date);
-			if (($orderDateMonth + $row->duration) > 12)
+			if($row->duration != 0)
 			{
-				$years = floor(($orderDateMonth + $row->duration) / 12);
-				$months = ($orderDateMonth + $row->duration) - (12 * $years);
-				$orderDateYear += $years;
-				$orderDateMonth = $months;
-			}
-			else
-			{
-				$orderDateMonth += $row->duration;
-			}
-			$startDate =  date("Y-m-d H:i:s", $row->order_date);
-			$endDate = date("Y-m-d H:i:s", mktime($orderDateHour, $orderDateMinute, $orderDateSecond, $orderDateMonth, $orderDateDay, $orderDateYear));
-			if (date("Y-m-d H:i:s") >= $startDate &&
-				date("Y-m-d H:i:s") <= $endDate)
+				if( time() >= $row->order_date
+					&& date("Y-m-d") <= $row->access_enddate)
 			{
 				$activation = array(
 					"activation_start" => $row->order_date,
-					"activation_end" => mktime($orderDateHour, $orderDateMinute, $orderDateSecond, $orderDateMonth, $orderDateDay, $orderDateYear)
+						"activation_end" => mktime(0, 0, 0,
+							date('m', $row->access_enddate),
+							date('d', $row->access_enddate),
+							date('Y', $row->access_enddate))
 				);
 				return $activation;
 			}
 		}			
+		}
 		return false;
 	}
 	
-/*TODO : Step 2: delete this */	
-	public function _getCountBookingsByPayMethod($a_pm)	
-	{
-		switch($a_pm)
-		{
-			case 'pm_bill':
-				$res = $this->db->queryf ('
-					SELECT COUNT(booking_id) bid FROM payment_statistc
-					WHERE pay_method = %s',
-					array('integer'),
-					array('1'));
-				
-				while($row = $this->db->fetchObject($res))
-				{
-					return $row->bid;
-				}
-				return 0;
-
-			case 'pm_bmf':
-				$res = $this->db->queryf ('
-					SELECT COUNT(booking_id) bid FROM payment_statistc
-					WHERE pay_method = %s',
-					array('integer'),
-					array('2'));
-				
-				while($row = $this->db->fetchObject($res))
-				{
-					return $row->bid;
-				}
-				return 0;
-
-			case 'pm_paypal':
-				$res = $this->db->queryf ('
-					SELECT COUNT(booking_id) bid FROM payment_statistc
-					WHERE pay_method = %s',
-					array('integer'),
-					array('3'));
-
-				while($row = $this->db->fetchObject($res))
-				{
-					return $row->bid;
-				}
-				return 0;
-				
-			case 'pm_epay':
-				$res = $this->db->queryf ('
-					SELECT COUNT(booking_id) bid FROM payment_statistc
-					WHERE pay_method = %s',
-					array('integer'),
-					array('4'));
-
-				while($row = $this->db->fetchObject($res))
-				{
-					return $row->bid;
-				}
-				return 0;
-
-			default:
-				return 0;
-		}
-	}
-//*/
-
-
 	// PRIVATE
 	public function __read()
 	{
@@ -857,7 +679,6 @@ class ilPaymentBookings
 
 		if(!$this->admin_view)
 		{
-
 			$vendors = $this->__getVendorIds();
 
 			if (is_array($vendors) &&
@@ -977,14 +798,10 @@ class ilPaymentBookings
 				
 		$res = $ilDB->queryF('
 		SELECT * FROM payment_statistic WHERE b_pay_method = %s', array('integer'), array($pay_method));
-		$i = 0;
 		
 		while($row = $ilDB->fetchAssoc($res))
 		{
 			$booking[] = $row;
-		  /*$booking[$i]['booking_id'] = $row->booking_id;
-		  $booking[$i]['pay_method'] = $row->b_pay_method;
-		  $i++;*/
 		}
 		return $booking ? $booking : array();
 	}
@@ -1068,6 +885,45 @@ class ilPaymentBookings
 			$rows[]	= $row->ref_id;
 		}
 		return is_array($rows) ? $rows : array();
+	}
+
+	public static function _hasAccesstoExtensionPrice($a_user_id, $a_pobject_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF('SELECT * FROM payment_statistic
+			WHERE customer_id = %s AND pobject_id = %s
+			AND duration > %s',
+		array('integer','integer', 'integer'),
+		array($a_user_id, $a_pobject_id, 0));
+
+		if($row = $ilDB->numRows($res))
+		{
+			return true;
+		}
+		return false;
+	}
+	public static function _lookupOrder($a_pobject_id)
+	{
+		global $ilUser, $ilDB;
+
+		$booking = array();
+		$res = $ilDB->queryF('
+			SELECT order_date, duration
+			FROM payment_statistic
+			WHERE pobject_id = %s
+			AND customer_id = %s
+			ORDER BY order_date DESC',
+			array('integer', 'integer'),
+			array($a_pobject_id, $ilUser->getId()));
+
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$booking =  $row;
+			break;
+		}
+
+		return $booking;
 	}
 }
 ?>

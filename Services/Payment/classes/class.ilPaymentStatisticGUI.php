@@ -946,8 +946,14 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		{
 			foreach($prices as $price)
 			{
+				$txt_extension = '';
+				if($price['extension'] == 1)
+				{
+					$txt_extension = ' ('.$this->lng->txt('extension_price').') ';
+				}
 				$duration_options[$price['price_id']] = 
-				$price['duration'].' '.$this->lng->txt('paya_months').', '.$price['price'].' '. ilPaymentCurrency::_getUnit($price['currency']);
+				$price['duration'].' '.$this->lng->txt('paya_months').', '.$price['price'].' '. ilPaymentCurrency::_getUnit($price['currency'])
+						.$txt_extension;
 			}
 		}
 		
@@ -1025,10 +1031,29 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$this->booking_obj->setVendorId($obj->getVendorId());
 		$this->booking_obj->setPayMethod((int) $_POST["pay_method"]);
 		$this->booking_obj->setOrderDate(time());
+
 		$price = ilPaymentPrices::_getPrice($_POST["duration"]);
 		// TODO:$currency = ilPaymentCurrency::_getUnit($price['currency']);
-
 		$this->booking_obj->setDuration($price["duration"]);
+		if($price['unlimited_duration'] == 0)
+		{
+			$order_date = $this->booking_obj->getOrderDate();
+			$duration = $this->booking_obj->getDuration();
+
+			$orderDateYear = date("Y", $order_date);
+			$orderDateMonth = date("m", $order_date);
+			$orderDateDay = date("d", $order_date);
+			$orderDateHour = date("H", $order_date);
+			$orderDateMinute = date("i",$order_date);
+			$orderDateSecond = date("s", $order_date);
+
+			$access_enddate = date("Y-m-d H:i:s", mktime($orderDateHour, $orderDateMinute, $orderDateSecond,
+			$orderDateMonth + $duration, $orderDateDay, $orderDateYear));
+
+			$this->booking_obj->setAccessEnddate($access_enddate);
+		}
+
+
 		$this->booking_obj->setPrice(ilPaymentPrices::_getPriceString($_POST["duration"]));
 // TODO: $this->booking_obj->setPrice($price['price'].' '. $currency);		
 		$this->booking_obj->setAccess((int) $_POST['access']);
@@ -1049,14 +1074,6 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 			$this->booking_obj->setVatUnit($obj_vat_unit);
 			
 			include_once './Services/Payment/classes/class.ilPayMethods.php';
-	/*		$save_user_adr_bill = (int) ilPayMethods::_enabled('save_user_adr_bill') ? 1 : 0;	
-			$save_user_adr_bmf = (int) ilPayMethods::_enabled('save_user_adr_bmf') ? 1 : 0;
-			$save_user_adr_paypal =(int) ilPayMethods::_enabled('save_user_adr_paypal') ? 1 : 0; 
-			$save_user_adr_epay =(int) ilPayMethods::_enabled('save_user_adr_epay') ? 1 : 0;
-			 
-			if($save_user_adr_bill == 1 || $save_user_adr_bmf == 1 
-				|| $save_user_adr_paypal == 1 || $save_user_adr_epay == 1)
-				*/
 			if(ilPayMethods::_EnabledSaveUserAddress((int) $_POST["pay_method"]) == 1)
 			{
 				global $ilObjUser;

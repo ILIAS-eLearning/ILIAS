@@ -300,6 +300,9 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 	{
 		global $ilToolbar;
 		
+		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
+		$genSet = new ilGeneralSettings();
+
 		if(!(int)$_GET['pobject_id'])
 		{	
 			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
@@ -530,7 +533,13 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content",'tpl.main_view.html','Services/Payment');
 			
 		$price_obj = new ilPaymentPrices((int) $_GET['pobject_id']);
-		$prices = $price_obj->getPrices();
+
+		$standard_prices = array();
+		$extension_prices = array();
+		$standard_prices = $price_obj->getPrices();
+		$extension_prices = $price_obj->getExtensionPrices();
+
+		$prices = array_merge($standard_prices, $extension_prices );
 
 		// No prices created
 		if(!count($prices))
@@ -616,6 +625,8 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 					
 					$data[$counter]['price'] =  ilFormat::_getLocalMoneyFormat($price['price']);
 					$data[$counter]['currency_unit'] = $genSet->get('currency_unit');
+					$data[$counter]['extension'] = ilUtil::formCheckBox($price['extension'] ? 1 : 0,
+						'extension_ids[]', (int)$price['price_id']);
 					//TODO: later $data[$counter]['currency_unit'] = $currency['unit']; 
 				}
 			}
@@ -632,6 +643,8 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 				
 				$data[$counter]['price'] = ilUtil::formInput('prices['.$price['price_id'].'][price]', ilFormat::_getLocalMoneyFormat($price['price']));
 				$data[$counter]['currency_unit'] = $genSet->get('currency_unit');
+				$data[$counter]['extension'] =  ilUtil::formCheckBox($price['extension'] ? 1 : 0,
+					'extension_ids[]', (int)$price['price_id']);
 /* TODO: later -> use currency table
  *				$data[$counter]['price'] = ilUtil::formInput('prices['.$price['price_id'].'][price]', ilFormat::_getLocalMoneyFormat($price['price']));
 
@@ -659,7 +672,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		
 	private function __editPricesTable($a_result_set)
 	{
-		$tbl = new ilShopTableGUI($this);
+		$tbl = new ilShopTableGUI($this,'editPrices');
 
 		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId());
 		$tbl->setTitle($tmp_obj->getTitle());
@@ -672,7 +685,9 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$tbl->addColumn('','month','10%');
 		$tbl->addColumn($this->lng->txt('unlimited_duration'), 'unlimitied_duration', '15%');
 		$tbl->addColumn($this->lng->txt('price_a'), 'price', '10%');
-		$tbl->addColumn($this->lng->txt('currency'), 'currency_unit', '50%');
+		$tbl->addColumn($this->lng->txt('currency'), 'currency_unit', '10%');
+		$tbl->addColumn($this->lng->txt('extension_price'), 'extension', '40%');
+
 		$tbl->setSelectAllCheckbox('price_id');
 		$tbl->addCommandButton('updatePrice',$this->lng->txt('paya_update_price'));
 		$tbl->addCommandButton('addPrice',$this->lng->txt('paya_add_price'));
@@ -745,6 +760,13 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		
 		// currency
 		$this->tpl->setVariable('TXT_PRICE_A',$genSet->get('currency_unit'));
+
+		//extension
+		$oExtension = new ilCheckboxInputGUI($this->lng->txt('extension_price'), 'extension');
+		$oExtension->setChecked($_POST['extension'] == 1);
+
+		$form->addItem($oExtension);
+
 /*
  		// TODO: show currency selector
 
@@ -787,7 +809,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
 		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
-//
+
 		$currency = ilPaymentCurrency::_getAvailableCurrencies();
 
 		$prices = new ilPaymentPrices((int) $_GET['pobject_id']);
@@ -801,6 +823,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		$prices->setPrice($_POST['price']);
 		$prices->setCurrency($currency[1]['currency_id']);
+		$prices->setExtension($_POST['extension']);
 		//$prices->setCurrency($_POST['currency_id']);
 
 		if(!$prices->validate())
@@ -908,6 +931,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			$po->setUnlimitedDuration($price['unlimited_duration']);
 			$po->setPrice($price['price']);			
 			$po->setCurrency($old_price['currency']);
+			$po->setExtension($price['extension']);
 //$po->setCurrency($price['currency']);
 			if(!$po->validate())
 			{
@@ -946,6 +970,21 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 				}	
 			}
 			
+			if(isset($_POST['extension_ids']))
+			{
+	 			$search = in_array((string)$price_id, $_POST['extension_ids']);
+
+				if( $search = in_array((string)$price_id, $_POST['extension_ids']))
+				{
+					$po->setExtension(1);
+				}
+				else
+				{
+					$po->setExtension(0);
+				}
+			}
+
+
 			$po->setDuration($price['duration']);
 
 			$po->setPrice($price['price']);
@@ -1105,8 +1144,8 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$oOwnerGUI->setValue($tmp_obj->getOwnerName());
 		$oForm->addItem($oOwnerGUI);
 		
-		// path
-		$oPathGUI = new ilNonEditableValueGUI($this->lng->txt('paya_count_purchaser'));
+		// repository path
+		$oPathGUI = new ilNonEditableValueGUI($this->lng->txt('path'));
 		$oPathGUI->setValue($this->__getHTMLPath((int)$_GET['sell_id']));
 		$oForm->addItem($oPathGUI);
 		
@@ -1137,6 +1176,8 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			return $this->showSelectedObject();
 		}
 		
+		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
+		$p_obj = new ilPaymentObject($this->user_obj);
 
 		 if(ilPaymentObject::_isPurchasable($_GET['sell_id']))
 		{
@@ -1145,10 +1186,6 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 			return $this->showObjectSelector();
 		}
-		
-		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-
-		$p_obj = new ilPaymentObject($this->user_obj);
 		
 		$p_obj->setRefId((int)$_GET['sell_id']);
 		$p_obj->setStatus($p_obj->STATUS_NOT_BUYABLE);
