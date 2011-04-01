@@ -278,5 +278,35 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		ilUtil::sendSuccess($this->lng->txt('trac_settings_saved'),true);
 		$this->ctrl->redirect($this,'show');
 	}
+
+	/**
+	 * Save obligatory state per grouped materials
+	 */
+	protected function saveObligatoryMaterials()
+	{
+		if(!is_array((array) $_POST['grp']))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			$this->ctrl->redirect($this,'show');
+		}
+
+		try {
+			include_once './Services/Tracking/classes/class.ilLPCollections.php';
+			ilLPCollections::saveObligatoryMaterials($this->getObjId(), (array) $_POST['grp']);
+
+			// refresh learning progress
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+			ilLPStatusWrapper::_refreshStatus($this->getObjId());
+
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+			$this->ctrl->redirect($this,'show');
+		}
+		catch(UnexpectedValueException $e) {
+			ilUtil::sendFailure($this->lng->txt('trac_grouped_material_obligatory_err'), true);
+			ilUtil::sendInfo($this->lng->txt('err_check_input'),true);
+			$this->ctrl->redirect($this,'show');
+		}
+
+	}
 }
 ?>

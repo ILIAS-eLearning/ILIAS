@@ -173,14 +173,18 @@ class ilLPStatusCollection extends ilLPStatus
 		{
 			$isGrouping = $grouping_id ? true : false;
 			$grouping_completed = array();
+			$grouping_completed_users_num =  array();
 			foreach((array) $grouping['items'] as $item)
 			{
 				$item_id = $ilObjDataCache->lookupObjId($item);
 				$tmp_users = ilLPStatusWrapper::_getCompleted($item_id);
 				if($isGrouping)
 				{
-					// Collect
-					$grouping_completed = array_unique(array_merge($grouping_completed,$tmp_users));
+					// Iterated through all grouped items and count the number of fullfiled items
+					foreach($tmp_users as $tmp_user_id)
+					{
+						++$grouping_completed_users_num[$tmp_user_id];
+					}
 				}
 				else
 				{
@@ -196,6 +200,16 @@ class ilLPStatusCollection extends ilLPStatus
 			}
 			if($isGrouping)
 			{
+				// Iterate through all "grouping_completed_users_num"
+				// All users with completed items greater equal than "num_obligatory" are completed
+				foreach($grouping_completed_users_num as $tmp_user_id => $grouping_num_completed)
+				{
+					if($grouping_num_completed >= $grouping['num_obligatory'])
+					{
+						$grouping_completed[] = $tmp_user_id;
+					}
+				}
+
 				// build intersection of users
 				if(!$counter++)
 				{
@@ -208,27 +222,6 @@ class ilLPStatusCollection extends ilLPStatus
 			}
 		}
 
-
-
-/*
-		$counter = 0;
-		$users = array();
-		foreach(ilLPCollectionCache::_getItems($a_obj_id) as $item_id)
-		{
-			$item_id = $ilObjDataCache->lookupObjId($item_id);
-
-			$tmp_users = ilLPStatusWrapper::_getCompleted($item_id);
-			if(!$counter++)
-			{
-				$users = $tmp_users;
-			}
-			else
-			{
-				$users = array_intersect($users,$tmp_users);
-			}
-
-		}
-*/
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'crs':
@@ -273,6 +266,7 @@ class ilLPStatusCollection extends ilLPStatus
 			$isGrouping = $grouping_id ? true : false;
 
 			$gr_failed = array();
+			$gr_failed_users_num = array();
 			$counter = 0;
 			foreach((array) $grouping['items'] as $item)
 			{
@@ -281,8 +275,10 @@ class ilLPStatusCollection extends ilLPStatus
 
 				if($isGrouping)
 				{
-					// All items of grouping must be failed for grouping status failed
-					$gr_failed = $counter ? array_intersect($gr_failed, $tmp_users) : $tmp_users;
+					foreach($tmp_users as $tmp_user_id)
+					{
+						++$gr_failed_users_num[$tmp_user_id];
+					}
 				}
 				else
 				{
@@ -291,18 +287,22 @@ class ilLPStatusCollection extends ilLPStatus
 				}
 				$counter++;
 			}
-			$users = array_merge($users,$gr_failed);
+			if($isGrouping)
+			{
+				$allowed_failed = count($grouping['items']) - $grouping['num_obligatory'];
+				// Itereate over all failed users and check whether the allowd_failed value exceeded
+				foreach($gr_failed_users_num as $tmp_user_id => $num_failed)
+				{
+					if($num_failed > $allowed_failed)
+					{
+						$gr_failed[] = $tmp_user_id;
+					}
+				}
+
+			}
+			$users = array_unique(array_merge($users, $gr_failed));
 		}
 
-		/*
-		$users = array();
-		foreach(ilLPCollectionCache::_getItems($a_obj_id) as $item_id)
-		{
-			$item_id = $ilObjDataCache->lookupObjId($item_id);
-			$tmp_users = ilLPStatusWrapper::_getFailed($item_id);
-			$users = array_merge($users,$tmp_users);
-		}
-		 */
 		
 		switch($ilObjDataCache->lookupType($a_obj_id))
 		{
@@ -399,7 +399,7 @@ class ilLPStatusCollection extends ilLPStatus
 				foreach(ilLPCollectionCache::getGroupedItems($a_obj_id) as $grouping_id => $grouping)
 				{
 					$isGrouping = $grouping_id ? true : false;
-					$status = self::determineGroupingStatus($status,$grouping['items'],$a_user_id,$isGrouping);
+					$status = self::determineGroupingStatus($status,$grouping,$a_user_id,$isGrouping);
 				}
 
 				if($status['completed'])
@@ -419,9 +419,24 @@ class ilLPStatusCollection extends ilLPStatus
 		return LP_STATUS_NOT_ATTEMPTED_NUM;
 	}
 
-	public static function determineGroupingStatus($status,$items,$user_id,$is_grouping)
+	/**
+	 * Determine grouping status
+	 * @global  $ilObjDataCache
+	 * @param array $status
+	 * @param array $items
+	 * @param int $user_id
+	 * @param boolean $is_grouping
+	 * @return boolean
+	 */
+	public static function determineGroupingStatus($status,$gr_info,$user_id,$is_grouping)
 	{
 		global $ilObjDataCache;
+
+		$items = $gr_info['items'];
+		// Required for grouping with a number of obligatory items
+		$max_allowed_failed = count($items) - $gr_info['num_obligatory'];
+		$num_failed = 0;
+		$num_completed = 0;
 
 		include_once("./Services/Tracking/classes/class.ilLPCollectionCache.php");
 		foreach($items as $item_id)
@@ -434,7 +449,12 @@ class ilLPStatusCollection extends ilLPStatus
 				$status['in_progress'] = true;
 				if($is_grouping)
 				{
-
+					if(++$failed > $max_allowed_failed)
+					{
+						$status['failed'] = true;
+						$status['completed'] = false;
+						return $status;
+					}
 				}
 				else
 				{
@@ -448,8 +468,11 @@ class ilLPStatusCollection extends ilLPStatus
 				$status['in_progress'] = true;
 				if($is_grouping)
 				{
-					$status['failed'] = false;
-					return $status;
+					if(++$num_completed >= $gr_info['num_obligatory'])
+					{
+						$status['failed'] = false;
+						return $status;
+					}
 				}
 				else
 				{
