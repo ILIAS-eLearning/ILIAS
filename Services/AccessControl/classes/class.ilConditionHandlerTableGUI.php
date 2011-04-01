@@ -36,6 +36,8 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('OBJ_SRC', $a_row['icon']);
 		$this->tpl->setVariable('OBJ_ALT', $a_row['icon_alt']);
 		$this->tpl->setVariable('OBJ_TITLE',$a_row['title']);
+		include_once './classes/class.ilLink.php';
+		$this->tpl->setVariable('OBJ_LINK', ilLink::_getLink($a_row['ref_id'], $a_row['type']));
 		$this->tpl->setVariable('OBJ_DESCRIPTION', $a_row['description']);
 		$this->tpl->setVariable('COND_ID', $a_row['id']);
 		$this->tpl->setVariable('OBJ_CONDITION', $a_row['condition']);
@@ -62,6 +64,8 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 		foreach((array) $a_conditions as $condition)
 		{
 			$row['id'] = $condition['condition_id'];
+			$row['ref_id'] = $condition['trigger_ref_id'];
+			$row['type'] = $condition['trigger_type'];
 			$row['title'] = ilObject::_lookupTitle($condition['trigger_obj_id']);
 			$row['description'] = ilObject::_lookupDescription($condition['trigger_obj_id']);
 			$row['icon'] = ilUtil::getImagePath('icon_'.$condition['trigger_type'].'_s.gif');

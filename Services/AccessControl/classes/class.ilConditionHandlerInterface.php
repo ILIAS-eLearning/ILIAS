@@ -166,6 +166,15 @@ class ilConditionHandlerInterface
 	{
 		$this->target_title = $a_target_title;
 	}
+
+	/**
+	 * Check if target has refernce id
+	 * @return bool
+	 */
+	public function isTargetReferenced()
+	{
+		return $this->getTargetRefId() ? true : false;
+	}
 	
 	/**
 	* get target title
@@ -205,6 +214,19 @@ class ilConditionHandlerInterface
 
 		$ilToolbar->addButton($this->lng->txt('add_condition'),$this->ctrl->getLinkTarget($this,'selector'));
 
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.list_conditions.html','Services/AccessControl');
+
+		$optional_conditions = ilConditionHandler::getOptionalConditionsOfTarget(
+			$this->getTargetRefId(),
+			$this->getTargetId(),
+			$this->getTargetType()
+		);
+		if(count($optional_conditions) > 1)
+		{
+			$form = $this->showObligatoryForm($optional_conditions);
+			$this->tpl->setVariable('TABLE_SETTINGS',$form->getHTML());
+		}
+
 		include_once './Services/AccessControl/classes/class.ilConditionHandlerTableGUI.php';
 		$table = new ilConditionHandlerTableGUI($this,'listConditions');
 		$table->setConditions(
@@ -214,7 +236,73 @@ class ilConditionHandlerInterface
 				$this->getTargetType()
 			)
 		);
+
+		$this->tpl->setVariable('TABLE_CONDITIONS',$table->getHTML());
 		$this->tpl->setContent($table->getHTML());
+	}
+
+	/**
+	 * Save obligatory settings
+	 */
+	protected function saveObligatorySettings()
+	{
+		$form = $this->showObligatoryForm();
+		if($form->checkInput())
+		{
+			ilConditionHandler::saveNumberOfRequiredTriggers(
+				$this->getTargetRefId(),
+				$this->getTargetId(),
+				$form->getInput('required')
+			);
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+			$this->ctrl->redirect($this,'listConditions');
+		}
+
+		$form->setValuesByPost();
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$this->tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * Show obligatory form
+	 * @return ilPropertyFormGUI
+	 */
+	protected function showObligatoryForm($opt = array())
+	{
+		if(!$opt)
+		{
+			$opt = ilConditionHandler::getOptionalConditionsOfTarget(
+				$this->getTargetRefId(),
+				$this->getTargetId(),
+				$this->getTargetType()
+			);
+		}
+
+		$all = ilConditionHandler::_getConditionsOfTarget($this->getTargetRefId(),$this->getTargetId());
+		$req = count($all) - count($opt);
+
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this),'listConditions');
+		$form->setTitle($this->lng->txt('precondition_obligatory_settings'));
+		$form->addCommandButton('saveObligatorySettings', $this->lng->txt('save'));
+
+		$opt = new ilNumberInputGUI($this->lng->txt('precondition_num_obligatory'), 'required');
+		$opt->setInfo($this->lng->txt('precondition_num_optional_info'));
+		$obligatory = ilConditionHandler::calculateRequiredTriggers(
+			$this->getTargetRefId(),
+			$this->getTargetId(),
+			$this->getTargetType()
+		);
+		$opt->setValue($obligatory);
+		$opt->setRequired(true);
+		$opt->setSize(1);
+		$opt->setMinValue($req + 1);
+		$opt->setMaxValue(count($all) - 1);
+
+		$form->addItem($opt);
+
+		return $form;
 	}
 
 

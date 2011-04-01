@@ -353,7 +353,7 @@ class ilUtil
 
 		$str = "<select name=\"".$varname ."\"".$multiple." $class size=\"".$size."\" $attributes $disabled>\n";
 
-		foreach ($options as $key => $val)
+		foreach ((array) $options as $key => $val)
 		{
 			$style = "";
 			if (is_array($val))
