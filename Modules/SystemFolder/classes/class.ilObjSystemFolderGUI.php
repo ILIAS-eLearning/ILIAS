@@ -2753,6 +2753,23 @@ return $this->showServerInfoObject();
 		$summary_rcpt->setInfo($lng->txt('disk_quota_summary_rctp_desc'));
 		$cb_prop_summary->addSubItem($summary_rcpt);
 
+		// Enable payment notifications
+		$payment_noti = new ilCheckboxInputGUI($lng->txt("payment_notification"), "payment_notification");
+		$payment_noti->setValue(1);
+		$payment_noti->setChecked((int)$ilSetting->get('payment_notification', 0) == 1);
+		$payment_noti->setInfo($lng->txt('payment_notification_desc'));
+
+		$num_days = new ilNumberInputGUI($this->lng->txt('payment_notification_days'),'payment_notification_days');
+		$num_days->setSize(3);
+		$num_days->setMinValue(0);
+		$num_days->setMaxValue(356);
+		$num_days->setRequired(true);
+		$num_days->setValue($ilSetting->get('payment_notification_days'));
+		$num_days->setInfo($lng->txt('payment_notification_days_desc'));
+
+		$payment_noti->addSubItem($num_days);
+		$this->form->addItem($payment_noti);
+
 		$this->form->addCommandButton("saveCronJobs", $lng->txt("save"));
 	                
 		$this->form->setTitle($lng->txt("cron_jobs"));
@@ -2800,6 +2817,11 @@ return $this->showServerInfoObject();
 			// disk quota summary mail
 			$dq_settings->set('summary_mail_enabled', $_POST['enable_disk_quota_summary_mail'] ? 1 : 0);
 			$dq_settings->set('summary_rcpt', ilUtil::stripSlashes($_POST['disk_quota_summary_rctp']));
+
+			// payment notification
+			$ilSetting->set('payment_notification', $_POST['payment_notification'] ? 1 : 0);
+			$ilSetting->set('payment_notification_days', $_POST['payment_notification_days']);
+
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showCronJobs");

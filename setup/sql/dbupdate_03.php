@@ -4235,4 +4235,61 @@ if(!$ilDB->tableExists('acl_ws'))
 		);
 	}
 ?>
+<#3252>
+<?php
+	if(!$ilDB->tableColumnExists('payment_prices','extension'))
+	{
+		$ilDB->addTableColumn(
+			'payment_prices',
+			'extension',
+			array(
+				'type' => 'integer',
+				'length' => '1',
+				'notnull' => true,
+				'default' => 0
+			)
+		);
+	}
+?>
+<#3253>
+<?php
+	if(!$ilDB->tableColumnExists('payment_statistic','access_enddate'))
+	{
+		$ilDB->addTableColumn(
+			'payment_statistic',
+			'access_enddate',
+			array(
+				'type'     => 'timestamp',
+				'notnull'	=> false
+			)
+		);
+	}
+?>
+<#3254>
+<?php
+	$res = $ilDB->queryf('
+		SELECT booking_id, order_date, duration
+		FROM payment_statistic
+		WHERE duration > %s',
+		array('integer'),array(0));
 
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$order_date = $row['order_date'];
+		$duration = $row['duration'];
+
+		$orderDateYear = date("Y", $row['order_date']);
+		$orderDateMonth = date("m", $row['order_date']);
+		$orderDateDay = date("d", $row['order_date']);
+		$orderDateHour = date("H",$row['order_date']);
+		$orderDateMinute = date("i", $row['order_date']);
+		$orderDateSecond = date("s", $row['order_date']);
+
+		$access_enddate = date("Y-m-d H:i:s", mktime($orderDateHour, $orderDateMinute, $orderDateSecond,
+				$orderDateMonth + $duration, $orderDateDay, $orderDateYear));
+
+		$ilDB->update('payment_statistic',
+			array('access_enddate' => array('timestamp', $access_enddate)),
+			array('booking_id' => array('integer', $row['booking_id'])));
+	}
+?>

@@ -213,5 +213,70 @@
 			array('integer', 'integer', 'text'),
 			array($a_new_user_id, $a_old_user_id, $a_transaction_extern));
 	}
+
+	public static function _addToShoppingCartSymbol($a_type, $a_ref_id)
+	{
+		global $ilCtrl;
+
+		switch($a_type)
+		{
+			case 'sahs':
+				$detail_link = 'ilias.php?baseClass=ilSAHSPresentationGUI&ref_id='.$a_ref_id;
+				break;
+
+			case 'lm':
+				$detail_link = 'ilias.php?baseClass=ilLMPresentationGUI&ref_id='.$a_ref_id;
+				break;
+			case 'exc':
+				$detail_link = $ilCtrl->getLinkTargetByClass("ilShopPurchaseGUI", "showDetails").'&ref_id='.$a_ref_id;
+				break;
+
+			default:
+				$detail_link = 'repository.php?ref_id='.$a_ref_id;
+				break;
+ }
+		$img = ilUtil::img('./templates/default/images/payment/shopcart_add_32.png');
+		$link = '<a href="'.$detail_link.'">'.$img.'</a>';
+
+		return $link;
+	}
+
+	public static function _getPaymethodSymbol($a_paymethod)
+	{
+		switch($a_paymethod)
+		{
+			case '1':
+			case 'pm_bill':
+			case 'bill':
+			case 'PAY_METHOD_BILL': return '';
+				break;
+
+			case '2':
+			case 'pm_bmf':
+			case 'bmf':
+			case 'PAY_METHOD_BMF': return '';
+				break;
+
+			case '3':
+			case 'pm_paypal':
+			case 'paypal':
+			case 'PAY_METHOD_PAYPAL': return ilUtil::img('./templates/default/images/payment/paypal_48.png');
+				break;
+
+			case '4':
+			case 'pm_epay':
+			case 'epay':
+			case 'PAY_METHOD_EPAY': return '';
+				break;
+			case 'PAY_METHOD_NOT_SPECIFIED': return '';
+				break;
+			default:
+
+				break;
+		}
+
+
+
+	}
  }
 ?>

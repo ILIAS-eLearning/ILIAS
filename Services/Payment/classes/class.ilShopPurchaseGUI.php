@@ -23,7 +23,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 
 	public function __construct($a_ref_id)
 	{
-		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree;
+		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree,$ilTabs;
 
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id"));
@@ -40,7 +40,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 
 		$this->object = ilObjectFactory::getInstanceByRefId($this->ref_id);
 		
-		global $ilTabs;
+		$this->tpl->getStandardTemplate();
 				
 		$ilTabs->clearTargets();
 		$ilTabs->addTarget('buy', $this->ctrl->getLinkTarget($this, 'showDetails').'&purchasetype=buy');
@@ -67,7 +67,6 @@ class ilShopPurchaseGUI extends ilObjectGUI
 				break;
 		}
 
-		$this->__buildHeader();
 
 		switch($cmd)
 		{
@@ -322,17 +321,17 @@ class ilShopPurchaseGUI extends ilObjectGUI
 
 	public function showDetails()
 	{
-		global $ilMainMenu, $ilTabs, $ilToolbar;
-		
-		$ilTabs->setTabActive('buy');
-		
-		$ilMainMenu->setActive('shop');
+		global $ilMainMenu, $ilTabs, $ilToolbar, $tpl, $ilUser;
 		
 		$this->__initPaymentObject();
 		$this->__initPricesObject();
 		$this->__initShoppingCartObject();
 		
 		$ilToolbar->addButton($this->lng->txt('payment_back_to_shop'),'ilias.php?baseClass=ilShopController');
+
+		$this->tpl->getStandardTemplate();
+		$ilTabs->setTabActive('buy');
+		$ilMainMenu->setActive('shop');
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.pay_purchase_details.html', 'Services/Payment');
 
@@ -343,7 +342,24 @@ class ilShopPurchaseGUI extends ilObjectGUI
 			return false;
 		}
 
-		$prices = $this->price_obj->getPrices();
+		$extension_prices = array();
+
+		if($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			include_once './Services/Payment/classes/class.ilPaymentBookings.php';
+			$has_extension_price = ilPaymentBookings::_hasAccesstoExtensionPrice(
+						$ilUser->getId(), $this->pobject->getPobjectId());
+
+
+			if($has_extension_price)
+			{
+				$extension_prices = $this->price_obj->getExtensionPrices();
+			}
+		}
+
+		$org_prices = $this->price_obj->getPrices();
+		$prices = array_merge($org_prices, $extension_prices );
+
 		$buyedObject = "";
 		if($this->sc_obj->isInShoppingCart($this->pobject->getPobjectId()))
 		{
@@ -358,12 +374,13 @@ class ilShopPurchaseGUI extends ilObjectGUI
 				ilUtil::sendInfo($this->lng->txt('pay_item_already_in_sc'));
 			}
 
-			$this->tpl->setCurrentBlock("shopping_cart");
+			$this->tpl->setCurrentBlock("shopping_cart_1");
 			
 			
 			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART",'ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilShopShoppingCartGUI');
 			$this->tpl->setVariable("TXT_GOTO_SHOPPING_CART", $this->lng->txt('pay_goto_shopping_cart'));
-			$this->tpl->parseCurrentBlock("shopping_cart");
+			$this->tpl->parseCurrentBlock("shopping_cart_1");
+
 		}
 
 		$this->ctrl->setParameter($this, "ref_id", $this->pobject->getRefId());
@@ -383,6 +400,11 @@ class ilShopPurchaseGUI extends ilObjectGUI
 				$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
 				$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_change_price'));
 			}
+			else
+			{
+				$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
+				$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_add_to_shopping_cart'));
+		}
 		}
 		else
 		{
@@ -435,10 +457,17 @@ class ilShopPurchaseGUI extends ilObjectGUI
 				$tmp_price = ilPaymentPrices::_getPriceString($price['price_id']);
 				$this->tpl->setVariable($placeholderPrice,ilPaymentPrices::_formatPriceToString($tmp_price));
 
+				if($price['extension'] == 1)
+					$extension_txt = '('.$this->lng->txt('extension_price').')';
+				else $extension_txt = '';
+
+				$this->tpl->setVariable($placeholderPrice,ilPaymentPrices::_formatPriceToString($tmp_price).' '.$extension_txt );
+
 				$this->tpl->parseCurrentBlock();
 				$counter++;
 			}
 		}		
+		return true;
 	}	
 	
 	private function __getAbstractHTML($a_payment_object_id)
@@ -523,13 +552,15 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		return true;
 	}
 
-	function __buildHeader()
+/*
+ * function __buildHeader()
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.payb_content.html");
 		$this->tpl->setVariable("HEADER",$this->object->getTitle());
 		$this->tpl->setVariable("DESCRIPTION",$this->object->getDescription());
+		$this->tpl->parseCurrentBlock();
 	}
-
+*/
 	function  __buildStatusline()
 	{
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");

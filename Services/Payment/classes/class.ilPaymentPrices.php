@@ -18,6 +18,7 @@ class ilPaymentPrices
 	private $currency;
 	private $duration;
 	private $unlimited_duration = 0;
+	private $extension = 0;
 	
 	// TODO later -> this is for using different currencies 
 	private $currency_conversion_rate = 1;
@@ -67,6 +68,7 @@ class ilPaymentPrices
 			$price['unlimited_duration'] = $row->unlimited_duration;
 			$price['currency'] = $row->currency;
 			$price['price'] = $row->price;
+			$price['extension'] = $row->extension;
 
 		}	
 		return count($price) ? $price : array();
@@ -217,53 +219,49 @@ class ilPaymentPrices
 			$this->unlimited_duration = 0;
 	}
 	
+
+	public function setExtension($a_extension)
+	{
+		if($this->extension == '1' && ($a_extension == '' || null))
+		$a_extension = 0;
+		$this->extension = $a_extension;
+	}
+
+	public function getExtension()
+	{
+		return $this->extension;
+	}
+
+
 	public function add()
 	{
 		$next_id = $this->db->nextId('payment_prices');
 		
-		$res = $this->db->manipulateF('
-			INSERT INTO payment_prices 
-			(	price_id,
-				pobject_id,
-				currency,
-				duration,
-				unlimited_duration,
-				price
-				)
-			VALUES (%s, %s, %s, %s, %s, %s)',
-
-			array('integer','integer', 'integer', 'integer', 'integer', 'float'),
-			array(	$next_id,
-					$this->getPobjectId(),
-					$this->__getCurrency(),
-					$this->__getDuration(),
-					$this->__getUnlimitedDuration(),
-					$this->__getPrice()
+		$res = $this->db->insert('payment_prices', array(
+				'price_id'		=> array('integer', $next_id),
+				'pobject_id'	=> array('integer', $this->getPobjectId()),
+				'currency'		=> array('integer', $this->__getCurrency()),
+				'duration'		=> array('integer', $this->__getDuration()),
+				'unlimited_duration'=> array('integer', $this->__getUnlimitedDuration()),
+				'price'			=> array('integer', $this->__getPrice()),
+				'extension'		=> array('integer', $this->getExtension())
 		));
 		
-		$this->__read();
-		
+		$this->__read(true);
 		return true;
 	}
 	public function update($a_price_id)
 	{
-		$res = $this->db->manipulateF('
-			UPDATE payment_prices SET
-			currency = %s,
-			duration = %s,
-			unlimited_duration = %s,
-			price = %s			
-			WHERE price_id = %s',
+		$this->db->update('payment_prices',
+			array(	'pobject_id'	=> array('integer', $this->getPobjectId()),
+					'currency'		=> array('integer', $this->__getCurrency()),
+					'duration'		=> array('integer', $this->__getDuration()),
+					'unlimited_duration'=> array('integer', $this->__getUnlimitedDuration()),
+					'price'			=> array('integer', $this->__getPrice()),
+					'extension'		=> array('integer', $this->getExtension())),
+			array('price_id'=> array('integer', $a_price_id)));
 
-			array('integer', 'integer','integer', 'float', 'integer'),
-			array(	$this->__getCurrency(),
-					$this->__getDuration(),
-					$this->__getUnlimitedDuration(),
-					$this->__getPrice(),
-					$a_price_id
-		));
-
-		$this->__read();
+		$this->__read(true);
 
 		return true;
 	}
@@ -274,7 +272,7 @@ class ilPaymentPrices
 			WHERE price_id = %s',
 			array('integer'), array($a_price_id));
 
-		$this->__read();
+		$this->__read(true);
 
 		return true;
 	}
@@ -286,7 +284,7 @@ class ilPaymentPrices
 			array('integer'),
 			array($this->getPobjectId()));
 		
-		$this->__read();
+		$this->__read(true);
 
 		return true;
 	}
@@ -312,7 +310,6 @@ class ilPaymentPrices
 	if($duration_valid == true && $price_valid == true)
 	{
 		return true;
-		
 	}
 
 	else return false;
@@ -355,18 +352,31 @@ class ilPaymentPrices
 		return $this->unlimited_duration;
 	}
 
-	private function __read()
+	private function __read($with_extension_prices = false)
 	{
 		$this->prices = array();
 
+		if(!$with_extension_prices)
+		{
 		$res = $this->db->queryf('
 			SELECT * FROM payment_prices
 			WHERE pobject_id = %s
+				AND extension = %s
 			ORDER BY duration', 
+			array('integer','integer'),
+			array($this->getPobjectId(), 0));
+		}
+		else
+		{
+			// needed for administration view
+			$res = $this->db->queryf('
+				SELECT * FROM payment_prices
+				WHERE pobject_id = %s
+				ORDER BY duration',
 		array('integer'),
 		array($this->getPobjectId()));
+		}
 		
-				
 		while($row = $this->db->fetchObject($res))
 		{
 			$this->prices[$row->price_id]['pobject_id'] = $row->pobject_id;
@@ -375,10 +385,36 @@ class ilPaymentPrices
 			$this->prices[$row->price_id]['duration'] = $row->duration;
 			$this->prices[$row->price_id]['unlimited_duration'] = $row->unlimited_duration;
 			$this->prices[$row->price_id]['price'] = $row->price;
+			$this->prices[$row->price_id]['extension'] = $row->extension;
 //TODO: CURRENCY $this->prices[$row->price_id]['price'] = $row->price * $this->getCurrencyConversionRate();			
 		}
 	}
 	
+	public function getExtensionPrices()
+	{
+		$prices = array();
+
+		$res = $this->db->queryf('
+			SELECT * FROM payment_prices
+			WHERE pobject_id = %s
+			AND extension = %s
+			ORDER BY duration',
+		array('integer','integer'),
+		array($this->getPobjectId(), 1));
+
+		while($row = $this->db->fetchObject($res))
+		{
+			$prices[$row->price_id]['pobject_id'] = $row->pobject_id;
+			$prices[$row->price_id]['price_id'] = $row->price_id;
+			$prices[$row->price_id]['currency'] = $row->currency;
+			$prices[$row->price_id]['duration'] = $row->duration;
+			$prices[$row->price_id]['unlimited_duration'] = $row->unlimited_duration;
+			$prices[$row->price_id]['price'] = $row->price;
+			$prices[$row->price_id]['extension'] = $row->extension;
+		}
+		return $prices;
+	}
+
 	public function getNumberOfPrices()
 	{
 		return count($this->prices);

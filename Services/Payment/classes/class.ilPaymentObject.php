@@ -35,6 +35,9 @@ class ilPaymentObject
 		$this->STATUS_EXPIRES = 2;
 
 		$this->PAY_METHOD_NOT_SPECIFIED = 0;
+
+		$this->pobject_id = $a_pobject_id;
+
 		include_once './Services/Payment/classes/class.ilPayMethods.php';
 		$pmObj = new ilPayMethods();
 		$tmp = $pmObj->readAll();
@@ -45,7 +48,7 @@ class ilPaymentObject
 			$this->PAY_METHOD_.$tmp = $pm['pm_id'];		
 		}
 		
-		$this->pobject_id = $a_pobject_id;
+
 		$this->__read();
 		
 	}
@@ -176,7 +179,7 @@ class ilPaymentObject
 		return false;
 	}
 	// STATIC
-	public function _lookupPobjectId($a_ref_id)
+	public static function _lookupPobjectId($a_ref_id)
 	{
 		global $ilDB;
 
@@ -186,9 +189,9 @@ class ilPaymentObject
 			array('integer'),
 			array($a_ref_id));
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			return $row->pobject_id;
+			return $row['pobject_id'];
 		}
 		return 0;
 	}
@@ -455,7 +458,7 @@ class ilPaymentObject
 	}
 	
 	// base method to check access for a specific object
-	function _hasAccess($a_ref_id, $a_transaction = 0)
+	function _hasAccess($a_ref_id, $a_transaction = 0, $a_subtype ='')
 	{
 		include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 		include_once './Services/Payment/classes/class.ilPaymentTrustees.php';
@@ -477,13 +480,13 @@ class ilPaymentObject
 			return true;
 		}
 
-			$result = $ilDB->queryf('
-				SELECT * FROM payment_objects
-				WHERE ref_id = %s
-				AND (status = %s OR status = %s)
-				OR (vendor_id = %s)',
-				array('integer', 'integer', 'integer','integer'),
-				array($a_ref_id, '1', '2',$ilUser->getId()));
+		$result = $ilDB->queryf('
+			SELECT * FROM payment_objects
+			WHERE ref_id = %s
+			AND (status = %s OR status = %s)
+			OR (vendor_id = %s)',
+			array('integer', 'integer', 'integer','integer'),
+			array($a_ref_id, '1', '2',$ilUser->getId()));
 		while($row = $ilDB->fetchObject($result))
 		{
 			if($row->vendor_id == $ilUser->getId() || in_array($row->vendor_id, $vendors_of_trustee))
@@ -517,7 +520,7 @@ class ilPaymentObject
 		return ilPaymentBookings::_getActivation($row->pobject_id);
 	}
 	
-	public static function _isBuyable($a_ref_id)
+	public static function _isBuyable($a_ref_id, $a_subtype = '')
 	{
 		global $ilDB;
 
@@ -553,9 +556,30 @@ class ilPaymentObject
 		return $rows ? false : true;
 	}
 	
-	public static function _requiresPurchaseToAccess($a_ref_id)
+
+	/**
+	 * this function should be used by all buyable repository objects !!
+	 *
+	 * @param <integer> $a_ref_id
+	 * @param <text> $a_purchasetype  ('buy', 'demo')
+	 * @return <bool>
+	 */
+	public static function _requiresPurchaseToAccess($a_ref_id, $a_purchasetype = '')
 	{
-		return (bool)(self::_isBuyable($a_ref_id) && !self::_hasAccess($a_ref_id));
+
+		global $ilUser,$ilObjDataCache;
+		/* Check:
+		 * - User has no Access -> return false
+		 * - User has Access but there are also Extension-Prices available -> User is able to buy the Object AGAIN to extend duration
+		 */
+
+		if( (self::_isBuyable($a_ref_id) && !self::_hasAccess($a_ref_id))
+		  || (self::_isBuyable($a_ref_id) && self::_hasAccess($a_ref_id)
+				&& self::_hasExtensions($a_ref_id) && isset($a_purchasetype)))
+		{
+			return true;
+		}
+		else return false;
 	}
 	
 	public static function _isInCart($a_ref_id)
@@ -590,6 +614,27 @@ class ilPaymentObject
 		return false;
 	}
 
+	public static function _hasExtensions($a_ref_id)
+	{
+		global $ilDB;
+
+		// user has already access to current object
+		// object contain buyable extension-prices
+
+		$res = $ilDB->queryf('
+			SELECT * FROM payment_prices pp, payment_objects po
+			WHERE po.ref_id = %s
+			AND pp.pobject_id = po.pobject_id
+			AND pp.extension = %s',
+			array('integer', 'integer'), array($a_ref_id, 1));
+
+		if($row = $ilDB->numRows($res))
+		{
+			return true;
+		}
+		return false;
+	}
+
 	private function __read()
 	{
 		if($this->getPobjectId())
@@ -612,5 +657,86 @@ class ilPaymentObject
 		
 		return false;
 	}
+
+	public static function _checkExcSubtype($a_ref_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF('SELECT * FROM payment_objects WHERE
+			ref_id = %s', array('integer'), array($a_ref_id));
+		$subtypes = array();
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$subtypes[] = $row['subtype'];
+		}
+		return $subtypes;
+	}
+
+	public static function getAllBuyableObjects()
+	{
+		global $ilDB;
+
+
+		$res = $ilDB->queryF('SELECT ref_id FROM payment_objects WHERE status = %s',
+				array('integer'), array(1));
+
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$obj[] = $row['ref_id'];
+		}
+		return $obj;
+	}
+
+	public static function _getSpecialObjects()
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF('SELECT * FROM payment_objects
+			WHERE is_special = %s AND status = %s
+			ORDER BY pt_topic_fk',
+			array('integer', 'integer'), array(1,1));
+
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$obj[] = $row;
+		}
+		return $obj;
+	}
+
+	public static function _getContainerObjects($a_ref_id)
+	{
+		global $ilDB, $tree;
+
+		$filter = array('file', 'exc', 'tst', 'icrs','crs','crsr','rcrs');
+		$objects = $tree->getChildsByTypeFilter($a_ref_id, $filter);
+
+		$res = array();
+		$counter =0;
+		foreach($objects as $object)
+		{
+			if(self::_isBuyable($object['ref_id']))
+			{
+				$res = $ilDB->queryF('SELECT * FROM payment_objects
+					WHERE ref_id = %s AND status = %s
+					ORDER BY pt_topic_fk',
+					array('integer', 'integer'), array($object['ref_id'],1));
+
+				while($row = $ilDB->fetchAssoc($res))
+				{
+					$obj_res[$counter] = $row;
+					#$obj_res[$counter]['ref_id'] = 	$object['ref_id'];
+					$obj_res[$counter]['obj_id'] = 	$object['obj_id'];
+					$obj_res[$counter]['type'] = 	$object['type'];
+					$obj_res[$counter]['title'] = 	$object['title'];
+					$obj_res[$counter]['child'] = 	$object['child'];
+					$obj_res[$counter]['description'] = $object['description'];
+				}
+			}
+
+			$counter++;
+		}
+		return $obj_res;
+	}
+
 } // END class.ilPaymentObject
 ?>
