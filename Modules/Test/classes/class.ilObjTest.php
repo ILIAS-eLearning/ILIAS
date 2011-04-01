@@ -1952,6 +1952,7 @@ class ilObjTest extends ilObject
 
 	function addRandomQuestionpoolData($count = 0, $qpl = 0, $position)
 	{
+		include_once "./Modules/Test/classes/class.ilRandomTestData.php";
 		if (array_key_exists($position, $this->random_questionpool_data))
 		{
 			$newitems = array();

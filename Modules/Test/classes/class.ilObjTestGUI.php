@@ -1698,7 +1698,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$ilUser->setPref("tst_question_selection_mode_equal", ($_POST['chbQuestionSelectionMode']) ? 1 : 0);
 			$ilUser->writePref("tst_question_selection_mode_equal", ($_POST['chbQuestionSelectionMode']) ? 1 : 0);
 			$this->object->setRandomQuestionCount($_POST['total_questions']);
-			if (is_array($_POST['source']['qpl']))
+			if (is_array($_POST['source']['qpl']) && count(array_unique($_POST['source']['qpl'])) == count($_POST['source']['qpl']))
 			{
 				$data = array();
 				include_once "./Modules/Test/classes/class.ilRandomTestData.php";

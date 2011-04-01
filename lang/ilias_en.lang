@@ -516,6 +516,7 @@ assessment#:#maxsize#:#Maximum file upload size
 assessment#:#meaning#:#Meaning
 assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved.
 assessment#:#msg_circle_added#:#Circle added
+assessment#:#msg_randompool_duplicate_qpl#:#Please use only unique question pools
 assessment#:#msg_deleted_export_files#:#Export file(s) deleted
 assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.
 assessment#:#msg_poly_added#:#Polygon added
