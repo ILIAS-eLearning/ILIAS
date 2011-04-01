@@ -163,7 +163,14 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 			$this->fillRow($item);
 		}
 
-
+		// show num obligatory info
+		if(count($a_set['grouped']))
+		{
+			$this->tpl->setCurrentBlock('num_passed_items');
+			$this->tpl->setVariable('NUM_OBLIGATORY', $a_set['num_obligatory']);
+			$this->tpl->setVariable('GRP_ID', $a_set['grouping_id']);
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 	/**
@@ -172,6 +179,8 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 	 */
 	protected function parseCollection()
 	{
+		$hasGroupedItems = false;
+
 		$this->collections = new ilLPCollections(ilObject::_lookupObjId($this->getNode()));
 
 		$items = ilLPCollections::_getPossibleItems($this->getNode());
@@ -188,25 +197,31 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 
 			if($this->getMode() == LP_MODE_COLLECTION)
 			{
-				$grouped_items = ilLPCollections::lookupGroupedItems(
-					ilObject::_lookupObjId($this->getNode()),
-					$item
-				);
-				if(count($grouped_items = ilLPCollections::lookupGroupedItems(ilObject::_lookupObjId($this->getNode()), $item)) > 1)
+				$grouped_items = ilLPCollections::lookupGroupedItems(ilObject::_lookupObjId($this->getNode()), $item);
+				if(count((array) $grouped_items['items']) > 1)
 				{
-					foreach($grouped_items as $gr)
+					foreach($grouped_items['items'] as $gr)
 					{
 						if($gr == $item)
 						{
 							continue;
 						}
 						$tmp['grouped'][] = $this->parseCollectionItem($gr);
+						$tmp['num_obligatory'] = $grouped_items['num_obligatory'];
+						$tmp['grouping_id'] = $grouped_items['grouping_id'];
+						$hasGroupedItems = true;
 						$done[] = $gr;
 					}
 				}
 			}
 			$data[] = $tmp;
 		}
+
+		if($hasGroupedItems)
+		{
+			$this->addCommandButton('saveObligatoryMaterials', $this->lng->txt('trac_group_materials_save'));
+		}
+
 		$this->setData((array) $data);
 	}
 

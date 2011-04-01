@@ -251,6 +251,41 @@ class ilLPCollections
 		return;
 	}
 
+	/** 
+	 * 
+	 * @param <type> $a_obj_id
+	 * @param array $a_obl 
+	 * throws UnexpectedValueException
+	 */
+	public static function saveObligatoryMaterials($a_obj_id, array $a_obl)
+	{
+		global $ilDB;
+
+		foreach($a_obl as $grouping_id => $num)
+		{
+			$query = "SELECT count(obj_id) num FROM ut_lp_collections ".
+				'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer').' '.
+				'AND grouping_id = '.$ilDB->quote($grouping_id,'integer').' '.
+				'GROUP BY obj_id';
+			$res = $ilDB->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				if($num <= 0 or $num >= $row->num)
+				{
+					throw new UnexpectedValueException();
+				}
+			}
+		}
+		foreach($a_obl as $grouping_id => $num)
+		{
+			$query = 'UPDATE ut_lp_collections '.
+				'SET num_obligatory = '.$ilDB->quote($num, 'integer').' '.
+				'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer').' '.
+				'AND grouping_id = '.$ilDB->quote($grouping_id,'integer');
+			$ilDB->manipulate($query);
+		}
+	}
+
 	/**
 	 * Release grouping of materials
 	 * @param int obj_id
@@ -324,7 +359,7 @@ class ilLPCollections
 			return array();
 		}
 
-		$query = "SELECT item_id FROM ut_lp_collections ".
+		$query = "SELECT item_id, num_obligatory FROM ut_lp_collections ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
 			"AND grouping_id = ".$ilDB->quote($grouping_id,'integer');
 		$res = $ilDB->query($query);
@@ -332,7 +367,9 @@ class ilLPCollections
 		$items = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$items[] = $row->item_id;
+			$items['items'][] = $row->item_id;
+			$items['num_obligatory'] = $row->num_obligatory;
+			$items['grouping_id'] = $grouping_id;
 		}
 		return $items;
 	}
@@ -482,6 +519,7 @@ class ilLPCollections
 			if(in_array($row->item_id,$items))
 			{
 				$grouped[$row->grouping_id]['items'][] = $row->item_id;
+				$grouped[$row->grouping_id]['num_obligatory'] = $row->num_obligatory;
 			}
 		}
 		return $grouped;
