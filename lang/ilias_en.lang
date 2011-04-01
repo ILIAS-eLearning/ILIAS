@@ -11055,7 +11055,7 @@ style#:#sty_type_sco_fmess#:#SCORM Final Message
 trac#:#trac_group_materials#:#Create Grouping with Optional Materials
 trac#:#trac_release_materials#:#Disintegrate Grouping with Optional Materials
 common#:#preconditions_obligatory_hint#:#You need to fullfill the following preconditions
-common#:#preconditions_optional_hint#:#Please fullfill one of the following preconditions
+common#:#preconditions_optional_hint#:#Please fullfill minimum <b>%s</b> of the following preconditions
 book#:#book_new#:#New Booking Pool
 book#:#book_add#:#Add Booking Pool
 book#:#book_edit#:#Edit Booking Pool
@@ -11076,3 +11076,9 @@ common#:#personal_settings#:#Settings
 certificate#:#certificate_ph_scormmaxpoints#:#Maximum value in the range for the raw score of the last relevant sco (most suitable for a final exam)
 certificate#:#certificate_ph_login#:#Login
 certificate#:#certificate_var_user_login#:#jdoe
+trac#:#trac_group_materials_save#:#Save Number of Obligatory Materials
+trac#:#trac_group_materials_num#:#Number of Obligatory Materials
+trac#:#trac_grouped_material_obligatory_err#:#Die Anzahl der zu bestehenden Materialien muss größer 0 und kleiner als die Anzahl der Materialien der Gruppierung sein.
+rbac#:#precondition_obligatory_settings#:#Precondition Settings
+rbac#:#precondition_num_obligatory#:#Number of Required Materials
+rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials which is required for fullfilling this precondition.

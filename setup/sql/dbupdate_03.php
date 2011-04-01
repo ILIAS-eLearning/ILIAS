@@ -4219,4 +4219,20 @@ if(!$ilDB->tableExists('acl_ws'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3251>
+<?php
+	if(!$ilDB->tableColumnExists('conditions','num_obligatory'))
+	{
+		$ilDB->addTableColumn(
+			'conditions',
+			'num_obligatory',
+			array(
+				'type'		=> 'integer',
+				'notnull'	=> true,
+				'length'	=> 1,
+				'default'	=> 0
+			)
+		);
+	}
+?>
 

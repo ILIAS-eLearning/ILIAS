@@ -1710,10 +1710,14 @@ class ilObjectListGUI
 	protected function parseConditions($conditions,$obligatory = true)
 	{
 		global $ilAccess, $lng, $objDefinition,$tree;
-
+		
+		$num_required = ilConditionHandler::calculateRequiredTriggers($this->ref_id, $this->obj_id);
+		$num_optional_required =
+			$num_required - count($conditions) + count(ilConditionHandler::getOptionalConditionsOfTarget($this->ref_id, $this->obj_id));
 
 		// Check if all conditions are fullfilled
 		$visible_conditions = array();
+		$passed_optional = 0;
 		foreach($conditions as $condition)
 		{
 			if($obligatory and !$condition['obligatory'])
@@ -1733,7 +1737,7 @@ class ilObjectListGUI
 			include_once 'Services/Container/classes/class.ilMemberViewSettings.php';
 			$ok = ilConditionHandler::_checkCondition($condition['id']) and
 				!ilMemberViewSettings::getInstance()->isActive();
-			
+
 			if(!$ok)
 			{
 				$visible_conditions[] = $condition['id'];
@@ -1741,12 +1745,14 @@ class ilObjectListGUI
 
 			if(!$obligatory and $ok)
 			{
-				// one optional is passed => don't show conditions
-				return true;
+				++$passed_optional;
+				// optional passed
+				if($passed_optional >= $num_optional_required)
+				{
+					return true;
+				}
 			}
 		}
-
-
 
 		foreach($conditions as $condition)
 		{
@@ -1795,7 +1801,7 @@ class ilObjectListGUI
 		elseif($missing_cond_exist and !$obligatory)
 		{
 			$this->tpl->setCurrentBlock("preconditions");
-			$this->tpl->setVariable("TXT_PRECONDITIONS", $lng->txt("preconditions_optional_hint"));
+			$this->tpl->setVariable("TXT_PRECONDITIONS", sprintf($lng->txt("preconditions_optional_hint"),$num_optional_required));
 			$this->tpl->parseCurrentBlock();
 		}
 

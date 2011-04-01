@@ -752,6 +752,78 @@ class ilConditionHandler
 	}
 
 	/**
+	 * Get optional conditions
+	 * @param int $a_target_ref_id
+	 * @param int $a_target_obj_id
+	 */
+	public static function getOptionalConditionsOfTarget($a_target_ref_id,$a_target_obj_id,$a_obj_type = '')
+	{
+		$conditions = self::_getConditionsOfTarget($a_target_ref_id,$a_target_obj_id);
+		
+		$opt = array();
+		foreach($conditions as $con)
+		{
+			if($con['obligatory'])
+			{
+				continue;
+			}
+			
+			$opt[] = $con;
+		}
+		return $opt;
+	}
+
+	/**
+	 * calculate number of obligatory items
+	 * @param int $a_target_ref_id
+	 * @param int $a_target_obj_id
+	 * @return int
+	 */
+	public static function calculateRequiredTriggers($a_target_ref_id,$a_target_obj_id,$a_target_obj_type = '')
+	{
+		global $ilDB;
+
+		// Get all conditions
+		$all = self::_getConditionsOfTarget($a_target_ref_id,$a_target_obj_id,$a_target_obj_type);
+		$opt = self::getOptionalConditionsOfTarget($a_target_ref_id, $a_target_obj_id,$a_target_obj_type);
+
+		$set_obl = 0;
+		if(isset($all[0]))
+		{
+			$set_obl = $all[0]['num_obligatory'];
+		}
+
+		if($set_obl > 0 and
+			$set_obl < count($all) and
+			$set_obl > (count($all) - count($opt)  + 1))
+		{
+			return $set_obl;
+		}
+		if(count($opt))
+		{
+			return count($all) - count($opt) + 1;
+		}
+		return count($opt);
+	}
+
+	/**
+	 * Save number of obigatory triggers
+	 * @param int $a_target_ref_id
+	 * @param int $a_target_obj_id
+	 */
+	public static function saveNumberOfRequiredTriggers($a_target_ref_id,$a_target_obj_id,$a_num)
+	{
+		global $ilDB;
+
+		$query = 'UPDATE conditions '.
+			'SET num_obligatory = '.$ilDB->quote($a_num,'integer').' '.
+			'WHERE target_ref_id = '.$ilDB->quote($a_target_ref_id,'integer').' '.
+			'AND target_obj_id = '.$ilDB->quote($a_target_obj_id,'integer');
+		$ilDB->manipulate($query);
+		return;
+	}
+
+	/**
 	* checks wether all conditions of a target object are fulfilled
 	*/
 	function _checkAllConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type = "",$a_usr_id = 0)
@@ -760,60 +832,50 @@ class ilConditionHandler
 		
 		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 
-		// First check obligatory conditions
-		$has_optional_conditions = false;
-		foreach(ilConditionHandler::_getConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type) as $condition)
-		{
-			if(!$condition['obligatory'])
-			{
-				$GLOBALS['ilLog']->write(__METHOD__ . ': Optional preconditions available');
-				$has_optional_conditions = true;
-				continue;
-			}
-			if($tree->isDeleted($condition['trigger_ref_id']))
-			{
-				continue;
-			}
+		$conditions = ilConditionHandler::_getConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type);
 
-			$ilBench->start("ilConditionHandler", "checkCondition");
-			$check = ilConditionHandler::_checkCondition($condition['id'],$a_usr_id);
-			$ilBench->stop("ilConditionHandler", "checkCondition");
-
-			include_once './Services/Container/classes/class.ilMemberViewSettings.php';
-			if(!$check and !ilMemberViewSettings::getInstance()->isActive())
-			{
-				return false;
-			}
-		}
-
-		if(!$has_optional_conditions)
+		if(!count($conditions))
 		{
 			return true;
 		}
 
-		// Now check optional preconditions
-		foreach(ilConditionHandler::_getConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type) as $condition)
+		// @todo check this
+		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
+		if(ilMemberViewSettings::getInstance()->isActive())
 		{
-			if($condition['obligatory'])
-			{
-				continue;
-			}
+			return true;
+		}
+
+		// First check obligatory conditions
+		$optional = self::getOptionalConditionsOfTarget($a_target_ref_id, $a_target_id, $a_target_type);
+		$num_required = self::calculateRequiredTriggers($a_target_ref_id, $a_target_id, $a_target_type);
+		$passed = 0;
+
+		foreach($conditions as $condition)
+		{
 			if($tree->isDeleted($condition['trigger_ref_id']))
 			{
 				continue;
 			}
 			$check = ilConditionHandler::_checkCondition($condition['id'],$a_usr_id);
 
-			$GLOBALS['ilLog']->write(__METHOD__.': Result of optional check: '.($check ? "true" : "false"));
-
-			// One is sufficient
 			if($check)
 			{
-				return true;
+				++$passed;
+				if($passed == $num_required)
+				{
+					return true;
+				}
 			}
-
+			else
+			{
+				if(!count($optional))
+				{
+					return false;
+				}
+			}
 		}
-		// Not all optional preconditions fullfilled.
+		// not all optional conditions passed
 		return false;
 	}
 
