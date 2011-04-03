@@ -1467,7 +1467,7 @@ class ilTemplate extends ilTemplateX
 	/**
 	* Fill main content
 	*/
-	private function fillMainContent()
+	public function fillMainContent()
 	{
 		if (trim($this->main_content) != "")
 		{

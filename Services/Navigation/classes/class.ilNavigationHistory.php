@@ -56,7 +56,7 @@ class ilNavigationHistory
 	* Add an item to the stack. If ref_id is already used,
 	* the item is moved to the top.
 	*/
-	public function addItem($a_ref_id, $a_link, $a_type, $a_title = "")
+	public function addItem($a_ref_id, $a_link, $a_type, $a_title = "", $a_sub_obj_id = "")
 	{
 		if ($a_title == "" && $a_ref_id > 0)
 		{
@@ -66,11 +66,13 @@ class ilNavigationHistory
 				$a_title = ilObject::_lookupTitle($obj_id);
 			}
 		}
-		
+
+		$id = $a_ref_id.":".$a_sub_obj_id;
+
 		// remove ref id from stack, if existing
 		foreach($this->items as $key => $item)
 		{
-			if ($item["ref_id"] == $a_ref_id)
+			if ($item["id"] == $id)
 			{
 				array_splice($this->items, $key, 1);
 				break;
@@ -78,7 +80,7 @@ class ilNavigationHistory
 		}
 		
 		$this->items = array_merge(
-			array(array("ref_id" => $a_ref_id, "link" => $a_link, "title" => $a_title,
+			array(array("id" => $id,"ref_id" => $a_ref_id, "link" => $a_link, "title" => $a_title,
 			"type" => $a_type)), $this->items);
 		
 		$items  = serialize($this->items);

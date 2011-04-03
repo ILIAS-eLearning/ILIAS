@@ -282,7 +282,7 @@ class ilObjForum extends ilObject
 			array('integer', 'integer'),
 			array($a_usr_id, $a_post_id));
 		
-		return $res->numRows() ? true : false;
+		return $ilDB->numRows($res) ? true : false;
 	}
 
 

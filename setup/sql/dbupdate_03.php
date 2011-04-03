@@ -4293,3 +4293,147 @@ if(!$ilDB->tableExists('acl_ws'))
 			array('booking_id' => array('integer', $row['booking_id'])));
 	}
 ?>
+<#3255>
+<?php
+
+if (!$ilDB->tableColumnExists("il_wiki_data", "imp_pages"))
+{
+	$ilDB->addTableColumn("il_wiki_data", "imp_pages", array(
+		"type" => "integer",
+		"notnull" => false,
+		"length" => 1
+	));
+}
+?>
+<#3256>
+<?php
+if (!$ilDB->tableExists('il_wiki_imp_pages'))
+{
+	$fields = array(
+		'wiki_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+			),
+		'ord' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+			),
+		'indent' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true
+			),
+		'page_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+			)
+	);
+	$ilDB->createTable('il_wiki_imp_pages', $fields);
+}
+?>
+<#3257>
+<?php
+if (!$ilDB->tableExists('adm_settings_template'))
+{
+	$fields = array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+			),
+		'type' => array(
+			'type' => 'text',
+			'length' => 5,
+			'notnull' => true
+			),
+		'title' => array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => true
+			),
+		'description' => array(
+			'type' => 'clob'
+			)
+	);
+	$ilDB->createTable('adm_settings_template', $fields);
+	$ilDB->createSequence('adm_settings_template');
+}
+?>
+<#3258>
+<?php
+if (!$ilDB->tableExists('adm_set_templ_value'))
+{
+	$fields = array(
+		'template_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+			),
+		'setting' => array(
+			'type' => 'text',
+			'length' => 40,
+			'notnull' => true
+			),
+		'value' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+			),
+		'hide' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+			),
+	);
+	$ilDB->createTable('adm_set_templ_value', $fields);
+}
+?>
+<#3259>
+<?php
+if (!$ilDB->tableExists('adm_set_templ_hide_tab'))
+{
+	$fields = array(
+		'template_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+			),
+		'tab_id' => array(
+			'type' => 'text',
+			'length' => 80,
+			'notnull' => true
+			)
+	);
+	$ilDB->createTable('adm_set_templ_hide_tab', $fields);
+}
+?>
+<#3260>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3261>
+<?php
+if (!$ilDB->tableColumnExists("il_wiki_data", "page_toc"))
+{
+	$ilDB->addTableColumn("il_wiki_data", "page_toc", array(
+		"type" => "integer",
+		"notnull" => false,
+		"length" => 1
+	));
+}
+?>
+<#3262>
+<?php
+if (!$ilDB->tableColumnExists("il_wiki_page", "blocked"))
+{
+	$ilDB->addTableColumn("il_wiki_page", "blocked", array(
+		"type" => "integer",
+		"notnull" => false,
+		"length" => 1
+	));
+}
+?>
+

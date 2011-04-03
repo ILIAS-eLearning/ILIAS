@@ -1,4 +1,4 @@
-<div id="treeView" style="background-color:#FAFAFA;"></div>
+<div id="treeView" style="background-color:#FAFAFA; width:350px;"></div>
 <script type="text/javascript">
 /*<![CDATA[*/
 (function(){	
@@ -101,10 +101,13 @@
 	//the tree won't show up until you draw (render) it:
 	tree.draw();
 
-	if ({THR_OPEN_NODES}.length == 0 || {OLD_THR_ID} != {NEW_THR_ID})
+//	if ({THR_OPEN_NODES}.length == 0 || {OLD_THR_ID} != {NEW_THR_ID})
 		tree.expandAll();
-	else
-		tree.expandCertainNodes({THR_OPEN_NODES});
+		
+//	else
+//		tree.expandCertainNodes({THR_OPEN_NODES});
+
+
 })();
 /*]]>*/
 </script>

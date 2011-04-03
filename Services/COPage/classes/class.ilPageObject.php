@@ -186,7 +186,26 @@ class ilPageObject
 	{
 		return $this->layout_mode;
 	}
-	
+
+	/**
+	 * Set last change user
+	 *
+	 * @param	integer	$a_val	last change user
+	 */
+	public function setLastChangeUser($a_val)
+	{
+		$this->last_change_user = $a_val;
+	}
+
+	/**
+	 * Get last change user
+	 *
+	 * @return	integer	last change user
+	 */
+	public function getLastChangeUser()
+	{
+		return $this->last_change_user;
+	}
 
 	/**
 	* read page data

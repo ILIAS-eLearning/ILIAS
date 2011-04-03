@@ -189,7 +189,25 @@ class ilStr
 		}
 		return false;
 	}
-	
 
-} // END class.ilUtil
+
+	/**
+	 * Get all positions of a string
+	 *
+	 * @param string the string to search in
+	 * @param string the string to search for
+	 * @return array all occurences of needle in haystack
+	 */
+	public static function strPosAll($a_haystack, $a_needle)
+	{
+		$positions = array();
+		$cpos = 0;
+		while(is_int($pos = strpos($a_haystack, $a_needle, $cpos)))
+		{
+			$positions[] = $pos;
+			$cpos = $pos+1;
+		}
+		return $positions;
+	}
+}
 ?>

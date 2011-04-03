@@ -26,6 +26,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 		// needed for notifications
 		$this->setWikiRefId($a_wiki_ref_id);
+
+		$this->setPageToc(ilObjWiki::_lookupPageToc(
+			ilObject::_lookupObjId($a_wiki_ref_id)));
 		
 		parent::__construct("wpg", $a_id, $a_old_nr);
 		
@@ -165,15 +168,25 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	{
 		global $tpl;
 		
-		// side block
+		// search block
+		include_once("./Modules/Wiki/classes/class.ilWikiSearchBlockGUI.php");
+		$wiki_search_block = new ilWikiSearchBlockGUI();
+
+		// quick navigation
 		include_once("./Modules/Wiki/classes/class.ilWikiSideBlockGUI.php");
 		$wiki_side_block = new ilWikiSideBlockGUI();
 		$wiki_side_block->setPageObject($this->getWikiPage());
 		
-		// search block
-		include_once("./Modules/Wiki/classes/class.ilWikiSearchBlockGUI.php");
-		$wiki_search_block = new ilWikiSearchBlockGUI();
-		$rcontent = $wiki_side_block->getHTML().$wiki_search_block->getHTML();
+		$rcontent = $wiki_search_block->getHTML().$wiki_side_block->getHTML();
+
+		// important pages
+		if (ilObjWiki::_lookupImportantPages(ilObject::_lookupObjId($this->wiki_ref_id)))
+		{
+			include_once("./Modules/Wiki/classes/class.ilWikiImportantPagesBlockGUI.php");
+			$imp_pages_block = new ilWikiImportantPagesBlockGUI();
+			$rcontent.= $imp_pages_block->getHTML();
+		}
+
 
 		$tpl->setRightContent($rcontent);
 	}
@@ -195,6 +208,32 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$page_commands = false;
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
+			// rename page
+			$wtpl->setCurrentBlock("page_command");
+			$wtpl->setVariable("HREF_PAGE_CMD",
+				$ilCtrl->getLinkTarget($this, "renameWikiPage"));
+			$wtpl->setVariable("TXT_PAGE_CMD", $lng->txt("wiki_rename"));
+			$wtpl->parseCurrentBlock();
+
+			// block/unblock
+			if ($this->getPageObject()->getBlocked())
+			{
+				$wtpl->setCurrentBlock("page_command");
+				$wtpl->setVariable("HREF_PAGE_CMD",
+					$ilCtrl->getLinkTarget($this, "unblockWikiPage"));
+				$wtpl->setVariable("TXT_PAGE_CMD", $lng->txt("wiki_unblock"));
+				$wtpl->parseCurrentBlock();
+			}
+			else
+			{
+				$wtpl->setCurrentBlock("page_command");
+				$wtpl->setVariable("HREF_PAGE_CMD",
+					$ilCtrl->getLinkTarget($this, "blockWikiPage"));
+				$wtpl->setVariable("TXT_PAGE_CMD", $lng->txt("wiki_block"));
+				$wtpl->parseCurrentBlock();
+			}
+
+			// delete page
 			$st_page = ilObjWiki::_lookupStartPage($this->getPageObject()->getParentId());
 			if ($st_page != $this->getPageObject()->getTitle())
 			{
@@ -274,10 +313,19 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
 		$perma_link = new ilPermanentLinkGUI("wiki", $_GET["ref_id"], $append);
 		$wtpl->setVariable("PERMA_LINK", $perma_link->getHTML());
-		
+
+		// page content
 		$wtpl->setVariable("PAGE", parent::preview());
 
 		$tpl->setLoginTargetPar("wiki_".$_GET["ref_id"].$append);
+
+		// last edited info
+		$wtpl->setVariable("LAST_EDITED_INFO",
+			$lng->txt("wiki_last_edited").": ".
+			ilDatePresentation::formatDate(
+				new ilDateTime($this->getPageObject()->getLastChange(),IL_CAL_DATETIME)).", ".
+			ilUserUtil::getNamePresentation($this->getPageObject()->getLastChangeUser(),
+				false, false));
 		
 		//highlighting
 		if ($_GET["srcstring"] != "")
@@ -333,7 +381,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 //echo htmlentities($a_output);
 		include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
 		$output = ilWikiUtil::replaceInternalLinks($a_output,
-			$this->getWikiPage()->getWikiId());
+			$this->getWikiPage()->getWikiId(),
+			($this->getOutputMode() == "offline"));
 		return $output;
 	}
 	
@@ -537,5 +586,121 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		//$this->form->setFormAction($ilCtrl->getFormAction($this));
 	}
 
+	////
+	//// Block/Unblock
+	////
+
+	/**
+	 * Block
+	 */
+	function blockWikiPage()
+	{
+		global $ilAccess, $tpl, $ilCtrl, $lng;
+
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$this->getPageObject()->setBlocked(true);
+			$this->getPageObject()->update();
+
+			ilUtil::sendSuccess($lng->txt("wiki_page_blocked"), true);
+		}
+
+		$ilCtrl->redirect($this, "preview");
+	}
+
+	/**
+	 * Unblock
+	 */
+	function unblockWikiPage()
+	{
+		global $ilAccess, $tpl, $ilCtrl, $lng;
+
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$this->getPageObject()->setBlocked(false);
+			$this->getPageObject()->update();
+
+			ilUtil::sendSuccess($lng->txt("wiki_page_unblocked"), true);
+		}
+
+		$ilCtrl->redirect($this, "preview");
+	}
+
+	////
+	//// Rename
+	////
+
+	/**
+	 * Rename wiki page form
+	 */
+	function renameWikiPage()
+	{
+		global $ilAccess, $tpl, $ilCtrl, $lng;
+
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$this->initRenameForm();
+			$tpl->setContent($this->form->getHTML());
+		}
+	}
+
+	/**
+	 * Init renaming form.
+	 *
+	 * @param        int        $a_mode        Edit Mode
+	 */
+	protected function initRenameForm()
+	{
+		global $lng, $ilCtrl;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+
+		// new name
+		$ti = new ilTextInputGUI($lng->txt("wiki_new_page_name"), "new_page_name");
+		$ti->setMaxLength(200);
+		$ti->setSize(50);
+		$ti->setValue($this->getPageObject()->getTitle());
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+
+		$this->form->addCommandButton("renamePage", $lng->txt("wiki_rename"));
+		$this->form->addCommandButton("preview", $lng->txt("cancel"));
+
+		$this->form->setTitle($lng->txt("wiki_rename_page"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	 * Rename page
+	 */
+	public function renamePage()
+	{
+		global $tpl, $lng, $ilCtrl, $ilAccess;
+
+		$this->initRenameForm();
+		if ($this->form->checkInput())
+		{
+			if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+			{
+				$new_name = $this->form->getInput("new_page_name");
+
+				if (ilWikiPage::exists($this->getPageObject()->getWikiId(), $new_name))
+				{
+					ilUtil::sendFailure($lng->txt("wiki_page_already_exists"));
+				}
+				else
+				{
+					$this->getPageObject()->rename($new_name);
+					$ilCtrl->setParameterByClass("ilobjwikigui", "page", ilWikiUtil::makeUrlTitle($new_name));
+					ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+					$ilCtrl->redirect($this, "preview");
+				}
+			}
+		}
+
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
 } 
 ?>

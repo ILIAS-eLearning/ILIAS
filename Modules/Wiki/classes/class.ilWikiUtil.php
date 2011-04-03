@@ -58,9 +58,10 @@ class ilWikiUtil
 	*
 	* @return	string		output string
 	*/
-	static function replaceInternalLinks($s, $a_wiki_id)
+	static function replaceInternalLinks($s, $a_wiki_id, $a_offline = false)
 	{
-		return ilWikiUtil::processInternalLinks($s, $a_wiki_id);
+		return ilWikiUtil::processInternalLinks($s, $a_wiki_id,
+			IL_WIKI_MODE_REPLACE, false, $a_offline);
 	}
 
 	/**
@@ -83,7 +84,8 @@ class ilWikiUtil
 	* mode
 	*/
 	static function processInternalLinks($s, $a_wiki_id,
-		$a_mode = IL_WIKI_MODE_REPLACE, $a_collect_non_ex = false)
+		$a_mode = IL_WIKI_MODE_REPLACE, $a_collect_non_ex = false,
+		$a_offline = false)
 	{
 		$collect = array();
 		// both from mediawiki DefaulSettings.php
@@ -391,7 +393,8 @@ class ilWikiUtil
 			// Media wiki performs an intermediate step here (Parser->makeLinkHolder)
 			if ($a_mode == IL_WIKI_MODE_REPLACE)
 			{
-				$s .= ilWikiUtil::makeLink($nt, $a_wiki_id, $text, '', $trail, $prefix);
+				$s .= ilWikiUtil::makeLink($nt, $a_wiki_id, $text, '', $trail, $prefix,
+					$a_offline);
 //echo "<br>-".htmlentities($s)."-";
 			}
 			else
@@ -434,10 +437,11 @@ class ilWikiUtil
 	/**
 	* Media wiki performs an intermediate step here (
 	*/
-	static function makeLink( &$nt, $a_wiki_id, $text = '', $query = '', $trail = '', $prefix = '' )
+	static function makeLink( &$nt, $a_wiki_id, $text = '', $query = '', $trail = '', $prefix = '',
+		$a_offline = false)
 	{
 		global $ilCtrl;
-		
+
 		//wfProfileIn( __METHOD__ );
 		if ( ! is_object($nt) ) {
 			# Fail gracefully
@@ -452,13 +456,32 @@ class ilWikiUtil
 			//$retVal = '***'.$text."***".$trail;
 			$url_title = ilWikiUtil::makeUrlTitle($nt->mTextform);
 			$db_title = ilWikiUtil::makeDbTitle($nt->mTextform);
-			$wiki_link_class = (!ilWikiPage::_wikiPageExists($a_wiki_id, $db_title))
+			$pg_exists = ilWikiPage::_wikiPageExists($a_wiki_id, $db_title);
+
+			$wiki_link_class = (!$pg_exists)
 				? ' class="ilWikiPageMissing" ' : "";
-			
-			$ilCtrl->setParameterByClass("ilobjwikigui", "page", $url_title);
-			$retVal = '<a '.$wiki_link_class.' href="'.
-				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoPage").
-				'">'.$text.'</a>'.$trail;
+
+			if (!$a_offline)
+			{
+				$ilCtrl->setParameterByClass("ilobjwikigui", "page", $url_title);
+				$retVal = '<a '.$wiki_link_class.' href="'.
+					$ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoPage").
+					'">'.$text.'</a>'.$trail;
+			}
+			else
+			{
+				if ($pg_exists)
+				{
+					$pg_id = ilWikiPage::getIdForPageTitle($a_wiki_id, $db_title);
+					$retVal = '<a '.$wiki_link_class.' href="'.
+						"wpg_".$pg_id.".html".
+						'">'.$text.'</a>'.$trail;
+				}
+				else
+				{
+					$retVal = $text.$trail;
+				}
+			}
 
 //$ilCtrl->debug("ilWikiUtil::makeLink:-$inside-$trail-");
 /*			if ( $nt->isExternal() ) {
