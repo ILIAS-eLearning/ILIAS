@@ -11090,3 +11090,36 @@ common#:#bought_objects_expire_soon#:#For some of your bought objects the access
 common#:#access_enddate#:#Access Enddate
 payment#:#buy_extension#:#Buy Extension
 payment#:#extension_price#:#Extension Price
+wiki#:#wiki_important_pages#:#Important Pages
+wiki#:#wiki_ordering#:#Ordering
+wiki#:#wiki_indentation#:#Indentation
+wiki#:#wiki_save_ordering_and_indent#:#Save Ordering and Indentation
+wiki#:#wiki_sure_remove_imp_pages#:#Do you really want to remove the following pages from the list of important pages?
+wiki#:#wiki_removed_imp_pages#:#Important pages removed from list.
+wiki#:#wiki_ordering_and_indent_saved#:#Ordering and Indentation saved.
+wiki#:#wiki_imp_page_added#:#Page added.
+administration#:#adm_settings_templates#:#Settings Templates
+administration#:#adm_add_settings_template#:#Add Template
+administration#:#adm_edit_settings_template#:#Edit Template
+administration#:#adm_hide_tabs#:#Hide Tabs
+administration#:#adm_predefined_settings#:#Predefined Settings
+administration#:#adm_value#:#Value
+administration#:#adm_hide#:#Hide
+administration#:#adm_sure_delete_settings_template#:#Do you really want to delete the following templates?
+survey#:#survey_prev_question#:#Previous Question
+survey#:#survey_next_question#:#Next Question
+survey#:#survey_jump_to#:#Jump To
+survey#:#survey_add_new_question#:#Add new Question
+survey#:#survey_use_pool#:#Use Pool
+content#:#cont_page_toc#:#Page Overview
+wiki#:#wiki_page_toc#:#Enable Page Overview Block
+wiki#:#wiki_page_toc_info#:#This lists all headings linked to the content at the beginning of each page if that page uses at least two headings.
+wiki#:#wiki_block#:#Block
+wiki#:#wiki_unblock#:#Unblock
+wiki#:#wiki_page_unblocked#:#Wiki page unblocked.
+wiki#:#wiki_page_blocked#:#Wiki page blocked.
+wiki#:#wiki_last_edited#:#Last edited
+wiki#:#wiki_rename#:#Rename
+wiki#:#wiki_page_already_exists#:#A page with this title already exists.
+wiki#:#wiki_rename_page#:#Rename Page
+wiki#:#wiki_new_page_name#:#New Title

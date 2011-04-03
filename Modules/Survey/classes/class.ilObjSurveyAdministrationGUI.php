@@ -29,7 +29,7 @@ include_once "./classes/class.ilObjectGUI.php";
 * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjSurveyAdministrationGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjSurveyAdministrationGUI: ilPermissionGUI, ilSettingsTemplateGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesSurvey
@@ -54,6 +54,8 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	
 	function &executeCommand()
 	{
+		global $ilTabs;
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
@@ -61,9 +63,17 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
+				$ilTabs->activateTab("perm_settings");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+
+			case 'ilsettingstemplategui':
+				$ilTabs->activateTab("templates");
+				include_once("./Services/Administration/classes/class.ilSettingsTemplateGUI.php");
+				$set_tpl_gui = new ilSettingsTemplateGUI($this->getSettingsTemplateConfig());
+				$this->ctrl->forwardCommand($set_tpl_gui);
 				break;
 
 			default:
@@ -153,7 +163,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("adm_remove_select_user"), TRUE);
 		}
 		$this->ctrl->redirect($this, "specialusers");
-			}
+	}
 	
 	/**
 	* Add/remove users who may run a survey multiple times
@@ -162,7 +172,9 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	*/
 	function specialusersObject()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilTabs;
+
+		$ilTabs->activateTab("specialusers");
 		
 		$a_write_access = ($ilAccess->checkAccess("write", "", $this->object->getRefId())) ? true : false;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_adm_specialusers.html", "Modules/Survey");
@@ -232,7 +244,9 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	*/
 	function settingsObject()
 	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl, $tpl;
+		global $ilAccess, $rbacreview, $lng, $ilCtrl, $tpl, $ilTabs;
+
+		$ilTabs->activateTab("settings");
 		
 		$surveySetting = new ilSetting("survey");
 		$unlimited_invitation = array_key_exists("unlimited_invitation", $_GET) ? $_GET["unlimited_invitation"] : $surveySetting->get("unlimited_invitation");
@@ -298,18 +312,70 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $ilAccess;
+		global $ilAccess, $lng;
 
 		if ($ilAccess->checkAccess("read",'',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings", $this->ctrl->getLinkTarget($this, "settings"), array("settings","","view"), "", "");
-			$tabs_gui->addTarget("specialusers", $this->ctrl->getLinkTarget($this, "specialusers"), array("specialusers"), "", "");
+			$tabs_gui->addTab("settings",
+				$lng->txt("settings"),
+				$this->ctrl->getLinkTarget($this, "settings"));
+
+			$tabs_gui->addTab("specialusers",
+				$lng->txt("specialusers"),
+				$this->ctrl->getLinkTarget($this, "specialusers"));
+
+			$tabs_gui->addTab("templates",
+				$lng->txt("adm_settings_templates"),
+				$this->ctrl->getLinkTargetByClass("ilsettingstemplategui", ""));
 		}
 		if ($ilAccess->checkAccess("edit_permission",'',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+			$tabs_gui->addTab("perm_settings",
+				$lng->txt("perm_settings"),
+				$this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"));
 		}
 	}
+
+	/**
+	 * Get settings template configuration object
+	 *
+	 * @param
+	 * @return object settings template configuration object
+	 */
+	private function getSettingsTemplateConfig()
+	{
+		global $lng;
+
+		include_once("./Services/Administration/classes/class.ilSettingsTemplateConfig.php");
+		$config = new ilSettingsTemplateConfig("svy");
+		$config->addHidableTab("this", "this tab");
+		$config->addHidableTab("that", "that tab");
+		$config->addSetting(
+			"introduction",
+			ilSettingsTemplateConfig::TEXT,
+			$lng->txt("svy_introduction"),
+			true
+			);
+		$config->addSetting(
+			"anonymization",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("svy_anonymization"),
+			true
+			);
+		$config->addSetting(
+			"access",
+			ilSettingsTemplateConfig::SELECT,
+			$lng->txt("svy_evaluation_access"),
+			true,
+			0,
+			array(
+				0 => $lng->txt("svy_evaluation_access_0"),
+				1 => $lng->txt("svy_evaluation_access_1"),
+				2 => $lng->txt("svy_evaluation_access_2")
+			)
+			);
+		return $config;
+	}
+
 } // END class.ilObjSurveyAdministrationGUI
 ?>

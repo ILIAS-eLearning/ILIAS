@@ -61,12 +61,34 @@ class ilWikiHandlerGUI
 		// add entry to navigation history
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
+			$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+			$title = ilObject::_lookupTitle($obj_id);
+
 			if ($_GET["page"] != "")
 			{
-				$add = "_".rawurlencode($_GET["page"]);
+				$page = $_GET["page"];
 			}
-			$ilNavigationHistory->addItem($_GET["ref_id"],
-				"./goto.php?target=wiki_".$_GET["ref_id"].$add, "wiki");
+			else
+			{
+				include_once("./Modules/Wiki/classes/class.ilObjWiki.php");
+				$page = ilObjWiki::_lookupStartPage($obj_id);
+			}
+
+			include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+			if (ilWikiPage::exists($obj_id, $page))
+			{
+				include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+
+				$add = "_".rawurlencode($page);
+
+				$page_id = ilWikiPage::getPageIdForTitle($obj_id, $page);
+				$ptitle = ilWikiPage::lookupTitle($page_id);
+				
+				$title.= ": ".$ptitle;
+				$ilNavigationHistory->addItem($_GET["ref_id"],
+					"./goto.php?target=wiki_".$_GET["ref_id"].$add, "wiki",
+					$title, $page_id);
+			}
 		}
 
 		switch ($next_class)

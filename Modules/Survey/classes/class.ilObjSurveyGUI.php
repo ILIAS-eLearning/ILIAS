@@ -3452,8 +3452,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function questionsSubtabs($a_cmd)
 	{
+		$questions_per_page = ($a_cmd == 'questions_per_page') ? true : false;
 		$questions = ($a_cmd == 'questions') ? true : false;
 		$printview = ($a_cmd == 'printview') ? true : false;
+
+		$this->tabs_gui->addSubTabTarget("survey_per_page_view", $this->ctrl->getLinkTarget($this, "showQuestionsPerPage"),
+			 "", "", "", $questions_per_page);
 
 		$this->tabs_gui->addSubTabTarget("survey_question_editor", $this->ctrl->getLinkTarget($this, "questions"),
 										 "", "", "", $questions);
@@ -3746,6 +3750,69 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+	}
+
+	//
+	// Questions per page view
+	//
+
+	/**
+	 * Questions per page
+	 *
+	 * @param
+	 * @return
+	 */
+	function showQuestionsPerPageObject()
+	{
+		global $ilToolbar, $ilCtrl, $lng;
+
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		$ilToolbar->addFormButton($lng->txt("survey_prev_question"),
+			"showQuestionsPerPage");
+		$ilToolbar->addFormButton($lng->txt("survey_next_question"),
+			"showQuestionsPerPage");
+		$ilToolbar->addSeparator();
+
+		// desc
+		$options = array(
+			"1" => $lng->txt("Question 1"),
+			"2" => $lng->txt("Question 2"),
+			"3" => $lng->txt("Question 3")
+			);
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$si = new ilSelectInputGUI($lng->txt("survey_jump_to"), "qpage_id");
+		$si->setOptions($options);
+		$ilToolbar->addInputItem($si, true);
+		$ilToolbar->addFormButton($lng->txt("go"),
+			"showQuestionsPerPage");
+		$ilToolbar->addSeparator();
+
+		// add new question
+		$options = array(
+			"1" => $lng->txt("Type 1"),
+			"2" => $lng->txt("Type 2"),
+			"3" => $lng->txt("Type 3")
+			);
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$si = new ilSelectInputGUI($lng->txt("survey_add_new_question"), "qtype");
+		$si->setOptions($options);
+		$ilToolbar->addInputItem($si, true);
+
+		$options = array(
+			"1" => $lng->txt("survey_before_current_position"),
+			"2" => $lng->txt("survey_after_current_position")
+			);
+
+		// desc
+		include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
+		$cb = new ilCheckboxInputGUI($lng->txt("survey_use_pool"), "use_pool");
+		//$cb->setOptionTitle($lng->txt(""));
+		//$cb->setInfo($lng->txt(""));
+		$ilToolbar->addInputItem($cb, true);
+
+		$ilToolbar->addFormButton($lng->txt("add"),
+			"addPageOfQuestions");
+
 	}
 
 } // END class.ilObjSurveyGUI

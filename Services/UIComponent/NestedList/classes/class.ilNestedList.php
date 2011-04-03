@@ -10,8 +10,9 @@
  */
 class ilNestedList
 {
-	var $item_class = "il_Explorer";
-	var $list_class = "il_Explorer";
+	protected $item_class = "il_Explorer";
+	protected $list_class = "il_Explorer";
+	protected $auto_numbering = false;
 
 	/**
 	 * Constructor
@@ -77,6 +78,26 @@ class ilNestedList
 	}
 
 	/**
+	 * Set auto numbering
+	 *
+	 * @param	bool	$a_val	auto numbering
+	 */
+	public function setAutoNumbering($a_val)
+	{
+		$this->auto_numbering = $a_val;
+	}
+
+	/**
+	 * Get auto numbering
+	 *
+	 * @return	bool	auto numbering
+	 */
+	public function getAutoNumbering()
+	{
+		return $this->auto_numbering;
+	}
+
+	/**
 	 * Get HTML
 	 *
 	 * @param
@@ -86,12 +107,14 @@ class ilNestedList
 	{
 		$tpl = new ilTemplate("tpl.nested_list.html", true, true, "Services/UIComponent/NestedList");
 
+		$nr = array();
+		$depth = 1;
 		if (is_array($this->childs[0]) && count($this->childs[0]) > 0)
 		{
 			$this->listStart($tpl);
 			foreach ($this->childs[0] as $child)
 			{
-				$this->renderNode($child, $tpl);
+				$this->renderNode($child, $tpl, $depth, $nr);
 			}
 			$this->listEnd($tpl);
 		}
@@ -105,11 +128,31 @@ class ilNestedList
 	 * @param
 	 * @return
 	 */
-	function renderNode($a_id, $tpl)
+	function renderNode($a_id, $tpl, $depth, &$nr)
 	{
+		if (!isset($nr[$depth]))
+		{
+			$nr[$depth] = 1;
+		}
+		else
+		{
+			$nr[$depth]++;
+		}
+
+		$nr_str = $sep = "";
+		if ($this->getAutoNumbering())
+		{
+			for($i = 1; $i <= $depth; $i++)
+			{
+				$nr_str.= $sep.$nr[$i];
+				$sep = ".";
+			}
+		}
+
 		$this->listItemStart($tpl);
 		$tpl->setCurrentBlock("content");
-		$tpl->setVariable("CONTENT", $this->nodes[$a_id]);
+		$tpl->setVariable("CONTENT", $nr_str." ".$this->nodes[$a_id]);
+		$this->nr[$a_id] = $nr_str;
 //echo "<br>".$this->nodes[$a_id];
 		$tpl->parseCurrentBlock();
 		$tpl->touchBlock("tag");
@@ -119,10 +162,11 @@ class ilNestedList
 			$this->listStart($tpl);
 			foreach ($this->childs[$a_id] as $child)
 			{
-				$this->renderNode($child, $tpl);
+				$this->renderNode($child, $tpl, $depth + 1, $nr);
 			}
 			$this->listEnd($tpl);
 		}
+		unset($nr[$depth + 1]);
 
 		$this->listItemEnd($tpl);
 	}

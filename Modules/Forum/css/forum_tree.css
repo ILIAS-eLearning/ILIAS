@@ -129,14 +129,10 @@ span.frmTitle {
 span.frmTitle a:link {
 	color:#054784;
 }
-
 span.frmTitle a:hover {
 	color:#054784;
 }
 
-span.frmTitle a:visited {
-	color:#054784;
-}
 span.frmTitleBold {
 	color:#054784;
 	font-size: 18px;
@@ -146,13 +142,9 @@ span.frmTitleBold a:link {
 	color:#054784;
 	font-weight: bold;
 }
-
 span.frmTitleBold a:hover {
 	color:#054784;
 	font-weight: bold;
 }
 
-span.frmTitleBold a:visited {
-	color:#054784;
-	font-weight: bold;
-}
+

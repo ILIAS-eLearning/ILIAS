@@ -532,6 +532,26 @@ class ilPageObjectGUI
 	}
 
 	/**
+	 * Set page toc
+	 *
+	 * @param	boolean	$a_val	page toc
+	 */
+	public function setPageToc($a_val)
+	{
+		$this->page_toc = $a_val;
+	}
+
+	/**
+	 * Get page toc
+	 *
+	 * @return	boolean	page toc
+	 */
+	public function getPageToc()
+	{
+		return $this->page_toc;
+	}
+
+	/**
 	 * Set enabled news
 	 *
 	 * @param	boolean	enabled news
@@ -1590,6 +1610,7 @@ class ilPageObjectGUI
 		//	$this->getLinkXML().$this->getQuestionXML().$this->getComponentPluginsXML());
 		$link_xml = $this->getLinkXML();
 
+		// disable/enable auto margins
 		if ($this->getStyleId() > 0)
 		{
 			if (ilObject::_lookupType($this->getStyleId()) == "sty")
@@ -1604,10 +1625,11 @@ class ilPageObjectGUI
 				}
 			}
 		}
+
+
 		$content = $this->obj->getXMLFromDom(false, true, true,
 			$link_xml.$this->getQuestionXML().$template_xml);
 
-		// get page component plugins
 
 		// check validation errors
 		if($builded !== true)
@@ -1746,7 +1768,8 @@ class ilPageObjectGUI
 						 'media_mode' => $media_mode,
 						 'javascript' => $sel_js_mode,
 						 'paragraph_plugins' => $paragraph_plugin_string,
-						 'disable_auto_margins' => $disable_auto_margins
+						 'disable_auto_margins' => $disable_auto_margins,
+						 'page_toc' => $this->getPageToc() ? "y" : "n",
 						);
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
@@ -1758,9 +1781,8 @@ class ilPageObjectGUI
 		
 		// ensure no cache hit, if included files/media objects have been changed
 		$params["incl_elements_date"] = $this->obj->getLastUpdateOfIncludedElements();
-		
+
 		// run xslt
-		
 		$md5 = md5(serialize($params).$link_xml.$template_xml);
 		
 //$a = microtime();
@@ -1803,7 +1825,7 @@ class ilPageObjectGUI
 //$b = microtime();
 //echo "$a - $b";
 //echo "<pre>".htmlentities($output)."</pre>";
-
+		
 		// unmask user html
 		if (($this->getOutputMode() != "edit" ||
 			$ilUser->getPref("ilPageEditor_HTMLMode") != "disable")
@@ -1824,8 +1846,15 @@ class ilPageObjectGUI
 			$output = ilUtil::buildLatexImages($output,
 				$this->getOfflineDirectory());
 		}
-		
+
+		// insert page snippets
 		$output = $this->insertContentIncludes($output);
+
+		// insert page toc
+		if ($this->getPageToc())
+		{
+			$output = $this->insertPageToc($output);
+		}
 
 		// workaround for preventing template engine
 		// from hiding paragraph text that is enclosed
@@ -1836,7 +1865,7 @@ class ilPageObjectGUI
 		// remove all newlines (important for code / pre output)
 		$output = str_replace("\n", "", $output);
 
-		// add question HTML
+		// add question HTML (always after the cache!)
 		$qhtml = $this->getQuestionHTML();
 		if (is_array($qhtml))
 		{
@@ -2178,6 +2207,110 @@ class ilPageObjectGUI
 			}
 		}
 		return $a_html;
+	}
+
+	/**
+	 * Insert page toc
+	 *
+	 * @param string output
+	 * @return string output
+	 */
+	function insertPageToc($a_output)
+	{
+		global $lng;
+
+		include_once("./Services/Utilities/classes/class.ilStr.php");
+
+		// extract all headings
+		$offsets = ilStr::strPosAll($a_output, "ilPageTocH");
+		$page_heads = array();
+		foreach ($offsets as $os)
+		{
+			$level = (int) substr($a_output, $os + 10, 1);
+			if (in_array($level, array(1,2,3)))
+			{
+				$anchor = str_replace("TocH", "TocA",
+					substr($a_output, $os, strpos($a_output, "<", $os) - $os - 3)
+					);
+
+				// get heading
+				$tag_start = stripos($a_output, "<h".$level." ", $os);
+				$tag_end = stripos($a_output, "</h".$level.">", $tag_start);
+				$head = substr($a_output, $tag_start, $tag_end - $tag_start);
+
+				// get headings text
+				$text_start = stripos($head, ">") + 1;
+				$text_end = strripos($head, "<!--", $text_start);
+				$text = substr($head, $text_start, $text_end - $text_start);
+				$page_heads[] = array("level" => $level, "text" => $text,
+					"anchor" => $anchor);
+			}
+		}
+
+		if (count($page_heads) > 1)
+		{
+			include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
+			$list = new ilNestedList();
+			$list->setAutoNumbering(true);
+			$list->setListClass("ilc_page_toc_PageTOCList");
+			$list->setItemClass("ilc_page_toc_PageTOCItem");
+			$i = 0;
+			$c_depth = 1;
+			$c_par[1] = 0;
+			$c_par[2] = 0;
+			$nr[1] = 1;
+			$nr[2] = 1;
+			$nr[3] = 1;
+			foreach ($page_heads as $ind => $h)
+			{
+				$i++;
+				$par = 0;
+
+				// check if we have a parent for one level up
+				$par = 0;
+				if ($h["level"] == 2 && $c_par[1] > 0)
+				{
+					$par = $c_par[1];
+				}
+				if ($h["level"] == 3 && $c_par[2] > 0)
+				{
+					$par = $c_par[2];
+				}
+
+				// add the list node
+				$list->addListNode(
+					"<a href='#".$h["anchor"]."' class='ilc_page_toc_PageTOCLink'>".$h["text"]."</a>",
+					$i, $par);
+
+				// set the node as current parent of the level
+				if ($h["level"] == 1)
+				{
+					$c_par[1] = $i;
+					$c_par[2] = 0;
+				}
+				if ($h["level"] == 2)
+				{
+					$c_par[2] = $i;
+				}
+			}
+
+			$tpl = new ilTemplate("tpl.page_toc.html", true, true,
+				"Services/COPage");
+			$tpl->setVariable("PAGE_TOC", $list->getHTML());
+			$tpl->setVariable("TXT_PAGE_TOC", $lng->txt("cont_page_toc"));
+			$tpl->setVariable("TXT_HIDE", $lng->txt("hide"));
+			$tpl->setVariable("TXT_SHOW", $lng->txt("show"));
+
+			$a_output = str_replace("{{{{{PageTOC}}}}}",
+				$tpl->get(), $a_output);
+		}
+		else
+		{
+			$a_output = str_replace("{{{{{PageTOC}}}}}",
+				"", $a_output);
+		}
+
+		return $a_output;
 	}
 	
 	/**

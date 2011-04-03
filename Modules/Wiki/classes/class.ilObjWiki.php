@@ -90,6 +90,26 @@ class ilObjWiki extends ilObject
 	}
 
 	/**
+	 * Set important pages
+	 *
+	 * @param	boolean	$a_val	important pages
+	 */
+	public function setImportantPages($a_val)
+	{
+		$this->imp_pages = $a_val;
+	}
+
+	/**
+	 * Get important pages
+	 *
+	 * @return	boolean	important pages
+	 */
+	public function getImportantPages()
+	{
+		return $this->imp_pages;
+	}
+
+	/**
 	* Set Start Page.
 	*
 	* @param	string	$a_startpage	Start Page
@@ -166,6 +186,26 @@ class ilObjWiki extends ilObject
 	}
 
 	/**
+	 * Set page toc
+	 *
+	 * @param	boolean	$a_val	page toc
+	 */
+	public function setPageToc($a_val)
+	{
+		$this->page_toc = $a_val;
+	}
+
+	/**
+	 * Get page toc
+	 *
+	 * @return	boolean	page toc
+	 */
+	public function getPageToc()
+	{
+		return $this->page_toc;
+	}
+
+	/**
 	* Create new wiki
 	*/
 	function create($a_prevent_start_page_creation = false)
@@ -222,7 +262,9 @@ class ilObjWiki extends ilObject
 			"short" => array("text", $this->getShortTitle()),
 			"rating" => array("integer", $this->getRating()),
 			"public_notes" => array("integer", $this->getPublicNotes()),
-			"introduction" => array("clob", $this->getIntroduction())
+			"introduction" => array("clob", $this->getIntroduction()),
+			"imp_pages" => array("integer", $this->getImportantPages()),
+			"page_toc" => array("integer", $this->getPageToc())
 			), array(
 			"id" => array("integer", $this->getId())
 			));
@@ -264,6 +306,8 @@ class ilObjWiki extends ilObject
 		$this->setRating($rec["rating"]);
 		$this->setPublicNotes($rec["public_notes"]);
 		$this->setIntroduction($rec["introduction"]);
+		$this->setImportantPages($rec["imp_pages"]);
+		$this->setPageToc($rec["page_toc"]);
 
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
@@ -505,6 +549,200 @@ class ilObjWiki extends ilObject
 
 		return $found_pages;
 	}
-	
+
+	//
+	// Important pages
+	//
+
+	/**
+	 * Lookup whether important pages are activated.
+	 *
+	 * @param	int			$a_wiki_id		Wiki ID
+	 *
+	 * @return	boolean		Important pages activated?
+	 */
+	static function _lookupImportantPages($a_wiki_id)
+	{
+		return ilObjWiki::_lookup($a_wiki_id, "imp_pages");
+	}
+
+	/**
+	 * Get important pages list
+	 *
+	 * @param
+	 * @return
+	 */
+	static function _lookupImportantPagesList($a_wiki_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT * FROM il_wiki_imp_pages WHERE ".
+			" wiki_id = ".$ilDB->quote($a_wiki_id, "integer")." ORDER BY ord ASC "
+			);
+
+		$imp_pages = array();
+
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$imp_pages[] = $rec;
+		}
+		return $imp_pages;
+	}
+
+	/**
+	 * Get important pages list
+	 *
+	 * @param
+	 * @return
+	 */
+	static function _lookupMaxOrdNrImportantPages($a_wiki_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT MAX(ord) as m FROM il_wiki_imp_pages WHERE ".
+			" wiki_id = ".$ilDB->quote($a_wiki_id, "integer")
+			);
+
+		$rec = $ilDB->fetchAssoc($set);
+		return (int) $rec["m"];
+	}
+
+
+	/**
+	 * Add important page
+	 *
+	 * @param	int		page id
+	 */
+	function addImportantPage($a_page_id)
+	{
+		global $ilDB;
+
+		if (!$this->isImportantPage($a_page_id))
+		{
+			$nr = ilObjWiki::_lookupMaxOrdNrImportantPages($this->getId()) + 10;
+
+			$ilDB->manipulate("INSERT INTO il_wiki_imp_pages ".
+				"(wiki_id, ord, indent, page_id) VALUES (".
+				$ilDB->quote($this->getId(), "integer").",".
+				$ilDB->quote($nr, "integer").",".
+				$ilDB->quote(0, "integer").",".
+				$ilDB->quote($a_page_id, "integer").
+				")");
+		}
+	}
+
+	/**
+	 * Is page an important page?
+	 *
+	 * @param
+	 * @return
+	 */
+	function isImportantPage($a_page_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT * FROM il_wiki_imp_pages WHERE ".
+			" wiki_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
+			" page_id = ".$ilDB->quote($a_page_id, "integer")
+		);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Remove important page
+	 *
+	 * @param	int		page id
+	 */
+	function removeImportantPage($a_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("DELETE FROM il_wiki_imp_pages WHERE "
+			." wiki_id = ".$ilDB->quote($this->getId(), "integer")
+			." AND page_id = ".$ilDB->quote($a_id, "integer")
+			);
+
+		$this->fixImportantPagesNumbering();
+	}
+
+	/**
+	 * Save ordering and indentation
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveOrderingAndIndentation($a_ord, $a_indent)
+	{
+		global $ilDB;
+
+		$ipages = ilObjWiki::_lookupImportantPagesList($this->getId());
+
+		foreach ($ipages as $k => $v)
+		{
+			if (isset($a_ord[$v["page_id"]]))
+			{
+				$ipages[$k]["ord"] = (int) $a_ord[$v["page_id"]];
+			}
+			if (isset($a_indent[$v["page_id"]]))
+			{
+				$ipages[$k]["indent"] = (int) $a_indent[$v["page_id"]];
+			}
+		}
+		$ipages = ilUtil::sortArray($ipages, "ord", "asc", true);
+		$ord = 10;
+		foreach ($ipages as $k => $v)
+		{
+			$ilDB->manipulate($q = "UPDATE il_wiki_imp_pages SET ".
+				" ord = ".$ilDB->quote($ord, "integer").",".
+				" indent = ".$ilDB->quote($v["indent"], "integer").
+				" WHERE wiki_id = ".$ilDB->quote($v["wiki_id"], "integer").
+				" AND page_id = ".$ilDB->quote($v["page_id"], "integer")
+				);
+			$ord+=10;
+		}
+	}
+
+	/**
+	 * Fix important pages numbering
+	 */
+	function fixImportantPagesNumbering()
+	{
+		global $ilDB;
+
+		$ipages = ilObjWiki::_lookupImportantPagesList($this->getId());
+
+		$ord = 10;
+		foreach ($ipages as $k => $v)
+		{
+			$ilDB->manipulate($q = "UPDATE il_wiki_imp_pages SET ".
+				" ord = ".$ilDB->quote($ord, "integer").
+				" WHERE wiki_id = ".$ilDB->quote($v["wiki_id"], "integer").
+				" AND page_id = ".$ilDB->quote($v["page_id"], "integer")
+				);
+			$ord+=10;
+		}
+
+	}
+
+	//
+	// Page TOC
+	//
+
+	/**
+	 * Lookup whether important pages are activated.
+	 *
+	 * @param	int			$a_wiki_id		Wiki ID
+	 *
+	 * @return	boolean		Important pages activated?
+	 */
+	static function _lookupPageToc($a_wiki_id)
+	{
+		return ilObjWiki::_lookup($a_wiki_id, "page_toc");
+	}
+
 } // END class.ilObjWiki
 ?>

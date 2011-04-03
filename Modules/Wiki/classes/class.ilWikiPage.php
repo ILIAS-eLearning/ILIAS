@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/COPage/classes/class.ilPageObject.php");
-
+include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
 /**
 * Class ilWikiPage
 * 
@@ -13,6 +13,8 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 */
 class ilWikiPage extends ilPageObject
 {
+	protected $blocked = false;
+
 	/**
 	* Constructor
 	* @access	public
@@ -84,6 +86,26 @@ class ilWikiPage extends ilPageObject
 	}
 
 	/**
+	 * Set blocked
+	 *
+	 * @param	boolean	$a_val	blocked
+	 */
+	public function setBlocked($a_val)
+	{
+		$this->blocked = $a_val;
+	}
+
+	/**
+	 * Get blocked
+	 *
+	 * @return	boolean	blocked
+	 */
+	public function getBlocked()
+	{
+		return $this->blocked;
+	}
+
+	/**
 	* Create new wiki page
 	*/
 	function create($a_prevent_page_creation = false)
@@ -96,10 +118,12 @@ class ilWikiPage extends ilPageObject
 			"id".
 			", title".
 			", wiki_id".
+			", blocked".
 			" ) VALUES (".
 			$ilDB->quote($this->getId(), "integer")
 			.",".$ilDB->quote($this->getTitle(), "text")
 			.",".$ilDB->quote($this->getWikiId(), "integer")
+			.",".$ilDB->quote($this->getBlocked(), "integer")
 			.")";
 		$ilDB->manipulate($query);
 
@@ -128,6 +152,7 @@ class ilWikiPage extends ilPageObject
 		$query = "UPDATE il_wiki_page SET ".
 			" title = ".$ilDB->quote($this->getTitle(), "text").
 			",wiki_id = ".$ilDB->quote($this->getWikiId(), "integer").
+			",blocked = ".$ilDB->quote($this->getBlocked(), "integer").
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 		parent::update($a_validate, $a_no_history);
@@ -152,6 +177,7 @@ class ilWikiPage extends ilPageObject
 
 		$this->setTitle($rec["title"]);
 		$this->setWikiId($rec["wiki_id"]);
+		$this->setBlocked($rec["blocked"]);
 		
 		// get co page
 		parent::read();
@@ -239,7 +265,7 @@ class ilWikiPage extends ilPageObject
 		
 		$a_title = ilWikiUtil::makeDbTitle($a_title);
 		
-		$query = "SELECT * FROM il_wiki_page".
+		$query = "SELECT id FROM il_wiki_page".
 			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
 			" AND title = ".$ilDB->quote($a_title, "text");
 		$set = $ilDB->query($query);
@@ -248,6 +274,27 @@ class ilWikiPage extends ilPageObject
 			return true;
 		}
 		
+		return false;
+	}
+
+	/**
+	 * Checks whether a page with given title exists
+	 */
+	static function getIdForPageTitle($a_wiki_id, $a_title)
+	{
+		global $ilDB;
+
+		$a_title = ilWikiUtil::makeDbTitle($a_title);
+
+		$query = "SELECT id FROM il_wiki_page".
+			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
+			" AND title = ".$ilDB->quote($a_title, "text");
+		$set = $ilDB->query($query);
+		if($rec = $ilDB->fetchAssoc($set))
+		{
+			return $rec["id"];
+		}
+
 		return false;
 	}
 
@@ -671,5 +718,32 @@ class ilWikiPage extends ilPageObject
 		
 		return false;		
 	}
-} // END class.ilWikiPage
+
+	/**
+	 * Rename page
+	 */
+	function rename($a_new_name)
+	{
+		if (!ilWikiPage::exists($this->getWikiId(), $a_new_name))
+		{
+			include_once("./Services/COPage/classes/class.ilInternalLink.php");
+			$sources = ilInternalLink::_getSourcesOfTarget("wpg", $this->getId(), 0);
+			foreach ($sources as $s)
+			{
+				if ($s["type"] == "wpg:pg")
+				{
+					$wpage = new ilWikiPage($s["id"]);
+					$wpage->setXmlContent(
+						str_replace("[[".$this->getTitle()."]]",
+						"[[".$a_new_name."]]", $wpage->getXmlContent())
+						);
+					$wpage->update();
+				}
+			}
+			$this->setTitle($a_new_name);
+			$this->update();
+		}
+	}
+
+}
 ?>

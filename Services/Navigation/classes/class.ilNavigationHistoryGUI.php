@@ -46,11 +46,12 @@ class ilNavigationHistoryGUI
 		//$sel_arr = array(0 => "-- ".$lng->txt("last_visited")." --");
 		reset($items);
 		$cnt = 0;
-		foreach($items as $item)
+		foreach($items as $k => $item)
 		{
 			if ($cnt++ > 20) break;
 			
-			if (!isset($item["ref_id"]) || !isset($_GET["ref_id"]) || $item["ref_id"] != $_GET["ref_id"])			// do not list current item
+			if (!isset($item["ref_id"]) || !isset($_GET["ref_id"]) ||
+				$item["ref_id"] != $_GET["ref_id"] || $k > 0)			// do not list current item
 			{
 				$obj_id = ilObject::_lookupObjId($item["ref_id"]);
 				$selection->addItem($item["title"], $item["ref_id"], $item["link"],

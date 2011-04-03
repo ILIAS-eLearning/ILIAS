@@ -67,9 +67,10 @@ class ilObjWikiGUI extends ilObjectGUI
 				$wpage_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->object->getStyleSheetId(), "wiki"));
 				$this->setContentStyleSheet();
-
 				if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
-					!$ilAccess->checkAccess("edit_content", "", $this->object->getRefId()))
+					(!$ilAccess->checkAccess("edit_content", "", $this->object->getRefId()) ||
+						$wpage_gui->getPageObject()->getBlocked()
+					))
 				{
 					$wpage_gui->setEnableEditing(false);
 				}
@@ -120,6 +121,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml");
+				$exp_gui->addFormat("html", "", $this, "exportHTML");
 				$ret = $this->ctrl->forwardCommand($exp_gui);
 //				$this->tpl->show();
 				break;
@@ -455,7 +457,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		global $ilTabs, $ilCtrl, $lng;
 
 		if (in_array($a_active,
-			array("general_settings", "style")))
+			array("general_settings", "style", "imp_pages")))
 		{
 			// general properties
 			$ilTabs->addSubTab("general_settings",
@@ -466,6 +468,15 @@ class ilObjWikiGUI extends ilObjectGUI
 			$ilTabs->addSubTab("style",
 				$lng->txt("wiki_style"),
 				$ilCtrl->getLinkTarget($this, 'editStyleProperties'));
+
+			// important pages
+			if ($this->object->getImportantPages())
+			{
+				// style properties
+				$ilTabs->addSubTab("imp_pages",
+					$lng->txt("wiki_important_pages"),
+					$ilCtrl->getLinkTarget($this, 'editImportantPages'));
+			}
 
 			$ilTabs->activateSubTab($a_active);
 		}
@@ -549,6 +560,14 @@ class ilObjWikiGUI extends ilObjectGUI
 		$comments = new ilCheckboxInputGUI($lng->txt("wiki_public_comments"), "public_notes");
 		$this->form_gui->addItem($comments);
 
+		// important pages
+		$imp_pages = new ilCheckboxInputGUI($lng->txt("wiki_important_pages"), "imp_pages");
+		$this->form_gui->addItem($imp_pages);
+
+		// page toc
+		$page_toc = new ilCheckboxInputGUI($lng->txt("wiki_page_toc"), "page_toc");
+		$page_toc->setInfo($lng->txt("wiki_page_toc_info"));
+		$this->form_gui->addItem($page_toc);
 
 		// Form action and save button
 		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_wiki.gif"));
@@ -593,6 +612,8 @@ class ilObjWikiGUI extends ilObjectGUI
 			$values["rating"] = $this->object->getRating();
 			$values["public_notes"] = $this->object->getPublicNotes();
 			$values["intro"] = $this->object->getIntroduction();
+			$values["imp_pages"] = $this->object->getImportantPages();
+			$values["page_toc"] = $this->object->getPageToc();
 
 			$this->form_gui->setValuesByArray($values);
 		}
@@ -628,6 +649,8 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->object->setRating($this->form_gui->getInput("rating"));
 				$this->object->setPublicNotes($this->form_gui->getInput("public_notes"));
 				$this->object->setIntroduction($this->form_gui->getInput("intro"));
+				$this->object->setImportantPages($this->form_gui->getInput("imp_pages"));
+				$this->object->setPageToc($this->form_gui->getInput("page_toc"));
 				$this->object->update();
 			
 				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
@@ -960,11 +983,14 @@ class ilObjWikiGUI extends ilObjectGUI
 		$tpl->setContent($table_gui->getHTML());
 	}
 
+	/**
+	 * Side column
+	 */
 	function setSideBlock($a_wpg_id = 0)
 	{
 		global $tpl;
 		
-		// side block
+		// quick navigation
 		include_once("./Modules/Wiki/classes/class.ilWikiSideBlockGUI.php");
 		$wiki_side_block = new ilWikiSideBlockGUI();
 		if ($a_wpg_id > 0)
@@ -976,7 +1002,17 @@ class ilObjWikiGUI extends ilObjectGUI
 		// search block
 		include_once("./Modules/Wiki/classes/class.ilWikiSearchBlockGUI.php");
 		$wiki_search_block = new ilWikiSearchBlockGUI();
-		$rcontent = $wiki_side_block->getHTML().$wiki_search_block->getHTML();
+
+		$rcontent = $wiki_search_block->getHTML().$wiki_side_block->getHTML();
+		
+		// important pages
+		if ($this->object->getImportantPages())
+		{
+			include_once("./Modules/Wiki/classes/class.ilWikiImportantPagesBlockGUI.php");
+			$imp_pages_block = new ilWikiImportantPagesBlockGUI();
+			$rcontent.= $imp_pages_block->getHTML();
+		}
+
 		$tpl->setRightContent($rcontent);
 	}
 
@@ -1257,6 +1293,155 @@ class ilObjWikiGUI extends ilObjectGUI
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		}
 		$this->ctrl->redirect($this, "editStyleProperties");
+	}
+
+	//
+	// Important pages
+	//
+
+	/**
+	 * List important pages
+	 */
+	function editImportantPagesObject()
+	{
+		global $tpl, $ilToolbar, $ilTabs, $lng, $ilCtrl;
+
+		$this->checkPermission("write");
+
+		$ipages = ilObjWiki::_lookupImportantPagesList($this->object->getId());
+		$ipages_ids = array();
+		foreach ($ipages as $i)
+		{
+			$ipages_ids[] = $i["page_id"];
+		}
+
+		// list pages
+		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+		$pages = ilWikiPage::getAllPages($this->object->getId());
+		$options = array();
+		foreach ($pages as $p)
+		{
+			if (!in_array($p["id"], $ipages_ids))
+			{
+				$options[$p["id"]] = $p["title"];
+			}
+		}
+		if (count($options) > 0)
+		{
+			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+			$si = new ilSelectInputGUI($lng->txt("wiki_pages"), "imp_page_id");
+			$si->setOptions($options);
+			$si->setInfo($lng->txt(""));
+			$ilToolbar->addInputItem($si);
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+			$ilToolbar->addFormButton($lng->txt("add"), "addImportantPage");
+		}
+
+
+		$ilTabs->activateTab("settings");
+		$this->setSettingsSubTabs("imp_pages");
+
+		include_once("./Modules/Wiki/classes/class.ilImportantPagesTableGUI.php");
+		$imp_table = new ilImportantPagesTableGUI($this, "editImportantPages");
+
+		$tpl->setContent($imp_table->getHTML());
+	}
+
+	/**
+	 * Add important pages
+	 *
+	 * @param
+	 * @return
+	 */
+	function addImportantPageObject()
+	{
+		global $ilCtrl, $lng;
+
+		$this->checkPermission("write");
+
+		$this->object->addImportantPage((int) $_POST["imp_page_id"]);
+		ilUtil::sendSuccess($lng->txt("wiki_imp_page_added"), true);
+		$ilCtrl->redirect($this, "editImportantPages");
+	}
+
+	/**
+	 * Confirm important pages deletion
+	 */
+	function confirmRemoveImportantPagesObject()
+	{
+		global $ilCtrl, $tpl, $lng;
+
+		if (!is_array($_POST["imp_page_id"]) || count($_POST["imp_page_id"]) == 0)
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "editImportantPages");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("wiki_sure_remove_imp_pages"));
+			$cgui->setCancel($lng->txt("cancel"), "editImportantPages");
+			$cgui->setConfirm($lng->txt("remove"), "removeImportantPages");
+
+			foreach ($_POST["imp_page_id"] as $i)
+			{
+				$cgui->addItem("imp_page_id[]", $i, ilWikiPage::lookupTitle((int) $i));
+			}
+
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+
+	/**
+	 * Remove important pages
+	 *
+	 * @param
+	 * @return
+	 */
+	function removeImportantPagesObject()
+	{
+		global $ilCtrl, $lng;
+
+		$this->checkPermission("write");
+
+		if (is_array($_POST["imp_page_id"]))
+		{
+			foreach ($_POST["imp_page_id"] as $i)
+			{
+				$this->object->removeImportantPage((int) $i);
+			}
+		}
+		ilUtil::sendSuccess($lng->txt("wiki_removed_imp_pages"), true);
+		$ilCtrl->redirect($this, "editImportantPages");
+	}
+
+	/**
+	 * Save important pages ordering and indentation
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveOrderingAndIndentObject()
+	{
+		global $ilCtrl, $lng;
+
+		$this->checkPermission("write");
+
+		$this->object->saveOrderingAndIndentation($_POST["ord"], $_POST["indent"]);
+		ilUtil::sendSuccess($lng->txt("wiki_ordering_and_indent_saved"), true);
+		$ilCtrl->redirect($this, "editImportantPages");
+	}
+
+	/**
+	 * Create html package
+	 */
+	function exportHTML()
+	{
+		require_once("./Modules/Wiki/classes/class.ilWikiHTMLExport.php");
+		$cont_exp = new ilWikiHTMLExport($this);
+		$cont_exp->buildExportFile();
 	}
 
 }

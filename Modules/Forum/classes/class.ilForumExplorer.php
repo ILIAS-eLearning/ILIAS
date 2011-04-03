@@ -104,8 +104,27 @@ class ilForumExplorer extends ilExplorer
                 $this->format_options[$counter]['parent'] = $object['parent'];
                 $this->format_options[$counter]['child'] = $object['child'];
 
-                $title = "<span style=\"white-space:nowrap;\" class=\"small\">".stripslashes($object['subject'])."</span>".
-                         "<div style=\"white-space:nowrap; margin-bottom:5px;\" class=\"small\">";
+// trunk start
+//                $title = "<span style=\"white-space:nowrap;\" class=\"small\">".stripslashes($object['subject'])."</span>".
+//                         "<div style=\"white-space:nowrap; margin-bottom:5px;\" class=\"small\">";
+// trunk end
+// elba start
+				/**/
+				if($ilUser->getId() == ANONYMOUS_USER_ID ||
+				 $this->forum_obj->isRead($ilUser->getId(), $object['pos_pk']))
+				{
+					$title = "<span style='white-space:wrap;' class='frmTitle'><a class='small' href='".$href_target."'>".stripslashes($object['subject'])."</a></span>".
+						 "<div style='white-space:nowrap; margin-bottom:5px;' class='small'>";
+				}
+				else
+				{	//bold
+					$mark_post_target = str_replace('viewThread', 'markPostRead', $href_target);
+					$href_target = $mark_post_target;
+					$title = "<span style='white-space:wrap;' class='frmTitleBold'><a class='small' href='".$href_target."'>".stripslashes($object['subject'])."</a></span>".
+						 "<div style='white-space:nowrap; margin-bottom:5px;' class='small'>";
+				}
+				/**/
+// elba end
 				if ($this->objProperties->isAnonymized())
 				{
 					if ($object['alias'] != '') $title .= stripslashes($object['alias']);

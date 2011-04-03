@@ -10,6 +10,7 @@ require_once './Modules/Forum/classes/class.ilForum.php';
 require_once './Modules/Forum/classes/class.ilForumTopic.php';
 require_once 'Services/RTE/classes/class.ilRTE.php';
 
+
 /**
 * Class ilObjForumGUI
 *
@@ -419,7 +420,10 @@ class ilObjForumGUI extends ilObjectGUI
 				$counter = 0;
 				$this->ctrl->setParameter($this, 'cmd', 'post');
 				
-				$tbl = new ilTable2GUI($this);
+			#	$tbl = new ilTable2GUI($this);
+				$this->tpl->addCss('./Modules/Forum/css/forum_table.css');
+				include_once './Modules/Forum/classes/class.ilForumTableGUI.php';
+				$tbl = new ilForumTableGUI($this);
 				$tbl->setId('il_frm_thread_table_'.(int)$_GET['ref_id']);
 				$tbl->setFormAction($this->ctrl->getLinkTarget($this, 'showThreads'));
   				$tbl->setRowTemplate('tpl.forums_threads_table.html', 'Modules/Forum');				
@@ -430,7 +434,8 @@ class ilObjForumGUI extends ilObjectGUI
 			  	$tbl->addColumn($this->lng->txt('forums_articles'), 'num_posts');
 			  	$tbl->addColumn($this->lng->txt('visits'),'num_visit');
 			  	$tbl->addColumn($this->lng->txt('forums_last_post'),'lp_date');
-					
+
+
 				foreach ($threads as $thread)
 				{				
 					if ($thrNum > $pageHits && $z >= ($Start + $pageHits))
@@ -450,8 +455,10 @@ class ilObjForumGUI extends ilObjectGUI
 						
 						if ($thread->isSticky())
 						{
+							$result[$counter]['th_sticky'] = true;
 							$result[$counter]['th_title'] .= '<span class="light">['.$this->lng->txt('sticky').']</span> ';							
 						}
+						else $result[$counter]['th_sticky'] = false;
 						
 						if ($thread->isClosed())
 						{
@@ -1628,13 +1635,17 @@ class ilObjForumGUI extends ilObjectGUI
 		$oPostGUI->addPlugin('latex');
 		$oPostGUI->addButton('latex');
 		$oPostGUI->addButton('pastelatex');
-		$oPostGUI->addPlugin('ilfrmquote');		
+		$oPostGUI->addPlugin('ilfrmquote');
+		$oPostGUI->addPlugin('ilimgupload');
+        $oPostGUI->addButton('ilimgupload');
 		$oPostGUI->addPlugin('code'); 
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
 		{
 			$oPostGUI->addButton('ilFrmQuoteAjaxCall');
 		}
 		$oPostGUI->removePlugin('advlink');
+		$oPostGUI->removePlugin('ibrowser');
+		$oPostGUI->removePlugin('image');
 		$oPostGUI->setRTERootBlockElement('');
 		$oPostGUI->usePurifier(true);
 		$oPostGUI->disableButtons(array(
@@ -1653,7 +1664,9 @@ class ilObjForumGUI extends ilObjectGUI
 			'paste',
 			'pastetext',
 			'pasteword',
-			'formatselect'
+			'formatselect',
+			'ibrowser',
+			'image'
 		));
 		
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
@@ -3387,7 +3400,11 @@ class ilObjForumGUI extends ilObjectGUI
 		$post_gui->addButton('pastelatex');
 		$post_gui->addPlugin('ilfrmquote');
 		$post_gui->addPlugin('code'); 
+		$post_gui->addPlugin('ilimgupload');
+		$post_gui->addButton('ilimgupload');
 		$post_gui->removePlugin('advlink');
+		$post_gui->removePlugin('ibrowser');
+		$post_gui->removePlugin('image');
 		$post_gui->usePurifier(true);	
 		$post_gui->setRTERootBlockElement('');	
 		$post_gui->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html');
@@ -3407,7 +3424,9 @@ class ilObjForumGUI extends ilObjectGUI
 			'paste',
 			'pastetext',
 			'pasteword',
-			'formatselect'
+			'formatselect',
+			'image',
+			'ibrowser'
 		));		
 				
 		// purifier
