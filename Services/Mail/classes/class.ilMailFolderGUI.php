@@ -839,10 +839,10 @@ class ilMailFolderGUI
 		else
 		{
 			$tmp_user = new ilObjUser(ANONYMOUS_USER_ID);		
-			$this->tpl->setVariable('MAIL_LOGIN', ilMail::_getAnonymousName());
+			$this->tpl->setVariable('MAIL_LOGIN', ilMail::_getIliasMailerName());
 			$this->tpl->setCurrentBlock('pers_image');
 			$this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIcon.png'));
-			$this->tpl->setVariable('ALT_SENDER', ilMail::_getAnonymousName());
+			$this->tpl->setVariable('ALT_SENDER', ilMail::_getIliasMailerName());
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -994,7 +994,7 @@ class ilMailFolderGUI
 		}
 		else
 		{
-			$tplprint->setVariable('FROM', ilMail::_getAnonymousName());
+			$tplprint->setVariable('FROM', ilMail::_getIliasMailerName());
 		}
 		
 		$tplprint->setVariable('TXT_FROM', $this->lng->txt('from'));

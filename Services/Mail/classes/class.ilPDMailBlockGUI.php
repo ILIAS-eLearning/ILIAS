@@ -221,7 +221,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			}
 			else
 			{
-				$this->tpl->setVariable('NEW_MAIL_FROM_LOGIN', ilMail::_getAnonymousName());				
+				$this->tpl->setVariable('NEW_MAIL_FROM_LOGIN', ilMail::_getIliasMailerName());				
 			}
 			$this->tpl->setVariable('NEW_MAIL_DATE', ilDatePresentation::formatDate(new ilDate($mail['send_time'],IL_CAL_DATE)));
 			$this->tpl->setVariable('TXT_FROM', $lng->txt('from'));
@@ -238,7 +238,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			else
 			{
 				$this->tpl->setCurrentBlock('short');
-				$this->tpl->setVariable('NEW_MAIL_FROM_LOGIN', ilMail::_getAnonymousName());
+				$this->tpl->setVariable('NEW_MAIL_FROM_LOGIN', ilMail::_getIliasMailerName());
 				$this->tpl->parseCurrentBlock();
 			}
 		}

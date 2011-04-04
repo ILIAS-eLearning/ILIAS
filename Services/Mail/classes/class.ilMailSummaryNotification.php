@@ -105,7 +105,7 @@ class ilMailSummaryNotification extends ilMailNotification
 
 			$mmail = new ilMimeMail();
 			$mmail->autoCheck(false);
-			$mmail->From('noreply');
+			$mmail->From(ilMail::getIliasMailerAddress());
 			$mmail->To(ilObjUser::_lookupEmail($user_id));
 		
 			$mmail->Subject($this->getSubject());
