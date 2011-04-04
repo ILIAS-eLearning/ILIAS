@@ -2016,32 +2016,53 @@ class ilMail
 	{
 		include_once "Services/Mail/classes/class.ilMimeMail.php";
 
-		if($this->user_id != ANONYMOUS_USER_ID)
+		if(false && $this->user_id != ANONYMOUS_USER_ID)
 		{
 			$sender = $this->addFullname($this->getEmailOfSender());
 		}
 		else
 		{
-			$no_reply_adress = trim($this->ilias->getSetting('mail_external_sender_noreply'));
-			if(strlen($no_reply_adress))
-			{
-				if(strpos($no_reply_adress, '@') === false)
-					$no_reply_adress = 'noreply@'.$no_reply_adress;
-				if(!ilUtil::is_email($no_reply_adress))
-				{
-					$no_reply_adress = 'noreply@'.$_SERVER['SERVER_NAME'];
-				}
-
-				$sender = ilMimeMail::_mimeEncode(self::_getAnonymousName()).
-						  ' <'.$no_reply_adress.'>';
-			}
-			else
-			{
-				$sender = ilMimeMail::_mimeEncode(self::_getAnonymousName()).
-						  ' <noreply@'.$_SERVER['SERVER_NAME'].'>';
-			}
+			$sender = self::getIliasMailerAddress();
 		}
 
+		return $sender;
+	}
+	
+	/**
+	 * 
+	 * Builds an email address used for system notifications 
+	 * 
+	 * @static
+	 * @access	public
+	 * @return	string
+	 * 
+	 */
+	public static function getIliasMailerAddress()
+	{
+		global $ilSetting;
+		
+		include_once 'Services/Mail/classes/class.ilMimeMail.php';
+		
+		$no_reply_adress = trim($ilSetting->get('mail_external_sender_noreply'));
+		if(strlen($no_reply_adress))
+		{
+			if(strpos($no_reply_adress, '@') === false)
+				$no_reply_adress = 'noreply@'.$no_reply_adress;
+			
+			if(!ilUtil::is_email($no_reply_adress))
+			{
+				$no_reply_adress = 'noreply@'.$_SERVER['SERVER_NAME'];
+			}
+
+			$sender = ilMimeMail::_mimeEncode(self::_getIliasMailerName()).
+					  ' <'.$no_reply_adress.'>';
+		}
+		else
+		{
+			$sender = ilMimeMail::_mimeEncode(self::_getIliasMailerName()).
+					  ' <noreply@'.$_SERVER['SERVER_NAME'].'>';
+		}
+		
 		return $sender;
 	}
 
@@ -2533,7 +2554,7 @@ class ilMail
 	 *
 	 * @return string Name of sender
 	 */
-	public static function _getAnonymousName()
+	public static function _getIliasMailerName()
 	{
 		return 'ILIAS';
 	}

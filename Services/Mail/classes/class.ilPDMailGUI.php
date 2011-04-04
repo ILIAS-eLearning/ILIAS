@@ -105,10 +105,10 @@ class ilPDMailGUI
 			// image						
 			$tpl->setCurrentBlock('pers_image');
 			$tpl->setVariable('IMG_SENDER', $tmp_user->getPersonalPicturePath('xsmall'));
-			$tpl->setVariable('ALT_SENDER', ilMail::_getAnonymousName());
+			$tpl->setVariable('ALT_SENDER', ilMail::_getIliasMailerName());
 			$tpl->parseCurrentBlock();
 			
-			$tpl->setVariable('MAIL_LOGIN', ilMail::_getAnonymousName());
+			$tpl->setVariable('MAIL_LOGIN', ilMail::_getIliasMailerName());
 			
 		}
 
