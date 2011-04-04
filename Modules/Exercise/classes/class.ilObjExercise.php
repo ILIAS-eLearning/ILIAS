@@ -12,6 +12,7 @@ require_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
 * Class ilObjExercise
 *
 * @author Stefan Meyer <meyer@leifos.com>
+* @author Michael Jansen <mjansen@databay.de>
 * @version $Id$
 *
 * @ingroup ModulesExercise
@@ -29,6 +30,16 @@ class ilObjExercise extends ilObject
 	var $month;
 	var $year;
 	var $instruction;
+	
+	/**
+	 * 
+	 * Indicates whether completion by submission is enabled or not
+	 * 
+	 * @var boolean
+	 * @access protected
+	 * 
+	 */
+	protected $completion_by_submission = false;
 
 	/**
 	* Constructor
@@ -226,7 +237,8 @@ class ilObjExercise extends ilObject
 			"time_stamp" => array("integer", $this->getTimestamp()),
 			"pass_mode" => array("text", $this->getPassMode()),
 			"pass_nr" => array("text", $this->getPassNr()),
-			"show_submissions" => array("integer", (int) $this->getShowSubmissions())
+			"show_submissions" => array("integer", (int) $this->getShowSubmissions()),
+			'compl_by_submission' => array('integer', (int)$this->isCompletionBySubmissionEnabled())
 			));
 		return true;
 	}
@@ -250,6 +262,9 @@ class ilObjExercise extends ilObject
 	 	$new_obj->saveData();
 	 	$new_obj->setPassNr($this->getPassNr());
 	 	$new_obj->setShowSubmissions($this->getShowSubmissions());
+	 	$new_obj->setCompletionBySubmission($this->isCompletionBySubmissionEnabled());
+
+	 	
 	 	$new_obj->update();
 	 	
 		// Copy assignments
@@ -366,6 +381,7 @@ class ilObjExercise extends ilObject
 			{
 				$this->setPassNr($row->pass_nr);
 			}
+			$this->setCompletionBySubmission($row->compl_by_submission == 1 ? true : false);
 		}
 		
 		$this->members_obj = new ilExerciseMembers($this);
@@ -403,7 +419,8 @@ class ilObjExercise extends ilObject
 			"time_stamp" => array("integer", $this->getTimestamp()),
 			"pass_mode" => array("text", $this->getPassMode()),
 			"pass_nr" => array("integer", $this->getPassNr()),
-			"show_submissions" => array("integer", $this->getShowSubmissions())
+			"show_submissions" => array("integer", $this->getShowSubmissions()),
+			'compl_by_submission' => array('integer', (int)$this->isCompletionBySubmissionEnabled())
 			), array(
 			"obj_id" => array("integer", $this->getId())
 			));
@@ -896,5 +913,68 @@ class ilObjExercise extends ilObject
 		$not->send();
 	}
 	
+	/**
+	 * 
+	 * Checks whether completion by submission is enabled or not
+	 * 
+	 * @return	boolean
+	 * @access	public
+	 * 
+	 */
+	public function isCompletionBySubmissionEnabled()
+	{
+		return $this->completion_by_submission;
+	}
+	
+	/**
+	 * 
+	 * Enabled/Disable completion by submission
+	 * 
+	 * @param	boolean
+	 * @return	ilObjExercise
+	 * @access	public
+	 * 
+	 */
+	public function setCompletionBySubmission($bool)
+	{
+		$this->completion_by_submission = (bool)$bool;
+		
+		return $this;
+	}
+	
+	/**
+	 * 
+	 * This method is called after an user submitted one or more files.
+	 * It should handle the setting "Completion by Submission" and, if enabled, set the status of
+	 * the current user to either 'passed' or 'notgraded'.
+	 * 
+	 * @param	integer
+	 * @access	public
+	 * 
+	 */
+	public function handleSubmission($ass_id)
+	{
+		global $ilUser, $ilDB;
+
+		if($this->isCompletionBySubmissionEnabled())
+		{
+			include_once 'Modules/Exercise/classes/class.ilExAssignment.php';
+	
+			$res = $ilDB->queryF(
+				'SELECT returned_id FROM exc_returned WHERE obj_id = %s AND user_id = %s AND ass_id = %s',
+				array('integer', 'integer', 'integer'),
+				array($this->getId(), $ilUser->getId(), (int)$ass_id)
+			);
+	
+			if($num = $ilDB->numRows($res))
+			{
+				ilExAssignment::updateStatusOfUser($ass_id, $ilUser->getId(), 'passed');
+			}
+			else
+			{
+				ilExAssignment::updateStatusOfUser($ass_id, $ilUser->getId(), 'notgraded');
+			}	
+		}	
+	}
 }
 ?>

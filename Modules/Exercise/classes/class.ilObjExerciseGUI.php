@@ -9,6 +9,7 @@ require_once "classes/class.ilObjectGUI.php";
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Michael Jansen <mjansen@databay.de>
 * $Id$
 * 
 * @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI, ilRepositorySearchGUI
@@ -294,6 +295,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$this->object->deleteDeliveredFiles($this->object->getId(), (int) $_GET["ass_id"],
 				$_POST["delivered"], $ilUser->id);
+				
+			$this->object->handleSubmission((int)$_GET['ass_id']);
+			
 			ilUtil::sendSuccess($this->lng->txt("exc_submitted_files_deleted"), true);
 		}
 		else
@@ -416,6 +420,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		if($success)
 		{
 			$this->sendNotifications((int)$_GET["ass_id"]);
+			$this->object->handleSubmission((int)$_GET['ass_id']);
 		}
 		$ilCtrl->redirect($this, "submissionScreen");
 	}
@@ -435,6 +440,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				(int) $_GET["ass_id"]))
 			{
 				$this->sendNotifications((int)$_GET["ass_id"]);
+				$this->object->handleSubmission((int)$_GET['ass_id']);
 			}
 		}
 
@@ -600,10 +606,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		$a_form->addItem($radg);
 
-
 		$cbox = new ilCheckboxInputGUI($this->lng->txt("exc_submission_notification"), "notification");
 		$cbox->setInfo($this->lng->txt("exc_submission_notification_info"));
 		$a_form->addItem($cbox);
+		
+		$subcompl = new ilCheckboxInputGUI($this->lng->txt('exc_completion_by_submission'), 'completion_by_submission');
+		$subcompl->setInfo($this->lng->txt('exc_completion_by_submission_info'));
+		$subcompl->setValue(1);
+		$a_form->addItem($subcompl);
 	}
 	
 	/**
@@ -625,6 +635,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$a_values["notification"] = ilNotification::hasNotification(
 				ilNotification::TYPE_EXERCISE_SUBMISSION, $ilUser->getId(),
 				$this->object->getId());
+				
+		$a_values['completion_by_submission'] = $this->object->isCompletionBySubmissionEnabled();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -636,6 +648,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$this->object->setPassNr($a_form->getInput("pass_nr"));
 		}
+		
+		$this->object->setCompletionBySubmission($a_form->getInput('completion_by_submission') == 1 ? true : false);
 
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		ilNotification::setNotification(ilNotification::TYPE_EXERCISE_SUBMISSION,
