@@ -2016,7 +2016,7 @@ class ilMail
 	{
 		include_once "Services/Mail/classes/class.ilMimeMail.php";
 
-		if(false && $this->user_id != ANONYMOUS_USER_ID)
+		if($this->user_id != ANONYMOUS_USER_ID)
 		{
 			$sender = $this->addFullname($this->getEmailOfSender());
 		}
