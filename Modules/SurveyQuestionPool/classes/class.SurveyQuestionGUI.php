@@ -204,8 +204,17 @@ class SurveyQuestionGUI
 			{
 				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 				$_GET["ref_id"] = $_GET["calling_survey"];
+				
+				$addurl = "";
+				if ($_REQUEST["pgov"])
+				{
+					$addurl .= "&pgov=".$_REQUEST["pgov"];
+					$addurl .= "&pgov_pos=".$_REQUEST["pgov_pos"];
+				}
+
+				// we cannot use ilctrl here as pool has no "knowledge" of calling survey
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
+				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions".$addurl);
 				return;
 			}
 			elseif ($_GET["new_for_survey"] > 0)
@@ -591,6 +600,11 @@ class SurveyQuestionGUI
 			if (strlen($_GET["new_for_survey"]))
 			{
 				$addurl = "&new_id=" . $_GET["q_id"];
+			}
+			if ($_REQUEST["pgov"])
+			{
+				$addurl .= "&pgov=".$_REQUEST["pgov"];
+				$addurl .= "&pgov_pos=".$_REQUEST["pgov_pos"];
 			}
 			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), "ilias.php?baseClass=ilObjSurveyGUI&ref_id=$ref_id&cmd=questions" . $addurl);
 		}

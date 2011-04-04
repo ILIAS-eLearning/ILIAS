@@ -101,11 +101,14 @@
 <Style Tag="table" Type="page_cont" Class="PageContainer">
 	<StyleParameter Name="background-color" Value="#FFFFFF"/>
 	<StyleParameter Name="border-width" Value="1px"/>
-	<StyleParameter Name="border-color" Value="#9EADBA"/>
+	<StyleParameter Name="border-color" Value="#D6D6D6"/>
 	<StyleParameter Name="border-style" Value="solid"/>
 	<StyleParameter Name="margin" Value="0px"/>
 	<StyleParameter Name="width" Value="100%"/>
 	<StyleParameter Name="padding" Value="20px"/>
+</Style>
+<Style Tag="div" Type="page" Class="Page">
+	<StyleParameter Name="min-height" Value="300px"/>
 </Style>
 <Style Tag="h1" Type="page_title" Class="PageTitle">
 	<StyleParameter Name="border-color" Value="#000000"/>

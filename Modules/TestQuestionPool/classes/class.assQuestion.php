@@ -1866,7 +1866,15 @@ class assQuestion
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		ilObjQuestionPool::_updateQuestionCount($this->obj_id);
 	}
-	
+
+        public function setNewOriginalId($newId) {
+            global $ilDB;
+            $ilDB->manipulateF("UPDATE qpl_questions SET tstamp = %s, original_id = %s WHERE question_id = %s",
+                    array('integer','integer', 'text'),
+                    array(time(), $newId, $this->getId())
+            );
+        }
+
 	/**
 	* Will be called when a question is duplicated (inside a question pool or for insertion in a test)
 	*/
@@ -2345,6 +2353,36 @@ class assQuestion
 		}
 		
 		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions WHERE question_id = %s",
+			array('integer'),
+			array($question_id)
+		);
+		if ($result->numRows() == 1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+/**
+* Returns true if the question already exists in the database and is assigned to a question pool
+*
+* @param integer $question_id The database id of the question
+* @result boolean True, if the question exists, otherwise False
+* @access public
+*/
+	function _questionExistsInPool($question_id)
+	{
+		global $ilDB;
+
+		if ($question_id < 1)
+		{
+			return false;
+		}
+
+		$result = $ilDB->queryF("SELECT question_id FROM qpl_questions INNER JOIN object_data ON obj_fi = obj_id WHERE question_id = %s AND type = 'qpl'",
 			array('integer'),
 			array($question_id)
 		);

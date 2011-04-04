@@ -1,0 +1,77 @@
+{TXT_HELP_HEADER}
+
+<!--<div class="il_Explorer">-->
+<form action="{FORMACTION}" name="post" method="post" id="ilIntLinkTypeForm">
+{TXT_TYPE}:
+{SELECT_TYPE}
+<!-- BEGIN buttonclose -->
+<!-- END buttonclose -->
+<!-- BEGIN buttonclosejs -->
+<!-- END buttonclosejs -->
+</form>
+{LINK_HELP_CONTENT}
+<form action="{FORMACTION2}" name="post" method="post" {TARGET2}>
+<!-- BEGIN chapter_list -->
+<table class="fullwidth">
+<tr class="tblheader">
+	<td class="std" colspan="{COLSPAN}">{TXT_CONTENT_OBJECT}</td>
+</tr>
+<tr class="std">
+	<td class="option_value" colspan="{COLSPAN}">{TXT_CONT_TITLE}</td>
+</tr>
+<tr>
+	<td class="submit" colspan="{COLSPAN}">
+	<!-- BEGIN change_cont_obj -->
+	<input id="ilChangeTargetObject" type="submit" class="submit" name="cmd[{CMD_CHANGE_CONT_OBJ}]" value="{BTN_CHANGE_CONT_OBJ}">
+	<!-- END change_cont_obj -->
+	</td>
+</tr>
+<!-- BEGIN row -->
+
+	<!-- BEGIN chapter_row -->
+		<tr class="{ROWCLASS}">
+			<!-- BEGIN thumbnail -->
+			<td>{NO_THUMB}<!-- BEGIN thumb --><img border="0" src="{SRC_THUMB}" /><!-- END thumb --></td>
+			<!-- END thumbnail -->
+			<td class="std"><b>{TXT_CHAPTER}</b><br />{LINK_CHAPTER}
+			<!-- BEGIN anchor_link -->
+				<div style="padding-left:20px;" class="small">{HREF_LINK} <!-- {TXT_LINK} --></div>
+			<!-- END anchor_link -->
+			</td>
+		</tr>
+	<!-- END chapter_row -->
+
+	<!-- BEGIN chapter_row_js -->
+		<tr class="{ROWCLASS}">
+			<!-- BEGIN thumbnail_js -->
+			<td>{NO_THUMB}<!-- BEGIN thumb --><img border="0" src="{SRC_THUMB}" /><!-- END thumb --></td>
+			<!-- END thumbnail_js -->
+			<td class="std">
+				<a href="#" onClick="return il.IntLink.addInternalLink('{LINK_BEGIN}','{LINK_END}');">{TXT_CHAPTER}</a>
+				<!-- BEGIN anchor_link_js -->
+				<div style="padding-left:20px;" class="small"><a href="#" onClick="il.IntLink.addInternalLink('{HREF_LINK}','{TXT_LINK}');">{TXT_LINK}</a></div>
+				<!-- END anchor_link_js -->
+			</td>
+		</tr>
+	<!-- END chapter_row_js -->
+	
+	<!-- BEGIN link_row -->
+		<tr class="{ROWCLASS}">
+			<!-- BEGIN thumbnail_link -->
+			<td width="1">{NO_THUMB}<!-- BEGIN thumb --><img border="0" src="{SRC_THUMB}" /><!-- END thumb --></td>
+			<!-- END thumbnail_link -->
+
+			<!-- BEGIN icon -->
+				<td class="std" nowrap="1" width="1">
+				<img border="0" src="{ICON_SRC}"/>
+				</td>
+			<!-- END icon -->
+			<td class="std" nowrap="1">
+			<a href="{LINK}" target="{LINK_TARGET}">{TXT_CHAPTER}</a></td>
+		</tr>
+	<!-- END link_row -->
+	
+<!-- END row -->
+</table>
+<!-- END chapter_list -->
+</form>

@@ -112,7 +112,7 @@ class assMatchingQuestion extends assQuestion
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->question) and (count($this->matchingpairs)) and ($this->getMaximumPoints() > 0))
+		if (strlen($this->title) and ($this->author) and ($this->question) and (count($this->matchingpairs)) and ($this->getMaximumPoints() > 0))
 		{
 			return true;
 		}

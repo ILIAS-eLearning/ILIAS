@@ -156,6 +156,17 @@ class ilInternalLinkGUI
 		$this->filter_link_types[] = $a_link_type;
 	}
 
+	/**
+	 * Set filter list as white list (per detault it is a black list)
+	 *
+	 * @return boolean white list
+	 */
+	function setFilterWhiteList($a_white_list)
+	{
+		$this->filter_white_list = $a_white_list;
+	}
+
+
 	function &executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
@@ -218,7 +229,7 @@ class ilInternalLinkGUI
 	*/
 	function showLinkHelp()
 	{
-		global $ilUser;
+		global $ilUser, $ilCtrl;
 		
 		$target_str = ($this->link_target == "")
 			? ""
@@ -235,8 +246,15 @@ class ilInternalLinkGUI
 			$this->changeTargetObject("cont_obj");
 		}
 
-		$tpl =& new ilTemplate("tpl.link_help.html", true, true, "Modules/LearningModule");
-		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		if ($ilCtrl->isAsynch())
+		{
+			$tpl = new ilTemplate("tpl.link_help_asynch.html", true, true, "Modules/LearningModule");
+		}
+		else
+		{
+			$tpl =& new ilTemplate("tpl.link_help.html", true, true, "Modules/LearningModule");
+			$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		}
 
 		switch($this->link_type)
 		{
@@ -260,15 +278,31 @@ class ilInternalLinkGUI
 //echo "<br>link_type:".$this->link_type;
 //echo "<br>cont_obj:".$_SESSION["il_link_cont_obj"];
 //echo "<br>link_mep".$_SESSION["il_link_mep"];
-		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+//echo $this->ctrl->getFormAction($this, "", "", true);
+		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "changeLinkType", "", true));
 		$tpl->setVariable("FORMACTION2", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_HELP_HEADER", $this->lng->txt("cont_link_select"));
 		$tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_link_type"));
 
 		// filter link types
-		foreach($this->filter_link_types as $link_type)
+		if (!$this->filter_white_list)
 		{
-			unset($this->ltypes[$link_type]);
+			foreach($this->filter_link_types as $link_type)
+			{
+				unset($this->ltypes[$link_type]);
+			}
+		}
+		else
+		{
+			$ltypes = array();
+			foreach($this->ltypes as $k => $l)
+			{
+				if (in_array($k, $this->filter_link_types))
+				{
+					$ltypes[$k] = $l;
+				}
+			}
+			$this->ltypes = $ltypes;
 		}
 
 		$ltype = ($this->link_target != "")
@@ -278,7 +312,7 @@ class ilInternalLinkGUI
 //echo "<br><br>".$ltype;
 
 		$select_ltype = ilUtil::formSelect ($ltype,
-			"ltype", $this->ltypes, false, true);
+			"ltype", $this->ltypes, false, true, "0", "", array("id" => "ilIntLinkTypeSelector"));
 		$tpl->setVariable("SELECT_TYPE", $select_ltype);
 		$tpl->setVariable("CMD_CHANGETYPE", "changeLinkType");
 		$tpl->setVariable("BTN_CHANGETYPE", $this->lng->txt("cont_change_type"));
@@ -341,56 +375,16 @@ class ilInternalLinkGUI
 						//$tpl->setVariable("LINK_CHAPTER",
 						//	"[iln chap=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
 						$tpl->parseCurrentBlock();
+						$tpl->setCurrentBlock("row");
+						$tpl->parseCurrentBlock();
 					}
 
 					if($node["type"] == "pg")
 					{
-						switch ($this->mode)
-						{
-							case "link":
-								require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-								require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
-								ilImageMapEditorGUI::_recoverParameters();
-								$tpl->setCurrentBlock("link_row");
-								$tpl->setVariable("ROWCLASS", "tblrow2");
-								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
-								$tpl->setVariable("LINK_TARGET", "content");
-								$tpl->setVariable("LINK",
-									ilUtil::appendUrlParameterString($this->getSetLinkTargetScript(),
-									"linktype=PageObject".
-									"&linktarget=il__pg_".$node["obj_id"].
-									"&linktargetframe=".$this->link_target));
-								$tpl->parseCurrentBlock();
-								break;
-
-							default:
-								$anchors = ilPageObject::_readAnchors($type, $node["obj_id"]);
-								if (count($anchors) > 0)
-								{
-									foreach ($anchors as $anchor)
-									{
-										$tpl->setCurrentBlock($anchor_row_block);
-										$tpl->setVariable("TXT_LINK", "#".$anchor);
-										$tpl->setVariable("HREF_LINK",
-											$this->prepareJavascriptOutput("[iln page=\"".$node["obj_id"]."\"".$target_str." anchor=\"$anchor\"] [/iln]"));
-										$tpl->parseCurrentBlock();
-									}
-								}
-								$tpl->setCurrentBlock($chapterRowBlock);
-								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
-								if ($this->isEnabledJavaScript())
-								{
-									$tpl->setVariable("TXT_CHAPTER_JS", htmlspecialchars(str_replace("'", "\'", $node["title"])));
-								}
-								$tpl->setVariable("ROWCLASS", "tblrow2");
-								$tpl->setVariable("LINK_CHAPTER",
-									$this->prepareJavascriptOutput("[iln page=\"".$node["obj_id"]."\"".$target_str."] [/iln]"));
-								$tpl->parseCurrentBlock();
-								break;
-						}
+						$this->renderLink($tpl, $node["title"], $node["obj_id"],
+							"PageObject", "pg", "page",
+							ilPageObject::_readAnchors($type, $node["obj_id"]));	
 					}
-					$tpl->setCurrentBlock("row");
-					$tpl->parseCurrentBlock();
 				}
 
 				// get all free pages
@@ -412,37 +406,9 @@ class ilInternalLinkGUI
 
 					foreach ($free_pages as $node)
 					{
-						switch ($this->mode)
-						{
-							case "link":
-								require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-								require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
-								ilImageMapEditorGUI::_recoverParameters();
-								$tpl->setCurrentBlock("link_row");
-								$tpl->setVariable("ROWCLASS", "tblrow2");
-								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
-								$tpl->setVariable("LINK_TARGET", "content");
-								$tpl->setVariable("LINK",
-									ilUtil::appendUrlParameterString($this->getSetLinkTargetScript(),
-									"linktype=PageObject".
-									"&linktarget=il__pg_".$node["obj_id"].
-									"&linktargetframe=".$this->link_target));
-								$tpl->parseCurrentBlock();
-								break;
-
-							default:
-								$tpl->setCurrentBlock($chapterRowBlock);
-								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
-								if ($this->isEnabledJavaScript())
-								{
-									$tpl->setVariable("TXT_CHAPTER_JS", htmlspecialchars(str_replace("'", "\'", $node["title"])));
-								}
-								$tpl->setVariable("ROWCLASS", "tblrow2");
-								$tpl->setVariable("LINK_CHAPTER",
-									$this->prepareJavascriptOutput("[iln page=\"".$node["obj_id"]."\"".$target_str."] [/iln]"));
-								$tpl->parseCurrentBlock();
-								break;
-						}
+						$this->renderLink($tpl, $node["title"], $node["obj_id"],
+							"PageObject", "pg", "page",
+							ilPageObject::_readAnchors($type, $node["obj_id"]));	
 					}
 				}
 
@@ -461,7 +427,6 @@ class ilInternalLinkGUI
 					$this->changeTargetObject("lm");
 				}
 
-
 				if ($type == "lm")
 				{
 					require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
@@ -478,7 +443,7 @@ class ilInternalLinkGUI
 				$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("cont_content_obj"));
-				$tpl->setVariable("TXT_CONT_TITLE", $cont_obj->getTitle());
+				$tpl->setVariable("TXT_CONT_TITLE", ilObject::_lookupTitle($_SESSION["il_link_cont_obj"]));
 				$tpl->setCurrentBlock("change_cont_obj");
 				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
 				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
@@ -488,44 +453,9 @@ class ilInternalLinkGUI
 				{
 					if($node["type"] == "st")
 					{
-						$css_row = ($css_row == "tblrow1")
-							? "tblrow2"
-							: "tblrow1";
-
-						switch ($this->mode)
-						{
-							case "link":
-								require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-								require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
-								ilImageMapEditorGUI::_recoverParameters();
-								$tpl->setCurrentBlock("link_row");
-								$tpl->setVariable("ROWCLASS", $css_row);
-								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
-								$tpl->setVariable("LINK_TARGET", "content");
-								$tpl->setVariable("LINK",
-									ilUtil::appendUrlParameterString($this->getSetLinkTargetScript(),
-									"linktype=StructureObject".
-									"&linktarget=il__st_".$node["obj_id"].
-									"&linktargetframe=".$this->link_target));
-								$tpl->parseCurrentBlock();
-								break;
-
-							default:
-								$tpl->setCurrentBlock($chapterRowBlock);
-								$tpl->setVariable("ROWCLASS", $css_row);
-								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
-								if ($this->isEnabledJavaScript())
-								{
-									$tpl->setVariable("TXT_CHAPTER_JS", htmlspecialchars(str_replace("'", "\'", $node["title"])));
-								}
-								$tpl->setVariable("LINK_CHAPTER",
-									$this->prepareJavascriptOutput("[iln chap=\"".$node["obj_id"]."\"".$target_str."] [/iln]"));
-								$tpl->parseCurrentBlock();
-								break;
-						}
+						$this->renderLink($tpl, $node["title"], $node["obj_id"],
+							"StructureObject", "st", "chap");
 					}
-					$tpl->setCurrentBlock("row");
-					$tpl->parseCurrentBlock();
 				}
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->parseCurrentBlock();
@@ -548,46 +478,10 @@ class ilInternalLinkGUI
 
 				foreach($terms as $term)
 				{
-					$css_row = ($css_row =="tblrow1")
-						? "tblrow2"
-						: "tblrow1";
-
-					switch ($this->mode)
-					{
-						case "link":
-							require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-							require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
-							ilImageMapEditorGUI::_recoverParameters();
-							$tpl->setCurrentBlock("link_row");
-							$tpl->setVariable("ROWCLASS", "tblrow2");
-							$tpl->setVariable("TXT_CHAPTER", $term["term"]);
-							$tpl->setVariable("LINK_TARGET", "content");
-							$tpl->setVariable("LINK",
-								ilUtil::appendUrlParameterString($this->getSetLinkTargetScript(),
-									"linktype=GlossaryItem".
-									"&linktarget=il__git_".$term["id"].
-									"&linktargetframe=".$this->link_target));
-							$tpl->parseCurrentBlock();
-							break;
-
-						default:
-							$tpl->setCurrentBlock($chapterRowBlock);
-							$tpl->setVariable("ROWCLASS", $css_row);
-							$tpl->setVariable("TXT_CHAPTER", $term["term"]);
-							if ($this->isEnabledJavaScript())
-							{
-								$tpl->setVariable("TXT_CHAPTER_JS", htmlspecialchars(str_replace("'", "\'", $term["term"])));
-							}
-							
-							$tpl->setVariable("LINK_CHAPTER",
-								$this->prepareJavascriptOutput("[iln term=\"".$term["id"]."\"".$target_str."]"." "."[/iln]"));
-							$tpl->parseCurrentBlock();
-							$tpl->setCurrentBlock("row");
-							$tpl->parseCurrentBlock();
-							break;
-					}
+					$this->renderLink($tpl, $term["term"], $term["id"],
+						"GlossaryItem", "git", "term");
 				}
-
+				
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->parseCurrentBlock();
 				break;
@@ -618,53 +512,8 @@ class ilInternalLinkGUI
 
 					foreach($objs as $obj)
 					{
-						switch ($this->mode)
-						{
-							case "link":
-								require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-								require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
-								ilImageMapEditorGUI::_recoverParameters();
-								$tpl->setCurrentBlock("link_row");
-								$this->outputThumbnail($tpl, $obj["id"], "link");
-								$tpl->setCurrentBlock("link_row");
-
-								$tpl->setCurrentBlock("link_row");
-								$tpl->setVariable("ROWCLASS", "tblrow2");
-								$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
-								$tpl->setVariable("LINK_TARGET", "content");
-								$tpl->setVariable("LINK",
-									ilUtil::appendUrlParameterString($this->getSetLinkTargetScript(),
-									"linktype=MediaObject".
-									"&linktarget=il__mob_".$obj["id"].
-									"&linktargetframe=".$this->link_target));
-								$tpl->parseCurrentBlock();
-								break;
-
-							default:
-								$tpl->setCurrentBlock($chapterRowBlock);
-								$this->outputThumbnail($tpl, $obj["id"]);
-								$tpl->setCurrentBlock($chapterRowBlock);
-								$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
-								if ($this->isEnabledJavaScript())
-								{
-									$tpl->setVariable("TXT_CHAPTER_JS", htmlspecialchars(str_replace("'", "\'", $obj["title"])));
-								}
-								$tpl->setVariable("ROWCLASS", "tblrow1");
-								if (!empty($target_str))
-								{
-									$tpl->setVariable("LINK_CHAPTER",
-										$this->prepareJavascriptOutput("[iln media=\"".$obj["id"]."\"".$target_str."] [/iln]"));
-								}
-								else
-								{
-									$tpl->setVariable("LINK_CHAPTER",
-										$this->prepareJavascriptOutput("[iln media=\"".$obj["id"]."\"/]"));
-								}
-								$tpl->parseCurrentBlock();
-								$tpl->setCurrentBlock("row");
-								$tpl->parseCurrentBlock();
-								break;
-						}
+						$this->renderLink($tpl, $obj["title"], $obj["id"],
+							"MediaObject", "mob", "media");
 					}
 					$tpl->setCurrentBlock("chapter_list");
 					$tpl->parseCurrentBlock();
@@ -740,52 +589,8 @@ class ilInternalLinkGUI
 							$fid = ilMediaPoolItem::lookupForeignId($obj["child"]);
 							if (ilObject::_lookupType($fid) == "mob")
 							{
-								$css_row = ($css_row == "tblrow2")
-									? "tblrow1"
-									: "tblrow2";
-								switch ($this->mode)
-								{
-									case "link":
-										require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-										require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
-										ilImageMapEditorGUI::_recoverParameters();
-										$tpl->setCurrentBlock("link_row");
-										$this->outputThumbnail($tpl, $fid, "link");
-										$tpl->setCurrentBlock("link_row");
-										$tpl->setVariable("ROWCLASS", $css_row);
-										$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
-										$tpl->setVariable("LINK_TARGET", "content");
-										$tpl->setVariable("LINK",
-											ilUtil::appendUrlParameterString($this->getSetLinkTargetScript(),
-											"linktype=MediaObject".
-											"&linktarget=il__mob_".$fid.
-											"&linktargetframe=".$this->link_target));
-										$tpl->parseCurrentBlock();
-										break;
-	
-									default:
-										$tpl->setCurrentBlock($chapterRowBlock);
-										$this->outputThumbnail($tpl, $fid);
-										$tpl->setCurrentBlock($chapterRowBlock);
-										$tpl->setVariable("ROWCLASS", $css_row);
-										$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
-										if ($this->isEnabledJavaScript())
-										{
-											$tpl->setVariable("TXT_CHAPTER_JS", htmlspecialchars(str_replace("'", "\'", $obj["title"])));
-										}
-										if ($target_str != "")
-										{
-											$tpl->setVariable("LINK_CHAPTER",
-												$this->prepareJavascriptOutput("[iln media=\"".$fid."\"".$target_str."] [/iln]"));
-										}
-										else
-										{
-											$tpl->setVariable("LINK_CHAPTER",
-												$this->prepareJavascriptOutput("[iln media=\"".$fid."\"/]"));
-										}
-										$tpl->parseCurrentBlock();
-										break;
-								}
+								$this->renderLink($tpl, $obj["title"], $fid,
+									"MediaObject", "mob", "media");
 							}
 						}
 						$tpl->setCurrentBlock("row");
@@ -808,6 +613,11 @@ class ilInternalLinkGUI
 				
 		}
 
+		if ($ilCtrl->isAsynch())
+		{
+			echo $tpl->get();
+			exit;
+		}
 		
 		$tpl->show();
 		exit;
@@ -893,7 +703,7 @@ class ilInternalLinkGUI
 		$mob =& new ilObjMediaObject($a_id);
 		$med =& $mob->getMediaItem("Standard");
 		$target = $med->getThumbnailTarget("small");
-		if ($a_mode == "link")
+		if ($this->getSetLinkTargetScript() != "")
 		{
 			$tpl->setCurrentBlock("thumbnail_link");
 		}
@@ -905,6 +715,7 @@ class ilInternalLinkGUI
 		{
 			$tpl->setCurrentBlock("thumbnail");
 		}
+
 		if ($target != "")
 		{
 			$tpl->setCurrentBlock("thumb");
@@ -916,7 +727,7 @@ class ilInternalLinkGUI
 			$tpl->setVariable("NO_THUMB", "&nbsp;");
 		}
 		
-		if ($a_mode == "link")
+		if ($this->getSetLinkTargetScript() != "")
 		{
 			$tpl->setCurrentBlock("thumbnail_link");
 		}
@@ -953,47 +764,15 @@ class ilInternalLinkGUI
 	}
 
 	/**
-	* cange target object
-	*/
-	function changeTargetObject($a_type = "")
+	 * Cange target object
+	 */
+	function getTargetExplorer($a_type)
 	{
-		$_SESSION["il_link_mep_obj"] = "";
+		global $ilCtrl;
 
-		if($_GET["do"] == "set")
-		{
-			switch ($_GET["target_type"])
-			{
-				case "glo":
-					$_SESSION["il_link_glossary"] = $_GET["sel_id"];
-					break;
-
-				case "mep":
-					$_SESSION["il_link_mep"] = $_GET["sel_id"];
-					break;
-
-				default:
-					$_SESSION["il_link_cont_obj"] = $_GET["sel_id"];
-					break;
-			}
-			$this->showLinkHelp();
-			return;
-		}
-
-		if(empty($a_type))
-		{
-			$a_type = $_GET["target_type"];
-		}
-
-		$tpl =& new ilTemplate("tpl.link_help_explorer.html", true, true, "Modules/LearningModule");
-		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-
-		require_once "classes/class.ilExplorer.php";
-		//$tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-
-
-//echo "<br><br>:".$this->ctrl->getLinkTarget($this).":<br>";
-		$exp = new ilExplorer(ilUtil::appendUrlParameterString(
-			$this->ctrl->getTargetScript(), "do=set"));
+		include_once("./Services/IntLink/classes/class.ilLinkTargetObjectExplorer.php");
+		$exp = new ilLinkTargetObjectExplorer(ilUtil::appendUrlParameterString(
+			$ilCtrl->getTargetScript(), "do=set"));
 		if ($_GET["expand"] == "")
 		{
 			$expanded = $this->tree->readRootId();
@@ -1003,15 +782,11 @@ class ilInternalLinkGUI
 			$expanded = $_GET["expand"];
 		}
 		$exp->setExpand($expanded);
-//echo "<br><br>exp:$expanded:<br>";
+		$exp ->setAsynchExpanding(true);
 
 		$exp->setTargetGet("sel_id");
-		$this->ctrl->setParameter($this, "target_type", $a_type);
-		$exp->setParamsGet($this->ctrl->getParameterArray($this, "changeTargetObject"));
-//echo "<br>"; var_dump($this->ctrl->getParameterArray($this, "changeTargetObject"));
-		/*$exp->setParamsGet(array("ref_id" => $_GET["ref_id"],
-			"cmd" => "changeTargetObject", "mode" => "page_edit", "obj_id" => $_GET["obj_id"],
-			"target_type" => $a_type, "linkmode" => $_GET["linkmode"]));*/
+		$ilCtrl->setParameter($this, "target_type", $a_type);
+		$exp->setParamsGet($this->ctrl->getParameterArray($this, "refreshTargetExplorer"));
 
 		$exp->addFilter("root");
 		$exp->addFilter("cat");
@@ -1045,10 +820,47 @@ class ilInternalLinkGUI
 		$exp->setFrameTarget("");
 		$exp->setOutput(0);
 
-		$output = $exp->getOutput();
-//echo "<br><br><br>out:".$output.":<br>";
+		return $exp->getOutput();
+	}
 
-//		$tpl->setCurrentBlock("content");
+	/**
+	 * Cange target object
+	 */
+	function changeTargetObject($a_type = "")
+	{
+		global $ilCtrl;
+
+		$_SESSION["il_link_mep_obj"] = "";
+
+		if($_GET["do"] == "set")
+		{
+			switch ($_GET["target_type"])
+			{
+				case "glo":
+					$_SESSION["il_link_glossary"] = $_GET["sel_id"];
+					break;
+
+				case "mep":
+					$_SESSION["il_link_mep"] = $_GET["sel_id"];
+					break;
+
+				default:
+					$_SESSION["il_link_cont_obj"] = $_GET["sel_id"];
+					break;
+			}
+			$this->showLinkHelp();
+			return;
+		}
+
+		if(empty($a_type))
+		{
+			$a_type = $_GET["target_type"];
+		}
+
+		$tpl =& new ilTemplate("tpl.link_help_explorer.html", true, true, "Modules/LearningModule");
+
+		$output = $this->getTargetExplorer($a_type);
+
 		if ($a_type == "glo")
 		{
 			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_glossary"));
@@ -1062,39 +874,43 @@ class ilInternalLinkGUI
 			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_cont_obj"));
 		}
 		$tpl->setVariable("EXPLORER",$output);
-		$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
-		$tpl->setVariable("BTN_REFRESH", "changeTargetObject");
-		$tpl->setVariable("TXT_REFRESH", $this->lng->txt("refresh"));
+		$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this, "resetLinkList", "", true));
 		$tpl->setVariable("BTN_RESET", "resetLinkList");
-		$tpl->setVariable("TXT_RESET", $this->lng->txt("reset"));
+		$tpl->setVariable("TXT_RESET", $this->lng->txt("back"));
 
 		if ($a_type == "mep")
 		{
 			$tpl->setCurrentBlock("sel_clipboard");
 			$this->ctrl->setParameter($this, "do", "set");
-			//$this->ctrl->setParameter($this, "sel_id", 0);
-			//$this->ctrl->setParameter($this, "target_type", "mep");
-			//$this->ctrl->setParameter($this, "linkmode", "");
-			//$this->ctrl->setParameter($this, "obj_id", "");
 			$tpl->setVariable("LINK_CLIPBOARD", $this->ctrl->getLinkTarget($this, "changeTargetObject"));
 			$tpl->setVariable("TXT_PERS_CLIPBOARD", $this->lng->txt("clipboard"));
 			$tpl->parseCurrentBlock();
 		}
 
-		/*
-		$tpl->setVariable("BTN_STRUCTURE", "resetLinkList");
-		$tpl->setVariable("TXT_STRUCTURE", $this->lng->txt("reset"));*/
 		$tpl->parseCurrentBlock();
 
-		$tpl->show();
+		echo $tpl->get();
 		exit;
 	}
+
+	/**
+	 * Refresh target explorer
+	 */
+	function refreshTargetExplorer()
+	{
+		$output = $this->getTargetExplorer($_GET["target_type"]);
+		echo $output;
+		exit;
+	}
+
 	
 	/**
 	* select repository item explorer
 	*/
 	function selectRepositoryItem()
 	{
+		global $ilCtrl;
+
 		$_SESSION["il_link_mep_obj"] = "";
 
 		if(empty($a_type))
@@ -1119,7 +935,7 @@ class ilInternalLinkGUI
 
 		$exp->setTargetGet("sel_id");
 		$this->ctrl->setParameter($this, "target_type", $a_type);
-		$exp->setParamsGet($this->ctrl->getParameterArray($this, "showLinkHelp"));
+		$exp->setParamsGet($this->ctrl->getParameterArray($this, "refreshRepositorySelector"));
 		
 		// filter
 		$exp->setFiltered(true);
@@ -1152,12 +968,20 @@ class ilInternalLinkGUI
 
 		$exp->setFrameTarget("");
 		$exp->setOutput(0);
-
 		$output = $exp->getOutput();
 
 		return $output;
 	}
 
+	/**
+	 * Refresh Repository Selector
+	 */
+	function refreshRepositorySelector()
+	{
+		$output = $this->selectRepositoryItem();
+		echo $output;
+		exit;
+	}
 
 
 	/**
@@ -1178,6 +1002,113 @@ class ilInternalLinkGUI
 		return false;
 	}
 
+
+	/**
+	 * Get initialisation HTML to use interna link editing
+	 */
+	function getInitHTML($a_url)
+	{
+		global $tpl;
+
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		ilYuiUtil::initPanel(false);
+		ilYuiUtil::initConnection();
+		ilYuiUtil::initDragDrop();
+		$tpl->addJavaScript("./Services/Explorer/js/ilexplorercallback.js");
+		$tpl->addJavascript("./Services/IntLink/js/ilIntLink.js");
+
+		$ltpl = new ilTemplate("tpl.int_link_panel.html", true, true, "Services/IntLink");
+		$ltpl->setVariable("IL_INT_LINK_URL", $a_url);
+		return $ltpl->get();
+	}
+
+	/**
+	 * Render internal link item
+	 */
+	function renderLink($tpl, $a_title, $a_obj_id, $a_type, $a_type_short, $a_bb_type,
+		$a_anchors = array())
+	{
+		$chapterRowBlock = "chapter_row";
+		$anchor_row_block = "anchor_link";
+		if ($this->isEnabledJavaScript())
+		{
+			$chapterRowBlock .= "_js";
+			$anchor_row_block .= "_js";
+		}
+
+		$target_str = ($this->link_target == "")
+			? ""
+			: " target=\"".$this->link_target."\"";
+
+		if (count($a_anchors) > 0)
+		{
+			foreach ($a_anchors as $anchor)
+			{
+				$tpl->setCurrentBlock($anchor_row_block);
+				$tpl->setVariable("TXT_LINK", "#".$anchor);
+				$tpl->setVariable("HREF_LINK",
+					$this->prepareJavascriptOutput("[iln ".$a_bb_type."=\"".$node["obj_id"]."\"".$target_str." anchor=\"$anchor\"] [/iln]"));
+				$tpl->parseCurrentBlock();
+			}
+		}
+
+		$this->css_row = ($this->css_row == "tblrow1")
+			? "tblrow2"
+			: "tblrow1";
+
+		if ($this->getSetLinkTargetScript() != "")
+		{
+			require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+			require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
+			ilImageMapEditorGUI::_recoverParameters();
+			if ($a_type == "MediaObject")
+			{
+				$this->outputThumbnail($tpl, $a_obj_id);
+			}
+			$tpl->setCurrentBlock("link_row");
+			$tpl->setVariable("ROWCLASS", $this->css_row);
+			$tpl->setVariable("TXT_CHAPTER", $a_title);
+			//$tpl->setVariable("LINK_TARGET", "content");
+			$tpl->setVariable("LINK",
+				ilUtil::appendUrlParameterString($this->getSetLinkTargetScript(),
+				"linktype=".$a_type.
+				"&linktarget=il__".$a_type_short."_".$a_obj_id.
+				"&linktargetframe=".$this->link_target));
+			$tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$tpl->setCurrentBlock($chapterRowBlock);
+			if ($a_type == "MediaObject")
+			{
+				$this->outputThumbnail($tpl, $a_obj_id);
+			}
+
+			$tpl->setVariable("ROWCLASS", $this->css_row);
+			$tpl->setVariable("TXT_CHAPTER", $a_title);
+			if ($this->isEnabledJavaScript())
+			{
+//				$tpl->setVariable("TXT_CHAPTER_JS", htmlspecialchars(str_replace("'", "\'", $a_title)));
+			}
+			if ($a_type == "MediaObject" && empty($target_str))
+			{
+				$tpl->setVariable("LINK_BEGIN",
+					$this->prepareJavascriptOutput("[iln ".$a_bb_type."=\"".$a_obj_id."\"/]"));
+				$tpl->setVariable("LINK_END", "");
+			}
+			else
+			{
+				$tpl->setVariable("LINK_BEGIN",
+					$this->prepareJavascriptOutput("[iln ".$a_bb_type."=\"".$a_obj_id."\"".$target_str."]"));
+				$tpl->setVariable("LINK_END", "[/iln]");
+			}
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setCurrentBlock("row");
+		$tpl->parseCurrentBlock();
+
+	}
 
 }
 ?>

@@ -42,6 +42,26 @@ class ilPageConfig
 	}
 
 	/**
+	 * Set internal links filter type list to white list
+	 *
+	 * @param	boolean white list
+	 */
+	function setIntLinkFilterWhiteList($a_white_list)
+	{
+		$this->link_filter_white_list = $a_white_list;
+	}
+
+	/**
+	 * Get internal links filter type list to white list
+	 *
+	 * @return	boolean white list
+	 */
+	function getIntLinkFilterWhiteList()
+	{
+		return $this->link_filter_white_list;
+	}
+
+	/**
 	 * Set prevent rte usage
 	 *
 	 * @param	boolean	prevent rte usage

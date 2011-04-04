@@ -17,15 +17,23 @@ class ilSettingsTemplate
 	private $setting = array();
 	private $hidden_tab = array();
 
+        /**
+         *
+         * @var ilSettingsTemplateConfig
+         */
+        private $config;
+
 	/**
 	 * Constructor
 	 *
 	 * @param
 	 */
-	function __construct($a_id = 0)
+	function __construct($a_id = 0, $config = null)
 	{
 		if ($a_id > 0)
 		{
+                        if ($config)
+                            $this->setConfig($config);
 			$this->setId($a_id);
 			$this->read();
 		}
@@ -115,11 +123,22 @@ class ilSettingsTemplate
 	 * Set setting
 	 *
 	 * @param string setting
-	 * @param string value
+	 * @param mixed value
 	 * @param boolean hide the setting?
 	 */
 	function setSetting($a_setting, $a_value, $a_hide = false)
 	{
+                if ($this->getConfig()) {
+                    $settings = $this->getConfig()->getSettings();
+
+                    if ($settings[$a_setting]['type'] == ilSettingsTemplateConfig::CHECKBOX) {
+                        if (is_array($a_value))
+                            $a_value = serialize($a_value);
+                        else
+                            $a_value = unserialize($a_value);
+                    }
+                }
+
 		$this->setting[$a_setting] = array(
 			"value" => $a_value,
 			"hide" => $a_hide
@@ -179,6 +198,25 @@ class ilSettingsTemplate
 		return $this->hidden_tab;
 	}
 	
+        /**
+         * Returns the template config associated with this template or NULL if
+         * none is given.
+         * 
+         * @return ilSettingsTemplateConfig
+         */
+        public function getConfig() {
+            return $this->config;
+        }
+
+        /**
+         * Sets the template config for this template
+         * 
+         * @param ilSettingsTemplateConfig $config
+         */
+        public function setConfig(ilSettingsTemplateConfig $config) {
+            $this->config = $config;
+        }
+
 
 	/**
 	 * Read

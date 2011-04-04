@@ -204,8 +204,29 @@ class ilExplorer
 		$this->highlighted = "";
 		$this->show_minus = true;
 		$this->counter = 0;
+		$this->asnch_expanding = false;
 	}
-	
+
+	/**
+	 * Set asynch expanding
+	 *
+	 * @param boolean
+ 	 */
+	function setAsynchExpanding($a_val)
+	{
+		$this->asnch_expanding = $a_val;
+	}
+
+	/**
+	 * Get asynch expanding
+	 *
+	 * @return boolean
+ 	 */
+	function getAsynchExpanding()
+	{
+		return $this->asnch_expanding;
+	}
+
 	/**
 	 * Init item counter
 	 *
@@ -928,7 +949,15 @@ if ($this->forceExpanded($a_parent_id) && !in_array($a_parent_id, $this->expande
 				$target = $this->createTarget('+',$a_node_id, $a_option["highlighted_subtree"]);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_NAME", $a_node_id);
-				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
+				if (!$this->getAsynchExpanding())
+				{
+					$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
+				}
+				else
+				{
+					$tpl->setVariable("ONCLICK_TARGET_EXPANDER", " onclick=\"ilExplorerJSHandler('tree_div', '".$target."'); return false;\"");
+					$tpl->setVariable("LINK_TARGET_EXPANDER", "#");
+				}
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/plus.gif"));
 				$tpl->parseCurrentBlock();
 				$pic = true;
@@ -956,7 +985,15 @@ if ($this->forceExpanded($a_parent_id) && !in_array($a_parent_id, $this->expande
 				$target = $this->createTarget('-',$a_node_id, $a_option["highlighted_subtree"]);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_NAME", $a_node_id);
-				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
+				if (!$this->getAsynchExpanding())
+				{
+					$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
+				}
+				else
+				{
+					$tpl->setVariable("ONCLICK_TARGET_EXPANDER", " onclick=\"ilExplorerJSHandler('tree_div', '".$target."'); return false;\"");
+					$tpl->setVariable("LINK_TARGET_EXPANDER", "#");
+				}
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/minus.gif"));
 				$tpl->parseCurrentBlock();
 				$pic = true;
@@ -1157,6 +1194,10 @@ if ($this->forceExpanded($a_parent_id) && !in_array($a_parent_id, $this->expande
 		$ict_str = ($a_highlighted_subtree || $this->highlighted == "")
 			? "&ict=1"
 			: "";
+		if ($this->getAsynchExpanding())
+		{
+			$ict_str.= "&cmdMode=asynch";
+		}
 		return $this->expand_target.$sep.$this->expand_variable."=".$a_node_id.$this->params_get.$ict_str."#".abs($a_node_id);
 	}
 

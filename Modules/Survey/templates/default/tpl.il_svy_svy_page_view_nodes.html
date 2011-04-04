@@ -1,0 +1,24 @@
+<!-- BEGIN element -->
+<!-- BEGIN drop_area -->
+<div class="il_droparea" id="droparea_{DNODE_ID}" onClick="doMouseClick(event, '{DNODE_ID}');" onMouseOver="doMouseOver(this.id, 'il_droparea_active');" onMouseOut="doMouseOut(this.id, 'il_droparea');" style="margin:0; height:12px;"><img src="./templates/default/images/ed_plus.gif" border="0" width="30" height="12" /></div>
+<!-- END drop_area -->
+<!-- BEGIN drop_area_menu -->
+<div style="position:absolute;left:0;top:0;visibility:hidden;" id="dropareamenu_{MNODE_ID}">
+<table class="il_editmenu" cellspacing="0" cellpadding="3">
+<!-- BEGIN menu_cmd -->
+<tr>
+<td class="il_editmenu" style="white-space:nowrap;" id="hftd_{CMD_NODE}t{MCNT}_0" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('{MENU_CMD}', '{CMD_NODE}', '{FC}', 1);">
+{TXT_MENU_CMD}
+</td>
+</tr>
+<!-- END menu_cmd -->
+</table>
+</div>
+<!-- END drop_area_menu -->
+<!-- BEGIN list_item -->
+<div class="il_editarea{NODE_DRAG}" id="{NODE_ID}" onMouseOver="doMouseOver(this.id, 'il_editarea_active');" onMouseOut="doMouseOut(this.id, 'il_editarea');" onClick="doMouseClick(event,this.id);"{VAL_DBLCLICK}>
+<div class="ilEditLabel" style="display:none;" id="label_{NODE_ID}">{TXT_NODE_TYPE}</div>
+<div style="padding: 5px;">{TXT_NODE_CONTENT}</div>
+</div>
+<!-- END list_item -->
+<!-- END element -->

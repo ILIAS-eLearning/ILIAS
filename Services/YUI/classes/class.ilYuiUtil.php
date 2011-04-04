@@ -85,7 +85,7 @@ class ilYuiUtil
 	 * @param void
 	 * @return void
 	 */
-	public function initPanel()
+	public function initPanel($a_resize = false)
 	{
 		global $tpl;
 		
@@ -93,6 +93,13 @@ class ilYuiUtil
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
 		$tpl->addCss("./Services/YUI/js/".self::$ver."/container/assets/skins/sam/container.css");
 		$tpl->addCss("./Services/Calendar/css/panel_min.css");
+
+		if ($a_resize)
+		{
+			$tpl->addCss("./Services/YUI/js/".self::$ver."/resize/assets/skins/sam/resize.css");
+			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/utilities/utilities-min.js");
+			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/resize/resize-min.js");
+		}
 		
 	}
 

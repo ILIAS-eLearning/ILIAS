@@ -1,10 +1,17 @@
 #treeView {
-	overflow-x: hidden;
-	overflow-y: hidden;
-	width: 100%; 
+	overflow-x: auto;
+	overflow-y: auto;
+	width: 100%;
 	height: 100%;
 	border-right: 4px solid #F4F4F4;
+}
 
+#treeView table {
+	table-layout: fixed !important;
+}
+
+#treeView table td div.ygtvspacer {
+	margin: 4px;
 }
 
 #treeView a {

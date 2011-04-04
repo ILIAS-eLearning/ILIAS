@@ -58,12 +58,30 @@ class ilIntLinkRepItemExplorer extends ilExplorer
 	function setMode($a_mode)
 	{
 		$this->mode  = $a_mode;
+		if ($this->mode == "asynch")
+		{
+			$this->setAsynchExpanding(true);
+		}
 	}
-	
+
+	/**
+	 * Set "set link target" script
+	 *
+	 * @param <type> $a_script
+	 */
 	function setSetLinkTargetScript($a_script)
 	{
 		$this->link_target_script = $a_script;
 	}
+
+	/**
+	 * Get "set link target" script
+	 */
+	function getSetLinkTargetScript()
+	{
+		return $this->link_target_script;
+	}
+
 	
 	function setRefId($a_ref_id)
 	{
@@ -72,7 +90,7 @@ class ilIntLinkRepItemExplorer extends ilExplorer
 	
 	function buildLinkTarget($a_node_id, $a_type)
 	{
-		if ($this->mode != "link")
+		if ($this->getSetLinkTargetScript() == "")
 		{
 			return "#";
 		}
@@ -80,7 +98,7 @@ class ilIntLinkRepItemExplorer extends ilExplorer
 		{
 			//$tpl->setVariable("LINK_TARGET", "content");
 			$link =
-				ilUtil::appendUrlParameterString($this->link_target_script,
+				ilUtil::appendUrlParameterString($this->getSetLinkTargetScript(),
 				"linktype=RepositoryItem".
 				"&linktarget=il__".$a_type."_".$a_node_id);
 
@@ -93,7 +111,7 @@ class ilIntLinkRepItemExplorer extends ilExplorer
 	{
 		if ($this->mode == "link")
 		{
-			return "content";
+//			return "content";
 		}
 		else
 		{
@@ -107,9 +125,9 @@ class ilIntLinkRepItemExplorer extends ilExplorer
 	function isClickable($a_type, $a_ref_id)
 	{
 		global $ilUser;
-		
+
 		if ($ilUser->getPref("ilPageEditor_JavaScript") != "enable"
-			&& $this->mode != "link")
+			&& $this->mode != "link" && $this->mode != "asynch")
 		{
 			return false;
 		}
@@ -135,7 +153,8 @@ class ilIntLinkRepItemExplorer extends ilExplorer
 	{
 		global $ilUser;
 		
-		if ($ilUser->getPref("ilPageEditor_JavaScript") != "enable")
+		if ($ilUser->getPref("ilPageEditor_JavaScript") != "enable" &&
+			$this->mode != "asynch")
 		{
 			if (in_array($a_type,$this->selectable_types))
 			{
@@ -153,7 +172,14 @@ class ilIntLinkRepItemExplorer extends ilExplorer
 	*/
 	function buildOnClick($a_node_id, $a_type, $a_title)
 	{
-		return "parent.content.addInternalLink('[iln ".$a_type."=&quot;".$a_node_id."&quot;] [/iln]','".$a_title."');setTimeout('window.close()',300);return(false);";
+		if ($this->getSetLinkTargetScript() == "")
+		{
+			return "return il.IntLink.addInternalLink('[iln ".$a_type."=&quot;".$a_node_id."&quot;]','[/iln]');";
+		}
+//		else
+//		{
+//			return "parent.content.addInternalLink('[iln ".$a_type."=&quot;".$a_node_id."&quot;] [/iln]','".$a_title."');setTimeout('window.close()',300);return(false);";
+//		}
 	}
 
 

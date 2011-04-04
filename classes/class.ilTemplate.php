@@ -1529,8 +1529,34 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setLocator()
 	{
-		global $ilLocator, $lng;
-		$this->setVariable("LOCATOR", $ilLocator->getHTML());
+		global $ilLocator, $lng, $ilPluginAdmin;
+
+		$html = $ilLocator->getHTML();
+
+		if (is_object($ilPluginAdmin))
+		{
+			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+						foreach ($pl_names as $pl)
+			{
+				$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+				$gui_class = $ui_plugin->getUIClassInstance();
+				$resp = $gui_class->getHTML("Services/Locator", "main_locator",
+					array("locator_gui" => $ilLocator));
+				if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
+				{
+					$plugin_html = true;
+					break;		// first one wins
+				}
+
+			}
+			// combine plugin and default html
+			if ($plugin_html)
+			{
+				$html = $gui_class->modifyHTML($html, $resp);
+			}
+		}
+
+		$this->setVariable("LOCATOR", $html);
 	}
 	
 	/**

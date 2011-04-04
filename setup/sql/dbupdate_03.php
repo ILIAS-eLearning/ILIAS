@@ -4436,4 +4436,108 @@ if (!$ilDB->tableColumnExists("il_wiki_page", "blocked"))
 	));
 }
 ?>
+<#3263>
+<?php
+if (!$ilDB->tableColumnExists("svy_svy", "template_id"))
+{
+	$ilDB->addTableColumn("svy_svy", "template_id", array(
+		"type" => "integer",
+		"notnull" => false,
+		"length" => 4
+	));
+}
+?>
+<#3264>
+<?php
+if (!$ilDB->tableColumnExists("tst_tests", "express_qpool_allowed"))
+{
+	$ilDB->addTableColumn("tst_tests", "express_qpool_allowed", array(
+		"type" => "integer",
+		"notnull" => false,
+		"length" => 1,
+		"default" => 0
+	));
+}
+?>
+<#3265>
+<?php
+if (!$ilDB->tableColumnExists("tst_tests", "enabled_view_mode"))
+{
+	$ilDB->addTableColumn("tst_tests", "enabled_view_mode", array(
+		"type" => "text",
+		"notnull" => false,
+		"length" => 20,
+		"default" => 0
+	));
+}
+?>
+<#3266>
+<?php
+if (!$ilDB->tableColumnExists("tst_tests", "template_id"))
+{
+	$ilDB->addTableColumn("tst_tests", "template_id", array(
+		"type" => "integer",
+		"notnull" => false,
+		"length" => 4
+	));
+}
+?>
+<#3267>
+<?php
+if (!$ilDB->tableColumnExists("svy_svy", "pool_usage"))
+{
+	$ilDB->addTableColumn("svy_svy", "pool_usage", array(
+		"type" => "integer",
+		"notnull" => false,
+		"length" => 1
+	));
+}
+?>
+<#3268>
+<?php
+if (!$ilDB->tableColumnExists("svy_qblk", "show_blocktitle"))
+{
+	$ilDB->addTableColumn("svy_qblk", "show_blocktitle", array(
+		"type" => "text",
+		"notnull" => false,
+		"length" => 1
+	));
+}
+?>
+<#3269>
+<?php
+if (!$ilDB->tableColumnExists("tst_tests", "pool_usage"))
+{
+	$ilDB->addTableColumn("tst_tests", "pool_usage", array(
+		"type" => "integer",
+		"notnull" => false,
+		"length" => 1
+	));
+}
+?>
+<#3270>
+<?php
+if ($ilDB->tableColumnExists("tst_tests", "express_qpool_allowed"))
+{
+	$ilDB->dropTableColumn("tst_tests", "express_qpool_allowed");
+}
+?>
+<#3271>
+<?php
+if (!$ilDB->tableColumnExists("il_news_item", "content_text_is_lang_var"))
+{
+	$ilDB->addTableColumn("il_news_item", "content_text_is_lang_var", array(
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => true,
+		"default" => 0
+		));
+}
+?>
+<#3272>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("Page", "page", "div",
+				array());
+?>
 

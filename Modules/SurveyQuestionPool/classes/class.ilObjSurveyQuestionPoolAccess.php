@@ -55,10 +55,10 @@ class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
-			array("permission" => "write", "cmd" => "questions", "lang_var" => "edit",
-				"default" => false),
-			array("permission" => "read", "cmd" => "questions", "lang_var" => "edit",
+			array("permission" => "read", "cmd" => "questions", "lang_var" => "edit_questions",
 				"default" => true),
+			array("permission" => "write", "cmd" => "questions", "lang_var" => "edit_questions"),
+			array("permission" => "write", "cmd" => "properties", "lang_var" => "settings")
 		);
 		
 		return $commands;

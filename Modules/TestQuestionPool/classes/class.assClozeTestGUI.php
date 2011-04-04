@@ -154,7 +154,11 @@ class assClozeTestGUI extends assQuestionGUI
 		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
 		$this->getQuestionTemplate();
 
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+#		if ($_REQUEST['prev_qid']) {
+#		    $this->ctrl->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
+#		}
+
+                include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
@@ -719,6 +723,7 @@ class assClozeTestGUI extends assQuestionGUI
 			$classname = $q_type . "GUI";
 			$this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
 			$this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
+#			$this->ctrl->setParameterByClass(strtolower($classname), 'prev_qid', $_REQUEST['prev_qid']);
 		}
 
 		if ($_GET["q_id"])
@@ -792,12 +797,21 @@ class assClozeTestGUI extends assQuestionGUI
 				array("assessment"),
 				$classname, "");
 		}
-		
-		if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0))
+
+                if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0))
 		{
 			$ref_id = $_GET["calling_test"];
 			if (strlen($ref_id) == 0) $ref_id = $_GET["test_ref_id"];
-			$ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
+
+                        global $___test_express_mode;
+                        
+                        if (!$_GET['test_express_mode'] && !$___test_express_mode) {
+                            $ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
+                        }
+                        else {
+                            $link = ilTestExpressPage::getReturnToPageLink();
+                            $ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), $link);
+                        }
 		}
 		else
 		{

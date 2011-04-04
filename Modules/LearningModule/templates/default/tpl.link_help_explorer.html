@@ -1,42 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN"
-	"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<title>ILIAS {PAGETITLE}</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
-	<!-- BEGIN ContentStyle -->
-	<link rel="stylesheet" type="text/css" href="{LOCATION_CONTENT_STYLESHEET}" />
-	<!-- END ContentStyle -->
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-</head>
-<body class="il_Explorer">
-<div class="ilExplorerFrame">
-<table class="ilExplorer" cellspacing="0" cellpadding="0" border="0"><tr><td class="ilExpH">
-<div class="ilExpH">
-
-<h1 class="ilExplorerHead">
 {TXT_EXPLORER_HEADER}
-</h1>
-</div>
-</td></tr><tr><td class="ilExpBody">
-<div class="il_Explorer">
-
 <!-- BEGIN sel_clipboard -->
-<table cellpadding="3" cellspacing="0" border="0" style="margin-top:5px;"><tr><td>
-<a href="{LINK_CLIPBOARD}">{TXT_PERS_CLIPBOARD}</a>
-</td></tr></table>
-<hr size="1" />
+<p><a href="{LINK_CLIPBOARD}">{TXT_PERS_CLIPBOARD}</a></p>
 <!-- END sel_clipboard -->
 {EXPLORER}
 <br/>
 <div align="center">
-	<form action="{ACTION}" method="post">
-	<input class="submit" type="submit" name="cmd[{BTN_RESET}]" value="{TXT_RESET}" />
+	<form id="ilIntLinkResetForm" action="{ACTION}" method="post">
+	<input id="ilIntLinkReset" class="submit" type="submit" name="cmd[{BTN_RESET}]" value="{TXT_RESET}" />
 	</form>
 </div>
-</div></td></tr></table>
-</div>
-</body>
-</html>
+
+

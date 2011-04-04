@@ -1483,6 +1483,10 @@ class ilCtrl
 					{
 						$params[$par] = $_GET[$par];
 					}
+					else if (isset($_POST[$par]))
+					{
+						$params[$par] = $_POST[$par];
+					}
 				}
 			}
 

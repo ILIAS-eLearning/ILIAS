@@ -204,7 +204,29 @@ class ilPageEditorGUI
 			? $_GET["new_type"]
 			: $_POST["new_type"];
 //echo "-$cmd-";
-//var_dump($_POST);
+//var_dump($_GET); var_dump($_POST); exit;
+/*array
+  'target' =>
+    array
+      0 => string '' (length=0)
+  'commandpg' => string 'insertJS' (length=8)
+  'cmd' =>
+    array
+      'exec_pg:' => string 'Ok' (length=2)
+  'ajaxform_content' => string '<div class=\"ilc_text_block_Standard\">sdfsdfsd sd</div>' (length=56)
+  'ajaxform_char' => string '' (length=0)*/
+/*array
+  'usedwsiwygeditor' => string '0' (length=1)
+  'par_characteristic' => string 'Standard' (length=8)
+  'par_content' => string 'adasdaasda a
+
+' (length=14)
+  'par_language' => string 'en' (length=2)
+  'cmd' =>
+    array
+      'create_par' => string 'Save' (length=4)*/
+
+
 		if (substr($cmd, 0, 5) == "exec_")
 		{
 //echo ":".key($_POST["cmd"]).":";
@@ -322,7 +344,7 @@ class ilPageEditorGUI
 		$this->ctrl->setCmd($cmd);
 		//$next_class = $this->ctrl->getNextClass($this);
 //$this->ctrl->debug("+next_class:".$next_class."+");
-//echo("+next_class:".$next_class."+".$ctype."+");
+//echo("+next_class:".$next_class."+".$ctype."+"); exit;
 
 		if ($next_class == "")
 		{
@@ -420,20 +442,27 @@ class ilPageEditorGUI
 			$next_class = "";
 		}
 		
-//echo "hier_id:$hier_id:type:$type:cmd:$cmd:ctype:$ctype:next_class:$next_class:<br>";
+//echo "hier_id:$hier_id:type:$type:cmd:$cmd:ctype:$ctype:next_class:$next_class:<br>"; exit;
 		switch($next_class)
 		{
 			case "ilinternallinkgui":
 				$link_gui = new ilInternalLinkGUI(
 					$this->int_link_def_type, $this->int_link_def_id);
 				$link_gui->setMode("normal");
+				$link_gui->setFilterWhiteList(
+					$this->page_gui->getPageConfig()->getIntLinkFilterWhiteList());
 				foreach ($this->page_gui->getPageConfig()->getIntLinkFilters() as $filter)
 				{
 					$link_gui->filterLinkType($filter);
 				}
-				$link_gui->setSetLinkTargetScript(
-					$this->ctrl->getLinkTarget($this, "setInternalLink"));
+//				$link_gui->setSetLinkTargetScript(
+//					$this->ctrl->getLinkTarget($this, "setInternalLink"));
 				$link_gui->setReturn($this->int_link_return);
+				if ($ilCtrl->isAsynch())
+				{
+					$link_gui->setMode("asynch");
+				}
+
 				$ret =& $this->ctrl->forwardCommand($link_gui);
 				break;
 

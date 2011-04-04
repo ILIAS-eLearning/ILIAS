@@ -237,7 +237,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	{
 		foreach ($this->items as $key => $item)
 		{
-			if ($item->getPostVar() == $a_post_var)
+			if (method_exists($item, "getPostVar") && $item->getPostVar() == $a_post_var)
 			{
 				unset($this->items[$key]);
 			}

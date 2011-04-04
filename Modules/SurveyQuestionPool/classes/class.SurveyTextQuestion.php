@@ -134,7 +134,11 @@ class SurveyTextQuestion extends SurveyQuestion
 */
 	function isComplete()
 	{
-		if ($this->title and $this->author and $this->questiontext)
+		if (
+			strlen($this->getTitle()) &&
+			strlen($this->getAuthor()) &&
+			strlen($this->getQuestiontext())
+		)
 		{
 			return 1;
 		}

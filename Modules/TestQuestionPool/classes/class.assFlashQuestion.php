@@ -73,7 +73,7 @@ class assFlashQuestion extends assQuestion
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->question) and ($this->getMaximumPoints() > 0) and (strlen($this->getApplet())))
+		if (strlen($this->title) and ($this->author) and ($this->question) and ($this->getMaximumPoints() > 0) and (strlen($this->getApplet())))
 		{
 			return true;
 		}

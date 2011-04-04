@@ -1,0 +1,22 @@
+<!-- <form name="form_questions" method="POST" action="{FORM_ACTION}">
+<input type="hidden" name="move_{MOVE_COUNTER}" value="{MOVE_VALUE}">
+ END move -->
+<tr class="{CSS_ROW}">
+	<td class="std"{CHECKABLE_INDENT}>
+		<!-- BEGIN checkable -->
+		<input type="checkbox" name="id[]" value="cb_{QUESTION_ID}" />
+		<!-- END checkable -->
+	</td>
+	<td class="std"{ORDER_INDENT}>
+		<!-- BEGIN order -->
+		<input type="text" name="{ORDER_NAME}" value="{ORDER_VALUE}" maxlength="3" style="width:30px" />
+		<!-- END order -->
+	</td>
+	<td class="std"{TITLE_INDENT}>{ICON} {TITLE}</td>
+	<td class="std">{OBLIGATORY}</td>
+	<td class="std">{DESCRIPTION}</td>
+	<td class="std">{TYPE}</td>
+	<td class="std">{AUTHOR}</td>
+	<td class="std">{POOL}</td>
+	<td class="std">{ACTION}</td>
+</tr>

@@ -419,89 +419,9 @@ class ilNewsItemGen
 	{
 		global $ilDB;
 		
-		$this->setId($ilDB->nextId("il_news_item"));
-		$ilDB->insert("il_news_item", array(
-			"id" => array("integer", $this->getId()),
-			"title" => array("text", $this->getTitle()),
-			"content" => array("clob", $this->getContent()),
-			"context_obj_id" => array("integer", (int) $this->getContextObjId()),
-			"context_obj_type" => array("text", $this->getContextObjType()),
-			"context_sub_obj_id" => array("integer", (int) $this->getContextSubObjId()),
-			"context_sub_obj_type" => array("text", $this->getContextSubObjType()),
-			"content_type" => array("text", $this->getContentType()),
-			"creation_date" => array("timestamp", ilUtil::now()),
-			"update_date" => array("timestamp", ilUtil::now()),
-			"user_id" => array("integer", $this->getUserId()),
-			"visibility" => array("text", $this->getVisibility()),
-			"content_long" => array("clob", $this->getContentLong()),
-			"priority" => array("integer", $this->getPriority()),
-			"content_is_lang_var" => array("integer", $this->getContentIsLangVar()),
-			"mob_id" => array("integer", $this->getMobId()),
-            "playtime" => array("text", $this->getPlaytime())
-		));
 	}
 
-	/**
-	* Read item from database.
-	*
-	*/
-	public function read()
-	{
-		global $ilDB;
-		
-		$query = "SELECT * FROM il_news_item WHERE id = ".
-			$ilDB->quote($this->getId(), "integer");
-		$set = $ilDB->query($query);
-		$rec = $ilDB->fetchAssoc($set);
 
-		$this->setTitle($rec["title"]);
-		$this->setContent($rec["content"]);
-		$this->setContextObjId((int) $rec["context_obj_id"]);
-		$this->setContextObjType($rec["context_obj_type"]);
-		$this->setContextSubObjId((int) $rec["context_sub_obj_id"]);
-		$this->setContextSubObjType($rec["context_sub_obj_type"]);
-		$this->setContentType($rec["content_type"]);
-		$this->setCreationDate($rec["creation_date"]);
-		$this->setUpdateDate($rec["update_date"]);
-		$this->setUserId($rec["user_id"]);
-		$this->setVisibility($rec["visibility"]);
-		$this->setContentLong($rec["content_long"]);
-		$this->setPriority($rec["priority"]);
-		$this->setContentIsLangVar($rec["content_is_lang_var"]);
-		$this->setMobId($rec["mob_id"]);
-		$this->setPlaytime($rec["playtime"]);
-
-	}
-
-	/**
-	* Update item in database.
-	*
-	*/
-	public function update()
-	{
-		global $ilDB;
-		
-		$ilDB->update("il_news_item", array(
-			"title" => array("text", $this->getTitle()),
-			"content" => array("clob", $this->getContent()),
-			"context_obj_id" => array("integer", $this->getContextObjId()),
-			"context_obj_type" => array("text", $this->getContextObjType()),
-			"context_sub_obj_id" => array("integer", $this->getContextSubObjId()),
-			"context_sub_obj_type" => array("text", $this->getContextSubObjType()),
-			"content_type" => array("text", $this->getContentType()),
-			"update_date" => array("timestamp", ilUtil::now()),
-			"user_id" => array("integer", $this->getUserId()),
-			"visibility" => array("text", $this->getVisibility()),
-			"content_long" => array("clob", $this->getContentLong()),
-			"priority" => array("integer", $this->getPriority()),
-			"content_is_lang_var" => array("integer", $this->getContentIsLangVar()),
-			"mob_id" => array("integer", $this->getMobId()),
-            "playtime" => array("text", $this->getPlaytime())
-			), array(
-			"id" => array("integer", $this->getId())
-		));
-
-	}
 
 	/**
 	* Delete item from database.

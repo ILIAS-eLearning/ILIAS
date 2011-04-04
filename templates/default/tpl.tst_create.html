@@ -14,6 +14,34 @@
 		<td class="ilFormOption"><label for="description">{TXT_DESC}</label></td>
 		<td class="ilFormValue"><textarea name="Fobject[desc]" id="description" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
 	</tr>
+        <!-- BEGIN templates -->
+        <tr>
+                <td class="ilFormOption"><label for="template">{TXT_TEMPLATE}</label></td>
+                <td class="ilFormValue"><select name="Fobject[template]" onChange="showInfo(this.value);">
+                <!-- BEGIN template_option -->
+                <option value="{VAL_TEMPLATE_OPTION}">{TXT_TEMPLATE_OPTION}</option>
+                <!-- END template_option -->
+                </select>
+			<script>
+			var jsInfo = {};
+			<!-- BEGIN js_data -->
+			jsInfo[{JS_DATA_ID}] = "{JS_DATA_TEXT}";
+			<!-- END js_data -->
+			function showInfo(id) {
+				if(jsInfo[id] != undefined && jsInfo[id].length)
+				{
+					jQuery("#jsInfo").html(jsInfo[id]).css("display", "");
+				}
+				else
+				{
+					jQuery("#jsInfo").html("").css("display", "hidden");
+				}
+			}			
+			</script>
+			<div id="jsInfo" style="display:none; margin: 5px;" class="small">xxx</div></td>
+		</td>
+        </tr>
+        <!-- END templates -->
 <!-- BEGIN defaults -->	
 	<tr>
 		<td class="ilFormOption"><label for="defaults">{TXT_DEFAULTS}</label></td>

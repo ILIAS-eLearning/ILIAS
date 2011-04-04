@@ -36,7 +36,8 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 		$this->setAvailableDetailLevels(3);*/
 		$this->setEnableNumInfo(false);
 		
-		$this->setTitle($lng->txt("wiki_important_pages"));
+//		$this->setTitle($lng->txt("wiki_important_pages"));
+		$this->setTitle($lng->txt("wiki_navigation"));
 		//$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
 		//$this->setData($data);
 		$this->allow_moving = false;
@@ -113,6 +114,14 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 		global $ilCtrl, $lng, $ilAccess;
 		
 		$tpl = new ilTemplate("tpl.wiki_imp_pages_block.html", true, true, "Modules/Wiki");
+
+		// the start page
+		$tpl->setCurrentBlock("item");
+		$title = ilWikiPage::lookupTitle($p["page_id"]);
+		$tpl->setVariable("ITEM_TITLE", $lng->txt("wiki_start_page"));
+		$tpl->setVariable("PAD", (int) 5 + (0 * 20));
+		$tpl->setVariable("ITEM_HREF", $ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoStartPage"));
+		$tpl->parseCurrentBlock();
 
 		$ipages = ilObjWiki::_lookupImportantPagesList(ilObject::_lookupObjId($_GET["ref_id"]));
 		foreach ($ipages as $p)

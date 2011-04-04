@@ -29,7 +29,7 @@ include_once "./classes/class.ilObjectGUI.php";
 * @author Helmut Schottmüller <hschottm@gmx.de>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjAssessmentFolderGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjAssessmentFolderGUI: ilPermissionGUI, ilSettingsTemplateGUI
 *
 * @extends ilObjectGUI
 */
@@ -60,14 +60,24 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
 
+                global $ilTabs;
+
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
+                                $ilTabs->activateTab('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
+			case 'ilsettingstemplategui':
+				$ilTabs->setTabActive("templates");
+				include_once("./Services/Administration/classes/class.ilSettingsTemplateGUI.php");
+				$set_tpl_gui = new ilSettingsTemplateGUI($this->getSettingsTemplateConfig());
+				$this->ctrl->forwardCommand($set_tpl_gui);
+				break;
+                            
 			default:
 				if($cmd == "" || $cmd == "view")
 				{
@@ -108,7 +118,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	public function settingsObject()
 	{
 		global $ilAccess;
-		
+
+                global $ilTabs;
+                $ilTabs->setTabActive('settings');
+
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -285,6 +298,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function logsObject($p_from = null, $p_until = null, $p_test = null)
 	{
+                global $ilTabs;
+                $ilTabs->activateTab('logs');
+
 		$template = new ilTemplate("tpl.assessment_logs.html", TRUE, TRUE, "Modules/Test");
 
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
@@ -374,7 +390,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function logAdminObject()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilTabs;
+
+                $ilTabs->activateTab('logs');
+
 		$a_write_access = ($ilAccess->checkAccess("write", "", $this->object->getRefId())) ? true : false;
 		
 		include_once "./Modules/Test/classes/tables/class.ilAssessmentFolderLogAdministrationTableGUI.php";
@@ -399,7 +418,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	public function getLogdataSubtabs()
 	{
 		global $ilTabs;
-		
+
 		// log output
 		$ilTabs->addSubTabTarget("ass_log_output",
 			 $this->ctrl->getLinkTarget($this, "logs"),
@@ -419,8 +438,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function defaultsObject()
 	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl, $tpl;
-		
+		global $ilAccess, $rbacreview, $lng, $ilCtrl, $tpl, $ilTabs;
+
+                $ilTabs->activateTab('defaults');
+
 		$assessmentSetting = new ilSetting("assessment");
 		$use_javascript = array_key_exists("use_javascript", $_GET) ? $_GET["use_javascript"] : $assessmentSetting->get("use_javascript");
 		$imap_line_color = array_key_exists("imap_line_color", $_GET) ? $_GET["imap_line_color"] : $assessmentSetting->get("imap_line_color");
@@ -482,7 +503,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $lng;
 
 		switch ($this->ctrl->getCmd())
 		{
@@ -507,6 +528,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 				$tabs_gui->addTarget("defaults",
 					$this->ctrl->getLinkTarget($this, "defaults"), array("defaults","saveDefaults"), "", "");
+
+			$tabs_gui->addTab("templates",
+				$lng->txt("adm_settings_templates"),
+				$this->ctrl->getLinkTargetByClass("ilsettingstemplategui", ""));
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -515,5 +540,355 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
+
+
+	/**
+	 * Get settings template configuration object
+	 *
+	 * @return object settings template configuration object
+	 */
+	public static function getSettingsTemplateConfig()
+	{
+		global $lng;
+
+		$lng->loadLanguageModule("tst");
+                $lng->loadLanguageModule("assessment");
+
+		include_once("./Services/Administration/classes/class.ilSettingsTemplateConfig.php");
+		$config = new ilSettingsTemplateConfig("tst");
+
+                $config->addHidableTab("questions", $lng->txt('edit_test_questions'));
+                $config->addHidableTab("mark_schema", $lng->txt('settings') . ' - ' . $lng->txt("mark_schema"));
+                $config->addHidableTab("certificate", $lng->txt('settings') . ' - ' . $lng->txt("certificate"));
+                $config->addHidableTab("defaults", $lng->txt('settings') . ' - ' . $lng->txt("defaults"));
+
+		$config->addHidableTab("learning_progress", $lng->txt("learning_progress"));
+		$config->addHidableTab("manscoring", $lng->txt("manscoring"));
+                $config->addHidableTab("history", $lng->txt("history"));
+		$config->addHidableTab("meta_data", $lng->txt("meta_data"));
+		$config->addHidableTab("export", $lng->txt("export"));
+                $config->addHidableTab("permissions", $lng->txt("permission"));
+
+		/////////////////////////////////////
+		// Settings
+		/////////////////////////////////////
+
+		//general properties
+		$config->addSetting(
+			"anonymity",
+			ilSettingsTemplateConfig::SELECT,
+			$lng->txt("tst_anonymity"),
+			false,
+			0,
+			array(
+                            '0' => $lng->txt("tst_anonymity_no_anonymization"),
+                            '1' => $lng->txt("tst_anonymity_anonymous_test"),
+                        )
+			);
+
+		$config->addSetting(
+			"title_output",
+			ilSettingsTemplateConfig::SELECT,
+			$lng->txt("tst_title_output"),
+                        true,
+                        0,
+			array(
+                            '0' => $lng->txt("test_enable_view_table"),
+                            '1' => $lng->txt("test_enable_view_express"),
+                            '2' => $lng->txt("test_enable_view_both"),
+                        )
+			);
+		$config->addSetting(
+			"random_test",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("tst_random_selection"),
+			true
+			);
+
+		$config->addSetting(
+			"use_pool",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("test_question_pool_usage"),
+			true
+			);
+
+		// Information at beginning and end of test
+		$config->addSetting(
+			"showinfo",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("showinfo"),
+			true
+			);
+
+		$config->addSetting(
+			"showfinalstatement",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("final_statement_show"),
+			false
+			);
+
+		// Session Settings
+		$config->addSetting(
+			"nr_of_tries",
+			ilSettingsTemplateConfig::TEXT,
+			$lng->txt("tst_nr_of_tries"),
+			false,
+                        3
+			);
+
+
+		$config->addSetting(
+			"chb_processing_time",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("tst_processing_time"),
+			false
+			);
+
+                $config->addSetting(
+			"chb_starting_time",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("tst_starting_time"),
+			false
+			);
+
+                $config->addSetting(
+			"chb_ending_time",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("tst_ending_time"),
+			false
+			);
+
+		$config->addSetting(
+			"password",
+			ilSettingsTemplateConfig::TEXT,
+			$lng->txt("tst_password"),
+			true,
+                        20
+			);
+
+		// Presentation Properties
+
+		$config->addSetting(
+			"chb_use_previous_answers",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("tst_use_previous_answers"),
+			false
+			);
+		$config->addSetting(
+			"forcejs",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("forcejs_short"),
+			true
+			);
+
+		$config->addSetting(
+			"title_output",
+			ilSettingsTemplateConfig::SELECT,
+			$lng->txt("tst_title_output"),
+                        true,
+                        0,
+			array(
+                            '0' => $lng->txt("test_enable_view_table"),
+                            '1' => $lng->txt("test_enable_view_express"),
+                            '2' => $lng->txt("test_enable_view_both"),
+                        )
+			);
+
+		// Sequence Properties
+
+		$config->addSetting(
+			"chb_postpone",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("tst_postpone"),
+			true
+			);
+		$config->addSetting(
+			"chb_shuffle_questions",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("tst_shuffle_questions"),
+			false
+			);
+		$config->addSetting(
+			"list_of_questions",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("tst_show_summary"),
+			false
+			);
+
+		$config->addSetting(
+			"chb_show_marker",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("question_marking"),
+			true
+			);
+		$config->addSetting(
+			"chb_show_cancel",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("tst_show_cancel"),
+			true
+			);
+
+		// Notifications
+
+		$config->addSetting(
+			"mailnotification",
+			ilSettingsTemplateConfig::SELECT,
+			$lng->txt("tst_finish_notification"),
+                        true,
+                        0,
+			array(
+                            '0' => $lng->txt("tst_finish_notification_no"),
+                            '1' => $lng->txt("tst_finish_notification_simple"),
+                            '2' => $lng->txt("tst_finish_notification_advanced"),
+                        )
+			);
+
+		$config->addSetting(
+			"mailnottype",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("mailnottype"),
+			true
+			);
+
+		// Kiosk Mode
+
+		$config->addSetting(
+			"kiosk",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("kiosk"),
+			true
+			);
+
+
+		// Participants Restriction
+
+		$config->addSetting(
+			"fixedparticipants",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("participants_invitation"),
+			true
+			);
+
+                $config->addSetting(
+			"allowedUsers",
+			ilSettingsTemplateConfig::TEXT,
+			$lng->txt("tst_allowed_users"),
+			true,
+                        3
+			);
+
+                $config->addSetting(
+			"allowedUsersTimeGap",
+			ilSettingsTemplateConfig::TEXT,
+			$lng->txt("tst_allowed_users_time_gap"),
+			true,
+                        4
+			);
+
+		/////////////////////////////////////
+		// Scoring and Results
+		/////////////////////////////////////
+
+		$config->addSetting(
+			"count_system",
+			ilSettingsTemplateConfig::SELECT,
+			$lng->txt("tst_text_count_system"),
+                        true,
+                        0,
+			array(
+                            '0' => $lng->txt("tst_count_partial_solutions"),
+                            '1' => $lng->txt("tst_count_correct_solutions"),
+                        )
+			);
+
+ 		$config->addSetting(
+			"mc_scoring",
+			ilSettingsTemplateConfig::SELECT,
+			$lng->txt("tst_score_mcmr_questions"),
+                        true,
+                        0,
+			array(
+                            '0' => $lng->txt("tst_score_mcmr_zero_points_when_unanswered"),
+                            '1' => $lng->txt("tst_score_mcmr_use_scoring_system"),
+                        )
+			);
+
+  		$config->addSetting(
+			"score_cutting",
+			ilSettingsTemplateConfig::SELECT,
+			$lng->txt("tst_score_cutting"),
+                        true,
+                        0,
+			array(
+                            '0' => $lng->txt("tst_score_cut_question"),
+                            '1' => $lng->txt("tst_score_cut_test"),
+                        )
+			);
+
+  		$config->addSetting(
+			"pass_scoring",
+			ilSettingsTemplateConfig::SELECT,
+			$lng->txt("tst_score_cutting"),
+                        false,
+                        0,
+			array(
+                            '0' => $lng->txt("tst_pass_last_pass"),
+                            '1' => $lng->txt("tst_pass_best_pass"),
+                        )
+			);
+
+                $config->addSetting(
+			"instant_feedback",
+			ilSettingsTemplateConfig::CHECKBOX,
+			$lng->txt("tst_instant_feedback"),
+                        false,
+                        0,
+			array(
+                            'instant_feedback_answer' => $lng->txt("tst_instant_feedback_answer_specific"),
+                            'instant_feedback_points' => $lng->txt("tst_instant_feedback_results"),
+                            'instant_feedback_solution' => $lng->txt("tst_instant_feedback_solution"),
+                        )
+			);
+
+                $config->addSetting(
+			"results_access",
+			ilSettingsTemplateConfig::SELECT,
+			$lng->txt("tst_results_access"),
+                        false,
+                        0,
+			array(
+                            '1' => $lng->txt("tst_results_access_finished"),
+                            '2' => $lng->txt("tst_results_access_always"),
+                            '3' => $lng->txt("tst_results_access_never"),
+                            '4' => $lng->txt("tst_results_access_date"),
+                        )
+			);
+
+                $config->addSetting(
+			"results_presentation",
+			ilSettingsTemplateConfig::CHECKBOX,
+			$lng->txt("tst_results_presentation"),
+                        false,
+                        0,
+			array(
+                            'pass_details' => $lng->txt("tst_show_pass_details"),
+                            'solution_details' => $lng->txt("tst_show_solution_details"),
+                            'solution_printview' => $lng->txt("tst_show_solution_printview"),
+                            'solution_feedback' => $lng->txt("tst_show_solution_feedback"),
+                            'solution_answers_only' => $lng->txt("tst_show_solution_answers_only"),
+                            'solution_signature' => $lng->txt("tst_show_solution_signature"),
+                            'solution_suggested' => $lng->txt("tst_show_solution_suggested"),
+                        )
+			);
+
+                $config->addSetting(
+			"export_settings",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("tst_export_settings"),
+                        true
+			);
+		return $config;
+	}
+
 } // END class.ilObjAssessmentFolderGUI
 ?>

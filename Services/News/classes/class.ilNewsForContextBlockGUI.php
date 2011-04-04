@@ -554,8 +554,10 @@ if (empty(self::$st_data))
 				"update_date" => $news->getUpdateDate(),
 				"creation_date" => $news->getCreationDate(),
 				"context_sub_obj_type" => $news->getContextSubObjType(),
+				"context_obj_type" => $news->getContextObjType(),
 				"context_sub_obj_id" => $news->getContextSubObjId(),
 				"content_is_lang_var" => $news->getContentIsLangVar(),
+				"content_text_is_lang_var" => $news->getContentTextIsLangVar(),
 				"loc_context" => $_GET["news_context"],
                 "title" => $news->getTitle());
 			ilNewsItem::_setRead($ilUser->getId(), $_GET["news_id"]);
@@ -623,13 +625,15 @@ if (empty(self::$st_data))
 				}
 				$tpl->parseCurrentBlock();
 			}
-	
+
 			// content
 			if (trim($item["content"]) != "")		// content
 			{
 				$tpl->setCurrentBlock("content");
 				$tpl->setVariable("VAL_CONTENT",
-					nl2br(ilUtil::makeClickable($item["content"])));
+					nl2br(ilUtil::makeClickable(
+					ilNewsItem::determineNewsContent($item["context_obj_type"], $item["content"], $item["content_text_is_lang_var"])
+					)));
 //$tpl->setVariable("VAL_CONTENT", nl2br($item["content"]));
 				$tpl->parseCurrentBlock();
 			}
@@ -691,6 +695,18 @@ if (empty(self::$st_data))
 					}
 				}
 
+				// wiki hack, not nice
+				if ($obj_type == "wiki" && $item["context_sub_obj_type"] == "wpg"
+					&& $item["context_sub_obj_id"] > 0)
+				{
+					include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+					$wptitle = ilWikiPage::lookupTitle($item["context_sub_obj_id"]);
+					if ($wptitle != "")
+					{
+						$add = "_".ilWikiUtil::makeUrlTitle($wptitle);
+					}
+				}
+
 				$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
 					$obj_type."_".$item["ref_id"].$add;
 
@@ -734,17 +750,10 @@ if (empty(self::$st_data))
 			}
 			
 			// title
-			//if ($item["content_is_lang_var"])
-			//{
-				$tpl->setVariable("VAL_TITLE", 
-					ilNewsItem::determineNewsTitle($item["context_obj_type"],
-					$item["title"], $item["content_is_lang_var"], $item["agg_ref_id"],
-					$item["aggregation"]));
-			//}
-			//else
-			//{
-			//	$tpl->setVariable("VAL_TITLE", $item["title"]);			// title
-			//}
+			$tpl->setVariable("VAL_TITLE",
+				ilNewsItem::determineNewsTitle($item["context_obj_type"],
+				$item["title"], $item["content_is_lang_var"], $item["agg_ref_id"],
+				$item["aggregation"]));
 			
 			$row_css = ($row_css != "tblrow1")
 				? "tblrow1"

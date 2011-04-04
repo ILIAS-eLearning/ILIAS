@@ -54,7 +54,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->type = "spl";
 		$lng->loadLanguageModule("survey");
 		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this, array("ref_id", "calling_survey", "new_for_survey"));
+		$this->ctrl->saveParameter($this, array("ref_id", "calling_survey", "new_for_survey", "pgov", "pgov_pos"));
 
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
 	}
@@ -421,6 +421,27 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		global $rbacsystem;
 		global $ilUser;
 
+		if(get_class($this->object) == "ilObjSurvey")
+		{
+			if (($_GET["calling_survey"] > 0) || ($_GET["new_for_survey"] > 0))
+			{
+				$ref_id = $_GET["calling_survey"];
+				if (!strlen($ref_id)) $ref_id = $_GET["new_for_survey"];
+				$addurl = "";
+				if (strlen($_GET["new_for_survey"]))
+				{
+					$addurl = "&new_id=" . $_GET["q_id"];
+				}
+				if ($_REQUEST["pgov"])
+				{
+					$addurl .= "&pgov=".$_REQUEST["pgov"];
+					$addurl .= "&pgov_pos=".$_REQUEST["pgov_pos"];
+				}
+
+				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=".$ref_id."&cmd=questions".$addurl);
+			}
+		}
+
 		$this->object->purgeQuestions();
 
 		$_SESSION['q_id_table_nav'] = $_GET['q_id_table_nav'];
@@ -673,6 +694,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$q_gui =& SurveyQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $q_gui->getQuestionType());
 		$this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $_GET["q_id"]);
+		$this->ctrl->setParameterByClass(get_class($q_gui), "pgov", $_GET["pgov"]);
+		$this->ctrl->setParameterByClass(get_class($q_gui), "pgov_pos", $_GET["pgov_pos"]);
 		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
 	}
 
@@ -686,6 +709,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$q_gui->object->createNewQuestion();
 		$this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $q_gui->object->getId());
 		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $q_gui->getQuestionType());
+		$this->ctrl->setParameterByClass(get_class($q_gui), "pgov", $_GET["pgov"]);
+		$this->ctrl->setParameterByClass(get_class($q_gui), "pgov_pos", $_GET["pgov_pos"]);
 		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
 	}
 
@@ -746,7 +771,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 		if (($_GET["calling_survey"] > 0) || ($_GET["new_for_survey"] > 0)) return;
 		// questions
-		$force_active = ($this->ctrl->getCmdClass() == "" ||
+		$force_active = (($this->ctrl->getCmdClass() == "" &&
+			$this->ctrl->getCmd() != "properties") ||
 			$this->ctrl->getCmd() == "")
 			? true
 			: false;

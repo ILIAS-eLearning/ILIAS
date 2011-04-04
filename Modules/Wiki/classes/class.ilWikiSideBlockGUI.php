@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("Services/Block/classes/class.ilBlockGUI.php");
 
@@ -148,73 +128,51 @@ class ilWikiSideBlockGUI extends ilBlockGUI
 		
 		$wp = $this->getPageObject();
 		
-		// info
-		$tpl->setCurrentBlock("info");
-		$tpl->setVariable("HREF_INFO",
-			$ilCtrl->getLinkTargetByClass("ilobjwikigui", "infoScreen"));
-		$tpl->setVariable("TXT_INFO", $lng->txt("info_short"));
-		$tpl->parseCurrentBlock();
-		
-		// permissions
-		if ($ilAccess->checkAccess('edit_permission', "", $_GET["ref_id"]))
-		{
-			$tpl->setCurrentBlock("permissions");
-			$tpl->setVariable("HREF_PERMISSIONS",
-				$ilCtrl->getLinkTargetByClass(array("ilobjwikigui", "ilpermissiongui"), "perm"));
-			$tpl->setVariable("TXT_PERMISSIONS", $lng->txt("perm_settings"));
-			$tpl->parseCurrentBlock();
-		}
-
-		// settings
-		if ($ilAccess->checkAccess('write', "", $_GET["ref_id"]))
-		{
-			$tpl->setCurrentBlock("settings");
-			$tpl->setVariable("HREF_SETTINGS",
-				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "editSettings"));
-			$tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
-			$tpl->parseCurrentBlock();
-
-			$tpl->setCurrentBlock("contributors");
-			$tpl->setVariable("HREF_CONTRIBUTORS",
-				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "listContributors"));
-			$tpl->setVariable("TXT_CONTRIBUTORS", $lng->txt("wiki_contributors"));
-			$tpl->parseCurrentBlock();
-		}
-		
 		// start page
-		$tpl->setVariable("HREF_START_PAGE",
-			$ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoStartPage"));
-		$tpl->setVariable("TXT_START_PAGE", $lng->txt("wiki_start_page"));
-
-		// recent changes
-		$tpl->setVariable("HREF_RECENT_CHANGES",
-			$ilCtrl->getLinkTargetByClass("ilobjwikigui", "recentChanges"));
-		$tpl->setVariable("TXT_RECENT_CHANGES", $lng->txt("wiki_recent_changes"));
-
-		// random page
-/*		$tpl->setVariable("HREF_RANDOM_PAGE",
-			$ilCtrl->getLinkTargetByClass("ilobjwikigui", "randomPage"));
-		$tpl->setVariable("TXT_RANDOM_PAGE", $lng->txt("wiki_random_page"));*/
+		$actions[] = array(
+			"txt" => $lng->txt("wiki_start_page"),
+			"href" => $ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoStartPage")
+			);
 
 		// all pages
-		$tpl->setVariable("HREF_ALL_PAGES",
-			$ilCtrl->getLinkTargetByClass("ilobjwikigui", "allPages"));
-		$tpl->setVariable("TXT_ALL_PAGES", $lng->txt("wiki_all_pages"));
+		$actions[] = array(
+			"txt" => $lng->txt("wiki_all_pages"),
+			"href" => $ilCtrl->getLinkTargetByClass("ilobjwikigui", "allPages")
+			);
 
 		// new pages
-		$tpl->setVariable("HREF_NEW_PAGES",
-			$ilCtrl->getLinkTargetByClass("ilobjwikigui", "newPages"));
-		$tpl->setVariable("TXT_NEW_PAGES", $lng->txt("wiki_new_pages"));
+		$actions[] = array(
+			"txt" => $lng->txt("wiki_new_pages"),
+			"href" => $ilCtrl->getLinkTargetByClass("ilobjwikigui", "newPages")
+			);
 
 		// popular pages
-		$tpl->setVariable("HREF_POPULAR_PAGES",
-			$ilCtrl->getLinkTargetByClass("ilobjwikigui", "popularPages"));
-		$tpl->setVariable("TXT_POPULAR_PAGES", $lng->txt("wiki_popular_pages"));
+		$actions[] = array(
+			"txt" => $lng->txt("wiki_popular_pages"),
+			"href" => $ilCtrl->getLinkTargetByClass("ilobjwikigui", "popularPages")
+			);
 
 		// orphaned pages
-		$tpl->setVariable("HREF_ORPHANED_PAGES",
-			$ilCtrl->getLinkTargetByClass("ilobjwikigui", "orphanedPages"));
-		$tpl->setVariable("TXT_ORPHANED_PAGES", $lng->txt("wiki_orphaned_pages"));
+		$actions[] = array(
+			"txt" => $lng->txt("wiki_orphaned_pages"),
+			"href" => $ilCtrl->getLinkTargetByClass("ilobjwikigui", "orphanedPages")
+			);
+
+		// recent changes
+		$actions[] = array(
+			"txt" => $lng->txt("wiki_recent_changes"),
+			"href" => $ilCtrl->getLinkTargetByClass("ilobjwikigui", "recentChanges")
+			);
+
+		foreach ($actions as $a)
+		{
+			$tpl->setCurrentBlock("action");
+			$tpl->setVariable("HREF", $a["href"]);
+			$tpl->setVariable("TXT", $a["txt"]);
+			$tpl->parseCurrentBlock();
+
+			$tpl->touchBlock("item");
+		}
 
 		$this->setDataSection($tpl->get());
 	}

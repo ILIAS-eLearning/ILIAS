@@ -466,6 +466,7 @@
 	<xsl:param name="edit"/>
 	<xsl:param name="droparea">n</xsl:param>
 	<xsl:param name="type">default</xsl:param>
+	<xsl:param name="prevent_deletion">n</xsl:param>
 	
 	<xsl:if test = "$javascript = 'enable'">
 	<div style="position:absolute;left:0;top:0;visibility:hidden;">
@@ -488,6 +489,7 @@
 						<xsl:call-template name="EditMenuItems">
 							<xsl:with-param name="edit"><xsl:value-of select="$edit"/></xsl:with-param>
 							<xsl:with-param name="hier_id"><xsl:value-of select="$hier_id"/></xsl:with-param>
+							<xsl:with-param name="prevent_deletion"><xsl:value-of select="$prevent_deletion"/></xsl:with-param>
 						</xsl:call-template>
 					</xsl:otherwise>
 				</xsl:choose>
@@ -513,6 +515,7 @@
 						<xsl:call-template name="EditMenuItems">
 							<xsl:with-param name="edit"><xsl:value-of select="$edit"/></xsl:with-param>
 							<xsl:with-param name="hier_id"><xsl:value-of select="$hier_id"/></xsl:with-param>
+							<xsl:with-param name="prevent_deletion"><xsl:value-of select="$prevent_deletion"/></xsl:with-param>
 						</xsl:call-template>
 					</xsl:otherwise>
 				</xsl:choose>
@@ -529,6 +532,7 @@
 <xsl:template name="EditMenuItems">
 	<xsl:param name="edit"/>
 	<xsl:param name="hier_id"/>
+	<xsl:param name="prevent_deletion">n</xsl:param>
 
 	<xsl:if test="$edit = 'y'">
 		<xsl:call-template name="EditMenuItem">
@@ -550,10 +554,12 @@
 	<xsl:if test="$edit = 'y' or $edit = 'p' or $edit = 'd'">
 	
 		<!-- delete -->
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">delete</xsl:with-param>
-			<xsl:with-param name="langvar">ed_delete</xsl:with-param>
-		</xsl:call-template>
+		<xsl:if test="$prevent_deletion = 'n'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">delete</xsl:with-param>
+				<xsl:with-param name="langvar">ed_delete</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
 		
 		<xsl:if test = "$javascript = 'enable'">
 			<xsl:call-template name="EditMenuItem">
@@ -791,7 +797,7 @@
 	<xsl:if test = "$javascript = 'enable'">
 		<tr>
 			<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);">
-			<xsl:attribute name="onClick">doActionForm('cmd[exec]', 'command', '<xsl:value-of select="$command"/>', '');</xsl:attribute>
+			<xsl:attribute name="onClick">doActionForm('cmd[exec]', 'command', '<xsl:value-of select="$command"/>', '', '<xsl:value-of select="name(.)"/>');</xsl:attribute>
 			<xsl:if test="$text = ''">
 				<xsl:value-of select="//LVs/LV[@name=$langvar]/@value"/>
 			</xsl:if>
@@ -894,26 +900,29 @@
 
 <xsl:template name="ShowParagraph">
 	<xsl:param name="p_id" select = "-1"/>
+	<xsl:if test="$mode = 'edit' and not (@Characteristic = 'Code')">
+		<xsl:attribute name="style">position:static;</xsl:attribute>
+	</xsl:if>
 	<xsl:choose>
 		<xsl:when test="not(@Characteristic)">
 			<xsl:attribute name="class">ilc_text_block_Standard</xsl:attribute>
 		</xsl:when>
 		<xsl:when test="@Characteristic = 'Headline1'">
 			<xsl:attribute name="class">ilc_heading1_Headline1</xsl:attribute>
+			<xsl:comment>PageTocPH</xsl:comment>
 		</xsl:when>
 		<xsl:when test="@Characteristic = 'Headline2'">
 			<xsl:attribute name="class">ilc_heading2_Headline2</xsl:attribute>
+			<xsl:comment>PageTocPH</xsl:comment>
 		</xsl:when>
 		<xsl:when test="@Characteristic = 'Headline3'">
 			<xsl:attribute name="class">ilc_heading3_Headline3</xsl:attribute>
+			<xsl:comment>PageTocPH</xsl:comment>
 		</xsl:when>
 		<xsl:when test="not (@Characteristic = 'Code')">
 			<xsl:attribute name="class">ilc_text_block_<xsl:value-of select="@Characteristic"/></xsl:attribute>
 		</xsl:when>
 	</xsl:choose>
-	<xsl:if test="$mode = 'edit' and not (@Characteristic = 'Code')">
-		<xsl:attribute name="style">position:static;</xsl:attribute>
-	</xsl:if>
 	<xsl:call-template name="EditReturnAnchors"/>
 	<!-- content -->
 	<xsl:choose>
@@ -3254,13 +3263,14 @@
 			</xsl:attribute>
 		</input>
 		</xsl:if>
+		<xsl:variable name="prev_del"><xsl:if test = "$enable_sa_qst != 'y'">y</xsl:if><xsl:if test = "$enable_sa_qst = 'y'">n</xsl:if></xsl:variable>
 		<xsl:call-template name="EditMenu">
 			<xsl:with-param name="hier_id" select="../@HierId" />
 			<xsl:with-param name="pc_id" select="../@PCID" />
 			<xsl:with-param name="edit">y</xsl:with-param>
+			<xsl:with-param name="prevent_deletion" select="$prev_del" />
 		</xsl:call-template>
 	</xsl:if>
-
 	</div>
 </xsl:template>
 

@@ -2,8 +2,14 @@
 	<td class="std" style="vertical-align: top">
 		<input type="checkbox" name="q_id[]" value="{QUESTION_ID}" id="cb_{QUESTION_ID}" {VAL_CHECKED} />
 	</td>
-	<td class="std" style="vertical-align: top">{QUESTION_TITLE}</td>
-	<td class="std" style="vertical-align: top"><table border="0"><tr><td width="20">{BUTTON_UP}</td><td width="20">{BUTTON_DOWN}</td></tr></table></td>
+	<td class="{COLOR_CLASS}" name="order[{QUESTION_ID}]">{QUESTION_POSITION}</td>
+	<td class="std" style="vertical-align: top">
+            <!-- BEGIN tst_qst_warning -->
+                <img src="{IMAGE_WARNING}" border="0" alt="{ALT_WARNING}" title="{TITLE_WARNING}" />
+            <!-- END tst_qst_warning -->
+            {QUESTION_TITLE}
+        </td>
+	
 	<td class="std" style="vertical-align: top">{QUESTION_COMMENT}</td>
 	<td class="std" style="vertical-align: top">{QUESTION_TYPE}</td>
 	<td class="std" style="vertical-align: top">{QUESTION_POINTS}</td>

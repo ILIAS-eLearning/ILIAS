@@ -105,6 +105,8 @@ class ilMainMenuGUI
 	{
 		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting, $ilPluginAdmin;
 
+		// get user interface plugins
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 
 		// search
 		include_once 'Services/Search/classes/class.ilSearchSettings.php';
@@ -112,7 +114,28 @@ class ilMainMenuGUI
 		{
 			include_once './Services/Search/classes/class.ilMainMenuSearchGUI.php';
 			$main_search = new ilMainMenuSearchGUI();
-			if(strlen($html = $main_search->getHTML()))
+			$html = $main_search->getHTML();
+			
+			foreach ($pl_names as $pl)
+			{
+				$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+				$gui_class = $ui_plugin->getUIClassInstance();
+				$resp = $gui_class->getHTML("Services/MainMenu", "main_menu_search",
+					array("main_menu_gui" => $this, "main_menu_search_gui" => $main_search));
+				if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
+				{
+					$plugin_html = true;
+					break;		// first one wins
+				}
+
+			}
+			// combine plugin and default html
+			if ($plugin_html)
+			{
+				$html = $gui_class->modifyHTML($html, $resp);
+			}
+
+			if (strlen($html))
 			{
 				$this->tpl->setVariable('SEARCHBOX',$html);
 			}
@@ -121,8 +144,8 @@ class ilMainMenuGUI
 		$this->renderStatusBox($this->tpl);
 
 		// user interface hook [uihk]
-		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 		$plugin_html = false;
+		reset($pl_names);
 		foreach ($pl_names as $pl)
 		{
 			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);

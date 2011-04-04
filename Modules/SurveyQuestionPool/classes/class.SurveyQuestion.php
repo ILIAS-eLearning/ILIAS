@@ -2244,5 +2244,22 @@ class SurveyQuestion
 				break;
 		}
 	}
+
+	/**
+	 * Change original id of existing question in db
+	 *
+	 * @param int $a_question_id
+	 * @param int $a_original_id
+	 * @param int $a_object_id
+	 */
+	public static function _changeOriginalId($a_question_id, $a_original_id, $a_object_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("UPDATE svy_question".
+			" SET original_id = ".$ilDB->quote($a_original_id, "integer").",".
+			" obj_fi = ".$ilDB->quote($a_object_id, "integer").
+			" WHERE question_id = ".$ilDB->quote($a_question_id, "integer"));
+	}
 }
 ?>

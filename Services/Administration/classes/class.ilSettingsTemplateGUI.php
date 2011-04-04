@@ -70,7 +70,12 @@ class ilSettingsTemplateGUI
 	 */
 	function readSettingsTemplate()
 	{
+	    if ($this->getConfig()) {
+		$this->settings_template = new ilSettingsTemplate((int) $_GET[templ_id], $this->getConfig());
+	    }
+	    else {
 		$this->settings_template = new ilSettingsTemplate((int) $_GET[templ_id]);
+	    }
 	}
 
 	/**
@@ -188,11 +193,22 @@ class ilSettingsTemplateGUI
 						$si->setOptions($s["options"]);
 						$cb->addSubItem($si);
 						break;
+
+                                        case ilSettingsTemplateConfig::CHECKBOX:
+                                                $chbs = new ilCheckboxGroupInputGUI($lng->txt("adm_value"), "value_".$s["id"]);
+                                                foreach($s['options'] as $key => $value) {
+                                                    $chbs->addOption($c = new ilCheckboxInputGUI($value, $key));
+                                                    $c->setValue($key);
+                                                }
+                                                $cb->addSubItem($chbs);
+                                                break;
 				}
 
-				// hide setting
-				$cb_hide = new ilCheckboxInputGUI($lng->txt("adm_hide"), "hide_".$s["id"]);
-				$cb->addSubItem($cb_hide);
+                                if ($s['hidable']) {
+                                    // hide setting
+                                    $cb_hide = new ilCheckboxInputGUI($lng->txt("adm_hide"), "hide_".$s["id"]);
+                                    $cb->addSubItem($cb_hide);
+                                }
 			}
 		}
 
@@ -237,7 +253,18 @@ class ilSettingsTemplateGUI
 			if (isset($set[$s["id"]]))
 			{
 				$values["set_".$s["id"]] = true;
-				$values["value_".$s["id"]] = $set[$s["id"]]["value"];
+
+                                if ($s['type'] == ilSettingsTemplateConfig::CHECKBOX) {
+                                    if (!is_array($set[$s["id"]]["value"]))
+					$ar = @unserialize($set[$s["id"]]["value"]);
+				    else
+					$ar = $set[$s["id"]]["value"];
+                                    $values["value_".$s["id"]] = is_array($ar) ? $ar : array();
+                                }
+                                else {
+                                    $values["value_".$s["id"]] = $set[$s["id"]]["value"];
+                                }
+                                
 				$values["hide_".$s["id"]] = $set[$s["id"]]["hide"];
 			}
 		}
@@ -315,12 +342,12 @@ class ilSettingsTemplateGUI
 		$a_set_templ->removeAllSettings();
 		foreach($this->getConfig()->getSettings() as $s)
 		{
-			if ($_POST["set_".$s["id"]])
-			{
-				$a_set_templ->setSetting(
+                        if ($_POST["set_".$s["id"]])
+                        {
+                           $a_set_templ->setSetting(
 					$s["id"], $_POST["value_".$s["id"]],
-					$_POST["hide_".$s["id"]]);
-			}
+                                    $_POST["hide_".$s["id"]]);
+                        }
 		}
 	}
 

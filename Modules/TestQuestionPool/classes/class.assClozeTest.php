@@ -127,7 +127,7 @@ class assClozeTest extends assQuestion
 	*/
 	function isComplete()
 	{
-		if (($this->getTitle()) and ($this->getAuthor()) and ($this->getClozeText()) and (count($this->getGaps())) and ($this->getMaximumPoints() > 0))
+		if (strlen($this->getTitle()) and ($this->getAuthor()) and ($this->getClozeText()) and (count($this->getGaps())) and ($this->getMaximumPoints() > 0))
 		{
 			return TRUE;
 		}

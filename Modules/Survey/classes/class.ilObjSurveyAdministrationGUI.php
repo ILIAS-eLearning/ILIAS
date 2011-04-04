@@ -339,41 +339,72 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	/**
 	 * Get settings template configuration object
 	 *
-	 * @param
 	 * @return object settings template configuration object
 	 */
 	private function getSettingsTemplateConfig()
 	{
 		global $lng;
 
+		$lng->loadLanguageModule("survey");
+
 		include_once("./Services/Administration/classes/class.ilSettingsTemplateConfig.php");
 		$config = new ilSettingsTemplateConfig("svy");
-		$config->addHidableTab("this", "this tab");
-		$config->addHidableTab("that", "that tab");
+
+		$config->addHidableTab("survey_question_editor", $lng->txt("survey_question_editor"));
+		$config->addHidableTab("constraints", $lng->txt("constraints"));
+		$config->addHidableTab("invitation", $lng->txt("invitation"));
+		$config->addHidableTab("meta_data", $lng->txt("meta_data"));
+		$config->addHidableTab("export", $lng->txt("export"));
+
 		$config->addSetting(
-			"introduction",
-			ilSettingsTemplateConfig::TEXT,
-			$lng->txt("svy_introduction"),
-			true
-			);
-		$config->addSetting(
-			"anonymization",
+			"use_pool",
 			ilSettingsTemplateConfig::BOOL,
-			$lng->txt("svy_anonymization"),
+			$lng->txt("survey_question_pool_usage"),
 			true
 			);
+
 		$config->addSetting(
-			"access",
+			"anonymization_options",
 			ilSettingsTemplateConfig::SELECT,
-			$lng->txt("svy_evaluation_access"),
+			$lng->txt("survey_auth_mode"),
+			true,
+			'personalized',
+			array('personalized' => $this->lng->txt("anonymize_personalized"),
+				'anonymize_without_code' => $this->lng->txt("anonymize_without_code"),
+				'anonymize_with_code' => $this->lng->txt("anonymize_with_code"))
+			);
+
+		$config->addSetting(
+			"rte_switch",
+			ilSettingsTemplateConfig::SELECT,
+			$lng->txt("set_edit_mode"),
 			true,
 			0,
-			array(
-				0 => $lng->txt("svy_evaluation_access_0"),
-				1 => $lng->txt("svy_evaluation_access_1"),
-				2 => $lng->txt("svy_evaluation_access_2")
-			)
+			array(0 => $this->lng->txt("rte_editor_disabled"),
+				1 => $this->lng->txt("rte_editor_enabled"))
 			);
+		
+		$config->addSetting(
+			"enabled_start_date",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("start_date"),
+			true
+			);
+
+		$config->addSetting(
+			"enabled_end_date",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("end_date"),
+			true
+			);
+
+		$config->addSetting(
+			"show_question_titles",
+			ilSettingsTemplateConfig::BOOL,
+			$lng->txt("svy_show_questiontitles"),
+			true
+			);
+
 		return $config;
 	}
 

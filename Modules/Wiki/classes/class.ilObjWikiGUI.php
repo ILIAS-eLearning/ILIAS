@@ -843,7 +843,9 @@ class ilObjWikiGUI extends ilObjectGUI
 		$ilCtrl->setCmdClass("ilwikipagegui");
 		$ilCtrl->setCmd("preview");
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
-				!$ilAccess->checkAccess("edit_content", "", $this->object->getRefId()))
+			(!$ilAccess->checkAccess("edit_content", "", $this->object->getRefId()) ||
+				$wpage_gui->getPageObject()->getBlocked()
+			))
 		{
 			$wpage_gui->setEnableEditing(false);
 		}
@@ -988,29 +990,52 @@ class ilObjWikiGUI extends ilObjectGUI
 	 */
 	function setSideBlock($a_wpg_id = 0)
 	{
+		ilObjWikiGUI::renderSideBlock($a_wpg_id, $this->object->getRefId());
+	}
+
+
+	/**
+	 * Side column
+	 */
+	static function renderSideBlock($a_wpg_id, $a_wiki_ref_id, $a_wp = null)
+	{
 		global $tpl;
-		
-		// quick navigation
-		include_once("./Modules/Wiki/classes/class.ilWikiSideBlockGUI.php");
-		$wiki_side_block = new ilWikiSideBlockGUI();
-		if ($a_wpg_id > 0)
+
+		if ($a_wpg_id > 0 && !$a_wp)
 		{
 			include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-			$wiki_side_block->setPageObject(new ilWikiPage($a_wpg_id));
+			$a_wp = ilWikiPage($a_wpg_id);
 		}
 
 		// search block
 		include_once("./Modules/Wiki/classes/class.ilWikiSearchBlockGUI.php");
 		$wiki_search_block = new ilWikiSearchBlockGUI();
+		$rcontent = $wiki_search_block->getHTML();
 
-		$rcontent = $wiki_search_block->getHTML().$wiki_side_block->getHTML();
-		
+		// quick navigation
+		if ($a_wpg_id > 0)
+		{
+//			include_once("./Modules/Wiki/classes/class.ilWikiSideBlockGUI.php");
+//			$wiki_side_block = new ilWikiSideBlockGUI();
+//			$wiki_side_block->setPageObject($a_wp);
+//			$rcontent.= $wiki_side_block->getHTML();
+		}
+
 		// important pages
-		if ($this->object->getImportantPages())
+		if (ilObjWiki::_lookupImportantPages(ilObject::_lookupObjId($a_wiki_ref_id)))
 		{
 			include_once("./Modules/Wiki/classes/class.ilWikiImportantPagesBlockGUI.php");
 			$imp_pages_block = new ilWikiImportantPagesBlockGUI();
 			$rcontent.= $imp_pages_block->getHTML();
+		}
+
+		// wiki functions block
+		if ($a_wpg_id > 0)
+		{
+			include_once("./Modules/Wiki/classes/class.ilWikiFunctionsBlockGUI.php");
+			$wiki_functions_block = new ilWikiFunctionsBlockGUI();
+			$wiki_functions_block->setPageObject($a_wp);
+			$rcontent.= $wiki_functions_block->getHTML();
 		}
 
 		$tpl->setRightContent($rcontent);

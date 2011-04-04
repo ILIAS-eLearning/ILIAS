@@ -414,9 +414,10 @@ class ilObjQuestionPool extends ilObject
 			}
 			$newtitle = $question->object->getTitle() . " ($counter)";
 		}
-		$question->object->duplicate(false, $newtitle);
+		$new_id = $question->object->duplicate(false, $newtitle);
 		// update question count of question pool
 		ilObjQuestionPool::_updateQuestionCount($this->getId());
+                return $new_id;
 	}
 	
 	/**
@@ -432,7 +433,7 @@ class ilObjQuestionPool extends ilObject
 		if ($question_gui->object->getObjId() == $questionpool_to)
 		{
 			// the question is copied into the same question pool
-			$this->duplicateQuestion($question_id);
+			return $this->duplicateQuestion($question_id);
 		}
 		else
 		{
@@ -447,7 +448,7 @@ class ilObjQuestionPool extends ilObject
 				}
 				$newtitle = $question_gui->object->getTitle() . " ($counter)";
 			}
-			$question_gui->object->copyObject($this->getId(), $newtitle);
+			return $question_gui->object->copyObject($this->getId(), $newtitle);
 		}
 	}
 
@@ -1439,6 +1440,17 @@ class ilObjQuestionPool extends ilObject
 		ksort($types);
 		return $types;
 	}
+
+        public static function getQuestionTypeByTypeId($type_id) {
+            global $ilDB;
+            $query = "SELECT type_tag FROM qpl_qst_type WHERE question_type_id = %s";
+            $types = array('integer');
+            $values = array($type_id);
+            $result = $ilDB->queryF($query, $types, $values);
+            if ($row = $ilDB->fetchAssoc($result)) {
+                return $row['type_tag'];
+            }
+        }
 
 	public function &getQuestionTypeTranslations()
 	{

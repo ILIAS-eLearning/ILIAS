@@ -3,11 +3,14 @@ var ilAdvancedSelectionListFunc = function() {
 ilAdvancedSelectionListFunc.prototype =
 {
 	lists: {},
+	items: {},
+	init: {},
 	
 	// add new selection list
 	add: function (id, cfg)
 	{
 		this.lists[id] = cfg;
+		this.items[id] = {};
 		this.showAnchor(cfg.anchor_id);
 
 		ilOverlay.add('ilAdvSelListTable_' + id,
@@ -30,7 +33,10 @@ ilAdvancedSelectionListFunc.prototype =
 	showAnchor: function(id)
 	{
 		anchor = document.getElementById(id);
-		anchor.style.display='';
+		if (anchor !=  null)
+		{
+			anchor.style.display='';
+		}
 	},
 	
 	submitForm: function (id, hid_name, hid_val, form_id, cmd)
@@ -49,6 +55,10 @@ ilAdvancedSelectionListFunc.prototype =
 		anchor_text = document.getElementById("ilAdvSelListAnchorText_" + id);
 		anchor_text.innerHTML = title;
 		ilOverlay.hide(null, 'ilAdvSelListTable_' + id);
+		if (this.lists[id]['select_callback'] != null)
+		{
+			eval(this.lists[id]['select_callback'] + '(this.items[id][hid_val]);');
+		}
 	},
 	
 	setHiddenInput: function (id, hid_name, hid_val)
@@ -56,7 +66,27 @@ ilAdvancedSelectionListFunc.prototype =
 		hidden_el = document.getElementById("ilAdvSelListHidden_" + id);
 		hidden_el.name = hid_name;
 		hidden_el.value = hid_val;
+	},
+
+	getHiddenInput: function (id)
+	{
+		hidden_el = document.getElementById("ilAdvSelListHidden_" + id);
+		return hidden_el.value;
+	},
+
+	addItem: function (id, hid_name, hid_val, title)
+	{
+		this.items[id][hid_val] = {hid_name: hid_name, hid_val: hid_val, title: title};
+	},
+
+	selectItem: function (id, value)
+	{
+		if (this.items[id][value] != null)
+		{
+			this.selectForm(id, this.items[id][value]["hid_name"], value, this.items[id][value]["title"]);
+		}
 	}
+
 
 };
 var ilAdvancedSelectionList = new ilAdvancedSelectionListFunc();

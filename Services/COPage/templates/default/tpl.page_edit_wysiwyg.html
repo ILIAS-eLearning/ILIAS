@@ -6,28 +6,13 @@ parent.tree.location.replace('{LINK_TREE}');
 <!-- BEGIN activation_txt --><div class="subtitle" style="margin: 5px 0px; ">{TXT_SCHEDULED_ACTIVATION}: {SA_FROM} - {SA_TO}</div><!-- END activation_txt -->
 <div id="il_EditPage">
 <form action="{FORMACTION}" name="objectItems" method="post">
-<table class="fullwidth">
-<tr class="std">
-<td class="submit">
-{SEL_MEDIA_MODE} {SEL_JAVA_SCRIPT} {SEL_HTML_MODE}<input class="ilEditSubmit" type="submit" value="{TXT_CHANGE_EDIT_MODE}" name="cmd[setMediaMode]" />
-<!-- BEGIN de_activate_page -->
-<input type="submit" class="ilEditSubmit" value="{TXT_DE_ACTIVATE_PAGE}" name="cmd[{CMD_DE_ACTIVATE_PAGE}]" />
-<!-- END de_activate_page -->
-<span class="small">{TXT_JAVA_SCRIPT_CAPABLE}</span>
-</td>
-<!-- BEGIN view_link -->
-<td class="submit" align="right">
-<a class="submit" href="{LINK_VIEW_PAGE}" target="{TARGET_VIEW_PAGE}">{TXT_VIEW_PAGE}</a>
-</td>
-<!-- END view_link -->
-</tr>
-</table>
-<table class="ilc_page_cont_PageContainer" width="100%" cellspacing="0" cellpadding="0"><tr><td>
+<div class="small" style="margin-bottom: 5px; width: 100%; text-align: right;">{PAGE_ACTIONS}</div>
+<table class="ilc_page_cont_PageContainer" width="100%" cellspacing="0" cellpadding="0"><tr><td id="ilEditorTD">
 <div class="ilc_page_Page">
 {PAGE_CONTENT}
 </div></td></tr>
 </table>
-<table class="fullwidth">
+<table class="fullwidth" id="ilPageEditActionBar">
 <!-- BEGIN multi_actions -->
 <tr><td class="submit">
 <img border="0" src="{IMG_ARROW}" style="vertical-align:middle;"/>
@@ -65,13 +50,13 @@ parent.tree.location.replace('{LINK_TREE}');
 </form>
 
 <!-- BEGIN help -->
-<div style="margin-top: 10px;">
+<div style="margin-top: 10px;" id="ilPageEditLegend">
 <!-- BEGIN help_item -->
 <div>
 <!-- BEGIN help_img --><img alt="{ALT_HELP}" src="{IMG_HELP}" /><!-- END  help_img --> <span class="subtitle">{TXT_HELP}</span>
 </div>
 <!-- END help_item -->
-<div>
+</div>
 <!-- END help -->
 
 <!-- form used for ajax actions -->
@@ -79,6 +64,9 @@ parent.tree.location.replace('{LINK_TREE}');
 <input type="hidden" id="ajaxform_target" name="target[]" value="" />
 <input type="hidden" id="ajaxform_cmd" name="" value="" />
 <input type="hidden" id="ajaxform_exec" name="" value="Ok" />
+<input type="hidden" id="ajaxform_content" name="ajaxform_content" />
+<input type="hidden" id="ajaxform_char" name="ajaxform_char" />
+<input type="hidden" id="ajaxform_hier_id" name="ajaxform_hier_id" />
 </form>
 
 <!-- form used for menu actions actions -->
@@ -100,7 +88,7 @@ parent.tree.location.replace('{LINK_TREE}');
 	
 //alert("initDragElements: outer");
 <!-- BEGIN init_dragging -->
-initDragElements();
+ilCOPage.initDragElements();
 <!-- END init_dragging -->
 var confirm_delete="{TXT_CONFIRM_DELETE}";
 </script>
@@ -115,3 +103,82 @@ if (parent && parent.{UPDATER_FRAME} && parent.{UPDATER_FRAME}.updater)
 }
 </script>
 <!-- END updater -->
+{IL_TINY_MENU}
+
+<!-- tiny style -->
+<style type="text/css">
+td.mceIframeContainer {
+	background-color:#FFFFFF;
+}
+</style>
+
+<!-- yui panel styles -->
+<style type="text/css">
+
+#ilEditorPanel .bd {
+	overflow:auto;
+	background-color:#fff;
+	padding:10px;
+}
+
+#ilEditorPanel .yui-resize-handle-br {
+	right:0;
+	bottom:0;
+	height: 8px;
+	width: 8px;
+	position:absolute;
+}
+
+/*
+	The following CSS is added to prevent scrollbar bleedthrough on
+	Gecko browsers (e.g. Firefox) on MacOS.
+*/
+
+/*
+	PLEASE NOTE: It is necessary to toggle the "overflow" property
+	of the body element between "hidden" and "auto" in order to
+	prevent the scrollbars from remaining visible after the the
+	Resizable Panel is hidden.  For more information on this issue,
+	read the comments in the "container-core.css" file.
+
+	We use the #reziablepanel_c id based specifier, so that the rule
+	is specific enough to over-ride the .bd overflow rule above.
+*/
+
+#ilEditorPanel_c.hide-scrollbars .yui-resize .bd {
+	overflow: hidden;
+}
+
+#ilEditorPanel_c.show-scrollbars .yui-resize .bd {
+	overflow: auto;
+}
+
+/*
+	PLEASE NOTE: It is necessary to set the "overflow" property of
+	the underlay element to "visible" in order for the
+	scrollbars on the body of a Resizable Panel instance to be
+	visible.  By default the "overflow" property of the underlay
+	element is set to "auto" when a Panel is made visible on
+	Gecko for Mac OS X to prevent scrollbars from poking through
+	it on that browser + platform combintation.  For more
+	information on this issue, read the comments in the
+	"container-core.css" file.
+*/
+
+#ilEditorPanel_c.show-scrollbars .underlay {
+	overflow: visible;
+}
+</style>
+
+<div class="yui-skin-sam">
+<div id="ilEditorPanel" style="display:none;">
+	<div class="hd">&nbsp;</div>
+	<div class="bd" id="ilIntLinkPanel">
+		<p></p>
+	</div>
+</div>
+</div>
+
+<!-- BEGIN int_link_prep -->
+{INT_LINK_PREP}
+<!-- END int_link_prep -->

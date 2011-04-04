@@ -44,11 +44,27 @@ var ilCOPageSuccessHandler = function(o)
 	// perform page modification
 	if(o.responseText !== undefined)
 	{
-		// scorm2004-start
-		var center_td = document.getElementById('il_EditPage');
-		// scorm2004-end
-		center_td.innerHTML = o.responseText;
-		initDragElements();
+		if (o.argument.mode == 'para')
+		{
+			// paragraph editing
+			var ed = tinyMCE.getInstanceById('tinytarget');
+			ed.setContent(o.responseText);
+			ed.setProgressState(0); // Show progress
+
+			ilCOPage.prepareTinyForEditing(false);
+		}
+		else
+		{
+			// drag / drop
+			var edit_div = document.getElementById('il_EditPage');
+			var center_td = edit_div.parentNode;
+			center_td.innerHTML = o.responseText;
+			ilCOPage.initDragElements();
+			if (ilAdvancedSelectionList != null)
+			{
+				ilAdvancedSelectionList.init['style_selection']();
+			}
+		}
 	}
 }
 
@@ -58,12 +74,13 @@ var ilCOPageFailureHandler = function(o)
 	alert('FailureHandler');
 }
 
-function ilCOPageJSHandler(sUrl)
+function ilCOPageJSHandler(sUrl, mode)
 {
 	var ilCOPageCallback =
 	{
 		success: ilCOPageSuccessHandler,
-		failure: ilCOPageFailureHandler
+		failure: ilCOPageFailureHandler,
+		argument: { mode: mode}
 	};
 	var form_str = YAHOO.util.Connect.setForm("ajaxform");
 	var request = YAHOO.util.Connect.asyncRequest('POST', sUrl, ilCOPageCallback);

@@ -105,7 +105,8 @@ class ilUserFeedWriter extends ilFeedWriter
 				}
 								
 				// description
-				$content = $this->prepareStr(nl2br($item["content"]));
+				$content = $this->prepareStr(nl2br(
+					ilNewsItem::determineNewsContent($item["context_obj_type"], $item["content"], $item["content_text_is_lang_var"])));
 				$feed_item->setDescription($content);
 
 				// lm page hack, not nice
@@ -114,6 +115,14 @@ class ilUserFeedWriter extends ilFeedWriter
 				{
 					$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
 						"&amp;target=pg_".$item["context_sub_obj_id"]."_".$item["ref_id"]);
+				}
+				else if ($item["context_obj_type"] == "wiki" && $item["context_sub_obj_type"] == "wpg"
+					&& $item["context_sub_obj_id"] > 0)
+				{
+					include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+					$wptitle = ilWikiPage::lookupTitle($item["context_sub_obj_id"]);
+					$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
+						"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]."_".$wptitle);
 				}
 				else
 				{

@@ -13,6 +13,7 @@ class ilNestedList
 	protected $item_class = "il_Explorer";
 	protected $list_class = "il_Explorer";
 	protected $auto_numbering = false;
+	protected $nr = array();
 
 	/**
 	 * Constructor
@@ -96,6 +97,17 @@ class ilNestedList
 	{
 		return $this->auto_numbering;
 	}
+
+	/**
+	 * Get numbers
+	 *
+	 * @return	array	number array
+	 */
+	function getNumbers()
+	{
+		return $this->nr;
+	}
+
 
 	/**
 	 * Get HTML

@@ -40,7 +40,8 @@ class ilImageMapEditorGUI
 				$link_gui->setSetLinkTargetScript(
 					$ilCtrl->getLinkTarget($this,
 					"setInternalLink"));
-				$link_gui->filterLinkType("Media");
+				$link_gui->filterLinkType("File");
+				$link_gui->setMode("asynch");
 				$ret = $ilCtrl->forwardCommand($link_gui);
 				break;
 
@@ -294,7 +295,7 @@ class ilImageMapEditorGUI
 	function editMapArea($a_get_next_coordinate = false, $a_output_new_area = false,
 		$a_save_form = false, $a_edit_property = "", $a_area_nr = 0)
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $tpl;
 		
 		$area_type = $_SESSION["il_map_edit_area_type"];
 		$coords = $_SESSION["il_map_edit_coords"];
@@ -408,7 +409,14 @@ class ilImageMapEditorGUI
 					$ilCtrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp",
 					array("ilObjMediaObjectGUI"), true));
 				$this->tpl->setVariable("TXT_ILINK", "[".$lng->txt("cont_get_link")."]");
+				$this->tpl->parseCurrentBlock();
 
+				// add int link parts
+				include_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
+				$this->tpl->setCurrentBlock("int_link_prep");
+				$this->tpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
+					$ilCtrl->getLinkTargetByClass("ilinternallinkgui",
+							"", false, true, false)));
 				$this->tpl->parseCurrentBlock();
 			}
 

@@ -58,13 +58,88 @@ class ilNewsItem extends ilNewsItemGen
 	}
 
 	/**
-	* Create
-	*/
+	 * Set content text ist lang var
+	 *
+	 * @param boolean $a_content_is_lang_var
+	 */
+	public function setContentTextIsLangVar($a_val = 0)
+	{
+		$this->content_text_is_lang_var = $a_val;
+	}
+
+	/**
+	 * Get content text ist lang var
+	 *
+	 * @return	boolean
+	 */
+	public function getContentTextIsLangVar()
+	{
+		return $this->content_text_is_lang_var;
+	}
+
+
+	/**
+	 * Read item from database.
+	 */
+	public function read()
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM il_news_item WHERE id = ".
+			$ilDB->quote($this->getId(), "integer");
+		$set = $ilDB->query($query);
+		$rec = $ilDB->fetchAssoc($set);
+
+		$this->setTitle($rec["title"]);
+		$this->setContent($rec["content"]);
+		$this->setContextObjId((int) $rec["context_obj_id"]);
+		$this->setContextObjType($rec["context_obj_type"]);
+		$this->setContextSubObjId((int) $rec["context_sub_obj_id"]);
+		$this->setContextSubObjType($rec["context_sub_obj_type"]);
+		$this->setContentType($rec["content_type"]);
+		$this->setCreationDate($rec["creation_date"]);
+		$this->setUpdateDate($rec["update_date"]);
+		$this->setUserId($rec["user_id"]);
+		$this->setVisibility($rec["visibility"]);
+		$this->setContentLong($rec["content_long"]);
+		$this->setPriority($rec["priority"]);
+		$this->setContentIsLangVar($rec["content_is_lang_var"]);
+		$this->setContentTextIsLangVar((int) $rec["content_text_is_lang_var"]);
+		$this->setMobId($rec["mob_id"]);
+		$this->setPlaytime($rec["playtime"]);
+
+	}
+
+	/**
+	 * Create
+	 */
 	function create()
 	{
 		global $ilDB;
-		
-		parent::create();
+
+		// insert new record into db
+		$this->setId($ilDB->nextId("il_news_item"));
+		$ilDB->insert("il_news_item", array(
+			"id" => array("integer", $this->getId()),
+			"title" => array("text", $this->getTitle()),
+			"content" => array("clob", $this->getContent()),
+			"context_obj_id" => array("integer", (int) $this->getContextObjId()),
+			"context_obj_type" => array("text", $this->getContextObjType()),
+			"context_sub_obj_id" => array("integer", (int) $this->getContextSubObjId()),
+			"context_sub_obj_type" => array("text", $this->getContextSubObjType()),
+			"content_type" => array("text", $this->getContentType()),
+			"creation_date" => array("timestamp", ilUtil::now()),
+			"update_date" => array("timestamp", ilUtil::now()),
+			"user_id" => array("integer", $this->getUserId()),
+			"visibility" => array("text", $this->getVisibility()),
+			"content_long" => array("clob", $this->getContentLong()),
+			"priority" => array("integer", $this->getPriority()),
+			"content_is_lang_var" => array("integer", $this->getContentIsLangVar()),
+			"content_text_is_lang_var" => array("integer", (int) $this->getContentTextIsLangVar()),
+			"mob_id" => array("integer", $this->getMobId()),
+            "playtime" => array("text", $this->getPlaytime())
+		));
+
 		
 		$news_set = new ilSetting("news");
 		$max_items = $news_set->get("max_items");
@@ -110,6 +185,51 @@ class ilNewsItem extends ilNewsItemGen
 			}
 		}
 	}
+
+	/**
+	 * Update item in database
+	 *
+	 * @param boolean $a_as_new If true, creation date is set "now"
+	 */
+	public function update($a_as_new = false)
+	{
+		global $ilDB;
+
+		$fields = array(
+			"title" => array("text", $this->getTitle()),
+			"content" => array("clob", $this->getContent()),
+			"context_obj_id" => array("integer", $this->getContextObjId()),
+			"context_obj_type" => array("text", $this->getContextObjType()),
+			"context_sub_obj_id" => array("integer", $this->getContextSubObjId()),
+			"context_sub_obj_type" => array("text", $this->getContextSubObjType()),
+			"content_type" => array("text", $this->getContentType()),
+			"user_id" => array("integer", $this->getUserId()),
+			"visibility" => array("text", $this->getVisibility()),
+			"content_long" => array("clob", $this->getContentLong()),
+			"priority" => array("integer", $this->getPriority()),
+			"content_is_lang_var" => array("integer", $this->getContentIsLangVar()),
+			"content_text_is_lang_var" => array("integer", (int) $this->getContentTextIsLangVar()),
+			"mob_id" => array("integer", $this->getMobId()),
+            "playtime" => array("text", $this->getPlaytime())
+		);
+
+		$now = ilUtil::now();
+		if ($a_as_new)
+		{
+			$fields["creation_date"] = array("timestamp", $now);
+			$fields["update_date"] = array("timestamp", $now);
+		}
+		else
+		{
+			$fields["update_date"] = array("timestamp", $now);
+		}
+
+		$ilDB->update("il_news_item", $fields, array(
+			"id" => array("integer", $this->getId())
+		));
+
+	}
+
 
 	/**
 	* Get all news items for a user.
@@ -926,8 +1046,8 @@ class ilNewsItem extends ilNewsItemGen
 	}
 	
 	/**
-	* Determine title for news item entry
-	*/
+	 * Determine title for news item entry
+	 */
 	static function determineNewsTitle($a_context_obj_type, $a_title, $a_content_is_lang_var,
 		$a_agg_ref_id = 0, $a_aggregation = "")
 	{
@@ -999,6 +1119,25 @@ class ilNewsItem extends ilNewsItemGen
 		
 		return "";
 	}
+
+	/**
+	 * Determine new content
+	 */
+	static function determineNewsContent($a_context_obj_type, $a_content, $a_is_lang_var)
+	{
+		global $lng;
+
+		if ($a_is_lang_var)
+		{
+			$lng->loadLanguageModule($a_context_obj_type);
+			return $lng->txt($a_content);
+		}
+		else
+		{
+			return $a_content;
+		}
+	}
+
 	
 	
 	/**
@@ -1023,7 +1162,44 @@ class ilNewsItem extends ilNewsItemGen
 		
 		return $rec["id"];
 	}
-	
+
+	/**
+	 * Get last news id of news set related to a certain context
+	 */
+	static function getLastNewsIdForContext($a_context_obj_id,
+		$a_context_obj_type, $a_context_sub_obj_id = "", $a_context_sub_obj_type = "",
+		$a_only_today = false)
+	{
+		global $ilDB;
+
+		// Determine how many rows should be deleted
+		$query = "SELECT id, update_date ".
+			"FROM il_news_item ".
+			"WHERE ".
+				"context_obj_id = ".$ilDB->quote($a_context_obj_id, "integer").
+				" AND context_obj_type = ".$ilDB->quote($a_context_obj_type, "text").
+				" AND context_sub_obj_id = ".$ilDB->quote($a_context_sub_obj_id, "integer").
+				" AND ".$ilDB->equals("context_sub_obj_type", $a_context_sub_obj_type, "text", true).
+			" ORDER BY update_date DESC";
+
+		$ilDB->setLimit(1);
+		$set = $ilDB->query($query);
+		$rec = $ilDB->fetchAssoc($set);
+
+		$id = (int) $rec["id"];
+		if ($a_only_today)
+		{
+			$now = ilUtil::now();
+			if (substr($now, 0, 10) != substr($rec["update_date"], 0, 10))
+			{
+				$id = 0;
+			}
+		}
+
+		return $id;
+	}
+
+
 	/**
 	* Lookup media object usage(s)
 	*/

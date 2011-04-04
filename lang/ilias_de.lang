@@ -349,7 +349,7 @@ assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgef
 assessment#:#ects_use_fx_grade_part2#:#Prozent der Gesamtpunktezahl erreicht haben.
 assessment#:#edit_content#:#Inhalt bearbeiten
 assessment#:#edit_properties#:#Eigenschaften bearbeiten
-assessment#:#edit_test_questions#:#Fragen bearbeiten
+assessment#:#edit_test_questions#:#Listenansicht
 assessment#:#element_height#:#Minimale Höhe
 assessment#:#element_height_info#:#Dieser Wert legt die minimale Höhe von Termen und Definitionen/Bildern während der Testausgabe fest.
 assessment#:#empty_term_message#:#Mindestens ein Textfeld für Terme ist leer.
@@ -596,7 +596,7 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte F
 assessment#:#qpl_assessment_of_questions#:#Statistische Auswertung der Frage
 assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
-assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen?
+assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen löschen wollen?
 assessment#:#qpl_copy_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden in die Zwischenablage kopiert
 assessment#:#qpl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um diese in die Zwischenablage zu kopieren
 assessment#:#qpl_delete_describe_undeleteable_questions#:#Die folgenden Fragen werden von Zufallstests verwendet und können deshalb nicht gelöscht werden:
@@ -4975,9 +4975,6 @@ content#:#cont_dir_created#:#Verzeichnis wurde angelegt.
 content#:#cont_dir_deleted#:#Das Verzeichnis wurde gelöscht.
 content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_dir_renamed#:#Das Verzeichnis wurde umbenannt.
-content#:#cont_disable_html#:#HTML inaktiv
-content#:#cont_disable_js#:#JavaScript inaktiv
-content#:#cont_disable_media#:#Medien inaktiv
 content#:#cont_double_click_to_delete#:#Mit einem Doppel-Klick auf ein Content-Element wählen Sie dieses für die De-/Aktivierung und für das Löschen aus.
 content#:#cont_download_title#:#Titel Download-Datei
 content#:#cont_downloads#:#Downloads
@@ -5066,9 +5063,6 @@ content#:#cont_edit_term#:#Begriff editieren
 content#:#cont_edition#:#Ausgabe
 content#:#cont_empty_mep_folder#:#Es sind keine Medien in diesem Ordner.
 content#:#cont_empty_question#:#Die Frage ist noch nicht fertiggestellt. Bitte bearbeiten Sie diese abschließend oder löschen Sie die Frage.
-content#:#cont_enable_html#:#HTML aktiv
-content#:#cont_enable_js#:#JavaScript aktiv
-content#:#cont_enable_media#:#Medien aktiv
 content#:#cont_enable_time_scheduled_page_activation#:#Zeitliche Aktivierung von Seiten
 content#:#cont_enable_time_scheduled_page_activation_info#:#Die Funktion ermöglicht Aktivierungszeiten für einzelne Lernmodulseiten einzustellen.
 content#:#cont_end#:#Ende
@@ -9391,9 +9385,9 @@ survey#:#anonymize_personalized#:#Personalisierte Umfrage
 survey#:#anonymize_registered_user#:#Anonymisierter Zugang
 survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS-Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
 survey#:#anonymize_survey_description#:#Die Anonymisierung entfernt alle persönlichen Daten aus der Umfragenstatistik. Ein Zugangsschlüssel ist eine fünfstellige Kennung, die benötigt wird, um an einer anonymisierten Umfrage teilzunehmen. Für registrierte ILIAS-Nutzer entfällt diese Eingabe, wenn nur Zugangsschlüssel für nicht registrierte Nutzer verlangt werden, da dann ein anonymisierter Zugangsschlüssel automatisch generiert wird.
-survey#:#anonymize_with_code#:#Zugriff über einen Zugangsschlüssel für nicht registrierte Nutzer
+survey#:#anonymize_with_code#:#Anonyme Umfrage mit Zugangsschlüssel
 survey#:#anonymize_with_code_all#:#Zugriff über einen Zugangsschlüssel für alle Nutzer
-survey#:#anonymize_without_code#:#Freier Zugriff
+survey#:#anonymize_without_code#:#Anonyme Umfrage
 survey#:#anonymous_with_personalized_survey#:#Sie müssen im ILIAS-System angemeldet sein, um eine personalisierte Umfrage ausführen zu dürfen!
 survey#:#answer#:#Antwort
 survey#:#apply#:#Übernehmen
@@ -9402,7 +9396,7 @@ survey#:#ask_insert_questionblocks#:#Sind Sie sicher, dass Sie die folgenden Fra
 survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) der Umfrage hinzufügen wollen?
 survey#:#back#:#<< Zurück
 survey#:#before#:#vor
-survey#:#browse_for_questions#:#Fragen hinzufügen
+survey#:#browse_for_questions#:#Fragen suchen/hinzufügen
 survey#:#cancel_survey#:#Umfrage unterbrechen
 survey#:#cannot_create_survey_codes#:#Sie besitzen nicht die passenden Zugriffsrechte, um Zugangsschlüssel für die Umfrage zu erzeugen!
 survey#:#cannot_edit_survey#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Umfrage zu bearbeiten!
@@ -9583,7 +9577,7 @@ survey#:#last_update#:#Letzte Aktualisierung
 survey#:#layout#:#Layout
 survey#:#legend#:#Legende
 survey#:#lower_limit#:#Untere Schranke
-survey#:#maintenance#:#Wartung
+survey#:#maintenance#:#Teilnehmer
 survey#:#manage_phrases#:#Meine Phrasen
 survey#:#material#:#Material
 survey#:#material_added_successfully#:#Sie haben erfolgreich einen Verweis auf Material eingestellt!
@@ -9723,7 +9717,7 @@ survey#:#results#:#Ergebnisse
 survey#:#resume_survey#:#Umfrage fortsetzen
 survey#:#row_text#:#Zeile
 survey#:#save_back_to_survey#:#Speichern und zurück zur Umfrage
-survey#:#save_obligatory_state#:#verpflichtend-Status speichern
+survey#:#save_obligatory_state#:#verpflichtend-Status und Sortierung speichern
 survey#:#save_phrase#:#Als Phrase speichern
 survey#:#save_phrase_categories_not_checked#:#Bitte wählen Sie mindestens zwei Antworten aus, um diese in einer neuen Phrase speichern zu können!
 survey#:#save_phrase_introduction#:#Wenn Sie die unten aufgeführten Antworten für sich als Standard-Phrase speichern wollen, geben Sie bitte noch einen Titel für die Phrase ein. Sie können auf diese Phrase jederzeit zugreifen, wenn Sie Phrasen zu einer ordinalen Frage hinzufügen.
@@ -9786,7 +9780,7 @@ survey#:#survey_next#:#Weiter >>
 survey#:#survey_offline_message#:#Es können keine Teilnehmerinnen und Teilnehmer eingeladen werden. Die Umfrage ist nicht online!
 survey#:#survey_online_warning#:#Die Umfrage ist online. Sie dürfen keine Fragen bearbeiten!
 survey#:#survey_previous#:#<< Zurück
-survey#:#survey_question_editor#:#Fragenliste
+survey#:#survey_question_editor#:#Listenansicht
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_questions#:#Fragen
@@ -10355,7 +10349,7 @@ common#:#delete_inactive_user_accounts_interval#:#Häufigkeit
 common#:#delete_inactive_user_accounts_interval_desc#:#Häufigkeit in der die Löschbedingungen überprüft werden.
 mail#:#mail_prevent_smtp_globally#:#Versand von externen E-Mails (via SMTP) global verhindern.
 forum#:#post_reply#:#Re:
-forum#:#preset_subject#:#Titel für Beiträge vordefinieren
+forum#:#preset_subject#:#Beim Antworten auf einen Beitrag wird als Titel automatisch der Titel des vorhergehenden Beitrags übernommen.
 forum#:#preset_subject_info#:#Wenn diese Option ausgeschaltet ist, muss der Benutzer bei Beiträgen einen neuen Titel eingeben.
 administration#:#obj_frma#:#Forum
 administration#:#obj_frma_desc#:#Globale Foreneinstellungen
@@ -10503,7 +10497,7 @@ dateplaner#:#cal_cancel_booking_info#:#Bitte bestätigen Sie Stornierung der Buc
 dateplaner#:#cal_cancel_booking#:#Buchung stornieren
 dateplaner#:#cal_booking_confirmed#:#DerTermin wurde erfolgreich gebucht.
 dateplaner#:#cal_cancel_booking_confirmed#:#Die Buchung wurde erfolgreich storniert.
-forum#:#add_re_to_subject#:#'Re: ' dem Beitragstitel hinzufügen
+forum#:#add_re_to_subject#:#Beim Antworten auf einen Beitrag wird der Titel des vorhergehenden Beitrags übernommen und durch ein vorangestelltes Re: ergänzt.
 forum#:#add_re_to_subject_info#:#Wenn diese Option aktiviert ist, wird dem Beitragstitel der Zusatz 'Re:' hinzugefügt.
 forum#:#enter_new_subject#:#Bitte geben Sie einen neuen Beitragstitel ein
 dateplaner#:#cal_booking_confirmation_subject#:#Der Termin "%s" wurde gebucht
@@ -11094,3 +11088,144 @@ common#:#bought_objects_expire_soon#:#Für einige gekaufte Objekte endet bald di
 common#:#access_enddate#:#Zugriffsenddatum
 payment#:#buy_extension#:#Verlängerung kaufen
 payment#:#extension_price#:#Verlängerungspreis
+survey#:#svy_settings_template#:#Template
+administration#:#adm_settings_templates#:#Einstellungs-Vorlagen
+administration#:#adm_add_settings_template#:#Vorlagen hinzufügen
+administration#:#adm_edit_settings_template#:#Vorlagen bearbeiten
+administration#:#adm_hide_tabs#:#Tabs ausblenden
+administration#:#adm_predefined_settings#:#Vordefinierte Einstellungen
+administration#:#adm_value#:#Wert
+administration#:#adm_hide#:#Ausblenden
+administration#:#adm_sure_delete_settings_template#:#Wollen Sie wirklich die folgenden Vorlagen löschen?
+survey#:#survey_per_page_view#:#Seitenansicht
+survey#:#survey_prev_question#:#Vorherige Seite
+survey#:#survey_next_question#:#Nächste Seite
+survey#:#survey_jump_to#:#Springe zu Seite
+survey#:#survey_add_new_question#:#Neue Seite hinzufügen
+survey#:#survey_use_pool#:#In Pool aufnehmen
+survey#:#survey_dnd_move_next#:#Auf nächste Seite verschieben
+survey#:#survey_dnd_move_previous#:#Auf vorherige Seite verschieben
+survey#:#survey_dnd_split_page#:#Seite teilen
+survey#:#survey_dnd_double_click_to_delete#:#Mit einem Doppel-Klick auf ein Content-Element wählen Sie dieses für das Ausschneiden und Löschen aus.
+survey#:#survey_dnd_clear_clipboard#:#Zwischenablage leeren
+survey#:#survey_dnd_paste#:#Zwischenablage einfügen
+survey#:#survey_has_datasets_warning_page_view#:#Die Umfrage enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
+survey#:#survey_has_datasets_warning_page_view_link#:#Teilnehmerdatensätze bearbeiten
+survey#:#survey_using_template#:#Diese Umfrage verwendet die Vorlage %s. Wenn Sie keine Vorlage und alle Einstellungen verwenden wollen, klicken Sie bitte hier: %s.
+survey#:#survey_using_template_link#:#Vorlage nicht mehr verwenden
+common#:#toggle_hidden_sections#:#Weitere Informationen anzeigen
+assessment#:#test_enable_views#:#Aktivierte Sichten
+assessment#:#test_enable_view_both#:#Listen- und Seitenansicht
+assessment#:#test_enable_view_express#:#Seitenansicht
+assessment#:#test_enable_view_table#:#Tabellenansicht
+assessment#:#tst_express_allow_question_pool#:#Erlaube Fragenpool in Seitenansicht
+assessment#:#tst_express_allow_question_pool_description#:#Wenn aktiviert, können Fragen einen Fragenpool zugeordnet werden.
+assessment#:#questions_per_page_view#:#Seitenansicht
+assessment#:#test_next_question#:#Nächste Frage
+assessment#:#test_prev_question#:#Vorherige Frage
+assessment#:#test_jump_to#:#Zu Frage springen
+assessment#:#test_add_new_question#:#Frage hinzufügen
+assessment#:#adm_settings_templates#:#Einstellungsvorlagen
+survey#:#survey_confirm_template_reset#:#Sind Sie sicher, dass Sie die Vorlage nicht mehr verwenden wollen?
+survey#:#survey_template_reset#:#Die Vorlage wurde entfernt.
+survey#:#survey_introduction_info#:#Dieser Text erscheint zu Beginn der Umfrage.
+survey#:#survey_auth_mode#:#Zugriffsmodus
+survey#:#survey_question_pool#:#Fragenpool
+survey#:#survey_question_pool_usage#:#Poolauswahl beim Anlegen von Fragen
+survey#:#survey_pool_selection#:#Poolauswahl
+survey#:#survey_no_pool#:#Keinen Fragenpool verwenden
+survey#:#survey_new_pool#:#Neuen Fragenpool anlegen
+survey#:#survey_existing_pool#:#Vorhandenen Fragenpool verwenden
+survey#:#survey_delete_page#:#Seite löschen
+survey#:#survey_at_beginning#:#An den Anfang
+survey#:#survey_behind_page#:#Hinter
+survey#:#survey_show_blocktitle#:#Blocktitel anzeigen
+survey#:#survey_show_blocktitle_description#:#Wenn dieses Kontrollkästchen aktiviert ist, wird der Titel des Blocks innerhalb der Umfrage angezeigt.
+survey#:#survey_block_hidden#:#nicht sichtbar
+survey#:#survey_block_visible#:#sichtbar
+survey#:#survey_question_text_visible#:#Text sichtbar
+survey#:#survey_question_text_hidden#:#Text nicht sichtbar
+survey#:#survey_move_page#:#Seite verschieben
+survey#:#survey_page_moved#:#Die Seite wurde verschoben.
+assessment#:#intro_desc#:#Dieser Text erscheint zu Beginn des Test.
+assessment#:#test_question_pool_usage#:#Poolauswahl beim Anlegen von Fragen
+assessment#:#add_new_question#:#Neue Frage hinzufügen
+wiki#:#wiki_important_pages#:#Wichtige Seiten
+wiki#:#wiki_ordering#:#Reihenfolge
+wiki#:#wiki_indentation#:#Einzug
+wiki#:#wiki_save_ordering_and_indent#:#Reihenfolge und Einzug speichern
+wiki#:#wiki_sure_remove_imp_pages#:#Möchten Sie die folgenden Seiten wirklich von der Liste der wichtigen Seiten entfernen?
+wiki#:#wiki_removed_imp_pages#:#Die Seiten wurden von der Liste entfernt.
+wiki#:#wiki_ordering_and_indent_saved#:#Reihenfolge und Einzug wurde gespeichert.
+wiki#:#wiki_imp_page_added#:#Die Seite wurde hinzugefügt.
+content#:#cont_page_toc#:#Seitenübersicht
+wiki#:#wiki_page_toc#:#Seitenübersicht aktivieren
+wiki#:#wiki_page_toc_info#:#Wenn mindestens zwei Überschriften auf der Seite genutzt werden, wird am Seitenanfang eine Liste aller Überschriften angezeigt.
+wiki#:#wiki_block#:#Blockieren
+wiki#:#wiki_unblock#:#Blockierung entfernen
+wiki#:#wiki_page_unblocked#:#Blockierung wurde entfernt.
+wiki#:#wiki_page_blocked#:#Die Seite wurde blockiert
+wiki#:#wiki_last_edited#:#Zuletzt geändert
+wiki#:#wiki_rename#:#Umbenennen
+wiki#:#wiki_page_already_exists#:#Es existiert bereits eine Seite mit diesem Namen.
+wiki#:#wiki_rename_page#:#Seite umbenennen
+wiki#:#wiki_new_page_name#:#Neuer Seitentitel
+wiki#:#wiki_changed_by#:#Geändert von
+wiki#:#wiki_page_status_blocked#:#Die Bearbeitung der Seite ist für Lerner zur Zeit blockiert.
+survey#:#survey_copy_questions_to_pool#:#Fragenkopie in Pool erstellen
+survey#:#no_question_selected_for_copy_to_pool#:#Bitte wählen Sie mindestens eine Frage aus, die nicht einem Fragenpool zugeordnet ist.
+survey#:#survey_copy_select_questionpool#:#Fragenpool, in dem die Fragen abgelegt werden sollen
+survey#:#survey_copy_to_questionpool_success#:#Die Fragen wurden erfolgreich in den Fragenpool kopiert.
+wiki#:#wiki_news_page_created#:#Die Wikiseite wurde erstellt.
+wiki#:#wiki_news_page_changed#:#Die Wikiseite wurde geändert.
+assessment#:#test_using_template#:#Dieser Test verwendet die Vorlage %s. Wenn Sie keine Vorlage und alle Einstellungen verwenden wollen, klicken Sie bitte hier: %s.
+assessment#:#tst_anonymity_no_anonymization#:#Keine Anonymisierung
+assessment#:#tst_anonymity_anonymous_test#:#Anonymer Test
+assessment#:#tst_beginning_ending_information#:#Informationen zu Beginn und Ende des Tests
+assessment#:#tst_presentation_properties#:#Darstellungseigenschaften
+assessment#:#tst_settings_template#:#Vorlage
+assessment#:#test_delete_page#:#Frage löschen
+assessment#:#test_move_page#:#Frage verschieben
+assessment#:#assessment_pool_selection#:#Poolauswahl
+assessment#:#assessment_no_pool#:#Keinen Fragenpool verwenden
+assessment#:#assessment_existing_pool#:#Vorhandenen Fragenpool verwenden
+assessment#:#assessment_new_pool#:#Neuen Fragenpool erstellen und verwenden
+assessment#:#test_confirm_template_reset#:#Sind Sie sicher, dass Sie die Vorlage nicht mehr verwenden wollen?
+assessment#:#test_template_reset#:#Die Vorlage wurde entfernt.
+assessment#:#test_using_template_link#:#Vorlage nicht mehr verwenden
+assessment#:#tst_mail_notification#:#Mail Benachrichtigungen
+assessment#:#saveOrder#:#Sortierung abspeichern
+assessment#:#copy_and_link_to_questionpool#:#In Fragenpool kopieren und verlinken
+assessment#:#tst_result#:#Testergebnis
+common#:#first#:#An den Anfang
+common#:#behind#:#Nach
+common#:#tst_random_test_description_warning#:#<br /><b>This test has questions that are not assigned to a question pool. If you switch to random test mode, this questions will be lost.</b>###11 03 2011 new variable
+rating#:#rat_one_rating#:#Eine Bewertung
+rating#:#rat_not_rated_yet#:#Noch nicht bewertet
+rating#:#rat_nr_ratings#:#%s Bewertungen
+wiki#:#wiki_functions#:#Wiki-Funktionen
+wiki#:#wiki_navigation#:#Wiki-Navigation
+survey#:#survey_auto_block_title#:#Seitenüberschrift
+survey#:#survey_edit_settings#:#Einstellungen bearbeiten
+survey#:#survey_order#:#Sortierung
+wiki#:#wiki_page_lists#:#Seitenlisten
+common#:#tst_edit_questions#:#Fragen bearbeiten
+wiki#:#wiki_notification_activated#:#Notification Activated (Whole Wiki)###22 03 2011 new variable
+wiki#:#wiki_page_notification_activated#:#Notification Activated (Single Page)###22 03 2011 new variable
+wiki#:#wiki_notification_deactivate_wiki#:#Deactivate Notification for Wiki###22 03 2011 new variable
+wiki#:#wiki_notification_deactivate_page#:#Deactivate Notification for Page###22 03 2011 new variable
+wiki#:#wiki_notification_activate_wiki#:#Activate Notification for Wiki###22 03 2011 new variable
+wiki#:#wiki_notification_activate_page#:#Activate Notification for Page###22 03 2011 new variable
+content#:#cont_presentation_view#:#Presentation View###22 03 2011 new variable
+content#:#cont_deactivate_html#:#Deactivate HTML Rendering###22 03 2011 new variable
+content#:#cont_deactivate_js#:#Activate Form Mode###22 03 2011 new variable
+content#:#cont_deactivate_media#:#Deactivate Media###22 03 2011 new variable
+content#:#cont_activate_html#:#Activate HTML Rendering###22 03 2011 new variable
+content#:#cont_activate_js#:#Activate Javascript Mode###22 03 2011 new variable
+content#:#cont_activate_media#:#Activate Media###22 03 2011 new variable
+assessment#:#tst_remove_question#:#Sind Sie sicher, dass Sie die folgende Frage aus Ihrem Test entfernen wollen?
+survey#:#survey_cancel_preview#:#Vorschau abbrechen
+survey#:#survey_cannot_preview_survey#:#Vorschau nicht verfügbar
+cntr#:#edit_questions#:#Fragen bearbeiten
+forum#:#empty_subject#:#Beim Antworten auf einen Beitrag bleibt die Titelzeile leer und muss vom Benutzer gefüllt werden.
+forum#:#frm_subject_setting#:#Beitragstitel-Einstellung

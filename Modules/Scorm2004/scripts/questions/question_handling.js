@@ -23,7 +23,7 @@ ilias.questions.shuffleAll = function() {
 	//shuffle questions
 	for (var k in questions) {
 		if (questions[k].shuffle === true) {
-			questions[k].answers.shuffle();
+			ilias.questions.swapper(questions[k].answers);
 		}
 	}	
 };
@@ -32,9 +32,23 @@ ilias.questions.shuffle = function(a_question) {
 	//shuffle questions
 	if (!a_question.answers) {return;}
 	if (a_question.shuffle === true) {
-		a_question.answers.shuffle();
+		ilias.questions.swapper(a_question.answers);
 	}
 };
+
+ilias.questions.swapper = function(a)
+{
+	var i,L;
+	i = L = a.length;
+	while (i--)
+	{
+		var r = Math.floor(Math.random()*L);
+		var x = a[i];
+		a[i] = a[r];
+		a[r] = x;
+	}
+};
+
 
 ilias.questions.checkAnswers = function(a_id) {
 	if (!answers[a_id]) {
@@ -840,22 +854,6 @@ ilias.questions.toJSONString =function(v, tab)
 	}
 };
 
-//Array additions
-(function () {
-	var swapper =
-		function (a,L,e) {
-			var r = Math.floor(Math.random()*L);
-			var x = a[e];
-			a[e] = a[r];
-			a[r] = x;
-		};
-	Array.prototype.shuffle =
-		function () {
-			var i,L;
-			i = L = this.length;
-			while (i--) swapper(this,L,i);
-		};
-})();
 
 //jquery extensions
 
