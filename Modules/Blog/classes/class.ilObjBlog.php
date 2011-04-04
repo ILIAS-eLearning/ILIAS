@@ -58,7 +58,7 @@ class ilObjBlog extends ilObject2
 		
 		$ilDB->manipulate("INSERT INTO il_blog (id,notes) VALUES (".
 			$ilDB->quote($this->id, "integer").",".
-			$ilDB->quote(true, "integer"));
+			$ilDB->quote(true, "integer").")");
 	}
 
 	function getNotesStatus()
