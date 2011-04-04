@@ -11073,10 +11073,9 @@ certificate#:#certificate_ph_login#:#Login
 certificate#:#certificate_var_user_login#:#jdoe
 trac#:#trac_group_materials_save#:#Save Number of Obligatory Materials
 trac#:#trac_group_materials_num#:#Number of Obligatory Materials
-trac#:#trac_grouped_material_obligatory_err#:#Die Anzahl der zu bestehenden Materialien muss größer 0 und kleiner als die Anzahl der Materialien der Gruppierung sein.
+trac#:#trac_grouped_material_obligatory_err#:#The number materials which must be passed has to be greater than 0 and smaller than the number of materials of the grouping.
 rbac#:#precondition_obligatory_settings#:#Precondition Settings
 rbac#:#precondition_num_obligatory#:#Number of Required Materials
-rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials which is required for fullfilling this precondition.
 common#:#payment_notification#:#Send Payment Notification
 common#:#payment_notification_desc#:#If enabled, users get a reminder to extend the duration of bought objects
 common#:#payment_reminder_notification_subject#:#The access duration af bought objects is ending soon.
@@ -11227,3 +11226,5 @@ forum#:#empty_subject#:#On reply the user has to enter a new title.
 forum#:#frm_subject_setting#:#Subject setting
 exc#:#exc_completion_by_submission#:#Completed by Submission
 exc#:#exc_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of an assignment. The score could be manually changed later. Switching this setting does not effect already submitted solutions.
+rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials which is required for fullfilling this precondition.
+trac#:#trac_min_passed#:#Minimum Number of Passed Materials:

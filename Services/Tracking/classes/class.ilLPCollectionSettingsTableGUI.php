@@ -167,6 +167,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 		if(count($a_set['grouped']))
 		{
 			$this->tpl->setCurrentBlock('num_passed_items');
+			$this->tpl->setVariable('MIN_PASSED_TXT', $this->lng->txt('trac_min_passed'));
 			$this->tpl->setVariable('NUM_OBLIGATORY', $a_set['num_obligatory']);
 			$this->tpl->setVariable('GRP_ID', $a_set['grouping_id']);
 			$this->tpl->parseCurrentBlock();

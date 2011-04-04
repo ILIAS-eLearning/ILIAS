@@ -11080,7 +11080,6 @@ trac#:#trac_group_materials_num#:#Anzahl zu bestehender Materialien
 trac#:#trac_grouped_material_obligatory_err#:#The number of obligatory materials must be greater than 0 and smaller than the number of materials assigned to this grouping.
 rbac#:#precondition_obligatory_settings#:#Einstellungen für Vorbedinungen
 rbac#:#precondition_num_obligatory#:#Anzahl benötigter Materialien
-rbac#:#precondition_num_optional_info#:#Bitte geben Sie die minimale Anzahl der Materialien an, die notwendig ist, um die Vorbedingung zu erfüllen.
 common#:#payment_notification#:#Sende Payment Benachrichtigungen
 common#:#payment_notification_desc#:#Wenn aktiviert, erhalten die Benutzer eine Benachrichtigung um die Zugriffsdauer bereits gekaufter Objekte zu verlängern.
 common#:#payment_reminder_notification_subject#:#Die Zugriffsdauer bereits gekaufter Objekte endet bald.
@@ -11231,3 +11230,5 @@ forum#:#empty_subject#:#Beim Antworten auf einen Beitrag bleibt die Titelzeile l
 forum#:#frm_subject_setting#:#Beitragstitel-Einstellung
 exc#:#exc_completion_by_submission#:#Bestehen durch Abgabe
 exc#:#exc_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösung zum Bestehen einer Übungseinheit. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
+rbac#:#precondition_num_optional_info#:#Bitte geben Sie die minimale Anzahl der Materialien an, die notwendig ist, um die Vorbedingung zu erfüllen.
+trac#:#trac_min_passed#:#Minimalanzahl zu bestehender Materialien:
