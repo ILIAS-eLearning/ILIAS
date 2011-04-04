@@ -1,6 +1,18 @@
 <div id="treeView" style="background-color:#FAFAFA; width:350px;"></div>
 <script type="text/javascript">
 /*<![CDATA[*/
+
+
+if (!window.console) {
+	(function() {
+	    var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
+	      "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
+	    window.console = {};
+	    for (var i = 0; i < names.length; ++i)
+	      window.console[names[i]] = function() {}
+	})();
+}
+
 (function(){	
 	function ExtendedTreeView(config) {
 		ExtendedTreeView.superclass.constructor.apply(this, arguments);
@@ -30,10 +42,13 @@
 			}
 		},
 		isNodeExpanded: function(node) {
-			length = this.getExpandedNodes().length;
-			for (var i = 0; i < length; ++i) {
-				if (MD5(node.html) == this.getExpandedNodes()[i]) {
-					return true;
+			var matches = node.data.match(/id='frm_node_(\d+)'/);
+			if (typeof matches == "object" && matches[1] != "undefined") {
+				length = this.getExpandedNodes().length;
+				for (var i = 0; i < length; ++i) {
+					if (matches[1] == this.getExpandedNodes()[i]) {
+						return true;
+					}
 				}
 			}
 			
@@ -44,31 +59,35 @@
 	//create the TreeView instance:
 	tree = new ExtendedTreeView("treeView");
 	tree.subscribe("expand", function(node) {
-		found = false;
-		length = this.getExpandedNodes().length;
-		for (var i = 0; i < length; ++i) {
-			if (this.getExpandedNodes()[i] == MD5(node.html)) {
-				found = true;
-				break;
+		var matches = node.data.match(/id='frm_node_(\d+)'/);
+		if (typeof matches == "object" && matches[1] != "undefined") {
+			found = false;
+			length = this.getExpandedNodes().length;
+			for (var i = 0; i < length; ++i) {
+				if (this.getExpandedNodes()[i] == matches[1]) {
+					found = true;
+					break;
+				}
 			}
-		}		
-		if (!found) {			
-			this.getExpandedNodes().push(MD5(node.html));
-			ilFrmTreeStateHandler.call(this);
-			//console.log(this.getExpandedNodes());
+			if (!found) {
+				this.getExpandedNodes().push(matches[1]);
+				ilFrmTreeStateHandler.call(this);
+			}
 		}
 	});	 
 	tree.subscribe("collapse", function(node) {
-		tmp = [];
-		length = this.getExpandedNodes().length;
-		for (var i = 0; i < length; ++i) {
-			if (this.getExpandedNodes()[i] != MD5(node.html)) {
-				tmp.push(this.getExpandedNodes()[i]);
+		var matches = node.data.match(/id='frm_node_(\d+)'/);
+		if (typeof matches == "object" && matches[1] != "undefined") {
+			tmp = [];
+			length = this.getExpandedNodes().length;
+			for (var i = 0; i < length; ++i) {
+				if (this.getExpandedNodes()[i] != matches[1]) {
+					tmp.push(this.getExpandedNodes()[i]);
+				}
 			}
+			this.setExpandedNodes(tmp);
+			ilFrmTreeStateHandler.call(this);
 		}
-		this.setExpandedNodes(tmp);
-		ilFrmTreeStateHandler.call(this);
-		//console.log(this.getExpandedNodes());
 	});
 	
 	function ilFrmTreeStateHandler()
@@ -101,11 +120,11 @@
 	//the tree won't show up until you draw (render) it:
 	tree.draw();
 
-//	if ({THR_OPEN_NODES}.length == 0 || {OLD_THR_ID} != {NEW_THR_ID})
+	if ({THR_OPEN_NODES}.length == 0 || {OLD_THR_ID} != {NEW_THR_ID})
 		tree.expandAll();
 		
-//	else
-//		tree.expandCertainNodes({THR_OPEN_NODES});
+	else
+		tree.expandCertainNodes({THR_OPEN_NODES});
 
 
 })();

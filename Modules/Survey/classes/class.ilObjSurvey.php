@@ -151,6 +151,8 @@ class ilObjSurvey extends ilObject
 	var $mailnotification;
 	var $mailaddresses;
 	var $mailparticipantdata;
+	var $template_id;
+	var $pool_usage;
 
 	/**
 	* Constructor
@@ -178,7 +180,8 @@ class ilObjSurvey extends ilObject
 		$this->anonymize = ANONYMIZE_OFF;
 		$this->display_question_titles = QUESTIONTITLES_VISIBLE;
 		$this->surveyCodeSecurity = TRUE;
-		$this->mailnotification = false;
+		$this->template_id = NULL;
+		$this->pool_usage = false;
 	}
 
 	/**
@@ -598,6 +601,13 @@ class ilObjSurvey extends ilObject
 		
 		$questiontype = $this->getQuestionType($question_id);
 		$question_gui = $this->getQuestionGUI($questiontype, $question_id);
+
+		// check if question is a pool question at all, if not do nothing
+		if($this->getId() == $question_gui->object->getObjId())
+		{
+			return $question_id;
+		}
+
 		$duplicate_id = $question_gui->object->duplicate(true);
 		return $duplicate_id;
 	}
@@ -644,20 +654,27 @@ class ilObjSurvey extends ilObject
 	function insertQuestionblock($questionblock_id) 
 	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT svy_qblk.title, svy_qblk.show_questiontext, svy_qblk_qst.question_fi FROM svy_qblk, svy_qblk_qst, svy_svy_qst WHERE svy_qblk.questionblock_id = svy_qblk_qst.questionblock_fi AND svy_svy_qst.question_fi = svy_qblk_qst.question_fi AND svy_qblk.questionblock_id = %s ORDER BY svy_svy_qst.sequence",
+		$result = $ilDB->queryF("SELECT svy_qblk.title, svy_qblk.show_questiontext, svy_qblk.show_blocktitle,".
+			" svy_qblk_qst.question_fi FROM svy_qblk, svy_qblk_qst, svy_svy_qst".
+			" WHERE svy_qblk.questionblock_id = svy_qblk_qst.questionblock_fi".
+			" AND svy_svy_qst.question_fi = svy_qblk_qst.question_fi".
+			" AND svy_qblk.questionblock_id = %s".
+			" ORDER BY svy_svy_qst.sequence",
 			array('integer'),
 			array($questionblock_id)
 		);
 		$questions = array();
 		$show_questiontext = 0;
+		$show_blocktitle = 0;
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$duplicate_id = $this->duplicateQuestionForSurvey($row["question_fi"]);
 			array_push($questions, $duplicate_id);
 			$title = $row["title"];
 			$show_questiontext = $row["show_questiontext"];
+			$show_blocktitle = $row["show_blocktitle"];
 		}
-		$this->createQuestionblock($title, $show_questiontext, $questions);
+		$this->createQuestionblock($title, $show_questiontext, $show_blocktitle, $questions);
 	}
 	
 	/**
@@ -766,7 +783,9 @@ class ilObjSurvey extends ilObject
 				"mailnotification" => array('integer', ($this->getMailNotification()) ? 1 : 0),
 				"mailaddresses" => array('text', strlen($this->getMailAddresses()) ? $this->getMailAddresses() : NULL),
 				"mailparticipantdata" => array('text', strlen($this->getMailParticipantData()) ? $this->getMailParticipantData() : NULL),
-				"tstamp" => array("integer", time())
+				"tstamp" => array("integer", time()),
+				"template_id" => array("integer", $this->getTemplate(),
+				"pool_usage" => array("integer", $this->getPoolUsage()))
 			));
 			$this->setSurveyId($next_id);
 		}
@@ -788,7 +807,9 @@ class ilObjSurvey extends ilObject
 				"mailnotification" => array('integer', ($this->getMailNotification()) ? 1 : 0),
 				"mailaddresses" => array('text', strlen($this->getMailAddresses()) ? $this->getMailAddresses() : NULL),
 				"mailparticipantdata" => array('text', strlen($this->getMailParticipantData()) ? $this->getMailParticipantData() : NULL),
-				"tstamp" => array("integer", time())
+				"tstamp" => array("integer", time()),
+				"template_id" => array("integer", $this->getTemplate()),
+				"pool_usage" => array("integer", $this->getPoolUsage())
 			), array(
 			"survey_id" => array("integer", $this->getSurveyId())
 			));
@@ -1013,6 +1034,8 @@ class ilObjSurvey extends ilObject
 			$this->setMailNotification($data['mailnotification']);
 			$this->setMailAddresses($data['mailaddresses']);
 			$this->setMailParticipantData($data['mailparticipantdata']);
+			$this->setTemplate($data['template_id']);
+			$this->setPoolUsage($data['pool_usage']);
 		}
 	}
 
@@ -1402,6 +1425,7 @@ class ilObjSurvey extends ilObject
 		
 		$result = TRUE;
 		$messages = array();
+		$edit_settings = false;
 		// check start date
 		if ($this->getStartDateEnabled())
 		{
@@ -1414,6 +1438,7 @@ class ilObjSurvey extends ilObject
 					array_push($messages,$this->lng->txt('start_date_not_reached').' ('.
 						ilDatePresentation::formatDate(new ilDateTime($this->getStartDate(), IL_CAL_TIMESTAMP)). ")");
 					$result = FALSE;
+					$edit_settings = true;
 				}
 			}
 		}
@@ -1429,6 +1454,7 @@ class ilObjSurvey extends ilObject
 					array_push($messages,$this->lng->txt('end_date_reached').' ('.
 						ilDatePresentation::formatDate(new ilDateTime($this->getEndDate(), IL_CAL_TIMESTAMP)). ")");
 					$result = FALSE;
+					$edit_settings = true;
 				}
 			}
 		}
@@ -1437,6 +1463,7 @@ class ilObjSurvey extends ilObject
 		{
 			array_push($messages, $this->lng->txt("survey_is_offline"));
 			$result = FALSE;
+			$edit_settings = true;
 		}
 		// check rbac permissions
 		if (!$ilAccess->checkAccess("read", "", $this->ref_id))
@@ -1457,7 +1484,8 @@ class ilObjSurvey extends ilObject
 		}
 		return array(
 			"result" => $result,
-			"messages" => $messages
+			"messages" => $messages,
+			"edit_settings" => $edit_settings
 		);
 	}
 
@@ -1997,16 +2025,35 @@ class ilObjSurvey extends ilObject
 	function removeQuestions($remove_questions, $remove_questionblocks)
 	{
 		global $ilDB;
-		$questions =& $this->getSurveyQuestions();
-		foreach ($questions as $question_id => $data)
+
+		$block_sizes = array();
+		foreach ($this->getSurveyQuestions() as $question_id => $data)
 		{
 			if (in_array($question_id, $remove_questions) or in_array($data["questionblock_id"], $remove_questionblocks))
 			{
 				unset($this->questions[array_search($question_id, $this->questions)]);
-				$this->removeQuestion($question_id);
+				// $this->removeQuestion($question_id);
+				if($data["questionblock_id"] && !in_array($data["questionblock_id"], $remove_questionblocks))
+				{
+					// $this->removeQuestionFromBlock($question_id, $data["questionblock_id"]);
+				}
+			}
+			else if($data["questionblock_id"])
+			{
+				$block_sizes[$data["questionblock_id"]]++;
 			}
 		}
-		foreach ($remove_questionblocks as $questionblock_id)
+		
+		// blocks with just 1 question need to be deleted
+		foreach($block_sizes as $block_id => $size)
+		{
+			if($size < 2)
+			{
+				$remove_questionblocks[] = $block_id;
+			}
+		}
+
+		foreach (array_unique($remove_questionblocks) as $questionblock_id)
 		{
 			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qblk WHERE questionblock_id = %s",
 				array('integer'),
@@ -2017,6 +2064,7 @@ class ilObjSurvey extends ilObject
 				array($questionblock_id, $this->getSurveyId())
 			);
 		}
+		
 		$this->questions = array_values($this->questions);
 		$this->saveQuestionsToDb();
 	}
@@ -2042,7 +2090,30 @@ class ilObjSurvey extends ilObject
 			);
 		}
 	}
-	
+
+	function removeQuestionFromBlock($question_id, $questionblock_id)
+	{
+		global $ilDB;
+		
+		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_qblk_qst WHERE questionblock_fi = %s AND survey_fi = %s AND question_fi = %s",
+			array('integer','integer','integer'),
+			array($questionblock_id, $this->getSurveyId(), $question_id)
+		);
+	}
+
+	function addQuestionToBlock($question_id, $questionblock_id)
+	{
+		global $ilDB;
+
+
+		$next_id = $ilDB->nextId('svy_qblk_qst');
+		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qblk_qst (qblk_qst_id, survey_fi, questionblock_fi, " .
+			"question_fi) VALUES (%s, %s, %s, %s)",
+			array('integer','integer','integer','integer'),
+			array($next_id, $this->getSurveyId(), $questionblock_id, $question_id)
+		);
+	}
+
 /**
 * Returns the question titles of all questions of a question block
 *
@@ -2167,7 +2238,7 @@ class ilObjSurvey extends ilObject
 * @param array $questions An array with the database id's of the question block questions
 * @access public
 */
-	function createQuestionblock($title, $show_questiontext, $questions)
+	function createQuestionblock($title, $show_questiontext, $show_blocktitle, $questions)
 	{
 		global $ilDB;
 		// if the selected questions are not in a continous selection, move all questions of the
@@ -2177,10 +2248,10 @@ class ilObjSurvey extends ilObject
 		// now save the question block
 		global $ilUser;
 		$next_id = $ilDB->nextId('svy_qblk');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qblk (questionblock_id, title, show_questiontext, owner_fi, ".
-			"tstamp) VALUES (%s, %s, %s, %s, %s)",
-			array('integer','text','text','integer','integer'),
-			array($next_id, $title, $show_questiontext, $ilUser->getId(), time())
+		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qblk (questionblock_id, title, show_questiontext,".
+			" show_blocktitle, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+			array('integer','text','text','text','integer','integer'),
+			array($next_id, $title, $show_questiontext, $show_blocktitle, $ilUser->getId(), time())
 		);
 		if ($affectedRows)
 		{
@@ -2205,13 +2276,13 @@ class ilObjSurvey extends ilObject
 * @param string $title The title of the question block
 * @access public
 */
-	function modifyQuestionblock($questionblock_id, $title, $show_questiontext)
+	function modifyQuestionblock($questionblock_id, $title, $show_questiontext, $show_blocktitle)
 	{
 		global $ilDB;
-		$affectedRows = $ilDB->manipulateF("UPDATE svy_qblk SET title = %s, show_questiontext = %s WHERE " .
-			"questionblock_id = %s",
-			array('text','text','integer'),
-			array($title, $show_questiontext, $questionblock_id)
+		$affectedRows = $ilDB->manipulateF("UPDATE svy_qblk SET title = %s, show_questiontext = %s,".
+			" show_blocktitle = %s WHERE questionblock_id = %s",
+			array('text','text','text','integer'),
+			array($title, $show_questiontext, $show_blocktitle, $questionblock_id)
 		);
 	}
 	
@@ -2482,6 +2553,7 @@ class ilObjSurvey extends ilObject
 				$all_questions[$question_id]["questionblock_title"] = $questionblocks[$question_id]['title'];
 				$all_questions[$question_id]["questionblock_id"] = $questionblocks[$question_id]['questionblock_id'];
 				$all_questions[$question_id]["questionblock_show_questiontext"] = $questionblocks[$question_id]['show_questiontext'];
+				$all_questions[$question_id]["questionblock_show_blocktitle"] = $questionblocks[$question_id]['show_blocktitle'];
 				$currentblock = $questionblocks[$question_id]['questionblock_id'];
 				$constraints = $this->getConstraints($question_id);
 				$all_questions[$question_id]["constraints"] = $constraints;
@@ -2493,6 +2565,7 @@ class ilObjSurvey extends ilObject
 				$all_questions[$question_id]["questionblock_title"] = "";
 				$all_questions[$question_id]["questionblock_id"] = "";
 				$all_questions[$question_id]["questionblock_show_questiontext"] = 1;
+				$all_questions[$question_id]["questionblock_show_blocktitle"] = 1;
 				$currentblock = "";
 				$constraints = $this->getConstraints($question_id);
 				$all_questions[$question_id]["constraints"] = $constraints;
@@ -3616,6 +3689,8 @@ class ilObjSurvey extends ilObject
 
 	function &getQuestions($question_ids)
 	{
+		global $ilDB;
+		
 		$result_array = array();
 		$result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag FROM svy_question, svy_qtype WHERE ".
 			"svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.tstamp > 0 AND ".
@@ -3719,7 +3794,8 @@ class ilObjSurvey extends ilObject
   
 		$query_result = $ilDB->query("SELECT svy_qblk.*, svy_svy.obj_fi FROM svy_qblk , svy_qblk_qst, svy_svy WHERE ".
 			"svy_qblk.questionblock_id = svy_qblk_qst.questionblock_fi AND svy_svy.survey_id = svy_qblk_qst.survey_fi ".
-			"$where GROUP BY svy_qblk.questionblock_id, svy_qblk.title, svy_qblk.show_questiontext, svy_qblk.owner_fi, svy_qblk.tstamp, svy_svy.obj_fi");
+			"$where GROUP BY svy_qblk.questionblock_id, svy_qblk.title, svy_qblk.show_questiontext,  svy_qblk.show_blocktitle, ".
+			"svy_qblk.owner_fi, svy_qblk.tstamp, svy_svy.obj_fi");
 		$rows = array();
 		if ($query_result->numRows())
 		{
@@ -3900,7 +3976,8 @@ class ilObjSurvey extends ilObject
 			if (count($question_array) > 1)
 			{
 				$attribs = array("id" => $question_array[0]["question_id"]);
-				$attribs = array("showQuestiontext" => $question_array[0]["questionblock_show_questiontext"]);
+				$attribs = array("showQuestiontext" => $question_array[0]["questionblock_show_questiontext"],
+					"showBlocktitle" => $question_array[0]["questionblock_show_blocktitle"]);
 				$a_xml_writer->xmlStartTag("questionblock", $attribs);
 				if (strlen($question_array[0]["questionblock_title"]))
 				{
@@ -4157,6 +4234,7 @@ class ilObjSurvey extends ilObject
 		$newObj->setInvitationMode($this->getInvitationMode());
 		$newObj->setAnonymize($this->getAnonymize());
 		$newObj->setShowQuestionTitles($this->getShowQuestionTitles());
+		$newObj->setTemplate($this->getTemplate());
 
 
 		$question_pointer = array();
@@ -5205,6 +5283,58 @@ class ilObjSurvey extends ilObject
 				$total += $row['left_page'] - $row['entered_page'];
 		}
 		return $total;
+	}
+
+	function setTemplate($template_id)
+	{
+		$this->template_id = (int)$template_id;
+	}
+
+	function getTemplate()
+	{
+		return $this->template_id;
+	}
+
+	function updateOrder(array $a_order)
+	{
+		if(sizeof($this->questions) == sizeof($a_order))
+		{
+			$this->questions = array_flip($a_order);
+			$this->saveQuestionsToDB();
+		}		
+	}
+
+	function getPoolUsage()
+	{
+		return $this->pool_usage;
+	}
+
+	function setPoolUsage($a_value)
+	{
+		$this->pool_usage = (bool)$a_value;
+	}
+
+	/**
+	 * Get current pool status
+	 *
+	 * @return bool
+	 */
+	function isPoolActive()
+	{
+		$use_pool = (bool)$this->getPoolUsage();
+		$template_settings = $this->getTemplate();
+		if($template_settings)
+		{
+			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+			$template_settings = new ilSettingsTemplate($template_settings);
+			$template_settings = $template_settings->getSettings();
+			$template_settings = $template_settings["use_pool"];
+			if($template_settings && $template_settings["hide"])
+			{
+				$use_pool = (bool)$template_settings["value"];
+			}
+		}
+		return $use_pool;
 	}
 	
 } // END class.ilObjSurvey

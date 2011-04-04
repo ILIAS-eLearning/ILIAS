@@ -193,6 +193,7 @@ class ilInfoScreenGUI
 	{
 		$this->sec_nr++;
 		$this->section[$this->sec_nr]["title"] = $a_title;
+		$this->section[$this->sec_nr]["hidden"] = (bool)$this->hidden;
 	}
 
 	/**
@@ -733,6 +734,15 @@ class ilInfoScreenGUI
 			$this->setFormAction($ilCtrl->getFormAction($this));
 		}
 
+		if($this->hidden)
+		{
+			$tpl->touchBlock("hidden_js");
+			if($this->show_hidden_toggle)
+			{
+				$this->addButton($lng->txt("toggle_hidden_sections"), "JavaScript:toggleSections();");
+			}
+		}
+
 		// add top buttons
 		if (count($this->top_buttons) > 0)
 		{
@@ -821,13 +831,6 @@ class ilInfoScreenGUI
 		{
 			if (is_array($this->section[$i]["properties"]))
 			{
-				// section header
-				$tpl->setCurrentBlock("header_row");
-				$tpl->setVariable("TXT_SECTION",
-					$this->section[$i]["title"]);
-				$tpl->parseCurrentBlock();
-				$tpl->touchBlock("row");
-
 				// section properties
 				foreach($this->section[$i]["properties"] as $property)
 				{
@@ -849,21 +852,31 @@ class ilInfoScreenGUI
 						$tpl->setCurrentBlock("property_row");
 						$tpl->setVariable("TXT_PROPERTY", $property["name"]);
 						$tpl->parseCurrentBlock();
-						$tpl->touchBlock("row");
 					}
 					else
 					{
 						$tpl->setCurrentBlock("property_full_row");
 						$tpl->setVariable("TXT_PROPERTY_FULL_VALUE", $property["value"]);
 						$tpl->parseCurrentBlock();
-						$tpl->touchBlock("row");
 					}
 				}
+
+				// section header
+				if($this->section[$i]["hidden"])
+				{
+					$tpl->setVariable("SECTION_HIDDEN", " style=\"display:none;\"");
+					$tpl->setVariable("SECTION_ID", "hidable_".$i);
+				}
+				else
+				{
+					$tpl->setVariable("SECTION_ID", $i);
+				}
+				$tpl->setVariable("TCLASS", $this->getTableClass());
+				$tpl->setVariable("TXT_SECTION", $this->section[$i]["title"]);
+				$tpl->touchBlock("row");
 			}
 		}
 
-		$tpl->setVariable("TCLASS", $this->getTableClass());
-		
 		return $tpl->get();
 	}
 
@@ -1169,6 +1182,19 @@ class ilInfoScreenGUI
 		$tagging_gui->saveInput();
 		
 		return $this->showSummary();
+	}
+
+	function hideFurtherSections($a_add_toggle = true)
+	{
+		$this->hidden = true;
+		$this->show_hidden_toggle = (bool)$a_add_toggle;
+	}
+
+	function getHiddenToggleButton()
+	{
+		global $lng;
+		
+		return "<a class=\"submit\" onClick=\"toggleSections();\" href=\"#\">".$lng->txt("toggle_hidden_sections")."</a>";
 	}
 }
 

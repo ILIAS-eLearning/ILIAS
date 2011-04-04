@@ -32,7 +32,7 @@
 * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyExecutionGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilMDEditorGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilInfoScreenGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjSurveyGUI: ilRepositorySearchGUI
+* @ilCtrl_Calls ilObjSurveyGUI: ilRepositorySearchGUI, ilSurveyPageGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesSurvey
@@ -54,8 +54,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->type = "svy";
 		$lng->loadLanguageModule("survey");
 		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this, "ref_id");
-
+		$this->ctrl->saveParameter($this, "ref_id", "pgov", "pgov_pos");
+	
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
 	}
 	
@@ -92,6 +92,27 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($cmd == "saveTags")
 		{
 			$ilCtrl->setCmdClass("ilinfoscreengui");
+		}
+
+		// deep link from repository - "redirect" to page view
+		if(!$this->ctrl->getCmdClass() && $cmd == "questions" && !isset($_REQUEST["pgov"]))
+		{
+			$_REQUEST["pgov"] = 1;
+		}
+
+		// return to questions in page view mode
+		if(in_array($cmd, array("cancelRemoveQuestions", "questions", "confirmRemoveQuestions", 
+			"cancelDeleteAllUserData", "confirmDeleteAllUserData", "cancelCreateQuestion",
+			"cancelHeading", "cancelRemoveHeading", "confirmRemoveHeading", "cancelRemoveQuestions",
+			"cancelDefineQuestionblock"))
+			&& $_REQUEST["pgov"])
+		{
+			$ilCtrl->setCmdClass("ilsurveypagegui");
+			if(!in_array($cmd, array("confirmRemoveQuestions", "confirmDeleteAllUserData",
+				"confirmRemoveHeading")))
+			{
+				$ilCtrl->setCmd("renderPage");
+			}
 		}
 
 		$next_class = $this->ctrl->getNextClass($this);
@@ -151,7 +172,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$cp->setType('svy');
 				$this->ctrl->forwardCommand($cp);
 				break;
-				
+
+			case 'ilsurveypagegui':
+				include_once './Modules/Survey/classes/class.ilSurveyPageGUI.php';
+				$pg = new ilSurveyPageGUI($this);
+				$this->ctrl->forwardCommand($pg);
+				break;
 
 			default:
 				$cmd.= "Object";
@@ -166,6 +192,81 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* save object
+	* @access	public
+	*/
+	function saveObject()
+	{
+		global $rbacadmin;
+
+		if (!strlen($_POST['Fobject']['title']))
+		{
+			ilUtil::sendFailure($this->lng->txt('title_required'), true);
+			$this->ctrl->setParameter($this, 'new_type', $_GET['new_type']);
+			$this->ctrl->redirect($this, 'create');
+		}
+
+		// create and insert forum in objecttree
+		$newObj = parent::saveObject();
+		
+		if($_POST['Fobject']['template'])
+		{
+			$template_id = (int)$_POST['Fobject']['template'];
+			
+			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+			$template = new ilSettingsTemplate($template_id);
+			$template_settings = $template->getSettings();
+			if($template_settings)
+			{
+				if($template_settings["show_question_titles"] !== NULL)
+				{
+					if($template_settings["show_question_titles"]["value"])
+					{
+						$newObj->setShowQuestionTitles(true);
+					}
+					else
+					{
+						$newObj->setShowQuestionTitles(false);
+					}
+				}
+
+				if($template_settings["use_pool"] !== NULL)
+				{
+					if($template_settings["use_pool"]["value"])
+					{
+						$newObj->setPoolUsage(true);
+					}
+					else
+					{
+						$newObj->setPoolUsage(false);
+					}
+				}
+
+				if($template_settings["anonymization_options"]["value"])
+				{
+					$anon_map = array('personalized' => ANONYMIZE_OFF,
+						'anonymize_with_code' => ANONYMIZE_ON,
+						'anonymize_without_code' => ANONYMIZE_FREEACCESS);
+					$newObj->setAnonymize($anon_map[$template_settings["anonymization_options"]["value"]]);
+				}
+
+				/* other settings: not needed here
+				 * - enabled_end_date
+				 * - enabled_start_date
+				 * - rte_switch
+				 */
+			}
+
+			$newObj->setTemplate($template_id);
+			$newObj->saveToDb();
+		}
+
+		// always send a message
+		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
+		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=".$newObj->getRefId()."&cmd=properties");
+	}
+	
 	/**
 	* cancel action and go back to previous page
 	* @access	public
@@ -218,25 +319,65 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$hasErrors = $this->propertiesObject(true);
 		if (!$hasErrors)
 		{
+			$template_settings = null;
+			$template = $this->object->getTemplate();
+			if($template)
+			{
+				include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+				$template = new ilSettingsTemplate($template);
+				$template_settings = $template->getSettings();
+			}
+
+
+			include_once 'Services/MetaData/classes/class.ilMD.php';
+			$md_obj =& new ilMD($this->object->getId(), 0, "svy");
+			$md_section = $md_obj->getGeneral();
+			
+			// title
+			$md_section->setTitle(ilUtil::stripSlashes($_POST['title']));
+			$md_section->update();
+
+			// Description
+			$md_desc_ids = $md_section->getDescriptionIds();
+			if($md_desc_ids)
+			{
+				$md_desc = $md_section->getDescription(array_pop($md_desc_ids));
+				$md_desc->setDescription(ilUtil::stripSlashes($_POST['description']));
+				$md_desc->update();
+			}
+
+			// both are saved in object, too
+			$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
+			$this->object->setDescription(ilUtil::stripSlashes($_POST['description']));
+			$this->object->update();
+			
 			$result = $this->object->setStatus($_POST['online']);
 			$this->object->setEvaluationAccess($_POST["evaluation_access"]);
-			$this->object->setStartDateEnabled($_POST["enabled_start_date"]);
-			if ($this->object->getStartDateEnabled())
+
+			if(!$template_settings["enabled_start_date"]["hide"])
 			{
-				$this->object->setStartDateAndTime($_POST["start_date"]['date'], $_POST["start_date"]['time']);
+				$this->object->setStartDateEnabled($_POST["enabled_start_date"]);
+				if ($this->object->getStartDateEnabled())
+				{
+					$this->object->setStartDateAndTime($_POST["start_date"]['date'], $_POST["start_date"]['time']);
+				}
+				else
+				{
+					$this->object->setStartDate(null);
+				}
 			}
-			else
+
+			if(!$template_settings["enabled_end_date"]["hide"])
 			{
-				$this->object->setStartDate(null);
-			}
-			$this->object->setEndDateEnabled($_POST["enabled_end_date"]);
-			if ($this->object->getEndDateEnabled())
-			{
-				$this->object->setEndDateAndTime($_POST["end_date"]['date'], $_POST["end_date"]['time']);
-			}
-			else
-			{
-				$this->object->setEndDate(null);
+				$this->object->setEndDateEnabled($_POST["enabled_end_date"]);
+				if ($this->object->getEndDateEnabled())
+				{
+					$this->object->setEndDateAndTime($_POST["end_date"]['date'], $_POST["end_date"]['time']);
+				}
+				else
+				{
+					$this->object->setEndDate(null);
+				}
 			}
 
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
@@ -248,20 +389,32 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
 			if (!$hasDatasets)
 			{
-				$anonymize = $_POST["anonymization"];
-				if ($anonymize)
+				$anon_map = array('personalized' => ANONYMIZE_OFF,
+					'anonymize_with_code' => ANONYMIZE_ON,
+					'anonymize_without_code' => ANONYMIZE_FREEACCESS);
+				if(array_key_exists($_POST["anonymization_options"], $anon_map))
 				{
-					if (strcmp($_POST['anonymization_options'], 'anonymize_without_code') == 0) $anonymize = ANONYMIZE_FREEACCESS;
+					$this->object->setAnonymize($anon_map[$_POST["anonymization_options"]]);
 					if (strcmp($_POST['anonymization_options'], 'anonymize_with_code') == 0) $anonymize = ANONYMIZE_ON;
 					if (strcmp($_POST['anonymization_options'], 'anonymize_with_code_all') == 0) $anonymize = ANONYMIZE_CODE_ALL;
 				}
-				$this->object->setAnonymize($anonymize);
 			}
-			$this->object->setShowQuestionTitles($_POST["show_question_titles"]);
+
+			if(!$template_settings["show_question_titles"]["hide"])
+			{
+				$this->object->setShowQuestionTitles($_POST["show_question_titles"]);
+			}
+
+			if(!$template_settings["use_pool"]["hide"])
+			{
+				$this->object->setPoolUsage($_POST["use_pool"]);
+			}
+			
 			$this->object->setMailNotification($_POST['mailnotification']);
 			$this->object->setMailAddresses($_POST['mailaddresses']);
 			$this->object->setMailParticipantData($_POST['mailparticipantdata']);
 			$this->object->saveToDb();
+
 			if (strcmp($_SESSION["info"], "") != 0)
 			{
 				ilUtil::sendSuccess($_SESSION["info"] . "<br />" . $this->lng->txt("settings_saved"), true);
@@ -282,7 +435,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function propertiesObject($checkonly = FALSE)
 	{
 		global $ilAccess;
-		
+
+		$template_settings = $hide_rte_switch = null;
+		$template = $this->object->getTemplate();
+		if($template)
+		{
+			global $tpl;
+
+			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+			$template = new ilSettingsTemplate($template);
+
+			$template_settings = $template->getSettings();
+			$hide_rte_switch = $template_settings["rte_switch"]["hide"];
+		}
+
 		$save = (strcmp($this->ctrl->getCmd(), "saveProperties") == 0) ? TRUE : FALSE;
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -302,24 +468,51 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$online->setChecked($this->object->isOnline());
 		$form->addItem($online);
 
+
+		// title & description (meta data)
+		
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+		$md_obj = new ilMD($this->object->getId(), 0, "svy");
+		$md_section = $md_obj->getGeneral();
+
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setRequired(true);
+		$title->setValue($md_section->getTitle());
+		$form->addItem($title);
+
+		$ids = $md_section->getDescriptionIds();
+		if($ids)
+		{
+			$desc_obj = $md_section->getDescription(array_pop($ids));
+
+			$desc = new ilTextAreaInputGUI($this->lng->txt("description"), "description");
+			$desc->setCols(50);
+			$desc->setRows(4);
+			$desc->setValue($desc_obj->getDescription());
+			$form->addItem($desc);
+		}
+
+
 		// introduction
 		$intro = new ilTextAreaInputGUI($this->lng->txt("introduction"), "introduction");
 		$intro->setValue($this->object->prepareTextareaOutput($this->object->getIntroduction()));
 		$intro->setRows(10);
 		$intro->setCols(80);
 		$intro->setUseRte(TRUE);
+		$intro->setInfo($this->lng->txt("survey_introduction_info"));
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$intro->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$intro->addPlugin("latex");
 		$intro->addButton("latex");
 		$intro->addPlugin("pastelatex");
-		$intro->setRTESupport($this->object->getId(), "svy", "survey");
+		$intro->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
 		$form->addItem($intro);
+
 
 		// enable start date
 		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("start_date"), "enabled_start_date");
 		$enablestartingtime->setValue(1);
-		$enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
+		// $enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
 		$enablestartingtime->setChecked($this->object->getStartDateEnabled());
 		// start date
 		$startingtime = new ilDateTimeInputGUI('', 'start_date');
@@ -339,7 +532,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// enable end date
 		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("end_date"), "enabled_end_date");
 		$enableendingtime->setValue(1);
-		$enableendingtime->setOptionTitle($this->lng->txt("enabled"));
+		// $enableendingtime->setOptionTitle($this->lng->txt("enabled"));
 		$enableendingtime->setChecked($this->object->getEndDateEnabled());
 		// end date
 		$endingtime = new ilDateTimeInputGUI('', 'end_date');
@@ -357,29 +550,33 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$form->addItem($enableendingtime);
 
 		// anonymization
-		$anonymization = new ilCheckboxInputGUI($this->lng->txt("anonymization"), "anonymization");
-		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
-		if ($hasDatasets)
-		{
-			$anonymization->setDisabled(true);
-		}
-		$anonymization->setOptionTitle($this->lng->txt("on"));
-		$anonymization->setValue(1);
-		$anonymization->setChecked($this->object->getAnonymize());
-		$anonymization->setInfo($this->lng->txt("anonymize_survey_description"));
-
-		$anonymization_options = new ilRadioGroupInputGUI('', "anonymization_options");
+		$anonymization_options = new ilRadioGroupInputGUI($this->lng->txt("survey_auth_mode"), "anonymization_options");
 		if ($hasDatasets)
 		{
 			$anonymization_options->setDisabled(true);
 		}
+		$anonymization_options->addOption(new ilCheckboxOption($this->lng->txt("anonymize_personalized"),
+				'personalized', ''));
+		$anonymization_options->addOption(new ilCheckboxOption(
+				$this->lng->txt("anonymize_without_code"), 'anonymize_without_code', ''));
+		$anonymization_options->addOption(new ilCheckboxOption(
+				$this->lng->txt("anonymize_with_code"), 'anonymize_with_code', ''));
+		if(!$this->object->getAnonymize())
+		{
+			$anonymization_options->setValue('personalized');
+		}
+		else
+		{
+			$anonymization_options->setValue(($this->object->isAccessibleWithoutCode()) ?
+					'anonymize_without_code' : 'anonymize_with_code');
+		}
+		$anonymization_options->setInfo($this->lng->txt("anonymize_survey_description"));
+		$form->addItem($anonymization_options);
+		
 		$anonymization_options->addOption(new ilCheckboxOption($this->lng->txt("anonymize_without_code"), 'anonymize_without_code', ''));
 		$anonymization_options->addOption(new ilCheckboxOption($this->lng->txt("anonymize_with_code"), 'anonymize_with_code', ''));
 		$anonymization_options->addOption(new ilCheckboxOption($this->lng->txt("anonymize_with_code_all"), 'anonymize_with_code_all', ''));
 		$anonymization_options->setValue(($this->object->isAccessibleWithoutCode()) ? 'anonymize_without_code' : (($this->object->isAccessibleWithCodeForAll()) ? 'anonymize_with_code_all' : 'anonymize_with_code'));
-
-		$anonymization->addSubItem($anonymization_options);
-		$form->addItem($anonymization);
 
 		// show question titles
 		$show_question_titles = new ilCheckboxInputGUI('', "show_question_titles");
@@ -398,8 +595,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$finalstatement->addPlugin("latex");
 		$finalstatement->addButton("latex");
 		$finalstatement->addPlugin("pastelatex");
-		$finalstatement->setRTESupport($this->object->getId(), "svy", "survey");
+		$finalstatement->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
 		$form->addItem($finalstatement);
+
+		// pool usage
+		$pool_usage = new ilCheckboxInputGUI($this->lng->txt("survey_question_pool_usage"), "use_pool");
+		$pool_usage->setValue(1);
+		$pool_usage->setChecked($this->object->getPoolUsage());
+		$form->addItem($pool_usage);
 
 		// results properties
 		$results = new ilFormSectionHeaderGUI();
@@ -417,7 +620,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		// mail notification
 		$mailnotification = new ilCheckboxInputGUI($this->lng->txt("mailnotification"), "mailnotification");
-		$mailnotification->setOptionTitle($this->lng->txt("activate"));
+		// $mailnotification->setOptionTitle($this->lng->txt("activate"));
 		$mailnotification->setValue(1);
 		$mailnotification->setChecked($this->object->getMailNotification());
 
@@ -445,8 +648,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$form->addItem($mailnotification);
 
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("saveProperties", $this->lng->txt("save"));
+
+		// remove items when using template
+		if($template_settings)
+		{
+			foreach($template_settings as $id => $item)
+			{
+				if($item["hide"])
+				{
+					$form->removeItemByPostVar($id);
+				}
+			}
+		}
+
 		$errors = false;
-		
 		if ($save)
 		{
 			$errors = !$form->checkInput();
@@ -462,8 +677,27 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			if ($errors) $checkonly = false;
 		}
+		
 		$mailaddresses->setRequired(true);
-		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+
+		if (!$checkonly)
+		{
+			// using template?
+			$message = "";
+			if($template)
+			{
+				global $tpl;
+				
+				$link = $this->ctrl->getLinkTarget($this, "confirmResetTemplate");
+				$link = "<a href=\"".$link."\">".$this->lng->txt("survey_using_template_link")."</a>";
+				$message = "<div style=\"margin-top:10px\">".
+					$tpl->getMessageHTML(sprintf($this->lng->txt("survey_using_template"), $template->getTitle(), $link), "info").
+					"</div>";
+			}
+	
+			$this->tpl->setVariable("ADM_CONTENT", $form->getHTML().$message);
+		}
+		
 		return $errors;
 	}
 	
@@ -476,23 +710,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function removeQuestionsObject()
 	{
-		$checked_questions = array();
-		$checked_questionblocks = array();
-		foreach ($_POST as $key => $value) 
-		{
-			if (preg_match("/cb_(\d+)/", $key, $matches)) 
-			{
-				array_push($checked_questions, $matches[1]);
-			}
-			if (preg_match("/cb_qb_(\d+)/", $key, $matches))
-			{
-				array_push($checked_questionblocks, $matches[1]);
-			}
-		}
-		if (count($checked_questions) + count($checked_questionblocks) > 0) 
+		$items = $this->gatherSelectedTableItems(true, true, true, true);
+		if (count($items["blocks"]) + count($items["questions"]) + count($items["headings"]) > 0)
 		{
 			ilUtil::sendQuestion($this->lng->txt("remove_questions"));
-			$this->removeQuestionsForm($checked_questions, $checked_questionblocks);
+			$this->removeQuestionsForm($items["blocks"], $items["questions"], $items["headings"]);
 			return;
 		} 
 		else 
@@ -692,9 +914,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 * @param array $checked_questionblocks An array containing the id's of the question blocks to be removed
 * @access public
 */
-	function removeQuestionsForm($checked_questions, $checked_questionblocks)
+	function removeQuestionsForm($checked_questionblocks, $checked_questions, $checked_headings)
 	{
-		ilUtil::sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_remove_questions.html", "Modules/Survey");
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
@@ -713,19 +934,36 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				$counter++;
 			}
+			else if (in_array($data["question_id"], $checked_headings))
+			{
+				$this->tpl->setCurrentBlock("row");
+				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+				$this->tpl->setVariable("TEXT_TITLE", $data["heading"]);
+				$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("heading"));
+				$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $data["questionblock_title"]);
+				$this->tpl->parseCurrentBlock();
+				$counter++;
+			}
 		}
 		foreach ($checked_questions as $id)
 		{
 			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id_$id");
-			$this->tpl->setVariable("HIDDEN_VALUE", "$id");
+			$this->tpl->setVariable("HIDDEN_NAME", "id_".$id);
+			$this->tpl->setVariable("HIDDEN_VALUE", $id);
 			$this->tpl->parseCurrentBlock();
 		}
 		foreach ($checked_questionblocks as $id)
 		{
 			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id_qb_$id");
-			$this->tpl->setVariable("HIDDEN_VALUE", "$id");
+			$this->tpl->setVariable("HIDDEN_NAME", "id_qb_".$id);
+			$this->tpl->setVariable("HIDDEN_VALUE", $id);
+			$this->tpl->parseCurrentBlock();
+		}
+		foreach ($checked_headings as $id)
+		{
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("HIDDEN_NAME", "id_tb_".$id);
+			$this->tpl->setVariable("HIDDEN_VALUE", $id);
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
@@ -746,22 +984,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 * @param integer $questionblock_id The database id of the questionblock to edit an existing questionblock
 * @access public
 */
-	function defineQuestionblock($questionblock_id = "")
+	function defineQuestionblock($questionblock_id = "", $question_ids = null)
 	{
 		$this->questionsSubtabs("questions");
-		ilUtil::sendInfo();
 		if ($questionblock_id)
 		{
 			$questionblock = $this->object->getQuestionblock($questionblock_id);
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_define_questionblock.html", "Modules/Survey");
-		foreach ($_POST as $key => $value)
+		if ($question_ids)
 		{
-			if (preg_match("/cb_(\d+)/", $key, $matches))
+			foreach ($question_ids as $q_id)
 			{
 				$this->tpl->setCurrentBlock("hidden");
-				$this->tpl->setVariable("HIDDEN_NAME", "cb_$matches[1]");
-				$this->tpl->setVariable("HIDDEN_VALUE", $matches[1]);
+				$this->tpl->setVariable("HIDDEN_NAME", "qids[]");
+				$this->tpl->setVariable("HIDDEN_VALUE", $q_id);
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -783,6 +1020,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if (($questionblock["show_questiontext"]) || (strlen($questionblock_id) == 0))
 		{
 			$this->tpl->setVariable("CHECKED_QUESTIONTEXT", " checked=\"checked\"");
+		}		
+		$this->tpl->setVariable("TXT_BLOCKTITLE_DESCRIPTION", $this->lng->txt("survey_show_blocktitle_description"));
+		$this->tpl->setVariable("TXT_BLOCKTITLE", $this->lng->txt("survey_show_blocktitle"));
+		if (($questionblock["show_blocktitle"]) || (strlen($questionblock_id) == 0))
+		{
+			$this->tpl->setVariable("CHECKED_BLOCKTITLE", " checked=\"checked\"");
 		}
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("HEADING_QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
@@ -797,37 +1040,79 @@ class ilObjSurveyGUI extends ilObjectGUI
 *
 * @access public
 */
-	function createQuestionObject()
+	function createQuestionObject(ilPropertyFormGUI $a_form = null)
 	{
 		global $ilUser;
-		$this->questionsSubtabs("questions");
-		$tpl = new ilTemplate("tpl.il_svy_svy_qpl_select.html", TRUE, TRUE, "Modules/Survey");
-		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, TRUE, TRUE, "write");
-		if (count($questionpools))
+
+		if(!$this->object->isPoolActive())
 		{
-			foreach ($questionpools as $key => $value)
+			$_POST["usage"] = 1;
+			$_GET["sel_question_types"] = $_POST["sel_question_types"];
+			return $this->executeCreateQuestionObject();
+		}
+
+		if(!$a_form)
+		{
+			if(!$_REQUEST["pgov"])
 			{
-				$tpl->setCurrentBlock("option");
-				$tpl->setVariable("VALUE_OPTION", $key);
-				$tpl->setVariable("TEXT_OPTION", $value);
-				$tpl->parseCurrentBlock();
+				$this->questionsSubtabs("questions");
 			}
-			$tpl->setCurrentBlock("selection");
-			$tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("select_questionpool"));
-			$tpl->parseCurrentBlock();
+			else
+			{
+				$this->questionsSubtabs("questions_per_page");
+			}
+
+			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+			$form = new ilPropertyFormGUI();
+
+			$sel_question_types = (strlen($_POST["sel_question_types"])) ? $_POST["sel_question_types"] : $_GET["sel_question_types"];
+			$this->ctrl->setParameter($this, "sel_question_types", $sel_question_types);
+			$form->setFormAction($this->ctrl->getFormAction($this, "executeCreateQuestion"));
 		}
 		else
 		{
-			$tpl->setCurrentBlock("selection");
-			$tpl->setVariable("TXT_QPL_ENTER", $this->lng->txt("cat_create_spl"));
-			$tpl->parseCurrentBlock();
+			$form = $a_form;
 		}
-		$tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
-		$sel_question_types = (strlen($_POST["sel_question_types"])) ? $_POST["sel_question_types"] : $_GET["sel_question_types"];
-		$this->ctrl->setParameter($this, "sel_question_types", $sel_question_types);
-		$tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "executeCreateQuestion"));
-		$tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("ADM_CONTENT", $tpl->get());
+
+		$usage = new ilRadioGroupInputGUI($this->lng->txt("survey_pool_selection"), "usage");
+		$usage->setRequired(true);
+		$no_pool = new ilRadioOption($this->lng->txt("survey_no_pool"), 1);
+		$usage->addOption($no_pool);
+		$existing_pool = new ilRadioOption($this->lng->txt("survey_existing_pool"), 3);
+		$usage->addOption($existing_pool);
+		$new_pool = new ilRadioOption($this->lng->txt("survey_new_pool"), 2);
+		$usage->addOption($new_pool);
+		$form->addItem($usage);
+
+		if(isset($_SESSION["svy_qpool_choice"]))
+		{
+			$usage->setValue($_SESSION["svy_qpool_choice"]);
+		}
+		else
+		{
+			// default: no pool
+			$usage->setValue(1);
+		}
+
+		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, TRUE, TRUE, "write");
+		$pools = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "sel_spl");
+		$pools->setOptions($questionpools);
+		$existing_pool->addSubItem($pools);
+
+		$name = new ilTextInputGUI($this->lng->txt("cat_create_spl"), "name_spl");
+		$name->setSize(50);
+		$name->setMaxLength(50);
+		$new_pool->addSubItem($name);
+
+		if($a_form)
+		{
+			return $a_form;
+		}
+
+		$form->addCommandButton("executeCreateQuestion", $this->lng->txt("submit"));
+		$form->addCommandButton("cancelCreateQuestion", $this->lng->txt("cancel"));
+
+		return $this->tpl->setContent($form->getHTML());
 	}
 
 /**
@@ -847,19 +1132,48 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function executeCreateQuestionObject()
 	{
-		if (strlen($_POST["sel_spl"]))
+		$addurl = "";
+		if($_REQUEST["pgov"])
 		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=" . $_POST["sel_spl"] . "&cmd=createQuestionForSurvey&new_for_survey=".$_GET["ref_id"]."&sel_question_types=".$_GET["sel_question_types"]);
+			$addurl .= "&pgov=".$_REQUEST["pgov"]."&pgov_pos=".$_REQUEST["pgov_pos"];
 		}
-		elseif (strlen($_POST["name_spl"]))
+
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+
+		$_SESSION["svy_qpool_choice"] = $_POST["usage"];
+
+		// no pool
+		if ($_POST["usage"] == 1)
+		{
+			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=".
+				$_GET["ref_id"]."&cmd=createQuestionForSurvey&new_for_survey=".
+				$_GET["ref_id"]."&sel_question_types=".$_GET["sel_question_types"].$addurl);
+		}
+		// existing pool
+		else if ($_POST["usage"] == 3 && strlen($_POST["sel_spl"]))
+		{
+			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=".
+				$_POST["sel_spl"]."&cmd=createQuestionForSurvey&new_for_survey=".$_GET["ref_id"].
+				"&sel_question_types=".$_GET["sel_question_types"].$addurl);
+		}
+		// new pool
+		elseif ($_POST["usage"] == 2 && strlen($_POST["name_spl"]))
 		{
 			$ref_id = $this->createQuestionPool($_POST["name_spl"]);
-			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=" . $ref_id . "&cmd=createQuestionForSurvey&new_for_survey=".$_GET["ref_id"]."&sel_question_types=".$_GET["sel_question_types"]);
+			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=".$ref_id.
+				"&cmd=createQuestionForSurvey&new_for_survey=".$_GET["ref_id"].
+				"&sel_question_types=".$_GET["sel_question_types"].$addurl);
 		}
 		else
 		{
-			ilUtil::sendFailure($this->lng->txt("err_no_pool_name"), true);
+			if(!$_POST["usage"])
+			{
+				ilUtil::sendFailure($this->lng->txt("select_one"), true);
+			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt("err_no_pool_name"), true);
+			}
 			$this->ctrl->setParameter($this, "sel_question_types", $_GET["sel_question_types"]);
 			$this->ctrl->redirect($this, "createQuestion");
 		}
@@ -1090,6 +1404,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		$checked_questions = array();
 		$checked_questionblocks = array();
+		$checked_headings = array();
 		foreach ($_POST as $key => $value) 
 		{
 			if (preg_match("/id_(\d+)/", $key, $matches)) 
@@ -1100,8 +1415,22 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				array_push($checked_questionblocks, $matches[1]);
 			}
+			if (preg_match("/id_tb_(\d+)/", $key, $matches))
+			{
+				array_push($checked_headings, $matches[1]);
+			}
 		}
-		$this->object->removeQuestions($checked_questions, $checked_questionblocks);
+		if($checked_questions || $checked_questionsblocks)
+		{
+			$this->object->removeQuestions($checked_questions, $checked_questionblocks);
+		}
+		if($checked_headings)
+		{
+			foreach($checked_headings as $q_id)
+			{
+				$this->object->saveHeading("", $q_id);
+			}
+		}
 		$this->object->saveCompletionStatus();
 		ilUtil::sendSuccess($this->lng->txt("questions_removed"), true);
 		$this->ctrl->redirect($this, "questions");
@@ -1119,6 +1448,55 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "questions");
 	}
 
+	/**
+	 * Gather (and filter) selected items from table gui
+	 *
+	 * @param bool $allow_blocks
+	 * @param bool $allow_questions
+	 * @param bool $allow_headings
+	 * @param bool $allow_questions_in_blocks
+	 * @return array (questions, blocks, headings)
+	 */
+	protected function gatherSelectedTableItems($allow_blocks = true, $allow_questions = true, $allow_headings = false, $allow_questions_in_blocks = false)
+	{
+		$block_map = array();
+		foreach($this->object->getSurveyQuestions() as $item)
+		{
+			$block_map[$item["question_id"]] = $item["questionblock_id"];
+		}
+		
+		$questions = $blocks = $headings = array();
+		if($_POST["id"])
+		{
+			foreach ($_POST["id"] as $key)
+			{
+				// questions
+				if ($allow_questions && preg_match("/cb_(\d+)/", $key, $matches))
+				{
+					if(($allow_questions_in_blocks || !$block_map[$matches[1]]) &&
+						!in_array($block_map[$matches[1]], $blocks))
+					{
+						array_push($questions, $matches[1]);
+					}
+				}
+				// blocks
+				if ($allow_blocks && preg_match("/cb_qb_(\d+)/", $key, $matches))
+				{
+					array_push($blocks, $matches[1]);
+				}
+				// headings
+				if ($allow_headings && preg_match("/cb_tb_(\d+)/", $key, $matches))
+				{
+					array_push($headings, $matches[1]);
+				}
+			}
+		}
+		
+		return array("questions" => $questions,
+			"blocks" => $blocks,
+			"headings" => $headings);
+	}
+
 /**
 * Cancel remove questions from survey after confirmation
 *
@@ -1128,22 +1506,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function defineQuestionblockObject()
 	{
-		$questionblock = array();
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/cb_(\d+)/", $key, $matches))
-			{
-				array_push($questionblock, $value);
-			}
-		}
-		if (count($questionblock) < 2)
+		$items = $this->gatherSelectedTableItems(false, true, false, false);
+		if (count($items["questions"]) < 2)
 		{
 			ilUtil::sendInfo($this->lng->txt("qpl_define_questionblock_select_missing"), true);
 			$this->ctrl->redirect($this, "questions");
 		}
 		else
 		{
-			$this->defineQuestionblock();
+			$this->defineQuestionblock("", $items["questions"]);
 			return;
 		}
 	}
@@ -1156,25 +1527,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($_POST["title"])
 		{
 			$show_questiontext = ($_POST["show_questiontext"]) ? 1 : 0;
+			$show_blocktitle = ($_POST["show_blocktitle"]) ? 1 : 0;
 			if ($_POST["questionblock_id"])
 			{
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				$this->object->modifyQuestionblock($_POST["questionblock_id"], ilUtil::stripSlashes($_POST["title"]), $show_questiontext);
+				$this->object->modifyQuestionblock($_POST["questionblock_id"], ilUtil::stripSlashes($_POST["title"]), $show_questiontext, $show_blocktitle);
 			}
 			else
 			{
-				$questionblock = array();
-				foreach ($_POST as $key => $value)
-				{
-					if (preg_match("/cb_(\d+)/", $key, $matches))
-					{
-						array_push($questionblock, $value);
-					}
-				}
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				$this->object->createQuestionblock(ilUtil::stripSlashes($_POST["title"]), $show_questiontext, $questionblock);
+				$this->object->createQuestionblock(ilUtil::stripSlashes($_POST["title"]), $show_questiontext, $show_blocktitle, $_POST["qids"]);
 			}
 			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+			$this->ctrl->setParameter($this, "pgov", $_REQUEST["pgov"]);
 			$this->ctrl->redirect($this, "questions");
 		}
 		else
@@ -1190,18 +1555,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	public function unfoldQuestionblockObject()
 	{
-		$unfoldblocks = array();
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/cb_qb_(\d+)/", $key, $matches))
-			{
-				array_push($unfoldblocks, $matches[1]);
-			}
-		}
-		if (count($unfoldblocks))
+		$items = $this->gatherSelectedTableItems(true, false, false, false);
+		if (count($items["blocks"]))
 		{
 			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-			$this->object->unfoldQuestionblocks($unfoldblocks);
+			$this->object->unfoldQuestionblocks($items["blocks"]);
 		}
 		else
 		{
@@ -1224,20 +1582,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	public function moveQuestionsObject()
 	{
-		$move_questions = array();
-		foreach ($_POST as $key => $value)
+		$items = $this->gatherSelectedTableItems(true, true, false, false);
+
+		$move_questions = $items["questions"];
+		foreach ($items["blocks"] as $block_id)
 		{
-			if (preg_match("/cb_(\d+)/", $key, $matches))
+			foreach ($this->object->getQuestionblockQuestionIds($block_id) as $qid)
 			{
-				array_push($move_questions, $matches[1]);
-			}
-			if (preg_match("/cb_qb_(\d+)/", $key, $matches))
-			{
-				$ids = $this->object->getQuestionblockQuestionIds($matches[1]);
-				foreach ($ids as $qkey => $qid)
-				{
-					array_push($move_questions, $qid);
-				}
+				array_push($move_questions, $qid);
 			}
 		}
 		if (count($move_questions) == 0)
@@ -1258,24 +1610,26 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	public function insertQuestions($insert_mode)
 	{
-		// get all questions to move
-		$move_questions = $_SESSION["move_questions"];
-		// get insert point
-		$insert_id = -1;
-		foreach ($_POST as $key => $value)
+		$insert_id = null;
+		if($_POST["id"])
 		{
-			if (preg_match("/^cb_(\d+)$/", $key, $matches))
+			$items = $this->gatherSelectedTableItems(true, true, false, false);
+
+			// we are using POST id for original order
+			while(!$insert_id && sizeof($_POST["id"]))
 			{
-				if ($insert_id < 0)
+				$target = array_shift($_POST["id"]);
+				if (preg_match("/^cb_(\d+)$/", $target, $matches))
 				{
-					$insert_id = $matches[1];
+					// questions in blocks are not allowed
+					if(in_array($matches[1], $items["questions"]))
+					{
+						$insert_id = $matches[1];
+					}
 				}
-			}
-			if (preg_match("/^cb_qb_(\d+)$/", $key, $matches))
-			{
-				if ($insert_id < 0)
+				if (!$insert_id && preg_match("/^cb_qb_(\d+)$/", $target, $matches))
 				{
-					$ids =& $this->object->getQuestionblockQuestionIds($matches[1]);
+					$ids = $this->object->getQuestionblockQuestionIds($matches[1]);
 					if (count($ids))
 					{
 						if ($insert_mode == 0)
@@ -1290,16 +1644,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 			}
 		}
-		if ($insert_id <= 0)
+
+		if(!$insert_id)
 		{
 			ilUtil::sendInfo($this->lng->txt("no_target_selected_for_move"), true);
 		}
 		else
 		{
 			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-			$this->object->moveQuestions($move_questions, $insert_id, $insert_mode);
+			$this->object->moveQuestions($_SESSION["move_questions"], $insert_id, $insert_mode);
+			unset($_SESSION["move_questions"]);
 		}
-		unset($_SESSION["move_questions"]);
+	
 		$this->ctrl->redirect($this, "questions");
 	}
 
@@ -1324,6 +1680,32 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	public function saveObligatoryObject()
 	{
+		$position = -1;
+		$order = array();
+		asort($_POST["order"]);
+		foreach(array_keys($_POST["order"]) as $id)
+		{
+			// block items
+			if(substr($id, 0, 3) == "qb_")
+			{
+				$block_id = substr($id, 3);
+				$block = $_POST["block_order"][$block_id];
+				asort($block);
+				foreach(array_keys($block) as $question_id)
+				{
+					$position++;
+					$order[$question_id] = $position;
+				}
+			}
+			else
+			{
+				$question_id = substr($id, 2);
+				$position++;
+				$order[$question_id] = $position;
+			}
+		}
+		$this->object->updateOrder($order);
+
 		$obligatory = array();
 		foreach ($_POST as $key => $value)
 		{
@@ -1342,9 +1724,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	public function questionsObject() 
 	{
+		global $rbacsystem, $ilToolbar, $ilUser;
+
 		$this->handleWriteAccess();
-		global $rbacsystem;
-		
+
 		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
@@ -1384,7 +1767,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->addHeadingObject(false, $_GET["editheading"]);
 			return;
 		}
-		
+
+		/*
 		if ($_GET["up"] > 0)
 		{
 			$this->object->moveUpQuestion($_GET["up"]);
@@ -1411,6 +1795,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->confirmRemoveHeadingForm();
 			return;
 		}
+		*/
 		
 		if ($_GET["editblock"])
 		{
@@ -1428,254 +1813,56 @@ class ilObjSurveyGUI extends ilObjectGUI
 			return;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_questions.html", "Modules/Survey");
-		$survey_questions =& $this->object->getSurveyQuestions();
-		$questionpools =& $this->object->getQuestionpoolTitles();
-		$colors = array("tblrow1", "tblrow2");
-		$counter = 0;
-		$title_counter = 0;
-		$last_color_class = "";
-		$obligatory = "<img src=\"" . ilUtil::getImagePath("obligatory.gif", "Modules/Survey") . "\" alt=\"" . $this->lng->txt("question_obligatory") . "\" title=\"" . $this->lng->txt("question_obligatory") . "\" />";
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
-		$questiontypes =& ilObjSurveyQuestionPool::_getQuestiontypes();
-		if (count($survey_questions) > 0)
-		{
-			foreach ($survey_questions as $question_id => $data)
-			{
-				$title_counter++;
-				if (($last_questionblock_id > 0) && ($data["questionblock_id"] == 0))
-				{
-					$counter++;
-				}
-				if (($last_questionblock_id > 0) && ($data["questionblock_id"] > 0) && ($data["questionblock_id"] != $last_questionblock_id))
-				{
-					$counter++;
-				}
-				if (($data["questionblock_id"] > 0) and ($data["questionblock_id"] != $last_questionblock_id))
-				{
-					// add a separator line for the beginning of a question block
-					$this->tpl->setCurrentBlock("separator");
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("QTab");
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
+		
+		$this->questionsSubtabs("questions");
 
-					$this->tpl->setCurrentBlock("block");
-					$this->tpl->setVariable("TYPE_ICON", "<img src=\"" . ilUtil::getImagePath("questionblock.gif", "Modules/Survey") . "\" alt=\"".$this->lng->txt("questionblock_icon")."\" />");
-					$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $this->lng->txt("questionblock") . ": " . $data["questionblock_title"]);
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
-					{
-						if ($data["question_id"] != $this->object->questions[0])
-						{
-							$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&qbup=" . $data["questionblock_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" title=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
-						}
-						$akeys = array_keys($survey_questions);
-						if ($data["questionblock_id"] != $survey_questions[$akeys[count($akeys)-1]]["questionblock_id"])
-						{
-							$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&qbdown=" . $data["questionblock_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"" . $this->lng->txt("down") . "\" title=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
-						}
-						$this->tpl->setVariable("TEXT_EDIT", $this->lng->txt("edit"));
-						$this->tpl->setVariable("HREF_EDIT", $this->ctrl->getLinkTarget($this, "questions") . "&editblock=" . $data["questionblock_id"]);
-					}
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("QTab");
-					$this->tpl->setVariable("QUESTION_ID", "qb_" . $data["questionblock_id"]);
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-				}
-				if (($last_questionblock_id > 0) && ($data["questionblock_id"] == 0))
-				{
-					// add a separator line for the end of a question block
-					$this->tpl->setCurrentBlock("separator");
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("QTab");
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-				}
-				if ($data["heading"])
-				{
-					$this->tpl->setCurrentBlock("heading");
-					$this->tpl->setVariable("TEXT_HEADING", $data["heading"]);
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
-					{
-						$this->tpl->setVariable("TEXT_EDIT", $this->lng->txt("edit"));
-						$this->tpl->setVariable("HREF_EDIT", $this->ctrl->getLinkTarget($this, "questions") . "&editheading=" . $data["question_id"]);
-						$this->tpl->setVariable("TEXT_DELETE", $this->lng->txt("remove"));
-						$this->tpl->setVariable("HREF_DELETE", $this->ctrl->getLinkTarget($this, "questions") . "&removeheading=" . $data["question_id"]);
-					}
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("QTab");
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-				}
-				if (!$data["questionblock_id"])
-				{
-					$this->tpl->setCurrentBlock("checkable");
-					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock("QTab");
-				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-				if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
-				{
-					$q_id = $data["question_id"];
-					$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));
-					$this->tpl->setVariable("QUESTION_TITLE", "$title_counter. <a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data["title"] . "</a>");
-				}
-				else
-				{
-					$this->tpl->setVariable("QUESTION_TITLE", "$title_counter. ". $data["title"]);
-				}
-				$this->tpl->setVariable("TYPE_ICON", "<img src=\"" . ilUtil::getImagePath("question.gif", "Modules/Survey") . "\" alt=\"".$this->lng->txt("question_icon")."\" />");
-				if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
-				{
-					$obligatory_checked = "";
-					if ($data["obligatory"] == 1)
-					{
-						$obligatory_checked = " checked=\"checked\"";
-					}
-					$this->tpl->setVariable("QUESTION_OBLIGATORY", "<input type=\"checkbox\" name=\"obligatory_" . $data["question_id"] . "\" value=\"1\"$obligatory_checked />");
-				}
-				else
-				{
-					if ($data["obligatory"] == 1)
-					{
-						$this->tpl->setVariable("QUESTION_OBLIGATORY", $obligatory);
-					}
-				}
-				$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
-				if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
-				{
-					if (!$data["questionblock_id"])
-					{
-						// up/down buttons for non-questionblock questions
-						if ($data["question_id"] != $this->object->questions[0])
-						{
-							$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&up=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"".$this->lng->txt("up")."\" border=\"0\" /></a>");
-						}
-						if ($data["question_id"] != $this->object->questions[count($this->object->questions)-1])
-						{
-							$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&down=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"".$this->lng->txt("down")."\" border=\"0\" /></a>");
-						}
-					}
-					else
-					{
-						// up/down buttons for questionblock questions
-						if ($data["questionblock_id"] == $last_questionblock_id)
-						{
-							$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&up=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"".$this->lng->txt("up")."\" border=\"0\" /></a>");
-						}
-						$tmp_questions = array_keys($survey_questions);
-						$blockkey = array_search($question_id, $tmp_questions);
-						if (($blockkey !== FALSE) && ($blockkey < count($tmp_questions)-1))
-						{
-							if ($data["questionblock_id"] == $survey_questions[$tmp_questions[$blockkey+1]]["questionblock_id"])
-							{
-								$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&down=" . $data["question_id"] . "\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"".$this->lng->txt("down")."\" border=\"0\" /></a>");
-							}
-						}
-					}
-				}
-				foreach ($questiontypes as $trans => $typedata)
-				{
-					if (strcmp($typedata["type_tag"], $data["type_tag"]) == 0)
-					{
-						$this->tpl->setVariable("QUESTION_TYPE", $trans);
-					}
-				}
-				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-				$last_color_class = $colors[$counter % 2];
-				if (!$data["questionblock_id"])
-				{
-					$counter++;
-				}
-				$this->tpl->parseCurrentBlock();
-				$last_questionblock_id = $data["questionblock_id"];
-			}
+		$read_only = (!$rbacsystem->checkAccess("write", $this->ref_id) || $hasDatasets);
+		
 
-			if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
-			{
-				$this->tpl->setCurrentBlock("selectall");
-				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-				$this->tpl->setVariable("COLOR_CLASS", $last_color_class);
-				$this->tpl->parseCurrentBlock();
-				if (array_key_exists("move_questions", $_SESSION))
-				{
-					$this->tpl->setCurrentBlock("move_buttons");
-					$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
-					$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock("QFooter");
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
-				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
-				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
-				$this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
-				$this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
-				$this->tpl->setVariable("SAVE", $this->lng->txt("save_obligatory_state"));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("Emptytable");
-			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
-			$this->tpl->parseCurrentBlock();
-		}
-		if (($last_questionblock_id > 0))
-		{
-			// add a separator line for the end of a question block (if the last question is a questionblock question)
-			$this->tpl->setCurrentBlock("separator");
-			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("QTab");
-			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-			$this->tpl->parseCurrentBlock();
-		}
+		// toolbar
 
-		if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets) 
+		if (!$read_only)
 		{
-			$this->tpl->setCurrentBlock("QTypes");
+			$cmd = ($ilUser->getPref('svy_insert_type') == 1 || strlen($ilUser->getPref('svy_insert_type')) == 0) ? 'browseForQuestions' : 'browseForQuestionblocks';
+			$ilToolbar->addButton($this->lng->txt("browse_for_questions"),
+				$this->ctrl->getLinkTarget($this, $cmd));
+
+			$ilToolbar->addSeparator();
+
+			$qtypes = array();
 			include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
-			$qtypes = ilObjSurveyQuestionPool::_getQuestiontypes();
-			foreach ($qtypes as $translation => $data)
+			foreach (ilObjSurveyQuestionPool::_getQuestiontypes() as $translation => $data)
 			{
-				$this->tpl->setVariable("QUESTION_TYPE_ID", $data["type_tag"]);
-				$this->tpl->setVariable("QUESTION_TYPE", $translation);
-				$this->tpl->parseCurrentBlock();
+				$qtypes[$data["type_tag"]] = $translation;
 			}
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "questions"));
-		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
-		$this->tpl->setVariable("QUESTION_OBLIGATORY", $this->lng->txt("obligatory"));
-		$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("sequence"));
-		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("question_type"));
-		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
 
-		if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets)
-		{
-			$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("browse_for_questions"));
-			global $ilUser;
-			$this->tpl->setVariable('BROWSE_COMMAND', ($ilUser->getPref('svy_insert_type') == 1 || strlen($ilUser->getPref('svy_insert_type')) == 0) ? 'browseForQuestions' : 'browseForQuestionblocks');
-			$this->tpl->setVariable("TEXT_CREATE_NEW", " " . strtolower($this->lng->txt("or")) . " " . $this->lng->txt("create_new"));
-			$this->tpl->setVariable("BUTTON_CREATE_QUESTION", $this->lng->txt("create"));
-			$this->tpl->setVariable("HEADING", $this->lng->txt("add_heading"));
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+			$types = new ilSelectInputGUI($this->lng->txt("create_new"), "sel_question_types");
+			$types->setOptions($qtypes);
+			$ilToolbar->addInputItem($types, $this->lng->txt("create_new"));
+			$ilToolbar->addFormButton($this->lng->txt("create"), "createQuestion");
+
+			$ilToolbar->addSeparator();
+
+			$ilToolbar->addButton($this->lng->txt("add_heading"), 
+				$this->ctrl->getLinkTarget($this, "addHeading"));
 		}
 		if ($hasDatasets)
 		{
-			ilUtil::sendInfo($this->lng->txt("survey_has_datasets_warning"));
+			// ilUtil::sendInfo($this->lng->txt("survey_has_datasets_warning"));
+			$link = $this->ctrl->getLinkTarget($this, "maintenance");
+			$link = "<a href=\"".$link."\">".$this->lng->txt("survey_has_datasets_warning_page_view_link")."</a>";
+			ilUtil::sendInfo($this->lng->txt("survey_has_datasets_warning_page_view")." ".$link);
 		}
 
-		$this->tpl->parseCurrentBlock();
-		$this->questionsSubtabs("questions");
+	
+		// table gui
+
+		include_once "Modules/Survey/classes/class.ilSurveyQuestionTableGUI.php";
+		$table = new ilSurveyQuestionTableGUI($this, "questions", $this->object,
+			$read_only);
+		$this->tpl->setContent($table->getHTML());
 	}
 
 	/**
@@ -2023,6 +2210,41 @@ class ilObjSurveyGUI extends ilObjectGUI
 			ilUtil::sendSuccess($this->lng->txt("object_imported"),true);
 			ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 				"&baseClass=ilObjSurveyGUI");
+
+			// using template?
+			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+			$templates = ilSettingsTemplate::getAllSettingsTemplates("svy");
+			if($templates)
+			{
+				global $tpl;
+				$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
+				// $tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
+
+				$this->tpl->setCurrentBlock("template_option");
+				$this->tpl->setVariable("VAL_TEMPLATE_OPTION", "");
+				$this->tpl->setVariable("TXT_TEMPLATE_OPTION", $this->lng->txt("none"));
+				$this->tpl->parseCurrentBlock();
+
+				foreach($templates as $item)
+				{
+					$this->tpl->setCurrentBlock("template_option");
+					$this->tpl->setVariable("VAL_TEMPLATE_OPTION", $item["id"]);
+					$this->tpl->setVariable("TXT_TEMPLATE_OPTION", $item["title"]);
+					$this->tpl->parseCurrentBlock();
+
+					$desc = str_replace("\n", "", nl2br($item["description"]));
+					$desc = str_replace("\r", "", $desc);
+
+					$this->tpl->setCurrentBlock("js_data");
+					$this->tpl->setVariable("JS_DATA_ID", $item["id"]);
+					$this->tpl->setVariable("JS_DATA_TEXT", $desc);
+					$this->tpl->parseCurrentBlock();
+				}
+
+				$this->tpl->setCurrentBlock("templates");
+				$this->tpl->setVariable("TXT_TEMPLATE", $this->lng->txt("svy_settings_template"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 		
 		// display form to correct errors
@@ -3124,7 +3346,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$_SESSION["constraintstructure"] = $structure;
 		if ($hasDatasets)
 		{
-			ilUtil::sendInfo($this->lng->txt("survey_has_datasets_warning"));
+			// ilUtil::sendInfo($this->lng->txt("survey_has_datasets_warning"));
+			$link = $this->ctrl->getLinkTarget($this, "maintenance");
+			$link = "<a href=\"".$link."\">".$this->lng->txt("survey_has_datasets_warning_page_view_link")."</a>";
+			ilUtil::sendInfo($this->lng->txt("survey_has_datasets_warning_page_view")." ".$link);
 		}
 	}
 
@@ -3183,8 +3408,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$canStart = $this->object->canStartSurvey($anonymize_key);
 		$showButtons = $canStart["result"];
-		if (!$showButtons) ilUtil::sendInfo(implode("<br />", $canStart["messages"]));
+		if (!$showButtons)
+		{
+			if($canStart["edit_settings"] &&
+				$ilAccess->checkAccess("write", "", $this->ref_id))
+			{
+				$canStart["messages"][] = "<a href=\"".$this->ctrl->getLinkTarget($this, "properties")."\">".
+					$this->lng->txt("survey_edit_settings")."</a>";
+			}
+			ilUtil::sendInfo(implode("<br />", $canStart["messages"]));
+		}
 
+		$big_button = false;
 		if ($showButtons)
 		{
 			// output of start/resume buttons for personalized surveys
@@ -3204,11 +3439,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 					elseif ($survey_started === 0)
 					{
-						$info->addFormButton("resume", $this->lng->txt("resume_survey"));
+						$big_button = array("resume", $this->lng->txt("resume_survey"));
 					}
 					elseif ($survey_started === FALSE)
 					{
-						$info->addFormButton("start", $this->lng->txt("start_survey"));
+						$big_button = array("start", $this->lng->txt("start_survey"));
 					}
 				}
 			}
@@ -3264,11 +3499,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 					elseif ($survey_started === 0)
 					{
-						$info->addFormButton("resume", $this->lng->txt("resume_survey"));
+						$big_button = array("resume", $this->lng->txt("resume_survey"));
 					}
 					elseif ($survey_started === FALSE)
 					{
-						$info->addFormButton("start", $this->lng->txt("start_survey"));
+						$big_button = array("start", $this->lng->txt("start_survey"));
 					}
 				}
 			}
@@ -3282,21 +3517,36 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				elseif ($survey_started === 0)
 				{
-					$info->addFormButton("resume", $this->lng->txt("resume_survey"));
+					$big_button = array("resume", $this->lng->txt("resume_survey"));
 				}
 				elseif ($survey_started === FALSE)
 				{
-					$info->addFormButton("start", $this->lng->txt("start_survey"));
+					$big_button = array("start", $this->lng->txt("start_survey"));
 				}
 			}
+		}
+
+		if($big_button)
+		{
+			$big_button = '<div class="il_ButtonGroup" style="margin:25px; text-align:center; font-size:25px;">'.
+				'<input type="submit" class="submit" name="cmd['.$big_button[0].']" value="'.
+				$big_button[1].'" style="padding:10px;" /></div>';
 		}
 		
 		if (strlen($this->object->getIntroduction()))
 		{
 			$introduction = $this->object->getIntroduction();
 			$info->addSection($this->lng->txt("introduction"));
-			$info->addProperty("", $this->object->prepareTextareaOutput($introduction));
+			$info->addProperty("", $this->object->prepareTextareaOutput($introduction).
+					$big_button."<br />".$info->getHiddenToggleButton());
 		}
+		else
+		{
+			$info->addSection("");
+			$info->addProperty("", $big_button.$info->getHiddenToggleButton());
+		}
+
+		$info->hideFurtherSections(false);
 		
 		$info->addSection($this->lng->txt("svy_general_properties"));
 		if (strlen($this->object->getAuthor()))
@@ -3456,13 +3706,39 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$questions = ($a_cmd == 'questions') ? true : false;
 		$printview = ($a_cmd == 'printview') ? true : false;
 
-		$this->tabs_gui->addSubTabTarget("survey_per_page_view", $this->ctrl->getLinkTarget($this, "showQuestionsPerPage"),
+		$hidden_tabs = array();
+		$template = $this->object->getTemplate();
+		if($template)
+		{
+			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+			$template = new ilSettingsTemplate($template);
+			$hidden_tabs = $template->getHiddenTabs();
+		}
+
+		$this->tabs_gui->addSubTabTarget("survey_per_page_view", $this->ctrl->getLinkTargetByClass("ilsurveypagegui", "renderPage"),
 			 "", "", "", $questions_per_page);
 
-		$this->tabs_gui->addSubTabTarget("survey_question_editor", $this->ctrl->getLinkTarget($this, "questions"),
-										 "", "", "", $questions);
+		if(!in_array("survey_question_editor", $hidden_tabs))
+		{
+			$this->ctrl->setParameter($this, "pgov", "");
+			$this->tabs_gui->addSubTabTarget("survey_question_editor", $this->ctrl->getLinkTarget($this, "questions"),
+											 "", "", "", $questions);
+			$this->ctrl->setParameter($this, "pgov", $_REQUEST["pgov"]);
+		}
+		
 		$this->tabs_gui->addSubTabTarget("print_view", $this->ctrl->getLinkTarget($this, "printView"),
 											"", "", "", $printview);
+
+		if($this->object->getSurveyPages())
+		{
+			if($questions_per_page)
+			{
+				$this->ctrl->setParameterByClass("ilsurveyexecutiongui", "pgov", max(1, $_REQUEST["pg"]));
+			}
+			$this->ctrl->setParameterByClass("ilsurveyexecutiongui", "prvw", 1);
+			$this->tabs_gui->addSubTabTarget("preview", $this->ctrl->getLinkTargetByClass("ilsurveyexecutiongui", "preview"),
+												"", "", "", false);
+		}
 	}
 	
 	/**
@@ -3565,7 +3841,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		global $ilAccess, $ilUser;
-		
+
 		if (strcmp($this->ctrl->getNextClass(), 'ilrepositorysearchgui') != 0)
 		{
 			switch ($this->ctrl->getCmd())
@@ -3576,14 +3852,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 				case "filterQuestions":
 				case "resetFilterQuestions":
 				case "changeDatatype":
-
 				case "start":
 				case "resume":
 				case "next":
 				case "previous":
 				case "redirectQuestion":
+				case "preview":
 					return;
-					break;
+		
 				case "evaluation":
 				case "checkEvaluationAccess":
 				case "evaluationdetails":
@@ -3592,6 +3868,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 					break;
 			}
 		}
+
+		$hidden_tabs = array();
+		$template = $this->object->getTemplate();
+		if($template)
+		{
+			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+			$template = new ilSettingsTemplate($template);
+			$hidden_tabs = $template->getHiddenTabs();
+		}
 		
 		// questions
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
@@ -3599,9 +3884,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$force_active = ($_GET["up"] != "" || $_GET["down"] != "")
 				? true
 				: false;
+
+			$cmd = $this->ctrl->getLinkTargetByClass("ilsurveypagegui", "renderPage");
+			// $cmd = $this->ctrl->getLinkTarget($this, "questions");
 	
 			$tabs_gui->addTarget("survey_questions",
-				 $this->ctrl->getLinkTarget($this,'questions'),
+				 $cmd,
 				 array("questions", "browseForQuestions", "createQuestion",
 				 "filterQuestions", "resetFilterQuestions", "changeDatatype", "insertQuestions",
 				 "removeQuestions", "cancelRemoveQuestions", "confirmRemoveQuestions",
@@ -3609,7 +3897,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 "unfoldQuestionblock", "moveQuestions",
 				 "insertQuestionsBefore", "insertQuestionsAfter", "saveObligatory",
 				 "addHeading", "saveHeading", "cancelHeading", "editHeading",
-				 "confirmRemoveHeading", "cancelRemoveHeading", "printView"),
+				 "confirmRemoveHeading", "cancelRemoveHeading", "printView", "renderPage",
+				 "addQuestionToolbarForm", "deleteBlock", "movePageForm", "copyQuestionsToPool"),
 				 "", "", $force_active);
 		}
 		
@@ -3633,7 +3922,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
 		// questions
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		if ($ilAccess->checkAccess("write", "", $this->ref_id) &&
+			!in_array("constraints", $hidden_tabs))
 		{
 			// constraints
 			$tabs_gui->addTarget("constraints",
@@ -3643,8 +3933,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 				"editPrecondition"),
 				 "");
 		}
-		
-		if (($ilAccess->checkAccess("write", "", $this->ref_id)) || ($ilAccess->checkAccess("invite", "", $this->ref_id)))
+
+		if (($ilAccess->checkAccess("write", "", $this->ref_id) || $ilAccess->checkAccess("invite", "", $this->ref_id)) &&
+			!in_array("invitation", $hidden_tabs))
 		{
 			// invite
 			$tabs_gui->addTarget("invitation",
@@ -3687,18 +3978,24 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			// meta data
-			$tabs_gui->addTarget("meta_data",
-				 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
-				 "", "ilmdeditorgui");
+			if(!in_array("meta_data", $hidden_tabs))
+			{
+				// meta data
+				$tabs_gui->addTarget("meta_data",
+					 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
+					 "", "ilmdeditorgui");
+			}
 
-			// export
-			$tabs_gui->addTarget("export",
-				 $this->ctrl->getLinkTarget($this,'export'),
-				 array("export", "createExportFile", "confirmDeleteExportFile",
-				 "downloadExportFile"), 
-				 ""
-				);
+			if(!in_array("export", $hidden_tabs))
+			{
+				// export
+				$tabs_gui->addTarget("export",
+					 $this->ctrl->getLinkTarget($this,'export'),
+					 array("export", "createExportFile", "confirmDeleteExportFile",
+					 "downloadExportFile"),
+					 ""
+					);
+			}
 		}
 
 		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
@@ -3752,67 +4049,116 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
 
-	//
-	// Questions per page view
-	//
+	/**
+	 * Enable all settings - Confirmation
+	 */
+	function confirmResetTemplateObject()
+	{
+		ilUtil::sendQuestion($this->lng->txt("survey_confirm_template_reset"));
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_confirm_resettemplate.html", "Modules/Survey");
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("BTN_CONFIRM_REMOVE", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL_REMOVE", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "resetTemplateObject"));
+		$this->tpl->parseCurrentBlock();
+	}
 
 	/**
-	 * Questions per page
-	 *
-	 * @param
-	 * @return
+	 * Enable all settings - remove template
 	 */
-	function showQuestionsPerPageObject()
+	function resetTemplateObject()
 	{
-		global $ilToolbar, $ilCtrl, $lng;
+		$this->object->setTemplate(null);
+		$this->object->saveToDB();
 
-		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-		$ilToolbar->addFormButton($lng->txt("survey_prev_question"),
-			"showQuestionsPerPage");
-		$ilToolbar->addFormButton($lng->txt("survey_next_question"),
-			"showQuestionsPerPage");
-		$ilToolbar->addSeparator();
+		ilUtil::sendSuccess($this->lng->txt("survey_template_reset"), true);
+		$this->ctrl->redirect($this, "properties");
+	}
 
-		// desc
-		$options = array(
-			"1" => $lng->txt("Question 1"),
-			"2" => $lng->txt("Question 2"),
-			"3" => $lng->txt("Question 3")
-			);
-		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		$si = new ilSelectInputGUI($lng->txt("survey_jump_to"), "qpage_id");
-		$si->setOptions($options);
-		$ilToolbar->addInputItem($si, true);
-		$ilToolbar->addFormButton($lng->txt("go"),
-			"showQuestionsPerPage");
-		$ilToolbar->addSeparator();
 
-		// add new question
-		$options = array(
-			"1" => $lng->txt("Type 1"),
-			"2" => $lng->txt("Type 2"),
-			"3" => $lng->txt("Type 3")
-			);
-		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		$si = new ilSelectInputGUI($lng->txt("survey_add_new_question"), "qtype");
-		$si->setOptions($options);
-		$ilToolbar->addInputItem($si, true);
+	/**
+	* Copy questions to pool (form)
+	*/
+	public function copyQuestionsToPoolObject()
+	{
+		$items = $this->gatherSelectedTableItems(true, true, false, true);
 
-		$options = array(
-			"1" => $lng->txt("survey_before_current_position"),
-			"2" => $lng->txt("survey_after_current_position")
-			);
+		// gather questions from blocks
+		$copy_questions = $items["questions"];
+		foreach ($items["blocks"] as $block_id)
+		{
+			foreach ($this->object->getQuestionblockQuestionIds($block_id) as $qid)
+			{
+				array_push($copy_questions, $qid);
+			}
+		}
+		$copy_questions = array_unique($copy_questions);
 
-		// desc
-		include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
-		$cb = new ilCheckboxInputGUI($lng->txt("survey_use_pool"), "use_pool");
-		//$cb->setOptionTitle($lng->txt(""));
-		//$cb->setInfo($lng->txt(""));
-		$ilToolbar->addInputItem($cb, true);
+		// only if not already in pool
+		if (count($copy_questions))
+		{
+			foreach($copy_questions as $idx => $question_id)
+			{
+				$question = ilObjSurvey::_instanciateQuestion($question_id);
+				if($question->getOriginalId())
+				{
+					unset($copy_questions[$idx]);
+				}
+			}
 
-		$ilToolbar->addFormButton($lng->txt("add"),
-			"addPageOfQuestions");
+		}
+		if (count($copy_questions) == 0)
+		{
+			ilUtil::sendInfo($this->lng->txt("no_question_selected_for_copy_to_pool"), true);
+			$this->ctrl->redirect($this, "questions");
+		}
+		else
+		{
+			$this->questionsSubtabs("questions");
 
+			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+			$form = new ilPropertyFormGUI();
+
+			$form->setFormAction($this->ctrl->getFormAction($this, "executeCreateQuestion"));
+
+			$ids = new ilHiddenInputGUI("question_ids");
+			$ids->setValue(implode(";", $copy_questions));
+			$form->addItem($ids);
+
+			$questionpools =& $this->object->getAvailableQuestionpools(FALSE, TRUE, TRUE, "write");
+			$pools = new ilSelectInputGUI($this->lng->txt("survey_copy_select_questionpool"), "sel_spl");
+			$pools->setOptions($questionpools);
+			$form->addItem($pools);
+
+			$form->addCommandButton("executeCopyQuestionsToPool", $this->lng->txt("submit"));
+			$form->addCommandButton("questions", $this->lng->txt("cancel"));
+
+			return $this->tpl->setContent($form->getHTML());
+		}
+	}
+
+	/**
+	* Copy questions to pool (action)
+	*/
+	public function executeCopyQuestionsToPoolObject()
+	{
+		$question_ids = explode(";", $_POST["question_ids"]);
+		$pool_id = ilObject::_lookupObjId($_POST["sel_spl"]);
+
+		foreach($question_ids as $qid)
+		{
+			// create copy (== pool "original")
+			$new_question = ilObjSurvey::_instanciateQuestion($qid);
+			$new_question->setId();
+			$new_question->setObjId($pool_id);
+			$new_question->saveToDb();
+
+			// link "source" (survey) to copy (pool)
+			SurveyQuestion::_changeOriginalId($qid, $new_question->getId(), $pool_id);
+		}
+
+		ilUtil::sendSuccess($this->lng->txt("survey_copy_to_questionpool_success"), true);
+		$this->ctrl->redirect($this, "questions");
 	}
 
 } // END class.ilObjSurveyGUI

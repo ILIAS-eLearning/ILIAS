@@ -98,9 +98,21 @@ class ilToolbarGUI
 	/**
 	* Add spacer
 	*/
-	function addSpacer()
+	function addSpacer($a_width = null)
 	{
-		$this->items[] = array("type" => "spacer");
+		$this->items[] = array("type" => "spacer", "width" => $a_width);
+	}
+
+	/**
+	 * Add link
+	 *
+	 * @param  string $a_caption
+	 * @param string $a_url
+         * @param boolean $a_disabled
+	 */
+	function addLink($a_caption, $a_url, $a_disabled = false)
+	{
+		$this->items[] = array("type" => "link", "txt" => $a_caption, "cmd" => $a_url, "disabled" => $a_disabled);
 	}
 
 	/**
@@ -207,8 +219,31 @@ class ilToolbarGUI
 
 					case "spacer":
 						$tpl->touchBlock("spacer");
+						if(!$item["width"])
+						{
+							$item["width"] = 2;
+						}
+						$tpl->setVariable("SPACER_WIDTH", $item["width"]);
 						$tpl->touchBlock("item");
 						break;
+
+					case "link":
+                                                if ($item["disabled"] == false) {
+                                                    $tpl->setCurrentBlock("link");
+                                                    $tpl->setVariable("LINK_TXT", $item["txt"]);
+                                                    $tpl->setVariable("LINK_URL", $item["cmd"]);
+                                                    $tpl->parseCurrentBlock();
+                                                    $tpl->touchBlock("item");
+                                                    break;
+                                                }
+                                                else {
+                                                    $tpl->setCurrentBlock("link_disabled");
+                                                    $tpl->setVariable("LINK_DISABLED_TXT", $item["txt"]);
+                                                    //$tpl->setVariable("LINK_URL", $item["cmd"]);
+                                                    $tpl->parseCurrentBlock();
+                                                    $tpl->touchBlock("item");
+                                                    break;
+                                                }
 				}
 			}
 			

@@ -42,6 +42,7 @@ class ilSurveyExecutionGUI
 	var $ctrl;
 	var $ilias;
 	var $tree;
+	var $preview;
 	
 /**
 * ilSurveyExecutionGUI constructor
@@ -55,12 +56,17 @@ class ilSurveyExecutionGUI
   {
 		global $lng, $tpl, $ilCtrl, $ilias, $tree;
 
-    $this->lng =& $lng;
-    $this->tpl =& $tpl;
+		$this->lng =& $lng;
+		$this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;
 		$this->ilias =& $ilias;
 		$this->object =& $a_object;
 		$this->tree =& $tree;
+
+		// stay in preview mode
+		$this->preview = (bool)$_REQUEST["prvw"];
+		$this->ctrl->saveParameter($this, "prvw");
+		$this->ctrl->saveParameter($this, "pgov");
 	}
 	
 	/**
@@ -285,20 +291,28 @@ class ilSurveyExecutionGUI
 */
 	function outSurveyPage($activepage = NULL, $direction = NULL)
 	{
-		global $ilUser;
-		
-		// security check if someone tries to go into a survey using an URL to one of the questions
-		$canStart = $this->object->canStartSurvey($_SESSION["anonymous_id"][$this->object->getId()]);
-		if (!$canStart["result"])
+		global $ilUser,$rbacsystem;
+
+		if(!$this->preview)
 		{
-			ilUtil::sendInfo(implode("<br />", $canStart["messages"]), TRUE);
-			$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+			// security check if someone tries to go into a survey using an URL to one of the questions
+			$canStart = $this->object->canStartSurvey($_SESSION["anonymous_id"]);
+			if (!$canStart["result"])
+			{
+				ilUtil::sendInfo(implode("<br />", $canStart["messages"]), TRUE);
+				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+			}
+			$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"]);
+			if ($survey_started === FALSE)
+			{
+				ilUtil::sendInfo($this->lng->txt("survey_use_start_button"), TRUE);
+				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+			}
 		}
-		$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"][$this->object->getId()]);
-		if ($survey_started === FALSE)
+		else if (!$rbacsystem->checkAccess("write", $this->object->ref_id))
 		{
-			ilUtil::sendInfo($this->lng->txt("survey_use_start_button"), TRUE);
-			$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+			// only with write access it is possible to preview the survey
+			$this->ilias->raiseError($this->lng->txt("survey_cannot_preview_survey"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		$page = $this->object->getNextPage($activepage, $direction);
@@ -351,9 +365,21 @@ class ilSurveyExecutionGUI
 			if (!($this->object->getAnonymize() && $this->object->isAccessibleWithoutCode() && ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)))
 			{
 				$this->tpl->setCurrentBlock("suspend_survey");
-				$this->tpl->setVariable("TEXT_SUSPEND", $this->lng->txt("cancel_survey"));
-				$this->tpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "infoScreen"));
-				$this->tpl->setVariable("HREF_IMG_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "infoScreen"));
+
+				if(!$this->preview)
+				{
+					$this->tpl->setVariable("TEXT_SUSPEND", $this->lng->txt("cancel_survey"));
+					$this->tpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "infoScreen"));
+					$this->tpl->setVariable("HREF_IMG_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "infoScreen"));
+				}
+				else
+				{
+					$this->ctrl->setParameterByClass("ilObjSurveyGUI", "pgov", $_REQUEST["pgov"]);
+					$this->tpl->setVariable("TEXT_SUSPEND", $this->lng->txt("survey_cancel_preview"));
+					$this->tpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "questions"));
+					$this->tpl->setVariable("HREF_IMG_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "questions"));
+				}
+				
 				$this->tpl->setVariable("ALT_IMG_SUSPEND", $this->lng->txt("cancel_survey"));
 				$this->tpl->setVariable("TITLE_IMG_SUSPEND", $this->lng->txt("cancel_survey"));
 				$this->tpl->setVariable("IMG_SUSPEND", ilUtil::getImagePath("cancel.gif"));
@@ -370,7 +396,7 @@ class ilSurveyExecutionGUI
 			$this->tpl->setVariable("PERCENTAGE_VALUE", $percentage);
 			$this->tpl->setVariable("PERCENTAGE_UNFINISHED", 100-$percentage);
 			$this->tpl->parseCurrentBlock();
-			if (count($page) > 1)
+			if (count($page) > 1 && $page[0]["questionblock_show_blocktitle"])
 			{
 				$this->tpl->setCurrentBlock("questionblock_title");
 				$this->tpl->setVariable("TEXT_QUESTIONBLOCK_TITLE", $page[0]["questionblock_title"]);
@@ -414,10 +440,15 @@ class ilSurveyExecutionGUI
 			}
 
 			$this->outNavigationButtons("bottom", $page);
+
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "redirectQuestion"));
 		}
-		$this->object->setPage($_SESSION["finished_id"][$this->object->getId()], $page[0]['question_id']);
-		$this->object->setStartTime($_SESSION["finished_id"][$this->object->getId()], $first_question);
+
+		if(!$this->preview)
+		{
+			$this->object->setPage($_SESSION["finished_id"], $page[0]['question_id']);
+			$this->object->setStartTime($_SESSION["finished_id"], $first_question);
+		}
 	}
 	
 	/**
@@ -436,7 +467,11 @@ class ilSurveyExecutionGUI
 			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->object->setEndTime($_SESSION["finished_id"][$this->object->getId()]);
+		if(!$this->preview)
+		{
+			$this->object->setEndTime($_SESSION["finished_id"]);
+		}
+		
 		// check users input when it is a metric question
 		unset($_SESSION["svy_errors"]);
 		$_SESSION["postdata"] = $_POST;
@@ -546,19 +581,23 @@ class ilSurveyExecutionGUI
 		$error = $question->checkUserInput($_POST, $this->object->getSurveyId());
 		if (strlen($error) == 0)
 		{
-			$user_id = $ilUser->getId();
-			// delete old answers
-			$this->object->deleteWorkingData($data["question_id"], $_SESSION["finished_id"][$this->object->getId()]);
+			if(!$this->preview)
+			{
+				$user_id = $ilUser->getId();
+			
+				// delete old answers
+				$this->object->deleteWorkingData($data["question_id"], $_SESSION["finished_id"]);
 
-			if ($this->object->isSurveyStarted($user_id, $_SESSION["anonymous_id"][$this->object->getId()]) === false)
-			{
-				$_SESSION["finished_id"][$this->object->getId()] = $this->object->startSurvey($user_id, $_SESSION["anonymous_id"][$this->object->getId()]);
+				if ($this->object->isSurveyStarted($user_id, $_SESSION["anonymous_id"]) === false)
+				{
+					$_SESSION["finished_id"] = $this->object->startSurvey($user_id, $_SESSION["anonymous_id"]);
+				}
+				if ($this->object->getAnonymize())
+				{
+					$user_id = 0;
+				}
+				$question->saveUserInput($_POST, $_SESSION["finished_id"]);
 			}
-			if ($this->object->getAnonymize())
-			{
-				$user_id = 0;
-			}
-			$question->saveUserInput($_POST, $_SESSION["finished_id"][$this->object->getId()]);
 			return 0;
 		}
 		else
@@ -612,7 +651,15 @@ class ilSurveyExecutionGUI
 */
 	function exitSurvey()
 	{
-		$this->ctrl->redirectByClass("ilobjsurveygui", "backToRepository");
+		if(!$this->preview)
+		{
+			$this->ctrl->redirectByClass("ilobjsurveygui", "backToRepository");
+		}
+		else
+		{
+			$this->ctrl->setParameterByClass("ilobjsurveygui", "pgov", $_REQUEST["pgov"]);
+			$this->ctrl->redirectByClass("ilobjsurveygui", "questions");
+		}
 	}
 	
 /**
@@ -648,6 +695,11 @@ class ilSurveyExecutionGUI
 			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_next"));
 		}
 		$this->tpl->parseCurrentBlock();
+	}
+
+	function preview()
+	{
+		$this->outSurveyPage();
 	}
 }
 ?>

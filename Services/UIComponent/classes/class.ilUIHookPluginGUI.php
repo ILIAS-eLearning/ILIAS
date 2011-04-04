@@ -83,5 +83,25 @@ class ilUIHookPluginGUI
 		}
 		return $a_def_html;
 	}
+
+	/**
+	 * Goto script hook
+	 *
+	 * Can be used to interfere with the goto script behaviour
+	 */
+	function gotoHook()
+	{
+	}
+
+	/**
+	 * Goto script hook
+	 *
+	 * Can be used to interfere with the goto script behaviour
+	 */
+	function checkGotoHook()
+	{
+		return array("target" => false);
+	}
+
 }
 ?>

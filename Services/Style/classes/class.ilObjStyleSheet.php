@@ -248,7 +248,7 @@ class ilObjStyleSheet extends ilObject
 		"tabs" => array("va_cntr", "va_icntr", "va_ihead", "va_icont",
 			"ha_cntr", "ha_icntr", "ha_ihead", "ha_icont"),
 		"question" => array("question", "qtitle", "qanswer", "qinput", "qlinput", "qsubmit", "qfeedr", "qfeedw"),
-		"page" => array("page_frame", "page_cont", "page_title", "page_fn",
+		"page" => array("page_frame", "page_cont", "page_title", "page_fn", "page",
 			"page_tnav", "page_bnav", "page_lnav", "page_rnav", "page_lnavlink", "page_rnavlink",
 			"page_lnavimage", "page_rnavimage"),
 		"glo" => array("glo_overlay", "glo_ovtitle", "glo_ovclink", "glo_ovuglink", "glo_ovuglistlink"),
@@ -320,6 +320,7 @@ class ilObjStyleSheet extends ilObject
 		"page_frame" => "table",
 		"page_cont" => "table",
 		"page_fn" => "div",
+		"page" => "div",
 		"page_tnav" => "div",
 		"page_bnav" => "div",
 		"page_lnav" => "div",
@@ -367,6 +368,7 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "media_caption", "class" => "MediaCaption"),
 			array("type" => "page_frame", "class" => "PageFrame"),
 			array("type" => "page_cont", "class" => "PageContainer"),
+			array("type" => "page", "class" => "Page"),
 			array("type" => "page_tnav", "class" => "TopNavigation"),
 			array("type" => "page_bnav", "class" => "BottomNavigation"),
 			array("type" => "page_lnav", "class" => "LeftNavigation"),
@@ -1444,6 +1446,10 @@ class ilObjStyleSheet extends ilObject
 			if ($tag[0]["tag"] = "td")
 			{
 				fwrite ($css_file, ",th".".ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
+			}
+			if (in_array($tag[0]["tag"], array("h1", "h2", "h3")))
+			{
+				fwrite ($css_file, ",div".".ilc_text_block_".$tag[0]["class"]."\n");
 			}
 			fwrite ($css_file, "{\n");
 

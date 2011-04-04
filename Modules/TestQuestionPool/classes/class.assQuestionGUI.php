@@ -22,12 +22,14 @@
 */
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-
+include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
 /**
 * Basic GUI class for assessment questions
 *
 * The assQuestionGUI class encapsulates basic GUI functions
 * for assessment questions.
+*
+* @ilCtrl_Calls assQuestionGUI: ilPageObjectGUI
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
@@ -75,6 +77,9 @@ class assQuestionGUI
 		$this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, "q_id");
+		$this->ctrl->saveParameter($this, "prev_qid");
+		$this->ctrl->saveParameterByClass('ilPageObjectGUI', 'test_express_mode');
+		$this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'test_express_mode');
 
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$this->errormessage = $this->lng->txt("fill_out_all_required_fields");
@@ -514,16 +519,20 @@ class assQuestionGUI
 			$ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
 			$ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
 			$this->object->saveToDb();
-			$originalexists = $this->object->_questionExists($this->object->original_id);
+			$originalexists = $this->object->_questionExistsInPool($this->object->original_id);
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
 				$this->ctrl->redirect($this, "originalSyncForm");
 			}
-			elseif ($_GET["calling_test"])
+			elseif ($_GET["calling_test"] && $this->object->getId() ==  $old_id)
 			{
 				$_GET["ref_id"] = $_GET["calling_test"];
-				ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
+                                if (!$_REQUEST['test_express_mode']) {
+                                    ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
+				}
+                                else
+                                    ilUtil::redirect(ilTestExpressPage::getReturnToPageLink());
 				return;
 			}
 			elseif ($_GET["test_ref_id"])
@@ -531,7 +540,23 @@ class assQuestionGUI
 				include_once ("./Modules/Test/classes/class.ilObjTest.php");
 				$_GET["ref_id"] = $_GET["test_ref_id"];
 				$test =& new ilObjTest($_GET["test_ref_id"], true);
-				$test->insertQuestion($this->object->getId());
+                                $test->insertQuestion($this->object->getId());
+
+                                global $___test_express_mode;
+                                /**
+                                 * in express mode, so add question to test directly
+                                 */
+#var_dump($_REQUEST['prev_qid']);
+if(isset($_REQUEST['prev_qid'])) {
+    #var_dump($_REQUEST['prev_qid'], $this->object->getId());
+    $test->moveQuestionAfter($this->object->getId() + 1, $_REQUEST['prev_qid']);
+}
+                                if($___test_express_mode || $_REQUEST['test_express_mode']) {
+                                    $_REQUEST['q_id'] = $this->object->getId() + 1;
+                                    ilUtil::redirect(ilTestExpressPage::getReturnToPageLink());
+                                    exit;
+                                }
+
 				ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["test_ref_id"]);
 			}
 			else
@@ -543,6 +568,26 @@ class assQuestionGUI
 					$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
 					$this->callNewIdListeners($this->object->getId());
 					ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+
+
+                                        global $___test_express_mode;
+                                        /**
+                                         * in express mode, so add question to test directly
+                                         */
+#var_dump($_REQUEST['prev_qid']);
+if($_REQUEST['prev_qid']) {
+    $test->moveQuestionAfter($_REQUEST['prev_qid'], $this->object->getId());
+}
+                                        if($___test_express_mode || $_REQUEST['express_mode']) {
+
+                                            include_once ("./Modules/Test/classes/class.ilObjTest.php");
+                                            $test =& new ilObjTest($_GET["ref_id"], true);
+                                            $test->insertQuestion($this->object->getId());
+                                            require_once 'Modules/Test/classes/class.ilTestExpressPage.php';
+                                            $_REQUEST['q_id'] = $this->object->getId();
+                                            ilUtil::redirect(ilTestExpressPage::getReturnToPageLink());
+                                        }
+
 					$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
 				}
 				if (strcmp($_SESSION["info"], "") != 0)
@@ -552,7 +597,7 @@ class assQuestionGUI
 				else
 				{
 					ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-				}
+                                }
 				$this->ctrl->redirect($this, 'editQuestion');
 			}
 		}
@@ -1457,6 +1502,6 @@ class assQuestionGUI
 		$this->object->saveSuggestedSolution("git", "il__git_" . $_GET["git"], $subquestion_index);
 		ilUtil::sendSuccess($this->lng->txt("suggested_solution_added_successfully"), TRUE);
 		$this->ctrl->redirect($this, "suggestedsolution");
-	}		
+	}
 }
 ?>

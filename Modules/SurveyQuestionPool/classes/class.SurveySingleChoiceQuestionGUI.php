@@ -803,6 +803,11 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 			{
 				$addurl = "&new_id=" . $_GET["q_id"];
 			}
+			if ($_REQUEST["pgov"])
+			{
+				$addurl .= "&pgov=".$_REQUEST["pgov"];
+				$addurl .= "&pgov_pos=".$_REQUEST["pgov_pos"];
+			}
 			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), "ilias.php?baseClass=ilObjSurveyGUI&ref_id=$ref_id&cmd=questions" . $addurl);
 		}
 		else

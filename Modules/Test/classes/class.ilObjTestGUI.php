@@ -15,6 +15,15 @@
 * @ilCtrl_Calls ilObjTestGUI: ilCertificateGUI
 * @ilCtrl_Calls ilObjTestGUI: ilTestScoringGUI, ilShopPurchaseGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI
+* @ilCtrl_Calls ilObjTestGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
+* @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
+* @ilCtrl_Calls ilObjTestGUI: assNumericGUI, assErrorTextGUI
+* @ilCtrl_Calls ilObjTestGUI: assTextSubsetGUI, assOrderingHorizontalGUI
+* @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI
+* @ilCtrl_Calls ilObjTestGUI: assTextQuestionGUI
+* @ilCtrl_Calls ilObjTestGUI: ilTestExpressPageObjectGUI, ilPageEditorGUI, ilPageObjectGUI
+* @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI
+* @ilCtrl_Calls ilObjTestGUI: ilEditClipboardGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesTest
@@ -22,6 +31,8 @@
 
 include_once "./classes/class.ilObjectGUI.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+include_once "./Modules/Test/classes/class.ilObjAssessmentFolderGUI.php";
+include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
 
 class ilObjTestGUI extends ilObjectGUI
 {
@@ -87,7 +98,16 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 		}
-		
+
+                // elba hack for storing question id for inserting new question after
+                if ($_REQUEST['prev_qid']) {
+                    global $___prev_question_id;
+                    $___prev_question_id = $_REQUEST['prev_qid'];
+                    $this->ctrl->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
+                }
+
+
+
 		switch($next_class)
 		{
 			case "ilinfoscreengui":
@@ -180,7 +200,152 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tabs_gui->setTabActive('participants');
 				break;
 
-			default:
+                        case 'ilpageeditorgui':
+                        case 'iltestexpresspageobjectgui':
+                            $qid = $_REQUEST['q_id'];
+$this->ctrl->saveParameterByClass(array('iltestexpresspageobjectgui', 'assorderingquestiongui', 'ilpageeditorgui', 'ilpcquestion', 'ilpcquestiongui'), 'test_express_mode');
+                            if (!$qid) {
+                                $questions = $this->object->getQuestionTitlesAndIndexes();
+                                if (!is_array($questions))
+                                    $questions = array();
+
+                                $keys = array_keys($questions);
+                                $qid = $keys[0];
+
+                                $_REQUEST['q_id'] = $qid;
+                                $_GET['q_id'] = $qid;
+                                $_POST['q_id'] = $qid;
+                            }
+
+
+
+                            $this->prepareOutput();
+			    if ($cmd != 'addQuestion')
+				$this->showQuestionsPerPageObject($qid);
+                            if (!$qid) {
+                                include_once("./Modules/Test/classes/class.ilTestExpressPageObjectGUI.php");
+				$pageObject = new ilTestExpressPageObjectGUI ("qpl", 0);
+				$pageObject->test_object = $this->object;
+                                $ret =& $this->ctrl->forwardCommand($pageObject);
+                                break;
+                            }
+                            include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+                            $this->tpl->setCurrentBlock("ContentStyle");
+                            $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+                                    ilObjStyleSheet::getContentStylePath(0));
+                            $this->tpl->parseCurrentBlock();
+
+                            // syntax style
+                            $this->tpl->setCurrentBlock("SyntaxStyle");
+                            $this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+                                    ilObjStyleSheet::getSyntaxStylePath());
+                            $this->tpl->parseCurrentBlock();
+                            include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
+
+                            $q_gui =& assQuestionGUI::_getQuestionGUI("", $qid);
+                            #$q_gui->setQuestionTabs();
+                            $q_gui->outAdditionalOutput();
+                            $q_gui->object->setObjId($this->object->getId());
+                            $question =& $q_gui->object;
+                            $this->ctrl->saveParameter($this, "q_id");
+
+                            #$this->lng->loadLanguageModule("content");
+                            $this->ctrl->setReturnByClass("ilTestExpressPageObjectGUI", "view");
+                            $this->ctrl->setReturn($this, "questions");
+
+                            //$page =& new ilPageObject("qpl", $_GET["q_id"]);
+                            include_once("./Services/COPage/classes/class.ilPageObject.php");
+                            include_once("./Modules/Test/classes/class.ilTestExpressPageObjectGUI.php");
+
+                            $page_gui =& new ilTestExpressPageObjectGUI ("qpl", $qid);
+                            $page_gui->test_object = $this->object;
+                            $page_gui->setEditPreview(true);
+                            $page_gui->setEnabledTabs(false);
+                            $page_gui->setEnabledInternalLinks(false);
+                            if (strlen($this->ctrl->getCmd()) == 0)
+                            {
+                                    $this->ctrl->setCmdClass(get_class($page_gui));
+                                    $this->ctrl->setCmd("preview");
+                            }
+
+                            $page_gui->setQuestionHTML(array($q_gui->object->getId() => $q_gui->getPreview(TRUE)));
+                            $page_gui->setTemplateTargetVar("ADM_CONTENT");
+
+                            $page_gui->setOutputMode($this->object->evalTotalPersons() == 0 ? "edit" : 'preview');
+
+                            $page_gui->setHeader($question->getTitle());
+                            $page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
+                            $page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "fullscreen"));
+                            $page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this));
+                            $page_gui->setPresentationTitle($question->getTitle());
+                            $ret =& $this->ctrl->forwardCommand($page_gui);
+
+			    global $ilTabs;
+			    $ilTabs->activateTab('assQuestions');
+
+			    $this->tpl->setContent($ret);
+                            break;
+
+                        case 'ilpageobjectgui':
+                            include_once ("./Services/COPage/classes/class.ilPageObjectGUI.php");
+                                //echo $_REQUEST['prev_qid'];
+                                if ($_REQUEST['prev_qid']) {
+                                    $this->ctrl->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
+                                }
+
+                                $this->prepareOutput();
+                                global $___test_express_mode;
+                                $___test_express_mode = true;
+                                $_GET['calling_test'] = $this->object->getId();
+				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				$this->tpl->setCurrentBlock("ContentStyle");
+				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(0));
+				$this->tpl->parseCurrentBlock();
+
+				// syntax style
+				$this->tpl->setCurrentBlock("SyntaxStyle");
+				$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+					ilObjStyleSheet::getSyntaxStylePath());
+				$this->tpl->parseCurrentBlock();
+				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
+				$q_gui =& assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+				$q_gui->setQuestionTabs();
+				$q_gui->outAdditionalOutput();
+				$q_gui->object->setObjId($this->object->getId());
+				$question =& $q_gui->object;
+				$this->ctrl->saveParameter($this, "q_id");
+				include_once("./Services/COPage/classes/class.ilPageObject.php");
+				include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+				$this->lng->loadLanguageModule("content");
+				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
+				$this->ctrl->setReturn($this, "questions");
+				//$page =& new ilPageObject("qpl", $_GET["q_id"]);
+				$page_gui =& new ilPageObjectGUI("qpl", $_GET["q_id"]);
+				$page_gui->setEditPreview(true);
+				$page_gui->setEnabledTabs(false);
+				$page_gui->setEnabledInternalLinks(false);
+				if (strlen($this->ctrl->getCmd()) == 0)
+				{
+					$this->ctrl->setCmdClass(get_class($page_gui));
+					$this->ctrl->setCmd("preview");
+				}
+				//$page_gui->setQuestionXML($question->toXML(false, false, true));
+				$page_gui->setQuestionHTML(array($q_gui->object->getId() => $q_gui->getPreview(TRUE)));
+				$page_gui->setTemplateTargetVar("ADM_CONTENT");
+				$page_gui->setOutputMode($this->object->evalTotalPersons() == 0 ? "edit" : 'preview');
+				$page_gui->setHeader($question->getTitle());
+				$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
+				$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "fullscreen"));
+				$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this));
+				$page_gui->setPresentationTitle($question->getTitle());
+				$ret =& $this->ctrl->forwardCommand($page_gui);
+				$this->tpl->setContent($ret);
+
+                                break;
+                        case '':
+			case 'ilobjtestgui':
+
 				$this->prepareOutput();
 				if (preg_match("/deleteqpl_\d+/", $cmd))
 				{
@@ -199,6 +364,39 @@ class ilObjTestGUI extends ilObjectGUI
 				$cmd.= "Object";
 				$ret =& $this->$cmd();
 				break;
+                         default:
+                                // elba hack for storing question id for inserting new question after
+                                if ($_REQUEST['prev_qid']) {
+                                    global $___prev_question_id;
+                                    $___prev_question_id = $_REQUEST['prev_qid'];
+                                    $this->ctrl->setParameterByClass('ilpageobjectgui', 'prev_qid', $_REQUEST['prev_qid']);
+                                    $this->ctrl->setParameterByClass($_GET['sel_question_types'] . 'gui', 'prev_qid', $_REQUEST['prev_qid']);
+                                }
+                                $this->create_question_mode = true;
+                                $this->prepareOutput();
+
+                                $this->ctrl->setReturn($this, "questions");
+                                include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
+                                $q_gui =& assQuestionGUI::_getQuestionGUI($_GET['sel_question_types'], $_GET["q_id"]);
+                                $q_gui->object->setObjId($this->object->getId());
+                                if (!$_GET['sel_question_types'])
+                                    $qType = assQuestion::getQuestionTypeFromDb($_GET['q_id']);
+                                else {
+                                    $qType = $_GET['sel_question_types'];
+                                }
+                                $this->ctrl->setParameterByClass($qType . "GUI", 'prev_qid', $_REQUEST['prev_qid']);
+                                $this->ctrl->setParameterByClass($qType . "GUI", 'test_ref_id', $_REQUEST['ref_id']);
+                                $this->ctrl->setParameterByClass($qType . "GUI", 'q_id', $_REQUEST['q_id']);
+                                $this->ctrl->setParameterByClass($qType . "GUI", 'test_express_mode', 1);
+                                global $___test_express_mode;
+                                $___test_express_mode = true;
+                                if ($this->ctrl->getCmd() != 'save')
+                                    $_GET['calling_test'] = $this->object->getId();
+
+                                $q_gui->setQuestionTabs();
+                                unset($___test_express_mode);
+                                $ret =& $this->ctrl->forwardCommand($q_gui);
+                                break;
 		}
 		if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&
 			$this->getCreationMode() != true)
@@ -243,6 +441,23 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_POST["defaults"] > 0) 
 		{
 			$a_new_object->applyDefaults($_POST["defaults"]);
+		}
+
+		if($_POST['Fobject']['template'])
+		{
+			$template_id = (int)$_POST['Fobject']['template'];
+
+			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+			$template = new ilSettingsTemplate($template_id, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
+
+			$template_settings = $template->getSettings();
+			if($template_settings)
+			{
+                            $this->applyTemplate($template_settings, $newObj);
+			}
+
+			$newObj->setTemplate($template_id);
+			$newObj->saveToDb();
 		}
 
 		// always send a message
@@ -723,9 +938,18 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->object->setPassScoring($_POST["pass_scoring"]);
 			}
 
+                        /*
 			$this->object->setAnswerFeedback((is_array($_POST['instant_feedback']) && in_array('instant_feedback_answer', $_POST['instant_feedback'])) ? 1 : 0);
 			$this->object->setAnswerFeedbackPoints((is_array($_POST['instant_feedback']) && in_array('instant_feedback_points', $_POST['instant_feedback'])) ? 1 : 0);
 			$this->object->setInstantFeedbackSolution((is_array($_POST['instant_feedback']) && in_array('instant_feedback_solution', $_POST['instant_feedback'])) ? 1 : 0);
+                        */
+
+                        /**
+                         * I introduced a single setter for instant_feedback options
+                         * @author jposselt at databay . de
+                         */
+                        $this->object->setScoringFeedbackOptionsByArray($_POST['instant_feedback']);
+
 
 			$this->object->setScoreReporting($_POST["results_access"]);
 			if ($this->object->getScoreReporting() == REPORT_AFTER_DATE)
@@ -773,6 +997,21 @@ class ilObjTestGUI extends ilObjectGUI
 			// allow only write access
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
+		}
+
+
+		// using template?
+		$template_settings = null;
+		$template = $this->object->getTemplate();
+
+		if($template)
+		{
+			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+                        include_once "Modules/Test/classes/class.ilObjAssessmentFolderGUI.php";
+
+			$template = new ilSettingsTemplate($template, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
+
+			$template_settings = $template->getSettings();
 		}
 
 		$save = (strcmp($this->ctrl->getCmd(), "saveScoring") == 0) ? TRUE : FALSE;
@@ -910,7 +1149,20 @@ class ilObjTestGUI extends ilObjectGUI
 		$form->addItem($export_settings);
 		
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("saveScoring", $this->lng->txt("save"));
-		$errors = false;
+
+		// remove items when using template
+		if($template_settings)
+		{
+			foreach($template_settings as $id => $item)
+			{
+				if($item["hide"])
+				{
+					$form->removeItemByPostVar($id);
+				}
+			}
+		}
+
+                $errors = false;
 
 		if ($save)
 		{
@@ -937,6 +1189,19 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 
+		// using template?
+		$template_settings = null;
+		$template = $this->object->getTemplate();
+
+		if($template)
+		{
+			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+			$template = new ilSettingsTemplate($template, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
+
+			$template_settings = $template->getSettings();
+			$hide_rte_switch = $template_settings["rte_switch"]["hide"];
+		}
+
 		$save = (strcmp($this->ctrl->getCmd(), "saveProperties") == 0) ? TRUE : FALSE;
 		$total = $this->object->evalTotalPersons();
 		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
@@ -947,17 +1212,56 @@ class ilObjTestGUI extends ilObjectGUI
 		$form->setTableWidth("100%");
 		$form->setId("test_properties");
 
-		// general properties
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("tst_general_properties"));
-		$form->addItem($header);
-		
+                if(!$template || $template && $this->formShowGeneralSection($template_settings)) {
+                    // general properties
+                    $header = new ilFormSectionHeaderGUI();
+                    $header->setTitle($this->lng->txt("tst_general_properties"));
+                    $form->addItem($header);
+                }
+
+		// title & description (meta data)
+
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+		$md_obj = new ilMD($this->object->getId(), 0, "tst");
+		$md_section = $md_obj->getGeneral();
+
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setRequired(true);
+		$title->setValue($md_section->getTitle());
+		$form->addItem($title);
+
+		$ids = $md_section->getDescriptionIds();
+		if($ids)
+		{
+			$desc_obj = $md_section->getDescription(array_pop($ids));
+
+			$desc = new ilTextAreaInputGUI($this->lng->txt("description"), "description");
+			$desc->setCols(50);
+			$desc->setRows(4);
+			$desc->setValue($desc_obj->getDescription());
+			$form->addItem($desc);
+		}
+
 		// anonymity
+		/*
+		 * old behaviour
+		 */
+		/*
 		$anonymity = new ilCheckboxInputGUI($this->lng->txt("tst_anonymity"), "anonymity");
 		$anonymity->setValue(1);
 		if ($total) $anonymity->setDisabled(true);
 		$anonymity->setChecked($this->object->getAnonymity());
 		$anonymity->setInfo($this->lng->txt("tst_anonymity_description"));
+		$form->addItem($anonymity);
+		*/
+
+		$anonymity = new ilRadioGroupInputGUI($this->lng->txt('tst_anonymity'), 'anonymity');
+		if ($total) $anonymity->setDisabled(true);
+		$rb = new ilRadioOption($this->lng->txt('tst_anonymity_no_anonymization'), 0);
+		$anonymity->addOption($rb);
+		$rb = new ilRadioOption($this->lng->txt('tst_anonymity_anonymous_test'), 1);
+		$anonymity->addOption($rb);
+		$anonymity->setValue((int)$this->object->getAnonymity());
 		$form->addItem($anonymity);
 
 		// random selection of questions
@@ -965,8 +1269,46 @@ class ilObjTestGUI extends ilObjectGUI
 		$random->setValue(1);
 		if ($total) $random->setDisabled(true);
 		$random->setChecked($this->object->isRandomTest());
-		$random->setInfo($this->lng->txt("tst_random_test_description"));
+
+		$info = $this->lng->txt("tst_random_test_description");
+		if ($this->object->hasQuestionsWithoutQuestionpool()) {
+		    $info .= $this->lng->txt("tst_random_test_description_warning");
+		}
+		$random->setInfo($info);
 		$form->addItem($random);
+
+		
+/*
+                $options = array(
+                    'table' => $this->lng->txt("test_enable_view_table"),
+                    'express' => $this->lng->txt("test_enable_view_express"),
+                    'both' => $this->lng->txt("test_enable_view_both"),
+                );
+		$enable_views = new ilSelectInputGUI($this->lng->txt("test_enable_views"), "enabled_view_mode");
+		$enable_views->setOptions($options);
+                $enable_views->setValue($this->object->getEnabledViewMode());
+		$form->addItem($enable_views);
+
+                // enable usage of question pool in express mode
+		$express_qpool = new ilCheckboxInputGUI($this->lng->txt("tst_express_allow_question_pool"), "express_allow_question_pool");
+		$express_qpool->setValue(1);
+		//if ($total) $random->setDisabled(true);
+		$express_qpool->setChecked($this->object->isExpressModeQuestionPoolAllowed());
+		$express_qpool->setInfo($this->lng->txt("tst_express_allow_question_pool_description"));
+		$form->addItem($express_qpool);
+*/
+		// pool usage
+		$pool_usage = new ilCheckboxInputGUI($this->lng->txt("test_question_pool_usage"), "use_pool");
+		$pool_usage->setValue(1);
+		$pool_usage->setChecked($this->object->getPoolUsage());
+		$form->addItem($pool_usage);
+
+                if(!$template || $template && $this->formShowBeginningEndingInformation($template_settings)) {
+                    // general properties
+                    $header = new ilFormSectionHeaderGUI();
+                    $header->setTitle($this->lng->txt("tst_beginning_ending_information"));
+                    $form->addItem($header);
+                }
 
 		// introduction
 		$intro = new ilTextAreaInputGUI($this->lng->txt("tst_introduction"), "introduction");
@@ -978,6 +1320,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$intro->addButton("latex");
 		$intro->setRTESupport($this->object->getId(), "tst", "assessment");
 		$intro->setRteTagSet('full');
+		$intro->setInfo($this->lng->txt('intro_desc'));
 		// showinfo
 		$showinfo = new ilCheckboxInputGUI('', "showinfo");
 		$showinfo->setValue(1);
@@ -1006,10 +1349,148 @@ class ilObjTestGUI extends ilObjectGUI
 		$finalstatement->addSubItem($showfinal);
 		$form->addItem($finalstatement);
 
-		// sequence properties
-		$seqheader = new ilFormSectionHeaderGUI();
-		$seqheader->setTitle($this->lng->txt("tst_sequence_properties"));
-		$form->addItem($seqheader);
+		if(!$template || $template && $this->formShowSessionSection($template_settings)) {
+                    // session properties
+                    $sessionheader = new ilFormSectionHeaderGUI();
+                    $sessionheader->setTitle($this->lng->txt("tst_session_settings"));
+                    $form->addItem($sessionheader);
+                }
+
+		// max. number of passes
+		$nr_of_tries = new ilTextInputGUI($this->lng->txt("tst_nr_of_tries"), "nr_of_tries");
+		$nr_of_tries->setSize(3);
+		$nr_of_tries->setValue($this->object->getNrOfTries());
+		$nr_of_tries->setRequired(true);
+		$nr_of_tries->setSuffix($this->lng->txt("0_unlimited"));
+		if ($total) $nr_of_tries->setDisabled(true);
+		$form->addItem($nr_of_tries);
+
+		// enable max. processing time
+		$processing = new ilCheckboxInputGUI($this->lng->txt("tst_processing_time"), "chb_processing_time");
+		$processing->setValue(1);
+		//$processing->setOptionTitle($this->lng->txt("enabled"));
+
+                if ($template_settings && $template_settings['chb_processing_time'] && $template_settings['chb_processing_time']['value'])
+                    $processing->setChecked(true);
+                else
+                    $processing->setChecked($this->object->getEnableProcessingTime());
+
+		// max. processing time
+		$processingtime = new ilDurationInputGUI('', 'processing_time');
+		$ptime = $this->object->getProcessingTimeAsArray();
+		$processingtime->setHours($ptime['hh']);
+		$processingtime->setMinutes($ptime['mm']);
+		$processingtime->setSeconds($ptime['ss']);
+		$processingtime->setShowMonths(false);
+		$processingtime->setShowDays(false);
+		$processingtime->setShowHours(true);
+		$processingtime->setShowMinutes(true);
+		$processingtime->setShowSeconds(true);
+		$processingtime->setInfo($this->lng->txt("tst_processing_time_desc"));
+		$processing->addSubItem($processingtime);
+
+		// reset max. processing time
+		$resetprocessing = new ilCheckboxInputGUI('', "chb_reset_processing_time");
+		$resetprocessing->setValue(1);
+		$resetprocessing->setOptionTitle($this->lng->txt("tst_reset_processing_time"));
+		$resetprocessing->setChecked($this->object->getResetProcessingTime());
+		$resetprocessing->setInfo($this->lng->txt("tst_reset_processing_time_desc"));
+		$processing->addSubItem($resetprocessing);
+		$form->addItem($processing);
+
+		// enable starting time
+		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("tst_starting_time"), "chb_starting_time");
+		$enablestartingtime->setValue(1);
+		//$enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
+
+                if ($template_settings && $template_settings['chb_starting_time'] && $template_settings['chb_starting_time']['value'])
+                    $enablestartingtime->setChecked(true);
+                else
+                    $enablestartingtime->setChecked(strlen($this->object->getStartingTime()));
+		// starting time
+		$startingtime = new ilDateTimeInputGUI('', 'starting_time');
+		$startingtime->setShowDate(true);
+		$startingtime->setShowTime(true);
+		if (strlen($this->object->getStartingTime()))
+		{
+			$startingtime->setDate(new ilDateTime($this->object->getStartingTime(), IL_CAL_TIMESTAMP));
+		}
+		else
+		{
+			$startingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
+		}
+		$enablestartingtime->addSubItem($startingtime);
+		if ($total) $enablestartingtime->setDisabled(true);
+		if ($total) $startingtime->setDisabled(true);
+		$form->addItem($enablestartingtime);
+
+		// enable ending time
+		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("tst_ending_time"), "chb_ending_time");
+		$enableendingtime->setValue(1);
+		//$enableendingtime->setOptionTitle($this->lng->txt("enabled"));
+                if ($template_settings && $template_settings['chb_ending_time'] && $template_settings['chb_ending_time']['value'])
+                    $enableendingtime->setChecked(true);
+                else
+                    $enableendingtime->setChecked(strlen($this->object->getEndingTime()));
+		// ending time
+		$endingtime = new ilDateTimeInputGUI('', 'ending_time');
+		$endingtime->setShowDate(true);
+		$endingtime->setShowTime(true);
+		if (strlen($this->object->getEndingTime()))
+		{
+			$endingtime->setDate(new ilDateTime($this->object->getEndingTime(), IL_CAL_TIMESTAMP));
+		}
+		else
+		{
+			$endingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
+		}
+		$enableendingtime->addSubItem($endingtime);
+		$form->addItem($enableendingtime);
+
+		// test password
+		$password = new ilTextInputGUI($this->lng->txt("tst_password"), "password");
+		$password->setSize(20);
+		$password->setValue($this->object->getPassword());
+		$password->setInfo($this->lng->txt("tst_password_details"));
+		$form->addItem($password);
+
+		if(!$template || $template && $this->formShowPresentationSection($template_settings)) {
+                    // sequence properties
+                    $seqheader = new ilFormSectionHeaderGUI();
+                    $seqheader->setTitle($this->lng->txt("tst_presentation_properties"));
+                    $form->addItem($seqheader);
+                }
+
+		// use previous answers
+		$prevanswers = new ilCheckboxInputGUI($this->lng->txt("tst_use_previous_answers"), "chb_use_previous_answers");
+		$prevanswers->setValue(1);
+		$prevanswers->setChecked($this->object->getUsePreviousAnswers());
+		$prevanswers->setInfo($this->lng->txt("tst_use_previous_answers_description"));
+		$form->addItem($prevanswers);
+
+		// force js
+		$forcejs = new ilCheckboxInputGUI($this->lng->txt("forcejs_short"), "forcejs");
+		$forcejs->setValue(1);
+		$forcejs->setChecked($this->object->getForceJS());
+		$forcejs->setOptionTitle($this->lng->txt("forcejs"));
+		$forcejs->setInfo($this->lng->txt("forcejs_desc"));
+		$form->addItem($forcejs);
+
+		// question title output
+		$title_output = new ilRadioGroupInputGUI($this->lng->txt("tst_title_output"), "title_output");
+		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_full"), 0, ''));
+		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_hide_points"), 1, ''));
+		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_no_title"), 2, ''));
+		$title_output->setValue($this->object->getTitleOutput());
+		$title_output->setInfo($this->lng->txt("tst_title_output_description"));
+		$form->addItem($title_output);
+
+                if(!$template || $template && $this->formShowSequenceSection($template_settings)) {
+                    // sequence properties
+                    $seqheader = new ilFormSectionHeaderGUI();
+                    $seqheader->setTitle($this->lng->txt("tst_sequence_properties"));
+                    $form->addItem($seqheader);
+                }
 
 		// postpone questions
 		$postpone = new ilCheckboxInputGUI($this->lng->txt("tst_postpone"), "chb_postpone");
@@ -1027,7 +1508,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// show list of questions
 		$list_of_questions = new ilCheckboxInputGUI($this->lng->txt("tst_show_summary"), "list_of_questions");
-		$list_of_questions->setOptionTitle($this->lng->txt("tst_show_summary"));
+		//$list_of_questions->setOptionTitle($this->lng->txt("tst_show_summary"));
 		$list_of_questions->setValue(1);
 		$list_of_questions->setChecked($this->object->getListOfQuestions());
 		$list_of_questions->setInfo($this->lng->txt("tst_show_summary_description"));
@@ -1059,10 +1540,34 @@ class ilObjTestGUI extends ilObjectGUI
 		$cancel->setInfo($this->lng->txt("tst_show_cancel_description"));
 		$form->addItem($cancel);
 
-		// kiosk mode properties
-		$kioskheader = new ilFormSectionHeaderGUI();
-		$kioskheader->setTitle($this->lng->txt("kiosk"));
-		$form->addItem($kioskheader);
+                if(!$template || $template && $this->formShowNotificationSection($template_settings)) {
+                    // notifications
+                    $notifications = new ilFormSectionHeaderGUI();
+                    $notifications->setTitle($this->lng->txt("tst_mail_notification"));
+                    $form->addItem($notifications);
+                }
+
+		// mail notification
+		$mailnotification = new ilRadioGroupInputGUI($this->lng->txt("tst_finish_notification"), "mailnotification");
+		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_no"), 0, ''));
+		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_simple"), 1, ''));
+		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_advanced"), 2, ''));
+		$mailnotification->setValue($this->object->getMailNotification());
+		$form->addItem($mailnotification);
+
+		$mailnottype = new ilCheckboxInputGUI('', "mailnottype");
+		$mailnottype->setValue(1);
+		$mailnottype->setOptionTitle($this->lng->txt("mailnottype"));
+		$mailnottype->setChecked($this->object->getMailNotificationType());
+		$form->addItem($mailnottype);
+
+
+                if(!$template || $template && $this->formShowKioskSection($template_settings)) {
+                    // kiosk mode properties
+                    $kioskheader = new ilFormSectionHeaderGUI();
+                    $kioskheader->setTitle($this->lng->txt("kiosk"));
+                    $form->addItem($kioskheader);
+                }
 
 		// kiosk mode
 		$kiosk = new ilCheckboxInputGUI($this->lng->txt("kiosk"), "kiosk");
@@ -1083,126 +1588,12 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$form->addItem($kiosk);
 
-		// session properties
-		$sessionheader = new ilFormSectionHeaderGUI();
-		$sessionheader->setTitle($this->lng->txt("tst_session_settings"));
-		$form->addItem($sessionheader);
-
-		// max. number of passes
-		$nr_of_tries = new ilTextInputGUI($this->lng->txt("tst_nr_of_tries"), "nr_of_tries");
-		$nr_of_tries->setSize(3);
-		$nr_of_tries->setValue($this->object->getNrOfTries());
-		$nr_of_tries->setRequired(true);
-		$nr_of_tries->setSuffix($this->lng->txt("0_unlimited"));
-		if ($total) $nr_of_tries->setDisabled(true);
-		$form->addItem($nr_of_tries);
-
-		// enable max. processing time
-		$processing = new ilCheckboxInputGUI($this->lng->txt("tst_processing_time"), "chb_processing_time");
-		$processing->setValue(1);
-		$processing->setOptionTitle($this->lng->txt("enabled"));
-		$processing->setChecked($this->object->getEnableProcessingTime());
-		
-		// max. processing time
-		$processingtime = new ilDurationInputGUI('', 'processing_time');
-		$ptime = $this->object->getProcessingTimeAsArray();
-		$processingtime->setHours($ptime['hh']);
-		$processingtime->setMinutes($ptime['mm']);
-		$processingtime->setSeconds($ptime['ss']);
-		$processingtime->setShowMonths(false);
-		$processingtime->setShowDays(false);
-		$processingtime->setShowHours(true);
-		$processingtime->setShowMinutes(true);
-		$processingtime->setShowSeconds(true);
-		$processingtime->setInfo($this->lng->txt("tst_processing_time_desc"));
-		$processing->addSubItem($processingtime);
-		
-		// reset max. processing time
-		$resetprocessing = new ilCheckboxInputGUI('', "chb_reset_processing_time");
-		$resetprocessing->setValue(1);
-		$resetprocessing->setOptionTitle($this->lng->txt("tst_reset_processing_time"));
-		$resetprocessing->setChecked($this->object->getResetProcessingTime());
-		$resetprocessing->setInfo($this->lng->txt("tst_reset_processing_time_desc"));
-		$processing->addSubItem($resetprocessing);
-		$form->addItem($processing);
-
-		// enable starting time
-		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("tst_starting_time"), "chb_starting_time");
-		$enablestartingtime->setValue(1);
-		$enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
-		$enablestartingtime->setChecked(strlen($this->object->getStartingTime()));
-		// starting time
-		$startingtime = new ilDateTimeInputGUI('', 'starting_time');
-		$startingtime->setShowDate(true);
-		$startingtime->setShowTime(true);
-		if (strlen($this->object->getStartingTime()))
-		{
-			$startingtime->setDate(new ilDateTime($this->object->getStartingTime(), IL_CAL_TIMESTAMP));
-		}
-		else
-		{
-			$startingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
-		}
-		$enablestartingtime->addSubItem($startingtime);
-		if ($total) $enablestartingtime->setDisabled(true);
-		if ($total) $startingtime->setDisabled(true);
-		$form->addItem($enablestartingtime);
-
-		// enable ending time
-		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("tst_ending_time"), "chb_ending_time");
-		$enableendingtime->setValue(1);
-		$enableendingtime->setOptionTitle($this->lng->txt("enabled"));
-		$enableendingtime->setChecked(strlen($this->object->getEndingTime()));
-		// ending time
-		$endingtime = new ilDateTimeInputGUI('', 'ending_time');
-		$endingtime->setShowDate(true);
-		$endingtime->setShowTime(true);
-		if (strlen($this->object->getEndingTime()))
-		{
-			$endingtime->setDate(new ilDateTime($this->object->getEndingTime(), IL_CAL_TIMESTAMP));
-		}
-		else
-		{
-			$endingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
-		}
-		$enableendingtime->addSubItem($endingtime);
-		$form->addItem($enableendingtime);
-
-		// use previous answers
-		$prevanswers = new ilCheckboxInputGUI($this->lng->txt("tst_use_previous_answers"), "chb_use_previous_answers");
-		$prevanswers->setValue(1);
-		$prevanswers->setChecked($this->object->getUsePreviousAnswers());
-		$prevanswers->setInfo($this->lng->txt("tst_use_previous_answers_description"));
-		$form->addItem($prevanswers);
-
-		// force js
-		$forcejs = new ilCheckboxInputGUI($this->lng->txt("forcejs_short"), "forcejs");
-		$forcejs->setValue(1);
-		$forcejs->setChecked($this->object->getForceJS());
-		$forcejs->setOptionTitle($this->lng->txt("forcejs"));
-		$forcejs->setInfo($this->lng->txt("forcejs_desc"));
-		$form->addItem($forcejs);
-
-		// question title output
-		$title_output = new ilRadioGroupInputGUI($this->lng->txt("tst_title_output"), "title_output");
-		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_full"), 0, ''));
-		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_hide_points"), 1, ''));
-		$title_output->addOption(new ilRadioOption($this->lng->txt("tst_title_output_no_title"), 2, ''));
-		$title_output->setValue($this->object->getTitleOutput());
-		$title_output->setInfo($this->lng->txt("tst_title_output_description"));
-		$form->addItem($title_output);
-
-		// test password
-		$password = new ilTextInputGUI($this->lng->txt("tst_password"), "password");
-		$password->setSize(20);
-		$password->setValue($this->object->getPassword());
-		$password->setInfo($this->lng->txt("tst_password_details"));
-		$form->addItem($password);
-
-		// participants properties
-		$restrictions = new ilFormSectionHeaderGUI();
-		$restrictions->setTitle($this->lng->txt("tst_max_allowed_users"));
-		$form->addItem($restrictions);
+                if(!$template || $template && $this->formShowParticipantSection($template_settings)) {
+                    // participants properties
+                    $restrictions = new ilFormSectionHeaderGUI();
+                    $restrictions->setTitle($this->lng->txt("tst_max_allowed_users"));
+                    $form->addItem($restrictions);
+                }
 
 		$fixedparticipants = new ilCheckboxInputGUI($this->lng->txt('participants_invitation'), "fixedparticipants");
 		$fixedparticipants->setValue(1);
@@ -1230,26 +1621,20 @@ class ilObjTestGUI extends ilObjectGUI
 		$idle->setValue(($this->object->getAllowedUsersTimeGap()) ? $this->object->getAllowedUsersTimeGap() : '');
 		$form->addItem($idle);
 
-		// notifications
-		$notifications = new ilFormSectionHeaderGUI();
-		$notifications->setTitle($this->lng->txt("notifications"));
-		$form->addItem($notifications);
-
-		// mail notification
-		$mailnotification = new ilRadioGroupInputGUI($this->lng->txt("tst_finish_notification"), "mailnotification");
-		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_no"), 0, ''));
-		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_simple"), 1, ''));
-		$mailnotification->addOption(new ilRadioOption($this->lng->txt("tst_finish_notification_advanced"), 2, ''));
-		$mailnotification->setValue($this->object->getMailNotification());
-		$form->addItem($mailnotification);
-
-		$mailnottype = new ilCheckboxInputGUI('', "mailnottype");
-		$mailnottype->setValue(1);
-		$mailnottype->setOptionTitle($this->lng->txt("mailnottype"));
-		$mailnottype->setChecked($this->object->getMailNotificationType());
-		$form->addItem($mailnottype);
-
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("saveProperties", $this->lng->txt("save"));
+
+		// remove items when using template
+		if($template_settings)
+		{
+			foreach($template_settings as $id => $item)
+			{
+				if($item["hide"])
+				{
+					$form->removeItemByPostVar($id);
+				}
+			}
+		}
+
 		$errors = false;
 		
 		if ($save)
@@ -1258,7 +1643,25 @@ class ilObjTestGUI extends ilObjectGUI
 			$form->setValuesByPost();
 			if ($errors) $checkonly = false;
 		}
-		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+
+		if (!$checkonly)
+		{
+			// using template?
+			$message = "";
+			if($template)
+			{
+				global $tpl;
+
+				$link = $this->ctrl->getLinkTarget($this, "confirmResetTemplate");
+				$link = "<a href=\"".$link."\">".$this->lng->txt("test_using_template_link")."</a>";
+				$message = "<div style=\"margin-top:10px\">".
+					$tpl->getMessageHTML(sprintf($this->lng->txt("test_using_template"), $template->getTitle(), $link), "info").
+					"</div>";
+			}
+	
+			$this->tpl->setVariable("ADM_CONTENT", $form->getHTML().$message);
+		}
+
 		return $errors;
 	}
 	
@@ -1279,6 +1682,42 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		if (!$hasErrors)
 		{
+                        $template_settings = null;
+			$template = $this->object->getTemplate();
+			if($template)
+			{
+				include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+				$template = new ilSettingsTemplate($template, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
+
+				$template_settings = $template->getSettings();
+			}
+
+			include_once 'Services/MetaData/classes/class.ilMD.php';
+			$md_obj =& new ilMD($this->object->getId(), 0, "svy");
+			$md_section = $md_obj->getGeneral();
+
+			// title
+			$md_section->setTitle(ilUtil::stripSlashes($_POST['title']));
+			$md_section->update();
+
+			// Description
+			$md_desc_ids = $md_section->getDescriptionIds();
+			if($md_desc_ids)
+			{
+				$md_desc = $md_section->getDescription(array_pop($md_desc_ids));
+				$md_desc->setDescription(ilUtil::stripSlashes($_POST['description']));
+				$md_desc->update();
+			}
+                        else {
+                            $md_desc = $md_section->addDescription();
+			    $md_desc->setDescription(ilUtil::stripSlashes($_POST['description']));
+			    $md_desc->save();
+                        }
+
+			$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
+			$this->object->setDescription(ilUtil::stripSlashes($_POST['description']));
+			$this->object->update();
+
 			$total = $this->object->evalTotalPersons();
 			$randomtest_switch = false;
 			// Check the values the user entered in the form
@@ -1421,6 +1860,10 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 
+                        //$this->object->setExpressModeQuestionPoolAllowed($_POST['express_allow_question_pool']);
+                        $this->object->setEnabledViewMode($_POST['enabled_view_mode']);
+                        $this->object->setPoolUsage($_POST['use_pool']);
+
 			$this->object->saveToDb(true);
 
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -1519,7 +1962,7 @@ class ilObjTestGUI extends ilObjectGUI
 	* @return integer Reference id of the newly created questionpool
 	* @access	public
 	*/
-	function createQuestionPool($name = "dummy")
+	function createQuestionPool($name = "dummy", $description = "")
 	{
 		global $tree;
 		$parent_ref = $tree->getParentId($this->object->getRefId());
@@ -1527,7 +1970,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$qpl = new ilObjQuestionPool();
 		$qpl->setType("qpl");
 		$qpl->setTitle($name);
-		$qpl->setDescription("");
+		$qpl->setDescription($description);
 		$qpl->create();
 		$qpl->createReference();
 		$qpl->putInTree($parent_ref);
@@ -1862,8 +2305,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function executeCreateQuestionObject()
 	{
-		$qpl_ref_id = $_POST["sel_qpl"];
-		if ((strcmp($_POST["txt_qpl"], "") == 0) && (strcmp($qpl_ref_id, "") == 0))
+		$qpl_ref_id = $_REQUEST["sel_qpl"];
+		if ((strcmp($_REQUEST["txt_qpl"], "") == 0) && (strcmp($qpl_ref_id, "") == 0))
 		{
 			ilUtil::sendInfo($this->lng->txt("questionpool_not_entered"));
 			$this->createQuestionObject();
@@ -1872,13 +2315,28 @@ class ilObjTestGUI extends ilObjectGUI
 		else
 		{
 			$_SESSION["test_id"] = $this->object->getRefId();
-			if (strcmp($_POST["txt_qpl"], "") != 0)
+			if (strcmp($_REQUEST["txt_qpl"], "") != 0)
 			{
 				// create a new question pool and return the reference id
-				$qpl_ref_id = $this->createQuestionPool($_POST["txt_qpl"]);
+				$qpl_ref_id = $this->createQuestionPool($_REQUEST["txt_qpl"]);
 			}
+
 			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPoolGUI.php";
-			ilUtil::redirect("ilias.php?baseClass=ilObjQuestionPoolGUI&ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&sel_question_types=" . $_POST["sel_question_types"]);
+
+			$baselink = "ilias.php?baseClass=ilObjQuestionPoolGUI&ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&sel_question_types=" . $_REQUEST["sel_question_types"];
+
+			if ($_REQUEST['q_id']) {
+			    $baselink .= '&q_id=' . $_REQUEST['q_id'];
+			}
+			if ($_REQUEST['prev_qid']) {
+			    $baselink .= '&prev_qid=' . $_REQUEST['prev_qid'];
+			}
+			if ($_REQUEST['test_express_mode']) {
+			    $baselink .= '&test_express_mode=1';
+			}
+#var_dump($_REQUEST['prev_qid']);
+			ilUtil::redirect($baselink);
+			
 			exit();
 		}
 	}
@@ -1906,42 +2364,64 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		global $ilUser;
 		$this->getQuestionsSubTabs();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", "Modules/Test");
+		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", "Modules/Test");
 		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE, FALSE, "write");
-		if (count($questionpools) == 0)
-		{
-			$this->tpl->setCurrentBlock("option");
-			$this->tpl->setVariable("VALUE_QPL", "");
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			foreach ($questionpools as $key => $value)
-			{
-				$this->tpl->setCurrentBlock("option");
-				$this->tpl->setVariable("VALUE_OPTION", $key);
-				$this->tpl->setVariable("TEXT_OPTION", $value["title"]);
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		$this->tpl->setCurrentBlock("hidden");
-		$this->tpl->setVariable("HIDDEN_NAME", "sel_question_types");
-		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["sel_question_types"]);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		if ($this->object->getPoolUsage()) {
+		    global $lng, $ilCtrl, $tpl;
 
-		if (count($questionpools) == 0)
-		{
-			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_enter_questionpool"));
+		    include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+
+		    $form = new ilPropertyFormGUI();
+		    $form->setFormAction($ilCtrl->getFormAction($this, "executeCreateQuestion"));
+		    $form->setTitle($lng->txt("test_add_new_question"));
+		    include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
+
+
+		    $hidden = new ilHiddenInputGUI('sel_question_types');
+		    $hidden->setValue($_REQUEST["sel_question_types"]);
+		    $form->addItem($hidden);
+
+		    // use pool
+		    $usage = new ilRadioGroupInputGUI($this->lng->txt("assessment_pool_selection"), "usage");
+		    $usage->setRequired(true);
+		    $no_pool = new ilRadioOption($this->lng->txt("assessment_no_pool"), 1);
+		    $usage->addOption($no_pool);
+		    $existing_pool = new ilRadioOption($this->lng->txt("assessment_existing_pool"), 3);
+		    $usage->addOption($existing_pool);
+		    $new_pool = new ilRadioOption($this->lng->txt("assessment_new_pool"), 2);
+		    $usage->addOption($new_pool);
+		    $form->addItem($usage);
+
+		    $usage->setValue(1);
+
+		    $questionpools = ilObjQuestionPool::_getAvailableQuestionpools(FALSE, FALSE, TRUE, FALSE, FALSE, "write");
+		    $pools_data = array();
+		    foreach($questionpools as $key => $p) {
+			$pools_data[$key] = $p['title'];
+		    }
+		    $pools = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "sel_qpl");
+		    $pools->setOptions($pools_data);
+		    $existing_pool->addSubItem($pools);
+
+
+		    $name = new ilTextInputGUI($this->lng->txt("cat_create_qpl"), "txt_qpl");
+		    $name->setSize(50);
+		    $name->setMaxLength(50);
+		    $new_pool->addSubItem($name);
+
+		    $form->addCommandButton("executeCreateQuestion", $lng->txt("submit"));
+		    $form->addCommandButton("cancelCreateQuestion", $lng->txt("cancel"));
+
+		    return $this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
+
 		}
-		else
-		{
-			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_select_questionpool"));
+		else {
+		    global $ilCtrl;
+		    
+		    $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'sel_question_types', $_REQUEST["sel_question_types"]);
+		    $link = $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'handleToolbarCommand','',false,false);
+		    ilUtil::redirect($link);
 		}
-		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -1955,16 +2435,50 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		ilUtil::sendSuccess($this->lng->txt("tst_questions_removed"));
 		$checked_questions = array();
+
 		foreach ($_POST as $key => $value) {
 			if (preg_match("/id_(\d+)/", $key, $matches)) {
 				array_push($checked_questions, $matches[1]);
 			}
 		}
+
+		$questions = $this->object->getQuestionTitlesAndIndexes();
+		$first = null;
+		
 		foreach ($checked_questions as $key => $value) {
+			if (!$first)
+			    $first = $value;
 			$this->object->removeQuestion($value);
 		}
 		$this->object->saveCompleteStatus();
-		$this->ctrl->redirect($this, "questions");
+		
+		if ($_REQUEST['test_express_mode']) {
+
+		    //$questions = $this->object->getQuestionTitlesAndIndexes();
+		    $prev = null;
+		    foreach($questions as $key => $value) {
+			if ($prev === null) {
+			    $prev = $key;
+			    continue;
+			}
+			if ($key == $first) {
+			    $return_to = $prev;
+			}
+			$prev = $key;
+		    }
+
+		    if (count($questions) == count($checked_questions)) {
+			$this->ctrl->redirect($this, "showPage");
+		    }
+		    else if (!$return_to)
+			    $return_to = $questions[0];
+
+		    $this->ctrl->setParameter($this, 'q_id', $return_to);
+		    $this->ctrl->redirect($this, "showPage");
+		}
+		else {
+		    $this->ctrl->redirect($this, "questions");
+		}
 	}
 	
 	/**
@@ -1976,7 +2490,13 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function cancelRemoveQuestionsObject()
 	{
-		$this->ctrl->redirect($this, "questions");
+	    	if ($_REQUEST['test_express_mode']) {
+		    $this->ctrl->setParameter($this, 'q_id', $_REQUEST['q_id']);
+		    $this->ctrl->redirect($this, "showPage");
+		}
+		else {
+		    $this->ctrl->redirect($this, "questions");
+		}
 	}
 	
 	/**
@@ -2024,6 +2544,10 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("tst_question_type"));
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+
+		$this->ctrl->saveParameter($this, 'test_express_mode');
+		$this->ctrl->saveParameter($this, 'q_id');
+		
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
@@ -2038,7 +2562,10 @@ class ilObjTestGUI extends ilObjectGUI
 	function removeQuestionsObject()
 	{
 		$this->getQuestionsSubTabs();
-		$checked_questions = $_POST["q_id"];
+		$checked_questions = $_REQUEST["q_id"];
+		if (!is_array($checked_questions) && $checked_questions) {
+		    $checked_questions = array($checked_questions);
+		}
 		if (count($checked_questions) > 0) 
 		{
 			$total = $this->object->evalTotalPersons();
@@ -2049,7 +2576,10 @@ class ilObjTestGUI extends ilObjectGUI
 			} 
 			else 
 			{
-				ilUtil::sendInfo($this->lng->txt("tst_remove_questions"));
+			    if (count($checked_questions) == 1)
+				ilUtil::sendQuestion($this->lng->txt("tst_remove_question"));
+			    else
+				ilUtil::sendQuestion($this->lng->txt("tst_remove_questions"));
 			}
 			$this->removeQuestionsForm($checked_questions);
 			return;
@@ -2203,13 +2733,21 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function questionsObject()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilTabs;
+
+		$ilTabs->activateTab('assQuestions');
+
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirect($this, "infoScreen");
 		}
+
+                #if (!in_array($this->object->getEnabledViewMode(), array('both', 'table'))) {
+                #    return $this->showQuestionsPerPageObject();
+                #}
+                
 		if ($_GET['browse'])
 		{
 			return $this->questionbrowser();
@@ -2257,33 +2795,30 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questions.html", "Modules/Test");
 
 		$total = $this->object->evalTotalPersons();
-		if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0))) 
+		if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0)))
 		{
-			global $ilUser;
-			$lastquestiontype = $ilUser->getPref("tst_lastquestiontype");
-			$this->tpl->setCurrentBlock("QTypes");
-			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-			$question_types =& ilObjQuestionPool::_getQuestionTypes();
-			foreach ($question_types as $trans => $data)
-			{
-				if ($data["type_tag"] == $lastquestiontype)
-				{
-					$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
-				}
-				$this->tpl->setVariable("QUESTION_TYPE_ID", $data["type_tag"]);
-				$this->tpl->setVariable("QUESTION_TYPE", $trans);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->parseCurrentBlock();
-		}
+			global $ilToolbar;
 
-		if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0))) 
-		{
-			$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("tst_browse_for_questions"));
-			$this->tpl->setVariable("TEXT_CREATE_NEW", " " . strtolower($this->lng->txt("or")) . " " . $this->lng->txt("create_new"));
-			$this->tpl->setVariable("BUTTON_CREATE_QUESTION", $this->lng->txt("create"));
-			$this->tpl->setVariable("TXT_OR", $this->lng->txt("or"));
-			$this->tpl->setVariable("TEXT_RANDOM_SELECT", $this->lng->txt("random_selection"));
+			$ilToolbar->addButton($this->lng->txt("tst_browse_for_questions"), $this->ctrl->getLinkTarget($this, 'browseForQuestions'));
+
+			$ilToolbar->addSeparator();
+
+			$qtypes = array();
+			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+			foreach (ilObjQuestionPool::_getQuestionTypes() as $trans => $data)
+			{
+				$qtypes[$data['type_tag']] = $trans;
+			}
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+			$types = new ilSelectInputGUI($this->lng->txt("create_new"), "sel_question_types");
+			$types->setOptions($qtypes);
+			$ilToolbar->addInputItem($types, $this->lng->txt("create_new"));
+			$ilToolbar->addFormButton($this->lng->txt("create"), "createQuestion");
+
+			$ilToolbar->addSeparator();
+
+			$ilToolbar->addButton($this->lng->txt("random_selection"), $this->ctrl->getLinkTarget($this, "randomselect"));
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
@@ -2806,7 +3341,49 @@ class ilObjTestGUI extends ilObjectGUI
 		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
 		return $form;
+// elba start
+			$this->tpl->setVariable("TYPE_IMG", ilUtil::getImagePath('icon_tst.gif'));
+			$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_tst"));
+			$this->tpl->setVariable("TYPE_IMG2", ilUtil::getImagePath('icon_tst.gif'));
+			$this->tpl->setVariable("ALT_IMG2",$this->lng->txt("obj_tst"));
+			$this->tpl->setVariable("NEW_TYPE", $new_type);
 
+                        $this->tpl->setVariable("TXT_IMPORT_TST", $this->lng->txt("import_tst"));
+
+			// using template?
+			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+			$templates = ilSettingsTemplate::getAllSettingsTemplates("tst");
+			if($templates)
+			{
+				$this->tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
+
+				$this->tpl->setCurrentBlock("template_option");
+				$this->tpl->setVariable("VAL_TEMPLATE_OPTION", "");
+				$this->tpl->setVariable("TXT_TEMPLATE_OPTION", $this->lng->txt("none"));
+				$this->tpl->parseCurrentBlock();
+
+				foreach($templates as $item)
+				{
+					$this->tpl->setVariable("VAL_TEMPLATE_OPTION", $item["id"]);
+					$this->tpl->setVariable("TXT_TEMPLATE_OPTION", $item["title"]);
+					$this->tpl->parseCurrentBlock();
+
+					$desc = str_replace("\n", "", nl2br($item["description"]));
+					$desc = str_replace("\r", "", $desc);
+
+					$this->tpl->setCurrentBlock("js_data");
+					$this->tpl->setVariable("JS_DATA_ID", $item["id"]);
+					$this->tpl->setVariable("JS_DATA_TEXT", $desc);
+					$this->tpl->parseCurrentBlock();
+				}
+
+				$this->tpl->setCurrentBlock("templates");
+				$this->tpl->setVariable("TXT_TEMPLATE", $this->lng->txt("tst_settings_template"));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->parseCurrentBlock();
+// elba end
 	}
 
 	function initImportForm($a_new_type)
@@ -3441,13 +4018,15 @@ class ilObjTestGUI extends ilObjectGUI
 						// Disabled
 						#if(!$_GET['crs_show_result'] or $this->object->getTestSequence()->getFirstSequence())
 						{
-							$info->addFormButton("resume", $resume_text);
+							//$info->addFormButton("resume", $resume_text);
+							$big_button[] = array('resume', $resume_text);
 						}
 					}
 					else
 					{
 						// start new test
-						$info->addFormButton("start", $this->object->getStartTestLabel($this->object->getTestSession()->getActiveId()));
+						//$info->addFormButton("start", $this->object->getStartTestLabel($this->object->getTestSession()->getActiveId()));
+						$big_button[] = array("start", $this->object->getStartTestLabel($this->object->getTestSession()->getActiveId()));
 					}
 				}
 				else
@@ -3459,7 +4038,8 @@ class ilObjTestGUI extends ilObjectGUI
 					// test results button
 					if ($this->object->canShowTestResults($ilUser->getId())) 
 					{
-						$info->addFormButton("outUserResultsOverview", $this->lng->txt("tst_show_results"));
+						//$info->addFormButton("outUserResultsOverview", $this->lng->txt("tst_show_results"));
+						$big_button[] = array("outUserResultsOverview", $this->lng->txt("tst_show_results"));
 					}
 				}
 			}
@@ -3467,7 +4047,8 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 				{
-					$info->addFormButton("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"));
+					//$info->addFormButton("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"));
+					$big_button[] = array("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"));
 				}
 			}
 		}
@@ -3477,11 +4058,38 @@ class ilObjTestGUI extends ilObjectGUI
 			$info->enablePrivateNotes();
 
 		}
+		/*
 		if (strlen($this->object->getIntroduction()))
 		{
 			$info->addSection($this->lng->txt("tst_introduction"));
 			$info->addProperty("", $this->object->prepareTextareaOutput($this->object->getIntroduction()));
 		}
+		 * */
+		if($big_button)
+		{
+		    $out = '<div class="il_ButtonGroup" style="margin:25px; text-align:center; font-size:25px;">';
+		    foreach($big_button as $button) {
+			$out .= '<input type="submit" class="submit" name="cmd['.$button[0].']" value="'.
+				$button[1].'" style="padding:10px;" />';
+		    }
+		    $out .= '</div>';
+		    $big_button = $out;
+		}
+		
+		if (strlen($this->object->getIntroduction()))
+		{
+			$introduction = $this->object->getIntroduction();
+			$info->addSection($this->lng->txt("tst_introduction"));
+			$info->addProperty("", $this->object->prepareTextareaOutput($this->object->getIntroduction()).
+					$big_button."<br />".$info->getHiddenToggleButton());
+		}
+		else
+		{
+			$info->addSection("");
+			$info->addProperty("", $big_button.$info->getHiddenToggleButton());
+		}
+
+		$info->hideFurtherSections(false);
 
 		$info->addSection($this->lng->txt("tst_general_properties"));
 		if ($this->object->getShowInfo())
@@ -3721,26 +4329,48 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function getQuestionsSubTabs()
 	{
-		global $ilTabs;
-		
-		// questions subtab
-		$ilTabs->addSubTabTarget("edit_test_questions",
-			 $this->ctrl->getLinkTarget($this,'questions'),
-			 array("questions", "browseForQuestions", "questionBrowser", "createQuestion", 
-			 "randomselect", "filter", "resetFilter", "insertQuestions",
-			 "back", "createRandomSelection", "cancelRandomSelect",
-			 "insertRandomSelection", "removeQuestions", "moveQuestions",
-			 "insertQuestionsBefore", "insertQuestionsAfter", "confirmRemoveQuestions",
-			 "cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion",
-			 "addQuestionpool", "saveRandomQuestions", "saveQuestionSelectionMode"), 
-			 "");
-			 
+		global $ilTabs, $ilCtrl;
+		$ilTabs->activateTab('assQuestions');
+		$a_cmd = $ilCtrl->getCmd();
+
+		if (!$this->object->isRandomTest())
+		{
+                #if (in_array($this->object->getEnabledViewMode(), array('both', 'express'))) {
+                    $questions_per_page = ($a_cmd == 'questions_per_page' || ($a_cmd == 'removeQuestions' && $_REQUEST['test_express_mode'])) ? true : false;
+
+                    $this->tabs_gui->addSubTabTarget(
+                            "questions_per_page_view",
+                            $this->ctrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'showPage'),
+                            "", "", "", $questions_per_page);
+                #}
+		}
+		include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+		$template = new ilSettingsTemplate($this->object->getTemplate(), ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
+
+                if (!in_array('questions', $template->getHiddenTabs())) {
+                    // questions subtab
+                    $ilTabs->addSubTabTarget("edit_test_questions",
+                             $this->ctrl->getLinkTarget($this,'questions'),
+                             array("questions", "browseForQuestions", "questionBrowser", "createQuestion",
+                             "randomselect", "filter", "resetFilter", "insertQuestions",
+                             "back", "createRandomSelection", "cancelRandomSelect",
+                             "insertRandomSelection", "removeQuestions", "moveQuestions",
+                             "insertQuestionsBefore", "insertQuestionsAfter", "confirmRemoveQuestions",
+                             "cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion",
+                             "addQuestionpool", "saveRandomQuestions", "saveQuestionSelectionMode"),
+                             "");
+
+                    if (in_array($a_cmd, array('questions', 'createQuestion')) || ($a_cmd == 'removeQuestions' && !$_REQUEST['test_express_mode']))
+                            $this->tabs_gui->activateSubTab('edit_test_questions');
+		}
+                #}
+
 		// print view subtab
 		if (!$this->object->isRandomTest())
 		{
 			$ilTabs->addSubTabTarget("print_view",
 				 $this->ctrl->getLinkTarget($this,'print'),
-				 "print", "");
+				 "print", "", "", $this->ctrl->getCmd() == 'print');
 		}
 			
 	}
@@ -3769,7 +4399,7 @@ class ilObjTestGUI extends ilObjectGUI
 			"", "");
 	}
 	
-	function getSettingsSubTabs()
+	function getSettingsSubTabs($hiddenTabs = array())
 	{
 		global $ilTabs, $ilias;
 		
@@ -3782,7 +4412,18 @@ class ilObjTestGUI extends ilObjectGUI
 			 array("properties", "saveProperties", "cancelProperties"),
 			 array("", "ilobjtestgui", "ilcertificategui"),
 			 "", $force_active);
-	
+                
+		if (!in_array('mark_schema', $hiddenTabs)) {
+                    // mark schema subtab
+                    $ilTabs->addSubTabTarget(
+                            "mark_schema",
+                            $this->ctrl->getLinkTarget($this,'marks'),
+                            array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
+                                    "saveMarks", "cancelMarks"),
+                            array("", "ilobjtestgui", "ilcertificategui")
+                    );
+                }
+
 		// scoring subtab
 		$ilTabs->addSubTabTarget(
 			"scoring",
@@ -3791,17 +4432,8 @@ class ilObjTestGUI extends ilObjectGUI
 			array("", "ilobjtestgui", "ilcertificategui")
 		);
 	
-		// mark schema subtab
-		$ilTabs->addSubTabTarget(
-			"mark_schema",
-			$this->ctrl->getLinkTarget($this,'marks'),
-			array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
-				"saveMarks", "cancelMarks"),
-			array("", "ilobjtestgui", "ilcertificategui")
-		);
-	
 		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-		if(ilRPCServerSettings::getInstance()->isEnabled())
+		if(!in_array('certificate', $hiddenTabs) && ilRPCServerSettings::getInstance()->isEnabled())
 		{
 			// certificate subtab
 			$ilTabs->addSubTabTarget(
@@ -3813,13 +4445,15 @@ class ilObjTestGUI extends ilObjectGUI
 			);
 		}
 
-		// defaults subtab
-		$ilTabs->addSubTabTarget(
-			"defaults",
-			$this->ctrl->getLinkTarget($this, "defaults"),
-			array("defaults", "deleteDefaults", "addDefaults", "applyDefaults"),
-			array("", "ilobjtestgui", "ilcertificategui")
-		);
+                if (!in_array('defaults', $hiddenTabs)) {
+                    // defaults subtab
+                    $ilTabs->addSubTabTarget(
+                            "defaults",
+                            $this->ctrl->getLinkTarget($this, "defaults"),
+                            array("defaults", "deleteDefaults", "addDefaults", "applyDefaults"),
+                            array("", "ilobjtestgui", "ilcertificategui")
+                    );
+                }
 	}
 
 	/**
@@ -3830,6 +4464,24 @@ class ilObjTestGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		global $ilAccess,$ilUser;
+
+                if (preg_match('/^ass(.*?)gui$/i', $this->ctrl->getNextClass($this))) {
+                    return;
+                }
+                else if ($this->ctrl->getNextClass($this) == 'ilpageobjectgui') {
+                    return;
+                }
+
+		$hidden_tabs = array();
+		
+		$template = $this->object->getTemplate();
+		if($template)
+		{
+			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+			$template = new ilSettingsTemplate($template, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
+
+			$hidden_tabs = $template->getHiddenTabs();
+		}
 
 		switch ($this->ctrl->getCmd())
 		{
@@ -3895,7 +4547,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "":
 				if (($ilAccess->checkAccess("write", "", $this->ref_id)) && ((strcmp($this->ctrl->getCmdClass(), "ilobjtestgui") == 0) || (strcmp($this->ctrl->getCmdClass(), "ilcertificategui") == 0) || (strlen($this->ctrl->getCmdClass()) == 0)))
 				{
-					$this->getSettingsSubTabs();
+					$this->getSettingsSubTabs($hidden_tabs);
 				}
 				break;
 			case "export":
@@ -3914,11 +4566,11 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->getStatisticsSubTabs();
 				break;
 		}
-		
+
 		if (strcmp(strtolower(get_class($this->object)), "ilobjtest") == 0)
 		{
 			// questions tab
-			if ($ilAccess->checkAccess("write", "", $this->ref_id))
+			if ($ilAccess->checkAccess("write", "", $this->ref_id) && !in_array('assQuestions', $hidden_tabs))
 			{
 				$force_active = ($_GET["up"] != "" || $_GET["down"] != "")
 					? true
@@ -3931,8 +4583,17 @@ class ilObjTestGUI extends ilObjectGUI
 						$force_active = true;
 					}
 				}
+
+				if ($this->object->isRandomTest()) {
+				    $target = $this->ctrl->getLinkTarget($this,'questions');
+				}
+				else {
+				    $target = $this->ctrl->getLinkTargetByClass('iltestexpresspageobjectgui','showPage');
+				}
+
 				$tabs_gui->addTarget("assQuestions",
-					 $this->ctrl->getLinkTarget($this,'questions'),
+					 //$this->ctrl->getLinkTarget($this,'questions'),
+					 $target,
 					 array("questions", "browseForQuestions", "questionBrowser", "createQuestion", 
 					 "randomselect", "filter", "resetFilter", "insertQuestions",
 					 "back", "createRandomSelection", "cancelRandomSelect",
@@ -3945,7 +4606,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 
 			// info tab
-			if ($ilAccess->checkAccess("visible", "", $this->ref_id))
+			if ($ilAccess->checkAccess("visible", "", $this->ref_id) && !in_array('info_short', $hidden_tabs))
 			{
 				$tabs_gui->addTarget("info_short",
 					 $this->ctrl->getLinkTarget($this,'infoScreen'),
@@ -3956,6 +4617,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// settings tab
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
 			{
+                            if (!in_array('settings', $hidden_tabs)) {
 				$tabs_gui->addTarget("settings",
 					$this->ctrl->getLinkTarget($this,'properties'),
 						array("properties", "saveProperties", "cancelProperties",
@@ -3969,7 +4631,9 @@ class ilObjTestGUI extends ilObjectGUI
 					),
 					 array("", "ilobjtestgui", "ilcertificategui")
 				);
+                            }
 
+                            if (!in_array('participants', $hidden_tabs)) {
 				// participants
 				$tabs_gui->addTarget("participants",
 					 $this->ctrl->getLinkTarget($this,'participants'),
@@ -3982,10 +4646,11 @@ class ilObjTestGUI extends ilObjectGUI
 					 "showPassOverview", "showUserAnswers", "participantsAction",
 					"showDetailedResults"), 
 					 "");
+                            }
 			}
 
 			include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-			if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+			if(ilLearningProgressAccess::checkAccess($this->object->getRefId()) && !in_array('learning_progress', $hidden_tabs))
 			{
 				$tabs_gui->addTarget('learning_progress',
 									 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
@@ -3993,7 +4658,7 @@ class ilObjTestGUI extends ilObjectGUI
 									 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 			}
 
-			if ($ilAccess->checkAccess("write", "", $this->ref_id))
+			if ($ilAccess->checkAccess("write", "", $this->ref_id)  && !in_array('manscoring', $hidden_tabs))
 			{
 				include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 				$scoring = ilObjAssessmentFolder::_getManualScoring();
@@ -4007,7 +4672,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 
-			if (($ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) || ($ilAccess->checkAccess("write", "", $this->ref_id)))
+			if ((($ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) || ($ilAccess->checkAccess("write", "", $this->ref_id)))  && !in_array('statistics', $hidden_tabs))
 			{
 				// statistics tab
 				$tabs_gui->addTarget("statistics",
@@ -4019,25 +4684,32 @@ class ilObjTestGUI extends ilObjectGUI
 
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
 			{
+                             if (!in_array('history', $hidden_tabs)) {
+
 				// history
 				$tabs_gui->addTarget("history",
 					 $this->ctrl->getLinkTarget($this,'history'),
 					 "history", "");
-					 
+                             }
+
+                             if (!in_array('meta_data', $hidden_tabs)) {
 				// meta data
 				$tabs_gui->addTarget("meta_data",
 					 $this->ctrl->getLinkTargetByClass('ilmdeditorgui','listSection'),
 					 "", "ilmdeditorgui");
-					 
+                             }
+
+                             if (!in_array('export', $hidden_tabs)) {
 				// export tab
 				$tabs_gui->addTarget("export",
 					 $this->ctrl->getLinkTarget($this,'export'),
 					 array("export", "createExportFile", "confirmDeleteExportFile",
 					 "downloadExportFile", "deleteExportFile", "cancelDeleteExportFile"),
 					 "");
+                             }
 			}
 			
-			if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
+			if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id)&& !in_array('permissions', $hidden_tabs))
 			{
 				$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
@@ -4081,5 +4753,497 @@ class ilObjTestGUI extends ilObjectGUI
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
 
+
+
+
+
+	/**
+	 * Questions per page
+	 *
+	 * @param
+	 * @return
+	 */
+	function showQuestionsPerPageObject($qid = 0)
+	{
+            if ($this->create_question_mode)
+                    return;
+
+		global $ilToolbar, $ilCtrl, $lng;
+
+                $this->getQuestionsSubTabs();
+
+                $ilCtrl->saveParameter($this, 'q_mode');
+
+                $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'test_express_mode', 1);
+		$ilCtrl->setParameter($this, 'test_express_mode', 1);
+                $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'q_id', $_REQUEST['q_id']);
+		$ilCtrl->setParameter($this, 'q_id', $_REQUEST['q_id']);
+                $ilToolbar->setFormAction($ilCtrl->getFormActionByClass('iltestexpresspageobjectgui', 'edit'));
+
+                if ($this->object->evalTotalPersons() == 0) {
+		    /*
+		    include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
+		    $pool = new ilObjQuestionPool();
+		    $questionTypes = $pool->getQuestionTypes();$options = array();
+		    foreach($questionTypes as $label => $data) {
+			$options[$data['question_type_id']] = $label;
+		    }
+
+                    include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+                    $si = new ilSelectInputGUI($lng->txt("test_add_new_question"), "qtype");
+                    $si->setOptions($options);
+                    $ilToolbar->addInputItem($si, true);
+		    /*
+                    // use pool
+                    if ($this->object->isExpressModeQuestionPoolAllowed()) {
+                        include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
+                        $cb = new ilCheckboxInputGUI($lng->txt("test_use_pool"), "use_pool");
+                        $ilToolbar->addInputItem($cb, true);
+                    }
+		    */
+                    $ilToolbar->addFormButton($lng->txt("test_add_new_question"), "addQuestion");
+                }
+
+                $questions = $this->object->getQuestionTitlesAndIndexes();
+
+		// desc
+                $options = array();
+                foreach($questions as $id => $label) {
+		    $options[$id] = $label;
+                }
+
+                $optionKeys = array_keys($options);
+
+                if (!$options) {
+                    $options[] = $lng->txt('none');
+                }
+                //else if (count($options) > 1) {
+//                    $addSeparator = false;
+//                    if ($optionKeys[0] != $qid) {
+//                        //$ilToolbar->addFormButton($lng->txt("test_prev_question"), "prevQuestion");
+//                        $ilToolbar->addLink($lng->txt("test_prev_question"), $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'prevQuestion'));
+//                        $addSeparator = true;
+//                    }
+//		    else {
+//			$ilToolbar->addSpacer(45);
+//		    }
+//
+//                    if ($optionKeys[count($optionKeys)-1] != $qid) {
+//                        //$ilToolbar->addFormButton($lng->txt("test_next_question"), "nextQuestion");
+//                        $ilToolbar->addLink($lng->txt("test_next_question"), $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'nextQuestion'));
+//			$addSeparator = true;
+//                    }
+//		    else {
+//			$ilToolbar->addSpacer(45);
+//		    }
+//
+//                    //if ($addSeparator) {
+//                        $ilToolbar->addSeparator();
+//                    //}
+
+		if (count($questions)) {
+		    $ilToolbar->addSeparator();
+
+		    $ilToolbar->addLink($lng->txt("test_prev_question"), $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'prevQuestion'), !(count($options) > 1 && $optionKeys[0] != $qid));
+		    $ilToolbar->addLink($lng->txt("test_next_question"), $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'nextQuestion'), !(count($options) > 1 && $optionKeys[count($optionKeys)-1] != $qid));
+		}
+
+                if (count($questions) > 1) {
+
+		    $ilToolbar->addSeparator();
+
+                    include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+                    $si = new ilSelectInputGUI($lng->txt("test_jump_to"), "q_id");
+                    $si->addCustomAttribute("onChange=\"forms['ilToolbar'].submit();\"");
+                    $si->setOptions($options);
+
+                    if ($qid) {
+                        $si->setValue($qid);
+                    }
+
+                    $ilToolbar->addInputItem($si, true);
+                }
+
+		$total = $this->object->evalTotalPersons();
+
+                /*if (count($options)) {
+                    include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+                    $si = new ilSelectInputGUI($lng->txt("test_jump_to"), "q_id");
+                    $si->addCustomAttribute("onChange=\"forms['ilToolbar'].submit();\"");
+                    $si->setOptions($options);
+
+                    if ($qid) {
+                        $si->setValue($qid);
+                    }
+
+                    $ilToolbar->addInputItem($si, true);
+                }*/
+
+		if (count($questions) && !$total) {
+		    $ilCtrl->setParameter($this, 'q_id', $_REQUEST['q_id']);
+		    $ilToolbar->addSeparator();
+		    $ilToolbar->addButton($lng->txt("test_delete_page"), $ilCtrl->getLinkTarget($this, "removeQuestions"));
+		}
+
+		if (count($questions) > 1 && !$total) {
+		    $ilToolbar->addSeparator();
+		    $ilToolbar->addButton($lng->txt("test_move_page"), $ilCtrl->getLinkTarget($this, "movePageForm"));
+		}
+
+		//$ilToolbar->addFormButton($lng->txt("go"), "showPage");
+
+	}
+
+	public function copyQuestionsToPoolObject($returnResult = false) {
+            //var_dump($_REQUEST);
+            include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
+            $qpool = new ilObjQuestionPool($_REQUEST['sel_qpl'], true);
+            $qpool->setOnline(ilObjQuestionPool::_lookupOnline($_REQUEST['sel_qpl'], true));
+
+            $newIds = array();
+            foreach($_REQUEST['q_id'] as $q_id) {
+                $newId = $qpool->copyQuestion($q_id, $qpool->getId());
+                $newIds[$q_id] = $newId;
+            }
+
+            $result = new stdClass();
+            $result->ids = $newIds;
+            $result->qpool = $qpool;
+
+            if ($returnResult)
+                return $result;
+            else
+                $this->backObject();
+        }
+
+        public function copyAndLinkQuestionsToPoolObject() {
+            $result = $this->copyQuestionsToPoolObject(true);
+            
+            foreach($result->ids as $oldId => $newId) {
+                $questionInstance = assQuestion::_instanciateQuestion($oldId);
+                $questionInstance->setNewOriginalId($newId);
+                $questionInstance->setObjId($result->qpool->getId());
+                $questionInstance->saveToDb();
+
+            }
+            
+            $this->backObject();
+        }
+
+        private function getQuestionpoolCreationForm() {
+            global $lng;
+            include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+            $form = new ilPropertyFormGUI();
+
+            $title = new ilTextInputGUI($lng->txt('title'), 'title');
+            $title->setRequired(true);
+            $form->addItem($title);
+
+            $description = new ilTextAreaInputGUI($lng->txt('description'), 'description');
+            $form->addItem($description);
+
+            $form->addCommandButton('createQuestionPoolAndCopy', $lng->txt('create'));
+
+            foreach($_REQUEST['q_id'] as $id) {
+                $hidden = new ilHiddenInputGUI('q_id[]');
+                $hidden->setValue($id);
+                $form->addItem($hidden);
+
+            }
+
+            return $form;
+        }
+
+        public function copyToQuestionpoolObject() {
+            $this->createQuestionpoolTargetObject('copyQuestionsToPool');
+        }
+
+        public function copyAndLinkToQuestionpoolObject() {
+            $this->createQuestionpoolTargetObject('copyAndLinkQuestionsToPool');
+        }
+
+        public function createQuestionPoolAndCopyObject() {
+            $form = $this->getQuestionpoolCreationForm();
+
+            $ref_id = $this->createQuestionPool($_REQUEST['title'], $_REQUEST['description']);
+            $_REQUEST['sel_qpl'] = $ref_id;
+
+            if ($_REQUEST['link']) {
+                $this->copyAndLinkQuestionsToPoolObject();
+            }
+            else {
+                $this->copyQuestionsToPoolObject();
+            }
+        }
+
+	/**
+	* Called when a new question should be created from a test
+*
+	* @access	public
+	*/
+	function createQuestionpoolTargetObject($cmd)
+	{
+		global $ilUser, $ilTabs;
+		$this->getQuestionsSubTabs();
+$ilTabs->activateSubTab('edit_test_questions');
+                
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select_copy.html", "Modules/Test");
+		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE, FALSE, "write");
+		if (count($questionpools) == 0)
+		{
+			$this->tpl->setCurrentBlock("option");
+			$this->tpl->setVariable("VALUE_QPL", "");
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			foreach ($questionpools as $key => $value)
+			{
+				$this->tpl->setCurrentBlock("option");
+				$this->tpl->setVariable("VALUE_OPTION", $key);
+				$this->tpl->setVariable("TEXT_OPTION", $value["title"]);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+                foreach($_REQUEST['q_id'] as $id) {
+                    $this->tpl->setCurrentBlock("hidden");
+                    $this->tpl->setVariable("HIDDEN_NAME", "q_id[]");
+                    $this->tpl->setVariable("HIDDEN_VALUE", $id);
+                    $this->tpl->parseCurrentBlock();
+                    $this->tpl->setCurrentBlock("adm_content");
+                }
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+
+		if (count($questionpools) == 0)
+		{
+			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_enter_questionpool"));
+		}
+		else
+		{
+			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_select_questionpool"));
+		}
+
+                $this->tpl->setVariable("CMD_SUBMIT", $cmd);
+		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+
+                $createForm = $this->getQuestionpoolCreationForm();
+                switch($cmd) {
+                    case 'copyAndLinkQuestionsToPool':
+                        $hidden = new ilHiddenInputGUI('link');
+                        $hidden->setValue(1);
+                        $createForm->addItem($hidden);
+                        break;
+                    case 'copyQuestionsToPool':
+                        break;
+                }
+                $createForm->setFormAction($this->ctrl->getFormAction($this));
+                #$this->tpl->setVariable('CREATE_QPOOL_FORM', $createForm->getHTML());
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+        private function applyTemplate($templateData, $object) {
+            // map formFieldName => setterName
+            $simpleSetters = array(
+                'anonymity' => 'setAnonymity',
+                'random_test' => 'setRandomTest',
+                'test_enabled_views' => 'setEnabledViewMode',
+                //'express_allow_question_pool' => 'setExpressModeQuestionPoolAllowed',
+                'introduction' => 'setIntroduction',
+                'showinfo' => 'setShowInfo',
+                'finalstatement' => 'setFinalStatement',
+                'showfinalstatement' => 'setShowFinalStatement',
+                'chb_shuffle_questions' => 'setShuffleQuestions',
+                'list_of_questions' => 'setListOfQuestionsSettings',
+                'chb_show_marker' => 'setShowMarker',
+                'chb_show_cancel' => 'setShowCancel',
+                'kiosk' => 'setKiosk',
+                'nr_of_tries' => 'setNrOfTries',
+                'chb_processing_time' => 'setEnableProcessingTime',
+                'chb_use_previous_answers' => 'setUsePreviousAnswers',
+                'forcejs' => 'setForceJS',
+                'title_output' => 'setTitleOutput',
+                'password' => 'setPassword',
+                'fixedparticipants' => 'setFixedParticipants',
+                'allowedUsers' => 'setAllowedUsers',
+                'allowedUsersTimeGap' => 'setAllowedUsersTimeGap',
+                'mailnotification' => 'setMailNotification',
+                'mailnottype' => 'setMailNotificationType',
+                //'' => '',
+                'count_system' => 'setCountSystem',
+                'mc_scoring' => 'setMCScoring',
+                'score_cutting' => 'setScoreCutting',
+                'pass_scoring' => 'setScoreReporting',
+
+                'instant_feedback' => 'setScoringFeedbackOptionsByArray',
+
+                'results_presentation' => 'setResultsPresentationOptionsByArray',
+                'export_settings' => 'setExportSettings',
+            );
+
+	    if (!$templateData['results_presentation']['value']) {
+		$templateData['results_presentation']['value'] = array();
+	    }
+
+            foreach($simpleSetters as $field => $setter) {
+                if($templateData[$field]) {
+                    $object->$setter($templateData[$field]['value']);
+                }
+            }
+        }
+
+        private function formShowGeneralSection($templateData) {
+	    // alway show because of title and description
+	    return true;
+        }
+
+	private function formShowBeginningEndingInformation($templateData) {
+	    // show always because of statement text areas
+	    return true;
+	}
+
+        private function formShowPresentationSection($templateData) {
+	    // show always because of "previous answer" setting
+	    return true;
+        }
+
+        private function formShowSequenceSection($templateData) {
+	    // show always because of "list of question" and "shuffle"
+            return true;
+        }
+
+        private function formShowKioskSection($templateData) {
+            $fields = array(
+                'kiosk',
+                );
+            return $this->formsectionHasVisibleFields($templateData, $fields);
+        }
+
+        private function formShowSessionSection($templateData) {
+            // show always because of "nr_of_tries", "chb_processing_time", "chb_starting_time", "chb_ending_time"
+            return true;
+        }
+
+        private function formShowParticipantSection($templateData) {
+            $fields = array(
+                'fixedparticipants',
+                'allowedUsers',
+                'allowedUsersTimeGap',
+                );
+            return $this->formsectionHasVisibleFields($templateData, $fields);
+        }
+
+        private function formShowNotificationSection($templateData) {
+            $fields = array(
+                'mailnotification',
+                'mailnottype',
+                );
+            return $this->formsectionHasVisibleFields($templateData, $fields);
+        }
+
+        private function formsectionHasVisibleFields($templateData, $fields) {
+            foreach($fields as $fld) {
+                if (isset($templateData[$fld])) {
+                    if(!$templateData[$fld]['hide'])
+                        return true;
+                }
+                else {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+	/**
+	 * Enable all settings - Confirmation
+	 */
+	function confirmResetTemplateObject()
+	{
+		ilUtil::sendQuestion($this->lng->txt("test_confirm_template_reset"));
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_tst_tst_confirm_resettemplate.html", "Modules/Test");
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("BTN_CONFIRM_REMOVE", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL_REMOVE", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "resetTemplateObject"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	 * Enable all settings - remove template
+	 */
+	function resetTemplateObject()
+	{
+		$this->object->setTemplate(null);
+		$this->object->saveToDB();
+
+		ilUtil::sendSuccess($this->lng->txt("test_template_reset"), true);
+		$this->ctrl->redirect($this, "properties");
+	}
+
+	public function saveOrderObject() {
+	    global $ilCtrl;
+	    $this->object->setQuestionOrder($_REQUEST['order']);
+
+	    $ilCtrl->redirect($this, 'questions');
+	}
+
+	/**
+	 * Move current page
+	 */
+	protected function movePageFormObject()
+	{
+		global $lng, $ilCtrl, $tpl;
+
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this, "movePage"));
+		$form->setTitle($lng->txt("test_move_page"));
+
+		$old_pos = new ilHiddenInputGUI("q_id");
+		$old_pos->setValue($_REQUEST['q_id']);
+		$form->addItem($old_pos);
+
+		$questions = $this->object->getQuestionTitlesAndIndexes();
+		if (!is_array($questions))
+		    $questions = array();
+
+		foreach($questions as $k => $q) {
+		    if ($k == $_REQUEST['q_id']) {
+			unset($questions[$k]);
+			continue;
+		    }
+		    $questions[$k] = $lng->txt('behind') . ' '. $q;
+		}
+		#$questions['0'] = $lng->txt('first');
+
+		$options = array(
+		    0 => $lng->txt('first')
+		);
+		foreach($questions as $k => $q) {
+		    $options[$k] = $q;
+		}
+
+		$pos = new ilSelectInputGUI($lng->txt("position"), "position_after");
+		$pos->setOptions($options);
+		$form->addItem($pos);
+
+		$form->addCommandButton("movePage", $lng->txt("submit"));
+		$form->addCommandButton("showPage", $lng->txt("cancel"));
+
+		return $tpl->setContent($form->getHTML());
+	}
+
+	public function movePageObject() {
+	    $this->object->moveQuestionAfter($_REQUEST['q_id'], $_REQUEST['position_after']);
+	    $this->showPageObject();
+	}
+
+	public function showPageObject() {
+	    global $ilCtrl;
+
+	    $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'q_id', $_REQUEST['q_id']);
+	    $ilCtrl->redirectByClass('iltestexpresspageobjectgui', 'showPage');
+	}
 } // END class.ilObjTestGUI
 ?>

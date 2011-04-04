@@ -1193,11 +1193,13 @@ class ilPageObjectGUI
 	*/
 	function showPage()
 	{
-		global $tree, $ilUser, $ilias, $lng, $ilCtrl, $ilBench, $ilSetting;
+		global $tree, $ilUser, $ilias, $lng, $ilCtrl, $ilBench, $ilSetting, $ilTabs;
 
 		$ilBench->start("ContentPresentation", "ilPageObjectGUI_showPage");
 		
 		$this->initSelfAssessmentRendering();
+
+		$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilCOPagePres.js");
 		
 		// init template
 		//if($this->outputToTemplate())
@@ -1238,69 +1240,14 @@ class ilPageObjectGUI
 				$tpl->setVariable("WYSIWYG_ACTION",
 					$ilCtrl->getFormActionByClass("ilpageeditorgui", "", "", true));
 
-				if (!ilPageEditorGUI::_isBrowserJSEditCapable())
-				{
-					$tpl->setVariable("TXT_JAVA_SCRIPT_CAPABLE", "<br />".$this->lng->txt("cont_browser_not_js_capable"));
-				}
-				$tpl->setVariable("TXT_CHANGE_EDIT_MODE", $this->lng->txt("cont_set_edit_mode"));
 
-				if ($this->getEnabledActivation())
-				{
-					$tpl->setCurrentBlock("de_activate_page");
-					if ($this->getPageObject()->getActive())
-					{
-						$tpl->setVariable("TXT_DE_ACTIVATE_PAGE", $this->lng->txt("cont_deactivate_page"));
-						$tpl->setVariable("CMD_DE_ACTIVATE_PAGE", "deactivatePage");
-					}
-					else
-					{
-						$tpl->setVariable("TXT_DE_ACTIVATE_PAGE", $this->lng->txt("cont_activate_page"));
-						$tpl->setVariable("CMD_DE_ACTIVATE_PAGE", "activatePage");
-					}
-					$tpl->parseCurrentBlock();
-				}
-
-				$med_mode = array("enable" => $this->lng->txt("cont_enable_media"),
-					"disable" => $this->lng->txt("cont_disable_media"));
+				// determine media, html and javascript mode
 				$sel_media_mode = ($ilUser->getPref("ilPageEditor_MediaMode") == "disable")
 					? "disable"
 					: "enable";
-
-				$js_mode = array("enable" => $this->lng->txt("cont_enable_js"),
-					"disable" => $this->lng->txt("cont_disable_js"));
-
-				$tpl->setVariable("SEL_MEDIA_MODE",
-					ilUtil::formSelect($sel_media_mode, "media_mode", $med_mode, false, true,
-					0, "ilEditSelect"));
-
-				// HTML active/inactive
-				$html_mode = array("enable" => $this->lng->txt("cont_enable_html"),
-					"disable" => $this->lng->txt("cont_disable_html"));
 				$sel_html_mode = ($ilUser->getPref("ilPageEditor_HTMLMode") == "disable")
 					? "disable"
 					: "enable";
-				if (!$this->getPreventHTMLUnmasking())
-				{
-					$tpl->setVariable("SEL_HTML_MODE",
-						ilUtil::formSelect($sel_html_mode, "html_mode", $html_mode, false, true,
-						0, "ilEditSelect"));
-				}
-
-				$tpl->setVariable("PREPENDING_HTML", $this->getPrependingHtml());
-				$tpl->setVariable("TXT_CONFIRM_DELETE", $lng->txt("cont_confirm_delete"));
-				
-				if ($this->getViewPageLink() != "")
-				{
-					$tpl->setCurrentBlock("view_link");
-					$tpl->setVariable("LINK_VIEW_PAGE",
-						$this->getViewPageLink());
-					$tpl->setVariable("TARGET_VIEW_PAGE",
-						$this->getViewPageTarget());
-					$tpl->setVariable("TXT_VIEW_PAGE", $this->lng->txt("view"));
-					$tpl->parseCurrentBlock();
-				}
-
-				// javascript activation
 				$sel_js_mode = "disable";
 				if($ilSetting->get("enable_js_edit", 1))
 				{
@@ -1308,7 +1255,21 @@ class ilPageObjectGUI
 						? "enable"
 						: "disable";
 				}
-				
+
+				// show prepending html
+				$tpl->setVariable("PREPENDING_HTML", $this->getPrependingHtml());
+				$tpl->setVariable("TXT_CONFIRM_DELETE", $lng->txt("cont_confirm_delete"));
+
+				// presentation view
+				if ($this->getViewPageLink() != "")
+				{
+					$ilTabs->addNonTabbedLink("pres_view", $this->lng->txt("cont_presentation_view"),
+						$this->getViewPageLink(), $this->getViewPageTarget());
+				}
+
+				// show actions drop down
+				$this->addActionsMenu($tpl, $sel_media_mode, $sel_html_mode, $sel_js_mode);
+
 				// get js files for JS enabled editing
 				if ($sel_js_mode == "enable")
 				{
@@ -1316,19 +1277,45 @@ class ilPageObjectGUI
 					include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 					ilYuiUtil::initDragDrop();
 					ilYuiUtil::initConnection();
+					ilYuiUtil::initPanel(false);
 					$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
 					//$GLOBALS["tpl"]->addJavaScript("./Services/RTE/tiny_mce/tiny_mce.js");
 					$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilpageedit.js");
 					//$GLOBALS["tpl"]->addJavascript("Services/COPage/js/wz_dragdrop.js");
 					$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
-					$tpl->touchBlock("init_dragging");
-				}
 
-				if($ilias->getSetting("enable_js_edit"))
-				{
-					$tpl->setVariable("SEL_JAVA_SCRIPT", 
-						ilUtil::formSelect($sel_js_mode, "js_mode", $js_mode, false, true,
-						0, "ilEditSelect"));
+					$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
+						preloader.src = './templates/default/images/loader.gif';
+						ilCOPage.setContentCss('".
+						ilObjStyleSheet::getContentStylePath((int) $this->getStyleId()).
+						", ".ilUtil::getStyleSheetLocation()."')");
+
+					$GLOBALS["tpl"]->addJavascript("Services/RTE/tiny_mce_3_3_9_2/il_tiny_mce_src.js");
+					$tpl->touchBlock("init_dragging");
+
+					$tpl->setVariable("IL_TINY_MENU",
+						self::getTinyMenu(
+						$this->getPageObject()->getParentType(),
+						$this->getEnabledInternalLinks(),
+						$this->getPageObject()->getParentType() == "wpg"));
+
+					// add int link parts
+					include_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
+					$tpl->setCurrentBlock("int_link_prep");
+					$tpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
+						$ilCtrl->getLinkTargetByClass(array("ilpageeditorgui", "ilinternallinkgui"),
+								"", false, true, false)));
+					$tpl->parseCurrentBlock();
+
+					// internal links per js
+					//$tpl->setVariable("IL_INT_LINK_URL",
+					//	$ilCtrl->getLinkTargetByClass(array("ilpageeditorgui", "ilinternallinkgui"),
+					//		"showLinkHelp", false, true, false));
+
+					include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+					ilYuiUtil::initConnection();
+					$GLOBALS["tpl"]->addJavaScript("./Services/Explorer/js/ilexplorercallback.js");
+
 				}
 
 				// multiple actions
@@ -1922,7 +1909,226 @@ class ilPageObjectGUI
 			}
 		}
 	}
-	
+
+	/**
+	 * Add actions menu
+	 */
+	function addActionsMenu($a_tpl, $sel_media_mode, $sel_html_mode, $sel_js_mode)
+	{
+		global $lng, $ilCtrl;
+
+		// actions
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$list = new ilAdvancedSelectionListGUI();
+		$list->setListTitle($lng->txt("actions"));
+		$list->setId("copage_act");
+
+		// activate/deactivate
+		if ($this->getEnabledActivation())
+		{
+			if ($this->getPageObject()->getActive())
+			{
+				$list->addItem($lng->txt("cont_deactivate_page"), "",
+					$ilCtrl->getLinkTarget($this, "deactivatePage"));
+			}
+			else
+			{
+				$list->addItem($lng->txt("cont_activate_page"), "",
+					$ilCtrl->getLinkTarget($this, "activatePage"));
+			}
+		}
+
+		// media mode
+		if ($sel_media_mode == "enable")
+		{
+			$ilCtrl->setParameter($this, "media_mode", "disable");
+			$list->addItem($lng->txt("cont_deactivate_media"), "",
+				$ilCtrl->getLinkTarget($this, "setEditMode"));
+		}
+		else
+		{
+			$ilCtrl->setParameter($this, "media_mode", "enable");
+			$list->addItem($lng->txt("cont_activate_media"), "",
+				$ilCtrl->getLinkTarget($this, "setEditMode"));
+		}
+		$ilCtrl->setParameter($this, "media_mode", "");
+
+		// html mode
+		if (!$this->getPreventHTMLUnmasking())
+		{
+			if ($sel_html_mode == "enable")
+			{
+				$ilCtrl->setParameter($this, "html_mode", "disable");
+				$list->addItem($lng->txt("cont_deactivate_html"), "",
+					$ilCtrl->getLinkTarget($this, "setEditMode"));
+			}
+			else
+			{
+				$ilCtrl->setParameter($this, "html_mode", "enable");
+				$list->addItem($lng->txt("cont_activate_html"), "",
+					$ilCtrl->getLinkTarget($this, "setEditMode"));
+			}
+		}
+		$ilCtrl->setParameter($this, "html_mode", "");
+
+		// js mode
+		if ($sel_js_mode == "enable")
+		{
+			$ilCtrl->setParameter($this, "js_mode", "disable");
+			$list->addItem($lng->txt("cont_deactivate_js"), "",
+				$ilCtrl->getLinkTarget($this, "setEditMode"));
+		}
+		else
+		{
+			$ilCtrl->setParameter($this, "js_mode", "enable");
+			$list->addItem($lng->txt("cont_activate_js"), "",
+				$ilCtrl->getLinkTarget($this, "setEditMode"));
+		}
+		$ilCtrl->setParameter($this, "js_mode", "");
+
+		$a_tpl->setVariable("PAGE_ACTIONS", $list->getHTML());
+	}
+
+	/**
+	 * Set edit mode
+	 */
+	function setEditMode()
+	{
+		global $ilCtrl, $ilUser;
+
+		if ($_GET["media_mode"] != "")
+		{
+			if ($_GET["media_mode"] == "disable")
+			{
+				$ilUser->writePref("ilPageEditor_MediaMode", "disable");
+			}
+			else
+			{
+				$ilUser->writePref("ilPageEditor_MediaMode", "");
+			}
+		}
+		if ($_GET["html_mode"] != "")
+		{
+			if ($_GET["html_mode"] == "disable")
+			{
+				$ilUser->writePref("ilPageEditor_HTMLMode", "disable");
+			}
+			else
+			{
+				$ilUser->writePref("ilPageEditor_HTMLMode", "");
+			}
+		}
+		if ($_GET["js_mode"] != "")
+		{
+			if ($_GET["js_mode"] == "disable")
+			{
+				$ilUser->writePref("ilPageEditor_JavaScript", "disable");
+			}
+			else
+			{
+				$ilUser->writePref("ilPageEditor_JavaScript", "");
+			}
+		}
+
+		$ilCtrl->redirect($this, "edit");
+	}
+
+
+	/**
+	 * Get Tiny Menu
+	 */
+	static function getTinyMenu($a_par_type,
+		$a_int_links = false, $a_wiki_links = false, $a_keywords = false)
+	{
+		global $lng;
+
+		$jsMathSetting = new ilSetting("jsMath");
+		
+		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
+
+		$btpl = new ilTemplate("tpl.tiny_menu.html", true, true, "Services/COPage");
+
+		// bullet list
+		$btpl->setCurrentBlock("blist_button");
+		$btpl->setVariable("IMG_BLIST", ilUtil::img(ilUtil::getImagePath("tn_blist.gif"),
+			"", 20, 20));
+		$btpl->parseCurrentBlock();
+
+		// numbered list
+		$btpl->setCurrentBlock("nlist_button");
+		$btpl->setVariable("IMG_NLIST", ilUtil::img(ilUtil::getImagePath("tn_nlist.gif"),
+			"", 20, 20));
+		$btpl->parseCurrentBlock();
+
+		// list indent
+		$btpl->setCurrentBlock("list_indent");
+		$btpl->setVariable("IMG_LIST_INDENT", ilUtil::img(ilUtil::getImagePath("tn_indent.gif"),
+			"", 20, 20));
+		$btpl->parseCurrentBlock();
+
+		// list outdent
+		$btpl->setCurrentBlock("list_outdent");
+		$btpl->setVariable("IMG_LIST_OUTDENT", ilUtil::img(ilUtil::getImagePath("tn_outdent.gif"),
+			"", 20, 20));
+		$btpl->parseCurrentBlock();
+
+		if ($a_int_links)
+		{
+			$btpl->touchBlock("bb_ilink_button");
+		}
+
+//		if ($a_keywords)
+//		{
+//			$btpl->touchBlock("bb_kw_button");
+//			$btpl->setVariable("TXT_KW", $this->lng->txt("cont_text_keyword"));
+//		}
+
+		if ($a_wiki_links)
+		{
+			$btpl->setCurrentBlock("bb_wikilink_button");
+			$btpl->setVariable("TXT_WLN2", $lng->txt("wiki_wiki_page"));
+			$btpl->parseCurrentBlock();
+		}
+//		$jsMathSetting = new ilSetting("jsMath");
+//		$style = $this->getStyle();
+
+		include_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+		foreach (ilPageContentGUI::_getCommonBBButtons() as $c => $st)
+		{
+			if (ilPageEditorSettings::lookupSettingByParentType(
+				$a_par_type, "active_".$c, true))
+			{
+				if ($c != "tex" || $jsMathSetting->get("enable") || defined("URL_TO_LATEX"))
+				{
+					$btpl->touchBlock("bb_".$c."_button");
+//					$btpl->setVariable("TXT_".strtoupper($c), $this->lng->txt("cont_text_".$c));
+				}
+			}
+		}
+
+/*		if ($a_anchors)
+		{
+			$btpl->touchBlock("bb_anc_button");
+			$btpl->setVariable("TXT_ANC", $lng->txt("cont_anchor").":");
+		}
+
+		// footnote
+		$btpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
+		$btpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
+		$btpl->setVariable("TXT_WLN", $lng->txt("wiki_wiki_page"));
+*/
+//		$btpl->setVariable("PAR_TA_NAME", $a_ta_name);
+
+		$btpl->setVariable("TXT_SAVE", $lng->txt("save"));
+
+		include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
+		$btpl->setVariable("STYLE_SELECTOR", ilPCParagraphGUI::getStyleSelector($a_selected,
+			ilPCParagraphGUI::_getCharacteristics($a_style_id), true));
+
+
+		return $btpl->get();
+	}
+
 	/**
 	 * Set standard link xml
 	 */
@@ -2277,6 +2483,8 @@ class ilPageObjectGUI
 					$par = $c_par[2];
 				}
 
+				$h["text"] = str_replace("<!--PageTocPH-->", "", $h["text"]);
+
 				// add the list node
 				$list->addListNode(
 					"<a href='#".$h["anchor"]."' class='ilc_page_toc_PageTOCLink'>".$h["text"]."</a>",
@@ -2303,6 +2511,17 @@ class ilPageObjectGUI
 
 			$a_output = str_replace("{{{{{PageTOC}}}}}",
 				$tpl->get(), $a_output);
+			$numbers = $list->getNumbers();
+
+			if (count($numbers) > 0)
+			{
+				include_once("./Services/Utilities/classes/class.ilStr.php");
+				foreach ($numbers as $n)
+				{
+					$a_output =
+						ilStr::replaceFirsOccurence("<!--PageTocPH-->", $n." ", $a_output);
+				}
+			}
 		}
 		else
 		{

@@ -395,13 +395,15 @@ class ilObjTest extends ilObject
 	protected $mailnottype;
 	protected $random_questionpool_data;
 	protected $exportsettings;
-	
+
+	protected $poolUsage;
 	/**
 	 * Import for container (courses containing tests) import 
 	 * @var string
 	 */
 	private $import_dir;
 
+        private $template_id;
 	/**
 	* Constructor
 	* @access	public
@@ -465,6 +467,7 @@ class ilObjTest extends ilObject
 		$this->testSession = FALSE;
 		$this->testSequence = FALSE;
 		$this->mailnotification = 0;
+		$this->poolUsage = 0;
 		global $lng;
 		$lng->loadLanguageModule("assessment");
 		$this->mark_schema->createSimpleSchema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
@@ -475,6 +478,8 @@ class ilObjTest extends ilObject
 			"D" => 10,
 			"E" => 0
 		);
+                $this->express_mode = false;
+                $this->template_id = '';
 		$this->ilObject($a_id, $a_call_by_reference);
 	}
 
@@ -1178,9 +1183,9 @@ class ilObjTest extends ilObject
 				"reset_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, " .
 				"ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
 				"shuffle_questions, results_presentation, show_summary, password, allowedusers, mailnottype, exportsettings, " .
-				"alloweduserstimegap, certificate_visibility, mailnotification, created, tstamp) " .
+				"alloweduserstimegap, certificate_visibility, mailnotification, created, tstamp, enabled_view_mode, template_id, pool_usage) " .
 				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
-				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				array(
 					'integer', 'integer', 'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
@@ -1189,7 +1194,7 @@ class ilObjTest extends ilObject
 					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
 					'text', 'integer', 'integer', 'text', 'integer', 'integer', 'integer',
-					'integer', 'text', 'integer', 'integer', 'integer'
+					'integer', 'text', 'integer', 'integer', 'integer', 'text', 'text', 'integer'
 				),
 				array(
 					$next_id, 
@@ -1245,7 +1250,10 @@ class ilObjTest extends ilObject
 					$this->getCertificateVisibility(), 
 					$this->getMailNotification(),
 					time(), 
-					time()
+					time(),
+                                        $this->getEnabledViewMode(),
+                                        $this->getTemplate(),
+                                        $this->getPoolUsage(),
 				)
 			);
 			$this->test_id = $next_id;
@@ -1278,7 +1286,7 @@ class ilObjTest extends ilObject
 				"reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, complete = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, " .
 				"ects_e = %s, ects_fx = %s, random_test = %s, random_question_count = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, " . 
 				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedusers = %s, mailnottype = %s, exportsettings = %s, " . 
-				"alloweduserstimegap = %s, certificate_visibility = %s, mailnotification = %s, tstamp = %s WHERE test_id = %s",
+				"alloweduserstimegap = %s, certificate_visibility = %s, mailnotification = %s, tstamp = %s, enabled_view_mode = %s, template_id = %s, pool_usage = %s WHERE test_id = %s",
 				array(
 					'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
@@ -1287,7 +1295,7 @@ class ilObjTest extends ilObject
 					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
 					'text', 'integer', 'integer', 'text', 'integer','integer', 'integer',
-					'integer', 'text', 'integer', 'integer', 'integer'
+					'integer', 'text', 'integer', 'integer', 'text', 'text', 'integer', 'integer'
 				),
 				array(
 					$this->getAuthor(), 
@@ -1340,7 +1348,10 @@ class ilObjTest extends ilObject
 					$this->getAllowedUsersTimeGap(),
 					$this->getCertificateVisibility(), 
 					$this->getMailNotification(),
-					time(), 
+					time(),
+                                        $this->getEnabledViewMode(),
+                                        $this->getTemplate(),
+                                        $this->getPoolUsage(),
 					$this->getTestId()
 				)
 			);
@@ -2095,6 +2106,9 @@ class ilObjTest extends ilObject
 			$this->setAllowedUsersTimeGap($data->alloweduserstimegap);
 			$this->setPassScoring($data->pass_scoring);
 			$this->setCertificateVisibility($data->certificate_visibility);
+                        $this->setEnabledViewMode($data->enabled_view_mode);
+                        $this->setTemplate($data->template_id);
+			$this->setPoolUsage($data->pool_usage);
 			$this->loadQuestions();
 		}
 	}
@@ -3762,7 +3776,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function insertQuestion($question_id)
 	{
 		global $ilDB;
-
+#var_dump($question_id);
 		$duplicate_id = $this->duplicateQuestionForTest($question_id);
 
 		// get maximum sequence index in test
@@ -6803,6 +6817,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$newObj->setUsePreviousAnswers($this->getUsePreviousAnswers());
 		$newObj->setCertificateVisibility($this->getCertificateVisibility());
 		$newObj->mark_schema = clone $this->mark_schema;
+                $newObj->setEnabledViewMode($this->getEnabledViewMode());
+                $newObj->setTemplate($this->getTemplate());
+                $newObj->setPoolUsage($this->getPoolUsage());
+
 		$newObj->saveToDb();
 		
 		// clone certificate
@@ -10237,7 +10255,165 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 		}
 	}
-	
+
+	public function getEnabledViewMode()  {
+            return $this->enabled_view_mode;
+        }
+
+        public function setEnabledViewMode($mode) {
+            $this->enabled_view_mode = $mode;
+        }
+
+	function setTemplate($template_id) {
+		$this->template_id = (int)$template_id;
+	}
+
+	function getTemplate() {
+		return $this->template_id;
+	}
+
+	public function moveQuestionAfterOLD($previous_question_id, $new_question_id) {
+            $new_array = array();
+            $position = 1;
+
+            $query = 'SELECT question_fi  FROM tst_test_question WHERE test_fi = %s';
+            $types = array('integer');
+            $values = array($this->getTestId());
+
+            $new_question_id += 1;
+
+            global $ilDB;
+            $inserted = false;
+            $res = $ilDB->queryF($query, $types, $values);
+            while($row = $ilDB->fetchAssoc($res)) {
+
+                $qid = $row['question_fi'];
+
+                if ($qid == $new_question_id) {
+                    continue;
+                }
+                else if ($qid == $previous_question_id) {
+                    $new_array[$position++] = $qid;
+                    $new_array[$position++] =  $new_question_id;
+                    $inserted = true;
+                }
+                else {
+                    $new_array[$position++] = $qid;
+                }
+            }
+
+            $update_query = 'UPDATE tst_test_question SET sequence = %s WHERE test_fi = %s AND question_fi = %s';
+            $update_types = array('integer', 'integer', 'integer');
+
+            foreach($new_array as $position => $qid) {
+                $ilDB->manipulateF(
+                        $update_query,
+                        $update_types,
+                        $vals = array(
+                            $position,
+                            $this->getTestId(),
+                            $qid
+                        )
+                );
+            }
+        }
+
+        public function setScoringFeedbackOptionsByArray($options) {
+            $this->setAnswerFeedback((is_array($options) && in_array('instant_feedback_answer', $options)) ? 1 : 0);
+            $this->setAnswerFeedbackPoints((is_array($options) && in_array('instant_feedback_points', $options)) ? 1 : 0);
+            $this->setInstantFeedbackSolution((is_array($options) && in_array('instant_feedback_solution', $options)) ? 1 : 0);
+        }
+
+        public function setResultsPresentationOptionsByArray($options) {
+            $setter = array(
+                'pass_details' => 'setShowPassDetails',
+                'solution_details' => 'setShowSolutionDetails',
+                'solution_printview' => 'setShowSolutionPrintview',
+                'solution_feedback' => 'setShowSolutionFeedback',
+                'solution_answers_only' => 'setShowSolutionAnswersOnly',
+                'solution_signature' => 'setShowSolutionSignature',
+                'solution_suggested' => 'setShowSolutionSuggested',
+                );
+            foreach($setter as $key => $setter) {
+                if (in_array($key, $options)) {
+                    $this->$setter(1);
+                }
+                else {
+                    $this->$setter(0);
+                }
+            }
+        }
+
+	public function getPoolUsage() {
+	    return (boolean) $this->poolUsage;
+	}
+
+	public function setPoolUsage($usage) {
+	    $this->poolUsage = (boolean)$usage;
+	}
+
+	public function setQuestionOrder($order) {
+	    $positions = asort($order);
+
+	    global $ilDB;
+
+	    $i = 0;
+
+	    foreach($order as $key => $position) {
+		$id = substr($key, strpos($key, '_') + 1);
+		$ilDB->manipulateF(
+			'UPDATE tst_test_question SET sequence = %s WHERE question_fi=%s',
+			array('integer', 'integer'),
+			array(++$i, $id)
+		);
+	    }
+
+	    $this->loadQuestions();
+	}
+
+	public function moveQuestionAfter($question_to_move, $question_before) {
+	    global $ilDB;
+	    //var_dump(func_get_args());
+	    if ($question_before) {
+		$query = 'SELECT sequence, test_fi FROM tst_test_question WHERE question_fi = %s';
+		$types = array('integer');
+		$values = array($question_before);
+		$rset = $ilDB->queryF($query, $types, $values);
+	    }
+
+	    if (!$question_before || ($rset && !($row = $ilDB->fetchAssoc($rset)))) {
+		$row = array(
+		    'sequence' => 0,
+		    'test_fi' => $this->getTestId(),
+		);
+	    }
+	    
+	    $update = 'UPDATE tst_test_question SET sequence = sequence + 1 WHERE sequence > %s AND test_fi = %s';
+	    $types = array('integer', 'integer');
+	    $values = array($row['sequence'], $row['test_fi']);
+	    $ilDB->manipulateF($update, $types, $values);
+
+	    $update = 'UPDATE tst_test_question SET sequence = %s WHERE question_fi = %s';
+	    $types = array('integer', 'integer');
+	    $values = array($row['sequence'] + 1, $question_to_move);
+	    $ilDB->manipulateF($update, $types, $values);
+
+	}
+
+	public function hasQuestionsWithoutQuestionpool() {
+	    global $ilDB;
+	    $questions = $this->getQuestionTitlesAndIndexes();
+	    $query = 'SELECT count(question_id) cnt FROM qpl_questions
+			    INNER JOIN object_data on obj_fi = obj_id
+			WHERE type <> "qpl" AND ' . $ilDB->in('question_id', array_keys($questions), false, 'integer');
+
+	    $rset = $ilDB->query($query);
+	    
+	    if ($row = $ilDB->fetchAssoc($rset)) {
+		return $row['cnt'] > 0;
+	    }
+	    return false;
+	}
 } // END class.ilObjTest
 
 ?>

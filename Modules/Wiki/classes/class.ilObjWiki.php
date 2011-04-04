@@ -511,6 +511,20 @@ class ilObjWiki extends ilObject
 	}
 
 	/**
+	 * Write start page
+	 */
+	static function writeStartPage($a_id, $a_name)
+	{
+		global $ilDB;
+
+		include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
+		$ilDB->manipulate("UPDATE il_wiki_data SET ".
+			" startpage = ".$ilDB->quote(ilWikiUtil::makeDbTitle($a_name), "text").
+			" WHERE id = ".$ilDB->quote($a_id, "integer")
+			);
+	}
+
+		/**
 	* Search in Wiki
 	*/
 	static function _performSearch($a_wiki_id, $a_searchterm)

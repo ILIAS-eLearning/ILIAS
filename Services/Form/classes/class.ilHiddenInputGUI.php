@@ -29,7 +29,7 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilHiddenInputGUI extends ilFormPropertyGUI {
+class ilHiddenInputGUI extends ilFormPropertyGUI  implements ilToolbarItem {
     protected $value;
     
     /**
@@ -98,6 +98,17 @@ class ilHiddenInputGUI extends ilFormPropertyGUI {
 		$a_tpl->setVariable("ID", $this->getFieldId());
 		$a_tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
 		$a_tpl->parseCurrentBlock();
+	}
+
+	/**
+	 * Get HTML for toolbar
+	 */
+	function getToolbarHTML()
+	{
+		return "<input type=\"hidden\"".
+			" name=\"".$this->getPostVar()."\"".
+			" value=\"".ilUtil::prepareFormOutput($this->getValue())."\"".
+			" id=\"".$this->getFieldId()."\" />";
 	}
 }
 ?>

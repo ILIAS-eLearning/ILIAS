@@ -37,7 +37,9 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 	protected $totalPoints = 0;
 	protected $checked_move = false;
 	protected $total = 0;
-	
+
+	protected $position = 0;
+
 	/**
 	 * Constructor
 	 *
@@ -61,8 +63,9 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		$this->setFormName('questionbrowser');
 		$this->setStyle('table', 'fullwidth');
 		$this->addColumn('','f','1%');
+		$this->addColumn('','f','1%');
 		$this->addColumn($this->lng->txt("tst_question_title"),'title', '');
-		$this->addColumn($this->lng->txt("tst_sequence"),'sequence', '');
+		//$this->addColumn($this->lng->txt("tst_sequence"),'sequence', '');
 		$this->addColumn($this->lng->txt("description"),'description', '');
 		$this->addColumn($this->lng->txt("tst_question_type"),'type', '');
 		$this->addColumn($this->lng->txt("points"),'', '');
@@ -71,7 +74,9 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 	 	
 		$this->setPrefix('q_id');
 		$this->setSelectAllCheckbox('q_id');
-		
+
+		$this->setExternalSegmentation(true);
+
 		if ($this->getWriteAccess() && !$this->getTotal())
 		{
 			$this->addMultiCommand('removeQuestions', $this->lng->txt('remove_question'));
@@ -81,13 +86,17 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 				$this->addMultiCommand('insertQuestionsBefore', $this->lng->txt('insert_before'));
 				$this->addMultiCommand('insertQuestionsAfter', $this->lng->txt('insert_after'));
 			}
+                        //$this->addMultiCommand('copyToQuestionpool', $this->lng->txt('copy_to_questionpool'));
+                        $this->addMultiCommand('copyAndLinkToQuestionpool', $this->lng->txt('copy_and_link_to_questionpool'));
 		}
 
 
 		$this->setRowTemplate("tpl.il_as_tst_questions_row.html", "Modules/Test");
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-		
+
+		$this->addCommandButton('saveOrder', $this->lng->txt('saveOrder'));
+
 		$this->disable('sort');
 		$this->enable('header');
 		$this->enable('select_all');
@@ -119,6 +128,12 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 		if ($this->getWriteAccess() && !$this->getTotal() && $data["obj_fi"] > 0) 
 		{
+                        if (!$data['complete']) {
+                            $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.gif"));
+                            $this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
+                            $this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
+                        }
+                        
 			$q_id = $data["question_id"];
 			$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));
 			$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data["title"] . "</a>");
@@ -146,7 +161,18 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("QUESTION_POINTS", $data["points"]);
 		$this->totalPoints += $data["points"];
 		$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-		$this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($data["obj_fi"]));
+		if (ilObject::_lookupType($data["obj_fi"]) == 'qpl') {
+		    $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($data["obj_fi"]));
+		}
+		else {
+		    $this->tpl->setVariable("QUESTION_POOL", '&nbsp;');
+		}
+
+
+		$this->position += 10;
+		$field = "<input type=\"text\" name=\"order[q_".$data["question_id"].
+			"]\" value=\"".$this->position."\" maxlength=\"3\" style=\"width:30px\" />";
+		$this->tpl->setVariable("QUESTION_POSITION", $field);
 	}
 	
 	public function setWriteAccess($value)

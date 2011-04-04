@@ -274,10 +274,12 @@ class ilObjTestAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
+                    	array("permission" => "write", "cmd" => "showPage", "lang_var" => "tst_edit_questions"),
+			array("permission" => "write", "cmd" => "properties", "lang_var" => "settings"),
 			array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "tst_run",
 				"default" => true),
-			array("permission" => "write", "cmd" => "", "lang_var" => "edit"),
-			array("permission" => "tst_statistics", "cmd" => "outEvaluation", "lang_var" => "tst_statistical_evaluation")
+			//array("permission" => "write", "cmd" => "", "lang_var" => "edit"),
+			array("permission" => "tst_statistics", "cmd" => "outEvaluation", "lang_var" => "tst_statistical_evaluation"),
 		);
 		
 		return $commands;

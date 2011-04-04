@@ -174,6 +174,7 @@ class ilPCDataTable extends ilPCTable
 				{
 					foreach ($row as $j => $cell)
 					{
+//echo "<br><br>=".$cell."=";
 						$temp_dom = @domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$cell.'</Paragraph>',
 							DOMXML_LOAD_PARSING, $error);
 
@@ -218,7 +219,7 @@ class ilPCDataTable extends ilPCTable
 				}
 			}
 		}
-		
+//exit;
 		return true;
 	}
 }

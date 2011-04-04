@@ -3,15 +3,10 @@
 <!-- END formtop -->
 {TOP_BUTTONS}
 {TOP_FORMBUTTONS}
-<table class="{TCLASS}">
 <!-- BEGIN row -->
-<!-- BEGIN header_row -->
-<tr>
-	<td class="il_InfoScreen" colspan="2">
-		<h3 class="il_InfoScreenSection">{TXT_SECTION}</h3>
-	</td>
-</tr>
-<!-- END header_row -->
+<div id="infoscreen_section_{SECTION_ID}"{SECTION_HIDDEN}>
+<h3 class="il_InfoScreenSection">{TXT_SECTION}</h3>
+<table class="{TCLASS}" style="border:0">
 <!-- BEGIN property_row -->
 <tr>
 	<td class="il_InfoScreenProperty" width="30%">{TXT_PROPERTY}</td>
@@ -22,15 +17,13 @@
 </tr>
 <!-- END property_row -->
 <!-- BEGIN property_full_row -->
-<tr>
+<tr
 	<td class="il_InfoScreenPropertyValue" colspan="2">{TXT_PROPERTY_FULL_VALUE}</td>
-</tr>
+</td>
 <!-- END property_full_row -->
-<!-- END row -->
-<tr>
-	<td class="il_InfoScreenPropertyValue" colspan="2">&nbsp;</td>
-</tr>
 </table>
+</div>
+<!-- END row -->
 <!-- BEGIN hidden_element -->
 <input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />
 <!-- END hidden_element -->
@@ -45,3 +38,25 @@
 <br />
 {NOTES}
 <!-- END notes -->
+<!-- BEGIN hidden_js -->
+<script language="JavaScript" type="text/javascript">
+function toggleSections()
+{
+	obj=document.getElementsByTagName('div');
+	for (var i=0;i<obj.length;i++)
+	{
+		if(/infoscreen_section_hidable_/.test(obj[i].id))
+		{
+			if(obj[i].style.display == 'none')
+			{
+				obj[i].style.display = '';
+			}
+			else
+			{
+				obj[i].style.display = 'none';
+			}
+		}
+	}
+}
+</script>
+<!-- END hidden_js -->

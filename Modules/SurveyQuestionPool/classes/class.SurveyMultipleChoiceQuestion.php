@@ -151,7 +151,12 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 */
 	function isComplete()
 	{
-		if (strlen($this->title) && strlen($this->author) && strlen($this->questiontext) && $this->categories->getCategoryCount())
+		if (
+			strlen($this->getTitle()) &&
+			strlen($this->getAuthor()) &&
+			strlen($this->getQuestiontext()) &&
+			$this->categories->getCategoryCount()
+		)
 		{
 			return 1;
 		}

@@ -436,7 +436,23 @@ class ilAdvancedSelectionListGUI
 	{
 		return $this->asynch_url;
 	}
-	
+
+	/**
+	 * Set select callback
+	 */
+	public function setSelectCallback($a_val)
+	{
+		$this->select_callback = $a_val;
+	}
+
+	/**
+	 * Get select callback
+	 */
+	public function getSelectCallback()
+	{
+		return $this->select_callback;
+	}
+
 	/**
 	* Get selection list HTML
 	*/
@@ -565,6 +581,14 @@ class ilAdvancedSelectionListGUI
 				}
 
 				$tpl->parseCurrentBlock();
+
+				// add item to js object
+				$tpl->setCurrentBlock("js_item");
+				$tpl->setVariable("IT_ID", $this->getId());
+				$tpl->setVariable("IT_HID_NAME", $this->form_mode["select_name"]);
+				$tpl->setVariable("IT_HID_VAL", $item["value"]);
+				$tpl->setVariable("IT_TITLE", $item["title"]);
+				$tpl->parseCurrentBlock();
 			}
 		}
 
@@ -632,6 +656,11 @@ class ilAdvancedSelectionListGUI
 
 		$cfg["trigger_event"] = $this->getTriggerEvent();
 		$cfg["auto_hide"] = $this->getAutoHide();
+
+		if ($this->getSelectCallback() != "")
+		{
+			$cfg["select_callback"] = $this->getSelectCallback();
+		}
 		$cfg["anchor_id"] = "ilAdvSelListAnchorElement_".$this->getId();
 		$cfg["asynch"] = $this->getAsynch()
 			? true

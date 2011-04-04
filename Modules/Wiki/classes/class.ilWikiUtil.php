@@ -633,6 +633,7 @@ class ilWikiUtil
 		include_once "./Services/Mail/classes/class.ilMail.php";
 		include_once "./Services/User/classes/class.ilObjUser.php";
 		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
+		include_once("./Services/User/classes/class.ilUserUtil.php");
 
 		foreach(array_unique($users) as $idx => $user_id)
 		{
@@ -650,7 +651,8 @@ class ilWikiUtil
 					// update/delete
 					$message .= $ulng->txt('wiki_change_notification_page_body_'.$a_action).":\n\n";
 					$message .= $ulng->txt('wiki').": ".$wiki->getTitle()."\n";
-					$message .= $ulng->txt('page').": ".$page->getTitle()."\n\n";
+					$message .= $ulng->txt('page').": ".$page->getTitle()."\n";
+					$message .= $ulng->txt('wiki_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
 					$message .= $ulng->txt('wiki_change_notification_page_link').": ".$link;
 				}
 				else
@@ -658,7 +660,8 @@ class ilWikiUtil
 					// new
 					$message .= $ulng->txt('wiki_change_notification_body_'.$a_action).":\n\n";
 					$message .= $ulng->txt('wiki').": ".$wiki->getTitle()."\n";
-					$message .= $ulng->txt('page').": ".$page->getTitle()."\n\n";
+					$message .= $ulng->txt('page').": ".$page->getTitle()."\n";
+					$message .= $ulng->txt('wiki_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
 					$message .= $ulng->txt('wiki_change_notification_link').": ".$link;
 				}
 

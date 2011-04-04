@@ -1,19 +1,24 @@
-<div class="small" style="white-space:nowrap;">
+<span class="small" style="white-space:nowrap;">
 <!-- BEGIN overall_rating -->
-{TXT_OVERALL_RATING}, {NR_USERS}:
+{NR_RATINGS}:
+<!-- BEGIN act_rat_start --><a id="tr_{ID}" href="#"><!-- END act_rat_start -->
 <!-- BEGIN rating_icon -->
+<!-- BEGIN rating_mark --><img src="{SRC_MARK}" alt="{ALT_MARK}" style="position:absolute;" border="0" /><!-- END rating_mark -->
 <img src="{SRC_ICON}" alt="{ALT_ICON}" border="0" />
 <!-- END rating_icon -->
-{VAL_OVERALL_RATING}
-&nbsp;&nbsp;&nbsp;
+<!-- BEGIN act_rat_end -->
+<img src="{SRC_ARROW}" border="0" alt="" /></a><!-- END act_rat_end -->
 <!-- END overall_rating -->
+</span>
 <!-- BEGIN user_rating -->
-{TXT_YOUR_RATING}:
+<div class="ilOverlay" style="padding: 0px 5px;" id="{ID}">
+<p>{TXT_YOUR_RATING}</p>
+<p>
 <!-- BEGIN rating_link -->
 <a href="{HREF_RATING}">
 <img src="{SRC_ICON}" alt="{ALT_ICON}" border="0" />
 </a>
 <!-- END rating_link -->
-{VAL_RATING}
-<!-- END user_rating -->
+</p>
 </div>
+<!-- END user_rating -->

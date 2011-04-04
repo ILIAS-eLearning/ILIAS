@@ -113,14 +113,14 @@ class ilForumExplorer extends ilExplorer
 				if($ilUser->getId() == ANONYMOUS_USER_ID ||
 				 $this->forum_obj->isRead($ilUser->getId(), $object['pos_pk']))
 				{
-					$title = "<span style='white-space:wrap;' class='frmTitle'><a class='small' href='".$href_target."'>".stripslashes($object['subject'])."</a></span>".
+					$title = "<span style='white-space:wrap;' class='frmTitle' id='frm_node_".$object['pos_pk']."'><a class='small' href='".$href_target."'>".stripslashes($object['subject'])."</a></span>".
 						 "<div style='white-space:nowrap; margin-bottom:5px;' class='small'>";
 				}
 				else
 				{	//bold
 					$mark_post_target = str_replace('viewThread', 'markPostRead', $href_target);
 					$href_target = $mark_post_target;
-					$title = "<span style='white-space:wrap;' class='frmTitleBold'><a class='small' href='".$href_target."'>".stripslashes($object['subject'])."</a></span>".
+					$title = "<span style='white-space:wrap;' class='frmTitleBold' id='frm_node_".$object['pos_pk']."'><a class='small' href='".$href_target."'>".stripslashes($object['subject'])."</a></span>".
 						 "<div style='white-space:nowrap; margin-bottom:5px;' class='small'>";
 				}
 				/**/

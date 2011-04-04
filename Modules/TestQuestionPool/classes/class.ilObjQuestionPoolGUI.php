@@ -627,13 +627,23 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &createQuestionForTestObject()
 	{
+	    if (!$_REQUEST['q_id']) {
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		$q_gui =& assQuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());
 		$q_gui->object->createNewQuestion();
 		$this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $q_gui->object->getId());
-		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $_GET["sel_question_types"]); 
+		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $_REQUEST["sel_question_types"]);
+		$this->ctrl->setParameterByClass(get_class($q_gui), "prev_qid", $_REQUEST["prev_qid"]);
 		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
+	    }
+	    else {
+		$class = $_GET["sel_question_types"] . 'gui';
+		$this->ctrl->setParameterByClass($class, "q_id", $_REQUEST['q_id']);
+		$this->ctrl->setParameterByClass($class, "sel_question_types", $_REQUEST["sel_question_types"]);
+		$this->ctrl->setParameterByClass($class, "prev_qid", $_REQUEST["prev_qid"]);
+		$this->ctrl->redirectByClass($class, "editQuestion");
+	    }
 	}
 
 	/**

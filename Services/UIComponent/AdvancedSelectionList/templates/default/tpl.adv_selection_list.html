@@ -48,9 +48,16 @@
 <!-- END hidden_input -->
 </div>
 <script type="text/javascript">
+ilAdvancedSelectionList.init['{ID}'] = function ()
+{
 	ilAdvancedSelectionList.add('{ID}', {CFG});
+	<!-- BEGIN js_item -->
+	ilAdvancedSelectionList.addItem('{IT_ID}', '{IT_HID_NAME}', '{IT_HID_VAL}', '{IT_TITLE}');
+	<!-- END js_item -->
 	<!-- BEGIN init_hidden_input -->
 	ilAdvancedSelectionList.setHiddenInput('{H2ID}', '{HID_NAME}', '{HID_VALUE}');
 	<!-- END init_hidden_input -->
+}
+ilAdvancedSelectionList.init['{ID}']();
 </script>
 <!-- END js_section -->

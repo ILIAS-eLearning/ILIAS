@@ -415,6 +415,11 @@ class ilPCParagraph extends ilPageContent
 	{
 		$a_text = ilUtil::stripSlashes($a_text, false);
 
+		if ($a_wysiwyg)
+		{
+			$a_text = str_replace("<br />", chr(10), $a_text);
+		}
+
 		// note: the order of the processing steps is crucial
 		// and should be the same as in xml2output() in REVERSE order!
 		$a_text = trim($a_text);
@@ -871,7 +876,7 @@ echo htmlentities($a_text);*/
 	*
 	* @return	string	string ready for edit textarea
 	*/
-	static function xml2output($a_text)
+	static function xml2output($a_text, $a_wysiwyg = false, $a_replace_lists = true)
 	{
 		// note: the order of the processing steps is crucial
 		// and should be the same as in input2xml() in REVERSE order!
@@ -904,7 +909,12 @@ echo htmlentities($a_text);*/
 		$a_text = eregi_replace("</Keyw>","[/kw]",$a_text);
 
 		// replace lists
-		$a_text = ilPCParagraph::xml2outputReplaceLists($a_text);
+		if ($a_replace_lists)
+		{
+//echo "<br>".htmlentities($a_text);
+			$a_text = ilPCParagraph::xml2outputReplaceLists($a_text);
+//echo "<br>".htmlentities($a_text);
+		}
 		
 		// internal links
 		while (eregi("<IntLink($any)>", $a_text, $found))
@@ -1006,8 +1016,11 @@ echo htmlentities($a_text);*/
 
 
 		// br to linefeed
-		$a_text = str_replace("<br />", "\n", $a_text);
-		$a_text = str_replace("<br/>", "\n", $a_text);
+		if (!$a_wysiwyg)
+		{
+			$a_text = str_replace("<br />", "\n", $a_text);
+			$a_text = str_replace("<br/>", "\n", $a_text);
+		}
 
 		// prevent curly brackets from being swallowed up by template engine
 		$a_text = str_replace("{", "&#123;", $a_text);

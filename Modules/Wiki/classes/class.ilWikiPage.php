@@ -136,6 +136,8 @@ class ilWikiPage extends ilPageObject
 			include_once "./Services/Notification/classes/class.ilNotification.php";
 			ilWikiUtil::sendNotification("new", ilNotification::TYPE_WIKI, $this->getWikiRefId(), $this->getId());
 		}
+
+		$this->updateNews();
 	}
 
 	/**
@@ -159,6 +161,8 @@ class ilWikiPage extends ilPageObject
 
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		ilWikiUtil::sendNotification("update", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $this->getId());
+
+		$this->updateNews(true);
 
 		return true;
 	}
@@ -740,10 +744,88 @@ class ilWikiPage extends ilPageObject
 					$wpage->update();
 				}
 			}
+
+			include_once("./Modules/Wiki/classes/class.ilObjWiki.php");
+			if (ilObjWiki::_lookupStartPage($this->getWikiId()) == $this->getTitle())
+			{
+				ilObjWiki::writeStartPage($this->getWikiId(), $a_new_name);
+			}
+
 			$this->setTitle($a_new_name);
+
 			$this->update();
 		}
 	}
+
+
+	/**
+	 * Create
+	 */
+	function updateNews($a_update = false)
+	{
+		global $ilUser;
+
+		$news_set = new ilSetting("news");
+		$default_visibility = ($news_set->get("default_visibility") != "")
+				? $news_set->get("default_visibility")
+				: "users";
+
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		if (!$a_update)
+		{
+			$news_item = new ilNewsItem();
+			$news_item->setContext(
+				$this->getWikiId(), "wiki",
+				$this->getId(), "wpg");
+			$news_item->setPriority(NEWS_NOTICE);
+			$news_item->setTitle($this->getTitle());
+			$news_item->setContentTextIsLangVar(true);
+			$news_item->setContent("wiki_news_page_created");
+			$news_item->setUserId($ilUser->getId());
+			$news_item->setVisibility($default_visibility);
+			$news_item->create();
+		}
+		else
+		{
+			// get last news item of the day (if existing)
+			$news_id = ilNewsItem::getLastNewsIdForContext(
+				$this->getWikiId(), "wiki",
+				$this->getId(), "wpg", true);
+
+			if ($news_id > 0)
+			{
+				$news_item = new ilNewsItem($news_id);
+				$news_item->setContent("wiki_news_page_changed");
+				$news_item->setUserId($ilUser->getId());
+				$news_item->setTitle($this->getTitle());
+				$news_item->setContentTextIsLangVar(true);
+				$news_item->update(true);
+			}
+			else
+			{
+				$news_item = new ilNewsItem();
+				$news_item->setContext(
+					$this->getWikiId(), "wiki",
+					$this->getId(), "wpg");
+				$news_item->setPriority(NEWS_NOTICE);
+				$news_item->setTitle($this->getTitle());
+				$news_item->setContentTextIsLangVar(true);
+				$news_item->setContent("wiki_news_page_changed");
+				$news_item->setUserId($ilUser->getId());
+				$news_item->setVisibility($default_visibility);
+				$news_item->create();
+			}
+		}
+	}
+
+	/**
+	 * Get content for a wiki news item
+	 */
+	function getNewsContent()
+	{
+		return "12.1.1: Test User, Max";
+	}
+
 
 }
 ?>

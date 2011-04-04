@@ -1218,14 +1218,33 @@ class ilStartUpGUI
 
 	function _checkGoto($a_target)
 	{
-		global $objDefinition;
+		global $objDefinition, $ilPluginAdmin;
+
+		if (is_object($ilPluginAdmin))
+		{
+			// get user interface plugins
+			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+
+			// search
+			foreach ($pl_names as $pl)
+			{
+				$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+				$gui_class = $ui_plugin->getUIClassInstance();
+				$resp = $gui_class->checkGotoHook($a_target);
+				if ($resp["target"] !== false)
+				{
+					$a_target = $resp["target"];
+					break;
+				}
+			}
+		}
 
 		if ($a_target == "")
 		{
 			return false;
 		}
 
-		$t_arr = explode("_", $_GET["target"]);
+		$t_arr = explode("_", $a_target);
 		$type = $t_arr[0];
 
 		if ($type == "git")

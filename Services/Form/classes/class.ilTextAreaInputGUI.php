@@ -255,9 +255,9 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	* @param string $obj_type Object Type
 	* @param string $module ILIAS module
 	*/
-	function setRTESupport($obj_id, $obj_type, $module, $cfg_template = null)
+	function setRTESupport($obj_id, $obj_type, $module, $cfg_template = null, $hide_switch = false)
 	{
-		$this->rteSupport = array("obj_id" => $obj_id, "obj_type" => $obj_type, "module" => $module, 'cfg_template' => $cfg_template);
+		$this->rteSupport = array("obj_id" => $obj_id, "obj_type" => $obj_type, "module" => $module, 'cfg_template' => $cfg_template, 'hide_switch' => $hide_switch);
 	}
 	
 	/**
@@ -429,7 +429,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 				
 				if (count($this->rteSupport) >= 3)
 				{
-					$rte->addRTESupport($this->rteSupport["obj_id"], $this->rteSupport["obj_type"], $this->rteSupport["module"], false, $this->rteSupport['cfg_template']);
+					$rte->addRTESupport($this->rteSupport["obj_id"], $this->rteSupport["obj_type"], $this->rteSupport["module"], false, $this->rteSupport['cfg_template'], $this->rteSupport['hide_switch']);
 				}
 				else
 				{

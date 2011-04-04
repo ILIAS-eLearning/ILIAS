@@ -177,6 +177,130 @@ class ilElbaDBCreator
 			$ilSetting->set("elb_db", 8);
 		}
 
+                // STEP 9
+		if ($elb_db <= 8)
+		{
+			$ilDB->addTableColumn("svy_svy", "template_id", array(
+				"type" => "integer",
+				"notnull" => false,
+				"length" => 4
+			));
+
+			$ilSetting->set("elb_db", 9);
+		}
+
+                // STEP 10
+                /** @author jposselt at databay.de **/
+                if ($elb_db <= 9)
+                {
+			$ilDB->addTableColumn("tst_tests", "express_qpool_allowed", array(
+				"type" => "integer",
+				"notnull" => false,
+				"length" => 1,
+                                "default" => 0
+			));
+
+
+			$ilSetting->set("elb_db", 10);
+                }
+
+                // STEP 11
+                /** @author jposselt at databay.de **/
+                if ($elb_db <= 10)
+                {
+			$ilDB->addTableColumn("tst_tests", "enabled_view_mode", array(
+				"type" => "text",
+				"notnull" => false,
+				"length" => 20,
+                                "default" => 0
+			));
+
+
+			$ilSetting->set("elb_db", 11);
+                }
+
+                // STEP 12
+                /** @author jposselt at databay.de **/
+                if ($elb_db <= 11)
+                {
+			$ilDB->addTableColumn("tst_tests", "template_id", array(
+				"type" => "integer",
+				"notnull" => false,
+				"length" => 4
+			));
+
+
+			$ilSetting->set("elb_db", 12);
+                }
+
+	    // STEP 13
+		if ($elb_db <= 12)
+		{
+			$ilDB->addTableColumn("svy_svy", "pool_usage", array(
+				"type" => "integer",
+				"notnull" => false,
+				"length" => 1
+			));
+
+			$ilSetting->set("elb_db", 13);
+		}
+
+	    // STEP 14
+		if ($elb_db <= 13)
+		{
+			$ilDB->addTableColumn("svy_qblk", "show_blocktitle", array(
+				"type" => "text",
+				"notnull" => false,
+				"length" => 1
+			));
+
+			$ilSetting->set("elb_db", 14);
+		}
+
+		// STEP 15
+		if ($elb_db <= 14)
+		{
+			$ilDB->addTableColumn("tst_tests", "pool_usage", array(
+				"type" => "integer",
+				"notnull" => false,
+				"length" => 1
+			));
+
+			$ilSetting->set("elb_db", 15);
+		}
+
+		// STEP 16
+		if ($elb_db <= 15)
+		{
+			$ilDB->dropTableColumn("tst_tests", "express_qpool_allowed");
+
+			$ilSetting->set("elb_db", 16);
+		}
+
+
+		// STEP 17
+		if ($elb_db <= 16)
+		{
+			$ilDB->addTableColumn("il_news_item", "content_text_is_lang_var", array(
+				"type" => "integer",
+				"length" => 1,
+				"notnull" => true,
+				"default" => 0
+				));
+
+			$ilSetting->set("elb_db", 17);
+		}
+
+		// STEP 18
+		if ($elb_db <= 17)
+		{
+			include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+			ilDBUpdate3136::addStyleClass("Page", "page", "div",
+						array());
+			$ilSetting->set("elb_db", 18);
+		}
+
+
 		// keep this line at the end of the method
 		$this->finalProcessing();
 	}

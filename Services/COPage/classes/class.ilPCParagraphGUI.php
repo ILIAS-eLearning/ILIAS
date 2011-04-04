@@ -179,21 +179,16 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		}
 
 		// language and characteristic selection
+		$s_char = $this->determineCharacteristic($a_insert);
 		if (!$a_insert)
 		{
 			if (key($_POST["cmd"]) == "update")
 			{
 				$s_lang = $_POST["par_language"];
-				$s_char = $_POST["par_characteristic"];
 			}
 			else
 			{
 				$s_lang = $this->content_obj->getLanguage();
-				$s_char = $this->content_obj->getCharacteristic();
-				if ($s_char == "")
-				{
-					$s_char = "Standard";
-				}
 			}
 		}
 		else
@@ -201,11 +196,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			if (key($_POST["cmd"]) == "create_par")
 			{
 				$s_lang = $_POST["par_language"];
-				$s_char = $_POST["par_characteristic"];
 			}
 			else
 			{
-				$s_char = "Standard";
 				if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
 				{
 					$s_lang = $_SESSION["il_text_lang_".$_GET["ref_id"]];
@@ -213,25 +206,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 				else
 				{
 					$s_lang = $ilUser->getLanguage();
-				}
-	
-				// set characteristic of new paragraphs in list items to "List"
-				$cont_obj =& $this->pg_obj->getContentObject($this->getHierId());
-				if (is_object($cont_obj))
-				{
-					if ($cont_obj->getType() == "li" ||
-						($cont_obj->getType() == "par" && $cont_obj->getCharacteristic() == "List"))
-					{
-						$s_char = "List";
-					}
-									
-					if ($cont_obj->getType() == "td" ||
-						($cont_obj->getType() == "par" && $cont_obj->getCharacteristic() == "TableContent"))
-					{
-						$s_char = "TableContent";
-					}
-	
-				}
+				}	
 			}
 		}
 
@@ -283,6 +258,231 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	}
 
 	/**
+	 * Determine current characteristic
+	 *
+	 * @param
+	 * @return
+	 */
+	function determineCharacteristic($a_insert = false)
+	{
+		// language and characteristic selection
+		if (!$a_insert)
+		{
+			if (key($_POST["cmd"]) == "update")
+			{
+				$s_char = $_POST["par_characteristic"];
+			}
+			else
+			{
+				$s_char = $this->content_obj->getCharacteristic();
+				if ($s_char == "")
+				{
+					$s_char = "Standard";
+				}
+			}
+		}
+		else
+		{
+			if (key($_POST["cmd"]) == "create_par")
+			{
+				$s_char = $_POST["par_characteristic"];
+			}
+			else
+			{
+				$s_char = "Standard";
+
+				// set characteristic of new paragraphs in list items to "List"
+				$cont_obj = $this->pg_obj->getContentObject($this->getHierId());
+				if (is_object($cont_obj))
+				{
+					if ($cont_obj->getType() == "li" ||
+						($cont_obj->getType() == "par" && $cont_obj->getCharacteristic() == "List"))
+					{
+						$s_char = "List";
+					}
+
+					if ($cont_obj->getType() == "td" ||
+						($cont_obj->getType() == "par" && $cont_obj->getCharacteristic() == "TableContent"))
+					{
+						$s_char = "TableContent";
+					}
+
+				}
+			}
+		}
+		return $s_char;
+	}
+
+	/**
+	 * Edit paragraph (Ajax mode, sends the content of the paragraph)
+	 */
+	function editJS()
+	{
+		global $ilUser, $ilias;
+
+		$s_text = $this->content_obj->getText();
+//echo htmlentities($s_text);
+		$s_text = $this->content_obj->xml2output($s_text, true, false);
+		$char = $this->determineCharacteristic(false);
+		$s_text = ilPCParagraphGUI::xml2outputJS($s_text, $char);
+		echo $s_text;
+		exit;
+	}
+
+	/**
+	 * Prepare content for js output
+	 */
+	static function xml2outputJS($s_text, $char)
+	{
+		$s_text = "<div class='ilc_text_block_".$char."'>".$s_text."</div>";
+		// lists
+		$s_text = str_replace(array("<SimpleBulletList>", "</SimpleBulletList>"),
+			array("<ul>", "</ul>"),
+			$s_text);
+		$s_text = str_replace(array("<SimpleNumberedList>", "</SimpleNumberedList>"),
+			array("<ol>", "</ol>"), $s_text);
+		$s_text = str_replace(array("<SimpleListItem>", "</SimpleListItem>"),
+			array("<li>", "</li>"), $s_text);
+		//$s_text = str_replace("<SimpleBulletList><br />", "<SimpleBulletList>", $s_text);
+		//$s_text = str_replace("<SimpleNumberedList><br />", "<SimpleNumberedList>", $s_text);
+		//$s_text = str_replace("</SimpleListItem><br />", "</SimpleListItem>", $s_text);
+
+
+		// spans
+		include_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+		foreach (ilPageContentGUI::_getCommonBBButtons() as $bb => $cl)
+		{
+			if (!in_array($bb, array("code", "tex", "fn", "xln")))
+			{
+				$s_text = str_replace("[".$bb."]",
+					'<span class="ilc_text_inline_'.$cl.'">', $s_text);
+				$s_text = str_replace("[/".$bb."]",
+					'</span>', $s_text);
+			}
+		}
+
+		// code
+		$s_text = str_replace(array("[code]", "[/code]"),
+			array("<code>", "</code>"), $s_text);
+
+		return $s_text;
+	}
+
+
+	/**
+	 * Save paragraph by JS call
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveJS()
+	{
+		global $ilCtrl;
+
+		$text = self::handleAjaxContent($_POST["ajaxform_content"]);
+		if ($text === false)
+		{
+			$ilCtrl->returnToParent($this, "jump".$this->hier_id);
+		}
+		$this->content_obj->setCharacteristic(ilUtil::stripSlashes($_POST["ajaxform_char"]));
+		$text = $this->content_obj->input2xml($text, true, false);
+		$text = self::handleAjaxContentPost($text);
+		$this->updated = $this->content_obj->setText($text, true);
+		if ($this->updated)
+		{
+			$this->updated = $this->pg_obj->update();
+		}
+
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
+	/**
+	 * Handle ajax content
+	 */
+	static function handleAjaxContent($a_content)
+	{
+		$doc = new DOMDocument();
+
+		$content = ilUtil::stripSlashes($a_content, false);
+		$content = str_replace("&lt;", "<", $content);
+		$content = str_replace("&gt;", ">", $content);
+//echo htmlentities($content); exit;
+		$res = $doc->loadXML($content);
+
+		if (!$res)
+		{
+			return false;
+		}
+
+		// convert tags
+		$xpath = new DOMXpath($doc);
+		$elements = $xpath->query("//span");
+		include_once("./Services/Utilities/classes/class.ilDOM2Util.php");
+		if (!is_null($elements))
+		{
+			foreach ($elements as $element)
+			{
+				$class = $element->getAttribute("class");
+				if (substr($class, 0, 16) == "ilc_text_inline_")
+				{
+					ilDOM2Util::changeName($element, "il".substr($class, 16), false);
+				}
+			}
+		}
+
+		$text = $doc->saveXML($doc->documentElement);
+		$text = str_replace("<br/>", "\n", $text);
+
+		// remove wrapping div
+//		$text = $_POST["ajaxform_content"];
+		$pos = strpos($text, ">");
+		$text = substr($text, $pos + 1);
+		$pos = strrpos($text, "<");
+		$text = substr($text, 0, $pos);
+
+// todo: remove empty spans <span ...> </span>
+
+		// replace tags by bbcode
+		foreach (ilPageContentGUI::_getCommonBBButtons() as $bb => $cl)
+		{
+			if (!in_array($bb, array("code", "tex", "fn", "xln")))
+			{
+				$text = str_replace("<il".$cl.">",
+					"[".$bb."]", $text);
+				$text = str_replace("</il".$cl.">",
+					"[/".$bb."]", $text);
+			}
+		}
+		$text = str_replace(array("<code>", "</code>"),
+			array("[code]", "[/code]"), $text);
+
+
+		return $text;
+	}
+
+	/**
+	 * Post input2xml handling of ajax content
+	 */
+	static function handleAjaxContentPost($text)
+	{
+		$text = str_replace(array("&lt;ul&gt;", "&lt;/ul&gt;"),
+			array("<SimpleBulletList>", "</SimpleBulletList>"), $text);
+		$text = str_replace(array("&lt;ol&gt;", "&lt;/ol&gt;"),
+			array("<SimpleNumberedList>", "</SimpleNumberedList>"), $text);
+		$text = str_replace(array("&lt;li&gt;", "&lt;/li&gt;"),
+			array("<SimpleListItem>", "</SimpleListItem>"), $text);
+		$text = str_replace("<SimpleBulletList><br />", "<SimpleBulletList>", $text);
+		$text = str_replace("<SimpleNumberedList><br />", "<SimpleNumberedList>", $text);
+		$text = str_replace("<br /><SimpleBulletList>", "<SimpleBulletList>", $text);
+		$text = str_replace("<br /><SimpleNumberedList>", "<SimpleNumberedList>", $text);
+		$text = str_replace("</SimpleBulletList><br />", "</SimpleBulletList>", $text);
+		$text = str_replace("</SimpleNumberedList><br />", "</SimpleNumberedList>", $text);
+		$text = str_replace("</SimpleListItem><br />", "</SimpleListItem>", $text);
+		return $text;
+	}
+
+
+	/**
 	* Insert characteristic table
 	*/
 	function insertCharacteristicTable($a_tpl, $a_seleted_value)
@@ -318,7 +518,22 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$a_tpl->touchBlock("characteristic_table");
 	}
 
-	function insertStyleSelectionList($a_tpl, $a_s_char)
+	/**
+	 * Insert style selection list
+	 * 
+	 * @param object $a_tpl
+	 * @param string $a_selected
+	 */
+	function insertStyleSelectionList($a_tpl, $a_selected)
+	{
+		$a_tpl->setVariable("ADV_SEL_STYLE", self::getStyleSelector($a_selected,
+			$this->getCharacteristics()));
+	}
+
+	/**
+	 * Get style selector
+	 */
+	static function getStyleSelector($a_selected, $a_chars, $a_use_callback = false)
 	{
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$selection = new ilAdvancedSelectionListGUI();
@@ -328,20 +543,24 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$selection->setId("style_selection");
 		//$selection->setSelectionHeaderClass("MMInactive");
 		$selection->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
-		$selection->setSelectedValue($a_s_char);
+		$selection->setSelectedValue($a_selected);
 		//$selection->setItemLinkClass("small");
 		$selection->setUseImages(false);
 		$selection->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SELECT);
+		if ($a_use_callback)
+		{
+			$selection->setSelectCallback("ilCOPage.setParagraphClass");
+		}
 		
-		$chars = $this->getCharacteristics();
-		$title_char = $chars[$a_s_char] != ""
-			? $chars[$a_s_char]
-			: $a_s_char;
+		$chars = $a_chars;
+		$title_char = ($chars[$a_selected] != "")
+			? $chars[$a_selected]
+			: $a_selected;
 		$selection->setListTitle($title_char);
 
-		if ($chars[$a_seleted_value] == "" && ($a_seleted_value != ""))
+		if ($chars[$a_seleted] == "" && ($a_seleted != ""))
 		{
-			$chars = array_merge(array($a_seleted_value => $a_seleted_value),
+			$chars = array_merge(array($a_seleted => $a_seleted),
 				$chars);
 		}
 
@@ -349,7 +568,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		{
 			$t = "text_block";
 			$tag = "div";
-//echo "-".$char;
 			switch($char)
 			{
 				case "Headline1": $t = "heading1"; $tag = "h1"; break;
@@ -360,7 +578,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$selection->addItem($char_lang, $char, "",
 				"", $char, "", $html);
 		}
-		$a_tpl->setVariable("ADV_SEL_STYLE", $selection->getHTML());
+		return $selection->getHTML();
 	}
 	
 	/**
@@ -454,6 +672,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
+		if ($_POST["ajaxform_hier_id"] != "")
+		{
+			return $this->createJS();
+		}
+
 		$this->content_obj =& new ilPCParagraph($this->dom);
 //echo "+".$this->pc_id."+";
 		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
@@ -481,7 +704,45 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$this->insert();
 		}
 	}
-	
+
+	/**
+	 * Create paragraph per JS
+	 */
+	function createJS()
+	{
+		global $ilUser, $ilCtrl;
+
+		// get paragraph object
+		$this->content_obj = new ilPCParagraph($this->dom);
+
+		// create object, set language and characteristic
+		$this->content_obj->create($this->pg_obj, $_POST["ajaxform_hier_id"], "");
+		$lang = $_POST["ajaxform_lang"]
+			? $_POST["ajaxform_char"]
+			: $ilUser->getLanguage();
+		$this->content_obj->setLanguage($lang);
+		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $lang;
+		$this->content_obj->setCharacteristic($_POST["ajaxform_char"]);
+
+		// handle and insert text into xml
+		$text = self::handleAjaxContent($_POST["ajaxform_content"]);
+		if ($text === false)
+		{
+			$ilCtrl->returnToParent($this, "jump".$this->hier_id);
+		}
+
+		$text = $this->content_obj->input2xml($text, true, false);
+		$text = self::handleAjaxContentPost($text);
+		$this->updated = $this->content_obj->setText($text, true);
+
+		if ($this->updated)
+		{
+			$this->updated = $this->pg_obj->update();
+		}
+
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
 	/**
 	* Insert Help
 	*/

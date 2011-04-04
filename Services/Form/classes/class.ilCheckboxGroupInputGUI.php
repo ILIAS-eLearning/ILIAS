@@ -26,7 +26,7 @@ include_once("./Services/Form/classes/class.ilCheckboxOption.php");
 /**
 * This class represents a property in a property form.
 *
-* @author Helmut Schottmüller <ilias@aurealis.de> 
+* @author Helmut Schottmüller <ilias@aurealis.de>
 * @version $Id$
 * @ingroup	ServicesForm
 */
@@ -34,7 +34,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
 {
 	protected $options = array();
 	protected $value;
-	
+
 	/**
 	* Constructor
 	*
@@ -55,6 +55,24 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
 	function addOption($a_option)
 	{
 		$this->options[] = $a_option;
+	}
+
+        /**
+	* Set Options.
+	*
+	* @param	array	$a_options	Options. Array ("value" => "option_text")
+	*/
+	function setOptions($a_options)
+	{
+            foreach($a_options as $key => $label) {
+                if (is_string($label)) {
+                    $chb = new ilCheckboxInputGUI($label, $key);
+                    $this->options[] = $chb;
+                }
+                else if ($label instanceof ilCheckboxInputGUI) {
+                    $this->options[] = $label;
+                }
+            }
 	}
 
 	/**
@@ -86,7 +104,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
 	{
 		return $this->value;
 	}
-	
+
 	/**
 	* Set value by array
 	*
@@ -108,18 +126,18 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*
 	* @return	boolean		Input ok, true/false
-	*/	
+	*/
 	function checkInput()
 	{
 		global $lng;
-		
+
 		if ($this->getRequired() && count($_POST[$this->getPostVar()]) == 0)
 		{
 			$this->setAlert($lng->txt("msg_input_is_required"));
 
 			return false;
 		}
-		
+
 		$ok = true;
 		foreach($this->getOptions() as $option)
 		{
@@ -144,7 +162,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
 	function insert(&$a_tpl)
 	{
 		$tpl = new ilTemplate("tpl.prop_checkbox_group.html", true, true, "Services/Form");
-		
+
 		foreach($this->getOptions() as $option)
 		{
 			// information text for option
@@ -154,8 +172,8 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
 				$tpl->setVariable("CHECKBOX_OPTION_DESC", $option->getInfo());
 				$tpl->parseCurrentBlock();
 			}
-			
-			
+
+
 			if (count($option->getSubItems()) > 0)
 			{
 				$tpl->setCurrentBlock("checkbox_option_subform");
@@ -193,12 +211,12 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
 				}
 			}
 			$tpl->setVariable("TXT_CHECKBOX_OPTION", $option->getTitle());
-			
-			
+
+
 			$tpl->parseCurrentBlock();
 		}
 		$tpl->setVariable("ID", $this->getFieldId());
-		
+
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();
@@ -231,7 +249,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
 				}
 			}
 		}
-		
+
 		return false;
 	}
 

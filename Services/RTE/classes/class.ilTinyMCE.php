@@ -34,9 +34,22 @@ include_once "./Services/RTE/classes/class.ilRTE.php";
 */
 class ilTinyMCE extends ilRTE
 {
-	function ilTinyMCE()
+	protected $mode = "textareas";
+	protected $version = ""; // set default version here
+	//protected $version = "3.3.9.2"; // set default version here
+	protected $vd = ""; // version directory suffix
+
+	function ilTinyMCE($a_version = "")
 	{
 		parent::ilRTE();
+
+		switch ($a_version)
+		{
+			case "3.3.9.2":
+				$this->version = $a_version;
+				$this->vd = "_3_3_9_2";
+				break;
+		}
 		
 		$this->plugins = array(
 			"ibrowser",
@@ -125,6 +138,7 @@ class ilTinyMCE extends ilRTE
 		}
 	}*/
 
+
 	/**
 	* Adds support for an RTE in an ILIAS form
 	*
@@ -133,13 +147,16 @@ class ilTinyMCE extends ilRTE
 	* @param string $a_module Module or object which should use the HTML tags
 	* @access public
 	*/
-	function addRTESupport($obj_id, $obj_type, $a_module = "", $allowFormElements = FALSE, $cfg_template = null)
+	function addRTESupport($obj_id, $obj_type, $a_module = "", $allowFormElements = FALSE, $cfg_template = null, $hide_switch = false)
 	{
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		/*
 		if (array_key_exists("show_rte", $_POST))
 		{
 			ilObjAdvancedEditing::_setRichTextEditorUserState($_POST["show_rte"]);
 		}
+		*/
+		ilObjAdvancedEditing::_setRichTextEditorUserState(1);
 
 		include_once "./classes/class.ilTemplate.php";
 		if ((ilObjAdvancedEditing::_getRichTextEditorUserState() != 0) && (strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") != 0))
@@ -151,7 +168,7 @@ class ilTinyMCE extends ilRTE
 				$tpl->touchBlock("formelements");
 			}
 			$tpl->setCurrentBlock("tinymce");
-			$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce/tiny_mce.js");
+			$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
 			include_once "./classes/class.ilObject.php";
 			$tpl->setVariable("OBJ_ID", $obj_id);                   
 			$tpl->setVariable("OBJ_TYPE", $obj_type);
@@ -185,7 +202,8 @@ class ilTinyMCE extends ilRTE
 			$this->tpl->setVariable("CONTENT_BLOCK", $tpl->get());
 		}
 
-		if (strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") != 0)
+		/*
+		if (!$hide_switch && strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") != 0)
 		{
 			$tpl = new ilTemplate("tpl.rte.switch.html", true, true, "Services/RTE");
 			$tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass($this->ctrl->getCmdClass()), $this->ctrl->getCmd());
@@ -200,6 +218,7 @@ class ilTinyMCE extends ilRTE
 	
 			$this->tpl->setVariable("RTE_SWITCH", $tpl->get());
 		}
+		*/
 	}
 
 	/**
@@ -214,7 +233,7 @@ class ilTinyMCE extends ilRTE
 		include_once "./classes/class.ilTemplate.php";
 		$tpl = new ilTemplate("tpl.tinymce.html", true, true, "Services/RTE");
 		$tpl->setCurrentBlock("tinymce");
-		$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce/tiny_mce.js");
+		$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
 		include_once "./classes/class.ilObject.php";
 		$tpl->setVariable("OBJ_ID", $obj_id);
 		$tpl->setVariable("OBJ_TYPE", $obj_type);
@@ -263,7 +282,7 @@ class ilTinyMCE extends ilRTE
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.usereditor.html", true, true, "Services/RTE");
 		$template->setCurrentBlock("tinymce");
-		$template->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce/tiny_mce.js");
+		$template->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
 		include_once "./classes/class.ilObject.php";
 		$template->setVariable("SELECTOR", $editor_selector);
 		$template->setVariable("BLOCKFORMATS", "");
@@ -640,7 +659,7 @@ class ilTinyMCE extends ilRTE
 	{
 		global $ilUser;
 		$lang = $ilUser->getLanguage();
-		if (file_exists("./Services/RTE/tiny_mce/langs/$lang.js"))
+		if (file_exists("./Services/RTE/tiny_mce".$this->vd."/langs/$lang.js"))
 		{
 			return "$lang";
 		}

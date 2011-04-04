@@ -2285,6 +2285,11 @@ table.il_Block, .ilOverlay
 	text-align: left;
 }
 
+.ilOverlay
+{
+	position:absolute;
+}
+
 /* Blocks */
 
 table.il_Block

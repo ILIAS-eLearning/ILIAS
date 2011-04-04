@@ -1,38 +1,20 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Rating/classes/class.ilRating.php");
 
 /**
-* Class ilRatingGUI. User interface class for rating.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesRating
-*/
+ * Class ilRatingGUI. User interface class for rating.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ServicesRating
+ */
 class ilRatingGUI
 {
+	protected $id = "rtg_";
+
 	function __construct()
 	{
 		global $lng;
@@ -40,9 +22,9 @@ class ilRatingGUI
 		$lng->loadLanguageModule("rating");
 	}
 	
-		/**
-	* execute command
-	*/
+	/**
+	 * execute command
+	 */
 	function &executeCommand()
 	{
 		global $ilCtrl;
@@ -74,6 +56,8 @@ class ilRatingGUI
 		$this->obj_type = $a_obj_type;
 		$this->sub_obj_id = $a_sub_obj_id;
 		$this->sub_obj_type = $a_sub_obj_type;
+		$this->id = "rtg_".$this->obj_id."_".$this->obj_type."_".$this->sub_obj_id."_".
+			$this->sub_obj_type;
 		
 		//$this->setSaveCmd("saveTags");
 		$this->setUserId($ilUser->getId());
@@ -106,49 +90,91 @@ class ilRatingGUI
 	function getHTML()
 	{
 		global $lng, $ilCtrl;
-		
+
 		$ttpl = new ilTemplate("tpl.rating_input.html", true, true, "Services/Rating");
+
+		// user rating
+		$user_rating = 0;
+		if ($this->getUserId() != ANONYMOUS_USER_ID)
+		{
+			$user_rating = ilRating::getRatingForUserAndObject($this->obj_id, $this->obj_type,
+				$this->sub_obj_id, $this->sub_obj_type, $this->getUserId());
+		}
+
 		
 		// (1) overall rating
 		$rating = ilRating::getOverallRatingForObject($this->obj_id, $this->obj_type,
 			$this->sub_obj_id, $this->sub_obj_type);
-		if ($rating["cnt"] >= 1)
+
+		for($i = 1; $i <= 5; $i++)
 		{
-			for($i = 1; $i <= 5; $i++)
+			if ($i == $user_rating)
 			{
-				$ttpl->setCurrentBlock("rating_icon");
-				if ($rating["avg"] >= $i)
-				{
-					$ttpl->setVariable("SRC_ICON",
-						ilUtil::getImagePath("icon_rate_on.gif"));
-				}
-				else if ($rating["avg"] + 1 <= $i)
-				{
-					$ttpl->setVariable("SRC_ICON",
-						ilUtil::getImagePath("icon_rate_off.gif"));
-				}
-				else
-				{
-					$nr = round(($rating["avg"] + 1 - $i) * 10);
-					$ttpl->setVariable("SRC_ICON",
-						ilUtil::getImagePath("icon_rate_$nr.gif"));
-				}
-				$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
+				$ttpl->setCurrentBlock("rating_mark");
+				$ttpl->setVariable("SRC_MARK",
+					ilUtil::getImagePath("icon_rate_marker.png"));
 				$ttpl->parseCurrentBlock();
 			}
+
 			$ttpl->setCurrentBlock("rating_icon");
-			$ttpl->setVariable("TXT_OVERALL_RATING", $lng->txt("rating_average_rating"));
-			$ttpl->setVariable("NR_USERS",
-				sprintf($lng->txt("rating_nr_users"), $rating["cnt"]));
-			$ttpl->setVariable("VAL_OVERALL_RATING", "(".round($rating["avg"], 1)."/5)");
+			if ($rating["avg"] >= $i)
+			{
+				$ttpl->setVariable("SRC_ICON",
+					ilUtil::getImagePath("icon_rate_on.png"));
+			}
+			else if ($rating["avg"] + 1 <= $i)
+			{
+				$ttpl->setVariable("SRC_ICON",
+					ilUtil::getImagePath("icon_rate_off.png"));
+			}
+			else
+			{
+				$nr = round(($rating["avg"] + 1 - $i) * 10);
+				$ttpl->setVariable("SRC_ICON",
+					ilUtil::getImagePath("icon_rate_$nr.png"));
+			}
+			$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
 			$ttpl->parseCurrentBlock();
 		}
+		$ttpl->setCurrentBlock("rating_icon");
+		if ($rating["cnt"] == 0)
+		{
+			$ttpl->setVariable("NR_RATINGS", $lng->txt("rat_not_rated_yet"));
+		}
+		else if ($rating["cnt"] == 1)
+		{
+			$ttpl->setVariable("NR_RATINGS", $lng->txt("rat_one_rating"));
+		}
+		else
+		{
+			$ttpl->setVariable("NR_RATINGS",
+				sprintf($lng->txt("rat_nr_ratings"), $rating["cnt"]));
+		}
+
+		if ($this->getUserId() != ANONYMOUS_USER_ID)
+		{
+			include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+			$ov = new ilOverlayGUI($this->id);
+			$ov->setTrigger("tr_".$this->id, "click", "tr_".$this->id);
+			$ov->add();
+			
+			$ttpl->setCurrentBlock("act_rat_start");
+			$ttpl->setVariable("ID", $this->id);
+			$ttpl->setVariable("SRC_ARROW", ilUtil::getImagePath("mm_down_arrow_dark.gif"));
+			$ttpl->parseCurrentBlock();
+
+			//$ttpl->touchBlock("act_rat_end");
+			$ttpl->setCurrentBlock("act_rat_end");
+			$ttpl->setVariable("SRC_ARROW", ilUtil::getImagePath("mm_down_arrow_dark.gif"));
+			$ttpl->parseCurrentBlock();
+		}
+
+		$ttpl->parseCurrentBlock();
 		
 		// (2) user rating
 		if ($this->getUserId() != ANONYMOUS_USER_ID)
 		{
-			$rating = ilRating::getRatingForUserAndObject($this->obj_id, $this->obj_type,
-				$this->sub_obj_id, $this->sub_obj_type, $this->getUserId());
+			$rating = $user_rating;
 			
 			// user rating links
 			for($i = 1; $i <= 5; $i++)
@@ -159,27 +185,25 @@ class ilRatingGUI
 				if ($rating >= $i)
 				{
 					$ttpl->setVariable("SRC_ICON",
-						ilUtil::getImagePath("icon_rate_on.gif"));
+						ilUtil::getImagePath("icon_rate_on.png"));
 				}
 				else
 				{
 					$ttpl->setVariable("SRC_ICON",
-						ilUtil::getImagePath("icon_rate_off.gif"));
+						ilUtil::getImagePath("icon_rate_off.png"));
 				}
 				$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
 				$ttpl->parseCurrentBlock();
 			}
 			$ttpl->setCurrentBlock("user_rating");
-				
+			$ttpl->setVariable("ID", $this->id);
+			
 			// user rating text
 			$ttpl->setVariable("TXT_YOUR_RATING", $lng->txt("rating_your_rating"));
-			if ($rating > 0)
-			{
-				$ttpl->setVariable("VAL_RATING", "(".$rating."/5)");
-			}
 			$ttpl->parseCurrentBlock();
 		}
-		
+
+
 		return $ttpl->get();
 	}
 	

@@ -46,6 +46,24 @@ require_once "./Services/Navigation/classes/class.ilNavigationHistoryGUI.php";
 $nav_hist = new ilNavigationHistoryGUI();
 $nav_hist->handleNavigationRequest();
 
+// store original parameter before plugin slot may influence it
+$orig_target = $_GET['target'];
+
+// user interface plugin slot hook
+if (is_object($ilPluginAdmin))
+{
+	// get user interface plugins
+	$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+
+	// search
+	foreach ($pl_names as $pl)
+	{
+		$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+		$gui_class = $ui_plugin->getUIClassInstance();
+		$gui_class->gotoHook();
+	}
+}
+
 if(strpos($_GET['target'], 'purchasetypedemo') !== false)
 {
 	$_GET['purchasetype'] = 'demo';
@@ -72,7 +90,7 @@ $additional = $target_arr[2];		// optional for pages
 include_once("Services/Init/classes/class.ilStartUpGUI.php");
 if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID && !ilStartUpGUI::_checkGoto($_GET["target"]))
 {
-	ilUtil::redirect("login.php?target=".$_GET["target"]."&cmd=force_login&lang=".$ilUser->getCurrentLanguage());
+	ilUtil::redirect("login.php?target=".$orig_target."&cmd=force_login&lang=".$ilUser->getCurrentLanguage());
 }
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

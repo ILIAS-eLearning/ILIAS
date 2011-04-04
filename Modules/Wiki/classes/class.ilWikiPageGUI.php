@@ -42,9 +42,15 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		
 		$this->setEnabledMaps(true);
 		$this->setPreventHTMLUnmasking(true);
-		$this->setEnabledInternalLinks(false);
+	$this->setEnabledInternalLinks(true);
 		$this->setEnabledWikiLinks(true);
 		$this->setEnabledPCTabs(true);
+
+		$cfg = new ilPageConfig();
+		$cfg->setIntLinkFilterWhiteList(true);
+		$cfg->addIntLinkFilter("RepositoryItem");
+		$this->setPageConfig($cfg);
+		$this->setIntLinkHelpDefault("RepositoryItem", 0);
 
 	}
 	
@@ -166,29 +172,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	function setSideBlock()
 	{
-		global $tpl;
-		
-		// search block
-		include_once("./Modules/Wiki/classes/class.ilWikiSearchBlockGUI.php");
-		$wiki_search_block = new ilWikiSearchBlockGUI();
-
-		// quick navigation
-		include_once("./Modules/Wiki/classes/class.ilWikiSideBlockGUI.php");
-		$wiki_side_block = new ilWikiSideBlockGUI();
-		$wiki_side_block->setPageObject($this->getWikiPage());
-		
-		$rcontent = $wiki_search_block->getHTML().$wiki_side_block->getHTML();
-
-		// important pages
-		if (ilObjWiki::_lookupImportantPages(ilObject::_lookupObjId($this->wiki_ref_id)))
-		{
-			include_once("./Modules/Wiki/classes/class.ilWikiImportantPagesBlockGUI.php");
-			$imp_pages_block = new ilWikiImportantPagesBlockGUI();
-			$rcontent.= $imp_pages_block->getHTML();
-		}
-
-
-		$tpl->setRightContent($rcontent);
+		ilObjWikiGUI::renderSideBlock($this->getWikiPage()->getId(),
+			$this->wiki_ref_id, $this->getWikiPage());
 	}
 
 	/**
@@ -197,98 +182,106 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	function preview()
 	{
 		global $ilCtrl, $ilAccess, $lng, $tpl, $ilUser;
-		
+
+		// block/unblock
+		if ($this->getPageObject()->getBlocked())
+		{
+			ilUtil::sendInfo($lng->txt("wiki_page_status_blocked"));
+		}
+
+
 		$this->getWikiPage()->increaseViewCnt(); // todo: move to page object
 		$this->setSideBlock();
 		$wtpl = new ilTemplate("tpl.wiki_page_view_main_column.html",
 			true, true, "Modules/Wiki");
+
+		// actions
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$list = new ilAdvancedSelectionListGUI();
+		$list->setListTitle($lng->txt("actions"));
+		$list->setId("wiki_pgact");
+			
+		// notification
+		if ($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			include_once "./Services/Notification/classes/class.ilNotification.php";
+			if(ilNotification::hasNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $this->getPageObject()->getParentId()))
+			{
+				$ilCtrl->setParameter($this, "ntf", 1);
+				$list->addItem($lng->txt("wiki_notification_deactivate_wiki"), "",
+					$ilCtrl->getLinkTarget($this));
+
+
+				$wtpl->setCurrentBlock("not_icon");
+				$wtpl->setVariable("NOT_SRC", ilUtil::getImagePath("notification_on.png"));
+				$wtpl->setVariable("NOT_ID", "not_icon");
+				$wtpl->parseCurrentBlock();
+				include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+				ilTooltipGUI::addTooltip("not_icon", $lng->txt("wiki_notification_activated"));
+
+			}
+			else
+			{
+				$ilCtrl->setParameter($this, "ntf", 2);
+				$list->addItem($lng->txt("wiki_notification_activate_wiki"), "",
+					$ilCtrl->getLinkTarget($this));
+				if(ilNotification::hasNotification(ilNotification::TYPE_WIKI_PAGE, $ilUser->getId(), $this->getPageObject()->getId()))
+				{
+					$ilCtrl->setParameter($this, "ntf", 3);
+					$list->addItem($lng->txt("wiki_notification_deactivate_page"), "",
+						$ilCtrl->getLinkTarget($this));
+
+					$wtpl->setCurrentBlock("not_icon");
+					$wtpl->setVariable("NOT_SRC", ilUtil::getImagePath("notification_on.png"));
+					$wtpl->setVariable("NOT_ID", "not_icon");
+					$wtpl->parseCurrentBlock();
+					include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+					ilTooltipGUI::addTooltip("not_icon", $lng->txt("wiki_page_notification_activated"));
+
+				}
+				else
+				{
+					$ilCtrl->setParameter($this, "ntf", 4);
+					$list->addItem($lng->txt("wiki_notification_activate_page"), "",
+						$ilCtrl->getLinkTarget($this));
+				}
+			}
+			$ilCtrl->setParameter($this, "ntf", "");
+		}
+
+		// other actions
 		
-		// wiki page commands
 		// delete
 		$page_commands = false;
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
-			// rename page
-			$wtpl->setCurrentBlock("page_command");
-			$wtpl->setVariable("HREF_PAGE_CMD",
+			// rename
+			$list->addItem($lng->txt("wiki_rename"), "",
 				$ilCtrl->getLinkTarget($this, "renameWikiPage"));
-			$wtpl->setVariable("TXT_PAGE_CMD", $lng->txt("wiki_rename"));
-			$wtpl->parseCurrentBlock();
 
 			// block/unblock
 			if ($this->getPageObject()->getBlocked())
 			{
-				$wtpl->setCurrentBlock("page_command");
-				$wtpl->setVariable("HREF_PAGE_CMD",
+				$list->addItem($lng->txt("wiki_unblock"), "",
 					$ilCtrl->getLinkTarget($this, "unblockWikiPage"));
-				$wtpl->setVariable("TXT_PAGE_CMD", $lng->txt("wiki_unblock"));
-				$wtpl->parseCurrentBlock();
 			}
 			else
 			{
-				$wtpl->setCurrentBlock("page_command");
-				$wtpl->setVariable("HREF_PAGE_CMD",
+				$list->addItem($lng->txt("wiki_block"), "",
 					$ilCtrl->getLinkTarget($this, "blockWikiPage"));
-				$wtpl->setVariable("TXT_PAGE_CMD", $lng->txt("wiki_block"));
-				$wtpl->parseCurrentBlock();
 			}
 
 			// delete page
 			$st_page = ilObjWiki::_lookupStartPage($this->getPageObject()->getParentId());
 			if ($st_page != $this->getPageObject()->getTitle())
 			{
-				$wtpl->setCurrentBlock("page_command");
-				$wtpl->setVariable("HREF_PAGE_CMD",
+				$list->addItem($lng->txt("delete"), "",
 					$ilCtrl->getLinkTarget($this, "deleteWikiPageConfirmationScreen"));
-				$wtpl->setVariable("TXT_PAGE_CMD", $lng->txt("delete"));
-				$wtpl->parseCurrentBlock();
 			}
-		}		
-		if ($page_commands)
-		{
-			$wtpl->setCurrentBlock("page_commands");
-			$wtpl->parseCurrentBlock();
 		}
-			
-		// notification
-		if ($ilUser->getId() != ANONYMOUS_USER_ID)
-		{
-			$wtpl->setCurrentBlock("notification");
-			include_once "./Services/Notification/classes/class.ilNotification.php";
-			$wtpl->setVariable("TXT_NOTIFICATION", $lng->txt("wiki_notification_toggle_info"));
-			if(ilNotification::hasNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $this->getPageObject()->getParentId()))
-			{
-				$ilCtrl->setParameter($this, "ntf", 1);
-				$wtpl->setVariable("URL_NOTIFICATION_TOGGLE_WIKI", $ilCtrl->getLinkTarget($this));
 
-				$wtpl->setVariable("TXT_NOTIFICATION_TOGGLE_WIKI", $lng->txt("wiki_notification_toggle_wiki_deactivate"));
-			}
-			else
-			{
-				$ilCtrl->setParameter($this, "ntf", 2);
-				$wtpl->setVariable("URL_NOTIFICATION_TOGGLE_WIKI", $ilCtrl->getLinkTarget($this));
+		$wtpl->setVariable("ACTIONS", $list->getHTML());
 
-				$wtpl->setVariable("TXT_NOTIFICATION_TOGGLE_WIKI", $lng->txt("wiki_notification_toggle_wiki_activate"));
-				$wtpl->setVariable("TXT_NOTIFICATION_TOGGLE_DIVIDER", "|");
-
-				if(ilNotification::hasNotification(ilNotification::TYPE_WIKI_PAGE, $ilUser->getId(), $this->getPageObject()->getId()))
-				{
-					$ilCtrl->setParameter($this, "ntf", 3);
-					$wtpl->setVariable("URL_NOTIFICATION_TOGGLE_PAGE", $ilCtrl->getLinkTarget($this));
-
-					$wtpl->setVariable("TXT_NOTIFICATION_TOGGLE_PAGE", $lng->txt("wiki_notification_toggle_page_deactivate"));
-				}
-				else
-				{
-					$ilCtrl->setParameter($this, "ntf", 4);
-					$wtpl->setVariable("URL_NOTIFICATION_TOGGLE_PAGE", $ilCtrl->getLinkTarget($this));
-
-					$wtpl->setVariable("TXT_NOTIFICATION_TOGGLE_PAGE", $lng->txt("wiki_notification_toggle_page_activate"));
-				}
-			}
-			$ilCtrl->setParameter($this, "ntf", "");
-			$wtpl->parseCurrentBlock();
-		}
 
 		// rating
 		if (ilObjWiki::_lookupRating($this->getPageObject()->getParentId())
@@ -300,6 +293,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				$this->getPageObject()->getId(), "wpg");
 			$wtpl->setVariable("RATING", $ilCtrl->getHtml($rating_gui));
 		}
+
 
 		// notes
 		$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getPageObject(),
@@ -325,7 +319,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			ilDatePresentation::formatDate(
 				new ilDateTime($this->getPageObject()->getLastChange(),IL_CAL_DATETIME)).", ".
 			ilUserUtil::getNamePresentation($this->getPageObject()->getLastChangeUser(),
-				false, false));
+				false, true, $ilCtrl->getLinkTarget($this, "preview")));
+
+		$tpl->setLoginTargetPar("wiki_".$_GET["ref_id"].$append);
 		
 		//highlighting
 		if ($_GET["srcstring"] != "")

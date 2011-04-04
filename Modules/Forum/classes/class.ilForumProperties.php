@@ -102,7 +102,6 @@ class ilForumProperties
 	private $add_re_subject = 0;
 
 
-
 	/**
 	 * DB Object
 	 * @access	private
@@ -376,6 +375,41 @@ class ilForumProperties
 	{
 		return $this->notification_type;
 	}
-	
+
+	public function getSubjectSetting()
+	{
+		if($this->getPresetSubject() == 0
+		&& $this->getAddReSubject() == 0)
+		{
+			return "empty_subject";
+		}
+		else if($this->getPresetSubject() == 1)
+		{
+			return "preset_subject";
+		}
+		else if($this->getAddReSubject() == 1)
+		{
+			return "add_re_to_subject";
+		}
+		else return "preset_subject";
+	}
+	public function setSubjectSetting($a_subject_setting)
+	{
+		if($a_subject_setting == 'empty_subject')
+		{
+			$this->setPresetSubject(0);
+			$this->setAddReSubject(0);
+		}
+		else if($a_subject_setting == 'preset_subject')
+		{
+			$this->setPresetSubject(1);
+			$this->setAddReSubject(0);
+		}
+		else if($a_subject_setting == 'add_re_to_subject')
+		{
+			$this->setPresetSubject(0);
+			$this->setAddReSubject(1);
+		}
+	}
 }
 ?>

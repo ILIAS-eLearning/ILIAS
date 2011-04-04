@@ -209,5 +209,17 @@ class ilStr
 		}
 		return $positions;
 	}
+
+	/**
+	 * Replaces the first occurence of $a_old in $a_str with $a_new
+	 */
+	function replaceFirsOccurence($a_old, $a_new, $a_str)
+	{
+		if (is_int(strpos($a_str, $a_old)))
+		{
+			$a_str = substr_replace ($a_str, $a_new, strpos($a_str, $a_old), strlen($a_old));
+		}
+		return $a_str;
+	}
 }
 ?>

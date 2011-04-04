@@ -345,7 +345,7 @@ assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
 assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least
 assessment#:#edit_content#:#Edit Content
 assessment#:#edit_properties#:#Edit Properties
-assessment#:#edit_test_questions#:#Edit Test Questions
+assessment#:#edit_test_questions#:#List View
 assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.
 assessment#:#element_height#:#Minimum Height
 assessment#:#empty_term_message#:#There is a least one empty term field.
@@ -592,7 +592,7 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment 
 assessment#:#qpl_assessment_of_questions#:#Assessment of Questions
 assessment#:#qpl_assessment_total_of_answers#:#Total of Answers
 assessment#:#qpl_assessment_total_of_right_answers#:#Total Percentage of Correct Answers (percentage of maximum points)
-assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
+assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following questions?
 assessment#:#qpl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
 assessment#:#qpl_copy_select_none#:#Please check at least one question to copy it to the clipboard
 assessment#:#qpl_delete_describe_undeleteable_questions#:#The following questions are in use in random tests. You cannot delete these questions:
@@ -798,7 +798,7 @@ assessment#:#tst_fixed_participants_data_exists#:#There are already participants
 assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. All fixed participants who did not start the test yet will be removed from the test. Do you want to proceed?
 assessment#:#tst_fixed_participants_disable#:#Confirm Status Change
 assessment#:#tst_fixed_participating_users#:#Fixed Participants in this Test
-assessment#:#tst_general_properties#:#General Properties
+assessment#:#tst_general_properties#:#General Settings
 assessment#:#tst_generate_xls#:#Generate Excel
 assessment#:#tst_heading_scoring#:#Scoring
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes
@@ -911,7 +911,7 @@ assessment#:#tst_random_test#:#Random Test
 assessment#:#tst_reached_points#:#Reached Points
 assessment#:#tst_remove_mark#:#Remove this mark
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
-assessment#:#tst_remove_questions#:#Are you sure you want to remove the following question(s) from the test?
+assessment#:#tst_remove_questions#:#Are you sure you want to remove the following questions from the test?
 assessment#:#tst_report_after_date#:#After a fixed score reporting date
 assessment#:#tst_report_after_first_question#:#Offer test results when the test has been started
 assessment#:#tst_report_after_question#:#Allow instant verification of answers
@@ -957,7 +957,7 @@ assessment#:#tst_select_tsts#:#Please select a test for duplication
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully
 assessment#:#tst_sequence_fixed#:#The Sequence of Questions is Fixed
 assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test pass
-assessment#:#tst_sequence_properties#:#Sequence Properties
+assessment#:#tst_sequence_properties#:#Sequence Settings
 assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_set_feedback_done#:#The Manual Feedback has been saved
@@ -4999,9 +4999,6 @@ content#:#cont_dir_created#:#Directory has been created.
 content#:#cont_dir_deleted#:#Directory has been deleted.
 content#:#cont_dir_file#:#Directory/File
 content#:#cont_dir_renamed#:#Directory has been renamed.
-content#:#cont_disable_html#:#HTML inactive
-content#:#cont_disable_js#:#JavaScript inactive
-content#:#cont_disable_media#:#Media inactive
 content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.
 content#:#cont_download_title#:#Download Title
 content#:#cont_downloads_desc#:#Enable download of all public export files.
@@ -5090,9 +5087,6 @@ content#:#cont_edit_term#:#Edit Term
 content#:#cont_edition#:#Edition
 content#:#cont_empty_mep_folder#:#There are no media objects in this folder.
 content#:#cont_empty_question#:#Question editing not finished. Please either click and edit or delete question.
-content#:#cont_enable_html#:#HTML active
-content#:#cont_enable_js#:#JavaScript active
-content#:#cont_enable_media#:#Media active
 content#:#cont_enable_time_scheduled_page_activation_info#:#If enabled, an activation period (date/time) can be selected in the learning module editor for each page.
 content#:#cont_enable_time_scheduled_page_activation#:#Time Scheduled Page Activation
 content#:#cont_end#:#End
@@ -9487,13 +9481,13 @@ survey#:#already_completed_survey#:#You have already finished the survey! You ar
 survey#:#anonymization#:#Anonymization
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 5-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.
-survey#:#anonymize_personalized#:#Personalized Survey
+survey#:#anonymize_personalized#:#No Anonymization
 survey#:#anonymize_registered_user#:#Anonymized Survey Access
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
 survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. For registered ILIAS users, a survey code will be generated automatically if the option "Access with survey codes for unregistered users" is selected.
-survey#:#anonymize_with_code#:#Access with survey codes for unregistered users
+survey#:#anonymize_with_code#:#Anonymous Survey with Access Codes
 survey#:#anonymize_with_code_all#:#Access with survey codes for all users
-survey#:#anonymize_without_code#:#Free access
+survey#:#anonymize_without_code#:#Anonymous Survey
 survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!
 survey#:#answer#:#Answer
 survey#:#apply#:#Apply
@@ -9502,7 +9496,7 @@ survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the followi
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
 survey#:#back#:#<< Back
 survey#:#before#:#before
-survey#:#browse_for_questions#:#Add Questions
+survey#:#browse_for_questions#:#Search/Add Questions
 survey#:#cancel_survey#:#Suspend the Survey
 survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!
 survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!
@@ -9683,7 +9677,7 @@ survey#:#last_update#:#Last Update
 survey#:#layout#:#Layout
 survey#:#legend#:#Legend
 survey#:#lower_limit#:#Lower Limit
-survey#:#maintenance#:#Maintenance
+survey#:#maintenance#:#Participants
 survey#:#manage_phrases#:#My Phrases
 survey#:#material_added_successfully#:#You successfully set a material link!
 survey#:#material_file#:#Material File
@@ -9823,7 +9817,7 @@ survey#:#results#:#Results
 survey#:#resume_survey#:#Resume the Survey
 survey#:#row_text#:#Row Text
 survey#:#save_back_to_survey#:#Save and go back to the survey
-survey#:#save_obligatory_state#:#Save Obligatory States
+survey#:#save_obligatory_state#:#Save Obligatory States and Order
 survey#:#save_phrase_categories_not_checked#:#Please check at least two answers to save answers in a new phrase!
 survey#:#save_phrase_introduction#:#If you want to save the answers below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.
 survey#:#save_phrase#:#Save as Phrase
@@ -9880,13 +9874,13 @@ survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey wi
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
 survey#:#survey_finish#:#Finish Survey
 survey#:#survey_finished#:#You have finished the survey. Thank you for your participation!
-survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.
+survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the participants section.
 survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.
 survey#:#survey_next#:#Next >>
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline!
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!
 survey#:#survey_previous#:#<< Previous
-survey#:#survey_question_editor#:#List of Questions
+survey#:#survey_question_editor#:#List View
 survey#:#survey_question_obligatory#:#This question is obligatory. You must answer the question!
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_questions#:#Questions
@@ -11106,10 +11100,10 @@ administration#:#adm_predefined_settings#:#Predefined Settings
 administration#:#adm_value#:#Value
 administration#:#adm_hide#:#Hide
 administration#:#adm_sure_delete_settings_template#:#Do you really want to delete the following templates?
-survey#:#survey_prev_question#:#Previous Question
-survey#:#survey_next_question#:#Next Question
+survey#:#survey_prev_question#:#Previous Page
+survey#:#survey_next_question#:#Next Page
 survey#:#survey_jump_to#:#Jump To
-survey#:#survey_add_new_question#:#Add new Question
+survey#:#survey_add_new_question#:#Add new Page
 survey#:#survey_use_pool#:#Use Pool
 content#:#cont_page_toc#:#Page Overview
 wiki#:#wiki_page_toc#:#Enable Page Overview Block
@@ -11123,3 +11117,111 @@ wiki#:#wiki_rename#:#Rename
 wiki#:#wiki_page_already_exists#:#A page with this title already exists.
 wiki#:#wiki_rename_page#:#Rename Page
 wiki#:#wiki_new_page_name#:#New Title
+survey#:#svy_settings_template#:#Template
+survey#:#survey_per_page_view#:#Page View
+survey#:#survey_dnd_move_next#:#Move to Next Page
+survey#:#survey_dnd_move_previous#:#Move to Previous Page
+survey#:#survey_dnd_split_page#:#Split Page
+survey#:#survey_dnd_double_click_to_delete#:#Double click on a content element to select it for cutting and deleting.
+survey#:#survey_dnd_clear_clipboard#:#Clear Clipboard
+survey#:#survey_dnd_paste#:#Paste from Clipboard
+survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.
+survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants
+survey#:#survey_using_template#:#This survey uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
+survey#:#survey_using_template_link#:#Do not use template anymore
+common#:#toggle_hidden_sections#:#Show more Information
+assessment#:#test_enable_views#:#Enabled views
+assessment#:#test_enable_view_both#:#Table- and Page View
+assessment#:#test_enable_view_express#:#Page View
+assessment#:#test_enable_view_table#:#List View
+assessment#:#tst_express_allow_question_pool#:#Allow Questionpool in Page View
+assessment#:#tst_express_allow_question_pool_description#:#If checked, questions can be added to a question pool.
+assessment#:#questions_per_page_view#:#Page View
+assessment#:#test_next_question#:#Next Question
+assessment#:#test_prev_question#:#Previous Question
+assessment#:#test_jump_to#:#Jump to Question
+assessment#:#test_add_new_question#:#Add Question
+assessment#:#adm_settings_templates#:#Settings Templates
+survey#:#survey_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
+survey#:#survey_template_reset#:#The template has been removed.
+survey#:#survey_introduction_info#:#This message appears at the beginning of the survey.
+survey#:#survey_auth_mode#:#Authentication Mode
+survey#:#survey_question_pool#:#Question Pool
+survey#:#survey_question_pool_usage#:#Choose Pool when creating questions
+survey#:#survey_pool_selection#:#Pool Selection
+survey#:#survey_no_pool#:#Do not use question pool
+survey#:#survey_new_pool#:#Create new question pool
+survey#:#survey_existing_pool#:#Use existing question pool
+survey#:#survey_delete_page#:#Delete Page
+survey#:#survey_at_beginning#:#At The Beginning
+survey#:#survey_behind_page#:#Behind
+survey#:#survey_show_blocktitle#:#Show Block Title
+survey#:#survey_show_blocktitle_description#:#If activated the block title will be shown in the survey.
+survey#:#survey_block_hidden#:#hidden
+survey#:#survey_block_visible#:#visible
+survey#:#survey_question_text_visible#:#Text visible
+survey#:#survey_question_text_hidden#:#Text hidden
+survey#:#survey_move_page#:#Move Page
+survey#:#survey_page_moved#:#The page has been moved.
+assessment#:#intro_desc#:#This message appears at the beginning of the test.
+assessment#:#test_question_pool_usage#:#Choose Pool when creating questions
+assessment#:#add_new_question#:#Add new Question
+wiki#:#wiki_news_page_created#:#New wiki page has been created.
+wiki#:#wiki_news_page_changed#:#Wiki page has been updated.
+wiki#:#wiki_changed_by#:#Changed by
+wiki#:#wiki_page_status_blocked#:#Editing of this page is currently blocked for learners.
+survey#:#survey_copy_questions_to_pool#:#Copy Questions To Pool
+survey#:#no_question_selected_for_copy_to_pool#:#Please select at least one question, which is not already linked to a question pool.
+survey#:#survey_copy_select_questionpool#:#Question pool to put the copies
+survey#:#survey_copy_to_questionpool_success#:#The questions were copied into the pool successfully.
+assessment#:#test_using_template#:#This test uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
+assessment#:#tst_anonymity_no_anonymization#:#No Anonymization
+assessment#:#tst_anonymity_anonymous_test#:#Anonymous Test
+assessment#:#tst_beginning_ending_information#:#Information at beginning and end of test
+assessment#:#tst_presentation_properties#:#Presentation Settings
+assessment#:#tst_settings_template#:#Template
+assessment#:#test_delete_page#:#Delete Question
+assessment#:#test_move_page#:#Move Question
+assessment#:#assessment_pool_selection#:#Pool Selection
+assessment#:#assessment_no_pool#:#Do not use question pool
+assessment#:#assessment_existing_pool#:#Use existing question pool
+assessment#:#assessment_new_pool#:#Create new question pool
+assessment#:#test_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
+assessment#:#test_template_reset#:#The template has been removed.
+assessment#:#test_using_template_link#:#Do not use template anymore
+common#:#tst_edit_questions#:#Edit Questions
+assessment#:#tst_mail_notification#:#Mail Notifications
+assessment#:#saveOrder#:#Save Order
+assessment#:#copy_and_link_to_questionpool#:#Copy to question pool and link
+common#:#tst_random_test_description_warning#:#<br /><b>This test has questions that are not assigned to a question pool. If you switch to random test mode, this questions will be lost.</b>
+assessment#:#tst_result#:#Test Result
+common#:#first#:#First
+rating#:#rat_one_rating#:#One Rating
+rating#:#rat_not_rated_yet#:#Not Rated Yet
+rating#:#rat_nr_ratings#:#%s Ratings
+wiki#:#wiki_functions#:#Wiki Functions
+wiki#:#wiki_navigation#:#Wiki Navigation
+common#:#behind#:#Behind
+survey#:#survey_auto_block_title#:#Page Header
+survey#:#survey_edit_settings#:#Edit Settings
+survey#:#survey_order#:#Sort Order
+wiki#:#wiki_page_lists#:#Page Lists
+wiki#:#wiki_notification_activated#:#Notification Activated (Whole Wiki)
+wiki#:#wiki_page_notification_activated#:#Notification Activated (Single Page)
+wiki#:#wiki_notification_deactivate_wiki#:#Deactivate Notification for Wiki
+wiki#:#wiki_notification_deactivate_page#:#Deactivate Notification for Page
+wiki#:#wiki_notification_activate_wiki#:#Activate Notification for Wiki
+wiki#:#wiki_notification_activate_page#:#Activate Notification for Page
+content#:#cont_presentation_view#:#Presentation View
+content#:#cont_deactivate_html#:#Deactivate HTML Rendering
+content#:#cont_deactivate_js#:#Activate Form Mode
+content#:#cont_deactivate_media#:#Deactivate Media
+content#:#cont_activate_html#:#Activate HTML Rendering
+content#:#cont_activate_js#:#Activate Javascript Mode
+content#:#cont_activate_media#:#Activate Media
+assessment#:#tst_remove_question#:#Are you sure you want to remove the following question from the test?
+survey#:#survey_cancel_preview#:#Cancel Preview
+survey#:#survey_cannot_preview_survey#:#Preview not available
+cntr#:#edit_questions#:#Edit Questions
+forum#:#empty_subject#:#On reply the user has to enter a new title.
+forum#:#frm_subject_setting#:#Subject setting

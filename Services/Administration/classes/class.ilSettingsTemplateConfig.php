@@ -17,6 +17,7 @@ class ilSettingsTemplateConfig
 	const TEXT = "text";
 	const SELECT = "select";
 	const BOOL = "bool";
+        const CHECKBOX = "check";
 
 	/**
 	 * Constructor

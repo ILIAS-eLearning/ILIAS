@@ -370,7 +370,17 @@ class ilTabsGUI
 	*/
 	function __getHTML($a_get_sub_tabs,$a_manual, $a_after_tabs_anchor = false)
 	{
-		global $ilCtrl, $lng, $ilUser;
+		global $ilCtrl, $lng, $ilUser, $ilPluginAdmin;
+
+		// user interface hook [uihk]
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+		foreach ($pl_names as $pl)
+		{
+			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+			$gui_class = $ui_plugin->getUIClassInstance();
+			$resp = $gui_class->modifyGUI("", $a_get_sub_tabs ? "sub_tabs" : "tabs",
+				array("tabs" => $this));
+		}
 
 		$cmd = $ilCtrl->getCmd();
 		$cmdClass = $ilCtrl->getCmdClass();
