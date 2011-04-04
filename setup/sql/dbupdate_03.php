@@ -4540,4 +4540,15 @@ if (!$ilDB->tableColumnExists("il_news_item", "content_text_is_lang_var"))
 	ilDBUpdate3136::addStyleClass("Page", "page", "div",
 				array());
 ?>
-
+<#3273>
+<?php	
+	if(!$ilDB->tableColumnExists('exc_data', 'compl_by_submission'))
+	{
+		$ilDB->addTableColumn('exc_data', 'compl_by_submission', array(
+			'type'		=> 'integer',
+			'length'	=> 1,
+			'notnull'	=> true,
+			'default'	=> 0
+		));
+	}
+?>

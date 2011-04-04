@@ -11225,3 +11225,5 @@ survey#:#survey_cannot_preview_survey#:#Preview not available
 cntr#:#edit_questions#:#Edit Questions
 forum#:#empty_subject#:#On reply the user has to enter a new title.
 forum#:#frm_subject_setting#:#Subject setting
+exc#:#exc_completion_by_submission#:#Completed by Submission
+exc#:#exc_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of an assignment. The score could be manually changed later. Switching this setting does not effect already submitted solutions.
