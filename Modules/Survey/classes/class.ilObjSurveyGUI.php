@@ -196,75 +196,61 @@ class ilObjSurveyGUI extends ilObjectGUI
 	* save object
 	* @access	public
 	*/
-	function saveObject()
+	function afterSave(ilObject $a_new_object)
 	{
-		global $rbacadmin;
+		$template_id = (int)$_POST['template'];
 
-		if (!strlen($_POST['Fobject']['title']))
+		include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+		$template = new ilSettingsTemplate($template_id);
+		$template_settings = $template->getSettings();
+		if($template_settings)
 		{
-			ilUtil::sendFailure($this->lng->txt('title_required'), true);
-			$this->ctrl->setParameter($this, 'new_type', $_GET['new_type']);
-			$this->ctrl->redirect($this, 'create');
-		}
-
-		// create and insert forum in objecttree
-		$newObj = parent::saveObject();
-		
-		if($_POST['Fobject']['template'])
-		{
-			$template_id = (int)$_POST['Fobject']['template'];
-			
-			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
-			$template = new ilSettingsTemplate($template_id);
-			$template_settings = $template->getSettings();
-			if($template_settings)
+			if($template_settings["show_question_titles"] !== NULL)
 			{
-				if($template_settings["show_question_titles"] !== NULL)
+				if($template_settings["show_question_titles"]["value"])
 				{
-					if($template_settings["show_question_titles"]["value"])
-					{
-						$newObj->setShowQuestionTitles(true);
-					}
-					else
-					{
-						$newObj->setShowQuestionTitles(false);
-					}
+					$a_new_object->setShowQuestionTitles(true);
 				}
-
-				if($template_settings["use_pool"] !== NULL)
+				else
 				{
-					if($template_settings["use_pool"]["value"])
-					{
-						$newObj->setPoolUsage(true);
-					}
-					else
-					{
-						$newObj->setPoolUsage(false);
-					}
+					$a_new_object->setShowQuestionTitles(false);
 				}
-
-				if($template_settings["anonymization_options"]["value"])
-				{
-					$anon_map = array('personalized' => ANONYMIZE_OFF,
-						'anonymize_with_code' => ANONYMIZE_ON,
-						'anonymize_without_code' => ANONYMIZE_FREEACCESS);
-					$newObj->setAnonymize($anon_map[$template_settings["anonymization_options"]["value"]]);
-				}
-
-				/* other settings: not needed here
-				 * - enabled_end_date
-				 * - enabled_start_date
-				 * - rte_switch
-				 */
 			}
 
-			$newObj->setTemplate($template_id);
-			$newObj->saveToDb();
+			if($template_settings["use_pool"] !== NULL)
+			{
+				if($template_settings["use_pool"]["value"])
+				{
+					$a_new_object->setPoolUsage(true);
+				}
+				else
+				{
+					$a_new_object->setPoolUsage(false);
+				}
+			}
+
+			if($template_settings["anonymization_options"]["value"])
+			{
+				$anon_map = array('personalized' => ANONYMIZE_OFF,
+					'anonymize_with_code' => ANONYMIZE_ON,
+					'anonymize_without_code' => ANONYMIZE_FREEACCESS);
+				$a_new_object->setAnonymize($anon_map[$template_settings["anonymization_options"]["value"]]);
+			}
+
+			/* other settings: not needed here
+			 * - enabled_end_date
+			 * - enabled_start_date
+			 * - rte_switch
+			 */
 		}
+
+		$a_new_object->setTemplate($template_id);
+		$a_new_object->saveToDb();
 
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
-		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=".$newObj->getRefId()."&cmd=properties");
+		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=".
+			$a_new_object->getRefId()."&cmd=properties");
 	}
 	
 	/**
@@ -2137,7 +2123,82 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$table_gui->setData($data);
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
-	}	
+	}
+
+	protected function initCreateForm($a_new_type)
+	{
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setTarget("_top");
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt($a_new_type."_new"));
+
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setMaxLength(128);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$form->addItem($ti);
+
+		// description
+		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$ta->setCols(40);
+		$ta->setRows(2);
+		$form->addItem($ta);
+
+		// using template?
+		include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+		$templates = ilSettingsTemplate::getAllSettingsTemplates("svy");
+		if($templates)
+		{
+			$this->tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
+			// $this->tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
+
+			$options = array(""=>$this->lng->txt("none"));
+			$js_data = array();
+			foreach($templates as $item)
+			{
+				$options[$item["id"]] = $item["title"];
+
+				$desc = str_replace("\n", "", nl2br(trim($item["description"])));
+				$desc = str_replace("\r", "", $desc);
+
+				$js_data[] = "jsInfo[".$item["id"]."] = \"".$desc."\"";
+			}
+
+			$tmpl = new ilSelectInputGUI($this->lng->txt("svy_settings_template"), "template");
+			$tmpl->setOptions($options);
+			$tmpl->addCustomAttribute("onChange=\"showInfo(this.value);\"");
+			$form->addItem($tmpl);
+
+			$js_data = implode("\n", $js_data);
+
+$preview = <<<EOT
+			<script>
+			var jsInfo = {};
+			$js_data
+			function showInfo(id) {
+				if(jsInfo[id] != undefined && jsInfo[id].length)
+				{
+					jQuery("#jsInfo").html(jsInfo[id]).css("display", "");
+				}
+				else
+				{
+					jQuery("#jsInfo").html("").css("display", "hidden");
+				}
+			}
+			</script>
+			<div id="jsInfo" style="display:none; margin: 5px;" class="small">xxx</div></td>
+EOT;
+
+			$tmpl->setInfo($preview);
+		}
+
+		$form->addCommandButton("save", $this->lng->txt($a_new_type."_add"));
+		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+
+		return $form;
+	}
 
 	protected function initImportForm($a_new_type)
 	{

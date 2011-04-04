@@ -443,9 +443,9 @@ $this->ctrl->saveParameterByClass(array('iltestexpresspageobjectgui', 'assorderi
 			$a_new_object->applyDefaults($_POST["defaults"]);
 		}
 
-		if($_POST['Fobject']['template'])
+		if($_POST['template'])
 		{
-			$template_id = (int)$_POST['Fobject']['template'];
+			$template_id = (int)$_POST['template'];
 
 			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 			$template = new ilSettingsTemplate($template_id, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
@@ -453,11 +453,11 @@ $this->ctrl->saveParameterByClass(array('iltestexpresspageobjectgui', 'assorderi
 			$template_settings = $template->getSettings();
 			if($template_settings)
 			{
-                            $this->applyTemplate($template_settings, $newObj);
+				$this->applyTemplate($template_settings, $a_new_object);
 			}
 
-			$newObj->setTemplate($template_id);
-			$newObj->saveToDb();
+			$a_new_object->setTemplate($template_id);
+			$a_new_object->saveToDb();
 		}
 
 		// always send a message
@@ -3337,53 +3337,59 @@ $this->ctrl->saveParameterByClass(array('iltestexpresspageobjectgui', 'assorderi
 			$form->addItem($def);
 		}
 
+
+		// using template?
+		include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+		$templates = ilSettingsTemplate::getAllSettingsTemplates("tst");
+		if($templates)
+		{
+			$this->tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
+			// $this->tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
+
+			$options = array(""=>$this->lng->txt("none"));
+			$js_data = array();
+			foreach($templates as $item)
+			{
+				$options[$item["id"]] = $item["title"];
+
+				$desc = str_replace("\n", "", nl2br(trim($item["description"])));
+				$desc = str_replace("\r", "", $desc);
+
+				$js_data[] = "jsInfo[".$item["id"]."] = \"".$desc."\"";
+			}
+
+			$tmpl = new ilSelectInputGUI($this->lng->txt("tst_settings_template"), "template");
+			$tmpl->setOptions($options);
+			$tmpl->addCustomAttribute("onChange=\"showInfo(this.value);\"");
+			$form->addItem($tmpl);
+
+			$js_data = implode("\n", $js_data);
+
+$preview = <<<EOT
+			<script>
+			var jsInfo = {};
+			$js_data
+			function showInfo(id) {
+				if(jsInfo[id] != undefined && jsInfo[id].length)
+				{
+					jQuery("#jsInfo").html(jsInfo[id]).css("display", "");
+				}
+				else
+				{
+					jQuery("#jsInfo").html("").css("display", "hidden");
+				}
+			}
+			</script>
+			<div id="jsInfo" style="display:none; margin: 5px;" class="small">xxx</div></td>
+EOT;
+
+			$tmpl->setInfo($preview);
+		}
+
 		$form->addCommandButton("save", $this->lng->txt($a_new_type."_add"));
 		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
 		return $form;
-// elba start
-			$this->tpl->setVariable("TYPE_IMG", ilUtil::getImagePath('icon_tst.gif'));
-			$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_tst"));
-			$this->tpl->setVariable("TYPE_IMG2", ilUtil::getImagePath('icon_tst.gif'));
-			$this->tpl->setVariable("ALT_IMG2",$this->lng->txt("obj_tst"));
-			$this->tpl->setVariable("NEW_TYPE", $new_type);
-
-                        $this->tpl->setVariable("TXT_IMPORT_TST", $this->lng->txt("import_tst"));
-
-			// using template?
-			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
-			$templates = ilSettingsTemplate::getAllSettingsTemplates("tst");
-			if($templates)
-			{
-				$this->tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
-
-				$this->tpl->setCurrentBlock("template_option");
-				$this->tpl->setVariable("VAL_TEMPLATE_OPTION", "");
-				$this->tpl->setVariable("TXT_TEMPLATE_OPTION", $this->lng->txt("none"));
-				$this->tpl->parseCurrentBlock();
-
-				foreach($templates as $item)
-				{
-					$this->tpl->setVariable("VAL_TEMPLATE_OPTION", $item["id"]);
-					$this->tpl->setVariable("TXT_TEMPLATE_OPTION", $item["title"]);
-					$this->tpl->parseCurrentBlock();
-
-					$desc = str_replace("\n", "", nl2br($item["description"]));
-					$desc = str_replace("\r", "", $desc);
-
-					$this->tpl->setCurrentBlock("js_data");
-					$this->tpl->setVariable("JS_DATA_ID", $item["id"]);
-					$this->tpl->setVariable("JS_DATA_TEXT", $desc);
-					$this->tpl->parseCurrentBlock();
-				}
-
-				$this->tpl->setCurrentBlock("templates");
-				$this->tpl->setVariable("TXT_TEMPLATE", $this->lng->txt("tst_settings_template"));
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->parseCurrentBlock();
-// elba end
 	}
 
 	function initImportForm($a_new_type)
