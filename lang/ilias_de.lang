@@ -5135,7 +5135,7 @@ content#:#cont_insert_new_footnote#:#Neue Fußnote einfügen
 content#:#cont_insert_page#:#Seite einfügen
 content#:#cont_insert_page_from_clip#:#Seite aus Zwischenablage einfügen
 content#:#cont_insert_par#:#Text einfügen
-content#:#cont_insert_resources#:#Materialliste einfügen
+content#:#cont_insert_resources#:#Materialienliste einfügen
 content#:#cont_insert_search#:#Bitte geben Sie einen Suchbegriff für das zuzuordnende Objekt ein
 content#:#cont_insert_section#:#Block einfügen
 content#:#cont_insert_src#:#Programmcode einfügen
@@ -5515,7 +5515,7 @@ content#:#cont_Unordered#:#Ungeordnet
 content#:#cont_update#:#Aktualisieren
 content#:#cont_update_map#:#Karte bearbeiten
 content#:#cont_update_names#:#Namen aktualisieren
-content#:#cont_update_resources#:#Materialliste aktualisieren
+content#:#cont_update_resources#:#Materialienliste aktualisieren
 content#:#cont_update_section#:#Block aktualisieren
 content#:#cont_update_tabs#:#Register aktualisieren
 content#:#cont_upload_dir#:#Upload-Verzeichnis
