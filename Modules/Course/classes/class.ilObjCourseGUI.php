@@ -1422,6 +1422,11 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		return $form;
 	}
+
+	protected function  getEditFormValues()
+	{
+		// values are done in initEditForm()
+	}
 				
 	/**
 	 * 
