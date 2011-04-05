@@ -2042,6 +2042,11 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
+		
+		// Set context for login
+		$append = '_'.$this->objCurrentTopic->getId().
+			($this->objCurrentPost->getId() ? '_'.$this->objCurrentPost->getId() : '');
+		$tpl->setLoginTargetPar('frm_'.$_GET['ref_id'].$append);
 
 		// delete temporary media object (not in case a user adds media objects and wants to save an invalid form)
 		if($_GET['action'] != 'showreply' && $_GET['action'] != 'showedit')
