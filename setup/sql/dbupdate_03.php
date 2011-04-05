@@ -4552,3 +4552,15 @@ if (!$ilDB->tableColumnExists("il_news_item", "content_text_is_lang_var"))
 		));
 	}
 ?>
+<#3274>
+<?php
+	if(!$ilDB->tableColumnExists('crs_settings', 'auto_noti_disabled'))
+	{
+		$ilDB->addTableColumn('crs_settings', 'auto_noti_disabled', array(
+			'type'		=> 'integer',
+			'length'	=> 1,
+			'notnull'	=> true,
+			'default'	=> 0
+		));
+	}
+?>
