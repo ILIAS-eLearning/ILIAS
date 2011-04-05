@@ -58,6 +58,16 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	private $reg_access_code_enabled = false;
 
 	/**
+	 *
+	 * 
+	 *
+	 * @var boolean
+	 * @access private
+	 * 
+	 */
+	private $auto_noti_disabled = false;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
@@ -1089,7 +1099,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			'session_prev = '.$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').', '.
 			'session_next = '.$ilDB->quote($this->getNumberOfNextSessions(),'integer').', '.
 			'reg_ac_enabled = '.$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
-			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').' '.
+			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
+			'auto_noti_disabled = '.$ilDB->quote( (int)$this->getAutoNotiDisabled(), 'integer').' '.
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')."";
 
 		$res = $ilDB->manipulate($query);
@@ -1133,7 +1144,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->enableSessionLimit($this->isSessionLimitEnabled());
 		$new_obj->setNumberOfPreviousSessions($this->getNumberOfPreviousSessions());
 		$new_obj->setNumberOfNextSessions($this->getNumberOfNextSessions());
-		
+		$new_obj->setAutoNotiDisabled( $this->getAutoNotiDisabled() );
 		$new_obj->enableRegistrationAccessCode($this->isRegistrationAccessCodeEnabled());
 		include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
 		$new_obj->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
@@ -1153,7 +1164,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			"activation_end,sub_limitation_type,sub_start,sub_end,sub_type,sub_password,sub_mem_limit,".
 			"sub_max_members,sub_notify,view_mode,archive_start,archive_end,archive_type,abo," .
 			"latitude,longitude,location_zoom,enable_course_map,waiting_list,show_members, ".
-			"session_limit,session_prev,session_next, reg_ac_enabled, reg_ac) ".
+			"session_limit,session_prev,session_next, reg_ac_enabled, reg_ac, auto_noti_disabled) ".
 			"VALUES( ".
 			$ilDB->quote($this->getId() ,'integer').", ".
 			$ilDB->quote($this->getSyllabus() ,'text').", ".
@@ -1189,7 +1200,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').', '.
 			$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').', '.
 			$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
-			$ilDB->quote($this->getRegistrationAccessCode(),'text').' '.
+			$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
+			$ilDB->quote((int)$this->getAutoNotiDisabled(),'integer').' '.
 			")";
 			
 		$res = $ilDB->manipulate($query);
@@ -1245,6 +1257,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->setNumberOfNextSessions($row->session_next);
 			$this->enableRegistrationAccessCode($row->reg_ac_enabled);
 			$this->setRegistrationAccessCode($row->reg_ac);
+			$this->setAutoNotiDisabled($row->auto_noti_disabled == 1 ? true : false);
 		}
 		
 		return true;
@@ -1916,6 +1929,29 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		ilForumNotification::checkForumsExistsInsert($this->getRefId(), $a_user_id);
 		
 		return true;
+	}
+
+	/**
+	 * Returns automatic notification disabled status from 
+	 * $this->auto_noti_disabled
+	 * 
+	 * @return boolean
+	 */
+	public function getAutoNotiDisabled()
+	{
+		return $this->auto_noti_disabled;
+	}
+
+
+	/**
+	 * Sets automatic notification disabled status in $this->auto_noti_disabled,
+	 * using given $status.
+	 *
+	 * @param mixed boolean
+	 */
+	public function setAutoNotiDisabled($value)
+	{
+		$this->auto_noti_disabled = $value;
 	}
 } //END class.ilObjCourse
 ?>

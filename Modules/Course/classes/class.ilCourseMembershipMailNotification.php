@@ -45,6 +45,18 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 	 */
 	public function send()
 	{
+		if( (int) $this->getRefId() &&
+			in_array($this->getType(), array(self::TYPE_ADMISSION_MEMBER)) )
+		{
+			$obj = ilObjectFactory::getInstanceByRefId( (int) $this->getRefId() );
+
+			// No notifications if $obj->getAutoNotiDisabled() is true.
+			if( $obj->getAutoNotiDisabled() )
+			{
+				return false;
+			}
+		}
+
 		parent::send();
 		
 		switch($this->getType())

@@ -11232,3 +11232,5 @@ exc#:#exc_completion_by_submission#:#Bestehen durch Abgabe
 exc#:#exc_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösung zum Bestehen einer Übungseinheit. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 rbac#:#precondition_num_optional_info#:#Bitte geben Sie die minimale Anzahl der Materialien an, die notwendig ist, um die Vorbedingung zu erfüllen.
 trac#:#trac_min_passed#:#Minimalanzahl zu bestehender Materialien:
+crs#:#crs_deact_auto_noti#:#Unterbindung von Mail-Benachrichtigungen aktivieren
+crs#:#crs_deact_auto_noti_info#:#Unterbindet den Versand der Mail-Benachrichtigung für den Kursbeitritt an jene Teilnehmer, die über die Teilnehmerverwaltung in den Kurs aufgenommen wurden.
