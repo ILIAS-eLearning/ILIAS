@@ -8772,8 +8772,8 @@ rbac#:#perm_class_create#:#Neue Objekte erzeugen
 rbac#:#perm_class_create_desc#:#Hier stellen Sie ein, welche Objekte unter diesem Objekt angelegt werden dürfen.
 rbac#:#perm_class_general#:#Standardoperationen
 rbac#:#perm_class_general_desc#:#Mögliche Basisoperationen für dieses Objekt. Bewegen Sie den Mauszeiger über eine Operation, um weitere Informationen zu erhalten.
-rbac#:#perm_class_object#:#Objektspezifische Operationen
-rbac#:#perm_class_object_desc#:#Hier sind Operationen aufgeführt, die nur für den aktuellen Objekttyp verfügbar sind.
+rbac#:#perm_class_object#:#Operationen
+rbac#:#perm_class_object_desc#:#Hier sind die Rechte für Operationen aufgeführt, die für den aktuellen Objekttyp verfügbar sind.
 rbac#:#perm_class_rbac#:#Rechteeinstellungen
 rbac#:#perm_class_rbac_desc#:#Hier steuern Sie den Zugriff auf die Rechteeinstellungen (dieses Menü) und die automatische Zugriffsregelung für neu erzeugte Objekte.
 rbac#:#perm_local_role#:#Lokale Rolle
