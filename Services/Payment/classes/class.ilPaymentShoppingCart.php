@@ -528,6 +528,13 @@ class ilPaymentShoppingCart
 		$ilDB->manipulateF($query, array('integer'), array(ANONYMOUS_USER_ID));	
 		
 	}
-		
+
+	public static function _deleteShoppingCartEntries($a_pobject_id)
+	{
+		global $ilDB;
+
+		$res = $ilDB->manipulateF('DELETE FROM payment_shopping_cart WHERE pobject_id = %s',
+				array('integer'), array($a_pobject_id));
+	}
 }
 ?>

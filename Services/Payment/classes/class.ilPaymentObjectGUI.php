@@ -1043,6 +1043,13 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 				return false;
 			}
 		}
+
+		if((int)$_POST['status'] == 0)
+		{
+			// Status: not buyable -> delete depending shoppingcart entries
+			include_once './Services/Payment/classes/class.ilPaymentShoppingCart';
+			ilPaymentShoppingCart::_deleteShoppingCartEntries($this->pobject->getPobjectId());
+		}
 		
 		$this->pobject->setStatus((int)$_POST['status']);
 		$this->pobject->setVendorId((int)$_POST['vendor']);
