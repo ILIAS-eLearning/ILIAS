@@ -145,7 +145,8 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 					}
 					
 					if((!$this->filter["name"] || stristr($name, $this->filter["name"])) &&
-						(!$this->filter["group"] || array_key_exists($this->filter["group"], $user_groups)))
+						(!$this->filter["group"] || array_key_exists($this->filter["group"], $user_groups["members"]) ||
+						array_key_exists($this->filter["group"], $user_groups["admins"])))
 					{
 						$usr_data[] = array("usr_id" => $usr_id,
 							"name" => $name,
