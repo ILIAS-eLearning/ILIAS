@@ -58,9 +58,7 @@ class ilHtmlForumPostPurifier extends ilHtmlPurifierAbstractLibWrapper
 		$config->set('HTML.AllowedElements', $this->removeUnsupportedElements($tags));		
 		
 		$def = $config->getHTMLDefinition(true);
-		$def->addAttribute('a', 'target', new HTMLPurifier_AttrDef_Enum(
-			array('_blank', '_self', '_target', '_top')
-		));
+		$def->addAttribute('a', 'target', 'Enum#_blank,_self,_target,_top');		
 
 		return $config;
 	}	
