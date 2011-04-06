@@ -12,6 +12,11 @@ class ilTextHighlighterGUI
 	static function highlight($a_dom_node_id, $a_text, $a_tpl = null)
 	{
 		global $tpl;
+
+		if(!trim($a_text))
+		{
+			return;
+		}
 		
 		if ($a_tpl == null)
 		{
