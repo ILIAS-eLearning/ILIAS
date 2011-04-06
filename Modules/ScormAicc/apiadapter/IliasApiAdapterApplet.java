@@ -298,12 +298,12 @@ public	class IliasApiAdapterApplet
 
 			// Do as privileged action as workaround for
 			// http://forums.oracle.com/forums/thread.jspa?threadID=1772674
-			ObjectOutputStream os = null;
-			os = (ObjectOutputStream) AccessController.doPrivileged(new PrivilegedAction()
+			OutputStream os = null;
+			os = (OutputStream) AccessController.doPrivileged(new PrivilegedAction()
 			{
 				public Object run() {
 					try {
-						return new ObjectOutputStream(po.getOutputStream());
+						return po.getOutputStream();
 					}
 					catch(Exception e) {
 						say(e.getMessage());
@@ -312,6 +312,8 @@ public	class IliasApiAdapterApplet
 				}
 			}
 			);
+
+
 
 			say ("post:" +P.toString());
 			os.write (P.toString().getBytes());
