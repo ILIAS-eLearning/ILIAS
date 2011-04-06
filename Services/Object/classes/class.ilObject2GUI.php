@@ -408,7 +408,10 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 				// object
 				$object = ilObjectFactory::getInstanceByObjId($node["obj_id"], false);
-			    $object->delete();
+				if($object)
+				{
+					$object->delete();
+				}
 			}
 
 			$this->ctrl->setParameter($this, "wsp_id", $parent);
