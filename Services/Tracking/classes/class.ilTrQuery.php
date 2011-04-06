@@ -219,9 +219,16 @@ class ilTrQuery
 
 		$queries = array(array("fields"=>$fields, "query"=>$query));
 
+		// udf data is added later on, not in this query
+		$udf_order = null;
 		if(!$a_order_field)
 		{
 			$a_order_field = "login";
+		}
+		else if(substr($a_order_field, 0, 4) == "udf_")
+		{
+			$udf_order = $a_order_field;
+			$a_order_field = null;
 		}
 
 		$result = self::executeQueries($queries, $a_order_field, $a_order_dir, $a_offset, $a_limit);
@@ -298,6 +305,14 @@ class ilTrQuery
 						}
 					}
 				}
+			}
+
+			// as we cannot do this in the query, sort by custom field here
+			if($udf_order)
+			{
+				include_once "Services/Utilities/classes/class.ilStr.php";
+				$result["set"] = ilUtil::stableSortArray($result["set"],
+					$udf_order, $a_order_dir);
 			}
 		}
 		return $result;
