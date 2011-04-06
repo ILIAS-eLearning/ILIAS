@@ -432,10 +432,12 @@ class ilCertificate
 	public function outCertificate($params, $deliver = TRUE)
 	{
 		global $ilLog;
+
+		ilDatePresentation::setUseRelativeDates(false);
 		
 		$insert_tags = $this->getAdapter()->getCertificateVariablesForPresentation($params);
 		$xslfo = file_get_contents($this->getXSLPath());
-		
+
 		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
 		try
 		{
@@ -462,6 +464,8 @@ class ilCertificate
 			return false;
 		}
 
+		ilDatePresentation::setUseRelativeDates(true);
+
 		/*
 		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
 		$fo2pdf = new ilFO2PDF();
@@ -485,9 +489,11 @@ class ilCertificate
 	public function createPreview()
 	{
 		global $ilLog;
-		
+
+		ilDatePresentation::setUseRelativeDates(false);
+
 		$xslfo = file_get_contents($this->getXSLPath());
-		
+
 		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
 		try
 		{
@@ -506,6 +512,8 @@ class ilCertificate
 			$ilLog->write(__METHOD__.': '.$e->getMessage());
 			return false;
 		}
+
+		ilDatePresentation::setUseRelativeDates(true);
 		
 		/*
 		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
