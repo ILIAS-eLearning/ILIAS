@@ -77,19 +77,39 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 		include_once "Modules/WorkspaceFolder/classes/class.ilWorkspaceFolderExplorer.php";
 		$exp = new ilWorkspaceFolderExplorer($this->ctrl->getLinkTarget($this), $ilUser->getId());
-		$exp->setTargetGet("wsp_id");
-		$exp->setSessionExpandVariable('wspexpand');
-		$exp->setExpand($this->node_id);
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this));
-		
-		if ($_GET["wspexpand"] != "")
+
+		$left = "";
+
+		// level up
+		$parent = $exp->getParentNode($this->node_id);
+		if($parent)
 		{
-			$exp->setExpand($_GET["wspexpand"]);
+			$this->ctrl->setParameter($this, "wsp_id", $parent);
+			$left = "<div class=\"small\" style=\"margin:5px\">[<a href=\"".
+				$this->ctrl->getLinkTarget($this)."\">..</a>]</div>";
+			$this->ctrl->setParameter($this, "wsp_id", $this->node_id);
 		}
 
-		$exp->highlightNode($this->node_id);
-		$exp->setOutput(0);
-		$tpl->setLeftContent($exp->getOutput());
+		// sub-folders
+		if($exp->hasFolders($this->node_id))
+		{
+			$exp->setTargetGet("wsp_id");
+			$exp->setSessionExpandVariable('wspexpand');
+			$exp->setExpand($this->node_id);
+			$exp->setExpandTarget($this->ctrl->getLinkTarget($this));
+
+			if ($_GET["wspexpand"] != "")
+			{
+				$exp->setExpand($_GET["wspexpand"]);
+			}
+
+			$exp->highlightNode($this->node_id);
+			$exp->setOutput(0);
+		
+			$left .= $exp->getOutput();
+		}
+
+		$tpl->setLeftContent($left);
 	}
 
 	/**

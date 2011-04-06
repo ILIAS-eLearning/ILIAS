@@ -277,5 +277,15 @@ class ilWorkspaceFolderExplorer extends ilExplorer
 		return $lng->txt("icon")." ".$lng->txt($a_type);
 	}
 
+	function hasFolders($a_node_id)
+	{
+		return sizeof($this->tree->getChildsByType($a_node_id, "wfld"));
+	}
+
+	function getParentNode($a_node_id)
+	{
+		return $this->tree->getParentId($a_node_id);
+	}
 }
+
 ?>
