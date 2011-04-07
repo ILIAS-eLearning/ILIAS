@@ -11230,3 +11230,4 @@ rbac#:#precondition_num_optional_info#:#Please enter the minimum number of mater
 trac#:#trac_min_passed#:#Minimum Number of Passed Materials:
 crs#:#crs_deact_auto_noti#:#Suppress notification about new membership
 crs#:#crs_deact_auto_noti_info#:#Supresses mail notificaton about course membership for members admitted to course by edit participants view.
+wsp#:#wsp_type_tstv#:#Verification: Test
