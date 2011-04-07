@@ -120,7 +120,7 @@ class ilPersonalWorkspaceGUI
 		if($root["type"] == "wsrt")
 		{
 			$title = $lng->txt("wsp_personal_workspace");
-			$icon = ilObject::_getIcon(ROOT_FOLDER_ID, "big");
+			$icon = ilUtil::getImagePath("icon_wsrt_b.gif");
 			$tpl->setDescription($lng->txt("wsp_personal_workspace_description"));
 		}
 		else
