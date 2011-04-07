@@ -10435,7 +10435,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$all = array();
 		while($row = $ilDB->fetchAssoc($result))
 		{
-			$all[$row["test_fi"]] = (bool)$row["pass"];
+			$obj_id =  self::_getObjectIDFromTestID($row["test_fi"]);
+			$all[$obj_id] = (bool)$row["pass"];
 		}
 		return $all;
 	}
