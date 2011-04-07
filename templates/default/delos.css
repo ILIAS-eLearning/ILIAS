@@ -1497,6 +1497,58 @@ div.ilEditVAccordICont
 	background-color: #FFFFFF;
 }
 
+div.ilTinyMenuSection
+{
+	float:left;
+	white-space:nowrap;
+	border-right: solid 1px #E0E0E0;
+	padding: 0px 10px 2px 0px;
+	margin-right: 10px;
+}
+
+#ilTinyMenuButtons
+{
+	margin-bottom: 15px;
+}
+
+#iltinymenu .bd div.last
+{
+	float:left;
+	white-space:nowrap;
+	padding: 0px 10px 2px 0px;
+	border-right: 0;
+	margin: 0;
+}
+
+#iltinymenu .bd div .small
+{
+	color: #909090;
+	font-style: italic;
+}
+
+#ilsaving
+{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	text-decoration: blink;
+}
+
+.ilTinyMenuDropDown span
+{
+	padding: 2px 0px 0px 5px;
+	width: 75px;
+	overflow: hidden;
+	display: inline-block;
+	line-height: 1em;
+}
+
+a.ilTinyMenuDropDown
+{
+	display: inline-block;
+	padding: 0px 2px 1px 0px;
+}
+
 /* ------------------ blind image - spacer gif --------------
    please use this style class always when using this blind image */
 img.spacer {
@@ -2898,9 +2950,9 @@ h3.ilProfileSectionHead {
 /* revised 4.1 */
 
 /* Tooltip */
-.yui-tt {
+.yui-skin-sam .yui-tt .bd, .yui-tt .bd{
 	color: #333333;
-	padding: 4px 8px 2px 8px;
+	padding: 4px 4px 4px 4px;
 	font-size: 90%;
 	border: solid #FFDD77 2px;
 	line-height: 100%;
@@ -2909,6 +2961,10 @@ h3.ilProfileSectionHead {
 	-moz-box-shadow: 2px 2px 2px #888;
 	-webkit-border-radius: 5px;
 	-webkit-box-shadow: 2px 2px 2px #888;
+}
+
+.yui-skin-sam .yui-tt .yui-tt-shadow {
+	display:none;
 }
 
 /* locator */

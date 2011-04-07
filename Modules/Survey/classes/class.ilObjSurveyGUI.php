@@ -95,9 +95,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
 		// deep link from repository - "redirect" to page view
-		if(!$this->ctrl->getCmdClass() && $cmd == "questions" && !isset($_REQUEST["pgov"]))
+		if(!$this->ctrl->getCmdClass() && $cmd == "questionsrepo")
 		{
 			$_REQUEST["pgov"] = 1;
+			$cmd = "questions";
+			$ilCtrl->setCmd($cmd);
 		}
 
 		// return to questions in page view mode
@@ -1406,7 +1408,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 				array_push($checked_headings, $matches[1]);
 			}
 		}
-		if($checked_questions || $checked_questionsblocks)
+
+		if(sizeof($checked_questions) || sizeof($checked_questionblocks))
 		{
 			$this->object->removeQuestions($checked_questions, $checked_questionblocks);
 		}

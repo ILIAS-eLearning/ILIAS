@@ -2046,6 +2046,8 @@ class ilPageObjectGUI
 		
 		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
 
+		include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+		
 		$btpl = new ilTemplate("tpl.tiny_menu.html", true, true, "Services/COPage");
 
 		// bullet list
@@ -2075,7 +2077,12 @@ class ilPageObjectGUI
 		if ($a_int_links)
 		{
 			$btpl->touchBlock("bb_ilink_button");
+			ilTooltipGUI::addTooltip("iosEditInternalLinkTrigger", $lng->txt("cont_link_to_internal"),
+				"iltinymenu_bd");
 		}
+		ilTooltipGUI::addTooltip("il_edm_xlink", $lng->txt("cont_link_to_external"),
+			"iltinymenu_bd");
+
 
 //		if ($a_keywords)
 //		{
@@ -2086,25 +2093,51 @@ class ilPageObjectGUI
 		if ($a_wiki_links)
 		{
 			$btpl->setCurrentBlock("bb_wikilink_button");
-			$btpl->setVariable("TXT_WLN2", $lng->txt("wiki_wiki_page"));
+			$btpl->setVariable("TXT_WLN2", $lng->txt("obj_wiki"));
 			$btpl->parseCurrentBlock();
+			ilTooltipGUI::addTooltip("il_edm_wlink", $lng->txt("cont_link_to_wiki"),
+				"iltinymenu_bd");
 		}
 //		$jsMathSetting = new ilSetting("jsMath");
 //		$style = $this->getStyle();
 
+		$aset = new ilSetting("adve");
+		
 		include_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 		foreach (ilPageContentGUI::_getCommonBBButtons() as $c => $st)
 		{
+			// these are handled via drop down now...
+			if (in_array($c, array("com", "quot", "acc", "code")))
+			{
+				continue;
+			}
 			if (ilPageEditorSettings::lookupSettingByParentType(
 				$a_par_type, "active_".$c, true))
 			{
+				$cc_code = $c;
+				if ($aset->get("use_physical"))
+				{
+					$cc_code = str_replace(array("str", "emp", "imp"), array("B", "I", "U"), $cc_code);
+				}
+				
 				if ($c != "tex" || $jsMathSetting->get("enable") || defined("URL_TO_LATEX"))
 				{
-					$btpl->touchBlock("bb_".$c."_button");
+					$btpl->setCurrentBlock("bb_".$c."_button");
+					$btpl->setVariable("CC_".strtoupper($c), $cc_code);
+					$btpl->parseCurrentBlock();
 //					$btpl->setVariable("TXT_".strtoupper($c), $this->lng->txt("cont_text_".$c));
 				}
 			}
 		}
+		
+		if ($jsMathSetting->get("enable") || defined("URL_TO_LATEX"))
+		{
+			ilTooltipGUI::addTooltip("il_edm_tex", $lng->txt("cont_tex"),
+				"iltinymenu_bd");
+		}
+		ilTooltipGUI::addTooltip("il_edm_fn", $lng->txt("cont_fn"),
+			"iltinymenu_bd");
+
 
 /*		if ($a_anchors)
 		{
@@ -2120,10 +2153,20 @@ class ilPageObjectGUI
 //		$btpl->setVariable("PAR_TA_NAME", $a_ta_name);
 
 		$btpl->setVariable("TXT_SAVE", $lng->txt("save"));
+		$btpl->setVariable("TXT_SAVE_RETURN", $lng->txt("save_return"));
+		$btpl->setVariable("TXT_CANCEL", $lng->txt("cancel"));
 
+		$btpl->setVariable("TXT_PAR_FORMAT", $lng->txt("cont_par_format"));
+		$btpl->setVariable("TXT_CHAR_FORMAT", $lng->txt("cont_char_format"));
+		$btpl->setVariable("TXT_LISTS", $lng->txt("cont_lists"));
+		$btpl->setVariable("TXT_LINKS", $lng->txt("cont_links"));
+		$btpl->setVariable("TXT_MORE_FUNCTIONS", $lng->txt("cont_more_functions"));
+		$btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
+		
 		include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
 		$btpl->setVariable("STYLE_SELECTOR", ilPCParagraphGUI::getStyleSelector($a_selected,
 			ilPCParagraphGUI::_getCharacteristics($a_style_id), true));
+		$btpl->setVariable("CHAR_STYLE_SELECTOR", ilPCParagraphGUI::getCharStyleSelector($a_par_type));
 
 
 		return $btpl->get();

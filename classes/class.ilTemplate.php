@@ -1763,9 +1763,14 @@ class ilTemplate extends ilTemplateX
 	/**
 	* Add on load code
 	*/
-	function addOnLoadCode($a_code)
+	function addOnLoadCode($a_code, $a_batch = 2)
 	{
-		$this->on_load_code[] = $a_code;
+		// three batches currently
+		if ($a_batch < 1 || $a_batch > 3)
+		{
+			$a_batch = 2;
+		}
+		$this->on_load_code[$a_batch][] = $a_code;
 	}
 	
 	/**
@@ -1953,17 +1958,20 @@ class ilTemplate extends ilTemplateX
 	*/
 	function fillOnLoadCode()
 	{
-		if (is_array($this->on_load_code))
+		for ($i = 1; $i <= 3; $i++)
 		{
-			$this->setCurrentBlock("on_load_code");
-			foreach ($this->on_load_code as $code)
+			if (is_array($this->on_load_code[$i]))
 			{
-				$this->setCurrentBlock("on_load_code_inner");
-				$this->setVariable("OLCODE", $code);
+				$this->setCurrentBlock("on_load_code");
+				foreach ($this->on_load_code[$i] as $code)
+				{
+					$this->setCurrentBlock("on_load_code_inner");
+					$this->setVariable("OLCODE", $code);
+					$this->parseCurrentBlock();
+				}
+				$this->setCurrentBlock("on_load_code");
 				$this->parseCurrentBlock();
 			}
-			$this->setCurrentBlock("on_load_code");
-			$this->parseCurrentBlock();
 		}
 	}
 

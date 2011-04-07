@@ -17,6 +17,22 @@ var ilCOPage =
 
 	cmdSave: function ()
 	{
+		var el = document.getElementById('ilsaving');
+		el.style.display = '';
+		if (this.getInsertStatus())
+		{
+			ilFormSend("insertJS", ed_para, null, "saveonly");
+		}
+		else
+		{
+			ilFormSend("saveJS", ed_para, null, "saveonly");
+		}
+	},
+	
+	cmdSaveReturn: function ()
+	{
+		var el = document.getElementById('ilsaving');
+		el.style.display = '';
 		var ed = tinyMCE.get('tinytarget');
 		this.autoResize(ed);
 		this.setEditStatus(false);
@@ -31,6 +47,32 @@ var ilCOPage =
 		else
 		{
 			ilFormSend("saveJS", ed_para, null, null);
+		}
+	},
+
+	cmdCancel: function ()
+	{
+		//var el = document.getElementById('ilsaving');
+		//el.style.display = '';
+		var ed = tinyMCE.get('tinytarget');
+		this.autoResize(ed);
+		this.setEditStatus(false);
+		ilFormSend("cancel", ed_para, null, "cancel");
+	},
+
+	setCharacterClass: function(i)
+	{
+		switch (i.hid_val)
+		{
+			case "Quotation":
+			case "Comment":
+			case "Accent":
+				this.cmdSpan(i.hid_val);
+				break;
+				
+			case "Code":
+				this.cmdCode();
+				break;
 		}
 	},
 
@@ -1179,10 +1221,7 @@ resize = false;
  */
 function saveParagraph()
 {
-//	var ed = tinyMCE.get('tinytarget');
-//	ed.setProgressState(1); // Show progress
-	ilCOPage.setEditStatus(false);
-	ilFormSend("saveJS", ed_para, null, null);
+	ilCOPage.cmdSave();
 }
 
 function doActionForm(cmd, command, value, target, type)
@@ -1421,39 +1460,45 @@ function ilFormSend(cmd, source_id, target_id, mode)
 		hid_exec.name = "cmd[exec_" + source_id + "]";
 	}
 
-	if (cmd == 'saveJS' || cmd == 'insertJS')
+	if (cmd == 'saveJS' || cmd == 'insertJS' || cmd == "cancel")
 	{
-		// get content of tiny and put it into form
-		hid_cont = document.getElementById("ajaxform_content");
-		var ed = tinyMCE.get('tinytarget');
-		hid_cont.value = ed.getContent();
+		if (cmd != "cancel")
+		{
+			// get content of tiny and put it into form
+			hid_cont = document.getElementById("ajaxform_content");
+			var ed = tinyMCE.get('tinytarget');
+			hid_cont.value = ed.getContent();
 
-		// put selected style class into form
-		var hid_char = document.getElementById("ajaxform_char");
-		hid_char.value = ilAdvancedSelectionList.getHiddenInput('style_selection');
+			// put selected style class into form
+			var hid_char = document.getElementById("ajaxform_char");
+			hid_char.value = ilAdvancedSelectionList.getHiddenInput('style_selection');
+		}
 
 		// get tiny region (befor removing it!)
 		var ttbl = document.getElementById("tinytarget_tbl");
 		tt_reg = YAHOO.util.Region.getRegion(ttbl);
 
-		// remove tiny
-		tinyMCE.execCommand('mceRemoveControl', false, 'tinytarget');
-		var tt = document.getElementById("tinytarget");
-		tt.style.display = 'none';
-
-		// insert div and loader image
-		var ld = new YAHOO.util.Element(document.createElement('div'));
-		var lg = new YAHOO.util.Element(document.createElement('img'));
-		lg = ld.appendChild(lg);
-		ld = YAHOO.util.Dom.insertAfter(ld, tt);
-		if (cmd == "insertJS")
+		if (mode != "saveonly")
 		{
-			ld.style.width = tt_reg.width + "px";
-			ld.style.height = tt_reg.height + "px";
+			// remove tiny
+			tinyMCE.execCommand('mceRemoveControl', false, 'tinytarget');
+			var tt = document.getElementById("tinytarget");
+			tt.style.display = 'none';
+
+			// insert div and loader image
+			var ld = new YAHOO.util.Element(document.createElement('div'));
+			var lg = new YAHOO.util.Element(document.createElement('img'));
+			lg = ld.appendChild(lg);
+			ld = YAHOO.util.Dom.insertAfter(ld, tt);
+			if (cmd == "insertJS")
+			{
+				ld.style.width = tt_reg.width + "px";
+				ld.style.height = tt_reg.height + "px";
+			}
+			lg.src = "./templates/default/images/loader.gif";
+			lg.border = 0;
+			lg.style.position = "absolute";
 		}
-		lg.src = "./templates/default/images/loader.gif";
-		lg.border = 0;
-		lg.style.position = "absolute";
 	}
 	else if (cmd == 'saveDataTable')
 	{
@@ -1465,7 +1510,7 @@ function ilFormSend(cmd, source_id, target_id, mode)
 
     form = document.getElementById("ajaxform");
 	var str = form.action;
-
+	
 	if (cmd == 'saveDataTable')
 	{
 		// normal submit for submitting the whole table
@@ -1540,7 +1585,8 @@ function showToolbar(ed_id)
 		// Create a panel Instance, from the 'resizablepanel' DIV standard module markup
 		var menu_panel = new YAHOO.widget.Panel("iltinymenu", {
 			draggable: true,
-			autofillheight: "body", // default value, specified here to highlight its use in the example
+			close: false,
+			autofillheight: "body",
 			constraintoviewport:true
 		});
 		menu_panel.render();
@@ -1548,7 +1594,7 @@ function showToolbar(ed_id)
 
 		ilCOPage.menu_panel_opened = true;
 
-		DOM.setStyle(e, 'top', -1000);
+		DOM.setStyle(e, 'left', -1000);
 		var ed_el = document.getElementById(ed_id + '_parent');
 		var m_el = document.getElementById('iltinymenu');
 //		m_el.style.display = '';

@@ -1,47 +1,26 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
-/**
-* Class ilObjAdvancedEditingGUI
-*
-* @author Helmut Schottmüller <hschottm@gmx.de>
-* @version $Id$
-* 
-* @ilCtrl_Calls ilObjAdvancedEditingGUI: ilPermissionGUI
-*
-* @extends ilObjectGUI
-*/
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./classes/class.ilObjectGUI.php";
 
+/**
+ * Class ilObjAdvancedEditingGUI
+ *
+ * @author Helmut Schottmüller <hschottm@gmx.de>
+ * @version $Id$
+ * 
+ * @ilCtrl_Calls ilObjAdvancedEditingGUI: ilPermissionGUI
+ *
+ * @ingroup ServicesAdvancedEditing
+ */
 class ilObjAdvancedEditingGUI extends ilObjectGUI
 {
-	/**
-	* Constructor
-	* @access public
-	*/
 	var $conditions;
 
+	/**
+	 * Constructor
+	 */
 	function ilObjAdvancedEditingGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		global $rbacsystem, $lng;
@@ -109,8 +88,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
 
 	/**
-	* display assessment folder settings form
-	*/
+	 * Display assessment folder settings form
+	 */
 	function settingsObject()
 	{
 		global $ilAccess;
@@ -502,6 +481,63 @@ return;
 	}
 	
 	/**
+	 * Show general page editor settings
+	 */
+	function showGeneralPageEditorSettingsObject()
+	{
+		global $tpl, $ilTabs;
+		
+		$this->addPageEditorSettingsSubTabs();
+		$ilTabs->activateTab("adve_page_editor_settings");
+		
+		$form = $this->initGeneralPageSettingsForm();
+		$tpl->setContent($form->getHTML());
+	}
+	
+	/**
+	 * Init general page editor settings form.
+	 */
+	public function initGeneralPageSettingsForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		
+		$aset = new ilSetting("adve");
+
+		// use physical character styles
+		$cb = new ilCheckboxInputGUI($this->lng->txt("adve_use_physical"), "use_physical");
+		$cb->setInfo($this->lng->txt("adve_use_physical_info"));
+		$cb->setChecked($aset->get("use_physical"));
+		$form->addItem($cb);
+		
+		$form->addCommandButton("saveGeneralPageSettings", $lng->txt("save"));
+	                
+		$form->setTitle($lng->txt("adve_pe_general"));
+		$form->setFormAction($ilCtrl->getFormAction($this));
+	 
+		return $form;
+	}
+	
+	/**
+	 * Save general page settings
+	 */
+	function saveGeneralPageSettingsObject()
+	{
+		global $ilCtrl, $lng;
+		
+		$form = $this->initGeneralPageSettingsForm();
+		if ($form->checkInput())
+		{
+			$aset = new ilSetting("adve");
+			$aset->set("use_physical", $_POST["use_physical"]);
+		}
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "showGeneralPageEditorSettings");
+	}
+	
+	/**
 	* Add rte subtabs
 	*/
 	function addSubtabs(&$tabs_gui)
@@ -509,7 +545,8 @@ return;
 		global $ilCtrl;
 		
 		if ($ilCtrl->getNextClass() != "ilpermissiongui" &&
-			$ilCtrl->getCmd() != "showPageEditorSettings")
+			$ilCtrl->getCmd() != "showPageEditorSettings" &&
+			$ilCtrl->getCmd() != "showGeneralPageEditorSettings")
 		{
 			$tabs_gui->addSubTabTarget("adve_general_settings",
 											 $this->ctrl->getLinkTarget($this, "settings"),
@@ -590,6 +627,10 @@ return;
 	function addPageEditorSettingsSubtabs()
 	{
 		global $ilCtrl, $ilTabs;
+
+		$ilTabs->addSubTabTarget("adve_pe_general",
+			 $ilCtrl->getLinkTarget($this, "showGeneralPageEditorSettings"),
+			 array("showGeneralPageEditorSettings")); 
 		
 		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
 		$grps = ilPageEditorSettings::getGroups();
@@ -622,7 +663,7 @@ return;
 					"category"), "", "");
 			
 			$tabs_gui->addTarget("adve_page_editor_settings",
-				$this->ctrl->getLinkTarget($this, "showPageEditorSettings"),
+				$this->ctrl->getLinkTarget($this, "showGeneralPageEditorSettings"),
 					array("showPageEditorSettings"));
 		}
 

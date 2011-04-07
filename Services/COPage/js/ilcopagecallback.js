@@ -55,14 +55,24 @@ var ilCOPageSuccessHandler = function(o)
 		}
 		else
 		{
-			// drag / drop
-			var edit_div = document.getElementById('il_EditPage');
-			var center_td = edit_div.parentNode;
-			center_td.innerHTML = o.responseText;
-			ilCOPage.initDragElements();
-			if (ilAdvancedSelectionList != null)
+			if (o.argument.mode == "saveonly")
 			{
-				ilAdvancedSelectionList.init['style_selection']();
+//console.log("saved");
+				var el = document.getElementById('ilsaving');
+				el.style.display = 'none';
+			}
+			else
+			{
+				// drag / drop
+				var edit_div = document.getElementById('il_EditPage');
+				var center_td = edit_div.parentNode;
+				center_td.innerHTML = o.responseText;
+				ilCOPage.initDragElements();
+				ilTooltip.init();
+				if (ilAdvancedSelectionList != null)
+				{
+					ilAdvancedSelectionList.init['style_selection']();
+				}
 			}
 		}
 	}

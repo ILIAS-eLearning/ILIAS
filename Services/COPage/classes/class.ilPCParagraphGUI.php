@@ -37,7 +37,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	{
 		global $lng;
 		
-		return array("" => $lng->txt("none"),
+		return array("" => $lng->txt("cont_standard"),
 			"Headline1" => $lng->txt("cont_Headline1"),
 			"Headline2" => $lng->txt("cont_Headline2"),
 			"Headline3" => $lng->txt("cont_Headline3"),
@@ -395,6 +395,15 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
+	
+	/**
+	 * Cancel
+	 */
+	function cancel()
+	{
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+	
 
 	/**
 	 * Handle ajax content
@@ -541,10 +550,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			"", "", "",
 			"", "", "", "");
 		$selection->setId("style_selection");
-		//$selection->setSelectionHeaderClass("MMInactive");
+		$selection->setSelectionHeaderClass("ilEditSubmit ilTinyMenuDropDown");
 		$selection->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 		$selection->setSelectedValue($a_selected);
-		//$selection->setItemLinkClass("small");
 		$selection->setUseImages(false);
 		$selection->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SELECT);
 		if ($a_use_callback)
@@ -581,6 +589,66 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		return $selection->getHTML();
 	}
 	
+	/**
+	 * Get character style selector
+	 */
+	static function getCharStyleSelector($a_par_type, $a_use_callback = true)
+	{
+		global $lng;
+		
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$selection = new ilAdvancedSelectionListGUI();
+		$selection->setFormSelectMode("char_characteristic", "", false,
+			"", "", "",
+			"", "", "", "");
+		$selection->setId("char_style_selection");
+		$selection->setSelectionHeaderClass("ilEditSubmit");
+		$selection->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
+		//$selection->setSelectedValue($a_selected);
+		$selection->setUseImages(false);
+		$selection->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_NOP);
+		if ($a_use_callback)
+		{
+			$selection->setSelectCallback("ilCOPage.setCharacterClass");
+		}
+		
+		//$chars = $a_chars;
+		//$title_char = ($chars[$a_selected] != "")
+		//	? $chars[$a_selected]
+		//	: $a_selected;
+		$selection->setListTitle("&nbsp;<i>A</i>");
+
+		/*if ($chars[$a_seleted] == "" && ($a_seleted != ""))
+		{
+			$chars = array_merge(array($a_seleted => $a_seleted),
+				$chars);
+		}*/
+
+		$chars = array(
+			"Comment" => array("code" => "com", "txt" => $lng->txt("cont_char_style_com")),
+			"Quotation" => array("code" => "quot", "txt" =>$lng->txt("cont_char_style_quot")),
+			"Accent" => array("code" => "acc", "txt" => $lng->txt("cont_char_style_acc")),
+			"Code" => array("code" => "code", "txt" => $lng->txt("cont_char_style_code"))
+			);
+		foreach ($chars as $key => $char)
+		{
+			if (ilPageEditorSettings::lookupSettingByParentType(
+				$a_par_type, "active_".$char["code"], true))
+			{
+				$t = "text_inline";
+				$tag = "span";
+				switch($key)
+				{
+					case "Code": $tag = "code"; break;
+				}
+				$html = '<'.$tag.' class="ilc_'.$t.'_'.$key.'" style="font-size:90%; margin-top:2px; margin-bottom:2px; position:static;">'.$char["txt"]."</".$tag.">";
+				$selection->addItem($char["txt"], $key, "",
+					"", $key, "", $html);
+			}
+		}
+		return $selection->getHTML();
+	}
+
 	/**
 	* Set Style
 	*/

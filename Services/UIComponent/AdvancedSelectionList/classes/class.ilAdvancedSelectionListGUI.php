@@ -24,6 +24,7 @@ class ilAdvancedSelectionListGUI
 	const ON_ITEM_CLICK_HREF = "href";
 	const ON_ITEM_CLICK_FORM_SUBMIT = "submit";
 	const ON_ITEM_CLICK_FORM_SELECT = "select";
+	const ON_ITEM_CLICK_NOP = "nop";
 	
 	protected $css_row = "";
 	protected $access_key = false;
@@ -569,7 +570,15 @@ class ilAdvancedSelectionListGUI
 							", '".$this->form_mode["select_name"]."','".$item["value"]."',".
 							"'".$item["title"]."');\"");
 				}
-	
+				else if ($this->getOnClickMode() ==
+					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_NOP)
+				{
+					$tpl->setVariable("ONCLICK_ITEM",
+						'onclick="ilAdvancedSelectionList.clickNop(\''.$this->getId().'\''.
+							", '".$this->form_mode["select_name"]."','".$item["value"]."',".
+							"'".$item["title"]."');\"");
+				}
+
 				$tpl->setVariable("CSS_ROW", $this->css_row);
 				if ($item["html"] == "")
 				{

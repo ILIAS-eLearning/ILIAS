@@ -76,6 +76,9 @@ class ilObjectListGUI
 	protected $additional_information = false;
 	protected $static_link_enabled = false;
 	
+	static protected $cnt_notes = array();
+	static protected $cnt_tags = array();
+	
 	/**
 	* constructor
 	*
@@ -1536,6 +1539,38 @@ class ilObjectListGUI
 					"newline" => true);
 			}
 		}
+		
+		// add common properties (comments, notes, tags)
+		if (self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE] > 0 ||
+			self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC] > 0 || 
+			self::$cnt_tags[$this->obj_id] > 0)
+		{
+			$nl = true;
+			if (self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC] > 0)
+			{
+				$props[] = array("alert" => false,
+					"property" => $lng->txt("notes_public_comments"),
+					"value" => self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC],
+					"newline" => $nl);
+				$nl = false;
+			}
+			if (self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE] > 0)
+			{
+				$props[] = array("alert" => false,
+					"property" => $lng->txt("private_notes"),
+					"value" => self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE],
+					"newline" => $nl);
+				$nl = false;
+			}
+			if (self::$cnt_tags[$this->obj_id] > 0)
+			{
+				$props[] = array("alert" => false,
+					"property" => $lng->txt("tagging_tags"),
+					"value" => self::$cnt_tags[$this->obj_id],
+					"newline" => $nl);
+				$nl = false;
+			}
+		}
 
 		$cnt = 1;
 		if (is_array($props) && count($props) > 0)
@@ -2239,9 +2274,8 @@ class ilObjectListGUI
 	}
 
 	/**
-	* insert info screen command
-	*
-	*/
+	 * insert info screen command
+	 */
 	function insertInfoScreenCommand()
 	{
 		if ($this->std_cmd_only)
@@ -2252,6 +2286,26 @@ class ilObjectListGUI
 		$cmd_frame = $this->getCommandFrame("infoScreen");
 		$this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame,
 			ilUtil::getImagePath("cmd_info_s.gif"));
+	}
+	
+	/**
+	 * Insert common social commands (comments, notes, tagging)
+	 *
+	 * @param
+	 * @return
+	 */
+	function insertCommonSocialCommands()
+	{
+		if ($this->std_cmd_only)
+		{
+			return;
+		}
+		$cmd_link = $this->getCommandLink("infoScreen")."#notes_top";
+		$cmd_tag_link = $this->getCommandLink("infoScreen");
+		$cmd_frame = $this->getCommandFrame("infoScreen");
+		$this->insertCommand($cmd_link, $this->lng->txt("notes_public_commenting"), $cmd_frame);
+		$this->insertCommand($cmd_link, $this->lng->txt("notes_private_annotating"), $cmd_frame);
+		$this->insertCommand($cmd_tag_link, $this->lng->txt("tagging_set_tag"), $cmd_frame);
 	}
 
 	/**
@@ -2408,6 +2462,14 @@ class ilObjectListGUI
 #xy	new
 			$this->insertPayment();
 #
+		
+		// common social commands (comment, notes, tags)
+		if ($this->getInfoScreenStatus() && !$only_default && !$this->isMode(IL_LIST_AS_TRIGGER))
+		{
+			$this->insertCommonSocialCommands();
+		}
+
+		
 		$this->ctrl->clearParametersByClass($this->gui_class_name);
 
 		if ($a_use_asynch && $a_get_asynch_commands)
@@ -2803,6 +2865,25 @@ class ilObjectListGUI
 	{
 		return $this->bold_title;
 	}
+	
+	/**
+	 * Preload common properties
+	 *
+	 * @param
+	 * @return
+	 */
+	static function preloadCommonProperties($a_obj_ids)
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule("notes");
+		$lng->loadLanguageModule("tagging");
+		include_once("./Services/Notes/classes/class.ilNote.php");
+		self::$cnt_notes = ilNote::_countNotesAndComments($a_obj_ids);
+		include_once("./Services/Tagging/classes/class.ilTagging.php");
+		self::$cnt_tags = ilTagging::_countTags($a_obj_ids);
+	}
+	
 	
 	
 } // END class.ilObjectListGUI
