@@ -484,7 +484,7 @@ class ilObjCourseGUI extends ilContainerGUI
 						new ilDateTime($this->object->getArchiveStart(),IL_CAL_UNIX),
 						new ilDateTime($this->object->getArchiveStart(),IL_CAL_UNIX)));
 			}
-		}		
+		}
 		// Confirmation
 		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$privacy = ilPrivacySettings::_getInstance();
@@ -1608,7 +1608,6 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		include_once 'Modules/Course/classes/class.ilCourseFile.php';
 		$file = new ilCourseFile((int) $_GET['file_id']);
-		
 		ilUtil::deliverFile($file->getAbsolutePath(),$file->getFileName(),$file->getFileType());
 		return true;
 	}
@@ -3330,7 +3329,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 		}
 		// Join/Leave
-		if($rbacsystem->checkAccess('join',$this->ref_id)
+		if($ilAccess->checkAccess('join','',$this->ref_id)
 			and !$this->object->members_obj->isAssigned($ilUser->getId()))
 		{
 			include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
