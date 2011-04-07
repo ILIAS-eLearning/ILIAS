@@ -21,8 +21,17 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 		return "tstv";
 	}
 
+	/**
+	 * List all tests in which current user participated
+	 */
 	public function create()
 	{
+		global $ilUser;
+
+		/*
+		include_once "Modules/Test/classes/class.ilObjTest.php";
+		var_dump(ilObjTest::_lookupFinishedUserTests($ilUser->getId()));
+		*/
 
 		
 	}

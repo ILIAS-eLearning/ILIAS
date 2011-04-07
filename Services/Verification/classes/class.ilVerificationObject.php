@@ -30,7 +30,6 @@ abstract class ilVerificationObject extends ilObject2
 		$this->map = $this->getPropertyMap();
 	}
 
-
 	/**
 	 * Return property map (name => type)
 	 *
@@ -59,7 +58,7 @@ abstract class ilVerificationObject extends ilObject2
 	{
 		if($this->hasProperty($a_name))
 		{
-			return $this->properties[$a_name];
+			return $this->map[$a_name];
 		}
 	}
 

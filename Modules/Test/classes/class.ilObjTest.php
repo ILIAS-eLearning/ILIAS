@@ -10414,6 +10414,31 @@ function loadQuestions($active_id = "", $pass = NULL)
 	    }
 	    return false;
 	}
+
+	/**
+	 * Gather all finished tests for user
+	 * 
+	 * @param int $a_user_id
+	 * @return array(test id => passed)
+	 */
+	public static function _lookupFinishedUserTests($a_user_id)
+	{
+		global $ilDB;
+
+		$result = $ilDB->queryF("SELECT test_fi,MAX(pass) AS pass FROM tst_active".
+			" JOIN tst_pass_result ON (tst_pass_result.active_fi = tst_active.active_id)".
+			" WHERE user_fi=%s".
+			" GROUP BY test_fi",
+			array('integer', 'integer'),
+			array($a_user_id, 1)
+		);
+		$all = array();
+		while($row = $ilDB->fetchAssoc($result))
+		{
+			$all[$row["test_fi"]] = (bool)$row["pass"];
+		}
+		return $all;
+	}
 } // END class.ilObjTest
 
 ?>
