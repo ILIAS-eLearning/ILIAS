@@ -4564,3 +4564,36 @@ if (!$ilDB->tableColumnExists("il_news_item", "content_text_is_lang_var"))
 		));
 	}
 ?>
+<#3275>
+<?php
+if(!$ilDB->tableExists('il_verification'))
+{
+	$ilDB->createTable('il_verification',array(
+		'id' => array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'type'	=> array(
+			'type'	=> 'text',
+			'length'=> 100,
+			'notnull' => true
+		),
+		'parameters' => array(
+			'type'	=> 'text',
+			'length'=> 1000,
+			'notnull' => false
+		),
+		'raw_data'	=> array(
+			'type'	=> 'clob',
+			'notnull' => false
+		)
+	));
+
+	$ilDB->addIndex('il_verification', array('id'), 'i1');
+}
+?>
+<#3276>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

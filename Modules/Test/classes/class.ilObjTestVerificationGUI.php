@@ -28,12 +28,43 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 	{
 		global $ilUser;
 
-		/*
 		include_once "Modules/Test/classes/class.ilObjTest.php";
-		var_dump(ilObjTest::_lookupFinishedUserTests($ilUser->getId()));
-		*/
+		foreach(ilObjTest::_lookupFinishedUserTests($ilUser->getId()) as $test_id => $passed)
+		{
+			$this->ctrl->setParameter($this, "tst_id", $test_id);
+			$content .= "<a href=\"".$this->ctrl->getLinkTarget($this, "save").
+				"\">".$test_id." (".$passed.")</a>";
+		}
 
+		$this->tpl->setContent($content);
+	}
+
+	/**
+	 * create new instance and save it
+	 */
+	public function save()
+	{
+		global $ilUser;
 		
+		$test_id = $_REQUEST["tst_id"];
+		if($test_id)
+		{
+			include_once "Modules/Test/classes/class.ilObjTest.php";
+			$test = new ilObjTest($test_id, false);
+
+			include_once "Modules/Test/classes/class.ilObjTestVerification.php";
+			$newObj = ilObjTestVerification::createFromTest($test, $ilUser->getId());
+			if($newObj)
+			{
+				$newObj->create();
+				$this->putObjectInTree($newObj);
+				
+				$this->afterSave($newObj);
+			}
+		}
+
+		ilUtil::sendFailure($this->lng->txt("select_one"));
+		$this->create();
 	}
 }
 

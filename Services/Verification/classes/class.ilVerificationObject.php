@@ -145,10 +145,10 @@ abstract class ilVerificationObject extends ilObject2
 	 */
 	protected function exportProperty($a_name)
 	{
-		$data_type = $this->getPropertyType($a_type);
+		$data_type = $this->getPropertyType($a_name);
 		if($data_type)
 		{
-			$value = $this->getProperty($name);
+			$value = $this->getProperty($a_name);
 			$raw_data = null;
 
 			switch($data_type)
@@ -215,16 +215,16 @@ abstract class ilVerificationObject extends ilObject2
 
 		if($this->id)
 		{
-			foreach($this->getPropertiesMap() as $name => $type)
+			foreach($this->getPropertyMap() as $name => $type)
 			{
 				$property = $this->exportProperty($name);
-			
+				
 				$fields = array("id" => array("integer", $this->id),
-					"type" => array("text", $type),
+					"type" => array("text", $name),
 					"parameters" => array("text", $property["parameters"]),
 					"raw_data" => array("text", $property["raw_data"]));
 
-				$ilDB->insert("ilVerification", $fields);
+				$ilDB->insert("il_verification", $fields);
 			}
 
 			return true;
