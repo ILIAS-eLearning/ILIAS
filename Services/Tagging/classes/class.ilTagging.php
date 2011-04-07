@@ -302,6 +302,30 @@ class ilTagging
 		return $users;
 	}
 	
+	/**
+	 * Count all tags for repository objects
+	 * 
+	 * @param array $a_obj_ids repository object IDs array
+	 */
+	static function _countTags($a_obj_ids)
+	{
+		global $ilDB, $ilUser;
+		
+		$q = "SELECT count(*) c, obj_id FROM il_tag WHERE ".
+			$ilDB->in("obj_id", $a_obj_ids, false, "integer")." AND ".
+			" user_id = ".$ilDB->quote($ilUser->getId(), "integer").
+			" GROUP BY obj_id";
+		
+		$cnt = array();
+		$set = $ilDB->query($q);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$cnt[$rec["obj_id"]] = $rec["c"];
+		}
+
+		return $cnt;
+	}
+
 }
 
 ?>

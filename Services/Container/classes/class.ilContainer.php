@@ -635,6 +635,8 @@ class ilContainer extends ilObject
 			$ilObjDataCache->preloadReferenceCache($all_ref_ids, false);
 			ilObjUser::preloadIsDesktopItem($ilUser->getId(), $all_ref_ids);
 			$rbacsystem->preloadRbacPaCache($all_ref_ids, $ilUser->getId());
+			include_once("./Services/Object/classes/class.ilObjectListGUI.php");
+			ilObjectListGUI::preloadCommonProperties($all_obj_ids);
 
 			self::$data_preloaded = true;
 		}

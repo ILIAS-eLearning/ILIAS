@@ -7,17 +7,35 @@
 */
 class ilTooltipGUI
 {
+	static protected $initialized = false;
+	
 	/**
-	* Adds a tooltip to an HTML element
-	*/
-	static function addTooltip($a_el_id, $a_text)
+	 * Adds a tooltip to an HTML element
+	 *
+	 * @param string $a_el_id element id
+	 * @param string $a_el_id tooltip text
+	 * @param string $a_el_id element id of container the tooltip should be added to
+	 */
+	static function addTooltip($a_el_id, $a_text, $a_container = "")
 	{
 		global $tpl;
-		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		ilYuiUtil::initTooltip();
-		$tpl->addOnLoadCode(
-			'var ttip_'.$a_el_id.' = new YAHOO.widget.Tooltip("ttip_'.$a_el_id.
-			'", { context:"'.$a_el_id.'", text:"'.htmlspecialchars($a_text).'" } );'); 
+		
+		if (!self::$initialized)
+		{
+			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+			ilYuiUtil::initTooltip();
+			$tpl->addJavascript("./Services/UIComponent/Tooltip/js/ilTooltip.js");
+			$tpl->addOnLoadCode('ilTooltip.init();', 3); 
+			self::$initialized = true;
+		}
+		
+		$addstr = "";
+		if ($a_container != "")
+		{
+			$addstr.= ", container: '".$a_container."'";
+		}
+		$tpl->addOnLoadCode('ilTooltip.add("'.$a_el_id.
+			'", { context:"'.$a_el_id.'", text:"'.htmlspecialchars($a_text).'" '.$addstr.'} );'); 
 	}
 	
 }

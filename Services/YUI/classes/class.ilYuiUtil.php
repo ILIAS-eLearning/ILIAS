@@ -91,7 +91,7 @@ class ilYuiUtil
 		
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
-		$tpl->addCss("./Services/YUI/js/".self::$ver."/container/assets/skins/sam/container.css");
+		ilYuiUtil::addContainerCss();
 		$tpl->addCss("./Services/Calendar/css/panel_min.css");
 
 		if ($a_resize)
@@ -137,7 +137,7 @@ class ilYuiUtil
 		
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container_core-min.js");
-		$tpl->addCss("./Services/YUI/js/".self::$ver."/container/assets/skins/sam/container.css");
+		ilYuiUtil::addContainerCss();
 	}
 	
 	/**
@@ -150,7 +150,7 @@ class ilYuiUtil
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
-		$tpl->addCss("./Services/YUI/js/".self::$ver."/container/assets/container.css");
+		ilYuiUtil::addContainerCss();
 		$tpl->addCss("./Services/YUI/templates/default/tpl.simpledialog.css");
 	}
 	
@@ -166,7 +166,7 @@ class ilYuiUtil
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/button/button-min.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
 		$tpl->addCss("./Services/YUI/js/".self::$ver."/button/assets/skins/sam/button.css");
-		$tpl->addCss("./Services/YUI/js/".self::$ver."/container/assets/skins/sam/container.css");
+		ilYuiUtil::addContainerCss();
 	}
 	
 	/**
@@ -468,7 +468,7 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-		$tpl->addCss("./Services/YUI/js/".self::$ver."/container/assets/container.css");
+		ilYuiUtil::addContainerCss();
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/animation/animation-min.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
@@ -481,6 +481,17 @@ class ilYuiUtil
 	{
 		return "./Services/YUI/js/".self::$ver."/".$a_name;
 	}
+	
+	/**
+	 * Add container css
+	 */
+	protected static function addContainerCss()
+	{
+		global $tpl;
+		
+		$tpl->addCss(ilYuiUtil::getLocalPath("container/assets/skins/sam/container.css"));
+	}
+	
 
 } // END class.ilUtil
 ?>

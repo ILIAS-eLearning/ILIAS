@@ -196,10 +196,14 @@ class SurveyQuestionGUI
 			$originalexists = $this->object->_questionExists($this->object->original_id);
 			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+
+			// update pool, too?
 			if ($_GET["calling_survey"] && $originalexists && SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
 				$this->ctrl->redirect($this, 'originalSyncForm');
 			}
+			// return to calling survey?
+			/*
 			elseif ($_GET["calling_survey"])
 			{
 				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -217,6 +221,8 @@ class SurveyQuestionGUI
 				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions".$addurl);
 				return;
 			}
+		    */
+			// add to survey / stay in form
 			elseif ($_GET["new_for_survey"] > 0)
 			{
 				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -226,6 +232,7 @@ class SurveyQuestionGUI
 				$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
 				return;
 			}
+			// stay in form
 			else
 			{
 				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);

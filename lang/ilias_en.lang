@@ -11231,3 +11231,24 @@ trac#:#trac_min_passed#:#Minimum Number of Passed Materials:
 crs#:#crs_deact_auto_noti#:#Suppress notification about new membership
 crs#:#crs_deact_auto_noti_info#:#Supresses mail notificaton about course membership for members admitted to course by edit participants view.
 wsp#:#wsp_type_tstv#:#Verification: Test
+content#:#cont_par_format#:#Paragraph
+content#:#cont_char_format#:#Character
+content#:#cont_lists#:#Lists
+content#:#cont_more_functions#:#More
+content#:#cont_saving#:#Saving...
+notes#:#notes_public_commenting#:#Public Comments
+notes#:#notes_private_annotating#:#Private Annotation
+tagging#:#tagging_set_tag#:#Set Tags
+content#:#cont_link_to_internal#:#Link to ILIAS Resource
+content#:#cont_link_to_external#:#Link to External Website
+content#:#cont_link_to_wiki#:#Link to Wiki Page
+content#:#cont_standard#:#Standard
+content#:#cont_char_style_com#:#Comment
+content#:#cont_char_style_quot#:#Quotation
+content#:#cont_char_style_acc#:#Accentuated
+content#:#cont_char_style_code#:#Code
+adve#:#adve_pe_general#:#General
+adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
+adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.
+content#:#cont_tex#:#Latex Code
+content#:#cont_fn#:#Footnote

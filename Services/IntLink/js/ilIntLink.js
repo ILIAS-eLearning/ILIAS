@@ -10,6 +10,7 @@ il.IntLink =
 	init: function(cfg)
 	{
 		var el = document.getElementById("iosEditInternalLinkTrigger");
+
 		if (el)
 		{
 			YAHOO.util.Event.addListener(el, "click", this.openIntLink);

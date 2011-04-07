@@ -60,6 +60,15 @@ ilAdvancedSelectionListFunc.prototype =
 			eval(this.lists[id]['select_callback'] + '(this.items[id][hid_val]);');
 		}
 	},
+
+	clickNop: function (id, hid_name, hid_val, title)
+	{
+		ilOverlay.hide(null, 'ilAdvSelListTable_' + id);
+		if (this.lists[id]['select_callback'] != null)
+		{
+			eval(this.lists[id]['select_callback'] + '(this.items[id][hid_val]);');
+		}
+	},
 	
 	setHiddenInput: function (id, hid_name, hid_val)
 	{

@@ -196,8 +196,11 @@ class ilSurveyPageGUI
 				$current = $current[$this->current_page-1];
 				if(sizeof($current) == 1)
 				{
+					// as questions are moved to first block question
+					// always use existing as first
+					// the new question is moved later on (see below)
 					$this->object->createQuestionblock($this->getAutoBlockTitle(), true, false,
-									array($a_new_id, (int)$pos));
+									array((int)$pos, $a_new_id));
 				}
 				else
 				{
@@ -727,7 +730,7 @@ class ilSurveyPageGUI
 			}
 
 			// move source question to target
-			$this->object->moveQuestions(array($a_id), $target_id, 1);
+			$this->object->moveQuestions(array($a_id), $target_id, 0);
 
 			// new page has no block yet
 			if(sizeof($target) < 2)
@@ -788,7 +791,7 @@ class ilSurveyPageGUI
 			}
 
 			// move source question to target
-			$this->object->moveQuestions(array($a_id), $target_id, 0);
+			$this->object->moveQuestions(array($a_id), $target_id, 1);
 
 			// new page has no block yet
 			if(sizeof($target) < 2)
