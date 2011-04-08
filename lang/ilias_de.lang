@@ -11256,3 +11256,21 @@ adve#:#adve_use_physical#:#str/emp/imp durch b/i/u ersetzen
 adve#:#adve_use_physical_info#:#Die Einstellung ersetzt die Buttons der semantischen Styleklassen für strong, emphatic und important durch die physikalischen Auszeichnungen b (bold), i (italic) und u (underline). Achtung, hierbei kann es zu Inkonsistenzen kommen, wenn über den Styleeditor den Styleklassen für strong, emphatic und important andere Auszeichnungen zugeordnet werden.
 content#:#cont_tex#:#Latex Code
 content#:#cont_fn#:#Fußnote
+payment#:#terms_conditions#:#AGB
+payment#:#accept_terms_conditions#:#Sie müssen die %s akzeptieren um den Kauf fortsetzen zu können.
+payment#:#documents#:#Dokumente
+payment#:#activate_placeholders#:#Aktiviere Platzhalter
+payment#:#billing_mail#:#Kaufbestätigungs-Email
+payment#:#select_subtype#:#Unteroption
+payment#:#pay_hide_shop_info#:#Verberge Shop-Informationen
+payment#:#pay_hide_shop_info_info#:#Verbirgt den Tab Shop-Informationen
+payment#:#use_shop_specials#:#Spezial-Angebote verwenden
+payment#:#use_shop_specials_info#:#Wenn aktiviert, können Kaufobjekte als Spezial-Angebote markiert werden. Diese werden dann auf der Startseite angezeigt.
+payment#:#special#:#Spezial-Angebot
+payment#:#special_info#:#Wenn aktiviert erscheint dieses Objekt auf der Startseite des Shops
+common#:#object_purchased_date#:#Objekt gekauft am
+common#:#object_duration#:#Objekt verfügbar
+common#:#new_customer#:#Sind Sie ein neuer Kunde?
+common#:#new_customer_info#:#Wenn Sie noch kein Benutzerkonto besitzen klicken Sie bitte hier.
+payment#:#shop_url#:#Link zum Shop
+payment#:#shop_bought_objects_url#:#Link zu den gekauften Objekten
