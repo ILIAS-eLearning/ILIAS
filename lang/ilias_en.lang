@@ -11252,3 +11252,21 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.
 content#:#cont_tex#:#Latex Code
 content#:#cont_fn#:#Footnote
+payment#:#terms_conditions#:#GTC
+payment#:#accept_terms_conditions#:#Please accept the %s to continue the purchasing process.
+payment#:#documents#:#Documents
+payment#:#activate_placeholders#:#Aktivate Placeholders
+payment#:#billing_mail#:#Billing-Email
+payment#:#select_subtype#:#Suboption
+payment#:#pay_hide_shop_info#:#Hide Shop-Information
+payment#:#pay_hide_shop_info_info#:#Hides the tab shop-information
+payment#:#use_shop_specials#:#Use Shop Specials
+payment#:#use_shop_specials_info#:#If enabled, it is possible to mark payment objects as a "special"-offer. These objects will be shown on the entire shop site.
+payment#:#special#:#Special-Offer
+payment#:#special_info#:#If enabled, this object will be shown on the entire shop site.
+common#:#object_purchased_date#:#Purchase-Date
+common#:#object_duration#:#Access-Duration
+common#:#new_customer#:#Are you a new customer?
+common#:#new_customer_info#:#Please klick here if you do not have an user account.
+payment#:#shop_url#:#Link to shop
+payment#:#shop_bought_objects_url#:#Link to bought objects
