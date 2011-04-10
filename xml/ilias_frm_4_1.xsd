@@ -66,7 +66,7 @@
 				<element name="CensorshipMessage" type="string" minOccurs="1" maxOccurs="1" />
 				<element name="Notification" type="boolean" minOccurs="1" maxOccurs="1" />
 				<element name="ImportName" type="string" minOccurs="1" maxOccurs="1" />
-				<element name="Status" type="integer  " minOccurs="1" maxOccurs="1" />
+				<element name="Status" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="Message" type="string" minOccurs="1" maxOccurs="1" />
 				<element name="Lft" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="Rgt" type="integer" minOccurs="1" maxOccurs="1" />
