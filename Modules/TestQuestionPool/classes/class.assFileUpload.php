@@ -27,6 +27,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * Class for file upload questions
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+* @author	Michael Jansen <mjansen@databay.de>
 * @version	$Id$
 * @ingroup ModulesTestQuestionPool
 */
@@ -34,6 +35,16 @@ class assFileUpload extends assQuestion
 {
 	protected $maxsize;
 	protected $allowedextensions;
+	
+	/**
+	 *
+	 * Indicates whether completion by submission is enabled or not
+	 *
+	 * @var boolean
+	 * @access protected
+	 *
+	 */
+	protected $completion_by_submission = false;
 	
 	/**
 	* assFileUpload constructor
@@ -91,12 +102,13 @@ class assFileUpload extends assQuestion
 			array("integer"),
 			array($this->getId())
 		);
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxsize, allowedextensions) VALUES (%s, %s, %s)", 
-			array("integer", "float", "text"),
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxsize, allowedextensions, compl_by_submission) VALUES (%s, %s, %s, %s)", 
+			array("integer", "float", "text", "integer"),
 			array(
 				$this->getId(),
 				(strlen($this->getMaxSize())) ? $this->getMaxSize() : NULL,
-				(strlen($this->getAllowedExtensions())) ? $this->getAllowedExtensions() : NULL
+				(strlen($this->getAllowedExtensions())) ? $this->getAllowedExtensions() : NULL,
+				(int)$this->isCompletionBySubmissionEnabled()
 			)
 		);
 		parent::saveToDb();
@@ -127,13 +139,14 @@ class assFileUpload extends assQuestion
 			$this->setObjId($data["obj_fi"]);
 			$this->setAuthor($data["author"]);
 			$this->setOwner($data["owner"]);
-			$this->setPoints($data["points"]);
+			$this->setPoints($data["points"]);			
 
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			$this->setMaxSize($data["maxsize"]);
 			$this->setAllowedExtensions($data["allowedextensions"]);
+			$this->setCompletionBySubmission($data['compl_by_submission'] == 1 ? true : false);
 		}
 		parent::loadFromDb($question_id);
 	}
@@ -598,7 +611,50 @@ class assFileUpload extends assQuestion
 			}
 		}
 		parent::saveWorkingData($active_id, $pass);
+		
+		$this->handleSubmission($active_id, $pass);
+		
 		return true;
+	}
+	
+	/**
+	 *
+	 * This method is called after an user submitted one or more files.
+	 * It should handle the setting "Completion by Submission" and, if enabled, set the status of
+	 * the current user.
+	 *
+	 * @param	integer
+	 * @param	integer
+	 * @access	protected
+	 *
+	 */
+	protected function handleSubmission($active_id, $pass)
+	{
+		global $ilObjDataCache;		
+
+		if($this->isCompletionBySubmissionEnabled())
+		{
+			$maxpoints = assQuestion::_getMaximumPoints($this->getId());
+	
+			if($this->getUploadedFiles($active_id, $pass))
+			{
+				$points = $maxpoints;	
+			}
+			else
+			{
+				$points = 0;
+			}
+
+			assQuestion::_setReachedPoints($active_id, $this->getId(), $points, $maxpoints, $pass, 1);					
+			
+			// update learning progress
+			include_once 'Modules/Test/classes/class.ilObjTestAccess.php';
+			include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+			ilLPStatusWrapper::_updateStatus(
+				ilObjTest::_lookupTestObjIdForQuestionId($this->getId()),
+				ilObjTestAccess::_getParticipantId((int) $active_id)
+			);
+		}
 	}
 
 	/**
@@ -791,6 +847,9 @@ class assFileUpload extends assQuestion
 			case "allowedextensions":
 				return $this->getAllowedExtensions();
 				break;
+			case 'completion_by_submission':
+				return $this->isCompletionBySubmissionEnabled();
+				break;
 			default:
 				return parent::__get($value);
 				break;
@@ -809,6 +868,9 @@ class assFileUpload extends assQuestion
 				break;
 			case "allowedextensions":
 				$this->setAllowedExtensions($value);
+				break;
+			case 'completion_by_submission':
+				$this->setCompletionBySubmission($value);
 				break;
 			default:
 				parent::__set($key, $value);
@@ -889,6 +951,34 @@ class assFileUpload extends assQuestion
 		ilUtil::zip($tempdir, $zipfile);
 		ilUtil::delDir($tempdir);
 		ilUtil::deliverFile($zipfile, ilUtil::getASCIIFilename($this->getTitle().".zip"), "application/zip", false, true);
+	}
+	
+	/**
+	 *
+	 * Checks whether completion by submission is enabled or not
+	 *
+	 * @return boolean
+	 * @access public
+	 *
+	 */
+	public function isCompletionBySubmissionEnabled()
+	{
+		return $this->completion_by_submission;
+	}
+	
+	/**
+	 *
+	 * Enabled/Disable completion by submission
+	 *
+	 * @param boolean
+	 * @return assFileUpload
+	 * @access public
+	 *
+	 */
+	public function setCompletionBySubmission($bool)
+	{
+		$this->completion_by_submission = (bool)$bool;
+		return $this;
 	}
 }
 

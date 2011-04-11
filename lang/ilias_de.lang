@@ -11228,6 +11228,8 @@ survey#:#survey_cannot_preview_survey#:#Vorschau nicht verfügbar
 cntr#:#edit_questions#:#Fragen bearbeiten
 forum#:#empty_subject#:#Beim Antworten auf einen Beitrag bleibt die Titelzeile leer und muss vom Benutzer gefüllt werden.
 forum#:#frm_subject_setting#:#Beitragstitel-Einstellung
+assessment#:#ass_completion_by_submission#:#Bestehen durch Abgabe
+assessment#:#ass_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösungsdatei zur Vergabe der Maximalpunktzahl für diese Frage. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 exc#:#exc_completion_by_submission#:#Bestehen durch Abgabe
 exc#:#exc_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösung zum Bestehen einer Übungseinheit. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 rbac#:#precondition_num_optional_info#:#Bitte geben Sie die minimale Anzahl der Materialien an, die notwendig ist, um die Vorbedingung zu erfüllen.
