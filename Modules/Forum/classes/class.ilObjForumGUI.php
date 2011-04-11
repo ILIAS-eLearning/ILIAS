@@ -228,7 +228,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm_subject->addOption(new ilRadioOption($this->lng->txt('add_re_to_subject'), 'add_re_to_subject'));
 		$frm_subject->addOption(new ilRadioOption($this->lng->txt('empty_subject'), 'empty_subject'));
 
-		$form->addItem($frm_subject);
+		$a_form->addItem($frm_subject);
 
 	}
 
