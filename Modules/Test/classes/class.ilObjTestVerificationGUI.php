@@ -26,17 +26,16 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 	 */
 	public function create()
 	{
-		global $ilUser;
+		global $ilTabs;
 
-		include_once "Modules/Test/classes/class.ilObjTest.php";
-		foreach(ilObjTest::_lookupFinishedUserTests($ilUser->getId()) as $test_id => $passed)
-		{
-			$this->ctrl->setParameter($this, "tst_id", $test_id);
-			$content .= "<a href=\"".$this->ctrl->getLinkTarget($this, "save").
-				"\">".$test_id." (".$passed.")</a>";
-		}
+		$this->lng->loadLanguageModule("tstv");
 
-		$this->tpl->setContent($content);
+		$ilTabs->setBackTarget($this->lng->txt("back"),
+			$this->ctrl->getLinkTarget($this, "cancel"));
+
+		include_once "Modules/Test/classes/tables/class.ilTestVerificationTableGUI.php";
+		$table = new ilTestVerificationTableGUI($this, "create");
+		$this->tpl->setContent($table->getHTML());
 	}
 
 	/**

@@ -11274,3 +11274,5 @@ common#:#new_customer#:#Sind Sie ein neuer Kunde?
 common#:#new_customer_info#:#Wenn Sie noch kein Benutzerkonto besitzen klicken Sie bitte hier.
 payment#:#shop_url#:#Link zum Shop
 payment#:#shop_bought_objects_url#:#Link zu den gekauften Objekten
+tstv#:#tstv_create#:#Testnachweis erstellen
+tstv#:#tstv_create_info#:#Wählen Sie einen Test, für den Sie einen Nachweis benötigen
