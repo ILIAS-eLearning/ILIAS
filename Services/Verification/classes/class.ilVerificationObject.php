@@ -97,7 +97,7 @@ abstract class ilVerificationObject extends ilObject2
 	 * @param array $a_data
 	 * @param string $a_raw_data
 	 */
-	protected function importProperty($a_type, array $a_data = null, $a_raw_data = null)
+	protected function importProperty($a_type, $a_data = null, $a_raw_data = null)
 	{
 		$data_type = $this->getPropertyType($a_type);
 		if($data_type)
