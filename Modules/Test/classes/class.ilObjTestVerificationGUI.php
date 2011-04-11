@@ -57,7 +57,10 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 			if($newObj)
 			{
 				$newObj->create();
-				$this->putObjectInTree($newObj);
+
+				$parent_id = $this->node_id;
+				$this->node_id = null;
+				$this->putObjectInTree($newObj, $parent_id);
 				
 				$this->afterSave($newObj);
 			}
@@ -65,6 +68,21 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 
 		ilUtil::sendFailure($this->lng->txt("select_one"));
 		$this->create();
+	}
+
+	/**
+	 * Render content
+	 */
+	public function render()
+	{
+		$tmp = array();
+		$tmp[] = $this->object->getTitle();
+		$tmp[] = $this->object->getDescription();
+		$tmp[] = ilDatePresentation::formatDate($this->object->getProperty("issued_on"));
+		$tmp[] = $this->object->getProperty("result");
+		$tmp[] = $this->object->getProperty("success");
+		$tmp[] = $this->object->getProperty("mark");
+		$this->tpl->setContent(implode("<br>", $tmp));
 	}
 }
 
