@@ -4597,3 +4597,15 @@ if(!$ilDB->tableExists('il_verification'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3277>
+<?php	
+	if(!$ilDB->tableColumnExists('qpl_qst_fileupload', 'compl_by_submission'))
+	{
+		$ilDB->addTableColumn('qpl_qst_fileupload', 'compl_by_submission', array(
+			'type'		=> 'integer',
+			'length'	=> 1,
+			'notnull'	=> true,
+			'default'	=> 0
+		));
+	}
+?>

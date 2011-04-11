@@ -86,6 +86,7 @@ class assFileUploadGUI extends assQuestionGUI
 			);
 			$this->object->setMaxSize($_POST["maxsize"]);
 			$this->object->setAllowedExtensions($_POST["allowedextensions"]);
+			$this->object->setCompletionBySubmission($_POST['completion_by_submission'] == 1 ? true : false);
 			return 0;
 		}
 		else
@@ -136,6 +137,12 @@ class assFileUploadGUI extends assQuestionGUI
 		$points->setSize(3);
 		$points->setMinValue(0.0);
 		$form->addItem($points);
+		
+		$subcompl = new ilCheckboxInputGUI($this->lng->txt('ass_completion_by_submission'), 'completion_by_submission');
+		$subcompl->setInfo($this->lng->txt('ass_completion_by_submission_info'));
+		$subcompl->setValue(1);
+		$subcompl->setChecked($this->object->isCompletionBySubmissionEnabled());
+		$form->addItem($subcompl);
 
 		$this->addQuestionFormCommandButtons($form);
 		
