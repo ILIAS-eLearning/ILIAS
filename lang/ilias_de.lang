@@ -11278,3 +11278,6 @@ payment#:#shop_url#:#Link zum Shop
 payment#:#shop_bought_objects_url#:#Link zu den gekauften Objekten
 tstv#:#tstv_create#:#Testnachweis erstellen
 tstv#:#tstv_create_info#:#Wählen Sie einen Test, für den Sie einen Nachweis benötigen
+wsp#:#wsp_type_excv#:#Nachweis: Übung
+excv#:#excv_create#:#Übungsnachweis erstellen
+excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie einen Nachweis benötigen
