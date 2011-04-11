@@ -15,5 +15,11 @@
 			<parent id="recf">recf</parent>
 			<parent id="root">root</parent>
 		</object>
+		<object id="excv" class_name="ExerciseVerification" dir="classes" default_pos="100" default_pres_pos="160"
+			checkbox="0" inherit="0" translate="0" rbac="0" allow_link="0" allow_copy="0" export="0"
+			repository="0" workspace="1">
+			<parent id="wsrt">wsrt</parent>
+			<parent id="wfld">wfld</parent>
+		</object>
 	</objects>
 </module>

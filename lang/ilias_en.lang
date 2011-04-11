@@ -11274,3 +11274,6 @@ payment#:#shop_url#:#Link to shop
 payment#:#shop_bought_objects_url#:#Link to bought objects
 tstv#:#tstv_create#:#Create Test Verification
 tstv#:#tstv_create_info#:#Select a completed test to generate a verification for it
+wsp#:#wsp_type_excv#:#Verification: Exercise
+excv#:#excv_create#:#Create Exercise Verification
+excv#:#excv_create_info#:#Select a completed exercise to generate a verification for it

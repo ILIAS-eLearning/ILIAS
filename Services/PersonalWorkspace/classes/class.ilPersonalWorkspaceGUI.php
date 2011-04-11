@@ -10,7 +10,7 @@
 *
 * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjWorkspaceRootFolderGUI, ilObjWorkspaceFolderGUI
 * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjectCopyGUI, ilObjFileGUI, ilObjBlogGUI
-* @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjTestVerificationGUI
+* @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjTestVerificationGUI, ilObjExerciseVerificationGUI
 *
 * @ingroup ServicesPersonalWorkspace
 */

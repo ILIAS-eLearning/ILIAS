@@ -4,12 +4,12 @@
 include_once './Services/Table/classes/class.ilTable2GUI.php';
 
 /**
- * List all completed tests for current user
+ * List all completed exercises for current user
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesTest
+ * @ingroup ModulesExercise
  */
-class ilTestVerificationTableGUI extends ilTable2GUI
+class ilExerciseVerificationTableGUI extends ilTable2GUI
 {
 	/**
 	 * Constructor
@@ -27,10 +27,10 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("passed"), "passed");
 		$this->addColumn($this->lng->txt("action"), "");
 
-		$this->setTitle($this->lng->txt("tstv_create"));
-		$this->setDescription($this->lng->txt("tstv_create_info"));
+		$this->setTitle($this->lng->txt("excv_create"));
+		$this->setDescription($this->lng->txt("excv_create_info"));
 		
-		$this->setRowTemplate("tpl.il_test_verification_row.html", "Modules/Test");
+		$this->setRowTemplate("tpl.exc_verification_row.html", "Modules/Exercise");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
 		$this->getItems();
@@ -43,13 +43,13 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 	{
 		global $ilUser;
 
-		include_once "Modules/Test/classes/class.ilObjTest.php";
+		include_once "Modules/Exercise/classes/class.ilObjExercise.php";
 
 		$data = array();
-		foreach(ilObjTest::_lookupFinishedUserTests($ilUser->getId()) as $test_id => $passed)
+		foreach(ilObjExercise::_lookupFinishedUserExercises($ilUser->getId()) as $exercise_id => $passed)
 		{
-			$data[] = array("id" => $test_id,
-				"title" => ilObject::_lookupTitle($test_id),
+			$data[] = array("id" => $exercise_id,
+				"title" => ilObject::_lookupTitle($exercise_id),
 				"passed" => $passed);
 		}
 
@@ -70,7 +70,7 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 			$this->lng->txt("no"));
 		$this->tpl->setVariable("TXT_SELECT", $this->lng->txt("select"));
 
-		$ilCtrl->setParameter($this->parent_obj, "tst_id", $a_set["id"]);
+		$ilCtrl->setParameter($this->parent_obj, "exc_id", $a_set["id"]);
 		$action = $ilCtrl->getLinkTarget($this->parent_obj, "save");
 		$this->tpl->setVariable("URL_SELECT", $action);
 	}

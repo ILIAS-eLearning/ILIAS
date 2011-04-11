@@ -976,5 +976,29 @@ class ilObjExercise extends ilObject
 			}	
 		}	
 	}
+
+	/**
+	 * Get all exercises for user
+	 *
+	 * @param <type> $a_user_id
+	 * @return array (exercise id => passed)
+	 */
+	public static function _lookupFinishedUserExercises($a_user_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT obj_id, status FROM exc_members".
+			" WHERE usr_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND (status = ".$ilDB->quote("passed", "text").
+			" OR status = ".$ilDB->quote("failed", "text").")");
+
+		$all = array();
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$all[$row["obj_id"]] = ($row["status"] == "passed");
+		}
+		return $all;
+	}
 }
+
 ?>
