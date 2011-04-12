@@ -226,7 +226,6 @@ class ilPageEditorGUI
     array
       'create_par' => string 'Save' (length=4)*/
 
-
 		if (substr($cmd, 0, 5) == "exec_")
 		{
 //echo ":".key($_POST["cmd"]).":";

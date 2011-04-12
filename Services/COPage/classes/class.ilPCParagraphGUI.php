@@ -321,10 +321,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		global $ilUser, $ilias;
 
 		$s_text = $this->content_obj->getText();
-//echo htmlentities($s_text);
 		$s_text = $this->content_obj->xml2output($s_text, true, false);
 		$char = $this->determineCharacteristic(false);
-		$s_text = ilPCParagraphGUI::xml2outputJS($s_text, $char);
+		$s_text = ilPCParagraphGUI::xml2outputJS($s_text, $char, $this->content_obj->readPCId());
 		echo $s_text;
 		exit;
 	}
@@ -332,17 +331,17 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	/**
 	 * Prepare content for js output
 	 */
-	static function xml2outputJS($s_text, $char)
+	static function xml2outputJS($s_text, $char, $a_pc_id)
 	{
-		$s_text = "<div class='ilc_text_block_".$char."'>".$s_text."</div>";
+		$s_text = "<div class='ilc_text_block_".$char."' id='$a_pc_id'>".$s_text."</div>";
 		// lists
 		$s_text = str_replace(array("<SimpleBulletList>", "</SimpleBulletList>"),
-			array("<ul>", "</ul>"),
+			array("<ul class='ilc_list_u_BulletedList'>", "</ul>"),
 			$s_text);
 		$s_text = str_replace(array("<SimpleNumberedList>", "</SimpleNumberedList>"),
-			array("<ol>", "</ol>"), $s_text);
+			array("<ol class='ilc_list_o_NumberedList'>", "</ol>"), $s_text);
 		$s_text = str_replace(array("<SimpleListItem>", "</SimpleListItem>"),
-			array("<li>", "</li>"), $s_text);
+			array("<li class='ilc_list_item_StandardListItem'>", "</li>"), $s_text);
 		//$s_text = str_replace("<SimpleBulletList><br />", "<SimpleBulletList>", $s_text);
 		//$s_text = str_replace("<SimpleNumberedList><br />", "<SimpleNumberedList>", $s_text);
 		//$s_text = str_replace("</SimpleListItem><br />", "</SimpleListItem>", $s_text);
@@ -384,10 +383,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		{
 			$ilCtrl->returnToParent($this, "jump".$this->hier_id);
 		}
+
 		$this->content_obj->setCharacteristic(ilUtil::stripSlashes($_POST["ajaxform_char"]));
 		$text = $this->content_obj->input2xml($text, true, false);
 		$text = self::handleAjaxContentPost($text);
-		$this->updated = $this->content_obj->setText($text, true);
+		$this->updated = $this->content_obj->setText($text, false);
 		if ($this->updated)
 		{
 			$this->updated = $this->pg_obj->update();
@@ -400,7 +400,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	 * Cancel
 	 */
 	function cancel()
-	{
+	{ 
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 	
@@ -476,9 +476,21 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	{
 		$text = str_replace(array("&lt;ul&gt;", "&lt;/ul&gt;"),
 			array("<SimpleBulletList>", "</SimpleBulletList>"), $text);
+		$text = str_replace(array("&lt;ul class='ilc_list_u_BulletedList'&gt;", "&lt;/ul&gt;"),
+			array("<SimpleBulletList>", "</SimpleBulletList>"), $text);
+		$text = str_replace(array("&lt;ul class=\"ilc_list_u_BulletedList\"&gt;", "&lt;/ul&gt;"),
+			array("<SimpleBulletList>", "</SimpleBulletList>"), $text);
 		$text = str_replace(array("&lt;ol&gt;", "&lt;/ol&gt;"),
 			array("<SimpleNumberedList>", "</SimpleNumberedList>"), $text);
+		$text = str_replace(array("&lt;ol class='ilc_list_o_NumberedList'&gt;", "&lt;/ol&gt;"),
+			array("<SimpleNumberedList>", "</SimpleNumberedList>"), $text);
+		$text = str_replace(array("&lt;ol class=\"ilc_list_o_NumberedList\"&gt;", "&lt;/ol&gt;"),
+			array("<SimpleNumberedList>", "</SimpleNumberedList>"), $text);
 		$text = str_replace(array("&lt;li&gt;", "&lt;/li&gt;"),
+			array("<SimpleListItem>", "</SimpleListItem>"), $text);
+		$text = str_replace(array("&lt;li class='ilc_list_item_StandardListItem'&gt;", "&lt;/li&gt;"),
+			array("<SimpleListItem>", "</SimpleListItem>"), $text);
+		$text = str_replace(array("&lt;li class=\"ilc_list_item_StandardListItem\"&gt;", "&lt;/li&gt;"),
 			array("<SimpleListItem>", "</SimpleListItem>"), $text);
 		$text = str_replace("<SimpleBulletList><br />", "<SimpleBulletList>", $text);
 		$text = str_replace("<SimpleNumberedList><br />", "<SimpleNumberedList>", $text);
@@ -487,6 +499,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$text = str_replace("</SimpleBulletList><br />", "</SimpleBulletList>", $text);
 		$text = str_replace("</SimpleNumberedList><br />", "</SimpleNumberedList>", $text);
 		$text = str_replace("</SimpleListItem><br />", "</SimpleListItem>", $text);
+
 		return $text;
 	}
 
@@ -783,7 +796,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		// get paragraph object
 		$this->content_obj = new ilPCParagraph($this->dom);
 
-		// create object, set language and characteristic
+		// create object,  set language and characteristic
 		$this->content_obj->create($this->pg_obj, $_POST["ajaxform_hier_id"], "");
 		$lang = $_POST["ajaxform_lang"]
 			? $_POST["ajaxform_char"]
@@ -808,6 +821,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$this->updated = $this->pg_obj->update();
 		}
 
+		if ($_POST["quick_save"])
+		{
+			$this->pg_obj->addHierIds();
+			echo "---".$this->content_obj->lookupHierId().":".$this->content_obj->readPCId()."---"; exit;
+		}
+		
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 

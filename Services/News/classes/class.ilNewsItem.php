@@ -308,10 +308,12 @@ class ilNewsItem extends ilNewsItemGen
 	
 	/**
 	* Get News For Ref Id.
+	*
+	* $a_user_id does only work for groups and courses so far
 	*/
 	function getNewsForRefId($a_ref_id, $a_only_public = false, $a_stopnesting = false,
 		$a_time_period = 0, $a_prevent_aggregation = true, $a_forum_group_sequences = false,
-		$a_no_auto_generated = false, $a_ignore_date_filter = false)
+		$a_no_auto_generated = false, $a_ignore_date_filter = false, $a_user_id = null)
 	{
 		$obj_id = ilObject::_lookupObjId($a_ref_id);
 		$obj_type = ilObject::_lookupType($obj_id);
@@ -339,7 +341,7 @@ class ilNewsItem extends ilNewsItemGen
 			!$a_stopnesting)
 		{
 			$news = $this->getAggregatedNewsData($a_ref_id, $a_only_public, $a_time_period,
-                $a_prevent_aggregation, $starting_date, $a_no_auto_generated);
+                $a_prevent_aggregation, $starting_date, $a_no_auto_generated, $a_user_id);
 		}
 		else
 		{
@@ -385,7 +387,8 @@ class ilNewsItem extends ilNewsItemGen
 	* Get news aggregation (e.g. for courses, groups)
 	*/
 	function getAggregatedNewsData($a_ref_id, $a_only_public = false, $a_time_period = 0,
-        $a_prevent_aggregation = false, $a_starting_date = "", $a_no_auto_generated = false)
+        $a_prevent_aggregation = false, $a_starting_date = "", $a_no_auto_generated = false,
+		$a_user_id = null)
 	{
 		global $tree, $ilAccess, $ilObjDataCache;
 		
@@ -436,8 +439,15 @@ class ilNewsItem extends ilNewsItemGen
 			
 			if (!$a_only_public)
 			{
-				$acc = $ilAccess->checkAccess("read", "", $node["child"]);
-				
+				if(!$a_user_id)
+				{
+					$acc = $ilAccess->checkAccess("read", "", $node["child"]);
+				}
+				else
+				{
+					$acc = $ilAccess->checkAccessOfUser($a_user_id, "read", "",
+						$node["child"]);
+				}				
 				if (!$acc)
 				{
 					continue;
@@ -451,13 +461,13 @@ class ilNewsItem extends ilNewsItemGen
 		
 		// sort and return
 		$news = $this->queryNewsForMultipleContexts($contexts, $a_only_public, $a_time_period,
-            $a_starting_date, $a_no_auto_generated);
+            $a_starting_date, $a_no_auto_generated, $a_user_id);
 				
 		$to_del = array();
 		foreach ($news as $k => $v)
 		{
 			$news[$k]["ref_id"] = $ref_id[$v["context_obj_id"]];
-			}
+		}
 		
 		$data = ilNewsItem::mergeNews($data, $news);
         $data = ilUtil::sortArray($data, "creation_date", "desc", false, true);
@@ -724,6 +734,47 @@ class ilNewsItem extends ilNewsItemGen
 		return $result;
 
 	}
+
+	/**
+	 *
+	 *
+	 * @param int $a_ref_id
+	 * @param int $a_time_period hours
+	 * @return array news item ids
+	 */
+	public function checkNewsExistsForGroupCourse($a_ref_id, $a_time_period = 1)
+	{
+		global $tree, $ilDB;
+
+		// parse repository branch of group
+		$nodes = array();
+		$node = $tree->getNodeData($a_ref_id);
+		foreach($tree->getSubTree($node) as $child)
+		{
+			if($child["type"] != "rolf")
+			{
+				$nodes[$child["obj_id"]] = $child["type"];
+			}
+		}
+
+		$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
+
+		// are there any news items for relevant objects and?
+		$all = array();
+		$query = $ilDB->query("SELECT id,context_obj_id,context_obj_type".
+			" FROM il_news_item".
+			" WHERE ".$ilDB->in("context_obj_id", array_keys($nodes), false, "integer").
+			" AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp"));
+		while($rec = $ilDB->fetchAssoc($query))
+		{
+			if ($nodes[$rec["context_obj_id"]] == $rec["context_obj_type"])
+			{
+				$all[] = $rec["id"];
+			}
+		}
+		
+		return $all;		
+	}
 	
 	/**
 	* Query News for multiple Contexts
@@ -731,14 +782,15 @@ class ilNewsItem extends ilNewsItemGen
 	* @param	array	$a_contexts		array of array("obj_id", "obj_type")
 	*/
 	public function queryNewsForMultipleContexts($a_contexts, $a_for_rss_use = false,
-        $a_time_period = 0, $a_starting_date = "", $a_no_auto_generated = false)
+        $a_time_period = 0, $a_starting_date = "", $a_no_auto_generated = false,
+		$a_user_id = null)
 	{
 		global $ilDB, $ilUser, $lng, $ilCtrl;
 
 		$and = "";
-			if ($a_time_period > 0)
-			{
-				$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
+		if ($a_time_period > 0)
+		{
+			$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
 			$and = " AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp")." ";
 		}
 			
@@ -783,11 +835,19 @@ class ilNewsItem extends ilNewsItemGen
 		}		
 		else
 		{
+			if($a_user_id)
+			{
+				$user_id = $a_user_id;
+			}
+			else
+			{
+				$user_id = $ilUser->getId();
+			}
 			$query = "SELECT il_news_item.* ".
 				", il_news_read.user_id as user_read ".
 				"FROM il_news_item LEFT JOIN il_news_read ".
 				"ON il_news_item.id = il_news_read.news_id AND ".
-				" il_news_read.user_id = ".$ilDB->quote($ilUser->getId(), "integer").
+				" il_news_read.user_id = ".$ilDB->quote($user_id, "integer").
 				" WHERE ".
 					$ilDB->in("context_obj_id", $ids, false, "integer")." ".
 					$and.

@@ -1443,7 +1443,7 @@ class ilObjStyleSheet extends ilObject
 		foreach ($style as $tag)
 		{
 			fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
-			if ($tag[0]["tag"] = "td")
+			if ($tag[0]["tag"] == "td")
 			{
 				fwrite ($css_file, ",th".".ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
 			}

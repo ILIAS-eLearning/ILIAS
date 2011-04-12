@@ -3352,6 +3352,30 @@ class assQuestion
 	{
 		$this->export_image_path = (string)$a_path;
 	}
+
+	function _questionExistsInTest($question_id, $test_id)
+	{
+		global $ilDB;
+
+		if ($question_id < 1)
+		{
+			return false;
+		}
+
+		$result = $ilDB->queryF("SELECT question_fi FROM tst_test_question WHERE question_fi = %s AND test_fi = %s",
+			array('integer', 'integer'),
+			array($question_id, $test_id)
+		);
+		if ($result->numRows() == 1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 }
 
 ?>

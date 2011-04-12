@@ -137,7 +137,7 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
             default:
                 $qtype = $_REQUEST['qtype'];
                 $type = ilObjQuestionPool::getQuestionTypeByTypeId($qtype);
-echo 123;
+
 		if (!$_GET['q_id']) {
                     $q_gui = $this->addPageOfQuestions(preg_replace('/(.*?)gui/i', '$1', $_GET['sel_question_types']));
                     $q_gui->setQuestionTabs();
@@ -196,11 +196,9 @@ echo 123;
         $q_gui->object->setObjId($_GET['ref_id']);
         $q_gui->object->createNewQuestion();
 
-	//$prev_qid = $_REQUEST['q_id'];
-
+	
 	$previousQuestionId = $_REQUEST['position'];
-	//$this->test_object->moveQuestionAfterExisting($prev_qid, $previousQuestionId);
-#var_dump($prev_qid, $previousQuestionId);exit;
+	
 	switch($_REQUEST['usage']) {
 	    case 3: // existing pool
 		global $ilCtrl;
@@ -209,6 +207,8 @@ echo 123;
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'q_id', $q_gui->object->getId());
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'prev_qid', $previousQuestionId);
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'test_express_mode', 1);
+		$ilCtrl->setParameterByClass('ilobjtestgui', 'usage', 3);
+		$ilCtrl->setParameterByClass('ilobjtestgui', 'calling_test', $this->test_object->getId());
 
 		$link = $ilCtrl->getLinkTargetByClass('ilobjtestgui', 'executeCreateQuestion', false, false, false);
 		ilUtil::redirect($link);
@@ -220,6 +220,8 @@ echo 123;
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'q_id', $q_gui->object->getId());
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'prev_qid', $previousQuestionId);
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'test_express_mode', 1);
+		$ilCtrl->setParameterByClass('ilobjtestgui', 'usage', 2);
+		$ilCtrl->setParameterByClass('ilobjtestgui', 'calling_test', $this->test_object->getId());
 
 		$link = $ilCtrl->getLinkTargetByClass('ilobjtestgui', 'executeCreateQuestion', false, false, false);
 		
@@ -337,6 +339,7 @@ echo 123;
             'cmdNode' => $firstNode . ':' . $node,
             'baseClass' => 'ilObjTestGUI',
             'test_ref_id' => $_GET['ref_id'],
+            'calling_test' => $_GET['ref_id'],
             'express_mode' => 'true',
             'q_id' => $qid,
             'prev_qid' => $prev_qid

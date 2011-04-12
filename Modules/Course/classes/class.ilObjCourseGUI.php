@@ -279,7 +279,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function infoScreen()
 	{
-		global $ilErr,$ilAccess;
+		global $ilErr,$ilAccess, $ilUser, $ilSetting;
 
 		$this->checkPermission('visible');
 		/*
@@ -310,6 +310,17 @@ class ilObjCourseGUI extends ilContainerGUI
 			$info->enableNewsEditing();
 		}
 
+		// :TEMP: course notification setting per user
+		if($ilSetting->get("crsgrp_ntf") &&
+			ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
+		{
+			$info->addSection($this->lng->txt("crs_notification"));
+			$info->addPropertyCheckbox($this->lng->txt("crs_activate_notification"),
+				"crs_ntf", 1, "", $ilUser->getPref("grpcrs_ntf_".$this->ref_id));
+
+			$info->setFormAction($this->ctrl->getFormAction($this));
+			$info->addFormButton("saveNotification", $this->lng->txt("save"));
+		}
 		
 		if(strlen($this->object->getImportantInformation()) or
 		   strlen($this->object->getSyllabus()) or
@@ -510,6 +521,20 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		// forward the command
 		$this->ctrl->forwardCommand($info);
+	}
+
+	/**
+	 * :TEMP: Save notification setting (from infoscreen)
+	 */
+	function saveNotificationObject()
+	{
+		global $ilUser;
+
+		$ilUser->setPref("grpcrs_ntf_".$this->ref_id, (bool)$_REQUEST["crs_ntf"]);
+		$ilUser->writePrefs();
+
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		$this->ctrl->redirect($this, "infoScreen");
 	}
 
 	function listStructureObject()

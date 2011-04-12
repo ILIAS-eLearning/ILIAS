@@ -209,7 +209,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 	*/
 	function editQuestion($checkonly = FALSE)
 	{
-		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
+		$save = $this->isSaveCommand();
 		$this->getQuestionTemplate();
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -299,7 +299,6 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$points->setMinvalueShouldBeGreater(true);
 		$form->addItem($points);
 		
-		$this->addQuestionFormCommandButtons($form);
 		if (true || !$this->getSelfAssessmentEditingMode())
 		{
 			if ($orderingtype == OQ_PICTURES)
@@ -311,7 +310,9 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				$form->addCommandButton("changeToPictures", $this->lng->txt("order_pictures"));
 			}
 		}
-		
+
+		$this->addQuestionFormCommandButtons($form);
+
 		$errors = false;
 	
 		if ($save)

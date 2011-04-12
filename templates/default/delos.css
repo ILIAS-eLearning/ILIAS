@@ -1346,7 +1346,7 @@ img.imgtab {
 	margin:0px;
 }
 
-/* --- Editor styles ---*/
+/* --- Services/COPage ---*/
 
 div.il_droparea
 {
@@ -1547,6 +1547,58 @@ a.ilTinyMenuDropDown
 {
 	display: inline-block;
 	padding: 0px 2px 1px 0px;
+}
+
+/* Page TOC */
+
+div.ilc_page_toc_PageTOC
+{
+	font-size: 90%;
+	padding: 5px 5px 10px 5px;
+	background-color:#FAFAFA;
+	border:1px solid #F0F0F0;
+	float: left;
+}
+
+h1.ilc_page_toc_PageTOCHead
+{
+	margin: 0px;
+	font-size: 100%;
+	padding: 0px;
+	font-weight: bold;
+	text-align: center;
+}
+
+ul.ilc_page_toc_PageTOCList
+{
+	margin: 0px 0px 0px 10px;
+	padding: 0px;
+	list-style: none;
+}
+
+li.ilc_page_toc_PageTOCItem
+{
+	margin: 0px;
+	padding: 0px 0px;
+	white-space: nowrap;
+	margin-top: 5px;
+}
+
+a.ilc_page_toc_PageTOCLink
+{
+	color:#0033AA;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+a.ilc_page_toc_PageTOCLink:hover
+{
+	color:#000000;
+}
+
+a.ilc_page_toc_PageTOCLink:visited
+{
+	color: blue;
 }
 
 /* ------------------ blind image - spacer gif --------------

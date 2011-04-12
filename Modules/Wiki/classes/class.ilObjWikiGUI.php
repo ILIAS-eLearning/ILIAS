@@ -561,8 +561,8 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->form_gui->addItem($comments);
 
 		// important pages
-		$imp_pages = new ilCheckboxInputGUI($lng->txt("wiki_important_pages"), "imp_pages");
-		$this->form_gui->addItem($imp_pages);
+//		$imp_pages = new ilCheckboxInputGUI($lng->txt("wiki_important_pages"), "imp_pages");
+//		$this->form_gui->addItem($imp_pages);
 
 		// page toc
 		$page_toc = new ilCheckboxInputGUI($lng->txt("wiki_page_toc"), "page_toc");
@@ -612,7 +612,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$values["rating"] = $this->object->getRating();
 			$values["public_notes"] = $this->object->getPublicNotes();
 			$values["intro"] = $this->object->getIntroduction();
-			$values["imp_pages"] = $this->object->getImportantPages();
+//			$values["imp_pages"] = $this->object->getImportantPages();
 			$values["page_toc"] = $this->object->getPageToc();
 
 			$this->form_gui->setValuesByArray($values);
@@ -649,7 +649,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->object->setRating($this->form_gui->getInput("rating"));
 				$this->object->setPublicNotes($this->form_gui->getInput("public_notes"));
 				$this->object->setIntroduction($this->form_gui->getInput("intro"));
-				$this->object->setImportantPages($this->form_gui->getInput("imp_pages"));
+//				$this->object->setImportantPages($this->form_gui->getInput("imp_pages"));
 				$this->object->setPageToc($this->form_gui->getInput("page_toc"));
 				$this->object->update();
 			
@@ -1022,12 +1022,12 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 
 		// important pages
-		if (ilObjWiki::_lookupImportantPages(ilObject::_lookupObjId($a_wiki_ref_id)))
-		{
+//		if (ilObjWiki::_lookupImportantPages(ilObject::_lookupObjId($a_wiki_ref_id)))
+//		{
 			include_once("./Modules/Wiki/classes/class.ilWikiImportantPagesBlockGUI.php");
 			$imp_pages_block = new ilWikiImportantPagesBlockGUI();
 			$rcontent.= $imp_pages_block->getHTML();
-		}
+//		}
 
 		// wiki functions block
 		if ($a_wpg_id > 0)

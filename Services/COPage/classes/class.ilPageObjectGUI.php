@@ -1297,8 +1297,9 @@ class ilPageObjectGUI
 						self::getTinyMenu(
 						$this->getPageObject()->getParentType(),
 						$this->getEnabledInternalLinks(),
-						$this->getPageObject()->getParentType() == "wpg"));
-
+						$this->getPageObject()->getParentType() == "wpg",
+						"", $this->getStyleId()));
+					
 					// add int link parts
 					include_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
 					$tpl->setCurrentBlock("int_link_prep");
@@ -2038,7 +2039,8 @@ class ilPageObjectGUI
 	 * Get Tiny Menu
 	 */
 	static function getTinyMenu($a_par_type,
-		$a_int_links = false, $a_wiki_links = false, $a_keywords = false)
+		$a_int_links = false, $a_wiki_links = false, $a_keywords = false,
+		$a_style_id = 0)
 	{
 		global $lng;
 
@@ -2049,6 +2051,12 @@ class ilPageObjectGUI
 		include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 		
 		$btpl = new ilTemplate("tpl.tiny_menu.html", true, true, "Services/COPage");
+		
+		// debug ghost element
+		if (DEVMODE == 1)
+		{
+			$btpl->touchBlock("debug_ghost");
+		}
 
 		// bullet list
 		$btpl->setCurrentBlock("blist_button");

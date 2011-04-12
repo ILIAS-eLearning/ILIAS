@@ -20,7 +20,7 @@
 * @ilCtrl_Calls ilObjTestGUI: assNumericGUI, assErrorTextGUI
 * @ilCtrl_Calls ilObjTestGUI: assTextSubsetGUI, assOrderingHorizontalGUI
 * @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI
-* @ilCtrl_Calls ilObjTestGUI: assTextQuestionGUI
+* @ilCtrl_Calls ilObjTestGUI: assTextQuestionGUI, assFlashQuestionGUI
 * @ilCtrl_Calls ilObjTestGUI: ilTestExpressPageObjectGUI, ilPageEditorGUI, ilPageObjectGUI
 * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI
 * @ilCtrl_Calls ilObjTestGUI: ilEditClipboardGUI
@@ -299,7 +299,7 @@ class ilObjTestGUI extends ilObjectGUI
                                 $this->prepareOutput();
                                 global $___test_express_mode;
                                 $___test_express_mode = true;
-                                $_GET['calling_test'] = $this->object->getId();
+                                $_GET['calling_test'] = $this->object->getRefId();
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setCurrentBlock("ContentStyle");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -393,8 +393,8 @@ class ilObjTestGUI extends ilObjectGUI
                                 $this->ctrl->setParameterByClass($qType . "GUI", 'test_express_mode', 1);
                                 global $___test_express_mode;
                                 $___test_express_mode = true;
-                                if ($this->ctrl->getCmd() != 'save')
-                                    $_GET['calling_test'] = $this->object->getId();
+                                if (!$q_gui->isSaveCommand())
+                                    $_GET['calling_test'] = $this->object->getRefId();
 
                                 $q_gui->setQuestionTabs();
                                 unset($___test_express_mode);
@@ -2309,7 +2309,11 @@ class ilObjTestGUI extends ilObjectGUI
 	function executeCreateQuestionObject()
 	{
 		$qpl_ref_id = $_REQUEST["sel_qpl"];
-		if ((strcmp($_REQUEST["txt_qpl"], "") == 0) && (strcmp($qpl_ref_id, "") == 0))
+
+		$qpl_mode = $_REQUEST['usage'];
+
+		if (!$qpl_mode || ($qpl_mode == 2 && strcmp($_REQUEST["txt_qpl"], "") == 0) || ($qpl_mode == 3 && strcmp($qpl_ref_id, "") == 0))
+		//if ((strcmp($_REQUEST["txt_qpl"], "") == 0) && (strcmp($qpl_ref_id, "") == 0))
 		{
 			ilUtil::sendInfo($this->lng->txt("questionpool_not_entered"));
 			$this->createQuestionObject();
@@ -2318,15 +2322,19 @@ class ilObjTestGUI extends ilObjectGUI
 		else
 		{
 			$_SESSION["test_id"] = $this->object->getRefId();
-			if (strcmp($_REQUEST["txt_qpl"], "") != 0)
+			if ($qpl_mode == 2 && strcmp($_REQUEST["txt_qpl"], "") != 0)
 			{
 				// create a new question pool and return the reference id
 				$qpl_ref_id = $this->createQuestionPool($_REQUEST["txt_qpl"]);
 			}
+			else if ($qpl_mode == 1)
+			{
+			    $qpl_ref_id = $_GET["ref_id"];
+			}
 
 			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPoolGUI.php";
 
-			$baselink = "ilias.php?baseClass=ilObjQuestionPoolGUI&ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&sel_question_types=" . $_REQUEST["sel_question_types"];
+			$baselink = "ilias.php?baseClass=ilObjQuestionPoolGUI&ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&calling_test=".$_GET["ref_id"]."&sel_question_types=" . $_REQUEST["sel_question_types"];
 
 			if ($_REQUEST['q_id']) {
 			    $baselink .= '&q_id=' . $_REQUEST['q_id'];
@@ -4994,7 +5002,7 @@ EOT;
 	{
 		global $ilUser, $ilTabs;
 		$this->getQuestionsSubTabs();
-$ilTabs->activateSubTab('edit_test_questions');
+		$ilTabs->activateSubTab('edit_test_questions');
                 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select_copy.html", "Modules/Test");
 		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE, FALSE, "write");
@@ -5191,6 +5199,14 @@ $ilTabs->activateSubTab('edit_test_questions');
 	}
 
 	public function saveOrderObject() {
+	    global $ilAccess;
+	    if (!$ilAccess->checkAccess("write", "", $this->ref_id))
+	    {
+		    // allow only write access
+		    ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
+		    $this->ctrl->redirect($this, "infoScreen");
+	    }
+
 	    global $ilCtrl;
 	    $this->object->setQuestionOrder($_REQUEST['order']);
 
@@ -5244,6 +5260,14 @@ $ilTabs->activateSubTab('edit_test_questions');
 	}
 
 	public function movePageObject() {
+	    global $ilAccess;
+	    if (!$ilAccess->checkAccess("write", "", $this->ref_id))
+	    {
+		    // allow only write access
+		    ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
+		    $this->ctrl->redirect($this, "infoScreen");
+	    }
+	    
 	    $this->object->moveQuestionAfter($_REQUEST['q_id'], $_REQUEST['position_after']);
 	    $this->showPageObject();
 	}
@@ -5253,6 +5277,58 @@ $ilTabs->activateSubTab('edit_test_questions');
 
 	    $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'q_id', $_REQUEST['q_id']);
 	    $ilCtrl->redirectByClass('iltestexpresspageobjectgui', 'showPage');
+	}
+
+	public function copyQuestionObject() {
+	    global $ilAccess;
+	    if (!$ilAccess->checkAccess("write", "", $this->ref_id))
+	    {
+		    // allow only write access
+		    ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
+		    $this->ctrl->redirect($this, "infoScreen");
+	    }
+
+	    if ($_REQUEST['q_id'] && !is_array($_REQUEST['q_id']))
+		$ids = array($_REQUEST['q_id']);
+	    else if ($_REQUEST['q_id'])
+		$ids = $_REQUEST['q_id'];
+	    else
+	    {
+		ilUtil::sendFailure( $this->lng->txt('copy_no_questions_selected'), true );
+		$this->ctrl->redirect($this, 'questions');
+	    }
+
+	    $copy_count = 0;
+
+	    $questionTitles = $this->object->getQuestionTitles();
+
+	    foreach($ids as $id)
+	    {
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		$question = assQuestion::_instanciateQuestionGUI($id);
+		if ($question)
+		{
+		    $title = $this->lng->txt('copy_of') . ' ' . $question->object->getTitle();
+		    while(  in_array( $title, $questionTitles ))
+			    $title = $this->lng->txt('copy_of') . ' ' . $title;
+
+		    $questionTitles[] = $title;
+
+		    $new_id = $question->object->duplicate(false, $title);
+
+		    $clone = assQuestion::_instanciateQuestionGUI($new_id);
+		    $clone->object->setObjId($this->object->getId());
+		    $clone->object->saveToDb();
+
+		    $this->object->insertQuestion($new_id, true);
+
+		    $copy_count++;
+		}
+	    }
+
+	    ilUtil::sendSuccess($this->lng->txt('copy_questions_success'), true);
+
+	    $this->ctrl->redirect($this, 'questions');
 	}
 } // END class.ilObjTestGUI
 ?>

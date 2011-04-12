@@ -2771,6 +2771,15 @@ return $this->showServerInfoObject();
 		$payment_noti->addSubItem($num_days);
 		$this->form->addItem($payment_noti);
 
+		// course/group notifications
+		$crsgrp_ntf = new ilCheckboxInputGUI($this->lng->txt("enable_course_group_notifications"), "crsgrp_ntf");
+		$crsgrp_ntf->setInfo($this->lng->txt("enable_course_group_notifications_desc"));
+		if ($ilSetting->get('crsgrp_ntf'))
+		{
+			$crsgrp_ntf->setChecked(true);
+		}
+		$this->form->addItem($crsgrp_ntf);
+
 		$this->form->addCommandButton("saveCronJobs", $lng->txt("save"));
 	                
 		$this->form->setTitle($lng->txt("cron_jobs"));
@@ -2823,6 +2832,7 @@ return $this->showServerInfoObject();
 			$ilSetting->set('payment_notification', $_POST['payment_notification'] ? 1 : 0);
 			$ilSetting->set('payment_notification_days', $_POST['payment_notification_days']);
 
+			$ilSetting->set('crsgrp_ntf', $_POST['crsgrp_ntf']);
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showCronJobs");

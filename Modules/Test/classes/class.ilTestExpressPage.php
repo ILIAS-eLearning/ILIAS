@@ -16,7 +16,7 @@ class ilTestExpressPage {
         }
     }
 
-    public static function getReturnToPageLink() {
+    public static function getReturnToPageLink($q_id = null) {
         $params = array();
 
         $params['baseClass'] = 'ilObjTestGUI';
@@ -35,7 +35,7 @@ class ilTestExpressPage {
 
         if ($_REQUEST['q_id']) {
             $params['cmd'] = 'edit';
-            $params['q_id'] = isset($_REQUEST['prev_qid']) ? $_REQUEST['prev_qid'] : $_REQUEST['q_id'];
+            $params['q_id'] = $q_id ? $q_id : (isset($_REQUEST['prev_qid']) ? $_REQUEST['prev_qid'] : $_REQUEST['q_id']);
             $params['cmdClass'] = 'iltestexpresspageobjectgui';
             $params['cmdNode'] = ilTestExpressPage::getNodeId('ilobjtestgui') . ':' . ilTestExpressPage::getNodeId('iltestexpresspageobjectgui');
             #ref_id=44&cmd=post&cmdClass=iltestexpresspageobjectgui&cmdNode=6o:61&baseClass=ilObjTestGUI

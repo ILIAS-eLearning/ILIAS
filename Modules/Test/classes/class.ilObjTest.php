@@ -3773,11 +3773,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 * @param integer $question_id The database id of the inserted question
 * @access	public
 */
-	function insertQuestion($question_id)
+	function insertQuestion($question_id, $linkOnly = false)
 	{
 		global $ilDB;
 #var_dump($question_id);
-		$duplicate_id = $this->duplicateQuestionForTest($question_id);
+		if ($linkOnly)
+		    $duplicate_id = $question_id;
+		else
+		    $duplicate_id = $this->duplicateQuestionForTest($question_id);
 
 		// get maximum sequence index in test
 		$result = $ilDB->queryF("SELECT MAX(sequence) seq FROM tst_test_question WHERE test_fi=%s",
@@ -3812,6 +3815,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		);
 		$this->loadQuestions();
 		$this->saveCompleteStatus();
+		return $duplicate_id;
 	}
 
 /**
