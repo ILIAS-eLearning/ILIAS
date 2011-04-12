@@ -164,7 +164,7 @@ class ilAdministrationExplorer extends ilExplorer
 
 		// these objects may exist due to test cases that didnt clear
 		// data properly
-		if ($a_type == "" || $a_type == "xxx" || $a_type == 'frma')
+		if ($a_type == "" || $a_type == "xxx")
 		{
 			return false;
 		}
