@@ -74,6 +74,9 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 	 */
 	public function render()
 	{
+		$setting = ilDatePresentation::UseRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+
 		$tmp = array();
 		$tmp[] = $this->object->getTitle();
 		$tmp[] = $this->object->getDescription();
@@ -82,6 +85,8 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 		$tmp[] = $this->object->getProperty("mark");
 		$tmp[] = $this->object->getProperty("comment");
 		$this->tpl->setContent(implode("<br>", $tmp));
+
+		ilDatePresentation::setUseRelativeDates($setting);
 	}
 }
 
