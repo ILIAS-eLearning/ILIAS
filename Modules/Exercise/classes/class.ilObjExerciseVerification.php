@@ -39,20 +39,16 @@ class ilObjExerciseVerification extends ilVerificationObject
 		$newObj->setTitle($a_exercise->getTitle());
 		$newObj->setDescription($a_exercise->getDescription());
 
-		// :TODO: issued on
-
 		include_once "Modules/Exercise/classes/class.ilExerciseMembers.php";
-		
 		$status = ilExerciseMembers::_lookupStatus($a_exercise->getId(), $a_user_id);
 		$newObj->setProperty("success", ($status == "passed"));
 
 		include_once "Services/Tracking/classes/class.ilLPMarks.php";
-
-		$mark = ilLPMarks::_lookupMark($a_user_id, $a_exercise->getId());
-		$newObj->setProperty("mark", $mark);
-
-		$comment = ilLPMarks::_lookupComment($a_user_id, $a_exercise->getId());
-		$newObj->setProperty("comment", $comment);
+		$lp_marks = new ilLPMarks($a_exercise->getId(), $a_user_id);
+		$newObj->setProperty("mark", $lp_marks->getMark());
+		$newObj->setProperty("comment", $lp_marks->getComment());
+		$newObj->setProperty("issued_on", 
+			new ilDate($lp_marks->getStatusChanged(), IL_CAL_DATETIME));
 
 		return $newObj;
 	}

@@ -44,6 +44,7 @@ class ilLPMarks
 	var $completed = false;
 	var $comment = '';
 	var $mark = '';
+	var $status_changed = '';
 
 	var $has_entry = false;
 
@@ -105,6 +106,10 @@ class ilLPMarks
 	function getCompleted()
 	{
 		return $this->completed;
+	}
+	function getStatusChanged()
+	{
+		return $this->status_changed;
 	}
 
 	function getObjId()
@@ -194,6 +199,7 @@ class ilLPMarks
 			$this->completed = (int) $row->completed;
 			$this->comment = $row->u_comment;
 			$this->mark = $row->mark;
+			$this->status_changed = $row->status_changed;
 
 			return true;
 		}
