@@ -10357,10 +10357,10 @@ forum#:#post_reply#:#Re:
 forum#:#preset_subject#:#Preset subject on reply
 forum#:#preset_subject_info#:#If disabled the user have to enter a new title for postings.
 administration#:#obj_frma#:#Forum
-administration#:#obj_frma_desc#:#Global Forumsettings
+administration#:#obj_frma_desc#:#Global Forum Settings
 administration#:#forum_settings#:#Forumsettings
 administration#:#show_topics_overview#:#Topic Overview
-administration#:#topics_overview_info#:#If enabled, only topics with the decided information will be shown
+administration#:#topics_overview_info#:#Please select the attributes which should to be shown in the topics overview.
 common#:#show_system_messages#:#System Messages
 content#:#glo_presentation_mode#:#Presentation Mode
 content#:#glo_table_form#:#In Table Form
