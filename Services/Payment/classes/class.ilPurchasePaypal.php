@@ -478,17 +478,18 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 				$obj_type = $ilObjDataCache->lookupType($obj_id);
 				$obj_title = $ilObjDataCache->lookupTitle($obj_id);
 				
+				// put bought object on personal desktop
+				ilObjUser::_addDesktopItem($ilUser->getId(), $pobjectData["ref_id"], $obj_type);
+
 			include_once "./Services/Repository/classes/class.ilRepositoryExplorer.php";
 			$obj_link = ilRepositoryExplorer::buildLinkTarget($pobjectData["ref_id"],$obj_type);
 			$obj_target = ilRepositoryExplorer::buildFrameTarget($obj_type,$pobjectData["ref_id"],$obj_id);
-			$message_link = "" . ILIAS_HTTP_PATH."/".$obj_link."&transaction=".$book_obj->getTransaction();
-			if($obj_type == 'file')
-			$download_links[] = $message_link;
+		#	$message_link = "" . ILIAS_HTTP_PATH."/".$obj_link."&transaction=".$book_obj->getTransaction();
 			 	
 				$bookings["list"][] = array(
 					"type" => $obj_type,
 					"title" => "[".$obj_id."]: " . $obj_title,
-					"message_link" => $message_link,
+			# 		"message_link" => $message_link,
 					"duration" => $sc[$i]["duration"],
 					"vat_rate" => $sc[$i]["vat_rate"],				
 					"vat_unit" => $sc[$i]["vat_unit"],
@@ -521,7 +522,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 		$bookings['email_extern'] = $keyarray['payer_email'];
 		$bookings['name_extern'] = $keyarray['address_name'];
 		
-		$_SESSION['download_links'] = $download_links;
+	#	$_SESSION['download_links'] = $download_links;
 		
 		return $bookings;
 	}
@@ -584,10 +585,11 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 					}
 				}
 			}
-			if($bookings["list"][$i]["type"] == 'file')
+/*			if($bookings["list"][$i]["type"] == 'file')
 			{
 				$message_link .=  $bookings['list'][$i]['message_link'] . "\n\n";
 			}
+			*/
 			$tpl->setCurrentBlock("loop");
 			$tpl->setVariable("LOOP_OBJ_TYPE", utf8_decode($this->lng->txt($bookings["list"][$i]["type"])));
 			$tpl->setVariable("LOOP_TITLE", utf8_decode($bookings["list"][$i]["title"]) . $assigned_coupons);
@@ -687,9 +689,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 			if(ANONYMOUS_USER_ID == $ilUser->getId())
 			{
 				$m->To($bookings['payer_email']);
-
 				$message = $this->lng->txt("pay_message_hello") . " " .$booking['address_name']. ",\n\n";
-				
 			}
 			else
 			{
@@ -697,10 +697,24 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 				$message = $this->lng->txt("pay_message_hello") . " " . $ilUser->getFirstname() . " " . $ilUser->getLastname() . ",\n\n";
 			}
 			$message .= $this->lng->txt("pay_message_thanks") . "\n\n";
-			$message .= $message_link."\n\n";
+			#$message .= $message_link."\n\n";
 			$message .= $this->lng->txt("pay_message_attachment") . "\n\n";
 			$message .= $this->lng->txt("pay_message_regards") . "\n\n";
 			$message .= strip_tags($genSet->get("address"));
+
+			$mail_text =  ilGeneralSettings::getMailBillingText();
+			$use_placeholders = ilGeneralSettings::getMailUsePlaceholders();
+
+			if($mail_text != NULL)
+			{
+				$message = $mail_text;
+			}
+			if($use_placeholders == 1)
+			{
+				include_once './Services/Payment/classes/class.ilBillingMailPlaceholdersPropertyGUI.php';
+				$message = ilBillingMailPlaceholdersPropertyGUI::replaceBillingMailPlaceholders($mail_text, $ilUser->getId());
+			}
+
 			$m->Body( $message );	// set the body
 			$m->Attach( $genSet->get("pdf_path") . "/" . $transaction . ".pdf", "application/pdf" ) ;	// attach a file of type image/gif
 			$m->Send();	// send the mail

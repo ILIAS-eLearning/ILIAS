@@ -20,11 +20,12 @@ class ilPaymentObject
 	private $vendor_id = null;
 	private $topic_id = 0;
 	private $vat_id = 0;
+	private $subtype = null;
+	private $is_special = 0;
 
 
 	public function __construct($user_obj, $a_pobject_id = null)
 	{
-	
 		global $ilDB;
 
 		$this->db = $ilDB;
@@ -107,6 +108,24 @@ class ilPaymentObject
 		$this->vat_id = $a_vat_id;
 	}
 
+	public function setSubtype($a_subtype)
+	{
+		$this->subtype = $a_subtype;
+	}
+
+	public function getSubtype()
+	{
+		return $this->subtype;
+	}
+	public function setSpecial($a_special)
+	{
+		$this->is_special = $a_special;
+	}
+	public function getSpecial()
+	{
+		return $this->is_special;
+	}
+
 	function getVat($a_amount = 0, $type = 'CALCULATION')
 	{		
 		$oVAT = new ilShopVats($this->getVatId());
@@ -114,8 +133,7 @@ class ilPaymentObject
 		{
 			case 'CALCULATION':
 				$val = (float)($a_amount - (round(($a_amount / (1 + ($oVAT->getRate() / 100))) * 100) / 100));
-				
-				return number_format($val,'2');
+				return number_format((float)$val,'2','.','');
 			default:
 				global $lng;
 				
@@ -136,7 +154,9 @@ class ilPaymentObject
 			'pay_method'	=> array('integer', $this->getPayMethod()),
 			'vendor_id'		=> array('integer', $this->getVendorId()),
 			'pt_topic_fk'	=> array('integer', $this->getTopicId()),
-			'vat_id'		=> array('integer', $this->getVatId())
+			'vat_id'		=> array('integer', $this->getVatId()),
+			'subtype'		=> array('text', $this->getSubtype()),
+			'is_special'	=> array('integer', $this->getSpecial())
 		));
 		return $next_id;
 	}
@@ -169,7 +189,9 @@ class ilPaymentObject
 				'pay_method'	=> array('integer', $this->getPayMethod()),
 				'vendor_id'		=> array('integer', $this->getVendorId()),
 				'pt_topic_fk'	=> array('integer', $this->getTopicId()),
-				'vat_id'		=> array('integer', $this->getVatId())
+				'vat_id'		=> array('integer', $this->getVatId()),
+				'subtype'		=> array('text', $this->getSubtype()),
+				'is_special'	=> array('integer', $this->getSpecial())
 			),
 			array('pobject_id'	=> array('integer', $this->getPobjectId())));
 
@@ -290,6 +312,8 @@ class ilPaymentObject
 			$objects[$row->pobject_id]['vendor_id'] = $row->vendor_id;
 			$objects[$row->pobject_id]['topic_id'] = $row->pt_topic_fk;
 			$objects[$row->pobject_id]['vat_id'] = $row->vat_id;
+			$objects[$row->pobject_id]['subtype'] = $row->subtype;
+			$objects[$row->pobject_id]['is_special'] = $row->is_special;
 		}
 		return $objects ? $objects : array();
 	}
@@ -382,6 +406,8 @@ class ilPaymentObject
 			$objects[$row->pobject_id]['vendor_id'] = $row->vendor_id;
 			$objects[$row->pobject_id]['topic_id'] = $row->pt_topic_fk;
 			$objects[$row->pobject_id]['vat_id'] = $row->vat_id;
+			$objects[$row->pobject_id]['subtype'] = $row->subtype;
+			$objects[$row->pobject_id]['is_special'] = $row->is_special;
 		}
 		return $objects ? $objects : array();
 	}
@@ -480,13 +506,25 @@ class ilPaymentObject
 			return true;
 		}
 
-		$result = $ilDB->queryf('
-			SELECT * FROM payment_objects
-			WHERE ref_id = %s
-			AND (status = %s OR status = %s)
-			OR (vendor_id = %s)',
-			array('integer', 'integer', 'integer','integer'),
-			array($a_ref_id, '1', '2',$ilUser->getId()));
+		if($a_subtype)
+		{
+			$result = $ilDB->queryf('
+				SELECT * FROM payment_objects
+				WHERE ref_id = %s AND (status = %s or status = %s)
+				AND subtype = %s',
+				array('integer', 'integer', 'integer','text'),
+				array($a_ref_id, '1', '2',$a_subtype));
+		}
+		else
+		{
+			$result = $ilDB->queryf('
+				SELECT * FROM payment_objects
+				WHERE ref_id = %s
+				AND (status = %s OR status = %s)
+				OR (vendor_id = %s)',
+				array('integer', 'integer', 'integer','integer'),
+				array($a_ref_id, '1', '2',$ilUser->getId()));
+		}
 		while($row = $ilDB->fetchObject($result))
 		{
 			if($row->vendor_id == $ilUser->getId() || in_array($row->vendor_id, $vendors_of_trustee))
@@ -498,8 +536,11 @@ class ilPaymentObject
 			{
 				return false;
 			}
+			else
+			{
+				return true;
+			}
 		}
-		return true;
 	}
 	
 	// base method to check access for a specific object
@@ -530,11 +571,24 @@ class ilPaymentObject
 			return false;
 		}
 
+		if($a_subtype)
+		{
+			$result = $ilDB->queryf('
+				SELECT * FROM payment_objects
+				WHERE ref_id = %s
+				AND (status = %s or status = %s)
+				AND subtype = %s',
+				array('integer', 'integer', 'integer','text'),
+				array($a_ref_id, '1', '2',$a_subtype));
+		}
+		else
+		{
 			$result = $ilDB->queryf('
 				SELECT * FROM payment_objects
 				WHERE ref_id = %s AND (status = %s or status = %s)',
 				array('integer', 'integer', 'integer'),
 				array($a_ref_id, '1', '2'));
+		}
 
 		while($row = $ilDB->fetchObject($result))
 		{
@@ -650,6 +704,8 @@ class ilPaymentObject
 				$this->setVendorId($row->vendor_id);
 				$this->setTopicId($row->pt_topic_fk);
 				$this->setVatId($row->vat_id);
+				$this->setSubtype($row->subtype);
+				$this->setSpecial($row->is_special);
 				
 				return true;
 			}

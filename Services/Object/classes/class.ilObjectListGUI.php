@@ -1650,8 +1650,7 @@ class ilObjectListGUI
 
 		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 		include_once 'Services/Payment/classes/class.ilPaymentBookings.php';
-#############
-/**/
+
 		if(IS_PAYMENT_ENABLED && $this->payment_enabled)
 		{
 			if(ilPaymentobject::_requiresPurchaseToAccess($this->ref_id))
@@ -1706,81 +1705,6 @@ class ilObjectListGUI
 				}
 			}
 		}
-
-/*
-############## */
-
-
-/*		if(IS_PAYMENT_ENABLED
-		&& $this->payment_enabled
-		&& ilPaymentObject::_isBuyable($this->ref_id))
-		{
-			if(ilPaymentObject::_hasAccess($this->ref_id))
-			{
-
-#xy old
-#				$this->ctpl->setCurrentBlock('payment');
-#				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_access.gif'));
-#				$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_payed_access'));
-#				$this->ctpl->parseCurrentBlock();
-
-				if(ilPaymentObject::_hasExtensions($this->ref_id) )
-				{
-					$has_extension_prices = true;
-					$this->insertPaymentCommand($has_extension_prices);
-				}
-
-				include_once './Services/Payment/classes/class.ilPaymentBookings.php';
-				$order_infos = array();
-				$order_infos = ilPaymentBookings::_lookupOrder(ilPaymentObject::_lookupPobjectId($this->ref_id));
-
-				if(count($order_infos) > 0)
-				{
-					global $lng;
-					$pay_lang = $lng;
-					$pay_lang->loadLanguageModule('payment');
-					$alert = true;
-					$a_newline = true;
-					$a_property = $pay_lang->txt('object_purchased_date');
-					$a_value = ilDatePresentation::formatDate(new ilDateTime($order_infos["order_date"],IL_CAL_UNIX));
-
-					$this->addCustomProperty($a_property, $a_value, $alert, $a_newline);
-
-					$alert = true;
-					$a_newline = true;
-					$a_property = $this->lng->txt('object_duration');
-					if($order_infos['duration'] == 0)
-						$a_value = $pay_lang->txt('unlimited_duration');
-					else
-						$a_value = $order_infos['duration'] .' '.$this->lng->txt('months');
-					$this->addCustomProperty($a_property, $a_value, $alert, $a_newline);
-				}
-			}
-			else if(ilPaymentObject::_isInCart($this->ref_id))
-			{
-				$this->current_selection_list->flush();
-
-				$this->ctpl->setCurrentBlock('payment');
-				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_cart.gif'));
-				$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_in_sc'));
-				$this->ctpl->parseCurrentBlock();
-
-				$this->insertPaymentCommand();				
-			}
-			else
-			{
-				$this->current_selection_list->flush();
-
-				$this->ctpl->setCurrentBlock('payment');
-				$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays.gif'));
-				$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_buyable'));
-				$this->ctpl->parseCurrentBlock();				
-
-				$this->insertPaymentCommand();
-			}
-		}
- 
- */
 	}
 	
 	protected function insertPaymentCommand($has_extension_prices = false)
@@ -2459,9 +2383,8 @@ class ilObjectListGUI
 			// END PATCH Lucene Search
 
 			}
-#xy	new
 			$this->insertPayment();
-#
+
 		
 		// common social commands (comment, notes, tags)
 		if ($this->getInfoScreenStatus() && !$only_default && !$this->isMode(IL_LIST_AS_TRIGGER))

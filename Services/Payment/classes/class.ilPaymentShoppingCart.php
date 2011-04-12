@@ -402,7 +402,7 @@ class ilPaymentShoppingCart
 			$price_data = ilPaymentPrices::_getPrice($item['price_id']);
 			$price_string = ilPaymentPrices::_getPriceString($item['price_id']);
 
-			$price = (float)$price_data['price'];
+			$price = number_format($price_data['price'], 2, '.', '');
 
 			$f_result[$counter]["price"] =  $price;
 			$f_result[$counter]["price_string"] = $price_string;
@@ -411,7 +411,8 @@ class ilPaymentShoppingCart
 			$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());						
 			$f_result[$counter]['vat_rate'] = $oVAT->getRate();
 			$f_result[$counter]['vat_unit'] = $tmp_pobject->getVat($price);
-			
+	#		$f_result[$counter]['vat_unit'] = ilPaymentPrices::__getGUIPrice($tmp_pobject->getVat($price));
+	
 			$f_result[$counter]["duration"] = $price_data["duration"];
 			$f_result[$counter]['unlimited_duration'] = $price_data['unlimited_duration'];
 

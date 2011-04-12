@@ -4609,3 +4609,72 @@ if(!$ilDB->tableExists('il_verification'))
 		));
 	}
 ?>
+<#3278>
+<?php
+	if(!$ilDB->tableColumnExists('payment_objects', 'subtype'))
+	{
+		$ilDB->addTableColumn("payment_objects", "subtype", array(
+			"type" => "text",
+			"length" => 10,
+			"notnull" => false,
+			"default" => null));
+	}
+?>
+<#3279>
+<?php
+	if(!$ilDB->tableColumnExists('payment_settings', 'mail_use_placeholders'))
+	{
+		$ilDB->addTableColumn("payment_settings", "mail_use_placeholders", array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0));
+	}
+?>
+<#3280>
+<?php
+	if(!$ilDB->tableColumnExists('payment_settings', 'mail_billing_text'))
+	{
+		$ilDB->addTableColumn("payment_settings", "mail_billing_text", array(
+			"type" => "clob",
+			"notnull" => false,
+			"default" => null));
+	}
+?>
+<#3281>
+<?php
+	if(!$ilDB->tableColumnExists('payment_settings', 'hide_shop_info'))
+	{
+		$ilDB->addTableColumn("payment_settings", "hide_shop_info", array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0));
+	}
+?>
+<#3282>
+<?php
+	if(!$ilDB->tableColumnExists('payment_objects', 'is_special'))
+	{
+		$ilDB->addTableColumn("payment_objects", "is_special", array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0));
+	}
+?>
+<#3283>
+<?php
+	if(!$ilDB->tableColumnExists('payment_settings', 'use_shop_specials'))
+	{
+		$ilDB->addTableColumn("payment_settings", "use_shop_specials", array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0));
+	}
+?>
+<#3284>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

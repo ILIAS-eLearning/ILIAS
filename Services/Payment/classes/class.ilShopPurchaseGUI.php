@@ -384,11 +384,16 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		}
 
 		$this->ctrl->setParameter($this, "ref_id", $this->pobject->getRefId());
+		$subtype = '';
+		if($this->object->getType() == 'exc')
+		{
+			$subtype = ' ('.$this->lng->txt($this->pobject->getSubtype()).')';
+		}
 
 		$this->tpl->setVariable("DETAILS_FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$this->object->getType().'_b.gif'));
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_'.$this->object->getType()));
-		$this->tpl->setVariable("TITLE",$this->object->getTitle());
+		$this->tpl->setVariable("TITLE",$this->object->getTitle().' '.$subtype);
 		// payment infos
 		$this->tpl->setVariable("TXT_INFO",$this->lng->txt('info'));
 

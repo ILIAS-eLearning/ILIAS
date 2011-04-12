@@ -456,10 +456,11 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 					$address = new LieferAdresse();
 			
 					$bank = new Bankverbindung();
-			
+		
 					$sc_obj = new ilPaymentShoppingCart($this->user_obj);
 	
 					$tmp_bookEntries = $sc_obj->getShoppingCart();
+
 					if (!is_array($tmp_bookEntries))
 					{
 						ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));
@@ -474,7 +475,7 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 							if (!empty($_SESSION["coupons"]["bmf"]))
 							{
 								$price = $tmp_bookEntries[$i]["price"];									
-								$tmp_bookEntries[$i]["math_price"] = (float) $price;
+								$tmp_bookEntries[$i]["math_price"] = $price;
 																					
 								foreach ($_SESSION["coupons"]["bmf"] as $key => $coupon)
 								{				
@@ -485,7 +486,7 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 							
 									if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
 									{
-										$_SESSION["coupons"]["bmf"][$key]["total_objects_coupon_price"] += (float) $price;
+										$_SESSION["coupons"]["bmf"][$key]["total_objects_coupon_price"] += $price;
 										$_SESSION["coupons"]["bmf"][$key]["items"][] = $tmp_bookEntries[$i];
 										$booking = false;									
 									}								
@@ -496,10 +497,10 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 								
 							if ($booking)
 							{												
-								$tmp_bookEntries[$i]["price_string"] = number_format( (float) $tmp_bookEntries[$i]["price"] , 2, ",", ".");																								
+								$tmp_bookEntries[$i]["price_string"] = number_format( (float) $tmp_bookEntries[$i]["price"] , 2, ".", "");
 								$bookEntries[] = new Buchung($tmp_bookEntries[$i]);
 								$totalAmount += $tmp_bookEntries[$i]["price"];
-															}
+							}
 							else
 							{
 								$tmp_bookEntries[$i]["price_string"] = number_format( (float) $tmp_bookEntries[$i]["price"] , 2, ",", ".");
@@ -512,12 +513,13 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 						{
 							foreach ($coupon_discount_items as $item)
 							{
-								$item["price"]= $item["discount_price"];										
+								$item["price"]= number_format( (float) $item["discount_price"], 2, ".", "");
 								$bookEntries[] = new Buchung($item);
 								$totalAmount += $item["price"];
 							}										
 						}
 
+						$totalAmount = number_format( (float) $totalAmount , 2, ".", "");
 						$values = array("betrag" => $totalAmount, "buchungen" => $bookEntries);						
 						$bookingList = new BuchungsListe($this->user_obj->getId(), $values);
 					}
@@ -781,7 +783,7 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 
 	function getCreditCard()
 	{
-/**/		if ($_POST["card_holder"] == "" ||
+		if ($_POST["card_holder"] == "" ||
 			$_POST["card_number"]["block_1"] == "" ||
 			$_POST["card_number"]["block_2"] == "" ||
 			$_POST["card_number"]["block_3"] == "" ||
@@ -863,7 +865,7 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 					if (!empty($_SESSION["coupons"]["bmf"]))
 					{
 						$price = $tmp_bookEntries[$i]["price"];
-						$tmp_bookEntries[$i]["math_price"] = (float) $price;
+						$tmp_bookEntries[$i]["math_price"] = $price;
 																			
 						foreach ($_SESSION["coupons"]["bmf"] as $key => $coupon)
 						{				
@@ -874,7 +876,7 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 					
 							if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
 							{
-								$_SESSION["coupons"]["bmf"][$key]["total_objects_coupon_price"] += (float) $price;
+								$_SESSION["coupons"]["bmf"][$key]["total_objects_coupon_price"] += $price;
 								$_SESSION["coupons"]["bmf"][$key]["items"][] = $tmp_bookEntries[$i];
 								
 								$booking = false;									
@@ -889,7 +891,7 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 						$tmp_bookEntries[$i]["price_string"] = number_format( (float) $tmp_bookEntries[$i]["price"] , 2, ",", ".");				
 																	
 						$bookEntries[] = new Buchung($tmp_bookEntries[$i]);
-						$totalAmount += $tmp_bookEntries[$i]["betrag"];
+						$totalAmount += $tmp_bookEntries[$i]["price"];
 					}
 					else
 					{
@@ -903,12 +905,13 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 				{
 					foreach ($coupon_discount_items as $item)
 					{
-						$item["price"] = $item["discount_price"];
+						$item["price"] =  number_format((float)$item["discount_price"] , 2, ".", "");
 						$bookEntries[] = new Buchung($item);
 						$totalAmount += $item["discount_price"];
 					}										
 				}
 				
+				$totalAmount = number_format((float)$totalAmount , 2, ".", "");
 				$values = array("betrag" => $totalAmount, "buchungen" => $bookEntries);						
 				$bookingList = new BuchungsListe($this->user_obj->getId(), $values);
 			}
@@ -916,11 +919,9 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 			$resultObj = $payment->zahlenUndAnlegenKunde($customer, $creditCard, $bookingList);
 			$result = $resultObj->ergebnis;
 	
-//		if(true == true) #zum testen
 			if (is_object($result))
 			{
-	
-/**/			if ($result->code < 0)
+				if ($result->code < 0)
 				{
 					$this->tpl->setVariable("HEADER",$this->lng->txt('error'));
 					$this->tpl->touchBlock("stop_floating");
@@ -957,11 +958,9 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 						ilUtil::sendInfo($error);
 						$this->showPersonalData();
 					}
-	
 				}
 				else
 				{
-/**/#zum testen	
 					// everything ok => send confirmation, fill statistik, delete session, delete shopping cart.
 					$external_data = array();
 					$external_data['voucher'] = $resultObj->buchungsListe->buchungen[$b++]->belegNr;
@@ -995,7 +994,6 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 					}
 					$this->tpl->setVariable("TXT_CLOSE_WINDOW", $this->lng->txt('close_window'));
 				}
-/**/
 			}
 			else
 			{
@@ -1342,9 +1340,9 @@ class Buchung
 
 		if (is_array($values))
 		{
-			if ($values["buchungstext"] != NULL)
+			if ($values["object_title"] != NULL)
 			{
-				$buchungstext = utf8_decode($values["buchungstext"]);
+				$buchungstext = utf8_decode($values["object_title"]);
 				if(strlen($buchungstext) > 16)
 				{
 					$buchungstext = substr($buchungstext,0,15).'...';
@@ -1352,9 +1350,9 @@ class Buchung
 				
 				$this->buchungstext = $buchungstext;
 			}
-			if ($values["betrag"] != "")
+			if ($values["price"] != "")
 			{
-				$this->betrag = $values["betrag"];
+				$this->betrag = (float)$values["price"];
 			}
 		}
 	}
@@ -1406,7 +1404,7 @@ class BuchungsListe
 		{
 			if ($values["betrag"] != NULL)
 			{
-				$this->betrag = $values["betrag"];
+				$this->betrag = (float)$values["betrag"];
 			}
 			if ($values["buchungen"] != NULL)
 			{
@@ -1483,5 +1481,4 @@ class LieferAdresse
 		}
 	}
 }
-
 ?>

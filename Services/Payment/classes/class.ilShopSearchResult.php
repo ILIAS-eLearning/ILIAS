@@ -9,7 +9,7 @@ include_once 'Services/Search/classes/class.ilSearchResult.php';
 * 
 * 
 * @author Michael Jansen <mjansen@databay.de>
-* @version Id$
+* @version $Id:$
 * 
 * @ingroup ServicesPayment
 */
@@ -153,10 +153,15 @@ class ilShopSearchResult extends ilSearchResult
 	
 	public function getResultsForPresentation()
 	{
+		global $lng, $tree;
 		$results = array();
 		
 		$offset_counter = 0;
 		$counter = 0;
+
+		$objects_with_topics = array();
+		$objects_with_no_topcis = array();
+		$objects_of_subtree = array();
 
 		foreach($this->getResults() as $result)
 		{
@@ -174,14 +179,57 @@ class ilShopSearchResult extends ilSearchResult
 				break;
 			}
 		}
+		if($_GET['tree_ref_id'])
+		{
+			foreach($results as $result)
+			{
+				$tree_ref_id = $_GET['tree_ref_id'];
 		
-		$objects_with_topics = array();
-		$objects_with_no_topcis = array();
+				$parent_id = $tree->getParentId($result['ref_id']);
+
+				if($tree_ref_id == $parent_id)
+				{
+					$objects_of_subtree[$result['ref_id']] = $result;
+				}
+
+				foreach($objects_of_subtree as $result)
+				{
+					switch($result['type'])
+					{
+						// learning material
+						case "sahs":
+						case "lm":
+						case "dbk":
+						case "htlm":
+							$type = "lres";
+							break;
+
+						default:
+							$type = $result['type'];
+							break;
+					}
+					$title = ilObject::_lookupTitle($result['obj_id']);
+					$description = ilObject::_lookupDescription($result['obj_id']);
+
+					$presentation_results[0][$type][] = array('ref_id' => $result['ref_id'],
+														  'title' => $title,
+														  'description' => $description,
+														  'type' => $result['type'],
+														  'obj_id' => $result['obj_id'],
+														  'child' => $result['child']);
+
+					$this->addPresentationResult($presentation_results[0][$type][count($presentation_results[0][$type]) - 1]);
+				}
+			}
+		}
+		else
+		{
 		foreach($this->getTopics() as $oTopic)
 		{		
 			foreach($results as $result)
 			{
 				$topic_id = ilPaymentObject::_lookupTopicId($result['ref_id']);
+					$parent_id = $tree->getParentId($result['ref_id']);
 				
 				if(!(int)$topic_id && !array_key_exists($result['ref_id'], $objects_with_no_topcis))
 				{					
@@ -216,8 +264,15 @@ class ilShopSearchResult extends ilSearchResult
 				$title = ilObject::_lookupTitle($result['obj_id']);
 				$description = ilObject::_lookupDescription($result['obj_id']);
 	
+					$subtype = '';
+					if($result['type'] == 'exc')
+					{
+						$check_sub = ilPaymentObject::_checkExcSubtype($result['ref_id']);
+						$subtype = ' ('.$lng->txt($check_sub[0]).')';
+					}
+
 				$presentation_results[$oTopic->getId()][$type][] = array('ref_id' => $result['ref_id'],
-													  'title' => $title,
+														  'title' => $title.' '.$subtype,
 													  'description' => $description,
 													  'type' => $result['type'],
 													  'obj_id' => $result['obj_id'],
@@ -261,6 +316,7 @@ class ilShopSearchResult extends ilSearchResult
 												  'child' => $result['child']);
 			$this->addPresentationResult($presentation_results[0][$type][count($presentation_results[0][$type]) - 1]);
 			
+		}
 		}
 		return $presentation_results ? $presentation_results : array();
 	}

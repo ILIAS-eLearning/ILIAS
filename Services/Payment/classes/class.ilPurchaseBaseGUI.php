@@ -411,6 +411,9 @@ class ilPurchaseBaseGUI
 				$obj_type = $ilObjDataCache->lookupType($obj_id);
 				$obj_title = $ilObjDataCache->lookupTitle($obj_id);
 
+				// put bought object on personal desktop
+				ilObjUser::_addDesktopItem($this->user_obj->getId(), $pobjectData['ref_id'], $obj_type);
+
 				$bookings['list'][] = array(
 					'pobject_id' => $sc[$i]['pobject_id'],
 					'type' => $obj_type,
@@ -618,11 +621,26 @@ class ilPurchaseBaseGUI
 			$m->From( $this->ilias->getSetting('admin_email') );
 			$m->To( $this->user_obj->getEmail() );
 			$m->Subject( $this->lng->txt('pay_message_subject') );	
+
+			// if there is no mailbillingtext use this as standard
 			$message = $this->lng->txt('pay_message_hello') . ' ' . $this->user_obj->getFirstname() . ' ' . $this->user_obj->getLastname() . ",\n\n";
 			$message .= $this->lng->txt('pay_message_thanks') . "\n\n";
 			$message .= $this->lng->txt('pay_message_attachment') . "\n\n";
 			$message .= $this->lng->txt('pay_message_regards') . "\n\n";
 			$message .= strip_tags($genSet->get('address'));
+
+			//replacePlaceholders...
+			$billing_text = $genSet->getMailBillingText();
+			if(!$billing_text)
+			{
+				$message = '';
+			}
+			if($genSet->getMailUsePlaceholders() == 1)
+			{
+				include_once './Services/Payment/classes/class.ilBillingMailPlaceholdersPropertyGUI.php';
+				$message = ilBillingMailPlaceholdersPropertyGUI::replaceBillingMailPlaceholders($billing_text, $this->user_obj->getId());
+			}
+
 			$m->Body( $message );	// set the body
 			$m->Attach( $genSet->get('pdf_path') . '/' . $bookings['transaction'] . '.pdf', 'application/pdf' ) ;	// attach a file of type image/gif
 			$m->Send();	// send the mail

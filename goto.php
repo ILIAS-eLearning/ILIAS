@@ -86,6 +86,16 @@ $target_id = $target_arr[1];
 $additional = $target_arr[2];		// optional for pages
 
 
+include_once './Services/Payment/classes/class.ilShopLinkBuilder.php';
+$shop_classes = array_keys(ilShopLinkBuilder::$linkArray);
+if(in_array($target_type, $shop_classes))
+{
+	$class = $target_type;
+	 ilUtil::redirect('ilias.php?baseClass='.ilShopLinkBuilder::$linkArray[strtolower($class)]['baseClass']
+		.'&cmdClass='.strtolower(ilShopLinkBuilder::$linkArray[strtolower($class)]['cmdClass']));
+	  exit;
+}
+
 // if anonymous and goto is not granted: go to login page
 include_once("Services/Init/classes/class.ilStartUpGUI.php");
 if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID && !ilStartUpGUI::_checkGoto($_GET["target"]))

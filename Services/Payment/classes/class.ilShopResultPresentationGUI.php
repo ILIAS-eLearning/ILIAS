@@ -10,7 +10,7 @@ include_once 'Services/Payment/classes/class.ilShopUtils.php';
 * Class ilShopResultPresentationGUI
 *
 * @author Michael Jansen <mjansen@databay.de>
-* @version $Id$
+* @version $Id:$
 * 
 * @ingroup ServicesPayment
 */
@@ -72,9 +72,11 @@ class ilShopResultPresentationGUI
 			foreach($topics as $oTopic)
 			{
 				$this->renderItems($oContainerTpl, $results, array('id' => $oTopic->getId(), 'title' => $oTopic->getTitle()));
-	}
+			}
 			$this->renderItems($oContainerTpl, $results, array('id' => 0, 'title' => $this->lng->txt('payment_no_topic')));
 		}
+		else
+			$this->renderItems($oContainerTpl, $results, array('id' => 0, 'title' => $this->lng->txt('payment_no_topic')));
 		$html = $oContainerTpl->get();
 	
 		return $html;
@@ -200,7 +202,6 @@ class ilShopResultPresentationGUI
 						include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';	
 						$item_list_gui = ilObjectListGUIFactory::_getListGUIByType($item['type']);
 					}
-############ test
 					$item_list_gui->initItem(
 						$item['ref_id'],
 						$item['obj_id'],
@@ -208,7 +209,6 @@ class ilShopResultPresentationGUI
 						$item['description'],
 						ilObjectListGUI::CONTEXT_SHOP
 					);
-#########
 					$item_list_gui->enableDelete(false);						
 					$item_list_gui->enableCut(false);
 					$item_list_gui->enableCopy(false);
@@ -244,7 +244,7 @@ class ilShopResultPresentationGUI
 							case 'lm':
 								$demo_link = 'ilias.php?baseClass=ilLMPresentationGUI&ref_id='.$item['ref_id'].'&purchasetype=demo';
 								break;
-# @TODO: EXC
+
 							case 'exc':
 								#$demo_link = 'repository.php?baseClass=ilExcerciseHandlerGUI&ref_id='.$item['ref_id'].'&purchasetype=demo';
 								$demo_link = $this->ctrl->getLinkTargetByClass('ilshoppurchasegui', 'showDemoVersion').'&purchasetype=demo&ref_id='.$item["ref_id"];
@@ -257,6 +257,14 @@ class ilShopResultPresentationGUI
 
 						$item['title'] = '<a href="'.$demo_link.'">'.$item["title"].'</a>';
 					}
+					
+					$special_icon = '';
+					if($oPaymentObject->getSpecial() == 1)
+					{
+						$special_icon = ilShopUtils::_getSpecialObjectSymbol();
+					}
+
+					$item['title'] = $item['title'].' '.$special_icon;
 
 					$tpl_pinfo = new ilTemplate ('tpl.shop_item_info.html', true, true, 'Services/Payment');
 					if($item['price_string'] != '')

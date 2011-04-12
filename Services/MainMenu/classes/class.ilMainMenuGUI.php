@@ -383,7 +383,7 @@ class ilMainMenuGUI
 		if(IS_PAYMENT_ENABLED)
 		{
 			$a_tpl->setCurrentBlock('shopbutton');
-			$a_tpl->setVariable('SCRIPT_SHOP', $this->getScriptTarget('ilias.php?baseClass=ilShopController&cmd=clearFilter'));
+			$a_tpl->setVariable('SCRIPT_SHOP', $this->getScriptTarget('ilias.php?baseClass=ilShopController&cmd=firstpage'));
 			$a_tpl->setVariable('TARGET_SHOP', $this->target);
 
 			include_once 'Services/Payment/classes/class.ilPaymentShoppingCart.php';

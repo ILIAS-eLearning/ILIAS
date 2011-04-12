@@ -67,10 +67,11 @@ class ilPaymentPrices
 			$price['duration'] = $row->duration;
 			$price['unlimited_duration'] = $row->unlimited_duration;
 			$price['currency'] = $row->currency;
-			$price['price'] = $row->price;
+			$price['price'] = number_format($row->price, 2, '.', '');
 			$price['extension'] = $row->extension;
 
-		}	
+		}
+	
 		return count($price) ? $price : array();
 	}
 
@@ -84,23 +85,43 @@ class ilPaymentPrices
 			array('integer'),
 			array($a_pobject_id));
 				
-		$row = $res->fetchRow(DB_FETCHMODE_ARRAY);
+#		$row = $res->fetchRow(DB_FETCHMODE_ARRAY);
+		$row = $ilDB->fetchAssoc($res);
 
 		return ($row[0]);
 	}
 
 	public static function _getPriceString($a_price_id)
 	{
-		#include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
-		
-		global $lng;
-		
 		$price = ilPaymentPrices::_getPrice($a_price_id);
+		$gui_price = self::_getGUIPrice($price['price']);
 
-		return (float)$price['price'];
-		
+		return $gui_price;
 	}
-	
+
+
+	public static function _getGUIPrice($a_price)
+	{
+		global $lng;
+
+		$system_lng = $lng->getDefaultLanguage();
+
+		// CODES: ISO 639
+		$use_comma_seperator = array('ar','bg','cs','de','da','es','et','it',
+			'fr','nl','el','sr','uk','ru','ro','tr','pl','lt','pt','sq','hu');
+
+		$use_point_separator = array('en','ja','zh','vi');
+
+		if(in_array($system_lng, $use_comma_seperator))
+		{
+			$gui_price = number_format($a_price, 2, ',', '');
+		}
+		else
+			$gui_price = number_format($a_price, 2, '.', '');
+
+		return $gui_price;
+	}
+
 	public static function _formatPriceToString($a_price)
 	{
 		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
@@ -108,7 +129,9 @@ class ilPaymentPrices
 		$genSet = new ilGeneralSettings();
 		$currency_unit = $genSet->get('currency_unit');
 
-		return $a_price . ' ' . $currency_unit;
+		$gui_price = self::_getGUIPrice($a_price);
+
+		return $gui_price . ' ' . $currency_unit;
 		
 /* TODO: after currency implementation is finished	-> replace whole function
  * 		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
@@ -194,9 +217,8 @@ class ilPaymentPrices
 
 	public function setPrice($a_price = 0)
 	{
-		$this->price = preg_replace('/^0+/','',$a_price);
-
-		$this->price = $a_price;
+		$this->price = preg_replace('/,/','.',$a_price);
+		$this->price = (float)$a_price;
 	}
 
 	public function setCurrency($a_currency_id)
@@ -243,7 +265,7 @@ class ilPaymentPrices
 				'currency'		=> array('integer', $this->__getCurrency()),
 				'duration'		=> array('integer', $this->__getDuration()),
 				'unlimited_duration'=> array('integer', $this->__getUnlimitedDuration()),
-				'price'			=> array('integer', $this->__getPrice()),
+				'price'			=> array('float', $this->__getPrice()),
 				'extension'		=> array('integer', $this->getExtension())
 		));
 		
@@ -257,7 +279,7 @@ class ilPaymentPrices
 					'currency'		=> array('integer', $this->__getCurrency()),
 					'duration'		=> array('integer', $this->__getDuration()),
 					'unlimited_duration'=> array('integer', $this->__getUnlimitedDuration()),
-					'price'			=> array('integer', $this->__getPrice()),
+					'price'			=> array('float', $this->__getPrice()),
 					'extension'		=> array('integer', $this->getExtension())),
 			array('price_id'=> array('integer', $a_price_id)));
 
