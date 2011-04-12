@@ -461,7 +461,7 @@ class ilAdministrationGUI
 			// these objects may exist due to test cases that didnt clear
 			// data properly
 			if ($c["type"] == "" || $c["type"] == "objf" ||
-				$c["type"] == "xxx" || $c["type"] == 'frma')
+				$c["type"] == "xxx")
 			{
 				continue;
 			}
