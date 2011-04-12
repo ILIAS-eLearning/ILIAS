@@ -9,6 +9,7 @@ include_once './Services/Payment/classes/class.ilShopAdvancedSearchGUI.php';
 include_once './Services/Payment/classes/class.ilShopSearchResult.php';
 include_once './Services/Payment/classes/class.ilShopInfoGUI.php';
 include_once './Services/Payment/classes/class.ilShopNewsGUI.php';
+include_once './Services/Payment/classes/class.ilTermsConditionsGUI.php';
 
 include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
 include_once './Services/Payment/classes/class.ilPaymentObject.php';
@@ -19,6 +20,7 @@ include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 include_once './Services/Payment/classes/class.ilShopTopics.php';
 
 include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
+include_once './Services/Payment/classes/class.ilShopLinkBuilder.php';
 
 
 /**
@@ -33,7 +35,8 @@ include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 * @ilCtrl_Calls ilShopController: ilShopGUI, ilShopAdvancedSearchGUI, ilShopShoppingCartGUI
 * @ilCtrl_Calls ilShopController: ilShopBoughtObjectsGUI, ilPurchaseBMFGUI, ilShopPersonalSettingsGUI
 * @ilCtrl_Calls ilShopController: ilPaymentGUI, ilPaymentAdminGUI, ilShopInfoGUI
-* @ilCtrl_Calls ilShopController: ilPurchaseBillGUI, ilShopNewsGUI 
+* @ilCtrl_Calls ilShopController: ilPurchaseBillGUI, ilShopNewsGUI, ilTermsConditionsGUI, ilShopPurchaseGUI
+* @ilCtrl_Calls ilShopController: ilShopLinkBuilder
 */
 class ilShopController
 {	
@@ -65,7 +68,13 @@ class ilShopController
 		
 		$next_class = $this->ctrl->getNextClass();
 		$cmd = $this->ctrl->getCmd();	
+		$cmd_class = $this->ctrl->getCmdClass();
 		
+		if(!$next_class && $cmd_class)
+		{
+			$next_class = $cmd_class;
+		}
+
 		$obj = new ilGeneralSettings();
 		$allSet = $obj->getAll();
 
@@ -118,6 +127,10 @@ class ilShopController
 				break;
 
 			case 'ilshopinfogui':
+				if ((bool) $allSet['hide_shop_info'])
+		        {
+		          $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		        }
 				include_once './Services/Payment/classes/class.ilShopInfoGUI.php';
 				$this->ctrl->forwardCommand(new ilShopInfoGUI());
 				break;
@@ -131,6 +144,17 @@ class ilShopController
 				$this->ctrl->forwardCommand(new ilShopNewsGUI());
 				break;	
 				
+				case 'iltermsconditionsgui':
+
+				include_once './Services/Payment/classes/class.ilTermsConditionsGUI.php';
+				$this->ctrl->forwardCommand(new ilTermsConditionsGUI());
+				break;
+
+				case 'ilshoppurchasegui':
+				include_once './Services/Payment/classes/class.ilShopPurchaseGUI.php';
+				$this->ctrl->forwardCommand(new ilShopPurchaseGUI($_GET['ref_id']));
+				break;
+
 			case 'ilshopgui':				
 			default:
 				if($cmd == 'redirect')
@@ -157,13 +181,15 @@ class ilShopController
 		$obj = new ilGeneralSettings();
 		$allSet = $obj->getAll();
 				
-		$ilTabs->addTarget('content', $this->ctrl->getLinkTargetByClass('ilshopgui'), '', '', '');
+		$ilTabs->addTarget('content', $this->ctrl->getLinkTargetByClass('ilshopgui','firstpage'), '', '', '');
+
 		if (!(bool)$allSet['hide_advanced_search']) { 
 		  $ilTabs->addTarget('advanced_search', $this->ctrl->getLinkTargetByClass('ilshopadvancedsearchgui'), '', '', '');
 		 }
-		 
-		$ilTabs->addTarget('shop_info',$this->ctrl->getLinkTargetByClass('ilshopinfogui') ,'' , '', '');
-		
+		if (!(bool)$allSet['hide_shop_info'])
+		{
+		  $ilTabs->addTarget('shop_info',$this->ctrl->getLinkTargetByClass('ilshopinfogui') ,'' , '', '');
+		}
 		if (!(bool)$allSet['hide_news'])
 		{
 		  $ilTabs->addTarget('payment_news',$this->ctrl->getLinkTargetByClass('ilshopnewsgui'),'' , '', '');
@@ -189,6 +215,7 @@ class ilShopController
 		// Only show cart if not empty
 		$ilTabs->addTarget('paya_shopping_cart', $this->ctrl->getLinkTargetByClass('ilshopshoppingcartgui'), '', '', '');
 		
+		$ilTabs->addTarget('terms_conditions',$this->ctrl->getLinkTargetByClass(array('iltermsconditionsgui'), ''));
 	}
 	
 	public function redirect()
@@ -199,6 +226,12 @@ class ilShopController
 		{
 			case 'ilshopshoppingcartgui':			
 				$ilCtrl->redirectByClass('ilshopshoppingcartgui','','',false, false);
+				break;
+			case 'ilshopadvancedsearchgui':
+				$ilCtrl->redirectByClass('ilshopadvancedsearchgui','','',false, false);
+				break;
+			case 'ilshopboughtobjectsgui':
+				$ilCtrl->redirectByClass('ilshopboughtobjectsgui','','',false, false);
 				break;
 			
 			default:

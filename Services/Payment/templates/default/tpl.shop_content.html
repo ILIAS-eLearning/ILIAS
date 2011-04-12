@@ -1,55 +1,34 @@
 <!-- BEGIN page_content -->{PAGE_CONTENT}<div style="height: 1px; line-height: 1px; clear: both;">&nbsp;</div><!-- END page_content -->
 
 <!-- BEGIN SHOW_FILTER -->{FORM}<!-- END SHOW_FILTER -->
-<!-- BEGIN sorting -->
-<form method="post" action="{SORTING_FORM_ACTION}">
-<table class="invisible" align="left">
-<!-- BEGIN topics_sort_block -->
+
+<form method="post" action="{SORTING_FORM_ACTION}" id="shop_content_filter">
+<table class="invisible">
 <tr>	
- 	<td valign="middle">{SORT_TOPICS_BY_TEXT}:&nbsp;</td>
- 	<td valign="middle">
-	 	<select name="topics_sorting_type"  size="1">
-			<option value="{SORTING_TYPE_BY_TITLE}" {SORTING_TYPE_BY_TITLE_SELECTED}>{SORTING_TYPE_BY_TITLE_TEXT}</option>
-			<option value="{SORTING_TYPE_BY_DATE}" {SORTING_TYPE_BY_DATE_SELECTED}>{SORTING_TYPE_BY_DATE_TEXT}</option>
-			<!-- BEGIN sort_manually -->
-			<option value="{SORTING_TYPE_MANUALLY}" {SORTING_TYPE_MANUALLY_SELECTED}>{SORTING_TYPE_MANUALLY_TEXT}</option>
-			<!-- END sort_manually -->
+<!-- BEGIN topics_filter -->
+	<td valign="left">{SORT_TOPICS}:&nbsp;
+		<select name="filter_topic_id"  size="1" onchange="document.getElementById('shop_content_filter').submit();">
+<!-- BEGIN topics_option -->
+			<option value="{FILTER_TOPIC_ID}"{FILTER_TOPIC_SELECTED}>{FILTER_TOPIC_TEXT}</option>
+<!-- END topics_option -->
 		</select>
 	</td>
-	<td valign="middle">
-		<select name="topics_sorting_direction"  size="1">
-			<option value="ASC" {SORTING_DIRECTION_ASC_SELECTED}>{SORTING_DIRECTION_ASCENDING_TEXT}</option>
-			<option value="DESC" {SORTING_DIRECTION_DESC_SELECTED}>{SORTING_DIRECTION_DESCENDING_TEXT}</option>
-		</select>
-	</td>
-</tr>
-<!-- END topics_sort_block -->
-<tr>
-	 <td valign="middle">{SORT_BY_TEXT}:&nbsp;</td>
-	 <td valign="middle">
-	 	<select name="order_field"  size="1">
+<!-- END topics_filter -->
+<!-- BEGIN sort_by_filter -->
+	 <td valign="right">{SORT_BY_TEXT}:&nbsp;
+
+	 	<select name="order_field"  size="1" onchange="document.getElementById('shop_content_filter').submit();">
 	 		<!-- BEGIN order_field -->
 			<option value="{ORDER_FIELD_VALUE}" {ORDER_FIELD_SELECTED}>{ORDER_FIELD_TEXT}</option>
 			<!-- END order_field -->
 		</select>				
 	</td>
-	<td valign="middle">		
-		<select name="order_direction"  size="1">
-			<option value="asc" {ORDER_DIRECTION_ASC_SELECTED}>{ASCENDING_TEXT}</option>
-			<option value="desc" {ORDER_DIRECTION_DESC_SELECTED}>{DESCENDING_TEXT}</option>
-		</select>
-	</td>
-</tr>
-<tr>
-	<td valign="middle">&nbsp;&nbsp;</td>
-	<td valign="middle">&nbsp;&nbsp;</td>
-	<td valign="middle" align="right"><input class="submit" type="submit" name="cmd[{CMD_SORT}]" value="{SORT_TEXT}"/></td>
+<!-- END sort_by_filter -->
 </tr>
 </table>
 </form>
 <div style="clear: both; height: 1px; line-height: 1px; display: block;"></div>
-<!-- END sorting -->
-
+{ERROR}
 <!-- BEGIN results -->
 <br />
 <!--  BEGIN prev_next -->

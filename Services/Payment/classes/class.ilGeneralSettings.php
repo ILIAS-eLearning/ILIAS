@@ -79,7 +79,9 @@ class ilGeneralSettings
 				hide_advanced_search = %s,
 				objects_allow_custom_sorting = %s,
 				hide_coupons = %s,
-				hide_news = %s
+				hide_news = %s,
+				hide_shop_info = %s,
+				use_shop_specials = %s
 			WHERE settings_id = %s', 
 			array( 	'text', 
 					'text', 
@@ -96,6 +98,8 @@ class ilGeneralSettings
 					'integer',
 					'integer', 
 					'integer',
+					'integer',
+					'integer',
 					'integer'),
 			array(	NULL,
 					NULL,
@@ -107,6 +111,8 @@ class ilGeneralSettings
 					'asc',
 					'0',
 					'20',
+					'0',
+					'0',
 					'0',
 					'0',
 					'0',
@@ -141,6 +147,10 @@ class ilGeneralSettings
 			if(!$a_values['objects_allow_custom_sorting']) $a_values['objects_allow_custom_sorting'] = 0;
 			if(!$a_values['hide_coupons']) $a_values['hide_coupons'] = 0;
 			if(!$a_values['hide_news']) $a_values['hide_news'] = 0;
+			if(!$a_values['hide_shop_info']) $a_values['hide_shop_info'] = 0;
+			if(!$a_values['use_shop_specials']) $a_values['use_shop_specials'] = 0;
+
+
 			/**/				
 			
 			$statement = $this->db->manipulateF('
@@ -159,7 +169,9 @@ class ilGeneralSettings
 					hide_advanced_search = %s,
 					objects_allow_custom_sorting = %s,
 					hide_coupons = %s,
-					hide_news = %s
+					hide_news = %s,
+					hide_shop_info = %s,
+					use_shop_specials = %s
 				WHERE settings_id = %s', 
 				array( 'text', 
 						'text', 
@@ -171,6 +183,8 @@ class ilGeneralSettings
 						'text',
 						'integer', 
 						'integer', 
+						'integer',
+						'integer',
 						'integer',
 						'integer',
 						'integer',
@@ -193,6 +207,8 @@ class ilGeneralSettings
 					$a_values['objects_allow_custom_sorting'],
 					$a_values['hide_coupons'],
 					$a_values['hide_news'],
+					$a_values['hide_shop_info'],
+					$a_values['use_shop_specials'],
 					$this->getSettingsId())
 			);
 		}
@@ -217,6 +233,8 @@ class ilGeneralSettings
 			if(!$a_values['objects_allow_custom_sorting']) 			$a_values['objects_allow_custom_sorting'] = 0;
 			if(!$a_values['hide_coupons']) 				$a_values['hide_coupons'] = 0;
 			if(!$a_values['hide_news']) 				$a_values['hide_news'] = 0;
+			if(!$a_values['hide_shop_info']) 			$a_values['hide_shop_info'] = 0;
+			if(!$a_values['use_shop_specials']) 		$a_values['use_shop_specials'] = 0;
 
 			
 			$next_id = $ilDB->nextId('payment_settings');
@@ -237,9 +255,11 @@ class ilGeneralSettings
 					hide_advanced_search,
 					objects_allow_custom_sorting,
 					hide_coupons,
-					hide_news
+					hide_news,
+					hide_shop_info,
+					use_shop_specials
 				)
-				VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+				VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
 				array( 'integer',
 						'text', 
 						'text', 
@@ -255,7 +275,9 @@ class ilGeneralSettings
 				       'integer',
 				       'integer',
 				       'integer',
-				       'integer'),
+				       'integer','integer',
+					'integer'
+						),
 				array(
 					$next_id,
 					$a_values['currency_unit'],
@@ -272,7 +294,10 @@ class ilGeneralSettings
 					$a_values['hide_advanced_search'],
 					$a_values['objects_allow_custom_sorting'],
 					$a_values['hide_coupons'],
-					$a_values['hide_news']
+					$a_values['hide_news'],
+					$a_values['hide_shop_info'],
+					$a_values['use_shop_specials']
+
 					)
 			);
 		}		
@@ -306,6 +331,8 @@ class ilGeneralSettings
 			$data['objects_allow_custom_sorting'] = $row->objects_allow_custom_sorting;
 			$data['hide_coupons'] = $row->hide_coupons;
 			$data['hide_news'] = $row->hide_news;
+			$data['hide_shop_info'] = $row->hide_shop_info;
+			$data['use_shop_specials'] = $row->use_shop_specials;
 		}
 		$this->settings = $data;
 	}
@@ -319,5 +346,54 @@ class ilGeneralSettings
 
 		return $row['shop_enabled'];
 	}
+	public static function setMailUsePlaceholders($a_mail_use_placeholders)
+	{
+		global $ilDB;
+
+		$res = $ilDB->manipulateF('UPDATE payment_settings
+			SET mail_use_placeholders = %s',
+			array('integer'), array($a_mail_use_placeholders));
+}
+
+	public static function getMailUsePlaceholders()
+	{
+		global $ilDB;
+
+		$res = $ilDB->query('SELECT mail_use_placeholders FROM payment_settings');
+		$row = $ilDB->fetchAssoc($res);
+
+		return $row['mail_use_placeholders'];
+	}
+
+	public static function setMailBillingText($a_mail_billing_text)
+	{
+		global $ilDB;
+
+		$ilDB->update('payment_settings',
+			array('mail_billing_text'  => array('clob', $a_mail_billing_text)),
+			array('settings_id'	  => array('integer',1)));
+
+	}
+
+	public static function getMailBillingText()
+	{
+		global $ilDB;
+
+		$res = $ilDB->query('SELECT mail_billing_text FROM payment_settings');
+		$row = $ilDB->fetchAssoc($res);
+
+		return $row['mail_billing_text'];
+	}
+
+	public static function useShopSpecials()
+	{
+		global $ilDB;
+
+		$res = $ilDB->query('SELECT use_shop_specials FROM payment_settings');
+		$row = $ilDB->fetchAssoc($res);
+
+		return $row['use_shop_specials'];
+	}
+
 }
 ?>

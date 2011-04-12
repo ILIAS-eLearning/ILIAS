@@ -240,6 +240,13 @@
 
 		return $link;
 	}
+	public static function _getSpecialObjectSymbol()
+	{
+		$img = ilUtil::img('./templates/default/images/payment/star_32.png');
+		#$link = '<a href="'.$detail_link.'">'.$img.'</a>';
+
+		return $img;
+	}
 
 	public static function _getPaymethodSymbol($a_paymethod)
 	{

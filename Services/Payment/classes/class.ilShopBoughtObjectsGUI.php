@@ -299,7 +299,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
 
-		if(!count($bookings = $this->bookings_obj->getBookingsOfCustomer($this->user_obj->getId())))
+		if(!count($bookings = ilPaymentBookings::getBookingsOfCustomer($this->user_obj->getId())))
 		{
 			ilUtil::sendInfo($this->lng->txt('pay_not_buyed_any_object'));
 

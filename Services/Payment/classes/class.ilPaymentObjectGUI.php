@@ -348,6 +348,25 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$oPathGUI->setValue($this->__getHTMLPath($this->pobject->getRefId()));
 		$oForm->addItem($oPathGUI);
 		
+		switch ($tmp_obj->getType())
+		{
+			case 'exc':
+				$exc_subtype_option = array();
+				$check_subtypes = ilPaymentObject::_checkExcSubtype($this->pobject->getRefId());
+
+				if(!in_array('download', $check_subtypes) || $this->pobject->getSubtype() == 'download')
+					$exc_subtype_option['download'] = $this->lng->txt('download');
+				if(!in_array('upload', $check_subtypes) || $this->pobject->getSubtype() == 'upload')
+					$exc_subtype_option['upload'] = $this->lng->txt('upload');
+
+				$oExcSubtype = new ilSelectInputGUI($this->lng->txt('select_subtype'), 'exc_subtype');
+				$oExcSubtype->setOptions($exc_subtype_option);
+				$oExcSubtype->setValue($this->pobject->getSubtype());
+				$oForm->addItem($oExcSubtype);
+
+				break;
+			default: break;
+		}
 		// number of purchasers
 		$oPurchasersGUI = new ilNonEditableValueGUI($this->lng->txt('paya_count_purchaser'));
 		$oPurchasersGUI->setValue(ilPaymentBookings::_getCountBookingsByObject((int)$_GET['pobject_id']));
@@ -424,6 +443,14 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		}
 		$oForm->addItem($oThumbnail);
 		
+		if($genSet->get('use_shop_specials'))
+		{
+			// special object
+			$oSpecial = new ilCheckboxInputGUI($this->lng->txt('special'), 'is_special');
+			$oSpecial->setChecked((int)$this->pobject->getSpecial());
+			$oSpecial->setInfo($this->lng->txt('special_info'));
+			$oForm->addItem($oSpecial);
+		}
 		// buttons
 		$oForm->addCommandButton('updateDetails', $this->lng->txt('save'));
 		$oForm->addCommandButton('deleteObject', $this->lng->txt('delete'));		
@@ -672,7 +699,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		
 	private function __editPricesTable($a_result_set)
 	{
-		$tbl = new ilShopTableGUI($this,'editPrices');
+		$tbl = new ilShopTableGUI($this);
 
 		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId());
 		$tbl->setTitle($tmp_obj->getTitle());
@@ -763,7 +790,8 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		//extension
 		$oExtension = new ilCheckboxInputGUI($this->lng->txt('extension_price'), 'extension');
-		$oExtension->setChecked($_POST['extension'] == 1);
+		isset($_POST['extension']) ? $ext_value = 1 : $ext_value = 0;
+		$oExtension->setChecked($ext_value);
 
 		$form->addItem($oExtension);
 
@@ -821,9 +849,14 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			$prices->setUnlimitedDuration(1);
 		}
 
-		$prices->setPrice($_POST['price']);
+		$prices->setPrice((float)$_POST['price']);
 		$prices->setCurrency($currency[1]['currency_id']);
-		$prices->setExtension($_POST['extension']);
+		if($_POST['extension'] == '1')
+		{
+			$prices->setExtension(1);
+		}
+		else
+			$prices->setExtension(0);
 		//$prices->setCurrency($_POST['currency_id']);
 
 		if(!$prices->validate())
@@ -1047,7 +1080,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		if((int)$_POST['status'] == 0)
 		{
 			// Status: not buyable -> delete depending shoppingcart entries
-			include_once './Services/Payment/classes/class.ilPaymentShoppingCart';
+			include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
 			ilPaymentShoppingCart::_deleteShoppingCartEntries($this->pobject->getPobjectId());
 		}
 		
@@ -1056,6 +1089,8 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$this->pobject->setPayMethod((int)$_POST['pay_method']);
 		$this->pobject->setTopicId((int)$_POST['topic_id']);
 		$this->pobject->setVatId((int)$_POST['vat_id']);
+		$this->pobject->setSubtype((string)$_POST['exc_subtype']);
+		$this->pobject->setSpecial((int)$_POST['is_special']);
 
 		if((int)$_POST['thumbnail_delete'])
 		{
@@ -1186,6 +1221,17 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 		$p_obj = new ilPaymentObject($this->user_obj);
 
+		if($check_subtypes= ilPaymentObject::_checkExcSubtype($_GET['sell_id']))
+{
+			if(!in_array('download',$check_subtypes))
+				$p_obj->setSubtype('download');
+			else
+			if(!in_array('upload',$check_subtypes))
+				$p_obj->setSubtype('upload');
+
+
+		}
+		else
 		 if(ilPaymentObject::_isPurchasable($_GET['sell_id']))
 		{
 			 // means that current object already exits in payment_objects _table ...
