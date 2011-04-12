@@ -2288,7 +2288,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	function infoScreen()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilUser, $ilSetting;
 		
 		$this->tabs_gui->setTabActive('info_short');
 
@@ -2310,9 +2310,21 @@ class ilObjGroupGUI extends ilContainerGUI
 		$info->enablePrivateNotes();
 		$info->enableLearningProgress(true);
 
+		// :TEMP: group notification setting per user
+		if($ilSetting->get("crsgrp_ntf") &&
+			ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
+		{
+			$info->addSection($this->lng->txt("grp_notification"));
+			$info->addPropertyCheckbox($this->lng->txt("grp_activate_notification"),
+				"grp_ntf", 1, "", $ilUser->getPref("grpcrs_ntf_".$this->ref_id));
+
+			$info->setFormAction($this->ctrl->getFormAction($this));
+			$info->addFormButton("saveNotification", $this->lng->txt("save"));
+		}
+
 		$info->addSection($this->lng->txt('group_registration'));
 		$info->showLDAPRoleGroupMappingInfo();
-		
+
 		if(!$this->object->isRegistrationEnabled())
 		{
 			$info->addProperty($this->lng->txt('group_registration_mode'),
@@ -2395,6 +2407,20 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		// forward the command
 		$this->ctrl->forwardCommand($info);
+	}
+
+	/**
+	 * :TEMP: Save notification setting (from infoscreen)
+	 */
+	function saveNotificationObject()
+	{
+		global $ilUser;
+
+		$ilUser->setPref("grpcrs_ntf_".$this->ref_id, (bool)$_REQUEST["grp_ntf"]);
+		$ilUser->writePrefs();
+		
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		$this->ctrl->redirect($this, "infoScreen");
 	}
 
 	/**

@@ -11253,7 +11253,6 @@ adve#:#adve_pe_general#:#General
 adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.
 content#:#cont_tex#:#Latex Code
-content#:#cont_fn#:#Footnote
 payment#:#terms_conditions#:#GTC
 payment#:#accept_terms_conditions#:#Please accept the %s to continue the purchasing process.
 payment#:#documents#:#Documents
@@ -11277,3 +11276,8 @@ tstv#:#tstv_create_info#:#Select a completed test to generate a verification for
 wsp#:#wsp_type_excv#:#Verification: Exercise
 excv#:#excv_create#:#Create Exercise Verification
 excv#:#excv_create_info#:#Select a completed exercise to generate a verification for it
+content#:#cont_fn#:#Footnote
+common#:#enable_course_group_notifications#:#Daily Mail for Groups and Course News
+common#:#enable_course_group_notifications_desc#:#If enabled, Participants can subscribe to a daily summary of news.
+assessment#:#copy_no_questions_selected#:#Please select at least one question to copy.
+assessment#:#copy_questions_success#:#The question(s) has been copied.

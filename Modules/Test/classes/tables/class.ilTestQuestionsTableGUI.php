@@ -87,7 +87,9 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 				$this->addMultiCommand('insertQuestionsAfter', $this->lng->txt('insert_after'));
 			}
                         //$this->addMultiCommand('copyToQuestionpool', $this->lng->txt('copy_to_questionpool'));
-                        $this->addMultiCommand('copyAndLinkToQuestionpool', $this->lng->txt('copy_and_link_to_questionpool'));
+                        $this->addMultiCommand('copyQuestion', $this->lng->txt('copy'));
+			$this->addMultiCommand('copyAndLinkToQuestionpool', $this->lng->txt('copy_and_link_to_questionpool'));
+                        
 		}
 
 

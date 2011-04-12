@@ -135,7 +135,8 @@ class ilCronCheck
 				// This entry refers to a task that is not completely implemented
 				#'ilPaymentShoppingCart::__deleteExpiredSessionsPSC',
 				'ilCronDeleteInactiveUserAccounts::run',
-				'ilCronPaymentNotification::sendNotifications'
+				'ilCronPaymentNotification::sendNotifications',
+				'ilCronCourseGroupNotification::check'
 		);
 
 		$this->possible_tasks = array(
@@ -254,6 +255,14 @@ class ilCronCheck
 					'method'		=> 'sendNotifications',
 					'location'		=> 'cron',
 					'condition'		=> ($ilias->getSetting('payment_notifications') == 1)
+				),
+
+				// Start course group notification check
+				'ilCronCourseGroupNotification::check' => array(
+					'classname'		=> 'ilCronCourseGroupNotification',
+					'method'		=> 'sendNotifications',
+					'location'		=> 'cron',
+					'condition'		=> $ilias->getSetting("crsgrp_ntf")
 				)
 		);
 	}

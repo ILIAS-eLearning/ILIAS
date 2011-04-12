@@ -9,7 +9,23 @@ var ilCOPage =
 	edit_ghost: null,
 	drag_contents: [],
 	drag_targets: [],
+	ghost_debugged: false,
+	quick_insert_id: null,
 
+	switchDebugGhost: function() {
+		var tp = document.getElementById('tinytarget_parent');
+		if (!this.ghost_debugged)
+		{
+			tp.style.display = 'none';
+			this.ghost_debugged = true;
+		}
+		else
+		{
+			tp.style.display = '';
+			this.ghost_debugged = false;
+		}
+	},
+	
 	setContentCss: function (content_css)
 	{
 		this.content_css = content_css;
@@ -19,13 +35,31 @@ var ilCOPage =
 	{
 		var el = document.getElementById('ilsaving');
 		el.style.display = '';
-		if (this.getInsertStatus())
+		if (this.getInsertStatus() && !ilCOPage.quick_insert_id)
 		{
-			ilFormSend("insertJS", ed_para, null, "saveonly");
+//			ilFormSend("insertJS", ed_para, null, "saveonly");
+			var content = tinyMCE.get('tinytarget').getContent();
+			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
+			//this.copyInputToGhost(false);
+			//this.removeTiny();
+			this.sendCmdRequest("insertJS", ed_para, null,
+				{ajaxform_content: content,
+				ajaxform_char: style_class,
+				quick_save: 1},
+				true, {}, this.quickInsertAjaxSuccess);
 		}
 		else
 		{
-			ilFormSend("saveJS", ed_para, null, "saveonly");
+			//ilFormSend("saveJS", ed_para, null, "saveonly");
+			var content = tinyMCE.get('tinytarget').getContent();
+			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
+			//this.copyInputToGhost(false);
+			//this.removeTiny();
+			this.sendCmdRequest("saveJS", ed_para, null,
+				{ajaxform_content: content,
+				ajaxform_char: style_class},
+				true, {}, this.quickSavingAjaxSuccess);
+
 		}
 	},
 	
@@ -38,15 +72,36 @@ var ilCOPage =
 		this.setEditStatus(false);
 		if (ilCOPage.current_td != "")
 		{
-			ilFormSend("saveDataTable", ed_para, null, null);
+			//ilFormSend("saveDataTable", ed_para, null, null);
+			
+			tbl = document.getElementById("ed_datatable");
+			this.sendCmdRequest("saveDataTable", ed_para, null,
+				{ajaxform_content: tbl.innerHTML},
+				false, null, null);
 		}
-		else if (this.getInsertStatus())
+		else if (this.getInsertStatus() && !ilCOPage.quick_insert_id)
 		{
-			ilFormSend("insertJS", ed_para, null, null);
+			//ilFormSend("insertJS", ed_para, null, null);
+			var content = tinyMCE.get('tinytarget').getContent();
+			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
+			this.copyInputToGhost(false);
+			this.removeTiny();
+			this.sendCmdRequest("insertJS", ed_para, null,
+				{ajaxform_content: content,
+				ajaxform_char: style_class},
+				true, {}, this.pageReloadAjaxSuccess);
 		}
 		else
 		{
-			ilFormSend("saveJS", ed_para, null, null);
+			//ilFormSend("saveJS", ed_para, null, null);
+			var content = tinyMCE.get('tinytarget').getContent();
+			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
+			this.copyInputToGhost(false);
+			this.removeTiny();
+			this.sendCmdRequest("saveJS", ed_para, null,
+				{ajaxform_content: content,
+				ajaxform_char: style_class},
+				true, {}, this.pageReloadAjaxSuccess);
 		}
 	},
 
@@ -57,7 +112,11 @@ var ilCOPage =
 		var ed = tinyMCE.get('tinytarget');
 		this.autoResize(ed);
 		this.setEditStatus(false);
-		ilFormSend("cancel", ed_para, null, "cancel");
+		this.copyInputToGhost(false);
+		this.removeTiny();
+		this.sendCmdRequest("cancel", ed_para, null, {},
+			true, {}, this.pageReloadAjaxSuccess);
+
 	},
 
 	setCharacterClass: function(i)
@@ -152,6 +211,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		var ed = tinyMCE.get('tinytarget');
 		ed.focus();
 		ed.execCommand('InsertUnorderedList', false);
+		this.fixListClasses();
 		this.autoResize(ed);
 	},
 
@@ -160,6 +220,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		var ed = tinyMCE.get('tinytarget');
 		ed.focus();
 		ed.execCommand('InsertOrderedList', false);
+		this.fixListClasses();
 		this.autoResize(ed);
 	},
 
@@ -168,6 +229,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		var ed = tinyMCE.get('tinytarget');
 		ed.focus();
 		ed.execCommand('Indent', false);
+		this.fixListClasses();
 		this.autoResize(ed);
 	},
 
@@ -176,7 +238,15 @@ tinymce.activeEditor.formatter.register('mycode', {
 		var ed = tinyMCE.get('tinytarget');
 		ed.focus();
 		ed.execCommand('Outdent', false);
+		this.fixListClasses();
 		this.autoResize(ed);
+	},
+	
+	fixListClasses: function()
+	{
+		tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('ol'), 'ilc_list_o_NumberedList');
+		tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('ul'), 'ilc_list_u_BulletedList');
+		tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('li'), 'ilc_list_item_StandardListItem');
 	},
 
 	setEditStatus: function(status)
@@ -223,6 +293,10 @@ tinymce.activeEditor.formatter.register('mycode', {
 
 	setInsertStatus: function(status)
 	{
+		if (status)
+		{
+			this.quick_insert_id = null;
+		}
 		this.insert_status = status;
 	},
 
@@ -257,12 +331,14 @@ tinymce.activeEditor.formatter.register('mycode', {
 //console.log("no insert");
 			tinyifr = document.getElementById("tinytarget_parent");
 			tinyifr.style.position = "absolute";
-			this.synchInputRegion();
+//			this.synchInputRegion();
 //		}
 		
 		this.setEditStatus(true);
 		this.setInsertStatus(insert);
 		this.focusTiny();
+		//this.autoScroll();
+		this.synchInputRegion();
 	},
 
 	focusTiny: function(insert)
@@ -293,6 +369,12 @@ tinymce.activeEditor.formatter.register('mycode', {
 		}
 	},
 
+	removeTiny: function() {
+		tinyMCE.execCommand('mceRemoveControl', false, 'tinytarget');
+		var tt = document.getElementById("tinytarget");
+		tt.style.display = 'none';
+	},
+	
 	editTD: function(id)
 	{
 		editParagraph(id, 'td');
@@ -351,6 +433,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		}
 	},
 
+	// set frame size of editor
 	setEditFrameSize: function(width, height)
 	{
 		var tinyifr = document.getElementById("tinytarget_ifr");
@@ -364,7 +447,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 	},
 
 	// copy input of tiny to ghost div in background
-	copyInputToGhost: function()
+	copyInputToGhost: function(add_final_spacer)
 	{
 		var ed = tinyMCE.get('tinytarget');
 		if (this.edit_ghost)
@@ -372,7 +455,15 @@ tinymce.activeEditor.formatter.register('mycode', {
 			var pdiv = document.getElementById(this.edit_ghost);
 			if (pdiv)
 			{
-				pdiv.innerHTML = ed.getContent();
+				var c = ed.getContent();
+				var e = c.substr(c.length - 6);
+				var b = c.substr(c.length - 12, 6);
+				if (e == "</div>" && b != "<br />" && add_final_spacer)
+				{
+					// ensure at least one more line of space
+					c = c.substr(0, c.length - 6) + "<br />.</div>";
+				}
+				pdiv.innerHTML = c;
 			}
 		}
 	},
@@ -382,7 +473,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 	synchInputRegion: function()
 	{
 		var back_el;
-
+		
 		if (this.current_td)
 		{
 			back_el = document.getElementById(this.edit_ghost);
@@ -390,6 +481,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		}
 		else
 		{
+			this.autoScroll();
 			back_el = document.getElementById(this.edit_ghost);
 		}
 
@@ -398,19 +490,43 @@ tinymce.activeEditor.formatter.register('mycode', {
 
 		tinyifr = document.getElementById("tinytarget_parent");
 
-		//tinyifr.style.position = "absolute";
+		// make sure, background element does not go beyond page bottom
 		back_el.style.display = '';
-		var pdiv_reg = YAHOO.util.Region.getRegion(back_el);
-		YAHOO.util.Dom.setX(tinyifr, pdiv_reg.x - 2);
-		YAHOO.util.Dom.setY(tinyifr, pdiv_reg.y - 2);
-		this.setEditFrameSize(pdiv_reg.width,
-			pdiv_reg.height);
+		back_el.style.overflow = 'auto';
+		back_el.style.height = '';
+		var back_reg = YAHOO.util.Region.getRegion(back_el);
+		var cl_reg = YAHOO.util.Dom.getClientRegion();
+		if (back_reg.y + back_reg.height + 20 > cl_reg.top + cl_reg.height)
+		{
+			back_el.style.overflow = 'hidden';
+			back_el.style.height = (cl_reg.top + cl_reg.height - back_reg.y - 20) + "px";
+			back_reg = YAHOO.util.Region.getRegion(back_el);
+		}
+		
+		YAHOO.util.Dom.setX(tinyifr, back_reg.x);
+		YAHOO.util.Dom.setY(tinyifr, back_reg.y+1);
+		this.setEditFrameSize(back_reg.width-2,
+			back_reg.height);
 	},
 
 	autoResize: function(ed)
 	{
-		this.copyInputToGhost();
+		this.copyInputToGhost(true);
 		this.synchInputRegion();
+	},
+	
+	// scrolls position of editor under editor menu
+	autoScroll: function()
+	{
+		var tinyifr = document.getElementById("tinytarget_parent");
+		var menu = document.getElementById('iltinymenu');
+		if (tinyifr && menu)
+		{
+			var tiny_reg = YAHOO.util.Region.getRegion(tinyifr);
+			var menu_reg = YAHOO.util.Region.getRegion(menu);
+			var cl_reg = YAHOO.util.Dom.getClientRegion();
+			window.scrollTo(0, -20 + tiny_reg.y - (menu_reg.height + menu_reg.y - cl_reg.top));
+		}
 	},
 	
 	/**
@@ -463,6 +579,156 @@ tinymce.activeEditor.formatter.register('mycode', {
 		}
 	},
 
+	sendCmdRequest: function(cmd, source_id, target_id, par, ajax, args, success_cb)
+	{
+		par['ajaxform_hier_id'] = extractHierId(source_id);
+		par['command' + extractHierId(source_id)] = cmd;
+		par['target[]'] = target_id;
+		if (cmd == "insertJS")
+		{
+			par['cmd[create_par]'] = "OK";
+		}
+		else if (cmd != "saveDataTable")
+		{
+			par['cmd[exec_' + source_id + ']'] = "OK";
+		}
+		ilCOPage.sendFormRequest(par, ajax, args, success_cb);
+	},
+	
+	// send request
+	//sendRequest: function(cmd, ("command" + extractHierId(source_id) = cmd) 
+	// source_id, ("ajaxform_hier_id" = extractHierId(source_id);
+	// target_id (target[] = target_id), mode)
+	// insertJS: "cmd[create_par] = "OK"", ansonsten (außer "saveDataTable"): "cmd[exec_" + source_id + "]" = "OK"
+	// saveJS, insertJS: "ajaxform_content" = tinyMCE.get('tinytarget').getContent();
+	// saveJS, insertJS: "ajaxform_char" = ilAdvancedSelectionList.getHiddenInput('style_selection');
+	//
+	// 'saveDataTable': ajax false, ansonsten true
+	sendFormRequest: function(par, ajax, args, success_cb)
+	{
+		var f = document.getElementById("ajaxform2");
+		var k, par_el;
+		
+		while (f.hasChildNodes())
+		{
+			f.removeChild(f.firstChild);
+		}
+		
+		for (k in par)
+		{
+			par_el = document.createElement('input');
+			par_el.type = 'hidden';
+			par_el.name = k;
+			par_el.value = par[k];
+			f.appendChild(par_el);
+		}
+	
+/*		if (cmd == 'saveJS' || cmd == 'insertJS' || cmd == "cancel")
+		{
+			if (mode != "saveonly")
+			{
+				ilCOPage.copyInputToGhost(false);
+				
+				// remove tiny
+				tinyMCE.execCommand('mceRemoveControl', false, 'tinytarget');
+				var tt = document.getElementById("tinytarget");
+				tt.style.display = 'none';
+			}
+		}
+		else if (cmd == 'saveDataTable')
+		{
+			// get content of table and put it into form
+			tbl = document.getElementById("ed_datatable");
+			hid_cont = document.getElementById("ajaxform_content");
+			hid_cont.value = tbl.innerHTML;
+		}*/
+	
+		var url = f.action;
+		
+		if (!ajax)
+		{
+//console.log(f); return;
+			// normal submit for submitting the whole table
+			return f.submit();
+		}
+		else
+		{
+			// ajax saving
+			var r = this.sendAjaxPostRequest('ajaxform2', url, args, success_cb);
+		}
+		return r;
+	},
+
+	// send request per ajax
+	sendAjaxPostRequest: function(form_id, url, args, success_cb)
+	{
+		var cb =
+		{
+			success: success_cb,
+			failure: this.handleAjaxFailure,
+			argument: args
+		};
+		var form_str = YAHOO.util.Connect.setForm(form_id);
+		var request = YAHOO.util.Connect.asyncRequest('POST', url, cb);
+		
+		return false;
+	},
+	
+	handleAjaxFailure: function(o)
+	{
+	},
+
+	// we got the content for editing per ajax
+	editJSAjaxSuccess: function(o)
+	{
+		if(o.responseText !== undefined)
+		{
+			// paragraph editing
+			var ed = tinyMCE.getInstanceById('tinytarget');
+			ed.setContent(o.responseText);
+			ed.setProgressState(0); // Show progress
+			ilCOPage.prepareTinyForEditing(false);
+		}
+	},
+	
+	// quick saving has been done
+	quickSavingAjaxSuccess: function(o)
+	{
+		var el = document.getElementById('ilsaving');
+		el.style.display = 'none';
+	},
+
+	// quick insert has been done
+	quickInsertAjaxSuccess: function(o)
+	{
+		var el = document.getElementById('ilsaving');
+		el.style.display = 'none';
+		if(o.responseText !== undefined)
+		{
+			if (o.responseText.substr(0, 3) == "---")
+			{
+				ed_para = o.responseText.substr(3, o.responseText.length - 6);
+				ilCOPage.quick_insert_id = ed_para;
+			}
+		}
+	},
+	
+	// default callback for successfull ajax request, reloads page content
+	pageReloadAjaxSuccess: function(o)
+	{
+		if(o.responseText !== undefined)
+		{
+			var edit_div = document.getElementById('il_EditPage');
+			var center_td = edit_div.parentNode;
+			center_td.innerHTML = o.responseText;
+			ilCOPage.initDragElements();
+			ilTooltip.init();
+			if (ilAdvancedSelectionList != null)
+			{
+				ilAdvancedSelectionList.init['style_selection']();
+			}
+		}
+	}
 }
 
 var stopHigh = false;
@@ -958,7 +1224,7 @@ function editParagraph(div_id, mode)
 		// if current_td already set, we must move editor to new td
 		if (ilCOPage.current_td != "")
 		{
-			ilCOPage.copyInputToGhost();
+			ilCOPage.copyInputToGhost(true);
 
 // try using ed.destroy???
 //			tinyMCE.execCommand('mceRemoveControl', false, 'tinytarget');
@@ -1057,7 +1323,7 @@ resize = false;
 			theme_advanced_toolbar_location : "external",
 			theme_advanced_path : show_path,
 			theme_advanced_statusbar_location : statusbar,
-			valid_elements : "br,div[class],span[class],code,b,ul,ol,li",
+			valid_elements : "br,div[class|id],span[class],code,b,ul[class],ol[class],li[class]",
 			remove_linebreaks : false,
 			convert_newlines_to_brs : false,
 			force_p_newlines : false,
@@ -1175,7 +1441,8 @@ resize = false;
 					{
 						// get content per ajax
 						ed.setProgressState(1); // Show progress
-						ilFormSend("editJS", div_id, null, "para");
+						ilCOPage.sendCmdRequest("editJS", div_id, null, {},
+							true, {}, ilCOPage.editJSAjaxSuccess);
 					}
 
 					if (mode == 'insert')
@@ -1224,7 +1491,7 @@ function saveParagraph()
 	ilCOPage.cmdSave();
 }
 
-function doActionForm(cmd, command, value, target, type)
+function doActionForm(cmd, command, value, target, type, char)
 {
 	if (cmd_called) return;
 //alert("-" + cmd + "-" + command + "-" + value + "-" + target + "-");
@@ -1244,7 +1511,7 @@ function doActionForm(cmd, command, value, target, type)
 //alert("-" + cmd + "-" + command + "-" + value + "-" + target + "-" + type + "-" + clickcmdid + "-");
 //-cmd[exec_1:1d3ae9ffebd59671a8c7e254e22d3b5d]-command1-edit--
 
-	if (value=="edit" && type=="Paragraph")
+	if (value=="edit" && type=="Paragraph" && char != "Code")
 	{
 		editParagraph(clickcmdid, 'edit');
 		return false;
@@ -1321,7 +1588,7 @@ function M_out(cell)
 }
 
 var oldMposx = -1;
-var oldMposy = -1;    
+var oldMposy = -1;
 
 /*function doKeyDown(e) 
 {
@@ -1379,7 +1646,8 @@ ilDragContent.prototype.onDragDrop = function(e, id)
 	source_id = this.id.substr(7);
 	if (source_id != target_id)
 	{
-		ilFormSend("moveAfter", source_id, target_id, null);
+		ilCOPage.sendCmdRequest("moveAfter", source_id, target_id, {},
+			true, {}, ilCOPage.pageReloadAjaxSuccess);
 	}
 };
 
@@ -1429,100 +1697,6 @@ ilDragTarget.prototype.dInit = function(id, sGroup, config)
 	//this.initFrame();				// important!
 };
 
-
-///
-/// ilFormSend
-///
-function ilFormSend(cmd, source_id, target_id, mode)
-{
-	// put target id into form
-	hid_target = document.getElementById("ajaxform_target");
-	hid_target.value = target_id;
-
-	// put command/source id into form
-	hid_cmd = document.getElementById("ajaxform_cmd");
-	hid_cmd.name = "command" + extractHierId(source_id);
-	hid_cmd.value = cmd;
-
-	// put hier_id into form
-	hid_exec = document.getElementById("ajaxform_hier_id");
-	hid_exec.value = extractHierId(source_id);
-
-	// put command into form
-	if (cmd == "insertJS")
-	{
-		hid_exec = document.getElementById("ajaxform_exec");
-		hid_exec.name = "cmd[create_par]";
-	}
-	else if (cmd != 'saveDataTable')
-	{
-		hid_exec = document.getElementById("ajaxform_exec");
-		hid_exec.name = "cmd[exec_" + source_id + "]";
-	}
-
-	if (cmd == 'saveJS' || cmd == 'insertJS' || cmd == "cancel")
-	{
-		if (cmd != "cancel")
-		{
-			// get content of tiny and put it into form
-			hid_cont = document.getElementById("ajaxform_content");
-			var ed = tinyMCE.get('tinytarget');
-			hid_cont.value = ed.getContent();
-
-			// put selected style class into form
-			var hid_char = document.getElementById("ajaxform_char");
-			hid_char.value = ilAdvancedSelectionList.getHiddenInput('style_selection');
-		}
-
-		// get tiny region (befor removing it!)
-		var ttbl = document.getElementById("tinytarget_tbl");
-		tt_reg = YAHOO.util.Region.getRegion(ttbl);
-
-		if (mode != "saveonly")
-		{
-			// remove tiny
-			tinyMCE.execCommand('mceRemoveControl', false, 'tinytarget');
-			var tt = document.getElementById("tinytarget");
-			tt.style.display = 'none';
-
-			// insert div and loader image
-			var ld = new YAHOO.util.Element(document.createElement('div'));
-			var lg = new YAHOO.util.Element(document.createElement('img'));
-			lg = ld.appendChild(lg);
-			ld = YAHOO.util.Dom.insertAfter(ld, tt);
-			if (cmd == "insertJS")
-			{
-				ld.style.width = tt_reg.width + "px";
-				ld.style.height = tt_reg.height + "px";
-			}
-			lg.src = "./templates/default/images/loader.gif";
-			lg.border = 0;
-			lg.style.position = "absolute";
-		}
-	}
-	else if (cmd == 'saveDataTable')
-	{
-		// get content of table and put it into form
-		tbl = document.getElementById("ed_datatable");
-		hid_cont = document.getElementById("ajaxform_content");
-		hid_cont.value = tbl.innerHTML;
-	}
-
-    form = document.getElementById("ajaxform");
-	var str = form.action;
-	
-	if (cmd == 'saveDataTable')
-	{
-		// normal submit for submitting the whole table
-		return form.submit();
-	}
-	else
-	{
-		// ajax saving
-		var r = ilCOPageJSHandler(str, mode);
-	}
-	return r;
-}
 
 function ilEditMultiAction(cmd)
 {

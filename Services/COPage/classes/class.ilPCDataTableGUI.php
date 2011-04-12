@@ -599,7 +599,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 						$s_text = ilPCParagraph::xml2output($this->content_obj->getCellText($i, $j),
 							 true, false);
 						include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
-						$s_text = ilPCParagraphGUI::xml2outputJS($s_text, "TableContent");
+						$s_text = ilPCParagraphGUI::xml2outputJS($s_text, "TableContent",
+							$this->content_obj->readPCId()."_".$i."_".$j);
 					}
 
 					$dtpl->setVariable("PAR_TA_NAME", "cell[".$i."][".$j."]");
@@ -699,7 +700,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			ilPageObjectGUI::getTinyMenu(
 			$this->pg_obj->getParentType(),
 			false,
-			$this->pg_obj->getParentType() == "wpg"));
+			$this->pg_obj->getParentType() == "wpg"),
+			$this->getStyleId());
 
 
 	}

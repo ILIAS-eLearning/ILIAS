@@ -264,7 +264,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 	*/
 	function editQuestion($checkonly = FALSE)
 	{
-		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
+		$save = $this->isSaveCommand();
 		$this->getQuestionTemplate();
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");

@@ -291,7 +291,7 @@ assessment#:#counter#:#Zähler
 assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen
 assessment#:#create_imagemap#:#Neue Imagemap erzeugen
-assessment#:#create_new#:#erzeuge neue
+assessment#:#create_new#:#Erstelle neue
 assessment#:#customstyle#:#Eigener Stil
 assessment#:#customstyle_description#:#Es ist möglich, eine eigenen Stil für diesen Test zu verwenden. Bitte wählen Sie eine der verfügbaren Stilvorlagen aus, um sie mit diesem Test zu verwenden.
 assessment#:#definition#:#Definition
@@ -753,7 +753,7 @@ assessment#:#tst_answer_sheet#:#Test & Assessment - Antwortenübersicht
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
 assessment#:#tst_best_solution_is#:#Die bestmögliche Lösung lautet
-assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
+assessment#:#tst_browse_for_questions#:#Fragen suchen/hinzufügen
 assessment#:#tst_change_points_done#:#Die Punkte für eine Antwort wurden erfolgreich geändert!
 assessment#:#tst_change_points_for_question#:#Punkte für die Antwort ändern
 assessment#:#tst_change_points_not_done#:#Die Punkte der Antwort konnten nicht geändert werden! Bitte überprüfen Sie den verfügbaren Wertebereich der erreichbaren Punkte.
@@ -914,7 +914,7 @@ assessment#:#tst_random_test#:#Zufallstest
 assessment#:#tst_random_test_description#:#Wählen Sie dieses Kontrollkästchen aus, um die Fragen des Tests für jeden Teilnehmer mit einem Zufallsgenerator zusammenstellen zu lassen. Bei der Auswahl der Fragen müssen Sie lediglich einen oder mehrere Fragenpools angeben. ILIAS erzeugt für jeden Testdurchlauf eine neue zufällige Auswahl.
 assessment#:#tst_reached_points#:#Erreichte Punkte
 assessment#:#tst_remove_mark#:#Markierung entfernen
-assessment#:#tst_remove_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) aus Ihrem Test entfernen wollen?
+assessment#:#tst_remove_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen aus Ihrem Test entfernen wollen?
 assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) bearbeitet. Das Entfernen von Fragen wird alle bestehenden Ergebnisse zu diesem Test löschen. Sind Sie sicher, dass Sie die folgende(n) Frage(n) entfernen wollen?
 assessment#:#tst_report_after_date#:#Nach einem festgelegten Datum
 assessment#:#tst_report_after_first_question#:#Testergebnisse bereits direkt nach Start des Tests anbieten
@@ -11281,3 +11281,7 @@ tstv#:#tstv_create_info#:#Wählen Sie einen Test, für den Sie einen Nachweis be
 wsp#:#wsp_type_excv#:#Nachweis: Übung
 excv#:#excv_create#:#Übungsnachweis erstellen
 excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie einen Nachweis benötigen
+common#:#enable_course_group_notifications#:#Tägliche Mail für Gruppen und Kurs News
+common#:#enable_course_group_notifications_desc#:#Bei Aktivierung können Teilnehmer eine Zusammenfassung der News abonnieren.
+assessment#:#copy_no_questions_selected#:#Bitte wählen Sie mindestens eine Frage zum Kopieren aus.
+assessment#:#copy_questions_success#:#Die Frage(n) wurden kopiert.
