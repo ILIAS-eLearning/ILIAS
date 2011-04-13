@@ -1290,9 +1290,9 @@ function editParagraph(div_id, mode)
 	var resize = true;
 	var statusbar = 'bottom';
 
-show_path = false;
+//show_path = false;
 resize = false;
-statusbar = false;
+//statusbar = false;
 
 	if (mode == 'td')
 	{
@@ -1300,9 +1300,9 @@ statusbar = false;
 		resize = false;
 		statusbar = false;
 	}
-//show_path = false;
+show_path = false;
 resize = false;
-//statusbar = false;
+statusbar = false;
 	tinytarget.style.display = '';
 	if (!moved)
 	{
@@ -1373,11 +1373,11 @@ resize = false;
 				});
 				ed.onNodeChange.add(function(ed, cm, n)
 				{
-//					console.log("onNodeChange");
+//console.log("onNodeChange");
 
 					// update state of indent/outdent buttons
-					var ibut = parent.document.getElementById('ilIndentBut');
-					var obut = parent.document.getElementById('ilOutdentBut');
+					var ibut = document.getElementById('ilIndentBut');
+					var obut = document.getElementById('ilOutdentBut');
 					if (ibut != null && obut != null)
 					{
 						if (ed.queryCommandState('InsertUnorderedList') ||
