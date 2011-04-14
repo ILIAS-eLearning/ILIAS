@@ -878,7 +878,10 @@ class assQuestionGUI
 	function addQuestionFormCommandButtons($form)
 	{
 		//if (!$this->getSelfAssessmentEditingMode() && !$_GET["calling_test"]) $form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
-		$form->addCommandButton("saveReturn", $this->lng->txt("save_return"));
+		if(!$this->getSelfAssessmentEditingMode())
+		{
+			$form->addCommandButton("saveReturn", $this->lng->txt("save_return"));
+		}
 		$form->addCommandButton("save", $this->lng->txt("save"));
 	}
 	
