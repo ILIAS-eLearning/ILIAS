@@ -306,6 +306,7 @@ ilias.questions.assTextSubset = function(a_id) {
 	answers[a_id].choice = [];
 
 	var correct_answer_given = false;
+	var wrong_answer_given = false;
 	var a_node = jQuery('input[name="answers'+a_id+'[]"]');
 	for (var i=0;i<a_node.length;i++) {
 
@@ -334,15 +335,16 @@ ilias.questions.assTextSubset = function(a_id) {
 		{
 			answers[a_id].wrong++;
 			answers[a_id].answer[i] = false;
+			wrong_answer_given = true;
 		}
 		else
-		{
-			correct_answer_given = true;
+		{			
 			answers[a_id].answer[i] = true;
+			correct_answer_given = true;
 		}
 	}
 
-	if(correct_answer_given)
+	if(correct_answer_given && !wrong_answer_given)
 	{
 		answers[a_id].passed = true;
 	}
@@ -662,6 +664,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 				jQuery("#order"+a_id +" li:nth-child("+j+") div").html(answers_sorted[i].answertext);
 			}
 			jQuery("#order"+a_id).sortable("disable");
+			ilias.questions.handleOrderingImages(a_id);
 		break;
 		//end assOrderingQuestion
 
