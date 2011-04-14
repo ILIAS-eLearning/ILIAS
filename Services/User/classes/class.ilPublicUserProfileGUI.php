@@ -219,8 +219,15 @@ class ilPublicUserProfileGUI
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		$tpl->setVariable('HREF_MAIL', ilMailFormCall::_getLinkTarget(basename($_SERVER['REQUEST_URI']), '', array(), array('type' => 'new', 'rcp_to' => urlencode($user->getLogin()))));
 
+		$first_name = "";
+		if($user->getPref("public_title") == "y")
+		{
+			$first_name .= $user->getUTitle()." ";
+		}
+		$first_name .= $user->getFirstName();
+
 		$tpl->setVariable("TXT_NAME", $lng->txt("name"));
-		$tpl->setVariable("FIRSTNAME", $user->getUTitle()." ".$user->getFirstName());
+		$tpl->setVariable("FIRSTNAME", $first_name);
 		$tpl->setVariable("LASTNAME", $user->getLastName());
 		
 		// vcard
