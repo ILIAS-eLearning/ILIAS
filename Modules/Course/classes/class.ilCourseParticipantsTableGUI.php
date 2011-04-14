@@ -380,7 +380,8 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$data = ilCourseUserData::_getValuesByObjId($this->getParentObject()->object->getId());
 			foreach($data as $usr_id => $fields)
 			{
-	            if(!$this->checkAcceptance($usr_id))
+	            // #7264: as we get data for all course members filter against user data
+	            if(!$this->checkAcceptance($usr_id) || !in_array($usr_id, $part))
     	        {
 					continue;
             	}
