@@ -56,6 +56,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	protected $titleicon = false;
 	protected $description = "";
 	protected $tbl_width = false;
+	protected $show_top_buttons = true;
 	
 	/**
 	* Constructor
@@ -215,6 +216,22 @@ class ilPropertyFormGUI extends ilFormGUI
 	function getTopAnchor()
 	{
 		return $this->top_anchor;
+	}
+
+	/**
+	 * Get show top buttons
+	 */
+	public function setShowTopButtons($a_val)
+	{
+		$this->show_top_buttons = $a_val;
+	}
+
+	/**
+	 * Set show top buttons
+	 */
+	public function getShowTopButtons()
+	{
+		return $this->show_top_buttons;
 	}
 
 	/**
@@ -442,6 +459,21 @@ class ilPropertyFormGUI extends ilFormGUI
 		// title
 		if ($this->getTitle() != "")
 		{
+			// commands on top
+			if (count($this->buttons) > 0 && $this->getShowTopButtons())
+			{
+				// command buttons
+				foreach($this->buttons as $button)
+				{
+					$this->tpl->setCurrentBlock("cmd2");
+					$this->tpl->setVariable("CMD", $button["cmd"]);
+					$this->tpl->setVariable("CMD_TXT", $button["text"]);
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("commands2");
+				$this->tpl->parseCurrentBlock();
+			}
+
 			$this->tpl->setCurrentBlock("header");
 			$this->tpl->setVariable("TXT_TITLE", $this->getTitle());
 			$this->tpl->setVariable("LABEL", $this->getTopAnchor());
@@ -493,6 +525,7 @@ class ilPropertyFormGUI extends ilFormGUI
 			$this->tpl->setCurrentBlock("commands");
 			$this->tpl->parseCurrentBlock();
 		}
+
 		
 		if ($this->getMode() == "subform")
 		{
