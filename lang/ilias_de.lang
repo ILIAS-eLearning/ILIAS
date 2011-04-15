@@ -4900,7 +4900,7 @@ content#:#cont_chapters_after_pages#:#Beachten Sie, dass innerhalb einer Ebene z
 content#:#cont_chapters_and_pages#:#Kapitel und Seiten
 content#:#cont_chapters_only#:#Nur Kapitel
 content#:#cont_characteristic#:#Absatzformat
-content#:#cont_choose_characteristic#:#Art auswählen
+content#:#cont_choose_characteristic#:#Absatzformat auswählen
 content#:#cont_choose_characteristic_section#:#Blöcke
 content#:#cont_choose_characteristic_text#:#Textelemente
 content#:#cont_choose_cont_obj#:#Wählen Sie das 'Content Object'
@@ -9133,12 +9133,12 @@ shib#:#shib_settings#:#Shibboleth-Einstellungen
 shib#:#shib_update_role_ass_table#:#Regel zur Rollenzuordnung bearbeiten
 shib#:#shib_update_roles#:#Rollenzuordnungen
 style#:#sty_acopy#:#Kopieren
-style#:#sty_add_characteristic#:#Neue Art hinzufügen
+style#:#sty_add_characteristic#:#Neuen Style hinzufügen
 style#:#sty_add_color#:#Farbe hinzufügen
 style#:#sty_add_image#:#Bild hinzufügen
 style#:#sty_add_pgl#:#Seitenlayout hinzufügen
 style#:#sty_add_template#:#Template hinzufügen
-style#:#sty_added_characteristic#:#Art hinzugefügt.
+style#:#sty_added_characteristic#:#Neuen Style hinzugefügt.
 style#:#sty_all#:#Alle
 style#:#sty_background#:#Hintergrund
 style#:#sty_background_attachment#:#Wasserzeichen
@@ -9157,7 +9157,7 @@ style#:#sty_bottom#:#Unten
 style#:#sty_caption#:#Legende
 style#:#sty_caption_class#:#Legende
 style#:#sty_caption_side#:#Seitliche Beschriftung
-style#:#sty_characteristic_already_exists#:#Eine Klasse für eine Art dieses Namens existiert bereits in diesem Stylesheet.
+style#:#sty_characteristic_already_exists#:#Eine Klasse für einen Style dieses Namens existiert bereits in diesem Stylesheet.
 style#:#sty_clear#:#Textumfluss beenden
 style#:#sty_col_foot_class#:#Fuß (Spalten)
 style#:#sty_col_head_class#:#Kopf (Spalten)
@@ -9233,8 +9233,8 @@ style#:#sty_media_char#:#Medien
 style#:#sty_min_height#:#Minimale Höhe
 style#:#sty_move_lm_styles#:#Stylesheets der Lernmodule ändern
 style#:#sty_move_style#:#Stylesheet ändern
-style#:#sty_msg_characteristic_already_exists#:#Es existiert bereits eine Art mit diesem Namen im Stylesheet.
-style#:#sty_msg_characteristic_must_only_include#:#Der Titel der Art darf nur die folgenden Zeichen enthalten
+style#:#sty_msg_characteristic_already_exists#:#Es existiert bereits ein Style mit diesem Namen im Stylesheet.
+style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles darf nur die folgenden Zeichen enthalten
 style#:#sty_msg_color_must_only_include#:#Der Farbname darf nur folgende Buchstaben/Zeichen enthalten
 style#:#sty_msg_input_must_be_numeric#:#Numerische Eingabe erforderlich.
 style#:#sty_name#:#Name
