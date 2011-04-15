@@ -2010,7 +2010,13 @@ class ilUtil
 		header("Content-Type: $mime");
 		header("Content-Disposition:$disposition; filename=\"".$ascii_filename."\"");
 		header("Content-Description: ".$ascii_filename);
-		header("Content-Length: ".(string)(filesize($a_file)));
+		
+		// #7271: if notice gets thrown download will fail in IE
+		$filesize = @filesize($a_file);
+		if ($filesize)
+		{
+			header("Content-Length: ".(string)$filesize);
+		}
 
 		include_once './classes/class.ilHTTPS.php';
 		#if($_SERVER['HTTPS'])
