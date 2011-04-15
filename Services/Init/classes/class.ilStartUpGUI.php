@@ -318,6 +318,7 @@ class ilStartUpGUI
 
 			include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 			$form = new ilPropertyFormGUI();
+			$form->setShowTopButtons(false);
 			$form->setOpenTag(false);
 			$form->setCloseTag(false);
 			$form->setTitle($lng->txt("login_to_ilias"));
