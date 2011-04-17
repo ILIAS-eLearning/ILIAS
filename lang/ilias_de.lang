@@ -2682,8 +2682,8 @@ common#:#glo_upload_file#:#Datei
 common#:#glo_visible#:#Glossar ist sichtbar
 common#:#glo_write#:#Glossar bearbeiten
 common#:#global#:#Global
-common#:#global_default#:#Standard-Style (global)
-common#:#global_fixed#:#Einheits-Style (global)
+common#:#global_default#:#Standard-Stylesheet (global)
+common#:#global_fixed#:#Einheits-Stylesheet (global)
 common#:#global_settings#:#Globale Einstellungen
 common#:#global_user#:#Globale Benutzer
 common#:#glossaries#:#Glossare
@@ -4412,7 +4412,7 @@ common#:#stop_inheritance#:#Vererbung unterbrechen
 common#:#stop_moving_blocks#:#Verschieben der Blöcke beenden
 common#:#street#:#Straße
 common#:#structure#:#Gliederung
-common#:#sty#:#Style
+common#:#sty#:#Stylesheet
 common#:#style_activation#:#Style-Aktivierung
 common#:#stys_edit_permission#:#Rechteeinstellungen ändern
 common#:#stys_read#:#Lesezugriff auf Style-Einstellungen
@@ -4523,8 +4523,8 @@ common#:#to_client_list#:#Zur Mandantenauswahl
 common#:#to_desktop#:#Auf Schreibtisch legen
 common#:#to_filter#:#Filtern
 common#:#today#:#Heute
-common#:#toggleGlobalDefault#:#Standard-Style umschalten
-common#:#toggleGlobalFixed#:#Einheits-Style umschalten
+common#:#toggleGlobalDefault#:#Standard-Stylesheet umschalten
+common#:#toggleGlobalFixed#:#Einheits-Stylesheet umschalten
 common#:#tomorrow#:#Morgen
 common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
