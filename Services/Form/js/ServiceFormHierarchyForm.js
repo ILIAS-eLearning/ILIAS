@@ -1,3 +1,26 @@
+var ilHForm =
+{
+	drag_contents: [],
+
+	disableDragContents: function()
+	{
+		var i;
+		for (i in this.drag_contents)
+		{
+			this.drag_contents[i].locked = true;
+		}
+	},
+
+	enableDragContents: function()
+	{
+		var i;
+		for (i in this.drag_contents)
+		{
+			this.drag_contents[i].locked = false;
+		}
+	}
+}
+
 var stopHigh;
 var overId;
 var current_mouse_over_id;
@@ -367,6 +390,9 @@ function doActionForm(cmd, node, first_child, multi)
 
 function proceedDragDrop(source_id, target_id, first_child_drop_area, as_subitem)    
 {
+	var el = document.getElementById('ilsaving');
+	el.style.display = '';
+	ilHForm.disableDragContents();
 
 	var obj = document.getElementById("form_hform");
 	var hform_cmd = document.getElementById("il_hform_cmd");
@@ -438,6 +464,7 @@ YAHOO.extend(ilDragContent, YAHOO.util.DDProxy,
 	initDragContent: function(id, sGroup, config)
 	{
 		this.originalStyles = [];
+		ilHForm.drag_contents.push(this);
 	},
 	
 	startDrag: function(x, y)
@@ -475,11 +502,14 @@ YAHOO.extend(ilDragContent, YAHOO.util.DDProxy,
 
 		for (var i=0; i<targets.length; i++)
 		{
-			var targetEl = this.getTargetDomRef(targets[i]); 
-			var oldStyle = this.originalStyles[targetEl.id]; 
-			if (oldStyle)
+			var targetEl = this.getTargetDomRef(targets[i]);
+			if (targetEl)
 			{
-				targetEl.className = oldStyle; 
+				var oldStyle = this.originalStyles[targetEl.id]; 
+				if (oldStyle)
+				{
+					targetEl.className = oldStyle; 
+				}
 			}
 		}
 	}

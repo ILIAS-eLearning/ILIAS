@@ -87,12 +87,12 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$ass->setType($this->getType());
 		$ass->setDescription($this->getDescription());
 		$ass->create(true);
-		$a_copied_nodes[$this->getId()] = $sco->getId();
+		$a_copied_nodes[$this->getId()] = $ass->getId();
 
 		// copy meta data
 		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getSLMId(), $this->getId(), $this->getType());
-		$new_md = $md->cloneMD($a_target_slm->getId(), $sco->getId(), $this->getType());
+		$new_md = $md->cloneMD($a_target_slm->getId(), $ass->getId(), $this->getType());
 
 		return $ass;
 	}

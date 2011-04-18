@@ -2470,7 +2470,7 @@ function showTrackingItem()
 		}
 		if (!ilSCORM2004Node::uniqueTypesCheck($items))
 		{
-			ilUtil::sendInfo($lng->txt("sahs_choose_pages_or_chapters_or_scos_only"), true);
+			ilUtil::sendFailure($lng->txt("sahs_choose_pages_chap_scos_ass_only"), true);
 			$ilCtrl->redirect($this, $a_return);
 		}
 		ilSCORM2004Node::clipboardCopy($this->object->getId(), $items);
@@ -2508,7 +2508,7 @@ function showTrackingItem()
 		
 		if (!ilSCORM2004Node::uniqueTypesCheck($items))
 		{
-			ilUtil::sendInfo($lng->txt("sahs_choose_pages_or_chapters_or_scos_only"), true);
+			ilUtil::sendFailure($lng->txt("sahs_choose_pages_chap_scos_ass_only"), true);
 			$ilCtrl->redirect($this, $a_return);
 		}
 
@@ -2553,12 +2553,12 @@ function showTrackingItem()
 	/**
 	 * Insert assets from clipboard
 	 */
-	function insertAssClip()
+	function insertAssetClip()
 	{
 		global $ilCtrl, $ilUser;
 		
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
-		ilSCORM2004Node::insertAssClip($this->object);
+		ilSCORM2004Node::insertAssetClip($this->object);
 		
 		$ilCtrl->redirect($this, "showOrganization",
 			"node_".ilSCORM2004OrganizationHFormGUI::getPostNodeId());

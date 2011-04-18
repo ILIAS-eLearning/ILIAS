@@ -418,7 +418,7 @@ class ilSCORM2004NodeGUI
 		}
 		if (!ilSCORM2004Node::uniqueTypesCheck($items))
 		{
-			ilUtil::sendInfo($lng->txt("sahs_choose_pages_or_chapters_or_scos_only"), true);
+			ilUtil::sendFailure($lng->txt("sahs_choose_pages_chap_scos_ass_only"), true);
 			$ilCtrl->redirect($this, $a_return);
 		}
 		ilSCORM2004Node::clipboardCopy($this->slm_object->getId(), $items);
@@ -454,7 +454,7 @@ class ilSCORM2004NodeGUI
 		
 		if (!ilSCORM2004Node::uniqueTypesCheck($items))
 		{
-			ilUtil::sendInfo($lng->txt("sahs_choose_pages_or_chapters_or_scos_only"), true);
+			ilUtil::sendFailure($lng->txt("sahs_choose_pages_chap_scos_ass_only"), true);
 			$ilCtrl->redirect($this, $a_return);
 		}
 

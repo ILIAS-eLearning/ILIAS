@@ -18,6 +18,7 @@ include_once ("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSectionGUI, ilPCDataTableGUI, ilPCResourcesGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI, ilPCPluggedGUI, ilPCTabsGUI, IlPCPlaceHolderGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCContentIncludeGUI, ilPCLoginPageElementGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCInteractiveImageGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -430,6 +431,10 @@ class ilPageEditorGUI
 				case "incl":
 					$this->ctrl->setCmdClass("ilPCContentIncludeGUI");
 					break;
+					
+				case "iim":
+					$this->ctrl->setCmdClass("ilPCInteractiveImageGUI");
+					break;
 
 			}
 			$next_class = $this->ctrl->getNextClass($this);
@@ -684,6 +689,14 @@ class ilPageEditorGUI
 				include_once ("./Services/COPage/classes/class.ilPCContentIncludeGUI.php");
 				$incl_gui = new ilPCContentIncludeGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$ret =& $this->ctrl->forwardCommand($incl_gui);
+				break;
+
+			// Interactive Image
+			case "ilpcinteractiveimagegui":
+				$this->tabs_gui->clearTargets();
+				include_once ("./Services/COPage/classes/class.ilPCInteractiveImageGUI.php");
+				$iim_gui = new ilPCInteractiveImageGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$ret = $this->ctrl->forwardCommand($iim_gui);
 				break;
 
 			default:

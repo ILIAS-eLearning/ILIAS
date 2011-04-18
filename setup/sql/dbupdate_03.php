@@ -4678,3 +4678,7 @@ if(!$ilDB->tableExists('il_verification'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3285>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

@@ -114,11 +114,11 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				if ($ilUser->clipboardHasObjectsOfType("ass"))
 				{
 					$cmds[] = array("text" => $lng->txt("sahs_insert_ass_from_clip"),
-						"cmd" => "insertAssClip", "as_subitem" => false);
+						"cmd" => "insertAssetClip", "as_subitem" => false);
 					if (count($a_childs) == 0)
 					{
 						$cmds[] = array("text" => $lng->txt("sahs_insert_ass_from_clip_inside_chap"),
-							"cmd" => "insertAssClip", "as_subitem" => true);
+							"cmd" => "insertAssetClip", "as_subitem" => true);
 					}
 				}
 			}
@@ -190,7 +190,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				if ($ilUser->clipboardHasObjectsOfType("ass"))
 				{
 					$cmds[] = array("text" => $lng->txt("sahs_insert_ass_from_clip"),
-						"cmd" => "insertAssClip");
+						"cmd" => "insertAssetClip");
 				}
 
 				// chapters
@@ -214,7 +214,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				if ($ilUser->clipboardHasObjectsOfType("ass"))
 				{
 					$cmds[] = array("text" => $lng->txt("sahs_insert_ass_from_clip"),
-						"cmd" => "insertAssClip");
+						"cmd" => "insertAssetClip");
 				}
 			}
 			if ($a_node["type"] == "sco" || $a_node["type"] == "ass")
@@ -299,12 +299,12 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				if ($a_node["type"] == "chap")
 				{
 					$this->makeDragTarget($a_node["node_id"], "grp_sco", $a_first_child_drop_area,
-						true, "");
+						true, $lng->txt("cont_insert_into_chap"));
 				}
 				else
 				{
 					$this->makeDragTarget($a_node["node_id"], "grp_sco", $a_first_child_drop_area,
-						false, "");
+						false, $lng->txt("cont_insert_after_chap"));
 				}
 			}
 
@@ -314,13 +314,13 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 			//		true, $lng->txt("cont_insert_as_subchapter"));
 			//}
 			
-			// chapter targets
-			if ($a_node["type"] == "chap")
+			// chapter targets				// chapters
+			if ($a_node["depth"] == 2)
 			{
 				$this->makeDragTarget($a_node["node_id"], "grp_chap", $a_first_child_drop_area,
 					false, $lng->txt("sahs_insert_as_chapter"));
 				$this->makeDragTarget($a_node["node_id"], "grp_sco", $a_first_child_drop_area,
-					false, "");
+					false, $lng->txt("cont_insert_after_chap"));
 			}
 		}
 		else
@@ -337,7 +337,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 				$this->makeDragTarget($a_node["node_id"], "grp_sco", $a_first_child_drop_area,
 					true);
 			}
-			if ($a_node["type"] == "sco")
+			if ($a_node["type"] == "sco" || $a_node["type"] == "ass")
 			{
 				$this->makeDragTarget($a_node["node_id"], "grp_page", $a_first_child_drop_area,
 					true);
