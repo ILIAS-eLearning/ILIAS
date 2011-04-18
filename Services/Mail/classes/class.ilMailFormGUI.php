@@ -311,10 +311,24 @@ class ilMailFormGUI
 		
 		$inp = new ilTextInputGUI($this->lng->txt("search_for"), 'search');
 		$inp->setSize(30);
+
+		$dsSchema = array("resultsList" => 'response.results',
+			"fields" => array('login', 'firstname', 'lastname'));
+
+		$dsFormatCallback = 'formatAutoCompleteResults';
+		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', '', false);
+		$dsDelimiter = array(',');
+
+		$inp->setDataSource($dsDataLink);
+		$inp->setDataSourceSchema($dsSchema);
+		$inp->setDataSourceResultFormat($dsFormatCallback);
+		$inp->setDataSourceDelimiter($dsDelimiter);
+
 		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
 		{
 			$inp->setValue(ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
 		}
+
 		$form->addItem($inp);
 		
 		$chb = new ilCheckboxInputGUI($this->lng->txt("mail_search_addressbook"), 'type_addressbook');
