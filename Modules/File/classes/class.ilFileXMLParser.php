@@ -159,20 +159,23 @@ class ilFileXMLParser extends ilSaxParser
 			    $this->mode = ilFileXMLParser::$CONTENT_NOT_COMPRESSED;
 			    $this->isReadingFile = true;
 #echo $a_attribs["mode"];
-			    if (isset($a_attribs["mode"])) {
-			        if ($a_attribs["mode"] == "GZIP")
+			    if (isset($a_attribs["mode"]))
+				{
+			        if($a_attribs["mode"] == "GZIP")
 			        {
                         if (!function_exists("gzread"))
                             throw new ilFileException ("Deflating with gzip is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
 
 			            $this->mode = ilFileXMLParser::$CONTENT_GZ_COMPRESSED;
-			        } elseif ($a_attribs["mode"] == "ZLIB")
+			        }
+					elseif ($a_attribs["mode"] == "ZLIB")
 			        {
                         if (!function_exists("gzuncompress"))
                              throw new ilFileException ("Deflating with zlib (compress/uncompress) is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
 
 			            $this->mode = ilFileXMLParser::$CONTENT_ZLIB_COMPRESSED;
-			        } elseif ($a_attribs["mode"] == "COPY")
+			        }
+					elseif ($a_attribs["mode"] == "COPY")
 			        {
 			            $this->mode = ilFileXMLParser::$CONTENT_COPY;
 			        }
@@ -215,7 +218,7 @@ class ilFileXMLParser extends ilSaxParser
 			case 'Content':
 				$this->isReadingFile = false;
 				$baseDecodedFilename = ilUtil::ilTempnam();
-				if ($this->mode = ilFileXMLParser::$CONTENT_COPY)
+				if ($this->mode == ilFileXMLParser::$CONTENT_COPY)
 				{
 					$this->tmpFilename = $this->getImportDirectory()."/".$this->cdata;
 				}
@@ -307,8 +310,8 @@ class ilFileXMLParser extends ilSaxParser
 		
 		if (!is_dir($filedir))
 		{
-		$this->file->createDirectory();
-		ilUtil::makeDir($filedir);
+			$this->file->createDirectory();
+			ilUtil::makeDir($filedir);
 		}
 		   
 		$filename = $filedir."/".$this->file->getFileName();
