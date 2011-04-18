@@ -1187,7 +1187,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$xpc = xpath_new_context($this->dom);
 		$path = "//InteractiveImage/MediaAlias";
 		$res =& xpath_eval($xpc, $path);
-		$mob_ids = array();
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$id_arr = explode("_", $res->nodeset[$i]->get_attribute("OriginId"));
