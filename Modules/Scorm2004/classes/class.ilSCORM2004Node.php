@@ -777,7 +777,7 @@ class ilSCORM2004Node
 	/**
 	 * Insert assets from clipboard
 	 */
-	static function insertAssClip($a_slm_obj, $a_type = "ass")
+	static function insertAssetClip($a_slm_obj, $a_type = "ass")
 	{
 		global $ilCtrl, $ilUser;
 		
@@ -830,6 +830,7 @@ class ilSCORM2004Node
 	{
 		self::insertAssetClip($a_slm_obj, "sco");
 	}
+
 
 	/**
 	* Insert Chapter from clipboard

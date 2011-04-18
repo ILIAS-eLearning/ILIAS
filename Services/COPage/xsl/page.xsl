@@ -697,6 +697,12 @@
 		<xsl:with-param name="langvar">ed_insert_list</xsl:with-param>
 	</xsl:call-template>
 
+	<!-- insert interactive image -->
+<!--	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">insert_iim</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_iim</xsl:with-param>
+	</xsl:call-template>-->
+
 	<!-- insert map (geographical) -->
 	<xsl:if test = "$enable_map = 'y'">
 		<xsl:call-template name="EditMenuItem">
@@ -2776,6 +2782,15 @@
 	<!-- Label -->
 	<xsl:if test="./MediaAlias">
 	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_mob']/@value"/></xsl:with-param></xsl:call-template>
+	</xsl:if>
+	<xsl:apply-templates select="MediaAlias"/>
+</xsl:template>
+
+<!-- InteractiveImage -->
+<xsl:template match="InteractiveImage">
+	<!-- Label -->
+	<xsl:if test="./MediaAlias">
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_iim']/@value"/></xsl:with-param></xsl:call-template>
 	</xsl:if>
 	<xsl:apply-templates select="MediaAlias"/>
 </xsl:template>

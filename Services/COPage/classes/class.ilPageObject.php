@@ -739,6 +739,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$inc->setHierId($a_hier_id);
 						$inc->setPcId($a_pc_id);
 						return $inc;
+						
+					case "InteractiveImage":
+						require_once("./Services/COPage/classes/class.ilPCInteractiveImage.php");
+						$iim = new ilPCInteractiveImage($this->dom);
+						$iim->setNode($cont_node);
+						$iim->setHierId($a_hier_id);
+						$iim->setPcId($a_pc_id);
+						return $sec;
 				}
 				break;
 
@@ -1021,7 +1029,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			"ed_insert_pcqst", "empty_question", "ed_paste","question_placeh","media_placeh","text_placeh",
 			"ed_insert_plach","question_placehl","media_placehl","text_placehl",
 			"pc_flist", "pc_par", "pc_mob", "pc_qst", "pc_sec", "pc_dtab", "pc_tab",
-			"pc_code", "pc_vacc", "pc_hacc", "pc_res", "pc_map", "pc_list", "ed_insert_incl", "pc_incl");
+			"pc_code", "pc_vacc", "pc_hacc", "pc_res", "pc_map", "pc_list", "ed_insert_incl", "pc_incl",
+			"pc_iim", "ed_insert_iim");
 
 		foreach ($lang_vars as $lang_var)
 		{
@@ -1165,6 +1174,18 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		// determine all media aliases of the page
 		$xpc = xpath_new_context($this->dom);
 		$path = "//MediaObject/MediaAlias";
+		$res =& xpath_eval($xpc, $path);
+		$mob_ids = array();
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$id_arr = explode("_", $res->nodeset[$i]->get_attribute("OriginId"));
+			$mob_id = $id_arr[count($id_arr) - 1];
+			$mob_ids[$mob_id] = $mob_id;
+		}
+
+		// determine all media aliases of interactive images
+		$xpc = xpath_new_context($this->dom);
+		$path = "//InteractiveImage/MediaAlias";
 		$res =& xpath_eval($xpc, $path);
 		$mob_ids = array();
 		for($i = 0; $i < count($res->nodeset); $i++)

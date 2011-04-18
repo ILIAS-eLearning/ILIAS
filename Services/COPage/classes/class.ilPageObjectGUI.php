@@ -55,7 +55,6 @@ class ilPageObjectGUI
 	var $enabledinternallinks = false;
 	var $editpreview = false;
 	var $use_meta_data = false;
-	var $enabledtabs = true;
 	var $enabledpctabs = false;
 	var $link_xml_set = false;
 	var $enableediting = true;
@@ -66,8 +65,45 @@ class ilPageObjectGUI
 	var $page_config = null;
 	var $enable_keywords = false;
 	var $enable_anchors = false;
-
 	private $enabledloginpage = false;
+	
+	// name keys like pc class names!
+	var $pc_types = array(
+		"ContentInclude" => array(
+				"enabled" => false),
+		"DataTable" => array(
+				"enabled" => true),
+		"FileList" => array(
+				"enabled" => true),
+		"InteractiveImage" => array(
+				"enabled" => true),
+		"List" => array(
+				"enabled" => true),
+		"LoginPageElement" => array(
+				"enabled" => false),
+		"Map" => array(
+				"enabled" => false),
+		"MediaObject" => array(
+				"enabled" => true),
+		"Paragraph" => array(
+				"enabled" => true),
+		"PlaceHolder" => array(
+				"enabled" => false),
+		"Question" => array(
+				"enabled" => false),
+		"Resources" => array(
+				"enabled" => false),
+		"Section" => array(
+				"enabled" => true),
+		"SourceCode" => array(
+				"enabled" => true),
+		"Table" => array(
+				"enabled" => true),
+		"Tabs" => array(
+				"enabled" => true)
+		);
+	
+	
 	
 	/**
 	* Constructor
@@ -123,6 +159,29 @@ class ilPageObjectGUI
 		$this->setEnabledWikiLinks(false);
 		
 		$this->setTemplateOutput(false);
+	}
+	
+	/**
+	 * Set enable pc type
+	 *
+	 * @param boolean $a_val enable pc type true/false	
+	 */
+	function setEnablePCType($a_pc_type, $a_val)
+	{
+		if (isset($a_pc_type))
+		{
+			$this->pc_types[$a_pc_type]["enabled"] = $a_val;
+		}
+	}
+	
+	/**
+	 * Get enable pc type
+	 *
+	 * @return boolean enable pc type true/false
+	 */
+	function getEnablePCType($a_pc_type)
+	{
+		return $this->pc_types[$a_pc_type]["enabled"];
 	}
 	
 	/**
@@ -447,7 +506,7 @@ class ilPageObjectGUI
 	 */
 	function enableContentIncludes($a_enable)
 	{
-		$this->enablecontentincludes = $a_enable;
+		$this->setEnablePCType("ContentInclude", (bool) $a_enable);
 	}
 	
 	/**
@@ -455,7 +514,7 @@ class ilPageObjectGUI
 	 */
 	function isEnabledContentIncludes()
 	{
-		return $this->enablecontentincludes;
+		return $this->getEnablePCType("ContentInclude");
 	}
 
 	/**
@@ -649,7 +708,7 @@ class ilPageObjectGUI
 	*/
 	function setEnabledTabs($a_enabledtabs)
 	{
-		$this->enabledtabs = $a_enabledtabs;
+		$this->setEnablePCType("Tabs", $a_enabledtabs);
 	}
 
 	/**
@@ -659,7 +718,7 @@ class ilPageObjectGUI
 	*/
 	function getEnabledTabs()
 	{
-		return $this->enabledtabs;
+		return $this->getEnablePCType("Tabs");
 	}
 
 	/**
@@ -669,7 +728,7 @@ class ilPageObjectGUI
 	*/
 	function setEnabledRepositoryObjects($a_enabledrepositoryobjects)
 	{
-		$this->enabledrepositoryobjects = $a_enabledrepositoryobjects;
+		$this->setEnablePCType("Resources", $a_enabledrepositoryobjects);
 	}
 
 	/**
@@ -679,7 +738,7 @@ class ilPageObjectGUI
 	*/
 	function getEnabledRepositoryObjects()
 	{
-		return $this->enabledrepositoryobjects;
+		return $this->getEnablePCType("Resources");
 	}
 
 	/**
@@ -688,7 +747,7 @@ class ilPageObjectGUI
 	 */
 	public function setEnabledLoginPage($a_enablegloginpage)
 	{
-		$this->enabledloginpage = (bool) $a_enablegloginpage;
+		$this->setEnablePCType("LoginPageElement", (bool) $a_enablegloginpage);
 	}
 
 	/**
@@ -697,7 +756,7 @@ class ilPageObjectGUI
 	 */
 	public function getEnabledLoginPage()
 	{
-		return $this->enabledloginpage;
+		return $this->getEnablePCType("LoginPageElement");
 	}
 
 	/**
@@ -707,7 +766,7 @@ class ilPageObjectGUI
 	*/
 	function setEnabledMaps($a_enabledmaps)
 	{
-		$this->enabledmaps = $a_enabledmaps;
+		$this->setEnablePCType("Map", (bool) $a_enabledmaps);
 	}
 
 	/**
@@ -717,7 +776,7 @@ class ilPageObjectGUI
 	*/
 	function getEnabledMaps()
 	{
-		return $this->enabledmaps;
+		return $this->getEnablePCType("Map");
 	}
 
 	/**
@@ -727,7 +786,7 @@ class ilPageObjectGUI
 	*/
 	function setEnabledPCTabs($a_enabledpctabs)
 	{
-		$this->enabledpctabs = $a_enabledpctabs;
+		$this->setEnablePCType("Tabs", (bool) $a_enabledpctabs);
 	}
 
 	/**
@@ -737,7 +796,7 @@ class ilPageObjectGUI
 	*/
 	function getEnabledPCTabs()
 	{
-		return $this->enabledpctabs;
+		return $this->getEnablePCType("Tabs");
 	}
 
 	/**
@@ -747,7 +806,7 @@ class ilPageObjectGUI
 	*/
 	function setEnabledFileLists($a_enabledfilelists)
 	{
-		$this->enabledfilelists = $a_enabledfilelists;
+		$this->setEnablePCType("FileList", (bool) $a_enabledfilelists);
 	}
 
 	/**
@@ -757,7 +816,7 @@ class ilPageObjectGUI
 	*/
 	function getEnabledFileLists()
 	{
-		return $this->enabledfilelists;
+		return $this->getEnablePCType("FileList");
 	}
 
 	/**
@@ -919,6 +978,7 @@ class ilPageObjectGUI
 	*/
 	function setEnabledSelfAssessment($a_enabledselfassessment, $a_scorm = true)
 	{
+		$this->setEnablePCType("Question", (bool) $a_enabledselfassessment);
 		$this->enabledselfassessment = $a_enabledselfassessment;
 		$this->enabledselfassessment_scorm = $a_scorm;
 	}

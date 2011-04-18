@@ -1356,11 +1356,11 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				$target_pos = IL_FIRST_NODE;
 				$target_parent = $target_id;
 				
-				$sco_childs = $this->slm_tree->getChildsByType($target_parent, "sco");
-				if (count($sco_childs) != 0)
-				{
-					$target_pos = $sco_childs[count($sco_childs) - 1]["obj_id"];
-				}
+				//$sco_childs = $this->slm_tree->getChildsByType($target_parent, "sco");
+				//if (count($sco_childs) != 0)
+				//{
+				//	$target_pos = $sco_childs[count($sco_childs) - 1]["obj_id"];
+				//}
 			}
 			else if ($as_subitem)		// as last chapter
 			{

@@ -489,6 +489,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 		}
 		
 		$ttpl = new ilTemplate("tpl.hierarchy_form.html", true, true, "Services/Form");
+		$ttpl->setVariable("TXT_SAVING", $lng->txt("saving"));
 		$top_node_data = $this->getTree()->getNodeData($this->getCurrentTopNodeId());
 		$top_node = array("node_id" => $top_node_data["child"],
 				"title" => $top_node_data["title"],
@@ -720,6 +721,8 @@ class ilHierarchyFormGUI extends ilFormGUI
 	*/
 	function getLevelHTML($a_par_node, $a_depth, &$a_childs)
 	{
+		global $lng;
+		
 		if ($this->getMaxDepth() > -1 && $this->getMaxDepth() < $a_depth)
 		{
 			return "";

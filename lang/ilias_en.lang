@@ -9024,7 +9024,6 @@ rep#:#rep_intro4#:#In the following form, enter a title and a description, and c
 rep#:#rep_intro5#:#By clicking on the title of the category you enter your category.
 rep#:#rep_intro6#:#After that procedure you may add any learning or working resource to your category.
 sahs#:#sahs_chapter#:#Chapter
-sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Please select either pages, SCOs or chapters only.
 sahs#:#sahs_insert_chapter#:#Insert Chapter
 sahs#:#sahs_insert_page#:#Insert Page
 sahs#:#sahs_insert_pagelayout#:#Insert Template Page
@@ -11281,3 +11280,9 @@ common#:#enable_course_group_notifications#:#Daily Mail for Groups and Course Ne
 common#:#enable_course_group_notifications_desc#:#If enabled, Participants can subscribe to a daily summary of news.
 assessment#:#copy_no_questions_selected#:#Please select at least one question to copy.
 assessment#:#copy_questions_success#:#The question(s) has been copied.
+sahs#:#sahs_choose_pages_chap_scos_ass_only#:#Please select either pages, SCOs, assets or chapters only.
+sahs#:#cont_insert_into_chap#:#Insert items inside chapter
+sahs#:#cont_insert_after_chap#:#Insert items after chapter
+common#:#saving#:#Saving...
+content#:#cont_ed_insert_iim#:#Insert Interactive Image
+content#:#cont_pc_iim#:#Interactive Image
