@@ -321,32 +321,6 @@ class ilAuthLoginPageEditorGUI
 	}
 
 	/**
-	 * Init and show page editor frames
-	 */
-	protected function initPageFrame()
-	{
-		$key = (int) $_REQUEST['key'];
-		$this->ctrl->saveParameter($this,'key',$key);
-
-		include_once 'Services/Frameset/classes/class.ilFramesetGUI.php';
-		$fs_gui = new ilFramesetGUI();
-
-		$fs_gui->setFramesetTitle('');
-		$fs_gui->setMainFrameName("content");
-		$fs_gui->setSideFrameName("tree");
-		$fs_gui->setSideFrameSource("");
-
-		// page object stuff
-		$fs_gui->setMainFrameSource(
-			$this->ctrl->getLinkTargetByClass(
-				array("ilpageobjectgui"), "edit"));
-
-		$fs_gui->show();
-		exit;
-	}
-
-
-	/**
 	 * Init login form
 	 */
 	protected function initLoginForm()
