@@ -80,7 +80,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
 		}
 		$this->tpl->setVariable('LINK_TXT',$this->lng->txt('edit'));
 		$ilCtrl->setParameter($this->getParentObject(),'key',$a_set['id']);
-		$this->tpl->setVariable('LINK_NAME', $ilCtrl->getLinkTargetByClass('ilpageobjectgui','editPage'));
+		$this->tpl->setVariable('LINK_NAME', $ilCtrl->getLinkTarget($this->getParentObject(),'initPageFrame'));
 	}
 
 

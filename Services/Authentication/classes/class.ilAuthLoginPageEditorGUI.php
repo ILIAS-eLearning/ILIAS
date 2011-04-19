@@ -66,6 +66,13 @@ class ilAuthLoginPageEditorGUI
 		switch($this->ctrl->getNextClass($this))
 		{
 			case 'ilpageobjectgui':
+				$GLOBALS['ilTabs']->clearTargets();
+				$GLOBALS['ilTabs']->setBackTarget(
+					$this->lng->txt('back'),
+					$this->ctrl->getLinkTarget($this,'show'),
+					'_top'
+				);
+
 				if ($_GET["redirectSource"] != "ilinternallinkgui")
 				{
 					$this->forwardToPageObject();
@@ -92,7 +99,6 @@ class ilAuthLoginPageEditorGUI
 	protected function forwardToPageObject()
 	{
 		global $lng,$tpl;
-
 
 		$key = (int) $_REQUEST['key'];
 		$this->ctrl->saveParameter($this,'key',$key);
@@ -312,6 +318,31 @@ class ilAuthLoginPageEditorGUI
 		}
 
 		$this->ctrl->redirect($this,'show');
+	}
+
+	/**
+	 * Init and show page editor frames
+	 */
+	protected function initPageFrame()
+	{
+		$key = (int) $_REQUEST['key'];
+		$this->ctrl->saveParameter($this,'key',$key);
+
+		include_once 'Services/Frameset/classes/class.ilFramesetGUI.php';
+		$fs_gui = new ilFramesetGUI();
+
+		$fs_gui->setFramesetTitle('');
+		$fs_gui->setMainFrameName("content");
+		$fs_gui->setSideFrameName("tree");
+		$fs_gui->setSideFrameSource("");
+
+		// page object stuff
+		$fs_gui->setMainFrameSource(
+			$this->ctrl->getLinkTargetByClass(
+				array("ilpageobjectgui"), "edit"));
+
+		$fs_gui->show();
+		exit;
 	}
 
 
