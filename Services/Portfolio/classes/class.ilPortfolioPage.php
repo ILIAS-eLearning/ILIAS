@@ -176,7 +176,7 @@ class ilPortfolioPage extends ilPageObject
 			include_once("./Services/COPage/classes/class.ilInternalLink.php");
 			ilInternalLink::_deleteAllLinksToTarget("user", $this->getId());
 
-			// delete record of table usr_ext_profile_page
+			// delete record of table usr_portfolio_page
 			$query = "DELETE FROM usr_portfolio_page".
 				" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 			$ilDB->manipulate($query);
@@ -187,7 +187,7 @@ class ilPortfolioPage extends ilPageObject
 	}
 
 	/**
-	 * Lookup profile page property
+	 * Lookup portfolio page property
 	 *
 	 * @param int $a_id
 	 * @param string $a_prop

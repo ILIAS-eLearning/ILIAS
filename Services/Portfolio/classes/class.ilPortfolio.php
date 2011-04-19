@@ -280,10 +280,10 @@ class ilPortfolio
 			$pages = ilPortfolioPage::getAllPages($id);
 			if($pages)
 			{
-				foreach($pages as $page_id)
+				foreach($pages as $page)
 				{
-					$page = new ilPortfolioPage($page_id);
-					$page->delete();
+					$obj = new ilPortfolioPage($id, $page["id"]);
+					$obj->delete();
 				}
 			}
 
