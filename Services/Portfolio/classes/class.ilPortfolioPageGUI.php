@@ -26,7 +26,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
 		$this->portfolio_id = (int)$a_portfolio_id;
 		
-		parent::__construct("user", $a_id, $a_old_nr);
+		parent::__construct("prtf", $a_id, $a_old_nr);
 		
 		// content style
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
