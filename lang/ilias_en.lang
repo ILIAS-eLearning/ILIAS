@@ -11286,3 +11286,14 @@ sahs#:#cont_insert_after_chap#:#Insert items after chapter
 common#:#saving#:#Saving...
 content#:#cont_ed_insert_iim#:#Insert Interactive Image
 content#:#cont_pc_iim#:#Interactive Image
+user#:#portfolios#:#Portfolios
+prtf#:#prtf_add_portfolio#:#Add Portfolio
+prtf#:#prtf_edit_portfolio#:#Edit Portfolio
+prtf#:#prtf_create_portfolio#:#Add Portfolio 
+prtf#:#prtf_portfolio_created#:#Portfolio added
+prtf#:#prtf_portfolio_updated#:#Portfolio updated
+prtf#:#prtf_set_as_default#:#Set As Default
+prtf#:#prtf_sure_delete_portfolios#:#Are you sure you want to delete the following portfolios?
+prtf#:#prtf_portfolio_deleted#:#Portfolios deleted
+prtf#:#prtf_add_page#:#Add Page
+prtf#:#prtf_page_created#:#Page created

@@ -172,7 +172,8 @@ class ilPortfolio
 			"title" => array("text", $this->getTitle()),
 			"description" => array("text", $this->getDescription()),
 			"is_online" => array("integer", $this->isOnline()),
-			"is_default" => array("integer", $this->isDefault()));
+			// "is_default" => array("integer", $this->isDefault())
+			);
 
 		return $fields;
 	}
@@ -186,8 +187,6 @@ class ilPortfolio
 
 		$id = $ilDB->nextId("usr_portfolio");
 		$this->setId($id);
-
-		$this->handleDefault();
 
 		$properties = $this->getPropertiesForDB();
 		$properties["id"] = array("integer", $id);
@@ -209,8 +208,6 @@ class ilPortfolio
 		{
 			$properties = $this->getPropertiesForDB();
 
-			$this->handleDefault();
-		
 			$ilDB->update("usr_portfolio", $properties,
 				array("id"=>array("integer", $id)));
 
@@ -220,18 +217,23 @@ class ilPortfolio
 	}
 
 	/**
-	 * Make sure default is unique per user
+	 * Set the user default portfolio
+	 *
+	 * @param int $a_user_id
+	 * @param int $a_portfolio_id
 	 */
-	protected function handleDefault()
+	public static function setUserDefault($a_user_id, $a_portfolio_id)
 	{
 		global $ilDB;
 
-		if($this->isDefault())
-		{
-			$ilDB->manipulate("UPDATE usr_portfolio".
-				" SET is_default = ".$ilDB->quote(false, "integer").
-				" WHERE user_id = ".$ilDB->quote($this->getUserId(), "integer"));
-		}
+		$ilDB->manipulate("UPDATE usr_portfolio".
+			" SET is_default = ".$ilDB->quote(false, "integer").
+			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer"));
+
+		$ilDB->manipulate("UPDATE usr_portfolio".
+			" SET is_default = ".$ilDB->quote(true, "integer").
+			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND id = ".$ilDB->quote($a_portfolio_id, "integer"));
 	}
 	
 	/**
@@ -272,7 +274,19 @@ class ilPortfolio
 
 		$id = $this->getId();
 		if($id)
-		{		
+		{
+			// delete pages first
+			include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
+			$pages = ilPortfolioPage::getAllPages($id);
+			if($pages)
+			{
+				foreach($pages as $page_id)
+				{
+					$page = new ilPortfolioPage($page_id);
+					$page->delete();
+				}
+			}
+
 			$query = "DELETE FROM usr_portfolio".
 				" WHERE id = ".$ilDB->quote($id, "integer");
 			$ilDB->manipulate($query);
@@ -316,7 +330,7 @@ class ilPortfolio
 	 * @param int $a_portfolio_id
 	 * @return string
 	 */
-	static function lookupTitle($a_page_id)
+	static function lookupTitle($a_portfolio_id)
 	{
 		return self::lookupProperty($a_portfolio_id, "title");
 	}

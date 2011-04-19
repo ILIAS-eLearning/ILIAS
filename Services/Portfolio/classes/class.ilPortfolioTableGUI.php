@@ -56,7 +56,7 @@ class ilPortfolioTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 
-		$this->tpl->setVariable("ID", $a_set["id"]);
+		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
 		$this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
 
 		$this->tpl->setVariable("VAL_ONLINE",
@@ -65,10 +65,29 @@ class ilPortfolioTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_DEFAULT",
 			($a_set["is_default"]) ? $lng->txt("yes") : "");
 
-		$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+
 		$ilCtrl->setParameter($this->parent_obj, "prt_id", $a_set["id"]);
-		$this->tpl->setVariable("CMD_EDIT",
+		$this->tpl->setCurrentBlock("action");
+
+		$this->tpl->setVariable("URL_ACTION",
+			$ilCtrl->getLinkTarget($this->parent_obj, "pages"));
+		$this->tpl->setVariable("TXT_ACTION", $lng->txt("pages"));
+		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setVariable("URL_ACTION",
 			$ilCtrl->getLinkTarget($this->parent_obj, "edit"));
+		$this->tpl->setVariable("TXT_ACTION", $lng->txt("settings"));
+		$this->tpl->parseCurrentBlock();
+
+		if(!$a_set["is_default"] && $a_set["is_online"])
+		{
+			$this->tpl->setVariable("URL_ACTION",
+				$ilCtrl->getLinkTarget($this->parent_obj, "setDefault"));
+			$this->tpl->setVariable("TXT_ACTION", $lng->txt("prtf_set_as_default"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$ilCtrl->setParameter($this->parent_obj, "prt_id", "");
 	}
 	
 }?>

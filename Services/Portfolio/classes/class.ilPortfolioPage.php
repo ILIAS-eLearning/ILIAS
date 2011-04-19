@@ -2,25 +2,31 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/COPage/classes/class.ilPageObject.php");
+include_once("./Services/Portfolio/classes/class.ilPortfolio.php");
 
 /**
- * Page for extended public profile
+ * Page for user portfolio
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  *
- * @ingroup ServicesUser
+ * @ingroup ServicesPortfolio
  */
-class ilExtPublicProfilePage extends ilPageObject
+class ilPortfolioPage extends ilPageObject
 {
+	protected $portfolio_id;
+	
 	/**
 	 * Constructor
 	 *
-	 * @access	public
-	 * @param	wiki page id
+	 * @param int $a_portfolio_id
+	 * @param int $a_id
+	 * @param int $a_old_nr
 	 */
-	function __construct($a_id = 0, $a_old_nr = 0)
+	function __construct($a_portfolio_id, $a_id = 0, $a_old_nr = 0)
 	{
+		$this->portfolio_id = (int)$a_portfolio_id;
+		
 		parent::__construct("user", $a_id, $a_old_nr);
 	}
 
@@ -45,26 +51,6 @@ class ilExtPublicProfilePage extends ilPageObject
 	}
 
 	/**
-	 * Set user id
-	 *
-	 * @param	int	user id
-	 */
-	function setUserId($a_val)
-	{
-		$this->setParentId($a_val);
-	}
-
-	/**
-	 * Get user id
-	 *
-	 * @return	int	user id
-	 */
-	function getUserId()
-	{
-		return $this->getParentId();
-	}
-
-	/**
 	 * Set order nr
 	 *
 	 * @param	int	order nr
@@ -85,45 +71,51 @@ class ilExtPublicProfilePage extends ilPageObject
 	}
 
 	/**
-	 * Lookup max order nr for user
+	 * Lookup max order nr for portfolio
 	 *
-	 * @param
-	 * @return
+	 * @param int $a_portfolio_id
+	 * @return int
 	 */
-	static function lookupMaxOrderNr($a_user_id)
+	static function lookupMaxOrderNr($a_portfolio_id)
 	{
 		global $ilDB;
 
-		$set = $ilDB->query("SELECT MAX(order_nr) m FROM usr_ext_profile_page WHERE ".
-			" user_id = ".$ilDB->quote($a_user_id, "integer"));
+		$set = $ilDB->query("SELECT MAX(order_nr) m FROM usr_portfolio_page".
+			" WHERE portfolio_id = ".$ilDB->quote($a_portfolio_id, "integer"));
 		$rec = $ilDB->fetchAssoc($set);
-
 		return (int) $rec["m"];
 	}
 
 	/**
-	 * Create new extended public profile page
+	 * Get properties for insert/update statements
+	 *
+	 * @return array
+	 */
+	protected function getPropertiesForDB()
+	{
+		$fields = array("portfolio_id" => array("integer", $this->portfolio_id),
+			"title" => array("text", $this->getTitle()),
+			"order_nr" => array("integer", $this->getOrderNr()));
+
+		return $fields;
+	}
+
+	/**
+	 * Create new portfolio page
 	 */
 	function create()
 	{
 		global $ilDB;
 
-		$this->setOrderNr(ilExtPublicProfilePage::lookupMaxOrderNr($this->getUserId()) + 10);
+		$this->setOrderNr(self::lookupMaxOrderNr($this->portfolio_id) + 10);
 
-		$id = $ilDB->nextId("usr_ext_profile_page");
+		$id = $ilDB->nextId("usr_portfolio_page");
 		$this->setId($id);
-		$query = "INSERT INTO usr_ext_profile_page (".
-			"id".
-			", title".
-			", user_id".
-			", order_nr".
-			" ) VALUES (".
-			$ilDB->quote($this->getId(), "integer")
-			.",".$ilDB->quote($this->getTitle(), "text")
-			.",".$ilDB->quote($this->getUserId(), "integer")
-			.",".$ilDB->quote($this->getOrderNr(), "integer")
-			.")";
-		$ilDB->manipulate($query);
+
+		$fields = $this->getPropertiesForDB();
+		$fields["id"] = array("integer", $id);
+
+		$ilDB->insert("usr_portfolio_page", $fields);
 
 		parent::create();
 		$this->saveInternalLinks($this->getXMLContent());
@@ -138,16 +130,17 @@ class ilExtPublicProfilePage extends ilPageObject
 	{
 		global $ilDB;
 		
-		// update wiki page data
-		$query = "UPDATE usr_ext_profile_page SET ".
-			" title = ".$ilDB->quote($this->getTitle(), "text").
-			",user_id = ".$ilDB->quote($this->getUserId(), "integer").
-			",order_nr = ".$ilDB->quote($this->getOrderNr(), "integer").
-			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
-		$ilDB->manipulate($query);
-		parent::update($a_validate, $a_no_history);
+		$id = $this->getId();
+		if($id)
+		{
+			$fields = $this->getPropertiesForDB();
+			$ilDB->update("usr_portfolio_page", $fields,
+				array("id"=>array("integer", $id)));
 
-		return true;
+			parent::update($a_validate, $a_no_history);
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -157,118 +150,105 @@ class ilExtPublicProfilePage extends ilPageObject
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM usr_ext_profile_page WHERE id = ".
-			$ilDB->quote($this->getId(), "integer");
+		$query = "SELECT * FROM usr_portfolio_page".
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$set = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($set);
 
 		$this->setTitle($rec["title"]);
-		$this->setUserId($rec["user_id"]);
 		$this->setOrderNr($rec["order_nr"]);
 		
 		// get co page
 		parent::read();
 	}
 
-
 	/**
-	* delete wiki page and al related data	
-	*
-	* @access	public
-	*/
+	 * delete portfolio page and all related data
+	 */
 	function delete()
 	{
 		global $ilDB;
+
+		$id = $this->getId();
+		if($id)
+		{
+			// delete internal links information to this page
+			include_once("./Services/COPage/classes/class.ilInternalLink.php");
+			ilInternalLink::_deleteAllLinksToTarget("user", $this->getId());
+
+			// delete record of table usr_ext_profile_page
+			$query = "DELETE FROM usr_portfolio_page".
+				" WHERE id = ".$ilDB->quote($this->getId(), "integer");
+			$ilDB->manipulate($query);
 		
-		// delete internal links information to this page
-		include_once("./Services/COPage/classes/class.ilInternalLink.php");
-		ilInternalLink::_deleteAllLinksToTarget("user", $this->getId());
-		
-		// delete record of table usr_ext_profile_page
-		$query = "DELETE FROM usr_ext_profile_page".
-			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
-		$ilDB->manipulate($query);
-		
-		// delete co page
-		parent::delete();
-
-		return true;
-	}
-
-
-	/**
-	 * Lookup user
-	 */
-	static function lookupUserId($a_page_id)
-	{
-		global $ilDB;
-
-		return ilExtPublicProfilePage::lookupProperty($a_page_id, "user_id");
-	}
-
-	/**
-	 * Lookup user
-	 */
-	static function lookupTitle($a_page_id)
-	{
-		global $ilDB;
-
-		return ilExtPublicProfilePage::lookupProperty($a_page_id, "title");
+			// delete co page
+			parent::delete();
+		}
 	}
 
 	/**
 	 * Lookup profile page property
 	 *
-	 * @param	id		page id
-	 * @return	mixed	property value
+	 * @param int $a_id
+	 * @param string $a_prop
+	 * @return mixed
 	 */
 	protected static function lookupProperty($a_id, $a_prop)
 	{
 		global $ilDB;
 
-		$set = $ilDB->query($q = "SELECT $a_prop FROM usr_ext_profile_page WHERE ".
-			" id = ".$ilDB->quote($a_id, "integer")
-			);
+		$set = $ilDB->query("SELECT ".$a_prop.
+			" FROM usr_portfolio_page".
+			" WHERE id = ".$ilDB->quote($a_id, "integer"));
 		$rec = $ilDB->fetchAssoc($set);
 		return $rec[$a_prop];
 	}
 
 	/**
-	 * Get tabs of user
+	 * Lookup title
 	 *
-	 * @param	int		user id
-	 * @return
+	 * @param int $a_page_id
 	 */
-	static function getPagesOfUser($a_user_id)
+	static function lookupTitle($a_page_id)
+	{
+		return self::lookupProperty($a_page_id, "title");
+	}
+
+	/**
+	 * Get pages of portfolio
+	 *
+	 * @param int $a_portfolio_id
+	 * @return array
+	 */
+	static function getAllPages($a_portfolio_id)
 	{
 		global $ilDB;
 
-		$set = $ilDB->query("SELECT * FROM usr_ext_profile_page WHERE ".
-			" user_id = ".$ilDB->quote($a_user_id, "integer").
+		$set = $ilDB->query("SELECT * FROM usr_portfolio_page".
+			" WHERE portfolio_id = ".$ilDB->quote($a_portfolio_id, "integer").
 			" ORDER BY order_nr");
-		$tabs = array();
+		$pages = array();
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
-			$tabs[] = $rec;
+			$pages[] = $rec;
 		}
-		return $tabs;
+		return $pages;
 	}
 
 	/**
 	 * Fix ordering
 	 *
-	 * @param int $a_user_id
-	 * @return
+	 * @param int $a_portfolio_id
 	 */
-	public static function fixOrdering($a_user_id)
+	public static function fixOrdering($a_portfolio_id)
 	{
 		global $ilDB;
 
-		$pages = self::getPagesOfUser($a_user_id);
+		$pages = self::getAllPages($a_portfolio_id);
 		$cnt = 10;
 		foreach ($pages as $p)
 		{
-			$ilDB->manipulate("UPDATE usr_ext_profile_page SET ".
+			$ilDB->manipulate("UPDATE usr_portfolio_page SET ".
 				" order_nr = ".$ilDB->quote($cnt, "integer").
 				" WHERE id = ".$ilDB->quote($p["id"], "integer")
 			);
