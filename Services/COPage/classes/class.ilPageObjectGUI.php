@@ -1344,6 +1344,7 @@ class ilPageObjectGUI
 					//$GLOBALS["tpl"]->addJavascript("Services/COPage/js/wz_dragdrop.js");
 					$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
 
+					include_once './Services/Style/classes/class.ilObjStyleSheet.php';
 					$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
 						preloader.src = './templates/default/images/loader.gif';
 						ilCOPage.setContentCss('".
