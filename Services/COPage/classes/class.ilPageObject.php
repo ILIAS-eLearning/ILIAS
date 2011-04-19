@@ -33,7 +33,7 @@ class ilPageObject
 	var $xml;
 	var $encoding;
 	var $node;
-	var $cur_dtd = "ilias_pg_4_1.dtd";
+	var $cur_dtd = "ilias_pg_4_2.dtd";
 	var $contains_int_link;
 	var $needs_parsing;
 	var $parent_type;

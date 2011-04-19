@@ -159,11 +159,16 @@ class ilCOPageExporter extends ilXmlExporter
 		if ($a_entity == "pg")
 		{
 			return array (
+				"4.2.0" => array(
+					"namespace" => "http://www.ilias.de/Services/COPage/pg/4_2",
+					"xsd_file" => "ilias_pg_4_2.xsd",
+					"min" => "4.2.0",
+					"max" => ""),
 				"4.1.0" => array(
 					"namespace" => "http://www.ilias.de/Services/COPage/pg/4_1",
 					"xsd_file" => "ilias_pg_4_1.xsd",
 					"min" => "4.1.0",
-					"max" => "")
+					"max" => "4.1.99")
 			);
 		}
 		if ($a_entity == "pgtp")
