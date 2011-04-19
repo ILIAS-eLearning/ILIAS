@@ -25,7 +25,7 @@
 * ILIAS Exception for Service Mail. Any individual Mail Exception class should inherit from it
 *
 *
-* @author Nadia Ahmad <nkrzywon@databay.de>
+* @author Nadia Ahmad <nahmad@databay.de>
 * @version $Id:$
 *
 *

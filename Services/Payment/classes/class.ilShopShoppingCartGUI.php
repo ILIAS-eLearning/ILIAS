@@ -157,7 +157,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			
 			if (!empty($_SESSION['coupons'][$coupon_session]))
 			{					
-				$entry['math_price'] = $entry['price'];	// (float) ilPaymentPrices::_getPriceFromArray($price);					
+				$entry['math_price'] = $price['price'];	// (float) ilPaymentPrices::_getPriceFromArray($price);
 				foreach ($_SESSION['coupons'][$coupon_session] as $key => $coupon)
 				{							
 					$this->coupon_obj->setId($coupon['pc_pk']);
@@ -165,7 +165,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			
 					if ($this->coupon_obj->isObjectAssignedToCoupon($pobject->getRefId()))
 					{
-						$_SESSION['coupons'][$coupon_session][$key]['total_objects_coupon_price'] += $entry['price'];	//(float) ilPaymentPrices::_getPriceFromArray($price);
+						$_SESSION['coupons'][$coupon_session][$key]['total_objects_coupon_price'] += $price['price'];	//(float) ilPaymentPrices::_getPriceFromArray($price);
 						$_SESSION['coupons'][$coupon_session][$key]['items'][] = $entry;									
 					}				
 				}				
@@ -695,7 +695,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 				switch($pay_method['pm_title'])
 				{
 					case 'bill':
-						if ($this->totalAmount[$pay_method['pm_id']] == 0)
+						if ($this->totalAmount[$pay_method['pm_id']] == 0 && ANONYMOUS_USER_ID == $ilUser->getId())
 						{
 							$tpl->setVariable('TXT_UNLOCK', $this->lng->txt('pay_click_to_buy'));
 							$tpl->setVariable('LINK_UNLOCK', $this->ctrl->getLinkTarget($this, 'unlockBillObjectsInShoppingCart'));
@@ -718,7 +718,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 					case 'bmf':
 						#$tpl->setVariable("SCRIPT_LINK", './payment.php?view=start_bmf');
-						if ($this->totalAmount[$pay_method['pm_id']] == 0)
+						if ($this->totalAmount[$pay_method['pm_id']] == 0 && ANONYMOUS_USER_ID != $ilUser->getId())
 						{
 							$tpl->setVariable('TXT_UNLOCK', $this->lng->txt('pay_click_to_buy'));
 							$tpl->setVariable('LINK_UNLOCK', $this->ctrl->getLinkTarget($this, 'unlockBMFObjectsInShoppingCart'));
@@ -771,7 +771,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						break;
 								
 					case 'paypal':
-						if ($this->totalAmount[$pay_method['pm_id']] == 0)
+						if ($this->totalAmount[$pay_method['pm_id']] == 0 && ANONYMOUS_USER_ID != $ilUser->getId())
 						{
 							$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
 							$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTarget($this, 'unlockPAYPALObjectsInShoppingCart'));
@@ -1123,6 +1123,11 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		}
 
 		$this->totalAmount[$a_pay_method['pm_id']] = $totalAmount[$a_pay_method['pm_id']]-$current_coupon_bonus;
+		if($this->totalAmount[$a_pay_method['pm_id']] <= 0)
+		{
+			$this->totalAmount = 0;
+		}
+
 		$tbl->setTotalData('TXT_TOTAL_AMOUNT', $this->lng->txt('pay_bmf_total_amount').": ");
 		$tbl->setTotalData('VAL_TOTAL_AMOUNT',  number_format($this->totalAmount[$a_pay_method['pm_id']] , 2, ',', '.') . " " . $genSet->get('currency_unit')); #.$item['currency']);
 

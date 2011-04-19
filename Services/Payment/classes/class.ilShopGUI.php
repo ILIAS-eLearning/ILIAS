@@ -693,14 +693,12 @@ class ilShopGUI extends ilShopBaseGUI
 		$topic_option = array();
 		if(count(ilShopTopics::_getInstance()->getTopics()))
 		{
-vd('asdf');
+			$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.shop_content.html', 'Services/Payment');
+			$this->tpl->setVariable('PAGE_CONTENT', $this->getPageHTML());
+			$this->tpl->setVariable('SORTING_FORM_ACTION',$this->ctrl->getFormAction($this, 'setFilter'));
 
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.shop_content.html', 'Services/Payment');
-		$this->tpl->setVariable('PAGE_CONTENT', $this->getPageHTML());
-		$this->tpl->setVariable('SORTING_FORM_ACTION',$this->ctrl->getFormAction($this, 'setFilter'));
-
-		$this->tpl->setCurrentBlock('topics_option');
-		$this->tpl->setVariable('SORT_TOPICS',$this->lng->txt('topic') );
+			$this->tpl->setCurrentBlock('topics_option');
+			$this->tpl->setVariable('SORT_TOPICS',$this->lng->txt('topic') );
 
 			###
 			$this->tpl->setVariable('FILTER_TOPIC_ID', 'no_selection');

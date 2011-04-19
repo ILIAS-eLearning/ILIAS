@@ -8,7 +8,7 @@ include_once 'classes/class.ilTabsGUI.php';
 
 /** Class ilShopInfoGUI
  * 
- * @author Nadia Krzywon <nkrzywon@databay.de>
+ * @author Nadia Ahmad <nahmad@databay.de>
  * 
  * @ilCtrl_Calls ilShopInfoGUI: ilPageObjectGUI
  * @ingroup ServicesPayment

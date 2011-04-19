@@ -151,7 +151,16 @@ class ilShopResultPresentationGUI
 						new ilPaymentObject($ilUser, ilPaymentObject::_lookupPobjectId($item['ref_id']));					
 					$oPrice = new ilPaymentPrices($oPaymentObject->getPobjectId());
 					$lowest_price = $oPrice->getLowestPrice();
-					
+
+					$special_icon = ' ';
+					if($oPaymentObject->getSpecial() == '1')
+					{
+						$special_icon = ilShopUtils::_getSpecialObjectSymbol();
+					}
+					$results[$topic['id']][$act_type][$key]['title'] = $item['title'].' '.
+						//special icon
+						$results[$topic['id']][$act_type][$key]['special_icon'] = $special_icon;
+
 					$results[$topic['id']][$act_type][$key]['price'] = $lowest_price['price'];
 
 					$paymethod_icon = ilShopUtils::_getPaymethodSymbol($oPaymentObject->getPayMethod());
@@ -164,10 +173,14 @@ class ilShopResultPresentationGUI
 					$results[$topic['id']][$act_type][$key]['price_string'] =										 
 						($oPrice->getNumberOfPrices() > 1 ? $this->lng->txt('price_from').' ' : '').
 						ilPaymentPrices::_formatPriceToString($lowest_price['price']).' '.
+
 						//shoppingcart icon
 						$results[$topic['id']][$act_type][$key]['shoppingcart_icon'] = $shoppingcart_icon.' '.
 						// paymethod icon
 						$results[$topic['id']][$act_type][$key]['paymethod_icon'] = $paymethod_icon;
+
+
+
 					// TODO: CURRENCY ilPaymentPrices::_formatPriceToString($lowest_price['price'], $lowest_price['currency']);
 					// authors
 					include_once 'Services/MetaData/classes/class.ilMD.php';
@@ -234,7 +247,7 @@ class ilShopResultPresentationGUI
 						$item_list_gui->enableCommands(true);
 					}
 					else
-	{
+					{
 						switch ($item['type'])
 						{
 							case 'sahs':
@@ -257,14 +270,6 @@ class ilShopResultPresentationGUI
 
 						$item['title'] = '<a href="'.$demo_link.'">'.$item["title"].'</a>';
 					}
-					
-					$special_icon = '';
-					if($oPaymentObject->getSpecial() == 1)
-					{
-						$special_icon = ilShopUtils::_getSpecialObjectSymbol();
-					}
-
-					$item['title'] = $item['title'].' '.$special_icon;
 
 					$tpl_pinfo = new ilTemplate ('tpl.shop_item_info.html', true, true, 'Services/Payment');
 					if($item['price_string'] != '')

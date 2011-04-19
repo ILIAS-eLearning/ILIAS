@@ -4,7 +4,7 @@
 /**
 * Class ilObjPaymentSettingsGUI
 *
-* @author Nadia Krzywon <nkrzywon@databay.de> 
+* @author Nadia Ahmad <nahmad@databay.de>
 * @version $Id: 
 *
 */
