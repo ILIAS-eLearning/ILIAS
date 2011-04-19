@@ -4721,3 +4721,37 @@ if(!$ilDB->tableExists('usr_portfolio'))
 	$ilDB->createSequence('usr_portfolio');
 }
 ?>
+<#3287>
+<?php
+if(!$ilDB->tableExists('usr_portfolio_page'))
+{
+	$ilDB->createTable('usr_portfolio_page',array(
+		'id' => array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'portfolio_id' => array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'title'	=> array(
+			'type'	=> 'text',
+			'length'=> 250,
+			'notnull' => true
+		),
+		'order_nr' => array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+	));
+	$ilDB->addPrimaryKey('usr_portfolio_page', array('id'));
+	$ilDB->createSequence('usr_portfolio_page');
+}
+?>
+<#3288>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

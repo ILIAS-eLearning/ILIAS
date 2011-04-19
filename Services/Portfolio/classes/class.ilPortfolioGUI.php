@@ -9,7 +9,7 @@ include_once("./Services/Portfolio/classes/class.ilPortfolio.php");
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPortfolioGUI: 
+ * @ilCtrl_Calls ilPortfolioGUI: ilPortfolioPageGUI
  *
  * @ingroup ServicesPortfolio
  */
@@ -25,7 +25,9 @@ class ilPortfolioGUI
 	 */
 	function __construct($a_user_id)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
+
+		$lng->loadLanguageModule("prtf");
 
 		$this->user_id = (int)$a_user_id;
 
@@ -57,13 +59,34 @@ class ilPortfolioGUI
 	 */
 	function &executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilTabs, $lng, $tpl;
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 
 		switch($next_class)
-		{				
+		{
+			case 'ilportfoliopagegui':
+				$ilTabs->clearTargets();
+				$ilTabs->setBackTarget($lng->txt("back"),
+					$ilCtrl->getLinkTarget($this, "pages"));
+
+				include_once("Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
+				$page_gui = new ilPortfolioPageGUI($this->portfolio->getId(),
+					$_REQUEST["ppage"]);
+
+				$tpl->setCurrentBlock("ContentStyle");
+				$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(0));
+				$tpl->parseCurrentBlock();
+				
+				$ret = $ilCtrl->forwardCommand($page_gui);
+				if ($ret != "")
+				{
+					$tpl->setContent($ret);
+				}
+				break;
+
 			default:				
 				$this->$cmd();
 				break;
@@ -81,14 +104,16 @@ class ilPortfolioGUI
 	function setTabs()
 	{
 		
-	
 	}
 
+	/**
+	 * Show list of user portfolios
+	 */
 	protected function show()
 	{
 		global $tpl, $lng, $ilToolbar, $ilCtrl;
 
-		$ilToolbar->addButton($lng->txt("add_portfolio"),
+		$ilToolbar->addButton($lng->txt("prtf_add_portfolio"),
 			$ilCtrl->getLinkTarget($this, "add"));
 
 		include_once "Services/Portfolio/classes/class.ilPortfolioTableGUI.php";
@@ -97,6 +122,9 @@ class ilPortfolioGUI
 		$tpl->setContent($table->getHTML());
 	}
 
+	/**
+	 * Show portfolio creation form
+	 */
 	protected function add()
 	{
 		global $tpl;
@@ -106,6 +134,9 @@ class ilPortfolioGUI
 		$tpl->setContent($form->getHTML());
 	}
 
+	/**
+	 * Create new portfolio instance
+	 */
 	protected function save()
 	{
 		global $tpl, $lng, $ilCtrl;
@@ -118,7 +149,7 @@ class ilPortfolioGUI
 			$portfolio->setDescription($form->getInput("desc"));
 			$portfolio->create();
 
-			ilUtil::sendSuccess($lng->txt("portfolio_created"), true);
+			ilUtil::sendSuccess($lng->txt("prtf_portfolio_created"), true);
 			$ilCtrl->redirect($this, "show");
 		}
 
@@ -126,6 +157,9 @@ class ilPortfolioGUI
 		$tpl->setContent($form->getHTML());
 	}
 
+	/**
+	 * Show portfolio edit form
+	 */
 	protected function edit()
 	{
 		global $tpl;
@@ -135,6 +169,9 @@ class ilPortfolioGUI
 		$tpl->setContent($form->getHTML());
 	}
 
+	/**
+	 * Update portfolio properties
+	 */
 	protected function update()
 	{
 		global $tpl, $lng, $ilCtrl;
@@ -145,10 +182,9 @@ class ilPortfolioGUI
 			$this->portfolio->setTitle($form->getInput("title"));
 			$this->portfolio->setDescription($form->getInput("desc"));
 			$this->portfolio->setOnline($form->getInput("online"));
-			$this->portfolio->setDefault($form->getInput("default"));
 			$this->portfolio->update();
 
-			ilUtil::sendSuccess($lng->txt("portfolio_updated"), true);
+			ilUtil::sendSuccess($lng->txt("prtf_portfolio_updated"), true);
 			$ilCtrl->redirect($this, "show");
 		}
 
@@ -185,7 +221,7 @@ class ilPortfolioGUI
 
 		if($a_mode == "create")
 		{
-			$form->setTitle($lng->txt("portfolio_create"));
+			$form->setTitle($lng->txt("prtf_create_portfolio"));
 			$form->addCommandButton("save", $lng->txt("save"));
 			$form->addCommandButton("show", $lng->txt("cancel"));
 		}
@@ -195,21 +231,212 @@ class ilPortfolioGUI
 			$online = new ilCheckboxInputGUI($lng->txt("online"), "online");
 			$form->addItem($online);
 
-			// default
-			$default = new ilCheckboxInputGUI($lng->txt("default"), "default");
-			$form->addItem($default);
-
 			$ti->setValue($this->portfolio->getTitle());
 			$ta->setValue($this->portfolio->getDescription());
 			$online->setChecked($this->portfolio->isOnline());
-			$default->setChecked($this->portfolio->isDefault());
-
-			$form->setTitle($lng->txt("portfolio_edit"));
+			
+			$form->setTitle($lng->txt("prtf_edit_portfolio"));
 			$form->addCommandButton("update", $lng->txt("save"));
 			$form->addCommandButton("show", $lng->txt("cancel"));
 		}
 
 		return $form;		
+	}
+
+	/**
+	 * Set default portfolio for user
+	 */
+	protected function setDefault()
+	{
+		global $ilCtrl, $lng;
+
+		if($this->portfolio)
+		{
+			ilPortfolio::setUserDefault($this->user_id, $this->portfolio->getId());
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		}
+		$ilCtrl->redirect($this, "show");
+	}
+
+	/**
+	 * Confirm portfolio deletion
+	 */
+	function confirmPortfolioDeletion()
+	{
+		global $ilCtrl, $tpl, $lng;
+
+		if (!is_array($_POST["prtfs"]) || count($_POST["prtfs"]) == 0)
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "show");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("prtf_sure_delete_portfolios"));
+			$cgui->setCancel($lng->txt("cancel"), "show");
+			$cgui->setConfirm($lng->txt("delete"), "deletePortfolios");
+
+			foreach ($_POST["prtfs"] as $id)
+			{
+				$cgui->addItem("prtfs[]", $id, ilPortfolio::lookupTitle($id));
+			}
+
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+
+	/**
+	 * Delete portfolios
+	 */
+	function deletePortfolios()
+	{
+		global $lng, $ilCtrl;
+
+		if (is_array($_POST["prtfs"]))
+		{
+			foreach ($_POST["prtfs"] as $id)
+			{
+				$portfolio = new ilPortfolio($id);
+				if ($portfolio->getUserId() == $this->user_id)
+				{
+					$portfolio->delete();
+				}
+			}
+		}
+		ilUtil::sendSuccess($lng->txt("prtf_portfolio_deleted"), true);
+		$ilCtrl->redirect($this, "show");
+	}
+
+	/**
+	 * Show list of portfolio pages
+	 */
+	protected function pages()
+	{
+		global $tpl, $lng, $ilToolbar, $ilCtrl, $ilTabs;
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "show"));
+
+		$ilToolbar->addButton($lng->txt("prtf_add_page"),
+			$ilCtrl->getLinkTarget($this, "addPage"));
+
+		include_once "Services/Portfolio/classes/class.ilPortfolioPageTableGUI.php";
+		$table = new ilPortfolioPageTableGUI($this, "show", $this->portfolio);
+
+		$tpl->setContent($table->getHTML());
+	}
+
+	/**
+	 * Show portfolio page creation form
+	 */
+	protected function addPage()
+	{
+		global $tpl, $lng, $ilTabs, $ilCtrl;
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "pages"));
+
+		$form = $this->initPageForm("create");
+		$tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * Init portfolio page form
+	 *
+	 * @param string $a_mode
+	 * @return ilPropertyFormGUI
+	 */
+	public function initPageForm($a_mode = "create")
+	{
+		global $lng, $ilCtrl;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+
+		// title
+		$ti = new ilTextInputGUI($lng->txt("title"), "title");
+		$ti->setMaxLength(200);
+		$ti->setRequired(true);
+		$form->addItem($ti);
+
+		// save and cancel commands
+		if ($a_mode == "create")
+		{
+			$form->setTitle($lng->txt("prtf_add_page").": ".
+				$this->portfolio->getTitle());
+			$form->addCommandButton("savePage", $lng->txt("save"));
+			$form->addCommandButton("pages", $lng->txt("cancel"));
+			
+		}
+		else
+		{
+			/*
+			$form->setTitle($lng->txt("user_add_profile_page"));			
+			$form->addCommandButton("updateProfilePage", $lng->txt("save"));
+			$form->addCommandButton("showExtendedProfile", $lng->txt("cancel"));
+			 */			
+		}
+		
+		return $form;
+	}
+
+	/**
+	 * Create new profile page
+	 */
+	public function savePage()
+	{
+		global $tpl, $lng, $ilCtrl, $ilTabs;
+
+		$form = $this->initPageForm("create");
+		if ($form->checkInput())
+		{
+			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
+			$page = new ilPortfolioPage($this->portfolio->getId());
+			$page->setTitle($form->getInput("title"));
+			$page->create();
+
+			ilUtil::sendSuccess($lng->txt("prtf_page_created"), true);
+			$ilCtrl->redirect($this, "pages");
+		}
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "pages"));
+
+		$form->setValuesByPost();
+		$tpl->setContent($form->getHtml());
+	}
+
+	/**
+	 * Save ordering of portfolio pages
+	 */
+	function savePortfolioPagesOrdering()
+	{
+		global $ilCtrl, $ilUser, $lng;
+
+		include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
+
+		if (is_array($_POST["title"]))
+		{
+			foreach ($_POST["title"] as $k => $v)
+			{
+				$page = new ilPortfolioPage($this->portfolio->getId(),
+					ilUtil::stripSlashes($k));
+				$page->setTitle(ilUtil::stripSlashes($v));
+				$page->setOrderNr(ilUtil::stripSlashes($_POST["order"][$k]));
+				$page->update();
+			}
+			ilPortfolioPage::fixOrdering($this->portfolio->getId());
+		}
+		
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "pages");
 	}
 }
 

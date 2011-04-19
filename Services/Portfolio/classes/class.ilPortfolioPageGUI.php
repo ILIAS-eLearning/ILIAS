@@ -20,9 +20,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_id = 0, $a_old_nr = 0)
+	function __construct($a_portfolio_id, $a_id = 0, $a_old_nr = 0)
 	{
 		global $tpl;
+
+		$this->portfolio_id = (int)$a_portfolio_id;
 		
 		parent::__construct("user", $a_id, $a_old_nr);
 		
@@ -51,7 +53,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function initPageObject($a_parent_type, $a_id, $a_old_nr)
 	{
-		$page = new ilExtPublicProfilePage($a_id, $a_old_nr);
+		$page = new ilPortfolioPage($this->portfolio_id, $a_id, $a_old_nr);
 		$this->setPageObject($page);
 	}
 
