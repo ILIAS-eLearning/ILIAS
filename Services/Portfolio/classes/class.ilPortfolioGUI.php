@@ -310,6 +310,11 @@ class ilPortfolioGUI
 		$ilCtrl->redirect($this, "show");
 	}
 
+
+	//
+	// PAGES
+	//
+
 	/**
 	 * Show list of portfolio pages
 	 */
@@ -376,10 +381,10 @@ class ilPortfolioGUI
 		}
 		else
 		{
-			/*
-			$form->setTitle($lng->txt("user_add_profile_page"));			
-			$form->addCommandButton("updateProfilePage", $lng->txt("save"));
-			$form->addCommandButton("showExtendedProfile", $lng->txt("cancel"));
+			/* edit is done directly in table gui
+			$form->setTitle($lng->txt("prtf_edit_page"));
+			$form->addCommandButton("updatePage", $lng->txt("save"));
+			$form->addCommandButton("pages", $lng->txt("cancel"));
 			 */			
 		}
 		
@@ -387,7 +392,7 @@ class ilPortfolioGUI
 	}
 
 	/**
-	 * Create new profile page
+	 * Create new portfolio page
 	 */
 	public function savePage()
 	{
@@ -436,6 +441,57 @@ class ilPortfolioGUI
 		}
 		
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "pages");
+	}
+
+	/**
+	 * Confirm portfolio deletion
+	 */
+	function confirmPortfolioPageDeletion()
+	{
+		global $ilCtrl, $tpl, $lng;
+
+		if (!is_array($_POST["prtf_pages"]) || count($_POST["prtf_pages"]) == 0)
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "pages");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("prtf_sure_delete_portfolio_pages"));
+			$cgui->setCancel($lng->txt("cancel"), "pages");
+			$cgui->setConfirm($lng->txt("delete"), "deletePortfolioPages");
+
+			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
+			foreach ($_POST["prtf_pages"] as $id)
+			{
+				$cgui->addItem("prtf_pages[]", $id, ilPortfolioPage::lookupTitle($id));
+			}
+
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+
+	/**
+	 * Delete portfolio pages
+	 */
+	function deletePortfolioPages()
+	{
+		global $lng, $ilCtrl;
+
+		include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
+		if (is_array($_POST["prtf_pages"]))
+		{
+			foreach ($_POST["prtf_pages"] as $id)
+			{
+				$page = new ilPortfolioPage($this->portfolio->getId(), $id);
+				$page->delete();
+			}
+		}
+		ilUtil::sendSuccess($lng->txt("prtf_portfolio_page_deleted"), true);
 		$ilCtrl->redirect($this, "pages");
 	}
 }

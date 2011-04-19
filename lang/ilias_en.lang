@@ -11297,3 +11297,5 @@ prtf#:#prtf_sure_delete_portfolios#:#Are you sure you want to delete the followi
 prtf#:#prtf_portfolio_deleted#:#Portfolios deleted
 prtf#:#prtf_add_page#:#Add Page
 prtf#:#prtf_page_created#:#Page created
+prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the following portfolio pages?
+prtf#:#prtf_portfolio_page_deleted#:#Portfolio pages deleted

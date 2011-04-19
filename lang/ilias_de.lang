@@ -11296,3 +11296,5 @@ prtf#:#prtf_sure_delete_portfolios#:#Wollen Sie die folgenden Portfolios wirklic
 prtf#:#prtf_portfolio_deleted#:#Portfolios wurden gelöscht
 prtf#:#prtf_add_page#:#Seite hinzufügen
 prtf#:#prtf_page_created#:#Seite wurde hinzugefügt
+prtf#:#prtf_sure_delete_portfolio_pages#:#Wollen Sie die folgenden Portfolio-Seiten wirklich löschen?
+prtf#:#prtf_portfolio_page_deleted#:#Portfolio-Seiten wurden gelöscht
