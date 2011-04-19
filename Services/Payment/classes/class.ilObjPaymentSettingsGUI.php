@@ -1207,8 +1207,15 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$counter = 0;
 		foreach($objects as $data)
 		{
-			$tmp_obj = ilObjectFactory::getInstanceByRefId($data['ref_id']);
-			$f_result[$counter]['title'] = $tmp_obj->getTitle();
+			$tmp_obj = ilObjectFactory::getInstanceByRefId($data['ref_id'], false);
+			if($tmp_obj)
+			{
+				$f_result[$counter]['title'] = $tmp_obj->getTitle();
+			}
+			else
+			{
+				$f_result[$counter]['title'] = $this->lng->txt('object_not_found');
+			}
 
 			switch($data['status'])
 			{
@@ -1248,8 +1255,15 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		
 			$f_result[$counter]['vat_rate'] = $vat_rate;
 						
-			$tmp_user = ilObjectFactory::getInstanceByObjId($data['vendor_id']);
-			$f_result[$counter]['vendor'] = $tmp_user->getFullname().' ['.$tmp_user->getLogin().']';
+			$tmp_user = ilObjectFactory::getInstanceByObjId($data['vendor_id'], false);
+			if($tmp_user )
+			{
+				$f_result[$counter]['vendor'] = $tmp_user->getFullname().' ['.$tmp_user->getLogin().']';
+			}
+			else
+			{
+				$f_result[$counter]['vendor'] = $this->lng->txt('user_not_found');
+			}
 
 			// Get number of purchasers
 			$f_result[$counter]['purchasers'] = ilPaymentBookings::_getCountBookingsByObject($data['pobject_id']);

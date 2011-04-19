@@ -31,7 +31,7 @@ include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
 /**
 * Class ilForumModeratorsGUI
 *
-* @author Nadia Krzywon <nkrzywon@databay.de>
+* @author Nadia Ahmad <nahmad@databay.de>
 *
 * @ilCtrl_Calls ilForumModeratorsGUI: ilRepositorySearchGUI
 * @ingroup ModulesForum

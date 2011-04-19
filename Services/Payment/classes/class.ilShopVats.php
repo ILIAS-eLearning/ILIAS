@@ -8,7 +8,7 @@ include_once 'Services/Payment/classes/class.ilShopUtils.php';
 /**
 * Class ilShopVats
 * 
-* @author Nadia Krzywon <nkrzywon@databay.de>
+* @author Nadia Ahmad <nahmad@databay.de>
 * @version $Id$
 * 
 * @ingroup ServicesPayment

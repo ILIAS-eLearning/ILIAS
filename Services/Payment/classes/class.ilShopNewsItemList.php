@@ -3,7 +3,7 @@
 
 /**
 *
-* @author Nadia Krzywon <nkrzywon@databay.de>
+* @author Nadia Ahmad <nahmad@databay.de>
 * @version $Id$
 */
 class ilShopNewsItemList implements Iterator

@@ -4,7 +4,7 @@
 * Class ilPaymentCurrency
 * 
 * @author Stefan Meyer <meyer@leifos.com>
-* @author Nadia Krzywon <nkrzywon@databay.de>
+* @author Nadia Ahmad <nahmad@databay.de>
 * @version $Id: class.ilPaymentCurrency.php 22133 2009-10-16 08:09:11Z nkrzywon $
 *
 * @package ilias-core

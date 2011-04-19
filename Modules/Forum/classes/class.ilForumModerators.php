@@ -24,7 +24,7 @@
 /**
 * Class ilForumModerators
 *
-* @author Nadia Krzywon <nkrzywon@databay.de>
+* @author Nadia Ahmad <nahmad@databay.de>
 *
 * @ingroup ModulesForum
 */

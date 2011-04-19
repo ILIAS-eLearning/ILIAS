@@ -9,7 +9,7 @@ include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
 /** Class ilShopNewsGUI
  * 
- * @author Nadia Krzywon <nkrzywon@databay.de>
+ * @author Nadia Ahmad <nahmad@databay.de>
  * 
  * @ingroup ServicesPayment
  * 

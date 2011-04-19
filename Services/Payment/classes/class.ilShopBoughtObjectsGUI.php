@@ -9,7 +9,7 @@ include_once './Services/Payment/classes/class.ilShopTableGUI.php';
 * Class ilShopBoughtObjectsGUI
 *
 * @author Michael Jansen <mjansen@databay.de>
-* @author Nadia Ahmad <nkrzywon@databay.de>
+* @author Nadia Ahmad <nahmad@databay.de>
 * @version $Id:$
 * 
 * @ingroup ServicesPayment
