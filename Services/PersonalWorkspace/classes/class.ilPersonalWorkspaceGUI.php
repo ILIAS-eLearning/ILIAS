@@ -154,7 +154,8 @@ class ilPersonalWorkspaceGUI
 				$class = $objDefinition->getClassName($type);
 				$options[$type] = $lng->txt("wsp_type_".$type);
 			}
-		
+
+			asort($options);
 			$types = new ilSelectInputGUI($lng->txt("wsp_navigation_resource"), "new_type");
 			$types->setOptions($options);
 			$ilToolbar->addInputItem($types, "new_type");

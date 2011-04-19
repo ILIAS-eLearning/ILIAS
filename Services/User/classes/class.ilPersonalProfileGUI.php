@@ -8,6 +8,7 @@
  * @version $Id$
  *
  * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI, ilExtPublicProfilePageGUI
+ * @ilCtrl_Calls ilPersonalProfileGUI: ilPortfolioGUI
  *
  */
 class ilPersonalProfileGUI
@@ -59,6 +60,14 @@ class ilPersonalProfileGUI
 				$ilCtrl->forwardCommand($pub_profile_gui);
 				break;
 
+			case "ilportfoliogui":
+				$this->__initSubTabs("portfolios");
+				$tpl->setTitle($lng->txt("personal_profile"));
+				include_once("./Services/Portfolio/classes/class.ilPortfolioGUI.php");
+				$portfolio_gui = new ilPortfolioGUI($ilUser->getId());
+				$ilCtrl->forwardCommand($portfolio_gui);
+				$tpl->show();
+				break;
 
 			case 'ilextpublicprofilepagegui':
 				$this->initExtProfile();
@@ -660,6 +669,7 @@ class ilPersonalProfileGUI
 		$showPersonalData = ($a_cmd == 'showPersonalData') ? true : false;
 		$showPublicProfile = ($a_cmd == 'showPublicProfile') ? true : false;
 		$showLocation = ($a_cmd == 'showLocation') ? true : false;
+		$showPortfolios = ($a_cmd == 'portfolios') ? true : false;
 
 		// old profile
 /*
@@ -677,6 +687,13 @@ class ilPersonalProfileGUI
 		{
 			$ilTabs->addTarget("user_ext_profile",
 				$this->ctrl->getLinkTarget($this, "showExtendedProfile"));
+		}
+
+		// :TODO: admin setting
+		if(true)
+		{
+			$ilTabs->addTarget("portfolios", $this->ctrl->getLinkTargetByClass("ilportfoliogui", "show"),
+				"", "", "", $showPortfolios);
 		}
 
 		// check google map activation

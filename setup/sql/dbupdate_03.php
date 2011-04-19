@@ -4682,3 +4682,42 @@ if(!$ilDB->tableExists('il_verification'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3286>
+<?php
+if(!$ilDB->tableExists('usr_portfolio'))
+{
+	$ilDB->createTable('usr_portfolio',array(
+		'id' => array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'user_id' => array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true
+		),
+		'title'	=> array(
+			'type'	=> 'text',
+			'length'=> 250,
+			'notnull' => true
+		),
+		'description' => array(
+			'type'	=> 'clob',
+			'notnull' => false
+		),
+		'is_online' => array(
+			'type'	=> 'integer',
+			'length'=> 1,
+			'notnull' => false
+		),
+		'is_default' => array(
+			'type'	=> 'integer',
+			'length'=> 1,
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('usr_portfolio', array('id'));
+	$ilDB->createSequence('usr_portfolio');
+}
+?>
