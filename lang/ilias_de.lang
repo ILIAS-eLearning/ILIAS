@@ -11298,3 +11298,12 @@ prtf#:#prtf_add_page#:#Seite hinzufügen
 prtf#:#prtf_page_created#:#Seite wurde hinzugefügt
 prtf#:#prtf_sure_delete_portfolio_pages#:#Wollen Sie die folgenden Portfolio-Seiten wirklich löschen?
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio-Seiten wurden gelöscht
+content#:#cont_ed_insert_profile#:#Persönliche Daten einfügen
+content#:#cont_pc_prof#:#Persönliche Daten
+content#:#cont_insert_profile#:#Persönliche Daten hinzufügen
+content#:#cont_update_profile#:#Persönliche Daten bearbeiten
+content#:#cont_profile_mode#:#Modus
+content#:#cont_profile_mode_inherit#:#Automatisch
+content#:#cont_profile_mode_inherit_info#:#Verwendet die Daten ihres öffentlichen Profils
+content#:#cont_profile_mode_manual#:#Manuell
+content#:#cont_profile_mode_manual_info#:#Verwendet die folgenden Daten:

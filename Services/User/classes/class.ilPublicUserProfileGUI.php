@@ -148,7 +148,38 @@ class ilPublicUserProfileGUI
 			$tpl->show();
 		}
 	}
-	
+
+	/**
+	 * Set custom preferences for public profile fields
+	 *
+	 * @param array $a_prefs 
+	 */
+	function setCustomPrefs(array $a_prefs)
+	{
+		$this->custom_prefs = $a_prefs;
+	}
+
+	/**
+	 * Get user preference for public profile
+	 *
+	 * Will use original or custom preferences
+	 *
+	 * @param ilObjUser $a_user
+	 * @param string $a_id
+	 * @return string
+	 */
+	protected function getPublicPref(ilObjUser $a_user, $a_id)
+	{
+		if(!$this->custom_prefs)
+		{
+			return $a_user->getPref($a_id);
+		}
+		else
+		{
+			return $this->custom_prefs[$a_id];
+		}
+	}
+
 	/**
 	* get public profile html code
 	*
@@ -197,7 +228,8 @@ class ilPublicUserProfileGUI
 		// Check from Database if value
 		// of public_profile = "y" show user infomation
 		if ($user->getPref("public_profile") != "y" &&
-			($user->getPref("public_profile") != "g" || !$ilSetting->get('enable_global_profiles')))
+			($user->getPref("public_profile") != "g" || !$ilSetting->get('enable_global_profiles')) &&
+			!$this->custom_prefs)
 		{
 			return;
 		}
@@ -220,7 +252,7 @@ class ilPublicUserProfileGUI
 		$tpl->setVariable('HREF_MAIL', ilMailFormCall::_getLinkTarget(basename($_SERVER['REQUEST_URI']), '', array(), array('type' => 'new', 'rcp_to' => urlencode($user->getLogin()))));
 
 		$first_name = "";
-		if($user->getPref("public_title") == "y")
+		if($this->getPublicPref($user, "public_title") == "y")
 		{
 			$first_name .= $user->getUTitle()." ";
 		}
@@ -229,7 +261,7 @@ class ilPublicUserProfileGUI
 		$tpl->setVariable("TXT_NAME", $lng->txt("name"));
 		$tpl->setVariable("FIRSTNAME", $first_name);
 		$tpl->setVariable("LASTNAME", $user->getLastName());
-		
+
 		// vcard
 		$tpl->setCurrentBlock("vcard");
 		$tpl->setVariable("TXT_VCARD", $lng->txt("vcard"));
@@ -237,7 +269,7 @@ class ilPublicUserProfileGUI
 		$ilCtrl->setParameter($this, "user", $this->getUserId());
 		$tpl->setVariable("HREF_VCARD", $ilCtrl->getLinkTarget($this, "deliverVCard"));
 		//$tpl->setVariable("IMG_VCARD", ilUtil::getImagePath("vcard.png"));
-		
+
 		// link to global profile
 		if ($user->prefs["public_profile"] == "g" && $ilSetting->get('enable_global_profiles'))
 		{
@@ -260,7 +292,7 @@ class ilPublicUserProfileGUI
 				ilObjUser::_getPersonalPicturePath($user->getId(), "small", false, true);
 		}
 
-		if ($user->getPref("public_upload")=="y" && $imagefile != "")
+		if ($this->getPublicPref($user, "public_upload")=="y" && $imagefile != "")
 		{
 			//Getting the flexible path of image form ini file
 			//$webspace_dir = ilUtil::getWebspaceDir("output");
@@ -272,8 +304,10 @@ class ilPublicUserProfileGUI
 		}
 		
 		// address
-		if ($user->getPref("public_street") == "y" || $user->getPref("public_zipcode") == "y"
-			|| $user->getPref("public_city") == "y" || $user->getPref("public_countr") == "y")
+		if ($this->getPublicPref($user, "public_street") == "y" || 
+			$this->getPublicPref($user, "public_zipcode") == "y" ||
+			$this->getPublicPref($user, "public_city") == "y" ||
+			$this->getPublicPref($user, "public_countr") == "y")
 		{
 			$tpl->setCurrentBlock("address");
 			$tpl->setVariable("TXT_ADDRESS", $lng->txt("address"));
@@ -282,7 +316,7 @@ class ilPublicUserProfileGUI
 			foreach ($val_arr as $key => $value)
 			{
 				// if value "y" show information
-				if ($user->getPref("public_".$value) == "y")
+				if ($this->getPublicPref($user, "public_".$value) == "y")
 				{
 					if ($user->$key() != "")
 					{
@@ -303,17 +337,18 @@ class ilPublicUserProfileGUI
 		}
 
 		// institution / department
-		if ($user->getPref("public_institution") == "y" || $user->getPref("public_department") == "y")
+		if ($this->getPublicPref($user, "public_institution") == "y" ||
+			$this->getPublicPref($user, "public_department") == "y")
 		{
 			$tpl->setCurrentBlock("inst_dep");
 			$sep = "";
-			if ($user->getPref("public_institution") == "y")
+			if ($this->getPublicPref($user, "public_institution") == "y")
 			{
 				$h = $lng->txt("institution");
 				$v = $user->getInstitution();
 				$sep = " / ";
 			}
-			if ($user->getPref("public_department") == "y")
+			if ($this->getPublicPref($user, "public_department") == "y")
 			{
 				$h.= $sep.$lng->txt("department");
 				$v.= $sep.$user->getDepartment();
@@ -331,7 +366,7 @@ class ilPublicUserProfileGUI
 		foreach ($val_arr as $key => $value)
 		{
 			// if value "y" show information
-			if ($user->getPref("public_".$value) == "y")
+			if ($this->getPublicPref($user, "public_".$value) == "y")
 			{
 				$v.= $sep.$lng->txt($value).": ".$user->$key();
 				$sep = "<br />";
@@ -345,7 +380,7 @@ class ilPublicUserProfileGUI
 			{
 				if ($im_id = $user->getInstantMessengerId($im_name))
 				{
-					if ($user->getPref("public_im_".$im_name) != "n")
+					if ($this->getPublicPref($user, "public_im_".$im_name) != "n")
 					{
 						$v.= $sep.$lng->txt('im_'.$im_name).": ".$im_id;
 						$sep = "<br />";
@@ -368,7 +403,7 @@ class ilPublicUserProfileGUI
 		foreach ($val_arr as $key => $value)
 		{
 			// if value "y" show information
-			if ($user->getPref("public_".$value) == "y")
+			if ($this->getPublicPref($user, "public_".$value) == "y")
 			{
 				$tpl->setCurrentBlock("profile_data");
 				$tpl->setVariable("TXT_DATA", $lng->txt($value));
@@ -379,7 +414,7 @@ class ilPublicUserProfileGUI
 		
 		// delicious row
 		//$d_set = new ilSetting("delicious");
-		if ($user->getPref("public_delicious") == "y")
+		if ($this->getPublicPref($user, "public_delicious") == "y")
 		{
 			$tpl->setCurrentBlock("delicious_row");
 			$tpl->setVariable("TXT_DELICIOUS", $lng->txt("delicious"));
@@ -391,7 +426,7 @@ class ilPublicUserProfileGUI
 		
 		// map
 		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
-		if (ilGoogleMapUtil::isActivated() && $user->getPref("public_location")
+		if (ilGoogleMapUtil::isActivated() && $this->getPublicPref($user, "public_location")
 			&& $user->getLatitude() != "")
 		{
 			$tpl->setVariable("TXT_LOCATION", $lng->txt("location"));
@@ -418,7 +453,7 @@ class ilPublicUserProfileGUI
 		foreach($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
 		{
 			// public setting
-			if ($user->prefs["public_udf_".$definition["field_id"]] == "y")
+			if ($this->getPublicPref($user, "public_udf_".$definition["field_id"]) == "y")
 			{
 				if ($user_defined_data["f_".$definition["field_id"]] != "")
 				{

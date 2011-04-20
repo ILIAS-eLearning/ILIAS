@@ -77,7 +77,7 @@
 <xsl:param name="disable_auto_margins"/>
 <xsl:param name="enable_content_includes"/>
 <xsl:param name="page_toc"/>
-
+<xsl:param name="enable_profile"/>
 
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -740,6 +740,14 @@
 			<xsl:with-param name="text"><xsl:value-of select="@InsertText" /></xsl:with-param>
 		</xsl:call-template>
 	</xsl:for-each>
+
+	<!-- insert profile -->
+	<xsl:if test = "$enable_profile = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_prof</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_profile</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
 	
 	<!-- paste from clipboard -->
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">pasteFromClipboard</xsl:with-param>
@@ -3361,5 +3369,29 @@
 <!-- dump language variable data -->
 <xsl:template match="LV"/>
 <xsl:template match="LVs"/>
+
+<!-- Personal/Public profile data -->
+<xsl:template match="Profile">
+	{{{{{Profile#<xsl:value-of select="@User"/>#<xsl:value-of select="@Mode"/>#
+		<xsl:for-each select="ProfileField">
+			<xsl:value-of select="@Name"/>;
+		</xsl:for-each>
+	}}}}}
+	<xsl:if test="$mode = 'edit'">
+			<!-- <xsl:value-of select="../@HierId"/> -->
+			<xsl:if test="$javascript='disable'">
+				<br />
+				<input type="checkbox" name="target[]">
+					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
+					</xsl:attribute>
+				</input>
+			</xsl:if>
+			<xsl:call-template name="EditMenu">
+				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="pc_id" select="../@PCID" />
+				<xsl:with-param name="edit">y</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+</xsl:template>
 
 </xsl:stylesheet>

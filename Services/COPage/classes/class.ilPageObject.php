@@ -746,7 +746,15 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$iim->setNode($cont_node);
 						$iim->setHierId($a_hier_id);
 						$iim->setPcId($a_pc_id);
-						return $sec;
+						return $iim;
+
+					case "Profile":
+						require_once("./Services/COPage/classes/class.ilPCProfile.php");
+						$prof = new ilPCProfile($this->dom);
+						$prof->setNode($cont_node);
+						$prof->setHierId($a_hier_id);
+						$prof->setPcId($a_pc_id);
+						return $prof;
 				}
 				break;
 
@@ -1030,7 +1038,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			"ed_insert_plach","question_placehl","media_placehl","text_placehl",
 			"pc_flist", "pc_par", "pc_mob", "pc_qst", "pc_sec", "pc_dtab", "pc_tab",
 			"pc_code", "pc_vacc", "pc_hacc", "pc_res", "pc_map", "pc_list", "ed_insert_incl", "pc_incl",
-			"pc_iim", "ed_insert_iim");
+			"pc_iim", "ed_insert_iim", "pc_prof", "ed_insert_profile");
 
 		foreach ($lang_vars as $lang_var)
 		{

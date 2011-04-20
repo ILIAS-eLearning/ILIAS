@@ -1176,14 +1176,28 @@ class ilPersonalProfileGUI
 			$radg->addOption($op3);
 		}
 		$this->form->addItem($radg);
-		/*$cb = new ilCheckboxInputGUI($this->lng->txt("user_activate_public_profile"), "public_profile");
+		
+		$this->showPublicProfileFields($this->form, $ilUser->prefs);
+		
+		// save and cancel commands
+		$this->form->addCommandButton("savePublicProfile", $lng->txt("save"));
+	                
+		$this->form->setTitle($lng->txt("public_profile"));
+		$this->form->setDescription($lng->txt("user_public_profile_info"));
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+	}
 
-		if ($ilUser->prefs["public_profile"] == "y")
-		{
-			$cb->setChecked(true);
-		}
-		$this->form->addItem($cb);*/
-
+	/**
+	 * Add fields to form
+	 *
+	 * @param ilPropertyformGUI $form
+	 * @param array $prefs
+	 * @param object $parent
+	 */
+	public function showPublicProfileFields(ilPropertyformGUI $form, array $prefs, $parent = null)
+	{
+		global $ilUser;
+		
 		$birthday = $ilUser->getBirthday();
 		if($birthday)
 		{
@@ -1192,15 +1206,15 @@ class ilPersonalProfileGUI
 		$gender = $ilUser->getGender();
 		if($gender)
 		{
-			$gender = $lng->txt("gender_".$gender);
+			$gender = $this->lng->txt("gender_".$gender);
 		}
 
 		if ($ilUser->getSelectedCountry() != "")
 		{
-			$lng->loadLanguageModule("meta");
-			$txt_sel_country = $lng->txt("meta_c_".$ilUser->getSelectedCountry());
+			$this->lng->loadLanguageModule("meta");
+			$txt_sel_country = $this->lng->txt("meta_c_".$ilUser->getSelectedCountry());
 		}
-		
+
 		// personal data
 		$val_array = array(
 			"title" => $ilUser->getUTitle(),
@@ -1236,13 +1250,21 @@ class ilPersonalProfileGUI
 				{
 					$cb = new ilCheckboxInputGUI($this->lng->txt($key), "chk_".$key);
 				}
-				if ($ilUser->prefs["public_".$key] == "y")
+				if ($prefs["public_".$key] == "y")
 				{
 					$cb->setChecked(true);
 				}
 				//$cb->setInfo($value);
 				$cb->setOptionTitle($value);
-				$this->form->addItem($cb);
+
+				if(!$parent)
+				{
+					$form->addItem($cb);
+				}
+				else
+				{
+					$parent->addSubItem($cb);
+				}
 			}
 		}
 
@@ -1255,35 +1277,43 @@ class ilPersonalProfileGUI
 				$cb = new ilCheckboxInputGUI($this->lng->txt("im_".$im), "chk_im_".$im);
 				//$cb->setInfo($ilUser->getInstantMessengerId($im));
 				$cb->setOptionTitle($ilUser->getInstantMessengerId($im));
-				if ($ilUser->prefs["public_im_".$im] != "n")
+				if ($prefs["public_im_".$im] != "n")
 				{
 					$cb->setChecked(true);
 				}
-				$this->form->addItem($cb);
+				
+				if(!$parent)
+				{
+					$form->addItem($cb);
+				}
+				else
+				{
+					$parent->addSubItem($cb);
+				}
 			}
 		}
-		
-		// additional defined user data fields 
+
+		// additional defined user data fields
 		$user_defined_data = $ilUser->getUserDefinedData();
 		foreach($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition)
 		{
 			// public setting
 			$cb = new ilCheckboxInputGUI($definition["field_name"], "chk_udf_".$definition["field_id"]);
 			$cb->setOptionTitle($user_defined_data["f_".$definition["field_id"]]);
-			if ($ilUser->prefs["public_udf_".$definition["field_id"]] == "y")
+			if ($prefs["public_udf_".$definition["field_id"]] == "y")
 			{
 				$cb->setChecked(true);
 			}
-			$this->form->addItem($cb);
-		}
 
-		
-		// save and cancel commands
-		$this->form->addCommandButton("savePublicProfile", $lng->txt("save"));
-	                
-		$this->form->setTitle($lng->txt("public_profile"));
-		$this->form->setDescription($lng->txt("user_public_profile_info"));
-		$this->form->setFormAction($this->ctrl->getFormAction($this));
+			if(!$parent)
+			{
+				$form->addItem($cb);
+			}
+			else
+			{
+				$parent->addSubItem($cb);
+			}
+		}
 	}
 	
 	/**

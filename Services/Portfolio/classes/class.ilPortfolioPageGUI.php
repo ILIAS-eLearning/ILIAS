@@ -11,7 +11,7 @@ include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
  * @version $Id$
  *
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI
+ * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilPublicUserProfileGUI
  *
  * @ingroup ServicesPortfolio
  */
@@ -40,6 +40,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$this->setPreventHTMLUnmasking(true);
 		$this->setEnabledInternalLinks(false);
 		$this->setEnabledPCTabs(true);
+		$this->setEnabledProfile(true);
 //		$this->initPageObject($a_id, $a_old_nr);
 
 	}
@@ -70,7 +71,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		switch($next_class)
 		{				
 			case "ilpageobjectgui":
-				$page_gui = new ilPageObjectGUI("user",
+				$page_gui = new ilPageObjectGUI("prtf",
 					$this->getPageObject()->getId(), $this->getPageObject()->old_nr);
 				$page_gui->setPresentationTitle($this->getPageObject()->getTitle());
 				return $ilCtrl->forwardCommand($page_gui);
@@ -110,6 +111,36 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		parent::getTabs($a_activate);		
 	}
 
+	function postOutputProcessing($a_output)
+	{
+		global $ilCtrl;
+		
+		if(preg_match_all("/&#123;&#123;&#123;&#123;&#123;Profile#([0-9]+)#([a-z]+)#([a-z;\W]+)&#125;&#125;&#125;&#125;&#125;/", $a_output, $blocks))
+		{
+			foreach($blocks[0] as $idx => $block)
+			{
+				include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
+				$pub_profile = new ilPublicUserProfileGUI($blocks[1][$idx]);
+			
+				if($blocks[2][$idx] == "manual")
+				{
+					foreach(explode(";", $blocks[3][$idx]) as $field)
+					{
+						$field = trim($field);
+						if($field)
+						{
+							$prefs["public_".$field] = "y";
+						}
+					}
 
+					$pub_profile->setCustomPrefs($prefs);
+				}
+
+				$a_output = str_replace($block, $ilCtrl->getHTML($pub_profile), $a_output);
+			}
+		}
+
+		return $a_output;
+	}
 } 
 ?>
