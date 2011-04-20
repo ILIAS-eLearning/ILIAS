@@ -439,6 +439,8 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "qimgd", "class" => "ImageDetailsLink"),
 			array("type" => "qordul", "class" => "OrderList"),
 			array("type" => "qordli", "class" => "OrderListItem"),
+			array("type" => "qordul", "class" => "OrderListHorizontal"),
+			array("type" => "qordli", "class" => "OrderListItemHorizontal"),
 			array("type" => "qetitem", "class" => "ErrorTextItem"),
 			array("type" => "qetitem", "class" => "ErrorTextSelected"),
 			array("type" => "qetcorr", "class" => "ErrorTextCorrected"),
