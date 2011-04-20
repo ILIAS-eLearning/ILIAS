@@ -205,6 +205,8 @@ class ilStartUpGUI
 		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
 		$page_editor_html = $this->showUserAgreementLink($page_editor_html);
 
+		$page_editor_html = $this->purgePlaceholders($page_editor_html);
+
 		// not controlled by login page editor
 
 		$tpl->setVariable("PAGETITLE", $lng->txt("startpage"));
@@ -742,7 +744,30 @@ class ilStartUpGUI
 		);
 
 	}
-	
+
+	/**
+	 * Purge page editor html from unused placeholders
+	 * @param string $page_editor_html
+	 * @return string 
+	 */
+	protected function purgePlaceholders($page_editor_html)
+	{
+		return str_replace(
+			array(
+				'[list-language-selection] ',
+				'[list-registration-link]',
+				'[list-user-agreement]',
+				'[list-login-form]',
+				'[list-cas-login-form]',
+				'[list-shibboleth-login-form]',
+				'[list-openid-login-form]'
+			),
+			array('','','','','','',''),
+			$page_editor_html
+		);
+	}
+
+
 	function showFailure($a_mess)
 	{
 		global $tpl, $lng;
