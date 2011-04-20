@@ -642,7 +642,7 @@ class ilStartUpGUI
 			$ltpl->setVariable("VSPACE", 0);
 			$ltpl->parseCurrentBlock();
 		}
-		$ltpl->setCurrentBlock('language_selection');
+		$ltpl->setCurrentBlock('lang_selection');
 		$ltpl->setVariable("TXT_OK", $lng->txt("ok"));
 		$ltpl->setVariable("LANG_FORM_ACTION",$this->ctrl->getFormAction($this));
 		$ltpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));

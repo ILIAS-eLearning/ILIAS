@@ -352,12 +352,14 @@
 		<div>
 			<xsl:if test="(./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'RightFloat') or
 				(./Map/Layout/@HorizontalAlign = 'RightFloat') or
-				(./Table/@HorizontalAlign = 'RightFloat')">
+				(./Table/@HorizontalAlign = 'RightFloat') or
+				(./LoginPageElement/@HorizontalAlign = 'RightFloat')">
 				<xsl:attribute name="style"><!--<xsl:if test="./Table/@Width">width:<xsl:value-of select="./Table/@Width"/>;</xsl:if>--> float:right; clear:both; background-color:#FFFFFF;</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="(./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'LeftFloat') or
 				(./Map/Layout/@HorizontalAlign = 'LeftFloat') or
-				(./Table/@HorizontalAlign = 'LeftFloat')">
+				(./Table/@HorizontalAlign = 'LeftFloat') or
+				(./LoginPageElement/@HorizontalAlign = 'LeftFloat')">
 				<xsl:attribute name="style"><!--<xsl:if test="./Table/@Width">width:<xsl:value-of select="./Table/@Width"/>;</xsl:if>--> float:left; clear:both; background-color:#FFFFFF;</xsl:attribute>
 			</xsl:if>
 			<div>
@@ -2876,6 +2878,15 @@
 <!-- Login Page -->
 <xsl:template match="LoginPageElement">
 	<div>
+		<xsl:if test="./Layout[1]/@HorizontalAlign = 'Left'">
+			<xsl:attribute name="style">left</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="./Layout[1]/@HorizontalAlign = 'Center'">
+			<xsl:attribute name="style">center</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="./Layout[1]/@HorizontalAlign = 'Right'">
+			<xsl:attribute name="style">right</xsl:attribute>
+		</xsl:if>
 		[list-<xsl:value-of select="./@Type"/>]
 		<xsl:call-template name="EditReturnAnchors"/>
 		<xsl:if test="$mode = 'edit'">
