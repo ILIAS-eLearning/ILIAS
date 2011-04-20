@@ -432,6 +432,8 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "question", "class" => "OrderingQuestion"),
 			array("type" => "question", "class" => "MatchingQuestion"),
 			array("type" => "question", "class" => "ImagemapQuestion"),
+			array("type" => "question", "class" => "ErrorText"),
+			array("type" => "question", "class" => "TextSubset"),
 			array("type" => "question", "class" => "ClozeTest"),
 			array("type" => "qtitle", "class" => "Title"),
 			array("type" => "qanswer", "class" => "Answer"),

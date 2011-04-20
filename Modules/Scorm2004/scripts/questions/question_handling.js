@@ -403,7 +403,7 @@ ilias.questions.initClozeTest = function(a_id) {
 		var input;
 		if (type==0 || type==2) {
 			var size = (type==0) ? 20 : 4;
-		 	input = jQuery.create('input', {'id': a_id+"_"+closecounter, 'type':'text', 'size':size});
+		 	input = jQuery.create('input', {'id': a_id+"_"+closecounter, 'type':'text', 'size':size, 'class': 'ilc_qinput_TextInput'});
 		}
 		if (type==1) {
 			input = jQuery.create('select', {'id': a_id+"_"+closecounter});
