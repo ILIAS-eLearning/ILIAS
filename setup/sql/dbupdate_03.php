@@ -4876,3 +4876,7 @@ if(!$ilDB->tableExists('usr_portfolio_page'))
 
 ?>
 
+<#3300>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
