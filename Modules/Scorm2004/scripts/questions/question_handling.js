@@ -91,12 +91,12 @@ ilias.questions.handleMCImages = function(a_id) {
 					var text_node = jQuery(node).next();
 					if(questions[a_id].thumb > 0)
 					{
-						jQuery(text_node).before('<a class="image_details" href="' + questions[a_id].path + img + '" target="_blank">' +
-							'<img class="mc_image" src="' + questions[a_id].path + 'thumb.' + img + '" /></a>');
+						jQuery(text_node).before('<a class="ilc_qimgd_ImageDetailsLink" href="' + questions[a_id].path + img + '" target="_blank">' +
+							'<img class="ilc_qimg_QuestionImage" src="' + questions[a_id].path + 'thumb.' + img + '" /></a>');
 					}
 					else
 					{
-						jQuery(text_node).before('<img class="mc_image" src="' + questions[a_id].path + img + '" />');
+						jQuery(text_node).before('<img class="ilc_qimg_QuestionImage" src="' + questions[a_id].path + img + '" />');
 					}
 					
 				}
@@ -206,8 +206,8 @@ ilias.questions.handleOrderingImages = function(a_id) {
 
 	jQuery("ul#order" + a_id + " div.answertext").each(function(id, node){
 		var src = jQuery(node).html();
-		jQuery(node).html('<img src="' + questions[a_id].path + "thumb." + src + '" /><br />' +
-			'<a class="image_details" href="' + questions[a_id].path + src + '" target="_blank">(+)</a>');
+		jQuery(node).html('<img class="ilc_qimg_QuestionImage" src="' + questions[a_id].path + "thumb." + src + '" /><br />' +
+			'<a class="ilc_qimgd_ImageDetailsLink" href="' + questions[a_id].path + src + '" target="_blank">(+)</a>');
 		jQuery(node).parent().height("auto");
 		// jQuery(node).parent().width("auto");
 	});
@@ -431,12 +431,12 @@ ilias.questions.selectErrorText = function(a_id, node) {
 	
 	if(id_index > -1)
 	{
-		jQuery(node).removeClass("sel");
+		jQuery(node).removeClass("ilc_qetitem_ErrorTextSelected");
 		questions[a_id].selected.splice(id_index, 1);
 	}
 	else
 	{
-		jQuery(node).addClass("sel");
+		jQuery(node).addClass("ilc_qetitem_ErrorTextSelected");
 		questions[a_id].selected.push(id);
 	}
 
@@ -780,7 +780,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 					}
 					else
 					{
-						jQuery(node).html('<span class="errortext_corrected">' +
+						jQuery(node).html('<span class="ilc_qetcorr_ErrorTextCorrected">' +
 							questions[a_id].answers[i]["answertext"] + '</span>' + correct);
 					}
 				}

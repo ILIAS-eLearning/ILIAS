@@ -11286,6 +11286,12 @@ sahs#:#cont_insert_after_chap#:#Insert items after chapter
 common#:#saving#:#Saving...
 content#:#cont_ed_insert_iim#:#Insert Interactive Image
 content#:#cont_pc_iim#:#Interactive Image
+style#:#sty_type_qimg#:#Question Image
+style#:#sty_type_qimgd#:#Image Details Link
+style#:#sty_type_qordli#:#Order List Item
+style#:#sty_type_qordul#:#Order List
+style#:#sty_type_qetitem#:#Error Text Item
+style#:#sty_type_qetcorr#:#Error Text Corrected
 user#:#portfolios#:#Portfolios
 prtf#:#prtf_add_portfolio#:#Add Portfolio
 prtf#:#prtf_edit_portfolio#:#Edit Portfolio

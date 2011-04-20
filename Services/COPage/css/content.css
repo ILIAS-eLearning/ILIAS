@@ -502,7 +502,6 @@ div.ilc_qanswer_Answer
 {
 	margin-top: 2px;
 	margin-bottom: 2px;
-	
 }
 
 div.ilc_qfeedw_FeedbackWrong
@@ -526,6 +525,50 @@ div.ilc_qfeedr_FeedbackRight
 	background-color: #E7FFE7;
 }
 
+img.ilc_qimg_QuestionImage
+{
+	margin:5px;
+}
+
+ul.ilc_qordul_OrderList
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+li.ilc_qordli_OrderListItem
+{
+	list-style: none;
+	border: 1px solid #D0D0FF;
+	padding: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	cursor: move;
+}
+
+a.ilc_qimgd_ImageDetailsLink
+{
+	font-size: 90%;
+}
+
+a.ilc_qetitem_ErrorTextItem {
+	text-decoration: none;
+	color: #000000;
+	padding: 2px;
+}
+a.ilc_qetitem_ErrorTextItem:hover {
+	text-decoration: none;
+	background-color: #D0D0D0;
+	color: #000000;
+}
+a.ilc_qetitem_ErrorTextSelected {
+	background-color: #9bd9fe;
+	border: 1px #606060 solid;
+}
+span.ilc_qetcorr_ErrorTextCorrected {
+	text-decoration:line-through;
+	color: #909090;
+}
 
 /* File Lists */
 div.ilc_flist_cont_FileListContainer
