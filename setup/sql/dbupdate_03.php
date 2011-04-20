@@ -4767,13 +4767,15 @@ if(!$ilDB->tableExists('usr_portfolio_page'))
 	ilDBUpdate3136::addStyleClass("OrderList", "qordul", "ul",
 				array("margin" => "0px",
 					"padding" => "0px",
+					"list-style" => "none",
+					"list-style-position" => "outside"
 					));
 ?>
 <#3291>
 <?php
 	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
 	ilDBUpdate3136::addStyleClass("OrderListItem", "qordli", "li",
-				array("list-style" => "none",
+				array(
 					"margin-top" => "5px",
 					"margin-bottom" => "5px",
 					"margin-left" => "0px",
