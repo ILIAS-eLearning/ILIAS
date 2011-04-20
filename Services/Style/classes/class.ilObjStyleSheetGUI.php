@@ -1528,6 +1528,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		{
 			$ex_tpl->setVariable("TXT_CAPTION", $lng->txt("sty_caption"));
 		}
+		if (in_array($a_class, array("OrderListItemHorizontal", "OrderListHorizontal")))
+		{
+			$ex_tpl->setVariable("HOR", "Horizontal");
+		}
 		$ex_tpl->parseCurrentBlock();
 
 		return $ex_tpl->get();
