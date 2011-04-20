@@ -32,8 +32,8 @@
 <!-- BEGIN orderingquestion -->
 <div id="container{VAL_ID}" class="ilc_question_OrderingQuestion">
 <div class="ilc_qtitle_Title question id@id">qtitle</div>	
-<ul id="order{VAL_ID}" class="ordering ordering_vrt{VAL_SUBTYPE}">
-	<li class="answers order@id"><div class="ilc_qanswer_Answer answertext"></div></li>
+<ul id="order{VAL_ID}" class="ordering ordering_vrt{VAL_SUBTYPE} ilc_qordul_OrderList">
+	<li class="answers order@id ilc_qordli_OrderListItem"><div class="ilc_qanswer_Answer answertext"></div></li>
 </ul>
 <div id="feedback{VAL_ID}" style="display:none"></div>
 <input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
@@ -169,9 +169,9 @@
 <!-- BEGIN errortext -->
 <div id="container{VAL_ID}" class="ilc_question_TextQuestion">
 	<div class="ilc_qtitle_Title question id@id">qtitle</div>
-	<div class="errortext">
-	<span class="ilc_answers answers">
-		<span class="ilc_qanswer_Answer order@id"><a href="#" class="answertext" onclick="ilias.questions.selectErrorText({VAL_ID}, this);"></a></span>
+	<div>
+	<span class="answers">
+		<span class="order@id"><a href="#" class="answertext ilc_qetitem_ErrorTextItem" onclick="ilias.questions.selectErrorText({VAL_ID}, this);"></a></span>
 	</span>
 	</div>
 <div id="feedback{VAL_ID}" style="display:none"></div><br/>

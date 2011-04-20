@@ -4755,3 +4755,94 @@ if(!$ilDB->tableExists('usr_portfolio_page'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3289>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("QuestionImage", "qimg", "img",
+				array("margin" => "5px"));
+?>
+<#3290>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("OrderList", "qordul", "ul",
+				array("margin" => "0px",
+					"padding" => "0px",
+					));
+?>
+<#3291>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("OrderListItem", "qordli", "li",
+				array("list-style" => "none",
+					"margin-top" => "5px",
+					"margin-bottom" => "5px",
+					"margin-left" => "0px",
+					"margin-right" => "0px",
+					"border-width" => "1px",
+					"border-style" => "solid",
+					"border-color" => "#D0D0FF",
+					"padding" => "10px",
+					"cursor" => "move"
+					));
+
+?>
+<#3292>
+<?php
+
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("ImageDetailsLink", "qimgd", "a",
+				array("font-size" => "90%"));
+
+?>
+<#3293>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("ErrorTextItem", "qetitem", "a",
+				array("text-decoration" => "none",
+					"color" => "#000000",
+					"padding" => "2px"
+					));
+?>
+<#3294>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("ErrorTextItem:hover", "qetitem", "a",
+				array("text-decoration" => "none",
+					"color" => "#000000",
+					"background-color" => "#D0D0D0"
+					));
+?>
+<#3295>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("ErrorTextSelected", "qetitem", "a",
+				array("border-width" => "1px",
+					"border-style" => "solid",
+					"border-color" => "#606060",
+					"background-color" => "#9BD9FE"
+					));
+?>
+<#3296>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("ErrorTextCorrected", "qetcorr", "span",
+				array("text-decoration" => "line-through",
+					"color" => "#909090"
+					));
+?>
+<#3297>
+<?php
+	$set = $ilDB->query("SELECT * FROM style_char ".
+		" WHERE ".$ilDB->like("characteristic", "text", "%:hover%")
+		);
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$s = substr($rec["characteristic"], strlen($rec["characteristic"]) - 6);
+		if ($s == ":hover")
+		{
+			$ilDB->manipulate("DELETE FROM style_char WHERE ".
+				" characteristic = ".$ilDB->quote($rec["characteristic"], "text")
+				);
+		}
+	}
+?>

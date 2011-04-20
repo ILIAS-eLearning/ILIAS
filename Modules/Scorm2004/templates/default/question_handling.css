@@ -1,11 +1,7 @@
 /* we need because of the placeholder element */
 ul.ordering li {
-	list-style: none;
-	border:1px solid black;
-	margin:3px;
-	padding:3px;
-	cursor: move;
 }
+
 ul.ordering_vrt_terms li {
 	height:20px;
 	width:200px;
@@ -18,27 +14,8 @@ ul.ordering_hrz li {
 	float:left;
 }
 span.errortext_corrected {
-	text-decoration:line-through;
-	color: #999;
-}
-.errortext a {
-	text-decoration: none;
-	color: #000;
-	padding: 2px;
-}
-.errortext a:hover {
-	text-decoration: none;
-	background-color: #ddd;
-	color: #000;
-}
-.sel {
-	background-color: #9bd9fe;
-	border: 1px #666 solid;
 }
 a.image_details {
-	font-size: 10px;
-	color: black;
 }
 img.mc_image {
-	margin:5px;
 }

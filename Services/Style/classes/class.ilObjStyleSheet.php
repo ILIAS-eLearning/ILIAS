@@ -247,7 +247,8 @@ class ilObjStyleSheet extends ilObject
 		"media" => array("media_cont", "media_caption"),
 		"tabs" => array("va_cntr", "va_icntr", "va_ihead", "va_icont",
 			"ha_cntr", "ha_icntr", "ha_ihead", "ha_icont"),
-		"question" => array("question", "qtitle", "qanswer", "qinput", "qlinput", "qsubmit", "qfeedr", "qfeedw"),
+		"question" => array("question", "qtitle", "qanswer", "qinput", "qlinput", "qsubmit", "qfeedr", "qfeedw",
+			"qimg", "qordul", "qordli", "qimgd", "qetitem", "qetcorr"),
 		"page" => array("page_frame", "page_cont", "page_title", "page_fn", "page",
 			"page_tnav", "page_bnav", "page_lnav", "page_rnav", "page_lnavlink", "page_rnavlink",
 			"page_lnavimage", "page_rnavimage"),
@@ -312,6 +313,12 @@ class ilObjStyleSheet extends ilObject
 		"question" => "div",
 		"qtitle" => "div",
 		"qanswer" => "div",
+		"qimg" => "img",
+		"qimgd" => "a",
+		"qordul" => "ul",
+		"qordli" => "li",
+		"qetitem" => "a",
+		"qetcorr" => "span",
 		"qinput" => "input",
 		"qlinput" => "textarea",
 		"qsubmit" => "input",
@@ -428,6 +435,13 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "question", "class" => "ClozeTest"),
 			array("type" => "qtitle", "class" => "Title"),
 			array("type" => "qanswer", "class" => "Answer"),
+			array("type" => "qimg", "class" => "QuestionImage"),
+			array("type" => "qimgd", "class" => "ImageDetailsLink"),
+			array("type" => "qordul", "class" => "OrderList"),
+			array("type" => "qordli", "class" => "OrderListItem"),
+			array("type" => "qetitem", "class" => "ErrorTextItem"),
+			array("type" => "qetitem", "class" => "ErrorTextSelected"),
+			array("type" => "qetcorr", "class" => "ErrorTextCorrected"),
 			array("type" => "qinput", "class" => "TextInput"),
 			array("type" => "qlinput", "class" => "LongTextInput"),
 			array("type" => "qsubmit", "class" => "Submit"),
@@ -2124,12 +2138,16 @@ class ilObjStyleSheet extends ilObject
 			{
 				if ($char["type"] != "")
 				{
-					$q = "INSERT INTO style_char (style_id, type, characteristic) VALUES ".
-						"(".$ilDB->quote($this->getId(), "integer").",".
-						$ilDB->quote($char["type"], "text").",".
-						$ilDB->quote($char["class"], "text").")";
-					$ilDB->manipulate($q);
-					$this->is_3_10_skin = false;
+					$s = substr($char["class"], strlen($char["class"]) - 6);
+					if ($s != ":hover")
+					{
+						$q = "INSERT INTO style_char (style_id, type, characteristic) VALUES ".
+							"(".$ilDB->quote($this->getId(), "integer").",".
+							$ilDB->quote($char["type"], "text").",".
+							$ilDB->quote($char["class"], "text").")";
+						$ilDB->manipulate($q);
+						$this->is_3_10_skin = false;
+					}
 				}
 			}
 		}
