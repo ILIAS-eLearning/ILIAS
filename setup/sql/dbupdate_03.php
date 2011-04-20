@@ -4875,8 +4875,19 @@ if(!$ilDB->tableExists('usr_portfolio_page'))
 					));
 
 ?>
-
 <#3300>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+<#3301>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("ErrorText", "question", "div",
+				array());
+?>
+<#3302>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("TextSubset", "question", "div",
+				array());
 ?>
