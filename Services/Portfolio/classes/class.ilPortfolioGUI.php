@@ -9,7 +9,7 @@ include_once("./Services/Portfolio/classes/class.ilPortfolio.php");
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPortfolioGUI: ilPortfolioPageGUI
+ * @ilCtrl_Calls ilPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
  *
  * @ingroup ServicesPortfolio
  */
@@ -71,6 +71,8 @@ class ilPortfolioGUI
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, "pages"));
 
+				$ilCtrl->setParameter($this, "ppage", $_REQUEST["ppage"]);
+				
 				include_once("Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
 				$page_gui = new ilPortfolioPageGUI($this->portfolio->getId(),
 					$_REQUEST["ppage"]);

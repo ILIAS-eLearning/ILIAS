@@ -100,7 +100,9 @@ class ilPageObjectGUI
 		"Table" => array(
 				"enabled" => true),
 		"Tabs" => array(
-				"enabled" => true)
+				"enabled" => true),
+		"Profile" => array(
+				"enabled" => false)
 		);
 	
 	
@@ -838,6 +840,25 @@ class ilPageObjectGUI
 	function getEnabledPageFocus()
 	{
 		return $this->enabledpagefocus;
+	}
+
+	/**
+	* Get Enable Profile Content Component
+	*
+	* @return	boolean	Enable Profile Content Component
+	*/
+	function getEnabledProfile()
+	{
+		return $this->getEnablePCType("Profile");
+	}
+
+	/**
+	 * Set Enable Profile Content Component
+	 * @param bool $a_enableprofile
+	 */
+	public function setEnabledProfile($a_enableprofile)
+	{
+		$this->setEnablePCType("Profile", (bool)$a_enableprofile);
 	}
 
 	/**
@@ -1819,6 +1840,7 @@ class ilPageObjectGUI
 						 'paragraph_plugins' => $paragraph_plugin_string,
 						 'disable_auto_margins' => $disable_auto_margins,
 						 'page_toc' => $this->getPageToc() ? "y" : "n",
+						 'enable_profile' =>  $this->getEnabledProfile() ? "y" : "n"
 						);
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;

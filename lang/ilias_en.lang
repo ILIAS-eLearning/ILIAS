@@ -11305,3 +11305,12 @@ prtf#:#prtf_add_page#:#Add Page
 prtf#:#prtf_page_created#:#Page created
 prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the following portfolio pages?
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio pages deleted
+content#:#cont_ed_insert_profile#:#Insert Personal Data
+content#:#cont_pc_prof#:#Personal Data
+content#:#cont_insert_profile#:#Add Personal Data
+content#:#cont_update_profile#:#Edit Personal Data
+content#:#cont_profile_mode#:#Mode
+content#:#cont_profile_mode_inherit#:#Inherit
+content#:#cont_profile_mode_inherit_info#:#Use your public profile settings
+content#:#cont_profile_mode_manual#:#Manual
+content#:#cont_profile_mode_manual_info#:#Use the following data:
