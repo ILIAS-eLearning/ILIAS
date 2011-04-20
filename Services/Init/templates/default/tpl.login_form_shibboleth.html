@@ -1,0 +1,48 @@
+<!-- BEGIN shibboleth_wayf_login -->
+<table class="std" width="400">
+	<tr class="tblheader">
+		<td class="std" style="text-align:center;">{TXT_SHIB_LOGIN} {TXT_SHIB_FEDERATION_NAME}</td>
+	</tr>
+	<tr class="tblrow1">
+		<td class="std">{TXT_SELECT_HOME_ORGANIZATION}</td>
+	</tr>
+	<tr class="tblrow1">
+		<td class="std" style="text-align:center;">
+			<p>
+				<span class="warning">{TXT_SHIB_INVALID_SELECTION}</span><br/>{SHIB_IDP_LIST} </p>
+			<p>
+				<input type="hidden" name="il_target" value="{ILW_TARGET}" />
+				<input type="submit" name="home_organization_selection" value="{TXT_CONTINUE}" />
+			</p>
+		</td>
+	</tr>
+	<tr class="tblrow1">
+		<td class="std">
+			{TXT_SHIB_LOGIN_INSTRUCTIONS}
+			{TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS}
+		</td>
+	</tr>
+</table>
+<br />
+<!-- END shibboleth_wayf_login -->
+<!-- BEGIN shibboleth_login -->
+<table class="std" width="400">
+	<tr class="tblheader">
+		<td class="std">
+			{TXT_SHIB_LOGIN} {TXT_SHIB_FEDERATION_NAME}
+		</td>
+	</tr>
+	<tr class="tblrow1">
+		<td class="std" style="text-align:center;">
+			<p><a href="shib_login.php?target={IL_TARGET}"><img src="{TXT_SHIB_LOGIN_BUTTON}" style="border:0;" alt="Shibboleth Login Button"></a></p>
+		</td>
+	</tr>
+	<tr class="tblrow1">
+		<td class="std">
+			{TXT_SHIB_LOGIN_INSTRUCTIONS}
+			{TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS}
+		</td>
+	</tr>
+</table>
+<br />
+<!-- END shibboleth_login -->

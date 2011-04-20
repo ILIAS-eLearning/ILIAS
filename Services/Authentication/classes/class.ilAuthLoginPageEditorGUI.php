@@ -105,6 +105,7 @@ class ilAuthLoginPageEditorGUI
 
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+		include_once './Services/Style/classes/class.ilObjStyleSheet.php';
 
 		$lng->loadLanguageModule("content");
 

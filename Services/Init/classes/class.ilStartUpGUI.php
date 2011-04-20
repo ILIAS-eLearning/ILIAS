@@ -6,7 +6,7 @@
 *
 * @author	Alex Killing <alex.killing@gmx.de>
 * @version	$Id$
-* @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI
+* @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilPageObjectGUI
 *
 * @ingroup ServicesInit
 */
@@ -35,6 +35,10 @@ class ilStartUpGUI
 
 		switch($next_class)
 		{
+			case 'ilpageobjectgui':
+				break;
+
+
 			case "ilaccountregistrationgui":
 				require_once("Services/Registration/classes/class.ilAccountRegistrationGUI.php");
 				return $this->ctrl->forwardCommand(new ilAccountRegistrationGUI());
@@ -187,188 +191,23 @@ class ilStartUpGUI
 		//
 		//
 		//
-		
-		$this->parseLoginPageElements();
 
 		// Instantiate login template
 		// Use Shibboleth-only authentication if auth_mode is set to Shibboleth
-		$tpl->addBlockFile("CONTENT", "content", "tpl.login.html",
-			"Services/Init");
+		$tpl->addBlockFile("CONTENT", "content", "tpl.login.html","Services/Init");
 
+		$page_editor_html = $this->getLoginPageEditorHTML();
+		$page_editor_html = $this->showLoginForm($page_editor_html);
+		$page_editor_html = $this->showCASLoginForm($page_editor_html);
+		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
+		$page_editor_html = $this->showOpenIdLoginForm($page_editor_html);
+		$page_editor_html = $this->showLanguageSelection($page_editor_html);
+		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
+		$page_editor_html = $this->showUserAgreementLink($page_editor_html);
+
+		// not controlled by login page editor
 
 		$tpl->setVariable("PAGETITLE", $lng->txt("startpage"));
-		$tpl->setVariable("TXT_OK", $lng->txt("ok"));
-
-		$languages = $lng->getInstalledLanguages();
-
-		foreach ($languages as $lang_key)
-		{
-			$tpl->setCurrentBlock("languages");
-			$tpl->setVariable("LANG_KEY", $lang_key);
-			$tpl->setVariable("LANG_NAME",
-				ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
-			$tpl->setVariable("BORDER", 0);
-			$tpl->setVariable("VSPACE", 0);
-			$tpl->parseCurrentBlock();
-		}
-
-		// allow new registrations?
-		include_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
-		if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
-		{
-			$tpl->setCurrentBlock("new_registration");
-			$tpl->setVariable("REGISTER", $lng->txt("registration"));
-			$tpl->setVariable("CMD_REGISTER",
-				$this->ctrl->getLinkTargetByClass("ilaccountregistrationgui", ""));
-			$tpl->parseCurrentBlock();
-		}
-		// allow password assistance? Surpress option if Authmode is not local database
-		if ($ilSetting->get("password_assistance"))
-		{
-			$tpl->setCurrentBlock("password_assistance");
-			$tpl->setVariable("FORGOT_PASSWORD", $lng->txt("forgot_password"));
-			$tpl->setVariable("FORGOT_USERNAME", $lng->txt("forgot_username"));
-			$tpl->setVariable("CMD_FORGOT_PASSWORD",
-				$this->ctrl->getLinkTargetByClass("ilpasswordassistancegui", ""));
-			$tpl->setVariable("CMD_FORGOT_USERNAME",
-				$this->ctrl->getLinkTargetByClass("ilpasswordassistancegui", "showUsernameAssistanceForm"));
-			$tpl->setVariable("LANG_ID", $lng->getLangKey());
-			$tpl->parseCurrentBlock();
-		}
-
-		if ($ilSetting->get("pub_section"))
-		{
-			$tpl->setCurrentBlock("homelink");
-			$tpl->setVariable("CLIENT_ID","?client_id=".$_COOKIE["ilClientId"]."&lang=".$lng->getLangKey());
-			$tpl->setVariable("TXT_HOME",$lng->txt("home"));
-			$tpl->parseCurrentBlock();
-		}
-
-		if ($ilIliasIniFile->readVariable("clients","list"))
-		{
-			$tpl->setCurrentBlock("client_list");
-			$tpl->setVariable("TXT_CLIENT_LIST", $lng->txt("to_client_list"));
-			$tpl->setVariable("CMD_CLIENT_LIST",
-				$this->ctrl->getLinkTarget($this, "showClientList"));
-			$tpl->parseCurrentBlock();
-		}
-
-		// shibboleth login link
-		if ($ilSetting->get("shib_active"))
-		{
-			
-			if($ilSetting->get("shib_hos_type") == 'external_wayf'){
-				$tpl->setCurrentBlock("shibboleth_login");
-				$tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
-				$tpl->setVariable("IL_TARGET", $_GET["target"]);
-				$tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $ilSetting->get("shib_federation_name"));
-				$tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $ilSetting->get("shib_login_button"));
-					$tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", sprintf($lng->txt("shib_general_login_instructions"),$ilSetting->get("shib_federation_name")).' <a href="mailto:'.$ilias->getSetting("admin_email").'">ILIAS '. $lng->txt("administrator").'</a>.');
-				$tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS",  $ilSetting->get("shib_login_instructions"));
-				$tpl->parseCurrentBlock();
-			} elseif($ilSetting->get("shib_hos_type") == 'embedded_wayf') {
-				$tpl->setCurrentBlock("shibboleth_custom_login");
-				$customInstructions = stripslashes( $ilSetting->get("shib_login_instructions"));
-				$tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $customInstructions);
-				$tpl->parseCurrentBlock();
-			} else {
-				$tpl->setCurrentBlock("shibboleth_wayf_login");
-				$tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
-				$tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $ilSetting->get("shib_federation_name"));
-				$tpl->setVariable("TXT_SELECT_HOME_ORGANIZATION", sprintf($lng->txt("shib_select_home_organization"), $ilSetting->get("shib_federation_name")));
-				$tpl->setVariable("TXT_CONTINUE", $lng->txt("btn_next"));
-				$tpl->setVariable("TXT_SHIB_HOME_ORGANIZATION", $lng->txt("shib_home_organization"));
-				$tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $lng->txt("shib_general_wayf_login_instructions").' <a href="mailto:'.$ilias->getSetting("admin_email").'">ILIAS '. $lng->txt("administrator").'</a>.');
-				$tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $ilSetting->get("shib_login_instructions"));
-				$tpl->setVariable("TXT_SHIB_INVALID_SELECTION", $WAYF->showNotice());
-				$tpl->setVariable("SHIB_IDP_LIST", $WAYF->generateSelection());
-				$tpl->setVariable("ILW_TARGET", $_GET["target"]);
-				$tpl->parseCurrentBlock();
-			}
-		}
-
-		// cas login link
-		if ($ilSetting->get("cas_active"))
-		{
-			$tpl->setCurrentBlock("cas_login");
-			$tpl->setVariable("TXT_CAS_LOGIN", $lng->txt("login_to_ilias_via_cas"));
-			$tpl->setVariable("TXT_CAS_LOGIN_BUTTON", ilUtil::getImagePath("cas_login_button.gif"));
-			$tpl->setVariable("TXT_CAS_LOGIN_INSTRUCTIONS", $ilSetting->get("cas_login_instructions"));
-			$this->ctrl->setParameter($this, "forceCASLogin", "1");
-			$tpl->setVariable("TARGET_CAS_LOGIN",
-				$this->ctrl->getLinkTarget($this, "showLogin"));
-			$this->ctrl->setParameter($this, "forceCASLogin", "");
-			$tpl->parseCurrentBlock();
-		}
-
-		// login via ILIAS (this also includes radius and ldap)
-                // If local authentication is enabled for shibboleth users, we
-                // display the login form for ILIAS here.
-		if (($ilSetting->get("auth_mode") != AUTH_SHIBBOLETH ||
-			$ilSetting->get("shib_auth_allow_local")) &&
-			$ilSetting->get("auth_mode") != AUTH_CAS)
-		{
-			$loginSettings = new ilSetting("login_settings");
-			$information = $loginSettings->get("login_message_".$lng->getLangKey());
-						
-			if(strlen(trim($information)))
-			{
-				$tpl->setVariable("TXT_LOGIN_INFORMATION", $information);
-			}
-
-			include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-			$form = new ilPropertyFormGUI();
-			$form->setShowTopButtons(false);
-			$form->setOpenTag(false);
-			$form->setCloseTag(false);
-			$form->setTitle($lng->txt("login_to_ilias"));
-			
-			// auth selection
-			include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
-			$det = ilAuthModeDetermination::_getInstance();
-			if(ilAuthUtils::_hasMultipleAuthenticationMethods() and $det->isManualSelection())
-			{
-				$radg = new ilRadioGroupInputGUI($lng->txt("auth_selection"), "auth_mode");
-				foreach(ilAuthUtils::_getMultipleAuthModeOptions($lng) as $key => $option)
-				{
-					$op1 = new ilRadioOption($option['txt'], $key);
-					$radg->addOption($op1);
-					if (isset($option['checked']))
-					{
-						$radg->setValue($key);
-					}
-				}
-				
-				$form->addItem($radg);
-			}
-			
-			// username
-			$ti = new ilTextInputGUI($lng->txt("username"), "username");
-			$ti->setSize(20);
-			$form->addItem($ti);
-			
-			// password
-			$pi = new ilPasswordInputGUI($lng->txt("password"), "password");
-			$pi->setRetype(false);
-			$pi->setSize(20);
-			$form->addItem($pi);
-			$form->addCommandButton("butSubmit", $lng->txt("log_in"));
-			$tpl->setVariable("LOGIN_FORM", $form->getHTML());
-			
-			$tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
-			$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
-			$tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
-			if (isset($_POST["username"]))
-			{
-				$tpl->setVariable("USERNAME", ilUtil::prepareFormOutput($_POST["username"], true));
-			}
-			$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
-			$tpl->parseCurrentBlock();
-		}
-		
-		// Show openid login screen
-		$this->showOpenIdLogin();
-
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
 		
 		if (isset($_GET['forceShoppingCartRedirect']))
@@ -380,10 +219,6 @@ class ilStartUpGUI
 		$tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
 //echo "-".htmlentities($this->ctrl->getFormAction($this, "showLogin"))."-";
-		$tpl->setVariable("LANG_FORM_ACTION",
-			$this->ctrl->getFormAction($this));
-		$tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
-		$tpl->setVariable("LANG_ID", $lng->getLangKey());
 
 		if (isset($_GET['inactive']) && $_GET['inactive'])
 		{
@@ -488,9 +323,6 @@ class ilStartUpGUI
 
 		$this->ctrl->setTargetScript("ilias.php");
 		$tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
-		$tpl->setVariable("USER_AGREEMENT", $lng->txt("usr_agreement"));
-		$tpl->setVariable("LINK_USER_AGREEMENT",
-			$this->ctrl->getLinkTarget($this, "showUserAgreement"));
 
 		// browser does not accept cookies
 		if (isset($_GET['cookies']) && $_GET['cookies'] == 'nocookies')
@@ -501,26 +333,414 @@ class ilStartUpGUI
 				$this->ctrl->getLinkTarget($this, "showNoCookiesScreen"));
 		}
 
+
+		if(strlen($page_editor_html))
+		{
+			$tpl->setVariable('LPE',$page_editor_html);
+		}
+
+
 		$tpl->show("DEFAULT", false);
 	}
 
 	/**
-	 * Parse login page elements
-	 * @global ilTemplate $tpl
+	 * Show login form 
+	 * @global ilSetting $ilSetting
+	 * @param string $page_editor_html 
 	 */
-	protected function parseLoginPageElements()
+	protected function showLoginForm($page_editor_html)
 	{
-		global $tpl;
+		global $ilSetting,$lng,$tpl;
 
-		$tpl->addBlockFile("CONTENT","content","tpl.login.html","Services/Init");
+		// @todo move this to auth utils.
+		// login via ILIAS (this also includes radius and ldap)
+		// If local authentication is enabled for shibboleth users, we
+		// display the login form for ILIAS here.
+		if (($ilSetting->get("auth_mode") != AUTH_SHIBBOLETH ||
+			$ilSetting->get("shib_auth_allow_local")) &&
+			$ilSetting->get("auth_mode") != AUTH_CAS)
+		{
+
+			// @todo: show login information only if (page editor is not enabled).
+			$loginSettings = new ilSetting("login_settings");
+			$information = $loginSettings->get("login_message_".$lng->getLangKey());
+
+			if(strlen(trim($information)))
+			{
+				$tpl->setVariable("TXT_LOGIN_INFORMATION", $information);
+			}
+
+			include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+			$form = new ilPropertyFormGUI();
+			$form->setFormAction($this->ctrl->getFormAction($this,''));
+			$form->setShowTopButtons(false);
+			$form->setTitle($lng->txt("login_to_ilias"));
+
+			// auth selection
+			include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
+			$det = ilAuthModeDetermination::_getInstance();
+			if(ilAuthUtils::_hasMultipleAuthenticationMethods() and $det->isManualSelection())
+			{
+				$radg = new ilRadioGroupInputGUI($lng->txt("auth_selection"), "auth_mode");
+				foreach(ilAuthUtils::_getMultipleAuthModeOptions($lng) as $key => $option)
+				{
+					$op1 = new ilRadioOption($option['txt'], $key);
+					$radg->addOption($op1);
+					if (isset($option['checked']))
+					{
+						$radg->setValue($key);
+					}
+				}
+
+				$form->addItem($radg);
+			}
+
+			// username
+			$ti = new ilTextInputGUI($lng->txt("username"), "username");
+			$ti->setSize(20);
+			$form->addItem($ti);
+
+			// password
+			$pi = new ilPasswordInputGUI($lng->txt("password"), "password");
+			$pi->setRetype(false);
+			$pi->setSize(20);
+			$form->addItem($pi);
+			$form->addCommandButton("showLogin", $lng->txt("log_in"));
+			#$form->addCommandButton("butSubmit", $lng->txt("log_in"));
+
+			return $this->substituteLoginPageElements(
+				$tpl,
+				$page_editor_html,
+				$form->getHTML(),
+				'[list-login-form]',
+				'LOGIN_FORM'
+			);
+
+		}
+		return $page_editor_html;
+	}
+
+	/**
+	 * Show cas login
+	 * @global ilSetting $ilSetting
+	 * @param string $page_editor_html
+	 * @return string $page_editor_html
+	 */
+	protected function showCASLoginForm($page_editor_html)
+	{
+		global $ilSetting, $lng;
+
+
+		// cas login link
+		if ($ilSetting->get("cas_active"))
+		{
+			$tpl = new ilTemplate('tpl.login_form_cas.html', true, true, 'Services/Init');
+			$tpl->setCurrentBlock("cas_login");
+			$tpl->setVariable("TXT_CAS_LOGIN", $lng->txt("login_to_ilias_via_cas"));
+			$tpl->setVariable("TXT_CAS_LOGIN_BUTTON", ilUtil::getImagePath("cas_login_button.gif"));
+			$tpl->setVariable("TXT_CAS_LOGIN_INSTRUCTIONS", $ilSetting->get("cas_login_instructions"));
+			$this->ctrl->setParameter($this, "forceCASLogin", "1");
+			$tpl->setVariable("TARGET_CAS_LOGIN",$this->ctrl->getLinkTarget($this, "showLogin"));
+			$this->ctrl->setParameter($this, "forceCASLogin", "");
+			$tpl->parseCurrentBlock();
+
+			return $this->substituteLoginPageElements(
+				$GLOBALS['tpl'],
+				$page_editor_html,
+				$tpl->get(),
+				'[list-cas-login-form]',
+				'CAS_LOGIN_FORM'
+			);
+		}
+		return $page_editor_html;
+	}
+
+	/**
+	 * Show shibboleth login form
+	 * @param string $page_editor_html
+	 * @return string $page_editor_html
+	 */
+	protected function showShibbolethLoginForm($page_editor_html)
+	{
+		global $ilSetting, $lng;
+
+		// shibboleth login link
+		if ($ilSetting->get("shib_active"))
+		{
+			$tpl = new ilTemplate('tpl.login_form_shibboleth.html',true,true,'Services/Init');
+			
+			if($ilSetting->get("shib_hos_type") == 'external_wayf')
+			{
+				$tpl->setCurrentBlock("shibboleth_login");
+				$tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
+				$tpl->setVariable("IL_TARGET", $_GET["target"]);
+				$tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $ilSetting->get("shib_federation_name"));
+				$tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $ilSetting->get("shib_login_button"));
+				$tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS",
+					sprintf(
+						$lng->txt("shib_general_login_instructions"),
+						$ilSetting->get("shib_federation_name")) .
+						' <a href="mailto:' . $ilSetting->get("admin_email") . '">ILIAS ' . $lng->txt("administrator") . '</a>.'
+					);
+				$tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS",$ilSetting->get("shib_login_instructions"));
+				$tpl->parseCurrentBlock();
+			}
+			elseif($ilSetting->get("shib_hos_type") == 'embedded_wayf')
+			{
+				$tpl->setCurrentBlock("shibboleth_custom_login");
+				$customInstructions = stripslashes( $ilSetting->get("shib_login_instructions"));
+				$tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $customInstructions);
+				$tpl->parseCurrentBlock();
+			} 
+			else
+			{
+				$tpl->setCurrentBlock("shibboleth_wayf_login");
+				$tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
+				$tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $ilSetting->get("shib_federation_name"));
+				$tpl->setVariable(
+					"TXT_SELECT_HOME_ORGANIZATION",
+					sprintf($lng->txt("shib_select_home_organization"), $ilSetting->get("shib_federation_name")));
+				$tpl->setVariable("TXT_CONTINUE", $lng->txt("btn_next"));
+				$tpl->setVariable("TXT_SHIB_HOME_ORGANIZATION", $lng->txt("shib_home_organization"));
+				$tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS",
+					$lng->txt("shib_general_wayf_login_instructions").
+					' <a href="mailto:'.$ilSetting->get("admin_email").'">ILIAS '. $lng->txt("administrator").'</a>.'
+				);
+				$tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $ilSetting->get("shib_login_instructions"));
+
+				require_once "./Services/AuthShibboleth/classes/class.ilShibbolethWAYF.php";
+				$WAYF = new ShibWAYF();
+
+				$tpl->setVariable("TXT_SHIB_INVALID_SELECTION", $WAYF->showNotice());
+				$tpl->setVariable("SHIB_IDP_LIST", $WAYF->generateSelection());
+				$tpl->setVariable("ILW_TARGET", $_GET["target"]);
+				$tpl->parseCurrentBlock();
+
+				return $this->substituteLoginPageElements(
+					$GLOBALS['tpl'],
+					$page_editor_html,
+					$tpl->get(),
+					'[list-shibboleth-login-form]',
+					'SHIB_LOGIN_FORM'
+				);
+			}
+		}
+
+		return $page_editor_html;
+	}
+
+
+	/**
+	 * Substitute login page elements
+	 * @param ilTemplate $tpl
+	 * @param string $page_editor_html
+	 * @param string $element_html
+	 * @param string $placeholder
+	 * @param string $fallback_tplvar
+	 * return string $page_editor_html
+	 */
+	protected function substituteLoginPageElements($tpl, $page_editor_html, $element_html, $placeholder, $fallback_tplvar)
+	{
+		if(!strlen($page_editor_html))
+		{
+			$tpl->setVariable($fallback_tplvar,$element_html);
+			return $page_editor_html;
+		}
+		// Try to replace placeholders
+		if(!stristr($page_editor_html, $placeholder))
+		{
+			$tpl->setVariable($fallback_tplvar,$element_html);
+			return $page_editor_html;
+		}
+		return str_replace($placeholder, $element_html, $page_editor_html);
+	}
+
+	/**
+	 * Get HTML of ILIAS login page editor
+	 * @return string html
+	 */
+	protected function getLoginPageEditorHTML()
+	{
+		global $lng, $tpl;
 
 		include_once './Services/Authentication/classes/class.ilAuthLoginPageEditorSettings.php';
 		$lpe = ilAuthLoginPageEditorSettings::getInstance();
+		$active_lang = $lpe->getIliasEditorLanguage($lng->getLangKey());
 
-		if($lng = $lpe->getIliasEditorLanguage($_GET['lng']))
+		if(!$active_lang)
 		{
-
+			return '';
 		}
+
+		// if page does not exist, return nothing
+		include_once './Services/COPage/classes/class.ilPageUtil.php';
+		if(!ilPageUtil::_existsAndNotEmpty('auth', $active_lang))
+		{
+			return '';
+		}
+
+		include_once './Services/COPage/classes/class.ilPageObject.php';
+		include_once './Services/COPage/classes/class.ilPageObjectGUI.php';
+
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",ilObjStyleSheet::getContentStylePath(0));
+		$tpl->setCurrentBlock("SyntaxStyle");
+		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",ilObjStyleSheet::getSyntaxStylePath());
+		$tpl->parseCurrentBlock();
+
+		// get page object
+		$page_gui = new ilPageObjectGUI('auth',  ilLanguage::lookupId($active_lang));
+
+		/*
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
+			$this->object->getStyleSheetId(), $this->object->getType()));
+		 */
+
+		$page_gui->setIntLinkHelpDefault("RepositoryItem", $active_lang);
+		//$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
+		//$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
+		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
+//		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
+		$page_gui->setPresentationTitle("");
+		$page_gui->setTemplateOutput(false);
+		$page_gui->setHeader("");
+		$page_gui->setEnabledRepositoryObjects(true);
+		$page_gui->setEnabledLoginPage(true);
+		$page_gui->setEnabledFileLists(false);
+		$page_gui->setEnabledPCTabs(false);
+		$page_gui->setEnabledMaps(true);
+		$ret = $page_gui->showPage();
+
+		return $ret;
+	}
+
+	/**
+	 * Show language selection
+	 * @global ilTemplate $tpl
+	 */
+	protected function showLanguageSelection($page_editor_html)
+	{
+		global $lng;
+
+		$languages = $lng->getInstalledLanguages();
+		if(count($languages) <= 1)
+		{
+			return true;
+		}
+
+		$ltpl = new ilTemplate('tpl.login_form_lang_selection.html',true,true,'Services/Init');
+		foreach ($languages as $lang_key)
+		{
+			$ltpl->setCurrentBlock("languages");
+			$ltpl->setVariable("LANG_KEY", $lang_key);
+			$ltpl->setVariable("LANG_NAME",
+				ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
+			$ltpl->setVariable("BORDER", 0);
+			$ltpl->setVariable("VSPACE", 0);
+			$ltpl->parseCurrentBlock();
+		}
+		$ltpl->setCurrentBlock('language_selection');
+		$ltpl->setVariable("TXT_OK", $lng->txt("ok"));
+		$ltpl->setVariable("LANG_FORM_ACTION",$this->ctrl->getFormAction($this));
+		$ltpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
+		$ltpl->setVariable("LANG_ID", $lng->getLangKey());
+		$ltpl->parseCurrentBlock();
+
+		return $this->substituteLoginPageElements(
+			$GLOBALS['tpl'],
+			$page_editor_html,
+			$ltpl->get(),
+			'[list-language-selection]',
+			'LANG_SELECTION'
+		);
+
+	}
+
+	/**
+	 * Show registration, password forgotten, client slection links
+	 * @global ilLanguage $lng
+	 * @global ilSetting $ilSetting
+	 * @global <type> $ilIliasIniFile
+	 * @param string $page_editor_html
+	 * @return string
+	 */
+	protected function showRegistrationLinks($page_editor_html)
+	{
+		global $lng, $ilSetting, $ilIliasIniFile;
+
+		$rtpl = new ilTemplate('tpl.login_registration_links.html',true,true,'Services/Init');
+
+	   // allow new registrations?
+		include_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
+		if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
+		{
+			$rtpl->setCurrentBlock("new_registration");
+			$rtpl->setVariable("REGISTER", $lng->txt("registration"));
+			$rtpl->setVariable("CMD_REGISTER",
+				$this->ctrl->getLinkTargetByClass("ilaccountregistrationgui", ""));
+			$rtpl->parseCurrentBlock();
+		}
+		// allow password assistance? Surpress option if Authmode is not local database
+		if ($ilSetting->get("password_assistance"))
+		{
+			$rtpl->setCurrentBlock("password_assistance");
+			$rtpl->setVariable("FORGOT_PASSWORD", $lng->txt("forgot_password"));
+			$rtpl->setVariable("FORGOT_USERNAME", $lng->txt("forgot_username"));
+			$rtpl->setVariable("CMD_FORGOT_PASSWORD",
+				$this->ctrl->getLinkTargetByClass("ilpasswordassistancegui", ""));
+			$rtpl->setVariable("CMD_FORGOT_USERNAME",
+				$this->ctrl->getLinkTargetByClass("ilpasswordassistancegui", "showUsernameAssistanceForm"));
+			$rtpl->setVariable("LANG_ID", $lng->getLangKey());
+			$rtpl->parseCurrentBlock();
+		}
+
+		if ($ilSetting->get("pub_section"))
+		{
+			$rtpl->setCurrentBlock("homelink");
+			$rtpl->setVariable("CLIENT_ID","?client_id=".$_COOKIE["ilClientId"]."&lang=".$lng->getLangKey());
+			$rtpl->setVariable("TXT_HOME",$lng->txt("home"));
+			$rtpl->parseCurrentBlock();
+		}
+
+		if ($ilIliasIniFile->readVariable("clients","list"))
+		{
+			$rtpl->setCurrentBlock("client_list");
+			$rtpl->setVariable("TXT_CLIENT_LIST", $lng->txt("to_client_list"));
+			$rtpl->setVariable("CMD_CLIENT_LIST",$this->ctrl->getLinkTarget($this, "showClientList"));
+			$rtpl->parseCurrentBlock();
+		}
+
+		return $this->substituteLoginPageElements(
+			$GLOBALS['tpl'],
+			$page_editor_html,
+			$rtpl->get(),
+			'[list-registration-link]',
+			'REG_PWD_CLIENT_LINKS'
+		);
+	}
+
+	/**
+	 * Show user agreement link 
+	 * @global ilLanguage $lng
+	 * @param string $page_editor_html 
+	 */
+	protected function showUserAgreementLink($page_editor_html)
+	{
+		global $lng;
+
+		$utpl = new ilTemplate('tpl.login_user_agreement_link.html',true,true,'Services/Init');
+		$utpl->setVariable("USER_AGREEMENT", $lng->txt("usr_agreement"));
+		$utpl->setVariable("LINK_USER_AGREEMENT",$this->ctrl->getLinkTarget($this, "showUserAgreement"));
+
+		return $this->substituteLoginPageElements(
+			$GLOBALS['tpl'],
+			$page_editor_html,
+			$utpl->get(),
+			'[list-user-agreement]',
+			'USER_AGREEMENT'
+		);
+
 	}
 	
 	function showFailure($a_mess)
@@ -1389,21 +1609,22 @@ class ilStartUpGUI
 	 * Show openid login if enabled
 	 * @return 
 	 */
-	protected function showOpenIdLogin()
+	protected function showOpenIdLoginForm($page_editor_html)
 	{
 		global $lng,$tpl;
 		
 		include_once './Services/OpenId/classes/class.ilOpenIdSettings.php';
 		if(!ilOpenIdSettings::getInstance()->isActive())
 		{
-			return;
+			return $page_editor_html;
 		}
 		
 		$lng->loadLanguageModule('auth');
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this,'login'));
+		$form->setShowTopButtons(false);
+		$form->setFormAction($this->ctrl->getFormAction($this,''));
 		$form->setTitle($lng->txt('login_to_ilias_via_openid'));
 		
 		$openid = new ilTextInputGUI($lng->txt('auth_openid_login'),'oid_username');
@@ -1419,11 +1640,15 @@ class ilStartUpGUI
 		$pro->setOptions(ilOpenIdProviders::getInstance()->getProviderSelection());
 		$pro->setValue(ilOpenIdProviders::getInstance()->getSelectedProvider());
 		$form->addItem($pro);
-		
-		
 		$form->addCommandButton("showLogin", $lng->txt("log_in"));
-		
-		$tpl->setVariable('OID_LOGIN_FORM',$form->getHTML());
+
+		return $this->substituteLoginPageElements(
+			$tpl,
+			$page_editor_html,
+			$form->getHTML(),
+			'[list-openid-login-form]',
+			'OID_LOGIN_FORM'
+		);
 	}
 }
 ?>

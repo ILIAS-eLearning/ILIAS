@@ -62,7 +62,7 @@ class ilAuthLoginPageEditorSettings
 
 	/**
 	 * Get ilias editor language
-	 * @global <type> $lng
+	 * @global ilLanguage $lng
 	 * @param string $a_langkey
 	 * @return string
 	 */
