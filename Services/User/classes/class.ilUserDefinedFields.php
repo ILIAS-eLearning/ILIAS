@@ -405,7 +405,7 @@ class ilUserDefinedFields
 			'registration_visible'	=> array('integer', (int) $this->enabledVisibleRegistration()),
 			'visible_lua'					=> array('integer', (int) $this->enabledVisibleLocalUserAdministration()),
 			'changeable_lua'				=> array('integer', (int) $this->enabledChangeableLocalUserAdministration()),
-			'group_export'				=> array('interger', (int) $this->enabledGroupExport())
+			'group_export'				=> array('integer', (int) $this->enabledGroupExport())
 		);
 			
 		$ilDB->insert('udf_definition',$values);
