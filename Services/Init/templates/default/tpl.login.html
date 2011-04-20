@@ -24,114 +24,53 @@
 							<!-- BEGIN login_information -->
 							<div class="small">{TXT_LOGIN_INFORMATION}</div>
 							<!-- END login_information -->
+							
+							<div align="padding-top: 25px">
+								<!-- BEGIN login_page_editor -->
+								{LPE}
+								<!-- END login_page_editor -->
+							</div>
+
 							<div align="center" style="padding-top: 25px">
 								<!-- BEGIN cookies_howto -->
 								<a class="il_ContainerItemCommand" href="{LINK_NO_COOKIES}" target="_blank">{COOKIES_HOWTO}</a><br /><br />
 								<!-- END cookies_howto -->
+
+
 								<form method="post" action="{FORMACTION}" name="formlogin">
 									<input type="hidden" name="sendLogin" value="1" />
 									<!-- BEGIN cas_login -->
-									<table class="std" width="400">
-										<tr class="tblheader">
-											<td class="std">{TXT_CAS_LOGIN}</td>
-										</tr>
-										<tr class="tblrow1">
-											<td class="std" style="text-align:center;">
-												<a href="{TARGET_CAS_LOGIN}"><img src="{TXT_CAS_LOGIN_BUTTON}" style="border:0;" alt="CAS Login Button"></a>
-											</td>
-										</tr>
-										<tr class="tblrow1">
-											<td class="std" style="text-align:center;">{TXT_CAS_LOGIN_INSTRUCTIONS}</td>
-										</tr>
-									</table>
-									<br />
-									<!-- END cas_login -->
-									<!-- BEGIN shibboleth_wayf_login -->
-									<table class="std" width="400">
-										<tr class="tblheader">
-											<td class="std" style="text-align:center;">{TXT_SHIB_LOGIN} {TXT_SHIB_FEDERATION_NAME}</td>
-										</tr>
-										<tr class="tblrow1">
-											<td class="std">{TXT_SELECT_HOME_ORGANIZATION}</td>
-										</tr>
-										<tr class="tblrow1">
-											<td class="std" style="text-align:center;">
-												<p>
-													<span class="warning">{TXT_SHIB_INVALID_SELECTION}</span><br/>{SHIB_IDP_LIST} </p>
-												<p>
-													<input type="hidden" name="il_target" value="{ILW_TARGET}" />
-													<input type="submit" name="home_organization_selection" value="{TXT_CONTINUE}" />
-												</p>
-											</td>
-										</tr>
-										<tr class="tblrow1">
-											<td class="std">
-												{TXT_SHIB_LOGIN_INSTRUCTIONS}
-												{TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS}
-											</td>
-										</tr>
-									</table>
-									<br />
-									<!-- END shibboleth_wayf_login -->
-									<!-- BEGIN shibboleth_login -->
-									<table class="std" width="400">
-										<tr class="tblheader">
-											<td class="std">
-												{TXT_SHIB_LOGIN} {TXT_SHIB_FEDERATION_NAME}
-											</td>
-										</tr>
-										<tr class="tblrow1">
-											<td class="std" style="text-align:center;">
-												<p><a href="shib_login.php?target={IL_TARGET}"><img src="{TXT_SHIB_LOGIN_BUTTON}" style="border:0;" alt="Shibboleth Login Button"></a></p>
-											</td>
-										</tr>
-										<tr class="tblrow1">
-											<td class="std">
-												{TXT_SHIB_LOGIN_INSTRUCTIONS}
-												{TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS}
-											</td>
-										</tr>
-									</table>
-									<br />
-									<!-- END shibboleth_login -->
-									<!-- BEGIN ilias_login -->
-									{LOGIN_FORM}
-									<!-- END ilias_login -->
+									{CAS_LOGIN_FORM}<br />
+									<!-- END cas_login_form -->
+									<!-- BEGIN shib_login_form -->
+									{SHIB_LOGIN_FORM}<br />
+									<!-- END shib_login_form -->
 								</form>
-								<!-- BEGIN openid_login -->
-								<br />
-								{OID_LOGIN_FORM}
-								<!-- END openid_login -->
-								<p style="padding-top: 20px;">
-									<!-- BEGIN new_registration -->
-									<a class="il_ContainerItemCommand" href="{CMD_REGISTER}">{REGISTER}</a>
-									<!-- END new_registration -->
-									<!-- BEGIN homelink -->
-									<a class="il_ContainerItemCommand" href="./index.php{CLIENT_ID}">{TXT_HOME}</a>
-									<!-- END homelink -->
-									<!-- BEGIN password_assistance -->
-									<a class="il_ContainerItemCommand" href="{CMD_FORGOT_PASSWORD}">{FORGOT_PASSWORD}</a>
-									<a class="il_ContainerItemCommand" href="{CMD_FORGOT_USERNAME}">{FORGOT_USERNAME}</a>
-									<!-- END password_assistance -->
-									<!-- BEGIN client_list -->
-									<a class="il_ContainerItemCommand" href="{CMD_CLIENT_LIST}">{TXT_CLIENT_LIST}</a>
-									<!-- END client_list -->
-								</p>
-								<!-- BEGIN lang_selection -->
+								<!-- BEGIN ilias_login -->
 								<p>
-									<form name="languageselection" action="{LANG_FORM_ACTION}" method="post">
-										<input type="hidden" name="cmd[showLogin]" value="1" />
-										<select name="change_lang_to" onChange="this.form.submit()">
-											<option value="">{TXT_CHOOSE_LANGUAGE}</option>
-											<!-- BEGIN languages -->
-											<option value="{LANG_KEY}" {SELECTED_LANG}>{LANG_NAME}</option>
-											<!-- END languages -->
-										</select>
-										<input class="submit" type="submit" value="{TXT_OK}"/>
-									</form>
+									{LOGIN_FORM}
 								</p>
-								<!-- END lang_selection -->
-								<p><a class="il_ContainerItemCommand" href="{LINK_USER_AGREEMENT}">{USER_AGREEMENT}</a></p>
+								<!-- END ilias_login -->
+								<!-- BEGIN openid_login -->
+								<p>
+									{OID_LOGIN_FORM}
+								</p>
+								<!-- END openid_login -->
+								<!-- BEGIN reg_links -->
+								<p style="padding-top: 20px;">
+									{REG_PWD_CLIENT_LINKS}
+								</p>
+								<!-- END reg_links -->
+								<!-- BEGIN lang_sel -->
+								<p>
+									{LANG_SELECTION}
+								</p>
+								<!-- END lang_sel -->
+								<!-- BEGIN agreement -->
+								<p>
+									{USER_AGREEMENT}
+								</p>
+								<!-- END agreement -->
 							</div>
 						</div>
 					</div>

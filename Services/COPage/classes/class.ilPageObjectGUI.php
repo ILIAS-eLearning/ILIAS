@@ -139,6 +139,7 @@ class ilPageObjectGUI
 		include_once("./Services/COPage/classes/class.ilPageConfig.php");
 		$this->setPageConfig(new ilPageConfig());
 		
+
 		if ($a_id > 0)
 		{
 			$this->initPageObject($a_parent_type, $a_id, $a_old_nr);
@@ -1576,7 +1577,6 @@ class ilPageObjectGUI
 				$tpl->parseCurrentBlock();
 			}
 //		}
-
 		// get content
 		$builded = $this->obj->buildDom();
 
