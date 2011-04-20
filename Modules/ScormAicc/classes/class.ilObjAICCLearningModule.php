@@ -232,7 +232,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		WHERE obj_id = %s 
 		AND sco_id = %s
 		ORDER BY user_id, lvalue',
-		array('integer', 'interger'),
+		array('integer', 'integer'),
 		array($this->getId(), $a_sco_id));
 		
 		$data = array();
