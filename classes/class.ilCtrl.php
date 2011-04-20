@@ -1122,13 +1122,13 @@ class ilCtrl
 	private function verifyToken()
 	{
 		global $ilDB, $ilUser;
-		
+
 		if (is_object($ilUser) && is_object($ilDB) && $ilUser->getId() > 0 &&
 			$ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			if ($_GET["rtoken"] == "")
 			{
-				echo "ilCtrl::No Request Token Given!";		// for debugging, maybe changed later
+				#echo "ilCtrl::No Request Token Given!";		// for debugging, maybe changed later
 				return false;
 			}
 
