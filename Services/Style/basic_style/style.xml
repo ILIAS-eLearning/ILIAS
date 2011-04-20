@@ -221,9 +221,10 @@
 <Style Tag="ul" Type="qordul" Class="OrderList">
 	<StyleParameter Name="margin" Value="0px"/>
 	<StyleParameter Name="padding" Value="0px"/>
+	<StyleParameter Name="list-style" Value="none"/>
+	<StyleParameter Name="list-style-position" Value="outside"/>
 </Style>
 <Style Tag="li" Type="qordli" Class="OrderListItem">
-	<StyleParameter Name="list-style" Value="none"/>
 	<StyleParameter Name="margin-top" Value="5px"/>
 	<StyleParameter Name="margin-bottom" Value="5px"/>
 	<StyleParameter Name="margin-left" Value="0px"/>

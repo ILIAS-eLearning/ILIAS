@@ -532,13 +532,14 @@ img.ilc_qimg_QuestionImage
 
 ul.ilc_qordul_OrderList
 {
+	list-style: none;
+	list-style-position: outside;
 	padding: 0px;
 	margin: 0px;
 }
 
 li.ilc_qordli_OrderListItem
 {
-	list-style: none;
 	border: 1px solid #D0D0FF;
 	padding: 10px;
 	margin-top: 5px;
@@ -568,6 +569,24 @@ a.ilc_qetitem_ErrorTextSelected {
 span.ilc_qetcorr_ErrorTextCorrected {
 	text-decoration:line-through;
 	color: #909090;
+}
+
+li.ilc_qordli_OrderListItemHorizontal {
+    float: left;
+	border: 1px solid #D0D0FF;
+	padding: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-right: 10px;
+	cursor: move;
+}
+
+ul.ilc_qordul_OrderListHorizontal
+{
+	list-style: none;
+	list-style-position: outside;
+    padding: 0px;
+    margin: 0px;
 }
 
 /* File Lists */

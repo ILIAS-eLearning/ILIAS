@@ -1,7 +1,4 @@
 /* we need because of the placeholder element */
-ul.ordering li {
-}
-
 ul.ordering_vrt_terms li {
 	height:20px;
 	width:200px;

@@ -152,10 +152,10 @@
 <div id="container{VAL_ID}" class="ilc_question_OrderingQuestion">
 <div class="ilc_qtitle_Title question id@id">qtitle</div>
 <div style="margin-bottom:10px">
-<ul id="order{VAL_ID}" class="ordering ordering_hrz">
-	<li class="answers order@id"><div class="ilc_qanswer_Answer answertext"></div></li>
+<ul id="order{VAL_ID}" class="ilc_qordul_OrderListHorizontal">
+	<li class="answers ilc_qordli_OrderListItemHorizontal order@id"><div class="ilc_qanswer_Answer answertext"></div></li>
 </ul>
-<br style="clear:left;" />
+<div style="clear:both;"></div>
 </div>
 <div id="feedback{VAL_ID}" style="display:none"></div>
 <input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
@@ -171,7 +171,7 @@
 	<div class="ilc_qtitle_Title question id@id">qtitle</div>
 	<div>
 	<span class="answers">
-		<span class="order@id"><a href="#" class="answertext ilc_qetitem_ErrorTextItem" onclick="ilias.questions.selectErrorText({VAL_ID}, this);"></a></span>
+		<span class="order@id"><a href="#" class="answertext ilc_qetitem_ErrorTextItem" onclick="ilias.questions.selectErrorText({VAL_ID}, this); return false;"></a></span>
 	</span>
 	</div>
 <div id="feedback{VAL_ID}" style="display:none"></div><br/>
