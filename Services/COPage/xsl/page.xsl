@@ -78,6 +78,8 @@
 <xsl:param name="enable_content_includes"/>
 <xsl:param name="page_toc"/>
 <xsl:param name="enable_profile"/>
+<xsl:param name="enable_verification"/>
+<xsl:param name="enable_blog"/>
 
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -754,6 +756,14 @@
 		<xsl:call-template name="EditMenuItem">
 			<xsl:with-param name="command">insert_vrfc</xsl:with-param>
 			<xsl:with-param name="langvar">ed_insert_verification</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+	
+	<!-- insert verification -->
+	<xsl:if test = "$enable_blog = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_blog</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_blog</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
 	
@@ -3422,6 +3432,30 @@
 <!-- Verification data -->
 <xsl:template match="Verification">
 	{{{{{Verification#<xsl:value-of select="@User"/>#<xsl:value-of select="@Type"/>#<xsl:value-of select="@Id"/>}}}}}
+	<xsl:if test="$mode = 'edit'">
+		<!-- <xsl:value-of select="../@HierId"/> -->
+		<xsl:if test="$javascript='disable'">
+			<br />
+			<input type="checkbox" name="target[]">
+				<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
+				</xsl:attribute>
+			</input>
+		</xsl:if>
+		<xsl:call-template name="EditMenu">
+			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="pc_id" select="../@PCID" />
+			<xsl:with-param name="edit">y</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+</xsl:template>
+
+<!-- Blog data -->
+<xsl:template match="Verification">
+	{{{{{Blog#<xsl:value-of select="@User"/>#<xsl:value-of select="@Id"/>#
+		<xsl:for-each select="BlogPosting">
+			<xsl:value-of select="@Id"/>;
+		</xsl:for-each>
+	}}}}}
 	<xsl:if test="$mode = 'edit'">
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<xsl:if test="$javascript='disable'">

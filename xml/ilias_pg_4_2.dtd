@@ -20,7 +20,7 @@
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (PageContent*, Layout?)>
 
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | PlaceHolder | Section | Resources | LoginPageElement | Map | Plugged | Tabs | ContentInclude | InteractiveImage | Profile | Verification), BibItemIdentifier*)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | PlaceHolder | Section | Resources | LoginPageElement | Map | Plugged | Tabs | ContentInclude | InteractiveImage | Profile | Verification | Blog), BibItemIdentifier*)>
 
 <!-- enable/disable paragraph elements -->
 <!ATTLIST PageContent
@@ -409,4 +409,15 @@ col or row span. -->
 	Type (excv | tstv) #REQUIRED
 	Id CDATA #REQUIRED
 	User CDATA #REQUIRED
+>
+
+<!ELEMENT Blog (BlogPosting*)>
+<!ATTLIST Blog
+	User CDATA #REQUIRED
+	Id CDATA #REQUIRED
+>
+
+<!ELEMENT BlogPosting EMPTY>
+<!ATTLIST BlogPosting
+	Id CDATA #REQUIRED
 >
