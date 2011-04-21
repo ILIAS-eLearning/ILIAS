@@ -42,6 +42,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$this->setEnabledPCTabs(true);
 		$this->setEnabledProfile(true);
 		$this->setEnabledVerification(true);
+		$this->setEnabledBlog(true);
 	}
 
 	/**
