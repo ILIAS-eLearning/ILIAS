@@ -2876,6 +2876,23 @@
 <!-- Login Page -->
 <xsl:template match="LoginPageElement">
 	<div>
+		<xsl:choose>
+			<xsl:when test="@HorizontalAlign = 'Left'">
+				<xsl:attribute name="align">left</xsl:attribute>
+			</xsl:when>
+			<xsl:when test="@HorizontalAlign = 'Right'">
+				<xsl:attribute name="align">right</xsl:attribute>
+			</xsl:when>
+			<xsl:when test="@HorizontalAlign = 'LeftFloat'">
+				<xsl:attribute name="style">clear: both; float: left</xsl:attribute>
+			</xsl:when>
+			<xsl:when test="@HorizontalAlign = 'RightFloat'">
+				<xsl:attribute name="style">clear: both; float: right</xsl:attribute>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:attribute name="align">center</xsl:attribute>
+			</xsl:otherwise>
+		</xsl:choose>
 		[list-<xsl:value-of select="./@Type"/>]
 		<xsl:call-template name="EditReturnAnchors"/>
 		<xsl:if test="$mode = 'edit'">

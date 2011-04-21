@@ -103,6 +103,19 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
 			: $this->content_obj->getLoginPageElementType();
 		$type_prop->setValue($selected);
 		$form->addItem($type_prop);
+
+		// horizonal align
+		$align_prop = new ilSelectInputGUI($this->lng->txt("cont_align"),"horizontal_align");
+		$options = array(
+			"Left" => $lng->txt("cont_left"),
+			"Center" => $lng->txt("cont_center"),
+			"Right" => $lng->txt("cont_right"));
+#			"LeftFloat" => $lng->txt("cont_left_float"),
+#			"RightFloat" => $lng->txt("cont_right_float"));
+		$align_prop->setOptions($options);
+		$align_prop->setValue($this->content_obj->getAlignment());
+		$form->addItem($align_prop);
+
 		
 		// save/cancel buttons
 		if ($a_insert)
@@ -129,6 +142,7 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
 		$this->content_obj = new ilPCLoginPageElements($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->content_obj->setLoginPageElementType($_POST["type"]);
+		$this->content_obj->setAlignment($_POST['horizontal_align']);
 
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
@@ -147,6 +161,7 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
 	public function update()
 	{
 		$this->content_obj->setLoginPageElementType($_POST["type"]);
+		$this->content_obj->setAlignment($_POST['horizontal_align']);
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{

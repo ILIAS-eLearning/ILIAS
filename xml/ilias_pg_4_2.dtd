@@ -282,6 +282,7 @@ col or row span. -->
 <!ELEMENT LoginPageElement EMPTY>
 <!ATTLIST LoginPageElement
 	Type CDATA #REQUIRED
+	HorizontalAlign (Left | Center | Right | LeftFloat | RightFloat) #IMPLIED
 >
 
 <!-- Map -->
