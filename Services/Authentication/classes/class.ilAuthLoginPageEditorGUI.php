@@ -117,7 +117,14 @@ class ilAuthLoginPageEditorGUI
 			$new_page_object->setId($key);
 			$new_page_object->createFromXML();
 		}
-		
+
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",ilObjStyleSheet::getContentStylePath(0));
+		$tpl->setCurrentBlock("SyntaxStyle");
+		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",ilObjStyleSheet::getSyntaxStylePath());
+		$tpl->parseCurrentBlock();
+
+
 		$this->ctrl->setReturnByClass('ilpageobjectgui', "edit");
 		$page_gui = new ilPageObjectGUI('auth',$key);
 
