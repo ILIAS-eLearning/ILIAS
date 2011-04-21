@@ -24,6 +24,11 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
 	public function ilPCLoginPageElementGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+
+		if(!is_object($this->content_obj))
+		{
+			$this->content_obj = new ilPCLoginPageElements(null);
+		}
 	}
 
 	/**
