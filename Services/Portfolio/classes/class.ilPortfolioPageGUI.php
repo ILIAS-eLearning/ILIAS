@@ -116,7 +116,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$parts = array(
 			"Profile" => array("0-9", "a-z", "a-z;\W"), // user, mode, fields
 			"Verification" => array("0-9", "a-z", "0-9"), // user, type, id
-			"Blog" => array("0-9", "0-9", "0-9;\W")  // user, blog id, posting ids
+			"Blog" => array("0-9", "0-9", "0-9;\W"),  // user, blog id, posting ids
+			"BlogTeaser" => array("0-9", "0-9", "0-9;\W")  // user, blog id, posting ids
 			);
 			
 		foreach($parts as $type => $def)
@@ -131,6 +132,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 					{
 						case "Profile":
 						case "Blog":
+						case "BlogTeaser":
 							$subs = null;
 							if(trim($blocks[3][$idx]))
 							{
@@ -203,6 +205,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$blog = new ilObjBlogGUI($a_blog_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
 		$blog->setMode(ilObjBlogGUI::MODE_EMBEDDED_FULL);	
 		return $ilCtrl->getHTML($blog);
+	}	
+	
+	protected function renderBlogTeaser($a_user_id, $a_blog_id, array $a_posting_ids = null)
+	{
+		global $lng;
+		
+		return "<div style=\"margin:5px\">".$lng->txt("obj_blog").": \"".
+			ilObject::_lookupTitle($a_blog_id)."\"</div>";
 	}	
 }
 ?>
