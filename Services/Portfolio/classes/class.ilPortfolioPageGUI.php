@@ -11,7 +11,7 @@ include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
  * @version $Id$
  *
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilPublicUserProfileGUI, ilObjBlogGUI
  *
  * @ingroup ServicesPortfolio
  */
@@ -39,7 +39,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		// $this->setEnabledMaps(true);
 		// $this->setPreventHTMLUnmasking(true);
 		$this->setEnabledInternalLinks(false);
-		// $this->setEnabledPCTabs(true);
+		$this->setEnabledPCTabs(true);
 		$this->setEnabledProfile(true);
 		$this->setEnabledVerification(true);
 		$this->setEnabledBlog(true);
@@ -112,35 +112,46 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	}
 
 	function postOutputProcessing($a_output)
-	{
-		if(preg_match_all("/&#123;&#123;&#123;&#123;&#123;Profile#([0-9]+)#([a-z]+)#([a-z;\W]+)&#125;&#125;&#125;&#125;&#125;/", $a_output, $blocks))
-		{
-			foreach($blocks[0] as $idx => $block)
+	{		
+		$parts = array(
+			"Profile" => array("0-9", "a-z", "a-z;\W"), // user, mode, fields
+			"Verification" => array("0-9", "a-z", "0-9"), // user, type, id
+			"Blog" => array("0-9", "0-9", "0-9;\W")  // user, blog id, posting ids
+			);
+			
+		foreach($parts as $type => $def)
+		{			
+			$def = implode("]+)#([", $def);					
+			if(preg_match_all("/&#123;&#123;&#123;&#123;&#123;".$type."#([".$def.
+					"]+)&#125;&#125;&#125;&#125;&#125;/", $a_output, $blocks))
 			{
-				$snippet = $this->renderProfile($blocks[1][$idx], $blocks[2][$idx],
-					explode(";", $blocks[3][$idx]));
-				$a_output = str_replace($block, $snippet, $a_output);
+				foreach($blocks[0] as $idx => $block)
+				{
+					switch($type)
+					{
+						case "Profile":
+						case "Blog":
+							$subs = null;
+							if(trim($blocks[3][$idx]))
+							{
+								foreach(explode(";", $blocks[3][$idx]) as $sub)
+								{
+									$subs[] = trim($sub);
+								}
+							}							
+							$snippet = $this->{"render".$type}($blocks[1][$idx], 
+								$blocks[2][$idx], $subs);
+							break;
+						
+						default:
+							$snippet = $this->{"render".$type}($blocks[1][$idx], 
+								$blocks[2][$idx], $blocks[3][$idx]);
+							break;
+					}
+				
+					$a_output = str_replace($block, $snippet, $a_output);
+				}
 			}
-		}
-		
-		if(preg_match_all("/&#123;&#123;&#123;&#123;&#123;Verification#([0-9]+)#([a-z]+)#([0-9]+)&#125;&#125;&#125;&#125;&#125;/", $a_output, $blocks))
-		{
-			foreach($blocks[0] as $idx => $block)
-			{
-				$snippet = $this->renderVerification($blocks[1][$idx], $blocks[2][$idx],
-					$blocks[3][$idx]);
-				$a_output = str_replace($block, $snippet, $a_output);
-			}						
-		}
-		
-		if(preg_match_all("/&#123;&#123;&#123;&#123;&#123;Blog#([0-9]+)#([0-9]+)#([0-9;\W]+)&#125;&#125;&#125;&#125;&#125;/", $a_output, $blocks))
-		{
-			foreach($blocks[0] as $idx => $block)
-			{
-				$snippet = $this->renderBlog($blocks[1][$idx], $blocks[2][$idx],
-					explode(";", $blocks[3][$idx]));
-				$a_output = str_replace($block, $snippet, $a_output);
-			}						
 		}
 		
 		return $a_output;
@@ -152,6 +163,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
 		$pub_profile = new ilPublicUserProfileGUI($a_user_id);
+		$pub_profile->setEmbedded(true);
 
 		if($a_type == "manual" && sizeof($a_fields))
 		{
@@ -183,8 +195,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected function renderBlog($a_user_id, $a_blog_id, array $a_posting_ids = null)
 	{
-	
-		return $a_user_id."/".$a_blog_id;
+		global $ilCtrl;
+		
+		// :TODO: what about user?
+		
+		include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
+		$blog = new ilObjBlogGUI($a_blog_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
+		$blog->setMode(ilObjBlogGUI::MODE_EMBEDDED_FULL);	
+		return $ilCtrl->getHTML($blog);
 	}	
 }
 ?>

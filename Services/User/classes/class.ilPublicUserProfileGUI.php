@@ -179,6 +179,11 @@ class ilPublicUserProfileGUI
 			return $this->custom_prefs[$a_id];
 		}
 	}
+	
+	function setEmbedded($a_value)
+	{
+		$this->embedded = (bool)$a_value;
+	}
 
 	/**
 	* get public profile html code
@@ -190,7 +195,7 @@ class ilPublicUserProfileGUI
 	{
 		global $ilSetting, $lng, $ilCtrl, $lng, $ilSetting, $ilTabs;
 
-		if (!$a_preview)
+		if (!$a_preview && !$this->embedded)
 		{
 			$this->setTabs("profile");
 		}
