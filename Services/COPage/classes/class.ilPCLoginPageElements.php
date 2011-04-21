@@ -17,7 +17,8 @@ class ilPCLoginPageElements extends ilPageContent
 {
 	public $dom;
 	public $res_node;
-
+	
+	private $alignment = 'Center';
 
 	private static $types = array(
 		'login-form' => 'login_form',
@@ -51,7 +52,7 @@ class ilPCLoginPageElements extends ilPageContent
 	*/
 	function setNode(&$a_node)
 	{
-		parent::setNode($a_node);		// this is the PageContent node
+		parent::setNode($a_node);						// this is the PageContent node
 		$this->res_node = $a_node->first_child();		// this is the login page element
 	}
 
@@ -92,6 +93,26 @@ class ilPCLoginPageElements extends ilPageContent
 		if (is_object($this->res_node))
 		{
 			return $this->res_node->get_attribute('Type');
+		}
+	}
+
+	/**
+	 * set alignment
+	 */
+	public function setAlignment($a_alignment)
+	{
+		$this->res_node->set_attribute('HorizontalAlign',$a_alignment);
+	}
+
+	/**
+	 * Get alignment
+	 * @return string $alignment
+	 */
+	public function getAlignment()
+	{
+		if(is_object($this->res_node))
+		{
+			return $this->res_node->get_attribute('HorizontalAlign');
 		}
 	}
 }
