@@ -33,7 +33,7 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 *
 * @ingroup ServicesCOPage
 */
-class ilPBlog extends ilPageContent
+class ilPCBlog extends ilPageContent
 {
 	var $dom;
 
