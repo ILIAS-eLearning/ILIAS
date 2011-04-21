@@ -18,8 +18,6 @@ class ilPCLoginPageElements extends ilPageContent
 	public $dom;
 	public $res_node;
 	
-	private $alignment = 'Center';
-
 	private static $types = array(
 		'login-form' => 'login_form',
 		'cas-login-form' => 'cas_login_form',
