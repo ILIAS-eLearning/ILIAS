@@ -204,6 +204,7 @@ class ilStartUpGUI
 		}
 
 		$page_editor_html = $this->getLoginPageEditorHTML();
+		$page_editor_html = $this->showLoginInformation($page_editor_html);
 		$page_editor_html = $this->showLoginForm($page_editor_html);
 		$page_editor_html = $this->showCASLoginForm($page_editor_html);
 		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
@@ -359,16 +360,6 @@ class ilStartUpGUI
 			$ilSetting->get("shib_auth_allow_local")) &&
 			$ilSetting->get("auth_mode") != AUTH_CAS)
 		{
-
-			// @todo: show login information only if (page editor is not enabled).
-			$loginSettings = new ilSetting("login_settings");
-			$information = $loginSettings->get("login_message_".$lng->getLangKey());
-
-			if(strlen(trim($information)))
-			{
-				$tpl->setVariable("TXT_LOGIN_INFORMATION", $information);
-			}
-
 			include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 			$form = new ilPropertyFormGUI();
 			$form->setFormAction($this->ctrl->getFormAction($this,''));
@@ -415,6 +406,31 @@ class ilStartUpGUI
 				'LOGIN_FORM'
 			);
 
+		}
+		return $page_editor_html;
+	}
+
+	/**
+	 * Show login information
+	 * @param string $page_editor_html
+	 * @return string $page_editor_html
+	 */
+	protected function showLoginInformation($page_editor_html)
+	{
+		global $lng,$tpl;
+
+		if(strlen($page_editor_html))
+		{
+			// page editor active return
+			return $page_editor_html;
+		}
+
+		$loginSettings = new ilSetting("login_settings");
+		$information = $loginSettings->get("login_message_".$lng->getLangKey());
+
+		if(strlen(trim($information)))
+		{
+			$tpl->setVariable("TXT_LOGIN_INFORMATION", $information);
 		}
 		return $page_editor_html;
 	}
