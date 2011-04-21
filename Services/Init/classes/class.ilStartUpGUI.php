@@ -30,7 +30,8 @@ class ilStartUpGUI
 	*/
 	function &executeCommand()
 	{
-		$cmd = $this->ctrl->getCmd("processIndexPHP");
+		$cmd = $this->ctrl->getCmd("processIndexPHP",array('processIndexPHP','showLogin'));
+		$GLOBALS['ilLog']->write(__METHOD__.' cmd = '.$cmd);
 		$next_class = $this->ctrl->getNextClass($this);
 
 		switch($next_class)
@@ -196,6 +197,12 @@ class ilStartUpGUI
 		// Use Shibboleth-only authentication if auth_mode is set to Shibboleth
 		$tpl->addBlockFile("CONTENT", "content", "tpl.login.html","Services/Init");
 
+		$this->ctrl->setTargetScript("login.php");
+		if (isset($_GET['forceShoppingCartRedirect']))
+		{
+  			$this->ctrl->setParameter($this, 'forceShoppingCartRedirect', 1);
+		}
+
 		$page_editor_html = $this->getLoginPageEditorHTML();
 		$page_editor_html = $this->showLoginForm($page_editor_html);
 		$page_editor_html = $this->showCASLoginForm($page_editor_html);
@@ -211,16 +218,6 @@ class ilStartUpGUI
 
 		$tpl->setVariable("PAGETITLE", $lng->txt("startpage"));
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
-		
-		if (isset($_GET['forceShoppingCartRedirect']))
-		{
-  			$this->ctrl->setParameter($this, 'forceShoppingCartRedirect', 1);
-		}
-
-		$this->ctrl->setTargetScript("login.php");
-		$tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this));
-//echo "-".htmlentities($this->ctrl->getFormAction($this, "showLogin"))."-";
 
 		if (isset($_GET['inactive']) && $_GET['inactive'])
 		{
@@ -437,14 +434,12 @@ class ilStartUpGUI
 		if ($ilSetting->get("cas_active"))
 		{
 			$tpl = new ilTemplate('tpl.login_form_cas.html', true, true, 'Services/Init');
-			$tpl->setCurrentBlock("cas_login");
 			$tpl->setVariable("TXT_CAS_LOGIN", $lng->txt("login_to_ilias_via_cas"));
 			$tpl->setVariable("TXT_CAS_LOGIN_BUTTON", ilUtil::getImagePath("cas_login_button.gif"));
 			$tpl->setVariable("TXT_CAS_LOGIN_INSTRUCTIONS", $ilSetting->get("cas_login_instructions"));
 			$this->ctrl->setParameter($this, "forceCASLogin", "1");
 			$tpl->setVariable("TARGET_CAS_LOGIN",$this->ctrl->getLinkTarget($this, "showLogin"));
 			$this->ctrl->setParameter($this, "forceCASLogin", "");
-			$tpl->parseCurrentBlock();
 
 			return $this->substituteLoginPageElements(
 				$GLOBALS['tpl'],
@@ -470,6 +465,8 @@ class ilStartUpGUI
 		if ($ilSetting->get("shib_active"))
 		{
 			$tpl = new ilTemplate('tpl.login_form_shibboleth.html',true,true,'Services/Init');
+
+			$tpl->setVariable('SHIB_FORMACTION',$this->ctrl->getFormAction($this));
 			
 			if($ilSetting->get("shib_hos_type") == 'external_wayf')
 			{
@@ -1649,7 +1646,7 @@ class ilStartUpGUI
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setShowTopButtons(false);
-		$form->setFormAction($this->ctrl->getFormAction($this,''));
+		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($lng->txt('login_to_ilias_via_openid'));
 		
 		$openid = new ilTextInputGUI($lng->txt('auth_openid_login'),'oid_username');
