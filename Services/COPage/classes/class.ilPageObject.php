@@ -755,6 +755,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$prof->setHierId($a_hier_id);
 						$prof->setPcId($a_pc_id);
 						return $prof;
+						
+					case "Verification":
+						require_once("./Services/COPage/classes/class.ilPCVerification.php");
+						$vrfc = new ilPCVerification($this->dom);
+						$vrfc->setNode($cont_node);
+						$vrfc->setHierId($a_hier_id);
+						$vrfc->setPcId($a_pc_id);
+						return $vrfc;
 				}
 				break;
 
@@ -1038,7 +1046,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			"ed_insert_plach","question_placehl","media_placehl","text_placehl",
 			"pc_flist", "pc_par", "pc_mob", "pc_qst", "pc_sec", "pc_dtab", "pc_tab",
 			"pc_code", "pc_vacc", "pc_hacc", "pc_res", "pc_map", "pc_list", "ed_insert_incl", "pc_incl",
-			"pc_iim", "ed_insert_iim", "pc_prof", "ed_insert_profile");
+			"pc_iim", "ed_insert_iim", "pc_prof", "ed_insert_profile", "pc_vrfc",
+			"ed_insert_verification");
 
 		foreach ($lang_vars as $lang_var)
 		{

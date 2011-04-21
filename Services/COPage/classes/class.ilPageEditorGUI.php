@@ -18,7 +18,7 @@ include_once ("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSectionGUI, ilPCDataTableGUI, ilPCResourcesGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI, ilPCPluggedGUI, ilPCTabsGUI, IlPCPlaceHolderGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCContentIncludeGUI, ilPCLoginPageElementGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCInteractiveImageGUI, ilPCProfileGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCInteractiveImageGUI, ilPCProfileGUI, ilPCVerificationGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -439,6 +439,10 @@ class ilPageEditorGUI
 				case "prof":
 					$this->ctrl->setCmdClass("ilPCProfileGUI");
 					break;
+				
+				case "vrfc":
+					$this->ctrl->setCmdClass("ilPCVerificationGUI");
+					break;
 			}
 			$next_class = $this->ctrl->getNextClass($this);
 		}
@@ -708,6 +712,14 @@ class ilPageEditorGUI
 				include_once ("./Services/COPage/classes/class.ilPCProfileGUI.php");
 				$prof_gui = new ilPCProfileGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$ret = $this->ctrl->forwardCommand($prof_gui);
+				break;
+			
+			// Verification
+			case "ilpcverificationgui":
+				$this->tabs_gui->clearTargets();
+				include_once ("./Services/COPage/classes/class.ilPCVerificationGUI.php");
+				$vrfc_gui = new ilPCVerificationGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$ret = $this->ctrl->forwardCommand($vrfc_gui);
 				break;
 
 			default:

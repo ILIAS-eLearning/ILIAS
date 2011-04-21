@@ -68,11 +68,13 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 		ilUtil::sendFailure($this->lng->txt("select_one"));
 		$this->create();
 	}
-
+	
 	/**
 	 * Render content
+	 * 
+	 * @param bool $a_return
 	 */
-	public function render()
+	public function render($a_return = false)
 	{
 		$setting = ilDatePresentation::UseRelativeDates();
 		ilDatePresentation::setUseRelativeDates(false);
@@ -84,9 +86,17 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 		$tmp[] = $this->object->getProperty("success");
 		$tmp[] = $this->object->getProperty("mark");
 		$tmp[] = $this->object->getProperty("comment");
-		$this->tpl->setContent(implode("<br>", $tmp));
-
+		
 		ilDatePresentation::setUseRelativeDates($setting);
+		
+		if(!$a_return)
+		{
+			$this->tpl->setContent(implode("<br>", $tmp));
+		}
+		else
+		{
+			return implode("<br>", $tmp);
+		}
 	}
 }
 
