@@ -101,6 +101,8 @@ class ilPageObjectGUI
 				"enabled" => true),
 		"Tabs" => array(
 				"enabled" => true),
+		"PCTabs" => array(
+				"enabled" => false),
 		"Profile" => array(
 				"enabled" => false),
 		"Verification" => array(
@@ -793,7 +795,7 @@ class ilPageObjectGUI
 	*/
 	function setEnabledPCTabs($a_enabledpctabs)
 	{
-		$this->setEnablePCType("Tabs", (bool) $a_enabledpctabs);
+		$this->setEnablePCType("PCTabs", (bool) $a_enabledpctabs);
 	}
 
 	/**
@@ -803,7 +805,7 @@ class ilPageObjectGUI
 	*/
 	function getEnabledPCTabs()
 	{
-		return $this->getEnablePCType("Tabs");
+		return $this->getEnablePCType("PCTabs");
 	}
 
 	/**

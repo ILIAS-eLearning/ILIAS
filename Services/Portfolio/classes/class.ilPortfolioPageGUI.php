@@ -39,7 +39,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		// $this->setEnabledMaps(true);
 		// $this->setPreventHTMLUnmasking(true);
 		$this->setEnabledInternalLinks(false);
-		$this->setEnabledPCTabs(true);
 		$this->setEnabledProfile(true);
 		$this->setEnabledVerification(true);
 		$this->setEnabledBlog(true);
