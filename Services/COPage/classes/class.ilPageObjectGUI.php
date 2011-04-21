@@ -65,6 +65,7 @@ class ilPageObjectGUI
 	var $page_config = null;
 	var $enable_keywords = false;
 	var $enable_anchors = false;
+	var $tabs_enabled = true;
 	private $enabledloginpage = false;
 	
 	// name keys like pc class names!
@@ -101,8 +102,6 @@ class ilPageObjectGUI
 				"enabled" => true),
 		"Tabs" => array(
 				"enabled" => true),
-		"PCTabs" => array(
-				"enabled" => false),
 		"Profile" => array(
 				"enabled" => false),
 		"Verification" => array(
@@ -136,7 +135,6 @@ class ilPageObjectGUI
 		
 		// defaults (as in learning modules)
 		$this->setEnabledMaps(false);
-		$this->setEnabledPCTabs(false);
 		$this->setEnabledFileLists(true);
 		$this->setEnabledRepositoryObjects(false);
 		$this->setEnabledLoginPage(false);
@@ -717,7 +715,7 @@ class ilPageObjectGUI
 	*/
 	function setEnabledTabs($a_enabledtabs)
 	{
-		$this->setEnablePCType("Tabs", $a_enabledtabs);
+		$this->tabs_enabled = $a_enabledtabs;
 	}
 
 	/**
@@ -727,7 +725,7 @@ class ilPageObjectGUI
 	*/
 	function getEnabledTabs()
 	{
-		return $this->getEnablePCType("Tabs");
+		return $this->tabs_enabled;
 	}
 
 	/**
@@ -795,7 +793,7 @@ class ilPageObjectGUI
 	*/
 	function setEnabledPCTabs($a_enabledpctabs)
 	{
-		$this->setEnablePCType("PCTabs", (bool) $a_enabledpctabs);
+		$this->setEnablePCType("Tabs", (bool) $a_enabledpctabs);
 	}
 
 	/**
@@ -805,7 +803,7 @@ class ilPageObjectGUI
 	*/
 	function getEnabledPCTabs()
 	{
-		return $this->getEnablePCType("PCTabs");
+		return $this->getEnablePCType("Tabs");
 	}
 
 	/**
