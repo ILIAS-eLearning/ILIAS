@@ -41,8 +41,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$this->setEnabledInternalLinks(false);
 		$this->setEnabledPCTabs(true);
 		$this->setEnabledProfile(true);
-//		$this->initPageObject($a_id, $a_old_nr);
-
+		$this->setEnabledVerification(true);
 	}
 
 	/**
@@ -113,7 +112,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
 	function postOutputProcessing($a_output)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $objDefinition;
 		
 		if(preg_match_all("/&#123;&#123;&#123;&#123;&#123;Profile#([0-9]+)#([a-z]+)#([a-z;\W]+)&#125;&#125;&#125;&#125;&#125;/", $a_output, $blocks))
 		{
@@ -139,7 +138,25 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				$a_output = str_replace($block, $ilCtrl->getHTML($pub_profile), $a_output);
 			}
 		}
-
+		
+		if(preg_match_all("/&#123;&#123;&#123;&#123;&#123;Verification#([0-9]+)#([a-z]+)#([0-9]+)&#125;&#125;&#125;&#125;&#125;/", $a_output, $blocks))
+		{
+			foreach($blocks[0] as $idx => $block)
+			{
+				// user is not used currently
+				$user = $blocks[1][$idx];
+				
+				$type = $blocks[2][$idx];
+				$id = $blocks[3][$idx];
+				
+				$class = "ilObj".$objDefinition->getClassName($type)."GUI";
+				include_once $objDefinition->getLocation($type)."/class.".$class.".php";
+				$verification = new $class($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
+				
+				$a_output = str_replace($block, $verification->render(true), $a_output);
+			}						
+		}
+		
 		return $a_output;
 	}
 } 

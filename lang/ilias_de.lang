@@ -11307,3 +11307,8 @@ content#:#cont_profile_mode_inherit#:#Automatisch
 content#:#cont_profile_mode_inherit_info#:#Verwendet die Daten ihres öffentlichen Profils
 content#:#cont_profile_mode_manual#:#Manuell
 content#:#cont_profile_mode_manual_info#:#Verwendet die folgenden Daten:
+content#:#cont_ed_insert_verification#:#Nachweis einfügen
+content#:#cont_pc_vrfc#:#Nachweis
+content#:#cont_insert_verification#:#Nachweis hinzufügen
+content#:#cont_update_verification#:#Nachweis bearbeiten
+content#:#cont_verification_object#:#Nachweis

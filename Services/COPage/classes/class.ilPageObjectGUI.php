@@ -102,6 +102,8 @@ class ilPageObjectGUI
 		"Tabs" => array(
 				"enabled" => true),
 		"Profile" => array(
+				"enabled" => false),
+		"Verification" => array(
 				"enabled" => false)
 		);
 	
@@ -859,6 +861,25 @@ class ilPageObjectGUI
 	public function setEnabledProfile($a_enableprofile)
 	{
 		$this->setEnablePCType("Profile", (bool)$a_enableprofile);
+	}
+	
+	/**
+	* Get Enable Verification Content Component
+	*
+	* @return	boolean	Enable Profile Content Component
+	*/
+	function getEnabledVerification()
+	{
+		return $this->getEnablePCType("Verification");
+	}
+
+	/**
+	 * Set Enable Verification Content Component
+	 * @param bool $a_enableverification
+	 */
+	public function setEnabledVerification($a_enableverification)
+	{
+		$this->setEnablePCType("Verification", (bool)$a_enableverification);
 	}
 
 	/**
@@ -1840,7 +1861,8 @@ class ilPageObjectGUI
 						 'paragraph_plugins' => $paragraph_plugin_string,
 						 'disable_auto_margins' => $disable_auto_margins,
 						 'page_toc' => $this->getPageToc() ? "y" : "n",
-						 'enable_profile' =>  $this->getEnabledProfile() ? "y" : "n"
+						 'enable_profile' =>  $this->getEnabledProfile() ? "y" : "n",
+						 'enable_verification' =>  $this->getEnabledVerification() ? "y" : "n"
 						);
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;

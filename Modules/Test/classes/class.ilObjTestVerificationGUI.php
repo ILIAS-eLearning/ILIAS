@@ -71,8 +71,10 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 
 	/**
 	 * Render content
+	 * 
+	 * @param bool $a_return
 	 */
-	public function render()
+	public function render($a_return = false)
 	{
 		$tmp = array();
 		$tmp[] = $this->object->getTitle();
@@ -81,7 +83,15 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 		$tmp[] = $this->object->getProperty("result");
 		$tmp[] = $this->object->getProperty("success");
 		$tmp[] = $this->object->getProperty("mark");
-		$this->tpl->setContent(implode("<br>", $tmp));
+		
+		if(!$a_return)
+		{
+			$this->tpl->setContent(implode("<br>", $tmp));
+		}
+		else
+		{
+			return implode("<br>", $tmp);
+		}
 	}
 }
 
