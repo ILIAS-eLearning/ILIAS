@@ -3451,7 +3451,7 @@
 
 <!-- Blog data -->
 <xsl:template match="Blog">
-	{{{{{Blog#<xsl:value-of select="@User"/>#<xsl:value-of select="@Id"/>#
+	{{{{{Blog<xsl:if test="$mode = 'edit'">Teaser</xsl:if>#<xsl:value-of select="@User"/>#<xsl:value-of select="@Id"/>#
 		<xsl:for-each select="BlogPosting">
 			<xsl:value-of select="@Id"/>;
 		</xsl:for-each>

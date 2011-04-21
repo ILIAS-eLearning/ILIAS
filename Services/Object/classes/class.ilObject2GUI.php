@@ -424,6 +424,8 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 		$this->ctrl->redirect($this, "");
 	}
+	
+	public function getHTML() { return parent::getHTML(); }
 
 	/**
 	 * Final/Private declaration of unchanged parent methods
@@ -435,7 +437,6 @@ abstract class ilObject2GUI extends ilObjectGUI
 	final protected function setTitleAndDescription() { return parent::setTitleAndDescription(); }
 	final protected function showUpperIcon() { return parent::showUpperIcon(); }
 //	final private function showMountWebfolderIcon() { return parent::showMountWebfolderIcon(); }
-	final public function getHTML() { return parent::getHTML(); }
 	final protected function omitLocator($a_omit = true) { return parent::omitLocator($a_omit); }
 	final protected  function getTargetFrame($a_cmd, $a_target_frame = "") { return parent::getTargetFrame($a_cmd, $a_target_frame); }
 	final protected  function setTargetFrame($a_cmd, $a_target_frame) { return parent::setTargetFrame($a_cmd, $a_target_frame); }
