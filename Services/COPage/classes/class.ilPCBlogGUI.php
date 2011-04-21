@@ -111,7 +111,7 @@ class ilPCBlogGUI extends ilPageContentGUI
 	 */
 	protected function initForm($a_insert = false)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilUser, $lng;
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -125,18 +125,31 @@ class ilPCBlogGUI extends ilPageContentGUI
 			$form->setTitle($this->lng->txt("cont_update_blog"));
 		}
 
-		
-		
+		$options = array();
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		$tree = new ilWorkspaceTree($ilUser->getId());
+		$root = $tree->getNodeData($tree->getRootId());
+		foreach ($tree->getSubTree($root) as $node)
+		{
+			if ($node["type"] == "blog")
+			{
+				$options[$node["obj_id"]] = $node["title"];
+			}
+		}
+		asort($options);		
+		$obj = new ilSelectInputGUI($this->lng->txt("cont_pc_blog"), "blog");
+		$obj->setRequired(true);
+		$obj->setOptions($options);
+		$form->addItem($obj);
 		
 		if ($a_insert)
 		{
-			
 			$form->addCommandButton("create_blog", $this->lng->txt("save"));
 			$form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
 		}
 		else
 		{
-
+			$obj->setValue($this->content_obj->getBlogId());
 			$form->addCommandButton("update", $this->lng->txt("save"));
 			$form->addCommandButton("cancelUpdate", $this->lng->txt("cancel"));
 		}

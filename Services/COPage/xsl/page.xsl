@@ -3450,7 +3450,7 @@
 </xsl:template>
 
 <!-- Blog data -->
-<xsl:template match="Verification">
+<xsl:template match="Blog">
 	{{{{{Blog#<xsl:value-of select="@User"/>#<xsl:value-of select="@Id"/>#
 		<xsl:for-each select="BlogPosting">
 			<xsl:value-of select="@Id"/>;

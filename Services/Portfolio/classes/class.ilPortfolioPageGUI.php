@@ -36,10 +36,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			ilObjStyleSheet::getSyntaxStylePath());
 		$tpl->parseCurrentBlock();
 		
-		$this->setEnabledMaps(true);
-		$this->setPreventHTMLUnmasking(true);
+		// $this->setEnabledMaps(true);
+		// $this->setPreventHTMLUnmasking(true);
 		$this->setEnabledInternalLinks(false);
-		$this->setEnabledPCTabs(true);
+		// $this->setEnabledPCTabs(true);
 		$this->setEnabledProfile(true);
 		$this->setEnabledVerification(true);
 		$this->setEnabledBlog(true);
@@ -113,30 +113,13 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
 	function postOutputProcessing($a_output)
 	{
-		global $ilCtrl, $objDefinition;
-		
 		if(preg_match_all("/&#123;&#123;&#123;&#123;&#123;Profile#([0-9]+)#([a-z]+)#([a-z;\W]+)&#125;&#125;&#125;&#125;&#125;/", $a_output, $blocks))
 		{
 			foreach($blocks[0] as $idx => $block)
 			{
-				include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
-				$pub_profile = new ilPublicUserProfileGUI($blocks[1][$idx]);
-			
-				if($blocks[2][$idx] == "manual")
-				{
-					foreach(explode(";", $blocks[3][$idx]) as $field)
-					{
-						$field = trim($field);
-						if($field)
-						{
-							$prefs["public_".$field] = "y";
-						}
-					}
-
-					$pub_profile->setCustomPrefs($prefs);
-				}
-
-				$a_output = str_replace($block, $ilCtrl->getHTML($pub_profile), $a_output);
+				$snippet = $this->renderProfile($blocks[1][$idx], $blocks[2][$idx],
+					explode(";", $blocks[3][$idx]));
+				$a_output = str_replace($block, $snippet, $a_output);
 			}
 		}
 		
@@ -144,21 +127,64 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{
 			foreach($blocks[0] as $idx => $block)
 			{
-				// user is not used currently
-				$user = $blocks[1][$idx];
-				
-				$type = $blocks[2][$idx];
-				$id = $blocks[3][$idx];
-				
-				$class = "ilObj".$objDefinition->getClassName($type)."GUI";
-				include_once $objDefinition->getLocation($type)."/class.".$class.".php";
-				$verification = new $class($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
-				
-				$a_output = str_replace($block, $verification->render(true), $a_output);
+				$snippet = $this->renderVerification($blocks[1][$idx], $blocks[2][$idx],
+					$blocks[3][$idx]);
+				$a_output = str_replace($block, $snippet, $a_output);
+			}						
+		}
+		
+		if(preg_match_all("/&#123;&#123;&#123;&#123;&#123;Blog#([0-9]+)#([0-9]+)#([0-9;\W]+)&#125;&#125;&#125;&#125;&#125;/", $a_output, $blocks))
+		{
+			foreach($blocks[0] as $idx => $block)
+			{
+				$snippet = $this->renderBlog($blocks[1][$idx], $blocks[2][$idx],
+					explode(";", $blocks[3][$idx]));
+				$a_output = str_replace($block, $snippet, $a_output);
 			}						
 		}
 		
 		return $a_output;
 	}
-} 
+	
+	protected function renderProfile($a_user_id, $a_type, array $a_fields = null)
+	{
+		global $ilCtrl;
+		
+		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
+		$pub_profile = new ilPublicUserProfileGUI($a_user_id);
+
+		if($a_type == "manual" && sizeof($a_fields))
+		{
+			foreach($a_fields as $field)
+			{
+				$field = trim($field);
+				if($field)
+				{
+					$prefs["public_".$field] = "y";
+				}
+			}
+
+			$pub_profile->setCustomPrefs($prefs);
+		}
+
+		return $ilCtrl->getHTML($pub_profile);
+	}
+	
+	protected function renderVerification($a_user_id, $a_type, $a_id)
+	{
+		global $objDefinition;
+		
+		$class = "ilObj".$objDefinition->getClassName($a_type)."GUI";
+		include_once $objDefinition->getLocation($a_type)."/class.".$class.".php";
+		$verification = new $class($a_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
+
+		return $verification->render(true);
+	}	
+	
+	protected function renderBlog($a_user_id, $a_blog_id, array $a_posting_ids = null)
+	{
+	
+		return $a_user_id."/".$a_blog_id;
+	}	
+}
 ?>
