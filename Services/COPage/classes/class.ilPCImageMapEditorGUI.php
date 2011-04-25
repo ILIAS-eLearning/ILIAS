@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
@@ -18,13 +19,26 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_pc_media_object, $a_page)
+	function __construct($a_content_obj, $a_page)
 	{
-		$this->pc_media_object = $a_pc_media_object;
+		$this->content_obj = $a_content_obj;
 		$this->page = $a_page;
-		parent::__construct($a_pc_media_object->getMediaObject());
+		parent::__construct($a_content_obj->getMediaObject());
+				
+		$this->std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId(),
+			$this->getParentNodeName());
 	}
 	
+	/**
+	 * Get parent node name
+	 *
+	 * @return string name of parent node
+	 */
+	function getParentNodeName()
+	{
+		return "MediaObject";
+	}
 
 	/**
 	* Get table HTML
@@ -32,7 +46,8 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	function getImageMapTableHTML()
 	{
 		include_once("./Services/COPage/classes/class.ilPCImageMapTableGUI.php");
-		$image_map_table = new ilPCImageMapTableGUI($this, "editMapAreas", $this->pc_media_object);
+		$image_map_table = new ilPCImageMapTableGUI($this, "editMapAreas", $this->content_obj,
+			$this->getParentNodeName());
 		return $image_map_table->getHTML();
 	}
 
@@ -47,18 +62,18 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 		{
 			// save edited link
 			case "edit_link":
-				$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-					$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
+//				$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+//					$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
 
 				if ($_POST["area_link_type"] == IL_INT_LINK)
 				{
-					$std_alias_item->setAreaIntLink($_SESSION["il_map_area_nr"],
+					$this->std_alias_item->setAreaIntLink($_SESSION["il_map_area_nr"],
 						$_SESSION["il_map_il_type"], $_SESSION["il_map_il_target"],
 						$_SESSION["il_map_il_targetframe"]);
 				}
 				else
 				{
-					$std_alias_item->setAreaExtLink($_SESSION["il_map_area_nr"],
+					$this->std_alias_item->setAreaExtLink($_SESSION["il_map_area_nr"],
 						ilUtil::stripSlashes($_POST["area_link_ext"]));
 				}
 				$this->updated = $this->page->update();
@@ -66,9 +81,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 
 			// save edited shape
 			case "edit_shape":
-				$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-					$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
-				$std_alias_item->setShape($_SESSION["il_map_area_nr"],
+//				$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+//					$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
+				$this->std_alias_item->setShape($_SESSION["il_map_area_nr"],
 					$_SESSION["il_map_edit_area_type"], $_SESSION["il_map_edit_coords"]);
 				$this->updated = $this->page->update();
 				break;
@@ -95,9 +110,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 						break;
 				}
 
-				$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-					$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
-				$std_alias_item->addMapArea($area_type, $coords,
+//				$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+//					$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
+				$this->std_alias_item->addMapArea($area_type, $coords,
 					ilUtil::stripSlashes($_POST["area_name"]), $link);
 				$this->updated = $this->page->update();
 
@@ -122,8 +137,8 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 			$ilCtrl->redirect($this, "editMapAreas");
 		}
 
-		$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
+//		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+//			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
 
 		if (count($_POST["area"]) > 0)
 		{
@@ -131,7 +146,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 
 			foreach ($_POST["area"] as $area_nr)
 			{
-				$std_alias_item->deleteMapArea($area_nr - $i);
+				$this->std_alias_item->deleteMapArea($area_nr - $i);
 				$i++;
 			}
 			$this->updated = $this->page->update();
@@ -146,9 +161,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	*/
 	function getLinkTypeOfArea($a_nr)
 	{
-		$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
-		return $std_alias_item->getLinkTypeOfArea($a_nr);
+//		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+//			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
+		return $this->std_alias_item->getLinkTypeOfArea($a_nr);
 	}
 
 	/**
@@ -156,9 +171,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	*/
 	function getTypeOfArea($a_nr)
 	{
-		$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
-		return $std_alias_item->getTypeOfArea($a_nr);
+//		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+//			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
+		return $this->std_alias_item->getTypeOfArea($a_nr);
 	}
 
 	/**
@@ -166,9 +181,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	*/
 	function getTargetOfArea($a_nr)
 	{
-		$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
-		return $std_alias_item->getTargetOfArea($a_nr);
+//		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+//			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
+		return $this->std_alias_item->getTargetOfArea($a_nr);
 	}
 
 	/**
@@ -176,9 +191,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	*/
 	function getTargetFrameOfArea($a_nr)
 	{
-		$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
-		return $std_alias_item->getTargetFrameOfArea($a_nr);
+//		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+//			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
+		return $this->std_alias_item->getTargetFrameOfArea($a_nr);
 	}
 
 	/**
@@ -186,9 +201,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	*/
 	function getHrefOfArea($a_nr)
 	{
-		$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
-		return $std_alias_item->getHrefOfArea($a_nr);
+//		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+//			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
+		return $this->std_alias_item->getHrefOfArea($a_nr);
 	}
 
 	/**
@@ -198,12 +213,12 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	{
 		global $lng, $ilCtrl;
 		
-		$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
-		$areas = $std_alias_item->getMapAreas();
+//		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+//			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
+		$areas = $this->std_alias_item->getMapAreas();
 		foreach($areas as $area)
 		{
-			$std_alias_item->setAreaTitle($area["Nr"],
+			$this->std_alias_item->setAreaTitle($area["Nr"],
 				ilUtil::stripSlashes($_POST["name_".$area["Nr"]]));
 		}
 		$this->page->update();
@@ -218,10 +233,15 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	function makeMapWorkCopy($a_edit_property = "", $a_area_nr = 0,
 		$a_output_new_area = false, $a_area_type = "", $a_coords = "")
 	{
+// old for pc media object
+//		$media_object = $this->media_object->getMediaItem("Standard");
+		$media_object = $this->content_obj->getMediaObject();
+		
 		// create/update imagemap work copy
-		$st_item = $this->media_object->getMediaItem("Standard");
-		$st_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
+		$st_item = $media_object->getMediaItem("Standard");
+		$st_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId(),
+			$this->getParentNodeName());
 
 		if ($a_edit_property == "shape")
 		{
@@ -237,7 +257,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 
 	function getAliasXML()
 	{
-		return $this->pc_media_object->dumpXML();
+		return $this->content_obj->dumpXML();
 	}
 }
 ?>

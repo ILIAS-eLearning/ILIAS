@@ -18,16 +18,16 @@ class ilMediaAliasItem
 	var $purpose;
 	var $item_node;
 
-	function ilMediaAliasItem(&$a_dom, $a_hier_id, $a_purpose, $a_pc_id = "")
+	function ilMediaAliasItem(&$a_dom, $a_hier_id, $a_purpose, $a_pc_id = "",
+		$a_parent_node_name = "MediaObject")
 	{
 		$this->dom =& $a_dom;
+		$this->parent_node_name = $a_parent_node_name;
 		$this->hier_id = $a_hier_id;
 		$this->purpose = $a_purpose;
 		$this->setPcId($a_pc_id);
-//echo "+$a_pc_id+";
 		$this->item_node = $this->getMAItemNode($this->hier_id, $this->purpose,
 			$this->getPcId());
-//var_dump($this->item_node);
 	}
 
 	function getMAItemNode($a_hier_id, $a_purpose, $a_pc_id = "", $a_sub_element = "")
@@ -35,7 +35,7 @@ class ilMediaAliasItem
 		if ($a_pc_id != "")
 		{
 			$xpc = xpath_new_context($this->dom);
-			$path = "//PageContent[@PCID = '".$a_pc_id."']/MediaObject/MediaAliasItem[@Purpose='$a_purpose']".$a_sub_element;
+			$path = "//PageContent[@PCID = '".$a_pc_id."']/".$this->parent_node_name."/MediaAliasItem[@Purpose='$a_purpose']".$a_sub_element;
 			$res =& xpath_eval($xpc, $path);
 			if (count($res->nodeset) == 1)
 			{
@@ -44,7 +44,7 @@ class ilMediaAliasItem
 		}
 		
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$a_hier_id."']/MediaObject/MediaAliasItem[@Purpose='$a_purpose']".$a_sub_element;
+		$path = "//PageContent[@HierId = '".$a_hier_id."']/".$this->parent_node_name."/MediaAliasItem[@Purpose='$a_purpose']".$a_sub_element;
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) > 0)
 		{
@@ -57,7 +57,7 @@ class ilMediaAliasItem
 		if ($a_pc_id != "")
 		{
 			$xpc = xpath_new_context($this->dom);
-			$path = "//PageContent[@PCID = '".$a_pc_id."']/MediaObject/MediaAliasItem[@Purpose='$a_purpose']/Parameter";
+			$path = "//PageContent[@PCID = '".$a_pc_id."']/".$this->parent_node_name."/MediaAliasItem[@Purpose='$a_purpose']/Parameter";
 			$res =& xpath_eval($xpc, $path);
 			if (count($res->nodeset) > 0)
 			{
@@ -67,7 +67,7 @@ class ilMediaAliasItem
 		}
 		
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$a_hier_id."']/MediaObject/MediaAliasItem[@Purpose='$a_purpose']/Parameter";
+		$path = "//PageContent[@HierId = '".$a_hier_id."']/".$this->parent_node_name."/MediaAliasItem[@Purpose='$a_purpose']/Parameter";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) > 0)
 		{
@@ -80,7 +80,7 @@ class ilMediaAliasItem
 		if ($a_pc_id != "")
 		{
 			$xpc = xpath_new_context($this->dom);
-			$path = "//PageContent[@PCID = '".$a_pc_id."']/MediaObject/MediaAliasItem[@Purpose='$a_purpose']/MapArea";
+			$path = "//PageContent[@PCID = '".$a_pc_id."']/".$this->parent_node_name."/MediaAliasItem[@Purpose='$a_purpose']/MapArea";
 			$res =& xpath_eval($xpc, $path);
 			if (count($res->nodeset) > 0)
 			{
@@ -90,7 +90,7 @@ class ilMediaAliasItem
 		}
 		
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$a_hier_id."']/MediaObject/MediaAliasItem[@Purpose='$a_purpose']/MapArea";
+		$path = "//PageContent[@HierId = '".$a_hier_id."']/".$this->parent_node_name."/MediaAliasItem[@Purpose='$a_purpose']/MapArea";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) > 0)
 		{
@@ -141,7 +141,7 @@ class ilMediaAliasItem
 	function insert()
 	{
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/".$this->parent_node_name;
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) > 0)
 		{
@@ -614,7 +614,7 @@ class ilMediaAliasItem
 	function deleteAllMapAreas()
 	{
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/MapArea";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/".$this->parent_node_name."/MediaAliasItem[@Purpose='".$this->purpose."']/MapArea";
 		$res =& xpath_eval($xpc, $path);
 		for ($i = 0; $i < count($res->nodeset); $i++)
 		{

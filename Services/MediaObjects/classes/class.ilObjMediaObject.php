@@ -552,21 +552,53 @@ class ilObjMediaObject extends ilObject
 	}
 
 	/**
-	* create file directory of media object
-	*/
+	 * Create file directory of media object
+	 */
 	function createDirectory()
 	{
 		ilUtil::createDirectory(ilObjMediaObject::_getDirectory($this->getId()));
 	}
 
 	/**
-	* create thumbnail directory
-	*/
+	 * Create thumbnail directory
+	 */
 	function _createThumbnailDirectory($a_obj_id)
 	{
 		ilUtil::createDirectory(ilUtil::getWebspaceDir()."/thumbs");
 		ilUtil::createDirectory(ilUtil::getWebspaceDir()."/thumbs/mm_".$a_obj_id);
 	}
+	
+	/**
+	 * Get files of directory
+	 *
+	 * @param string $a_subdir subdirectry
+	 * @return array array of files
+	 */
+	function getFilesOfDirectory($a_subdir = "")
+	{
+		$a_subdir = str_replace("..", "", $a_subdir);
+		$dir = ilObjMediaObject::_getDirectory($this->getId());
+		if ($a_subdir != "")
+		{
+			$dir.= "/".$a_subdir;
+		}
+		
+		$files = array();
+		if (is_dir($dir))
+		{
+			$entries = ilUtil::getDir($dir);
+			foreach ($entries as $e)
+			{
+				if (is_file($dir."/".$e["entry"]) && $e["entry"] != "." && $e["entry"] != "..")
+				{
+					$files[] = $e["entry"];
+				}
+			}
+		}
+ 
+		return $files;
+	}
+	
 
 	/**
 	* get MediaObject XLM Tag
@@ -1535,8 +1567,8 @@ class ilObjMediaObject extends ilObject
 	}
 
 	/**
-	* create new media object and update page in db and return new media object
-	*/
+	 * Create new media object and update page in db and return new media object
+	 */
 	function &_saveTempFileAsMediaObject($name, $tmp_name, $upload = TRUE)
 	{
 		// create dummy object in db (we need an id)
@@ -1586,6 +1618,22 @@ class ilObjMediaObject extends ilObject
 		return $media_object;
 	}
 	
+	/**
+	 * Create new media object and update page in db and return new media object
+	 */
+	function uploadAdditionalFile($a_name, $tmp_name, $a_subdir = "")
+	{
+		$a_subdir = str_replace("..", "", $a_subdir);
+		$dir = $mob_dir = ilObjMediaObject::_getDirectory($this->getId());
+		if ($a_subdir != "")
+		{
+			$dir.= "/".$a_subdir;
+		}
+		ilUtil::makeDirParents($dir);
+		ilUtil::moveUploadedFile($tmp_name, $a_name, $dir."/".$a_name);
+		ilUtil::renameExecutables($mob_dir);
+	}
+
 	/**
 	* Get all media objects linked in map areas of this media object
 	*/

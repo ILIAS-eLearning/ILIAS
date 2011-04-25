@@ -72,7 +72,7 @@ class ilPageObject
 		$this->encoding = "UTF-8";		
 		$this->id_elements =
 			array("PageContent", "TableRow", "TableData", "ListItem", "FileItem",
-				"Section", "Tab");
+				"Section", "Tab", "ContentPopup");
 		
 		$this->setActive(true);
 		
@@ -795,12 +795,12 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				$file_item->setHierId($a_hier_id);
 				return $file_item;
 
-			case "Tab":
+/*			case "Tab":
 				require_once("./Services/COPage/classes/class.ilPCTab.php");
 				$tab =& new ilPCTab($this->dom);
 				$tab->setNode($cont_node);
 				$tab->setHierId($a_hier_id);
-				return $file_item;
+				return $tab;*/
 
 		}
 	}
@@ -3305,7 +3305,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$curr_name = $curr_node->node_name();
 		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
 			($curr_name == "ListItem") || ($curr_name == "Section")
-			|| ($curr_name == "Tab"))
+			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup"))
 		{
 			$a_mode = IL_INSERT_CHILD;
 		}
@@ -3408,7 +3408,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$curr_name = $curr_node->node_name();
 		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
 			($curr_name == "ListItem") || ($curr_name == "Section")
-			|| ($curr_name == "Tab"))
+			|| ($curr_name == "Tab") || ($curr_name == "ContentPopup"))
 		{
 			$a_mode = IL_INSERT_CHILD;
 		}
