@@ -25,16 +25,40 @@ class ilImageMapTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->media_object = $a_media_object;
 		
-		$this->addColumn("", "", "1");	// checkbox
-		$this->addColumn($this->lng->txt("cont_name"), "title", "");
-		$this->addColumn($this->lng->txt("cont_shape"), "", "");
-		$this->addColumn($this->lng->txt("cont_coords"), "", "");
-		$this->addColumn($this->lng->txt("cont_link"), "", "");
+		
+		$this->initColumns();
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.image_map_table_row.html", "Services/MediaObjects");
 		$this->getItems();
 
+		// action commands
+		$this->initActions();
+
+		$this->setDefaultOrderField("title");
+		$this->setDefaultOrderDirection("asc");
+		$this->setEnableTitle(false);
+	}
+	
+	/**
+	 * Init columns
+	 */
+	function initColumns()
+	{
+		$this->addColumn("", "", "1");	// checkbox
+		$this->addColumn($this->lng->txt("cont_name"), "title", "");
+		$this->addColumn($this->lng->txt("cont_shape"), "", "");
+		$this->addColumn($this->lng->txt("cont_coords"), "", "");
+		$this->addColumn($this->lng->txt("cont_link"), "", "");
+	}
+	
+	/**
+	 * Init actions
+	 */
+	function initActions()
+	{
+		global $lng;
+		
 		// action commands
 		$this->addMultiCommand("deleteAreas", $lng->txt("delete"));
 		$this->addMultiCommand("editLink", $lng->txt("cont_set_link"));
@@ -46,17 +70,10 @@ class ilImageMapTableGUI extends ilTable2GUI
 		$data = $this->getData();
 		if (count($data) > 0)
 		{
-			$this->addCommandButton("updateAreas", $this->lng->txt("cont_update_names"));
+			$this->addCommandButton("updateAreas", $lng->txt("cont_update_names"));
 		}
-
-		$this->addCommandButton("linkWholePicture", $this->lng->txt("cont_link_whole_picture"));
-		$this->addCommandButton("addRectangle", $this->lng->txt("cont_add_rectangle"));
-		$this->addCommandButton("addCircle", $this->lng->txt("cont_add_circle"));
-		$this->addCommandButton("addPolygon", $this->lng->txt("cont_add_polygon"));
-		$this->setDefaultOrderField("title");
-		$this->setDefaultOrderDirection("asc");
-		$this->setEnableTitle(false);
 	}
+	
 
 	/**
 	* Get items of current folder

@@ -700,10 +700,10 @@
 	</xsl:call-template>
 
 	<!-- insert interactive image -->
-<!--	<xsl:call-template name="EditMenuItem">
+	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">insert_iim</xsl:with-param>
 		<xsl:with-param name="langvar">ed_insert_iim</xsl:with-param>
-	</xsl:call-template>-->
+	</xsl:call-template>
 
 	<!-- insert map (geographical) -->
 	<xsl:if test = "$enable_map = 'y'">
@@ -2254,8 +2254,15 @@
 <xsl:template name="MOBEditMenu">
 	<xsl:param name="hier_id"/>
 
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">editAlias</xsl:with-param>
-	<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
+	<xsl:if test="(../../MediaObject)">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">editAlias</xsl:with-param>
+		<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
+	</xsl:if>
+
+	<xsl:if test="(../../InteractiveImage)">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">edit</xsl:with-param>
+		<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
+	</xsl:if>
 
 	<xsl:if test = "$javascript = 'disable'">
 		<xsl:call-template name="EditMenuInsertItems"/>
@@ -2281,8 +2288,10 @@
 
 	<xsl:call-template name="EditMenuAlignItems"/>
 	
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">copyToClipboard</xsl:with-param>
-	<xsl:with-param name="langvar">ed_copy_clip</xsl:with-param></xsl:call-template>
+	<xsl:if test="(../../MediaObject)">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">copyToClipboard</xsl:with-param>
+		<xsl:with-param name="langvar">ed_copy_clip</xsl:with-param></xsl:call-template>
+	</xsl:if>
 	
 </xsl:template>
 
@@ -2818,8 +2827,45 @@
 	<xsl:if test="./MediaAlias">
 	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_iim']/@value"/></xsl:with-param></xsl:call-template>
 	</xsl:if>
-	<xsl:apply-templates select="MediaAlias"/>
+	<div style="border: 2px solid #000000; padding: 20px;">InteractiveImage:<br />
+		<xsl:apply-templates select="MediaAlias"/>
+		<xsl:apply-templates select="ContentPopup"/>
+		<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
+	</div>
 </xsl:template>
+
+<!-- ContentPopup -->
+<xsl:template match="ContentPopup">
+	<!-- TabContainer -->
+	<div style="border: 2px solid #000000; padding: 20px;">ContentPopup:<br />
+	
+	<div>
+		<xsl:value-of select="@Title" />
+		<xsl:comment>Break</xsl:comment>
+	</div>
+	
+	<!-- Content -->
+	<div>
+		<div>
+			<xsl:call-template name="EditReturnAnchors"/>
+			<!-- <xsl:value-of select="@HierId"/> -->
+			<xsl:if test="$mode = 'edit'">
+				<xsl:if test="$javascript = 'enable'">
+					<xsl:call-template name="DropArea">
+						<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+						<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
+					</xsl:call-template>
+				</xsl:if>
+			</xsl:if>
+			<xsl:apply-templates select="PageContent"/>
+			<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
+		</div>
+		<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
+	</div>
+	<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
+	</div>
+</xsl:template>
+
 
 <!-- Section -->
 <xsl:template match="Section">

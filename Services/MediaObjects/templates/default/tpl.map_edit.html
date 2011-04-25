@@ -60,68 +60,8 @@
 </table>
 <!-- END new_area -->
 </form>
+{TOOLBAR}
 {MAP_AREA_TABLE}
-<!-- BEGIN area_table -->
-<table class="fullwidth">
-	<tr class="tblheader">
-		<td class="std" width="1">
-			&nbsp;
-		</td>
-		<td class="std">
-			{TXT_NAME}
-		</td>
-		<td class="std">
-			{TXT_SHAPE}
-		</td>
-		<td class="std">
-			{TXT_COORDS}
-		</td>
-		<td class="std">
-			{TXT_LINK}
-		</td>
-	</tr>
-	<!-- BEGIN area_row -->
-	<tr class="{CSS_ROW}">
-		<td class="std">
-			{CHECKBOX}
-		</td>
-		<td class="std">
-			<input type="text" size="20" maxlength="200" name="{VAR_NAME}" value="{VAL_NAME}" />
-		</td>
-		<td class="std">
-			{VAL_SHAPE}
-		</td>
-		<td class="std">
-			{VAL_COORDS}
-		</td>
-		<td class="std">
-			{VAL_LINK}
-		</td>
-	</tr>
-	<!-- END area_row -->
-	<!-- BEGIN commands -->
-	<tr class="std">
-		<td class="submit" colspan="5">
-		<img src="{IMG_ARROW}" border="0">
-		<input type="submit" class="submit" name="cmd[{BTN_DELETE}]" value="{TXT_DELETE}">
-		&nbsp;
-		<input type="submit" class="submit" name="cmd[{BTN_SET_LINK}]" value="{TXT_SET_LINK}">
-		&nbsp;
-		<input type="submit" class="submit" name="cmd[{BTN_SET_SHAPE}]" value="{TXT_SET_SHAPE}">
-		&nbsp;{SELECT_TYPE2}
-		</td>
-	</tr>
-	<tr class="std">
-		<td class="submit" colspan="5">
-		<input type="submit" class="submit" name="cmd[{BTN_UPDATE}]" value="{TXT_UPDATE}">
-		&nbsp;
-		<input type="submit" class="submit" name="cmd[{BTN_ADD_AREA}]" value="{TXT_ADD_AREA}">
-		&nbsp;{SELECT_TYPE}
-		</td>
-	</tr>
-	<!-- END commands -->
-</table>
-<!-- END area_table -->
 <!-- BEGIN int_link_prep -->
 {INT_LINK_PREP}
 <!-- END int_link_prep -->

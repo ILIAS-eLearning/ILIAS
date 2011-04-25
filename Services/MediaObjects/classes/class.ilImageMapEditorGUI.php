@@ -58,13 +58,13 @@ class ilImageMapEditorGUI
 		
 		return $ret;
 	}
-	
+		
 	/**
 	* Show map areas
 	*/
 	function editMapAreas()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilToolbar;
 		
 		$_SESSION["il_map_edit_target_script"] = $ilCtrl->getLinkTarget($this, "addArea",
 			"", false, false);
@@ -73,19 +73,63 @@ class ilImageMapEditorGUI
 		$this->tpl = new ilTemplate("tpl.map_edit.html", true, true, "Services/MediaObjects");
 		$this->tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
 
-		$this->tpl->setVariable("TXT_IMAGEMAP", $lng->txt("cont_imagemap"));
+		$this->tpl->setVariable("TXT_IMAGEMAP", $this->getEditorTitle());
 
 		// create/update imagemap work copy
 		$this->makeMapWorkCopy();
 
 		$output = $this->getImageMapOutput();
 		$this->tpl->setVariable("IMAGE_MAP", $output);
-
+		
+		$this->tpl->setVariable("TOOLBAR", $this->getToolbar()->getHTML());
+		
+		// table
 		$this->tpl->setVariable("MAP_AREA_TABLE", $this->getImageMapTableHTML());
 		
 		return $this->tpl->get();
 	}
 
+	/**
+	 * Get toolbar
+	 *
+	 * @return object toolbar
+	 */
+	function getToolbar()
+	{
+		global $ilCtrl, $lng;
+		
+		// toolbar
+		$tb = new ilToolbarGUI();
+		$tb->setFormAction($ilCtrl->getFormAction($this));
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$options = array(
+			"WholePicture" => $lng->txt("cont_WholePicture"),
+			"Rect" => $lng->txt("cont_Rect"),
+			"Circle" => $lng->txt("cont_Circle"),
+			"Poly" => $lng->txt("cont_Poly"),
+			);
+		$si = new ilSelectInputGUI($lng->txt("cont_shape"), "shape");
+		$si->setOptions($options);
+		$tb->addInputItem($si, true);
+		$tb->addFormButton($lng->txt("cont_add_area"), "addNewArea");
+		
+		return $tb;
+	}
+	
+	
+	/**
+	 * Get editor title
+	 *
+	 * @return string editor title
+	 */
+	function getEditorTitle()
+	{
+		global $lng;
+		
+		return $lng->txt("cont_imagemap");
+	}
+	
+	
 	/**
 	* Get table HTML
 	*/
@@ -151,6 +195,21 @@ class ilImageMapEditorGUI
 		$ilCtrl->redirect($this, "editMapAreas");
 	}
 
+	/**
+	 * Add area
+	 */
+	function addNewArea()
+	{
+		switch ($_POST["shape"])
+		{
+			case "WholePicture": return $this->linkWholePicture();
+			case "Rect": return $this->addRectangle();
+			case "Circle": return $this->addCircle();
+			case "Poly": return $this->addPolygon();
+		}
+	}
+	
+	
 	/**
 	 * Link the whole picture
 	 */

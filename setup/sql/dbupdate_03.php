@@ -4891,3 +4891,8 @@ if(!$ilDB->tableExists('usr_portfolio_page'))
 	ilDBUpdate3136::addStyleClass("TextSubset", "question", "div",
 				array());
 ?>
+<#3303>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+

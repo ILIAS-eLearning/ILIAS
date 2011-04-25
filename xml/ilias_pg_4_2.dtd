@@ -91,7 +91,24 @@
 >
 
 <!-- Interactive Image -->
-<!ELEMENT InteractiveImage (MediaAlias, MediaAliasItem+)>
+<!ELEMENT InteractiveImage (MediaAlias, MediaAliasItem+, InteractiveElement*, ContentPopup*)>
+<!ELEMENT InteractiveElement EMPTY>
+<!ATTLIST InteractiveElement
+	Type (Area | Marker) #REQUIRED
+	Title CDATA #IMPLIED
+	PosX CDATA #IMPLIED
+	PosY CDATA #IMPLIED
+	OverAction CDATA #IMPLIED
+	ClickAction CDATA #IMPLIED
+>
+<!ELEMENT ContentPopup (PageContent*)>
+<!ATTLIST ContentPopup
+	PCID CDATA #IMPLIED
+	Title CDATA #IMPLIED
+	ContentWidth CDATA #IMPLIED
+	ContentHeight CDATA #IMPLIED
+>
+
 
 <!-- Paragraph -->
 <!-- All textual content of a PageObject has to be divided in single paragraphs -->

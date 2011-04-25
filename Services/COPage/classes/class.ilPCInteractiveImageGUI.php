@@ -4,6 +4,7 @@
 
 require_once ("./Services/COPage/classes/class.ilPageContentGUI.php");
 require_once ("./Services/COPage/classes/class.ilPCInteractiveImage.php");
+include_once("./Services/COPage/classes/class.ilMediaAliasItem.php");
 
 /**
  * User interface class for interactive images
@@ -11,7 +12,7 @@ require_once ("./Services/COPage/classes/class.ilPCInteractiveImage.php");
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPCInteractiveImageGUI: ilPCImageMapEditorGUI
+ * @ilCtrl_Calls ilPCInteractiveImageGUI: ilPCIIMTriggerEditorGUI
  *
  * @ingroup ServicesCOPage
  */
@@ -43,7 +44,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 			$tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
 			$this->getTabs($this->tabs_gui);
 
-			$mob = $this->content_obj->getMediaObject();
+/*			$mob = $this->content_obj->getMediaObject();
 			if (is_object($mob))
 			{
 				$tpl->setVariable("HEADER", $lng->txt("mob").": ".
@@ -52,7 +53,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 				$mob_gui->setBackTitle($this->page_back_title);
 				$mob_gui->setEnabledMapAreas($this->getEnabledMapAreas());
 				$mob_gui->getTabs($this->tabs_gui);
-			}
+			}*/
 		}
 		else
 		{
@@ -60,22 +61,11 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 
 		switch($next_class)
 		{
-			case "ilobjmediaobjectgui":
-				include_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
-				$this->tpl->setTitle($this->lng->txt("mob").": ".
-					$this->content_obj->getMediaObject()->getTitle());
-				$mob_gui =& new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(),false, false);
-				$mob_gui->setBackTitle($this->page_back_title);
-				$mob_gui->setEnabledMapAreas($this->getEnabledMapAreas());
-				$ret =& $this->ctrl->forwardCommand($mob_gui);
-				break;
-
-			// instance image map editing
-			case "ilpcimagemapeditorgui":
-				require_once("./Services/COPage/classes/class.ilPCImageMapEditorGUI.php");
-				$ilTabs->setTabActive("cont_inst_map_areas");
-				$image_map_edit = new ilPCImageMapEditorGUI($this->content_obj,
+			// trigger editor
+			case "ilpciimtriggereditorgui":
+				require_once("./Services/COPage/classes/class.ilPCIIMTriggerEditorGUI.php");
+				$ilTabs->setTabActive("triggers");
+				$image_map_edit = new ilPCIIMTriggerEditorGUI($this->content_obj,
 					$this->pg_obj);
 				$ret = $this->ctrl->forwardCommand($image_map_edit);
 				$tpl->setContent($ret);
@@ -87,6 +77,40 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 		}
 
 		return $ret;
+	}
+
+	/**
+	 * Add tabs to ilTabsGUI object
+	 *
+	 * @param	object		$tab_gui		ilTabsGUI object
+	 * @param	boolean		$a_create		new creation true/false
+	 */
+	function getTabs(&$tab_gui, $a_create = false, $a_change_obj_ref = false)
+	{
+		global $ilCtrl, $ilTabs, $lng;
+
+		if (!$a_create)
+		{
+/*			$ilTabs->addTab("edit",
+				$lng->txt("properties"),
+				$ilCtrl->getLinkTarget($this, "edit")
+				);*/
+
+			$ilTabs->addTab("list_overlays",
+				$lng->txt("cont_overlay_images"),
+				$ilCtrl->getLinkTarget($this, "listOverlayImages")
+				);
+
+			$ilTabs->addTab("content_popups",
+				$lng->txt("cont_content_popups"),
+				$ilCtrl->getLinkTarget($this, "listContentPopups")
+				);
+
+			$ilTabs->addTab("triggers",
+				$lng->txt("cont_active_areas"),
+				$ilCtrl->getLinkTargetByClass("ilpciimtriggereditorgui", "editMapAreas")
+				);
+		}
 	}
 
 	/**
@@ -114,6 +138,18 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 		$tpl->setContent($form->getHTML());
 	}
 
+	/**
+	 * Edit
+	 */
+	function edit()
+	{
+		global $tpl, $ilCtrl;
+		
+		$ilCtrl->redirect($this, "listOverlayImages");
+		//$tpl->setContent("hh");
+	}
+	
+	
 	/**
 	 * Init  form.
 	 *
@@ -182,7 +218,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 		$media_item->setLocationType("LocalFile");
 
 		ilUtil::renameExecutables($mob_dir);
-		$media_obj->update();		
+		$media_obj->update();
 
 		$this->content_obj->createAlias($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->updated = $this->pg_obj->update();
@@ -213,7 +249,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	function centerAlign()
 	{
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
-			$this->content_obj->getPcId());
+			$this->content_obj->getPcId(), "InteractiveImage");
 		$std_alias_item->setHorizontalAlign("Center");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -225,7 +261,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	function leftAlign()
 	{
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
-			$this->content_obj->getPcId());
+			$this->content_obj->getPcId(), "InteractiveImage");
 		$std_alias_item->setHorizontalAlign("Left");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -237,7 +273,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	function rightAlign()
 	{
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
-			$this->content_obj->getPcId());
+			$this->content_obj->getPcId(), "InteractiveImage");
 		$std_alias_item->setHorizontalAlign("Right");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -249,7 +285,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	function leftFloatAlign()
 	{
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
-			$this->content_obj->getPcId());
+			$this->content_obj->getPcId(), "InteractiveImage");
 		$std_alias_item->setHorizontalAlign("LeftFloat");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -261,52 +297,179 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	function rightFloatAlign()
 	{
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
-			$this->content_obj->getPcId());
+			$this->content_obj->getPcId(), "InteractiveImage");
 		$std_alias_item->setHorizontalAlign("RightFloat");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
+	////
+	//// Overlay Images
+	////
+
 	/**
-	 * Add tabs to ilTabsGUI object
+	 * List overlay images
 	 *
-	 * @param	object		$tab_gui		ilTabsGUI object
-	 * @param	boolean		$a_create		new creation true/false
+	 * @param
+	 * @return
 	 */
-	function getTabs(&$tab_gui, $a_create = false, $a_change_obj_ref = false)
+	function listOverlayImages()
 	{
-		global $ilCtrl, $ilTabs;
-
-		if (!$a_create)
+		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
+		
+		$ilTabs->setTabActive("list_overlays");
+		
+		$ilToolbar->addButton($lng->txt("cont_add_images"),
+			$ilCtrl->getLinkTarget($this, "addOverlayImages"));
+		
+		include_once("./Services/COPage/classes/class.ilPCIIMOverlaysTableGUI.php");
+		$tab = new ilPCIIMOverlaysTableGUI($this, "listOverlayImages",
+			$this->content_obj->getMediaObject());
+		$tpl->setContent($tab->getHTML());
+	}
+	
+	/**
+	 * Add overlay images
+	 */
+	function addOverlayImages($a_form = null)
+	{
+		global $tpl;
+		
+		if ($a_form)
 		{
-			$ilTabs->addTarget("cont_mob_inst_prop",
-				$ilCtrl->getLinkTarget($this, "editAlias"), "editAlias",
-				get_class($this));
-
-			if ($this->getEnabledMapAreas())
-			{
-				$st_item = $this->content_obj->getMediaObject()->getMediaItem("Standard");
-				if (is_object($st_item))
-				{
-					$format = $st_item->getFormat();
-					if (substr($format, 0, 5) == "image")
-					{
-						$ilTabs->addTarget("cont_inst_map_areas",
-							$ilCtrl->getLinkTargetByClass("ilpcimagemapeditorgui", "editMapAreas"), array(),
-							"ilpcimagemapeditorgui");
-					}
-				}
-			}
+			$form = $a_form;
 		}
 		else
 		{
-
-			$ilCtrl->setParameter($this, "subCmd", "insertFromPool");
-			$ilTabs->addSubTabTarget("cont_mob_from_media_pool",
-				$ilCtrl->getLinkTarget($this, $cmd), $cmd);
-			$ilCtrl->setParameter($this, "subCmd", "");
+			$form = $this->initAddOverlaysForm();
+		}
+		
+		$tpl->setContent($form->getHTML());
+	}
+	
+	/**
+	 * Init add overlays form
+	 *
+	 * @param
+	 * @return
+	 */
+	function initAddOverlaysForm()
+	{
+		global $lng, $ilCtrl, $ilTabs;
+		
+		$ilTabs->setTabActive("list_overlays");
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($lng->txt("cont_add_images"));
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		
+		// file input
+		include_once("./Services/Form/classes/class.ilFileWizardInputGUI.php");
+		$fi = new ilFileWizardInputGUI($lng->txt("file"), "ovfile");
+		$fi->setSuffixes(array("gif", "jpeg", "jpg", "png"));
+		$fi->setFilenames(array(0 => ''));
+		$fi->setRequired(true);
+		$form->addItem($fi);
+	
+		$form->addCommandButton("listOverlayImages", $lng->txt("cancel"));
+		$form->addCommandButton("uploadOverlayImages", $lng->txt("upload"));
+		
+		return $form;
+	}
+	
+	
+	/**
+	 * Upload overlay images
+	 *
+	 * @param
+	 * @return
+	 */
+	function uploadOverlayImages()
+	{
+		global $lng, $ilCtrl;
+		
+		$form = $this->initAddOverlaysForm();
+		if ($form->checkInput())
+		{
+			if (is_array($_FILES["ovfile"]["name"]))
+			{
+				foreach ($_FILES["ovfile"]["name"] as $k => $v)
+				{
+					$name = $_FILES["ovfile"]["name"][$k];
+					$mime = $_FILES["ovfile"]["type"][$k];
+					$tmp_name = $_FILES["ovfile"]["tmp_name"][$k];
+					$size = $_FILES["ovfile"]["size"][$k];
+					
+					$this->content_obj->getMediaObject()->uploadAdditionalFile($name,
+						$tmp_name, "overlays");
+				}
+			}
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"));
+			$ilCtrl->redirect($this, "listOverlayImages");
+		}
+		else
+		{
+			$form->setValuesByPost();
+			$this->addOverlayImages($form);
 		}
 	}
+	
+	////
+	//// Content Popups
+	////
 
+	/**
+	 * List content popups
+	 */
+	function listContentPopups()
+	{
+		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
+		
+		$ilTabs->setTabActive("content_popups");
+		
+		$ilToolbar->addButton($lng->txt("cont_add_popup"),
+			$ilCtrl->getLinkTarget($this, "addPopup"));
+		
+		include_once("./Services/COPage/classes/class.ilPCIIMPopupTableGUI.php");
+		$tab = new ilPCIIMPopupTableGUI($this, "listContentPopups",
+			$this->content_obj);
+		$tpl->setContent($tab->getHTML());
+	}
+
+	/**
+	 * Add popup
+	 *
+	 * @param
+	 * @return
+	 */
+	function addPopup()
+	{
+		global $ilCtrl, $lng;
+		
+		$this->content_obj->addContentPopup();
+		$this->pg_obj->update();
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "listContentPopups");
+	}
+	
+	/**
+	 * Save popups
+	 */
+	function savePopups()
+	{
+		global $ilCtrl, $lng;
+		
+		if (is_array($_POST["title"]))
+		{
+			$titles = ilUtil::stripSlashesArray($_POST["title"]);
+			$this->content_obj->savePopUps($titles);
+			$this->pg_obj->update();
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+		$ilCtrl->redirect($this, "listContentPopups");
+	}
+	
+	
 }
 ?>
