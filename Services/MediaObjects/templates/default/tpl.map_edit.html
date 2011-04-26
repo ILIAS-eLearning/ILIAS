@@ -1,64 +1,7 @@
-<!-- BEGIN instruction -->
-<table class="fullwidth">
-	<tr>
-	  <td class="message">{INSTRUCTION}</td>
-	</tr>
-</table>
-<!-- END instruction -->
 <form action="{FORMACTION}" name="post" method="post">
-<table class="fullwidth">
-	<tr class="tblheader">
-		<td class="std" colspan="2">
-			{TXT_IMAGEMAP}
-		</td>
-	</tr>
-	<tr>
-		<td class="option_value" colspan="2">
-			{IMAGE_MAP}
-		</td>
-	</tr>
-</table>
+{IMAGE_MAP}
 <br />
-<!-- BEGIN new_area -->
-<table class="std">
-	<tr class="tblheader">
-		<td class="std" colspan="2">
-			{TXT_NEW_AREA}
-		</td>
-	</tr>
-	<!-- BEGIN edit_link -->
-	<tr>
-		<td class = "option">{TXT_LINK_EXT}
-			<input type="radio" name="{VAR_LINK_TYPE}" value="ext" {EXT_CHECKED}>
-		</td>
-		<td class = "option_value">
-			<input type="text" size="20" maxlength="200" name="{VAR_LINK_EXT}" value="{VAL_LINK_EXT}" />
-		</td>
-	</tr>
-	<tr>
-		<td class = "option">{TXT_LINK_INT}
-			<input type="radio" name="{VAR_LINK_TYPE}" value="int" {INT_CHECKED}>
-		</td>
-		<td class = "option_value">
-			{VAL_LINK_INT}&nbsp;<a id="iosEditInternalLinkTrigger" href="#">{TXT_ILINK}</a>
-		</td>
-	</tr>
-	<!-- END edit_link -->
-	<!-- BEGIN edit_name -->
-	<tr>
-		<td class = "option">{TXT_NAME2}</td>
-		<td class = "option_value">
-			<input type="text" size="20" maxlength="200" name="{VAR_NAME2}" value="{VAL_NAME2}" />
-		</td>
-	</tr>
-	<!-- END edit_name -->
-	<tr class="std">
-		<td class="submit" colspan="2">
-		<input type="submit" class="submit" name="cmd[{BTN_SAVE}]" value="{TXT_SAVE}">
-		</td>
-	</tr>
-</table>
-<!-- END new_area -->
+{FORM}
 </form>
 {TOOLBAR}
 {MAP_AREA_TABLE}
