@@ -1709,7 +1709,7 @@ class ilPageObjectGUI
 			$this->obj->addFileSizes();
 		}
 
-echo "<br>-".htmlentities($this->obj->getXMLContent())."-<br><br>";
+//echo "<br>-".htmlentities($this->obj->getXMLContent())."-<br><br>";
 //echo "<br>-".htmlentities($this->getLinkXML())."-";
 
 		// set default link xml, if nothing was set yet
