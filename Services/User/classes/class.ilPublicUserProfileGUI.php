@@ -431,8 +431,9 @@ class ilPublicUserProfileGUI
 		
 		// map
 		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
-		if (ilGoogleMapUtil::isActivated() && $this->getPublicPref($user, "public_location")
-			&& $user->getLatitude() != "")
+		if (ilGoogleMapUtil::isActivated() && 
+			$this->getPublicPref($user, "public_location") == "y" && 
+			$user->getLatitude() != "")
 		{
 			$tpl->setVariable("TXT_LOCATION", $lng->txt("location"));
 

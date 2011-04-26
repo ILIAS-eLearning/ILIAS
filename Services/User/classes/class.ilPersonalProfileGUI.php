@@ -563,13 +563,16 @@ class ilPersonalProfileGUI
 	{
 		$this->showPersonalData();
 	}
-
-
-	function showLocation()
+	
+	/**
+	 * Add location fields to form if activated
+	 * 
+	 * @param ilPropertyFormGUI $a_form
+	 * @param ilObjUser $a_user
+	 */
+	function addLocationToForm(ilPropertyFormGUI $a_form, ilObjUser $a_user)
 	{
-		global $ilUser, $ilCtrl, $ilUser, $lng;
-
-		$lng->loadLanguageModule("gmaps");
+		global $ilCtrl;
 
 		// check google map activation
 		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
@@ -577,13 +580,14 @@ class ilPersonalProfileGUI
 		{
 			return;
 		}
+		
+		$this->lng->loadLanguageModule("gmaps");
 
-		$this->__initSubTabs("showLocation");
-
-		$latitude = $ilUser->getLatitude();
-		$longitude = $ilUser->getLongitude();
-		$zoom = $ilUser->getLocationZoom();
-
+		// Get user settings
+		$latitude = $a_user->getLatitude();
+		$longitude = $a_user->getLongitude();
+		$zoom = $a_user->getLocationZoom();
+		
 		// Get Default settings, when nothing is set
 		if ($latitude == 0 && $longitude == 0 && $zoom == 0)
 		{
@@ -592,72 +596,32 @@ class ilPersonalProfileGUI
 			$longitude = $def["longitude"];
 			$zoom =  $def["zoom"];
 		}
-
-		$this->setHeader();
-
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($ilCtrl->getFormAction($this));
-
-		$form->setTitle($this->lng->txt("location")." ".
-			strtolower($this->lng->txt("of"))." ".$ilUser->getFullname());
-
-		// public profile
-		$public = new ilCheckboxInputGUI($this->lng->txt("public_profile"),
-			"public_location");
-		$public->setValue("y");
-		$public->setInfo($this->lng->txt("gmaps_public_profile_info"));
-		$public->setChecked($ilUser->getPref("public_location"));
-		$form->addItem($public);
-
+		
+		$street = $a_user->getStreet();
+		if (!$street)
+		{
+			$street = $this->lng->txt("street");
+		}
+		$city = $a_user->getCity();
+		if (!$city)
+		{
+			$city = $this->lng->txt("city");
+		}
+		$country = $a_user->getCountry();
+		if (!$country)
+		{
+			$country = $this->lng->txt("country");
+		}
+		
 		// location property
 		$loc_prop = new ilLocationInputGUI($this->lng->txt("location"),
 			"location");
 		$loc_prop->setLatitude($latitude);
 		$loc_prop->setLongitude($longitude);
 		$loc_prop->setZoom($zoom);
-
-		$street = $ilUser->getStreet();
-		if (!$street)
-		{
-			$street = $this->lng->txt("street");
-		}
-		
-		$city = $ilUser->getCity();
-		if (!$city)
-		{
-			$city = $this->lng->txt("city");
-		}
-		
-		$country = $ilUser->getCountry();
-		if (!$country)
-		{
-			$country = $this->lng->txt("country");
-		}
-		
 		$loc_prop->setAddress($street.",".$city.",".$country);
 		
-		$form->addItem($loc_prop);
-
-		$form->addCommandButton("saveLocation", $this->lng->txt("save"));
-
-		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-		$this->tpl->show();
-	}
-
-	function saveLocation()
-	{
-		global $ilCtrl, $ilUser, $lng;
-
-		$ilUser->writePref("public_location", $_POST["public_location"]);
-
-		$ilUser->setLatitude(ilUtil::stripSlashes($_POST["location"]["latitude"]));
-		$ilUser->setLongitude(ilUtil::stripSlashes($_POST["location"]["longitude"]));
-		$ilUser->setLocationZoom(ilUtil::stripSlashes($_POST["location"]["zoom"]));
-		$ilUser->update();
-		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-
-		$ilCtrl->redirect($this, "showLocation");
+		$a_form->addItem($loc_prop);
 	}
 
 	// init sub tabs
@@ -665,45 +629,44 @@ class ilPersonalProfileGUI
 	{
 		global $ilTabs, $ilSetting;
 
-		$showProfile = ($a_cmd == 'showProfile') ? true : false;
-		$showPersonalData = ($a_cmd == 'showPersonalData') ? true : false;
-		$showPublicProfile = ($a_cmd == 'showPublicProfile') ? true : false;
-		$showLocation = ($a_cmd == 'showLocation') ? true : false;
-		$showPortfolios = ($a_cmd == 'portfolios') ? true : false;
+		// profile
+		$ilTabs->addTab("profile", 
+			$this->lng->txt("profile"),
+			$this->ctrl->getLinkTarget($this, "showPersonalData"));
+		
+		if($a_cmd == "showPersonalData")
+		{
+			// personal data
+			$ilTabs->addSubTab("personal_data", 
+				$this->lng->txt("personal_data"),
+				$this->ctrl->getLinkTarget($this, "showPersonalData"));
 
-		// old profile
-/*
-		$ilTabs->addSubTabTarget("general_settings", $this->ctrl->getLinkTarget($this, "showProfile"),
-								 "", "", "", $showProfile);
-*/
-
-		// personal data
-		$ilTabs->addTarget("personal_data", $this->ctrl->getLinkTarget($this, "showPersonalData"));
-
-		// public profile
-		$ilTabs->addTarget("public_profile", $this->ctrl->getLinkTarget($this, "showPublicProfile"));
+			// public profile
+			$ilTabs->addSubTab("public_profile",
+				$this->lng->txt("public_profile"),
+				$this->ctrl->getLinkTarget($this, "showPublicProfile"));
+			
+			// profile preview
+			$ilTabs->addSubTab("profile_preview",
+				$this->lng->txt("preview"),
+				$this->ctrl->getLinkTarget($this, "showProfilePreview"));
+		}
+		
 
 		if ($ilSetting->get('user_ext_profiles'))
 		{
-			$ilTabs->addTarget("user_ext_profile",
+			$ilTabs->addTab("user_ext_profile",
+				$this->lng->txt("user_ext_profile"),
 				$this->ctrl->getLinkTarget($this, "showExtendedProfile"));
 		}
 
 		// :TODO: admin setting
 		if(true)
 		{
-			$ilTabs->addTarget("portfolios", $this->ctrl->getLinkTargetByClass("ilportfoliogui", "show"),
-				"", "", "", $showPortfolios);
+			$ilTabs->addTab("portfolios", 
+				$this->lng->txt("portfolios"),
+				$this->ctrl->getLinkTargetByClass("ilportfoliogui", "show"));
 		}
-
-		// check google map activation
-		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
-		if (ilGoogleMapUtil::isActivated())
-		{
-			$ilTabs->addTarget("location", $this->ctrl->getLinkTarget($this, "showLocation"),
-								 "", "", "", $showLocation);
-		}
-
 	}
 
 
@@ -811,8 +774,10 @@ class ilPersonalProfileGUI
 	function showPersonalData($a_no_init = false)
 	{
 		global $ilUser, $styleDefinition, $rbacreview, $ilias, $lng, $ilSetting, $ilTabs;
+		
 		$this->__initSubTabs("showPersonalData");
-		$ilTabs->activateTab("personal_data");
+		$ilTabs->activateTab("profile");
+		$ilTabs->activateSubTab("personal_data");
 
 		$settings = $ilias->getAllSettings();
 
@@ -890,6 +855,8 @@ class ilPersonalProfileGUI
 		
 		// standard fields
 		$up->addStandardFieldsToForm($this->form, $ilUser, $this->input);
+		
+		$this->addLocationToForm($this->form, $ilUser);
 
 		$this->form->addCommandButton("savePersonalData", $lng->txt("save"));
 
@@ -1029,6 +996,15 @@ class ilPersonalProfileGUI
 				$ilUser->setInstantMessengerId('jabber',$_POST["usr_im_jabber"]);
 				$ilUser->setInstantMessengerId('voip',$_POST["usr_im_voip"]);
 			}
+		
+			// check google map activation
+			include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
+			if (ilGoogleMapUtil::isActivated())
+			{
+				$ilUser->setLatitude(ilUtil::stripSlashes($_POST["location"]["latitude"]));
+				$ilUser->setLongitude(ilUtil::stripSlashes($_POST["location"]["longitude"]));
+				$ilUser->setLocationZoom(ilUtil::stripSlashes($_POST["location"]["zoom"]));
+			}				
 
 			// Set user defined data
 			$defs = $this->user_defined_fields->getVisibleDefinitions();
@@ -1125,7 +1101,8 @@ class ilPersonalProfileGUI
 		global $ilUser, $lng, $ilSetting, $ilTabs;
 		
 		$this->__initSubTabs("showPersonalData");
-		$ilTabs->activateTab("public_profile");
+		$ilTabs->activateTab("profile");
+		$ilTabs->activateSubTab("public_profile");
 
 		$this->setHeader();
 
@@ -1237,6 +1214,14 @@ class ilPersonalProfileGUI
 			"matriculation" => $ilUser->getMatriculation(),
 			"delicious" => $ilUser->getDelicious()
 			);
+		
+		// location
+		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
+		if (ilGoogleMapUtil::isActivated())
+		{
+			$val_array["location"] = "";
+		}		
+		
 		foreach($val_array as $key => $value)
 		{
 			if ($this->userSettingVisible($key))
@@ -1340,7 +1325,7 @@ class ilPersonalProfileGUI
 			// if check on Institute
 			$val_array = array("title", "birthday", "gender", "institution", "department", "upload", "street",
 				"zipcode", "city", "country", "sel_country", "phone_office", "phone_home", "phone_mobile",
-				"fax", "email", "hobby", "matriculation");
+				"fax", "email", "hobby", "matriculation", "location");
 	
 			// set public profile preferences
 			foreach($val_array as $key => $value)
@@ -1422,6 +1407,7 @@ class ilPersonalProfileGUI
 		global $tpl, $ilTabs, $ilToolbar, $lng, $ilCtrl;
 
 		$this->initExtProfile();
+		
 		$ilToolbar->addButton($lng->txt("user_add_page"),
 			$ilCtrl->getLinkTarget($this, "addProfilePage"));
 
@@ -1530,7 +1516,7 @@ class ilPersonalProfileGUI
 	{
 		global $ilTabs;
 
-		$this->__initSubTabs("showPersonalData");
+		$this->__initSubTabs("showExtendedProfile");
 		$ilTabs->activateTab("user_ext_profile");
 		$this->setHeader();
 	}
