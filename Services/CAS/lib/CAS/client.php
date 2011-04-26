@@ -677,7 +677,7 @@ class CASClient
 						$this->setST($ticket);
 						unset($_GET['ticket']);
 					}
-					elseif(preg_match('/PT-', $ticket)) {
+					elseif(preg_match('/PT-/', $ticket)) {
 						phpCAS::trace('PT \''.$ticket.'\' found');
 						$this->setPT($ticket);
 						unset($_GET['ticket']);
