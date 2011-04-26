@@ -73,8 +73,6 @@ class ilImageMapEditorGUI
 		$this->tpl = new ilTemplate("tpl.map_edit.html", true, true, "Services/MediaObjects");
 		$this->tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
 
-		$this->tpl->setVariable("TXT_IMAGEMAP", $this->getEditorTitle());
-
 		// create/update imagemap work copy
 		$this->makeMapWorkCopy();
 
@@ -365,9 +363,6 @@ class ilImageMapEditorGUI
 
 		$this->tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
 
-		$this->tpl->setVariable("TXT_IMAGEMAP", $lng->txt("cont_imagemap"));
-
-		$this->tpl->setCurrentBlock("instruction");
 		if ($a_edit_property != "link")
 		{
 			switch ($area_type)
@@ -376,11 +371,11 @@ class ilImageMapEditorGUI
 				case "Rect" :
 					if ($cnt_coords == 0)
 					{
-						$this->tpl->setVariable("INSTRUCTION", $lng->txt("cont_click_tl_corner"));
+						ilUtil::sendInfo($lng->txt("cont_click_tl_corner"));
 					}
 					if ($cnt_coords == 1)
 					{
-						$this->tpl->setVariable("INSTRUCTION", $lng->txt("cont_click_br_corner"));
+						ilUtil::sendInfo($lng->txt("cont_click_br_corner"));
 					}
 					break;
 
@@ -388,11 +383,11 @@ class ilImageMapEditorGUI
 				case "Circle" :
 					if ($cnt_coords == 0)
 					{
-						$this->tpl->setVariable("INSTRUCTION", $lng->txt("cont_click_center"));
+						ilUtil::sendInfo($lng->txt("cont_click_center"));
 					}
 					if ($cnt_coords == 1)
 					{
-						$this->tpl->setVariable("INSTRUCTION", $lng->txt("cont_click_circle"));
+						ilUtil::sendInfo($lng->txt("cont_click_circle"));
 					}
 					break;
 
@@ -400,77 +395,28 @@ class ilImageMapEditorGUI
 				case "Poly" :
 					if ($cnt_coords == 0)
 					{
-						$this->tpl->setVariable("INSTRUCTION", $lng->txt("cont_click_starting_point"));
+						ilUtil::sendInfo($lng->txt("cont_click_starting_point"));
 					}
 					else if ($cnt_coords < 3)
 					{
-						$this->tpl->setVariable("INSTRUCTION", $lng->txt("cont_click_next_point"));
+						ilUtil::sendInfo($lng->txt("cont_click_next_point"));
 					}
 					else
 					{
-						$this->tpl->setVariable("INSTRUCTION", $lng->txt("cont_click_next_or_save"));
+						ilUtil::sendInfo($lng->txt("cont_click_next_or_save"));
 					}
 					break;
 			}
 		}
-		$this->tpl->parseCurrentBlock();
-
-//		$this->tpl->setCurrentBlock("adm_content");
 
 
 		// map properties input fields (name and link)
 		if ($a_save_form)
 		{
-			if ($a_edit_property != "link" && $a_edit_property != "shape")
-			{
-				$this->tpl->setCurrentBlock("edit_name");
-				$this->tpl->setVariable("VAR_NAME2", "area_name");
-				$this->tpl->setVariable("TXT_NAME2", $lng->txt("cont_name"));
-				$this->tpl->parseCurrentBlock();
-			}
-
 			if ($a_edit_property != "shape")
 			{
-				$this->tpl->setCurrentBlock("edit_link");
-				$this->tpl->setVariable("TXT_LINK_EXT", $lng->txt("cont_link_ext"));
-				$this->tpl->setVariable("TXT_LINK_INT", $lng->txt("cont_link_int"));
-				if ($_SESSION["il_map_el_href"] != "")
-				{
-					$this->tpl->setVariable("VAL_LINK_EXT", $_SESSION["il_map_el_href"]);
-				}
-				else
-				{
-					$this->tpl->setVariable("VAL_LINK_EXT", "http://");
-				}
-				$this->tpl->setVariable("VAR_LINK_EXT", "area_link_ext");
-				$this->tpl->setVariable("VAR_LINK_TYPE", "area_link_type");
-				if ($_SESSION["il_map_il_ltype"] != "int")
-				{
-					$this->tpl->setVariable("EXT_CHECKED", "checked=\"1\"");
-				}
-				else
-				{
-					$this->tpl->setVariable("INT_CHECKED", "checked=\"1\"");
-				}
-
-				// internal link
-				$link_str = "";
-				if($_SESSION["il_map_il_target"] != "")
-				{
-					$link_str = $this->getMapAreaLinkString($_SESSION["il_map_il_target"],
-						$_SESSION["il_map_il_type"], $_SESSION["il_map_il_targetframe"]);
-					$this->tpl->setVariable("VAL_LINK_INT", $link_str);
-				}
-
-				// internal link list
+				// prepare link gui
 				$ilCtrl->setParameter($this, "linkmode", "map");
-				$this->tpl->setVariable("LINK_ILINK",
-					$ilCtrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp",
-					array("ilObjMediaObjectGUI"), true));
-				$this->tpl->setVariable("TXT_ILINK", "[".$lng->txt("cont_get_link")."]");
-				$this->tpl->parseCurrentBlock();
-
-				// add int link parts
 				include_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
 				$this->tpl->setCurrentBlock("int_link_prep");
 				$this->tpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
@@ -478,19 +424,8 @@ class ilImageMapEditorGUI
 							"", false, true, false)));
 				$this->tpl->parseCurrentBlock();
 			}
-
-			$this->tpl->setCurrentBlock("new_area");
-			$this->tpl->setVariable("TXT_SAVE", $lng->txt("save"));
-			$this->tpl->setVariable("BTN_SAVE", "saveArea");
-			if ($a_edit_property == "")
-			{
-				$this->tpl->setVariable("TXT_NEW_AREA", $lng->txt("cont_new_area"));
-			}
-			else
-			{
-				$this->tpl->setVariable("TXT_NEW_AREA", $lng->txt("cont_edit_area"));
-			}
-			$this->tpl->parseCurrentBlock();
+			$form = $this->initAreaEditingForm($a_edit_property);
+			$this->tpl->setVariable("FORM", $form->getHTML());
 		}
 		
 		$this->makeMapWorkCopy($a_edit_property, $a_area_nr,
@@ -503,6 +438,99 @@ class ilImageMapEditorGUI
 		$this->tpl->setVariable("IMAGE_MAP", $output);
 
 		return $this->tpl->get();
+	}
+	
+	/**
+	 * Init area editing form.
+	 *
+	 * @param        int        $a_mode        Edit Mode
+	 */
+	public function initAreaEditingForm($a_edit_property)
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setOpenTag(false);
+		$form->setCloseTag(false);
+		
+		// link
+		if ($a_edit_property != "shape")
+		{
+			// 
+			$radg = new ilRadioGroupInputGUI($lng->txt("cont_link"), "area_link_type");
+			if ($_SESSION["il_map_il_ltype"] != "int")
+			{
+				$radg->setValue("ext");
+			}
+			else
+			{
+				$radg->setValue("int");
+			}
+			
+			// external link
+			$ext = new ilRadioOption($lng->txt("cont_link_ext"), "ext");
+			$radg->addOption($ext);
+			
+				$ti = new ilTextInputGUI("", "area_link_ext");
+				$ti->setMaxLength(200);
+				$ti->setSize(50);
+				if ($_SESSION["il_map_el_href"] != "")
+				{
+					$ti->setValue($_SESSION["il_map_el_href"]);
+				}
+				else
+				{
+					$ti->setValue("http://");
+				}
+				$ext->addSubItem($ti);
+			
+			// internal link
+			$int = new ilRadioOption($lng->txt("cont_link_int"), "int");
+			$radg->addOption($int);
+			
+				$ne = new ilNonEditableValueGUI("", "");
+				$link_str = "";
+				if($_SESSION["il_map_il_target"] != "")
+				{
+					$link_str = $this->getMapAreaLinkString($_SESSION["il_map_il_target"],
+						$_SESSION["il_map_il_type"], $_SESSION["il_map_il_targetframe"]);
+				}
+				$ne->setValue($link_str.
+					'&nbsp;<a id="iosEditInternalLinkTrigger" href="#">'.
+					"[".$lng->txt("cont_get_link")."]".
+					'</a>'
+					);
+				$int->addSubItem($ne);
+			
+			$form->addItem($radg);
+		}
+
+		
+		// name
+		if ($a_edit_property != "link" && $a_edit_property != "shape")
+		{ 
+			$ti = new ilTextInputGUI($lng->txt("cont_name"), "area_name");
+			$ti->setMaxLength(200);
+			$ti->setSize(20);
+			$form->addItem($ti);
+		}
+		
+		// save and cancel commands
+		if ($a_edit_property == "")
+		{
+			$form->setTitle($lng->txt("cont_new_area"));
+			$form->addCommandButton("saveArea", $lng->txt("save"));
+		}
+		else
+		{
+			$form->setTitle($lng->txt("cont_new_area"));
+			$form->addCommandButton("saveArea", $lng->txt("save"));
+		}
+	                
+//		$form->setFormAction($ilCtrl->getFormAction($this));
+		
+		return $form;
 	}
 	
 	/**

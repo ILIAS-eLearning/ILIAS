@@ -85,5 +85,37 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 		return $tb;
 	}
 
+	/**
+	 * Delete trigger
+	 */
+	function deleteTrigger()
+	{
+		global $ilCtrl, $lng;
+		
+		if (!isset($_POST["area"]))
+		{
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "editMapAreas");
+		}
+
+//		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+//			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
+
+		if (count($_POST["area"]) > 0)
+		{
+			$i = 0;
+
+			foreach ($_POST["area"] as $area_nr)
+			{
+				$this->std_alias_item->deleteMapArea($area_nr - $i);
+				$i++;
+			}
+			$this->updated = $this->page->update();
+			ilUtil::sendSuccess($lng->txt("cont_areas_deleted"), true);
+		}
+
+		$ilCtrl->redirect($this, "editMapAreas");
+	}
+
 }
 ?>

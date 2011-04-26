@@ -120,9 +120,15 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 	function render()
 	{
 		$tpl = new ilTemplate("tpl.non_editable_value.html", true, true, "Services/Form");
+		if ($this->getPostVar() != "")
+		{
+			$tpl->setCurrentBlock("hidden");
+			$tpl->setVariable('NON_EDITABLE_ID',$this->getPostVar());
+			$tpl->setVariable("HVALUE", $this->getValue());
+			$tpl->parseCurrentBlock();
+		}
 		$tpl->setVariable("VALUE", $this->getValue());
 		$tpl->setVariable("ID", $this->getFieldId());
-		$tpl->setVariable('NON_EDITABLE_ID',$this->getPostVar());
 		$tpl->parseCurrentBlock();
 		
 		return $tpl->get();
