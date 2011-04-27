@@ -76,10 +76,8 @@ class ilConsultationHoursGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilUser, $ilCtrl;
+		global $ilUser, $ilCtrl, $tpl;
 		
-		$this->setTabs();
-
 		if($ilUser->getId() != $this->user_id)
 		{
 			$ilCtrl->setParameter($this, 'user_id', $this->user_id);
@@ -87,13 +85,16 @@ class ilConsultationHoursGUI
 		
 		switch($this->ctrl->getNextClass())
 		{
-			case "ilpublicuserprofilegui":
+			case "ilpublicuserprofilegui":				
 				include_once('./Services/User/classes/class.ilPublicUserProfileGUI.php');
 				$profile = new ilPublicUserProfileGUI($this->user_id);
-				$ilCtrl->forwardCommand($profile);
+				$profile->setBackUrl($this->getProfileBackUrl());
+				$ret = $ilCtrl->forwardCommand($profile);
+				$tpl->setContent($ret);
 			    break;
 			
-			default:
+			default:				
+				$this->setTabs();
 				$cmd = $this->ctrl->getCmd('appointmentList');
 				$this->$cmd();
 		}
@@ -602,27 +603,37 @@ class ilConsultationHoursGUI
 
 		$ilTabs->clearTargets();
 
+		$user_id = (int)$_GET['user'];
+	
+		include_once 'Services/User/classes/class.ilPublicUserProfileGUI.php';
+		$profile = new ilPublicUserProfileGUI($user_id);
+		$profile->setBackUrl($this->getProfileBackUrl());
+		$tpl->setContent($ilCtrl->getHTML($profile));
+	}
+	
+	/**
+	 * Build context-sensitive profile back url
+	 * 
+	 * @return string
+	 */
+	protected function getProfileBackUrl()
+	{
 		// from repository 
 		if(isset($_REQUEST["ref_id"]))
 		{
-			$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI'));
+			$url = $this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI');
 		}
 		// from panel
 		else if(isset($_GET['panel']))
 		{
-			$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilCalendarPresentationGUI'));
+			$url = $this->ctrl->getLinkTargetByClass('ilCalendarPresentationGUI');
 		}
 		// from appointments
 		else
 		{
-			$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'appointmentList'));
+			$url = $this->ctrl->getLinkTarget($this, 'appointmentList');
 		}
-
-		$user_id = (int)$_GET['user'];
-
-		include_once 'Services/User/classes/class.ilPublicUserProfileGUI.php';
-		$profile = new ilPublicUserProfileGUI($user_id);
-		$tpl->setContent($profile->getHTML());
+		return $url;
 	}
 
 	/**

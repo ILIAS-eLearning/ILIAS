@@ -82,10 +82,12 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				break;
 
 			case 'ilpublicuserprofilegui':
-				$this->tabs_gui->setTabActive('schedules');
+				$ilTabs->clearTargets();
 				include_once("Services/User/classes/class.ilPublicUserProfileGUI.php");
-				$profile =& new ilPublicUserProfileGUI((int)$_GET["user"]);
-				$ret =& $this->ctrl->forwardCommand($profile);
+				$profile = new ilPublicUserProfileGUI((int)$_GET["user_id"]);
+				$profile->setBackUrl($this->ctrl->getLinkTarget($this, 'log'));
+				$ret = $this->ctrl->forwardCommand($profile);
+				$tpl->setContent($ret);
 				break;
 
 			case 'ilinfoscreengui':
@@ -440,7 +442,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 					}
 					else
 					{
-						if(isset($days[$loop]['caption']))
+						if(isset($days[$loop]['captions']))
 						{
 							foreach($days[$loop]['captions'] as $slot_id => $slot_caption)
 							{
@@ -813,16 +815,16 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 	function showProfileObject()
 	{
-		global $tpl;
+		global $tpl, $ilCtrl;
 		
 		$this->tabs_gui->clearTargets();
-		$this->tabs_gui->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'log'));
-
+		
 		$user_id = (int)$_GET['user_id'];
-
+		
 		include_once 'Services/User/classes/class.ilPublicUserProfileGUI.php';
 		$profile = new ilPublicUserProfileGUI($user_id);
-		$tpl->setContent($profile->getHTML());
+		$profile->setBackUrl($this->ctrl->getLinkTarget($this, 'log'));
+		$tpl->setContent($ilCtrl->getHTML($profile));
 	}
 }
 

@@ -661,16 +661,19 @@ class ilPublicUserProfileGUI
 		
 		if($this->portfolioid)
 		{					
-			$pages = ilPortfolioPage::getAllPages($this->portfolioid);			
-			foreach ($pages as $p)
+			$pages = ilPortfolioPage::getAllPages($this->portfolioid);	
+			if(count($pages) > 1)
 			{
-				$ilCtrl->setParameter($this, "user_page", $p["id"]);
-				$ilTabs->addTab("user_page_".$p["id"],
-					$p["title"],
-					$ilCtrl->getLinkTarget($this, "getHTML"));
-			}
+				foreach ($pages as $p)
+				{
+					$ilCtrl->setParameter($this, "user_page", $p["id"]);
+					$ilTabs->addTab("user_page_".$p["id"],
+						$p["title"],
+						$ilCtrl->getLinkTarget($this, "getHTML"));
+				}
 
-			$ilTabs->activateTab($a_active);
+				$ilTabs->activateTab($a_active);
+			}
 		}
 	}
 }
