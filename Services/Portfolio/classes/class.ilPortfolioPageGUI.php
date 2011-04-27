@@ -156,8 +156,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		foreach($parts as $type => $def)
 		{			
 			$def = implode("]+)#([", $def);					
-			if(preg_match_all("/&#123;&#123;&#123;&#123;&#123;".$type."#([".$def.
-					"]+)&#125;&#125;&#125;&#125;&#125;/", $a_output, $blocks))
+			if(preg_match_all("/".$this->pl_start.$type."#([".$def.
+					"]+)".$this->pl_end."/", $a_output, $blocks))
 			{
 				foreach($blocks[0] as $idx => $block)
 				{
