@@ -67,7 +67,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
+		
 		switch($next_class)
 		{				
 			case "ilpageobjectgui":
@@ -92,7 +92,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		global $tpl, $ilCtrl;
 		
 		$this->setTemplateOutput(false);
-		$this->setPresentationTitle($this->getPageObject()->getTitle());
+		// $this->setPresentationTitle($this->getPageObject()->getTitle());
 		$output = parent::showPage();
 		
 		return $output;
@@ -107,10 +107,43 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	function getTabs($a_activate = "")
 	{
 		global $ilTabs, $ilCtrl;
-
-		parent::getTabs($a_activate);		
+		
+		if(!$this->embedded)
+		{
+			parent::getTabs($a_activate);
+		}
+	}
+	
+	/**
+	 * Set embedded mode: will suppress tabs
+	 * 
+	 * @param bool $a_value	 
+	 */
+	function setEmbedded($a_value)
+	{
+		$this->embedded = (bool)$a_value;
+	}
+	
+	/**
+	* Set Additonal Information.
+	*
+	* @param	array	$a_additional	Additonal Information
+	*/
+	function setAdditional($a_additional)
+	{
+		$this->additional = $a_additional;
 	}
 
+	/**
+	* Get Additonal Information.
+	*
+	* @return	array	Additonal Information
+	*/
+	function getAdditional()
+	{
+		return $this->additional;
+	}
+	
 	function postOutputProcessing($a_output)
 	{		
 		$parts = array(
@@ -166,6 +199,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
 		$pub_profile = new ilPublicUserProfileGUI($a_user_id);
 		$pub_profile->setEmbedded(true);
+		
+		// full circle: additional was set in the original public user profile call
+		$pub_profile->setAdditional($this->getAdditional());
 
 		if($a_type == "manual" && sizeof($a_fields))
 		{

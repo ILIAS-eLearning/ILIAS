@@ -131,9 +131,11 @@ class ilObjForumGUI extends ilObjectGUI
 				$this->showThreadsObject();
 				break;
 
-			case 'ilpublicuserprofilegui':
+			case 'ilpublicuserprofilegui':				
 				include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+				$add = $this->getUserProfileAdditional($_GET["ref_id"], $_GET["user"]);
+				$profile_gui->setAdditional($add);
 				$ret = $this->ctrl->forwardCommand($profile_gui);
 				$this->tpl->setContent($ret);
 				break;
@@ -2771,10 +2773,35 @@ class ilObjForumGUI extends ilObjectGUI
 	* Show user profile.
 	*/
 	function showUserObject()
+	{		
+		global $tpl;
+	
+		// we could actually call ilpublicuserprofilegui directly, this method
+		// is not needed - but sadly used throughout the forum code
+		// see above in execute command
+						
+		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
+		$profile_gui = new ilPublicUserProfileGUI($_GET['user']);
+		$add = $this->getUserProfileAdditional($_GET["ref_id"], $_GET["user"]);
+		$profile_gui->setAdditional($add);
+		$profile_gui->setBackUrl($_GET['backurl']);
+		$tpl->setContent($this->ctrl->getHTML($profile_gui));
+	}
+	
+	/**
+	 * Additional data for public profile
+	 * 
+	 * Used in showUserObject() and executeCommand()
+	 * 
+	 * @param int $a_forum_ref_id
+	 * @param int $a_user_id
+	 * @return array 
+	 */
+	protected function getUserProfileAdditional($a_forum_ref_id, $a_user_id)
 	{
-		global $lng, $tpl, $ilAccess;
-
-		if (!$ilAccess->checkAccess('read', '', $_GET['ref_id']))
+		global $lng, $ilAccess;
+		
+		if (!$ilAccess->checkAccess('read', '', $a_forum_ref_id))
 		{
 			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
@@ -2783,10 +2810,10 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		$lng->loadLanguageModule('forum');
 		
-		$ref_obj =& ilObjectFactory::getInstanceByRefId($_GET['ref_id']);
+		$ref_obj =& ilObjectFactory::getInstanceByRefId($a_forum_ref_id);
 		if ($ref_obj->getType() == 'frm')
 		{
-			$forumObj = new ilObjForum($_GET['ref_id']);
+			$forumObj = new ilObjForum($a_forum_ref_id);
 			$frm =& $forumObj->Forum;
 			$frm->setForumId($forumObj->getId());
 			$frm->setForumRefId($forumObj->getRefId());
@@ -2796,38 +2823,17 @@ class ilObjForumGUI extends ilObjectGUI
 			$frm =& new ilForum();
 		}
 		
-		$tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_user_view.html',	'Modules/Forum');		
-		
-		$_GET['obj_id'] = $_GET['user'];
-		
 		// count articles of user
-		if ($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
+		if ($ilAccess->checkAccess('moderate_frm', '', $a_forum_ref_id))
 		{
-			$numPosts = $frm->countUserArticles(addslashes($_GET['user']));
+			$numPosts = $frm->countUserArticles(addslashes($a_user_id));
 		}
 		else
 		{
-			$numPosts = $frm->countActiveUserArticles(addslashes($_GET['user']));	
+			$numPosts = $frm->countActiveUserArticles(addslashes($a_user_id));	
 		}
-		$add = array($lng->txt('forums_posts') => $numPosts);
 		
-		//$user_gui = new ilObjUserGUI('', $_GET['user'], false, false);
-		//$user_gui->insertPublicProfile('USR_PROFILE', 'usr_profile', $add);
-		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
-		$profile_gui = new ilPublicUserProfileGUI($_GET['user']);
-		$profile_gui->setAdditional($add);
-		$profile_gui->setBackUrl($_GET['backurl']);
-		$tpl->setVariable("USR_PROFILE", $profile_gui->getHTML());
-		
-//		if ($_GET['backurl'])
-//		{
-//			global $ilToolbar;
-//			$ilToolbar->addButton($this->lng->txt('back'), urldecode($_GET['backurl']));
-//		}
-				
-		$tpl->setVariable('TPLPATH', $tpl->vars['TPLPATH']);
-		
-		return true;
+		return array($lng->txt('forums_posts') => $numPosts);		
 	}
 	
 	/**
