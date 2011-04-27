@@ -46,7 +46,7 @@ class ilObjChatGUI extends ilObjectGUI
 
 	public function &executeCommand()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $tpl;
 
 		if($_GET["baseClass"] == "ilChatPresentationGUI")
 		{
@@ -73,6 +73,7 @@ class ilObjChatGUI extends ilObjectGUI
 				include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
 				$profile_gui = new ilPublicUserProfileGUI((int)$_GET['user']);
 				$ret = $this->ctrl->forwardCommand($profile_gui);
+				$tpl->setContent($ret);
 				break;
 
 			case 'ilinfoscreengui':
