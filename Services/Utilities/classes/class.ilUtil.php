@@ -2071,9 +2071,6 @@ class ilUtil
 	{
 		// The filename must be converted to ASCII, as of RFC 2183,
 		// section 2.3.
-		// Despite the RFC, Internet Explorer on Windows supports
-		// ISO 8895-1 encoding for the file name. We use this fact, to
-		// produce a better result, if the user uses IE.
 
 		/// Implementation note:
 		/// 	The proper way to convert charsets is mb_convert_encoding.
@@ -2087,30 +2084,15 @@ class ilUtil
 		/// 	replaces HTML entities with their first character.
 		/// 	e.g. &auml; => a
 
-		$user_agent = strtolower($_SERVER["HTTP_USER_AGENT"]);
-		if ((is_integer(strpos($user_agent, "msie"))) && is_integer(strpos($user_agent, "win")))
-		{
-			///$ascii_filename = mb_convert_encoding($a_filename, 'ISO_8859-1','UTF-8');
-			///$ascii_filename = preg_replace('/\&(.)[^;]*;/","\\1', $ascii_filename);
+		/// $ascii_filename = mb_convert_encoding($a_filename,'US-ASCII','UTF-8');
+		/// $ascii_filename = preg_replace('/\&(.)[^;]*;/','\\1', $ascii_filename);
 
-			$ascii_filename = utf8_decode($a_filename);
-		}
-		else
-		{
-			///$ascii_filename = mb_convert_encoding($a_filename,'US-ASCII','UTF-8');
-			///$ascii_filename = preg_replace('/\&(.)[^;]*;/','\\1', $ascii_filename);
-
-			$ascii_filename = htmlentities($a_filename,ENT_NOQUOTES,'UTF-8');
-			$ascii_filename = preg_replace('/\&(.)[^;]*;/','\\1', $ascii_filename);
-			$ascii_filename = preg_replace('/[\x7f-\xff]/','_', $ascii_filename);
-		}
-
-		// OS do not allow the following characters in filenames:
-		// \/:*?"<>|
-		//if (is_integer(strpos($user_agent, "win")))
-		{
-			$ascii_filename = preg_replace('/[:\x5c\/\*\?\"<>\|]/','_', $ascii_filename);
-		}
+		$ascii_filename = htmlentities($a_filename, ENT_NOQUOTES, 'UTF-8');
+		$ascii_filename = preg_replace('/\&(.)[^;]*;/', '\\1', $ascii_filename);
+		$ascii_filename = preg_replace('/[\x7f-\xff]/', '_', $ascii_filename);
+		
+		// OS do not allow the following characters in filenames: \/:*?"<>|
+		$ascii_filename = preg_replace('/[:\x5c\/\*\?\"<>\|]/', '_', $ascii_filename);
 
 		return $ascii_filename;
 	}
