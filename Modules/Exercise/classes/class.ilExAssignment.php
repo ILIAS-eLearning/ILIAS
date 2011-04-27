@@ -1051,7 +1051,8 @@ class ilExAssignment
 		{
 			$deliverFilename .= "_files";
 		}
-		$deliverFilename = ilUtil::getASCIIFilename(trim($deliverFilename));
+		$orgDeliverFilename = trim($deliverFilename);
+		$deliverFilename = ilUtil::getASCIIFilename($orgDeliverFilename);
 		ilUtil::makeDir($tmpdir."/".$deliverFilename);
 		chdir($tmpdir."/".$deliverFilename);
 
@@ -1084,9 +1085,8 @@ class ilExAssignment
 		exec($zipcmd);
 		ilUtil::delDir($tmpdir);
 		
-		$deliverFilename .= ".zip";
 		chdir($cdir);
-		ilUtil::deliverFile($tmpzipfile, $deliverFilename);
+		ilUtil::deliverFile($tmpzipfile, $orgDeliverFilename.".zip");
 		unlink($tmpzipfile);
 	}
 
