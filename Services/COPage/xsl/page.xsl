@@ -197,6 +197,9 @@
 				<xsl:for-each select="//MediaAlias[@OriginId = $corig]/../MediaAliasItem[@Purpose = $corigp]/MapArea[1]">
 					<map>
 						<xsl:attribute name="name">map_<xsl:value-of select="$corig"/>_<xsl:value-of select="$corigp"/></xsl:attribute>
+						<xsl:if test="name(../..) = 'InteractiveImage'">
+							<xsl:attribute name="class">iim</xsl:attribute>
+						</xsl:if>
 						<xsl:call-template name="outputImageMapAreas" />
 					</map>
 				</xsl:for-each>
@@ -259,9 +262,19 @@
 		<area>
 			<xsl:attribute name="shape"><xsl:value-of select="@Shape"/></xsl:attribute>
 			<xsl:attribute name="coords"><xsl:value-of select="@Coords"/></xsl:attribute>
+			<xsl:attribute name="id">marea_<xsl:value-of select = "$pg_id"/>_<xsl:number count="MapArea" level="any" /></xsl:attribute>
 			<xsl:call-template name="setAreaLinkAttributes">
 			</xsl:call-template>
 		</area>
+		<xsl:if test="name(../../..) = 'InteractiveImage'">
+			<script type="text/javascript">
+				ilAddOnLoad(function() {ilCOPagePres.addIIMArea(
+					{area_id: 'marea_<xsl:value-of select = "$pg_id"/>_<xsl:number count="MapArea" level="any" />',
+					iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
+					title: '<xsl:value-of select = "ExtLink[1]"/>'
+				})});
+			</script>
+		</xsl:if>
 	</xsl:for-each>
 </xsl:template>
 
@@ -886,7 +899,8 @@
 
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
-	<xsl:param name="par_counter" select="-1" />	
+	<xsl:param name="par_counter" select="-1" />
+	<xsl:comment>ParStart</xsl:comment>	
 	<xsl:choose>
 		<xsl:when test="@Characteristic = 'Headline1'">
 		<!-- Label -->
@@ -928,6 +942,7 @@
 			</xsl:call-template>
 		</xsl:otherwise>
 	</xsl:choose>
+	<xsl:comment>ParEnd</xsl:comment>
 </xsl:template>
 
 <xsl:template name="ShowParagraph">
@@ -2829,6 +2844,7 @@
 	</xsl:if>
 	<div style="border: 2px solid #000000; padding: 20px;">InteractiveImage:<br />
 		<xsl:apply-templates select="MediaAlias"/>
+		<xsl:apply-templates select="Trigger"/>
 		<xsl:apply-templates select="ContentPopup"/>
 		<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
 	</div>
@@ -2866,6 +2882,22 @@
 	</div>
 </xsl:template>
 
+<!-- Trigger -->
+<xsl:template match="Trigger">
+	<xsl:if test="@OverAction">
+		<img style="display:none;">
+		<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after(../MediaAlias[1]/@OriginId,'mob_')"/>/overlays/<xsl:value-of select="@OverAction"/></xsl:attribute>
+		<xsl:attribute name="id">iim_ov_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+		</img>
+		<script type="text/javascript">
+			ilAddOnLoad(function() {ilCOPagePres.addIIMTrigger({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
+				type: '<xsl:value-of select="@Type"/>', title: '<xsl:value-of select="@Title"/>',
+				posx: '<xsl:value-of select="@PosX"/>', posy: '<xsl:value-of select="@PosY"/>',
+				tr_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />'
+			})});
+		</script>
+	</xsl:if>
+</xsl:template>
 
 <!-- Section -->
 <xsl:template match="Section">

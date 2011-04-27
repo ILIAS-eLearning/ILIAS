@@ -17,6 +17,9 @@ class ilPCInteractiveImage extends ilPageContent
 	var $dom;
 	var $iim_node;
 	
+	const AREA = "Area";
+	const MARKER = "Marker";
+	
 	/**
 	 * Init page content component.
 	 */
@@ -354,6 +357,119 @@ class ilPCInteractiveImage extends ilPageContent
 		}
 	}
 */
+
+	////
+	//// Trigger
+	////
+	
+	/**
+	 * Add a new trigger
+	 */
+	function addTrigger($a_alias_item, $a_shape_type, $a_coords, $a_title,
+		$a_link)
+	{
+		$link = array(
+			"LinkType" => IL_EXT_LINK,
+			"Href" => ilUtil::stripSlashes("#"));
+
+		$a_alias_item->addMapArea(
+			$a_shape_type, $a_coords,
+			ilUtil::stripSlashes($a_title), $link);
+		
+		$attributes = array("Type" => self::AREA,
+			"Title" => ilUtil::stripSlashes($a_title),
+			"PosX" => "0", "PosY" => "0", "OverAction" => "", "ClickAction" => "");
+		$ma_node = ilDOMUtil::addElementToList($this->dom, $this->iim_node,
+			"Trigger", array("ContentPopup"), "", $attributes);
+	}
+
+	/**
+	 * Get trigger nodes
+	 */
+	function getTriggerNodes($a_hier_id, $a_pc_id = "")
+	{
+		if ($a_pc_id != "")
+		{
+			$xpc = xpath_new_context($this->dom);
+			$path = "//PageContent[@PCID = '".$a_pc_id."']/InteractiveImage/Trigger";
+			$res =& xpath_eval($xpc, $path);
+			if (count($res->nodeset) > 0)
+			{
+				return $res->nodeset;
+			}
+			return array();
+		}
+		
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageContent[@HierId = '".$a_hier_id."']/InteractiveImage/Trigger";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) > 0)
+		{
+			return $res->nodeset;
+		}
+	}
+
+	
+	/**
+	 * Get triggers
+	 */
+	function getTriggers()
+	{
+		$tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
+		$trigger_arr = array();
+		for($i=0; $i < count($tr_nodes); $i++)
+		{
+			$tr_node = $tr_nodes[$i];
+			$childs = $tr_node->child_nodes();
+			$trigger_arr[] = array(
+				"Nr" => $i + 1,
+				"Type" => $tr_node->get_attribute("Type"),
+				"Title" => $tr_node->get_attribute("Title"),
+				"PosX" => $tr_node->get_attribute("PosX"),
+				"PosY" => $tr_node->get_attribute("PosY"),
+				"OverAction" => $tr_node->get_attribute("OverAction"),
+				"ClickAction" => $tr_node->get_attribute("ClickAction")
+				);
+		}
+		
+		return $trigger_arr;
+	}
+	
+	/**
+	 * Set trigger overlays
+	 *
+	 * @param array array of strings (representing the overlays for the trigger)
+	 */
+	function setTriggerOverlays($a_ovs)
+	{
+		$tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
+		reset($a_ovs);
+		for($i=0; $i < count($tr_nodes); $i++)
+		{
+			$ov = current($a_ovs);
+			$tr_node = $tr_nodes[$i];
+			$tr_node->set_attribute("OverAction", $ov);
+			next($a_ovs);
+		}
+	}
+	
+	/**
+	 * Set trigger popups
+	 *
+	 * @param array array of strings (representing the popups for the trigger)
+	 */
+	function setTriggerPopups($a_pops)
+	{
+		$tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
+		reset($a_pops);
+		for($i=0; $i < count($tr_nodes); $i++)
+		{
+			$pop = current($a_pops);
+			$tr_node = $tr_nodes[$i];
+			$tr_node->set_attribute("ClickAction", $pop);
+			next($a_pops);
+		}
+	}
 
 }
 ?>

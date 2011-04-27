@@ -86,6 +86,92 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	}
 
 	/**
+	 * Init area editing form.
+	 *
+	 * @param        int        $a_mode        Edit Mode
+	 */
+	public function initAreaEditingForm($a_edit_property)
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setOpenTag(false);
+		$form->setCloseTag(false);
+
+		// name
+		if ($a_edit_property != "link" && $a_edit_property != "shape")
+		{ 
+			$ti = new ilTextInputGUI($lng->txt("cont_name"), "area_name");
+			$ti->setMaxLength(200);
+			$ti->setSize(20);
+			$ti->setRequired(true);
+			$form->addItem($ti);
+		}
+		
+		// save and cancel commands
+		if ($a_edit_property == "")
+		{
+			$form->setTitle($lng->txt("cont_new_trigger_area"));
+			$form->addCommandButton("saveArea", $lng->txt("save"));
+		}
+		else
+		{
+			$form->setTitle($lng->txt("cont_new_area"));
+			$form->addCommandButton("saveArea", $lng->txt("save"));
+		}
+	                
+		return $form;
+	}
+
+	/**
+	 * Save new or updated map area
+	 */
+	function saveArea()
+	{
+		global $lng, $ilCtrl;
+		
+		switch ($_SESSION["il_map_edit_mode"])
+		{
+			// save edited shape
+			case "edit_shape":
+				$this->std_alias_item->setShape($_SESSION["il_map_area_nr"],
+					$_SESSION["il_map_edit_area_type"], $_SESSION["il_map_edit_coords"]);
+				$this->updated = $this->page->update();
+				break;
+
+			// save new area
+			default:
+				$area_type = $_SESSION["il_map_edit_area_type"];
+				$coords = $_SESSION["il_map_edit_coords"];
+				$this->content_obj->addTrigger($this->std_alias_item,
+					$area_type, $coords,
+					ilUtil::stripSlashes($_POST["area_name"]), $link);
+				$this->updated = $this->page->update();
+				break;
+		}
+
+		//$this->initMapParameters();
+		ilUtil::sendSuccess($lng->txt("cont_saved_map_area"), true);
+		$ilCtrl->redirect($this, "editMapAreas");
+	}
+	
+	/**
+	 * Update trigger
+	 */
+	function updateTrigger()
+	{
+		global $lng, $ilCtrl;
+		
+		$this->content_obj->setTriggerOverlays($_POST["ov"]);
+		$this->content_obj->setTriggerPopups($_POST["pop"]);
+		$this->updated = $this->page->update();
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "editMapAreas");
+	}
+	
+
+	/**
 	 * Delete trigger
 	 */
 	function deleteTrigger()

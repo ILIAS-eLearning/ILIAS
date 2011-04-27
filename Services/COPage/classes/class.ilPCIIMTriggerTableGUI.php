@@ -37,7 +37,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 		$this->pop_options = array("" => $lng->txt("please_select"));
 		foreach ($this->popups as $k => $p)
 		{
-			$this->pop_options[$p["hier_id"].":".$p["pc_id"]] = $p["title"];
+			$this->pop_options[$p["title"]] = $p["title"];
 		}
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_pc_media_object->getMediaObject());
 		$this->setRowTemplate("tpl.iim_trigger_row.html", "Services/COPage");
@@ -80,17 +80,10 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 	*/
 	function getItems()
 	{
-		$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId(),
-			$this->parent_node_name);
-		$areas = $std_alias_item->getMapAreas();
-
-		foreach ($areas as $k => $a)
-		{
-			$areas[$k]["title"] = $a["Link"]["Title"];
-		}
-		$areas = ilUtil::sortArray($areas, "title", "asc", false, true);
-		$this->setData($areas);
+		$triggers = $this->pc_media_object->getTriggers();
+		
+		$triggers = ilUtil::sortArray($triggers, "Title", "asc", false, true);
+		$this->setData($triggers);
 	}
 	
 	/**
@@ -105,7 +98,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 		$this->tpl->setVariable("CHECKBOX",
 			ilUtil::formCheckBox("", "area[]", $i));
 		$this->tpl->setVariable("VAR_NAME", "name_".$i);
-		$this->tpl->setVariable("VAL_NAME", $a_set["Link"]["Title"]);
+		$this->tpl->setVariable("VAL_NAME", $a_set["Title"]);
 		$this->tpl->setVariable("VAL_SHAPE", $a_set["Shape"]);
 		$this->tpl->setVariable("VAL_COORDS",
 			implode(explode(",", $a_set["Coords"]), ", "));

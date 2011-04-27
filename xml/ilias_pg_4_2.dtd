@@ -91,9 +91,9 @@
 >
 
 <!-- Interactive Image -->
-<!ELEMENT InteractiveImage (MediaAlias, MediaAliasItem+, InteractiveElement*, ContentPopup*)>
-<!ELEMENT InteractiveElement EMPTY>
-<!ATTLIST InteractiveElement
+<!ELEMENT InteractiveImage (MediaAlias, MediaAliasItem+, Trigger*, ContentPopup*)>
+<!ELEMENT Trigger EMPTY>
+<!ATTLIST Trigger
 	Type (Area | Marker) #REQUIRED
 	Title CDATA #IMPLIED
 	PosX CDATA #IMPLIED

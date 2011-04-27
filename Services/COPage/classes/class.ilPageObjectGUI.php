@@ -68,6 +68,11 @@ class ilPageObjectGUI
 	var $tabs_enabled = true;
 	private $enabledloginpage = false;
 	
+	//var $pl_start = "&#123;&#123;&#123;&#123;&#123;";
+	//var $pl_end = "&#125;&#125;&#125;&#125;&#125;";
+	var $pl_start = "{{{{{";
+	var $pl_end = "}}}}}";
+	
 	// name keys like pc class names!
 	var $pc_types = array(
 		"ContentInclude" => array(
@@ -1974,8 +1979,7 @@ class ilPageObjectGUI
 		// workaround for preventing template engine
 		// from hiding paragraph text that is enclosed
 		// in curly brackets (e.g. "{a}", see ilLMEditorGUI::executeCommand())
-		$output = str_replace("{", "&#123;", $output);
-		$output = str_replace("}", "&#125;", $output);
+		$output = $this->replaceCurlyBrackets($output);
 
 		// remove all newlines (important for code / pre output)
 		$output = str_replace("\n", "", $output);
@@ -1986,7 +1990,7 @@ class ilPageObjectGUI
 		{
 			foreach ($qhtml as $k => $h)
 			{
-				$output = str_replace("&#123;&#123;&#123;&#123;&#123;Question;il__qst_$k&#125;&#125;&#125;&#125;&#125;", " ".$h, $output);
+				$output = str_replace($this->pl_start."Question;il__qst_$k".$this->pl_end, " ".$h, $output);
 			}
 		}
 
@@ -2038,6 +2042,32 @@ class ilPageObjectGUI
 		}
 	}
 
+	/**
+	 * Replace curly brackets
+	 *
+	 * @param
+	 * @return
+	 */
+	function replaceCurlyBrackets($output)
+	{
+//echo "<br><br>".htmlentities($output);
+		
+		while (is_int($start = strpos($output, "<!--ParStart-->")) &&
+			is_int($end = strpos($output, "<!--ParEnd-->", $start)))
+		{
+			$output = substr($output, 0, $start).
+				str_replace(array("{","}"), array("&#123;","&#125;"),
+					substr($output, $start + 15, $end - ($start + 15))).
+				substr($output, $end + 13);
+		}
+
+//		$output = str_replace("{", "&#123;", $output);
+//		$output = str_replace("}", "&#125;", $output);
+//echo "<br><br>".htmlentities($output);
+		return $output;
+	}
+	
+	
 	/**
 	 * Add actions menu
 	 */
