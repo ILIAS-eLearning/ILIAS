@@ -7,9 +7,7 @@
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI, ilExtPublicProfilePageGUI
- * @ilCtrl_Calls ilPersonalProfileGUI: ilPortfolioGUI
- *
+ * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI, ilPortfolioGUI
  */
 class ilPersonalProfileGUI
 {
@@ -40,7 +38,7 @@ class ilPersonalProfileGUI
 		$this->upload_error = "";
 		$this->password_error = "";
 		$lng->loadLanguageModule("user");
-		$ilCtrl->saveParameter($this, "user_page");
+		// $ilCtrl->saveParameter($this, "user_page");
 	}
 
 	/**
@@ -56,12 +54,16 @@ class ilPersonalProfileGUI
 		{
 			case "ilpublicuserprofilegui":
 				include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
-				$pub_profile_gui = new ilPublicUserProfileGUI($ilUser->getId());
+				$_GET["user_id"] = $ilUser->getId();
+				$pub_profile_gui = new ilPublicUserProfileGUI($_GET["user_id"]);
+				$pub_profile_gui->setBackUrl($ilCtrl->getLinkTarget($this, "showPersonalData"));
 				$ilCtrl->forwardCommand($pub_profile_gui);
+				$tpl->show();
 				break;
 
 			case "ilportfoliogui":
 				$this->__initSubTabs("portfolios");
+				$ilTabs->activateTab("portfolios");
 				$tpl->setTitle($lng->txt("personal_profile"));
 				include_once("./Services/Portfolio/classes/class.ilPortfolioGUI.php");
 				$portfolio_gui = new ilPortfolioGUI($ilUser->getId());
@@ -69,26 +71,6 @@ class ilPersonalProfileGUI
 				$tpl->show();
 				break;
 
-			case 'ilextpublicprofilepagegui':
-				$this->initExtProfile();
-				$ilTabs->clearTargets();
-				$ilTabs->setBackTarget($lng->txt("back"),
-					$ilCtrl->getLinkTarget($this, "showExtendedProfile"));
-				include_once("./Services/User/classes/class.ilExtPublicProfilePageGUI.php");
-				$page_gui = new ilExtPublicProfilePageGUI($_GET["user_page"]);
-				$tpl->setCurrentBlock("ContentStyle");
-				$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath(0));
-				$tpl->parseCurrentBlock();
-				$ret = $this->ctrl->forwardCommand($page_gui);
-				if ($ret != "")
-				{
-					$tpl->setContent($ret);
-				}
-				$tpl->show();
-				break;
-
-			
 			default:
 				//$this->setTabs();
 				
@@ -627,7 +609,7 @@ class ilPersonalProfileGUI
 	// init sub tabs
 	function __initSubTabs($a_cmd)
 	{
-		global $ilTabs, $ilSetting;
+		global $ilTabs, $ilSetting, $ilUser;
 
 		// profile
 		$ilTabs->addTab("profile", 
@@ -646,20 +628,15 @@ class ilPersonalProfileGUI
 				$this->lng->txt("public_profile"),
 				$this->ctrl->getLinkTarget($this, "showPublicProfile"));
 			
-			// profile preview
-			$ilTabs->addSubTab("profile_preview",
-				$this->lng->txt("preview"),
-				$this->ctrl->getLinkTarget($this, "showProfilePreview"));
+			if($ilUser->getPref("public_profile") != "n")
+			{			
+				// profile preview
+				$ilTabs->addSubTab("profile_preview",
+					$this->lng->txt("user_profile_preview"),
+					$this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "view"));
+			}
 		}
 		
-
-		if ($ilSetting->get('user_ext_profiles'))
-		{
-			$ilTabs->addTab("user_ext_profile",
-				$this->lng->txt("user_ext_profile"),
-				$this->ctrl->getLinkTarget($this, "showExtendedProfile"));
-		}
-
 		// :TODO: admin setting
 		if(true)
 		{
@@ -1115,7 +1092,7 @@ class ilPersonalProfileGUI
 		$ptpl->setVariable("FORM", $this->form->getHTML());
 		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
 		$pub_profile = new ilPublicUserProfileGUI($ilUser->getId());
-		$ptpl->setVariable("PREVIEW", $pub_profile->getHTML(true));
+		$ptpl->setVariable("PREVIEW", $pub_profile->getEmbeddable());
 		$this->tpl->setContent($ptpl->get());
 		$this->tpl->show();
 	}
@@ -1389,227 +1366,6 @@ class ilPersonalProfileGUI
 		$this->form->setValuesByPost();
 		$tpl->showPublicProfile(true);
 	}
-
-	//
-	//
-	// Extended user profile
-	//
-	//
-
-	/**
-	 * Show extended profile
-	 *
-	 * @param
-	 * @return
-	 */
-	function showExtendedProfile()
-	{
-		global $tpl, $ilTabs, $ilToolbar, $lng, $ilCtrl;
-
-		$this->initExtProfile();
-		
-		$ilToolbar->addButton($lng->txt("user_add_page"),
-			$ilCtrl->getLinkTarget($this, "addProfilePage"));
-
-		include_once("./Services/User/classes/class.ilExtendedProfileTableGUI.php");
-		$tab = new ilExtendedProfileTableGUI($this, "showExtendedProfile");
-		$tpl->setContent($tab->getHTML());
-
-		$tpl->show();
-	}
-
-	/**
-	 * Add profile page
-	 *
-	 * @param
-	 * @return
-	 */
-	function addProfilePage()
-	{
-		global $tpl, $ilTabs;
-
-		$this->initExtProfile();
-		$this->initProfilePageForm("create");
-		$tpl->setContent($this->form->getHTML());
-
-		$tpl->show();
-
-	}
-
-	/**
-	 * Init profile page form.
-	 *
-	 * @param        int        $a_mode        Edit Mode
-	 */
-	public function initProfilePageForm($a_mode = "edit")
-	{
-		global $lng, $ilCtrl;
-
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-
-
-		// save and cancel commands
-		if ($a_mode == "create")
-		{
-			// title
-			$ti = new ilTextInputGUI($lng->txt("title"), "title");
-			$ti->setMaxLength(200);
-			$ti->setRequired(true);
-			$this->form->addItem($ti);
-
-			$this->form->addCommandButton("saveProfilePage", $lng->txt("save"));
-			$this->form->addCommandButton("showExtendedProfile", $lng->txt("cancel"));
-			$this->form->setTitle($lng->txt("user_new_profile_page"));
-		}
-		else
-		{
-			$this->form->addCommandButton("updateProfilePage", $lng->txt("save"));
-			$this->form->addCommandButton("showExtendedProfile", $lng->txt("cancel"));
-			$this->form->setTitle($lng->txt("user_add_profile_page"));
-		}
-		
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
-	}
-
-	/**
-	 * Save profile page form
-	 */
-	public function saveProfilePage()
-	{
-		global $tpl, $lng, $ilCtrl, $ilUser, $ilTabs;
-
-		$this->initProfilePageForm("create");
-		if ($this->form->checkInput())
-		{
-			include_once("./Services/User/classes/class.ilExtPublicProfilePage.php");
-			$page = new ilExtPublicProfilePage();
-			$page->setUserId($ilUser->getId());
-			$page->setTitle($_POST["title"]);
-			$page->create();
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-			$ilCtrl->redirect($this, "showExtendedProfile");
-		}
-
-		$this->initExtProfile();
-		$this->form->setValuesByPost();
-		$tpl->setContent($this->form->getHtml());
-		$tpl->show();
-	}
-
-	/**
-	 * Get current values for profile page from
-	 */
-	public function getProfilePageValues()
-	{
-		$values = array();
-
-		$values["title"] = "";
-
-		$this->form->setValuesByArray($values);
-	}
-
-	/**
-	 * Init desktop header
-	 */
-	function initExtProfile()
-	{
-		global $ilTabs;
-
-		$this->__initSubTabs("showExtendedProfile");
-		$ilTabs->activateTab("user_ext_profile");
-		$this->setHeader();
-	}
-
-	/**
-	 * Confirm item deletion
-	 */
-	function confirmProfilePageDeletion()
-	{
-		global $ilCtrl, $tpl, $lng;
-
-		if (!is_array($_POST["user_page"]) || count($_POST["user_page"]) == 0)
-		{
-			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
-			$ilCtrl->redirect($this, "showExtendedProfile");
-		}
-		else
-		{
-			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
-			$cgui = new ilConfirmationGUI();
-			$cgui->setFormAction($ilCtrl->getFormAction($this));
-			$cgui->setHeaderText($lng->txt("user_sure_delete_pages"));
-			$cgui->setCancel($lng->txt("cancel"), "showExtendedProfile");
-			$cgui->setConfirm($lng->txt("delete"), "deleteProfilePages");
-
-			include_once("./Services/User/classes/class.ilExtPublicProfilePage.php");
-			foreach ($_POST["user_page"] as $i => $v)
-			{
-				$cgui->addItem("user_page[]", $i, ilExtPublicProfilePage::lookupTitle($i));
-			}
-
-			$this->initExtProfile();
-			$tpl->setContent($cgui->getHTML());
-
-			$tpl->show();
-		}
-	}
-
-	/**
-	 * Delete profile pages
-	 *
-	 * @param
-	 * @return
-	 */
-	function deleteProfilePages()
-	{
-		global $ilDB, $ilUser, $lng, $ilCtrl;
-
-		include_once("./Services/User/classes/class.ilExtPublicProfilePage.php");
-		if (is_array($_POST["user_page"]))
-		{
-			foreach ($_POST["user_page"] as $i => $v)
-			{
-				$page = new ilExtPublicProfilePage(ilUtil::stripSlashes($v));
-				if ($page->getUserId() == $ilUser->getId())
-				{
-					$page->delete();
-				}
-			}
-			ilExtPublicProfilePage::fixOrdering($ilUser->getId());
-		}
-		ilUtil::sendSuccess($lng->txt("user_selected_pages_deleted"), true);
-		$ilCtrl->redirect($this, "showExtendedProfile");
-	}
-
-	/**
-	 * Save ordering of external profile pages
-	 *
-	 * @param
-	 * @return
-	 */
-	function saveExtProfilePagesOrdering()
-	{
-		global $ilCtrl, $ilUser, $lng;
-
-		include_once("./Services/User/classes/class.ilExtPublicProfilePage.php");
-
-		if (is_array($_POST["title"]))
-		{
-			foreach ($_POST["title"] as $k => $v)
-			{
-				$page = new ilExtPublicProfilePage(ilUtil::stripSlashes($k));
-				if ($page->getUserId() == $ilUser->getId())
-				{
-					$page->setTitle(ilUtil::stripSlashes($v));
-					$page->setOrderNr(ilUtil::stripSlashes($_POST["order"][$k]));
-					$page->update();
-				}
-			}
-			ilExtPublicProfilePage::fixOrdering($ilUser->getId());
-		}
-		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-		$ilCtrl->redirect($this, "showExtendedProfile");
-	}
 }
+
 ?>

@@ -1,18 +1,28 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once "Services/Portfolio/classes/class.ilPortfolio.php";
+include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
+
 /**
  * GUI class for public user profile presentation.
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPublicUserProfileGUI: ilExtPublicProfilePageGUI
+ * @ilCtrl_Calls ilPublicUserProfileGUI: ilPortfolioPageGUI
  *
  * @ingroup ServicesUser
  */
 class ilPublicUserProfileGUI
 {
+	protected $userid; // [int]
+	protected $portfolioid; // [int]
+	protected $backurl; // [string]
+	protected $additional; // [string] used in forum
+	protected $embedded; // [bool] used in portfolio
+	protected $custom_prefs; // [array] used in portfolio
+	
 	/**
 	* Constructor
 	*
@@ -20,15 +30,17 @@ class ilPublicUserProfileGUI
 	*/
 	function __construct($a_user_id = 0)
 	{
-		global $ilCtrl, $lng, $ilTabs;
-
-		$lng->loadLanguageModule("user");
+		global $ilCtrl, $lng;
+		
 		$this->setUserId($a_user_id);
+		
 		$ilCtrl->saveParameter($this, array("user_id","back_url", "user"));
 		if ($_GET["back_url"] != "")
 		{
 			$this->setBackUrl($_GET["back_url"]);
-		}
+		}		
+		
+		$lng->loadLanguageModule("user");
 	}
 	
 	/**
@@ -49,26 +61,6 @@ class ilPublicUserProfileGUI
 	function getUserId()
 	{
 		return $this->userid;
-	}
-
-	/**
-	* Set Output as Table Rows.
-	*
-	* @param	boolean	$a_asrows	Output as Table Rows
-	*/
-	function setAsRows($a_asrows)
-	{
-		$this->asrows = $a_asrows;
-	}
-
-	/**
-	* Get Output as Table Rows.
-	*
-	* @return	boolean	Output as Table Rows
-	*/
-	function getAsRows()
-	{
-		return $this->asrows;
 	}
 
 	/**
@@ -120,7 +112,6 @@ class ilPublicUserProfileGUI
 	{
 		global $ilCtrl, $tpl, $ilUser;
 		
-
 		if ($_GET["baseClass"] != "ilPublicUserProfileGUI")
 		{
 			$cmd = $ilCtrl->getCmd();
@@ -129,23 +120,15 @@ class ilPublicUserProfileGUI
 		}
 		else
 		{
-			$user_id = (int) $_GET["user_id"];
-			$this->setUserId($user_id);
-			if (ilObject::_lookupType($user_id) != "usr")
+			$user_id = (int)$_GET["user_id"];
+			if(self::validateUser($user_id))
 			{
-				return;
+				$cmd = $ilCtrl->getCmd();
+				$ret = $this->$cmd();
+				$tpl->getStandardTemplate();
+				$tpl->setContent($ret);
+				$tpl->show();
 			}
-			$user = new ilObjUser($user_id);
-			if ($ilUser->getId() == ANONYMOUS_USER_ID && $user->getPref("public_profile") != "g")
-			{
-				return;
-			}
-			$cmd = $ilCtrl->getCmd();
-
-			$ret = $this->$cmd();
-			$tpl->getStandardTemplate();
-			$tpl->setContent($ret);
-			$tpl->show();
 		}
 	}
 
@@ -186,19 +169,13 @@ class ilPublicUserProfileGUI
 	}
 
 	/**
-	* get public profile html code
-	*
-	* @param	boolean	$no_ctrl			workaround for old insert public profile
-	*										implementation
-	*/
-	function getHTML($a_preview = false)
+	 * get public profile html code
+	 * 
+	 * Used in Personal Profile (as preview) and Portfolio (as page block)
+	 */
+	function getEmbeddable()
 	{
 		global $ilSetting, $lng, $ilCtrl, $lng, $ilSetting, $ilTabs;
-
-		if (!$a_preview && !$this->embedded)
-		{
-			$this->setTabs("profile");
-		}
 
 		// get user object
 		if (!ilObject::_exists($this->getUserId()))
@@ -209,24 +186,7 @@ class ilPublicUserProfileGUI
 		
 		$tpl = new ilTemplate("tpl.usr_public_profile.html", true, true,
 			"Services/User");
-			
-		// Back Link
-		if ($this->getBackUrl() != "")
-		{
-//			$tpl->setCurrentBlock("back_url");
-//			$tpl->setVariable("TXT_BACK", $lng->txt("back"));
-//			$tpl->setVariable("HREF_BACK", $this->getBackUrl());
-//			$tpl->parseCurrentBlock();
-		}
 		
-		if (!$this->getAsRows())
-		{
-			$tpl->touchBlock("table_end");
-			$tpl->setCurrentBlock("table_start");
-			$tpl->setVariable("USR_PROFILE", $lng->txt("profile_of")." ".$user->getLogin());
-			$tpl->parseCurrentBlock();
-		}
-
 		$tpl->setVariable("ROWCOL1", "tblrow1");
 		$tpl->setVariable("ROWCOL2", "tblrow2");
 
@@ -241,18 +201,6 @@ class ilPublicUserProfileGUI
 		
 		$tpl->setVariable("TXT_MAIL", $lng->txt("send_mail"));
 
-		// Disabled (smeyer), since tags are not allowed for GET parameters
-		/*
-		$mail_to = ilMail::_getUserInternalMailboxAddress(
-			$user->getId(),
-			$user->getLogin(), 
-			$user->getFirstname(), 
-			$user->getLastname()
-		);
-		$tpl->setVariable("MAIL_USR_LOGIN", urlencode(
-			$mail_to)
-		);
-		*/
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		$tpl->setVariable('HREF_MAIL', ilMailFormCall::_getLinkTarget(basename($_SERVER['REQUEST_URI']), '', array(), array('type' => 'new', 'rcp_to' => urlencode($user->getLogin()))));
 
@@ -599,56 +547,98 @@ class ilPublicUserProfileGUI
 	}
 	
 	/**
+	 * Check if given user id is valid
+	 * 
+	 * @return bool
+	 */
+	protected static function validateUser($a_user_id)
+	{
+		global $ilUser;
+		
+		if (ilObject::_lookupType($a_user_id) != "usr")
+		{
+			return false;
+		}
+		$user = new ilObjUser($a_user_id);
+		if ($ilUser->getId() == ANONYMOUS_USER_ID && $user->getPref("public_profile") != "g")
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * View. This one is called e.g. through the goto script
 	 */
 	function view()
 	{
-		global $tpl, $ilUser;
+		global $tpl;
 		
-		$user_id = (int) $_GET["user_id"];
-		$this->setUserId($user_id);
-		if (ilObject::_lookupType($user_id) != "usr")
-		{
-			return;
+		$user_id = $this->getUserId();
+		if(!$user_id)
+		{		
+			$user_id = (int)$_GET["user_id"];				
 		}
-		$user = new ilObjUser($user_id);
-		if ($ilUser->getId() == ANONYMOUS_USER_ID && $user->getPref("public_profile") != "g")
-		{
-			return;
-		}
-		$tpl->getStandardTemplate();
-		$tpl->setContent($this->getHTML());
-//		$tpl->show();
+		if(self::validateUser($user_id))
+		{			
+			$this->setUserId($user_id);
+			$tpl->getStandardTemplate();
+			$tpl->setContent($this->getHTML());
+		}				
 	}
 
 	/**
 	 * Show user page
-	 *
-	 * @return	string	user page html
 	 */
-	function showUserPage()
+	function getHTML()
 	{
-		global $ilUser, $tpl;
-
-		$this->setTabs("user_page_".$_GET["user_page"]);
-
-		include_once("./Services/User/classes/class.ilExtPublicProfilePageGUI.php");
-		$page_gui = new ilExtPublicProfilePageGUI($_GET["user_page"]);
-		if ($page_gui->getPageObject()->getUserId() == $this->getUserId())
+		global $ilUser, $tpl, $ilCtrl;
+		
+		if($this->embedded)
 		{
-			$tpl->setCurrentBlock("ContentStyle");
-			$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath(0));
-			$tpl->parseCurrentBlock();
-			
-			return $page_gui->preview();
+			return $this->getEmbeddable();
+		}
+		
+	    $user_id = $this->getUserId();
+		if(self::validateUser($user_id))
+		{		
+			$this->portfolioid = ilPortfolio::getDefaultPortfolio($user_id);
+			if($this->portfolioid)
+			{			
+				$current_page = $_GET["user_page"];
+
+				// jump to first page of portfolio
+				if(!$current_page)
+				{				
+					$pages = ilPortfolioPage::getAllPages($this->portfolioid);
+					if($pages)
+					{
+						$pages = array_shift($pages);
+						$current_page = $pages["id"];
+					}
+				}
+				
+				$this->setTabs("user_page_".$current_page);
+
+				include_once("./Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
+				$page_gui = new ilPortfolioPageGUI($this->portfolioid, $current_page);
+				$page_gui->setEmbedded(true);
+				$page_gui->setAdditional($this->getAdditional());
+
+				$tpl->setCurrentBlock("ContentStyle");
+				$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+					ilObjStyleSheet::getContentStylePath(0));
+				$tpl->parseCurrentBlock();
+
+				return $ilCtrl->getHTML($page_gui);			
+			}
 		}
 	}
 
 	/**
 	 * Set tabs
 	 *
-	 * @param	string		back url
+	 * @param	bool	$a_active
 	 */
 	function setTabs($a_active)
 	{
@@ -668,28 +658,21 @@ class ilPublicUserProfileGUI
 			$ilTabs->setBackTarget($lng->txt("back"),
 				$back);
 		}
+		
+		if($this->portfolioid)
+		{					
+			$pages = ilPortfolioPage::getAllPages($this->portfolioid);			
+			foreach ($pages as $p)
+			{
+				$ilCtrl->setParameter($this, "user_page", $p["id"]);
+				$ilTabs->addTab("user_page_".$p["id"],
+					$p["title"],
+					$ilCtrl->getLinkTarget($this, "getHTML"));
+			}
 
-		include_once("./Services/User/classes/class.ilExtPublicProfilePage.php");
-		$pages = ilExtPublicProfilePage::getPagesOfUser($this->getUserId());
-		if (count($pages) > 0)
-		{
-			$ilTabs->addTab("profile",
-				$lng->txt("profile"),
-				$ilCtrl->getLinkTarget($this, "getHTML"));
+			$ilTabs->activateTab($a_active);
 		}
-
-		foreach ($pages as $p)
-		{
-			$ilCtrl->setParameter($this, "user_page", $p["id"]);
-			$ilTabs->addTab("user_page_".$p["id"],
-				$p["title"],
-				$ilCtrl->getLinkTarget($this, "showUserPage"));
-		}
-
-		$ilTabs->activateTab($a_active);
-
 	}
-
 }
 
 ?>

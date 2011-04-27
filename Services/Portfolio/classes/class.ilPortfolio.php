@@ -355,6 +355,26 @@ class ilPortfolio
 		}
 		return $res;
 	}
+	
+	/**
+	 * Get default portfolio of user
+	 * 
+	 * @param type $a_user_id
+	 * @return int
+	 */
+	static function getDefaultPortfolio($a_user_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT id FROM usr_portfolio".
+			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND is_default = ".$ilDB->quote(1, "integer"));
+		$res = $ilDB->fetchAssoc($set);
+		if($res["id"])
+		{
+			return $res["id"];
+		}		
+	}
 }
 
 ?>

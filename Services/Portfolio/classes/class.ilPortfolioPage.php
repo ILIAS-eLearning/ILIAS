@@ -47,6 +47,14 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	function getTitle()
 	{
+		global $lng;
+		
+		// because of migration of extended user profiles
+		if($this->title == "###-")
+		{
+			return $lng->txt("profile");
+		}
+		
 		return $this->title;
 	}
 
@@ -222,7 +230,7 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	static function getAllPages($a_portfolio_id)
 	{
-		global $ilDB;
+		global $ilDB, $lng;
 
 		$set = $ilDB->query("SELECT * FROM usr_portfolio_page".
 			" WHERE portfolio_id = ".$ilDB->quote($a_portfolio_id, "integer").
@@ -230,6 +238,12 @@ class ilPortfolioPage extends ilPageObject
 		$pages = array();
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
+			// because of migration of extended user profiles
+			if($rec["title"] == "###-")
+			{
+				$rec["title"] = $lng->txt("profile");
+			}
+			
 			$pages[] = $rec;
 		}
 		return $pages;

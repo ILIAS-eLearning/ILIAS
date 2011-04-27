@@ -95,6 +95,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 			case "ilpublicuserprofilegui":
 				include_once('./Services/User/classes/class.ilPublicUserProfileGUI.php');
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+				$profile_gui->setBackUrl($ilCtrl->getParentReturn($this));
 				return $ilCtrl->forwardCommand($profile_gui);
 				break;
 				
@@ -397,9 +398,11 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		{
 			$this->tpl->setCurrentBlock("profile_link");
 			$this->tpl->setVariable("TXT_VIEW", $lng->txt("profile"));
+			
 			$ilCtrl->setParameter($this, "user", $a_set["id"]);
 			$this->tpl->setVariable("LINK_PROFILE",
-			$ilCtrl->getLinkTarget($this, "showUserProfile"));
+				$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
+			
 			$this->tpl->setVariable("USR_ID", $a_set["id"]);
 			$this->tpl->setVariable("LINK_FULLNAME", ilObjUser::_lookupFullName($a_set["id"]));
 			$this->tpl->parseCurrentBlock();
@@ -507,33 +510,6 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		}
 		return false;
 	}
-	
-	/**
-	* show profile of other user
-	*/
-	function showUserProfile()
-	{
-		global $lng, $ilCtrl;
-		
-//		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
-//		$content_block = new ilPDContentBlockGUI("ilpersonaldesktopgui", "show");
-		include_once('./Services/User/classes/class.ilPublicUserProfileGUI.php');
-		$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
-		//$profile_gui->setAsRows(true);
-		$profile_gui->setBackUrl($ilCtrl->getParentReturn($this));
-//		$content_block->setContent($ilCtrl->getHTML($profile_gui));
-		
-//		$content_block->setTitle($lng->txt("profile_of")." ".
-//			ilObjUser::_lookupLogin($_GET["user"]));
-//		$content_block->setColSpan(2);
-//		$content_block->setImage(ilUtil::getImagePath("icon_usr.gif"));
-//		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
-//			$lng->txt("selected_items_back"));
-		
-//		return $content_block->getHTML();
-		return $ilCtrl->getHTML($profile_gui);
-	}
-
 }
 
 ?>
