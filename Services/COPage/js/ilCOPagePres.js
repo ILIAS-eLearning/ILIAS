@@ -99,48 +99,49 @@ ilCOPagePres =
 				var cnt = 1;
 				var base_map_name = base.attr('usemap').substr(1);
 				
-				// copy relevant areas of base map to overlay
-//console.log("over");
-				if (tr.map == null)
-				{
-//console.log("add area map");
-					// create a map for the overlay
-					var mapname = "iim_ov_map_" + tr['tr_id'];
-					ov.after('<map name="' + mapname + '" id="' + mapname + '"></map>');
-					tr.map = $('map#' + mapname);
-					
-					// iterate all areas of the base map (note that the "#"
-					// is already part of the usemap value
-					$("map[name='" + base_map_name + "'] > area").each(
-						function (i,el) {
-							// if title is the same, add area to overlay map
-							if (ilCOPagePres.iim_area[el.id]['title'] == t)
-							{
-								tr.map.append($(el).clone(false).attr("id", "iim_ov_area_" + tr['tr_id'] + "_" + cnt));
-								$("area#" + "iim_ov_area_" + tr['tr_id'] + "_" + cnt).mouseover(
-									function() {ilCOPagePres.overOvArea(k, true, "iim_ov_" + tr['tr_id'])});
-								$("area#" + "iim_ov_area_" + tr['tr_id'] + "_" + cnt).mouseout(
-									function() {ilCOPagePres.overOvArea(k, false, "iim_ov_" + tr['tr_id'])});
-								ilCOPagePres.overOvArea(k, true);
-							}
-							cnt++;
-						});
-					
-					// make the overlay image use the overlay map
-					ov.attr('usemap', "#" + mapname);
-				}
-				else
-				{
-//					ilCOPagePres.overOvArea(k, true);
-				}
-				
 				// display the overlay at the correct position
 				ov.css('position', 'absolute');
 				ov.css('left', pos.left);
 				ov.css('top', pos.top);
 //console.log("display overlay");
 				ov.css('display', '');
+
+				// copy relevant areas of base map to overlay
+//console.log("over");
+				if (tr.map == null)
+				{
+					tr.map = true;
+//					$("area#iim_ov_area_" + tr['tr_id']).mouseover(function() {alert("buh!")});
+					
+					cnt = 1;
+					$("map[name='" + base_map_name + "'] > area").each(
+						function (i,el) {
+							// if title is the same, add area to overlay map
+							if (ilCOPagePres.iim_area[el.id]['title'] == t)
+							{
+//								tr.map.append($(el).clone(false).attr("id", "iim_ov_area_" + tr['tr_id'] + "_" + cnt));
+								$("area#iim_ov_area_" + tr['tr_id']).attr("coords", $(el).attr("coords"));
+								$("area#iim_ov_area_" + tr['tr_id']).attr("shape", $(el).attr("shape"));
+  								$("area#iim_ov_area_" + tr['tr_id']).mouseover(
+  									function() {ilCOPagePres.overOvArea(k, true, "iim_ov_" + tr['tr_id'])});
+  								$("area#iim_ov_area_" + tr['tr_id']).mouseout(
+  									function() {ilCOPagePres.overOvArea(k, false, "iim_ov_" + tr['tr_id'])});
+//								ilCOPagePres.overOvArea(k, true);
+							}
+							cnt++;
+						});
+
+					// make the overlay image use the overlay map
+//					ov.attr('usemap', "#" + mapname);
+
+				}
+				else
+				{
+//					ilCOPagePres.overOvArea(k, true);
+				}
+				
 			}
+
 		}
 	},
 	
@@ -167,6 +168,7 @@ ilCOPagePres =
 	
 	overOvArea: function (k, value, ov_id)
 	{
+//alert("over area " + value);
 //console.log("over ov area" + k + ":" + value);
 		ilCOPagePres.iim_trigger[k]['over_ov_area'] = value;
 		if (value)

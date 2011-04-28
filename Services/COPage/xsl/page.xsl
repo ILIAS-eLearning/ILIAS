@@ -2891,7 +2891,15 @@
 		<img style="display:none;">
 		<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after(../MediaAlias[1]/@OriginId,'mob_')"/>/overlays/<xsl:value-of select="@OverAction"/></xsl:attribute>
 		<xsl:attribute name="id">iim_ov_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+		<xsl:attribute name="usemap">#iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
 		</img>
+		<map>
+		<xsl:attribute name="id">iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+		<xsl:attribute name="name">iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+			<area href="#" coords="10,10,100,100" shape="Rect">
+				<xsl:attribute name="id">iim_ov_area_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+			</area>
+		</map>
 		<script type="text/javascript">
 			ilAddOnLoad(function() {ilCOPagePres.addIIMTrigger({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
 				type: '<xsl:value-of select="@Type"/>', title: '<xsl:value-of select="@Title"/>',
