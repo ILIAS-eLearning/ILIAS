@@ -266,7 +266,7 @@
 			<xsl:call-template name="setAreaLinkAttributes">
 			</xsl:call-template>
 		</area>
-		<xsl:if test="name(../../..) = 'InteractiveImage'">
+		<xsl:if test="name(../..) = 'InteractiveImage'">
 			<script type="text/javascript">
 				ilAddOnLoad(function() {ilCOPagePres.addIIMArea(
 					{area_id: 'marea_<xsl:value-of select = "$pg_id"/>_<xsl:number count="MapArea" level="any" />',
@@ -2337,6 +2337,9 @@
 		</xsl:if>
 		<xsl:if test = "$inline = 'y'">
 			<xsl:attribute name="align">middle</xsl:attribute>
+		</xsl:if>
+		<xsl:if test = "name(..) = 'InteractiveImage'">
+			<xsl:attribute name="id">base_img_<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" /></xsl:attribute>
 		</xsl:if>
 
 		<!-- text representation (alt attribute) -->
