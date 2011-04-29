@@ -1977,6 +1977,12 @@ class ilUtil
 	function deliverFile($a_file, $a_filename,$a_mime = '', $isInline = false, $removeAfterDelivery = false,
 		$a_exit_after = true)
 	{
+		// should we fail silently?
+		if(!file_exists($a_file))
+		{
+			return false;
+		}	
+		
 		if ($isInline) {
 			$disposition = "inline"; // "inline" to view file in browser
 		} else {
