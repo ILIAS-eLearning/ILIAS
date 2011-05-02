@@ -513,11 +513,10 @@ class ilFileDataMail extends ilFileData
 	}
 	function __initAttachmentMaxSize()
 	{
-
-		$this->mail_maxsize_attach = $this->ilias->getSetting("mail_maxsize_attach") ? 
+		$this->mail_maxsize_attach = $this->ilias->getSetting("mail_maxsize_attach") !== false ?
 			$this->ilias->getSetting("mail_maxsize_attach") * 1024 : 1024 * 1024 * 64;
 
-		$this->mail_maxsize_attach_message = $this->ilias->getSetting("mail_maxsize_attach") ? 
+		$this->mail_maxsize_attach_message = $this->ilias->getSetting("mail_maxsize_attach") !== false ?
 			$this->ilias->getSetting("mail_maxsize_attach") :
 			ini_get("upload_max_filesize");
 	}
