@@ -184,7 +184,7 @@ class ilObjForumGUI extends ilObjectGUI
 				{
 					$cmd = 'showThreads';
 				}
-		
+
 				$cmd .= 'Object';
 				$this->$cmd();
 
@@ -197,7 +197,10 @@ class ilObjForumGUI extends ilObjectGUI
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
 		global $ilSetting;
-		
+
+
+		$this->settingsTabs();
+
 		$rg_pro = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'default_view');
 		$rg_pro->addOption(new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('answers'), '1'));
 		$rg_pro->addOption(new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('date'), '2'));
