@@ -70,7 +70,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	* execute command
 	*/
 	function &executeCommand()
-	{
+	{ 
 		global $tpl, $lng, $ilTabs;
 		
 		$this->getCharacteristicsOfCurrentStyle("media_cont");	// scorm-2004

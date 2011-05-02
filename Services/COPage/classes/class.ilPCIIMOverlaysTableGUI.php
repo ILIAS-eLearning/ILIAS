@@ -32,8 +32,7 @@ class ilPCIIMOverlaysTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.iim_overlays_row.html", "Services/COPage");
 
-		$this->addMultiCommand("", $lng->txt(""));
-		$this->addCommandButton("", $lng->txt(""));
+		$this->addMultiCommand("confirmDeleteOverlays", $lng->txt("delete"));
 	}
 	
 	/**

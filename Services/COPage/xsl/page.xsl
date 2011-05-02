@@ -2845,7 +2845,10 @@
 	<xsl:if test="./MediaAlias">
 	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_iim']/@value"/></xsl:with-param></xsl:call-template>
 	</xsl:if>
-	<div style="border: 2px solid #000000; padding: 20px;">InteractiveImage:<br />
+	<div>
+	<xsl:if test="$mode = 'edit'">
+		<xsl:attribute name="style">border: 2px solid #000000; padding: 20px;</xsl:attribute>
+	</xsl:if>
 		<xsl:apply-templates select="MediaAlias"/>
 		<xsl:apply-templates select="Trigger"/>
 		<xsl:apply-templates select="ContentPopup"/>
@@ -2856,13 +2859,30 @@
 <!-- ContentPopup -->
 <xsl:template match="ContentPopup">
 	<!-- TabContainer -->
-	<div style="border: 2px solid #000000; padding: 20px;">ContentPopup:<br />
+	<div class="ilc_iim_ContentPopup">
+	<xsl:attribute name="id">iim_popup_<xsl:value-of select = "$pg_id"/>_<xsl:number count="ContentPopup" level="any" /></xsl:attribute>
+	<xsl:if test="$mode != 'edit'">
+		<xsl:attribute name="style">display: none;</xsl:attribute>
+	</xsl:if>
+	<xsl:if test="$mode = 'edit'">
+		<xsl:attribute name="style">border: 1px solid #000000; padding: 20px; margin-bottom:10px;</xsl:attribute>
+		<div style="margin-bottom:20px;">
+			<i><b><xsl:value-of select="@Title" /></b></i>
+			<xsl:comment>Break</xsl:comment>
+		</div>
+	</xsl:if>
 	
-	<div>
-		<xsl:value-of select="@Title" />
-		<xsl:comment>Break</xsl:comment>
-	</div>
-	
+	<xsl:if test="$mode != 'edit'">
+		<script type="text/javascript">
+			ilAddOnLoad(function() {ilCOPagePres.addIIMPopup({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
+				pop_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="ContentPopup" level="any" />',
+				div_id: 'iim_popup_<xsl:value-of select = "$pg_id"/>_<xsl:number count="ContentPopup" level="any" />',
+				nr: '<xsl:value-of select="@Nr"/>',
+				title: '<xsl:value-of select="@Title" />'
+			})});
+		</script>
+	</xsl:if>
+
 	<!-- Content -->
 	<div>
 		<div>
@@ -2887,9 +2907,9 @@
 
 <!-- Trigger -->
 <xsl:template match="Trigger">
-	<xsl:if test="@OverAction">
+	<xsl:if test="@Overlay">
 		<img style="display:none;">
-		<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after(../MediaAlias[1]/@OriginId,'mob_')"/>/overlays/<xsl:value-of select="@OverAction"/></xsl:attribute>
+		<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after(../MediaAlias[1]/@OriginId,'mob_')"/>/overlays/<xsl:value-of select="@Overlay"/></xsl:attribute>
 		<xsl:attribute name="id">iim_ov_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
 		<xsl:attribute name="usemap">#iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
 		</img>
@@ -2903,7 +2923,8 @@
 		<script type="text/javascript">
 			ilAddOnLoad(function() {ilCOPagePres.addIIMTrigger({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
 				type: '<xsl:value-of select="@Type"/>', title: '<xsl:value-of select="@Title"/>',
-				posx: '<xsl:value-of select="@PosX"/>', posy: '<xsl:value-of select="@PosY"/>',
+				ovx: '<xsl:value-of select="@OverlayX"/>', ovy: '<xsl:value-of select="@OverlayY"/>',
+				popup: '<xsl:value-of select="@Popup"/>', nr: '<xsl:value-of select="@Nr"/>',
 				tr_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />'
 			})});
 		</script>

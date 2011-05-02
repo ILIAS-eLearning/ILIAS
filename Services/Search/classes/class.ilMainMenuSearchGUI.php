@@ -78,7 +78,6 @@ class ilMainMenuSearchGUI
 		$this->tpl->setVariable('TXT_LAST_SEARCH', " > ".$lng->txt("last_search_result"));
 		$this->tpl->setVariable('HREF_LAST_SEARCH', "ilias.php?baseClass=ilSearchController");
 		$this->tpl->setVariable('TXT_SEARCH', $lng->txt("search"));
-		
 		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
 		$ov = new ilOverlayGUI("mm_search");
 		$ov->setTrigger("mm_search_trigger");

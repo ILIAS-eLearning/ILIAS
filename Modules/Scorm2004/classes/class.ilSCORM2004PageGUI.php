@@ -388,7 +388,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 					{
 						$overlays[$ov_id] = new ilOverlayGUI($ov_id);
 						$overlays[$ov_id]->setAnchor($link_id);
-						$overlays[$ov_id]->setTrigger($link_id, "onclick", $link_id);
+						$overlays[$ov_id]->setTrigger($link_id, "click", $link_id);
 						$overlays[$ov_id]->setAutoHide(false);
 						$overlays[$ov_id]->setCloseElementId($cl_id);
 						if ($this->scorm_mode != "export" ||

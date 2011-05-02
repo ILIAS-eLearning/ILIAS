@@ -65,7 +65,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 		global $lng;
 		
 		// action commands
-		$this->addMultiCommand("deleteTrigger", $lng->txt("delete"));
+		$this->addMultiCommand("confirmDeleteTrigger", $lng->txt("delete"));
 		
 		$data = $this->getData();
 		if (count($data) > 0)
@@ -96,8 +96,8 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 
 		$i = $a_set["Nr"];
 		$this->tpl->setVariable("CHECKBOX",
-			ilUtil::formCheckBox("", "area[]", $i));
-		$this->tpl->setVariable("VAR_NAME", "name_".$i);
+			ilUtil::formCheckBox("", "tr[]", $i));
+		$this->tpl->setVariable("VAR_NAME", "title[".$i."]");
 		$this->tpl->setVariable("VAL_NAME", $a_set["Title"]);
 		$this->tpl->setVariable("VAL_SHAPE", $a_set["Shape"]);
 		$this->tpl->setVariable("VAL_COORDS",
@@ -114,11 +114,14 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 				$this->tpl->setVariable("VAL_LINK", $link_str);
 				break;
 		}
-		
+//var_dump($a_set);
+
+		$this->tpl->setVariable("VAR_POS", "ovpos[".$i."]");
+		$this->tpl->setVariable("VAL_POS", $a_set["PosX"].",".$a_set["PosY"]);
 		$this->tpl->setVariable("OVERLAY_IMAGE",
-			ilUtil::formSelect("", "ov[".$i."]", $this->ov_options, false, true));
+			ilUtil::formSelect($a_set["OverAction"], "ov[".$i."]", $this->ov_options, false, true));
 		$this->tpl->setVariable("CONTENT_POPUP",
-			ilUtil::formSelect("", "pop[".$i."]", $this->pop_options, false, true));
+			ilUtil::formSelect($a_set["ClickAction"], "pop[".$i."]", $this->pop_options, false, true));
 	}
 
 }

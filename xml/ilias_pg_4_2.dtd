@@ -74,10 +74,12 @@
 >
 
 <!-- MapAreas should be only defined for image objects with purpose Standard or Fullscreen -->
+<!-- Id has been introduced with 4.2, is optional -->
 <!ELEMENT MapArea (ExtLink | IntLink)>
 <!ATTLIST MapArea
 	Shape (Rect | Circle | Poly | WholePicture) #REQUIRED
 	Coords CDATA #IMPLIED
+	Id CDATA #IMPLIED
 >
 
 <!-- Text Representation -->
@@ -94,15 +96,19 @@
 <!ELEMENT InteractiveImage (MediaAlias, MediaAliasItem+, Trigger*, ContentPopup*)>
 <!ELEMENT Trigger EMPTY>
 <!ATTLIST Trigger
+	Nr CDATA #REQUIRED
 	Type (Area | Marker) #REQUIRED
 	Title CDATA #IMPLIED
-	PosX CDATA #IMPLIED
-	PosY CDATA #IMPLIED
-	OverAction CDATA #IMPLIED
-	ClickAction CDATA #IMPLIED
+	OverlayX CDATA #IMPLIED
+	OverlayY CDATA #IMPLIED
+	MarkerX CDATA #IMPLIED
+	MarkerY CDATA #IMPLIED
+	Overlay CDATA #IMPLIED
+	PopupNr CDATA #IMPLIED
 >
 <!ELEMENT ContentPopup (PageContent*)>
 <!ATTLIST ContentPopup
+	Nr CDATA #REQUIRED
 	PCID CDATA #IMPLIED
 	Title CDATA #IMPLIED
 	ContentWidth CDATA #IMPLIED

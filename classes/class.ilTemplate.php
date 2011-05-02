@@ -29,9 +29,9 @@ class ilTemplate extends ilTemplateX
 	*/
 	var $activeBlock;
 	
-	var $js_files = array();		// list of JS files that should be included
-	var $js_files_vp = array();	// version parameter flag
-	var $js_files_batch = array();	// version parameter flag
+	var $js_files = array(0 => "Services/JavaScript/js/Basic.js");		// list of JS files that should be included
+	var $js_files_vp = array("Services/JavaScript/js/Basic.js" => true);	// version parameter flag
+	var $js_files_batch = array("Services/JavaScript/js/Basic.js" => 1);	// version parameter flag
 	var $css_files = array();		// list of css files that should be included
 	var $inline_css = array();
 	var $admin_panel_commands = array();
@@ -697,16 +697,19 @@ class ilTemplate extends ilTemplateX
 	{
 		global $ilMainMenu;
 
-		$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
-		$this->main_menu = $ilMainMenu->getHTML();
+		if($this->variableExists('MAINMENU'))
+		{
+			$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
+			$this->main_menu = $ilMainMenu->getHTML();
+		}
 	}
 	
 	function fillMainMenu()
 	{
 		global $tpl, $ilMainMenu, $ilCtrl, $ilSetting, $ilUser; 
-		$tpl->setVariable("MAINMENU", $this->main_menu);
 		if($this->variableExists('MAINMENU'))
 		{
+			$tpl->setVariable("MAINMENU", $this->main_menu);
 			global $ilAuth, $lng, $tpl, $ilClientIniFile, $ilUser;
 			
 			if((int)$ilSetting->get('session_handling_type') == 0 &&
@@ -1328,8 +1331,8 @@ class ilTemplate extends ilTemplateX
 		iljQueryUtil::initjQuery();
 
 		// always load Basic js
-		$this->addJavaScript("./Services/JavaScript/js/Basic.js",
-			true, 1);
+//		$this->addJavaScript("./Services/JavaScript/js/Basic.js",
+//			true, 1);
 
 		$this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
