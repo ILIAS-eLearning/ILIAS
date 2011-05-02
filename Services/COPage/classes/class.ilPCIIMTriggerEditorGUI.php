@@ -74,17 +74,36 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 			"Rect" => $lng->txt("cont_Rect"),
 			"Circle" => $lng->txt("cont_Circle"),
 			"Poly" => $lng->txt("cont_Poly"),
+			"Marker" => $lng->txt("cont_marker")
 			);
-		$si = new ilSelectInputGUI($lng->txt("cont_shape"), "shape");
+		$si = new ilSelectInputGUI($lng->txt("cont_trigger_area"), "shape");
 		$si->setOptions($options);
 		$tb->addInputItem($si, true);
-		$tb->addFormButton($lng->txt("cont_add_shape_trigger"), "addNewArea");
-		$tb->addSeparator();
-		$tb->addFormButton($lng->txt("cont_add_marker_trigger"), "addMarker");
+		$tb->addFormButton($lng->txt("add"), "addNewArea");
 		
 		return $tb;
 	}
 
+	/**
+	 * Add new area
+	 *
+	 * @param
+	 * @return
+	 */
+	function addNewArea()
+	{
+		if ($_POST["shape"] == "marker")
+		{
+			$this->content_obj->addTriggerMarker($this->std_alias_item,
+				$area_type, $coords,
+				ilUtil::stripSlashes($_POST["area_name"]), $link);
+		}
+		else
+		{
+			return parent::addNewArea();
+		}
+	}
+	
 	/**
 	 * Init area editing form.
 	 *
@@ -144,7 +163,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 			default:
 				$area_type = $_SESSION["il_map_edit_area_type"];
 				$coords = $_SESSION["il_map_edit_coords"];
-				$this->content_obj->addTrigger($this->std_alias_item,
+				$this->content_obj->addTriggerArea($this->std_alias_item,
 					$area_type, $coords,
 					ilUtil::stripSlashes($_POST["area_name"]), $link);
 				$this->updated = $this->page->update();
@@ -165,11 +184,42 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 		
 		$this->content_obj->setTriggerOverlays($_POST["ov"]);
 		$this->content_obj->setTriggerPopups($_POST["pop"]);
+		$this->content_obj->setTriggerOverlayPositions($_POST["ovpos"]);
+		$this->content_obj->setTriggerTitles($_POST["title"]);
 		$this->updated = $this->page->update();
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "editMapAreas");
 	}
 	
+	/**
+	 * Confirm trigger deletion
+	 */
+	function confirmDeleteTrigger()
+	{
+		global $ilCtrl, $tpl, $lng;
+			
+		if (!is_array($_POST["tr"]) || count($_POST["tr"]) == 0)
+		{
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "editMapAreas");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("cont_really_delete_triggers"));
+			$cgui->setCancel($lng->txt("cancel"), "editMapAreas");
+			$cgui->setConfirm($lng->txt("delete"), "deleteTrigger");
+			
+			foreach ($_POST["tr"] as $i)
+			{
+				$cgui->addItem("tr[]", $i, $_POST["title"][$i]);
+			}
+			
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
 
 	/**
 	 * Delete trigger
@@ -178,23 +228,11 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	{
 		global $ilCtrl, $lng;
 		
-		if (!isset($_POST["area"]))
+		if (is_array($_POST["tr"]) && count($_POST["tr"]) > 0)
 		{
-			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
-			$ilCtrl->redirect($this, "editMapAreas");
-		}
-
-//		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
-//			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
-
-		if (count($_POST["area"]) > 0)
-		{
-			$i = 0;
-
-			foreach ($_POST["area"] as $area_nr)
+			foreach ($_POST["tr"] as $tr_nr)
 			{
-				$this->std_alias_item->deleteMapArea($area_nr - $i);
-				$i++;
+				$this->content_obj->deleteTrigger($this->std_alias_item, $tr_nr);
 			}
 			$this->updated = $this->page->update();
 			ilUtil::sendSuccess($lng->txt("cont_areas_deleted"), true);

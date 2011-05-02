@@ -91,10 +91,15 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 
 		if (!$a_create)
 		{
-/*			$ilTabs->addTab("edit",
-				$lng->txt("properties"),
-				$ilCtrl->getLinkTarget($this, "edit")
-				);*/
+			
+			$ilTabs->setBackTarget($lng->txt("pg"),
+				$ilCtrl->getParentReturn($this)
+				);
+
+			$ilTabs->addTab("edit_base_image",
+				$lng->txt("cont_base_image"),
+				$ilCtrl->getLinkTarget($this, "editBaseImage")
+				);
 
 			$ilTabs->addTab("list_overlays",
 				$lng->txt("cont_overlay_images"),
@@ -145,13 +150,29 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	{
 		global $tpl, $ilCtrl;
 		
-		$ilCtrl->redirect($this, "listOverlayImages");
+		$ilCtrl->redirect($this, "editBaseImage");
 		//$tpl->setContent("hh");
+	}
+	
+	/**
+	 * Edit base image
+	 *
+	 * @param
+	 * @return
+	 */
+	function editBaseImage($a_form = null)
+	{
+		global $tpl, $ilTabs;
+		
+		$ilTabs->activateTab("edit_base_image");
+		
+		$form = $this->initForm();
+		$tpl->setContent($form->getHTML());
 	}
 	
 	
 	/**
-	 * Init  form.
+	 * Init creation/base image form.
 	 *
 	 * @param        int        $a_mode        Edit Mode
 	 */
@@ -163,23 +184,27 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 		$form = new ilPropertyFormGUI();
 
 		// image file
-		$fi = new ilFileInputGUI($lng->txt("cont_file"), "image_file");
-		$fi->setSuffixes(array("jpeg", "jpg", "png", "gif"));
+		$fi = new ilImageFileInputGUI($lng->txt("cont_file"), "image_file");
+		$fi->setAllowDeletion(false);
+		if ($a_mode == "edit")
+		{
+			$fi->setImage($this->content_obj->getBaseThumbnailTarget());
+		}
 		$form->addItem($fi);
 		
 		// save and cancel commands
 		if ($a_mode == "create")
 		{
+			$form->setTitle($lng->txt("cont_ed_insert_iim"));
 			$form->addCommandButton("create_iim", $lng->txt("save"));
 			$form->addCommandButton("cancelCreate", $lng->txt("cancel"));
 		}
 		else
 		{
+			$form->setTitle($lng->txt("cont_edit_base_image"));
 			$form->addCommandButton("update", $lng->txt("save"));
-			$form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
 		}
 	                
-		$form->setTitle($lng->txt("cont_ed_insert_iim"));
 		$form->setFormAction($ilCtrl->getFormAction($this));
 	 
 		return $form;
@@ -240,6 +265,38 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 		{
 			$this->insert();
 		}
+	}
+	
+	/**
+	 * Update (base image)
+	 */
+	function update()
+	{
+		global $ilCtrl, $lng;
+		
+		$mob = $this->content_obj->getMediaObject();
+		$mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
+		$std_item = $mob->getMediaItem("Standard");
+		$location = $_FILES['image_file']['name'];
+
+		if ($location != "" && is_file($_FILES['image_file']['tmp_name']))
+		{
+			$file = $mob_dir."/".$_FILES['image_file']['name'];
+			ilUtil::moveUploadedFile($_FILES['image_file']['tmp_name'],
+				$_FILES['image_file']['name'], $file);
+
+			// get mime type
+			$format = ilObjMediaObject::getMimeType($file);
+			$location = $_FILES['image_file']['name'];
+			$std_item->setFormat($format);
+			$std_item->setLocation($location);
+			$std_item->setLocationType("LocalFile");
+			$mob->setDescription($format);
+			$mob->update();
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+
+		$ilCtrl->redirectByClass("ilpcinteractiveimagegui", "edit");
 	}
 	
 	
@@ -372,8 +429,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 		$fi->setRequired(true);
 		$form->addItem($fi);
 	
-		$form->addCommandButton("listOverlayImages", $lng->txt("cancel"));
 		$form->addCommandButton("uploadOverlayImages", $lng->txt("upload"));
+		$form->addCommandButton("listOverlayImages", $lng->txt("cancel"));
 		
 		return $form;
 	}
@@ -414,6 +471,60 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 			$this->addOverlayImages($form);
 		}
 	}
+	
+	/**
+	* Confirm overlay deletion
+	*/
+	function confirmDeleteOverlays()
+	{
+		global $ilCtrl, $tpl, $lng, $ilTabs;
+		
+		$ilTabs->setTabActive("list_overlays");
+
+		if (!is_array($_POST["file"]) || count($_POST["file"]) == 0)
+		{
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "listOverlayImages");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("cont_really_delete_overlays"));
+			$cgui->setCancel($lng->txt("cancel"), "listOverlayImages");
+			$cgui->setConfirm($lng->txt("delete"), "deleteOverlays");
+			
+			foreach ($_POST["file"] as $i => $d)
+			{
+				$cgui->addItem("file[]", $i, $i);
+			}
+			
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+	
+	/**
+	 * Delete overlays
+	 */
+	function deleteOverlays()
+	{
+		global $ilCtrl, $lng;
+		
+		if (is_array($_POST["file"]) && count($_POST["file"]) != 0)
+		{
+			foreach ($_POST["file"] as $f)
+			{
+				$f = str_replace("..", "", ilUtil::stripSlashes($f));
+				$this->content_obj->getMediaObject()
+					->removeAdditionalFile("overlays/".$f);
+			}
+			
+			ilUtil::sendSuccess($lng->txt("cont_overlays_have_been_deleted"), true);
+		}
+		$ilCtrl->redirect($this, "listOverlayImages");
+	}
+	
 	
 	////
 	//// Content Popups
@@ -470,6 +581,60 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 		$ilCtrl->redirect($this, "listContentPopups");
 	}
 	
+	/**
+	 * Confirm popup deletion
+	 */
+	function confirmPopupDeletion()
+	{
+		global $ilCtrl, $tpl, $lng, $ilTabs;
+		
+		$ilTabs->setTabActive("content_popups");
+			
+		if (!is_array($_POST["tid"]) || count($_POST["tid"]) == 0)
+		{
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "listContentPopups");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("cont_really_delete_popups"));
+			$cgui->setCancel($lng->txt("cancel"), "listContentPopups");
+			$cgui->setConfirm($lng->txt("delete"), "deletePopups");
+			
+			foreach ($_POST["tid"] as $i => $d)
+			{
+				$cgui->addItem("tid[]", $i, $_POST["title"][$i]);
+			}
+			
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+	
+	/**
+	 * Delete popups
+	 *
+	 * @param
+	 * @return
+	 */
+	function deletePopups()
+	{
+		global $lng, $ilCtrl;
+		
+		if (is_array($_POST["tid"]) && count($_POST["tid"]) != 0)
+		{
+			foreach ($_POST["tid"] as $id)
+			{
+				$id = explode(":", $id);
+				$this->content_obj->deletePopup($id[0], $id[1]);
+			}
+			$this->pg_obj->update();
+			ilUtil::sendSuccess($lng->txt("cont_popups_have_been_deleted"), true);
+		}
+		$ilCtrl->redirect($this, "listContentPopups");
+	}
 	
 }
 ?>

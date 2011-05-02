@@ -1635,6 +1635,20 @@ class ilObjMediaObject extends ilObject
 	}
 
 	/**
+	 * Remove additional file
+	 */
+	function removeAdditionalFile($a_file)
+	{
+		$file = str_replace("..", "", $a_file);
+		$file = ilObjMediaObject::_getDirectory($this->getId())."/".$file;
+		if (is_file($file))
+		{
+			unlink($file);
+		}
+	}
+	
+	
+	/**
 	* Get all media objects linked in map areas of this media object
 	*/
 	function getLinkedMediaObjects($a_ignore = "")

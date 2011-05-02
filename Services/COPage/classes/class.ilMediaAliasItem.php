@@ -495,6 +495,7 @@ class ilMediaAliasItem
 				"Nr" => $i + 1,
 				"Shape" => $maparea_node->get_attribute("Shape"),
 				"Coords" => $maparea_node->get_attribute("Coords"),
+				"Id" => $maparea_node->get_attribute("Id"),
 				"Link" => $link);
 		}
 		
@@ -572,10 +573,10 @@ class ilMediaAliasItem
 	* Add a new area to the map
 	*/
 	function addMapArea($a_shape_type, $a_coords, $a_title,
-		$a_link)
+		$a_link, $a_id = "")
 	{
 		$attributes = array("Shape" => $a_shape_type,
-			"Coords" => $a_coords);
+			"Coords" => $a_coords, "Id" => $a_id);
 		$ma_node = ilDOMUtil::addElementToList($this->dom, $this->item_node,
 			"MapArea", array(), "", $attributes);
 
@@ -596,8 +597,8 @@ class ilMediaAliasItem
 	}
 	
 	/**
-	* Delete a sinlge map area
-	*/
+	 * Delete a sinlge map area
+	 */
 	function deleteMapArea($a_nr)
 	{
 		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
@@ -608,6 +609,22 @@ class ilMediaAliasItem
 		}
 	}
 	
+	/**
+	 * Delete map areas by id
+	 */
+	function deleteMapAreaById($a_id)
+	{
+		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		foreach ($ma_nodes as $node)
+		{
+			if ($node->get_attribute("Id") == $a_id)
+			{
+				$node->unlink_node($node);
+			}
+		}
+	}
+
 	/**
 	* Delete all map areas
 	*/

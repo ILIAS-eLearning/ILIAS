@@ -24,11 +24,31 @@ class ilImageFileInputGUI extends ilFileInputGUI
 
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("image_file");
+		$this->setAllowDeletion(true);
 		$this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
 		$this->setHiddenTitle("(".$lng->txt("form_image_file_input").")");
 		$this->cache = true;
 	}
 
+	/**
+	 * Set allow deletion
+	 *
+	 * @param boolean $a_val allow deletion	
+	 */
+	function setALlowDeletion($a_val)
+	{
+		$this->allow_deletion = $a_val;
+	}
+	
+	/**
+	 * Get allow deletion
+	 *
+	 * @return boolean allow deletion
+	 */
+	function getALlowDeletion()
+	{
+		return $this->allow_deletion;
+	}
 	/**
 	* Set cache
 	*
@@ -103,7 +123,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
 		
 		if ($this->getImage() != "")
 		{
-			if (!$this->getDisabled())
+			if (!$this->getDisabled() && $this->getALlowDeletion())
 			{
 				$i_tpl->setCurrentBlock("delete_bl");
 				$i_tpl->setVariable("POST_VAR_D", $this->getPostVar());

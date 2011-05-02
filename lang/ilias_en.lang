@@ -11334,5 +11334,17 @@ content#:#cont_content_popup#:#Content Popup
 content#:#cont_update_titles_and_actions#:#Update Titles and Actions
 user#:#user_profile_preview#:#Preview
 prtf#:#prtf_portfolio_default#:#Default
+content#:#cont_trigger_area#:#Trigger Area
+content#:#cont_marker#:#Marker
+content#:#cont_saved_interactive_image#:#Created Interactive Image
+content#:#cont_base_image#:#Base Image
+content#:#cont_edit_base_image#:#Edit Base Image
 common#:#settings_per_members#:#Settings per user
 rbac#:#invite#:#Inviting to survey
+content#:#cont_really_delete_overlays#:#Do you really want to delete the following overlays?
+content#:#cont_overlays_have_been_deleted#:#Overlays have been deleted.
+content#:#cont_new_popup#:#New Popup
+content#:#cont_really_delete_popups#:#Do you really want to delete the following popups?
+content#:#cont_popups_have_been_deleted#:#Popups have been deleted.
+content#:#cont_new_trigger_area#:#New Trigger Area
+content#:#cont_really_delete_triggers#:#Do you really want to delete the following triggers?

@@ -35,7 +35,7 @@ class ilPCIIMPopupTableGUI extends ilTable2GUI
 		$this->setLimit(0);
 		
 		$this->addMultiCommand("confirmPopupDeletion", $lng->txt("delete"));
-		$this->addCommandButton("savePopups", $lng->txt("save"));
+		$this->addCommandButton("savePopups", $lng->txt("cont_save_all_titles"));
 		
 		$this->setTitle($lng->txt("cont_content_popups"));
 	}

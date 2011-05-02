@@ -743,3 +743,13 @@ div.ilc_ha_icont_HAccordICont
 {
 	padding: 3px;
 }
+
+/* Interactive Image */
+div.ilc_iim_ContentPopup
+{
+	background-color: #FFFFFF;
+	border-color: #A0A0A0;
+	border-style: solid;
+	border-width: 2px;
+	padding: 5px 10px 5px 10px;
+}
