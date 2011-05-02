@@ -2008,19 +2008,29 @@ class ilObjForumGUI extends ilObjectGUI
 			   $this->ilias->getSetting('forum_notification') != 0)
 			{
 				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-				if($this->objCurrentTopic->isNotificationEnabled($ilUser->getId()))
+
+				// checks if notification is forced by moderator and if user is allowed to disable notification
+				include_once 'Modules/Forum/classes/class.ilForumNotification.php';
+				$frm_noti = new ilForumNotification($this->object->getRefId());
+				$frm_noti->setUserId($ilUser->getId());
+				$user_toggle = $frm_noti->isUserToggleNotification();
+
+				if(!$user_toggle)
 				{
-					$ilToolbar->addButton(
-						$this->lng->txt('forums_disable_notification'),
-						$this->ctrl->getLinkTarget($this, 'toggleThreadNotification')
-					);
-				}
-				else
-				{
-					$ilToolbar->addButton(
-						$this->lng->txt('forums_enable_notification'),
-						$this->ctrl->getLinkTarget($this, 'toggleThreadNotification')
-					);
+					if($this->objCurrentTopic->isNotificationEnabled($ilUser->getId()))
+					{
+						$ilToolbar->addButton(
+							$this->lng->txt('forums_disable_notification'),
+							$this->ctrl->getLinkTarget($this, 'toggleThreadNotification')
+						);
+					}
+					else
+					{
+						$ilToolbar->addButton(
+							$this->lng->txt('forums_enable_notification'),
+							$this->ctrl->getLinkTarget($this, 'toggleThreadNotification')
+						);
+					}
 				}
 				$this->ctrl->clearParameters($this);
 			}
