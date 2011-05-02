@@ -2961,7 +2961,7 @@ common#:#grp_create_htlm#:#Créer document HTML importé
 common#:#grp_create_icrs#:#Create LearnLinc Seminar
 common#:#grp_create_lm#:#Créer document ILIAS
 common#:#grp_create_mcst#:#Créer MediaCast
-common#:#grp_create_mep#:#Créer galerie multimédiahttp://ilias.catice.ac-bordeaux.fr/ilias.php?ref_id=11&baseClass=ilAdministrationGUI&cmdClass=ilobjlanguageextgui&view_mode=translate
+common#:#grp_create_mep#:#Créer galerie multimédia
 common#:#grp_create_qpl#:#Créer jeu de questions pour des tests
 common#:#grp_create_sahs#:#Créer document  SCORM/AICC
 common#:#grp_create_spl#:#Créer jeu de questions pour des enquêtes
@@ -4511,8 +4511,8 @@ common#:#session_max_idle_info#:#Defines the maximum period of idle time a user 
 common#:#session_min_idle#:#Min session idle (in minutes)
 common#:#session_min_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
 common#:#session_reminder#:#Session-Reminder
-common#:#session_reminder_alert#:#Your session expires in 5 minutes. Please choose OK to continue your Session
-common#:#session_reminder_extended#:#Your Session was extended for %s
+common#:#session_reminder_alert#:#Your session expires in %s (Current Time: %s). Please choose OK to continue your session
+common#:#session_reminder_extended#:#Your session was extended for %s
 common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.
 common#:#session_reminder_lead_time#:#Leadtime
 common#:#session_reminder_lead_time_info#:#Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s.
