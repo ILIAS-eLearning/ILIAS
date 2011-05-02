@@ -944,6 +944,10 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$prices_obj = new ilPaymentPrices($pObjectId);
 		if (is_array($prices = $prices_obj->getPrices()))
 		{
+			include_once './Services/Payment/classes/class.ilGeneralSettings.php';
+			$genSet = new ilGeneralSettings();
+			$currency_unit = $genSet->get('currency_unit');
+
 			foreach($prices as $price)
 			{
 				$txt_extension = '';
@@ -952,7 +956,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 					$txt_extension = ' ('.$this->lng->txt('extension_price').') ';
 				}
 				$duration_options[$price['price_id']] = 
-				$price['duration'].' '.$this->lng->txt('paya_months').', '.$price['price'].' '. ilPaymentCurrency::_getUnit($price['currency'])
+				$price['duration'].' '.$this->lng->txt('paya_months').', '.$price['price'].' '.$currency_unit.' '
 						.$txt_extension;
 			}
 		}
@@ -1073,6 +1077,10 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 			$this->booking_obj->setVatRate($obj_vat_rate);
 			$this->booking_obj->setVatUnit($obj_vat_unit);
 			
+			include_once './Services/Payment/classes/class.ilGeneralSettings.php';
+			$genSet = new ilGeneralSettings();
+			$this->booking_obj->setCurrencyUnit( $genSet->get('currency_unit'));
+
 			include_once './Services/Payment/classes/class.ilPayMethods.php';
 			if(ilPayMethods::_EnabledSaveUserAddress((int) $_POST["pay_method"]) == 1)
 			{
@@ -1090,6 +1098,16 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		
 		if($this->booking_obj->add())
 		{
+			// add purchased item to desktop
+			ilShopUtils::_addPurchasedObjToDesktop($obj, $this->booking_obj->getCustomerId());
+
+            // autosubscribe user if purchased object is a course
+            if($obj_type == 'crs')
+            {
+                ilShopUtils::_assignPurchasedCourseMemberRole($obj, $this->booking_obj->getCustomerId());
+			}
+
+
 			ilUtil::sendInfo($this->lng->txt('paya_customer_added_successfully'));
 			$this->showStatistics();
 		}

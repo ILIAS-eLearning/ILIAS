@@ -214,6 +214,44 @@
 			array($a_new_user_id, $a_old_user_id, $a_transaction_extern));
 	}
 
+	public static function _addPurchasedObjToDesktop($oPaymentObject, $a_user_id = 0)
+	{
+		global $ilUser;
+
+		$type = ilObject::_lookupType($oPaymentObject->getRefId(),true);
+
+		if($a_user_id > 0)
+		{
+			// administrator added a selling process to statistics
+			$tmp_usr = new ilObjUser($a_user_id);
+			$tmp_usr->addDesktopItem($oPaymentObject->getRefId(),$type);
+		}
+		else
+		{
+			// user purchased object
+			$ilUser->addDesktopItem($oPaymentObject->getRefId(),$type);
+		}
+	}
+
+	public static function _assignPurchasedCourseMemberRole($oPaymentObject, $a_user_id = 0)
+	{
+		global $ilUser;
+		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+		$obj_id = ilObject::_lookupObjectId($oPaymentObject->getRefId());
+
+		$participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
+
+		if($a_user_id > 0)
+		{
+			// administrator added a selling process to statistics
+			$res = $participants->add($a_user_id, IL_CRS_MEMBER);
+		}
+		else
+		{
+			$res = $participants->add($ilUser->getId(),IL_CRS_MEMBER);
+		}
+	}
+	
 	public static function _addToShoppingCartSymbol($a_type, $a_ref_id)
 	{
 		global $ilCtrl;
