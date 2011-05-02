@@ -15,6 +15,7 @@ include_once './Services/Payment/classes/class.ilShopShoppingCartGUI.php';
 include_once './Services/Payment/classes/class.ilPaymentCoupons.php';
 include_once './Services/Payment/classes/class.ilShopVatsList.php';
 include_once './Services/Payment/classes/class.ilPayMethods.php';
+include_once './Services/Payment/classes/class.ilShopUtils.php';
 
 class ilPurchaseBaseGUI
 {
@@ -393,6 +394,17 @@ class ilPurchaseBaseGUI
 
 				$booking_id = $book_obj->add();
 				
+            // add purchased item to desktop
+            ilShopUtils::_addPurchasedObjToDesktop($pobject);
+
+            // autosubscribe user if purchased object is a course
+            $obj_type = ilObject::_lookupType($pobject->getRefId(),true);
+
+            if($obj_type == 'crs')
+            {
+                ilShopUtils::_assignPurchasedCourseMemberRole($pobject);
+            }
+
 				if (!empty($_SESSION['coupons'][$this->session_var]) && $booking_id)
 				{				
 					foreach ($_SESSION['coupons'][$this->session_var] as $coupon)
@@ -412,7 +424,7 @@ class ilPurchaseBaseGUI
 				$obj_title = $ilObjDataCache->lookupTitle($obj_id);
 
 				// put bought object on personal desktop
-				ilObjUser::_addDesktopItem($this->user_obj->getId(), $pobjectData['ref_id'], $obj_type);
+			#	ilObjUser::_addDesktopItem($this->user_obj->getId(), $pobjectData['ref_id'], $obj_type);
 
 				$bookings['list'][] = array(
 					'pobject_id' => $sc[$i]['pobject_id'],
