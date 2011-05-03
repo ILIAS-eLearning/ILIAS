@@ -732,7 +732,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$user->setAuthMode($this->form_gui->getInput('auth_mode'));
 		$user->setExternalAccount($this->form_gui->getInput('ext_account'));
 
-		if($user->getActive() != $this->form_gui->getInput('active'))
+		if((int) $user->getActive() != (int) $this->form_gui->getInput('active'))
 		{
 			$user->setActive($this->form_gui->getInput('active'), $ilUser->getId());
 		}
