@@ -507,10 +507,12 @@ die("pcinteractiveimage: setstyleclass");
 				"Nr" => $tr_node->get_attribute("Nr"),
 				"Type" => $tr_node->get_attribute("Type"),
 				"Title" => $tr_node->get_attribute("Title"),
-				"PosX" => $tr_node->get_attribute("PosX"),
-				"PosY" => $tr_node->get_attribute("PosY"),
-				"OverAction" => $tr_node->get_attribute("OverAction"),
-				"ClickAction" => $tr_node->get_attribute("ClickAction")
+				"OverlayX" => $tr_node->get_attribute("OverlayX"),
+				"OverlayY" => $tr_node->get_attribute("OverlayY"),
+				"MarkerX" => $tr_node->get_attribute("MarkerX"),
+				"MarkerY" => $tr_node->get_attribute("MarkerY"),
+				"Overlay" => $tr_node->get_attribute("Overlay"),
+				"PopupNr" => $tr_node->get_attribute("PopupNr")
 				);
 		}
 		
@@ -547,13 +549,11 @@ die("pcinteractiveimage: setstyleclass");
 	function setTriggerOverlays($a_ovs)
 	{
 		$tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
-		reset($a_ovs);
 		for($i=0; $i < count($tr_nodes); $i++)
 		{
-			$ov = current($a_ovs);
 			$tr_node = $tr_nodes[$i];
-			$tr_node->set_attribute("OverAction", $ov);
-			next($a_ovs);
+			$tr_node->set_attribute("Overlay",
+				$a_ovs["".$tr_node->get_attribute("Nr")]);
 		}
 	}
 	
@@ -564,17 +564,13 @@ die("pcinteractiveimage: setstyleclass");
 	 */
 	function setTriggerOverlayPositions($a_pos)
 	{
-return;
 		$tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
-		reset($a_pos);
 		for($i=0; $i < count($tr_nodes); $i++)
 		{
-			$pos = current($a_pos);
-			$pos = explode(",", $pos);
 			$tr_node = $tr_nodes[$i];
-			$tr_node->set_attribute("PosX", (int) $pos[0]);
-			$tr_node->set_attribute("PosY", (int) $pos[1]);
-			next($a_pos);
+			$pos = explode(",", $a_pos["".$tr_node->get_attribute("Nr")]);
+			$tr_node->set_attribute("OverlayX", (int) $pos[0]);
+			$tr_node->set_attribute("OverlayY", (int) $pos[1]);
 		}
 	}
 
@@ -586,34 +582,28 @@ return;
 	 */
 	function setTriggerPopups($a_pops)
 	{
-return;
 		$tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
-		reset($a_pops);
 		for($i=0; $i < count($tr_nodes); $i++)
 		{
-			$pop = current($a_pops);
 			$tr_node = $tr_nodes[$i];
+			$pop = $a_pops["".$tr_node->get_attribute("Nr")];
 			$tr_node->set_attribute("PopupNr", $pop);
-			next($a_pops);
 		}
 	}
 
 	/**
 	 * Set trigger titles
 	 *
-	 * @param array array of strings (representing the popups for the trigger)
+	 * @param array array of strings (representing the titles for the trigger)
 	 */
 	function setTriggerTitles($a_titles)
 	{
-return;
 		$tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
-		reset($a_titles);
 		for($i=0; $i < count($tr_nodes); $i++)
 		{
-			$title = current($a_titles);
 			$tr_node = $tr_nodes[$i];
-//			$tr_node->set_attribute("Title", $title);
-			next($a_titles);
+			$tr_node->set_attribute("Title",
+				$a_titles["".$tr_node->get_attribute("Nr")]);
 		}
 	}
 

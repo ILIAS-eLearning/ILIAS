@@ -85,20 +85,21 @@ ilCOPagePres =
 	 */
 	overIIMArea: function (e)
 	{
-//console.log("enter");
+console.log("over enter");
 		var k, j, tr, coords, ovx, ovy;
-		var t = ilCOPagePres.iim_area[e.target.id].title;
+		var area_tr_nr = ilCOPagePres.iim_area[e.target.id].tr_nr;
 		var iim_id = ilCOPagePres.iim_area[e.target.id].iim_id;
 
 		for (k in ilCOPagePres.iim_trigger)
 		{
 			tr = ilCOPagePres.iim_trigger[k];
-			if (tr.title == t && tr.iim_id == iim_id)
+			if (tr.nr == area_tr_nr && tr.iim_id == iim_id)
 			{
 				var base = $("img#base_img_" + tr.iim_id);
 //console.log("get base" + tr['tr_id']);
 				var pos = base.position();
 				var ov = $("img#iim_ov_" + tr['tr_id']);
+console.log("get iim_ov_" + tr['tr_id']);
 				var cnt = 1;
 				var base_map_name = base.attr('usemap').substr(1);
 				
@@ -120,7 +121,7 @@ ilCOPagePres =
 					$("map[name='" + base_map_name + "'] > area").each(
 						function (i,el) {
 							// if title is the same, add area to overlay map
-							if (ilCOPagePres.iim_area[el.id]['title'] == t)
+							if (ilCOPagePres.iim_area[el.id]['tr_nr'] == area_tr_nr)
 							{
 								coords = $(el).attr("coords");
 								// fix coords
@@ -142,11 +143,11 @@ ilCOPagePres =
 										{
 											if (j % 2 == 0)
 											{
-												coords = sep + c[j] - ovx;
+												coords = coords + sep + parseInt(c[j] - ovx);
 											}
 											else
 											{
-												coords = sep + c[j] - ovy;
+												coords = coords + sep + parseInt(c[j] - ovy);
 											}
 											sep = ",";
 										}
@@ -189,12 +190,12 @@ ilCOPagePres =
 	{
 //console.log("out");
 		var k, tr;
-		var t = ilCOPagePres.iim_area[e.target.id].title;
+		var area_tr_nr = ilCOPagePres.iim_area[e.target.id].tr_nr;
 		var iim_id = ilCOPagePres.iim_area[e.target.id].iim_id;
 		for (k in ilCOPagePres.iim_trigger)
 		{
 			tr = ilCOPagePres.iim_trigger[k];
-			if (tr.title == t && tr.iim_id == iim_id &&
+			if (tr.nr == area_tr_nr && tr.iim_id == iim_id &&
 				(ilCOPagePres.iim_trigger[k]['over_ov_area'] == null ||
 					!ilCOPagePres.iim_trigger[k]['over_ov_area']
 				))
@@ -227,14 +228,14 @@ ilCOPagePres =
 	clickBaseArea: function (e)
 	{
 		var k;
-		var t = ilCOPagePres.iim_area[e.target.id].title;
+		var area_tr_nr = ilCOPagePres.iim_area[e.target.id].tr_nr;
 		var iim_id = ilCOPagePres.iim_area[e.target.id].iim_id;
 
 		// iterate through the triggers and search the correct one
 		for (k in ilCOPagePres.iim_trigger)
 		{
 			tr = ilCOPagePres.iim_trigger[k];
-			if (tr.title == t && tr.iim_id == iim_id)
+			if (tr.nr == area_tr_nr && tr.iim_id == iim_id)
 			{
 				ilCOPagePres.handleAreaClick(e, tr['tr_id']);
 			}
@@ -264,13 +265,16 @@ ilCOPagePres =
 				"auto_hide":false,
 				"close_el":"iim_ov_area_" + tr.tr_id});
 			*/
-			ilOverlay.add("iim_popup_" + tr_id,
+			ilOverlay.add("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'],
 				{"yuicfg":{"visible":false,"fixedcenter":true},
 				"auto_hide":false});
 		}
 		
+console.log("showing trigger " + tr_id);
+console.log("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr']);
+		
 		// @todo: show the overlay
-		ilOverlay.show(e, "iim_popup_" + tr_id, null, true, null, null);
+		ilOverlay.show(e, "iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], null, true, null, null);
 
 		e.preventDefault();
 	},
@@ -285,11 +289,13 @@ ilCOPagePres =
 
 	addIIMTrigger: function(tr)
 	{
+console.log(tr);
 		this.iim_trigger[tr.tr_id] = tr;
 	},
 	
 	addIIMArea: function(a)
 	{
+//console.log(a);
 		this.iim_area[a.area_id] = a;
 	},
 	
