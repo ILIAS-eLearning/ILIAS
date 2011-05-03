@@ -561,7 +561,7 @@ class ilObjUserGUI extends ilObjectGUI
 	 */
 	protected function loadValuesFromForm($a_mode = 'create')
 	{
-		global $ilSetting;
+		global $ilSetting,$ilUser;
 		
 		switch($a_mode)
 		{
@@ -731,7 +731,11 @@ class ilObjUserGUI extends ilObjectGUI
 		// External account
 		$user->setAuthMode($this->form_gui->getInput('auth_mode'));
 		$user->setExternalAccount($this->form_gui->getInput('ext_account'));
-		$user->setActive($this->form_gui->getInput('active'));
+
+		if($user->getActive() != $this->form_gui->getInput('active'))
+		{
+			$user->setActive($this->form_gui->getInput('active'), $ilUser->getId());
+		}
 		
 		return $user;
 	}

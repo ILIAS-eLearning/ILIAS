@@ -247,7 +247,7 @@ class ShibAuth extends Auth
 				
 				// Create use in DB
 				$userObj->create();
-				$userObj->setActive(1, 6);
+				$userObj->setActive(1);
 				
 				$userObj->updateOwner();
 				

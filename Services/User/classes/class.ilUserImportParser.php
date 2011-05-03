@@ -1098,7 +1098,7 @@ class ilUserImportParser extends ilSaxParser
 							}
 
 
-							$this->userObj->setActive($this->currActive == 'true' || is_null($this->currActive),6);
+							$this->userObj->setActive($this->currActive == 'true' || is_null($this->currActive));
 
 							// Finally before saving new user.
 							// Check if profile is incomplete
