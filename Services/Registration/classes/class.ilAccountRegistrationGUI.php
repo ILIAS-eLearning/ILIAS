@@ -423,7 +423,7 @@ class ilAccountRegistrationGUI
 			$this->registration_settings->getRegistrationType() == IL_REG_CODES ||
 			$this->code_was_used)
 		{
-			$this->userObj->setActive(1);
+			$this->userObj->setActive(1,0);
 		}
 		else if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
 		{

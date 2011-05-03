@@ -2221,14 +2221,11 @@ class ilObjUser extends ilObject
     * @param    string  $a_active the active state of the user account
     * @param    string  $a_owner the id of the person who approved the account, defaults to 6 (root)
     */
-    function setActive($a_active, $a_owner = 6)
+    function setActive($a_active, $a_owner = 0)
     {
-        if (empty($a_owner))
-        {
-            $a_owner = 0;
-        }
+		$this->setOwner($a_owner);
 
-        if ($a_active)
+		if ($a_active)
         {
             $this->active = 1;
             $this->setApproveDate(date('Y-m-d H:i:s'));
@@ -2238,7 +2235,6 @@ class ilObjUser extends ilObject
         {
             $this->active = 0;
             $this->setApproveDate(null);
-            $this->setOwner(0);
         }
     }
 
@@ -2985,7 +2981,6 @@ class ilObjUser extends ilObject
 					}
 					break;
 			}
-
 			$r = $ilDB->query($q);
 
 			while ($row = $ilDB->fetchAssoc($r))
@@ -4262,7 +4257,14 @@ class ilObjUser extends ilObject
 				new ilDateTime($this->getTimeLimitUntil(),IL_CAL_UNIX));
 			ilDatePresentation::resetToDefaults();
 			
-			$body .= $language->txt('time_limit').': '.$period; 
+			$start = new ilDateTime($this->getTimeLimitFrom(),IL_CAL_UNIX);
+			$end = new ilDateTime($this->getTimeLimitUntil(),IL_CAL_UNIX);
+			
+			$body .= $language->txt('time_limit').': '.$start->get(IL_CAL_DATETIME);
+			$body .= $language->txt('time_limit').': '.$end->get(IL_CAL_DATETIME);
+			
+			
+			#$body .= $language->txt('time_limit').': '.$period;
 			/*
 			$body .= ($language->txt('time_limit').": ".$language->txt('crs_from')." ".
 					  ilFormat::formatUnixTime($this->getTimeLimitFrom(), true)." ".

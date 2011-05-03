@@ -118,9 +118,9 @@ class ilAuthContainerCAS extends Auth_Container
 				$userObj->setTimeLimitUntil(time());
 								
 				// Create user in DB
-				$userObj->setOwner(6);
+				$userObj->setOwner(0);
 				$userObj->create();
-				$userObj->setActive(1, 6);
+				$userObj->setActive(1);
 				
 				$userObj->updateOwner();
 				
