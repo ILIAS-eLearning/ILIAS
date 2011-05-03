@@ -8,13 +8,16 @@
 	<td class="std">
 		{TYPE}
 	</td>
-	<td class="std">
-		{VAL_SHAPE}
-		<div class="small">{VAL_COORDS}</div>
+	<td class="std small">
+		<!-- BEGIN coords --><div class="small">{VAL_COORDS}</div><!-- END coords -->
+		<!-- BEGIN marker_pos --><p>{TXT_MLEFT}, {TXT_MTOP}<br />
+		<input type="text" size="12" maxlength="40" name="{VAR_MARK_POS}" value="{VAL_MARK_POS}" /></p><!-- END marker_pos -->
 	</td>
 	<td class="std small">
-		{OVERLAY_IMAGE}<br />
-		x,y <input type="text" size="12" maxlength="40" name="{VAR_POS}" value="{VAL_POS}" />
+		<p>{TXT_IMG}<br />
+		{OVERLAY_IMAGE}</p>
+		<p>{TXT_LEFT}, {TXT_TOP}<br />
+		<input type="text" size="12" maxlength="40" name="{VAR_POS}" value="{VAL_POS}" />
 	</td>
 	<td class="std small">
 		{CONTENT_POPUP}

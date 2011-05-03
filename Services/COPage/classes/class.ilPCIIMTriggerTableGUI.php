@@ -27,6 +27,13 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 		$this->parent_node_name = $a_parent_node_name;
 		$this->pc_media_object = $a_pc_media_object;
 		$this->mob = $this->pc_media_object->getMediaObject();
+		
+		$this->areas = array();
+		foreach ($this->pc_media_object->getStandardAliasItem()->getMapAreas() as $a)
+		{
+			$this->area[$a["Id"]] = $a;
+		}
+
 		$this->ov_files = $this->mob->getFilesOfDirectory("overlays");
 		$this->ov_options = array("" => $lng->txt("please_select"));
 		foreach ($this->ov_files as $of)
@@ -51,7 +58,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 		$this->addColumn("", "", "1");	// checkbox
 		$this->addColumn($this->lng->txt("title"), "title", "");
 		$this->addColumn($this->lng->txt("type"), "", "");
-		$this->addColumn($this->lng->txt("cont_shape")."/".$this->lng->txt("cont_coords"), "", "");
+		$this->addColumn($this->lng->txt("cont_coords"), "", "");
 		$this->addColumn($this->lng->txt("cont_overlay_image"), "", "");
 		$this->addColumn($this->lng->txt("cont_content_popup"), "", "");
 		$this->addColumn($this->lng->txt("actions"), "", "");
@@ -70,7 +77,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 		$data = $this->getData();
 		if (count($data) > 0)
 		{
-			$this->addCommandButton("updateTrigger", $lng->txt("cont_update_titles_and_actions"));
+			$this->addCommandButton("updateTrigger", $lng->txt("save"));
 		}
 	}
 
@@ -93,30 +100,43 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 	protected function fillRow($a_set)
 	{
 		global $lng, $ilCtrl, $ilAccess;
+//var_dump($a_set);
 
 		$i = $a_set["Nr"];
+
+		if ($a_set["Type"] == ilPCInteractiveImage::AREA)
+		{
+			$this->tpl->setCurrentBlock("coords");
+			$this->tpl->setVariable("VAL_COORDS",
+				implode(explode(",", $this->area[$a_set["Nr"]]["Coords"]), ", "));
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setVariable("TYPE",
+				$lng->txt("cont_".$this->area[$a_set["Nr"]]["Shape"]));
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("marker_pos");
+			$this->tpl->setVariable("VAR_MARK_POS", "markpos[".$i."]");
+			$this->tpl->setVariable("VAL_MARK_POS", $a_set["MarkerX"].",".$a_set["MarkerY"]);
+			$this->tpl->setVariable("TXT_MLEFT", $lng->txt("cont_left"));
+			$this->tpl->setVariable("TXT_MTOP", $lng->txt("cont_top"));
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setVariable("TYPE", $lng->txt("cont_marker"));
+		}
+
 		$this->tpl->setVariable("CHECKBOX",
 			ilUtil::formCheckBox("", "tr[]", $i));
 		$this->tpl->setVariable("VAR_NAME", "title[".$i."]");
 		$this->tpl->setVariable("VAL_NAME", $a_set["Title"]);
-		$this->tpl->setVariable("VAL_SHAPE", $a_set["Shape"]);
-		$this->tpl->setVariable("VAL_COORDS",
-			implode(explode(",", $a_set["Coords"]), ", "));
-		switch ($a_set["Link"]["LinkType"])
-		{
-			case "ExtLink":
-				$this->tpl->setVariable("VAL_LINK", $a_set["Link"]["Href"]);
-				break;
-
-			case "IntLink":
-				$link_str = $this->parent_obj->getMapAreaLinkString($a_set["Link"]["Target"],
-					$a_set["Link"]["Type"], $a_set["Link"]["TargetFrame"]);
-				$this->tpl->setVariable("VAL_LINK", $link_str);
-				break;
-		}
-
+		
+		
 		$this->tpl->setVariable("VAR_POS", "ovpos[".$i."]");
 		$this->tpl->setVariable("VAL_POS", $a_set["OverlayX"].",".$a_set["OverlayY"]);
+		$this->tpl->setVariable("TXT_IMG", $lng->txt("image"));
+		$this->tpl->setVariable("TXT_LEFT", $lng->txt("cont_left"));
+		$this->tpl->setVariable("TXT_TOP", $lng->txt("cont_top"));
 		$this->tpl->setVariable("OVERLAY_IMAGE",
 			ilUtil::formSelect($a_set["Overlay"], "ov[".$i."]", $this->ov_options, false, true));
 		$this->tpl->setVariable("CONTENT_POPUP",

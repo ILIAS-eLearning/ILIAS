@@ -753,3 +753,17 @@ div.ilc_iim_ContentPopup
 	border-width: 2px;
 	padding: 5px 10px 5px 10px;
 }
+
+a.ilc_marker_Marker
+{
+	display: block;
+	width: 25px;
+	height: 30px;
+	position: absolute;
+	background-image: url(../../../templates/default/images/icon_pin.png);
+}
+
+a.ilc_marker_Marker:hover
+{
+	background-image: url(../../../templates/default/images/icon_pin_on.png);
+}

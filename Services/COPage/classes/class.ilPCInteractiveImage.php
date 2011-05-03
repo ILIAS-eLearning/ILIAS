@@ -59,6 +59,10 @@ class ilPCInteractiveImage extends ilPageContent
 				$this->setMediaObject(new ilObjMediaObject($mob_id));
 			}
 		}
+		include_once("./Services/COPage/classes/class.ilMediaAliasItem.php");
+		$this->std_alias_item = new ilMediaAliasItem($this->dom,
+			$this->readHierId(), "Standard", $this->readPCId(),
+			"InteractiveImage");
 	}
 
 	/**
@@ -114,6 +118,15 @@ class ilPCInteractiveImage extends ilPageContent
 	{
 		return $this->getMediaObject()->getMediaItem("Standard");
 	}
+	
+	/**
+	 * Get standard alias item
+	 */
+	function getStandardAliasItem()
+	{
+		return $this->std_alias_item;
+	}
+	
 	
 	/**
 	 * Get base thumbnail target
@@ -447,9 +460,10 @@ die("pcinteractiveimage: setstyleclass");
 	/**
 	 * Add a new trigger marker
 	 */
-	function addTriggerMarker($a_alias_item, $a_shape_type, $a_coords, $a_title,
-		$a_link)
+	function addTriggerMarker()
 	{
+		global $lng;
+		
 		$max = 0;
 		$triggers = $this->getTriggers();
 		foreach ($triggers as $t)
@@ -458,9 +472,9 @@ die("pcinteractiveimage: setstyleclass");
 		}
 		
 		$attributes = array("Type" => self::MARKER,
-			"Title" => ilUtil::stripSlashes($a_title),
-			"Nr" => $max + 1,
-			"PosX" => "0", "PosY" => "0", "OverAction" => "", "ClickAction" => "");
+			"Title" => $lng->txt("cont_new_marker"),
+			"Nr" => $max + 1, "OverlayX" => "0", "OverlayY" => "0",
+			"MarkerX" => "0", "MarkerY" => "0", "PopupNr" => "");
 		$ma_node = ilDOMUtil::addElementToList($this->dom, $this->iim_node,
 			"Trigger", array("ContentPopup"), "", $attributes);
 	}
@@ -571,6 +585,26 @@ die("pcinteractiveimage: setstyleclass");
 			$pos = explode(",", $a_pos["".$tr_node->get_attribute("Nr")]);
 			$tr_node->set_attribute("OverlayX", (int) $pos[0]);
 			$tr_node->set_attribute("OverlayY", (int) $pos[1]);
+		}
+	}
+
+	/**
+	 * Set trigger marker position
+	 *
+	 * @param array array of strings (representing the marker positions for the trigger)
+	 */
+	function setTriggerMarkerPositions($a_pos)
+	{
+		$tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
+		for($i=0; $i < count($tr_nodes); $i++)
+		{
+			$tr_node = $tr_nodes[$i];
+			if ($tr_node->get_attribute("Type") == self::MARKER)
+			{
+				$pos = explode(",", $a_pos["".$tr_node->get_attribute("Nr")]);
+				$tr_node->set_attribute("MarkerX", (int) $pos[0]);
+				$tr_node->set_attribute("MarkerY", (int) $pos[1]);
+			}
 		}
 	}
 

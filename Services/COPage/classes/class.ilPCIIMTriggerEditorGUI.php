@@ -92,11 +92,14 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	 */
 	function addNewArea()
 	{
-		if ($_POST["shape"] == "marker")
+		global $ilCtrl, $lng;
+		
+		if ($_POST["shape"] == "Marker")
 		{
-			$this->content_obj->addTriggerMarker($this->std_alias_item,
-				$area_type, $coords,
-				ilUtil::stripSlashes($_POST["area_name"]), $link);
+			$this->content_obj->addTriggerMarker();
+			$this->updated = $this->page->update();
+			ilUtil::sendSuccess($lng->txt("cont_saved_map_data"), true);
+			$ilCtrl->redirect($this, "editMapAreas");
 		}
 		else
 		{
@@ -185,6 +188,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 		$this->content_obj->setTriggerOverlays($_POST["ov"]);
 		$this->content_obj->setTriggerPopups($_POST["pop"]);
 		$this->content_obj->setTriggerOverlayPositions($_POST["ovpos"]);
+		$this->content_obj->setTriggerMarkerPositions($_POST["markpos"]);
 		$this->content_obj->setTriggerTitles($_POST["title"]);
 		$this->updated = $this->page->update();
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
