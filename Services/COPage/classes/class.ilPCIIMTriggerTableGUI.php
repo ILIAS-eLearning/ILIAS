@@ -37,7 +37,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 		$this->pop_options = array("" => $lng->txt("please_select"));
 		foreach ($this->popups as $k => $p)
 		{
-			$this->pop_options[$p["title"]] = $p["title"];
+			$this->pop_options[$p["nr"]] = $p["title"];
 		}
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_pc_media_object->getMediaObject());
 		$this->setRowTemplate("tpl.iim_trigger_row.html", "Services/COPage");
@@ -114,14 +114,13 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 				$this->tpl->setVariable("VAL_LINK", $link_str);
 				break;
 		}
-//var_dump($a_set);
 
 		$this->tpl->setVariable("VAR_POS", "ovpos[".$i."]");
-		$this->tpl->setVariable("VAL_POS", $a_set["PosX"].",".$a_set["PosY"]);
+		$this->tpl->setVariable("VAL_POS", $a_set["OverlayX"].",".$a_set["OverlayY"]);
 		$this->tpl->setVariable("OVERLAY_IMAGE",
-			ilUtil::formSelect($a_set["OverAction"], "ov[".$i."]", $this->ov_options, false, true));
+			ilUtil::formSelect($a_set["Overlay"], "ov[".$i."]", $this->ov_options, false, true));
 		$this->tpl->setVariable("CONTENT_POPUP",
-			ilUtil::formSelect($a_set["ClickAction"], "pop[".$i."]", $this->pop_options, false, true));
+			ilUtil::formSelect($a_set["PopupNr"], "pop[".$i."]", $this->pop_options, false, true));
 	}
 
 }
