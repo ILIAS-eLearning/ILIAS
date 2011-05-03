@@ -65,6 +65,7 @@ ilCOPagePres =
 	iim_trigger: {},
 	iim_area: {},
 	iim_popup: {},
+	iim_marker: {},
 
 	/**
 	 * Init interactive images
@@ -74,21 +75,56 @@ ilCOPagePres =
 		// preload overlay images (necessary?)
 		
 		// add onmouseover event to all map areas
-		$("map.iim > area").mouseover(this.overIIMArea);
-		$("map.iim > area").mouseout(this.outIIMArea);
+		$("map.iim > area").mouseover(this.overBaseArea);
+		$("map.iim > area").mouseout(this.outBaseArea);
 		$("map.iim > area").click(this.clickBaseArea);
+		
+		$("a.ilc_marker_Marker").mouseover(this.overMarker);
+		$("a.ilc_marker_Marker").mouseout(this.outMarker);
+		$("a.ilc_marker_Marker").click(this.clickMarker);
+
 	},
 	
+	/**
+	 * Mouse over marker -> show the overlay image
+	 */
+	overMarker: function (e)
+	{
+		var marker_tr_nr = ilCOPagePres.iim_marker[e.target.id].tr_nr;
+		var iim_id = ilCOPagePres.iim_marker[e.target.id].iim_id;
+		ilCOPagePres.handleOverEvent(iim_id, marker_tr_nr, true);
+	},
+
+	/**
+	 * Mouse leaves marker -> hide the overlay image 
+	 */
+	outMarker: function (e)
+	{
+		var marker_tr_nr = ilCOPagePres.iim_marker[e.target.id].tr_nr;
+		var iim_id = ilCOPagePres.iim_marker[e.target.id].iim_id;
+		ilCOPagePres.handleOutEvent(iim_id, marker_tr_nr, true);
+	},
+
 	/**
 	 * Mouse over base image map area -> show the overlay image
 	 * and (on first time) init the image map of the overlay image
 	 */
-	overIIMArea: function (e)
+	overBaseArea: function (e)
 	{
-console.log("over enter");
-		var k, j, tr, coords, ovx, ovy;
 		var area_tr_nr = ilCOPagePres.iim_area[e.target.id].tr_nr;
 		var iim_id = ilCOPagePres.iim_area[e.target.id].iim_id;
+		
+		ilCOPagePres.handleOverEvent(iim_id, area_tr_nr, false);
+	},
+	
+	/**
+	 * Mouse over base image map area or marker -> show the overlay image
+	 * and (on first time) init the image map of the overlay image
+	 */
+	handleOverEvent: function (iim_id, area_tr_nr, is_marker)
+	{
+//console.log("over enter");
+		var k, j, tr, coords, ovx, ovy;
 
 		for (k in ilCOPagePres.iim_trigger)
 		{
@@ -99,7 +135,7 @@ console.log("over enter");
 //console.log("get base" + tr['tr_id']);
 				var pos = base.position();
 				var ov = $("img#iim_ov_" + tr['tr_id']);
-console.log("get iim_ov_" + tr['tr_id']);
+//console.log("get iim_ov_" + tr['tr_id']);
 				var cnt = 1;
 				var base_map_name = base.attr('usemap').substr(1);
 				
@@ -113,7 +149,7 @@ console.log("get iim_ov_" + tr['tr_id']);
 
 				// on first time we need to initialize the
 				// image map of the overlay image
-				if (tr.map_initialized == null)
+				if (tr.map_initialized == null && !is_marker)
 				{
 					tr.map_initialized = true;
 //console.log(tr);
@@ -182,16 +218,25 @@ console.log("get iim_ov_" + tr['tr_id']);
 			}
 		}
 	},
+
+	/**
+	 * Leave a base image map area: hide corresponding images
+	 */
+	outBaseArea: function (e)
+	{
+		var area_tr_nr = ilCOPagePres.iim_area[e.target.id].tr_nr;
+		var iim_id = ilCOPagePres.iim_area[e.target.id].iim_id;
+		ilCOPagePres.handleOutEvent(iim_id, area_tr_nr, false);
+	},
 	
 	/**
 	 * Leave a base image map area: hide corresponding images
 	 */
-	outIIMArea: function (e)
+	handleOutEvent: function (iim_id, area_tr_nr, is_marker)
 	{
 //console.log("out");
 		var k, tr;
-		var area_tr_nr = ilCOPagePres.iim_area[e.target.id].tr_nr;
-		var iim_id = ilCOPagePres.iim_area[e.target.id].iim_id;
+		
 		for (k in ilCOPagePres.iim_trigger)
 		{
 			tr = ilCOPagePres.iim_trigger[k];
@@ -204,6 +249,8 @@ console.log("get iim_ov_" + tr['tr_id']);
 			}
 		}
 	},
+	
+	
 	
 	/**
 	 * Triggered by mouseover/out on imagemap of overlay image
@@ -222,6 +269,26 @@ console.log("get iim_ov_" + tr['tr_id']);
 		}
 	},
 	
+	/**
+	 * A marker is clicked
+	 */
+	clickMarker: function (e)
+	{
+		var k;
+		var marker_tr_nr = ilCOPagePres.iim_marker[e.target.id].tr_nr;
+		var iim_id = ilCOPagePres.iim_marker[e.target.id].iim_id;
+
+		// iterate through the triggers and search the correct one
+		for (k in ilCOPagePres.iim_trigger)
+		{
+			tr = ilCOPagePres.iim_trigger[k];
+			if (tr.nr == marker_tr_nr && tr.iim_id == iim_id)
+			{
+				ilCOPagePres.handleAreaClick(e, tr['tr_id']);
+			}
+		}
+	},
+
 	/**
 	 * A base image map area is clicked
 	 */
@@ -270,8 +337,8 @@ console.log("get iim_ov_" + tr['tr_id']);
 				"auto_hide":false});
 		}
 		
-console.log("showing trigger " + tr_id);
-console.log("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr']);
+//console.log("showing trigger " + tr_id);
+//console.log("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr']);
 		
 		// @todo: show the overlay
 		ilOverlay.show(e, "iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], null, true, null, null);
@@ -289,7 +356,7 @@ console.log("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr']);
 
 	addIIMTrigger: function(tr)
 	{
-console.log(tr);
+//console.log(tr);
 		this.iim_trigger[tr.tr_id] = tr;
 	},
 	
@@ -302,6 +369,11 @@ console.log(tr);
 	addIIMPopup: function(p)
 	{
 		this.iim_popup[p.pop_id] = p;
+	},
+	
+	addIIMMarker: function(m)
+	{
+		this.iim_marker[m.m_id] = m;
 	}
 }
 ilAddOnLoad(function() {ilCOPagePres.init();});

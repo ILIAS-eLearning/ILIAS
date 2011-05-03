@@ -2852,6 +2852,9 @@
 	</xsl:if>
 		<xsl:apply-templates select="MediaAlias"/>
 		<xsl:apply-templates select="Trigger"/>
+		<xsl:for-each select="./Trigger">
+			<xsl:call-template name="Marker" />
+		</xsl:for-each>
 		<xsl:apply-templates select="ContentPopup"/>
 		<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
 	</div>
@@ -2914,23 +2917,45 @@
 		<xsl:attribute name="id">iim_ov_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
 		<xsl:attribute name="usemap">#iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
 		</img>
-		<map>
-		<xsl:attribute name="id">iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
-		<xsl:attribute name="name">iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
-			<area href="#" coords="10,10,100,100" shape="Rect">
-				<xsl:attribute name="id">iim_ov_area_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
-			</area>
-		</map>
+		<xsl:if test="@Type = 'Area'">
+			<map>
+			<xsl:attribute name="id">iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+			<xsl:attribute name="name">iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+				<area href="#" coords="10,10,100,100" shape="Rect">
+					<xsl:attribute name="id">iim_ov_area_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+				</area>
+			</map>
+		</xsl:if>
+	</xsl:if>
+	<script type="text/javascript">
+		ilAddOnLoad(function() {ilCOPagePres.addIIMTrigger({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
+			type: '<xsl:value-of select="@Type"/>', title: '<xsl:value-of select="@Title"/>',
+			ovx: '<xsl:value-of select="@OverlayX"/>', ovy: '<xsl:value-of select="@OverlayY"/>',
+			markx: '<xsl:value-of select="@MarkerX"/>', marky: '<xsl:value-of select="@MarkerY"/>',
+			popup_nr: '<xsl:value-of select="@PopupNr"/>', nr: '<xsl:value-of select="@Nr"/>',
+			tr_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />'
+		})});
+	</script>
+</xsl:template>
+
+<!-- Marker -->
+<xsl:template name="Marker">
+	<xsl:if test="@Type = 'Marker'">
+		<a class="ilc_marker_Marker">
+		<xsl:attribute name="id">iim_mark_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+		<xsl:comment>Break</xsl:comment>
+		</a>
 		<script type="text/javascript">
-			ilAddOnLoad(function() {ilCOPagePres.addIIMTrigger({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
-				type: '<xsl:value-of select="@Type"/>', title: '<xsl:value-of select="@Title"/>',
-				ovx: '<xsl:value-of select="@OverlayX"/>', ovy: '<xsl:value-of select="@OverlayY"/>',
-				popup_nr: '<xsl:value-of select="@PopupNr"/>', nr: '<xsl:value-of select="@Nr"/>',
+			ilAddOnLoad(function() {ilCOPagePres.addIIMMarker({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
+				m_id: 'iim_mark_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />',
+				markx: '<xsl:value-of select="@MarkerX"/>', marky: '<xsl:value-of select="@MarkerY"/>',
+				tr_nr: '<xsl:value-of select="@Nr"/>',
 				tr_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />'
 			})});
 		</script>
 	</xsl:if>
 </xsl:template>
+
 
 <!-- Section -->
 <xsl:template match="Section">
