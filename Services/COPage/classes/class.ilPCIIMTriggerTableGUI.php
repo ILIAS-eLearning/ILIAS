@@ -133,10 +133,17 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 		
 		
 		$this->tpl->setVariable("VAR_POS", "ovpos[".$i."]");
+		$this->tpl->setVariable("VAR_POP_POS", "poppos[".$i."]");
+		$this->tpl->setVariable("VAR_POP_SIZE", "popsize[".$i."]");
 		$this->tpl->setVariable("VAL_POS", $a_set["OverlayX"].",".$a_set["OverlayY"]);
+		$this->tpl->setVariable("VAL_POP_POS", $a_set["PopupX"].",".$a_set["PopupY"]);
+		$this->tpl->setVariable("VAL_POP_SIZE", $a_set["PopupWidth"].",".$a_set["PopupHeight"]);
 		$this->tpl->setVariable("TXT_IMG", $lng->txt("image"));
+		$this->tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 		$this->tpl->setVariable("TXT_LEFT", $lng->txt("cont_left"));
 		$this->tpl->setVariable("TXT_TOP", $lng->txt("cont_top"));
+		$this->tpl->setVariable("TXT_WIDTH", $lng->txt("cont_width"));
+		$this->tpl->setVariable("TXT_HEIGHT", $lng->txt("cont_height"));
 		$this->tpl->setVariable("OVERLAY_IMAGE",
 			ilUtil::formSelect($a_set["Overlay"], "ov[".$i."]", $this->ov_options, false, true));
 		$this->tpl->setVariable("CONTENT_POPUP",

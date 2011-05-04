@@ -105,6 +105,10 @@
 	MarkerY CDATA #IMPLIED
 	Overlay CDATA #IMPLIED
 	PopupNr CDATA #IMPLIED
+	PopupX CDATA #IMPLIED
+	PopupY CDATA #IMPLIED
+	PopupWidth CDATA #IMPLIED
+	PopupHeight CDATA #IMPLIED
 >
 <!ELEMENT ContentPopup (PageContent*)>
 <!ATTLIST ContentPopup

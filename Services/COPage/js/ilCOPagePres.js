@@ -333,15 +333,23 @@ ilCOPagePres =
 				"close_el":"iim_ov_area_" + tr.tr_id});
 			*/
 			ilOverlay.add("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'],
-				{"yuicfg":{"visible":false,"fixedcenter":true},
+				{"yuicfg":{"visible":false,"fixedcenter":false},
 				"auto_hide":false});
 		}
 		
 //console.log("showing trigger " + tr_id);
 //console.log("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr']);
 		
-		// @todo: show the overlay
-		ilOverlay.show(e, "iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], null, true, null, null);
+		// show the overlay
+		var base = $("img#base_img_" + ilCOPagePres.iim_trigger[tr_id]['iim_id']);
+		var pos = base.position();
+		var x = pos.left + parseInt(ilCOPagePres.iim_trigger[tr_id]['popx']);
+		var y = pos.top + parseInt(ilCOPagePres.iim_trigger[tr_id]['popy']);
+		ilOverlay.setWidth("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], ilCOPagePres.iim_trigger[tr_id]['popwidth']);
+		ilOverlay.setHeight("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], ilCOPagePres.iim_trigger[tr_id]['popheight']);
+		ilOverlay.toggle(e, "iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], null, false, null, null, "click");
+		ilOverlay.setX("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], x);
+		ilOverlay.setY("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], y);
 
 		e.preventDefault();
 	},
@@ -383,6 +391,7 @@ ilCOPagePres =
 		my = parseInt(m['marky']);
 		mark.css('left', pos.left + mx);
 		mark.css('top', pos.top + my);
+		mark.css('display', '');
 	}
 }
 ilAddOnLoad(function() {ilCOPagePres.init();});
