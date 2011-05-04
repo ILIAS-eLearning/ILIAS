@@ -1137,6 +1137,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		global $ilUser;
 
+		if (!$this->object->getShowSolutionPrintview())
+		{
+			ilUtil::sendInfo($this->lng->txt("no_permission"), true);
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+
 		$template = new ilTemplate("tpl.il_as_tst_info_list_of_answers.html", TRUE, TRUE, "Modules/Test");
 
 		$pass = null;

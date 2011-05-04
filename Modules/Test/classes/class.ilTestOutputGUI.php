@@ -878,7 +878,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	public function togglesidelist()
 	{
 		global $ilUser;
-		
+
 		$show_side_list = $ilUser->getPref('side_list_of_questions');
 		$ilUser->writePref('side_list_of_questions', !$show_side_list);
 		$this->saveQuestionSolution();
@@ -1010,8 +1010,15 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$this->ctrl->setParameter($this, 'gotosequence', $matches[1]);
 			}
 		}
-		$this->ctrl->setParameter($this, "activecommand", $activecommand);
-		$this->ctrl->redirect($this, "redirectQuestion");
+		if (strcmp($activecommand, "togglesidelist") == 0)
+		{
+			$this->togglesidelist();
+		}
+		else
+		{
+			$this->ctrl->setParameter($this, "activecommand", $activecommand);
+			$this->ctrl->redirect($this, "redirectQuestion");
+		}
 	}
 	
 /**
