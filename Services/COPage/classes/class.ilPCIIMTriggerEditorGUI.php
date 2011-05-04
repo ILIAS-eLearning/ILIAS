@@ -51,6 +51,10 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	 */
 	function getImageMapTableHTML()
 	{
+		global $tpl;
+		
+		$tpl->addJavascript("./Services/COPage/js/ilCOPagePres.js");
+		
 		include_once("./Services/COPage/classes/class.ilPCIIMTriggerTableGUI.php");
 		$image_map_table = new ilPCIIMTriggerTableGUI($this, "editMapAreas", $this->content_obj,
 			$this->getParentNodeName());
@@ -189,6 +193,8 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 		$this->content_obj->setTriggerPopups($_POST["pop"]);
 		$this->content_obj->setTriggerOverlayPositions($_POST["ovpos"]);
 		$this->content_obj->setTriggerMarkerPositions($_POST["markpos"]);
+		$this->content_obj->setTriggerPopupPositions($_POST["poppos"]);
+		$this->content_obj->setTriggerPopupSize($_POST["popsize"]);
 		$this->content_obj->setTriggerTitles($_POST["title"]);
 		$this->updated = $this->page->update();
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);

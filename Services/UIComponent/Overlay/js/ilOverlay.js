@@ -220,6 +220,42 @@ ilOverlayFunc.prototype =
 		el.style.overflow = 'auto';
 	},
 	
+	/**
+	 * Set width of an overlay
+	 */
+	setWidth: function(id, w)
+	{
+		var el = document.getElementById(id);
+		el.style.width = w + "px";
+	},
+	
+	/**
+	 * Set height of an overlay
+	 */
+	setHeight: function(id, h)
+	{
+		var el = document.getElementById(id);
+		el.style.height = h + "px";
+	},
+	
+	/**
+	 * Set x
+	 */
+	setX: function (id, x)
+	{
+		var el = document.getElementById(id);
+		YAHOO.util.Dom.setX(el, x);
+	},
+	
+	/**
+	 * Set y
+	 */
+	setY: function (id, y)
+	{
+		var el = document.getElementById(id);
+		YAHOO.util.Dom.setY(el, y);
+	},
+	
 	// hide all overlays
 	hideAllOverlays: function (e, force) {
 		for (var k in ilOverlayFunc.prototype.overlays)

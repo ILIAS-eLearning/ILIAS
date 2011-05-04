@@ -2933,6 +2933,8 @@
 			ovx: '<xsl:value-of select="@OverlayX"/>', ovy: '<xsl:value-of select="@OverlayY"/>',
 			markx: '<xsl:value-of select="@MarkerX"/>', marky: '<xsl:value-of select="@MarkerY"/>',
 			popup_nr: '<xsl:value-of select="@PopupNr"/>', nr: '<xsl:value-of select="@Nr"/>',
+			popx: '<xsl:value-of select="@PopupX"/>', popy: '<xsl:value-of select="@PopupY"/>',
+			popwidth: '<xsl:value-of select="@PopupWidth"/>', popheight: '<xsl:value-of select="@PopupHeight"/>',
 			tr_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />'
 		})});
 	</script>
@@ -2941,7 +2943,7 @@
 <!-- Marker -->
 <xsl:template name="Marker">
 	<xsl:if test="@Type = 'Marker'">
-		<a class="ilc_marker_Marker">
+		<a class="ilc_marker_Marker" style="display:none;">
 		<xsl:attribute name="id">iim_mark_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
 		<xsl:comment>Break</xsl:comment>
 		</a>

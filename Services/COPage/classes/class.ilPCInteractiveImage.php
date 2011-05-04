@@ -452,7 +452,8 @@ die("pcinteractiveimage: setstyleclass");
 		$attributes = array("Type" => self::AREA,
 			"Title" => ilUtil::stripSlashes($a_title),
 			"Nr" => $max + 1,
-			"OverlayX" => "0", "OverlayY" => "0", "Overlay" => "", "PopupNr" => "");
+			"OverlayX" => "0", "OverlayY" => "0", "Overlay" => "", "PopupNr" => "",
+			"PopupX" => "0", "PopupY" => "0", "PopupWidth" => "150", "PopupHeight" => "200");
 		$ma_node = ilDOMUtil::addElementToList($this->dom, $this->iim_node,
 			"Trigger", array("ContentPopup"), "", $attributes);
 	}
@@ -474,7 +475,8 @@ die("pcinteractiveimage: setstyleclass");
 		$attributes = array("Type" => self::MARKER,
 			"Title" => $lng->txt("cont_new_marker"),
 			"Nr" => $max + 1, "OverlayX" => "0", "OverlayY" => "0",
-			"MarkerX" => "0", "MarkerY" => "0", "PopupNr" => "");
+			"MarkerX" => "0", "MarkerY" => "0", "PopupNr" => "",
+			"PopupX" => "0", "PopupY" => "0", "PopupWidth" => "150", "PopupHeight" => "200");
 		$ma_node = ilDOMUtil::addElementToList($this->dom, $this->iim_node,
 			"Trigger", array("ContentPopup"), "", $attributes);
 	}
@@ -526,7 +528,11 @@ die("pcinteractiveimage: setstyleclass");
 				"MarkerX" => $tr_node->get_attribute("MarkerX"),
 				"MarkerY" => $tr_node->get_attribute("MarkerY"),
 				"Overlay" => $tr_node->get_attribute("Overlay"),
-				"PopupNr" => $tr_node->get_attribute("PopupNr")
+				"PopupNr" => $tr_node->get_attribute("PopupNr"),
+				"PopupX" => $tr_node->get_attribute("PopupX"),
+				"PopupY" => $tr_node->get_attribute("PopupY"),
+				"PopupWidth" => $tr_node->get_attribute("PopupWidth"),
+				"PopupHeight" => $tr_node->get_attribute("PopupHeight")
 				);
 		}
 		
@@ -608,7 +614,40 @@ die("pcinteractiveimage: setstyleclass");
 		}
 	}
 
+	/**
+	 * Set trigger popup position
+	 *
+	 * @param array array of strings (representing the popup positions for the trigger)
+	 */
+	function setTriggerPopupPositions($a_pos)
+	{
+		$tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
+		for($i=0; $i < count($tr_nodes); $i++)
+		{
+			$tr_node = $tr_nodes[$i];
+			$pos = explode(",", $a_pos["".$tr_node->get_attribute("Nr")]);
+			$tr_node->set_attribute("PopupX", (int) $pos[0]);
+			$tr_node->set_attribute("PopupY", (int) $pos[1]);
+		}
+	}
 	
+	/**
+	 * Set trigger popup size
+	 *
+	 * @param array array of strings (representing the popup sizes for the trigger)
+	 */
+	function setTriggerPopupSize($a_size)
+	{
+		$tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
+		for($i=0; $i < count($tr_nodes); $i++)
+		{
+			$tr_node = $tr_nodes[$i];
+			$size = explode(",", $a_size["".$tr_node->get_attribute("Nr")]);
+			$tr_node->set_attribute("PopupWidth", (int) $size[0]);
+			$tr_node->set_attribute("PopupHeight", (int) $size[1]);
+		}
+	}
+
 	/**
 	 * Set trigger popups
 	 *
