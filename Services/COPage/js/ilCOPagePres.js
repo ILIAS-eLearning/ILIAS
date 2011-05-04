@@ -374,6 +374,15 @@ ilCOPagePres =
 	addIIMMarker: function(m)
 	{
 		this.iim_marker[m.m_id] = m;
+		var base = $("img#base_img_" + m.iim_id);
+		var pos = base.position();
+		var mark = $("a#" + m['m_id']);
+		// display the marker at the correct position
+		mark.css('position', 'absolute');
+		mx = parseInt(m['markx']);
+		my = parseInt(m['marky']);
+		mark.css('left', pos.left + mx);
+		mark.css('top', pos.top + my);
 	}
 }
 ilAddOnLoad(function() {ilCOPagePres.init();});
