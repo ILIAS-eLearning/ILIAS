@@ -122,7 +122,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("USER_ID", $data["id"]);
 		$this->tpl->setVariable("VALUE_USER_NAME", $data['name']);
 		$this->tpl->setVariable("VALUE_USER_LOGIN", $data['login']);
-		$this->tpl->setVariable("LAST_ACCESS", $data['last_access']);
+		$this->tpl->setVariable("LAST_ACCESS", ilDatePresentation::formatDate(new ilDateTime($data['last_access'],IL_CAL_UNIX)));
 	}
 }
 ?>
