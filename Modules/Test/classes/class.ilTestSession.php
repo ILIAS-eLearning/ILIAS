@@ -123,8 +123,9 @@ class ilTestSession
 		$this->setLastSequence(0);
 		$submitted = ($this->isSubmitted()) ? 1 : 0;
 		// there has to be at least 10 seconds between new test passes (to ensure that noone double clicks the finish button and increases the test pass by more than 1)
-		if (time() > $this->tstamp + 10)
+		if (time() - $_SESSION['tst_last_increase_pass'] > 10)
 		{
+			$_SESSION['tst_last_increase_pass'] = time();
 			$this->tstamp = time();
 			if ($this->active_id > 0)
 			{
