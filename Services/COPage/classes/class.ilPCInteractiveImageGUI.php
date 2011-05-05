@@ -96,9 +96,9 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 				$ilCtrl->getParentReturn($this)
 				);
 
-			$ilTabs->addTab("edit_base_image",
-				$lng->txt("cont_base_image"),
-				$ilCtrl->getLinkTarget($this, "editBaseImage")
+			$ilTabs->addTab("triggers",
+				$lng->txt("cont_active_areas"),
+				$ilCtrl->getLinkTargetByClass("ilpciimtriggereditorgui", "editMapAreas")
 				);
 
 			$ilTabs->addTab("list_overlays",
@@ -111,10 +111,11 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 				$ilCtrl->getLinkTarget($this, "listContentPopups")
 				);
 
-			$ilTabs->addTab("triggers",
-				$lng->txt("cont_active_areas"),
-				$ilCtrl->getLinkTargetByClass("ilpciimtriggereditorgui", "editMapAreas")
+			$ilTabs->addTab("edit_base_image",
+				$lng->txt("cont_base_image"),
+				$ilCtrl->getLinkTarget($this, "editBaseImage")
 				);
+
 		}
 	}
 
@@ -124,6 +125,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	function insert($a_post_cmd = "edpost", $a_submit_cmd = "create_mob", $a_input_error = false)
 	{
 		global $ilTabs, $tpl, $ilCtrl, $lng;
+		
+		ilUtil::sendInfo($lng->txt("cont_iim_create_info"));
 		
 //		$this->getTabs($ilTabs, true);
 //		$ilTabs->setSubTabActive("cont_new_mob");
@@ -150,7 +153,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	{
 		global $tpl, $ilCtrl;
 		
-		$ilCtrl->redirect($this, "editBaseImage");
+		$ilCtrl->redirectByClass(array("ilpcinteractiveimagegui", "ilpciimtriggereditorgui"), "editMapAreas");
 		//$tpl->setContent("hh");
 	}
 	
@@ -162,7 +165,9 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function editBaseImage($a_form = null)
 	{
-		global $tpl, $ilTabs;
+		global $tpl, $ilTabs, $lng;
+		
+		ilUtil::sendInfo($lng->txt("cont_iim_base_image_info"));
 		
 		$ilTabs->activateTab("edit_base_image");
 		
@@ -374,6 +379,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	{
 		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
 		
+		ilUtil::sendInfo($lng->txt("cont_iim_overlay_info"));
+		
 		$ilTabs->setTabActive("list_overlays");
 		
 		$ilToolbar->addButton($lng->txt("cont_add_images"),
@@ -536,6 +543,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	function listContentPopups()
 	{
 		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
+		
+		ilUtil::sendInfo($lng->txt("cont_iim_content_popups_info"));
 		
 		$ilTabs->setTabActive("content_popups");
 		
