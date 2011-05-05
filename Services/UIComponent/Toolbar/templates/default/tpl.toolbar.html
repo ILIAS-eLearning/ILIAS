@@ -1,9 +1,9 @@
 <!-- BEGIN form_open --><form method="post" id="ilToolbar" action="{FORMACTION}" {TARGET} {ENC_TYPE} class="ilForm"><!-- END form_open -->
-<div class="ilToolbar"><h3 class="ilAccHeadingHidden">{TXT_FUNCTIONS}</h3>
+<div class="ilToolbar" {STYLE} {ID}><h3 class="ilAccHeadingHidden">{TXT_FUNCTIONS}</h3>
 <!-- BEGIN lead_image --><img border="0" src="{IMG_SRC}" alt="{IMG_ALT}" /><!-- END lead_image -->
 <!-- BEGIN item -->
 <!-- BEGIN button -->
-<a {BTN_ACC_KEY} class="submit" href="{BTN_LINK}" {BTN_TARGET} {BTN_ADD_ARG}>&nbsp;{BTN_TXT}&nbsp;</a>
+<a {BTN_ACC_KEY} {BID} class="submit" href="{BTN_LINK}" {BTN_TARGET} {BTN_ADD_ARG}>&nbsp;{BTN_TXT}&nbsp;</a>
 <!-- END button -->
 <!-- BEGIN form_button -->
 <input class="submit" type="submit" name="cmd[{SUB_CMD}]" value="{SUB_TXT}" />
@@ -20,6 +20,9 @@
 <!-- BEGIN link -->
 <a href="{LINK_URL}">&nbsp;{LINK_TXT}&nbsp;</a>
 <!-- END link -->
+<!-- BEGIN text -->
+&nbsp;{VAL_TEXT}&nbsp;
+<!-- END text -->
 <!-- BEGIN link_disabled -->
 <span class="ilTableFootLight">&nbsp;{LINK_DISABLED_TXT}&nbsp;</span>
 <!-- END link_disabled -->

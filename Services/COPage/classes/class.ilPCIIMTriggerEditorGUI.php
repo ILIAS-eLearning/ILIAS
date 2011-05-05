@@ -51,9 +51,21 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	 */
 	function getImageMapTableHTML()
 	{
-		global $tpl;
+		global $tpl, $ilToolbar, $lng, $ilCtrl;
+		
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		iljQueryUtil::initjQueryUI();
 		
 		$tpl->addJavascript("./Services/COPage/js/ilCOPagePres.js");
+		$tpl->addJavascript("./Services/COPage/js/ilCOPagePCInteractiveImage.js");
+		
+		$ilToolbar->addText($lng->txt("cont_drag_element_click_save"));
+		$ilToolbar->setId("drag_toolbar");
+		$ilToolbar->setHidden(true);
+		$ilToolbar->addButton($lng->txt("save"),"#", "", "", "", "save_pos_button");
+		
+		$ilToolbar->addButton($lng->txt("cancel"),
+			$ilCtrl->getLinkTarget($this, "editMapAreas"));
 		
 		include_once("./Services/COPage/classes/class.ilPCIIMTriggerTableGUI.php");
 		$image_map_table = new ilPCIIMTriggerTableGUI($this, "editMapAreas", $this->content_obj,

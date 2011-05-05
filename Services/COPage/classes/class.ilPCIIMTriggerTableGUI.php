@@ -77,7 +77,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 		$data = $this->getData();
 		if (count($data) > 0)
 		{
-			$this->addCommandButton("updateTrigger", $lng->txt("save"));
+			$this->addCommandButton("updateTrigger", $lng->txt("save"), "", "update_tr_button");
 		}
 	}
 
@@ -104,6 +104,28 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 
 		$i = $a_set["Nr"];
 
+		// command: edit marker position
+		if ($a_set["Overlay"] != "")
+		{
+			$this->tpl->setCurrentBlock("cmd");
+			$this->tpl->setVariable("CMD_ID", "ov_".$i);
+			$this->tpl->setVariable("HREF_CMD", "#");
+			$this->tpl->setVariable("CMD_CLASS", "ov_cmd");
+			$this->tpl->setVariable("TXT_CMD", $lng->txt("cont_edit_overlay_position"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		// command: edit marker position
+		if ($a_set["PopupNr"] != "")
+		{
+			$this->tpl->setCurrentBlock("cmd");
+			$this->tpl->setVariable("CMD_ID", "pop_".$i);
+			$this->tpl->setVariable("HREF_CMD", "#");
+			$this->tpl->setVariable("CMD_CLASS", "pop_cmd");
+			$this->tpl->setVariable("TXT_CMD", $lng->txt("cont_edit_popup_position"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		if ($a_set["Type"] == ilPCInteractiveImage::AREA)
 		{
 			$this->tpl->setCurrentBlock("coords");
@@ -116,8 +138,18 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 		}
 		else
 		{
+			// command: edit marker position
+			$this->tpl->setCurrentBlock("cmd");
+			$this->tpl->setVariable("CMD_ID", "mark_".$i);
+			$this->tpl->setVariable("HREF_CMD", "#");
+			$this->tpl->setVariable("CMD_CLASS", "mark_cmd");
+			$this->tpl->setVariable("TXT_CMD", $lng->txt("cont_edit_marker_position"));
+			$this->tpl->parseCurrentBlock();
+			
+			// marker position
 			$this->tpl->setCurrentBlock("marker_pos");
 			$this->tpl->setVariable("VAR_MARK_POS", "markpos[".$i."]");
+			$this->tpl->setVariable("ID_MARK_POS", "markpos_".$i);
 			$this->tpl->setVariable("VAL_MARK_POS", $a_set["MarkerX"].",".$a_set["MarkerY"]);
 			$this->tpl->setVariable("TXT_MLEFT", $lng->txt("cont_left"));
 			$this->tpl->setVariable("TXT_MTOP", $lng->txt("cont_top"));
@@ -133,6 +165,8 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 		
 		
 		$this->tpl->setVariable("VAR_POS", "ovpos[".$i."]");
+		$this->tpl->setVariable("ID_OV_POS", "ovpos_".$i);
+		$this->tpl->setVariable("ID_POP_POS", "poppos_".$i);
 		$this->tpl->setVariable("VAR_POP_POS", "poppos[".$i."]");
 		$this->tpl->setVariable("VAR_POP_SIZE", "popsize[".$i."]");
 		$this->tpl->setVariable("VAL_POS", $a_set["OverlayX"].",".$a_set["OverlayY"]);

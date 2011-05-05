@@ -66,6 +66,7 @@ ilCOPagePres =
 	iim_area: {},
 	iim_popup: {},
 	iim_marker: {},
+	dragging: false,
 
 	/**
 	 * Init interactive images
@@ -90,6 +91,11 @@ ilCOPagePres =
 	 */
 	overMarker: function (e)
 	{
+		if (this.dragging)
+		{
+			return;
+		}
+		
 		var marker_tr_nr = ilCOPagePres.iim_marker[e.target.id].tr_nr;
 		var iim_id = ilCOPagePres.iim_marker[e.target.id].iim_id;
 		ilCOPagePres.handleOverEvent(iim_id, marker_tr_nr, true);
@@ -100,6 +106,11 @@ ilCOPagePres =
 	 */
 	outMarker: function (e)
 	{
+		if (this.dragging)
+		{
+			return;
+		}
+
 		var marker_tr_nr = ilCOPagePres.iim_marker[e.target.id].tr_nr;
 		var iim_id = ilCOPagePres.iim_marker[e.target.id].iim_id;
 		ilCOPagePres.handleOutEvent(iim_id, marker_tr_nr, true);
@@ -125,6 +136,11 @@ ilCOPagePres =
 	{
 //console.log("over enter");
 		var k, j, tr, coords, ovx, ovy;
+		
+		if (this.dragging)
+		{
+			return;
+		}
 
 		for (k in ilCOPagePres.iim_trigger)
 		{
@@ -237,6 +253,11 @@ ilCOPagePres =
 //console.log("out");
 		var k, tr;
 		
+		if (this.dragging)
+		{
+			return;
+		}
+		
 		for (k in ilCOPagePres.iim_trigger)
 		{
 			tr = ilCOPagePres.iim_trigger[k];
@@ -257,6 +278,11 @@ ilCOPagePres =
 	 */
 	overOvArea: function (k, value, ov_id)
 	{
+		if (this.dragging)
+		{
+			return;
+		}
+
 //console.log("overOvArea " + k + ":" + ov_id);
 		ilCOPagePres.iim_trigger[k]['over_ov_area'] = value;
 		if (value)
@@ -278,6 +304,11 @@ ilCOPagePres =
 		var marker_tr_nr = ilCOPagePres.iim_marker[e.target.id].tr_nr;
 		var iim_id = ilCOPagePres.iim_marker[e.target.id].iim_id;
 
+		if (this.dragging)
+		{
+			return;
+		}
+
 		// iterate through the triggers and search the correct one
 		for (k in ilCOPagePres.iim_trigger)
 		{
@@ -298,6 +329,11 @@ ilCOPagePres =
 		var area_tr_nr = ilCOPagePres.iim_area[e.target.id].tr_nr;
 		var iim_id = ilCOPagePres.iim_area[e.target.id].iim_id;
 
+		if (this.dragging)
+		{
+			return;
+		}
+
 		// iterate through the triggers and search the correct one
 		for (k in ilCOPagePres.iim_trigger)
 		{
@@ -315,6 +351,13 @@ ilCOPagePres =
 	handleAreaClick: function (e, tr_id)
 	{
 		var tr = ilCOPagePres.iim_trigger[tr_id];
+		var el = document.getElementById("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr']);
+		
+		if (el == null || this.dragging)
+		{
+			e.preventDefault();
+			return;
+		}
 		
 		// on first time we need to initialize content overlay
 		if (tr.popup_initialized == null)
@@ -392,6 +435,164 @@ ilCOPagePres =
 		mark.css('left', pos.left + mx);
 		mark.css('top', pos.top + my);
 		mark.css('display', '');
+	},
+	
+	/**
+	 * Make marker draggable
+	 */
+	startDraggingMarker: function(tr_nr)
+	{
+		this.dragging = true;
+		for (k in ilCOPagePres.iim_marker)
+		{
+			if (ilCOPagePres.iim_marker[k]['tr_nr'] == tr_nr)
+			{
+				var mark = ilCOPagePres.iim_marker[k];
+				$("a#" + ilCOPagePres.iim_marker[k]['m_id']).css("display", "");
+				$("a#" + ilCOPagePres.iim_marker[k]['m_id']).draggable({
+					drag: function(event, ui) {
+						var base = $("img#base_img_" + mark.iim_id);
+						var bpos = base.position();
+						var marker = $("a#" + mark.m_id);
+						var mpos = marker.position();
+						var position = (Math.round(mpos.left) - Math.round(bpos.left)) + "," +
+							(Math.round(mpos.top) - Math.round(bpos.top));
+						$("input#markpos_" + mark.tr_nr).attr("value", position);
+					}
+				});
+				
+				ilCOPagePres.initDragToolbar();
+			}
+			else
+			{
+				$("a#" + ilCOPagePres.iim_marker[k]['m_id']).css("display", "none");
+			}
+		}
+	},
+	
+	stopDraggingMarker: function()
+	{
+		this.dragging = false;
+	},
+	
+	/**
+	 * Make overlay draggable
+	 */
+	startDraggingOverlay: function(tr_nr)
+	{
+		this.dragging = true;
+
+		for (k in ilCOPagePres.iim_trigger)
+		{
+			var trigger = ilCOPagePres.iim_trigger[k];
+			if (trigger['nr'] == tr_nr)
+			{
+				var dtr = trigger;
+				var ov = $("img#iim_ov_" + dtr['tr_id']);
+				var base = $("img#base_img_" + dtr.iim_id);
+				var bpos = base.position();
+				
+				ovx = parseInt(dtr['ovx']);
+				ovy = parseInt(dtr['ovy']);
+				ov.css('left', bpos.left + ovx);
+				ov.css('top', bpos.top + ovy);
+				ov.css('display', '');
+				ov.css("position", "absolute");
+
+				var dtr = trigger;
+				ov.draggable({
+					stop: function(event, ui) {
+						var ovpos = ov.position();
+						var position = (Math.round(ovpos.left) - Math.round(bpos.left)) + "," +
+							(Math.round(ovpos.top) - Math.round(bpos.top));
+
+						$("input#ovpos_" + dtr.nr).attr("value", position);
+					}
+				});
+				
+				ilCOPagePres.initDragToolbar();
+			}
+			else
+			{
+//				$("img#iim_ov_" + trigger['tr_id']).css("display", "none");
+			}
+		}
+	},
+	
+	/**
+	 * Make popup draggable
+	 */
+	startDraggingPopup: function(tr_nr)
+	{
+		var i, k;
+		this.dragging = true;
+
+		// get correct trigger
+		for (k in ilCOPagePres.iim_trigger)
+		{
+			if (ilCOPagePres.iim_trigger[k]['nr'] == tr_nr)
+			{
+				var dtr = ilCOPagePres.iim_trigger[k];
+				
+				// get correct popup
+				for (i in ilCOPagePres.iim_popup)
+				{
+					if (ilCOPagePres.iim_popup[i]['nr'] == 
+						ilCOPagePres.iim_trigger[k]['popup_nr'])
+					{
+						var cpop = ilCOPagePres.iim_popup[i];
+						var pdummy = document.getElementById("popupdummy");
+						if (pdummy == null)
+						{
+							$('div#il_center_col').append('<div id="popupdummy" class="ilc_iim_ContentPopup"></div>');
+							pdummy = $("div#popupdummy");
+						}
+						else
+						{
+							pdummy = $("div#popupdummy");
+						}
+						var base = $("img#base_img_" + cpop.iim_id);
+						var bpos = base.position();
+//console.log(dtr);
+						popx = parseInt(dtr['popx']);
+						popy = parseInt(dtr['popy']);
+						pdummy.css("position", "absolute");
+						pdummy.css('left', bpos.left + popx);
+						pdummy.css('top', bpos.top + popy);
+						pdummy.css('width', dtr['popwidth']);
+						pdummy.css('height', dtr['popheight']);
+						pdummy.css('display', '');
+						
+						pdummy.draggable({
+							stop: function(event, ui) {
+								var pdpos = pdummy.position();
+								var position = (Math.round(pdpos.left) - Math.round(bpos.left)) + "," +
+									(Math.round(pdpos.top) - Math.round(bpos.top));
+								$("input#poppos_" + dtr.nr).attr("value", position);
+							}
+						});
+						ilCOPagePres.initDragToolbar();
+					}
+					else
+					{
+		//				$("img#iim_ov_" + trigger['tr_id']).css("display", "none");
+					}
+				}
+			}
+		}
+	},
+
+	/**
+	 * Init drag toolbar
+	 */
+	initDragToolbar: function(tr_nr)
+	{
+		// show the toolbar
+		$("div#drag_toolbar").css("display", "");
+		$("a#save_pos_button").click(function () {
+			$("input#update_tr_button").trigger("click");
+			});
 	}
+
 }
 ilAddOnLoad(function() {ilCOPagePres.init();});

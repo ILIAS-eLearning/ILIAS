@@ -1,0 +1,17 @@
+Included Components:
+
+[Core]
+- Core
+- Widget
+- Mouse
+- Position
+
+[Interactions]
+- Draggable
+- Droppable
+- Resizable
+- Selectable
+- Sortable
+
+[Theme]
+- No Theme

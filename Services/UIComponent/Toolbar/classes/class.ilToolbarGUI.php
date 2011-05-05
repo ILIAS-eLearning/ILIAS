@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Toolbar. The toolbar currently only supports a list of buttons as links.
@@ -23,10 +23,10 @@ class ilToolbarGUI
 	}
 
 	/**
-	* Set form action (if form action is set, toolbar is wrapped into form tags
-	*
-	* @param	string	form action
-	*/
+	 * Set form action (if form action is set, toolbar is wrapped into form tags
+	 *
+	 * @param	string	form action
+	 */
 	function setFormAction($a_val, $a_multipart = false, $a_target = "")
 	{
 		$this->form_action = $a_val;
@@ -35,10 +35,10 @@ class ilToolbarGUI
 	}
 	
 	/**
-	* Get form action
-	*
-	* @return	string	form action
-	*/
+	 * Get form action
+	 *
+	 * @return	string	form action
+	 */
 	function getFormAction()
 	{
 		return $this->form_action;
@@ -53,6 +53,46 @@ class ilToolbarGUI
 	}
 	
 	/**
+	 * Set hidden
+	 *
+	 * @param boolean $a_val hidden	
+	 */
+	function setHidden($a_val)
+	{
+		$this->hidden = $a_val;
+	}
+	
+	/**
+	 * Get hidden
+	 *
+	 * @return boolean hidden
+	 */
+	function getHidden()
+	{
+		return $this->hidden;
+	}
+	
+	/**
+	 * Set id
+	 *
+	 * @param string $a_val id	
+	 */
+	function setId($a_val)
+	{
+		$this->id = $a_val;
+	}
+	
+	/**
+	 * Get id
+	 *
+	 * @return string id
+	 */
+	function getId()
+	{
+		return $this->id;
+	}
+	
+	/**
 	* Add button to toolbar
 	*
 	* @param	string		text
@@ -60,10 +100,12 @@ class ilToolbarGUI
 	* @param	string		frame target
 	* @param	string		access key
 	*/
-	public function addButton($a_txt, $a_cmd, $a_target = "", $a_acc_key = "", $a_additional_attrs = '')
+	public function addButton($a_txt, $a_cmd, $a_target = "", $a_acc_key = "", $a_additional_attrs = '',
+		$a_id = "")
 	{
 		$this->items[] = array("type" => "button", "txt" => $a_txt, "cmd" => $a_cmd,
-			"target" => $a_target, "acc_key" => $a_acc_key, 'add_attrs' => $a_additional_attrs);
+			"target" => $a_target, "acc_key" => $a_acc_key, 'add_attrs' => $a_additional_attrs,
+			"id" => $a_id);
 	}
 
 	/**
@@ -94,7 +136,15 @@ class ilToolbarGUI
 	{
 		$this->items[] = array("type" => "separator");
 	}
-	
+
+	/**
+	* Add text
+	*/
+	function addText($a_text)
+	{
+		$this->items[] = array("type" => "text", "text" => $a_text);
+	}
+
 	/**
 	* Add spacer
 	*/
@@ -102,6 +152,7 @@ class ilToolbarGUI
 	{
 		$this->items[] = array("type" => "spacer", "width" => $a_width);
 	}
+ 
 
 	/**
 	 * Add link
@@ -177,6 +228,10 @@ class ilToolbarGUI
 						{
 							$tpl->setVariable("BTN_TARGET", 'target="'.$item["target"].'"');
 						}
+						if ($item["id"] != "")
+						{
+							$tpl->setVariable("BID", 'id="'.$item["id"].'"');
+						}
 						if ($item["acc_key"] != "")
 						{
 							include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
@@ -214,6 +269,12 @@ class ilToolbarGUI
 						
 					case "separator":
 						$tpl->touchBlock("separator");
+						$tpl->touchBlock("item");
+						break;
+
+					case "text":
+						$tpl->setCurrentBlock("text");
+						$tpl->setVariable("VAL_TEXT", $item["text"]);
 						$tpl->touchBlock("item");
 						break;
 
@@ -277,6 +338,18 @@ class ilToolbarGUI
 				{
 					$tpl->touchBlock("form_close");
 				}
+			}
+			
+			// id
+			if ($this->getId() != "")
+			{
+				$tpl->setVariable("ID", ' id="'.$this->getId().'" ');
+			}
+			
+			// hidden style
+			if ($this->getHidden())
+			{
+				$tpl->setVariable("STYLE", ' style="display:none;" ');
 			}
 			
 			return $tpl->get();
