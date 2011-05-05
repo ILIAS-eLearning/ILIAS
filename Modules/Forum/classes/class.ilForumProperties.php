@@ -61,9 +61,13 @@ class ilForumProperties
 
 	/**
 	 * Global notification-type setting (CRS/GRP)
+	 * possible values: 'all_users', 'per_user', null (default)
+	 *
 	 * @access	private
+	 *
 	 */
-	private $notification_type = false;
+
+	private $notification_type = null;
 
 	/**
 	 * Activation of (CRS/GRP) forum notification by mod/admin
