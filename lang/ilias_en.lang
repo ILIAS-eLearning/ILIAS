@@ -11355,3 +11355,7 @@ content#:#cont_edit_popup_position#:#Edit Popup Position
 common#:#object_not_found#:#Objekt not found
 common#:#user_not_found#:#User not found
 content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit "Save".
+common#:#cont_iim_base_image_info#:#The base image is the main underlying image.
+common#:#cont_iim_create_info#:#Please upload the main underlying picuture for the interactive image.
+common#:#cont_iim_overlay_info#:#Overlay images are used to alter (e.g. highlight) parts of the base image when the mouse hovers over them. After uploading the images, you can select them in the "Triggers" tab.
+common#:#cont_iim_content_popups_info#:#Content popups appear, when the user clicks on interactive parts of the base image. On this screen you only define the popups. Their content can be edited on the main page editing screen.

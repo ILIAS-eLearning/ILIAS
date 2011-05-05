@@ -430,11 +430,53 @@ ilCOPagePres =
 		var mark = $("a#" + m['m_id']);
 		// display the marker at the correct position
 		mark.css('position', 'absolute');
-		mx = parseInt(m['markx']);
-		my = parseInt(m['marky']);
+		var mx = parseInt(m['markx']);
+		var my = parseInt(m['marky']);
 		mark.css('left', pos.left + mx);
 		mark.css('top', pos.top + my);
 		mark.css('display', '');
+	},
+	
+	fixPositions: function ()
+	{
+		var m, tr, k, i;
+				
+		for (k in ilCOPagePres.iim_marker)
+		{
+			m = ilCOPagePres.iim_marker[k];
+			
+			var base = $("img#base_img_" + m.iim_id);
+			var pos = base.position();
+			var mark = $("a#" + m['m_id']);
+			mark.css('position', 'absolute');
+			var mx = parseInt(m['markx']);
+			var my = parseInt(m['marky']);
+			mark.css('left', pos.left + mx);
+			mark.css('top', pos.top + my);
+		}
+		
+		/*
+		for (k in ilCOPagePres.iim_trigger)
+		{
+			var t = ilCOPagePres.iim_trigger[k];
+//	console.log(t);
+			for (i in ilCOPagePres.iim_popup)
+			{ 
+				p = ilCOPagePres.iim_popup[i];
+				if (t.popup_nr == p.nr && t.iim_id == p.iim_id)
+				{
+					var base = $("img#base_img_" + p.iim_id);
+					var pos = base.position();
+					var pop = $("div#" + p.div_id);
+					pop.css('position', 'absolute');
+					var mx = parseInt(t.popx);
+					var my = parseInt(t.popy);
+					pop.css('left', pos.left + mx);
+					pop.css('top', pos.top + my);
+				}
+			}
+		}
+		*/
 	},
 	
 	/**
@@ -442,6 +484,8 @@ ilCOPagePres =
 	 */
 	startDraggingMarker: function(tr_nr)
 	{
+		var k;
+		
 		this.dragging = true;
 		for (k in ilCOPagePres.iim_marker)
 		{
@@ -480,6 +524,8 @@ ilCOPagePres =
 	 */
 	startDraggingOverlay: function(tr_nr)
 	{
+		var k;
+		
 		this.dragging = true;
 
 		for (k in ilCOPagePres.iim_trigger)
@@ -489,6 +535,9 @@ ilCOPagePres =
 			{
 				var dtr = trigger;
 				var ov = $("img#iim_ov_" + dtr['tr_id']);
+				
+				ilCOPagePres.initDragToolbar();
+				
 				var base = $("img#base_img_" + dtr.iim_id);
 				var bpos = base.position();
 				
@@ -509,8 +558,6 @@ ilCOPagePres =
 						$("input#ovpos_" + dtr.nr).attr("value", position);
 					}
 				});
-				
-				ilCOPagePres.initDragToolbar();
 			}
 			else
 			{
@@ -551,6 +598,9 @@ ilCOPagePres =
 						{
 							pdummy = $("div#popupdummy");
 						}
+						
+						ilCOPagePres.initDragToolbar();
+						
 						var base = $("img#base_img_" + cpop.iim_id);
 						var bpos = base.position();
 //console.log(dtr);
@@ -571,7 +621,6 @@ ilCOPagePres =
 								$("input#poppos_" + dtr.nr).attr("value", position);
 							}
 						});
-						ilCOPagePres.initDragToolbar();
 					}
 					else
 					{
@@ -589,6 +638,7 @@ ilCOPagePres =
 	{
 		// show the toolbar
 		$("div#drag_toolbar").css("display", "");
+		this.fixPositions();
 		$("a#save_pos_button").click(function () {
 			$("input#update_tr_button").trigger("click");
 			});
