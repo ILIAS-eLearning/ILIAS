@@ -11349,6 +11349,9 @@ content#:#cont_popups_have_been_deleted#:#Popups have been deleted.
 content#:#cont_new_trigger_area#:#New Trigger Area
 content#:#cont_really_delete_triggers#:#Do you really want to delete the following triggers?
 content#:#cont_new_marker#:#New Marker
-common#:#settings_per_members#:#Settings per user
+content#:#cont_edit_overlay_position#:#Edit Overlay Position
+content#:#cont_edit_marker_position#:#Edit Marker Position
+content#:#cont_edit_popup_position#:#Edit Popup Position
 common#:#object_not_found#:#Objekt not found
 common#:#user_not_found#:#User not found
+content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit "Save".

@@ -278,9 +278,12 @@ ilOverlayFunc.prototype =
 			if (!force && !isIn)
 			{
 				var el = document.getElementById(k);
-				var el_reg = YAHOO.util.Region.getRegion(el);
-				if(el_reg.contains(new YAHOO.util.Point(YAHOO.util.Event.getPageX(e), YAHOO.util.Event.getPageY(e)))) {
-					isIn = true;
+				if (el != null)
+				{
+					var el_reg = YAHOO.util.Region.getRegion(el);
+					if(el_reg.contains(new YAHOO.util.Point(YAHOO.util.Event.getPageX(e), YAHOO.util.Event.getPageY(e)))) {
+						isIn = true;
+					}
 				}
 			}
 
