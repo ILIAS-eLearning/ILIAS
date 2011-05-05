@@ -4895,4 +4895,11 @@ if(!$ilDB->tableExists('usr_portfolio_page'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
+<#3304>
+<?php
+$ilDB->modifyTableColumn('frm_settings', 'notification_type', array(
+	"type" => "text",
+	"notnull" => false,
+	"length" => 10,
+	"default" => null));
+?>
