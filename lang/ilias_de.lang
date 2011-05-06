@@ -11322,3 +11322,6 @@ common#:#settings_per_members#:#Einstellungen pro Benutzer
 rbac#:#invite#:#Zu Umfrage einladen
 common#:#object_not_found#:#Das Objekt wurde nicht gefunden
 common#:#user_not_found#:#Der Benutzer wurde nicht gefunden
+content#:#cont_correct_answers_also#:#Richtig sind auch:
+content#:#cont_correct_answer_also#:#Richtig ist auch:
+common#:#file_upload_pending#:#Hochgeladene Datei

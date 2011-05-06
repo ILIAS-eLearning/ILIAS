@@ -14,6 +14,8 @@ ilias.questions.txt.please_try_again = "Please try again!";
 ilias.questions.txt.all_answers_correct = "Correct!";
 ilias.questions.txt.nr_of_tries_exceeded = "Number of tries exceeded.";
 ilias.questions.txt.correct_answers_shown = "Correct solution see above.";
+ilias.questions.txt.correct_answers_also = "Also correct are:";
+ilias.questions.txt.correct_answer_also = "Also correct is:";
 
 ilias.questions.init = function() {
 	ilias.questions.shuffle();
@@ -206,8 +208,8 @@ ilias.questions.handleOrderingImages = function(a_id) {
 
 	jQuery("ul#order" + a_id + " div.answertext").each(function(id, node){
 		var src = jQuery(node).html();
-		jQuery(node).html('<img class="ilc_qimg_QuestionImage" src="' + questions[a_id].path + "thumb." + src + '" /><br />' +
-			'<a class="ilc_qimgd_ImageDetailsLink" href="' + questions[a_id].path + src + '" target="_blank">(+)</a>');
+		jQuery(node).html('<img class="ilc_qimg_QuestionImage" src="' + questions[a_id].path + "thumb." + src + '" />' /*<br />' +
+			'<a class="ilc_qimgd_ImageDetailsLink" href="' + questions[a_id].path + src + '" target="_blank">(+)</a>'*/);
 		jQuery(node).parent().height("auto");
 		// jQuery(node).parent().width("auto");
 	});
@@ -743,17 +745,28 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 				}
 			}
 			var correct_info = "";
+			var correct_count = 0;
 			for (var c=0;c<questions[a_id].correct_answers.length;c++)
 			{
 				if($.inArray(c, choice) == -1)
 				{
 					correct_info = correct_info + "<li>" + questions[a_id].correct_answers[c]["answertext"] + "</li>";
+					correct_count++;
 				}
 			}
 			if(correct_info.length)
 			{
 				var elements = jQuery("#container"+a_id+" > .ilc_answers");
-				elements.eq(elements.length -1).after("<ul>" + correct_info + "</ul>");
+				if(correct_count > 1)
+				{
+					var correct_header = ilias.questions.txt.correct_answers_also;
+				}
+				else
+				{
+					var correct_header = ilias.questions.txt.correct_answer_also;
+				}
+				elements.eq(elements.length -1).after("<br/>" +  correct_header + 
+					"<ul>" + correct_info + "</ul>");
 			}
 			break;
 			//end assTextSubset
