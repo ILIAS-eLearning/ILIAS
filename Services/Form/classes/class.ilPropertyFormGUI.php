@@ -70,6 +70,9 @@ class ilPropertyFormGUI extends ilFormGUI
 		
 		$lng->loadLanguageModule("form");
 		parent::ilFormGUI();
+		
+		// do it as early as possible
+		$this->rebuildUploadedFiles();
 	}
 
 	/**
@@ -358,7 +361,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	*/
 	function checkInput()
 	{
-		global $lng, $ilUser;
+		global $lng;
 		
 		if ($this->check_input_called)
 		{
@@ -377,112 +380,51 @@ class ilPropertyFormGUI extends ilFormGUI
 		
 		$this->check_input_called = true;
 		
-		if (!$ok)
-		{
-			// try to keep uploads for another try
-			if($_POST["ilfilehash"] && sizeof($_FILES))
+		
+		// try to keep uploads for another try
+		if(!$ok && $_POST["ilfilehash"] && sizeof($_FILES))
+		{			
+			$hash = $_POST["ilfilehash"];
+
+			foreach($_FILES as $field => $data)
 			{
-				$hash = $_POST["ilfilehash"];
-				
-				foreach($_FILES as $field => $data)
+				// we support up to 2 nesting levels (see test/assesment)				
+				if(is_array($data["tmp_name"]))
 				{
-					// we support up to 2 nesting levels (see test/assesment)				
-					if(is_array($data["tmp_name"]))
+					foreach($data["tmp_name"] as $idx => $upload)
 					{
-						foreach($data["tmp_name"] as $idx => $upload)
+						if(is_array($upload))
 						{
-							if(is_array($upload))
+							foreach($upload as $idx2 => $file)
 							{
-								foreach($upload as $idx2 => $file)
+								if($file && is_uploaded_file($file))
 								{
-									if($file && is_uploaded_file($file))
-									{
-										$file_name = $data["name"][$idx][$idx2];
-										$file_type = $data["type"][$idx][$idx2];
-										$this->keepFile($hash, $field, $file, $file_name, $file_type, $idx, $idx2);
-									}
+									$file_name = $data["name"][$idx][$idx2];
+									$file_type = $data["type"][$idx][$idx2];
+									$this->keepFileUpload($hash, $field, $file, $file_name, $file_type, $idx, $idx2);
 								}
 							}
-							else if($upload && is_uploaded_file($upload))
-							{
-								$file_name = $data["name"][$idx];
-								$file_type = $data["type"][$idx];
-								$this->keepFile($hash, $field, $upload, $file_name, $file_type, $idx);
-							}
 						}
-					}				
-					else
-					{
-						$this->keepFile($hash, $field, $data["tmp_name"], $data["name"], $data["type"]);
+						else if($upload && is_uploaded_file($upload))
+						{
+							$file_name = $data["name"][$idx];
+							$file_type = $data["type"][$idx];
+							$this->keepFileUpload($hash, $field, $upload, $file_name, $file_type, $idx);
+						}
 					}
-				}
-				
-			}
-			
-			if(!$this->getDisableStandardMessage())
-			{
-				ilUtil::sendFailure($lng->txt("form_input_not_valid"));
-			}
-		}		
-		else
-		{
-			// try to rebuild files
-			if($_POST["ilfilehash"])
-			{								
-				$user_id = $ilUser->getId();
-				$temp_path = ilUtil::getDataDir() . "/temp";
-				if(is_dir($temp_path) && $user_id && $user_id != ANONYMOUS_USER_ID)
+				}				
+				else
 				{
-					$reload = array();
-					foreach(glob($temp_path."/".$ilUser->getId()."~~".$_POST["ilfilehash"]."~~*") as $full_file)
-					{
-						$file = explode("~~", basename($full_file));
-						$field = $file[2];
-						$idx = $file[3];
-						$idx2 = $file[4];
-						$type = $file[5]."/".$file[6];
-						$name = $file[7];
-						
-						if($idx2 != "")
-						{
-							if(!$_FILES[$field]["tmp_name"][$idx][$idx2])
-							{
-								$reload[$field]["tmp_name"][$idx][$idx2] = $full_file;
-								$reload[$field]["name"][$idx][$idx2] = $name;
-								$reload[$field]["type"][$idx][$idx2] = $type;
-								$reload[$field]["error"][$idx][$idx2] = 0;
-								$reload[$field]["size"][$idx][$idx2] = filesize($full_file);								
-							}
-						}
-						else if($idx != "")
-						{
-							if(!$_FILES[$field]["tmp_name"][$idx])
-							{
-								$reload[$field]["tmp_name"][$idx] = $full_file;
-								$reload[$field]["name"][$idx] = $name;
-								$reload[$field]["type"][$idx] = $type;
-								$reload[$field]["error"][$idx] = 0;
-								$reload[$field]["size"][$idx] = filesize($full_file);								
-							}	
-						}
-						else
-						{
-							if(!$_FILES[$field]["tmp_name"])
-							{
-								$reload[$field]["tmp_name"] = $full_file;
-								$reload[$field]["name"] = $name;
-								$reload[$field]["type"] = $type;
-								$reload[$field]["error"] = 0;
-								$reload[$field]["size"] = filesize($full_file);								
-							}
-						}						
-					}
-					
-					$this->reloaded_files = $reload;
+					$this->keepFileUpload($hash, $field, $data["tmp_name"], $data["name"], $data["type"]);
 				}
 			}
 		}
-				
+		
+		
+		if (!$ok && !$this->getDisableStandardMessage())
+		{
+			ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+		}
 		return $ok;
 	}
 	
@@ -539,7 +481,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	*/
 	function getContent()
 	{
-		global $lng, $tpl;
+		global $lng, $tpl, $ilUser;
 	
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initEvent();
@@ -619,7 +561,7 @@ class ilPropertyFormGUI extends ilFormGUI
 			if(!$hash)
 			{
 				$hash = md5(uniqid(mt_rand(), true));
-			}					
+			}		
 			$fhash = new ilHiddenInputGUI("ilfilehash");
 			$fhash->setValue($hash);
 			$this->addItem($fhash);
@@ -807,7 +749,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	 * @param mixed $a_sub_index form field subindex (if array)
 	 * @return bool 
 	 */
-	protected function keepFile($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index = null, $a_sub_index = null)
+	protected function keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index = null, $a_sub_index = null)
 	{
 		global $ilUser;
 		
@@ -984,6 +926,69 @@ class ilPropertyFormGUI extends ilFormGUI
 			}
 			
 			return $target_file;
+		}
+	}
+	
+	/**
+	 * try to rebuild files		
+	 */
+	protected function rebuildUploadedFiles()
+	{
+		global $ilUser;
+	
+		if($_POST["ilfilehash"])
+		{					
+			$user_id = $ilUser->getId();
+			$temp_path = ilUtil::getDataDir() . "/temp";
+			if(is_dir($temp_path) && $user_id && $user_id != ANONYMOUS_USER_ID)
+			{
+				$reload = array();
+				foreach(glob($temp_path."/".$ilUser->getId()."~~".$_POST["ilfilehash"]."~~*") as $full_file)
+				{
+					$file = explode("~~", basename($full_file));
+					$field = $file[2];
+					$idx = $file[3];
+					$idx2 = $file[4];
+					$type = $file[5]."/".$file[6];
+					$name = $file[7];
+
+					if($idx2 != "")
+					{
+						if(!$_FILES[$field]["tmp_name"][$idx][$idx2])
+						{
+							$reload[$field]["tmp_name"][$idx][$idx2] = $full_file;
+							$reload[$field]["name"][$idx][$idx2] = $name;
+							$reload[$field]["type"][$idx][$idx2] = $type;
+							$reload[$field]["error"][$idx][$idx2] = 0;
+							$reload[$field]["size"][$idx][$idx2] = filesize($full_file);								
+						}
+					}
+					else if($idx != "")
+					{
+						if(!$_FILES[$field]["tmp_name"][$idx])
+						{
+							$reload[$field]["tmp_name"][$idx] = $full_file;
+							$reload[$field]["name"][$idx] = $name;
+							$reload[$field]["type"][$idx] = $type;
+							$reload[$field]["error"][$idx] = 0;
+							$reload[$field]["size"][$idx] = filesize($full_file);								
+						}	
+					}
+					else
+					{
+						if(!$_FILES[$field]["tmp_name"])
+						{
+							$reload[$field]["tmp_name"] = $full_file;
+							$reload[$field]["name"] = $name;
+							$reload[$field]["type"] = $type;
+							$reload[$field]["error"] = 0;
+							$reload[$field]["size"] = filesize($full_file);								
+						}
+					}						
+				}
+
+				$this->reloaded_files = $reload;
+			}
 		}
 	}
 }
