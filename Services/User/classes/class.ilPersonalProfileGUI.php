@@ -159,18 +159,15 @@ class ilPersonalProfileGUI
 
 		if ($this->workWithUserSetting("upload"))
 		{
-			$userfile_input = $this->form->getItemByPostVar("userfile");
-
-			if ($_FILES["userfile"]["tmp_name"] == "")
+			if (!$this->form->hasFileUpload("userfile"))
 			{
-				if ($userfile_input->getDeletionFlag())
+				if ($this->form->getItemByPostVar("userfile")->getDeletionFlag())
 				{
 					$ilUser->removeUserPicture();
 				}
 				return;
 			}
-
-			if ($_FILES["userfile"]["size"] != 0)
+			else
 			{
 				$webspace_dir = ilUtil::getWebspaceDir();
 				$image_dir = $webspace_dir."/usr_images";
@@ -181,10 +178,10 @@ class ilPersonalProfileGUI
 				$ilUser->update();
 
 				// move uploaded file
-				$uploaded_file = $image_dir."/upload_".$ilUser->getId()."pic";
+				$uploaded_file = $this->form->moveFileUpload($image_dir, 
+					"userfile", "upload_".$ilUser->getId()."pic");
 
-				if (!ilUtil::moveUploadedFile($_FILES["userfile"]["tmp_name"], $_FILES["userfile"]["name"],
-					$uploaded_file, false))
+				if (!$uploaded_file)
 				{
 					ilUtil::sendFailure($this->lng->txt("upload_error", true));
 					$this->ctrl->redirect($this, "showProfile");

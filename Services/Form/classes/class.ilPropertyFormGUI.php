@@ -57,6 +57,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	protected $description = "";
 	protected $tbl_width = false;
 	protected $show_top_buttons = true;
+	protected $reloaded_files;
 	
 	/**
 	* Constructor
@@ -357,7 +358,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	*/
 	function checkInput()
 	{
-		global $lng;
+		global $lng, $ilUser;
 		
 		if ($this->check_input_called)
 		{
@@ -376,13 +377,115 @@ class ilPropertyFormGUI extends ilFormGUI
 		
 		$this->check_input_called = true;
 		
-		if (!$ok && !$this->getDisableStandardMessage())
+		if (!$ok)
 		{
-			ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+			// try to keep uploads for another try
+			if($_POST["ilfilehash"] && sizeof($_FILES))
+			{
+				$hash = $_POST["ilfilehash"];
+				
+				foreach($_FILES as $field => $data)
+				{
+					// we support up to 2 nesting levels (see test/assesment)				
+					if(is_array($data["tmp_name"]))
+					{
+						foreach($data["tmp_name"] as $idx => $upload)
+						{
+							if(is_array($upload))
+							{
+								foreach($upload as $idx2 => $file)
+								{
+									if($file && is_uploaded_file($file))
+									{
+										$file_name = $data["name"][$idx][$idx2];
+										$file_type = $data["type"][$idx][$idx2];
+										$this->keepFile($hash, $field, $file, $file_name, $file_type, $idx, $idx2);
+									}
+								}
+							}
+							else if($upload && is_uploaded_file($upload))
+							{
+								$file_name = $data["name"][$idx];
+								$file_type = $data["type"][$idx];
+								$this->keepFile($hash, $field, $upload, $file_name, $file_type, $idx);
+							}
+						}
+					}				
+					else
+					{
+						$this->keepFile($hash, $field, $data["tmp_name"], $data["name"], $data["type"]);
+					}
+				}
+				
+			}
+			
+			if(!$this->getDisableStandardMessage())
+			{
+				ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+			}
+		}		
+		else
+		{
+			// try to rebuild files
+			if($_POST["ilfilehash"])
+			{								
+				$user_id = $ilUser->getId();
+				$temp_path = ilUtil::getDataDir() . "/temp";
+				if(is_dir($temp_path) && $user_id && $user_id != ANONYMOUS_USER_ID)
+				{
+					$reload = array();
+					foreach(glob($temp_path."/".$ilUser->getId()."~~".$_POST["ilfilehash"]."~~*") as $full_file)
+					{
+						$file = explode("~~", basename($full_file));
+						$field = $file[2];
+						$idx = $file[3];
+						$idx2 = $file[4];
+						$type = $file[5]."/".$file[6];
+						$name = $file[7];
+						
+						if($idx2 != "")
+						{
+							if(!$_FILES[$field]["tmp_name"][$idx][$idx2])
+							{
+								$reload[$field]["tmp_name"][$idx][$idx2] = $full_file;
+								$reload[$field]["name"][$idx][$idx2] = $name;
+								$reload[$field]["type"][$idx][$idx2] = $type;
+								$reload[$field]["error"][$idx][$idx2] = 0;
+								$reload[$field]["size"][$idx][$idx2] = filesize($full_file);								
+							}
+						}
+						else if($idx != "")
+						{
+							if(!$_FILES[$field]["tmp_name"][$idx])
+							{
+								$reload[$field]["tmp_name"][$idx] = $full_file;
+								$reload[$field]["name"][$idx] = $name;
+								$reload[$field]["type"][$idx] = $type;
+								$reload[$field]["error"][$idx] = 0;
+								$reload[$field]["size"][$idx] = filesize($full_file);								
+							}	
+						}
+						else
+						{
+							if(!$_FILES[$field]["tmp_name"])
+							{
+								$reload[$field]["tmp_name"] = $full_file;
+								$reload[$field]["name"] = $name;
+								$reload[$field]["type"] = $type;
+								$reload[$field]["error"] = 0;
+								$reload[$field]["size"] = filesize($full_file);								
+							}
+						}						
+					}
+					
+					$this->reloaded_files = $reload;
+				}
+			}
 		}
+				
 		return $ok;
 	}
-
+	
 	function getInput($a_post_var)
 	{
 		// this check ensures, that checkInput has been called (incl. stripSlashes())
@@ -437,7 +540,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	function getContent()
 	{
 		global $lng, $tpl;
-		
+	
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initEvent();
 		ilYuiUtil::initDom();
@@ -490,7 +593,7 @@ class ilPropertyFormGUI extends ilFormGUI
 			{
 				$this->insertItem($item);
 			}
-		}
+		}				
 
 		// required
 		if ($this->required_text && $this->getMode() == "std")
@@ -507,6 +610,19 @@ class ilPropertyFormGUI extends ilFormGUI
 			$this->tpl->setVariable("CMD", $button["cmd"]);
 			$this->tpl->setVariable("CMD_TXT", $button["text"]);
 			$this->tpl->parseCurrentBlock();
+		}
+		
+		// try to keep uploads even if checking input fails
+		if($this->getMultipart())
+		{
+			$hash = $_POST["ilfilehash"];
+			if(!$hash)
+			{
+				$hash = md5(uniqid(mt_rand(), true));
+			}					
+			$fhash = new ilHiddenInputGUI("ilfilehash");
+			$fhash->setValue($hash);
+			$this->addItem($fhash);
 		}
 		
 		// hidden properties
@@ -673,4 +789,203 @@ class ilPropertyFormGUI extends ilFormGUI
 		
 		$this->tpl->touchBlock("item");
 	}
+	
+	
+	// 
+	// UPLOAD HANDLING
+	//
+	
+	/**
+	 * Import upload into temp directory
+	 * 
+	 * @param string $a_hash unique form hash
+	 * @param string $a_field form field
+	 * @param string $a_tmp_name temp file name
+	 * @param string $a_name original file name
+	 * @param string $a_type file mime type
+	 * @param mixed $a_index form field index (if array)
+	 * @param mixed $a_sub_index form field subindex (if array)
+	 * @return bool 
+	 */
+	protected function keepFile($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index = null, $a_sub_index = null)
+	{
+		global $ilUser;
+		
+		$user_id = $ilUser->getId();
+		if(!$user_id || $user_id == ANONYMOUS_USER_ID)
+		{
+			return;
+		}
+		
+		$a_name = ilUtil::getAsciiFileName($a_name);
+		
+		$tmp_file_name = implode("~~", array($user_id,
+			$a_hash,
+			$a_field,
+			$a_index,
+			$a_sub_index,
+			str_replace("/", "~~", $a_type),
+			str_replace("~~", "_", $a_name)));
+		
+		// make sure temp directory exists
+		$temp_path = ilUtil::getDataDir() . "/temp";
+		if (!is_dir($temp_path))
+		{
+			ilUtil::createDirectory($temp_path);
+		}
+		
+		move_uploaded_file($a_tmp_name, $temp_path."/".$tmp_file_name);	
+	}
+	
+	/**
+	 * Get file upload data
+	 * 
+	 * @param string $a_field form field 
+	 * @param mixed $a_index form field index (if array)
+	 * @param mixed $a_sub_index form field subindex (if array)
+	 * @return array (tmp_name, name, type, error, size, is_upload)
+	 */
+	function getFileUpload($a_field, $a_index = null, $a_sub_index = null)
+	{
+		$res = array();
+		if($a_index)
+		{
+			if($_FILES[$a_field]["tmp_name"][$a_index][$a_sub_index])
+			{
+				$res = array(
+					"tmp_name" => $_FILES[$a_field]["tmp_name"][$a_index][$a_sub_index],
+					"name" => $_FILES[$a_field]["name"][$a_index][$a_sub_index],
+					"type" => $_FILES[$a_field]["type"][$a_index][$a_sub_index],
+					"error" => $_FILES[$a_field]["error"][$a_index][$a_sub_index],
+					"size" => $_FILES[$a_field]["size"][$a_index][$a_sub_index],
+					"is_upload" => true
+				);
+			}
+			else if($this->reloaded_files[$a_field]["tmp_name"][$a_index][$a_sub_index])
+			{
+				$res = array(
+					"tmp_name" => $this->reloaded_files["tmp_name"][$a_index][$a_sub_index],
+					"name" => $this->reloaded_files["name"][$a_index][$a_sub_index],
+					"type" => $this->reloaded_files["type"][$a_index][$a_sub_index],
+					"error" => $this->reloaded_files["error"][$a_index][$a_sub_index],
+					"size" => $this->reloaded_files["size"][$a_index][$a_sub_index],
+					"is_upload" => false
+				);
+			}
+		}
+		else if($a_sub_index)
+		{
+			if($_FILES[$a_field]["tmp_name"][$a_index])
+			{
+				$res = array(
+					"tmp_name" => $_FILES[$a_field]["tmp_name"][$a_index],
+					"name" => $_FILES[$a_field]["name"][$a_index],
+					"type" => $_FILES[$a_field]["type"][$a_index],
+					"error" => $_FILES[$a_field]["error"][$a_index],
+					"size" => $_FILES[$a_field]["size"][$a_index],
+					"is_upload" => true
+				);
+			}
+			else if($this->reloaded_files[$a_field]["tmp_name"][$a_index])
+			{
+				$res = array(
+					"tmp_name" => $this->reloaded_files[$a_field]["tmp_name"][$a_index],
+					"name" => $this->reloaded_files[$a_field]["name"][$a_index],
+					"type" => $this->reloaded_files[$a_field]["type"][$a_index],
+					"error" => $this->reloaded_files[$a_field]["error"][$a_index],
+					"size" => $this->reloaded_files[$a_field]["size"][$a_index],
+					"is_upload" => false
+				);
+			}
+		}
+		else
+		{
+			if($_FILES[$a_field]["tmp_name"])
+			{
+				$res = array(
+					"tmp_name" => $_FILES[$a_field]["tmp_name"],
+					"name" => $_FILES[$a_field]["name"],
+					"type" => $_FILES[$a_field]["type"],
+					"error" => $_FILES[$a_field]["error"],
+					"size" => $_FILES[$a_field]["size"],
+					"is_upload" => true
+				);
+			}
+			else if($this->reloaded_files[$a_field]["tmp_name"])
+			{
+				$res = array(
+					"tmp_name" => $this->reloaded_files[$a_field]["tmp_name"],
+					"name" => $this->reloaded_files[$a_field]["name"],
+					"type" => $this->reloaded_files[$a_field]["type"],
+					"error" => $this->reloaded_files[$a_field]["error"],
+					"size" => $this->reloaded_files[$a_field]["size"],
+					"is_upload" => false
+				);
+			}
+		}
+		return $res;
+	}
+	
+	/**
+	 * Was any file uploaded?
+	 * 
+	 * @param string $a_field form field 
+	 * @param mixed $a_index form field index (if array)
+	 * @param mixed $a_sub_index form field subindex (if array)
+	 * @return bool 
+	 */
+	function hasFileUpload($a_field, $a_index = null, $a_sub_index = null)
+	{
+		$data = $this->getFileUpload($a_field, $a_index, $a_sub_index);
+		return (bool)$data["tmp_name"];
+	}
+	
+	/**
+	 * Move upload to target directory
+	 * 
+	 * @param string $a_target_directory target directory (without filename!)
+	 * @param string $a_field form field 
+	 * @param string $a_target_name target file name (if different from uploaded file)
+	 * @param mixed $a_index form field index (if array)
+	 * @param mixed $a_sub_index form field subindex (if array)
+	 * @return string target file name incl. path
+	 */
+	function moveFileUpload($a_target_directory, $a_field, $a_target_name = null, $a_index = null, $a_sub_index = null)
+	{
+		if(!is_dir($a_target_directory))
+		{
+			return;
+		}
+		
+		$data = $this->getFileUpload($a_field, $a_index, $a_sub_index);
+		if($data["tmp_name"] && file_exists($data["tmp_name"]))
+		{
+			if($a_target_name)
+			{
+				$data["name"] = $a_target_name;
+			}
+			
+			$target_file = $a_target_directory."/".$data["name"];
+			$target_file = str_replace("//", "/", $target_file);
+			
+			if($data["is_upload"])
+			{
+				if (!move_uploaded_file($data["tmp_name"], $target_file))
+				{
+					return;
+				}
+			}
+			else
+			{
+				if (!rename($data["tmp_name"], $target_file))
+				{
+					return;
+				}
+			}
+			
+			return $target_file;
+		}
+	}
 }
+
+?>

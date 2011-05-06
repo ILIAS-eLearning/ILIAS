@@ -3363,6 +3363,8 @@ class ilPageObjectGUI
 			ilias.questions.txt.all_answers_correct = "'.$lng->txt("cont_all_answers_correct").'";
 			ilias.questions.txt.nr_of_tries_exceeded = "'.$lng->txt("cont_nr_of_tries_exceeded").'";
 			ilias.questions.txt.correct_answers_shown = "'.$lng->txt("cont_correct_answers_shown").'";
+			ilias.questions.txt.correct_answers_also = "'.$lng->txt("cont_correct_answers_also").'";
+			ilias.questions.txt.correct_answer_also = "'.$lng->txt("cont_correct_answer_also").'";
 			');
 		}
 	}

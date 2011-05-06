@@ -570,13 +570,22 @@ class ilUserProfile
 					if (ilUserProfile::userSettingVisible("upload") && $a_user)
 					{
 						$ii = new ilImageFileInputGUI($lng->txt("personal_picture"), "userfile");
-						$im = ilObjUser::_getPersonalPicturePath($a_user->getId(), "small", true,
-							true);
 						$ii->setDisabled($ilSetting->get("usr_settings_disable_upload"));
-						if ($im != "")
+						
+						$upload = $a_form->getFileUpload("userfile");
+						if($upload["name"])
 						{
-							$ii->setImage($im);
-							$ii->setAlt($lng->txt("personal_picture"));
+							$ii->setPending($upload["name"]);
+						}
+						else
+						{
+							$im = ilObjUser::_getPersonalPicturePath($a_user->getId(), "small", true,
+								true);
+							if ($im != "")
+							{
+								$ii->setImage($im);
+								$ii->setAlt($lng->txt("personal_picture"));
+							}
 						}
 			
 						// ilinc link as info

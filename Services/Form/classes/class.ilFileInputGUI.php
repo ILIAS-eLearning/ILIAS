@@ -16,6 +16,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	private $filename;
 	private $filename_post;
 	protected $size = 40;
+	protected $pending;
 	
 	/**
 	* Constructor
@@ -126,6 +127,26 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	function getSuffixes()
 	{
 		return $this->suffixes;
+	}
+	
+	/**
+	 * Set pending filename value 
+	 *  
+	 * @param string $a_val
+	 */
+	public function setPending($a_val)
+	{
+		$this->pending = $a_val;
+	}
+	
+	/**
+	* Get pending filename
+	*
+	* @return	string	Value
+	*/
+	function getPending()
+	{
+		return $this->pending;
 	}
 	
 	/**
@@ -301,10 +322,19 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 			$f_tpl->parseCurrentBlock();
 		}
 
+		$pending = $this->getPending();
+		if($pending)
+		{
+			$f_tpl->setCurrentBlock("pending");
+			$f_tpl->setVariable("TXT_PENDING", $lng->txt("file_upload_pending").
+				": ".$pending);
+			$f_tpl->parseCurrentBlock();
+		}
+			
 		$f_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$f_tpl->setVariable("ID", $this->getFieldId());
 		$f_tpl->setVariable("SIZE", $this->getSize());
-			
+		
 		return $f_tpl->get();
 	}
 	

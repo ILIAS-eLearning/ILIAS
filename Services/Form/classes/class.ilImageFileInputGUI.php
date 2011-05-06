@@ -159,6 +159,15 @@ class ilImageFileInputGUI extends ilFileInputGUI
 			$i_tpl->parseCurrentBlock();
 		}
 		
+		$pending = $this->getPending();
+		if($pending)
+		{
+			$i_tpl->setCurrentBlock("pending");
+			$i_tpl->setVariable("TXT_PENDING", $lng->txt("file_upload_pending").
+				": ".$pending);
+			$i_tpl->parseCurrentBlock();
+		}
+		
 		$i_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$i_tpl->setVariable("ID", $this->getFieldId());
 		$i_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".

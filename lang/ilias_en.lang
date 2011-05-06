@@ -11359,3 +11359,6 @@ common#:#cont_iim_base_image_info#:#The base image is the main underlying image.
 common#:#cont_iim_create_info#:#Please upload the main underlying picuture for the interactive image.
 common#:#cont_iim_overlay_info#:#Overlay images are used to alter (e.g. highlight) parts of the base image when the mouse hovers over them. After uploading the images, you can select them in the "Triggers" tab.
 common#:#cont_iim_content_popups_info#:#Content popups appear, when the user clicks on interactive parts of the base image. On this screen you only define the popups. Their content can be edited on the main page editing screen.
+content#:#cont_correct_answers_also#:#Also correct are:
+content#:#cont_correct_answer_also#:#Also correct is:
+common#:#file_upload_pending#:#Pending file
