@@ -453,7 +453,6 @@ class ilSurveyEvaluationGUI
 		}
 		array_push($csvfile, $csvrow);
 		$participants =& $this->object->getSurveyFinishedIds();
-
 		foreach ($participants as $user_id)
 		{
 			$resultset =& $this->object->getEvaluationByUser($questions, $user_id);
@@ -471,6 +470,8 @@ class ilSurveyEvaluationGUI
 			{
 				$question->addUserSpecificResultsData($csvrow, $resultset);
 			}
+			$wt = $this->object->getWorkingtimeForParticipant($user_id);
+			array_push($csvrow, $wt);
 			array_push($csvfile, $csvrow);
 		}
 		switch ($export_format)
@@ -524,6 +525,7 @@ class ilSurveyEvaluationGUI
 								$mainworksheet->writeString($row, 0, ilExcelUtils::_convert_text($csvrow[0], $_POST["export_format"]), $format_title);
 							}
 						}
+						$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($this->lng->txt('workingtime'), $_POST['export_format']), $format_title);
 					}
 					else
 					{
