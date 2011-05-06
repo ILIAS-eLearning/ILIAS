@@ -60,11 +60,11 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 		while ($row = $result->fetchRow()) {
 			$LMSeitenanz[$rLehrmodulID[$row[3]]]++;
 		}
-
-		$year = array (2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012);
-		$month = array (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
-		$day = array (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31);
-
+		
+		$year = range(2004, date("Y"));
+		$month = range(1, 12);
+		$day = range(1, 31);
+		
 		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "Services/Tracking/templates/default/tpl.lm_statistics_settings.html");
 
 //		$tpl->setVariable("SEARCH_ACTION", ".php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
