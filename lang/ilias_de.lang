@@ -3991,8 +3991,8 @@ common#:#preconditions#:#Vorbedingungen
 common#:#predefined_template#:#Vordefinierte Rollenvorlage
 common#:#preferences#:#Benutzerdefinierte Einstellungen
 common#:#presentation_options#:#Präsentationsoptionen
-common#:#preview_learner#:#Voransicht als Teilnehmer
-common#:#preview_learner_info#:#Wenn aktiviert, wird Kurs- und Gruppenadministratoren die Möglichkeit angeboten, Inhalte aus der Sicht eines fiktiven Kurs- oder Gruppenteilnehmers zu betrachten.
+common#:#preview_learner#:#Voransicht als Mitglied
+common#:#preview_learner_info#:#Wenn aktiviert, wird Kurs- und Gruppenadministratoren die Möglichkeit angeboten, den Kurs oder die Gruppe aus Sicht eines fiktiven Kurs- bzw. Gruppenmitglieds zu betrachten.
 common#:#previous#:#zurück
 common#:#print#:#Drucken
 common#:#print_view#:#Druckansicht
