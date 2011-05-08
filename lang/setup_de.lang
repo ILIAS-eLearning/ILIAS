@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -155,7 +155,7 @@ info_text_delete#:#Sie können diese Installation löschen, indem Sie auf den Bu
 info_text_finish1#:#Gratulation! Die Client-Installation war erfolgreich. klicken Sie auf 'Einloggen', um sich in ILIAS einzuloggen.
 info_text_finish2#:#Ein oder mehrere Installationsschritte sind nicht erfolgreich durchgeführt worden. Bitte überprüfen Sie die Statusanzeige rechts.
 info_text_first_client#:#Die Grundeinstellungen wurden gespeichert. Wir beginnen nun mit der Installation des ersten Mandanten. Das Setup-Programm führt Sie durch den gesamten Installationprozess. Während der Installation können Sie den momentanen Status in der Tabelle rechts immer ablesen.
-info_text_first_install#:#Sie installieren ILIAS das erste Mal. Daher müssen zunächst einige rundeinstellungen vorgenommen werden.
+info_text_first_install#:#Sie installieren ILIAS das erste Mal. Daher müssen zunächst einige Grundeinstellungen vorgenommen werden.
 info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlaubt sind alle Buchstaben (ausser Umlaute) und Zahlen. Die Kennung muss aus einem Wort bestehen.<br/>Anschliessend geben Sie bitte die Verbindungsdaten zu Ihrer Datenbank an. ILIAS baut eine Testverbindung mit Ihren Verbindungsangaben auf.
 info_text_lang#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder. Über die Option 'Standard' legen Sie fest, welche Sprache neu angemeldete Benutzer bzw. Benutzer bekommen, die über ihre persönlichen Einsellungen noch keine Sprache ausgewählt haben.
 info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus. Oben rechts können sie die Mandantenauswahl ein- und ausschalten. Ist die Mandantenauswahl aktiviert, werden auf der ILIAS-Startseite (index) alle verfügbaren und freigebene Mandanten angezeigt. Ist die Mandantenauswahl ausgeschaltet, wird die Login-Seite des als <i>Standard</i> deklarierten Mandanten angezeigt. Über den Button unter der Übersichtsliste können Sie einen Mandanten als Standard bestimmen.
@@ -189,7 +189,7 @@ inst_name#:#Installationsname
 install#:#installieren
 installation#:#Installation
 installed#:#installiert
-installed_local#:#Installed With Local###13 Apr 2005 new variable
+installed_local#:#Mit lokaler Sprachdatei installiert
 institution#:#Institution
 intro_install#:#Das ist das Hauptmenü von ILIAS Setup. Hier können Sie Schritt für Schritt die Installation von ILIAS durchführen.
 ip_address#:#IP-Adresse
@@ -311,17 +311,17 @@ position#:#Position
 pre_cookies_disabled#:#Cookies sind nicht aktiviert. Sie benötigen Cookies für den Betrieb von ILIAS.
 pre_cookies_enabled#:#Cookies sind eingeschaltet
 pre_error#:#Ein oder mehrere Tests wurden nicht bestanden. Bitte beheben Sie die Probleme bevor Sie mit der Installation fortfahren.
-pre_folder_create#:#Neue Ordner anlegen im ILIAS Verzeichnis
-pre_folder_create_error#:#Im ILIAS Verzeichnis können keine Unterverzeichnisse angelegt werden. Bitte überprüfen Sie die Zugriffsrechte im Dateisystem!
-pre_folder_write#:#Schreibbares ILIAS Verzeichnis
-pre_folder_write_error#:#Das ILIAS Verzeichnis ist nicht schreibbar. Bitte überprüfen Sie die Zugriffsrechte im Dateisystem!
+pre_folder_create#:#Neue Ordner anlegen im ILIAS-Verzeichnis
+pre_folder_create_error#:#Im ILIAS-Verzeichnis können keine Unterverzeichnisse angelegt werden. Bitte überprüfen Sie die Zugriffsrechte im Dateisystem!
+pre_folder_write#:#Schreibbares ILIAS-Verzeichnis
+pre_folder_write_error#:#Das ILIAS-Verzeichnis ist nicht schreibbar. Bitte überprüfen Sie die Zugriffsrechte im Dateisystem!
 pre_intro#:#Die Setup-Routine prüft, ob alle Vorraussetzungen für die Installation und den Betrieb von ILIAS erfüllt sind.
 pre_javascript_comment#:#Sie können ILIAS auch ohne Javascript nutzen. Allerdings sind einige Komfortfunktion in der Bedienung deaktiviert.
 pre_javascript_enabled#:#Javascript ist eingeschaltet
 pre_php_version#:#PHP-Version
-pre_php_version_3#:#Ihre PHP-Version ist hoffnungslos veraltet und nicht geeignet für den Betrieb von ILIAS.
-pre_php_version_4.1#:#Einige PEAR Module arbeiten nicht vernünftig unter dieser PHP-Version.
-pre_php_version_4.2#:#Die DOMXML und XSLT Unterstüzung arbeiten nicht vernünftig unter dieser PHP-Version.
+pre_php_version_3#:#Ihre PHP-Version ist veraltet und nicht für den Betrieb von ILIAS geeignet.
+pre_php_version_4.1#:#Einige PEAR Module arbeiten nicht zufriedenstellend unter dieser PHP-Version.
+pre_php_version_4.2#:#Die DOMXML und XSLT Unterstüzung arbeiten nicht zufriedenstellend unter dieser PHP-Version.
 pre_php_version_5#:#ILIAS wurde noch nicht getestet mit PHP 5. Benutzung also auf eigene Gefahr.
 pre_php_version_unknown#:#Unbekannte PHP-Version. Benutzung auf eigene Gefahr.
 preliminaries#:#Systemvoraussetzungen
@@ -462,7 +462,7 @@ path_to_mkisofs#:#Path to mkisofs###26 06 2009 new variable
 db_selection#:#Database Selection###26 06 2009 new variable
 db_service_name#:#Service Name###26 06 2009 new variable
 db_mysql#:#MySQL###26 06 2009 new variable
-db_oracle#:#Oracle###26 06 2009 new variable
+db_oracle#:#Oracle
 info_text_nic#:#Optionally register and obtain an installation ID (NIC-ID) from the ILIAS open source community server. Getting a NIC-ID is advisable if you want to share content with other ILIAS installations.###24 07 2009 new variable
 nic_reg_disable_info#:#You may register later anytime.###24 07 2009 new variable
 not_configured#:#Not Configured###24 07 2009 new variable
@@ -473,7 +473,7 @@ form_retype_password#:#Passwortwiederholung
 master_password#:#Master-Passwort
 passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.###24 07 2009 new variable
 next_update_break#:#Nächste Unterbrechung des Updates
-next_update_break_info#:#Je nach Grösse Ihrer Installation ist es nicht ratsam das Update in einem Durchlauf auszuführen.
+next_update_break_info#:#Je nach Grösse Ihrer Installation ist es nicht ratsam, das Update in einem Durchlauf auszuführen.
 clients#:#Mandanten
 no_items#:#Keine Einträge
 convert_path_comment_win#:#Required for displaying thumbnails of images, e.g. 'C:/tools/ImageMagick/convert.exe'.###18 08 2009 new variable
@@ -490,8 +490,9 @@ db_update_interrupted#:#Das Datenbank-Updateskript wurde im letzten Lauf unerwar
 db_update_interrupted_avoid#:#Um diese Problem zu verhindern, überprüfen Sie bitte die Einstellungen max_execution_time und memory_limit in Ihrer php.ini. Außerdem empfiehlt es sich, je Update-Lauf weniger Schritte ausführen zu lassen.
 applied_hotfixes#:#Ausgeführte Hotfixes
 available_hotfixes#:#Verfügbare Hotfixes
-apply_hotfixes#:#Hotfixes Ausführenhotfix_available#:#Hotfix Available###26 03 2010 new variable
-hotfix_applied#:#Hotfix Applie###26 03 2010 new variable
+apply_hotfixes#:#Hotfixes ausführen
+hotfix_available#:#Hotfix verfügbar
+hotfix_applied#:#Hotfix ausgeführt
 session_management#:#Session Verwaltung
 step_sess#:#Session Verwaltung
 session_management_not_configured#:#nicht konfiguriert
