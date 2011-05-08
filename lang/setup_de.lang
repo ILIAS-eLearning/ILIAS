@@ -13,21 +13,27 @@
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+3rd_party_software_opt#:#Optionale Drittanbieter-Programme
+3rd_party_software_req#:#Erforderliche Drittanbieter-Programme
 3rd_party_software#:#Drittanbieter-Programme
 3rdparty#:#Erweiterungen von Fremdanbietern
 absolute_path#:#Absoluter Pfad
-access#:#Zugang
 access_status#:#Zugangsstatus
+access#:#Zugang
 admin_login#:#als Systemadministrator anmelden
 antivir#:#AntiVir
+applied_hotfixes#:#Ausgeführte Hotfixes
+apply_hotfixes#:#Hotfixes ausführen
 available_clients#:#Vorhandene Mandanten
+available_hotfixes#:#Verfügbare Hotfixes
 available_languages#:#Verfügbare Sprachen
 back#:#zurück
+basic_settings#:#Grundeinstellungen
 cannot_create_datadir_no_write_access#:#Kein Schreibzugriff. Datenverzeichnis kann nicht angelegt werden
-change#:#ändern
 change_basic_settings#:#Grundeinstellungen ändern
 change_password#:#Passwort ändern
 change_sort_direction#:#Sortierrichtung ändern
+change#:#ändern
 check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.###20 Jun 2005 new variable
 check_failed_convert#:#Convert-Test fehlgeschlagen
 check_failed_htmldoc#:#HTMLdoc-Test fehlgeschlagen
@@ -41,32 +47,40 @@ choose_password#:#Bitte geben Sie das gewünschte Passwort ein
 city#:#Ort
 clamav#:#ClamAV
 clean_command#:#Clean-Kommando
-client#:#Mandant
 client_access_mode_changed#:#Zugangsstatus des Mandanten geändert
 client_data#:#Informationen über den Mandanten
+client_deleted#:#Mandant Gelöscht
 client_id#:#Mandanten ID
 client_info#:#Beschreibung
 client_institution#:#Institution
 client_login#:#Bei einem Mandanten anmelden
 client_name#:#Name
 client_setup_not_finished#:#Die Installation dieses Mandanten wurde noch nicht abgeschlossen
+client#:#Mandant
+clients#:#Mandanten
 collation#:#Collation###23 Mar 2005 new variable
-contact#:#Kontaktdaten
 contact_data#:#Kontaktdaten des Systemadministrators
-convert_path#:#Convert-Befehlszeile
+contact#:#Kontaktdaten
+convert_path_comment_win#:#Required for displaying thumbnails of images, e.g. 'C:/tools/ImageMagick/convert.exe'.###18 08 2009 new variable
 convert_path_comment#:#Wird benötigt, um Vorschaubilder zu erzeugen
+convert_path#:#Convert-Befehlszeile
 could_not_create_logfile#:#Logdatei konnte nicht angelegt werden
 country#:#Land
-create#:#anlegen
 create_datadir_failed#:#Erzeugung des Datenverzeichnisses fehlgeschlagen
+create_directory#:#Verzeichnis Anlegen
 create_new_client#:#Neuen Mandanten anlegen
 create_webdir_failed#:#Erzeugung des Webverzeichnisses fehlgeschlagen
+create#:#anlegen
 ctrl_missing_desc#:#Kontrollstruktur fehlt. Bitte drücken Sie 'Neu Laden'.
-ctrl_structure#:#Kontrollstruktur
 ctrl_structure_desc#:#Bitte führen Sie diese Funktion nicht aus, wenn es nicht ausdrücklich in Update-Anweisungen gefordert wird.
 ctrl_structure_reloaded#:#Kontrollstruktur wurde neu geladen.
+ctrl_structure#:#Kontrollstruktur
+data_directories#:#Datenverzeichnisse
+data_directory_in_ws_info#:#Dieses Verzeichnis kann nicht geändert werden.
+data_directory_in_ws#:#Datenverzeichnis im Webspace
+data_directory_info#:#Bitte geben Sie ein Verzeichnis ausserhalb des Webspaces, welches vom Webserver beschrieben werden kann, an.
+data_directory_outside_ws#:#Datenverzeichnis ausserhalb des Webspaces
 data_path#:#Daten-Pfad
-database#:#Datenbank
 database_create#:#Datenbank erzeugen
 database_exists#:#Datenbank existiert bereits
 database_install#:#Datenbank installieren
@@ -77,37 +91,47 @@ database_not_exists_create_first#:#Datenbank existiert nicht. Bitte legen Sie zu
 database_ready#:#Datenbank ist eingerichtet
 database_update#:#Datenbank aktualisieren
 database_version#:#Ihre Datenbankversion
-datadir_path#:#Pfad zum Datenverzeichnis
+database#:#Datenbank
 datadir_path_comment1#:#Basisverzeichnis für Dateien
 datadir_path_comment2#:#Kann nicht geändert werden.
+datadir_path#:#Pfad zum Datenverzeichnis
 datadir_webspacedir_match#:#Datenverzeichnis und Webspaceverzeichnis sind gleich! Sie müssen für das Datenverzeichnis ein eigenes Verzeichnis angeben.
 date#:#Datum
 db_conn#:#Verbindungsdaten zur Datenbank
 db_control_structure_missing#:#Kontrollstruktur fehlt. (Siehe 'Details' -> 'Tools')
+db_error_please_check#:#Bitte überprüfen Sie Datenbank Host, Benutzer und Passwort.
 db_host#:#Datenbankserver
+db_mysql#:#MySQL###26 06 2009 new variable
 db_name#:#Datenbankname
 db_needs_update#:#Datenbank benötigt Update
 db_not_installed#:#Datenbank nicht installiert
+db_oracle#:#Oracle
 db_pass#:#Datenbankpasswort
+db_port#:#Datenbank Port
+db_selection#:#Database Selection###26 06 2009 new variable
+db_service_name#:#Service Name###26 06 2009 new variable
 db_type#:#Datenbanktyp
+db_update_interrupted_avoid#:#Um diese Problem zu verhindern, überprüfen Sie bitte die Einstellungen max_execution_time und memory_limit in Ihrer php.ini. Außerdem empfiehlt es sich, je Update-Lauf weniger Schritte ausführen zu lassen.
+db_update_interrupted#:#Das Datenbank-Updateskript wurde im letzten Lauf unerwartet unterbrochen. Dies kann zu einem <b>inkonsistenten</b> Zustand Ihres Systems führen. Es wird dringend empfohlen, das letzte Backup einzuspielen und auf diesem Stand das Updateskript erneut auszuführen.
 db_user#:#Datenbankbenutzer
 db_version#:#Datenbankversion
-default#:#Standard
 default_client_changed#:#Mandant als Standard festgelegt
 default_language#:#Standardsprache
-delete#:#löschen
+default#:#Standard
 delete_confirm#:#Mandant löschen bestätigen
 delete_info#:#Sind Sie sicher?
+delete#:#löschen
 details#:#Details
+determine_tools_paths#:#Pfade automatisch ermitteln
 dir_exists_create#:#Das angegebene Verzeichnis existiert bereits. Deaktivieren Sie die Option 'Anlegen', um dieses Verzeichnis als Datenverzeichnis zu wählen
-disable#:#ausschalten
 disable_check#:#nicht prüfen
 disable_logging#:#Deaktivieren
+disable#:#ausschalten
 disabled#:#ausgeschaltet
 display_clientlist#:#Freie Mandantenauswahl
 duplicate_ctrl#:#Fehler: Doppelte Kontrollstrukturdefinition (Klasse %s) in den Dateien:<br /><br />- %s<br />- %s<br /><br />Bitte entfernen Sie die Datei, die nicht zur offiziellen ILIAS Distribution gehört.<br />Führen Sie danach die Funktion 'Tools' -> 'Kontrollstrukur' -> 'Neu Laden' im ILIAS Setup aus.
-email#:#Email
 email_not_valid#:#Ungültige Emailadresse
+email#:#Email
 en_by_default#:#(Englisch ist standardmässig installiert und kann nicht gelöscht werden).
 enable#:#einschalten
 enabled#:#eingeschaltet
@@ -127,30 +151,37 @@ file_version#:#file version
 fill_both_fields#:#Bitte beide Felder ausfüllen!
 fill_out_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 filled_out#:#korrekt ausgefüllt
-finish#:#Installation abschliessen
 finish_initial_setup_first#:#Bitte beenden Sie zuerst die Erstinstallation
 finish_setup#:#Abschliessen der Installationen
+finish#:#Installation abschliessen
 firstname#:#Vorname
-fop_path#:#Pfad zum FOP
 fop_path_comment#:#Wird benötigt um PDF-Dokumente zu erzeugen
+fop_path#:#Pfad zum FOP
+form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.###24 07 2009 new variable
+form_retype_password#:#Passwortwiederholung
 hide_clientlist#:#keine Mandantenauswahl
 host#:#Host
-htmldoc_path#:#HTMLdoc-Befehlszeile
+hotfix_applied#:#Hotfix ausgeführt
+hotfix_available#:#Es steht ein Hotfix zur Verfügung.
+hotfix_available#:#Hotfix verfügbar
+htmldoc_path_comment_win#:#Optional to generate PDF documents, e.g. 'C:/tools/htmldoc/htmldoc.exe'.###18 08 2009 new variable
 htmldoc_path_comment#:#Wird benötigt, um PDF-Dokumente zu erzeugen (Digilib-Objekt)
+htmldoc_path#:#HTMLdoc-Befehlszeile
 http_path#:#HTTP-Pfad
 id#:#ID
 ilias_db_mode#:#ILIAS Datenbank-Modus
 ilias_homepage#:#ILIAS Homepage
-ilias_nic#:#NIC Registrierung
 ilias_nic_id#:#NIC ID
+ilias_nic#:#NIC Registrierung
 ilias_setup#:#ILIAS Setup
 ilias_version#:#ILIAS Version
 include_local#:#include local###include local language file when updating language
 info_text_3rdparty#:#In diesem Schritt werden die Erweiterungen von Fremdanbietern konfiguriert, die in ILIAS benötigt werden. Folgen Sie bitte den Installationsanweisungen, die zu den jweiligen Erweiterungen angegeben werden, um diesen Schritt zu komplettieren.
 info_text_contact#:#Geben Sie hier zusätzliche informationen zu ihrer Installation an und tragen Sie den Namen und Kontaktinformationen des verantwortlichen Systemadministrators ein. Alle Informationen werden in ihrer Datenbank gespeichert. Im nächsten Installationsschritt haben Sie die Möglichkeit, Ihre Installation per ILIAS-NIC zu registrieren. Die als Pflichtfelder gekennzeichneten Angaben werden bei der Registrierung übermittelt.
-info_text_db#:#Die Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank zu installieren. Sollte eine Datenbank mit dem angegebenen Namen noch nicht existieren, kreuzen Sie bitte die Option 'Datenbank erzeugen' an. Setup versucht dann die Datenbank automatisch zu erzeugen. Wenn das nicht klappt (z.B. aufgrund eingeschränkter Zugangsberechtigung), müssen Sie den verantwortlichen Systemadministrator des Datenbankservers bitten, eine Datenbank mit dem gewünschten Namen einzurichten.
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
 info_text_db_collation2#:#Mehr Information zum Thema MySQL-Collations entnehmen Sie bitte der MySQL Webseite.
+info_text_db#:#Die Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank zu installieren. Sollte eine Datenbank mit dem angegebenen Namen noch nicht existieren, kreuzen Sie bitte die Option 'Datenbank erzeugen' an. Setup versucht dann die Datenbank automatisch zu erzeugen. Wenn das nicht klappt (z.B. aufgrund eingeschränkter Zugangsberechtigung), müssen Sie den verantwortlichen Systemadministrator des Datenbankservers bitten, eine Datenbank mit dem gewünschten Namen einzurichten.
+info_text_db2#:#Bitte stellen Sie sicher, dass die Datenbank mit der Option "CHARACTER SET utf8" erstellt wird.
 info_text_delete#:#Sie können diese Installation löschen, indem Sie auf den Button unten klicken. Es wird nur die Initialisierungsdatei gelöscht. Datenbank und Dateien bleiben erhalten und müssen manuell entfernt werden.
 info_text_finish1#:#Gratulation! Die Client-Installation war erfolgreich. klicken Sie auf 'Einloggen', um sich in ILIAS einzuloggen.
 info_text_finish2#:#Ein oder mehrere Installationsschritte sind nicht erfolgreich durchgeführt worden. Bitte überprüfen Sie die Statusanzeige rechts.
@@ -160,6 +191,7 @@ info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlau
 info_text_lang#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder. Über die Option 'Standard' legen Sie fest, welche Sprache neu angemeldete Benutzer bzw. Benutzer bekommen, die über ihre persönlichen Einsellungen noch keine Sprache ausgewählt haben.
 info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus. Oben rechts können sie die Mandantenauswahl ein- und ausschalten. Ist die Mandantenauswahl aktiviert, werden auf der ILIAS-Startseite (index) alle verfügbaren und freigebene Mandanten angezeigt. Ist die Mandantenauswahl ausgeschaltet, wird die Login-Seite des als <i>Standard</i> deklarierten Mandanten angezeigt. Über den Button unter der Übersichtsliste können Sie einen Mandanten als Standard bestimmen.
 info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ihr Benutzerkonto muss der Rolle 'Administrator' zugeordnet sein.
+info_text_nic#:#Optionally register and obtain an installation ID (NIC-ID) from the ILIAS open source community server. Getting a NIC-ID is advisable if you want to share content with other ILIAS installations.###24 07 2009 new variable
 info_text_nic1#:#Wenn Sie Ihre Installation über ILIAS-NIC-Server registrieren erhalten Sie eine eindeutige Kennung zugewiesen. Die Registrierung ist freiwillig. Wenn Sie sich nicht registrieren wollen, wählen Sie bitte 'Keine Registrierung' (Sie können jederzeit zu einem späteren Zeitpunkt die Registrierung nachholen). Möchten Sie oder benötigen Sie eine eindeutige Kennung, wählen Sie bitte 'Online-´Registrierung'. Sie bekommen ihre Kennung dann automatisch übermittelt. Falls Sie keine aktive Online-Verbindung oder die Registrierung fehlschlägt (z.B. wegen einer Firewall), dann schicken Sie bitte diese
 info_text_nic2#:#an ilias-info@uni-koeln.de. Sie erhalten dann umgehend ihre Kennung per Email zugeschickt. tragen Sie diese Nummer bitte bei der Option 'Email-Registrierung' in das Freifeld ein.
 info_text_nic3#:#Sie haben Ihre Installation registriert. Ihre Kennung ist
@@ -175,7 +207,6 @@ ini_no_client_id#:#Keine Mandanten ID angegeben
 ini_no_db_host#:#Keinen Host angegeben
 ini_no_db_name#:#Keine Datenbanknamen angegeben
 ini_no_db_user#:#Geben Sie einen Datenbankbenutzer an
-inifile#:#ini-Datei
 inifile_can_write#:#ILIAS setup kann eine neue ini-Datei erzeugen.
 inifile_cannot_write#:#Die Setup-Routine konnte die ini-Datei nicht erzeugen! Bitte überprüfen Sie die Schreibrechte in Ihrem Dateisystem.
 inifile_content#:#Ihre ini-Datei hat folgenden Inhalt:
@@ -183,25 +214,30 @@ inifile_exists#:#Es exisitiert bereits eine ini-Datei! Wenn Sie fortfahren, wird
 inifile_fill_all#:#Bitte füllen Sie alle Felder aus.
 inifile_firsttime#:#Keine ini-Datei vorhanden! Offensichtlich ist das eine Neu-Installation von ILIAS.
 inifile_written#:#Die ini-Datei wurde erfolgreich auf Ihrem Server angelegt.
+inifile#:#ini-Datei
 input_error#:#Eingabefehler
 inst_identification#:#Eindeutige Kennung der Installation
 inst_name#:#Installationsname
 install#:#installieren
 installation#:#Installation
-installed#:#installiert
 installed_local#:#Mit lokaler Sprachdatei installiert
+installed#:#installiert
 institution#:#Institution
 intro_install#:#Das ist das Hauptmenü von ILIAS Setup. Hier können Sie Schritt für Schritt die Installation von ILIAS durchführen.
 ip_address#:#IP-Adresse
-java_path#:#Java-Befehlszeile
+java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.eve'.###18 08 2009 new variable
 java_path_comment#:#Wird benötigt, um SCORM-Lernmodule anzuzeigen
+java_path#:#Java-Befehlszeile
+lang_ar#:#Arabisch
 lang_bg#:#Bulgarisch
 lang_cs#:#Tschechisch
 lang_da#:#Dänisch
 lang_de#:#Deutsch
+lang_el#:#Griechisch
 lang_en#:#Englisch
 lang_error_occurred#:#Ein Fehler ist aufgetreten. Aktion abgebrochen.
 lang_es#:#Spanisch
+lang_et#:#Estnisch
 lang_fr#:#Französisch
 lang_hu#:#Ungarisch
 lang_id#:#Indonesisch
@@ -215,39 +251,53 @@ lang_not_installed_default#:#Die als Standard ausgewählte Sprache ist nicht ins
 lang_pl#:#Polnisch
 lang_pt#:#Portugiesisch
 lang_ro#:#Romänisch
+lang_ru#:#Russisch
 lang_se#:#Schwedisch
 lang_sq#:#Albanisch
 lang_sr#:#Serbisch
+lang_tr#:#Türkisch
 lang_uk#:#Ukrainisch
+lang_vi#:#Vietnamesisch
 lang_xx#:#benutzerdefiniert
 lang_zh#:#Chinesisch
 langs_not_valid_not_installed#:#Folgende Sprachen wurden nicht installiert, aufgrund fehlerhafter Sprachdateien
 language#:#Sprache
-languages#:#Sprachen
 languages_installed#:#Sprache(n) installiert
+languages#:#Sprachen
 lastname#:#Nachname
 latex_url_comment#:#wird für die LaTeX-Unterstützung in ILIAS benötigt
-list#:#Liste
+list_clients#:#Alle Mandanten
 list_disabled#:#Mandantenauswahl deaktiviert
 list_enabled#:#Mandantenauswahl aktiviert
-log_path#:#Ort der Logdatei
+list#:#Liste
+log_path_comment_win#:#E.g. 'C:/iliasdata/iliaslog.txt' (File will be created)###18 08 2009 new variable
 log_path_comment#:#Pfad und Dateiname angeben. Datei wird ggf. erzeugt
+log_path#:#Ort der Logdatei
 logged_out#:#Sie sind nun ausgeloggt.
 logging#:#Logging
-login#:#Einloggen
 login_invalid#:#Anmeldung fehlgeschlagen. Login ist ungültig
 login_to_ilias#:#bei ILIAS anmelden
+login#:#Einloggen
 logout#:#ausloggen
 main_datadir_outside_webspace#:#Basisverzeichnis für Daten ausserhalb des Webspaces
+master_password#:#Master-Passwort
 missing_data#:#Daten unvollständig
+mkisofs_path_comment#:#Optional to create iso images.###26 06 2009 new variable
+mkisofs_path#:#Path to mkisofs###26 06 2009 new variable
+msg_input_is_required#:#This input is required. Please enter a value.###24 07 2009 new variable
 mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x oder niedriger
 mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x oder höher
 name#:#Name
+need_mysql_4_1_or_higher#:#Diese MySQL Version wird leider nicht unterstüzt. Bitte installieren Sie MysQL 4.1.x oder höher.
+new_client#:#Neuer Mandant
 new#:#neu
+next_update_break_info#:#Je nach Grösse Ihrer Installation ist es nicht ratsam, das Update in einem Durchlauf auszuführen.
+next_update_break#:#Nächste Unterbrechung des Updates
 next#:#Weiter
 nic_not_disabled#:#Keine NIC-ID & nicht deaktiviert
-nic_reg_disable#:#Keine Registrierung
 nic_reg_disable_comment#:#(später registrieren)
+nic_reg_disable_info#:#You may register later anytime.###24 07 2009 new variable
+nic_reg_disable#:#Keine Registrierung
 nic_reg_disabled#:#NIC Registrierung abgeschaltet
 nic_reg_email#:#Per Email
 nic_reg_enabled#:#NIC-ID erhalten!
@@ -264,6 +314,7 @@ no_clients_available#:#Keine Mandanten verfügbar
 no_database#:#Keine Datenbank
 no_db_connect_consult_admin#:#Es konnte keine Verbindung zur Datenbank hergestellt werden. Bitte kontaktieren Sie den Systemadministrator
 no_db_update_file#:#dbupdate.php nicht gefunden!
+no_items#:#Keine Einträge
 no_latex_url#:#Es wurde keine URL für ein LaTeX CGI-Skript angegeben
 no_password#:#Kein Passwort angegeben
 no_path_convert#:#Convert-Pfad nicht angegeben
@@ -273,12 +324,14 @@ no_path_given#:#Keinen Pfad angegeben
 no_path_htmldoc#:#HTMLdoc-Pfad nicht angegeben
 no_path_java#:#Java-Pfad nicht angegeben
 no_path_log#:#Log-Pfad nicht angegeben
+no_path_mkisofs#:#No mkisofs path given.###26 06 2009 new variable
 no_path_unzip#:#Unzip-Pfad nicht angegeben
 no_path_zip#:#Zip-Pfad nicht angegeben
 no_setup_pass_given#:#Geben Sie bitte ein Passwort für den Administatorzugriff an
 no_username#:#Kein Benutzername angegeben
 no_valid_client_id#:#Keine gültige Mandanten ID
 none#:#Keine Angaben
+not_configured#:#Not Configured###24 07 2009 new variable
 not_connected_to_db#:#Sie sind nicht mit der Datenbank verbunden.
 online#:#Online
 or#:#oder
@@ -286,7 +339,7 @@ out_of_webspace#:#(außerhalb des Webspace)
 overall_status#:#Installationsstatus
 overview#:#Übersicht
 pass_does_not_match#:#Die eingebenen Passwörter stimmen nicht überein
-password#:#Passwort
+passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.###24 07 2009 new variable
 password_changed#:#Das Passwort wurde geändert.
 password_empty#:#Kein Passwort angegeben!
 password_enter_old#:#Bitte geben Sie zuerst Ihr altes Passwort ein!
@@ -297,33 +350,52 @@ password_old_wrong#:#Falsches Passwort
 password_retype#:#Passwort wiederholen
 password_same#:#Altes und neues Passwort sind gleich
 password_set#:#Das Passwort wurde gespeichert
+password#:#Passwort
 path_not_set#:#nicht angegeben
 path_to_convert#:#Convert-Befehlszeile
 path_to_fop#:#FOP-Pfad
 path_to_htmldoc#:#HTMLdoc-Befehlszeile
 path_to_java#:#Java-Befehlszeile
+path_to_mkisofs#:#Path to mkisofs###26 06 2009 new variable
 path_to_unzip#:#Unzip-Befehlszeile
 path_to_zip#:#Zip-Befehlszeile
 pathes#:#Pfade
 phone#:#Telefon
+please_select#:#Bitte auswählen
 port#:#Port
 position#:#Position
 pre_cookies_disabled#:#Cookies sind nicht aktiviert. Sie benötigen Cookies für den Betrieb von ILIAS.
 pre_cookies_enabled#:#Cookies sind eingeschaltet
+pre_dom_missing#:#Bitte aktivieren Sie die DOM-Unterstützung in Ihrer PHP-Installation.
+pre_dom#:#DOM-Unterstützung
 pre_error#:#Ein oder mehrere Tests wurden nicht bestanden. Bitte beheben Sie die Probleme bevor Sie mit der Installation fortfahren.
-pre_folder_create#:#Neue Ordner anlegen im ILIAS-Verzeichnis
 pre_folder_create_error#:#Im ILIAS-Verzeichnis können keine Unterverzeichnisse angelegt werden. Bitte überprüfen Sie die Zugriffsrechte im Dateisystem!
-pre_folder_write#:#Schreibbares ILIAS-Verzeichnis
+pre_folder_create#:#Neue Ordner anlegen im ILIAS-Verzeichnis
 pre_folder_write_error#:#Das ILIAS-Verzeichnis ist nicht schreibbar. Bitte überprüfen Sie die Zugriffsrechte im Dateisystem!
+pre_folder_write#:#Schreibbares ILIAS-Verzeichnis
+pre_gd_missing#:#Bitte aktivieren Sie die GD-Unterstützung in Ihrer PHP-Installation. Siehe <a target="_blank" href="%s">PHP Dokumentation</a>.
+pre_gd#:#GD-Unterstützung
 pre_intro#:#Die Setup-Routine prüft, ob alle Vorraussetzungen für die Installation und den Betrieb von ILIAS erfüllt sind.
 pre_javascript_comment#:#Sie können ILIAS auch ohne Javascript nutzen. Allerdings sind einige Komfortfunktion in der Bedienung deaktiviert.
 pre_javascript_enabled#:#Javascript ist eingeschaltet
-pre_php_version#:#PHP-Version
+pre_memory_limit_recommend#:#Wir empfehlen einen Wert von 80M oder mehr.
+pre_memory_limit_too_low#:#Bitte stellen Sie in der php.ini Datei einen "memory_limit"-Wert von mindestens 40M ein. Wir empfehlen 80M oder mehr.
+pre_memory#:#PHP-Memory-Limit-Einstellung (php.ini)
+pre_mysql_4_1_or_higher#:#Sie benötigen MySQL 4.1 oder höher, um ILIAS zu installieren.
+pre_mysql_missing#:#Bitte aktivieren Sie die MySQL-Unterstützung (Version 4.1 oder höher) in Ihrer PHP-Installation.
+pre_mysql#:#MySQL-Unterstützung
 pre_php_version_3#:#Ihre PHP-Version ist veraltet und nicht für den Betrieb von ILIAS geeignet.
 pre_php_version_4.1#:#Einige PEAR Module arbeiten nicht zufriedenstellend unter dieser PHP-Version.
 pre_php_version_4.2#:#Die DOMXML und XSLT Unterstüzung arbeiten nicht zufriedenstellend unter dieser PHP-Version.
+pre_php_version_4#:#Diese PHP-Version wird nicht unterstützt. Bitte installieren Sie PHP 5.2.1 oder höher.
 pre_php_version_5#:#ILIAS wurde noch nicht getestet mit PHP 5. Benutzung also auf eigene Gefahr.
+pre_php_version_too_low#:#Your PHP version is not supported. We recommend to use PHP 5.2.1 or higher. PHP 6 has not been tested yet.###24 07 2009 new variable
 pre_php_version_unknown#:#Unbekannte PHP-Version. Benutzung auf eigene Gefahr.
+pre_php_version#:#PHP-Version
+pre_php#:#PHP Version
+pre_root#:#Beschreibbares Hauptverzeichnis im Webspace
+pre_xsl_missing#:#Bitte aktivieren Sie die XSL-Unterstützung in Ihrer PHP-Installation. Siehe <a target="_blank" href="%s">PHP Dokumentation</a>.
+pre_xsl#:#XSL-Unterstützung
 preliminaries#:#Systemvoraussetzungen
 prev#:#Zurück
 reload#:#Neu Laden
@@ -331,42 +403,56 @@ required_field#:#Erforderliche Angaben
 reset#:#Zurücksetzen
 root_access#:#Administrator-Zugang
 safe_mode_enabled#:#Safe mode ist eingeschaltet
-save#:#Speichern
 save_error#:#Fehler beim Abspeichern
+save#:#Speichern
 saved_successfully#:#Angaben gespeichert
 scan_command#:#Scan-Kommando
 select_client#:#Mandant wählen
 server_info#:#Informationen zum ILIAS-Server
+server_settings#:#Servereinstellungen
 server_software#:#Server software
+sess_allow_client_maintenance_info#:#Definiert, ob die Verwaltung der Session Einstellungen ebenfalls in der Administration des Clients erfolgen kann.
+sess_allow_client_maintenance#:#Verwaltung durch Client erlaubt
+sess_max_session_count_info#:#Definiert die maximale Anzahl an Sessions, die gleichzeit existieren können. Wenn dieser Wert auf "0" gesetzt wird, ist die Funktion deaktiviert.
+sess_max_session_count#:#Maximale Session Anzahl
+sess_max_session_idle_after_first_request_info#:#Wenn ein Benutzer nach seiner ersten Anfrage für diesen Zeitraum inaktiv ist kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session Limit erreicht wurde.
+sess_max_session_idle_after_first_request#:#Maximale Session Inaktivität nach der ersten Anfrage (in Minuten)
+sess_max_session_idle_info#:#Wenn ein Benutzer für diesen Zeitraum inaktiv ist, ist seine Session ausgelaufen.
+sess_max_session_idle#:#Maximale Session Inaktivität (in Minuten)
+sess_min_session_idle_info#:#Wenn ein Benutzer für mindestens diesen Zeitraum inaktiv ist, kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session Limit erreicht wurde.
+sess_min_session_idle#:#Minimale Session Inaktivität (in Minuten)
+sess_sessions#:#Einstellungen
+session_management_configured#:#konfiguriert
+session_management_not_configured#:#nicht konfiguriert
+session_management#:#Session Verwaltung
 set_default_client#:#als Standard festlegen
 set_newpasswd#:#Bitte neues Passwort eingeben
 set_oldpasswd#:#Bitte altes Passwort eingeben
 settings_changed#:#Einstellungen geändert
 settings_saved#:#Einstellungen gespeichert
-setup#:#Setup
 setup_3rdparty_data#:#Fremdanbietererweiterungen installieren
 setup_basic_settings#:#Grundeinstellungen bei Erstinstallation
 setup_contact_data#:#Kontaktdaten ausfüllen
-setup_database#:#Datenbank installieren
 setup_database_desc#:#Erstellung der Datenbank
+setup_database#:#Datenbank installieren
 setup_db_first#:#Please legen Sie zuerst die Datenbank an!
 setup_finished#:#Installation abgeschlossen
 setup_first_client#:#Erstinstallation eines Mandanten
 setup_ini_first#:#Bitte erzeugen Sie zuerst die ini-Datei!
-setup_inifile#:#ini-Datei erzeugen
 setup_inifile_desc#:#Erzeugung der ini-Datei für Ihre Installation
-setup_languages#:#Sprachen installieren
+setup_inifile#:#ini-Datei erzeugen
 setup_languages_desc#:#Installation zusätzlicher Sprachen
+setup_languages#:#Sprachen installieren
 setup_login#:#Anmeldung Setup
 setup_mainmenu#:#Setup Hauptmenü
 setup_menu#:#Setup menü
 setup_nic_desc#:#Registrierung Ihrer Installation beim ILIAS-NIC-Server
 setup_not_finished#:#Installation nicht beendet
+setup_pass_title#:#Passwort für Administratorzugriff
 setup_pass#:#Passwort
 setup_pass2#:#Passwort wiederholen
-setup_pass_title#:#Passwort für Administratorzugriff
-setup_password#:#Setup-Passwort erstellen
 setup_password_desc#:#Erstellung eines Passwortes, um die Setup-Routine später wieder aufrufen zu können (z.B. um ein Update der Datenbank durchzuführen)
+setup_password#:#Setup-Passwort erstellen
 setup_process_status#:#Status des Installationsverlaufes
 setup_process_step_3rdparty#:#Fremdanbietererweiterungen
 setup_process_step_contact#:#Kontaktinformationen ausfüllen
@@ -375,17 +461,29 @@ setup_process_step_finish#:#Installation abschliessen
 setup_process_step_ini#:#Basisverzeichnisse erzeugen
 setup_process_step_lang#:#Systemsprachen installieren
 setup_process_step_nic#:#ILIAS-NIC Registrierung
+setup_process_step_sess#:#Session Verwaltung
 setup_ready#:#Setup wurde erfolgreich beendet. Sie können sich nun in ILIAS einloggen.
+setup_sessions#:#Session Verwaltung
 setup_welcome#:#Willkommen zum Installationsprogramm für ILIAS. Diese Setup-Routine hilft Ihnen bei der
+setup#:#Setup
 sophos#:#Sophos
 sort_by_this_column#:#Nach dieser Spalte sortieren
-status#:#Status
 status_3rdparty_false#:#Es fehlen Fremdanbietererweiterungen
 status_3rdparty_ok#:#Fremdanbietererweiterungen installiert
 status_3rdparty_problems#:#Probleme mit Fremdanbietererweiterungen
+status#:#Status
+step_access#:#Zugriff
+step_contact#:#Kontakt
+step_db#:#Datenbank
+step_finish#:#Beenden
+step_ini#:#ini-File
+step_lang#:#Sprachen
+step_nic#:#NIC
+step_sess#:#Session Verwaltung
 step#:#Schritt
 street#:#Strasse
 submit#:#Abschicken
+time_zone#:#Zeitzone
 tiny_dir_does_not_exist#:#Das Verzeichnis, das den Editor beinhaltet existiert nicht. Sie müssen die ZIP-Datei, die den Editor beinhaltet in das vorgehene Verzeichnis auspacken
 tiny_nothing_to_do#:#Der Editor ist installiert, es gibt nichts zu tun
 tiny_zip_changed#:#Die ZIP-Datei, die den Editor beinhaltet, wurde seit der letzten Installation verändert. Bitte packen Sie die ZIP-Datei aus, um die vorhandene Editor-Installation zu aktualisieren.
@@ -396,120 +494,22 @@ tools#:#Werkzeuge
 unknown_client_id#:#Unbekannter Mandant
 unknown_command#:#Unbekannter Befehl
 unknown_display_mode#:#Unbekannter Anzeigemodus
-unzip#:#Auspacken
-unzip_path#:#Unzip-Befehlszeile
+unzip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/unzip/unzip.exe'.###18 08 2009 new variable
 unzip_path_comment#:#Wird benötigt, um Lernmodule zu importieren
+unzip_path#:#Unzip-Befehlszeile
+unzip#:#Auspacken
 update_applied#:#Update eingespielt
 update_error#:#Fehler beim Update der Datenbank
 update_not_found#:#Update nicht gefunden!
 url_to_latex#:#URL zum LaTeX CGI Skript
+user#:#Benutzer
 username#:#Benutzername
 version#:#Version
 virus_scanner#:#Virus-Scanner
 webspace_dir#:#Datenverzeichnis im Webspace
 with#:#mit
 wrong_password#:#Falsches Passwort!
-zip_path#:#Zip-Befehlszeile
-zip_path_comment#:#Wird benötigt, um Lernmodule zu exportieren
-zipcode#:#PLZ
-lang_el#:#Griechisch
-lang_ru#:#Russisch
-lang_vi#:#Vietnamesisch
-lang_et#:#Estnisch
-new_client#:#Neuer Mandant
-list_clients#:#Alle Mandanten
-basic_settings#:#Grundeinstellungen
-step_ini#:#ini-File
-step_db#:#Datenbank
-step_lang#:#Sprachen
-step_contact#:#Kontakt
-step_nic#:#NIC
-step_finish#:#Beenden
-step_access#:#Zugriff
-determine_tools_paths#:#Pfade Automatisch Ermitteln
-client_deleted#:#Mandant Gelöscht
-create_directory#:#Verzeichnis Anlegen
-3rd_party_software_req#:#Erforderliche Drittanbieter-Programme
-3rd_party_software_opt#:#Optionale Drittanbieter-Programme
-user#:#Benutzer
-db_error_please_check#:#Bitte überprüfen Sie Datenbank Host, Benutzer und Passwort.
-need_mysql_4_1_or_higher#:#Diese MySQL Version wird leider nicht unterstüzt. Bitte installieren Sie MysQL 4.1.x oder höher.
-info_text_db2#:#Bitte stellen Sie sicher, dass die Datenbank mit der Option "CHARACTER SET utf8" erstellt wird.
-data_directories#:#Datenverzeichnisse
-data_directory_outside_ws#:#Datenverzeichnis ausserhalb des Webspaces
-data_directory_in_ws#:#Datenverzeichnis im Webspace
-data_directory_in_ws_info#:#Dieses Verzeichnis kann nicht geändert werden.
-data_directory_info#:#Bitte geben Sie ein Verzeichnis ausserhalb des Webspaces, welches vom Webserver beschrieben werden kann, an.
-pre_dom#:#DOM-Unterstützung
-pre_dom_missing#:#Bitte aktivieren Sie die DOM-Unterstützung in Ihrer PHP-Installation.
-pre_xsl#:#XSL-Unterstützung
-pre_xsl_missing#:#Bitte aktivieren Sie die XSL-Unterstützung in Ihrer PHP-Installation. Siehe <a target="_blank" href="%s">PHP Dokumentation</a>.
-pre_gd#:#GD-Unterstützung 
-pre_gd_missing#:#Bitte aktivieren Sie die GD-Unterstützung in Ihrer PHP-Installation. Siehe <a target="_blank" href="%s">PHP Dokumentation</a>.
-pre_memory#:#PHP-Memory-Limit-Einstellung (php.ini)
-pre_memory_limit_too_low#:#Bitte stellen Sie in der php.ini Datei einen "memory_limit"-Wert von mindestens 40M ein. Wir empfehlen 80M oder mehr.
-pre_memory_limit_recommend#:#Wir empfehlen einen Wert von 80M oder mehr.
-pre_root#:#Beschreibbares Hauptverzeichnis im Webspace
-pre_php#:#PHP Version
-pre_php_version_4#:#Diese PHP-Version wird nicht unterstützt. Bitte installieren Sie PHP 5.2.1 oder höher.
-pre_mysql#:#MySQL-Unterstützung
-pre_mysql_missing#:#Bitte aktivieren Sie die MySQL-Unterstützung (Version 4.1 oder höher) in Ihrer PHP-Installation.
-pre_mysql_4_1_or_higher#:#Sie benötigen MySQL 4.1 oder höher, um ILIAS zu installieren.
-mkisofs_path#:#Path to mkisofs###26 06 2009 new variable
-mkisofs_path_comment#:#Optional to create iso images.###26 06 2009 new variable
-no_path_mkisofs#:#No mkisofs path given.###26 06 2009 new variable
-path_to_mkisofs#:#Path to mkisofs###26 06 2009 new variable
-db_selection#:#Database Selection###26 06 2009 new variable
-db_service_name#:#Service Name###26 06 2009 new variable
-db_mysql#:#MySQL###26 06 2009 new variable
-db_oracle#:#Oracle
-info_text_nic#:#Optionally register and obtain an installation ID (NIC-ID) from the ILIAS open source community server. Getting a NIC-ID is advisable if you want to share content with other ILIAS installations.###24 07 2009 new variable
-nic_reg_disable_info#:#You may register later anytime.###24 07 2009 new variable
-not_configured#:#Not Configured###24 07 2009 new variable
-pre_php_version_too_low#:#Your PHP version is not supported. We recommend to use PHP 5.2.1 or higher. PHP 6 has not been tested yet.###24 07 2009 new variable
-msg_input_is_required#:#This input is required. Please enter a value.###24 07 2009 new variable
-form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.###24 07 2009 new variable
-form_retype_password#:#Passwortwiederholung
-master_password#:#Master-Passwort
-passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.###24 07 2009 new variable
-next_update_break#:#Nächste Unterbrechung des Updates
-next_update_break_info#:#Je nach Grösse Ihrer Installation ist es nicht ratsam, das Update in einem Durchlauf auszuführen.
-clients#:#Mandanten
-no_items#:#Keine Einträge
-convert_path_comment_win#:#Required for displaying thumbnails of images, e.g. 'C:/tools/ImageMagick/convert.exe'.###18 08 2009 new variable
-htmldoc_path_comment_win#:#Optional to generate PDF documents, e.g. 'C:/tools/htmldoc/htmldoc.exe'.###18 08 2009 new variable
-java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.eve'.###18 08 2009 new variable
-log_path_comment_win#:#E.g. 'C:/iliasdata/iliaslog.txt' (File will be created)###18 08 2009 new variable
-unzip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/unzip/unzip.exe'.###18 08 2009 new variable
 zip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/zip/zip.exe'.###18 08 2009 new variable
-server_settings#:#Servereinstellungen
-time_zone#:#Zeitzone
-please_select#:#Bitte auswählen
-db_port#:#Datenbank Port
-db_update_interrupted#:#Das Datenbank-Updateskript wurde im letzten Lauf unerwartet unterbrochen. Dies kann zu einem <b>inkonsistenten</b> Zustand Ihres Systems führen. Es wird dringend empfohlen, das letzte Backup einzuspielen und auf diesem Stand das Updateskript erneut auszuführen.
-db_update_interrupted_avoid#:#Um diese Problem zu verhindern, überprüfen Sie bitte die Einstellungen max_execution_time und memory_limit in Ihrer php.ini. Außerdem empfiehlt es sich, je Update-Lauf weniger Schritte ausführen zu lassen.
-applied_hotfixes#:#Ausgeführte Hotfixes
-available_hotfixes#:#Verfügbare Hotfixes
-apply_hotfixes#:#Hotfixes ausführen
-hotfix_available#:#Hotfix verfügbar
-hotfix_applied#:#Hotfix ausgeführt
-session_management#:#Session Verwaltung
-step_sess#:#Session Verwaltung
-session_management_not_configured#:#nicht konfiguriert
-session_management_configured#:#konfiguriert
-setup_sessions#:#Session Verwaltung
-setup_process_step_sess#:#Session Verwaltung
-sess_sessions#:#Einstellungen
-sess_max_session_count#:#Maximale Session Anzahl
-sess_max_session_count_info#:#Definiert die maximale Anzahl an Sessions, die gleichzeit existieren können. Wenn dieser Wert auf "0" gesetzt wird, ist die Funktion deaktiviert.
-sess_min_session_idle#:#Minimale Session Inaktivität (in Minuten)
-sess_min_session_idle_info#:#Wenn ein Benutzer für mindestens diesen Zeitraum inaktiv ist, kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session Limit erreicht wurde.
-sess_max_session_idle#:#Maximale Session Inaktivität (in Minuten)
-sess_max_session_idle_info#:#Wenn ein Benutzer für diesen Zeitraum inaktiv ist, ist seine Session ausgelaufen.
-sess_max_session_idle_after_first_request#:#Maximale Session Inaktivität nach der ersten Anfrage (in Minuten)
-sess_max_session_idle_after_first_request_info#:#Wenn ein Benutzer nach seiner ersten Anfrage für diesen Zeitraum inaktiv ist kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session Limit erreicht wurde.
-sess_allow_client_maintenance#:#Verwaltung durch Client erlaubt
-sess_allow_client_maintenance_info#:#Definiert, ob die Verwaltung der Session Einstellungen ebenfalls in der Administration des Clients erfolgen kann.
-hotfix_available#:#Es steht ein Hotfix zur Verfügung.
-lang_ar#:#Arabisch
-lang_tr#:#Türkisch
+zip_path_comment#:#Wird benötigt, um Lernmodule zu exportieren
+zip_path#:#Zip-Befehlszeile
+zipcode#:#PLZ
