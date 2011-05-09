@@ -4,7 +4,7 @@
 *
 * @module             setup language file german
 * @modulegroup        language
-* @author             Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @author             Matthias Kunkel <mkunkel@me.com>
 * @version            $Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
@@ -129,7 +129,7 @@ disable_logging#:#Deaktivieren
 disable#:#ausschalten
 disabled#:#ausgeschaltet
 display_clientlist#:#Freie Mandantenauswahl
-duplicate_ctrl#:#Fehler: Doppelte Kontrollstrukturdefinition (Klasse %s) in den Dateien:<br /><br />- %s<br />- %s<br /><br />Bitte entfernen Sie die Datei, die nicht zur offiziellen ILIAS Distribution gehört.<br />Führen Sie danach die Funktion 'Tools' -> 'Kontrollstrukur' -> 'Neu Laden' im ILIAS Setup aus.
+duplicate_ctrl#:#Fehler: Doppelte Kontrollstrukturdefinition (Klasse %s) in den Dateien:<br /><br />- %s<br />- %s<br /><br />Bitte entfernen Sie die Datei, die nicht zur offiziellen ILIAS-Distribution gehört.<br />Führen Sie danach die Funktion 'Tools' -> 'Kontrollstrukur' -> 'Neu Laden' im ILIAS-Setup aus.
 email_not_valid#:#Ungültige Emailadresse
 email#:#Email
 en_by_default#:#(Englisch ist standardmässig installiert und kann nicht gelöscht werden).
@@ -169,12 +169,12 @@ htmldoc_path_comment#:#Wird benötigt, um PDF-Dokumente zu erzeugen (Digilib-Obj
 htmldoc_path#:#HTMLdoc-Befehlszeile
 http_path#:#HTTP-Pfad
 id#:#ID
-ilias_db_mode#:#ILIAS Datenbank-Modus
-ilias_homepage#:#ILIAS Homepage
-ilias_nic_id#:#NIC ID
-ilias_nic#:#NIC Registrierung
-ilias_setup#:#ILIAS Setup
-ilias_version#:#ILIAS Version
+ilias_db_mode#:#ILIAS-Datenbank-Modus
+ilias_homepage#:#ILIAS-Homepage
+ilias_nic_id#:#NIC-ID
+ilias_nic#:#NIC-Registrierung
+ilias_setup#:#ILIAS-Setup
+ilias_version#:#ILIAS-Version
 include_local#:#include local###include local language file when updating language
 info_text_3rdparty#:#In diesem Schritt werden die Erweiterungen von Fremdanbietern konfiguriert, die in ILIAS benötigt werden. Folgen Sie bitte den Installationsanweisungen, die zu den jweiligen Erweiterungen angegeben werden, um diesen Schritt zu komplettieren.
 info_text_contact#:#Geben Sie hier zusätzliche informationen zu ihrer Installation an und tragen Sie den Namen und Kontaktinformationen des verantwortlichen Systemadministrators ein. Alle Informationen werden in ihrer Datenbank gespeichert. Im nächsten Installationsschritt haben Sie die Möglichkeit, Ihre Installation per ILIAS-NIC zu registrieren. Die als Pflichtfelder gekennzeichneten Angaben werden bei der Registrierung übermittelt.
@@ -183,7 +183,7 @@ info_text_db_collation2#:#Mehr Information zum Thema MySQL-Collations entnehmen 
 info_text_db#:#Die Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank zu installieren. Sollte eine Datenbank mit dem angegebenen Namen noch nicht existieren, kreuzen Sie bitte die Option 'Datenbank erzeugen' an. Setup versucht dann die Datenbank automatisch zu erzeugen. Wenn das nicht klappt (z.B. aufgrund eingeschränkter Zugangsberechtigung), müssen Sie den verantwortlichen Systemadministrator des Datenbankservers bitten, eine Datenbank mit dem gewünschten Namen einzurichten.
 info_text_db2#:#Bitte stellen Sie sicher, dass die Datenbank mit der Option "CHARACTER SET utf8" erstellt wird.
 info_text_delete#:#Sie können diese Installation löschen, indem Sie auf den Button unten klicken. Es wird nur die Initialisierungsdatei gelöscht. Datenbank und Dateien bleiben erhalten und müssen manuell entfernt werden.
-info_text_finish1#:#Gratulation! Die Client-Installation war erfolgreich. klicken Sie auf 'Einloggen', um sich in ILIAS einzuloggen.
+info_text_finish1#:#Gratulation! Sie haben diesen Mandanten erfolgreich installiert!<br />Klicken Sie jetzt auf 'Einloggen' und melden sich in ILIAS mit dem nachfolgenden Account an. Ändern Sie nach dem Einloggen in ILIAS unbedingt das Passwort des <i>root</i>-Users, da dieses allgemein bekannt ist.
 info_text_finish2#:#Ein oder mehrere Installationsschritte sind nicht erfolgreich durchgeführt worden. Bitte überprüfen Sie die Statusanzeige rechts.
 info_text_first_client#:#Die Grundeinstellungen wurden gespeichert. Wir beginnen nun mit der Installation des ersten Mandanten. Das Setup-Programm führt Sie durch den gesamten Installationprozess. Während der Installation können Sie den momentanen Status in der Tabelle rechts immer ablesen.
 info_text_first_install#:#Sie installieren ILIAS das erste Mal. Daher müssen zunächst einige Grundeinstellungen vorgenommen werden.
@@ -191,12 +191,12 @@ info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlau
 info_text_lang#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder. Über die Option 'Standard' legen Sie fest, welche Sprache neu angemeldete Benutzer bzw. Benutzer bekommen, die über ihre persönlichen Einsellungen noch keine Sprache ausgewählt haben.
 info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus. Oben rechts können sie die Mandantenauswahl ein- und ausschalten. Ist die Mandantenauswahl aktiviert, werden auf der ILIAS-Startseite (index) alle verfügbaren und freigebene Mandanten angezeigt. Ist die Mandantenauswahl ausgeschaltet, wird die Login-Seite des als <i>Standard</i> deklarierten Mandanten angezeigt. Über den Button unter der Übersichtsliste können Sie einen Mandanten als Standard bestimmen.
 info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ihr Benutzerkonto muss der Rolle 'Administrator' zugeordnet sein.
-info_text_nic#:#Optionally register and obtain an installation ID (NIC-ID) from the ILIAS open source community server. Getting a NIC-ID is advisable if you want to share content with other ILIAS installations.###24 07 2009 new variable
+info_text_nic#:#Registrieren Sie sich freiwillig beim ILIAS open source-Community-Server und erhalten einen eindeutige NIC-ID für diesen Mandanten. Die NIC-ID kann beim Austausch von Inhalten zwischen ILIAS-Installation genutzt werden, um die Herkunft der Inhalte zu dokumentieren.
 info_text_nic1#:#Wenn Sie Ihre Installation über ILIAS-NIC-Server registrieren erhalten Sie eine eindeutige Kennung zugewiesen. Die Registrierung ist freiwillig. Wenn Sie sich nicht registrieren wollen, wählen Sie bitte 'Keine Registrierung' (Sie können jederzeit zu einem späteren Zeitpunkt die Registrierung nachholen). Möchten Sie oder benötigen Sie eine eindeutige Kennung, wählen Sie bitte 'Online-´Registrierung'. Sie bekommen ihre Kennung dann automatisch übermittelt. Falls Sie keine aktive Online-Verbindung oder die Registrierung fehlschlägt (z.B. wegen einer Firewall), dann schicken Sie bitte diese
 info_text_nic2#:#an ilias-info@uni-koeln.de. Sie erhalten dann umgehend ihre Kennung per Email zugeschickt. tragen Sie diese Nummer bitte bei der Option 'Email-Registrierung' in das Freifeld ein.
 info_text_nic3#:#Sie haben Ihre Installation registriert. Ihre Kennung ist
 info_text_password#:#Hier könnnen Sie das Administrator-Password für das Setup-Programm ändern.
-info_text_pathes#:#ILIAS ist mandantenfähig. Sie können mit einer Installation mehrere ILIAS Instanzen (Mandanten) betreiben, die jeweils eigene Datenbanken und Datenverzeichnisse nutzen. Geben Sie bitte ein Verzeichnis für Daten ausserhalb des Webspaces, den Pfad der Log-Datei, sowie die Pfade zu den unten aufgeführten Drittanbieter-Programmen an. Diese Einstellung sind für alle Mandanten gültig.<br/><br/>Bei aktivierten Safe Mode müssen Sie bei den Drittanbieter-Programmen nur die auszuführende Datei ohne den Pfad angeben. Diese Dateien müssen im geschützten Basisverzeichnis von PHP liegen (ggf. per Symlink).
+info_text_pathes#:#ILIAS ist mandantenfähig. Sie können mit einer Installation mehrere ILIAS-Instanzen (Mandanten) betreiben, die jeweils eigene Datenbanken und Datenverzeichnisse nutzen. Geben Sie bitte ein Verzeichnis für Daten ausserhalb des Webspaces, den Pfad der Log-Datei, sowie die Pfade zu den unten aufgeführten Drittanbieter-Programmen an. Diese Einstellung sind für alle Mandanten gültig.<br/><br/>Bei aktivierten Safe Mode müssen Sie bei den Drittanbieter-Programmen nur die auszuführende Datei ohne den Pfad angeben. Diese Dateien müssen im geschützten Basisverzeichnis von PHP liegen (ggf. per Symlink).
 ini_client_id_exists#:#Diese Mandanten ID ist bereits vergeben. Wählen Sie eine andere Kennung
 ini_client_id_invalid#:#Die gewählte Mandanten ID enthält ungültige Zeichen.
 ini_client_id_no_change#:#Die Mandanten ID kann nicht mehr geändert werden, nachdem die Datenverzeichnisse angelegt wurden.
@@ -207,7 +207,7 @@ ini_no_client_id#:#Keine Mandanten ID angegeben
 ini_no_db_host#:#Keinen Host angegeben
 ini_no_db_name#:#Keine Datenbanknamen angegeben
 ini_no_db_user#:#Geben Sie einen Datenbankbenutzer an
-inifile_can_write#:#ILIAS setup kann eine neue ini-Datei erzeugen.
+inifile_can_write#:#ILIAS-Setup kann eine neue ini-Datei erzeugen.
 inifile_cannot_write#:#Die Setup-Routine konnte die ini-Datei nicht erzeugen! Bitte überprüfen Sie die Schreibrechte in Ihrem Dateisystem.
 inifile_content#:#Ihre ini-Datei hat folgenden Inhalt:
 inifile_exists#:#Es exisitiert bereits eine ini-Datei! Wenn Sie fortfahren, wird die bestehende Datei überschrieben.
@@ -223,7 +223,7 @@ installation#:#Installation
 installed_local#:#Mit lokaler Sprachdatei installiert
 installed#:#installiert
 institution#:#Institution
-intro_install#:#Das ist das Hauptmenü von ILIAS Setup. Hier können Sie Schritt für Schritt die Installation von ILIAS durchführen.
+intro_install#:#Das ist das Hauptmenü von ILIAS-Setup. Hier können Sie Schritt für Schritt die Installation von ILIAS durchführen.
 ip_address#:#IP-Adresse
 java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.eve'.###18 08 2009 new variable
 java_path_comment#:#Wird benötigt, um SCORM-Lernmodule anzuzeigen
@@ -298,15 +298,15 @@ nic_not_disabled#:#Keine NIC-ID & nicht deaktiviert
 nic_reg_disable_comment#:#(später registrieren)
 nic_reg_disable_info#:#You may register later anytime.###24 07 2009 new variable
 nic_reg_disable#:#Keine Registrierung
-nic_reg_disabled#:#NIC Registrierung abgeschaltet
+nic_reg_disabled#:#NIC-Registrierung abgeschaltet
 nic_reg_email#:#Per Email
 nic_reg_enabled#:#NIC-ID erhalten!
 nic_reg_enter_checksum#:#Übermittelte Prüfsumme
-nic_reg_enter_correct_id#:#Bitte geben Sie die korrekte NIC-Id an
-nic_reg_enter_id#:#Übermittelte NIC ID
-nic_reg_failed#:#NIC Registrierung fehlgeschlagen
+nic_reg_enter_correct_id#:#Bitte geben Sie die korrekte NIC-ID an
+nic_reg_enter_id#:#Übermittelte NIC-ID
+nic_reg_failed#:#NIC-Registrierung fehlgeschlagen
 nic_reg_online#:#Über das Internet
-nic_registration#:#NIC Registrierung
+nic_registration#:#NIC-Registrierung
 no_changes#:#Keine Änderungen
 no_client_id#:#Keine Mandanten ID angegeben
 no_client_name#:#KEIN NAME
@@ -411,20 +411,20 @@ select_client#:#Mandant wählen
 server_info#:#Informationen zum ILIAS-Server
 server_settings#:#Servereinstellungen
 server_software#:#Server software
-sess_allow_client_maintenance_info#:#Definiert, ob die Verwaltung der Session Einstellungen ebenfalls in der Administration des Clients erfolgen kann.
+sess_allow_client_maintenance_info#:#Definiert, ob die Verwaltung der Session-Einstellungen ebenfalls in der Administration des Clients erfolgen kann.
 sess_allow_client_maintenance#:#Verwaltung durch Client erlaubt
 sess_max_session_count_info#:#Definiert die maximale Anzahl an Sessions, die gleichzeit existieren können. Wenn dieser Wert auf "0" gesetzt wird, ist die Funktion deaktiviert.
-sess_max_session_count#:#Maximale Session Anzahl
-sess_max_session_idle_after_first_request_info#:#Wenn ein Benutzer nach seiner ersten Anfrage für diesen Zeitraum inaktiv ist kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session Limit erreicht wurde.
-sess_max_session_idle_after_first_request#:#Maximale Session Inaktivität nach der ersten Anfrage (in Minuten)
+sess_max_session_count#:#Maximale Session-Anzahl
+sess_max_session_idle_after_first_request_info#:#Wenn ein Benutzer nach seiner ersten Anfrage für diesen Zeitraum inaktiv ist kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session-Limit erreicht wurde.
+sess_max_session_idle_after_first_request#:#Maximale Session-Inaktivität nach der ersten Anfrage (in Minuten)
 sess_max_session_idle_info#:#Wenn ein Benutzer für diesen Zeitraum inaktiv ist, ist seine Session ausgelaufen.
-sess_max_session_idle#:#Maximale Session Inaktivität (in Minuten)
-sess_min_session_idle_info#:#Wenn ein Benutzer für mindestens diesen Zeitraum inaktiv ist, kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session Limit erreicht wurde.
-sess_min_session_idle#:#Minimale Session Inaktivität (in Minuten)
+sess_max_session_idle#:#Maximale Session-Inaktivität (in Minuten)
+sess_min_session_idle_info#:#Wenn ein Benutzer für mindestens diesen Zeitraum inaktiv ist, kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session-Limit erreicht wurde.
+sess_min_session_idle#:#Minimale Session-Inaktivität (in Minuten)
 sess_sessions#:#Einstellungen
 session_management_configured#:#konfiguriert
 session_management_not_configured#:#nicht konfiguriert
-session_management#:#Session Verwaltung
+session_management#:#Session-Verwaltung
 set_default_client#:#als Standard festlegen
 set_newpasswd#:#Bitte neues Passwort eingeben
 set_oldpasswd#:#Bitte altes Passwort eingeben
@@ -460,10 +460,10 @@ setup_process_step_db#:#Datenbank installieren/aktualisieren
 setup_process_step_finish#:#Installation abschliessen
 setup_process_step_ini#:#Basisverzeichnisse erzeugen
 setup_process_step_lang#:#Systemsprachen installieren
-setup_process_step_nic#:#ILIAS-NIC Registrierung
-setup_process_step_sess#:#Session Verwaltung
+setup_process_step_nic#:#ILIAS-NIC-Registrierung
+setup_process_step_sess#:#Session-Verwaltung
 setup_ready#:#Setup wurde erfolgreich beendet. Sie können sich nun in ILIAS einloggen.
-setup_sessions#:#Session Verwaltung
+setup_sessions#:#Session-Verwaltung
 setup_welcome#:#Willkommen zum Installationsprogramm für ILIAS. Diese Setup-Routine hilft Ihnen bei der
 setup#:#Setup
 sophos#:#Sophos
@@ -479,7 +479,7 @@ step_finish#:#Beenden
 step_ini#:#ini-File
 step_lang#:#Sprachen
 step_nic#:#NIC
-step_sess#:#Session Verwaltung
+step_sess#:#Session-Verwaltung
 step#:#Schritt
 street#:#Strasse
 submit#:#Abschicken
