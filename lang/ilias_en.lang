@@ -2150,7 +2150,7 @@ common#:#cron_jobs#:#Cron Jobs
 common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.
 common#:#cron_lucene_index#:#Update Lucene search index
 common#:#cron_mail_notification_cron#:#regularly per cron job
-common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail.
+common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail. Please deactivate the option 'Globally prevent sending external mails' first to use this function.
 common#:#cron_mail_notification_never#:#never
 common#:#cron_mail_notification#:#Send Mail Notifications
 common#:#crs_a#:#a Course

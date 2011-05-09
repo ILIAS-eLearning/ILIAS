@@ -120,6 +120,16 @@ class ilObjMailGUI extends ilObjectGUI
 		$cb->setValue(1);
 		$this->form->addItem($cb);
 
+		$cron_mail = new ilSelectInputGUI($this->lng->txt('cron_mail_notification'), 'mail_notification');
+		$cron_options = array(
+			0 => $this->lng->txt('cron_mail_notification_never'),
+			1 => $this->lng->txt('cron_mail_notification_cron')
+		);
+
+		$cron_mail->setOptions($cron_options);
+		$cron_mail->setInfo($this->lng->txt('cron_mail_notification_desc'));
+		$this->form->addItem($cron_mail);
+
 		// section header
 		$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($this->lng->txt('mail').' ('.$this->lng->txt('internal_system').')');
@@ -146,7 +156,8 @@ class ilObjMailGUI extends ilObjectGUI
 			'pear_mail_enable' => ($settings['pear_mail_enable'] == 'y' && $is_pear_mail_installed) ? true : false,
 			'mail_external_sender_noreply' => $settings['mail_external_sender_noreply'],
 			'prevent_smtp_globally' => ($settings['prevent_smtp_globally'] == '1') ? true : false,
-			'mail_maxsize_attach' => $settings['mail_maxsize_attach']			
+			'mail_maxsize_attach' => $settings['mail_maxsize_attach'],
+			'mail_notification' => $settings['mail_notification']
 		));
 	}
 	
@@ -168,7 +179,8 @@ class ilObjMailGUI extends ilObjectGUI
 			$this->ilias->setSetting('pear_mail_enable', $this->form->getInput('pear_mail_enable'));
 			$this->ilias->setSetting('mail_external_sender_noreply', $this->form->getInput('mail_external_sender_noreply'));
 			$this->ilias->setSetting('prevent_smtp_globally', (int)$this->form->getInput('prevent_smtp_globally'));
-			
+			$this->ilias->setSetting('mail_notification', (int)$this->form->getInput('mail_notification'));
+
 			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		}		
 		$this->form->setValuesByPost();		

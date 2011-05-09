@@ -2131,7 +2131,7 @@ common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
 common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene Suchindex aktualisiert. Bitte konfigurieren Sie vorher den Lucene-Server unter 'Administration -> Suche'.
 common#:#cron_mail_notification#:#Mail-Benachrichtigungen versenden
 common#:#cron_mail_notification_cron#:#Regelmäßig per Cron-Job
-common#:#cron_mail_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Benutzer über neue Mails benachrichtigt.
+common#:#cron_mail_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Benutzer über neue Mails benachrichtigt. Bitte deaktivieren Sie vorher die Option 'Versand von externen E-Mails verhinden' um diese Funktion nutzen zu können.
 common#:#cron_mail_notification_never#:#Nie
 common#:#crs#:#Kurs
 common#:#crs_a#:#einen Kurs
