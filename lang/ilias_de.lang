@@ -11325,3 +11325,9 @@ common#:#user_not_found#:#Der Benutzer wurde nicht gefunden
 content#:#cont_correct_answers_also#:#Richtig sind auch:
 content#:#cont_correct_answer_also#:#Richtig ist auch:
 common#:#file_upload_pending#:#Hochgeladene Datei
+wsp#:#wsp_permission_add_users#:#Benutzer hinzufügen
+wsp#:#wsp_set_permission_registered#:#Für alle registrierten Benutzer freigeben
+wsp#:#wsp_set_permission_all#:#Veröffentlichen (keine Registrierung erforderlich)
+wsp#:#wsp_remove_permission#:#Freigabe entfernen
+wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten Benutzer freigegeben.
+wsp#:#wsp_permission_all_info#:#Diese Objekt ist ohne Registrierung sichtbar.

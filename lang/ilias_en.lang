@@ -11362,3 +11362,9 @@ common#:#cont_iim_content_popups_info#:#Content popups appear, when the user cli
 content#:#cont_correct_answers_also#:#Also correct are:
 content#:#cont_correct_answer_also#:#Also correct is:
 common#:#file_upload_pending#:#Pending file
+wsp#:#wsp_permission_add_users#:#Add Users
+wsp#:#wsp_set_permission_registered#:#Share with all registered users
+wsp#:#wsp_set_permission_all#:#Publish (No Registration required)
+wsp#:#wsp_remove_permission#:#Remove Permission
+wsp#:#wsp_permission_registered_info#:#This object is shared with all registered users.
+wsp#:#wsp_permission_all_info#:#This object has been published.
