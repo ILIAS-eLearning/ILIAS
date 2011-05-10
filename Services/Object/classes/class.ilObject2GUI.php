@@ -41,6 +41,9 @@ abstract class ilObject2GUI extends ilObjectGUI
 	const REPOSITORY_OBJECT_ID = 3;
 	const WORKSPACE_OBJECT_ID = 4;
 	
+	const PERMISSION_REGISTERED = -1;
+	const PERMISSION_ALL = -5;
+	
 	/**
 	 * Constructor
 	 *
@@ -662,16 +665,46 @@ abstract class ilObject2GUI extends ilObjectGUI
 		}
 
 		$ilTabs->activateTab("id_permissions");
+		
+		$reg = $this->getAccessHandler()->hasRegisteredPermission($this->node_id);
+		$all = $this->getAccessHandler()->hasGlobalPermission($this->node_id);
 
-		$ilToolbar->addButton($this->lng->txt("add"),
-			$this->ctrl->getLinkTargetByClass("ilRepositorySearchGUI", "start"));
+		if(!$all && !$reg)
+		{
+			$ilToolbar->addButton($this->lng->txt("wsp_permission_add_users"),
+				$this->ctrl->getLinkTargetByClass("ilRepositorySearchGUI", "start"));
+			
+			$ilToolbar->addButton($this->lng->txt("wsp_set_permission_registered"),
+				$this->ctrl->getLinkTarget($this, "addPermissionRegistered"));
+		}
+		if(!$all)
+		{
+			$ilToolbar->addButton($this->lng->txt("wsp_set_permission_all"),
+				$this->ctrl->getLinkTarget($this, "addPermissionAll"));
+		}
 
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessTableGUI.php";
-		$table = new ilWorkspaceAccessTableGUI($this, "editPermissions", $this->node_id, $this->getAccessHandler());
-
-		$tpl->setContent($table->getHTML());
+		if(!$all && !$reg)
+		{
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessTableGUI.php";
+			$table = new ilWorkspaceAccessTableGUI($this, "editPermissions", $this->node_id, $this->getAccessHandler());
+			$tpl->setContent($table->getHTML());
+		}
+		else 
+		{
+			$ilToolbar->addButton($this->lng->txt("wsp_remove_permission"),
+				$this->ctrl->getLinkTarget($this, "removeAllPermissions"));
+			
+			if($reg)
+			{
+				ilUtil::sendInfo($this->lng->txt("wsp_permission_registered_info"));
+			}
+			else
+			{
+				ilUtil::sendInfo($this->lng->txt("wsp_permission_all_info"));
+			}
+		}
 	}
-
+	
 	public function addPermission($a_users = null)
 	{
 		global $lng;
@@ -713,6 +746,20 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 		$this->ctrl->redirect($this, "editPermissions");
 	}
+	
+	protected function addPermissionRegistered()
+	{
+		$this->getAccessHandler()->removePermission($this->node_id);	
+		$this->getAccessHandler()->addPermission($this->node_id, self::PERMISSION_REGISTERED);	
+		$this->ctrl->redirect($this, "editPermissions");
+	}
+
+	protected function addPermissionAll()
+	{
+		$this->getAccessHandler()->removePermission($this->node_id);	
+		$this->getAccessHandler()->addPermission($this->node_id, self::PERMISSION_ALL);		
+		$this->ctrl->redirect($this, "editPermissions");
+	}
 
 	public function removePermission()
 	{
@@ -724,6 +771,12 @@ abstract class ilObject2GUI extends ilObjectGUI
 		    ilUtil::sendSuccess($lng->txt("permission_removed"), true);
 		}
 
+		$this->ctrl->redirect($this, "editPermissions");
+	}
+	
+	protected function removeAllPermissions()
+	{
+		$this->getAccessHandler()->removePermission($this->node_id);	
 		$this->ctrl->redirect($this, "editPermissions");
 	}
 

@@ -17,7 +17,9 @@ class ilWorkspaceAccessHandler
 
 	public function __construct(ilTree $a_tree = null)
 	{
-		global $ilUser;
+		global $ilUser, $lng;
+		
+		$lng->loadLanguageModule("wsp");
 		
 		if(!$a_tree)
 		{
@@ -194,6 +196,26 @@ class ilWorkspaceAccessHandler
 			$res[] = $row["object_id"];
 		}
 		return $res;
+	}
+	
+	public function hasRegisteredPermission($a_node_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT object_id FROM acl_ws".
+			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
+			" AND object_id = ".$ilDB->quote(ilObject2GUI::PERMISSION_REGISTERED, "integer"));
+		return (bool)$ilDB->numRows($set);
+	}
+	
+	public function hasGlobalPermission($a_node_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT object_id FROM acl_ws".
+			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
+			" AND object_id = ".$ilDB->quote(ilObject2GUI::PERMISSION_ALL, "integer"));
+		return (bool)$ilDB->numRows($set);
 	}
 }
 
