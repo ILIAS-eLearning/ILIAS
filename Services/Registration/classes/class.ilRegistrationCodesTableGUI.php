@@ -64,8 +64,15 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		
 		include_once("./Services/Registration/classes/class.ilRegistrationCode.php");
 		
+		$order_map = array(
+			"registration_code" => "code",
+			"role" => "role", 
+			"registration_generated" => "generated", 
+			"registration_used" => "used"			
+		);
+		
 		$codes_data = ilRegistrationCode::getCodesData(
-			ilUtil::stripSlashes($this->getOrderField()),
+			ilUtil::stripSlashes($order_map[$this->getOrderField()]),
 			ilUtil::stripSlashes($this->getOrderDirection()),
 			ilUtil::stripSlashes($this->getOffset()),
 			ilUtil::stripSlashes($this->getLimit()),
