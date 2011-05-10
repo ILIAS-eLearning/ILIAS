@@ -76,6 +76,8 @@ class ilObjectListGUI
 	protected $additional_information = false;
 	protected $static_link_enabled = false;
 	
+	protected $repository_transfer_enabled = true;
+	
 	static protected $cnt_notes = array();
 	static protected $cnt_tags = array();
 	
@@ -844,6 +846,16 @@ class ilObjectListGUI
 	public function getDetailsLevel()
 	{
 		return $this->details_level;
+	}
+	
+	/**
+	 * Enable copy/move to repository (from personal workspace)
+	 * 
+	 * @param bool $a_value
+	 */
+	public function enableRepositoryTransfer($a_value)
+	{
+		$this->repository_transfer_enabled = (bool)$a_value;
 	}
 	
 	/**
@@ -2023,8 +2035,9 @@ class ilObjectListGUI
 	* insert cut command
 	*
 	* @access	protected
+	* @param	bool	$a_to_repository
 	*/
-	function insertCutCommand()
+	function insertCutCommand($a_to_repository = false)
 	{
 		global $ilAccess;
 		
@@ -2050,23 +2063,36 @@ class ilObjectListGUI
 
 		// if the permission is changed here, it  has
 		// also to be changed in ilContainerContentGUI, determineAdminCommands
-		if($this->checkCommandAccess('delete','',$this->ref_id,$this->type))
-		{
+		if($this->checkCommandAccess('delete','',$this->ref_id,$this->type) &&
+			$this->container_obj->object)
+		{						
 			$this->ctrl->setParameter($this->container_obj, "ref_id",
-				$this->container_obj->object->getRefId());
+				$this->container_obj->object->getRefId());									
 			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
-			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "cut");
-			$this->insertCommand($cmd_link, $this->lng->txt("move"), "",
-				ilUtil::getImagePath("cmd_move_s.gif"));
+			
+			if(!$a_to_repository)
+			{
+				$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "cut");
+				$this->insertCommand($cmd_link, $this->lng->txt("move"), "",
+					ilUtil::getImagePath("cmd_move_s.gif"));
+			}
+			else
+			{
+				$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "cut_for_repository");
+				$this->insertCommand($cmd_link, $this->lng->txt("move_to_repository"), "",
+					ilUtil::getImagePath("cmd_move_s.gif"));
+			}
+			
 			$this->adm_commands_included = true;
 		}
 	}
 	
 	/**
 	 * Insert copy command
-	 * @return 
+	 * 
+	 * @param	bool	$a_to_repository
 	 */
-	public function insertCopyCommand()
+	public function insertCopyCommand($a_to_repository = false)
 	{
 		if($this->std_cmd_only)
 		{
@@ -2077,7 +2103,16 @@ class ilObjectListGUI
 		{
 			$this->ctrl->setParameterByClass('ilobjectcopygui','source_id',$this->getCommandId());
 			$cmd_copy = $this->ctrl->getLinkTargetByClass('ilobjectcopygui','initTargetSelection');
-			$this->insertCommand($cmd_copy, $this->lng->txt('copy'));
+			
+			if(!$a_to_repository)
+			{
+				$this->insertCommand($cmd_copy, $this->lng->txt('copy'));
+			}
+			else
+			{
+				$this->insertCommand($cmd_copy, $this->lng->txt('copy_to_repository'));			
+			}
+				
 			$this->adm_commands_included = true;
 			
 		}
@@ -2367,6 +2402,13 @@ class ilObjectListGUI
 			if ($this->copy_enabled)
 			{
 				$this->insertCopyCommand();
+			}
+			
+			// cut/copy from workspace to repository
+			if ($this->repository_transfer_enabled)
+			{
+				$this->insertCutCommand(true);
+				// $this->insertCopyCommand(true);
 			}
 
 			// subscribe
