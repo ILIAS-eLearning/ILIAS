@@ -316,23 +316,51 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 			if(isset($_GET['seed']))
 			{
+				$find_first_open = false;
 				$seed = new ilDate($_GET['seed'], IL_CAL_DATE);
 			}
 			else
 			{
+				$find_first_open = true;
 				$seed = new ilDate(time(), IL_CAL_UNIX);
 			}
+			
+			include_once 'Services/Calendar/classes/class.ilCalendarUtil.php';
+			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';			
+			$week_start = $user_settings->getWeekStart();
+			
+			if(!$find_first_open)
+			{
+				$dates = array();
+				$this->buildDatesBySchedule($week_start, $hours, $schedule, $object_ids, $seed, $dates);
+			}
+			else
+			{
+				$dates = array();
+				$has_open_slot = $this->buildDatesBySchedule($week_start, $hours, $schedule, $object_ids, $seed, $dates);
+				
+				// find first open slot
+				if(!$has_open_slot)
+				{
+					// 1 year is limit for search
+					$limit = clone($seed);
+					$limit->increment(ilDate::YEAR, 1);
+					$limit = $limit->get(IL_CAL_UNIX);
+					
+					while(!$has_open_slot && $seed->get(IL_CAL_UNIX) < $limit)
+					{
+						$seed->increment(ilDate::WEEK, 1);
+						
+						$dates = array();
+						$has_open_slot = $this->buildDatesBySchedule($week_start, $hours, $schedule, $object_ids, $seed, $dates);
+					}	
+				}
+			}			
+			
 			include_once 'Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php';
 			$navigation = new ilCalendarHeaderNavigationGUI($this,$seed,ilDateTime::WEEK,'book');
 			$mytpl->setVariable('NAVIGATION', $navigation->getHTML());
 
-			$map = array('mo', 'tu', 'we', 'th', 'fr', 'sa', 'su');
-			$week_start = $user_settings->getWeekStart();
-						
-			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-			include_once 'Services/Calendar/classes/class.ilCalendarUtil.php';
-			$definition = $schedule->getDefinition();
-			$dates = array();
 			foreach(ilCalendarUtil::_buildWeekDayList($seed,$week_start)->get() as $date)
 			{
 				$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');
@@ -341,80 +369,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				$mytpl->setVariable('TXT_WEEKDAY', ilCalendarUtil:: _numericDayToString($date_info['wday']));
 				$mytpl->setVariable('TXT_DATE', $date_info['mday'].' '.ilCalendarUtil:: _numericMonthToString($date_info['mon']));
 				$mytpl->parseCurrentBlock();
-
-				$slots = array();
-                if(isset($definition[$map[$date_info['isoday']-1]]))
-				{
-					$slots = array();
-					foreach($definition[$map[$date_info['isoday']-1]] as $slot)
-					{
-						$slot = explode('-', $slot);
-						$slots[] = array('from'=>str_replace(':', '', $slot[0]),
-							'to'=>str_replace(':', '', $slot[1]));
-					}
-				}
-				
-				$last = array_pop(array_keys($hours));
-				$slot_captions = array();
-				foreach($hours as $hour => $period)
-				{
-					$dates[$hour][0] = $period;
-
-					$column = $date_info['isoday'];
-					if(!$week_start)
-					{
-						if($column < 7)
-						{
-							$column++;
-						}
-						else
-						{
-							$column = 1;
-						}
-					}
-
-					if(sizeof($slots))
-					{
-						$in = false;
-						foreach($slots as $slot)
-						{
-							$slot_from = mktime(substr($slot['from'], 0, 2), substr($slot['from'], 2, 2), 0, $date_info["mon"], $date_info["mday"], $date_info["year"]);
-							$slot_to = mktime(substr($slot['to'], 0, 2), substr($slot['to'], 2, 2), 0, $date_info["mon"], $date_info["mday"], $date_info["year"]);
-
-							// check deadline
-							if($slot_from < (time()+$schedule->getDeadline()*60*60) || !ilBookingReservation::getAvailableObject($object_ids, $slot_from, $slot_to))
-							{
-								continue;
-							}
-
-							// is slot active in current hour?
-							if((int)$slot['from'] < (int)$hour."59" && (int)$slot['to'] > (int)$hour."00")
-							{
-								$from = ilDatePresentation::formatDate(new ilDateTime($slot_from, IL_CAL_UNIX));
-								$from = array_pop(explode(' ', $from));
-								$to = ilDatePresentation::formatDate(new ilDateTime($slot_to, IL_CAL_UNIX));
-								$to = array_pop(explode(' ', $to));
-
-								// show caption (first hour) of slot
-								$id = $slot_from.'_'.$slot_to;
-								if(!in_array($id, $slot_captions))
-								{
-									$dates[$hour][$column]['captions'][$id] = $from.'-'.$to;
-									$slot_captions[] = $id;
-								}
-
-								$in = true;
-							}
-						}
-						// (any) active slot
-						if($in)
-						{
-							$dates[$hour][$column]['in_slot'] = $in;
-						}
-					}
-				}
 			}
-
+			
 			include_once 'Services/Calendar/classes/class.ilCalendarAppointmentColors.php';
 			include_once 'Services/Calendar/classes/class.ilCalendarUtil.php';
 			$color = array();
@@ -494,6 +450,93 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		}
 
 		return $mytpl->get();
+	}
+	
+	protected function buildDatesBySchedule($week_start, array $hours, $schedule, array $object_ids, $seed, array &$dates)
+	{
+		$map = array('mo', 'tu', 'we', 'th', 'fr', 'sa', 'su');
+		$definition = $schedule->getDefinition();
+		
+		$has_open_slot = false;
+		foreach(ilCalendarUtil::_buildWeekDayList($seed,$week_start)->get() as $date)
+		{
+			$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');
+
+			$slots = array();
+			if(isset($definition[$map[$date_info['isoday']-1]]))
+			{
+				$slots = array();
+				foreach($definition[$map[$date_info['isoday']-1]] as $slot)
+				{
+					$slot = explode('-', $slot);
+					$slots[] = array('from'=>str_replace(':', '', $slot[0]),
+						'to'=>str_replace(':', '', $slot[1]));
+				}
+			}
+
+			$last = array_pop(array_keys($hours));
+			$slot_captions = array();
+			foreach($hours as $hour => $period)
+			{
+				$dates[$hour][0] = $period;
+
+				$column = $date_info['isoday'];
+				if(!$week_start)
+				{
+					if($column < 7)
+					{
+						$column++;
+					}
+					else
+					{
+						$column = 1;
+					}
+				}
+
+				if(sizeof($slots))
+				{						
+					$in = false;
+					foreach($slots as $slot)
+					{
+						$slot_from = mktime(substr($slot['from'], 0, 2), substr($slot['from'], 2, 2), 0, $date_info["mon"], $date_info["mday"], $date_info["year"]);
+						$slot_to = mktime(substr($slot['to'], 0, 2), substr($slot['to'], 2, 2), 0, $date_info["mon"], $date_info["mday"], $date_info["year"]);
+
+						// check deadline
+						if($slot_from < (time()+$schedule->getDeadline()*60*60) || !ilBookingReservation::getAvailableObject($object_ids, $slot_from, $slot_to))
+						{
+							continue;
+						}
+
+						// is slot active in current hour?
+						if((int)$slot['from'] < (int)$hour."59" && (int)$slot['to'] > (int)$hour."00")
+						{
+							$from = ilDatePresentation::formatDate(new ilDateTime($slot_from, IL_CAL_UNIX));
+							$from = array_pop(explode(' ', $from));
+							$to = ilDatePresentation::formatDate(new ilDateTime($slot_to, IL_CAL_UNIX));
+							$to = array_pop(explode(' ', $to));
+
+							// show caption (first hour) of slot
+							$id = $slot_from.'_'.$slot_to;
+							if(!in_array($id, $slot_captions))
+							{
+								$dates[$hour][$column]['captions'][$id] = $from.'-'.$to;
+								$slot_captions[] = $id;
+							}
+
+							$in = true;
+						}
+					}
+					// (any) active slot
+					if($in)
+					{
+						$has_open_slot = true;
+						$dates[$hour][$column]['in_slot'] = $in;
+					}
+				}
+			}
+		}
+
+		return $has_open_slot;
 	}
 
 	/**
