@@ -36,10 +36,11 @@ class ilLearningProgressAccess
 	 * check access to learning progress
 	 * 
 	 * @param int $a_ref_id reference ifd of object
+	 * @param bool $a_allow_only_read read access is sufficient (see courses/groups)
 	 * @return
 	 * @static
 	 */
-	public static function checkAccess($a_ref_id)
+	public static function checkAccess($a_ref_id, $a_allow_only_read = true)
 	{
 		global $ilUser,$ilAccess;
 		
@@ -70,7 +71,12 @@ class ilLearningProgressAccess
 			return false;
 		}
 		
-		return true;
+		if($a_allow_only_read)
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }
 ?>

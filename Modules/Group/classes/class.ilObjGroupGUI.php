@@ -1972,26 +1972,29 @@ class ilObjGroupGUI extends ilContainerGUI
 				"");
 		}
 
+		
+		$is_participant = ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId());
+			
 		// Members
-		if($ilAccess->checkAccess('read','',$this->object->getRefId()))
+		$mem_cmd = $ilAccess->checkAccess('write','',$this->ref_id) ? "members" : "membersGallery";
+		if($mem_cmd != "membersGallery" || $is_participant)
 		{
-			$mem_cmd = $ilAccess->checkAccess('write','',$this->ref_id) ? "members" : "membersGallery";
-			$tabs_gui->addTarget("members",$this->ctrl->getLinkTarget($this, $mem_cmd), array(),get_class($this));
+			$tabs_gui->addTarget("members",
+					$this->ctrl->getLinkTarget($this, $mem_cmd), 
+					array(),
+					get_class($this));
 		}
-
-
+	
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		if($is_participant || ilLearningProgressAccess::checkAccess($this->object->getRefId(), false))
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjgroupgui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
-		}
+		}				
 		
-
-
 
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
