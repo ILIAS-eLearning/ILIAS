@@ -3261,7 +3261,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->getLinkTarget($this, "edit"),
 				array("edit", "editMapSettings", "editCourseIcons", "listStructure"), "", "", $force_active);
 		}
-
+		
+		
+		$is_participant = ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId());
+		
 		// member list
 		if($ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -3270,25 +3273,25 @@ class ilObjCourseGUI extends ilContainerGUI
 								 "members",
 								 get_class($this));
 		}			
-		elseif ($ilAccess->checkAccess('read','',$this->ref_id) &&
-			$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED &&
-			$ilUser->getId() != ANONYMOUS_USER_ID)
+		elseif ($this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED &&
+			$is_participant)
 		{
 			$tabs_gui->addTarget("members",
 								 $this->ctrl->getLinkTarget($this, "membersGallery"), 
 								 "members",
 								 get_class($this));
 		}
-		
+
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		if($is_participant || ilLearningProgressAccess::checkAccess($this->object->getRefId(), false))
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
+		
 		
 		// learning objectives
 		if($ilAccess->checkAccess('write','',$this->ref_id))
