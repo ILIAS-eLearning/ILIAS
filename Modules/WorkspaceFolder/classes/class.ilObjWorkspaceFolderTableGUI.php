@@ -75,6 +75,11 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		$item_list_gui->enableIcon(true);
 		// $item_list_gui->enableCheckbox(false);
 		// $item_list_gui->setSeparateCommands(true);
+		
+		if($node["type"] == "file")
+		{
+			$item_list_gui->enableRepositoryTransfer(true);
+		}
 
 		$item_list_gui->setContainerObject($this->parent_obj);
 
