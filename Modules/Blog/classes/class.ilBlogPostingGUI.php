@@ -161,7 +161,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$this->getBlogPosting()->increaseViewCnt();
 		
 		$wtpl = new ilTemplate("tpl.blog_page_view_main_column.html",
-			true, true, "Modules/blog");
+			true, true, "Modules/Blog");
 		
 		// page commands
 		 
