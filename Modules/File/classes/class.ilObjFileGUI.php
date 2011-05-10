@@ -113,8 +113,15 @@ class ilObjFileGUI extends ilObject2GUI
 				$cp->setType('file');
 				$this->ctrl->forwardCommand($cp);
 				break;
-				
+			
 			default:
+				// in personal workspace use object2gui 
+				if($this->id_type == self::WORKSPACE_NODE_ID)
+				{
+					$ilTabs->clearTargets();
+					return parent::executeCommand();
+				}
+				
 				if (empty($cmd))
 				{
 					$cmd = "infoScreen";
