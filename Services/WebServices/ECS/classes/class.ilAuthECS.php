@@ -43,7 +43,7 @@ class ilAuthECS extends Auth
 	 */
 	public function supportsRedirects()
 	{
-		return false;
+		return true;
 	} 
 
     /**
