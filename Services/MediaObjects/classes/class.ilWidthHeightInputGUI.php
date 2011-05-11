@@ -132,7 +132,7 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
 		global $lng;
 		
 		$tpl = new ilTemplate("tpl.prop_width_height.html", true, true, "Services/MediaObjects");
-		
+
 		foreach ($this->dirs as $dir)
 		{
 			switch($dir)
@@ -171,9 +171,9 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
 	function setValueByArray($a_values)
 	{
 		global $ilUser;
-		
-		$this->setWidth($a_values[$this->getPostVar()]["width"]["pre_value"]);
-		$this->setHeight($a_values[$this->getPostVar()]["height"]["pre_value"]);
+
+		$this->setWidth($a_values[$this->getPostVar()]["width"]);
+		$this->setHeight($a_values[$this->getPostVar()]["height"]);
 		$this->setConstrainProportions($a_values[$this->getPostVar()]["constr_prop"]);
 	}
 
