@@ -358,8 +358,11 @@ die("deprecated");
 		$tpl->parseCurrentBlock();
 		
 		// get javascript
-		$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
-		$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
+		//$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
+		//$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		iljQueryUtil::initjQuery();
+		iljQueryUtil::initjQueryUI();
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/pure.js");
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/pager.js");
 		
@@ -428,6 +431,9 @@ die("deprecated");
 
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
 		$tpl->addCss("./Modules/Scorm2004/templates/default/question_handling.css");
+		
+		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+		ilOverlayGUI::initJavascript();
 		
 		//inline JS
 		$output .='<script type="text/javascript" src="./Modules/Scorm2004/scripts/questions/question_handling.js"></script>';

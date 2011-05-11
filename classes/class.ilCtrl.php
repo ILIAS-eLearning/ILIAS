@@ -366,14 +366,7 @@ class ilCtrl
 			
 		if (DEVMODE == 1)
 		{
-			try
-			{
-				throw new Exception("");
-			}
-			catch(Exception $e)
-			{
-				echo "<pre>".$e->getTraceAsString()."</pre>";
-			}
+			ilUtil::printBacktrace();
 		}
 
 		exit;
@@ -819,7 +812,7 @@ class ilCtrl
 				
 			if (DEVMODE == 1)
 			{
-				debug_print_backtrace();
+				ilUtil::printBacktrace();
 			}
 			exit;
 		}

@@ -570,6 +570,7 @@ class ilImageMapEditorGUI
 		$xml = "<dummy>";
 		$xml.= $this->getAliasXML();
 		$xml.= $this->media_object->getXML(IL_MODE_OUTPUT);
+		$xml.= $this->getAdditionalPageXML();
 		$xml.="</dummy>";
 		$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
 		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
@@ -580,6 +581,7 @@ class ilImageMapEditorGUI
 		$params = array ('map_edit_mode' => $a_map_edit_mode,
 			'map_item' => $st_item->getId(),
 			'mode' => $mode,
+			'media_mode' => 'enable',
 			'image_map_link' => $ilCtrl->getLinkTarget($this, "showImageMap", "", false, false),
 			'link_params' => "ref_id=".$_GET["ref_id"]."&rand=".rand(1,999999),
 			'ref_id' => $_GET["ref_id"],
@@ -589,7 +591,30 @@ class ilImageMapEditorGUI
 		echo xslt_error($xh);
 		xslt_free($xh);
 		
+		$output = $this->outputPostProcessing($output);
+		
 		return $output;
+	}
+	
+	/**
+	 * Get additional page xml (to be overwritten)
+	 *
+	 * @return string additional page xml
+	 */
+	function getAdditionalPageXML()
+	{
+		return "";
+	}
+	
+	/**
+	 * Output post processing
+	 *
+	 * @param
+	 * @return
+	 */
+	function outputPostProcessing($a_output)
+	{
+		return $a_output;
 	}
 
 	function getAliasXML()
