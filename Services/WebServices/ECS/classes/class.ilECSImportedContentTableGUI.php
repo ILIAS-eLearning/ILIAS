@@ -85,7 +85,9 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('TXT_EMAIL',$this->lng->txt('ecs_email'));
 		$this->tpl->setVariable('TXT_DNS',$this->lng->txt('ecs_dns'));
 		$this->tpl->setVariable('TXT_ABR',$this->lng->txt('ecs_abr'));
-		$this->tpl->setVariable('VAL_LAST_UPDATE',$a_set['last_update']);
+		$this->tpl->setVariable('VAL_LAST_UPDATE',
+			ilDatePresentation::formatDate(new ilDateTime($a_set['last_update'],IL_CAL_DATETIME))
+		);
 		
 		// Links
 		foreach(ilObject::_getAllReferences($a_set['obj_id']) as $ref_id)

@@ -40,7 +40,6 @@ class ilECSParticipant
 	protected $dns;
 	protected $description;
 	protected $participantname;
-	protected $abr;
 	protected $is_self;
 	
 	protected $settings;
@@ -100,17 +99,6 @@ class ilECSParticipant
 	 	return $this->email;
 	}
 
-	/**
-	 * get cert id
-	 *
-	 * @access public
-	 * @param
-	 * 
-	 */
-	public function getCertId()
-	{
-	 	return $this->certid;
-	}
 	
 	/**
 	 * get dns
@@ -178,7 +166,7 @@ class ilECSParticipant
 	 */
 	public function isSelf()
 	{
-	 	return (int) $this->getCertId() == (int) $this->settings->getCertSerialNumber();
+		return (bool) $this->is_self;
 	}
 	
 	
@@ -192,6 +180,16 @@ class ilECSParticipant
 	{
 	 	return (bool) $this->part_settings->isEnabled($this->getMID());
 	}
+
+	/**
+	 * Get organisation
+	 * @return ilECSOrganisation $org
+	 */
+	public function getOrganisation()
+	{
+		return $this->org;
+	}
+
 	/**
 	 * Read
 	 *
@@ -201,18 +199,23 @@ class ilECSParticipant
 	private function read()
 	{
 	 	global $ilLog;
-	 	
+
 	 	$this->mid = $this->json_obj->mid;
-	 	$this->email = $this->json_obj->email;
-	 	$this->certid = hexdec($this->json_obj->certid);
-	 	$this->dns = $this->json_obj->dns;
+		$this->email = $this->json_obj->email;
+		#$this->certid = hexdec($this->json_obj->certid);
+		$this->dns = $this->json_obj->dns;
 	 	$this->description = $this->json_obj->description;
-	 	$this->participantname = $this->json_obj->participantname;
-	 	$this->abr = $this->json_obj->abr;
-	 	#$ilLog->write(__METHOD__.': Received certId '.$this->getCertId().' for '.$this->getParticipantName());
+
+	 	$this->participantname = $this->json_obj->name;
+		$this->is_self = $this->json_obj->itsyou;
+
+		if(is_object($this->json_obj->org))
+		{
+			include_once './Services/WebServices/ECS/classes/class.ilECSOrganisation.php';
+			$this->org = new ilECSOrganisation();
+			$this->org->loadFromJson($this->json_obj->org);
+		}
 		return true;
 	}
 }
-
-
 ?>

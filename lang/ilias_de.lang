@@ -6616,7 +6616,7 @@ ecs#:#ecs_field_term#:#Semester
 ecs#:#ecs_field_time#:#Uhrzeit
 ecs#:#ecs_global_role_info#:#Bitte wählen Sie eine globale Rolle aus, der neue ECS-Benutzer zugeordnet werden.
 ecs#:#ecs_ignore_field#:#Dieses Feld nicht aktualisieren
-ecs#:#ecs_import#:#Import
+ecs#:#ecs_import#:#Externe Kurse
 ecs#:#ecs_import_id#:#Import-ID
 ecs#:#ecs_import_id_info#:#Bitte geben Sie die ID der Kategorie ein, in der neue ECS-Kurslinks angelegt werden sollen.
 ecs#:#ecs_imported_content#:#Importierte Materialien
@@ -6646,8 +6646,8 @@ ecs#:#ecs_publish_as#:#Veröffentlichen unter:
 ecs#:#ecs_publish_for#:#Freigabe für:
 ecs#:#ecs_published_for#:#Freigegeben für:
 ecs#:#ecs_rcrs_created_body_a#:#Ein neuer externer Kurs wurde angelegt:
-ecs#:#ecs_read_remote_links#:#Externe Kurse aktualisieren
-ecs#:#ecs_released#:#Export
+ecs#:#ecs_read_remote_links#:#Kursinformationen aktualisieren
+ecs#:#ecs_released#:#Freigegebene Kurse
 ecs#:#ecs_released_content#:#Freigegebener E-Content
 ecs#:#ecs_remote_imported#:#Die Informationen über Kursänderungen wurden neu eingelesen.
 ecs#:#ecs_remote_user_settings#:#Einstellungen für ECS-Benutzerzugänge

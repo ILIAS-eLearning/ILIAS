@@ -76,6 +76,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 	public function fillRow($a_set)
 	{
 		$this->tpl->setVariable('VAL_ID',$a_set['mid']);
+		$this->tpl->setVariable('VAL_ORG', (string) $a_set['org']);
 		$this->tpl->setVariable('VAL_CHECKED',$a_set['checked'] ? 'checked="checked"' : '');
 		$this->tpl->setVariable('VAL_TITLE',$a_set['participants']);
 		$this->tpl->setVariable('VAL_DESC',$a_set['description']);
@@ -86,6 +87,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('TXT_DNS',$this->lng->txt('ecs_dns'));
 		$this->tpl->setVariable('TXT_ABR',$this->lng->txt('ecs_abr'));
 		$this->tpl->setVariable('TXT_ID',$this->lng->txt('ecs_unique_id'));
+		$this->tpl->setVariable('TXT_ORG', $this->lng->txt('organization'));
 		
 		
 		
@@ -118,7 +120,12 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 			$tmp_arr['description'] = $participant->getDescription();
 			$tmp_arr['email'] = $participant->getEmail();
 			$tmp_arr['dns'] = $participant->getDNS();
-			$tmp_arr['abr'] = $participant->getAbbreviation();
+
+			if($participant->getOrganisation() instanceof ilECSOrganisation)
+			{
+				$tmp_arr['abr'] = $participant->getOrganisation()->getAbbreviation();
+				$tmp_arr['org'] = $participant->getOrganisation()->getName();
+			}
 			$def[] = $tmp_arr;
 		}
 		

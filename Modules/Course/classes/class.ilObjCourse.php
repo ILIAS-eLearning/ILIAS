@@ -1771,7 +1771,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		}
 	 	try
 	 	{
-		 	// Update ECS EContent
+			// Update ECS EContent
 		 	include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');
 		 	$writer = new ilECSContentWriter($this);
 		 	$writer->refreshSettings();

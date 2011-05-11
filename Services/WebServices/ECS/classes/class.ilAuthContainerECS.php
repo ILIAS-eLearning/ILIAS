@@ -104,9 +104,7 @@ class ilAuthContainerECS extends Auth_Container
 	 		$connector = new ilECSConnector();
 	 		$res = $connector->getAuth($_GET['ecs_hash']);
 			$auths = $res->getResult();
-			$this->mid = $auths[0]->mid;
-			$ilLog->write(__METHOD__.': Got mid: '.$this->mid);
-			$this->abreviation = $auths[0]->abr;
+			$this->abreviation = $auths->abbr;
 			$ilLog->write(__METHOD__.': Got abr: '.$this->abreviation);
 			/*			
 			// Read abbreviation from mid

@@ -67,11 +67,11 @@ class ilECSExport
 	{
 		global $ilDB;
 		
-		$query = "SELECT econtent_id FROM ecs_export ";
+		$query = "SELECT econtent_id,obj_id FROM ecs_export ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$econtent_ids[$row->econtent_id] = $row->econtent_id; 
+			$econtent_ids[$row->econtent_id] = $row->obj_id;
 		}
 		return $econtent_ids ? $econtent_ids : array();
 	}

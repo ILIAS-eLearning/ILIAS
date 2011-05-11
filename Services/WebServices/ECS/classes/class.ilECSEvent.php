@@ -22,94 +22,82 @@
 */
 
 /** 
-* 
-* @author Stefan Meyer <meyer@leifos.com>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
 * 
-* @ilCtrl_Calls 
 * @ingroup ServicesWebServicesECS 
 */
-class ilECSAuth
+
+class ilECSEvent
 {
-	protected $log;
-	protected $mids = array();
+	const CREATED = 'created';
+	const UPDATED = 'updated';
+	const DESTROYED = 'destroyed';
+	const NEW_EXPORT = 'new_export';
 
-	public $url;
-
+	protected $json_obj = null;
+	protected $status = '';
+	protected $ressource = '';
+	protected $ressource_id = 0;
+	
 	/**
-	 * constuctor
+	 * Constructor
 	 *
 	 * @access public
-	 * @param 
+	 * @param object json object
 	 * 
 	 */
-	public function __construct()
+	public function __construct($json_obj)
 	{
-		global $ilLog;
-		
-		$this->log = $ilLog;
-	}
-
-	/**
-	 * URL
-	 * @param string $a_url
-	 */
-	public function setUrl($a_url)
-	{
-		$this->url = $a_url;
-	}
-
-	/**
-	 * get Url
-	 * @return <type>
-	 */
-	public function getUrl()
-	{
-		return $this->url;
+		$this->json_obj = $json_obj;
+		$this->read();		 	
 	}
 	
 	/**
-	 * get hash
+	 * get title
 	 *
 	 * @access public
 	 * 
 	 */
-	public function getHash()
+	public function getStatus()
 	{
-	 	return $this->hash;
+	 	return $this->status;
 	}
 	
 	/**
-	 * set SOV
+	 * getDescription
 	 *
 	 * @access public
-	 * @param int start of verification
 	 * 
 	 */
-	public function setSOV($a_sov)
+	public function getRessource()
 	{
-	 	include_once('Date.php');
-	 	
-	 	$date = new Date();
-	 	$date->setDate($a_sov,DATE_FORMAT_UNIXTIME);
-	 	$this->sov = $date->getDate().'+01:00';
+	 	return $this->ressource;
 	}
 
 	/**
-	 * set EOV
+	 * Get ressource id
+	 */
+	public function getRessourceId()
+	{
+		return $this->ressource_id;
+	}
+
+	
+	/**
+	 * Read community entries and participants
 	 *
-	 * @access public
-	 * @param int eov of verification
+	 * @access private
 	 * 
 	 */
-	public function setEOV($a_eov)
+	private function read()
 	{
-	 	include_once('Date.php');
-	 	
-	 	$date = new Date();
-	 	$date->setDate($a_eov,DATE_FORMAT_UNIXTIME);
-	 	$this->eov = $date->getDate().'+01:00';
+	 	$this->status = $this->json_obj->status;
+	 	$this->ressource = $this->json_obj->ressource;
+
+		$res_arr = (array) explode('/',$this->getRessource());
+		$this->ressource_id = end($res_arr);
 	}
 }
 ?>

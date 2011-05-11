@@ -6648,7 +6648,7 @@ ecs#:#ecs_global_role_info#:#The chosen role will be assigned to newly created E
 ecs#:#ecs_ignore_field#:#Disable export/update of this field
 ecs#:#ecs_import_id_info#:#Please enter the ID of the category, where new Course-Links will be created
 ecs#:#ecs_import_id#:#Import ID
-ecs#:#ecs_import#:#Import
+ecs#:#ecs_import#:#Imported Courses
 ecs#:#ecs_imported_content#:#Imported E-Content
 ecs#:#ecs_imported_from#:#Imported From
 ecs#:#ecs_key_password#:#Key Password
@@ -6678,7 +6678,7 @@ ecs#:#ecs_published_for#:#Published for:
 ecs#:#ecs_rcrs_created_body_a#:#A new Remote Course has been created:
 ecs#:#ecs_read_remote_links#:#Update Remote-Courses
 ecs#:#ecs_released_content#:#Released E-Content
-ecs#:#ecs_released#:#Export
+ecs#:#ecs_released#:#Released Courses
 ecs#:#ecs_remote_imported#:#Information about remote courses has been refreshed.
 ecs#:#ecs_remote_user_settings#:#Settings for ECS User Accounts
 ecs#:#ecs_role#:#Role Assignment
