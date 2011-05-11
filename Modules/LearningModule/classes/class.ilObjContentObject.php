@@ -1885,6 +1885,7 @@ class ilObjContentObject extends ilObject
 	static function getSupplyingExportFiles($a_target_dir = ".")
 	{
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		return array(
 			array("source" => ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
 				"target" => $a_target_dir.'/js/yahoo/yahoo-min.js',
@@ -1904,11 +1905,14 @@ class ilObjContentObject extends ilObject
 			array("source" => './Services/Accordion/css/accordion.css',
 				"target" => $a_target_dir.'/css/accordion.css',
 				"type" => "css"),
-			array("source" => './Modules/Scorm2004/scripts/questions/jquery.js',
+			array("source" => iljQueryUtil::getLocaljQueryPath(),
 				"target" => $a_target_dir.'/js/jquery.js',
 				"type" => "js"),
-			array("source" => './Modules/Scorm2004/scripts/questions/jquery-ui-min.js',
+			array("source" => iljQueryUtil::getLocaljQueryUIPath(),
 				"target" => $a_target_dir.'/js/jquery-ui-min.js',
+				"type" => "js"),
+			array("source" => './Services/COPages/js/ilCOPagePres.js',
+				"target" => $a_target_dir.'/js/ilCOPagePres.js',
 				"type" => "js"),
 			array("source" => './Modules/Scorm2004/scripts/questions/pure.js',
 				"target" => $a_target_dir.'/js/pure.js',

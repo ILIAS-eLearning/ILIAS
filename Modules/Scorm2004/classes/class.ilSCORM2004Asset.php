@@ -182,8 +182,13 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		copy('./Modules/Scorm2004/scripts/scorm_2004.js',$a_target_dir.'/js/scorm.js');
 		copy('./Modules/Scorm2004/scripts/pager.js',$a_target_dir.'/js/pager.js');
 		copy('./Modules/Scorm2004/scripts/questions/pure.js',$a_target_dir.'/js/pure.js');
-		copy('./Modules/Scorm2004/scripts/questions/jquery.js',$a_target_dir.'/js/jquery.js');
-		copy('./Modules/Scorm2004/scripts/questions/jquery-ui-min.js',$a_target_dir.'/js/jquery-ui-min.js');
+		
+		// jquery
+		//copy('./Modules/Scorm2004/scripts/questions/jquery.js',$a_target_dir.'/js/jquery.js');
+		//copy('./Modules/Scorm2004/scripts/questions/jquery-ui-min.js',$a_target_dir.'/js/jquery-ui-min.js');
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		copy(iljQueryUtil::getLocaljQueryPath(), $a_target_dir.'/js/jquery.js');
+		copy(iljQueryUtil::getLocaljQueryUIPath(), $a_target_dir.'/js/jquery-ui-min.js');
 
 		// accordion stuff
 		ilUtil::makeDir($a_target_dir.'/js/yahoo');
@@ -197,6 +202,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		copy('./Services/Accordion/css/accordion.css',$a_target_dir.'/css/accordion.css');
 		copy('./Services/JavaScript/js/Basic.js',$a_target_dir.'/js/Basic.js');
 		copy('./Services/UIComponent/Overlay/js/ilOverlay.js',$a_target_dir.'/js/ilOverlay.js');
+		copy('./Services/COPage/js/ilCOPagePres.js',$a_target_dir.'/js/ilCOPagePres.js');
 
 		// export content css
 		include_once("./Modules/Scorm2004/classes/class.ilScormExportUtil.php");
@@ -365,6 +371,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			$scripts = array("./js/scorm.js", "./js/jquery.js", "./js/jquery-ui-min.js",
 				"./js/pager.js", "./js/pure.js", "./js/yahoo/yahoo-min.js", "./js/yahoo/yahoo-dom-event.js",
 				"./js/yahoo/container_core-min.js", "./js/yahoo/animation-min.js", "./js/Basic.js",
+				"./js/ilCOPagePres.js",
 				"./js/ilOverlay.js", "./js/questions_".$this->getId().".js");
 			foreach ($scripts as $script)
 			{

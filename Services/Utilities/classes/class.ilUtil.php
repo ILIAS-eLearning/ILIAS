@@ -4688,6 +4688,22 @@ class ilUtil
 			return ILIAS_HTTP_PATH;
 		}
 	}
+	
+	/**
+	 * printBacktrace
+	 *
+	 * @param
+	 * @return
+	 */
+	function printBacktrace()
+	{
+		$bt = debug_backtrace();
+		foreach ($bt as $t)
+		{
+			echo "<br>".$t["file"].", ".$t["function"]." [".$t["line"]."]";
+		}
+	}
+	
 } // END class.ilUtil
 
 

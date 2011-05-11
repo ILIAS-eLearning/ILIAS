@@ -3335,14 +3335,17 @@ class ilPageObjectGUI
 	function initSelfAssessmentRendering()
 	{
 		global $tpl, $ilCtrl, $lng;
-		
+
 		if ($this->getEnabledSelfAssessment())
 		{
 			$qhtml = $this->getQuestionJsOfPage(($this->getOutputMode()=="edit") ? true : false);
 			$this->setQuestionHTML($qhtml);
 			//include JQuery Libraries before Prototpye
-			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
-			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
+//			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
+//			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
+			include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+			iljQueryUtil::initjQuery();
+			iljQueryUtil::initjQueryUI();
 			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/pure.js");
 			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
 			$tpl->addCss("./Modules/Scorm2004/templates/default/question_handling.css");

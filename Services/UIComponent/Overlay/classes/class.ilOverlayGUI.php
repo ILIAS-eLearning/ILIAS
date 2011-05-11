@@ -172,10 +172,24 @@ class ilOverlayGUI
 		global $tpl;
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		
-		ilYuiUtil::initOverlay();
-		$tpl->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");
+		self::initJavascript();
 		$tpl->addOnLoadCode($this->getOnLoadCode()); 
 	}
+	
+	/**
+	 * Init javascript
+	 *
+	 * @param
+	 * @return
+	 */
+	static function initJavascript()
+	{
+		global $tpl;
+		
+		ilYuiUtil::initOverlay();
+		$tpl->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");
+	}
+	
 	
 	/**
 	 * Get trigger onload code
@@ -200,8 +214,7 @@ class ilOverlayGUI
 		global $tpl;
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 //echo "-".$a_tr_id."-".$a_tr_event."-".$a_anchor_el_id."-";
-		ilYuiUtil::initOverlay();
-		$tpl->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");
+		self::initJavascript();
 		$tpl->addOnLoadCode($this->getTriggerOnLoadCode($a_tr_id, $a_tr_event, $a_anchor_el_id, $a_center,
 				$a_ov_corner, $a_anch_corner)); 
 	}

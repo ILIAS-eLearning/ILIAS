@@ -437,7 +437,7 @@ ilCOPagePres =
 		mark.css('display', '');
 	},
 	
-	fixPositions: function ()
+	fixMarkerPositions: function ()
 	{
 		var m, tr, k, i;
 				
@@ -535,6 +535,9 @@ ilCOPagePres =
 			{
 				var dtr = trigger;
 				var ov = $("img#iim_ov_" + dtr['tr_id']);
+				
+				// remove map for dragging
+				ov.attr('usemap','');
 				
 				ilCOPagePres.initDragToolbar();
 				
@@ -638,7 +641,7 @@ ilCOPagePres =
 	{
 		// show the toolbar
 		$("div#drag_toolbar").css("display", "");
-		this.fixPositions();
+		this.fixMarkerPositions();
 		$("a#save_pos_button").click(function () {
 			$("input#update_tr_button").trigger("click");
 			});

@@ -59,6 +59,10 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 		$tpl->addJavascript("./Services/COPage/js/ilCOPagePres.js");
 		$tpl->addJavascript("./Services/COPage/js/ilCOPagePCInteractiveImage.js");
 		
+		include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+		ilAccordionGUI::addJavaScript();
+		ilAccordionGUI::addCss();
+		
 		$ilToolbar->addText($lng->txt("cont_drag_element_click_save"));
 		$ilToolbar->setId("drag_toolbar");
 		$ilToolbar->setHidden(true);
@@ -262,6 +266,45 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 
 		$ilCtrl->redirect($this, "editMapAreas");
 	}
+
+	/**
+	 * Get additional page xml (to be overwritten)
+	 *
+	 * @return string additional page xml
+	 */
+	function getAdditionalPageXML()
+	{
+		return $this->page->getMultimediaXML();
+	}
+	
+	/**
+	 * Output post processing
+	 *
+	 * @param
+	 * @return
+	 */
+	function outputPostProcessing($a_output)
+	{
+
+		// for question html get the page gui object
+		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+		$pg_gui = new ilPageObjectGUI($this->page->getParentType(), $this->page->getId());
+		$pg_gui->setOutputMode(IL_PAGE_PREVIEW);
+		$pg_gui->setEnabledSelfAssessment(true);
+		$pg_gui->initSelfAssessmentRendering();
+		$qhtml = $pg_gui->getQuestionHTML();
+		if (is_array($qhtml))
+		{
+			foreach ($qhtml as $k => $h)
+			{
+				$a_output = str_replace($pg_gui->pl_start."Question;il__qst_$k".$pg_gui->pl_end, " ".$h, $a_output);
+			}
+		}
+		$a_output = $pg_gui->selfAssessmentRendering($a_output);
+
+		return $a_output;
+	}
+
 
 }
 ?>
