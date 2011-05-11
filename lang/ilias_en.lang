@@ -11368,3 +11368,5 @@ wsp#:#wsp_set_permission_all#:#Publish (No Registration required)
 wsp#:#wsp_remove_permission#:#Remove Permission
 wsp#:#wsp_permission_registered_info#:#This object is shared with all registered users.
 wsp#:#wsp_permission_all_info#:#This object has been published.
+style#:#sty_type_iim#:#Interactive Image Content Popup
+style#:#sty_type_marker#:#Interactive Image Marker

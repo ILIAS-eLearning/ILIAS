@@ -2912,6 +2912,7 @@
 <!-- Trigger -->
 <xsl:template match="Trigger">
 	<xsl:if test="@Overlay">
+		<xsl:variable name="cur_nr" select="@Nr" />
 		<img style="display:none;">
 		<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after(../MediaAlias[1]/@OriginId,'mob_')"/>/overlays/<xsl:value-of select="@Overlay"/></xsl:attribute>
 		<xsl:attribute name="id">iim_ov_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
@@ -2921,8 +2922,9 @@
 			<map>
 			<xsl:attribute name="id">iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
 			<xsl:attribute name="name">iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
-				<area href="#" coords="10,10,100,100" shape="Rect">
+				<area href="#" coords="10,10,100,100">
 					<xsl:attribute name="id">iim_ov_area_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+					<xsl:attribute name="shape"><xsl:value-of select="../MediaAliasItem/MapArea[@Id = $cur_nr]/@Shape"/></xsl:attribute>
 				</area>
 			</map>
 		</xsl:if>

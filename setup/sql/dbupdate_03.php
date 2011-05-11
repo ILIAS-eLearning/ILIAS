@@ -4903,3 +4903,90 @@ $ilDB->modifyTableColumn('frm_settings', 'notification_type', array(
 	"length" => 10,
 	"default" => null));
 ?>
+<#3305>
+<?php
+
+$set = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
+
+while ($rec = $ilDB->fetchAssoc($set))	// all styles
+{
+	$imgs = array("icon_pin.png", "icon_pin_on.png");
+	
+	$a_style_id = $rec["obj_id"];
+	
+	$sty_data_dir = CLIENT_WEB_DIR."/sty";
+	ilUtil::makeDir($sty_data_dir);
+
+	$style_dir = $sty_data_dir."/sty_".$a_style_id;
+	ilUtil::makeDir($style_dir);
+
+	// create images subdirectory
+	$im_dir = $style_dir."/images";
+	ilUtil::makeDir($im_dir);
+
+	// create thumbnails directory
+	$thumb_dir = $style_dir."/images/thumbnails";
+	ilUtil::makeDir($thumb_dir);
+	
+//	ilObjStyleSheet::_createImagesDirectory($rec["obj_id"]);
+	$imdir = CLIENT_WEB_DIR."/sty/sty_".$a_style_id.
+			"/images";
+	foreach($imgs as $cim)
+	{
+		if (!is_file($imdir."/".$cim))
+		{
+			copy("./Services/Style/basic_style/images/".$cim, $imdir."/".$cim);
+		}
+	}
+}
+?>
+<#3306>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("ContentPopup", "iim", "div",
+				array("background-color" => "#FFFFFF",
+					"border-color" => "#A0A0A0",
+					"border-style" => "solid",
+					"border-width" => "2px",
+					"padding-top" => "5px",
+					"padding-right" => "10px",
+					"padding-bottom" => "5px",
+					"padding-left" => "10px"
+					));
+?>
+<#3307>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("Marker", "marker", "a",
+				array("display" => "block",
+					"cursor" => "pointer",
+					"width" => "27px",
+					"height" => "32px",
+					"position" => "absolute",
+					"background-image" => "icon_pin.png"
+					));
+?>
+<#3308>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("Marker:hover", "marker", "a",
+				array("background-image" => "icon_pin_on.png"
+					));
+?>
+<#3309>
+<?php
+	$set = $ilDB->query("SELECT * FROM style_char ".
+		" WHERE ".$ilDB->like("characteristic", "text", "%:hover%")
+		);
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$s = substr($rec["characteristic"], strlen($rec["characteristic"]) - 6);
+		if ($s == ":hover")
+		{
+			$ilDB->manipulate("DELETE FROM style_char WHERE ".
+				" characteristic = ".$ilDB->quote($rec["characteristic"], "text")
+				);
+		}
+	}
+?>
+
