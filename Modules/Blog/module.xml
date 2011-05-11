@@ -5,7 +5,7 @@
 	</baseclasses>
 	<objects>
 		<object id="blog" class_name="Blog" dir="classes" default_pos="330" default_pres_pos="330"
-			checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="0" export="0" workspace="1"
+			checkbox="1" inherit="1" translate="0" allow_copy="0" rbac="0" export="0" workspace="1"
 			repository="0">
 			<parent id="wfld">wfld</parent>
 			<parent id="wsrt">wsrt</parent>

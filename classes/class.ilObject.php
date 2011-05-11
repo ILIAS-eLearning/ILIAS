@@ -1697,14 +1697,21 @@ class ilObject
 	 * @return object new object
 	 *  
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0)
+	public function cloneObject($a_target_id,$a_copy_id = 0,$a_omit_tree = false)
 	{
 		global $objDefinition,$ilUser,$rbacadmin, $ilDB;
 		
 		$location = $objDefinition->getLocation($this->getType());
 		$class_name = ('ilObj'.$objDefinition->getClassName($this->getType()));
 		
-		$title = $this->appendCopyInfo($a_target_id,$a_copy_id);
+		if(!$a_omit_tree)
+		{
+			$title = $this->appendCopyInfo($a_target_id,$a_copy_id);
+		}
+		else
+		{
+			$title = $this->getTitle();
+		}
 
 		// create instance
 		include_once($location."/class.".$class_name.".php");
@@ -1715,12 +1722,20 @@ class ilObject
 		$new_obj->setType($this->getType());
 		// Choose upload mode to avoid creation of additional settings, db entries ...
 		$new_obj->create(true);
-		$new_obj->createReference();
-		$new_obj->putInTree($a_target_id);
-		$new_obj->setPermissions($a_target_id);
 		
-		// copy local roles
-		$rbacadmin->copyLocalRoles($this->getRefId(),$new_obj->getRefId());
+		if(!$a_omit_tree)
+		{
+			$new_obj->createReference();
+			$new_obj->putInTree($a_target_id);
+			$new_obj->setPermissions($a_target_id);
+
+			// when copying from personal workspace we have no current ref id
+			if($this->getRefId())
+			{
+				// copy local roles
+				$rbacadmin->copyLocalRoles($this->getRefId(),$new_obj->getRefId());
+			}
+		}
 		
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 		ilAdvancedMDValues::_cloneValues($this->getId(),$new_obj->getId());

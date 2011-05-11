@@ -76,7 +76,7 @@ class ilObjectListGUI
 	protected $additional_information = false;
 	protected $static_link_enabled = false;
 	
-	protected $repository_transfer_enabled = true;
+	protected $repository_transfer_enabled = false;
 	
 	static protected $cnt_notes = array();
 	static protected $cnt_tags = array();
@@ -2101,20 +2101,31 @@ class ilObjectListGUI
 		
 		if($this->checkCommandAccess('copy', 'copy', $this->ref_id, $this->type))
 		{
-			$this->ctrl->setParameterByClass('ilobjectcopygui','source_id',$this->getCommandId());
-			$cmd_copy = $this->ctrl->getLinkTargetByClass('ilobjectcopygui','initTargetSelection');
-			
-			if(!$a_to_repository)
+			if($this->context != self::CONTEXT_WORKSPACE)
 			{
+				$this->ctrl->setParameterByClass('ilobjectcopygui','source_id',$this->getCommandId());
+				$cmd_copy = $this->ctrl->getLinkTargetByClass('ilobjectcopygui','initTargetSelection');
 				$this->insertCommand($cmd_copy, $this->lng->txt('copy'));
 			}
 			else
 			{
-				$this->insertCommand($cmd_copy, $this->lng->txt('copy_to_repository'));			
+				$this->ctrl->setParameter($this->container_obj, "ref_id",
+					$this->container_obj->object->getRefId());									
+				$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
+				
+				if(!$a_to_repository)
+				{
+					$cmd_copy = $this->ctrl->getLinkTarget($this->container_obj, 'copy');
+					$this->insertCommand($cmd_copy, $this->lng->txt('copy'));
+				}
+				else
+				{
+					$cmd_copy = $this->ctrl->getLinkTarget($this->container_obj, 'copy_to_repository');
+					$this->insertCommand($cmd_copy, $this->lng->txt('copy_to_repository'));			
+				}
 			}
 				
-			$this->adm_commands_included = true;
-			
+			$this->adm_commands_included = true;			
 		}
 		return;
 	}
@@ -2408,7 +2419,7 @@ class ilObjectListGUI
 			if ($this->repository_transfer_enabled)
 			{
 				$this->insertCutCommand(true);
-				// $this->insertCopyCommand(true);
+				$this->insertCopyCommand(true);
 			}
 
 			// subscribe

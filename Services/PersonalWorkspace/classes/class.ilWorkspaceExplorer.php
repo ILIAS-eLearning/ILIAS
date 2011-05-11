@@ -250,18 +250,17 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 	*/
 	function formatHeader(&$tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $ilias, $tree;
+		global $lng;
 
 		// custom icons
 		$path = ilObject::_getIcon($a_obj_id, "small", "root");
 		
-
 		$tpl->setCurrentBlock("icon");
-		$nd = $tree->getNodeData(ROOT_FOLDER_ID);
-		$title = $nd["title"];
-		if ($title == "ILIAS")
+		$title = $this->tree->getNodeData($this->root_id);
+		$title = $title["title"];
+		if(!$title)
 		{
-			$title = $lng->txt("repository");
+			$title = $lng->txt("personal_workspace");
 		}
 
 		$tpl->setVariable("ICON_IMAGE", $path);
