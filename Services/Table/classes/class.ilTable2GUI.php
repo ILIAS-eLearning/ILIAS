@@ -2958,8 +2958,12 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		$col = 0;
 		foreach ($this->column as $column)
 		{
-			$col++;
-			$worksheet->write($a_row, $col, strip_tags($column["text"]));
+			$title = strip_tags($column["text"]);
+			if($title)
+			{
+				$worksheet->write($a_row, $col, $title);
+				$col++;
+			}
 		}
 		$a_row++;
 	}
@@ -2977,12 +2981,12 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		$col = 0;
 		foreach ($a_set as $key => $value)
 		{
-			$col++;
 			if(is_array($value))
 			{
 				$value = implode(', ', $value);
 			}
 			$a_worksheet->write($a_row, $col, strip_tags($value));
+			$col++;
 		}
 	}
 
@@ -3007,7 +3011,11 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	{
 		foreach ($this->column as $column)
 		{
-			$a_csv->addColumn(strip_tags($column["text"]));
+			$title = strip_tags($column["text"]);
+			if($title)
+			{
+				$a_csv->addColumn($title);
+			}
 		}
 		$a_csv->addRow();
 	}
