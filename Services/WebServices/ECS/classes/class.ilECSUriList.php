@@ -21,95 +21,55 @@
 	+-----------------------------------------------------------------------------+
 */
 
-/** 
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-* 
-* @ilCtrl_Calls 
-* @ingroup ServicesWebServicesECS 
-*/
-class ilECSAuth
+/**
+ * Presentation of ecs uril (http://...campusconnect/courselinks)
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ServicesWebServicesECS
+ */
+class ilECSUriList
 {
-	protected $log;
-	protected $mids = array();
 
-	public $url;
+	public $uris = array();
 
 	/**
-	 * constuctor
-	 *
-	 * @access public
-	 * @param 
-	 * 
+	 * Constructor
 	 */
 	public function __construct()
 	{
-		global $ilLog;
-		
-		$this->log = $ilLog;
+
 	}
 
+
 	/**
-	 * URL
-	 * @param string $a_url
+	 * Add uri
+	 * @param  string $a_uri
+	 * @param int $a_link_id
 	 */
-	public function setUrl($a_url)
+	public function add($a_uri,$a_link_id)
 	{
-		$this->url = $a_url;
+		#$GLOBALS['ilLog']->write(__METHOD__.': '.$a_uri.', '.$a_link_id);
+		$this->uris[$a_link_id] = $a_uri;
 	}
 
 	/**
-	 * get Url
+	 * Get link ids
 	 * @return <type>
 	 */
-	public function getUrl()
+	public function getLinkIds()
 	{
-		return $this->url;
-	}
-	
-	/**
-	 * get hash
-	 *
-	 * @access public
-	 * 
-	 */
-	public function getHash()
-	{
-	 	return $this->hash;
-	}
-	
-	/**
-	 * set SOV
-	 *
-	 * @access public
-	 * @param int start of verification
-	 * 
-	 */
-	public function setSOV($a_sov)
-	{
-	 	include_once('Date.php');
-	 	
-	 	$date = new Date();
-	 	$date->setDate($a_sov,DATE_FORMAT_UNIXTIME);
-	 	$this->sov = $date->getDate().'+01:00';
+		return (array) array_keys($this->uris);
 	}
 
 	/**
-	 * set EOV
-	 *
-	 * @access public
-	 * @param int eov of verification
-	 * 
+	 * Get uris
+	 * @return array
 	 */
-	public function setEOV($a_eov)
+	public function getUris()
 	{
-	 	include_once('Date.php');
-	 	
-	 	$date = new Date();
-	 	$date->setDate($a_eov,DATE_FORMAT_UNIXTIME);
-	 	$this->eov = $date->getDate().'+01:00';
+		return (array) $this->uris;
 	}
 }
 ?>

@@ -46,7 +46,7 @@ class ilECSContentWriter
 	
 	protected $exportable = true;
 	protected $owner = 0;
-	protected $mids = array();
+	protected $mids = null;
 	
 	/**
 	 * Constructor
@@ -236,7 +236,6 @@ class ilECSContentWriter
 	public function refreshSettings()
 	{
 	 	$this->mode = self::UPDATE_SETTINGS_ONLY;
-	 	
 		try
 		{
 			if($this->export_settings->isExported())
@@ -314,6 +313,8 @@ class ilECSContentWriter
 			$this->updateJSON();
 			
 	 		$connector = new ilECSConnector();
+			$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, implode(',',$this->getParticipantIds()));
+			#$connector->addHeader(ilECSConnector::HEADER_COMMUNITIES, )
 	 		$econtent_id = $connector->addResource(json_encode($this->json));
 	
 			$this->export_settings->setExported(true);
@@ -347,17 +348,28 @@ class ilECSContentWriter
 	 		include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
 	 		$reader = new ilECSEContentReader($this->export_settings->getEContentId());
 	 		$reader->read();
+			$reader->read(true);
 	 		$content = $reader->getEContent();
-	 		if(!is_array($content) or !is_object($content[0]))
+			$details = $reader->getEContentDetails();
+
+			if(!$content instanceof ilECSEContent or !$details instanceof ilECSEContentDetails)
 	 		{
 	 			$this->log->write(__METHOD__.': Error reading EContent with id: '.$this->export_settings->getEContentId());
 	 			include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriterException.php');
-	 			throw new ilECSContentWriterException('Error reading EContent. Aborting');
+	 			throw new ilECSContentWriterException('Error reading E-Content. Aborting');
 	 		}
-	 		$this->json = $content[0];
+	 		$this->json = $content;
 	 		$this->updateJSON();
 	 		$connector = new ilECSConnector();
-	 		#var_dump("<pre>",json_encode($this->json),"</pre>");
+			#$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, implode(',',$this->getParticipantIds()));
+			if($this->getParticipantIds() == null)
+			{
+				$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, implode(',',$details->getReceivers()));
+			}
+			else
+			{
+				$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, implode(',',$this->getParticipantIds()));
+			}
 			
 	 		$connector->updateResource($this->export_settings->getEContentId(),json_encode($this->json));
 	 	}
@@ -387,7 +399,8 @@ class ilECSContentWriter
 
 		$lang = ilLanguageFactory::_getLanguage();
 		$lang->loadLanguageModule('ecs');
-		
+
+		// @TODO: read mail
 		$mail = new ilMail(6);
 		$message = $lang->txt('ecs_export_created_body_a')."\n\n";
 		$message .= $lang->txt('title').': '.$this->content_obj->getTitle()."\n";
@@ -404,12 +417,12 @@ class ilECSContentWriter
 		{
 			include_once './Services/WebServices/ECS/classes/class.ilECSEContentReader.php';
 			$reader = new ilECSEContentReader($export->getEContentId());
-			$reader->read();
+			$reader->read(true);
 			
 			$found = false;
-			foreach($reader->getEContent() as $econ)
+			if($reader->getEContentDetails() instanceof ilECSEContentDetails)
 			{
-				foreach($econ->getEligibleMembers() as $member)
+				foreach($reader->getEContentDetails()->getReceivers() as $member)
 				{
 					$found = true;
 					
@@ -418,7 +431,8 @@ class ilECSContentWriter
 					
 					$message .= ("\n\n".$part->getParticipantName()."\n");
 					$message .= ($part->getDescription());
-				}				
+					
+				}
 			}
 			if($found)
 			{
@@ -432,10 +446,12 @@ class ilECSContentWriter
 		catch(ilECSConnectorException $e)
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Cannot read approvements.');
+			return false;
 		}
 		catch(ilECSReaderException $e)
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Cannot read approvements.');
+			return false;
 		}
 
 		include_once('classes/class.ilLink.php');
@@ -487,9 +503,6 @@ class ilECSContentWriter
 			{
 				throw new ilECSContentWriterException('Missing ECS owner id.');
 			}
-			$this->json->setOwner($this->getOwnerId());
-			$members = array_unique($this->getParticipantIds());
-			$this->json->setEligibleMembers($members);
 		}	
 
 		// meta language

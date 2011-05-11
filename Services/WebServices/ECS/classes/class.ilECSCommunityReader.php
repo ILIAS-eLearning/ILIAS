@@ -74,7 +74,7 @@ class ilECSCommunityReader
 	 *
 	 * @access public
 	 * @static
-	 *
+	 * @return ilECSCommunityReader
 	 */
 	public static function _getInstance()
 	{
@@ -182,10 +182,9 @@ class ilECSCommunityReader
 	}
 	
 	/**
-	 * parse
-	 *
+	 * Read
 	 * @access private
-	 * @param
+	 * @throws ilECSConnectorException
 	 * 
 	 */
 	private function read()

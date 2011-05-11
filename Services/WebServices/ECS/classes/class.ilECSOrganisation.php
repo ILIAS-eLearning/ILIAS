@@ -22,7 +22,6 @@
 */
 
 /** 
-* 
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
@@ -30,86 +29,64 @@
 * @ilCtrl_Calls 
 * @ingroup ServicesWebServicesECS 
 */
-class ilECSAuth
-{
-	protected $log;
-	protected $mids = array();
 
-	public $url;
+class ilECSOrganisation
+{
+	protected $json_obj;
+	protected $name;
+	protected $abbr;
+
 
 	/**
-	 * constuctor
+	 * Constructor
 	 *
 	 * @access public
-	 * @param 
+	 * @param
 	 * 
 	 */
 	public function __construct()
 	{
+	}
+
+	/**
+	 * load from json
+	 *
+	 * @access public
+	 * @param object json representation
+	 * @throws ilECSReaderException
+	 */
+	public function loadFromJson($a_json)
+	{
 		global $ilLog;
-		
-		$this->log = $ilLog;
+
+		if(!is_object($a_json))
+		{
+			include_once('./Services/WebServices/ECS/classes/class.ilECSReaderException.php');
+			$ilLog->write(__METHOD__ . ': Cannot load from JSON. No object given.');
+			throw new ilECSReaderException('Cannot parse ECSParticipant.');
+		}
+		$this->name = $a_json->name;
+		$this->abbr = $a_json->abbr;
 	}
 
 	/**
-	 * URL
-	 * @param string $a_url
+	 * Get name
+	 * @return string
 	 */
-	public function setUrl($a_url)
+	public function getName()
 	{
-		$this->url = $a_url;
+		return $this->name;
 	}
 
 	/**
-	 * get Url
-	 * @return <type>
+	 * Get abbreviation
+	 * @return string
 	 */
-	public function getUrl()
+	public function getAbbreviation()
 	{
-		return $this->url;
-	}
-	
-	/**
-	 * get hash
-	 *
-	 * @access public
-	 * 
-	 */
-	public function getHash()
-	{
-	 	return $this->hash;
-	}
-	
-	/**
-	 * set SOV
-	 *
-	 * @access public
-	 * @param int start of verification
-	 * 
-	 */
-	public function setSOV($a_sov)
-	{
-	 	include_once('Date.php');
-	 	
-	 	$date = new Date();
-	 	$date->setDate($a_sov,DATE_FORMAT_UNIXTIME);
-	 	$this->sov = $date->getDate().'+01:00';
-	}
-
-	/**
-	 * set EOV
-	 *
-	 * @access public
-	 * @param int eov of verification
-	 * 
-	 */
-	public function setEOV($a_eov)
-	{
-	 	include_once('Date.php');
-	 	
-	 	$date = new Date();
-	 	$date->setDate($a_eov,DATE_FORMAT_UNIXTIME);
-	 	$this->eov = $date->getDate().'+01:00';
+		return $this->abbr;
 	}
 }
+
+
 ?>

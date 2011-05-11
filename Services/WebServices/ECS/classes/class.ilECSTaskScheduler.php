@@ -89,7 +89,7 @@ class ilECSTaskScheduler
 	public function startTaskExecution()
 	{
 		global $ilLog;
-		
+
 		try
 		{
 			$this->readMIDs();
@@ -134,8 +134,8 @@ class ilECSTaskScheduler
 	 */
 	private function handleEvents()
 	{
-	 	#return true;
-	 	
+		include_once './Services/WebServices/ECS/classes/class.ilECSEvent.php';
+
 	 	for($i = 0;$i < self::MAX_TASKS;$i++)
 	 	{
 	 		if(!$event = $this->event_reader->shift())
@@ -143,38 +143,36 @@ class ilECSTaskScheduler
 	 			$this->log->write(__METHOD__.': No more pending events found.');
 	 			break;
 	 		}
-	 		
-	 		// Delete events
-	 		if($event['op'] == ilECSEventQueueReader::OPERATION_DELETE)
-	 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Handle event '.$event['op']);
+			if($event['op'] == ilECSEvent::DESTROYED)
+			{
 				$this->handleDelete($event['id']);
-				continue;	 			
-	 		}
-	 		elseif($event['op'] == ilECSEventQueueReader::OPERATION_NEWLY_CREATED)
-	 		{
-	 			// That was command queue 'reset_all'
-	 			// Stop export and then start export.
-	 			$this->handleNewlyCreate($event['id']);
-	 		}
-	 		
+				continue;
+			}
+			if($event['op'] == ilECSEvent::NEW_EXPORT)
+			{
+				$this->handleNewlyCreate($event['id']);
+				continue;
+			}
+
+			$GLOBALS['ilLog']->write(__METHOD__.': Handling creation/update');
 	 		// Operation is create or update
 	 		// get econtent
 	 		try
 	 		{
 				include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
 				$reader = new ilECSEContentReader($event['id']);
+				$reader->read();
 	 		}
 	 		catch(Exception $e)
 	 		{
 	 			$this->log->write(__METHOD__.': Cannot read Econtent. '.$e->getMessage());
 	 			continue;
 	 		}
-	 		
-	 		if(!$reader->read())
+	 		if(!$reader->getEContent() instanceof ilECSEContent)
 	 		{
 				$this->log->write(__METHOD__.': Deleting deprecated remote course.');
 	 			$this->handleDelete($event['id']);
-	 			
 	 		}
 	 		else
 	 		{
@@ -198,22 +196,28 @@ class ilECSTaskScheduler
 		
 		$export = new ilECSExport($a_obj_id);
 		$econtent_id = $export->getEContentId();
+
 		try
 		{
 			$reader = new ilECSEContentReader($econtent_id);
 			$reader->read();
+			$reader->read(true);
+			
+			$econtent = $reader->getEContent();
+			$details = $reader->getEContentDetails();
 
-			foreach($reader->getEContent() as $econtent)
+			if($econtent instanceof ilECSEContent and $details instanceof ilECSEContentDetails)
 			{
 				if(!$obj = ilObjectFactory::getInstanceByObjId($a_obj_id,false))
 				{
 					$ilLog->write(__METHOD__.': Cannot create object instance. Aborting...');
+					return false;
 				}
 				// Delete resource			
 				$writer = new ilECSContentWriter($obj);
 				$writer->setExportable(false);
-				$writer->setOwnerId($econtent->getOwner());
-				$writer->setParticipantIds($econtent->getEligibleMembers());
+				$writer->setOwnerId($details->getFirstSender());
+				$writer->setParticipantIds($details->getReceivers());
 				$writer->refresh();
 				
 				// Create resource
@@ -261,7 +265,8 @@ class ilECSTaskScheduler
 		else
 		{
 			$obj_ids = (array) ilECSImport::_lookupObjId($econtent_id,$a_mid);
- 		}		
+ 		}
+		$GLOBALS['ilLog']->write(__METHOD__.': Received obj_ids '.print_r($obj_ids,true));
 	 	foreach($obj_ids as $obj_id)
 	 	{
 	 		$references = ilObject::_getAllReferences($obj_id);
@@ -285,49 +290,47 @@ class ilECSTaskScheduler
 	 * @param array array of ecscontent
 	 * 
 	 */
-	private function handleUpdate($ecscontent)
+	private function handleUpdate(ilECSEContent $content)
 	{
 		global $ilLog;
 		
+		include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
+		if(!ilECSParticipantSettings::_getInstance()->isEnabled($content->getOwner()))
+		{
+			$ilLog->write('Ignoring disabled participant. MID: '.$content->getOwner());
+			continue;
+		}
 
-	 	foreach($ecscontent as $content)
-	 	{
-			include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
-			if(!ilECSParticipantSettings::_getInstance()->isEnabled($content->getOwner()))
-			{
-				$ilLog->write('Ignoring disabled participant. MID: '.$content->getOwner());
-				continue;
-			}
-			
-			include_once('Services/WebServices/ECS/classes/class.ilECSImport.php');
+		include_once('Services/WebServices/ECS/classes/class.ilECSImport.php');
 
-			// new mids
-			foreach(array_intersect($this->mids,$content->getEligibleMembers()) as $mid)
+		// new mids
+		#foreach(array_intersect($this->mids,$details->getReceivers()) as $mid)
+		foreach($this->mids as $mid)
+		{
+			// Update existing
+			if($obj_id = ilECSImport::_isImported($content->getEContentId(),$mid))
 			{
-				// Update existing
-				if($obj_id = ilECSImport::_isImported($content->getEContentId(),$mid))
+				$remote = ilObjectFactory::getInstanceByObjId($obj_id,false);
+				if($remote->getType() != 'rcrs')
 				{
-			 		$remote = ilObjectFactory::getInstanceByObjId($obj_id,false);
-			 		if($remote->getType() != 'rcrs')
-			 		{
-			 			$this->log->write(__METHOD__.': Cannot instantiate remote course. Got object type '.$remote->getType());
-			 			continue;
-			 		}
-			 		$ilLog->write(__METHOD__.': ... update called.');
-			 		$remote->updateFromECSContent($content);
+					$this->log->write(__METHOD__.': Cannot instantiate remote course. Got object type '.$remote->getType());
+					continue;
 				}
-				else
-				{
-			 		$ilLog->write(__METHOD__.': ... create called.');
-		 			include_once('./Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php');
-					$remote_crs = ilObjRemoteCourse::_createFromECSEContent($content,$mid);
-				}
+				$ilLog->write(__METHOD__.': ... update called.');
+				$remote->updateFromECSContent($content);
 			}
+			else
+			{
+				$ilLog->write(__METHOD__.': ... create called.');
+				include_once('./Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php');
+				$remote_crs = ilObjRemoteCourse::_createFromECSEContent($content,$mid);
+			}
+
 			// deprecated mids
-			foreach(array_diff(ilECSImport::_lookupMIDs($content->getEContentId()),$content->getEligibleMembers()) as $deprecated)
-			{
-				$this->handleDelete($content->getEContentId(),$deprecated);
-			}
+			#foreach(array_diff(ilECSImport::_lookupMIDs($content->getEContentId()),$details->getReceivers()) as $deprecated)
+			#{
+			#	$this->handleDelete($content->getEContentId(),$deprecated);
+			#}
 	 	}	
 	}
 	
@@ -400,7 +403,7 @@ class ilECSTaskScheduler
 	 */
 	public function start()
 	{
-	 	global $ilLog;
+	 	global $ilLog, $ilDB;
 	 	
 	 	if(!$this->settings->isEnabled())
 	 	{
@@ -413,27 +416,31 @@ class ilECSTaskScheduler
 	 		return false;
 	 	}
 	 	
+	 	// and exceute a new task.
+
+
 	 	// check next task excecution time:
 	 	// If it's greater than time() directly increase this value with the polling time
-	 	// and exceute a new task.
-	 	// These operations should be thread-safe
+		/* synchronized { */
+		$query = 'UPDATE settings SET '.
+			'value = '.$ilDB->quote(time() + $this->settings->getPollingTime(),'text').' '.
+			'WHERE module = '.$ilDB->quote('ecs','text').' '.
+			'AND keyword = '.$ilDB->quote('next_execution','text').' '.
+			'AND value < '.$ilDB->quote(time(),'text');
+		$affected_rows = $ilDB->manipulate($query);
+		/* } */
 
-		$sett = new ilSetting("ecs");
-		$time = $sett->get("next_execution");
-	 	if(time() < ($time + $this->settings->getPollingTime()))
-	 	{
-			return true;
+		if(!$affected_rows)
+		{
 			// Nothing to do
-	 	}
-	 	// Set new execution time
-		$sett->set("next_execution", time() + $this->settings->getPollingTime());
-	 		
-	 	$this->log->write(__METHOD__.': Starting ECS tasks.');
-	 	
+			return true;
+		}
+
 	 	// Debug
 	 	//$this->startTaskExecution();
 	 	//return true;
-	 	
+
+		// Start task execution as backend process
 		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
 
 		$soap_client = new ilSoapClient();
@@ -445,7 +452,7 @@ class ilECSTaskScheduler
 		$new_session_id = duplicate_session($_COOKIE['PHPSESSID']);
 		$client_id = $_COOKIE['ilClientId']; 
 		
-		if($soap_client->init())
+		if($soap_client->init() and 0)
 		{
 			$ilLog->write(__METHOD__.': Calling soap handleECSTasks method...');
 			$res = $soap_client->call('handleECSTasks',array($new_session_id.'::'.$client_id));

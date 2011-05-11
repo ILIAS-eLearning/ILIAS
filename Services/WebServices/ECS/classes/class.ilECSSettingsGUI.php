@@ -96,7 +96,8 @@ class ilECSSettingsGUI
 
 		try
 		{
-			ilECSEventQueueReader::handleImportReset();	
+			ilECSEventQueueReader::handleImportReset();
+			ilECSEventQueueReader::handleExportReset();
 			
 			include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
 			ilECSTaskScheduler::_getInstance()->startTaskExecution();
@@ -348,7 +349,7 @@ class ilECSSettingsGUI
 		try
 		{
 			$reader = ilECSCommunityReader::_getInstance();
-				 	
+
 		 	foreach($reader->getCommunities() as $community)
 		 	{
 		 		$this->tpl->setCurrentBlock('table_community');
@@ -385,7 +386,7 @@ class ilECSSettingsGUI
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
 		$part = ilECSParticipantSettings::_getInstance();
-		
+
 		foreach($part->getEnabledParticipants() as $mid)
 		{
 			if(!in_array($mid,$mids))
@@ -404,13 +405,13 @@ class ilECSSettingsGUI
 		}
 		
 
+		/*
 		try
 		{
 			// Update all exported econtent
 			include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
 			include_once('./Services/WebServices/ECS/classes/class.ilECSConnector.php');
 			include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-			
 			$reader = new ilECSEContentReader();
 			$reader->read();
 			$all_content = $reader->getEContent();
@@ -450,11 +451,12 @@ class ilECSSettingsGUI
 		}
 		catch(ilException $e)
 		{
-			ilUtil::sendInfo('Update failed: '.$e1->getMessage());
+			ilUtil::sendInfo('Update failed: '.$e->getMessage());
 			$this->communities();
 			return false;
 		}
-		
+
+		*/
 		$part->setEnabledParticipants($_POST['mid'] ? $_POST['mid'] : array());
 		$part->save();
 		

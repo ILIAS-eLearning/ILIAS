@@ -33,18 +33,19 @@
 class ilECSEContent
 {
 	private $obj_id;
+	private $owner = 0;
 	
 	// ECS JSON variables
 	// All exportable fields have to be public
+
 	public $url = '';
 	public $title = '';
-	public $eligibleMembers = array();
+	//public $eligibleMembers = array();
 	public $etype = 'application/ecs-course';
 	public $status = 'offline';
 	public $lang = 'en_EN';
 	public $abstract = '';
 	public $study_courses = array();
-	public $owner = 0;
 	public $credits = '';
 	public $semesterHours = '';
 	public $lecturer = array();
@@ -229,31 +230,6 @@ class ilECSEContent
 	 	}	
 	}
 	
-	/**
-	 * set eligible members
-	 *
-	 * @access public
-	 * @param array array of mids 
-	 */
-	public function setEligibleMembers($a_members)
-	{
-	 	$this->eligibleMembers = array();
-	 	foreach($a_members as $member)
-	 	{
-	 		$this->eligibleMembers[] = (int) $member;
-	 	}
-	}
-	
-	/**
-	 * get eligible members
-	 *
-	 * @access public
-	 * 
-	 */
-	public function getEligibleMembers()
-	{
-	 	return $this->eligibleMembers ? $this->eligibleMembers : array();
-	}
 	
 	/**
 	 * get owner
@@ -277,16 +253,6 @@ class ilECSEContent
 	 	$this->owner = (int) $a_owner;
 	}
 	
-	/**
-	 * get participants
-	 *
-	 * @access public
-	 * 
-	 */
-	public function getParticipants()
-	{
-		return $this->getEligibleMembers();
-	}
 	
 	/**
 	 * set status
@@ -510,6 +476,15 @@ class ilECSEContent
 	}
 
 	/**
+	 * GEt abstract
+	 * @return string
+	 */
+	public function getAbstract()
+	{
+		return $this->abstract;
+	}
+
+	/**
 	 * Load from JSON object
 	 *
 	 * @access public
@@ -526,9 +501,8 @@ class ilECSEContent
 			$ilLog->write(__METHOD__.': Cannot load from JSON. No object given.');
 			throw new ilECSReaderException('Cannot parse ECSContent.');
 		}
-		$this->organization = $a_json->organization;
+		#$this->organization = $a_json->organization;
 		$this->study_courses = $a_json->study_courses ? $a_json->study_courses : array();
-		$this->owner = $a_json->owner;
 		$this->title = $a_json->title;
 		$this->abstract = $a_json->abstract;
 		$this->credits = $a_json->credits;
@@ -539,7 +513,7 @@ class ilECSEContent
 		
 		$this->courseID = $a_json->courseID;
 		$this->courseType = $a_json->courseType;
-		$this->eid = $a_json->eid;
+		#$this->eid = $a_json->eid;
 		$this->term = $a_json->term;
 		$this->url = $a_json->url;
 		$this->lang = $a_json->lang;
@@ -553,7 +527,6 @@ class ilECSEContent
 		{
 			$this->timePlace = new ilECSTimePlace();
 		}
-		$this->eligibleMembers = $a_json->eligibleMembers ? $a_json->eligibleMembers : array(); 
 	}
 }
 

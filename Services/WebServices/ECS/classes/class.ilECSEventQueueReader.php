@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/WebServices/ECS/classes/class.ilECSEvent.php';
+
+
 /** 
 * Reads ECS events and stores them in the database.
 *  
@@ -30,16 +33,10 @@
 * 
 * @ingroup ServicesWebServicesECS
 */
-
 class ilECSEventQueueReader
 {
 	const TYPE_ECONTENT = 'econtents';
 	const TYPE_EXPORTED = 'exported';
-	
-	const OPERATION_DELETE = 'delete';
-	const OPERATION_UPDATE = 'update';
-	const OPERATION_CREATE = 'create';
-	const OPERATION_NEWLY_CREATED = 'newly-created';
 	
 	const ADMIN_RESET = 'reset';
 	const ADMIN_RESET_ALL = 'reset_all';
@@ -70,7 +67,7 @@ class ilECSEventQueueReader
 	}
 	
 	/**
-	 * handle admin reset  
+	 * Reread all imported econtent.
 	 *
 	 * @return bool
 	 * @static
@@ -93,59 +90,50 @@ class ilECSEventQueueReader
 			$event_queue->deleteAllEContentEvents();
 			
 			$reader = new ilECSEContentReader();
-			$reader->read();
-			$all_content = $reader->getEContent();
-			
-			
+			$list = $reader->readResourceList();
+			//$all_content = $reader->getEContent();
+
 			$imported = ilECSImport::_getAllImportedLinks();
-			$exported = ilECSExport::_getAllEContentIds();
-			
-			// read update events
-			foreach($all_content as $content)
+
+			if(count($list))
 			{
-				// Ask if this is desired
-				if(!isset($imported[$content->getEContentId()]) and 0)
+				foreach($list->getLinkIds() as $link_id)
 				{
-					$event_queue->add(
-						ilECSEventQueueReader::TYPE_ECONTENT,
-						$content->getEContentId(),
-						ilECSEventQueueReader::OPERATION_CREATE
-					); 
+					if(!isset($imported[$link_id]))
+					{
+						// Add create event for not imported econtent
+						$event_queue->add(
+							ilECSEventQueueReader::TYPE_ECONTENT,
+							$link_id,
+							ilECSEvent::CREATED
+						);
+					}
+					else
+					{
+						// Add update event for already existing events
+						$event_queue->add(
+							ilECSEventQueueReader::TYPE_ECONTENT,
+							$link_id,
+							ilECSEvent::UPDATED
+						);
+					}
+
+					if(isset($imported[$link_id]))
+					{
+						unset($imported[$link_id]);
+					}
 				}
-				else
-				{
-					$event_queue->add(
-						ilECSEventQueueReader::TYPE_ECONTENT,
-						$content->getEContentId(),
-						ilECSEventQueueReader::OPERATION_UPDATE
-					);
-				}
-				
-				if(isset($imported[$content->getEContentId()]))
-				{
-					unset($imported[$content->getEContentId()]);
-				}
-				if(isset($exported[$content->getEContentId()]))
-				{
-					unset($exported[$content->getEContentId()]);
-				}
-				
 			}
-			// read delete events
 			if(is_array($imported))
 			{
+				// Delete event for deprecated econtent
 				foreach($imported as $econtent_id => $null)
 				{
 					$event_queue->add(ilECSEventQueueReader::TYPE_ECONTENT,
 						$econtent_id,
-						ilECSEventQueueReader::OPERATION_DELETE);
-					
+						ilECSEvent::DESTROYED
+					);
 				}
-			}
-			// delete all deprecated export information
-			if(is_array($exported))
-			{
-				ilECSExport::_deleteEContentIds($exported);
 			}
 		}
 		catch(ilECSConnectorException $e1)
@@ -155,7 +143,7 @@ class ilECSEventQueueReader
 		}
 		catch(ilException $e2)
 		{
-			$ilLog->write('Update failed: '.$e1->getMessage());
+			$ilLog->write('Update failed: '.$e2->getMessage());
 			return false;
 		}
 		return true;
@@ -171,15 +159,56 @@ class ilECSEventQueueReader
 	 public static function handleExportReset()
 	 {
 	 	include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-	 	
+
+		// Delete all export events
 	 	$queue = new ilECSEventQueueReader();
 	 	$queue->deleteAllExportedEvents();
-	 	
-	 	foreach(ilECSExport::_getExportedIDs() as $obj_id)
-	 	{
-	 		$queue->add(self::TYPE_EXPORTED,$obj_id,self::OPERATION_NEWLY_CREATED);
-	 	}
-	 	return true;
+
+		// Read all local export info
+		$local_econtent_ids = ilECSExport::_getAllEContentIds();
+
+		// Read remote list
+		try
+		{
+			include_once './Services/WebServices/ECS/classes/class.ilECSEContentReader.php';
+			$reader = new ilECSEContentReader();
+			$list = $reader->readResourceList(ilECSEContentReader::SENDER_ONLY);
+		}
+		catch(ilECSConnectorException $e)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Connect failed '.$e->getMessage());
+			return false;
+		}
+		catch(ilECSReaderException $e)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Connect failed '.$e->getMessage());
+			return false;
+		}
+
+		$remote_econtent_ids = array();
+		if(count($list))
+		{
+			$remote_econtent_ids = $list->getLinkIds();
+		}
+
+		// Delete all deprecated local export info
+		foreach($local_econtent_ids as $econtent_id => $obj_id)
+		{
+			if(!in_array($econtent_id, $remote_econtent_ids))
+			{
+				ilECSExport::_deleteEContentIds(array($econtent_id));
+			}
+		}
+
+		// Delete all with deprecated remote info
+		foreach($remote_econtent_ids as $econtent_id)
+		{
+			if(!isset($local_econtent_ids[$econtent_id]))
+			{
+				ilECSExport::_deleteEContentIds(array($econtent_id));
+			}
+		}
+		return true;
 	 }
 	
 	
@@ -238,92 +267,107 @@ class ilECSEventQueueReader
 		$res = $ilDB->manipulate($query);
 	 	return true;
 	}
-	
 
 	/**
-	 * Fetch events from ECS server
-	 *
+	 * Fetch events from fifo
+	 * Using fifo
 	 * @access public
-	 * @param
 	 * @throws ilECSConnectorException, ilECSReaderException
 	 */
 	public function refresh()
 	{
-	 	global $ilLog;
-	 	
-	 	try
-	 	{
+		try {
 		 	include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
 			include_once('Services/WebServices/ECS/classes/class.ilECSConnectorException.php');
-		 	
-		 	$connector = new ilECSConnector();
-			$res = $connector->getEventQueues();
 
-			if(!is_array($res->getResult()))
+			$connector = new ilECSConnector();
+			while(true)
 			{
-				$ilLog->write(__METHOD__.': No new events found.');
-				return true;
-			}
-			$this->log->write(__METHOD__.': Found '.count($res->getResult()).' new events.');
-			foreach($res->getResult() as $event)
-			{
-				// Handle command queue
-				if(isset($event->cmd) and is_object($event->cmd))
-				{
-					if(!isset($event->cmd->admin) and !is_object($event->cmd->admin))
-					{
-						throw new ilECSReaderException('Received invalid command queue structure. Property "admin" is missing');
-					}
-					$admin_cmd = $event->cmd->admin;
-					$this->log->write(__METHOD__.': Received new Commandqueue command: '.$admin_cmd);
-					switch($admin_cmd)
-					{
-						case self::ADMIN_RESET:
-							self::handleImportReset();
-							break;
-						case self::ADMIN_RESET_ALL:
-							self::handleExportReset();
-							self::handleImportReset();
-							break;		
-					}
-				}
-				// Handle econtents events
-				if(isset($event->econtents) and is_object($event->econtents))
-				{
-					$operation = $event->econtents->op;
+				$res = $connector->readEventFifo(false);
 
-					if(!in_array($event->econtents->eid,$this->econtent_ids))
-					{
-						// It is not necessary to store multiple entries with the same econtent_id.
-						// since we always have to receive and parse the econtent from the ecs server. 
-						$this->add('econtents',$event->econtents->eid,$event->econtents->op);
-						$this->log->write(__METHOD__.': Added new entry for EContentId: '.$event->econtents->eid);
-					}
-					elseif($operation == self::OPERATION_DELETE)
-					{
-						$this->log->write(__METHOD__.': Updating delete operation for EContentId: '.$event->econtents->eid);
-						$this->update('econtents',$event->econtents->eid,$event->econtents->op);
-					}
-					else
-					{
-						// update with last operation
-						$this->log->write(__METHOD__.': Ignoring multiple operations for EContentId: '.$event->econtents->eid);
-					}
-					
+				if(!count($res->getResult()))
+				{
+					return true;
 				}
+
+				foreach($res->getResult() as $result)
+				{
+					include_once './Services/WebServices/ECS/classes/class.ilECSEvent.php';
+					$event = new ilECSEvent($result);
+
+					// Fill command queue
+					$this->writeEventToDB($event);
+				}
+				// Delete from fifo
+				$connector->readEventFifo(true);
 			}
-			$this->read();		
-	 	}
-	 	catch(ilECSConnectorException $e)
-	 	{
-	 		$ilLog->write(__METHOD__.': Error connecting to ECS server. '.$e->getMessage());
-	 		throw $e;
-	 	}
-	 	catch(ilECSReaderException $e)
-	 	{
-	 		$ilLog->write(__METHOD__.': Error reading EventQueue. '.$e->getMessage());
-	 		throw $e;
-	 	}
+		}
+		catch(ilECSConnectorException $e)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Cannot read event fifo. Aborting');
+		}
+	}
+
+	/**
+	 * Write event to db
+	 */
+	private function writeEventToDB(ilECSEvent $ev)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM ecs_events ".
+			"WHERE type = ".$ilDB->quote(self::TYPE_ECONTENT,'integer')." ".
+			"AND id = ".$ilDB->quote($ev->getRessourceId(),'integer')." ";
+		$res = $ilDB->query($query);
+
+		$event_id = 0;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$event_id = $row->event_id;
+		}
+
+		$GLOBALS['ilLog']->write(__METHOD__.': Handling new event '.$ev->getStatus().' for econtent '.$ev->getRessourceId());
+
+		if(!$event_id)
+		{
+			// No previous entry exists => perform insert
+			$query = "INSERT ecs_events (event_id,type,id,op) ".
+				"VALUES( ".
+				$ilDB->quote($ilDB->nextId('ecs_events'),'integer').','.
+				$ilDB->quote(self::TYPE_ECONTENT,'text').', '.
+				$ilDB->quote($ev->getRessourceId(),'integer').', '.
+				$ilDB->quote($ev->getStatus(),'text').' '.
+				')';
+			$ilDB->manipulate($query);
+			return true;
+		}
+		// Do update
+		$do_update = false;
+		switch($ev->getStatus())
+		{
+			case ilECSEvent::CREATED:
+				// Do update, although impossible
+				$do_update = true;
+				break;
+
+			case ilECSEvent::DESTROYED:
+				$do_update = true;
+				break;
+
+			case ilECSEvent::UPDATED:
+				// Do nothing. Old status is ok.
+				break;
+		}
+
+		if(!$do_update)
+		{
+			return true;
+		}
+		$query = "UPDATE ecs_events ".
+			"SET op = ".$ilDB->quote($ev->getStatus(),'text')." ".
+			"WHERE event_id = ".$ilDB->quote($event_id,'integer');
+		$ilDB->manipulate($query);
+		return true;
 	}
 	
 	/**

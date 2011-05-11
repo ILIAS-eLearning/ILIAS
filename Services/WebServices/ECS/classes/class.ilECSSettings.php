@@ -154,7 +154,28 @@ class ilECSSettings
 	 			$uri = 'https://';
 	 			break;
 	 	}
-	 	$uri .= $this->getServer().':'.$this->getPort();
+
+		if(stristr($this->getServer(), '/'))
+		{
+			$counter = 0;
+			foreach((array) explode('/',$this->getServer()) as $key => $part)
+			{
+				$uri .= $part;
+				if(!$counter)
+				{
+					$uri .= ':'.$this->getPort();
+				}
+				$uri .= '/';
+				++$counter;
+			}
+			$uri = substr($uri,0,-1);
+		}
+		else
+		{
+			$uri .= $this->getServer();
+			$uri .= (':'.$this->getPort());
+		}
+
 	 	return $uri;
 	}
 	

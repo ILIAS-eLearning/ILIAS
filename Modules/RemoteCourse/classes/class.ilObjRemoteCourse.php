@@ -360,14 +360,10 @@ class ilObjRemoteCourse extends ilObject
 		try
 		{	 	
 	 		$connector = new ilECSConnector();
-	 		$import = new ilECSImport($this->getId());
-	 		$auth = new ilECSAuth($import->getEContentId(),$import->getMID());
-	 		#$auth->setSOV(time());
-	 		#$auth->setEOV(time() + 7200);
-	 		$auth->setAbbreviation('K');
-			$connector->addAuth(@json_encode($auth));
-			
-			$this->auth_hash = $auth->getHash();
+	 		#$import = new ilECSImport($this->getId());
+			$auth = new ilECSAuth();
+			$auth->setUrl($this->getRemoteLink());
+			$this->auth_hash = $connector->addAuth(@json_encode($auth),$this->getMID());
 			return true;
 		}
 		catch(ilECSConnectorException $exc)
@@ -496,7 +492,7 @@ class ilObjRemoteCourse extends ilObject
 	 *
 	 * @param ilECSEContent object with course settings
 	 */
-	public static function _createFromECSEContent(ilECSEContent $ecs_content,$a_mid)
+	public static function _createFromECSEContent(ilECSEContent $ecs_content, $a_mid)
 	{
 		global $ilAppEventHandler;
 		
@@ -506,7 +502,7 @@ class ilObjRemoteCourse extends ilObject
 		
 		$remote_crs = new ilObjRemoteCourse();
 		$remote_crs->setType('rcrs');
-		$remote_crs->setOwner(6);
+		$remote_crs->setOwner(0);
 		$new_obj_id = $remote_crs->create();
 		$remote_crs->createReference();
 		$remote_crs->putInTree(ilECSCategoryMapping::getMatchingCategory($ecs_content));
@@ -535,6 +531,7 @@ class ilObjRemoteCourse extends ilObject
 		$mappings = ilECSDataMappingSettings::_getInstance();
 		
 		$this->setTitle($ecs_content->getTitle());
+		$this->setDescription($ecs_content->getAbstract());
 		$this->setOrganization($ecs_content->getOrganization());
 		$this->setAvailabilityType($ecs_content->isOnline() ? self::ACTIVATION_UNLIMITED : self::ACTIVATION_OFFLINE);
 		$this->setRemoteLink($ecs_content->getURL());
@@ -666,7 +663,7 @@ class ilObjRemoteCourse extends ilObject
 	 */
 	public function setECSImported($a_econtent_id,$a_mid,$a_obj_id)
 	{
-	 	include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
 	 	$import = new ilECSImport($a_obj_id);
 	 	$import->setEContentId($a_econtent_id);
 	 	$import->setMID($a_mid);

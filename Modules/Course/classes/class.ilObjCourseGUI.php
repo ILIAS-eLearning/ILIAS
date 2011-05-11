@@ -1464,8 +1464,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	 * 
 	 *
 	 * @access protected
-	 * @param
-	 * @return
+	 * @param void
+	 * @return bool
 	 */
 	protected function fillECSExportSettings(ilPropertyFormGUI $a_form)
 	{
@@ -1480,14 +1480,32 @@ class ilObjCourseGUI extends ilContainerGUI
 			return true;
 		}
 		
+		include_once('./Services/WebServices/ECS/classes/class.ilECSCommunityReader.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSConnectorException.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
+
+
+		$ecs_export = new ilECSExport($this->object->getId());
+		try {
+			if(
+				!count(ilECSCommunityReader::_getInstance()->getEnabledParticipants()) and
+				!$ecs_export->isExported())
+			{
+				return true;
+			}
+		}
+		catch(ilECSConnectorException $e)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': ECS failure: '.$e->getMessage());
+			return true;
+		}
+
 		$this->lng->loadLanguageModule('ecs');
 		
 		$ecs = new ilFormSectionHeaderGUI();
 		$ecs->setTitle($this->lng->txt('ecs_export'));
 		$a_form->addItem($ecs);
 		
-		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-		$ecs_export = new ilECSExport($this->object->getId());
 		
 		$exp = new ilRadioGroupInputGUI($this->lng->txt('ecs_export_obj_settings'),'ecs_export');
 		$exp->setRequired(true);
@@ -1510,15 +1528,15 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
 				
 				$econtent_reader = new ilECSEContentReader($ecs_export->getEContentId());
-				$econtent_reader->read();
-				if($content = $econtent_reader->getEContent())
+				$econtent_reader->read(true);
+				$details = $econtent_reader->getEContentDetails();
+				if($details instanceof ilECSEContentDetails)
 				{
-					$members = $content[0]->getParticipants();
-					$owner = $content[0]->getOwner();
+					$members = $details->getReceivers();
+					$owner = $details->getFirstSender();
 				}
 			}
 			
-			include_once('./Services/WebServices/ECS/classes/class.ilECSCommunityReader.php');
 			$reader = ilECSCommunityReader::_getInstance();
 			if(count($parts = $reader->getPublishableParticipants()) > 1)
 			{
@@ -1546,7 +1564,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				#$on->addSubItem($publish_as);
 				$on->addSubItem($coms);
 			}
-			//elseif(count($parts) == 1)
 			else
 			{
 				$ilLog->write(__METHOD__.': Found '.count($parts).' participants for publishing');
@@ -1576,7 +1593,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					$community->getTitle().': '.$participant->getParticipantName(),
 					$participant->getMID()
 				);
-				$publish_for->addOption($com);					
+				$publish_for->addOption($com);
 				
 				
 				#$com = new ilCheckboxInputGUI('111','ecs_mids[]');

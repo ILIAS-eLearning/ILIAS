@@ -35,6 +35,7 @@ include_once('./Services/WebServices/ECS/classes/class.ilECSConnectorException.p
 class ilECSResult
 {
 	const RESULT_TYPE_JSON = 1;
+	const RESULT_TYPE_URL_LIST = 2;
 	
 	protected $log;
 	
@@ -117,6 +118,15 @@ class ilECSResult
 	{
 		return $this->result;	 	
 	}
+
+	/**
+	 * Set header
+	 * @param array $a_headers
+	 */
+	public function setHeaders($a_headers)
+	{
+		$this->headers = $a_headers;
+	}
 	
 	/**
 	 * get headers
@@ -151,6 +161,10 @@ class ilECSResult
 	 	{
 	 		case self::RESULT_TYPE_JSON:
 				$this->result = json_decode($this->result_string);
+				break;
+
+			case self::RESULT_TYPE_URL_LIST:
+				$this->result = $this->parseUriList($this->result_string);
 				break;
 	 	}
 	 	return true;
@@ -198,6 +212,30 @@ class ilECSResult
 			$this->headers['Location'] = $location;
 		}
 		return true;
+	}
+
+	/**
+	 * 
+	 * @param <type> $a_content
+	 * @return ilECSUriList 
+	 */
+	private function parseUriList($a_content)
+	{
+		include_once 'Services/WebServices/ECS/classes/class.ilECSUriList.php';
+		$list = new ilECSUriList();
+		$lines = explode("\n", $this->getPlainResultString());
+		foreach($lines as $line)
+		{
+			$line = trim($line);
+			if(!strlen($line))
+			{
+				continue;
+			}
+			$uri_parts = explode("/", $line);
+			$list->add($line, array_pop($uri_parts));
+		}
+
+		return $list;
 	}
 }
 
