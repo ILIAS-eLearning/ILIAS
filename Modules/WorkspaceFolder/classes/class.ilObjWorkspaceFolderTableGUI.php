@@ -63,8 +63,7 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		
 		$item_list_gui->setDetailsLevel(ilObjectListGUI::DETAILS_ALL);
 		$item_list_gui->enableDelete(true);
-		$item_list_gui->enableCut(true);
-		$item_list_gui->enableCopy(false);
+		$item_list_gui->enableCut(true);		
 		$item_list_gui->enableSubscribe(false);
 		$item_list_gui->enablePayment(false);
 		$item_list_gui->enableLink(false);
@@ -75,6 +74,8 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		$item_list_gui->enableIcon(true);
 		// $item_list_gui->enableCheckbox(false);
 		// $item_list_gui->setSeparateCommands(true);
+		
+		$item_list_gui->enableCopy($objDefinition->allowCopy($node["type"]));
 		
 		if($node["type"] == "file")
 		{
