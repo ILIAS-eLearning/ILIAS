@@ -92,6 +92,31 @@
 	<StyleParameter Name="font-size" Value="90%"/>
 </Style>
 
+<!-- Content popup for interactive images -->
+<Style Tag="div" Type="iim" Class="ContentPopup">
+	<StyleParameter Name="background-color" Value="#FFFFFF"/>
+	<StyleParameter Name="border-color" Value="#A0A0A0"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-width" Value="2px"/>
+	<StyleParameter Name="padding-top" Value="5px"/>
+	<StyleParameter Name="padding-right" Value="10px"/>
+	<StyleParameter Name="padding-bottom" Value="5px"/>
+	<StyleParameter Name="padding-left" Value="10px"/>
+</Style>
+
+<Style Tag="a" Type="marker" Class="Marker">
+	<StyleParameter Name="display" Value="block"/>
+	<StyleParameter Name="cursor" Value="pointer"/>
+	<StyleParameter Name="width" Value="27px"/>
+	<StyleParameter Name="height" Value="32px"/>
+	<StyleParameter Name="position" Value="absolute"/>
+	<StyleParameter Name="background-image" Value="icon_pin.png"/>
+</Style>
+
+<Style Tag="a" Type="marker" Class="Marker:hover">
+	<StyleParameter Name="background-image" Value="icon_pin_on.png"/>
+</Style>
+
 <!-- Page -->
 <Style Tag="table" Type="page_frame" Class="PageFrame">
 	<StyleParameter Name="padding-left" Value="15px"/>

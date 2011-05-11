@@ -233,7 +233,7 @@ class ilObjStyleSheet extends ilObject
 	// displayed with matching tag (group -> tags)
 	public static $filtered_groups =
 			array("ol" => array("ol"), "ul" => array("ul"),
-				"table" => array("table"), "positioning" => array("h1", "h2", "h3", "div", "img", "table"));
+				"table" => array("table"), "positioning" => array("h1", "h2", "h3", "div", "img", "table", "a"));
 
 	// style types and their super type
 	public static $style_super_types = array(
@@ -244,7 +244,7 @@ class ilObjStyleSheet extends ilObject
 		"table" => array("table", "table_cell", "table_caption"),
 		"list" => array("list_o", "list_u", "list_item"),
 		"flist" => array("flist_cont", "flist_head", "flist", "flist_li", "flist_a"),
-		"media" => array("media_cont", "media_caption"),
+		"media" => array("media_cont", "media_caption", "iim", "marker"),
 		"tabs" => array("va_cntr", "va_icntr", "va_ihead", "va_icont",
 			"ha_cntr", "ha_icntr", "ha_ihead", "ha_icont"),
 		"question" => array("question", "qtitle", "qanswer", "qinput", "qlinput", "qsubmit", "qfeedr", "qfeedw",
@@ -284,6 +284,8 @@ class ilObjStyleSheet extends ilObject
 		"table_caption" => "caption",
 		"media_cont" => "table",
 		"media_caption" => "div",
+		"iim" => "div",
+		"marker" => "a",
 		"glo_overlay" => "div",
 		"glo_ovtitle" => "h1",
 		"glo_ovclink" => "a",
@@ -373,6 +375,8 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "media_cont", "class" => "MediaContainer"),
 			array("type" => "table", "class" => "StandardTable"),
 			array("type" => "media_caption", "class" => "MediaCaption"),
+			array("type" => "iim", "class" => "ContentPopup"),
+			array("type" => "marker", "class" => "Marker"),
 			array("type" => "page_frame", "class" => "PageFrame"),
 			array("type" => "page_cont", "class" => "PageContainer"),
 			array("type" => "page", "class" => "Page"),
