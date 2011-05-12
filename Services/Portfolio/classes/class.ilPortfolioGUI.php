@@ -10,7 +10,7 @@ include_once("./Services/Portfolio/classes/class.ilPortfolio.php");
  * @version $Id$
  *
  * @ilCtrl_Calls ilPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
- * @ilCtrl_Calls ilPortfolioGUI: ilWorkspaceAccessGUI
+ * @ilCtrl_Calls ilPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
  *
  * @ingroup ServicesPortfolio
  */
@@ -60,7 +60,7 @@ class ilPortfolioGUI
 	 */
 	function &executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $lng, $tpl;
+		global $ilCtrl, $ilTabs, $lng, $tpl, $ilUser;
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -100,6 +100,22 @@ class ilPortfolioGUI
 				{
 					$tpl->setContent($ret);
 				}
+				break;
+				
+			case "ilnotegui";				
+				$ilTabs->clearTargets();
+				$ilTabs->setBackTarget($lng->txt("back"),
+					$ilCtrl->getLinkTarget($this, "preview"));	
+				
+				$content = $this->preview(true);
+				
+				include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+				$note_gui = new ilNoteGUI($this->portfolio->getId(), 0, "pf", false);
+				$note_gui->enablePublicNotes(true);
+				$note_gui->enablePrivateNotes(true);
+				$note_gui->enablePublicNotesDeletion($ilUser->getId() == $this->portfolio->getUserId());
+				$note_gui->setRepositoryMode(false);
+				$tpl->setContent($content.$ilCtrl->forwardCommand($note_gui));
 				break;
 
 			default:				
@@ -574,11 +590,12 @@ class ilPortfolioGUI
 	/**
 	 * Show user page
 	 */
-	function preview()
+	function preview($a_return = false)
 	{
 		global $ilUser, $tpl, $ilCtrl, $ilTabs, $lng;
 		
-		$user_id = $ilUser->getId();
+		$portfolio_id = $this->portfolio->getId();
+		$user_id = $this->portfolio->getUserId();
 		
 		// page title
 		include_once("./Services/User/classes/class.ilUserUtil.php");
@@ -590,7 +607,7 @@ class ilPortfolioGUI
 			$ilCtrl->getLinkTarget($this, "show"));
 			
 		include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
-		$pages = ilPortfolioPage::getAllPages($this->portfolio->getId());		
+		$pages = ilPortfolioPage::getAllPages($portfolio_id);		
 		$current_page = $_GET["user_page"];
 
 		// display first page of portfolio if none given
@@ -613,19 +630,34 @@ class ilPortfolioGUI
 			}
 
 			$ilTabs->activateTab("user_page_".$current_page);
+			$ilCtrl->setParameter($this, "user_page", $current_page);
 		}
 			
 		// get current page content
 		include_once("./Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
-		$page_gui = new ilPortfolioPageGUI($this->portfolio->getId(), $current_page);
+		$page_gui = new ilPortfolioPageGUI($portfolio_id, $current_page);
 		$page_gui->setEmbedded(true);
 		
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
 		$tpl->parseCurrentBlock();
-
-		$tpl->setContent($ilCtrl->getHTML($page_gui));			
+		
+		$content = $ilCtrl->getHTML($page_gui);
+		
+		if($a_return)
+		{
+			return $content;
+		}
+		
+		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+		$note_gui = new ilNoteGUI($portfolio_id, 0, "pf", false);
+		$note_gui->enablePublicNotes(true);
+		$note_gui->enablePrivateNotes(true);
+		$note_gui->enablePublicNotesDeletion($ilUser->getId() == $user_id);
+		$note_gui->setRepositoryMode(false);
+		
+		$tpl->setContent($content.$note_gui->getNotesHTML());			
 	}
 }
 

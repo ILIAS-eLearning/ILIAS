@@ -223,6 +223,26 @@ class ilNote
 		return $this->label;
 	}
 	
+	/**
+	* set repository object status
+	*
+	* @param	bool		
+	*/
+	function setInRepository($a_value)
+	{
+		return $this->no_repository = !(bool)$a_value;
+	}
+	
+	/**
+	* belongs note to repository object?
+	*
+	* @return	bool
+	*/
+	function isInRepository()
+	{
+		return !$this->no_repository;
+	}
+	
 	function create()
 	{
 		global $ilDB;
@@ -252,7 +272,8 @@ class ilNote
 			"note_text" => array("clob", (string) $this->text),
 			"subject" => array("text", (string) $this->subject),
 			"label" => array("integer", (int) $this->label),
-			"creation_date" => array("timestamp", ilUtil::now())
+			"creation_date" => array("timestamp", ilUtil::now()),
+			"no_repository" => array("integer", $this->no_repository)
 			));
 		
 		$this->creation_date = ilNote::_lookupCreationDate($this->getId());
@@ -283,7 +304,8 @@ class ilNote
 			"note_text" => array("clob", (string) $this->text),
 			"subject" => array("text", (string) $this->subject),
 			"label" => array("integer", (int) $this->label),
-			"update_date" => array("timestamp", ilUtil::now())
+			"update_date" => array("timestamp", ilUtil::now()),
+			"no_repository" => array("integer", $this->no_repository)
 			), array(
 			"id" => array("integer", $this->getId())
 			));
@@ -328,6 +350,7 @@ class ilNote
 		$this->setLabel($a_note_rec["label"]);
 		$this->setCreationDate($a_note_rec["creation_date"]);
 		$this->setUpdateDate($a_note_rec["update_date"]);
+		$this->setInRepository(!(bool)$a_note_rec["no_repository"]);
 	}
 	
 	/**
@@ -365,7 +388,7 @@ class ilNote
 	*/
 	function _getNotesOfObject($a_rep_obj_id, $a_obj_id, $a_obj_type,
 		$a_type = IL_NOTE_PRIVATE, $a_incl_sub = false, $a_filter = "",
-		$a_all_public = "y")
+		$a_all_public = "y", $a_repository_mode = true)
 	{
 		global $ilDB, $ilUser;
 		
@@ -378,13 +401,18 @@ class ilNote
 			  " AND obj_type = ".$ilDB->quote((string) $a_obj_type, "text")
 			: "";
 		
+		if(!$a_repository_mode)
+		{
+			$sub_where .= " AND no_repository = ".$ilDB->quote(1, "integer");
+		}
+		
 		$q = "SELECT * FROM note WHERE ".
 			" rep_obj_id = ".$ilDB->quote((int) $a_rep_obj_id, "integer").
 			$sub_where.
 			" AND type = ".$ilDB->quote((int) $a_type, "integer").
 			$author_where.
 			" ORDER BY creation_date DESC";
-
+		
 		$set = $ilDB->query($q);
 		$notes = array();
 		while($note_rec = $ilDB->fetchAssoc($set))

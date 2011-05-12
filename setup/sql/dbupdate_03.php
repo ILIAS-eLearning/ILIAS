@@ -5005,3 +5005,14 @@ if(!$ilDB->tableExists('usr_portf_acl'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3312>
+<?php
+	if(!$ilDB->tableColumnExists('note', 'no_repository'))
+	{
+		$ilDB->addTableColumn("note", "no_repository", array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => false,
+			"default" => 0));
+	}
+?>
