@@ -10,6 +10,8 @@ include_once "Modules/Course/classes/class.ilCourseParticipants.php";
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id: class.ilPersonalDesktopGUI.php 26976 2010-12-16 13:24:38Z akill $
+ * 
+ * @ingroup ServicesPersonalWorkspace
  */
 class ilWorkspaceAccessHandler
 {
@@ -204,7 +206,7 @@ class ilWorkspaceAccessHandler
 
 		$set = $ilDB->query("SELECT object_id FROM acl_ws".
 			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
-			" AND object_id = ".$ilDB->quote(ilObject2GUI::PERMISSION_REGISTERED, "integer"));
+			" AND object_id = ".$ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_REGISTERED, "integer"));
 		return (bool)$ilDB->numRows($set);
 	}
 	
@@ -214,7 +216,7 @@ class ilWorkspaceAccessHandler
 
 		$set = $ilDB->query("SELECT object_id FROM acl_ws".
 			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
-			" AND object_id = ".$ilDB->quote(ilObject2GUI::PERMISSION_ALL, "integer"));
+			" AND object_id = ".$ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_ALL, "integer"));
 		return (bool)$ilDB->numRows($set);
 	}
 }

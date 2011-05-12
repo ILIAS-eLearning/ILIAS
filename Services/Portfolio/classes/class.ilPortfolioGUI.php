@@ -10,6 +10,7 @@ include_once("./Services/Portfolio/classes/class.ilPortfolio.php");
  * @version $Id$
  *
  * @ilCtrl_Calls ilPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
+ * @ilCtrl_Calls ilPortfolioGUI: ilWorkspaceAccessGUI
  *
  * @ingroup ServicesPortfolio
  */
@@ -66,6 +67,18 @@ class ilPortfolioGUI
 
 		switch($next_class)
 		{
+			case "ilworkspaceaccessgui";				
+				$ilTabs->clearTargets();
+				$ilTabs->setBackTarget($lng->txt("back"),
+					$ilCtrl->getLinkTarget($this, "show"));								
+				
+				include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
+				include_once('./Services/Portfolio/classes/class.ilPortfolioAccessHandler.php');
+				$handler = new ilPortfolioAccessHandler();
+				$wspacc = new ilWorkspaceAccessGUI($this->portfolio->getId(), $handler);
+				$ilCtrl->forwardCommand($wspacc);
+				break;
+			
 			case 'ilportfoliopagegui':
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($lng->txt("back"),

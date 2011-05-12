@@ -12,7 +12,7 @@ require_once "./Modules/File/classes/class.ilObjFileAccess.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilShopPurchaseGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilRepositorySearchGUI
+* @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilWorkspaceAccessGUI
 *
 * @ingroup ModulesFile
 */
@@ -71,7 +71,7 @@ class ilObjFileGUI extends ilObject2GUI
 		}
 		
 		$this->prepareOutput();
-
+		
 		switch ($next_class)
 		{
 			case "ilinfoscreengui":
@@ -92,13 +92,14 @@ class ilObjFileGUI extends ilObject2GUI
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 				
+			// repository permissions
 			case 'ilpermissiongui':
 				$ilTabs->activateTab("id_permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
-
+		
 			case "ilexportgui":
 				$ilTabs->activateTab("export");
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
@@ -112,6 +113,14 @@ class ilObjFileGUI extends ilObject2GUI
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('file');
 				$this->ctrl->forwardCommand($cp);
+				break;
+			
+			// personal workspace permissions
+			case "ilworkspaceaccessgui";				
+				$ilTabs->activateTab("id_permissions");
+				include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
+				$wspacc = new ilWorkspaceAccessGUI($this->node_id, $this->getAccessHandler());
+				$this->ctrl->forwardCommand($wspacc);
 				break;
 			
 			default:

@@ -22,9 +22,9 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 	 * @param object $a_parent_obj parent gui object
 	 * @param string $a_parent_cmd parent default command
 	 * @param int $a_node_id current workspace object
-	 * @param ilWorkspaceAccessHandler $a_handler workspace access handler
+	 * @param object $a_handler workspace access handler
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_node_id, ilWorkspaceAccessHandler $a_handler)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_node_id, $a_handler)
 	{
 		global $ilCtrl, $lng;
 

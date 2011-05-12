@@ -10,7 +10,7 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
 *
-* @ilCtrl_Calls ilObjWorkspaceFolderGUI: ilInfoScreenGUI, ilPermissionGUI, 
+* @ilCtrl_Calls ilObjWorkspaceFolderGUI: 
 *
 * @extends ilObject2GUI
 */
