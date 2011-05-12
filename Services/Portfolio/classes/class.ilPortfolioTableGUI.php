@@ -68,6 +68,11 @@ class ilPortfolioTableGUI extends ilTable2GUI
 
 		$ilCtrl->setParameter($this->parent_obj, "prt_id", $a_set["id"]);
 		$this->tpl->setCurrentBlock("action");
+		
+		$this->tpl->setVariable("URL_ACTION",
+			$ilCtrl->getLinkTarget($this->parent_obj, "preview"));
+		$this->tpl->setVariable("TXT_ACTION", $lng->txt("user_profile_preview"));
+		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable("URL_ACTION",
 			$ilCtrl->getLinkTarget($this->parent_obj, "pages"));
