@@ -2672,10 +2672,12 @@
 			<embed src="./Services/MediaObjects/flash_mp3_player/mp3player.swf" height="20" bgcolor="#FFFFFF"
 				type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
 				<xsl:choose>
-					<xsl:when test="../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
+					<xsl:when test="$mode != 'edit' and
+						(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
 						( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
-						//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true')">
+						//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true'))">
 						<xsl:attribute name="flashvars">file=<xsl:value-of select="$data"/>&amp;autostart=true</xsl:attribute>
+						<xsl:attribute name="class">player_autostart</xsl:attribute>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:attribute name="flashvars">file=<xsl:value-of select="$data"/>&amp;autostart=false</xsl:attribute>
