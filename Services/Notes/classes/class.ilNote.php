@@ -446,6 +446,7 @@ class ilNote
 		$q = "SELECT * FROM note WHERE ".
 			" type = ".$ilDB->quote((int) IL_NOTE_PRIVATE, "integer").
 			" AND author = ".$ilDB->quote((int) $ilUser->getId(), "integer").
+			" AND (no_repository IS NULL OR no_repository < ".$ilDB->quote(1, "integer").")".
 			" ORDER BY creation_date DESC";
 
 		$ilDB->quote($q);
@@ -473,6 +474,7 @@ class ilNote
 			$q = "SELECT DISTINCT rep_obj_id FROM note WHERE ".
 				" type = ".$ilDB->quote((int) IL_NOTE_PRIVATE, "integer").
 				" AND author = ".$ilDB->quote($ilUser->getId(), "integer").
+				" AND (no_repository IS NULL OR no_repository < ".$ilDB->quote(1, "integer").")".
 				" ORDER BY rep_obj_id";
 	
 			$ilDB->quote($q);
@@ -489,6 +491,7 @@ class ilNote
 			$q = "SELECT DISTINCT rep_obj_id FROM note WHERE ".
 				" type = ".$ilDB->quote((int) IL_NOTE_PUBLIC, "integer").
 				" AND author = ".$ilDB->quote($ilUser->getId(), "integer").
+				" AND (no_repository IS NULL OR no_repository < ".$ilDB->quote(1, "integer").")".
 				" ORDER BY rep_obj_id";
 				
 			$set = $ilDB->query($q);
@@ -509,7 +512,8 @@ class ilNote
 			if (count($obj_ids) > 0)
 			{
 				$q = "SELECT DISTINCT rep_obj_id FROM note WHERE ".
-					$ilDB->in("rep_obj_id", $obj_ids, false, "integer");
+					$ilDB->in("rep_obj_id", $obj_ids, false, "integer").
+					" AND (no_repository IS NULL OR no_repository < ".$ilDB->quote(1, "integer").")";
 
 				$set = $ilDB->query($q);
 				while($rec = $ilDB->fetchAssoc($set))
