@@ -24,6 +24,7 @@
 include_once("classes/class.ilObjectAccess.php");
 include_once './Modules/Course/classes/class.ilCourseConstants.php';
 include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+include_once 'Modules/Course/classes/class.ilCourseParticipant.php';
 
 /**
 * Class ilObjCourseAccess
@@ -51,12 +52,21 @@ class ilObjCourseAccess extends ilObjectAccess
 	{
 		global $ilUser, $lng, $rbacsystem, $ilAccess, $ilias;
 
+
 		if ($a_user_id == "")
 		{
 			$a_user_id = $ilUser->getId();
 		}
 		
-		$participants = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+		if($ilUser->getId() == $a_user_id)
+		{
+			$participants = ilCourseParticipant::_getInstanceByObjId($a_obj_id,$a_user_id);
+		}
+		else
+		{
+			$participants = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+		}
+
 
 		switch ($a_cmd)
 		{
@@ -74,7 +84,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				if($a_permission == 'leave')
 				{
 					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-					if(!$participants->isAssigned($a_user_id) or $participants->isLastAdmin($a_user_id))
+					if(!$participants->isAssigned($a_user_id))
 					{
 						return false;
 					}

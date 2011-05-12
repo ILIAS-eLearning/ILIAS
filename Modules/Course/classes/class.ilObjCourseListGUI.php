@@ -141,8 +141,8 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		}
 
 		// blocked
-		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-		$members = ilCourseParticipants::_getInstanceByObjId($this->obj_id);
+		include_once 'Modules/Course/classes/class.ilCourseParticipant.php';
+		$members = ilCourseParticipant::_getInstanceByObjId($this->obj_id,$ilUser->getId());
 		if($members->isBlocked($ilUser->getId()) and $members->isAssigned($ilUser->getId()))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("member_status"),
@@ -150,6 +150,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		}
 
 		// pending subscription
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		if (ilCourseParticipants::_isSubscriber($this->obj_id,$ilUser->getId()))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("member_status"),
