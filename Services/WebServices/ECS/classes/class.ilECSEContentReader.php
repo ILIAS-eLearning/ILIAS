@@ -128,6 +128,11 @@ class ilECSEContentReader
 	{
 		global $ilLog;
 
+		if($details_only and $this->getEContentDetails() instanceof ilECSEContentDetails)
+		{
+			return true;
+		}
+
 		try
 		{
 			$res = $this->connector->getResource($this->econtent_id,$details_only);

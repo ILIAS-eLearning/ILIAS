@@ -36,6 +36,7 @@ class ilECSEContentDetails
 	public $receivers = array();
 	public $url = array();
 	public $content_type = array();
+	public $owner = 0;
 
 	private $receiver_info = array();
 
@@ -92,6 +93,11 @@ class ilECSEContentDetails
 		return $this->url;
 	}
 
+	public function getOwner()
+	{
+		return (int) $this->owner;
+	}
+
 
 	/**
 	 * Load from JSON object
@@ -125,6 +131,11 @@ class ilECSEContentDetails
 		for($i = 0; $i < count($this->getReceivers()); ++$i)
 		{
 			$this->receiver_info[$this->sender[$i]] = $this->receivers[$i];
+		}
+
+		if(is_object($json->owner))
+		{
+			$this->owner = (int) $json->owner->pid;
 		}
 
 		$this->url = $json->url;

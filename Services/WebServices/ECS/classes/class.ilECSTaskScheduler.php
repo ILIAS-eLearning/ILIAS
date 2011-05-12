@@ -143,7 +143,7 @@ class ilECSTaskScheduler
 	 			$this->log->write(__METHOD__.': No more pending events found.');
 	 			break;
 	 		}
-			$GLOBALS['ilLog']->write(__METHOD__.': Handle event '.$event['op']);
+			$GLOBALS['ilLog']->write(__METHOD__.': ---------------------------- Handle event '.$event['op']);
 			if($event['op'] == ilECSEvent::DESTROYED)
 			{
 				$this->handleDelete($event['id']);
@@ -163,6 +163,7 @@ class ilECSTaskScheduler
 				include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
 				$reader = new ilECSEContentReader($event['id']);
 				$reader->read();
+				$reader->read(true);
 	 		}
 	 		catch(Exception $e)
 	 		{
@@ -177,7 +178,7 @@ class ilECSTaskScheduler
 	 		else
 	 		{
 				$this->log->write(__METHOD__.': Starting update of remote courses.');
-	 			$this->handleUpdate($reader->getEContent());
+	 			$this->handleUpdate($reader->getEContent(),$reader->getEContentDetails());
 	 		}
 	 	}
 	}
@@ -290,7 +291,7 @@ class ilECSTaskScheduler
 	 * @param array array of ecscontent
 	 * 
 	 */
-	private function handleUpdate(ilECSEContent $content)
+	private function handleUpdate(ilECSEContent $content,  ilECSEContentDetails $details)
 	{
 		global $ilLog;
 		
@@ -327,10 +328,10 @@ class ilECSTaskScheduler
 			}
 
 			// deprecated mids
-			#foreach(array_diff(ilECSImport::_lookupMIDs($content->getEContentId()),$details->getReceivers()) as $deprecated)
-			#{
-			#	$this->handleDelete($content->getEContentId(),$deprecated);
-			#}
+			foreach(array_diff(ilECSImport::_lookupMIDs($content->getEContentId()),$details->getReceivers()) as $deprecated)
+			{
+				$this->handleDelete($content->getEContentId(),$deprecated);
+			}
 	 	}	
 	}
 	
