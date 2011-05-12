@@ -1,15 +1,11 @@
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2011 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
 * @module			language file German
 * @modulegroup		language
-* @author			Matthias Kunkel <mkunkel@uni-koeln.de>
+* @author			Matthias Kunkel <mkunkel@me.com>
 * @version			$Id$
-* @il_server		http://localhost:8888/ilias-trunk
-* @il_version		4.1.0 pre-alpha
-* @created			2010-03-24 16:42:32
-* @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -5235,7 +5231,7 @@ content#:#cont_new_file#:#Neue Datei hochladen
 content#:#cont_new_media_obj#:#Neues Medienobjekt
 content#:#cont_new_mob#:#Neues Media-Objekt
 content#:#cont_new_module_added#:#Neue Modulversion erfolgreich hochgeladen
-content#:#cont_new_tab#:#Neuer Register
+content#:#cont_new_tab#:#Neues Register
 content#:#cont_new_term#:#Neuer Begriff
 content#:#cont_next_rev#:#Nachfolgende Änderung
 content#:#cont_no_access#:#Kein Zugriff
