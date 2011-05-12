@@ -115,11 +115,6 @@ class ilWorkspaceAccessGUI
 	{
 		global $lng;
 
-		if (!$this->checkPermissionBool("edit_permission"))
-		{
-			$this->ctrl->redirect($this);
-		}
-
 		$object_ids = array();
 		if($this->ctrl->getCmd() == "addUser")
 		{

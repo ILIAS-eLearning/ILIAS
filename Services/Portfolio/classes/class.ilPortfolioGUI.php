@@ -570,6 +570,63 @@ class ilPortfolioGUI
 		
 		$this->show();
 	}		
+	
+	/**
+	 * Show user page
+	 */
+	function preview()
+	{
+		global $ilUser, $tpl, $ilCtrl, $ilTabs, $lng;
+		
+		$user_id = $ilUser->getId();
+		
+		// page title
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+		$tpl->setTitle(ilUserUtil::getNamePresentation($user_id));
+		$tpl->setTitleIcon(ilObjUser::_getPersonalPicturePath($user_id, "xxsmall"));
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "show"));
+			
+		include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
+		$pages = ilPortfolioPage::getAllPages($this->portfolio->getId());		
+		$current_page = $_GET["user_page"];
+
+		// display first page of portfolio if none given
+		if(!$current_page && $pages)
+		{
+			$current_page = $pages;
+			$current_page = array_shift($current_page);
+			$current_page = $current_page["id"];
+		}		
+		
+		// render tabs
+		if(count($pages) > 1)
+		{
+			foreach ($pages as $p)
+			{
+				$ilCtrl->setParameter($this, "user_page", $p["id"]);
+				$ilTabs->addTab("user_page_".$p["id"],
+					$p["title"],
+					$ilCtrl->getLinkTarget($this, "preview"));
+			}
+
+			$ilTabs->activateTab("user_page_".$current_page);
+		}
+			
+		// get current page content
+		include_once("./Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
+		$page_gui = new ilPortfolioPageGUI($this->portfolio->getId(), $current_page);
+		$page_gui->setEmbedded(true);
+		
+		$tpl->setCurrentBlock("ContentStyle");
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath(0));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setContent($ilCtrl->getHTML($page_gui));			
+	}
 }
 
 ?>
