@@ -36,6 +36,7 @@ include_once ("Services/Notes/classes/class.ilNote.php");
 class ilNoteGUI
 {
 	var $public_deletion_enabled = false;
+	var $repository_mode = false;
 	
 	/**
 	* constructor, specifies notes set
@@ -115,6 +116,9 @@ class ilNoteGUI
 				"img" => ilUtil::getImagePath("comment_contra.gif"),
 				"alt" => $lng->txt("notes_comment").", ".$lng->txt("contra"))
 			);
+		
+		// default: notes for repository objects
+		$this->setRepositoryMode(true);
 	}
 	
 	/**
@@ -195,6 +199,16 @@ class ilNoteGUI
 	function enableAnchorJump($a_enable = true)
 	{
 		$this->anchor_jump = $a_enable;
+	}
+	
+	/**
+	 * Set repository mode
+	 * 
+	 * @param bool $a_value 
+	 */
+	function setRepositoryMode($a_value)
+	{
+		$this->repository_mode = (bool)$a_value;
 	}
 
 	/***
@@ -386,10 +400,10 @@ class ilNoteGUI
 		}
 		$notes = ilNote::_getNotesOfObject($this->rep_obj_id, $this->obj_id,
 			$this->obj_type, $a_type, $this->inc_sub, $filter,
-			$ilUser->getPref("notes_pub_all"), $this->public_deletion_enabled);
+			$ilUser->getPref("notes_pub_all"), $this->repository_mode);
 		$all_notes = ilNote::_getNotesOfObject($this->rep_obj_id, $this->obj_id,
 			$this->obj_type, $a_type, $this->inc_sub, $filter,
-			"", $this->public_deletion_enabled);
+			"", $this->repository_mode);
 
 		$tpl = new ilTemplate("tpl.notes_list.html", true, true, "Services/Notes");
 		
@@ -1092,7 +1106,8 @@ class ilNoteGUI
 		if ($this->form->checkInput())
 		{
 			$note = new ilNote();
-			$note->setObject($this->obj_type, $this->rep_obj_id, $this->obj_id);			
+			$note->setObject($this->obj_type, $this->rep_obj_id, $this->obj_id);	
+			$note->setInRepository($this->repository_mode);
 			$note->setType($_GET["note_type"]);
 			$note->setAuthor($ilUser->getId());
 			$note->setText($_POST["note"]);
@@ -1120,7 +1135,7 @@ class ilNoteGUI
 			$note);
 
 		if ($this->form->checkInput())
-		{
+		{			
 			$note->setText($_POST["note"]);
 			$note->setSubject($_POST["sub_note"]);
 			$note->setLabel($_POST["note_label"]);
