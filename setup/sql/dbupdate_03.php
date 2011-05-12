@@ -4989,4 +4989,19 @@ while ($rec = $ilDB->fetchAssoc($set))	// all styles
 		}
 	}
 ?>
-
+<#3310>
+<?php
+if(!$ilDB->tableExists('usr_portf_acl'))
+{
+	$fields = array (
+		'node_id' => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+		'object_id' => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0)
+	  );
+  $ilDB->createTable('usr_portf_acl', $fields);
+  $ilDB->addPrimaryKey('usr_portf_acl', array('node_id', 'object_id'));
+}
+?>
+<#3311>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

@@ -78,6 +78,11 @@ class ilPortfolioTableGUI extends ilTable2GUI
 			$ilCtrl->getLinkTarget($this->parent_obj, "edit"));
 		$this->tpl->setVariable("TXT_ACTION", $lng->txt("settings"));
 		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setVariable("URL_ACTION",
+			$ilCtrl->getLinkTargetByClass("ilworkspaceaccessgui", "editPermissions"));
+		$this->tpl->setVariable("TXT_ACTION", $lng->txt("perm_settings"));
+		$this->tpl->parseCurrentBlock();
 
 		if(!$a_set["is_default"] && $a_set["is_online"])
 		{

@@ -41,9 +41,6 @@ abstract class ilObject2GUI extends ilObjectGUI
 	const REPOSITORY_OBJECT_ID = 3;
 	const WORKSPACE_OBJECT_ID = 4;
 	
-	const PERMISSION_REGISTERED = -1;
-	const PERMISSION_ALL = -5;
-	
 	/**
 	 * Constructor
 	 *
@@ -177,19 +174,15 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 		switch($next_class)
 		{
-			case "ilrepositorysearchgui";				
+			case "ilworkspaceaccessgui";				
 				$this->setTabs();
-				$this->tabs_gui->setTabActive('id_permissions');
-
-				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search =& new ilRepositorySearchGUI();
-				$rep_search->setCallback($this, 'addPermission');
-				$rep_search->allowObjectSelection(true);
-
-				$this->ctrl->setReturn($this, 'editpermissions');
-				$this->ctrl->forwardCommand($rep_search);
+				$this->tabs_gui->activateTab("id_permissions");
+				
+				include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
+				$wspacc = new ilWorkspaceAccessGUI($this->node_id, $this->getAccessHandler());
+				$this->ctrl->forwardCommand($wspacc);
 				break;
-
+			
 			default:
 				$this->prepareOutput(); 
 				if(!$cmd)
@@ -510,7 +503,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				{
 					$ilTabs->addTab("id_permissions",
 						$lng->txt("perm_settings"),
-						$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
+						$this->ctrl->getLinkTargetByClass(array(get_class($this), "ilpermissiongui"), "perm"));
 				}
 				break;
 
@@ -520,7 +513,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				{
 					$ilTabs->addTab("id_permissions",
 						$lng->txt("perm_settings"),
-						$this->ctrl->getLinkTarget($this, "editPermissions"));
+						$this->ctrl->getLinkTargetByClass(array(get_class($this), "ilworkspaceaccessgui"), "editPermissions"));
 				}
 				break;
 		}
@@ -649,135 +642,6 @@ abstract class ilObject2GUI extends ilObjectGUI
 			ilChangeEvent::_recordWriteEvent($this->object_id, $ilUser->getId(), 'create');
 		}
 		// END ChangeEvent: Record save object.
-	}
-
-	/*
-	 * WORKSPACE SPECIFIC [DRAFT]
-	 */
-
-	protected function editPermissions()
-	{
-		global $ilTabs, $ilToolbar, $lng, $tpl;
-
-		if (!$this->checkPermissionBool("edit_permission"))
-		{
-			$this->ctrl->redirect($this);
-		}
-
-		$ilTabs->activateTab("id_permissions");
-		
-		$reg = $this->getAccessHandler()->hasRegisteredPermission($this->node_id);
-		$all = $this->getAccessHandler()->hasGlobalPermission($this->node_id);
-
-		if(!$all && !$reg)
-		{
-			$ilToolbar->addButton($this->lng->txt("wsp_permission_add_users"),
-				$this->ctrl->getLinkTargetByClass("ilRepositorySearchGUI", "start"));
-			
-			$ilToolbar->addButton($this->lng->txt("wsp_set_permission_registered"),
-				$this->ctrl->getLinkTarget($this, "addPermissionRegistered"));
-		}
-		if(!$all)
-		{
-			$ilToolbar->addButton($this->lng->txt("wsp_set_permission_all"),
-				$this->ctrl->getLinkTarget($this, "addPermissionAll"));
-		}
-
-		if(!$all && !$reg)
-		{
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessTableGUI.php";
-			$table = new ilWorkspaceAccessTableGUI($this, "editPermissions", $this->node_id, $this->getAccessHandler());
-			$tpl->setContent($table->getHTML());
-		}
-		else 
-		{
-			$ilToolbar->addButton($this->lng->txt("wsp_remove_permission"),
-				$this->ctrl->getLinkTarget($this, "removeAllPermissions"));
-			
-			if($reg)
-			{
-				ilUtil::sendInfo($this->lng->txt("wsp_permission_registered_info"));
-			}
-			else
-			{
-				ilUtil::sendInfo($this->lng->txt("wsp_permission_all_info"));
-			}
-		}
-	}
-	
-	public function addPermission($a_users = null)
-	{
-		global $lng;
-
-		if (!$this->checkPermissionBool("edit_permission"))
-		{
-			$this->ctrl->redirect($this);
-		}
-
-		$object_ids = array();
-		if($this->ctrl->getCmd() == "addUser")
-		{
-			if($a_users)
-			{
-				$object_ids = $a_users;
-			}
-			else
-			{
-				// return to repository search gui
-				ilUtil::sendFailure($lng->txt('select_one'));
-				return;
-			}
-		}
-		else
-		{
-			if($_REQUEST["obj"])
-			{
-				$object_ids = explode(";", $_REQUEST["obj"]);
-			}
-		}
-
-		if($object_ids)
-		{
-			foreach($object_ids as $object_id)
-			{
-				$this->getAccessHandler()->addPermission($this->node_id, $object_id);
-			}
-		}
-
-		$this->ctrl->redirect($this, "editPermissions");
-	}
-	
-	protected function addPermissionRegistered()
-	{
-		$this->getAccessHandler()->removePermission($this->node_id);	
-		$this->getAccessHandler()->addPermission($this->node_id, self::PERMISSION_REGISTERED);	
-		$this->ctrl->redirect($this, "editPermissions");
-	}
-
-	protected function addPermissionAll()
-	{
-		$this->getAccessHandler()->removePermission($this->node_id);	
-		$this->getAccessHandler()->addPermission($this->node_id, self::PERMISSION_ALL);		
-		$this->ctrl->redirect($this, "editPermissions");
-	}
-
-	public function removePermission()
-	{
-		global $lng;
-
-		if($_REQUEST["obj_id"])
-		{
-			$this->getAccessHandler()->removePermission($this->node_id, (int)$_REQUEST["obj_id"]);
-		    ilUtil::sendSuccess($lng->txt("permission_removed"), true);
-		}
-
-		$this->ctrl->redirect($this, "editPermissions");
-	}
-	
-	protected function removeAllPermissions()
-	{
-		$this->getAccessHandler()->removePermission($this->node_id);	
-		$this->ctrl->redirect($this, "editPermissions");
 	}
 
 	/**
