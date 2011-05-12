@@ -117,7 +117,8 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 			$this->addMultiCommand("selectObjectReference", $lng->txt("cont_select"));
 		}
 		
-		if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT)
+		if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT &&
+			$ilAccess->checkAccess("write", "", $this->media_pool->getRefId()))
 		{
 			$this->setSelectAllCheckbox("id");
 		}

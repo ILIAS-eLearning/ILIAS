@@ -361,18 +361,21 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		}
 		$ilTabs->setTabActive("objs_fold");
 		
-		$ilToolbar->addButton($lng->txt("mep_create_mob"),
-			$ilCtrl->getLinkTarget($this, "createMediaObject"));
-		
-		$mset = new ilSetting("mobs");
-		if ($mset->get("mep_activate_pages"))
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			$ilToolbar->addButton($lng->txt("mep_create_content_snippet"),
-				$ilCtrl->getLinkTarget($this, "createMediaPoolPage"));
+			$ilToolbar->addButton($lng->txt("mep_create_mob"),
+				$ilCtrl->getLinkTarget($this, "createMediaObject"));
+			
+			$mset = new ilSetting("mobs");
+			if ($mset->get("mep_activate_pages"))
+			{
+				$ilToolbar->addButton($lng->txt("mep_create_content_snippet"),
+					$ilCtrl->getLinkTarget($this, "createMediaPoolPage"));
+			}
+	
+			$ilToolbar->addButton($lng->txt("mep_create_folder"),
+				$ilCtrl->getLinkTarget($this, "createFolderForm"));
 		}
-
-		$ilToolbar->addButton($lng->txt("mep_create_folder"),
-			$ilCtrl->getLinkTarget($this, "createFolderForm"));
 		
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
 		$mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->object, "mepitem_id");
@@ -560,7 +563,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$ilCtrl->setParameter($this, "obj_id", "");
 		$ilCtrl->setParameter($this, "mepitem_id", "");
 		
-		if (!$ilAccess->checkAccess("read", "", $this->object->getRefId()) ||
+		if (!$ilAccess->checkAccess("read", "", $this->object->getRefId()) &&
 			!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			return;
