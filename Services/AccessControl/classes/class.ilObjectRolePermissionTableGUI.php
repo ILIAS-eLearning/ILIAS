@@ -24,6 +24,8 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 	private $ref_id = null;
 	private $role_folder_id = 0;
 	private $roles = array();
+
+	private $tree_path_ids = array();
 	
 	private $activeOperations = array();
 	private $visible_roles = array();
@@ -34,13 +36,14 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 	 */
 	public function __construct($a_parent_obj,$a_parent_cmd, $a_ref_id)
 	{
-		global $ilCtrl,$rbacreview,$tpl;
+		global $ilCtrl,$rbacreview,$tpl,$tree;
 		
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 		
 		$this->lng->loadLanguageModule('rbac');
 		
 		$this->ref_id = $a_ref_id;
+		$this->tree_path_ids = $tree->getPathId($this->ref_id);
 		$this->role_folder_id = $rbacreview->getRoleFolderIdOfObject($this->getRefId());            
 		
 		$this->setId('objroleperm_'.$this->ref_id);
@@ -70,6 +73,15 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 	public function getRoleFolderId()
 	{
 		return $this->role_folder_id;
+	}
+
+	/**
+	 * Get tree path ids
+	 * @return array
+	 */
+	public function getPathIds()
+	{
+		return (array) $this->tree_path_ids;
 	}
 	
 	/**
@@ -541,6 +553,8 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		{
 			$tp = $this->lng->txt('perm_'.$protected_status.'local_role');
 		}
+
+		$inheritance_seperator = ': ';
 		
 		// Show create at info
 		if(
@@ -549,26 +563,37 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		)
 		{
 			$tp .= ': ';
-			
-			$parent = $tree->getParentId($role['parent']);
-			$p_type = ilObject::_lookupType(ilObject::_lookupObjId($parent));
-			$p_title = ilObject::_lookupTitle(ilObject::_lookupObjId($parent));
-			$tp .= sprintf($this->lng->txt('perm_role_path_info_created'),$this->lng->txt('obj_'.$p_type),$p_title);
 
-			return $tp;
+			$obj = $rbacreview->getObjectOfRole($role['obj_id']);
+			if($obj)
+			{
+				$tp .= sprintf(
+					$this->lng->txt('perm_role_path_info_created'),
+					$this->lng->txt('obj_'.ilObject::_lookupType($obj)),ilObject::_lookupTitle($obj)
+				);
+				$inheritance_seperator = ', ';
+			}
 		}
+
+		$role_hierarchy = $rbacreview->getObjectsWithStopedInheritance($role['obj_id']);
+		$path_hierarchy = array_intersect($role_hierarchy, $this->getPathIds());
+		$reduced_path_hierarchy = (array) array_diff(
+			$path_hierarchy,
+			array(
+				$this->getRefId(),
+				$rbacreview->getObjectReferenceOfRole($role['obj_id'])
+			)
+		);
+
 		// Inheritance
-		if($role['assign'] == 'n' and $role['parent'] != $this->getRoleFolderId())
+		if($role['assign'] == 'n' and count($reduced_path_hierarchy))
 		{
-			$tp .= ': ';
-			
-			$parent = $tree->getParentId($role['parent']);
+			$tp .= $inheritance_seperator;
+
+			$parent = end($reduced_path_hierarchy);
 			$p_type = ilObject::_lookupType(ilObject::_lookupObjId($parent));
 			$p_title = ilObject::_lookupTitle(ilObject::_lookupObjId($parent));
 			$tp .= sprintf($this->lng->txt('perm_role_path_info_inheritance'),$this->lng->txt('obj_'.$p_type),$p_title);
-
-			return $tp;
-			
 		}
 		
 		return $tp;
