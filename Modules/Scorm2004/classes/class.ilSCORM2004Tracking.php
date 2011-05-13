@@ -424,7 +424,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 			include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 			$data_set = $ilDB->queryF('
 				SELECT c_timestamp last_access, session_time, success_status, completion_status,
-					   c_raw, cp_node_id
+					   c_raw, cp_node_id, total_time
 				FROM cmi_node 
 				WHERE cp_node_id = %s
 				AND user_id = %s',
@@ -433,10 +433,11 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 			);
 			
 			while($data_rec = $ilDB->fetchAssoc($data_set))
-	   		{	
-	   			$sec = ilObjSCORM2004LearningModule::_ISODurationToCentisec($data_rec["session_time"]) / 100;
-//$ilLog->write("-".$sco."-".$data_rec["session_time"]."-".$sec."-");
-	   		}
+			{
+				// see bug report 7246
+//				$sec = ilObjSCORM2004LearningModule::_ISODurationToCentisec($data_rec["session_time"]) / 100;
+				$sec = ilObjSCORM2004LearningModule::_ISODurationToCentisec($data_rec["total_time"]) / 100; 
+			}
 			$time += (int) $sec;
 			$sec = 0;
 //$ilLog->write("++".$time);
