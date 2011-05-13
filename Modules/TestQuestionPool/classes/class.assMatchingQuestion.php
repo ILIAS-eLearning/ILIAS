@@ -1328,10 +1328,10 @@ class assMatchingQuestion extends assQuestion
 		$terms = array();
 		foreach ($this->getMatchingPairs() as $pair)
 		{
-			array_push($terms, array(
+			$terms[(int)$pair->term->identifier] = array(
 				"term" => $pair->term->text,
 				"id" =>(int)$pair->term->identifier
-			));
+			);
 		}
 		$terms = $this->pcArrayShuffle($terms);
 		$pairs = array();
