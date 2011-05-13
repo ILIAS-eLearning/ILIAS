@@ -216,6 +216,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 			ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilStructureObjectGUI",
 				"edit", "", true));
 		}
+		$up_gui = ($this->content_object->getType() == "dbk")
+			? "ilobjdlbookgui"
+			: "ilobjlearningmodulegui";
+		$this->ctrl->redirectByClass($up_gui, "pages");
 	}
 
 	/**
@@ -228,7 +232,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 			ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilStructureObjectGUI",
 				"view", "", true));
 		}
-		//$this->ctrl->returnToParent($this);
+		$up_gui = ($this->content_object->getType() == "dbk")
+			? "ilobjdlbookgui"
+			: "ilobjlearningmodulegui";
+		$this->ctrl->redirectByClass($up_gui, "pages");
 	}
 
 	/**
