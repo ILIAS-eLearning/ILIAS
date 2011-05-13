@@ -72,6 +72,7 @@ class ilMimeTypeUtil
 			trim(strtolower($mime)) == "application/octet-stream" ||
 			trim(strtolower($mime)) == "application/force-download" ||
 			trim(strtolower($mime)) == "application/x-zip" ||
+			trim(strtolower($mime)) == "text/xml" ||
 			trim(strtolower($mime)) == "text/html")
 		{
 			if ($a_filename != "")	// first check the file name provided
