@@ -377,8 +377,11 @@ class ilLPStatus
 				" AND object_reference.ref_id = ut_lp_collections.item_id)");
 			while ($rec = $ilDB->fetchAssoc($set))
 			{
-				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-				ilLPStatusWrapper::_updateStatus($rec["obj_id"], $a_user_id);
+				if (in_array(ilObject::_lookupType($rec["obj_id"]), array("crs", "grp", "fold")))
+				{
+					include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+					ilLPStatusWrapper::_updateStatus($rec["obj_id"], $a_user_id);
+				}
 			}
 		}
 	}
@@ -396,7 +399,7 @@ class ilLPStatus
 			" obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
 			" usr_id = ".$ilDB->quote($a_user_id, "integer")
 			);
-		
+
 		$update_collections = false;
 		if ($rec  = $ilDB->fetchAssoc($set))
 		{
@@ -425,7 +428,7 @@ class ilLPStatus
 				")");
 			$update_collections = true;
 		}
-		
+
 		// update collections
 		if ($update_collections)
 		{
@@ -435,8 +438,11 @@ class ilLPStatus
 				" AND object_reference.ref_id = ut_lp_collections.item_id)");
 			while ($rec = $ilDB->fetchAssoc($set))
 			{
-				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-				ilLPStatusWrapper::_updateStatus($rec["obj_id"], $a_user_id);
+				if (in_array(ilObject::_lookupType($rec["obj_id"]), array("crs", "grp", "fold")))
+				{
+					include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+					ilLPStatusWrapper::_updateStatus($rec["obj_id"], $a_user_id);
+				}
 			}
 		}
 	}
