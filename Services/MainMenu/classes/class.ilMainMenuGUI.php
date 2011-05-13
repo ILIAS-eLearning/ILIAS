@@ -169,7 +169,7 @@ class ilMainMenuGUI
 		// combine plugin and default html
 		if ($plugin_html)
 		{
-			$mmle_html = $gui_class->modifyHTML($mme_html, $resp);
+			$mmle_html = $gui_class->modifyHTML($mmle_html, $resp);
 		}
 
 		$this->tpl->setVariable("MAIN_MENU_LIST_ENTRIES", $mmle_html);
