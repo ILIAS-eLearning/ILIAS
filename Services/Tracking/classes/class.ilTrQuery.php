@@ -370,7 +370,7 @@ class ilTrQuery
 				else
 				{
 		            include_once("Services/Tracking/classes/class.ilLPStatus.php");
-					$objective_fields[] = "(CASE WHEN status THEN ".LP_STATUS_COMPLETED_NUM." ELSE NULL END) AS status";
+					$objective_fields[] = "(CASE WHEN status IS NOT NULL THEN ".LP_STATUS_COMPLETED_NUM." ELSE NULL END) AS status";
 				}
 			  }
 			}
@@ -488,7 +488,7 @@ class ilTrQuery
 	{
 		global $ilDB;
 
-		$query = "SELECT obj_id, title, e_start, e_end, (CASE WHEN participated THEN 2 WHEN registered THEN 1 ELSE NULL END) AS status,".
+		$query = "SELECT obj_id, title, e_start, e_end, (CASE WHEN participated = 1 THEN 2 WHEN registered = 1 THEN 1 ELSE NULL END) AS status,".
 			" mark, e_comment AS comment".
 			" FROM event".
 			" JOIN event_appointment ON (event.obj_id = event_appointment.event_id)".
@@ -1324,7 +1324,7 @@ class ilTrQuery
 		    include_once("Services/Tracking/classes/class.ilLPStatus.php");
 
 			$fields = array("crs_objectives.objective_id AS obj_id", "crs_objective_status.user_id AS usr_id", "title");
-			$fields[] = "(CASE WHEN status THEN ".LP_STATUS_COMPLETED_NUM." ELSE NULL END) AS status";
+			$fields[] = "(CASE WHEN status IS NOT NULL THEN ".LP_STATUS_COMPLETED_NUM." ELSE NULL END) AS status";
 
 			$where = array();
 			$where[] = "crs_objectives.crs_id = ".$ilDB->quote($a_parent_obj_id, "integer");
