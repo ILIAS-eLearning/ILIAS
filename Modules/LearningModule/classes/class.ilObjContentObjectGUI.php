@@ -122,7 +122,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$ret =& $this->ctrl->forwardCommand($pg_gui);
 				if ($cmd == "save" || $cmd == "cancel")
 				{
-					$this->ctrl->redirect($this, "pages");
+//					$this->ctrl->redirect($this, "pages");
 				}
 				break;
 
