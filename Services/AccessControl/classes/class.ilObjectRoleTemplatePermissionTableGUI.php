@@ -188,9 +188,14 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 			}
 			else
 			{
+				$pl_txt = ($objDefinition->isPlugin($this->getTemplateType()))
+					? ilPlugin::lookupTxt("rep_robj", $this->getTemplateType(),
+						"objs_".$this->getTemplateType())
+					: $this->lng->txt('objs_'.$this->getTemplateType());
+				
 				$this->tpl->setVariable('TXT_CE',
 					$this->lng->txt('change_existing_prefix').' '.
-					$this->lng->txt('objs_'.$this->getTemplateType()).' '.
+					$pl_txt.' '.
 					$this->lng->txt('change_existing_suffix'));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -207,7 +212,23 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock('perm_desc_td');
 			$this->tpl->setVariable('DESC_TYPE',$this->getTemplateType());
 			$this->tpl->setVariable('DESC_PERM_ID',$row['ops_id']);
-			$this->tpl->setVariable('TXT_PERMISSION',$this->lng->txt($this->getTemplateType().'_'.$row['name']));
+
+			if ($row["create_type"] != "" && $objDefinition->isPlugin($row['create_type']))
+			{
+				$this->tpl->setVariable('TXT_PERMISSION',
+					ilPlugin::lookupTxt("rep_robj", $row['create_type'],
+						$this->getTemplateType()."_".$row['name']));
+			}
+			else if ($row["create_type"] == "" && $objDefinition->isPlugin($this->getTemplateType()))
+			{
+				$this->tpl->setVariable('TXT_PERMISSION',
+					ilPlugin::lookupTxt("rep_robj", $this->getTemplateType(),
+						$this->getTemplateType()."_".$row['name']));
+			}
+			else
+			{
+				$this->tpl->setVariable('TXT_PERMISSION',$this->lng->txt($this->getTemplateType().'_'.$row['name']));
+			}
 			$this->tpl->parseCurrentBlock();
 			
 			return true;
@@ -255,7 +276,9 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 			
 			$perm['ops_id'] = $ops_id;
 			$perm['set'] = in_array($ops_id,$operations);
-			$perm['name'] = 'create_'.$info['name']; 
+			
+			$perm['name'] = 'create_'.$info['name'];
+			$perm['create_type'] = $info['name'];
 			
 			$rows[] = $perm;
 		}
