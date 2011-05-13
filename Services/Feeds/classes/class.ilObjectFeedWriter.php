@@ -84,11 +84,13 @@ class ilObjectFeedWriter extends ilFeedWriter
 			$loc = " [".$loc."] ";
 		}
 		
+		$rss_period = ilNewsItem::_lookupRSSPeriod();
+
 		ilNewsItem::setPrivateFeedId($a_userid);
 		$news_item = new ilNewsItem();
 		$news_item->setContextObjId($obj_id);
 		$news_item->setContextObjType($obj_type);
-		$items = $news_item->getNewsForRefId($a_ref_id, true, false, 0, true);
+		$items = $news_item->getNewsForRefId($a_ref_id, true, false, $rss_period, true);
 
 		if ($a_purpose) {
 			include_once("./Services/MediaObjects/classes/class.ilMediaItem.php");

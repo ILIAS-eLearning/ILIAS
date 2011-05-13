@@ -413,13 +413,13 @@ class ilObjExercise extends ilObject
 		{
 			$pass_nr = $this->getPassNr();
 		}
-		
+
 		$ilDB->update("exc_data", array(
 			"instruction" => array("clob", $this->getInstruction()),
 			"time_stamp" => array("integer", $this->getTimestamp()),
 			"pass_mode" => array("text", $this->getPassMode()),
 			"pass_nr" => array("integer", $this->getPassNr()),
-			"show_submissions" => array("integer", $this->getShowSubmissions()),
+			"show_submissions" => array("integer", (int) $this->getShowSubmissions()),
 			'compl_by_submission' => array('integer', (int)$this->isCompletionBySubmissionEnabled())
 			), array(
 			"obj_id" => array("integer", $this->getId())
