@@ -196,6 +196,9 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($row)
 	{
+		global $objDefinition;
+		
+		
 		// local policy
 		if(isset($row['show_local_policy_row']))
 		{
@@ -292,7 +295,15 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			
 			if(substr($row['perm']['operation'],0,6) == 'create')
 			{
-				$perm = $this->lng->txt('obj_'.substr($row['perm']['operation'],7));
+				if ($objDefinition->isPlugin(substr($row['perm']['operation'],7)))
+				{
+					$perm = ilPlugin::lookupTxt("rep_robj", substr($row['perm']['operation'],7),
+						"obj_".substr($row['perm']['operation'],7));
+				}
+				else
+				{
+					$perm = $this->lng->txt('obj_'.substr($row['perm']['operation'],7));
+				}
 			}
 			else
 			{
@@ -300,7 +311,16 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			}
 			
 			$this->tpl->setVariable('TXT_PERM',$perm);
-			$this->tpl->setVariable('PERM_LONG',$this->lng->txt($this->getObjType().'_'.$row['perm']['operation']));
+			
+			if ($objDefinition->isPlugin($this->getObjType()))
+			{
+				$this->tpl->setVariable('PERM_LONG',ilPlugin::lookupTxt("rep_robj", $this->getObjType(),
+						$this->getObjType()."_".$row['perm']['operation']));
+			}
+			else
+			{
+				$this->tpl->setVariable('PERM_LONG',$this->lng->txt($this->getObjType().'_'.$row['perm']['operation']));
+			}
 			
 			if($role_info['protected'])
 			{
