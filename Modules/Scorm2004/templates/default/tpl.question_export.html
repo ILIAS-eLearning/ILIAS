@@ -105,7 +105,7 @@
 			<th valign="middle" style="font-weight:normal;" class="definition ilc_qanswer_Answer">Definition</th>
 			<th valign="middle" style="font-weight:normal;" class="ilc_qanswer_Answer">&nbsp;&harr;&nbsp;</th>
 			<th valign="middle" style="font-weight:normal;" class="termcolumn ilc_qanswer_Answer">
-				<select class="terms">
+				<select class="terms" id="terms{VAL_ID}">
 					<option class="term">Term</option>
 				</select>
 			</th>
@@ -124,7 +124,7 @@
 				'.': 'term.term',
 				'@id':'term.id'}
 		}};
-	jQuery('select.terms').render(questions[{VAL_ID}].pairs[0], terms_dir);
+	jQuery('#terms{VAL_ID}').render(questions[{VAL_ID}].pairs[0], terms_dir);
 
 	var pairs_dir = {
 		'tbody tr': {
