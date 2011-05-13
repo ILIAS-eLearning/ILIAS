@@ -2861,6 +2861,8 @@ else
 		$lng->loadLanguageModule("administration");
 		$lng->loadLanguageModule("ps");		
 				
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_edit_select_field.html');
+
 		include_once("Services/Membership/classes/class.ilMemberAgreement.php");
 	 	if (ilMemberAgreement::_hasAgreements())
 	 	{
@@ -2868,8 +2870,6 @@ else
 			$this->tpl->setVariable('TXT_WARNING', $lng->txt('ps_warning_modify'));
 			$this->tpl->parseCurrentBlock();
 	 	}
-		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_edit_select_field.html');
 		
 		// Save field_type
 		$this->ctrl->setParameter($this,'field_type',(int) $_REQUEST['field_type']);
