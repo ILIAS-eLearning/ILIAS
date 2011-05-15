@@ -11370,3 +11370,4 @@ wsp#:#wsp_permission_registered_info#:#This object is shared with all registered
 wsp#:#wsp_permission_all_info#:#This object has been published.
 style#:#sty_type_iim#:#Interactive Image Content Popup
 style#:#sty_type_marker#:#Interactive Image Marker
+style#:#sty_import_page_layout#:#Import Page Layout
