@@ -3406,14 +3406,14 @@ common#:#legend#:#Légende
 common#:#level#:#Niveau
 common#:#license#:#License
 common#:#licenses#:#Licenses
-common#:#link#:#Copier
+common#:#link#:#Lier
 common#:#link_all#:#Lier tout
 common#:#link_check#:#Vérification liens
 common#:#link_check_body_top#:#Vous recevez ce message parce que vous avez demandé à être informé qu sujet des liens invalides dans les documents suivants :
 common#:#link_check_message_b#:#Si cette option est active, vous serez informé des liens invalides par courrier électronique.
 common#:#link_check_message_disabled#:#Messages désactivés
 common#:#link_check_message_enabled#:#Messages activés
-common#:#link_check_subject#:#[ILIAS 3] Vérification des liens
+common#:#link_check_subject#:#[ILIAS] Vérification des liens
 common#:#link_checker_refreshed#:#Vue actualisée
 common#:#link_dynamic_info#:#Vous pouvez ajouter des paramètres dynamiques comme l'identifiant utilisateur ILIAS (Ilias user id).
 common#:#link_selected_items#:#Lier les objets sélectionnés
