@@ -17,7 +17,7 @@ class ilCOPageImporter extends ilXmlImporter
 	 */
 	function init()
 	{
-		include_once("./Services/COPage/classes/class.ilCOPageDataset.php");
+		include_once("./Services/COPage/classes/class.ilCOPageDataSet.php");
 		$this->ds = new ilCOPageDataSet();
 		$this->ds->setDSPrefix("ds");
 	}
