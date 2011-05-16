@@ -5016,3 +5016,40 @@ if(!$ilDB->tableExists('usr_portf_acl'))
 			"default" => 0));
 	}
 ?>
+<#3313>
+<?php
+	$ilDB->createTable(
+		'ecs_server',
+		array(
+			'server_id' => array('type' => 'integer','length' => 4, 'notnull' => false, 'default' => 0),
+			'active' => array('type' => 'integer','length' => 1, 'notnull' => false, 'default' => 0),
+			'protocol' => array('type' => 'integer','length' => 1, 'notnull' => false, 'default' => 1),
+			'server' => array('type' => 'text', 'length' => 255, 'notnull' => false),
+			'port' => array('type' => 'integer','length' => 1, 'notnull' => false, 'default' => 1),
+			'auth_type' => array('type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 1),
+			'client_cert_path' => array('type' => 'text', 'length' => 512, 'notnull' => false),
+			'ca_cert_path' => array('type' => 'text', 'length' => 512, 'notnull' => false),
+			'key_path' => array('type' => 'text', 'length' => 512, 'notnull' => false),
+			'key_password' => array('type' => 'text', 'length' => 32, 'notnull' => false),
+			'cert_serial' => array('type' => 'text', 'length' => 32, 'notnull' => false),
+			'polling_time' => array('type' => 'integer','length' => 4, 'notnull' => false, 'default' => 0),
+			'import_id' => array('type' => 'integer','length' => 4, 'notnull' => false, 'default' => 0),
+			'global_role' => array('type' => 'integer','length' => 4, 'notnull' => false, 'default' => 0),
+			'econtent_rcp' => array('type' => 'text', 'length' => 512, 'notnull' => false),
+			'user_rcp' => array('type' => 'text', 'length' => 512, 'notnull' => false),
+			'approval_rcp' => array('type' => 'text', 'length' => 512, 'notnull' => false),
+			'duration' => array('type' => 'integer','length' => 4, 'notnull' => false, 'default' => 0)
+		));
+	$ilDB->createSequence('ecs_server');
+
+?>
+
+
+
+
+
+
+
+			
+
+
