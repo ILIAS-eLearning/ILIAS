@@ -173,7 +173,8 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 				if($this->__checkDirectLink())
 				{
 					$this->__readLink();
-					$cmd_link = $this->link_data['target'];
+					// $cmd_link = $this->link_data['target'];
+					$cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$this->ref_id."&cmd=calldirectlink";
 				}
 				else
 				{

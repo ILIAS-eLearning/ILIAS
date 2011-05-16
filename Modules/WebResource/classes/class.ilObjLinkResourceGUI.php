@@ -1455,6 +1455,60 @@ class ilObjLinkResourceGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHan
 		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
 	}
+	
+	function callDirectLinkObject()
+	{
+		$obj_id = $this->object->getId();
+		
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+		if(ilLinkResourceItems::_isSingular($obj_id))
+		{
+			$url = ilLinkResourceItems::_getFirstLink($obj_id);
+			
+			include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
+			if(ilParameterAppender::_isEnabled())
+			{
+			   $url = ilParameterAppender::_append($url);
+			}		
+			
+			$this->redirectToLink($this->ref_id, $obj_id, $url["target"]);
+		}				
+	}
+	
+	function callLinkObject()
+	{
+		if($_REQUEST["link_id"])
+		{		
+			$obj_id = $this->object->getId();
+			
+			include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+			$items = new ilLinkResourceItems($obj_id);
+			$item = $items->getItem($_REQUEST["link_id"]);
+			if($item["target"])
+			{
+				include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
+				if(ilParameterAppender::_isEnabled())
+				{
+				   $item = ilParameterAppender::_append($item);
+				}		
+				$this->redirectToLink($this->ref_id, $obj_id, $item["target"]);
+			}
+		}
+	}
+	
+	protected function redirectToLink($a_ref_id, $a_obj_id, $a_url)
+	{
+		global $ilUser;
+		
+		if($a_url)
+		{
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+			ilChangeEvent::_recordReadEvent("webr", $a_ref_id, $a_obj_id,
+				$ilUser->getId());
+			
+			ilUtil::redirect($a_url);
+		}		
+	}
 
 	function _goto($a_target)
 	{
