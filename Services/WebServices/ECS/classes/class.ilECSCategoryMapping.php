@@ -80,7 +80,7 @@ class ilECSCategoryMapping
 		}
 		// Return default container
 		$ilLog->write(__METHOD__.': Using default container');
-		return ilECSSettings::_getInstance()->getImportId();
+		return ilECSSetting::_getInstance()->getImportId();
 	}
 	
 	/**

@@ -1763,8 +1763,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		global $ilLog;
 		
-		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
-		$settings = ilECSSettings::_getInstance();
+		include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
+		$settings = ilECSSetting::_getInstance();
 		if(!$settings->isEnabled())
 		{
 			return true;

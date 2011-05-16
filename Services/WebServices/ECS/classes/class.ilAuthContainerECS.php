@@ -267,8 +267,8 @@ class ilAuthContainerECS extends Auth_Container
 	 */
 	private function initSettings()
 	{
-	 	include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
-	 	$this->settings = ilECSSettings::_getInstance();
+	 	include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
+	 	$this->settings = ilECSSetting::_getInstance();
 	}
 	
 
@@ -280,8 +280,8 @@ class ilAuthContainerECS extends Auth_Container
 	 */
 	private function initECSServices()
 	{
-	 	include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
-	 	$this->settings = ilECSSettings::_getInstance();
+	 	include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
+	 	$this->settings = ilECSSetting::_getInstance();
 	}
 	
 	/**

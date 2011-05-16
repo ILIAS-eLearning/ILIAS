@@ -57,13 +57,13 @@ class ilECSEContentReader
 	{
 		global $ilLog;
 
-		include_once('Services/WebServices/ECS/classes/class.ilECSSettings.php');
+		include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
 		include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
 		include_once('Services/WebServices/ECS/classes/class.ilECSConnectorException.php');
 		include_once('Services/WebServices/ECS/classes/class.ilECSEContent.php');
 		include_once('Services/WebServices/ECS/classes/class.ilECSReaderException.php');
 
-		$this->settings = ilECSSettings::_getInstance();
+		$this->settings = ilECSSetting::_getInstance();
 		$this->connector = new ilECSConnector();
 		$this->log = $ilLog;
 

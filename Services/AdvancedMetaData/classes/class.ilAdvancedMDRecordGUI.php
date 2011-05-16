@@ -205,9 +205,9 @@ class ilAdvancedMDRecordGUI
 	protected function loadECSDurationPost()
 	{
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
-		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
 		
-		if(!ilECSSettings::_getInstance()->isEnabled())
+		if(!ilECSSetting::_getInstance()->isEnabled())
 		{
 			return false;
 		}
