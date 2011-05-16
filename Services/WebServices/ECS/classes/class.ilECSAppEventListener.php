@@ -63,8 +63,8 @@ class ilECSAppEventListener implements ilAppEventListener
 								return true;
 							}
 
-							include_once('Services/WebServices/ECS/classes/class.ilECSSettings.php');
-							$settings = ilECSSettings::_getInstance();
+							include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
+							$settings = ilECSSetting::_getInstance();
 							
 							$end = new ilDateTime(time(),IL_CAL_UNIX);
 							$end->increment(IL_CAL_MONTH,$settings->getDuration());
@@ -94,8 +94,8 @@ class ilECSAppEventListener implements ilAppEventListener
 				switch($a_event)
 				{
 					case 'create':
-						include_once('Services/WebServices/ECS/classes/class.ilECSSettings.php');
-						$settings = ilECSSettings::_getInstance();
+						include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
+						$settings = ilECSSetting::_getInstance();
 						if(!count($rcps = $settings->getEContentRecipients()))
 						{
 							return true;
@@ -138,7 +138,7 @@ class ilECSAppEventListener implements ilAppEventListener
 	 */
 	protected static function _sendNotification($user_obj)
 	{
-		$settings = ilECSSettings::_getInstance();
+		$settings = ilECSSetting::_getInstance();
 
 		if(!count($settings->getUserRecipients()))
 		{

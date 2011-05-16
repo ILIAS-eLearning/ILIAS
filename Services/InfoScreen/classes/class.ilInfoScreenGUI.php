@@ -456,8 +456,8 @@ class ilInfoScreenGUI
 					'</a>';
 			}
 			
-			include_once('Services/WebServices/ECS/classes/class.ilECSSettings.php');
-			$settings = ilECSSettings::_getInstance();
+			include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
+			$settings = ilECSSetting::_getInstance();
 			if($settings->isEnabled())
 			{
 				$this->addProperty($lng->txt("object_id"),

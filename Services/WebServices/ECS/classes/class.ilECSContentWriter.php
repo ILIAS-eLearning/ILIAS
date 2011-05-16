@@ -78,8 +78,8 @@ class ilECSContentWriter
 	 */
 	public static function _handleDelete($a_subbtree_nodes)
 	{
-		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
-		if(!ilECSSettings::_getInstance()->isEnabled())
+		include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
+		if(!ilECSSetting::_getInstance()->isEnabled())
 		{
 			return false;
 		}
@@ -387,8 +387,8 @@ class ilECSContentWriter
 	 */
 	private function sendNewContentNotification()
 	{
-		include_once('Services/WebServices/ECS/classes/class.ilECSSettings.php');
-		$settings = ilECSSettings::_getInstance();
+		include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
+		$settings = ilECSSetting::_getInstance();
 		if(!count($rcps = $settings->getApprovalRecipients()))
 		{
 			return true;

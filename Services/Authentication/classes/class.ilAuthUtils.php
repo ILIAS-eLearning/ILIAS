@@ -447,8 +447,8 @@ class ilAuthUtils
 		if ($ilSetting->get("soap_auth_active")) $modes['soap'] = AUTH_SOAP;
 		if ($ilSetting->get("apache_active")) $modes['apache'] = AUTH_APACHE;
                 
-		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
-		if(ilECSSettings::_getInstance()->isEnabled())
+		include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
+		if(ilECSSetting::_getInstance()->isEnabled())
 		{
 			$modes['ecs'] = AUTH_ECS;
 		}

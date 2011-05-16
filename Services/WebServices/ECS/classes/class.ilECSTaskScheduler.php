@@ -60,8 +60,8 @@ class ilECSTaskScheduler
 	 	$this->db = $ilDB;
 	 	$this->log = $ilLog;
 	 	
-	 	include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
-	 	$this->settings = ilECSSettings::_getInstance();
+	 	include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
+	 	$this->settings = ilECSSetting::_getInstance();
 	}
 
 	/**

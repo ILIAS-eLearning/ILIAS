@@ -56,10 +56,10 @@ class ilECSEventQueueReader
 	{
 	 	global $ilLog,$ilDB;
 	 	
-	 	include_once('Services/WebServices/ECS/classes/class.ilECSSettings.php');
+	 	include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
 		include_once('Services/WebServices/ECS/classes/class.ilECSReaderException.php');
 	 	
-	 	$this->settings = ilECSSettings::_getInstance();
+	 	$this->settings = ilECSSetting::_getInstance();
 	 	$this->log = $ilLog;
 	 	$this->db = $ilDB;
 	 	

@@ -30,7 +30,7 @@
 * 
 * @ingroup ServicesWebServicesECS
 */
-class ilECSSettings
+class ilECSSetting
 {
 	const ERROR_EXTRACT_SERIAL = 'ecs_error_extract_serial';
 	const ERROR_REQUIRED = 'fill_out_all_required_fields';
@@ -86,7 +86,7 @@ class ilECSSettings
 		{
 			return self::$instance;
 		}
-		return self::$instance = new ilECSSettings();
+		return self::$instance = new ilECSSetting();
 	}
 	
 	/**

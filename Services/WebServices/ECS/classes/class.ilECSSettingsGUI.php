@@ -165,9 +165,9 @@ class ilECSSettingsGUI
 		
 		$pro = new ilSelectInputGUI($this->lng->txt('ecs_protocol'),'protocol');
 		// fixed to https
-		#$pro->setOptions(array(ilECSSettings::PROTOCOL_HTTP => $this->lng->txt('http'),
-		#		ilECSSettings::PROTOCOL_HTTPS => $this->lng->txt('https')));
-		$pro->setOptions(array(ilECSSettings::PROTOCOL_HTTPS => 'HTTPS'));
+		#$pro->setOptions(array(ilECSSetting::PROTOCOL_HTTP => $this->lng->txt('http'),
+		#		ilECSSetting::PROTOCOL_HTTPS => $this->lng->txt('https')));
+		$pro->setOptions(array(ilECSSetting::PROTOCOL_HTTPS => 'HTTPS'));
 		$pro->setValue($this->settings->getProtocol());
 		$pro->setRequired(true);
 		$this->form->addItem($pro);
@@ -1125,8 +1125,8 @@ class ilECSSettingsGUI
 	 */
 	protected function initSettings()
 	{	
-		include_once('Services/WebServices/ECS/classes/class.ilECSSettings.php');
-		$this->settings = ilECSSettings::_getInstance();
+		include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
+		$this->settings = ilECSSetting::_getInstance();
 	}
 	
 	/**

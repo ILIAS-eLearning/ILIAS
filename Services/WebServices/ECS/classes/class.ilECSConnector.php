@@ -31,7 +31,7 @@
 * @ingroup ServicesWebServicesECS 
 */
 
-include_once('Services/WebServices/ECS/classes/class.ilECSSettings.php');
+include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
 include_once('Services/WebServices/ECS/classes/class.ilECSResult.php');
 include_once('Services/WebServices/Curl/classes/class.ilCurlConnection.php');
 
@@ -60,7 +60,7 @@ class ilECSConnector
 	 */
 	public function __construct()
 	{
-	 	$this->settings = ilECSSettings::_getInstance();
+	 	$this->settings = ilECSSetting::_getInstance();
 	}
 
 	// Header methods
@@ -520,7 +520,7 @@ class ilECSConnector
 	 	{
 	 		$this->curl = new ilCurlConnection($this->settings->getServerURI().$this->path_postfix);
  			$this->curl->init();
-	 		if($this->settings->getProtocol() == ilECSSettings::PROTOCOL_HTTPS)
+	 		if($this->settings->getProtocol() == ilECSSetting::PROTOCOL_HTTPS)
 	 		{
 	 			$this->curl->setOpt(CURLOPT_HTTPHEADER,array(0 => 'Accept: application/json'));
 	 			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER,1);

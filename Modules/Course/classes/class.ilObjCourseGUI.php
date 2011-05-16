@@ -1080,10 +1080,10 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacadmin;
 
-		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
 		
 		// ECS enabled
-		$ecs_settings = ilECSSettings::_getInstance();
+		$ecs_settings = ilECSSetting::_getInstance();
 		if(!$ecs_settings->isEnabled())
 		{
 			return true;
@@ -1471,10 +1471,10 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $ilLog;
 		
-		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
 		
 		// ECS enabled
-		$ecs_settings = ilECSSettings::_getInstance();
+		$ecs_settings = ilECSSetting::_getInstance();
 		if(!$ecs_settings->isEnabled())
 		{
 			return true;

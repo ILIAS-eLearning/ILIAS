@@ -55,10 +55,10 @@ class ilECSParticipant
 	 */
 	public function __construct($json_obj,$a_cid)
 	{
-		include_once('Services/WebServices/ECS/classes/class.ilECSSettings.php');
+		include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
 		include_once('Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
 		
-		$this->settings = ilECSSettings::_getInstance();
+		$this->settings = ilECSSetting::_getInstance();
 		$this->part_settings = ilECSParticipantSettings::_getInstance();
 		$this->json_obj = $json_obj;
 		$this->cid = $a_cid;
