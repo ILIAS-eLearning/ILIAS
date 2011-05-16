@@ -115,10 +115,12 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 		$counter = 1;
 		foreach($items as $link)
 		{
+			/* now done in ObjLinkRessourceGUI::callLink()
 			if(ilParameterAppender::_isEnabled())
 			{
 				$link = ilParameterAppender::_append($link);
 			}
+			*/
 			$tmp['position'] = $counter++;
 			$tmp['title'] = $link['title'];
 			$tmp['description'] = $link['description'];
@@ -137,12 +139,16 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl,$lng;
 		
+		$ilCtrl->setParameterByClass(get_class($this->getParentObject()), 'link_id', $a_set['link_id']);
+		
 		$this->tpl->setVariable('TITLE',$a_set['title']);
 		if(strlen($a_set['description']))
 		{
 			$this->tpl->setVariable('DESCRIPTION',$a_set['description']);
 		}
-		$this->tpl->setVariable('TARGET',$a_set['target']);
+		// $this->tpl->setVariable('TARGET',$a_set['target']);
+		$this->tpl->setVariable('TARGET',
+			$ilCtrl->getLinkTarget($this->parent_obj, "callLink"));
 		
 		if(!$this->isEditable())
 		{
@@ -162,7 +168,6 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 		$actions->setListTitle($lng->txt('actions'));
 		$actions->setId($a_set['link_id']);
 		
-		$ilCtrl->setParameterByClass(get_class($this->getParentObject()), 'link_id', $a_set['link_id']);
 		$actions->addItem(
 			$lng->txt('edit'),
 			'',
