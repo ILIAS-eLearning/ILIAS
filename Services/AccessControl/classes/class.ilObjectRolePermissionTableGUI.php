@@ -595,8 +595,11 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			}
 		}
 
-		$role_hierarchy = $rbacreview->getObjectsWithStopedInheritance($role['obj_id']);
-		$path_hierarchy = array_intersect($role_hierarchy, $this->getPathIds());
+		$path_hierarchy = $rbacreview->getObjectsWithStopedInheritance(
+			$role['obj_id'],
+			$tree->getPathId($this->getRefId())
+		);
+
 		$reduced_path_hierarchy = (array) array_diff(
 			$path_hierarchy,
 			array(
@@ -604,6 +607,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 				$rbacreview->getObjectReferenceOfRole($role['obj_id'])
 			)
 		);
+
 
 		// Inheritance
 		if($role['assign'] == 'n' and count($reduced_path_hierarchy))

@@ -1464,33 +1464,36 @@ class ilRbacReview
 		}
 		return $ops; 
 	}
-	
+
 	
 	/**
 	* get all objects in which the inheritance of role with role_id was stopped
 	* the function returns all reference ids of objects containing a role folder.
 	* @access	public
 	* @param	integer	role_id
+	* @param	array   filter ref_ids
 	* @return	array	with ref_ids of objects
 	*/
-	function getObjectsWithStopedInheritance($a_rol_id)
+	function getObjectsWithStopedInheritance($a_rol_id,$a_filter = array())
 	{
-		$tree = new ilTree(ROOT_FOLDER_ID);
-
-		if (!isset($a_rol_id))
+		global $ilDB;
+		
+		$query = 'SELECT t.parent p FROM tree t JOIN rbac_fa fa ON fa.parent = child '.
+			'WHERE assign = '.$ilDB->quote('n','text').' '.
+			'AND rol_id = '.$ilDB->quote($a_rol_id,'integer').' ';
+		
+		if($a_filter)
 		{
-			$message = get_class($this)."::getObjectsWithStopedInheritance(): No role_id given!";
-			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
-		}
-			
-		$all_rolf_ids = $this->getFoldersAssignedToRole($a_rol_id,false);
-
-		foreach ($all_rolf_ids as $rolf_id)
-		{
-			$parent[] = $tree->getParentId($rolf_id);
+			$query .= ('AND '.$ilDB->in('t.parent',(array) $a_filter,false,'integer'));
 		}
 
-		return $parent ? $parent : array();
+		$res = $ilDB->query($query);
+		$parent = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$parent[] = $row->p;
+		}
+		return $parent;
 	}
 
 	/**
