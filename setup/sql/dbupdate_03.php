@@ -5057,3 +5057,42 @@ if(!$ilDB->tableExists('usr_portf_acl'))
 		);
 	}
 ?>
+<#3315>
+<?php
+
+	// Migration of ecs settings
+	$query = 'SELECT * FROM settings WHERE '.
+		'module = '.$ilDB->quote('ecs','text');
+	$res = $ilDB->query($query);
+
+	$ecs = array();
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$ecs[$row->keyword] = $row->value;
+	}
+	if(count($ecs))
+	{
+		$ilDB->manipulate('INSERT INTO ecs_server (server_id,active,protocol,server,port,auth_type,client_cert_path,ca_cert_path,'.
+			'key_path,key_password,cert_serial,polling_time,import_id,global_role,econtent_rcp,user_rcp,approval_rcp,duration) '.
+			'VALUES ('.
+			$ilDB->quote($ilDB->nextId('ecs_server'),'integer').', '.
+			$ilDB->quote($ecs['active'],'integer').', '.
+			$ilDB->quote($ecs['protocol'],'integer').', '.
+			$ilDB->quote($ecs['server'],'text').', '.
+			$ilDB->quote($ecs['port'],'integer').', '.
+			$ilDB->quote(1,'integer').', '.
+			$ilDB->quote($ecs['client_cert_path'],'text').', '.
+			$ilDB->quote($ecs['ca_cert_path'],'text').', '.
+			$ilDB->quote($ecs['key_path'],'text').', '.
+			$ilDB->quote($ecs['key_password'],'text').', '.
+			$ilDB->quote($ecs['cert_serial'],'text').', '.
+			$ilDB->quote($ecs['polling_time'],'integer').', '.
+			$ilDB->quote($ecs['import_id'],'integer').', '.
+			$ilDB->quote($ecs['global_role'],'integer').', '.
+			$ilDB->quote($ecs['econtent_rcp'],'text').', '.
+			$ilDB->quote($ecs['user_rcp'],'text').', '.
+			$ilDB->quote($ecs['approval_rcp'],'text').', '.
+			$ilDB->quote($ecs['duration'],'integer').
+			')');
+	}
+?>
