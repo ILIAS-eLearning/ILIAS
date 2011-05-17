@@ -113,6 +113,7 @@ class ilPurchase
     
       $bo->setPayed(1);
       $bo->setAccess(1);
+	  $bo->setAccessExtension($this->sc['extension']);
       $boid = $bo->add();
       //$bo->update();
       

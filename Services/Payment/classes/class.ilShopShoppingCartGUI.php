@@ -198,6 +198,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			$booking_obj->setDiscount($bonus > 0 ? ((-1) * $bonus) : 0);
 			$booking_obj->setPayed(1);
 			$booking_obj->setAccess(1);
+			$booking_obj->setAccessExtension($price['extension']);
 			
 			$obj_id = $ilObjDataCache->lookupObjId($pobject->getRefId());
 			$obj_type = $ilObjDataCache->lookupType($obj_id);

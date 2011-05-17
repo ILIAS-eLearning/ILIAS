@@ -8,14 +8,11 @@
 *
 * @package core
 */
-/*
-include_once './Services/Payment/classes/class.ilPaymentObject.php';
-include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
-include_once './Services/Payment/classes/class.ilPaypalSettings.php';
-include_once './Services/Payment/classes/class.ilPaymentCoupons.php';
-include_once './Services/Payment/classes/class.ilShopVatsList.php';
-*/
 
+/* @todo INVOICE
+include_once './Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
+
+ */
 include_once './Services/Payment/classes/class.ilPayMethods.php';
 include_once './Services/Payment/classes/class.ilPurchaseBaseGUI.php';
 
@@ -402,7 +399,9 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 
 			$inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
 			$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
-
+/* @todo INVOICE 
+ * $transaction = ilInvoiceNumberPlaceholdersPropertyGUI::_generateInvoiceNumber($ilUser->getId());
+ */
 			for ($i = 0; $i < count($sc); $i++)
 			{
 				$pobjectData = ilPaymentObject::_getObjectData($sc[$i]["pobject_id"]);
@@ -428,6 +427,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 				$book_obj->setDiscount($bonus > 0 ? ($bonus * (-1)) : 0);
 				$book_obj->setPayed(1);
 				$book_obj->setAccess(1);
+				$book_obj->setAccessExtension($sc[$i]['extension']);
 				$book_obj->setVoucher('');
 				$book_obj->setTransactionExtern($keyarray['txn_id']);
 			
