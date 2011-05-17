@@ -37,7 +37,7 @@ class ilTrQuery
 
 			$query = "SELECT object_data.obj_id, title, CASE WHEN status IS NULL THEN ".LP_STATUS_NOT_ATTEMPTED_NUM." ELSE status END AS status,".
 				" status_changed, percentage, read_count+childs_read_count AS read_count, spent_seconds+childs_spent_seconds AS spent_seconds,".
-				" u_mode, type, visits, mark, u_comment AS comment".
+				" u_mode, type, visits, mark, u_comment".
 				" FROM object_data".
 				" LEFT JOIN ut_lp_settings ON (ut_lp_settings.obj_id = object_data.obj_id)".
 				" LEFT JOIN read_event ON (read_event.obj_id = object_data.obj_id AND read_event.usr_id = ".$ilDB->quote($a_user_id, "integer").")".
@@ -49,6 +49,9 @@ class ilTrQuery
 			$result = array();
 			while($rec = $ilDB->fetchAssoc($set))
 			{
+				$rec["comment"] = $rec["u_comment"];
+				unset($rec["u_comment"]);
+				
 				$rec["ref_ids"] = $obj_refs[(int)$rec["obj_id"]];
 				$rec["status"] = (int)$rec["status"];
 				$rec["percentage"] = (int)$rec["percentage"];
@@ -370,7 +373,7 @@ class ilTrQuery
 				else
 				{
 		            include_once("Services/Tracking/classes/class.ilLPStatus.php");
-					$objective_fields[] = "(CASE WHEN status IS NOT NULL THEN ".LP_STATUS_COMPLETED_NUM." ELSE NULL END) AS status";
+					$objective_fields[] = "CASE WHEN status IS NOT NULL THEN ".LP_STATUS_COMPLETED_NUM." ELSE NULL END AS status";
 				}
 			  }
 			}
@@ -488,8 +491,8 @@ class ilTrQuery
 	{
 		global $ilDB;
 
-		$query = "SELECT obj_id, title, e_start, e_end, (CASE WHEN participated = 1 THEN 2 WHEN registered = 1 THEN 1 ELSE NULL END) AS status,".
-			" mark, e_comment AS comment".
+		$query = "SELECT obj_id, title, e_start, e_end, CASE WHEN participated = 1 THEN 2 WHEN registered = 1 THEN 1 ELSE NULL END AS status,".
+			" mark, e_comment".
 			" FROM event".
 			" JOIN event_appointment ON (event.obj_id = event_appointment.event_id)".
 			" LEFT JOIN event_participants ON (event_participants.event_id = event.obj_id AND usr_id = ".$ilDB->quote($a_user_id, "integer").")".
@@ -498,6 +501,9 @@ class ilTrQuery
 		$sessions = array();
 		while($rec = $ilDB->fetchAssoc($set))
 		{
+			$rec["comment"] = $rec["e_comment"];
+			unset($rec["e_comment"]);
+			
 			$date = ilDatePresentation::formatPeriod(
 				new ilDateTime($rec["e_start"], IL_CAL_DATETIME),
 				new ilDateTime($rec["e_end"], IL_CAL_DATETIME));
@@ -1324,7 +1330,7 @@ class ilTrQuery
 		    include_once("Services/Tracking/classes/class.ilLPStatus.php");
 
 			$fields = array("crs_objectives.objective_id AS obj_id", "crs_objective_status.user_id AS usr_id", "title");
-			$fields[] = "(CASE WHEN status IS NOT NULL THEN ".LP_STATUS_COMPLETED_NUM." ELSE NULL END) AS status";
+			$fields[] = "CASE WHEN status IS NOT NULL THEN ".LP_STATUS_COMPLETED_NUM." ELSE NULL END AS status";
 
 			$where = array();
 			$where[] = "crs_objectives.crs_id = ".$ilDB->quote($a_parent_obj_id, "integer");
