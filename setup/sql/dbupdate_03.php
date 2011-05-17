@@ -5043,13 +5043,17 @@ if(!$ilDB->tableExists('usr_portf_acl'))
 	$ilDB->createSequence('ecs_server');
 
 ?>
-
-
-
-
-
-
-
-			
-
-
+<#3314>
+<?php
+	if(!$ilDB->tableColumnExists('payment_statistic','access_startdate'))
+	{
+		$ilDB->addTableColumn(
+			'payment_statistic',
+			'access_startdate',
+			array(
+				'type'     => 'timestamp',
+				'notnull'	=> false
+			)
+		);
+	}
+?>

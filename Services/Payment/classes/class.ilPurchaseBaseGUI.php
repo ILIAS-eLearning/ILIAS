@@ -16,6 +16,9 @@ include_once './Services/Payment/classes/class.ilPaymentCoupons.php';
 include_once './Services/Payment/classes/class.ilShopVatsList.php';
 include_once './Services/Payment/classes/class.ilPayMethods.php';
 include_once './Services/Payment/classes/class.ilShopUtils.php';
+/* @todo INVOICE
+include_once './Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
+ */
 
 class ilPurchaseBaseGUI
 {
@@ -294,7 +297,7 @@ class ilPurchaseBaseGUI
 		//$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
 		
 		$sc = $this->psc_obj->getShoppingCart($this->pm_id);
-	
+
 		$this->psc_obj->clearCouponItemsSession();		
 
 		if (is_array($sc) && count($sc) > 0)
@@ -327,6 +330,9 @@ class ilPurchaseBaseGUI
 			}
 			
 			$coupon_discount_items = $this->psc_obj->calcDiscountPrices($_SESSION['coupons'][$this->session_var]);
+/* @todo INVOICE
+ * 	$transaction = ilInvoiceNumberPlaceholdersPropertyGUI::_generateInvoiceNumber($ilUser->getId());
+ */
 
 			$inst_id_time = $this->ilias->getSetting('inst_id').'_'.$this->user_obj->getId().'_'.substr((string) time(),-3);
 			$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
@@ -364,6 +370,7 @@ class ilPurchaseBaseGUI
 				$book_obj->setVatRate($sc[$i]['vat_rate']);
 				$book_obj->setVatUnit($sc[$i]['vat_unit']);
 				$book_obj->setObjectTitle(strip_tags($sc[$i]['object_title']));				
+				$book_obj->setAccessExtension($sc[$i]['extension']);
 
 				if($external_data)
 				{

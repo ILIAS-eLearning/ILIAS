@@ -15,7 +15,9 @@ include_once './Services/Payment/classes/class.ilPayMethods.php';
 include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 include_once './Services/Payment/classes/class.ilShopTableGUI.php';
-
+/* @todo INVOICE
+include_once './Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
+ */
 
 class ilPaymentStatisticGUI extends ilShopBaseGUI
 {
@@ -497,7 +499,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 	function editStatistic($a_show_confirm_delete = false)
 	{
 		global $ilToolbar;
-		
+
 		if(!isset($_GET['booking_id']))
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
@@ -679,6 +681,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		
 		$this->tpl->setVariable('FORM_2',$oForm2->getHTML());
 */
+
 		return true;
 	}
 
@@ -1025,9 +1028,13 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$obj = new ilPaymentObject($this->user_obj, $pObjectId);
 
 		$this->__initBookingObject();
+/* @todo INVOICE
+		$transaction = ilInvoiceNumberPlaceholdersPropertyGUI::_generateInvoiceNumber($ilUser->getId());
+ */
 
 		$inst_id_time = $ilias->getSetting('inst_id').'_'.$this->user_obj->getId().'_'.substr((string) time(),-3);
 		$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
+
 		$this->booking_obj->setTransaction($transaction);
 		$this->booking_obj->setTransactionExtern($_POST["transaction"]);
 		$this->booking_obj->setPobjectId($pObjectId);
@@ -1039,7 +1046,11 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$price = ilPaymentPrices::_getPrice($_POST["duration"]);
 		// TODO:$currency = ilPaymentCurrency::_getUnit($price['currency']);
 		$this->booking_obj->setDuration($price["duration"]);
-		if($price['unlimited_duration'] == 0)
+		$this->booking_obj->setAccessExtension($price['extension']);
+		
+/*
+  #@todo not needed. done by booking_obj->add()
+  if($price['unlimited_duration'] == 0)
 		{
 			$order_date = $this->booking_obj->getOrderDate();
 			$duration = $this->booking_obj->getDuration();
@@ -1056,7 +1067,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 
 			$this->booking_obj->setAccessEnddate($access_enddate);
 		}
-
+*/
 
 		$this->booking_obj->setPrice(ilPaymentPrices::_getPriceString($_POST["duration"]));
 // TODO: $this->booking_obj->setPrice($price['price'].' '. $currency);		

@@ -27,7 +27,10 @@ include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 include_once './Services/Payment/classes/class.ilGeneralSettings.php';
 include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 include_once './Services/Payment/classes/class.ilShopTableGUI.php';
-
+/* @todo INVOICE
+include_once 'Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
+include_once './Services/Payment/classes/class.ilUserDefinedInvoiceNumber.php';
+*/
 class ilObjPaymentSettingsGUI extends ilObjectGUI
 {
 	const CONDITIONS_EDITOR_PAGE_ID = 99999997;
@@ -96,7 +99,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				{
 					$cmd = 'generalSettings';
 				}
-			
+		
 				switch ($cmd)
 				{
 					// only needed for subtabs
@@ -159,12 +162,23 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 							 $cmd = 'TermsConditions';
 							break;
 					case 'BillingMail':
+					case 'saveBillingMail':
 							$this->active_sub_tab = 'billing_mail';
 								$this->tabs_gui->setTabActive('documents');
 								$this->getSubTabs('documents', 'billing_mail');
 
-								$cmd = 'BillingMail';
+							#	$cmd = 'BillingMail';
 							break;
+/* @todo INVOICE
+					case 'InvoiceNumber':
+					case 'saveInvoiceNumber':
+							$this->active_sub_tab = 'invoice_number';
+								$this->tabs_gui->setTabActive('documents');
+								$this->getSubTabs('documents', 'invoice_number');
+
+								#$cmd = 'InvoiceNumber';
+							break;
+*/
 				}	
 				$cmd .= 'Object';
 
@@ -1963,7 +1977,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 			// Documents
 			$tabs_gui->addTarget('documents', $this->ctrl->getLinkTarget($this, 'documents'),
-				array('documents','documents'), '', '');
+				array('documents','TermsConditions','saveTermsConditions','BillingMail','saveBillingMail'), '', '');
+/* @todo INVOICE
+array('documents','TermsConditions','saveTermsConditions','BillingMail','saveBillingMail','InvoiceNumber','saveInvoiceNumber'), '', '');
+ */
 
 		}
 
@@ -2002,6 +2019,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				$this->tabs_gui->addSubTabTarget('billing_mail',
 					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'BillingMail'),
 					'','', '',$a_sub_tab == 'billing_mail' ? true : false);
+/* not now...
+				$this->tabs_gui->addSubTabTarget('invoice_number',
+					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'InvoiceNumber'),
+					'','', '',$a_sub_tab == 'invoice_number' ? true : false);
+ *
+ */
 				break;
 
 			default:
@@ -3735,6 +3758,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$inst_id_time = $ilias->getSetting('inst_id').'_'.$this->user_obj->getId().'_'.substr((string) time(),-3);
 		$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
+/* @todo INVOICE
+ * $transaction = ilInvoiceNumberPlaceholdersPropertyGUI::_generateInvoiceNumber($ilUser->getId());
+ */
+
 		$this->booking_obj->setTransaction($transaction);
 		$this->booking_obj->setTransactionExtern($_POST['transaction']);
 		$this->booking_obj->setPobjectId($pObjectId);
@@ -3751,6 +3778,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->booking_obj->setAccess((int) $_POST['access']);
 		$this->booking_obj->setPayed((int) $_POST['payed']);
 		$this->booking_obj->setVoucher('');
+		$this->booking_obj->setAccessEnddate($price['extension']);
 		
 		$obj_id = $ilObjDataCache->lookupObjId($obj->getRefId());
 		$obj_type = $ilObjDataCache->lookupType($obj_id);
@@ -4593,6 +4621,143 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		return $this->ctrl->forwardCommand($page_gui);
 	}
+/* @todo INVOICE
+	public function InvoiceNumberObject()
+	{
+		global $ilToolbar;
+		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 
+		$invObj = new ilUserDefinedInvoiceNumber();
+
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
+		$this->tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
+
+		$form_gui = new ilPropertyFormGUI();
+		$form_gui->setFormAction($this->ctrl->getFormAction($this, 'saveInvoiceNumber'));
+		$form_gui->setTitle($this->lng->txt('invoice_number_setting'));
+
+		// invoice_type
+		$radio_group = new ilRadioGroupInputGUI($this->lng->txt('invoice_number'), 'ud_invoice_number');
+		$radio_option_1 = new ilRadioOption($this->lng->txt('ilias_invoice_number'), '0');
+		$radio_group->addOption($radio_option_1);
+		$radio_option_2 = new ilRadioOption($this->lng->txt('userdefined_invoice_number'), '1');
+		$radio_group->addOption($radio_option_2);
+		$radio_group->setRequired(true);
+		$radio_group->setValue($invObj->getUDInvoiceNumberActive(),'0');
+		$radio_group->setPostVar('ud_invoice_number');
+		$form_gui->addItem($radio_group);
+
+		// incremental current value
+		$cur_num = new ilNonEditableValueGUI($this->lng->txt('incremental_current_value'), 'inc_current_value');
+		$cur_num->setValue(ilUserDefinedInvoiceNumber::_getIncCurrentValue(), 1);
+		$radio_option_2->addSubItem($cur_num);
+
+		// incremental start value
+		$inc_num = new ilNumberInputGUI($this->lng->txt('incremental_start_value'), 'inc_start_value');
+		$inc_num->setValue($this->error != "" && isset($_POST['incremental_start_value'])
+							? ilUtil::prepareFormOutput($_POST['incremental_start_value'],true)
+							: ilUtil::prepareFormOutput($invObj->getIncStartValue(),true));
+		$inc_num->setInfo($this->lng->txt('incremental_start_value_info'));
+		$radio_option_2->addSubItem($inc_num);
+
+		// reset period of current value
+		$sel_reset = new ilSelectInputGUI($this->lng->txt('invoice_number_reset_period'), 'inc_reset_period');
+		$sel_reset->setValue($this->error != "" && isset($_POST['inc_reset_period'])
+			? $_POST['inc_reset_period']
+			: $invObj->getIncResetPeriod());
+
+		$reset_options = array(
+			1 => $this->lng->txt('yearly'),
+			2 => $this->lng->txt('monthly'));
+		$sel_reset->setOptions($reset_options);
+
+		$radio_option_2->addSubItem($sel_reset);
+
+		// invoice_number_text
+		$inp = new ilTextAreaInputGUI($this->lng->txt('invoice_number_text'), 'invoice_number_text');
+		$inp->setValue(	$this->error != "" && isset($_POST['invoice_number_text'])
+							? ilUtil::prepareFormOutput($_POST['invoice_number_text'],true)
+							: ilUtil::prepareFormOutput($invObj->getInvoiceNumberText(),true));
+
+		
+		$inp->setRequired(false);
+		$inp->setCols(60);
+		$inp->setRows(3);
+		$radio_option_2->addSubItem($inp);
+
+		// PLACEHOLDERS
+
+		$prop = new ilInvoiceNumberPlaceholdersPropertyGUI();
+		$radio_option_2->addSubItem($prop);
+
+		$form_gui->addCommandButton('saveInvoiceNumber', $this->lng->txt('save'));
+		$this->tpl->setVariable('FORM', $form_gui->getHTML());
+	}
+
+	public function saveInvoiceNumberObject()
+	{
+		// check conditions
+		if($_POST['ud_invoice_number'] == 1)
+		{
+			if($_POST['inc_start_value'] <= 0 || $_POST['inc_start_value'] == NULL)
+			{
+				$this->error = $this->lng->txt('start_value_cannot_be_null');
+				ilUtil::sendFailure($this->error);
+				return $this->InvoiceNumberObject();
+			}
+			
+			if($_POST['invoice_number_text'] !== NULL)
+			{
+				$check_text = $_POST['invoice_number_text'];
+				
+				if(strpos($check_text, '[INCREMENTAL_NUMBER]') === FALSE)
+				{
+					$this->error = $this->lng->txt('invoice_number_must_contain_incremental_number');
+					ilUtil::sendFailure($this->error);
+					return $this->InvoiceNumberObject();
+				}
+				else
+				{
+					if($_POST['inc_reset_period'] == 1) // yearly
+					{
+						if(strpos($check_text, '[YEAR]') === FALSE && strpos($check_text, '[CURRENT_TIMESTAMP]') === FALSE)
+						{
+							$this->error = $this->lng->txt('invoice_number_must_contain_year_ct');
+							ilUtil::sendFailure($this->error);
+							return $this->InvoiceNumberObject();
+						}
+					}
+					else if($_POST['inc_reset_period'] == 2) // monthly
+					{
+						if((strpos($check_text, '[YEAR]') === FALSE || strpos($check_text, '[MONTH]') === FALSE )
+						&& (strpos($check_text, '[CURRENT_TIMESTAMP]') === FALSE))
+						{
+							$this->error = $this->lng->txt('invoice_number_must_contain_year_month_ct');
+							ilUtil::sendFailure($this->error);
+							return $this->InvoiceNumberObject();
+						}
+					}
+				}
+			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt('invoice_number_text_cannot_be_null'));
+				return $this->InvoiceNumberObject();
+			}
+		}
+			// everythink ok  .... update settings
+			$invObj = new ilUserDefinedInvoiceNumber();
+			$invObj->setUDInvoiceNumberActive($_POST['ud_invoice_number']);
+			$invObj->setIncStartValue($_POST['inc_start_value']);
+			$invObj->setIncResetPeriod($_POST['inc_reset_period']);
+			$invObj->setInvoiceNumberText($_POST['invoice_number_text']);
+			$invObj->update();
+
+			$this->InvoiceNumberObject();
+			ilUtil::sendSuccess($this->lng->txt('pays_updated_general_settings'));
+
+			return true;
+	}
+*/
 } // END class.ilObjPaymentSettingsGUI
 ?>
