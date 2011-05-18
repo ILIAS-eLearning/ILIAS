@@ -5025,7 +5025,7 @@ if(!$ilDB->tableExists('usr_portf_acl'))
 			'active' => array('type' => 'integer','length' => 1, 'notnull' => false, 'default' => 0),
 			'protocol' => array('type' => 'integer','length' => 1, 'notnull' => false, 'default' => 1),
 			'server' => array('type' => 'text', 'length' => 255, 'notnull' => false),
-			'port' => array('type' => 'integer','length' => 1, 'notnull' => false, 'default' => 1),
+			'port' => array('type' => 'integer','length' => 2, 'notnull' => false, 'default' => 1),
 			'auth_type' => array('type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 1),
 			'client_cert_path' => array('type' => 'text', 'length' => 512, 'notnull' => false),
 			'ca_cert_path' => array('type' => 'text', 'length' => 512, 'notnull' => false),
@@ -5101,3 +5101,4 @@ if(!$ilDB->tableExists('usr_portf_acl'))
 	$ilDB->modifyTableColumn('cal_entries', 'context_id',
 		array("type" => "integer", "length" => 4, "default" => 0, "notnull" => true));
 ?>
+
