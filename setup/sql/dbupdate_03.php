@@ -5096,3 +5096,8 @@ if(!$ilDB->tableExists('usr_portf_acl'))
 			')');
 	}
 ?>
+<#3316>
+<?php
+	$ilDB->modifyTableColumn('cal_entries', 'context_id',
+		array("type" => "integer", "length" => 4, "default" => 0, "notnull" => true));
+?>
