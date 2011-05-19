@@ -297,8 +297,8 @@ class ilObjTestGUI extends ilObjectGUI
                                 }
 
                                 $this->prepareOutput();
-                                global $___test_express_mode;
-                                $___test_express_mode = true;
+                                //global $___test_express_mode;
+                                //$___test_express_mode = true;
                                 $_GET['calling_test'] = $this->object->getRefId();
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setCurrentBlock("ContentStyle");
@@ -390,14 +390,16 @@ class ilObjTestGUI extends ilObjectGUI
                                 $this->ctrl->setParameterByClass($qType . "GUI", 'prev_qid', $_REQUEST['prev_qid']);
                                 $this->ctrl->setParameterByClass($qType . "GUI", 'test_ref_id', $_REQUEST['ref_id']);
                                 $this->ctrl->setParameterByClass($qType . "GUI", 'q_id', $_REQUEST['q_id']);
-                                $this->ctrl->setParameterByClass($qType . "GUI", 'test_express_mode', 1);
-                                global $___test_express_mode;
-                                $___test_express_mode = true;
+				if ($_REQUEST['test_express_mode'])
+				    $this->ctrl->setParameterByClass($qType . "GUI", 'test_express_mode', 1);
+						
+                                #global $___test_express_mode;
+                                #$___test_express_mode = true;
                                 if (!$q_gui->isSaveCommand())
                                     $_GET['calling_test'] = $this->object->getRefId();
 
                                 $q_gui->setQuestionTabs();
-                                unset($___test_express_mode);
+                                #unset($___test_express_mode);
                                 $ret =& $this->ctrl->forwardCommand($q_gui);
                                 break;
 		}
@@ -2428,7 +2430,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		else {
 		    global $ilCtrl;
-		    
+
 		    $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'sel_question_types', $_REQUEST["sel_question_types"]);
 		    $link = $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'handleToolbarCommand','',false,false);
 		    ilUtil::redirect($link);
@@ -5308,9 +5310,12 @@ EOT;
 		$question = assQuestion::_instanciateQuestionGUI($id);
 		if ($question)
 		{
-		    $title = $this->lng->txt('copy_of') . ' ' . $question->object->getTitle();
-		    while(  in_array( $title, $questionTitles ))
-			    $title = $this->lng->txt('copy_of') . ' ' . $title;
+		    $title = $question->object->getTitle();
+		    $i = 2;
+		    while(  in_array( $title . ' (' . $i . ')', $questionTitles ))
+			    $i++;
+
+		    $title .= ' (' . $i . ')';
 
 		    $questionTitles[] = $title;
 

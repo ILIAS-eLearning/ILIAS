@@ -807,6 +807,12 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
+	/**
+	 * Get content node from dom
+	 *
+	 * @param string $a_hier_id hierarchical ID
+	 * @param string $a_pc_id page content ID
+	 */
 	function &getContentNode($a_hier_id, $a_pc_id = "")
 	{
 		$xpc = xpath_new_context($this->dom);
@@ -839,6 +845,36 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
+	/**
+	 * Get content node from dom
+	 *
+	 * @param string $a_hier_id hierarchical ID
+	 * @param string $a_pc_id page content ID
+	 */
+	function checkForTag($a_content_tag, $a_hier_id, $a_pc_id = "")
+	{
+		$xpc = xpath_new_context($this->dom);
+		// get per pc id
+		if ($a_pc_id != "")
+		{
+			$path = "//*[@PCID = '$a_pc_id']//".$a_content_tag;
+			$res = xpath_eval($xpc, $path);
+			if (count($res->nodeset) > 0)
+			{
+				return true;
+			}
+		}
+		
+		// fall back to hier id
+		$path = "//*[@HierId = '$a_hier_id']//".$a_content_tag;
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) > 0)
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	// only for test purposes
 	function lookforhier($a_hier_id)
 	{
@@ -932,9 +968,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 
 	/**
-	* Replaces existing question content elements with
-	* new copies
-	*/
+	 * Replaces existing question content elements with
+	 * new copies
+	 */
 	function newQuestionCopies(&$temp_dom)
 	{
 		// Get question IDs
@@ -965,6 +1001,41 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Remove questions from document
+	 *
+	 * @param
+	 * @return
+	 */
+	function removeQuestions(&$temp_dom)
+	{
+		// Get question IDs
+		$path = "//Question";
+		$xpc = xpath_new_context($temp_dom);
+		$res = & xpath_eval($xpc, $path);
+		for ($i = 0; $i < count ($res->nodeset); $i++)
+		{
+			$parent_node = $res->nodeset[$i]->parent_node();
+			$parent_node->unlink_node($parent_node);
+		}
+	}
+	
+	/**
+	 * Remove questions from document
+	 *
+	 * @param
+	 * @return
+	 */
+	function countPageContents()
+	{
+		// Get question IDs
+		$this->buildDom();
+		$path = "//PageContent";
+		$xpc = xpath_new_context($this->dom);
+		$res = & xpath_eval($xpc, $path);
+		return count ($res->nodeset);
 	}
 	
 	/**
@@ -1057,7 +1128,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			"pc_flist", "pc_par", "pc_mob", "pc_qst", "pc_sec", "pc_dtab", "pc_tab",
 			"pc_code", "pc_vacc", "pc_hacc", "pc_res", "pc_map", "pc_list", "ed_insert_incl", "pc_incl",
 			"pc_iim", "ed_insert_iim", "pc_prof", "ed_insert_profile", "pc_vrfc",
-			"ed_insert_verification", "pc_blog", "ed_insert_blog");
+			"ed_insert_verification", "pc_blog", "ed_insert_blog", "ed_edit_multiple");
 
 		foreach ($lang_vars as $lang_var)
 		{
@@ -1616,6 +1687,36 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 
 	/**
+	 * Get hier ids for a set of pc ids
+	 */
+	function getHierIdsForPCIds($a_pc_ids)
+	{
+		if (!is_array($a_pc_ids) || count($a_pc_ids) == 0)
+		{
+			return array();
+		}
+		$ret = array();
+
+		if(is_object($this->dom))
+		{
+			$xpc = xpath_new_context($this->dom);
+			$path = "//*[@PCID]";
+			$res =& xpath_eval($xpc, $path);
+			for($i = 0; $i < count($res->nodeset); $i++)	// should only be 1
+			{
+				$pc_id = $res->nodeset[$i]->get_attribute("PCID");
+				if (in_array($pc_id, $a_pc_ids))
+				{
+					$ret[$pc_id] = $res->nodeset[$i]->get_attribute("HierId");
+				}
+			}
+			unset($xpc);
+		}
+//var_dump($ret);
+		return $ret;
+	}
+
+	/**
 	* add file sizes
 	*/
 	function addFileSizes()
@@ -2146,7 +2247,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$this->performAutomaticModifications();
 			
 			$content = $this->getXMLFromDom();
-
 			// this needs to be locked
 
 			// write history entry
@@ -2980,13 +3080,13 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	
 
 	/**
-	* delete multiple content objects
-	*
-	* @param	string		$a_hids		array of hierarchical ids of content objects
-	* @param	boolean		$a_update	update page in db (note: update deletes all
-	*									hierarchical ids in DOM!)
-	*/
-	function deleteContents($a_hids, $a_update = true)
+	 * Delete multiple content objects
+	 *
+	 * @param	string		$a_hids		array of hierarchical ids of content objects
+	 * @param	boolean		$a_update	update page in db (note: update deletes all
+	 *									hierarchical ids in DOM!)
+	 */
+	function deleteContents($a_hids, $a_update = true, $a_self_ass = false)
 	{
 		if (!is_array($a_hids))
 		{
@@ -2996,13 +3096,18 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		{
 			$a_hid = explode(":", $a_hid);
 //echo "-".$a_hid[0]."-".$a_hid[1]."-";
-			$curr_node =& $this->getContentNode($a_hid[0], $a_hid[1]);
-			if (is_object($curr_node))
+			
+			// do not delete question nodes in assessment pages
+			if (!$this->checkForTag("Question", $a_hid[0], $a_hid[1]) || $a_self_ass)
 			{
-				$parent_node = $curr_node->parent_node();
-				if ($parent_node->node_name() != "TableRow")
+				$curr_node =& $this->getContentNode($a_hid[0], $a_hid[1]);
+				if (is_object($curr_node))
 				{
-					$curr_node->unlink_node($curr_node);
+					$parent_node = $curr_node->parent_node();
+					if ($parent_node->node_name() != "TableRow")
+					{
+						$curr_node->unlink_node($curr_node);
+					}
 				}
 			}
 		}
@@ -3013,10 +3118,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 	
 	/**
-	* Copy contents to clipboard and cut them from the page
-	*
-	* @param	string		$a_hids		array of hierarchical ids of content objects
-	*/
+	 * Copy contents to clipboard and cut them from the page
+	 *
+	 * @param	string		$a_hids		array of hierarchical ids of content objects
+	 */
 	function cutContents($a_hids)
 	{
 		$this->copyContents($a_hids);
@@ -3024,10 +3129,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 	
 	/**
-	* Copy contents to clipboard
-	*
-	* @param	string		$a_hids		array of hierarchical ids of content objects
-	*/
+	 * Copy contents to clipboard
+	 *
+	 * @param	string		$a_hids		array of hierarchical ids of content objects
+	 */
 	function copyContents($a_hids)
 	{
 		global $ilUser;
@@ -3097,9 +3202,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 
 	/**
-	* Paste contents from pc clipboard
-	*/
-	function pasteContents($a_hier_id)
+	 * Paste contents from pc clipboard
+	 */
+	function pasteContents($a_hier_id, $a_self_ass = false)
 	{
 		global $ilUser;
 		
@@ -3116,7 +3221,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				DOMXML_LOAD_PARSING, $error);
 			if(empty($error))
 			{
-				$this->newQuestionCopies($temp_dom);
+				if ($a_self_ass)
+				{
+					$this->newQuestionCopies($temp_dom);
+				}
+				else
+				{
+					$this->removeQuestions($temp_dom);
+				}
 				$xpc = xpath_new_context($temp_dom);
 				$path = "//PageContent";
 				$res = xpath_eval($xpc, $path);
@@ -3139,10 +3251,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 	
 	/**
-	* gui function
-	* set enabled if is not enabled and vice versa
-	*/
-	function switchEnableMultiple($a_hids, $a_update = true) 
+	 * (De-)activate elements
+	 */
+	function switchEnableMultiple($a_hids, $a_update = true, $a_self_ass = false) 
 	{		
 		if (!is_array($a_hids))
 		{
@@ -3153,17 +3264,24 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		foreach($a_hids as $a_hid)
 		{
 			$a_hid = explode(":", $a_hid);
-//echo "-".$a_hid[0]."-".$a_hid[1]."-";
 			$curr_node =& $this->getContentNode($a_hid[0], $a_hid[1]);
 			if (is_object($curr_node))
 			{
 				if ($curr_node->node_name() == "PageContent")
 				{
 					$cont_obj =& $this->getContentObject($a_hid[0], $a_hid[1]);
-					if ($cont_obj->isEnabled ()) 
-						$cont_obj->disable ();
+					if ($cont_obj->isEnabled ())
+					{
+						// do not deactivate question nodes in assessment pages
+						if (!$this->checkForTag("Question", $a_hid[0], $a_hid[1]) || $a_self_ass)
+						{
+							$cont_obj->disable();
+						}
+					}
 					else
-						$cont_obj->enable ();
+					{
+						$cont_obj->enable();
+					}
 				}
 			}
 		}
@@ -3800,9 +3918,12 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 
 	/**
-	* Insert Page Content IDs
-	*/
-	function insertPCIds()
+	 * Get all pc ids
+	 *
+	 * @param
+	 * @return
+	 */
+	function getAllPCIds()
 	{
 		$this->builddom();
 		$mydom = $this->dom;
@@ -3825,7 +3946,62 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$node = $res->nodeset[$i];
 			$pcids[] = $node->get_attribute("PCID");
 		}
+		return $pcids;
+	}
+	
+	/**
+	 * existsPCId
+	 *
+	 * @param
+	 * @return
+	 */
+	function existsPCId($a_pc_id)
+	{
+		$this->builddom();
+		$mydom = $this->dom;
 		
+		$pcids = array();
+
+		$sep = $path = "";
+		foreach ($this->id_elements as $el)
+		{
+			$path.= $sep."//".$el."[@PCID='".$a_pc_id."']";
+			$sep = " | ";
+		}
+		
+		// get existing ids
+		$xpc = xpath_new_context($mydom);
+		$res = & xpath_eval($xpc, $path);
+		return (count($res->nodeset) > 0);
+	}
+
+	/**
+	 * Generate new pc id
+	 *
+	 * @param array $a_pc_ids existing pc ids
+	 * @return string new pc id
+	 */
+	function generatePcId($a_pc_ids = false)
+	{
+		if ($a_pc_ids === false)
+		{
+			$a_pc_ids = $this->getAllPCIds();
+		}
+		$id = ilUtil::randomHash(10, $a_pc_ids);
+		return $id;
+	}
+	
+	
+	/**
+	 * Insert Page Content IDs
+	 */
+	function insertPCIds()
+	{
+		$this->builddom();
+		$mydom = $this->dom;
+		
+		$pcids = $this->getAllPCIds();
+
 		// add missing ones
 		$sep = $path = "";
 		foreach ($this->id_elements as $el)

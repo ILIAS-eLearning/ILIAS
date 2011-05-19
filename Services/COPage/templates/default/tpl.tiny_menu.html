@@ -2,19 +2,29 @@
 <div id="iltinymenu" style="display:none;">
 <div class="hd">&nbsp;</div>
 <div class="bd" id="iltinymenu_bd">
+<div id="ilsaving" class="ilHighlighted" style="display:none;">{TXT_SAVING}</div>
 <div id="ilTinyMenuButtons">
-	<div id="ilsaving" class="ilHighlighted" style="display:none;">{TXT_SAVING}</div>
+	<!-- BEGIN save_return -->
 	<a class="ilEditSubmit" href="#" onClick="ilCOPage.cmdSaveReturn(); return false;" >&nbsp;{TXT_SAVE_RETURN}&nbsp;</a>
-	<a class="ilEditSubmit" href="#" accesskey="s" onClick="ilCOPage.cmdSave(); return false;" >&nbsp;{TXT_SAVE}&nbsp;</a>
+	<!-- END save_return -->
+	<a class="ilEditSubmit" href="#" accesskey="s" onClick="ilCOPage.cmdSave(null); return false;" >&nbsp;{TXT_SAVE}&nbsp;</a>
 	<a class="ilEditSubmit" href="#" onClick="ilCOPage.cmdCancel(); return false;" >&nbsp;{TXT_CANCEL}&nbsp;</a>
 	<!-- BEGIN debug_ghost -->
-	<a onClick="ilCOPage.switchDebugGhost('Strong'); return false;" >DebugG</a>
+	<a onClick="ilCOPage.switchDebugGhost(); return false;" >DebugG</a>
+	<a onClick="ilCOPage.debugContent(); return false;" >Content</a>
+	<a href="#" onClick="ilCOPage.setParagraphClass(); return false;" >SP</a>
+	<a href="#" onClick="ilCOPage.cmdNewParagraph(); return false;" >NP</a>
 	<!-- END debug_ghost -->
 </div>
+<!-- BEGIN par_edit -->
 <div class="ilTinyMenuSection">
 	<p class="small">{TXT_PAR_FORMAT}</p>
 	{STYLE_SELECTOR}
+	<!-- BEGIN new_par -->
+	<!-- &nbsp;<a id="il_edm_newpar" style="color:black;" class="ilEditSubmit" href="#" onClick="ilCOPage.cmdNewParagraph(); return false;" >&nbsp;{IMG_NEWPAR}&nbsp;</a> -->
+	<!-- END new_par -->
 </div>
+<!-- END par_edit -->
 <div class="ilTinyMenuSection">
 	<p class="small">{TXT_CHAR_FORMAT}</p>
 	<!-- BEGIN bb_str_button -->
@@ -39,6 +49,9 @@
 	<a style="color:black;" class="ilEditSubmit" href="#" accesskey="d" onClick="ilCOPage.cmdCode(); return false;" ><code>&nbsp;{CC_CODE}&nbsp;</code></a>
 	<!-- END bb_code_button -->
 	{CHAR_STYLE_SELECTOR}
+	<!-- BEGIN rformat_button -->
+	&nbsp;<a id="il_edm_rformat" style="color:black;" class="ilEditSubmit" href="#" onClick="ilCOPage.cmdRemoveFormat(); return false;" >&nbsp;{IMG_RFORMAT}&nbsp;</a>
+	<!-- END rformat_button -->
 </div>
 <div class="ilTinyMenuSection">
 	<p class="small">{TXT_LISTS}</p>

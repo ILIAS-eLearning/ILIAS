@@ -558,15 +558,16 @@ class ilAdvancedSelectionListGUI
 					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SUBMIT)
 				{
 					$tpl->setVariable("ONCLICK_ITEM",
-						'onclick="ilAdvancedSelectionList.submitForm(\''.$this->getId().'\''.
+						'onclick="return ilAdvancedSelectionList.submitForm(\''.$this->getId().'\''.
 							", '".$this->form_mode["select_name"]."','".$item["value"]."',".
 							"'".$this->on_click_form_id."','".$this->form_mode["button_cmd"]."');\"");
 				}
 				else if ($this->getOnClickMode() ==
 					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SELECT)
 				{
+					$tpl->setVariable("HREF_ITEM",'href="#"');
 					$tpl->setVariable("ONCLICK_ITEM",
-						'onclick="ilAdvancedSelectionList.selectForm(\''.$this->getId().'\''.
+						'onclick="return ilAdvancedSelectionList.selectForm(\''.$this->getId().'\''.
 							", '".$this->form_mode["select_name"]."','".$item["value"]."',".
 							"'".$item["title"]."');\"");
 				}

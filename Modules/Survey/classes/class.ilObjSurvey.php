@@ -2241,6 +2241,7 @@ class ilObjSurvey extends ilObject
 	function createQuestionblock($title, $show_questiontext, $show_blocktitle, $questions)
 	{
 		global $ilDB;
+		
 		// if the selected questions are not in a continous selection, move all questions of the
 		// questionblock at the position of the first selected question
 		$this->moveQuestions($questions, $questions[0], 0);

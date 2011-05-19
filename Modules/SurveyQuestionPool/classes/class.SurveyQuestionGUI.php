@@ -153,6 +153,8 @@ class SurveyQuestionGUI
 	
 	function originalSyncForm()
 	{
+		$this->ctrl->saveParameter($this, "rtrn");
+
 		ilUtil::sendQuestion($this->lng->txt("confirm_sync_questions"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_sync_original.html", "Modules/SurveyQuestionPool");
 		$this->tpl->setCurrentBlock("adm_content");
@@ -169,23 +171,76 @@ class SurveyQuestionGUI
 		{
 			$this->object->syncWithOriginal();
 		}
+
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-		$this->ctrl->redirect($this, "editQuestion");
+		$this->redirectAfterSaving($_REQUEST["rtrn"]);
 	}
 
 	function cancelSync()
 	{
 		ilUtil::sendInfo($this->lng->txt("question_changed_in_survey_only"), true);
-		$this->ctrl->redirect($this, "editQuestion");
+		$this->redirectAfterSaving($_REQUEST["rtrn"]);
 	}
-		
+
+	/**
+	 * Redirect to calling survey or to edit form
+	 *
+	 * @param bool $a_return
+	 */
+	function redirectAfterSaving($a_return = false)
+	{
+		// return to calling survey?
+		if($a_return)
+		{
+			$addurl = "";
+			if ($_REQUEST["pgov"])
+			{
+				$addurl .= "&pgov=".$_REQUEST["pgov"];
+				$addurl .= "&pgov_pos=".$_REQUEST["pgov_pos"];
+			}
+
+			// edit
+			if($_GET["calling_survey"])
+			{
+				$_GET["ref_id"] = $_GET["calling_survey"];
+			}
+			// create
+			else if($_GET["new_for_survey"])
+			{
+				$_GET["ref_id"] = $_GET["new_for_survey"];
+				$addurl .= "&new_id=".$this->object->getId();
+			}
+
+			// we cannot use ilctrl here as pool has no "knowledge" of calling survey
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
+			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["ref_id"] . "&cmd=questions".$addurl);
+		}
+		// stay in form
+		else
+		{
+
+			$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
+			$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
+			$this->ctrl->setParameterByClass($_GET["cmdClass"], "new_for_survey", $_GET["new_for_survey"]);
+			$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
+		}
+	}
+
+	/**
+	 * save question and return to calling survey
+	 */
+	function saveReturn()
+	{
+		$this->save(true);
+	}
+
 	/**
 	* save question
 	*/
-	function save()
+	function save($a_return = false)
 	{
 		global $ilUser;
-		
+
 		$old_id = $_GET["q_id"];
 		$result = $this->writePostData();
 		if ($result == 0)
@@ -198,48 +253,19 @@ class SurveyQuestionGUI
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 
 			// update pool, too?
-			if ($_GET["calling_survey"] && $originalexists && SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+			if ($_GET["calling_survey"] && $originalexists &&
+				SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
+				if($a_return)
+				{
+					$this->ctrl->setParameter($this, 'rtrn', 1);
+				}
 				$this->ctrl->redirect($this, 'originalSyncForm');
 			}
-			// return to calling survey?
-			/*
-			elseif ($_GET["calling_survey"])
-			{
-				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-				$_GET["ref_id"] = $_GET["calling_survey"];
-				
-				$addurl = "";
-				if ($_REQUEST["pgov"])
-				{
-					$addurl .= "&pgov=".$_REQUEST["pgov"];
-					$addurl .= "&pgov_pos=".$_REQUEST["pgov_pos"];
-				}
-
-				// we cannot use ilctrl here as pool has no "knowledge" of calling survey
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["calling_survey"] . "&cmd=questions".$addurl);
-				return;
-			}
-		    */
-			// add to survey / stay in form
-			elseif ($_GET["new_for_survey"] > 0)
-			{
-				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-				$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
-				$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
-				$this->ctrl->setParameterByClass($_GET["cmdClass"], "new_for_survey", $_GET["new_for_survey"]);
-				$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
-				return;
-			}
-			// stay in form
 			else
 			{
 				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-				$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
-				$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
-				$this->ctrl->setParameterByClass($_GET["cmdClass"], "new_for_survey", $_GET["new_for_survey"]);
-				$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
+				$this->redirectAfterSaving($a_return);
 			}
 		}
 	}
@@ -693,6 +719,13 @@ class SurveyQuestionGUI
 		{
 			$template->setVariable("OBLIGATORY_TEXT", ' *');
 		}
+	}
+
+	function isSaveCommand(array $a_cmds = array())
+	{
+		$a_cmds[] = "save";
+		$a_cmds[] = "saveReturn";
+	    return in_array($this->ctrl->getCmd(), $a_cmds);
 	}
 }
 ?>

@@ -20,10 +20,11 @@ class ilDOM2Util
 	static function changeName($node, $name, $keep_attributes = true)
 	{
 		$newnode = $node->ownerDocument->createElement($name);
+
 		foreach ($node->childNodes as $child)
 		{
-			$child = $node->ownerDocument->importNode($child, true);
-			$newnode->appendChild($child);
+			$child2 = $child->cloneNode(true);
+			$newnode->appendChild($child2);
 		}
 		if ($keep_attributes)
 		{
@@ -32,9 +33,56 @@ class ilDOM2Util
 				$newnode->setAttribute($attrName, $attrNode);
 			}
 		}
-		$newnode = $node->parentNode->replaceChild($newnode, $node);
+		$node->parentNode->replaceChild($newnode, $node);
 
 		return $newnode;
 	}
+	
+	/**
+	 * Add parent
+	 *
+	 * @param object $node
+	 * @return
+	 */
+	static function addParent($node, $name)
+	{
+		$newnode = $node->ownerDocument->createElement($name);
+//echo htmlentities($node->ownerDocument->saveXML($node->ownerDocument->documentElement));
+//echo "<br>".htmlentities($node->ownerDocument->saveXML($node)); exit;
+		$par = $node->parentNode;
+//var_dump($node);
+//var_dump($par);
+		if ($next_sib = $node->nextSibling)
+		{
+			$newnode = $par->insertBefore($newnode, $next_sib);
+		}
+		else
+		{
+			$newnode = $par->appendChild($newnode);
+		}
+		
+		$node = $par->removeChild($node);
+		$newnode->appendChild($node);
+		
+//		foreach ($node->childNodes as $child)
+//		{
+//			$child2 = $child->cloneNode(true);
+//			$newnode->appendChild($child2);
+//		}
+
+		return $newnode;
+	}
+	
+	/**
+	 * Replace a node by its child
+	 *
+	 * @param object $node
+	 * @return
+	 */
+	static function replaceByChilds($node)
+	{
+		// todo: currently only "called" (should never happen) in ilPCParagraph
+	}
+
 }
 ?>

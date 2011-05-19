@@ -63,6 +63,20 @@ class ilPCParagraph extends ilPageContent
 	}
 
 	/**
+	* Create new page content (incl. paragraph) node at node
+	*
+	* @param	object	$node		Parent Node for Page Content
+	*/
+	function createBeforeNode(&$node)
+	{
+		$this->node = $this->createPageContentNode();
+		$this->par_node =& $this->dom->create_element("Paragraph");
+		$this->par_node =& $this->node->append_child($this->par_node);
+		$this->par_node->set_attribute("Language", "");
+		$node->insert_before($this->node, $node);
+	}
+
+	/**
 	* Create paragraph node (incl. page content node)
 	* after given node.
 	*
@@ -253,6 +267,70 @@ class ilPCParagraph extends ilPageContent
 		{
 			return "";
 		}
+	}
+	
+	/**
+	 * Get paragraph sequenc of current paragraph
+	 */
+	function getParagraphSequenceContent($a_pg_obj)
+	{
+		$childs = $this->par_node->parent_node()->parent_node()->child_nodes();
+		$seq = array();
+		$cur_seq = array();
+		$found = false;
+		$pc_id = $this->readPCId();
+		$hier_id = $this->readHierId();
+		for($i=0; $i<count($childs); $i++)
+		{
+			$pchilds = $childs[$i]->child_nodes();
+			if ($pchilds[0]->node_name() == "Paragraph" &&
+				$pchilds[0]->get_attribute("Characteristic") != "Code")
+			{
+				$cur_seq[] = $childs[$i];
+				
+				// check whether this is the sequence of the current paragraph
+				if ($childs[$i]->get_attribute("PCID") == $pc_id &&
+					$childs[$i]->get_attribute("HierId") == $hier_id)
+				{
+					$found = true;
+				}
+				
+				// if this is the current sequenc, get it
+				if ($found)
+				{
+					$seq = $cur_seq;
+				}
+			}
+			else
+			{
+				// non-paragraph element found -> init the current sequence
+				$cur_seq = array();
+				$found = false;
+			}
+		}
+		
+		$content = "";
+		$ids = "###";
+		$id_sep = "";
+		foreach ($seq as $p_node)
+		{
+			$ids.= $id_sep.$p_node->get_attribute("HierId").":".$p_node->get_attribute("PCID");
+			$po = $a_pg_obj->getContentObject($p_node->get_attribute("HierId"),
+				$p_node->get_attribute("PCID"));
+			$s_text = $po->getText();
+			$s_text = $po->xml2output($s_text, true, false);
+			$char = $po->getCharacteristic();
+			if ($char == "")
+			{
+				$char = "Standard";
+			}
+			$s_text = ilPCParagraphGUI::xml2outputJS($s_text, $char, $po->readPCId());
+			$content.= $s_text;
+			$id_sep = ";";
+		}
+		$ids.= "###";
+		
+		return $ids.$content;
 	}
 
 	/**
@@ -1229,6 +1307,291 @@ echo htmlentities($a_text);*/
 	function getType()
 	{
 		return ($this->getCharacteristic() == "Code")?"src":parent::getType();
+	}
+
+	////
+	//// Ajax related procedures
+	////
+	
+	/**
+	 * Save input coming from ajax
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveJS($a_pg_obj, $a_content, $a_char, $a_pc_ids, $a_insert_at = "")
+	{
+		global $ilUser;
+//echo "-$a_pc_ids-";
+//var_dump($a_content);
+		$text = self::handleAjaxContent($a_content);
+		if ($text === false)
+		{
+			return false;
+		}
+
+		$pc_ids_arr = explode(";", $a_pc_ids);
+		$pc_ids = array();
+		
+//		if (!in_array($this->readHierId().":".$this->readPCId(), $pc_ids_arr))
+//		{
+//			$pc_ids_arr[] = $this->readHierId().":".$this->readPCId();
+//		}
+		foreach ($pc_ids_arr as $p)
+		{
+			$parts = explode(":", $p);
+			if ($parts[1] != "" && !in_array($parts[1], $pc_ids))
+			{
+				$pc_ids[] = $parts[1];
+			}
+		}
+
+		// step 1:
+		// get the first node, behind the current element that does not
+		// belong to the edited sequence (of the same parent)
+		// if this node exists: use insert_before mode, if not
+		// set append_child mode.
+		if ($a_insert_at == "")
+		{
+			$pc_parent_node = $childs = $this->par_node->parent_node()->parent_node();
+			$childs = $pc_parent_node->child_nodes();
+			$method = "append_child";
+			$c_node = $this->par_node->parent_node();
+			$found = false;
+			while (($c_node = $c_node->next_sibling()) && !$found)
+			{
+				if (!in_array($c_node->get_attribute("PCID"), $pc_ids))
+				{
+					$found = true;
+					$new_successor = $c_node;
+				}
+			}
+		}
+		else
+		{
+			$insert_at = explode(":", $a_insert_at);
+		}
+		
+		// step 2:
+		// delete all elements of the sequence
+		foreach ($pc_ids as $p)
+		{
+			$a_pg_obj->deleteContent("", false, $p);
+		}
+
+		// step 3:
+		// insert all elements of the sequence at the position determined
+		// in step 1
+//var_dump($text); exit;
+		$this->inserted_pc_ids = array();
+		
+		// when inserting we use reverse, since the create method uses
+		// "insert after" (the fixed point where we insert)
+		if ($a_insert_at != "")
+		{
+			$text = array_reverse($text);
+		}
+		foreach ($text as $t)
+		{
+			$par = new ilPCParagraph($this->dom);
+			if ($a_insert_at != "")
+			{
+				$par->create($a_pg_obj, $insert_at[0], $insert_at[1]);
+			}
+			else if ($found)
+			{
+				$par->createBeforeNode($new_successor);
+			}
+			else
+			{
+				$par->createAtNode($pc_parent_node);
+			}
+			if (trim($t["id"]) != "" && !$a_pg_obj->existsPCId($t["id"]))
+			{
+				$par->writePCId($t["id"]);
+				$this->inserted_pc_ids[] = $t["id"];
+			}
+			else
+			{
+				$pc_id = $a_pg_obj->generatePCId();
+				$par->writePCId($pc_id);
+				$this->inserted_pc_ids[] = $pc_id;
+			}
+			$par->setLanguage($ilUser->getLanguage());
+			$par->setCharacteristic($t["class"]);
+			$t2 = $par->input2xml($t["text"], true, false);
+			$t2 = ilPCParagraph::handleAjaxContentPost($t2);
+			$updated = $par->setText($t2, true);
+		}
+
+		if (!$updated)
+		{
+			return false;
+		}
+		$updated = $a_pg_obj->update();
+		return $updated;
+	}
+	
+	/**
+	 * Get last inserted pc ids
+	 *
+	 * @param
+	 * @return
+	 */
+	function getLastSavedPCIds($a_pg_obj, $a_as_ajax_str = false)
+	{
+		if ($a_as_ajax_str)
+		{
+			$a_pg_obj->stripHierIDs();
+			$a_pg_obj->addHierIds();
+			$ids = "###";
+//var_dump($this->inserted_pc_ids);
+			$combined = $a_pg_obj->getHierIdsForPCIds($this->inserted_pc_ids);
+//var_dump($combined);
+			$sep = "";
+			foreach ($combined as $pc_id => $hier_id)
+			{
+//echo "1";
+				$ids.= $sep.$hier_id.":".$pc_id;
+				$sep = ";";
+			}
+			$ids.= "###";
+			return $ids;
+		}
+
+		return $this->inserted_pc_ids;
+	}
+	
+	
+	/**
+	 * Handle ajax content
+	 */
+	static function handleAjaxContent($a_content)
+	{
+		$a_content = "<dummy>".$a_content."</dummy>";
+		
+		$doc = new DOMDocument();
+
+		$content = ilUtil::stripSlashes($a_content, false);
+		$content = str_replace("&lt;", "<", $content);
+		$content = str_replace("&gt;", ">", $content);
+//echo htmlentities($content);
+		$res = $doc->loadXML($content);
+
+		if (!$res)
+		{
+			return false;
+		}
+
+		// convert tags
+		$xpath = new DOMXpath($doc);
+		
+//echo "<br>before:<br>".
+//htmlentities($doc->saveXML($doc->documentElement));
+
+		$elements = $xpath->query("//span");
+		include_once("./Services/Utilities/classes/class.ilDOM2Util.php");
+		while (!is_null($elements) && !is_null($element = $elements->item(0)))
+		{
+			//$element = $elements->item(0);
+			$class = $element->getAttribute("class");
+			if (substr($class, 0, 16) == "ilc_text_inline_")
+			{
+				$class_arr = explode(" ", $class);
+				$cnode = ilDOM2Util::changeName($element, "il".substr($class_arr[0], 16), false);
+				for ($i = 1; $i < count($class_arr); $i++)
+				{
+					$cnode = ilDOM2Util::addParent($cnode, "il".substr($class_arr[$i], 16));
+				}
+			}
+			else
+			{
+				ilDOM2Util::replaceByChilds($element);
+			}
+			$elements = $xpath->query("//span");
+		}
+
+		// convert tags
+		$xpath = new DOMXpath($doc);
+		$elements = $xpath->query("/dummy/div");
+		
+		$ret = array();
+		if (!is_null($elements))
+		{
+			foreach ($elements as $element)
+			{
+				$id = $element->getAttribute("id");
+				$class = $element->getAttribute("class");
+				$class = substr($class, 15);
+				if (trim($class) == "")
+				{
+					$class = "Standard";
+				}
+
+				$text = $doc->saveXML($element);
+				$text = str_replace("<br/>", "\n", $text);
+		
+				// remove wrapping div
+				$pos = strpos($text, ">");
+				$text = substr($text, $pos + 1);
+				$pos = strrpos($text, "<");
+				$text = substr($text, 0, $pos);
+		
+		// todo: remove empty spans <span ...> </span>
+		
+				// replace tags by bbcode
+				foreach (ilPageContentGUI::_getCommonBBButtons() as $bb => $cl)
+				{
+					if (!in_array($bb, array("code", "tex", "fn", "xln")))
+					{
+						$text = str_replace("<il".$cl.">",
+							"[".$bb."]", $text);
+						$text = str_replace("</il".$cl.">",
+							"[/".$bb."]", $text);
+					}
+				}
+				$text = str_replace(array("<code>", "</code>"),
+					array("[code]", "[/code]"), $text);
+				
+				$ret[] = array("text" => $text, "id" => $id, "class" => $class);
+			}
+		}
+		
+		return $ret;
+	}
+
+	/**
+	 * Post input2xml handling of ajax content
+	 */
+	static function handleAjaxContentPost($text)
+	{
+		$text = str_replace(array("&lt;ul&gt;", "&lt;/ul&gt;"),
+			array("<SimpleBulletList>", "</SimpleBulletList>"), $text);
+		$text = str_replace(array("&lt;ul class='ilc_list_u_BulletedList'&gt;", "&lt;/ul&gt;"),
+			array("<SimpleBulletList>", "</SimpleBulletList>"), $text);
+		$text = str_replace(array("&lt;ul class=\"ilc_list_u_BulletedList\"&gt;", "&lt;/ul&gt;"),
+			array("<SimpleBulletList>", "</SimpleBulletList>"), $text);
+		$text = str_replace(array("&lt;ol&gt;", "&lt;/ol&gt;"),
+			array("<SimpleNumberedList>", "</SimpleNumberedList>"), $text);
+		$text = str_replace(array("&lt;ol class='ilc_list_o_NumberedList'&gt;", "&lt;/ol&gt;"),
+			array("<SimpleNumberedList>", "</SimpleNumberedList>"), $text);
+		$text = str_replace(array("&lt;ol class=\"ilc_list_o_NumberedList\"&gt;", "&lt;/ol&gt;"),
+			array("<SimpleNumberedList>", "</SimpleNumberedList>"), $text);
+		$text = str_replace(array("&lt;li&gt;", "&lt;/li&gt;"),
+			array("<SimpleListItem>", "</SimpleListItem>"), $text);
+		$text = str_replace(array("&lt;li class='ilc_list_item_StandardListItem'&gt;", "&lt;/li&gt;"),
+			array("<SimpleListItem>", "</SimpleListItem>"), $text);
+		$text = str_replace(array("&lt;li class=\"ilc_list_item_StandardListItem\"&gt;", "&lt;/li&gt;"),
+			array("<SimpleListItem>", "</SimpleListItem>"), $text);
+		$text = str_replace("<SimpleBulletList><br />", "<SimpleBulletList>", $text);
+		$text = str_replace("<SimpleNumberedList><br />", "<SimpleNumberedList>", $text);
+		$text = str_replace("<br /><SimpleBulletList>", "<SimpleBulletList>", $text);
+		$text = str_replace("<br /><SimpleNumberedList>", "<SimpleNumberedList>", $text);
+		$text = str_replace("</SimpleBulletList><br />", "</SimpleBulletList>", $text);
+		$text = str_replace("</SimpleNumberedList><br />", "</SimpleNumberedList>", $text);
+		$text = str_replace("</SimpleListItem><br />", "</SimpleListItem>", $text);
+
+		return $text;
 	}
 
 }

@@ -858,6 +858,8 @@ h1.ilHeader
 {
 	margin: 0px;
 	padding: 15px 10px 0px 0px;
+	font-size: 140%;
+	font-weight: normal;
 }
 span.ilHeader
 {
@@ -1502,13 +1504,14 @@ div.ilTinyMenuSection
 	float:left;
 	white-space:nowrap;
 	border-right: solid 1px #E0E0E0;
-	padding: 0px 10px 2px 0px;
+	padding: 0px 10px 4px 0px;
 	margin-right: 10px;
 }
 
 #ilTinyMenuButtons
 {
-	margin-bottom: 15px;
+	padding-bottom: 15px;
+	zoom:1;
 }
 
 #iltinymenu .bd div.last
@@ -3035,3 +3038,26 @@ div.iosMainScroll
 	right:10px;
 	left:10px;
 }
+
+/* Modules/Wiki */
+
+ul.ilWikiBlockList
+{
+	margin: 0px 0px 0px 20px;
+	padding: 0px;
+	list-style:disc outside;
+}
+
+ul.ilWikiBlockListNoIndent
+{
+	margin: 0px;
+	padding: 0px;
+	list-style:none;
+}
+
+li.ilWikiBlockItem
+{
+	margin:0;
+	padding:0;
+}
+

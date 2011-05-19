@@ -2303,6 +2303,12 @@ return $this->showServerInfoObject();
 		$pl->setChecked($ilSetting->get('preview_learner'));
 		$this->form->addItem($pl);
 
+		// notes/comments/tagging
+		$pl = new ilCheckboxInputGUI($this->lng->txt('adm_quick_access_comments_tagging'),'comments_tagging_quick_access');
+		$pl->setValue(1);
+		$pl->setChecked($ilSetting->get('comments_tagging_quick_access'));
+		$this->form->addItem($pl);
+
 		// save and cancel commands
 		$this->form->addCommandButton("saveBasicSettings", $lng->txt("save"));
 	                
@@ -2337,6 +2343,7 @@ return $this->showServerInfoObject();
 			$ilSetting->set("passwd_auto_generate", $_POST["passwd_auto_generate"]);
 			$ilSetting->set("locale", $_POST["locale"]);
 			$ilSetting->set('preview_learner',(int) $_POST['preview_learner']);
+			$ilSetting->set('comments_tagging_quick_access',(int) $_POST['comments_tagging_quick_access']);
 			$ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
 			$ilSetting->set('item_cmd_asynch',(int) $_POST['item_cmd_asynch']);
 			$ilSetting->set("repository_tree_pres", $_POST["tree_pres"]);

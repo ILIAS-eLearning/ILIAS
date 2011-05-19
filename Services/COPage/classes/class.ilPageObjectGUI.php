@@ -1450,22 +1450,27 @@ class ilPageObjectGUI
 				}
 
 				// multiple actions
-				$tpl->setCurrentBlock("multi_actions");
-				if ($sel_js_mode == "enable")
+				$cnt_pcs = $this->getPageObject()->countPageContents();
+				if ($cnt_pcs > 1 ||
+					($this->getPageObject()->getParentType() != "qpl" && $cnt_pcs > 0))
 				{
-					$tpl->setVariable("ONCLICK_DE_ACTIVATE_SELECTED", 'onclick="return ilEditMultiAction(\'activateSelected\');"');
-					$tpl->setVariable("ONCLICK_DELETE_SELECTED", 'onclick="return ilEditMultiAction(\'deleteSelected\');"');
-					$tpl->setVariable("ONCLICK_ASSIGN_CHARACTERISTIC", 'onclick="return ilEditMultiAction(\'assignCharacteristicForm\');"');
-					$tpl->setVariable("ONCLICK_COPY_SELECTED", 'onclick="return ilEditMultiAction(\'copySelected\');"');
-					$tpl->setVariable("ONCLICK_CUT_SELECTED", 'onclick="return ilEditMultiAction(\'cutSelected\');"');
+					$tpl->setCurrentBlock("multi_actions");
+					if ($sel_js_mode == "enable")
+					{
+						$tpl->setVariable("ONCLICK_DE_ACTIVATE_SELECTED", 'onclick="return ilEditMultiAction(\'activateSelected\');"');
+						$tpl->setVariable("ONCLICK_DELETE_SELECTED", 'onclick="return ilEditMultiAction(\'deleteSelected\');"');
+						$tpl->setVariable("ONCLICK_ASSIGN_CHARACTERISTIC", 'onclick="return ilEditMultiAction(\'assignCharacteristicForm\');"');
+						$tpl->setVariable("ONCLICK_COPY_SELECTED", 'onclick="return ilEditMultiAction(\'copySelected\');"');
+						$tpl->setVariable("ONCLICK_CUT_SELECTED", 'onclick="return ilEditMultiAction(\'cutSelected\');"');
+					}
+					$tpl->setVariable("TXT_DE_ACTIVATE_SELECTED", $this->lng->txt("cont_ed_enable"));
+					$tpl->setVariable("TXT_ASSIGN_CHARACTERISTIC", $this->lng->txt("cont_assign_characteristic"));
+					$tpl->setVariable("TXT_DELETE_SELECTED", $this->lng->txt("cont_delete_selected"));
+					$tpl->setVariable("TXT_COPY_SELECTED", $this->lng->txt("copy"));
+					$tpl->setVariable("TXT_CUT_SELECTED", $this->lng->txt("cut"));
+					$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+					$tpl->parseCurrentBlock();
 				}
-				$tpl->setVariable("TXT_DE_ACTIVATE_SELECTED", $this->lng->txt("cont_ed_enable"));
-				$tpl->setVariable("TXT_ASSIGN_CHARACTERISTIC", $this->lng->txt("cont_assign_characteristic"));
-				$tpl->setVariable("TXT_DELETE_SELECTED", $this->lng->txt("cont_delete_selected"));
-				$tpl->setVariable("TXT_COPY_SELECTED", $this->lng->txt("copy"));
-				$tpl->setVariable("TXT_CUT_SELECTED", $this->lng->txt("cut"));
-				$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-				$tpl->parseCurrentBlock();
 			}
 			else
 			{
@@ -2197,10 +2202,10 @@ class ilPageObjectGUI
 	 */
 	static function getTinyMenu($a_par_type,
 		$a_int_links = false, $a_wiki_links = false, $a_keywords = false,
-		$a_style_id = 0)
+		$a_style_id = 0, $a_paragraph_styles = true, $a_save_return = true)
 	{
 		global $lng;
-
+		
 		$jsMathSetting = new ilSetting("jsMath");
 		
 		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
@@ -2248,6 +2253,30 @@ class ilPageObjectGUI
 		ilTooltipGUI::addTooltip("il_edm_xlink", $lng->txt("cont_link_to_external"),
 			"iltinymenu_bd");
 
+		// remove format
+		$btpl->setCurrentBlock("rformat_button");
+		$btpl->setVariable("IMG_RFORMAT", ilUtil::img(ilUtil::getImagePath("tn_rformat.gif"),
+			"", 20, 20));
+		$btpl->parseCurrentBlock();
+		ilTooltipGUI::addTooltip("il_edm_rformat", $lng->txt("cont_remove_format"),
+			"iltinymenu_bd");
+
+		if ($a_paragraph_styles)
+		{
+			// new paragraph
+			$btpl->setCurrentBlock("new_par");
+			$btpl->setVariable("IMG_NEWPAR", "+");
+			$btpl->parseCurrentBlock();
+			ilTooltipGUI::addTooltip("il_edm_newpar", $lng->txt("cont_insert_new_paragraph"),
+				"iltinymenu_bd");
+			
+			$btpl->setCurrentBlock("par_edit");
+			$btpl->setVariable("TXT_PAR_FORMAT", $lng->txt("cont_par_format"));
+			include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
+			$btpl->setVariable("STYLE_SELECTOR", ilPCParagraphGUI::getStyleSelector($a_selected,
+				ilPCParagraphGUI::_getCharacteristics($a_style_id), true));
+			$btpl->parseCurrentBlock();
+		}
 
 //		if ($a_keywords)
 //		{
@@ -2303,6 +2332,12 @@ class ilPageObjectGUI
 		ilTooltipGUI::addTooltip("il_edm_fn", $lng->txt("cont_fn"),
 			"iltinymenu_bd");
 
+		if ($a_save_return)
+		{
+			$btpl->setCurrentBlock("save_return");
+			$btpl->setVariable("TXT_SAVE_RETURN", $lng->txt("save_return"));
+			$btpl->parseCurrentBlock();
+		}
 
 /*		if ($a_anchors)
 		{
@@ -2318,21 +2353,15 @@ class ilPageObjectGUI
 //		$btpl->setVariable("PAR_TA_NAME", $a_ta_name);
 
 		$btpl->setVariable("TXT_SAVE", $lng->txt("save"));
-		$btpl->setVariable("TXT_SAVE_RETURN", $lng->txt("save_return"));
 		$btpl->setVariable("TXT_CANCEL", $lng->txt("cancel"));
 
-		$btpl->setVariable("TXT_PAR_FORMAT", $lng->txt("cont_par_format"));
 		$btpl->setVariable("TXT_CHAR_FORMAT", $lng->txt("cont_char_format"));
 		$btpl->setVariable("TXT_LISTS", $lng->txt("cont_lists"));
 		$btpl->setVariable("TXT_LINKS", $lng->txt("cont_links"));
 		$btpl->setVariable("TXT_MORE_FUNCTIONS", $lng->txt("cont_more_functions"));
 		$btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
 		
-		include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
-		$btpl->setVariable("STYLE_SELECTOR", ilPCParagraphGUI::getStyleSelector($a_selected,
-			ilPCParagraphGUI::_getCharacteristics($a_style_id), true));
 		$btpl->setVariable("CHAR_STYLE_SELECTOR", ilPCParagraphGUI::getCharStyleSelector($a_par_type));
-
 
 		return $btpl->get();
 	}

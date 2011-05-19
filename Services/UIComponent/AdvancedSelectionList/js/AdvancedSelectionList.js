@@ -47,6 +47,8 @@ ilAdvancedSelectionListFunc.prototype =
 		hidden_cmd_el.name = 'cmd[' + cmd + ']';
 		hidden_cmd_el.value = '1';
 		form_el.submit();
+		
+		return false;
 	},
 	
 	selectForm: function (id, hid_name, hid_val, title)
@@ -59,6 +61,8 @@ ilAdvancedSelectionListFunc.prototype =
 		{
 			eval(this.lists[id]['select_callback'] + '(this.items[id][hid_val]);');
 		}
+		
+		return false;
 	},
 
 	clickNop: function (id, hid_name, hid_val, title)
@@ -90,7 +94,8 @@ ilAdvancedSelectionListFunc.prototype =
 
 	selectItem: function (id, value)
 	{
-		if (this.items[id][value] != null)
+		if (typeof this.items[id] != 'undefined' &&
+			this.items[id][value] != null)
 		{
 			this.selectForm(id, this.items[id][value]["hid_name"], value, this.items[id][value]["title"]);
 		}

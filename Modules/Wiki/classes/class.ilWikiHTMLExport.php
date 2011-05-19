@@ -170,6 +170,9 @@ class ilWikiHTMLExport
 
 		copy(ilUtil::getImagePath("download.gif", false, "filesystem"),
 			$image_dir."/download.gif");
+		
+		copy(ilUtil::getImagePath("icon_wiki_b.gif", false, "filesystem"),
+			$image_dir."/icon_wiki_b.gif");
 
 		// export flv/mp3 player
 		$services_dir = $this->export_dir."/Services";
@@ -189,12 +192,20 @@ class ilWikiHTMLExport
 		ilUtil::makeDir($this->export_dir.'/js');
 		ilUtil::makeDir($this->export_dir.'/js/yahoo');
 		ilUtil::makeDir($this->export_dir.'/css');
+		
+		// page presentation js
+		copy('./Services/JavaScript/js/Basic.js',$this->export_dir.'/js/Basic.js');
+
+		
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		copy(ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'), $this->export_dir.'/js/yahoo/yahoo-min.js');
 		copy(ilYuiUtil::getLocalPath('yahoo-dom-event/yahoo-dom-event.js'), $this->export_dir.'/js/yahoo/yahoo-dom-event.js');
 		copy(ilYuiUtil::getLocalPath('animation/animation-min.js'), $this->export_dir.'/js/yahoo/animation-min.js');
 		copy('./Services/Accordion/js/accordion.js',$this->export_dir.'/js/accordion.js');
 		copy('./Services/Accordion/css/accordion.css',$this->export_dir.'/css/accordion.css');
+		
+		// page presentation js
+		copy('./Services/COPage/js/ilCOPagePres.js',$this->export_dir.'/js/ilCOPagePres.js');
 
 		// zip everything
 		if (true)
@@ -204,6 +215,7 @@ class ilWikiHTMLExport
 			$zip_file = ilExport::_getExportDirectory($this->wiki->getId(), "html", "wiki").
 				"/".$date."__".IL_INST_ID."__".
 				$this->wiki->getType()."_".$this->wiki->getId().".zip";
+//echo $this->export_dir; exit;
 			ilUtil::zip($this->export_dir, $zip_file);
 			ilUtil::delDir($this->export_dir);
 		}
@@ -274,11 +286,33 @@ class ilWikiHTMLExport
 	 */
 	function exportPageHTML($a_page_id)
 	{
-		global $ilUser;
+		global $ilUser, $lng;
 
 		// template workaround: reset of template
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
 		//$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+
+		
+		// scripts needed
+		$scripts = array("./js/yahoo/yahoo-min.js", "./js/yahoo/yahoo-dom-event.js",
+			"./js/yahoo/container_core-min.js", "./js/yahoo/animation-min.js",
+			"./js/Basic.js",
+			"./js/ilOverlay.js", "./js/accordion.js", "./js/ilCOPagePres.js");
+		foreach ($scripts as $script)
+		{
+			$this->tpl->setCurrentBlock("js_file");
+			$this->tpl->setVariable("JS_FILE", $script);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// css files needed
+		$css_files = array("./css/accordion.css");
+		foreach ($css_files as $css)
+		{
+			$this->tpl->setCurrentBlock("css_file");
+			$this->tpl->setVariable("CSS_FILE", $css);
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content_style/content.css");
@@ -299,15 +333,24 @@ class ilWikiHTMLExport
 		include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 		$wpg_gui = new ilWikiPageGUI($a_page_id);
 		$wpg_gui->setOutputMode("offline");
-
+		$wpg_gui->setPageToc($this->wiki->getPageToc());
 		$page_content = $wpg_gui->showPage();
 
+		// export template: page content
 		$ep_tpl = new ilTemplate("tpl.export_page.html", true, true,
 			"Modules/Wiki");
 		$ep_tpl->setVariable("PAGE_CONTENT", $page_content);
+		
+		// export template: right content
+		include_once("./Modules/Wiki/classes/class.ilWikiImportantPagesBlockGUI.php");
+		$bl = new ilWikiImportantPagesBlockGUI();
+		$ep_tpl->setVariable("RIGHT_CONTENT", $bl->getHTML(true));
 
 		// workaround
 		$this->tpl->setVariable("MAINMENU", "<div style='min-height:40px;'></div>");
+		$this->tpl->setTitle($this->wiki->getTitle());
+		$this->tpl->setTitleIcon("./images/icon_wiki_b.gif",
+			$lng->txt("obj_wiki"));
 
 		$this->tpl->setContent($ep_tpl->get());
 		//$this->tpl->fillMainContent();

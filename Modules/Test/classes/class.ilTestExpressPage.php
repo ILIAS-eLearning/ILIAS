@@ -18,7 +18,7 @@ class ilTestExpressPage {
 
     public static function getReturnToPageLink($q_id = null) {
         $params = array();
-
+	$q_id = $q_id ? $q_id : $_REQUEST['q_id'];
         $params['baseClass'] = 'ilObjTestGUI';
 	
 	if ($_REQUEST['calling_test']) {

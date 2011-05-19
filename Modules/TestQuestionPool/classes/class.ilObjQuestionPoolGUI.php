@@ -58,7 +58,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$lng->loadLanguageModule("assessment");
 		$this->type = "qpl";
 		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test"));
+		$this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id"));
 
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
 	}
@@ -811,6 +811,25 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		global $ilUser;
+
+		if(get_class($this->object) == "ilObjTest")
+		{
+			if ($_GET["calling_test"] > 0)
+			{
+				$ref_id = $_GET["calling_test"];
+				$q_id = $_GET["q_id"];
+
+				if ($_REQUEST['test_express_mode']) {
+				    if ($q_id)
+					ilUtil::redirect("ilias.php?ref_id=".$ref_id."&q_id=".$q_id."&test_express_mode=1&cmd=showPage&cmdClass=iltestexpresspageobjectgui&baseClass=ilObjTestGUI");
+				    else
+					ilUtil::redirect("ilias.php?ref_id=".$ref_id."&test_express_mode=1&cmd=showPage&cmdClass=iltestexpresspageobjectgui&baseClass=ilObjTestGUI");
+				}
+				else
+				    ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&ref_id=".$ref_id."&cmd=questions");
+
+			}
+		}
 
 		$this->object->purgeQuestions();
 		// reset test_id SESSION variable

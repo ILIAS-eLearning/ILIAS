@@ -1,26 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Wiki link / page title handling:
@@ -37,6 +17,7 @@
 */
 define ("IL_WIKI_MODE_REPLACE", "replace");
 define ("IL_WIKI_MODE_COLLECT", "collect");
+define ("IL_WIKI_MODE_EXT_COLLECT", "ext_collect");
 
 /**
 * Utility class for wiki.
@@ -397,6 +378,18 @@ class ilWikiUtil
 					$a_offline);
 //echo "<br>-".htmlentities($s)."-";
 			}
+			if ($a_mode == IL_WIKI_MODE_EXT_COLLECT)
+			{
+				if (is_object($nt))
+				{
+					$url_title = ilWikiUtil::makeUrlTitle($nt->mTextform);
+					$db_title = ilWikiUtil::makeDbTitle($nt->mTextform);
+					list( $inside, $trail ) = ilWikiUtil::splitTrail( $trail );
+					$collect[] = array("nt" => $nt, "text" => $text,
+						"trail" => $trail, "db_title" => $db_title,
+						"url_title" => $url_title);
+				}
+			} 
 			else
 			{
 				$url_title = ilWikiUtil::makeUrlTitle($nt->mTextform);
@@ -416,7 +409,8 @@ class ilWikiUtil
 
 		//wfProfileOut( $fname );
 
-		if ($a_mode == IL_WIKI_MODE_COLLECT)
+		if ($a_mode == IL_WIKI_MODE_COLLECT || 
+			$a_mode == IL_WIKI_MODE_EXT_COLLECT)
 		{
 			return $collect;
 		}
@@ -502,7 +496,7 @@ class ilWikiUtil
 		//wfProfileOut( __METHOD__ );
 		return $retVal;
 	}
-
+	
 	/**
 	* From mediawiki GlobalFunctions.php
 	*/

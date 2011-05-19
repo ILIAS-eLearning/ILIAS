@@ -9360,7 +9360,7 @@ style#:#style_current_style#:#Derzeitiger Style
 style#:#style_delete_style#:#Style löschen
 style#:#style_edit_style#:#Style editieren
 survey#:#add_category#:#Antwort hinzufügen
-survey#:#add_heading#:#Textblock hinzufügen
+survey#:#add_heading#:#Überschrift hinzufügen
 survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere Grenze für die Standardzahlen an, die Sie als Antworten hinzufügen wollen.
 survey#:#add_material#:#Material hinzufügen
 survey#:#add_phrase#:#Phrase hinzufügen
@@ -9419,7 +9419,7 @@ survey#:#combobox#:#Kombinationsfeld
 survey#:#concatenation#:#Verknüpfung
 survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Nutzerdaten der Umfrage löschen wollen?
 survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie die Umfragedaten für die ausgewählten Teilnehmerinnen und Teilnehmer löschen wollen?
-survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie den Textblock entfernen wollen?
+survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie die Überschrift entfernen wollen?
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 survey#:#constraint_add#:#Vorbedingung hinzufügen
 survey#:#constraints#:#Vorbedingungen
@@ -9499,7 +9499,7 @@ survey#:#duplicate#:#Kopieren
 survey#:#duplicate_svy#:#Umfrage kopieren
 survey#:#edit_ask_continue#:#Wollen Sie die Bearbeitung dieser Frage wirklich fortführen?
 survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Vorbedingungen zu bearbeiten
-survey#:#edit_heading#:#Textblock bearbeiten
+survey#:#edit_heading#:#Überschrift bearbeiten
 survey#:#end_date#:#Enddatum
 survey#:#end_date_reached#:#Sie können die Umfrage nicht mehr starten. Das letzte zulässige Datum wurde überschritten!
 survey#:#enter_anonymous_id#:#Zugangsschlüssel
@@ -9508,7 +9508,7 @@ survey#:#enter_questionblock_title#:#Bitte geben Sie einen Titel für den Fragen
 survey#:#enter_valid_number_of_codes#:#Bitte geben Sie eine gültige Zahl ein, um Zugangsschlüssel zu generieren!
 survey#:#enter_value#:#Geben Sie einen Wert an
 survey#:#err_no_pool_name#:#Bitte geben Sie den Namen eines Fragenpools an
-survey#:#error_add_heading#:#Bitte geben Sie einen Textblock ein!
+survey#:#error_add_heading#:#Bitte geben Sie eine Überschrift ein!
 survey#:#error_importing_question#:#Beim Importieren der Frage(n) der von Ihnen ausgewählten Datei ist ein Fehler aufgetreten!
 survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Zugangsschlüssel %s nicht finden. Bitte überprüfen Sie den Zugangsschlüssel!
 survey#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
@@ -9542,7 +9542,7 @@ survey#:#geometric_mean#:#Geometrisches Mittel
 survey#:#given_answers#:#Abgegebene Antworten
 survey#:#glossary_term#:#Glossarbegriff
 survey#:#harmonic_mean#:#Harmonisches Mittel
-survey#:#heading#:#Textblock
+survey#:#heading#:#Überschrift
 survey#:#horizontal#:#horizontal
 survey#:#import_error_closing_file#:#Fehler beim Schließen der Importdatei!
 survey#:#import_error_opening_file#:#Fehler beim Öffnen der Importdatei!
@@ -11103,7 +11103,7 @@ survey#:#survey_dnd_move_previous#:#Auf vorherige Seite verschieben
 survey#:#survey_dnd_split_page#:#Seite teilen
 survey#:#survey_dnd_double_click_to_delete#:#Mit einem Doppel-Klick auf ein Content-Element wählen Sie dieses für das Ausschneiden und Löschen aus.
 survey#:#survey_dnd_clear_clipboard#:#Zwischenablage leeren
-survey#:#survey_dnd_paste#:#Zwischenablage einfügen
+survey#:#survey_dnd_paste#:#Einfügen
 survey#:#survey_has_datasets_warning_page_view#:#Die Umfrage enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
 survey#:#survey_has_datasets_warning_page_view_link#:#Teilnehmerdatensätze bearbeiten
 survey#:#survey_using_template#:#Diese Umfrage verwendet die Vorlage %s. Wenn Sie keine Vorlage und alle Einstellungen verwenden wollen, klicken Sie bitte hier: %s.
@@ -11327,3 +11327,12 @@ wsp#:#wsp_set_permission_all#:#Veröffentlichen (keine Registrierung erforderlic
 wsp#:#wsp_remove_permission#:#Freigabe entfernen
 wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten Benutzer freigegeben.
 wsp#:#wsp_permission_all_info#:#Diese Objekt ist ohne Registrierung sichtbar.
+assessment#:#copy_questions_success#:#Die Frage(n) wurden kopiert.
+administration#:#adm_quick_access_comments_tagging#:#Schnellzugriff für Notizen, Kommentare und Tagging
+content#:#cont_remove_format#:#Formate entfernen
+survey#:#survey_questions_to_clipboard_cut#:#Es wurden Fragen in die Zwischenablage kopiert. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage. 
+survey#:#survey_questions_to_clipboard_copy#:#Es wurden Fragen in die Zwischenablage kopiert. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage. 
+survey#:#survey_clipboard_notice#:#Es befinden sich Frage(n) in der Zwischenablage. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage.
+content#:#cont_ed_edit_multiple#:#Absatzsequenz bearbeiten
+survey#:#survey_edit_heading#:#Überschrift bearbeiten
+survey#:#survey_delete_heading#:#Überschrift entfernen

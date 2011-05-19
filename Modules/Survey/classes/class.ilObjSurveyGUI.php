@@ -1245,9 +1245,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$options[$key] = $this->lng->txt("before") . ": \"" . $value["title"] . "\"";
 		}
 		$insertbefore->setOptions($options);
-		$insertbefore->setValue((array_key_exists('insertbefore', $_POST)) ? $_POST['insertbefore'] : $question_id);
+		$insertbefore->setValue((array_key_exists('insertbefore', $_REQUEST)) ? $_REQUEST['insertbefore'] : $question_id);
 		$insertbefore->setRequired(true);
-		if ($question_id || array_key_exists('insertbefore', $_POST))
+		if ($question_id || array_key_exists('insertbefore', $_REQUEST))
 		{
 			$insertbefore->setDisabled(true);
 		}
@@ -1668,32 +1668,35 @@ class ilObjSurveyGUI extends ilObjectGUI
 * Save obligatory states
 */
 	public function saveObligatoryObject()
-	{
-		$position = -1;
-		$order = array();
-		asort($_POST["order"]);
-		foreach(array_keys($_POST["order"]) as $id)
+	{		
+		if(isset($_POST["order"]))
 		{
-			// block items
-			if(substr($id, 0, 3) == "qb_")
+			$position = -1;
+			$order = array();
+			asort($_POST["order"]);
+			foreach(array_keys($_POST["order"]) as $id)
 			{
-				$block_id = substr($id, 3);
-				$block = $_POST["block_order"][$block_id];
-				asort($block);
-				foreach(array_keys($block) as $question_id)
+				// block items
+				if(substr($id, 0, 3) == "qb_")
 				{
+					$block_id = substr($id, 3);
+					$block = $_POST["block_order"][$block_id];
+					asort($block);
+					foreach(array_keys($block) as $question_id)
+					{
+						$position++;
+						$order[$question_id] = $position;
+					}
+				}
+				else
+				{
+					$question_id = substr($id, 2);
 					$position++;
 					$order[$question_id] = $position;
 				}
 			}
-			else
-			{
-				$question_id = substr($id, 2);
-				$position++;
-				$order[$question_id] = $position;
-			}
+			$this->object->updateOrder($order);
 		}
-		$this->object->updateOrder($order);
 
 		$obligatory = array();
 		foreach ($_POST as $key => $value)
@@ -1778,13 +1781,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->object->moveDownQuestionblock($_GET["qbdown"]);
 			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'));
 		}
+		*/
 		
 		if ($_GET["removeheading"])
 		{
 			$this->confirmRemoveHeadingForm();
 			return;
 		}
-		*/
 		
 		if ($_GET["editblock"])
 		{
@@ -4189,7 +4192,7 @@ EOT;
 			$ids->setValue(implode(";", $copy_questions));
 			$form->addItem($ids);
 
-			$questionpools =& $this->object->getAvailableQuestionpools(FALSE, TRUE, TRUE, "write");
+			$questionpools =& $this->object->getAvailableQuestionpools(false, false, true, "write");
 			$pools = new ilSelectInputGUI($this->lng->txt("survey_copy_select_questionpool"), "sel_spl");
 			$pools->setOptions($questionpools);
 			$form->addItem($pools);

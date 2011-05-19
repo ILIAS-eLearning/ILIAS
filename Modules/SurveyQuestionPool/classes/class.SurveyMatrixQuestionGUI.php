@@ -135,12 +135,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	* @access public
 	*/
 	public function editQuestion($checkonly = FALSE)
-	{
-		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || 
-			(strcmp($this->ctrl->getCmd(), "wizardcolumns") == 0) ||
-			(strcmp($this->ctrl->getCmd(), "savePhrasecolumns") == 0)
-		) ? TRUE : FALSE;
-
+	{		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -306,11 +301,12 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$rows->setValues($this->object->getRows());
 		$form->addItem($rows);
 
+		$form->addCommandButton("saveReturn", $this->lng->txt("save_return"));
 		$form->addCommandButton("save", $this->lng->txt("save"));
-	
+		
 		$errors = false;
-	
-		if ($save)
+
+		if ($this->isSaveCommand(array("wizardcolumns", "savePhrasecolumns")))
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();

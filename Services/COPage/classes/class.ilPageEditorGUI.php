@@ -258,9 +258,10 @@ class ilPageEditorGUI
 			$com = explode("_", $cmd);
 			$cmd = $com[0];
 		}
-//echo ";$cmd;";
-//$this->ctrl->debug("hier_id:$hier_id:cmd:$cmd:");
+		
+
 		$next_class = $this->ctrl->getNextClass($this);
+
 
 		// determine content type
 		if ($com[0] == "insert" || $com[0] == "create")
@@ -291,8 +292,15 @@ class ilPageEditorGUI
 					$cmdClass = "ilobjmediaobjectgui";
 				}
 			}
-//echo "-$pc_id-";
-//echo "-$cmd-".$this->ctrl->getCmd()."-";
+if (false)
+{
+var_dump($_POST);
+var_dump($_GET);
+echo ";$cmd;".$next_class.";";
+echo "-$pc_id-";
+echo "-$cmd-".$this->ctrl->getCmd()."-";
+}
+
 //var_dump($_POST);
 			// note: ilinternallinkgui for page: no cont_obj is received
 			// ilinternallinkgui for mob: cont_obj is received
@@ -315,7 +323,6 @@ class ilPageEditorGUI
 //$this->ctrl->debug("gettingContentObject (no linked media)");
 //echo $hier_id."-".$pc_id;
 					$cont_obj =& $this->page->getContentObject($hier_id, $pc_id);
-//var_dump($cont_obj);
 					if (!is_object($cont_obj))
 					{
 						$ilCtrl->returnToParent($this);
@@ -338,6 +345,7 @@ class ilPageEditorGUI
 		}
 
 		$this->cont_obj =& $cont_obj;
+
 
 		// special command / command class handling
 		$this->ctrl->setParameter($this, "hier_id", $hier_id);
@@ -525,9 +533,10 @@ class ilPageEditorGUI
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCDataTableGUI.php");
 				$tab_gui =& new ilPCDataTableGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				// scorm2004-start
 				$tab_gui->setStyleId($this->page_gui->getStyleId());
-				// scorm2004-end
+				$tab_gui->setEnableInternalLinks($this->getEnableInternalLinks());
+				$tab_gui->setEnableKeywords($this->getEnableKeywords());
+				$tab_gui->setEnableAnchors($this->getEnableAnchors());
 				$ret =& $this->ctrl->forwardCommand($tab_gui);
 				break;
 
@@ -872,8 +881,8 @@ return true;
 	}
 	
 	/**
-	* delete selected items
-	*/
+	 * Delete selected items
+	 */
 	function deleteSelected()
 	{
 		if (is_int(strpos($_POST["target"][0], ";")))
@@ -882,7 +891,8 @@ return true;
 		}
 		if (is_array($_POST["target"]))
 		{
-			$updated = $this->page->deleteContents($_POST["target"]);
+			$updated = $this->page->deleteContents($_POST["target"], true,
+				$this->page_gui->getEnabledSelfAssessment());
 			if($updated !== true)
 			{
 				$_SESSION["il_pg_error"] = $updated;
@@ -896,8 +906,8 @@ return true;
 	}
 
 	/**
-	* copy selected items
-	*/
+	 * Copy selected items
+	 */
 	function copySelected()
 	{
 		if (is_int(strpos($_POST["target"][0], ";")))
@@ -912,8 +922,8 @@ return true;
 	}
 
 	/**
-	* cut selected items
-	*/
+	 * Cut selected items
+	 */
 	function cutSelected()
 	{
 		if (is_int(strpos($_POST["target"][0], ";")))
@@ -936,12 +946,12 @@ return true;
 	}
 
 	/**
-	* paste from clipboard (redirects to clipboard)
-	*/
+	 * paste from clipboard (redirects to clipboard)
+	 */
 	function paste($a_hier_id)
 	{
 		global $ilCtrl;
-		$this->page->pasteContents($a_hier_id);
+		$this->page->pasteContents($a_hier_id, $this->page_gui->getEnabledSelfAssessment());
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 		ilEditClipboard::setAction("");
 		$this->ctrl->returnToParent($this);
@@ -958,7 +968,8 @@ return true;
 		}
 		if (is_array($_POST["target"]))
 		{
-			$updated = $this->page->switchEnableMultiple($_POST["target"]);
+			$updated = $this->page->switchEnableMultiple($_POST["target"], true,
+				$this->page_gui->getEnabledSelfAssessment());
 			if($updated !== true)
 			{
 				$_SESSION["il_pg_error"] = $updated;

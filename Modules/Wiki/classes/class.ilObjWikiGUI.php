@@ -470,13 +470,9 @@ class ilObjWikiGUI extends ilObjectGUI
 				$ilCtrl->getLinkTarget($this, 'editStyleProperties'));
 
 			// important pages
-			if ($this->object->getImportantPages())
-			{
-				// style properties
-				$ilTabs->addSubTab("imp_pages",
-					$lng->txt("wiki_important_pages"),
-					$ilCtrl->getLinkTarget($this, 'editImportantPages'));
-			}
+			$ilTabs->addSubTab("imp_pages",
+				$lng->txt("wiki_important_pages"),
+				$ilCtrl->getLinkTarget($this, 'editImportantPages'));
 
 			$ilTabs->activateSubTab($a_active);
 		}
