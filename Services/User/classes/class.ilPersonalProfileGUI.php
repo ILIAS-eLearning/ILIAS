@@ -809,14 +809,14 @@ class ilPersonalProfileGUI
 				$this->input["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
 				$this->input["udf_".$definition['field_id']]->setOptions(
 					$this->user_defined_fields->fieldValuesToSelectArray($definition['field_values']));
-			}
-			if(!$definition['changeable'])
-			{
-				$this->input["udf_".$definition['field_id']]->setDisabled(true);
-			}
+			}			
 			if($definition['required'])
 			{
 				$this->input["udf_".$definition['field_id']]->setRequired(true);
+			}
+			else if(!$definition['changeable'])
+			{
+				$this->input["udf_".$definition['field_id']]->setDisabled(true);
 			}
 		}
 		
