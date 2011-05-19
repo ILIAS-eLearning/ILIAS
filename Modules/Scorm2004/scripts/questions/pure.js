@@ -4,18 +4,20 @@
 	Licensed under the MIT licenses.
 	More information at: http://www.opensource.org
 
-	Copyright (c) 2010 Michael Cvilic - BeeBole.com
+	Copyright (c) 2011 Michael Cvilic - BeeBole.com
 
 	Thanks to Rog Peppe for the functional JS jump
-	revision: 2.59
+	revision: 2.70
 */
 
 var $p, pure = $p = function(){
-	var sel = arguments[0],
+	var sel = arguments[0], 
 		ctxt = false;
 
 	if(typeof sel === 'string'){
 		ctxt = arguments[1] || false;
+	}else if(sel && !sel[0] && !sel.length){
+		sel = [sel];
 	}
 	return $p.core(sel, ctxt);
 };
@@ -39,7 +41,7 @@ $p.core = function(sel, ctxt, plugins){
 		default:
 			templates = sel;
 	}
-
+	
 	for(var i = 0, ii = templates.length; i < ii; i++){
 		plugins[i] = templates[i];
 	}
@@ -64,7 +66,7 @@ $p.core = function(sel, ctxt, plugins){
 			function(o) {
 				return Object.prototype.toString.call(o) === "[object Array]";
 			};
-
+	
 	/* * * * * * * * * * * * * * * * * * * * * * * * * *
 		core functions
 	 * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -78,7 +80,7 @@ $p.core = function(sel, ctxt, plugins){
 		}
 		throw('pure error: ' + e);
 	}
-
+	
 	//return a new instance of plugins
 	function getPlugins(){
 		var plugins = $p.plugins,
@@ -90,14 +92,14 @@ $p.core = function(sel, ctxt, plugins){
 		f.prototype.render     = plugins.render || render;
 		f.prototype.autoRender = plugins.autoRender || autoRender;
 		f.prototype.find       = plugins.find || find;
-
+		
 		// give the compiler and the error handling to the plugin context
 		f.prototype._compiler  = compiler;
 		f.prototype._error     = error;
-
+ 
 		return new f();
 	}
-
+	
 	// returns the outer HTML of a node
 	function outerHTML(node){
 		// if IE, Chrome take the internal method otherwise build one
@@ -110,11 +112,11 @@ $p.core = function(sel, ctxt, plugins){
 				return h;
 			})(node);
 	}
-
+	
 	// returns the string generator function
 	function wrapquote(qfn, f){
 		return function(ctxt){
-			return qfn('' + f.call(this, ctxt));
+			return qfn('' + f.call(ctxt.item || ctxt.context, ctxt));
 		};
 	}
 
@@ -130,7 +132,7 @@ $p.core = function(sel, ctxt, plugins){
 			return error('You can test PURE standalone with: iPhone, FF3.5+, Safari4+ and IE8+\n\nTo run PURE on your browser, you need a JS library/framework with a CSS selector engine');
 		}
 	}
-
+	
 	// create a function that concatenates constant string
 	// sections (given in parts) and the results of called
 	// functions to fill in the gaps between parts (fns).
@@ -146,7 +148,7 @@ $p.core = function(sel, ctxt, plugins){
 			for(var i = 1; i < n; i++){
 				fnVal = fns[i].call( this, ctxt );
 				pVal = parts[i];
-
+				
 				// if the value is empty and attribute, remove it
 				if(fnVal === ''){
 					attLine = strs[ strs.length - 1 ];
@@ -155,7 +157,7 @@ $p.core = function(sel, ctxt, plugins){
 						pVal = pVal.substr( 1 );
 					}
 				}
-
+				
 				strs[ strs.length ] = fnVal;
 				strs[ strs.length ] = pVal;
 			}
@@ -172,7 +174,7 @@ $p.core = function(sel, ctxt, plugins){
 		if(m[1] === 'item'){
 			error('"item<-..." is a reserved word for the current running iteration.\n\nPlease choose another name for your loop.');
 		}
-		if( !m[2] || (m[2] && (/context/i).test(m[2]))){ //undefined or space(IE)
+		if( !m[2] || (m[2] && (/context/i).test(m[2]))){ //undefined or space(IE) 
 			m[2] = function(ctxt){return ctxt.context;};
 		}
 		return {name: m[1], sel: m[2]};
@@ -204,7 +206,7 @@ $p.core = function(sel, ctxt, plugins){
 				}
 			}
 			if(!found){
-				error('bad data selector syntax: ' + sel);
+				return function(){ return sel; };
 			}
 			parts[i] = s;
 			return concatenator(parts, pfns);
@@ -241,12 +243,12 @@ $p.core = function(sel, ctxt, plugins){
 			if( !m ){
 				error( 'bad selector syntax: ' + sel );
 			}
-
+			
 			prepend = m[1];
 			selector = m[2];
 			attr = m[3];
 			append = m[4];
-
+			
 			if(selector === '.' || ( !selector && attr ) ){
 				target[0] = dom;
 			}else{
@@ -262,7 +264,7 @@ $p.core = function(sel, ctxt, plugins){
 			append = sel.append;
 			target = [dom];
 		}
-
+		
 		if( prepend || append ){
 			if( prepend && append ){
 				error('append/prepend cannot take place at the same time');
@@ -280,8 +282,8 @@ $p.core = function(sel, ctxt, plugins){
 			setstr = function(node, s) {
 				node.setAttribute(attPfx + attr, s);
 				if (attName in node && !isStyle) {
-					node[attName] = '';
-				}
+					try{node[attName] = '';}catch(e){} //FF4 gives an error sometimes
+				} 
 				if (node.nodeType === 1) {
 					node.removeAttribute(attr);
 					isClass && node.removeAttribute(attName);
@@ -293,11 +295,10 @@ $p.core = function(sel, ctxt, plugins){
 				}else{
 					getstr = function(n){ return n.className;	};
 				}
-				quotefn = function(s){ return s.replace(/\"/g, '&quot;'); };
 			}else {
 				getstr = function(n){ return n.getAttribute(attr); };
-				quotefn = function(s){ return s.replace(/\"/g, '&quot;').replace(/\s/g, '&nbsp;'); };
 			}
+			quotefn = function(s){ return s.replace(/\"/g, '&quot;'); };
 			if(prepend){
 				setfn = function(node, s){ setstr( node, s + getstr( node )); };
 			}else if(append){
@@ -428,7 +429,7 @@ $p.core = function(sel, ctxt, plugins){
 			itersel = dataselectfn(spec.sel),
 			target = gettarget(dom, sel, true),
 			nodes = target.nodes;
-
+			
 		for(i = 0; i < nodes.length; i++){
 			var node = nodes[i],
 				inner = compiler(node, dsel);
@@ -438,7 +439,7 @@ $p.core = function(sel, ctxt, plugins){
 		}
 		return target;
 	}
-
+	
 	function getAutoNodes(n, data){
 		var ns = n.getElementsByTagName('*'),
 			an = [],
@@ -452,7 +453,7 @@ $p.core = function(sel, ctxt, plugins){
 			if(ni.nodeType === 1 && ni.className !== ''){
 				//when a className is found
 				cs = ni.className.split(' ');
-				// for each className
+				// for each className 
 				for(j = 0, jj=cs.length;j<jj;j++){
 					cj = cs[j];
 					// check if it is related to a context property
@@ -464,14 +465,14 @@ $p.core = function(sel, ctxt, plugins){
 							ni.className = ni.className.replace('@'+cspec.attr, '');
 							if(isNodeValue){
 								cspec.attr = false;
-							}
+							} 
 						}
 						an.push({n:ni, cspec:cspec});
 					}
 				}
 			}
 		}
-
+		
 		function checkClass(c, tagName){
 			// read the class
 			var ca = c.match(selRx),
@@ -551,34 +552,34 @@ $p.core = function(sel, ctxt, plugins){
 			if(directive.hasOwnProperty(sel)){
 				i = 0;
 				dsel = directive[sel];
-				if(typeof(dsel) === 'function' || typeof(dsel) === 'string'){
-					sels = sel.split(/\s*,\s*/); //allow selector separation by quotes
-					sl = sels.length;
-					do{
+				sels = sel.split(/\s*,\s*/); //allow selector separation by quotes
+				sl = sels.length;
+				do{
+					if(typeof(dsel) === 'function' || typeof(dsel) === 'string'){
 						// set the value for the node/attr
 						sel = sels[i];
 						target = gettarget(dom, sel, false);
 						setsig(target, fns.length);
 						fns[fns.length] = wrapquote(target.quotefn, dataselectfn(dsel));
-					}while(++i < sl);
-				}else{
-					// loop on node
-					loopgen(dom, sel, dsel, fns);
-				}
+					}else{
+						// loop on node
+						loopgen(dom, sel, dsel, fns);
+					}
+				}while(++i < sl);
 			}
 		}
-        // convert node to a string
+        // convert node to a string 
         h = outerHTML(dom);
 		// IE adds an unremovable "selected, value" attribute
 		// hard replace while waiting for a better solution
         h = h.replace(/<([^>]+)\s(value\=""|selected)\s?([^>]*)>/ig, "<$1 $3>");
-
+		
         // remove attribute prefix
         h = h.split(attPfx).join('');
 
 		// slice the html string at "Sig"
 		parts = h.split( Sig );
-		// for each slice add the return string of
+		// for each slice add the return string of 
 		for(i = 1; i < parts.length; i++){
 			p = parts[i];
 			// part is of the form "fn-number:..." as placed there by setsig.
@@ -598,7 +599,7 @@ $p.core = function(sel, ctxt, plugins){
 	}
 	//compile with the directive as argument
 	// run the template function on the context argument
-	// return an HTML string
+	// return an HTML string 
 	// should replace the template and return this
 	function render(ctxt, directive){
 		var fn = typeof directive === 'function' && directive, i = 0, ii = this.length;
@@ -611,7 +612,7 @@ $p.core = function(sel, ctxt, plugins){
 
 	// compile the template with autoRender
 	// run the template function on the context argument
-	// return an HTML string
+	// return an HTML string 
 	function autoRender(ctxt, directive){
 		var fn = plugins.compile( directive, ctxt, this[0] );
 		for(var i = 0, ii = this.length; i < ii; i++){
@@ -620,11 +621,15 @@ $p.core = function(sel, ctxt, plugins){
 		context = null;
 		return this;
 	}
-
+	
 	function replaceWith(elm, html) {
 		var ne,
 			ep = elm.parentNode,
 			depth = 0;
+		if(!ep){ //if no parents
+			ep = document.createElement('DIV');
+			ep.appendChild(elm);
+		}
 		switch (elm.tagName) {
 			case 'TBODY': case 'THEAD': case 'TFOOT':
 				html = '<TABLE>' + html + '</TABLE>';
@@ -675,7 +680,7 @@ $p.libs = {
 				return $(n).cssSelect(sel);
 			};
 		}
-		DOMAssistant.attach({
+		DOMAssistant.attach({ 
 			publicMethods : [ 'compile', 'render', 'autoRender'],
 			compile:function(directive, ctxt){
 				return $p([this]).compile(directive, ctxt);
@@ -716,14 +721,14 @@ $p.libs = {
 			};
 		}
 		Element.implement({
-			compile:function(directive, ctxt){
+			compile:function(directive, ctxt){ 
 				return $p(this).compile(directive, ctxt);
 			},
 			render:function(ctxt, directive){
-				return $p(this).render(ctxt, directive);
+				return $p([this]).render(ctxt, directive);
 			},
 			autoRender:function(ctxt, directive){
-				return $p(this).autoRender(ctxt, directive);
+				return $p([this]).autoRender(ctxt, directive);
 			}
 		});
 	},
@@ -735,12 +740,12 @@ $p.libs = {
 			};
 		}
 		Element.addMethods({
-			compile:function(element, directive, ctxt){
+			compile:function(element, directive, ctxt){ 
 				return $p([element]).compile(directive, ctxt);
-			},
+			}, 
 			render:function(element, ctxt, directive){
 				return $p([element]).render(ctxt, directive);
-			},
+			}, 
 			autoRender:function(element, ctxt, directive){
 				return $p([element]).autoRender(ctxt, directive);
 			}
@@ -754,7 +759,7 @@ $p.libs = {
 		}
 	},
 	sly:function(){
-		if(typeof document.querySelector === 'undefined'){
+		if(typeof document.querySelector === 'undefined'){  
 			$p.plugins.find = function(n, sel){
 				return Sly(sel, n);
 			};
@@ -764,17 +769,17 @@ $p.libs = {
 
 // get lib specifics if available
 (function(){
-	var libkey =
-		typeof dojo         !== 'undefined' && 'dojo' ||
+	var libkey = 
+		typeof dojo         !== 'undefined' && 'dojo' || 
 		typeof DOMAssistant !== 'undefined' && 'domassistant' ||
-		typeof jQuery       !== 'undefined' && 'jquery' ||
+		typeof jQuery       !== 'undefined' && 'jquery' || 
 		typeof MooTools     !== 'undefined' && 'mootools' ||
-		typeof Prototype    !== 'undefined' && 'prototype' ||
+		typeof Prototype    !== 'undefined' && 'prototype' || 
 		typeof Sizzle       !== 'undefined' && 'sizzle' ||
 		typeof Sly          !== 'undefined' && 'sly';
-
+		
 	libkey && $p.libs[libkey]();
-
+	
 	//for node.js
 	if(typeof exports !== 'undefined'){
 		exports.$p = $p;
