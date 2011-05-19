@@ -11327,7 +11327,6 @@ wsp#:#wsp_set_permission_all#:#Veröffentlichen (keine Registrierung erforderlic
 wsp#:#wsp_remove_permission#:#Freigabe entfernen
 wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten Benutzer freigegeben.
 wsp#:#wsp_permission_all_info#:#Diese Objekt ist ohne Registrierung sichtbar.
-assessment#:#copy_questions_success#:#Die Frage(n) wurden kopiert.
 administration#:#adm_quick_access_comments_tagging#:#Schnellzugriff für Notizen, Kommentare und Tagging
 content#:#cont_remove_format#:#Formate entfernen
 survey#:#survey_questions_to_clipboard_cut#:#Es wurden Fragen in die Zwischenablage kopiert. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage. 

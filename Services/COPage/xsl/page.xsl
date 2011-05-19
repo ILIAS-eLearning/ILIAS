@@ -80,6 +80,7 @@
 <xsl:param name="enable_profile"/>
 <xsl:param name="enable_verification"/>
 <xsl:param name="enable_blog"/>
+<xsl:param name="enable_qover"/>
 
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -780,11 +781,19 @@
 		</xsl:call-template>
 	</xsl:if>
 	
-	<!-- insert verification -->
+	<!-- insert blog -->
 	<xsl:if test = "$enable_blog = 'y'">
 		<xsl:call-template name="EditMenuItem">
 			<xsl:with-param name="command">insert_blog</xsl:with-param>
 			<xsl:with-param name="langvar">ed_insert_blog</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+	
+	<!-- question overview -->
+	<xsl:if test = "$enable_qover = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_qover</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_qover</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
 	
@@ -2969,6 +2978,38 @@
 	</xsl:if>
 </xsl:template>
 
+<!-- QuestionOverview -->
+<xsl:template match="QuestionOverview">
+	<!-- Label -->
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_qover']/@value"/></xsl:with-param></xsl:call-template>
+	<div>
+		<xsl:attribute name="id">qover_<xsl:value-of select = "$pg_id"/>_<xsl:number count="QuestionOverview" level="any" /></xsl:attribute>
+		Question Overview: <xsl:value-of select = "@Type" />
+		<xsl:if test="$mode = 'edit'">
+			<!-- <xsl:value-of select="../@HierId"/> -->
+			<xsl:if test="$javascript='disable'">
+				<br />
+				<input type="checkbox" name="target[]">
+					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
+					</xsl:attribute>
+				</input>
+			</xsl:if>
+			<xsl:call-template name="EditMenu">
+				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="pc_id" select="../@PCID" />
+				<xsl:with-param name="edit">y</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+		<xsl:comment>Break</xsl:comment>
+	</div>
+	<script type="text/javascript">
+	ilAddOnLoad(function() {ilCOPagePres.addQuestionOverview(
+		{div_id: 'qover_<xsl:value-of select = "$pg_id"/>_<xsl:number count="QuestionOverview" level="any" />',
+		id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="QuestionOverview" level="any" />',
+		type: '<xsl:value-of select = "@Type" />'
+	})});
+	</script>
+</xsl:template>
 
 <!-- Section -->
 <xsl:template match="Section">

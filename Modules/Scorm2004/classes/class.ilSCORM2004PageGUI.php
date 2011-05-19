@@ -57,6 +57,8 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 		
 
 		$this->setEnabledMaps(false);
+		$this->setEnablePCType("QuestionOverview", true);
+		
 		$this->setPreventHTMLUnmasking(false);
 		// $this->setEnabledInternalLinks(false);
 		//if ($this->glo_id > 0)

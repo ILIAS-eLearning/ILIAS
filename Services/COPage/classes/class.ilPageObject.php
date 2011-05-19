@@ -581,6 +581,14 @@ class ilPageObject
 		return $this->activationend;
 	}
 
+	/**
+	 * Get a content object of the page
+	 *
+	 * @param string hier ID
+	 * @param string PC ID
+	 *
+	 * @return object page content object
+	 */
 	function &getContentObject($a_hier_id, $a_pc_id = "")
 	{
 //echo ":".$a_hier_id.":";
@@ -773,6 +781,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$blog->setHierId($a_hier_id);
 						$blog->setPcId($a_pc_id);
 						return $blog;
+						
+					case "QuestionOverview":
+						require_once("./Services/COPage/classes/class.ilPCQuestionOverview.php");
+						$qover = new ilPCQuestionOverview($this->dom);
+						$qover->setNode($cont_node);
+						$qover->setHierId($a_hier_id);
+						$qover->setPcId($a_pc_id);
+						return $qover;
 				}
 				break;
 
@@ -1128,7 +1144,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			"pc_flist", "pc_par", "pc_mob", "pc_qst", "pc_sec", "pc_dtab", "pc_tab",
 			"pc_code", "pc_vacc", "pc_hacc", "pc_res", "pc_map", "pc_list", "ed_insert_incl", "pc_incl",
 			"pc_iim", "ed_insert_iim", "pc_prof", "ed_insert_profile", "pc_vrfc",
-			"ed_insert_verification", "pc_blog", "ed_insert_blog", "ed_edit_multiple");
+			"ed_insert_verification", "pc_blog", "ed_insert_blog", "ed_edit_multiple", "pc_qover", "ed_insert_qover");
 
 		foreach ($lang_vars as $lang_var)
 		{

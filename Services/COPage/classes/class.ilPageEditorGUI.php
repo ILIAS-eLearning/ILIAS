@@ -19,7 +19,7 @@ include_once ("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI, ilPCPluggedGUI, ilPCTabsGUI, IlPCPlaceHolderGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCContentIncludeGUI, ilPCLoginPageElementGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCInteractiveImageGUI, ilPCProfileGUI, ilPCVerificationGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCBlogGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCBlogGUI, ilPCQuestionOverviewGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -456,6 +456,11 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 				case "blog":
 					$this->ctrl->setCmdClass("ilPCBlogGUI");
 					break;
+					
+				case "qover":
+					$this->ctrl->setCmdClass("ilPCQuestionOverviewGUI");
+					break;
+
 			}
 			$next_class = $this->ctrl->getNextClass($this);
 		}
@@ -636,9 +641,7 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 				$plch_gui->setEnableInternalLinks($this->getEnableInternalLinks());
 				$plch_gui->setEnableKeywords($this->getEnableKeywords());
 				$plch_gui->setEnableAnchors($this->getEnableAnchors());
-				// scorm2004-start
 				$plch_gui->setStyleId($this->page_gui->getStyleId());
-				// scorm2004-end
 				$ret =& $this->ctrl->forwardCommand($plch_gui);
 				break;
 					
@@ -647,9 +650,7 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCSectionGUI.php");
 				$sec_gui =& new ilPCSectionGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				// scorm2004-start
 				$sec_gui->setStyleId($this->page_gui->getStyleId());
-				// scorm2004-end
 				$ret =& $this->ctrl->forwardCommand($sec_gui);
 				break;
 
@@ -742,6 +743,14 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 				include_once ("./Services/COPage/classes/class.ilPCBlogGUI.php");
 				$blog_gui = new ilPCBlogGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$ret = $this->ctrl->forwardCommand($blog_gui);
+				break;
+				
+			// Question Overview
+			case "ilpcquestionoverviewgui":
+				$this->tabs_gui->clearTargets();
+				include_once ("./Services/COPage/classes/class.ilPCQuestionOverviewGUI.php");
+				$qover_gui =& new ilPCQuestionOverviewGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$ret = $this->ctrl->forwardCommand($qover_gui);
 				break;
 
 			default:
