@@ -313,8 +313,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	function updateJS()
 	{
 		global $ilBench, $lng, $ilCtrl;
-
-		$ilBench->start("Editor","Data_Table_update");
+				
+		if ($_POST["cancel_update"])
+		{
+			$this->ctrl->redirect($this, "editData");
+		}
 
 		// handle input data
 		include_once("./Services/COPage/classes/class.ilPCParagraph.php");
@@ -324,7 +327,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		$content = ilUtil::stripSlashes($_POST["ajaxform_content"], false);
 		//$content = ilUtil::stripOnlySlashes($_POST["ajaxform_content"], false);
 //echo htmlentities($content); exit;
-
 
 		while (is_int($pos1 = strpos($content, '<div id="div_cell_')))
 		{
@@ -348,14 +350,16 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			$div = str_replace("&nbsp;", " ", $div);
 
 //
-			$text = ilPCParagraphGUI::handleAjaxContent($div);
+			$text = ilPCParagraph::handleAjaxContent($div);
 			if ($text === false)
 			{
 				$ilCtrl->returnToParent($this, "jump".$this->hier_id);
 			}
+			$text = $text[0]["text"];
+
 			$text = ilPCParagraph::_input2xml($text,
 				$this->content_obj->getLanguage(), true, false);
-			$text = ilPCParagraphGUI::handleAjaxContentPost($text);
+			$text = ilPCParagraph::handleAjaxContentPost($text);
 
 			$data[$id[0]][$id[1]] = $text;
 
@@ -382,13 +386,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
 		if ($this->updated !== true)
 		{
-			$ilBench->stop("Editor","Data_Table_update");
 			$this->editData();
 			return;
 		}
 
 		$this->updated = $this->pg_obj->update();
-		$ilBench->stop("Editor","Data_Table_update");
 
 		//if ($a_redirect)
 		//{
@@ -458,10 +460,12 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			$ilCtrl->getLinkTarget($this, "editData"), "editData",
 			get_class($this));
 
-		$ilTabs->addTarget("cont_ed_edit_data_cl",
-			$ilCtrl->getLinkTarget($this, "editDataCl"), "editDataCl",
-			get_class($this));
-
+		if (DEVMODE == 1)
+		{
+			$ilTabs->addTarget("cont_ed_edit_data_cl",
+				$ilCtrl->getLinkTarget($this, "editDataCl"), "editDataCl",
+				get_class($this));
+		}
 	}
 
 
@@ -700,8 +704,10 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			ilPageObjectGUI::getTinyMenu(
 			$this->pg_obj->getParentType(),
 			false,
-			$this->pg_obj->getParentType() == "wpg"),
-			$this->getStyleId());
+			$this->pg_obj->getParentType() == "wpg",
+			false,
+			$this->getStyleId(),
+			false, false));
 
 
 	}

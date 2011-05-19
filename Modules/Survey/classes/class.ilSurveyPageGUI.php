@@ -141,8 +141,9 @@ class ilSurveyPageGUI
      * Add new question to survey (database part)
 	 * 
 	 * @param int $a_new_id
+	 * @param bool $a_duplicate
 	 */
-	protected function appendNewQuestionToSurvey($a_new_id)
+	protected function appendNewQuestionToSurvey($a_new_id, $a_duplicate = true)
 	{
 		global $ilDB;
 
@@ -154,7 +155,15 @@ class ilSurveyPageGUI
 		$sequence = $result->numRows();
 
 		// create duplicate if pool question
-		$survey_question_id = $this->object->duplicateQuestionForSurvey($a_new_id);
+		if($a_duplicate)
+		{
+			$survey_question_id = $this->object->duplicateQuestionForSurvey($a_new_id);
+		}
+		// used by copy & paste
+		else
+		{
+			$survey_question_id = $a_new_id;
+		}
 		
 		// append to survey 
 		$next_id = $ilDB->nextId('svy_svy_qst');
@@ -312,14 +321,55 @@ class ilSurveyPageGUI
 				"&pgov_pos=".$id);
 		}
 	}
+	
+	/**
+	 * Add question to be cut to clipboard
+	 *
+	 * @param int $a_id question id
+	 */
+	protected function cutQuestion($a_id)
+	{
+		global $lng;
+		
+		ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_cut"));
+		$this->suppress_clipboard_msg = true;
+		
+		$_SESSION["survey_page_view"][$this->ref_id]["clipboard"] = array(
+						"source" => $this->current_page,
+						"nodes" => array($a_id),
+						"mode" => "cut");
+	}
+	
+	/**
+	 * Add question to be copied to clipboard
+	 *
+	 * @param int $a_id question id
+	 */
+	protected function copyQuestion($a_id)
+	{
+		global $lng;
+		
+		ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_copy"));
+		$this->suppress_clipboard_msg = true;
+		
+		$_SESSION["survey_page_view"][$this->ref_id]["clipboard"] = array(
+						"source" => $this->current_page,
+						"nodes" => array($a_id),
+						"mode" => "copy");
+	}
 
 	/**
-	 * Add questions to clipboard
+	 * Add questions to be cut to clipboard
 	 *
 	 * @param array $a_id question ids
 	 */
 	protected function multiCut($a_id)
 	{
+		global $lng;
+		
+		ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_cut"));
+		$this->suppress_clipboard_msg = true;
+		
 		$_SESSION["survey_page_view"][$this->ref_id]["clipboard"] = array(
 						"source" => $this->current_page,
 						"nodes" => $a_id,
@@ -327,12 +377,17 @@ class ilSurveyPageGUI
 	}
 
 	/**
-	 * Add questions to clipboard
+	 * Add questions to be copied to clipboard
 	 *
 	 * @param array $a_id question ids
 	 */
 	protected function multiCopy($a_id)
 	{
+		global $lng;
+		
+		ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_copy"));
+		$this->suppress_clipboard_msg = true;
+		
 		$_SESSION["survey_page_view"][$this->ref_id]["clipboard"] = array(
 						"source" => $this->current_page,
 						"nodes" => $a_id,
@@ -359,10 +414,10 @@ class ilSurveyPageGUI
 		$source = $pages[$data["source"]-1];
 		$target = $pages[$this->current_page-1];
 		$nodes = $data["nodes"];
-		if($data["source"] != $this->current_page)
+		if($data["source"] != $this->current_page || $data["mode"] != "cut")
 		{
 			// cut
-
+			
 			if($data["mode"] == "cut")
 			{
 				// only if source has block
@@ -400,17 +455,48 @@ class ilSurveyPageGUI
 
 			else if($data["mode"] == "copy")
 			{
+				$titles = array();
+				foreach($this->object->getSurveyPages() as $page)
+				{
+					foreach($page as $question)
+					{
+						$titles[] = $question["title"];
+					}
+				}
+			
 				// copy questions
 				$question_pointer = array();
 				foreach($nodes as $qid)
-				{
+				{										
 					// create new questions
 					$question = ilObjSurvey::_instanciateQuestion($qid);
+											
+					// handle exisiting copies
+					$title = $question->getTitle();
+					$max = 0;
+					foreach($titles as $existing_title)
+					{
+						if(preg_match("/".preg_quote($title)." \(([0-9]+)\)$/", $existing_title, $match))
+						{
+							$max = max($match[1], $max);						
+						}
+					}					
+					if($max)
+					{
+						$title .= " (".($max+1).")";
+					}
+					else
+					{
+						$title .= " (2)";
+					}					
+					$titles[] = $title;
+					$question->setTitle($title);					
+					
 					$question->id = -1;
 					$question->saveToDb();
 
 					$question_pointer[$qid] = $question->getId();
-					$this->appendNewQuestionToSurvey($question->getId());
+					$this->appendNewQuestionToSurvey($question->getId(), false);
 				}
 
 				// copy textblocks
@@ -437,11 +523,11 @@ class ilSurveyPageGUI
 			// create new block
 			if(sizeof($target) == 1)
 			{
-				$target_block_ids = $nodes;
-				$target_block_ids[] = $a_id;
-
+				$nodes = array_merge(array($a_id), $nodes);
+				
+				// moveQuestions() is called within
 				$this->object->createQuestionblock($this->getAutoBlockTitle(), true, false,
-					$target_block_ids);
+					$nodes);
 			}
 			// add to existing block
 			else
@@ -454,10 +540,10 @@ class ilSurveyPageGUI
 				{
 					$this->object->addQuestionToBlock($qid, $target_block_id);
 				}
+				
+				// move to new position
+				$this->object->moveQuestions($nodes, $a_id, $pos);
 			}
-
-			// move to new position
-			$this->object->moveQuestions($nodes, $a_id, $pos);
 			
 			$this->clearClipboard();
 		}
@@ -1130,6 +1216,10 @@ class ilSurveyPageGUI
 				}
 				else
 				{
+					if(!$this->suppress_clipboard_msg)
+					{
+						ilUtil::sendInfo($lng->txt("survey_clipboard_notice"));
+					}
 					$multi_commands[] = array("cmd"=>"clearClipboard", "text"=>$lng->txt("survey_dnd_clear_clipboard"));
 				}
 
@@ -1251,7 +1341,8 @@ class ilSurveyPageGUI
 		$has_clipboard = (bool)$_SESSION["survey_page_view"][$this->ref_id]["clipboard"];
 		if($has_clipboard)
 		{
-			$clipboard_same_page = ($_SESSION["survey_page_view"][$this->ref_id]["clipboard"]["source"] == $this->current_page);
+			$clipboard_same_page = ($_SESSION["survey_page_view"][$this->ref_id]["clipboard"]["source"] == $this->current_page &&
+					$_SESSION["survey_page_view"][$this->ref_id]["clipboard"]["mode"] == "cut");
 		}
 
 		// question block ?
@@ -1304,11 +1395,6 @@ class ilSurveyPageGUI
 						$menu[] = array("cmd"=> "addQuestion_".$item["questiontype_id"],
 							"text"=> $trans." ".$lng->txt("add"));
 					}
-
-					if(!$question["heading"])
-					{
-						$menu[] = array("cmd" => "addHeading", "text" => $lng->txt("add_heading"));
-					}
 				}
 				else if(!$clipboard_same_page)
 				{
@@ -1317,22 +1403,6 @@ class ilSurveyPageGUI
 			}
 
 			$this->renderPageNode($ttpl, "droparea", $question["question_id"], null, $menu, true);
-
-			// heading
-			if($question["heading"])
-			{
-				$menu = array();
-
-				if(!$a_readonly && !$has_clipboard)
-				{
-					$menu[] = array("cmd" => "editHeading", "text" => $lng->txt("edit"));
-					$menu[] = array("cmd" => "#editParagraph", "text" => $lng->txt("edit")." (inline)");
-					$menu[] = array("cmd" => "deleteHeading", "text" => $lng->txt("delete"));
-				}
-
-				$this->renderPageNode($ttpl, "heading", $question["question_id"],
-					$question["heading"], $menu);
-			}
 
 			// question
 			$question_gui = $this->object->getQuestionGUI($question["type_tag"], $question["question_id"]);
@@ -1343,8 +1413,9 @@ class ilSurveyPageGUI
 
 			if(!$a_readonly && !$has_clipboard)
 			{
-				$menu[] = array("cmd" => "editQuestion", "text" => $lng->txt("edit"));
-				$menu[] = array("cmd" => "deleteQuestion", "text" => $lng->txt("delete"));
+				$menu[] = array("cmd" => "editQuestion", "text" => $lng->txt("edit"));				
+				$menu[] = array("cmd" => "cutQuestion", "text" => $lng->txt("cut"));
+				$menu[] = array("cmd" => "copyQuestion", "text" => $lng->txt("copy"));
 
 				if(sizeof($a_questions) > 1 && $idx > 0)
 				{
@@ -1358,6 +1429,19 @@ class ilSurveyPageGUI
 				{
 					$menu[] = array("cmd" => "movePrevious", "text" => $lng->txt("survey_dnd_move_previous"));
 				}
+				
+				$menu[] = array("cmd" => "deleteQuestion", "text" => $lng->txt("delete"));
+				
+				// heading
+				if($question["heading"])
+				{
+					$menu[] = array("cmd" => "editHeading", "text" => $lng->txt("survey_edit_heading"));
+					$menu[] = array("cmd" => "deleteHeading", "text" => $lng->txt("survey_delete_heading"));
+				}
+				else
+				{
+					$menu[] = array("cmd" => "addHeading", "text" => $lng->txt("add_heading"));
+				}
 			}
 
 			if($first_question["questionblock_show_questiontext"])
@@ -1370,7 +1454,7 @@ class ilSurveyPageGUI
 			}
 
 			$this->renderPageNode($ttpl, "question", $question["question_id"], $question_gui, $menu,
-				false, $question["title"], $question_title_status);
+				false, $question["title"], $question_title_status, $question["heading"]);
 
 			$ilCtrl->setParameter($this, "eqid", "");
 		}
@@ -1411,8 +1495,9 @@ class ilSurveyPageGUI
 	 * @param array $a_menu
 	 * @param bool $a_spacer
 	 * @param string $a_subtitle
+	 * @param string $a_heading
 	 */
-	function renderPageNode(ilTemplate $a_tpl, $a_type, $a_id, $a_content = null, array $a_menu = null, $a_spacer = false, $a_subtitle = false, $a_status = false)
+	function renderPageNode(ilTemplate $a_tpl, $a_type, $a_id, $a_content = null, array $a_menu = null, $a_spacer = false, $a_subtitle = false, $a_status = false, $a_heading = false)
 	{
 		global $ilCtrl, $lng;
 
@@ -1429,6 +1514,11 @@ class ilSurveyPageGUI
 					break;
 
 				case "question":
+					if($a_heading)
+					{
+						$a_content = "<div class=\"questionheading\">".$a_heading."</div>".
+							$a_content;
+					}
 					$caption = $lng->txt("question").": ".$a_subtitle;
 					$drag = "_drag";
 					$double = true;

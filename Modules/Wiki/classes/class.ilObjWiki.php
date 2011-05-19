@@ -707,7 +707,22 @@ class ilObjWiki extends ilObject
 			}
 		}
 		$ipages = ilUtil::sortArray($ipages, "ord", "asc", true);
+
+		// fix indentation: no 2 is allowed after a 0
+		$c_indent = 0;
+		$fixed = false;
+		foreach ($ipages as $k => $v)
+		{
+			if ($ipages[$k]["indent"] == 2 && $c_indent == 0)
+			{
+				$ipages[$k]["indent"] = 1;
+				$fixed = true;
+			}
+			$c_indent = $ipages[$k]["indent"];
+		}
+		
 		$ord = 10;
+		reset($ipages);
 		foreach ($ipages as $k => $v)
 		{
 			$ilDB->manipulate($q = "UPDATE il_wiki_imp_pages SET ".
@@ -718,6 +733,8 @@ class ilObjWiki extends ilObject
 				);
 			$ord+=10;
 		}
+		
+		return $fixed;
 	}
 
 	/**
@@ -729,11 +746,25 @@ class ilObjWiki extends ilObject
 
 		$ipages = ilObjWiki::_lookupImportantPagesList($this->getId());
 
+		// fix indentation: no 2 is allowed after a 0
+		$c_indent = 0;
+		$fixed = false;
+		foreach ($ipages as $k => $v)
+		{
+			if ($ipages[$k]["indent"] == 2 && $c_indent == 0)
+			{
+				$ipages[$k]["indent"] = 1;
+				$fixed = true;
+			}
+			$c_indent = $ipages[$k]["indent"];
+		}
+
 		$ord = 10;
 		foreach ($ipages as $k => $v)
 		{
 			$ilDB->manipulate($q = "UPDATE il_wiki_imp_pages SET ".
 				" ord = ".$ilDB->quote($ord, "integer").
+				", indent = ".$ilDB->quote($v["indent"], "integer").
 				" WHERE wiki_id = ".$ilDB->quote($v["wiki_id"], "integer").
 				" AND page_id = ".$ilDB->quote($v["page_id"], "integer")
 				);

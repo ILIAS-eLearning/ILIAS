@@ -324,7 +324,19 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$s_text = $this->content_obj->xml2output($s_text, true, false);
 		$char = $this->determineCharacteristic(false);
 		$s_text = ilPCParagraphGUI::xml2outputJS($s_text, $char, $this->content_obj->readPCId());
-		echo $s_text;
+		$ids = "###".$this->content_obj->readHierId().":".$this->content_obj->readPCId()."###";
+		echo $ids.$s_text;
+		exit;
+	}
+
+	/**
+	 * Edit multiple paragraphs (Ajax mode, sends the content of the paragraphs)
+	 */
+	function editMultipleJS()
+	{
+		global $ilUser, $ilias;
+
+		echo $this->content_obj->getParagraphSequenceContent($this->pg_obj);
 		exit;
 	}
 
@@ -378,19 +390,19 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	{
 		global $ilCtrl;
 
-		$text = self::handleAjaxContent($_POST["ajaxform_content"]);
-		if ($text === false)
+		$this->updated = $this->content_obj->saveJS($this->pg_obj,
+			$_POST["ajaxform_content"],
+			ilUtil::stripSlashes($_POST["ajaxform_char"]),
+			ilUtil::stripSlashes($_POST["pc_id_str"]));
+		
+		if ($_POST["quick_save"])
 		{
-			$ilCtrl->returnToParent($this, "jump".$this->hier_id);
-		}
-
-		$this->content_obj->setCharacteristic(ilUtil::stripSlashes($_POST["ajaxform_char"]));
-		$text = $this->content_obj->input2xml($text, true, false);
-		$text = self::handleAjaxContentPost($text);
-		$this->updated = $this->content_obj->setText($text, false);
-		if ($this->updated)
-		{
-			$this->updated = $this->pg_obj->update();
+			if ($this->updated)
+			{
+				$a_pc_id_str = $this->content_obj->getLastSavedPcIds($this->pg_obj, true);
+				echo $a_pc_id_str;
+				exit;
+			}
 		}
 
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -403,106 +415,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	{ 
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
-	
-
-	/**
-	 * Handle ajax content
-	 */
-	static function handleAjaxContent($a_content)
-	{
-		$doc = new DOMDocument();
-
-		$content = ilUtil::stripSlashes($a_content, false);
-		$content = str_replace("&lt;", "<", $content);
-		$content = str_replace("&gt;", ">", $content);
-//echo htmlentities($content); exit;
-		$res = $doc->loadXML($content);
-
-		if (!$res)
-		{
-			return false;
-		}
-
-		// convert tags
-		$xpath = new DOMXpath($doc);
-		$elements = $xpath->query("//span");
-		include_once("./Services/Utilities/classes/class.ilDOM2Util.php");
-		if (!is_null($elements))
-		{
-			foreach ($elements as $element)
-			{
-				$class = $element->getAttribute("class");
-				if (substr($class, 0, 16) == "ilc_text_inline_")
-				{
-					ilDOM2Util::changeName($element, "il".substr($class, 16), false);
-				}
-			}
-		}
-
-		$text = $doc->saveXML($doc->documentElement);
-		$text = str_replace("<br/>", "\n", $text);
-
-		// remove wrapping div
-//		$text = $_POST["ajaxform_content"];
-		$pos = strpos($text, ">");
-		$text = substr($text, $pos + 1);
-		$pos = strrpos($text, "<");
-		$text = substr($text, 0, $pos);
-
-// todo: remove empty spans <span ...> </span>
-
-		// replace tags by bbcode
-		foreach (ilPageContentGUI::_getCommonBBButtons() as $bb => $cl)
-		{
-			if (!in_array($bb, array("code", "tex", "fn", "xln")))
-			{
-				$text = str_replace("<il".$cl.">",
-					"[".$bb."]", $text);
-				$text = str_replace("</il".$cl.">",
-					"[/".$bb."]", $text);
-			}
-		}
-		$text = str_replace(array("<code>", "</code>"),
-			array("[code]", "[/code]"), $text);
-
-
-		return $text;
-	}
-
-	/**
-	 * Post input2xml handling of ajax content
-	 */
-	static function handleAjaxContentPost($text)
-	{
-		$text = str_replace(array("&lt;ul&gt;", "&lt;/ul&gt;"),
-			array("<SimpleBulletList>", "</SimpleBulletList>"), $text);
-		$text = str_replace(array("&lt;ul class='ilc_list_u_BulletedList'&gt;", "&lt;/ul&gt;"),
-			array("<SimpleBulletList>", "</SimpleBulletList>"), $text);
-		$text = str_replace(array("&lt;ul class=\"ilc_list_u_BulletedList\"&gt;", "&lt;/ul&gt;"),
-			array("<SimpleBulletList>", "</SimpleBulletList>"), $text);
-		$text = str_replace(array("&lt;ol&gt;", "&lt;/ol&gt;"),
-			array("<SimpleNumberedList>", "</SimpleNumberedList>"), $text);
-		$text = str_replace(array("&lt;ol class='ilc_list_o_NumberedList'&gt;", "&lt;/ol&gt;"),
-			array("<SimpleNumberedList>", "</SimpleNumberedList>"), $text);
-		$text = str_replace(array("&lt;ol class=\"ilc_list_o_NumberedList\"&gt;", "&lt;/ol&gt;"),
-			array("<SimpleNumberedList>", "</SimpleNumberedList>"), $text);
-		$text = str_replace(array("&lt;li&gt;", "&lt;/li&gt;"),
-			array("<SimpleListItem>", "</SimpleListItem>"), $text);
-		$text = str_replace(array("&lt;li class='ilc_list_item_StandardListItem'&gt;", "&lt;/li&gt;"),
-			array("<SimpleListItem>", "</SimpleListItem>"), $text);
-		$text = str_replace(array("&lt;li class=\"ilc_list_item_StandardListItem\"&gt;", "&lt;/li&gt;"),
-			array("<SimpleListItem>", "</SimpleListItem>"), $text);
-		$text = str_replace("<SimpleBulletList><br />", "<SimpleBulletList>", $text);
-		$text = str_replace("<SimpleNumberedList><br />", "<SimpleNumberedList>", $text);
-		$text = str_replace("<br /><SimpleBulletList>", "<SimpleBulletList>", $text);
-		$text = str_replace("<br /><SimpleNumberedList>", "<SimpleNumberedList>", $text);
-		$text = str_replace("</SimpleBulletList><br />", "</SimpleBulletList>", $text);
-		$text = str_replace("</SimpleNumberedList><br />", "</SimpleNumberedList>", $text);
-		$text = str_replace("</SimpleListItem><br />", "</SimpleListItem>", $text);
-
-		return $text;
-	}
-
 
 	/**
 	* Insert characteristic table
@@ -793,6 +705,26 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	{
 		global $ilUser, $ilCtrl;
 
+		$this->content_obj = new ilPCParagraph($this->dom);
+		$this->updated = $this->content_obj->saveJS($this->pg_obj,
+			$_POST["ajaxform_content"],
+			ilUtil::stripSlashes($_POST["ajaxform_char"]),
+			ilUtil::stripSlashes($_POST["pc_id_str"]),
+			$_POST["insert_at_id"]);
+		
+		if ($_POST["quick_save"])
+		{
+			if ($this->updated)
+			{
+				$a_pc_id_str = $this->content_obj->getLastSavedPcIds($this->pg_obj, true);
+				echo $a_pc_id_str;
+				exit;
+			}
+		}
+
+$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+
+		
 		// get paragraph object
 		$this->content_obj = new ilPCParagraph($this->dom);
 
@@ -806,14 +738,14 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->content_obj->setCharacteristic($_POST["ajaxform_char"]);
 
 		// handle and insert text into xml
-		$text = self::handleAjaxContent($_POST["ajaxform_content"]);
+		$text = ilPCParagraph::handleAjaxContent($_POST["ajaxform_content"]);
 		if ($text === false)
 		{
 			$ilCtrl->returnToParent($this, "jump".$this->hier_id);
 		}
 
 		$text = $this->content_obj->input2xml($text, true, false);
-		$text = self::handleAjaxContentPost($text);
+		$text = ilPCParagraph::handleAjaxContentPost($text);
 		$this->updated = $this->content_obj->setText($text, true);
 
 		if ($this->updated)

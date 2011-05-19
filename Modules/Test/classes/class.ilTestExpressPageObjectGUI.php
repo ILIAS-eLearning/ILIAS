@@ -142,10 +142,10 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
                     $q_gui = $this->addPageOfQuestions(preg_replace('/(.*?)gui/i', '$1', $_GET['sel_question_types']));
                     $q_gui->setQuestionTabs();
 
-                    global $___test_express_mode;
-                    $___test_express_mode = true;
+                    #global $___test_express_mode;
+                    #$___test_express_mode = true;
                     $ret = $this->ctrl->forwardCommand($q_gui);
-                    unset($___test_express_mode);
+                    #unset($___test_express_mode);
 
                     break;
                 } else {
@@ -206,7 +206,8 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'sel_question_types', $questionType);
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'q_id', $q_gui->object->getId());
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'prev_qid', $previousQuestionId);
-		$ilCtrl->setParameterByClass('ilobjtestgui', 'test_express_mode', 1);
+		if ($_REQUEST['test_express_mode'])
+		    $ilCtrl->setParameterByClass('ilobjtestgui', 'test_express_mode', 1);
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'usage', 3);
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'calling_test', $this->test_object->getId());
 
@@ -219,12 +220,12 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'sel_question_types', $questionType);
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'q_id', $q_gui->object->getId());
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'prev_qid', $previousQuestionId);
-		$ilCtrl->setParameterByClass('ilobjtestgui', 'test_express_mode', 1);
+		if ($_REQUEST['test_express_mode'])
+		    $ilCtrl->setParameterByClass('ilobjtestgui', 'test_express_mode', 1);
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'usage', 2);
 		$ilCtrl->setParameterByClass('ilobjtestgui', 'calling_test', $this->test_object->getId());
 
 		$link = $ilCtrl->getLinkTargetByClass('ilobjtestgui', 'executeCreateQuestion', false, false, false);
-		
 		ilUtil::redirect($link);
 		break;
 	    case 1: // no pool
@@ -242,6 +243,9 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
 	$ilCtrl->setParameter($this, 'qtype', $_REQUEST['qtype']);
 
 	$form = new ilPropertyFormGUI();
+
+	$ilCtrl->setParameter($this, 'test_express_mode', 1);
+
 	$form->setFormAction($ilCtrl->getFormAction($this, "handleToolbarCommand"));
 	$form->setTitle($lng->txt("test_add_new_question"));
 	include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
@@ -340,10 +344,13 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
             'baseClass' => 'ilObjTestGUI',
             'test_ref_id' => $_GET['ref_id'],
             'calling_test' => $_GET['ref_id'],
-            'express_mode' => 'true',
+            //'express_mode' => 'true',
             'q_id' => $qid,
             'prev_qid' => $prev_qid
         );
+
+	if ($_REQUEST['test_express_mode'])
+	    $linkParams['test_express_mode'] = 1;
 
         ilUtil::redirect('ilias.php?' . http_build_query($linkParams, 'null', '&'));
     }

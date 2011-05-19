@@ -543,13 +543,14 @@ class ilWikiPage extends ilPageObject
 		$set = $ilDB->queryF("SELECT * FROM il_wiki_missing_page WHERE ".
 			" wiki_id = %s AND target_name = %s",
 			array("integer", "text"),
-			array($this->getWikiId(), $this->getTitle()));
+			array($this->getWikiId(), ilWikiUtil::makeDbTitle($this->getTitle())));
 		while ($anmiss = $ilDB->fetchAssoc($set))	// insert internal links instead 
 		{
+//echo "adding link";
 			ilInternalLink::_saveLink("wpg:pg", $anmiss["source_id"], "wpg",
 				$this->getId(), 0);
 		}
-		
+//exit;
 		// now remove the missing page entries
 		$ilDB->manipulateF("DELETE FROM il_wiki_missing_page WHERE ".
 			" wiki_id = %s AND target_name = %s",
@@ -737,10 +738,35 @@ class ilWikiPage extends ilPageObject
 				if ($s["type"] == "wpg:pg")
 				{
 					$wpage = new ilWikiPage($s["id"]);
-					$wpage->setXmlContent(
-						str_replace("[[".$this->getTitle()."]]",
-						"[[".$a_new_name."]]", $wpage->getXmlContent())
-						);
+					
+					$col = ilWikiUtil::processInternalLinks($wpage->getXmlContent(), 0,
+						IL_WIKI_MODE_EXT_COLLECT);
+					$new_content = $wpage->getXmlContent();
+					foreach ($col as $c)
+					{
+						if (ilWikiUtil::makeDbTitle($c["nt"]->mTextform) ==
+							ilWikiUtil::makeDbTitle($this->getTitle()))
+						{
+							$new_content = 
+								str_replace("[[".$c["nt"]->mTextform."]]",
+								"[[".$a_new_name."]]", $new_content);
+							if ($c["text"] != "")
+							{
+								$new_content = 
+									str_replace("[[".$c["text"]."]]",
+									"[[".$a_new_name."]]", $new_content);
+							}
+							$add = ($c["text"] != "")
+								? "|".$c["text"]
+								: "";
+							$new_content = 
+								str_replace("[[".$c["nt"]->mTextform.$add."]]",
+								"[[".$a_new_name.$add."]]", $new_content);
+//echo "<br>[[".$c["nt"]->mTextform.$add."]] -> "."[[".$a_new_name.$add."]]";
+						}
+					}
+
+					$wpage->setXmlContent($new_content);
 					$wpage->update();
 				}
 			}

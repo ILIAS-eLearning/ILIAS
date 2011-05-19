@@ -2,6 +2,7 @@
 <input type="hidden" name="move_{MOVE_COUNTER}" value="{MOVE_VALUE}">
  END move -->
 <tr class="{CSS_ROW}">
+	<!-- BEGIN write_cols -->
 	<td class="std"{CHECKABLE_INDENT}>
 		<!-- BEGIN checkable -->
 		<input type="checkbox" name="id[]" value="cb_{QUESTION_ID}" />
@@ -12,11 +13,18 @@
 		<input type="text" name="{ORDER_NAME}" value="{ORDER_VALUE}" maxlength="3" style="width:30px" />
 		<!-- END order -->
 	</td>
-	<td class="std"{TITLE_INDENT}>{ICON} {TITLE}</td>
+	<!-- END write_cols -->
+	<td class="std"{TITLE_INDENT}>
+	<!-- BEGIN heading -->
+	<div class="small">{TXT_HEADING}</div>
+	<!-- END heading -->
+	{ICON} {TITLE}</td>
 	<td class="std">{OBLIGATORY}</td>
 	<td class="std">{DESCRIPTION}</td>
 	<td class="std">{TYPE}</td>
 	<td class="std">{AUTHOR}</td>
 	<td class="std">{POOL}</td>
+	<!-- BEGIN actions -->
 	<td class="std">{ACTION}</td>
+	<!-- END actions -->
 </tr>

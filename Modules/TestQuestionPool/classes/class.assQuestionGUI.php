@@ -568,14 +568,14 @@ class assQuestionGUI
 					ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 
 
-					global $___test_express_mode;
+					//global $___test_express_mode;
 					/**
 					 * in express mode, so add question to test directly
 					 */
 					if($_REQUEST['prev_qid']) {
 						$test->moveQuestionAfter($_REQUEST['prev_qid'], $this->object->getId());
 					}
-					if($___test_express_mode || $_REQUEST['express_mode']) {
+					if(/*$___test_express_mode || */$_REQUEST['express_mode']) {
 
 						include_once ("./Modules/Test/classes/class.ilObjTest.php");
 						$test =& new ilObjTest($_GET["ref_id"], true);
@@ -643,7 +643,7 @@ class assQuestionGUI
 
 			    }
 
-			    if($___test_express_mode || $_REQUEST['test_express_mode']) {
+			    if(/*$___test_express_mode || */$_REQUEST['test_express_mode']) {
 				ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($q_id));
 			    }
 			    else

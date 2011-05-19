@@ -2266,7 +2266,9 @@ class ilObjectListGUI
 	 */
 	function insertCommonSocialCommands()
 	{
-		if ($this->std_cmd_only)
+		global $ilSetting;
+		
+		if ($this->std_cmd_only || !$ilSetting->get('comments_tagging_quick_access'))
 		{
 			return;
 		}

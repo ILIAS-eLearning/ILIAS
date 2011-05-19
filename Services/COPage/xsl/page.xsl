@@ -7,7 +7,7 @@
 <xsl:output method="xml" omit-xml-declaration="yes" />
 <!-- <xsl:output method="html"/> -->
 
-<xsl:preserve-space elements="Paragraph Footnote"/>
+<xsl:preserve-space elements="Paragraph Footnote Strong Accent Emph Comment Important Quotation Keyw Code ExtLink IntLink"/>
 
 <!-- changing the default template to output all unknown tags -->
 <xsl:template match="*">
@@ -99,9 +99,9 @@
 		<xsl:if test="$javascript = 'enable'">
 			<div class="il_droparea">
 				<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute>
-				<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active');</xsl:attribute>
-				<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>
-				<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>');</xsl:attribute>
+				<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active', null, null);</xsl:attribute>
+				<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea', null, null);</xsl:attribute>
+				<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>', null, null);</xsl:attribute>
 			<img src="./templates/default/images/ed_plus.gif" border="0" width="30" height="12" />
 			</div>
 			<!-- insert menu for drop area -->
@@ -388,11 +388,11 @@
 						<xsl:attribute name="class">il_editarea_disabled</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="$javascript = 'enable'">
-						<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_editarea_active');</xsl:attribute>
-						<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_editarea');</xsl:attribute>
+						<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_editarea_active', '<xsl:value-of select="$content_type"/>','<xsl:value-of select="./*[1]/@Characteristic"/>');</xsl:attribute>
+						<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_editarea', '<xsl:value-of select="$content_type"/>','<xsl:value-of select="./*[1]/@Characteristic"/>');</xsl:attribute>
 						<xsl:attribute name="onMouseDown">doMouseDown(this.id);</xsl:attribute>
 						<xsl:attribute name="onMouseUp">doMouseUp(this.id);</xsl:attribute>
-						<xsl:attribute name="onClick">doMouseClick(event,this.id,'<xsl:value-of select="$content_type"/>');</xsl:attribute>
+						<xsl:attribute name="onClick">doMouseClick(event,this.id,'<xsl:value-of select="$content_type"/>','<xsl:value-of select="./*[1]/@Characteristic"/>');</xsl:attribute>
 						<xsl:attribute name="onDblClick">doMouseDblClick(event,this.id,'<xsl:value-of select="$content_type"/>');</xsl:attribute>
 					</xsl:if>
 				</xsl:if>
@@ -406,9 +406,9 @@
 			<!-- drop area -->
 			<xsl:if test="(not(../../../@DataTable) or (../../../@DataTable = 'n')) and ($javascript != 'disable')">
 				<div class="il_droparea">
-					<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active');</xsl:attribute>
-					<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>
-					<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>');</xsl:attribute>
+					<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active', null, null);</xsl:attribute>
+					<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea', null, null);</xsl:attribute>
+					<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>', null, null);</xsl:attribute>
 					<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute><img src="./templates/default/images/ed_plus.gif" border="0" width="30" height="12" />
 				</div>
 			</xsl:if>
@@ -563,6 +563,14 @@
 		</xsl:call-template>
 	</xsl:if>
 
+	<!-- special case for edit multiple paragraphs -->
+	<xsl:if test="name(.) = 'Paragraph'">
+		<!-- <xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">editMultiple</xsl:with-param>
+			<xsl:with-param name="langvar">ed_edit_multiple</xsl:with-param>
+		</xsl:call-template> -->
+	</xsl:if>
+	
 	<xsl:if test = "$javascript = 'disable'">
 		<xsl:call-template name="EditMenuInsertItems"/>
 	</xsl:if>
@@ -577,7 +585,7 @@
 			</xsl:call-template>
 		</xsl:if>
 		
-		<xsl:if test = "$javascript = 'enable'">
+		<xsl:if test = "$javascript = 'enable' and $prevent_deletion = 'n'">
 			<xsl:call-template name="EditMenuItem">
 				<xsl:with-param name="command">deactivate</xsl:with-param>
 				<xsl:with-param name="langvar">de_activate</xsl:with-param>
@@ -593,7 +601,6 @@
 		</xsl:call-template>
 		
 	</xsl:if>
-		
 </xsl:template>
 
 <!-- Split Menu Items -->
@@ -865,11 +872,11 @@
 		<xsl:if test="$float = 'y'">
 			<xsl:attribute name="style"></xsl:attribute>
 		</xsl:if>
-		<xsl:attribute name="onMouseOver">doMouseOver(this.id);</xsl:attribute>
-		<xsl:attribute name="onMouseOut">doMouseOut(this.id,false);</xsl:attribute>
+		<xsl:attribute name="onMouseOver">doMouseOver(this.id, null, null, null);</xsl:attribute>
+		<xsl:attribute name="onMouseOut">doMouseOut(this.id,false, null, null);</xsl:attribute>
 		<xsl:attribute name="onMouseDown">doMouseDown(this.id);</xsl:attribute>
 		<xsl:attribute name="onMouseUp">doMouseUp(this.id);</xsl:attribute>
-		<xsl:attribute name="onClick">doMouseClick(event,this.id,'PageObject');</xsl:attribute>
+		<xsl:attribute name="onClick">doMouseClick(event,this.id,'PageObject',null, null);</xsl:attribute>
 		<xsl:attribute name="id"><xsl:value-of select="$img_id"/></xsl:attribute>
 		<xsl:attribute name="src"><xsl:value-of select="$img_src"/></xsl:attribute>
 	</img>
@@ -884,9 +891,9 @@
 	<xsl:if test="$javascript != 'disable'">
 		<div class="il_droparea">
 			<xsl:attribute name="id">TARGET<xsl:value-of select="$hier_id"/>:<xsl:value-of select="$pc_id"/></xsl:attribute>
-			<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active');</xsl:attribute>
-			<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>
-			<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>');</xsl:attribute>
+			<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active', null, null);</xsl:attribute>
+			<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea', null, null);</xsl:attribute>
+			<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>', null, null);</xsl:attribute>
 		<img src="./templates/default/images/ed_plus.gif" border="0" width="30" height="12" />
 		</div>
 	</xsl:if>

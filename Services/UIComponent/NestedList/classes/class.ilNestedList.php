@@ -11,7 +11,7 @@
 class ilNestedList
 {
 	protected $item_class = "il_Explorer";
-	protected $list_class = "il_Explorer";
+	protected $list_class = array();
 	protected $auto_numbering = false;
 	protected $nr = array();
 
@@ -23,6 +23,7 @@ class ilNestedList
 	 */
 	function __constructor()
 	{
+		$this->list_class[0] = "il_Explorer";
 		$this->childs[0] = array();
 	}
 
@@ -51,9 +52,10 @@ class ilNestedList
 	 *
 	 * @param	string	list class
 	 */
-	function setListClass($a_val)
+	function setListClass($a_val, $a_depth = 0)
 	{
-		$this->list_class = $a_val;
+//var_dump($a_val);
+		$this->list_class[$a_depth] = $a_val;
 	}
 
 	/**
@@ -61,9 +63,9 @@ class ilNestedList
 	 *
 	 * @return	string	list class
 	 */
-	function getListClass()
+	function getListClass($a_depth = 0)
 	{
-		return $this->list_class;
+		return $this->list_class[$a_depth];
 	}
 
 	/**
@@ -123,7 +125,7 @@ class ilNestedList
 		$depth = 1;
 		if (is_array($this->childs[0]) && count($this->childs[0]) > 0)
 		{
-			$this->listStart($tpl);
+			$this->listStart($tpl, $depth);
 			foreach ($this->childs[0] as $child)
 			{
 				$this->renderNode($child, $tpl, $depth, $nr);
@@ -171,7 +173,7 @@ class ilNestedList
 
 		if (is_array($this->childs[$a_id]) && count($this->childs[$a_id]) > 0)
 		{
-			$this->listStart($tpl);
+			$this->listStart($tpl, $depth + 1);
 			foreach ($this->childs[$a_id] as $child)
 			{
 				$this->renderNode($child, $tpl, $depth + 1, $nr);
@@ -222,13 +224,18 @@ class ilNestedList
 	 * @param
 	 * @return
 	 */
-	function listStart($tpl)
+	function listStart($tpl, $depth)
 	{
 //echo "<br>listStart";
-		if ($this->getListClass() != "")
+
+		$class = ($this->getListClass($depth) != "")
+			? $this->getListClass($depth)
+			: $this->getListClass();
+//echo "-$class-";
+		if ($class != "")
 		{
 			$tpl->setCurrentBlock("list_start");
-			$tpl->setVariable("UL_CLASS", ' class="'.$this->getListClass().'" ');
+			$tpl->setVariable("UL_CLASS", ' class="'.$class.'" ');
 			$tpl->parseCurrentBlock();
 		}
 		else

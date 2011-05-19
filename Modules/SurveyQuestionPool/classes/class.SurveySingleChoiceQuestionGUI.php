@@ -105,12 +105,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 	* @access public
 	*/
 	public function editQuestion($checkonly = FALSE)
-	{
-		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || 
-			(strcmp($this->ctrl->getCmd(), "wizardanswers") == 0) ||
-			(strcmp($this->ctrl->getCmd(), "savePhraseanswers") == 0)
-		) ? TRUE : FALSE;
-
+	{		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -193,12 +188,13 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		$answers->setValues($this->object->getCategories());
 		$answers->setDisabledScale(false);
 		$form->addItem($answers);
-
+		
+		$form->addCommandButton("saveReturn", $this->lng->txt("save_return"));
 		$form->addCommandButton("save", $this->lng->txt("save"));
 
 		$errors = false;
-	
-		if ($save)
+
+		if ($this->isSaveCommand(array("wizardanswers", "savePhraseanswers")))
 		{
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();

@@ -531,7 +531,8 @@ class ilContainer extends ilObject
 	*/
 	function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false)
 	{
-		global $objDefinition, $ilBench, $tree, $ilObjDataCache, $ilUser, $rbacsystem;
+		global $objDefinition, $ilBench, $tree, $ilObjDataCache, $ilUser, $rbacsystem,
+			$ilSetting;
 
 		// Caching
 		if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]))
@@ -636,7 +637,10 @@ class ilContainer extends ilObject
 			ilObjUser::preloadIsDesktopItem($ilUser->getId(), $all_ref_ids);
 			$rbacsystem->preloadRbacPaCache($all_ref_ids, $ilUser->getId());
 			include_once("./Services/Object/classes/class.ilObjectListGUI.php");
-			ilObjectListGUI::preloadCommonProperties($all_obj_ids);
+			if ($ilSetting->get('comments_tagging_quick_access'))
+			{
+				ilObjectListGUI::preloadCommonProperties($all_obj_ids);
+			}
 
 			self::$data_preloaded = true;
 		}

@@ -18,6 +18,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 {
 	static $block_type = "wikiimppages";
 	static $st_data;
+	protected $export = false;
 	
 	/**
 	* Constructor
@@ -92,11 +93,13 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 	/**
 	* Get bloch HTML code.
 	*/
-	function getHTML()
+	function getHTML($a_export = false)
 	{
 		global $ilCtrl, $lng, $ilUser, $ilAccess;
 
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		$this->export = $a_export;
+		
+		if (!$this->export && $ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
 			$this->addBlockCommand(
 				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "editImportantPages"),
@@ -114,6 +117,53 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 		global $ilCtrl, $lng, $ilAccess;
 		
 		$tpl = new ilTemplate("tpl.wiki_imp_pages_block.html", true, true, "Modules/Wiki");
+
+		$cpar[0] = $cpar[1] = 0;
+		include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
+		
+		$list = new ilNestedList();
+		$list->setItemClass("ilWikiBlockItem");
+		$list->setListClass("ilWikiBlockList");
+		$list->setListClass("ilWikiBlockListNoIndent", 1);
+		
+		$cnt = 1;
+		if (!$this->export)
+		{
+			$list->addListNode("<p class='small'><a href='".
+				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoStartPage")
+				."'>".$lng->txt("wiki_start_page")."</a></p>", 1, 0);
+		}
+		else
+		{
+			$list->addListNode("<p class='small'><a href='".
+				"index.html".
+				"'>".$lng->txt("wiki_start_page")."</a></p>", 1, 0);
+		}
+		$cpar[0] = 1;
+		
+		$ipages = ilObjWiki::_lookupImportantPagesList(ilObject::_lookupObjId($_GET["ref_id"]));
+		foreach ($ipages as $p)
+		{
+			$cnt++;
+			$title = ilWikiPage::lookupTitle($p["page_id"]);
+			if (!$this->export)
+			{
+				$list->addListNode("<p class='small'><a href='".
+					ilObjWikiGUI::getGotoLink($_GET["ref_id"], $title)
+					."'>".$title."</a></p>", $cnt, (int) $cpar[$p["indent"] - 1]);
+			}
+			else
+			{
+				$list->addListNode("<p class='small'><a href='".
+					"wpg_".$p["page_id"].".html".
+					"'>".$title."</a></p>", $cnt, (int) $cpar[$p["indent"] - 1]);
+			}
+			$cpar[$p["indent"]] = $cnt;
+		}
+		
+		$this->setDataSection($list->getHTML());
+return;
+		// old style
 
 		// the start page
 		$tpl->setCurrentBlock("item");

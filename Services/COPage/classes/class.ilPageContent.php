@@ -160,6 +160,17 @@ abstract class ilPageContent
 	}
 
 	/**
+	 * Write pc id
+	 */
+	function writePCId($a_pc_id)
+	{
+		if (is_object($this->node))
+		{
+			$this->node->set_attribute("PCID", $a_pc_id);
+		}
+	}
+
+	/**
 	* Increases an hierarchical editing id at lowest level (last number)
 	*
 	* @param	string	$ed_id		hierarchical ID

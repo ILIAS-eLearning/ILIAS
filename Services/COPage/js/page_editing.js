@@ -11,6 +11,8 @@ var ilCOPage =
 	drag_targets: [],
 	ghost_debugged: false,
 	quick_insert_id: null,
+	pc_id_str: '',
+	pasting: false,
 
 	switchDebugGhost: function() {
 		var tp = document.getElementById('tinytarget_parent');
@@ -31,11 +33,16 @@ var ilCOPage =
 		this.content_css = content_css;
 	},
 
-	cmdSave: function ()
+	cmdSave: function (switch_to)
 	{
+		if (ilCOPage.current_td != "")
+		{
+			return this.cmdSaveReturn();
+		}
+		
 		var el = document.getElementById('ilsaving');
 		el.style.display = '';
-		if (this.getInsertStatus() && !ilCOPage.quick_insert_id)
+		if (this.getInsertStatus())
 		{
 //			ilFormSend("insertJS", ed_para, null, "saveonly");
 			var content = tinyMCE.get('tinytarget').getContent();
@@ -44,9 +51,11 @@ var ilCOPage =
 			//this.removeTiny();
 			this.sendCmdRequest("insertJS", ed_para, null,
 				{ajaxform_content: content,
+				pc_id_str: this.pc_id_str,
 				ajaxform_char: style_class,
+				insert_at_id: ed_para,
 				quick_save: 1},
-				true, {}, this.quickInsertAjaxSuccess);
+				true, {switch_to: switch_to}, this.quickInsertAjaxSuccess);
 		}
 		else
 		{
@@ -55,10 +64,13 @@ var ilCOPage =
 			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
 			//this.copyInputToGhost(false);
 			//this.removeTiny();
+
 			this.sendCmdRequest("saveJS", ed_para, null,
 				{ajaxform_content: content,
-				ajaxform_char: style_class},
-				true, {}, this.quickSavingAjaxSuccess);
+				pc_id_str: this.pc_id_str,
+				ajaxform_char: style_class,
+				quick_save: 1},
+				true, {switch_to: switch_to}, this.quickSavingAjaxSuccess);
 
 		}
 	},
@@ -81,30 +93,36 @@ var ilCOPage =
 		}
 		else if (this.getInsertStatus() && !ilCOPage.quick_insert_id)
 		{
-			//ilFormSend("insertJS", ed_para, null, null);
 			var content = tinyMCE.get('tinytarget').getContent();
 			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
 			this.copyInputToGhost(false);
 			this.removeTiny();
 			this.sendCmdRequest("insertJS", ed_para, null,
 				{ajaxform_content: content,
+				pc_id_str: this.pc_id_str,
+				insert_at_id: ed_para,
 				ajaxform_char: style_class},
 				true, {}, this.pageReloadAjaxSuccess);
 		}
 		else
 		{
-			//ilFormSend("saveJS", ed_para, null, null);
 			var content = tinyMCE.get('tinytarget').getContent();
 			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
 			this.copyInputToGhost(false);
 			this.removeTiny();
 			this.sendCmdRequest("saveJS", ed_para, null,
 				{ajaxform_content: content,
+				pc_id_str: this.pc_id_str,
 				ajaxform_char: style_class},
 				true, {}, this.pageReloadAjaxSuccess);
 		}
 	},
 
+	switchTo: function(pc_id)
+	{
+		this.cmdSave(pc_id);
+	},
+	
 	cmdCancel: function ()
 	{
 		//var el = document.getElementById('ilsaving');
@@ -114,8 +132,16 @@ var ilCOPage =
 		this.setEditStatus(false);
 		this.copyInputToGhost(false);
 		this.removeTiny();
-		this.sendCmdRequest("cancel", ed_para, null, {},
-			true, {}, this.pageReloadAjaxSuccess);
+		if (ilCOPage.current_td == "")
+		{
+			this.sendCmdRequest("cancel", ed_para, null, {},
+				true, {}, this.pageReloadAjaxSuccess);
+		}
+		else
+		{
+			this.sendCmdRequest("saveDataTable", ed_para, null,
+				{cancel_update: 1}, null, null);
+		}
 
 	},
 
@@ -133,6 +159,7 @@ var ilCOPage =
 				this.cmdCode();
 				break;
 		}
+		return false;
 	},
 
 	cmdSpan: function (t)
@@ -157,53 +184,63 @@ var ilCOPage =
 tinymce.activeEditor.formatter.register('mycode', {
    inline : 'code'
  });
-		//ed.execCommand('Bold');
 		ed.execCommand('mceToggleFormat', false, 'mycode');
-		//var st_sel = ed.toggleFormat('Bold');
+		this.autoResize(ed);
+	},
+	
+	cmdRemoveFormat: function()
+	{
+		var ed = tinyMCE.get('tinytarget');
+		ed.focus();
+		ed.execCommand('RemoveFormat', false);
 		this.autoResize(ed);
 	},
 
 	cmdIntLink: function(b, e)
 	{
-		var ed = tinyMCE.get('tinytarget');
+		this.addBBCode(b, e);
+	},
+
+	addBBCode: function(stag, etag)
+	{
+		var ed = tinyMCE.get('tinytarget'), r, rcopy;
 		ed.focus();
-		//ed.selection.setContent('[iln ' + type + '=&quot;' + node_id + '&quot;]' + ed.selection.getContent() + '[/iln]');
-		ed.selection.setContent(b + ed.selection.getContent() + e);
-
+		if (ed.selection.getContent() == "")
+		{
+			rcopy = ed.selection.getRng(true).cloneRange();
+			var nc = stag + ed.selection.getContent() + etag;
+			ed.selection.setContent(nc);
+			ed.focus();
+			r =  ed.dom.createRng();
+			r.setEnd(rcopy.endContainer.nextSibling, stag.length);
+			r.setStart(rcopy.startContainer.nextSibling, stag.length);
+			ed.selection.setRng(r);
+		}
+		else
+		{
+			ed.selection.setContent(stag + ed.selection.getContent() + etag);
+		}
 		this.autoResize(ed);
-
 	},
 
 	cmdWikiLink: function()
 	{
-		var ed = tinyMCE.get('tinytarget');
-		ed.focus();
-		ed.selection.setContent('[[' + ed.selection.getContent() + ']]');
-		this.autoResize(ed);
+		this.addBBCode('[[', ']]');
 	},
 
 	cmdTex: function()
 	{
-		var ed = tinyMCE.get('tinytarget');
-		ed.focus();
-		ed.selection.setContent('[tex]' + ed.selection.getContent() + '[/tex]');
-		this.autoResize(ed);
+		this.addBBCode('[tex]', '[/tex]');
 	},
 
 	cmdFn: function()
 	{
-		var ed = tinyMCE.get('tinytarget');
-		ed.focus();
-		ed.selection.setContent('[fn]' + ed.selection.getContent() + '[/fn]');
-		this.autoResize(ed);
+		this.addBBCode('[fn]', '[/fn]');
 	},
 
 	cmdExtLink: function()
 	{
-		var ed = tinyMCE.get('tinytarget');
-		ed.focus();
-		ed.selection.setContent('[xln url=&quot;http://&quot;]' + ed.selection.getContent() + '[/xln]');
-		this.autoResize(ed);
+		this.addBBCode('[xln url="http://"]', '[/xln]');
 	},
 
 	cmdBList: function()
@@ -247,6 +284,18 @@ tinymce.activeEditor.formatter.register('mycode', {
 		tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('ol'), 'ilc_list_o_NumberedList');
 		tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('ul'), 'ilc_list_u_BulletedList');
 		tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('li'), 'ilc_list_item_StandardListItem');
+	},
+	
+	cleanContent: function()
+	{
+		// plit all divs in divs
+		var ed = tinyMCE.activeEditor;
+		var divs = ed.dom.select('div > div');
+		var k
+		for (k in divs)
+		{
+			ed.dom.split(divs[k].parentNode, divs[k]);
+		}
 	},
 
 	setEditStatus: function(status)
@@ -307,23 +356,70 @@ tinymce.activeEditor.formatter.register('mycode', {
 
 	setParagraphClass: function(i)
 	{
-		// set paragraph class
-		var ed = tinyMCE.getInstanceById('tinytarget');
-		var r = ed.dom.getRoot();
-		var fc = r.childNodes[0];
-		if (fc != null)
+		var ed = tinyMCE.activeEditor;
+		ed.focus();
+		var snode = ilCOPage.getCurrentDivNode();
+		
+		if (snode)
 		{
-			fc.className = "ilc_text_block_" + i['hid_val'];
+			snode.className = "ilc_text_block_" + i['hid_val'];
 		}
 		this.autoResize(ed);
 	},
 
+	cmdNewParagraph: function(i)
+	{
+		var ed = tinyMCE.activeEditor;
+		ed.focus();
+		var snode = ilCOPage.getCurrentDivNode();
+		var el = ed.dom.create('div', {'class' : 'ilc_text_block_Standard'}, '&nbsp;');
+		ed.dom.insertAfter(el, snode);
+		
+		//rcopy = ed.selection.getRng().cloneRange();
+		//ed.selection.setContent('</div><div class="ilc_text_block_Standard">' + ed.selection.getContent());
+		r =  ed.dom.createRng();
+		r.setEnd(snode.nextSibling, 0);
+		r.setStart(snode.nextSibling, 0);
+		ed.selection.setRng(r);
+		ed.focus();
 
-	prepareTinyForEditing: function(insert)
+		this.autoResize(ed);
+	},
+	
+	
+	/**
+	 * Very important for IE: If the event that triggers the action is triggered
+	 * by an <a> Tag without href attribute. The selection in the editor will
+	 * be messed up. No idea why this happens. Add href="#" to all anchors!
+	 */
+	getCurrentDivNode: function()
+	{
+		var ed = tinyMCE.activeEditor;
+		ed.focus();
+		var nnode = ed.selection.getStart();
+		var snode;
+		while (nnode && (nnode.nodeName.toLowerCase() != "body"))
+		{
+			snode = nnode;
+			nnode = nnode.parentNode;
+		}
+		if (snode.nodeName.toLowerCase() == "div")
+		{
+			return snode;
+		}
+
+		return false;
+	},
+
+	prepareTinyForEditing: function(insert, switched)
 	{
 		var ed = tinyMCE.getInstanceById('tinytarget');
 		tinyMCE.execCommand('mceAddControl', false, 'tinytarget');
-		showToolbar('tinytarget');
+		
+		if (!switched)
+		{
+			showToolbar('tinytarget');
+		}
 
 //console.log("prepareTiny");
 //		if (!insert)
@@ -338,7 +434,9 @@ tinymce.activeEditor.formatter.register('mycode', {
 		this.setInsertStatus(insert);
 		this.focusTiny();
 		//this.autoScroll();
+		this.copyInputToGhost(true);
 		this.synchInputRegion();
+		this.updateMenuButtons();
 	},
 
 	focusTiny: function(insert)
@@ -359,7 +457,11 @@ tinymce.activeEditor.formatter.register('mycode', {
 				if (fc.className != null)
 				{
 					var st = fc.className.substring(15);
-					ilAdvancedSelectionList.selectItem('style_selection', st);
+					var st_s = document.getElementById('style_selection');
+					if (st_s != null)
+					{
+						ilAdvancedSelectionList.selectItem('style_selection', st);
+					}
 				}
 			}
 
@@ -377,7 +479,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 	
 	editTD: function(id)
 	{
-		editParagraph(id, 'td');
+		editParagraph(id, 'td', false);
 		//var ed = tinyMCE.get('tinytarget');
 		//this.focusTiny();
 	},
@@ -395,7 +497,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		}
 		if (nobj != null)
 		{
-			editParagraph(next, "td");
+			editParagraph(next, "td", false);
 		}
 	},
 
@@ -428,7 +530,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 			var pobj = document.getElementById("div_" + prev);
 			if (pobj != null)
 			{
-				editParagraph(prev, "td");
+				editParagraph(prev, "td", false);
 			}
 		}
 	},
@@ -450,6 +552,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 	copyInputToGhost: function(add_final_spacer)
 	{
 		var ed = tinyMCE.get('tinytarget');
+
 		if (this.edit_ghost)
 		{
 			var pdiv = document.getElementById(this.edit_ghost);
@@ -481,7 +584,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		}
 		else
 		{
-			this.autoScroll();
+			ilCOPage.autoScroll();
 			back_el = document.getElementById(this.edit_ghost);
 		}
 
@@ -520,6 +623,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 	{
 		var tinyifr = document.getElementById("tinytarget_parent");
 		var menu = document.getElementById('iltinymenu');
+
 		if (tinyifr && menu)
 		{
 			var tiny_reg = YAHOO.util.Region.getRegion(tinyifr);
@@ -623,32 +727,11 @@ tinymce.activeEditor.formatter.register('mycode', {
 			f.appendChild(par_el);
 		}
 	
-/*		if (cmd == 'saveJS' || cmd == 'insertJS' || cmd == "cancel")
-		{
-			if (mode != "saveonly")
-			{
-				ilCOPage.copyInputToGhost(false);
-				
-				// remove tiny
-				tinyMCE.execCommand('mceRemoveControl', false, 'tinytarget');
-				var tt = document.getElementById("tinytarget");
-				tt.style.display = 'none';
-			}
-		}
-		else if (cmd == 'saveDataTable')
-		{
-			// get content of table and put it into form
-			tbl = document.getElementById("ed_datatable");
-			hid_cont = document.getElementById("ajaxform_content");
-			hid_cont.value = tbl.innerHTML;
-		}*/
-	
 		var url = f.action;
 		
 		if (!ajax)
 		{
-//console.log(f); return;
-			// normal submit for submitting the whole table
+			// normal submit for submitting the whole form
 			return f.submit();
 		}
 		else
@@ -683,12 +766,63 @@ tinymce.activeEditor.formatter.register('mycode', {
 	{
 		if(o.responseText !== undefined)
 		{
+//			ilCOPage.pc_id_str = "";
+			o.responseText = ilCOPage.extractPCIdsFromResponse(o.responseText);
+			ilCOPage.removeRedundantContent();
 			// paragraph editing
 			var ed = tinyMCE.getInstanceById('tinytarget');
 			ed.setContent(o.responseText);
 			ed.setProgressState(0); // Show progress
-			ilCOPage.prepareTinyForEditing(false);
+			ilCOPage.prepareTinyForEditing(false, o.argument.switched);
+			ilCOPage.autoResize();
 		}
+	},
+	
+	/**
+	 * Removes all paragraphs from the background that are also in the editing
+	 * window (except one)
+	 */
+	removeRedundantContent: function()
+	{
+		var k, d,
+			darr = ilCOPage.pc_id_str.split(";");
+
+		for (k in darr)
+		{
+			if (darr[k] != ed_para)
+			{
+				d = document.getElementById("CONTENT" + darr[k]);
+				if (d != null)
+				{
+					d.style.display = 'none';
+				}
+				d = document.getElementById("TARGET" + darr[k]);
+				if (d != null)
+				{
+					d.style.display = 'none';
+				}
+			}
+		}
+	},
+	
+	// extract pc ids
+	extractPCIdsFromResponse: function(str)
+	{
+		ilCOPage.pc_id_str = "";
+		ilCOPage.error_str = "";
+		if (str.substr(0,3) == "###")
+		{
+			var end = str.indexOf("###", 3);
+			ilCOPage.pc_id_str = str.substr(3,
+				end - 3);
+			str = str.substr(end + 3,
+				str.length - (end + 3));
+		}
+		else
+		{
+			ilCOPage.error_str = str;
+		}
+		return str;
 	},
 	
 	// quick saving has been done
@@ -696,6 +830,24 @@ tinymce.activeEditor.formatter.register('mycode', {
 	{
 		var el = document.getElementById('ilsaving');
 		el.style.display = 'none';
+		ilCOPage.extractPCIdsFromResponse(o.responseText);
+		var pc_arr = ilCOPage.pc_id_str.split(";");
+		ed_para = pc_arr[0];
+		if (ilCOPage.error_str != "")
+		{
+			ilCOPage.displayError(ilCOPage.error_str);
+		}
+		
+		if (typeof o.argument.switch_to != 'undefined' &&
+			o.argument.switch_to != null)
+		{
+//console.log(o.argument.switch_to);
+			ilCOPage.copyInputToGhost(false);
+
+			tinyMCE.get('tinytarget').setContent('');
+			ilCOPage.removeTiny();
+			editParagraph(o.argument.switch_to, 'edit', true);
+		}
 	},
 
 	// quick insert has been done
@@ -705,11 +857,17 @@ tinymce.activeEditor.formatter.register('mycode', {
 		el.style.display = 'none';
 		if(o.responseText !== undefined)
 		{
-			if (o.responseText.substr(0, 3) == "---")
+			ilCOPage.extractPCIdsFromResponse(o.responseText);
+			var pc_arr = ilCOPage.pc_id_str.split(";");
+			if (ilCOPage.error_str != "")
 			{
-				ed_para = o.responseText.substr(3, o.responseText.length - 6);
-				ilCOPage.quick_insert_id = ed_para;
+				ilCOPage.displayError(ilCOPage.error_str);
 			}
+//			if (o.responseText.substr(0, 3) == "---")
+//			{
+//				ed_para = o.responseText.substr(3, o.responseText.length - 6);
+//				ilCOPage.quick_insert_id = ed_para;
+//			}
 		}
 	},
 	
@@ -719,8 +877,9 @@ tinymce.activeEditor.formatter.register('mycode', {
 		if(o.responseText !== undefined)
 		{
 			var edit_div = document.getElementById('il_EditPage');
-			var center_td = edit_div.parentNode;
-			center_td.innerHTML = o.responseText;
+//			var center_td = edit_div.parentNode;
+//			center_td.innerHTML = o.responseText;
+			edit_div.innerHTML = o.responseText;
 			ilCOPage.initDragElements();
 			ilTooltip.init();
 			if (ilAdvancedSelectionList != null)
@@ -728,7 +887,72 @@ tinymce.activeEditor.formatter.register('mycode', {
 				ilAdvancedSelectionList.init['style_selection']();
 			}
 		}
+	},
+	
+	// display error
+	displayError: function(str)
+	{
+		var ediv = document.createElement('div');
+		var mc = document.getElementById("il_CenterColumn");
+		var estr;
+		
+		estr = "Sorry, an error occured. Please copy the content of this window and report the error at:<br /> " +
+			"<a href='http://www.ilias.de/mantis' target='_blank'>http://www.ilias.de/mantis</a>." +
+			"<p><b>User Agent</b></p>" +
+			navigator.userAgent +
+			"<p><b>Error</b></p>";
+		estr = estr + ilCOPage.error_str;
+		estr = estr + "<p><b>Content</b></p>";
+		var content = tinyMCE.get('tinytarget').getContent();
+		//content = content.replace(/</g, “&lt;”);
+		//content = content.replace(/>/g, “&gt;”);
+		content = content.split("<").join("&lt;");
+		content = content.split(">").join("&gt;");
+		estr = estr + content;
+		ediv.innerHTML = "<div style='background-color:#FFFFFF;' id='error_panel'>" +
+		"<div style='padding:20px; width:800px; height: 350px; overflow:auto;'>" + estr + "</div></div>";
+		ediv.className = "yui-skin-sam";
+//		ediv.style.position = 'absolute';
+//		ediv.style.width = '700px';
+//		ediv.style.height = '350px';
+//		ediv.style.overflow = 'auto';
+		ediv = mc.appendChild(ediv);
+//		var m_el = document.getElementById('iltinymenu');
+//		var m_reg = YAHOO.util.Region.getRegion(m_el);
+//		YAHOO.util.Dom.setX(ediv, m_reg.x);
+//		YAHOO.util.Dom.setY(ediv, m_reg.y + m_reg.height);
+		var error_panel = new YAHOO.widget.Panel("error_panel", {
+			close: true,
+			constraintoviewport:true
+		});
+		error_panel.render();
+		error_panel.moveTo(20, 20);
+
+	},
+	
+	updateMenuButtons: function()
+	{
+		var ed = tinyMCE.get('tinytarget');
+		// update buttons
+		var cnode = ed.selection.getNode();
+		while (cnode)
+		{
+			if (cnode.parentNode &&
+				cnode.parentNode.nodeName.toLowerCase() == "body" &&
+				cnode.nodeName.toLowerCase() == "div")
+			{
+				var st = cnode.className.substring(15);
+				//var st_s = document.getElementById('style_selection');
+				//if (st_s != null)
+				//{
+					ilAdvancedSelectionList.selectItem('style_selection', st);
+				//}
+			}
+			
+			cnode = cnode.parentNode;
+		}
 	}
+
 }
 
 var stopHigh = false;
@@ -851,9 +1075,11 @@ function ilGetMouseY(e)
 /**
 * On mouse over: Set style class of element id to class
 */
-function doMouseOver (id, mclass)
+function doMouseOver (id, mclass, type, char)
 {
-	if (ilCOPage.getEditStatus())
+//alert("mouseover");
+	if (ilCOPage.getInsertStatus() || 
+		(ilCOPage.getEditStatus() && (type != "Paragraph" || char == 'Code')))
 	{
 		return;
 	}
@@ -897,7 +1123,7 @@ function doMouseOver (id, mclass)
 /**
 * On mouse out: Set style class of element id to class
 */
-function doMouseOut(id, mclass)
+function doMouseOut(id, mclass, type, char)
 {
 	if (cmd_called) return;
 	if (id!=overId) return;
@@ -938,7 +1164,7 @@ function showMenu(id, x, y)
 {
 	// no menu when paragraphs are edited
 //console.log("show menu" + ilCOPage.getEditStatus());
-	if (ilCOPage.getEditStatus())
+	if (ilCOPage.getEditStatus() && ilCOPage.current_td == "")
 	{
 		return;
 	}
@@ -1081,8 +1307,25 @@ function extractHierId(id)
 /**
 * Process Single Mouse Click
 */
-function doMouseClick(e, id) 
+function doMouseClick(e, id, type, char) 
 {
+	if (ilCOPage.getInsertStatus())
+	{
+		return;
+	}
+	
+	// edit other paragaph
+	if ((ilCOPage.getEditStatus() && type == "Paragraph" && char != 'Code'))
+	{
+		ilCOPage.switchTo(id.substr(7));
+		return;
+	}
+	
+	if (ilCOPage.getEditStatus())
+	{
+		return
+	}
+	
 	if (cmd_called) return;
 	
 	if(menuBlocked || mouseUpBlocked) return;
@@ -1192,11 +1435,12 @@ var clickcmdid = 0;
 
 var tinyinit = false;
 var ed_para = null;
-function editParagraph(div_id, mode)
+function editParagraph(div_id, mode, switched)
 {
 	ed_para = div_id;
+	ilCOPage.pc_id_str = "";
 	
-	if (mode == 'edit')
+	if (mode == 'edit' || mode == 'multiple')
 	{
 		// get paragraph edit div
 		var pdiv = document.getElementById("CONTENT" + div_id);
@@ -1274,16 +1518,36 @@ function editParagraph(div_id, mode)
 // content_css: "Services/COPage/css/content.css, templates/default/delos.css",
 // theme_advanced_buttons2 : "table,|,row_props,cell_props,|,row_before,row_after,delete_row,|,col_before,col_after,delete_col,|,split_cells,merge_cells",
 
+	if (switched)
+	{
+		var ta = document.getElementById('tinytarget');
+		if (ta != null)
+		{
+			var ta_par = ta.parentNode;
+			ta_par.removeChild(ta);
+		}
+	}
+
 	// create new text area for tiny
 	if (!moved)
 	{
 		//var pdiv_width = pdiv_reg.right - pdiv_reg.left;
+		var ta_div = new YAHOO.util.Element(document.createElement('div'));
+		
 		var ta = new YAHOO.util.Element(document.createElement('textarea'));
-		ta = YAHOO.util.Dom.insertAfter(ta, pdiv);
+		//ta = YAHOO.util.Dom.insertAfter(ta, pdiv);
+		ta = ta_div.appendChild(ta);
 		ta.id = 'tinytarget';
 		ta.className = 'par_textarea';
-	}
+		ta.style.height = '1px';
+		
+		ta_div = YAHOO.util.Dom.insertAfter(ta_div, pdiv);
+		ta_div.id = 'tinytarget_div';
+		ta_div.style.position = 'absolute';
+		ta_div.style.left = '-200px';
 
+	}
+//alert("dd");
 	// init tiny
 	var tinytarget = document.getElementById("tinytarget");
 	var show_path = true;
@@ -1304,6 +1568,7 @@ show_path = false;
 resize = false;
 statusbar = false;
 	tinytarget.style.display = '';
+//alert("bb");
 	if (!moved)
 	{
 		tinyMCE.init({
@@ -1311,7 +1576,7 @@ statusbar = false;
 			theme : "advanced",
 			editor_selector : "par_textarea",
 			language : "en",
-			plugins : "safari,save",
+			plugins : "safari,save,paste",
 			save_onsavecallback : "saveParagraph",
 			fix_list_elements : true,
 			theme_advanced_blockformats : "code",
@@ -1323,7 +1588,8 @@ statusbar = false;
 			theme_advanced_toolbar_location : "external",
 			theme_advanced_path : show_path,
 			theme_advanced_statusbar_location : statusbar,
-			valid_elements : "br,div[class|id],span[class],code,b,ul[class],ol[class],li[class]",
+			valid_elements : "br,div[class|id],span[class],code,ul[class],ol[class],li[class]",
+			removeformat_selector : 'span,code',
 			remove_linebreaks : false,
 			convert_newlines_to_brs : false,
 			force_p_newlines : false,
@@ -1344,6 +1610,23 @@ statusbar = false;
 				{title : 'Quotation', inline : 'span', classes : 'ilc_text_inline_Quotation'},
 				{title : 'Accent', inline : 'span', classes : 'ilc_text_inline_Accent'}
 			],
+			
+			paste_auto_cleanup_on_paste : true,
+
+			/**
+			 * Event is triggered after the paste plugin put the content
+			 * that should be pasted into a dom structure now
+			 * BUT the content is not put into the document yet
+			 */
+			paste_postprocess: function (pl, o) {
+				var ed = ed = tinyMCE.activeEditor;
+				// remove all id attributes from the content
+				tinyMCE.each(ed.dom.select('*[id!=""]', o.node), function(el) {
+					el.id = '';
+				});
+				ilCOPage.pasting = true;
+//				ilCOPage.cleanContent();
+			},
 
 			setup : function(ed) {
 				ed.onKeyUp.add(function(ed, ev)
@@ -1375,6 +1658,13 @@ statusbar = false;
 				{
 //console.log("onNodeChange");
 
+					// clean content after paste
+					if (ilCOPage.pasting)
+					{
+						ilCOPage.pasting = false;
+						ilCOPage.cleanContent();
+					}
+
 					// update state of indent/outdent buttons
 					var ibut = document.getElementById('ilIndentBut');
 					var obut = document.getElementById('ilOutdentBut');
@@ -1393,8 +1683,7 @@ statusbar = false;
 						}
 					}
 
-					// autoresize
-					//ilCOPage.autoResize(ed);
+					ilCOPage.updateMenuButtons();
 
 				});
 
@@ -1419,18 +1708,19 @@ statusbar = false;
 				});
 				ed.onPostProcess.add(function(ed, ev)
 				{
-//					console.log("onPostProcess");
-					//ilCOPage.prepareTinyForEditing(true);
+//console.log("onPostProcess");
+					//ilCOPage.prepareTinyForEditing(true, false);
 					//tinyMCE.execCommand('mceFocus',false,'tinytarget');
 					//setTimeout('tinyMCE.execCommand(\'mceFocus\',false,\'tinytarget\');', 1);
 				});
 				ed.onPostRender.add(function(ed, ev)
 				{
-//					console.log("onPostRender");
+//console.log("onPostRender");
 				});
 
 				ed.onInit.add(function(ed, evt)
 				{
+//alert("cc");
 					ilCOPage.setEditFrameSize(width, height);
 					if (mode == 'edit')
 					{
@@ -1439,10 +1729,27 @@ statusbar = false;
 
 					if (mode == 'edit')
 					{
+						
+						var tinytarget = document.getElementById("tinytarget_div");
+						ta_div.style.position = '';
+						ta_div.style.left = '';
+
+						ed.setProgressState(1); // Show progress
+//alert("1");
+						// get content per ajax
+						ilCOPage.sendCmdRequest("editJS", div_id, null, {},
+							true, {switched: switched}, ilCOPage.editJSAjaxSuccess);
+					}
+					
+					if (mode == 'multiple')
+					{
+						var tinytarget = document.getElementById("tinytarget_div");
+						ta_div.style.position = '';
+						ta_div.style.left = '';
 						// get content per ajax
 						ed.setProgressState(1); // Show progress
-						ilCOPage.sendCmdRequest("editJS", div_id, null, {},
-							true, {}, ilCOPage.editJSAjaxSuccess);
+						ilCOPage.sendCmdRequest("editMultipleJS", div_id, null, {},
+							true, {switched: switched}, ilCOPage.editJSAjaxSuccess);
 					}
 
 					if (mode == 'insert')
@@ -1450,7 +1757,7 @@ statusbar = false;
 						//alert("ff");
 //		console.log("onInit: setContent");
 						ed.setContent("<div class='ilc_text_block_Standard'></div>");
-						ilCOPage.prepareTinyForEditing(true);
+						ilCOPage.prepareTinyForEditing(true, false);
 						//setTimeout('ilCOPage.prepareTinyForEditing(true);', 1);
 						ilCOPage.synchInputRegion();
 						ilCOPage.focusTiny();
@@ -1459,7 +1766,7 @@ statusbar = false;
 					if (mode == 'td')
 					{
 						ed.setContent(pdiv.innerHTML);
-						ilCOPage.prepareTinyForEditing(false);
+						ilCOPage.prepareTinyForEditing(false, false);
 						ilCOPage.synchInputRegion();
 						ilCOPage.focusTiny();
 					}
@@ -1474,7 +1781,7 @@ statusbar = false;
 		tinyMCE.execCommand('mceToggleEditor', false, 'tinytarget');
 		var ed = tinyMCE.get('tinytarget');
 		ed.setContent(pdiv.innerHTML);
-//		ilCOPage.prepareTinyForEditing(true);
+//		ilCOPage.prepareTinyForEditing(true, false);
 		ilCOPage.synchInputRegion();
 		ilCOPage.focusTiny();
 	}
@@ -1513,13 +1820,19 @@ function doActionForm(cmd, command, value, target, type, char)
 
 	if (value=="edit" && type=="Paragraph" && char != "Code")
 	{
-		editParagraph(clickcmdid, 'edit');
+		editParagraph(clickcmdid, 'edit', false);
+		return false;
+	}
+	
+	if (value=="editMultiple" && type=="Paragraph" && char != "Code")
+	{
+		editParagraph(clickcmdid, 'multiple', false);
 		return false;
 	}
 
 	if (value == 'insert_par')
 	{
-		editParagraph(clickcmdid, 'insert');
+		editParagraph(clickcmdid, 'insert', false);
 		return false;
 	}
 
@@ -1734,7 +2047,6 @@ function showToolbar(ed_id)
 {
 	var DOM = tinyMCE.DOM;
 	var Event = tinyMCE.dom.Event;
-
 	var e = DOM.get(ed_id + '_external');
 	DOM.show(e);
 
@@ -1758,10 +2070,10 @@ function showToolbar(ed_id)
 		obj.style.display = "";
 		// Create a panel Instance, from the 'resizablepanel' DIV standard module markup
 		var menu_panel = new YAHOO.widget.Panel("iltinymenu", {
-			draggable: true,
+			draggable: false,
 			close: false,
 			autofillheight: "body",
-			constraintoviewport:true
+			constraintoviewport:false
 		});
 		menu_panel.render();
 		ilCOPage.menu_panel = menu_panel;
@@ -1784,8 +2096,11 @@ function showToolbar(ed_id)
 
 		var obj = document.getElementById('iltinymenu_c');
 		obj.style.position = 'fixed';
+		obj.style.left = '0px';
+		obj.style.right = '0px';
+		obj.style.top = '0px';
 
-		menu_panel.moveTo(20, 20);
+//		menu_panel.moveTo(100, 100);
 
 	}
 

@@ -749,7 +749,7 @@ assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_answered_questions#:#Answered Questions
 assessment#:#tst_best_solution_is#:#The best solution is
-assessment#:#tst_browse_for_questions#:#Browse for Questions
+assessment#:#tst_browse_for_questions#:#Search/Add questions
 assessment#:#tst_change_points_done#:#The Points of an answer have been changed successfully!
 assessment#:#tst_change_points_for_question#:#Change the Points for the Answer
 assessment#:#tst_change_points_not_done#:#Could not change the Points of an answer! Please check the allowed range of available points.
@@ -9463,7 +9463,7 @@ style#:#style_current_style#:#Current Style
 style#:#style_delete_style#:#Delete Style
 style#:#style_edit_style#:#Edit Style
 survey#:#add_category#:#Add Answer
-survey#:#add_heading#:#Add Text Block
+survey#:#add_heading#:#Add Heading
 survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as answers.
 survey#:#add_material#:#Add Material
 survey#:#add_phrase_introduction#:#Please select a Phrase:
@@ -9522,7 +9522,7 @@ survey#:#combobox#:#Combobox
 survey#:#concatenation#:#Concatenation
 survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?
 survey#:#confirm_delete_single_user_data#:#Are you sure you want to delete the survey data of the selected users?
-survey#:#confirm_remove_heading#:#Are you sure you want to remove the text block?
+survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?
 survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?
 survey#:#constraint_add#:#Add Precondition
 survey#:#constraints_first_question_description#:#The first entity could not have any preconditions because there are no previous questions.
@@ -9602,7 +9602,7 @@ survey#:#duplicate_svy#:#Duplicate Survey
 survey#:#duplicate#:#Duplicate
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/question block(s) to edit the preconditions
-survey#:#edit_heading#:#Edit Text Block
+survey#:#edit_heading#:#Edit Heading
 survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!
 survey#:#end_date#:#End Date
 survey#:#enter_anonymous_id#:#Survey Access Code
@@ -9611,7 +9611,7 @@ survey#:#enter_questionblock_title#:#Please enter a Questionblock Title!
 survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!
 survey#:#enter_value#:#Enter a Value
 survey#:#err_no_pool_name#:#Please enter the name of a survey question pool
-survey#:#error_add_heading#:#Please enter a text for the text block!
+survey#:#error_add_heading#:#Please enter a text for the heading!
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
 survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code &quot;%s&quot;. Please check the survey code you have entered!
 survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
@@ -9645,7 +9645,7 @@ survey#:#geometric_mean#:#Geometric Mean
 survey#:#given_answers#:#Given Answers
 survey#:#glossary_term#:#Glossary Term
 survey#:#harmonic_mean#:#Harmonic Mean
-survey#:#heading#:#Text Block
+survey#:#heading#:#Heading
 survey#:#horizontal#:#Horizontal
 survey#:#import_error_closing_file#:#Error closing the import file!
 survey#:#import_error_opening_file#:#Error opening the import file!
@@ -11122,7 +11122,7 @@ survey#:#survey_dnd_move_previous#:#Move to Previous Page
 survey#:#survey_dnd_split_page#:#Split Page
 survey#:#survey_dnd_double_click_to_delete#:#Double click on a content element to select it for cutting and deleting.
 survey#:#survey_dnd_clear_clipboard#:#Clear Clipboard
-survey#:#survey_dnd_paste#:#Paste from Clipboard
+survey#:#survey_dnd_paste#:#Paste
 survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants
 survey#:#survey_using_template#:#This survey uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
@@ -11371,3 +11371,11 @@ wsp#:#wsp_permission_all_info#:#This object has been published.
 style#:#sty_type_iim#:#Interactive Image Content Popup
 style#:#sty_type_marker#:#Interactive Image Marker
 style#:#sty_import_page_layout#:#Import Page Layout
+administration#:#adm_quick_access_comments_tagging#:#Quick Access for Notes, Comments and Tagging
+content#:#cont_remove_format#:#Remove Format
+content#:#cont_ed_edit_multiple#:#Edit Paragraph Sequence
+survey#:#survey_questions_to_clipboard_cut#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard. 
+survey#:#survey_questions_to_clipboard_copy#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard. 
+survey#:#survey_clipboard_notice#:#There are question(s) in the clipboard. Select the target position or empty the clipboard.
+survey#:#survey_edit_heading#:#Edit Heading
+survey#:#survey_delete_heading#:#Remove Heading

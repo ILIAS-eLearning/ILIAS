@@ -4,9 +4,9 @@ parent.tree.location.replace('{LINK_TREE}');
 </script>
 <!-- END reload_tree -->{PREPENDING_HTML}
 <!-- BEGIN activation_txt --><div class="subtitle" style="margin: 5px 0px; ">{TXT_SCHEDULED_ACTIVATION}: {SA_FROM} - {SA_TO}</div><!-- END activation_txt -->
+<div class="small" style="margin-bottom: 5px; width: 100%; text-align: right;">{PAGE_ACTIONS}</div>
 <div id="il_EditPage">
 <form action="{FORMACTION}" name="objectItems" method="post">
-<div class="small" style="margin-bottom: 5px; width: 100%; text-align: right;">{PAGE_ACTIONS}</div>
 <table class="ilc_page_cont_PageContainer" width="100%" cellspacing="0" cellpadding="0"><tr><td id="ilEditorTD">
 <div class="ilc_page_Page">
 {PAGE_CONTENT}
@@ -94,7 +94,6 @@ ilCOPage.initDragElements();
 var confirm_delete="{TXT_CONFIRM_DELETE}";
 </script>
 
-</div>
 
 <!-- BEGIN updater -->
 <script language="JavaScript" type="text/javascript">
@@ -183,3 +182,4 @@ td.mceIframeContainer {
 <!-- BEGIN int_link_prep -->
 {INT_LINK_PREP}
 <!-- END int_link_prep -->
+</div>

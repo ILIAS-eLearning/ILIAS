@@ -37,34 +37,42 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
 		// $this->setTitle($lng->txt("survey_questions"));
 
-		// command dropdown
-		if(!array_key_exists("move_questions", $_SESSION))
+		if(!$this->read_only)
 		{
-			$this->addMultiCommand("defineQuestionblock", $lng->txt("define_questionblock"));
-			$this->addMultiCommand("unfoldQuestionblock", $lng->txt("unfold"));
-			$this->addMultiCommand("removeQuestions", $lng->txt("remove_question"));
-			$this->addMultiCommand("moveQuestions", $lng->txt("move"));
-			$this->addMultiCommand("copyQuestionsToPool", $lng->txt("survey_copy_questions_to_pool"));
-		}
-		else
-		{
-			$this->addMultiCommand("insertQuestionsBefore", $lng->txt("insert_before"));
-			$this->addMultiCommand("insertQuestionsAfter", $lng->txt("insert_after"));
-		}
+			// command dropdown
+			if(!array_key_exists("move_questions", $_SESSION))
+			{
+				$this->addMultiCommand("defineQuestionblock", $lng->txt("define_questionblock"));
+				$this->addMultiCommand("unfoldQuestionblock", $lng->txt("unfold"));
+				$this->addMultiCommand("removeQuestions", $lng->txt("remove_question"));
+				$this->addMultiCommand("moveQuestions", $lng->txt("move"));
+				$this->addMultiCommand("copyQuestionsToPool", $lng->txt("survey_copy_questions_to_pool"));
+			}
+			else
+			{
+				$this->addMultiCommand("insertQuestionsBefore", $lng->txt("insert_before"));
+				$this->addMultiCommand("insertQuestionsAfter", $lng->txt("insert_after"));
+			}
 
-		// right side
-		$this->addCommandButton("saveObligatory", $lng->txt("save_obligatory_state"));
+			// right side
+			$this->addCommandButton("saveObligatory", $lng->txt("save_obligatory_state"));
 
-		$this->setSelectAllCheckbox("id[]");
+			$this->setSelectAllCheckbox("id[]");
+			$this->addColumn("", "");
+			$this->addColumn($lng->txt("survey_order"), "");
+		}
 		
-		$this->addColumn("", "");
-		$this->addColumn($lng->txt("survey_order"), "");
 		$this->addColumn($lng->txt("title"), "");
 		$this->addColumn($lng->txt("obligatory"), "");
 		$this->addColumn($lng->txt("description"), "");
-		$this->addColumn($lng->txt("question_type"), "");
+		$this->addColumn($lng->txt("type"), "");
 		$this->addColumn($lng->txt("author"), "");
 		$this->addColumn($lng->txt("survey_question_pool"), "");
+		
+		if(!$this->read_only)
+		{
+			$this->addColumn("", "");
+		}
 	
 		$this->setDefaultOrderField("order");
 		$this->setDefaultOrderDirection("asc");
@@ -88,8 +96,8 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 			include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 			$questiontypes = ilObjSurveyQuestionPool::_getQuestiontypes();
 
-			$questionpools = $this->object->getQuestionpoolTitles();
-
+			$questionpools = $this->object->getQuestionpoolTitles(true);
+			
 			$table_data = array();
 			$last_questionblock_id = $position = $block_position = 0;
 			foreach ($survey_questions as $question_id => $data)
@@ -102,8 +110,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
 					$table_data[$id] = array("id" => $id,
 						"type" => "block",
-						"title" => $this->lng->txt("questionblock").": " .
-							$data["questionblock_title"]);
+						"title" => $data["questionblock_title"]);
 
 					if (!$this->read_only)
 					{
@@ -121,31 +128,13 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 					$block_position = 0;
 				}
 
-				// question has textblock
-				if ($data["heading"])
-				{
-					$id = "tb_".$data["question_id"];
-
-					$table_data[$id] = array("id" => $id,
-						"type" => "heading",
-						"title" => $lng->txt("heading").": ".$data["heading"],
-						"in_block" => (bool)$data["questionblock_id"]);
-
-					if (!$this->read_only)
-					{
-						$edit = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd) .
-							"&editheading=" . $data["question_id"];
-						$table_data[$id]["url"] = $edit;
-					}
-				}
-
-
 				// question
 				
 				$id = $data["question_id"];
 				
 				$table_data[$id] = array("id" => $id,
 					"type" => "question",
+					"heading" => $data["heading"],
 					"title" => $data["title"],
 					"description" => $data["description"],
 					"author" => $data["author"],
@@ -226,8 +215,10 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 						$this->tpl->setVariable("ORDER_NAME", "order[".$a_set["id"]."]");
 						$this->tpl->setVariable("ORDER_VALUE", $a_set["position"]);
 						$this->tpl->parseCurrentBlock();
-					}
+					}								
 				}
+				
+				$this->tpl->setVariable("TYPE", $lng->txt("questionblock"));
 				break;
 
 			case "question":
@@ -238,7 +229,14 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("TYPE", $a_set["question_type"]);
 				$this->tpl->setVariable("AUTHOR", $a_set["author"]);
 				$this->tpl->setVariable("POOL", $a_set["pool"]);
-
+				
+				if($a_set["heading"])
+				{
+					$this->tpl->setCurrentBlock("heading");
+					$this->tpl->setVariable("TXT_HEADING", $a_set["heading"]);
+					$this->tpl->parseCurrentBlock();
+				}
+				
 				if($a_set["block_id"])
 				{
 					$this->tpl->setVariable("TITLE_INDENT", " style=\"padding-left:30px\"");
@@ -305,26 +303,48 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 						$this->tpl->setVariable("TITLE_INDENT", " style=\"padding-left:30px\"");
 					}
 				}
+				
+				$this->tpl->setVariable("TYPE", $lng->txt("heading"));
 				break;
 		}
 
-		if(!$a_set["url"])
+		$this->tpl->setVariable("TITLE", $a_set["title"]);
+		
+		if(!$this->read_only)
 		{
-			$this->tpl->setVariable("TITLE", $a_set["title"]);
+			$this->tpl->setCurrentBlock("actions");
+			
+			include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
+			$list = new ilAdvancedSelectionListGUI();
+			$list->setId($a_set["id"]);
+			$list->setListTitle($lng->txt("actions"));
+			
+			if($a_set["url"])
+			{
+				$list->addItem($lng->txt("edit"), "", $a_set["url"]);
+			}
+			
+			if($a_set["heading"])
+			{
+				$edit = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd) .
+							"&editheading=" . $a_set["id"];
+				$list->addItem($lng->txt("survey_edit_heading"), "", $edit);
+				
+				$rmv = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd) .
+							"&removeheading=" . $a_set["id"];
+				$list->addItem($lng->txt("survey_delete_heading"), "", $rmv);
+			}
+			else if($a_set["type"] == "question")
+			{
+				$add = $ilCtrl->getLinkTarget($this->parent_obj, "addHeading") .
+							"&insertbefore=" . $a_set["id"];
+				$list->addItem($lng->txt("add_heading"), "", $add);
+			}
+		
+			$this->tpl->setVariable("ACTION", $list->getHTML());
+			
+			$this->tpl->parseCurrentBlock();
 		}
-		else
-		{
-			$this->tpl->setVariable("TITLE", "<a href=\"".$a_set["url"]."\">".
-				$a_set["title"]."</a>");
-		}
-
-		/*
-		if($icon)
-		{
-			$this->tpl->setVariable("ICON", "<img src=\"".ilUtil::getImagePath($icon, "Modules/Survey").
-				"\" alt=\"".$icon_caption."\" title=\"".$icon_caption."\" />");
-		}
-		*/
 	}
 }
 
