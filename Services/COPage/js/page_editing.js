@@ -97,6 +97,7 @@ var ilCOPage =
 			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
 			this.copyInputToGhost(false);
 			this.removeTiny();
+			this.setInsertStatus(false);
 			this.sendCmdRequest("insertJS", ed_para, null,
 				{ajaxform_content: content,
 				pc_id_str: this.pc_id_str,
@@ -130,6 +131,7 @@ var ilCOPage =
 		var ed = tinyMCE.get('tinytarget');
 		this.autoResize(ed);
 		this.setEditStatus(false);
+		this.setInsertStatus(false);
 		this.copyInputToGhost(false);
 		this.removeTiny();
 		if (ilCOPage.current_td == "")
@@ -144,7 +146,7 @@ var ilCOPage =
 		}
 
 	},
-
+	
 	setCharacterClass: function(i)
 	{
 		switch (i.hid_val)
@@ -764,6 +766,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 	// we got the content for editing per ajax
 	editJSAjaxSuccess: function(o)
 	{
+		cmd_called = false;
 		if(o.responseText !== undefined)
 		{
 //			ilCOPage.pc_id_str = "";
@@ -1197,9 +1200,9 @@ YAHOO.util.Dom.setXY(obj, [x,y], true);
 */
 }
 
-function hideMenu(id)
+function hideMenu(id, force)
 {
-	if (cmd_called) return;
+	if (cmd_called && (typeof force == 'undefined' || !force)) return;
 	obj = document.getElementById(id);
 	if (obj)
 	{
@@ -1321,7 +1324,7 @@ function doMouseClick(e, id, type, char)
 		return;
 	}
 	
-	if (ilCOPage.getEditStatus())
+	if (ilCOPage.getEditStatus() && ilCOPage.current_td == "")
 	{
 		return
 	}
@@ -1437,6 +1440,15 @@ var tinyinit = false;
 var ed_para = null;
 function editParagraph(div_id, mode, switched)
 {
+//	ilCOPage.setEditStatus(true);
+	cmd_called = true;
+	if (openedMenu != "")
+	{
+		hideMenu(openedMenu, true);
+		oldOpenedMenu = openedMenu;
+		openedMenu = "";
+	}
+	
 	ed_para = div_id;
 	ilCOPage.pc_id_str = "";
 	
@@ -1761,6 +1773,7 @@ statusbar = false;
 						//setTimeout('ilCOPage.prepareTinyForEditing(true);', 1);
 						ilCOPage.synchInputRegion();
 						ilCOPage.focusTiny();
+						cmd_called = false;
 					}
 
 					if (mode == 'td')
@@ -1769,6 +1782,7 @@ statusbar = false;
 						ilCOPage.prepareTinyForEditing(false, false);
 						ilCOPage.synchInputRegion();
 						ilCOPage.focusTiny();
+						cmd_called = false;
 					}
 				});
 			}
@@ -1784,6 +1798,7 @@ statusbar = false;
 //		ilCOPage.prepareTinyForEditing(true, false);
 		ilCOPage.synchInputRegion();
 		ilCOPage.focusTiny();
+		cmd_called = false;
 	}
 
 	tinyinit = true;
