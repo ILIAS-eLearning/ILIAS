@@ -112,7 +112,9 @@ class ilPageObjectGUI
 		"Verification" => array(
 				"enabled" => false),
 		"Blog" => array(
-				"enabled" => false)
+				"enabled" => false),
+		"QuestionOverview" => array(
+				"enabled" => false),
 		);
 	
 	
@@ -1894,7 +1896,8 @@ class ilPageObjectGUI
 						 'page_toc' => $this->getPageToc() ? "y" : "n",
 						 'enable_profile' =>  $this->getEnabledProfile() ? "y" : "n",
 						 'enable_verification' =>  $this->getEnabledVerification() ? "y" : "n",
-						 'enable_blog' =>  $this->getEnabledBlog() ? "y" : "n"
+						 'enable_blog' =>  $this->getEnabledBlog() ? "y" : "n",
+						 'enable_qover' =>  $this->getEnablePCType("QuestionOverview") ? "y" : "n"
 						);
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;

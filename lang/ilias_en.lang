@@ -11379,3 +11379,11 @@ survey#:#survey_questions_to_clipboard_copy#:#Question(s) were copied to the cli
 survey#:#survey_clipboard_notice#:#There are question(s) in the clipboard. Select the target position or empty the clipboard.
 survey#:#survey_edit_heading#:#Edit Heading
 survey#:#survey_delete_heading#:#Remove Heading
+content#:#cont_pc_qover#:#Question Overview
+content#:#cont_ed_insert_qover#:#Insert Question Overview
+content#:#cont_update_qover#:#Update Question Overview
+content#:#cont_qover_short_message#:#Status Message
+content#:#cont_qover_short_message_info#:#A message "You have correctly answered C out of Y questions of this unit." will be displayed.
+content#:#cont_qover_list_wrong_q#:#List of Wrong Answered Questions
+content#:#cont_qover_list_wrong_q_info#:#A list of wrong or not answered questions will be displayed.
+content#:#cont_edit_qover#:#Edit Question Overview

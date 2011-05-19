@@ -645,6 +645,19 @@ ilCOPagePres =
 		$("a#save_pos_button").click(function () {
 			$("input#update_tr_button").trigger("click");
 			});
+	},
+
+	
+	//
+	// Question Overviews
+	//
+
+	qover: {},
+	
+	addQuestionOverview: function(conf)
+	{
+//console.log(tr);
+		this.qover[conf.id] = conf;
 	}
 
 }
