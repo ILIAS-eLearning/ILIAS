@@ -2010,38 +2010,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	}
 	
 /**
-* Creates an image visualising the results of the question
-*
-* @param integer $survey_id The database ID of the survey
-* @param string $type An additional parameter to allow to draw more than one chart per question. Must be interpreted by the question. Default is an empty string
-* @return binary Image with the visualisation
-* @access private
-*/
-	function outChart($survey_id, $type = "")
-	{
-		if (count($this->cumulated) == 0)
-		{
-			include_once "./Modules/Survey/classes/class.ilObjSurvey.php";
-			$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
-			$this->cumulated =& $this->getCumulatedResults($survey_id, $nr_of_users);
-		}
-		global $ilLog;
-		if (is_numeric($type))
-		{
-			foreach ($this->cumulated[$type]["variables"] as $key => $value)
-			{
-				foreach ($value as $key2 => $value2)
-				{
-					$this->cumulated["variables"][$key][$key2] = utf8_decode($value2);
-				}
-			}
-			$title = preg_replace("/\<[^>]+?>/ims", "", $this->getRow($type)->title);
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyChart.php";
-			$b1 = new SurveyChart("bars", 400, 250, utf8_decode($title),utf8_decode($this->lng->txt("answers")), utf8_decode($this->lng->txt("users_answered")), $this->cumulated[$type]["variables"]);
-		}
-	}
-	
-/**
  * Saves the layout of a matrix question
  *
  * @param double $percent_row The width in percent for the matrix rows
