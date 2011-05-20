@@ -415,7 +415,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 	protected function renderChart($a_id, $a_values)
 	{
 		include_once "Services/Chart/classes/class.ilChart.php";
-		$chart = new ilChart($a_id, 400, 400);
+		$chart = new ilChart($a_id, 700, 400);
 
 		$legend = new ilChartLegend();
 		$chart->setLegend($legend);	
