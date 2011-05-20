@@ -26,12 +26,12 @@ class ilChart
 	/**
 	 * Constructor
 	 *
-	 * @param string $a_renderer
+	 * @param string $a_id
 	 * @param int $a_width
 	 * @param int $a_height
-	 * @param string $a_id
+     * @param string $a_renderer
 	 */
-	public function __construct($a_renderer = "flot", $a_width = 500, $a_height = 500, $a_id = null)
+	public function __construct($a_id, $a_width = 500, $a_height = 500, $a_renderer = "flot")
 	{
 		$this->id = $a_id;
 		$this->data = array();

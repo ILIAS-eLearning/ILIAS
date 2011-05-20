@@ -561,11 +561,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$anonymization_options->setInfo($this->lng->txt("anonymize_survey_description"));
 		$form->addItem($anonymization_options);
 		
-		$anonymization_options->addOption(new ilCheckboxOption($this->lng->txt("anonymize_without_code"), 'anonymize_without_code', ''));
-		$anonymization_options->addOption(new ilCheckboxOption($this->lng->txt("anonymize_with_code"), 'anonymize_with_code', ''));
-		$anonymization_options->addOption(new ilCheckboxOption($this->lng->txt("anonymize_with_code_all"), 'anonymize_with_code_all', ''));
-		$anonymization_options->setValue(($this->object->isAccessibleWithoutCode()) ? 'anonymize_without_code' : (($this->object->isAccessibleWithCodeForAll()) ? 'anonymize_with_code_all' : 'anonymize_with_code'));
-
 		// show question titles
 		$show_question_titles = new ilCheckboxInputGUI('', "show_question_titles");
 		$show_question_titles->setOptionTitle($this->lng->txt("svy_show_questiontitles"));
