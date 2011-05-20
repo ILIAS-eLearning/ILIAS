@@ -11335,3 +11335,23 @@ survey#:#survey_clipboard_notice#:#Es befinden sich Frage(n) in der Zwischenabla
 content#:#cont_ed_edit_multiple#:#Absatzsequenz bearbeiten
 survey#:#survey_edit_heading#:#Überschrift bearbeiten
 survey#:#survey_delete_heading#:#Überschrift entfernen
+common#:#invoice_number_reset_period#:#Aufsteigende Rechnungsnummer zurücksetzen
+common#:#invoice_number_reset_period_desc#:#Wählen Sie den Zeitraum, in dem die aufsteigende Rechnungsnummer auf den Startwert zurückgesetzt werden soll.
+common#:#payment_userdefined_invoice_number_not_activated#:#Benutzerdefinierte Rechnungsnummern sind nicht aktiviert
+common#:#invoice_number#:#Rechnungsnummer
+common#:#invoice_number_setting#:#Rechnungsnummern-Einstellungen
+payment#:#ilias_invoice_number#:#ILIAS Rechnungsnummer
+payment#:#userdefined_invoice_number#:#Benutzerdefinierte Rechnungsnummer
+payment#:#incremental_start_value#:#Aufsteigende Nummer
+payment#:#incremental_start_value_info#:#Dieser Wert wird als Startwert der aufsteigenden Nummer für den nächsten Zeitraum verwendet.
+payment#:#incremental_current_value#:#aktuell verwendete aufsteigende Nummer
+payment#:#invoice_number_text#:#Aufbau der Rechnungsnummer
+common#:#yearly#:#jährlich
+common#:#payment_notification_days_desc#:#Bitte geben Sie die Anzahl der Tage ein, die für den Versand verwendet werden soll bevor der Zugriff auf das gekaufte Objekt ausläuft
+common#:#payment_notification_days#:#Anzahl der Tage
+payment#:#show_general_filter#:#Allgemeinen Filter verwenden
+payment#:#show_general_filter_info#:#Mit diesem Filter können Benutzer nach einem kaufbaren Objekt suchen
+payment#:#show_topics_filter#:#Themen Filter verwenden
+payment#:#show_topics_filter_info#:#Mit diesem Filter können Benutzer kaufbare Objekte nach Themen filtern
+payment#:#show_shop_explorer#:#Shop-Baum verwenden
+payment#:#show_shop_explorer_info#:#Der Shop-Baum vereinfacht die Navigation innerhalb des Shops

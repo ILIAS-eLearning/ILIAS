@@ -5105,4 +5105,105 @@ if(!$ilDB->tableExists('usr_portf_acl'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
+<#3318>
+<?php
+	if(!$ilDB->tableColumnExists('payment_settings','show_general_filter'))
+	{
+		$ilDB->addTableColumn('payment_settings','show_general_filter',
+		array(  "type" => "integer",
+				"length" => 1,
+				"notnull" => false,
+				"default" => 0));
+	}
+?>
+<#3319>
+<?php
+	if(!$ilDB->tableColumnExists('payment_settings','show_topics_filter'))
+	{
+		$ilDB->addTableColumn('payment_settings','show_topics_filter',
+		array(  "type" => "integer",
+				"length" => 1,
+				"notnull" => false,
+				"default" => 0));
+	}
+?>
+<#3320>
+<?php
+	if(!$ilDB->tableColumnExists('payment_settings','show_shop_explorer'))
+	{
+		$ilDB->addTableColumn('payment_settings','show_shop_explorer',
+		array(  "type" => "integer",
+				"length" => 1,
+				"notnull" => false,
+				"default" => 0));
+	}
+?>
+<#3321>
+<?php
+	if(!$ilDB->tableColumnExists('payment_settings', 'ud_invoice_number'))
+	{
+		$ilDB->addTableColumn('payment_settings', 'ud_invoice_number', array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0));
+	}
+?>
+<#3322>
+<?php
+	if(!$ilDB->tableColumnExists('payment_settings', 'invoice_number_text'))
+	{
+		$ilDB->addTableColumn('payment_settings', 'invoice_number_text', array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false,
+			'default' => null));
+	}
+?>
+<#3323>
+<?php
+	if(!$ilDB->tableColumnExists('payment_settings', 'inc_start_value'))
+	{
+		$ilDB->addTableColumn('payment_settings', 'inc_start_value', array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true));
+	}
+?>
+<#3324>
+<?php
+	if(!$ilDB->tableColumnExists('payment_settings', 'inc_current_value'))
+	{
+		$ilDB->addTableColumn('payment_settings', 'inc_current_value', array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true));
+	}
+?>
+<#3325>
+<?php
+	if(!$ilDB->tableColumnExists('payment_settings', 'inc_reset_period'))
+	{
+		$ilDB->addTableColumn('payment_settings', 'inc_reset_period', array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0));
+	}
+?>
+<#3326>
+<?php
+	if(!$ilDB->tableColumnExists('payment_settings', 'inc_last_reset'))
+	{
+		$ilDB->addTableColumn('payment_settings', 'inc_last_reset', array(
+			'type'	=> 'integer',
+			'length'=> 4,
+			'notnull' => true));
+	}
+?>
+<#3327>
+<?php
+	$ilDB->update('payment_settings',
+			array('inc_last_reset' => array('integer', time())),
+			array('settings_id' => array('integer', 1)));
+?>

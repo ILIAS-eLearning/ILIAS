@@ -11387,3 +11387,23 @@ content#:#cont_qover_short_message_info#:#A message "You have correctly answered
 content#:#cont_qover_list_wrong_q#:#List of Wrong Answered Questions
 content#:#cont_qover_list_wrong_q_info#:#A list of wrong or not answered questions will be displayed.
 content#:#cont_edit_qover#:#Edit Question Overview
+common#:#invoice_number_reset_period#:#Reset incremental number
+common#:#invoice_number_reset_period_desc#:#Choose the period for reseting the incremental number to the start value
+common#:#payment_userdefined_invoice_number_not_activated#:#Userdefined invoice numbers are not enabled
+common#:#invoice_number#:#Invoice number
+common#:#invoice_number_setting#:#Invoice number settings
+payment#:#ilias_invoice_number#:#ILIAS invoice number
+payment#:#userdefined_invoice_number#:#Userdefined invoice number
+payment#:#incremental_start_value#:#Incremental Number
+payment#:#incremental_start_value_info#:#This start value will be used as first incremental number for the next period.
+payment#:#incremental_current_value#:#current incremental number
+payment#:#invoice_number_text#:#invoice number definition
+common#:#yearly#:#yearly
+common#:#payment_notification_days_desc#:#Please enter the number days, to define when users should be notified about the limited access time to bought objects
+common#:#payment_notification_days#:#Number of days
+payment#:#show_general_filter#:#Show general filter
+payment#:#show_general_filter_info#:#Let users find buyable objects with this general search filter
+payment#:#show_topics_filter#:#Show topics filter
+payment#:#show_topics_filter_info#:#Let users find buyable objects with this topics filter
+payment#:#show_shop_explorer#:#Show shop explorer
+payment#:#show_shop_explorer_info#:#This shop explorer simplifies the navigation within shop

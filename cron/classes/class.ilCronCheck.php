@@ -120,6 +120,7 @@ class ilCronCheck
 		global $ilias;
 
 		require_once('Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php');
+		require_once('Services/Payment/classes/class.ilUserDefinedInvoiceNumber.php');
 
 		$this->default_tasks = array(
 				'ilLDAPCronSynchronization::start',
@@ -136,7 +137,8 @@ class ilCronCheck
 				#'ilPaymentShoppingCart::__deleteExpiredSessionsPSC',
 				'ilCronDeleteInactiveUserAccounts::run',
 				'ilCronPaymentNotification::sendNotifications',
-				'ilCronCourseGroupNotification::check'
+				'ilCronCourseGroupNotification::check',
+				'ilCronPaymentUDInvoiceNumberReset::check'
 		);
 
 		$this->possible_tasks = array(
@@ -263,9 +265,16 @@ class ilCronCheck
 					'method'		=> 'sendNotifications',
 					'location'		=> 'cron',
 					'condition'		=> $ilias->getSetting("crsgrp_ntf")
+				),
+
+				// Reset payment incremental invoice number
+				'ilCronPaymentUDInvoiceNumberReset::check' => array(
+					'classname'		=> 'ilCronPaymentUDInvoiceNumberReset',
+					'method'		=> 'check',
+					'location'		=> 'cron',
+					'condition'		=> ilUserDefinedInvoiceNumber::_isUDInvoiceNumberActive()
 				)
 		);
-	}
-	
+	}	
 }
 ?>

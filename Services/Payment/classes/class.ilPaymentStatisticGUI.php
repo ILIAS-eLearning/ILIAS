@@ -15,9 +15,7 @@ include_once './Services/Payment/classes/class.ilPayMethods.php';
 include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 include_once './Services/Payment/classes/class.ilShopTableGUI.php';
-/* @todo INVOICE
 include_once './Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
- */
 
 class ilPaymentStatisticGUI extends ilShopBaseGUI
 {
@@ -1028,12 +1026,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$obj = new ilPaymentObject($this->user_obj, $pObjectId);
 
 		$this->__initBookingObject();
-/* @todo INVOICE
 		$transaction = ilInvoiceNumberPlaceholdersPropertyGUI::_generateInvoiceNumber($ilUser->getId());
- */
-
-		$inst_id_time = $ilias->getSetting('inst_id').'_'.$this->user_obj->getId().'_'.substr((string) time(),-3);
-		$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
 
 		$this->booking_obj->setTransaction($transaction);
 		$this->booking_obj->setTransactionExtern($_POST["transaction"]);
