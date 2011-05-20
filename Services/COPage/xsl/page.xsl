@@ -2982,7 +2982,7 @@
 <xsl:template match="QuestionOverview">
 	<!-- Label -->
 	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_qover']/@value"/></xsl:with-param></xsl:call-template>
-	<div>
+	<div class="ilc_qover_QuestionOverview">
 		<xsl:attribute name="id">qover_<xsl:value-of select = "$pg_id"/>_<xsl:number count="QuestionOverview" level="any" /></xsl:attribute>
 		Question Overview: <xsl:value-of select = "@Type" />
 		<xsl:if test="$mode = 'edit'">
