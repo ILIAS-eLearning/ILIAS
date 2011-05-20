@@ -658,6 +658,86 @@ ilCOPagePres =
 	{
 //console.log(tr);
 		this.qover[conf.id] = conf;
+	},
+	
+	updateQuestionOverviews: function()
+	{
+		var correct = {};
+		var incorrect = {};
+		var correct_cnt = 0;
+		var incorrect_cnt = 0;
+		for (var k in questions)
+		{
+			var answered_correctly = true;
+			var index=parseInt(k,10);
+			if (!isNaN(index))
+			{
+				if (!answers[index])
+				{
+					answered_correctly = false;
+				}
+				else
+				{
+					if (answers[index].passed!=true)
+					{
+						answered_correctly = false;
+					}
+				}
+				if (!answered_correctly)
+				{
+					incorrect[k] = k;
+					incorrect_cnt++;
+				}
+				else
+				{
+					correct[k] = k;
+					correct_cnt++;
+				}
+			}
+		}
+		
+		// iterate all question overview elements
+		for (var i in this.qover)
+		{
+			var ov_el = $('div#' + this.qover[i].div_id);
+			
+			// remove all children
+			ov_el.empty();
+			
+			// show success message, if all questions have been answered
+			if (incorrect_cnt == 0)
+			{
+				ov_el.append(
+					"Brilliant! Everything is correct.");
+			}
+			else
+			{
+				// show message including of number of not
+				// correctly answered questions
+				if (this.qover[i].type == "Short")
+				{
+					ov_el.append(
+						"You failed in " + incorrect_cnt + " out of " +
+						(incorrect_cnt + correct_cnt) + " questions."
+						);
+				}
+				else
+				{
+					ov_el.append(
+						"You failed in the following questions: "
+						);
+					
+					// list all incorrect answered questions
+					for (var j in incorrect)
+					{
+						ov_el.append(
+							'<div class="ilc_qover_WrongAnsweredQuestion">' +
+							questions[j].question
+							+ '</div>');
+					}
+				}
+			}
+		}
 	}
 
 }

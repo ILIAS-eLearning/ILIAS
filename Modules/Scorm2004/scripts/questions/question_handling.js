@@ -531,11 +531,19 @@ ilias.questions.showFeedback =function(a_id) {
 		}	
 	}
 	jQuery('#feedback'+a_id).slideToggle();
+	
+	// update question overviews
+	if (typeof ilCOPagePres != "undefined")
+	{
+		ilCOPagePres.updateQuestionOverviews();
+	}
+
 };
 
 
 ilias.questions.scormHandler = function(a_id,a_state,a_response) {
 	var version;
+
 	if (ScormApi==null) {return;}
 	var tries = answers[a_id].tries;
 	var i_key;
@@ -575,6 +583,7 @@ ilias.questions.updateSuccessStatus = function()
 {
 	var s_key;
 	var status = ilias.questions.determineSuccessStatus();
+	
 	
 	if (ScormApi==null) {return;}
 	
