@@ -10957,8 +10957,22 @@ trac#:#trac_first_and_last_access#:#Erster und letzter Zugriff
 user#:#user_save_ordering_and_titles#:#Reihenfolge und Titel speichern
 content#:#cont_wrong_answers_single#:#Falsche Wahl.
 survey#:#question_changed_in_survey_only#:#Die Frage wurde nur in der Umfrage verändert
-style#:#style_move_style_into#:#In
 content#:#cont_added_tab#:#Register wurde hinzugefügt.
+style#:#style_move_style_into#:#In
+trac#:#trac_read_count_spent_seconds#:#Bearbeitungszeit / Zugriffe
+trac#:#trac_object_stat_access#:#Nutzungsintensität
+trac#:#trac_show_graph#:#Als Diagrammansicht zeigen
+trac#:#trac_figure#:#Kennzahl
+trac#:#trac_object_stat_types#:#Anzahl der Objekte
+trac#:#trac_reference#:#Referenzen
+trac#:#trac_trash#:#davon im Papierkorb
+trac#:#trac_object_stat_daily#:#Tagesverlauf
+trac#:#trac_object_stat_admin#:#Datenbereinigung
+trac#:#trac_delete_data#:#Daten löschen
+trac#:#trac_sure_delete_data#:#Wollen Sie wirklich die Daten der folgenden Monate löschen?
+trac#:#trac_data_deleted#:#Die Daten wurden gelöscht.
+trac#:#trac_sync_obj_stats#:#Daten aktualisieren
+trac#:#trac_sync_obj_stats_success#:#Daten wurden aktualisiert.
 book#:#book_schedule_warning#:#Es sind momentan keine Zeitpläne verfügbar. Um Buchungsobjekte anlegen zu können, muss zuerst ein Zeitplan angelegt werden.
 common#:#enable_anonymous_fora_desc#:#Wenn deaktiviert, steht die Funktion "mit Pseudonym schreiben" in Foren nicht mehr zur Verfügung.
 common#:#enable_anonymous_fora#:#In Foren "mit Pseudonym schreiben"

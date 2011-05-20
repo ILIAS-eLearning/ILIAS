@@ -11,7 +11,7 @@ include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 * @version $Id$
 *
 * @ilCtrl_Calls ilLearningProgressGUI: ilLPListOfObjectsGUI, ilLPListOfSettingsGUI, ilLPListOfProgressGUI,  ilLMStatisticsGUI
-* @ilCtrl_Calls ilLearningProgressGUI: ilTrackingGUI
+* @ilCtrl_Calls ilLearningProgressGUI: ilTrackingGUI, ilLPObjectStatisticsGUI
 *
 */
 class ilLearningProgressGUI extends ilLearningProgressBaseGUI
@@ -81,6 +81,29 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				$los_gui = new ilLMStatisticsGUI($this->getMode(),$this->getRefId());
 				$this->__setCmdClass('illmstatisticsgui');
 				$this->ctrl->forwardCommand($los_gui);
+				break;
+
+			case 'illpobjectstatisticsgui':
+				include_once 'Services/Tracking/classes/class.ilLPObjectStatisticsGUI.php';
+				if(stristr($this->ctrl->getCmd(), "access"))
+				{
+					$this->__setSubTabs(LP_ACTIVE_OBJSTATACCESS);
+				}
+				else if(stristr($this->ctrl->getCmd(), "types"))
+				{
+					$this->__setSubTabs(LP_ACTIVE_OBJSTATTYPES);
+				}
+				else if(stristr($this->ctrl->getCmd(), "daily"))
+				{
+					$this->__setSubTabs(LP_ACTIVE_OBJSTATDAILY);
+				}
+				else
+				{
+					$this->__setSubTabs(LP_ACTIVE_OBJSTATADMIN);
+				}
+				$this->__setCmdClass('illpobjectstatisticsgui');
+				$ost_gui = new ilLPObjectStatisticsGUI($this->getMode(),$this->getRefId());
+				$this->ctrl->forwardCommand($ost_gui);
 				break;
 			
 			default:

@@ -534,11 +534,11 @@ class ilTrQuery
 	 * @param	int		$a_limit
 	 * @param	array	$a_filter
 	 * @param	array	$a_additional_fields
-	 * @param	bool	$use_collection
+	 * @param	array	$a_preselected_obj_ids
 	 * @return	array	cnt, set
 	 */
 	static function getObjectsSummaryForObject($a_parent_obj_id, $a_parent_ref_id, $a_order_field = "", $a_order_dir = "", $a_offset = 0, $a_limit = 9999,
-		array $a_filters = NULL, array $a_additional_fields = NULL, $use_collection = true)
+		array $a_filters = NULL, array $a_additional_fields = NULL, $a_preselected_obj_ids = NULL)
 	{
 		global $ilDB;
 		
@@ -547,30 +547,54 @@ class ilTrQuery
 
 		$objects = self::getObjectIds($a_parent_obj_id, $a_parent_ref_id, false);
 
-		// object data
-		$set = $ilDB->query("SELECT obj_id,title,type FROM object_data".
-			" WHERE ".$ilDB->in("obj_id", $objects["object_ids"], false, "integer"));
-		while($rec = $ilDB->fetchAssoc($set))
+		$objects = array();
+		if($a_preselected_obj_ids === NULL)
 		{
-			$object_data[$rec["obj_id"]] = $rec;
+			$objects = self::getObjectIds($a_parent_obj_id, $a_parent_ref_id, false);
 		}
-
-		$result = array();
-		foreach($objects["ref_ids"] as $object_id => $ref_id)
+		else
 		{
-			$object_result = self::getSummaryDataForObject($ref_id, $fields, $a_filters);
-			if(sizeof($object_result))
+			foreach($a_preselected_obj_ids as $obj_id => $ref_ids)
 			{
-				$result[] = array_merge($object_data[$object_id], $object_result);
+				$objects["object_ids"][] = $obj_id;
+				$objects["ref_ids"][$obj_id] = array_pop($ref_ids);
 			}
 		}
 
-		// :TODO: objectives
-		if($objects["objectives_parent_id"])
+		$result = array();
+		if($objects)
 		{
-			
-		}
+			// object data
+			$set = $ilDB->query("SELECT obj_id,title,type FROM object_data".
+				" WHERE ".$ilDB->in("obj_id", $objects["object_ids"], false, "integer"));
+			while($rec = $ilDB->fetchAssoc($set))
+			{
+				$object_data[$rec["obj_id"]] = $rec;
+				if($a_preselected_obj_ids)
+				{
+					$object_data[$rec["obj_id"]]["ref_ids"] = $a_preselected_obj_ids[$rec["obj_id"]];
+				}
+			}
 
+			foreach($objects["ref_ids"] as $object_id => $ref_id)
+			{
+				$object_result = self::getSummaryDataForObject($ref_id, $fields, $a_filters);
+				if(sizeof($object_result))
+				{
+					if($object_data[$object_id])
+					{
+						$result[] = array_merge($object_data[$object_id], $object_result);
+					}
+				}
+			}
+
+			// :TODO: objectives
+			if($objects["objectives_parent_id"])
+			{
+
+			}
+		}
+		
 		return array("cnt"=>sizeof($result), "set"=>$result);
 	}
 
@@ -1042,6 +1066,13 @@ class ilTrQuery
 							}
 							break;
 
+						case "read_count_spent_seconds":							
+							if($function == "AVG")
+							{
+								$a_fields[] = "ROUND(AVG((spent_seconds+childs_spent_seconds)/(read_count+childs_read_count)), 2) AS ".$field."_".strtolower($function);
+							}
+							break;
+
 						default:
 							if($function)
 							{
@@ -1122,9 +1153,16 @@ class ilTrQuery
 		}
 
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
-		foreach($object_ids as $object_id)
+		foreach($object_ids as $idx => $object_id)
 		{
-			ilLPStatus::checkStatusForObject($object_id);
+			if($object_id)
+			{
+				ilLPStatus::checkStatusForObject($object_id);
+			}
+			else
+			{
+				unset($object_ids[$idx]);
+			}
 		}
 
 		return array("object_ids" => $object_ids,
@@ -1149,6 +1187,11 @@ class ilTrQuery
 		{
 			foreach($children as $child)
 			{
+				if($child["type"] == "adm" || $child["type"] == "rolf")
+				{
+					continue;
+				}
+
 				// as there can be deactivated items in the collection
 				// we should allow them here too
 				$cmode = ilLPObjSettings::_lookupMode($child["obj_id"]);
@@ -1342,6 +1385,170 @@ class ilTrQuery
 
 			return self::executeQueries(array(array("fields"=>$fields, "query"=>$query, "count"=>"crs_objectives.objective_id")));
 		}
+	}
+
+	static public function getObjectAccessStatistics(array $a_ref_ids, $a_year, $a_month = null)
+	{
+		global $ilDB;
+
+		$obj_ids = array_keys($a_ref_ids);
+
+		if($a_month)
+		{
+			$column = "dd";
+		}
+		else
+		{
+			$column = "mm";
+		}
+
+		$res = array();
+		$sql = "SELECT obj_id,obj_type,".$column.",read_count,childs_read_count,".
+			"spent_seconds,childs_spent_seconds".
+			" FROM obj_stat".
+			" WHERE ".$ilDB->in("obj_id", $obj_ids, "", "integer").
+			" AND yyyy = ".$ilDB->quote($a_year, "integer");
+		if($a_month)
+		{
+			$sql .= " AND mm = ".$ilDB->quote($a_month, "integer");
+		}
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$row["read_count"] += $row["childs_read_count"];
+			$row["spent_seconds"] += $row["childs_spent_seconds"];
+			$res[$row["obj_id"]][$row[$column]] = array("read_count"=>$row["read_count"],
+				"spent_seconds"=>$row["spent_seconds"]);
+		}
+		return $res;
+	}
+
+	function getObjectTypeStatistics()
+	{
+		global $ilDB;
+
+		// we do not need all possible object types
+		$types = array("crs", "lm", "tst", "grp", "exc", "sahs", "htlm", 
+			"file", "webr");
+		
+		include_once "Services/Tree/classes/class.ilTree.php";
+		$tree = new ilTree(1);
+		$sql = "SELECT ".$tree->table_obj_data.".obj_id,".$tree->table_obj_data.".type,".
+			$tree->table_tree.".".$tree->tree_pk.",".$tree->table_obj_reference.".ref_id".
+			" FROM ".$tree->table_tree.
+			" ".$tree->buildJoin().
+			" WHERE ".$ilDB->in($tree->table_obj_data.".type", $types, "", "text");
+		$set = $ilDB->query($sql);
+		$res = array();
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[$row["type"]]["type"] = $row["type"];
+			$res[$row["type"]]["references"]++;
+			$res[$row["type"]]["objects"][] = $row["obj_id"];
+			if($row[$tree->tree_pk] < 0)
+			{
+				$res[$row["type"]]["deleted"]++;
+			}
+		}
+
+		foreach($res as $type => $values)
+		{
+			$res[$type]["objects"] = sizeof(array_unique($values["objects"]));
+		}
+		
+		return $res;
+	}
+
+	static public function getObjectDailyStatistics(array $a_ref_ids, $a_year, $a_month = null)
+	{
+		global $ilDB;
+
+		$obj_ids = array_keys($a_ref_ids);
+
+		$res = array();
+		$sql = "SELECT obj_id,obj_type,hh,read_count,childs_read_count,".
+			"spent_seconds,childs_spent_seconds".
+			" FROM obj_stat".
+			" WHERE ".$ilDB->in("obj_id", $obj_ids, "", "integer").
+			" AND yyyy = ".$ilDB->quote($a_year, "integer");
+		if($a_month)
+		{
+			$sql .= " AND mm = ".$ilDB->quote($a_month, "integer");
+		}
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$row["read_count"] += $row["childs_read_count"];
+			$row["spent_seconds"] += $row["childs_spent_seconds"];
+			$res[$row["obj_id"]][(int)$row["hh"]] = array("read_count"=>$row["read_count"],
+				"spent_seconds"=>$row["spent_seconds"]);
+		}
+		return $res;
+	}
+
+	static public function getObjectStatisticsMonthlySummary()
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT COUNT(*) AS COUNTER,yyyy,mm".
+			" FROM obj_stat".
+			" GROUP BY yyyy, mm".
+			" ORDER BY yyyy DESC, mm DESC");
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = array("month"=>$row["yyyy"]."-".$row["mm"],
+				"count"=>$row["counter"]);
+		}
+		return $res;
+	}
+
+	static public function deleteObjectStatistics(array $a_months)
+	{
+		global $ilDB;
+
+		$sql = "DELETE FROM obj_stat".
+			" WHERE ".$ilDB->in($ilDB->concat(array(array("yyyy", ""), array($ilDB->quote("-", "text"), ""),
+				array("mm", ""))), $a_months, "", "text");
+	    return $ilDB->manipulate($sql);
+	}
+	
+	static public function searchObjects($a_type, $a_title = null)
+	{
+		global $ilDB;
+		
+		if($a_type == "lres")
+		{
+			$a_type = array('lm','sahs','htlm','dbk');
+		}
+		
+		$sql = "SELECT r.ref_id,r.obj_id".
+			" FROM object_data o".
+			" JOIN object_reference r ON (o.obj_id = r.obj_id)".
+			" JOIN tree t ON (t.child = r.ref_id)".
+			" WHERE t.tree = ".$ilDB->quote(1, "integer");
+		
+		if(!is_array($a_type))
+		{
+			$sql .= " AND o.type = ".$ilDB->quote($a_type, "text");		
+		}
+		else
+		{
+			$sql .= " AND ".$ilDB->in("o.type", $a_type, "", "text");
+		}
+		
+		if($a_title)
+		{
+			$sql .= " AND (".$ilDB->like("o.title", "text", "%".$a_title."%").
+				" OR ".$ilDB->like("o.description", "text", "%".$a_title."%").")";
+		}
+		
+		$set = $ilDB->query($sql);
+		$res = array();
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[$row["obj_id"]][] = $row["ref_id"];			
+		}
+		return $res;
 	}
 }
 

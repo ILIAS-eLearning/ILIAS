@@ -91,6 +91,11 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	protected function searchObjects(array $filter, $permission)
 	{
 		global $ilObjDataCache;
+				
+		/* for performance issues: fast search WITHOUT any permission checks
+		include_once "Services/Tracking/classes/class.ilTrQuery.php";
+		return ilTrQuery::searchObjects($filter["type"], $filter["query"]);
+		*/
 
 		include_once './Services/Search/classes/class.ilQueryParser.php';
 
@@ -102,6 +107,15 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		{
 			// echo $query_parser->getMessage();
 			return false;
+		}
+
+		if($filter["type"] == "lres")
+		{
+			$filter["type"] = array('lm','sahs','htlm','dbk');
+		}
+		else
+		{
+			$filter["type"] = array($filter["type"]);
 		}
 
 		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
@@ -153,9 +167,11 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	}
 	
 	/**
-	* Init filter
-	*/
-	public function initFilter()
+	 * Init filter
+	 *
+	 * @param bool $a_split_learning_resources
+	 */
+	public function initFilter($a_split_learning_resources = false)
 	{
 		global $lng, $ilObjDataCache;
 		
@@ -164,7 +180,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		// object type selection
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$si = new ilSelectInputGUI($this->lng->txt("obj_type"), "type");
-		$si->setOptions($this->getPossibleTypes());
+		$si->setOptions($this->getPossibleTypes($a_split_learning_resources));
 		$this->addFilterItem($si);
 		$si->readFromSession();
 		if(!$si->getValue())
@@ -183,11 +199,11 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		{
 			// create options from current value
 			$types = $this->getCurrentFilter(true);
-			$types = $types["type"];
+			$type = $types["type"];
 			$options = array();
 			foreach($this->filter["hide"] as $obj_id)
 			{
-				if(in_array($ilObjDataCache->lookupType($obj_id), $types))
+				if($ilObjDataCache->lookupType($obj_id) == $type)
 				{
 					$options[$obj_id] = $ilObjDataCache->lookupTitle($obj_id);
 				}
@@ -259,17 +275,39 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	}
 
 	/**
-	* Get possible subtypes
-	*/
-	protected function getPossibleTypes()
+ 	 * Get possible subtypes
+	 *
+	 * @param bool $a_split_learning_resources
+	 * @param bool $a_include_digilib
+	 */
+	protected function getPossibleTypes($a_split_learning_resources = false, $a_include_digilib = false)
 	{
 		global $lng;
-		
-		return array('crs' => $lng->txt('objs_crs'),
-					 'grp' => $lng->txt('objs_grp'),
-					 'lm' => $lng->txt('learning_resources'),
-					 'exc' => $lng->txt('objs_exc'),
-				  	 'tst' => $lng->txt('objs_tst'));
+
+		$options = array();
+
+		if($a_split_learning_resources)
+		{
+			$options['lm'] = $lng->txt('objs_lm');
+			$options['sahs'] = $lng->txt('objs_sahs');
+			$options['htlm'] = $lng->txt('objs_htlm');
+			
+			if($a_include_digilib)
+			{
+				$options['dbk'] = $lng->txt('objs_dbk');
+			}
+		}
+		else
+		{
+			$options['lres'] = $lng->txt('learning_resources');
+		}
+
+		$options['crs'] = $lng->txt('objs_crs');
+		$options['grp'] = $lng->txt('objs_grp');
+		$options['exc'] = $lng->txt('objs_exc');
+		$options['tst'] = $lng->txt('objs_tst');
+				
+		return $options;
 	}
 
 	protected function parseValue($id, $value, $type)
@@ -378,19 +416,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			$item = $this->getFilterItemByPostVar($id);
 			switch($id)
 			{
-				case "type":
-					switch($value)
-					{
-						case 'lm':
-							$result["type"] = array('lm','sahs','htlm','dbk');
-							break;
-
-						default:
-							$result["type"] = array($value);
-							break;
-					 }
-					 break;
-
 				case "title":
 				case "country":
 				case "gender":
@@ -410,6 +435,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				case "matriculation":
 				case "sel_country":
 				case "query":
+				case "type":
 					if($value)
 					{
 						$result[$id] = $value;
@@ -490,8 +516,15 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			$user .= ", ".$a_user->getFullName(); // " [".$a_user->getLogin()."]";
 		}
 
-		$this->setTitle($lng->txt($action).": ".$ilObjDataCache->lookupTitle($a_obj_id).$user);
-		$this->setDescription($this->lng->txt('trac_mode').": ".ilLPObjSettings::_mode2Text(ilLPObjSettings::_lookupMode($a_obj_id)));
+		if($a_obj_id != ROOT_FOLDER_ID)
+		{
+			$this->setTitle($lng->txt($action).": ".$ilObjDataCache->lookupTitle($a_obj_id).$user);
+			$this->setDescription($this->lng->txt('trac_mode').": ".ilLPObjSettings::_mode2Text(ilLPObjSettings::_lookupMode($a_obj_id)));
+		}
+		else
+		{
+			$this->setTitle($lng->txt($action));
+		}
 	}
 
 	/**
@@ -569,6 +602,29 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				$end = true;
 			}
 			return $end;
+		}
+	}
+	
+	protected function formatSeconds($seconds)
+	{
+		$seconds = $seconds ? $seconds : 0;
+		
+		$days = floor($seconds / 86400);
+		$rest = $seconds % 86400;
+
+		$hours = floor($rest / 3600);
+		$rest = $rest % 3600;
+
+		$minutes = floor($rest / 60);
+		$rest = $rest % 60;
+
+		if(!$days)
+		{
+			return sprintf("%02d:%02d:%02d",$hours,$minutes,$rest);
+		}
+		else
+		{						
+			return sprintf("%02d:%02d:%02d:%02d",$days,$hours,$minutes,$rest);
 		}
 	}
 }

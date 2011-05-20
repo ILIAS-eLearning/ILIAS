@@ -1,0 +1,25 @@
+<div id="ilChart{ID}" style="width:{WIDTH}px; height:{HEIGHT}px;">
+</div>
+<script id="source" language="javascript" type="text/javascript">
+$(function () {
+    $.plot($("#ilChart{ID}"), [
+		<!-- BEGIN series -->
+        {
+			label: "{SERIES_LABEL}",
+            data: {SERIES_DATA},
+            {SERIES_TYPE}: { {SERIES_OPTIONS} }
+        }{SERIES_END}
+		<!-- END series -->
+    ], {
+		/* global options */
+        series: {
+			shadowSize: {SHADOW},
+			lines: { show: false },
+			pie: { show: {IS_PIE} }
+		},
+        colors: [ {COLORS} ],
+		legend: { {LEGEND} }
+		{AXIS}
+    });
+});
+</script>
