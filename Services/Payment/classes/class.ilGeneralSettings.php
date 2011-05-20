@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+// @TODO: payment_settings refactoring like usual settings tbl
+
 class ilGeneralSettings
 {
 	private static $_instance;
@@ -128,31 +130,31 @@ class ilGeneralSettings
 	{	
 		global $ilDB;
 
+		if(!$a_values['currency_unit']) 	$a_values['currency_unit'] = NULL;
+		if(!$a_values['currency_subunit']) 	$a_values['currency_subunit'] = NULL;
+		if(!$a_values['address']) 			$a_values['address'] = NULL;
+		if(!$a_values['bank_data']) 		$a_values['bank_data'] = NULL;
+		if(!$a_values['add_info']) 			$a_values['add_info'] = NULL;
+		if(!$a_values['pdf_path']) 			$a_values['pdf_path'] = NULL;
+
+		if(!$a_values['topics_allow_custom_sorting']) $a_values['topics_allow_custom_sorting'] = 0;
+		if(!$a_values['topics_sorting_type']) 		$a_values['topics_sorting_type'] = 0;
+		if(!$a_values['topics_sorting_direction']) 	$a_values['topics_sorting_direction'] = NULL;
+		if(!$a_values['shop_enabled']) 				$a_values['shop_enabled'] = 0;
+		if(!$a_values['max_hits']) 					$a_values['max_hits'] = 0;
+		if(!$a_values['hide_advanced_search']) $a_values['hide_advanced_search'] = 0;
+		if(!$a_values['objects_allow_custom_sorting']) $a_values['objects_allow_custom_sorting'] = 0;
+		if(!$a_values['hide_coupons']) $a_values['hide_coupons'] = 0;
+		if(!$a_values['hide_news']) $a_values['hide_news'] = 0;
+		if(!$a_values['hide_shop_info']) $a_values['hide_shop_info'] = 0;
+		if(!$a_values['use_shop_specials']) $a_values['use_shop_specials'] = 0;
+		if(!$a_values['show_general_filter']) $a_values['show_general_filter'] = 0;
+		if(!$a_values['show_topics_filter']) $a_values['show_topics_filter'] = 0;
+		if(!$a_values['show_shop_explorer']) $a_values['show_shop_explorer'] = 0;
+
 		if ($this->getSettingsId())
 		{	
-			/**/
-			if(!$a_values['currency_unit']) 	$a_values['currency_unit'] = NULL;
-			if(!$a_values['currency_subunit']) 	$a_values['currency_subunit'] = NULL;
-			if(!$a_values['address']) 			$a_values['address'] = NULL;
-			if(!$a_values['bank_data']) 		$a_values['bank_data'] = NULL;
-			if(!$a_values['add_info']) 			$a_values['add_info'] = NULL;
-			if(!$a_values['pdf_path']) 			$a_values['pdf_path'] = NULL;
-			
-			if(!$a_values['topics_allow_custom_sorting']) $a_values['topics_allow_custom_sorting'] = 0;
-			if(!$a_values['topics_sorting_type']) 		$a_values['topics_sorting_type'] = 0;
-			if(!$a_values['topics_sorting_direction']) 	$a_values['topics_sorting_direction'] = NULL;
-			if(!$a_values['shop_enabled']) 				$a_values['shop_enabled'] = 0;
-			if(!$a_values['max_hits']) 					$a_values['max_hits'] = 0;
-			if(!$a_values['hide_advanced_search']) $a_values['hide_advanced_search'] = 0;
-			if(!$a_values['objects_allow_custom_sorting']) $a_values['objects_allow_custom_sorting'] = 0;
-			if(!$a_values['hide_coupons']) $a_values['hide_coupons'] = 0;
-			if(!$a_values['hide_news']) $a_values['hide_news'] = 0;
-			if(!$a_values['hide_shop_info']) $a_values['hide_shop_info'] = 0;
-			if(!$a_values['use_shop_specials']) $a_values['use_shop_specials'] = 0;
-
-
-			/**/				
-			
+		
 			$statement = $this->db->manipulateF('
 				UPDATE payment_settings
 				SET	currency_unit = %s,
@@ -171,7 +173,10 @@ class ilGeneralSettings
 					hide_coupons = %s,
 					hide_news = %s,
 					hide_shop_info = %s,
-					use_shop_specials = %s
+					use_shop_specials = %s,
+					show_general_filter = %s,
+					show_topics_filter = %s,
+					show_shop_explorer = %s
 				WHERE settings_id = %s', 
 				array( 'text', 
 						'text', 
@@ -183,6 +188,9 @@ class ilGeneralSettings
 						'text',
 						'integer', 
 						'integer', 
+						'integer',
+						'integer',
+						'integer',
 						'integer',
 						'integer',
 						'integer',
@@ -209,34 +217,15 @@ class ilGeneralSettings
 					$a_values['hide_news'],
 					$a_values['hide_shop_info'],
 					$a_values['use_shop_specials'],
+					$a_values['show_general_filter'],
+					$a_values['show_topics_filter'],
+					$a_values['show_shop_explorer'],
 					$this->getSettingsId())
 			);
 		}
 		else
 		{ 
-			
-			/**/
-			if(!$a_values['currency_unit']) 	$a_values['currency_unit'] = NULL;
-			if(!$a_values['currency_subunit']) 	$a_values['currency_subunit'] = NULL;
-			if(!$a_values['address']) 			$a_values['address'] = NULL;
-			if(!$a_values['bank_data']) 		$a_values['bank_data'] = NULL;
-			if(!$a_values['add_info']) 			$a_values['add_info'] = NULL;
-
-			if(!$a_values['pdf_path']) 			$a_values['pdf_path'] = NULL;
-			
-			if(!$a_values['topics_allow_custom_sorting']) $a_values['topics_allow_custom_sorting'] = 0;
-			if(!$a_values['topics_sorting_type']) 		$a_values['topics_sorting_type'] = 0;
-			if(!$a_values['topics_sorting_direction']) 	$a_values['topics_sorting_direction'] = NULL;
-			if(!$a_values['shop_enabled']) 				$a_values['shop_enabled'] = 0;
-			if(!$a_values['max_hits']) 					$a_values['max_hits'] = 0;
-			if(!$a_values['hide_advanced_search']) 		$a_values['hide_advanced_search'] = 0;
-			if(!$a_values['objects_allow_custom_sorting']) 			$a_values['objects_allow_custom_sorting'] = 0;
-			if(!$a_values['hide_coupons']) 				$a_values['hide_coupons'] = 0;
-			if(!$a_values['hide_news']) 				$a_values['hide_news'] = 0;
-			if(!$a_values['hide_shop_info']) 			$a_values['hide_shop_info'] = 0;
-			if(!$a_values['use_shop_specials']) 		$a_values['use_shop_specials'] = 0;
-
-			
+		
 			$next_id = $ilDB->nextId('payment_settings');
 			$statement = $this->db->manipulateF('
 				INSERT INTO payment_settings
@@ -257,9 +246,12 @@ class ilGeneralSettings
 					hide_coupons,
 					hide_news,
 					hide_shop_info,
-					use_shop_specials
+					use_shop_specials,
+					show_general_filter,
+					show_topics_filter,
+					show_shop_explorer
 				)
-				VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+				VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
 				array( 'integer',
 						'text', 
 						'text', 
@@ -275,7 +267,11 @@ class ilGeneralSettings
 				       'integer',
 				       'integer',
 				       'integer',
-				       'integer','integer',
+						'integer',
+				       'integer',
+				       'integer',
+				       'integer',
+					'integer',
 					'integer'
 						),
 				array(
@@ -296,7 +292,10 @@ class ilGeneralSettings
 					$a_values['hide_coupons'],
 					$a_values['hide_news'],
 					$a_values['hide_shop_info'],
-					$a_values['use_shop_specials']
+					$a_values['use_shop_specials'],
+					$a_values['show_general_filter'],
+					$a_values['show_topics_filter'],
+					$a_values['show_shop_explorer']
 
 					)
 			);
@@ -333,6 +332,9 @@ class ilGeneralSettings
 			$data['hide_news'] = $row->hide_news;
 			$data['hide_shop_info'] = $row->hide_shop_info;
 			$data['use_shop_specials'] = $row->use_shop_specials;
+			$data['show_general_filter'] = $row->show_general_filter;
+			$data['show_topics_filter'] = $row->show_topics_filter;
+			$data['show_shop_explorer'] = $row->show_shop_explorer;			
 		}
 		$this->settings = $data;
 	}

@@ -465,42 +465,6 @@ class ilShopGUI extends ilShopBaseGUI
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.shop_content.html', 'Services/Payment');
 		$this->tpl->setVariable('PAGE_CONTENT', $this->getPageHTML());
-#		$this->tpl->setVariable('SORTING_FORM_ACTION', $this->ctrl->getFormAction($this, 'setFilter'));
-#		$this->tpl->setCurrentBlock('topics_option');
-#		$this->tpl->setVariable('SORT_TOPICS',$this->lng->txt('topic') );
-		ilShopTopics::_getInstance()->setIdFilter(false);
-		ilShopTopics::_getInstance()->read();
-		$topic_option = array();
-		$cur_topics = ilShopTopics::_getInstance()->getTopics();
-
-		if(count($cur_topics))
-		{	
-		$this->tpl->setVariable('SORTING_FORM_ACTION', $this->ctrl->getFormAction($this, 'setFilter'));
-		
-		$this->tpl->setCurrentBlock('topics_option');
-		$this->tpl->setVariable('SORT_TOPICS',$this->lng->txt('topic') );
-
-			$this->tpl->setVariable('FILTER_TOPIC_ID', 'no_selection');
-			$this->tpl->setVariable('FILTER_TOPIC_TEXT', '------------');
-			if($_POST['cmd'] == 'firstpage')
-				$this->tpl->setVariable('FILTER_TOPIC_SELECTED','selected');
-			$this->tpl->parseCurrentBlock('topics_option');
-
-			$this->tpl->setVariable('FILTER_TOPIC_ID', 'all');
-			$this->tpl->setVariable('FILTER_TOPIC_TEXT', $this->lng->txt('all'));
-			if($_POST['filter_topic_id'] == 'all')
-				$this->tpl->setVariable('FILTER_TOPIC_SELECTED','selected');
-			$this->tpl->parseCurrentBlock('topics_option');
-
-			foreach(ilShopTopics::_getInstance()->getTopics() as $oTopic)
-			{
-				$this->tpl->setVariable('FILTER_TOPIC_ID', $oTopic->getId());
-				$this->tpl->setVariable('FILTER_TOPIC_TEXT', $oTopic->getTitle());
-				if($_POST['filter_topic_id'] == $oTopic->getId())
-					$this->tpl->setVariable('FILTER_TOPIC_SELECTED','selected');
-				$this->tpl->parseCurrentBlock('topics_option');
-			}
-		}
 
 		include_once './Services/Payment/classes/class.ilPaymentObject.php';
 		#$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.shop_content.html', 'Services/Payment');
@@ -531,9 +495,6 @@ class ilShopGUI extends ilShopBaseGUI
 			$this->tpl->setVariable('PAGE_CONTENT', $this->lng->txt('please_choose_category'));
 		}
 
-
-		
-
 		include_once 'Services/Payment/classes/class.ilShopResultPresentationGUI.php';
 		$search_result_presentation = new ilShopResultPresentationGUI($presentation_results);
 		$search_result_presentation->setSortField(strtolower(trim($this->getSortField())));
@@ -543,7 +504,23 @@ class ilShopGUI extends ilShopBaseGUI
 
 		$this->tpl->setVariable('RESULTS', $html);
 
-		$this->showShopExplorer();
+		$show_general_filter = $this->oGeneralSettings->get('show_general_filter');
+		$show_topics_filter = $this->oGeneralSettings->get('show_topics_filter');
+		$show_shop_explorer = $this->oGeneralSettings->get('show_shop_explorer');
+
+		if($show_general_filter)
+		{
+			$g_filter_html = $this->showGeneralFilter(count($search_result_presentation));
+			$this->tpl->setVariable('FORM', $g_filter_html);
+		}
+		if($show_topics_filter)
+		{
+			$this->showTopicsFilter(count($search_result_presentation));
+		}
+		if($show_shop_explorer)
+		{
+			$this->showShopExplorer();
+		}
 	}
 
 	public function showShopContent($oResult)
@@ -562,111 +539,23 @@ class ilShopGUI extends ilShopBaseGUI
 			#$this->tpl->setVariable('ERROR',ilUtil::sendInfo($this->lng->txt('payment_shop_not_objects_found')));
 		}
 
-		if(count(ilShopTopics::_getInstance()->getTopics()))
+		$show_general_filter = $this->oGeneralSettings->get('show_general_filter');
+		$show_topics_filter = $this->oGeneralSettings->get('show_topics_filter');
+		$show_shop_explorer = $this->oGeneralSettings->get('show_shop_explorer');
+
+		if($show_general_filter)
 		{
-			$this->tpl->setVariable('PAGE_CONTENT', $this->getPageHTML());
-			$this->tpl->setVariable('SORTING_FORM_ACTION',$this->ctrl->getFormAction($this,'setFilter'));
-
-			$this->tpl->setVariable('SET_FILTER_VAL',$this->lng->txt('pay_update_view'));
-
-			$this->tpl->setCurrentBlock('topics_option');
-			$this->tpl->setVariable('SORT_TOPICS',$this->lng->txt('topic') );
+			$g_filter_html = $this->showGeneralFilter(count($oResult->getResults()));
+			$this->tpl->setVariable('FORM', $g_filter_html);
 		}
-
-		ilShopTopics::_getInstance()->setIdFilter(false);
-		ilShopTopics::_getInstance()->read();
-		$topic_option = array();
-		if(count(ilShopTopics::_getInstance()->getTopics()))
-		{		
-			$this->tpl->setVariable('FILTER_TOPIC_ID', 'no_selection');
-			$this->tpl->setVariable('FILTER_TOPIC_TEXT', '------------');
-			if($_POST['cmd'] == 'firstpage')
-				$this->tpl->setVariable('FILTER_TOPIC_SELECTED','selected');
-			$this->tpl->parseCurrentBlock('topics_option');
-
-			$this->tpl->setVariable('FILTER_TOPIC_ID', 'all');
-			$this->tpl->setVariable('FILTER_TOPIC_TEXT', $this->lng->txt('all'));
-			if($_POST['filter_topic_id'] == 'all')
-				$this->tpl->setVariable('FILTER_TOPIC_SELECTED','selected');
-			$this->tpl->parseCurrentBlock('topics_option');
-
-			foreach(ilShopTopics::_getInstance()->getTopics() as $oTopic)
-			{
-				$this->tpl->setVariable('FILTER_TOPIC_ID', $oTopic->getId());
-				$this->tpl->setVariable('FILTER_TOPIC_TEXT', $oTopic->getTitle());
-				if($_POST['filter_topic_id'] == $oTopic->getId())
-					$this->tpl->setVariable('FILTER_TOPIC_SELECTED','selected');
-				$this->tpl->parseCurrentBlock('topics_option');
-			}
-		}
-
-
-		if(count($oResult->getResults()))
+		if($show_topics_filter)
 		{
-			$objects = (bool)$this->oGeneralSettings->get('objects_allow_custom_sorting');
-			if($objects)
-			{
-				// sorting form
-				$allow_objects_option = array(
-					'title' => $this->lng->txt('title'),
-					'author' => $this->lng->txt('author'),
-					'price' => $this->lng->txt('price_a')
-				);
-				$this->tpl->setCurrentBlock('order_field');
-				$this->tpl->setVariable('SORT_BY_TEXT',$this->lng->txt('sort_by'));
-
-				foreach($allow_objects_option as $key=>$value)
-				{
-					$this->tpl->setVariable('ORDER_FIELD_VALUE', $key);
-					$this->tpl->setVariable('ORDER_FIELD_TEXT', $value);
-					if($_POST['order_field'] == $key)
-						$this->tpl->setVariable('ORDER_FIELD_SELECTED','selected');
-					$this->tpl->parseCurrentBlock('order_field');
-				}
-			}
-
-			$topics = (bool)$this->oGeneralSettings->get('topics_allow_custom_sorting');
-
-			if($topics)
-			{
-				// sorting form
-				$allow_topics_option = array(
-					ilShopTopics::TOPICS_SORT_BY_TITLE => $this->lng->txt('sort_topics_by_title'),
-					ilShopTopics::TOPICS_SORT_BY_CREATEDATE => $this->lng->txt('sort_topics_by_date')
-				);
-				if(ANONYMOUS_USER_ID != $ilUser->getId())
-				{
-					$allow_topics_option[ilShopTopics::TOPICS_SORT_MANUALLY] = $this->lng->txt('sort_topics_manually');
-				}
-
-#				$o_allow_topics = new ilSelectInputGUI();
-#				$o_allow_topics->setTitle($this->lng->txt('sort_topics_by'));
-#				$o_allow_topics->setOptions($allow_topics_option);
-
-#				$o_allow_topics->setValue($this->getSortingTypeTopics());
-#				$o_allow_topics->setPostVar('topics_sorting_type');
-#				$o_hide_check->addSubItem($o_allow_topics);
-
-				$direction_option = array(
-					'asc' => $this->lng->txt('sort_asc'),
-					'desc' => $this->lng->txt('sort_desc')
-				);
-
-#				$o_topics_direction = new ilSelectInputGUI();
-#				$o_topics_direction->setOptions($direction_option);
-#				$o_topics_direction->setValue($this->getSortingDirectionTopics());
-#				$o_topics_direction->setPostVar('topics_sorting_direction'); //objects_sorting_type
-
-#				$o_hide_check->addSubItem($o_topics_direction);
-			}
+			$this->showTopicsFilter(count($oResult->getResults()));
 		}
-
-	#	$filter_form->addItem($o_hide_check);
-
-	#	$this->tpl->setVariable('FORM', $filter_form->getHTML());
-
-		$this->showShopExplorer();
-
+		if($show_shop_explorer)
+		{
+			$this->showShopExplorer();
+		}
 	}
 
 	//showContainerContent
@@ -680,47 +569,6 @@ class ilShopGUI extends ilShopBaseGUI
 		if($rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID))
 		{
 			$ilToolbar->addButton($this->lng->txt('edit_page'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
-		}
-
-/*		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.shop_content.html', 'Services/Payment');
-		$this->tpl->setVariable('PAGE_CONTENT', $this->getPageHTML());
-		$this->tpl->setVariable('SORTING_FORM_ACTION',$this->ctrl->getFormAction($this, 'setFilter'));
-
-		$this->tpl->setCurrentBlock('topics_option');
-		$this->tpl->setVariable('SORT_TOPICS',$this->lng->txt('topic') );
-*/		ilShopTopics::_getInstance()->setIdFilter(false);
-		ilShopTopics::_getInstance()->read();
-		$topic_option = array();
-		if(count(ilShopTopics::_getInstance()->getTopics()))
-		{
-			$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.shop_content.html', 'Services/Payment');
-			$this->tpl->setVariable('PAGE_CONTENT', $this->getPageHTML());
-			$this->tpl->setVariable('SORTING_FORM_ACTION',$this->ctrl->getFormAction($this, 'setFilter'));
-
-			$this->tpl->setCurrentBlock('topics_option');
-			$this->tpl->setVariable('SORT_TOPICS',$this->lng->txt('topic') );
-
-			###
-			$this->tpl->setVariable('FILTER_TOPIC_ID', 'no_selection');
-			$this->tpl->setVariable('FILTER_TOPIC_TEXT', '------------');
-			if($_POST['cmd'] == 'firstpage')
-				$this->tpl->setVariable('FILTER_TOPIC_SELECTED','selected');
-			$this->tpl->parseCurrentBlock('topics_option');
-
-			$this->tpl->setVariable('FILTER_TOPIC_ID', 'all');
-			$this->tpl->setVariable('FILTER_TOPIC_TEXT', $this->lng->txt('all'));
-			if($_POST['filter_topic_id'] == 'all')
-				$this->tpl->setVariable('FILTER_TOPIC_SELECTED','selected');
-			$this->tpl->parseCurrentBlock('topics_option');
-
-			foreach(ilShopTopics::_getInstance()->getTopics() as $oTopic)
-			{
-				$this->tpl->setVariable('FILTER_TOPIC_ID', $oTopic->getId());
-				$this->tpl->setVariable('FILTER_TOPIC_TEXT', $oTopic->getTitle());
-				if($_POST['filter_topic_id'] == $oTopic->getId())
-					$this->tpl->setVariable('FILTER_TOPIC_SELECTED','selected');
-				$this->tpl->parseCurrentBlock('topics_option');
-			}
 		}
 
 		include_once './Services/Payment/classes/class.ilPaymentObject.php';
@@ -781,7 +629,268 @@ class ilShopGUI extends ilShopBaseGUI
 
 		$this->tpl->setVariable('RESULTS', $html);
 
-		$this->showShopExplorer();
+		$show_general_filter = $this->oGeneralSettings->get('show_general_filter');
+		$show_topics_filter = $this->oGeneralSettings->get('show_topics_filter');
+		$show_shop_explorer = $this->oGeneralSettings->get('show_shop_explorer');
+
+		if($show_general_filter)
+		{
+			$g_filter_html = $this->showGeneralFilter(count($search_result_presentation));
+			$this->tpl->setVariable('FORM', $g_filter_html);
+		}
+		if($show_topics_filter)
+		{
+			$this->showTopicsFilter(count($search_result_presentation));
+		}
+		if($show_shop_explorer)
+		{
+			$this->showShopExplorer();
+		}
+	}
+
+	public function showGeneralFilter($a_count_result = 0)
+	{
+		global $ilUser;
+
+		if(!$_POST['show_filter'] && $_POST['updateView'] == '1')
+		{
+			$this->resetFilter();
+		}
+		else
+		if ($_POST['updateView'] == 1)
+		{
+			$_SESSION['content_filter']['updateView'] = $_POST['updateView'];
+			$_SESSION['content_filter']['show_filter'] = $_POST['show_filter'];
+			$_SESSION['content_filter']['sel_filter_type'] = $_POST['sel_filter_type'];
+			$_SESSION['content_filter']['filter_text'] = $_POST['filter_text'];
+			$_SESSION['content_filter']['filter_topic_id'] = $_POST['filter_topic_id'];
+
+			$_SESSION['content_filter']['order_field'] = $_POST['order_field'];
+			$_SESSION['content_filter']['order_direction'] = $_POST['order_direction'];
+
+			$_SESSION['content_filter']['topics_sorting_type'] = $_POST['topics_sorting_type'];
+			$_SESSION['content_filter']['topics_sorting_direction'] = $_POST['topics_sorting_direction'];
+		}
+
+
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		// FILTER FORM
+		$filter_form = new ilPropertyFormGUI();
+		$filter_form->setFormAction($this->ctrl->getFormAction($this));
+		$filter_form->setTitle($this->lng->txt('pay_filter'));
+		$filter_form->setId('formular');
+		$filter_form->setTableWidth('100 %');
+
+		$o_hide_check = new ilCheckBoxInputGUI($this->lng->txt('show_filter'),'show_filter');
+		$o_hide_check->setValue(1);
+		$o_hide_check->setChecked($_SESSION['content_filter']['show_filter'] ? 1 : 0);
+
+		$o_hidden = new ilHiddenInputGUI('updateView');
+		$o_hidden->setValue(1);
+		$o_hidden->setPostVar('updateView');
+		$o_hide_check->addSubItem($o_hidden);
+
+		$o_filter = new ilSelectInputGUI();
+		$filter_option = array(
+				'title' => $this->lng->txt('title'),
+				'author' => $this->lng->txt('author'),
+				'metadata' => $this->lng->txt('meta_data')
+			);
+		$o_filter->setTitle($this->lng->txt('search_in'));
+		$o_filter->setOptions($filter_option);
+		$o_filter->setValue($_SESSION['content_filter']['sel_filter_type']);
+		$o_filter->setPostVar('sel_filter_type');
+		$o_hide_check->addSubItem($o_filter);
+		$o_filter_by = new ilTextInputGUI($this->lng->txt('filter_by'));
+		$o_filter_by->setValue($_SESSION['content_filter']['filter_text']);
+		$o_filter_by->setPostVar('filter_text');
+		$o_hide_check->addSubItem($o_filter_by);
+
+		ilShopTopics::_getInstance()->setIdFilter(false);
+		ilShopTopics::_getInstance()->read();
+		$topic_option = array();
+		if(count(ilShopTopics::_getInstance()->getTopics()))
+		{
+			$topic_option[''] = $this->lng->txt('please_select');
+			foreach(ilShopTopics::_getInstance()->getTopics() as $oTopic)
+			{
+			  $topic_option[$oTopic->getId()] = $oTopic->getTitle();
+			}
+		}
+		else
+		{
+			$topic_option[''] = $this->lng->txt('no_topics_yet');
+		}
+		$o_topic = new ilSelectInputGUI();
+		$o_topic->setTitle($this->lng->txt('topic'));
+		$o_topic->setOptions($topic_option);
+		$o_topic->setValue($_SESSION['content_filter']['filter_topic_id']);
+		$o_topic->setPostVar('filter_topic_id');
+		$o_hide_check->addSubItem($o_topic);
+
+		#if(count($oResult->getResults()))
+		if($a_count_result)
+		{
+			$objects = (bool)$this->oGeneralSettings->get('objects_allow_custom_sorting');
+			if($objects)
+			{
+				// sorting form
+				$allow_objects_option = array(
+					'title' => $this->lng->txt('title'),
+					'author' => $this->lng->txt('author'),
+					'price' => $this->lng->txt('price_a')
+				);
+				$o_allow_objects = new ilSelectInputGUI();
+				$o_allow_objects->setTitle($this->lng->txt('sort_by'));
+				$o_allow_objects->setOptions($allow_objects_option);
+				$o_allow_objects->setValue($this->getSortField());
+				$o_allow_objects->setPostVar('order_field'); //objects_sorting_type
+				$o_hide_check->addSubItem($o_allow_objects);
+
+				$direction_option = array(
+					'asc' => $this->lng->txt('sort_asc'),
+					'desc' => $this->lng->txt('sort_desc')
+				);
+
+				$o_object_direction = new ilSelectInputGUI();
+
+				$o_object_direction->setOptions($direction_option);
+				$o_object_direction->setValue($this->getSortDirection());
+				$o_object_direction->setPostVar('order_direction'); //objects_sorting_direction
+
+				$o_hide_check->addSubItem($o_object_direction);
+			}
+
+			$topics = (bool)$this->oGeneralSettings->get('topics_allow_custom_sorting');
+			if($topics)
+			{
+				// sorting form
+				$allow_topics_option = array(
+					ilShopTopics::TOPICS_SORT_BY_TITLE => $this->lng->txt('sort_topics_by_title'),
+					ilShopTopics::TOPICS_SORT_BY_CREATEDATE => $this->lng->txt('sort_topics_by_date')
+				);
+				if(ANONYMOUS_USER_ID != $ilUser->getId())
+				{
+					$allow_topics_option[ilShopTopics::TOPICS_SORT_MANUALLY] = $this->lng->txt('sort_topics_manually');
+				}
+
+				$o_allow_topics = new ilSelectInputGUI();
+				$o_allow_topics->setTitle($this->lng->txt('sort_topics_by'));
+				$o_allow_topics->setOptions($allow_topics_option);
+
+				$o_allow_topics->setValue($this->getSortingTypeTopics());
+				$o_allow_topics->setPostVar('topics_sorting_type');
+				$o_hide_check->addSubItem($o_allow_topics);
+
+				$direction_option = array(
+					'asc' => $this->lng->txt('sort_asc'),
+					'desc' => $this->lng->txt('sort_desc')
+				);
+
+				$o_topics_direction = new ilSelectInputGUI();
+				$o_topics_direction->setOptions($direction_option);
+				$o_topics_direction->setValue($this->getSortingDirectionTopics());
+				$o_topics_direction->setPostVar('topics_sorting_direction'); //objects_sorting_type
+
+				$o_hide_check->addSubItem($o_topics_direction);
+			}
+		}
+
+		$filter_form->addCommandButton('setFilter', $this->lng->txt('pay_update_view'));
+		$filter_form->addCommandButton('resetFilter', $this->lng->txt('pay_reset_filter'));
+		$filter_form->addItem($o_hide_check);
+
+		return $filter_form->getHTML();
+	}
+
+	public function showTopicsFilter($a_count_result = 0)
+	{
+		global $ilUser;
+
+
+		$this->tpl->setCurrentBlock('show_topics_filter');
+
+		ilShopTopics::_getInstance()->setIdFilter(false);
+		ilShopTopics::_getInstance()->read();
+		$topic_option = array();
+
+		if(count(ilShopTopics::_getInstance()->getTopics()))
+		{
+			$this->tpl->setVariable('PAGE_CONTENT', $this->getPageHTML());
+			$this->tpl->setVariable('SORTING_FORM_ACTION',$this->ctrl->getFormAction($this,'setFilter'));
+
+			$this->tpl->setVariable('SET_FILTER_VAL',$this->lng->txt('pay_update_view'));
+
+			$this->tpl->setCurrentBlock('topics_option');
+			$this->tpl->setVariable('SORT_TOPICS',$this->lng->txt('topic') );
+
+			$this->tpl->setVariable('FILTER_TOPIC_ID', 'no_selection');
+			$this->tpl->setVariable('FILTER_TOPIC_TEXT', '------------');
+			if($_POST['cmd'] == 'firstpage')
+				$this->tpl->setVariable('FILTER_TOPIC_SELECTED','selected');
+			$this->tpl->parseCurrentBlock('topics_option');
+
+			$this->tpl->setVariable('FILTER_TOPIC_ID', 'all');
+			$this->tpl->setVariable('FILTER_TOPIC_TEXT', $this->lng->txt('all'));
+			if($_POST['filter_topic_id'] == 'all')
+				$this->tpl->setVariable('FILTER_TOPIC_SELECTED','selected');
+			$this->tpl->parseCurrentBlock('topics_option');
+
+			$oTopics = array();
+			$oTopics = ilShopTopics::_getInstance()->getTopics();
+			foreach($oTopics as $oTopic)
+			{
+				$this->tpl->setVariable('FILTER_TOPIC_ID', $oTopic->getId());
+				$this->tpl->setVariable('FILTER_TOPIC_TEXT', $oTopic->getTitle());
+				if($_POST['filter_topic_id'] == $oTopic->getId())
+					$this->tpl->setVariable('FILTER_TOPIC_SELECTED','selected');
+				$this->tpl->parseCurrentBlock('topics_option');
+			}
+		}
+		
+		if($a_count_result)
+		{
+			$objects = (bool)$this->oGeneralSettings->get('objects_allow_custom_sorting');
+			if($objects)
+			{
+				// sorting form
+				$allow_objects_option = array(
+					'title' => $this->lng->txt('title'),
+					'author' => $this->lng->txt('author'),
+					'price' => $this->lng->txt('price_a')
+				);
+				$this->tpl->setCurrentBlock('order_field');
+				$this->tpl->setVariable('SORT_BY_TEXT',$this->lng->txt('sort_by'));
+
+				foreach($allow_objects_option as $key=>$value)
+				{
+					$this->tpl->setVariable('ORDER_FIELD_VALUE', $key);
+					$this->tpl->setVariable('ORDER_FIELD_TEXT', $value);
+					if($_POST['order_field'] == $key)
+						$this->tpl->setVariable('ORDER_FIELD_SELECTED','selected');
+					$this->tpl->parseCurrentBlock('order_field');
+				}
+			}
+
+			$topics = (bool)$this->oGeneralSettings->get('topics_allow_custom_sorting');
+
+			if($topics)
+			{
+				// sorting form
+				$allow_topics_option = array(
+					ilShopTopics::TOPICS_SORT_BY_TITLE => $this->lng->txt('sort_topics_by_title'),
+					ilShopTopics::TOPICS_SORT_BY_CREATEDATE => $this->lng->txt('sort_topics_by_date')
+				);
+				if(ANONYMOUS_USER_ID != $ilUser->getId())
+				{
+					$allow_topics_option[ilShopTopics::TOPICS_SORT_MANUALLY] = $this->lng->txt('sort_topics_manually');
+				}
+				$direction_option = array(
+					'asc' => $this->lng->txt('sort_asc'),
+					'desc' => $this->lng->txt('sort_desc')
+				);
+			}
+		}
 	}
 
 	public function setTopicId($a_topic_id)
@@ -852,8 +961,6 @@ class ilShopGUI extends ilShopBaseGUI
 		{
 			$this->sort_type_topics = ilShopTopics::TOPICS_SORT_BY_TITLE;
 		}
-
-		else
 
 		return $this->sort_type_topics;
 	}

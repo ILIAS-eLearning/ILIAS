@@ -27,10 +27,9 @@ include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 include_once './Services/Payment/classes/class.ilGeneralSettings.php';
 include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 include_once './Services/Payment/classes/class.ilShopTableGUI.php';
-/* @todo INVOICE
 include_once 'Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
 include_once './Services/Payment/classes/class.ilUserDefinedInvoiceNumber.php';
-*/
+
 class ilObjPaymentSettingsGUI extends ilObjectGUI
 {
 	const CONDITIONS_EDITOR_PAGE_ID = 99999997;
@@ -169,7 +168,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 							#	$cmd = 'BillingMail';
 							break;
-/* @todo INVOICE
 					case 'InvoiceNumber':
 					case 'saveInvoiceNumber':
 							$this->active_sub_tab = 'invoice_number';
@@ -178,7 +176,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 								#$cmd = 'InvoiceNumber';
 							break;
-*/
 				}	
 				$cmd .= 'Object';
 
@@ -1977,12 +1974,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 			// Documents
 			$tabs_gui->addTarget('documents', $this->ctrl->getLinkTarget($this, 'documents'),
-				array('documents','TermsConditions','saveTermsConditions','BillingMail','saveBillingMail'), '', '');
-/* @todo INVOICE
-array('documents','TermsConditions','saveTermsConditions','BillingMail','saveBillingMail','InvoiceNumber','saveInvoiceNumber'), '', '');
- */
-
-		}
+				array('documents','TermsConditions','saveTermsConditions','BillingMail','saveBillingMail','InvoiceNumber','saveInvoiceNumber'), '', '');
+ 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
@@ -2019,12 +2012,9 @@ array('documents','TermsConditions','saveTermsConditions','BillingMail','saveBil
 				$this->tabs_gui->addSubTabTarget('billing_mail',
 					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'BillingMail'),
 					'','', '',$a_sub_tab == 'billing_mail' ? true : false);
-/* not now...
 				$this->tabs_gui->addSubTabTarget('invoice_number',
 					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'InvoiceNumber'),
 					'','', '',$a_sub_tab == 'invoice_number' ? true : false);
- *
- */
 				break;
 
 			default:
@@ -2153,11 +2143,11 @@ array('documents','TermsConditions','saveTermsConditions','BillingMail','saveBil
 		$form->addItem($formItem);
 		
 		// objects custom sorting
-		$formItem = new ilCheckboxInputGUI($this->lng->txt('pay_hide_filtering'), 'objects_allow_custom_sorting');
+/*		$formItem = new ilCheckboxInputGUI($this->lng->txt('pay_hide_filtering'), 'objects_allow_custom_sorting');
 		$formItem->setChecked((int)$genSetData['objects_allow_custom_sorting']);
 		$formItem->setInfo($this->lng->txt('pay_hide_filtering_info'));
 		$form->addItem($formItem);	
-		
+*/
 		// max hits
 		$formItem = new ilSelectInputGUI($this->lng->txt('pay_max_hits'), 'max_hits');
 		$formItem->setValue($genSetData['max_hits']);
@@ -2198,6 +2188,24 @@ array('documents','TermsConditions','saveTermsConditions','BillingMail','saveBil
 		$formItem = new ilCheckboxInputGUI($this->lng->txt('use_shop_specials'), 'use_shop_specials');
 		$formItem->setChecked((int)$genSetData['use_shop_specials']);
 		$formItem->setInfo($this->lng->txt('use_shop_specials_info'));
+		$form->addItem($formItem);
+
+		// show general filter
+		$formItem = new ilCheckboxInputGUI($this->lng->txt('show_general_filter'), 'show_general_filter');
+		$formItem->setChecked((int)$genSetData['show_general_filter']);
+		$formItem->setInfo($this->lng->txt('show_general_filter_info'));
+		$form->addItem($formItem);
+
+		// show topics filter
+		$formItem = new ilCheckboxInputGUI($this->lng->txt('show_topics_filter'), 'show_topics_filter');
+		$formItem->setChecked((int)$genSetData['show_topics_filter']);
+		$formItem->setInfo($this->lng->txt('show_topics_filter_info'));
+		$form->addItem($formItem);
+
+		// show shop explorer
+		$formItem = new ilCheckboxInputGUI($this->lng->txt('show_shop_explorer'), 'show_shop_explorer');
+		$formItem->setChecked((int)$genSetData['show_shop_explorer']);
+		$formItem->setInfo($this->lng->txt('show_shop_explorer_info'));
 		$form->addItem($formItem);
 
 		$this->tpl->setVariable('FORM',$form->getHTML());
@@ -2247,7 +2255,10 @@ array('documents','TermsConditions','saveTermsConditions','BillingMail','saveBil
 			'hide_coupons',
 			'hide_news',
 			'hide_shop_info',
-			'use_shop_specials'
+			'use_shop_specials',
+			'show_general_filter',
+			'show_topics_filter',
+			'show_shop_explorer'
 		);
 		
 		foreach ($values as $value) $values[$value] = ilUtil::stripSlashes($_POST[$value]);		
@@ -3756,11 +3767,7 @@ array('documents','TermsConditions','saveTermsConditions','BillingMail','saveBil
 
 		$this->__initBookingObject();
 
-		$inst_id_time = $ilias->getSetting('inst_id').'_'.$this->user_obj->getId().'_'.substr((string) time(),-3);
-		$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
-/* @todo INVOICE
- * $transaction = ilInvoiceNumberPlaceholdersPropertyGUI::_generateInvoiceNumber($ilUser->getId());
- */
+		$transaction = ilInvoiceNumberPlaceholdersPropertyGUI::_generateInvoiceNumber($ilUser->getId());
 
 		$this->booking_obj->setTransaction($transaction);
 		$this->booking_obj->setTransactionExtern($_POST['transaction']);
@@ -4621,7 +4628,7 @@ array('documents','TermsConditions','saveTermsConditions','BillingMail','saveBil
 
 		return $this->ctrl->forwardCommand($page_gui);
 	}
-/* @todo INVOICE
+
 	public function InvoiceNumberObject()
 	{
 		global $ilToolbar;
@@ -4758,6 +4765,5 @@ array('documents','TermsConditions','saveTermsConditions','BillingMail','saveBil
 
 			return true;
 	}
-*/
 } // END class.ilObjPaymentSettingsGUI
 ?>

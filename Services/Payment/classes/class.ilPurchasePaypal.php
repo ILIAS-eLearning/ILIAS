@@ -9,10 +9,8 @@
 * @package core
 */
 
-/* @todo INVOICE
-include_once './Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
 
- */
+include_once './Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
 include_once './Services/Payment/classes/class.ilPayMethods.php';
 include_once './Services/Payment/classes/class.ilPurchaseBaseGUI.php';
 
@@ -397,11 +395,8 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 			
 			$coupon_discount_items = $this->psc_obj->calcDiscountPrices($_SESSION["coupons"]["paypal"]);			
 
-			$inst_id_time = $ilias->getSetting('inst_id').'_'.$ilUser->getId().'_'.substr((string) time(),-3);
-			$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
-/* @todo INVOICE 
- * $transaction = ilInvoiceNumberPlaceholdersPropertyGUI::_generateInvoiceNumber($ilUser->getId());
- */
+			$transaction = ilInvoiceNumberPlaceholdersPropertyGUI::_generateInvoiceNumber($ilUser->getId());
+
 			for ($i = 0; $i < count($sc); $i++)
 			{
 				$pobjectData = ilPaymentObject::_getObjectData($sc[$i]["pobject_id"]);

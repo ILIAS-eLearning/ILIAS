@@ -16,9 +16,7 @@ include_once './Services/Payment/classes/class.ilPaymentCoupons.php';
 include_once './Services/Payment/classes/class.ilShopVatsList.php';
 include_once './Services/Payment/classes/class.ilPayMethods.php';
 include_once './Services/Payment/classes/class.ilShopUtils.php';
-/* @todo INVOICE
 include_once './Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
- */
 
 class ilPurchaseBaseGUI
 {
@@ -330,13 +328,8 @@ class ilPurchaseBaseGUI
 			}
 			
 			$coupon_discount_items = $this->psc_obj->calcDiscountPrices($_SESSION['coupons'][$this->session_var]);
-/* @todo INVOICE
- * 	$transaction = ilInvoiceNumberPlaceholdersPropertyGUI::_generateInvoiceNumber($ilUser->getId());
- */
-
-			$inst_id_time = $this->ilias->getSetting('inst_id').'_'.$this->user_obj->getId().'_'.substr((string) time(),-3);
-			$transaction = $inst_id_time.substr(md5(uniqid(rand(), true)), 0, 4);
-
+			$transaction = ilInvoiceNumberPlaceholdersPropertyGUI::_generateInvoiceNumber($ilUser->getId());
+ 
 			for ($i = 0; $i < count($sc); $i++)
 			{
 				$pobjectData = ilPaymentObject::_getObjectData($sc[$i]['pobject_id']);

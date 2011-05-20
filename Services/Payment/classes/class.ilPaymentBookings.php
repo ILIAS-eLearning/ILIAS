@@ -35,8 +35,12 @@ class ilPaymentBookings
 	public $email_extern = null;
 	public $name_extern= null;
 	public $currency_unit = null;
+
+	public $access_startdate = null;
 	public $access_enddate = null;
 	public $admin_view = false;
+
+	public $access_extension = false;
 
 	/*
 	 * admin_view = true reads all statistic data (only_used in administration)
@@ -281,8 +285,17 @@ class ilPaymentBookings
 	{
 		return $this->currency_unit;
 	}  
-	
-	public function setAccessEnddate($a_access_enddate)
+		
+	private function setAccessStartdate($a_access_startdate)
+	{
+		$this->access_startdate = $a_access_startdate;
+	}
+	public function getAccessStartdate()
+	{
+		return $this->access_startdate;
+	}
+
+	private function setAccessEnddate($a_access_enddate)
 	{
 		$this->access_enddate = $a_access_enddate;
 	}
@@ -290,9 +303,111 @@ class ilPaymentBookings
 	{
 		return $this->access_enddate;
 	}
+	
+	public function setAccessExtension($a_access_extension)
+	{
+		$this->access_extension = $a_access_extension;
+	}
+	public function getAccessExtension()
+	{
+		return $this->access_extension;
+	}
+
+	private function __checkExtensionDependencies()
+	{
+		global $ilDB;
+		
+		$ilDB->setLimit(1,0);
+
+		// check unlimited_duration
+		$res_1 = $ilDB->queryF('SELECT * FROM payment_statistic
+			WHERE pobject_id = %s
+			AND customer_id = %s
+			AND duration = %s
+			AND access_enddate = %s',
+			array('integer','integer', 'integer', 'timestamp'),
+			array($this->getPobjectId(), $this->getCustomerId(), 0, NULL)
+		);
+
+		$row_1 = $ilDB->fetchAssoc($res_1);
+		if(count($row_1) > 0 )
+		{
+			// error: user already has unlimited duration. not able to extend ...
+			return false;
+		}
+
+		// get last access_enddate
+		$res_2 = $ilDB->queryF('SELECT * FROM payment_statistic
+			WHERE pobject_id = %s
+			AND customer_id = %s
+			ORDER BY access_enddate DESC',
+			array('integer','integer'),
+			array($this->getPobjectId(), $this->getCustomerId())
+		);
+
+		$row_2 = $ilDB->fetchAssoc($res_2);
+		if(count($row_2) > 0)
+		{
+			//user has already bought this object
+			// use access_enddate as startdate
+			$old_enddate = $row_2['access_enddate']; # Y-m-d H:i:s
+			$current_date = date("Y-m-d H:i:s", $this->getOrderDate());
+
+			if($old_enddate <= $current_date)
+			{
+				// Zugriff ist abgelaufen, nimm das aktuelle Datum  als startdate
+				$this->setAccessStartdate($current_date);
+			}
+			else
+			{
+				// der Zugriff ist noch nicht abgelaufen, nimm enddate als startdate
+				$this->setAccessStartdate($old_enddate);
+			}
+
+			if($this->getDuration() > 0)
+			{
+				$this->__calculateAccessEnddate();
+			}
+		}
+	}
+
+	private function __calculateAccessEnddate()
+	{
+
+		include_once('Services/Calendar/classes/class.ilDateTime.php');
+
+		$tmp_ts = new ilDateTime($this->getAccessStartdate(),IL_CAL_DATETIME);
+		$start_date = $tmp_ts->getUnixTime();
+		$duration = $this->getDuration();
+
+		$startDateYear = date("Y", $start_date);
+		$startDateMonth = date("m", $start_date);
+		$startDateDay = date("d", $start_date);
+		$startDateHour = date("H", $start_date);
+		$startDateMinute = date("i",$start_date);
+		$startDateSecond = date("s", $start_date);
+
+		$access_enddate = date("Y-m-d H:i:s", mktime($startDateHour, $startDateMinute, $startDateSecond,
+		$startDateMonth + $duration, $startDateDay, $startDateYear));
+
+		$this->setAccessEnddate($access_enddate);		
+	}
 
 	public function add()
 	{
+		if($this->getAccessExtension() == 1)
+		{
+			$this->__checkExtensionDependencies();
+		}
+		else
+		{
+			$this->setAccessStartdate(date('Y-m-d H:i:s', $this->getOrderDate()));
+			if($this->getDuration() > 0)
+			{
+				$this->__calculateAccessEnddate();
+			}
+		}
+		
 		$next_id = $this->db->nextId('payment_statistic');
 		if(ilPayMethods::_EnabledSaveUserAddress((int)$this->getPayMethod()) == 1)
 		{
@@ -325,6 +440,7 @@ class ilPaymentBookings
 				'email_extern'	=> array('text',	$this->getEmailExtern()),
 				'name_extern'	=> array('text',	$this->getNameExtern()),
 				'currency_unit'	=> array('text',	$this->getCurrencyUnit()),
+				'access_startdate'=> array('timestamp', $this->getAccessStartdate()),
 				'access_enddate'=> array('timestamp', $this->getAccessEnddate())
 				));
 		}
@@ -359,6 +475,7 @@ class ilPaymentBookings
 				'email_extern'	=> array('text',	$this->getEmailExtern()),
 				'name_extern'	=> array('text',	$this->getNameExtern()),
 				'currency_unit'	=> array('text',	$this->getCurrencyUnit()),
+				'access_startdate'=> array('timestamp', $this->getAccessStartdate()),
 				'access_enddate'=> array('timestamp', $this->getAccessEnddate())
 				));	
 		}
@@ -439,7 +556,7 @@ class ilPaymentBookings
 		
 		while($row = $this->db->fetchObject($res))
 		{
-		$booking = $row;
+			$booking = $row;
 		}
 		return $booking ? $booking : array();
 	}

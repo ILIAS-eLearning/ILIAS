@@ -2770,13 +2770,34 @@ return $this->showServerInfoObject();
 		$num_days = new ilNumberInputGUI($this->lng->txt('payment_notification_days'),'payment_notification_days');
 		$num_days->setSize(3);
 		$num_days->setMinValue(0);
-		$num_days->setMaxValue(356);
+		$num_days->setMaxValue(120);
 		$num_days->setRequired(true);
 		$num_days->setValue($ilSetting->get('payment_notification_days'));
 		$num_days->setInfo($lng->txt('payment_notification_days_desc'));
 
 		$payment_noti->addSubItem($num_days);
 		$this->form->addItem($payment_noti);
+
+		// reset payment incremental invoice number
+		$inv_options = array(
+			"1" => $lng->txt("yearly"),
+			"2" => $lng->txt("monthly")
+			);
+		include_once './Services/Payment/classes/class.ilUserDefinedInvoiceNumber.php';
+		if(ilUserDefinedInvoiceNumber::_isUDInvoiceNumberActive())
+		{
+			$inv_reset = new ilSelectInputGUI($this->lng->txt("invoice_number_reset_period"), "invoice_number_reset_period");
+			$inv_reset->setOptions($inv_options);
+			$inv_reset->setInfo($this->lng->txt("invoice_number_reset_period_desc"));
+			$inv_reset->setValue(ilUserDefinedInvoiceNumber::_getResetPeriod());
+			$this->form->addItem($inv_reset);
+		}
+		else
+		{
+			$inv_info = new ilNonEditableValueGUI($this->lng->txt('invoice_number_reset_period'), 'invoice_number_reset_period');
+			$inv_info->setInfo($lng->txt('payment_userdefined_invoice_number_not_activated'));
+			$this->form->addItem($inv_info);
+		}
 
 		// course/group notifications
 		$crsgrp_ntf = new ilCheckboxInputGUI($this->lng->txt("enable_course_group_notifications"), "crsgrp_ntf");
