@@ -727,5 +727,31 @@ class SurveyQuestionGUI
 		$a_cmds[] = "saveReturn";
 	    return in_array($this->ctrl->getCmd(), $a_cmds);
 	}
+	
+	protected function renderChart($a_id, $a_variables)
+	{
+		include_once "Services/Chart/classes/class.ilChart.php";
+		$chart = new ilChart($a_id, 400, 400);
+
+		$legend = new ilChartLegend();
+		$chart->setLegend($legend);	
+
+		$data = new ilChartData("bars");
+		$data->setLabel($this->lng->txt("users_answered"));
+		$data->setBarOptions(0.5, "center");
+		
+		$labels = array();
+		foreach($a_variables as $idx => $points)
+		{			
+			$data->addPoint($idx, $points["selected"]);		
+			$labels[$idx] = $points["title"];
+		}
+		$chart->addData($data);
+		
+		$chart->setTicks($labels, false, true);
+
+		return "<div style=\"margin:10px\">".$chart->getHTML()."</div>";				
+	}
 }
+
 ?>

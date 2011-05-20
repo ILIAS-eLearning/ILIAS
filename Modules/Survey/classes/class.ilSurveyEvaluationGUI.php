@@ -677,19 +677,5 @@ class ilSurveyEvaluationGUI
 		$this->tpl->setVariable('TABLE', $table_gui->getHTML());	
 		$this->tpl->parseCurrentBlock();
 	}
-	
-/**
-* Creates an image visualising the results of a question
-*
-* @access public
-*/
-	function outChart()
-	{
-		$survey_id = $_GET["survey"];
-		$question_id = $_GET["question"];
-		$type = (strlen($_GET["type"])) ? $_GET["type"] : "";
-		$question =& $this->object->_instanciateQuestion($question_id);
-		$question->outChart($survey_id, $type);
-	}
 }
 ?>

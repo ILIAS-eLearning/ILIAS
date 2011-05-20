@@ -871,34 +871,6 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		$category = $this->categories->getCategory($value);
 		return ($value + 1) . " - " . ((strlen($category->title)) ? $category->title : $this->lng->txt('other_answer'));
 	}
-	
-/**
-* Creates an image visualising the results of the question
-*
-* @param integer $survey_id The database ID of the survey
-* @param string $type An additional parameter to allow to draw more than one chart per question. Must be interpreted by the question. Default is an empty string
-* @return binary Image with the visualisation
-* @access private
-*/
-	function outChart($survey_id, $type = "")
-	{
-		if (count($this->cumulated) == 0)
-		{
-			include_once "./Modules/Survey/classes/class.ilObjSurvey.php";
-			$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
-			$this->cumulated =& $this->getCumulatedResults($survey_id, $nr_of_users);
-		}
-		
-		foreach ($this->cumulated["variables"] as $key => $value)
-		{
-			foreach ($value as $key2 => $value2)
-			{
-				$this->cumulated["variables"][$key][$key2] = utf8_decode($value2);
-			}
-		}
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyChart.php";
-		$b1 = new SurveyChart("bars",400,250,utf8_decode($this->getTitle()),utf8_decode($this->lng->txt("answers")),utf8_decode($this->lng->txt("users_answered")),$this->cumulated["variables"]);
-	}
 
 	public function getCategories()
 	{
