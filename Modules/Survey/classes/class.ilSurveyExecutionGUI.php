@@ -446,8 +446,8 @@ class ilSurveyExecutionGUI
 
 		if(!$this->preview)
 		{
-			$this->object->setPage($_SESSION["finished_id"], $page[0]['question_id']);
-			$this->object->setStartTime($_SESSION["finished_id"], $first_question);
+			$this->object->setPage($_SESSION["finished_id"][$this->object->getId()], $page[0]['question_id']);
+			$this->object->setStartTime($_SESSION["finished_id"][$this->object->getId()], $first_question);
 		}
 	}
 	
@@ -469,7 +469,7 @@ class ilSurveyExecutionGUI
 
 		if(!$this->preview)
 		{
-			$this->object->setEndTime($_SESSION["finished_id"]);
+			$this->object->setEndTime($_SESSION["finished_id"][$this->object->getId()]);
 		}
 		
 		// check users input when it is a metric question
@@ -586,17 +586,17 @@ class ilSurveyExecutionGUI
 				$user_id = $ilUser->getId();
 			
 				// delete old answers
-				$this->object->deleteWorkingData($data["question_id"], $_SESSION["finished_id"]);
+				$this->object->deleteWorkingData($data["question_id"], $_SESSION["finished_id"][$this->object->getId()]);
 
 				if ($this->object->isSurveyStarted($user_id, $_SESSION["anonymous_id"]) === false)
 				{
-					$_SESSION["finished_id"] = $this->object->startSurvey($user_id, $_SESSION["anonymous_id"]);
+					$_SESSION["finished_id"][$this->object->getId()] = $this->object->startSurvey($user_id, $_SESSION["anonymous_id"]);
 				}
 				if ($this->object->getAnonymize())
 				{
 					$user_id = 0;
 				}
-				$question->saveUserInput($_POST, $_SESSION["finished_id"]);
+				$question->saveUserInput($_POST, $_SESSION["finished_id"][$this->object->getId()]);
 			}
 			return 0;
 		}
