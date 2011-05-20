@@ -5207,3 +5207,186 @@ if(!$ilDB->tableExists('usr_portf_acl'))
 			array('inc_last_reset' => array('integer', time())),
 			array('settings_id' => array('integer', 1)));
 ?>
+<#3328>
+<?php
+		$fields = array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+			),
+		'obj_type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true
+			),
+		'yyyy' => array(
+			'type' => 'integer',
+			'length' => 2,
+			'notnull' => false
+			),
+		'mm' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+			),
+		'dd' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+			),
+		'hh' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+			),
+		'read_count' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			),
+		'childs_read_count' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			),
+		'spent_seconds' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			),
+		'childs_spent_seconds' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			),
+	);
+	$ilDB->createTable('obj_stat', $fields);
+	$ilDB->addIndex("obj_stat", array("obj_id", "yyyy", "mm"), "i1");
+?>
+<#3329>
+<?php
+		$fields = array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+			),
+		'obj_type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true
+			),
+		'tstamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			),
+		'yyyy' => array(
+			'type' => 'integer',
+			'length' => 2,
+			'notnull' => false
+			),
+		'mm' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+			),
+		'dd' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+			),
+		'hh' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+			),
+		'read_count' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			),
+		'childs_read_count' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			),
+		'spent_seconds' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			),
+		'childs_spent_seconds' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			),
+	);
+	$ilDB->createTable('obj_stat_tmp', $fields);
+?>
+<#3330>
+<?php		
+		$fields = array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+			),
+		'obj_type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true
+			),
+		'tstamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			),
+		'yyyy' => array(
+			'type' => 'integer',
+			'length' => 2,
+			'notnull' => false
+			),
+		'mm' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+			),
+		'dd' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+			),
+		'hh' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+			),
+		'read_count' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			),
+		'childs_read_count' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			),
+		'spent_seconds' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			),
+		'childs_spent_seconds' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			),
+	);
+	$ilDB->createTable('obj_stat_log', $fields);
+?>
+<#3331>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
