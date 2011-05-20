@@ -11424,3 +11424,5 @@ payment#:#show_topics_filter#:#Show topics filter
 payment#:#show_topics_filter_info#:#Let users find buyable objects with this topics filter
 payment#:#show_shop_explorer#:#Show shop explorer
 payment#:#show_shop_explorer_info#:#This shop explorer simplifies the navigation within shop
+survey#:#survey_available_question_pools#:#Available Pools
+survey#:#survey_question_pool_title#:#Pool Title

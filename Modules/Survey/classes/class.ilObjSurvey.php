@@ -1772,7 +1772,10 @@ class ilObjSurvey extends ilObject
 		);
 		while ($data = $ilDB->fetchAssoc($result)) 
 		{
-			array_push($existing_questions, $data["original_id"]);
+			if($data["original_id"])
+			{
+				array_push($existing_questions, $data["original_id"]);
+			}
 		}
 		return $existing_questions;
 	}
@@ -3272,7 +3275,7 @@ class ilObjSurvey extends ilObject
 
 		if ($this->getAnonymize())
 		{
-			if ((($user_id != ANONYMOUS_USER_ID) && (strlen($anonymize_id) == 0)) && (!($this->isAccessibleWithoutCode() && $this->isAllowedToTakeMultipleSurveys())))
+			if ((($user_id != ANONYMOUS_USER_ID) && sizeof($anonymize_id)) && (!($this->isAccessibleWithoutCode() && $this->isAllowedToTakeMultipleSurveys())))
 			{
 				$result = $ilDB->queryF("SELECT * FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
 					array('integer','integer'),
@@ -3734,9 +3737,9 @@ class ilObjSurvey extends ilObject
 			if (array_key_exists('spl', $arrFilter) && strlen($arrFilter['spl']))
 			{
 				$where .= " AND svy_question.obj_fi = " . $ilDB->quote($arrFilter['spl'], 'integer');
-			}
+			}		
 		}
-
+		
 		$spls =& $this->getAvailableQuestionpools($use_obj_id = TRUE, $could_be_offline = FALSE, $showPath = FALSE);
 		$forbidden = "";
 		$forbidden = " AND " . $ilDB->in('svy_question.obj_fi', array_keys($spls), false, 'integer');
@@ -3750,14 +3753,26 @@ class ilObjSurvey extends ilObject
 		
 		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 		$trans = ilObjSurveyQuestionPool::_getQuestionTypeTranslations();
-
-		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id FROM svy_question, svy_qtype, object_reference WHERE svy_question.original_id IS NULL$forbidden$existing AND svy_question.obj_fi = object_reference.obj_id AND svy_question.tstamp > 0 AND svy_question.questiontype_fi = svy_qtype.questiontype_id " . $where);
+		
+		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id".
+			" FROM svy_question, svy_qtype, object_reference".
+			" WHERE svy_question.original_id IS NULL".$forbidden.$existing.
+			" AND svy_question.obj_fi = object_reference.obj_id AND svy_question.tstamp > 0".
+			" AND svy_question.questiontype_fi = svy_qtype.questiontype_id " . $where);
 
 		$rows = array();
 		if ($query_result->numRows())
 		{
 			while ($row = $ilDB->fetchAssoc($query_result))
 			{
+				if (array_key_exists('spl_txt', $arrFilter) && strlen($arrFilter['spl_txt']))
+				{
+					if(!stristr($spls[$row["obj_fi"]], $arrFilter['spl_txt']))
+					{
+						continue;
+					}
+				}
+				
 				$row['ttype'] = $trans[$row['type_tag']];
 				if ($row["plugin"])
 				{

@@ -11369,3 +11369,5 @@ payment#:#show_topics_filter#:#Themen Filter verwenden
 payment#:#show_topics_filter_info#:#Mit diesem Filter können Benutzer kaufbare Objekte nach Themen filtern
 payment#:#show_shop_explorer#:#Shop-Baum verwenden
 payment#:#show_shop_explorer_info#:#Der Shop-Baum vereinfacht die Navigation innerhalb des Shops
+survey#:#survey_available_question_pools#:#Verfügbare Pools
+survey#:#survey_question_pool_title#:#Pool-Titel

@@ -955,7 +955,7 @@ class ilObjSurveyQuestionPool extends ilObject
 
 		$result_array = array();
 		$qpls = ilUtil::_getObjectsByOperations("spl", $permission, $ilUser->getId(), -1);
-		$titles = ilObject::_prepareCloneSelection($qpls, "spl");
+		$titles = ilObject::_prepareCloneSelection($qpls, "spl", $showPath);
 		$allqpls = array();
 		$result = $ilDB->query("SELECT obj_fi, isonline FROM svy_qpl");
 		while ($row = $ilDB->fetchAssoc($result))
