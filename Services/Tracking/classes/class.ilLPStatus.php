@@ -178,6 +178,7 @@ class ilLPStatus
 	 * -- ilLPListOfSettingsGUI->groupMaterials()
 	 * -- ilLPListOfSettingsGUI->releaseMaterials()
 	 * -- ilObjTestGUI->confirmDeleteAllUserResultsObject @TODO move to ilObjTest but this can ba called for each single question
+	 * -- ilConditionHandlerInterface->updateCondition()
 	 *
 	 * - external time/access values for read events
 	 *   ilChangeEvent::_recordReadEvent($a_obj_id, $a_user_id, false, $attempts, $time);
@@ -193,6 +194,9 @@ class ilLPStatus
 	 */
 	function _updateStatus($a_obj_id, $a_usr_id, $a_obj = null)
 	{
+//global $ilLog;
+//$ilLog->write("ilLPStatus-_updateStatus-");
+
 		$status = $this->determineStatus($a_obj_id, $a_usr_id, $a_obj);
 		$percentage = $this->determinePercentage($a_obj_id, $a_usr_id, $a_obj);
 		ilLPStatus::writeStatus($a_obj_id, $a_usr_id, $status, $percentage);
@@ -477,7 +481,41 @@ class ilLPStatus
 			" status_dirty = ".$ilDB->quote(1, "integer").
 			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer")
 			);
+	}
+	
+	/**
+	 * Lookup status
+	 *
+	 * @param int $a_obj_id object id
+	 * @param int $a_user_id user id
+	 */
+	function _lookupStatus($a_obj_id, $a_user_id)
+	{
+		global $ilDB;
 		
+		$set = $ilDB->query("SELECT status FROM ut_lp_marks WHERE ".
+			" status_dirty = ".$ilDB->quote(0, "integer").
+			" AND usr_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND obj_id = ".$ilDB->quote($a_obj_id, "integer")
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return $rec["status"];
+		}
+		else
+		{
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+			ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id); 
+			$set = $ilDB->query("SELECT status FROM ut_lp_marks WHERE ".
+				" status_dirty = ".$ilDB->quote(0, "integer").
+				" AND usr_id = ".$ilDB->quote($a_user_id, "integer").
+				" AND obj_id = ".$ilDB->quote($a_obj_id, "integer")
+				);
+			if ($rec = $ilDB->fetchAssoc($set))
+			{
+				return $rec["status"];
+			}
+		}
 	}
 
 }	

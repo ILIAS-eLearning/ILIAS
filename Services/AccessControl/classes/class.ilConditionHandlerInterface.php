@@ -369,6 +369,9 @@ class ilConditionHandlerInterface
 			{
 				$lp_collection->add($item_id);
 			}
+			
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+			ilLPStatusWrapper::_refreshStatus($condition['trigger_obj_id']);
 		}
 
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
