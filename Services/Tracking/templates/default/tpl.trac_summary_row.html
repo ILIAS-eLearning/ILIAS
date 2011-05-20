@@ -18,6 +18,9 @@
 	<!-- BEGIN spent_seconds_avg -->
 	<td class="std small">{SPENT_SECONDS_AVG}</td>
 	<!-- END spent_seconds_avg -->
+	<!-- BEGIN read_count_spent_seconds_avg -->
+	<td class="std small">{READ_COUNT_SPENT_SECONDS_AVG}</td>
+	<!-- END read_count_spent_seconds_avg -->
 	<!-- BEGIN percentage_avg -->
 	<td class="std small">{PERCENTAGE_AVG}</td>
 	<!-- END percentage_avg -->
@@ -113,4 +116,18 @@
 	<!-- BEGIN create_date_max -->
 	<td class="std small">{CREATE_DATE_MAX}</td>
 	<!-- END create_date_max -->
+	<!-- BEGIN path_action -->
+	<td class="std small">
+    <!-- BEGIN item_path -->
+	{PATH_ITEM}<br />
+	<!-- END item_path -->
+	</td>
+	<!-- BEGIN column_action -->
+	<td class="std" nowrap="nowrap">
+	<!-- BEGIN item_command -->
+	<a class="il_ContainerItemCommand" href="{HREF_COMMAND}">{TXT_COMMAND}</a>
+	<!-- END item_command -->
+	</td>
+	<!-- END column_action -->
+	<!-- END path_action -->
 </tr>

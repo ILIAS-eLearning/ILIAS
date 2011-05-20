@@ -67,8 +67,14 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				break;
 
 			case 'iltrsummarytablegui':
+				$cmd = "showObjectSummary";
+				if(!$this->details_id)
+				{
+					$this->details_id = ROOT_FOLDER_ID;
+					$cmd =  "show";
+				}
 				include_once './Services/Tracking/classes/class.ilTrSummaryTableGUI.php';
-			    $table_gui = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->details_id);
+			    $table_gui = new ilTrSummaryTableGUI($this, $cmd, $this->details_id);
 				$this->ctrl->forwardCommand($table_gui);
 				break;
 
@@ -312,8 +318,13 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		}
 		 */
 
+		/*
 		include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
 		$lp_table = new ilLPObjectsTableGUI($this, "");
+		*/
+
+		include_once("./Services/Tracking/classes/class.ilTrSummaryTableGUI.php");
+		$lp_table = new ilTrSummaryTableGUI($this, "", ROOT_FOLDER_ID);
 		
 		$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
 		$this->tpl->setVariable('LEGEND', $this->__getLegendHTML());

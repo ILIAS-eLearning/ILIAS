@@ -9,6 +9,7 @@ include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com> 
  * @version $Id$
  *
+ * @ilCtrl_Calls ilTrSummaryTableGUI: ilFormPropertyDispatchGUI
  * @ingroup Services
  */
 class ilTrSummaryTableGUI extends ilLPTableBaseGUI
@@ -38,7 +39,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 
 		$this->addColumn($this->lng->txt("title"), "title");
-
 		$this->setDefaultOrderField("title");
 		
 		$labels = $this->getSelectableColumns();
@@ -47,14 +47,25 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$this->addColumn($labels[$c]["txt"], $c);
 		}
 
+		if($this->ref_id == ROOT_FOLDER_ID)
+		{
+			$this->addColumn($this->lng->txt("path"), "path");
+			$this->addColumn($this->lng->txt("action"), "action");
+			parent::initFilter(true);
+		}
+		else
+		{
+			$this->initFilter($a_parent_obj->getObjId());
+		}
+
 		// $this->setExternalSorting(true);
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormActionByClass(get_class($this)));
 		$this->setRowTemplate("tpl.trac_summary_row.html", "Services/Tracking");
-		$this->initFilter($a_parent_obj->getObjId());
-
-
+		
 		$this->getItems($a_parent_obj->getObjId(), $a_ref_id);
+		
+		$this->anonymized = (bool)!ilObjUserTracking::_enabledUserRelatedData();
 	}
 
 	function getSelectableColumns()
@@ -66,6 +77,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			'status_changed_max' => 'trac_status_changed',
 			"spent_seconds_avg" => "trac_spent_seconds", "percentage_avg" => "trac_percentage",
 			"read_count_sum" => "trac_read_count", "read_count_avg" => "trac_read_count",
+			"read_count_spent_seconds_avg" => "trac_read_count_spent_seconds"
 			);
 
 		
@@ -85,6 +97,12 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		{
 			$all[] = "spent_seconds_avg";
 			$default[] = "spent_seconds_avg";
+		}
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT) &&
+			$tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
+		{
+			$all[] = "read_count_spent_seconds_avg";
+			// $default[] = "read_count_spent_seconds_avg";
 		}
 
 		$all[] = "percentage_avg";
@@ -256,6 +274,18 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 
+		$preselected_obj_ids = $filter = NULL;
+		if($this->ref_id == ROOT_FOLDER_ID)
+		{
+			// using search to get all relevant objects
+			$preselected_obj_ids = $this->searchObjects($this->getCurrentFilter(true), "read");
+		}
+		else
+		{
+			// using summary filters
+			$filter = $this->getCurrentFilter();
+		}
+
 		$data = ilTrQuery::getObjectsSummaryForObject(
 				$a_object_id,
 				$a_ref_id,
@@ -263,8 +293,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				ilUtil::stripSlashes($this->getOrderDirection()),
 				ilUtil::stripSlashes($this->getOffset()),
 				ilUtil::stripSlashes($this->getLimit()),
-				$this->getCurrentFilter(),
-				$this->getSelectedColumns()
+				$filter,
+				$this->getSelectedColumns(),
+				$preselected_obj_ids
 				);
 
 		$rows = array();
@@ -422,6 +453,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				break;
 
 			case "spent_seconds":
+			case "read_count_spent_seconds":
 				if(in_array($type, array("exc")))
 				{
 					$value = "-";
@@ -465,7 +497,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($a_set["type"], $a_set["obj_id"], "tiny"));
 		$this->tpl->setVariable("ICON_ALT", $lng->txt($a_set["type"]));
 	    $this->tpl->setVariable("TITLE", $a_set["title"]);
@@ -504,6 +536,39 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 					$this->tpl->setVariable(strtoupper($c), $value);
 					break;
 			}
+		}
+
+		if($this->ref_id == ROOT_FOLDER_ID)
+		{
+			$path = $this->buildPath($a_set["ref_ids"]);
+			if($path)
+			{
+				$this->tpl->setCurrentBlock("item_path");
+				foreach($path as $path_item)
+				{
+					$this->tpl->setVariable("PATH_ITEM", $path_item);
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
+			$this->tpl->setCurrentBlock("item_command");
+			$ilCtrl->setParameterByClass(get_class($this),'hide', $a_set["obj_id"]);
+			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass(get_class($this),'hide'));
+			$this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('trac_hide'));
+			$this->tpl->parseCurrentBlock();
+						
+			if(!$this->anonymized)
+			{
+				$ref_id = $a_set["ref_ids"];
+				$ref_id = array_shift($ref_id);
+				$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', $ref_id);
+				$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass($ilCtrl->getCmdClass(), 'details'));
+				$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', '');
+				$this->tpl->setVariable("TXT_COMMAND", $lng->txt('trac_participants'));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->touchBlock("path_action");
 		}
 	}
 

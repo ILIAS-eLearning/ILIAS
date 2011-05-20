@@ -43,6 +43,10 @@ define("LP_ACTIVE_PROGRESS",3);
 define("LP_ACTIVE_LM_STATISTICS",4);
 define("LP_ACTIVE_USERS",5);
 define("LP_ACTIVE_SUMMARY",6);
+define("LP_ACTIVE_OBJSTATACCESS",7);
+define("LP_ACTIVE_OBJSTATTYPES",8);
+define("LP_ACTIVE_OBJSTATDAILY",9);
+define("LP_ACTIVE_OBJSTATADMIN",10);
 
 include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 
@@ -232,10 +236,11 @@ class ilLearningProgressBaseGUI
 				break;
 
 			case LP_MODE_ADMINISTRATION:
-				
+				/*
 				$this->tabs_gui->addSubTabTarget('trac_progress',
 									 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
 									 "","","",$a_active == LP_ACTIVE_PROGRESS);
+				*/
 				$this->tabs_gui->addSubTabTarget('trac_objects',
 									 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
 									 "","","",$a_active == LP_ACTIVE_OBJECTS);

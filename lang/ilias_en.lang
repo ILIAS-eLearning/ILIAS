@@ -10956,8 +10956,22 @@ trac#:#trac_first_and_last_access#:#First and Last Access
 user#:#user_save_ordering_and_titles#:#Save ordering and titles
 content#:#cont_wrong_answers_single#:#Incorrect Choice.
 survey#:#question_changed_in_survey_only#:#Question was changed only in survey
-style#:#style_move_style_into#:#Into
 content#:#cont_added_tab#:#Tab created.
+trac#:#trac_read_count_spent_seconds#:#Time Spent / Access
+trac#:#trac_object_stat_access#:#Usage Intensity
+trac#:#trac_show_graph#:#Show Graph
+trac#:#trac_figure#:#Key Figure
+trac#:#trac_object_stat_types#:#Number of Objects
+trac#:#trac_reference#:#References
+trac#:#trac_trash#:#moved to Trash
+trac#:#trac_object_stat_daily#:#Daily Usage
+trac#:#trac_object_stat_admin#:#Data Cleansing
+trac#:#trac_delete_data#:#Delete Data
+trac#:#trac_sure_delete_data#:#Are you sure you want to delete the complete data for the following months?
+trac#:#trac_data_deleted#:#Data has been deleted.
+trac#:#trac_sync_obj_stats#:#Update Data
+trac#:#trac_sync_obj_stats_success#:#Data has been updated.
+style#:#style_move_style_into#:#Into
 sahs#:#sahs_new_asset#:#New Asset
 sahs#:#sahs_insert_ass#:#Insert Asset
 common#:#obj_ass#:#Asset

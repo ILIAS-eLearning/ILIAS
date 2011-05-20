@@ -15,7 +15,7 @@ include_once "classes/class.ilObjectGUI.php";
 * @extends ilObjectGUI
 * @package ilias-core
 *
-* @ilCtrl_Calls ilObjUserTrackingGUI: ilLearningProgressGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjUserTrackingGUI: ilLearningProgressGUI, ilPermissionGUI, ilLPObjectStatisticsGUI
 */
 class ilObjUserTrackingGUI extends ilObjectGUI
 {
@@ -65,6 +65,13 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 				$lp_gui =& new ilLearningProgressGUI(LP_MODE_ADMINISTRATION);
 				$ret =& $this->ctrl->forwardCommand($lp_gui);
 				break;
+			
+			case 'illpobjectstatisticsgui':
+				$this->tabs_gui->setTabActive('statistics');
+				include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsGUI.php");
+				$os_gui =& new ilLPObjectStatisticsGUI(LP_MODE_ADMINISTRATION);
+				$ret =& $this->ctrl->forwardCommand($os_gui);
+				break;
 				
 			default:
 				$cmd = $this->ctrl->getCmd();
@@ -98,6 +105,12 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 															"settings"),
 								 "settings",
 								 get_class($this));
+			
+			$tabs_gui->addTarget("statistics",
+									 $this->ctrl->getLinkTargetByClass("illpobjectstatisticsgui",
+																	   "access"),
+									 "",
+									 "illpobjectstatisticsgui");
 
 			if (ilObjUserTracking::_enabledLearningProgress())
 			{
@@ -108,6 +121,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 									 "illearningprogressgui");
 			}
 
+			/*
 			$tabs_gui->addTarget("tracking_data",
 								 $this->ctrl->getLinkTarget($this,
 															"trackingDataQueryForm"),
@@ -120,6 +134,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 															"manageData"),
 								 "manageData",
 								 get_class($this));
+			 */
 
 			$tabs_gui->addTarget("perm_settings",
 								 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
