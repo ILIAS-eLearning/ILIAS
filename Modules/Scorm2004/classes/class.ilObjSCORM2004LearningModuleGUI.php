@@ -336,14 +336,14 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$this->form->addItem($ni);
 		
 		// final sco page
-		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_final_sco_page"), "final_sco_page");
+/*		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_final_sco_page"), "final_sco_page");
 		$cb->setInfo($this->lng->txt("cont_final_sco_page_info"));
 		$this->form->addItem($cb);
 		
 		// final lm page
 		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_final_lm_page"), "final_lm_page");
 		$cb->setInfo($this->lng->txt("cont_final_lm_page_info"));
-		$this->form->addItem($cb);
+		$this->form->addItem($cb);*/
 
 		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
 		$parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
@@ -381,8 +381,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$values["glossary"] = $this->lng->txt("cont_no_glossary");
 		}
 		$values["q_tries"] = $this->object->getTries();
-		$values["final_sco_page"] = $this->object->getFinalScoPage();
-		$values["final_lm_page"] = $this->object->getFinalLMPage();
+//		$values["final_sco_page"] = $this->object->getFinalScoPage();
+//		$values["final_lm_page"] = $this->object->getFinalLMPage();
 	
 		$this->form->setValuesByArray($values);
 	}
@@ -413,8 +413,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			if ($this->form->checkInput())
 			{
 				$this->object->setTries($_POST["q_tries"]);
-				$this->object->setFinalScoPage($_POST["final_sco_page"]);
-				$this->object->setFinalLMPage($_POST["final_lm_page"]);
+//				$this->object->setFinalScoPage($_POST["final_sco_page"]);
+//				$this->object->setFinalLMPage($_POST["final_lm_page"]);
 			}
 		}
 		$this->object->update();

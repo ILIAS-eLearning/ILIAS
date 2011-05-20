@@ -42,7 +42,7 @@ die("deprecated");
 	/**
 	 * Get special pages
 	 */
-	function getSpecialPages()
+/*	function getSpecialPages()
 	{
 		global $lng;
 
@@ -63,7 +63,7 @@ die("deprecated");
 				"purpose" => $lng->txt("cont_final_lm_page"));
 		}
 		$this->setData($sp);
-	}
+	}*/
 
 	/**
 	 * Fill table row

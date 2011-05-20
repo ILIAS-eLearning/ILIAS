@@ -340,14 +340,13 @@ class ilChart
 		else
 		{
 			$margin = $this->legend->getMargin();
-
 			$legend = array();
 			$legend[] = "show: true";
 			$legend[] = "noColumns: ".$this->legend->getColumns();
 			$legend[] = "position: \"".$this->legend->getPosition()."\"";
 			$legend[] = "margin: [".$margin["x"].", ".$margin["y"]."]";
 			$legend[] = "backgroundColor: ".self::renderColor($this->legend->getBackground());
-			$legend[] = "backgroundOpacity: ".$this->legend->getOpacity();
+			$legend[] = "backgroundOpacity: ".str_replace(",",".",$this->legend->getOpacity());
 			$legend[] = "labelBoxBorderColor: ".self::renderColor($this->legend->getLabelBorder());
 
 			$chart->setVariable("LEGEND", implode(", ", $legend));
