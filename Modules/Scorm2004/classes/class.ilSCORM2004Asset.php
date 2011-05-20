@@ -525,7 +525,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		}
 
 		// final sco success message
-		if ($this->getSLMObject()->getFinalScoPage() && $mode != 'pdf' && $this->getType() == "sco")
+/*		if ($this->getSLMObject()->getFinalScoPage() && $mode != 'pdf' && $this->getType() == "sco")
 		{
 			$mtpl = new ilTemplate("tpl.final_message.html", true, true, "Modules/Scorm2004");
 			$mtpl->setVariable("MESS", sprintf($lng->txt("sahs_sco_final_message"),
@@ -534,7 +534,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			$sco_tpl->setVariable("PAGE", $mtpl->get());
 			$sco_tpl->setVariable("PAGE_ID_ATTR", "id='sco_succ_message'");
 			$sco_tpl->parseCurrentBlock();
-		}
+		}*/
 		
 		// glossary
 		if ($mode!='pdf')
