@@ -1648,7 +1648,7 @@ class ilObject
 	 *
 	 * @param array int array of ref ids
 	 */
-	public static function _prepareCloneSelection($a_ref_ids,$new_type)
+	public static function _prepareCloneSelection($a_ref_ids,$new_type,$show_path = true)
 	{
 		global $ilDB,$lng,$objDefinition;
 		
@@ -1677,13 +1677,18 @@ class ilObject
 			{
 				$title = substr($title,0,40).'...';
 			}
-			if(strlen($path = $row->path_title) > 40)
+			
+			if($show_path)
 			{
-				$path = substr($path,0,40).'...';
+				if(strlen($path = $row->path_title) > 40)
+				{
+					$path = substr($path,0,40).'...';
+				}
+				
+				$title .= ' ('.$lng->txt('path').': '.$path.')';
 			}
 			
-			
-			$options[$row->child] = ($title.' ('.$lng->txt('path').': '.$path.')');
+			$options[$row->child] = $title;
 		}
 		return $options ? $options : array();
 	}

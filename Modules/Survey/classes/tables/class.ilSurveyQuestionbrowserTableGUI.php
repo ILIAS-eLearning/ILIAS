@@ -143,15 +143,24 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 		$si->readFromSession();
 		$this->filter["type"] = $si->getValue();
 		
-		// questionpool
+		
+		// questionpool text
+		$ti = new ilTextInputGUI($lng->txt("survey_question_pool_title"), "spl_txt");
+		$ti->setMaxLength(64);
+		$ti->setSize(20);
+		$this->addFilterItem($ti);
+		$ti->readFromSession();
+		$this->filter["spl_txt"] = $ti->getValue();
+		
+		// questionpool select
 		$options = array();
 		$options[""] = $lng->txt('filter_all_questionpools');
+		asort($this->questionpools);
 		foreach ($this->questionpools as $obj_id => $title)
 		{
 			$options[$obj_id] = $title;
 		}
-
-		$si = new ilSelectInputGUI($this->lng->txt("obj_spl"), "spl");
+		$si = new ilSelectInputGUI($this->lng->txt("survey_available_question_pools"), "spl");
 		$si->setOptions($options);
 		$this->addFilterItem($si);
 		$si->readFromSession();
