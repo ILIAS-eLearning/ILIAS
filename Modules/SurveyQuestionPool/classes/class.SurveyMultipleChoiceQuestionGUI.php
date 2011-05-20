@@ -628,6 +628,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
 		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["USERS_SKIPPED"]);
 		$template->parseCurrentBlock();
+		/*
 		$template->setCurrentBlock("detail_row");
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("mode"));
 		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["MODE"]);
@@ -636,7 +637,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("mode_nr_of_selections"));
 		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["MODE_NR_OF_SELECTIONS"]);
 		$template->parseCurrentBlock();
-		
+		*/
 		$template->setCurrentBlock("detail_row");
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("categories"));
 		$categories = "";
@@ -644,9 +645,8 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 		{
 			foreach ($this->cumulated["variables"] as $key => $value)
 			{
-				$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
-					$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
-					$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+				$categories .= "<li>" . $value["title"] . ": n=" . $value["selected"] . 
+					" (" . sprintf("%.2f", 100*$value["percentage"]) . "%)</li>";
 			}
 		}
 		$categories = "<ol>$categories</ol>";
