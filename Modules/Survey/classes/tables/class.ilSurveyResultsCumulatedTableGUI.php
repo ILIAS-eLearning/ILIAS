@@ -101,11 +101,11 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 		);
 		$cols["mode"] = array(
 			"txt" => $lng->txt("mode"),
-			"default" => true
+			"default" => false
 		);
 		$cols["mode_nr_of_selections"] = array(
 			"txt" => $lng->txt("mode_nr_of_selections"),
-			"default" => true
+			"default" => false
 		);
 		$cols["median"] = array(
 			"txt" => $lng->txt("median"),
