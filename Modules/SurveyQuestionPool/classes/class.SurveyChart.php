@@ -24,6 +24,8 @@
 /**
 * Class SurveyChart
 * 
+* ================= DEPRECATED - using /Services/Chart/ now =================== 
+*
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
