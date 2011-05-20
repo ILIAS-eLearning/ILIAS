@@ -668,6 +668,27 @@ div.ilc_sco_fmess_FinalMessage
 	text-align: center;
 }
 
+/* Question  Overview */
+div.ilc_qover_Correct
+{
+	margin: 20px 0px;
+	padding: 10px 60px 10px 30px;
+	background-color: #E7FFE7;
+	border-width: 1px;
+	border-color: #808080;
+	border-style: solid;
+}
+
+div.ilc_qover_Incorrect
+{
+	margin: 20px 0px;
+	padding: 10px 60px 10px 30px;
+	background-color: #FFE7E7;
+	border-width: 1px;
+	border-color: #808080;
+	border-style: solid;
+}
+
 /* RTE */
 div.ilc_rte_menu_RTEMenu
 {

@@ -122,7 +122,8 @@
 <!-- Question Overview -->
 <!ELEMENT QuestionOverview EMPTY>
 <!ATTLIST QuestionOverview
-	Type (Short | ListWrongQuestions) #REQUIRED
+	ShortMessage (y | n) #IMPLIED
+	ListWrongQuestions (y | n) #IMPLIED
 >
 
 <!-- Paragraph -->

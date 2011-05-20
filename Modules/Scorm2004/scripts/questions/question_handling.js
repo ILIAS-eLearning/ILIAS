@@ -16,6 +16,9 @@ ilias.questions.txt.nr_of_tries_exceeded = "Number of tries exceeded.";
 ilias.questions.txt.correct_answers_shown = "Correct solution see above.";
 ilias.questions.txt.correct_answers_also = "Also correct are:";
 ilias.questions.txt.correct_answer_also = "Also correct is:";
+ilias.questions.txt.ov_all_correct = "You have correctly answered all questions.";
+ilias.questions.txt.ov_some_correct = "You have correctly answered [x] out of [y] questions.";
+ilias.questions.txt.ov_wrong_answered = "The following questions were not answered or answered wrong";
 
 ilias.questions.init = function() {
 	ilias.questions.shuffle();

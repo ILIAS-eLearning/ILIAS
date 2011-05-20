@@ -3400,6 +3400,10 @@ class ilPageObjectGUI
 			ilias.questions.txt.correct_answers_shown = "'.$lng->txt("cont_correct_answers_shown").'";
 			ilias.questions.txt.correct_answers_also = "'.$lng->txt("cont_correct_answers_also").'";
 			ilias.questions.txt.correct_answer_also = "'.$lng->txt("cont_correct_answer_also").'";
+			ilias.questions.txt.ov_all_correct = "'.$lng->txt("cont_ov_all_correct").'";
+			ilias.questions.txt.ov_some_correct = "'.$lng->txt("cont_ov_some_correct").'";
+			ilias.questions.txt.ov_wrong_answered = "'.$lng->txt("cont_ov_wrong_answered").'";
+			ilCOPagePres.updateQuestionOverviews();
 			');
 		}
 	}

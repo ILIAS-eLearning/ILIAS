@@ -46,42 +46,83 @@ class ilPCQuestionOverview extends ilPageContent
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
 		$this->qover_node = $this->dom->create_element("QuestionOverview");
 		$this->qover_node = $this->node->append_child($this->qover_node);
-		$this->qover_node->set_attribute("Type", "Short");
+		$this->qover_node->set_attribute("ShortMessage", "y");
 	}
 
 	/**
-	 * Set type of question overview
+	 * Set short message
 	 *
-	 * @param	string	$a_type		Type
+	 * @param boolean $a_val t/f
 	 */
-	function setOverviewType($a_type)
+	function setShortMessage($a_val)
 	{
-		if (!empty($a_type))
+		if ($a_val)
 		{
-			$this->qover_node->set_attribute("Type", $a_type);
+			$this->qover_node->set_attribute("ShortMessage", "y");
 		}
 		else
 		{
-			if ($this->qover_node->has_attribute("Type"))
+			if ($this->qover_node->has_attribute("ShortMessage"))
 			{
-				$this->qover_node->remove_attribute("Type");
+				$this->qover_node->remove_attribute("ShortMessage");
 			}
 		}
 	}
 
 	/**
-	 * Get type of question overview
+	 * Get short message
 	 *
-	 * @return	string		type
+	 * @return boolean
 	 */
-	function getOverviewType()
+	function getShortMessage()
 	{
 		if (is_object($this->qover_node))
 		{
-			$type =  $this->qover_node->get_attribute("Type");
-			return $type;
+			if ($this->qover_node->get_attribute("ShortMessage") == "y")
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Set list wrong questions
+	 *
+	 * @param boolean $a_val t/f
+	 */
+	function setListWrongQuestions($a_val)
+	{
+		if ($a_val)
+		{
+			$this->qover_node->set_attribute("ListWrongQuestions", "y");
+		}
+		else
+		{
+			if ($this->qover_node->has_attribute("ListWrongQuestions"))
+			{
+				$this->qover_node->remove_attribute("ListWrongQuestions");
+			}
 		}
 	}
+
+	/**
+	 * Get list wrong questions
+	 *
+	 * @return boolean
+	 */
+	function getListWrongQuestions()
+	{
+		if (is_object($this->qover_node))
+		{
+			if ($this->qover_node->get_attribute("ListWrongQuestions") == "y")
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
 
 ?>

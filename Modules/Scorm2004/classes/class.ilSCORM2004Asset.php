@@ -503,7 +503,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 					$q_gui =& assQuestionGUI::_getQuestionGUI("", $q_id);
 					$q_gui->outAdditionalOutput();
 					$html = $q_gui->getPreview(TRUE);
-					$page_output = preg_replace("/&#123;&#123;&#123;&#123;&#123;Question;il__qst_".$q_id."&#125;&#125;&#125;&#125;&#125;/i",$html,$page_output);
+					$page_output = preg_replace("/{{{{{Question;il__qst_".$q_id."}}}}}/i",$html,$page_output);
 				}
 			}
 
@@ -559,9 +559,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			$output = preg_replace_callback("/href=\"&mob_id=(\d+)&pg_id=(\d+)\"/",array(get_class($this), 'fixFullscreeenLink'),$output);
 			// this one is for fullscreen in glossary entries
 			$output = preg_replace_callback("/href=\"fullscreen_(\d+)\.html\"/",array(get_class($this), 'fixFullscreeenLink'),$output);
-			$output = preg_replace_callback("/(Question;)(il__qst_[0-9]+)/",array(get_class($this), 'insertQuestion'),$output);
-			$output = preg_replace("/&#123;/","",$output);
-			$output = preg_replace("/&#125;/","",$output);
+			$output = preg_replace_callback("/{{{{{(Question;)(il__qst_[0-9]+)}}}}}/",array(get_class($this), 'insertQuestion'),$output);
+//			$output = preg_replace("/&#123;/","",$output);
+//			$output = preg_replace("/&#125;/","",$output);
 			$q_handling = file_get_contents('./Modules/Scorm2004/scripts/questions/question_handling.js');
 			fputs(fopen($a_target_dir.'/js/questions_'.$this->getId().'.js','w+'),ilQuestionExporter::questionsJS().$q_handling);
 			copy("./Modules/Scorm2004/templates/default/question_handling.css",
