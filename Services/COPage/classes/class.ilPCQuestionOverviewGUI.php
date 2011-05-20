@@ -77,18 +77,27 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
 			$form->setTitle($this->lng->txt("cont_edit_qover"));
 		}
 		
-		// question overview
-		$radg = new ilRadioGroupInputGUI($lng->txt("cont_type"), "type");
-			$op1 = new ilRadioOption($lng->txt("cont_qover_short_message"), "Short",$lng->txt("cont_qover_short_message_info"));
-			$radg->addOption($op1);
-			$op1 = new ilRadioOption($lng->txt("cont_qover_list_wrong_q"), "ListWrongQuestions",$lng->txt("cont_qover_list_wrong_q_info"));
-			$radg->addOption($op1);
-		$form->addItem($radg);
+		// short message
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_qover_short_message"), "short");
+		$cb->setInfo($this->lng->txt("cont_qover_short_message_info"));
+		if (!$a_insert)
+		{
+			$cb->setChecked($this->content_obj->getShortMessage());
+		}
+		else
+		{
+			$cb->setChecked(true);
+		}
+		$form->addItem($cb);
 		
-		$selected = ($a_insert)
-			? "Short"
-			: $this->content_obj->getOverviewType();
-		$radg->setValue($selected);
+		// list wrong questions
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_qover_list_wrong_q"), "wrong_questions");
+		$cb->setInfo($this->lng->txt("cont_qover_list_wrong_q_info"));
+		if (!$a_insert)
+		{
+			$cb->setChecked($this->content_obj->getListWrongQuestions());
+		}
+		$form->addItem($cb);
 		
 		// save/cancel buttons
 		if ($a_insert)
@@ -113,7 +122,8 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
 	{
 		$this->content_obj = new ilPCQuestionOverview($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-		$this->content_obj->setOverviewType($_POST["type"]);
+		$this->content_obj->setShortMessage(ilUtil::stripSlashes($_POST["short"]));
+		$this->content_obj->setListWrongQuestions(ilUtil::stripSlashes($_POST["wrong_questions"]));
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
@@ -130,7 +140,8 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
 	 */
 	function update()
 	{
-		$this->content_obj->setOverviewType($_POST["type"]);
+		$this->content_obj->setShortMessage(ilUtil::stripSlashes($_POST["short"]));
+		$this->content_obj->setListWrongQuestions(ilUtil::stripSlashes($_POST["wrong_questions"]));
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{

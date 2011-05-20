@@ -414,9 +414,9 @@ die("deprecated");
 		
 		//insert questions
 		require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
-		$output = preg_replace_callback("/(Question;)(il__qst_[0-9]+)/",array(get_class($this), 'insertQuestion'),$output);
-		$output = preg_replace("/&#123;/","",$output);
-		$output = preg_replace("/&#125;/","",$output);
+		$output = preg_replace_callback("/{{{{{(Question;)(il__qst_[0-9]+)}}}}}/",array(get_class($this), 'insertQuestion'),$output);
+//		$output = preg_replace("/&#123;/","",$output);
+//		$output = preg_replace("/&#125;/","",$output);
 		$output = "<script>var ScormApi=null;".ilQuestionExporter::questionsJS()."</script>".$output;
 
 		$tpl->addOnloadCode('

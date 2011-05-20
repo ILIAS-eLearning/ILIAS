@@ -10,6 +10,7 @@ ilCOPagePres =
 	{
 		this.initToc();
 		this.initInteractiveImages();
+		this.updateQuestionOverviews();
 	},
 	
 	//
@@ -656,7 +657,6 @@ ilCOPagePres =
 	
 	addQuestionOverview: function(conf)
 	{
-//console.log(tr);
 		this.qover[conf.id] = conf;
 	},
 	
@@ -695,7 +695,7 @@ ilCOPagePres =
 				}
 			}
 		}
-		
+
 		// iterate all question overview elements
 		for (var i in this.qover)
 		{
@@ -707,33 +707,40 @@ ilCOPagePres =
 			// show success message, if all questions have been answered
 			if (incorrect_cnt == 0)
 			{
+				ov_el.attr("class", 'ilc_qover_Correct');
 				ov_el.append(
-					"Brilliant! Everything is correct.");
+					ilias.questions.txt.ov_all_correct);
 			}
 			else
 			{
+				ov_el.attr("class", 'ilc_qover_Incorrect');
 				// show message including of number of not
 				// correctly answered questions
-				if (this.qover[i].type == "Short")
+				if (this.qover[i].short_message == "y")
 				{
-					ov_el.append(
-						"You failed in " + incorrect_cnt + " out of " +
-						(incorrect_cnt + correct_cnt) + " questions."
+					ov_el.append('<div class="ilc_qover_StatusMessage">' +
+						ilias.questions.txt.ov_some_correct.split("[x]").join(correct_cnt + "")
+							.split("[y]").join((incorrect_cnt + correct_cnt) + "") +
+							"</div>"
 						);
 				}
-				else
+				
+				if (this.qover[i].list_wrong_questions == "y")
 				{
 					ov_el.append(
-						"You failed in the following questions: "
+						'<div class="ilc_qover_WrongAnswersMessage">' +
+						ilias.questions.txt.ov_wrong_answered + ":" + '</div>'
 						);
 					
 					// list all incorrect answered questions
+					ov_el.append('<ul class="ilc_list_u_BulletedList"></ul>');
+					var ul = $('div#' + this.qover[i].div_id + " > ul");
 					for (var j in incorrect)
 					{
-						ov_el.append(
-							'<div class="ilc_qover_WrongAnsweredQuestion">' +
-							questions[j].question
-							+ '</div>');
+						ul.append(
+							'<li class="ilc_list_item_StandardListItem">' +
+							'<a href="#" class="ilc_qoverl_WrongAnswerLink">' + questions[j].question + '</a>'
+							+ '</li>');
 					}
 				}
 			}

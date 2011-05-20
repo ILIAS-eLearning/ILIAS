@@ -2982,9 +2982,11 @@
 <xsl:template match="QuestionOverview">
 	<!-- Label -->
 	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_qover']/@value"/></xsl:with-param></xsl:call-template>
-	<div class="ilc_qover_QuestionOverview">
-		<xsl:attribute name="id">qover_<xsl:value-of select = "$pg_id"/>_<xsl:number count="QuestionOverview" level="any" /></xsl:attribute>
-		Question Overview: <xsl:value-of select = "@Type" />
+	<div>
+		<div class="ilc_qover_QuestionOverview">
+			<xsl:attribute name="id">qover_<xsl:value-of select = "$pg_id"/>_<xsl:number count="QuestionOverview" level="any" /></xsl:attribute>
+			<xsl:comment>Break</xsl:comment>
+		</div>
 		<xsl:if test="$mode = 'edit'">
 			<!-- <xsl:value-of select="../@HierId"/> -->
 			<xsl:if test="$javascript='disable'">
@@ -3000,14 +3002,14 @@
 				<xsl:with-param name="edit">y</xsl:with-param>
 			</xsl:call-template>
 		</xsl:if>
-		<xsl:comment>Break</xsl:comment>
 	</div>
 	<script type="text/javascript">
-	ilAddOnLoad(function() {ilCOPagePres.addQuestionOverview(
+	ilCOPagePres.addQuestionOverview(
 		{div_id: 'qover_<xsl:value-of select = "$pg_id"/>_<xsl:number count="QuestionOverview" level="any" />',
 		id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="QuestionOverview" level="any" />',
-		type: '<xsl:value-of select = "@Type" />'
-	})});
+		short_message: '<xsl:value-of select = "@ShortMessage" />',
+		list_wrong_questions: '<xsl:value-of select = "@ListWrongQuestions" />'
+	});
 	</script>
 </xsl:template>
 

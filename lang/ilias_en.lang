@@ -11401,6 +11401,9 @@ content#:#cont_qover_short_message_info#:#A message "You have correctly answered
 content#:#cont_qover_list_wrong_q#:#List of Wrong Answered Questions
 content#:#cont_qover_list_wrong_q_info#:#A list of wrong or not answered questions will be displayed.
 content#:#cont_edit_qover#:#Edit Question Overview
+content#:#cont_ov_all_correct#:#You have correctly answered all questions.
+content#:#cont_ov_some_correct#:#You have correctly answered [x] out of [y] questions.
+content#:#cont_ov_wrong_answered#:#The following questions were not answered or answered wrong
 common#:#invoice_number_reset_period#:#Reset incremental number
 common#:#invoice_number_reset_period_desc#:#Choose the period for reseting the incremental number to the start value
 common#:#payment_userdefined_invoice_number_not_activated#:#Userdefined invoice numbers are not enabled
