@@ -399,18 +399,42 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$values = "<ol>$values</ol>";
 		$template->setVariable("TEXT_OPTION_VALUE", $values);
 		$template->parseCurrentBlock();
-		
+	
 		
 		// chart 
 		$template->setCurrentBlock("detail_row");				
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("chart"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->renderChart("svy_ch_".$this->object->getId(), $this->cumulated["variables"]));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->renderChart("svy_ch_".$this->object->getId(), $this->cumulated["values"]));
 		$template->parseCurrentBlock();
 		
 		
 		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
 		return $template->get();
 	}
+	
+	protected function renderChart($a_id, $a_values)
+	{
+		include_once "Services/Chart/classes/class.ilChart.php";
+		$chart = new ilChart($a_id, 400, 400);
 
+		$legend = new ilChartLegend();
+		$chart->setLegend($legend);	
+
+		$data = new ilChartData("bars");
+		$data->setLabel($this->lng->txt("users_answered"));
+		$data->setBarOptions(0.1, "center");
+		
+		$labels = array();
+		foreach($a_values as $idx => $answer)
+		{			
+			$data->addPoint($answer["value"], $answer["selected"]);		
+			$labels[$answer["value"]] = $answer["value"];
+		}
+		$chart->addData($data);
+		
+		$chart->setTicks($labels, false, true);
+
+		return "<div style=\"margin:10px\">".$chart->getHTML()."</div>";				
+	}
 }
 ?>
