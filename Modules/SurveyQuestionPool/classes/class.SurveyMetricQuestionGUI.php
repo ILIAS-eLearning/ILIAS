@@ -366,7 +366,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		}
 		$template->parseCurrentBlock();
 		
-
+		/*
 		$template->setCurrentBlock("detail_row");
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("mode"));
 		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["MODE"]);
@@ -375,6 +375,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("mode_nr_of_selections"));
 		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["MODE_NR_OF_SELECTIONS"]);
 		$template->parseCurrentBlock();
+		*/
 		$template->setCurrentBlock("detail_row");
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("median"));
 		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["MEDIAN"]);
@@ -391,9 +392,8 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		{
 			foreach ($this->cumulated["values"] as $key => $value)
 			{
-				$values .= "<li>" . $this->lng->txt("value") . ": " . "<span class=\"bold\">" . $value["value"] . "</span><br />" .
-					$this->lng->txt("value_nr_entered") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
-					$this->lng->txt("percentage_of_entered_values") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+				$values .= "<li>" . $value["value"] . ": n=" .  $value["selected"] . 
+					" (" . sprintf("%.2f", 100*$value["percentage"]) . "%)</li>";
 			}
 		}
 		$values = "<ol>$values</ol>";

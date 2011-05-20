@@ -1315,15 +1315,16 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
 		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["TOTAL"]["USERS_SKIPPED"]);
 		$template->parseCurrentBlock();
-		
+		/*
 		$template->setCurrentBlock("detail_row");
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("mode"));
 		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["TOTAL"]["MODE"]);
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("detail_row");
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("mode_nr_of_selections"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["TOTAL"]["MODE_NR_OF_SELECTIONS"]);
-		$template->parseCurrentBlock();
+		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["TOTAL"]["MODE_NR_OF_SELECTIONS"]);		
+	    $template->parseCurrentBlock();
+		 */
 		$template->setCurrentBlock("detail_row");
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("median"));
 		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["TOTAL"]["MEDIAN"]);
@@ -1334,9 +1335,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$columns = "";
 		foreach ($this->cumulated["TOTAL"]["variables"] as $key => $value)
 		{
-			$columns .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
-				$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
-				$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+			$columns .= "<li>" . $value["title"] . ": n=" . $value["selected"] . 
+				" (" . sprintf("%.2f", 100*$value["percentage"]) . "%)</li>";
 		}
 		$columns = "<ol>$columns</ol>";
 		$template->setVariable("TEXT_OPTION_VALUE", $columns);
@@ -1344,7 +1344,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		
 		foreach ($this->cumulated as $key => $value)
 		{
-			if (is_numeric($key))
+			if (is_numeric($key))	
 			{
 				$template->setCurrentBlock("detail_row");
 				$template->setVariable("TEXT_OPTION", $this->lng->txt("row"));
@@ -1358,17 +1358,18 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				$template->setCurrentBlock("detail_row");
 				$template->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
 				$template->setVariable("TEXT_OPTION_VALUE", $value["USERS_SKIPPED"]);
-				$template->parseCurrentBlock();
-				
+				$template->parseCurrentBlock();				
+				/*
 				$template->setCurrentBlock("detail_row");
 				$template->setVariable("TEXT_OPTION", $this->lng->txt("mode"));
 				$template->setVariable("TEXT_OPTION_VALUE", $value["MODE"]);
-				$template->parseCurrentBlock();
+				$template->parseCurrentBlock();				
 				$template->setCurrentBlock("detail_row");
 				$template->setVariable("TEXT_OPTION", $this->lng->txt("mode_nr_of_selections"));
 				$template->setVariable("TEXT_OPTION_VALUE", $value["MODE_NR_OF_SELECTIONS"]);
 				$template->parseCurrentBlock();
-				$template->setCurrentBlock("detail_row");
+				*/
+				$template->setCurrentBlock("detail_row");				
 				$template->setVariable("TEXT_OPTION", $this->lng->txt("median"));
 				$template->setVariable("TEXT_OPTION_VALUE", $value["MEDIAN"]);
 				$template->parseCurrentBlock();
@@ -1378,9 +1379,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				$columns = "";
 				foreach ($value["variables"] as $key => $value)
 				{
-					$columns .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
-						$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
-						$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
+					$columns .= "<li>" . $value["title"] . ": n=". $value["selected"] . 
+						" (".sprintf("%.2f", 100*$value["percentage"]) . "%)</li>";
 				}
 				$columns = "<ol>$columns</ol>";
 				$template->setVariable("TEXT_OPTION_VALUE", $columns);
