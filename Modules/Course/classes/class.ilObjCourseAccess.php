@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("classes/class.ilObjectAccess.php");
 include_once './Modules/Course/classes/class.ilCourseConstants.php';
@@ -355,6 +336,20 @@ class ilObjCourseAccess extends ilObjectAccess
 	{
 		return !self::_isActivated($a_obj_id);
 	}
+	
+	/**
+	 * Preload data
+	 *
+	 * @param array $a_obj_ids array of object ids
+	 */
+	function _preloadData($a_obj_ids, $a_ref_ids)
+	{
+		global $ilDB, $ilUser;
+		
+		include_once("./Modules/Course/classes/class.ilCourseWaitingList.php");
+		ilCourseWaitingList::_preloadOnListInfo($ilUser->getId(), $a_obj_ids);
+	}
+
 }
 
 ?>

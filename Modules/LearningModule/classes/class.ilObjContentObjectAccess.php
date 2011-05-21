@@ -1,39 +1,24 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 include_once("classes/class.ilObjectAccess.php");
 
 /**
-* Class ilObjContentObjectAccess
-*
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesIliasLearningModule
-*/
+ * Class ilObjContentObjectAccess
+ *
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ModulesIliasLearningModule
+ */
 class ilObjContentObjectAccess extends ilObjectAccess
 {
+	static $online;
+	static $lo_access;
+	
 	/**
 	* checks wether a user may invoke a command or not
 	* (this method is called by ilAccessHandler::checkAccess)
@@ -134,10 +119,16 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
+		if (isset(self::$online[$a_id]))
+		{
+			return self::$online[$a_id];
+		}
+
 		$q = "SELECT is_online FROM content_object WHERE id = ".$ilDB->quote($a_id, "integer");
 		$lm_set = $ilDB->query($q);
 		$lm_rec = $ilDB->fetchAssoc($lm_set);
 
+		self::$online[$a_id] = ilUtil::yn2tf($lm_rec["is_online"]);
 		return ilUtil::yn2tf($lm_rec["is_online"]);
 	}
 
@@ -156,16 +147,23 @@ class ilObjContentObjectAccess extends ilObjectAccess
 			$a_user_id = $ilUser->getId();
 		}
 
-		$q = "SELECT * FROM lo_access WHERE ".
-			"usr_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
-			"lm_id = ".$ilDB->quote($a_ref_id, "integer");
-			
-		$lm_id = ilObject::_lookupObjId($a_ref_id);
-
-		$acc_set = $ilDB->query($q);
-
-		if ($acc_rec = $ilDB->fetchAssoc($acc_set))
+		if (isset(self::$lo_access[$a_ref_id]))
 		{
+			$acc_rec["obj_id"] = self::$lo_access[$a_ref_id];
+		}
+		else
+		{
+			$q = "SELECT * FROM lo_access WHERE ".
+				"usr_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
+				"lm_id = ".$ilDB->quote($a_ref_id, "integer");
+	
+			$acc_set = $ilDB->query($q);
+			$acc_rec = $ilDB->fetchAssoc($acc_set);
+		}
+		
+		if ($acc_rec["obj_id"] > 0)
+		{
+			$lm_id = ilObject::_lookupObjId($a_ref_id);
 			$mtree = new ilTree($lm_id);
 			$mtree->setTableNames('lm_tree','lm_data');
 			$mtree->setTreeTablePK("lm_id");
@@ -241,6 +239,40 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	{
 		return !self::_lookupOnline($a_obj_id);
 	}
+	
+	/**
+	 * Preload data
+	 *
+	 * @param array $a_obj_ids array of object ids
+	 */
+	function _preloadData($a_obj_ids, $a_ref_ids)
+	{
+		global $ilDB, $ilUser;
+		
+		$q = "SELECT id, is_online FROM content_object WHERE ".
+			$ilDB->in("id", $a_obj_ids, false, "integer");
+
+		$lm_set = $ilDB->query($q);
+		while ($rec = $ilDB->fetchAssoc($lm_set))
+		{
+			self::$online[$rec["id"]] = ilUtil::yn2tf($rec["is_online"]);
+		}
+		
+		$q = "SELECT obj_id, lm_id FROM lo_access WHERE ".
+			"usr_id = ".$ilDB->quote($ilUser->getId(), "integer")." AND ".
+			$ilDB->in("lm_id", $a_ref_ids, false, "integer");;
+		$set = $ilDB->query($q);
+		foreach ($a_ref_ids as $r)
+		{
+			self::$lo_access[$r] = 0;
+		}
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			self::$lo_access[$rec["lm_id"]] = $rec["obj_id"];
+		}
+
+	}
+
 }
 
 ?>
