@@ -37,6 +37,7 @@ abstract class ilWaitingList
 	private $user_ids = array();
 	private $users = array();
 	
+	static $is_on_list = array();
 
 
 	/**
@@ -207,6 +208,11 @@ abstract class ilWaitingList
 	{
 		global $ilDB;
 		
+		if (isset(self::$is_on_list[$a_usr_id][$a_obj_id]))
+		{
+			return self::$is_on_list[$a_usr_id][$a_obj_id];
+		}
+		
 		$query = "SELECT usr_id ".
 			"FROM crs_waiting_list ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id, 'integer')." ".
@@ -214,6 +220,47 @@ abstract class ilWaitingList
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true : false;
 	}
+	
+	/**
+	 * Preload on list info. This is used, e.g. in the repository
+	 * to prevent multiple reads on the waiting list table.
+	 * The function is triggered in the preload functions of ilObjCourseAccess
+	 * and ilObjGroupAccess.
+	 *
+	 * @param array $a_usr_ids array of user ids
+	 * @param array $a_obj_ids array of object ids
+	 */
+	function _preloadOnListInfo($a_usr_ids, $a_obj_ids)
+	{
+		global $ilDB;
+		
+		if (!is_array($a_usr_ids))
+		{
+			$a_usr_ids = array($a_usr_ids);
+		}
+		if (!is_array($a_obj_ids))
+		{
+			$a_obj_ids = array($a_obj_ids);
+		}
+		foreach ($a_usr_ids as $usr_id)
+		{
+			foreach ($a_obj_ids as $obj_id)
+			{
+				self::$is_on_list[$usr_id][$obj_id] = false;
+			}
+		}
+		$query = "SELECT usr_id, obj_id ".
+			"FROM crs_waiting_list ".
+			"WHERE ".
+			$ilDB->in("obj_id", $a_obj_ids, false, "integer")." AND ".
+			$ilDB->in("usr_id", $a_usr_ids, false, "integer");
+		$res = $ilDB->query($query);
+		while ($rec = $ilDB->fetchAssoc($res))
+		{
+			self::$is_on_list[$rec["usr_id"]][$rec["obj_id"]] = true;
+		}
+	}
+	
 
 	/**
 	 * get number of users

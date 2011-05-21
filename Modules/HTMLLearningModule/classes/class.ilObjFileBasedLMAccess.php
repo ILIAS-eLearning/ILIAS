@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("classes/class.ilObjectAccess.php");
 
@@ -34,6 +15,9 @@ include_once("classes/class.ilObjectAccess.php");
 */
 class ilObjFileBasedLMAccess extends ilObjectAccess
 {
+	static $online;
+	static $startfile;
+
 	/**
 	* checks wether a user may invoke a command or not
 	* (this method is called by ilAccessHandler::checkAccess)
@@ -117,11 +101,17 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id, "integer");
+		if (isset(self::$online[$a_id]))
+		{
+			return self::$online[$a_id];
+		}
+		$q = "SELECT is_online FROM file_based_lm WHERE id = ".$ilDB->quote($a_id, "integer");
 		$set = $ilDB->query($q);
 		$rec = $ilDB->fetchAssoc($set);
 
-		return ilUtil::yn2tf($rec["is_online"]);
+		self::$online[$a_id] = ilUtil::yn2tf($rec["is_online"]);
+		
+		return self::$online[$a_id];
 	}
 
 	/**
@@ -131,10 +121,19 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id, "integer");
-		$set = $ilDB->query($q);
-		$rec = $ilDB->fetchAssoc($set);
-		$start_file = $rec["startfile"];
+		if (isset(self::$startfile[$a_id]))
+		{
+			$start_file = self::$startfile[$a_id];
+		}
+		else
+		{
+			$q = "SELECT startfile FROM file_based_lm WHERE id = ".$ilDB->quote($a_id, "integer");
+			$set = $ilDB->query($q);
+			$rec = $ilDB->fetchAssoc($set);
+			$start_file = $rec["startfile"];
+			self::$startfile[$a_id] = $start_file."";
+		}
+		
 		$dir = ilUtil::getWebspaceDir()."/lm_data/lm_".$a_id;
 		
 		if (($start_file != "") &&
@@ -200,6 +199,27 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	{
 		return !self::_lookupOnline($a_obj_id);
 	}
+	
+	/**
+	 * Preload data
+	 *
+	 * @param array $a_obj_ids array of object ids
+	 */
+	function _preloadData($a_obj_ids, $a_ref_ids)
+	{
+		global $ilDB, $ilUser;
+		
+		$q = "SELECT id, is_online, startfile FROM file_based_lm WHERE ".
+			$ilDB->in("id", $a_obj_ids, false, "integer");
+
+		$lm_set = $ilDB->query($q);
+		while ($rec = $ilDB->fetchAssoc($lm_set))
+		{
+			self::$online[$rec["id"]] = ilUtil::yn2tf($rec["is_online"]);
+			self::$startfile[$rec["id"]] = $rec["startfile"]."";
+		}
+	}
+
 }
 
 ?>

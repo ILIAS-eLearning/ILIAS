@@ -544,6 +544,9 @@ class ilContainer extends ilObject
 		$objects = $tree->getChilds($this->getRefId(), "title");
 
 		$found = false;
+		$all_obj_types = array();
+		$all_ref_ids = array();
+		$all_obj_ids = array();
 
 		include_once('Services/Container/classes/class.ilContainerSorting.php');
 		$sort = ilContainerSorting::_getInstance($this->getId());
@@ -599,9 +602,11 @@ class ilContainer extends ilObject
 			$this->addAdditionalSubItemInformation($object);
 			
 			$this->items[$type][$key] = $object;
+			
+			$all_obj_types[$object["type"]] = $object["type"];
+			$obj_ids_of_type[$object["type"]][] = $object["obj_id"];
+			$ref_ids_of_type[$object["type"]][] = $object["child"];
 
-			$obj_ids_of_type[$type][] = $object["obj_id"];
-			$ref_ids_of_type[$type][] = $object["child"];
 			$all_ref_ids[] = $object["child"];
 			$all_obj_ids[] = $object["obj_id"];
 
@@ -619,15 +624,19 @@ class ilContainer extends ilObject
 		if (!self::$data_preloaded && is_array($this->items))
 		{
 			// type specific preloads
-			foreach ($this->items as $t => $items)
+			foreach ($all_obj_types as $t)
 			{
-				if (!in_array($t, array("_all", "_non_sess")) && !is_numeric($t))
-				{
-					// condition handler: preload conditions
-					include_once("./Services/AccessControl/classes/class.ilConditionHandler.php");
-					ilConditionHandler::preloadConditionsForTargetRecords($t,
-						$obj_ids_of_type[$t]);
-				}
+				// condition handler: preload conditions
+				include_once("./Services/AccessControl/classes/class.ilConditionHandler.php");
+				ilConditionHandler::preloadConditionsForTargetRecords($t,
+					$obj_ids_of_type[$t]);
+
+				$class = $objDefinition->getClassName($t);
+				$location = $objDefinition->getLocation($t);
+				$full_class = "ilObj".$class."Access";
+				include_once($location."/class.".$full_class.".php");
+				call_user_func(array($full_class, "_preloadData"),
+					$obj_ids_of_type[$t], $ref_ids_of_type[$t]);
 			}
 
 			// general preloads

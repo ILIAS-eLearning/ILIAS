@@ -1470,65 +1470,6 @@ class ilObjUser extends ilObject
 		return ilUtil::stripSlashes(substr($this->lastname,0,$a_max_strlen));
 	}
 
-// ### AA 03.09.01 updated page access logger ###
-	/**
-	* get read lessons, ordered by timestamp
-	* @access	public
-	* @return	array	lessons
-	*/
-	function getLastVisitedLessons()
-	{
-		global $ilDB;
-
-		//query
-		$q = "SELECT * FROM lo_access ".
-			"WHERE usr_id= ".$ilDB->quote((int) $this->id, "integer")." ".
-			"ORDER BY timestamp DESC";
-		$rst = $ilDB->query($q);
-
-		// fill array
-		$result = array();
-		while($record = $ilDB->fetchObject($rst))
-		{
-			$result[] = array(
-			"timestamp"	=>	$record->timestamp,
-			"usr_id"		=>	$record->usr_id,
-			"lm_id"		=>	$record->lm_id,
-			"obj_id"		=>	$record->obj_id,
-			"lm_title"	=>	$record->lm_title);
-		}
-		return $result;
-	}
-
-// ### AA 03.09.01 updated page access logger ###
-	/**
-	* get all lessons, unordered
-	* @access	public
-	* @return	array	lessons
-	*/
-	function getLessons()
-	{
-		global $ilDB;
-
-		//query
-		$q = "SELECT * FROM lo_access ".
-			"WHERE usr_id= ".$ilDB->quote((int) $this->id, "integer")." ";
-		$rst = $ilDB->query($q);
-
-		// fill array
-		$result = array();
-		while($record = $rst->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$result[] = array(
-			"timestamp"	=>	$record->timestamp,
-			"usr_id"		=>	$record->usr_id,
-			"lm_id"		=>	$record->lm_id,
-			"obj_id"		=>	$record->obj_id,
-			"lm_title"	=>	$record->lm_title);
-		}
-		return $result;
-	}
-
 	/**
 	 * Check if user has accepted the agreement
 	 *

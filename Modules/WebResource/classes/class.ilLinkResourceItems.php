@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./classes/class.ilObjectGUI.php";
 
@@ -618,22 +599,8 @@ class ilLinkResourceItems
 	{
 		global $ilDB;
 
-		$res = $ilDB->query("SELECT * FROM webr_items WHERE webr_id = ".
-			$ilDB->quote($a_webr_id ,'integer')." AND active = '1'");
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$item['title']				= $row->title;
-			$item['description']		= $row->description;
-			$item['target']				= $row->target;
-			$item['active']				= (bool) $row->active;
-			$item['disable_check']		= $row->disable_check;
-			$item['create_date']		= $row->create_date;
-			$item['last_update']		= $row->last_update;
-			$item['last_check']			= $row->last_check;
-			$item['valid']				= $row->valid;
-			$item['link_id']			= $row->link_id;
-		}
-		return $item ? $item : array();
+		include_once("./Modules/WebResource/classes/class.ilObjLinkResourceAccess.php");
+		return ilObjLinkResourceAccess::_getFirstLink($a_webr_id);
 	}
 	
 	/**
