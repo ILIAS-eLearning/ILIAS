@@ -257,7 +257,6 @@ SeqRollupRule.prototype =
 			
 				considered = true;
 				var eval = this.mConditions.evaluate(tempActivity);
-				var parent=tempActivity.getParent().mActivityID;
 				result = result && (eval == EVALUATE_TRUE);
 				emptySet = emptySet && (eval == EVALUATE_UNKNOWN);
 			}
@@ -391,5 +390,5 @@ SeqRollupRule.prototype =
 		return result;
 	}
 	
-}
+};
 

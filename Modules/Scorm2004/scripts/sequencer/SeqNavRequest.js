@@ -57,3 +57,4 @@ var NAV_ABANDONALL = 6;
 var NAV_SUSPENDALL = 7;
 var NAV_EXIT = 8;
 var NAV_EXITALL = 9;
+var NAV_JUMP = 10;

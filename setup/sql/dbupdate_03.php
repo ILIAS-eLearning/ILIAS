@@ -5390,3 +5390,148 @@ if(!$ilDB->tableExists('usr_portf_acl'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3332>
+<?php
+if(!$ilDB->tableExists('cp_datamap'))
+{
+	$fields = array (
+		"sco_node_id" => array (
+			"notnull" => true
+			,"length" => 4
+			,"unsigned" => false
+			,"default" => "0"
+			,"type" => "integer"
+		)
+		,"cp_node_id" => array (
+			"notnull" => false
+			,"length" => 4
+			,"unsigned" => false
+			,"default" => "0"
+			,"type" => "integer"
+		)
+		,"slm_id" => array (
+			"notnull" => true
+			,"length" => 4
+			,"type" => "integer"
+		)
+		,"target_id" => array (
+			"notnull" => true
+			,"length" => 4000
+			,"fixed" => false
+			,"type" => "text"
+		)
+		,"read_shared_data" => array (
+			"notnull" => false
+			,"length" => 1
+			,"unsigned" => false
+			,"default" => "1"
+			,"type" => "integer"
+		)
+		,"write_shared_data" => array (
+			"notnull" => false
+			,"length" => 1
+			,"unsigned" => false
+			,"default" => "1"
+			,"type" => "integer"
+		)
+	);
+	$ilDB->createTable("cp_datamap", $fields);
+	
+	$pk_fields = array("cp_node_id");
+	$ilDB->addPrimaryKey("cp_datamap", $pk_fields);
+}
+?>
+<#3333>
+<?php
+if(!$ilDB->tableExists('adl_shared_data'))
+{
+	$fields = array (
+		"slm_id" => array (
+			"notnull" => true
+			,"length" => 4
+			,"type" => "integer"
+		)
+		,"user_id" => array (
+			"notnull" => true
+			,"length" => 4
+			,"type" => "integer"
+		)
+		,"target_id" => array (
+			"notnull" => true
+			,"length" => 4000
+			,"fixed" => false
+			,"type" => "text"
+		)
+		,"store" => array (
+			"notnull" => false
+			,"type" => "clob"
+		)
+	);
+	$ilDB->createTable("adl_shared_data", $fields);
+}
+?>
+<#3334>
+<?php
+	$ilDB->addTableColumn("cp_package", "shared_data_global_to_system", array(
+		"type" => "integer",
+		"notnull" => false,
+		"unsigned" => false,
+		"default" => "1",
+		"length" => 1));
+?>
+<#3335>
+<?php
+	if($ilDB->tableExists('cmi_gobjective'))
+	{	 
+		$ilDB->addTableColumn("cmi_gobjective", "score_raw", array(
+			"type" => "text",
+			"notnull" => false,
+			"length" => 50));
+		$ilDB->addTableColumn("cmi_gobjective", "score_min", array(
+			"type" => "text",
+			"notnull" => false,
+			"length" => 50));
+		$ilDB->addTableColumn("cmi_gobjective", "score_max", array(
+			"type" => "text",
+			"notnull" => false,
+			"length" => 50));
+		$ilDB->addTableColumn("cmi_gobjective", "progress_measure", array(
+			"type" => "text",
+			"notnull" => false,
+			"length" => 50));
+		$ilDB->addTableColumn("cmi_gobjective", "completion_status", array(
+			"type" => "text",
+			"notnull" => false,
+			"length" => 50));
+	}
+?>
+<#3336>
+<?php
+	$ilDB->addTableColumn("cp_item", "progressweight", array(
+		"type" => "text",
+		"notnull" => false,
+		"default" => "1.0",
+		"fixed" => false,
+		"length" => 50));
+	$ilDB->addTableColumn("cp_item", "completedbymeasure", array(
+		"type" => "integer",
+		"notnull" => false,
+		"unsigned" => false,
+		"default" => "0",
+		"length" => 1));
+	$ilDB->modifyTableColumn("cp_item", "completionthreshold", array("default" => "1.0"));
+?>
+<#3337>
+<?php
+	// cmi_objective completion_status from double to text
+	$ilDB->addTableColumn("cmi_objective", "completion_status_tmp", array(
+		"type" => "text",
+		"length" => 32,
+		"notnull" => false,
+		"default" => null)
+	);
+
+	$ilDB->manipulate('UPDATE cmi_objective SET completion_status_tmp = completion_status');
+	$ilDB->dropTableColumn('cmi_objective', 'completion_status');
+	$ilDB->renameTableColumn("cmi_objective", "completion_status_tmp", "completion_status");
+?>

@@ -73,14 +73,14 @@
 	  	$organizations = $doc->getElementsByTagName("organizations");
 	  	
 	  	//lookup default organization id
-	  	$default=$organizations->item(0)->getAttribute("default");
+	  	$default=preg_replace('/(%20)+/', ' ', trim($organizations->item(0)->getAttribute("default")));
 	  	
 	  	//get all organization nodes
 	  	$organization = $doc->getElementsByTagName("organization");
 	  	
 	  	//lookup the default organization
 	  	foreach ($organization as $element) {
-	  		if ($element->getAttribute("identifier")==$default) {
+	  		if (preg_replace('/(%20)+/', ' ', trim($element->getAttribute("identifier")))==$default) {
 	  			$default_organization = $element;
 	  		}
 	  	}
@@ -93,7 +93,7 @@
 		//return no data please check
 		$objectivesGlobalToSystem = $default_organization->getAttributeNS("http://www.adlnet.org/xsd/adlseq_v1p3","objectivesGlobalToSystem");
 	
-		$org = $default_organization->getAttribute("identifier");
+		$org = preg_replace('/(%20)+/', ' ', trim($default_organization->getAttribute("identifier")));
 		
 		//default true
 		$globaltosystem = 1;
@@ -101,11 +101,22 @@
 		if ($objectivesGlobalToSystem=="false") {
 			$globaltosystem = 0;
 		}
+		
+	    //return no data please check
+		$dataGlobalToSystem = $default_organization->getAttributeNS("http://www.adlnet.org/xsd/adlcp_v1p3","sharedDataGlobalToSystem");
+	
+		//default true
+		$dataglobaltosystem = 1;
+		
+		if ($dataGlobalToSystem=="false") {
+			$dataglobaltosystem = 0;
+		}
 				
 		//assign SeqActivity to top node
 		$c_root['_SeqActivity']=$root;
 				
 		$ret['global'] = $globaltosystem;
+		$ret['dataglobal'] = $dataglobaltosystem;
 		$ret['tree'] = $c_root;
 		
 		return $ret;
@@ -115,25 +126,24 @@
 	  
 	  
 	  private function buildNode($node,$seq,$doc) {
-	  	
+
 	  	//create a new activity object
 	  	$act = new SeqActivity();
-	  	
-	  	
+	  		  	
 	  	//set various attributes, if existent
-	  	$act->setID($node->getAttribute("identifier"));
+	  	$act->setID(preg_replace('/(%20)+/', ' ', trim($node->getAttribute("identifier"))));
 	  	
-	  	$tempVal = $node->getAttribute("identifierref");
+	  	$tempVal = preg_replace('/(%20)+/', ' ', trim($node->getAttribute("identifierref")));
 	  	if ($tempVal){
 	  		$act->setResourceID($tempVal);
 	  	}
 	  	
 	  	$tempVal = $node->getAttribute("isvisible");
 	  
-	  	
 	  	if ($tempVal){
 	  			$act->setIsVisible(self::convert_to_bool($tempVal));
 	  	}
+	  	 
 	    
 	  	
 	    	//Proceed nested items
@@ -158,10 +168,31 @@
 	  			else if ($curNode->localName == "title") {
 	  				 $act->setTitle($this->lookupElement($curNode,null));
 	  			}
+	  			else if ($curNode->localName == "completionThreshold"){
+		  			$tempVal = $curNode->getAttribute("minProgressMeasure");
+				  	 
+				  	 if ($tempVal){
+				  	 	$act->setCompletionThreshold($tempVal);
+				  	 }
+				  	 else if ($curNode->nodeValue != null && $curNode->nodeValue != '') {
+				  	 	$act->setCompletionThreshold($curNode->nodeValue);
+				  	 }
+		
+				  	 $tempVal = $curNode->getAttribute("progressWeight");
+				  	 
+				  	 if ($tempVal){
+				  	 	$act->setProgressWeight($tempVal);
+				  	 }
+				  	 $tempVal = $curNode->getAttribute("completedByMeasure");
+			  	 
+				  	 if ($tempVal){
+				  	 	$act->setCompletedByMeasure(self::convert_to_bool($tempVal));
+				  	 }
+	  			}
 	  			else if ($curNode->localName == "sequencing") {
 	  				$seqInfo = $curNode;
 	  				//get IDRef
-	  				$tempVal = $curNode->getAttribute("IDRef");
+	  				$tempVal = preg_replace('/(%20)+/', ' ', trim($curNode->getAttribute("IDRef")));
 	  				//only execute for referenced sequencing parts
 	  				if ($tempVal) {
 	  					//init seqGlobal
@@ -172,7 +203,7 @@
 	  
 	  					//lookup the matching sequencing element
 	  					foreach ($sequencing as $element) {
-	  						if ($element->getAttribute("ID")==$tempVal) {
+	  						if (preg_replace('/(%20)+/', ' ', trim($element->getAttribute("ID")))==$tempVal) {
 	  							$seqGlobal = $element;
 	  						}
 	  					}
@@ -311,10 +342,13 @@
 					$ioAct = self::getRollupRules($curNode, $ioAct);
 				}
 				
-				else if ($curNode->localName == "objectives") {
+				else if ($curNode->localName == "objectives" && $curNode->namespaceURI == "http://www.imsglobal.org/xsd/imsss") {
 					$ioAct = self::getObjectives($curNode,$ioAct);
 				}
 				
+          		else if ($curNode->localName == "objectives" && $curNode->namespaceURI == "http://www.adlnet.org/xsd/adlseq_v1p3") {
+					$ioAct = self::getADLSEQObjectives($curNode,$ioAct);
+				}
 				else if ($curNode->localName == "randomizationControls") {
 					
 					// Look for 'randomizationTiming'
@@ -419,6 +453,9 @@
 	
 	
 	public static function getObjectives ($iNode,$ioAct) {
+		global $ilLog;
+		
+		
 		$ok = true;
 	    $tempVal = null;
 	    $objectives = array();
@@ -434,7 +471,7 @@
 					}
 					
                		// Look for 'objectiveID'
-					$tempVal = $curNode->getAttribute("objectiveID");
+					$tempVal = preg_replace('/(%20)+/', ' ', trim($curNode->getAttribute("objectiveID")));
 					if($tempVal) {
 						$obj->mObjID = $tempVal;
                 	}
@@ -466,6 +503,138 @@
      	return $ioAct;
 	}
 	
+	public static function getADLSEQObjectives ($iNode,$ioAct) {
+		global $ilLog;
+		$objectives = $ioAct->mObjectives;
+		$children = $iNode->childNodes;
+		for ($i = 0; $i < $children->length; $i++ ) {
+			$curNode=$children->item($i);
+			if ($curNode->nodeType == XML_ELEMENT_NODE) {
+				if ($curNode->localName == "objective" ) {
+					// get the objectiveID
+					$adlseqobjid = preg_replace('/(%20)+/', ' ', trim($curNode->getAttribute("objectiveID")));
+					
+					// find the imsss objective with the same objectiveID
+					$curseqobj = null;
+					for ( $j = 0; $j < count($objectives); $j++ ){
+						$seqobj = $objectives[$j]['_SeqObjective'];
+						if ( $seqobj->mObjID == $adlseqobjid ){
+							$curseqobj = $seqobj;
+							$curseqobjindex = $j;
+							break;
+						}			
+					}
+					
+					// if there's a current seq then let's add the maps
+					if ( $curseqobj != null ){
+						//  for each adlseq map info populate that mMaps with map info in the adlseq objective
+						$curseqobj = self::getADLSeqMaps($curNode, $curseqobj);
+						$seqobj = $curseqobj;
+						$objectives[$curseqobjindex]['_SeqObjective'] = $seqobj;
+					}
+					
+				}
+			}
+		}
+		// before i leave what do i have to duplicate in SeqActivity or some other class?
+		// prolly just 
+		$ioAct->setObjectives($objectives); 
+		return $ioAct;
+	}
+	
+	public static function getADLSeqMaps($iNode, $curseqobj){
+		if (count($curseqobj->mMaps)==null) $curseqobj->mMaps = array();
+		$maps = $curseqobj->mMaps;
+
+		$children = $iNode->childNodes;
+		for ($i = 0; $i < $children->length; $i++ ) {
+			$curNode=$children->item($i);
+	  		if ($curNode->nodeType == XML_ELEMENT_NODE) {
+				if ($curNode->localName == "mapInfo") {
+					$map = new SeqObjectiveMap();
+					$curadltargetobjid = preg_replace('/(%20)+/', ' ', trim($curNode->getAttribute("targetObjectiveID")));
+					// if the adl map target id matches an imsssssss one, then add to the imsssss one
+					$matchingmapindex = -1;
+					for ( $j = 0; $j < count($maps); $j++ ){
+						if ($maps[$j]['_SeqObjectiveMap']->mGlobalObjID == $curadltargetobjid){
+							$map = $maps[$j]['_SeqObjectiveMap'];
+							$matchingmapindex = $j;
+						}
+					}
+// tom: if default access is dependent on map existence then this will need to know if an imsss:mapInfo existed					
+					$map = self::fillinADLSeqMaps($curNode, $map);
+					
+					if ( $matchingmapindex > -1 ){
+						$c_map['_SeqObjectiveMap']=$map;
+						$maps[$matchingmapindex] = $c_map;
+					}
+					else{
+	             		$c_map['_SeqObjectiveMap']=$map;
+	             		array_push($maps, $c_map);
+					}
+				}
+	  		}
+		}
+		$curseqobj->mMaps = $maps;
+		return $curseqobj;
+	}
+	
+	public static function fillinADLSeqMaps($iNode, $map){
+				
+		if($map->mGlobalObjID == null) $map->mGlobalObjID = preg_replace('/(%20)+/', ' ', trim($iNode->getAttribute("targetObjectiveID")));
+
+		$tempVal = $iNode->getAttribute("readRawScore");
+		if($tempVal) {
+			$map->mReadRawScore = self::convert_to_bool($tempVal);
+        }
+
+		$tempVal = $iNode->getAttribute("readMinScore");
+		if($tempVal) {
+			$map->mReadMinScore = self::convert_to_bool($tempVal);
+        }
+        
+		$tempVal = $iNode->getAttribute("readMaxScore");
+		if($tempVal) {
+			$map->mReadMaxScore = self::convert_to_bool($tempVal);
+        }
+        
+		$tempVal = $iNode->getAttribute("readCompletionStatus");
+		if($tempVal) {
+			$map->mReadCompletionStatus = self::convert_to_bool($tempVal);
+        }
+        
+		$tempVal = $iNode->getAttribute("readProgressMeasure");
+		if($tempVal) {
+			$map->mReadProgressMeasure = self::convert_to_bool($tempVal);
+        }
+        
+		$tempVal = $iNode->getAttribute("writeRawScore");
+		if($tempVal) {
+			$map->mWriteRawScore = self::convert_to_bool($tempVal);
+        }
+
+		$tempVal = $iNode->getAttribute("writeMinScore");
+		if($tempVal) {
+			$map->mWriteMinScore = self::convert_to_bool($tempVal);
+        }
+        
+		$tempVal = $iNode->getAttribute("writeMaxScore");
+		if($tempVal) {
+			$map->mWriteMaxScore = self::convert_to_bool($tempVal);
+        }
+        
+		$tempVal = $iNode->getAttribute("writeCompletionStatus");
+		if($tempVal) {
+			$map->mWriteCompletionStatus = self::convert_to_bool($tempVal);
+        }
+        
+		$tempVal = $iNode->getAttribute("writeProgressMeasure");
+		if($tempVal) {
+			$map->mWriteProgressMeasure = self::convert_to_bool($tempVal);
+        }
+        
+        return $map;
+	}
 	
 	public static function getObjectiveMaps($iNode) {
 		$tempVal = null;
@@ -478,7 +647,7 @@
 					 $map = new SeqObjectiveMap();
 					
 					// Look for 'targetObjectiveID'
-	               	 $tempVal = $curNode->getAttribute("targetObjectiveID");
+	               	 $tempVal = preg_replace('/(%20)+/', ' ', trim($curNode->getAttribute("targetObjectiveID")));
 					 if($tempVal) {
 						$map->mGlobalObjID = $tempVal;
 		             }
@@ -723,6 +892,7 @@
 	}
 	
 	public static function extractSeqRuleConditions($iNode) {
+
 		$tempVal = null;
 	    $condSet = new SeqConditionSet(false);
 
@@ -747,9 +917,10 @@
                     }
 
 	               // Look for 'referencedObjective'
-					$tempVal=$curCond->getAttribute("referencedObjective");
+					$tempVal=preg_replace('/(%20)+/', ' ', trim($curCond->getAttribute("referencedObjective")));
 	               	if ($tempVal) {
 						$cond->mObjID = $tempVal;
+						
 	                }
 	
 	               // Look for 'measureThreshold'
@@ -807,7 +978,7 @@
 						$res->mType = $tempVal;
 			        }
 			       // Get the resource's ID
-					$tempVal=$curNode->getAttribute("auxiliaryResourceID");
+					$tempVal=preg_replace('/(%20)+/', ' ', trim($curNode->getAttribute("auxiliaryResourceID")));
 					if ($tempVal) {
 						$res->mResourceID = $tempVal;
 				    }

@@ -72,7 +72,7 @@ Walk.prototype =
 	at: null,
 	direction: FLOW_NONE,
 	endSession: false
-}
+};
 
 
 // ADLSequencer Class
@@ -89,7 +89,8 @@ ADLSequencer.prototype =
 	mExitAll: false,
 	mValidTermination: true,
 	mValidSequencing: true,
-	
+	mIsJump: false,
+
 	// getter/setter
 	getActivityTree: function () { return this.mSeqTree; },
 
@@ -143,7 +144,13 @@ ADLSequencer.prototype =
 			if (valid.mChoice != null)
 			{
 				// clone Object (Hashtable)
-				oValid.mChoice = new clone(valid.mChoice);
+				oValid.mChoice = $.extend(true, {}, valid.mChoice);//new clone(valid.mChoice);
+			}
+			
+			if (valid.mJump != null)
+			{
+				//clone Object (Hashtable)
+				oValid.mJump = $.extend(true, {}, valid.mJump);//new clone(valid.mJump);
 			}
 		}
 		else
@@ -154,7 +161,9 @@ ADLSequencer.prototype =
 			oValid.mPrevious = false;
 			oValid.mChoice = null;
 			oValid.mTOC = null;
+			oValid.mJump = null;
 		}
+		return oValid;
 	},
 	
 	setActivityTree: function (iTree)
@@ -231,7 +240,7 @@ ADLSequencer.prototype =
 	
 	clearAttemptObjMeasure: function (iID, iObjID)
 	{
-		// Find the target activty
+		// Find the target activity
 		var target = this.getActivity(iID);
 		
 		// Make sure the activity exists
@@ -248,10 +257,7 @@ ADLSequencer.prototype =
 					var statusChange = target.clearObjMeasure(iObjID);
 					
 					if (statusChange)
-					{
-						// If the activity's status changed, it may affect other 
-						// activities -- invoke rollup
-						var writeObjIDs = target.getObjIDs(iObjID, false);
+					{								
 						// Revalidate the navigation requests
 						this.validateRequests();
 					}
@@ -262,7 +268,7 @@ ADLSequencer.prototype =
 	
 	setAttemptObjMeasure: function (iID, iObjID, iMeasure)
 	{
-		// Find the target activty
+		// Find the target activity
 		var target = this.getActivity(iID);
 		
 		// Make sure the activity exists
@@ -281,10 +287,7 @@ ADLSequencer.prototype =
 					//target.setObjMeasure(iObjID, iMeasure);
 					target.setObjMeasure(iMeasure, {iObjID:iObjID});
 					if (true)
-					{
-						// If the activity's status changed, it may affect other 
-						// activities -- invoke rollup
-						var writeObjIDs = target.getObjIDs(iObjID, false);
+					{								
 						// Revalidate the navigation requests
 						this.validateRequests();
 					}
@@ -295,7 +298,7 @@ ADLSequencer.prototype =
 	
 	setAttemptObjSatisfied: function (iID, iObjID, iStatus)
 	{
-		// Find the activty whose status is being set
+		// Find the activity whose status is being set
 		var target = this.getActivity(iID);
 		
 		// Make sure the activity exists
@@ -314,11 +317,7 @@ ADLSequencer.prototype =
 					var statusChange = target.setObjSatisfied( iStatus,{iObjID: iObjID});
 					
 					if (statusChange)
-					{
-						// If the activity's status changed, it may affect other 
-						// activities -- invoke rollup
-						var writeObjIDs = target.getObjIDs(iObjID, false);
-						
+					{								
 						// Revalidate the navigation requests
 						this.validateRequests();
 					}
@@ -354,148 +353,23 @@ ADLSequencer.prototype =
 		}
 	},
 	
-	navigateStr: function (iTarget)
+	navigateStr: function (iTarget, iJumpRequest)
 	{
-		// This method implements case 7 of the Navigation Request Process 
-		// (NB.2.1).
-		//
-		// It also applies the Overall Sequencing Process (OP) to the
-		// indicated navigation request.
-		sclog("NavigationRequest [NB.2.1]","seq");
-      
-		var launch = new ADLLaunch();
-		
-		// Make sure an activity tree has been associated with this sequencer
-		if (this.mSeqTree == null)
+		sclog("NavigationRequest [NB.2.1]","seq");			
+		//return (iJumpRequest) ? this.jump(iTarget) : this.choice(iTarget);
+		if (iJumpRequest)
 		{
-			// No activity tree, therefore nothing to do
-			//    -- inform the caller of the error.
-			launch.mSeqNonContent = LAUNCH_ERROR;
-			launch.mEndSession = true;
-			return launch;
-		}
-		
-		// Make sure the requested activity exists
-		//alert(iTarget);
-		var target = this.getActivity(iTarget);
-		if (target != null)
-		{
-			// If this is a new session, we start at the root.
-			var newSession = false;
-			
-			var cur = this.mSeqTree.getCurrentActivity();
-			
-			if (cur == null)
-			{
-				this.prepareClusters();
-				newSession = true;
-			}
-			
-			var process = true;
-			
-			this.validateRequests();
-			
-			// If the sequencing session has already begun, confirm the
-			// navigation request is valid.
-			if (!newSession)
-			{
-				var valid = this.mSeqTree.getValidRequests();
-				
-				if (valid != null)
-				{
-					// Confirm the target activity is allowed
-					if (valid.mChoice != null)
-					{
-						var test = valid.mChoice[iTarget];
-						
-						if (test == null)
-						{
-							launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
-							process = false;
-						} 
-						else if (!test.mIsSelectable)
-						{
-							launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
-							process = false;
-						}
-					}
-					else
-					{
-						launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
-						process = false;
-					}
-				}
-				else
-				{
-					launch.mSeqNonContent = LAUNCH_ERROR;
-					launch.mEndSession = true;
-					// Invalid request -- do not process
-					process = false;
-				}
-			}
-			
-			// If the navigation request is valid process it
-			if (process)
-			{
-				// This block implements the overall sequencing loop
-				
-				// Clear Global State
-				this.mValidTermination = true;
-				this.mValidSequencing = true;
-				
-				var seqReq = iTarget;
-				var delReq = null;
-				
-				// Check if a termination is required
-				if (!newSession)
-				{
-					if (cur.getIsActive())
-					{
-						// Issue a termination request of 'exit'
-						seqReq = this.doTerminationRequest(TER_EXIT, false);
-						if (seqReq == null)
-						{
-							seqReq = iTarget;
-						}
-					}
-				}
-				
-				if (this.mValidTermination)
-				{
-					// Issue the pending sequencing request
-					delReq = this.doSequencingRequest(seqReq);
-				}
-				else
-				{
-					launch.mSeqNonContent = LAUNCH_NOTHING;
-				}
-				
-				if (this.mValidSequencing)
-				{
-					this.doDeliveryRequest(delReq, false, launch);
-				}
-				else
-				{
-					launch.mSeqNonContent = LAUNCH_SEQ_BLOCKED;
-				}
-			}
-			else
-			{
-				launch.mNavState = this.mSeqTree.getValidRequests();
-			}
+			return this.jump(iTarget);
 		}
 		else
 		{
-			launch.mSeqNonContent = LAUNCH_ERROR;
-			launch.mEndSession = true;                  
+			return this.choice(iTarget);
 		}
-		
-		return launch;
-	},
-	
+	},	
 
 	navigate: function (iRequest)
 	{
+		
 		sclog("NavigationRequest [NB.2.1]","seq");
 		var launch = new ADLLaunch();
 		
@@ -512,9 +386,9 @@ ADLSequencer.prototype =
 		// If this is a new session, we start at the root.
 		var newSession = false;
 		var cur = this.mSeqTree.getCurrentActivity();
-
 		if (cur == null)
 		{
+			
 			this.prepareClusters();
 			newSession = true;
 			this.validateRequests();
@@ -530,7 +404,7 @@ ADLSequencer.prototype =
 		else if (newSession && (iRequest == NAV_EXITALL ||
 			iRequest == NAV_ABANDONALL))
 		{
-			launch.mSeqNonContent = LAUNCH_EXITSESSION;
+			launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
 			launch.mEndSession = true;
 			process = false;
 		}
@@ -612,22 +486,38 @@ ADLSequencer.prototype =
 					delReq = this.doSequencingRequest(SEQ_RESUMEALL);
 					if (this.mValidSequencing)
 					{
-						this.doDeliveryRequest(delReq, false, launch);
+						//Make sure the identified activity exists in the tree	
+						var act = this.getActivity(delReq);		
+						
+						if ( act != null && act.hasChildren(false) )
+						{
+							//Prepare for delivery
+							launch.mEndSession = this.mEndSession || this.mExitCourse;
+							if ( !launch.mEndSession)
+							{
+								this.validateRequests();
+								launch.mNavState = this.mSeqTree.getValidRequests();
+							}
+							launch.mSeqNonContent = LAUNCH_SEQ_BLOCKED;
+						}
+						else
+						{
+							this.doDeliveryRequest(delReq, false, launch);
+						}
 					}
 					else
 					{
 						launch.mSeqNonContent = LAUNCH_SEQ_BLOCKED;
-					}
+					}														
 					break;
 		
 				case NAV_CONTINUE:
-	
+					var i = 0;
 					if (cur.getIsActive())
 					{
 						// Issue a termination request of 'exit'
 						seqReq = this.doTerminationRequest(TER_EXIT, false);
 					}
-					
 					if (this.mValidTermination)
 					{
 						// Issue the pending sequencing request
@@ -655,13 +545,12 @@ ADLSequencer.prototype =
 					}
 					break;
 			
-				case NAV_PREVIOUS:		
+				case NAV_PREVIOUS:
 					if (cur.getIsActive())
 					{
 						// Issue a termination request of 'exit'
 						seqReq = this.doTerminationRequest(TER_EXIT, false);
-					}
-					
+					}			
 					if (this.mValidTermination)
 					{
 						// Issue the pending sequencing request
@@ -867,6 +756,261 @@ ADLSequencer.prototype =
 		return launch;
 	},
 	
+	choice: function (iTarget)							
+	{
+		var launch = new ADLLaunch();
+		
+		//Make sure an activity tree has been associated with this sequencer
+		if (this.mSeqTree == null)
+		{
+			//No activity tree, therefore nothing to do
+			//  -- inform the caller of the error.
+			launch.mSeqNonContent = LAUNCH_ERROR;
+			launch.mEndSession = true;
+			
+			return launch;
+			
+		}
+		
+		//Make sure the requested activity exists
+		var target = this.getActivity(iTarget);
+		
+		if (target != null)
+		{
+			//If this is a new session, we start at the root.
+			var newSession = false;
+			var cur = this.mSeqTree.getCurrentActivity();
+			
+			if (cur == null)
+			{
+				this.prepareClusters();
+				newSession = true;
+			}
+			
+			var process = true;
+			this.validateRequests();
+			
+			// If the sequencing session has already begun, confirm the
+			// navigation request is valid.
+			if( !newSession)
+			{
+				var valid = this.mSeqTree.getValidRequests();
+				
+				if ( valid != null)
+				{
+					//Confirm the target activity is allowed
+					if ( valid.mChoice != null )
+					{
+						var test = valid.mChoice[iTarget];
+						
+						if ( test == null )
+						{
+							launch.mSeqNonContent = LAUNCH_SEQ_BLOCKED;
+							process = false;
+						}
+						else if ( !test.mIsSelectable )
+						{
+							launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
+							process = false;
+						}
+					}
+					else
+					{
+						launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
+						process = false;
+					}
+				}
+				else
+				{
+					launch.mSeqNonContent = LAUNCH_ERROR;
+					launch.mEndSession = true;
+					
+					//Invalid request -- do not process
+					process = false;
+				}
+			}
+			
+			//If the navigation request is valid process it
+			if (process)
+			{
+				//This block implements the overall sequencing loop
+				
+				//Clear Global State
+				this.mValidTermination = true;
+				this.mValidSequencing = true;
+				
+				var seqReq = iTarget;
+				var delReq = null;
+				
+				//Check if a termination is required
+				if (!newSession)
+				{
+					if (cur.getIsActive())
+					{
+						//Issue a termination request of 'exit'
+						seqReq = this.doTerminationRequest(TER_EXIT, false);
+						
+						if (seqReq == null)
+						{
+							seqReq = iTarget;
+						}
+						
+					}
+				}
+				if (this.mValidTermination == true)
+				{
+					//Issue the pending sequencing request
+					delReq = this.doSequencingRequest(seqReq);
+				}
+				else
+				{
+					launch.mSeqNonContent = LAUNCH_NOTHING;
+				}
+				
+				if ( this.mValidSequencing == true)
+				{
+					this.doDeliveryRequest( delReq, false, launch);
+				}
+				else
+				{
+					launch.mSeqNonContent = LAUNCH_SEQ_BLOCKED;
+				}
+			}
+			else
+			{
+				launch.mNavState = this.mSeqTree.getValidRequests();
+			}
+		}
+		else
+		{
+			launch.mSeqNonContent = LAUNCH_ERROR;
+			launch.mEndSession = true;
+		}
+		
+		return launch;
+	},
+	
+	
+	jump: function (iTarget)
+	{
+		this.mIsJump = true;
+		var launch = new ADLLaunch();
+		
+		//Make sure an activity tree has been associated with this sequencer
+		if (this.mSeqTree == null)
+		{
+			//No activity tree, therefore nothing to do
+			//  -- inform the caller of the error.
+			launch.mSeqNonContent = LAUNCH_ERROR;
+			launch.mEndSession = true;
+			
+			return launch;
+		}
+		
+		//Make sure the requested activity exists
+		var target = this.getActivity(iTarget);
+		
+		if (target != null)
+		{
+			//If this is a new session, we start at the root.
+			var process = true;
+			
+			var cur = this.mSeqTree.getCurrentActivity();
+			
+			if (cur == null)
+			{
+				launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
+				process = false;
+			}
+			
+			this.validateRequests();
+			
+			if (process)
+			{
+				var valid = this.mSeqTree.getValidRequests();
+				
+				if (valid != null)
+				{
+					//Confirm the target activity is allowed
+					if (valid.mJump != null)
+					{
+						var test = valid.mJump[iTarget];
+						
+						if (test == null)
+						{
+							launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
+							
+							process = false;
+						}
+					}
+					else
+					{
+						launch.mSeqNonContent = LAUNCH_ERROR;
+						launch.mEndSession = true;
+						
+						//Invalid request -- do not process
+						process = false;
+					}
+				}
+			}
+			//If the navigation request is valid process it
+			if (process)
+			{
+				// This block implements the overall sequencing loop
+				
+				// Clear Global State
+				this.mValidTermination = true;
+				this.mValidSequencing = true;
+				
+				var seqReq = iTarget;
+				var delReq = null;
+				
+				if (cur.getIsActive())
+				{
+					// Issue a termination request of 'exit'
+					seqReq = this.doTerminationRequest(TER_EXIT, false);
+					
+					if ( seqReq == null )
+					{
+						seqReq = iTarget;
+					}
+				}
+				
+				if ( this.mValidTermination == true )
+				{
+					//Issue the pending sequencing request
+					delReq = this.doSequencingRequest(seqReq);
+				}
+				else
+				{
+					launch.mSeqNonContent = LAUNCH_NOTHING;
+				}
+				
+				if ( this.mValidSequencing )
+				{
+					this.doDeliveryRequest(delReq, false, launch);
+				}
+				else
+				{
+					launch.mSeqNonContent = LAUNCH_SEQ_BLOCKED;
+				}
+			}
+			else
+			{
+				launch.mNavState = this.mSeqTree.getValidRequests();
+			}
+		}	
+		else
+		{
+			launch.mSeqNonContent = LAUNCH_ERROR;
+			launch.mEndSession = true;
+		}
+		
+		this.mIsJump = false;
+		return launch;	
+	},
+	
+	
 	getActivity: function (iActivityID)
 	{
 		var thisActivity = null;
@@ -903,7 +1047,7 @@ ADLSequencer.prototype =
 		
 		// Validate the pending navigation request before processing it.
 		// The following tests implement the validation logic of NB.2.1; it 
-		// covers all cases where the requst, itself, is invalid.
+		// covers all cases where the request, itself, is invalid.
 		switch (iRequest)
 		{
 			case NAV_START:
@@ -1065,7 +1209,7 @@ ADLSequencer.prototype =
 			
 			// If there is a current activity and it is active,
 			// 'suspendAll' is a valid Navigation Request
-			if (cur.getIsActive())
+			if ( cur.getIsActive() )
 			{
 				valid.mSuspend = true;
 			}
@@ -1079,6 +1223,7 @@ ADLSequencer.prototype =
 			
 			if (valid.mTOC != null)
 			{
+				valid.mJump = this.getJumpSet(valid.mTOC);
 				var newTOC = new Array();
 				valid.mChoice = this.getChoiceSet(valid.mTOC, newTOC);
 				
@@ -1092,7 +1237,9 @@ ADLSequencer.prototype =
 				}
 			}
 			
-			if (cur.getParent() != null)
+			
+			
+			if ( cur.getParent() != null )
 			{
 				// Always provide a Continue Button if the current activity
 				// is in a 'Flow' cluster
@@ -1132,7 +1279,8 @@ ADLSequencer.prototype =
 				
 				valid.mStart = this.processFlow(FLOW_FORWARD, true, walk, false);
 				
-				// Validate availablity of the identfied activity if one was identified
+				// Validate availablity of the identfied activity if one was
+				// identified
 				if (valid.mStart)
 				{
 					var ok = true;
@@ -1158,6 +1306,7 @@ ADLSequencer.prototype =
 			if (valid.mTOC != null)
 			{
 				var newTOC = new Array();
+				valid.mJump = this.getJumpSet(valid.mTOC);
 				valid.mChoice = this.getChoiceSet(valid.mTOC, newTOC);
 				if (newTOC.length > 0)
 				{
@@ -1168,6 +1317,8 @@ ADLSequencer.prototype =
 					valid.mTOC = null;
 				}
 			}
+			
+			
 		}
 		
 		// If an updated set of valid requests has completed, associated it with
@@ -1177,7 +1328,25 @@ ADLSequencer.prototype =
 			this.mSeqTree.setValidRequests(valid);
 		}
 	},
-
+	
+	getJumpSet: function(iTOC)
+	{
+		var jumptargets = new Object();		// Hashtable
+		
+		if ( iTOC != null )
+		{
+			for ( var i = 0; i < iTOC.length; i++ )
+			{
+				var temp = iTOC[i];
+				if ( temp.mLeaf && temp.mIsEnabled )
+				{
+					jumptargets[temp.mID] = temp;
+				}
+			}
+		}
+		return jumptargets;
+	},
+	
 	evaluateExitRules: function (iTentative)
 	{
 		sclog("SequencingExitActionRulesSub [TB.2.1]","seq");
@@ -1284,107 +1453,111 @@ ADLSequencer.prototype =
 				// Evaluate exit action rules
 				this.evaluateExitRules(iTentative);
 				
-				// Evaluate post conditions
-				var exited = false;
-				
-				do
+				if (!cur.getIsSuspended())
 				{
-					exited = false;
+				
+					// Evaluate post conditions
+					var exited = false;
 					
-					// Only process post conditions on the first candidate
-					var process = this.mSeqTree.getFirstCandidate();
-					
-					// Make sure we are not at the root
-					if (!this.mExitCourse)
+					do
 					{
-						// This block implements the Sequencing Post Condition Rule
-						// Subprocess (SB.2.2)
-
-						// Attempt to get rule information from the activity
-						var postRules = process.getPostSeqRules();
-						
-						if (postRules != null)
+						exited = false;
+					
+						// Only process post conditions on the first candidate
+						var process = this.mSeqTree.getFirstCandidate();
+					
+						// Make sure we are not at the root
+						if (!this.mExitCourse)
 						{
-							var result = null;
-							result = postRules.evaluate(RULE_TYPE_POST, process, false);
-							
-							if (result != null)
+							// This block implements the Sequencing Post Condition Rule
+							// Subprocess (SB.2.2)
+
+							// Attempt to get rule information from the activity
+							var postRules = process.getPostSeqRules();
+						
+							if (postRules != null && !(process.getIsSuspended()))
 							{
-								// This set of ifs implement TB.2.2
-								sclog("SequencingPostConditionRulesSub [TB.2.2]","seq");		                        
-								if (result == SEQ_ACTION_RETRY)
+								var result = null;
+								result = postRules.evaluate(RULE_TYPE_POST, process, false);
+							
+								if (result != null)
 								{
-									// Override any existing sequencing request
-									seqReq = SEQ_RETRY;
+									// This set of ifs implement TB.2.2
+									sclog("SequencingPostConditionRulesSub [TB.2.2]","seq");		                        
+									if (result == SEQ_ACTION_RETRY)
+									{
+										// Override any existing sequencing request
+										seqReq = SEQ_RETRY;
 									
-									// If we are processing the root activity, behave
-									// as if this where an exitAll
-									if (process == this.mSeqTree.getRoot())
-									{        
+										// If we are processing the root activity, behave
+										// as if this where an exitAll
+										if (process == this.mSeqTree.getRoot())
+										{        
+											// Break from the current loop and jump to the
+											// next case
+											iRequest = TER_EXITALL;
+										}
+									}
+									else if (result == SEQ_ACTION_CONTINUE)
+									{
+										// Override any existing sequencing request
+										seqReq = SEQ_CONTINUE;
+									}
+									else if (result == SEQ_ACTION_PREVIOUS)
+									{
+										// Override any existing sequencing request
+										seqReq = SEQ_PREVIOUS;
+									}
+									else if (result == SEQ_ACTION_EXITALL)
+									{
 										// Break from the current loop and jump to the
 										// next case
 										iRequest = TER_EXITALL;
 									}
-								}
-								else if (result == SEQ_ACTION_CONTINUE)
-								{
-									// Override any existing sequencing request
-									seqReq = SEQ_CONTINUE;
-								}
-								else if (result == SEQ_ACTION_PREVIOUS)
-								{
-									// Override any existing sequencing request
-									seqReq = SEQ_PREVIOUS;
-								}
-								else if (result == SEQ_ACTION_EXITALL)
-								{
-									// Break from the current loop and jump to the
-									// next case
-									iRequest = TER_EXITALL;
-								}
-								else if (result == SEQ_ACTION_EXITPARENT)
-								{
-									process = process.getParent();
+									else if (result == SEQ_ACTION_EXITPARENT)
+									{
+										process = process.getParent();
 		
-									if (process == null)
-									{
+										if (process == null)
+										{
+										}
+										else
+										{
+											this.mSeqTree.setFirstCandidate(process);
+											process=this.endAttempt(process, iTentative);
+											exited = true;
+										}
 									}
-									else
+									else if (result == SEQ_ACTION_RETRYALL)
 									{
-										this.mSeqTree.setFirstCandidate(process);
-										process=this.endAttempt(process, iTentative);
-										exited = true;
-									}
-								}
-								else if (result == SEQ_ACTION_RETRYALL)
-								{
-									// Override any existing sequencing request
-									seqReq = SEQ_RETRY;
+										// Override any existing sequencing request
+										seqReq = SEQ_RETRY;
 									
-									// Break from the current loop and jump to the
-									// next case
-									iRequest = TER_EXITALL;
-								}
-								else if (process == this.mSeqTree.getRoot())
-								{
-									// Exited Root with no postcondition rules
-									// End the Course
-									this.mExitCourse = true;                        
+										// Break from the current loop and jump to the
+										// next case
+										iRequest = TER_EXITALL;
+									}
+									else if (process == this.mSeqTree.getRoot())
+									{
+										// Exited Root with no postcondition rules
+										// End the Course
+										this.mExitCourse = true;                        
+									}
 								}
 							}
+							else if (process == this.mSeqTree.getRoot())
+							{
+								// Exited Root with no postcondition rules
+								// End the Course
+								this.mExitCourse = true;
+							}
 						}
-						else if (process == this.mSeqTree.getRoot())
-						{
-							// Exited Root with no postcondition rules
-							// End the Course
-							this.mExitCourse = true;
+						else {
+							seqReq = SEQ_EXIT;
 						}
 					}
-					else {
-						seqReq = SEQ_EXIT;
-					}
+					while (exited);
 				}
-				while (exited);
 			}
 			else
 			{
@@ -1539,6 +1712,18 @@ ADLSequencer.prototype =
 		
 		var tmpID = this.mSeqTree.getFirstCandidate().getID();
 		
+		if ((this.mSeqTree.getCurrentActivity() == this.mSeqTree.getRoot()) && (seqReq == SEQ_RETRY) &&
+								(this.mSeqTree.getScopeID() != null))
+			{
+				var objectives = this.mSeqTree.getGlobalObjectives(); 
+				
+				if ( objectives != null)
+				{
+					adl_seq_utilities.clearGlobalObjs( this.mSeqTree.getLearnerID(), this.mSeqTree.getScopeID(), objectives);
+				}
+				
+			}
+		
 		return seqReq;
 	},
 
@@ -1559,6 +1744,7 @@ ADLSequencer.prototype =
 				rollupSet[walk.getID()] = walk.getDepth();
 				
 				var writeObjIDs = walk.getObjIDs(null, false);
+				
 				if (writeObjIDs != null)
 				{
 					for (var i = 0; i < writeObjIDs.length; i++)
@@ -1584,7 +1770,11 @@ ADLSequencer.prototype =
 									// Only add if the activity is selected
 									if (act.getIsSelected())
 									{
-										rollupSet[act.getID()] = act.getDepth();
+										do
+										{
+											rollupSet[act.getID()] = act.getDepth();
+											act = act.getParent();
+										}while(act != null && act != this.mSeqTree.getRoot());
 									}
 								}
 							}
@@ -1627,11 +1817,16 @@ ADLSequencer.prototype =
 							// Only add if the activity is selected
 							if (act.getIsSelected())
 							{
-								rollupSet.put[act.getID()] = act.getDepth();
+								do
+								{
+									rollupSet[act.getID()] = act.getDepth();
+									act = act.getParent();
+								}
+								while ( act != null && act != this.mSeqTree.getRoot() );
 							}
 						}
 					}
-				}
+				}		
 			}
 		}
 		
@@ -1659,7 +1854,7 @@ ADLSequencer.prototype =
 					depth = thisDepth;
 					deepest = this.getActivity(key);
 				}
-				else if (thisDepth > depth)
+				else if (thisDepth >= depth)
 				{
 					depth = thisDepth;
 					deepest = this.getActivity(key);
@@ -1708,8 +1903,14 @@ ADLSequencer.prototype =
 							? "completed"
 							: "incomplete";
 					}
+					
+					var progmeasure = "unknown";
+					if (deepest.getProMeasureStatus(false))
+					{
+						progmeasure = deepest.getProMeasure(false);
+					}
 					adl_seq_utilities.setCourseStatus(this.mSeqTree.getCourseID(),
-						this.mSeqTree.getLearnerID(),satisfied,measure,completed);
+						this.mSeqTree.getLearnerID(),satisfied,measure,completed, progmeasure);
 				}
 			}
 		}
@@ -2087,6 +2288,15 @@ ADLSequencer.prototype =
 				}
 			}
 		}
+		else if (this.mIsJump)
+		{
+			var target = this.getActivity(iRequest);
+			
+			if ( target != null)
+			{
+				delReq = target.getID();
+			}
+		}
 		else
 		{
 			// This block implements the Choice Sequencing Request Process (SB.2)
@@ -2109,7 +2319,7 @@ ADLSequencer.prototype =
 				
 				if (process)
 				{
-					var walk = target.getParent();
+					var walk = target;
 					
 					// Walk up the tree evaluating 'Hide from Choice' rules.
 					while (walk != null)
@@ -3137,7 +3347,7 @@ ADLSequencer.prototype =
 					if (!iTarget.getSetCompletion())
 					{
 						// If the content hasn't set this value, set it
-						if (!iTarget.getProgressStatus(false))
+						if (!iTarget.getProgressStatus(false) && !iTarget.isPrimaryProgressSetBySCO())
 						{
 							iTarget.setProgress(TRACK_COMPLETED);
 						}
@@ -3147,9 +3357,13 @@ ADLSequencer.prototype =
 					{
 						//alert('Set satisfied');
 						// If the content hasn't set this value, set it
-						if (!iTarget.getObjStatus(false, true))
+						if (!iTarget.getObjStatus(false, true) && !iTarget.isPrimaryStatusSetBySCO() )
 						{
 							iTarget.setObjSatisfied(TRACK_SATISFIED);
+						}
+						else if ( iTarget.getObjSatValue() == TRACK_UNKNOWN ) 
+						{
+							iTarget.clearObjStatus();
 						}
 					}
 				}
@@ -3204,10 +3418,40 @@ ADLSequencer.prototype =
 				}
 				
 				// Invoke rollup
-				this.invokeRollup(iTarget, null);            
+				this.invokeRollup(iTarget, this.getGlobalObjs(iTarget));//null);            
 			}
 		}
 		return iTarget;
+	},
+	
+	getGlobalObjs: function (iTarget)
+	{
+		var objs = iTarget.getObjectives();		
+		var writeMaps = new Array();
+		if ( objs != null )
+		{
+			
+			for ( var i = 0; i < objs.length; i++)
+			{
+				var s = objs[i];
+				
+				if ( s.mMaps != null )
+				{
+					
+					for ( var m = 0; m < s.mMaps.length; m++)
+					{
+						var map = s.mMaps[m];
+						
+						if ( map.hasWriteMaps() )
+						{
+							writeMaps.push(map.mGlobalObjID);
+						}
+					}
+				}
+			}
+		}
+		
+		return writeMaps;
 	},
 
 	checkActivity: function (iTarget)
@@ -3263,7 +3507,7 @@ ADLSequencer.prototype =
 			{
 				temp = iOldTOC[i];
 				
-				if (temp.mDepth == -1)
+				if (!temp.mIsVisible)
 				{
 					if (temp.mIsSelectable)
 					{
@@ -3330,9 +3574,9 @@ ADLSequencer.prototype =
 
 	getTOC: function (iStart)
 	{
-		var toc = new Array();
-		var temp = null;
-		var done = false;
+		var toc = new Array(); //the return of renderable ADLTOC objects
+		var temp = null; // used in iterations over the ADLTOC objects in the tree
+		var done = false; // used to create the initial tree in pass 1
 		
 		// Make sure we have an activity tree
 		if (this.mSeqTree == null)
@@ -3342,15 +3586,17 @@ ADLSequencer.prototype =
 		
 		// Perform a breadth-first walk of the activity tree.
 		var walk = iStart;
-		var depth = 0;
-		var parentTOC = -1;
+		var depth = 0; //used for tracking the depth of the tree
+		var parentTOC = -1; //used to determine the parent of a tree
 		var lookAt = new Array();
 		var flatTOC = new Array();
 		
 		// Tree traversal status indicators
-		var next = false;
+		var nextsibling = false;
 		var include = false;
 		var collapse = false;
+		var select = false;
+		var choosable = false;
 		
 	
 		// Make sure the activity has been associated with this sequencer
@@ -3360,6 +3606,7 @@ ADLSequencer.prototype =
 			walk = this.mSeqTree.getRoot();
 		}
 		
+		// if there was an activity left when the user Suspend All, bring it up
 		var cur = this.mSeqTree.getFirstCandidate();
 		var curIdx = -1;
 		
@@ -3371,23 +3618,27 @@ ADLSequencer.prototype =
 		
 		while (!done)
 		{
-			include = false;
-			collapse = false;
-			next = false;
+			include = true;  // used in ifs to determine which nodes are in and out of the ADLTOC
+			select = false; // used to determine if the node is selectable
+			choosable = false; // used to determine if a node is in a cluster with choice = true
+			collapse = false; // if a node is hidden (watch vs. invisible), it gets collapsed in the tree
+			nextsibling = false; // used to move between siblings in the event the node has children
 			
 			// If the activity is a valid target for a choice sequecing request,
-			// include it in the TOC and determine its attributes
+			// make it selectable in the TOC and determine its attributes
 			if (walk.getParent() != null)
 			{
 				if (walk.getParent().getControlModeChoice())
 				{
-					include = true;
+					select = true;
+					choosable = true;
 				}
 			}
 			else
 			{
 				// Always include the root of the activity tree in the TOC
-				include = true;
+				select = true;
+				choosable = true;
 			}
 			
 			// Make sure the activity we are considering is not disabled or hidden
@@ -3413,21 +3664,24 @@ ADLSequencer.prototype =
 				}
 				else
 				{
-					// Check if this activity is prevented from activation
+					// Check if this activity is prevented from corresponds to disabled or invisible or descendants of such nodes.
+					// Given that this can be both, its a place to look if something isn't rendering correctly
 					if (walk.getPreventActivation() && !walk.getIsActive() && walk.hasChildren(true))
 					{
 						if (cur != null)
 						{
 							if (walk != cur && cur.getParent() != walk)
 							{
-								include = false;
+								include = true;
+								select = true;
 							}
 						}
 						else
 						{
 							if (walk.hasChildren(true))
 							{
-								include = false;                                                
+								include = true;
+								select = true;
 							}
 						}
 					}
@@ -3446,28 +3700,21 @@ ADLSequencer.prototype =
 				temp.mDepth = depth;
 				temp.mIsVisible = walk.getIsVisible();
 				temp.mIsEnabled = !this.checkActivity(walk);
+				temp.mInChoice = choosable;
+				temp.mIsSelectable = select;
 				
-				if (temp.mIsEnabled)
+				if ( temp.mIsEnabled )
 				{
-					if (walk.getAttemptLimitControl())
+					if( walk.getAttemptLimitControl() == true)
 					{
 						if (walk.getAttemptLimit() == 0)
 						{
-							temp.mIsSelectable  = false;
+								temp.mIsSelectable = false;
 						}
 					}
-				}
-				
+				}	
+						
 				temp.mID = walk.getID();
-				
-				if (walk.getParent() != null)
-				{
-					temp.mInChoice = walk.getParent().getControlModeChoice();
-				}
-				else
-				{
-					temp.mInChoice = true;
-				}
 				
 				// Check if we looking at the 'current' cluster
 				if (cur != null)
@@ -3475,14 +3722,14 @@ ADLSequencer.prototype =
 					if (temp.mID == cur.getID())
 					{
 						temp.mIsCurrent = true;
-						curIdx = toc.length;
+						curIdx = toc.length; //the index is set to the last node
 					}
 				}
 				
 				temp.mLeaf = !walk.hasChildren(false);
 				temp.mParent = parentTOC;
 				
-				toc[toc.length] = temp;
+				toc[toc.length] = temp; // this node is now added with the relevant information
 			}
 			else
 			{
@@ -3493,19 +3740,9 @@ ADLSequencer.prototype =
 				temp.mIsVisible = walk.getIsVisible();
 				
 				temp.mIsEnabled = !this.checkActivity(walk);
+				temp.mInChoice = choosable;
+				temp.mDepth = depth;
 				
-				if (temp.mIsEnabled)
-				{
-					if (walk.getAttemptLimitControl())
-					{
-						if (walk.getAttemptLimit() == 0)
-						{
-							temp.mIsSelectable  = false;
-						}
-					}
-				}
-				
-				temp.mDepth = -(depth);
 				temp.mID = walk.getID();
 				temp.mIsSelectable = false;
 				
@@ -3523,7 +3760,7 @@ ADLSequencer.prototype =
 			// Add this activity to the "flat TOC"
 			flatTOC[flatTOC.length] = walk;
 			
-			// If this activity has children, look at them later...
+			// If this activity has children, look at them later...the false refers to what are considered children, not as a "false" conditional
 			if (walk.hasChildren(false))
 			{
 				// Remember where we are at and look at the children now,
@@ -3537,11 +3774,12 @@ ADLSequencer.prototype =
 				walk = walk.getChildren(false)[0];
 				parentTOC = toc.length - 1;
 				depth++;
+				nextsibling = true;
 				
 				next = true;
 			}
 			
-			if (!next)
+			if (!nextsibling)
 			{
 				// Move to its sibling
 				walk = walk.getNextSibling(false);
@@ -3580,42 +3818,39 @@ ADLSequencer.prototype =
 					parentTOC = temp.mParent;
 				}
 			}
-		}
+		} //end while
 		
 		// After the TOC has been created, mark activites unselectable
 		// if the Prevent Activation prevents them being selected,
 		// and mark them invisible if they are descendents of a hidden
 		// from choice activity
-		var hidden = -1;
+		var hiddenDepth = -1;
 		var prevented = -1;
 		
 		for (var i = 0; i < toc.length; i++)
 		{
 			var tempAct = flatTOC[i];
 			var tempTOC = toc[i];
+			var checkDepth = tempTOC.mDepth;
 			
-			var checkDepth = (tempTOC.mDepth >= 0)
-				? tempTOC.mDepth
-				: (-tempTOC.mDepth);
-			
-			if (hidden != -1)
+			// if hiddenDepth has been determined (i.e. not -1)
+			if (hiddenDepth !=-1)
 			{
-				// Check to see if we are done hiding activities
-				if (checkDepth <= hidden)
+				//Check to see if we are doing hiding activities, if we are outside the tree, we are done
+				if (checkDepth <= hiddenDepth)
 				{
-					hidden = -1;
+					hiddenDepth = -1;
 				}
 				else
 				{
-					// This must be a descendent
-					tempTOC.mDepth = -(depth);
+					// This must be a descendent of the tree - hide/disable it
 					tempTOC.mIsSelectable = false;
 					tempTOC.mIsVisible = false;
 				}
 			}
 			
-			// Evaluate hide from choice rules if we are not hidden
-			if (hidden == -1)
+			// Evaluate hide from choice rules if it hasn't been found
+			if (hiddenDepth == -1)
 			{
 				// Attempt to get rule information from the activity
 				var hiddenRules = tempAct.getPreSeqRules();
@@ -3632,9 +3867,10 @@ ADLSequencer.prototype =
 				if (result != null)
 				{
 					// The depth we are looking for should be positive
-					hidden = -tempTOC.mDepth;  
+					hiddenDepth = tempTOC.mDepth;  
 					prevented = -1;
 				}
+				// if the rule evaluation was null, need to look for prevented activities that are not hidden
 				else
 				{
 					if (prevented != -1)
@@ -3645,10 +3881,14 @@ ADLSequencer.prototype =
 							// Reset the check until we find another prevented
 							prevented = -1;
 						}
+						// We don't prevent activation on anything with the depth of the node in question
+						else if (tempTOC.mDepth == prevented)
+						{
+						
+						}
 						else
 						{
-							// This must be a prevented descendent
-							tempTOC.mDepth = -1;
+							// This must be a prevented descendant
 							tempTOC.mIsSelectable = false;
 						}
 					}
@@ -3661,20 +3901,19 @@ ADLSequencer.prototype =
 							{
 								if (tempAct != cur && cur.getParent() != tempAct)
 								{
-									include = false;
-									prevented = (tempTOC.mDepth > 0)
-										? tempTOC.mDepth
-										: -tempTOC.mDepth;
-									// The activity cannot be selected
-									temp.mDepth = -1;
-									temp.mIsSelectable = false;
+									prevented = tempTOC.mDepth;
 								}
 							}
+							// if cur is null, it won't be equal to the tempActivity or it's parent
+							else
+							{
+								prevented = tempTOC.mDepth;
+							}
 						}
-					}
-				}
-			}
-		}
+					} //else
+				} //else
+			} //if hidden =1
+		} //for
 		
 		// After the TOC has been created, mark activites unselectable
 		// if the Choice Exit control prevents them being selected
@@ -3708,7 +3947,8 @@ ADLSequencer.prototype =
 		
 		if (noExit != null)
 		{
-			depth = -1;
+			depth = -1; //depth will track the depth of the disabled node and will catch all nodes less than
+			// it is and mark them unselectable
 			
 			// Only descendents of this activity can be selected.
 			for (var i = 0; i < toc.length; i++)
@@ -3718,31 +3958,24 @@ ADLSequencer.prototype =
 				// When we find the the 'non-exiting' activity, remember its depth
 				if (temp.mID == noExit.getID())
 				{
-					depth = (temp.mDepth > 0)
-						? temp.mDepth
-						: -temp.mDepth;
+					depth = temp.mDepth;
 					
 					// The cluster activity cannot be selected
-					temp.mDepth = -1;
 					temp.mIsSelectable = false;
 				}
 				// If we haven't found the the 'non-exiting' activity yet, then the
 				// activity being considered cannot be selected.
 				else if (depth == -1)
 				{
-					temp.mDepth = -1;
 					temp.mIsSelectable = false;
 				}
 				
 				// When we back out of the depth-first-walk and encounter a sibling
 				// or parent of the 'non-exiting' activity, start making activity
 				// unselectable
-				else if (((temp.mDepth > 0)
-							? temp.mDepth
-							: -temp.mDepth) 	<= depth)
+				else if (temp.mDepth <= depth)
 				{
 					depth = -1;
-					temp.mDepth = -1;
 					temp.mIsSelectable = false;
 				}
 			}
@@ -3764,6 +3997,12 @@ ADLSequencer.prototype =
 		if (this.mSeqTree.getFirstCandidate() != null)
 		{
 			walk =  this.mSeqTree.getFirstCandidate().getParent();
+			
+			// constrained choice has no effect on the root
+			if (walk != null && walk.getID() == this.mSeqTree.getRoot().getID())
+			{
+				walk = null;
+			}
 		}
 		else
 		{
@@ -3930,7 +4169,7 @@ ADLSequencer.prototype =
 			}
 		}
 		
-		// Walk the TOC looking for disabled activities...
+		// Walk the TOC looking for disabled activities and mark them disabled
 		if (toc != null)
 		{
 			depth = -1;
@@ -3941,7 +4180,7 @@ ADLSequencer.prototype =
 				
 				if (depth != -1)
 				{
-					if (depth >= ((temp.mDepth > 0) ? temp.mDepth : -temp.mDepth))
+					if (depth >= temp.mDepth)
 					{
 						depth = -1;
 					}
@@ -3955,9 +4194,7 @@ ADLSequencer.prototype =
 				if (!temp.mIsEnabled && depth == -1)
 				{
 					// Remember where the disabled activity is
-					depth = (temp.mDepth > 0)
-						? temp.mDepth
-						: -temp.mDepth;
+					depth = temp.mDepth;
 				}
 			}
 		}
@@ -4017,7 +4254,7 @@ ADLSequencer.prototype =
 		// Evaluate Stop Forward Traversal Rules -- this pass cooresponds to
 		// Case #3 and #5 of the Choice Sequencing Request Subprocess.  In these
 		// cases, we need to check if the target activity is forward in the 
-		// Activity Tree relative to the commen ancestor and cuurent activity
+		// Activity Tree relative to the common ancestor and cuurent activity
 		if (toc != null && curIdx != -1)
 		{
 			var curParent = (toc[curIdx]).mParent;
@@ -4049,9 +4286,7 @@ ADLSequencer.prototype =
 					{
 						var tempTOC = toc[i];
 						
-						var checkDepth = ((tempTOC.mDepth >= 0)
-							? tempTOC.mDepth
-							: (-tempTOC.mDepth));
+						var checkDepth = tempTOC.mDepth;
 						
 						// Check to see if we are done blocking activities
 						if (checkDepth <= blocked)
@@ -4099,60 +4334,43 @@ ADLSequencer.prototype =
 				}
 			}
 		}
+		//Historially here we have re-drawn depths of nodes that had certain conditions.  With the TOC now using only attributes to decide
+		//what is drawn, this code should no longer be necesssary.
 		
-		for (var i = toc.length - 1; i >= 0; i--)
-		{
-			temp = toc[i];
-			
-			if (temp.mIsCurrent && temp.mInChoice)
-			{
-				if (temp.mDepth < 0)
-				{
-					temp.mDepth = -temp.mDepth;
-				}
-			}
-			
-			if (temp.mDepth >= 0)
-			{
-				while (temp.mParent != -1)
-				{
-					temp = toc[temp.mParent];
-					
-					if (temp.mDepth < 0)
-					{
-						temp.mDepth = -temp.mDepth;
-					}
-				}
-			}
-			else if (temp.mIsVisible)
-			{
-				temp.mDepth = -1;
-			}
-		}
-		
+		//this collapses content with invisible nodes.  It is ok to mark an invisible node with the large negative depth
 		for (var i = 0; i < toc.length; i++)
 		{
 			temp = toc[i];
 			
 			if (!temp.mIsVisible)
 			{
-				temp.mDepth = -1;
 				var parents = new Array();
 				
 				for (var j = i + 1; j < toc.length; j++)
 				{
 					temp = toc[j];
 					
-					if (temp.mParent == i && temp.mDepth > 0)
+					if (temp.mParent == i)
 					{
 						temp.mDepth--;
 						parents[parents.length] = j;
 					}
 					else
 					{
-						if (temp.mDepth != -1)
+						if (temp.mIsVisible) //was related to the depth
 						{
-							var idx = index_of(parents, temp.mParent);
+							for (var k = 0; k < parents.length; k++ )
+							{
+								if ( parents[k]== temp.mParent )
+									{
+										var idx = k;
+									}
+								else
+									{
+										var idx = -1;
+									}
+								
+							}
 							
 							if (idx != -1)
 							{
@@ -4164,7 +4382,7 @@ ADLSequencer.prototype =
 				}
 			}
 		}
-		
+		// this loop isolates a current activity so something is always drawn in bold
 		for (var i = 0; i < toc.length; i++)
 		{
 			temp = toc[i];
@@ -4183,7 +4401,7 @@ ADLSequencer.prototype =
 					}
 					else
 					{
-						break;
+						parent = -1;
 					}
 				}
 				
@@ -4192,6 +4410,275 @@ ADLSequencer.prototype =
 			}
 		}      
 		
+		//hide the entire tree if nothing is selectable other than the root - the root will always
+		// be depth = 0 and nothing else should be
+		var somethingIsSelectable = false;
+		for ( var i = 0; i < toc.length; i++)
+		{
+			temp = toc[i];
+			
+			if (temp.mIsSelectable && temp.mIsVisible && temp.mDepth > 0)
+			{
+				somethingIsSelectable = true;
+				break;
+			}
+		}
+		if (!somethingIsSelectable)
+		{
+			for ( var i = 0; i < toc.length; i++)
+			{
+				temp = toc[i];
+				temp.mIsVisible = false;
+			}
+		}
+		
 		return toc;
+	},
+	
+	clearAttemptObjCompletionStatus: function (iActivityID, iObjID)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null)
+		{
+			//Make sure the activity is a valid target for status changes
+			//		-- the active leaf current activity
+			if ( target.getIsActive() )
+			{
+				//If the activity is a lead and is the current activity
+				if ( !target.hasChildren(false) && 
+						this.mSeqTree.getCurrentActivity() == target )
+				{
+						var statusChange = target.clearObjCompletionStatus(iObjID);
+				}
+			}
+		}
+	},
+	
+	setAttemptObjCompletionStatus: function (iActivityID, iObjID, iCompletion)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null)
+		{
+			//Make sure the activity is a valid target for status changes
+			// -- the tracked active leaf current activity
+			if ( target.getIsActive() )
+			{
+				//If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target )
+				{
+					target.setObjCompletionStatus(iObjID, iCompletion);
+				}
+			}
+		}
+	},
+	
+	clearAttemptObjProgressMeasure: function(iActivityID, iObjID)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if (target != null)
+		{
+			//Make sure the activity is a valid target for status changes
+			//		--the active lead current activity
+			if ( target.getIsActive() )
+			{
+				//If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target )
+				{
+					var statusChange = target.clearObjProgressMeasure(iObjID);
+				}
+			}
+		}
+	},
+	
+	setAttemptObjProgressMeasure:  function(iActivityID, iObjID, iProgressMeasure)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			// Make sure the activity is a valid target for status changes
+			//  -- the tracked active lead current activity
+			if ( target.getIsActive() )
+			{
+				//If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target )
+				{
+					target.setObjProgressMeasure(iObjID, iProgressMeasure);
+				}	
+			}
+		}
+	},
+	
+	clearAttemptObjMaxScore: function (iActivityID, iObjID)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			//Make sure the activity is a valid target for status changes
+			//	-- the active lead current activity
+			if ( target.getIsActive() )
+			{
+				//If the activity is a leaf and is the current activity
+				if (!target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target )
+				{
+					var statusChange = target.clearObjMaxScore(iObjID);
+				}
+			}
+		}
+	},
+
+	setAttemptObjMaxScore: function(iActivityID, iObjID, iMaxScore)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			//Make sure the activity is a valid target for status changes
+			//	-- the tracked active leaf current activity
+			if ( target.getIsActive() )
+			{
+				// If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target)
+				{
+					target.setObjMaxScore(iObjID, iMaxScore);
+				}
+			}
+		}
+	},
+	
+	clearAttemptObjMinScore: function(iActivityID, iObjID)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			//Make sure the activity is a valid target for status changes
+			//	-- the tracked active leaf current activity
+			if ( target.getIsActive() )
+			{
+				// If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target)
+				{
+					var statusChange = target.clearObjMinScore(iObjID);
+				}
+			}
+		}
+	},
+	
+	setAttemptObjMinScore: function(iActivityID, iObjID, iMinScore)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			//Make sure the activity is a valid target for status changes
+			//	-- the tracked active leaf current activity
+			if ( target.getIsActive() )
+			{
+				// If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target)
+				{
+					target.setObjMinScore(iObjID, iMinScore);
+				}
+			}
+		}
+	},
+	
+	clearAttemptObjRawScore: function(iActivityID, iObjID)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			//Make sure the activity is a valid target for status changes
+			//	-- the tracked active leaf current activity
+			if ( target.getIsActive() )
+			{
+				// If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target)
+				{
+					var statusChange = target.clearObjRawScore(iObjID);
+				}
+			}
+		}
+	},
+	
+	setAttemptObjRawScore: function(iActivityID, iObjID, iRawScore)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			//Make sure the activity is a valid target for status changes
+			//	-- the tracked active leaf current activity
+			if ( target.getIsActive() )
+			{
+				// If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target)
+				{
+					target.setObjRawScore(iObjID, iRawScore);
+				}
+			}
+		}
+	},
+	
+		setAttemptProgressMeasure: function(iID, iProMeasure)
+	{
+		//Find the target activity
+		var target = this.getActivity(iID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			//Make sure the activity is a valid target for status changes
+			//	-- the tracked active leaf current activity
+			if ( target.getIsActive() && target.getIsTracked() )
+			{
+				// If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target)
+				{
+					var statusChange = target.setProgressMeasure(iProMeasure);
+					
+					if ( statusChange )
+					{
+						this.validateRequests();
+					}
+				}
+			}
+		}
 	}
-}
+};

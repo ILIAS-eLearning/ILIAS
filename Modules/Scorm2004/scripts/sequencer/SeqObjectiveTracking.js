@@ -70,7 +70,32 @@ function SeqObjectiveTracking(iObj,iLearnerID,iScopeID)
 				{
 					this.mReadMeasure = map.mGlobalObjID;
 				}
-			
+				
+				if (map.mReadRawScore)
+				{
+					this.mReadRawScore = map.mGlobalObjID;
+				}
+				
+				if (map.mReadMinScore)
+				{
+					this.mReadMinScore = map.mGlobalObjID;
+				}
+				
+				if (map.mReadMaxScore)
+				{
+					this.mReadMaxScore = map.mGlobalObjID;
+				}
+				
+				if (map.mReadCompletionStatus)
+				{
+					this.mReadCompletionStatus = map.mGlobalObjID;
+				}
+				
+				if (map.mReadProgressMeasure)
+				{
+					this.mReadProgressMeasure = map.mGlobalObjID;
+				}
+				
 				if (map.mWriteStatus)
 				{
 					if (this.mWriteStatus == null)
@@ -92,6 +117,61 @@ function SeqObjectiveTracking(iObj,iLearnerID,iScopeID)
 					// todo: check
 					this.mWriteMeasure[this.mWriteMeasure.length] = map.mGlobalObjID;
 				}
+				
+				if (map.mWriteRawScore)
+				{
+					if (this.mWriteRawScore == null)
+					{
+						this.mWriteRawScore = new Array();
+					}
+					
+					// todo: check
+					this.mWriteRawScore[this.mWriteRawScore.length] = map.mGlobalObjID;
+				}
+				
+				if (map.mWriteMinScore)
+				{
+					if (this.mWriteMinScore == null)
+					{
+						this.mWriteMinScore = new Array();
+					}
+					
+					// todo: check
+					this.mWriteMinScore[this.mWriteMinScore.length] = map.mGlobalObjID;
+				}
+				
+				if (map.mWriteMaxScore)
+				{
+					if (this.mWriteMaxScore == null)
+					{
+						this.mWriteMaxScore = new Array();
+					}
+					
+					// todo: check
+					this.mWriteMaxScore[this.mWriteMaxScore.length] = map.mGlobalObjID;
+				}
+				
+				if (map.mWriteCompletionStatus)
+				{
+					if (this.mWriteCompletionStatus == null)
+					{
+						this.mWriteCompletionStatus = new Array();
+					}
+					
+					// todo: check
+					this.mWriteCompletionStatus[this.mWriteCompletionStatus.length] = map.mGlobalObjID;
+				}
+				
+				if (map.mWriteProgressMeasure)
+				{
+					if (this.mWriteProgressMeasure == null)
+					{
+						this.mWriteProgressMeasure = new Array();
+					}
+					
+					// todo: check
+					this.mWriteProgressMeasure[this.mWriteProgressMeasure.length] = map.mGlobalObjID;
+				}
 			}
 		}
 	}
@@ -108,10 +188,30 @@ SeqObjectiveTracking.prototype =
 	mSatisfied: false,
 	mHasMeasure: false,
 	mMeasure: 0.0,
+	mHasRawScore: false,
+	mRawScore: 0,
+	mHasMinScore: false,
+	mMinScore: 0,
+	mHasMaxScore: false,
+	mMaxScore: 0,
+	mHasProgressMeasure: false,
+	mProgressMeasure: 0.0,
+	mHasCompletionStatus: false,
+	mCompletionStatus: "unknown",
 	mReadStatus: null,
 	mReadMeasure: null,
+	mReadRawScore: null,
+	mReadMinScore: null,
+	mReadMaxScore: null,
+	mReadCompletionStatus: null,
+	mReadProgressMeasure: null,
 	mWriteStatus: null,
 	mWriteMeasure: null,
+	mWriteRawScore: null,
+	mWriteMinScore: null,
+	mWriteMaxScore: null,
+	mWriteCompletionStatus: null,
+	mWriteProgressMeasure: null,
 	
 	// getter/setter
 	getObjID: function () { return this.mObj.mObjID; },
@@ -151,7 +251,7 @@ SeqObjectiveTracking.prototype =
 	// todo: optimization: can be merged with previous function
 	setObjStatus: function (iSatisfied)
 	{
-		// If the objective is only satified my measure, don't set its status
+		// If the objective is only satisfied my measure, don't set its status
 		if (this.mObj.mSatisfiedByMeasure && !this.mSetOK)
 		{
 			// obj satisfied by measure
@@ -243,6 +343,120 @@ SeqObjectiveTracking.prototype =
 		return statusChange;	// ???
 	},
 	
+	clearObjRawScore: function ()
+	{
+		var statusChange = false;
+
+		if (this.mHasRawScore)
+		{
+			if (this.mWriteRawScore != null)
+			{
+				for (var i = 0; i < this.mWriteRawScore.length; i++)
+				{
+					adl_seq_utilities.setGlobalObjRawScore(this.mWriteRawScore[i], 
+						this.mLearnerID, this.mScopeID, TRACK_UNKNOWN);
+				}
+			}
+			
+			// Clear the satisfaction status
+			this.mHasRawScore = false;
+			statusChange = true;	
+		}
+		return statusChange;
+	},
+	
+	clearObjMinScore: function ()
+	{
+		var statusChange = false;
+
+		if (this.mHasMinScore)
+		{
+			if (this.mWriteMeasure != null)
+			{
+				for (var i = 0; i < this.mWriteMinScore.length; i++)
+				{
+					adl_seq_utilities.setGlobalObjMinScore(this.mWriteMinScore[i], 
+						this.mLearnerID, this.mScopeID, TRACK_UNKNOWN);
+				}
+			}
+			
+			// Clear the measure
+			this.mHasMinScore = false;
+			statusChange = true;
+		}
+		
+		return statusChange;	
+	},
+	
+	clearObjMaxScore: function ()
+	{
+		var statusChange = false;
+
+		if (this.mHasMaxScore)
+		{
+			if (this.mWriteMaxScore != null)
+			{
+				for (var i = 0; i < this.mWriteMaxScore.length; i++)
+				{
+					adl_seq_utilities.setGlobalObjMaxScore(this.mWriteMaxScore[i], 
+						this.mLearnerID, this.mScopeID, TRACK_UNKNOWN);
+				}
+			}
+			
+			// Clear the measure
+			this.mHasMaxScore = false;
+			statusChange = true;
+		}
+		
+		return statusChange;	
+	},
+	
+	clearObjProgressMeasure: function ()
+	{
+		var statusChange = false;
+
+		if (this.mHasProgressMeasure)
+		{
+			if (this.mWriteProgressMeasure != null)
+			{
+				for (var i = 0; i < this.mWriteProgressMeasure.length; i++)
+				{
+					adl_seq_utilities.setGlobalObjProgressMeasure(this.mWriteProgressMeasure[i], 
+						this.mLearnerID, this.mScopeID, TRACK_UNKNOWN);
+				}
+			}
+			
+			// Clear satisfaction status
+			this.mHasProgressMeasure = false;
+			statusChange = true;
+		}
+		
+		return statusChange;	
+	},
+	
+	clearObjCompletionStatus: function ()
+	{
+		var statusChange = false;
+
+		if (this.mHasCompletionStatus)
+		{
+			if (this.mWriteCompletionStatus != null)
+			{
+				for (var i = 0; i < this.mWriteCompletionStatus.length; i++)
+				{
+					adl_seq_utilities.setGlobalObjCompletion(this.mWriteCompletionStatus[i], 
+						this.mLearnerID, this.mScopeID, TRACK_UNKNOWN);
+				}
+			}
+			
+			// Clear satisfaction status
+			this.mHasCompletionStatus = false;
+			statusChange = true;
+		}
+		
+		return statusChange;	
+	},
+	
 	setObjMeasure: function (iMeasure, iAffectSatisfaction)             
 	{
 		
@@ -256,21 +470,24 @@ SeqObjectiveTracking.prototype =
 		{
 			this.mHasMeasure = true;
 			this.mMeasure = iMeasure;
-			// Set any global objectives
-			if (this.mWriteMeasure != null)
+			
+			//Set any global objectives
+			if ( this.mWriteMeasure != null)
 			{
-				for (var i = 0; i < this.mWriteMeasure.length; i++)
+				for ( var i = 0; i < this.mWriteMeasure.length; i++ )
 				{
-					adl_seq_utilities.setGlobalObjMeasure(this.mWriteMeasure[i], 
-						this.mLearnerID, this.mScopeID,iMeasure);
+					var objID = this.mWriteMeasure[i];
+					
+					adl_seq_utilities.setGlobalObjMeasure(objID, 
+							this.mLearnerID, this.mScopeID, (iMeasure + ""));	
 				}
 			}
-
+			
 			// If objective status is determined by measure, set it
-			if (iAffectSatisfaction)
+			if ( iAffectSatisfaction == true)
 			{
-				if (this.mMeasure >= this.mObj.mMinMeasure)
-				{					
+				if ( this.mMeasure >= this.mObj.mMinMeasure)
+				{
 					this.forceObjStatus(TRACK_SATISFIED);
 				}
 				else
@@ -293,11 +510,10 @@ SeqObjectiveTracking.prototype =
 		var done = false;
 
 		// if satisfied by measure, ensure that it has been set if a measure is
-		// avaliable.
+		// available.
 
 		if (this.mObj.mSatisfiedByMeasure==true)
-		{
-			
+		{			
 			done = true;
 			var measure = null;
 			
@@ -342,6 +558,8 @@ SeqObjectiveTracking.prototype =
 
 		if (done==false)
 		{
+			var globalvalexists = false;
+			
 			// Is there a 'read' objective map?
 			if (this.mReadStatus != null)
 			{
@@ -352,20 +570,24 @@ SeqObjectiveTracking.prototype =
 				{
 					ret = status;
 					done = true;
+					globalvalexists = true;
 				}
 			}
-
-			if (this.mHasSatisfied==true && (done==false || iUseLocal==true))
+			
+			if (globalvalexists == false)
 			{
-				if (this.mHasSatisfied==true && !(iIsRetry==true && this.mDirtyObj==true))
+				if (this.mHasSatisfied==true && (done==false || iUseLocal==true))
 				{
-					if (this.mSatisfied==true)
+					if (this.mHasSatisfied==true && !(iIsRetry==true && this.mDirtyObj==true))
 					{
-						ret = TRACK_SATISFIED;
-					}
-					else
-					{
-						ret = TRACK_NOTSATISFIED;
+						if (this.mSatisfied==true)
+						{
+							ret = TRACK_SATISFIED;
+						}
+						else
+						{
+							ret = TRACK_NOTSATISFIED;
+						}
 					}
 				}
 			}
@@ -384,6 +606,7 @@ SeqObjectiveTracking.prototype =
 		// Do not assume there is a valid measure
 		var ret = TRACK_UNKNOWN;
 		var done = false;
+		var globalvalexists = false;
 
 		// Is there a 'read' objective map?
 		if (this.mReadMeasure != null)
@@ -396,14 +619,18 @@ SeqObjectiveTracking.prototype =
 			{
 				ret = measure;
 				done = true;
+				globalvalexists = true;
 			}
 		}
 
-		if (this.mHasMeasure==true && (done==false || iUseLocal==true ))
+		if ( globalvalexists == false )
 		{
-			if (this.mHasMeasure==true && !(iIsRetry==true && this.mDirtyObj==true))
+			if (this.mHasMeasure==true && (done==false || iUseLocal==true ))
 			{
-				ret = this.mMeasure;
+				if (this.mHasMeasure==true && !(iIsRetry==true && this.mDirtyObj==true))
+				{
+					ret = this.mMeasure;
+				}
 			}
 		}
 
@@ -445,5 +672,296 @@ SeqObjectiveTracking.prototype =
 		}
 		
 		return byMeasure;
+	},
+	
+	getObjRawScore: function (iIsRetry)
+	{
+		// Do not assume there is a valid raw score
+		var ret = TRACK_UNKNOWN;
+		var done = false;
+		var globalvalexists = false;
+		
+		// Is there a 'read' objective map?
+		if (this.mReadRawScore != null)
+		{
+			var rawscore = adl_seq_utilities.getGlobalObjRawScore(this.mReadRawScore, 
+				this.mLearnerID, this.mScopeID);
+
+			// Always use shared raw score if available
+			if (rawscore != null)
+			{
+				ret = rawscore;
+				done = true;
+				globalvalexists = true;
+			}
+		}
+		
+		if ( globalvalexists == false )
+		{
+			if (this.mHasRawScore==true && done==false)
+			{
+				if (this.mHasRawScore==true && !(iIsRetry==true && this.mDirtyObj==true))
+				{
+					ret = this.mRawScore + '';
+				}
+			}
+		}
+
+		return ret;
+		
+	},
+	
+	setObjRawScore: function (iRawScore)
+	{
+		this.mHasRawScore = true;
+		this.mRawScore = iRawScore;
+		
+		// Set any global objectives
+		if (this.mWriteRawScore != null)
+		{
+				for ( var i = 0; i < this.mWriteRawScore.length; i++)
+					{
+						var objID = this.mWriteRawScore[i];
+						
+						adl_seq_utilities.setGlobalObjRawScore(objID, 
+								this.mLearnerID,this.mScopeID, (iRawScore + ''));
+					}
+		}
+	},
+	
+	getObjMinScore: function (iIsRetry)
+	{
+		// Do not assume there is a valid min score
+		var ret = TRACK_UNKNOWN;
+		var done = false;
+		var globalvalexists = false;
+		
+		// Is there a 'read' objective map?
+		if (this.mReadMinScore != null)
+		{
+			var minscore = adl_seq_utilities.getGlobalObjMinScore(this.mReadMinScore, 
+				this.mLearnerID, this.mScopeID);
+
+			// Always use shared raw score if available
+			if (minscore != null)
+			{
+				ret = minscore;
+				done = true;
+				globalvalexists = true;
+			}
+		}
+		
+		if ( globalvalexists == false )
+		{
+			if (this.mHasMinScore==true && done==false)
+			{
+				if (this.mHasMinScore==true && !(iIsRetry==true && this.mDirtyObj==true))
+				{
+					ret = this.mMinScore + '';
+				}
+			}
+		}
+
+		return ret;
+		
+	},
+	
+	setObjMinScore: function (iMinScore)
+	{
+		this.mHasMinScore = true;
+		this.mMinScore = iMinScore;
+		
+		// Set any global objectives
+		if (this.mWriteMinScore != null)
+		{
+				for ( var i = 0; i < this.mWriteMinScore.length; i++)
+					{
+						var objID = this.mWriteMinScore[i];
+						
+						adl_seq_utilities.setGlobalObjMinScore(objID, 
+								this.mLearnerID,this.mScopeID, (iMinScore + ''));
+					}
+		}
+	},
+	
+	getObjMaxScore: function (iIsRetry)
+	{
+		// Do not assume there is a valid max score
+		var ret = TRACK_UNKNOWN;
+		var done = false;
+		var globalvalexists = false;
+		
+		// Is there a 'read' objective map?
+		if (this.mReadMaxScore != null)
+		{
+			var maxscore = adl_seq_utilities.getGlobalObjMaxScore(this.mReadMaxScore, 
+				this.mLearnerID, this.mScopeID);
+
+			// Always use shared raw score if available
+			if (maxscore != null)
+			{
+				ret = maxscore;
+				done = true;
+				globalvalexists = true;
+			}
+		}
+		
+		if ( globalvalexists == false )
+		{
+			if (this.mHasMaxScore==true && done==false)
+			{
+				if (this.mHasMaxScore==true && !(iIsRetry==true && this.mDirtyObj==true))
+				{
+					ret = this.mMaxScore + '';
+				}
+			}
+		}
+
+		return ret;
+		
+	},
+	
+	setObjMaxScore: function (iMaxScore)
+	{
+		this.mHasMaxScore = true;
+		this.mMaxScore = iMaxScore;
+		
+		// Set any global objectives
+		if (this.mWriteMaxScore != null)
+		{
+				for ( var i = 0; i < this.mWriteMaxScore.length; i++)
+					{
+						var objID = this.mWriteMaxScore[i];
+						
+						adl_seq_utilities.setGlobalObjMaxScore(objID, 
+								this.mLearnerID,this.mScopeID, (iMaxScore + ''));
+					}
+		}
+	},
+	
+	getObjProgressMeasure: function (iDirtyProgress)
+	{
+		// Do not assume there is a valid progress measure
+		var ret = TRACK_UNKNOWN;
+		var done = false;
+		var globalvalexists = false;
+		
+		// Is there a 'read' objective map?
+		if (this.mReadProgressMeasure != null)
+		{
+			var progress = adl_seq_utilities.getGlobalObjProgressMeasure(this.mReadProgressMeasure, 
+				this.mLearnerID, this.mScopeID);
+
+			// Always use shared raw score if available
+			if (progress != null)
+			{
+				if (progress != TRACK_UNKNOWN)
+				{
+					ret = progress;
+					done = true;
+					globalvalexists = true;
+				}
+			}
+		}
+		
+		if ( globalvalexists == false )
+		{
+			if (this.mHasProgressMeasure==true && done==false)
+			{
+				if (this.mHasProgressMeasure==true && !(this.mDirtyObj==true))
+				{
+					ret = this.mProgressMeasure + '';
+				}
+			}
+		}
+
+		if (ret != TRACK_UNKNOWN && !(iDirtyProgress==true && this.mDirtyObj==true))
+		{
+			var valid = true;
+			
+			
+			if (!valid || (ret < 0.0 || ret > 1.0 ))
+			{
+				ret = TRACK_UNKNOWN;
+			}
+		}
+		return ret;
+	},
+	
+	setObjProgressMeasure: function (iProgressMeasure)
+	{
+		// Validate the range of the measure
+		if (iProgressMeasure < 0.0 || iProgressMeasure > 1.0)
+		{
+			this.clearObjProgressMeasure();
+		}
+		else
+		{
+			this.mHasProgressMeasure = true;
+			this.mProgressMeasure = iProgressMeasure;
+			// Set any global objectives
+			if (this.mWriteProgressMeasure != null)
+			{
+				for (var i = 0; i < this.mWriteProgressMeasure.length; i++)
+				{
+					var objID = this.mWriteProgressMeasure[i];
+					
+					adl_seq_utilities.setGlobalObjProgressMeasure(objID, 
+						this.mLearnerID, this.mScopeID, (iProgressMeasure+''));
+				}
+			}
+		}
+	},
+
+	getObjCompletionStatus: function (iDirtyProgress)
+	{
+		var ret = TRACK_UNKNOWN;
+		var done = false;
+		
+		var globalvalexists = false;
+		// Is there a 'read' objective map?
+		if (this.mReadCompletionStatus != null)
+		{
+			// Retrieve shared competency mastery status
+			var status = adl_seq_utilities.getGlobalObjCompletion(this.mReadCompletionStatus, 
+				this.mLearnerID, this.mScopeID);
+			if (status != null)
+			{
+				ret = status;
+				done = true;
+				globalvalexists = true;
+			}
+		}
+		
+		if (globalvalexists == false)
+		{
+			if (this.mHasCompletionStatus==true && (done==false))
+			{
+				if (this.mHasCompletionStatus==true && !(this.mDirtyProgress==true))
+				{	
+					ret = this.mCompletionStatus;
+				}
+			}
+		}
+		return ret;
+	},
+	
+	setObjCompletionStatus: function(iCompletionStatus)
+	{
+		this.mCompletionStatus = iCompletionStatus;
+		this.mHasCompletionStatus = true;
+		
+		//Set any global objectives
+		if ( this.mWriteCompletionStatus != null)
+		{
+			for (var i = 0; i< this.mWriteCompletionStatus.length; i++)
+			{
+				var objID = this.mWriteCompletionStatus[i];
+				
+				adl_seq_utilities.setGlobalObjCompletion(objID, 
+						this.mLearnerID, this.mScopeID, iCompletionStatus);
+				
+			}
+		}	
 	}
-}
+}//end SeqObjectiveTracking

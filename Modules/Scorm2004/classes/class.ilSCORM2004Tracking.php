@@ -290,7 +290,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		global $ilDB;
 
 		$status = "not_attempted";
-		
+
 		if (is_array($a_scos))
 		{
 			$in = $ilDB->in('cp_node.cp_node_id', $a_scos, false, 'integer');
@@ -307,36 +307,22 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 				array('integer', 'integer'),
 				array($a_obj_id, $a_user_id)
 			);
-	
-			
-			$cnt = 0;
-			$completed = true;
+
+			$started = false;
+			$cntcompleted = 0;
 			$failed = false;
 			while ($rec = $ilDB->fetchAssoc($res))
 			{
-				if ($rec["success"] == "failed")
+				if ($rec["completion"] == "completed" || $rec["success"] == "passed")
 				{
-					$failed = true;
+					$cntcompleted++;
 				}
-				if ($rec["completion"] != "completed" && $rec["success"] != "passed")
-				{
-					$completed = false;
-				}
-				$cnt++;
+				if ($rec["success"] == "failed") $failed = true;
+				$started = true;
 			}
-			if ($cnt > 0)
-			{
-				$status = "in_progress";
-			}
-			if ($completed && $cnt == count($a_scos))
-			{
-				$status = "completed";
-			}
-			if ($failed)
-			{
-				$status = "failed";
-			}
-
+			if ($started == true) $status = "in_progress";
+			if ($failed == true) $status = "failed";
+			else if ($cntcompleted == count($a_scos)) $status = "completed";
 		}
 		return $status;
 	}

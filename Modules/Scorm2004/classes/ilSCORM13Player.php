@@ -174,7 +174,7 @@ class ilSCORM13Player
 			$ilias->raiseError($lng->txt("permission_denied"), $ilias->error_obj->WARNING);
 		}
 		
-//$ilLog->write("SCORM: Player cmd: ".$cmd);
+//$ilLog->write("SCORM2004 Player cmd: ".$cmd);
 
 		switch($cmd){
 			
@@ -204,6 +204,14 @@ class ilSCORM13Player
 
 			case 'getGobjective':	
 				$this->readGObjective();
+				break;
+			
+			case 'getSharedData':
+				$this->readSharedData($_GET['node_id']);
+				break;
+				
+			case 'setSharedData':
+				$this->writeSharedData($_GET['node_id']);
 				break;
 				
 			case 'cmi':
@@ -272,6 +280,8 @@ class ilSCORM13Player
 		(
 			'cp_url' => 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cp&ref_id='.$_GET["ref_id"],
 			'cmi_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=cmi&ref_id='.$_GET["ref_id"],
+			'get_adldata_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getSharedData&ref_id='.$_GET["ref_id"],
+			'set_adldata_url' => 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=setSharedData&ref_id=' . $_GET["ref_id"],
 			'adlact_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=adlact&ref_id='.$_GET["ref_id"],
 			'specialpage_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=specialPage&ref_id='.$_GET["ref_id"],
 			'suspend_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=suspend&ref_id='.$_GET["ref_id"],
@@ -354,6 +364,7 @@ class ilSCORM13Player
 		//Cause there is no way to check if the Java-Applet is sucessfully loaded, an attempt equals opening the SCORM player
 		
 		$this->increase_attempt();
+		$this->resetSharedData();
 		$this->save_module_version();
 		
 		$this->tpl->show("DEFAULT", false);
@@ -525,18 +536,22 @@ class ilSCORM13Player
 	
 	public function readGObjective()
 	{
-		global $ilDB, $ilUser;
+		global $ilDB, $ilUser, $ilLog;
 		
 		//get json string
 		$g_data = new stdClass();
 
-		$query = 'SELECT objective_id, scope_id, satisfied, measure, user_id '
+		$query = 'SELECT objective_id, scope_id, satisfied, measure, user_id, 
+						 score_min, score_max, score_raw, completion_status, 
+						 progress_measure '
 		       . 'FROM cmi_gobjective, cp_node, cp_mapinfo ' 
 			   . 'WHERE (cmi_gobjective.objective_id <> %s AND cmi_gobjective.status IS NULL ' 
 			   . 'AND cp_node.slm_id = %s AND cp_node.nodename = %s '
 			   . 'AND cp_node.cp_node_id = cp_mapinfo.cp_node_id '  
 			   . 'AND cmi_gobjective.objective_id = cp_mapinfo.targetobjectiveid) '
-			   . 'GROUP BY objective_id, scope_id, satisfied, measure, user_id';
+			   . 'GROUP BY objective_id, scope_id, satisfied, measure, user_id,
+			               score_min, score_max, score_raw, completion_status, 
+			               progress_measure';
 		$res = $ilDB->queryF(
 			$query,
 			array('text', 'integer', 'text'),
@@ -566,8 +581,41 @@ class ilSCORM13Player
 				$toset = $row['measure'];
 				$g_data->{"measure"}->{$objective_id}->{$learner}->{$scope} = $toset;
 			}
+			
+			if($row['score_raw'] != NULL)
+			{
+				$toset = $row['score_raw'];
+				$g_data->{"score_raw"}->{$objective_id}->{$learner}->{$scope} = $toset;
+			}
+			
+			if($row['score_min'] != NULL)
+			{
+				$toset = $row['score_min'];
+				$g_data->{"score_min"}->{$objective_id}->{$learner}->{$scope} = $toset;
+			}
+			
+			if($row['score_max'] != NULL)
+			{
+				$toset = $row['score_max'];
+				$g_data->{"score_max"}->{$objective_id}->{$learner}->{$scope} = $toset;
+			}
+			
+			if($row['progress_measure'] != NULL)
+			{
+				$toset = $row['progress_measure'];
+				$g_data->{"progress_measure"}->{$objective_id}->{$learner}->{$scope} = $toset;
+			}
+			
+			if($row['completion_status'] != NULL)
+			{
+				$toset = $row['completion_status'];
+				$g_data->{"completion_status"}->{$objective_id}->{$learner}->{$scope} = $toset;
+			}
+			
+			
 		}
 		$gobjective_data = json_encode($g_data);
+		$ilLog->write("SCORM2004 gobjective_data=".$gobjective_data);
 		if ($this->jsMode) 
 		{
 			header('Content-Type: text/javascript; charset=UTF-8');
@@ -581,11 +629,11 @@ class ilSCORM13Player
 		}
 	}	
 	
-	//saves global_objectives to database	
+
 	public function writeGObjective()
 	{
 		global $ilDB, $ilUser, $ilLog;
-		
+		$ilLog->write("SCORM2004 writeGObjective");
 		$user = $ilUser->getId();
 		$package = $this->packageId;
 		
@@ -596,20 +644,24 @@ class ilSCORM13Player
 		if($g_data == null)
 			return null;
 		
+		$rows_to_insert = Array();
+		
 		foreach($g_data as $key => $value)
 		{			
+			$ilLog->write("SCORM2004 writeGObjective -key: ".$key);
 			//objective 
 			//learner = ilias learner id
 			//scope = null / course
 		    foreach($value as $skey => $svalue)
 			{
+				$ilLog->write("SCORM2004 writeGObjective -skey: ".$skey);
 		    	//we always have objective and learner id
 		    	if($g_data->$key->$skey->$user->$package)
 				{
 		    		$o_value = $g_data->$key->$skey->$user->$package;
 		    		$scope = $package;
 		    	}
-				else
+				else //UK: is this okay? can $scope=0 and $user->{"null"}; when is $scope used?
 				{
 		    		//scope 0
 		    		$o_value = $g_data->$key->$skey->$user->{"null"};
@@ -622,75 +674,7 @@ class ilSCORM13Player
 		    	$toset = $o_value;
 		    	$dbuser = $ilUser->getId();
 		    	
-				//check for existence (if not, create)		    	
-		    	if($key == "satisfied") 
-		    	{
-		    		$res = $ilDB->queryF('
-			    		SELECT * FROM cmi_gobjective
-			    		WHERE objective_id = %s 
-			    		AND user_id = %s
-			    		AND scope_id = %s', 
-		    			array('text', 'integer', 'integer'), 
-		    			array($objective_id, $dbuser, $scope)
-					);
-					$ilLog->write("Count is: ".$ilDB->numRows($res));
-		    		if(!$ilDB->numRows($res))	
-		    		{
-		    			$ilDB->manipulateF('
-				    		INSERT INTO cmi_gobjective
-				    		(objective_id, user_id, satisfied, scope_id) 
-				    		VALUES (%s, %s, %s, %s)',
-				    		array('text', 'integer', 'text', 'integer'), 
-				    		array($objective_id, $dbuser, $toset, $scope)
-						);
-		    		}
-		    		else
-		    		{
-		    			$ilDB->manipulateF('
-				    		UPDATE cmi_gobjective
-				    		SET satisfied = %s
-		    				WHERE objective_id = %s 
-			    			AND user_id = %s
-			    			AND scope_id = %s', 
-				    		array('text', 'text', 'integer', 'integer'), 
-				    		array($toset, $objective_id, $dbuser, $scope)
-						);		    			
-		    		}
-		    	}
-		    	if($key == "measure") 
-		    	{
-		    		$res = $ilDB->queryF('
-			    		SELECT * FROM cmi_gobjective
-			    		WHERE objective_id = %s 
-			    		AND user_id = %s
-			    		AND scope_id = %s', 
-			    		array('text', 'integer', 'integer'), 
-			    		array($objective_id, $dbuser, $scope)
-					);
-		    		$ilLog->write("Count is: ".$ilDB->numRows($res));
-		    		if(!$ilDB->numRows($res))	
-		    		{
-		    			$ilDB->manipulateF('
-				    		INSERT INTO cmi_gobjective
-				    		(objective_id, user_id, measure, scope_id) 
-				    		VALUES (%s, %s, %s, %s)',
-				    		array('text', 'integer', 'text', 'integer'), 
-				    		array($objective_id, $dbuser, $toset, $scope)
-						);
-		    		}
-		    		else
-		    		{
-		    			$ilDB->manipulateF('
-				    		UPDATE cmi_gobjective
-				    		SET measure = %s
-		    				WHERE objective_id =%s 
-			    			AND user_id = %s
-			    			AND scope_id = %s', 
-				    		array('text', 'text', 'integer', 'integer'), 
-				    		array($toset, $objective_id, $dbuser, $scope)
-						);		    			
-		    		}		    		
-		    	}
+
 		    	if($key == "status")
 				{
 					//special handling for status
@@ -708,7 +692,7 @@ class ilSCORM13Player
 		    			array('text', 'integer', 'integer'), 
 		    			array($obj, $dbuser, $pkg_id)
 					);
-		    		$ilLog->write("Count is: ".$ilDB->numRows($res));
+		    		$ilLog->write("SCORM2004 Count is: ".$ilDB->numRows($res));
 		    		if(!$ilDB->numRows($res))	
 		    		{
 		    			$ilDB->manipulateF('
@@ -718,6 +702,7 @@ class ilSCORM13Player
 				    		array('integer', 'text', 'integer', 'text', 'text', 'text'), 
 				    		array($dbuser, $completed, $pkg_id, $measure, $satisfied, $obj)
 						);
+						$ilLog->write("SCORM2004 cmi_gobjective Insert status=".$completed." scope_id=".$pkg_id." measure=".$measure." satisfied=".$satisfied." objective_id=".$obj);
 		    		}
 		    		else
 		    		{
@@ -732,15 +717,285 @@ class ilSCORM13Player
 				    		array('text', 'text', 'text', 'text', 'integer', 'integer'), 
 				    		array($completed, $measure, $satisfied, $obj, $dbuser, $pkg_id)
 						);		    			
+						$ilLog->write("SCORM2004 cmi_gobjective Update status=".$completed." scope_id=".$pkg_id." measure=".$measure." satisfied=".$satisfied." objective_id=".$obj);
 		    		}
-				}	
+				} else //add it to the rows_to_insert
+				{
+					//create the row if this is the first time it has been found
+			    	if($rows_to_insert[$objective_id] == NULL)
+				    {
+			    		$rows_to_insert[$objective_id] = Array();
+			    	}
+					$rows_to_insert[$objective_id][$key] = $toset;
+				}
+					
 		    }
-		}
+	    }
 	
+	    //Get the scope for all the global objectives!!!
+	    $res = $ilDB->queryF("SELECT global_to_system
+	    					  FROM cp_package
+	    					  WHERE obj_id = %s",
+	    					  array('text'),
+	    					  array($this->packageId)
+		    				);
+		    				
+		$scope_id = ($ilDB->fetchObject($res)->global_to_system) ? 0 : $this->packageId;
+		
+	    //build up the set to look for in the query
+	    $existing_key_template = "";
+	    foreach(array_keys($rows_to_insert) as $obj_id)
+		{
+			$existing_key_template .= "'{$obj_id}',";
+		}
+		//remove trailing ','
+		$existing_key_template = substr($existing_key_template, 0, strlen($existing_key_template) - 1);
+		$existing_keys = Array();
+		
+		if($existing_key_template != "")
+		{
+			//Get the ones that need to be updated in a single query
+			$res = $ilDB->queryF("SELECT objective_id 
+								  FROM cmi_gobjective 
+								  WHERE user_id = %s
+							  	  AND scope_id = %s
+							 	  AND objective_id IN ($existing_key_template)",
+							 	  array('integer', 'integer'),
+							 	  array($this->userId, $scope_id)
+							     );
+							     
+			while($row = $ilDB->fetchAssoc($res))
+			{
+				$existing_keys[] = $row['objective_id'];	
+			}
+		}
+		
+		foreach($rows_to_insert as $obj_id => $vals)
+		{
+			if(in_array($obj_id, $existing_keys))
+			{
+			     $ilDB->manipulateF("UPDATE cmi_gobjective
+									 SET satisfied=%s,
+									 	 measure=%s,
+									 	 score_raw=%s,
+									     score_min=%s,
+										 score_max=%s,
+										 completion_status=%s,
+										 progress_measure=%s
+									 WHERE objective_id = %s
+									 AND user_id = %s
+									 AND scope_id = %s",
+									 
+									 array('text','text', 'text', 'text', 'text', 'text',
+									 	   'text', 'text', 'integer', 'integer'),
+									 	   
+									 array($vals['satisfied'], $vals["measure"], $vals["score_raw"], 
+									 	   $vals["score_min"], $vals["score_max"], 
+									 	   $vals["completion_status"], $vals["progress_measure"],
+									 	   $obj_id, $this->userId, $scope_id) 	 
+								 );
+			} else
+			{
+				$ilDB->manipulateF("INSERT INTO cmi_gobjective
+									(user_id, satisfied, measure, scope_id, status, objective_id,
+									 score_raw, score_min, score_max, progress_measure, completion_status)
+									VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+									
+										
+									array('integer', 'text', 'text', 'integer', 'text', 'text',
+										  'text', 'text', 'text', 'text', 'text'),
+										  
+									array($this->userId, $vals['satisfied'], $vals['measure'], 
+										  $scope_id, NULL, $obj_id, $vals['score_raw'],
+										  $vals['score_min'], $vals['score_max'], 
+										  $vals['progress_measure'], $vals['completion_status'])	  
+								);
+			}
+		}
+		
 		// update learning progress
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
 		ilLPStatusWrapper::_updateStatus($package, $user);
+		
+		echo "1";
 	}	
+	
+	
+	//Read the shared datascores for a given SCO 
+	public function readSharedData($sco_node_id)
+	{
+
+		global $ilDB, $ilUser;
+		$dataStores = array( "data" => array(),
+							 "permissions" => array());
+		$readPermissions = array();
+		
+		$query = 'SELECT target_id, read_shared_data, write_shared_data '
+		       . 'FROM cp_datamap ' 
+			   . 'WHERE slm_id = %s '
+			   . 'AND sco_node_id = %s ' 
+			   . 'GROUP BY target_id, read_shared_data';
+			   
+		
+		$res = $ilDB->queryF(
+			$query,
+			array('integer', 'integer'),
+			array($this->packageId, $sco_node_id)
+		);
+		
+		//Pass 1: Get all the shared data target_ids	
+		//		  for this content package
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$storeVal = ($row['read_shared_data'] == 0 && $row['write_shared_data'] == 1 )
+				    ? 'notWritten' 
+				    : null;
+
+			$dataStores["data"][$row['target_id']] = array( "store" => $storeVal,
+									"readSharedData" => $row['read_shared_data'],
+									"writeSharedData" => $row['write_shared_data']);
+			$dataStores["readPermissions"][$row['target_id']] = $row['read_shared_data'];	
+		}
+		
+		if(count($dataStores) < 1)
+		{
+			//If there are no datastores, then return nothing
+			echo "";
+			exit();		
+		}
+		else if ($dataStores["readPermissions"] != null && array_sum($dataStores["readPermissions"]) != 0)
+		{
+			
+			//If there exists at least one readSharedData permission, then 
+			//fill in the existing values (if any) already in the store.
+			
+			//Create the params to add to the Pass 2 query (get existing values)
+			$params = array("types" => array("integer", "integer"),
+						    "values" => array($this->userId, $this->packageId));
+			
+			$paramTemplate = '';
+			
+			//See if readSharedData is set for each datamap.
+			//If set to true, then add it to the search query
+			foreach($dataStores["data"] as $key => $val)
+			{
+				if($dataStores["readPermissions"][$key] == 1 
+					&& $dataStores["data"][$key]["store"] != 'notWritten')
+				{
+					$params["types"][] = "text";
+					$params["values"][] = $key;
+					$paramTemplate .= '%s, ';
+				} 
+			}
+			
+			//Get rid of the trailing ', '
+			$paramTemplate = substr($paramTemplate, 0, strlen($paramTemplate) - 2);
+			
+			//Pass 2: Query for values previously saved by the user
+			$query = 'SELECT target_id, store '
+				   . 'FROM adl_shared_data '
+				   . 'WHERE user_id = %s '
+				   . 'AND slm_id = %s '
+				   . 'AND target_id IN (' . $paramTemplate . ')';
+				   
+			
+			$res = $ilDB->queryF( 
+				$query,
+				$params["types"],
+				$params["values"]
+			);
+		
+			while($row = $ilDB->fetchAssoc($res))
+			{
+				$dataStores["data"][$row['target_id']]["store"] = $row['store'];
+			}
+		}	
+
+		header('Content-Type: text/javascript; charset=UTF-8');
+		
+		echo json_encode($dataStores["data"]);	
+	}
+	
+	public function writeSharedData($sco_node_id)
+	{
+		global $ilDB, $ilUser;
+		$g_data = json_decode(file_get_contents('php://input'));
+			
+		//Step 1: Get the writeable stores for this SCO that already have values
+		$query = 'SELECT dm.target_id, sd.store '
+			   . 'FROM cp_datamap dm '
+			   . 'LEFT JOIN adl_shared_data sd '
+			   . 'ON(dm.slm_id = sd.slm_id AND dm.target_id = sd.target_id) '
+			   . 'WHERE sco_node_id = %s '
+			   . 'AND dm.slm_id = %s '
+			   . 'AND write_shared_data = 1 '
+			   . 'AND user_id = %s';
+		
+		$res = $ilDB->QueryF(
+			$query,
+			array('integer', 'integer', 'integer'),
+			array($sco_node_id, $this->packageId, $this->userId)
+		);
+		
+		$dataStores = array();
+		$originalVals = array();
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$id = $row['target_id'];
+			$dataStores[$id] = $g_data->{$id};
+			$originalVals[$id] = $row['store'];
+		}
+		
+
+		//Step 2: Add the writeable stores
+		foreach($g_data as $key => $obj)
+		{
+			//If it's already created in adl_shared_data, we 
+			//need to update it.
+			if(array_key_exists($key, $dataStores) )	
+			{
+				if($obj == 'notWritten') continue;
+
+				$query = 'UPDATE adl_shared_data '
+					   . 'SET store = %s '
+					   . 'WHERE user_id = %s '
+					   . 'AND target_id = %s '
+					   . 'AND slm_id = %s ';
+				
+				$ilDB->manipulateF(
+					$query,
+					array('text', 'integer', 'text', 'integer'),
+					array($dataStores[$key], $this->userId, $key, $this->packageId)	
+					);
+			} else
+			{
+				//Check for writability
+				$res = $ilDB->queryF(
+					'SELECT write_shared_data '
+					  . 'FROM cp_datamap '
+					  . 'WHERE target_id = %s '
+					  . 'AND slm_id = %s '
+					  . 'AND sco_node_id = %s',
+					 array('text', 'integer', 'integer'),
+					 array($key, $this->packageId, $sco_node_id));
+				
+				$row = $ilDB->fetchAssoc($res);
+				if($row["write_shared_data"] != 1)
+				{
+					 continue;
+				}
+				
+				//If it's writeable, then add the new value into the database
+				$res = $ilDB->manipulateF(
+					'INSERT INTO adl_shared_data VALUES (%s, %s, %s, %s)',
+					array('integer', 'integer', 'text', 'text'),
+					array($this->packageId, $this->userId, $key, $obj));			
+			}
+		}
+	    echo "1";
+	    exit();
+		
+	}
 	
 	public function specialPage() {
 
@@ -793,9 +1048,11 @@ class ilSCORM13Player
 		if ($this->slm->getDefaultLessonMode() == "browse") {return;}
 				
 		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
-		$ilLog->write("Got data:". file_get_contents('php://input'));
+		$ilLog->write("SCORM2004 Got data:". file_get_contents('php://input'));
 
 		$return = $this->setCMIData($this->userId, $this->packageId, $data, $this->ref_id);
+		
+		$ilLog->write("SCORM2004 return of persistCMIData: ".json_encode($return));
 		
 		if ($this->jsMode) 
 		{
@@ -920,7 +1177,13 @@ class ilSCORM13Player
 				}
 				$result['data'][$k][] = $tmp_result;
 			}
+
+			if($k == 'node') {
+
+			}
 		}
+
+
 		return $result;	
 	}
 
@@ -1048,8 +1311,6 @@ class ilSCORM13Player
 		$result = array();
 		$map = array();
 
-//$ilLog->write("Set CMI Data");
-
 		if (!$data) return;
 	
 		$tables = array('node', 'comment', 'interaction', 'objective', 'correct_response');
@@ -1057,11 +1318,11 @@ class ilSCORM13Player
 		foreach($tables as $table)
 		{
 			$schem = & self::$schema[$table];
-//			$ilLog->write("SCORM: setCMIData, table -".$table."-".$data->objective);
+			$ilLog->write("SCORM2004 setCMIData, table -".$table."-".$data->objective);
 
 			if (!is_array($data->$table)) continue;			
 				
-//$ilLog->write("SCORM: setCMIData, table -".$table."-");
+			$ilLog->write("SCORM2004 setCMIData, table -".$table."-");
 			
 			// build up numerical index for schema fields
 			$i = 0;
@@ -1078,10 +1339,10 @@ class ilSCORM13Player
 				{
 					case 'correct_response':
 						$no = $schem['cmi_interaction_id']['no'];
-						$ilLog->write("correct_response no: ".$no);
-						$ilLog->write("The Row: ".count($row));
+						$ilLog->write("SCORM2004 correct_response no: ".$no);
+						$ilLog->write("SCORM2004 The Row: ".count($row));
 						$row[$no] = $map['interaction'][$row[$no]];
-						$ilLog->write("Value: ".print_r($map['interaction'],true));
+						$ilLog->write("SCORM2004 Value: ".print_r($map['interaction'],true));
 					case 'comment':
 					case 'interaction':
 						$no = $schem['cmi_node_id']['no'];
@@ -1100,7 +1361,7 @@ class ilSCORM13Player
 					
 				}
 		
-//$ilLog->write("SCORM: setCMIData, row b");
+//$ilLog->write("SCORM2004 setCMIData, row b");
 				$cp_no = $schem['cp_' . $table . '_id']['no'];						 
 				$cmi_no = $schem['cmi_' . $table . '_id']['no'];
 				
@@ -1116,7 +1377,7 @@ class ilSCORM13Player
 				{
 					$keys[] = $key;					
 				}
-//$ilLog->write("SCORM: setCMIData, row c");
+//$ilLog->write("SCORM2004 setCMIData, row c");
 				if($table === 'node') 
 				{
 					$this->removeCMIData($userId, $packageId, $row[$cp_no]);
@@ -1124,7 +1385,7 @@ class ilSCORM13Player
 
 				$ret = false;
 
-				$ilLog->write("Checking table: ".$table);
+				$ilLog->write("SCORM2004 Checking table: ".$table);
 
 				switch($table)
 				{
@@ -1148,7 +1409,7 @@ class ilSCORM13Player
 						}
 						else
 						{
-							$ilLog->write("ERROR SCORM Player, setCMIData, incorrect number of values for cmi_correct_response.");
+							$ilLog->write("SCORM2004 ERROR SCORM Player, setCMIData, incorrect number of values for cmi_correct_response.");
 							$ilLog->dump($row);
 						}
 						break;
@@ -1190,7 +1451,7 @@ class ilSCORM13Player
 							'cmi_interaction_id'	=> array('integer', $row[0]),
 							'cmi_node_id'			=> array('integer', $row[1]),
 							'cmi_objective_id'		=> array('integer', $row[$cmi_no]),
-							'completion_status'		=> array('float', $row[3]),
+							'completion_status'		=> array('text', $row[3]),
 							'description'			=> array('clob', $row[4]),
 							'id'					=> array('text', $row[5]),
 							'c_max'					=> array('float', $row[6]),
@@ -1238,14 +1499,14 @@ class ilSCORM13Player
 							$node_data[$node_field] = array($node_types[$key], $value);
 						}					
 
-						$ilLog->write("Want to insert row: ".count($row) );
+						$ilLog->write("SCORM2004 Want to insert row: ".count($row) );
 						$ilDB->insert('cmi_node', $node_data);									
 						break;
 				}				
 				
 				$ret = true;
 
-				if(!$ret)
+				if(!$ret) //UK: sense?
 				{
 					$return = false;
 					break;
@@ -1261,8 +1522,17 @@ class ilSCORM13Player
 				$map[$table][$cmi_id] = $row[$cmi_no];
 			}
 		}
-
-//$ilLog->write("-synching-");
+//UK
+		//hier global_objectives
+		//UK
+		//hier update_global_status
+		
+		//analog sendUserLpForObject $scorm_status bestimmen
+		//mit status_ante um status_changed zu bestimmen
+		//if status_changed soap-Aufruf starten
+		//$result["status_changed"]=
+		//if status_changed opener_reload
+//$ilLog->write("SCORM2004 -synching-");
 
 		// sync access number and time in read event table
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
@@ -1487,8 +1757,49 @@ class ilSCORM13Player
 				array($new_rec, date('Y-m-d H:i:s'), $this->userId, 0, $this->packageId, 'package_attempts')
 			);
 		}
+		
+
 	}	
 	
+	function resetSharedData()
+	{
+		global $ilDB;
+		//Reset the shared data stores if sharedDataGlobalToSystem is false
+		$res = $ilDB->queryF(' 
+					  SELECT shared_data_global_to_system   
+			   	      FROM cp_package  
+			          WHERE obj_id = %s',
+			          array('integer'),
+			          array($this->packageId)
+				);
+
+		$shared_global_to_sys = $ilDB->fetchObject($res)->shared_data_global_to_system;
+		
+		$res = $ilDB->queryF('
+					  SELECT data
+					  FROM cp_suspend
+					  WHERE obj_id = %s 
+					  AND user_id = %s',
+					  array('integer', 'integer'),
+					  array($this->packageId, $this->userId)
+			   );
+		
+		$suspended = false;
+		
+		$dat = $ilDB->fetchObject($res)->data;
+		if($dat != null && $dat != '' ) $suspended = true;
+		
+		if($shared_global_to_sys == 0 && !$suspended)
+		{
+			$ilDB->manipulateF('
+				DELETE FROM adl_shared_data 
+				WHERE slm_id = %s 
+				AND user_id = %s',
+				array('integer', 'integer'),
+				array($this->packageId, $this->userId)
+			);
+		}
+	}
 	/**
 	* save the active module version to scorm_tracking
 	*/

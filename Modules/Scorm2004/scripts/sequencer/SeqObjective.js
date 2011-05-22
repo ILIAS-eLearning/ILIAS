@@ -26,25 +26,28 @@
 	This .js file is GPL licensed (see above) but based on
 	SeqObjective.java by ADL Co-Lab, which is licensed as:
 	
-	Advanced Distributed Learning Co-Laboratory (ADL Co-Lab) Hub grants you 
-	("Licensee") a non-exclusive, royalty free, license to use, modify and 
-	redistribute this software in source and binary code form, provided that 
-	i) this copyright notice and license appear on all copies of the software; 
-	and ii) Licensee does not utilize the software in a manner which is 
-	disparaging to ADL Co-Lab Hub.
+	ADL SCORM 2004 4th Edition Sample Run-Time Environment
 
-	This software is provided "AS IS," without a warranty of any kind.  ALL 
-	EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING 
-	ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE 
-	OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED.  ADL Co-Lab Hub AND ITS LICENSORS 
-	SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF 
-	USING, MODIFYING OR DISTRIBUTING THE SOFTWARE OR ITS DERIVATIVES.  IN NO 
-	EVENT WILL ADL Co-Lab Hub OR ITS LICENSORS BE LIABLE FOR ANY LOST REVENUE, 
-	PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, 
-	INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE 
-	THEORY OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE 
-	SOFTWARE, EVEN IF ADL Co-Lab Hub HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH 
-	DAMAGES.
+The ADL SCORM 2004 4th Ed. Sample Run-Time Environment is licensed under
+Creative Commons Attribution-Noncommercial-Share Alike 3.0 United States.
+
+The Advanced Distributed Learning Initiative allows you to:
+  *  Share - to copy, distribute and transmit the work.
+  *  Remix - to adapt the work. 
+
+Under the following conditions:
+  *  Attribution. You must attribute the work in the manner specified by the author or
+     licensor (but not in any way that suggests that they endorse you or your use
+     of the work).
+  *  Noncommercial. You may not use this work for commercial purposes. 
+  *  Share Alike. If you alter, transform, or build upon this work, you may distribute
+     the resulting work only under the same or similar license to this one. 
+
+For any reuse or distribution, you must make clear to others the license terms of this work. 
+
+Any of the above conditions can be waived if you get permission from the ADL Initiative. 
+Nothing in this license impairs or restricts the author's moral rights.
+
 */
 
 function SeqObjective()  
@@ -58,5 +61,57 @@ SeqObjective.prototype =
 	mSatisfiedByMeasure: false,
 	mActiveMeasure: true,
 	mMinMeasure: 1,
-	mContributesToRollup: false
-}
+	mContributesToRollup: false,
+	
+	equals: function( iToCompare )	
+	{
+		if (iToCompare instanceof SeqObjective)
+			{
+				var other = iToCompare;
+				return (this.mObjID == other.mObjID);	
+			}
+		return false;
+	},
+	
+	hashCode: function ()
+	{
+		return (this.mObjID != null) ? (mObjID).hashCode() : 0;
+	},
+	
+	merge: function ( toadd )
+	{
+		if ( this.equals(toadd) )
+		{
+			if (this.mMaps != null)
+			{
+				for ( var i = 0; i < toadd.mMaps.length; i++ )
+				{
+					var candidate = toadd.mMaps[i];
+					var location = this.contains(candidate);
+					if ( location > -1 )
+					{
+						var mymap = this.mMaps.splice(location, 1);
+						this.mMaps.push(mymap.merge(candidate));
+					}
+					else
+					{
+						this.mMaps.push(candidate);
+					}
+				}
+			}
+			else
+			{
+				this.mMaps = toadd.mMaps;
+			}
+		}
+	},
+	
+	contains: function (candidate)
+	{
+		for ( var i = 0; i < this.mMaps.length; i++ )
+		{
+			if ( this.mMaps[i].equals(candidate) ) return i;
+		}
+		return -1;
+	}
+};

@@ -88,7 +88,7 @@ function toggleLog() {
 	if (logState==false) {
 		elm.innerHTML="Hide Log";
 		logState=true;
-		onWindowResize()
+		onWindowResize();
 	} else {
 		elm.innerHTML="Show Log";
 		logState=false;
@@ -124,7 +124,7 @@ function sclog(mess, type)
 		if (elm) 
 		{
 			elm.innerHTML = elm.innerHTML + mess + '<br />';
-			sclogscroll()
+			sclogscroll();
 		}
 	}
 	else
@@ -143,7 +143,7 @@ function sclogflush()
 	if (elm) 
 	{
 		elm.innerHTML = elm.innerHTML + log_buffer;
-		sclogscroll()
+		sclogscroll();
 	}
 	log_buffer = "";
 }
@@ -172,7 +172,7 @@ function sclogdump(param, type)
 	
 	depth = 0;
 	
-	var pre = ''
+	var pre = '';
 	for (var j=0; j < depth; j++)
 	{
 		pre = pre + '    ';
@@ -329,7 +329,7 @@ function timeStringParse(iTime, ioArray)
      }
 
      // if string has time portion
-     if ( mTime.equals!="0")
+     if ( mTime!="0")
      {
         // H is present so get hour
         if ( mTime.indexOf("H") != -1 )
@@ -525,7 +525,7 @@ function Duration (mixed)
 
 this.Duration = Duration;
 
-Duration.prototype.set = function (obj)
+		Duration.prototype.set = function (obj)
 {
 	this.value.setTime(obj && obj.valueOf ? obj.valueOf() : obj); } ;
 
@@ -568,7 +568,7 @@ Duration.toString = function (d)
 Duration.prototype.toString = function () 
 {
 	return Duration.toString(this.value);
-}
+};
 
 Duration.prototype.valueOf = function () 
 {
@@ -598,7 +598,7 @@ DateTime.parse = function (str, utc)
 		m[8] ? Number(m[8].substr(0,2)) : 0, // zhh
 		m[9] ? Number(m[9].substr(1,2)) : 0 // zmm
 	];
-	var z = a[7]==='Z' ? (new Date()).getTimezoneOffset() : ((a[8] || 0)*60 + (a[9] || 0)) * (a[7]==='-' ? -1 : 1)
+	var z = a[7]==='Z' ? (new Date()).getTimezoneOffset() : ((a[8] || 0)*60 + (a[9] || 0)) * (a[7]==='-' ? -1 : 1);
 	var d = new Date(a[0], a[1], a[2], a[3], a[4], a[5], a[6]);	
 	if (a[0]<1970 || a[0]>2038 || a[1]<0 || a[1]>12 || 
 		d.getMonth()!==a[1] || d.getDate()!==a[2] || 
@@ -1444,25 +1444,31 @@ function extend(destination, source, nochain, nooverwrite) {
 }
 
 
-
+var userInteraction = false;
 /* ############### GUI ############################################ */
-function launchTarget(target) {
+function launchTarget(target, isJump) {
+	if(userInteraction){
+		userInteraction = false;
+		return null;
+	}
 	onItemUndeliver();
-	
-	mlaunch = msequencer.navigateStr(target);
+	//TODO:JP - need a way to force jump request
+	mlaunch = msequencer.navigateStr(target, isJump);
    
 	if (mlaunch.mSeqNonContent == null) {
 		//throw away API from previous sco and sync CMI and ADLTree
-		onItemDeliver(activities[mlaunch.mActivityID]);
+		onItemDeliver(activities[mlaunch.mActivityID], false);
 	} else {
 	  //call specialpage
 	  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
 	}
 
 }
-function launchNavType(navType) {
-	
-	
+function launchNavType(navType, isUserCurrentlyInteracting) {	
+	if(!isUserCurrentlyInteracting && userInteraction){
+		userInteraction = false;
+		return null;		
+	}
 	//if suspendAll set cmi.exit to suspend for active SCO
 	if (navType=='SuspendAll') {
 		pubAPI.cmi.exit="suspend";
@@ -1472,7 +1478,7 @@ function launchNavType(navType) {
 		activities[msequencer.mSeqTree.mCurActivity.mActivityID].entry="resume";
 		
    	}
-
+		
 	//throw away API from previous sco and sync CMI and ADLTree, no api...SCO has to care for termination
 	onItemUndeliver();
 	
@@ -1553,32 +1559,33 @@ function launchNavType(navType) {
 		suspendedTree['mSuspendAll']=suspendall;
 		suspendedTree['root']=root;
 		
-		var r = sendAndLoad(this.config.suspend_url, toJSONString(suspendedTree), null, null, null, headers);
+		var strTree = JSON.stringify(suspendedTree); //toJSONString(suspendedTree);
+		
+		var r = sendAndLoad(this.config.suspend_url, strTree, null, null, null, headers);
 	}
 	
-	if (navType==='Previous') {
+	if (navType==='Previous') {		
 		mlaunch = msequencer.navigate(NAV_PREVIOUS);
 	}
 	
 	if (navType==='Continue') {
 		mlaunch = msequencer.navigate(NAV_CONTINUE);		
 	}
-		if (mlaunch.mActivityID) {
-			onItemDeliver(activities[mlaunch.mActivityID]);
-		} else {
-	  		//call specialpage
-	  		loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
-		}
+	
+	if (mlaunch.mActivityID) {
+		onItemDeliver(activities[mlaunch.mActivityID], false);
+	} else {
+  		//call specialpage
+  		loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
+	}
 		
 }
-
-
 function onDocumentClick (e) 
 {
 	e = new UIEvent(e);
 	var target = e.srcElement;
 	
-	
+	userInteraction = true;
 	//integration of ADL Sqeuencer
 	
 	if (target.tagName !== 'A' || !target.id ||  target.className.match(new RegExp(ilRTEDisabledClass))
@@ -1587,28 +1594,28 @@ function onDocumentClick (e)
 		// ignore clicks on other elements than A
 		// or non identified elements or disabled elements (non active Activities)
 	} 
-	
+
 	//handle eventes like Contine, Previous, Exit...
-	else if (target.id.substr(0, 3)==='nav') 
+	else if (target.id.substr(0, 3) ==='nav') 
 	{
 		var navType=target.id.substr(3);
-		launchNavType(navType);	
+		launchNavType(navType, userInteraction);						
 	} 
 	
 	//SCO selected by user directly (itm is used as ITEM_PREFIX)
-	else if (target.id.substr(0, 3)===ITEM_PREFIX) 
+	else if (target.id.substr(0, 3)===ITEM_PREFIX ) 
 	{
 		if (e.altKey) {} // for special commands
 		else 
 		{
+			//throw away API from previous sco and sync CMI and ADLTree
+			onItemUndeliver();
 			mlaunch = msequencer.navigateStr( target.id.substr(3));
            
  			if (mlaunch.mSeqNonContent == null) {
-				//alert(activities[mlaunch.mActivityID]);	
-				//throw away API from previous sco and sync CMI and ADLTree
-				onItemUndeliver();
+				//alert(activities[mlaunch.mActivityID]);
 				statusHandler(mlaunch.mActivityID,"completion","unknown");
-				onItemDeliver(activities[mlaunch.mActivityID]);
+				onItemDeliver(activities[mlaunch.mActivityID], false);
 			//	setTimeout("updateNav()",2000);  //temporary fix for timing problems
 			} else {
 			  //call specialpage
@@ -1623,7 +1630,8 @@ function onDocumentClick (e)
 	else if (target.target==="_blank")
 	{
 		return;
-	} 
+	}
+	userInteraction = false;
 	e.stop();
 }
 
@@ -1695,15 +1703,15 @@ function updateControls(controlState)
 {
 	
 	if (mlaunch!=null) {
-		toggleClass('navContinue', 'disabled', (mlaunch.mNavState.mContinue==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['continue'])=="object"));
-		toggleClass('navExit', 'disabled', (mlaunch.mNavState.mContinueExit==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['exit'])=="object"));
-		toggleClass('navPrevious', 'disabled', (mlaunch.mNavState.mPrevious==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['previous'])=="object"));
+		toggleClass('navContinue', 'disabled', (mlaunch.mNavState.mContinue==false || ((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['continue'])=="object":false)));
+		toggleClass('navExit', 'disabled', (mlaunch.mNavState.mContinueExit==false || ((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['exit'])=="object":false)));
+		toggleClass('navPrevious', 'disabled', (mlaunch.mNavState.mPrevious==false || ((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['previous'])=="object":false)));
 		toggleClass('navResumeAll', 'disabled', mlaunch.mNavState.mResume==false );
 		if (mlaunch.mActivityID) {
 			toggleClass('navExitAll', 'disabled', typeof(activities[mlaunch.mActivityID].hideLMSUIs['exitAll'])=="object");
 		}	
 		toggleClass('navStart', 'disabled', mlaunch.mNavState.mStart==false);
-		toggleClass('navSuspendAll', 'disabled', (mlaunch.mNavState.mSuspend==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['suspendAll'])=="object"));
+		toggleClass('navSuspendAll', 'disabled', (mlaunch.mNavState.mSuspend==false || ((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['suspendAll'])=="object":false)));
 	}	
 }
 
@@ -1712,7 +1720,6 @@ function setResource(id, url, base)
 {
 	
 	url= base + url;
-
 	if (!top.frames[RESOURCE_NAME])
 	{
 		var elm = window.document.getElementById(RESOURCE_PARENT);
@@ -1951,7 +1958,8 @@ function init(config)
 			}
 		}
 	}
-
+	
+	
 	this.config = config;
 	gConfig=config;
 	setInfo('loading');
@@ -1968,7 +1976,7 @@ function init(config)
 	
 	var cam = this.config.cp_data || sendJSONRequest(this.config.cp_url);
 
-	if (!cam) return alert('Fatal: Could not load content data.')
+	if (!cam) return alert('Fatal: Could not load content data.');
 
 	// Step 2: load adlActivityTree
 	var adlAct = this.config.adlact_data || sendJSONRequest(this.config.adlact_url);
@@ -2059,7 +2067,7 @@ function init(config)
 	//load global objectives
 	
 	loadGlobalObj();
-	
+
 	
 	//get suspend data
 	suspendData =  sendJSONRequest(this.config.get_suspend_url);
@@ -2161,7 +2169,7 @@ function init(config)
 	}
 		
 	if (mlaunch.mSeqNonContent == null) {
-		onItemDeliver(activities[mlaunch.mActivityID]);
+		onItemDeliver(activities[mlaunch.mActivityID], wasSuspended);
 	} else {
 		if (count==1 && tolaunch!=null) {
 			launchTarget(tolaunch);
@@ -2206,6 +2214,28 @@ function loadGlobalObj() {
 		if (globalObj.satisfied){adl_seq_utilities.satisfied=globalObj.satisfied;}
 		if (globalObj.measure) {adl_seq_utilities.measure=globalObj.measure;}
 		if (globalObj.status) {adl_seq_utilities.status=globalObj.status;}
+	}
+}
+
+function loadSharedData(sco_node_id) {
+	var adlData = this.config.adldata_data || sendJSONRequest(this.config.get_adldata_url + "&node_id=" + sco_node_id);
+	if(adlData) {
+		sharedData = adlData;
+	}
+}
+
+function saveSharedData() {
+	
+	//Do the transform so the "custom" JSON encoder will properly send
+	//the input to the server
+	var dataOut = new Object();
+	for(i = 0; i < pubAPI.adl.data.length; i++) {
+		var d = pubAPI.adl.data[i];
+		dataOut[d.id] = d.store;
+	}
+	var success = sendJSONRequest(this.config.set_adldata_url+"&node_id="+pubAPI.cmi.cp_node_id, dataOut);
+	if(success != "1") { 
+		//Do error handling if necessary
 	}
 }
 
@@ -2257,7 +2287,7 @@ function setParents(obj) {
 			var temp=obj[index];	
 			if (temp instanceof Array) {
 				if (temp.length>0) {
-					for (var i=0;i<temp.length;i++) {
+					for (var i=0;i<temp.length;i++) {
 						// get the object
 						temp[i]['mParent']=obj;
 						//check for further childs in array
@@ -2393,7 +2423,7 @@ function load()
 			interactions[cmi_interaction_id].objectives[id] = {id:id};
 		}
 		dat = new Objective();
-		for (j=remoteMapping.objective.length; j--; ) 
+		for (j=remoteMapping.objective.length; j--; )
 		{
 			//dat[remoteMapping.objective[j]] = row[j];
 			setItemValue(j, dat, row, remoteMapping.objective[j]);
@@ -2401,6 +2431,7 @@ function load()
 		act = activitiesByCMI[row[remoteMapping.objective.cmi_node_id]];
 		act.objectives[dat.id] = dat;
 	}
+
 }
 
 function save()
@@ -2511,6 +2542,12 @@ function getAPI(cp_node_id)
 		}
 	}
 	
+	function getADLExtensionWalk(model, data, api)
+	{
+		var k, i;
+		if (!model.children) return;
+	}
+	
 	function getAPIWalk (model, data, api) 
 	{
 		var k, i;
@@ -2547,7 +2584,7 @@ function getAPI(cp_node_id)
 					
 					} else {
 						getAPISet(mod.mapping[i], dat, api[k]);
-				    }
+				    	}
 				}
 			}
 			else if (mod.type===Array) 
@@ -2622,7 +2659,7 @@ function setItemValue (key, dest, source, destkey)
 	{
 		var d = source[key];
 		var temp=d;
-		if (!isNaN(parseFloat(d)) && !(/[A-Za-z]/.test(d))) {
+		if (!isNaN(parseFloat(d)) && (/^-?\d{1,32}(\.\d{1,32})?$/.test(d))) {
 			d = Number(d);
 		} else if (d==="true") {
 			d = true;
@@ -2739,16 +2776,9 @@ function onWindowUnload ()
 	save_global_objectives();
 	save();
 }
-
-function onItemDeliver(item) // onDeliver called from sequencing process (deliverSubProcess)
-{
-	var url = item.href, v;
-	// create api if associated resouce is of adl:scormType=sco
-	if (item.sco)
-	{
-		
-		// get data in cmi-1.3 format
+function loadData(item){
 		var data = getAPI(item.foreignId);
+		loadSharedData(item.cp_node_id);
 		
 		// add ADL Request namespace data
 		data.adl = {nav : {request_valid: {}}};
@@ -2758,6 +2788,20 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 		//we only set Continue, Previous and Choice according to specification
 		data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);
 		data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);
+		
+		var adlcpData = Array();
+		for(ds in sharedData)
+		{
+			var dat = Array();
+			dat["id"] = ds;
+			dat["store"] = sharedData[ds].store;
+			dat["readable"] = sharedData[ds].readSharedData;
+			dat["writeable"] = sharedData[ds].writeSharedData;	
+			adlcpData.push(dat);
+		}
+		
+		data.adl.data = adlcpData;
+		
 		var choice=validRequests['mChoice'];
 		
 		for (var k in choice) {
@@ -2765,6 +2809,7 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 			//data.adl.nav.request_valid['choice'].{k}=true;
 			//data.adl.nav.request_valid['choice'];
 		}
+		//TODO:JP - add valid jump requests?
 		
 		// add some global values for all sco's in package
 		data.cmi.learner_name = globalAct.learner_name;
@@ -2776,6 +2821,15 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 		data.cmi.launch_data = item.dataFromLMS;
 		data.cmi.time_limit_action = item.timeLimitAction;
 		data.cmi.max_time_allowed = item.attemptAbsoluteDurationLimit;
+		
+		//Add learner prefs (since the map stuff is completely nuts and doesn't work right)
+		data.cmi.learner_preference = {
+			audio_level : (item.audio_level) ? item.audio_level : 1,
+			delivery_speed : (item.delivery_speed) ? item.delivery_speed : 1,
+			language : item.language,
+			audio_captioning : item.audio_captioning
+		};
+
 
 		if (item.objectives) 
 		{
@@ -2800,6 +2854,17 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 				}	
 			}
 		}
+		return data;
+}
+function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing process (deliverSubProcess)
+{
+	var url = item.href, v;
+	// create api if associated resouce is of adl:scormType=sco
+	if (item.sco)
+	{
+		var data = loadData(item);
+		// get data in cmi-1.3 format
+
 		
 		// assign api for public use from sco- only for debug
 		pubAPI=data;
@@ -2836,17 +2901,32 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 			//explicitly set some entries
     		err = currentAPI.SetValueIntern("cmi.completion_status","unknown");
     		err = currentAPI.SetValueIntern("cmi.success_status","unknown");
-			err = currentAPI.SetValueIntern("cmi.entry","ab-initio");
-			pubAPI.cmi.entry="ab-initio";
-			pubAPI.cmi.suspend_data = null;
+			
+			pubAPI.cmi.completion_status = null;
+			data.cmi.completion_status = null;
+			pubAPI.cmi.progress_measure = null;
+			data.cmi.progress_measure = null;
+			
+			pubAPI.cmi.exit="";
+			if(item.entry!="resume"){
+				pubAPI.cmi.entry="ab-initio";
+				err = currentAPI.SetValueIntern("cmi.entry","ab-initio");
+			}
+			
+			//pubAPI.cmi.interactions = null;
+			//pubAPI.cmi.comments = null;
 			pubAPI.cmi.total_time="PT0H0M0S";
 		} 
 		
 		//set resume manually if suspendALL happened before
-		if (item.exit=="suspend") {
+		//alert(wasSuspendAll);
+		if (item.exit=="suspend" || wasSuspendAll) {
 			pubAPI.cmi.entry="resume";
 			//clean suspend
-			pubAPI.cmi.exit="";
+			pubAPI.cmi.exit="";	
+		}
+		else {
+			pubAPI.cmi.suspend_data = null;
 		}
 		
 		//previous session has ended
@@ -2865,9 +2945,12 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 	if (item.parameters == null) {
 		item.parameters="";
 	} 
-	if (item.parameters != "" && envEditor==false) {
+	if (item.parameters != "" 
+	    && 	item.parameters.indexOf('?') === -1 
+	    && envEditor==false) {
 		item.parameters = "?"+ item.parameters;
 	} 
+	
 	setResource(item.id, item.href+randNumber+item.parameters, this.config.package_url);
 }
 
@@ -2876,7 +2959,7 @@ function syncSharedCMI(item) {
 	var mStatusVector = msequencer.getObjStatusSet(item.id);
     var mObjStatus = new ADLObjStatus();
 	var obj;
-	var err
+	var err;
 	//for first attempt
 	
 	if( mStatusVector != null ) {		
@@ -2912,6 +2995,29 @@ function syncSharedCMI(item) {
 				if( mObjStatus.mHasMeasure==true && mObjStatus.mMeasure!=0 ) {
 					err = currentAPI.SetValueIntern(obj,mObjStatus.mMeasure);
 				}
+				if ( mObjStatus.mHasRawScore )
+				{
+					obj = "cmi.objectives." + idx + ".score.raw";
+					err = currentAPI.SetValueIntern(obj, mObjStatus.mRawScore);
+				}
+				if ( mObjStatus.mHasMinScore )
+				{
+					obj = "cmi.objectives." + idx + ".score.min";
+					err = currentAPI.SetValueIntern(obj, mObjStatus.mMinScore);
+				}
+				if ( mObjStatus.mHasMaxScore )
+				{
+					obj = "cmi.objectives." + idx + ".score.max";
+					err = currentAPI.SetValueIntern(obj, mObjStatus.mMaxScore);
+				}
+				if ( mObjStatus.mHasProgressMeasure )
+				{
+					obj = "cmi.objectives." + idx + ".progress_measure";
+					err = currentAPI.SetValueIntern(obj, mObjStatus.mProgressMeasure);
+				}
+				
+				obj = "cmi.objectives." + idx + ".completion_status";
+				err = currentAPI.SetValueIntern(obj, mObjStatus.mCompletionStatus);
 	      	}
 		}	
 		
@@ -2930,6 +3036,7 @@ function syncCMIADLTree(){
 	var sessionTime = null;
 	var entry = null;
 	var normalScore=-1.0;
+	var progressMeasure = null;
 	var completionStatus=null;
 	var SCOEntry=null; 
 	var suspended = false;
@@ -2941,14 +3048,24 @@ function syncCMIADLTree(){
 	
 		
     completionStatus = currentAPI.GetValueIntern("cmi.completion_status");
+	var completionSetBySCO = currentAPI.GetValueIntern("cmi.completion_status_SetBySco");
 	
 	if (completionStatus == "not attempted") {
 		completionStatus = "incomplete";
 	}
 	
+	
+	progressMeasure = currentAPI.GetValueIntern("cmi.progress_measure");
+	if ( progressMeasure == "" || progressMeasure == "unknown" )
+	{
+		progressMeasure = null;
+	}
+	
+	
 	// Get the current success_status
     masteryStatus = currentAPI.GetValueIntern("cmi.success_status");
-	//alert(masteryStatus);
+	var masterySetBySCO = currentAPI.GetValueIntern("cmi.success_status_SetBySco");
+	
     // Get the current entry
 	SCOEntry = currentAPI.GetValueIntern("cmi.entry");
 	
@@ -2957,131 +3074,269 @@ function syncCMIADLTree(){
 
     // Get the current session time
     sessionTime = currentAPI.GetValueIntern("cmi.session_time");
-
+	
 	//get current activity
 	var act = msequencer.mSeqTree.getActivity(mlaunch.mActivityID);
 	
-	var primaryObjID = null;
-    var foundPrimaryObj = false;
-    var setPrimaryObjSuccess = false;
-    var setPrimaryObjScore = false;
-	
-	objs = act.getObjectives();
-	if( objs != null ) {
-		for(var j = 0; j < objs.length; j++ ) {
-			obj = objs[j];
-			if( obj.mContributesToRollup==true ) {
-				if( obj.mObjID != null ){
-                      primaryObjID = obj.mObjID;
-         		}
-                break;
-			}
-		}
-	}
-	
-	//get Objective List
-	var numObjs= currentAPI.GetValueIntern("cmi.objectives._count");
-    for( var i = 0; i < numObjs; i++ ) {
-		var obj = "cmi.objectives." + i + ".id";
-        var objID= currentAPI.GetValueIntern(obj);
-		if( primaryObjID != null && objID==primaryObjID )
-	    {
-	        foundPrimaryObj = true;	
-	    } else {
-		    foundPrimaryObj = false;
-	    
-		}
-		obj = "cmi.objectives." + i + ".success_status";
-        objMS= currentAPI.GetValueIntern(obj);
-		if( objMS=="passed" ) {
-            msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "satisfied");
-            if( foundPrimaryObj==true )
-            {
-               setPrimaryObjSuccess = true;
-            }
-        }
-		else if( objMS=="failed" )
-        {
-             msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "notSatisfied");
-
-             if( foundPrimaryObj==true)
-             {
-                setPrimaryObjSuccess = true;
-             }
-        }
-		else
-        {
-           	msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "unknown");
-        }
-
-		obj = "cmi.objectives." + i + ".score.scaled";
-        objScore= currentAPI.GetValueIntern(obj);
-        if( objScore!="" && objScore!="unknown" && objScore!=null ) {
-			normalScore = objScore; 
-			msequencer.setAttemptObjMeasure(mlaunch.mActivityID, objID, normalScore);
-			if( foundPrimaryObj==true ){
- 				setPrimaryObjScore = true;
-			}
-			
-		}     
-		else
-         {
-            msequencer.clearAttemptObjMeasure(mlaunch.mActivityID, objID);
-         }   
-   	}
-	
-	// Report the completion status
-    msequencer.setAttemptProgressStatus(mlaunch.mActivityID, completionStatus);
-    
-	if (SCOEntry=="resume" ) {
-         msequencer.reportSuspension(mlaunch.mActivityID, true);
-		 // preserve session state
-    } else {
-         msequencer.reportSuspension(mlaunch.mActivityID, false);
-		//clear state data for this attempt
-
-    }	
-	
-	// Report the success status
-      if( masteryStatus=="passed" )
-      {
+	if (act.getIsTracked())
+	{
+//alert("main.syncCMIADLTree:\nactivityid: " + mlaunch.mActivityID);	
+		var primaryObjID = null;
+		var foundPrimaryObj = false;
+		var setPrimaryObjSuccess = false;
+		var setPrimaryObjScore = false;
 		
-         msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "satisfied");
-      }
-      else if( masteryStatus=="failed" )
-      {
-         msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "notSatisfied");
-      }
-      else
-      {
-          if( setPrimaryObjSuccess==false )
-          {
-            msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "unknown");
-          }
-      }
+		objs = act.getObjectives();
+		if( objs != null ) {
+			for(var j = 0; j < objs.length; j++ ) {
+				obj = objs[j];
+				if( obj.mContributesToRollup==true ) {
+					if( obj.mObjID != null ){
+						  primaryObjID = obj.mObjID;
+					}
+					break;
+				}
+			}
+		}
+	
+		//get Objective List
+		var numObjs= currentAPI.GetValueIntern("cmi.objectives._count");
+		for( var i = 0; i < numObjs; i++ ) {
+			var obj = "cmi.objectives." + i + ".id";
+			var objID= currentAPI.GetValueIntern(obj);
+			if( primaryObjID != null && objID==primaryObjID )
+			{
+				foundPrimaryObj = true;	
+			} else {
+				foundPrimaryObj = false;
+			
+			}
+			obj = "cmi.objectives." + i + ".success_status";
+			objMS= currentAPI.GetValueIntern(obj);
+			var msSetBySCO = currentAPI.GetValueIntern(obj + "_SetBySco");
+	//alert("main.syncCMIADLTree:\nobjMS: " + objMS + "\non this: " + obj);        
+			if( objMS=="passed" ) {
+				msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "satisfied");
+				if( foundPrimaryObj==true )
+				{
+				   act.primaryStatusSetBySCO(currentAPI.GetValueIntern(obj + "_SetBySco") == 'true');
+				   setPrimaryObjSuccess = true;
+				   masteryStatus = objMS;
+				}
+			}
+			else if( objMS=="failed" )
+			{
+				 msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "notSatisfied");
 
-	  // Report the measure
-	  if( score!="" && score!="unknown") {
-			normalScore = score;
-        	msequencer.setAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID, normalScore);
-       }
+				 if( foundPrimaryObj==true)
+				 {
+					act.primaryStatusSetBySCO(currentAPI.GetValueIntern(obj + "_SetBySco") == 'true');
+					setPrimaryObjSuccess = true;
+					masteryStatus = objMS;
+				 }
+			}
+			else
+			{
+				if (msSetBySCO=="true")
+				{
+					msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "unknown");
+					
+					var globs = act.getObjIDs(objID, false);
+					if ( globs != null )
+					{
+						for ( var w = 0; w < globs.length; w++ )
+						{
+							adl_seq_utilities.setGlobalObjSatisfied(globs[w], msequencer.mSeqTree.mLearnerID, act.getScopeID(), TRACK_UNKNOWN);
+						}
+					}
+					if ( foundPrimaryObj==true )
+					{
+						act.primaryStatusSetBySCO(true);
+						setPrimaryObjSuccess = true;
+						masteryStatus = objMS;
+					}
+				}
+			}
 
-	   else{
-            if( setPrimaryObjScore==false )
-            {
-               msequencer.clearAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID);
-            }
-       }
+			obj = "cmi.objectives." + i + ".score.scaled";
+			objScore= currentAPI.GetValueIntern(obj);
+			if( objScore!="" && objScore!="unknown" && objScore!=null ) {
+				normalScore = objScore; 
+				msequencer.setAttemptObjMeasure(mlaunch.mActivityID, objID, normalScore);
+				if( foundPrimaryObj==true ){
+					setPrimaryObjScore = true;
+				}
+				
+			}     
+			else
+			 {
+				msequencer.clearAttemptObjMeasure(mlaunch.mActivityID, objID);
+			 }
+			 
+			 
+			obj = "cmi.objectives." + i + ".completion_status";
+			completion = currentAPI.GetValueIntern(obj);
+			if ( (completion != "" && completion != "unknown" && completion != null) ||
+			     (completion == TRACK_UNKNOWN && currentAPI.GetValueIntern(obj + "_SetBySco") == true) )
+			{
+				completion = (completion == "not attempted")?"incomplete":completion;
+				if ( foundPrimaryObj==true && completionSetBySCO==false )
+				{
+					completionStatus = completion;
+					completionSetBySCO = currentAPI.GetValueIntern(obj + "_SetBySco");
+				}
+				msequencer.setAttemptObjCompletionStatus(mlaunch.mActivityID, objID, completion);
+			}
+			else
+			{
+				msequencer.clearAttemptObjCompletionStatus(mlaunch.mActivityID, objID);
+			}
+			 
+			 
+			obj = "cmi.objectives." + i + ".progress_measure";
+			var objscore = currentAPI.GetValueIntern(obj);
+			if ( objscore != "" && objscore != "unknown" && objscore != null )
+			{
+				if ( foundPrimaryObj && progressMeasure == null )
+				{
+					progressMeasure = objscore;
+				}
+				msequencer.setAttemptObjProgressMeasure(mlaunch.mActivityID, objID, objscore);
+			}
+			else
+			{
+				msequencer.clearAttemptObjProgressMeasure(mlaunch.mActivityID, objID);
+			}
+			 
+			objScoreRaw = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.raw");
+			if( objScoreRaw != "" && objScoreRaw != "unknown" && objScoreRaw != null) {
+				msequencer.setAttemptObjRawScore(mlaunch.mActivityID, objID, objScoreRaw)
+			} else {
+				msequencer.clearAttemptObjRawScore(mlaunch.mActivityID, objID);
+			}
+			 
+			objScoreMin = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.min");
+			if( objScoreMin != "" && objScoreMin != "unknown" && objScoreMin != null) {
+				msequencer.setAttemptObjMinScore(mlaunch.mActivityID, objID, objScoreMin)
+			} else {
+				msequencer.clearAttemptObjMinScore(mlaunch.mActivityID, objID);
+			} 
+			 
+			objScoreMax = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.max");
+			if( objScoreMax != "" && objScoreMax != "unknown" && objScoreMax != null) {
+				msequencer.setAttemptObjMaxScore(mlaunch.mActivityID, objID, objScoreMax)
+			} else {
+				msequencer.clearAttemptObjMaxScore(mlaunch.mActivityID, objID);
+			}
+
+		}
+		
+		// Report the completion status
+		act.primaryProgressSetBySCO(completionSetBySCO == 'true');
+		msequencer.setAttemptProgressStatus(mlaunch.mActivityID, completionStatus);
+		if ( progressMeasure != "" && progressMeasure != "unknown" && progressMeasure != null )
+		{
+			msequencer.setAttemptProgressMeasure(mlaunch.mActivityID, progressMeasure);
+		}
+		
+		if (SCOEntry=="resume" ) {
+			 msequencer.reportSuspension(mlaunch.mActivityID, true);
+			 // preserve session state
+		} else {
+			 msequencer.reportSuspension(mlaunch.mActivityID, false);
+			//clear state data for this attempt
+
+		}	
+		
+		// Report the success status
+		if( masteryStatus=="passed" )
+		{
+			msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "satisfied");
+		}
+		else if( masteryStatus=="failed" )
+		{
+			msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "notSatisfied");
+		}
+		else
+		{
+			if ( masterySetBySCO==true || masterySetBySCO == "true" )
+			{
+				
+				masteryStatus = currentAPI.GetValueIntern('cmi.success_status');
+				//alert("Mastery set by sco: "+ masteryStatus);
+				
+				act.primaryStatusSetBySCO(true);
+				msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "unknown");
+			
+				var priglobs = act.getObjIDs(mPRIMARY_OBJ_ID, false);
+				if ( priglobs != null )
+				{
+					for ( var idx = 0; idx < priglobs.length; idx++ )
+					{
+						adl_seq_utilities.setGlobalObjSatisfied(priglobs[idx], msequencer.mSeqTree.mLearnerID, act.getScopeID(), "unknown");
+					}
+				}
+			}
+		}
+
+		  // Report the measure
+		  if( score!="" && score!="unknown") {
+				normalScore = score;
+				msequencer.setAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID, normalScore);
+		   }
+		   else{
+				if( setPrimaryObjScore==false )
+				{
+				   msequencer.clearAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID);
+				}
+		   }
+	   }
+	   else
+	   {
+			var numObjs= currentAPI.GetValueIntern("cmi.objectives._count");
+			for ( var i = 0; i < numObjs; i++ ) 
+			{
+				var obj = "cmi.objectives." + i + ".id";
+				var objID= currentAPI.GetValueIntern(obj);
+				
+				objScoreRaw = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.raw");
+				if( objScoreRaw != "" && objScoreRaw != "unknown" && objScoreRaw != null) {
+					msequencer.setAttemptObjRawScore(mlaunch.mActivityID, objID, objScoreRaw)
+				} else {
+					msequencer.clearAttemptObjRawScore(mlaunch.mActivityID, objID);
+				}
+				 
+				objScoreMin = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.min");
+				if( objScoreMin != "" && objScoreMin != "unknown" && objScoreMin != null) {
+					msequencer.setAttemptObjMinScore(mlaunch.mActivityID, objID, objScoreMin)
+				} else {
+					msequencer.clearAttemptObjMinScore(mlaunch.mActivityID, objID);
+				} 
+				 
+				objScoreMax = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.max");
+				if( objScoreMax != "" && objScoreMax != "unknown" && objScoreMax != null) {
+					msequencer.setAttemptObjMaxScore(mlaunch.mActivityID, objID, objScoreMax)
+				} else {
+					msequencer.clearAttemptObjMaxScore(mlaunch.mActivityID, objID);
+				}
+			}
+	   }
 	}
 
 function onItemUndeliver(noControls) // onUndeliver called from sequencing process (EndAttempt)
 {
-	
+		//Save the shared data if undelivering the SCO
+	if(pubAPI != null) {
+		saveSharedData();
+	}
 	// customize GUI
 	if (noControls!=true) {
 		updateNav();
 		updateControls();
 	}	
+	
+
+	
 	// throw away the resource
 	// it may change api data in this
 	removeResource(undeliverFinish);
@@ -3096,6 +3351,7 @@ function undeliverFinish(){
 		var stat = pubAPI.cmi.exit;
 		
 		save_global_objectives();
+		
 		//sync dynamic objectives to ActivityTree
 		//syncDynObjectives();
 		save();
@@ -3147,7 +3403,8 @@ function syncDynObjectives(){
 
 
 function save_global_objectives() {
-	if (adl_seq_utilities.measure!=null || adl_seq_utilities.satisfied!=null || adl_seq_utilities.status!=null  ) {
+	if (adl_seq_utilities.measure!=null || adl_seq_utilities.satisfied!=null || 
+	    adl_seq_utilities.status!=null  ) {
 		result = this.config.gobjective_url 
 			? sendJSONRequest(this.config.gobjective_url, this.adl_seq_utilities)
 			: {};
@@ -3181,12 +3438,9 @@ function onTerminate(data)
 		default : // "", "normal"
 			break;
 	}
-	
-	if (data.adl && data.adl.nav) 
-	{
-		var m = String(data.adl.nav.request).match(/^(\{target=([^\}]+)\})?(choice|continue|previous|suspendAll|exit(All)?|abandon(All)?)$/);
-		if (m) 
-		{
+	if (data.adl && data.adl.nav) {
+		var m = String(data.adl.nav.request).match(/^(\{target=([^\}]+)\})?(choice|jump|continue|previous|suspendAll|exit(All)?|abandon(All)?)$/);
+		if (m) {
 			navReq = {type: m[3].substr(0, 1).toUpperCase() + m[3].substr(1), target: m[2]};
 		}
 	}
@@ -3201,11 +3455,12 @@ function onTerminate(data)
 		if (navReq.type!="suspend") {
 			adlnavreq=true; 
 			//TODO fix for Unix
-			if (navReq.type=="Choice") {
-				launchTarget(navReq.target);
+			if (navReq.type=="Choice" || navReq.type=="Jump") {
+				launchTarget(navReq.target, (navReq.type=="Jump"));
 			} else {
 				launchNavType(navReq.type);
-			}	
+			}
+			
 		}
 	/*	window.setTimeout( 
 			new (function (type, target) {
@@ -3214,8 +3469,16 @@ function onTerminate(data)
 				}
 			})(navReq.type, navReq.target), 0);
 		*/	
-	}	
-//	updateNav(true);
+	}
+	
+	// this will update the UI tree 
+	var valid = new ADLValidRequests();
+	valid = msequencer.getValidRequests(valid);
+	msequencer.mSeqTree.setValidRequests(valid);
+	mlaunch.mNavState = msequencer.mSeqTree.getValidRequests();
+	updateNav(false);
+	updateControls();
+	
 	return true;
 }
 
@@ -3306,7 +3569,7 @@ function updateNav(ignore) {
 			}
 			
 			//completed
-			if (node_stat_completion=="completed" || statusArray[[tree[i].mActivityID]]['completion'] == "completed") {
+			if (node_stat_completion=="completed" || statusArray[[tree[i].mActivityID]]['completion'] == "completed") {
 				removeClass(elm,"not_attempted",1);
 				removeClass(elm,"ilc_rte_status_RTEIncomplete",1);
 				removeClass(elm,"ilc_rte_status_RTEBrowsed",1);
@@ -3330,7 +3593,7 @@ function updateNav(ignore) {
 				}
 			}
 
-			if (elm.parentNode)
+			if (elm != null && elm.parentNode)
 			{
 				toggleClass(elm.parentNode,"ilc_rte_node_RTESco" + disabled_str,1);
 			}
@@ -3343,7 +3606,7 @@ function updateNav(ignore) {
 					toggleClass(elm.parentNode,"ilc_rte_node_RTEAsset" + disabled_str,1);
 				}
 			}
-			else if (!activities[tree[i].mActivityID].href && elm.parentNode)
+			else if (!activities[tree[i].mActivityID].href && elm != null && elm.parentNode)
 			{
 				if (!first)
 				{
@@ -3389,7 +3652,7 @@ if(!(navigator && navigator.userAgent && navigator.userAgent.toLowerCase)) {
   	            }
   	            return valid;
   	        } else {
-  	            return false
+  	            return false;
   	        }
   	    }
 }
@@ -3414,6 +3677,8 @@ var activitiesByCAM = new Object(); // activities by cp_node_id
 var activitiesByCMI = new Object(); // activities by cmi_node_id
 var activitiesByNo = new Array(); // activities by numerical index
 var sharedObjectives = new Object(); // global objectives by objective identifier
+var sharedData = new Array();
+
 
 //integration of ADL Sequencer
 var msequencer=new ADLSequencer();

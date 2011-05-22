@@ -56,5 +56,14 @@ ADLObjStatus.prototype =
 	mObjID: null,
 	mHasMeasure: false,
 	mMeasure: 1.0,
-	mStatus: TRACK_UNKNOWN
-}
+	mStatus: TRACK_UNKNOWN,
+	mHasRawScore : false,
+   	mHasMinScore : false,
+   	mHasMaxScore : false,
+	mHasProgressMeasure : false,
+	mRawScore : 0,
+   	mMinScore : 0,
+   	mMaxScore : 0,
+   	mCompletionStatus : "unknown",
+	mProgressMeasure : 0
+   };

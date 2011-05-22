@@ -57,4 +57,4 @@ ADLAuxiliaryResource.prototype =
 	mTitle: null,
 	mResourceID: null,
 	mParameter: null
-}
+};

@@ -74,4 +74,4 @@ ADLLaunch.prototype =
 	mDeliveryMode: "normal",
 	mMaxTime: null,
 	mNavState: null
-}
+};

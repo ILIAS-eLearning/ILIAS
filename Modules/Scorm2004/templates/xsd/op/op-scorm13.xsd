@@ -49,7 +49,8 @@ All compressed SCORM 1.3 Schema Definitions in one File.
 		<xs:sequence>
 			<xs:element name="item" type="cp_itemType" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="hideLMSUI" type="cp_hideLMSUIType" minOccurs="0" maxOccurs="unbounded"/>
-		</xs:sequence>
+      <xs:element name="datamap" type="adlcp_dataType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
 		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
 		<xs:attribute name="id" type="xs:ID" use="required"/>
 		<xs:attribute name="resourceId" type="xs:IDREF" use="optional"/>
@@ -58,9 +59,11 @@ All compressed SCORM 1.3 Schema Definitions in one File.
 		<xs:attribute name="title" type="cp_titleType" use="required"/>
 		<xs:attribute name="dataFromLMS" type="adlcp_dataFromLMSType" use="optional"/>
 		<xs:attribute name="completionThreshold" type="adlcp_completionThresholdType" use="optional"/>
+		<xs:attribute name="completedByMeasure" type="xs:boolean" use="optional"/>
+		<xs:attribute name="progressWeight" type="seq_weightType" use="optional"/>
 		<xs:attribute name="sequencingId" type="xs:IDREF" use="optional"/>
 		<xs:attribute name="timeLimitAction" type="adlcp_timeLimitActionType" use="optional"/>
-	</xs:complexType>
+  </xs:complexType>
 	<xs:complexType name="cp_manifestType">
 		<xs:sequence>
 			<xs:element name="organization" type="cp_organizationType" maxOccurs="unbounded">
@@ -96,7 +99,8 @@ All compressed SCORM 1.3 Schema Definitions in one File.
 		<xs:attribute name="id" type="xs:ID" use="required"/>
 		<xs:attribute name="structure" type="cp_structureType" use="optional" default="hierarchical"/>
 		<xs:attribute name="objectivesGlobalToSystem" type="adlseq_objectivesGlobalToSystemType" use="optional" default="true"/>
-		<xs:attribute name="title" type="cp_titleType" use="required"/>
+    <xs:attribute name="shared_data_global_to_system" type="adlseq_sharedDataGlobalToSystemType" use="optional" default="true"/>
+    <xs:attribute name="title" type="cp_titleType" use="required"/>
 		<xs:attribute name="sequencingId" type="xs:IDREF" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="cp_resourceType">
@@ -194,8 +198,8 @@ All compressed SCORM 1.3 Schema Definitions in one File.
 		<xs:attribute name="readNormalizedMeasure" type="xs:boolean" default="true"/>
 		<xs:attribute name="writeSatisfiedStatus" type="xs:boolean" default="false"/>
 		<xs:attribute name="writeNormalizedMeasure" type="xs:boolean" default="false"/>
-	</xs:complexType>
-	<xs:complexType name="seq_auxiliaryResourceType">
+	</xs:complexType>  
+  <xs:complexType name="seq_auxiliaryResourceType">
 		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
 		<xs:attribute name="auxiliaryResourceID" type="xs:anyURI" use="optional"/>
 		<xs:attribute name="purpose" type="xs:string" use="optional"/>
@@ -210,7 +214,12 @@ All compressed SCORM 1.3 Schema Definitions in one File.
 		<xs:attribute name="satisfiedByMeasure" type="xs:boolean" default="false"/>
 		<xs:attribute name="primary" type="xs:boolean" default="false"/>
 	</xs:complexType>
-	<xs:complexType name="seq_sequencingType">
+  <xs:complexType name="adlcp_dataType">
+    <xs:attribute name="target_id" type="xs:anyURI" use="required"/>
+    <xs:attribute name="read_shared_data" type="xs:boolean" default="true"/>
+    <xs:attribute name="write_shared_data" type="xs:boolean" default="true"/>
+  </xs:complexType>
+  <xs:complexType name="seq_sequencingType">
 		<xs:sequence>
 			<xs:element name="rule" type="seq_ruleType" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="auxiliaryResource" type="seq_auxiliaryResourceType" minOccurs="0" maxOccurs="unbounded"/>
@@ -411,7 +420,10 @@ All compressed SCORM 1.3 Schema Definitions in one File.
 	<xs:simpleType name="adlseq_objectivesGlobalToSystemType">
 		<xs:restriction base="xs:boolean"/>
 	</xs:simpleType>
-	<xs:simpleType name="adlseq_rollupConsiderationType">
+  <xs:simpleType name="adlseq_sharedDataGlobalToSystemType">
+    <xs:restriction base="xs:boolean"/>
+  </xs:simpleType>
+  <xs:simpleType name="adlseq_rollupConsiderationType">
 		<xs:restriction base="xs:token">
 			<xs:enumeration value="always"/>
 			<xs:enumeration value="ifAttempted"/>

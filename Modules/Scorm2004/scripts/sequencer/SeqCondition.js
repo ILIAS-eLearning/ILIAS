@@ -72,4 +72,4 @@ SeqCondition.prototype =
 	mNot: false,
 	mObjID: null,
 	mThreshold: 0.0
-}
+};

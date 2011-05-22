@@ -157,7 +157,7 @@ This is work in progress and therefore incomplete and buggy ...
 		<field name="cmi_interaction_id" required="true" type="integer" size="4" default="0"/>
 		<field name="cmi_node_id" required="true" type="integer" size="4" default="0"/>
 		<field name="cmi_objective_id" required="true" type="integer" size="4" autoincrement="true" default="0"/>
-		<field name="completion_status" required="true" type="float" size="8" default="0"/>
+		<field name="completion_status" required="false" type="string" size="32"/>
 		<field name="description" required="false" type="string"/>
 		<field name="id" required="false" type="string" size="255"/>
 		<field name="max" required="true" type="float" size="8" default="0"/>

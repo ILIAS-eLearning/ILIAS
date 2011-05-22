@@ -1,4 +1,4 @@
-// Build: 2011307164302 
+// Build: 2011517122428 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -58,7 +58,7 @@ ADLAuxiliaryResource.prototype =
 	mTitle: null,
 	mResourceID: null,
 	mParameter: null
-}
+};
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -288,7 +288,7 @@ ADLDuration.prototype =
 		}
 		return relation;
 	}
-}
+};
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -365,7 +365,7 @@ ADLLaunch.prototype =
 	mDeliveryMode: "normal",
 	mMaxTime: null,
 	mNavState: null
-}
+};
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -424,8 +424,17 @@ ADLObjStatus.prototype =
 	mObjID: null,
 	mHasMeasure: false,
 	mMeasure: 1.0,
-	mStatus: TRACK_UNKNOWN
-}
+	mStatus: TRACK_UNKNOWN,
+	mHasRawScore : false,
+   	mHasMinScore : false,
+   	mHasMaxScore : false,
+	mHasProgressMeasure : false,
+	mRawScore : 0,
+   	mMinScore : 0,
+   	mMaxScore : 0,
+   	mCompletionStatus : "unknown",
+	mProgressMeasure : 0
+   };
 // JS port of ADL ADLSeqUtilities.java
 // FAKE: only the functions used in rollup procedure
 function ADLSeqUtilities()  
@@ -433,6 +442,11 @@ function ADLSeqUtilities()
 	this.satisfied = new Object();
 	this.measure = new Object();
 	this.status = new Object();
+	this.score_raw = new Object();
+	this.score_min = new Object();
+	this.score_max = new Object();
+	this.completion_status = new Object();
+	this.progress_measure = new Object();
 	
 }
 ADLSeqUtilities.prototype = 
@@ -489,8 +503,107 @@ ADLSeqUtilities.prototype =
 		if(this.status[iCourseID] == null) this.status[iCourseID] = new Object();
 			this.status[iCourseID][iLearnerID] =
 			{satisfied: iSatisfied, measure: iMeasure, completed: iCompleted};
+	},
+	
+	getGlobalObjRawScore: function (iObjID, iLearnerID, iScopeID)
+	{
+		if (this.score_raw[iObjID] != null
+			&& this.score_raw[iObjID][iLearnerID]
+			&& this.score_raw[iObjID][iLearnerID][iScopeID])
+		{
+			return this.score_raw[iObjID][iLearnerID][iScopeID];
+		}
+		return null;
+	},
+	
+	setGlobalObjRawScore: function (iObjID, iLearnerID,iScopeID, iScore_Raw)
+	{
+	   // alert(iObjID+" ,  "+iLearnerID+", "+iScopeID+", "+iScore_Raw);
+		
+		if(this.score_raw[iObjID] == null) this.score_raw[iObjID] = new Object();
+		if(this.score_raw[iObjID][iLearnerID] == null) this.score_raw[iObjID][iLearnerID] = new Object();
+		this.score_raw[iObjID][iLearnerID][iScopeID] = iScore_Raw;
+	},
+	
+	getGlobalObjMinScore: function (iObjID, iLearnerID, iScopeID)
+	{
+		if (this.score_min[iObjID] != null
+			&& this.score_min[iObjID][iLearnerID]
+			&& this.score_min[iObjID][iLearnerID][iScopeID])
+		{
+			return this.score_min[iObjID][iLearnerID][iScopeID];
+		}
+		return null;
+	},
+	
+	setGlobalObjMinScore: function (iObjID, iLearnerID,iScopeID, iScore_Min)
+	{
+	   // alert(iObjID+" ,  "+iLearnerID+", "+iScopeID+", "+iScore_Min);
+		
+		if(this.score_min[iObjID] == null) this.score_min[iObjID] = new Object();
+		if(this.score_min[iObjID][iLearnerID] == null) this.score_min[iObjID][iLearnerID] = new Object();
+		this.score_min[iObjID][iLearnerID][iScopeID] = iScore_Min;
+	},
+	
+	getGlobalObjMaxScore: function (iObjID, iLearnerID, iScopeID)
+	{
+		if (this.score_max[iObjID] != null
+			&& this.score_max[iObjID][iLearnerID]
+			&& this.score_max[iObjID][iLearnerID][iScopeID])
+		{
+			return this.score_max[iObjID][iLearnerID][iScopeID];
+		}
+		return null;
+	},
+	
+	setGlobalObjMaxScore: function (iObjID, iLearnerID,iScopeID, iScore_Max)
+	{
+	   // alert(iObjID+" ,  "+iLearnerID+", "+iScopeID+", "+iScore_Max);
+		
+		if(this.score_max[iObjID] == null) this.score_max[iObjID] = new Object();
+		if(this.score_max[iObjID][iLearnerID] == null) this.score_max[iObjID][iLearnerID] = new Object();
+		this.score_max[iObjID][iLearnerID][iScopeID] = iScore_Max;
+	},
+	
+	getGlobalObjProgressMeasure: function (iObjID, iLearnerID, iScopeID)
+	{
+		if (this.progress_measure[iObjID] != null
+			&& this.progress_measure[iObjID][iLearnerID]
+			&& this.progress_measure[iObjID][iLearnerID][iScopeID])
+		{
+			return this.progress_measure[iObjID][iLearnerID][iScopeID];
+		}
+		return null;
+	},
+	
+	setGlobalObjProgressMeasure: function (iObjID, iLearnerID,iScopeID, iProgressMeasure)
+	{
+	   // alert(iObjID+" ,  "+iLearnerID+", "+iScopeID+", "+iScore_Raw);
+		
+		if(this.progress_measure[iObjID] == null) this.progress_measure[iObjID] = new Object();
+		if(this.progress_measure[iObjID][iLearnerID] == null) this.progress_measure[iObjID][iLearnerID] = new Object();
+		this.progress_measure[iObjID][iLearnerID][iScopeID] = iProgressMeasure;
+	},
+	
+	getGlobalObjCompletion: function (iObjID, iLearnerID, iScopeID)
+	{
+		if(this.completion_status[iObjID] != null
+			&& this.completion_status[iObjID][iLearnerID]
+			&& this.completion_status[iObjID][iLearnerID][iScopeID])
+		{
+			return this.completion_status[iObjID][iLearnerID][iScopeID];
+		}
+		return null;
+	},
+
+	setGlobalObjCompletion: function(iObjID, iLearnerID,iScopeID, iCompletionStatus)
+	{
+		if(this.completion_status[iObjID] == null) this.completion_status[iObjID] = new Object();
+		if(this.completion_status[iObjID][iLearnerID] == null) this.completion_status[iObjID][iLearnerID] = new Object();
+		this.completion_status[iObjID][iLearnerID][iScopeID] = iCompletionStatus;
 	}
-}
+	
+};
 var adl_seq_utilities = new ADLSeqUtilities();
 /*
 	+-----------------------------------------------------------------------------+
@@ -566,7 +679,7 @@ Walk.prototype =
 	at: null,
 	direction: FLOW_NONE,
 	endSession: false
-}
+};
 
 
 // ADLSequencer Class
@@ -583,7 +696,8 @@ ADLSequencer.prototype =
 	mExitAll: false,
 	mValidTermination: true,
 	mValidSequencing: true,
-	
+	mIsJump: false,
+
 	// getter/setter
 	getActivityTree: function () { return this.mSeqTree; },
 
@@ -637,7 +751,13 @@ ADLSequencer.prototype =
 			if (valid.mChoice != null)
 			{
 				// clone Object (Hashtable)
-				oValid.mChoice = new clone(valid.mChoice);
+				oValid.mChoice = $.extend(true, {}, valid.mChoice);//new clone(valid.mChoice);
+			}
+			
+			if (valid.mJump != null)
+			{
+				//clone Object (Hashtable)
+				oValid.mJump = $.extend(true, {}, valid.mJump);//new clone(valid.mJump);
 			}
 		}
 		else
@@ -648,7 +768,9 @@ ADLSequencer.prototype =
 			oValid.mPrevious = false;
 			oValid.mChoice = null;
 			oValid.mTOC = null;
+			oValid.mJump = null;
 		}
+		return oValid;
 	},
 	
 	setActivityTree: function (iTree)
@@ -725,7 +847,7 @@ ADLSequencer.prototype =
 	
 	clearAttemptObjMeasure: function (iID, iObjID)
 	{
-		// Find the target activty
+		// Find the target activity
 		var target = this.getActivity(iID);
 		
 		// Make sure the activity exists
@@ -742,10 +864,7 @@ ADLSequencer.prototype =
 					var statusChange = target.clearObjMeasure(iObjID);
 					
 					if (statusChange)
-					{
-						// If the activity's status changed, it may affect other 
-						// activities -- invoke rollup
-						var writeObjIDs = target.getObjIDs(iObjID, false);
+					{								
 						// Revalidate the navigation requests
 						this.validateRequests();
 					}
@@ -756,7 +875,7 @@ ADLSequencer.prototype =
 	
 	setAttemptObjMeasure: function (iID, iObjID, iMeasure)
 	{
-		// Find the target activty
+		// Find the target activity
 		var target = this.getActivity(iID);
 		
 		// Make sure the activity exists
@@ -775,10 +894,7 @@ ADLSequencer.prototype =
 					//target.setObjMeasure(iObjID, iMeasure);
 					target.setObjMeasure(iMeasure, {iObjID:iObjID});
 					if (true)
-					{
-						// If the activity's status changed, it may affect other 
-						// activities -- invoke rollup
-						var writeObjIDs = target.getObjIDs(iObjID, false);
+					{								
 						// Revalidate the navigation requests
 						this.validateRequests();
 					}
@@ -789,7 +905,7 @@ ADLSequencer.prototype =
 	
 	setAttemptObjSatisfied: function (iID, iObjID, iStatus)
 	{
-		// Find the activty whose status is being set
+		// Find the activity whose status is being set
 		var target = this.getActivity(iID);
 		
 		// Make sure the activity exists
@@ -808,11 +924,7 @@ ADLSequencer.prototype =
 					var statusChange = target.setObjSatisfied( iStatus,{iObjID: iObjID});
 					
 					if (statusChange)
-					{
-						// If the activity's status changed, it may affect other 
-						// activities -- invoke rollup
-						var writeObjIDs = target.getObjIDs(iObjID, false);
-						
+					{								
 						// Revalidate the navigation requests
 						this.validateRequests();
 					}
@@ -848,148 +960,23 @@ ADLSequencer.prototype =
 		}
 	},
 	
-	navigateStr: function (iTarget)
+	navigateStr: function (iTarget, iJumpRequest)
 	{
-		// This method implements case 7 of the Navigation Request Process 
-		// (NB.2.1).
-		//
-		// It also applies the Overall Sequencing Process (OP) to the
-		// indicated navigation request.
-		sclog("NavigationRequest [NB.2.1]","seq");
-      
-		var launch = new ADLLaunch();
-		
-		// Make sure an activity tree has been associated with this sequencer
-		if (this.mSeqTree == null)
+		sclog("NavigationRequest [NB.2.1]","seq");			
+		//return (iJumpRequest) ? this.jump(iTarget) : this.choice(iTarget);
+		if (iJumpRequest)
 		{
-			// No activity tree, therefore nothing to do
-			//    -- inform the caller of the error.
-			launch.mSeqNonContent = LAUNCH_ERROR;
-			launch.mEndSession = true;
-			return launch;
-		}
-		
-		// Make sure the requested activity exists
-		//alert(iTarget);
-		var target = this.getActivity(iTarget);
-		if (target != null)
-		{
-			// If this is a new session, we start at the root.
-			var newSession = false;
-			
-			var cur = this.mSeqTree.getCurrentActivity();
-			
-			if (cur == null)
-			{
-				this.prepareClusters();
-				newSession = true;
-			}
-			
-			var process = true;
-			
-			this.validateRequests();
-			
-			// If the sequencing session has already begun, confirm the
-			// navigation request is valid.
-			if (!newSession)
-			{
-				var valid = this.mSeqTree.getValidRequests();
-				
-				if (valid != null)
-				{
-					// Confirm the target activity is allowed
-					if (valid.mChoice != null)
-					{
-						var test = valid.mChoice[iTarget];
-						
-						if (test == null)
-						{
-							launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
-							process = false;
-						} 
-						else if (!test.mIsSelectable)
-						{
-							launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
-							process = false;
-						}
-					}
-					else
-					{
-						launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
-						process = false;
-					}
-				}
-				else
-				{
-					launch.mSeqNonContent = LAUNCH_ERROR;
-					launch.mEndSession = true;
-					// Invalid request -- do not process
-					process = false;
-				}
-			}
-			
-			// If the navigation request is valid process it
-			if (process)
-			{
-				// This block implements the overall sequencing loop
-				
-				// Clear Global State
-				this.mValidTermination = true;
-				this.mValidSequencing = true;
-				
-				var seqReq = iTarget;
-				var delReq = null;
-				
-				// Check if a termination is required
-				if (!newSession)
-				{
-					if (cur.getIsActive())
-					{
-						// Issue a termination request of 'exit'
-						seqReq = this.doTerminationRequest(TER_EXIT, false);
-						if (seqReq == null)
-						{
-							seqReq = iTarget;
-						}
-					}
-				}
-				
-				if (this.mValidTermination)
-				{
-					// Issue the pending sequencing request
-					delReq = this.doSequencingRequest(seqReq);
-				}
-				else
-				{
-					launch.mSeqNonContent = LAUNCH_NOTHING;
-				}
-				
-				if (this.mValidSequencing)
-				{
-					this.doDeliveryRequest(delReq, false, launch);
-				}
-				else
-				{
-					launch.mSeqNonContent = LAUNCH_SEQ_BLOCKED;
-				}
-			}
-			else
-			{
-				launch.mNavState = this.mSeqTree.getValidRequests();
-			}
+			return this.jump(iTarget);
 		}
 		else
 		{
-			launch.mSeqNonContent = LAUNCH_ERROR;
-			launch.mEndSession = true;                  
+			return this.choice(iTarget);
 		}
-		
-		return launch;
-	},
-	
+	},	
 
 	navigate: function (iRequest)
 	{
+		
 		sclog("NavigationRequest [NB.2.1]","seq");
 		var launch = new ADLLaunch();
 		
@@ -1006,9 +993,9 @@ ADLSequencer.prototype =
 		// If this is a new session, we start at the root.
 		var newSession = false;
 		var cur = this.mSeqTree.getCurrentActivity();
-
 		if (cur == null)
 		{
+			
 			this.prepareClusters();
 			newSession = true;
 			this.validateRequests();
@@ -1024,7 +1011,7 @@ ADLSequencer.prototype =
 		else if (newSession && (iRequest == NAV_EXITALL ||
 			iRequest == NAV_ABANDONALL))
 		{
-			launch.mSeqNonContent = LAUNCH_EXITSESSION;
+			launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
 			launch.mEndSession = true;
 			process = false;
 		}
@@ -1106,22 +1093,38 @@ ADLSequencer.prototype =
 					delReq = this.doSequencingRequest(SEQ_RESUMEALL);
 					if (this.mValidSequencing)
 					{
-						this.doDeliveryRequest(delReq, false, launch);
+						//Make sure the identified activity exists in the tree	
+						var act = this.getActivity(delReq);		
+						
+						if ( act != null && act.hasChildren(false) )
+						{
+							//Prepare for delivery
+							launch.mEndSession = this.mEndSession || this.mExitCourse;
+							if ( !launch.mEndSession)
+							{
+								this.validateRequests();
+								launch.mNavState = this.mSeqTree.getValidRequests();
+							}
+							launch.mSeqNonContent = LAUNCH_SEQ_BLOCKED;
+						}
+						else
+						{
+							this.doDeliveryRequest(delReq, false, launch);
+						}
 					}
 					else
 					{
 						launch.mSeqNonContent = LAUNCH_SEQ_BLOCKED;
-					}
+					}														
 					break;
 		
 				case NAV_CONTINUE:
-	
+					var i = 0;
 					if (cur.getIsActive())
 					{
 						// Issue a termination request of 'exit'
 						seqReq = this.doTerminationRequest(TER_EXIT, false);
 					}
-					
 					if (this.mValidTermination)
 					{
 						// Issue the pending sequencing request
@@ -1149,13 +1152,12 @@ ADLSequencer.prototype =
 					}
 					break;
 			
-				case NAV_PREVIOUS:		
+				case NAV_PREVIOUS:
 					if (cur.getIsActive())
 					{
 						// Issue a termination request of 'exit'
 						seqReq = this.doTerminationRequest(TER_EXIT, false);
-					}
-					
+					}			
 					if (this.mValidTermination)
 					{
 						// Issue the pending sequencing request
@@ -1361,6 +1363,261 @@ ADLSequencer.prototype =
 		return launch;
 	},
 	
+	choice: function (iTarget)							
+	{
+		var launch = new ADLLaunch();
+		
+		//Make sure an activity tree has been associated with this sequencer
+		if (this.mSeqTree == null)
+		{
+			//No activity tree, therefore nothing to do
+			//  -- inform the caller of the error.
+			launch.mSeqNonContent = LAUNCH_ERROR;
+			launch.mEndSession = true;
+			
+			return launch;
+			
+		}
+		
+		//Make sure the requested activity exists
+		var target = this.getActivity(iTarget);
+		
+		if (target != null)
+		{
+			//If this is a new session, we start at the root.
+			var newSession = false;
+			var cur = this.mSeqTree.getCurrentActivity();
+			
+			if (cur == null)
+			{
+				this.prepareClusters();
+				newSession = true;
+			}
+			
+			var process = true;
+			this.validateRequests();
+			
+			// If the sequencing session has already begun, confirm the
+			// navigation request is valid.
+			if( !newSession)
+			{
+				var valid = this.mSeqTree.getValidRequests();
+				
+				if ( valid != null)
+				{
+					//Confirm the target activity is allowed
+					if ( valid.mChoice != null )
+					{
+						var test = valid.mChoice[iTarget];
+						
+						if ( test == null )
+						{
+							launch.mSeqNonContent = LAUNCH_SEQ_BLOCKED;
+							process = false;
+						}
+						else if ( !test.mIsSelectable )
+						{
+							launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
+							process = false;
+						}
+					}
+					else
+					{
+						launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
+						process = false;
+					}
+				}
+				else
+				{
+					launch.mSeqNonContent = LAUNCH_ERROR;
+					launch.mEndSession = true;
+					
+					//Invalid request -- do not process
+					process = false;
+				}
+			}
+			
+			//If the navigation request is valid process it
+			if (process)
+			{
+				//This block implements the overall sequencing loop
+				
+				//Clear Global State
+				this.mValidTermination = true;
+				this.mValidSequencing = true;
+				
+				var seqReq = iTarget;
+				var delReq = null;
+				
+				//Check if a termination is required
+				if (!newSession)
+				{
+					if (cur.getIsActive())
+					{
+						//Issue a termination request of 'exit'
+						seqReq = this.doTerminationRequest(TER_EXIT, false);
+						
+						if (seqReq == null)
+						{
+							seqReq = iTarget;
+						}
+						
+					}
+				}
+				if (this.mValidTermination == true)
+				{
+					//Issue the pending sequencing request
+					delReq = this.doSequencingRequest(seqReq);
+				}
+				else
+				{
+					launch.mSeqNonContent = LAUNCH_NOTHING;
+				}
+				
+				if ( this.mValidSequencing == true)
+				{
+					this.doDeliveryRequest( delReq, false, launch);
+				}
+				else
+				{
+					launch.mSeqNonContent = LAUNCH_SEQ_BLOCKED;
+				}
+			}
+			else
+			{
+				launch.mNavState = this.mSeqTree.getValidRequests();
+			}
+		}
+		else
+		{
+			launch.mSeqNonContent = LAUNCH_ERROR;
+			launch.mEndSession = true;
+		}
+		
+		return launch;
+	},
+	
+	
+	jump: function (iTarget)
+	{
+		this.mIsJump = true;
+		var launch = new ADLLaunch();
+		
+		//Make sure an activity tree has been associated with this sequencer
+		if (this.mSeqTree == null)
+		{
+			//No activity tree, therefore nothing to do
+			//  -- inform the caller of the error.
+			launch.mSeqNonContent = LAUNCH_ERROR;
+			launch.mEndSession = true;
+			
+			return launch;
+		}
+		
+		//Make sure the requested activity exists
+		var target = this.getActivity(iTarget);
+		
+		if (target != null)
+		{
+			//If this is a new session, we start at the root.
+			var process = true;
+			
+			var cur = this.mSeqTree.getCurrentActivity();
+			
+			if (cur == null)
+			{
+				launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
+				process = false;
+			}
+			
+			this.validateRequests();
+			
+			if (process)
+			{
+				var valid = this.mSeqTree.getValidRequests();
+				
+				if (valid != null)
+				{
+					//Confirm the target activity is allowed
+					if (valid.mJump != null)
+					{
+						var test = valid.mJump[iTarget];
+						
+						if (test == null)
+						{
+							launch.mSeqNonContent = LAUNCH_ERROR_INVALIDNAVREQ;
+							
+							process = false;
+						}
+					}
+					else
+					{
+						launch.mSeqNonContent = LAUNCH_ERROR;
+						launch.mEndSession = true;
+						
+						//Invalid request -- do not process
+						process = false;
+					}
+				}
+			}
+			//If the navigation request is valid process it
+			if (process)
+			{
+				// This block implements the overall sequencing loop
+				
+				// Clear Global State
+				this.mValidTermination = true;
+				this.mValidSequencing = true;
+				
+				var seqReq = iTarget;
+				var delReq = null;
+				
+				if (cur.getIsActive())
+				{
+					// Issue a termination request of 'exit'
+					seqReq = this.doTerminationRequest(TER_EXIT, false);
+					
+					if ( seqReq == null )
+					{
+						seqReq = iTarget;
+					}
+				}
+				
+				if ( this.mValidTermination == true )
+				{
+					//Issue the pending sequencing request
+					delReq = this.doSequencingRequest(seqReq);
+				}
+				else
+				{
+					launch.mSeqNonContent = LAUNCH_NOTHING;
+				}
+				
+				if ( this.mValidSequencing )
+				{
+					this.doDeliveryRequest(delReq, false, launch);
+				}
+				else
+				{
+					launch.mSeqNonContent = LAUNCH_SEQ_BLOCKED;
+				}
+			}
+			else
+			{
+				launch.mNavState = this.mSeqTree.getValidRequests();
+			}
+		}	
+		else
+		{
+			launch.mSeqNonContent = LAUNCH_ERROR;
+			launch.mEndSession = true;
+		}
+		
+		this.mIsJump = false;
+		return launch;	
+	},
+	
+	
 	getActivity: function (iActivityID)
 	{
 		var thisActivity = null;
@@ -1397,7 +1654,7 @@ ADLSequencer.prototype =
 		
 		// Validate the pending navigation request before processing it.
 		// The following tests implement the validation logic of NB.2.1; it 
-		// covers all cases where the requst, itself, is invalid.
+		// covers all cases where the request, itself, is invalid.
 		switch (iRequest)
 		{
 			case NAV_START:
@@ -1559,7 +1816,7 @@ ADLSequencer.prototype =
 			
 			// If there is a current activity and it is active,
 			// 'suspendAll' is a valid Navigation Request
-			if (cur.getIsActive())
+			if ( cur.getIsActive() )
 			{
 				valid.mSuspend = true;
 			}
@@ -1573,6 +1830,7 @@ ADLSequencer.prototype =
 			
 			if (valid.mTOC != null)
 			{
+				valid.mJump = this.getJumpSet(valid.mTOC);
 				var newTOC = new Array();
 				valid.mChoice = this.getChoiceSet(valid.mTOC, newTOC);
 				
@@ -1586,7 +1844,9 @@ ADLSequencer.prototype =
 				}
 			}
 			
-			if (cur.getParent() != null)
+			
+			
+			if ( cur.getParent() != null )
 			{
 				// Always provide a Continue Button if the current activity
 				// is in a 'Flow' cluster
@@ -1626,7 +1886,8 @@ ADLSequencer.prototype =
 				
 				valid.mStart = this.processFlow(FLOW_FORWARD, true, walk, false);
 				
-				// Validate availablity of the identfied activity if one was identified
+				// Validate availablity of the identfied activity if one was
+				// identified
 				if (valid.mStart)
 				{
 					var ok = true;
@@ -1652,6 +1913,7 @@ ADLSequencer.prototype =
 			if (valid.mTOC != null)
 			{
 				var newTOC = new Array();
+				valid.mJump = this.getJumpSet(valid.mTOC);
 				valid.mChoice = this.getChoiceSet(valid.mTOC, newTOC);
 				if (newTOC.length > 0)
 				{
@@ -1662,6 +1924,8 @@ ADLSequencer.prototype =
 					valid.mTOC = null;
 				}
 			}
+			
+			
 		}
 		
 		// If an updated set of valid requests has completed, associated it with
@@ -1671,7 +1935,25 @@ ADLSequencer.prototype =
 			this.mSeqTree.setValidRequests(valid);
 		}
 	},
-
+	
+	getJumpSet: function(iTOC)
+	{
+		var jumptargets = new Object();		// Hashtable
+		
+		if ( iTOC != null )
+		{
+			for ( var i = 0; i < iTOC.length; i++ )
+			{
+				var temp = iTOC[i];
+				if ( temp.mLeaf && temp.mIsEnabled )
+				{
+					jumptargets[temp.mID] = temp;
+				}
+			}
+		}
+		return jumptargets;
+	},
+	
 	evaluateExitRules: function (iTentative)
 	{
 		sclog("SequencingExitActionRulesSub [TB.2.1]","seq");
@@ -1778,107 +2060,111 @@ ADLSequencer.prototype =
 				// Evaluate exit action rules
 				this.evaluateExitRules(iTentative);
 				
-				// Evaluate post conditions
-				var exited = false;
-				
-				do
+				if (!cur.getIsSuspended())
 				{
-					exited = false;
+				
+					// Evaluate post conditions
+					var exited = false;
 					
-					// Only process post conditions on the first candidate
-					var process = this.mSeqTree.getFirstCandidate();
-					
-					// Make sure we are not at the root
-					if (!this.mExitCourse)
+					do
 					{
-						// This block implements the Sequencing Post Condition Rule
-						// Subprocess (SB.2.2)
-
-						// Attempt to get rule information from the activity
-						var postRules = process.getPostSeqRules();
-						
-						if (postRules != null)
+						exited = false;
+					
+						// Only process post conditions on the first candidate
+						var process = this.mSeqTree.getFirstCandidate();
+					
+						// Make sure we are not at the root
+						if (!this.mExitCourse)
 						{
-							var result = null;
-							result = postRules.evaluate(RULE_TYPE_POST, process, false);
-							
-							if (result != null)
+							// This block implements the Sequencing Post Condition Rule
+							// Subprocess (SB.2.2)
+
+							// Attempt to get rule information from the activity
+							var postRules = process.getPostSeqRules();
+						
+							if (postRules != null && !(process.getIsSuspended()))
 							{
-								// This set of ifs implement TB.2.2
-								sclog("SequencingPostConditionRulesSub [TB.2.2]","seq");		                        
-								if (result == SEQ_ACTION_RETRY)
+								var result = null;
+								result = postRules.evaluate(RULE_TYPE_POST, process, false);
+							
+								if (result != null)
 								{
-									// Override any existing sequencing request
-									seqReq = SEQ_RETRY;
+									// This set of ifs implement TB.2.2
+									sclog("SequencingPostConditionRulesSub [TB.2.2]","seq");		                        
+									if (result == SEQ_ACTION_RETRY)
+									{
+										// Override any existing sequencing request
+										seqReq = SEQ_RETRY;
 									
-									// If we are processing the root activity, behave
-									// as if this where an exitAll
-									if (process == this.mSeqTree.getRoot())
-									{        
+										// If we are processing the root activity, behave
+										// as if this where an exitAll
+										if (process == this.mSeqTree.getRoot())
+										{        
+											// Break from the current loop and jump to the
+											// next case
+											iRequest = TER_EXITALL;
+										}
+									}
+									else if (result == SEQ_ACTION_CONTINUE)
+									{
+										// Override any existing sequencing request
+										seqReq = SEQ_CONTINUE;
+									}
+									else if (result == SEQ_ACTION_PREVIOUS)
+									{
+										// Override any existing sequencing request
+										seqReq = SEQ_PREVIOUS;
+									}
+									else if (result == SEQ_ACTION_EXITALL)
+									{
 										// Break from the current loop and jump to the
 										// next case
 										iRequest = TER_EXITALL;
 									}
-								}
-								else if (result == SEQ_ACTION_CONTINUE)
-								{
-									// Override any existing sequencing request
-									seqReq = SEQ_CONTINUE;
-								}
-								else if (result == SEQ_ACTION_PREVIOUS)
-								{
-									// Override any existing sequencing request
-									seqReq = SEQ_PREVIOUS;
-								}
-								else if (result == SEQ_ACTION_EXITALL)
-								{
-									// Break from the current loop and jump to the
-									// next case
-									iRequest = TER_EXITALL;
-								}
-								else if (result == SEQ_ACTION_EXITPARENT)
-								{
-									process = process.getParent();
+									else if (result == SEQ_ACTION_EXITPARENT)
+									{
+										process = process.getParent();
 		
-									if (process == null)
-									{
+										if (process == null)
+										{
+										}
+										else
+										{
+											this.mSeqTree.setFirstCandidate(process);
+											process=this.endAttempt(process, iTentative);
+											exited = true;
+										}
 									}
-									else
+									else if (result == SEQ_ACTION_RETRYALL)
 									{
-										this.mSeqTree.setFirstCandidate(process);
-										process=this.endAttempt(process, iTentative);
-										exited = true;
-									}
-								}
-								else if (result == SEQ_ACTION_RETRYALL)
-								{
-									// Override any existing sequencing request
-									seqReq = SEQ_RETRY;
+										// Override any existing sequencing request
+										seqReq = SEQ_RETRY;
 									
-									// Break from the current loop and jump to the
-									// next case
-									iRequest = TER_EXITALL;
-								}
-								else if (process == this.mSeqTree.getRoot())
-								{
-									// Exited Root with no postcondition rules
-									// End the Course
-									this.mExitCourse = true;                        
+										// Break from the current loop and jump to the
+										// next case
+										iRequest = TER_EXITALL;
+									}
+									else if (process == this.mSeqTree.getRoot())
+									{
+										// Exited Root with no postcondition rules
+										// End the Course
+										this.mExitCourse = true;                        
+									}
 								}
 							}
+							else if (process == this.mSeqTree.getRoot())
+							{
+								// Exited Root with no postcondition rules
+								// End the Course
+								this.mExitCourse = true;
+							}
 						}
-						else if (process == this.mSeqTree.getRoot())
-						{
-							// Exited Root with no postcondition rules
-							// End the Course
-							this.mExitCourse = true;
+						else {
+							seqReq = SEQ_EXIT;
 						}
 					}
-					else {
-						seqReq = SEQ_EXIT;
-					}
+					while (exited);
 				}
-				while (exited);
 			}
 			else
 			{
@@ -2033,6 +2319,18 @@ ADLSequencer.prototype =
 		
 		var tmpID = this.mSeqTree.getFirstCandidate().getID();
 		
+		if ((this.mSeqTree.getCurrentActivity() == this.mSeqTree.getRoot()) && (seqReq == SEQ_RETRY) &&
+								(this.mSeqTree.getScopeID() != null))
+			{
+				var objectives = this.mSeqTree.getGlobalObjectives(); 
+				
+				if ( objectives != null)
+				{
+					adl_seq_utilities.clearGlobalObjs( this.mSeqTree.getLearnerID(), this.mSeqTree.getScopeID(), objectives);
+				}
+				
+			}
+		
 		return seqReq;
 	},
 
@@ -2053,6 +2351,7 @@ ADLSequencer.prototype =
 				rollupSet[walk.getID()] = walk.getDepth();
 				
 				var writeObjIDs = walk.getObjIDs(null, false);
+				
 				if (writeObjIDs != null)
 				{
 					for (var i = 0; i < writeObjIDs.length; i++)
@@ -2078,7 +2377,11 @@ ADLSequencer.prototype =
 									// Only add if the activity is selected
 									if (act.getIsSelected())
 									{
-										rollupSet[act.getID()] = act.getDepth();
+										do
+										{
+											rollupSet[act.getID()] = act.getDepth();
+											act = act.getParent();
+										}while(act != null && act != this.mSeqTree.getRoot());
 									}
 								}
 							}
@@ -2121,11 +2424,16 @@ ADLSequencer.prototype =
 							// Only add if the activity is selected
 							if (act.getIsSelected())
 							{
-								rollupSet.put[act.getID()] = act.getDepth();
+								do
+								{
+									rollupSet[act.getID()] = act.getDepth();
+									act = act.getParent();
+								}
+								while ( act != null && act != this.mSeqTree.getRoot() );
 							}
 						}
 					}
-				}
+				}		
 			}
 		}
 		
@@ -2153,7 +2461,7 @@ ADLSequencer.prototype =
 					depth = thisDepth;
 					deepest = this.getActivity(key);
 				}
-				else if (thisDepth > depth)
+				else if (thisDepth >= depth)
 				{
 					depth = thisDepth;
 					deepest = this.getActivity(key);
@@ -2202,8 +2510,14 @@ ADLSequencer.prototype =
 							? "completed"
 							: "incomplete";
 					}
+					
+					var progmeasure = "unknown";
+					if (deepest.getProMeasureStatus(false))
+					{
+						progmeasure = deepest.getProMeasure(false);
+					}
 					adl_seq_utilities.setCourseStatus(this.mSeqTree.getCourseID(),
-						this.mSeqTree.getLearnerID(),satisfied,measure,completed);
+						this.mSeqTree.getLearnerID(),satisfied,measure,completed, progmeasure);
 				}
 			}
 		}
@@ -2581,6 +2895,15 @@ ADLSequencer.prototype =
 				}
 			}
 		}
+		else if (this.mIsJump)
+		{
+			var target = this.getActivity(iRequest);
+			
+			if ( target != null)
+			{
+				delReq = target.getID();
+			}
+		}
 		else
 		{
 			// This block implements the Choice Sequencing Request Process (SB.2)
@@ -2603,7 +2926,7 @@ ADLSequencer.prototype =
 				
 				if (process)
 				{
-					var walk = target.getParent();
+					var walk = target;
 					
 					// Walk up the tree evaluating 'Hide from Choice' rules.
 					while (walk != null)
@@ -3631,7 +3954,7 @@ ADLSequencer.prototype =
 					if (!iTarget.getSetCompletion())
 					{
 						// If the content hasn't set this value, set it
-						if (!iTarget.getProgressStatus(false))
+						if (!iTarget.getProgressStatus(false) && !iTarget.isPrimaryProgressSetBySCO())
 						{
 							iTarget.setProgress(TRACK_COMPLETED);
 						}
@@ -3641,9 +3964,13 @@ ADLSequencer.prototype =
 					{
 						//alert('Set satisfied');
 						// If the content hasn't set this value, set it
-						if (!iTarget.getObjStatus(false, true))
+						if (!iTarget.getObjStatus(false, true) && !iTarget.isPrimaryStatusSetBySCO() )
 						{
 							iTarget.setObjSatisfied(TRACK_SATISFIED);
+						}
+						else if ( iTarget.getObjSatValue() == TRACK_UNKNOWN ) 
+						{
+							iTarget.clearObjStatus();
 						}
 					}
 				}
@@ -3698,10 +4025,40 @@ ADLSequencer.prototype =
 				}
 				
 				// Invoke rollup
-				this.invokeRollup(iTarget, null);            
+				this.invokeRollup(iTarget, this.getGlobalObjs(iTarget));//null);            
 			}
 		}
 		return iTarget;
+	},
+	
+	getGlobalObjs: function (iTarget)
+	{
+		var objs = iTarget.getObjectives();		
+		var writeMaps = new Array();
+		if ( objs != null )
+		{
+			
+			for ( var i = 0; i < objs.length; i++)
+			{
+				var s = objs[i];
+				
+				if ( s.mMaps != null )
+				{
+					
+					for ( var m = 0; m < s.mMaps.length; m++)
+					{
+						var map = s.mMaps[m];
+						
+						if ( map.hasWriteMaps() )
+						{
+							writeMaps.push(map.mGlobalObjID);
+						}
+					}
+				}
+			}
+		}
+		
+		return writeMaps;
 	},
 
 	checkActivity: function (iTarget)
@@ -3757,7 +4114,7 @@ ADLSequencer.prototype =
 			{
 				temp = iOldTOC[i];
 				
-				if (temp.mDepth == -1)
+				if (!temp.mIsVisible)
 				{
 					if (temp.mIsSelectable)
 					{
@@ -3824,9 +4181,9 @@ ADLSequencer.prototype =
 
 	getTOC: function (iStart)
 	{
-		var toc = new Array();
-		var temp = null;
-		var done = false;
+		var toc = new Array(); //the return of renderable ADLTOC objects
+		var temp = null; // used in iterations over the ADLTOC objects in the tree
+		var done = false; // used to create the initial tree in pass 1
 		
 		// Make sure we have an activity tree
 		if (this.mSeqTree == null)
@@ -3836,15 +4193,17 @@ ADLSequencer.prototype =
 		
 		// Perform a breadth-first walk of the activity tree.
 		var walk = iStart;
-		var depth = 0;
-		var parentTOC = -1;
+		var depth = 0; //used for tracking the depth of the tree
+		var parentTOC = -1; //used to determine the parent of a tree
 		var lookAt = new Array();
 		var flatTOC = new Array();
 		
 		// Tree traversal status indicators
-		var next = false;
+		var nextsibling = false;
 		var include = false;
 		var collapse = false;
+		var select = false;
+		var choosable = false;
 		
 	
 		// Make sure the activity has been associated with this sequencer
@@ -3854,6 +4213,7 @@ ADLSequencer.prototype =
 			walk = this.mSeqTree.getRoot();
 		}
 		
+		// if there was an activity left when the user Suspend All, bring it up
 		var cur = this.mSeqTree.getFirstCandidate();
 		var curIdx = -1;
 		
@@ -3865,23 +4225,27 @@ ADLSequencer.prototype =
 		
 		while (!done)
 		{
-			include = false;
-			collapse = false;
-			next = false;
+			include = true;  // used in ifs to determine which nodes are in and out of the ADLTOC
+			select = false; // used to determine if the node is selectable
+			choosable = false; // used to determine if a node is in a cluster with choice = true
+			collapse = false; // if a node is hidden (watch vs. invisible), it gets collapsed in the tree
+			nextsibling = false; // used to move between siblings in the event the node has children
 			
 			// If the activity is a valid target for a choice sequecing request,
-			// include it in the TOC and determine its attributes
+			// make it selectable in the TOC and determine its attributes
 			if (walk.getParent() != null)
 			{
 				if (walk.getParent().getControlModeChoice())
 				{
-					include = true;
+					select = true;
+					choosable = true;
 				}
 			}
 			else
 			{
 				// Always include the root of the activity tree in the TOC
-				include = true;
+				select = true;
+				choosable = true;
 			}
 			
 			// Make sure the activity we are considering is not disabled or hidden
@@ -3907,21 +4271,24 @@ ADLSequencer.prototype =
 				}
 				else
 				{
-					// Check if this activity is prevented from activation
+					// Check if this activity is prevented from corresponds to disabled or invisible or descendants of such nodes.
+					// Given that this can be both, its a place to look if something isn't rendering correctly
 					if (walk.getPreventActivation() && !walk.getIsActive() && walk.hasChildren(true))
 					{
 						if (cur != null)
 						{
 							if (walk != cur && cur.getParent() != walk)
 							{
-								include = false;
+								include = true;
+								select = true;
 							}
 						}
 						else
 						{
 							if (walk.hasChildren(true))
 							{
-								include = false;                                                
+								include = true;
+								select = true;
 							}
 						}
 					}
@@ -3940,28 +4307,21 @@ ADLSequencer.prototype =
 				temp.mDepth = depth;
 				temp.mIsVisible = walk.getIsVisible();
 				temp.mIsEnabled = !this.checkActivity(walk);
+				temp.mInChoice = choosable;
+				temp.mIsSelectable = select;
 				
-				if (temp.mIsEnabled)
+				if ( temp.mIsEnabled )
 				{
-					if (walk.getAttemptLimitControl())
+					if( walk.getAttemptLimitControl() == true)
 					{
 						if (walk.getAttemptLimit() == 0)
 						{
-							temp.mIsSelectable  = false;
+								temp.mIsSelectable = false;
 						}
 					}
-				}
-				
+				}	
+						
 				temp.mID = walk.getID();
-				
-				if (walk.getParent() != null)
-				{
-					temp.mInChoice = walk.getParent().getControlModeChoice();
-				}
-				else
-				{
-					temp.mInChoice = true;
-				}
 				
 				// Check if we looking at the 'current' cluster
 				if (cur != null)
@@ -3969,14 +4329,14 @@ ADLSequencer.prototype =
 					if (temp.mID == cur.getID())
 					{
 						temp.mIsCurrent = true;
-						curIdx = toc.length;
+						curIdx = toc.length; //the index is set to the last node
 					}
 				}
 				
 				temp.mLeaf = !walk.hasChildren(false);
 				temp.mParent = parentTOC;
 				
-				toc[toc.length] = temp;
+				toc[toc.length] = temp; // this node is now added with the relevant information
 			}
 			else
 			{
@@ -3987,19 +4347,9 @@ ADLSequencer.prototype =
 				temp.mIsVisible = walk.getIsVisible();
 				
 				temp.mIsEnabled = !this.checkActivity(walk);
+				temp.mInChoice = choosable;
+				temp.mDepth = depth;
 				
-				if (temp.mIsEnabled)
-				{
-					if (walk.getAttemptLimitControl())
-					{
-						if (walk.getAttemptLimit() == 0)
-						{
-							temp.mIsSelectable  = false;
-						}
-					}
-				}
-				
-				temp.mDepth = -(depth);
 				temp.mID = walk.getID();
 				temp.mIsSelectable = false;
 				
@@ -4017,7 +4367,7 @@ ADLSequencer.prototype =
 			// Add this activity to the "flat TOC"
 			flatTOC[flatTOC.length] = walk;
 			
-			// If this activity has children, look at them later...
+			// If this activity has children, look at them later...the false refers to what are considered children, not as a "false" conditional
 			if (walk.hasChildren(false))
 			{
 				// Remember where we are at and look at the children now,
@@ -4031,11 +4381,12 @@ ADLSequencer.prototype =
 				walk = walk.getChildren(false)[0];
 				parentTOC = toc.length - 1;
 				depth++;
+				nextsibling = true;
 				
 				next = true;
 			}
 			
-			if (!next)
+			if (!nextsibling)
 			{
 				// Move to its sibling
 				walk = walk.getNextSibling(false);
@@ -4074,42 +4425,39 @@ ADLSequencer.prototype =
 					parentTOC = temp.mParent;
 				}
 			}
-		}
+		} //end while
 		
 		// After the TOC has been created, mark activites unselectable
 		// if the Prevent Activation prevents them being selected,
 		// and mark them invisible if they are descendents of a hidden
 		// from choice activity
-		var hidden = -1;
+		var hiddenDepth = -1;
 		var prevented = -1;
 		
 		for (var i = 0; i < toc.length; i++)
 		{
 			var tempAct = flatTOC[i];
 			var tempTOC = toc[i];
+			var checkDepth = tempTOC.mDepth;
 			
-			var checkDepth = (tempTOC.mDepth >= 0)
-				? tempTOC.mDepth
-				: (-tempTOC.mDepth);
-			
-			if (hidden != -1)
+			// if hiddenDepth has been determined (i.e. not -1)
+			if (hiddenDepth !=-1)
 			{
-				// Check to see if we are done hiding activities
-				if (checkDepth <= hidden)
+				//Check to see if we are doing hiding activities, if we are outside the tree, we are done
+				if (checkDepth <= hiddenDepth)
 				{
-					hidden = -1;
+					hiddenDepth = -1;
 				}
 				else
 				{
-					// This must be a descendent
-					tempTOC.mDepth = -(depth);
+					// This must be a descendent of the tree - hide/disable it
 					tempTOC.mIsSelectable = false;
 					tempTOC.mIsVisible = false;
 				}
 			}
 			
-			// Evaluate hide from choice rules if we are not hidden
-			if (hidden == -1)
+			// Evaluate hide from choice rules if it hasn't been found
+			if (hiddenDepth == -1)
 			{
 				// Attempt to get rule information from the activity
 				var hiddenRules = tempAct.getPreSeqRules();
@@ -4126,9 +4474,10 @@ ADLSequencer.prototype =
 				if (result != null)
 				{
 					// The depth we are looking for should be positive
-					hidden = -tempTOC.mDepth;  
+					hiddenDepth = tempTOC.mDepth;  
 					prevented = -1;
 				}
+				// if the rule evaluation was null, need to look for prevented activities that are not hidden
 				else
 				{
 					if (prevented != -1)
@@ -4139,10 +4488,14 @@ ADLSequencer.prototype =
 							// Reset the check until we find another prevented
 							prevented = -1;
 						}
+						// We don't prevent activation on anything with the depth of the node in question
+						else if (tempTOC.mDepth == prevented)
+						{
+						
+						}
 						else
 						{
-							// This must be a prevented descendent
-							tempTOC.mDepth = -1;
+							// This must be a prevented descendant
 							tempTOC.mIsSelectable = false;
 						}
 					}
@@ -4155,20 +4508,19 @@ ADLSequencer.prototype =
 							{
 								if (tempAct != cur && cur.getParent() != tempAct)
 								{
-									include = false;
-									prevented = (tempTOC.mDepth > 0)
-										? tempTOC.mDepth
-										: -tempTOC.mDepth;
-									// The activity cannot be selected
-									temp.mDepth = -1;
-									temp.mIsSelectable = false;
+									prevented = tempTOC.mDepth;
 								}
 							}
+							// if cur is null, it won't be equal to the tempActivity or it's parent
+							else
+							{
+								prevented = tempTOC.mDepth;
+							}
 						}
-					}
-				}
-			}
-		}
+					} //else
+				} //else
+			} //if hidden =1
+		} //for
 		
 		// After the TOC has been created, mark activites unselectable
 		// if the Choice Exit control prevents them being selected
@@ -4202,7 +4554,8 @@ ADLSequencer.prototype =
 		
 		if (noExit != null)
 		{
-			depth = -1;
+			depth = -1; //depth will track the depth of the disabled node and will catch all nodes less than
+			// it is and mark them unselectable
 			
 			// Only descendents of this activity can be selected.
 			for (var i = 0; i < toc.length; i++)
@@ -4212,31 +4565,24 @@ ADLSequencer.prototype =
 				// When we find the the 'non-exiting' activity, remember its depth
 				if (temp.mID == noExit.getID())
 				{
-					depth = (temp.mDepth > 0)
-						? temp.mDepth
-						: -temp.mDepth;
+					depth = temp.mDepth;
 					
 					// The cluster activity cannot be selected
-					temp.mDepth = -1;
 					temp.mIsSelectable = false;
 				}
 				// If we haven't found the the 'non-exiting' activity yet, then the
 				// activity being considered cannot be selected.
 				else if (depth == -1)
 				{
-					temp.mDepth = -1;
 					temp.mIsSelectable = false;
 				}
 				
 				// When we back out of the depth-first-walk and encounter a sibling
 				// or parent of the 'non-exiting' activity, start making activity
 				// unselectable
-				else if (((temp.mDepth > 0)
-							? temp.mDepth
-							: -temp.mDepth) 	<= depth)
+				else if (temp.mDepth <= depth)
 				{
 					depth = -1;
-					temp.mDepth = -1;
 					temp.mIsSelectable = false;
 				}
 			}
@@ -4258,6 +4604,12 @@ ADLSequencer.prototype =
 		if (this.mSeqTree.getFirstCandidate() != null)
 		{
 			walk =  this.mSeqTree.getFirstCandidate().getParent();
+			
+			// constrained choice has no effect on the root
+			if (walk != null && walk.getID() == this.mSeqTree.getRoot().getID())
+			{
+				walk = null;
+			}
 		}
 		else
 		{
@@ -4424,7 +4776,7 @@ ADLSequencer.prototype =
 			}
 		}
 		
-		// Walk the TOC looking for disabled activities...
+		// Walk the TOC looking for disabled activities and mark them disabled
 		if (toc != null)
 		{
 			depth = -1;
@@ -4435,7 +4787,7 @@ ADLSequencer.prototype =
 				
 				if (depth != -1)
 				{
-					if (depth >= ((temp.mDepth > 0) ? temp.mDepth : -temp.mDepth))
+					if (depth >= temp.mDepth)
 					{
 						depth = -1;
 					}
@@ -4449,9 +4801,7 @@ ADLSequencer.prototype =
 				if (!temp.mIsEnabled && depth == -1)
 				{
 					// Remember where the disabled activity is
-					depth = (temp.mDepth > 0)
-						? temp.mDepth
-						: -temp.mDepth;
+					depth = temp.mDepth;
 				}
 			}
 		}
@@ -4511,7 +4861,7 @@ ADLSequencer.prototype =
 		// Evaluate Stop Forward Traversal Rules -- this pass cooresponds to
 		// Case #3 and #5 of the Choice Sequencing Request Subprocess.  In these
 		// cases, we need to check if the target activity is forward in the 
-		// Activity Tree relative to the commen ancestor and cuurent activity
+		// Activity Tree relative to the common ancestor and cuurent activity
 		if (toc != null && curIdx != -1)
 		{
 			var curParent = (toc[curIdx]).mParent;
@@ -4543,9 +4893,7 @@ ADLSequencer.prototype =
 					{
 						var tempTOC = toc[i];
 						
-						var checkDepth = ((tempTOC.mDepth >= 0)
-							? tempTOC.mDepth
-							: (-tempTOC.mDepth));
+						var checkDepth = tempTOC.mDepth;
 						
 						// Check to see if we are done blocking activities
 						if (checkDepth <= blocked)
@@ -4593,60 +4941,43 @@ ADLSequencer.prototype =
 				}
 			}
 		}
+		//Historially here we have re-drawn depths of nodes that had certain conditions.  With the TOC now using only attributes to decide
+		//what is drawn, this code should no longer be necesssary.
 		
-		for (var i = toc.length - 1; i >= 0; i--)
-		{
-			temp = toc[i];
-			
-			if (temp.mIsCurrent && temp.mInChoice)
-			{
-				if (temp.mDepth < 0)
-				{
-					temp.mDepth = -temp.mDepth;
-				}
-			}
-			
-			if (temp.mDepth >= 0)
-			{
-				while (temp.mParent != -1)
-				{
-					temp = toc[temp.mParent];
-					
-					if (temp.mDepth < 0)
-					{
-						temp.mDepth = -temp.mDepth;
-					}
-				}
-			}
-			else if (temp.mIsVisible)
-			{
-				temp.mDepth = -1;
-			}
-		}
-		
+		//this collapses content with invisible nodes.  It is ok to mark an invisible node with the large negative depth
 		for (var i = 0; i < toc.length; i++)
 		{
 			temp = toc[i];
 			
 			if (!temp.mIsVisible)
 			{
-				temp.mDepth = -1;
 				var parents = new Array();
 				
 				for (var j = i + 1; j < toc.length; j++)
 				{
 					temp = toc[j];
 					
-					if (temp.mParent == i && temp.mDepth > 0)
+					if (temp.mParent == i)
 					{
 						temp.mDepth--;
 						parents[parents.length] = j;
 					}
 					else
 					{
-						if (temp.mDepth != -1)
+						if (temp.mIsVisible) //was related to the depth
 						{
-							var idx = index_of(parents, temp.mParent);
+							for (var k = 0; k < parents.length; k++ )
+							{
+								if ( parents[k]== temp.mParent )
+									{
+										var idx = k;
+									}
+								else
+									{
+										var idx = -1;
+									}
+								
+							}
 							
 							if (idx != -1)
 							{
@@ -4658,7 +4989,7 @@ ADLSequencer.prototype =
 				}
 			}
 		}
-		
+		// this loop isolates a current activity so something is always drawn in bold
 		for (var i = 0; i < toc.length; i++)
 		{
 			temp = toc[i];
@@ -4677,7 +5008,7 @@ ADLSequencer.prototype =
 					}
 					else
 					{
-						break;
+						parent = -1;
 					}
 				}
 				
@@ -4686,10 +5017,278 @@ ADLSequencer.prototype =
 			}
 		}      
 		
+		//hide the entire tree if nothing is selectable other than the root - the root will always
+		// be depth = 0 and nothing else should be
+		var somethingIsSelectable = false;
+		for ( var i = 0; i < toc.length; i++)
+		{
+			temp = toc[i];
+			
+			if (temp.mIsSelectable && temp.mIsVisible && temp.mDepth > 0)
+			{
+				somethingIsSelectable = true;
+				break;
+			}
+		}
+		if (!somethingIsSelectable)
+		{
+			for ( var i = 0; i < toc.length; i++)
+			{
+				temp = toc[i];
+				temp.mIsVisible = false;
+			}
+		}
+		
 		return toc;
+	},
+	
+	clearAttemptObjCompletionStatus: function (iActivityID, iObjID)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null)
+		{
+			//Make sure the activity is a valid target for status changes
+			//		-- the active leaf current activity
+			if ( target.getIsActive() )
+			{
+				//If the activity is a lead and is the current activity
+				if ( !target.hasChildren(false) && 
+						this.mSeqTree.getCurrentActivity() == target )
+				{
+						var statusChange = target.clearObjCompletionStatus(iObjID);
+				}
+			}
+		}
+	},
+	
+	setAttemptObjCompletionStatus: function (iActivityID, iObjID, iCompletion)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null)
+		{
+			//Make sure the activity is a valid target for status changes
+			// -- the tracked active leaf current activity
+			if ( target.getIsActive() )
+			{
+				//If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target )
+				{
+					target.setObjCompletionStatus(iObjID, iCompletion);
+				}
+			}
+		}
+	},
+	
+	clearAttemptObjProgressMeasure: function(iActivityID, iObjID)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if (target != null)
+		{
+			//Make sure the activity is a valid target for status changes
+			//		--the active lead current activity
+			if ( target.getIsActive() )
+			{
+				//If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target )
+				{
+					var statusChange = target.clearObjProgressMeasure(iObjID);
+				}
+			}
+		}
+	},
+	
+	setAttemptObjProgressMeasure:  function(iActivityID, iObjID, iProgressMeasure)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			// Make sure the activity is a valid target for status changes
+			//  -- the tracked active lead current activity
+			if ( target.getIsActive() )
+			{
+				//If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target )
+				{
+					target.setObjProgressMeasure(iObjID, iProgressMeasure);
+				}	
+			}
+		}
+	},
+	
+	clearAttemptObjMaxScore: function (iActivityID, iObjID)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			//Make sure the activity is a valid target for status changes
+			//	-- the active lead current activity
+			if ( target.getIsActive() )
+			{
+				//If the activity is a leaf and is the current activity
+				if (!target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target )
+				{
+					var statusChange = target.clearObjMaxScore(iObjID);
+				}
+			}
+		}
+	},
+
+	setAttemptObjMaxScore: function(iActivityID, iObjID, iMaxScore)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			//Make sure the activity is a valid target for status changes
+			//	-- the tracked active leaf current activity
+			if ( target.getIsActive() )
+			{
+				// If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target)
+				{
+					target.setObjMaxScore(iObjID, iMaxScore);
+				}
+			}
+		}
+	},
+	
+	clearAttemptObjMinScore: function(iActivityID, iObjID)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			//Make sure the activity is a valid target for status changes
+			//	-- the tracked active leaf current activity
+			if ( target.getIsActive() )
+			{
+				// If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target)
+				{
+					var statusChange = target.clearObjMinScore(iObjID);
+				}
+			}
+		}
+	},
+	
+	setAttemptObjMinScore: function(iActivityID, iObjID, iMinScore)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			//Make sure the activity is a valid target for status changes
+			//	-- the tracked active leaf current activity
+			if ( target.getIsActive() )
+			{
+				// If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target)
+				{
+					target.setObjMinScore(iObjID, iMinScore);
+				}
+			}
+		}
+	},
+	
+	clearAttemptObjRawScore: function(iActivityID, iObjID)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			//Make sure the activity is a valid target for status changes
+			//	-- the tracked active leaf current activity
+			if ( target.getIsActive() )
+			{
+				// If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target)
+				{
+					var statusChange = target.clearObjRawScore(iObjID);
+				}
+			}
+		}
+	},
+	
+	setAttemptObjRawScore: function(iActivityID, iObjID, iRawScore)
+	{
+		//Find the target activity
+		var target = this.getActivity(iActivityID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			//Make sure the activity is a valid target for status changes
+			//	-- the tracked active leaf current activity
+			if ( target.getIsActive() )
+			{
+				// If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target)
+				{
+					target.setObjRawScore(iObjID, iRawScore);
+				}
+			}
+		}
+	},
+	
+		setAttemptProgressMeasure: function(iID, iProMeasure)
+	{
+		//Find the target activity
+		var target = this.getActivity(iID);
+		
+		//Make sure the activity exists
+		if ( target != null )
+		{
+			//Make sure the activity is a valid target for status changes
+			//	-- the tracked active leaf current activity
+			if ( target.getIsActive() && target.getIsTracked() )
+			{
+				// If the activity is a leaf and is the current activity
+				if ( !target.hasChildren(false) &&
+						this.mSeqTree.getCurrentActivity() == target)
+				{
+					var statusChange = target.setProgressMeasure(iProMeasure);
+					
+					if ( statusChange )
+					{
+						this.validateRequests();
+					}
+				}
+			}
+		}
 	}
-}
-/*
+};/*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
@@ -4756,7 +5355,7 @@ ADLTOC.prototype =
 	mIsCurrent: false,
 	mIsSelectable: true,
 	mID: null
-}
+};
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -4812,8 +5411,21 @@ var TRACK_NOTSATISFIED = "notSatisfied";
 var TRACK_COMPLETED = "completed";
 var TRACK_INCOMPLETE = "incomplete";
 
-function ADLTracking(iObjs, iLearnerID, iScopeID)  
+//call ADLTracking(iObjs, iLearnerID, iScopeID) or 
+// ADLTracking(iObjs, iLearnerID, iScopeID, {iThreshold: threshold, iWeight: weight})
+function ADLTracking(iObjs, iLearnerID, iScopeID, iOptions)  
 {
+	if ((typeof(iOptions) != 'undefined' && iOptions != null))
+		this.mProgressDeterminedByMeasure = true;
+	
+	var options = ilAugment({
+		iThreshold: 1.0,
+		iWeight: 1.0
+		}, iOptions);
+	
+	this.mProgressThreshold = options.iThreshold;
+	this.mProgressWeight = options.iWeight;
+
 	if (iObjs != null)
 	{
 		for (var i = 0; i < iObjs.length; i++)
@@ -4861,7 +5473,9 @@ ADLTracking.prototype =
 	mDirtyPro: false,
 	mObjectives: null,
 	mPrimaryObj: "_primary_",
-	mProgress: TRACK_UNKNOWN,
+	mProgressDeterminedByMeasure: false,
+	mProgressThreshold: 1.0,
+	mProgressWeight: 1.0,
 	mAttemptAbDur: null,
 	mAttemptExDur: null,
 	mAttempt: 0,
@@ -4873,10 +5487,90 @@ ADLTracking.prototype =
 			{
 				obj = this.mObjectives[k];
 				obj.setDirtyObj();
+				this.mObjectives[k] = obj;
 			}
 		}
-	}
-}
+	},
+   setCompletionStatus: function (iCompleted)
+   {
+      if ( ! this.mProgressDeterminedByMeasure )
+      {
+         this.mObjectives[this.mPrimaryObj].setObjCompletionStatus(iCompleted);
+      }
+   },
+   getCompletionStatus: function (iUseCurrent)
+   {
+      var isDirty = (iUseCurrent)?false:this.mDirtyPro;
+      var status = TRACK_UNKNOWN;
+      var obj = this.mObjectives[this.mPrimaryObj];
+      if ( this.mProgressDeterminedByMeasure )
+      {
+         status = obj.getObjProgressMeasure(isDirty);
+      }
+      else
+      {
+         status = obj.getObjCompletionStatus(isDirty);
+      }
+      return status;
+   },
+   setProgressMeasure: function (iProMeasure)
+   {
+      var obj = this.mObjectives[this.mPrimaryObj];
+      obj.setObjProgressMeasure(iProMeasure);
+      if ( this.mProgressDeterminedByMeasure && (iProMeasure >= 0 && iProMeasure <= 1) )
+      {
+         var completion = TRACK_UNKNOWN;
+         if ( parseFloat(iProMeasure) >= parseFloat(this.mProgressThreshold) )
+         {
+            completion = TRACK_COMPLETED;
+         }
+         else
+         {
+            completion = TRACK_INCOMPLETE;
+         }
+         obj.setObjCompletionStatus(completion);
+      }
+      this.mObjectives[this.mPrimaryObj] = obj;
+   },
+   getProgressMeasure: function ()
+   {
+      return this.mObjectives[this.mPrimaryObj].getObjProgressMeasure(this.mDirtyPro);
+   },
+   getProgressDeterminedByMeasure: function ()
+   {
+      return this.mProgressDeterminedByMeasure;
+   },
+   getProgressMeasureWeight: function ()
+   {
+      return this.mProgressWeight;
+   },
+   setProgressMeasureWeight: function (iWeight)
+   {
+      if (iWeight >= 0 && iWeight <= 1)
+      {
+         this.mProgressWeight = iWeight;
+      }
+   },
+   setProgressMeasureThreshold: function (ithresh)
+   {
+      if (ithresh >= 0 && ithresh <= 1)
+      {
+         this.mProgressThreshold = ithresh;
+      }
+   },
+   hasProgressMeasure: function ()
+   {
+      return this.mObjectives[this.mPrimaryObj].getObjProgressMeasure(this.mDirtyPro) != TRACK_UNKNOWN;
+   },
+   clearProMeasure: function ()
+   {
+      this.mObjectives[this.mPrimaryObj].clearObjMeasure();
+   },
+   getProgressThreshold: function ()
+   {
+      return this.mProgressThreshold;
+   }
+};
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -4940,6 +5634,7 @@ ADLValidRequests.prototype =
 	mPrevious: false,
 	mSuspend: false,
 	mChoice: null,
+	mJump: null,
 	mTOC: null
 }
 function ilAugment (oSelf, oOther)
@@ -5030,7 +5725,7 @@ function sclogdump(param, depth)
 		depth = 0;
 	}
 	
-	var pre = ''
+	var pre = '';
 	for (var j=0; j < depth; j++)
 	{
 		pre = pre + '    ';
@@ -5111,25 +5806,27 @@ function sclogdump(param, depth)
 	This .js file is GPL licensed (see above) but based on
 	SeqActivity.java by ADL Co-Lab, which is licensed as:
 	
-	Advanced Distributed Learning Co-Laboratory (ADL Co-Lab) Hub grants you 
-	("Licensee") a non-exclusive, royalty free, license to use, modify and 
-	redistribute this software in source and binary code form, provided that 
-	i) this copyright notice and license appear on all copies of the software; 
-	and ii) Licensee does not utilize the software in a manner which is 
-	disparaging to ADL Co-Lab Hub.
+	ADL SCORM 2004 4th Edition Sample Run-Time Environment
 
-	This software is provided "AS IS," without a warranty of any kind.  ALL 
-	EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING 
-	ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE 
-	OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED.  ADL Co-Lab Hub AND ITS LICENSORS 
-	SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF 
-	USING, MODIFYING OR DISTRIBUTING THE SOFTWARE OR ITS DERIVATIVES.  IN NO 
-	EVENT WILL ADL Co-Lab Hub OR ITS LICENSORS BE LIABLE FOR ANY LOST REVENUE, 
-	PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, 
-	INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE 
-	THEORY OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE 
-	SOFTWARE, EVEN IF ADL Co-Lab Hub HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH 
-	DAMAGES.
+The ADL SCORM 2004 4th Ed. Sample Run-Time Environment is licensed under
+Creative Commons Attribution-Noncommercial-Share Alike 3.0 United States.
+
+The Advanced Distributed Learning Initiative allows you to:
+  *  Share - to copy, distribute and transmit the work.
+  *  Remix - to adapt the work. 
+
+Under the following conditions:
+  *  Attribution. You must attribute the work in the manner specified by the author or
+     licensor (but not in any way that suggests that they endorse you or your use
+     of the work).
+  *  Noncommercial. You may not use this work for commercial purposes. 
+  *  Share Alike. If you alter, transform, or build upon this work, you may distribute
+     the resulting work only under the same or similar license to this one. 
+
+For any reuse or distribution, you must make clear to others the license terms of this work. 
+
+Any of the above conditions can be waived if you get permission from the ADL Initiative. 
+Nothing in this license impairs or restricts the author's moral rights.
 */
 
 var TIMING_NEVER = "never";
@@ -5215,8 +5912,19 @@ SeqActivity.prototype =
 	mNumSCOAttempt: 0,
 	mActivityAbDur_track: null,
 	mActivityExDur_track: null,
+	mPrimaryStatusSetBySCO: false,
+	mProgressDeterminedByMeasure: false,
+	mProgressThreshold: 1.0,
+	mProgressWeight: 1.0,
+	mPrimaryProgressSetBySCO: false,
+
+	
 	
 	// getter/setter
+	isPrimaryStatusSetBySCO: function () { return this.mPrimaryStatusSetBySCO; },
+	primaryStatusSetBySCO: function (val) { this.mPrimaryStatusSetBySCO = val; },
+	isPrimaryProgressSetBySCO: function () { return this.mPrimaryProgressSetBySCO; },
+	primaryProgressSetBySCO: function (val) { this.mPrimaryProgressSetBySCO = val; },
 	getControlModeChoice: function () { return this.mControl_choice; },
 	setControlModeChoice: function (iChoice) { this.mControl_choice = iChoice; },
 	getControlModeChoiceExit: function () { return this.mControl_choiceExit; },
@@ -5466,21 +6174,53 @@ SeqActivity.prototype =
 	
 	setObjectives: function (iObjs)
 	{
-		this.mObjectives = iObjs;
 
-		if (iObjs != null)
+		if (mObjectives != null)
 		{
-			for (var i = 0; i < iObjs.length; i++)
-			{
-				obj = iObjs[i];
-				
-				if (obj.mMaps != null)
+			if (this.mOjbectives.length > 0 )
 				{
-					if (this.mObjMaps == null)
+					if ( iObjs != null)
+						{
+							for ( var i = 0; i < iObjs.length; i++)
+								{
+									var toadd = iObjs[i];
+									var contained = false;
+									
+									for ( var j = 0; j < this.mObjectives.length; j++)
+									{			
+											if (this.mObjectives[j] == toadd)
+											{
+												contained = true;
+												this.mObjectives[j].merge(toadd);
+											}
+											if ( !contained)
+											{
+												this.mObjectives[this.mObjectives.length] = iObjs[i];
+											}
+									}		
+								}
+						}
+				}
+		}
+		
+		else
+		{
+			this.mObjectives = iObjs;
+		}
+		
+			if ( this.mObjectives != null)
+			{
+				for (var i = 0; i < this.mObjectives.length; i++)
+				{
+					obj = iObjs[i];
+				
+					if (obj.mMaps != null)
 					{
-						this.mObjMaps = new Object();	// was Hashtable
-					}
-					this.mObjMaps[obj.mObjID] = obj.mMaps;
+						if (this.mObjMaps == null)
+						{
+							this.mObjMaps = new Object();	// Hashtable
+						}
+						this.mObjMaps[obj.mObjID] = obj.mMaps;
 				}
 			}
 		}
@@ -5574,21 +6314,53 @@ SeqActivity.prototype =
 		var progress = TRACK_UNKNOWN;
 		if (this.mIsTracked)
 		{
-			if (this.mCurTracking == null)
-			{
-				track = new ADLTracking(this.mObjectives, 
-					this.mLearnerID, this.mScopeID);
-				track.mAttempt = this.mNumAttempt;
-				this.mCurTracking = track;
-			}
+			this.initADLTracking();					
 			
-			// make sure the current state is valid
 			if (!(this.mCurTracking.mDirtyPro==true && iIsRetry==true))
 			{	
-				progress = this.mCurTracking.mProgress;
+				if ( !this.mCurTracking.getProgressDeterminedByMeasure())
+				{
+					progress = this.mCurTracking.getCompletionStatus(this.mUseCurPro);
+				}
+				else
+				{
+					if ( this.mCurTracking.hasProgressMeasure())
+					{
+						var measure = this.mCurTracking.getProgressMeasure();
+						progress = (parseFloat(measure) >= parseFloat(this.mCurTracking.getProgressThreshold()))?TRACK_COMPLETED:TRACK_INCOMPLETE;
+						this.setProgressMeasure(measure);
+					}
+				}
 			}
 		}
 		return(progress == TRACK_COMPLETED);
+	},
+	
+	getPriObjAttemptCompleted: function (iIsRetry)
+	{
+		var progress = TRACK_UNKNOWN;
+		if ( this.mIsTracked )
+		{
+			this.initADLTracking();
+			if (!(this.mCurTracking.mDirtyPro==true && iIsRetry==true))
+			{	
+				if ( !this.mCurTracking.getProgressDeterminedByMeasure())
+				{
+					progress = this.mCurTracking.getCompletionStatus(this.mUseCurPro);
+				}
+				else
+				{
+					if ( this.mCurTracking.hasProgressMeasure())
+					{
+						var measure = this.mCurTracking.getProgressMeasure();
+						progress = (parseFloat(measure) >= parseFloat(this.mCurTracking.getProgressThreshold()))?TRACK_COMPLETED:TRACK_INCOMPLETE;
+						
+					}
+				}
+			}
+			
+		}
+		return (progress == TRACK_COMPLETED);
 	},
 	
 	setProgress: function (iProgress)
@@ -5602,15 +6374,10 @@ SeqActivity.prototype =
 				iProgress == TRACK_COMPLETED ||
 				iProgress == TRACK_INCOMPLETE)
 			{
-				if (this.mCurTracking == null)
-				{
-					this.mCurTracking = new ADLTracking(this.mObjectives,
-						this.mLearnerID, this.mScopeID);
-				}
+				this.initADLTracking();
 				
-				var prev = this.mCurTracking.mProgress;
-				
-				this.mCurTracking.mProgress = iProgress;
+				var prev = this.mCurTracking.getCompletionStatus(this.mUseCurPro);
+				this.mCurTracking.setCompletionStatus(iProgress);
 				statusChange = !(prev == iProgress);
 			}
 		}
@@ -5626,14 +6393,14 @@ SeqActivity.prototype =
 			{
 				if (!(this.mCurTracking.mDirtyPro==true && iIsRetry==true))
 				{					
-					status = (this.mCurTracking.mProgress != TRACK_UNKNOWN);
+					status = (this.mCurTracking.getCompletionStatus(this.mUseCurPro) != TRACK_UNKNOWN);
 				}
 			}
 		}
 		return status;
 	},
 	
-	// call getObjMeasureStatus(retry) or 
+	// call getObjMeasureStatus(retry) or
 	// getObjMeasureStatus(retry, {iObjID: obj_id, iUseLocal: use_local})
 	getObjMeasureStatus: function (iIsRetry, iOptions)
 	{
@@ -5648,13 +6415,7 @@ SeqActivity.prototype =
 
 		if (this.mIsTracked==true)
 		{
-			if (this.mCurTracking == null)
-			{
-				var track = new ADLTracking(this.mObjectives,
-					this.mLearnerID, this.mScopeID);
-				track.mAttempt = this.mNumAttempt;
-				this.mCurTracking = track;
-			}
+			this.initADLTracking();
    
 			if (this.mCurTracking != null)
 			{
@@ -5807,13 +6568,7 @@ SeqActivity.prototype =
 		var measure = 0.0;
 		if (this.mIsTracked)
 		{
-			if (this.mCurTracking == null)
-			{
-				var track = new ADLTracking(this.mObjectives,this.mLearnerID,
-					this.mScopeID);
-				track.mAttempt = this.mNumAttempt;
-				this.mCurTracking = track;
-			}
+			this.initADLTracking();
    
 			// A null objective indicates the primary objective
 			if (iObjID == null)
@@ -5846,13 +6601,8 @@ SeqActivity.prototype =
 
 		if (this.mIsTracked)
 		{
-			if (this.mCurTracking == null)
-			{
-				var track = new ADLTracking(this.mObjectives,this.mLearnerID,
-					this.mScopeID);
-				track.mAttempt = mNumAttempt;
-				this.mCurTracking = track;
-			}
+			this.initADLTracking();
+			
 			if (this.mCurTracking != null)
 			{
 				var obj = this.mCurTracking.mObjectives[this.mCurTracking.mPrimaryObj];
@@ -5879,8 +6629,47 @@ SeqActivity.prototype =
 		}
 	},
 	
-	// call getObjStatus(retry) or 
-	// getObjStatus(retry, {iObjID: obj_id, iUseLocal: use_local})
+	// use this for getObjStatus(str iObjID, bool iIsRetry)
+	getObjIdStatus: function (iObjID, iIsRetry)
+	{
+		var status = false;
+		
+		if ( this.mIsTracked==true )
+		{
+			this.initADLTracking();
+			
+			if ( iObjID == null )
+			{
+				status = this.getObjStatus(iIsRetry);
+			}
+			else if ( this.mCurTracking != null )
+			{
+				var obj = this.mCurTracking.mObjectives[iObjID];
+
+				if (obj != null)
+				{ 
+					var objData = obj.getObj();
+					
+					if (objData.mSatisfiedByMeasure==false 
+						|| this.mActiveMeasure==true 
+						|| this.mIsActive==false)
+					{              
+						var result = null;
+						result = obj.getObjStatus(iIsRetry);
+						if (result != TRACK_UNKNOWN)
+						{
+							status = true;
+						}
+					}
+				}
+			}
+		}
+		
+		return status;
+	},
+	
+	// call getObjStatus(retry) or
+	// getObjStatus(retry, {iUseLocal: use_local})
 	getObjStatus: function (iIsRetry, iOptions)
 	{
 		var iOptions = ilAugment({
@@ -5893,36 +6682,41 @@ SeqActivity.prototype =
 		var status = false;
 		if (this.mIsTracked==true)
 		{
-			if (this.mCurTracking == null)
+			if ( this.mPrimaryStatusSetBySCO )
 			{
-				var track = new ADLTracking(this.mObjectives,
-					this.mLearnerID, this.mScopeID);
-   
-				track.mAttempt = this.mNumAttempt;
-				this.mCurTracking = track;
-			}
-   				
-			else if (this.mCurTracking != null)
-			{
-				
-				if (iObjID == null) {
-					iObjID = this.mCurTracking.mPrimaryObj;
-				}
-				
-				var obj = this.mCurTracking.mObjectives[iObjID];
-
-				if (obj != null)
+				status = true;
+				var obj = this.mCurTracking.mObjectives[this.mCurTracking.mPrimaryObj];
+				if ( obj != null )
 				{
-					var objData = obj.getObj();
+					var res = obj.getObjStatus(iIsRetry, iUseLocal);
+					status = res != TRACK_UNKNOWN;
+				}
+			}
+			else
+			{
+				this.initADLTracking();
+				if (this.mCurTracking != null)
+				{
 					
-					if (objData.mSatisfiedByMeasure==false || this.mActiveMeasure==true ||
-						this.mIsActive==false)
-					{              
-						var result = null;
-						result = obj.getObjStatus(iIsRetry);
-						if (result != TRACK_UNKNOWN)
-						{
-							status = true;
+					if (iObjID == null) {
+						iObjID = this.mCurTracking.mPrimaryObj;
+					}
+					
+					var obj = this.mCurTracking.mObjectives[iObjID];
+
+					if (obj != null)
+					{
+						var objData = obj.getObj();
+						
+						if (objData.mSatisfiedByMeasure==false || this.mActiveMeasure==true ||
+							this.mIsActive==false)
+						{              
+							var result = null;
+							result = obj.getObjStatus(iIsRetry, iUseLocal);
+							if (result != TRACK_UNKNOWN)
+							{
+								status = true;
+							}
 						}
 					}
 				}
@@ -5931,9 +6725,25 @@ SeqActivity.prototype =
 		return status;
 	},
 	
+	getObjSatValue: function ()
+	{
+		var status = "";
+		var obj = this.mCurTracking.mObjectives[this.mCurTracking.mPrimaryObj];
+		if ( obj != null )
+		{
+			status = obj.getObjStatus(false, true);
+		}
+		return status;
+	},
+	
+	getProgressValue: function()
+	{
+		return this.mCurTracking.getCompletionStatus(false);
+	},
+	
 	// call setObjSatisfied(status) or 
 	// setObjSatisfied(status, {iObjID: obj_id})
-	setObjSatisfied: function (iStatus, iOptions)
+	setObjSatisfied: function (iStatus, iOptions)  
 	{
 		var iOptions = ilAugment({
 			iObjID: null
@@ -5972,7 +6782,7 @@ SeqActivity.prototype =
 		return statusChange;
 	},
 	
-	// call getObjSatisfied(is_retry) or 
+	// call getObjSatisfied(is_retry) or
 	// getObjSatisfied(is_retry, {iObjID: obj_id})
 	getObjSatisfied: function (iIsRetry, iOptions)
 	{
@@ -5985,13 +6795,7 @@ SeqActivity.prototype =
 		
 		if (this.mIsTracked)
 		{
-			if (this.mCurTracking == null)
-			{
-				var track = new ADLTracking(this.mObjectives,this.mLearnerID,
-					this.mScopeID);
-				track.mAttempt = this.mNumAttempt;
-				this.mCurTracking = track;
-			}
+			this.initADLTracking();
 			
 			if (this.mCurTracking != null)
 			{
@@ -6122,12 +6926,22 @@ SeqActivity.prototype =
 			this.mTracking[this.mTracking.length] = this.mCurTracking;
 		}
 		
+		var track;
 		// Create a set of tracking information for the new attempt
-		var track = new ADLTracking(this.mObjectives, this.mLearnerID,
-			this.mScopeID);
+		if ( this.mProgressDeterminedByMeasure == true )
+		{
+			track = new ADLTracking(this.mObjectives, this.mLearnerID, this.mScopeID,
+									this.mProgressThreshold, this.mProgressWeight);
+		}
+		else
+		{
+			track = new ADLTracking(this.mObjectives, this.mLearnerID, this.mScopeID);
+		}
 		
 		this.mNumAttempt++;
 		track.mAttempt = this.mNumAttempt;
+		track.setProgressMeasureThreshold(this.mProgressThreshold);
+		track.setProgressMeasureWeight(this.mProgressWeight);
 		
 		this.mCurTracking = track;
 		
@@ -6151,6 +6965,7 @@ SeqActivity.prototype =
 				{
 					temp.setDirtyPro();
 				}
+				this.mActiveChildren[i] = temp;
 			}
 		}	
 	},
@@ -6173,6 +6988,7 @@ SeqActivity.prototype =
 				{
 					temp.setDirtyObj();
 				}
+				this.mActiveChildren[i] = temp;
 			}
 		}
 	},
@@ -6194,6 +7010,7 @@ SeqActivity.prototype =
 				{
 					temp.setDirtyPro();
 				}
+				this.mActiveChildren[i] = temp;
 			}
 		}
 	},
@@ -6241,7 +7058,7 @@ SeqActivity.prototype =
 					{
 						var map = mapSet[i];
 						
-						if (!iRead && (map.mWriteStatus || map.mWriteMeasure))
+						if (!iRead && map.hasWriteMaps() )
 						{
 							if (objSet == null)
 							{
@@ -6250,7 +7067,7 @@ SeqActivity.prototype =
 							
 							objSet[objSet.length] = map.mGlobalObjID;
 						}
-						else if (iRead && (map.mReadStatus || map.mReadMeasure))
+						else if (iRead && map.hasReadMaps() )
 						{
 							if (objSet == null)
 							{
@@ -6425,13 +7242,7 @@ SeqActivity.prototype =
 	{
 		var objSet = null;
 		
-		if (this.mCurTracking == null)
-		{
-			var track = new ADLTracking(this.mObjectives,this.mLearnerID,
-				this.mScopeID);
-			track.mAttempt = this.mNumAttempt;
-			this.mCurTracking = track;
-		}
+		this.initADLTracking();
 		
 		if (this.mCurTracking.mObjectives != null)
 		{
@@ -6448,13 +7259,26 @@ SeqActivity.prototype =
 					objStatus.mObjID = obj.getObjID();
 					var measure = obj.getObjMeasure(false);
 					
-					objStatus.mHasMeasure =
-						(measure != TRACK_UNKNOWN);
+					objStatus.mHasMeasure = (measure != TRACK_UNKNOWN);
 					
 					if (objStatus.mHasMeasure)
 					{
 						objStatus.mMeasure = parseFloat(measure);
 					}
+					
+					objStatus.mHasRawScore = obj.getObjRawScore(false) != TRACK_UNKNOWN;
+					if ( objStatus.mHasRawScore ) objStatus.mRawScore = obj.getObjRawScore(false);
+					
+					objStatus.mHasMinScore = obj.getObjMinScore(false) != TRACK_UNKNOWN;
+					if ( objStatus.mHasMinScore ) objStatus.mMinScore = obj.getObjMinScore(false);
+					
+					objStatus.mHasMaxScore = obj.getObjMaxScore(false) != TRACK_UNKNOWN;
+					if ( objStatus.mHasMaxScore ) objStatus.mMaxScore = obj.getObjMaxScore(false);
+										
+					objStatus.mHasProgressMeasure = obj.getObjProgressMeasure(false) != TRACK_UNKNOWN;
+					if ( objStatus.mHasProgressMeasure ) objStatus.mProgressMeasure = obj.getObjProgressMeasure(false);
+					
+					objStatus.mCompletionStatus = obj.getObjCompletionStatus(false);
 					
 					objStatus.mStatus = obj.getObjStatus(false);
 					objSet[objSet.length] = objStatus;
@@ -6470,8 +7294,392 @@ SeqActivity.prototype =
 			}
 		}
 		return objSet;
+	},
+	
+	initADLTracking: function ()
+	{
+		if (this.mCurTracking == null)
+		{
+			var track;
+			
+			if ( this.mProgressDeterminedByMeasure == true)
+			{
+				track = new ADLTracking(this.mObjectives,this.mLearnerID,
+				this.mScopeID, this.mProgressThreshold, this.mProgressWeight);
+			}
+			else
+			{
+				track = new ADLTracking(this.mObjectives, this.mLearnerID, this.mScopeID);
+			}
+		
+			track.mAttempt = this.mNumAttempt;
+			
+			this.mCurTracking = track;
+			
+			// set progress measure stuff
+			track.setProgressMeasureThreshold(this.mProgressThreshold);
+			track.setProgressMeasureWeight(this.mProgressWeight);
+		}
+	},
+	
+	getProMeasure: function( iIsRetry )
+	{
+		var measure = -1.0;
+		
+		if( this.mIsTracked )
+		{
+			this.initADLTracking();
+			
+			if ( this.mCurTracking != null )
+			{
+				//make sure the current state is valid
+				if ( !(this.mCurTracking.mDirtyPro && iIsRetry))
+				{
+					if ( this.mCurTracking.hasProgressMeasure() )
+					{
+						measure = this.mCurTracking.getProgressMeasure();
+					}
+				}
+			}
+		}
+		return measure;
+	},
+	
+	setProMeasure: function( iProMeasure )
+	{
+		if ( this.mIsTracked )
+		{
+			if ( this.mCurTracking != null)
+			{
+				this.mCurTracking.setProgressMeasure( iProMeasure );
+			}
+		}
+	},
+	
+	clearProMeasure: function()
+	{
+		if ( this.mCurTracking != null)
+		{
+			if ( this.mCurTracking != null)
+			{
+				this.mCurTracking.clearProMeasure();
+			}
+		}
+	},
+	
+	setProgressDeterminedByMeasure: function( iDeterminedByMeasure)
+	{
+		this.mProgressDeterminedByMeasure = iDeterminedByMeasure;
+	},
+	
+	setProgressThreshold: function( iThreshold )
+	{
+		if ( iThreshold >= 0 && iThreshold <= 1.0)
+		{
+			this.mProgressThreshold = iThreshold;
+		}
+	},
+	
+	setProgressWeight: function ( iWeight )
+	{
+		if ( iWeight >= 0 && iWeight <= 1.0)
+		{
+			this.mProgressWeight = iWeight;
+			
+			if ( this.mCurTracking != null)
+			{
+				this.mCurTracking.setProgressMeasureWeight( iWeight);
+			}
+		}
+	},
+	
+	clearObjStatus: function()
+	{
+		var statusChange = false;
+		
+		if ( this.mCurTracking != null)
+		{
+			var obj = this.mCurTracking.mObjectives[this.mCurTracking.mPrimaryObj];
+			
+			if ( obj != null )
+			{
+				statusChange = obj.clearObjStatus();
+			}
+		}
+	},
+	
+	getObjProgressStatus: function( iObjID, iRollup )
+	{
+		var status = false;
+		
+		if ( this.mIsTracked )
+		{
+			this.initADLTracking();
+			var primary = false;
+			
+			if ( this.mCurTracking != null )
+			{
+				primary = iObjID == null || iObjID == (this.mCurTracking.mPrimaryObj);
+			}
+			
+			if ( primary == true)
+			{
+				status = this.getProgressStatus( iRollup );
+			}
+			else if ( this.mCurTracking != null)
+			{
+				var obj = this.mCurTracking.mObjectives[iObjID];
+				
+				if ( obj != null)
+				{
+					var result = obj.getObjCompletionStatus( iRollup );
+					status = !(result == TRACK_UNKNOWN);
+				}
+			}
+		}
+		return status;
+	},
+	
+	getObjAttemptCompleted: function( iObjID, iRollup)
+	{
+		var status = false;
+		
+		if ( this.mIsTracked )
+		{
+			this.initADLTracking();
+			var primary = false;
+			
+			if ( this.mCurTracking != null )
+			{
+				primary = iObjID == null || iObjID == this.mCurTracking.mPrimaryObj;
+			}
+			if ( primary == true)
+			{
+				status = this.getPriObjAttemptCompleted(iRollup);
+			}
+			else if ( this.mCurTracking != null)
+			{
+				var obj = this.mCurTracking.mObjectives[iObjID];
+				
+				if ( obj != null)
+				{
+					var result = obj.getObjCompletionStatus( iRollup );
+					status = result == TRACK_COMPLETED;
+				}
+			}
+		}
+		return status;
+	},
+
+	setObjRawScore: function (iObjID, iRawScore)
+	{
+      if ( this.mIsTracked )
+      {
+         if ( iObjID != null )
+         {
+            var obj = this.getObj(iObjID);
+            if ( obj != null )
+            {
+               obj.setObjRawScore(iRawScore);
+            }
+         }
+
+      }
+   },
+
+   clearObjRawScore: function (iObjID)
+   {
+      var statusChange = false;
+      var obj;
+      if (iObjID != null)
+      {
+         obj = this.mCurTracking.mObjectives[iObjID];
+         if ( obj != null )
+         {
+            statusChange = obj.clearObjRawScore();
+         }
+      }
+      return statusChange;
+   },
+   
+   setObjMinScore: function (iObjID, iMinScore)
+   {
+      if ( this.mIsTracked )
+      {
+         if ( iObjID != null )
+         {
+            var obj = this.getObj(iObjID);
+            if ( obj != null )
+            {
+               obj.setObjMinScore(iMinScore);
+            }
+         }
+      }
+   },
+   
+   clearObjMinScore: function (iObjID)
+   {
+      var statusChange = false;
+      var obj;
+      if (iObjID != null)
+      {
+         obj = this.mCurTracking.mObjectives[iObjID];
+         if ( obj != null )
+         {
+            statusChange = obj.clearObjMinScore();
+         }
+      }
+      return statusChange;
+   },
+   
+   setObjMaxScore: function (iObjID, iMaxScore)
+   {
+      if ( this.mIsTracked )
+      {
+         if ( iObjID != null )
+         {
+            var obj = this.getObj(iObjID);
+            if ( obj != null )
+            {
+               obj.setObjMaxScore(iMaxScore);
+            }
+         }
+      }
+   },
+   
+   clearObjMaxScore: function (iObjID)
+   {
+      var statusChange = false;
+      var obj;
+      if (iObjID != null)
+      {
+         obj = this.mCurTracking.mObjectives[iObjID];
+         if ( obj != null )
+         {
+            statusChange = obj.clearObjMaxScore();
+         }
+      }
+      return statusChange;
+   },
+   
+   setObjProgressMeasure: function (iObjID, iProgressMeasure)
+   {
+      
+		var obj;
+		if ( iObjID != null )
+		{
+			obj = this.getObj(iObjID);
+			if ( obj != null )
+			{
+				obj.setObjProgressMeasure(iProgressMeasure);
+			}
+		}
+      
+   },
+   
+   clearObjProgressMeasure: function (iObjID)
+   {
+      var statusChange = false;
+      var obj;
+      if (iObjID != null)
+      {
+         obj = this.mCurTracking.mObjectives[iObjID];
+         if ( obj != null )
+         {
+            statusChange = obj.clearObjProgressMeasure();
+         }
+      }
+      return statusChange;
+   },
+   
+   setObjCompletionStatus: function (iObjID, iCompletionStatus)
+   {
+		if ( iObjID != null )
+        {
+			var obj = this.getObj(iObjID);
+			if ( obj != null )
+			{
+			   obj.setObjCompletionStatus(iCompletionStatus);
+			}
+        }
+      
+   },
+   
+   clearObjCompletionStatus: function (iObjID)
+   {
+      var statusChange = false;
+      var obj;
+      if (this.mCurTracking != null)
+      {
+         obj = this.mCurTracking.mObjectives[iObjID];
+         if ( obj != null )
+         {
+            statusChange = obj.clearObjCompletionStatus();
+         }
+      }
+      return statusChange;
+   },
+   
+   getObj: function (iObjID)
+   {
+		if ( this.mCurTracking == null )
+		{
+			this.mCurTracking = new ADLTracking(this.mObjectives, this.mLearnerID, this.mScopeID);
+			track.mAttempt = this.mNumAttempt;
+		}
+		return this.mCurTracking.mObjectives[iObjID];
+   },
+   
+	setProgressMeasure: function (iProgressMeasure)
+	{
+		var statusChange = false;
+		if ( this.mIsTracked )
+		{
+			var proMeasure = iProgressMeasure;
+			this.initADLTracking();
+			var previousMeasure = (this.mCurTracking.hasProgressMeasure())?this.mCurTracking.getProgressMeasure():-1;
+			this.mCurTracking.setProgressMeasure(proMeasure);
+			statusChange = previousMeasure != proMeasure;
+		}
+		return statusChange;
+	},
+	
+	getCompletedByMeasure: function ()
+	{
+		var compByMeasure = false;
+		if ( this.mIsTracked )
+		{
+			this.initADLTracking();
+			compByMeasure = this.mCurTracking.getProgressDeterminedByMeasure();
+		}
+		return compByMeasure;
+	},
+	
+	getProMeasureWeight: function ()
+	{
+		var weight = 0;
+		if ( this.mIsTracked )
+		{
+			this.initADLTracking();
+			weight = this.mCurTracking.getProgressMeasureWeight();
+		}
+		return weight;
+	},
+	
+	getProMeasureStatus: function (iIsRetry)
+	{
+		var valid = false;
+		if ( this.mIsTracked )
+		{
+			this.initADLTracking();
+			if ( ! (this.mCurTracking.mDirtyPro && iIsRetry) )
+			{
+				valid = this.mCurTracking.hasProgressMeasure();
+			}
+		}
+		return valid;
 	}
-}
+};
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -6527,11 +7735,14 @@ function SeqActivityTree(iCourseID, iLearnerID, iScopeID, iRoot)
 	this.mLearnerID = iLearnerID;
 	this.mScopeID = iScopeID;
 	this.mRoot = iRoot;
+	
+	this.dsMap = new Object();
 }
 
 //this.SeqActivityTree = SeqActivityTree;
 SeqActivityTree.prototype = 
 {
+	dataStoreLoc: null,
 	mRoot: null,
 	mValidReq: null,
 	mLastLeaf: null,
@@ -6545,6 +7756,7 @@ SeqActivityTree.prototype =
 	mObjSet: null,
 	mObjMap: null,
 	mObjScan: false,
+	mDataScopedForAllAttempts: true,
 
 	// trivial getter/setter
 	getScopeID: function () { return this.mScopeID; },
@@ -6555,7 +7767,7 @@ SeqActivityTree.prototype =
 	setValidRequests: function (iValidRequests) { this.mValidReq = iValidRequests; },
 	getValidRequests: function () { return this.mValidReq; },
 	getCurrentActivity: function () { return this.mCurActivity; },
-	setCurrentActivity: function (iCurrent) { this.mCurActivity = iCurrent; },
+	setCurrentActivity: function (iCurrent) {this.mCurActivity = iCurrent; },
 	setFirstCandidate: function (iFirst) { this.mFirstCandidate = iFirst; },
 	setSuspendAll: function (iSuspendTarget) { this.mSuspendAll = iSuspendTarget; },
 	getSuspendAll: function () { return this.mSuspendAll; },
@@ -6848,7 +8060,7 @@ SeqActivityTree.prototype =
 							}
 							
 							// If this is a 'read' objective add it to our obj map
-							if (map.mReadStatus || map.mReadMeasure)
+							if ((map.mReadStatus || map.mReadMeasure || map.mReadCompletionStatus || map.mReadProgressMeasure)&& obj.mContributesToRollup)
 							{
 								if (this.mObjMap == null)
 								{
@@ -6889,8 +8101,30 @@ SeqActivityTree.prototype =
 			}
 		}
 		this.mObjScan = true;
+	},
+	
+	//Sets whether the data store collection persists for all attempts
+	setDataScopedForAllAttempts: function (iAttributeValue) 
+		{ 
+			this.mDataScopedForAllAttempts = iAttributeValue; 
+		},
+	
+	//Indicates if the data store collection is persisted for all attempts
+	dataScopedForAllAttempts: function() 
+		{ 
+			return this.mDataScopedForAllAttempts; 
+		},
+
+	//Gets the activity map.  Returns Map of the activities
+	getActivityMap: function()
+	{
+		if ( this.mActivityMap == null)
+			{
+				this.buildActivityMap();
+			}
+		return this.mActivityMap;
 	}
-}
+};
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -6965,7 +8199,7 @@ SeqCondition.prototype =
 	mNot: false,
 	mObjID: null,
 	mThreshold: 0.0
-}
+};
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -7070,7 +8304,7 @@ SeqConditionSet.prototype =
 				}
 				else if (this.mCombination == COMBINATION_ANY)
 				{
-					// Assume we have enought information to evaluate
+					// Assume we have enough information to evaluate
 					result = EVALUATE_FALSE;
 					for (var i = 0; i < this.mConditions.length; i++)
 					{
@@ -7118,12 +8352,9 @@ SeqConditionSet.prototype =
 			}
 			else if (cond.mCondition == SATISFIED)
 			{
-				//fix HH 
-				//if (iTarget.getObjStatus(cond.mObjID, this.mRollup))
-				if (iTarget.getObjStatus(this.mRollup,{iObjID:cond.mObjID}))
+
+				if (iTarget.getObjIdStatus(cond.mObjID, this.mRollup))
 				{
-					//fix HH 
-					//result = (iTarget.getObjSatisfied(cond.mObjID, this.mRollup))
 					result = (iTarget.getObjSatisfied(this.mRollup,{iObjID:cond.mObjID}))
 						? EVALUATE_TRUE
 						: EVALUATE_FALSE;
@@ -7135,33 +8366,24 @@ SeqConditionSet.prototype =
 			}
 			else if (cond.mCondition == OBJSTATUSKNOWN)
 			{
-				//fix HH
-				//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
-				result = iTarget.getObjStatus(this.mRollup, {iObjID:cond.mObjID})
+				result = iTarget.getObjIdStatus(cond.mObjID, this.mRollup)
 					? EVALUATE_TRUE
 					: EVALUATE_FALSE;
 			}
 			else if (cond.mCondition == OBJMEASUREKNOWN)
 			{
-				//fix HH
-				//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
 				result = iTarget.getObjMeasureStatus(this.mRollup, {iObjID:cond.mObjID})
 					? EVALUATE_TRUE
 					: EVALUATE_FALSE;
 			}
 			else if (cond.mCondition == OBJMEASUREGRTHAN)
 			{
-				//fix HH
-				//if (iTarget.getObjMeasureStatus(cond.mObjID, this.mRollup))
 				if (iTarget.getObjMeasureStatus(this.mRollup,{iObjID:cond.mObjID}))
 				{
-					//fix HH
-					//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
 					result = (iTarget.getObjMeasure(this.mRollup, {iObjID: cond.mObjID}) >
 						cond.mThreshold )
 						? EVALUATE_TRUE
 						: EVALUATE_FALSE;   
-						        
 				}
 				else
 				{
@@ -7170,13 +8392,8 @@ SeqConditionSet.prototype =
 			}
 			else if (cond.mCondition == OBJMEASURELSTHAN)
 			{
-				//Fix HH
-			//	if (iTarget.getObjMeasureStatus(cond.mObjID, this.mRollup))
 				if (iTarget.getObjMeasureStatus(this.mRollup,{iObjID:cond.mObjID}))
 				{
-					
-					//fix HH
-					//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
 					result = (iTarget.getObjMeasure(this.mRollup, {iObjID:cond.mObjID}) <
 						cond.mThreshold)
 						? EVALUATE_TRUE
@@ -7189,14 +8406,11 @@ SeqConditionSet.prototype =
 			}
 			else if (cond.mCondition == COMPLETED)
 			{
-				
-				if (iTarget.getProgressStatus(this.mRollup))
+				if (iTarget.getObjProgressStatus(cond.mObjID, this.mRollup))
 				{
-					result = iTarget.getAttemptCompleted(this.mRollup)
+					result = iTarget.getObjAttemptCompleted(cond.mObjID, this.mRollup)
 						? EVALUATE_TRUE
 						: EVALUATE_FALSE;
-					
-						
 				}
 				else
 				{
@@ -7205,7 +8419,7 @@ SeqConditionSet.prototype =
 			}
 			else if (cond.mCondition == PROGRESSKNOWN)
 			{
-				result = iTarget.getProgressStatus(this.mRollup)
+				result = iTarget.getObjProgressStatus(cond.mObjID, this.mRollup)
 					? EVALUATE_TRUE
 					: EVALUATE_FALSE;
 			}
@@ -7254,7 +8468,7 @@ SeqConditionSet.prototype =
 		}
 		return result;
 	}
-}
+};
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -7314,6 +8528,7 @@ var NAV_ABANDONALL = 6;
 var NAV_SUSPENDALL = 7;
 var NAV_EXIT = 8;
 var NAV_EXITALL = 9;
+var NAV_JUMP = 10;
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -7342,25 +8557,28 @@ var NAV_EXITALL = 9;
 	This .js file is GPL licensed (see above) but based on
 	SeqObjective.java by ADL Co-Lab, which is licensed as:
 	
-	Advanced Distributed Learning Co-Laboratory (ADL Co-Lab) Hub grants you 
-	("Licensee") a non-exclusive, royalty free, license to use, modify and 
-	redistribute this software in source and binary code form, provided that 
-	i) this copyright notice and license appear on all copies of the software; 
-	and ii) Licensee does not utilize the software in a manner which is 
-	disparaging to ADL Co-Lab Hub.
+	ADL SCORM 2004 4th Edition Sample Run-Time Environment
 
-	This software is provided "AS IS," without a warranty of any kind.  ALL 
-	EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING 
-	ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE 
-	OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED.  ADL Co-Lab Hub AND ITS LICENSORS 
-	SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF 
-	USING, MODIFYING OR DISTRIBUTING THE SOFTWARE OR ITS DERIVATIVES.  IN NO 
-	EVENT WILL ADL Co-Lab Hub OR ITS LICENSORS BE LIABLE FOR ANY LOST REVENUE, 
-	PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, 
-	INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE 
-	THEORY OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE 
-	SOFTWARE, EVEN IF ADL Co-Lab Hub HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH 
-	DAMAGES.
+The ADL SCORM 2004 4th Ed. Sample Run-Time Environment is licensed under
+Creative Commons Attribution-Noncommercial-Share Alike 3.0 United States.
+
+The Advanced Distributed Learning Initiative allows you to:
+  *  Share - to copy, distribute and transmit the work.
+  *  Remix - to adapt the work. 
+
+Under the following conditions:
+  *  Attribution. You must attribute the work in the manner specified by the author or
+     licensor (but not in any way that suggests that they endorse you or your use
+     of the work).
+  *  Noncommercial. You may not use this work for commercial purposes. 
+  *  Share Alike. If you alter, transform, or build upon this work, you may distribute
+     the resulting work only under the same or similar license to this one. 
+
+For any reuse or distribution, you must make clear to others the license terms of this work. 
+
+Any of the above conditions can be waived if you get permission from the ADL Initiative. 
+Nothing in this license impairs or restricts the author's moral rights.
+
 */
 
 function SeqObjective()  
@@ -7374,8 +8592,60 @@ SeqObjective.prototype =
 	mSatisfiedByMeasure: false,
 	mActiveMeasure: true,
 	mMinMeasure: 1,
-	mContributesToRollup: false
-}
+	mContributesToRollup: false,
+	
+	equals: function( iToCompare )	
+	{
+		if (iToCompare instanceof SeqObjective)
+			{
+				var other = iToCompare;
+				return (this.mObjID == other.mObjID);	
+			}
+		return false;
+	},
+	
+	hashCode: function ()
+	{
+		return (this.mObjID != null) ? (mObjID).hashCode() : 0;
+	},
+	
+	merge: function ( toadd )
+	{
+		if ( this.equals(toadd) )
+		{
+			if (this.mMaps != null)
+			{
+				for ( var i = 0; i < toadd.mMaps.length; i++ )
+				{
+					var candidate = toadd.mMaps[i];
+					var location = this.contains(candidate);
+					if ( location > -1 )
+					{
+						var mymap = this.mMaps.splice(location, 1);
+						this.mMaps.push(mymap.merge(candidate));
+					}
+					else
+					{
+						this.mMaps.push(candidate);
+					}
+				}
+			}
+			else
+			{
+				this.mMaps = toadd.mMaps;
+			}
+		}
+	},
+	
+	contains: function (candidate)
+	{
+		for ( var i = 0; i < this.mMaps.length; i++ )
+		{
+			if ( this.mMaps[i].equals(candidate) ) return i;
+		}
+		return -1;
+	}
+};
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -7433,9 +8703,72 @@ SeqObjectiveMap.prototype =
 	mGlobalObjID: null,
 	mReadStatus: true,
 	mReadMeasure: true,
+	mReadRawScore: true,
+	mReadMinScore: true,
+	mReadMaxScore: true,
+	mReadCompletionStatus: true,
+	mReadProgressMeasure: true,
 	mWriteStatus: false,
-	mWriteMeasure: false
-}
+	mWriteMeasure: false,
+	mWriteRawScore: false,
+	mWriteMinScore: false,
+	mWriteMaxScore: false,
+	mWriteCompletionStatus: false,
+	mWriteProgressMeasure: false,
+	
+	hasWriteMaps: function () 
+	{ 
+		return (this.mWriteCompletionStatus || this.mWriteMaxScore || this.mWriteMeasure ||
+				this.mWriteMinScore || this.mWriteProgressMeasure || this.mWriteRawScore ||
+				this.mWriteStatus);
+	},
+
+	hasReadMaps: function()
+	{
+		return (this.mReadCompletionStatus || this.mReadMaxScore || this.mReadMeasure ||
+				this.mReadMinScore || this.mReadProgressMeasure || this.ReadRawScore ||
+				this.mReadStatus);
+	},
+	
+	equals: function( iToCompare )	
+	{
+		if (iToCompare instanceof SeqObjectiveMap)
+			{
+				var other = iToCompare;
+				return this.mGlobalObjID == other.mGlobalObjID ;
+				
+			}
+		return false;
+	},
+	
+	hashCode: function ()
+	{
+		return (this.mGlobalObjID != null) ? (mGlobalObjID).hashCode() : 0;
+	},
+	
+	merge: function ( candidate )
+	{
+		var ret = new SeqObjectiveMap();
+		if (this.mGlobalObjID == candidate.mGlobalObjID)
+		{
+			ret.mReadStatus = this.mReadStatus || candidate.mReadStatus;
+			ret.mReadMeasure = this.mReadMesure || candidate.mReadMeasure;
+			ret.mReadRawScore = this.mReadRawScore || candidate.mReadRawScore;
+			ret.mReadMinScore = this.mReadMinScore || candidate.mReadMinScore;
+			ret.mReadMaxScore = this.mReadMaxScore || candidate.mReadMaxScore;
+			ret.mReadCompletionStatus = this.mReadCompletionStatus || candidate.mReadCompletionStatus;
+			ret.mReadProgressMeasure = this.mReadProgressMeasure || candidate.mReadProgressMeasure;
+			ret.mWriteStatus = this.mWriteStatus || candidate.mWriteStatus;
+			ret.mWriteMeasure = this.mWriteMeasure || candidate.mWriteMeasure;
+			ret.mWriteRawScore = this.mWriteRawScore || candidate.mWriteRawScore;
+			ret.mWriteMinScore = this.mWriteMinScore || candidate.mWriteMinScore;
+			ret.mWriteMaxScore = this.mWriteMaxScore || candidate.mWriteMaxScore;
+			ret.mWriteCompletionStatus = this.mWriteCompletionStatus || candidate.mWriteCompletionStatus;
+			ret.mWriteProgressMeasure = this.mWriteProgressMeasure || candidate.mWriteProgressMeasure;		
+		}
+		return ret;
+	}
+};
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -7508,7 +8841,32 @@ function SeqObjectiveTracking(iObj,iLearnerID,iScopeID)
 				{
 					this.mReadMeasure = map.mGlobalObjID;
 				}
-			
+				
+				if (map.mReadRawScore)
+				{
+					this.mReadRawScore = map.mGlobalObjID;
+				}
+				
+				if (map.mReadMinScore)
+				{
+					this.mReadMinScore = map.mGlobalObjID;
+				}
+				
+				if (map.mReadMaxScore)
+				{
+					this.mReadMaxScore = map.mGlobalObjID;
+				}
+				
+				if (map.mReadCompletionStatus)
+				{
+					this.mReadCompletionStatus = map.mGlobalObjID;
+				}
+				
+				if (map.mReadProgressMeasure)
+				{
+					this.mReadProgressMeasure = map.mGlobalObjID;
+				}
+				
 				if (map.mWriteStatus)
 				{
 					if (this.mWriteStatus == null)
@@ -7530,6 +8888,61 @@ function SeqObjectiveTracking(iObj,iLearnerID,iScopeID)
 					// todo: check
 					this.mWriteMeasure[this.mWriteMeasure.length] = map.mGlobalObjID;
 				}
+				
+				if (map.mWriteRawScore)
+				{
+					if (this.mWriteRawScore == null)
+					{
+						this.mWriteRawScore = new Array();
+					}
+					
+					// todo: check
+					this.mWriteRawScore[this.mWriteRawScore.length] = map.mGlobalObjID;
+				}
+				
+				if (map.mWriteMinScore)
+				{
+					if (this.mWriteMinScore == null)
+					{
+						this.mWriteMinScore = new Array();
+					}
+					
+					// todo: check
+					this.mWriteMinScore[this.mWriteMinScore.length] = map.mGlobalObjID;
+				}
+				
+				if (map.mWriteMaxScore)
+				{
+					if (this.mWriteMaxScore == null)
+					{
+						this.mWriteMaxScore = new Array();
+					}
+					
+					// todo: check
+					this.mWriteMaxScore[this.mWriteMaxScore.length] = map.mGlobalObjID;
+				}
+				
+				if (map.mWriteCompletionStatus)
+				{
+					if (this.mWriteCompletionStatus == null)
+					{
+						this.mWriteCompletionStatus = new Array();
+					}
+					
+					// todo: check
+					this.mWriteCompletionStatus[this.mWriteCompletionStatus.length] = map.mGlobalObjID;
+				}
+				
+				if (map.mWriteProgressMeasure)
+				{
+					if (this.mWriteProgressMeasure == null)
+					{
+						this.mWriteProgressMeasure = new Array();
+					}
+					
+					// todo: check
+					this.mWriteProgressMeasure[this.mWriteProgressMeasure.length] = map.mGlobalObjID;
+				}
 			}
 		}
 	}
@@ -7546,10 +8959,30 @@ SeqObjectiveTracking.prototype =
 	mSatisfied: false,
 	mHasMeasure: false,
 	mMeasure: 0.0,
+	mHasRawScore: false,
+	mRawScore: 0,
+	mHasMinScore: false,
+	mMinScore: 0,
+	mHasMaxScore: false,
+	mMaxScore: 0,
+	mHasProgressMeasure: false,
+	mProgressMeasure: 0.0,
+	mHasCompletionStatus: false,
+	mCompletionStatus: "unknown",
 	mReadStatus: null,
 	mReadMeasure: null,
+	mReadRawScore: null,
+	mReadMinScore: null,
+	mReadMaxScore: null,
+	mReadCompletionStatus: null,
+	mReadProgressMeasure: null,
 	mWriteStatus: null,
 	mWriteMeasure: null,
+	mWriteRawScore: null,
+	mWriteMinScore: null,
+	mWriteMaxScore: null,
+	mWriteCompletionStatus: null,
+	mWriteProgressMeasure: null,
 	
 	// getter/setter
 	getObjID: function () { return this.mObj.mObjID; },
@@ -7589,7 +9022,7 @@ SeqObjectiveTracking.prototype =
 	// todo: optimization: can be merged with previous function
 	setObjStatus: function (iSatisfied)
 	{
-		// If the objective is only satified my measure, don't set its status
+		// If the objective is only satisfied my measure, don't set its status
 		if (this.mObj.mSatisfiedByMeasure && !this.mSetOK)
 		{
 			// obj satisfied by measure
@@ -7681,6 +9114,120 @@ SeqObjectiveTracking.prototype =
 		return statusChange;	// ???
 	},
 	
+	clearObjRawScore: function ()
+	{
+		var statusChange = false;
+
+		if (this.mHasRawScore)
+		{
+			if (this.mWriteRawScore != null)
+			{
+				for (var i = 0; i < this.mWriteRawScore.length; i++)
+				{
+					adl_seq_utilities.setGlobalObjRawScore(this.mWriteRawScore[i], 
+						this.mLearnerID, this.mScopeID, TRACK_UNKNOWN);
+				}
+			}
+			
+			// Clear the satisfaction status
+			this.mHasRawScore = false;
+			statusChange = true;	
+		}
+		return statusChange;
+	},
+	
+	clearObjMinScore: function ()
+	{
+		var statusChange = false;
+
+		if (this.mHasMinScore)
+		{
+			if (this.mWriteMeasure != null)
+			{
+				for (var i = 0; i < this.mWriteMinScore.length; i++)
+				{
+					adl_seq_utilities.setGlobalObjMinScore(this.mWriteMinScore[i], 
+						this.mLearnerID, this.mScopeID, TRACK_UNKNOWN);
+				}
+			}
+			
+			// Clear the measure
+			this.mHasMinScore = false;
+			statusChange = true;
+		}
+		
+		return statusChange;	
+	},
+	
+	clearObjMaxScore: function ()
+	{
+		var statusChange = false;
+
+		if (this.mHasMaxScore)
+		{
+			if (this.mWriteMaxScore != null)
+			{
+				for (var i = 0; i < this.mWriteMaxScore.length; i++)
+				{
+					adl_seq_utilities.setGlobalObjMaxScore(this.mWriteMaxScore[i], 
+						this.mLearnerID, this.mScopeID, TRACK_UNKNOWN);
+				}
+			}
+			
+			// Clear the measure
+			this.mHasMaxScore = false;
+			statusChange = true;
+		}
+		
+		return statusChange;	
+	},
+	
+	clearObjProgressMeasure: function ()
+	{
+		var statusChange = false;
+
+		if (this.mHasProgressMeasure)
+		{
+			if (this.mWriteProgressMeasure != null)
+			{
+				for (var i = 0; i < this.mWriteProgressMeasure.length; i++)
+				{
+					adl_seq_utilities.setGlobalObjProgressMeasure(this.mWriteProgressMeasure[i], 
+						this.mLearnerID, this.mScopeID, TRACK_UNKNOWN);
+				}
+			}
+			
+			// Clear satisfaction status
+			this.mHasProgressMeasure = false;
+			statusChange = true;
+		}
+		
+		return statusChange;	
+	},
+	
+	clearObjCompletionStatus: function ()
+	{
+		var statusChange = false;
+
+		if (this.mHasCompletionStatus)
+		{
+			if (this.mWriteCompletionStatus != null)
+			{
+				for (var i = 0; i < this.mWriteCompletionStatus.length; i++)
+				{
+					adl_seq_utilities.setGlobalObjCompletion(this.mWriteCompletionStatus[i], 
+						this.mLearnerID, this.mScopeID, TRACK_UNKNOWN);
+				}
+			}
+			
+			// Clear satisfaction status
+			this.mHasCompletionStatus = false;
+			statusChange = true;
+		}
+		
+		return statusChange;	
+	},
+	
 	setObjMeasure: function (iMeasure, iAffectSatisfaction)             
 	{
 		
@@ -7694,21 +9241,24 @@ SeqObjectiveTracking.prototype =
 		{
 			this.mHasMeasure = true;
 			this.mMeasure = iMeasure;
-			// Set any global objectives
-			if (this.mWriteMeasure != null)
+			
+			//Set any global objectives
+			if ( this.mWriteMeasure != null)
 			{
-				for (var i = 0; i < this.mWriteMeasure.length; i++)
+				for ( var i = 0; i < this.mWriteMeasure.length; i++ )
 				{
-					adl_seq_utilities.setGlobalObjMeasure(this.mWriteMeasure[i], 
-						this.mLearnerID, this.mScopeID,iMeasure);
+					var objID = this.mWriteMeasure[i];
+					
+					adl_seq_utilities.setGlobalObjMeasure(objID, 
+							this.mLearnerID, this.mScopeID, (iMeasure + ""));	
 				}
 			}
-
+			
 			// If objective status is determined by measure, set it
-			if (iAffectSatisfaction)
+			if ( iAffectSatisfaction == true)
 			{
-				if (this.mMeasure >= this.mObj.mMinMeasure)
-				{					
+				if ( this.mMeasure >= this.mObj.mMinMeasure)
+				{
 					this.forceObjStatus(TRACK_SATISFIED);
 				}
 				else
@@ -7731,11 +9281,10 @@ SeqObjectiveTracking.prototype =
 		var done = false;
 
 		// if satisfied by measure, ensure that it has been set if a measure is
-		// avaliable.
+		// available.
 
 		if (this.mObj.mSatisfiedByMeasure==true)
-		{
-			
+		{			
 			done = true;
 			var measure = null;
 			
@@ -7780,6 +9329,8 @@ SeqObjectiveTracking.prototype =
 
 		if (done==false)
 		{
+			var globalvalexists = false;
+			
 			// Is there a 'read' objective map?
 			if (this.mReadStatus != null)
 			{
@@ -7790,20 +9341,24 @@ SeqObjectiveTracking.prototype =
 				{
 					ret = status;
 					done = true;
+					globalvalexists = true;
 				}
 			}
-
-			if (this.mHasSatisfied==true && (done==false || iUseLocal==true))
+			
+			if (globalvalexists == false)
 			{
-				if (this.mHasSatisfied==true && !(iIsRetry==true && this.mDirtyObj==true))
+				if (this.mHasSatisfied==true && (done==false || iUseLocal==true))
 				{
-					if (this.mSatisfied==true)
+					if (this.mHasSatisfied==true && !(iIsRetry==true && this.mDirtyObj==true))
 					{
-						ret = TRACK_SATISFIED;
-					}
-					else
-					{
-						ret = TRACK_NOTSATISFIED;
+						if (this.mSatisfied==true)
+						{
+							ret = TRACK_SATISFIED;
+						}
+						else
+						{
+							ret = TRACK_NOTSATISFIED;
+						}
 					}
 				}
 			}
@@ -7822,6 +9377,7 @@ SeqObjectiveTracking.prototype =
 		// Do not assume there is a valid measure
 		var ret = TRACK_UNKNOWN;
 		var done = false;
+		var globalvalexists = false;
 
 		// Is there a 'read' objective map?
 		if (this.mReadMeasure != null)
@@ -7834,14 +9390,18 @@ SeqObjectiveTracking.prototype =
 			{
 				ret = measure;
 				done = true;
+				globalvalexists = true;
 			}
 		}
 
-		if (this.mHasMeasure==true && (done==false || iUseLocal==true ))
+		if ( globalvalexists == false )
 		{
-			if (this.mHasMeasure==true && !(iIsRetry==true && this.mDirtyObj==true))
+			if (this.mHasMeasure==true && (done==false || iUseLocal==true ))
 			{
-				ret = this.mMeasure;
+				if (this.mHasMeasure==true && !(iIsRetry==true && this.mDirtyObj==true))
+				{
+					ret = this.mMeasure;
+				}
 			}
 		}
 
@@ -7883,8 +9443,299 @@ SeqObjectiveTracking.prototype =
 		}
 		
 		return byMeasure;
+	},
+	
+	getObjRawScore: function (iIsRetry)
+	{
+		// Do not assume there is a valid raw score
+		var ret = TRACK_UNKNOWN;
+		var done = false;
+		var globalvalexists = false;
+		
+		// Is there a 'read' objective map?
+		if (this.mReadRawScore != null)
+		{
+			var rawscore = adl_seq_utilities.getGlobalObjRawScore(this.mReadRawScore, 
+				this.mLearnerID, this.mScopeID);
+
+			// Always use shared raw score if available
+			if (rawscore != null)
+			{
+				ret = rawscore;
+				done = true;
+				globalvalexists = true;
+			}
+		}
+		
+		if ( globalvalexists == false )
+		{
+			if (this.mHasRawScore==true && done==false)
+			{
+				if (this.mHasRawScore==true && !(iIsRetry==true && this.mDirtyObj==true))
+				{
+					ret = this.mRawScore + '';
+				}
+			}
+		}
+
+		return ret;
+		
+	},
+	
+	setObjRawScore: function (iRawScore)
+	{
+		this.mHasRawScore = true;
+		this.mRawScore = iRawScore;
+		
+		// Set any global objectives
+		if (this.mWriteRawScore != null)
+		{
+				for ( var i = 0; i < this.mWriteRawScore.length; i++)
+					{
+						var objID = this.mWriteRawScore[i];
+						
+						adl_seq_utilities.setGlobalObjRawScore(objID, 
+								this.mLearnerID,this.mScopeID, (iRawScore + ''));
+					}
+		}
+	},
+	
+	getObjMinScore: function (iIsRetry)
+	{
+		// Do not assume there is a valid min score
+		var ret = TRACK_UNKNOWN;
+		var done = false;
+		var globalvalexists = false;
+		
+		// Is there a 'read' objective map?
+		if (this.mReadMinScore != null)
+		{
+			var minscore = adl_seq_utilities.getGlobalObjMinScore(this.mReadMinScore, 
+				this.mLearnerID, this.mScopeID);
+
+			// Always use shared raw score if available
+			if (minscore != null)
+			{
+				ret = minscore;
+				done = true;
+				globalvalexists = true;
+			}
+		}
+		
+		if ( globalvalexists == false )
+		{
+			if (this.mHasMinScore==true && done==false)
+			{
+				if (this.mHasMinScore==true && !(iIsRetry==true && this.mDirtyObj==true))
+				{
+					ret = this.mMinScore + '';
+				}
+			}
+		}
+
+		return ret;
+		
+	},
+	
+	setObjMinScore: function (iMinScore)
+	{
+		this.mHasMinScore = true;
+		this.mMinScore = iMinScore;
+		
+		// Set any global objectives
+		if (this.mWriteMinScore != null)
+		{
+				for ( var i = 0; i < this.mWriteMinScore.length; i++)
+					{
+						var objID = this.mWriteMinScore[i];
+						
+						adl_seq_utilities.setGlobalObjMinScore(objID, 
+								this.mLearnerID,this.mScopeID, (iMinScore + ''));
+					}
+		}
+	},
+	
+	getObjMaxScore: function (iIsRetry)
+	{
+		// Do not assume there is a valid max score
+		var ret = TRACK_UNKNOWN;
+		var done = false;
+		var globalvalexists = false;
+		
+		// Is there a 'read' objective map?
+		if (this.mReadMaxScore != null)
+		{
+			var maxscore = adl_seq_utilities.getGlobalObjMaxScore(this.mReadMaxScore, 
+				this.mLearnerID, this.mScopeID);
+
+			// Always use shared raw score if available
+			if (maxscore != null)
+			{
+				ret = maxscore;
+				done = true;
+				globalvalexists = true;
+			}
+		}
+		
+		if ( globalvalexists == false )
+		{
+			if (this.mHasMaxScore==true && done==false)
+			{
+				if (this.mHasMaxScore==true && !(iIsRetry==true && this.mDirtyObj==true))
+				{
+					ret = this.mMaxScore + '';
+				}
+			}
+		}
+
+		return ret;
+		
+	},
+	
+	setObjMaxScore: function (iMaxScore)
+	{
+		this.mHasMaxScore = true;
+		this.mMaxScore = iMaxScore;
+		
+		// Set any global objectives
+		if (this.mWriteMaxScore != null)
+		{
+				for ( var i = 0; i < this.mWriteMaxScore.length; i++)
+					{
+						var objID = this.mWriteMaxScore[i];
+						
+						adl_seq_utilities.setGlobalObjMaxScore(objID, 
+								this.mLearnerID,this.mScopeID, (iMaxScore + ''));
+					}
+		}
+	},
+	
+	getObjProgressMeasure: function (iDirtyProgress)
+	{
+		// Do not assume there is a valid progress measure
+		var ret = TRACK_UNKNOWN;
+		var done = false;
+		var globalvalexists = false;
+		
+		// Is there a 'read' objective map?
+		if (this.mReadProgressMeasure != null)
+		{
+			var progress = adl_seq_utilities.getGlobalObjProgressMeasure(this.mReadProgressMeasure, 
+				this.mLearnerID, this.mScopeID);
+
+			// Always use shared raw score if available
+			if (progress != null)
+			{
+				if (progress != TRACK_UNKNOWN)
+				{
+					ret = progress;
+					done = true;
+					globalvalexists = true;
+				}
+			}
+		}
+		
+		if ( globalvalexists == false )
+		{
+			if (this.mHasProgressMeasure==true && done==false)
+			{
+				if (this.mHasProgressMeasure==true && !(this.mDirtyObj==true))
+				{
+					ret = this.mProgressMeasure + '';
+				}
+			}
+		}
+
+		if (ret != TRACK_UNKNOWN && !(iDirtyProgress==true && this.mDirtyObj==true))
+		{
+			var valid = true;
+			
+			
+			if (!valid || (ret < 0.0 || ret > 1.0 ))
+			{
+				ret = TRACK_UNKNOWN;
+			}
+		}
+		return ret;
+	},
+	
+	setObjProgressMeasure: function (iProgressMeasure)
+	{
+		// Validate the range of the measure
+		if (iProgressMeasure < 0.0 || iProgressMeasure > 1.0)
+		{
+			this.clearObjProgressMeasure();
+		}
+		else
+		{
+			this.mHasProgressMeasure = true;
+			this.mProgressMeasure = iProgressMeasure;
+			// Set any global objectives
+			if (this.mWriteProgressMeasure != null)
+			{
+				for (var i = 0; i < this.mWriteProgressMeasure.length; i++)
+				{
+					var objID = this.mWriteProgressMeasure[i];
+					
+					adl_seq_utilities.setGlobalObjProgressMeasure(objID, 
+						this.mLearnerID, this.mScopeID, (iProgressMeasure+''));
+				}
+			}
+		}
+	},
+
+	getObjCompletionStatus: function (iDirtyProgress)
+	{
+		var ret = TRACK_UNKNOWN;
+		var done = false;
+		
+		var globalvalexists = false;
+		// Is there a 'read' objective map?
+		if (this.mReadCompletionStatus != null)
+		{
+			// Retrieve shared competency mastery status
+			var status = adl_seq_utilities.getGlobalObjCompletion(this.mReadCompletionStatus, 
+				this.mLearnerID, this.mScopeID);
+			if (status != null)
+			{
+				ret = status;
+				done = true;
+				globalvalexists = true;
+			}
+		}
+		
+		if (globalvalexists == false)
+		{
+			if (this.mHasCompletionStatus==true && (done==false))
+			{
+				if (this.mHasCompletionStatus==true && !(this.mDirtyProgress==true))
+				{	
+					ret = this.mCompletionStatus;
+				}
+			}
+		}
+		return ret;
+	},
+	
+	setObjCompletionStatus: function(iCompletionStatus)
+	{
+		this.mCompletionStatus = iCompletionStatus;
+		this.mHasCompletionStatus = true;
+		
+		//Set any global objectives
+		if ( this.mWriteCompletionStatus != null)
+		{
+			for (var i = 0; i< this.mWriteCompletionStatus.length; i++)
+			{
+				var objID = this.mWriteCompletionStatus[i];
+				
+				adl_seq_utilities.setGlobalObjCompletion(objID, 
+						this.mLearnerID, this.mScopeID, iCompletionStatus);
+				
+			}
+		}	
 	}
-}
+}//end SeqObjectiveTracking
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -8144,7 +9995,6 @@ SeqRollupRule.prototype =
 			
 				considered = true;
 				var eval = this.mConditions.evaluate(tempActivity);
-				var parent=tempActivity.getParent().mActivityID;
 				result = result && (eval == EVALUATE_TRUE);
 				emptySet = emptySet && (eval == EVALUATE_UNKNOWN);
 			}
@@ -8278,7 +10128,7 @@ SeqRollupRule.prototype =
 		return result;
 	}
 	
-}
+};
 
 /*
 	+-----------------------------------------------------------------------------+
@@ -8363,7 +10213,10 @@ SeqRollupRuleset.prototype =
 			if (ioThisActivity.getChildren(false) != null)
 			{
 				// Step 3.1 -- apply the Measure Rollup Process
-				ioThisActivity=this.applyMeasureRollup(ioThisActivity);
+				ioThisActivity = this.applyMeasureRollup(ioThisActivity);
+				
+				// Apply Progress Measure Rollup Process				
+            		ioThisActivity=this.applyProgressMeasureRollup(ioThisActivity);
 				
 				var satisfiedRule = false;
 				var completedRule = false;
@@ -8406,13 +10259,13 @@ SeqRollupRuleset.prototype =
 					set.mCombination = COMBINATION_ANY;
 					set.mConditions = new Array();
 					
-					cond.mCondition = ATTEMPTED;
+					cond.mCondition = OBJSTATUSKNOWN;
 					set.mConditions[0] = cond;
 					
-					cond = new SeqCondition();
-					cond.mCondition = SATISFIED;
-					cond.mNot = true;
-					set.mConditions[1] = cond;
+					//cond = new SeqCondition();
+					//cond.mCondition = SATISFIED;
+					//cond.mNot = true;
+					//set.mConditions[1] = cond;
 					
 					rule.mAction = ROLLUP_ACTION_NOTSATISFIED;
 					rule.mConditions = set;
@@ -8453,13 +10306,13 @@ SeqRollupRuleset.prototype =
 					set.mCombination = COMBINATION_ANY;
 					set.mConditions = new Array();
 					
-					cond.mCondition = ATTEMPTED;
+					cond.mCondition = PROGRESSKNOWN;	
 					set.mConditions[0] = cond;
 					
-					cond = new SeqCondition();
-					cond.mCondition = COMPLETED;
-					cond.mNot = true;
-					set.mConditions[1] = cond;
+					//cond = new SeqCondition();
+					//cond.mCondition = COMPLETED;
+					//cond.mNot = true;
+					//set.mConditions[1] = cond;
 					
 					rule.mAction = ROLLUP_ACTION_INCOMPLETE;
 					rule.mConditions = set;
@@ -8529,18 +10382,35 @@ SeqRollupRuleset.prototype =
 					}
 					else if (this.mIsNotSatisfied)
 					{
-						ioThisActivity.setObjSatisfied(TRACK_NOTSATISFIED);
+						if ( ioThisActivity.isPrimaryStatusSetBySCO() && ioThisActivity.getObjSatValue()== TRACK_UNKNOWN )	
+							{//ignore
+								
+							}
+						else											
+						{
+							ioThisActivity.setObjSatisfied(TRACK_NOTSATISFIED);
+						}
 					}
 				}
 				
-				if (this.mIsCompleted)
-				{
-					ioThisActivity.setProgress(TRACK_COMPLETED);
-				}
-				else if (this.mIsIncomplete)
-				{
-					ioThisActivity.setProgress(TRACK_INCOMPLETE);
-				}
+				if (!ioThisActivity.getCompletedByMeasure())
+					{
+						if (this.mIsCompleted == true)
+						{
+							ioThisActivity.setProgress(TRACK_COMPLETED);
+						}
+						else if (this.mIsIncomplete == true)
+						{
+							if ( ioThisActivity.isPrimaryProgressSetBySCO() && (ioThisActivity.getProgressValue() == TRACK_UNKNOWN))
+							{//ignore
+								
+							}
+							else
+							{
+								ioThisActivity.setProgress(TRACK_INCOMPLETE);
+							}
+						}
+					}
 			}
 		}
 		return ioThisActivity;
@@ -8554,7 +10424,7 @@ SeqRollupRuleset.prototype =
 		
 		var children = ioThisActivity.getChildren(false);
 		
-		// Measure Rollup Behavior 
+		// Progress Measure Rollup Behavior 
 		for (var i = 0; i < children.length; i++)
 		{
 			var child = children[i];
@@ -8563,14 +10433,13 @@ SeqRollupRuleset.prototype =
 				// Make sure a non-zero weight is defined
 				if (child.getObjMeasureWeight() > 0.0)
 				{
-					countedMeasure =parseFloat(countedMeasure) +parseFloat(child.getObjMeasureWeight());
+					countedMeasure += parseFloat(child.getObjMeasureWeight());
 					//alert("LOOK FOR MEASURE for: "+child.mActivityID+"is :"+child.getObjMeasure(false));
 					
 					// If a measure is defined for the child
 					if (child.getObjMeasureStatus(false))
 					{
-						total = parseFloat(total) + parseFloat(child.getObjMeasureWeight() * child.getObjMeasure(false));
-							
+						total += (parseFloat(child.getObjMeasureWeight()) * parseFloat(child.getObjMeasure(false)));	
 					}
 				}
 			}
@@ -8588,6 +10457,39 @@ SeqRollupRuleset.prototype =
 		}
 	  	return ioThisActivity;
 	},
+	
+	applyProgressMeasureRollup: function (ioThisActivity)
+	{
+		var total = 0;
+		var countedMeasure = 0;
+		var children = ioThisActivity.getChildren(false);
+		for ( var i = 0; i < children.length; i++ )
+		{
+			var child = children[i];
+			if ( child.getIsTracked() )
+			{
+				if ( child.getProMeasureWeight() > 0 )
+				{
+					countedMeasure += parseFloat(child.getProMeasureWeight());
+					
+					if ( child.getProMeasureStatus(false) )
+					{
+						total += (parseFloat(child.getProMeasureWeight()) * parseFloat(child.getProMeasure(false)));
+					}
+				}
+			}
+		}
+		if ( countedMeasure > 0 )
+		{
+			ioThisActivity.setProMeasure(total/countedMeasure);
+		}
+		else 
+		{
+			ioThisActivity.clearProMeasure();
+		}
+		
+		return ioThisActivity;
+	},
    
 	size: function ()
 	{
@@ -8598,7 +10500,7 @@ SeqRollupRuleset.prototype =
 	
 		return 0;
 	}
-}
+};
 	
 /*
 	+-----------------------------------------------------------------------------+
@@ -8770,7 +10672,7 @@ SeqRule.prototype =
 		
 		return result;
 	}
-}
+};
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -8875,7 +10777,7 @@ SeqRuleset.prototype =
 		
 		return 0;
 	}
-}
+};
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -8966,7 +10868,7 @@ function toggleLog() {
 	if (logState==false) {
 		elm.innerHTML="Hide Log";
 		logState=true;
-		onWindowResize()
+		onWindowResize();
 	} else {
 		elm.innerHTML="Show Log";
 		logState=false;
@@ -9002,7 +10904,7 @@ function sclog(mess, type)
 		if (elm) 
 		{
 			elm.innerHTML = elm.innerHTML + mess + '<br />';
-			sclogscroll()
+			sclogscroll();
 		}
 	}
 	else
@@ -9021,7 +10923,7 @@ function sclogflush()
 	if (elm) 
 	{
 		elm.innerHTML = elm.innerHTML + log_buffer;
-		sclogscroll()
+		sclogscroll();
 	}
 	log_buffer = "";
 }
@@ -9050,7 +10952,7 @@ function sclogdump(param, type)
 	
 	depth = 0;
 	
-	var pre = ''
+	var pre = '';
 	for (var j=0; j < depth; j++)
 	{
 		pre = pre + '    ';
@@ -9207,7 +11109,7 @@ function timeStringParse(iTime, ioArray)
      }
 
      // if string has time portion
-     if ( mTime.equals!="0")
+     if ( mTime!="0")
      {
         // H is present so get hour
         if ( mTime.indexOf("H") != -1 )
@@ -9403,7 +11305,7 @@ function Duration (mixed)
 
 this.Duration = Duration;
 
-Duration.prototype.set = function (obj)
+		Duration.prototype.set = function (obj)
 {
 	this.value.setTime(obj && obj.valueOf ? obj.valueOf() : obj); } ;
 
@@ -9446,7 +11348,7 @@ Duration.toString = function (d)
 Duration.prototype.toString = function () 
 {
 	return Duration.toString(this.value);
-}
+};
 
 Duration.prototype.valueOf = function () 
 {
@@ -9476,7 +11378,7 @@ DateTime.parse = function (str, utc)
 		m[8] ? Number(m[8].substr(0,2)) : 0, // zhh
 		m[9] ? Number(m[9].substr(1,2)) : 0 // zmm
 	];
-	var z = a[7]==='Z' ? (new Date()).getTimezoneOffset() : ((a[8] || 0)*60 + (a[9] || 0)) * (a[7]==='-' ? -1 : 1)
+	var z = a[7]==='Z' ? (new Date()).getTimezoneOffset() : ((a[8] || 0)*60 + (a[9] || 0)) * (a[7]==='-' ? -1 : 1);
 	var d = new Date(a[0], a[1], a[2], a[3], a[4], a[5], a[6]);	
 	if (a[0]<1970 || a[0]>2038 || a[1]<0 || a[1]>12 || 
 		d.getMonth()!==a[1] || d.getDate()!==a[2] || 
@@ -10322,25 +12224,31 @@ function extend(destination, source, nochain, nooverwrite) {
 }
 
 
-
+var userInteraction = false;
 /* ############### GUI ############################################ */
-function launchTarget(target) {
+function launchTarget(target, isJump) {
+	if(userInteraction){
+		userInteraction = false;
+		return null;
+	}
 	onItemUndeliver();
-	
-	mlaunch = msequencer.navigateStr(target);
+	//TODO:JP - need a way to force jump request
+	mlaunch = msequencer.navigateStr(target, isJump);
    
 	if (mlaunch.mSeqNonContent == null) {
 		//throw away API from previous sco and sync CMI and ADLTree
-		onItemDeliver(activities[mlaunch.mActivityID]);
+		onItemDeliver(activities[mlaunch.mActivityID], false);
 	} else {
 	  //call specialpage
 	  	loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
 	}
 
 }
-function launchNavType(navType) {
-	
-	
+function launchNavType(navType, isUserCurrentlyInteracting) {	
+	if(!isUserCurrentlyInteracting && userInteraction){
+		userInteraction = false;
+		return null;		
+	}
 	//if suspendAll set cmi.exit to suspend for active SCO
 	if (navType=='SuspendAll') {
 		pubAPI.cmi.exit="suspend";
@@ -10350,7 +12258,7 @@ function launchNavType(navType) {
 		activities[msequencer.mSeqTree.mCurActivity.mActivityID].entry="resume";
 		
    	}
-
+		
 	//throw away API from previous sco and sync CMI and ADLTree, no api...SCO has to care for termination
 	onItemUndeliver();
 	
@@ -10431,32 +12339,33 @@ function launchNavType(navType) {
 		suspendedTree['mSuspendAll']=suspendall;
 		suspendedTree['root']=root;
 		
-		var r = sendAndLoad(this.config.suspend_url, toJSONString(suspendedTree), null, null, null, headers);
+		var strTree = JSON.stringify(suspendedTree); //toJSONString(suspendedTree);
+		
+		var r = sendAndLoad(this.config.suspend_url, strTree, null, null, null, headers);
 	}
 	
-	if (navType==='Previous') {
+	if (navType==='Previous') {		
 		mlaunch = msequencer.navigate(NAV_PREVIOUS);
 	}
 	
 	if (navType==='Continue') {
 		mlaunch = msequencer.navigate(NAV_CONTINUE);		
 	}
-		if (mlaunch.mActivityID) {
-			onItemDeliver(activities[mlaunch.mActivityID]);
-		} else {
-	  		//call specialpage
-	  		loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
-		}
+	
+	if (mlaunch.mActivityID) {
+		onItemDeliver(activities[mlaunch.mActivityID], false);
+	} else {
+  		//call specialpage
+  		loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);
+	}
 		
 }
-
-
 function onDocumentClick (e) 
 {
 	e = new UIEvent(e);
 	var target = e.srcElement;
 	
-	
+	userInteraction = true;
 	//integration of ADL Sqeuencer
 	
 	if (target.tagName !== 'A' || !target.id ||  target.className.match(new RegExp(ilRTEDisabledClass))
@@ -10465,28 +12374,28 @@ function onDocumentClick (e)
 		// ignore clicks on other elements than A
 		// or non identified elements or disabled elements (non active Activities)
 	} 
-	
+
 	//handle eventes like Contine, Previous, Exit...
-	else if (target.id.substr(0, 3)==='nav') 
+	else if (target.id.substr(0, 3) ==='nav') 
 	{
 		var navType=target.id.substr(3);
-		launchNavType(navType);	
+		launchNavType(navType, userInteraction);						
 	} 
 	
 	//SCO selected by user directly (itm is used as ITEM_PREFIX)
-	else if (target.id.substr(0, 3)===ITEM_PREFIX) 
+	else if (target.id.substr(0, 3)===ITEM_PREFIX ) 
 	{
 		if (e.altKey) {} // for special commands
 		else 
 		{
+			//throw away API from previous sco and sync CMI and ADLTree
+			onItemUndeliver();
 			mlaunch = msequencer.navigateStr( target.id.substr(3));
            
  			if (mlaunch.mSeqNonContent == null) {
-				//alert(activities[mlaunch.mActivityID]);	
-				//throw away API from previous sco and sync CMI and ADLTree
-				onItemUndeliver();
+				//alert(activities[mlaunch.mActivityID]);
 				statusHandler(mlaunch.mActivityID,"completion","unknown");
-				onItemDeliver(activities[mlaunch.mActivityID]);
+				onItemDeliver(activities[mlaunch.mActivityID], false);
 			//	setTimeout("updateNav()",2000);  //temporary fix for timing problems
 			} else {
 			  //call specialpage
@@ -10501,7 +12410,8 @@ function onDocumentClick (e)
 	else if (target.target==="_blank")
 	{
 		return;
-	} 
+	}
+	userInteraction = false;
 	e.stop();
 }
 
@@ -10573,15 +12483,15 @@ function updateControls(controlState)
 {
 	
 	if (mlaunch!=null) {
-		toggleClass('navContinue', 'disabled', (mlaunch.mNavState.mContinue==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['continue'])=="object"));
-		toggleClass('navExit', 'disabled', (mlaunch.mNavState.mContinueExit==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['exit'])=="object"));
-		toggleClass('navPrevious', 'disabled', (mlaunch.mNavState.mPrevious==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['previous'])=="object"));
+		toggleClass('navContinue', 'disabled', (mlaunch.mNavState.mContinue==false || ((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['continue'])=="object":false)));
+		toggleClass('navExit', 'disabled', (mlaunch.mNavState.mContinueExit==false || ((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['exit'])=="object":false)));
+		toggleClass('navPrevious', 'disabled', (mlaunch.mNavState.mPrevious==false || ((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['previous'])=="object":false)));
 		toggleClass('navResumeAll', 'disabled', mlaunch.mNavState.mResume==false );
 		if (mlaunch.mActivityID) {
 			toggleClass('navExitAll', 'disabled', typeof(activities[mlaunch.mActivityID].hideLMSUIs['exitAll'])=="object");
 		}	
 		toggleClass('navStart', 'disabled', mlaunch.mNavState.mStart==false);
-		toggleClass('navSuspendAll', 'disabled', (mlaunch.mNavState.mSuspend==false || typeof(activities[mlaunch.mActivityID].hideLMSUIs['suspendAll'])=="object"));
+		toggleClass('navSuspendAll', 'disabled', (mlaunch.mNavState.mSuspend==false || ((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['suspendAll'])=="object":false)));
 	}	
 }
 
@@ -10590,7 +12500,6 @@ function setResource(id, url, base)
 {
 	
 	url= base + url;
-
 	if (!top.frames[RESOURCE_NAME])
 	{
 		var elm = window.document.getElementById(RESOURCE_PARENT);
@@ -10829,7 +12738,8 @@ function init(config)
 			}
 		}
 	}
-
+	
+	
 	this.config = config;
 	gConfig=config;
 	setInfo('loading');
@@ -10846,7 +12756,7 @@ function init(config)
 	
 	var cam = this.config.cp_data || sendJSONRequest(this.config.cp_url);
 
-	if (!cam) return alert('Fatal: Could not load content data.')
+	if (!cam) return alert('Fatal: Could not load content data.');
 
 	// Step 2: load adlActivityTree
 	var adlAct = this.config.adlact_data || sendJSONRequest(this.config.adlact_url);
@@ -10937,7 +12847,7 @@ function init(config)
 	//load global objectives
 	
 	loadGlobalObj();
-	
+
 	
 	//get suspend data
 	suspendData =  sendJSONRequest(this.config.get_suspend_url);
@@ -11039,7 +12949,7 @@ function init(config)
 	}
 		
 	if (mlaunch.mSeqNonContent == null) {
-		onItemDeliver(activities[mlaunch.mActivityID]);
+		onItemDeliver(activities[mlaunch.mActivityID], wasSuspended);
 	} else {
 		if (count==1 && tolaunch!=null) {
 			launchTarget(tolaunch);
@@ -11084,6 +12994,28 @@ function loadGlobalObj() {
 		if (globalObj.satisfied){adl_seq_utilities.satisfied=globalObj.satisfied;}
 		if (globalObj.measure) {adl_seq_utilities.measure=globalObj.measure;}
 		if (globalObj.status) {adl_seq_utilities.status=globalObj.status;}
+	}
+}
+
+function loadSharedData(sco_node_id) {
+	var adlData = this.config.adldata_data || sendJSONRequest(this.config.get_adldata_url + "&node_id=" + sco_node_id);
+	if(adlData) {
+		sharedData = adlData;
+	}
+}
+
+function saveSharedData() {
+	
+	//Do the transform so the "custom" JSON encoder will properly send
+	//the input to the server
+	var dataOut = new Object();
+	for(i = 0; i < pubAPI.adl.data.length; i++) {
+		var d = pubAPI.adl.data[i];
+		dataOut[d.id] = d.store;
+	}
+	var success = sendJSONRequest(this.config.set_adldata_url+"&node_id="+pubAPI.cmi.cp_node_id, dataOut);
+	if(success != "1") { 
+		//Do error handling if necessary
 	}
 }
 
@@ -11135,7 +13067,7 @@ function setParents(obj) {
 			var temp=obj[index];	
 			if (temp instanceof Array) {
 				if (temp.length>0) {
-					for (var i=0;i<temp.length;i++) {
+					for (var i=0;i<temp.length;i++) {
 						// get the object
 						temp[i]['mParent']=obj;
 						//check for further childs in array
@@ -11271,7 +13203,7 @@ function load()
 			interactions[cmi_interaction_id].objectives[id] = {id:id};
 		}
 		dat = new Objective();
-		for (j=remoteMapping.objective.length; j--; ) 
+		for (j=remoteMapping.objective.length; j--; )
 		{
 			//dat[remoteMapping.objective[j]] = row[j];
 			setItemValue(j, dat, row, remoteMapping.objective[j]);
@@ -11279,6 +13211,7 @@ function load()
 		act = activitiesByCMI[row[remoteMapping.objective.cmi_node_id]];
 		act.objectives[dat.id] = dat;
 	}
+
 }
 
 function save()
@@ -11389,6 +13322,12 @@ function getAPI(cp_node_id)
 		}
 	}
 	
+	function getADLExtensionWalk(model, data, api)
+	{
+		var k, i;
+		if (!model.children) return;
+	}
+	
 	function getAPIWalk (model, data, api) 
 	{
 		var k, i;
@@ -11425,7 +13364,7 @@ function getAPI(cp_node_id)
 					
 					} else {
 						getAPISet(mod.mapping[i], dat, api[k]);
-				    }
+				    	}
 				}
 			}
 			else if (mod.type===Array) 
@@ -11500,7 +13439,7 @@ function setItemValue (key, dest, source, destkey)
 	{
 		var d = source[key];
 		var temp=d;
-		if (!isNaN(parseFloat(d)) && !(/[A-Za-z]/.test(d))) {
+		if (!isNaN(parseFloat(d)) && (/^-?\d{1,32}(\.\d{1,32})?$/.test(d))) {
 			d = Number(d);
 		} else if (d==="true") {
 			d = true;
@@ -11617,16 +13556,9 @@ function onWindowUnload ()
 	save_global_objectives();
 	save();
 }
-
-function onItemDeliver(item) // onDeliver called from sequencing process (deliverSubProcess)
-{
-	var url = item.href, v;
-	// create api if associated resouce is of adl:scormType=sco
-	if (item.sco)
-	{
-		
-		// get data in cmi-1.3 format
+function loadData(item){
 		var data = getAPI(item.foreignId);
+		loadSharedData(item.cp_node_id);
 		
 		// add ADL Request namespace data
 		data.adl = {nav : {request_valid: {}}};
@@ -11636,6 +13568,20 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 		//we only set Continue, Previous and Choice according to specification
 		data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);
 		data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);
+		
+		var adlcpData = Array();
+		for(ds in sharedData)
+		{
+			var dat = Array();
+			dat["id"] = ds;
+			dat["store"] = sharedData[ds].store;
+			dat["readable"] = sharedData[ds].readSharedData;
+			dat["writeable"] = sharedData[ds].writeSharedData;	
+			adlcpData.push(dat);
+		}
+		
+		data.adl.data = adlcpData;
+		
 		var choice=validRequests['mChoice'];
 		
 		for (var k in choice) {
@@ -11643,6 +13589,7 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 			//data.adl.nav.request_valid['choice'].{k}=true;
 			//data.adl.nav.request_valid['choice'];
 		}
+		//TODO:JP - add valid jump requests?
 		
 		// add some global values for all sco's in package
 		data.cmi.learner_name = globalAct.learner_name;
@@ -11654,6 +13601,15 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 		data.cmi.launch_data = item.dataFromLMS;
 		data.cmi.time_limit_action = item.timeLimitAction;
 		data.cmi.max_time_allowed = item.attemptAbsoluteDurationLimit;
+		
+		//Add learner prefs (since the map stuff is completely nuts and doesn't work right)
+		data.cmi.learner_preference = {
+			audio_level : (item.audio_level) ? item.audio_level : 1,
+			delivery_speed : (item.delivery_speed) ? item.delivery_speed : 1,
+			language : item.language,
+			audio_captioning : item.audio_captioning
+		};
+
 
 		if (item.objectives) 
 		{
@@ -11678,6 +13634,17 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 				}	
 			}
 		}
+		return data;
+}
+function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing process (deliverSubProcess)
+{
+	var url = item.href, v;
+	// create api if associated resouce is of adl:scormType=sco
+	if (item.sco)
+	{
+		var data = loadData(item);
+		// get data in cmi-1.3 format
+
 		
 		// assign api for public use from sco- only for debug
 		pubAPI=data;
@@ -11714,17 +13681,32 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 			//explicitly set some entries
     		err = currentAPI.SetValueIntern("cmi.completion_status","unknown");
     		err = currentAPI.SetValueIntern("cmi.success_status","unknown");
-			err = currentAPI.SetValueIntern("cmi.entry","ab-initio");
-			pubAPI.cmi.entry="ab-initio";
-			pubAPI.cmi.suspend_data = null;
+			
+			pubAPI.cmi.completion_status = null;
+			data.cmi.completion_status = null;
+			pubAPI.cmi.progress_measure = null;
+			data.cmi.progress_measure = null;
+			
+			pubAPI.cmi.exit="";
+			if(item.entry!="resume"){
+				pubAPI.cmi.entry="ab-initio";
+				err = currentAPI.SetValueIntern("cmi.entry","ab-initio");
+			}
+			
+			//pubAPI.cmi.interactions = null;
+			//pubAPI.cmi.comments = null;
 			pubAPI.cmi.total_time="PT0H0M0S";
 		} 
 		
 		//set resume manually if suspendALL happened before
-		if (item.exit=="suspend") {
+		//alert(wasSuspendAll);
+		if (item.exit=="suspend" || wasSuspendAll) {
 			pubAPI.cmi.entry="resume";
 			//clean suspend
-			pubAPI.cmi.exit="";
+			pubAPI.cmi.exit="";	
+		}
+		else {
+			pubAPI.cmi.suspend_data = null;
 		}
 		
 		//previous session has ended
@@ -11743,9 +13725,12 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 	if (item.parameters == null) {
 		item.parameters="";
 	} 
-	if (item.parameters != "" && envEditor==false) {
+	if (item.parameters != "" 
+	    && 	item.parameters.indexOf('?') === -1 
+	    && envEditor==false) {
 		item.parameters = "?"+ item.parameters;
 	} 
+	
 	setResource(item.id, item.href+randNumber+item.parameters, this.config.package_url);
 }
 
@@ -11754,7 +13739,7 @@ function syncSharedCMI(item) {
 	var mStatusVector = msequencer.getObjStatusSet(item.id);
     var mObjStatus = new ADLObjStatus();
 	var obj;
-	var err
+	var err;
 	//for first attempt
 	
 	if( mStatusVector != null ) {		
@@ -11790,6 +13775,29 @@ function syncSharedCMI(item) {
 				if( mObjStatus.mHasMeasure==true && mObjStatus.mMeasure!=0 ) {
 					err = currentAPI.SetValueIntern(obj,mObjStatus.mMeasure);
 				}
+				if ( mObjStatus.mHasRawScore )
+				{
+					obj = "cmi.objectives." + idx + ".score.raw";
+					err = currentAPI.SetValueIntern(obj, mObjStatus.mRawScore);
+				}
+				if ( mObjStatus.mHasMinScore )
+				{
+					obj = "cmi.objectives." + idx + ".score.min";
+					err = currentAPI.SetValueIntern(obj, mObjStatus.mMinScore);
+				}
+				if ( mObjStatus.mHasMaxScore )
+				{
+					obj = "cmi.objectives." + idx + ".score.max";
+					err = currentAPI.SetValueIntern(obj, mObjStatus.mMaxScore);
+				}
+				if ( mObjStatus.mHasProgressMeasure )
+				{
+					obj = "cmi.objectives." + idx + ".progress_measure";
+					err = currentAPI.SetValueIntern(obj, mObjStatus.mProgressMeasure);
+				}
+				
+				obj = "cmi.objectives." + idx + ".completion_status";
+				err = currentAPI.SetValueIntern(obj, mObjStatus.mCompletionStatus);
 	      	}
 		}	
 		
@@ -11808,6 +13816,7 @@ function syncCMIADLTree(){
 	var sessionTime = null;
 	var entry = null;
 	var normalScore=-1.0;
+	var progressMeasure = null;
 	var completionStatus=null;
 	var SCOEntry=null; 
 	var suspended = false;
@@ -11819,14 +13828,24 @@ function syncCMIADLTree(){
 	
 		
     completionStatus = currentAPI.GetValueIntern("cmi.completion_status");
+	var completionSetBySCO = currentAPI.GetValueIntern("cmi.completion_status_SetBySco");
 	
 	if (completionStatus == "not attempted") {
 		completionStatus = "incomplete";
 	}
 	
+	
+	progressMeasure = currentAPI.GetValueIntern("cmi.progress_measure");
+	if ( progressMeasure == "" || progressMeasure == "unknown" )
+	{
+		progressMeasure = null;
+	}
+	
+	
 	// Get the current success_status
     masteryStatus = currentAPI.GetValueIntern("cmi.success_status");
-	//alert(masteryStatus);
+	var masterySetBySCO = currentAPI.GetValueIntern("cmi.success_status_SetBySco");
+	
     // Get the current entry
 	SCOEntry = currentAPI.GetValueIntern("cmi.entry");
 	
@@ -11835,131 +13854,269 @@ function syncCMIADLTree(){
 
     // Get the current session time
     sessionTime = currentAPI.GetValueIntern("cmi.session_time");
-
+	
 	//get current activity
 	var act = msequencer.mSeqTree.getActivity(mlaunch.mActivityID);
 	
-	var primaryObjID = null;
-    var foundPrimaryObj = false;
-    var setPrimaryObjSuccess = false;
-    var setPrimaryObjScore = false;
-	
-	objs = act.getObjectives();
-	if( objs != null ) {
-		for(var j = 0; j < objs.length; j++ ) {
-			obj = objs[j];
-			if( obj.mContributesToRollup==true ) {
-				if( obj.mObjID != null ){
-                      primaryObjID = obj.mObjID;
-         		}
-                break;
-			}
-		}
-	}
-	
-	//get Objective List
-	var numObjs= currentAPI.GetValueIntern("cmi.objectives._count");
-    for( var i = 0; i < numObjs; i++ ) {
-		var obj = "cmi.objectives." + i + ".id";
-        var objID= currentAPI.GetValueIntern(obj);
-		if( primaryObjID != null && objID==primaryObjID )
-	    {
-	        foundPrimaryObj = true;	
-	    } else {
-		    foundPrimaryObj = false;
-	    
-		}
-		obj = "cmi.objectives." + i + ".success_status";
-        objMS= currentAPI.GetValueIntern(obj);
-		if( objMS=="passed" ) {
-            msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "satisfied");
-            if( foundPrimaryObj==true )
-            {
-               setPrimaryObjSuccess = true;
-            }
-        }
-		else if( objMS=="failed" )
-        {
-             msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "notSatisfied");
-
-             if( foundPrimaryObj==true)
-             {
-                setPrimaryObjSuccess = true;
-             }
-        }
-		else
-        {
-           	msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "unknown");
-        }
-
-		obj = "cmi.objectives." + i + ".score.scaled";
-        objScore= currentAPI.GetValueIntern(obj);
-        if( objScore!="" && objScore!="unknown" && objScore!=null ) {
-			normalScore = objScore; 
-			msequencer.setAttemptObjMeasure(mlaunch.mActivityID, objID, normalScore);
-			if( foundPrimaryObj==true ){
- 				setPrimaryObjScore = true;
-			}
-			
-		}     
-		else
-         {
-            msequencer.clearAttemptObjMeasure(mlaunch.mActivityID, objID);
-         }   
-   	}
-	
-	// Report the completion status
-    msequencer.setAttemptProgressStatus(mlaunch.mActivityID, completionStatus);
-    
-	if (SCOEntry=="resume" ) {
-         msequencer.reportSuspension(mlaunch.mActivityID, true);
-		 // preserve session state
-    } else {
-         msequencer.reportSuspension(mlaunch.mActivityID, false);
-		//clear state data for this attempt
-
-    }	
-	
-	// Report the success status
-      if( masteryStatus=="passed" )
-      {
+	if (act.getIsTracked())
+	{
+//alert("main.syncCMIADLTree:\nactivityid: " + mlaunch.mActivityID);	
+		var primaryObjID = null;
+		var foundPrimaryObj = false;
+		var setPrimaryObjSuccess = false;
+		var setPrimaryObjScore = false;
 		
-         msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "satisfied");
-      }
-      else if( masteryStatus=="failed" )
-      {
-         msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "notSatisfied");
-      }
-      else
-      {
-          if( setPrimaryObjSuccess==false )
-          {
-            msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "unknown");
-          }
-      }
+		objs = act.getObjectives();
+		if( objs != null ) {
+			for(var j = 0; j < objs.length; j++ ) {
+				obj = objs[j];
+				if( obj.mContributesToRollup==true ) {
+					if( obj.mObjID != null ){
+						  primaryObjID = obj.mObjID;
+					}
+					break;
+				}
+			}
+		}
+	
+		//get Objective List
+		var numObjs= currentAPI.GetValueIntern("cmi.objectives._count");
+		for( var i = 0; i < numObjs; i++ ) {
+			var obj = "cmi.objectives." + i + ".id";
+			var objID= currentAPI.GetValueIntern(obj);
+			if( primaryObjID != null && objID==primaryObjID )
+			{
+				foundPrimaryObj = true;	
+			} else {
+				foundPrimaryObj = false;
+			
+			}
+			obj = "cmi.objectives." + i + ".success_status";
+			objMS= currentAPI.GetValueIntern(obj);
+			var msSetBySCO = currentAPI.GetValueIntern(obj + "_SetBySco");
+	//alert("main.syncCMIADLTree:\nobjMS: " + objMS + "\non this: " + obj);        
+			if( objMS=="passed" ) {
+				msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "satisfied");
+				if( foundPrimaryObj==true )
+				{
+				   act.primaryStatusSetBySCO(currentAPI.GetValueIntern(obj + "_SetBySco") == 'true');
+				   setPrimaryObjSuccess = true;
+				   masteryStatus = objMS;
+				}
+			}
+			else if( objMS=="failed" )
+			{
+				 msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "notSatisfied");
 
-	  // Report the measure
-	  if( score!="" && score!="unknown") {
-			normalScore = score;
-        	msequencer.setAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID, normalScore);
-       }
+				 if( foundPrimaryObj==true)
+				 {
+					act.primaryStatusSetBySCO(currentAPI.GetValueIntern(obj + "_SetBySco") == 'true');
+					setPrimaryObjSuccess = true;
+					masteryStatus = objMS;
+				 }
+			}
+			else
+			{
+				if (msSetBySCO=="true")
+				{
+					msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, objID, "unknown");
+					
+					var globs = act.getObjIDs(objID, false);
+					if ( globs != null )
+					{
+						for ( var w = 0; w < globs.length; w++ )
+						{
+							adl_seq_utilities.setGlobalObjSatisfied(globs[w], msequencer.mSeqTree.mLearnerID, act.getScopeID(), TRACK_UNKNOWN);
+						}
+					}
+					if ( foundPrimaryObj==true )
+					{
+						act.primaryStatusSetBySCO(true);
+						setPrimaryObjSuccess = true;
+						masteryStatus = objMS;
+					}
+				}
+			}
 
-	   else{
-            if( setPrimaryObjScore==false )
-            {
-               msequencer.clearAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID);
-            }
-       }
+			obj = "cmi.objectives." + i + ".score.scaled";
+			objScore= currentAPI.GetValueIntern(obj);
+			if( objScore!="" && objScore!="unknown" && objScore!=null ) {
+				normalScore = objScore; 
+				msequencer.setAttemptObjMeasure(mlaunch.mActivityID, objID, normalScore);
+				if( foundPrimaryObj==true ){
+					setPrimaryObjScore = true;
+				}
+				
+			}     
+			else
+			 {
+				msequencer.clearAttemptObjMeasure(mlaunch.mActivityID, objID);
+			 }
+			 
+			 
+			obj = "cmi.objectives." + i + ".completion_status";
+			completion = currentAPI.GetValueIntern(obj);
+			if ( (completion != "" && completion != "unknown" && completion != null) ||
+			     (completion == TRACK_UNKNOWN && currentAPI.GetValueIntern(obj + "_SetBySco") == true) )
+			{
+				completion = (completion == "not attempted")?"incomplete":completion;
+				if ( foundPrimaryObj==true && completionSetBySCO==false )
+				{
+					completionStatus = completion;
+					completionSetBySCO = currentAPI.GetValueIntern(obj + "_SetBySco");
+				}
+				msequencer.setAttemptObjCompletionStatus(mlaunch.mActivityID, objID, completion);
+			}
+			else
+			{
+				msequencer.clearAttemptObjCompletionStatus(mlaunch.mActivityID, objID);
+			}
+			 
+			 
+			obj = "cmi.objectives." + i + ".progress_measure";
+			var objscore = currentAPI.GetValueIntern(obj);
+			if ( objscore != "" && objscore != "unknown" && objscore != null )
+			{
+				if ( foundPrimaryObj && progressMeasure == null )
+				{
+					progressMeasure = objscore;
+				}
+				msequencer.setAttemptObjProgressMeasure(mlaunch.mActivityID, objID, objscore);
+			}
+			else
+			{
+				msequencer.clearAttemptObjProgressMeasure(mlaunch.mActivityID, objID);
+			}
+			 
+			objScoreRaw = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.raw");
+			if( objScoreRaw != "" && objScoreRaw != "unknown" && objScoreRaw != null) {
+				msequencer.setAttemptObjRawScore(mlaunch.mActivityID, objID, objScoreRaw)
+			} else {
+				msequencer.clearAttemptObjRawScore(mlaunch.mActivityID, objID);
+			}
+			 
+			objScoreMin = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.min");
+			if( objScoreMin != "" && objScoreMin != "unknown" && objScoreMin != null) {
+				msequencer.setAttemptObjMinScore(mlaunch.mActivityID, objID, objScoreMin)
+			} else {
+				msequencer.clearAttemptObjMinScore(mlaunch.mActivityID, objID);
+			} 
+			 
+			objScoreMax = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.max");
+			if( objScoreMax != "" && objScoreMax != "unknown" && objScoreMax != null) {
+				msequencer.setAttemptObjMaxScore(mlaunch.mActivityID, objID, objScoreMax)
+			} else {
+				msequencer.clearAttemptObjMaxScore(mlaunch.mActivityID, objID);
+			}
+
+		}
+		
+		// Report the completion status
+		act.primaryProgressSetBySCO(completionSetBySCO == 'true');
+		msequencer.setAttemptProgressStatus(mlaunch.mActivityID, completionStatus);
+		if ( progressMeasure != "" && progressMeasure != "unknown" && progressMeasure != null )
+		{
+			msequencer.setAttemptProgressMeasure(mlaunch.mActivityID, progressMeasure);
+		}
+		
+		if (SCOEntry=="resume" ) {
+			 msequencer.reportSuspension(mlaunch.mActivityID, true);
+			 // preserve session state
+		} else {
+			 msequencer.reportSuspension(mlaunch.mActivityID, false);
+			//clear state data for this attempt
+
+		}	
+		
+		// Report the success status
+		if( masteryStatus=="passed" )
+		{
+			msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "satisfied");
+		}
+		else if( masteryStatus=="failed" )
+		{
+			msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "notSatisfied");
+		}
+		else
+		{
+			if ( masterySetBySCO==true || masterySetBySCO == "true" )
+			{
+				
+				masteryStatus = currentAPI.GetValueIntern('cmi.success_status');
+				//alert("Mastery set by sco: "+ masteryStatus);
+				
+				act.primaryStatusSetBySCO(true);
+				msequencer.setAttemptObjSatisfied(mlaunch.mActivityID, mPRIMARY_OBJ_ID, "unknown");
+			
+				var priglobs = act.getObjIDs(mPRIMARY_OBJ_ID, false);
+				if ( priglobs != null )
+				{
+					for ( var idx = 0; idx < priglobs.length; idx++ )
+					{
+						adl_seq_utilities.setGlobalObjSatisfied(priglobs[idx], msequencer.mSeqTree.mLearnerID, act.getScopeID(), "unknown");
+					}
+				}
+			}
+		}
+
+		  // Report the measure
+		  if( score!="" && score!="unknown") {
+				normalScore = score;
+				msequencer.setAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID, normalScore);
+		   }
+		   else{
+				if( setPrimaryObjScore==false )
+				{
+				   msequencer.clearAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID);
+				}
+		   }
+	   }
+	   else
+	   {
+			var numObjs= currentAPI.GetValueIntern("cmi.objectives._count");
+			for ( var i = 0; i < numObjs; i++ ) 
+			{
+				var obj = "cmi.objectives." + i + ".id";
+				var objID= currentAPI.GetValueIntern(obj);
+				
+				objScoreRaw = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.raw");
+				if( objScoreRaw != "" && objScoreRaw != "unknown" && objScoreRaw != null) {
+					msequencer.setAttemptObjRawScore(mlaunch.mActivityID, objID, objScoreRaw)
+				} else {
+					msequencer.clearAttemptObjRawScore(mlaunch.mActivityID, objID);
+				}
+				 
+				objScoreMin = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.min");
+				if( objScoreMin != "" && objScoreMin != "unknown" && objScoreMin != null) {
+					msequencer.setAttemptObjMinScore(mlaunch.mActivityID, objID, objScoreMin)
+				} else {
+					msequencer.clearAttemptObjMinScore(mlaunch.mActivityID, objID);
+				} 
+				 
+				objScoreMax = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.max");
+				if( objScoreMax != "" && objScoreMax != "unknown" && objScoreMax != null) {
+					msequencer.setAttemptObjMaxScore(mlaunch.mActivityID, objID, objScoreMax)
+				} else {
+					msequencer.clearAttemptObjMaxScore(mlaunch.mActivityID, objID);
+				}
+			}
+	   }
 	}
 
 function onItemUndeliver(noControls) // onUndeliver called from sequencing process (EndAttempt)
 {
-	
+		//Save the shared data if undelivering the SCO
+	if(pubAPI != null) {
+		saveSharedData();
+	}
 	// customize GUI
 	if (noControls!=true) {
 		updateNav();
 		updateControls();
 	}	
+	
+
+	
 	// throw away the resource
 	// it may change api data in this
 	removeResource(undeliverFinish);
@@ -11974,6 +14131,7 @@ function undeliverFinish(){
 		var stat = pubAPI.cmi.exit;
 		
 		save_global_objectives();
+		
 		//sync dynamic objectives to ActivityTree
 		//syncDynObjectives();
 		save();
@@ -12025,7 +14183,8 @@ function syncDynObjectives(){
 
 
 function save_global_objectives() {
-	if (adl_seq_utilities.measure!=null || adl_seq_utilities.satisfied!=null || adl_seq_utilities.status!=null  ) {
+	if (adl_seq_utilities.measure!=null || adl_seq_utilities.satisfied!=null || 
+	    adl_seq_utilities.status!=null  ) {
 		result = this.config.gobjective_url 
 			? sendJSONRequest(this.config.gobjective_url, this.adl_seq_utilities)
 			: {};
@@ -12059,12 +14218,9 @@ function onTerminate(data)
 		default : // "", "normal"
 			break;
 	}
-	
-	if (data.adl && data.adl.nav) 
-	{
-		var m = String(data.adl.nav.request).match(/^(\{target=([^\}]+)\})?(choice|continue|previous|suspendAll|exit(All)?|abandon(All)?)$/);
-		if (m) 
-		{
+	if (data.adl && data.adl.nav) {
+		var m = String(data.adl.nav.request).match(/^(\{target=([^\}]+)\})?(choice|jump|continue|previous|suspendAll|exit(All)?|abandon(All)?)$/);
+		if (m) {
 			navReq = {type: m[3].substr(0, 1).toUpperCase() + m[3].substr(1), target: m[2]};
 		}
 	}
@@ -12079,11 +14235,12 @@ function onTerminate(data)
 		if (navReq.type!="suspend") {
 			adlnavreq=true; 
 			//TODO fix for Unix
-			if (navReq.type=="Choice") {
-				launchTarget(navReq.target);
+			if (navReq.type=="Choice" || navReq.type=="Jump") {
+				launchTarget(navReq.target, (navReq.type=="Jump"));
 			} else {
 				launchNavType(navReq.type);
-			}	
+			}
+			
 		}
 	/*	window.setTimeout( 
 			new (function (type, target) {
@@ -12092,8 +14249,16 @@ function onTerminate(data)
 				}
 			})(navReq.type, navReq.target), 0);
 		*/	
-	}	
-//	updateNav(true);
+	}
+	
+	// this will update the UI tree 
+	var valid = new ADLValidRequests();
+	valid = msequencer.getValidRequests(valid);
+	msequencer.mSeqTree.setValidRequests(valid);
+	mlaunch.mNavState = msequencer.mSeqTree.getValidRequests();
+	updateNav(false);
+	updateControls();
+	
 	return true;
 }
 
@@ -12184,7 +14349,7 @@ function updateNav(ignore) {
 			}
 			
 			//completed
-			if (node_stat_completion=="completed" || statusArray[[tree[i].mActivityID]]['completion'] == "completed") {
+			if (node_stat_completion=="completed" || statusArray[[tree[i].mActivityID]]['completion'] == "completed") {
 				removeClass(elm,"not_attempted",1);
 				removeClass(elm,"ilc_rte_status_RTEIncomplete",1);
 				removeClass(elm,"ilc_rte_status_RTEBrowsed",1);
@@ -12208,7 +14373,7 @@ function updateNav(ignore) {
 				}
 			}
 
-			if (elm.parentNode)
+			if (elm != null && elm.parentNode)
 			{
 				toggleClass(elm.parentNode,"ilc_rte_node_RTESco" + disabled_str,1);
 			}
@@ -12221,7 +14386,7 @@ function updateNav(ignore) {
 					toggleClass(elm.parentNode,"ilc_rte_node_RTEAsset" + disabled_str,1);
 				}
 			}
-			else if (!activities[tree[i].mActivityID].href && elm.parentNode)
+			else if (!activities[tree[i].mActivityID].href && elm != null && elm.parentNode)
 			{
 				if (!first)
 				{
@@ -12267,7 +14432,7 @@ if(!(navigator && navigator.userAgent && navigator.userAgent.toLowerCase)) {
   	            }
   	            return valid;
   	        } else {
-  	            return false
+  	            return false;
   	        }
   	    }
 }
@@ -12292,6 +14457,8 @@ var activitiesByCAM = new Object(); // activities by cp_node_id
 var activitiesByCMI = new Object(); // activities by cmi_node_id
 var activitiesByNo = new Array(); // activities by numerical index
 var sharedObjectives = new Object(); // global objectives by objective identifier
+var sharedData = new Array();
+
 
 //integration of ADL Sequencer
 var msequencer=new ADLSequencer();
@@ -12464,9 +14631,12 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			case NOT_INITIALIZED:
 				return setReturn(142, '', 'false');
 			case RUNNING:
+				//store correct status in DB; returnValue1 because of IE;
+				var returnValue1 = GetValueIntern("cmi.success_status");
+				returnValue1 = GetValueIntern("cmi.completion_status");
 				var returnValue = onCommit(cmiItem);
 				if (saveOnCommit == true) {
-					save();
+					var returnCommit = save();
 				}	
 				if (returnValue) 
 				{
@@ -12489,7 +14659,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 * @param {string} required; must be '' 
 	 */	 
 	function Terminate(param) {
-		setReturn(-1, 'Terminate(' + param + ')');
+		setReturn(-1, 'Terminate(' + param + ')');				
 		if (param!=='') 
 		{
 			return setReturn(201, 'param must be empty string', 'false');
@@ -12541,10 +14711,11 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 					
 					return setReturn(301, 'cannot be empty string', '');
 				}
-				var r = getValue(sPath, false);
+//				var r = getValue(sPath, false);
 				//log.info("Returned:"+ r.toString());
-				sclogdump("GetValue: Return: "+sPath + " : "+ r,"cmi");
-				return error ? '' : setReturn(0, '', r); 
+//				sclogdump("GetValue: Return: "+sPath + " : "+ r,"cmi");
+//				return error ? '' : setReturn(0, '', r); 
+				return GetValueIntern(sPath);
 				// TODO wrap in TRY CATCH
 			case TERMINATED:
 				sclogdump("Error 123: Terminated","error");
@@ -12576,17 +14747,17 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	}	
 	
 	
-	//allows to set data ignroding the status
+	//allows to set data ignoring the status
 	function SetValueIntern(sPath,sValue) {
 		//setReturn(-1, 'GetValueIntern(' + sPath + ')');
 		if (typeof sValue === "number") 
 		{
-			sValue = sValue.toFixed(3);
+			sValue = ""+sValue.toFixed(3);
 		}
 		else 
 		{
 			sValue = String(sValue);
-		}
+		}		
 		var r = setValue(sPath, sValue);
 		//sclogdump("ReturnInern: "+sPath + " : "+ r);
 		return error ? '' : setReturn(0, '', r); 	
@@ -12626,7 +14797,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				// so we fix these errors here
 				if (typeof sValue === "number") 
 				{
-					sValue = sValue.toFixed(3);
+					sValue = ""+sValue.toFixed(3);
 				}
 				else 
 				{
@@ -12634,8 +14805,16 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				}
 				try 
 				{
+					
 					var r = setValue(sPath, sValue);
+
+
+					
 					if (!error) {
+							var lastToken = sPath.substring(sPath.lastIndexOf('.') + 1);
+							if(lastToken == "completion_status" || lastToken == "success_status") {
+								setValue(sPath + "_SetBySco", "true");
+							}
 							if (sPath == "cmi.completion_status" && cmiItem.scoid != null ) {
 								statusHandler(cmiItem.scoid,"completion",sValue);
 							}
@@ -12659,7 +14838,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				return setReturn(133, '', 'false');
 		}
 	}
-	
 	/**
 	 * Update or create data element entry
 	 * @access private
@@ -12669,10 +14847,9 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 */
 	function setValue(path, value, sudo) 
 	{
-
-		var tokens = path.split('.');
-		return walk(cmiItem, Runtime.models[tokens[0]], tokens, value, sudo, {parent:[]});
-		
+			var tokens = path.split('.');		
+			return walk(cmiItem, Runtime.models[tokens[0]], tokens, value, sudo, {parent:[]});
+			
 	}	
 	
 	/**
@@ -12687,40 +14864,37 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 */
 	function walk(dat, def, path, value, sudo, extra) 
 	{
-		
 		var setter, token, result, tdat, tdef, k, token2, tdat2, di, token3;
 		 
 		setter = typeof value === "string";
 		token = path.shift();
-		
 		if (!def) 
 		{
-			return setReturn(401, 'Unknown element: ' + token, 'false');
+			return setReturn(401, 'Unknown element: ' + token, setter ? 'false' : '');
 		}
 
 		tdat = dat[token];
 		tdef = def[token];
-		
 		if (!tdef) 
 		{
-			return setReturn(401, 'Unknown element: ' + token, 'false');
+			return setReturn(401, 'Unknown element: ' + token, setter ? 'false' : '');
 		}
 		
 		if (tdef.type == Function) // adl.nav.request.choice ... target=blabla 
 		{
 			token2 = path.shift();
-			result = tdef.children.type.getValue(token2, tdef.children); 
+			result = tdef.children.type.getValue(token2, tdef.children);
 			return setReturn(0, '', result);
 		}
 		if (path[0] && path[0].charAt(0)==="_") 
 		{
 			if (path.length>1) 
 			{
-				return setReturn(401, 'Unknown element', '');
+				return setReturn(401, 'Unknown element', setter ? 'false' : '');
 			}
 			if (setter) 
 			{
-				return setReturn(404, 'read only', false);
+				return setReturn(404, 'read only', 'false');
 			}
 			if ('_children' === path[0]) 
 			{
@@ -12731,6 +14905,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				result = []; 
 				for (k in tdef.children) 
 				{
+					if(k.lastIndexOf("_SetBySco") == -1)
 					result.push(k);
 				}  
 				return setReturn(0, '', result.join(","));
@@ -12755,11 +14930,11 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			var m = token2.match(/^([^\d]*)(0|[1-9]\d{0,8})$/);
 			if (token2.length===0 || m && m[1]) 
 			{
-				return setReturn(401, 'Index expected');
+				return setReturn(401, 'Index expected', setter ? 'false' : '');
 			} 
 			else if (!m) 
 			{
-				return setReturn(setter ? 351 : 301, 'Index not an integer');
+				return setReturn(setter ? 351 : 301, 'Index not an integer', setter ? 'false' : '');
 			}
 			token2 = Number(token2);
 			tdat = tdat ? tdat : new Array();
@@ -12769,13 +14944,18 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 		
 			if (setter)
 			{
+				if (token == "data" && token2 >= tdat.length && 
+				 	(token3 == "store" || token3 == "id")) //adl.data special case
+				{
+					return setReturn(351, 'Index out of bounds', 'false');
+				}
 				if (token2 > tdat.length) 
 				{
-					return setReturn(351, 'Data model element collection set out of order');
+					return setReturn(351, 'Data model element collection set out of order', 'false');
 				}
 				if (tdef.maxOccur && token2+1 > tdef.maxOccur) 
 				{
-					return setReturn(301, '');
+					return setReturn(301, '', 'false');
 				}
 				if (tdat2 === undefined) 
 				{
@@ -12811,7 +14991,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			}
 			else
 			{
-				return setReturn(301, 'Data Model Collection Element Request Out Of Range');
+				return setReturn(301, 'Data Model Collection Element Request Out Of Range', '');
 			}
 		}
 		
@@ -12832,7 +15012,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				}
 				else
 				{
-					return setReturn(tdef.children[path.pop()] ? 403 : 401, 'Not inited or defined: ' + token);
+					return setReturn(tdef.children[path.pop()] ? 403 : 401, 'Not inited or defined: ' + token, '');
 				}
 			}
 			else
@@ -12843,20 +15023,23 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				return walk(tdat, tdef.children, path, value, sudo, extra);
 			}
 		}
-		
+
 		if (setter)
-		{
-			if (tdef.writeOnce && dat[token] && dat[token]!=value) 
-			{
-				return setReturn(351, 'write only once');
-			}
+		{	
+			if(token == "store" && dat["writeable"] != undefined && dat["writeable"] == 0) {
+				return setReturn(404, 'readonly: ' + token, 'false');
+			} 
 			if (tdef.permission === READONLY && !sudo) 
 			{
-				return setReturn(404, 'readonly:' + token);
+				return setReturn(404, 'readonly:' + token, 'false');
+			}
+			if (tdef.writeOnce && dat[token] && dat[token]!=value) 
+			{
+				return setReturn(351, 'write only once', 'false');
 			}
 			if (path.length)  
 			{ 
-				return setReturn(401	, 'Unknown element');
+				return setReturn(401, 'Unknown element', 'false');
 			}
 			if (tdef.dependsOn) {
 				extra.parent.push(dat);
@@ -12868,42 +15051,51 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 					var dpar = extra.parent;
 					if (dpar[dpar.length-dp.length][dp.pop()]===undefined)
 					{
-						return setReturn(408, 'dependency on ..' + dep[di]);
+						return setReturn(408, 'dependency on ..' + dep[di], 'false');
 					}
 				}
 			}
 			result = tdef.type.isValid(value, tdef, extra);
 			if (extra.error) 
 			{
-				return setReturn(extra.error.code, extra.error.diagnostic);
+				return setReturn(extra.error.code, extra.error.diagnostic, 'false');
 			}
 			if (!result) 
 			{
-				return setReturn(406, 'value not valid');
+				return setReturn(406, 'value not valid', 'false');
 			}
 			
-if (value.indexOf("{order_matters")==0)
-{
-	window.order_matters = true;
-} 
+			if (value.indexOf("{order_matters")==0)
+			{
+				window.order_matters = true;
+			} 
 
 			dat[token] = value;
 			dirty = true;
-			return setReturn(0, '');
+			return setReturn(0, '', 'true');
 		}
 		else // getter
-		{
+		{	
+			if(token == "store" && dat["readable"] != undefined && dat["readable"] == 0) {
+				return setReturn(405, 'writeonly: ' + token, '');
+			} 
 			if (tdef.permission === WRITEONLY && !sudo) 
 			{
-				return setReturn(405, 'writeonly:' + token);
+				return setReturn(405, 'writeonly:' + token, '');
 			}
 			else if (path.length)  
 			{ 
-				return setReturn(401, 'Unknown element');
+				return setReturn(401, 'Unknown element', '');
 			}
 			else if (tdef.getValueOf) 
 			{
-				return setReturn(0, '', tdef.getValueOf(tdef, tdat));
+				
+				result = setReturn(0, '', tdef.getValueOf(tdef, tdat));
+				if(result.error) {
+					return setReturn(result.error, '', '');
+				} else {
+					return setReturn(0, '', result);
+				}
 			}
 			else if (tdat===undefined || tdat===null)
 			{
@@ -12913,16 +15105,15 @@ if (value.indexOf("{order_matters")==0)
 				}
 				else
 				{
-					return setReturn(403, 'not initialized ' + token);
+					return setReturn(403, 'not initialized ' + token, '');
 				}
 			} 
 			else
 			{
-
-if (window.order_matters) 
-{
-	window.order_matters = false;
-} 
+				if (window.order_matters) 
+				{
+					window.order_matters = false;
+				} 
 				return setReturn(0, '', String(tdat));
 			}
 		}
@@ -13341,7 +15532,7 @@ Runtime.models =
 			var pattern = extra.pattern ?  extra.pattern : definition.pattern;
 			var min = definition && typeof definition.min === "number" ? definition.min :  Number.NEGATIVE_INFINITY;
 			var max = definition && typeof definition.max === "number" ? definition.max :  Number.POSITIVE_INFINITY;
-			if (!(/^-?\d{1,32}(\.\d{1,32})?$/).test(value)) 
+			if (!(/^-?\d{0,32}(\.\d{1,32})?$/).test(value) || value == '') 
 			{
 				return false;
 			} 
@@ -13390,28 +15581,32 @@ Runtime.models =
 						refunc: function (d) {return ['sourceIsLMS', 1];}}
 				},
 				completion_status : {type: CompletionState, permission: READWRITE, 'default' : 'unknown', getValueOf : function (tdef, tdat) {
-					// special case see Chap. 4.2.4.1
-					var state = tdat===undefined ? tdef['default'] : String(tdat);
-					var norm  = currentAPI.GetValueIntern("cmi.completion_threshold");
-					var score = currentAPI.GetValueIntern("cmi.progress_measure");
+						// special case see Chap. 4.2.4.1
+						var state = tdat===undefined ? tdef['default'] : String(tdat);
+						var norm=pubAPI.cmi.completion_threshold;
+						var score=pubAPI.cmi.progress_measure;
 					
-					if (norm) {
-						if (norm!="" && score!="") {
-							if (Number(score) < Number(norm)) {
-								state = "incomplete";
+						if (norm) {
+							norm=parseFloat(norm);
+							if (norm && score) {
+								score=parseFloat(score);
+								if (score>=norm) {
+									state = "completed";
+								} else if (score<norm) {
+									state = "incomplete";
+								}
 							} else {
-								state = "completed";
+								state="unknown";
 							}
-						} else {
-							state="unknown";
 						}
-					}	
-					if (state=="undefined" || state=="") {
-						state = "unknown";
+						if (state=="undefined" || state=="" || state == null || state == "null") {
+							state = "unknown";
+						}
+						pubAPI.cmi.completion_status=state;
+						return state;
 					}
-					currentAPI.SetValueIntern('cmi.completion_status', state);
-					return state;
-				}},
+				},
+				completion_status_SetBySco : {type: BooleanType, permission: READWRITE, 'default': 'false'},
 				completion_threshold : {type: RealType, min: 0, max: 1, permission: READONLY},
 				credit : {type: CreditState, permission: READONLY, 'default' : 'credit'},
 				entry : {type: EntryState, permission: READONLY, 'default' : 'ab-initio'},
@@ -13457,6 +15652,7 @@ Runtime.models =
 				objectives: {maxOccur: 100, type: Array, permission: READWRITE, unique: 'id', 
 					children: {
 						completion_status: {type: CompletionState, permission: READWRITE, 'default': 'unknown', dependsOn: 'id'},
+						completion_status_SetBySco : {type: BooleanType, permission: READWRITE, 'default': 'false'},
 						description:  {type: LocalizedString, max: 250, permission: READWRITE, dependsOn: 'id'},
 						id: {type: Uri, max: 4000, permission: READWRITE, writeOnce: true},
 						progress_measure : {type: RealType, min: 0, max: 1, permission: READWRITE},
@@ -13469,7 +15665,8 @@ Runtime.models =
 							},
 							mapping : ['scaled', 'raw', 'min', 'max']
 						},
-						success_status: {type: SuccessState, permission: READWRITE, 'default': 'unknown', dependsOn: 'id'}
+						success_status: {type: SuccessState, permission: READWRITE, 'default': 'unknown', dependsOn: 'id'},
+						success_status_SetBySco : {type: BooleanType, permission: READWRITE, 'default' : 'false'}
 					},
 					mapping : {
 						name: 'objective', 
@@ -13489,29 +15686,33 @@ Runtime.models =
 				},
 				session_time : {type: Interval, permission: WRITEONLY},
 				success_status : {type: SuccessState, permission: READWRITE, 'default' : 'unknown', getValueOf : function (tdef, tdat) {
-					var state = tdat===undefined ? tdef['default'] : String(tdat);
-					var norm=pubAPI.cmi.scaled_passing_score;
-					var score=pubAPI.cmi.score.scaled;
-					if (norm) {
-						norm=parseFloat(norm);
-						if (norm && score) {
-							score=parseFloat(score);
-					   		if (score>=norm) {
-								state = "passed";
-					  		} else if (score<norm) {
-								state = "failed";
-					  		} 
-						} else {
-							state="unknown";
+						var state = tdat===undefined ? tdef['default'] : String(tdat);
+						var norm=pubAPI.cmi.scaled_passing_score;
+						var score=pubAPI.cmi.score.scaled;
+						if (norm) {
+							norm=parseFloat(norm);
+							if (norm && score) {
+								score=parseFloat(score);
+						   		if (score>=norm) {
+									state = "passed";
+						  		} else if (score<norm) {
+									state = "failed";
+						  		} 
+							} else {
+								state="unknown";
+							}
 						}
+						pubAPI.cmi.success_status=state;
+						return state;
 					}
-					pubAPI.cmi.successs_status=state;
-					return state;
-				}},
+				},
 				suspend_data : {type: CharacterString, max: 64000, permission: READWRITE},
 				time_limit_action : {type: TimeLimitAction, permission: READONLY, "default": "continue,no message"},
-				total_time : {type: Interval, permission: READONLY, 'default' : 'PT0H0M0S'}
-			}
+				total_time : {type: Interval, permission: READONLY, 'default' : 'PT0H0M0S'},
+				//Not part of CMI, but used to determine whether the success_status has been set by the sco
+				success_status_SetBySco: {type: BooleanType, permission: READWRITE, 'default': 'false'}
+			} 
+
 		};
 	}, // end cmi model
 	
@@ -13521,8 +15722,30 @@ Runtime.models =
 		var WRITEONLY = 2;
 		var READWRITE = 3;
 	
+		
+		var Uri = { isValid : function (value, definition, extra) {
+			var re_uri = /^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/;
+			var re_char = /[\s]/;
+			var re_urn = /^urn:[a-z0-9][-a-z-0-9]{1,31}:.+$/;
+			var m = value.match(re_uri);
+			return Boolean(m && m[0] && !re_char.test(m[0]) && m[0].length<=4000 && (m[2]!=="urn" || re_urn.test(m[0])));
+		}};
+		
+		var CharacterString = { isValid : function (value, definition, extra) {
+			var min = extra.min ? extra.min : definition.min;
+			var max = extra.max ? extra.max : definition.max;
+			var pattern = extra.pattern ? extra.pattern : definition.pattern;
+			if ((min && String(value).length < min) || (max && String(value).length > max)) {
+				extra.error = {code: 407};
+				return false;
+			} else if (pattern && !pattern.test(value)) {
+				return false;
+			} else {
+				return true;
+			}
+		}};
 		var NavRequest = { isValid : function (value, min, max, pattern) {
-			return (/^(\{target=[^\}]+\}choice|continue|previous|exit|exitAll|abandon|abandonAll|suspendAll|_none_)$/).test(value);}
+			return (/^(\{target=[^\}]+\}(choice|jump)|continue|previous|exit|exitAll|abandon|abandonAll|suspendAll|_none_)$/).test(value);}
 		};
 		var NavState = { isValid : function (value, min, max, pattern) {
 			return (/^(true|false|unknown)$/).test(value);}
@@ -13551,11 +15774,29 @@ Runtime.models =
 									children : {
 										type: NavTarget, permission: READONLY, 'default': 'unknown'
 									}
+								},
+								'jump' : {type: Function, permission: READONLY,
+									children : {
+										type: NavTarget, permission: READONLY, 'default': 'unknown'
+									}
 								}
-							}
+							}//end children
 						}
 					}
-				}
+				},
+				data : {type: Array, permission: READWRITE, unique: 'id', 
+	               			children : {
+						 id: {type: Uri, max: 4000, permission: READONLY, writeOnce: true, minOccur: 1},
+	                    		 	 store: {type: CharacterString, max: 64000, permission: READWRITE, dependsOn : 'id',
+						 	 getValueOf : function(tdef, tdat) {
+								 if(tdat == '' || tdat == null || tdat === "undefined") {
+									 return {error: 403};
+								 }
+								 return tdat;
+							 }
+						 }
+	                		}
+            			}
 			}
 		};
 	}
@@ -13585,15 +15826,20 @@ Runtime.onTerminate = function (data, msec) /// or user walks away
 		data.cmi.entry="";
 		if (data.cmi.exit==="suspend") {
 			data.cmi.entry="resume";
-		    data.cmi.session_time="";
+//		    data.cmi.session_time="";
 		}
 	}
 	if (not_attempted) 
 	{
 		data.cmi.success_status = 'incomplete';
 	}
+	
+	// added to synchronize the new data. it might update the navigation
+	syncCMIADLTree();
+	
 	if (all("treeView")!=null) {
 		updateNav(true);
 	}
+	
 };
 

@@ -3254,7 +3254,7 @@ common#:#lm_read#:#ILIAS-Lernmodul lesen
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM 1.2
-common#:#lm_type_scorm2004#:#SCORM 2004
+common#:#lm_type_scorm2004#:#SCORM 2004 3rd/4th Edition (JavaScript-RTE)
 common#:#lm_visible#:#ILIAS-Lernmodul ist sichtbar
 common#:#lm_write#:#ILIAS-Lernmodul bearbeiten
 common#:#lng#:#Sprache
