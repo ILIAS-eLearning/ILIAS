@@ -57,9 +57,29 @@
 		
 		public  $mReadMeasure = true;
 		
+		public  $mReadRawScore = true;
+		
+		public  $mReadMinScore = true;
+		
+		public  $mReadMaxScore = true;
+		
+		public  $mReadCompletionStatus = true;
+		
+		public  $mReadProgressMeasure = true;
+		
 		public  $mWriteStatus = false;
 		
 		public  $mWriteMeasure = false;
+		
+		public  $mWriteRawScore = false;
+		
+		public  $mWriteMinScore = false;
+		
+		public  $mWriteMaxScore = false;
+		
+		public  $mWriteCompletionStatus = false;
+		
+		public  $mWriteProgressMeasure = false;
 		
 		public function __construct() {
 

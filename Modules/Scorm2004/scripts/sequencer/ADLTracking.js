@@ -53,8 +53,21 @@ var TRACK_NOTSATISFIED = "notSatisfied";
 var TRACK_COMPLETED = "completed";
 var TRACK_INCOMPLETE = "incomplete";
 
-function ADLTracking(iObjs, iLearnerID, iScopeID)  
+//call ADLTracking(iObjs, iLearnerID, iScopeID) or 
+// ADLTracking(iObjs, iLearnerID, iScopeID, {iThreshold: threshold, iWeight: weight})
+function ADLTracking(iObjs, iLearnerID, iScopeID, iOptions)  
 {
+	if ((typeof(iOptions) != 'undefined' && iOptions != null))
+		this.mProgressDeterminedByMeasure = true;
+	
+	var options = ilAugment({
+		iThreshold: 1.0,
+		iWeight: 1.0
+		}, iOptions);
+	
+	this.mProgressThreshold = options.iThreshold;
+	this.mProgressWeight = options.iWeight;
+
 	if (iObjs != null)
 	{
 		for (var i = 0; i < iObjs.length; i++)
@@ -102,7 +115,9 @@ ADLTracking.prototype =
 	mDirtyPro: false,
 	mObjectives: null,
 	mPrimaryObj: "_primary_",
-	mProgress: TRACK_UNKNOWN,
+	mProgressDeterminedByMeasure: false,
+	mProgressThreshold: 1.0,
+	mProgressWeight: 1.0,
 	mAttemptAbDur: null,
 	mAttemptExDur: null,
 	mAttempt: 0,
@@ -114,7 +129,87 @@ ADLTracking.prototype =
 			{
 				obj = this.mObjectives[k];
 				obj.setDirtyObj();
+				this.mObjectives[k] = obj;
 			}
 		}
-	}
-}
+	},
+   setCompletionStatus: function (iCompleted)
+   {
+      if ( ! this.mProgressDeterminedByMeasure )
+      {
+         this.mObjectives[this.mPrimaryObj].setObjCompletionStatus(iCompleted);
+      }
+   },
+   getCompletionStatus: function (iUseCurrent)
+   {
+      var isDirty = (iUseCurrent)?false:this.mDirtyPro;
+      var status = TRACK_UNKNOWN;
+      var obj = this.mObjectives[this.mPrimaryObj];
+      if ( this.mProgressDeterminedByMeasure )
+      {
+         status = obj.getObjProgressMeasure(isDirty);
+      }
+      else
+      {
+         status = obj.getObjCompletionStatus(isDirty);
+      }
+      return status;
+   },
+   setProgressMeasure: function (iProMeasure)
+   {
+      var obj = this.mObjectives[this.mPrimaryObj];
+      obj.setObjProgressMeasure(iProMeasure);
+      if ( this.mProgressDeterminedByMeasure && (iProMeasure >= 0 && iProMeasure <= 1) )
+      {
+         var completion = TRACK_UNKNOWN;
+         if ( parseFloat(iProMeasure) >= parseFloat(this.mProgressThreshold) )
+         {
+            completion = TRACK_COMPLETED;
+         }
+         else
+         {
+            completion = TRACK_INCOMPLETE;
+         }
+         obj.setObjCompletionStatus(completion);
+      }
+      this.mObjectives[this.mPrimaryObj] = obj;
+   },
+   getProgressMeasure: function ()
+   {
+      return this.mObjectives[this.mPrimaryObj].getObjProgressMeasure(this.mDirtyPro);
+   },
+   getProgressDeterminedByMeasure: function ()
+   {
+      return this.mProgressDeterminedByMeasure;
+   },
+   getProgressMeasureWeight: function ()
+   {
+      return this.mProgressWeight;
+   },
+   setProgressMeasureWeight: function (iWeight)
+   {
+      if (iWeight >= 0 && iWeight <= 1)
+      {
+         this.mProgressWeight = iWeight;
+      }
+   },
+   setProgressMeasureThreshold: function (ithresh)
+   {
+      if (ithresh >= 0 && ithresh <= 1)
+      {
+         this.mProgressThreshold = ithresh;
+      }
+   },
+   hasProgressMeasure: function ()
+   {
+      return this.mObjectives[this.mPrimaryObj].getObjProgressMeasure(this.mDirtyPro) != TRACK_UNKNOWN;
+   },
+   clearProMeasure: function ()
+   {
+      this.mObjectives[this.mPrimaryObj].clearObjMeasure();
+   },
+   getProgressThreshold: function ()
+   {
+      return this.mProgressThreshold;
+   }
+};

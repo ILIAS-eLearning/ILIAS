@@ -115,9 +115,12 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			case NOT_INITIALIZED:
 				return setReturn(142, '', 'false');
 			case RUNNING:
+				//store correct status in DB; returnValue1 because of IE;
+				var returnValue1 = GetValueIntern("cmi.success_status");
+				returnValue1 = GetValueIntern("cmi.completion_status");
 				var returnValue = onCommit(cmiItem);
 				if (saveOnCommit == true) {
-					save();
+					var returnCommit = save();
 				}	
 				if (returnValue) 
 				{
@@ -140,7 +143,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 * @param {string} required; must be '' 
 	 */	 
 	function Terminate(param) {
-		setReturn(-1, 'Terminate(' + param + ')');
+		setReturn(-1, 'Terminate(' + param + ')');				
 		if (param!=='') 
 		{
 			return setReturn(201, 'param must be empty string', 'false');
@@ -192,10 +195,11 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 					
 					return setReturn(301, 'cannot be empty string', '');
 				}
-				var r = getValue(sPath, false);
+//				var r = getValue(sPath, false);
 				//log.info("Returned:"+ r.toString());
-				sclogdump("GetValue: Return: "+sPath + " : "+ r,"cmi");
-				return error ? '' : setReturn(0, '', r); 
+//				sclogdump("GetValue: Return: "+sPath + " : "+ r,"cmi");
+//				return error ? '' : setReturn(0, '', r); 
+				return GetValueIntern(sPath);
 				// TODO wrap in TRY CATCH
 			case TERMINATED:
 				sclogdump("Error 123: Terminated","error");
@@ -227,17 +231,17 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	}	
 	
 	
-	//allows to set data ignroding the status
+	//allows to set data ignoring the status
 	function SetValueIntern(sPath,sValue) {
 		//setReturn(-1, 'GetValueIntern(' + sPath + ')');
 		if (typeof sValue === "number") 
 		{
-			sValue = sValue.toFixed(3);
+			sValue = ""+sValue.toFixed(3);
 		}
 		else 
 		{
 			sValue = String(sValue);
-		}
+		}		
 		var r = setValue(sPath, sValue);
 		//sclogdump("ReturnInern: "+sPath + " : "+ r);
 		return error ? '' : setReturn(0, '', r); 	
@@ -277,7 +281,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				// so we fix these errors here
 				if (typeof sValue === "number") 
 				{
-					sValue = sValue.toFixed(3);
+					sValue = ""+sValue.toFixed(3);
 				}
 				else 
 				{
@@ -285,8 +289,16 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				}
 				try 
 				{
+					
 					var r = setValue(sPath, sValue);
+
+
+					
 					if (!error) {
+							var lastToken = sPath.substring(sPath.lastIndexOf('.') + 1);
+							if(lastToken == "completion_status" || lastToken == "success_status") {
+								setValue(sPath + "_SetBySco", "true");
+							}
 							if (sPath == "cmi.completion_status" && cmiItem.scoid != null ) {
 								statusHandler(cmiItem.scoid,"completion",sValue);
 							}
@@ -310,7 +322,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				return setReturn(133, '', 'false');
 		}
 	}
-	
 	/**
 	 * Update or create data element entry
 	 * @access private
@@ -320,10 +331,9 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 */
 	function setValue(path, value, sudo) 
 	{
-
-		var tokens = path.split('.');
-		return walk(cmiItem, Runtime.models[tokens[0]], tokens, value, sudo, {parent:[]});
-		
+			var tokens = path.split('.');		
+			return walk(cmiItem, Runtime.models[tokens[0]], tokens, value, sudo, {parent:[]});
+			
 	}	
 	
 	/**
@@ -338,40 +348,37 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 */
 	function walk(dat, def, path, value, sudo, extra) 
 	{
-		
 		var setter, token, result, tdat, tdef, k, token2, tdat2, di, token3;
 		 
 		setter = typeof value === "string";
 		token = path.shift();
-		
 		if (!def) 
 		{
-			return setReturn(401, 'Unknown element: ' + token, 'false');
+			return setReturn(401, 'Unknown element: ' + token, setter ? 'false' : '');
 		}
 
 		tdat = dat[token];
 		tdef = def[token];
-		
 		if (!tdef) 
 		{
-			return setReturn(401, 'Unknown element: ' + token, 'false');
+			return setReturn(401, 'Unknown element: ' + token, setter ? 'false' : '');
 		}
 		
 		if (tdef.type == Function) // adl.nav.request.choice ... target=blabla 
 		{
 			token2 = path.shift();
-			result = tdef.children.type.getValue(token2, tdef.children); 
+			result = tdef.children.type.getValue(token2, tdef.children);
 			return setReturn(0, '', result);
 		}
 		if (path[0] && path[0].charAt(0)==="_") 
 		{
 			if (path.length>1) 
 			{
-				return setReturn(401, 'Unknown element', '');
+				return setReturn(401, 'Unknown element', setter ? 'false' : '');
 			}
 			if (setter) 
 			{
-				return setReturn(404, 'read only', false);
+				return setReturn(404, 'read only', 'false');
 			}
 			if ('_children' === path[0]) 
 			{
@@ -382,6 +389,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				result = []; 
 				for (k in tdef.children) 
 				{
+					if(k.lastIndexOf("_SetBySco") == -1)
 					result.push(k);
 				}  
 				return setReturn(0, '', result.join(","));
@@ -406,11 +414,11 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			var m = token2.match(/^([^\d]*)(0|[1-9]\d{0,8})$/);
 			if (token2.length===0 || m && m[1]) 
 			{
-				return setReturn(401, 'Index expected');
+				return setReturn(401, 'Index expected', setter ? 'false' : '');
 			} 
 			else if (!m) 
 			{
-				return setReturn(setter ? 351 : 301, 'Index not an integer');
+				return setReturn(setter ? 351 : 301, 'Index not an integer', setter ? 'false' : '');
 			}
 			token2 = Number(token2);
 			tdat = tdat ? tdat : new Array();
@@ -420,13 +428,18 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 		
 			if (setter)
 			{
+				if (token == "data" && token2 >= tdat.length && 
+				 	(token3 == "store" || token3 == "id")) //adl.data special case
+				{
+					return setReturn(351, 'Index out of bounds', 'false');
+				}
 				if (token2 > tdat.length) 
 				{
-					return setReturn(351, 'Data model element collection set out of order');
+					return setReturn(351, 'Data model element collection set out of order', 'false');
 				}
 				if (tdef.maxOccur && token2+1 > tdef.maxOccur) 
 				{
-					return setReturn(301, '');
+					return setReturn(301, '', 'false');
 				}
 				if (tdat2 === undefined) 
 				{
@@ -462,7 +475,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			}
 			else
 			{
-				return setReturn(301, 'Data Model Collection Element Request Out Of Range');
+				return setReturn(301, 'Data Model Collection Element Request Out Of Range', '');
 			}
 		}
 		
@@ -483,7 +496,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				}
 				else
 				{
-					return setReturn(tdef.children[path.pop()] ? 403 : 401, 'Not inited or defined: ' + token);
+					return setReturn(tdef.children[path.pop()] ? 403 : 401, 'Not inited or defined: ' + token, '');
 				}
 			}
 			else
@@ -494,20 +507,23 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				return walk(tdat, tdef.children, path, value, sudo, extra);
 			}
 		}
-		
+
 		if (setter)
-		{
-			if (tdef.writeOnce && dat[token] && dat[token]!=value) 
-			{
-				return setReturn(351, 'write only once');
-			}
+		{	
+			if(token == "store" && dat["writeable"] != undefined && dat["writeable"] == 0) {
+				return setReturn(404, 'readonly: ' + token, 'false');
+			} 
 			if (tdef.permission === READONLY && !sudo) 
 			{
-				return setReturn(404, 'readonly:' + token);
+				return setReturn(404, 'readonly:' + token, 'false');
+			}
+			if (tdef.writeOnce && dat[token] && dat[token]!=value) 
+			{
+				return setReturn(351, 'write only once', 'false');
 			}
 			if (path.length)  
 			{ 
-				return setReturn(401	, 'Unknown element');
+				return setReturn(401, 'Unknown element', 'false');
 			}
 			if (tdef.dependsOn) {
 				extra.parent.push(dat);
@@ -519,42 +535,51 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 					var dpar = extra.parent;
 					if (dpar[dpar.length-dp.length][dp.pop()]===undefined)
 					{
-						return setReturn(408, 'dependency on ..' + dep[di]);
+						return setReturn(408, 'dependency on ..' + dep[di], 'false');
 					}
 				}
 			}
 			result = tdef.type.isValid(value, tdef, extra);
 			if (extra.error) 
 			{
-				return setReturn(extra.error.code, extra.error.diagnostic);
+				return setReturn(extra.error.code, extra.error.diagnostic, 'false');
 			}
 			if (!result) 
 			{
-				return setReturn(406, 'value not valid');
+				return setReturn(406, 'value not valid', 'false');
 			}
 			
-if (value.indexOf("{order_matters")==0)
-{
-	window.order_matters = true;
-} 
+			if (value.indexOf("{order_matters")==0)
+			{
+				window.order_matters = true;
+			} 
 
 			dat[token] = value;
 			dirty = true;
-			return setReturn(0, '');
+			return setReturn(0, '', 'true');
 		}
 		else // getter
-		{
+		{	
+			if(token == "store" && dat["readable"] != undefined && dat["readable"] == 0) {
+				return setReturn(405, 'writeonly: ' + token, '');
+			} 
 			if (tdef.permission === WRITEONLY && !sudo) 
 			{
-				return setReturn(405, 'writeonly:' + token);
+				return setReturn(405, 'writeonly:' + token, '');
 			}
 			else if (path.length)  
 			{ 
-				return setReturn(401, 'Unknown element');
+				return setReturn(401, 'Unknown element', '');
 			}
 			else if (tdef.getValueOf) 
 			{
-				return setReturn(0, '', tdef.getValueOf(tdef, tdat));
+				
+				result = setReturn(0, '', tdef.getValueOf(tdef, tdat));
+				if(result.error) {
+					return setReturn(result.error, '', '');
+				} else {
+					return setReturn(0, '', result);
+				}
 			}
 			else if (tdat===undefined || tdat===null)
 			{
@@ -564,16 +589,15 @@ if (value.indexOf("{order_matters")==0)
 				}
 				else
 				{
-					return setReturn(403, 'not initialized ' + token);
+					return setReturn(403, 'not initialized ' + token, '');
 				}
 			} 
 			else
 			{
-
-if (window.order_matters) 
-{
-	window.order_matters = false;
-} 
+				if (window.order_matters) 
+				{
+					window.order_matters = false;
+				} 
 				return setReturn(0, '', String(tdat));
 			}
 		}
@@ -992,7 +1016,7 @@ Runtime.models =
 			var pattern = extra.pattern ?  extra.pattern : definition.pattern;
 			var min = definition && typeof definition.min === "number" ? definition.min :  Number.NEGATIVE_INFINITY;
 			var max = definition && typeof definition.max === "number" ? definition.max :  Number.POSITIVE_INFINITY;
-			if (!(/^-?\d{1,32}(\.\d{1,32})?$/).test(value)) 
+			if (!(/^-?\d{0,32}(\.\d{1,32})?$/).test(value) || value == '') 
 			{
 				return false;
 			} 
@@ -1041,28 +1065,32 @@ Runtime.models =
 						refunc: function (d) {return ['sourceIsLMS', 1];}}
 				},
 				completion_status : {type: CompletionState, permission: READWRITE, 'default' : 'unknown', getValueOf : function (tdef, tdat) {
-					// special case see Chap. 4.2.4.1
-					var state = tdat===undefined ? tdef['default'] : String(tdat);
-					var norm  = currentAPI.GetValueIntern("cmi.completion_threshold");
-					var score = currentAPI.GetValueIntern("cmi.progress_measure");
+						// special case see Chap. 4.2.4.1
+						var state = tdat===undefined ? tdef['default'] : String(tdat);
+						var norm=pubAPI.cmi.completion_threshold;
+						var score=pubAPI.cmi.progress_measure;
 					
-					if (norm) {
-						if (norm!="" && score!="") {
-							if (Number(score) < Number(norm)) {
-								state = "incomplete";
+						if (norm) {
+							norm=parseFloat(norm);
+							if (norm && score) {
+								score=parseFloat(score);
+								if (score>=norm) {
+									state = "completed";
+								} else if (score<norm) {
+									state = "incomplete";
+								}
 							} else {
-								state = "completed";
+								state="unknown";
 							}
-						} else {
-							state="unknown";
 						}
-					}	
-					if (state=="undefined" || state=="") {
-						state = "unknown";
+						if (state=="undefined" || state=="" || state == null || state == "null") {
+							state = "unknown";
+						}
+						pubAPI.cmi.completion_status=state;
+						return state;
 					}
-					currentAPI.SetValueIntern('cmi.completion_status', state);
-					return state;
-				}},
+				},
+				completion_status_SetBySco : {type: BooleanType, permission: READWRITE, 'default': 'false'},
 				completion_threshold : {type: RealType, min: 0, max: 1, permission: READONLY},
 				credit : {type: CreditState, permission: READONLY, 'default' : 'credit'},
 				entry : {type: EntryState, permission: READONLY, 'default' : 'ab-initio'},
@@ -1108,6 +1136,7 @@ Runtime.models =
 				objectives: {maxOccur: 100, type: Array, permission: READWRITE, unique: 'id', 
 					children: {
 						completion_status: {type: CompletionState, permission: READWRITE, 'default': 'unknown', dependsOn: 'id'},
+						completion_status_SetBySco : {type: BooleanType, permission: READWRITE, 'default': 'false'},
 						description:  {type: LocalizedString, max: 250, permission: READWRITE, dependsOn: 'id'},
 						id: {type: Uri, max: 4000, permission: READWRITE, writeOnce: true},
 						progress_measure : {type: RealType, min: 0, max: 1, permission: READWRITE},
@@ -1120,7 +1149,8 @@ Runtime.models =
 							},
 							mapping : ['scaled', 'raw', 'min', 'max']
 						},
-						success_status: {type: SuccessState, permission: READWRITE, 'default': 'unknown', dependsOn: 'id'}
+						success_status: {type: SuccessState, permission: READWRITE, 'default': 'unknown', dependsOn: 'id'},
+						success_status_SetBySco : {type: BooleanType, permission: READWRITE, 'default' : 'false'}
 					},
 					mapping : {
 						name: 'objective', 
@@ -1140,29 +1170,33 @@ Runtime.models =
 				},
 				session_time : {type: Interval, permission: WRITEONLY},
 				success_status : {type: SuccessState, permission: READWRITE, 'default' : 'unknown', getValueOf : function (tdef, tdat) {
-					var state = tdat===undefined ? tdef['default'] : String(tdat);
-					var norm=pubAPI.cmi.scaled_passing_score;
-					var score=pubAPI.cmi.score.scaled;
-					if (norm) {
-						norm=parseFloat(norm);
-						if (norm && score) {
-							score=parseFloat(score);
-					   		if (score>=norm) {
-								state = "passed";
-					  		} else if (score<norm) {
-								state = "failed";
-					  		} 
-						} else {
-							state="unknown";
+						var state = tdat===undefined ? tdef['default'] : String(tdat);
+						var norm=pubAPI.cmi.scaled_passing_score;
+						var score=pubAPI.cmi.score.scaled;
+						if (norm) {
+							norm=parseFloat(norm);
+							if (norm && score) {
+								score=parseFloat(score);
+						   		if (score>=norm) {
+									state = "passed";
+						  		} else if (score<norm) {
+									state = "failed";
+						  		} 
+							} else {
+								state="unknown";
+							}
 						}
+						pubAPI.cmi.success_status=state;
+						return state;
 					}
-					pubAPI.cmi.successs_status=state;
-					return state;
-				}},
+				},
 				suspend_data : {type: CharacterString, max: 64000, permission: READWRITE},
 				time_limit_action : {type: TimeLimitAction, permission: READONLY, "default": "continue,no message"},
-				total_time : {type: Interval, permission: READONLY, 'default' : 'PT0H0M0S'}
-			}
+				total_time : {type: Interval, permission: READONLY, 'default' : 'PT0H0M0S'},
+				//Not part of CMI, but used to determine whether the success_status has been set by the sco
+				success_status_SetBySco: {type: BooleanType, permission: READWRITE, 'default': 'false'}
+			} 
+
 		};
 	}, // end cmi model
 	
@@ -1172,8 +1206,30 @@ Runtime.models =
 		var WRITEONLY = 2;
 		var READWRITE = 3;
 	
+		
+		var Uri = { isValid : function (value, definition, extra) {
+			var re_uri = /^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/;
+			var re_char = /[\s]/;
+			var re_urn = /^urn:[a-z0-9][-a-z-0-9]{1,31}:.+$/;
+			var m = value.match(re_uri);
+			return Boolean(m && m[0] && !re_char.test(m[0]) && m[0].length<=4000 && (m[2]!=="urn" || re_urn.test(m[0])));
+		}};
+		
+		var CharacterString = { isValid : function (value, definition, extra) {
+			var min = extra.min ? extra.min : definition.min;
+			var max = extra.max ? extra.max : definition.max;
+			var pattern = extra.pattern ? extra.pattern : definition.pattern;
+			if ((min && String(value).length < min) || (max && String(value).length > max)) {
+				extra.error = {code: 407};
+				return false;
+			} else if (pattern && !pattern.test(value)) {
+				return false;
+			} else {
+				return true;
+			}
+		}};
 		var NavRequest = { isValid : function (value, min, max, pattern) {
-			return (/^(\{target=[^\}]+\}choice|continue|previous|exit|exitAll|abandon|abandonAll|suspendAll|_none_)$/).test(value);}
+			return (/^(\{target=[^\}]+\}(choice|jump)|continue|previous|exit|exitAll|abandon|abandonAll|suspendAll|_none_)$/).test(value);}
 		};
 		var NavState = { isValid : function (value, min, max, pattern) {
 			return (/^(true|false|unknown)$/).test(value);}
@@ -1202,11 +1258,29 @@ Runtime.models =
 									children : {
 										type: NavTarget, permission: READONLY, 'default': 'unknown'
 									}
+								},
+								'jump' : {type: Function, permission: READONLY,
+									children : {
+										type: NavTarget, permission: READONLY, 'default': 'unknown'
+									}
 								}
-							}
+							}//end children
 						}
 					}
-				}
+				},
+				data : {type: Array, permission: READWRITE, unique: 'id', 
+	               			children : {
+						 id: {type: Uri, max: 4000, permission: READONLY, writeOnce: true, minOccur: 1},
+	                    		 	 store: {type: CharacterString, max: 64000, permission: READWRITE, dependsOn : 'id',
+						 	 getValueOf : function(tdef, tdat) {
+								 if(tdat == '' || tdat == null || tdat === "undefined") {
+									 return {error: 403};
+								 }
+								 return tdat;
+							 }
+						 }
+	                		}
+            			}
 			}
 		};
 	}
@@ -1236,15 +1310,20 @@ Runtime.onTerminate = function (data, msec) /// or user walks away
 		data.cmi.entry="";
 		if (data.cmi.exit==="suspend") {
 			data.cmi.entry="resume";
-		    data.cmi.session_time="";
+//		    data.cmi.session_time="";
 		}
 	}
 	if (not_attempted) 
 	{
 		data.cmi.success_status = 'incomplete';
 	}
+	
+	// added to synchronize the new data. it might update the navigation
+	syncCMIADLTree();
+	
 	if (all("treeView")!=null) {
 		updateNav(true);
 	}
+	
 };
 

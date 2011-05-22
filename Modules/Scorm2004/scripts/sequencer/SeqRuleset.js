@@ -102,4 +102,4 @@ SeqRuleset.prototype =
 		
 		return 0;
 	}
-}
+};

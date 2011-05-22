@@ -227,4 +227,4 @@ ADLDuration.prototype =
 		}
 		return relation;
 	}
-}
+};

@@ -61,5 +61,6 @@ ADLValidRequests.prototype =
 	mPrevious: false,
 	mSuspend: false,
 	mChoice: null,
+	mJump: null,
 	mTOC: null
 }

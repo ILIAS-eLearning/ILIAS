@@ -255,7 +255,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	  	$doc->load($this->imsmanifestFile);
 	  	$elements = $doc->getElementsByTagName("schemaversion");
 		$schema=$elements->item(0)->nodeValue;
-		if (strtolower(trim($schema))=="cam 1.3" || strtolower(trim($schema))=="2004 3rd edition") {
+		if (strtolower(trim($schema))=="cam 1.3" || strtolower(trim($schema))=="2004 3rd edition" || strtolower(trim($schema))=="2004 4th edition") {
 			//no conversion
 			$this->converted=false;
 			return true;

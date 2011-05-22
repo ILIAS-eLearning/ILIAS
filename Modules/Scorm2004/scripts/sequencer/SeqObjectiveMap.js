@@ -55,6 +55,69 @@ SeqObjectiveMap.prototype =
 	mGlobalObjID: null,
 	mReadStatus: true,
 	mReadMeasure: true,
+	mReadRawScore: true,
+	mReadMinScore: true,
+	mReadMaxScore: true,
+	mReadCompletionStatus: true,
+	mReadProgressMeasure: true,
 	mWriteStatus: false,
-	mWriteMeasure: false
-}
+	mWriteMeasure: false,
+	mWriteRawScore: false,
+	mWriteMinScore: false,
+	mWriteMaxScore: false,
+	mWriteCompletionStatus: false,
+	mWriteProgressMeasure: false,
+	
+	hasWriteMaps: function () 
+	{ 
+		return (this.mWriteCompletionStatus || this.mWriteMaxScore || this.mWriteMeasure ||
+				this.mWriteMinScore || this.mWriteProgressMeasure || this.mWriteRawScore ||
+				this.mWriteStatus);
+	},
+
+	hasReadMaps: function()
+	{
+		return (this.mReadCompletionStatus || this.mReadMaxScore || this.mReadMeasure ||
+				this.mReadMinScore || this.mReadProgressMeasure || this.ReadRawScore ||
+				this.mReadStatus);
+	},
+	
+	equals: function( iToCompare )	
+	{
+		if (iToCompare instanceof SeqObjectiveMap)
+			{
+				var other = iToCompare;
+				return this.mGlobalObjID == other.mGlobalObjID ;
+				
+			}
+		return false;
+	},
+	
+	hashCode: function ()
+	{
+		return (this.mGlobalObjID != null) ? (mGlobalObjID).hashCode() : 0;
+	},
+	
+	merge: function ( candidate )
+	{
+		var ret = new SeqObjectiveMap();
+		if (this.mGlobalObjID == candidate.mGlobalObjID)
+		{
+			ret.mReadStatus = this.mReadStatus || candidate.mReadStatus;
+			ret.mReadMeasure = this.mReadMesure || candidate.mReadMeasure;
+			ret.mReadRawScore = this.mReadRawScore || candidate.mReadRawScore;
+			ret.mReadMinScore = this.mReadMinScore || candidate.mReadMinScore;
+			ret.mReadMaxScore = this.mReadMaxScore || candidate.mReadMaxScore;
+			ret.mReadCompletionStatus = this.mReadCompletionStatus || candidate.mReadCompletionStatus;
+			ret.mReadProgressMeasure = this.mReadProgressMeasure || candidate.mReadProgressMeasure;
+			ret.mWriteStatus = this.mWriteStatus || candidate.mWriteStatus;
+			ret.mWriteMeasure = this.mWriteMeasure || candidate.mWriteMeasure;
+			ret.mWriteRawScore = this.mWriteRawScore || candidate.mWriteRawScore;
+			ret.mWriteMinScore = this.mWriteMinScore || candidate.mWriteMinScore;
+			ret.mWriteMaxScore = this.mWriteMaxScore || candidate.mWriteMaxScore;
+			ret.mWriteCompletionStatus = this.mWriteCompletionStatus || candidate.mWriteCompletionStatus;
+			ret.mWriteProgressMeasure = this.mWriteProgressMeasure || candidate.mWriteProgressMeasure;		
+		}
+		return ret;
+	}
+};

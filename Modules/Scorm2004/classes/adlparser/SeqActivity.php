@@ -224,6 +224,12 @@ class SeqActivity{
 	  
 	   //ADLDuration
 	   public  $mActivityExDur_track = null;
+	   
+	   public $mProgressThreshold = 1.0;
+	   
+	   public $mProgressDeterminedByMeasure = false;
+	   
+	   public  $mProgressWeight = 1.0;
 	
 
 	public function __construct() {
@@ -281,6 +287,18 @@ class SeqActivity{
 	
 	public function setIsVisible($visible){
 		$this->mIsVisible = $visible;
+	}
+	
+	public function setCompletionThreshold($compThresh){
+		$this->mProgressThreshold = $compThresh;
+	}
+	
+	public function setCompletedByMeasure($compbm){
+		$this->mProgressDeterminedByMeasure = $compbm;
+	}
+	
+	public function setProgressWeight($progweight){
+		$this->mProgressWeight = $progweight;
 	}
 	
 	public function setControlModeChoice($choice) {

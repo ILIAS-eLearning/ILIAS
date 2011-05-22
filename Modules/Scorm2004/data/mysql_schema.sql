@@ -27,7 +27,7 @@ CREATE INDEX id ON cmi_node(cmi_node_id);
 
 CREATE INDEX user_id ON cmi_node(user_id);
 
-CREATE TABLE cmi_objective(`cmi_interaction_id` INTEGER, `cmi_node_id` INTEGER, `cmi_objective_id` INTEGER PRIMARY KEY AUTO_INCREMENT, `completion_status` REAL, `description` TEXT, `id` VARCHAR(255), `max` REAL, `min` REAL, `raw` REAL, `scaled` REAL, `progress_measure` REAL, `success_status` VARCHAR(32), `scope` VARCHAR(16) );
+CREATE TABLE cmi_objective(`cmi_interaction_id` INTEGER, `cmi_node_id` INTEGER, `cmi_objective_id` INTEGER PRIMARY KEY AUTO_INCREMENT, `completion_status` VARCHAR(32), `description` TEXT, `id` VARCHAR(255), `max` REAL, `min` REAL, `raw` REAL, `scaled` REAL, `progress_measure` REAL, `success_status` VARCHAR(32), `scope` VARCHAR(16) );
 CREATE INDEX cmi_objective_id ON cmi_objective(cmi_objective_id);
 
 CREATE INDEX cmi_objectivecmi_interaction_id ON cmi_objective(cmi_interaction_id);

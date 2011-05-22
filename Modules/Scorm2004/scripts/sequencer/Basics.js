@@ -86,7 +86,7 @@ function sclogdump(param, depth)
 		depth = 0;
 	}
 	
-	var pre = ''
+	var pre = '';
 	for (var j=0; j < depth; j++)
 	{
 		pre = pre + '    ';

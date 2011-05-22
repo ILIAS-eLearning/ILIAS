@@ -102,7 +102,7 @@ SeqConditionSet.prototype =
 				}
 				else if (this.mCombination == COMBINATION_ANY)
 				{
-					// Assume we have enought information to evaluate
+					// Assume we have enough information to evaluate
 					result = EVALUATE_FALSE;
 					for (var i = 0; i < this.mConditions.length; i++)
 					{
@@ -150,12 +150,9 @@ SeqConditionSet.prototype =
 			}
 			else if (cond.mCondition == SATISFIED)
 			{
-				//fix HH 
-				//if (iTarget.getObjStatus(cond.mObjID, this.mRollup))
-				if (iTarget.getObjStatus(this.mRollup,{iObjID:cond.mObjID}))
+
+				if (iTarget.getObjIdStatus(cond.mObjID, this.mRollup))
 				{
-					//fix HH 
-					//result = (iTarget.getObjSatisfied(cond.mObjID, this.mRollup))
 					result = (iTarget.getObjSatisfied(this.mRollup,{iObjID:cond.mObjID}))
 						? EVALUATE_TRUE
 						: EVALUATE_FALSE;
@@ -167,33 +164,24 @@ SeqConditionSet.prototype =
 			}
 			else if (cond.mCondition == OBJSTATUSKNOWN)
 			{
-				//fix HH
-				//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
-				result = iTarget.getObjStatus(this.mRollup, {iObjID:cond.mObjID})
+				result = iTarget.getObjIdStatus(cond.mObjID, this.mRollup)
 					? EVALUATE_TRUE
 					: EVALUATE_FALSE;
 			}
 			else if (cond.mCondition == OBJMEASUREKNOWN)
 			{
-				//fix HH
-				//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
 				result = iTarget.getObjMeasureStatus(this.mRollup, {iObjID:cond.mObjID})
 					? EVALUATE_TRUE
 					: EVALUATE_FALSE;
 			}
 			else if (cond.mCondition == OBJMEASUREGRTHAN)
 			{
-				//fix HH
-				//if (iTarget.getObjMeasureStatus(cond.mObjID, this.mRollup))
 				if (iTarget.getObjMeasureStatus(this.mRollup,{iObjID:cond.mObjID}))
 				{
-					//fix HH
-					//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
 					result = (iTarget.getObjMeasure(this.mRollup, {iObjID: cond.mObjID}) >
 						cond.mThreshold )
 						? EVALUATE_TRUE
 						: EVALUATE_FALSE;   
-						        
 				}
 				else
 				{
@@ -202,13 +190,8 @@ SeqConditionSet.prototype =
 			}
 			else if (cond.mCondition == OBJMEASURELSTHAN)
 			{
-				//Fix HH
-			//	if (iTarget.getObjMeasureStatus(cond.mObjID, this.mRollup))
 				if (iTarget.getObjMeasureStatus(this.mRollup,{iObjID:cond.mObjID}))
 				{
-					
-					//fix HH
-					//result = iTarget.getObjStatus(cond.mObjID, this.mRollup)
 					result = (iTarget.getObjMeasure(this.mRollup, {iObjID:cond.mObjID}) <
 						cond.mThreshold)
 						? EVALUATE_TRUE
@@ -221,14 +204,11 @@ SeqConditionSet.prototype =
 			}
 			else if (cond.mCondition == COMPLETED)
 			{
-				
-				if (iTarget.getProgressStatus(this.mRollup))
+				if (iTarget.getObjProgressStatus(cond.mObjID, this.mRollup))
 				{
-					result = iTarget.getAttemptCompleted(this.mRollup)
+					result = iTarget.getObjAttemptCompleted(cond.mObjID, this.mRollup)
 						? EVALUATE_TRUE
 						: EVALUATE_FALSE;
-					
-						
 				}
 				else
 				{
@@ -237,7 +217,7 @@ SeqConditionSet.prototype =
 			}
 			else if (cond.mCondition == PROGRESSKNOWN)
 			{
-				result = iTarget.getProgressStatus(this.mRollup)
+				result = iTarget.getObjProgressStatus(cond.mObjID, this.mRollup)
 					? EVALUATE_TRUE
 					: EVALUATE_FALSE;
 			}
@@ -286,4 +266,4 @@ SeqConditionSet.prototype =
 		}
 		return result;
 	}
-}
+};

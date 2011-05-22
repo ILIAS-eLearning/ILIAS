@@ -26,25 +26,27 @@
 	This .js file is GPL licensed (see above) but based on
 	SeqActivity.java by ADL Co-Lab, which is licensed as:
 	
-	Advanced Distributed Learning Co-Laboratory (ADL Co-Lab) Hub grants you 
-	("Licensee") a non-exclusive, royalty free, license to use, modify and 
-	redistribute this software in source and binary code form, provided that 
-	i) this copyright notice and license appear on all copies of the software; 
-	and ii) Licensee does not utilize the software in a manner which is 
-	disparaging to ADL Co-Lab Hub.
+	ADL SCORM 2004 4th Edition Sample Run-Time Environment
 
-	This software is provided "AS IS," without a warranty of any kind.  ALL 
-	EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING 
-	ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE 
-	OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED.  ADL Co-Lab Hub AND ITS LICENSORS 
-	SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF 
-	USING, MODIFYING OR DISTRIBUTING THE SOFTWARE OR ITS DERIVATIVES.  IN NO 
-	EVENT WILL ADL Co-Lab Hub OR ITS LICENSORS BE LIABLE FOR ANY LOST REVENUE, 
-	PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, 
-	INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE 
-	THEORY OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE 
-	SOFTWARE, EVEN IF ADL Co-Lab Hub HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH 
-	DAMAGES.
+The ADL SCORM 2004 4th Ed. Sample Run-Time Environment is licensed under
+Creative Commons Attribution-Noncommercial-Share Alike 3.0 United States.
+
+The Advanced Distributed Learning Initiative allows you to:
+  *  Share - to copy, distribute and transmit the work.
+  *  Remix - to adapt the work. 
+
+Under the following conditions:
+  *  Attribution. You must attribute the work in the manner specified by the author or
+     licensor (but not in any way that suggests that they endorse you or your use
+     of the work).
+  *  Noncommercial. You may not use this work for commercial purposes. 
+  *  Share Alike. If you alter, transform, or build upon this work, you may distribute
+     the resulting work only under the same or similar license to this one. 
+
+For any reuse or distribution, you must make clear to others the license terms of this work. 
+
+Any of the above conditions can be waived if you get permission from the ADL Initiative. 
+Nothing in this license impairs or restricts the author's moral rights.
 */
 
 var TIMING_NEVER = "never";
@@ -130,8 +132,19 @@ SeqActivity.prototype =
 	mNumSCOAttempt: 0,
 	mActivityAbDur_track: null,
 	mActivityExDur_track: null,
+	mPrimaryStatusSetBySCO: false,
+	mProgressDeterminedByMeasure: false,
+	mProgressThreshold: 1.0,
+	mProgressWeight: 1.0,
+	mPrimaryProgressSetBySCO: false,
+
+	
 	
 	// getter/setter
+	isPrimaryStatusSetBySCO: function () { return this.mPrimaryStatusSetBySCO; },
+	primaryStatusSetBySCO: function (val) { this.mPrimaryStatusSetBySCO = val; },
+	isPrimaryProgressSetBySCO: function () { return this.mPrimaryProgressSetBySCO; },
+	primaryProgressSetBySCO: function (val) { this.mPrimaryProgressSetBySCO = val; },
 	getControlModeChoice: function () { return this.mControl_choice; },
 	setControlModeChoice: function (iChoice) { this.mControl_choice = iChoice; },
 	getControlModeChoiceExit: function () { return this.mControl_choiceExit; },
@@ -381,21 +394,53 @@ SeqActivity.prototype =
 	
 	setObjectives: function (iObjs)
 	{
-		this.mObjectives = iObjs;
 
-		if (iObjs != null)
+		if (mObjectives != null)
 		{
-			for (var i = 0; i < iObjs.length; i++)
-			{
-				obj = iObjs[i];
-				
-				if (obj.mMaps != null)
+			if (this.mOjbectives.length > 0 )
 				{
-					if (this.mObjMaps == null)
+					if ( iObjs != null)
+						{
+							for ( var i = 0; i < iObjs.length; i++)
+								{
+									var toadd = iObjs[i];
+									var contained = false;
+									
+									for ( var j = 0; j < this.mObjectives.length; j++)
+									{			
+											if (this.mObjectives[j] == toadd)
+											{
+												contained = true;
+												this.mObjectives[j].merge(toadd);
+											}
+											if ( !contained)
+											{
+												this.mObjectives[this.mObjectives.length] = iObjs[i];
+											}
+									}		
+								}
+						}
+				}
+		}
+		
+		else
+		{
+			this.mObjectives = iObjs;
+		}
+		
+			if ( this.mObjectives != null)
+			{
+				for (var i = 0; i < this.mObjectives.length; i++)
+				{
+					obj = iObjs[i];
+				
+					if (obj.mMaps != null)
 					{
-						this.mObjMaps = new Object();	// was Hashtable
-					}
-					this.mObjMaps[obj.mObjID] = obj.mMaps;
+						if (this.mObjMaps == null)
+						{
+							this.mObjMaps = new Object();	// Hashtable
+						}
+						this.mObjMaps[obj.mObjID] = obj.mMaps;
 				}
 			}
 		}
@@ -489,21 +534,53 @@ SeqActivity.prototype =
 		var progress = TRACK_UNKNOWN;
 		if (this.mIsTracked)
 		{
-			if (this.mCurTracking == null)
-			{
-				track = new ADLTracking(this.mObjectives, 
-					this.mLearnerID, this.mScopeID);
-				track.mAttempt = this.mNumAttempt;
-				this.mCurTracking = track;
-			}
+			this.initADLTracking();					
 			
-			// make sure the current state is valid
 			if (!(this.mCurTracking.mDirtyPro==true && iIsRetry==true))
 			{	
-				progress = this.mCurTracking.mProgress;
+				if ( !this.mCurTracking.getProgressDeterminedByMeasure())
+				{
+					progress = this.mCurTracking.getCompletionStatus(this.mUseCurPro);
+				}
+				else
+				{
+					if ( this.mCurTracking.hasProgressMeasure())
+					{
+						var measure = this.mCurTracking.getProgressMeasure();
+						progress = (parseFloat(measure) >= parseFloat(this.mCurTracking.getProgressThreshold()))?TRACK_COMPLETED:TRACK_INCOMPLETE;
+						this.setProgressMeasure(measure);
+					}
+				}
 			}
 		}
 		return(progress == TRACK_COMPLETED);
+	},
+	
+	getPriObjAttemptCompleted: function (iIsRetry)
+	{
+		var progress = TRACK_UNKNOWN;
+		if ( this.mIsTracked )
+		{
+			this.initADLTracking();
+			if (!(this.mCurTracking.mDirtyPro==true && iIsRetry==true))
+			{	
+				if ( !this.mCurTracking.getProgressDeterminedByMeasure())
+				{
+					progress = this.mCurTracking.getCompletionStatus(this.mUseCurPro);
+				}
+				else
+				{
+					if ( this.mCurTracking.hasProgressMeasure())
+					{
+						var measure = this.mCurTracking.getProgressMeasure();
+						progress = (parseFloat(measure) >= parseFloat(this.mCurTracking.getProgressThreshold()))?TRACK_COMPLETED:TRACK_INCOMPLETE;
+						
+					}
+				}
+			}
+			
+		}
+		return (progress == TRACK_COMPLETED);
 	},
 	
 	setProgress: function (iProgress)
@@ -517,15 +594,10 @@ SeqActivity.prototype =
 				iProgress == TRACK_COMPLETED ||
 				iProgress == TRACK_INCOMPLETE)
 			{
-				if (this.mCurTracking == null)
-				{
-					this.mCurTracking = new ADLTracking(this.mObjectives,
-						this.mLearnerID, this.mScopeID);
-				}
+				this.initADLTracking();
 				
-				var prev = this.mCurTracking.mProgress;
-				
-				this.mCurTracking.mProgress = iProgress;
+				var prev = this.mCurTracking.getCompletionStatus(this.mUseCurPro);
+				this.mCurTracking.setCompletionStatus(iProgress);
 				statusChange = !(prev == iProgress);
 			}
 		}
@@ -541,14 +613,14 @@ SeqActivity.prototype =
 			{
 				if (!(this.mCurTracking.mDirtyPro==true && iIsRetry==true))
 				{					
-					status = (this.mCurTracking.mProgress != TRACK_UNKNOWN);
+					status = (this.mCurTracking.getCompletionStatus(this.mUseCurPro) != TRACK_UNKNOWN);
 				}
 			}
 		}
 		return status;
 	},
 	
-	// call getObjMeasureStatus(retry) or 
+	// call getObjMeasureStatus(retry) or
 	// getObjMeasureStatus(retry, {iObjID: obj_id, iUseLocal: use_local})
 	getObjMeasureStatus: function (iIsRetry, iOptions)
 	{
@@ -563,13 +635,7 @@ SeqActivity.prototype =
 
 		if (this.mIsTracked==true)
 		{
-			if (this.mCurTracking == null)
-			{
-				var track = new ADLTracking(this.mObjectives,
-					this.mLearnerID, this.mScopeID);
-				track.mAttempt = this.mNumAttempt;
-				this.mCurTracking = track;
-			}
+			this.initADLTracking();
    
 			if (this.mCurTracking != null)
 			{
@@ -722,13 +788,7 @@ SeqActivity.prototype =
 		var measure = 0.0;
 		if (this.mIsTracked)
 		{
-			if (this.mCurTracking == null)
-			{
-				var track = new ADLTracking(this.mObjectives,this.mLearnerID,
-					this.mScopeID);
-				track.mAttempt = this.mNumAttempt;
-				this.mCurTracking = track;
-			}
+			this.initADLTracking();
    
 			// A null objective indicates the primary objective
 			if (iObjID == null)
@@ -761,13 +821,8 @@ SeqActivity.prototype =
 
 		if (this.mIsTracked)
 		{
-			if (this.mCurTracking == null)
-			{
-				var track = new ADLTracking(this.mObjectives,this.mLearnerID,
-					this.mScopeID);
-				track.mAttempt = mNumAttempt;
-				this.mCurTracking = track;
-			}
+			this.initADLTracking();
+			
 			if (this.mCurTracking != null)
 			{
 				var obj = this.mCurTracking.mObjectives[this.mCurTracking.mPrimaryObj];
@@ -794,8 +849,47 @@ SeqActivity.prototype =
 		}
 	},
 	
-	// call getObjStatus(retry) or 
-	// getObjStatus(retry, {iObjID: obj_id, iUseLocal: use_local})
+	// use this for getObjStatus(str iObjID, bool iIsRetry)
+	getObjIdStatus: function (iObjID, iIsRetry)
+	{
+		var status = false;
+		
+		if ( this.mIsTracked==true )
+		{
+			this.initADLTracking();
+			
+			if ( iObjID == null )
+			{
+				status = this.getObjStatus(iIsRetry);
+			}
+			else if ( this.mCurTracking != null )
+			{
+				var obj = this.mCurTracking.mObjectives[iObjID];
+
+				if (obj != null)
+				{ 
+					var objData = obj.getObj();
+					
+					if (objData.mSatisfiedByMeasure==false 
+						|| this.mActiveMeasure==true 
+						|| this.mIsActive==false)
+					{              
+						var result = null;
+						result = obj.getObjStatus(iIsRetry);
+						if (result != TRACK_UNKNOWN)
+						{
+							status = true;
+						}
+					}
+				}
+			}
+		}
+		
+		return status;
+	},
+	
+	// call getObjStatus(retry) or
+	// getObjStatus(retry, {iUseLocal: use_local})
 	getObjStatus: function (iIsRetry, iOptions)
 	{
 		var iOptions = ilAugment({
@@ -808,36 +902,41 @@ SeqActivity.prototype =
 		var status = false;
 		if (this.mIsTracked==true)
 		{
-			if (this.mCurTracking == null)
+			if ( this.mPrimaryStatusSetBySCO )
 			{
-				var track = new ADLTracking(this.mObjectives,
-					this.mLearnerID, this.mScopeID);
-   
-				track.mAttempt = this.mNumAttempt;
-				this.mCurTracking = track;
-			}
-   				
-			else if (this.mCurTracking != null)
-			{
-				
-				if (iObjID == null) {
-					iObjID = this.mCurTracking.mPrimaryObj;
-				}
-				
-				var obj = this.mCurTracking.mObjectives[iObjID];
-
-				if (obj != null)
+				status = true;
+				var obj = this.mCurTracking.mObjectives[this.mCurTracking.mPrimaryObj];
+				if ( obj != null )
 				{
-					var objData = obj.getObj();
+					var res = obj.getObjStatus(iIsRetry, iUseLocal);
+					status = res != TRACK_UNKNOWN;
+				}
+			}
+			else
+			{
+				this.initADLTracking();
+				if (this.mCurTracking != null)
+				{
 					
-					if (objData.mSatisfiedByMeasure==false || this.mActiveMeasure==true ||
-						this.mIsActive==false)
-					{              
-						var result = null;
-						result = obj.getObjStatus(iIsRetry);
-						if (result != TRACK_UNKNOWN)
-						{
-							status = true;
+					if (iObjID == null) {
+						iObjID = this.mCurTracking.mPrimaryObj;
+					}
+					
+					var obj = this.mCurTracking.mObjectives[iObjID];
+
+					if (obj != null)
+					{
+						var objData = obj.getObj();
+						
+						if (objData.mSatisfiedByMeasure==false || this.mActiveMeasure==true ||
+							this.mIsActive==false)
+						{              
+							var result = null;
+							result = obj.getObjStatus(iIsRetry, iUseLocal);
+							if (result != TRACK_UNKNOWN)
+							{
+								status = true;
+							}
 						}
 					}
 				}
@@ -846,9 +945,25 @@ SeqActivity.prototype =
 		return status;
 	},
 	
+	getObjSatValue: function ()
+	{
+		var status = "";
+		var obj = this.mCurTracking.mObjectives[this.mCurTracking.mPrimaryObj];
+		if ( obj != null )
+		{
+			status = obj.getObjStatus(false, true);
+		}
+		return status;
+	},
+	
+	getProgressValue: function()
+	{
+		return this.mCurTracking.getCompletionStatus(false);
+	},
+	
 	// call setObjSatisfied(status) or 
 	// setObjSatisfied(status, {iObjID: obj_id})
-	setObjSatisfied: function (iStatus, iOptions)
+	setObjSatisfied: function (iStatus, iOptions)  
 	{
 		var iOptions = ilAugment({
 			iObjID: null
@@ -887,7 +1002,7 @@ SeqActivity.prototype =
 		return statusChange;
 	},
 	
-	// call getObjSatisfied(is_retry) or 
+	// call getObjSatisfied(is_retry) or
 	// getObjSatisfied(is_retry, {iObjID: obj_id})
 	getObjSatisfied: function (iIsRetry, iOptions)
 	{
@@ -900,13 +1015,7 @@ SeqActivity.prototype =
 		
 		if (this.mIsTracked)
 		{
-			if (this.mCurTracking == null)
-			{
-				var track = new ADLTracking(this.mObjectives,this.mLearnerID,
-					this.mScopeID);
-				track.mAttempt = this.mNumAttempt;
-				this.mCurTracking = track;
-			}
+			this.initADLTracking();
 			
 			if (this.mCurTracking != null)
 			{
@@ -1037,12 +1146,22 @@ SeqActivity.prototype =
 			this.mTracking[this.mTracking.length] = this.mCurTracking;
 		}
 		
+		var track;
 		// Create a set of tracking information for the new attempt
-		var track = new ADLTracking(this.mObjectives, this.mLearnerID,
-			this.mScopeID);
+		if ( this.mProgressDeterminedByMeasure == true )
+		{
+			track = new ADLTracking(this.mObjectives, this.mLearnerID, this.mScopeID,
+									this.mProgressThreshold, this.mProgressWeight);
+		}
+		else
+		{
+			track = new ADLTracking(this.mObjectives, this.mLearnerID, this.mScopeID);
+		}
 		
 		this.mNumAttempt++;
 		track.mAttempt = this.mNumAttempt;
+		track.setProgressMeasureThreshold(this.mProgressThreshold);
+		track.setProgressMeasureWeight(this.mProgressWeight);
 		
 		this.mCurTracking = track;
 		
@@ -1066,6 +1185,7 @@ SeqActivity.prototype =
 				{
 					temp.setDirtyPro();
 				}
+				this.mActiveChildren[i] = temp;
 			}
 		}	
 	},
@@ -1088,6 +1208,7 @@ SeqActivity.prototype =
 				{
 					temp.setDirtyObj();
 				}
+				this.mActiveChildren[i] = temp;
 			}
 		}
 	},
@@ -1109,6 +1230,7 @@ SeqActivity.prototype =
 				{
 					temp.setDirtyPro();
 				}
+				this.mActiveChildren[i] = temp;
 			}
 		}
 	},
@@ -1156,7 +1278,7 @@ SeqActivity.prototype =
 					{
 						var map = mapSet[i];
 						
-						if (!iRead && (map.mWriteStatus || map.mWriteMeasure))
+						if (!iRead && map.hasWriteMaps() )
 						{
 							if (objSet == null)
 							{
@@ -1165,7 +1287,7 @@ SeqActivity.prototype =
 							
 							objSet[objSet.length] = map.mGlobalObjID;
 						}
-						else if (iRead && (map.mReadStatus || map.mReadMeasure))
+						else if (iRead && map.hasReadMaps() )
 						{
 							if (objSet == null)
 							{
@@ -1340,13 +1462,7 @@ SeqActivity.prototype =
 	{
 		var objSet = null;
 		
-		if (this.mCurTracking == null)
-		{
-			var track = new ADLTracking(this.mObjectives,this.mLearnerID,
-				this.mScopeID);
-			track.mAttempt = this.mNumAttempt;
-			this.mCurTracking = track;
-		}
+		this.initADLTracking();
 		
 		if (this.mCurTracking.mObjectives != null)
 		{
@@ -1363,13 +1479,26 @@ SeqActivity.prototype =
 					objStatus.mObjID = obj.getObjID();
 					var measure = obj.getObjMeasure(false);
 					
-					objStatus.mHasMeasure =
-						(measure != TRACK_UNKNOWN);
+					objStatus.mHasMeasure = (measure != TRACK_UNKNOWN);
 					
 					if (objStatus.mHasMeasure)
 					{
 						objStatus.mMeasure = parseFloat(measure);
 					}
+					
+					objStatus.mHasRawScore = obj.getObjRawScore(false) != TRACK_UNKNOWN;
+					if ( objStatus.mHasRawScore ) objStatus.mRawScore = obj.getObjRawScore(false);
+					
+					objStatus.mHasMinScore = obj.getObjMinScore(false) != TRACK_UNKNOWN;
+					if ( objStatus.mHasMinScore ) objStatus.mMinScore = obj.getObjMinScore(false);
+					
+					objStatus.mHasMaxScore = obj.getObjMaxScore(false) != TRACK_UNKNOWN;
+					if ( objStatus.mHasMaxScore ) objStatus.mMaxScore = obj.getObjMaxScore(false);
+										
+					objStatus.mHasProgressMeasure = obj.getObjProgressMeasure(false) != TRACK_UNKNOWN;
+					if ( objStatus.mHasProgressMeasure ) objStatus.mProgressMeasure = obj.getObjProgressMeasure(false);
+					
+					objStatus.mCompletionStatus = obj.getObjCompletionStatus(false);
 					
 					objStatus.mStatus = obj.getObjStatus(false);
 					objSet[objSet.length] = objStatus;
@@ -1385,5 +1514,389 @@ SeqActivity.prototype =
 			}
 		}
 		return objSet;
+	},
+	
+	initADLTracking: function ()
+	{
+		if (this.mCurTracking == null)
+		{
+			var track;
+			
+			if ( this.mProgressDeterminedByMeasure == true)
+			{
+				track = new ADLTracking(this.mObjectives,this.mLearnerID,
+				this.mScopeID, this.mProgressThreshold, this.mProgressWeight);
+			}
+			else
+			{
+				track = new ADLTracking(this.mObjectives, this.mLearnerID, this.mScopeID);
+			}
+		
+			track.mAttempt = this.mNumAttempt;
+			
+			this.mCurTracking = track;
+			
+			// set progress measure stuff
+			track.setProgressMeasureThreshold(this.mProgressThreshold);
+			track.setProgressMeasureWeight(this.mProgressWeight);
+		}
+	},
+	
+	getProMeasure: function( iIsRetry )
+	{
+		var measure = -1.0;
+		
+		if( this.mIsTracked )
+		{
+			this.initADLTracking();
+			
+			if ( this.mCurTracking != null )
+			{
+				//make sure the current state is valid
+				if ( !(this.mCurTracking.mDirtyPro && iIsRetry))
+				{
+					if ( this.mCurTracking.hasProgressMeasure() )
+					{
+						measure = this.mCurTracking.getProgressMeasure();
+					}
+				}
+			}
+		}
+		return measure;
+	},
+	
+	setProMeasure: function( iProMeasure )
+	{
+		if ( this.mIsTracked )
+		{
+			if ( this.mCurTracking != null)
+			{
+				this.mCurTracking.setProgressMeasure( iProMeasure );
+			}
+		}
+	},
+	
+	clearProMeasure: function()
+	{
+		if ( this.mCurTracking != null)
+		{
+			if ( this.mCurTracking != null)
+			{
+				this.mCurTracking.clearProMeasure();
+			}
+		}
+	},
+	
+	setProgressDeterminedByMeasure: function( iDeterminedByMeasure)
+	{
+		this.mProgressDeterminedByMeasure = iDeterminedByMeasure;
+	},
+	
+	setProgressThreshold: function( iThreshold )
+	{
+		if ( iThreshold >= 0 && iThreshold <= 1.0)
+		{
+			this.mProgressThreshold = iThreshold;
+		}
+	},
+	
+	setProgressWeight: function ( iWeight )
+	{
+		if ( iWeight >= 0 && iWeight <= 1.0)
+		{
+			this.mProgressWeight = iWeight;
+			
+			if ( this.mCurTracking != null)
+			{
+				this.mCurTracking.setProgressMeasureWeight( iWeight);
+			}
+		}
+	},
+	
+	clearObjStatus: function()
+	{
+		var statusChange = false;
+		
+		if ( this.mCurTracking != null)
+		{
+			var obj = this.mCurTracking.mObjectives[this.mCurTracking.mPrimaryObj];
+			
+			if ( obj != null )
+			{
+				statusChange = obj.clearObjStatus();
+			}
+		}
+	},
+	
+	getObjProgressStatus: function( iObjID, iRollup )
+	{
+		var status = false;
+		
+		if ( this.mIsTracked )
+		{
+			this.initADLTracking();
+			var primary = false;
+			
+			if ( this.mCurTracking != null )
+			{
+				primary = iObjID == null || iObjID == (this.mCurTracking.mPrimaryObj);
+			}
+			
+			if ( primary == true)
+			{
+				status = this.getProgressStatus( iRollup );
+			}
+			else if ( this.mCurTracking != null)
+			{
+				var obj = this.mCurTracking.mObjectives[iObjID];
+				
+				if ( obj != null)
+				{
+					var result = obj.getObjCompletionStatus( iRollup );
+					status = !(result == TRACK_UNKNOWN);
+				}
+			}
+		}
+		return status;
+	},
+	
+	getObjAttemptCompleted: function( iObjID, iRollup)
+	{
+		var status = false;
+		
+		if ( this.mIsTracked )
+		{
+			this.initADLTracking();
+			var primary = false;
+			
+			if ( this.mCurTracking != null )
+			{
+				primary = iObjID == null || iObjID == this.mCurTracking.mPrimaryObj;
+			}
+			if ( primary == true)
+			{
+				status = this.getPriObjAttemptCompleted(iRollup);
+			}
+			else if ( this.mCurTracking != null)
+			{
+				var obj = this.mCurTracking.mObjectives[iObjID];
+				
+				if ( obj != null)
+				{
+					var result = obj.getObjCompletionStatus( iRollup );
+					status = result == TRACK_COMPLETED;
+				}
+			}
+		}
+		return status;
+	},
+
+	setObjRawScore: function (iObjID, iRawScore)
+	{
+      if ( this.mIsTracked )
+      {
+         if ( iObjID != null )
+         {
+            var obj = this.getObj(iObjID);
+            if ( obj != null )
+            {
+               obj.setObjRawScore(iRawScore);
+            }
+         }
+
+      }
+   },
+
+   clearObjRawScore: function (iObjID)
+   {
+      var statusChange = false;
+      var obj;
+      if (iObjID != null)
+      {
+         obj = this.mCurTracking.mObjectives[iObjID];
+         if ( obj != null )
+         {
+            statusChange = obj.clearObjRawScore();
+         }
+      }
+      return statusChange;
+   },
+   
+   setObjMinScore: function (iObjID, iMinScore)
+   {
+      if ( this.mIsTracked )
+      {
+         if ( iObjID != null )
+         {
+            var obj = this.getObj(iObjID);
+            if ( obj != null )
+            {
+               obj.setObjMinScore(iMinScore);
+            }
+         }
+      }
+   },
+   
+   clearObjMinScore: function (iObjID)
+   {
+      var statusChange = false;
+      var obj;
+      if (iObjID != null)
+      {
+         obj = this.mCurTracking.mObjectives[iObjID];
+         if ( obj != null )
+         {
+            statusChange = obj.clearObjMinScore();
+         }
+      }
+      return statusChange;
+   },
+   
+   setObjMaxScore: function (iObjID, iMaxScore)
+   {
+      if ( this.mIsTracked )
+      {
+         if ( iObjID != null )
+         {
+            var obj = this.getObj(iObjID);
+            if ( obj != null )
+            {
+               obj.setObjMaxScore(iMaxScore);
+            }
+         }
+      }
+   },
+   
+   clearObjMaxScore: function (iObjID)
+   {
+      var statusChange = false;
+      var obj;
+      if (iObjID != null)
+      {
+         obj = this.mCurTracking.mObjectives[iObjID];
+         if ( obj != null )
+         {
+            statusChange = obj.clearObjMaxScore();
+         }
+      }
+      return statusChange;
+   },
+   
+   setObjProgressMeasure: function (iObjID, iProgressMeasure)
+   {
+      
+		var obj;
+		if ( iObjID != null )
+		{
+			obj = this.getObj(iObjID);
+			if ( obj != null )
+			{
+				obj.setObjProgressMeasure(iProgressMeasure);
+			}
+		}
+      
+   },
+   
+   clearObjProgressMeasure: function (iObjID)
+   {
+      var statusChange = false;
+      var obj;
+      if (iObjID != null)
+      {
+         obj = this.mCurTracking.mObjectives[iObjID];
+         if ( obj != null )
+         {
+            statusChange = obj.clearObjProgressMeasure();
+         }
+      }
+      return statusChange;
+   },
+   
+   setObjCompletionStatus: function (iObjID, iCompletionStatus)
+   {
+		if ( iObjID != null )
+        {
+			var obj = this.getObj(iObjID);
+			if ( obj != null )
+			{
+			   obj.setObjCompletionStatus(iCompletionStatus);
+			}
+        }
+      
+   },
+   
+   clearObjCompletionStatus: function (iObjID)
+   {
+      var statusChange = false;
+      var obj;
+      if (this.mCurTracking != null)
+      {
+         obj = this.mCurTracking.mObjectives[iObjID];
+         if ( obj != null )
+         {
+            statusChange = obj.clearObjCompletionStatus();
+         }
+      }
+      return statusChange;
+   },
+   
+   getObj: function (iObjID)
+   {
+		if ( this.mCurTracking == null )
+		{
+			this.mCurTracking = new ADLTracking(this.mObjectives, this.mLearnerID, this.mScopeID);
+			track.mAttempt = this.mNumAttempt;
+		}
+		return this.mCurTracking.mObjectives[iObjID];
+   },
+   
+	setProgressMeasure: function (iProgressMeasure)
+	{
+		var statusChange = false;
+		if ( this.mIsTracked )
+		{
+			var proMeasure = iProgressMeasure;
+			this.initADLTracking();
+			var previousMeasure = (this.mCurTracking.hasProgressMeasure())?this.mCurTracking.getProgressMeasure():-1;
+			this.mCurTracking.setProgressMeasure(proMeasure);
+			statusChange = previousMeasure != proMeasure;
+		}
+		return statusChange;
+	},
+	
+	getCompletedByMeasure: function ()
+	{
+		var compByMeasure = false;
+		if ( this.mIsTracked )
+		{
+			this.initADLTracking();
+			compByMeasure = this.mCurTracking.getProgressDeterminedByMeasure();
+		}
+		return compByMeasure;
+	},
+	
+	getProMeasureWeight: function ()
+	{
+		var weight = 0;
+		if ( this.mIsTracked )
+		{
+			this.initADLTracking();
+			weight = this.mCurTracking.getProgressMeasureWeight();
+		}
+		return weight;
+	},
+	
+	getProMeasureStatus: function (iIsRetry)
+	{
+		var valid = false;
+		if ( this.mIsTracked )
+		{
+			this.initADLTracking();
+			if ( ! (this.mCurTracking.mDirtyPro && iIsRetry) )
+			{
+				valid = this.mCurTracking.hasProgressMeasure();
+			}
+		}
+		return valid;
 	}
-}
+};

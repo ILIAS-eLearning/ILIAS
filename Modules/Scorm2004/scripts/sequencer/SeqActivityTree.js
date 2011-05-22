@@ -53,11 +53,14 @@ function SeqActivityTree(iCourseID, iLearnerID, iScopeID, iRoot)
 	this.mLearnerID = iLearnerID;
 	this.mScopeID = iScopeID;
 	this.mRoot = iRoot;
+	
+	this.dsMap = new Object();
 }
 
 //this.SeqActivityTree = SeqActivityTree;
 SeqActivityTree.prototype = 
 {
+	dataStoreLoc: null,
 	mRoot: null,
 	mValidReq: null,
 	mLastLeaf: null,
@@ -71,6 +74,7 @@ SeqActivityTree.prototype =
 	mObjSet: null,
 	mObjMap: null,
 	mObjScan: false,
+	mDataScopedForAllAttempts: true,
 
 	// trivial getter/setter
 	getScopeID: function () { return this.mScopeID; },
@@ -81,7 +85,7 @@ SeqActivityTree.prototype =
 	setValidRequests: function (iValidRequests) { this.mValidReq = iValidRequests; },
 	getValidRequests: function () { return this.mValidReq; },
 	getCurrentActivity: function () { return this.mCurActivity; },
-	setCurrentActivity: function (iCurrent) { this.mCurActivity = iCurrent; },
+	setCurrentActivity: function (iCurrent) {this.mCurActivity = iCurrent; },
 	setFirstCandidate: function (iFirst) { this.mFirstCandidate = iFirst; },
 	setSuspendAll: function (iSuspendTarget) { this.mSuspendAll = iSuspendTarget; },
 	getSuspendAll: function () { return this.mSuspendAll; },
@@ -374,7 +378,7 @@ SeqActivityTree.prototype =
 							}
 							
 							// If this is a 'read' objective add it to our obj map
-							if (map.mReadStatus || map.mReadMeasure)
+							if ((map.mReadStatus || map.mReadMeasure || map.mReadCompletionStatus || map.mReadProgressMeasure)&& obj.mContributesToRollup)
 							{
 								if (this.mObjMap == null)
 								{
@@ -415,5 +419,27 @@ SeqActivityTree.prototype =
 			}
 		}
 		this.mObjScan = true;
+	},
+	
+	//Sets whether the data store collection persists for all attempts
+	setDataScopedForAllAttempts: function (iAttributeValue) 
+		{ 
+			this.mDataScopedForAllAttempts = iAttributeValue; 
+		},
+	
+	//Indicates if the data store collection is persisted for all attempts
+	dataScopedForAllAttempts: function() 
+		{ 
+			return this.mDataScopedForAllAttempts; 
+		},
+
+	//Gets the activity map.  Returns Map of the activities
+	getActivityMap: function()
+	{
+		if ( this.mActivityMap == null)
+			{
+				this.buildActivityMap();
+			}
+		return this.mActivityMap;
 	}
-}
+};

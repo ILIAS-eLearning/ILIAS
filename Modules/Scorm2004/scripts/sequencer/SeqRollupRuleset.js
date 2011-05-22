@@ -81,7 +81,10 @@ SeqRollupRuleset.prototype =
 			if (ioThisActivity.getChildren(false) != null)
 			{
 				// Step 3.1 -- apply the Measure Rollup Process
-				ioThisActivity=this.applyMeasureRollup(ioThisActivity);
+				ioThisActivity = this.applyMeasureRollup(ioThisActivity);
+				
+				// Apply Progress Measure Rollup Process				
+            		ioThisActivity=this.applyProgressMeasureRollup(ioThisActivity);
 				
 				var satisfiedRule = false;
 				var completedRule = false;
@@ -124,13 +127,13 @@ SeqRollupRuleset.prototype =
 					set.mCombination = COMBINATION_ANY;
 					set.mConditions = new Array();
 					
-					cond.mCondition = ATTEMPTED;
+					cond.mCondition = OBJSTATUSKNOWN;
 					set.mConditions[0] = cond;
 					
-					cond = new SeqCondition();
-					cond.mCondition = SATISFIED;
-					cond.mNot = true;
-					set.mConditions[1] = cond;
+					//cond = new SeqCondition();
+					//cond.mCondition = SATISFIED;
+					//cond.mNot = true;
+					//set.mConditions[1] = cond;
 					
 					rule.mAction = ROLLUP_ACTION_NOTSATISFIED;
 					rule.mConditions = set;
@@ -171,13 +174,13 @@ SeqRollupRuleset.prototype =
 					set.mCombination = COMBINATION_ANY;
 					set.mConditions = new Array();
 					
-					cond.mCondition = ATTEMPTED;
+					cond.mCondition = PROGRESSKNOWN;	
 					set.mConditions[0] = cond;
 					
-					cond = new SeqCondition();
-					cond.mCondition = COMPLETED;
-					cond.mNot = true;
-					set.mConditions[1] = cond;
+					//cond = new SeqCondition();
+					//cond.mCondition = COMPLETED;
+					//cond.mNot = true;
+					//set.mConditions[1] = cond;
 					
 					rule.mAction = ROLLUP_ACTION_INCOMPLETE;
 					rule.mConditions = set;
@@ -247,18 +250,35 @@ SeqRollupRuleset.prototype =
 					}
 					else if (this.mIsNotSatisfied)
 					{
-						ioThisActivity.setObjSatisfied(TRACK_NOTSATISFIED);
+						if ( ioThisActivity.isPrimaryStatusSetBySCO() && ioThisActivity.getObjSatValue()== TRACK_UNKNOWN )	
+							{//ignore
+								
+							}
+						else											
+						{
+							ioThisActivity.setObjSatisfied(TRACK_NOTSATISFIED);
+						}
 					}
 				}
 				
-				if (this.mIsCompleted)
-				{
-					ioThisActivity.setProgress(TRACK_COMPLETED);
-				}
-				else if (this.mIsIncomplete)
-				{
-					ioThisActivity.setProgress(TRACK_INCOMPLETE);
-				}
+				if (!ioThisActivity.getCompletedByMeasure())
+					{
+						if (this.mIsCompleted == true)
+						{
+							ioThisActivity.setProgress(TRACK_COMPLETED);
+						}
+						else if (this.mIsIncomplete == true)
+						{
+							if ( ioThisActivity.isPrimaryProgressSetBySCO() && (ioThisActivity.getProgressValue() == TRACK_UNKNOWN))
+							{//ignore
+								
+							}
+							else
+							{
+								ioThisActivity.setProgress(TRACK_INCOMPLETE);
+							}
+						}
+					}
 			}
 		}
 		return ioThisActivity;
@@ -272,7 +292,7 @@ SeqRollupRuleset.prototype =
 		
 		var children = ioThisActivity.getChildren(false);
 		
-		// Measure Rollup Behavior 
+		// Progress Measure Rollup Behavior 
 		for (var i = 0; i < children.length; i++)
 		{
 			var child = children[i];
@@ -281,14 +301,13 @@ SeqRollupRuleset.prototype =
 				// Make sure a non-zero weight is defined
 				if (child.getObjMeasureWeight() > 0.0)
 				{
-					countedMeasure =parseFloat(countedMeasure) +parseFloat(child.getObjMeasureWeight());
+					countedMeasure += parseFloat(child.getObjMeasureWeight());
 					//alert("LOOK FOR MEASURE for: "+child.mActivityID+"is :"+child.getObjMeasure(false));
 					
 					// If a measure is defined for the child
 					if (child.getObjMeasureStatus(false))
 					{
-						total = parseFloat(total) + parseFloat(child.getObjMeasureWeight() * child.getObjMeasure(false));
-							
+						total += (parseFloat(child.getObjMeasureWeight()) * parseFloat(child.getObjMeasure(false)));	
 					}
 				}
 			}
@@ -306,6 +325,39 @@ SeqRollupRuleset.prototype =
 		}
 	  	return ioThisActivity;
 	},
+	
+	applyProgressMeasureRollup: function (ioThisActivity)
+	{
+		var total = 0;
+		var countedMeasure = 0;
+		var children = ioThisActivity.getChildren(false);
+		for ( var i = 0; i < children.length; i++ )
+		{
+			var child = children[i];
+			if ( child.getIsTracked() )
+			{
+				if ( child.getProMeasureWeight() > 0 )
+				{
+					countedMeasure += parseFloat(child.getProMeasureWeight());
+					
+					if ( child.getProMeasureStatus(false) )
+					{
+						total += (parseFloat(child.getProMeasureWeight()) * parseFloat(child.getProMeasure(false)));
+					}
+				}
+			}
+		}
+		if ( countedMeasure > 0 )
+		{
+			ioThisActivity.setProMeasure(total/countedMeasure);
+		}
+		else 
+		{
+			ioThisActivity.clearProMeasure();
+		}
+		
+		return ioThisActivity;
+	},
    
 	size: function ()
 	{
@@ -316,5 +368,5 @@ SeqRollupRuleset.prototype =
 	
 		return 0;
 	}
-}
+};
 	

@@ -174,7 +174,21 @@ class ilSCORM13Package
 	  	{
 	  		$this->diagnostic[] = 'Cannot transform into normalized manifest';
 	  		return false;
-	  	}	
+	  	}
+		//setp 2.5 if only a single item, make sure the scormType of it's linked resource is SCO
+		$path = new DOMXpath($this->manifest);
+		$path->registerNamespace("scorm","http://www.openpalms.net/scorm/scorm13");
+		$items = $path->query("//scorm:item");
+		if($items->length == 1){
+			$n = $items->item(0);
+			$resource = $path->query("//scorm:resource");//[&id='"+$n->getAttribute("resourceId")+"']");
+			foreach($resource as $res){
+				if($res->getAttribute('id') == $n->getAttribute("resourceId")){
+					$res->setAttribute('scormType','sco');
+				}
+			}
+		}
+		//$this->manifest->save("C:\Users\gratat\after.xml");
 	  	//step 3 validation -just for normalized XML
 		if ($validate=="y") {
 	  		if (!$this->validate($this->manifest, self::VALIDATE_XSD))
@@ -250,7 +264,8 @@ class ilSCORM13Package
 				'xmldata'			=> array('clob', $x->asXML()),
 				'jsdata'			=> array('clob', json_encode($j)),
 				'activitytree'		=> array('clob', json_encode($adl_tree['tree'])),
-				'global_to_system'	=> array('integer', (int)$adl_tree['global'])
+				'global_to_system'	=> array('integer', (int)$adl_tree['global']),
+				'shared_data_global_to_system' => array('integer', (int)$adl_tree['dataglobal'])
 			),
 			array(
 				'obj_id'			=> array('integer', (int)$this->packageId)
@@ -887,7 +902,9 @@ class ilSCORM13Package
 									  'readnormalmeasure', 'readsatisfiedstatus',
 									  'preventactivation', 'measuresatisfactive',
 									  'reorderchildren', 'usecurattemptproginfo',
-									  'usecurattemptobjinfo', 'rollupprogcompletion')))
+									  'usecurattemptobjinfo', 'rollupprogcompletion',
+									  'read_shared_data', 'write_shared_data',
+									  'shared_data_global_to_system', 'completedbymeasure')))
 					{
 						if($attr->value == 'true')
 							$values[] = 1;
@@ -913,7 +930,9 @@ class ilSCORM13Package
 									   'readnormalmeasure', 'readsatisfiedstatus',
 									   'preventactivation', 'measuresatisfactive',
 									   'reorderchildren', 'usecurattemptproginfo',
-									   'usecurattemptobjinfo', 'rollupprogcompletion')))
+									   'usecurattemptobjinfo', 'rollupprogcompletion',
+									   'read_shared_data', 'write_shared_data',
+									   'shared_data_global_to_system')))
 						$types[] = 'integer';
 					else if ( in_array($names[count($names) - 1],
 									   array('jsdata', 'xmldata', 'activitytree', 'data')))
@@ -923,6 +942,17 @@ class ilSCORM13Package
 						$types[] = 'float';
 					else
 						$types[] = 'text';			
+				}
+				
+				if($node->nodeName==='datamap')
+                {
+                    $names[] = 'slm_id';
+					$values[] = $this->packageId;
+					$types[] = 'integer';
+					
+					$names[] = 'sco_node_id';
+					$values[] = $parent;
+					$types[] = 'integer';
 				}
 				
 				// we have to change the insert method because of clob fields ($ilDB->manipulate does not work here)
@@ -1116,6 +1146,7 @@ class ilSCORM13Package
 			die('ERROR: load StyleSheet ' . $xslfile);
 		}
 		$prc = new XSLTProcessor;
+		$prc->registerPHPFunctions();
 		$r = @$prc->importStyleSheet($xsl);
 		if (false===@$prc->importStyleSheet($xsl))
 		{
