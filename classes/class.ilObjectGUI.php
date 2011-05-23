@@ -1113,7 +1113,19 @@ class ilObjectGUI
 				
 				$this->afterImport($newObj);
 			}
-			return;
+			// import failed
+			else 
+			{
+				if($objDefinition->isContainer($new_type))
+				{
+					ilUtil::sendFailure($this->lng->txt("container_import_zip_file_invalid"));
+				}
+				else
+				{
+					// not enough information here...
+					return;
+				}
+			}
 		}
 
 		// display form to correct errors
