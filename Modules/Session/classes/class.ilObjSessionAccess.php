@@ -29,7 +29,7 @@
 * @ingroup ModulesSession
 */
 
-class ilObjSessionAccess
+class ilObjSessionAccess extends ilObjectAccess
 {
 	protected static $registrations = null;
 	protected static $registered = null;
