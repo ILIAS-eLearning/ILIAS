@@ -41,7 +41,7 @@ class ilObjSessionAccess extends ilObjectAccess
 	 * @return array
 	 * @static
 	 */
-	public static function _getCommands()
+	public function _getCommands()
 	{
 		$commands = array
 		(
