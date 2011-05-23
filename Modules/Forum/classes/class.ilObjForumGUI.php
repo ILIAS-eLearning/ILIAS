@@ -3888,7 +3888,13 @@ class ilObjForumGUI extends ilObjectGUI
 
 		return true;
 	}
-
+	public function getIcon($user_toggle_noti)
+	{
+		$icon = $user_toggle_noti
+		? "<img src=\"".ilUtil::getImagePath("icon_ok.gif")."\" alt=\"".$this->lng->txt("enabled")."\" title=\"".$this->lng->txt("enabled")."\" border=\"0\" vspace=\"0\"/>"
+		: "<img src=\"".ilUtil::getImagePath("icon_not_ok.gif")."\" alt=\"".$this->lng->txt("disabled")."\" title=\"".$this->lng->txt("disabled")."\" border=\"0\" vspace=\"0\"/>";
+		return $icon;
+	}
 	/**
 	 *
 	 * Shows different user sections and their notifcation status
@@ -3979,14 +3985,14 @@ class ilObjForumGUI extends ilObjectGUI
 				$frm_noti->setUserId($user_id);
 				$admin_force_noti = $frm_noti->isAdminForceNotification();
 				$user_toggle_noti = $frm_noti->isUserToggleNotification();
+				$icon_ok = $this->getIcon(!$user_toggle_noti);
 
 				$moderators[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
 				$moderators[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
 				$name = ilObjUser::_lookupName($user_id);
 				$moderators[$counter]['firstname'] = $name['firstname'];
 				$moderators[$counter]['lastname'] = $name['lastname'];
-				#$moderators[$counter]['admin_force_noti'] =  ilUtil::formCheckbox($admin_force_noti, 'adm_force[]', $user_id, true);
-				$moderators[$counter]['user_toggle_noti'] = ilUtil::formCheckbox($user_toggle_noti, 'usr_toggle[]', $user_id, true);
+				$moderators[$counter]['user_toggle_noti'] = $icon_ok;
 				$counter++;
 			}
 
@@ -3996,14 +4002,14 @@ class ilObjForumGUI extends ilObjectGUI
 				$frm_noti->setUserId($user_id);
 				$admin_force_noti = $frm_noti->isAdminForceNotification();
 				$user_toggle_noti = $frm_noti->isUserToggleNotification();
+				$icon_ok = $this->getIcon(!$user_toggle_noti);
 
 				$admins[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
 				$admins[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
 				$name = ilObjUser::_lookupName($user_id);
 				$admins[$counter]['firstname'] = $name['firstname'];
 				$admins[$counter]['lastname'] = $name['lastname'];
-			#	$admins[$counter]['admin_force_noti'] =  ilUtil::formCheckbox($admin_force_noti, 'adm_force[]', $user_id, true);
-				$admins[$counter]['user_toggle_noti'] = ilUtil::formCheckbox($user_toggle_noti, 'usr_toggle[]', $user_id, true);
+				$admins[$counter]['user_toggle_noti'] =  $icon_ok;
 				$counter++;
 			}
 
@@ -4013,14 +4019,14 @@ class ilObjForumGUI extends ilObjectGUI
 				$frm_noti->setUserId($user_id);
 				$admin_force_noti = $frm_noti->isAdminForceNotification();
 				$user_toggle_noti = $frm_noti->isUserToggleNotification();
+				$icon_ok = $this->getIcon(!$user_toggle_noti);
 
 				$members[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
 				$members[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
 				$name = ilObjUser::_lookupName($user_id);
 				$members[$counter]['firstname'] = $name['firstname'];
 				$members[$counter]['lastname'] = $name['lastname'];
-		#		$members[$counter]['admin_force_noti'] = ilUtil::formCheckbox($admin_force_noti, 'adm_force[]', $user_id, true);
-				$members[$counter]['user_toggle_noti'] = ilUtil::formCheckbox($user_toggle_noti, 'usr_toggle[]', $user_id, true);
+				$members[$counter]['user_toggle_noti'] = $icon_ok;
 				$counter++;
 			}
 
@@ -4031,14 +4037,14 @@ class ilObjForumGUI extends ilObjectGUI
 				$frm_noti->setUserId($user_id);
 				$admin_force_noti = $frm_noti->isAdminForceNotification();
 				$user_toggle_noti = $frm_noti->isUserToggleNotification();
+				$icon_ok = $this->getIcon(!$user_toggle_noti);
 
 				$tutors[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
 				$tutors[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
 				$name = ilObjUser::_lookupName($user_id);
 				$tutors[$counter]['firstname'] = $name['firstname'];
 				$tutors[$counter]['lastname'] = $name['lastname'];
-		#		$tutors[$counter]['admin_force_noti'] = ilUtil::formCheckbox($admin_force_noti, 'adm_force[]', $user_id, true);
-				$tutors[$counter]['user_toggle_noti'] = ilUtil::formCheckbox($user_toggle_noti, 'usr_toggle[]', $user_id, true);
+				$tutors[$counter]['user_toggle_noti'] = $icon_ok;
 				$counter++;
 			}
 

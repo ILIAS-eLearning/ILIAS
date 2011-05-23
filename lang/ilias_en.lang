@@ -11427,3 +11427,4 @@ payment#:#show_shop_explorer_info#:#This shop explorer simplifies the navigation
 survey#:#survey_available_question_pools#:#Available Pools
 survey#:#survey_question_pool_title#:#Pool Title
 forum#:#user_decides_notification#:#Each user decides about notification
+common#:#allow_user_toggle_noti#:#Member is allowed to deactivate notification
