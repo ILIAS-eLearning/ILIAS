@@ -521,7 +521,14 @@ class ilLearningProgressBaseGUI
 				{
 					$info->addProperty($this->lng->txt('trac_spent_time'),ilFormat::_secondsToString($progress['spent_seconds']));
 				}
-				$info->addProperty($this->lng->txt('trac_status'),$this->lng->txt($this->__readStatus($item_id,$user_id)));
+				
+				// display status as image
+				include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+				$status = $this->__readStatus($item_id,$user_id);
+				$status_path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
+				$status_text = ilLearningProgressBaseGUI::_getStatusText($status);
+				$info->addProperty($this->lng->txt('trac_status'), 
+					ilUtil::img($status_path, $status_text)." ".$status_text);
 				break;
 
 			case 'exc':
@@ -529,7 +536,13 @@ class ilLearningProgressBaseGUI
 			case 'crs':
 			case 'sahs':
 			case 'grp':
-				$info->addProperty($this->lng->txt('trac_status'),$this->lng->txt($this->__readStatus($item_id,$user_id)));
+				// display status as image
+				include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+				$status = $this->__readStatus($item_id,$user_id);
+				$status_path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
+				$status_text = ilLearningProgressBaseGUI::_getStatusText($status);
+				$info->addProperty($this->lng->txt('trac_status'), 
+					ilUtil::img($status_path, $status_text)." ".$status_text);
 				break;
 
 		}
