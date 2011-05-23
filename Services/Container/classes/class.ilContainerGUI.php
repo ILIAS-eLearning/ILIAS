@@ -558,19 +558,50 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		global $ilAccess, $ilSetting;
 		global $ilUser, $lng;
 
+		$lng->loadLanguageModule('cntr');
+
 		if ($this->isActiveAdministrationPanel())
 		{			
-						
+			include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+			$toolbar = new ilToolbarGUI();
+			$this->ctrl->setParameter($this, "type", "");
+			$this->ctrl->setParameter($this, "item_ref_id", "");
+
 			if (!$_SESSION["clipboard"])
 			{
 				if ($this->object->gotItems())
 				{
-					$GLOBALS["tpl"]->addAdminPanelCommand("delete",
-						$this->lng->txt("delete_selected_items"), true);
-					$GLOBALS["tpl"]->addAdminPanelCommand("cut",
-						$this->lng->txt("move_selected_items"));
-					$GLOBALS["tpl"]->addAdminPanelCommand("link",
-						$this->lng->txt("link_selected_items"));
+					$toolbar->setLeadingImage(
+						ilUtil::getImagePath("arrow_upright.gif"),
+						$lng->txt("actions")
+					);
+					$toolbar->addFormButton(
+						$this->lng->txt('delete_selected_items'),
+						'delete'
+					);
+					$toolbar->addFormButton(
+						$this->lng->txt('move_selected_items'),
+						'cut'
+					);
+					$toolbar->addFormButton(
+						$this->lng->txt('link_selected_items'),
+						'link'
+					);
+
+				}
+				if($this->object->getType() == 'crs')
+				{
+					if($this->object->gotItems())
+					{
+						$toolbar->addSeparator();
+					}
+					
+					$toolbar->addButton(
+						$this->lng->txt('cntr_adopt_content'),
+						$this->ctrl->getLinkTargetByClass(
+							'ilObjectCopyGUI',
+							'initSourceSelection')
+					);
 				}
 			}
 			else
@@ -583,15 +614,18 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     $GLOBALS["tpl"]->addAdminPanelCommand("initAndDisplayLinkIntoMultipleObjects",
                         $this->lng->txt("paste_clipboard_items_into_multiple_objects"));
                 }*/
-				
-				$GLOBALS["tpl"]->addAdminPanelCommand("clear",
-					$this->lng->txt("clear_clipboard"));
+				$toolbar->addFormButton(
+					$this->lng->txt('clear_clipboard'),
+					'clear'
+				);
 			}
-
-			$this->ctrl->setParameter($this, "type", "");
-			$this->ctrl->setParameter($this, "item_ref_id", "");
-			$GLOBALS["tpl"]->setPageFormAction($this->ctrl->getFormAction($this));
+			$GLOBALS['tpl']->addAdminPanelToolbar(
+				$toolbar,
+				$this->object->gotItems() ? true : false,
+				$this->object->gotItems() ? true : false
+			);
 		}
+		/*
 		if ($this->edit_order)
 		{			
 			if($this->object->gotItems() and $ilAccess->checkAccess("write", "", $this->object->getRefId()))
@@ -605,6 +639,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 		}
+*/
 	}
 
 	function __showTimingsButton(&$tpl)
@@ -1556,7 +1591,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	function linkObject()
 	{
 		global $clipboard, $rbacsystem, $rbacadmin, $ilCtrl;
-		
+
 		if ($_GET["item_ref_id"] != "")
 		{
 			$_POST["id"] = array($_GET["item_ref_id"]);
