@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2011 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+//* Copyright (c) 1998-2011 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -11372,6 +11372,7 @@ payment#:#show_shop_explorer_info#:#Der Shop-Baum vereinfacht die Navigation inn
 survey#:#survey_available_question_pools#:#Verfügbare Pools
 survey#:#survey_question_pool_title#:#Pool-Titel
 forum#:#user_decides_notification#:#Benutzer entscheidet selbst über Benachrichtigung
+cntr#:#cntr_adopt_content#:#Inhalte übernehmen
 common#:#allow_user_toggle_noti#:#Mitglied darf Benachrichtigung deaktivieren
 cntr#:#container_import_zip_file_invalid#:#Die hochgeladene Datei ist kein gültiger ILIAS Export. Um Verzeichnisstrukturen hochzuladen benutzen Sie bitte ein Datei-Objekt.
 ecs#:#ecs_activated#:#Aktiv
