@@ -1512,7 +1512,7 @@ chat#:#chat_hide_details#:#Cacher détails
 chat#:#chat_hide_smilies#:#Hide smilies
 chat#:#chat_hide_textformat#:#Hide Textformat
 chat#:#chat_html_export#:#Exporter HTML
-chat#:#chat_ilias#:#Module chat d'Ilias
+chat#:#chat_ilias#:#Module chat d'ILIAS
 chat#:#chat_image_path#:#Image Path
 chat#:#chat_inactive#:#Inactif
 chat#:#chat_input#:#Entrée
@@ -2205,7 +2205,7 @@ common#:#check_web_resources_desc#:#Si cette option est active, toutes les resso
 common#:#checked#:#Coché
 common#:#checked_files#:#Fichiers importables
 common#:#chg_ilias_and_webfolder_password#:#Change ILIAS and Webfolder Password
-common#:#chg_ilias_password#:#Modifier le mot de passe Ilias
+common#:#chg_ilias_password#:#Modifier le mot de passe ILIAS
 common#:#chg_language#:#Changer langue
 common#:#chg_password#:#Changer mot de passe
 common#:#choose_language#:#Choisissez votre langue
@@ -2277,7 +2277,7 @@ common#:#copy_selected_items#:#Copier
 common#:#copy_to#:#vers
 common#:#copyChapter#:#Copie
 common#:#copyPage#:#Copie
-common#:#could_not_verify_account#:#Désolé, nous ne pouvons valider votre compte d'utilisateur. Prenez contact avec l'administrateur d'Ilias
+common#:#could_not_verify_account#:#Désolé, nous ne pouvons valider votre compte d'utilisateur. Prenez contact avec l'administrateur d'ILIAS
 common#:#count#:#Décompte
 common#:#country#:#Pays
 common#:#country_free_text#:#Country (Free Text Input
@@ -2376,7 +2376,7 @@ common#:#csv_export#:#CSV-Export
 common#:#cumulative_time#:#Temps cumulé
 common#:#cur_number_rec#:#Nombre actuel d'enregistrements
 common#:#current_ip#:#Numéro IP actuel:
-common#:#current_ip_alert#:#Attention : si vous saisissez un numéro IP erroné, vous ne pourrez plus accéder à la plateforme Ilias avec ce compte d'utilisateur.
+common#:#current_ip_alert#:#Attention : si vous saisissez un numéro IP erroné, vous ne pourrez plus accéder à la plateforme ILIAS avec ce compte d'utilisateur.
 common#:#current_password#:#Mot de passe actuel
 common#:#currently_used_disk_space#:#Currently used disk space
 common#:#custom_icon_size_big#:#Personnaliser la taille de l'icône (grande)
@@ -2680,7 +2680,7 @@ common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved
 common#:#extt_ilinc_timeout#:#Temps maximum d'attente d'une réponse du serveur
 common#:#extt_name#:#Software/Service
 common#:#extt_read#:#Paramètres d'accès aux logiciels tiers
-common#:#extt_remark#:#Tous les services et logiciels énumérés ci-dessous ne font pas partie de l'application Ilias et ne sont pas sous la licence Open Source d'Ilias.
+common#:#extt_remark#:#Tous les services et logiciels énumérés ci-dessous ne font pas partie de l'application ILIAS et ne sont pas sous la licence Open Source d'ILIAS.
 common#:#extt_title_configure#:#Configurer un logiciel externe
 common#:#extt_visible#:#Les paramètres du logiciel tiers sont visibles
 common#:#extt_write#:#Configurer un logiciel tiers
@@ -2871,7 +2871,7 @@ common#:#glo_edit_permission#:#Modifier les paramètres de permission
 common#:#glo_join#:#S'abonner au glossaire
 common#:#glo_leave#:#Se désabonner du glossaire
 common#:#glo_mode#:#Mode
-common#:#glo_mode_desc#:#Un glossaire virtuel fonctionne comme un glossaire normal. Mais il peut, en plus, contenir les termes de tous les autres glossaires du même niveau ou de niveaux inférieurs dans l'arborescence des  objets d'Ilias.
+common#:#glo_mode_desc#:#Un glossaire virtuel fonctionne comme un glossaire normal. Mais il peut, en plus, contenir les termes de tous les autres glossaires du même niveau ou de niveaux inférieurs dans l'arborescence des  objets d'ILIAS.
 common#:#glo_mode_level#:#virtuel (seulement pour ce niveau)
 common#:#glo_mode_normal#:#normal
 common#:#glo_mode_subtree#:#virtuel (niveaux inférieurs)
@@ -3415,7 +3415,7 @@ common#:#link_check_message_disabled#:#Messages désactivés
 common#:#link_check_message_enabled#:#Messages activés
 common#:#link_check_subject#:#[ILIAS] Vérification des liens
 common#:#link_checker_refreshed#:#Vue actualisée
-common#:#link_dynamic_info#:#Vous pouvez ajouter des paramètres dynamiques comme l'identifiant utilisateur ILIAS (Ilias user id).
+common#:#link_dynamic_info#:#Vous pouvez ajouter des paramètres dynamiques comme l'identifiant utilisateur ILIAS (ILIAS user id).
 common#:#link_selected_items#:#Lier les objets sélectionnés
 common#:#linked_object#:#L'objet a été lié
 common#:#linked_pages#:#Pages liées
@@ -3899,7 +3899,7 @@ common#:#obj_exc#:#Evaluation (exercice)
 common#:#obj_exc_duplicate#:#Copier évaluation (exercice)
 common#:#obj_exc_select#:#-- Veuillez sélectionner une évaluation (exercice) --
 common#:#obj_extt#:#Logiciel tiers
-common#:#obj_extt_desc#:#Configurer les services ou logiciels externes hébergés par Ilias
+common#:#obj_extt_desc#:#Configurer les services ou logiciels externes hébergés par ILIAS
 common#:#obj_facs#:#Acc&egrave;s aux fichiers
 common#:#obj_facs_desc#:#Configurer l'accès aux objets fichiers.
 common#:#obj_feed#:#Flux externe
@@ -4277,8 +4277,8 @@ common#:#reg_mail_body_3_confirmation#:#If this email means nothing to you, then
 common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:
 common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.
 common#:#reg_mail_body_salutation#:#Bonjour
-common#:#reg_mail_body_text1#:#Bienvenue dans Ilias
-common#:#reg_mail_body_text2#:#Pour accéder à Ilias, veuillez utiliser les coordonnées suivantes :
+common#:#reg_mail_body_text1#:#Bienvenue dans ILIAS
+common#:#reg_mail_body_text2#:#Pour accéder à ILIAS, veuillez utiliser les coordonnées suivantes :
 common#:#reg_mail_body_text3#:#Informations personnelles supplémentaires :
 common#:#reg_mail_subject#:#ILIAS - vos coordonnées d'accès
 common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Your Confirmationlink
@@ -7697,7 +7697,7 @@ mail#:#mail_add_type#:#Veuillez ajouter le type de message que vous voulez envoy
 mail#:#mail_addr_entries#:#Contacts
 mail#:#mail_assign_entry_to_mailing_list#:#Ajouter un contact de votre carnet d'adresse à la Mailing List
 mail#:#mail_attachments#:#Pièces jointes
-mail#:#mail_auto_generated_info#:#Ce message vous a été automatiquement envoyé par la plate-forme Ilias %s, %s
+mail#:#mail_auto_generated_info#:#Ce message vous a été automatiquement envoyé par la plate-forme ILIAS %s, %s
 mail#:#mail_bc_not_valid#:#Le destinataire en BCC n'est pas valide
 mail#:#mail_bc_search#:#Recherche BCC
 mail#:#mail_byte#:#Octet
@@ -7858,7 +7858,7 @@ mcst#:#mcst_mimetype#:#Mime Type
 mcst#:#mcst_mimetype_info#:#Select mime type to control plugin used for playback.<br>Please note: Be aware that not every browser contains the plugin you intend to use.
 mcst#:#mcst_mimetypes#:#Mime Types
 mcst#:#mcst_mimetypes_info#:#Comma separated list of mime types
-mcst#:#mcst_news_item_visibility_info#:#Les informations publiques sont accessibles en dehors d'Ilias sans authentification, via RSS. Veuillez ne pas inclure d'information confidentielle.
+mcst#:#mcst_news_item_visibility_info#:#Les informations publiques sont accessibles en dehors d'ILIAS sans authentification, via RSS. Veuillez ne pas inclure d'information confidentielle.
 mcst#:#mcst_nr_items#:#Nombre d'objets
 mcst#:#mcst_play_time#:#Durée enregistrement
 mcst#:#mcst_reference_info#:#Fournit une URL pointant la ressource
@@ -8539,7 +8539,7 @@ news#:#news_enable_internal_news_info#:#Activer les blocs d'actualités pour les
 news#:#news_enable_internal_rss#:#Activer le mode RSS pour les actualités internes
 news#:#news_enable_internal_rss_info#:#Permet de publier des articles d'actualité via RSS. Ces articles seront accessibles en dehors du système sans authentification.
 news#:#news_enable_private_feed#:#Activer le flux d'actualité (RSS) personnel
-news#:#news_enable_private_feed_info#:#Si cela est coché, les informations publiques et privées peuvent être obtenues par un flux RSS personnel en dehors d'Ilias. L'authentification est assuré par un mot de passe.
+news#:#news_enable_private_feed_info#:#Si cela est coché, les informations publiques et privées peuvent être obtenues par un flux RSS personnel en dehors d'ILIAS. L'authentification est assuré par un mot de passe.
 news#:#news_feed_url#:#URL du flux (RSS)
 news#:#news_feed_url_for#:#URL du flux (RSS) de '%s'
 news#:#news_first_letter_of_word_notification#:#N
@@ -8598,7 +8598,7 @@ news#:#news_visibility_users#:#Utilisateurs connectés
 news#:#news_x_files_created#:#%s fichiers ont été ajoutés.
 news#:#news_x_files_updated#:#%s fichiers ont été mis à jour.
 news#:#news_x_postings#:#%s messages ont été ajoutés.
-news#:#passwd_equals_ilpasswd#:#Veuillez saisir un mot de passe différent de votre mot de passe Ilias.
+news#:#passwd_equals_ilpasswd#:#Veuillez saisir un mot de passe différent de votre mot de passe ILIAS.
 news#:#priv_feed_disabled#:#Flux d'actualité (RSS) personnel désactivé.
 news#:#priv_feed_no_access_body#:#Veuillez contacter l'administrateur de la plate-forme pour de plus amples informations.
 news#:#priv_feed_no_access_title#:#Le flux d'actualité (RSS) personnel est désactivé.
@@ -9120,7 +9120,7 @@ ps#:#grp_ps_cdf_info#:#Further Group-Specific Data:
 ps#:#grp_ps_required_info#:#Further Group-Specific fields are required for accessing the group content.
 ps#:#ps_account_security_mode#:#Account Security
 ps#:#ps_account_security_mode_customized#:#Customized Account Security
-ps#:#ps_account_security_mode_default#:#Standard Ilias Account Security
+ps#:#ps_account_security_mode_default#:#Standard ILIAS Account Security
 ps#:#ps_agreement_accepted#:#Charte de l'utilisateur accepté
 ps#:#ps_auto_https#:#Auto-détecter HTTPS
 ps#:#ps_auto_https_description#:#Si cette option est activée, ILIAS essaie de détecter le statut HTTPS en analysant la valeur de l'entête spécifié ci-dessous.
@@ -9212,7 +9212,7 @@ ps#:#rbac_log_info#:#Enable logging of all changes to object permissions
 ps#:#show_privacy#:#Confidentialité
 ps#:#show_security#:#Sécurité
 pwassist#:#password_assistance#:#Assistance pour les mots de passe
-pwassist#:#pwassist_enter_email#:#Saisissez une adresse électronique et envoyez le formulaire.n Ilias va envoyer un message à cette adresse. Le message contient tous les noms d'utilisateurs  qui ont déjà cette adresse électronique. nChoisissez le nom d'utilisateur correspondant et utilisez le service 'mot de passe' pour obtenir un nouveau mot de passe. Si vous n'obtenez aucun message par ce moyen, prenez contact avec votre administrateur ou %1$s.
+pwassist#:#pwassist_enter_email#:#Saisissez une adresse électronique et envoyez le formulaire.n ILIAS va envoyer un message à cette adresse. Le message contient tous les noms d'utilisateurs  qui ont déjà cette adresse électronique. nChoisissez le nom d'utilisateur correspondant et utilisez le service 'mot de passe' pour obtenir un nouveau mot de passe. Si vous n'obtenez aucun message par ce moyen, prenez contact avec votre administrateur ou %1$s.
 pwassist#:#pwassist_enter_username_and_email#:#Saisissez un nom d'utilisateur et l'adresse email associée dans les champs ci-dessous.nILIAS enverra un message à cette adresse. Le message contiendra l'adresse d'une page web sur laquelle vous pourrez saisir un nouveau mot de passe pour votre compte utilisateur. Si vous ne parvenez à obtenir un mot de passe pour votre compte par ce moyen, contacter l'administrateur de votre établissement ou envoyez un message à %1$s
 pwassist#:#pwassist_enter_username_and_new_password#:#Saisissez le nom d'utilisateur et le nouveau mot de passe dans les champs ci-dessous.
 pwassist#:#pwassist_invalid_auth_mode#:#L'utilisateur ne sera pas authentifié directement par ILIAS. Par conséquent, saisir un mot de passe est impossible.
@@ -9463,7 +9463,7 @@ registration#:#reg_mail_body_confirmation#:#To confirm this registration enter t
 registration#:#reg_mail_body_profile#:#Données du profil :
 registration#:#reg_mail_body_profile_changed#:#votre profil a été modifié !
 registration#:#reg_mail_body_pwd_generation#:#Votre demande de compte utilisateur va être examiné par un administrateur et devrait être traitée sous 48h. Vous serez informé de la réponse par un message électronique.
-registration#:#reg_mail_body_reason#:#Vous recevez ce message car les notifications de nouveaux abonnements sont autorisées pour votre compte dans Ilias
+registration#:#reg_mail_body_reason#:#Vous recevez ce message car les notifications de nouveaux abonnements sont autorisées pour votre compte dans ILIAS
 registration#:#reg_mail_new_user#:#New user registration
 registration#:#reg_mail_new_user_body#:#Un nouvel utilisateur a été enregistré.
 registration#:#reg_missing_domain#:#Veuillez compléter tous les champs.
@@ -10962,7 +10962,7 @@ wiki#:#wiki_what_links_here#:#Quels liens sur cette page ?
 wiki#:#wiki_what_links_to_page#:#Quels sont les liens qui pointent vers la page "%s" ?
 wiki#:#wiki_whole_wiki#:#Wiki complet
 wiki#:#wiki_wiki_page#:#Page Wiki
-wiki#:#wiki_wiki_search#:#Wiki recherchecommon#:#dd_mm_yyyy#:#DD.MM.YYYY###22 03 2011 new variable
+wiki#:#wiki_wiki_search#:#Wiki recherche
 content#:#cont_localfile#:#Local File###22 03 2011 new variable
 survey#:#anonymize_with_code_all#:#Access with survey codes for all users###22 03 2011 new variable
 content#:#cont_wrong_answers_single#:#Incorrect Choice.###22 03 2011 new variable
