@@ -1829,6 +1829,7 @@ class ilTemplate extends ilTemplateX
 	
 	/**
 	* Add a command to the admin panel
+	* @deprecated use addAdminPanelToolbar
 	*/
 	function addAdminPanelCommand($a_cmd, $a_txt, $a_arrow = false)
 	{
@@ -1838,6 +1839,19 @@ class ilTemplate extends ilTemplateX
 		{
 			$this->admin_panel_arrow = true;
 		}
+		$this->admin_panel_top_only = false;
+	}
+
+	/**
+	 * Add admin panel commands as toolbar
+	 * @param ilToolbarGUI $toolb
+	 * @param bool $a_top_only
+	 */
+	public function addAdminPanelToolbar(ilToolbarGUI $toolb,$a_bottom_panel = true, $a_arrow = false)
+	{
+		$this->admin_panel_commands_toolbar = $toolb;
+		$this->admin_panel_arrow = $a_arrow;
+		$this->admin_panel_bottom = $a_bottom_panel;
 	}
 	
 	/**
@@ -1860,16 +1874,22 @@ class ilTemplate extends ilTemplateX
 			{
 				$toolb->addFormButton($cmd["txt"], $cmd["cmd"]);
 			}
-
 			$adm_cmds = true;
 		}
+		elseif($this->admin_panel_commands_toolbar instanceof  ilToolbarGUI)
+		{
+			$toolb = $this->admin_panel_commands_toolbar;
+			$adm_cmds = true;
+		}
+		// Add arrow if desired
+		if($this->admin_panel_arrow)
+		{
+			$toolb->setLeadingImage(ilUtil::getImagePath("arrow_upright.gif"), $lng->txt("actions"));
+		}
+
 		if ($adm_cmds)
 		{
 			$this->setCurrentBlock("adm_view_components");
-			if ($this->admin_panel_arrow)
-			{
-				$toolb->setLeadingImage(ilUtil::getImagePath("arrow_upright.gif"), $lng->txt("actions"));
-			}
 			$this->setVariable("ADM_PANEL1", $toolb->getHTML());
 			$this->parseCurrentBlock();
 			$adm_view_cmp = true;
@@ -1917,7 +1937,7 @@ class ilTemplate extends ilTemplateX
 			$creation_selector = true;
 		}
 		
-		if ($adm_cmds)
+		if ($adm_cmds and $this->admin_panel_bottom)
 		{
 			$this->setCurrentBlock("adm_view_components2");
 			if ($this->admin_panel_arrow)
@@ -1925,9 +1945,9 @@ class ilTemplate extends ilTemplateX
 				$toolb->setLeadingImage(ilUtil::getImagePath("arrow_downright.gif"), $lng->txt("actions"));
 			}
 			$this->setVariable("ADM_PANEL2", $toolb->getHTML());
+
 			$this->parseCurrentBlock();
 		}
-
 	}
 	
 	function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "")
