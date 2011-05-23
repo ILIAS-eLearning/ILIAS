@@ -167,6 +167,7 @@ class ilObjectDefinition extends ilSaxParser
 				$this->obj_data[$rec["id"]]["subobjects"] = array();
 
 				$this->obj_data["crs"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id);
+				$this->obj_data["fold"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id);
 				$this->obj_data["grp"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id);
 				$this->obj_data["cat"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id);
 				$this->obj_data["root"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id);
