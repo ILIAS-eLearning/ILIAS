@@ -3820,18 +3820,20 @@ class ilObjForumGUI extends ilObjectGUI
 			if($_POST['notification_type']== 'all_users')
 			{
 				// set values and call update
-				$this->objProperties->setAdminForceNoti((int)$this->notificationSettingsForm->getInput('adm_force'));
+				$this->objProperties->setAdminForceNoti(1);
 				$this->objProperties->setUserToggleNoti((int)$this->notificationSettingsForm->getInput('usr_toggle'));
 				$this->objProperties->setNotificationType('all_users');
-				if((int)$this->notificationSettingsForm->getInput('usr_toggle'))
-				{
-					$this->objProperties->setAdminForceNoti(1);
-					$_POST['adm_force'] = 1;
-				}
 			}
-			else
+			else if($_POST['notification_type']== 'per_user')
 			{
 				$this->objProperties->setNotificationType('per_user');
+				$this->objProperties->setAdminForceNoti(1);
+			}
+			else //  if($_POST['notification_type'] == 'default')
+			{
+				$this->objProperties->setNotificationType('default');
+				$this->objProperties->setAdminForceNoti(0);
+				$this->objProperties->setUserToggleNoti(0);
 			}
 
 			$this->objProperties->update();
@@ -3861,20 +3863,19 @@ class ilObjForumGUI extends ilObjectGUI
 			$form->setTitle($this->lng->txt('forums_notification_settings'));
 
 			$radio_grp = new ilRadioGroupInputGUI('','notification_type');
-			$radio_grp->setValue('all_users');
+			$radio_grp->setValue('default');
+
+			$opt_default  = new ilRadioOption($this->lng->txt("user_decides_notification"), 'default');
 			$opt_0 = new ilRadioOption($this->lng->txt("settings_for_all_members"), 'all_users');
 			$opt_1 = new ilRadioOption($this->lng->txt("settings_per_members"), 'per_user');
 
+			$radio_grp->addOption($opt_default, 'default');
 			$radio_grp->addOption($opt_0, 'all_users');
 			$radio_grp->addOption($opt_1, 'per_user');
-	
-			$chb_1 = new ilCheckboxInputGUI($this->lng->txt('admin_force_noti'), 'adm_force');
-			$chb_1->setValue(1);
 
 			$chb_2 = new ilCheckboxInputGUI($this->lng->txt('user_toggle_noti'), 'usr_toggle');
 			$chb_2->setValue(1);
 
-			$opt_0->addSubItem($chb_1);
 			$opt_0->addSubItem($chb_2);
 			$form->addItem($radio_grp);
 
@@ -3955,78 +3956,93 @@ class ilObjForumGUI extends ilObjectGUI
 		$members = array();
 		$tutors = array();
 
-		if($this->objProperties->getNotificationType() == 'per_user')
+		if($this->objProperties->getNotificationType() == 'default')
 		{
-		$counter = 0;
-		foreach($moderator_ids as $user_id)
-		{
-			$frm_noti->setUserId($user_id);
-			$admin_force_noti = $frm_noti->isAdminForceNotification();
-			$user_toggle_noti = $frm_noti->isUserToggleNotification();
+			// update forum_notification table
+			include_once './Modules/Forum/classes/class.ilForumNotification.php';
+			$forum_noti = new ilForumNotification($this->ref_id);
+			$forum_noti->setAdminForce($this->objProperties->isAdminForceNoti());
+			$forum_noti->setUserToggle($this->objProperties->isUserToggleNoti());
+			$forum_noti->setForumId($this->objProperties->getObjId());
 
-			$moderators[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
-			$moderators[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
-			$name = ilObjUser::_lookupName($user_id);
-			$moderators[$counter]['firstname'] = $name['firstname'];
-			$moderators[$counter]['lastname'] = $name['lastname'];
-			$moderators[$counter]['admin_force_noti'] =  ilUtil::formCheckbox($admin_force_noti, 'adm_force[]', $user_id, true);
-			$moderators[$counter]['user_toggle_noti'] = ilUtil::formCheckbox($user_toggle_noti, 'usr_toggle[]', $user_id, true);
-			$counter++;
+			if($_POST['notification_type'] == 'default')
+			{
+				// delete all notifications set by admin
+				$forum_noti->deleteNotificationAllUsers();
+			}
 		}
-
-		$counter = 0;
-		foreach($admin_ids as $user_id)
+		else if($this->objProperties->getNotificationType() == 'per_user')
 		{
-			$frm_noti->setUserId($user_id);
-			$admin_force_noti = $frm_noti->isAdminForceNotification();
-			$user_toggle_noti = $frm_noti->isUserToggleNotification();
+			$counter = 0;
+			foreach($moderator_ids as $user_id)
+			{
+				$frm_noti->setUserId($user_id);
+				$admin_force_noti = $frm_noti->isAdminForceNotification();
+				$user_toggle_noti = $frm_noti->isUserToggleNotification();
 
-			$admins[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
-			$admins[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
-			$name = ilObjUser::_lookupName($user_id);
-			$admins[$counter]['firstname'] = $name['firstname'];
-			$admins[$counter]['lastname'] = $name['lastname'];
-			$admins[$counter]['admin_force_noti'] =  ilUtil::formCheckbox($admin_force_noti, 'adm_force[]', $user_id, true);
-			$admins[$counter]['user_toggle_noti'] = ilUtil::formCheckbox($user_toggle_noti, 'usr_toggle[]', $user_id, true);
-			$counter++;
-		}
+				$moderators[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
+				$moderators[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
+				$name = ilObjUser::_lookupName($user_id);
+				$moderators[$counter]['firstname'] = $name['firstname'];
+				$moderators[$counter]['lastname'] = $name['lastname'];
+				#$moderators[$counter]['admin_force_noti'] =  ilUtil::formCheckbox($admin_force_noti, 'adm_force[]', $user_id, true);
+				$moderators[$counter]['user_toggle_noti'] = ilUtil::formCheckbox($user_toggle_noti, 'usr_toggle[]', $user_id, true);
+				$counter++;
+			}
 
-		$counter = 0;
-		foreach($member_ids as $user_id)
-		{
-			$frm_noti->setUserId($user_id);
-			$admin_force_noti = $frm_noti->isAdminForceNotification();
-			$user_toggle_noti = $frm_noti->isUserToggleNotification();
+			$counter = 0;
+			foreach($admin_ids as $user_id)
+			{
+				$frm_noti->setUserId($user_id);
+				$admin_force_noti = $frm_noti->isAdminForceNotification();
+				$user_toggle_noti = $frm_noti->isUserToggleNotification();
 
-			$members[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
-			$members[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
-			$name = ilObjUser::_lookupName($user_id);
-			$members[$counter]['firstname'] = $name['firstname'];
-			$members[$counter]['lastname'] = $name['lastname'];
-			$members[$counter]['admin_force_noti'] = ilUtil::formCheckbox($admin_force_noti, 'adm_force[]', $user_id, true);
-			$members[$counter]['user_toggle_noti'] = ilUtil::formCheckbox($user_toggle_noti, 'usr_toggle[]', $user_id, true);
-			$counter++;
-		}
+				$admins[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
+				$admins[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
+				$name = ilObjUser::_lookupName($user_id);
+				$admins[$counter]['firstname'] = $name['firstname'];
+				$admins[$counter]['lastname'] = $name['lastname'];
+			#	$admins[$counter]['admin_force_noti'] =  ilUtil::formCheckbox($admin_force_noti, 'adm_force[]', $user_id, true);
+				$admins[$counter]['user_toggle_noti'] = ilUtil::formCheckbox($user_toggle_noti, 'usr_toggle[]', $user_id, true);
+				$counter++;
+			}
 
-		$counter = 0;
-		foreach($tutor_ids as $user_id)
-		{
+			$counter = 0;
+			foreach($member_ids as $user_id)
+			{
+				$frm_noti->setUserId($user_id);
+				$admin_force_noti = $frm_noti->isAdminForceNotification();
+				$user_toggle_noti = $frm_noti->isUserToggleNotification();
 
-			$frm_noti->setUserId($user_id);
-			$admin_force_noti = $frm_noti->isAdminForceNotification();
-			$user_toggle_noti = $frm_noti->isUserToggleNotification();
+				$members[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
+				$members[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
+				$name = ilObjUser::_lookupName($user_id);
+				$members[$counter]['firstname'] = $name['firstname'];
+				$members[$counter]['lastname'] = $name['lastname'];
+		#		$members[$counter]['admin_force_noti'] = ilUtil::formCheckbox($admin_force_noti, 'adm_force[]', $user_id, true);
+				$members[$counter]['user_toggle_noti'] = ilUtil::formCheckbox($user_toggle_noti, 'usr_toggle[]', $user_id, true);
+				$counter++;
+			}
 
-			$tutors[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
-			$tutors[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
-			$name = ilObjUser::_lookupName($user_id);
-			$tutors[$counter]['firstname'] = $name['firstname'];
-			$tutors[$counter]['lastname'] = $name['lastname'];
-			$tutors[$counter]['admin_force_noti'] = ilUtil::formCheckbox($admin_force_noti, 'adm_force[]', $user_id, true);
-			$tutors[$counter]['user_toggle_noti'] = ilUtil::formCheckbox($user_toggle_noti, 'usr_toggle[]', $user_id, true);
-			$counter++;
-		}
+			$counter = 0;
+			foreach($tutor_ids as $user_id)
+			{
 
-		$this->__showMembersTable($moderators, $admins, $members, $tutors);
+				$frm_noti->setUserId($user_id);
+				$admin_force_noti = $frm_noti->isAdminForceNotification();
+				$user_toggle_noti = $frm_noti->isUserToggleNotification();
+
+				$tutors[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
+				$tutors[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
+				$name = ilObjUser::_lookupName($user_id);
+				$tutors[$counter]['firstname'] = $name['firstname'];
+				$tutors[$counter]['lastname'] = $name['lastname'];
+		#		$tutors[$counter]['admin_force_noti'] = ilUtil::formCheckbox($admin_force_noti, 'adm_force[]', $user_id, true);
+				$tutors[$counter]['user_toggle_noti'] = ilUtil::formCheckbox($user_toggle_noti, 'usr_toggle[]', $user_id, true);
+				$counter++;
+			}
+
+			$this->__showMembersTable($moderators, $admins, $members, $tutors);
 		}
 		else
 		{
@@ -4037,7 +4053,7 @@ class ilObjForumGUI extends ilObjectGUI
 			{
 				$frm_noti->setUserId($user_id);
 
-				$frm_noti->setAdminForce($this->objProperties->isAdminForceNoti());
+				$frm_noti->setAdminForce(1);
 				$frm_noti->setUserToggle($this->objProperties->isUserToggleNoti());
 
 				if(array_key_exists($user_id, $all_notis))
@@ -4069,15 +4085,15 @@ class ilObjForumGUI extends ilObjectGUI
 			$tbl_mod->addColumn($lng->txt('login'), '', '10%');
 			$tbl_mod->addColumn($lng->txt('firstname'), '', '10%');
 			$tbl_mod->addColumn($lng->txt('lastname'), '', '10%');
-			$tbl_mod->addColumn($lng->txt('admin_force_noti'), '', '10%');
+#			$tbl_mod->addColumn($lng->txt('admin_force_noti'), '', '10%');
 			$tbl_mod->addColumn($lng->txt('user_toggle_noti'), '', '10%');
 			$tbl_mod->setSelectAllCheckbox('user_id');
 
 			$tbl_mod->setRowTemplate('tpl.forums_members_row.html', 'Modules/Forum');
 			$tbl_mod->setData($moderators);
 
-			$tbl_mod->addMultiCommand('enableAdminForceNoti',$lng->txt('enable_admin_force'));
-			$tbl_mod->addMultiCommand('disableAdminForceNoti',$lng->txt('disable_admin_force'));
+#			$tbl_mod->addMultiCommand('enableAdminForceNoti',$lng->txt('enable_admin_force'));
+#			$tbl_mod->addMultiCommand('disableAdminForceNoti',$lng->txt('disable_admin_force'));
 			$tbl_mod->addMultiCommand('enableHideUserToggleNoti',$lng->txt('enable_hide_user_toggle'));
 			$tbl_mod->addMultiCommand('disableHideUserToggleNoti',$lng->txt('disable_hide_user_toggle'));
 
@@ -4096,14 +4112,14 @@ class ilObjForumGUI extends ilObjectGUI
 			$tbl_adm->addColumn($lng->txt('login'), '', '10%');
 			$tbl_adm->addColumn($lng->txt('firstname'), '', '10%');
 			$tbl_adm->addColumn($lng->txt('lastname'), '', '10%');
-			$tbl_adm->addColumn($lng->txt('admin_force_noti'), '', '10%');
+	#		$tbl_adm->addColumn($lng->txt('admin_force_noti'), '', '10%');
 			$tbl_adm->addColumn($lng->txt('user_toggle_noti'), '', '10%');
 			$tbl_adm->setSelectAllCheckbox('user_id');
 			$tbl_adm->setRowTemplate('tpl.forums_members_row.html', 'Modules/Forum');
 
 			$tbl_adm->setData($admins);
-			$tbl_adm->addMultiCommand('enableAdminForceNoti',$lng->txt('enable_admin_force'));
-			$tbl_adm->addMultiCommand('disableAdminForceNoti',$lng->txt('disable_admin_force'));
+	#		$tbl_adm->addMultiCommand('enableAdminForceNoti',$lng->txt('enable_admin_force'));
+#			$tbl_adm->addMultiCommand('disableAdminForceNoti',$lng->txt('disable_admin_force'));
 			$tbl_adm->addMultiCommand('enableHideUserToggleNoti',$lng->txt('enable_hide_user_toggle'));
 			$tbl_adm->addMultiCommand('disableHideUserToggleNoti',$lng->txt('disable_hide_user_toggle'));
 
@@ -4124,14 +4140,14 @@ class ilObjForumGUI extends ilObjectGUI
 			$tbl_mem->addColumn($lng->txt('login'), '', '10%');
 			$tbl_mem->addColumn($lng->txt('firstname'), '', '10%');
 			$tbl_mem->addColumn($lng->txt('lastname'), '', '10%');
-			$tbl_mem->addColumn($lng->txt('admin_force_noti'), '', '10%');
+	#		$tbl_mem->addColumn($lng->txt('admin_force_noti'), '', '10%');
 			$tbl_mem->addColumn($lng->txt('user_toggle_noti'), '', '10%');
 			$tbl_mem->setSelectAllCheckbox('user_id');
 			$tbl_mem->setRowTemplate('tpl.forums_members_row.html', 'Modules/Forum');
 			$tbl_mem->setData($members);
 
-			$tbl_mem->addMultiCommand('enableAdminForceNoti',$lng->txt('enable_admin_force'));
-			$tbl_mem->addMultiCommand('disableAdminForceNoti',$lng->txt('disable_admin_force'));
+	#		$tbl_mem->addMultiCommand('enableAdminForceNoti',$lng->txt('enable_admin_force'));
+	#		$tbl_mem->addMultiCommand('disableAdminForceNoti',$lng->txt('disable_admin_force'));
 			$tbl_mem->addMultiCommand('enableHideUserToggleNoti',$lng->txt('enable_hide_user_toggle'));
 			$tbl_mem->addMultiCommand('disableHideUserToggleNoti',$lng->txt('disable_hide_user_toggle'));
 
@@ -4150,14 +4166,14 @@ class ilObjForumGUI extends ilObjectGUI
 			$tbl_tut->addColumn($lng->txt('login'), '', '10%');
 			$tbl_tut->addColumn($lng->txt('firstname'), '', '10%');
 			$tbl_tut->addColumn($lng->txt('lastname'), '', '10%');
-			$tbl_tut->addColumn($lng->txt('admin_force_noti'), '', '10%');
+		#	$tbl_tut->addColumn($lng->txt('admin_force_noti'), '', '10%');
 			$tbl_tut->addColumn($lng->txt('user_toggle_noti'), '', '10%');
 			$tbl_tut->setSelectAllCheckbox('user_id');
 			$tbl_tut->setRowTemplate('tpl.forums_members_row.html', 'Modules/Forum');
 			$tbl_tut->setData($tutors);
 
-			$tbl_tut->addMultiCommand('enableAdminForceNoti',$lng->txt('enable_admin_force'));
-			$tbl_tut->addMultiCommand('disableAdminForceNoti',$lng->txt('disable_admin_force'));
+		#	$tbl_tut->addMultiCommand('enableAdminForceNoti',$lng->txt('enable_admin_force'));
+		#	$tbl_tut->addMultiCommand('disableAdminForceNoti',$lng->txt('disable_admin_force'));
 			$tbl_tut->addMultiCommand('enableHideUserToggleNoti',$lng->txt('enable_hide_user_toggle'));
 			$tbl_tut->addMultiCommand('disableHideUserToggleNoti',$lng->txt('disable_hide_user_toggle'));
 

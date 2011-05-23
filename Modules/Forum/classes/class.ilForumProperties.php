@@ -159,7 +159,7 @@ class ilForumProperties
 				$this->preset_subject = $row->preset_subject;
 				$this->add_re_subject = $row->add_re_subject;
 
-				$this->notification_type = $row->notification_type;
+				$this->notification_type = $row->notification_type == null ? 'default': $row->notification_type;
 
 				return true;
 			}
@@ -373,7 +373,10 @@ class ilForumProperties
 
 	public function setNotificationType($a_notification_type)
 	{
-		$this->notification_type = $a_notification_type;
+		if($a_notification_type == null)
+			$this->notification_type = 'default';
+		else
+			$this->notification_type = $a_notification_type;
 	}
 	public function getNotificationType()
 	{

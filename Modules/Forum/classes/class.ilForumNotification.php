@@ -376,6 +376,19 @@ class ilForumNotification
 			array('integer','integer','integer','integer'),
 			array($this->getAdminForce(), $this->getUserToggle(), $this->getUserId(), $this->getForumId()));
 	}
+
+	public function deleteNotificationAllUsers()
+	{
+		global $ilDB;
+
+		$res = $ilDB->manipulateF('
+			DELETE FROM frm_notification
+			WHERE frm_id = %s
+			AND user_id_noti > %s',
+			array('integer', 'integer'),
+			array($this->getForumId(), 0));
+	}
+
 	public function read()
 	{
 		global $ilDB;
