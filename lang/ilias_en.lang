@@ -11428,3 +11428,4 @@ survey#:#survey_available_question_pools#:#Available Pools
 survey#:#survey_question_pool_title#:#Pool Title
 forum#:#user_decides_notification#:#Each user decides about notification
 common#:#allow_user_toggle_noti#:#Member is allowed to deactivate notification
+cntr#:#container_import_zip_file_invalid#:#The uploaded file is not a valid ILIAS export file. To upload a directory structure please use a file object.

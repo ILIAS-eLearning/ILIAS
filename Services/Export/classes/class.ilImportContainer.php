@@ -31,9 +31,14 @@ class ilImportContainer extends ilImport
 	 */
 	protected function doImportObject($dir, $type)
 	{
-		include_once("./Services/Export/classes/class.ilManifestParser.php");
-		$parser = new ilManifestParser($dir."/manifest.xml");
+		$manifest_file = $dir."/manifest.xml";
+		if(!file_exists($manifest_file))
+		{
+			return false;			
+		}
 		
+		include_once("./Services/Export/classes/class.ilManifestParser.php");
+		$parser = new ilManifestParser($manifest_file);		
 		
 		// Handling single containers without subitems
 		if(!$parser->getExportSets())
