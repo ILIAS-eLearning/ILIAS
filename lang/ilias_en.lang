@@ -11447,3 +11447,10 @@ survey#:#survey_sync_question_copies#:#Sync Question Copies
 survey#:#survey_sync_question_copies_info#:#The selected questions will be replaced with the current pool version.
 survey#:#survey_sync_insufficient_permissions#:#Insufficient Permissions
 survey#:#survey_sync_success#:#The selected questions were updated.
+ecs#:#ecs_add_new_ecs#:#Add New ECS
+ecs#:#ecs_available_ecs#:#Available ECS
+ecs#:#ecs_tbl_active#:#Active
+ecs#:#ecs_server_addr#:#Server Address
+ecs#:#ecs_activate#:#Activate
+ecs#:#ecs_deactivate#:#Deactivate
+ecs#:#ecs_not_configured#:#Not configured

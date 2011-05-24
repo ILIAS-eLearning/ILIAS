@@ -11395,3 +11395,10 @@ survey#:#survey_sync_question_copies#:#Fragenkopien synchronisieren
 survey#:#survey_sync_question_copies_info#:#Alle ausgewählten Fragen werden auf den aktuellen Stand der Poolfrage gebracht.
 survey#:#survey_sync_insufficient_permissions#:#Keine ausreichenden Bedingungen.
 survey#:#survey_sync_success#:#Die gewählten Fragen wurden aktualisiert.
+ecs#:#ecs_add_new_ecs#:#Neuen ECS hinzufügen
+ecs#:#ecs_available_ecs#:#Verfügbare ECS
+ecs#:#ecs_tbl_active#:#Aktiv
+ecs#:#ecs_server_addr#:#Serveradresse
+ecs#:#ecs_activate#:#Aktivieren
+ecs#:#ecs_deactivate#:#Deaktivieren
+ecs#:#ecs_not_configured#:#Nicht konfiguriert
