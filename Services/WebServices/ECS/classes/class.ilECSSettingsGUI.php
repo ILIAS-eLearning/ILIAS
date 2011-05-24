@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
+
 /** 
 * 
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -51,8 +53,8 @@ class ilECSSettingsGUI
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('ecs');
 		$this->ctrl = $ilCtrl;
-		$this->tabs_gui = $ilTabs; 
-		
+		$this->tabs_gui = $ilTabs;
+
 		$this->initSettings();
 	}
 	
@@ -74,14 +76,68 @@ class ilECSSettingsGUI
 			default:
 				if(!$cmd)
 				{
-					$cmd = "settings";
+					$cmd = "overview";
 				}
 				$this->$cmd();
 				break;
 		}
 		return true;
 	}
+
+	/**
+	 * List available servers
+	 * @return void
+	 * @global ilToolbar
+	 * @global ilTabsGUI
+	 */
+	public function overview()
+	{
+		global $ilToolbar,$ilTabs;
+
+		$GLOBALS['ilLog']->logStack();
+		
+		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
+
+		$ilTabs->setSubTabActive('overview');
+		$ilToolbar->addButton(
+			$this->lng->txt('ecs_add_new_ecs'),
+			$this->ctrl->getLinkTarget($this,'create')
+		);
+
+		$servers = ilECSServerSettings::getInstance();
+		$servers->readInactiveServers();
+
+		include_once './Services/WebServices/ECS/classes/class.ilECSServerTableGUI.php';
+		$table = new ilECSServerTableGUI($this,'overview');
+		$table->initTable();
+		$table->parse($servers);
+		$this->tpl->setContent($table->getHTML());
+		return;
+	}
+
+	/**
+	 * activate server
+	 */
+	protected function activate()
+	{
+		$this->initSettings($_REQUEST['server_id']);
+		$this->settings->setEnabledStatus(true);
+		$this->settings->update();
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this,'overview');
+	}
 	
+	/**
+	 * activate server
+	 */
+	protected function deactivate()
+	{
+		$this->initSettings($_REQUEST['server_id']);
+		$this->settings->setEnabledStatus(false);
+		$this->settings->update();
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this,'overview');
+	}
 	
 	/**
 	 * Read all importable econtent
@@ -118,10 +174,103 @@ class ilECSSettingsGUI
 			$this->imported();
 			return false;
 		}
-		
-		
+	}
+
+	/**
+	 * Create new settings
+	 * @global ilTabs $ilTabs 
+	 */
+	protected function create()
+	{
+		global $ilTabs;
+
+		$this->initSettings(0);
+
+		$ilTabs->clearTargets();
+		$ilTabs->clearSubTabs();
+		$ilTabs->setBackTarget($this->lng->txt('back'),$this->ctrl->getLinkTarget($this,'overview'));
+
+		$this->initSettingsForm('create');
+	 	$this->tabs_gui->setSubTabActive('ecs_settings');
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_settings.html','Services/WebServices/ECS');
+		$this->tpl->setVariable('SETTINGS_TABLE',$this->form->getHTML());
 	}
 	
+	/**
+	 * Edit server setting
+	 */
+	protected function edit()
+	{
+		global $ilTabs;
+
+		$GLOBALS['ilLog']->logStack();
+
+		$this->initSettings((int) $_REQUEST['server_id']);
+		$this->ctrl->saveParameter($this,'server_id',(int) $_REQUEST['server_id']);
+
+		$ilTabs->clearTargets();
+		$ilTabs->clearSubTabs();
+		$ilTabs->setBackTarget($this->lng->txt('back'),$this->ctrl->getLinkTarget($this,'overview'));
+
+		$this->initSettingsForm();
+	 	$this->tabs_gui->setSubTabActive('ecs_settings');
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_settings.html','Services/WebServices/ECS');
+		$this->tpl->setVariable('SETTINGS_TABLE',$this->form->getHTML());
+	}
+
+	protected function cp()
+	{
+		$this->initSettings((int) $_REQUEST['server_id']);
+
+		$copy = clone $this->settings;
+		$copy->save();
+
+		$this->ctrl->setParameter($this,'server_id',$copy->getServerId());
+		ilUtil::sendSuccess($this->lng->txt('ecs_settings_cloned'),true);
+		$this->ctrl->redirect($this,'edit');
+	}
+
+	/**
+	 * Delete confirmation
+	 */
+	protected function delete()
+	{
+		global $ilTabs;
+
+		$this->initSettings((int) $_REQUEST['server_id']);
+
+		$ilTabs->clearTargets();
+		$ilTabs->clearSubTabs();
+		$ilTabs->setBackTarget($this->lng->txt('back'),$this->ctrl->getLinkTarget($this,'overview'));
+
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirm = new ilConfirmationGUI();
+		$confirm->setFormAction($this->ctrl->getFormAction($this));
+		$confirm->setConfirm($this->lng->txt('delete'), 'doDelete');
+		$confirm->setCancel($this->lng->txt('cancel'), 'overview');
+		$confirm->setHeaderText($this->lng->txt('ecs_delete_setting'));
+
+		$confirm->addItem('','',$this->settings->getServer());
+		$confirm->addHiddenItem('server_id', $this->settings->getServerId());
+		
+		$this->tpl->setContent($confirm->getHTML());
+	}
+
+	/**
+	 * Do delete
+	 */
+	protected function doDelete()
+	{
+		$this->initSettings($_REQUEST['server_id']);
+		$this->settings->delete();
+
+		ilUtil::sendSuccess($this->lng->txt('ecs_setting_deleted'),true);
+		$this->ctrl->redirect($this,'overview');
+	}
+
+
 	/**
 	 * show settings 
 	 *
@@ -141,7 +290,7 @@ class ilECSSettingsGUI
 	 *
 	 * @access protected
 	 */
-	protected function initSettingsForm()
+	protected function initSettingsForm($a_mode = 'update')
 	{
 		if(is_object($this->form))
 		{
@@ -157,9 +306,16 @@ class ilECSSettingsGUI
 		$ena->setChecked($this->settings->isEnabled());
 		$ena->setValue(1);
 		$this->form->addItem($ena);
-		
+		/*
+		$tit = new ilTextInputGUI($this->lng->txt('title'), 'title');
+		$tit->setRequired(true);
+		$tit->setSize(32);
+		$tit->setMaxLength(64);
+		$tit->setValue($this->settings->getTitle());
+		$this->form->addItem($tit);
+		*/
 		$ser = new ilTextInputGUI($this->lng->txt('ecs_server_url'),'server');
-		$ser->setValue($this->settings->getServer());
+		$ser->setValue((string) $this->settings->getServer());
 		$ser->setRequired(true);
 		$this->form->addItem($ser);
 		
@@ -175,32 +331,32 @@ class ilECSSettingsGUI
 		$por = new ilTextInputGUI($this->lng->txt('ecs_port'),'port');
 		$por->setSize(5);
 		$por->setMaxLength(5);
-		$por->setValue($this->settings->getPort());
+		$por->setValue((string) $this->settings->getPort());
 		$por->setRequired(true);
 		$this->form->addItem($por);
 		
 		$cer = new ilTextInputGUI($this->lng->txt('ecs_client_cert'),'client_cert');
 		$cer->setSize(60);
-		$cer->setValue($this->settings->getClientCertPath());
+		$cer->setValue((string) $this->settings->getClientCertPath());
 		$cer->setRequired(true);
 		$this->form->addItem($cer);
 		
 		$cer = new ilTextInputGUI($this->lng->txt('ecs_cert_key'),'key_path');
 		$cer->setSize(60);
-		$cer->setValue($this->settings->getKeyPath());
+		$cer->setValue((string) $this->settings->getKeyPath());
 		$cer->setRequired(true);
 		$this->form->addItem($cer);
 		
 		$cer = new ilTextInputGUI($this->lng->txt('ecs_key_password'),'key_password');
 		$cer->setSize(12);
-		$cer->setValue($this->settings->getKeyPassword());
+		$cer->setValue((string) $this->settings->getKeyPassword());
 		$cer->setInputType('password');
 		$cer->setRequired(true);
 		$this->form->addItem($cer);
 
 		$cer = new ilTextInputGUI($this->lng->txt('ecs_ca_cert'),'ca_cert');
 		$cer->setSize(60);
-		$cer->setValue($this->settings->getCACertPath());
+		$cer->setValue((string) $this->settings->getCACertPath());
 		$cer->setRequired(true);
 		$this->form->addItem($cer);
 
@@ -269,22 +425,29 @@ class ilECSSettingsGUI
 		$this->form->addItem($loc);
 		
 		$rcp_user = new ilTextInputGUI($this->lng->txt('ecs_user_rcp'),'user_recipients');
-		$rcp_user->setValue($this->settings->getUserRecipientsAsString());
+		$rcp_user->setValue((string) $this->settings->getUserRecipientsAsString());
 		$rcp_user->setInfo($this->lng->txt('ecs_user_rcp_info'));
 		$this->form->addItem($rcp_user);
 
 		$rcp_econ = new ilTextInputGUI($this->lng->txt('ecs_econ_rcp'),'econtent_recipients');
-		$rcp_econ->setValue($this->settings->getEContentRecipientsAsString());
+		$rcp_econ->setValue((string) $this->settings->getEContentRecipientsAsString());
 		$rcp_econ->setInfo($this->lng->txt('ecs_econ_rcp_info'));
 		$this->form->addItem($rcp_econ);
 
 		$rcp_app = new ilTextInputGUI($this->lng->txt('ecs_approval_rcp'),'approval_recipients');
-		$rcp_app->setValue($this->settings->getApprovalRecipientsAsString());
+		$rcp_app->setValue((string) $this->settings->getApprovalRecipientsAsString());
 		$rcp_app->setInfo($this->lng->txt('ecs_approval_rcp_info'));
 		$this->form->addItem($rcp_app);
 
-		$this->form->addCommandButton('saveSettings',$this->lng->txt('save'));
-		$this->form->addCommandButton('settings',$this->lng->txt('cancel'));
+		if($a_mode == 'update')
+		{
+			$this->form->addCommandButton('update',$this->lng->txt('save'));
+		}
+		else
+		{
+			$this->form->addCommandButton('save',$this->lng->txt('save'));
+		}
+		$this->form->addCommandButton('overview',$this->lng->txt('cancel'));
 	}
 	
 	/**
@@ -292,9 +455,88 @@ class ilECSSettingsGUI
 	 *
 	 * @access protected
 	 */
-	protected function saveSettings()
+	protected function update()
+	{
+		$this->initSettings((int) $_REQUEST['server_id']);
+		$this->loadFromPost();
+		
+		if(!$error = $this->settings->validate())
+		{
+			$this->settings->update();
+			$this->updateTitle();
+			ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt($error));
+			$this->edit();
+		}
+		
+		$this->overview();
+		return true;
+	}
+
+	/**
+	 * Save settings
+	 * @return <type>
+	 */
+	protected function save()
+	{
+		$this->initSettings(0);
+		$this->loadFromPost();
+
+		if(!$error = $this->settings->validate())
+		{
+			$this->settings->save();
+			$this->updateTitle();
+			ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt($error));
+			$this->create();
+		}
+		$this->overview();
+		return true;
+	}
+
+	/**
+	 * Update configuration title
+	 */
+	protected function updateTitle()
+	{
+		try
+		{
+			include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
+			$reader = ilECSCommunityReader::getInstanceByServerId($this->settings->getServerId());
+
+		 	foreach($reader->getCommunities() as $community)
+		 	{
+				foreach($community->getParticipants() as $part)
+				{
+					if($part->isSelf())
+					{
+						$this->settings->setTitle($part->getParticipantName());
+						$this->settings->update();
+						return true;
+					}
+				}
+			}
+		}
+		catch(ilECSConnectorException $exc)
+		{
+		}
+		$this->settings->setTitle('');
+		$this->settings->update();
+	}
+
+	/**
+	 * Load from post
+	 */
+	protected function loadFromPost()
 	{
 		$this->settings->setEnabledStatus((int) $_POST['active']);
+		//$this->settings->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->settings->setServer(ilUtil::stripSlashes($_POST['server']));
 		$this->settings->setPort(ilUtil::stripSlashes($_POST['port']));
 		$this->settings->setProtocol(ilUtil::stripSlashes($_POST['protocol']));
@@ -307,24 +549,11 @@ class ilECSSettingsGUI
 		$this->settings->setServer(ilUtil::stripSlashes($_POST['server']));
 		$this->settings->setGlobalRole((int) $_POST['global_role']);
 		$this->settings->setDuration((int) $_POST['duration']['MM']);
-		
+
 		$this->settings->setUserRecipients(ilUtil::stripSlashes($_POST['user_recipients']));
 		$this->settings->setEContentRecipients(ilUtil::stripSlashes($_POST['econtent_recipients']));
 		$this->settings->setApprovalRecipients(ilUtil::stripSlashes($_POST['approval_recipients']));
-		
-		if(!$error = $this->settings->validate())
-		{
-			$this->settings->save();
-			ilUtil::sendInfo($this->lng->txt('settings_saved'));
-		}
-		else
-		{
-			ilUtil::sendInfo($this->lng->txt($error));
-		}
-		
-		$this->setSubTabs('ecs_settings');
-		$this->settings();
-		return true;
+
 	}
 	
 	/**
@@ -1123,10 +1352,10 @@ class ilECSSettingsGUI
 	 *
 	 * @access protected
 	 */
-	protected function initSettings()
+	protected function initSettings($a_server_id = 1)
 	{	
 		include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
-		$this->settings = ilECSSetting::_getInstance();
+		$this->settings = ilECSSetting::getInstanceByServerId($a_server_id);
 	}
 	
 	/**
@@ -1138,12 +1367,13 @@ class ilECSSettingsGUI
 	{
 		$this->tabs_gui->clearSubTabs();
 		
-		$this->tabs_gui->addSubTabTarget("ecs_settings",
-			$this->ctrl->getLinkTarget($this,'settings'),
-			"settings",get_class($this));
+		$this->tabs_gui->addSubTabTarget("overview",
+			$this->ctrl->getLinkTarget($this,'overview'),
+			"overview",get_class($this));
 		
-		// Disable all other tabs, if server hasn't been configured. 
-		if(!$this->settings->isEnabled())
+		// Disable all other tabs, if server hasn't been configured.
+		ilECSServerSettings::getInstance()->readInactiveServers();
+		if(!ilECSServerSettings::getInstance()->serverExists())
 		{
 			return true;
 		}

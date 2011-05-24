@@ -58,9 +58,16 @@ class ilECSConnector
 	 * @param
 	 * 
 	 */
-	public function __construct()
+	public function __construct(ilECSSetting $settings = null)
 	{
-	 	$this->settings = ilECSSetting::_getInstance();
+	 	if($settings)
+		{
+			$this->settings = $settings;
+		}
+		else
+		{
+			$this->settings = ilECSSetting::_getInstance();
+		}
 	}
 
 	// Header methods

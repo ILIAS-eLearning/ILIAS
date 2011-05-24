@@ -35,7 +35,7 @@
 
 class ilECSCommunityReader
 {
-	private static $instance = null;
+	private static $instances = null;
 
 	protected $position = 0;
 
@@ -53,7 +53,7 @@ class ilECSCommunityReader
 	 * @access private
 	 * @throws ilECSConnectorException 
 	 */
-	private function __construct()
+	private function __construct(ilECSSetting $setting = null)
 	{
 	 	global $ilLog;
 	 	
@@ -61,9 +61,16 @@ class ilECSCommunityReader
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
 		include_once('Services/WebServices/ECS/classes/class.ilECSConnectorException.php');
 		include_once('Services/WebServices/ECS/classes/class.ilECSCommunity.php');
-	 	
-	 	$this->settings = ilECSSetting::_getInstance();
-	 	$this->connector = new ilECSConnector();
+
+		if($setting)
+		{
+			$this->settings = $setting;
+		}
+		else
+		{
+			$this->settings = ilECSSetting::_getInstance();
+		}
+	 	$this->connector = new ilECSConnector($this->settings);
 	 	$this->log = $ilLog;
 	 	
 	 	$this->read();
@@ -78,13 +85,25 @@ class ilECSCommunityReader
 	 */
 	public static function _getInstance()
 	{
-		if(self::$instance)
-		{
-			return self::$instance;
-		}
-		return self::$instance = new ilECSCommunityReader();
+		$GLOBALS['ilLog']->write(__METHOD__.': Using deprecated call');
+		return self::getInstanceByServerId(15);
 	}
-	
+
+	/**
+	 * Get instance by server id
+	 * @param int $a_server_id
+	 * @return ilECSCommunityReader
+	 */
+	public static function getInstanceByServerId($a_server_id)
+	{
+		if(isset(self::$instances[$a_server_id]))
+		{
+			return self::$instances[$a_server_id];
+		}
+		return self::$instances[$a_server_id] = new ilECSCommunityReader(ilECSSetting::getInstanceByServerId($a_server_id));
+	}
+
+
 	/**
 	 * get publishable ids
 	 *
@@ -180,7 +199,7 @@ class ilECSCommunityReader
 	 	}
 	 	return $e_part ? $e_part : array();
 	}
-	
+
 	/**
 	 * Read
 	 * @access private

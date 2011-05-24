@@ -106,7 +106,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 				
 			$this->lng->loadLanguageModule('ecs');
 			$tabs_gui->addTarget('ecs_server_settings',
-				$this->ctrl->getLinkTargetByClass('ilecssettingsgui','settings'));
+				$this->ctrl->getLinkTargetByClass('ilecssettingsgui','overview'));
 				
 		}
 

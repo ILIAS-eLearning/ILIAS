@@ -5535,3 +5535,15 @@ if(!$ilDB->tableExists('adl_shared_data'))
 	$ilDB->dropTableColumn('cmi_objective', 'completion_status');
 	$ilDB->renameTableColumn("cmi_objective", "completion_status_tmp", "completion_status");
 ?>
+<#3338>
+<?php
+	if(!$ilDB->tableColumnExists('ecs_server','title'))
+	{
+		$ilDB->addTableColumn("ecs_server", "title", array(
+			"type" => "text",
+			"length" => 128,
+			"notnull" => false,
+			"default" => null)
+		);
+	}
+?>
