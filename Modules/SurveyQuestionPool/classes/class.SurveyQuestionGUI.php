@@ -782,7 +782,7 @@ class SurveyQuestionGUI
 	
 	protected function syncCopies()
 	{
-		global $lng;
+		global $lng, $ilAccess;
 		
 		if(!sizeof($_POST["qid"]))
 		{
@@ -790,6 +790,44 @@ class SurveyQuestionGUI
 			return $this->copySyncForm();
 		}
 		
+		foreach($this->object->getCopyIds(true) as $survey_id => $questions)
+		{
+			// check permissions for "parent" survey
+			$can_write = false;
+			$ref_ids = ilObject::_getAllReferences($survey_id);
+			foreach($ref_ids as $ref_id)
+			{
+				if($ilAccess->checkAccess("edit", "", $ref_id))
+				{
+					$can_write = true;
+					break;
+				}
+			}
+			
+			if($can_write)
+			{
+				foreach($questions as $qid)
+				{
+					if(in_array($qid, $_POST["qid"]))
+					{
+						$id = $this->object->getId();
+						
+						$this->object->setId($qid);
+						$this->object->setOriginalId($id);
+						$this->object->saveToDb();
+						
+						$this->object->setId($id);
+						$this->object->setOriginalId(null);
+						
+						// see: SurveyQuestion::syncWithOriginal()
+						// what about material?												
+					}
+				}												
+			}						
+		}
+		
+		ilUtil::sendSuccess($lng->txt("survey_sync_success"), true);
+		$this->redirectAfterSaving(true);
 	}
 }
 
