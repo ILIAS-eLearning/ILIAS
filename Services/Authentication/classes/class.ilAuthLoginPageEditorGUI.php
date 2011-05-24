@@ -36,6 +36,7 @@ class ilAuthLoginPageEditorGUI
 		
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
+		$this->lng->loadLanguageModule('auth');
 		$this->ref_id = $a_ref_id;
 
 		$this->settings = ilAuthLoginPageEditorSettings::getInstance();

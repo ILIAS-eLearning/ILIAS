@@ -11378,3 +11378,16 @@ cntr#:#container_import_zip_file_invalid#:#Die hochgeladene Datei ist kein gült
 ecs#:#ecs_activated#:#Aktiv
 ecs#:#ecs_inactived#:#Deaktiviert
 ecs#:#ecs_cert_valid_until#:#Clientzertifikat gültig bis
+auth#:#login_page_switch_rte#:#Rich-Text-Editor verwenden
+auth#:#login_page_switch_ipe#:#ILIAS Seiteneditor verwenden
+auth#:#login_page_editor_switched#:#Der aktive Seiteneditor wurde geändert
+auth#:#login_page_activate#:#Editor für ausgewählte Sprachen aktivieren
+content#:#cont_update_login_page#:#Loginseitenelemente aktualisieren
+content#:#cont_lpe_login_form#:#Loginmaske
+content#:#cont_lpe_cas_login_form#:#CAS-Loginmaske
+content#:#cont_lpe_shib_login_form#:#Shibboleth-Loginmaske
+content#:#cont_lpe_openid_login_form#:#OpenId-Loginmaske
+content#:#cont_lpe_registration_link#:#Link zur Neuanmeldung
+content#:#cont_lpe_language_selection#:#Sprachauswahl
+content#:#cont_lpe_user_agreement_link#:#Link zur Benutzervereinbarung
+content#:#cont_insert_login_page#:#Loginseitenelement anlegen

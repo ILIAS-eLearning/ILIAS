@@ -11430,3 +11430,16 @@ forum#:#user_decides_notification#:#Each user decides about notification
 common#:#allow_user_toggle_noti#:#Member is allowed to deactivate notification
 cntr#:#container_import_zip_file_invalid#:#The uploaded file is not a valid ILIAS export file. To upload a directory structure please use a file object.
 cntr#:#cntr_adopt_content#:#Adopt Content
+auth#:#login_page_switch_rte#:#Use Rich-Text-Editor
+auth#:#login_page_switch_ipe#:#Use ILIAS Page Editor
+auth#:#login_page_editor_switched#:#The active page editor has been changed
+auth#:#login_page_activate#:#Activate Editor for Selected Languages
+content#:#cont_update_login_page#:#Edit Login Page Element
+content#:#cont_lpe_login_form#:#Login Form
+content#:#cont_lpe_cas_login_form#:#CAS Login Form
+content#:#cont_lpe_shib_login_form#:#Shibboleth Login Form
+content#:#cont_lpe_openid_login_form#:#OpenId Login Form
+content#:#cont_lpe_registration_link#:#New Registration Link
+content#:#cont_lpe_language_selection#:#Language Selection
+content#:#cont_lpe_user_agreement_link#:#User Agreement Link
+content#:#cont_insert_login_page#:#Add Login Page Element
