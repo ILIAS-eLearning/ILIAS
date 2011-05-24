@@ -35,6 +35,10 @@ class ilECSSetting
 	const ERROR_EXTRACT_SERIAL = 'ecs_error_extract_serial';
 	const ERROR_REQUIRED = 'fill_out_all_required_fields';
 	const ERROR_INVALID_IMPORT_ID = 'ecs_check_import_id';
+	const ERROR_CERT_EXPIRED = 'ecs_certificate_expired';
+
+	const AUTH_CERTIFICATE = 1;
+	const AUTH_APACHE = 2;
 	
 	const DEFAULT_DURATION = 6;
 	
@@ -42,16 +46,20 @@ class ilECSSetting
 	const PROTOCOL_HTTP = 0;
 	const PROTOCOL_HTTPS = 1;
 	
-	protected static $instance = null;
+	protected static $instances = null;
 
+
+	private $server_id = 0;
 	private $active = false;
+	private $title = '';
+	private $auth_type = self::AUTH_CERTIFICATE;
 	private $server;
 	private $protocol;
 	private $port;
 	private $client_cert_path;
 	private $ca_cert_path;
 	private $key_path;
-	private $key_pathword;
+	private $key_password;
 	private $polling;
 	private $import_id;
 	private $cert_serial;
@@ -67,9 +75,10 @@ class ilECSSetting
 	 *
 	 * @access private
 	 */
-	private function __construct()
+	private function __construct($a_server_id = 0)
 	{
-	 	$this->initStorage();
+	 	$this->server_id = $a_server_id;
+		//$this->initStorage();
 	 	$this->read();
 	}
 	
@@ -78,15 +87,73 @@ class ilECSSetting
 	 *
 	 * @access public
 	 * @static
+	 * @deprecated
 	 *
 	 */
 	public static function _getInstance()
 	{
-		if(self::$instance)
+		$GLOBALS['ilLog']->write(__METHOD__.': Using deprecated call.');
+		$GLOBALS['ilLog']->logStack();
+		return self::getInstanceByServerId(15);
+	}
+
+	/**
+	 * Get singleton instance per server
+	 * @param int $a_server_id
+	 * @return ilECSSetting
+	 */
+	public static function getInstanceByServerId($a_server_id)
+	{
+		if(self::$instances[$a_server_id])
 		{
-			return self::$instance;
+			return self::$instances[$a_server_id];
 		}
-		return self::$instance = new ilECSSetting();
+		return self::$instances[$a_server_id] = new ilECSSetting($a_server_id);
+	}
+
+	/**
+	 * Set title
+	 * @param string $a_title
+	 */
+	public function setTitle($a_title)
+	{
+		$this->title = $a_title;
+	}
+
+	/**
+	 * Get title
+	 * @return string title
+	 */
+	public function getTitle()
+	{
+		return $this->title;
+	}
+
+	/**
+	 * Set auth type
+	 * @param int $a_auth_type
+	 */
+	public function setAuthType($a_auth_type)
+	{
+		$this->auth_type = $a_auth_type;
+	}
+
+	/**
+	 * Get auth type
+	 * @return int
+	 */
+	public function getAuthType()
+	{
+		return $this->auth_type;
+	}
+
+	/**
+	 * Get current server id
+	 * @return int
+	 */
+	public function getServerId()
+	{
+		return (int) $this->server_id;
 	}
 	
 	/**
@@ -485,7 +552,7 @@ class ilECSSetting
 	 */
 	public function getUserRecipientsAsString()
 	{
-	 	return $this->user_recipients;
+	 	return $this->user_recipients ? $this->user_recipients : '';
 	}
 	
 	/**
@@ -519,7 +586,7 @@ class ilECSSetting
 	 */
 	public function getEContentRecipientsAsString()
 	{
-	 	return $this->econtent_recipients;
+	 	return $this->econtent_recipients ? $this->econtent_recipients : '';
 	}
 	
 	/**
@@ -554,7 +621,7 @@ class ilECSSetting
 	 */
 	public function getApprovalRecipientsAsString()
 	{
-		return $this->approval_recipients;
+		return $this->approval_recipients ? $this->approval_recipients : '';
 	}
 	
 	/**
@@ -593,6 +660,10 @@ class ilECSSetting
 		if(!$this->fetchSerialID())
 		{
 			return self::ERROR_EXTRACT_SERIAL;
+		}
+		if(!$this->fetchCertificateExpiration())
+		{
+			return self::ERROR_CERT_EXPIRED;
 		}
 		if(!$this->checkImportId())
 		{
@@ -634,22 +705,105 @@ class ilECSSetting
 	 */
 	public function save()
 	{
-	 	$this->storage->set('active',(int) $this->isEnabled());
-	 	$this->storage->set('server',$this->getServer());
-	 	$this->storage->set('port',$this->getPort());
-	 	$this->storage->set('protocol',$this->getProtocol());
-	 	$this->storage->set('client_cert_path',$this->getClientCertPath());
-	 	$this->storage->set('ca_cert_path',$this->getCACertPath());
-	 	$this->storage->set('key_path',$this->getKeyPath());
-	 	$this->storage->set('key_password',$this->getKeyPassword());
-	 	$this->storage->set('import_id',$this->getImportId());
-	 	$this->storage->set('polling',$this->getPollingTime());
-	 	$this->storage->set('cert_serial',$this->getCertSerialNumber());
-	 	$this->storage->set('global_role',(int) $this->getGlobalRole());
-	 	$this->storage->set('user_rcp',$this->getUserRecipientsAsString());
-	 	$this->storage->set('econtent_rcp',$this->getEContentRecipientsAsString());
-	 	$this->storage->set('approval_rcp',$this->getApprovalRecipientsAsString());
-	 	$this->storage->set('duration',$this->getDuration());
+		global $ilDB;
+
+		$this->server_id = $ilDB->nextId('ecs_server');
+		$ilDB->manipulate($q = 'INSERT INTO ecs_server (server_id,active,title,protocol,server,port,auth_type,client_cert_path,ca_cert_path,'.
+			'key_path,key_password,cert_serial,polling_time,import_id,global_role,econtent_rcp,user_rcp,approval_rcp,duration) '.
+			'VALUES ('.
+			$ilDB->quote($this->getServerId(),'integer').', '.
+			$ilDB->quote((int) $this->isEnabled(),'integer').', '.
+			$ilDB->quote($this->getTitle(),'text').', '.
+			$ilDB->quote((int) $this->getProtocol(),'integer').', '.
+			$ilDB->quote($this->getServer(),'text').', '.
+			$ilDB->quote($this->getPort(),'integer').', '.
+			$ilDB->quote($this->getAuthType(),'integer').', '.
+			$ilDB->quote($this->getClientCertPath(),'text').', '.
+			$ilDB->quote($this->getCACertPath(),'text').', '.
+			$ilDB->quote($this->getKeyPath(),'text').', '.
+			$ilDB->quote($this->getKeyPassword(),'text').', '.
+			$ilDB->quote($this->getCertSerialNumber(),'text').', '.
+			$ilDB->quote($this->getPollingTime(),'integer').', '.
+			$ilDB->quote($this->getImportId(),'integer').', '.
+			$ilDB->quote($this->getGlobalRole(),'integer').', '.
+			$ilDB->quote($this->getEContentRecipientsAsString(),'text').', '.
+			$ilDB->quote($this->getUserRecipientsAsString(),'text').', '.
+			$ilDB->quote($this->getApprovalRecipientsAsString(),'text').', '.
+			$ilDB->quote($this->getDuration(),'integer').
+			')'
+		);
+	}
+
+	/**
+	 * Update setting
+	 */
+	public function update()
+	{
+		global $ilDB;
+
+		$ilDB->manipulate('UPDATE ecs_server SET '.
+			'server_id = '.$ilDB->quote($this->getServerId(),'integer').', '.
+			'active = '.$ilDB->quote((int) $this->isEnabled(),'integer').', '.
+			'title = '.$ilDB->quote($this->getTitle(),'text').', '.
+			'protocol = '.$ilDB->quote((int) $this->getProtocol(),'integer').', '.
+			'server = '.$ilDB->quote($this->getServer(),'text').', '.
+			'port = '.$ilDB->quote($this->getPort(),'integer').', '.
+			'auth_type = '.$ilDB->quote($this->getAuthType(),'integer').', '.
+			'client_cert_path = '.$ilDB->quote($this->getClientCertPath(),'text').', '.
+			'ca_cert_path = '.$ilDB->quote($this->getCACertPath(),'text').', '.
+			'key_path = '.$ilDB->quote($this->getKeyPath(),'text').', '.
+			'key_password = '.$ilDB->quote($this->getKeyPassword(),'text').', '.
+			'cert_serial = '.$ilDB->quote($this->getCertSerialNumber(),'text').', '.
+			'polling_time = '.$ilDB->quote($this->getPollingTime(),'integer').', '.
+			'import_id = '.$ilDB->quote($this->getImportId(),'integer').', '.
+			'global_role = '.$ilDB->quote($this->getGlobalRole(),'integer').', '.
+			'econtent_rcp = '.$ilDB->quote($this->getEContentRecipientsAsString(),'text').', '.
+			'user_rcp = '.$ilDB->quote($this->getUserRecipientsAsString(),'text').', '.
+			'approval_rcp = '.$ilDB->quote($this->getApprovalRecipientsAsString(),'text').', '.
+			'duration = '.$ilDB->quote($this->getDuration(),'integer').' '.
+			'WHERE server_id = '.$ilDB->quote($this->getServerId(),'integer')
+		);
+	}
+
+	/**
+	 * Delete
+	 */
+	public function delete()
+	{
+		global $ilDB;
+
+		$ilDB->manipulate(
+			'DELETE FROM ecs_server '.
+			'WHERE server_id = '.$ilDB->quote($this->getServerId(),'integer')
+		);
+		return true;
+	}
+
+
+	/**
+	 * Fetch validity (expired date)
+	 * @global ilLog $ilLog
+	 * @return bool
+	 */
+	public function fetchCertificateExpiration()
+	{
+	 	global $ilLog;
+
+		if($this->getAuthType() != self::AUTH_CERTIFICATE)
+		{
+			return null;
+		}
+
+	 	if(function_exists('openssl_x509_parse') and $cert = openssl_x509_parse('file://'.$this->getClientCertPath()))
+	 	{
+			if(isset($cert['validTo_time_t']) and $cert['validTo_time_t'])
+	 		{
+	 			$dt = new ilDateTime($cert['validTo_time_t'], IL_CAL_UNIX);
+	 			$ilLog->write(__METHOD__.': Certificate expires at '.ilDatePresentation::formatDate($dt));
+	 			return $dt;
+	 		}
+	 	}
+		return null;
 	}
 	
 	/**
@@ -704,7 +858,7 @@ class ilECSSetting
 	/**
 	 * Init storage class (ilSetting)
 	 * @access private
-	 * 
+	 * @deprecated
 	 */
 	private function initStorage()
 	{
@@ -719,22 +873,56 @@ class ilECSSetting
 	 */
 	private function read()
 	{
-		$this->setServer($this->storage->get('server'));
-		$this->setProtocol($this->storage->get('protocol'));
-		$this->setPort($this->storage->get('port'));
-		$this->setClientCertPath($this->storage->get('client_cert_path'));
-		$this->setCACertPath($this->storage->get('ca_cert_path'));
-		$this->setKeyPath($this->storage->get('key_path'));
-		$this->setKeyPassword($this->storage->get('key_password'));
-		$this->setPollingTime($this->storage->get('polling',128));
-		$this->setImportId($this->storage->get('import_id'));
-		$this->setEnabledStatus((int) $this->storage->get('active'));
-		$this->setCertSerialNumber($this->storage->get('cert_serial'));
-		$this->setGlobalRole($this->storage->get('global_role'));
-		$this->econtent_recipients = $this->storage->get('econtent_rcp');
-		$this->approval_recipients = $this->storage->get('approval_rcp');
-		$this->user_recipients = $this->storage->get('user_rcp');
-		$this->setDuration($this->storage->get('duration'));
+		global $ilDB;
+		
+		if(!$this->getServerId())
+		{
+			return false;
+		}
+
+		$query = 'SELECT * FROM ecs_server '.
+			'WHERE server_id = '.$ilDB->quote($this->getServerId(),'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->setServer($row['server']);
+			$this->setTitle($row['title']);
+			$this->setProtocol($row['protocol']);
+			$this->setPort($row['port']);
+			$this->setClientCertPath($row['client_cert_path']);
+			$this->setCACertPath($row['ca_cert_path']);
+			$this->setKeyPath($row['key_path']);
+			$this->setKeyPassword($row['key_password']);
+			$this->setPollingTime($row['polling_time']);
+			$this->setImportId($row['import_id']);
+			$this->setEnabledStatus((int) $row['active']);
+			$this->setCertSerialNumber($row['cert_serial']);
+			$this->setGlobalRole($row['global_role']);
+			$this->econtent_recipients = $row['econtent_rcp'];
+			$this->approval_recipients = $row['approval_rcp'];
+			$this->user_recipients = $row['user_rcp'];
+			$this->setDuration($row['duration']);
+		}
+	}
+
+	/**
+	 * Overwritten clone method
+	 * Reset all connection settings
+	 */
+	public function  __clone()
+	{
+		$this->server_id = 0;
+		$this->setTitle($this->getTitle(). ' (Copy)');
+		$this->setEnabledStatus(false);
+		$this->setServer('');
+		$this->setProtocol(self::PROTOCOL_HTTPS);
+		$this->setPort(0);
+		$this->setClientCertPath('');
+		$this->setKeyPath('');
+		$this->setKeyPassword('');
+		$this->setCACertPath('');
+		$this->setCertSerialNumber('');
+		$this->setAuthType(self::AUTH_CERTIFICATE);
 	}
 }
 ?>
