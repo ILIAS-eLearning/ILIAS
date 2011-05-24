@@ -11443,3 +11443,6 @@ content#:#cont_lpe_registration_link#:#New Registration Link
 content#:#cont_lpe_language_selection#:#Language Selection
 content#:#cont_lpe_user_agreement_link#:#User Agreement Link
 content#:#cont_insert_login_page#:#Add Login Page Element
+survey#:#survey_sync_question_copies#:#Sync Question Copies
+survey#:#survey_sync_question_copies_info#:#The selected questions will be replaced with the current pool version.
+survey#:#survey_sync_insufficient_permissions#:#Insufficient Permissions

@@ -2261,5 +2261,34 @@ class SurveyQuestion
 			" obj_fi = ".$ilDB->quote($a_object_id, "integer").
 			" WHERE question_id = ".$ilDB->quote($a_question_id, "integer"));
 	}
+	
+	public function getCopyIds($a_group_by_survey = false)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT q.question_id,s.obj_fi".
+			" FROM svy_question q".
+			" JOIN svy_svy_qst sq ON (sq.question_fi = q.question_id)".
+			" JOIN svy_svy s ON (s.survey_id = sq.survey_fi)".
+			" WHERE original_id = ".$ilDB->quote($this->getId(), "integer"));
+		$res = array();
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			if(!$a_group_by_survey)
+			{
+				$res[] = $row["question_id"];
+			}
+			else
+			{
+				$res[$row["obj_fi"]][] = $row["question_id"];
+			}
+		}
+		return $res;
+	}
+	
+	public function hasCopies()
+	{
+		return (bool)sizeof($this->getCopyIds());						
+	}
 }
 ?>

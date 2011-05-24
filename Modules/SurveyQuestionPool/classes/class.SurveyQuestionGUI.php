@@ -189,31 +189,41 @@ class SurveyQuestionGUI
 	 */
 	function redirectAfterSaving($a_return = false)
 	{
-		// return to calling survey?
+		// return?
 		if($a_return)
 		{
-			$addurl = "";
-			if ($_REQUEST["pgov"])
-			{
-				$addurl .= "&pgov=".$_REQUEST["pgov"];
-				$addurl .= "&pgov_pos=".$_REQUEST["pgov_pos"];
-			}
+			// to calling survey
+			if($_GET["calling_survey"] || $_GET["new_for_survey"])
+			{			
+				$addurl = "";
+				if ($_REQUEST["pgov"])
+				{
+					$addurl .= "&pgov=".$_REQUEST["pgov"];
+					$addurl .= "&pgov_pos=".$_REQUEST["pgov_pos"];
+				}
 
-			// edit
-			if($_GET["calling_survey"])
-			{
-				$_GET["ref_id"] = $_GET["calling_survey"];
-			}
-			// create
-			else if($_GET["new_for_survey"])
-			{
-				$_GET["ref_id"] = $_GET["new_for_survey"];
-				$addurl .= "&new_id=".$this->object->getId();
-			}
+				// edit
+				if($_GET["calling_survey"])
+				{
+					$_GET["ref_id"] = $_GET["calling_survey"];
+				}
+				// create
+				else if($_GET["new_for_survey"])
+				{
+					$_GET["ref_id"] = $_GET["new_for_survey"];
+					$addurl .= "&new_id=".$this->object->getId();
+				}
 
-			// we cannot use ilctrl here as pool has no "knowledge" of calling survey
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["ref_id"] . "&cmd=questions".$addurl);
+				// we cannot use ilctrl here as pool has no "knowledge" of calling survey
+				include_once "./Services/Utilities/classes/class.ilUtil.php";
+				ilUtil::redirect("ilias.php?baseClass=ilObjSurveyGUI&ref_id=" . $_GET["ref_id"] . "&cmd=questions".$addurl);
+			}
+			// to pool
+			else
+			{
+				$this->ctrl->setParameterByClass("ilObjSurveyQuestionPoolGUI", "q_id_table_nav", $_SESSION['q_id_table_nav']);
+				$this->ctrl->redirectByClass("ilObjSurveyQuestionPoolGUI", "questions");
+			}
 		}
 		// stay in form
 		else
@@ -251,22 +261,31 @@ class SurveyQuestionGUI
 			$originalexists = $this->object->_questionExists($this->object->original_id);
 			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-
-			// update pool, too?
-			if ($_GET["calling_survey"] && $originalexists &&
-				SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+			
+			// pool question?
+			if(ilObject::_lookupType($this->object->getObjId()) == "spl")
 			{
-				if($a_return)
-				{
-					$this->ctrl->setParameter($this, 'rtrn', 1);
+				if($this->object->hasCopies())
+				{				
+					$this->ctrl->redirect($this, 'copySyncForm');
 				}
-				$this->ctrl->redirect($this, 'originalSyncForm');
 			}
 			else
 			{
-				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-				$this->redirectAfterSaving($a_return);
+				// form: update original pool question, too?
+				if ($_GET["calling_survey"] && $originalexists &&
+					SurveyQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+				{
+					if($a_return)
+					{
+						$this->ctrl->setParameter($this, 'rtrn', 1);
+					}
+					$this->ctrl->redirect($this, 'originalSyncForm');
+				}
 			}
+			
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			$this->redirectAfterSaving($a_return);
 		}
 	}
 	
@@ -751,6 +770,26 @@ class SurveyQuestionGUI
 		$chart->setTicks($labels, false, true);
 
 		return "<div style=\"margin:10px\">".$chart->getHTML()."</div>";				
+	}
+	
+	protected function copySyncForm()
+	{
+		include_once "Modules/SurveyQuestionPool/classes/class.ilSurveySyncTableGUI.php";
+		$tbl = new ilSurveySyncTableGUI($this, "copySyncForm", $this->object);
+		
+		$this->tpl->setContent($tbl->getHTML());		
+	}
+	
+	protected function syncCopies()
+	{
+		global $lng;
+		
+		if(!sizeof($_POST["qid"]))
+		{
+			ilUtil::sendFailure($lng->txt("select_one"));
+			return $this->copySyncForm();
+		}
+		
 	}
 }
 

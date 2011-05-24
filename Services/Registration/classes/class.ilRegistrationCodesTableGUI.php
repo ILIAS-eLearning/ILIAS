@@ -41,7 +41,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		$this->initFilter();
 		$this->setFilterCommand("applyCodesFilter");
 		$this->setResetCommand("resetCodesFilter");
-		$this->setDefaultOrderField("generated");
+		$this->setDefaultOrderField("registration_generated");
 		$this->setDefaultOrderDirection("desc");
 
 		$this->setSelectAllCheckbox("id[]");
@@ -63,7 +63,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		$this->determineOffsetAndOrder();
 		
 		include_once("./Services/Registration/classes/class.ilRegistrationCode.php");
-		
+
 		$order_map = array(
 			"registration_code" => "code",
 			"role" => "role", 

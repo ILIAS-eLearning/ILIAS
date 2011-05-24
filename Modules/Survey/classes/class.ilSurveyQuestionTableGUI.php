@@ -6,10 +6,8 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 /**
  * Survey question table GUI class
  *
- * List countries
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.de>
- * @version $Id: class.adnCountryTableGUI.php 27876 2011-02-25 16:51:38Z jluetzen $
+ * @version $Id$
  *
  * @ingroup ModulesSurvey
  */
