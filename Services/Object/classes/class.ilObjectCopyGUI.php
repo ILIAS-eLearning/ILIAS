@@ -15,6 +15,7 @@ class ilObjectCopyGUI
 {
 	const SOURCE_SELECTION = 1;
 	const TARGET_SELECTION = 2;
+	const SEARCH_SOURCE = 3;
 	
 	private $mode = 0;
 	
@@ -73,7 +74,7 @@ class ilObjectCopyGUI
 		
 		if($_REQUEST['new_type'])
 		{
-			$this->setMode(self::SOURCE_SELECTION);
+			$this->setMode(self::SEARCH_SOURCE);
 	
 			$ilCtrl->setParameter($this,'new_type',$this->getType());
 			$ilCtrl->setParameterByClass(get_class($this->parent_obj), 'new_type', $this->getType());
@@ -81,6 +82,8 @@ class ilObjectCopyGUI
 		}
 		elseif($_REQUEST['selectMode'] == self::SOURCE_SELECTION)
 		{
+			$this->setMode(self::SOURCE_SELECTION);
+
 			$ilCtrl->setParameterByClass(get_class($this->parent_obj), 'selectMode', self::SOURCE_SELECTION);
 			$this->setTarget((int) $_GET['ref_id']);
 			$ilCtrl->setReturnByClass(get_class($this->parent_obj), '');
@@ -120,6 +123,7 @@ class ilObjectCopyGUI
 
 		$this->setMode(self::TARGET_SELECTION);
 		$this->setSource((int) $_GET['source_id']);
+		$this->setTarget(0);
 		$this->setType(
 			ilObject::_lookupType(ilObject::_lookupObjId($this->getSource()))
 		);
@@ -135,10 +139,25 @@ class ilObjectCopyGUI
 	 */
 	protected function initSourceSelection()
 	{
-		global $ilCtrl;
+		global $ilCtrl,$tree;
+
+		// empty session on init
+		$_SESSION['paste_copy_repexpand'] = array();
+
+		// copy opened nodes from repository explorer
+		$_SESSION['paste_copy_repexpand'] = is_array($_SESSION['repexpand']) ? $_SESSION['repexpand'] : array();
 
 		$this->setMode(self::SOURCE_SELECTION);
+		$this->setSource(0);
 		$this->setTarget((int) $_GET['ref_id']);
+
+		// open current position
+		$path = $tree->getPathId($this->getTarget());
+		foreach((array) $path as $node_id)
+		{
+			if(!in_array($node_id, $_SESSION['paste_copy_repexpand']))
+				$_SESSION['paste_copy_repexpand'][] = $node_id;
+		}
 		
 		$ilCtrl->setReturnByClass(get_class($this->parent_obj),'');
 		$this->showSourceSelectionTree();	
@@ -237,7 +256,8 @@ class ilObjectCopyGUI
 		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'showSourceSelectionTree'));
 		$exp->setTargetGet('ref_id');
 		$exp->setPostVar('source');
-		$exp->setCheckedItems(array((int) $_POST['source']));
+		$exp->setCheckedItems(array($this->getSource()));
+		$exp->setNotSelectableItems(array($this->getTarget()));
 		
 		// Filter to container
 		foreach(array('cat','root','grp','fold') as $container)
@@ -508,8 +528,22 @@ class ilObjectCopyGUI
 		
 		$tpl->addJavaScript('./Services/CopyWizard/js/ilContainer.js');
 		$tpl->setVariable('BODY_ATTRIBUTES','onload="ilDisableChilds(\'cmd\');"');
-		
-		$back_cmd = $this->getMode() == self::SOURCE_SELECTION  ? 'searchSource' : 'showTargetSelectionTree';
+
+		switch($this->getMode())
+		{
+			case self::SOURCE_SELECTION:
+				$back_cmd = 'showSourceSelectionTree';
+				break;
+
+			case self::TARGET_SELECTION:
+				$back_cmd = 'showTargetSelectionTree';
+				break;
+
+			case self::SEARCH_SOURCE:
+				$back_cmd = 'searchSource';
+				break;
+		}
+
 		$table = new ilObjectCopySelectionTableGUI($this,'showItemSelection',$this->getType(),$back_cmd);
 		$table->parseSource($this->getSource());
 		
