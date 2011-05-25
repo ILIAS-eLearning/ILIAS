@@ -37,7 +37,10 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 	protected $lng;
 	protected $ctrl;
 	
+
+	protected $server = null;
 	protected $part_settings = null;
+	protected $cid = 0;
 	
 	/**
 	 * constructor
@@ -46,13 +49,16 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 	 * @param
 	 * 
 	 */
-	public function __construct($a_parent_obj,$a_parent_cmd = '',$cid = 0)
+	public function __construct(ilECSSetting $set,$a_parent_obj,$a_parent_cmd,$cid)
 	{
 	 	global $lng,$ilCtrl;
 	 	
 	 	$this->lng = $lng;
 	 	$this->ctrl = $ilCtrl;
-	 	
+
+		// TODO: set id
+		$this->setId($set->getServerId().'_'.$cid.'_'.'community_table');
+
 	 	parent::__construct($a_parent_obj,$a_parent_cmd);
 	 	$this->addColumn('','mid',1);
 	 	$this->addColumn($this->lng->txt('ecs_participants'),'participants',"50%");
@@ -62,8 +68,10 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.participant_row.html","Services/WebServices/ECS");
 		$this->setDefaultOrderField('participants');
 		$this->setDefaultOrderDirection("desc");
-		
-		$this->part_settings = ilECSParticipantSettings::_getInstance();
+
+		$this->cid = $cid;
+		$this->server = $set;
+		$this->part_settings = ilECSParticipantSettings::getInstanceByServerId($this->server->getServerId());
 	}
 	
 	/**

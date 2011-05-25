@@ -575,28 +575,36 @@ class ilECSSettingsGUI
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSCommunityReader.php');
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSCommunityTableGUI.php');
 
-		try
-		{
-			$reader = ilECSCommunityReader::_getInstance();
-
-		 	foreach($reader->getCommunities() as $community)
-		 	{
-		 		$this->tpl->setCurrentBlock('table_community');
-		 		$table_gui = new ilECSCommunityTableGUI($this,'communities',$community->getId());
-				
-		 		$table_gui->setTitle($community->getTitle().' ('.$community->getDescription().')');
-		 		#$table_gui->parse($community->getParticipants());
-		 		$table_gui->parse($community->getParticipants());
+		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
+		$settings = ilECSServerSettings::getInstance();
+		$settings->readInactiveServers();
 			
-				#$table_gui->setSelectAllCheckbox("mid");
-				$this->tpl->setVariable('TABLE_COMM',$table_gui->getHTML());
-		 		$this->tpl->parseCurrentBlock();
-		 	}
-		}
-		catch(ilECSConnectorException $exc)
+		foreach($settings->getServers() as $server)
 		{
-			ilUtil::sendInfo('Cannot connect to ECS server');
-			return true;
+			// Try to read communities
+			try 
+			{
+				$reader = ilECSCommunityReader::getInstanceByServerId($server->getServerId());
+				foreach($reader->getCommunities() as $community)
+				{
+					$this->tpl->setCurrentBlock('table_community');
+					$table_gui = new ilECSCommunityTableGUI($server,$this,'communities',$community->getId());
+					$table_gui->setTitle($community->getTitle().' ('.$community->getDescription().')');
+					$table_gui->parse($community->getParticipants());
+					$this->tpl->setVariable('TABLE_COMM',$table_gui->getHTML());
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			catch(ilECSConnectorException $exc)
+			{
+				// Maybe server is not fully configured
+				continue;
+			}
+
+			// Show section for each server
+			$this->tpl->setCurrentBlock('server');
+			$this->tpl->setVariable('TXT_SERVER_NAME',$server->getTitle());
+			$this->tpl->parseCurrentBlock();
 		}
 	}
 	

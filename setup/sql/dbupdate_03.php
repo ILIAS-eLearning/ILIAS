@@ -5559,3 +5559,17 @@ if (!$ilDB->tableColumnExists('tst_active', 'importname'))
 			 	"fixed" => false));
 }
 ?>
+<#3340>
+<?php
+	if(!$ilDB->tableExists('ecs_part_settings'))
+	{
+		$fields = array(
+			"sid" => array("notnull" => true,"length" => 4,"type" => "integer"),
+			"mid" => array("notnull" => true,"length" => 4,"type" => "integer"),
+			"export" => array("notnull" => true,"length" => 1,"type" => "integer"),
+			"import" => array("notnull" => true,"length" => 1,"type" => "integer"),
+			"import_type" => array("notnull" => false,'length' => 1, "type" => "integer")
+		);
+		$ilDB->createTable("ecs_part_settings", $fields);
+	}
+?>
