@@ -43,7 +43,6 @@ class ilECSServerTableGUI extends ilTable2GUI
 	public function  fillRow($set)
 	{
 		global $ilCtrl;
-		static $counter = 65; // chr(65) = A;
 
 		$ilCtrl->setParameter($this->getParentObject(),'server_id',$set['server_id']);
 
@@ -61,7 +60,15 @@ class ilECSServerTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_TITLE', ilECSSetting::getInstanceByServerId($set['server_id'])->getTitle());
 		$this->tpl->setVariable('LINK_EDIT', $ilCtrl->getLinkTarget($this->getParentObject(),'edit'));
 		$this->tpl->setVariable('TXT_SRV_ADDR', $this->lng->txt('ecs_server_addr'));
-		$this->tpl->setVariable('VAL_DESC', ilECSSetting::getInstanceByServerId($set['server_id'])->getServer());
+
+		if(ilECSSetting::getInstanceByServerId($set['server_id'])->getServer())
+		{
+			$this->tpl->setVariable('VAL_DESC', ilECSSetting::getInstanceByServerId($set['server_id'])->getServer());
+		}
+		else
+		{
+			$this->tpl->setVariable('VAL_DESC', $this->lng->txt('ecs_not_configured'));
+		}
 
 		$dt = ilECSSetting::getInstanceByServerId($set['server_id'])->fetchCertificateExpiration();
 		if($dt != NULL)

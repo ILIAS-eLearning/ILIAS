@@ -31,13 +31,11 @@
 */
 class ilECSParticipantSettings
 {
-	private static $instance = null;
-	protected $storage = null;
-	
-	protected $enabled = array();
-	protected $all_enabled = array();
-	
-	
+	private static $instances = null;
+
+	private $export = array();
+	private $import = array();
+	private $export_type = array();
 	
 	/**
 	 * Constructor (Singleton)
@@ -45,10 +43,10 @@ class ilECSParticipantSettings
 	 * @access private
 	 * 
 	 */
-	private function __construct()
+	private function __construct($a_server_id)
 	{
-	 	$this->initStorage();
-	 	$this->read();
+	 	$this->server_id = $a_server_id;
+		$this->read();
 	}
 	
 	/**
@@ -60,22 +58,73 @@ class ilECSParticipantSettings
 	 */
 	public static function _getInstance()
 	{
-		if(self::$instance)
-		{
-			return self::$instance;
-		}
-		return self::$instance = new ilECSParticipantSettings();
+		$GLOBALS['ilLog']->write(__METHOD__.': Using deprecated call');
+		$GLOBALS['ilLog']->logStack();
+		return self::getInstanceByServerId(15);
 	}
-	
+
+	/**
+	 * Get instance by server id
+	 * @param <type> $a_server_id
+	 * @return <type>
+	 */
+	public static function getInstanceByServerId($a_server_id)
+	{
+		if(isset(self::$instances[$a_server_id]))
+		{
+			return self::$instances[$a_server_id];
+		}
+		return self::$instances[$a_server_id] = new ilECSParticipantSettings($a_server_id);
+	}
+
+	/**
+	 * Get server id
+	 * @return int
+	 */
+	public function getServerId()
+	{
+		return $this->server_id;
+	}
+
+
+	/**
+	 * Read stored entry
+	 * @return <type>
+	 */
+	public function read()
+	{
+		global $ilDB;
+
+		$query = 'SELECT * FROM ecs_part_settings '.
+			'WHERE sid = '.$ilDB->quote($this->getServerId(),'integer').' ';
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->export[$row->mid] = $row->export;
+			$this->import[$row->mid] = $row->import;
+			$this->import_type[$row->mid] = $row->import_type;
+		}
+		return true;
+	}
+
 	/**
 	 * get number of participants that are enabled
 	 *
 	 * @access public
-	 * 
+	 * @deprecated
 	 */
 	public function getEnabledParticipants()
 	{
-	 	return $this->enabled ? $this->enabled : array();
+		$ret = array();
+		foreach($this->export as $mid => $enabled)
+		{
+			if($enabled)
+			{
+				$ret[] = $mid;
+			}
+		}
+		return $ret;
+	 	#return $this->enabled ? $this->enabled : array();
 	}
 	
 	/**
@@ -83,11 +132,12 @@ class ilECSParticipantSettings
 	 *
 	 * @access public
 	 * @param int mid
+	 * @deprecated
 	 * 
 	 */
 	public function isEnabled($a_mid)
 	{
-	 	return in_array($a_mid,$this->enabled);
+	 	return $this->export[$a_mid] ? true : false;
 	}
 	
 	/**
@@ -101,46 +151,5 @@ class ilECSParticipantSettings
 	{
 	 	$this->enabled = (array) $a_parts;
 	}
-	
-	/**
-	 * save
-	 *
-	 * @access public
-	 * 
-	 */
-	public function save()
-	{
-		$this->storage->set('enabled',addslashes(serialize($this->enabled)));
-	}
-	
-	/**
-	 * Init storage class (ilSetting)
-	 * @access private
-	 * 
-	 */
-	private function initStorage()
-	{
-	 	include_once('./Services/Administration/classes/class.ilSetting.php');
-	 	$this->storage = new ilSetting('ecs_participants');
-	}
-	
-	/**
-	 * Read settings
-	 *
-	 * @access private
-	 * @param
-	 * 
-	 */
-	private function read()
-	{
-		$enabled = $this->storage->get('enabled');
-		if($enabled)
-		{
-			$this->enabled = unserialize(stripslashes($enabled));
-		}
-	}
-	
 }
-
-
 ?>
