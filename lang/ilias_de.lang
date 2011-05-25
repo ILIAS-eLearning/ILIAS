@@ -11405,3 +11405,6 @@ ecs#:#ecs_not_configured#:#Nicht konfiguriert
 administration#:#user_criteria#:#Eindeutiges Nutzermerkmal
 administration#:#user_criteria_desc#:#Eindeutiges Nutzermerkmal für den Import/Export von Testergebnissen. Das Merkmal wird benötigt, um einen identischen Nutzer auf unterschiedlichen ILIAS-Systemen zu identifizieren.
 assessment#:#imported#:#importiert
+ecs#:#ecs_tbl_import#:#Import
+ecs#:#ecs_tbl_export#:#Export
+ecs#:#ecs_tbl_import_type#:#Import-Typ

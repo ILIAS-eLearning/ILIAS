@@ -569,8 +569,8 @@ class ilECSSettingsGUI
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_communities.html','Services/WebServices/ECS');
 	 	
 	 	$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this,'updateCommunities'));
-	 	$this->tpl->setVariable('IMAGE_DOWNRIGHT',ilUtil::getImagePath('arrow_downright.gif'));
-	 	$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('ecs_enable_participant'));
+	 	$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
+	 	$this->tpl->setVariable('TXT_CANCEL', $this->lng->txt('cancel'));
 	 	
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSCommunityReader.php');
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSCommunityTableGUI.php');
@@ -618,7 +618,26 @@ class ilECSSettingsGUI
 	{
 		global $ilLog;
 
-		
+		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
+		foreach((array) $_POST['sci_mid'] as $sid => $tmp)
+		{
+			foreach((array) $_POST['sci_mid'][$sid] as $mid => $tmp)
+			{
+				$set = new ilECSParticipantSetting($sid, $mid);
+				$set->enableExport(array_key_exists($mid, (array) $_POST['export'][$sid]) ? true : false);
+				$set->enableImport(array_key_exists($mid, (array) $_POST['import'][$sid]) ? true : false);
+				$set->setImportType($_POST['import_type'][$sid][$mid]);
+				$set->update();
+			}
+		}
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$GLOBALS['ilCtrl']->redirect($this,'communities');
+
+		// TODO: Do update of remote courses and ...
+
+		return true;
+
+		/*
 		$mids = $_POST['mid'] ? $_POST['mid'] : array();
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
@@ -640,7 +659,7 @@ class ilECSSettingsGUI
 				}
 			}
 		}
-		
+		*/
 
 		/*
 		try
@@ -694,11 +713,6 @@ class ilECSSettingsGUI
 		}
 
 		*/
-		$part->setEnabledParticipants($_POST['mid'] ? $_POST['mid'] : array());
-		$part->save();
-		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
-		$this->communities();
 		return true;
 	}
 	

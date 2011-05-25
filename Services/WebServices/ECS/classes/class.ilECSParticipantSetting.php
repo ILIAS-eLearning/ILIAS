@@ -45,31 +45,18 @@ class ilECSParticipantSetting
 
 	
 	/**
-	 * Constructor (Singleton)
+	 * Constructor
 	 *
 	 * @access private
 	 * 
 	 */
-	public function __construct($a_server_id)
+	public function __construct($a_server_id,$mid)
 	{
 	 	$this->server_id = $a_server_id;
+		$this->mid = $mid;
 		$this->read();
 	}
 	
-	/**
-	 * Get instance by server id
-	 * @param <type> $a_server_id
-	 * @return <type>
-	 */
-	public static function getInstanceByServerId($a_server_id)
-	{
-		if(isset(self::$instances[$a_server_id]))
-		{
-			return self::$instances[$a_server_id];
-		}
-		return self::$instances[$a_server_id] = new ilECSParticipantSettings($a_server_id);
-	}
-
 	/**
 	 * Get server id
 	 * @return int
