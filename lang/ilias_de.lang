@@ -11402,3 +11402,6 @@ ecs#:#ecs_server_addr#:#Serveradresse
 ecs#:#ecs_activate#:#Aktivieren
 ecs#:#ecs_deactivate#:#Deaktivieren
 ecs#:#ecs_not_configured#:#Nicht konfiguriert
+administration#:#user_criteria#:#Eindeutiges Nutzermerkmal
+administration#:#user_criteria_desc#:#Eindeutiges Nutzermerkmal für den Import/Export von Testergebnissen. Das Merkmal wird benötigt, um einen identischen Nutzer auf unterschiedlichen ILIAS-Systemen zu identifizieren.
+assessment#:#imported#:#importiert

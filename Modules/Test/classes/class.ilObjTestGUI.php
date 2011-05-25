@@ -691,6 +691,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$subdir = basename($file["basename"],".".$file["extension"]);
 		$xml_file = ilObjTest::_getImportDirectory()."/".$subdir."/".$subdir.".xml";
 		$qti_file = ilObjTest::_getImportDirectory()."/".$subdir."/". str_replace("test", "qti", $subdir).".xml";
+		$results_file = ilObjTest::_getImportDirectory()."/".$subdir."/". str_replace("test", "results", $subdir).".xml";
+
 		// start verification of QTI files
 		include_once "./Services/QTI/classes/class.ilQTIParser.php";
 		$qtiParser = new ilQTIParser($qti_file, IL_MO_VERIFY_QTI, 0, "");
@@ -733,6 +735,7 @@ class ilObjTestGUI extends ilObjectGUI
 			return;
 		}
 		
+		$_SESSION["tst_import_results_file"] = $results_file;
 		$_SESSION["tst_import_xml_file"] = $xml_file;
 		$_SESSION["tst_import_qti_file"] = $qti_file;
 		$_SESSION["tst_import_subdir"] = $subdir;
@@ -839,13 +842,19 @@ class ilObjTestGUI extends ilObjectGUI
 		$result = $qtiParser->startParsing();
 		$newObj->saveToDb();
 
-
-		
 		// import page data
 		include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
 		$contParser = new ilContObjParser($newObj, $_SESSION["tst_import_xml_file"], $_SESSION["tst_import_subdir"]);
 		$contParser->setQuestionMapping($qtiParser->getImportMapping());
 		$contParser->startParsing();
+
+		// import test results
+		if (@file_exists($_SESSION["tst_import_results_file"]))
+		{
+			include_once ("./Modules/Test/classes/class.ilTestResultsImportParser.php");
+			$results = new ilTestResultsImportParser($_SESSION["tst_import_results_file"], $newObj);
+			$results->startParsing();
+		}
 
 		// delete import directory
 		ilUtil::delDir(ilObjTest::_getImportDirectory());
@@ -3502,6 +3511,8 @@ EOT;
 					$access = ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_DATETIME));					
 				}
 				$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
+				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
+				$fullname = ilObjTestAccess::_getParticipantData($data['active_id']);
 				array_push($rows, array(
 					'usr_id' => $data["usr_id"],
 					'active_id' => $data['active_id'],
@@ -3509,6 +3520,7 @@ EOT;
 					'clientip' => $data["clientip"],
 					'firstname' => $data["firstname"],
 					'lastname' => $data["lastname"],
+					'name' => $fullname,
 					'started' => ($data["active_id"] > 0) ? 1 : 0,
 					'finished' => ($data["test_finished"] == 1) ? 1 : 0,
 					'access' => $access,
@@ -3539,10 +3551,13 @@ EOT;
 					$access = ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_DATETIME));
 				}
 				$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
+				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
+				$fullname = ilObjTestAccess::_getParticipantData($data['active_id']);
 				array_push($rows, array(
 					'usr_id' => $data["active_id"],
 					'active_id' => $data['active_id'],
 					'login' => $data["login"],
+					'name' => $fullname,
 					'firstname' => $data["firstname"],
 					'lastname' => $data["lastname"],
 					'started' => ($data["active_id"] > 0) ? 1 : 0,

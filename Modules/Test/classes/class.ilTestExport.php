@@ -40,6 +40,7 @@ class ilTestExport
 	var $inst_id;		// installation id
 	var $mode;
 	private $lng;
+	private $resultsfile;
 
 	/**
 	* Constructor
@@ -76,6 +77,8 @@ class ilTestExport
 				$this->subdir = $date."__".$this->inst_id."__".
 					"test"."__".$this->test_obj->getId();
 				$this->filename = $this->subdir.".xml";
+				$this->resultsfile = $date."__".$this->inst_id."__".
+					"results"."__".$this->test_obj->getId().".xml";
 				$this->qti_filename = $date."__".$this->inst_id."__".
 					"qti"."__".$this->test_obj->getId().".xml";
 				break;
@@ -1045,6 +1048,16 @@ class ilTestExport
 		$this->xml->xmlDumpFile($this->export_dir."/".$this->subdir."/".$this->filename
 			, false);
 		$ilBench->stop("TestExport", "buildExportFile_dumpToFile");
+
+		if (@file_exists("./Modules/Test/classes/class.ilTestResultsToXML.php"))
+		{
+			// dump results xml document to file
+			include_once "./Modules/Test/classes/class.ilTestResultsToXML.php";
+			$resultwriter = new ilTestResultsToXML($this->test_obj->getTestId(), $this->test_obj->getAnonymity());
+			$ilBench->start("TestExport", "buildExportFile_results");
+			$resultwriter->xmlDumpFile($this->export_dir."/".$this->subdir."/".$this->resultsfile, false);
+			$ilBench->stop("TestExport", "buildExportFile_results");
+		}
 
 			// add media objects which were added with tiny mce
 		$ilBench->start("QuestionpoolExport", "buildExportFile_saveAdditionalMobs");

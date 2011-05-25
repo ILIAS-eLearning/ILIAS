@@ -5547,3 +5547,15 @@ if(!$ilDB->tableExists('adl_shared_data'))
 		);
 	}
 ?>
+<#3339>
+<?php
+if (!$ilDB->tableColumnExists('tst_active', 'importname'))
+{
+	$ilDB->addTableColumn("tst_active", "importname",
+			array(
+				"type" => "text",
+				"notnull" => false,
+			 	"length" => 400,
+			 	"fixed" => false));
+}
+?>
