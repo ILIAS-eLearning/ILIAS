@@ -39,7 +39,6 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 	
 
 	protected $server = null;
-	protected $part_settings = null;
 	protected $cid = 0;
 	
 	/**
@@ -60,10 +59,11 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 		$this->setId($set->getServerId().'_'.$cid.'_'.'community_table');
 
 	 	parent::__construct($a_parent_obj,$a_parent_cmd);
-	 	$this->addColumn('','mid',1);
-	 	$this->addColumn($this->lng->txt('ecs_participants'),'participants',"50%");
-	 	$this->addColumn($this->lng->txt('ecs_participants_infos'),'infos',"48%");
-	 	$this->addColumn($this->lng->txt('ecs_active_header'),'active',"2%");
+	 	$this->addColumn($this->lng->txt('ecs_participants'),'participants',"40%");
+	 	$this->addColumn($this->lng->txt('ecs_participants_infos'),'infos',"40%");
+		$this->addColumn($this->lng->txt('ecs_tbl_export'),'export','5%');
+		$this->addColumn($this->lng->txt('ecs_tbl_import'),'import','5%');
+		$this->addColumn($this->lng->txt('ecs_tbl_import_type'), 'type','10%');
 		$this->disable('form');	 	
 		$this->setRowTemplate("tpl.participant_row.html","Services/WebServices/ECS");
 		$this->setDefaultOrderField('participants');
@@ -71,7 +71,6 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 
 		$this->cid = $cid;
 		$this->server = $set;
-		$this->part_settings = ilECSParticipantSettings::getInstanceByServerId($this->server->getServerId());
 	}
 	
 	/**
@@ -83,7 +82,8 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		$this->tpl->setVariable('VAL_ID',$a_set['mid']);
+		$this->tpl->setVariable('S_ID', $this->server->getServerId());
+		$this->tpl->setVariable('M_ID', $a_set['mid']);
 		$this->tpl->setVariable('VAL_ORG', (string) $a_set['org']);
 		$this->tpl->setVariable('VAL_CHECKED',$a_set['checked'] ? 'checked="checked"' : '');
 		$this->tpl->setVariable('VAL_TITLE',$a_set['participants']);
@@ -96,19 +96,29 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('TXT_ABR',$this->lng->txt('ecs_abr'));
 		$this->tpl->setVariable('TXT_ID',$this->lng->txt('ecs_unique_id'));
 		$this->tpl->setVariable('TXT_ORG', $this->lng->txt('organization'));
-		
-		
-		
-		if($a_set['checked'])
+
+		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
+		$part = new ilECSParticipantSetting($this->server->getServerId(), $a_set['mid']);
+		if($part->isExportEnabled())
 		{
-			$this->tpl->setVariable('IMAGE_OK',ilUtil::getImagePath('icon_ok.gif'));
-			$this->tpl->setVariable('TXT_OK',$this->lng->txt('ecs_active'));
+			$this->tpl->setVariable('EXP_CHECKED', 'checked="checked"');
 		}
-		else
+		if($part->isImportEnabled())
 		{
-			$this->tpl->setVariable('IMAGE_OK',ilUtil::getImagePath('icon_not_ok.gif'));
-			$this->tpl->setVariable('TXT_OK',$this->lng->txt('ecs_inactive'));
+			$this->tpl->setVariable('IMP_CHECKED', 'checked="checked"');
 		}
+
+		$sel = ilUtil::formSelect(
+			$part->getImportType(),
+			'import_type['.$this->server->getServerId().']['.$a_set['mid'].']',
+			array(
+				ilECSParticipantSetting::IMPORT_RCRS => $this->lng->txt('obj_rcrs'),
+				ilECSParticipantSetting::IMPORT_CRS	=> $this->lng->txt('obj_crs')
+			),
+			false,
+			true
+		);
+		$this->tpl->setVariable('IMPORT_SEL', $sel);
 	}
 	
 	/**
@@ -122,7 +132,6 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 	{
 		foreach($a_participants as $participant)
 		{
-			$tmp_arr['checked'] = $this->part_settings->isEnabled($participant->getMID());
 			$tmp_arr['mid'] = $participant->getMID();
 			$tmp_arr['participants'] = $participant->getParticipantName();
 			$tmp_arr['description'] = $participant->getDescription();

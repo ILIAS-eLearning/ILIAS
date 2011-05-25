@@ -11457,3 +11457,6 @@ ecs#:#ecs_not_configured#:#Not configured
 administration#:#user_criteria#:#Unique user criteria
 administration#:#user_criteria_desc#:#Unique user criteria that is used for test results import/export. This is needed to identify identical users on different ILIAS systems.
 assessment#:#imported#:#imported
+ecs#:#ecs_tbl_import#:#Import
+ecs#:#ecs_tbl_export#:#Export
+ecs#:#ecs_tbl_import_type#:#Import Type
