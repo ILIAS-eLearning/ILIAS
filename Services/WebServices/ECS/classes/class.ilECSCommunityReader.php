@@ -103,6 +103,15 @@ class ilECSCommunityReader
 		return self::$instances[$a_server_id] = new ilECSCommunityReader(ilECSSetting::getInstanceByServerId($a_server_id));
 	}
 
+	/**
+	 * Get server setting
+	 * @return ilECSSetting
+	 */
+	public function getServer()
+	{
+		return $this->settings;
+	}
+
 
 	/**
 	 * get publishable ids
@@ -187,14 +196,17 @@ class ilECSCommunityReader
 	 */
 	public function getEnabledParticipants()
 	{
-	 	foreach($this->getCommunities() as $community)
+		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
+		$ps = ilECSParticipantSettings::getInstanceByServerId($this->getServer()->getServerId());
+		$en = $ps->getEnabledParticipants();
+		foreach($this->getCommunities() as $community)
 	 	{
 	 		foreach($community->getParticipants() as $participant)
 	 		{
-	 			if($participant->isEnabled())
-	 			{
-	 				$e_part[] = $participant;
-	 			}
+	 			if(in_array($participant->getMid(), $en))
+				{
+					$e_part[] = $participant;
+				}
 	 		}
 	 	}
 	 	return $e_part ? $e_part : array();

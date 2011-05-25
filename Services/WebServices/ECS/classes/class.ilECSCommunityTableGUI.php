@@ -72,6 +72,15 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 		$this->cid = $cid;
 		$this->server = $set;
 	}
+
+	/**
+	 * Get current server
+	 * @return ilECSSetting
+	 */
+	public function getServer()
+	{
+		return $this->server;
+	}
 	
 	/**
 	 * Fill row
@@ -82,7 +91,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		$this->tpl->setVariable('S_ID', $this->server->getServerId());
+		$this->tpl->setVariable('S_ID', $this->getServer()->getServerId());
 		$this->tpl->setVariable('M_ID', $a_set['mid']);
 		$this->tpl->setVariable('VAL_ORG', (string) $a_set['org']);
 		$this->tpl->setVariable('VAL_CHECKED',$a_set['checked'] ? 'checked="checked"' : '');
@@ -98,7 +107,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('TXT_ORG', $this->lng->txt('organization'));
 
 		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
-		$part = new ilECSParticipantSetting($this->server->getServerId(), $a_set['mid']);
+		$part = new ilECSParticipantSetting($this->getServer()->getServerId(), $a_set['mid']);
 		if($part->isExportEnabled())
 		{
 			$this->tpl->setVariable('EXP_CHECKED', 'checked="checked"');
@@ -110,7 +119,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 
 		$sel = ilUtil::formSelect(
 			$part->getImportType(),
-			'import_type['.$this->server->getServerId().']['.$a_set['mid'].']',
+			'import_type['.$this->getServer()->getServerId().']['.$a_set['mid'].']',
 			array(
 				ilECSParticipantSetting::IMPORT_RCRS => $this->lng->txt('obj_rcrs'),
 				ilECSParticipantSetting::IMPORT_CRS	=> $this->lng->txt('obj_crs')

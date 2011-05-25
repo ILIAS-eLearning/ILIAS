@@ -42,10 +42,6 @@ class ilECSParticipant
 	protected $participantname;
 	protected $is_self;
 	
-	protected $settings;
-	protected $part_settings;
-
-
 	/**
 	 * Constructor
 	 *
@@ -55,11 +51,6 @@ class ilECSParticipant
 	 */
 	public function __construct($json_obj,$a_cid)
 	{
-		include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
-		include_once('Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
-		
-		$this->settings = ilECSSetting::_getInstance();
-		$this->part_settings = ilECSParticipantSettings::_getInstance();
 		$this->json_obj = $json_obj;
 		$this->cid = $a_cid;
 		$this->read();		 	
@@ -178,7 +169,9 @@ class ilECSParticipant
 	 */
 	public function isEnabled()
 	{
-	 	return (bool) $this->part_settings->isEnabled($this->getMID());
+	 	$GLOBALS['ilLog']->write(__METHOD__.': Using deprecated call');
+		$GLOBALS['ilLog']->logStack();
+		return false;
 	}
 
 	/**
