@@ -10444,6 +10444,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		return $all;
 	}
+	public function getQuestions()
+	{
+		return $this->questions;
+	}
 } // END class.ilObjTest
 
 ?>

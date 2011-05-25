@@ -11454,3 +11454,6 @@ ecs#:#ecs_server_addr#:#Server Address
 ecs#:#ecs_activate#:#Activate
 ecs#:#ecs_deactivate#:#Deactivate
 ecs#:#ecs_not_configured#:#Not configured
+administration#:#user_criteria#:#Unique user criteria
+administration#:#user_criteria_desc#:#Unique user criteria that is used for test results import/export. This is needed to identify identical users on different ILIAS systems.
+assessment#:#imported#:#imported

@@ -461,7 +461,28 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$linepicker = new ilColorPickerInputGUI($lng->txt("assessment_imap_line_color"), "imap_line_color");
 		$linepicker->setValue($imap_line_color);
 		$form->addItem($linepicker);
-				
+
+		if (@file_exists("./Modules/Test/classes/class.ilTestResultsToXML.php"))
+		{
+			global $ilDB;
+			$user_criteria = array_key_exists("user_criteria", $_GET) ? $_GET["user_criteria"] : $assessmentSetting->get("user_criteria");
+			$userCriteria = new ilSelectInputGUI($this->lng->txt("user_criteria"), "user_criteria");
+			$userCriteria->setInfo($this->lng->txt("user_criteria_desc"));
+			$userCriteria->setRequired(true);
+			$userCriteria->setValue(($isSingleline) ? 0 : 1);
+
+			$manager = $ilDB->db->loadModule('Manager');
+			$fields = $manager->listTableFields('usr_data');
+			$usr_fields = array();
+			foreach ($fields as $field)
+			{
+				$usr_fields[$field] = $field;
+			}
+			$userCriteria->setOptions($usr_fields);
+			$userCriteria->setValue($user_criteria);
+			$form->addItem($userCriteria);
+		}
+
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			$form->addCommandButton("saveDefaults", $lng->txt("save"));
@@ -490,6 +511,10 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		if (strlen($_POST["imap_line_color"]) == 6)
 		{
 			$assessmentSetting->set("imap_line_color", $_POST["imap_line_color"]);
+		}
+		if (@file_exists("./Modules/Test/classes/class.ilTestResultsToXML.php"))
+		{
+			$assessmentSetting->set("user_criteria", $_POST["user_criteria"]);
 		}
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "defaults");

@@ -645,13 +645,14 @@ function _getQuestionCount($test_id)
 	{
 		global $lng, $ilDB;
 
-		$result = $ilDB->queryF("SELECT user_fi, test_fi FROM tst_active WHERE active_id = %s",
+		$result = $ilDB->queryF("SELECT * FROM tst_active WHERE active_id = %s",
 			array("integer"),
 			array($active_id)
 		);
 		$row = $ilDB->fetchAssoc($result);
 		$user_id = $row["user_fi"];
 		$test_id = $row["test_fi"];
+		$importname = $row['importname'];
 
 		$result = $ilDB->queryF("SELECT obj_fi FROM tst_tests WHERE test_id = %s",
 			array("integer"),
@@ -667,7 +668,11 @@ function _getQuestionCount($test_id)
 		$uname = ilObjUser::_lookupName($user_id);
 
 		$name = "";
-		if (strlen($uname["firstname"].$uname["lastname"]) == 0)
+		if (strlen($importname))
+		{
+			$name = $importname . ' (' . $lng->txt('imported') . ')';
+		}
+		else if (strlen($uname["firstname"].$uname["lastname"]) == 0)
 		{
 			$name = $lng->txt("deleted_user");
 		}

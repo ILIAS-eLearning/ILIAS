@@ -57,8 +57,11 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 
 		$this->addColumn('','f','1%');
 		$this->addColumn($this->lng->txt("login"),'login', '');
+		$this->addColumn($this->lng->txt("name"),'name', '');
+		/*
 		$this->addColumn($this->lng->txt("lastname"),'lastname', '');
 		$this->addColumn($this->lng->txt("firstname"),'firstname', '');
+		*/
 		$this->addColumn($this->lng->txt("clientip"),'clientip', '');
 		$this->addColumn($this->lng->txt("tst_started"),'started', '');
 		$this->addColumn($this->lng->txt("tst_nr_of_tries_of_user"),'passes', '');
@@ -122,8 +125,11 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 		}
 		$this->tpl->setVariable("USER_ID", $data['usr_id']);
 		$this->tpl->setVariable("LOGIN", $data['login']);
+		$this->tpl->setVariable("FULLNAME", $data['name']);
+		/*
 		$this->tpl->setVariable("FIRSTNAME", $data['firstname']);
 		$this->tpl->setVariable("LASTNAME", $data['lastname']);
+		*/
 		$this->tpl->setVariable("STARTED", ($data['started']) ? $started : '');
 		$this->tpl->setVariable("PASSES", $passes);
 		$this->tpl->setVariable("FINISHED", ($data['finished']) ? $finished : '');
