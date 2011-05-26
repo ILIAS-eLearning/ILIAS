@@ -5573,3 +5573,17 @@ if (!$ilDB->tableColumnExists('tst_active', 'importname'))
 		$ilDB->createTable("ecs_part_settings", $fields);
 	}
 ?>
+<#3341>
+<?php
+	if(!$ilDB->tableExists('ecs_data_mapping'))
+	{
+		$fields = array(
+			"sid" => array("notnull" => true,"length" => 4,"type" => "integer"),
+			"import_type" => array("notnull" => true,"length" => 1,"type" => "integer"),
+			"ecs_field" => array("notnull" => false,'length' => 32,"type" => "text"),
+			"advmd_id" => array("notnull" => true, "length" => 4, "type" => "integer")
+		);
+		$ilDB->createTable("ecs_data_mapping", $fields);
+		$ilDB->addPrimaryKey('ecs_data_mapping', array('sid','import_type','ecs_field'));
+	}
+?>
