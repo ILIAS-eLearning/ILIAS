@@ -1020,8 +1020,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				{
 					$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["full_reference"]));
 					$full_item->setFormat($format);
-					$full_item->setLocation(ilUtil::stripSlashes($_POST["full_reference"]));
-					$full_item->setLocationType("Reference");
+					$full_item->setLocationType("Reference");					
+					$location = ilUtil::stripSlashes($_POST["full_reference"]);
 					$type = "Reference";
 				}
 				$mob_dir = ilObjMediaObject::_getDirectory($this->object->getId());
