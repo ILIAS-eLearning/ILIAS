@@ -885,6 +885,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 			edit_div.innerHTML = o.responseText;
 			ilCOPage.initDragElements();
 			ilTooltip.init();
+			ilCOPage.renderQuestions();
 			if (ilAdvancedSelectionList != null)
 			{
 				ilAdvancedSelectionList.init['style_selection']();
@@ -954,8 +955,32 @@ tinymce.activeEditor.formatter.register('mycode', {
 			
 			cnode = cnode.parentNode;
 		}
+	},
+	
+	/**
+	 * Render questions (YUI)
+	 */
+	renderQuestions: function()
+	{
+		// get all spans
+		obj=document.getElementsByTagName('div')
+		
+		// run through them
+		for (var i=0;i<obj.length;i++)
+		{
+			// find all questions
+			if(/ilc_question_/.test(obj[i].className))
+			{
+				var id = obj[i].id;
+				if(id.substr(0, 9) == "container")
+				{
+					// re-draw
+					id = id.substr(9);
+					eval("renderILQuestion"+id+"()");
+				}
+			}
+		}
 	}
-
 }
 
 var stopHigh = false;

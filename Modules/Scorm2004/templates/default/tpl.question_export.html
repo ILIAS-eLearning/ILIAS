@@ -9,9 +9,13 @@
 	<input type="button" class="ilc_qsubmit_Submit" {VAL_NO_DISPLAY} id="button{VAL_ID}" onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 	</div>
 <script>
-	ilias.questions.shuffle(questions[{VAL_ID}]);
-	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
-	{HANDLE_IMAGES}
+	function renderILQuestion{VAL_ID}()
+	{
+		ilias.questions.shuffle(questions[{VAL_ID}]);
+		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+		{HANDLE_IMAGES}
+	}
+	renderILQuestion{VAL_ID}();
 </script>
 <!-- END singlechoice -->
 <!-- BEGIN multiplechoice -->
@@ -24,9 +28,13 @@
 	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 	</div>
 <script>
-	ilias.questions.shuffle(questions[{VAL_ID}]);
-	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
-	{HANDLE_IMAGES}
+	function renderILQuestion{VAL_ID}()
+	{
+		ilias.questions.shuffle(questions[{VAL_ID}]);
+		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+		{HANDLE_IMAGES}
+	}
+	renderILQuestion{VAL_ID}();
 </script>
 <!-- END multiplechoice -->
 <!-- BEGIN orderingquestion -->
@@ -39,11 +47,15 @@
 <input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 </div>
 <script>
-	$(document).ready(function() {
+	function renderILQuestion{VAL_ID}()
+	{
 		ilias.questions.shuffle(questions[{VAL_ID}]);
 		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
 		{HANDLE_IMAGES}
 		jQuery("#order{VAL_ID}").sortable({axis: 'y', containment: '#container{VAL_ID}'});
+	}
+	$(document).ready(function() {
+		renderILQuestion{VAL_ID}();
 	});
 </script>
 <!-- END orderingquestion -->
@@ -54,8 +66,12 @@
 <input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 </div>
 <script>
-	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
-	ilias.questions.initClozeTest({VAL_ID});
+	function renderILQuestion{VAL_ID}()
+	{
+		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+		ilias.questions.initClozeTest({VAL_ID});
+	}
+	renderILQuestion{VAL_ID}();
 </script>
 <!-- END clozequestion -->
 <!-- BEGIN textquestion -->
@@ -66,8 +82,12 @@
 <input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 </div>
 <script>
-	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
-//	jQuery('#textarea{VAL_ID}').textLimiter();
+	function renderILQuestion{VAL_ID}()
+	{
+		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
+		//	jQuery('#textarea{VAL_ID}').textLimiter();
+	}
+	renderILQuestion{VAL_ID}();
 </script>
 <!-- END textquestion -->
 <!-- BEGIN imagemapquestion -->
@@ -84,22 +104,25 @@
 	</map>
 
 <script>
-	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
-	if(typeof(pager) == 'undefined') {	
-		jQuery('.cmap{VAL_ID}').maphilight({fade:true});
+	function renderILQuestion{VAL_ID}()
+	{
+		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
+		if(typeof(pager) == 'undefined') {	
+			jQuery('.cmap{VAL_ID}').maphilight({fade:true});
+		}
+
+		ilias.questions.initAreas('{VAL_ID}');
+		if (ScormApi!=null) {
+			ilias.questions.fix_imageurls('div#container{VAL_ID}');	
+		}	
 	}
-	
-	ilias.questions.initAreas('{VAL_ID}');
-	if (ScormApi!=null) {
-		ilias.questions.fix_imageurls('div#container{VAL_ID}');	
-	}	
- 	
+	renderILQuestion{VAL_ID}();
 </script>
 <!-- END imagemapquestion -->
 <!-- BEGIN matchingquestion -->
 <div class="ilc_question_MatchingQuestion">
 <div class="ilc_qtitle_Title" id="qtitle{VAL_ID}">qtitle</div>
-	<table id="container{VAL_ID}" cellspacing="0">
+	<table id="container{VAL_ID}" cellspacing="0" class="ilc_question_MatchingQuestion_ajax_dummy">
 	  <tbody>
 		<tr>
 			<th valign="middle" style="font-weight:normal;" class="definition ilc_qanswer_Answer">Definition</th>
@@ -116,23 +139,27 @@
 	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 </div>
 <script>
-	jQuery('div#qtitle{VAL_ID}').html(questions[{VAL_ID}].question);
+	function renderILQuestion{VAL_ID}()
+	{
+		jQuery('div#qtitle{VAL_ID}').html(questions[{VAL_ID}].question);
 
-	var terms_dir = {
-		'option': {
-			'term <- terms': {
-				'.': 'term.term',
-				'@id':'term.id'}
-		}};
-	jQuery('#terms{VAL_ID}').render(questions[{VAL_ID}].pairs[0], terms_dir);
+		var terms_dir = {
+			'option': {
+				'term <- terms': {
+					'.': 'term.term',
+					'@id':'term.id'}
+			}};
+		jQuery('#terms{VAL_ID}').render(questions[{VAL_ID}].pairs[0], terms_dir);
 
-	var pairs_dir = {
-		'tbody tr': {
-			'pair <- pairs': {
-				'th.definition': 'pair.definition',
-				'select@id':'pair.def_id'}
-		}};
-	jQuery('#container{VAL_ID}').render(questions[{VAL_ID}], pairs_dir);
+		var pairs_dir = {
+			'tbody tr': {
+				'pair <- pairs': {
+					'th.definition': 'pair.definition',
+					'select@id':'pair.def_id'}
+			}};
+		jQuery('#container{VAL_ID}').render(questions[{VAL_ID}], pairs_dir);
+	}
+	renderILQuestion{VAL_ID}();
 </script>
 <!-- END matchingquestion -->
 <!-- BEGIN textsubset -->
@@ -145,7 +172,11 @@
 <input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 </div>
 <script>
-	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+	function renderILQuestion{VAL_ID}()
+	{
+		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+	}
+	renderILQuestion{VAL_ID}();
 </script>
 <!-- END textsubset -->
 <!-- BEGIN orderinghorizontal -->
@@ -161,9 +192,13 @@
 <input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 </div>
 <script>
-	ilias.questions.shuffle(questions[{VAL_ID}]);
-	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
-	jQuery("#order{VAL_ID}").sortable({axis: 'x', containment: '#container{VAL_ID}'});
+	function renderILQuestion{VAL_ID}()
+	{
+		ilias.questions.shuffle(questions[{VAL_ID}]);
+		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+		jQuery("#order{VAL_ID}").sortable({axis: 'x', containment: '#container{VAL_ID}'});
+	}
+	renderILQuestion{VAL_ID}();
 </script>
 <!-- END orderinghorizontal -->
 <!-- BEGIN errortext -->
@@ -178,15 +213,19 @@
 <input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
 </div>
 <script>
-	jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
-	jQuery('div#container{VAL_ID} a.answertext').each(function(key, value) {
-		if(jQuery(value).html() == "###")
-		{
-			jQuery(value).parent().after("<br />");
-			jQuery(value).parent().remove();
-			
-		}
-	});
+	function renderILQuestion{VAL_ID}()
+	{
+		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+		jQuery('div#container{VAL_ID} a.answertext').each(function(key, value) {
+			if(jQuery(value).html() == "###")
+			{
+				jQuery(value).parent().after("<br />");
+				jQuery(value).parent().remove();
+
+			}
+		});
+	}
+	renderILQuestion{VAL_ID}();
 </script>
 <!-- END errortext -->
 {FORM_END}
