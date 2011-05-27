@@ -175,16 +175,20 @@ class assOrderingQuestionGUI extends assQuestionGUI
 					$filename = $_POST['answers']['imagename'][$index];
 					if (strlen($_FILES['answers']['name']['image'][$index]))
 					{
-						// upload image
-						$filename = $this->object->createNewImageFileName($_FILES['answers']['name']['image'][$index]);
-						if ($this->object->setImageFile($_FILES['answers']['tmp_name']['image'][$index], $this->object->getEncryptedFilename($filename), $_POST['answers']['']))
-						{
-							$picturefile = $this->object->getEncryptedFilename($filename);
+						$picturefile = "";
+						
+						// check suffix						
+						$suffix = strtolower(array_pop(explode(".", $_FILES['answers']['name']['image'][$index])));						
+						if(in_array($suffix, array("jpg", "jpeg", "png", "gif")))
+						{							
+							// upload image
+							$filename = $this->object->createNewImageFileName($_FILES['answers']['name']['image'][$index]);
+							if ($this->object->setImageFile($_FILES['answers']['tmp_name']['image'][$index], $this->object->getEncryptedFilename($filename), $_POST['answers']['']))
+							{
+								$picturefile = $this->object->getEncryptedFilename($filename);
+							}
 						}
-						else
-						{
-							$picturefile = "";
-						}
+						
 						$this->object->addAnswer($picturefile);
 					}
 					else
