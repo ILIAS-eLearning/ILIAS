@@ -661,12 +661,14 @@ die("deprecated");
 				{
 					if ($mob_id > 0 && ilObject::_exists($mob_id))
 					{
+						$path = ilObjMediaObject::_lookupStandardItemPath($mob_id,false,false);
+						
 						$media_obj = new ilObjMediaObject($mob_id);
 						$export_files[$i]["date"] = $media_obj->getCreateDate();
-						$export_files[$i]["size"] = filesize(ilObjMediaObject::_lookupStandardItemPath($mob_id,false,false));
+						$export_files[$i]["size"] = @filesize($path); // could be remote, e.g. youtube video
 						$export_files[$i]["file"] = $media_obj->getTitle();
 						$export_files[$i]["type"] = $media_obj->getDescription();
-						$export_files[$i]["path"] = ilObjMediaObject::_lookupStandardItemPath($mob_id,false,false);
+						$export_files[$i]["path"] = $path;
 						$this->ctrl->setParameter($this, "resource",
 							rawurlencode(ilObjMediaObject::_lookupStandardItemPath($mob_id,false,false)));
 						$export_files[$i]["link"] = $this->ctrl->getLinkTarget($this,"downloadResource");
@@ -753,10 +755,12 @@ die("deprecated");
 			$i=0;
 			foreach($export_files as $exp_file)
 			{
+				/* remote files (youtube videos) have no size, so we allow them now
 				if (!$exp_file["size"] > 0)
 				{
 					continue;
 				}
+				*/			
 				
 				$tpl->setCurrentBlock("tbl_content");
 				$tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
@@ -768,26 +772,35 @@ die("deprecated");
 				$tpl->setVariable("TXT_FORMAT", $exp_file["type"]);
 				
 				$tpl->setVariable("TXT_DATE", $exp_file["date"]);
-
-				$tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
-				//$tpl->setVariable("LINK_DOWNLOAD",
-				//	$exp_file["link"]);
-				$ilCtrl->setParameter($this, "resource", rawurlencode($exp_file["path"]));
-				$ilCtrl->setParameter($this, "file_id", rawurlencode($exp_file["file_id"]));
-				$tpl->setVariable("LINK_DOWNLOAD",
-					$ilCtrl->getLinkTarget($this, "downloadResource"));
+												
+				if($exp_file["size"] > 0)
+				{
+					$tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
+					$ilCtrl->setParameter($this, "resource", rawurlencode($exp_file["path"]));
+					$ilCtrl->setParameter($this, "file_id", rawurlencode($exp_file["file_id"]));
+					$tpl->setVariable("LINK_DOWNLOAD",
+						$ilCtrl->getLinkTarget($this, "downloadResource"));
+				}
+				else
+				{
+					$tpl->setVariable("TXT_DOWNLOAD", $lng->txt("show"));
+					$tpl->setVariable("LINK_TARGET", " target=\"_blank\"");
+					$tpl->setVariable("LINK_DOWNLOAD", $exp_file["path"]);
+				}
 
 				$tpl->parseCurrentBlock();
 			}
 		} //if is_array
+		/* not found in template?
 		else
 		{
 			$tpl->setCurrentBlock("notfound");
 			$tpl->setVariable("TXT_OBJECT_NOT_FOUND", $lng->txt("obj_not_found"));
 			$tpl->setVariable("NUM_COLS", 4);
 			$tpl->parseCurrentBlock();
-		}
-		$tpl->parseCurrentBlock();
+		}		
+		 */
+	    // $tpl->parseCurrentBlock();
 	}
 	
 	function downloadResource()
