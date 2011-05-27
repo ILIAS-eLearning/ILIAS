@@ -661,8 +661,16 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 		  		jQuery('.cmap'+a_id).maphilight({fade:true});
 			});
 			for (var i=0;i<questions[a_id].answers.length;i++) {
+				// display correct
 				if (questions[a_id].answers[i].points>=1) {
-					mouseclick(null,document.getElementById(a_id+"_"+questions[a_id].answers[i].order));
+					// is already selected?
+					if(!jQuery('#canvas_' + a_id + '_' + i).attr('id')) {
+						mouseclick(null,document.getElementById(a_id+"_"+questions[a_id].answers[i].order));
+					}
+				}
+				// remove incorrect
+				else {
+					jQuery('#canvas_' + a_id + '_' + i).remove();
 				}
 			}
 			break;
@@ -1041,7 +1049,7 @@ jQuery(document).ready(function() {
 				context.lineWidth = options.strokeWidth;
 				context.stroke();
 			}
-			if(options.fade)
+			if(options.fade && !jQuery.browser.msie)
 			{
 				fader(canvas, 0);
 			}
@@ -1174,7 +1182,7 @@ jQuery(document).ready(function() {
 			wrap = jQuery('<div>').css({display:'block',background:'url('+this.src+')',position:'relative',padding:0,width:this.width,height:this.height});
 			img.before(wrap).css('opacity', 0).css(canvas_style).remove();
 			
-			if(jQuery.browser.msie) { img.css('filter', 'Alpha(opacity=0)'); }
+			if(jQuery.browser.msie && !has_canvas) { img.css('filter', 'Alpha(opacity=0)'); }
 			
 			wrap.append(img);
 
@@ -1240,7 +1248,7 @@ jQuery(document).ready(function() {
 				shape = shape_from_area(object);
 
 				// IE!
-				if (jQuery.browser.msie)
+				if (jQuery.browser.msie && !has_canvas)
 				{
 					add_shape_to(target_canvas, shape[0], shape[1], area_options, "", jQuery(object).attr("id"));
 				} 
