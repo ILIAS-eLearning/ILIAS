@@ -39,6 +39,7 @@ class ilICalWriter
 	{
 		return preg_replace(
 			array(
+				'/\\\r\\\n/',
 				'/\\\/',
 				'/;/',
 				'/,/',
@@ -46,6 +47,7 @@ class ilICalWriter
 				'/\\\N/'
 				),
 			array(
+				'\\r\\n',
 				'\\',
 				'\;',
 				'\,',
@@ -63,12 +65,26 @@ class ilICalWriter
 	 */
 	public function addLine($a_line)
 	{
-		$chunks = str_split($a_line, self::LINE_SIZE);
+		//$chunks = str_split($a_line, self::LINE_SIZE);
+
+		include_once './Services/Utilities/classes/class.ilStr.php';
+
+		// use multibyte split
+		$chunks = array();
+		$len = ilStr::strLen($a_line);
+		while($len)
+		{
+			$chunks[] = ilStr::subStr($a_line,0,self::LINE_SIZE);
+			$a_line = ilStr::subStr($a_line, self::LINE_SIZE, $len);
+			$len = ilStr::strLen($a_line);
+		}
+
 		for($i = 0; $i < count($chunks); $i++)
 		{
 			$this->ical .= $chunks[$i];
 			if(isset($chunks[$i+1]))
 			{
+				$this->ical .= self::LINEBREAK;
 				$this->ical .= self::BEGIN_LINE_WHITESPACE;
 			}
 		}

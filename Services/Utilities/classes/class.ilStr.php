@@ -31,7 +31,7 @@
 */
 class ilStr
 {
-	function subStr($a_str, $a_start, $a_length = NULL)
+	public static function subStr($a_str, $a_start, $a_length = NULL)
 	{
 		if (function_exists("mb_substr"))
 		{
@@ -76,7 +76,7 @@ class ilStr
 		}		
 	}*/
 	
-	function strLen($a_string)
+	public static function strLen($a_string)
 	{
 		if (function_exists("mb_strlen"))
 		{

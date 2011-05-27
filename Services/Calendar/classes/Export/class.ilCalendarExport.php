@@ -47,8 +47,8 @@ class ilCalendarExport
 	public function export()
 	{
 		$this->writer->addLine('BEGIN:VCALENDAR');
-		$this->writer->addLine('PRODID:-//ilias.de/NONSGML ILIAS Calendar V4.0//EN');
 		$this->writer->addLine('VERSION:2.0');
+		$this->writer->addLine('PRODID:-//ilias.de/NONSGML ILIAS Calendar V4.1//EN');
 		
 		$this->addTimezone();
 		$this->addCategories();
@@ -107,6 +107,8 @@ class ilCalendarExport
 			$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd',$ilUser->getTimeZone());
 			#$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\Z',ilTimeZone::UTC);
 			$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd',$ilUser->getTimeZone());
+			$this->writer->addLine('DTSTART;VALUE=DATE:' . $start);
+			$this->writer->addLine('DTEND;VALUE=DATE:'.$end);
 		}
 		else
 		{
@@ -114,10 +116,10 @@ class ilCalendarExport
 			$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\THis',$ilUser->getTimeZone());
 			#$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',ilTimeZone::UTC);
 			$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\THis',$ilUser->getTimeZone());
+			$this->writer->addLine('DTSTART:' . $start);
+			$this->writer->addLine('DTEND:'.$end);
 		}
 		
-		$this->writer->addLine('DTSTART:'.$start);
-		$this->writer->addLine('DTEND:'.$end);	
 		
 		$this->createRecurrences($app);
 		
