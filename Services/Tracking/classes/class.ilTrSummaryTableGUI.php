@@ -309,6 +309,13 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$text = ilLearningProgressBaseGUI::_getStatusText($status);
 			$status_map[$status] = ilUtil::img($path, $text);
 		}
+		
+		// language map
+		$languages = array();
+		foreach ($lng->getInstalledLanguages() as $lang_key)
+		{
+			$languages[$lang_key] = $lng->txt("lang_".$lang_key);
+		}
 
 		$rows = array();
 		foreach($data["set"] as $idx => $result)
@@ -330,12 +337,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$data["set"][$idx]["city"] = $this->getItemsPercentages($result["city"], $users_no);
 			$data["set"][$idx]["sel_country"] = $this->getItemsPercentages($result["sel_country"], $users_no, $this->getSelCountryCodes());
 			$data["set"][$idx]["mark"] = $this->getItemsPercentages($result["mark"], $users_no);
-
-			$languages = array();
-			foreach ($lng->getInstalledLanguages() as $lang_key)
-			{
-				$languages[$lang_key] = $lng->txt("lang_".$lang_key);
-			}
 			$data["set"][$idx]["language"] = $this->getItemsPercentages($result["language"], $users_no, $languages);
 
 			// if we encounter any invalid status codes, e.g. null, map them to not attempted instead
