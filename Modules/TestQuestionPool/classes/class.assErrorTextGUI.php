@@ -87,12 +87,16 @@ class assErrorTextGUI extends assQuestionGUI
 				$_POST["Estimated"]["hh"],
 				$_POST["Estimated"]["mm"],
 				$_POST["Estimated"]["ss"]
-			);
-			$this->object->setTextSize($_POST["textsize"]);
+			);			
 			$this->object->setErrorText($_POST["errortext"]);
 			$points_wrong = str_replace(",", ".", $_POST["points_wrong"]);
 			if (strlen($points_wrong) == 0) $points_wrong = -1.0;
 			$this->object->setPointsWrong($points_wrong);
+			
+			if (!$this->getSelfAssessmentEditingMode())
+			{
+				$this->object->setTextSize($_POST["textsize"]);
+			}
 			
 			$this->object->flushErrorData();
 			if (is_array($_POST['errordata']['key']))
@@ -139,15 +143,18 @@ class assErrorTextGUI extends assQuestionGUI
 		$errortext->setCols(80);
 		$form->addItem($errortext);
 
-		// textsize
-		$textsize = new ilNumberInputGUI($this->lng->txt("textsize"), "textsize");
-		$textsize->setValue(strlen($this->object->getTextSize()) ? $this->object->getTextSize() : 100.0);
-		$textsize->setInfo($this->lng->txt("textsize_errortext_info"));
-		$textsize->setSize(6);
-		$textsize->setSuffix("%");
-		$textsize->setMinValue(10);
-		$textsize->setRequired(true);
-		$form->addItem($textsize);
+		if (!$this->getSelfAssessmentEditingMode())
+		{
+			// textsize
+			$textsize = new ilNumberInputGUI($this->lng->txt("textsize"), "textsize");
+			$textsize->setValue(strlen($this->object->getTextSize()) ? $this->object->getTextSize() : 100.0);
+			$textsize->setInfo($this->lng->txt("textsize_errortext_info"));
+			$textsize->setSize(6);
+			$textsize->setSuffix("%");
+			$textsize->setMinValue(10);
+			$textsize->setRequired(true);
+			$form->addItem($textsize);
+		}
 		
 		if (count($this->object->getErrorData()) || $checkonly)
 		{
