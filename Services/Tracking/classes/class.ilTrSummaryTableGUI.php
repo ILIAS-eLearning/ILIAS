@@ -297,6 +297,18 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				$this->getSelectedColumns(),
 				$preselected_obj_ids
 				);
+		
+		// build status to image map
+		include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+		include_once("./Services/Tracking/classes/class.ilLPStatus.php");			
+		$valid_status = array(LP_STATUS_NOT_ATTEMPTED_NUM, LP_STATUS_IN_PROGRESS_NUM, LP_STATUS_COMPLETED_NUM, LP_STATUS_FAILED_NUM);
+		$status_map = array();			
+		foreach($valid_status as $status)
+		{
+			$path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
+			$text = ilLearningProgressBaseGUI::_getStatusText($status);
+			$status_map[$status] = ilUtil::img($path, $text);
+		}
 
 		$rows = array();
 		foreach($data["set"] as $idx => $result)
@@ -317,6 +329,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$data["set"][$idx]["gender"] = $this->getItemsPercentages($result["gender"], $users_no, array("m"=>$lng->txt("gender_m"), "f"=>$lng->txt("gender_f")));
 			$data["set"][$idx]["city"] = $this->getItemsPercentages($result["city"], $users_no);
 			$data["set"][$idx]["sel_country"] = $this->getItemsPercentages($result["sel_country"], $users_no, $this->getSelCountryCodes());
+			$data["set"][$idx]["mark"] = $this->getItemsPercentages($result["mark"], $users_no);
 
 			$languages = array();
 			foreach ($lng->getInstalledLanguages() as $lang_key)
@@ -325,18 +338,16 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			}
 			$data["set"][$idx]["language"] = $this->getItemsPercentages($result["language"], $users_no, $languages);
 
-			include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
-			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
-			$map = array();
-			foreach(array(LP_STATUS_NOT_ATTEMPTED_NUM, LP_STATUS_IN_PROGRESS_NUM, LP_STATUS_COMPLETED_NUM, LP_STATUS_FAILED_NUM) as $status)
+			// if we encounter any invalid status codes, e.g. null, map them to not attempted instead
+			foreach($result["status"] as $status_code => $status_counter)
 			{
-				$path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
-				$text = ilLearningProgressBaseGUI::_getStatusText($status);
-				$map[$status] = ilUtil::img($path, $text);
+				if(!in_array($status_code, $valid_status))
+				{
+					$result["status"][LP_STATUS_NOT_ATTEMPTED_NUM] += $status_counter;
+					unset($result["status"][$status_code]);
+				}
 			}
-			$map[""] = $map[0];
-			$data["set"][$idx]["status"] = $this->getItemsPercentages($result["status"], $users_no, $map);
-			$data["set"][$idx]["mark"] = $this->getItemsPercentages($result["mark"], $users_no);
+			$data["set"][$idx]["status"] = $this->getItemsPercentages($result["status"], $users_no, $status_map);
 
 			if(!$this->isPercentageAvailable($result["obj_id"]))
 			{
@@ -370,6 +381,12 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 		if($data)
 		{
+			// if we have only 1 item more than the limit, "others" makes no sense
+			if(sizeof($data) == $limit+1)
+			{
+				$limit++;
+			}
+			
 			$counter = $others_counter = $others_sum = 0;
 			foreach($data as $id => $count)
 			{
