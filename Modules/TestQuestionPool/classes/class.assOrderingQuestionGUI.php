@@ -63,13 +63,13 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 	public function changeToPictures()
 	{
-		$this->writePostData(true);
+		$this->writePostData(true, true);
 		$this->editQuestion();
 	}
 	
 	public function changeToText()
 	{
-		$this->writePostData(true);
+		$this->writePostData(true, true);
 		$this->editQuestion();
 	}
 
@@ -126,7 +126,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 	* @return integer A positive value, if one of the required fields wasn't set, else 0
 	* @access private
 	*/
-	function writePostData($always = false)
+	function writePostData($always = false, $clear_answers = false)
 	{
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
@@ -164,6 +164,10 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				{
 					foreach ($answers as $index => $answer)
 					{
+						if($clear_answers)
+						{
+							$answer = "";
+						}
 						$this->object->addAnswer($answer);
 					}
 				}
@@ -172,28 +176,35 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			{
 				foreach ($_POST['answers']['count'] as $index => $dummy)
 				{
-					$filename = $_POST['answers']['imagename'][$index];
-					if (strlen($_FILES['answers']['name']['image'][$index]))
+					if(!$clear_answers)
 					{
-						$picturefile = "";
-						
-						// check suffix						
-						$suffix = strtolower(array_pop(explode(".", $_FILES['answers']['name']['image'][$index])));						
-						if(in_array($suffix, array("jpg", "jpeg", "png", "gif")))
-						{							
-							// upload image
-							$filename = $this->object->createNewImageFileName($_FILES['answers']['name']['image'][$index]);
-							if ($this->object->setImageFile($_FILES['answers']['tmp_name']['image'][$index], $this->object->getEncryptedFilename($filename), $_POST['answers']['']))
-							{
-								$picturefile = $this->object->getEncryptedFilename($filename);
+						$filename = $_POST['answers']['imagename'][$index];
+						if (strlen($_FILES['answers']['name']['image'][$index]))
+						{
+							$picturefile = "";
+
+							// check suffix						
+							$suffix = strtolower(array_pop(explode(".", $_FILES['answers']['name']['image'][$index])));						
+							if(in_array($suffix, array("jpg", "jpeg", "png", "gif")))
+							{							
+								// upload image
+								$filename = $this->object->createNewImageFileName($_FILES['answers']['name']['image'][$index]);
+								if ($this->object->setImageFile($_FILES['answers']['tmp_name']['image'][$index], $this->object->getEncryptedFilename($filename), $_POST['answers']['']))
+								{
+									$picturefile = $this->object->getEncryptedFilename($filename);
+								}
 							}
+
+							$this->object->addAnswer($picturefile);
 						}
-						
-						$this->object->addAnswer($picturefile);
+						else
+						{
+							$this->object->addAnswer($_POST['answers']['imagename'][$index]);
+						}
 					}
 					else
 					{
-						$this->object->addAnswer($_POST['answers']['imagename'][$index]);
+						$this->object->addAnswer("");
 					}
 				}
 			}
