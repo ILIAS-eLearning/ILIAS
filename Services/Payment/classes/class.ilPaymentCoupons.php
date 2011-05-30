@@ -564,7 +564,7 @@ class ilPaymentCoupons
 			{
 				case "fix":
 					return (float) $coupon["pc_value"];
-				case "percent":														
+				case "percent":	
 					return (float) $a_item_price * ($coupon["pc_value"] / 100);					
 			}
 		}

@@ -153,11 +153,11 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		foreach($items as $entry)
 		{	
 			$pobject = new ilPaymentObject($this->user_obj, $entry['pobject_id']);			
-			$price = ilPaymentPrices::_getPrice($entry['price_id']);					
-			
+			$price = ilPaymentPrices::_getPrice($entry['price_id']);
+
 			if (!empty($_SESSION['coupons'][$coupon_session]))
 			{					
-				$entry['math_price'] = $price['price'];	// (float) ilPaymentPrices::_getPriceFromArray($price);
+				$entry['math_price'] = $entry['price'];	// (float) ilPaymentPrices::_getPriceFromArray($price);
 				foreach ($_SESSION['coupons'][$coupon_session] as $key => $coupon)
 				{							
 					$this->coupon_obj->setId($coupon['pc_pk']);
@@ -165,7 +165,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			
 					if ($this->coupon_obj->isObjectAssignedToCoupon($pobject->getRefId()))
 					{
-						$_SESSION['coupons'][$coupon_session][$key]['total_objects_coupon_price'] += $price['price'];	//(float) ilPaymentPrices::_getPriceFromArray($price);
+						$_SESSION['coupons'][$coupon_session][$key]['total_objects_coupon_price'] += $entry['price'];	//(float) ilPaymentPrices::_getPriceFromArray($price);
 						$_SESSION['coupons'][$coupon_session][$key]['items'][] = $entry;									
 					}				
 				}				
@@ -173,7 +173,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			unset($pobject);
 		}
 		
-		$coupon_discount_items = $sc_obj->calcDiscountPrices($_SESSION['coupons'][$coupon_session]);	
+		$coupon_discount_items = $sc_obj->calcDiscountPrices($_SESSION['coupons'][$coupon_session]);
 
 		$i = 0;
 		foreach($items as $entry)
@@ -579,7 +579,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 					{
 						$price = $price_arr['price'];
 						$item['math_price'] = (float) $price;
-
+			
 						foreach ($_SESSION['coupons'][$coupon_session_id] as $key => $coupon)
 						{
 							$this->coupon_obj->setId($coupon['pc_pk']);
@@ -604,7 +604,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						$f_result[$counter]['title'] = "<a href=\"goto.php?target=".$obj_type."_".$tmp_pobject->getRefId() . "\">".$obj_title."</a>".$subtype ;
 					}
 					else
-
 						$f_result[$counter]['title'] = "<a href=\"repository.php?ref_id=".$tmp_pobject->getRefId() . "\">".$obj_title."</a>".$subtype ;
 
 					if ($assigned_coupons != '')
@@ -625,44 +624,13 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 					$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());
 					$f_result[$counter]['vat_rate'] = ilShopUtils::_formatVAT($oVAT->getRate());
-//TODO CURRENCY 
-/*
-					$current_vat = $tmp_pobject->getVat($float_price);
-
-					$current_vat_in_default_currency = $current_vat * $item_conversion_rate;
-					$current_price_in_default_currency = $float_price * $item_conversion_rate;
-
-					$item_current_vat = ilPaymentPrices::_formatPriceToString($current_vat, $price_arr['currency']);
-					if(!$is_default_currency)
-						$item_current_vat .=  ' '.$this->lng->txt('equivalent').' ('.ilPaymentCurrency::_formatPriceToString((float)$current_vat_in_default_currency,$this->default_currency['symbol']).' )';
-
-					$f_result[$counter]['vat_unit'] = $item_current_vat;
-
-					$this->totalVat = $this->totalVat + $tmp_pobject->getVat($float_price);
-					
-					$total_price_in_default_currency += $current_price_in_default_currency;
-					$total_vat_in_default_currency += $current_vat_in_default_currency;
-
-					$_SESSION['currency_conversion'][$pay_method['pm_title']][$counter]['price'] = $current_price_in_default_currency;
-					$_SESSION['currency_conversion'][$pay_method['pm_title']][$counter]['vat'] = $current_vat_in_default_currency;
-
-					$_SESSION['currency_conversion'][$pay_method['pm_title']]['total_vat'] = $total_vat_in_default_currency;
-					$_SESSION['currency_conversion'][$pay_method['pm_title']]['total_price'] = $total_price_in_default_currency;
-
-					$item_current_price = ilPaymentPrices::_formatPriceToString($price_arr['price'],$price_arr['currency']);
-					if(!$is_default_currency)
-						$item_current_price .=  ' '.$this->lng->txt('equivalent').' ('.ilPaymentCurrency::_formatPriceToString($current_price_in_default_currency,$this->default_currency['symbol']).' )';
-
-					$f_result[$counter]['price'] = $item_current_price;
- **/
- //* old one without currency-conversion
-					$f_result[$counter]['vat_unit'] = ilPaymentPrices::_getGUIPrice($tmp_pobject->getVat($float_price, 'CALCULATION'))
-					.' '.$genSet->get('currency_unit');
 
 					$this->totalVat = $this->totalVat + $tmp_pobject->getVat($float_price);
 
 					$f_result[$counter]['price'] = ilPaymentPrices::_getPriceString($item['price_id']).' '.$genSet->get('currency_unit');
-/*****/
+					$f_result[$counter]['vat_unit'] = ilPaymentPrices::_getGUIPrice($tmp_pobject->getVat($float_price, 'CALCULATION'))
+					.' '.$genSet->get('currency_unit');
+
 					if ($pay_method['pm_title'] == 'paypal')
 					{
 						if ($direct_paypal_info_output == true) // Paypal information in hidden fields
@@ -671,7 +639,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							$tpl->setVariable('LOOP_ITEMS_NO', (++$paypal_counter));
 							$tpl->setVariable('LOOP_ITEMS_NAME', "[".$obj_id."]: ".$obj_title);
 							$tpl->setVariable('LOOP_ITEMS_AMOUNT', $float_price);
-// TODO : CURRENCY $tpl->setVariable('LOOP_ITEMS_AMOUNT',ilPaymentPrices::_formatPriceToString($price_arr['price'],$price_arr['currency']));								
 							$tpl->parseCurrentBlock('loop_items');
 						}
 					}
@@ -798,7 +765,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						$tpl->setVariable('CANCEL_RETURN', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'cancelPaypal'));
 						$tpl->setVariable('CUSTOM', $ilUser->getId());
 						$tpl->setVariable('CURRENCY', $genSet->get('currency_unit'));
-// TODO CURRENCY $tpl->setVariable('CURRENCY', $currency);
 						$tpl->setVariable('PAGE_STYLE', $this->paypalConfig['page_style']);
 
 						if (!empty($_SESSION['coupons'][$coupon_session_id]))
@@ -814,11 +780,14 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 									$obj_id = $ilObjDataCache->lookupObjId($tmp_pobject->getRefId());
 									$obj_title = $ilObjDataCache->lookupTitle($obj_id);
 
+									$tmp_amount = round($item['discount_price'], 2);
+									$loop_items_amount = str_replace(',','.',$tmp_amount);
+
 									$tpl->setCurrentBlock('loop_items');
 									$tpl->setVariable('LOOP_ITEMS_NO', (++$paypal_counter));
 									$tpl->setVariable('LOOP_ITEMS_NAME', "[".$obj_id."]: ".$obj_title);
-									$tpl->setVariable('LOOP_ITEMS_AMOUNT', round($item['discount_price'], 2));
-// TODO CURRENCY $tpl->setVariable('LOOP_ITEMS_AMOUNT', round($item['discount_price'], 2).' '.$currency);										
+									$tpl->setVariable('LOOP_ITEMS_AMOUNT',$loop_items_amount );
+															
 									$tpl->parseCurrentBlock('loop_items');
 
 									unset($tmp_pobject);
@@ -1033,8 +1002,11 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 				$this->ctrl->setParameter($this, 'payment_type',  $_SESSION['bmf']['payment_type']);
 				$tpl->setVariable('LOOP_TITLE', $coupon['pc_title']);
 				if ($coupon['pc_description'] != '') $tpl->setVariable('LOOP_DESCRIPTION', nl2br($coupon['pc_description']));								
-				$tpl->setVariable("LOOP_TYPE", sprintf($this->lng->txt('paya_coupons_'.($coupon['pc_type'] == "fix" ? 'fix' : 'percentaged').'_'.(count($coupon['objects']) == 0 ? 'all' : 'selected').'_objects'),
-															 ($coupon['pc_value'] / round($coupon['pc_value'], 0) == 1 && $coupon['pc_type'] == "percent" ? round($coupon['pc_value'], 0) : number_format($coupon['pc_value'], 2, ',', '.')), 
+				$tpl->setVariable("LOOP_TYPE",
+						sprintf($this->lng->txt('paya_coupons_'.($coupon['pc_type'] == "fix" ? 'fix' : 'percentaged').'_'.(count($coupon['objects']) == 0 ? 'all' : 'selected').'_objects'),
+						 (((float)$coupon['pc_value'] / round($coupon['pc_value'], 2) == 1 && $coupon['pc_type'] == "percent")
+							? round($coupon['pc_value'], 2)
+							: number_format($coupon['pc_value'], 2, ',', '.')),
 															 ($coupon['pc_type'] == "percent" ? "%" :$genSet->get('currency_unit'))));
 				$tpl->setVariable("LOOP_REMOVE", "<div class=\"il_ContainerItemCommands\" style=\"float: right;\"><a class=\"il_ContainerItemCommand\" href=\"".$this->ctrl->getLinkTarget($this, 'removeCoupon')."\">".$this->lng->txt('remove')."</a></div>");
 				
@@ -1111,9 +1083,10 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 					
 					$current_coupon_bonus = $this->coupon_obj->getCouponBonus($total_object_price);					
 					$totalAmount[$current_coupon_bonus] += $current_coupon_bonus * (-1);
-					$tbl->setTotalData('TXT_COUPON_BONUS', $this->lng->txt('paya_coupons_coupon') . " " . $coupon['pcc_code'] . ": ");
-					$tbl->setTotalData('VAL_COUPON_BONUS', number_format($current_coupon_bonus * (-1), 2, ',', '.') . " " . $genSet->get('currency_unit'));
 				}
+					$tbl->setTotalData('TXT_COUPON_BONUS', $this->lng->txt('paya_coupons_coupon') . ": ");# . $coupon['pcc_code'] . ": ");
+					#$tbl->setTotalData('VAL_COUPON_BONUS', number_format($current_coupon_bonus * (-1), 2, ',', '.') . " " . $genSet->get('currency_unit'));
+					$tbl->setTotalData('VAL_COUPON_BONUS', number_format($totalAmount[$current_coupon_bonus], 2, ',', '.') . " " . $genSet->get('currency_unit'));
 				
 				if ($totalAmount[$a_pay_method['pm_id']] < 0)
 				{
@@ -1123,12 +1096,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			}				
 		}
 
-		$this->totalAmount[$a_pay_method['pm_id']] = $totalAmount[$a_pay_method['pm_id']]-$current_coupon_bonus;
-		if($this->totalAmount[$a_pay_method['pm_id']] <= 0)
-		{
-			$this->totalAmount = 0;
-		}
-
+		$this->totalAmount[$a_pay_method['pm_id']] = $totalAmount[$a_pay_method['pm_id']]-($totalAmount[$current_coupon_bonus] * (-1));
 		$tbl->setTotalData('TXT_TOTAL_AMOUNT', $this->lng->txt('pay_bmf_total_amount').": ");
 		$tbl->setTotalData('VAL_TOTAL_AMOUNT',  number_format($this->totalAmount[$a_pay_method['pm_id']] , 2, ',', '.') . " " . $genSet->get('currency_unit')); #.$item['currency']);
 

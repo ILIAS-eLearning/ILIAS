@@ -36,7 +36,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 	var $paypalConfig;
 	private $totalVat = 0;
 
-	function ilPurchasePaypal($user_obj)
+	public function ilPurchasePaypal($user_obj)
 	{
 		global $ilDB, $lng;
 
@@ -49,14 +49,14 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 		parent::__construct($this->user_obj, $this->pay_method);
 	}
 
-	function openSocket()
+	public function openSocket()
 	{
 		// post back to PayPal system to validate
 		$fp = @fsockopen ($path = $this->paypalConfig["server_host"], 80, $errno, $errstr, 30);
 		return $fp;
 	}
 
-	function checkData($fp)
+	public function checkData($fp)
 	{
 		global $ilUser;
 
@@ -157,32 +157,15 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 
 			    if($_SESSION['is_crs_object'] && ($ilUser->getId() == ANONYMOUS_USER_ID))
 			    {
-				include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
-				foreach ($_SESSION['crs_obj_ids'] as $obj_id)
-				{
-				    $members_obj = ilCourseParticipants::_getInstanceByObjId($obj_id);
-				    $members_obj->add($user_id,IL_CRS_MEMBER);
-				}
+					include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
+					foreach ($_SESSION['crs_obj_ids'] as $obj_id)
+					{
+						$members_obj = ilCourseParticipants::_getInstanceByObjId($obj_id);
+						$members_obj->add($user_id,IL_CRS_MEMBER);
+					}
 			    }
 			}
-			//#else
-			//if(($_SESSION['is_lm_object'] || $_SESSION['is_file_object'] ) && ($ilUser->getId() == ANONYMOUS_USER_ID))
-/*			if($ilUser->getId() == ANONYMOUS_USER_ID)
-			{
-				include_once './Services/Payment/classes/class.ilShopUtils.php';
-				// anonymous user needs an account to use lm
-				$ilUser = ilShopUtils::_createRandomUserAccount($keyarray);
-				$user_id = $ilUser->getId();
 
-				$_SESSION['tmp_transaction']['tx_id'] = $keyarray["txn_id"];
-				$_SESSION['tmp_transaction']['usr_id'] = $user_id;
-			}
-	*/
-// old one  TODO: if possible use ilPurchaseBaseGUI 
-			$bookings = $this->__saveTransaction($keyarray);
-			
-			$this->__sendBill($bookings, $keyarray);
-/* new one			
 			$external_data = array();
 			$external_data['transaction_extern'] = $keyarray["txn_id"];
 			$external_data['street'] = $keyarray["address_street"];
@@ -191,8 +174,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 			$external_data['country'] = $keyarray["address_country"];
 
 			parent::__addBookings($external_data);
-*/				
-			
+							
 			$_SESSION["coupons"]["paypal"] = array();
 			$_SESSION['tmp_transaction']['result'] = 'success';
 
@@ -206,33 +188,20 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 			return ERROR_FAIL;
 	}
 
-	function __checkTransactionId($a_id)
+	private function __checkTransactionId($a_id)
 	{
 		global $ilDB;
 	
-	$res = $ilDB->queryF('SELECT * FROM payment_statistic WHERE transaction_extern = %s',
+		$res = $ilDB->queryF('SELECT * FROM payment_statistic
+			WHERE transaction_extern = %s',
 			array('text'), array($a_id));
 
 		return $res->numRows() ? true : false;
 	}
 
-	function __checkItems($a_array)
+	private function __checkItems($a_array)
 	{
-		
-/*TODO : CURRENCY 
- 		#$genSet = new ilGeneralSettings();
-
-		include_once './Services/Payment/classes/class.ilPayMethods.php';
-		
-		// pretty quick and dirty
-		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
-		$currency = ilPaymentCurrency::_getUnit(1);
-// Wrong currency
-		if ($a_array["mc_currency"] != $currency)#$genSet->get("currency_unit"))
- */		
 		$genSet = new ilGeneralSettings();
-
-		include_once './Services/Payment/classes/class.ilPayMethods.php';
 
 // Wrong currency
 		if ($a_array["mc_currency"] != $genSet->get("currency_unit"))
@@ -268,8 +237,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 							$_SESSION["coupons"]["paypal"][$key]["total_objects_coupon_price"] += (float) $sc[$i]["price"];
 							$_SESSION["coupons"]["paypal"][$key]["items"][] = $sc[$i];
 						}								
-					}
-					
+					}					
 					unset($tmp_pobject);
 				}				
 			}
@@ -303,18 +271,13 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 			{
 				return true;
 			}
-		}
-		
+		}		
 		return false;
 	}
 
-	function __saveTransaction($keyarray)
-	{
-		global $ilias, $ilUser, $ilObjDataCache;
-		
 /**
- * content of $keyarray  
- * 
+ * content of $keyarray
+ *
  * 
   'mc_gross' => string '2.00' (length=4)
   'protection_eligibility' => string 'Ineligible' (length=10)
@@ -359,8 +322,20 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
   'transaction_subject' => string '13' (length=2)
   'payment_gross' => string '' (length=0)
   '' => string '' (length=0)
- * 
+ *
  */
+
+
+
+/**
+ *   use ilPurchaseBaseGUI !!!
+ */
+/*	function __saveTransaction($keyarray)
+	{
+		global $ilias, $ilUser, $ilObjDataCache;
+		
+
+
 	
 		$sc = $this->psc_obj->getShoppingCart($this->pay_method);
 		$this->psc_obj->clearCouponItemsSession();		
@@ -482,6 +457,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 		#	$message_link = "" . ILIAS_HTTP_PATH."/".$obj_link."&transaction=".$book_obj->getTransaction();
 			 	
 				$bookings["list"][] = array(
+					'pobject_id' => $sc[$i]['pobject_id'],
 					"type" => $obj_type,
 					"title" => "[".$obj_id."]: " . $obj_title,
 			# 		"message_link" => $message_link,
@@ -516,6 +492,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 
 		$bookings['email_extern'] = $keyarray['payer_email'];
 		$bookings['name_extern'] = $keyarray['address_name'];
+		$bookings['transaction'] = $book_obj->getTransaction();
 		
 	#	$_SESSION['download_links'] = $download_links;
 		
@@ -537,6 +514,22 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 		$genSet = new ilGeneralSettings();
 
 		$tpl = new ilTemplate('tpl.pay_bill.html', true, true, 'Services/Payment');
+ 		if($tpl->placeholderExists('HTTP_PATH'))
+		{
+			$http_path = ilUtil::_getHttpPath();
+			$tpl->setVariable('HTTP_PATH', $http_path);
+		}
+		ilDatePresentation::setUseRelativeDates(false);
+		$tpl->setVariable('DATE', utf8_decode(ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))));
+		$tpl->setVariable('TXT_CREDIT', utf8_decode($this->lng->txt('credit')));
+		$tpl->setVariable('TXT_DAY_OF_SERVICE_PROVISION',$this->lng->txt('day_of_service_provision'));
+		include_once './Services/Payment/classes/class.ilPayMethods.php';
+		$str_paymethod = ilPayMethods::getStringByPaymethod('paypal');
+		$tpl->setVariable('TXT_EXTERNAL_BILL_NO', str_replace('%s',$str_paymethod, utf8_decode($this->lng->txt('external_bill_no'))));
+		$tpl->setVariable('EXTERNAL_BILL_NO', $transaction);
+		$tpl->setVariable('TXT_POSITION',$this->lng->txt('position'));
+		$tpl->setVariable('TXT_AMOUNT',$this->lng->txt('amount'));
+		$tpl->setVariable('TXT_UNIT_PRICE', utf8_decode($this->lng->txt('unit_price')));
   
 		$tpl->setVariable("VENDOR_ADDRESS", nl2br(utf8_decode($genSet->get("address"))));
 		$tpl->setVariable("VENDOR_ADD_INFO", nl2br(utf8_decode($genSet->get("add_info"))));
@@ -550,8 +543,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 		$tpl->setVariable("CUSTOMER_CITY", $a_array["address_city"]);
 		$tpl->setVariable("CUSTOMER_COUNTRY", $a_array["address_country"]);
 
-		$tpl->setVariable("BILL_NO", $transaction);
-		$tpl->setVariable("DATE", date("d.m.Y"));
+		$tpl->setVariable("BILL_NO", $bookings['transaction']);
 
 		$tpl->setVariable("TXT_BILL", utf8_decode($this->lng->txt("pays_bill")));
 		$tpl->setVariable("TXT_BILL_NO", utf8_decode($this->lng->txt("pay_bill_no")));
@@ -580,12 +572,12 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 					}
 				}
 			}
-/*			if($bookings["list"][$i]["type"] == 'file')
-			{
-				$message_link .=  $bookings['list'][$i]['message_link'] . "\n\n";
-			}
-			*/
+
 			$tpl->setCurrentBlock("loop");
+			$tpl->setVariable('LOOP_POSITION', $i+1);
+			$tpl->setVariable('LOOP_AMOUNT', '1');
+			$tpl->setVariable('LOOP_TXT_PERIOD_OF_SERVICE_PROVISION', utf8_decode($this->lng->txt('period_of_service_provision')));
+
 			$tpl->setVariable("LOOP_OBJ_TYPE", utf8_decode($this->lng->txt($bookings["list"][$i]["type"])));
 			$tpl->setVariable("LOOP_TITLE", utf8_decode($bookings["list"][$i]["title"]) . $assigned_coupons);
 			$tpl->setVariable("LOOP_TXT_ENTITLED_RETRIEVE", utf8_decode($this->lng->txt("pay_entitled_retrieve")));
@@ -597,19 +589,21 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 			else
 				$tpl->setVariable('LOOP_DURATION', $bookings['list'][$i]['duration'] . ' ' . utf8_decode($this->lng->txt('paya_months')));
 
-			$tpl->setVariable("LOOP_VAT_RATE", ilShopUtils::_formatVAT($bookings["list"][$i]["vat_rate"]));
-			$tpl->setVariable('LOOP_VAT_UNIT', ilShopUtils::_formatFloat($bookings['list'][$i]['vat_unit']).' '.$genSet->get('currency_unit'));			
-			$tpl->setVariable("LOOP_PRICE", $bookings["list"][$i]["price"].' '.$bookings["list"][$i]['currency_unit']);
+			$tpl->setVariable("LOOP_VAT_RATE", number_format($bookings["list"][$i]["vat_rate"], 2, ',', '.'). ' %');
+			$tpl->setVariable('LOOP_VAT_UNIT', number_format($bookings['list'][$i]['vat_unit'], 2, ',', '.').' '.$genSet->get('currency_unit'));
+			$tpl->setVariable('LOOP_UNIT_PRICE', number_format($bookings["list"][$i]["price"], 2, ',', '.').' '.$genSet->get("currency_unit"));
+			$tpl->setVariable("LOOP_PRICE", number_format($bookings["list"][$i]["price"], 2, ',', '.').' '.$genSet->get("currency_unit"));
 			$tpl->parseCurrentBlock("loop");
 			
 			unset($tmp_pobject);
+			$sub_total_amount = $bookings["total"];
 		}
+		$bookings['total'] += $bookings['total_discount'];
 		
 		if (!empty($_SESSION["coupons"]["paypal"]))
 		{
 			if (count($items = $bookings["list"]))
 			{
-				$sub_total_amount = $bookings["total"];							
 
 				foreach ($_SESSION["coupons"]["paypal"] as $coupon)
 				{
@@ -631,18 +625,19 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 						unset($tmp_pobject);
 					}					
 					
-					$current_coupon_bonus = $this->coupon_obj->getCouponBonus($total_object_price);	
+					$current_coupon_bonus = $this->coupon_obj->getCouponBonus($total_object_price);
 
 					$bookings["total"] += $current_coupon_bonus * (-1);
 					
 					$tpl->setCurrentBlock("cloop");
+					$tpl->setVariable("TXT_SUBTOTAL_AMOUNT", utf8_decode($this->lng->txt("pay_bmf_subtotal_amount")));
+					$tpl->setVariable("SUBTOTAL_AMOUNT", number_format($sub_total_amount, 2, ",", ".") . " " . $genSet->get("currency_unit"));
+
 					$tpl->setVariable("TXT_COUPON", utf8_decode($this->lng->txt("paya_coupons_coupon") . " " . $coupon["pcc_code"]));
 					$tpl->setVariable("BONUS", number_format($current_coupon_bonus * (-1), 2, ',', '.') . " " . $genSet->get("currency_unit"));
 					$tpl->parseCurrentBlock();
 				}
 				
-				$tpl->setVariable("TXT_SUBTOTAL_AMOUNT", utf8_decode($this->lng->txt("pay_bmf_subtotal_amount")));
-				$tpl->setVariable("SUBTOTAL_AMOUNT", number_format($sub_total_amount, 2, ",", ".") . " " . $genSet->get("currency_unit"));
 			}
 		}
 		
@@ -651,6 +646,10 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 			$bookings["total"] = 0.0;
 			$bookings["total_vat"] = 0.0;
 		}
+		$total_net_price = $sub_total_amount-$bookings['total_vat'];
+
+		$tpl->setVariable('TXT_TOTAL_NETPRICE', utf8_decode($this->lng->txt('total_netprice')));
+		$tpl->setVariable('TOTAL_NETPRICE', number_format($total_net_price, 2, ',', '.') . ' ' . $genSet->get("currency_unit"));
 
 		$tpl->setVariable("TXT_TOTAL_AMOUNT", utf8_decode($this->lng->txt("pay_bmf_total_amount")));
 		$tpl->setVariable("TOTAL_AMOUNT", number_format($bookings["total"], 2, ",", ".") . " " . $genSet->get("currency_unit"));
@@ -666,14 +665,13 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 		{
 			ilUtil::makeDir($genSet->get("pdf_path"));
 		}
-
+		$file_name = time();
 		if (@file_exists($genSet->get("pdf_path")))
 		{
-			ilUtil::html2pdf($tpl->get(), $genSet->get("pdf_path") . "/" . $transaction . ".pdf");
-			
+			ilUtil::html2pdf($tpl->get(), $genSet->get("pdf_path") . "/" . $file_name . ".pdf");
 		}
 		
-		if (@file_exists($genSet->get("pdf_path") . "/" . $transaction . ".pdf") &&
+		if (@file_exists($genSet->get("pdf_path") . "/" . $file_name . ".pdf") &&
 			$ilUser->getEmail() != "" &&
 			$ilias->getSetting("admin_email") != "")
 		{
@@ -711,12 +709,12 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 			}
 
 			$m->Body( $message );	// set the body
-			$m->Attach( $genSet->get("pdf_path") . "/" . $transaction . ".pdf", "application/pdf" ) ;	// attach a file of type image/gif
+			$m->Attach( $genSet->get("pdf_path") . "/" . $file_name . ".pdf", "application/pdf" ) ;	// attach a file of type image/gif
 			$m->Send();	// send the mail
 		}
 
-		@unlink($genSet->get("pdf_path") . "/" . $transaction . ".html");
-		@unlink($genSet->get("pdf_path") . "/" . $transaction . ".pdf");
+		@unlink($genSet->get("pdf_path") . "/" . $file_name . ".html");
+		@unlink($genSet->get("pdf_path") . "/" . $file_name . ".pdf");
 
 	}
 
@@ -776,6 +774,6 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 		$countries = $this->__getCountries();
 		return $countries[$value];
 	}
-
+*/
 }
 ?>

@@ -459,14 +459,14 @@ class ilShopPurchaseGUI extends ilObjectGUI
 				else
 				$this->tpl->setVariable($placeholderDuration,$price['duration'].' '.$this->lng->txt('paya_months'). ': ');
 
-				$tmp_price = ilPaymentPrices::_getPriceString($price['price_id']);
-				$this->tpl->setVariable($placeholderPrice,ilPaymentPrices::_formatPriceToString($tmp_price));
+				$tmp_price = $price['price'];
+				$this->tpl->setVariable($placeholderPrice,ilPaymentPrices::_formatPriceToString((float)$tmp_price));
 
 				if($price['extension'] == 1)
 					$extension_txt = '('.$this->lng->txt('extension_price').')';
 				else $extension_txt = '';
 
-				$this->tpl->setVariable($placeholderPrice,ilPaymentPrices::_formatPriceToString($tmp_price).' '.$extension_txt );
+				$this->tpl->setVariable($placeholderPrice,ilPaymentPrices::_formatPriceToString((float)$tmp_price).' '.$extension_txt );
 
 				$this->tpl->parseCurrentBlock();
 				$counter++;

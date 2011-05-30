@@ -11408,3 +11408,12 @@ assessment#:#imported#:#importiert
 ecs#:#ecs_tbl_import#:#Import
 ecs#:#ecs_tbl_export#:#Export
 ecs#:#ecs_tbl_import_type#:#Import-Typ
+payment#:#position#:#Pos.
+payment#:#amount#:#Menge
+payment#:#external_bill_no#:#%s Rechnungsnr.
+payment#:#day_of_service_provision#:#Tag der Leistungserbringung
+payment#:#total_netprice#:#Nettobetrag (ohne USt)
+payment#:#unit_price#:#Einzelpreis
+payment#:#plus_vat#:#zuzüglich gesetzlicher Umsatzsteuer
+payment#:#credit#:#Gutschrift
+payment#:#period_of_service_provision#:#Zeitraum der Leistungserbringung

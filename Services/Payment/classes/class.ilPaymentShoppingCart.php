@@ -36,6 +36,7 @@ class ilPaymentShoppingCart
 		$this->session_id = session_id();
 		$this->coupon_obj = new ilPaymentCoupons($this->user_obj);
 
+		$this->__deleteDoubleEntries();
 		$this->__read();
 	}
 
@@ -68,7 +69,6 @@ class ilPaymentShoppingCart
 
 	public function getEntries($a_pay_method = 0)
 	{
-
 		if ($a_pay_method == 0)
 		{
 			return $this->sc_entries ? $this->sc_entries : array();
@@ -78,7 +78,7 @@ class ilPaymentShoppingCart
 			$tmp_entries = array();
 			foreach($this->sc_entries as $entry)
 			{
-				if ($entry['pay_method'] == $a_pay_method)
+			if ($entry['pay_method'] == $a_pay_method)
 				{
 					$tmp_entries[$entry['psc_id']] = $entry;
 				}
@@ -298,6 +298,34 @@ class ilPaymentShoppingCart
 
 
 	// PRIVATE
+	private function __deleteDoubleEntries()
+	{
+		global $ilUser;
+		if(ANONYMOUS_USER_ID != $ilUser->getId())
+		{
+			$res = $this->db->queryf('
+			SELECT pobject_id, count(pobject_id) count FROM payment_shopping_cart
+			WHERE customer_id = %s
+			GROUP BY pobject_id',
+			array('integer'), array($this->user_obj->getId()));
+
+			while($row = $this->db->fetchAssoc($res))
+			{
+				if($row['count'] > 1)
+				{
+					$this->db->setLimit(1);
+					$this->db->manipulateF('
+					DELETE FROM payment_shopping_cart
+					WHERE customer_id = %s
+					AND pobject_id = %s',
+						array('integer','integer'),
+						array($this->user_obj->getId(),$row['pobject_id']));
+				}
+			}
+		}
+	}
+
+
 	private function __read()
 	{
 		global $ilUser;		
@@ -493,17 +521,17 @@ class ilPaymentShoppingCart
 			{	
 				$this->coupon_obj->setId($coupon['pc_pk']);
 				$this->coupon_obj->setCurrentCoupon($coupon);				
-				
+
 				if (is_array($coupon['items']) && $coupon['total_objects_coupon_price'] > 0)
 				{					
 					$bonus = ($this->coupon_obj->getCouponBonus($coupon['total_objects_coupon_price']));	
-					
+
 					foreach ($coupon['items'] as $item)
 					{
 						if (!array_key_exists($item['pobject_id'], $r_items))
-						{
+						{				
 							$r_items[$item['pobject_id']] = $item;
-							$r_items[$item['pobject_id']]['discount_price'] = (float) $item['math_price'];							
+							$r_items[$item['pobject_id']]['discount_price'] = (float) $item['math_price'];
 						}							
 						
 						$ratio = (float) $item['math_price'] / $coupon['total_objects_coupon_price'];
