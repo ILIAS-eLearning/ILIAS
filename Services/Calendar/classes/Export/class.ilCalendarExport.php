@@ -140,11 +140,11 @@ class ilCalendarExport
 		include_once './Services/Calendar/classes/class.ilCalendarRecurrences.php';
 		foreach(ilCalendarRecurrences::_getRecurrences($app->getEntryId()) as $rec)
 		{
-			$this->writer->addLine($rec->toICal());
 			foreach(ilCalendarRecurrenceExclusions::getExclusionDates($app->getEntryId()) as $excl)
 			{
 				$this->writer->addLine($excl->toICal());
 			}
+			$this->writer->addLine($rec->toICal());
 		}
 	}
 	

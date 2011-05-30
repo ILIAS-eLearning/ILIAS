@@ -24,6 +24,7 @@
 include_once('./Services/Calendar/classes/class.ilDateList.php');
 include_once('./Services/Calendar/classes/class.ilTimeZone.php');
 include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
+include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
 
 /** 
 * Stores exclusion dates for calendar recurrences
@@ -113,7 +114,19 @@ class ilCalendarRecurrenceExclusion
 	 */
 	public function toICal()
 	{
-		return 'EXDATE:'.$this->getDate()->get(IL_CAL_FKT_DATE,'Ymd');
+		$entry = new ilCalendarEntry($this->getEntryId());
+		$start = $entry->getStart();
+
+		if($entry->isFullday())
+		{
+			return 'EXDATE;VALUE=DATE:'.$this->getDate()->get(IL_CAL_FKT_DATE,'Ymd');
+		}
+		else
+		{
+			return 'EXDATE:'.
+				$this->getDate()->get(IL_CAL_FKT_DATE, 'Ymd').
+				'T'.$start->get(IL_CAL_FKT_DATE,'his');
+		}
 	}
 	
 	/**
