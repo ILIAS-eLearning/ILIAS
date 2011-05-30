@@ -11460,3 +11460,12 @@ assessment#:#imported#:#imported
 ecs#:#ecs_tbl_import#:#Import
 ecs#:#ecs_tbl_export#:#Export
 ecs#:#ecs_tbl_import_type#:#Import Type
+payment#:#position#:#Pos.
+payment#:#amount#:#Amount
+payment#:#external_bill_no#:#%s Billing-No.
+payment#:#day_of_service_provision#:#Day of service provision
+payment#:#total_netprice#:#Total netprice (ohne USt)
+payment#:#unit_price#:#Unit price
+payment#:#plus_vat#:#Plus VAT
+payment#:#credit#:#Credit
+payment#:#period_of_service_provision#:#Period of service provision

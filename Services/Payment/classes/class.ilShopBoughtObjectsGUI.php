@@ -144,6 +144,23 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_bill.html','Services/Payment');		
 		$tpl = new ilTemplate('./Services/Payment/templates/default/tpl.pay_bill.html', true, true, true);
   
+		if($tpl->placeholderExists('HTTP_PATH'))
+		{
+			$http_path = ilUtil::_getHttpPath();
+			$tpl->setVariable('HTTP_PATH', $http_path);
+		}
+		ilDatePresentation::setUseRelativeDates(false);
+		$tpl->setVariable('DATE', utf8_decode(ilDatePresentation::formatDate(new ilDateTime($bookings[$i]['order_date'], IL_CAL_UNIX))));
+		$tpl->setVariable('TXT_CREDIT', utf8_decode($this->lng->txt('credit')));
+		$tpl->setVariable('TXT_DAY_OF_SERVICE_PROVISION',$this->lng->txt('day_of_service_provision'));
+		include_once './Services/Payment/classes/class.ilPayMethods.php';
+		$str_paymethod = ilPayMethods::getStringByPaymethod($bookings[$i]['b_pay_method']);
+		$tpl->setVariable('TXT_EXTERNAL_BILL_NO', str_replace('%s',$str_paymethod,utf8_decode($this->lng->txt('external_bill_no'))));
+		$tpl->setVariable('EXTERNAL_BILL_NO', $bookings[$i]['transaction_extern']);
+		$tpl->setVariable('TXT_POSITION',$this->lng->txt('position'));
+		$tpl->setVariable('TXT_AMOUNT',$this->lng->txt('amount'));
+		$tpl->setVariable('TXT_UNIT_PRICE', utf8_decode($this->lng->txt('unit_price')));
+
 		$tpl->setVariable('VENDOR_ADDRESS', nl2br(utf8_decode($genSet->get('address'))));
 		$tpl->setVariable('VENDOR_ADD_INFO', nl2br(utf8_decode($genSet->get('add_info'))));
 		$tpl->setVariable('VENDOR_BANK_DATA', nl2br(utf8_decode($genSet->get('bank_data'))));
@@ -165,7 +182,6 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$tpl->setVariable('CUSTOMER_COUNTRY', $bookings[$i]['country']);
 
 		$tpl->setVariable('BILL_NO', $transaction);
-		$tpl->setVariable('DATE', ilDatePresentation::formatDate(new ilDateTime($bookings[$i]['order_date'], IL_CAL_UNIX)));
 
 		$tpl->setVariable('TXT_BILL', utf8_decode($this->lng->txt('pays_bill')));
 		$tpl->setVariable('TXT_BILL_NO', utf8_decode($this->lng->txt('pay_bill_no')));
@@ -184,6 +200,10 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			$obj_type = $ilObjDataCache->lookupType($obj_id);
 			
 			$tpl->setCurrentBlock('loop');
+			$tpl->setVariable('LOOP_POSITION', $i+1);
+			$tpl->setVariable('LOOP_AMOUNT', '1');
+			$tpl->setVariable('LOOP_TXT_PERIOD_OF_SERVICE_PROVISION', utf8_decode($this->lng->txt('period_of_service_provision')));
+
 			$tpl->setVariable('LOOP_OBJ_TYPE', utf8_decode($this->lng->txt($obj_type)));
 			$tpl->setVariable('LOOP_TITLE', utf8_decode($bookings[$i]['object_title']) . $assigned_coupons);
 			$tpl->setVariable('LOOP_TXT_ENTITLED_RETRIEVE', utf8_decode($this->lng->txt('pay_entitled_retrieve')));
@@ -196,10 +216,10 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			{
 				$tpl->setVariable('LOOP_DURATION', $bookings[$i]['duration'] . ' ' . utf8_decode($this->lng->txt('paya_months')));
 			}
-
 			// old one
 			$tpl->setVariable('LOOP_VAT_RATE',number_format($bookings[$i]['vat_rate'], 2, ',', '.').' %');
 			$tpl->setVariable('LOOP_VAT_UNIT', number_format($bookings[$i]['vat_unit'], 2, ',', '.').' '.$currency);
+			$tpl->setVariable('LOOP_UNIT_PRICE',number_format($bookings[$i]['price'], 2, ',', '.').' '.$currency);
 			$tpl->setVariable('LOOP_PRICE',number_format($bookings[$i]['price'], 2, ',', '.').' '.$currency);
 			$tpl->parseCurrentBlock('loop');
 			
@@ -225,18 +245,20 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			$sub_total_amount = $bookings['total'];
 		}
 
+		$bookings['total'] += $bookings['total_discount'];
 		if($bookings['total_discount'] < 0)
 		{
 			$tpl->setCurrentBlock('cloop');
+
+			$tpl->setVariable('TXT_SUBTOTAL_AMOUNT', utf8_decode($this->lng->txt('pay_bmf_subtotal_amount')));
+			$tpl->setVariable('SUBTOTAL_AMOUNT', number_format($sub_total_amount, 2, ',', '.') . ' ' . $currency);
+
 			$tpl->setVariable('TXT_COUPON', utf8_decode($this->lng->txt('paya_coupons_coupon') . ' ' . $coupon['pcc_code']));
 			$tpl->setVariable('BONUS', number_format($bookings['total_discount'], 2, ',', '.') . ' ' . $currency);
 			// TODO: CURRENCY	$tpl->setVariable('BONUS', ilPaymentCurrency::_formatPriceToString($current_coupon_bonus * (-1),$currency_symbol));
 			$tpl->parseCurrentBlock();
 		}
 
-		$bookings['total'] += $bookings['total_discount'];
-		$tpl->setVariable('TXT_SUBTOTAL_AMOUNT', utf8_decode($this->lng->txt('pay_bmf_subtotal_amount')));
-		$tpl->setVariable('SUBTOTAL_AMOUNT', number_format($sub_total_amount, 2, ',', '.') . ' ' . $currency);
 		// TODO: CURRENCY $tpl->setVariable('SUBTOTAL_AMOUNT', ilPaymentCurrency::_formatPriceToString($sub_total_amount, $currency_symbol));
 
 		if ($bookings['total'] < 0)
@@ -244,6 +266,10 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			$bookings['total'] = 0.00;
 		//	$bookings['total_vat'] = 0.0;
 		}
+		$total_net_price = $sub_total_amount-$bookings['total_vat'];
+
+		$tpl->setVariable('TXT_TOTAL_NETPRICE', utf8_decode($this->lng->txt('total_netprice')));
+		$tpl->setVariable('TOTAL_NETPRICE', number_format($total_net_price, 2, ',', '.') . ' ' . $currency);
 
 		$tpl->setVariable('TXT_TOTAL_AMOUNT', utf8_decode($this->lng->txt('pay_bmf_total_amount')));
 		$tpl->setVariable('TOTAL_AMOUNT', number_format($bookings['total'], 2, ',', '.') . ' ' . $currency);
@@ -252,33 +278,34 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		{
 			$tpl->setVariable('TOTAL_VAT',number_format( $bookings['total_vat'], 2, ',', '.') . ' ' .$currency);
 			// TODO: CURRENCY $tpl->setVariable('TOTAL_VAT',ilPaymentCurrency::_formatPriceToString($bookings['total_vat'],$currency_symbol));
-			$tpl->setVariable('TXT_TOTAL_VAT', utf8_decode($this->lng->txt('pay_bmf_vat_included')));
+		#	$tpl->setVariable('TXT_TOTAL_VAT', utf8_decode($this->lng->txt('pay_bmf_vat_included')));
+			$tpl->setVariable('TXT_TOTAL_VAT', utf8_decode($this->lng->txt('plus_vat')));
 		}
 
 		$tpl->setVariable('TXT_PAYMENT_TYPE', utf8_decode($this->lng->txt('pay_payed_bill')));
 
 		if (!@file_exists($genSet->get('pdf_path')))
 		{
-
 			ilUtil::makeDir($genSet->get('pdf_path'));
 		}
 
+		$file_name = time();
 		if (@file_exists($genSet->get('pdf_path')))
 		{		
-			ilUtil::html2pdf($tpl->get(), $genSet->get('pdf_path') . '/' . $transaction . '.pdf');
+			ilUtil::html2pdf($tpl->get(), $genSet->get('pdf_path') . '/' . $file_name . '.pdf');
 		}
 
-		if (@file_exists($genSet->get('pdf_path') . '/' . $transaction . '.pdf')) 
+		if (@file_exists($genSet->get('pdf_path') . '/' . $file_name . '.pdf'))
 		{
 			 ilUtil::deliverFile(
-			 	$genSet->get('pdf_path') . '/' . $transaction . '.pdf',
+			 	$genSet->get('pdf_path') . '/' . $file_name . '.pdf',
 			 	$transaction . '.pdf',
 			 	$a_mime = 'application/pdf'
 			 );
 		}
 
-		@unlink($genSet->get('pdf_path') . '/' . $transaction . '.html');
-		@unlink($genSet->get('pdf_path') . '/' . $transaction . '.pdf');
+		@unlink($genSet->get('pdf_path') . '/' . $file_name . '.html');
+		@unlink($genSet->get('pdf_path') . '/' . $file_name . '.pdf');
 	}
 /**/
 		
@@ -354,7 +381,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 				$f_result[$counter]['duration'] = $this->lng->txt("unlimited_duration");
 			}
 			$f_result[$counter]['price'] = $booking['price'].' '.$booking['currency_unit'];
-			$f_result[$counter]['discount'] = ($booking['discount'] != '' ? ($booking['discount'].' '.$booking['currency_unit']) : '&nbsp;');
+			$f_result[$counter]['discount'] = ($booking['discount'] != '' ? (round($booking['discount'], 2).' '.$booking['currency_unit']) : '&nbsp;');
 // TODO CURRENCY
 /*
  			$f_result[$counter][] = ilPaymentCurrency::_formatPriceToString($booking['price'], $booking['currency_unit']);

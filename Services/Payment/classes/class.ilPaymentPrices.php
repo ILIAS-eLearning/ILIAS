@@ -114,10 +114,10 @@ class ilPaymentPrices
 
 		if(in_array($system_lng, $use_comma_seperator))
 		{
-			$gui_price = number_format($a_price, 2, ',', '');
+			$gui_price = number_format((float)$a_price, 2, ',', '');
 		}
 		else
-			$gui_price = number_format($a_price, 2, '.', '');
+			$gui_price = number_format((float)$a_price, 2, '.', '');
 
 		return $gui_price;
 	}
