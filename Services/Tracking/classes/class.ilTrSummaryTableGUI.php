@@ -342,7 +342,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			// if we encounter any invalid status codes, e.g. null, map them to not attempted instead
 			foreach($result["status"] as $status_code => $status_counter)
 			{
-				if(!in_array($status_code, $valid_status))
+				// null is cast to ""
+				if($status_code === "" || !in_array($status_code, $valid_status))
 				{
 					$result["status"][LP_STATUS_NOT_ATTEMPTED_NUM] += $status_counter;
 					unset($result["status"][$status_code]);
