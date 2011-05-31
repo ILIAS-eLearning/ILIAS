@@ -124,9 +124,9 @@ class ilPaymentPrices
 
 	public static function _formatPriceToString($a_price)
 	{
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 		
-		$genSet = new ilGeneralSettings();
+		$genSet = ilPaymentSettings::_getInstance();
 		$currency_unit = $genSet->get('currency_unit');
 
 		$gui_price = self::_getGUIPrice($a_price);
@@ -148,11 +148,11 @@ class ilPaymentPrices
 	public static function _getPriceStringFromAmount($a_price)
 	{
 		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 
 		global $lng;
 
-		$genSet = new ilGeneralSettings();
+		$genSet = ilPaymentSettings::_getInstance();
 		$currency_unit = $genSet->get("currency_unit");
 
 		$pr_str = '';		
@@ -171,11 +171,11 @@ class ilPaymentPrices
 
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
 #		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 
 		global $ilDB, $lng;
 
-		$genSet = new ilGeneralSettings();
+		$genSet = ilPaymentSettings::_getInstance();
 		$currency_unit = $genSet->get("currency_unit");
 
 		$amount = array();

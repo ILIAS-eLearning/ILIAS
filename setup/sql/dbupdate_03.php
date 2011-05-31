@@ -5587,3 +5587,112 @@ if (!$ilDB->tableColumnExists('tst_active', 'importname'))
 		$ilDB->addPrimaryKey('ecs_data_mapping', array('sid','import_type','ecs_field'));
 	}
 ?>
+<#3342>
+<?php
+	if(!$ilDB->tableExists('payment_tmp'))
+	{
+		$fields = array (
+		'keyword' => array ('type' => 'text', 'length'  => 50,'notnull' => true, "fixed" => false),
+		'value' => array('type' => 'clob', 'notnull' => false, 'default' => null),
+		'scope' =>array ('type' => 'text', 'length'  => 50,'notnull' => false, "default" => null)
+		);
+		$ilDB->createTable('payment_tmp', $fields);
+		$ilDB->addPrimaryKey('payment_tmp', array('keyword'));
+	}
+?>
+<#3343>
+<?php
+$old = array();
+$res = $ilDB->query('SELECT * FROM payment_settings');
+$old = $ilDB->fetchAssoc($res);
+
+foreach($old as $key=>$value)
+{
+	switch($key)
+	{
+		case 'paypal':
+			$scope = 'paypal';
+			break;
+		case 'bmf':
+			$scope = 'bmf';
+			break;
+		case 'epay':
+			$scope = 'epay';
+			break;
+
+		case 'currency_unit':
+		case 'currency_subunit':
+			$scope = 'currencies';
+			break;
+
+		case 'address':
+		case 'bank_data':
+		case 'add_info':
+		case 'pdf_path':
+		case 'mail_use_placeholders':
+		case 'mail_billing_text':
+			$scope = 'invoice';
+			break;
+
+		case 'ud_invoice_number':
+		case 'ud_shop_specials':
+		case 'invoice_number_text':
+		case 'inc_start_value':
+		case 'inc_currend_value':
+		case 'inc_reset_period':
+		case 'inc_last_reset':
+			$scope = 'invoice_number';
+			break;
+		case 'topics_allow_custom_sorting':
+		case 'topics_sorting_type':
+		case 'topics_sorting_direction':
+		case 'max_hits':
+		case 'hide_advanced_search':
+		case 'objects_allow_custom_sorting':
+		case 'hide_coupons':
+		case 'hide_news':
+		case 'hide_shop_info':
+		case 'show_general_filter':
+		case 'show_topics_filter':
+		case 'show_shop_explorer':
+		case 'use_shop_specials':
+			$scope = 'gui';
+			break;
+
+		case 'shop_enabled':
+			$scope = 'common';
+			break;
+
+		default:
+			// for custom settings
+			$scope = NULL;
+			break;
+
+	}
+
+	$ilDB->insert('payment_tmp',
+	array(
+		'keyword' => array('text', $key),
+		'value' => array('clob', $value),
+		'scope' => array('text', $scope)
+	));
+}
+?>
+<#3344>
+<?php
+	if($ilDB->tableExists('payment_settings'))
+	{
+		$ilDB->dropTable('payment_settings');
+	}
+	if($ilDB->tableExists('payment_settings_seq'))
+	{
+		$ilDB->dropTable('payment_settings_seq');
+	}
+?>
+<#3345>
+<?php
+	if($ilDB->tableExists('payment_tmp'))
+	{
+		$ilDB->renameTable('payment_tmp', 'payment_settings');
+	}
+?>

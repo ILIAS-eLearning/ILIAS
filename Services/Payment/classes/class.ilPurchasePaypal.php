@@ -201,7 +201,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 
 	private function __checkItems($a_array)
 	{
-		$genSet = new ilGeneralSettings();
+		$genSet = ilPaymentSettings::_getInstance();
 
 // Wrong currency
 		if ($a_array["mc_currency"] != $genSet->get("currency_unit"))

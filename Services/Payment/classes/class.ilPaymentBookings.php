@@ -53,8 +53,8 @@ class ilPaymentBookings
 		$this->user_id = $a_user_id;
 		$this->db = $ilDB;
 
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-		$genSet = new ilGeneralSettings();
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+		$genSet = ilPaymentSettings::_getInstance();
 		$this->currency_unit = $genSet->get('currency_unit');		
 		
 		if($a_user_id)

@@ -30,7 +30,7 @@ class ilShopBaseGUI
 		
 		$this->lng->loadLanguageModule('search');
 		$this->lng->loadLanguageModule('payment');		
-		$this->oGeneralSettings = ilGeneralSettings::_getInstance();
+		$this->oGeneralSettings = ilPaymentSettings::_getInstance();
 		$ilMainMenu->setActive('shop');
 	}
 	

@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Payment/classes/class.ilGeneralSettings.php';
 include_once 'Services/Payment/exceptions/class.ilShopException.php';
 include_once 'Services/Payment/classes/class.ilShopUtils.php';
 

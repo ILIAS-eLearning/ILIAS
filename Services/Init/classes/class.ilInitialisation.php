@@ -591,8 +591,8 @@ class ilInitialisation
 		$this->buildHTTPPath();
 
 		// payment setting
-		require_once('Services/Payment/classes/class.ilGeneralSettings.php');
-		define('IS_PAYMENT_ENABLED', ilGeneralSettings::_isPaymentEnabled());
+		require_once('Services/Payment/classes/class.ilPaymentSettings.php');
+		define('IS_PAYMENT_ENABLED', ilPaymentSettings::_isPaymentEnabled());
 	}
 
 

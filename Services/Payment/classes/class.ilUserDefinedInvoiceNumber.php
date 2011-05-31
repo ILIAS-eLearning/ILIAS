@@ -10,9 +10,12 @@
 * @ingroup ServicesPayment
 */
 
+include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 
 class ilUserDefinedInvoiceNumber
 {
+	public $pSettings;
+
 	public $ud_invoice_number = 0;
 	public $invoice_number_text = null;
 	public $inc_start_value = 0;
@@ -89,55 +92,37 @@ class ilUserDefinedInvoiceNumber
 
 	public function __construct()
 	{
+		$this->pSettings = ilPaymentSettings::_getInstance();
 		$this->read();
 	}
 
 	public function read()
 	{
-		global $ilDB;
-
-		$res = $ilDB->queryF('SELECT * FROM payment_settings WHERE settings_id = %s',
-				array('integer'), array(1));
-
-		while($row = $ilDB->fetchAssoc($res))
-		{
-			$this->ud_invoice_number = $row['ud_invoice_number'];
-			$this->invoice_number_text = $row['invoice_number_text'];
-			$this->inc_start_value = $row['inc_start_value'];
-			$this->inc_current_value = $row['inc_current_value'];
-			$this->inc_reset_period = $row['inc_reset_period'];
-			$this->inc_last_reset = $row['inc_last_reset'];
-		}	
+		$settings = $this->pSettings->getValuesByScope('invoice_number');
+		$this->ud_invoice_number = $settings['ud_invoice_number'];
+		$this->invoice_number_text = $settings['invoice_number_text'];
+		$this->inc_start_value = $settings['inc_start_value'];
+		$this->inc_current_value = $settings['inc_current_value'];
+		$this->inc_reset_period = $settings['inc_reset_period'];
+		$this->inc_last_reset = $settings['inc_last_reset'];
 	}
 
 	public function update()
 	{
-		global $ilDB;
-
-		$res = $ilDB->update('payment_settings',
-				array('ud_invoice_number' => array('integer', $this->getUDInvoiceNumberActive()),
-					'invoice_number_text' => array('text', $this->getInvoiceNumberText()),
-					'inc_start_value'	  => array('integer', $this->getIncStartValue()),
-					'inc_reset_period'  => array('integer', $this->getIncResetPeriod())
-					),
-				array('settings_id' => array('integer', 1)));
+		$this->pSettings->set('ud_invoice_number', $this->getUDInvoiceNumberActive(),'invoice_number');
+		$this->pSettings->set('invoice_number_text', $this->getInvoiceNumberText(),'invoice_number');
+		$this->pSettings->set('inc_start_value', $this->getIncStartValue(),'invoice_number');
+		$this->pSettings->set('inc_reset_period', $this->getIncResetPeriod(),'invoice_number');
 	}
 
 
 	public static function _nextIncCurrentValue()
 	{
-		global $ilDB;
-
-		$res = $ilDB->queryf('SELECT inc_current_value FROM payment_settings WHERE settings_id = %s',
-				array('integer'), array(1));
-
-		$row = $ilDB->fetchAssoc($res);
-		$cur_id = (int)$row['inc_current_value'];
+		$pSettings = ilPaymentSettings::_getInstance();
+		$cur_id = $pSettings->get('inc_current_value');
 		$next_id = ++$cur_id;
 
-		$upd = $ilDB->update('payment_settings', 
-				array('inc_current_value' => array('integer', $next_id)),
-				array('settings_id' => array('integer', 1)));
+		$pSettings->set('inc_current_value', $next_id, 'invoice_number');
 
 		return $next_id;
 
@@ -147,36 +132,20 @@ class ilUserDefinedInvoiceNumber
 	 */
 	public static function _setIncCurrentValue($a_value)
 	{
-		global $ilDB;
-
-		$res = $ilDB->update('payment_settings',
-				array('inc_current_value' => array('integer', $a_value)),
-				array('settings_id' => array('integer', 1)));
-
+		$pSettings = ilPaymentSettings::_getInstance();
+		$pSettings->set('inc_current_value', $a_value, 'invoice_number');
 	}
+
 	public static function _getIncCurrentValue()
 	{
-		global $ilDB;
+		$pSettings = ilPaymentSettings::_getInstance();
+		return $pSettings->get('inc_current_value');
 
-		$res = $ilDB->queryf('SELECT inc_current_value FROM payment_settings
-			WHERE settings_id = %s',
-			array('integer'), array(1));
-
-		$row = $ilDB->fetchAssoc($res);
-
-		return $row['inc_current_value'];
 	}
 	public static function _getResetPeriod()
 	{
-		global $ilDB;
-
-		$res = $ilDB->queryf('SELECT inc_reset_period FROM payment_settings
-			WHERE settings_id = %s',
-			array('integer'), array(1));
-
-		$row = $ilDB->fetchAssoc($res);
-
-		return $row['inc_reset_period'];
+		$pSettings = ilPaymentSettings::_getInstance();
+		return $pSettings->get('inc_reset_period');
 	}
 
 	/*
@@ -185,16 +154,11 @@ class ilUserDefinedInvoiceNumber
 	 */
 	public static function _isUDInvoiceNumberActive()
 	{
-		global $ilDB;
+		$pSettings = ilPaymentSettings::_getInstance();
 
 		if(!IS_PAYMENT_ENABLED) return false;
 
-		$res = $ilDB->queryf('SELECT ud_invoice_number FROM payment_settings
-			WHERE settings_id = %s',
-			array('integer'), array(1));
-
-		$row = $ilDB->fetchAssoc($res);
-		if($row['ud_invoice_number'] == 1)
+		if($pSettings->get('ud_invoice_number') == 1)
 			return true;
 		else
 			return false;
@@ -244,12 +208,8 @@ class ilUserDefinedInvoiceNumber
 
 	private function __updateCron()
 	{
-		global $ilDB;
-
-		$res = $ilDB->update('payment_settings',
-		array(	'inc_current_value'  => array('integer', $this->getIncCurrentValue()),
-				'inc_last_reset'	=> array('integer', $this->getIncLastReset())),
-		array('settings_id' => array('integer', 1)));
+		$this->pSettings->set('inc_current_value',$this->getIncCurrentValue(),'invoice_number');
+		$this->pSettings->set('inc_last_reset',$this->getIncLastReset(), 'invoice_number');
 	}
 }
 ?>

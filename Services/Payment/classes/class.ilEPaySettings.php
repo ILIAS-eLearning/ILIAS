@@ -29,12 +29,16 @@
 * 
 * @ingroup payment
 */
+
+include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+
 class ilEPaySettings
 {
 	private $db;
+	public $pSettings;
 
-	private $settings;
-	private $settings_id;
+//	private $settings;
+//	private $settings_id;
 	
 	private $server_host;
 	private $server_path;
@@ -69,6 +73,7 @@ class ilEPaySettings
 	*/
 	private function __construct()
 	{
+		$this->pSettings = ilPaymentSettings::_getInstance();
 		$this->getSettings();
 	}
 
@@ -111,15 +116,19 @@ class ilEPaySettings
 	 */
 	private function getSettings()
 	{
-    global $ilDB;
-		$this->fetchSettingsId();
 		
-		$res = $ilDB->queryf('
-			SELECT epay FROM payment_settings WHERE settings_id = %s',
-			array('integer'), array($this->getSettingsId()));
+		$result->epay = $this->pSettings->get('epay');
 
-		$result = $res->fetchRow(DB_FETCHMODE_OBJECT);
-		
+//    global $ilDB;
+//
+//	$this->fetchSettingsId();
+//
+//		$res = $ilDB->queryf('
+//			SELECT epay FROM payment_settings WHERE settings_id = %s',
+//			array('integer'), array($this->getSettingsId()));
+//
+//		$result = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	
 		$data = array();
 		if (is_object($result))
 		{
@@ -137,23 +146,23 @@ class ilEPaySettings
 	 */
 	private function fetchSettingsId()
 	{
-    global $ilDB;
-
-		$res = $ilDB->query('SELECT * FROM payment_settings');
-
-		$result = $res->fetchRow(DB_FETCHMODE_OBJECT);
-		
-		$this->setSettingsId($result->settings_id);
+//		global $ilDB;
+//
+//		$res = $ilDB->query('SELECT * FROM payment_settings');
+//
+//		$result = $res->fetchRow(DB_FETCHMODE_OBJECT);
+//
+//		$this->setSettingsId($result->settings_id);
 	}
 	
 	public function setSettingsId($a_settings_id = 0)
 	{
-		$this->settings_id = $a_settings_id;
+//		$this->settings_id = $a_settings_id;
 	}
 	
 	public function getSettingsId()
 	{
-		return $this->settings_id;
+//		return $this->settings_id;
 	}
 	
 	public function setServerHost($a_server_host)
@@ -273,15 +282,18 @@ class ilEPaySettings
 	 */
 	function clearAll()
 	{
-		$statement = $this->db->manipulateF('
-			UPDATE payment_settings
-			SET epay = %s
-			WHERE settings_id = %s',
-			array('text', 'integer'), 
-			array('NULL', $this->getSettingsId()));
-
-					
+		$this->pSettings->set('epay', NULL, 'epay');
 		$this->settings = array();
+//		$statement = $this->db->manipulateF('
+//			UPDATE payment_settings
+//			SET epay = %s
+//			WHERE settings_id = %s',
+//			array('text', 'integer'),
+//			array('NULL', $this->getSettingsId()));
+//
+//
+//		$this->settings = array();
+
 	}
 		
 	/** 
@@ -290,32 +302,33 @@ class ilEPaySettings
 	 * @access	public
 	 */
 	public function save()
-	{
-		global $ilDB;
+	{		
 		$values = $this->getAll();
-
-		if ($this->getSettingsId())
-		{
-			$statement = $ilDB->manipulateF('
-				UPDATE payment_settings
-				SET epay = %s
-				WHERE settings_id = %s',
-				array('text', 'integer'),
-				array(serialize($values), $this->getSettingsId()));
-
-		}
-		else
-		{
-			$next_id = $ilDB->nextId('payment_settings');
-			$statement = $ilDB->manipulateF('
-				INSERT INTO payment_settings
-				( 	settings_id,
-					epay) 
-				VALUES (%s, %s)',
-				array('integer','text'), array($next_id, serialize($values)));
-			
-			$this->setSettingsId($next_id);			
-		}
+		$this->pSettings->set('epay', serialize($values), 'epay');
+	
+//	global $ilDB;
+//		if ($this->getSettingsId())
+//		{
+//			$statement = $ilDB->manipulateF('
+//				UPDATE payment_settings
+//				SET epay = %s
+//				WHERE settings_id = %s',
+//				array('text', 'integer'),
+//				array(serialize($values), $this->getSettingsId()));
+//
+//		}
+//		else
+//		{
+//			$next_id = $ilDB->nextId('payment_settings');
+//			$statement = $ilDB->manipulateF('
+//				INSERT INTO payment_settings
+//				( 	settings_id,
+//					epay)
+//				VALUES (%s, %s)',
+//				array('integer','text'), array($next_id, serialize($values)));
+//
+//			$this->setSettingsId($next_id);			
+//		}
 	}	
 }
 ?>
