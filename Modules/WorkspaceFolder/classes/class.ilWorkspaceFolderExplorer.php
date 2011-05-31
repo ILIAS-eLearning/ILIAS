@@ -174,10 +174,29 @@ class ilWorkspaceFolderExplorer extends ilExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader($a_obj_id,$a_option)
+	function formatHeader($tpl, $a_obj_id, $a_option)
 	{
-		global $lng, $ilias;
-
+		global $lng, $ilCtrl;
+	
+		$title = $lng->txt("wsp_personal_workspace");
+		
+		$tpl->setCurrentBlock("icon");
+		$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_wsrt_s.gif"));
+		$tpl->setVariable("TXT_ALT_IMG", $title);
+		$tpl->parseCurrentBlock();				
+		
+		$tpl->setCurrentBlock("link");
+		$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($this->root_id, "wsrt"));
+		$tpl->setVariable("TITLE", $title);
+		
+		// highlighting 
+		$style_class = $this->getNodeStyleClass($this->root_id, "wsrt");			
+		if ($style_class != "")
+		{
+			$tpl->setVariable("A_CLASS", ' class="'.$style_class.'" ' );
+		}
+		
+		$tpl->parseCurrentBlock();		
 	}
 
 	/**

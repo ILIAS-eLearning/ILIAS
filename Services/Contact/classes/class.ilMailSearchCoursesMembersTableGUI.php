@@ -28,14 +28,17 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	 *			and 'grp' for groups
 	 * 
 	 */
-	public function __construct($a_parent_obj, $type = 'crs')
+	public function __construct($a_parent_obj, $type = 'crs', $context = 'mail')
 	{
 	 	global $lng,$ilCtrl, $ilUser, $lng, $rbacsystem;
 
-		// check if current user may send mails
-		include_once "Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail($_SESSION["AccountId"]);
-		$this->mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+		if($context == "mail")
+		{
+			// check if current user may send mails
+			include_once "Services/Mail/classes/class.ilMail.php";
+			$mail = new ilMail($_SESSION["AccountId"]);
+			$this->mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+		}
 
 		parent::__construct($a_parent_obj, 'showMembers');
 		$lng->loadLanguageModule('crs');
@@ -82,9 +85,17 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt('mail_in_addressbook'), 'USR_IN_ADDRESSBOOK', '23%');
 		$this->addColumn($lng->txt('actions'), '', '10%');
 		
-		if ($this->mailing_allowed)
-			$this->addMultiCommand('mail', $lng->txt('mail_members'));
-		$this->addMultiCommand('adoptMembers', $lng->txt("mail_into_addressbook"));
+		if($context == "mail")
+		{
+			if ($this->mailing_allowed)
+				$this->addMultiCommand('mail', $lng->txt('mail_members'));
+			$this->addMultiCommand('adoptMembers', $lng->txt("mail_into_addressbook"));
+		}
+		else
+		{
+			$lng->loadLanguageModule("wsp");
+			$this->addMultiCommand('share', $lng->txt("wsp_share_with_members"));
+		}
 		
 		$this->addCommandButton('cancel', $lng->txt('cancel'));
 	}
@@ -112,9 +123,16 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		);
 		$ilCtrl->setParameter($this->parentObject, 'view', $this->mode['view']);
 
-		if ($this->mailing_allowed)
-			$current_selection_list->addItem($this->lng->txt("mail_members"), '', $ilCtrl->getLinkTarget($this->parentObject, "mail"));
-		$current_selection_list->addItem($this->lng->txt("mail_into_addressbook"), '', $ilCtrl->getLinkTarget($this->parentObject, "adoptMembers"));
+		if($context == "mail")
+		{
+			if ($this->mailing_allowed)
+				$current_selection_list->addItem($this->lng->txt("mail_members"), '', $ilCtrl->getLinkTarget($this->parentObject, "mail"));
+			$current_selection_list->addItem($this->lng->txt("mail_into_addressbook"), '', $ilCtrl->getLinkTarget($this->parentObject, "adoptMembers"));
+		}
+		else
+		{
+			$current_selection_list->addItem($this->lng->txt("wsp_share_with_members"), '', $ilCtrl->getLinkTarget($this->parentObject, "share"));
+		}
 		
 		$this->tpl->setVariable(strtoupper('CURRENT_ACTION_LIST'), $current_selection_list->getHTML());
 		

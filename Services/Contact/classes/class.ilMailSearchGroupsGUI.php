@@ -33,6 +33,7 @@ class ilMailSearchGroupsGUI
 		$this->lng = $lng;
 		
 		$this->ctrl->saveParameter($this, "mobj_id");
+		$this->ctrl->saveParameter($this, "ref");
 
 		// check if current user may send mails
 		include_once "Services/Mail/classes/class.ilMail.php";

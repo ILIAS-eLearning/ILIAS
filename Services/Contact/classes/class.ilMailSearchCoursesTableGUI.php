@@ -27,17 +27,22 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 	 * @param object	parent object
 	 * @param string	type; valid values are 'crs' for courses and
 	 *			'grp' for groups
+	 * @param string	context 
 	 */
-	public function __construct($a_parent_obj, $type='crs')
+	public function __construct($a_parent_obj, $type='crs', $context='mail')
 	{
 	 	global $lng,$ilCtrl, $ilUser, $lng, $rbacsystem;
+		
 		parent::__construct($a_parent_obj);
 		$lng->loadLanguageModule('crs');
 		
-		// check if current user may send mails
-		include_once "Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail($_SESSION["AccountId"]);
-		$this->mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+		if($context == "mail")
+		{
+			// check if current user may send mails
+			include_once "Services/Mail/classes/class.ilMail.php";
+			$mail = new ilMail($_SESSION["AccountId"]);
+			$this->mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+		}
 
 		$mode = array();
 		
@@ -65,6 +70,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 		//$this->courseIds = $crs_ids;
 		$this->parentObject = $a_parent_obj;
 		$this->mode = $mode;
+		$this->context = $context;
 		
 		$ilCtrl->setParameter($a_parent_obj, 'view', $mode['view']);
 		if ($_GET['ref'] != '')
@@ -86,8 +92,16 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt('crs_count_members'), 'CRS_NO_MEMBERS', '20%');
 		$this->addColumn($lng->txt('actions'), '', '19%');
 		
-		if ($this->mailing_allowed)
-			$this->addMultiCommand('mail',$lng->txt('mail_members'));
+		if($context == "mail")
+		{
+			if ($this->mailing_allowed)
+				$this->addMultiCommand('mail',$lng->txt('mail_members'));
+		}
+		else if($context == "wsp")
+		{
+			$lng->loadLanguageModule("wsp");
+			$this->addMultiCommand('share',$lng->txt('wsp_share_with_members'));
+		}
 		$this->addMultiCommand('showMembers',$lng->txt('mail_list_members'));
 		
 		if ($_GET['ref'] == 'mail')

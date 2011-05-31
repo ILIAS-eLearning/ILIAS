@@ -7,7 +7,7 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  * 
- * @ilCtrl_Calls ilWorkspaceAccessGUI: ilRepositorySearchGUI
+ * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI
  *
  * @ingroup ServicesPersonalWorkspace
  */
@@ -19,6 +19,7 @@ class ilWorkspaceAccessGUI
 	protected $access_handler;	
 	
 	const PERMISSION_REGISTERED = -1;
+	const PERMISSION_ALL_PASSWORD = -3;
 	const PERMISSION_ALL = -5;
 	
 	
@@ -34,28 +35,36 @@ class ilWorkspaceAccessGUI
 	
 	function executeCommand()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilTabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		switch($next_class)
 		{
-			case "ilrepositorysearchgui";				
-				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search =& new ilRepositorySearchGUI();
-				$rep_search->setCallback($this, 'addPermission');
-				$rep_search->allowObjectSelection(true);
-
-				$this->ctrl->setReturn($this, 'editpermissions');
-				$this->ctrl->forwardCommand($rep_search);
+			case "ilmailsearchcoursesgui";							
+				$ilTabs->setBackTarget($this->lng->txt("back"),
+					$this->ctrl->getLinkTarget($this, "share"));
+				include_once('Services/Contact/classes/class.ilMailSearchCoursesGUI.php');
+				$csearch = new ilMailSearchCoursesGUI($this->access_handler, $this->node_id);
+				$this->ctrl->setReturn($this, 'share');
+				$this->ctrl->forwardCommand($csearch);				
+				break;
+			
+			case "ilmailsearchgroupsgui";			
+				$ilTabs->setBackTarget($this->lng->txt("back"),
+					$this->ctrl->getLinkTarget($this, "share"));
+				include_once('Services/Contact/classes/class.ilMailSearchGroupsGUI.php');
+				$gsearch = new ilMailSearchGroupsGUI($this->access_handler, $this->node_id);
+				$this->ctrl->setReturn($this, 'share');
+				$this->ctrl->forwardCommand($gsearch);
 				break;
 
 			default:
 				// $this->prepareOutput(); 
 				if(!$cmd)
 				{
-					$cmd = "editPermissions";
+					$cmd = "share";
 				}
 				return $this->$cmd();
 		}
@@ -68,117 +77,85 @@ class ilWorkspaceAccessGUI
 		return $this->access_handler;
 	}
 	
-	protected function editPermissions()
+	protected function share()
 	{
-		global $ilToolbar, $lng, $tpl;
-
-		$reg = $this->getAccessHandler()->hasRegisteredPermission($this->node_id);
-		$all = $this->getAccessHandler()->hasGlobalPermission($this->node_id);
-
-		if(!$all && !$reg)
+		global $ilToolbar, $tpl, $ilUser;
+		
+		$options = array();
+		$options["user"] = $this->lng->txt("wsp_set_permission_single_user");
+		
+		include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
+		$grp_ids = ilGroupParticipants::_getMembershipByType($ilUser->getId(), 'grp');
+		if(sizeof($grp_ids))
+		{			
+			$options["group"] = $this->lng->txt("wsp_set_permission_group");
+		}
+		
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+		$crs_ids = ilCourseParticipants::_getMembershipByType($ilUser->getId(), 'crs');
+		if(sizeof($crs_ids))
 		{
-			$ilToolbar->addButton($this->lng->txt("wsp_permission_add_users"),
-				$this->ctrl->getLinkTargetByClass("ilRepositorySearchGUI", "start"));
+			$options["course"] = $this->lng->txt("wsp_set_permission_course");
+		}
+		
+		$options["registered"] = $this->lng->txt("wsp_set_permission_registered");
+		$options["password"] = $this->lng->txt("wsp_set_permission_all_password");
+		$options["all"] = $this->lng->txt("wsp_set_permission_all");						
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$actions = new ilSelectInputGUI("", "action");		
+		$actions->setOptions($options);		
+		$ilToolbar->addInputItem($actions);
+		
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));		
+		$ilToolbar->addFormButton($this->lng->txt("add"), "addpermissionhandler");
+
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessTableGUI.php";
+		$table = new ilWorkspaceAccessTableGUI($this, "share", $this->node_id, $this->getAccessHandler());
+		$tpl->setContent($table->getHTML());
+	}
+	
+	public function addPermissionHandler()
+	{
+		switch($_REQUEST["action"])
+		{
+			case "user":
+				
+				break;
 			
-			$ilToolbar->addButton($this->lng->txt("wsp_set_permission_registered"),
-				$this->ctrl->getLinkTarget($this, "addPermissionRegistered"));
-		}
-		if(!$all)
-		{
-			$ilToolbar->addButton($this->lng->txt("wsp_set_permission_all"),
-				$this->ctrl->getLinkTarget($this, "addPermissionAll"));
-		}
-
-		if(!$all && !$reg)
-		{
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessTableGUI.php";
-			$table = new ilWorkspaceAccessTableGUI($this, "editPermissions", $this->node_id, $this->getAccessHandler());
-			$tpl->setContent($table->getHTML());
-		}
-		else 
-		{
-			$ilToolbar->addButton($this->lng->txt("wsp_remove_permission"),
-				$this->ctrl->getLinkTarget($this, "removeAllPermissions"));
+			case "group":
+				$this->ctrl->setParameterByClass("ilmailsearchgroupsgui", "ref", "wsp");
+				$this->ctrl->redirectByClass("ilmailsearchgroupsgui");
 			
-			if($reg)
-			{
-				ilUtil::sendInfo($this->lng->txt("wsp_permission_registered_info"));
-			}
-			else
-			{
-				ilUtil::sendInfo($this->lng->txt("wsp_permission_all_info"));
-			}
+			case "course":
+				$this->ctrl->setParameterByClass("ilmailsearchcoursesgui", "ref", "wsp");
+				$this->ctrl->redirectByClass("ilmailsearchcoursesgui");
+			
+			case "registered":
+				$this->getAccessHandler()->addPermission($this->node_id, self::PERMISSION_REGISTERED);
+				ilUtil::sendSuccess($this->lng->txt("wsp_permission_registered_info"), true);
+				$this->ctrl->redirect($this, "share");
+			
+			case "password":
+				
+				break;
+			
+			case "all":
+				$this->getAccessHandler()->addPermission($this->node_id, self::PERMISSION_ALL);
+				ilUtil::sendSuccess($this->lng->txt("wsp_permission_all_info"), true);
+				$this->ctrl->redirect($this, "share");
 		}
 	}
 	
-	public function addPermission($a_users = null)
-	{
-		global $lng;
-
-		$object_ids = array();
-		if($this->ctrl->getCmd() == "addUser")
-		{
-			if($a_users)
-			{
-				$object_ids = $a_users;
-			}
-			else
-			{
-				// return to repository search gui
-				ilUtil::sendFailure($lng->txt('select_one'));
-				return;
-			}
-		}
-		else
-		{
-			if($_REQUEST["obj"])
-			{
-				$object_ids = explode(";", $_REQUEST["obj"]);
-			}
-		}
-
-		if($object_ids)
-		{
-			foreach($object_ids as $object_id)
-			{
-				$this->getAccessHandler()->addPermission($this->node_id, $object_id);
-			}
-		}
-
-		$this->ctrl->redirect($this, "editPermissions");
-	}
-	
-	protected function addPermissionRegistered()
-	{
-		$this->getAccessHandler()->removePermission($this->node_id);	
-		$this->getAccessHandler()->addPermission($this->node_id, self::PERMISSION_REGISTERED);	
-		$this->ctrl->redirect($this, "editPermissions");
-	}
-
-	protected function addPermissionAll()
-	{
-		$this->getAccessHandler()->removePermission($this->node_id);	
-		$this->getAccessHandler()->addPermission($this->node_id, self::PERMISSION_ALL);		
-		$this->ctrl->redirect($this, "editPermissions");
-	}
-
 	public function removePermission()
 	{
-		global $lng;
-
 		if($_REQUEST["obj_id"])
 		{
 			$this->getAccessHandler()->removePermission($this->node_id, (int)$_REQUEST["obj_id"]);
-		    ilUtil::sendSuccess($lng->txt("permission_removed"), true);
+		    ilUtil::sendSuccess($this->lng->txt("wsp_permission_removed"), true);
 		}
 
-		$this->ctrl->redirect($this, "editPermissions");
-	}
-	
-	protected function removeAllPermissions()
-	{
-		$this->getAccessHandler()->removePermission($this->node_id);	
-		$this->ctrl->redirect($this, "editPermissions");
+		$this->ctrl->redirect($this, "share");
 	}
 }
 

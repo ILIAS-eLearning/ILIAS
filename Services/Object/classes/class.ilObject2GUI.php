@@ -512,8 +512,8 @@ abstract class ilObject2GUI extends ilObjectGUI
 				if ($this->checkPermissionBool("edit_permission"))
 				{
 					$ilTabs->addTab("id_permissions",
-						$lng->txt("perm_settings"),
-						$this->ctrl->getLinkTargetByClass(array(get_class($this), "ilworkspaceaccessgui"), "editPermissions"));
+						$lng->txt("wsp_permissions"),
+						$this->ctrl->getLinkTargetByClass(array(get_class($this), "ilworkspaceaccessgui"), "share"));
 				}
 				break;
 		}

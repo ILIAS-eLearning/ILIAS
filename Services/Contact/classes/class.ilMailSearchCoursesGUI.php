@@ -24,7 +24,7 @@ class ilMailSearchCoursesGUI
 
 	protected $mailing_allowed;
 
-	public function __construct()
+	public function __construct($wsp_access_handler = null, $wsp_node_id = null)
 	{
 		global $tpl, $ilCtrl, $lng, $ilUser, $rbacsystem;
 
@@ -32,12 +32,17 @@ class ilMailSearchCoursesGUI
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		
+		// personal workspace
+		$this->wsp_access_handler = $wsp_access_handler;
+		$this->wsp_node_id = $wsp_node_id;
+		
 		// check if current user may send mails
 		include_once "Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail($_SESSION["AccountId"]);
 		$this->mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
 
 		$this->ctrl->saveParameter($this, "mobj_id");
+		$this->ctrl->saveParameter($this, "ref");
 
 		$this->umail = new ilFormatMail($ilUser->getId());
 		$this->abook = new ilAddressbook($ilUser->getId());
@@ -301,7 +306,7 @@ class ilMailSearchCoursesGUI
 		$lng->loadLanguageModule('crs');
 
 		include_once 'Services/Contact/classes/class.ilMailSearchCoursesTableGUI.php';
-		$table = new ilMailSearchCoursesTableGUI($this);
+		$table = new ilMailSearchCoursesTableGUI($this, "crs", $_GET["ref"]);
 		$table->setId('search_crs_tbl');
 		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		$crs_ids = ilCourseParticipants::_getMembershipByType($ilUser->getId(), 'crs');
@@ -359,8 +364,15 @@ class ilMailSearchCoursesGUI
 					$this->ctrl->setParameter($this, 'search_crs', $crs_id);
 					$this->ctrl->setParameter($this, 'view', 'mycourses');
 					
-					if ($this->mailing_allowed)
-						$current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
+					if($_GET["ref"] == "mail")
+					{
+						if ($this->mailing_allowed)
+							$current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
+					}
+					else if($_GET["ref"] == "wsp")
+					{
+						$current_selection_list->addItem($this->lng->txt("wsp_share_with_members"), '', $this->ctrl->getLinkTarget($this, "share"));
+					}
 					$current_selection_list->addItem($this->lng->txt("mail_list_members"), '', $this->ctrl->getLinkTarget($this, "showMembers"));
 					
 					$this->ctrl->clearParameters($this);
@@ -453,7 +465,7 @@ class ilMailSearchCoursesGUI
 
 			$lng->loadLanguageModule('crs');
 			include_once 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php';
-			$table = new ilMailSearchCoursesMembersTableGUI($this, 'crs');
+			$table = new ilMailSearchCoursesMembersTableGUI($this, 'crs', $_GET["ref"]);
 			$table->setId('show_crs_mmbrs_tbl');
 			$tableData = array();
 			$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
@@ -505,7 +517,67 @@ class ilMailSearchCoursesGUI
 			$this->tpl->show();
 		}
 	}
-
+	
+	function share()
+	{
+		global $lng;
+		
+		if ($_GET["view"] == "mycourses")
+		{
+			$ids = $_REQUEST["search_crs"];
+			if (sizeof($ids))
+			{
+				$this->addPermission($ids);
+			}
+			else
+			{
+				ilUtil::sendInfo($lng->txt("mail_select_course"));
+				$this->showMyCourses();
+			}
+		}
+		else if ($_GET["view"] == "crs_members")
+		{
+			$ids = $_REQUEST["search_members"];
+			if (sizeof($ids))
+			{
+				$this->addPermission($ids);
+			}
+			else
+			{
+				ilUtil::sendInfo($lng->txt("mail_select_one_entry"));
+				$this->showMembers();
+			}
+		}
+		else
+		{
+			$this->showMyCourses();
+		}
+	}
+	
+	protected function addPermission($a_obj_ids)
+	{
+		if(!is_array($a_obj_ids))
+		{
+			$a_obj_ids = array($a_obj_ids);
+		}
+		
+		$existing = $this->wsp_access_handler->getPermissions($this->wsp_node_id);
+		$added = false;
+		foreach($a_obj_ids as $object_id)
+		{
+			if(!in_array($object_id, $existing))
+			{
+				$this->wsp_access_handler->addPermission($this->wsp_node_id, $object_id);
+				$added = true;
+			}
+		}
+		
+		if($added)
+		{
+			ilUtil::sendSuccess($this->lng->txt("wsp_share_success"), true);
+		}
+		$this->ctrl->redirectByClass("ilworkspaceaccessgui", "share");		
+	}
 }
 
 ?>

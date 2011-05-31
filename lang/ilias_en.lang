@@ -11377,8 +11377,8 @@ content#:#cont_correct_answers_also#:#Also correct are:
 content#:#cont_correct_answer_also#:#Also correct is:
 common#:#file_upload_pending#:#Pending file
 wsp#:#wsp_permission_add_users#:#Add Users
-wsp#:#wsp_set_permission_registered#:#Share with all registered users
-wsp#:#wsp_set_permission_all#:#Publish (No Registration required)
+wsp#:#wsp_set_permission_registered#:#All Registered Users
+wsp#:#wsp_set_permission_all#:#Publish 
 wsp#:#wsp_remove_permission#:#Remove Permission
 wsp#:#wsp_permission_registered_info#:#This object is shared with all registered users.
 wsp#:#wsp_permission_all_info#:#This object has been published.
@@ -11469,3 +11469,12 @@ payment#:#unit_price#:#Unit price
 payment#:#plus_vat#:#Plus VAT
 payment#:#credit#:#Credit
 payment#:#period_of_service_provision#:#Period of service provision
+wsp#:#wsp_permissions#:#Share
+wsp#:#wsp_shared_with#:#Shared With
+wsp#:#wsp_set_permission_single_user#:#Single User
+wsp#:#wsp_set_permission_group#:#Group
+wsp#:#wsp_set_permission_course#:#Course
+wsp#:#wsp_set_permission_all_password#:#Publish (Password required)
+wsp#:#wsp_permission_removed#:#The item has been removed.
+wsp#:#wsp_share_with_members#:#Share with members
+wsp#:#wsp_share_success#:#A new entry has been added.

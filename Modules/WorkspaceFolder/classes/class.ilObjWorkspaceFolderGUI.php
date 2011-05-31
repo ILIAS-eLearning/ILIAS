@@ -82,18 +82,8 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 		$left = "";
 
-		// level up
-		$parent = $exp->getParentNode($this->node_id);
-		if($parent)
-		{
-			$this->ctrl->setParameter($this, "wsp_id", $parent);
-			$left = "<div class=\"small\" style=\"margin:5px\">[<a href=\"".
-				$this->ctrl->getLinkTarget($this)."\">..</a>]</div>";
-			$this->ctrl->setParameter($this, "wsp_id", $this->node_id);
-		}
-
 		// sub-folders
-		if($exp->hasFolders($this->node_id))
+		if($this->node_id != $exp->getRoot() || $exp->hasFolders($this->node_id))
 		{
 			$exp->setTargetGet("wsp_id");
 			$exp->setSessionExpandVariable('wspexpand');
