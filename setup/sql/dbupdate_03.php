@@ -5703,4 +5703,18 @@ foreach($old as $key=>$value)
 	$ilDB->renameTableColumn('ecs_data_mapping','import_type','mapping_type');
 	$ilDB->addPrimaryKey('ecs_data_mapping', array('sid','mapping_type','ecs_field'));
 ?>
-
+<#3347>
+<?php
+	if (!$ilDB->tableColumnExists("acl_ws", "extended_data"))
+	{
+		$ilDB->addTableColumn("acl_ws", "extended_data", array(
+			"type" => "text",
+			"notnull" => false,
+		 	"length" => 200,
+		 	"fixed" => false));
+	}
+?>
+<#3348>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

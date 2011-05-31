@@ -108,9 +108,20 @@ class ilWorkspaceAccessGUI
 			$options["course"] = $this->lng->txt("wsp_set_permission_course");
 		}
 		
-		$options["registered"] = $this->lng->txt("wsp_set_permission_registered");
-		$options["password"] = $this->lng->txt("wsp_set_permission_all_password");
-		$options["all"] = $this->lng->txt("wsp_set_permission_all");						
+		if(!$this->getAccessHandler()->hasRegisteredPermission($this->node_id))
+		{
+			$options["registered"] = $this->lng->txt("wsp_set_permission_registered");
+		}
+		
+		if(!$this->getAccessHandler()->hasGlobalPasswordPermission($this->node_id))
+		{
+			$options["password"] = $this->lng->txt("wsp_set_permission_all_password");
+		}
+		
+		if(!$this->getAccessHandler()->hasGlobalPermission($this->node_id))
+		{
+			$options["all"] = $this->lng->txt("wsp_set_permission_all");		
+		}
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$actions = new ilSelectInputGUI("", "action");		
@@ -141,13 +152,13 @@ class ilWorkspaceAccessGUI
 				$this->ctrl->setParameterByClass("ilmailsearchcoursesgui", "ref", "wsp");
 				$this->ctrl->redirectByClass("ilmailsearchcoursesgui");
 			
-			case "registered":
+			case "registered":				
 				$this->getAccessHandler()->addPermission($this->node_id, self::PERMISSION_REGISTERED);
 				ilUtil::sendSuccess($this->lng->txt("wsp_permission_registered_info"), true);
 				$this->ctrl->redirect($this, "share");
 			
 			case "password":
-				
+				$this->showPasswordForm();
 				break;
 			
 			case "all":
@@ -166,6 +177,49 @@ class ilWorkspaceAccessGUI
 		}
 
 		$this->ctrl->redirect($this, "share");
+	}
+	
+	protected function initPasswordForm()
+	{
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt("wsp_set_permission_all_password"));
+		
+		$password = new ilPasswordInputGUI($this->lng->txt("password"), "password");
+		$password->setRequired(true);
+		$form->addItem($password);
+		
+		$form->addCommandButton('savepasswordform', $this->lng->txt("save"));
+		$form->addCommandButton('share', $this->lng->txt("cancel"));
+		
+		return $form;
+	}
+	
+	protected function showPasswordForm(ilPropertyFormGUI $a_form = null)
+	{
+		global $tpl;
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initPasswordForm();
+		}
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	protected function savePasswordForm()
+	{
+		$form = $this->initPasswordForm();
+		if($form->checkInput())
+		{
+			$this->getAccessHandler()->addPermission($this->node_id, 
+				self::PERMISSION_ALL_PASSWORD, md5($form->getInput("password")));	
+			ilUtil::sendSuccess($this->lng->txt("wsp_permission_all_info"), true);
+			$this->ctrl->redirect($this, "share");
+		}
+	
+		$form->setValuesByPost();
+		$this->showPasswordForm($form);
 	}
 }
 

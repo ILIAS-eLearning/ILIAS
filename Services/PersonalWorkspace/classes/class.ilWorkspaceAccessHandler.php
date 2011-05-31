@@ -142,9 +142,10 @@ class ilWorkspaceAccessHandler
 	 *
 	 * @param int $a_node_id
 	 * @param int $a_object_id
+	 * @param string $a_extended_data
 	 * @return bool
 	 */
-	public function addPermission($a_node_id, $a_object_id)
+	public function addPermission($a_node_id, $a_object_id, $a_extended_data = null)
 	{
 		global $ilDB, $ilUser;
 
@@ -155,9 +156,10 @@ class ilWorkspaceAccessHandler
 			return false;
 		}
 
-		$ilDB->manipulate("INSERT INTO acl_ws (node_id, object_id)".
+		$ilDB->manipulate("INSERT INTO acl_ws (node_id, object_id, extended_data)".
 			" VALUES (".$ilDB->quote($a_node_id, "integer").", ".
-			$ilDB->quote($a_object_id, "integer").")");
+			$ilDB->quote($a_object_id, "integer").",".
+			$ilDB->quote($a_extended_data, "text").")");
 		return true;
 	}
 
@@ -219,6 +221,16 @@ class ilWorkspaceAccessHandler
 		$set = $ilDB->query("SELECT object_id FROM acl_ws".
 			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
 			" AND object_id = ".$ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_ALL, "integer"));
+		return (bool)$ilDB->numRows($set);
+	}
+	
+	public function hasGlobalPasswordPermission($a_node_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT object_id FROM acl_ws".
+			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
+			" AND object_id = ".$ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD, "integer"));
 		return (bool)$ilDB->numRows($set);
 	}
 }

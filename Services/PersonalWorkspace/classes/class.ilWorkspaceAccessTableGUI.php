@@ -65,6 +65,11 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 					$type = "";
 					break;
 				
+				case ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD:
+					$title = $this->lng->txt("wsp_set_permission_all_password");
+					$type = "";
+					break;
+				
 				case ilWorkspaceAccessGUI::PERMISSION_ALL:
 					$title = $this->lng->txt("wsp_set_permission_all");
 					$type = "";
