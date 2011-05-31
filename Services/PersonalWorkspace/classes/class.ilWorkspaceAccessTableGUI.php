@@ -35,7 +35,7 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 
 		$this->setId("il_tbl_wsacl");
 
-		$this->setTitle($lng->txt("permission"));
+		$this->setTitle($lng->txt("wsp_shared_with"));
 
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("type"), "type");
@@ -58,9 +58,27 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 		$data = array();
 		foreach($this->handler->getPermissions($this->node_id) as $obj_id)
 		{
+			switch($obj_id)
+			{
+				case ilWorkspaceAccessGUI::PERMISSION_REGISTERED:
+					$title = $this->lng->txt("wsp_set_permission_registered");
+					$type = "";
+					break;
+				
+				case ilWorkspaceAccessGUI::PERMISSION_ALL:
+					$title = $this->lng->txt("wsp_set_permission_all");
+					$type = "";
+					break;	
+				
+				default:
+					$title = ilObject::_lookupTitle($obj_id);
+					$type = $this->lng->txt("obj_".ilObject::_lookupType($obj_id));
+					break;
+			}
+			
 			$data[] = array("id" => $obj_id,
-				"title" => ilObject::_lookupTitle($obj_id),
-				"type" => ilObject::_lookupType($obj_id));
+				"title" => $title,
+				"type" => $type);
 		}
 	
 		$this->setData($data);
@@ -73,16 +91,16 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		global $ilCtrl;
 		
 		// properties
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
-		$this->tpl->setVariable("TYPE", $lng->txt("obj_".$a_set["type"]));
+		$this->tpl->setVariable("TYPE", $a_set["type"]);
 
 		$ilCtrl->setParameter($this->parent_obj, "obj_id", $a_set["id"]);
 		$this->tpl->setVariable("HREF_CMD",
 			$ilCtrl->getLinkTarget($this->parent_obj, "removePermission"));
-		$this->tpl->setVariable("TXT_CMD", $lng->txt("remove"));
+		$this->tpl->setVariable("TXT_CMD", $this->lng->txt("remove"));
 	}
 }
 

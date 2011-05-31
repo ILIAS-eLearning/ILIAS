@@ -251,7 +251,7 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 	function formatHeader(&$tpl, $a_obj_id,$a_option)
 	{
 		global $lng;
-
+		
 		// custom icons
 		$path = ilObject::_getIcon($a_obj_id, "small", "root");
 		
