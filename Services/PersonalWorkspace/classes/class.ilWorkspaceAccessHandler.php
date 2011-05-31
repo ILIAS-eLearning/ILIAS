@@ -142,6 +142,7 @@ class ilWorkspaceAccessHandler
 	 *
 	 * @param int $a_node_id
 	 * @param int $a_object_id
+	 * @return bool
 	 */
 	public function addPermission($a_node_id, $a_object_id)
 	{
@@ -151,12 +152,13 @@ class ilWorkspaceAccessHandler
 		if($this->tree->getTreeId() == $ilUser->getId() &&
 			$a_object_id == $ilUser->getId())
 		{
-			return;
+			return false;
 		}
 
 		$ilDB->manipulate("INSERT INTO acl_ws (node_id, object_id)".
 			" VALUES (".$ilDB->quote($a_node_id, "integer").", ".
 			$ilDB->quote($a_object_id, "integer").")");
+		return true;
 	}
 
 	/**

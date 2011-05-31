@@ -24,13 +24,17 @@ class ilMailSearchGroupsGUI
 
 	protected $mailing_allowed;
 
-	public function __construct()
+	public function __construct($wsp_access_handler = null, $wsp_node_id = null)
 	{
 		global $tpl, $ilCtrl, $lng, $ilUser, $rbacsystem;
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
+		
+		// personal workspace
+		$this->wsp_access_handler = $wsp_access_handler;
+		$this->wsp_node_id = $wsp_node_id;
 		
 		$this->ctrl->saveParameter($this, "mobj_id");
 		$this->ctrl->saveParameter($this, "ref");
@@ -296,7 +300,7 @@ class ilMailSearchGroupsGUI
 		$this->ctrl->setParameter($this, 'view', 'mygroups');
 		
 		include_once 'Services/Contact/classes/class.ilMailSearchCoursesTableGUI.php';
-		$table = new ilMailSearchCoursesTableGUI($this, 'grp');
+		$table = new ilMailSearchCoursesTableGUI($this, 'grp', $_GET["ref"]);
 		$table->setId('search_grps_tbl');
 		$grp_ids = ilGroupParticipants::_getMembershipByType($ilUser->getId(), 'grp');
 		
@@ -347,8 +351,15 @@ class ilMailSearchGroupsGUI
 					$this->ctrl->setParameter($this, 'search_grp', $grp_id);
 					$this->ctrl->setParameter($this, 'view', 'mygroups');
 					
-					if ($this->mailing_allowed)
-						$current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
+					if($_GET["ref"] == "mail")
+					{
+						if ($this->mailing_allowed)
+							$current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
+					}
+					else if($_GET["ref"] == "wsp")
+					{
+						$current_selection_list->addItem($this->lng->txt("wsp_share_with_members"), '', $this->ctrl->getLinkTarget($this, "share"));
+					}
 					$current_selection_list->addItem($this->lng->txt("mail_list_members"), '', $this->ctrl->getLinkTarget($this, "showMembers"));
 					
 					$this->ctrl->clearParameters($this);
@@ -399,7 +410,7 @@ class ilMailSearchGroupsGUI
 		{
 			$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 			include_once 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php';
-			$table = new ilMailSearchCoursesMembersTableGUI($this, 'grp');
+			$table = new ilMailSearchCoursesMembersTableGUI($this, 'grp', $_GET["ref"]);
 			$table->setId('show_grps_mmbrs_tbl');
 			$lng->loadLanguageModule('crs');
 	
@@ -455,6 +466,65 @@ class ilMailSearchGroupsGUI
 		}
 	}
 
+	function share()
+	{
+		global $lng;
+		
+		if ($_GET["view"] == "mygroups")
+		{
+			$ids = $_REQUEST["search_grp"];
+			if (sizeof($ids))
+			{
+				$this->addPermission($ids);
+			}
+			else
+			{
+				ilUtil::sendInfo($lng->txt("mail_select_course"));
+				$this->showMyGroups();
+			}
+		}
+		else if ($_GET["view"] == "grp_members")
+		{
+			$ids = $_REQUEST["search_members"];
+			if (sizeof($ids))
+			{
+				$this->addPermission($ids);
+			}
+			else
+			{
+				ilUtil::sendInfo($lng->txt("mail_select_one_entry"));
+				$this->showMembers();
+			}
+		}
+		else
+		{
+			$this->showMyGroups();
+		}
+	}
+	
+	protected function addPermission($a_obj_ids)
+	{
+		if(!is_array($a_obj_ids))
+		{
+			$a_obj_ids = array($a_obj_ids);
+		}
+		
+		$existing = $this->wsp_access_handler->getPermissions($this->wsp_node_id);
+		$added = false;
+		foreach($a_obj_ids as $object_id)
+		{
+			if(!in_array($object_id, $existing))
+			{
+				$added = $this->wsp_access_handler->addPermission($this->wsp_node_id, $object_id);
+			}
+		}
+		
+		if($added)
+		{
+			ilUtil::sendSuccess($this->lng->txt("wsp_share_success"), true);
+		}
+		$this->ctrl->redirectByClass("ilworkspaceaccessgui", "share");		
+	}
 }
 
 ?>

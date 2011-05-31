@@ -567,8 +567,7 @@ class ilMailSearchCoursesGUI
 		{
 			if(!in_array($object_id, $existing))
 			{
-				$this->wsp_access_handler->addPermission($this->wsp_node_id, $object_id);
-				$added = true;
+				$added = $this->wsp_access_handler->addPermission($this->wsp_node_id, $object_id);
 			}
 		}
 		
