@@ -412,7 +412,11 @@ class ilMailSearchCoursesGUI
 
 		$searchTpl->setVariable('TABLE', $table->getHtml());
 		$tpl->setContent($searchTpl->get());
-		$tpl->show();
+		
+		if($_GET["ref"] != "wsp")
+		{	
+			$tpl->show();
+		}
 	}
 
 	/**
@@ -514,7 +518,11 @@ class ilMailSearchCoursesGUI
 
 			$searchTpl->setVariable('TABLE', $table->getHtml());
 			$this->tpl->setContent($searchTpl->get());
-			$this->tpl->show();
+			
+			if($_GET["ref"] != "wsp")
+			{
+				$this->tpl->show();
+			}
 		}
 	}
 	

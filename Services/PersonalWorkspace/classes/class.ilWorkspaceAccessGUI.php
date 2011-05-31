@@ -8,6 +8,7 @@
  * @version $Id$
  * 
  * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI
+ * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchGUI
  *
  * @ingroup ServicesPersonalWorkspace
  */
@@ -48,7 +49,7 @@ class ilWorkspaceAccessGUI
 				include_once('Services/Contact/classes/class.ilMailSearchCoursesGUI.php');
 				$csearch = new ilMailSearchCoursesGUI($this->access_handler, $this->node_id);
 				$this->ctrl->setReturn($this, 'share');
-				$this->ctrl->forwardCommand($csearch);				
+				$this->ctrl->forwardCommand($csearch);					
 				break;
 			
 			case "ilmailsearchgroupsgui";			
@@ -58,6 +59,15 @@ class ilWorkspaceAccessGUI
 				$gsearch = new ilMailSearchGroupsGUI($this->access_handler, $this->node_id);
 				$this->ctrl->setReturn($this, 'share');
 				$this->ctrl->forwardCommand($gsearch);
+				break;
+			
+			case "ilmailsearchgui";			
+				$ilTabs->setBackTarget($this->lng->txt("back"),
+					$this->ctrl->getLinkTarget($this, "share"));
+				include_once('Services/Contact/classes/class.ilMailSearchGUI.php');
+				$usearch = new ilMailSearchGUI($this->access_handler, $this->node_id);
+				$this->ctrl->setReturn($this, 'share');
+				$this->ctrl->forwardCommand($usearch);
 				break;
 
 			default:
@@ -120,8 +130,8 @@ class ilWorkspaceAccessGUI
 		switch($_REQUEST["action"])
 		{
 			case "user":
-				
-				break;
+				$this->ctrl->setParameterByClass("ilmailsearchgui", "ref", "wsp");
+				$this->ctrl->redirectByClass("ilmailsearchgui");
 			
 			case "group":
 				$this->ctrl->setParameterByClass("ilmailsearchgroupsgui", "ref", "wsp");
