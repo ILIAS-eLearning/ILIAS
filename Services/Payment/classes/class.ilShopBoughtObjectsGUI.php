@@ -150,7 +150,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			$tpl->setVariable('HTTP_PATH', $http_path);
 		}
 		ilDatePresentation::setUseRelativeDates(false);
-		$tpl->setVariable('DATE', utf8_decode(ilDatePresentation::formatDate(new ilDateTime($bookings[$i]['order_date'], IL_CAL_UNIX))));
+		$tpl->setVariable('DATE', utf8_decode(ilDatePresentation::formatDate(new ilDate($bookings[$i]['order_date'], IL_CAL_UNIX))));
 		$tpl->setVariable('TXT_CREDIT', utf8_decode($this->lng->txt('credit')));
 		$tpl->setVariable('TXT_DAY_OF_SERVICE_PROVISION',$this->lng->txt('day_of_service_provision'));
 		include_once './Services/Payment/classes/class.ilPayMethods.php';
@@ -214,7 +214,12 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			}
 			else
 			{
-				$tpl->setVariable('LOOP_DURATION', $bookings[$i]['duration'] . ' ' . utf8_decode($this->lng->txt('paya_months')));
+				$access_startdate = utf8_decode(ilDatePresentation::formatDate(new ilDate($bookings[$i]['access_startdate'], IL_CAL_DATETIME)));
+				$access_enddate = utf8_decode(ilDatePresentation::formatDate(new ilDate($bookings[$i]['access_enddate'], IL_CAL_DATETIME)));
+
+				$tpl->setVariable('LOOP_DURATION', 
+						$access_startdate.' - '.$access_enddate.' /  '.
+						$bookings[$i]['duration'] . ' ' . utf8_decode($this->lng->txt('paya_months')));
 			}
 			// old one
 			$tpl->setVariable('LOOP_VAT_RATE',number_format($bookings[$i]['vat_rate'], 2, ',', '.').' %');
