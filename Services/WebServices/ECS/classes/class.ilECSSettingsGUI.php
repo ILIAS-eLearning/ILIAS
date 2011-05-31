@@ -726,6 +726,16 @@ class ilECSSettingsGUI
 	 	include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 	 	
 	 	$this->tabs_gui->setSubTabActive('ecs_mappings');
+
+		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
+		$settings = ilECSServerSettings::getInstance();
+		$settings->readInactiveServers();
+
+		foreach($settings->getServers() as $server)
+		{
+
+		}
+
 	 	
 	 	$fields = ilAdvancedMDFieldDefinition::_getActiveDefinitionsByObjType('crs');
 	 	if(!count($fields))

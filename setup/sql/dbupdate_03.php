@@ -5696,3 +5696,11 @@ foreach($old as $key=>$value)
 		$ilDB->renameTable('payment_tmp', 'payment_settings');
 	}
 ?>
+<#3346>
+<?php
+
+	$ilDB->dropPrimaryKey('ecs_data_mapping');
+	$ilDB->renameTableColumn('ecs_data_mapping','import_type','mapping_type');
+	$ilDB->addPrimaryKey('ecs_data_mapping', array('sid','mapping_type','ecs_field'));
+?>
+
