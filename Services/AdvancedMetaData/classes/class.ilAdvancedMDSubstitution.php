@@ -231,6 +231,8 @@ class ilAdvancedMDSubstitution
 		if($this->type == 'crs' or $this->type == 'rcrs')
 		{
 			// Special handling for ECS fields
+			// @FIXME
+			/*
 			if($a_field_id == self::$mappings->getMappingByECSName('begin') and
 				$end = self::$mappings->getMappingByECSName('end'))
 			{
@@ -249,7 +251,8 @@ class ilAdvancedMDSubstitution
 				$value = ilDatePresentation::formatPeriod($start,$end);
 				ilDatePresentation::setUseRelativeDates(true);
 				return $weekday.', '.$value;
-			}			
+			}
+			*/
 		}
 		if(in_array($a_field_id,$this->date_fields))
 		{
@@ -441,16 +444,18 @@ class ilAdvancedMDSubstitution
 	 		$this->enabled_desc = !$row->hide_description;
 	 		$this->enabled_field_names = !$row->hide_field_names;
 	 	}
-	 	
+
 	 	if($this->type == 'crs' or $this->type == 'rcrs')
 	 	{
 	 		// Handle ECS substitutions
+			/*
 	 		if($begin = self::$mappings->getMappingByECSName('begin') and
 	 			$end = self::$mappings->getMappingByECSName('end'))
 	 		{
 	 			// Show something like 'Monday, 30.12.2008 9:00 - 12:00'
 	 			unset($this->active_fields[$end]);
 	 		}
+			*/
 	 	}
 	}
 	
@@ -462,6 +467,8 @@ class ilAdvancedMDSubstitution
 	 */
 	private function initECSMappings()
 	{
+		return true;
+
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
 		
 		if(isset(self::$mappings) and is_object(self::$mappings))

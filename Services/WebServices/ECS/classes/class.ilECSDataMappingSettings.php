@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
+include_once './Services/WebServices/ECS/classes/class.ilECSDataMappingSetting.php';
+
 /** 
 * 
 * @author Stefan Meyer <meyer@leifos.com>
@@ -31,8 +34,9 @@
 */
 class ilECSDataMappingSettings
 {
-	private static $instance = null;
+	private static $instances = null;
 
+	private $settings = null;
  	private $mappings = array();
  	
  	/**
@@ -41,10 +45,10 @@ class ilECSDataMappingSettings
 	 * @access private
 	 * 
 	 */
-	private function __construct()
+	private function __construct($a_server_id)
 	{
-	 	$this->initStorage();
-	 	$this->read();
+		$this->settings = ilECSSetting::getInstanceByServerId($a_server_id);
+		$this->read();
 	}
 	
 	/**
@@ -52,48 +56,55 @@ class ilECSDataMappingSettings
 	 *
 	 * @access public
 	 * @static
-	 *
+	 * @deprecated
 	 */
 	public static function _getInstance()
 	{
-		if(self::$instance)
-		{
-			return self::$instance;
-		}
-		return self::$instance = new ilECSDataMappingSettings();
+		$GLOBALS['ilLog']->write(__METHOD__.': Using deprecate call');
+		$GLOBALS['ilLog']->logStack();
+
+		return self::getInstanceByServerId(15);
 	}
-	
+
+	/**
+	 * Get singleton instance
+	 * @param int $a_server_id
+	 * @return ilECSDataMappingSettings
+	 */
+	public static function getInstanceByServerId($a_server_id)
+	{
+		if(isset(self::$instances[$a_server_id]))
+		{
+			return self::$instances[$a_server_id];
+		}
+		return self::$instances[$a_server_id] = new ilECSDataMappingSettings($a_server_id);
+	}
+
+	/**
+	 * Get actice ecs setting
+	 * @return ilECSSetting
+	 */
+	public function getServer()
+	{
+		return $this->settings;
+	}
+
+
 	/**
 	 * get mappings
 	 *
 	 * @access public
 	 * 
 	 */
-	public function getMappings()
+	public function getMappings($a_mapping_type = 0)
 	{
-	 	return $this->mappings ? $this->mappings : array();
+	 	if(!$a_mapping_type)
+		{
+			$a_mapping_type = ilECSDataMappingSetting::MAPPING_IMPORT_RCRS;
+		}
+		return $this->mappings[$a_mapping_type];
 	}
 	
-	/**
-	 * set mappings
-	 *
-	 * @access public
-	 * @param array e.g array('lecturer' => 0,'room' => 17). Which means 'lecturer' is ignored, 'room' is mapped against AdvancedFieldDefinition 17. 
-	 * 
-	 */
-	public function setMappings($a_mappings)
-	{
-	 	if(!is_array($a_mappings))
-	 	{
-	 		return false;
-	 	}
-	 	$this->mappings = array();
-	 	foreach($a_mappings as $key => $field_id)
-	 	{
-	 		$this->mappings[$key] = (int) $field_id;
-	 	}
-	 	return true;
-	}
 	
 	/**
 	 * get mapping by key
@@ -103,32 +114,19 @@ class ilECSDataMappingSettings
 	 * @return int AdvancedMetaData field id or 0 (no mapping)
 	 * 
 	 */
-	public function getMappingByECSName($a_key)
+	public function getMappingByECSName($a_key,$a_mapping_type = 0)
 	{
-	 	return isset($this->mappings[$a_key]) ? $this->mappings[$a_key] : 0;
+	 	if(!$a_mapping_type)
+		{
+			$a_mapping_type = ilECSDataMappingSetting::MAPPING_IMPORT_RCRS;
+		}
+
+		return array_key_exists($a_key, (array) $this->mappings[$a_mapping_type]) ?
+			$this->mappings[$a_mapping_type][$a_key] :
+			0;
 	}
 
-	/**
-	 * Save mappings
-	 *
-	 * @access public
-	 * 
-	 */
-	public function save()
-	{
-		$this->storage->set('mappings',addslashes(serialize($this->mappings)));
-	}
 	
-	/**
-	 * init data storage
-	 *
-	 * @access private
-	 */
-	private function initStorage()
-	{
-		include_once('./Services/Administration/classes/class.ilSetting.php');
-	 	$this->storage = new ilSetting('ecs_mappings');
-	}
 
 	/**
 	 * Read settings
@@ -138,14 +136,17 @@ class ilECSDataMappingSettings
 	 */
 	private function read()
 	{
-		$mappings = $this->storage->get('mappings');
-		if($mappings)
+		global $ilDB;
+
+		$this->mappings = array();
+
+		$query = 'SELECT * FROM ecs_data_mapping '.
+			'WHERE sid = '.$ilDB->quote($this->getServer()->getServerId(),'integer').' ';
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->mappings = unserialize(stripslashes($mappings));
+			$this->mappings[$row->mapping_type][$row->ecs_field] = $row->advmd_id;
 		}
 	}
-
 }
-
-
 ?>
