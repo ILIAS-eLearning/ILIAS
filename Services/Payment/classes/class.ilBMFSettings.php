@@ -12,9 +12,11 @@
 * 
 * @ingroup payment
 */
+include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 class ilBMFSettings
 {
 	private $db;
+	public $pSettings;
 	
 	private $settings_id;
 	
@@ -57,7 +59,7 @@ class ilBMFSettings
 		global $ilDB;
 
 		$this->db = $ilDB;
-
+		$this->pSettings = ilPaymentSettings::_getInstance();
 		$this->getSettings();
 	}	
 	
@@ -68,27 +70,29 @@ class ilBMFSettings
 	 */
 	private function getSettings()
 	{
-		$this->fetchSettingsId();
 
-		$res = $this->db->queryf('
-			SELECT bmf FROM payment_settings
-			WHERE settings_id = %s',
-			array('integer'),
-			array($this->getSettingsId())
-		);
-			
-		$result = $this->db->fetchObject($res);
-
+//		$this->fetchSettingsId();
+//
+//		$res = $this->db->queryf('
+//			SELECT bmf FROM payment_settings
+//			WHERE settings_id = %s',
+//			array('integer'),
+//			array($this->getSettingsId())
+//		);
+//
+//		$result = $this->db->fetchObject($res);
+	
+		$result->bmf = $this->pSettings->get('bmf');
 		$data = array();
 
 		if (is_object($result))
 		{
-			
-			if ($result->bmf != "") 
+
+			if ($result->bmf != "")
 			{
-				$data = unserialize($result->bmf);				
+				$data = unserialize($result->bmf);
 			}
-			else 
+			else
 			{
 				$data = array();
 			}
@@ -113,21 +117,21 @@ class ilBMFSettings
 	 */
 	private function fetchSettingsId()
 	{
-		$result = $this->db->query('SELECT settings_id FROM payment_settings');
-			
-		while($row = $this->db->fetchObject($result))	
-		{	
-			$this->setSettingsId($row->settings_id);
-		}	
-}
+//		$result = $this->db->query('SELECT settings_id FROM payment_settings');
+//
+//		while($row = $this->db->fetchObject($result))
+//		{
+//			$this->setSettingsId($row->settings_id);
+//		}
+	}
 	
 	public function setSettingsId($a_settings_id = 0)
 	{
-		$this->settings_id = $a_settings_id;
+//		$this->settings_id = $a_settings_id;
 	}
 	public function getSettingsId()
 	{
-		return $this->settings_id;
+//		return $this->settings_id;
 	}
 	public function setClientId($a_client_id)
 	{
@@ -241,14 +245,15 @@ class ilBMFSettings
 	 */
 	public function clearAll()
 	{
-		$statement = $this->db->manipulateF('
-			UPDATE payment_settings
-			SET bmf = %s
-			WHERE settings_id = %s',
-			array('text', 'integer'),
-			array('NULL', $this->getSettingsId())
-		);
 
+	 $this->pSettings->set('bmf', NULL, 'bmf');
+//		$statement = $this->db->manipulateF('
+//			UPDATE payment_settings
+//			SET bmf = %s
+//			WHERE settings_id = %s',
+//			array('text', 'integer'),
+//			array('NULL', $this->getSettingsId())
+//		);
 	}
 	
 	/** 
@@ -273,33 +278,37 @@ class ilBMFSettings
 			"caCertificate" => $this->getCaCertificate(),
 			"timeOut" => $this->getTimeOut()
 		);		
-		
-		if ($this->getSettingsId())
-		{		
 
-			$statement = $this->db->manipulateF('
-				UPDATE payment_settings
-				SET bmf = %s
-				WHERE settings_id = %s',
-				array('text', 'integer'),
- 				array(serialize($values), $this->getSettingsId())				
-			);
-		}
-		else
-		{
-			$next_id = $ilDB->nextId('payment_settings');
-			$statement = $this->db->manipulateF('
-				INSERT into payment_settings
-				(	settings_id,
-					bmf)
-				VALUES (%s, %s)',
-				array('integer','text'),
-				array($next_id, serialize($values))				
-			);
 
-			$this->setSettingsId($next_id);
-			
-		}		
+		$this->pSettings->set('bmf',serialize($values), 'bmf');
+
+//		if ($this->getSettingsId())
+//		{
+//
+//			$statement = $this->db->manipulateF('
+//				UPDATE payment_settings
+//				SET bmf = %s
+//				WHERE settings_id = %s',
+//				array('text', 'integer'),
+// 				array(serialize($values), $this->getSettingsId())
+//			);
+//		}
+//		else
+//		{
+//			$next_id = $ilDB->nextId('payment_settings');
+//			$statement = $this->db->manipulateF('
+//				INSERT into payment_settings
+//				(	settings_id,
+//					bmf)
+//				VALUES (%s, %s)',
+//				array('integer','text'),
+//				array($next_id, serialize($values))
+//			);
+//
+//			$this->setSettingsId($next_id);
+//
+//		}
+
 	}	
 }
 ?>

@@ -146,8 +146,8 @@ class ilShopSearchResult extends ilSearchResult
 	
 	public function __initSearchSettingsObject()
 	{
-		include_once 'Services/Payment/classes/class.ilGeneralSettings.php';
-		$maxhits = ilGeneralSettings::_getInstance()->get('max_hits'); 
+		include_once 'Services/Payment/classes/class.ilPaymentSettings.php';
+		$maxhits = ilPaymentSettings::_getInstance()->get('max_hits');
 		$this->setMaxHits(($maxhits > 0 ? $maxhits : 20));
 	}
 	

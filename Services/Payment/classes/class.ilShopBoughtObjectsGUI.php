@@ -127,9 +127,9 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 
 		include_once './classes/class.ilTemplate.php';
 		include_once './Services/Utilities/classes/class.ilUtil.php';
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 
-		$genSet = new ilGeneralSettings();
+		$genSet = ilPaymentSettings::_getInstance();
 		$currency = $genSet->get('currency_unit');
 
 		$user_id = $this->user_obj->getId();

@@ -4,7 +4,6 @@
 define ("IL_LIST_AS_TRIGGER", "trigger");
 define ("IL_LIST_FULL", "full");
 
-include_once 'Services/Payment/classes/class.ilGeneralSettings.php';
 
 /**
 * Class ilObjectListGUI
@@ -2716,7 +2715,7 @@ class ilObjectListGUI
 		}
 
 		if ($this->getCommandsStatus() || 
-			($this->payment_enabled && (bool)ilGeneralSettings::_getInstance()->get('shop_enabled')))
+			($this->payment_enabled && IS_PAYMENT_ENABLED))
 		{
 			if (!$this->getSeparateCommands())
 			{

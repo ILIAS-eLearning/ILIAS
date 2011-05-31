@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Payment/classes/class.ilShopTopic.php';
-include_once 'Services/Payment/classes/class.ilGeneralSettings.php';
+include_once 'Services/Payment/classes/class.ilPaymentSettings.php';
 
 /**
 * Class ilShopTopics
@@ -52,7 +52,7 @@ class ilShopTopics
 	{
 		global $ilUser;
 		
-		$oSettings = new ilGeneralSettings();
+		$oSettings = ilPaymentSettings::_getInstance();
 		
 		$this->topics = array();
 		

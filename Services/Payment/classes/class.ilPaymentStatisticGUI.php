@@ -945,8 +945,8 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$prices_obj = new ilPaymentPrices($pObjectId);
 		if (is_array($prices = $prices_obj->getPrices()))
 		{
-			include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-			$genSet = new ilGeneralSettings();
+			include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+			$genSet = ilPaymentSettings::_getInstance();
 			$currency_unit = $genSet->get('currency_unit');
 
 			foreach($prices as $price)
@@ -1081,8 +1081,8 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 			$this->booking_obj->setVatRate($obj_vat_rate);
 			$this->booking_obj->setVatUnit($obj_vat_unit);
 			
-			include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-			$genSet = new ilGeneralSettings();
+			include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+			$genSet = ilPaymentSettings::_getInstance();
 			$this->booking_obj->setCurrencyUnit( $genSet->get('currency_unit'));
 
 			include_once './Services/Payment/classes/class.ilPayMethods.php';

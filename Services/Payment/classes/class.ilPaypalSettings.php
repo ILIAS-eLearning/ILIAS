@@ -9,12 +9,15 @@
 * 
 * @ingroup payment
 */
+include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+
 class ilPaypalSettings
 {
 	private $db;
+	public $pSettings;
 
 	private $settings;
-	private $settings_id;
+	#private $settings_id;
 	
 	private $server_host;
 	private $server_path;
@@ -51,6 +54,7 @@ class ilPaypalSettings
 		global $ilDB;
 
 		$this->db = $ilDB;
+		$this->pSettings = ilPaymentSettings::_getInstance();
 
 		$this->getSettings();
 	}
@@ -62,14 +66,7 @@ class ilPaypalSettings
 	 */
 	private function getSettings()
 	{
-		$this->fetchSettingsId();
-		
-		$res = $this->db->queryf('
-			SELECT paypal FROM payment_settings WHERE settings_id = %s',
-			array('integer'), array($this->getSettingsId()));
-
-		$result = $this->db->fetchObject($res);
-		
+		$result->paypal = $this->pSettings->get('paypal');
 		$data = array();
 		if (is_object($result))
 		{
@@ -92,22 +89,17 @@ class ilPaypalSettings
 	 */
 	private function fetchSettingsId()
 	{
-
-		$res = $this->db->query('SELECT * FROM payment_settings');
-
-		$result = $this->db->fetchObject($res);
-		
-		$this->setSettingsId($result->settings_id);
+	
 	}
 	
 	public function setSettingsId($a_settings_id = 0)
 	{
-		$this->settings_id = $a_settings_id;
+	#	$this->settings_id = $a_settings_id;
 	}
 	
 	public function getSettingsId()
 	{
-		return $this->settings_id;
+	#	return $this->settings_id;
 	}
 	
 	public function setServerHost($a_server_host)
@@ -197,14 +189,7 @@ class ilPaypalSettings
 	 */
 	function clearAll()
 	{
-		$statement = $this->db->manipulateF('
-			UPDATE payment_settings
-			SET paypal = %s
-			WHERE settings_id = %s',
-			array('text', 'integer'), 
-			array('NULL', $this->getSettingsId()));
-
-					
+		$this->pSettings->set('paypal', NULL, 'paypal');
 		$this->settings = array();
 	}
 		
@@ -215,8 +200,6 @@ class ilPaypalSettings
 	 */
 	public function save()
 	{
-		global $ilDB;
-		
 		$values = array(
 			"server_host" => $this->getServerHost(),
 			"server_path" => $this->getServerPath(),
@@ -226,29 +209,7 @@ class ilPaypalSettings
 			"ssl" => $this->getSsl()			
 		);		
 
-		if ($this->getSettingsId())
-		{
-			$statement = $ilDB->manipulateF('
-				UPDATE payment_settings
-				SET paypal = %s
-				WHERE settings_id = %s',
-				array('text', 'integer'),
-				array(serialize($values), $this->getSettingsId()));
-
-		}
-		else
-		{
-			$next_id = $ilDB->nextId('payment_settings');
-			$statement = $ilDB->manipulateF('
-				INSERT INTO payment_settings
-				( 	settings_id,
-					paypal) 
-				VALUES (%s, %s)',
-				array('integer','text'), array($next_id, serialize($values)));
-			
-			$this->setSettingsId($next_id);			
-			
-		}
+		$this->pSettings->set('paypal', serialize($values), 'paypal');
 	}	
 }
 ?>

@@ -491,8 +491,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 		$this->initShoppingCartObject();
 
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-		$genSet = new ilGeneralSettings();
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+		$genSet = ilPaymentSettings::_getInstance();
 		$pay_methods = $this->_getPayMethods( true );
 		$num_items = 0;
 		$desc = array();
@@ -972,8 +972,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	*/	
 	private function showCouponInput($payment_type = '')
 	{
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-		$genSet = new ilGeneralSettings();
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+		$genSet = ilPaymentSettings::_getInstance();
 		
 		$tpl = new ilTemplate('tpl.pay_shopping_cart_coupons.html', true, true, 'Services/Payment');
 		
@@ -1023,8 +1023,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	*/	
 	private function showItemsTable(&$a_tpl, $a_result_set, $a_pay_method = 0)
 	{
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-		$genSet = new ilGeneralSettings();
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+		$genSet = ilPaymentSettings::_getInstance();
 		
 		include_once './Services/Payment/classes/class.ilShoppingCartTableGUI.php';
 

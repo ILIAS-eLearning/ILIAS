@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Payment/classes/class.ilShopBaseGUI.php';
-include_once 'Services/Payment/classes/class.ilGeneralSettings.php';
+include_once 'Services/Payment/classes/class.ilPaymentSettings.php';
 include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 include_once  './Services/Payment/classes/class.ilShopRepositoryExplorer.php';
 
@@ -55,7 +55,7 @@ class ilShopGUI extends ilShopBaseGUI
 		$this->setSortField($_POST['order_field']);
 		$this->setSortDirection($_SESSION['shop_content']['shop_order_direction']);
 
-		$this->gentSet = new ilGeneralSettings();
+		$this->genSet = ilPaymentSettings::_getInstance();
 	}
 
 	function executeCommand()
@@ -95,7 +95,7 @@ class ilShopGUI extends ilShopBaseGUI
 					case 'firstpage':
 						$this->clearFilter();
 
-						if(ilGeneralSettings::useShopSpecials() == true)
+						if(ilPaymentSettings::useShopSpecials() == true)
 						{
 							$cmd = 'showSpecialContent';
 						}

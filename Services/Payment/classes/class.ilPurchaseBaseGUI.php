@@ -269,7 +269,7 @@ class ilPurchaseBaseGUI
 	/**
 	* execute command
 	*/
-	function executeCommand()
+	public function executeCommand()
 	{
 		global $tree;
 
@@ -476,12 +476,12 @@ class ilPurchaseBaseGUI
 
 		include_once './classes/class.ilTemplate.php';
 		include_once './Services/Utilities/classes/class.ilUtil.php';
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 		include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
 		include_once 'Services/Mail/classes/class.ilMimeMail.php';
 
 		$psc_obj = new ilPaymentShoppingCart($this->user_obj);
-		$genSet = new ilGeneralSettings();
+		$genSet = ilPaymentSettings::_getInstance();
 		$currency = $genSet->get('currency_unit');
 
 		$tpl = new ilTemplate('./Services/Payment/templates/default/tpl.pay_bill.html', true, true, true);
@@ -856,9 +856,9 @@ class ilPurchaseBaseGUI
 	
 	function __showShoppingCart()
 	{
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 
-		$genSet = new ilGeneralSettings();
+		$genSet = ilPaymentSettings::_getInstance();
 		
 		$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
 		
@@ -923,11 +923,11 @@ class ilPurchaseBaseGUI
 		return $this->__showItemsTable($f_result);
 	}
 
-	function __showItemsTable($a_result_set)
+	private function __showItemsTable($a_result_set)
 	{
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 		
-		$genSet = new ilGeneralSettings();
+		$genSet = ilPaymentSettings::_getInstance();
 		include_once './Services/Payment/classes/class.ilShoppingCartTableGUI.php';
 
 		$tbl = new ilShoppingCartTableGUI($this);
@@ -959,7 +959,8 @@ class ilPurchaseBaseGUI
 				$tbl->setTotalData('TXT_SUB_TOTAL', $this->lng->txt('pay_bmf_subtotal_amount') . ": ");
 				$tbl->setTotalData('VAL_SUB_TOTAL', number_format($totalAmount[$this->pm_id], 2, ',', '.') . " " . $genSet->get('currency_unit'));
 				#$tbl->setTotalData('VAL_SUB_TOTAL',ilPaymentPrices::_formatPriceToString($totalAmount[$a_pay_method['pm_id']], (int)$this->default_currency['currency_id'] ));
-$totalAmount[$current_coupon_bonus] = 0;
+
+				$totalAmount[$current_coupon_bonus] = 0;
 				foreach ($_SESSION['coupons'][$this->session_var] as $coupon)
 				{
 					$this->coupon_obj->setId($coupon['pc_pk']);

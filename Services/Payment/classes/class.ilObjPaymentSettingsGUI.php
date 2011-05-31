@@ -24,10 +24,10 @@ include_once './Services/Payment/classes/class.ilFileDataShop.php';
 include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 include_once './Services/Payment/classes/class.ilPaymentBookings.php';
-include_once './Services/Payment/classes/class.ilGeneralSettings.php';
+include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 include_once './Services/Payment/classes/class.ilShopTableGUI.php';
-include_once 'Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
+include_once './Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
 include_once './Services/Payment/classes/class.ilUserDefinedInvoiceNumber.php';
 
 class ilObjPaymentSettingsGUI extends ilObjectGUI
@@ -51,8 +51,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$this->pobject = new ilPaymentObject($this->user_obj);
 		
-		$genSet = new ilGeneralSettings();
-		$this->genSetData = $genSet->getAll();
+		$this->genSetData = ilPaymentSettings::_getInstance();
+		#$this->genSetData = $genSet->getAll();
 
 		$this->type = 'pays';
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
@@ -610,9 +610,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			return true;
 		}
 
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-
-		$genSet = new ilGeneralSettings();
+		$genSet = ilPaymentSettings::_getInstance();
 
 		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);
 
@@ -2055,12 +2053,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html','Services/Payment');		
 
-		$genSet = new ilGeneralSettings();
-		$genSetData = $genSet->getAll();		
+		$genSet = ilPaymentSettings::_getInstance();
+		$genSetData = $genSet->getAll();
 						
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveGeneralSettings'));
@@ -2221,9 +2217,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
 
-		$genSet = new ilGeneralSettings();
+		$genSet = ilPaymentSettings::_getInstance();
 
 		if ($_POST['currency_unit'] == '' ||
 			$_POST['address'] == '' ||
@@ -2235,35 +2230,29 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$this->generalSettingsObject();
 			return;
 		}
+
+		$genSet->set('currency_unit', $_POST['currency_unit'], 'currencies');
+		$genSet->set('address', $_POST['address'], 'invoice');
+		$genSet->set('bank_data', $_POST['bank_data'], 'invoice');
+		$genSet->set('add_info', $_POST['add_info'], 'invoice');
+		$genSet->set('pdf_path', $_POST['pdf_path'], 'invoice');
 		
-		$genSet->clearAll();
-				
-		$values = array(
-			'currency_unit',
-			'address',
-			'bank_data',
-			'add_info',
-			'pdf_path',
-			'topics_allow_custom_sorting',
-			'topics_sorting_type',
-			'topics_sorting_direction',
-			'max_hits',
-			'shop_enabled',
-			'hide_advanced_search',
-			//'hide_filtering',
-			'objects_allow_custom_sorting',
-			'hide_coupons',
-			'hide_news',
-			'hide_shop_info',
-			'use_shop_specials',
-			'show_general_filter',
-			'show_topics_filter',
-			'show_shop_explorer'
-		);
-		
-		foreach ($values as $value) $values[$value] = ilUtil::stripSlashes($_POST[$value]);		
-		
-		$genSet->setAll($values);
+		$genSet->set('topics_allow_custom_sorting', $_POST['topics_allow_custom_sorting'], 'gui');
+		$genSet->set('topics_sorting_type', $_POST['topics_sorting_type'], 'gui');
+		$genSet->set('topics_sorting_direction', $_POST['topics_sorting_direction'], 'gui');
+		$genSet->set('max_hits', $_POST['max_hits'], 'gui');
+		$genSet->set('shop_enabled', $_POST['shop_enabled'], 'common');
+		$genSet->set('hide_advanced_search', $_POST['hide_advanced_search'], 'gui');
+		#$genSet->set('hide_filtering', $_POST['hide_filtering'], 'gui');
+		$genSet->set('objects_allow_custom_sorting', $_POST['objects_allow_custom_sorting'], 'gui');
+		$genSet->set('hide_coupons', $_POST['hide_coupons'], 'gui');
+		$genSet->set('hide_news', $_POST['hide_news'], 'gui');
+		$genSet->set('hide_shop_info', $_POST['hide_shop_info'], 'gui');
+		$genSet->set('use_shop_specials', $_POST['use_shop_specials'], 'gui');
+		$genSet->set('show_general_filter', $_POST['show_general_filter'], 'gui');
+		$genSet->set('show_topics_filter', $_POST['show_topics_filter'], 'gui');
+		$genSet->set('show_shop_explorer', $_POST['show_shop_explorer'], 'gui');
+
 		$this->generalSettingsObject();
 
 		ilUtil::sendSuccess($this->lng->txt('pays_updated_general_settings'));
@@ -3683,8 +3672,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		
 		if (is_array($prices = $prices_obj->getPrices()))
 		{
-			include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-			$genSet = new ilGeneralSettings();
+			$genSet = ilPaymentSettings::_getInstance();
 			$currency_unit = $genSet->get('currency_unit');
 
 			foreach($prices as $price)
@@ -3800,8 +3788,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->booking_obj->setVatRate($obj_vat_rate);
 		$this->booking_obj->setVatUnit($obj_vat_unit);
 
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-		$genSet = new ilGeneralSettings();
+		$genSet =ilPaymentSettings::_getInstance();
 		$this->booking_obj->setCurrencyUnit( $genSet->get('currency_unit'));
 
 		include_once './Services/Payment/classes/class.ilPayMethods.php';
@@ -4511,7 +4498,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		// MESSAGE
 		$inp = new ilTextAreaInputGUI($this->lng->txt('message_content'), 'm_message');
 
-		$inp->setValue(ilGeneralSettings::getMailBillingText());
+		$inp->setValue(ilPaymentSettings::getMailBillingText());
 		$inp->setRequired(false);
 		$inp->setCols(60);
 		$inp->setRows(10);
@@ -4520,7 +4507,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$chb = new ilCheckboxInputGUI($this->lng->txt('activate_placeholders'), 'use_placeholders');
 		$chb->setOptionTitle($this->lng->txt('activate_placeholders'));
 		$chb->setValue(1);
-		$chb->setChecked(ilGeneralSettings::getMailUsePlaceholders());
+		$chb->setChecked(ilPaymentSettings::getMailUsePlaceholders());
 		$form_gui->addItem($inp);
 
 		include_once 'Services/Payment/classes/class.ilBillingMailPlaceholdersPropertyGUI.php';
@@ -4541,11 +4528,11 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{
 		if($_POST['m_message'])
 		{
-			ilGeneralSettings::setMailBillingText($_POST['m_message']);
+			ilPaymentSettings::setMailBillingText($_POST['m_message']);
 		}
 
 		$_POST['use_placeholders'] ? $placeholders = 1: $placeholders = 0;
-		ilGeneralSettings::setMailUsePlaceholders($placeholders);
+		ilPaymentSettings::setMailUsePlaceholders($placeholders);
 
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		$this->BillingMailObject();

@@ -13,7 +13,7 @@ include_once './Services/Payment/classes/class.ilTermsConditionsGUI.php';
 
 include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
 include_once './Services/Payment/classes/class.ilPaymentObject.php';
-include_once './Services/Payment/classes/class.ilGeneralSettings.php';
+include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 include_once './Services/Payment/classes/class.ilPaymentVendors.php';
 include_once './Services/Payment/classes/class.ilPaymentTrustees.php';
 include_once './Services/Payment/classes/class.ilPaymentBookings.php';
@@ -58,8 +58,8 @@ class ilShopController
 	public function executeCommand()
 	{		
 		global $ilUser;
-		
-		if(!(bool)ilGeneralSettings::_getInstance()->get('shop_enabled'))
+
+		if(!IS_PAYMENT_ENABLED)
 		{
 			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
@@ -75,7 +75,7 @@ class ilShopController
 			$next_class = $cmd_class;
 		}
 
-		$obj = new ilGeneralSettings();
+		$obj = ilPaymentSettings::_getInstance();
 		$allSet = $obj->getAll();
 
 		if(($ilUser->getId() == ANONYMOUS_USER_ID) && $next_class == 'ilshopboughtobjectsgui')
@@ -178,7 +178,7 @@ class ilShopController
 
 		$shop_obj = new ilPaymentShoppingCart($ilUser);
 		
-		$obj = new ilGeneralSettings();
+		$obj = ilPaymentSettings::_getInstance();
 		$allSet = $obj->getAll();
 				
 		$ilTabs->addTarget('content', $this->ctrl->getLinkTargetByClass('ilshopgui','firstpage'), '', '', '');
@@ -196,7 +196,7 @@ class ilShopController
 		}
 		if(ANONYMOUS_USER_ID != $ilUser->getId())
 		{
-			if((bool)ilGeneralSettings::_getInstance()->get('topics_allow_custom_sorting'))
+			if((bool)ilPaymentSettings::_getInstance()->get('topics_allow_custom_sorting'))
 			{
 				$ilTabs->addTarget('pay_personal_settings', $this->ctrl->getLinkTargetByClass('ilshoppersonalsettingsgui'), '', '', '');
 			}

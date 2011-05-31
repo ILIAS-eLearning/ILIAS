@@ -500,8 +500,7 @@ class ilPaymentObject
 		// check if user is vendor/trustee
 		$vendors_of_trustee = ilPaymentTrustees::_getVendorIdsByTrustee($ilUser->getId());
 		
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-		if(!(bool)ilGeneralSettings::_getInstance()->get('shop_enabled'))
+		if(!IS_PAYMENT_ENABLED)
 		{
 			return true;
 		}
@@ -565,8 +564,8 @@ class ilPaymentObject
 	{
 		global $ilDB;
 
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-		if(!(bool)ilGeneralSettings::_getInstance()->get('shop_enabled'))
+		
+		if(!IS_PAYMENT_ENABLED)
 		{
 			return false;
 		}

@@ -300,8 +300,8 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 	{
 		global $ilToolbar;
 		
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-		$genSet = new ilGeneralSettings();
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+		$genSet = ilPaymentSettings::_getInstance();
 
 		if(!(int)$_GET['pobject_id'])
 		{	
@@ -540,8 +540,8 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
 		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-		$genSet = new ilGeneralSettings();
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+		$genSet = ilPaymentSettings::_getInstance();
 		
 		if($a_show_delete == false) unset($_SESSION['price_ids']);
 		
@@ -741,9 +741,9 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			return true;
 		}
 
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 
-		$genSet = new ilGeneralSettings();
+		$genSet = ilPaymentSettings::_getInstance();
 
 
 		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);

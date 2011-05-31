@@ -384,8 +384,6 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		$oForm->addItem($o_coupon_type);
 		
 		// Value
-		include_once './Services/Payment/classes/class.ilGeneralSettings.php';
-
 	
 		$o_coupon_value = new ilTextInputGUI($this->lng->txt('paya_coupons_value'),'coupon_value');
 		$o_coupon_value->setValue($this->coupon_obj->getValue());
