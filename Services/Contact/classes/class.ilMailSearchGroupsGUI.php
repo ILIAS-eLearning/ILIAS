@@ -385,7 +385,11 @@ class ilMailSearchGroupsGUI
 		
 		$searchTpl->setVariable('TABLE', $table->getHtml());
 		$this->tpl->setContent($searchTpl->get());
-		$this->tpl->show();
+		
+		if($_GET["ref"] != "wsp")
+		{		
+			$this->tpl->show();
+		}
 	}
 
 	/**
@@ -462,7 +466,11 @@ class ilMailSearchGroupsGUI
 			}
 			$searchTpl->setVariable('TABLE', $table->getHtml());
 			$this->tpl->setContent($searchTpl->get());
-			$this->tpl->show();
+			
+			if($_GET["ref"] != "wsp")
+			{	
+				$this->tpl->show();
+			}
 		}
 	}
 

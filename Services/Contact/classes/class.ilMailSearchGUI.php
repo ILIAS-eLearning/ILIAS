@@ -43,7 +43,7 @@ class ilMailSearchGUI
 
 	private $errorDelete = false;
 
-	public function __construct()
+	public function __construct($wsp_access_handler = null, $wsp_node_id = null)
 	{
 		global $tpl, $ilCtrl, $lng, $ilUser;
 
@@ -51,7 +51,12 @@ class ilMailSearchGUI
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		
+		// personal workspace
+		$this->wsp_access_handler = $wsp_access_handler;
+		$this->wsp_node_id = $wsp_node_id;
+		
 		$this->ctrl->saveParameter($this, "mobj_id");
+		$this->ctrl->saveParameter($this, "ref");
 
 		$this->umail = new ilFormatMail($ilUser->getId());
 	}
@@ -87,7 +92,14 @@ class ilMailSearchGUI
 		$_SESSION["mail_search_results_cc"] = $_POST["search_name_cc"];
 		$_SESSION["mail_search_results_bcc"] = $_POST["search_name_bcc"];
 
-		$this->saveMailData();
+		if($_GET["ref"] != "wsp")
+		{	
+			$this->saveMailData();
+		}
+		else
+		{
+			$this->addPermission($recipients);
+		}
 		
 		$this->ctrl->returnToParent($this);
 	}
@@ -142,21 +154,26 @@ class ilMailSearchGUI
 		
 		return true;
 	}
-
-	public function showResults()
-	{	
-		global $rbacsystem, $lng, $ilUser, $ilCtrl, $rbacreview;
+	
+	protected function initSearchForm()
+	{
+		global $ilCtrl;
 		
-		$this->saveMailData();
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_search.html", "Services/Contact");
-		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
-
-		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
+		if($_GET["ref"] != "wsp")
+		{
+			$this->saveMailData();
+			$title = $this->lng->txt('search_recipients');
+		}
+		else
+		{
+			$this->lng->loadLanguageModule("wsp");
+			$title = $this->lng->txt("wsp_share_search_users");
+		}
+		
 		// searchform
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
-		$form->setTitle($this->lng->txt('search_recipients'));
+		$form->setTitle($title);
 		$form->setId('search_rcp');
 		$form->setFormAction($ilCtrl->getFormAction($this, 'search'));
 		
@@ -181,8 +198,21 @@ class ilMailSearchGUI
 		$form->addCommandButton('search', $this->lng->txt("search"));
 		$form->addCommandButton('cancel', $this->lng->txt("cancel"));
 		
+		return $form;
+	}
+
+	public function showResults()
+	{	
+		global $rbacsystem, $lng, $ilUser, $ilCtrl, $rbacreview;
+		
+		$form = $this->initSearchForm();
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_search.html", "Services/Contact");
+		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
+
+		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
+		
 		$this->tpl->setVariable('SEARCHFORM', $form->getHtml());
-		// searchform end		
 
 		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
 		{
@@ -204,6 +234,18 @@ class ilMailSearchGUI
 			$abook = new ilAddressbook($ilUser->getId());
 			$entries = $abook->searchUsers(addslashes(urldecode($_SESSION['mail_search_search'])));
 
+			// remove all contacts who are not registered users for personal workspace
+			if($_GET["ref"] == "wsp")
+			{
+				foreach($entries as $idx => $entry)
+				{				
+					if(!$entry["login"])
+					{
+						unset($entries[$idx]);
+					}
+				}
+			}
+			
 			if (count($entries))
 			{
 				$tbl_addr = new ilTable2GUI($this);
@@ -214,24 +256,40 @@ class ilMailSearchGUI
 				$counter = 0;		
 				foreach ($entries as $entry)
 				{
-					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_addr[]', ($entry['login'] ? $entry['login'] : $entry['email'])) . 
-										          ilUtil::formCheckbox(0, 'search_name_cc[]', ($entry['login'] ? $entry['login'] : $entry['email'])) .
-										          ilUtil::formCheckbox(0, 'search_name_bcc[]', ($entry['login'] ? $entry['login'] : $entry['email']));		
+					if($_GET["ref"] != "wsp")
+					{
+						$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_addr[]', ($entry['login'] ? $entry['login'] : $entry['email'])) . 
+													  ilUtil::formCheckbox(0, 'search_name_cc[]', ($entry['login'] ? $entry['login'] : $entry['email'])) .
+													  ilUtil::formCheckbox(0, 'search_name_bcc[]', ($entry['login'] ? $entry['login'] : $entry['email']));	
+					}
+					else
+					{
+						$user_id = ilObjUser::_loginExists($entry["login"]);
+						$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_addr[]', $user_id); 
+					}
+
 					$result[$counter]['login'] = $entry['login'];
 					$result[$counter]['firstname'] = $entry['firstname'];
 					$result[$counter]['lastname'] = $entry['lastname'];	
-					
+
 					$id = ilObjUser::_lookupId($entry['login']);						
 					if (ilObjUser::_lookupPref($id, 'public_email') == 'y' || !$entry['login'])
 					{
 						$has_mail_addr = true;
 						$result[$counter]['email'] = $entry['email'];
 					}					
-					
-					++$counter;
+
+					++$counter;					
 				}							
 
-				$tbl_addr->addColumn($this->lng->txt('mail_to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
+				if($_GET["ref"] != "wsp")
+				{
+					$tbl_addr->addColumn($this->lng->txt('mail_to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
+				}
+				else
+				{
+					$tbl_addr->addColumn("",  "", "1%");
+				}
 			 	$tbl_addr->addColumn($this->lng->txt('login'), 'login', "15%");
 			 	$tbl_addr->addColumn($this->lng->txt('firstname'), 'firstname', "15%");
 			 	$tbl_addr->addColumn($this->lng->txt('lastname'), 'lastname', "15%");
@@ -306,9 +364,16 @@ class ilMailSearchGUI
 				{					
 					$login = ilObjUser::_lookupLogin($user);			
 
-					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_usr[]', $login) . 
-							  					  ilUtil::formCheckbox(0, 'search_name_cc[]', $login) .
-												  ilUtil::formCheckbox(0, 'search_name_bcc[]', $login);		
+					if($_GET["ref"] != "wsp")
+					{
+						$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_usr[]', $login) . 
+													  ilUtil::formCheckbox(0, 'search_name_cc[]', $login) .
+													  ilUtil::formCheckbox(0, 'search_name_bcc[]', $login);		
+					}
+					else
+					{
+						$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_usr[]', $user);
+					}
 					$result[$counter]['login'] = $login;
 					
 					if (in_array(ilObjUser::_lookupPref($user, 'public_profile'), array('y',"g")))
@@ -332,7 +397,14 @@ class ilMailSearchGUI
 					++$counter;
 				}							
 				
-				$tbl_users->addColumn($this->lng->txt('mail_to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
+				if($_GET["ref"] != "wsp")
+				{
+					$tbl_users->addColumn($this->lng->txt('mail_to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
+				}
+				else
+				{
+					$tbl_users->addColumn("", "", "1%");
+				}
 			 	$tbl_users->addColumn($this->lng->txt('login'), 'login', '15%');
 			 	$tbl_users->addColumn($this->lng->txt('firstname'), 'firstname', '15%');
 			 	$tbl_users->addColumn($this->lng->txt('lastname'), 'lastname', '15%');
@@ -369,22 +441,29 @@ class ilMailSearchGUI
 				
 				
 				foreach ($groups as $grp)
-				{	
-					$members = array();
-					$roles = $rbacreview->getAssignableChildRoles($grp['ref_id']);
-					foreach ($roles as $role)
+				{
+					if($_GET["ref"] != "wsp")
 					{
-						if (substr($role['title'], 0, 14) == 'il_grp_member_' ||
-						    substr($role['title'], 0, 13) == 'il_grp_admin_')
+						$members = array();
+						$roles = $rbacreview->getAssignableChildRoles($grp['ref_id']);
+						foreach ($roles as $role)
 						{
-							array_push($members, $rbacreview->getRoleMailboxAddress($role['obj_id']));
+							if (substr($role['title'], 0, 14) == 'il_grp_member_' ||
+								substr($role['title'], 0, 13) == 'il_grp_admin_')
+							{
+								array_push($members, $rbacreview->getRoleMailboxAddress($role['obj_id']));
+							}
 						}
+						$str_members = implode(',',$members);
+						
+						$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_grp[]', $str_members) . 
+													  ilUtil::formCheckbox(0, 'search_name_cc[]', $str_members) .
+													  ilUtil::formCheckbox(0, 'search_name_bcc[]',$str_members);		
 					}
-					$str_members = implode(',',$members);
-					
-					$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_grp[]', $str_members) . 
-							  					  ilUtil::formCheckbox(0, 'search_name_cc[]', $str_members) .
-												  ilUtil::formCheckbox(0, 'search_name_bcc[]',$str_members);		
+					else
+					{
+						$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_grp[]', ilObject::_lookupObjId($grp['ref_id'])); 
+					}
 					$result[$counter]['title'] = $grp['title'];
 					$result[$counter]['description'] = $grp['description'];
 											
@@ -392,13 +471,20 @@ class ilMailSearchGUI
 				}
 				$tbl_grp->setData($result);			
 
-				$tbl_grp->addColumn($this->lng->txt('mail_to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
+				if($_GET["ref"] != "wsp")
+				{
+					$tbl_grp->addColumn($this->lng->txt('mail_to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
+				}
+				else
+				{
+					$tbl_grp->addColumn("", "", "1%");
+				}
 			 	$tbl_grp->addColumn($this->lng->txt('title'), 'title', '15%');
 			 	$tbl_grp->addColumn($this->lng->txt('description'), 'description', '15%');
 
 			 	$tbl_grp->setDefaultOrderField('title');							
 				$tbl_grp->setPrefix('grp_');			
-				$tbl_grp->enable('select_all');				
+				$tbl_grp->enable('select_all');		
 				$tbl_grp->setSelectAllCheckbox('search_name_to_grp');
 				$tbl_grp->setFormName('recipients');			
 	
@@ -410,7 +496,15 @@ class ilMailSearchGUI
 		{
 			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 			$this->tpl->setVariable("ALT_ARROW", '');
-			$this->tpl->setVariable('BUTTON_ADOPT', $this->lng->txt('adopt'));	
+			
+			if($_GET["ref"] != "wsp")
+			{
+				$this->tpl->setVariable('BUTTON_ADOPT', $this->lng->txt('adopt'));	
+			}
+			else
+			{
+				$this->tpl->setVariable('BUTTON_ADOPT', $this->lng->txt('wsp_share_with_members'));	
+			}
 		}
 		else if (strlen(trim($_SESSION["mail_search_search"])) >= 3)
 		{
@@ -418,7 +512,33 @@ class ilMailSearchGUI
 			ilUtil::sendInfo($this->lng->txt('search_no_match'));
 		}		
 		
-		$this->tpl->show();
+		if($_GET["ref"] != "wsp")
+		{
+			$this->tpl->show();
+		}
+	}
+	
+	protected function addPermission($a_obj_ids)
+	{
+		if(!is_array($a_obj_ids))
+		{
+			$a_obj_ids = array($a_obj_ids);
+		}
+		
+		$existing = $this->wsp_access_handler->getPermissions($this->wsp_node_id);
+		$added = false;
+		foreach($a_obj_ids as $object_id)
+		{
+			if(!in_array($object_id, $existing))
+			{
+				$added = $this->wsp_access_handler->addPermission($this->wsp_node_id, $object_id);
+			}
+		}
+		
+		if($added)
+		{
+			ilUtil::sendSuccess($this->lng->txt("wsp_share_success"), true);
+		}		
 	}
 }
 ?>

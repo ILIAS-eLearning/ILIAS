@@ -11478,3 +11478,4 @@ wsp#:#wsp_set_permission_all_password#:#Publish (Password required)
 wsp#:#wsp_permission_removed#:#The item has been removed.
 wsp#:#wsp_share_with_members#:#Share with members
 wsp#:#wsp_share_success#:#A new entry has been added.
+wsp#:#wsp_share_search_users#:#Search Users
