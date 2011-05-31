@@ -115,6 +115,35 @@ class ilTestSession
 		return $this->ref_id;
 	}
 	
+	private function activeIDExists($user_id, $test_id)
+	{
+		global $ilDB;
+
+		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		{
+			$result = $ilDB->queryF("SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+				array('integer','integer'),
+				array($user_id, $test_id)
+			);
+			if ($result->numRows())
+			{
+				$row = $ilDB->fetchAssoc($result);
+				$this->active_id = $row["active_id"];
+				$this->active_id = $row["active_id"];
+				$this->user_id = $row["user_fi"];
+				$this->anonymous_id = $row["anonymous_id"];
+				$this->test_id = $row["test_fi"];
+				$this->lastsequence = $row["lastindex"];
+				$this->pass = $row["tries"];
+				$this->submitted = ($row["submitted"]) ? TRUE : FALSE;
+				$this->submittedTimestamp = $row["submittimestamp"];
+				$this->tstamp = $row["tstamp"];
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	function increaseTestPass()
 	{
 		global $ilDB, $ilLog;
@@ -146,34 +175,35 @@ class ilTestSession
 				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 				ilLPStatusWrapper::_updateStatus(ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
 					ilObjTestAccess::_getParticipantId($this->active_id));
-
 			}
 			else
 			{
-				$anonymous_id = ($this->getAnonymousId()) ? $this->getAnonymousId() : NULL;
-				$next_id = $ilDB->nextId('tst_active');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO tst_active (active_id, user_fi, anonymous_id, test_fi, lastindex, tries, submitted, submittimestamp, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-					array('integer', 'integer', 'text', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'integer'),
-					array(
-						$next_id,
-						$this->getUserId(),
-						$anonymous_id,
-						$this->getTestId(),
-						$this->getLastSequence(),
-						$this->getPass(),
-						$submitted,
-						(strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL,
-						time()
-					)
-				);
-				$this->active_id = $next_id;
+				if (!$this->activeIDExists($this->getUserId(), $this->getTestId()))
+				{
+					$anonymous_id = ($this->getAnonymousId()) ? $this->getAnonymousId() : NULL;
+					$next_id = $ilDB->nextId('tst_active');
+					$affectedRows = $ilDB->manipulateF("INSERT INTO tst_active (active_id, user_fi, anonymous_id, test_fi, lastindex, tries, submitted, submittimestamp, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+						array('integer', 'integer', 'text', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'integer'),
+						array(
+							$next_id,
+							$this->getUserId(),
+							$anonymous_id,
+							$this->getTestId(),
+							$this->getLastSequence(),
+							$this->getPass(),
+							$submitted,
+							(strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL,
+							time()
+						)
+					);
+					$this->active_id = $next_id;
 
-				// update learning progress
-				include_once("./Modules/Test/classes/class.ilObjTestAccess.php");
-				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-				ilLPStatusWrapper::_updateStatus(ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
-					$this->getUserId());
-
+					// update learning progress
+					include_once("./Modules/Test/classes/class.ilObjTestAccess.php");
+					include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+					ilLPStatusWrapper::_updateStatus(ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
+						$this->getUserId());
+				}
 			}
 		}
 	}
@@ -205,30 +235,32 @@ class ilTestSession
 		}
 		else
 		{
-			$anonymous_id = ($this->getAnonymousId()) ? $this->getAnonymousId() : NULL;
-			$next_id = $ilDB->nextId('tst_active');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_active (active_id, user_fi, anonymous_id, test_fi, lastindex, tries, submitted, submittimestamp, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-				array('integer', 'integer', 'text', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'integer'),
-				array(
-					$next_id,
-					$this->getUserId(),
-					$anonymous_id,
-					$this->getTestId(),
-					$this->getLastSequence(),
-					$this->getPass(),
-					$submitted,
-					(strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL,
-					time()-10
-				)
-			);
-			$this->active_id = $next_id;
+			if (!$this->activeIDExists($this->getUserId(), $this->getTestId()))
+			{
+				$anonymous_id = ($this->getAnonymousId()) ? $this->getAnonymousId() : NULL;
+				$next_id = $ilDB->nextId('tst_active');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO tst_active (active_id, user_fi, anonymous_id, test_fi, lastindex, tries, submitted, submittimestamp, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+					array('integer', 'integer', 'text', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'integer'),
+					array(
+						$next_id,
+						$this->getUserId(),
+						$anonymous_id,
+						$this->getTestId(),
+						$this->getLastSequence(),
+						$this->getPass(),
+						$submitted,
+						(strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL,
+						time()-10
+					)
+				);
+				$this->active_id = $next_id;
 
-			// update learning progress
-			include_once("./Modules/Test/classes/class.ilObjTestAccess.php");
-			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-			ilLPStatusWrapper::_updateStatus(ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
-				$this->getUserId());
-
+				// update learning progress
+				include_once("./Modules/Test/classes/class.ilObjTestAccess.php");
+				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+				ilLPStatusWrapper::_updateStatus(ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
+					$this->getUserId());
+			}
 		}
 		
 		include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
