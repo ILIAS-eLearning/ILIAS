@@ -71,8 +71,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		
 		unset($_SESSION['clipboard']['wsp2repo']);
 
-		$ilTabs->activateTab("content");
-		
 		include_once "Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderTableGUI.php";
 		$table = new ilObjWorkspaceFolderTableGUI($this, "render", $this->node_id);
 		$tpl->setContent($table->getHTML());
@@ -80,6 +78,11 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		include_once "Modules/WorkspaceFolder/classes/class.ilWorkspaceFolderExplorer.php";
 		$exp = new ilWorkspaceFolderExplorer($this->ctrl->getLinkTarget($this), $ilUser->getId());
 
+		if($this->node_id != $exp->getRoot())
+		{
+			$ilTabs->activateTab("content");
+		}
+		
 		$left = "";
 
 		// sub-folders

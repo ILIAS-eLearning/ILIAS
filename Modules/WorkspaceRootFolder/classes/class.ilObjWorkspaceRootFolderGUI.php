@@ -20,6 +20,54 @@ class ilObjWorkspaceRootFolderGUI extends ilObjWorkspaceFolderGUI
 	{
 		return "wsrt";
 	}
+	
+	function setTabs()
+	{
+		global $ilTabs, $lng, $ilCtrl;
+		
+		$ilTabs->addTab("wsp", $lng->txt("wsp_tab_personal"), 
+			$ilCtrl->getLinkTarget($this, ""));
+		$ilTabs->addTab("share", $lng->txt("wsp_tab_shared"), 
+			$ilCtrl->getLinkTarget($this, "share"));
+		
+		if(stristr($ilCtrl->getCmd(), "share"))
+		{
+			$ilTabs->activateTab("share");
+		}
+		else
+		{
+			$ilTabs->activateTab("wsp");
+		}
+	}
+	
+	function share()
+	{
+		global $tpl;
+		
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
+		$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler());		
+		$tpl->setContent($tbl->getHTML());					
+	}
+	
+	function applyShareFilter()
+	{
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
+		$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler());		
+		$tbl->resetOffset();
+		$tbl->writeFilterToSession();
+		
+		$this->share();
+	}
+	
+	function resetShareFilter()
+	{
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
+		$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler());		
+		$tbl->resetOffset();
+		$tbl->resetFilter();
+		
+		$this->share();
+	}
 }
 
 ?>
