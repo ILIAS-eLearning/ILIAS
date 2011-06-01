@@ -51,12 +51,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		{
 			$this->addColumn($this->lng->txt("path"), "path");
 			$this->addColumn($this->lng->txt("action"), "action");
-			parent::initFilter(true);
 		}
-		else
-		{
-			$this->initFilter($a_parent_obj->getObjId());
-		}
+		$this->initFilter();
 
 		// $this->setExternalSorting(true);
 		$this->setEnableHeader(true);
@@ -168,9 +164,14 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	/**
 	* Init filter
 	*/
-	function initFilter($a_obj_id)
+	function initFilter()
 	{
 		global $lng, $ilSetting;
+		
+		if($this->ref_id == ROOT_FOLDER_ID)
+		{
+			return parent::initFilter(true);
+		}
 
 		$item = $this->addFilterItemByMetaType("user_total", ilTable2GUI::FILTER_NUMBER_RANGE, true);
 		$this->filter["user_total"] = $item->getValue();
