@@ -3807,8 +3807,8 @@ common#:#obj_tags#:#Tagging
 common#:#obj_tax#:#Taxonomy
 common#:#obj_taxf_desc#:#Folder for taxonomies
 common#:#obj_taxf#:#Taxonomies
-common#:#obj_trac_desc#:#User access tracking data
-common#:#obj_trac#:#Tracking and Learning Progress
+common#:#obj_trac_desc#:#Statistics and Learning Progress Settings and Overview
+common#:#obj_trac#:#Statistics and Learning Progress
 common#:#obj_tst_duplicate#:#Copy Test
 common#:#obj_tst_select#:#-- Please select one Test --
 common#:#obj_tst#:#Test
@@ -10965,7 +10965,7 @@ trac#:#trac_object_stat_types#:#Number of Objects
 trac#:#trac_reference#:#References
 trac#:#trac_trash#:#moved to Trash
 trac#:#trac_object_stat_daily#:#Daily Usage
-trac#:#trac_object_stat_admin#:#Data Cleansing
+trac#:#trac_object_stat_admin#:#Manage Data
 trac#:#trac_delete_data#:#Delete Data
 trac#:#trac_sure_delete_data#:#Are you sure you want to delete the complete data for the following months?
 trac#:#trac_data_deleted#:#Data has been deleted.
