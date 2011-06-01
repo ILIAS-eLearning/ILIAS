@@ -29,7 +29,7 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
 		$this->addColumn($lng->txt("month"), "month");
 		$this->addColumn($lng->txt("count"), "count");
 
-		$this->setTitle($this->lng->txt("learning_progress"));
+		$this->setTitle($this->lng->txt("trac_object_stat_admin"));
 
 		// $this->setSelectAllCheckbox("item_id");
 		$this->addMultiCommand("confirmDeleteData", $lng->txt("trac_delete_data"));

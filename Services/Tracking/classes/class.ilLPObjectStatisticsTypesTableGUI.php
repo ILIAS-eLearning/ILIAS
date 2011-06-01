@@ -33,7 +33,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		$this->addColumn($lng->txt("trac_reference"), "references");
 		$this->addColumn($lng->txt("trac_trash"), "deleted");
 	
-		$this->setTitle($this->lng->txt("learning_progress"));
+		$this->setTitle($this->lng->txt("trac_object_stat_types"));
 
 		// $this->setSelectAllCheckbox("item_id");
 		$this->addMultiCommand("showTypesGraph", $lng->txt("trac_show_graph"));

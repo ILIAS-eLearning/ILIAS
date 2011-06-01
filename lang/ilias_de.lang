@@ -3781,8 +3781,8 @@ common#:#obj_tags_desc#:#Einstellungen für Tagging
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomienordner
 common#:#obj_taxf_desc#:#Ordner für Taxonomien
-common#:#obj_trac#:#Zugriffsstatistiken
-common#:#obj_trac_desc#:#Benutzerzugriff Tracking-Daten
+common#:#obj_trac#:#Zugriffsstatistiken und Lernfortschritt
+common#:#obj_trac_desc#:#Statistik- und Lernfortschrittseinstellungen und Übersicht
 common#:#obj_tst#:#Test
 common#:#obj_tst_duplicate#:#Test kopieren
 common#:#obj_tst_select#:#-- Bitte wählen Sie einen Test aus --
@@ -10967,7 +10967,7 @@ trac#:#trac_object_stat_types#:#Anzahl der Objekte
 trac#:#trac_reference#:#Referenzen
 trac#:#trac_trash#:#davon im Papierkorb
 trac#:#trac_object_stat_daily#:#Tagesverlauf
-trac#:#trac_object_stat_admin#:#Datenbereinigung
+trac#:#trac_object_stat_admin#:#Datenverwaltung
 trac#:#trac_delete_data#:#Daten löschen
 trac#:#trac_sure_delete_data#:#Wollen Sie wirklich die Daten der folgenden Monate löschen?
 trac#:#trac_data_deleted#:#Die Daten wurden gelöscht.

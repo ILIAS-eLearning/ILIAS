@@ -42,7 +42,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		}
 		$this->addColumn($lng->txt("total"), "total");
 
-		$this->setTitle($this->lng->txt("learning_progress"));
+		$this->setTitle($this->lng->txt("trac_object_stat_access"));
 
 		// $this->setSelectAllCheckbox("item_id");
 		$this->addMultiCommand("showAccessGraph", $lng->txt("trac_show_graph"));
