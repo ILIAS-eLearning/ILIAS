@@ -233,6 +233,69 @@ class ilWorkspaceAccessHandler
 			" AND object_id = ".$ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD, "integer"));
 		return (bool)$ilDB->numRows($set);
 	}
+	
+	protected function getPossibleSharedTargets()
+	{
+		global $ilUser;
+		
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
+		include_once "Services/Membership/classes/class.ilParticipants.php";
+		$grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "grp");
+		$crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "crs");
+		
+		$obj_ids = array_merge($grp_ids, $crs_ids);
+		$obj_ids[] = $ilUser->getId();
+		$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_REGISTERED;
+		$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD;
+		$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_ALL;
+		
+		return $obj_ids;
+	}
+	
+	public function getSharedOwners()
+	{
+		global $ilUser, $ilDB;
+		
+		$obj_ids = $this->getPossibleSharedTargets();
+		
+		$user_ids = array();
+		$set = $ilDB->query("SELECT DISTINCT(obj.owner)".
+			" FROM object_data obj".
+			" JOIN object_reference_ws ref ON (obj.obj_id = ref.obj_id)".
+			" JOIN tree_workspace tree ON (tree.child = ref.wsp_id)".
+			" JOIN acl_ws acl ON (acl.node_id = tree.child)".
+			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").
+			" AND obj.owner <> ".$ilDB->quote($ilUser->getId(), "integer"));
+		while ($row = $ilDB->fetchAssoc($set))
+		{
+			$user_ids[$row["owner"]] = ilObject::_lookupTitle($row["owner"]);
+		}
+		
+		asort($user_ids);
+		return $user_ids;
+	}
+	
+	public function getSharedObjects($a_owner_id)
+	{
+		global $ilDB;
+		
+		$obj_ids = $this->getPossibleSharedTargets();
+		
+		$res = array();
+		$set = $ilDB->query("SELECT DISTINCT(obj.obj_id)".
+			" FROM object_data obj".
+			" JOIN object_reference_ws ref ON (obj.obj_id = ref.obj_id)".
+			" JOIN tree_workspace tree ON (tree.child = ref.wsp_id)".
+			" JOIN acl_ws acl ON (acl.node_id = tree.child)".
+			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").
+			" AND obj.owner = ".$ilDB->quote($a_owner_id, "integer"));
+		while ($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row["obj_id"];
+		}
+	
+		return $res;
+	}
 }
 
 ?>

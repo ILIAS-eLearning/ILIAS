@@ -236,12 +236,20 @@ class ilWorkspaceFolderExplorer extends ilExplorer
 	*/
 	function buildLinkTarget($a_node_id, $a_type)
 	{
-		switch ($a_type) {
+		global $ilCtrl;
+		
+		switch ($a_type) 
+		{
+			case "wsrt":
+				$ilCtrl->setParameterByClass("ilobjworkspacerootfoldergui", "wsp_id", $a_node_id);
+				return $ilCtrl->getLinkTargetByClass("ilobjworkspacerootfoldergui", "");
+				
+			case "wfld":
+				$ilCtrl->setParameterByClass("ilobjworkspacefoldergui", "wsp_id", $a_node_id);
+				return $ilCtrl->getLinkTargetByClass("ilobjworkspacefoldergui", "");
+			
 			default:
-				$target = (strpos($this->target, "?") === false)
-					? $this->target."?"
-					: $this->target."&";
-				return $target.$this->target_get."=".$a_node_id.$this->params_get;
+				return;
 		}
 	}
 	/**
