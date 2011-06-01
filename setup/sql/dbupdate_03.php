@@ -5606,6 +5606,42 @@ $old = array();
 $res = $ilDB->query('SELECT * FROM payment_settings');
 $old = $ilDB->fetchAssoc($res);
 
+if($old == NULL)
+{
+  //use default values
+  $old['settings_id'] = '0';
+  $old['currency_unit'] = NULL;
+  $old['currency_subunit'] =  NULL;
+  $old['address'] = NULL;
+  $old['bank_data'] =  NULL;
+  $old['add_info'] = NULL;
+  $old['pdf_path'] =  NULL;
+  $old['paypal'] = NULL;
+  $old['bmf'] = NULL;
+  $old['topics_allow_custom_sorting'] = '0';
+  $old['topics_sorting_type'] = '0';
+  $old['topics_sorting_direction'] = NULL;
+  $old['shop_enabled'] = '0';
+  $old['max_hits'] =  '0';
+  $old['hide_advanced_search'] =  NULL;
+  $old['objects_allow_custom_sorting'] = '0';
+  $old['hide_coupons'] =  NULL;
+  $old['epay '] = NULL;
+  $old['hide_news'] =  NULL;
+  $old['mail_use_placeholders'] =  '0';
+  $old['mail_billing_text'] = null;
+  $old['hide_shop_info'] = '0';
+  $old['use_shop_specials'] =  '0';
+  $old['ud_invoice_number'] = '0';
+  $old['invoice_number_text'] = NULL;
+  $old['inc_start_value'] = '0';
+  $old['inc_current_value'] = '0';
+  $old['inc_reset_period'] = '0';
+  $old['inc_last_reset'] = null;
+  $old['show_general_filter'] =  '0';
+  $old['show_topics_filter'] =  '0';
+  $old['show_shop_explorer'] =  '0';
+}
 foreach($old as $key=>$value)
 {
 	switch($key)
