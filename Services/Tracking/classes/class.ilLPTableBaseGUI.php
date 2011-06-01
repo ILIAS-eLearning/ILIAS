@@ -627,6 +627,29 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			return sprintf("%02d:%02d:%02d:%02d",$days,$hours,$minutes,$rest);
 		}
 	}
+	
+	protected function anonymizeValue($a_value, $a_force_number = false)
+	{
+		// currently inactive
+		return $a_value;
+		
+		if(is_numeric($a_value))
+		{
+			$a_value = (int)$a_value;
+			if($a_value && $a_value <= 3)
+			{
+				if(!$a_force_number)
+				{
+					return "0-3";
+				}
+				else
+				{
+					return 1;
+				}
+			}
+		}
+		return $a_value;
+	}
 }
 
 ?>

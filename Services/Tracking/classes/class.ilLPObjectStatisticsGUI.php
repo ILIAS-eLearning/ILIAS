@@ -27,13 +27,13 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 	{
 		$this->tabs_gui->addSubTab('trac_object_stat_access', 
 				$this->lng->txt('trac_object_stat_access'),
-				$this->ctrl->getLinkTarget($this, 'access'));
-		$this->tabs_gui->addSubTab('trac_object_stat_types', 
-				$this->lng->txt('trac_object_stat_types'),
-				$this->ctrl->getLinkTarget($this, 'types'));
+				$this->ctrl->getLinkTarget($this, 'access'));		
 		$this->tabs_gui->addSubTab('trac_object_stat_daily', 
 				$this->lng->txt('trac_object_stat_daily'),
 				$this->ctrl->getLinkTarget($this, 'daily'));
+		$this->tabs_gui->addSubTab('trac_object_stat_types', 
+				$this->lng->txt('trac_object_stat_types'),
+				$this->ctrl->getLinkTarget($this, 'types'));
 		$this->tabs_gui->addSubTab('trac_object_stat_admin', 
 				$this->lng->txt('trac_object_stat_admin'),
 				$this->ctrl->getLinkTarget($this, 'admin'));
@@ -103,7 +103,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsTableGUI.php");
 		$lp_table = new ilLPObjectStatisticsTableGUI($this, "access", $_POST["item_id"]);
 
-		$tpl->setContent($lp_table->getHTML().$lp_table->getGraph($_POST["item_id"]));
+		$tpl->setContent($lp_table->getGraph($_POST["item_id"]).$lp_table->getHTML());
 	}
 
 	function applyTypesFilter()
@@ -151,7 +151,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsTypesTableGUI.php");
 		$lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types", $_POST["item_id"]);
 
-		$tpl->setContent($lp_table->getHTML().$lp_table->getGraph($_POST["item_id"]));
+		$tpl->setContent($lp_table->getGraph($_POST["item_id"]).$lp_table->getHTML());
 	}
 
 	function applyDailyFilter()
@@ -199,7 +199,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsDailyTableGUI.php");
 		$lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", $_POST["item_id"]);
 
-		$tpl->setContent($lp_table->getHTML().$lp_table->getGraph($_POST["item_id"]));
+		$tpl->setContent($lp_table->getGraph($_POST["item_id"]).$lp_table->getHTML());
 	}
 
 	function admin()

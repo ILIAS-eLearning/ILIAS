@@ -108,7 +108,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		$this->filter["measure"] = $si->getValue();
 
 		// year/month
-		$si = new ilSelectInputGUI($lng->txt("year")."/".$lng->txt("month"), "yearmonth");
+		$si = new ilSelectInputGUI($lng->txt("year")." / ".$lng->txt("month"), "yearmonth");
 		$options = array();
 		for($loop = 0; $loop < 10; $loop++)
 		{
@@ -155,11 +155,17 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
 			foreach($stat_objects as $obj_id => $hours)
 			{
+				$data[$obj_id]["obj_id"] = $obj_id;
+				$data[$obj_id]["title"] = ilObject::_lookupTitle($obj_id);
+				
 				foreach($hours as $hour => $values)
-				{
-					$data[$obj_id]["obj_id"] = $obj_id;
-					$data[$obj_id]["sum"]["hour".floor($hour/2)*2] += $values[$this->filter["measure"]];
-					$data[$obj_id]["original"]["hour".$hour] = $values[$this->filter["measure"]];
+				{					
+					// table data
+					$data[$obj_id]["hour".floor($hour/2)*2] += (int)$values[$this->filter["measure"]];
+					$data[$obj_id]["sum"] += (int)$values[$this->filter["measure"]];
+					
+					// graph data
+					$data[$obj_id]["graph"]["hour".$hour] = $values[$this->filter["measure"]];
 				}
 			}
 			
@@ -169,6 +175,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 				if(!isset($data[$obj_id]))
 				{
 					$data[$obj_id]["obj_id"] = $obj_id;
+					$data[$obj_id]["title"] = ilObject::_lookupTitle($obj_id);
 				}
 			}						
 		}
@@ -188,7 +195,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		$this->tpl->setVariable("OBJ_ID", $a_set["obj_id"]);
 		$this->tpl->setVariable("ICON_SRC", ilUtil::getTypeIconPath($type, $a_set["obj_id"], "tiny"));
 		$this->tpl->setVariable("ICON_ALT", $this->lng->txt($type));
-		$this->tpl->setVariable("TITLE_TEXT", ilObject::_lookupTitle($a_set["obj_id"]));
+		$this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
 		
 		if($this->preselected && in_array($a_set["obj_id"], $this->preselected))
 		{
@@ -199,12 +206,15 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		$this->tpl->setCurrentBlock("hour");
 		for($loop = 0; $loop<24; $loop+=2)
 		{
-			$sum += (int)$a_set["sum"]["hour".$loop];
-			$value = (int)$a_set["sum"]["hour".$loop];
+			$value = (int)$a_set["hour".$loop];
 			if(!$value)
 			{
 				$value = "-";
 			}
+			else if($this->filter["measure"] == "read_count")
+			{
+				$value = $this->anonymizeValue($value);
+			}	
 			else if($this->filter["measure"] == "spent_seconds")
 			{
 				$value = $this->formatSeconds($value);
@@ -215,8 +225,12 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
 		if($this->filter["measure"] == "spent_seconds")
 		{
-			$sum = $this->formatSeconds($sum);
+			$sum = $this->formatSeconds((int)$a_set["sum"]);
 		}
+		else
+		{
+			$sum = $this->anonymizeValue((int)$a_set["sum"]);
+		}	
 		$this->tpl->setVariable("TOTAL", $sum);
 	}
 
@@ -225,18 +239,12 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		global $lng;
 		
 		include_once "Services/Chart/classes/class.ilChart.php";
-		$chart = new ilChart();
+		$chart = new ilChart("objstdly", 700, 500);
 
 		$legend = new ilChartLegend();
 		$chart->setLegend($legend);
 
-		$labels = array();
-		for($loop = 0; $loop<24; $loop++)
-		{
-			$labels[$loop] = str_pad($loop, 2, "0", STR_PAD_LEFT);
-		}
-		$chart->setTicks($labels, false, true);
-
+		$value_ticks = array();
 		foreach($this->getData() as $object)
 		{
 			if(in_array($object["obj_id"], $a_graph_items))
@@ -246,12 +254,26 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
 				for($loop = 0; $loop<24; $loop++)
 				{
-					$series->addPoint($loop, (int)$object["original"]["hour".$loop]);
+					$value = $tvalue = (int)$object["graph"]["hour".$loop];
+					if($this->filter["measure"] == "read_count")
+					{
+						$tvalue = $this->anonymizeValue($tvalue);
+						$value = $this->anonymizeValue($value, true);
+					}
+					$value_ticks[$value] = $tvalue;
+					$series->addPoint($loop, $value);
 				}
 
 				$chart->addData($series);
 			}
 		}
+
+		$labels = array();
+		for($loop = 0; $loop<24; $loop++)
+		{
+			$labels[$loop] = str_pad($loop, 2, "0", STR_PAD_LEFT);
+		}
+		$chart->setTicks($labels, $value_ticks, true);
 
 		return $chart->getHTML();
 	}
@@ -275,6 +297,10 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 			{
 				$value = "-";
 			}
+			else if($this->filter["measure"] == "read_count")
+			{
+				$value = $this->anonymizeValue($value);
+			}	
 			else if($this->filter["measure"] == "spent_seconds")
 			{
 				$value = $this->formatSeconds($value);
@@ -288,7 +314,10 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		{
 			$sum = $this->formatSeconds($sum);
 		}
-		
+		else
+		{
+			$sum = $this->anonymizeValue($sum);
+		}			
 		$col++;
 		$a_worksheet->write($a_row, $col, $sum);
 	}
@@ -311,6 +340,10 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 			{
 				$value = "-";
 			}
+			else if($this->filter["measure"] == "read_count")
+			{
+				$value = $this->anonymizeValue($value);
+			}	
 			else if($this->filter["measure"] == "spent_seconds")
 			{
 				$value = $this->formatSeconds($value);
@@ -323,6 +356,10 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		{
 			$sum = $this->formatSeconds($sum);
 		}		
+		else
+		{
+			$sum = $this->anonymizeValue($sum);
+		}	
 		$a_csv->addColumn($sum);
 		
 		$a_csv->addRow();

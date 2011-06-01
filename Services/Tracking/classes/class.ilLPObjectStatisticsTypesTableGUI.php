@@ -28,7 +28,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->addColumn("", "", "1", true);
-		$this->addColumn($lng->txt("type"), "type");
+		$this->addColumn($lng->txt("type"), "title");
 		$this->addColumn($lng->txt("count"), "objects");
 		$this->addColumn($lng->txt("trac_reference"), "references");
 		$this->addColumn($lng->txt("trac_trash"), "deleted");
@@ -61,6 +61,13 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 	{
 		include_once "Services/Tracking/classes/class.ilTrQuery.php";
 		$data = ilTrQuery::getObjectTypeStatistics();
+		
+		// to enable sorting by title
+		foreach($data as $idx => $row)
+		{
+			$data[$idx]["title"] = $this->lng->txt("objs_".$row["type"]);
+		}
+		
 		$this->setData($data);
 	}
 	
@@ -71,7 +78,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 	{
 		$this->tpl->setVariable("ICON_SRC", ilUtil::getTypeIconPath($a_set["type"], null, "tiny"));
 		$this->tpl->setVariable("ICON_ALT", $this->lng->txt("objs_".$a_set["type"]));
-		$this->tpl->setVariable("TITLE_TEXT", $this->lng->txt("objs_".$a_set["type"]));
+		$this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
 		$this->tpl->setVariable("COUNT", (int)$a_set["objects"]);
 		$this->tpl->setVariable("REF", (int)$a_set["references"]);
 		$this->tpl->setVariable("TRASH", (int)$a_set["deleted"]);
@@ -88,7 +95,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		global $lng;
 		
 		include_once "Services/Chart/classes/class.ilChart.php";
-		$chart = new ilChart();
+		$chart = new ilChart("objsttp", 700, 500);
 
 		$legend = new ilChartLegend();
 		$chart->setLegend($legend);
