@@ -127,6 +127,13 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($lng->txt("cont_lrs_settings"));
 		
+		// Page History
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("cont_enable_page_history"),
+			"page_history");
+		$cb_prop->setInfo($lng->txt("cont_enable_page_history_info"));
+		$cb_prop->setChecked($lm_set->get("page_history", 1));
+		$form->addItem($cb_prop);
+		
 		// Time scheduled page activation
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("cont_enable_time_scheduled_page_activation"),
 			"time_scheduled_page_activation");
@@ -139,6 +146,13 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 			"replace_mob_feature");
 		$cb_prop->setInfo($lng->txt("cont_replace_mob_feature_info"));
 		$cb_prop->setChecked($lm_set->get("replace_mob_feature"));
+		$form->addItem($cb_prop);
+
+		// Activate HTML export IDs
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("cont_html_export_ids"),
+			"html_export_ids");
+		$cb_prop->setInfo($lng->txt("cont_html_export_ids_info"));
+		$cb_prop->setChecked($lm_set->get("html_export_ids"));
 		$form->addItem($cb_prop);
 
 		// Upload dir for learning resources
@@ -181,8 +195,12 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$lm_set = new ilSetting("lm");
 		$lm_set->set("time_scheduled_page_activation",
 			ilUtil::stripSlashes($_POST["time_scheduled_page_activation"]));
+		$lm_set->set("page_history",
+			(int) ilUtil::stripSlashes($_POST["page_history"]));
 		$lm_set->set("replace_mob_feature",
 			ilUtil::stripSlashes($_POST["replace_mob_feature"]));
+		$lm_set->set("html_export_ids",
+			ilUtil::stripSlashes($_POST["html_export_ids"]));
 		$lm_set->set("cont_upload_dir",
 			ilUtil::stripSlashes($_POST["cont_upload_dir"]));
 			

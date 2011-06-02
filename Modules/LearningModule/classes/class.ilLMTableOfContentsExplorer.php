@@ -208,7 +208,7 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 				}
 			}
 
-			if ($nid = ilLMObject::_lookupNID($this->lm_obj->getId(), $a_node_id, "pg"))
+			if ($nid = ilLMPageObject::getExportId($this->lm_obj->getId(), $a_node_id))
 			{
 				return "lm_pg_".$nid.".html";
 			}

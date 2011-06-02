@@ -369,6 +369,35 @@
 	<StyleParameter Name="background-color" Value="#FAFAFA"/>
 	<StyleParameter Name="text-align" Value="center"/>
 </Style>
+<Style Tag="div" Type="qover" Class="Correct">
+	<StyleParameter Name="margin-top" Value="20px"/>
+	<StyleParameter Name="margin-bottom" Value="20px"/>
+	<StyleParameter Name="padding-top" Value="10px"/>
+	<StyleParameter Name="padding-right" Value="60px"/>
+	<StyleParameter Name="padding-bottom" Value="10px"/>
+	<StyleParameter Name="padding-left" Value="30px"/>
+	<StyleParameter Name="background-color" Value="#E7FFE7"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-color" Value="#808080"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+</Style>
+<Style Tag="div" Type="qover" Class="Incorrect">
+	<StyleParameter Name="margin-top" Value="20px"/>
+	<StyleParameter Name="margin-bottom" Value="20px"/>
+	<StyleParameter Name="padding-top" Value="10px"/>
+	<StyleParameter Name="padding-right" Value="60px"/>
+	<StyleParameter Name="padding-bottom" Value="10px"/>
+	<StyleParameter Name="padding-left" Value="30px"/>
+	<StyleParameter Name="background-color" Value="#FFE7E7"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-color" Value="#808080"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+</Style>
+<Style Tag="div" Type="qover" Class="StatusMessage">
+	<StyleParameter Name="padding-bottom" Value="7px"/>
+</Style>
+<Style Tag="div" Type="qover" Class="WrongAnswersMessage">
+</Style>
 
 <!-- RTE -->
 <Style Tag="div" Type="rte_menu" Class="RTEMenu">

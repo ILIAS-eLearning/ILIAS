@@ -11427,3 +11427,28 @@ wsp#:#wsp_permission_removed#:#Der Eintrag wurde gelöscht.
 wsp#:#wsp_share_with_members#:#Für Mitglieder freigeben
 wsp#:#wsp_share_success#:#Ein neuer Eintrag wurde hinzugefügt.
 wsp#:#wsp_share_search_users#:#Benutzer suchen
+content#:#cont_html_export_ids#:#HTML Export IDs###26 10 2010 new variable
+content#:#cont_html_export_ids_info#:#Allows to maintain extra IDs for ILIAS learning modules, that are used for naming HTML files, when HTML export is done.###26 10 2010 new variable
+content#:#cont_export_id#:#Export ID###26 10 2010 new variable
+content#:#cont_exp_ids_not_resp_format1#:#Export IDs may only use the following characters###26 10 2010 new variable
+content#:#cont_exp_ids_not_resp_format2#:#Please check and correct your input.###26 10 2010 new variable
+content#:#cont_saved_export_ids#:#Saved HTML Export IDs.###26 10 2010 new variable
+content#:#content_some_export_ids_multiple_times#:#Some export IDs are used multiple times. This will lead to missing pages in the export.###26 10 2010 new variable
+content#:#cont_exp_id_used_multiple#:#Export ID used multiple time###26 10 2010 new variable
+content#:#mob_upload_dir#:#Upload Directory###14 12 2010 new variable
+content#:#mob_upload_dir_info#:#Server directory from which multiple files can be used to create media objects in media pools. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.###14 12 2010 new variable
+mep#:#mep_create_from_upload_dir#:#Create Media Objects from Upload Directory###14 12 2010 new variable
+mep#:#mep_sel_upload_dir_files#:#Select Files/Directories###14 12 2010 new variable
+mep#:#mep_upload_dir_files#:#Files from Upload Directory###14 12 2010 new variable
+mep#:#mep_file#:#File###14 12 2010 new variable
+mep#:#mep_create_media_files#:#Create Media Objects###14 12 2010 new variable
+mep#:#mep_up_dir_move#:#Move Files from Upload Directory (Faster)###14 12 2010 new variable
+mep#:#mep_up_dir_copy#:#Copy Files from Upload Directory (Keeps files in the upload directory###14 12 2010 new variable
+content#:#cont_exp_ids_not_resp_format3#:#The ID must not start with a number.###30 01 2011 new variable
+content#:#cont_current_usages#:#Aktuelle Nutzung
+content#:#cont_all_usages#:#Alte Versionen einbeziehen
+content#:#cont_set_layout#:#Layout setzen
+mep#:#mep_content_snippet_used_in_older_versions#:#Achtung: Der Inhaltsbaustein wurde in älteren Versionen von einigen Seiten genutzt. Wenn so eine Version einer Seite wiederhergestellt wird, wird der Inhaltsbaustein in ihr fehlen.
+content#:#cont_missing_snippet#:#Fehlender Inhaltsbaustein: Der Inhaltsbaustein wurde gelöscht.
+content#:#cont_enable_page_history#:#Seiteverlauf aktivieren
+content#:#cont_enable_page_history_info#:#Ältere Versionen von Seiten werden gespeichert und können wiederhergestellt werden.

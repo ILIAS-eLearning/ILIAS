@@ -272,16 +272,13 @@ class ilPageObject
 	static function _exists($a_parent_type, $a_id)
 	{
 		global $ilDB;
-//echo "<br>".$a_parent_type."-".$a_id;
 		if (isset(self::$exists[$a_parent_type.":".$a_id]))
 		{
-//echo "***HIT";
 			return self::$exists[$a_parent_type.":".$a_id];
 		}
 		
 		$query = "SELECT page_id FROM page_object WHERE page_id = ".$ilDB->quote($a_id, "integer")." ".
 			"AND parent_type= ".$ilDB->quote($a_parent_type, "text");
-
 		$set = $ilDB->query($query);
 		if ($row = $ilDB->fetchAssoc($set))
 		{
@@ -2239,6 +2236,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	{
 		global $lng, $ilDB, $ilUser, $ilLog, $ilCtrl;
 		
+		$lm_set = new ilSetting("lm");
+		
 //echo "<br>**".$this->getId()."**";
 //echo "<br>PageObject::update[".$this->getId()."],validate($a_validate)";
 //echo "\n<br>dump_all2:".$this->dom->dump_mem(0, "UTF-8").":";
@@ -2277,7 +2276,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			{
 				// only save, if something has changed and not in layout mode
 				if (($content != $old_rec["content"]) && !$a_no_history &&
-					!$this->history_saved && !$this->layout_mode)
+					!$this->history_saved && !$this->layout_mode &&
+					$lm_set->get("page_history", 1))
 				{
 					if ($old_rec["content"] != "<PageObject></PageObject>")
 					{

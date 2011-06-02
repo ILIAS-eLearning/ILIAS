@@ -338,18 +338,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->form->addItem($online);
 		
 		// default layout
-		$layout = new ilRadioMatrixInputGUI($lng->txt("cont_def_layout"), "lm_layout");
-		$option = array();
-		foreach(ilObjContentObject::getAvailableLayouts() as $l)
-		{
-			$im_tag = "";
-			if (is_file($im = ilUtil::getImagePath("layout_".$l.".gif")))
-			{
-				$im_tag = ilUtil::img($im, $l);
-			}
-			$option[$l] = "<table><tr><td>".$im_tag."</td><td><b>".$lng->txt("cont_layout_".$l)."</b>: ".$lng->txt("cont_layout_".$l."_desc")."</td></tr></table>";
-		}
-		$layout->setOptions($option);
+		$layout = self::getLayoutOption($lng->txt("cont_def_layout"), "lm_layout");
 		$this->form->addItem($layout);
 		
 		// page header
@@ -1219,6 +1208,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$form_gui->addMultiCommand($lng->txt("delete"), "delete");
 			$form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
 			$form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
+			if ($this->object->getLayoutPerPage())
+			{	
+				$form_gui->addMultiCommand($lng->txt("cont_set_layout"), "setPageLayoutInHierarchy");
+			}
 			$form_gui->setDragIcon(ilUtil::getImagePath("icon_st_s.gif"));
 			$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
 			$up_gui = ($this->object->getType() == "dbk")
@@ -1330,14 +1323,31 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 
 	/*
-	* list all pages of learning module
+	* List all pages of learning module
 	*/
 	function pages()
 	{
-		global $tree;
+		global $tree, $tpl, $ilToolbar, $ilCtrl, $lng;
 
 		$this->setTabs();
+		$this->setPagesSubTabs("pages");
 
+		if (!false)
+		{
+			$ilCtrl->setParameter($this, "backcmd", "pages");
+			$ilCtrl->setParameterByClass("illmpageobjectgui", "new_type", "pg");
+			$ilToolbar->addButton($lng->txt("pg_add"),
+				$ilCtrl->getLinkTargetByClass("illmpageobjectgui", "create"));
+			$ilCtrl->setParameterByClass("illmpageobjectgui", "new_type", "");
+			
+			include_once("./Modules/LearningModule/classes/class.ilLMPagesTableGUI.php");
+			$t = new ilLMPagesTableGUI($this, "pages", $this->object);
+			$tpl->setContent($t->getHTML());
+			
+			return;
+		}
+		
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.all_pages.html", "Modules/LearningModule");
 		$num = 0;
 
@@ -2694,6 +2704,32 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$ilTabs->activateTab("cont_links");
 	}
 
+	/**
+	 * Set pages tabs
+	 *
+	 * @param
+	 * @return
+	 */
+	function setPagesSubTabs($a_active)
+	{
+		global $ilTabs, $lng, $ilCtrl;
+
+		$lm_set = new ilSetting("lm");
+
+		if ($lm_set->get("html_export_ids"))
+		{
+			$ilTabs->addSubtab("pages",
+				$lng->txt("cont_all_pages"),
+				$ilCtrl->getLinkTarget($this, "pages"));
+
+			$ilTabs->addSubtab("export_ids",
+				$lng->txt("cont_html_export_ids"),
+				$ilCtrl->getLinkTarget($this, "showExportIDsOverview"));
+
+			$ilTabs->activateSubTab($a_active);
+			$ilTabs->activateTab("cont_all_pages");
+		}
+	}
 
 	/**
 	* adds tabs to tab gui object
@@ -3531,5 +3567,205 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->cutItems("chapters");
 	}
 
-} // END class.ilObjContentObjectGUI
+	////
+	//// HTML export IDs
+	////
+
+	/**
+	 * Show export IDs overview
+	 *
+	 * @param
+	 * @return
+	 */
+	function showExportIDsOverview($a_validation = false)
+	{
+		global $tpl;
+
+		$this->setTabs();
+		$this->setPagesSubTabs("export_ids");
+		
+		include_once("./Modules/LearningModule/classes/class.ilExportIDTableGUI.php");
+		$tbl = new ilExportIDTableGUI($this, "showExportIDsOverview", $a_validation);
+
+		$tpl->setContent($tbl->getHTML());
+	}
+
+	/**
+	 * Save export IDs
+	 */
+	function saveExportIds()
+	{
+		global $ilCtrl, $lng;
+
+		// check all export ids
+		$ok = true;
+		if (is_array($_POST["exportid"]))
+		{
+			foreach ($_POST["exportid"] as $pg_id => $exp_id)
+			{
+				if ($exp_id != "" && !preg_match("/^([a-zA-Z]+)[0-9a-zA-Z_]*$/",
+					trim($exp_id)))
+				{
+					$ok = false;
+				}
+			}
+		}
+		if (!$ok)
+		{
+			ilUtil::sendFailure($lng->txt("cont_exp_ids_not_resp_format1").": a-z, A-Z, 0-9, '_'. ".
+				$lng->txt("cont_exp_ids_not_resp_format3")." ".
+				$lng->txt("cont_exp_ids_not_resp_format2"));
+			$this->showExportIDsOverview(true);
+			return;
+		}
+
+
+		if (is_array($_POST["exportid"]))
+		{
+			foreach ($_POST["exportid"] as $pg_id => $exp_id)
+			{
+				ilLMPageObject::saveExportId($this->object->getId(), $pg_id,
+					ilUtil::stripSlashes($exp_id));
+			}
+		}
+
+		ilUtil::sendSuccess($lng->txt("cont_saved_export_ids"), true);
+		$ilCtrl->redirect($this, "showExportIdsOverview");
+	}
+
+	////
+	//// Set layout
+	////
+	
+	/**
+	 * Get layout option
+	 *
+	 * @return object layout form option
+	 */
+	static function getLayoutOption($a_txt, $a_var, $a_def_option = "")
+	{
+		global $lng;
+		
+		// default layout
+		$layout = new ilRadioMatrixInputGUI($a_txt, $a_var);
+		$option = array();
+		if ($a_def_option != "")
+		{
+			if (is_file($im = ilUtil::getImagePath("layout_".$a_def_option.".gif")))
+			{
+				$im_tag = ilUtil::img($im, $a_def_option);
+			}
+			$option[""] =
+				"<table><tr><td>".$im_tag."</td><td><b>".$lng->txt("cont_lm_default_layout").
+				"</b>: ".$lng->txt("cont_layout_".$a_def_option)."</td></tr></table>";
+		}
+		foreach(ilObjContentObject::getAvailableLayouts() as $l)
+		{
+			$im_tag = "";
+			if (is_file($im = ilUtil::getImagePath("layout_".$l.".gif")))
+			{
+				$im_tag = ilUtil::img($im, $l);
+			}
+			$option[$l] = "<table><tr><td>".$im_tag."</td><td><b>".$lng->txt("cont_layout_".$l)."</b>: ".$lng->txt("cont_layout_".$l."_desc")."</td></tr></table>";
+		}
+		$layout->setOptions($option);
+		
+		return $layout;
+	}
+	
+	/**
+	 * Set layout for multipl pages
+	 */
+	function setPageLayoutInHierarchy()
+	{
+		global $ilCtrl;
+		$ilCtrl->setParameter($this, "hierarchy", "1");
+		$this->setPageLayout(true);
+	}
+	
+	
+	/**
+	 * Set layout for multipl pages
+	 */
+	function setPageLayout($a_in_hierarchy = false)
+	{
+		global $tpl, $ilCtrl, $lng;
+		
+		if (!is_array($_POST["id"]))
+		{
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+			
+			if ($a_in_hierarchy)
+			{
+				$ilCtrl->redirect($this, "chapters");
+			}
+			else
+			{
+				$ilCtrl->redirect($this, "pages");
+			}
+		}
+		
+		$this->initSetPageLayoutForm();
+		
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Init set page layout form.
+	 */
+	public function initSetPageLayoutForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		if (is_array($_POST["id"]))
+		{
+			foreach ($_POST["id"] as $id)
+			{
+				$hi = new ilHiddenInputGUI("id[]");
+				$hi->setValue($id);
+				$this->form->addItem($hi);
+			}
+		}
+		$layout = self::getLayoutOption($lng->txt("cont_layout"), "layout",
+			$this->object->getLayout());
+		$this->form->addItem($layout);
+	
+		$this->form->addCommandButton("savePageLayout", $lng->txt("save"));
+		$this->form->addCommandButton("pages", $lng->txt("cancel"));
+		
+		$this->form->setTitle($lng->txt("cont_set_layout"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	 
+	}
+	
+	/**
+	 * Save page layout
+	 */
+	function savePageLayout()
+	{
+		global $lng, $ilCtrl;
+		
+		$ilCtrl->setParameter($this, "hierarchy", $_GET["hierarchy"]);
+		
+		foreach ($_POST["id"] as $id)
+		{
+			ilLMPageObject::writeLayout(ilUtil::stripSlashes($id),
+				ilUtil::stripSlashes($_POST["layout"]),
+				$this->object);
+		}
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		
+		if ($_GET["hierarchy"] == 1)
+		{
+			$ilCtrl->redirect($this, "chapters");
+		}
+		else
+		{
+			$ilCtrl->redirect($this, "pages");
+		}
+	}
+}
 ?>

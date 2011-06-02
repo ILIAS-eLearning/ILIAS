@@ -180,9 +180,9 @@ class ilMediaPoolPage extends ilPageObject
 	/**
 	* get all usages of current media object
 	*/
-	function getUsages()
+	function getUsages($a_incl_hist = true)
 	{
-		return $this->lookupUsages($this->getId());
+		return $this->lookupUsages($this->getId(), $a_incl_hist);
 	}
 	
 	/**
@@ -190,7 +190,7 @@ class ilMediaPoolPage extends ilPageObject
 	*
 	* @todo: This should be all in one context -> mob id table
 	*/
-	function lookupUsages($a_id)
+	function lookupUsages($a_id, $a_incl_hist = true)
 	{
 		global $ilDB;
 
@@ -198,6 +198,12 @@ class ilMediaPoolPage extends ilPageObject
 		$q = "SELECT * FROM page_pc_usage WHERE pc_id = ".
 			$ilDB->quote($a_id, "integer").
 			" AND pc_type = ".$ilDB->quote("incl", "text");
+			
+		if (!$a_incl_hist)
+		{
+			$q.= " AND usage_hist_nr = ".$ilDB->quote(0, "integer");
+		}
+			
 		$us_set = $ilDB->query($q);
 		$ret = array();
 		while($us_rec = $ilDB->fetchAssoc($us_set))

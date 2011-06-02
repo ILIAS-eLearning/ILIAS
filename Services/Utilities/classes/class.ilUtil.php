@@ -2315,32 +2315,39 @@ class ilUtil
 	/**
 	* get directory
 	*/
-	function getDir($a_dir)
+	function getDir($a_dir, $a_rec = false, $a_sub_dir = "")
 	{
-		$current_dir = opendir($a_dir);
+		$current_dir = opendir($a_dir.$a_sub_dir);
 
 		$dirs = array();
 		$files = array();
+		$subitems = array();
 		while($entry = readdir($current_dir))
 		{
 			if(is_dir($a_dir."/".$entry))
 			{
-				$dirs[$entry] = array("type" => "dir", "entry" => $entry);
+				$dirs[$entry] = array("type" => "dir", "entry" => $entry,
+					"subdir" => $a_sub_dir);
+				if ($a_rec && $entry != "." && $entry != "..")
+				{
+					$si = ilUtil::getDir($a_dir, true, $a_sub_dir."/".$entry);
+					$subitems = array_merge($subitems, $si);
+				}
 			}
 			else
 			{
 				if ($entry != "." && $entry != "..")
 				{
-					$size = filesize($a_dir."/".$entry);
+					$size = filesize($a_dir.$a_sub_dir."/".$entry);
 					$files[$entry] = array("type" => "file", "entry" => $entry,
-					"size" => $size);
+					"size" => $size, "subdir" => $a_sub_dir);
 				}
 			}
 		}
 		ksort($dirs);
 		ksort($files);
 
-		return array_merge($dirs, $files);
+		return array_merge($dirs, $files, $subitems);
 	}
 
 	/**
@@ -3770,7 +3777,8 @@ class ilUtil
 	/**
 	* move uploaded file
 	*/
-	function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true)
+	function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true,
+		$a_mode = "move_uploaded")
 	{
 		global $lng, $ilias;
 //echo "<br>ilUtli::moveuploadedFile($a_name)";
@@ -3812,7 +3820,20 @@ class ilUtil
 			{
 				ilUtil::sendInfo($vir[1], true);
 			}
-			return move_uploaded_file($a_file, $a_target);
+			switch ($a_mode)
+			{
+				case "rename":
+					return rename($a_file, $a_target);
+					break;
+
+				case "copy":
+					return copy($a_file, $a_target);
+					break;
+
+				default:
+					return move_uploaded_file($a_file, $a_target);
+					break;
+			}
 		}
 	}
 

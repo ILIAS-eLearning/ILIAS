@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
 * Meta Data class (element identifier)
 *
@@ -184,7 +183,6 @@ class ilMDIdentifier extends ilMDBase
 			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
 			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text');
 
-
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -192,5 +190,86 @@ class ilMDIdentifier extends ilMDBase
 		}
 		return $ids ? $ids : array();
 	}
+
+	/**
+	 * Get IDs for an object
+	 *
+	 * @param
+	 * @return
+	 */
+	static public function _getEntriesForObj($a_rbac_id, $a_obj_id, $a_obj_type)
+	{
+		global $ilDB;
+
+		$query = "SELECT meta_identifier_id, catalog, entry FROM il_meta_identifier ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND obj_type = ".$ilDB->quote($a_obj_type ,'integer');
+
+		$res = $ilDB->query($query);
+		$entries = array();
+		while($r = $ilDB->fetchAssoc($res))
+		{
+			$entries[$r["meta_identifier_id"]] =
+				array("catalog" => $r["catalog"],
+					"entry" => $r["entry"]);
+		}
+		return $entries;
+	}
+
+	/**
+	 * Get IDs for an rbac object
+	 *
+	 * @param
+	 * @return
+	 */
+	static public function _getEntriesForRbacObj($a_rbac_id, $a_obj_type = "")
+	{
+		global $ilDB;
+
+		$query = "SELECT meta_identifier_id, catalog, entry, obj_id FROM il_meta_identifier ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer');
+
+		if ($a_obj_type != "")
+		{
+			$query.=
+				" AND obj_type = ".$ilDB->quote($a_obj_type ,'integer');
+		}
+
+		$res = $ilDB->query($query);
+		$entries = array();
+		while($r = $ilDB->fetchAssoc($res))
+		{
+			$entries[$r["meta_identifier_id"]] =
+				array("catalog" => $r["catalog"],
+					"entry" => $r["entry"],
+					"obj_id" => $r["obj_id"]);
+		}
+		return $entries;
+	}
+
+	/**
+	 * Does id entry exist in rbac object?
+	 *
+	 * @param
+	 * @return
+	 */
+	static public function existsIdInRbacObject($a_rbac_id, $a_obj_type, $a_catalog, $a_entry)
+	{
+		global $ilDB;
+
+		$query = "SELECT meta_identifier_id, obj_id FROM il_meta_identifier ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id , 'integer').
+			" AND obj_type = ".$ilDB->quote($a_obj_type , 'text').
+			" AND catalog = ".$ilDB->quote($a_catalog , 'text').
+			" AND entry = ".$ilDB->quote($a_entry , 'text');
+		$s = $ilDB->query($query);
+		if ($r = $ilDB->fetchAssoc($s))
+		{
+			return true;
+		}
+		return false;
+	}
 }
+
 ?>

@@ -23,12 +23,41 @@ class ilFileSystemGUI
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->main_dir = $a_main_directory;
-		$this->commands = array();
+		$this->post_dir_path = false;
+		$this->commands = array(
+			0 => array(
+				"object" => $this,
+				"method" => "downloadFile",
+				"name" => $lng->txt("download"),
+				"int" => true
+			),
+			1 => array(
+				"object" => $this,
+				"method" => "confirmDeleteFile",
+				"name" => $lng->txt("delete"),
+				"int" => true
+			),
+			2 => array(
+				"object" => $this,
+				"method" => "unzipFile",
+				"name" => $lng->txt("unzip"),
+				"int" => true
+			),
+			3 => array(
+				"object" => $this,
+				"method" => "renameFileForm",
+				"name" => $lng->txt("rename"),
+				"int" => true
+			),
+		);
+
 		$this->file_labels = array();
 		$this->label_enable = false;
 		$this->ctrl->saveParameter($this, "cdir");
 		$lng->loadLanguageModule("content");
 		$this->setAllowDirectories(true);
+		$this->setAllowDirectoryCreation(true);
+		$this->setAllowFileCreation(true);
 //echo "<br>main_dir:".$this->main_dir.":";
 	}
 
@@ -51,7 +80,27 @@ class ilFileSystemGUI
 	{
 		return $this->allow_directories;
 	}
-	
+
+	/**
+	 * Set post dir path
+	 *
+	 * @param	boolean		post dir path
+	 */
+	function setPostDirPath($a_val)
+	{
+		$this->post_dir_path = $a_val;
+	}
+
+	/**
+	 * Get post dir path
+	 *
+	 * @return	boolean		post dir path
+	 */
+	function getPostDirPath()
+	{
+		return $this->post_dir_path;
+	}
+
 	/**
 	* Set table id
 	*
@@ -71,7 +120,7 @@ class ilFileSystemGUI
 	{
 		return $this->table_id;
 	}
-	
+
 	/**
 	 * Set title
 	 *
@@ -148,19 +197,29 @@ class ilFileSystemGUI
 
 
 	/**
-	* add command
-	*/
-	function addCommand(&$a_obj, $a_func, $a_name)
+	 * Add command
+	 */
+	function addCommand(&$a_obj, $a_func, $a_name, $a_single = true,
+		$a_allow_dir = false)
 	{
 		$i = count($this->commands);
 
 		$this->commands[$i]["object"] =& $a_obj;
 		$this->commands[$i]["method"] = $a_func;
 		$this->commands[$i]["name"] = $a_name;
+		$this->commands[$i]["single"] = $a_single;
+		$this->commands[$i]["allow_dir"] = $a_allow_dir;
 
 		//$this->commands[] = $arr;
 	}
 
+	/**
+	 * Clear commands
+	 */
+	function clearCommands()
+	{
+		$this->commands = array();
+	}
 
 	/**
 	* label a file
@@ -184,43 +243,87 @@ class ilFileSystemGUI
 	*/
 	function &extCommand($a_nr)
 	{
+		// remove ".." items
+		foreach ($_POST["file"] as $k => $v)
+		{
+			if ($_POST["file"][$k] == "..")
+			{
+				unset($_POST["file"][$k]);
+			}
+		}
+
+		// check if at least one item is select
 		if (!isset($_POST["file"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if (count($_POST["file"]) > 1)
+		// check if only one item is select, if command does not allow multiple selection
+		if (count($_POST["file"]) > 1 && $this->commands[$a_nr]["single"])
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if ($_POST["file"][0] == ".." )
-		{
-			$this->ilias->raiseError($this->lng->txt("select_a_file"),$this->ilias->error_obj->MESSAGE);
-		}
-
 		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
-		$file = (!empty($cur_subdir))
-			? $this->main_dir."/".$cur_subdir."/".ilUtil::stripSlashes($_POST["file"][0])
-			: $this->main_dir."/".ilUtil::stripSlashes($_POST["file"][0]);
 
-		// check wether selected item is a directory
-		if (@is_dir($file))
+		// collect files and
+		$files = array();
+		foreach ($_POST["file"] as $k => $v)
 		{
-			$this->ilias->raiseError($this->lng->txt("select_a_file"),$this->ilias->error_obj->MESSAGE);
+			$file = (!empty($cur_subdir))
+				? $this->main_dir."/".$cur_subdir."/".ilUtil::stripSlashes($_POST["file"][$k])
+				: $this->main_dir."/".ilUtil::stripSlashes($_POST["file"][$k]);
+
+			// check wether selected item is a directory
+			if (@is_dir($file) && !$this->commands[$a_nr]["allow_dir"])
+			{
+				$this->ilias->raiseError($this->lng->txt("select_a_file"),$this->ilias->error_obj->MESSAGE);
+			}
+			$files[] = $file;
 		}
 
-		$file = (!empty($cur_subdir))
-			? $cur_subdir."/".ilUtil::stripSlashes($_POST["file"][0]) 
-			: ilUtil::stripSlashes($_POST["file"][0]);
+		if ($this->commands[$a_nr]["single"])
+		{
+			$files = $files[0];
+		}
 
 		$obj =& $this->commands[$a_nr]["object"];
 		$method = $this->commands[$a_nr]["method"];
 
-
-		return $obj->$method($file);
+		return $obj->$method($files);
 	}
 
+	/**
+	 * Set allowed directory creation
+	 */
+	public function setAllowDirectoryCreation($a_val)
+	{
+		$this->directory_creation = $a_val;
+	}
+
+	/**
+	 * Get allowed directory creation
+	 */
+	public function getAllowDirectoryCreation()
+	{
+		return $this->directory_creation;
+	}
+
+	/**
+	 * Set allowed file creation
+	 */
+	public function setAllowFileCreation($a_val)
+	{
+		$this->file_creation = $a_val;
+	}
+
+	/**
+	 * Get allowed file creation
+	 */
+	public function getAllowFileCreation()
+	{
+		return $this->file_creation;
+	}
 
 	/**
 	* list files
@@ -268,7 +371,7 @@ class ilFileSystemGUI
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 		
-		if ($this->getAllowDirectories())
+		if ($this->getAllowDirectories() && $this->getAllowDirectoryCreation())
 		{
 			$ti = new ilTextInputGUI($this->lng->txt("cont_new_dir"), "new_dir");
 			$ti->setMaxLength(80);
@@ -280,10 +383,13 @@ class ilFileSystemGUI
 		}
 		
 		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
-		$fi = new ilFileInputGUI($this->lng->txt("cont_new_file"), "new_file");
-		$fi->setSize(10);
-		$ilToolbar->addInputItem($fi, true);
-		$ilToolbar->addFormButton($lng->txt("upload"), "uploadFile");
+		if ($this->getAllowFileCreation())
+		{
+			$fi = new ilFileInputGUI($this->lng->txt("cont_new_file"), "new_file");
+			$fi->setSize(10);
+			$ilToolbar->addInputItem($fi, true);
+			$ilToolbar->addFormButton($lng->txt("upload"), "uploadFile");
+		}
 		
 		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
 		if (ilUploadFiles::_getUploadDirectory())
@@ -307,7 +413,8 @@ class ilFileSystemGUI
 		//$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.directory.html", false);
 		include_once("./Services/FileSystemStorage/classes/class.ilFileSystemTableGUI.php");
 		$fs_table = new ilFileSystemTableGUI($this, "listFiles", $cur_dir, $cur_subdir,
-			$this->label_enable, $this->file_labels, $this->label_header, $this->commands);
+			$this->label_enable, $this->file_labels, $this->label_header, $this->commands,
+			$this->getPostDirPath());
 		$fs_table->setId($this->getTableId());
 		if ($this->getTitle() != "")
 		{

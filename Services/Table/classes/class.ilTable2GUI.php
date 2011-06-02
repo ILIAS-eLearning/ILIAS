@@ -40,6 +40,8 @@ class ilTable2GUI extends ilTableGUI
 	protected $limit_determined = false;
 	protected $filters_determined = false;
 	protected $columns_determined = false;
+	protected $open_form_tag = true;
+	protected $close_form_tag = true;
 
 	protected $export_formats;
 	protected $export_mode;
@@ -99,6 +101,46 @@ class ilTable2GUI extends ilTableGUI
 		$this->setIsDataTable(true);
 		$this->setEnableNumInfo(true);
 		$this->determineSelectedColumns();
+	}
+
+	/**
+	 * Set open form tag
+	 *
+	 * @param	boolean	open form tag
+	 */
+	function setOpenFormTag($a_val)
+	{
+		$this->open_form_tag = $a_val;
+	}
+
+	/**
+	 * Get open form tag
+	 *
+	 * @return	boolean	open form tag
+	 */
+	function getOpenFormTag()
+	{
+		return $this->open_form_tag;
+	}
+
+	/**
+	 * Set close form tag
+	 *
+	 * @param	boolean	close form tag
+	 */
+	function setCloseFormTag($a_val)
+	{
+		$this->close_form_tag = $a_val;
+	}
+
+	/**
+	 * Get close form tag
+	 *
+	 * @return	boolean	close form tag
+	 */
+	function getCloseFormTag()
+	{
+		return $this->close_form_tag;
 	}
 
 	/**
@@ -1499,7 +1541,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		if(!$this->getPrintMode())
 		{
 			// set form action
-			if ($this->form_action != "")
+			if ($this->form_action != "" && $this->getOpenFormTag())
 			{
 				$hash = "";
 				if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
@@ -1511,6 +1553,10 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				$this->tpl->setVariable("FORMACTION", $this->getFormAction().$hash);
 				$this->tpl->setVariable("FORMNAME", $this->getFormName());
 				$this->tpl->parseCurrentBlock();
+			}
+
+			if ($this->form_action != "" && $this->getCloseFormTag())
+			{
 				$this->tpl->touchBlock("tbl_form_footer");
 			}
 

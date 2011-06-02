@@ -1593,15 +1593,41 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	}
 
 	/**
-	* show all usages of mob
-	*/
-	function showUsagesObject()
+	 * Show all media object usages (incl history)
+	 */
+	function showAllUsagesObject()
 	{
-		global $tpl;
+		$this->showUsagesObject(true);
+	}
+	
+	
+	/**
+	 * show all usages of mob
+	 */
+	function showUsagesObject($a_all = false)
+	{
+		global $tpl, $ilTabs, $ilTabs, $lng, $ilCtrl;
 		
+		$ilTabs->addSubTab("current_usages", $lng->txt("cont_current_usages"),
+			$ilCtrl->getLinkTarget($this, "showUsages"));
+		
+		$ilTabs->addSubTab("all_usages", $lng->txt("cont_all_usages"),
+			$ilCtrl->getLinkTarget($this, "showAllUsages"));
+		
+		if ($a_all)
+		{
+			$ilTabs->activateSubTab("all_usages");
+			$cmd = "showAllUsages";
+		}
+		else
+		{
+			$ilTabs->activateSubTab("current_usages");
+			$cmd = "showUsages";
+		}
+
 		include_once("./Services/MediaObjects/classes/class.ilMediaObjectUsagesTableGUI.php");
-		$usages_table = new ilMediaObjectUsagesTableGUI($this, "showUsages",
-			$this->object);
+		$usages_table = new ilMediaObjectUsagesTableGUI($this, $cmd,
+			$this->object, $a_all);
 		$tpl->setContent($usages_table->getHTML());
 	}
 

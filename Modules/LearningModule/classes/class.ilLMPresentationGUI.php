@@ -4066,7 +4066,8 @@ class ilLMPresentationGUI
 					}
 					else
 					{
-						if ($nid = ilLMObject::_lookupNID($this->lm->getId(), $a_obj_id, "pg"))
+						//if ($nid = ilLMObject::_lookupNID($this->lm->getId(), $a_obj_id, "pg"))
+						if ($nid = ilLMPageObject::getExportId($this->lm->getId(), $a_obj_id))
 						{
 							$link = "lm_pg_".$nid.".html";
 						}

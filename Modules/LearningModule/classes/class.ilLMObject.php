@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
 
@@ -400,11 +381,12 @@ class ilLMObject
 
 		// insert object data
 		$this->setId($ilDB->nextId("lm_data"));
-		$query = "INSERT INTO lm_data (obj_id, title, type, lm_id, import_id, create_date) ".
+		$query = "INSERT INTO lm_data (obj_id, title, type, layout, lm_id, import_id, create_date) ".
 			"VALUES (".
 			$ilDB->quote($this->getId(), "integer").",".
 			$ilDB->quote($this->getTitle(), "text").",".
 			$ilDB->quote($this->getType(), "text").", ".
+			$ilDB->quote($this->getLayout(), "text").", ".
 			$ilDB->quote($this->getLMId(), "integer").",".
 			$ilDB->quote($this->getImportId(), "text").
 			", ".$ilDB->now().")";
@@ -1216,15 +1198,37 @@ class ilLMObject
 	* @param	int		lm object id
 	* @param	string	layout
 	*/
-	static function writeLayout($a_obj_id, $a_layout)
+	static function writeLayout($a_obj_id, $a_layout, $a_lm = null)
 	{
 		global $ilDB;
 
-		$query = "UPDATE lm_data SET ".
-			" layout = ".$ilDB->quote($a_layout, "text").
-			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
-
-		$ilDB->manipulate($query);
+		$t = ilLMObject::_lookupType($a_obj_id);
+		
+		if ($t == "pg")
+		{
+			$query = "UPDATE lm_data SET ".
+				" layout = ".$ilDB->quote($a_layout, "text").
+				" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
+			$ilDB->manipulate($query);
+		}
+		else if ($t == "st" && is_object($a_lm))
+		{
+			$node = $a_lm->getLMTree()->getNodeData($a_obj_id);
+			$child_nodes = $a_lm->getLMTree()->getSubTree($node);
+			if (is_array($child_nodes) && count($child_nodes) > 0)
+			{
+				foreach ($child_nodes as $c)
+				{
+					if ($c["type"] == "pg")
+					{
+						$query = "UPDATE lm_data SET ".
+							" layout = ".$ilDB->quote($a_layout, "text").
+							" WHERE obj_id = ".$ilDB->quote($c["child"], "integer");
+						$ilDB->manipulate($query);
+					}
+				}
+			}
+		}
 	}
 	
 	/**
