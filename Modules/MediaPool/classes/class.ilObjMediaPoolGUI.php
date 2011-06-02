@@ -17,7 +17,7 @@ include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 * $Id$
 *
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI
+* @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI, ilFileSystemGUI
 *
 * @ingroup ModulesMediaPool
 */
@@ -270,6 +270,29 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$this->tpl->show();
 				break;
 
+			case "ilfilesystemgui":
+				$this->prepareOutput();
+				$ilTabs->clearTargets();
+				$ilTabs->setBackTarget($lng->txt("back"),
+					$ilCtrl->getLinkTarget($this, "listMedia"));
+				$mset = new ilSetting("mobs");
+				if (trim($mset->get("upload_dir")) != "")
+				{
+					include_once("./classes/class.ilFileSystemGUI.php");
+					$fs_gui = new ilFileSystemGUI($mset->get("upload_dir"));
+					$fs_gui->setPostDirPath(true);
+					$fs_gui->setTableId("mepud".$this->object->getId());
+					$fs_gui->setAllowFileCreation(false);
+					$fs_gui->setAllowDirectoryCreation(false);
+					$fs_gui->clearCommands();
+					$fs_gui->addCommand($this, "selectUploadDirFiles", $this->lng->txt("mep_sel_upload_dir_files"),
+						false, true);
+					//$fs_gui->addCommand($this, "assignFullscreenObject", $this->lng->txt("cont_assign_full"));
+					$ret =& $this->ctrl->forwardCommand($fs_gui);
+				}
+				$this->tpl->show();
+				break;
+
 			default:
 				$this->prepareOutput();
 				$cmd = $this->ctrl->getCmd("frameset");
@@ -375,6 +398,12 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	
 			$ilToolbar->addButton($lng->txt("mep_create_folder"),
 				$ilCtrl->getLinkTarget($this, "createFolderForm"));
+		}
+
+		if (trim($mset->get("upload_dir")) != "" && ilMainMenuGUI::_checkAdministrationPermission())
+		{
+			$ilToolbar->addButton($lng->txt("mep_create_from_upload_dir"),
+				$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
 		}
 		
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
@@ -484,32 +513,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		}
 	}
 	
-	/**
-	* show upper icon (standard procedure will work, if no
-	* obj_id is given)
-	*/
-/*
-	function showUpperIcon()
-	{
-		global $tpl;
-		
-		if ($this->ctrl->getCmd() == "explorer")
-		{
-			return;
-		}
-		
-		parent::showUpperIcon();
-		
-		$mep_tree =& $this->object->getTree();
-		if ($_GET["obj_id"] != "" && $_GET["obj_id"] != $mep_tree->getRootId())
-		{
-			$this->ctrl->setParameter($this, "obj_id",
-				$this->getParentFolderId());
-			$tpl->setUpperIcon($this->ctrl->getLinkTarget($this, "listMedia"));
-			$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-		}
-	}
-*/
 
 	/**
 	* output main frameset of media pool
@@ -722,20 +725,30 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			$title = ilMediaPoolItem::lookupTitle($obj_id);
 			
 			// check whether page can be removed
+			$add = "";
 			if ($type == "pg")
 			{
 				include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
-				$usages = ilPageContentUsage::getUsages("incl", $obj_id);
+				$usages = ilPageContentUsage::getUsages("incl", $obj_id, false);
 				if (count($usages) > 0)
 				{
 					ilUtil::sendFailure(sprintf($lng->txt("mep_content_snippet_in_use"), $title), true);
 					$ilCtrl->redirect($this, "listMedia");
 				}
+				else
+				{
+					// check whether the snippet is used in older versions of pages
+					$usages = ilPageContentUsage::getUsages("incl", $obj_id, true);
+					if (count($usages) > 0)
+					{
+						$add = "<div class='small'>".$lng->txt("mep_content_snippet_used_in_older_versions")."</div>";
+					}
+				}
 			}
 			
 			$this->tpl->setCurrentBlock("table_row");
 			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->setVariable("TEXT_CONTENT", $title);
+			$this->tpl->setVariable("TEXT_CONTENT", $title.$add);
 			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_".$type.".gif"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -1283,20 +1296,47 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$ilTabs->addTarget("mep_page_properties", $ilCtrl->getLinkTarget($this, "editMediaPoolPage"),
 			"editMediaPoolPage", get_class($this));
 		$ilTabs->addTarget("cont_usage", $ilCtrl->getLinkTarget($this, "showMediaPoolPageUsages"),
-			"showMediaPoolPageUsages", get_class($this));
+			array("showMediaPoolPageUsages", "showAllMediaPoolPageUsages"), get_class($this));
 		$ilCtrl->setParameter($this, "mepitem_id", $this->object->tree->getParentId($_GET["mepitem_id"]));
 		$ilTabs->setBackTarget($lng->txt("mep_folder"), $ilCtrl->getLinkTarget($this, "listMedia"));
 		$ilCtrl->setParameter($this, "mepitem_id", $_GET["mepitem_id"]);
 	}
 
 	/**
-	 * List all usages of the contnet snippet
+	 * List usages of the contnet snippet
 	 */
-	function showMediaPoolPageUsages()
+	function showAllMediaPoolPageUsages()
+	{
+		$this->showMediaPoolPageUsages(true);
+	}
+
+	
+	/**
+	 * List usages of the contnet snippet
+	 */
+	function showMediaPoolPageUsages($a_all = false)
 	{
 		global $ilTabs, $ilCtrl, $lng, $tpl;
 	
 		$this->setMediaPoolPageTabs();
+		
+		$ilTabs->addSubTab("current_usages", $lng->txt("cont_current_usages"),
+			$ilCtrl->getLinkTarget($this, "showMediaPoolPageUsages"));
+		
+		$ilTabs->addSubTab("all_usages", $lng->txt("cont_all_usages"),
+			$ilCtrl->getLinkTarget($this, "showAllMediaPoolPageUsages"));
+		
+		if ($a_all)
+		{
+			$ilTabs->activateSubTab("all_usages");
+			$cmd = "showAllMediaPoolPageUsages";
+		}
+		else
+		{
+			$ilTabs->activateSubTab("current_usages");
+			$cmd = "showMediaPoolPageUsages";
+		}
+
 		
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
 		$mep_page_gui = new ilMediaPoolPageGUI($_GET["mepitem_id"], $_GET["old_nr"]);
@@ -1306,7 +1346,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$page = new ilMediaPoolPage((int) $_GET["mepitem_id"]);
 
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageUsagesTableGUI.php");
-		$table = new ilMediaPoolPageUsagesTableGUI($this, "showMediaPoolPageUsages", $page);
+		$table = new ilMediaPoolPageUsagesTableGUI($this, $cmd, $page, $a_all);
 
 		$tpl->setContent($table->getHTML());
 		
@@ -1477,5 +1517,124 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 //		$this->tpl->show();
 	}
 
+
+	////
+	//// Upload directory handling
+	////
+
+	/**
+	 * Select files from upload directory
+	 */
+	function selectUploadDirFiles()
+	{
+		global $tpl, $ilTabs, $lng, $ilCtrl, $ilToolbar;
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "listMedia"));
+
+		if (ilMainMenuGUI::_checkAdministrationPermission())
+		{
+
+			// action type
+			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+			$options = array(
+				"rename" => $lng->txt("mep_up_dir_move"),
+				"copy" => $lng->txt("mep_up_dir_copy"),
+				);
+			$si = new ilSelectInputGUI("", "action");
+			$si->setOptions($options);
+			$ilToolbar->addInputItem($si);
+			$ilToolbar->setCloseFormTag(false);
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+			$ilToolbar->setFormName("mep_up_form");
+
+			include_once("./Modules/MediaPool/classes/class.ilUploadDirFilesTableGUI.php");
+			$tab = new ilUploadDirFilesTableGUI($this, "selectUploadDirFiles",
+				$_POST["file"]);
+			$tab->setFormName("mep_up_form");
+			$tpl->setContent($tab->getHTML());
+		}
+	}
+
+	/**
+	 * Create media object from upload directory
+	 */
+	function createMediaFromUploadDir()
+	{
+		$mset = new ilSetting("mobs");
+		$upload_dir = trim($mset->get("upload_dir"));
+
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+
+		if (is_array($_POST["file"]) && ilMainMenuGUI::_checkAdministrationPermission())
+		{
+			foreach ($_POST["file"] as $f)
+			{
+				$f  = str_replace("..", "", $f);
+				$fullpath = $upload_dir."/".$f;
+				$mob = new ilObjMediaObject();
+					$mob->setTitle(basename($fullpath));
+				$mob->setDescription("");
+				$mob->create();
+
+				// determine and create mob directory, move uploaded file to directory
+				//$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob->getId();
+				$mob->createDirectory();
+				$mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
+
+				$media_item = new ilMediaItem();
+				$mob->addMediaItem($media_item);
+				$media_item->setPurpose("Standard");
+
+				$file = $mob_dir."/".basename($fullpath);
+				ilUtil::moveUploadedFile($fullpath,
+					basename($fullpath), $file, false, $_POST["action"]);
+
+				// get mime type
+				$format = ilObjMediaObject::getMimeType($file);
+				$location = basename($fullpath);
+
+				// set real meta and object data
+				$media_item->setFormat($format);
+				$media_item->setLocation($location);
+				$media_item->setLocationType("LocalFile");
+
+				$mob->setDescription($format);
+
+				// determine width and height of known image types
+				$wh = ilObjMediaObject::_determineWidthHeight(500, 400, $format,
+					"File", $mob_dir."/".$location, $media_item->getLocation(),
+					true, true, "", "");
+				$media_item->setWidth($wh["width"]);
+				$media_item->setHeight($wh["height"]);
+				if ($wh["info"] != "")
+				{
+	//				ilUtil::sendInfo($wh["info"], true);
+				}
+
+				$media_item->setHAlign("Left");
+				ilUtil::renameExecutables($mob_dir);
+				$mob->update();
+
+
+				// put it into current folder
+				$mep_item = new ilMediaPoolItem();
+				$mep_item->setTitle($mob->getTitle());
+				$mep_item->setType("mob");
+				$mep_item->setForeignId($mob->getId());
+				$mep_item->create();
+
+				$tree = $this->object->getTree();
+				$parent = ($_GET["mepitem_id"] == "")
+					? $tree->getRootId()
+					: $_GET["mepitem_id"];
+				$tree->insertNode($mep_item->getId(), $parent);
+			}
+		}
+		ilUtil::redirect("ilias.php?baseClass=ilMediaPoolPresentationGUI&cmd=listMedia&ref_id=".
+			$_GET["ref_id"]."&mepitem_id=".$_GET["mepitem_id"]);
+
+	}
 }
 ?>

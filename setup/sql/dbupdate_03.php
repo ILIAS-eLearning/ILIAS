@@ -5754,3 +5754,56 @@ foreach($old as $key=>$value)
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3349>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3350>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("Correct", "qover", "div",
+				array(
+					"margin-top" => "20px",
+					"margin-bottom" => "20px",
+					"padding-top" => "10px",
+					"padding-right" => "60px",
+					"padding-bottom" => "10px",
+					"padding-left" => "30px",
+					"background-color" => "#E7FFE7",
+					"border-width" => "1px",
+					"border-style" => "solid",
+					"border-color" => "#808080"
+				));
+?>
+<#3351>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("Incorrect", "qover", "div",
+				array(
+					"margin-top" => "20px",
+					"margin-bottom" => "20px",
+					"padding-top" => "10px",
+					"padding-right" => "60px",
+					"padding-bottom" => "10px",
+					"padding-left" => "30px",
+					"background-color" => "#FFE7E7",
+					"border-width" => "1px",
+					"border-style" => "solid",
+					"border-color" => "#808080"
+				));
+?>
+<#3352>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("StatusMessage", "qover", "div",
+				array(
+					"padding-bottom" => "7px"
+				));
+?>
+<#3353>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("WrongAnswersMessage", "qover", "div",
+				array(
+				));
+?>

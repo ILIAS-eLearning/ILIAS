@@ -11479,3 +11479,29 @@ wsp#:#wsp_permission_removed#:#The item has been removed.
 wsp#:#wsp_share_with_members#:#Share with members
 wsp#:#wsp_share_success#:#A new entry has been added.
 wsp#:#wsp_share_search_users#:#Search Users
+content#:#cont_html_export_ids#:#HTML Export IDs
+content#:#cont_html_export_ids_info#:#Allows to maintain extra IDs for ILIAS learning modules, that are used for naming HTML files, when HTML export is done.
+content#:#cont_export_id#:#Export ID
+content#:#cont_exp_ids_not_resp_format1#:#Export IDs may only use the following characters
+content#:#cont_exp_ids_not_resp_format2#:#Please check and correct your input.
+content#:#cont_saved_export_ids#:#Saved HTML Export IDs.
+content#:#content_some_export_ids_multiple_times#:#Some export IDs are used multiple times. This will lead to missing pages in the export.
+content#:#cont_exp_id_used_multiple#:#Export ID used multiple times
+content#:#mob_upload_dir#:#Upload Directory
+content#:#mob_upload_dir_info#:#Server directory from which multiple files can be used to create media objects in media pools. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.
+mep#:#mep_create_from_upload_dir#:#Create Media Objects from Upload Directory
+mep#:#mep_sel_upload_dir_files#:#Select Files/Directories
+mep#:#mep_upload_dir_files#:#Files from Upload Directory
+mep#:#mep_file#:#File
+mep#:#mep_create_media_files#:#Create Media Objects
+mep#:#mep_up_dir_move#:#Move Files from Upload Directory (Faster)
+mep#:#mep_up_dir_copy#:#Copy Files from Upload Directory (Keeps files in the upload directory)
+content#:#cont_exp_ids_not_resp_format3#:#The ID must not start with a number.
+content#:#cont_current_usages#:#Current Usages
+content#:#cont_all_usages#:#Include History
+content#:#cont_set_layout#:#Set Layout
+mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page.
+content#:#cont_missing_snippet#:#Missing Content Snippet. The snippet has been deleted.
+content#:#cont_enable_page_history#:#Page History
+content#:#cont_enable_page_history_info#:#Stores older versions of pages and allows to roll back to older versions.
+style#:#sty_type_qover#:#Question Overview

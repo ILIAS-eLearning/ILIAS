@@ -1,25 +1,7 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 require_once("./Modules/LearningModule/classes/class.ilLMObjectGUI.php");
 require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
@@ -289,6 +271,10 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
 		$form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
 		$form_gui->addMultiCommand($lng->txt("cont_de_activate"), "activatePages");
+		if ($this->content_object->getLayoutPerPage())
+		{	
+			$form_gui->addMultiCommand($lng->txt("cont_set_layout"), "setPageLayout");
+		}
 		$form_gui->setDragIcon(ilUtil::getImagePath("icon_pg_s.gif"));
 		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
 		$form_gui->addHelpItem($lng->txt("cont_chapters_after_pages"));
@@ -1318,5 +1304,77 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$ilCtrl->redirect($this, "showHierarchy");
 	}
 	
+	////
+	//// Pages layout
+	////
+	
+	/**
+	 * Set layout for multipl pages
+	 */
+	function setPageLayout()
+	{
+		global $tpl, $ilCtrl, $lng;
+
+		if (!is_array($_POST["id"]))
+		{
+			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "showHierarchy");
+		}
+		
+		$this->initSetPageLayoutForm();
+		
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Init set page layout form.
+	 */
+	public function initSetPageLayoutForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		if (is_array($_POST["id"]))
+		{
+			foreach ($_POST["id"] as $id)
+			{
+				$hi = new ilHiddenInputGUI("id[]");
+				$hi->setValue($id);
+				$this->form->addItem($hi);
+			}
+		}
+		$layout = ilObjContentObjectGUI::getLayoutOption($lng->txt("cont_layout"), "layout",
+			$this->content_object->getLayout());
+
+		$this->form->addItem($layout);
+	
+		$this->form->addCommandButton("savePageLayout", $lng->txt("save"));
+		$this->form->addCommandButton("showHierarchy", $lng->txt("cancel"));
+		
+		$this->form->setTitle($lng->txt("cont_set_layout"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	 
+	}
+	
+	/**
+	 * Save page layout
+	 */
+	function savePageLayout()
+	{
+		global $lng, $ilCtrl;
+		
+		foreach ($_POST["id"] as $id)
+		{
+			$id = ilUtil::stripSlashes($id);
+			ilLMPageObject::writeLayout(ilUtil::stripSlashes($id),
+				ilUtil::stripSlashes($_POST["layout"]),
+				$this->content_object);
+		}
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "showHierarchy");
+	}
+
 }
 ?>

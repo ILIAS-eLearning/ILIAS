@@ -689,6 +689,15 @@ div.ilc_qover_Incorrect
 	border-style: solid;
 }
 
+div.ilc_qover_StatusMessage
+{
+	padding-bottom: 7px;
+}
+
+div.ilc_qover_WrongAnswersMessage
+{
+}
+
 /* RTE */
 div.ilc_rte_menu_RTEMenu
 {

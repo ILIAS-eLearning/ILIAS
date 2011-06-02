@@ -129,6 +129,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 			$mset->set("mep_activate_pages", $_POST["activate_pages"]);
 			$mset->set("file_manager_always", $_POST["file_manager_always"]);
 			$mset->set("restricted_file_types", $_POST["restricted_file_types"]);
+			$mset->set("upload_dir", $_POST["mob_upload_dir"]);
 			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "editSettings");
@@ -167,6 +168,12 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 		$this->form->addItem($ta);
 		
 
+		// Upload dir for learning resources
+		$tx_prop = new ilTextInputGUI($lng->txt("mob_upload_dir"),
+			"mob_upload_dir");
+		$tx_prop->setInfo($lng->txt("mob_upload_dir_info"));
+		$this->form->addItem($tx_prop);
+
 		$this->form->addCommandButton("saveSettings", $lng->txt("save"));
 	                
 		$this->form->setTitle($lng->txt("settings"));
@@ -184,6 +191,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 		$values["activate_pages"] = $mset->get("mep_activate_pages");
 		$values["file_manager_always"] = $mset->get("file_manager_always");
 		$values["restricted_file_types"] = $mset->get("restricted_file_types");
+		$values["mob_upload_dir"] = $mset->get("upload_dir");
 	
 		$this->form->setValuesByArray($values);
 	}

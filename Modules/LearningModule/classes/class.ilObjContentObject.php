@@ -1911,7 +1911,7 @@ class ilObjContentObject extends ilObject
 			array("source" => iljQueryUtil::getLocaljQueryUIPath(),
 				"target" => $a_target_dir.'/js/jquery-ui-min.js',
 				"type" => "js"),
-			array("source" => './Services/COPages/js/ilCOPagePres.js',
+			array("source" => './Services/COPage/js/ilCOPagePres.js',
 				"target" => $a_target_dir.'/js/ilCOPagePres.js',
 				"type" => "js"),
 			array("source" => './Modules/Scorm2004/scripts/questions/pure.js',
@@ -2081,6 +2081,23 @@ class ilObjContentObject extends ilObject
 		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
+		// get html export id mapping
+		$lm_set = new ilSetting("lm");
+		$exp_id_map = array();
+
+		if ($lm_set->get("html_export_ids"))
+		{
+			foreach ($pages as $page)
+			{
+				$exp_id = ilLMPageObject::getExportId($this->getId(), $page["obj_id"]);
+				if (trim($exp_id) != "")
+				{
+					$exp_id_map[$page["obj_id"]] = trim($exp_id);
+				}
+			}
+		}
+//exit;
+		reset($pages);
 		foreach ($pages as $page)
 		{
 			if (ilPageObject::_exists($this->getType(), $page["obj_id"]))
@@ -2088,7 +2105,8 @@ class ilObjContentObject extends ilObject
 				$ilLocator->clearItems();
 				$ilBench->start("ExportHTML", "exportHTMLPage");
 				$ilBench->start("ExportHTML", "exportPageHTML");
-				$this->exportPageHTML($a_lm_gui, $a_target_dir, $page["obj_id"]);
+				$this->exportPageHTML($a_lm_gui, $a_target_dir, $page["obj_id"],
+					"", $exp_id_map);
 				$ilBench->stop("ExportHTML", "exportPageHTML");
 
 				// get all snippets of page
@@ -2135,7 +2153,8 @@ class ilObjContentObject extends ilObject
 	/**
 	* export page html
 	*/
-	function exportPageHTML(&$a_lm_gui, $a_target_dir, $a_lm_page_id, $a_frame = "")
+	function exportPageHTML(&$a_lm_gui, $a_target_dir, $a_lm_page_id, $a_frame = "",
+		$a_exp_id_map = array())
 	{
 		global $tpl, $ilBench;
 		
@@ -2149,9 +2168,10 @@ class ilObjContentObject extends ilObject
 
 		if ($a_frame == "")
 		{
-			if ($nid = ilLMObject::_lookupNID($a_lm_gui->lm->getId(), $a_lm_page_id, "pg"))
+			//if ($nid = ilLMObject::_lookupNID($a_lm_gui->lm->getId(), $a_lm_page_id, "pg"))
+			if (is_array($a_exp_id_map) && isset($a_exp_id_map[$a_lm_page_id]))
 			{
-				$file = $a_target_dir."/lm_pg_".$nid.".html";
+				$file = $a_target_dir."/lm_pg_".$a_exp_id_map[$a_lm_page_id].".html";
 			}
 			else
 			{

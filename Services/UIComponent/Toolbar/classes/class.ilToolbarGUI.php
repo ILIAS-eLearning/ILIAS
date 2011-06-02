@@ -16,6 +16,7 @@ class ilToolbarGUI
 	var $open_form_tag = true;
 	var $close_form_tag = true;
 	var $form_target = "";
+	var $form_name = "";
 
 	function __construct()
 	{
@@ -207,6 +208,26 @@ class ilToolbarGUI
 	}
 
 	/**
+	 * Set form name
+	 *
+	 * @param	string form name
+	 */
+	function setFormName($a_val)
+	{
+		$this->form_name = $a_val;
+	}
+
+	/**
+	 * Get form name
+	 *
+	 * @return	string form name
+	 */
+	function getFormName()
+	{
+		return $this->form_name;
+	}
+
+	/**
 	* Get toolbar html
 	*/
 	function getHTML()
@@ -332,6 +353,11 @@ class ilToolbarGUI
 					{
 						$tpl->setVariable("TARGET", ' target="'.$this->form_target.'" ');
 					}
+					if ($this->form_name != "")
+					{
+						$tpl->setVariable("FORMNAME", 'name="'.$this->getFormName().'"');
+					}
+
 					$tpl->parseCurrentBlock();
 				}
 				if ($this->getCloseFormTag())

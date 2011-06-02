@@ -19,7 +19,8 @@ class ilFileSystemTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_cur_dir, 
 		$a_cur_subdir, $a_label_enable = false,
-		$a_file_labels, $a_label_header = "", $a_commands = array())
+		$a_file_labels, $a_label_header = "", $a_commands = array(),
+		$a_post_dir_path = false)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 
@@ -28,6 +29,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
 		$this->label_enable = $a_label_enable;
 		$this->label_header = $a_label_header;
 		$this->file_labels = $a_file_labels;
+		$this->post_dir_path = $a_post_dir_path;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("cont_files")." ".$this->cur_subdir);
@@ -55,13 +57,21 @@ class ilFileSystemTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.directory_row.html");
 		$this->setEnableTitle(true);
 
-		$this->addMultiCommand("downloadFile", $lng->txt("download"));
-		$this->addMultiCommand("confirmDeleteFile", $lng->txt("delete"));
-		$this->addMultiCommand("unzipFile", $lng->txt("unzip"));
-		$this->addMultiCommand("renameFileForm", $lng->txt("rename"));
+		//$this->addMultiCommand("downloadFile", $lng->txt("download"));
+		//$this->addMultiCommand("confirmDeleteFile", $lng->txt("delete"));
+		//$this->addMultiCommand("unzipFile", $lng->txt("unzip"));
+		//$this->addMultiCommand("renameFileForm", $lng->txt("rename"));
 		for ($i=0; $i < count($a_commands); $i++)
 		{
-			$this->addMultiCommand("extCommand_".$i, $a_commands[$i]["name"]);
+			if ($a_commands["int"])
+			{
+				$this->addMultiCommand($a_commands[$i]["method"],
+					$a_commands[$i]["name"]);
+			}
+			else
+			{
+				$this->addMultiCommand("extCommand_".$i, $a_commands[$i]["name"]);
+			}
 		}
 	}
 	
@@ -167,7 +177,14 @@ class ilFileSystemTableGUI extends ilTable2GUI
 		}
 		
 		$this->tpl->setVariable("TXT_SIZE", $a_set["size"]);
-		$this->tpl->setVariable("CHECKBOX_ID", $a_set["entry"]);
+		if ($this->post_dir_path)
+		{
+			$this->tpl->setVariable("CHECKBOX_ID", $a_set["file"]);
+		}
+		else
+		{
+			$this->tpl->setVariable("CHECKBOX_ID", $a_set["entry"]);
+		}
 
 		$ilCtrl->setParameter($this->parent_obj, "cdir", $_GET["cdir"]);
 		$ilCtrl->setParameter($this->parent_obj, "newdir", $_GET["newdir"]);

@@ -123,13 +123,13 @@ class ilPageObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPageObjectGUI($a_parent_type, $a_id = 0, $a_old_nr = 0)
+	function ilPageObjectGUI($a_parent_type, $a_id = 0, $a_old_nr = 0,
+		$a_prevent_get_id = false)
 	{
 		global $ilias, $tpl, $lng, $ilCtrl,$ilTabs;
-
 		$this->ctrl =& $ilCtrl;
 
-		if ($a_old_nr == 0 && $_GET["old_nr"] > 0)
+		if ($a_old_nr == 0 && !$a_prevent_get_id && $_GET["old_nr"] > 0)
 		{
 			$a_old_nr = $_GET["old_nr"];
 		}
@@ -2601,7 +2601,7 @@ class ilPageObjectGUI
 	*/
 	function insertContentIncludes($a_html)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		$c_pos = 0;
 		$start = strpos($a_html, "{{{{{ContentInclude;");
@@ -2618,10 +2618,10 @@ class ilPageObjectGUI
 			if ($param[0] == "mep" && is_numeric($param[1]) && $param[2] <= 0)
 			{
 				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
+
 				if (ilMediaPoolPage::_exists($param[1]))
 				{
-					$page_gui = new ilMediaPoolPageGUI($param[1]);
-					
+					$page_gui = new ilMediaPoolPageGUI($param[1], 0, true);
 					if ($this->getOutputMode() != "offline")
 					{
 						$page_gui->setFileDownloadLink($this->determineFileDownloadLink());
@@ -2637,7 +2637,10 @@ class ilPageObjectGUI
 				}
 				else
 				{
-					$html = "";
+					if ($this->getOutputMode() == "edit")
+					{
+						$html = "// ".$lng->txt("cont_missing_snippet")." //";
+					}
 				}
 				$h2 = substr($a_html, 0, $start).
 					$html.
@@ -3070,7 +3073,10 @@ class ilPageObjectGUI
 				 "", "ilmdeditorgui");
 		}
 
-		if ($this->getEnableEditing() && !$this->layout_mode)
+		$lm_set = new ilSetting("lm");
+		
+		if ($this->getEnableEditing() && !$this->layout_mode &&
+			$lm_set->get("page_history", 1))
 		{
 			$ilTabs->addTarget("history", $this->ctrl->getLinkTarget($this, "history")
 				, "history", get_class($this));
