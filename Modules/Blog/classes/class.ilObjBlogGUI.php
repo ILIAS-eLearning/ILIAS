@@ -242,7 +242,7 @@ class ilObjBlogGUI extends ilObject2GUI
 								"navigation"=>$nav);
 						
 						case self::MODE_EMBEDDED_FULL:
-							$wtpl = new ilTemplate("tpl.blog_embedded.html", true, true, "Modules/blog");
+							$wtpl = new ilTemplate("tpl.blog_embedded.html", true, true, "Modules/Blog");
 							$wtpl->setVariable("VAL_TITLE", $title);
 							$wtpl->setVariable("VAL_LIST", $list);
 							$wtpl->setVariable("VAL_NAVIGATION", $nav);							
@@ -274,7 +274,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		global $lng, $ilCtrl;
 		
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/blog");
+		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/Blog");
 		
 		foreach($items as $item)
 		{
@@ -345,7 +345,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		$max_detail_postings = 10;
 		
 		$wtpl = new ilTemplate("tpl.blog_list_navigation.html",	true, true,
-			"Modules/blog");
+			"Modules/Blog");
 
 		$counter = 0;
 		foreach($items as $month => $postings)
