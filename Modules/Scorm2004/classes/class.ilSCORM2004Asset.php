@@ -701,9 +701,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 				"<SimpleListItem>", "</SimpleListItem>",
 				"<SimpleNumberedList>", "</SimpleNumberedList>"
 				),
-			array("<ul>", "</ul>",
-				"<li>", "</li>",
-				"<ol>", "</ol>"
+			array("<ul class='ilc_list_u_BulletedList'>", "</ul>",
+				"<li class='ilc_list_item_StandardListItem'>", "</li>",
+				"<ol class='ilc_list_o_NumberedList'>", "</ol>"
 				),
 			$a_text);
 		return $a_text;

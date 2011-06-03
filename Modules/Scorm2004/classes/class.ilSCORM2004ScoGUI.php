@@ -104,7 +104,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 
 		$this->setTabs();
 		$this->setLocator();
-		$ilTabs->setTabActive("properties");
+		$ilTabs->setTabActive("sahs_desc_objectives");
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -288,7 +288,7 @@ die("deprecated");
 
 		// properties (named learning objectives, since here is currently
 		// no other property)
-		$ilTabs->addTarget("properties",
+		$ilTabs->addTarget("sahs_desc_objectives",
 		$ilCtrl->getLinkTarget($this,'showProperties'),
 			 "showProperties", get_class($this));
 
