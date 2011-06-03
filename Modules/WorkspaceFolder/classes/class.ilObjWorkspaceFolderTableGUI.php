@@ -15,12 +15,13 @@ include_once "Services/Table/classes/class.ilTable2GUI.php";
 
 class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 {
-	function __construct($a_parent_obj, $a_parent_cmd, $a_node_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_node_id, $a_access_handler)
 	{
 		global $ilCtrl;
 		
 		$this->node_id = $a_node_id;
 		$this->setId("tbl_wfld");
+		$this->access_handler = $a_access_handler;
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -47,12 +48,14 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		$tree = new ilWorkspaceTree($ilUser->getId());
 		$nodes = $tree->getChilds($this->node_id, "title");
 		
+		$this->shared_objects = $this->access_handler->getSharedObjects($ilUser->getId());
+		
 		$this->setData($nodes);
 	}
 
 	protected function fillRow($node)
 	{
-		global $objDefinition;
+		global $objDefinition, $ilCtrl;
 		
 		$class = $objDefinition->getClassName($node["type"]);
 		$location = $objDefinition->getLocation($node["type"]);
@@ -83,6 +86,20 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		}
 
 		$item_list_gui->setContainerObject($this->parent_obj);
+		
+		if(in_array($node["type"], array("file", "blog")))
+		{
+			// add "share" link
+			$ilCtrl->setParameterByClass("ilworkspaceaccessgui", "wsp_id", $node["wsp_id"]);
+			$share_link = $ilCtrl->getLinkTargetByClass(array("ilObj".$class."GUI", "ilworkspaceaccessgui"), "share");
+			$item_list_gui->addCustomCommand($share_link, "wsp_permissions");
+			
+			// show "shared" status
+			if(in_array($node["obj_id"], $this->shared_objects))
+			{
+				$item_list_gui->addCustomProperty($this->lng->txt("status"), $this->lng->txt("wsp_status_shared"), true, true);
+			}
+		}
 
 		if($html = $item_list_gui->getListItemHTML($node["wsp_id"], $node["obj_id"],
 				$node["title"], $node["description"], false, false, "", ilObjectListGUI::CONTEXT_WORKSPACE))
