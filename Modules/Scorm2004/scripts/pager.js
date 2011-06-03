@@ -95,6 +95,29 @@ var pager =
 			//jQuery('a.ilc_page_lnavlink_LeftNavigationLink').hide();
 			jQuery('a.ilc_page_lnavlink_LeftNavigationLink').css("visibility", "hidden");
 		}
+	},
+	
+	jumpToElement : function(id)
+	{
+		var newPage = jQuery("#" + id).parents('table.ilc_page_cont_PageContainer');
+		if(newPage.length>0)
+		{
+			jQuery(pager.currentPage).hide();
+			pager.currentPage = newPage[0];
+			jQuery(pager.currentPage).show("",function(){ jQuery('.imagemap').maphilight({fade:true});});
+			ilCOPagePres.fixMarkerPositions();
+		
+			var prevPages = jQuery(pager.currentPage).prevAll('table.ilc_page_cont_PageContainer');
+			if (prevPages.length == 0)
+			{
+				jQuery('a.ilc_page_lnavlink_LeftNavigationLink').css("visibility", "hidden");
+			}
+			else
+			{
+				jQuery('a.ilc_page_lnavlink_LeftNavigationLink').css("visibility", "");
+			}
+			pager.updateNextLink();
+		}
 	}
 };
 

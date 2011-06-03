@@ -745,12 +745,22 @@ ilCOPagePres =
 					{
 						ul.append(
 							'<li class="ilc_list_item_StandardListItem">' +
-							'<a href="#" class="ilc_qoverl_WrongAnswerLink">' + questions[j].question + '</a>'
+							'<a href="#" onclick="return ilCOPagePres.jumpToQuestion(\'' + j + '\');" class="ilc_qoverl_WrongAnswerLink">' + questions[j].question + '</a>'
 							+ '</li>');
 					}
 				}
 			}
 		}
+	},
+
+	// jump to a question
+	jumpToQuestion: function(qid)
+	{
+		if (typeof pager != "undefined")
+		{
+			pager.jumpToElement("container" + qid);
+		}
+		return false;
 	}
 
 }
