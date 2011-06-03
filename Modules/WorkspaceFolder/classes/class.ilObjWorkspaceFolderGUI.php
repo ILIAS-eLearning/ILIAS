@@ -89,7 +89,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		unset($_SESSION['clipboard']['wsp2repo']);
 
 		include_once "Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderTableGUI.php";
-		$table = new ilObjWorkspaceFolderTableGUI($this, "render", $this->node_id);
+		$table = new ilObjWorkspaceFolderTableGUI($this, "render", $this->node_id, $this->getAccessHandler());
 		$tpl->setContent($table->getHTML());
 
 		include_once "Modules/WorkspaceFolder/classes/class.ilWorkspaceFolderExplorer.php";

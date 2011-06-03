@@ -77,6 +77,7 @@ class ilObjectListGUI
 	protected $static_link_enabled = false;
 	
 	protected $repository_transfer_enabled = false;
+	protected $shared = false;
 	
 	static protected $cnt_notes = array();
 	static protected $cnt_tags = array();
