@@ -474,11 +474,31 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	
 	function share()
 	{
-		global $tpl;
+		global $tpl, $ilToolbar;
 		
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
-		$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler());		
-		$tpl->setContent($tbl->getHTML());					
+		$users = $this->getAccessHandler()->getSharedOwners();
+	
+		// user selection
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$si = new ilSelectInputGUI($this->lng->txt("user"), "user");
+		$si->setOptions(array(""=>"-")+$users);
+		$ilToolbar->addInputItem($si);
+		
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+		$ilToolbar->addFormButton($this->lng->txt("ok"), "share");
+
+		if(!$_REQUEST["user"])
+		{			
+			ilUtil::sendInfo($this->lng->txt("wsp_share_select_user"));
+		}
+		else
+		{
+			$si->setValue($_REQUEST["user"]);
+			
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
+			$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $_REQUEST["user"]);		
+			$tpl->setContent($tbl->getHTML());
+		}	
 	}
 	
 	function applyShareFilter()
