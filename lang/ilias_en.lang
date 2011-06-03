@@ -11324,7 +11324,7 @@ content#:#cont_pc_prof#:#Personal Data
 content#:#cont_insert_profile#:#Add Personal Data
 content#:#cont_update_profile#:#Edit Personal Data
 content#:#cont_profile_mode#:#Mode
-content#:#cont_profile_mode_inherit#:#Inherit
+content#:#cont_profile_mode_inherit#:#Automatic
 content#:#cont_profile_mode_inherit_info#:#Use your public profile settings
 content#:#cont_profile_mode_manual#:#Manual
 content#:#cont_profile_mode_manual_info#:#Use the following data:
