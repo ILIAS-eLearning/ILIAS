@@ -64,7 +64,7 @@ class ilPersonalWorkspaceGUI
 			$next_class = "ilObj".$objDefinition->getClassName($node["type"])."GUI";
 			$ilCtrl->setCmdClass($next_class);
 		}
-
+		
 		// current node
 		$class_path = $ilCtrl->lookupClassPath($next_class);
 		include_once($class_path);
@@ -79,10 +79,10 @@ class ilPersonalWorkspaceGUI
 			$gui = new $class_name($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID, false);
 		}
 		$ilCtrl->forwardCommand($gui);
-
+		
 		$this->renderLocator();
 		$this->renderTitle();
-
+		
 		if(($cmd == "" || $cmd == "render" || $cmd == "view") && !$_REQUEST["new_type"])
 		{
 			$this->renderToolbar();
@@ -115,22 +115,38 @@ class ilPersonalWorkspaceGUI
 
 	protected function renderTitle()
 	{
-		global $tpl, $lng;
+		global $tpl, $lng, $ilTabs, $ilCtrl;
 		
 		$root = $this->tree->getNodeData($this->node_id);
-		if(true || $root["type"] == "wsrt")
+		if($root["type"] == "wfld" || $root["type"] == "wsrt")
 		{
 			$title = $lng->txt("wsp_personal_workspace");
 			$icon = ilUtil::getImagePath("icon_wsrt_b.gif");
 			$tpl->setDescription($lng->txt("wsp_personal_workspace_description"));
 		}
-		/*
 		else
 		{
+			// do not override existing back targets, e.g. public user profile gui
+			if(!$ilTabs->back_target)
+			{
+				$parent = $this->tree->getParentNodeData($this->node_id);
+				if($parent["type"] == "wsrt")
+				{
+					$class = "ilobjworkspacerootfoldergui";
+				}
+				else
+				{
+					$class = "ilobjworkspacefoldergui";
+				}
+
+				$ilCtrl->setParameterByClass($class, "wsp_id", $parent["wsp_id"]);
+				$ilTabs->setBackTarget($lng->txt("back"),
+					$ilCtrl->getLinkTargetByClass($class, ""));
+			}
+			
 			$title = $root["title"];
 			$icon = ilObject::_getIcon($root["obj_id"], "big");
-		}		 
-		*/
+		}
 		$tpl->setTitle($title);
 		$tpl->setTitleIcon($icon, $title);		
 	}
