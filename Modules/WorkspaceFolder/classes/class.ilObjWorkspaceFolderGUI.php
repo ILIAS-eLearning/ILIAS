@@ -21,24 +21,41 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		return "wfld";
 	}
 
-	function setTabs()
+	function setTabs($a_show_settings = true)
 	{
 		global $lng, $ilUser;
 
 		$this->ctrl->setParameter($this,"wsp_id",$this->node_id);
-
-		if ($this->checkPermissionBool("read"))
+		
+		$this->tabs_gui->addTab("wsp", $lng->txt("wsp_tab_personal"), 
+			$this->ctrl->getLinkTarget($this, ""));
+		$this->tabs_gui->addTab("share", $lng->txt("wsp_tab_shared"), 
+			$this->ctrl->getLinkTarget($this, "share"));
+		
+		if(stristr($this->ctrl->getCmd(), "share"))
 		{
-			$this->tabs_gui->addTab("content",
-				$lng->txt("content"),
-				$this->ctrl->getLinkTarget($this, ""));
+			$this->tabs_gui->activateTab("share");
 		}
-
-		if ($this->checkPermissionBool("write"))
+		else
 		{
-			$this->tabs_gui->addTab("settings",
-				$lng->txt("settings"),
-				$this->ctrl->getLinkTarget($this, "edit"));
+			$this->tabs_gui->activateTab("wsp");
+			
+			if($a_show_settings)
+			{
+				if ($this->checkPermissionBool("read"))
+				{
+					$this->tabs_gui->addSubTab("content",
+						$lng->txt("content"),
+						$this->ctrl->getLinkTarget($this, ""));
+				}
+
+				if ($this->checkPermissionBool("write"))
+				{
+					$this->tabs_gui->addSubTab("settings",
+						$lng->txt("settings"),
+						$this->ctrl->getLinkTarget($this, "edit"));
+				}
+			}
 		}
 	}
 
@@ -80,7 +97,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 		if($this->node_id != $exp->getRoot())
 		{
-			$ilTabs->activateTab("content");
+			$ilTabs->activateSubTab("content");
 		}
 		
 		$left = "";
@@ -105,6 +122,22 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		}
 
 		$tpl->setLeftContent($left);
+	}
+	
+	function edit()
+	{				
+	    parent::edit();		
+	  
+		$this->tabs_gui->activateTab("wsp");
+		$this->tabs_gui->activateSubTab("settings");
+	}
+	
+	function update()
+	{
+		parent::update();
+		
+		$this->tabs_gui->activateTab("wsp");
+		$this->tabs_gui->activateSubTab("settings");
 	}
 
 	/**
@@ -437,6 +470,35 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		ilUtil::sendSuccess($this->lng->txt('msg_cut_copied'), true);
 		$this->ctrl->setParameter($this, "wsp_id", $source_node_id);
 		$this->ctrl->redirect($this);		 
+	}
+	
+	function share()
+	{
+		global $tpl;
+		
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
+		$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler());		
+		$tpl->setContent($tbl->getHTML());					
+	}
+	
+	function applyShareFilter()
+	{
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
+		$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler());		
+		$tbl->resetOffset();
+		$tbl->writeFilterToSession();
+		
+		$this->share();
+	}
+	
+	function resetShareFilter()
+	{
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
+		$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler());		
+		$tbl->resetOffset();
+		$tbl->resetFilter();
+		
+		$this->share();
 	}
 }
 

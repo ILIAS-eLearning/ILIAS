@@ -118,17 +118,19 @@ class ilPersonalWorkspaceGUI
 		global $tpl, $lng;
 		
 		$root = $this->tree->getNodeData($this->node_id);
-		if($root["type"] == "wsrt")
+		if(true || $root["type"] == "wsrt")
 		{
 			$title = $lng->txt("wsp_personal_workspace");
 			$icon = ilUtil::getImagePath("icon_wsrt_b.gif");
 			$tpl->setDescription($lng->txt("wsp_personal_workspace_description"));
 		}
+		/*
 		else
 		{
 			$title = $root["title"];
 			$icon = ilObject::_getIcon($root["obj_id"], "big");
-		}
+		}		 
+		*/
 		$tpl->setTitle($title);
 		$tpl->setTitleIcon($icon, $title);		
 	}
