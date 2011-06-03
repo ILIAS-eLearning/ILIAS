@@ -63,6 +63,31 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 
 		$this->getItems();
 	}
+	
+	public function numericOrdering($a_field) 
+	{
+		if($this->filter["measure"] != "read_count")
+		{
+			return false;			
+		}
+		
+		$fields = array();
+		$fields[] = "total";
+		
+		if(strpos($this->filter["yearmonth"], "-") === false)
+		{
+			for($loop = 1; $loop<13; $loop++)
+			{
+				$fields[] = "month_".$loop;
+			}
+		}
+		
+		if(in_array($a_field, $fields))
+		{
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	* Init filter
