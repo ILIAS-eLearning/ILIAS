@@ -868,7 +868,7 @@ class ilObjectListGUI
 		global $ilAccess;
 
 		$cache_prefix = null;
-		if($this->context == self::CONTEXT_WORKSPACE || $this->context = self::CONTEXT_WORKSPACE_SHARING)
+		if($this->context == self::CONTEXT_WORKSPACE || $this->context == self::CONTEXT_WORKSPACE_SHARING)
 		{
 			$cache_prefix = "wsp";
 			if(!$this->ws_access)
