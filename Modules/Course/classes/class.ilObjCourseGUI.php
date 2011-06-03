@@ -1450,7 +1450,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$mem->setInfo($this->lng->txt('crs_show_members_info'));
 		$form->addItem($mem);
 		
-		$this->fillECSExportSettings2($form);
+		$this->fillECSExportSettings($form);
 
 		return $form;
 	}
@@ -1485,7 +1485,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 * @param void
 	 * @return bool
 	 */
-	protected function fillECSExportSettings(ilPropertyFormGUI $a_form)
+	protected function fillECSExportSettings2(ilPropertyFormGUI $a_form)
 	{
 		global $ilLog;
 		
