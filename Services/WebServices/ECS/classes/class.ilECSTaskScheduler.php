@@ -481,6 +481,8 @@ class ilECSTaskScheduler
 	 */
 	protected function initNextExecution()
 	{
+		global $ilLog;
+
 		// Start task execution as backend process
 		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
 
