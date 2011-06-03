@@ -11505,3 +11505,6 @@ content#:#cont_missing_snippet#:#Missing Content Snippet. The snippet has been d
 content#:#cont_enable_page_history#:#Page History
 content#:#cont_enable_page_history_info#:#Stores older versions of pages and allows to roll back to older versions.
 style#:#sty_type_qover#:#Question Overview
+wsp#:#wsp_tab_personal#:#My Resources
+wsp#:#wsp_tab_shared#:#Shared By Other Users
+wsp#:#wsp_shared_resources#:#Shared Resources

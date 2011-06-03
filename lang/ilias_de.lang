@@ -11452,3 +11452,6 @@ mep#:#mep_content_snippet_used_in_older_versions#:#Achtung: Der Inhaltsbaustein 
 content#:#cont_missing_snippet#:#Fehlender Inhaltsbaustein: Der Inhaltsbaustein wurde gelöscht.
 content#:#cont_enable_page_history#:#Seiteverlauf aktivieren
 content#:#cont_enable_page_history_info#:#Ältere Versionen von Seiten werden gespeichert und können wiederhergestellt werden.
+wsp#:#wsp_tab_personal#:#Meine Ressourcen
+wsp#:#wsp_tab_shared#:#Freigegeben von anderen Benutzern
+wsp#:#wsp_shared_resources#:#Freigegebene Ressourcen
