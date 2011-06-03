@@ -64,11 +64,6 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 	
 	public function numericOrdering($a_field) 
 	{
-		if($this->filter["measure"] != "read_count")
-		{
-			return false;			
-		}
-		
 		$fields = array();
 		$fields[] = "total";
 		for($loop = 0; $loop<24; $loop+=2)
