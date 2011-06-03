@@ -29,6 +29,7 @@ class ilObjectListGUI
 	const CONTEXT_REPOSITORY = 1;
 	const CONTEXT_WORKSPACE = 2;
 	const CONTEXT_SHOP = 3;
+	const CONTEXT_WORKSPACE_SHARING = 4;
 	
 	var $ctrl;
 	var $description_enabled = true;
@@ -867,7 +868,7 @@ class ilObjectListGUI
 		global $ilAccess;
 
 		$cache_prefix = null;
-		if($this->context == self::CONTEXT_WORKSPACE)
+		if($this->context == self::CONTEXT_WORKSPACE || $this->context = self::CONTEXT_WORKSPACE_SHARING)
 		{
 			$cache_prefix = "wsp";
 			if(!$this->ws_access)
@@ -2100,7 +2101,7 @@ class ilObjectListGUI
 		
 		if($this->checkCommandAccess('copy', 'copy', $this->ref_id, $this->type))
 		{
-			if($this->context != self::CONTEXT_WORKSPACE)
+			if($this->context != self::CONTEXT_WORKSPACE && $this->context != self::CONTEXT_WORKSPACE_SHARING)
 			{
 				$this->ctrl->setParameterByClass('ilobjectcopygui','source_id',$this->getCommandId());
 				$cmd_copy = $this->ctrl->getLinkTargetByClass('ilobjectcopygui','initTargetSelection');

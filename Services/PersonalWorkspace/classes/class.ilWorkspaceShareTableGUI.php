@@ -21,8 +21,9 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 	 * @param object $a_parent_obj parent gui object
 	 * @param string $a_parent_cmd parent default command
 	 * @param object $a_handler workspace access handler
+	 * @param int $a_user_id 
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_handler)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_handler, $a_user_id)
 	{
 		global $ilCtrl, $lng;
 
@@ -34,64 +35,44 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 
 		$this->setTitle($lng->txt("wsp_shared_resources"));
 
-		$this->addColumn($this->lng->txt("title"), "title");
-		$this->addColumn($this->lng->txt("type"), "type");
-		$this->addColumn($this->lng->txt("actions"));
-		
-		$this->setDefaultOrderField("title");
+		$this->addColumn($this->lng->txt("content"));
+	
+		$this->setDefaultOrderField("content");
 		$this->setDefaultOrderDirection("asc");
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.share_row.html", "Services/PersonalWorkspace");
+		$this->setRowTemplate("tpl.list_row.html", "Modules/WorkspaceFolder");
 		
 		$this->setDisableFilterHiding(true);
 		$this->setResetCommand("resetsharefilter");
 		$this->setFilterCommand("applysharefilter");
 		
-		$this->initFilter();
-
-		$this->importData();
+		$this->importData($a_user_id);
 	}
 	
-	public function initFilter()
-	{
-		global $lng;
-				
-		$users = $this->handler->getSharedOwners();
-	
-		// user selection
-		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		$si = new ilSelectInputGUI($lng->txt("user"), "user");
-		$si->setOptions(array(""=>"-")+$users);
-		$this->addFilterItem($si);
-		$si->readFromSession();
-		$this->filter["user"] = $si->getValue();				
-	}			
-
 	/**
 	 * Import data from DB
+	 * 
+	 * @param int $a_user_id
 	 */
-	protected function importData()
+	protected function importData($a_user_id)
 	{
 		global $lng;
 		
 		$data = array();
 		
-		if($this->filter["user"])
+		$objects = $this->handler->getSharedObjects($a_user_id);
+		if($objects)
 		{
-			$objects = $this->handler->getSharedObjects($this->filter["user"]);
-			if($objects)
+			foreach($objects as $obj_id)
 			{
-				foreach($objects as $obj_id)
-				{
-					$data[] = array(
-						"id" => $obj_id,
-						"type" => $lng->txt("obj_".ilObject::_lookupType($obj_id)),
-						"title" => ilObject::_lookupTitle($obj_id)
-						);					
-				}
-			}			
-		}
+				$data[] = array(
+					"obj_id" => $obj_id,
+					"type" => ilObject::_lookupType($obj_id),
+					"title" => ilObject::_lookupTitle($obj_id)
+					);					
+			}
+		}			
 						
 		$this->setData($data);
 	}
@@ -101,20 +82,45 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 	 *
 	 * @param array $a_set data array
 	 */
-	protected function fillRow($a_set)
+	protected function fillRow($node)
 	{
-		global $ilCtrl;
+		global $objDefinition;
 		
-		// properties
-		$this->tpl->setVariable("TITLE", $a_set["title"]);
-		$this->tpl->setVariable("TYPE", $a_set["type"]);
+		$class = $objDefinition->getClassName($node["type"]);
+		$location = $objDefinition->getLocation($node["type"]);
+		$full_class = "ilObj".$class."ListGUI";
 
-		/*
-		$ilCtrl->setParameter($this->parent_obj, "obj_id", $a_set["id"]);
-		$this->tpl->setVariable("HREF_CMD",
-			$ilCtrl->getLinkTarget($this->parent_obj, "removePermission"));
-		$this->tpl->setVariable("TXT_CMD", $this->lng->txt("remove"));		
-		*/
+		include_once($location."/class.".$full_class.".php");
+		$item_list_gui = new $full_class();
+		
+		$item_list_gui->setDetailsLevel(ilObjectListGUI::DETAILS_ALL);
+		$item_list_gui->enableDelete(false);
+		$item_list_gui->enableCut(false);		
+		$item_list_gui->enableSubscribe(false);
+		$item_list_gui->enablePayment(false);
+		$item_list_gui->enableLink(false);
+		$item_list_gui->enablePath(false);
+		$item_list_gui->enableLinkedPath(false);
+		$item_list_gui->enableSearchFragments(false);
+		$item_list_gui->enableRelevance(false);
+		$item_list_gui->enableIcon(true);
+		// $item_list_gui->enableCheckbox(false);
+		// $item_list_gui->setSeparateCommands(true);
+		
+		$item_list_gui->enableCopy($objDefinition->allowCopy($node["type"]));
+		
+		if($node["type"] == "file")
+		{
+			$item_list_gui->enableRepositoryTransfer(true);
+		}
+
+		$item_list_gui->setContainerObject($this->parent_obj);
+
+		if($html = $item_list_gui->getListItemHTML($node["wsp_id"], $node["obj_id"],
+				$node["title"], $node["description"], false, false, "", ilObjectListGUI::CONTEXT_WORKSPACE_SHARING))
+		{
+			$this->tpl->setVariable("ITEM_LIST_NODE", $html);
+		} 
 	}
 }
 
