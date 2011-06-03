@@ -33,7 +33,7 @@ class ilECSTaskScheduler
 {
 	const MAX_TASKS = 30;
 	
-	private static $instance = null;
+	private static $instances = array();
 	
 	private $event_reader = null;
 
@@ -53,7 +53,7 @@ class ilECSTaskScheduler
 	 * @access public
 	 * 
 	 */
-	public function __construct()
+	private function __construct(ilECSSetting $setting)
 	{
 	 	global $ilDB,$ilLog;
 	 	
@@ -61,25 +61,61 @@ class ilECSTaskScheduler
 	 	$this->log = $ilLog;
 	 	
 	 	include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
-	 	$this->settings = ilECSSetting::_getInstance();
+	 	$this->settings = $setting;
 	}
 
 	/**
 	 * get singleton instance
+	 * Private access use
+	 * ilECSTaskScheduler::start() or
+	 * ilECSTaskScheduler::startTaskExecution
 	 *
-	 * @access public
+	 * @access private
 	 * @static
 	 *
 	 */
-	public static function _getInstance()
+	public static function _getInstanceByServerId($a_server_id)
 	{
-		if(self::$instance)
+		if(self::$instances[$a_server_id])
 		{
-			return self::$instance;
+			return self::$instances[$a_server_id];
 		}
-		return self::$instance = new ilECSTaskScheduler();
+		return self::$instances[$a_server_id] = new ilECSTaskScheduler($a_server_id);
 	}
-	
+
+	/**
+	 * Start task scheduler for each server instance
+	 */
+	public static function start()
+	{
+		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
+		$servers = ilECSServerSettings::getInstance();
+		foreach($servers->getServers() as $server)
+		{
+			$sched = new ilECSTaskScheduler($server);
+			if($sched->checkNextExecution())
+			{
+				$sched->initNextExecution();
+			}
+		}
+	}
+
+	/**
+	 * Static version iterates over all active instances
+	 */
+	public static function startExecution()
+	{
+		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
+		$servers = ilECSServerSettings::getInstance();
+		foreach($server->getServers() as $server)
+		{
+			$sched = new ilECSTaskScheduler($server);
+			$sched->startTaskExecution();
+		}
+
+	}
+
+
 	/**
 	 * Start Tasks
 	 *
@@ -261,11 +297,11 @@ class ilECSTaskScheduler
 		// if mid is zero delete all obj_ids
 		if(!$a_mid)
 		{
-	 		$obj_ids = ilECSImport::_lookupObjIds($econtent_id);
+	 		$obj_ids = ilECSImport::_lookupObjIds($this->settings->getServerId(),$econtent_id);
 		}
 		else
 		{
-			$obj_ids = (array) ilECSImport::_lookupObjId($econtent_id,$a_mid);
+			$obj_ids = (array) ilECSImport::_lookupObjId($this->settings->getServerId(),$econtent_id,$a_mid);
  		}
 		$GLOBALS['ilLog']->write(__METHOD__.': Received obj_ids '.print_r($obj_ids,true));
 	 	foreach($obj_ids as $obj_id)
@@ -309,7 +345,7 @@ class ilECSTaskScheduler
 		foreach($this->mids as $mid)
 		{
 			// Update existing
-			if($obj_id = ilECSImport::_isImported($content->getEContentId(),$mid))
+			if($obj_id = ilECSImport::_isImported($this->settings->getServerId(),$content->getEContentId(),$mid))
 			{
 				$remote = ilObjectFactory::getInstanceByObjId($obj_id,false);
 				if($remote->getType() != 'rcrs')
@@ -324,11 +360,11 @@ class ilECSTaskScheduler
 			{
 				$ilLog->write(__METHOD__.': ... create called.');
 				include_once('./Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php');
-				$remote_crs = ilObjRemoteCourse::_createFromECSEContent($content,$mid);
+				$remote_crs = ilObjRemoteCourse::_createFromECSEContent($this->settings->getServerId(),$content,$mid);
 			}
 
 			// deprecated mids
-			foreach(array_diff(ilECSImport::_lookupMIDs($content->getEContentId()),$details->getReceivers()) as $deprecated)
+			foreach(array_diff(ilECSImport::_lookupMIDs($this->settings->getServerId(),$content->getEContentId()),$details->getReceivers()) as $deprecated)
 			{
 				$this->handleDelete($content->getEContentId(),$deprecated);
 			}
@@ -402,7 +438,7 @@ class ilECSTaskScheduler
 	 * @access public
 	 * 
 	 */
-	public function start()
+	public function checkNextExecution()
 	{
 	 	global $ilLog, $ilDB;
 	 	
@@ -416,8 +452,8 @@ class ilECSTaskScheduler
 	 		$this->log->write(__METHOD__.': Import ID is deleted or not of type "category". Aborting');
 	 		return false;
 	 	}
-	 	
-	 	// and exceute a new task.
+
+		// @FIXME: one setting for each server
 
 
 	 	// check next task excecution time:
@@ -434,13 +470,17 @@ class ilECSTaskScheduler
 		if(!$affected_rows)
 		{
 			// Nothing to do
-			return true;
+			return false;
 		}
+	 	return true;
+	}
 
-	 	// Debug
-	 	//$this->startTaskExecution();
-	 	//return true;
 
+	/**
+	 * Call next task scheduler run
+	 */
+	protected function initNextExecution()
+	{
 		// Start task execution as backend process
 		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
 
@@ -451,20 +491,19 @@ class ilECSTaskScheduler
 
 		$ilLog->write(__METHOD__.': Trying to call Soap client...');
 		$new_session_id = duplicate_session($_COOKIE['PHPSESSID']);
-		$client_id = $_COOKIE['ilClientId']; 
-		
+		$client_id = $_COOKIE['ilClientId'];
+
 		if($soap_client->init() and 0)
 		{
 			$ilLog->write(__METHOD__.': Calling soap handleECSTasks method...');
-			$res = $soap_client->call('handleECSTasks',array($new_session_id.'::'.$client_id));
+			$res = $soap_client->call('handleECSTasks',array($new_session_id.'::'.$client_id,$this->settings->getServerId()));
 		}
 		else
 		{
 			$ilLog->write(__METHOD__.': SOAP call failed. Calling clone method manually. ');
 			include_once('./webservice/soap/include/inc.soap_functions.php');
-			$res = ilSoapFunctions::handleECSTasks($new_session_id.'::'.$client_id);
+			$res = ilSoapFunctions::handleECSTasks($new_session_id.'::'.$client_id,$this->settings->getServerId());
 		}
-	 	return true;
 	}
 }
 ?>

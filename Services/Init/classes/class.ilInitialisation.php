@@ -1507,8 +1507,7 @@ class ilInitialisation
 		
 		// ECS Tasks
 	 	include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
-	 	$scheduler = ilECSTaskScheduler::_getInstance();
-	 	$scheduler->start();
+	 	$scheduler = ilECSTaskScheduler::start();
 
 		$ilBench->stop("Core", "HeaderInclude");
 //		$ilBench->save();

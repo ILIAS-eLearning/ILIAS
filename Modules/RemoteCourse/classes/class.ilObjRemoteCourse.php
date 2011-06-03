@@ -355,12 +355,10 @@ class ilObjRemoteCourse extends ilObject
 	 	
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSAuth.php');
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
-	 	include_once('Services/WebServices/ECS/classes/class.ilECSImport.php');
 
 		try
 		{	 	
 	 		$connector = new ilECSConnector();
-	 		#$import = new ilECSImport($this->getId());
 			$auth = new ilECSAuth();
 			$auth->setUrl($this->getRemoteLink());
 			$this->auth_hash = $connector->addAuth(@json_encode($auth),$this->getMID());
@@ -492,10 +490,10 @@ class ilObjRemoteCourse extends ilObject
 	 *
 	 * @param ilECSEContent object with course settings
 	 */
-	public static function _createFromECSEContent(ilECSEContent $ecs_content, $a_mid)
+	public static function _createFromECSEContent($a_server_id,ilECSEContent $ecs_content, $a_mid)
 	{
 		global $ilAppEventHandler;
-		
+
 		include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
 		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMapping.php';
 		$ecs_settings = ilECSSetting::_getInstance();
@@ -508,7 +506,7 @@ class ilObjRemoteCourse extends ilObject
 		$remote_crs->putInTree(ilECSCategoryMapping::getMatchingCategory($ecs_content));
 		$remote_crs->setPermissions($ecs_settings->getImportId());
 		
-		$remote_crs->setECSImported($ecs_content->getEContentId(),$a_mid,$new_obj_id);
+		$remote_crs->setECSImported($a_server_id,$ecs_content->getEContentId(),$a_mid,$new_obj_id);
 		$remote_crs->updateFromECSContent($ecs_content);
 		
 		$ilAppEventHandler->raise('Modules/RemoteCourse','create',array('rcrs' => $remote_crs));
@@ -661,10 +659,10 @@ class ilObjRemoteCourse extends ilObject
 	 * @access public
 	 * 
 	 */
-	public function setECSImported($a_econtent_id,$a_mid,$a_obj_id)
+	public function setECSImported($a_server_id,$a_econtent_id,$a_mid,$a_obj_id)
 	{
 		include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
-	 	$import = new ilECSImport($a_obj_id);
+	 	$import = new ilECSImport($a_server_id,$a_obj_id);
 	 	$import->setEContentId($a_econtent_id);
 	 	$import->setMID($a_mid);
 	 	$import->save();

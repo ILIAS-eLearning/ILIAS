@@ -35,6 +35,7 @@ class ilECSExport
 {
 	protected $db = null;
 
+	protected $server_id = 0;
 	protected $obj_id = 0;
 	protected $econtent_id = 0;
 	protected $exported = false; 
@@ -46,28 +47,49 @@ class ilECSExport
 	 * @param
 	 * 
 	 */
-	public function __construct($a_obj_id)
+	public function __construct($a_server_id,$a_obj_id)
 	{
 	 	global $ilDB;
-	 	
+
+		$this->server_id = $a_server_id;
 	 	$this->obj_id = $a_obj_id;
 	 	
 	 	$this->db = $ilDB;
 	 	$this->read();
 	}
+
+	/**
+	 * Get server id
+	 * @return int
+	 */
+	public function getServerId()
+	{
+		return $this->server_id;
+	}
+
+	/**
+	 * Set server id
+	 * @param int $a_server_id
+	 */
+	public function setServerId($a_server_id)
+	{
+		$this->server_id = $a_server_id;
+	}
 	
 	/**
-	 * get all exported econtent ids
+	 * get all exported econtent ids per server
 	 *
 	 * @access public
 	 * @static
 	 *
 	 */
-	public static function _getAllEContentIds()
+	public static function _getAllEContentIds($a_server_id)
 	{
 		global $ilDB;
 		
-		$query = "SELECT econtent_id,obj_id FROM ecs_export ";
+		$query = "SELECT econtent_id,obj_id FROM ecs_export ".
+			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
+
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -77,16 +99,17 @@ class ilECSExport
 	}
 	
 	/**
-	 * get exported ids
+	 * get exported ids for server
 	 *
 	 * @access public
 	 * @return
 	 * @static
 	 */
-	public static function _getExportedIDs()
+	public static function _getExportedIDs($a_server_id)
 	{
 		global $ilDB;
-		$query = "SELECT obj_id FROM ecs_export ";
+		$query = "SELECT obj_id FROM ecs_export ".
+			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -96,14 +119,14 @@ class ilECSExport
 	}
 	
 	/**
-	 * Delete econtent ids
+	 * Delete econtent ids for server
 	 *
 	 * @access public
 	 * @static
 	 *
 	 * @param array array of econtent ids
 	 */
-	public static function _deleteEContentIds($a_ids)
+	public static function _deleteEContentIds($a_server_id,$a_ids)
 	{
 		global $ilDB;
 		
@@ -112,7 +135,8 @@ class ilECSExport
 			return true;
 		}
 		#$query = "DELETE FROM ecs_export WHERE econtent_id IN (".implode(',',ilUtil::quoteArray($a_ids)).')';
-		$query = "DELETE FROM ecs_export WHERE ".$ilDB->in('econtent_id',$a_ids,false,'integer');
+		$query = "DELETE FROM ecs_export WHERE ".$ilDB->in('econtent_id',$a_ids,false,'integer').' '.
+			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->manipulate($query);
 		return true;
 	}
@@ -125,12 +149,13 @@ class ilECSExport
 	 *
 	 * @param int econtent_id
 	 */
-	public static function _isRemote($a_econtent_id)
+	public static function _isRemote($a_server_id,$a_econtent_id)
 	{
 		global $ilDB;
 		
 		$query = "SELECT obj_id FROM ecs_export ".
-			"WHERE econtent_id = ".$ilDB->quote($a_econtent_id,'integer')." ";
+			"WHERE econtent_id = ".$ilDB->quote($a_econtent_id,'integer')." ".
+			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -196,13 +221,15 @@ class ilECSExport
 		global $ilDB;
 
 		$query = "DELETE FROM ecs_export ".
-			"WHERE obj_id = ".$this->db->quote($this->obj_id,'integer')." ";
+			"WHERE obj_id = ".$this->db->quote($this->obj_id,'integer')." ".
+			'AND server_id = '.$ilDB->quote($this->getServerId());
 		$res = $ilDB->manipulate($query);
 	
 		if($this->isExported())
 		{
-			$query = "INSERT INTO ecs_export (obj_id,econtent_id) ".
+			$query = "INSERT INTO ecs_export (server_id,obj_id,econtent_id) ".
 				"VALUES ( ".
+				$this->db->quote($this->getServerId(),'integer').', '.
 				$this->db->quote($this->obj_id,'integer').", ".
 				$this->db->quote($this->getEContentId(),'integer')." ".
 				")";
@@ -221,7 +248,8 @@ class ilECSExport
 	 	global $ilDB;
 	 	
 	 	$query = "SELECT * FROM ecs_export WHERE ".
-	 		"obj_id = ".$this->db->quote($this->obj_id,'integer')." ";
+	 		"obj_id = ".$this->db->quote($this->obj_id,'integer')." AND ".
+			'server_id = '.$ilDB->quote($this->getServerId(),'integer');
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
