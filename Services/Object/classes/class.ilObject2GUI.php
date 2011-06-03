@@ -509,7 +509,8 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 			case self::WORKSPACE_NODE_ID:
 			case self::WORKSPACE_OBJECT_ID:
-				if ($this->checkPermissionBool("edit_permission"))
+				// only files and blogs can be shared for now
+				if ($this->checkPermissionBool("edit_permission") && in_array($this->type, array("file", "blog")))
 				{
 					$ilTabs->addTab("id_permissions",
 						$lng->txt("wsp_permissions"),

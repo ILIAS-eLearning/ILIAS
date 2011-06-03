@@ -2079,7 +2079,7 @@ class ilObjectListGUI
 			else
 			{
 				$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "cut_for_repository");
-				$this->insertCommand($cmd_link, $this->lng->txt("move_to_repository"), "",
+				$this->insertCommand($cmd_link, $this->lng->txt("wsp_move_to_repository"), "",
 					ilUtil::getImagePath("cmd_move_s.gif"));
 			}
 			
@@ -2121,7 +2121,7 @@ class ilObjectListGUI
 				else
 				{
 					$cmd_copy = $this->ctrl->getLinkTarget($this->container_obj, 'copy_to_repository');
-					$this->insertCommand($cmd_copy, $this->lng->txt('copy_to_repository'));			
+					$this->insertCommand($cmd_copy, $this->lng->txt('wsp_copy_to_repository'));			
 				}
 			}
 				

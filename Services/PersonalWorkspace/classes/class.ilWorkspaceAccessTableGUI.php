@@ -36,12 +36,12 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 		$this->setId("il_tbl_wsacl");
 
 		$this->setTitle($lng->txt("wsp_shared_with"));
-
-		$this->addColumn($this->lng->txt("title"), "title");
+		
 		$this->addColumn($this->lng->txt("type"), "type");
+		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("actions"));
 		
-		$this->setDefaultOrderField("title");
+		$this->setDefaultOrderField("type");
 		$this->setDefaultOrderDirection("asc");
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -55,35 +55,52 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 	 */
 	protected function importData()
 	{
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+		
 		$data = array();
 		foreach($this->handler->getPermissions($this->node_id) as $obj_id)
-		{
+		{				
 			switch($obj_id)
 			{
 				case ilWorkspaceAccessGUI::PERMISSION_REGISTERED:
-					$title = $this->lng->txt("wsp_set_permission_registered");
-					$type = "";
+					$title = $icon_alt = $this->lng->txt("wsp_set_permission_registered");
+					$type = "registered";
+					$icon = "";
 					break;
 				
 				case ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD:
-					$title = $this->lng->txt("wsp_set_permission_all_password");
-					$type = "";
+					$title = $icon_alt = $this->lng->txt("wsp_set_permission_all_password");
+					$type = "all_password";
+					$icon = "";
 					break;
 				
 				case ilWorkspaceAccessGUI::PERMISSION_ALL:
-					$title = $this->lng->txt("wsp_set_permission_all");
-					$type = "";
+					$title = $icon_alt = $this->lng->txt("wsp_set_permission_all");
+					$type = "all_password";
+					$icon = "";
 					break;	
-				
+												
 				default:
-					$title = ilObject::_lookupTitle($obj_id);
-					$type = $this->lng->txt("obj_".ilObject::_lookupType($obj_id));
+					$type = ilObject::_lookupType($obj_id);
+					$icon = ilUtil::getTypeIconPath($type, null, "tiny");
+					$icon_alt = $this->lng->txt("obj_".$type);	
+					
+					if($type != "usr")
+					{					
+						$title = ilObject::_lookupTitle($obj_id);											
+					}
+					else
+					{						
+						$title = ilUserUtil::getNamePresentation($obj_id, true, true); 
+					}
 					break;
 			}
 			
 			$data[] = array("id" => $obj_id,
 				"title" => $title,
-				"type" => $type);
+				"type" => $type,
+				"icon" => $icon,
+				"icon_alt" => $icon_alt);
 		}
 	
 		$this->setData($data);
@@ -100,7 +117,8 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 		
 		// properties
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
-		$this->tpl->setVariable("TYPE", $a_set["type"]);
+		$this->tpl->setVariable("ICON", $a_set["icon"]);
+		$this->tpl->setVariable("ICON_ALT", $a_set["icon_alt"]);
 
 		$ilCtrl->setParameter($this->parent_obj, "obj_id", $a_set["id"]);
 		$this->tpl->setVariable("HREF_CMD",
