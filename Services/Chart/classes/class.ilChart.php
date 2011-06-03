@@ -274,7 +274,7 @@ class ilChart
 					$bar_options = $series->getBarOptions();
 					if($bar_options["width"] !== null)
 					{
-						$options[] = "barWidth:".$bar_options["width"];
+						$options[] = "barWidth:".str_replace(",", ".", $bar_options["width"]);
 						$options[] = "align: \"".$bar_options["align"]."\"";
 						if($bar_options["horizontal"])
 						{

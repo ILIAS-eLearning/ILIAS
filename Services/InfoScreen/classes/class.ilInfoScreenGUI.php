@@ -912,7 +912,7 @@ class ilInfoScreenGUI
 		$this->lng->loadLanguageModule('trac');
 
 		// section header
-		$a_tpl->setCurrentBlock("header_row");
+//		$a_tpl->setCurrentBlock("header_row");
 		$a_tpl->setVariable("TXT_SECTION",
 			$this->lng->txt('learning_progress'));
 		$a_tpl->parseCurrentBlock();
