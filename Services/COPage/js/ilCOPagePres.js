@@ -666,6 +666,12 @@ ilCOPagePres =
 		var incorrect = {};
 		var correct_cnt = 0;
 		var incorrect_cnt = 0;
+		
+		if (typeof questions == 'undefined')
+		{
+			return;
+		}
+		
 		for (var k in questions)
 		{
 			var answered_correctly = true;
