@@ -80,7 +80,10 @@ class ilECSTaskScheduler
 		{
 			return self::$instances[$a_server_id];
 		}
-		return self::$instances[$a_server_id] = new ilECSTaskScheduler($a_server_id);
+		return self::$instances[$a_server_id] =
+			new ilECSTaskScheduler(
+				ilECSSetting::getInstanceByServerId($a_server_id)
+		);
 	}
 
 	/**
