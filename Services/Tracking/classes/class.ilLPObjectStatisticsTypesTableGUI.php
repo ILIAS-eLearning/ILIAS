@@ -56,6 +56,15 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 
 		$this->getItems();
 	}
+	
+	public function numericOrdering($a_field) 
+	{
+		if($a_field != "title")
+		{
+			return true;
+		}
+		return false;
+	}
 
 	function getItems()
 	{

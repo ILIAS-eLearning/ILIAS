@@ -61,6 +61,27 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
 		$this->getItems();
 	}
+	
+	public function numericOrdering($a_field) 
+	{
+		if($this->filter["measure"] != "read_count")
+		{
+			return false;			
+		}
+		
+		$fields = array();
+		$fields[] = "total";
+		for($loop = 0; $loop<24; $loop+=2)
+		{
+			$fields[] = "hour".$loop;
+		}
+		
+		if(in_array($a_field, $fields))
+		{
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	* Init filter
