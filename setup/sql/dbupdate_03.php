@@ -5807,3 +5807,34 @@ foreach($old as $key=>$value)
 				array(
 				));
 ?>
+<#3354>
+<?php
+	if (!$ilDB->tableColumnExists("ecs_import", "server_id"))
+	{
+		$ilDB->addTableColumn("ecs_import", "server_id", array(
+			"type" => "integer",
+			"notnull" => true,
+		 	"length" => 4,
+		 	"default" => 0)
+		);
+	}
+	$ilDB->dropPrimaryKey('ecs_import');
+	$ilDB->addPrimaryKey('ecs_import', array('server_id','obj_id'));
+?>
+<#3355>
+<?php
+
+	$res = $ilDB->query('SELECT server_id FROM ecs_server');
+
+	if($res->numRows())
+	{
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$query = 'UPDATE ecs_import SET server_id = '.$ilDB->quote($row->server_id);
+		$ilDB->manipulate($query);
+	}
+?>
+<#3356>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+

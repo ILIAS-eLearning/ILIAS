@@ -777,7 +777,7 @@ class ilNusoapUserAdministrationAdapter
 								'Syntax, parameters may change in future releases. ');
 
 		$this->server->register('handleECSTasks',
-								array('sid' => 'xsd:string'),
+								array('sid' => 'xsd:string','server_id' => 'xsd:int'),
 								array('success' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#handleECSTasks',

@@ -156,7 +156,7 @@ class ilECSSettingsGUI
 			ilECSEventQueueReader::handleExportReset();
 			
 			include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
-			ilECSTaskScheduler::_getInstance()->startTaskExecution();
+			ilECSTaskScheduler::startExecution();
 
 			ilUtil::sendInfo($this->lng->txt('ecs_remote_imported'));
 			$this->imported();
@@ -649,7 +649,7 @@ class ilECSSettingsGUI
 			{
 				// Delete all remote courses
 				include_once('./Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php');
-				foreach(ilObjRemoteCourse::_lookupObjIdsByMID($mid) as $obj_id)
+				#foreach(ilObjRemoteCourse::_lookupObjIdsByMID($mid) as $obj_id)
 				{
 					foreach(ilObject::_getAllReferences($obj_id) as $ref_id)
 					{

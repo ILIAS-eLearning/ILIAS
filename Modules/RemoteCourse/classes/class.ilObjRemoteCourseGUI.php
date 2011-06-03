@@ -138,7 +138,10 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 		{
 			ilUtil::redirect($this->object->getRemoteLink());
 		}
-		elseif(ilECSExport::_isRemote(ilECSImport::_lookupEContentId($this->object->getId())))
+		elseif(ilECSExport::_isRemote(
+			ilECSImport::lookupServerId($this->object->getId()),
+			ilECSImport::_lookupEContentId($this->object->getId())
+		))
 		{
 			$this->object->createAuthResource();
 			ilUtil::redirect($this->object->getFullRemoteLink());
@@ -243,7 +246,9 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 			$this->object->getRemoteLink(),
 			'target="_blank"');
 		}
-		elseif(ilECSExport::_isRemote(ilECSImport::_lookupEContentId($this->object->getId())))
+		elseif(ilECSExport::_isRemote(
+			ilECSImport::lookupServerId($this->object->getId()),
+			ilECSImport::_lookupEContentId($this->object->getId())))
 		{
 			$info->addButton($this->lng->txt('rcrs_call'),
 				$this->ctrl->getLinkTarget($this,'call'),

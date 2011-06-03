@@ -1450,7 +1450,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$mem->setInfo($this->lng->txt('crs_show_members_info'));
 		$form->addItem($mem);
 		
-		$this->fillECSExportSettings($form);
+		$this->fillECSExportSettings2($form);
 
 		return $form;
 	}
@@ -1459,6 +1459,24 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		// values are done in initEditForm()
 	}
+
+
+	/**
+	 * Fill ECS export settings "multiple servers"
+	 * @param ilPropertyFormGUI $a_formm
+	 */
+	protected function fillECSExportSettings(ilPropertyFormGUI $a_form)
+	{
+		global $ilLog;
+
+		include_once('./Services/WebServices/ECS/classes/class.ilECSServerSettings.php');
+		if(!ilECSServerSettings::getInstance()->activeServerExists())
+		{
+			return true;
+		}
+	}
+
+
 				
 	/**
 	 * 

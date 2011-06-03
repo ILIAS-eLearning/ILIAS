@@ -495,7 +495,7 @@ class ilSoapUtils extends ilSoapAdministration
    		return true;
 	}
 	
-	public function handleECSTasks($sid)
+	public function handleECSTasks($sid,$a_server_id)
 	{
 		$this->initAuth($sid);
 		$this->initIlias();
@@ -509,8 +509,8 @@ class ilSoapUtils extends ilSoapAdministration
 
 		global $ilLog;
 		
-		$scheduler = ilECSTaskScheduler::_getInstance();
 		$ilLog->write(__METHOD__.': Starting task execution...');
+		$scheduler = ilECSTaskScheduler::_getInstanceByServerId($a_server_id);
 		$scheduler->startTaskExecution();
 		
 		return true;
