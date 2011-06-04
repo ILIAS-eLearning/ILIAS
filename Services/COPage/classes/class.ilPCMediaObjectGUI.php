@@ -72,7 +72,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	function &executeCommand()
 	{ 
 		global $tpl, $lng, $ilTabs;
-		
+
 		$this->getCharacteristicsOfCurrentStyle("media_cont");	// scorm-2004
 		
 		// get next class that processes or forwards current command
@@ -183,7 +183,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 					$mob_gui->initForm("create");
 					$form = $mob_gui->getForm();
 				}
-				$form->setFormAction($ilCtrl->getFormAction($this));
+				$form->setFormAction($ilCtrl->getFormAction($this, "create_mob"));
 				$form->clearCommandButtons();
 				$form->addCommandButton("create_mob", $lng->txt("save"));
 				$form->addCommandButton("cancelCreate", $lng->txt("cancel"));
@@ -196,10 +196,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		}
 	}
 
-	// #openconst-start
 	/**
-	* Change object reference
-	*/
+	 * Change object reference
+	 */
 	function changeObjectReference()
 	{
 		global $ilTabs, $ilCtrl, $lng;
@@ -250,7 +249,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				$this->tpl->setContent($form->getHTML());				
 		}
 	}
-	// #openconst-end
 
 	/**
 	* Insert media object from pool
@@ -447,13 +445,13 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		// check form input
 		$mob_gui = new ilObjMediaObjectGUI("");
 		$mob_gui->initForm("create");
+
 		if (!$mob_gui->checkFormInput())
 		{
 			$this->form = $mob_gui->getForm();
 			$this->insert("edpost", "create_mob", true);
 			return;
 		}
-		
 		// create dummy object in db (we need an id)
 		include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
 		if ($a_change_obj_ref != true)
@@ -527,7 +525,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		
 		$this->form_gui = new ilPropertyFormGUI();
-		
+
 		// standard view resource
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
 			$this->content_obj->getPcId());

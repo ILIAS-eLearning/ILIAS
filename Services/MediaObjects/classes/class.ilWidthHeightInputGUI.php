@@ -97,8 +97,8 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
 		
 		foreach ($this->dirs as $dir)
 		{
-			$pre_value = $_POST[$this->getPostVar()][$dir]["pre_value"] = 
-				ilUtil::stripSlashes($_POST[$this->getPostVar()][$dir]["pre_value"]);
+			$pre_value = $_POST[$this->getPostVar()][$dir] = 
+				ilUtil::stripSlashes($_POST[$this->getPostVar()][$dir]);
 				
 			/*
 			if ($this->getRequired() && trim($num_value) == "")
@@ -171,7 +171,7 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
 	function setValueByArray($a_values)
 	{
 		global $ilUser;
-
+//var_dump($a_values[$this->getPostVar()]);
 		$this->setWidth($a_values[$this->getPostVar()]["width"]);
 		$this->setHeight($a_values[$this->getPostVar()]["height"]);
 		$this->setConstrainProportions($a_values[$this->getPostVar()]["constr_prop"]);

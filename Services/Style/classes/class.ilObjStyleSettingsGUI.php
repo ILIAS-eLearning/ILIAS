@@ -1217,6 +1217,8 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
    
 		$ilTabs->setTabActive('page_layouts');
 		
+		$lng->loadLanguageModule("content");
+		
     	include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
     	$this->form_gui = new ilPropertyFormGUI();
     	$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
@@ -1236,10 +1238,23 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
     	$desc_input->setValue($this->layout_object->description);
     	$desc_input->setRows(3);
     	$desc_input->setCols(37);
+    	
+    	// special page? 
+    	$options = array(
+    		"0" => $lng->txt("cont_layout_template"),
+    		"1" => $lng->txt("cont_special_page"),
+    		);
+    	$si = new ilSelectInputGUI($this->lng->txt("type"), "special_page");
+    	$si->setOptions($options);
 
 		$ttype_input = new ilSelectInputGUI($lng->txt("sty_based_on"), "pgl_template");
 		
 		$arr_templates = ilPageLayout::getLayouts();
+		$arr_templates1 = ilPageLayout::getLayouts(false, true);
+		foreach ($arr_templates1 as $v)
+		{
+			$arr_templates[] = $v;
+		}
 		
 		$options = array();
 		$options['-1'] = $lng->txt("none");
@@ -1260,6 +1275,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
    
     	$this->form_gui->addItem($title_input);
     	$this->form_gui->addItem($desc_input);
+    	$this->form_gui->addItem($si);
     	$this->form_gui->addItem($ttype_input);
 
    
@@ -1269,7 +1285,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
     	$this->tpl->setContent($this->form_gui->getHTML());
 	}
 	
-	
+
 	function createPgObject()
 	{
 		global $ilCtrl;
@@ -1282,8 +1298,9 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		}
 		//create Page-Layout-Object first
 		$pg_object = new ilPageLayout();
-		$pg_object->setTitle($_POST['pgl_title']);
-		$pg_object->setDescription($_POST['pgl_desc']);
+		$pg_object->setTitle(ilUtil::StripSlashes($_POST['pgl_title']));
+		$pg_object->setDescription(ilUtil::StripSlashes($_POST['pgl_desc']));
+		$pg_object->setSpecialPage((int) $_POST['special_page']);
 		$pg_object->update();
 		
 		include_once("./Services/COPage/classes/class.ilPageObject.php");

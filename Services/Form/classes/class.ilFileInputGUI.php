@@ -208,6 +208,14 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 		$temp_name = $_FILES[$this->getPostVar()]["tmp_name"];
 		$error = $_FILES[$this->getPostVar()]["error"];
 		$_POST[$this->getPostVar()] = $_FILES[$this->getPostVar()];
+		
+		// if no information is received, something went wrong
+		// this is e.g. the case, if the post_max_size has been exceeded
+		if (!is_array($_FILES[$this->getPostVar()]))
+		{
+			$this->setAlert($lng->txt("form_msg_upload_failed_prop_size"));
+			return false;
+		}
 
 		// error handling
 		if ($error > 0)
