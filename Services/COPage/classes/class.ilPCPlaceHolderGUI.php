@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/COPage/classes/class.ilPCPlaceHolder.php");
 require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
@@ -276,7 +257,8 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 		include_once("Services/Form/classes/class.ilRadioMatrixInputGUI.php");
 		$ttype_input = new ilRadioMatrixInputGUI($lng->txt("cont_ed_textitem"), "pctext_type");
 		$options = array($lng->txt("cont_ed_par"),$lng->txt("cont_ed_dtable"),
-						 $lng->txt("cont_ed_atable"),$lng->txt("cont_ed_list"),$lng->txt("cont_ed_flist"));
+						 $lng->txt("cont_ed_atable"),$lng->txt("cont_ed_list"),$lng->txt("cont_ed_flist"),
+						 $lng->txt("cont_tabs"));
 		$ttype_input->setOptions($options);
 		$this->form_gui->addItem($ttype_input);
 		
@@ -337,6 +319,15 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 				$file_list_gui = new ilPCFileListGUI($this->pg_obj,$this->content_obj,$this->hier_id,$this->pc_id);
 				$file_list_gui->setStyleId($this->getStyleId());
 				$ret = $this->ctrl->forwardCommand($file_list_gui);
+				break;
+				
+			case '5':  //Tabs
+				include_once ("./Services/COPage/classes/class.ilPCTabsGUI.php");
+				$ilCtrl->setCmdClass("ilpctabsgui");
+				$ilCtrl->setCmd("insert");
+				$tabs_gui = new ilPCTabsGUI($this->pg_obj,$this->content_obj,$this->hier_id,$this->pc_id);
+				$tabs_gui->setStyleId($this->getStyleId());
+				$ret = $this->ctrl->forwardCommand($tabs_gui);
 				break;
 				
 			default:
