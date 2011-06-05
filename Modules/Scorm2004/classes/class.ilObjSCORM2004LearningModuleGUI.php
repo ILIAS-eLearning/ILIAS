@@ -335,6 +335,22 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$ni->setSize(3);
 		$this->form->addItem($ni);
 		
+		// localization
+		$options = array(
+			"" => $lng->txt("please_select"),
+			);
+		$langs = $lng->getInstalledLanguages();
+		$lng->loadLanguageModule("meta");
+		foreach ($langs as $l)
+		{
+			$options[$l] = $lng->txt("meta_l_".$l);
+		}
+		$loc = new ilSelectInputGUI($this->lng->txt("cont_localization"), "localization");
+		$loc->setOptions($options);
+		$loc->setInfo($this->lng->txt("cont_localization_info"));
+		$this->form->addItem($loc);
+		
+		
 		// final sco page
 /*		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_final_sco_page"), "final_sco_page");
 		$cb->setInfo($this->lng->txt("cont_final_sco_page_info"));
@@ -381,6 +397,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$values["glossary"] = $this->lng->txt("cont_no_glossary");
 		}
 		$values["q_tries"] = $this->object->getTries();
+		$values["localization"] = $this->object->getLocalization();
 //		$values["final_sco_page"] = $this->object->getFinalScoPage();
 //		$values["final_lm_page"] = $this->object->getFinalLMPage();
 	
@@ -413,6 +430,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			if ($this->form->checkInput())
 			{
 				$this->object->setTries($_POST["q_tries"]);
+				$this->object->setLocalization($_POST["localization"]);
 //				$this->object->setFinalScoPage($_POST["final_sco_page"]);
 //				$this->object->setFinalLMPage($_POST["final_lm_page"]);
 			}

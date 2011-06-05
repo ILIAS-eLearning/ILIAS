@@ -5837,4 +5837,13 @@ foreach($old as $key=>$value)
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3357>
+<?php
+$ilDB->addTableColumn("sahs_lm", "localization", array(
+	"type" => "text",
+	"notnull" => false,
+	"length" => 2
+));
+?>
+
 
