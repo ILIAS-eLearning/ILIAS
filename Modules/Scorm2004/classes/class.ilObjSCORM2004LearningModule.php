@@ -1952,5 +1952,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$this->update();
 	}
 */
+
+	
 }
 ?>

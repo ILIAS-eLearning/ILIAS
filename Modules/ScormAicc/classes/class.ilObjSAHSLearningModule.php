@@ -48,11 +48,12 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->createDataDirectory();
 
 		$ilDB->manipulateF('
-			INSERT INTO sahs_lm (id, c_online, api_adapter, c_type, editable, seq_exp_mode) 
-			VALUES (%s,%s,%s,%s,%s,%s)', 
-			array('integer', 'text', 'text', 'text', 'integer','integer'), 
+			INSERT INTO sahs_lm (id, c_online, api_adapter, c_type, editable, seq_exp_mode,localization) 
+			VALUES (%s,%s,%s,%s,%s,%s,%s)', 
+			array('integer', 'text', 'text', 'text', 'integer','integer','text'), 
 			array($this->getId(),'n','API', $this->getSubType(),(int)$this->getEditable(),
-				(int)$this->getSequencingExpertMode()));
+				(int)$this->getSequencingExpertMode(), $this->getLocalization()
+				));
 	}
 
 	/**
@@ -82,8 +83,9 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setModuleVersion($lm_rec["module_version"]);
 			$this->setAssignedGlossary($lm_rec["glossary"]);
 			$this->setTries($lm_rec["question_tries"]);
-			$this->setFinalLMPage($lm_rec["final_lm_page"]);
-			$this->setFinalScoPage($lm_rec["final_sco_page"]);
+			$this->setLocalization($lm_rec["localization"]);
+//			$this->setFinalLMPage($lm_rec["final_lm_page"]);
+//			$this->setFinalScoPage($lm_rec["final_sco_page"]);
 			$this->setSession(ilUtil::yn2tf($lm_rec["unlimited_session"]));
 			$this->setNoMenu(ilUtil::yn2tf($lm_rec["no_menu"]));
 			$this->setHideNavig(ilUtil::yn2tf($lm_rec["hide_navig"]));
@@ -194,6 +196,26 @@ class ilObjSAHSLearningModule extends ilObject
 	public function getFinalScoPage()
 	{
 		return $this->final_sco_page;
+	}
+	
+	/**
+	 * Set localization
+	 *
+	 * @param string $a_val localization	
+	 */
+	function setLocalization($a_val)
+	{
+		$this->localization = $a_val;
+	}
+	
+	/**
+	 * Get localization
+	 *
+	 * @return string localization
+	 */
+	function getLocalization()
+	{
+		return $this->localization;
 	}
 
 	static function _getTries($a_id)
@@ -545,6 +567,7 @@ class ilObjSAHSLearningModule extends ilObject
 				debug = %s,
 				final_lm_page = %s,
 				final_sco_page = %s,
+				localization = %s,
 				seq_exp_mode = %s,
 				debugpw = %s
 				
@@ -568,6 +591,7 @@ class ilObjSAHSLearningModule extends ilObject
 				'text',
 				'integer',
 				'integer',
+				'text',
 				'integer',
 				'text',
 				'integer'
@@ -591,11 +615,12 @@ class ilObjSAHSLearningModule extends ilObject
 				ilUtil::tf2yn($this->getDebug()),
 				$this->getFinalLMPage(),
 				$this->getFinalScoPage(),
+				$this->getLocalization(),
 				$this->getSequencingExpertMode(),
 				$this->getDebugPw(),
 				$this->getId())
 		);
-		
+
 		return true;
 	}
 	

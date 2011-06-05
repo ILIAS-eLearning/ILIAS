@@ -11513,3 +11513,5 @@ wsp#:#wsp_copy_to_repository#:#Copy to Repository
 wsp#:#wsp_move_to_repository#:#Move to Repository
 wsp#:#wsp_status_shared#:#Shared
 sahs#:#sahs_desc_objectives#:#Description/Objectives
+content#:#cont_localization#:#Localization
+content#:#cont_localization_info#:#Language used for predifined texts, e.g. "Previous" and "Next".
