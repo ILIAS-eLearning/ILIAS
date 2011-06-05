@@ -1492,15 +1492,26 @@ class ilObjQuestionPool extends ilObject
 	*/ 
 	static function &_getSelfAssessmentQuestionTypes($all_tags = FALSE)
 	{
-		$allowed_types = array("assImagemapQuestion", "assMatchingQuestion",
-			"assTextQuestion", "assClozeTest", "assMultipleChoice", "assSingleChoice",
-			"assOrderingQuestion", "assErrorText", "assOrderingHorizontal", "assTextSubset");
+		$allowed_types = array(
+			"assSingleChoice" => 1,
+			"assMultipleChoice" => 2,
+			"assClozeTest" => 3,
+			"assMatchingQuestion" => 4,
+			"assOrderingQuestion" => 5,
+			"assOrderingHorizontal" => 6,
+			"assImagemapQuestion" => 7,
+			"assTextQuestion" => 8,
+			"assTextSubset" => 9,
+			"assErrorText" => 10
+			);
 		$satypes = array();
 		$qtypes = ilObjQuestionPool::_getQuestionTypes($all_tags);
 		foreach($qtypes as $k => $t)
 		{
-			if (in_array($t["type_tag"], $allowed_types))
+			//if (in_array($t["type_tag"], $allowed_types))
+			if (isset($allowed_types[$t["type_tag"]]))
 			{
+				$t["order"] = $allowed_types[$t["type_tag"]];
 				$satypes[$k] = $t;
 			}
 		}

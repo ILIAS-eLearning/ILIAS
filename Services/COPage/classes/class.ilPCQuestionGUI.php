@@ -139,7 +139,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 		include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
 		$all_types = ilObjQuestionPool::_getSelfAssessmentQuestionTypes();
 		$options = array();
-		$all_types = ilUtil::sortArray($all_types, "question_type_id", "asc", true, true);
+		$all_types = ilUtil::sortArray($all_types, "order", "asc", true, true);
 
 		foreach ($all_types as $k => $v)
 		{
