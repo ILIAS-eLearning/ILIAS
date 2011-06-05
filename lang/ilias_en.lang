@@ -228,15 +228,15 @@ assessment#:#assErrorText#:#Error Text
 assessment#:#assessment_eval_settings#:#Show the following fields in Evaluation for All Users
 assessment#:#assFileUpload#:#File Upload Question
 assessment#:#assFlashQuestion#:#Flash Question
-assessment#:#assImagemapQuestion#:#Image Map Question
+assessment#:#assImagemapQuestion#:#Hot Spot / Image Map Question
 assessment#:#assJavaApplet#:#Java Applet Question
 assessment#:#assMatchingQuestion#:#Matching Question
-assessment#:#assMultipleChoice#:#Multiple Choice Question (Multiple Response)
+assessment#:#assMultipleChoice#:#Multiple Choice Question (Multiple Answers)
 assessment#:#assNumeric#:#Numeric Question
 assessment#:#assOrderingHorizontal#:#Ordering Question (Horizontal)
-assessment#:#assOrderingQuestion#:#Ordering Question
+assessment#:#assOrderingQuestion#:#Ordering Question (Vertical)
 assessment#:#assQuestions#:#Questions
-assessment#:#assSingleChoice#:#Multiple Choice Question (Single Response)
+assessment#:#assSingleChoice#:#Multiple Choice Question (Single Answer)
 assessment#:#assTextQuestion#:#Essay Question
 assessment#:#assTextSubset#:#Text Subset Question
 assessment#:#autosave_failed#:#Autosave failed!
