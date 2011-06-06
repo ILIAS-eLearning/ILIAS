@@ -5,14 +5,14 @@
 		<input type="text" id="{ID}~from~mm~{ROW}" name="{POST_VAR}~from~mm~{ROW}" value="{FROM_MM_VALUE}" size="2" maxlength="2" /> 
 		{TXT_TO} <input type="text" id="{ID}~to~hh~{ROW}" name="{POST_VAR}~to~hh~{ROW}" value="{TO_HH_VALUE}" size="2" maxlength="2" /> :
 		<input type="text" id="{ID}~to~mm~{ROW}" name="{POST_VAR}~to~mm~{ROW}" value="{TO_MM_VALUE}" size="2" maxlength="2" /> 
-		<input align="absmiddle" type="image" id="ilMultiAdd~{ID}~{ROW}" src="{IMG_MULTI_ADD}" alt="{TXT_MULTI_ADD}" title="{TXT_MULTI_ADD}" onclick="javascript: return false;" />
-		<input align="absmiddle" type="image" id="ilMultiRmv~{ID}~{ROW}" style="display:none" src="{IMG_MULTI_REMOVE}" alt="{TXT_MULTI_REMOVE}" title="{TXT_MULTI_REMOVE}"  onclick="javascript: return false;" />
+		<input align="absmiddle" type="image" id="ilMultiAdd~{ID}~{ROW}" src="{IMG_MULTI_ADD}" alt="{TXT_MULTI_ADD}" title="{TXT_MULTI_ADD}" onclick="javascript: return false;"{ADD_STYLE} />
+		<input align="absmiddle" type="image" id="ilMultiRmv~{ID}~{ROW}" src="{IMG_MULTI_REMOVE}" alt="{TXT_MULTI_REMOVE}" title="{TXT_MULTI_REMOVE}"  onclick="javascript: return false;"{RMV_STYLE} />
 		<br />
 		<div style="margin:5px">
 		<!-- BEGIN days -->
 		{TXT_DAY} <input type="checkbox" id="{ID}_days_{DAY}_{ROW}" name="{POST_VAR}_days_{ROW}[]" value="{DAY}"{DAY_STATUS} />
 		<!-- END days -->
-		</div>
-		<!-- END row -->
+		</div>		
 	</div>
+	<!-- END row -->
 </div>

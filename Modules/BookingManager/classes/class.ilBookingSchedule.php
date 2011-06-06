@@ -364,6 +364,30 @@ class ilBookingSchedule
 				' WHERE booking_schedule_id = '.$ilDB->quote($this->id, 'integer'));
 		}
 	}
+	
+	/**
+	 * Return definition grouped by slots (not days)
+	 * 
+	 * @return array
+	 */
+	function getDefinitionBySlots()
+	{
+		$def = $this->getDefinition();
+		$slots = array();
+		foreach($def as $day => $times)
+		{
+			foreach($times as $time)
+			{
+				$slots[$time][] = $day;
+			}
+		}
+		foreach($slots as $time => $days)
+		{
+			$slots[$time] = array_unique($days);		
+		}
+		asort($slots);
+		return $slots;
+	}
 }
 
 ?>

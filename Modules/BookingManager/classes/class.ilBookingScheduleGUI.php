@@ -217,7 +217,7 @@ class ilBookingScheduleGUI
 			}
 			*/
 
-			$def = $schedule->getDefinition();
+			$def = $schedule->getDefinition();			
 			$definition->setValue(array_keys($def));
 			foreach($def as $day_id => $slots)
 			{
@@ -229,6 +229,8 @@ class ilBookingScheduleGUI
 					}
 				}
 			}
+			
+			$definition2->setValue($schedule->getDefinitionBySlots());
 
 			$form_gui->addCommandButton("update", $lng->txt("save"));
 		}

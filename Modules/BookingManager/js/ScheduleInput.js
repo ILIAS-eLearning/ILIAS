@@ -3,8 +3,6 @@ ilAddOnLoad(ilFormMultiInit)
 function ilFormMultiInit()
 {
 	var obj = document.getElementsByTagName('input');
-	var reload_values = null;
-	var reload_id = null;
 	for(var i=0;i<obj.length;i++)
 	{
 		if(/ilMultiAdd~/.test(obj[i].id))
@@ -12,40 +10,20 @@ function ilFormMultiInit()
 			function fnCallback(e) { ilFormMultiAddEvent(e) }
 			YAHOO.util.Event.addListener(obj[i], "click", fnCallback);
 		}
-		/*
 		if(/ilMultiRmv~/.test(obj[i].id))
 		{
 			function fnCallback(e) { ilFormMultiRemoveEvent(e) }
 			YAHOO.util.Event.addListener(obj[i], "click", fnCallback);
 		}
-		*/
-		if(/ilMultiValues~/.test(obj[i].id))
-		{
-			reload_id = obj[i].id.split("~");
-			reload_values = obj[i].value.split("~");
-		}
-	}
-
-	if(reload_id)
-	{
-		reload_id = reload_id[1]+"____~0";
-		for(var i=0;i<reload_values.length;i++)
-		{
-			if(i>0)
-			{
-				 ilFormMultiAdd(reload_id, reload_values[i]);
-			}
-		}
 	}
 }
 
-function ilFormMultiAdd(id, selected)
+function ilFormMultiAdd(id)
 {
 	// find original field
 	var row = document.getElementById('ilFormField~'+id);
 	if(!row)
 	{
-		console.log(id);
 		return;
 	}
 	
@@ -85,22 +63,6 @@ function ilFormMultiAdd(id, selected)
 
 			function fnCallback(e) { ilFormMultiRemoveEvent(e) }
 			YAHOO.util.Event.addListener(clone.childNodes[i], "click", fnCallback);
-		}
-
-		// pre-selection
-		if(selected != undefined && clone.childNodes[i].tagName == "SELECT")
-		{
-			for(var j=0;j<clone.childNodes[i].childNodes.length;j++)
-			{
-				var option = clone.childNodes[i].childNodes[j];
-				if(option.tagName == "OPTION")
-				{
-					if(option.value == selected)
-					{
-						option.selected = "selected";
-					}
-				}
-			}
 		}
 	}
 
