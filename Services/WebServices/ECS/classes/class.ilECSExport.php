@@ -97,6 +97,23 @@ class ilECSExport
 		}
 		return $econtent_ids ? $econtent_ids : array();
 	}
+
+	/**
+	 * Get exported ids
+	 * @global ilDB $ilDB
+	 * @return array
+	 */
+	public static function getExportedIds()
+	{
+		global $ilDB;
+		$query = "SELECT obj_id FROM ecs_export ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$obj_ids[] = $row->obj_id;
+		}
+		return $obj_ids ? $obj_ids : array();
+	}
 	
 	/**
 	 * get exported ids for server
@@ -105,7 +122,7 @@ class ilECSExport
 	 * @return
 	 * @static
 	 */
-	public static function _getExportedIDs($a_server_id)
+	public static function _getExportedIDsByServer($a_server_id)
 	{
 		global $ilDB;
 		$query = "SELECT obj_id FROM ecs_export ".

@@ -84,7 +84,8 @@ class ilECSContentWriter
 			return false;
 		}
 		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-		$exported = ilECSExport::_getExportedIDs();
+		// @FIXME: check get exported ids
+		$exported = ilECSExport::getExportedIds();
 		foreach($a_subbtree_nodes as $node)
 		{
 			if(in_array($node['obj_id'],$exported))
