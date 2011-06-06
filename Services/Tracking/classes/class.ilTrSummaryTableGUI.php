@@ -152,6 +152,11 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			}
 			
 			$txt = $prefix.$lng->txt($l);
+			
+			if(in_array($column, array("read_count_avg", "spent_seconds_avg", "percentage_avg")))
+			{
+				$txt .= " / ".$lng->txt("user");
+			}
 
 			$columns[$column] = array(
 				"txt" => $txt,
