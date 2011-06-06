@@ -1474,6 +1474,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			return true;
 		}
+
+		include_once './Services/WebServices/ECS/classes/class.ilECSExport.php';
+		// Nothing to if current participants is not enabled for export
+
 	}
 
 

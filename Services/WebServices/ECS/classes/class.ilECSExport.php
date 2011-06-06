@@ -75,7 +75,25 @@ class ilECSExport
 	{
 		$this->server_id = $a_server_id;
 	}
-	
+
+	/**
+	 * Check if object is exported
+	 * @param int $a_obj_id
+	 * @return bool
+	 */
+	public static function _isExported($a_obj_id)
+	{
+		$query = 'SELECT * FROM ecs_export '.
+			'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return true;
+		}
+		return false;
+	}
+
+
 	/**
 	 * get all exported econtent ids per server
 	 *
