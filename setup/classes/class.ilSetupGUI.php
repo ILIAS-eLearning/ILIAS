@@ -403,6 +403,8 @@ echo "<br>+".$client_id;
 			case "displayNIC":
 			case "saveRegistration":
 			case "applyHotfix":
+			case "changeSettingsType":
+			case "showLongerSettings":
 				$this->$cmd();
 				break;
 
@@ -2918,6 +2920,16 @@ else
 		
 		// output
 		ilUtil::sendInfo();
+
+		// use property forms and add the settings type switch
+		$ctrl_structure_form = $this->initControlStructureForm();
+		$settings_type_form = $this->initSettingsTypeForm();
+
+		$this->tpl->setVariable("SETUP_CONTENT",
+			$ctrl_structure_form->getHTML() . "<br />" .
+			$settings_type_form->getHTML());
+
+		/* ---- obsolete -----
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_tools.html", "setup");
 		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		$this->tpl->setVariable("TXT_TOOLS", $this->lng->txt("tools"));
@@ -2940,9 +2952,44 @@ else
 		}
 
 		$this->tpl->parseCurrentBlock();
+		------- obsolete ------*/
 		
 		//$this->checkPanelMode();
 	}
+
+	/**
+	* Init the form to reload the control structure
+	*
+	* @return   object  property form to reload control structure
+	*/
+	function initControlStructureForm()
+	{
+		include_once ("Services/Form/classes/class.ilPropertyFormGUI.php");
+        $form = new ilPropertyFormGUI();
+
+		$form->setId("control_structure");
+		$form->setTitle($this->lng->txt("ctrl_structure"));
+		$form->setFormAction("setup.php?cmd=gateway");
+
+		$ilDB = $this->setup->getClient()->db;
+		$cset = $ilDB->query("SELECT count(*) as cnt FROM ctrl_calls");
+		$crec = $ilDB->fetchAssoc($cset);
+
+		$item = new ilCustomInputGUI($this->lng->txt("ctrl_structure_reload"));
+		if ($crec["cnt"] == 0)
+		{
+			$item->setInfo($this->lng->txt("ctrl_missing_desc"));
+		}
+		else
+		{
+			$item->setInfo($this->lng->txt("ctrl_structure_desc"));
+		}
+		$form->addItem($item);
+
+		$form->addCommandButton("reloadStructure", $this->lng->txt("reload"));
+		return $form;
+	}
+
 
 	/**
 	* reload control structure
@@ -2995,7 +3042,108 @@ else
 		$this->displayTools();
 	}
 
+	/**
+	* Init the form to change the settings value type
+	*
+	* @return   object  property form to change settings type
+	*/
+	function initSettingsTypeForm()
+	{
+		include_once("./Services/Administration/classes/class.ilSetting.php");
+		$type = ilSetting::_getValueType();
 
+		include_once ("Services/Form/classes/class.ilPropertyFormGUI.php");
+        $form = new ilPropertyFormGUI();
+
+		$form->setId("settings_type");
+		$form->setTitle($this->lng->txt("settings_type"));
+		$form->setFormAction("setup.php?cmd=gateway");
+
+		$item = new ilNonEditableValueGUI($this->lng->txt('settings_type_current'));
+		$item->setValue(strtoupper($type));
+
+		if ($type == "clob")
+		{
+			$item->setInfo($this->lng->txt('settings_info_clob'));
+            $form->addCommandButton("showLongerSettings", $this->lng->txt("settings_show_longer"));
+            $form->addCommandButton("changeSettingsType", $this->lng->txt("settings_change_text"));
+	    }
+		else
+		{
+			$item->setInfo($this->lng->txt('settings_info_text'));
+           	$form->addCommandButton("changeSettingsType", $this->lng->txt("settings_change_clob"));
+		}
+		$form->addItem($item);
+
+		if (is_array($this->longer_settings))
+		{
+			$item = new ilCustomInputGUI($this->lng->txt('settings_longer_values'));
+
+			if (count($this->longer_settings))
+			{
+	            foreach ($this->longer_settings as $row)
+				{
+	                $subitem = new ilCustomInputGUI(sprintf($this->lng->txt('settings_key_info'), $row['module'], $row['keyword']));
+					$subitem->setInfo($row['value']);
+					$item->addSubItem($subitem);
+	            }
+			}
+			else
+			{
+	            $item->setHTML($this->lng->txt('settings_no_longer_values'));
+	        }
+			$form->addItem($item);
+	    }
+
+		return $form;
+	}
+
+
+	/**
+	* change the type of the value field in settings table
+	*/
+	function changeSettingsType()
+	{
+		include_once("./Services/Administration/classes/class.ilSetting.php");
+		$old_type = ilSetting::_getValueType();
+
+		if ($old_type == "clob")
+		{
+			$longer_settings = ilSetting::_getLongerSettings();
+			if (count($longer_settings))
+			{
+	            $this->longer_settings = $longer_settings;
+                ilUtil::sendFailure($this->lng->txt("settings_too_long"));
+			}
+			else
+			{
+	        	$changed = ilSetting::_changeValueType('text');
+	        }
+	    }
+		else
+		{
+	        $changed = ilSetting::_changeValueType('clob');
+	    }
+
+		if ($changed)
+		{
+			ilUtil::sendInfo($this->lng->txt("settings_type_changed"));
+		}
+
+		$this->displayTools();
+	}
+
+
+	/**
+	* show a list of setting values that are loger than 4000 characters
+	*
+	*/
+	function showLongerSettings()
+	{
+		include_once("./Services/Administration/classes/class.ilSetting.php");
+		$this->longer_settings = ilSetting::_getLongerSettings();
+		$this->displayTools();
+	}
 	
 	/**
 	 * display change password form and process form input

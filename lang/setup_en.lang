@@ -505,3 +505,16 @@ sess_allow_client_maintenance#:#Allow maintenance by client
 sess_allow_client_maintenance_info#:#Defines wether the configuration of session parameters can be done in client administration or not.
 lang_ar#:#Arabic
 lang_tr#:#Turkish
+ctrl_structure_reload#:#Reload Control Structure
+settings_type#:#Settings Data Type
+settings_type_current#:#Current Type
+settings_info_text#:#The type TEXT allows storing of values up to 4000 characters. Changing this type to CLOB will allow longer entries but slow down the performance of ILIAS with an ORACLE database.
+settings_info_clob#:#The type CLOB allows storing of values with more than 4000 characters. Changing this type to TEXT will increase the performance of ILIAS with an ORACLE database. Before you do this please check if you have settings with more than 4000 characters.
+settings_change_clob#:#Change to CLOB
+settings_change_text#:#Change to TEXT
+settings_type_changed#:#Settings type changed.
+settings_show_longer#:#Show longer values
+settings_longer_values#:#Longer Values
+settings_no_longer_values#:#No values with more than 4000 characters found. You may change the data type to TEXT.
+settings_key_info#:#Module:<br />%s<br />Keyword:<br />%s
+settings_too_long#:#Some settings are too long to be converted. Please change them before you change the settings data type.
