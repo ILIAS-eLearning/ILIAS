@@ -513,3 +513,16 @@ zip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/zip/
 zip_path_comment#:#Wird benötigt, um Lernmodule zu exportieren
 zip_path#:#Zip-Befehlszeile
 zipcode#:#PLZ
+ctrl_structure_reload#:#Kontrollstruktur neu laden
+settings_type#:#Datentyp für Systemeinstellungen
+settings_type_current#:#Aktueller Typ
+settings_info_text#:#Der Typ TEXT ermöglich Werte bis zu 4000 Zeichen. Wenn Sie den Typ auf CLOB ändern, sind mehr als 4000 Zeichen möglich, aber die Geschwindigkeit sinkt bei ORACLE-Datenbanken.
+settings_info_clob#:#Der Typ CLOB ermöglicht mehr als 4000 Zeichen. Wenn Sie den Typ auf TEXT ändern, erhöht sich die Geschwindigkeit bei ORACLE-Datenbanken. Bevor Sie dies tun, überprüfen Sie bitte, ob Sie Einstellungen mit mehr als 4000 Zeichen haben.
+settings_change_clob#:#Auf CLOB ändern
+settings_change_text#:#Auf TEXT ändern
+settings_type_changed#:#Der Datentyp für die Systemeinstellungen wurde geändert.
+settings_show_longer#:#Längere Werte anzeigen
+settings_longer_values#:#Längere Werte
+settings_no_longer_values#:#Es wurden keine Werte mit mehr als 4000 Zeichen gefunden. Sie können den Datentyp auf TEXT ändern.
+settings_key_info#:#Module:<br />%s<br />Keyword:<br />%s
+settings_too_long#:#Einige Systemeinstellungen sind zu lang, um konvertiert zu werden. Bitte ändern Sie diese, bevor Sie den Datentyp ändern.

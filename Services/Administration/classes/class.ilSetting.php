@@ -31,11 +31,26 @@
 */
 class ilSetting
 {
+	/**
+	* cache for the read settings
+	* ilSetting is instantiated more than once per request for some modules
+	* The cache avoids reading them from the DB with each instance
+	*/
+	private static $settings_cache = array();
+
+	/**
+	* the type of settings value field in database
+	* This is determined in the set method to get a correct DB insert
+	* Don't set the value type to force a detection at first access
+	*/
+	private static $value_type = NULL;
+
+
 	var $setting = array();
 	var $module = "";
 	
 	/**
-	* Initialise Settings 
+	* Initialize settings
 	*/
 	function ilSetting($a_module = "common")
 	{
@@ -57,7 +72,20 @@ class ilSetting
 	{
 		global $ilDB;
 		
+		// get the settings from the cache if they exist.
+		// The setting array of the class is a reference to the cache.
+		// So changing settings in one instance will change them in all.
+		// This is the same behaviour as if the are read from the DB.
+		if (isset(self::$settings_cache[$this->module]))
+		{
+	        $this->setting =& self::$settings_cache[$this->module];
+			return;
+		}
+		else
+		{
 		$this->setting = array();
+	        self::$settings_cache[$this->module] =& $this->setting;
+		}
 
 		$query = "SELECT * FROM settings WHERE module=".$ilDB->quote($this->module, "text");
 		$res = $ilDB->query($query);
@@ -171,18 +199,25 @@ class ilSetting
 	*/
 	function set($a_key, $a_val)
 	{
-		global $ilDB;
+		global $lng, $ilDB;
 		
 		$this->delete($a_key);
 
-		/*$sql = "INSERT INTO settings (module, keyword, value) VALUES (".
-			$ilDB->quote($this->module, "text") .
-			",".$ilDB->quote($a_key, "text").",".$ilDB->quote((string) $a_val, "clob").")";
-		$ilDB->manipulate($sql);*/
+		if (!isset(self::$value_type))
+		{
+	        self::$value_type = self::_getValueType();
+	    }
+
+		if (self::$value_type == 'text' and strlen($a_val) >= 4000)
+		{
+			ilUtil::sendFailure($lng->txt('setting_value_truncated'), true);
+			$a_val = substr($a_val, 0, 4000);
+		}
+
 		$ilDB->insert("settings", array(
 			"module" => array("text", $this->module),
 			"keyword" => array("text", $a_key),
-			"value" => array("clob", $a_val)));
+			"value" => array(self::$value_type, $a_val)));
 
 		$this->setting[$a_key] = $a_val;
 
@@ -197,6 +232,103 @@ class ilSetting
 		$res = $ilDB->queryF($query, array('text', 'text'), array($a_module, $a_keyword));
 		$data = $ilDB->fetchAssoc($res);
 		return $data['value'];
+	}
+
+	/**
+	* get the type of the value column in the database
+	*
+	* @return   string  'text' or 'clob'
+	*/
+	public static function _getValueType()
+	{
+		include_once ('./Services/Database/classes/class.ilDBAnalyzer.php');
+		$analyzer = new ilDBAnalyzer;
+		$info = $analyzer->getFieldInformation('settings');
+
+		if ($info['value']['type'] == 'clob')
+		{
+	        return 'clob';
+	    }
+		else
+		{
+	        return 'text';
+	    }
+	}
+
+
+	/**
+	* change the type of the value column in the database
+	*
+	* @param   	string  	'text' or 'clob'
+	* @return   bolean  	type changed or not
+	*/
+    public static function _changeValueType($a_new_type = 'text')
+	{
+	    global $ilDB;
+
+	    $old_type = self::_getValueType();
+
+		if ($a_new_type == $old_type)
+		{
+	        return false;
+	    }
+		elseif ($a_new_type == 'clob')
+		{
+	    	$ilDB->addTableColumn('settings','value2',
+							array(	"type" => "clob",
+									"notnull" => false,
+									"default" => NULL));
+
+			$ilDB->query("UPDATE settings SET value2 = value");
+			$ilDB->dropTableColumn('settings','value');
+			$ilDB->renameTableColumn('settings','value2','value');
+
+			return true;
+	    }
+		elseif ($a_new_type == 'text')
+		{
+			$ilDB->addTableColumn('settings','value2',
+							array(	"type" => "text",
+									"length" => 4000,
+									"notnull" => false,
+									"default" => NULL));
+
+			$ilDB->query("UPDATE settings SET value2 = value");
+			$ilDB->dropTableColumn('settings','value');
+			$ilDB->renameTableColumn('settings','value2','value');
+
+			return true;
+		}
+		else
+		{
+	        return false;
+	    }
+	}
+
+
+	/**
+	* get a list of setting records with values loger than a limit
+	*
+	* @param   	int  		character limit (default: 4000)
+	* @return   array       records with longer values
+	*/
+    public static function _getLongerSettings($a_limit = '4000')
+	{
+	    global $ilDB;
+
+		$settings = array();
+
+		$query = "SELECT * FROM settings WHERE LENGTH(value) > "
+			. $ilDB->quote($a_limit, 'integer');
+
+		$result = $ilDB->query($query);
+
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+	        $settings[] = $row;
+	    }
+
+		return $settings;
 	}
 }
 ?>
