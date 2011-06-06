@@ -795,9 +795,9 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilecssettingsgui':
+				$this->tabs_gui->setTabActive('ecs_server_settings');
 				include_once('./Services/WebServices/ECS/classes/class.ilECSSettingsGUI.php');
 				$this->ctrl->forwardCommand(new ilECSSettingsGUI());
-				$this->tabs_gui->setTabActive('ecs_server_settings');
 				break;
 			
 			case 'ilpermissiongui':
