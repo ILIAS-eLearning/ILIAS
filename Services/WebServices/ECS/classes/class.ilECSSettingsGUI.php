@@ -73,6 +73,13 @@ class ilECSSettingsGUI
 		$this->setSubTabs();
 		switch($next_class)
 		{
+			case 'ilecsmappingsettingsgui':
+				include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingSettingsGUI.php';
+				$mapset = new ilECSMappingSettingsGUI($this, (int) $_REQUEST['server_id']);
+				$this->ctrl->setReturn($this,'overview');
+				$this->ctrl->forwardCommand($mapset);
+				break;
+			
 			default:
 				if(!$cmd)
 				{

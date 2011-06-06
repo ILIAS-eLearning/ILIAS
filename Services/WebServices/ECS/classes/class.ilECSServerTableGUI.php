@@ -45,6 +45,7 @@ class ilECSServerTableGUI extends ilTable2GUI
 		global $ilCtrl;
 
 		$ilCtrl->setParameter($this->getParentObject(),'server_id',$set['server_id']);
+		$ilCtrl->setParameterByClass('ilecsmappingsettingsgui','server_id',$set['server_id']);
 
 		if($set['active'])
 		{
@@ -93,6 +94,16 @@ class ilECSServerTableGUI extends ilTable2GUI
 		}
 
 		$list->addItem($this->lng->txt('edit'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'edit'));
+		$list->addItem(
+			$this->lng->txt('ecs_dir_alloc_set'),
+			'',
+			$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','dSettings')
+		);
+		$list->addItem(
+			$this->lng->txt('ecs_crs_alloc_set'),
+			'',
+			$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','cSettings')
+		);
 		$list->addItem($this->lng->txt('copy'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'cp'));
 		$list->addItem($this->lng->txt('delete'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'delete'));
 		$this->tpl->setVariable('ACTIONS',$list->getHTML());

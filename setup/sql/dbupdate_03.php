@@ -5846,4 +5846,34 @@ $ilDB->addTableColumn("sahs_lm", "localization", array(
 ));
 ?>
 
+<#3358>
+<?php
+	if (!$ilDB->tableColumnExists("ecs_export", "server_id"))
+	{
+		$ilDB->addTableColumn("ecs_export", "server_id", array(
+			"type" => "integer",
+			"notnull" => true,
+		 	"length" => 4,
+		 	"default" => 0)
+		);
+	}
+	$ilDB->dropPrimaryKey('ecs_export');
+	$ilDB->addPrimaryKey('ecs_export', array('server_id','obj_id'));
+?>
+<#3359>
+<?php
+
+	$res = $ilDB->query('SELECT server_id FROM ecs_server');
+
+	if($res->numRows())
+	{
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$query = 'UPDATE ecs_export SET server_id = '.$ilDB->quote($row->server_id);
+		$ilDB->manipulate($query);
+	}
+?>
+
+
+
+
 
