@@ -154,6 +154,12 @@ class ilBookingScheduleGUI
 		$break->setMaxLength(3);
 		$flex->addSubItem($break);
 		*/
+		
+		include_once "Modules/BookingManager/classes/class.ilScheduleInputGUI.php";
+		$definition2 = new ilScheduleInputGUI($lng->txt("book_schedule_days"), "days");
+		$definition2->setInfo($lng->txt("book_schedule_days_info"));
+		$definition2->setRequired(true);
+		$form_gui->addItem($definition2);
 
 		$definition = new ilCheckboxGroupInputGUI($lng->txt("book_schedule_days"), "days");
 		$definition->setInfo($lng->txt("book_schedule_days_info"));
