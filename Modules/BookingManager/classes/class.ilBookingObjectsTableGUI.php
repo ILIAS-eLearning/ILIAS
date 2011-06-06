@@ -32,7 +32,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
 		$type = new ilBookingType($this->type_id);
-		$this->setTitle($lng->txt("book_objects_list").$type->getTitle());
+		$this->setTitle($lng->txt("book_objects_list")." ".$type->getTitle());
 
 		$this->setLimit(9999);
 		
@@ -111,29 +111,35 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-		$alist = new ilAdvancedSelectionListGUI();
-		$alist->setId($a_set['booking_object_id']);
-		$alist->setListTitle($lng->txt("actions"));
+		$items = array();
 		
 		$ilCtrl->setParameter($this->parent_obj, 'object_id', $a_set['booking_object_id']);
 		
 		if ($a_set["schedule_id"])
 		{
-			$alist->addItem($lng->txt('book_book'), 'book', $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
+			$items['book'] = array($lng->txt('book_book'), $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
 		}
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			if(!$reservation)
 			{
-				$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
+				$items['delete'] = array($lng->txt('delete'), $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
 			}
 
-			$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
+			$items['edit'] = array($lng->txt('edit'), $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
 		}
 
-		$this->tpl->setVariable("LAYER", $alist->getHTML());
+		if(sizeof($items))
+		{
+			$this->tpl->setCurrentBlock("actions");
+			foreach($items as $item)
+			{
+				$this->tpl->setVariable("ACTION_CAPTION", $item[0]);
+				$this->tpl->setVariable("ACTION_LINK", $item[1]);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 	}
 }
 

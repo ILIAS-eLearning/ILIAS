@@ -93,10 +93,8 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 			{
 				$items['list'] = array($lng->txt('book_list_items'), $ilCtrl->getLinkTargetByClass('ilBookingObjectGUI', 'render'));
 			}
-			else
-			{
-				$items['add'] = array($lng->txt('book_add_object'), $ilCtrl->getLinkTargetByClass('ilBookingObjectGUI', 'create'));
-			}
+		
+			$items['add'] = array($lng->txt('book_add_object'), $ilCtrl->getLinkTargetByClass('ilBookingObjectGUI', 'create'));
 		}
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
