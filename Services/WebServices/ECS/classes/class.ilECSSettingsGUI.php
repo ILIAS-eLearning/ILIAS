@@ -1251,7 +1251,7 @@ class ilECSSettingsGUI
 		$this->tabs_gui->setSubTabActive('ecs_released');
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-		$exported = ilECSExport::_getExportedIDs();
+		$exported = ilECSExport::getExportedIDs();
 
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_released.html','Services/WebServices/ECS');
 
@@ -1296,7 +1296,7 @@ class ilECSSettingsGUI
 		global $ilObjDataCache;
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-		$exported = ilECSExport::_getExportedIDs();
+		$exported = ilECSExport::getExportedIds();
 		$ilObjDataCache->preloadObjectCache($exported);
 		
 		include_once('Services/Utilities/classes/class.ilCSVWriter.php');
