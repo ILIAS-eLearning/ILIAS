@@ -5876,8 +5876,3 @@ $ilDB->addTableColumn("sahs_lm", "localization", array(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
-
-
-
-

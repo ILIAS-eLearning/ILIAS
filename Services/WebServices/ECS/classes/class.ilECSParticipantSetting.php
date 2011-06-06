@@ -119,7 +119,7 @@ class ilECSParticipantSetting
 	{
 		global $ilDB;
 
-		if(!$this->exists)
+		if(!$this->exists())
 		{
 			return $this->create();
 		}
@@ -129,7 +129,9 @@ class ilECSParticipantSetting
 			'mid = '.$ilDB->quote((int) $this->getMid(),'integer').', '.
 			'export = '.$ilDB->quote((int) $this->isExportEnabled(),'integer').', '.
 			'import = '.$ilDB->quote((int) $this->isImportEnabled(),'integer').', '.
-			'import_type = '.$ilDB->quote((int) $this->getImportType(),'integer').' ';
+			'import_type = '.$ilDB->quote((int) $this->getImportType(),'integer').' '.
+			'WHERE sid = '.$ilDB->quote((int) $this->getServerId(),'integer').' '.
+			'AND mid  = '.$ilDB->quote((int) $this->getMid(),'integer');
 		$aff = $ilDB->manipulate($query);
 		return true;
 	}
@@ -179,9 +181,10 @@ class ilECSParticipantSetting
 		$query = 'SELECT * FROM ecs_part_settings '.
 			'WHERE sid = '.$ilDB->quote($this->getServerId(),'integer').' '.
 			'AND mid = '.$ilDB->quote($this->getMid(),'integer');
+
 		$res = $ilDB->query($query);
 
-		$this->exists = $res->numRows() ? true : false;
+		$this->exists = ($res->numRows() ? true : false);
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
