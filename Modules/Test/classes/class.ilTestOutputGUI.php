@@ -440,7 +440,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 
 		$this->tpl->addJavaScript(ilUtil::getJSLocation("autosave.js", "Modules/Test"));
-		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getLinkTarget($this, "autosave"));
+		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getFormAction($this, "autosave", "", true));
 	}
 	
 /**
@@ -866,7 +866,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		if (!$this->canSaveResult())
 		{
 			// this was the last action in the test, saving is no longer allowed
-			$result = $this->ctrl->getLinkTarget($this, "redirectAfterAutosave");
+			$result = $this->ctrl->getLinkTarget($this, "redirectAfterAutosave", "", true);
 		}
 		echo $result;
 		exit;
