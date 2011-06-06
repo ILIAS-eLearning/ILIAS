@@ -140,7 +140,7 @@ class ilBookingObjectGUI
 
 		if ($a_mode == "edit")
 		{
-			$form_gui->setTitle($lng->txt("book_edit_object"));
+			$form_gui->setTitle($lng->txt("book_edit_object").": ".$type->getTitle());
 
 			$item = new ilHiddenInputGUI('object_id');
 			$item->setValue($id);
@@ -159,7 +159,7 @@ class ilBookingObjectGUI
 		}
 		else
 		{
-			$form_gui->setTitle($lng->txt("book_add_object"));
+			$form_gui->setTitle($lng->txt("book_add_object").": ".$type->getTitle());
 			$form_gui->addCommandButton("save", $lng->txt("save"));
 			$form_gui->addCommandButton("render", $lng->txt("cancel"));
 		}
