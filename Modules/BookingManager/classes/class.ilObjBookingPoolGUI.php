@@ -120,6 +120,18 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "edit");
 	}
 	
+	public function editObject()
+	{
+		// if we have no schedules yet - show info
+		include_once "Modules/BookingManager/classes/class.ilBookingSchedule.php";
+		if(!sizeof(ilBookingSchedule::getList($this->object->getId())))
+		{
+			ilUtil::sendInfo($this->lng->txt("book_schedule_warning_edit"));
+		}
+
+		return parent::editObject();
+	}
+	
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
 		$online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");

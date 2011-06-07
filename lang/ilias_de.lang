@@ -10973,7 +10973,7 @@ trac#:#trac_sure_delete_data#:#Wollen Sie wirklich die Daten der folgenden Monat
 trac#:#trac_data_deleted#:#Die Daten wurden gelöscht.
 trac#:#trac_sync_obj_stats#:#Daten aktualisieren
 trac#:#trac_sync_obj_stats_success#:#Daten wurden aktualisiert.
-book#:#book_schedule_warning#:#Es sind momentan keine Zeitpläne verfügbar. Um Buchungsobjekte anlegen zu können, muss zuerst ein Zeitplan angelegt werden.
+book#:#book_schedule_warning#:#Es sind momentan keine Zeitpläne vorhanden. Um Buchungsobjekte anlegen zu können, muss zuerst ein Zeitplan angelegt werden.
 common#:#enable_anonymous_fora_desc#:#Wenn deaktiviert, steht die Funktion "mit Pseudonym schreiben" in Foren nicht mehr zur Verfügung.
 common#:#enable_anonymous_fora#:#In Foren "mit Pseudonym schreiben"
 content#:#cont_ed_insert_login_page_element#:#Loginseitenelement einfügen
@@ -11465,3 +11465,5 @@ wsp#:#wsp_share_select_user#:#Bitte wählen Sie einen Benutzer.
 wsp#:#wsp_copy_to_repository#:#Ins Magazin kopieren
 wsp#:#wsp_move_to_repository#:#Ins Magazin verschieben
 wsp#:#wsp_status_shared#:#Freigegeben
+book#:#book_schedule_warning_edit#:#Es sind momentan keine Zeitpläne vorhanden. Um den Pool nutzen zu können, muss zuerst ein Zeitplan angelegt werden.
+book#:#book_type_warning#:#Es sind momentan keine Buchungsobjekte vorhanden. Um den Pool nutzen zu können, müssen zuerst Buchungsobjekte angelegt werden.

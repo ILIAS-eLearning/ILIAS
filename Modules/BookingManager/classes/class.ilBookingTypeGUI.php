@@ -52,14 +52,15 @@ class ilBookingTypeGUI
 	{
 		global $tpl, $lng, $ilCtrl, $ilAccess;
 
-		include_once "Modules/BookingManager/classes/class.ilBookingSchedule.php";
-		if(!ilBookingSchedule::hasExistingSchedules($this->obj_id))
-		{
-			ilUtil::sendFailure($lng->txt("book_schedule_warning"));
-		}
-
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
+			// if we have no schedules yet - show info
+			include_once "Modules/BookingManager/classes/class.ilBookingSchedule.php";
+			if(!ilBookingSchedule::hasExistingSchedules($this->obj_id))
+			{
+				ilUtil::sendFailure($lng->txt("book_schedule_warning"));
+			}
+			
 			include_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 			$bar = new ilToolbarGUI;
 			$bar->addButton($lng->txt('book_add_type'), $ilCtrl->getLinkTarget($this, 'create'));
