@@ -5876,3 +5876,21 @@ $ilDB->addTableColumn("sahs_lm", "localization", array(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3361>
+<?php
+	if (!$ilDB->tableColumnExists("ecs_part_settings", "title"))
+	{
+		$ilDB->addTableColumn("ecs_part_settings", "title", array(
+			"type" => "text",
+			"notnull" => false,
+		 	"length" => 255
+			)
+		);
+		$ilDB->addTableColumn("ecs_part_settings", "cname", array(
+			"type" => "text",
+			"notnull" => false,
+		 	"length" => 255
+			)
+		);
+	}
+?>

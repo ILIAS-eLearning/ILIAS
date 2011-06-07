@@ -625,6 +625,22 @@ class ilECSSettingsGUI
 	{
 		global $ilLog;
 
+		include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
+		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
+
+		$servers = ilECSServerSettings::getInstance();
+		foreach($servers->getServers() as $server)
+		{
+			try {
+				// Read communities
+				$cReader = ilECSCommunityReader::getInstanceByServerId($server->getServerId());
+			}
+			catch(Exception $e)
+			{
+				$GLOBALS['ilLog']->write(__METHOD__.': Cannot read ecs communities: '.$e->getMessage());
+			}
+		}
+
 		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
 		foreach((array) $_POST['sci_mid'] as $sid => $tmp)
 		{
@@ -634,6 +650,25 @@ class ilECSSettingsGUI
 				$set->enableExport(array_key_exists($mid, (array) $_POST['export'][$sid]) ? true : false);
 				$set->enableImport(array_key_exists($mid, (array) $_POST['import'][$sid]) ? true : false);
 				$set->setImportType($_POST['import_type'][$sid][$mid]);
+
+				// update title/cname
+				try {
+					$part = ilECSCommunityReader::getInstanceByServerId($sid)->getParticipantByMID($mid);
+					if($part instanceof ilECSParticipant)
+					{
+						$set->setTitle($part->getParticipantName());
+					}
+					$com = ilECSCommunityReader::getInstanceByServerId($sid)->getCommunityByMID($mid);
+					if($com instanceof ilECSCommunity)
+					{
+						$set->setCommunityName($com->getTitle());
+					}
+				}
+				catch(Exception $e)
+				{
+					$GLOBALS['ilLog']->write(__METHOD__.': Cannot read ecs communities: '.$e->getMessage());
+				}
+
 				$set->update();
 			}
 		}
