@@ -791,7 +791,6 @@ class ilPersonalProfileGUI
 			{
 				$this->input["udf_".$definition['field_id']] =
 					new ilTextInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$this->input["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
 				$this->input["udf_".$definition['field_id']]->setMaxLength(255);
 				$this->input["udf_".$definition['field_id']]->setSize(40);
 			}
@@ -799,22 +798,24 @@ class ilPersonalProfileGUI
 			{
 				$this->input["udf_".$definition['field_id']] =
 					new ilTextAreaInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$this->input["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
 				$this->input["udf_".$definition['field_id']]->setUseRte(true);
 			}
 			else
 			{
 				$this->input["udf_".$definition['field_id']] =
 					new ilSelectInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$this->input["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
 				$this->input["udf_".$definition['field_id']]->setOptions(
 					$this->user_defined_fields->fieldValuesToSelectArray($definition['field_values']));
 			}			
+			
+			$value = $user_defined_data["f_".$field_id];
+			$this->input["udf_".$definition['field_id']]->setValue($value);
+			
 			if($definition['required'])
 			{
 				$this->input["udf_".$definition['field_id']]->setRequired(true);
 			}
-			else if(!$definition['changeable'])
+			else if(!$definition['changeable'] && (!$definition['required'] || $value))
 			{
 				$this->input["udf_".$definition['field_id']]->setDisabled(true);
 			}
@@ -849,152 +850,97 @@ class ilPersonalProfileGUI
 		{
 			$form_valid = true;
 			
-			if ($this->workWithUserSetting("firstname"))
+			// if form field name differs from setter
+			$map = array(
+				"firstname" => "FirstName",
+				"lastname" => "LastName",
+				"title" => "UTitle",
+				"selcountry" => "SelectedCountry",
+				"phone_office" => "PhoneOffice",
+				"phone_home" => "PhoneHome",
+				"phone_mobile" => "PhoneMobile",
+				"referral_comment" => "Comment"
+			);
+			
+			include_once("./Services/User/classes/class.ilUserProfile.php");
+			$up = new ilUserProfile();
+			foreach($up->getStandardFields() as $f => $p)
 			{
-				$ilUser->setFirstName($_POST["usr_firstname"]);
-			}
-			if ($this->workWithUserSetting("lastname"))
-			{
-				$ilUser->setLastName($_POST["usr_lastname"]);
-			}
-			if ($this->workWithUserSetting("gender"))
-			{
-				$ilUser->setGender($_POST["usr_gender"]);
-			}
-			if ($this->workWithUserSetting("title"))
-			{
-				$ilUser->setUTitle($_POST["usr_title"]);
-			}
-			if ($this->workWithUserSetting("birthday"))
-			{
-				if (is_array($_POST['usr_birthday']))
+				// if item is part of form, it is currently valid (if not disabled)
+				$item = $this->form->getItemByPostVar("usr_".$f);
+				if($item && !$item->getDisabled())
 				{
-					if (is_array($_POST['usr_birthday']['date']))
+					$value = $this->form->getInput("usr_".$f);					
+					switch($f)
 					{
-						if (($_POST['usr_birthday']['d'] > 0) && ($_POST['usr_birthday']['m'] > 0) && ($_POST['usr_birthday']['y'] > 0))
-						{
-							$ilUser->setBirthday(sprintf("%04d-%02d-%02d", $_POST['user_birthday']['y'], $_POST['user_birthday']['m'], $_POST['user_birthday']['d']));
-						}
-						else
-						{
-							$ilUser->setBirthday("");
-						}
-					}
-					else
-					{
-						$ilUser->setBirthday($_POST['usr_birthday']['date']);
+						case "birthday":
+							if (is_array($value))
+							{
+								if (is_array($value['date']))
+								{
+									if (($value['d'] > 0) && ($value['m'] > 0) && ($value['y'] > 0))
+									{
+										$ilUser->setBirthday(sprintf("%04d-%02d-%02d", $value['y'], $value['m'], $value['d']));
+									}
+									else
+									{
+										$ilUser->setBirthday("");
+									}
+								}
+								else
+								{
+									$ilUser->setBirthday($value['date']);
+								}
+							}
+							break;
+					
+						default:
+							$m = ucfirst($f);
+							if(isset($map[$f]))
+							{
+								$m = $map[$f];
+							}
+							$ilUser->{"set".$m}($value);
+							break;
 					}
 				}
-			}
+			}		
 			$ilUser->setFullname();
-			if ($this->workWithUserSetting("institution"))
-			{
-				$ilUser->setInstitution($_POST["usr_institution"]);
-			}
-			if ($this->workWithUserSetting("department"))
-			{
-				$ilUser->setDepartment($_POST["usr_department"]);
-			}
-			if ($this->workWithUserSetting("street"))
-			{
-				$ilUser->setStreet($_POST["usr_street"]);
-			}
-			if ($this->workWithUserSetting("zipcode"))
-			{
-				$ilUser->setZipcode($_POST["usr_zipcode"]);
-			}
-			if ($this->workWithUserSetting("city"))
-			{
-				$ilUser->setCity($_POST["usr_city"]);
-			}
-			if ($this->workWithUserSetting("country"))
-			{
-				$ilUser->setCountry($_POST["usr_country"]);
-			}
-			if ($this->workWithUserSetting("sel_country"))
-			{
-				$ilUser->setSelectedCountry($_POST["usr_sel_country"]);
-			}
-			if ($this->workWithUserSetting("phone_office"))
-			{
-				$ilUser->setPhoneOffice($_POST["usr_phone_office"]);
-			}
-			if ($this->workWithUserSetting("phone_home"))
-			{
-				$ilUser->setPhoneHome($_POST["usr_phone_home"]);
-			}
-			if ($this->workWithUserSetting("phone_mobile"))
-			{
-				$ilUser->setPhoneMobile($_POST["usr_phone_mobile"]);
-			}
-			if ($this->workWithUserSetting("fax"))
-			{
-				$ilUser->setFax($_POST["usr_fax"]);
-			}
-			if ($this->workWithUserSetting("email"))
-			{
-				$ilUser->setEmail($_POST["usr_email"]);
-			}
-			if ($this->workWithUserSetting("hobby"))
-			{
-				$ilUser->setHobby($_POST["usr_hobby"]);
-			}
-			if ($this->workWithUserSetting("referral_comment"))
-			{
-				$ilUser->setComment($_POST["usr_referral_comment"]);
-			}
-			if ($this->workWithUserSetting("matriculation"))
-			{
-				$ilUser->setMatriculation($_POST["usr_matriculation"]);
-			}
-			if ($this->workWithUserSetting("delicious"))
-			{
-				$ilUser->setDelicious($_POST["usr_delicious"]);
-			}
-
-			// delicious
-			$d_set = new ilSetting("delicious");
-			if ($d_set->get("user_profile"))
-			{
-				$ilUser->setDelicious($_POST["usr_delicious"]);
-			}
 
 			// set instant messengers
 			if ($this->workWithUserSetting("instant_messengers"))
 			{
-				$ilUser->setInstantMessengerId('icq',$_POST["usr_im_icq"]);
-				$ilUser->setInstantMessengerId('yahoo',$_POST["usr_im_yahoo"]);
-				$ilUser->setInstantMessengerId('msn',$_POST["usr_im_msn"]);
-				$ilUser->setInstantMessengerId('aim',$_POST["usr_im_aim"]);
-				$ilUser->setInstantMessengerId('skype',$_POST["usr_im_skype"]);
-				$ilUser->setInstantMessengerId('jabber',$_POST["usr_im_jabber"]);
-				$ilUser->setInstantMessengerId('voip',$_POST["usr_im_voip"]);
+				$ilUser->setInstantMessengerId('icq', $this->form->getInput("usr_im_icq"));
+				$ilUser->setInstantMessengerId('yahoo', $this->form->getInput("usr_im_yahoo"));
+				$ilUser->setInstantMessengerId('msn', $this->form->getInput("usr_im_msn"));
+				$ilUser->setInstantMessengerId('aim', $this->form->getInput("usr_im_aim"));
+				$ilUser->setInstantMessengerId('skype', $this->form->getInput("usr_im_skype"));
+				$ilUser->setInstantMessengerId('jabber', $this->form->getInput("usr_im_jabber"));
+				$ilUser->setInstantMessengerId('voip', $this->form->getInput("usr_im_voip"));
 			}
-		
+
 			// check google map activation
 			include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
 			if (ilGoogleMapUtil::isActivated())
 			{
-				$ilUser->setLatitude(ilUtil::stripSlashes($_POST["location"]["latitude"]));
-				$ilUser->setLongitude(ilUtil::stripSlashes($_POST["location"]["longitude"]));
-				$ilUser->setLocationZoom(ilUtil::stripSlashes($_POST["location"]["zoom"]));
+				$location = $this->form->getInput("location");
+				$ilUser->setLatitude(ilUtil::stripSlashes($location["latitude"]));
+				$ilUser->setLongitude(ilUtil::stripSlashes($location["longitude"]));
+				$ilUser->setLocationZoom(ilUtil::stripSlashes($location["zoom"]));
 			}				
-
+			
 			// Set user defined data
 			$defs = $this->user_defined_fields->getVisibleDefinitions();
 			$udf = array();
-			foreach ($_POST as $k => $v)
+			foreach ($defs as $definition)
 			{
-				if (substr($k, 0, 4) == "udf_")
+				$f = "udf_".$definition['field_id'];
+				$item = $this->form->getItemByPostVar($f);
+				if ($item && !$item->getDisabled())
 				{
-					$f = substr($k, 4);
-					if ($defs[$f]["changeable"] && $defs[$f]["visible"])
-					{
-						$udf[$f] = $v;
-					}
+					$udf[$f] = $this->form->getInput($f);
 				}
 			}
-
 			$ilUser->setUserDefinedData($udf);
 		
 			// if loginname is changeable -> validate
