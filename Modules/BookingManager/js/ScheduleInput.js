@@ -64,6 +64,16 @@ function ilFormMultiAdd(id)
 			function fnCallback(e) { ilFormMultiRemoveEvent(e) }
 			YAHOO.util.Event.addListener(clone.childNodes[i], "click", fnCallback);
 		}
+		if(clone.childNodes[i].tagName == "INPUT" && clone.childNodes[i].name)
+		{
+			var parts = clone.childNodes[i].name.split("~");
+			var new_name = parts[0] + "~" + max;
+			if(parts[1].substr(-2, 2) == "[]")
+			{
+				new_name = new_name + "[]";
+			}
+			clone.childNodes[i].name = new_name;
+		}
 	}
 
 	// insert clone into html

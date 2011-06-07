@@ -388,6 +388,19 @@ class ilBookingSchedule
 		asort($slots);
 		return $slots;
 	}
+	
+	function setDefinitionBySlots(array $a_def)
+	{
+		$slots = array();
+		foreach($a_def as $time => $days)
+		{
+			foreach($days as $day)
+			{
+				$slots[$day][] = $time;
+			}
+		}
+		$this->setDefinition($slots);
+	}
 }
 
 ?>

@@ -156,30 +156,10 @@ class ilBookingScheduleGUI
 		*/
 		
 		include_once "Modules/BookingManager/classes/class.ilScheduleInputGUI.php";
-		$definition2 = new ilScheduleInputGUI($lng->txt("book_schedule_days"), "days");
-		$definition2->setInfo($lng->txt("book_schedule_days_info"));
-		$definition2->setRequired(true);
-		$form_gui->addItem($definition2);
-
-		$definition = new ilCheckboxGroupInputGUI($lng->txt("book_schedule_days"), "days");
+		$definition = new ilScheduleInputGUI($lng->txt("book_schedule_days"), "days");
 		$definition->setInfo($lng->txt("book_schedule_days_info"));
 		$definition->setRequired(true);
 		$form_gui->addItem($definition);
-
-		$days = array('mo', 'tu', 'we', 'th', 'fr', 'sa', 'su');
-		foreach($days as $day_id)
-		{
-			$day = new ilCheckboxOption($lng->txt(ucfirst($day_id)."_long"), $day_id);
-			$definition->addOption($day);
-
-			for($loop = 1; $loop <= $this->slots_no; $loop++)
-		    {
-				$hours[$day_id][$loop] = new ilTextInputGUI($lng->txt("book_schedule_slot")." ".$loop, $day_id."_slot[]");
-				$hours[$day_id][$loop]->setSize(14);
-				$hours[$day_id][$loop]->setMaxLength(14);
-				$day->addSubItem($hours[$day_id][$loop]);
-			}
-		}
 
 		$deadline = new ilNumberInputGUI($lng->txt("book_deadline"), "deadline");
 		$deadline->setInfo($lng->txt("book_deadline_info"));
@@ -217,20 +197,7 @@ class ilBookingScheduleGUI
 			}
 			*/
 
-			$def = $schedule->getDefinition();			
-			$definition->setValue(array_keys($def));
-			foreach($def as $day_id => $slots)
-			{
-				foreach($slots as $idx => $slot)
-				{
-					if(isset($hours[$day_id][$idx+1]))
-					{
-						$hours[$day_id][$idx+1]->setValue($slot);
-					}
-				}
-			}
-			
-			$definition2->setValue($schedule->getDefinitionBySlots());
+			$definition->setValue($schedule->getDefinitionBySlots());
 
 			$form_gui->addCommandButton("update", $lng->txt("save"));
 		}
@@ -358,103 +325,8 @@ class ilBookingScheduleGUI
 			$schedule->setAutoBreak(NULL);
 		}
 		*/
-
-		$definition = array();
-		foreach($form->getInput("days") as $day_id)
-		{
-			$day_slots = array();
-			foreach($form->getInput($day_id."_slot") as $slot)
-			{
-				if(trim($slot))
-				{
-					$fromto = explode("-", $slot);
-					if(sizeof($fromto) == 2)
-					{
-						$from = $this->parseTime($fromto[0]);
-						$to = $this->parseTime($fromto[1]);
-						if($from && $to)
-						{
-							$definition[$day_id][] = $from."-".$to;
-						}
-					}
-				}
-			}
-			if(!sizeof($definition[$day_id]))
-			{
-				$definition[$day_id] = array("00:00-23:59");
-			}
-		}
-
-		// slots may not overlap
-		foreach($definition as $day_id => $slots)
-		{
-			$old = 0;
-			sort($slots);
-			foreach($slots as $idx => $slot)
-			{
-				$slot = explode('-', $slot);
-				$from = $slot[0];
-				$to = $slot[1];
-				if($from < $old)
-				{
-					$from = $old;
-					$slots[$idx] = $from.'-'.$to;
-					if($to < $from)
-					{
-						unset($slots[$idx]);
-					}
-				}
-				$old = $to;
-			}
-			$definition[$day_id] = $slots;
-		}
 		
-		$schedule->setDefinition($definition);
-	}
-
-	/**
-	 * Parse/normalize incoming time values
-	 * @param	string	$raw
-	 */
-	protected function parseTime($raw)
-    {
-		$raw = strtolower(trim($raw));
-		$am = $pm = false;
-		$min = 0;
-		if(substr($raw, -2) == 'pm')
-		{
-			$pm = true;
-			$raw = substr($raw, 0, -2);
-		}
-		else if(substr($raw, -2) == 'am')
-		{
-			$am = true;
-			$raw = substr($raw, 0, -2);
-		}
-		if($colon = strpos($raw, ':'))
-		{
-			$min = (int)substr($raw, $colon+1);
-			$raw = substr($raw, 0, $colon);
-		}
-		$hours = (int)$raw;
-		if(!$min)
-		{
-			$min = "0";
-		}
-		if($pm && $hours < 12)
-		{
-			$hours += 12;
-		}
-		else if($am && $hours == 12)
-		{
-			$hours -= 12;
-		}
-		if($hours > 23 || $min > 59)
-		{
-			return false;
-		}
-		return str_pad($hours, 2, "0", STR_PAD_LEFT).":".
-			str_pad($min, 2, "0", STR_PAD_LEFT);
+		$schedule->setDefinitionBySlots(ilScheduleInputGUI::getPostData("days"));
 	}
 
 	/**

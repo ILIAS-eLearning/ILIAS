@@ -67,7 +67,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
-		$this->setValue($a_values[$this->getPostVar()]);
+		$this->setValue(self::getPostData($this->getPostVar()));
 	}
 
 	/**
@@ -79,27 +79,73 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 	{
 		global $lng;
 		
-		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
+		$data = self::getPostData($this->getPostVar());
+		if(sizeof($data))
+		{
+			// slots may not overlap
+			foreach($data as $slot => $days)
+			{
+				$parts = explode("-", $slot);
+				$from = str_replace(":", "", $parts[0]);
+				$to = str_replace(":", "", $parts[1]);
+				
+				foreach($data as $rslot => $rdays)
+				{
+					if($slot != $rslot && array_intersect($days, $rdays))
+					{
+						$rparts = explode("-", $rslot);
+						$rfrom = str_replace(":", "", $rparts[0]);
+						$rto = str_replace(":", "", $rparts[1]);
+						
+						if(($rfrom > $from && $rfrom < $to) || 
+							($rto > $from && $rto < $to) ||
+							($rfrom < $from && $rto > $to))
+						{
+							$this->setAlert($lng->txt("msg_input_does_not_match_regexp"));
+							return false;
+						}
+					}					
+				}				
+			}
+
+			return true;
+		}
+		
+		if ($this->getRequired())
 		{
 			$this->setAlert($lng->txt("msg_input_is_required"));
-
 			return false;
 		}
-		else if (strlen($this->getValidationRegexp()))
+
+		return true;
+	}
+	
+	static function getPostData($a_post_var)
+	{
+		$res = array();		
+		for($loop = 0; $loop < 24; $loop++)
 		{
-			if (!preg_match($this->getValidationRegexp(), $_POST[$this->getPostVar()]))
-			{
-				$this->setAlert(
-					$this->getValidationFailureMessage() ?
-					$this->getValidationFailureMessage() :
-					$lng->txt('msg_wrong_format')
-				);
-				return FALSE;
+			$days = $_POST[$a_post_var."_days~".$loop];		
+			$from = self::parseTime($_POST[$a_post_var."_from_hh~".$loop],
+				$_POST[$a_post_var."_from_mm~".$loop]);
+			$to = self::parseTime($_POST[$a_post_var."_to_hh~".$loop],
+				$_POST[$a_post_var."_to_mm~".$loop]);
+			
+			if($days && $from && $to && $from != $to)
+			{								
+				$slot = $from."-".$to;
+				if(isset($res[$slot]))
+				{
+					$res[$slot] = array_unique(array_merge($res[$slot], $days));		
+				}
+				else
+				{
+					$res[$slot] = $days;
+				}
 			}
 		}
 		
-		return $this->checkSubItemsInput();
+		return $res;		
 	}
 	
 	/**
@@ -118,7 +164,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 		{
 			$def = array(null=>null);
 		}
-				
+			
 		$days = array("Mo", "Tu", "We", "Th", "Fr", "Sa", "Su");
 		$row = 0;
 		foreach($def as $slot => $days_select)
@@ -134,7 +180,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 				$tpl->setVariable("DAY", $day_value);
 				$tpl->setVariable("TXT_DAY", $lng->txt($day."_short"));
 				
-				if(in_array($day_value, $days_select))
+				if($days_select && in_array($day_value, $days_select))
 				{
 					$tpl->setVariable("DAY_STATUS", " checked=\"checked\"");
 				}				
@@ -199,6 +245,23 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $html);
 		$a_tpl->parseCurrentBlock();
+	}
+	
+	/**
+	 * Parse/normalize incoming time values
+	 * @param	string	$a_hours
+	 * @param	string	$a_minutes
+	 */
+	protected static function parseTime($a_hours, $a_minutes)
+    {
+		$hours = (int)$a_hours;
+		$min = (int)$a_minutes;
+		if($hours > 23 || $min > 59)
+		{
+			return false;
+		}
+		return str_pad($hours, 2, "0", STR_PAD_LEFT).":".
+			str_pad($min, 2, "0", STR_PAD_LEFT);
 	}
 }
 
