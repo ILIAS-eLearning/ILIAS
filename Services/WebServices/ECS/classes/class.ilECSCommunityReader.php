@@ -166,6 +166,26 @@ class ilECSCommunityReader
 	 	return isset($this->participants[$a_mid]) ? $this->participants[$a_mid] : false;
 	 	
 	}
+
+	/**
+	 * Get community by mid
+	 * @param int $a_mid
+	 * @return ilECSCommunity
+	 */
+	public function getCommunityByMID($a_mid)
+	{
+		foreach($this->communities as $community)
+		{
+			foreach($community->getParticipants() as $part)
+			{
+				if($part->getMID() == $a_mid)
+				{
+					return $community;
+				}
+			}
+		}
+		return null;
+	}
 	
 	/**
 	 * get publishable communities
@@ -242,7 +262,6 @@ class ilECSCommunityReader
 				}
 				$this->communities[] = $tmp_comm;
 			}	 		
-			
 	 	}
 	 	catch(ilECSConnectorException $e)
 	 	{

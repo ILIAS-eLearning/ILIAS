@@ -39,6 +39,8 @@ class ilECSParticipantSetting
 	private $export = false;
 	private $import = false;
 	private $import_type = 1;
+	private $title = '';
+	private $cname = '';
 
 
 	private $exists = false;
@@ -106,6 +108,26 @@ class ilECSParticipantSetting
 		return $this->import_type;
 	}
 
+	public function setTitle($a_title)
+	{
+		$this->title = $a_title;
+	}
+
+	public function getTitle()
+	{
+		return $this->title;
+	}
+
+	public function getCommunityName()
+	{
+		return $this->cname;
+	}
+
+	public function setCommunityName($a_name)
+	{
+		$this->cname = $a_name;
+	}
+
 	private function exists()
 	{
 		return $this->exists;
@@ -129,7 +151,9 @@ class ilECSParticipantSetting
 			'mid = '.$ilDB->quote((int) $this->getMid(),'integer').', '.
 			'export = '.$ilDB->quote((int) $this->isExportEnabled(),'integer').', '.
 			'import = '.$ilDB->quote((int) $this->isImportEnabled(),'integer').', '.
-			'import_type = '.$ilDB->quote((int) $this->getImportType(),'integer').' '.
+			'import_type = '.$ilDB->quote((int) $this->getImportType(),'integer').', '.
+			'title = '.$ilDB->quote($this->getTitle(),'text').', '.
+			'cname = '.$ilDB->quote($this->getCommunityName(),'text').' '.
 			'WHERE sid = '.$ilDB->quote((int) $this->getServerId(),'integer').' '.
 			'AND mid  = '.$ilDB->quote((int) $this->getMid(),'integer');
 		$aff = $ilDB->manipulate($query);
@@ -141,13 +165,15 @@ class ilECSParticipantSetting
 		global $ilDB;
 
 		$query = 'INSERT INTO ecs_part_settings '.
-			'(sid,mid,export,import,import_type) '.
+			'(sid,mid,export,import,import_type,title,cname) '.
 			'VALUES( '.
 			$ilDB->quote($this->getServerId(),'integer').', '.
 			$ilDB->quote($this->getMid(),'integer').', '.
 			$ilDB->quote((int) $this->isExportEnabled(),'integer').', '.
 			$ilDB->quote((int) $this->isImportEnabled(),'integer').', '.
-			$ilDB->quote((int) $this->getImportType(),'integer').' '.
+			$ilDB->quote((int) $this->getImportType(),'integer').', '.
+			$ilDB->quote($this->getTitle(),'text').', '.
+			$ilDB->quote($this->getCommunityName(),'text').' '.
 			')';
 		$aff = $ilDB->manipulate($query);
 		return true;
@@ -191,6 +217,8 @@ class ilECSParticipantSetting
 			$this->enableExport($row->export);
 			$this->enableImport($row->import);
 			$this->setImportType($row->import_type);
+			$this->setTitle($row->title);
+			$this->setCommunityName($row->cname);
 		}
 		return true;
 	}
