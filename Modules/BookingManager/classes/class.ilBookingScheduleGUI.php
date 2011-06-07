@@ -8,7 +8,6 @@
 * @version $Id$
 * 
 * @ilCtrl_Calls ilBookingScheduleGUI:
-* @ilCtrl_IsCalledBy ilBookingScheduleGUI:
 */
 class ilBookingScheduleGUI
 {
@@ -50,16 +49,27 @@ class ilBookingScheduleGUI
 	{
 		global $tpl, $lng, $ilCtrl, $ilAccess;
 
+		include_once 'Modules/BookingManager/classes/class.ilBookingSchedulesTableGUI.php';
+		$table = new ilBookingSchedulesTableGUI($this, 'render', $this->ref_id);
+		
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
+			// if we have schedules but no types - show info
+			if(!sizeof($table->getData()))
+			{
+				include_once "Modules/BookingManager/classes/class.ilBookingType.php";
+				if(sizeof(ilBookingType::getList(ilObject::_lookupObjId($this->ref_id))))
+				{
+					ilUtil::sendInfo($lng->txt("book_type_warning"));
+				}
+			}
+			
 			include_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 			$bar = new ilToolbarGUI;
 			$bar->addButton($lng->txt('book_add_schedule'), $ilCtrl->getLinkTarget($this, 'create'));
 			$bar = $bar->getHTML();
 		}
-
-		include_once 'Modules/BookingManager/classes/class.ilBookingSchedulesTableGUI.php';
-		$table = new ilBookingSchedulesTableGUI($this, 'render', $this->ref_id);
+		
 		$tpl->setContent($bar.$table->getHTML());
 	}
 
