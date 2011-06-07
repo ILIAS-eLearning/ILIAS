@@ -497,7 +497,7 @@ class ilUserProfile
 						{
 							$ti->setRequired($ilSetting->get("require_".$f));
 						}
-						if(!$ti->getRequired())
+						if(!$ti->getRequired() || $ti->getValue())
 						{
 							$ti->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						}
@@ -515,7 +515,7 @@ class ilUserProfile
 							$ci->setValue($a_user->$m());
 						}
 						$ci->setRequired($ilSetting->get("require_".$f));
-						if(!$ci->getRequired())
+						if(!$ci->getRequired() || $ci->getValue())
 						{
 							$ci->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						}
@@ -528,6 +528,7 @@ class ilUserProfile
 					{
 						$bi = new ilBirthdayInputGUI($lng->txt($lv), "usr_".$f);
 						include_once "./Services/Calendar/classes/class.ilDateTime.php";
+						$date = null;
 						if ($a_user && strlen($a_user->$m()))
 						{
 							$date = new ilDateTime($a_user->$m(), IL_CAL_DATE);
@@ -536,7 +537,7 @@ class ilUserProfile
 						$bi->setShowEmpty(true);
 						$bi->setStartYear(1900);
 						$bi->setRequired($ilSetting->get("require_".$f));
-						if(!$bi->getRequired())
+						if(!$bi->getRequired() || $date)
 						{
 							$bi->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						}
@@ -558,7 +559,7 @@ class ilUserProfile
 							$rg->addOption($op);
 						}
 						$rg->setRequired($ilSetting->get("require_".$f));
-						if(!$rg->getRequired())
+						if(!$rg->getRequired() || $rg->getValue())
 						{
 							$rg->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						}
@@ -663,7 +664,7 @@ class ilUserProfile
 							$em->setValue($a_user->$m());
 						}
 						$em->setRequired($ilSetting->get("require_".$f));
-						if(!$em->getRequired())
+						if(!$em->getRequired() || $em->getValue())
 						{
 							$em->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						}
@@ -682,7 +683,7 @@ class ilUserProfile
 						$ta->setRows($p["rows"]);
 						$ta->setCols($p["cols"]);
 						$ta->setRequired($ilSetting->get("require_".$f));
-						if(!$ta->getRequired())
+						if(!$ta->getRequired() || $ta->getValue())
 						{
 							$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						}
@@ -704,7 +705,7 @@ class ilUserProfile
 							$im->setMaxLength($p["maxlength"]);
 							$im->setSize($p["size"]);
 							$im->setRequired($ilSetting->get("require_"."instant_messengers"));
-							if(!$im->getRequired())
+							if(!$im->getRequired() || $im->getValue())
 							{
 								$im->setDisabled($ilSetting->get("usr_settings_disable_"."instant_messengers"));
 							}
@@ -746,7 +747,7 @@ class ilUserProfile
 						}
 						$ta->setOptions($options);
 						$ta->setRequired($ilSetting->get("require_".$f));
-						if(!$ta->getRequired())
+						if(!$ta->getRequired() || $ta->getValue())
 						{
 							$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						}
