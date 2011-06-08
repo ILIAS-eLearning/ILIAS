@@ -12,7 +12,7 @@ require_once "./Modules/File/classes/class.ilObjFileAccess.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilShopPurchaseGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilWorkspaceAccessGUI, ilPublicUserProfileGUI, ilPortfolioPageGUI
+* @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
 *
 * @ingroup ModulesFile
 */
@@ -121,15 +121,6 @@ class ilObjFileGUI extends ilObject2GUI
 				include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
 				$wspacc = new ilWorkspaceAccessGUI($this->node_id, $this->getAccessHandler());
 				$this->ctrl->forwardCommand($wspacc);
-				break;
-			
-			// personal workspace share user profile
-			case "ilpublicuserprofilegui";				
-				$ilTabs->clearTargets();
-				include_once('./Services/User/classes/class.ilPublicUserProfileGUI.php');
-				$prof = new ilPublicUserProfileGUI($_REQUEST["user"]);
-				$prof->setBackUrl($this->ctrl->getLinkTargetByClass("ilworkspaceaccessgui", "share"));
-				$this->tpl->setContent($prof->getHTML());
 				break;
 			
 			default:
