@@ -155,6 +155,34 @@ class ilPortfolioGUI
 
 		$tpl->setContent($table->getHTML());
 	}
+	
+	protected function saveTitles()
+	{
+		global $ilCtrl, $lng;
+		
+		foreach($_POST["title"] as $id => $title)
+		{
+			if(trim($title))
+			{
+				$portfolio = new ilPortfolio($id);
+				$portfolio->setTitle($title);
+				
+				if(is_array($_POST["online"]) && in_array($id, $_POST["online"]))
+				{
+					$portfolio->setOnline(true);
+				}
+				else
+				{
+					$portfolio->setOnline(false);
+				}
+				
+				$portfolio->update();
+			}
+		}
+		
+		ilUtil::sendSuccess($lng->txt("saved_successfully"), true);
+		$ilCtrl->redirect($this, "show");
+	}
 
 	/**
 	 * Show portfolio creation form
@@ -180,11 +208,17 @@ class ilPortfolioGUI
 		{
 			$portfolio = new ilPortfolio();
 			$portfolio->setTitle($form->getInput("title"));
-			$portfolio->setDescription($form->getInput("desc"));
+			// $portfolio->setDescription($form->getInput("desc"));
 			$portfolio->create();
+			
+			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
+			$page = new ilPortfolioPage($portfolio->getId());
+			$page->setTitle($form->getInput("fpage"));
+			$page->create();
 
 			ilUtil::sendSuccess($lng->txt("prtf_portfolio_created"), true);
-			$ilCtrl->redirect($this, "show");
+			$ilCtrl->setParameter($this, "prt_id", $portfolio->getId());
+			$ilCtrl->redirect($this, "pages");
 		}
 
 		$form->setValuesByPost();
@@ -253,14 +287,22 @@ class ilPortfolioGUI
 		$ti->setRequired(true);
 		$form->addItem($ti);
 
-		// description
+		/* description
 		$ta = new ilTextAreaInputGUI($lng->txt("description"), "desc");
 		$ta->setCols(40);
 		$ta->setRows(2);
-		$form->addItem($ta);
-
+		$form->addItem($ta);		
+		*/
+		
 		if($a_mode == "create")
 		{
+			// 1st page
+			$tf = new ilTextInputGUI($lng->txt("prtf_first_page_title"), "fpage");
+			$tf->setMaxLength(128);
+			$tf->setSize(40);
+			$tf->setRequired(true);
+			$form->addItem($tf);				
+
 			$form->setTitle($lng->txt("prtf_create_portfolio"));
 			$form->addCommandButton("save", $lng->txt("save"));
 			$form->addCommandButton("show", $lng->txt("cancel"));
@@ -272,7 +314,7 @@ class ilPortfolioGUI
 			$form->addItem($online);
 
 			$ti->setValue($this->portfolio->getTitle());
-			$ta->setValue($this->portfolio->getDescription());
+			// $ta->setValue($this->portfolio->getDescription());
 			$online->setChecked($this->portfolio->isOnline());
 			
 			$form->setTitle($lng->txt("prtf_edit_portfolio"));
