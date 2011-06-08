@@ -11,7 +11,7 @@ include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
 *
-* @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPublicUserProfileGUI, ilPortfolioPageGUI
+* @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
 *
 * @extends ilObject2GUI
 */
