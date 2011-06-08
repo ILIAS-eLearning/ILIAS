@@ -8,7 +8,7 @@
  * @version $Id$
  * 
  * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI
- * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchGUI
+ * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchGUI, ilPublicUserProfileGUI
  *
  * @ingroup ServicesPersonalWorkspace
  */
@@ -36,7 +36,7 @@ class ilWorkspaceAccessGUI
 	
 	function executeCommand()
 	{
-		global $rbacsystem, $ilTabs;
+		global $rbacsystem, $ilTabs, $tpl;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -68,6 +68,17 @@ class ilWorkspaceAccessGUI
 				$usearch = new ilMailSearchGUI($this->access_handler, $this->node_id);
 				$this->ctrl->setReturn($this, 'share');
 				$this->ctrl->forwardCommand($usearch);
+				break;
+			
+			case "ilpublicuserprofilegui";				
+				$ilTabs->clearTargets();
+				$ilTabs->setBackTarget($this->lng->txt("back"),
+					$this->ctrl->getLinkTarget($this, "share"));	
+				
+				include_once('./Services/User/classes/class.ilPublicUserProfileGUI.php');
+				$prof = new ilPublicUserProfileGUI($_REQUEST["user"]);
+				$prof->setBackUrl($this->ctrl->getLinkTarget($this, "share"));
+				$tpl->setContent($prof->getHTML());
 				break;
 
 			default:

@@ -117,7 +117,7 @@ class ilPortfolioGUI
 				$note_gui->setRepositoryMode(false);
 				$tpl->setContent($content.$ilCtrl->forwardCommand($note_gui));
 				break;
-
+			
 			default:				
 				$this->$cmd();
 				break;

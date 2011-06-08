@@ -205,6 +205,16 @@ class ilPortfolioAccessHandler
 			" AND object_id = ".$ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_ALL, "integer"));
 		return (bool)$ilDB->numRows($set);
 	}
+	
+	public function hasGlobalPasswordPermission($a_node_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT object_id FROM usr_portf_acl".
+			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
+			" AND object_id = ".$ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD, "integer"));
+		return (bool)$ilDB->numRows($set);
+	}
 }
 
 ?>
