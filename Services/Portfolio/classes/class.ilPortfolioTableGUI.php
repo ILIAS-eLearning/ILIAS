@@ -38,6 +38,8 @@ class ilPortfolioTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.portfolio_row.html", "Services/Portfolio");
 
 		$this->addMultiCommand("confirmPortfolioDeletion", $lng->txt("delete"));
+		$this->addCommandButton("saveTitles",
+			$lng->txt("prtf_save_status_and_titles"));
 
 		$this->getItems();
 	}
@@ -59,8 +61,8 @@ class ilPortfolioTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
 		$this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
 
-		$this->tpl->setVariable("VAL_ONLINE",
-			($a_set["is_online"]) ? $lng->txt("yes") : $lng->txt("no"));
+		$this->tpl->setVariable("STATUS_ONLINE",
+			($a_set["is_online"]) ? " checked=\"checked\"" : "");
 
 		$this->tpl->setVariable("VAL_DEFAULT",
 			($a_set["is_default"]) ? $lng->txt("yes") : "");
@@ -79,10 +81,12 @@ class ilPortfolioTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_ACTION", $lng->txt("pages"));
 		$this->tpl->parseCurrentBlock();
 		
+		/*
 		$this->tpl->setVariable("URL_ACTION",
 			$ilCtrl->getLinkTarget($this->parent_obj, "edit"));
 		$this->tpl->setVariable("TXT_ACTION", $lng->txt("settings"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();		 
+		*/
 		
 		$this->tpl->setVariable("URL_ACTION",
 			$ilCtrl->getLinkTargetByClass("ilworkspaceaccessgui", "editPermissions"));
