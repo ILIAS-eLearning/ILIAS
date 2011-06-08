@@ -89,7 +89,7 @@ class ilPortfolioTableGUI extends ilTable2GUI
 		*/
 		
 		$this->tpl->setVariable("URL_ACTION",
-			$ilCtrl->getLinkTargetByClass("ilworkspaceaccessgui", "editPermissions"));
+			$ilCtrl->getLinkTargetByClass("ilworkspaceaccessgui", "share"));
 		$this->tpl->setVariable("TXT_ACTION", $lng->txt("perm_settings"));
 		$this->tpl->parseCurrentBlock();
 
