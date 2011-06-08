@@ -127,6 +127,11 @@ class ilObjFileGUI extends ilObject2GUI
 				// in personal workspace use object2gui 
 				if($this->id_type == self::WORKSPACE_NODE_ID)
 				{
+					// coming from goto we need default command
+					if (empty($cmd))
+					{
+						$ilCtrl->setCmd("infoScreen");
+					}
 					$ilTabs->clearTargets();
 					return parent::executeCommand();
 				}
@@ -665,6 +670,11 @@ class ilObjFileGUI extends ilObject2GUI
 			ilFormat::formatSize(ilObjFile::_lookupFileSize($this->object->getId()),'long'));
 		$info->addProperty($this->lng->txt("version"),
 			$this->object->getVersion());
+		
+		if($this->id_type == self::WORKSPACE_NODE_ID)
+		{
+			$info->addProperty("goto test", ILIAS_HTTP_PATH.'/goto_'.urlencode(CLIENT_ID).'_file_'.$this->node_id.'_wsp.html');
+		}
 
 		// forward the command
 	    $this->ctrl->setCmd("showSummary");
@@ -721,9 +731,16 @@ class ilObjFileGUI extends ilObject2GUI
 		parent::setTabs();
 	}
 	
-	function _goto($a_target)
+	function _goto($a_target, $a_additional = null)
 	{
 		global $ilErr, $lng, $ilAccess;
+		
+		if($a_additional && substr($a_additional, -3) == "wsp")
+		{
+			$_REQUEST["wsp_id"] = $a_target;		
+			include("workspace.php");
+			exit;
+		}
 
 		// static method, no workspace support yet
 

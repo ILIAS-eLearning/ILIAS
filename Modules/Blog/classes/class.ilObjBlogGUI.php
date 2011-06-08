@@ -451,6 +451,8 @@ class ilObjBlogGUI extends ilObject2GUI
 		// standard meta data
 		$info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
 		
+		$info->addProperty("goto test", ILIAS_HTTP_PATH.'/goto_'.urlencode(CLIENT_ID).'_blog_'.$this->node_id.'_wsp.html');
+		
 		// forward the command
 	    $this->ctrl->setCmd("showSummary");
 		$this->ctrl->setCmdClass("ilinfoscreengui");
@@ -460,14 +462,9 @@ class ilObjBlogGUI extends ilObject2GUI
 	function _goto($a_target)
 	{
 		$id = explode("_", $a_target);
-
-		// :TODO: doesn't seem to work
-		$_GET["cmd"] = "preview";
-		$_GET["wsp_id"] = $id[0];
-		$_GET["page"] = $id[1];
-		$_GET["baseClass"] = "ilPersonalDesktopGUI";
-		$_GET["cmdClass"] = "ilblogpostinggui";
-		include("ilias.php");
+	
+		$_REQUEST["wsp_id"] = $id[0];		
+		include("workspace.php");
 		exit;
 	}
 }
