@@ -12,6 +12,7 @@ include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 * $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
 *
 * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
+* @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI
 *
 * @extends ilObject2GUI
 */
@@ -89,6 +90,13 @@ class ilObjBlogGUI extends ilObject2GUI
 				$lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 		}
+		
+		if ($this->checkPermissionBool("read"))
+		{
+			$this->tabs_gui->addTab("id_info",
+				$lng->txt("info_short"),
+				$this->ctrl->getLinkTargetByClass(array("ilobjbloggui", "ilinfoscreengui"), "showSummary"));
+		}
 
 		if ($this->checkPermissionBool("write"))
 		{
@@ -136,6 +144,11 @@ class ilObjBlogGUI extends ilObject2GUI
 				{
 					$tpl->setContent($ret);
 				}
+				break;
+				
+			case "ilinfoscreengui":
+				$this->setTabs();
+				$this->infoScreen();	// forwards command
 				break;
 
 			default:
@@ -395,6 +408,53 @@ class ilObjBlogGUI extends ilObject2GUI
 		$ilCtrl->setParameter($this, "bmn", $this->month);
 
 		return $wtpl->get();
+	}
+	
+	/**
+	* show information screen
+	*/
+	function infoScreen()
+	{
+		global $ilTabs, $ilErr;
+		
+		$ilTabs->activateTab("id_info");
+
+		if (!$this->checkPermissionBool("visible"))
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
+		}
+
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+
+		$info->enablePrivateNotes();
+		
+		if ($this->checkPermissionBool("read"))
+		{
+			$info->enableNews();
+		}
+
+		// no news editing for files, just notifications
+		$info->enableNewsEditing(false);
+		if ($this->checkPermissionBool("write"))
+		{
+			$news_set = new ilSetting("news");
+			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+			
+			if ($enable_internal_rss)
+			{
+				$info->setBlockProperty("news", "settings", true);
+				$info->setBlockProperty("news", "public_notifications_option", true);
+			}
+		}
+		
+		// standard meta data
+		$info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
+		
+		// forward the command
+	    $this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+	    $this->ctrl->forwardCommand($info);
 	}
 
 	function _goto($a_target)
