@@ -46,7 +46,7 @@ class ilPersonalWorkspaceGUI
 	{
 		global $ilCtrl, $lng, $objDefinition;
 
-		$ilCtrl->setReturn($this, "render");
+		$ilCtrl->setReturn($this, "render");		
 		$cmd = $ilCtrl->getCmd();
 
 		// new type

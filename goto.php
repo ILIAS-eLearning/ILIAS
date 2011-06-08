@@ -240,7 +240,7 @@ switch($target_type)
 	// please migrate to default branch implementation
 	case "file":
 		require_once("./Modules/File/classes/class.ilObjFileGUI.php");
-		ilObjFileGUI::_goto($target_id);
+		ilObjFileGUI::_goto($target_id, $rest);
 		break;
 
 	// please migrate to default branch implementation
