@@ -442,72 +442,75 @@ class ilInfoScreenGUI
 			$type = $a_obj->getType();
 			$ref_id = $a_obj->getRefId();
 			
-			include_once('classes/class.ilLink.php');
-			$href = ilLink::_getStaticLink($ref_id,$type,true);
-				
-			// delicous link
-			$d_set = new ilSetting("delicious");
-			if (true || $d_set->get("add_info_links") == "1")
+			if($ref_id)
 			{
-				$lng->loadLanguageModule("delic");
-				$del_link = '<br/><a class="small" href="http://del.icio.us/post?desc=nn&url='.
-					urlencode($href).'"><img border="0" src="'.ilUtil::getImagePath("icon_delicious_s.gif").
-					'" /> '.$lng->txt("delic_add_to_delicious").
-					'</a>';
-			}
-			
-			include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
-			$settings = ilECSSetting::_getInstance();
-			if($settings->isEnabled())
-			{
-				$this->addProperty($lng->txt("object_id"),
-					$a_obj->getId()
-					);
-			}
+				include_once('classes/class.ilLink.php');
+				$href = ilLink::_getStaticLink($ref_id,$type,true);
 
-			include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';				
-			$pm = new ilPermanentLinkGUI($type, $ref_id);
-			$pm->setIncludePermanentLinkText(false);
-			$pm->setAlignCenter(false);
-			$this->addProperty($lng->txt("perma_link"),
-				$pm->getHTML(),
-				""
-				);
-			
-			// bookmarks
-
-			$title = $ilObjDataCache->lookupTitle($a_obj->getId());
-
-			$bms = ilPermanentLinkGUI::_getBookmarksSelectionList($title, $href);
-			
-			// links to resource
-			if ($ilAccess->checkAccess("write", "", $ref_id) ||
-				$ilAccess->checkAccess("edit_permissions", "", $ref_id))
-			{
-				$obj_id = $a_obj->getId();
-				$rs = ilObject::_getAllReferences($obj_id);
-				$refs = array();
-				foreach($rs as $r)
+				// delicous link
+				$d_set = new ilSetting("delicious");
+				if (true || $d_set->get("add_info_links") == "1")
 				{
-					if ($tree->isInTree($r))
-					{
-						$refs[] = $r;
-					}
+					$lng->loadLanguageModule("delic");
+					$del_link = '<br/><a class="small" href="http://del.icio.us/post?desc=nn&url='.
+						urlencode($href).'"><img border="0" src="'.ilUtil::getImagePath("icon_delicious_s.gif").
+						'" /> '.$lng->txt("delic_add_to_delicious").
+						'</a>';
 				}
-				if (count($refs) > 1)
+
+				include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
+				$settings = ilECSSetting::_getInstance();
+				if($settings->isEnabled())
 				{
-					$links = $sep = "";
-					foreach($refs as $r)
-					{
-						$cont_loc = new ilLocatorGUI();
-						$cont_loc->addContextItems($r, true);
-						$links.= $sep.$cont_loc->getHTML();
-						$sep = "<br />";
-					}
-					
-					$this->addProperty($lng->txt("res_links"),
-						'<div class="small">'.$links.'</div>'
+					$this->addProperty($lng->txt("object_id"),
+						$a_obj->getId()
 						);
+				}
+
+				include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';				
+				$pm = new ilPermanentLinkGUI($type, $ref_id);
+				$pm->setIncludePermanentLinkText(false);
+				$pm->setAlignCenter(false);
+				$this->addProperty($lng->txt("perma_link"),
+					$pm->getHTML(),
+					""
+					);
+			
+				// bookmarks
+
+				$title = $ilObjDataCache->lookupTitle($a_obj->getId());
+
+				$bms = ilPermanentLinkGUI::_getBookmarksSelectionList($title, $href);
+
+				// links to resource
+				if ($ilAccess->checkAccess("write", "", $ref_id) ||
+					$ilAccess->checkAccess("edit_permissions", "", $ref_id))
+				{
+					$obj_id = $a_obj->getId();
+					$rs = ilObject::_getAllReferences($obj_id);
+					$refs = array();
+					foreach($rs as $r)
+					{
+						if ($tree->isInTree($r))
+						{
+							$refs[] = $r;
+						}
+					}
+					if (count($refs) > 1)
+					{
+						$links = $sep = "";
+						foreach($refs as $r)
+						{
+							$cont_loc = new ilLocatorGUI();
+							$cont_loc->addContextItems($r, true);
+							$links.= $sep.$cont_loc->getHTML();
+							$sep = "<br />";
+						}
+
+						$this->addProperty($lng->txt("res_links"),
+							'<div class="small">'.$links.'</div>'
+							);
+					}
 				}
 			}
 		}
