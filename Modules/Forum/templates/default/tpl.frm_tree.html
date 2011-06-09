@@ -24,28 +24,28 @@ if (!window.console) {
 			this.expandedNodes = nodes;
 			return this;
 		},
-		getExpandedNodes: function() {
+		getExpandedNodes: function() {			
 			return this.expandedNodes;
 		},
-		expandCertainNodes: function(nodes) {
+		expandCertainNodes: function(nodes) {	
 			this.setExpandedNodes(nodes);
-			this.rEpandNodes(this.getRoot());
+			this.rExpandNodes(this.getRoot());
 		},
-		rEpandNodes: function(node) {
-			length = node.children.length;
-			for (var i = 0; i < length; ++i) {
-				var c = node.children[i];
-				if (this.isNodeExpanded(c)) {
+		rExpandNodes: function(node) {
+			var length = node.children.length;
+			for (var i = 0; i < length; i++) {
+				var c = node.children[i];		
+				if (this.isNodeExpanded(c)) {	
 					c.expand();
 				}
-				this.rEpandNodes(c);		
+				this.rExpandNodes(c);
 			}
 		},
 		isNodeExpanded: function(node) {
 			var matches = node.data.match(/id='frm_node_(\d+)'/);
 			if (typeof matches == "object" && matches[1] != "undefined") {
-				length = this.getExpandedNodes().length;
-				for (var i = 0; i < length; ++i) {
+				var length = this.getExpandedNodes().length;
+				for (var i = 0; i < length; i++) {
 					if (matches[1] == this.getExpandedNodes()[i]) {
 						return true;
 					}
@@ -60,34 +60,34 @@ if (!window.console) {
 	tree = new ExtendedTreeView("treeView");
 	tree.subscribe("expand", function(node) {
 		var matches = node.data.match(/id='frm_node_(\d+)'/);
-		if (typeof matches == "object" && matches[1] != "undefined") {
-			found = false;
-			length = this.getExpandedNodes().length;
-			for (var i = 0; i < length; ++i) {
-				if (this.getExpandedNodes()[i] == matches[1]) {
+		if (typeof matches == "object" && matches[1] != "undefined") {	
+			var found = false;
+			var length = this.getExpandedNodes().length;
+			for (var i = 0; i < length; i++) {
+				if (this.getExpandedNodes()[i] == matches[1]) {					
 					found = true;
 					break;
 				}
 			}
-			if (!found) {
+			if (!found) {			
 				this.getExpandedNodes().push(matches[1]);
-				ilFrmTreeStateHandler.call(this);
+				ilFrmTreeStateHandler.call(this);				
 			}
 		}
 	});	 
 	tree.subscribe("collapse", function(node) {
 		var matches = node.data.match(/id='frm_node_(\d+)'/);
 		if (typeof matches == "object" && matches[1] != "undefined") {
-			tmp = [];
-			length = this.getExpandedNodes().length;
-			for (var i = 0; i < length; ++i) {
+			var tmp = [];
+			var length = this.getExpandedNodes().length;
+			for (var i = 0; i < length; i++) {
 				if (this.getExpandedNodes()[i] != matches[1]) {
 					tmp.push(this.getExpandedNodes()[i]);
 				}
 			}
 			this.setExpandedNodes(tmp);
 			ilFrmTreeStateHandler.call(this);
-		}
+		}			
 	});
 	
 	function ilFrmTreeStateHandler()
@@ -102,7 +102,7 @@ if (!window.console) {
 		
 		var parameters = 'openNodes=' + this.getExpandedNodes();
 		var request = YAHOO.util.Connect.asyncRequest('POST', "{THR_TREE_STATE_URL}", ilFrmTreeStateCallback, parameters);
-		
+
 		return false;
 	}
 	
@@ -118,13 +118,16 @@ if (!window.console) {
 	<!-- END frm_nodes -->
 
 	//the tree won't show up until you draw (render) it:
+	
 	tree.draw();
-
 	if ({THR_OPEN_NODES}.length == 0 || {OLD_THR_ID} != {NEW_THR_ID})
+	{ 
 		tree.expandAll();
-		
+	}
 	else
+	{
 		tree.expandCertainNodes({THR_OPEN_NODES});
+	}
 
 
 })();
