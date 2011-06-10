@@ -10,11 +10,17 @@
 */
 class ilExAssignment
 {
+	const TYPE_UPLOAD = 1;
+	const TYPE_BLOG = 2;
+	const TYPE_PORTFOLIO = 3;
+	
 	/**
 	 * Constructor
 	 */
 	function __construct($a_id = 0)
 	{
+		$this->setType(self::TYPE_UPLOAD);
+		
 		if ($a_id > 0)
 		{
 			$this->setId($a_id);
@@ -181,6 +187,44 @@ class ilExAssignment
 	{
 		return $this->order_nr;
 	}
+	
+	/**
+	 * Set type
+	 * 
+	 * @param int $a_value 
+	 */
+	function setType($a_value)
+	{
+		if($this->isValidType($a_value))
+		{
+			$this->type = (int)$a_value;
+		}
+	}
+	
+	/**
+	 * Get type
+	 * 
+	 * @return int
+	 */
+	function getType()
+	{
+		return $this->type;
+	}
+	
+	/**
+	 * Is given type valid?
+	 * 
+	 * @param int $a_value
+	 * @return bool
+	 */
+	function isValidType($a_value)
+	{
+		if(in_array((int)$a_value, array(self::TYPE_UPLOAD, self::TYPE_BLOG, self::TYPE_PORTFOLIO)))
+		{
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Read from db
@@ -201,6 +245,7 @@ class ilExAssignment
 			$this->setStartTime($rec["start_time"]);
 			$this->setOrderNr($rec["order_nr"]);
 			$this->setMandatory($rec["mandatory"]);
+			$this->setType($rec["type"]);
 		}
 	}
 	
@@ -227,7 +272,8 @@ class ilExAssignment
 			"title" => array("text", $this->getTitle()),
 			"start_time" => array("integer", $this->getStartTime()),
 			"order_nr" => array("integer", $this->getOrderNr()),
-			"mandatory" => array("text", $this->getMandatory())
+			"mandatory" => array("integer", $this->getMandatory()),
+			"type" => array("integer", $this->getType())
 			));
 		$this->setId($next_id);
 		$exc = new ilObjExercise($this->getExerciseId(), false);
@@ -250,7 +296,8 @@ class ilExAssignment
 			"title" => array("text", $this->getTitle()),
 			"start_time" => array("integer", $this->getStartTime()),
 			"order_nr" => array("integer", $this->getOrderNr()),
-			"mandatory" => array("integer", $this->getMandatory())
+			"mandatory" => array("integer", $this->getMandatory()),
+			"type" => array("integer", $this->getType())
 			),
 			array(
 			"id" => array("integer", $this->getId()),
@@ -298,7 +345,8 @@ class ilExAssignment
 				"title" => $rec["title"],
 				"start_time" => $rec["start_time"],
 				"order_val" => $order_val,
-				"mandatory" => $rec["mandatory"]
+				"mandatory" => $rec["mandatory"],
+				"type" => $rec["type"]
 				);
 			$order_val += 10;
 		}
@@ -325,6 +373,7 @@ class ilExAssignment
 			$new_ass->setMandatory($d["mandatory"]);
 			$new_ass->setOrderNr($d["order_val"]);
 			$new_ass->setStartTime($d["start_time"]);
+			$new_ass->setType($d["type"]);
 			$new_ass->save();
 			
 			// clone assignment files

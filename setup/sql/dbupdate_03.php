@@ -5894,3 +5894,16 @@ $ilDB->addTableColumn("sahs_lm", "localization", array(
 		);
 	}
 ?>
+<#3362>
+<?php
+	if (!$ilDB->tableColumnExists("exc_assignment", "type"))
+	{
+		$ilDB->addTableColumn("exc_assignment", "type", array(
+			"type" => "integer",
+			"notnull" => true,
+		 	"length" => 1,
+			"default" => 1
+			)
+		);
+	}
+?>
