@@ -137,7 +137,7 @@ class ilObjForumAccess extends ilObjectAccess
 	static function getNumberOfPostings($a_obj_id, $a_only_active = false)
 	{
 		global $ilDB, $ilUser;
-		
+
 		$set = $ilDB->query("SELECT top_pk FROM frm_data ".
 			" WHERE top_frm_fk = ".$ilDB->quote($a_obj_id, "integer")
 			);
@@ -198,7 +198,7 @@ class ilObjForumAccess extends ilObjectAccess
 	static function getNumberOfNewPostings($a_obj_id, $a_only_active = false)
 	{
 		global $ilUser, $ilDB, $ilSetting;
-		
+
 		$set = $ilDB->query("SELECT top_pk FROM frm_data ".
 			" WHERE top_frm_fk = ".$ilDB->quote($a_obj_id, "integer")
 			);
@@ -240,7 +240,7 @@ class ilObjForumAccess extends ilObjectAccess
 	 * Count number of new posts
 	 * @param int $a_user_id
 	 */
-	static function getLastPost($a_obj_id)
+	static function getLastPost($a_obj_id, $a_only_active = false)
 	{
 		global $ilUser, $ilDB, $ilSetting;
 		
@@ -249,13 +249,19 @@ class ilObjForumAccess extends ilObjectAccess
 			);
 		if ($rec = $ilDB->fetchAssoc($set))
 		{
+			$act_clause = $a_only_active
+			?	" AND (pos_status = ".$ilDB->quote(1, "integer").
+				" OR pos_usr_id = ".$ilDB->quote($ilUser->getId(), "integer").") "
+			: "";
+
 			$frm_id = $rec["top_pk"];
 			
 			$ilDB->setLimit(1);
 			$res = $ilDB->queryf('
 				SELECT *
 				FROM frm_posts 
-				WHERE pos_top_fk = %s				 
+				WHERE pos_top_fk = %s'.
+				$act_clause.'
 				ORDER BY pos_date DESC',
 				array('integer'), array($frm_id));
 			
