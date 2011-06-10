@@ -215,7 +215,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 			$num_posts_total = ilObjForumAccess::getNumberOfPostings($this->obj_id, true);
 			$num_unread_total = $num_posts_total - ilObjForumAccess::getNumberOfReadPostings($this->obj_id, true);
 			$num_new_total = ilObjForumAccess::getNumberOfNewPostings($this->obj_id, true);
-			$last_post = ilObjForumAccess::getLastPost($this->obj_id);
+			$last_post = ilObjForumAccess::getLastPost($this->obj_id, true);
 		}
 
 		// Posts (Unread)		
