@@ -460,6 +460,14 @@ class ilExAssignment
 	}
 	
 	/**
+	 * Lookup type
+	 */
+	static function lookupType($a_id)
+	{
+		return ilExAssignment::lookup($a_id, "type");
+	}
+	
+	/**
 	 * Save ordering of all assignments of an exercise
 	 */
 	function saveAssOrderOfExercise($a_ex_id, $a_order)
