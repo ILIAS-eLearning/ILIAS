@@ -11469,3 +11469,6 @@ book#:#book_schedule_warning_edit#:#Es sind momentan keine Zeitpläne vorhanden.
 book#:#book_type_warning#:#Es sind momentan keine Buchungsobjekte vorhanden. Um den Pool nutzen zu können, müssen zuerst Buchungsobjekte angelegt werden.
 prtf#:#prtf_first_page_title#:#Titel der 1. Seite
 prtf#:#prtf_save_status_and_titles#:#Status und Titel speichern
+exc#:#exc_type_upload#:#Upload
+exc#:#exc_type_blog#:#Blog
+exc#:#exc_type_portfolio#:#e-Portfolio

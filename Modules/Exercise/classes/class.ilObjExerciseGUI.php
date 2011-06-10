@@ -1706,7 +1706,18 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->form->setTitle($lng->txt("exc_new_assignment"));
 		}
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
-
+		
+		// type
+		$types = array(
+			ilExAssignment::TYPE_UPLOAD => $this->lng->txt("exc_type_upload"),
+			ilExAssignment::TYPE_BLOG => $this->lng->txt("exc_type_blog"),
+			ilExAssignment::TYPE_PORTFOLIO => $this->lng->txt("exc_type_portfolio")
+			);
+		$ty = new ilSelectInputGUI($this->lng->txt("type"), "type");
+		$ty->setOptions($types);
+		$ty->setRequired(true);
+		$this->form->addItem($ty);
+		
 		// title
 		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
 		$ti->setMaxLength(200);
@@ -1783,6 +1794,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$ass->setInstruction($_POST["instruction"]);
 			$ass->setExerciseId($this->object->getId());
 			$ass->setMandatory($_POST["mandatory"]);
+			$ass->setType($_POST["type"]);
 			
 			if ($_POST["start_time_cb"])
 			{
@@ -1849,6 +1861,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		$values["mandatory"] = $ass->getMandatory();
 		$values["instruction"] = $ass->getInstruction();
+		$values["type"] = $ass->getType();
 
 		$this->form->setValuesByArray($values);
 
@@ -1862,6 +1875,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$ed_item = $this->form->getItemByPostVar("start_time");
 			$ed_item->setDate($edit_date);
 		}
+		
+		// if there are any submissions we cannot change type anymore
+		if(sizeof(ilExAssignment::getAllDeliveredFiles($this->object->getId(), $ass->getId())))
+		{
+			$this->form->getItemByPostVar("type")->setDisabled(true);
+		}
+		
 	}
 
 	/**
@@ -1887,6 +1907,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$ass->setInstruction($_POST["instruction"]);
 			$ass->setExerciseId($this->object->getId());
 			$ass->setMandatory($_POST["mandatory"]);
+			$ass->setType($_POST["type"]);
 			
 			if ($_POST["start_time_cb"])
 			{

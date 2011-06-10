@@ -11525,3 +11525,6 @@ book#:#book_schedule_warning_edit#:#Currently, there is no schedule available. T
 book#:#book_type_warning#:#Currently, there are no booking objects available. To use the booking pool you need to create booking objects.
 prtf#:#prtf_first_page_title#:#Title of first page
 prtf#:#prtf_save_status_and_titles#:#Save Status and Titles
+exc#:#exc_type_upload#:#Upload
+exc#:#exc_type_blog#:#Blog
+exc#:#exc_type_portfolio#:#Portfolio

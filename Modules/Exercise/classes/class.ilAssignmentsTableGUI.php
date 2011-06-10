@@ -25,9 +25,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		$this->setId("excass".$a_exc->getId());
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		$this->setData(ilExAssignment::getAssignmentDataOfExercise($this->exc->getId()));
+	
 		$this->setTitle($lng->txt("exc_assignments"));
 		$this->setTopCommands(true);
 		
@@ -37,6 +35,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		
 		$this->addColumn("", "", "1", true);
 		$this->addColumn($this->lng->txt("title"), "title");
+		$this->addColumn($this->lng->txt("type"), "type");
 		$this->addColumn($this->lng->txt("exc_presentation_order"), "val_order");
 		$this->addColumn($this->lng->txt("exc_start_time"), "start_time");
 		$this->addColumn($this->lng->txt("exc_deadline"), "deadline");
@@ -62,6 +61,21 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		$this->addCommandButton("orderAssignmentsByDeadline", $lng->txt("exc_order_by_deadline"));
 		$this->addCommandButton("saveAssignmentOrder", $lng->txt("exc_save_order"));
 		//$this->addCommandButton("addAssignment", $lng->txt("exc_add_assignment"));
+		
+		$types_map = array(
+			ilExAssignment::TYPE_UPLOAD => $lng->txt("exc_type_upload"),
+			ilExAssignment::TYPE_BLOG => $lng->txt("exc_type_blog"),
+			ilExAssignment::TYPE_PORTFOLIO => $lng->txt("exc_type_portfolio")
+			);
+		
+		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+		$data = ilExAssignment::getAssignmentDataOfExercise($this->exc->getId());
+		foreach($data as $idx => $row)
+		{
+			$data[$idx]["type"] = $types_map[$row["type"]];
+		}
+		
+		$this->setData($data);
 	}
 	
 	/**
@@ -92,6 +106,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		}
 		
 		$this->tpl->setVariable("TXT_TITLE", $d["title"]);
+		$this->tpl->setVariable("TXT_TYPE", $d["type"]);
 		$this->tpl->setVariable("ORDER_VAL", $d["order_val"]);
 		
 		$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
