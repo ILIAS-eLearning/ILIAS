@@ -310,9 +310,18 @@ class ilAdministrationGUI
 
                 if($_GET['fr'])
                 {
+                	// Security check: We do only allow relative urls
+                	$url_parts = parse_url(base64_decode(rawurldecode($_GET['fr'])));
+                	if($url_parts['http'] || $url_parts['host'])
+                	{
+                		global $ilias;
+                		
+                		$ilias->raiseError($this->lng->txt('permission_denied'), $ilias->error_obj->MESSAGE);
+                	}
+                	
                     $fs_gui->setMainFrameSource(
                         base64_decode(rawurldecode($_GET['fr'])));
-		ilUtil::redirect(base64_decode(rawurldecode($_GET['fr'])));
+		ilUtil::redirect(ILIAS_HTTP_PATH.'/'.base64_decode(rawurldecode($_GET['fr'])));
                 }
                 else
                 {
