@@ -2168,6 +2168,100 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$not->setRecipients($users);
 		$not->send();
 	}
+	
+	protected function createBlogObject()
+	{
+		global $ilUser;
+		
+		$this->checkPermission("read");
+		
+		// $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "showOverview"));
+		
+		$this->tabs_gui->setTabActive("content");
+		$this->addContentSubTabs("content");
+		
+		if (mktime() > $this->ass->getDeadline())
+		{
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
+		}
+		
+		$tpl = new ilTemplate("tpl.exc_select_resource.html", false, false, "Modules/Exercise");
+		$tpl->setVariable("TXT_TITLE", $this->lng->txt("exc_create_blog").": ".$this->ass->getTitle());
+		$tpl->setVariable("TREE", $this->renderWorkspaceExplorer("createBlog"));
+		$tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$tpl->setVariable("CMD_SUBMIT", "saveBlog");
+		$tpl->setVariable("CMD_CANCEL", "showOverview");
+		
+		ilUtil::sendInfo($this->lng->txt("exc_create_blog_select_info"));
+					
+		$this->tpl->setContent($tpl->get());
+	}
+	
+	protected function saveBlogObject()
+	{
+		global $ilUser;
+		
+		if(!$_POST["node"])
+		{
+			ilUtil::sendFailure($this->lng->txt("select_one"));
+			return $this->createBlogObject();
+		}
+		
+		$parent_node = $_POST["node"];
+		
+		include_once "Modules/Blog/classes/class.ilObjBlog.php";
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+		
+		$blog = new ilObjBlog();
+		$blog->setTitle($this->object->getTitle()." - ".$this->ass->getTitle());
+		$blog->create();
+		
+		$tree = new ilWorkspaceTree($ilUser->getId());
+		$node_id = $tree->insertObject($parent_node, $blog->getId());
+		
+		$access_handler = new ilWorkspaceAccessHandler($tree);
+		$access_handler->setPermissions($parent_node, $node_id);
+		
+		$this->object->addResourceObject($node_id, $this->ass->getId(), $ilUser->getId());
+		
+		ilUtil::sendSuccess($this->lng->txt("exc_blog_created"), true);
+		$this->ctrl->redirect($this, "showOverview");
+	}
+	
+	protected function renderWorkspaceExplorer($a_cmd)
+	{
+		global $ilUser;
+		
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+		require_once 'Services/PersonalWorkspace/classes/class.ilWorkspaceExplorer.php';
+		
+		$tree = new ilWorkspaceTree($ilUser->getId());
+		$access_handler = new ilWorkspaceAccessHandler($tree);
+		$exp = new ilWorkspaceExplorer(ilWorkspaceExplorer::SEL_TYPE_RADIO, '', 
+			'exc_wspexpand', $tree, $access_handler);
+		$exp->setTargetGet('wsp_id');
+
+		if($_GET['exc_wspexpand'] == '')
+		{
+			// not really used as session is already set [see above]
+			$expanded = $tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET['exc_wspexpand'];
+		}
+		
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, $a_cmd));
+		$exp->setPostVar('node');
+		$exp->setExpand($expanded);
+		$exp->setOutput(0);
+		
+		return $exp->getOutput();
+	}
 }
 
 ?>
