@@ -1660,7 +1660,25 @@ class ilObjForumGUI extends ilObjectGUI
 						}
 					}
 				}
-				
+					
+				// if post has been edited posting mus be activated again by moderator
+				$status = 1;
+				$send_activation_mail = 0;
+
+				if($this->objProperties->isPostActivationEnabled())
+				{
+					if(!$ilAccess->checkAccess('moderate_frm', '', (int)$this->object->getRefId()))
+					{
+						$status = 0;
+						$send_activation_mail = 1;
+					}
+					else if($this->objCurrentPost->isAnyParentDeactivated())
+					{
+						$status = 0;
+					}
+				}
+				$this->objCurrentPost->setStatus($status);
+
 				$this->objCurrentPost->setSubject($this->handleFormInput($oReplyEditForm->getInput('subject'), false));
 				$this->objCurrentPost->setMessage(ilRTE::_replaceMediaObjectImageSrc($oReplyEditForm->getInput('message'), 0));
 				$this->objCurrentPost->setNotification((int)$oReplyEditForm->getInput('notify'));
@@ -1702,6 +1720,14 @@ class ilObjForumGUI extends ilObjectGUI
 						$oFDForum->unlinkFilesByMD5Filenames($file2delete);
 					}				
 				}
+
+				if (!$status && $send_activation_mail)
+				{
+					$pos_data = $this->objCurrentPost->getDataAsArray();
+					$pos_data["top_name"] = $this->object->getTitle();
+					$frm->sendPostActivationNotification($pos_data);
+				}
+
 				ilUtil::sendSuccess($lng->txt('forums_post_modified'), true);
 				$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
@@ -1796,7 +1822,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$tpl->addCss('./Modules/Forum/css/forum_tree.css');
 
 		if(!is_array($_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']))
-		{
+		{		
 			$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'] = array();
 		}
 
@@ -2241,7 +2267,7 @@ class ilObjForumGUI extends ilObjectGUI
 											$this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
 										$this->ctrl->clearParameters($this);
 										$this->tpl->setVariable('FRM_POST_JS', $jsTpl->get());
-										break;									
+										break;
 									case 'showedit':
 										if($this->ctrl->getCmd() == 'savePost')
 										{
