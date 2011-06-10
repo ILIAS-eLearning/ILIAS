@@ -693,13 +693,17 @@ class ilObjRole extends ilObject
 			
 			#echo "----STACK---- ".$lft.' - '.$rgt.'<br/>';
 
-			if(($node['lft'] < $lft) or ($node['rgt'] > $rgt))
+			while(($node['lft'] < $lft) or ($node['rgt'] > $rgt))
 			{
 				#echo "LEFT ".$node['child'].'<br>';
 				array_pop($operation_stack);
 				array_pop($policy_stack);
 				array_pop($left_stack);
 				array_pop($right_stack);
+
+				$lft = end($left_stack);
+				$rgt = end($right_stack);
+
 				$local_policy = false;
 			}
 			
