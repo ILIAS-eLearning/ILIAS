@@ -131,7 +131,7 @@ class ilForumPost
 	public function update()
 	{
 		global $ilDB;
-		
+
 		if($this->id)
 		{
 			$ilDB->update('frm_posts',
@@ -144,7 +144,8 @@ class ilForumPost
 					'update_user'	=> array('integer', $this->user_id_update),
 					'pos_cens'		=> array('integer', $this->censored),
 					'pos_cens_com'	=> array('text', $this->censorship_comment),
-					'notify'		=> array('integer', (int)$this->notification)
+					'notify'		=> array('integer', (int)$this->notification),
+					'pos_status'	=> array('integer', (int)$this->status)
 				),
 				array(
 					'pos_pk'		=> array('integer', (int)$this->id)
