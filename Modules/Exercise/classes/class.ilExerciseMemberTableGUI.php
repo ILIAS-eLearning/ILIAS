@@ -73,6 +73,8 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		{
 			$this->addCommandButton("downloadAll", $lng->txt("download_all_returned_files"));
 		}
+		
+		$this->type = ilExAssignment::lookupType($this->ass_id);
 	}
 	
 	/**
@@ -155,50 +157,93 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_LAST_SUBMISSION", $last_sub);
 		$this->tpl->setVariable("TXT_LAST_SUBMISSION",
 			$lng->txt("exc_last_submission"));
-
-		// nr of submitted files
-		$this->tpl->setVariable("TXT_SUBMITTED_FILES",
-			$lng->txt("exc_files_returned"));
-		//$sub_cnt = count($this->exc->getDeliveredFiles($member_id, $this->ass_id));
-		$sub_cnt = count(ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id));
-		$new = ilExAssignment::lookupNewFiles($this->ass_id, $member_id);
-		if (count($new) > 0)
-		{
-			$sub_cnt.= " ".sprintf($lng->txt("cnt_new"),count($new));
-		}
-		$this->tpl->setVariable("VAL_SUBMITTED_FILES",
-			$sub_cnt);
 		
-		// download command
-		$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
-		if ($sub_cnt > 0)
+		switch($this->type)
 		{
-			$this->tpl->setCurrentBlock("download_link");
-			$this->tpl->setVariable("LINK_DOWNLOAD",
-				$ilCtrl->getLinkTarget($this->parent_obj, "downloadReturned"));
-			if (count($new) <= 0)
-			{
-				$this->tpl->setVariable("TXT_DOWNLOAD",
-					$lng->txt("exc_download_files"));
-			}
-			else
-			{
-				$this->tpl->setVariable("TXT_DOWNLOAD",
-					$lng->txt("exc_download_all"));
-			}
-			$this->tpl->parseCurrentBlock();
-			
-			// download new files only
-			if (count($new) > 0)
-			{
-				$this->tpl->setCurrentBlock("download_link");
-				$this->tpl->setVariable("LINK_NEW_DOWNLOAD",
-					$ilCtrl->getLinkTarget($this->parent_obj, "downloadNewReturned"));
-				$this->tpl->setVariable("TXT_NEW_DOWNLOAD",
-					$lng->txt("exc_download_new"));
-				$this->tpl->parseCurrentBlock();
-			}
+			case ilExAssignment::TYPE_UPLOAD:
+				// nr of submitted files
+				$this->tpl->setVariable("TXT_SUBMITTED_FILES",
+					$lng->txt("exc_files_returned"));
+				//$sub_cnt = count($this->exc->getDeliveredFiles($member_id, $this->ass_id));
+				$sub_cnt = count(ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id));
+				$new = ilExAssignment::lookupNewFiles($this->ass_id, $member_id);
+				if (count($new) > 0)
+				{
+					$sub_cnt.= " ".sprintf($lng->txt("cnt_new"),count($new));
+				}
+				$this->tpl->setVariable("VAL_SUBMITTED_FILES",
+					$sub_cnt);
+
+				// download command
+				$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
+				if ($sub_cnt > 0)
+				{
+					$this->tpl->setCurrentBlock("download_link");
+					$this->tpl->setVariable("LINK_DOWNLOAD",
+						$ilCtrl->getLinkTarget($this->parent_obj, "downloadReturned"));
+					if (count($new) <= 0)
+					{
+						$this->tpl->setVariable("TXT_DOWNLOAD",
+							$lng->txt("exc_download_files"));
+					}
+					else
+					{
+						$this->tpl->setVariable("TXT_DOWNLOAD",
+							$lng->txt("exc_download_all"));
+					}
+					$this->tpl->parseCurrentBlock();
+
+					// download new files only
+					if (count($new) > 0)
+					{
+						$this->tpl->setCurrentBlock("download_link");
+						$this->tpl->setVariable("LINK_NEW_DOWNLOAD",
+							$ilCtrl->getLinkTarget($this->parent_obj, "downloadNewReturned"));
+						$this->tpl->setVariable("TXT_NEW_DOWNLOAD",
+							$lng->txt("exc_download_new"));
+						$this->tpl->parseCurrentBlock();
+					}
+				}
+				break;
+				
+			case ilExAssignment::TYPE_BLOG:
+				$this->tpl->setVariable("TXT_SUBMITTED_FILES",
+					$lng->txt("exc_blog_returned"));
+				$blogs = ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id);
+				if($blogs)
+				{
+					$blog_id = array_pop($blogs);
+					$blog_id = (int)$blog_id["filetitle"];
+						
+					$this->tpl->setVariable("VAL_SUBMITTED_FILES", '<a href="goto_'.urlencode(CLIENT_ID).'_blog_'.$blog_id.'_wsp.html">'.
+							$this->lng->txt("view").'</a>');
+				}
+				else
+				{
+					$this->tpl->setVariable("VAL_SUBMITTED_FILES", "---");
+				}
+				break;
+				
+			case ilExAssignment::TYPE_PORTFOLIO:
+				$this->tpl->setVariable("TXT_SUBMITTED_FILES",
+					$lng->txt("exc_portfolio_returned"));
+				$portfolios = ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id);
+				if($portfolios)
+				{
+					$portfolio_id = array_pop($portfolios);
+					$portfolio_id = (int)$portfolio_id["filetitle"];
+						
+					$this->tpl->setVariable("VAL_SUBMITTED_FILES", '<a href="#TODO">'.
+							$this->lng->txt("view").'</a>');
+				}
+				else
+				{
+					$this->tpl->setVariable("VAL_SUBMITTED_FILES", "---");
+				}
+				break;
 		}
+
+	
 		
 		// note
 		$this->tpl->setVariable("TXT_NOTE", $lng->txt("note"));

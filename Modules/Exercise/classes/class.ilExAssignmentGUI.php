@@ -238,6 +238,26 @@ class ilExAssignmentGUI
 					}
 					$info->addProperty($lng->txt("exc_blog_returned"), $files_str);
 					break;
+					
+				case ilExAssignment::TYPE_PORTFOLIO:
+					if(sizeof($delivered_files))
+					{
+						$portfolio_id = array_pop($delivered_files);
+						$portfolio_id = (int)$portfolio_id["filetitle"];
+						
+						include_once "Services/Portfolio/classes/class.ilPortfolio.php";
+						$portfolio = new ilPortfolio($portfolio_id);
+						
+						$files_str = '<a href="#TODO">'.$portfolio->getTitle().'</a>';
+					}
+					else
+					{
+						$files_str = '<a class="submit" href="'.
+							$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createPortfolio").'">'.
+							$lng->txt("exc_create_portfolio").'</a>';
+					}
+					$info->addProperty($lng->txt("exc_portfolio_returned"), $files_str);
+					break;
 			}
 									
 			// feedback from tutor

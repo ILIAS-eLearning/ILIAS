@@ -2262,6 +2262,30 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		return $exp->getOutput();
 	}
+	
+	protected function createPortfolioObject()
+	{
+		global $ilUser;
+		
+		$this->checkPermission("read");
+		
+		include_once "Services/Portfolio/classes/class.ilPortfolio.php";
+		$portfolio = new ilPortfolio(null, $ilUser->getId());
+		$portfolio->setTitle($this->object->getTitle()." - ".$this->ass->getTitle());
+		$portfolio->create();
+		
+		/* create first page automatically?
+		include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
+		$page = new ilPortfolioPage($portfolio->getId());
+		$page->setTitle();
+		$page->create();
+		*/
+		
+		$this->object->addResourceObject($portfolio->getId(), $this->ass->getId(), $ilUser->getId());
+		
+		ilUtil::sendSuccess($this->lng->txt("exc_portfolio_created"), true);
+		$this->ctrl->redirect($this, "showOverview");
+	}
 }
 
 ?>

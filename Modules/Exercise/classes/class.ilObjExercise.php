@@ -1000,6 +1000,13 @@ class ilObjExercise extends ilObject
 		return $all;
 	}
 	
+	/**
+	 * Add personal resource to assigment
+	 * 
+	 * @param int $a_wsp_id
+	 * @param int $a_ass_id
+	 * @param int $user_id 
+	 */
 	function addResourceObject($a_wsp_id, $a_ass_id, $user_id)
 	{
 		global $ilDB;
