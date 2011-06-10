@@ -1088,8 +1088,8 @@ class ilMail
 				// DETERMINE IF THE USER CAN READ INTERNAL MAILS
 				$tmp_user =& new ilObjUser($id);
 				$tmp_user->read();
+				$user_is_active = $tmp_user->getActive();
 				$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement() &&
-											    $tmp_user->getActive() &&
 											    $tmp_user->checkTimeLimit();
 
 				// CONTINUE IF SYSTEM MESSAGE AND USER CAN'T READ INTERNAL MAILS
@@ -1100,18 +1100,22 @@ class ilMail
 
 				// CONTINUE IF USER CAN'T READ INTERNAL MAILS OR IF HE/SHE WANTS HIS/HER MAIL
 				// SENT TO HIS/HER EXTERNAL E-MAIL ADDRESS ONLY
-				if (!$user_can_read_internal_mails ||
-					$tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
-				{
-					$as_email[] = $id;
-					continue;
-				}
 
-				if ($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
+				// Do not send external mails to inactive users!!!
+				if($user_is_active)
 				{
-					$as_email[] = $id;
-				}
+					if (!$user_can_read_internal_mails ||
+						$tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+					{
+						$as_email[] = $id;
+						continue;
+					}
 
+					if ($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
+					{
+						$as_email[] = $id;
+					}
+				}
 				$mbox->setUserId($id);
 				$inbox_id = $mbox->getInboxFolder();
 
@@ -1164,8 +1168,8 @@ class ilMail
 				// DETERMINE IF THE USER CAN READ INTERNAL MAILS
 				$tmp_user =& new ilObjUser($id);
 				$tmp_user->read();
+				$user_is_active = $tmp_user->getActive();
 				$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement() &&
-											    $tmp_user->getActive() &&
 											    $tmp_user->checkTimeLimit();
 
 				// CONTINUE IF SYSTEM MESSAGE AND USER CAN'T READ INTERNAL MAILS
@@ -1176,18 +1180,22 @@ class ilMail
 
 				// CONTINUE IF USER CAN'T READ INTERNAL MAILS OR IF HE/SHE WANTS HIS MAIL
 				// SENT TO HIS/HER EXTERNAL E-MAIL ADDRESS ONLY
-				if (!$user_can_read_internal_mails ||
-					$tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
-				{
-					$as_email[] = $id;
-					continue;
-				}
 
-				if ($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
+				// Do not send external mails to inactive users!!!
+				if($user_is_active)
 				{
-					$as_email[] = $id;
-				}
+					if (!$user_can_read_internal_mails ||
+						$tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+					{
+						$as_email[] = $id;
+						continue;
+					}
 
+					if ($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
+					{
+						$as_email[] = $id;
+					}
+				}
 				$mbox->setUserId($id);
 				$inbox_id = $mbox->getInboxFolder();
 
@@ -1219,29 +1227,33 @@ class ilMail
 				// DETERMINE IF THE USER CAN READ INTERNAL MAILS
 				$tmp_user =& new ilObjUser($id);
 				$tmp_user->read();
+				$user_is_active = $tmp_user->getActive();
 				$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement()
-					&& $tmp_user->getActive() && $tmp_user->checkTimeLimit();
+							&& $tmp_user->checkTimeLimit();
 
-				// CONTINUE IF SYSTEM MESSAGE AND USER CAN'T READ INTERNAL MAILS
-				if (in_array('system', $a_type) && !$user_can_read_internal_mails)
+				// Do not send external mails to inactive users!!!
+				if($user_is_active)
 				{
-					continue;
-				}
+					// CONTINUE IF SYSTEM MESSAGE AND USER CAN'T READ INTERNAL MAILS
+					if (in_array('system', $a_type) && !$user_can_read_internal_mails)
+					{
+						continue;
+					}
 
-				// CONTINUE IF USER CAN'T READ INTERNAL MAILS OR IF HE/SHE WANTS HIS MAIL
-				// SENT TO HIS/HER EXTERNAL E-MAIL ADDRESS ONLY
-				if (!$user_can_read_internal_mails ||
-					$tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
-				{
-					$as_email[] = $id;
-					continue;
-				}
+					// CONTINUE IF USER CAN'T READ INTERNAL MAILS OR IF HE/SHE WANTS HIS MAIL
+					// SENT TO HIS/HER EXTERNAL E-MAIL ADDRESS ONLY
+					if (!$user_can_read_internal_mails ||
+						$tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+					{
+						$as_email[] = $id;
+						continue;
+					}
 
-				if ($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
-				{
-					$as_email[] = $id;
+					if ($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
+					{
+						$as_email[] = $id;
+					}
 				}
-
 				$mbox->setUserId($id);
 				$inbox_id = $mbox->getInboxFolder();
 
@@ -1549,7 +1561,7 @@ class ilMail
 								continue;
 							}
 						}
-					}
+							}
 					else if (substr($rcp->mailbox, 0, 7) == '#il_ml_')
 					{
 						if (!$this->mlists->mailingListExists($rcp->mailbox))
