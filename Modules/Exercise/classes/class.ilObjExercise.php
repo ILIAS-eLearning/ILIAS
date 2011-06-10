@@ -999,6 +999,30 @@ class ilObjExercise extends ilObject
 		}
 		return $all;
 	}
+	
+	function addResourceObject($a_wsp_id, $a_ass_id, $user_id)
+	{
+		global $ilDB;
+	
+		$next_id = $ilDB->nextId("exc_returned");
+		$query = sprintf("INSERT INTO exc_returned ".
+						 "(returned_id, obj_id, user_id, filetitle, ts, ass_id) ".
+						 "VALUES (%s, %s, %s, %s, %s, %s)",
+			$ilDB->quote($next_id, "integer"),
+			$ilDB->quote($this->getId(), "integer"),
+			$ilDB->quote($user_id, "integer"),
+			$ilDB->quote($a_wsp_id, "text"),
+			$ilDB->quote(ilUtil::now(), "timestamp"),
+			$ilDB->quote($a_ass_id, "integer")
+		);
+		$ilDB->manipulate($query);
+		if (!$this->members_obj->isAssigned($user_id))
+		{
+			$this->members_obj->assignMember($user_id);
+		}
+		ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, 1);
+		ilExerciseMembers::_writeReturned($this->getId(), $user_id, 1);
+	}
 }
 
 ?>

@@ -11472,3 +11472,11 @@ prtf#:#prtf_save_status_and_titles#:#Status und Titel speichern
 exc#:#exc_type_upload#:#Upload
 exc#:#exc_type_blog#:#Blog
 exc#:#exc_type_portfolio#:#e-Portfolio
+exc#:#exc_blog_returned#:#Abgegebener Blog
+exc#:#exc_portfolio_returned#:#Abgegebenes Portfolio
+exc#:#exc_create_blog#:#Blog erstellen
+exc#:#exc_create_portfolio#:#e-Portfolio erstellen
+exc#:#exc_create_blog_select_info#:#Bitte wählen Sie das Ressourcen-Verzeichnis, in dem der Blog erstellt werden soll.
+exc#:#exc_create_portfolio_select_info#:#Bitte wählen Sie das Ressourcen-Verzeichnis, in dem das e-Portfolio erstellt werden soll.
+exc#:#exc_blog_created#:#Blog wurde erstellt.
+exc#:#exc_portfolio_created#:#e-Portfolio wurde erstellt.

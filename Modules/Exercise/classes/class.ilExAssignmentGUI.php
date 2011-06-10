@@ -166,52 +166,80 @@ class ilExAssignmentGUI
 			// submission
 			$info->addSection($lng->txt("exc_your_submission"));
 			$delivered_files = ilExAssignment::getDeliveredFiles($a_data["exc_id"], $a_data["id"], $ilUser->getId());
-			$titles = array();
-			foreach($delivered_files as $file)
+						
+			switch($a_data["type"])
 			{
-				$titles[] = $file["filetitle"];
+				case ilExAssignment::TYPE_UPLOAD:					
+					$titles = array();
+					foreach($delivered_files as $file)
+					{
+						$titles[] = $file["filetitle"];
+					}
+					$files_str = implode($titles, ", ");
+					if ($files_str == "")
+					{
+						$files_str = $lng->txt("message_no_delivered_files");
+					}
+
+					$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $a_data["id"]);
+
+					if ($a_data["deadline"] - time() > 0)
+					{
+						$files_str.= ' <a class="submit" href="'.
+							$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen").'">'.
+							(count($titles) == 0
+								? $lng->txt("exc_hand_in")
+								: $lng->txt("exc_edit_submission")).'</a>';
+					}
+					else
+					{
+						$files_str.= ' <a class="submit" href="'.
+							$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen").'">'.
+							$lng->txt("already_delivered_files").'</a>';
+					}
+
+					$info->addProperty($lng->txt("exc_files_returned"),
+						$files_str);
+					$last_sub = ilExAssignment::getLastSubmission($a_data["id"], $ilUser->getId());
+					if ($last_sub)
+					{
+						$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
+					}
+					else
+					{
+						$last_sub = "---";
+					}
+
+					if ($last_sub != "---")
+					{
+						$info->addProperty($lng->txt("exc_last_submission"),
+							$last_sub);
+					}
+					break;
+					
+				case ilExAssignment::TYPE_BLOG:
+					if(sizeof($delivered_files))
+					{
+						$blog_id = array_pop($delivered_files);
+						$blog_id = (int)$blog_id["filetitle"];
+						
+						include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+						
+						$tree = new ilWorkspaceTree($ilUser->getId());
+						$node = $tree->getNodeData($blog_id);
+						$files_str = '<a href="goto_'.urlencode(CLIENT_ID).'_blog_'.$blog_id.'_wsp.html">'.
+							$node["title"].'</a>';
+					}
+					else
+					{
+						$files_str = '<a class="submit" href="'.
+							$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createBlog").'">'.
+							$lng->txt("exc_create_blog").'</a>';
+					}
+					$info->addProperty($lng->txt("exc_blog_returned"), $files_str);
+					break;
 			}
-			$files_str = implode($titles, ", ");
-			if ($files_str == "")
-			{
-				$files_str = $lng->txt("message_no_delivered_files");
-			}
-			
-			$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $a_data["id"]);
-			
-			if ($a_data["deadline"] - time() > 0)
-			{
-				$files_str.= ' <a class="submit" href="'.
-					$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen").'">'.
-					(count($titles) == 0
-						? $lng->txt("exc_hand_in")
-						: $lng->txt("exc_edit_submission")).'</a>';
-			}
-			else
-			{
-				$files_str.= ' <a class="submit" href="'.
-					$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen").'">'.
-					$lng->txt("already_delivered_files").'</a>';
-			}
-			
-			$info->addProperty($lng->txt("exc_files_returned"),
-				$files_str);
-			$last_sub = ilExAssignment::getLastSubmission($a_data["id"], $ilUser->getId());
-			if ($last_sub)
-			{
-				$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
-			}
-			else
-			{
-				$last_sub = "---";
-			}
-	
-			if ($last_sub != "---")
-			{
-				$info->addProperty($lng->txt("exc_last_submission"),
-					$last_sub);
-			}
-			
+									
 			// feedback from tutor
 			$storage = new ilFSStorageExercise($a_data["exc_id"], $a_data["id"]);
 			$cnt_files = $storage->countFeedbackFiles($ilUser->getId());
