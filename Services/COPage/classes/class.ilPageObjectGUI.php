@@ -2223,6 +2223,12 @@ class ilPageObjectGUI
 			$btpl->touchBlock("debug_ghost");
 		}
 
+		// paste from word
+		$btpl->setCurrentBlock("pword_button");
+		$btpl->setVariable("IMG_PWORD", ilUtil::img(ilUtil::getImagePath("tn_pword.gif"),
+			"", 20, 20));
+		$btpl->parseCurrentBlock();
+		
 		// bullet list
 		$btpl->setCurrentBlock("blist_button");
 		$btpl->setVariable("IMG_BLIST", ilUtil::img(ilUtil::getImagePath("tn_blist.gif"),
