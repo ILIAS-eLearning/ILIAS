@@ -1080,14 +1080,34 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacadmin;
 
-		include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
-		
 		// ECS enabled
-		$ecs_settings = ilECSSetting::_getInstance();
-		if(!$ecs_settings->isEnabled())
+		include_once('./Services/WebServices/ECS/classes/class.ilECSServerSettings.php');
+		if(!ilECSServerSettings::getInstance()->activeServerExists())
 		{
 			return true;
 		}
+
+		try
+		{
+			$this->object->handleECSSettings(
+				(bool) $_POST['ecs_export'],
+				(array) $_POST['sid_mid']
+			);
+			return true;
+
+		}
+		catch(ilECSConnectorException $e)
+		{
+			ilUtil::sendFailure('Error connecting to ECS server: '.$exc->getMessage());
+			return false;
+		}
+		catch(ilECSContentWriterException $e)
+		{
+			ilUtil::sendFailure('Course export failed with message: '.$exc->getMessage());
+			return false;
+		}
+		
+
 		if($_POST['ecs_export'] and !$_POST['ecs_owner'])
 		{
 			ilUtil::sendFailure($this->lng->txt('ecs_no_owner'));
@@ -1475,16 +1495,62 @@ class ilObjCourseGUI extends ilContainerGUI
 			return true;
 		}
 
+		// Return if no participant is enabled for export and the current object is not released
 		include_once './Services/WebServices/ECS/classes/class.ilECSExport.php';
-		// Nothing to if current participants is not enabled for export
+		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
 
+		$exportablePart = ilECSParticipantSettings::getExportableParticipants();
+		if(!$exportablePart and !ilECSExport::_isExported($this->object->getId()))
+		{
+			return true;
+		}
+
+		$GLOBALS['lng']->loadLanguageModule('ecs');
+
+		// show ecs property form section
+		$ecs = new ilFormSectionHeaderGUI();
+		$ecs->setTitle($this->lng->txt('ecs_export'));
+		$a_form->addItem($ecs);
+
+
+		// release or not
+		$exp = new ilRadioGroupInputGUI($this->lng->txt('ecs_export_obj_settings'),'ecs_export');
+		$exp->setRequired(true);
+		$exp->setValue(ilECSExport::_isExported($this->object->getId()) ? 1 : 0);
+		$off = new ilRadioOption($this->lng->txt('ecs_export_disabled'),0);
+		$exp->addOption($off);
+		$on = new ilRadioOption($this->lng->txt('ecs_export_enabled'),1);
+		$exp->addOption($on);
+		$a_form->addItem($exp);
+
+		// Show all exportable participants
+		$publish_for = new ilCheckboxGroupInputGUI($this->lng->txt('ecs_publish_for'),'ecs_sid');
+
+		// @TODO: Active checkboxes for recipients
+		//$publish_for->setValue((array) $members);
+
+		foreach($exportablePart as $pInfo)
+		{
+
+			include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
+			$partSetting = new ilECSParticipantSetting($pInfo['sid'], $pInfo['mid']);
+
+			$com = new ilCheckboxInputGUI(
+				$partSetting->getCommunityName().': '.$partSetting->getTitle(),
+				'sid_mid'
+			);
+			$com->setValue($pInfo['sid'].'_'.$pInfo['mid']);
+			$publish_for->addOption($com);
+
+
+		}
+		$on->addSubItem($publish_for);
+		return true;
 	}
 
 
 				
 	/**
-	 * 
-	 *
 	 * @access protected
 	 * @param void
 	 * @return bool
@@ -1560,7 +1626,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			
 			$reader = ilECSCommunityReader::_getInstance();
-			if(count($parts = $reader->getPublishableParticipants()) > 1)
+			if(count($parts = $reader->getPublishableParticipants()) > 0)
 			{
 				$ilLog->write(__METHOD__.': Found '.count($parts).' participants for publishing');
 				#$publish_as = new ilCustomInputGUI('','');

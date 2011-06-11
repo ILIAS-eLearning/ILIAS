@@ -628,12 +628,25 @@ class ilECSSettingsGUI
 		include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
 		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
 
+		// @TODO: Delete deprecated communities
+
 		$servers = ilECSServerSettings::getInstance();
 		foreach($servers->getServers() as $server)
 		{
 			try {
 				// Read communities
 				$cReader = ilECSCommunityReader::getInstanceByServerId($server->getServerId());
+
+				// Update community cache
+				foreach($cReader->getCommunities() as $community)
+				{
+					include_once './Services/WebServices/ECS/classes/class.ilECSCommunityCache.php';
+					$cCache = ilECSCommunityCache::getInstance($server->getServerId(), $community->getId());
+					$cCache->setCommunityName($community->getTitle());
+					$cCache->setMids($community->getMids());
+					$cCache->setOwnId($community->getOwnId());
+					$cCache->update();
+				}
 			}
 			catch(Exception $e)
 			{

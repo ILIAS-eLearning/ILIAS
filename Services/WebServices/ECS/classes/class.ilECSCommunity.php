@@ -84,6 +84,35 @@ class ilECSCommunity
 	{
 	 	return $this->participants ? $this->participants : array();
 	}
+
+	/**
+	 * Get array of mids of all participants
+	 */
+	public function getMids()
+	{
+		$mids = array();
+		foreach($this->getParticipants() as $part)
+		{
+			$mids[] = $part->getMID();
+		}
+		return $mids;
+	}
+
+	/**
+	 * Get own mid of community
+	 */
+	public function getOwnId()
+	{
+		foreach($this->getParticipants() as $part)
+		{
+			if($part->isSelf())
+			{
+				return $part->getMID();
+			}
+		}
+		return 0;
+	}
+
 	
 	/**
 	 * get id
@@ -107,7 +136,7 @@ class ilECSCommunity
 	{
 	 	$this->title = $this->json_obj->community->name;
 	 	$this->description = $this->json_obj->community->description;
-	 	$this->id = $this->json_obj->community->id;
+	 	$this->id = $this->json_obj->community->cid;
 	 	
 		foreach($this->json_obj->participants as $participant)
 		{

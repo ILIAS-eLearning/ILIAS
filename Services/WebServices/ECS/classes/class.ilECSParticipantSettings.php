@@ -78,6 +78,31 @@ class ilECSParticipantSettings
 	}
 
 	/**
+	 * Get participants which are enabled and export is allowed
+	 */
+	public static function getExportableParticipants()
+	{
+		global $ilDB;
+
+		$query = 'SELECT sid,mid FROM ecs_part_settings ep '.
+			'JOIN ecs_server es ON ep.sid = es.server_id '.
+			'WHERE export = '.$ilDB->quote(1,'integer').' '.
+			'AND active = '.$ilDB->quote(1,'integer').' '.
+			'ORDER BY cname,es.title';
+		
+		$res = $ilDB->query($query);
+		$mids = array();
+		$counter = 0;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$mids[$counter]['sid'] = $row->sid;
+			$mids[$counter]['mid'] = $row->mid;
+			$counter++;
+		}
+		return $mids;
+	}
+
+	/**
 	 * Get server id
 	 * @return int
 	 */

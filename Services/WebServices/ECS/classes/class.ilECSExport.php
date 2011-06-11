@@ -83,6 +83,8 @@ class ilECSExport
 	 */
 	public static function _isExported($a_obj_id)
 	{
+		global $ilDB;
+
 		$query = 'SELECT * FROM ecs_export '.
 			'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
 		$res = $ilDB->query($query);
