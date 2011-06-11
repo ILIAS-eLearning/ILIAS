@@ -5907,3 +5907,18 @@ $ilDB->addTableColumn("sahs_lm", "localization", array(
 		);
 	}
 ?>
+<#3363>
+<?php
+	if(!$ilDB->tableExists('ecs_community'))
+	{
+		$fields = array (
+			'sid'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true),
+			'cid'   => array ('type' => 'integer', 'length' => 4, 'notnull' => true),
+			'own_id'    => array ('type' => 'integer', 'length'  => 4,"notnull" => true),
+			'cname'  => array ('type' => 'text', 'length'  => 255,"notnull" => false),
+			'mids' => array('type' => 'text','length' => 512,'notnull' => false)
+	  );
+	  $ilDB->createTable('ecs_community', $fields);
+	  $ilDB->addPrimaryKey('ecs_community', array('sid','cid'));
+	}
+?>
