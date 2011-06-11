@@ -197,6 +197,13 @@ tinymce.activeEditor.formatter.register('mycode', {
 		ed.execCommand('RemoveFormat', false);
 		this.autoResize(ed);
 	},
+	
+	cmdPasteWord: function()
+	{
+		var ed = tinyMCE.get('tinytarget');
+		ed.focus();
+		ed.execCommand('mcePasteWord');
+	},
 
 	cmdIntLink: function(b, e)
 	{
@@ -1618,7 +1625,7 @@ statusbar = false;
 			fix_list_elements : true,
 			theme_advanced_blockformats : "code",
 			theme_advanced_toolbar_align : "left",
-			theme_advanced_buttons1 : "save,b,code,il_strong,styleselect,formatselect,bullist,numlist,outdent,indent",
+			theme_advanced_buttons1 : "save,b,code,il_strong,styleselect,formatselect,bullist,numlist,outdent,indent,pasteword",
 			theme_advanced_buttons2 : "",
 			theme_advanced_buttons3 : "",
 			content_css: ilCOPage.content_css,
