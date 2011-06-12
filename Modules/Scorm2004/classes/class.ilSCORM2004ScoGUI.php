@@ -418,16 +418,9 @@ die("deprecated");
 //		$output = preg_replace("/&#123;/","",$output);
 //		$output = preg_replace("/&#125;/","",$output);
 		$output = "<script>var ScormApi=null;".ilQuestionExporter::questionsJS()."</script>".$output;
-
-		$tpl->addOnloadCode('
-			ilias.questions.txt.wrong_answers = "'.$lng->txt("cont_wrong_answers").'";
-			ilias.questions.txt.tries_remaining = "'.$lng->txt("cont_tries_remaining").'";
-			ilias.questions.txt.please_try_again = "'.$lng->txt("cont_please_try_again").'";
-			ilias.questions.txt.all_answers_correct = "'.$lng->txt("cont_all_answers_correct").'";
-			ilias.questions.txt.nr_of_tries_exceeded = "'.$lng->txt("cont_nr_of_tries_exceeded").'";
-			ilias.questions.txt.correct_answers_shown = "'.$lng->txt("cont_correct_answers_shown").'";
-			');
-
+		
+		$lk = ilObjSAHSLearningModule::getAffectiveLocalization($this->node_object->getSLMId());
+		ilPageObjectGUI::addPreparationJavascript($tpl, $lk);
 
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
 		$tpl->addCss("./Modules/Scorm2004/templates/default/question_handling.css");
