@@ -345,15 +345,10 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		if ($mode != 'pdf')
 		{
 			// init and question lang vars
+			$lk = ilObjSAHSLearningModule::getAffectiveLocalization($this->slm_id);
 			$sco_tpl->setCurrentBlock("init");
-			$lvs = array("wrong_answers", "tries_remaining",
-				"please_try_again", "all_answers_correct",
-				"nr_of_tries_exceeded", "correct_answers_shown");
-			foreach ($lvs as $lv)
-			{
-				$sco_tpl->setVariable("TXT_".strtoupper($lv),
-					$lng->txt("cont_".$lv));
-			}
+			$sco_tpl->setVariable("TXT_INIT_CODE",
+				ilPageObjectGUI::getJSTextInitCode($lk));
 			$sco_tpl->parseCurrentBlock();
 			
 			// style sheets needed

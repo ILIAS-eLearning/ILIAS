@@ -3403,25 +3403,54 @@ class ilPageObjectGUI
 			}
 
 			$lk = $this->getPageConfig()->getLocalizationLanguage();
-			
-			$tpl->addOnloadCode('
-			ilias.questions.txt.wrong_answers = "'.$lng->txtlng("content", "cont_wrong_answers", $lk).'";
-			ilias.questions.txt.wrong_answers_single = "'.$lng->txtlng("content", "cont_wrong_answers_single", $lk).'";
-			ilias.questions.txt.tries_remaining = "'.$lng->txtlng("content", "cont_tries_remaining", $lk).'";
-			ilias.questions.txt.please_try_again = "'.$lng->txtlng("content", "cont_please_try_again", $lk).'";
-			ilias.questions.txt.all_answers_correct = "'.$lng->txtlng("content", "cont_all_answers_correct", $lk).'";
-			ilias.questions.txt.nr_of_tries_exceeded = "'.$lng->txtlng("content", "cont_nr_of_tries_exceeded", $lk).'";
-			ilias.questions.txt.correct_answers_shown = "'.$lng->txtlng("content", "cont_correct_answers_shown", $lk).'";
-			ilias.questions.txt.correct_answers_also = "'.$lng->txtlng("content", "cont_correct_answers_also", $lk).'";
-			ilias.questions.txt.correct_answer_also = "'.$lng->txtlng("content", "cont_correct_answer_also", $lk).'";
-			ilias.questions.txt.ov_all_correct = "'.$lng->txtlng("content", "cont_ov_all_correct", $lk).'";
-			ilias.questions.txt.ov_some_correct = "'.$lng->txtlng("content", "cont_ov_some_correct", $lk).'";
-			ilias.questions.txt.ov_wrong_answered = "'.$lng->txtlng("content", "cont_ov_wrong_answered", $lk).'";
-			ilCOPagePres.updateQuestionOverviews();
-			');
+			self::addPreparationJavascript($tpl, $lk);
 		}
 	}
 
+	/**
+	 * Add standard texts
+	 *
+	 * @param
+	 * @return
+	 */
+	static function addPreparationJavascript($a_tpl, $a_lang)
+	{
+		global $lng;
+		
+		$a_tpl->addOnloadCode(self::getJSTextInitCode($a_lang).
+			'ilCOPagePres.updateQuestionOverviews();
+			');
+	}
+	
+	/**
+	 * Get js txt init code
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getJSTextInitCode($a_lang)
+	{
+		global $lng;
+		
+		return 
+			'
+			ilias.questions.txt.wrong_answers = "'.$lng->txtlng("content", "cont_wrong_answers", $a_lang).'";
+			ilias.questions.txt.wrong_answers_single = "'.$lng->txtlng("content", "cont_wrong_answers_single", $a_lang).'";
+			ilias.questions.txt.tries_remaining = "'.$lng->txtlng("content", "cont_tries_remaining", $a_lang).'";
+			ilias.questions.txt.please_try_again = "'.$lng->txtlng("content", "cont_please_try_again", $a_lang).'";
+			ilias.questions.txt.all_answers_correct = "'.$lng->txtlng("content", "cont_all_answers_correct", $a_lang).'";
+			ilias.questions.txt.nr_of_tries_exceeded = "'.$lng->txtlng("content", "cont_nr_of_tries_exceeded", $a_lang).'";
+			ilias.questions.txt.correct_answers_shown = "'.$lng->txtlng("content", "cont_correct_answers_shown", $a_lang).'";
+			ilias.questions.txt.correct_answers_also = "'.$lng->txtlng("content", "cont_correct_answers_also", $a_lang).'";
+			ilias.questions.txt.correct_answer_also = "'.$lng->txtlng("content", "cont_correct_answer_also", $a_lang).'";
+			ilias.questions.txt.ov_all_correct = "'.$lng->txtlng("content", "cont_ov_all_correct", $a_lang).'";
+			ilias.questions.txt.ov_some_correct = "'.$lng->txtlng("content", "cont_ov_some_correct", $a_lang).'";
+			ilias.questions.txt.ov_wrong_answered = "'.$lng->txtlng("content", "cont_ov_wrong_answered", $a_lang).'";
+			';
+
+	}
+	
+	
 	/**
 	 * Process answer
 	 */

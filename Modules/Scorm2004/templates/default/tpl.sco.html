@@ -10,12 +10,8 @@
 	<!-- END script -->
 	<!-- BEGIN init --><script type="text/javascript" language="JavaScript1.2">
 		ilAddOnLoad(function () {init(0);
-			ilias.questions.txt.wrong_answers = "{TXT_WRONG_ANSWERS}";
-			ilias.questions.txt.tries_remaining = "{TXT_TRIES_REMAINING}";
-			ilias.questions.txt.please_try_again = "{TXT_PLEASE_TRY_AGAIN}";
-			ilias.questions.txt.all_answers_correct = "{TXT_ALL_ANSWERS_CORRECT}";
-			ilias.questions.txt.nr_of_tries_exceeded = "{TXT_NR_OF_TRIES_EXCEEDED}";
-			ilias.questions.txt.correct_answers_shown = "{TXT_CORRECT_ANSWERS_SHOWN}";
+			{TXT_INIT_CODE}
+			ilCOPagePres.updateQuestionOverviews();
 			});
 	</script><!-- END init -->
 	<script src="./js/accordion.js" type="text/javascript" language="JavaScript1.2"></script>
