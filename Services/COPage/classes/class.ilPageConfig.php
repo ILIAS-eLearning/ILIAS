@@ -20,6 +20,9 @@ class ilPageConfig
 	 */
 	function addIntLinkFilter($a_val)
 	{
+		global $lng;
+		
+		$this->setLocalizationLanguage($lng->getLangKey());
 		if (is_array($a_val))
 		{
 			$this->int_link_filter =
@@ -79,6 +82,26 @@ class ilPageConfig
 	function getPreventRteUsage()
 	{
 		return $this->prevent_rte_usage;
+	}
+	
+	/**
+	 * Set localizazion language
+	 *
+	 * @param string $a_val lang key	
+	 */
+	function setLocalizationLanguage($a_val)
+	{
+		$this->localization_lang = $a_val;
+	}
+	
+	/**
+	 * Get localizazion language
+	 *
+	 * @return string lang key
+	 */
+	function getLocalizationLanguage()
+	{
+		return $this->localization_lang;
 	}
 }
 ?>

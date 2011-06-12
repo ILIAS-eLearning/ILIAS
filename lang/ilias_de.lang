@@ -8920,7 +8920,6 @@ rep#:#rep_intro4#:#Im folgenden Menü geben Sie bitte einen Titel und einen Besc
 rep#:#rep_intro5#:#Durch Klicken auf den Titel gelangen Sie in Ihre erste Kategorie.
 rep#:#rep_intro6#:#Nach diesem ersten Schritt können Sie nun weitere Kategorien anlegen oder erste Lernmaterialien in diese Kategorie einfügen.
 sahs#:#sahs_chapter#:#Kapitel
-sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Wählen Sie bitte entweder nur Seiten oder SCOs oder Kapitel aus!
 sahs#:#sahs_insert_chapter#:#Kapitel einfügen
 sahs#:#sahs_insert_page#:#Seite einfügen
 sahs#:#sahs_insert_pagelayout#:#Seitenvorlage einfügen
@@ -11375,9 +11374,6 @@ forum#:#user_decides_notification#:#Benutzer entscheidet selbst über Benachrich
 cntr#:#cntr_adopt_content#:#Inhalte übernehmen
 common#:#allow_user_toggle_noti#:#Mitglied darf Benachrichtigung deaktivieren
 cntr#:#container_import_zip_file_invalid#:#Die hochgeladene Datei ist kein gültiger ILIAS Export. Um Verzeichnisstrukturen hochzuladen benutzen Sie bitte ein Datei-Objekt.
-ecs#:#ecs_activated#:#Aktiv
-ecs#:#ecs_inactived#:#Deaktiviert
-ecs#:#ecs_cert_valid_until#:#Clientzertifikat gültig bis
 auth#:#login_page_switch_rte#:#Rich-Text-Editor verwenden
 auth#:#login_page_switch_ipe#:#ILIAS Seiteneditor verwenden
 auth#:#login_page_editor_switched#:#Der aktive Seiteneditor wurde geändert
@@ -11480,3 +11476,63 @@ exc#:#exc_create_blog_select_info#:#Bitte wählen Sie das Ressourcen-Verzeichnis
 exc#:#exc_create_portfolio_select_info#:#Bitte wählen Sie das Ressourcen-Verzeichnis, in dem das e-Portfolio erstellt werden soll.
 exc#:#exc_blog_created#:#Blog wurde erstellt.
 exc#:#exc_portfolio_created#:#e-Portfolio wurde erstellt.
+sahs#:#sahs_choose_pages_chap_scos_ass_only#:#Please select either pages, SCOs, assets or chapters only.###12 06 2011 new variable
+sahs#:#cont_insert_into_chap#:#Insert items inside chapter###12 06 2011 new variable
+sahs#:#cont_insert_after_chap#:#Insert items after chapter###12 06 2011 new variable
+common#:#saving#:#Saving...###12 06 2011 new variable
+content#:#cont_ed_insert_iim#:#Insert Interactive Image###12 06 2011 new variable
+content#:#cont_pc_iim#:#Interactive Image###12 06 2011 new variable
+style#:#sty_type_qimg#:#Question Image###12 06 2011 new variable
+style#:#sty_type_qimgd#:#Image Details Link###12 06 2011 new variable
+style#:#sty_type_qordli#:#Order List Item###12 06 2011 new variable
+style#:#sty_type_qordul#:#Order List###12 06 2011 new variable
+style#:#sty_type_qetitem#:#Error Text Item###12 06 2011 new variable
+style#:#sty_type_qetcorr#:#Error Text Corrected###12 06 2011 new variable
+content#:#cont_active_areas#:#Triggers###12 06 2011 new variable
+content#:#cont_content_popups#:#Content Popups###12 06 2011 new variable
+content#:#cont_overlay_images#:#Overlay Images###12 06 2011 new variable
+content#:#cont_add_images#:#Add Images###12 06 2011 new variable
+content#:#cont_add_popup#:#Add Popup###12 06 2011 new variable
+content#:#cont_WholePicture#:#Whole Picture###12 06 2011 new variable
+content#:#cont_overlay_image#:#Overlay Image###12 06 2011 new variable
+content#:#cont_content_popup#:#Content Popup###12 06 2011 new variable
+content#:#cont_update_titles_and_actions#:#Update Titles and Actions###12 06 2011 new variable
+content#:#cont_trigger_area#:#Trigger Area###12 06 2011 new variable
+content#:#cont_marker#:#Marker###12 06 2011 new variable
+content#:#cont_saved_interactive_image#:#Created Interactive Image###12 06 2011 new variable
+content#:#cont_base_image#:#Base Image###12 06 2011 new variable
+content#:#cont_edit_base_image#:#Edit Base Image###12 06 2011 new variable
+content#:#cont_really_delete_overlays#:#Do you really want to delete the following overlays?###12 06 2011 new variable
+content#:#cont_overlays_have_been_deleted#:#Overlays have been deleted.###12 06 2011 new variable
+content#:#cont_new_popup#:#New Popup###12 06 2011 new variable
+content#:#cont_really_delete_popups#:#Do you really want to delete the following popups?###12 06 2011 new variable
+content#:#cont_popups_have_been_deleted#:#Popups have been deleted.###12 06 2011 new variable
+content#:#cont_new_trigger_area#:#New Trigger Area###12 06 2011 new variable
+content#:#cont_really_delete_triggers#:#Do you really want to delete the following triggers?###12 06 2011 new variable
+content#:#cont_new_marker#:#New Marker###12 06 2011 new variable
+content#:#cont_edit_overlay_position#:#Edit Overlay Position###12 06 2011 new variable
+content#:#cont_edit_marker_position#:#Edit Marker Position###12 06 2011 new variable
+content#:#cont_edit_popup_position#:#Edit Popup Position###12 06 2011 new variable
+content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit "Save".###12 06 2011 new variable
+common#:#cont_iim_base_image_info#:#The base image is the main underlying image.###12 06 2011 new variable
+common#:#cont_iim_create_info#:#Please upload the main underlying picuture for the interactive image.###12 06 2011 new variable
+common#:#cont_iim_overlay_info#:#Overlay images are used to alter (e.g. highlight) parts of the base image when the mouse hovers over them. After uploading the images, you can select them in the "Triggers" tab.###12 06 2011 new variable
+common#:#cont_iim_content_popups_info#:#Content popups appear, when the user clicks on interactive parts of the base image. On this screen you only define the popups. Their content can be edited on the main page editing screen.###12 06 2011 new variable
+style#:#sty_type_iim#:#Interactive Image Content Popup###12 06 2011 new variable
+style#:#sty_type_marker#:#Interactive Image Marker###12 06 2011 new variable
+style#:#sty_import_page_layout#:#Seitenlayout importieren
+content#:#cont_pc_qover#:#Question Overview###12 06 2011 new variable
+content#:#cont_ed_insert_qover#:#Fragenübersicht einfügen
+content#:#cont_update_qover#:#Fragenübersicht speichern
+content#:#cont_qover_short_message#:#Fragenstatus
+content#:#cont_qover_short_message_info#:#Eine Meldung "Sie haben x von y Fragen noch nicht oder falsch beantwortet" wird angezeigt.
+content#:#cont_qover_list_wrong_q#:#Liste der falsch beantworteten Fragen
+content#:#cont_qover_list_wrong_q_info#:#Es wird eine Liste aller noch nicht oder falsch beantworteten Fragen gezeigt.
+content#:#cont_edit_qover#:#Fragenübersicht bearbeiten
+content#:#cont_ov_all_correct#:#Sie haben alle Fragen richtig beantwortet.
+content#:#cont_ov_some_correct#:#Sie haben [x] von [y] Frage(n) richtig beantwortet.
+content#:#cont_ov_wrong_answered#:#Die folgenden Fragen wurden noch nicht oder falsch beantwortet
+style#:#sty_type_qover#:#Fragenübersicht
+sahs#:#sahs_desc_objectives#:#Beschreibung/Ziele
+content#:#cont_localization#:#Sprache
+content#:#cont_localization_info#:#Die Einstellung wird für vordefinierte Texte im Modul (z.B. "Vor" / "Zurück") benötigt.
