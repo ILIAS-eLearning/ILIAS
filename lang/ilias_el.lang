@@ -4379,9 +4379,6 @@ content#:#cont_derive_from_obj#:#Ανάκτηση από το Αντικείμε
 content#:#cont_details#:#Λεπτομέρειες
 content#:#cont_de_activate#:#(Απ-)Ενεργοποίηση
 content#:#cont_dir_file#:#Κατάλογος/Αρχείο
-content#:#cont_disable_html#:#HTML inactive
-content#:#cont_disable_js#:#Η JavaScript είναι ανενεργή
-content#:#cont_disable_media#:#Τα πολυμέσα είναι ανενεργά
 content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.
 content#:#cont_downloads#:#Λήψεις
 content#:#cont_downloads_desc#:#Ενεργοποιεί τη λήψη όλων των δημόσιων εξαγόμενων αρχείων.
@@ -4448,9 +4445,6 @@ content#:#cont_ed_split_page#:#Διαχωρισμός σε νέα σελίδα
 content#:#cont_ed_split_page_next#:#Διαχωρισμός σε επόμενη σελίδα
 content#:#cont_ed_width#:#Πλάτος
 content#:#cont_empty_mep_folder#:#Δεν υπάρχουν αντικείμενα πολυμέσων σ' αυτό το φάκελο.
-content#:#cont_enable_html#:#HTML active
-content#:#cont_enable_js#:#Η JavaScript είναι ενεργή
-content#:#cont_enable_media#:#Τα Πολυμέσα είναι ενεργά
 content#:#cont_Example#:#Παράδειγμα
 content#:#cont_Excursus#:#Excursus
 content#:#cont_export_all#:#Export all
@@ -9494,7 +9488,6 @@ common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard###26 06 2009 ne
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard###26 06 2009 new variable
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard###26 06 2009 new variable
 sahs#:#sahs_insert_chapter#:#Insert Chapter###26 06 2009 new variable
-sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Please select either pages, SCOs or chapters only.###26 06 2009 new variable
 sahs#:#sahs_insert_scenario#:#Insert Sequenced Chapter###26 06 2009 new variable
 sahs#:#sahs_insert_pagelayout#:#Insert Template Page###26 06 2009 new variable
 sahs#:#sahs_properties#:#Properties###26 06 2009 new variable
@@ -11078,3 +11071,473 @@ mep#:#mobs_restrict_file_types#:#Restrict File Types###01 04 2011 new variable
 mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.###01 04 2011 new variable
 common#:#personal_settings#:#Personal Settings###01 04 2011 new variable
 common#:#rep_main_page#:#Main Page###01 04 2011 new variable
+assessment#:#msg_randompool_duplicate_qpl#:#Please use only unique question pools###12 06 2011 new variable
+trac#:#trac_read_count_spent_seconds#:#Time Spent / Access###12 06 2011 new variable
+trac#:#trac_object_stat_access#:#Usage Intensity###12 06 2011 new variable
+trac#:#trac_show_graph#:#Show Graph###12 06 2011 new variable
+trac#:#trac_figure#:#Key Figure###12 06 2011 new variable
+trac#:#trac_object_stat_types#:#Number of Objects###12 06 2011 new variable
+trac#:#trac_reference#:#References###12 06 2011 new variable
+trac#:#trac_trash#:#moved to Trash###12 06 2011 new variable
+trac#:#trac_object_stat_daily#:#Daily Usage###12 06 2011 new variable
+trac#:#trac_object_stat_admin#:#Manage Data###12 06 2011 new variable
+trac#:#trac_delete_data#:#Delete Data###12 06 2011 new variable
+trac#:#trac_sure_delete_data#:#Are you sure you want to delete the complete data for the following months?###12 06 2011 new variable
+trac#:#trac_data_deleted#:#Data has been deleted.###12 06 2011 new variable
+trac#:#trac_sync_obj_stats#:#Update Data###12 06 2011 new variable
+trac#:#trac_sync_obj_stats_success#:#Data has been updated.###12 06 2011 new variable
+certificate#:#certificate_ph_scormmaxpoints#:#Maximum value in the range for the raw score of the last relevant sco (most suitable for a final exam)###12 06 2011 new variable
+certificate#:#certificate_ph_login#:#Login###12 06 2011 new variable
+certificate#:#certificate_var_user_login#:#jdoe###12 06 2011 new variable
+trac#:#trac_group_materials_save#:#Save Number of Obligatory Materials###12 06 2011 new variable
+trac#:#trac_group_materials_num#:#Number of Obligatory Materials###12 06 2011 new variable
+trac#:#trac_grouped_material_obligatory_err#:#The number materials which must be passed has to be greater than 0 and smaller than the number of materials of the grouping.###12 06 2011 new variable
+rbac#:#precondition_obligatory_settings#:#Precondition Settings###12 06 2011 new variable
+rbac#:#precondition_num_obligatory#:#Number of Required Materials###12 06 2011 new variable
+common#:#payment_notification#:#Send Payment Notification###12 06 2011 new variable
+common#:#payment_notification_desc#:#If enabled, users get a reminder to extend the duration of bought objects###12 06 2011 new variable
+common#:#payment_reminder_notification_subject#:#The access duration af bought objects is ending soon.###12 06 2011 new variable
+common#:#bought_objects_expire_soon#:#For some of your bought objects the access duration is ending soon. You are able to extend the access duration, by buying an extension for these objects.###12 06 2011 new variable
+common#:#access_enddate#:#Access Enddate###12 06 2011 new variable
+payment#:#buy_extension#:#Buy Extension###12 06 2011 new variable
+payment#:#extension_price#:#Extension Price###12 06 2011 new variable
+wiki#:#wiki_important_pages#:#Important Pages###12 06 2011 new variable
+wiki#:#wiki_ordering#:#Ordering###12 06 2011 new variable
+wiki#:#wiki_indentation#:#Indentation###12 06 2011 new variable
+wiki#:#wiki_save_ordering_and_indent#:#Save Ordering and Indentation###12 06 2011 new variable
+wiki#:#wiki_sure_remove_imp_pages#:#Do you really want to remove the following pages from the list of important pages?###12 06 2011 new variable
+wiki#:#wiki_removed_imp_pages#:#Important pages removed from list.###12 06 2011 new variable
+wiki#:#wiki_ordering_and_indent_saved#:#Ordering and Indentation saved.###12 06 2011 new variable
+wiki#:#wiki_imp_page_added#:#Page added.###12 06 2011 new variable
+administration#:#adm_settings_templates#:#Settings Templates###12 06 2011 new variable
+administration#:#adm_add_settings_template#:#Add Template###12 06 2011 new variable
+administration#:#adm_edit_settings_template#:#Edit Template###12 06 2011 new variable
+administration#:#adm_hide_tabs#:#Hide Tabs###12 06 2011 new variable
+administration#:#adm_predefined_settings#:#Predefined Settings###12 06 2011 new variable
+administration#:#adm_value#:#Value###12 06 2011 new variable
+administration#:#adm_hide#:#Hide###12 06 2011 new variable
+administration#:#adm_sure_delete_settings_template#:#Do you really want to delete the following templates?###12 06 2011 new variable
+survey#:#survey_prev_question#:#Previous Page###12 06 2011 new variable
+survey#:#survey_next_question#:#Next Page###12 06 2011 new variable
+survey#:#survey_jump_to#:#Jump To###12 06 2011 new variable
+survey#:#survey_add_new_question#:#Add new Page###12 06 2011 new variable
+survey#:#survey_use_pool#:#Use Pool###12 06 2011 new variable
+content#:#cont_page_toc#:#Page Overview###12 06 2011 new variable
+wiki#:#wiki_page_toc#:#Enable Page Overview Block###12 06 2011 new variable
+wiki#:#wiki_page_toc_info#:#This lists all headings linked to the content at the beginning of each page if that page uses at least two headings.###12 06 2011 new variable
+wiki#:#wiki_block#:#Block###12 06 2011 new variable
+wiki#:#wiki_unblock#:#Unblock###12 06 2011 new variable
+wiki#:#wiki_page_unblocked#:#Wiki page unblocked.###12 06 2011 new variable
+wiki#:#wiki_page_blocked#:#Wiki page blocked.###12 06 2011 new variable
+wiki#:#wiki_last_edited#:#Last edited###12 06 2011 new variable
+wiki#:#wiki_rename#:#Rename###12 06 2011 new variable
+wiki#:#wiki_page_already_exists#:#A page with this title already exists.###12 06 2011 new variable
+wiki#:#wiki_rename_page#:#Rename Page###12 06 2011 new variable
+wiki#:#wiki_new_page_name#:#New Title###12 06 2011 new variable
+survey#:#svy_settings_template#:#Template###12 06 2011 new variable
+survey#:#survey_per_page_view#:#Page View###12 06 2011 new variable
+survey#:#survey_dnd_move_next#:#Move to Next Page###12 06 2011 new variable
+survey#:#survey_dnd_move_previous#:#Move to Previous Page###12 06 2011 new variable
+survey#:#survey_dnd_split_page#:#Split Page###12 06 2011 new variable
+survey#:#survey_dnd_double_click_to_delete#:#Double click on a content element to select it for cutting and deleting.###12 06 2011 new variable
+survey#:#survey_dnd_clear_clipboard#:#Clear Clipboard###12 06 2011 new variable
+survey#:#survey_dnd_paste#:#Paste###12 06 2011 new variable
+survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.###12 06 2011 new variable
+survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants###12 06 2011 new variable
+survey#:#survey_using_template#:#This survey uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.###12 06 2011 new variable
+survey#:#survey_using_template_link#:#Do not use template anymore###12 06 2011 new variable
+common#:#toggle_hidden_sections#:#Show more Information###12 06 2011 new variable
+assessment#:#test_enable_views#:#Enabled views###12 06 2011 new variable
+assessment#:#test_enable_view_both#:#Table- and Page View###12 06 2011 new variable
+assessment#:#test_enable_view_express#:#Page View###12 06 2011 new variable
+assessment#:#test_enable_view_table#:#List View###12 06 2011 new variable
+assessment#:#tst_express_allow_question_pool#:#Allow Questionpool in Page View###12 06 2011 new variable
+assessment#:#tst_express_allow_question_pool_description#:#If checked, questions can be added to a question pool.###12 06 2011 new variable
+assessment#:#questions_per_page_view#:#Page View###12 06 2011 new variable
+assessment#:#test_next_question#:#Next Question###12 06 2011 new variable
+assessment#:#test_prev_question#:#Previous Question###12 06 2011 new variable
+assessment#:#test_jump_to#:#Jump to Question###12 06 2011 new variable
+assessment#:#test_add_new_question#:#Add Question###12 06 2011 new variable
+assessment#:#adm_settings_templates#:#Settings Templates###12 06 2011 new variable
+survey#:#survey_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?###12 06 2011 new variable
+survey#:#survey_template_reset#:#The template has been removed.###12 06 2011 new variable
+survey#:#survey_introduction_info#:#This message appears at the beginning of the survey.###12 06 2011 new variable
+survey#:#survey_auth_mode#:#Authentication Mode###12 06 2011 new variable
+survey#:#survey_question_pool#:#Question Pool###12 06 2011 new variable
+survey#:#survey_question_pool_usage#:#Choose Pool when creating questions###12 06 2011 new variable
+survey#:#survey_pool_selection#:#Pool Selection###12 06 2011 new variable
+survey#:#survey_no_pool#:#Do not use question pool###12 06 2011 new variable
+survey#:#survey_new_pool#:#Create new question pool###12 06 2011 new variable
+survey#:#survey_existing_pool#:#Use existing question pool###12 06 2011 new variable
+survey#:#survey_delete_page#:#Delete Page###12 06 2011 new variable
+survey#:#survey_at_beginning#:#At The Beginning###12 06 2011 new variable
+survey#:#survey_behind_page#:#Behind###12 06 2011 new variable
+survey#:#survey_show_blocktitle#:#Show Block Title###12 06 2011 new variable
+survey#:#survey_show_blocktitle_description#:#If activated the block title will be shown in the survey.###12 06 2011 new variable
+survey#:#survey_block_hidden#:#hidden###12 06 2011 new variable
+survey#:#survey_block_visible#:#visible###12 06 2011 new variable
+survey#:#survey_question_text_visible#:#Text visible###12 06 2011 new variable
+survey#:#survey_question_text_hidden#:#Text hidden###12 06 2011 new variable
+survey#:#survey_move_page#:#Move Page###12 06 2011 new variable
+survey#:#survey_page_moved#:#The page has been moved.###12 06 2011 new variable
+assessment#:#intro_desc#:#This message appears at the beginning of the test.###12 06 2011 new variable
+assessment#:#test_question_pool_usage#:#Choose Pool when creating questions###12 06 2011 new variable
+assessment#:#add_new_question#:#Add new Question###12 06 2011 new variable
+wiki#:#wiki_news_page_created#:#New wiki page has been created.###12 06 2011 new variable
+wiki#:#wiki_news_page_changed#:#Wiki page has been updated.###12 06 2011 new variable
+wiki#:#wiki_changed_by#:#Changed by###12 06 2011 new variable
+wiki#:#wiki_page_status_blocked#:#Editing of this page is currently blocked for learners.###12 06 2011 new variable
+survey#:#survey_copy_questions_to_pool#:#Copy Questions To Pool###12 06 2011 new variable
+survey#:#no_question_selected_for_copy_to_pool#:#Please select at least one question, which is not already linked to a question pool.###12 06 2011 new variable
+survey#:#survey_copy_select_questionpool#:#Question pool to put the copies###12 06 2011 new variable
+survey#:#survey_copy_to_questionpool_success#:#The questions were copied into the pool successfully.###12 06 2011 new variable
+assessment#:#test_using_template#:#This test uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.###12 06 2011 new variable
+assessment#:#tst_anonymity_no_anonymization#:#No Anonymization###12 06 2011 new variable
+assessment#:#tst_anonymity_anonymous_test#:#Anonymous Test###12 06 2011 new variable
+assessment#:#tst_beginning_ending_information#:#Information at beginning and end of test###12 06 2011 new variable
+assessment#:#tst_presentation_properties#:#Presentation Settings###12 06 2011 new variable
+assessment#:#tst_settings_template#:#Template###12 06 2011 new variable
+assessment#:#test_delete_page#:#Delete Question###12 06 2011 new variable
+assessment#:#test_move_page#:#Move Question###12 06 2011 new variable
+assessment#:#assessment_pool_selection#:#Pool Selection###12 06 2011 new variable
+assessment#:#assessment_no_pool#:#Do not use question pool###12 06 2011 new variable
+assessment#:#assessment_existing_pool#:#Use existing question pool###12 06 2011 new variable
+assessment#:#assessment_new_pool#:#Create new question pool###12 06 2011 new variable
+assessment#:#test_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?###12 06 2011 new variable
+assessment#:#test_template_reset#:#The template has been removed.###12 06 2011 new variable
+assessment#:#test_using_template_link#:#Do not use template anymore###12 06 2011 new variable
+common#:#tst_edit_questions#:#Edit Questions###12 06 2011 new variable
+assessment#:#tst_mail_notification#:#Mail Notifications###12 06 2011 new variable
+assessment#:#saveOrder#:#Save Order###12 06 2011 new variable
+assessment#:#copy_and_link_to_questionpool#:#Copy to question pool and link###12 06 2011 new variable
+common#:#tst_random_test_description_warning#:#<br /><b>This test has questions that are not assigned to a question pool. If you switch to random test mode, this questions will be lost.</b>###12 06 2011 new variable
+assessment#:#tst_result#:#Test Result###12 06 2011 new variable
+common#:#first#:#First###12 06 2011 new variable
+rating#:#rat_one_rating#:#One Rating###12 06 2011 new variable
+rating#:#rat_not_rated_yet#:#Not Rated Yet###12 06 2011 new variable
+rating#:#rat_nr_ratings#:#%s Ratings###12 06 2011 new variable
+wiki#:#wiki_functions#:#Wiki Functions###12 06 2011 new variable
+wiki#:#wiki_navigation#:#Wiki Navigation###12 06 2011 new variable
+common#:#behind#:#Behind###12 06 2011 new variable
+survey#:#survey_auto_block_title#:#Page Header###12 06 2011 new variable
+survey#:#survey_edit_settings#:#Edit Settings###12 06 2011 new variable
+survey#:#survey_order#:#Sort Order###12 06 2011 new variable
+wiki#:#wiki_page_lists#:#Page Lists###12 06 2011 new variable
+wiki#:#wiki_notification_activated#:#Notification Activated (Whole Wiki)###12 06 2011 new variable
+wiki#:#wiki_page_notification_activated#:#Notification Activated (Single Page)###12 06 2011 new variable
+wiki#:#wiki_notification_deactivate_wiki#:#Deactivate Notification for Wiki###12 06 2011 new variable
+wiki#:#wiki_notification_deactivate_page#:#Deactivate Notification for Page###12 06 2011 new variable
+wiki#:#wiki_notification_activate_wiki#:#Activate Notification for Wiki###12 06 2011 new variable
+wiki#:#wiki_notification_activate_page#:#Activate Notification for Page###12 06 2011 new variable
+content#:#cont_presentation_view#:#Presentation View###12 06 2011 new variable
+content#:#cont_deactivate_html#:#Deactivate HTML Rendering###12 06 2011 new variable
+content#:#cont_deactivate_js#:#Activate Form Mode###12 06 2011 new variable
+content#:#cont_deactivate_media#:#Deactivate Media###12 06 2011 new variable
+content#:#cont_activate_html#:#Activate HTML Rendering###12 06 2011 new variable
+content#:#cont_activate_js#:#Activate Javascript Mode###12 06 2011 new variable
+content#:#cont_activate_media#:#Activate Media###12 06 2011 new variable
+assessment#:#tst_remove_question#:#Are you sure you want to remove the following question from the test?###12 06 2011 new variable
+survey#:#survey_cancel_preview#:#Cancel Preview###12 06 2011 new variable
+survey#:#survey_cannot_preview_survey#:#Preview not available###12 06 2011 new variable
+cntr#:#edit_questions#:#Edit Questions###12 06 2011 new variable
+forum#:#empty_subject#:#On reply the user has to enter a new title.###12 06 2011 new variable
+forum#:#frm_subject_setting#:#Subject setting###12 06 2011 new variable
+assessment#:#ass_completion_by_submission#:#Completed by Submission###12 06 2011 new variable
+assessment#:#ass_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of this question by granting the maximum score for this question. The score could be manually changed later. Switching this setting does not effect already submitted solutions.###12 06 2011 new variable
+exc#:#exc_completion_by_submission#:#Completed by Submission###12 06 2011 new variable
+exc#:#exc_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of an assignment. The score could be manually changed later. Switching this setting does not effect already submitted solutions.###12 06 2011 new variable
+rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials which is required for fullfilling this precondition.###12 06 2011 new variable
+trac#:#trac_min_passed#:#Minimum Number of Passed Materials:###12 06 2011 new variable
+crs#:#crs_deact_auto_noti#:#Suppress notification about new membership###12 06 2011 new variable
+crs#:#crs_deact_auto_noti_info#:#Supresses mail notificaton about course membership for members admitted to course by edit participants view.###12 06 2011 new variable
+wsp#:#wsp_type_tstv#:#Verification: Test###12 06 2011 new variable
+content#:#cont_par_format#:#Paragraph###12 06 2011 new variable
+content#:#cont_char_format#:#Character###12 06 2011 new variable
+content#:#cont_lists#:#Lists###12 06 2011 new variable
+content#:#cont_more_functions#:#More###12 06 2011 new variable
+content#:#cont_saving#:#Saving...###12 06 2011 new variable
+notes#:#notes_public_commenting#:#Public Comments###12 06 2011 new variable
+notes#:#notes_private_annotating#:#Private Annotation###12 06 2011 new variable
+tagging#:#tagging_set_tag#:#Set Tags###12 06 2011 new variable
+content#:#cont_link_to_internal#:#Link to ILIAS Resource###12 06 2011 new variable
+content#:#cont_link_to_external#:#Link to External Website###12 06 2011 new variable
+content#:#cont_link_to_wiki#:#Link to Wiki Page###12 06 2011 new variable
+content#:#cont_standard#:#Standard###12 06 2011 new variable
+content#:#cont_char_style_com#:#Comment###12 06 2011 new variable
+content#:#cont_char_style_quot#:#Quotation###12 06 2011 new variable
+content#:#cont_char_style_acc#:#Accentuated###12 06 2011 new variable
+content#:#cont_char_style_code#:#Code###12 06 2011 new variable
+adve#:#adve_pe_general#:#General###12 06 2011 new variable
+adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp###12 06 2011 new variable
+adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.###12 06 2011 new variable
+content#:#cont_tex#:#Latex Code###12 06 2011 new variable
+payment#:#terms_conditions#:#GTC###12 06 2011 new variable
+payment#:#accept_terms_conditions#:#Please accept the %s to continue the purchasing process.###12 06 2011 new variable
+payment#:#documents#:#Documents###12 06 2011 new variable
+payment#:#activate_placeholders#:#Aktivate Placeholders###12 06 2011 new variable
+payment#:#billing_mail#:#Billing-Email###12 06 2011 new variable
+payment#:#select_subtype#:#Suboption###12 06 2011 new variable
+payment#:#pay_hide_shop_info#:#Hide Shop-Information###12 06 2011 new variable
+payment#:#pay_hide_shop_info_info#:#Hides the tab shop-information###12 06 2011 new variable
+payment#:#use_shop_specials#:#Use Shop Specials###12 06 2011 new variable
+payment#:#use_shop_specials_info#:#If enabled, it is possible to mark payment objects as a "special"-offer. These objects will be shown on the entire shop site.###12 06 2011 new variable
+payment#:#special#:#Special-Offer###12 06 2011 new variable
+payment#:#special_info#:#If enabled, this object will be shown on the entire shop site.###12 06 2011 new variable
+common#:#object_purchased_date#:#Purchase-Date###12 06 2011 new variable
+common#:#object_duration#:#Access-Duration###12 06 2011 new variable
+common#:#new_customer#:#Are you a new customer?###12 06 2011 new variable
+common#:#new_customer_info#:#Please klick here if you do not have an user account.###12 06 2011 new variable
+payment#:#shop_url#:#Link to shop###12 06 2011 new variable
+payment#:#shop_bought_objects_url#:#Link to bought objects###12 06 2011 new variable
+tstv#:#tstv_create#:#Create Test Verification###12 06 2011 new variable
+tstv#:#tstv_create_info#:#Select a completed test to generate a verification for it###12 06 2011 new variable
+wsp#:#wsp_type_excv#:#Verification: Exercise###12 06 2011 new variable
+excv#:#excv_create#:#Create Exercise Verification###12 06 2011 new variable
+excv#:#excv_create_info#:#Select a completed exercise to generate a verification for it###12 06 2011 new variable
+content#:#cont_fn#:#Footnote###12 06 2011 new variable
+common#:#enable_course_group_notifications#:#Daily Mail for Groups and Course News###12 06 2011 new variable
+common#:#enable_course_group_notifications_desc#:#If enabled, Participants can subscribe to a daily summary of news.###12 06 2011 new variable
+assessment#:#copy_no_questions_selected#:#Please select at least one question to copy.###12 06 2011 new variable
+assessment#:#copy_questions_success#:#The question(s) has been copied.###12 06 2011 new variable
+sahs#:#sahs_choose_pages_chap_scos_ass_only#:#Please select either pages, SCOs, assets or chapters only.###12 06 2011 new variable
+sahs#:#cont_insert_into_chap#:#Insert items inside chapter###12 06 2011 new variable
+sahs#:#cont_insert_after_chap#:#Insert items after chapter###12 06 2011 new variable
+common#:#saving#:#Saving...###12 06 2011 new variable
+content#:#cont_ed_insert_iim#:#Insert Interactive Image###12 06 2011 new variable
+content#:#cont_pc_iim#:#Interactive Image###12 06 2011 new variable
+style#:#sty_type_qimg#:#Question Image###12 06 2011 new variable
+style#:#sty_type_qimgd#:#Image Details Link###12 06 2011 new variable
+style#:#sty_type_qordli#:#Order List Item###12 06 2011 new variable
+style#:#sty_type_qordul#:#Order List###12 06 2011 new variable
+style#:#sty_type_qetitem#:#Error Text Item###12 06 2011 new variable
+style#:#sty_type_qetcorr#:#Error Text Corrected###12 06 2011 new variable
+user#:#portfolios#:#Portfolios###12 06 2011 new variable
+prtf#:#prtf_add_portfolio#:#Add Portfolio###12 06 2011 new variable
+prtf#:#prtf_edit_portfolio#:#Edit Portfolio###12 06 2011 new variable
+prtf#:#prtf_create_portfolio#:#Add Portfolio ###12 06 2011 new variable
+prtf#:#prtf_portfolio_created#:#Portfolio added###12 06 2011 new variable
+prtf#:#prtf_portfolio_updated#:#Portfolio updated###12 06 2011 new variable
+prtf#:#prtf_set_as_default#:#Set As Default###12 06 2011 new variable
+prtf#:#prtf_sure_delete_portfolios#:#Are you sure you want to delete the following portfolios?###12 06 2011 new variable
+prtf#:#prtf_portfolio_deleted#:#Portfolios deleted###12 06 2011 new variable
+prtf#:#prtf_add_page#:#Add Page###12 06 2011 new variable
+prtf#:#prtf_page_created#:#Page created###12 06 2011 new variable
+prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the following portfolio pages?###12 06 2011 new variable
+prtf#:#prtf_portfolio_page_deleted#:#Portfolio pages deleted###12 06 2011 new variable
+content#:#cont_ed_insert_profile#:#Insert Personal Data###12 06 2011 new variable
+content#:#cont_pc_prof#:#Personal Data###12 06 2011 new variable
+content#:#cont_insert_profile#:#Add Personal Data###12 06 2011 new variable
+content#:#cont_update_profile#:#Edit Personal Data###12 06 2011 new variable
+content#:#cont_profile_mode#:#Mode###12 06 2011 new variable
+content#:#cont_profile_mode_inherit#:#Automatic###12 06 2011 new variable
+content#:#cont_profile_mode_inherit_info#:#Use your public profile settings###12 06 2011 new variable
+content#:#cont_profile_mode_manual#:#Manual###12 06 2011 new variable
+content#:#cont_profile_mode_manual_info#:#Use the following data:###12 06 2011 new variable
+content#:#cont_ed_insert_verification#:#Insert Verification###12 06 2011 new variable
+content#:#cont_pc_vrfc#:#Verification###12 06 2011 new variable
+content#:#cont_insert_verification#:#Add Verification###12 06 2011 new variable
+content#:#cont_update_verification#:#Edit Verification###12 06 2011 new variable
+content#:#cont_verification_object#:#Verification###12 06 2011 new variable
+content#:#cont_ed_insert_blog#:#Insert Blog###12 06 2011 new variable
+content#:#cont_pc_blog#:#Blog###12 06 2011 new variable
+content#:#cont_insert_blog#:#Add Blog###12 06 2011 new variable
+content#:#cont_update_blog#:#Edit Blog###12 06 2011 new variable
+content#:#cont_active_areas#:#Triggers###12 06 2011 new variable
+content#:#cont_content_popups#:#Content Popups###12 06 2011 new variable
+content#:#cont_overlay_images#:#Overlay Images###12 06 2011 new variable
+content#:#cont_add_images#:#Add Images###12 06 2011 new variable
+content#:#cont_add_popup#:#Add Popup###12 06 2011 new variable
+content#:#cont_WholePicture#:#Whole Picture###12 06 2011 new variable
+content#:#cont_overlay_image#:#Overlay Image###12 06 2011 new variable
+content#:#cont_content_popup#:#Content Popup###12 06 2011 new variable
+content#:#cont_update_titles_and_actions#:#Update Titles and Actions###12 06 2011 new variable
+user#:#user_profile_preview#:#Preview###12 06 2011 new variable
+prtf#:#prtf_portfolio_default#:#Default###12 06 2011 new variable
+content#:#cont_trigger_area#:#Trigger Area###12 06 2011 new variable
+content#:#cont_marker#:#Marker###12 06 2011 new variable
+content#:#cont_saved_interactive_image#:#Created Interactive Image###12 06 2011 new variable
+content#:#cont_base_image#:#Base Image###12 06 2011 new variable
+content#:#cont_edit_base_image#:#Edit Base Image###12 06 2011 new variable
+common#:#settings_per_members#:#Settings per user###12 06 2011 new variable
+rbac#:#invite#:#Inviting to survey###12 06 2011 new variable
+content#:#cont_really_delete_overlays#:#Do you really want to delete the following overlays?###12 06 2011 new variable
+content#:#cont_overlays_have_been_deleted#:#Overlays have been deleted.###12 06 2011 new variable
+content#:#cont_new_popup#:#New Popup###12 06 2011 new variable
+content#:#cont_really_delete_popups#:#Do you really want to delete the following popups?###12 06 2011 new variable
+content#:#cont_popups_have_been_deleted#:#Popups have been deleted.###12 06 2011 new variable
+content#:#cont_new_trigger_area#:#New Trigger Area###12 06 2011 new variable
+content#:#cont_really_delete_triggers#:#Do you really want to delete the following triggers?###12 06 2011 new variable
+content#:#cont_new_marker#:#New Marker###12 06 2011 new variable
+content#:#cont_edit_overlay_position#:#Edit Overlay Position###12 06 2011 new variable
+content#:#cont_edit_marker_position#:#Edit Marker Position###12 06 2011 new variable
+content#:#cont_edit_popup_position#:#Edit Popup Position###12 06 2011 new variable
+common#:#object_not_found#:#Objekt not found###12 06 2011 new variable
+common#:#user_not_found#:#User not found###12 06 2011 new variable
+content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit "Save".###12 06 2011 new variable
+common#:#cont_iim_base_image_info#:#The base image is the main underlying image.###12 06 2011 new variable
+common#:#cont_iim_create_info#:#Please upload the main underlying picuture for the interactive image.###12 06 2011 new variable
+common#:#cont_iim_overlay_info#:#Overlay images are used to alter (e.g. highlight) parts of the base image when the mouse hovers over them. After uploading the images, you can select them in the "Triggers" tab.###12 06 2011 new variable
+common#:#cont_iim_content_popups_info#:#Content popups appear, when the user clicks on interactive parts of the base image. On this screen you only define the popups. Their content can be edited on the main page editing screen.###12 06 2011 new variable
+content#:#cont_correct_answers_also#:#Also correct are:###12 06 2011 new variable
+content#:#cont_correct_answer_also#:#Also correct is:###12 06 2011 new variable
+common#:#file_upload_pending#:#Pending file###12 06 2011 new variable
+wsp#:#wsp_permission_add_users#:#Add Users###12 06 2011 new variable
+wsp#:#wsp_set_permission_registered#:#All Registered Users###12 06 2011 new variable
+wsp#:#wsp_set_permission_all#:#Publish ###12 06 2011 new variable
+wsp#:#wsp_remove_permission#:#Remove Permission###12 06 2011 new variable
+wsp#:#wsp_permission_registered_info#:#This object is shared with all registered users.###12 06 2011 new variable
+wsp#:#wsp_permission_all_info#:#This object has been published.###12 06 2011 new variable
+style#:#sty_type_iim#:#Interactive Image Content Popup###12 06 2011 new variable
+style#:#sty_type_marker#:#Interactive Image Marker###12 06 2011 new variable
+style#:#sty_import_page_layout#:#Import Page Layout###12 06 2011 new variable
+administration#:#adm_quick_access_comments_tagging#:#Quick Access for Notes, Comments and Tagging###12 06 2011 new variable
+content#:#cont_remove_format#:#Remove Format###12 06 2011 new variable
+content#:#cont_ed_edit_multiple#:#Edit Paragraph Sequence###12 06 2011 new variable
+survey#:#survey_questions_to_clipboard_cut#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard. ###12 06 2011 new variable
+survey#:#survey_questions_to_clipboard_copy#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard. ###12 06 2011 new variable
+survey#:#survey_clipboard_notice#:#There are question(s) in the clipboard. Select the target position or empty the clipboard.###12 06 2011 new variable
+survey#:#survey_edit_heading#:#Edit Heading###12 06 2011 new variable
+survey#:#survey_delete_heading#:#Remove Heading###12 06 2011 new variable
+content#:#cont_pc_qover#:#Question Overview###12 06 2011 new variable
+content#:#cont_ed_insert_qover#:#Insert Question Overview###12 06 2011 new variable
+content#:#cont_update_qover#:#Update Question Overview###12 06 2011 new variable
+content#:#cont_qover_short_message#:#Status Message###12 06 2011 new variable
+content#:#cont_qover_short_message_info#:#A message "You have correctly answered C out of Y questions of this unit." will be displayed.###12 06 2011 new variable
+content#:#cont_qover_list_wrong_q#:#List of Wrong Answered Questions###12 06 2011 new variable
+content#:#cont_qover_list_wrong_q_info#:#A list of wrong or not answered questions will be displayed.###12 06 2011 new variable
+content#:#cont_edit_qover#:#Edit Question Overview###12 06 2011 new variable
+content#:#cont_ov_all_correct#:#You have correctly answered all questions.###12 06 2011 new variable
+content#:#cont_ov_some_correct#:#You have correctly answered [x] out of [y] questions.###12 06 2011 new variable
+content#:#cont_ov_wrong_answered#:#The following questions were not answered or answered wrong###12 06 2011 new variable
+common#:#invoice_number_reset_period#:#Reset incremental number###12 06 2011 new variable
+common#:#invoice_number_reset_period_desc#:#Choose the period for reseting the incremental number to the start value###12 06 2011 new variable
+common#:#payment_userdefined_invoice_number_not_activated#:#Userdefined invoice numbers are not enabled###12 06 2011 new variable
+common#:#invoice_number#:#Invoice number###12 06 2011 new variable
+common#:#invoice_number_setting#:#Invoice number settings###12 06 2011 new variable
+payment#:#ilias_invoice_number#:#ILIAS invoice number###12 06 2011 new variable
+payment#:#userdefined_invoice_number#:#Userdefined invoice number###12 06 2011 new variable
+payment#:#incremental_start_value#:#Incremental Number###12 06 2011 new variable
+payment#:#incremental_start_value_info#:#This start value will be used as first incremental number for the next period.###12 06 2011 new variable
+payment#:#incremental_current_value#:#current incremental number###12 06 2011 new variable
+payment#:#invoice_number_text#:#invoice number definition###12 06 2011 new variable
+common#:#yearly#:#yearly###12 06 2011 new variable
+common#:#payment_notification_days_desc#:#Please enter the number days, to define when users should be notified about the limited access time to bought objects###12 06 2011 new variable
+common#:#payment_notification_days#:#Number of days###12 06 2011 new variable
+payment#:#show_general_filter#:#Show general filter###12 06 2011 new variable
+payment#:#show_general_filter_info#:#Let users find buyable objects with this general search filter###12 06 2011 new variable
+payment#:#show_topics_filter#:#Show topics filter###12 06 2011 new variable
+payment#:#show_topics_filter_info#:#Let users find buyable objects with this topics filter###12 06 2011 new variable
+payment#:#show_shop_explorer#:#Show shop explorer###12 06 2011 new variable
+payment#:#show_shop_explorer_info#:#This shop explorer simplifies the navigation within shop###12 06 2011 new variable
+survey#:#survey_available_question_pools#:#Available Pools###12 06 2011 new variable
+survey#:#survey_question_pool_title#:#Pool Title###12 06 2011 new variable
+forum#:#user_decides_notification#:#Each user decides about notification###12 06 2011 new variable
+common#:#allow_user_toggle_noti#:#Member is allowed to deactivate notification###12 06 2011 new variable
+cntr#:#container_import_zip_file_invalid#:#The uploaded file is not a valid ILIAS export file. To upload a directory structure please use a file object.###12 06 2011 new variable
+cntr#:#cntr_adopt_content#:#Adopt Content###12 06 2011 new variable
+auth#:#login_page_switch_rte#:#Use Rich-Text-Editor###12 06 2011 new variable
+auth#:#login_page_switch_ipe#:#Use ILIAS Page Editor###12 06 2011 new variable
+auth#:#login_page_editor_switched#:#The active page editor has been changed###12 06 2011 new variable
+auth#:#login_page_activate#:#Activate Editor for Selected Languages###12 06 2011 new variable
+content#:#cont_update_login_page#:#Edit Login Page Element###12 06 2011 new variable
+content#:#cont_lpe_login_form#:#Login Form###12 06 2011 new variable
+content#:#cont_lpe_cas_login_form#:#CAS Login Form###12 06 2011 new variable
+content#:#cont_lpe_shib_login_form#:#Shibboleth Login Form###12 06 2011 new variable
+content#:#cont_lpe_openid_login_form#:#OpenId Login Form###12 06 2011 new variable
+content#:#cont_lpe_registration_link#:#New Registration Link###12 06 2011 new variable
+content#:#cont_lpe_language_selection#:#Language Selection###12 06 2011 new variable
+content#:#cont_lpe_user_agreement_link#:#User Agreement Link###12 06 2011 new variable
+content#:#cont_insert_login_page#:#Add Login Page Element###12 06 2011 new variable
+survey#:#survey_sync_question_copies#:#Sync Question Copies###12 06 2011 new variable
+survey#:#survey_sync_question_copies_info#:#The selected questions will be replaced with the current pool version.###12 06 2011 new variable
+survey#:#survey_sync_insufficient_permissions#:#Insufficient Permissions###12 06 2011 new variable
+survey#:#survey_sync_success#:#The selected questions were updated.###12 06 2011 new variable
+ecs#:#ecs_add_new_ecs#:#Add New ECS###12 06 2011 new variable
+ecs#:#ecs_available_ecs#:#Available ECS###12 06 2011 new variable
+ecs#:#ecs_tbl_active#:#Active###12 06 2011 new variable
+ecs#:#ecs_server_addr#:#Server Address###12 06 2011 new variable
+ecs#:#ecs_activate#:#Activate###12 06 2011 new variable
+ecs#:#ecs_deactivate#:#Deactivate###12 06 2011 new variable
+ecs#:#ecs_not_configured#:#Not configured###12 06 2011 new variable
+administration#:#user_criteria#:#Unique user criteria###12 06 2011 new variable
+administration#:#user_criteria_desc#:#Unique user criteria that is used for test results import/export. This is needed to identify identical users on different ILIAS systems.###12 06 2011 new variable
+assessment#:#imported#:#imported###12 06 2011 new variable
+ecs#:#ecs_tbl_import#:#Import###12 06 2011 new variable
+ecs#:#ecs_tbl_export#:#Export###12 06 2011 new variable
+ecs#:#ecs_tbl_import_type#:#Import Type###12 06 2011 new variable
+payment#:#position#:#Pos.###12 06 2011 new variable
+payment#:#amount#:#Amount###12 06 2011 new variable
+payment#:#external_bill_no#:#%s Billing-No.###12 06 2011 new variable
+payment#:#day_of_service_provision#:#Day of service provision###12 06 2011 new variable
+payment#:#total_netprice#:#Total netprice (ohne USt)###12 06 2011 new variable
+payment#:#unit_price#:#Unit price###12 06 2011 new variable
+payment#:#plus_vat#:#Plus VAT###12 06 2011 new variable
+payment#:#credit#:#Credit###12 06 2011 new variable
+payment#:#period_of_service_provision#:#Period of service provision###12 06 2011 new variable
+wsp#:#wsp_permissions#:#Share###12 06 2011 new variable
+wsp#:#wsp_shared_with#:#Shared With###12 06 2011 new variable
+wsp#:#wsp_set_permission_single_user#:#Single User###12 06 2011 new variable
+wsp#:#wsp_set_permission_group#:#Group###12 06 2011 new variable
+wsp#:#wsp_set_permission_course#:#Course###12 06 2011 new variable
+wsp#:#wsp_set_permission_all_password#:#Publish (Password required)###12 06 2011 new variable
+wsp#:#wsp_permission_removed#:#The item has been removed.###12 06 2011 new variable
+wsp#:#wsp_share_with_members#:#Share with members###12 06 2011 new variable
+wsp#:#wsp_share_success#:#A new entry has been added.###12 06 2011 new variable
+wsp#:#wsp_share_search_users#:#Search Users###12 06 2011 new variable
+content#:#cont_html_export_ids#:#HTML Export IDs###12 06 2011 new variable
+content#:#cont_html_export_ids_info#:#Allows to maintain extra IDs for ILIAS learning modules, that are used for naming HTML files, when HTML export is done.###12 06 2011 new variable
+content#:#cont_export_id#:#Export ID###12 06 2011 new variable
+content#:#cont_exp_ids_not_resp_format1#:#Export IDs may only use the following characters###12 06 2011 new variable
+content#:#cont_exp_ids_not_resp_format2#:#Please check and correct your input.###12 06 2011 new variable
+content#:#cont_saved_export_ids#:#Saved HTML Export IDs.###12 06 2011 new variable
+content#:#content_some_export_ids_multiple_times#:#Some export IDs are used multiple times. This will lead to missing pages in the export.###12 06 2011 new variable
+content#:#cont_exp_id_used_multiple#:#Export ID used multiple times###12 06 2011 new variable
+content#:#mob_upload_dir#:#Upload Directory###12 06 2011 new variable
+content#:#mob_upload_dir_info#:#Server directory from which multiple files can be used to create media objects in media pools. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.###12 06 2011 new variable
+mep#:#mep_create_from_upload_dir#:#Create Media Objects from Upload Directory###12 06 2011 new variable
+mep#:#mep_sel_upload_dir_files#:#Select Files/Directories###12 06 2011 new variable
+mep#:#mep_upload_dir_files#:#Files from Upload Directory###12 06 2011 new variable
+mep#:#mep_file#:#File###12 06 2011 new variable
+mep#:#mep_create_media_files#:#Create Media Objects###12 06 2011 new variable
+mep#:#mep_up_dir_move#:#Move Files from Upload Directory (Faster)###12 06 2011 new variable
+mep#:#mep_up_dir_copy#:#Copy Files from Upload Directory (Keeps files in the upload directory)###12 06 2011 new variable
+content#:#cont_exp_ids_not_resp_format3#:#The ID must not start with a number.###12 06 2011 new variable
+content#:#cont_current_usages#:#Current Usages###12 06 2011 new variable
+content#:#cont_all_usages#:#Include History###12 06 2011 new variable
+content#:#cont_set_layout#:#Set Layout###12 06 2011 new variable
+mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page.###12 06 2011 new variable
+content#:#cont_missing_snippet#:#Missing Content Snippet. The snippet has been deleted.###12 06 2011 new variable
+content#:#cont_enable_page_history#:#Page History###12 06 2011 new variable
+content#:#cont_enable_page_history_info#:#Stores older versions of pages and allows to roll back to older versions.###12 06 2011 new variable
+style#:#sty_type_qover#:#Question Overview###12 06 2011 new variable
+ecs#:#ecs_tbl_settings_for_server#:#ECS Settings for %s###12 06 2011 new variable
+ecs#:#ecs_back_settings#:#ECS Settings###12 06 2011 new variable
+ecs#:#ecs_crs_alloc_set#:#Edit Course Allocation###12 06 2011 new variable
+ecs#:#ecs_dir_alloc_set#:#Edit Directory Allocation###12 06 2011 new variable
+ecs#:#ecs_crs_alloc#:#Course Allocation###12 06 2011 new variable
+ecs#:#ecs_dir_alloc#:#directory Allocation###12 06 2011 new variable
+wsp#:#wsp_tab_personal#:#My Resources###12 06 2011 new variable
+wsp#:#wsp_tab_shared#:#Shared By Other Users###12 06 2011 new variable
+wsp#:#wsp_shared_resources#:#Shared Resources###12 06 2011 new variable
+wsp#:#wsp_share_select_user#:#Please select a user.###12 06 2011 new variable
+wsp#:#wsp_copy_to_repository#:#Copy to Repository###12 06 2011 new variable
+wsp#:#wsp_move_to_repository#:#Move to Repository###12 06 2011 new variable
+wsp#:#wsp_status_shared#:#Shared###12 06 2011 new variable
+sahs#:#sahs_desc_objectives#:#Description/Objectives###12 06 2011 new variable
+content#:#cont_localization#:#Localization###12 06 2011 new variable
+content#:#cont_localization_info#:#Language used for predifined texts, e.g. "Previous" and "Next".###12 06 2011 new variable
+book#:#book_schedule_warning_edit#:#Currently, there is no schedule available. To use the booking pool you need to create a schedule for booking.###12 06 2011 new variable
+book#:#book_type_warning#:#Currently, there are no booking objects available. To use the booking pool you need to create booking objects.###12 06 2011 new variable
+prtf#:#prtf_first_page_title#:#Title of first page###12 06 2011 new variable
+prtf#:#prtf_save_status_and_titles#:#Save Status and Titles###12 06 2011 new variable
+exc#:#exc_type_upload#:#Upload###12 06 2011 new variable
+exc#:#exc_type_blog#:#Blog###12 06 2011 new variable
+exc#:#exc_type_portfolio#:#Portfolio###12 06 2011 new variable
+exc#:#exc_blog_returned#:#Submitted Blog###12 06 2011 new variable
+exc#:#exc_portfolio_returned#:#Submitted Portfolio###12 06 2011 new variable
+exc#:#exc_create_blog#:#Create Blog###12 06 2011 new variable
+exc#:#exc_create_portfolio#:#Create Portfolio###12 06 2011 new variable
+exc#:#exc_create_blog_select_info#:#Please select the resource folder to add the blog to.###12 06 2011 new variable
+exc#:#exc_create_portfolio_select_info#:#Please select the resource folder to add the portfolio to.###12 06 2011 new variable
+exc#:#exc_blog_created#:#Blog was created.###12 06 2011 new variable
+exc#:#exc_portfolio_created#:#Portfolio was created.###12 06 2011 new variable

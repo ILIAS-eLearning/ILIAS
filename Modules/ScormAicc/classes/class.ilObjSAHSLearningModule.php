@@ -108,6 +108,26 @@ class ilObjSAHSLearningModule extends ilObject
 		
 		return ilUtil::yn2tf($lm_rec["c_online"]);
 	}
+	
+	/**
+	 * Get affective localization
+	 * 
+	 * @param int $a_id scorm lm id
+	 */
+	function getAffectiveLocalization($a_id)
+	{
+		global $ilDB, $lng;
+		
+		$lm_set = $ilDB->queryF('SELECT localization FROM sahs_lm WHERE id = %s', 
+			array('integer'), array($a_id));
+		$lm_rec = $ilDB->fetchAssoc($lm_set);
+		$inst_lang = $lng->getInstalledLanguages();
+		if ($lm_rec["localization"] != "" && in_array($lm_rec["localization"], $inst_lang))
+		{
+			return $lm_rec["localization"];
+		}
+		return $lng->getLangKey();
+	}
 
 	/**
 	* lookup subtype id (scorm, aicc, hacp)
