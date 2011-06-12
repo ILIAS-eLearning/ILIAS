@@ -378,7 +378,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			
 			if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset")
 			{
-				self::renderNavigation($sco_tpl, "./images/spacer.gif");
+				self::renderNavigation($sco_tpl, "./images/spacer.gif", $lk);
 			}
 
 			$sco_tpl->touchBlock("finish");
@@ -422,7 +422,8 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		foreach($pages as $page)
 		{
 			//echo(print_r($page));
-			$page_obj = new ilSCORM2004PageGUI($this->getType(),$page["obj_id"]);
+			$page_obj = new ilSCORM2004PageGUI($this->getType(), $page["obj_id"], 0,
+				$this->slm_object->getId());
 			$page_obj->setPresentationTitle($page["title"]);
 			$page_obj->setOutputMode(IL_PAGE_OFFLINE);
 			$page_obj->setStyleId($this->slm_object->getStyleSheetId());
@@ -582,7 +583,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	 * @param object $a_tpl template
 	 * @param string $a_spacer_img path to spacer image
 	 */
-	static function renderNavigation($a_tpl, $a_spacer_img = "")
+	static function renderNavigation($a_tpl, $a_spacer_img = "", $a_lang = "")
 	{
 		global $lng;
 		
@@ -590,16 +591,20 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		{
 			$a_spacer_img = ilUtil::getImagePath("spacer.gif");
 		}
+		if ($a_lang == "")
+		{
+			$a_lang = $lng->getLangKey();
+		}
 		// previous/next navigation
 		$a_tpl->setCurrentBlock("ilLMNavigation");
-		$a_tpl->setVariable("TXT_PREVIOUS", $lng->txt('scplayer_previous'));
+		$a_tpl->setVariable("TXT_PREVIOUS", $lng->txtlng("content", 'scplayer_previous', $a_lang));
 		$a_tpl->setVariable("SRC_SPACER", $a_spacer_img);
-		$a_tpl->setVariable("TXT_NEXT", $lng->txt('scplayer_next'));
+		$a_tpl->setVariable("TXT_NEXT", $lng->txtlng("content", 'scplayer_next', $a_lang));
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->setCurrentBlock("ilLMNavigation2");
-		$a_tpl->setVariable("TXT_PREVIOUS", $lng->txt('scplayer_previous'));
+		$a_tpl->setVariable("TXT_PREVIOUS", $lng->txtlng("content", 'scplayer_previous', $a_lang));
 		$a_tpl->setVariable("SRC_SPACER", $a_spacer_img);
-		$a_tpl->setVariable("TXT_NEXT", $lng->txt('scplayer_next'));
+		$a_tpl->setVariable("TXT_NEXT", $lng->txtlng("content", 'scplayer_next', $a_lang));
 		$a_tpl->parseCurrentBlock();
 	}
 	

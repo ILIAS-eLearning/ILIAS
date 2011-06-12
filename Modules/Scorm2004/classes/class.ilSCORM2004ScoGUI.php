@@ -380,7 +380,8 @@ die("deprecated");
 		$sco_tpl = new ilTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
 		
 		// navigation
-		ilSCORM2004Asset::renderNavigation($sco_tpl);
+		$lk = ilObjSAHSLearningModule::getAffectiveLocalization($this->node_object->getSLMId());
+		ilSCORM2004Asset::renderNavigation($sco_tpl, "", $lk);
 
 		// meta page (description and objectives)
 		ilSCORM2004Asset::renderMetaPage($sco_tpl, $this->node_object,
@@ -393,7 +394,8 @@ die("deprecated");
 		// render page
 		foreach($tree->getSubTree($tree->getNodeData($this->node_object->getId()),true,'page') as $page)
 		{
-			$page_obj = new ilSCORM2004PageGUI($this->node_object->getType(),$page["obj_id"]);
+			$page_obj = new ilSCORM2004PageGUI($this->node_object->getType(),$page["obj_id"],
+				0, $this->slm_object->getId());
 			$page_obj->setPresentationTitle($page["title"]);
 			$page_obj->setOutputMode(IL_PAGE_PREVIEW);
 			$page_obj->setStyleId($this->slm_object->getStyleSheetId());
@@ -972,6 +974,7 @@ die("deprecated");
 		$tpl = new ilTemplate("tpl.sco_glossary_overview.html", true, true, "Modules/Scorm2004");
 		
 		$terms = $a_sco->getGlossaryTermIds();
+		$lk = ilObjSAHSLearningModule::getAffectiveLocalization($a_sco->getSLMId());
 		foreach ($terms as $k => $t)
 		{
 			$tpl->setCurrentBlock("link");
@@ -981,8 +984,8 @@ die("deprecated");
 		}
 
 		$tpl->setVariable("DIV_ID", ilSCORM2004ScoGUI::getGlossaryOverviewId());
-		$tpl->setVariable("TXT_SCO_GLOSSARY", $lng->txt("cont_sco_glossary"));
-		$tpl->setVariable("TXT_CLOSE", $lng->txt("close"));
+		$tpl->setVariable("TXT_SCO_GLOSSARY", $lng->txtlng("content", "cont_sco_glossary", $lk));
+		$tpl->setVariable("TXT_CLOSE", $lng->txtlng("common", "close", $lk));
 
 		if (count($terms) > 1)
 		{
