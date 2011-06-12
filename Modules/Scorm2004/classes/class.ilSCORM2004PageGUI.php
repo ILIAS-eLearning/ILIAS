@@ -362,7 +362,8 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 					$term_gui =& new ilGlossaryTermGUI($id_arr[count($id_arr) - 1]);
 					$html = $term_gui->getOverlayHTML($cl_id, ($this->getGlossaryOverviewId() != "")
 													  ? $glov_id
-													  : "");
+													  : "",
+													  ilObjSAHSLearningModule::getAffectiveLocalization($this->slm_id));
 					$tpl->setCurrentBlock("entry");
 					$tpl->setVariable("CONTENT", $html);
 					$tpl->setVariable("OVERLAY_ID", $ov_id);

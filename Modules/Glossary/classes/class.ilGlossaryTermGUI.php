@@ -206,20 +206,25 @@ class ilGlossaryTermGUI
 	 * @param
 	 * @return
 	 */
-	function getOverlayHTML($a_close_el_id, $a_glo_ov_id = "")
+	function getOverlayHTML($a_close_el_id, $a_glo_ov_id = "", $a_lang = "")
 	{
 		global $lng;
 		
+		if ($a_lang == "")
+		{
+			$a_lang = $lng->getLangKey();
+		}
+
 		$tpl = new ilTemplate("tpl.glossary_overlay.html", true, true, "Modules/Glossary");
 		$this->output(true, $tpl);
 		if ($a_glo_ov_id != "")
 		{
 			$tpl->setCurrentBlock("glovlink");
-			$tpl->setVariable("TXT_LINK", $lng->txt("cont_sco_glossary"));
+			$tpl->setVariable("TXT_LINK", $lng->txtlng("content", "cont_sco_glossary", $a_lang));
 			$tpl->setVariable("ID_LINK", $a_glo_ov_id);
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->setVariable("TXT_CLOSE", $lng->txt("close"));
+		$tpl->setVariable("TXT_CLOSE", $lng->txtlng("common", "close", $a_lang));
 		$tpl->setVariable("ID_CLOSE", $a_close_el_id);
 		return $tpl->get(); 
 	}
