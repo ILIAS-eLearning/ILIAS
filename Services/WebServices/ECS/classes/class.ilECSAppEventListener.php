@@ -95,7 +95,7 @@ class ilECSAppEventListener implements ilAppEventListener
 				{
 					case 'create':
 						include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
-						$settings = ilECSSetting::_getInstance();
+						$settings = ilECSSetting::getInstanceByServerId($a_parameter['server_id']);
 						if(!count($rcps = $settings->getEContentRecipients()))
 						{
 							return true;
