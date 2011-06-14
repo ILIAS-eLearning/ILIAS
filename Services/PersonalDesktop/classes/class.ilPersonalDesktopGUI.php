@@ -675,6 +675,10 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToWorkspace()
 	{
+		if($_GET["wsp_id"])
+		{
+			$this->ctrl->setParameterByClass("ilpersonalworkspacegui", "wsp_id", (int)$_GET["wsp_id"]);
+		}
 		$this->ctrl->redirectByClass("ilpersonalworkspacegui");
 	}
 
