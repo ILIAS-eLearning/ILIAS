@@ -67,6 +67,25 @@ class ilWorkspaceTree extends ilTree
 
 		return $res[$this->obj_pk];
 	}
+	
+	/**
+	 * Get owner for node id
+	 *
+	 * @param int $a_node_id
+	 * @return int object id
+	 */
+	public function lookupOwner($a_node_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT tree".
+			" FROM ".$this->table_obj_reference.
+			" JOIN ".$this->table_tree." ON (".$this->table_obj_reference.".".$this->ref_pk." = ".$this->table_tree.".child)".
+			" WHERE ".$this->ref_pk." = ".$ilDB->quote($a_node_id, "integer"));
+		$res = $ilDB->fetchAssoc($set);
+
+		return $res["tree"];
+	}
 
 	/**
 	 * Add object to tree

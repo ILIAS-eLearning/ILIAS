@@ -737,8 +737,9 @@ class ilObjFileGUI extends ilObject2GUI
 		
 		if($a_additional && substr($a_additional, -3) == "wsp")
 		{
-			$_REQUEST["wsp_id"] = $a_target;		
-			include("workspace.php");
+			$_GET["baseClass"] = "ilsharedresourceGUI";	
+			$_GET["wsp_id"] = $a_target;		
+			include("ilias.php");
 			exit;
 		}
 

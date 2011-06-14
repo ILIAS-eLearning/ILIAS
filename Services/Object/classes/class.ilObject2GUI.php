@@ -99,7 +99,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				$this->node_id = $a_id;
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 				$this->tree = new ilWorkspaceTree($ilUser->getId());
-				$this->object_id = $this->tree->lookupObjectId($this->node_id);
+				$this->object_id = $this->tree->lookupObjectId($this->node_id);				
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
 				$this->access_handler = new ilWorkspaceAccessHandler($this->tree);
 				$params[] = "wsp_id";
