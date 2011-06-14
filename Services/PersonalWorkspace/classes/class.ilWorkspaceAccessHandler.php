@@ -60,7 +60,7 @@ class ilWorkspaceAccessHandler
 	 */
 	public function checkAccessOfUser(ilTree $a_tree, $a_user_id, $a_permission, $a_cmd, $a_node_id, $a_type = "")
 	{
-		global $rbacreview;
+		global $rbacreview, $ilUser;
 
 		// :TODO: create permission for parent node with type ?!
 		
@@ -93,10 +93,9 @@ class ilWorkspaceAccessHandler
 				{
 					switch($obj_id)
 					{
-						case ilWorkspaceAccessGUI::PERMISSION_ALL:						
-						case ilWorkspaceAccessGUI::PERMISSION_REGISTERED:
+						case ilWorkspaceAccessGUI::PERMISSION_ALL:				
 							return true;
-							
+								
 						case ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD:
 							// check against input kept in session
 							if(self::getSharedNodePassword($a_node_id) == self::getSharedSessionPassword($a_node_id))
@@ -105,6 +104,13 @@ class ilWorkspaceAccessHandler
 							}
 							return false;
 					
+						case ilWorkspaceAccessGUI::PERMISSION_REGISTERED:
+							if($ilUser->getId() != ANONYMOUS_USER_ID)
+							{
+								return true;
+							}
+							break;
+						
 						default:
 							switch(ilObject::_lookupType($obj_id))
 							{
