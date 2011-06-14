@@ -463,8 +463,10 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		$id = explode("_", $a_target);
 	
-		$_REQUEST["wsp_id"] = $id[0];		
-		include("workspace.php");
+		$_GET["baseClass"] = "ilPersonalDesktopGUI";
+		$_GET["cmd"] = "jumptoworkspace";		
+		$_GET["wsp_id"] = $id[0];		
+		include("ilias.php");
 		exit;
 	}
 }
