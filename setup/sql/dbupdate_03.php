@@ -5922,3 +5922,27 @@ $ilDB->addTableColumn("sahs_lm", "localization", array(
 	  $ilDB->addPrimaryKey('ecs_community', array('sid','cid'));
 	}
 ?>
+<#3364>
+<?php
+	if (!$ilDB->tableColumnExists("ecs_events", "server_id"))
+	{
+		$ilDB->addTableColumn("ecs_events", "server_id", array(
+			"type" => "integer",
+			"notnull" => true,
+		 	"length" => 4,
+		 	"default" => 0)
+		);
+	}
+?>
+<#3365>
+<?php
+
+	$res = $ilDB->query('SELECT server_id FROM ecs_server');
+
+	if($res->numRows())
+	{
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$query = 'UPDATE ecs_events SET server_id = '.$ilDB->quote($row->server_id);
+		$ilDB->manipulate($query);
+	}
+?>

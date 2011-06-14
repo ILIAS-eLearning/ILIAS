@@ -118,6 +118,15 @@ class ilECSTaskScheduler
 
 	}
 
+	/**
+	 * Get server setting
+	 * @return ilECSSetting
+	 */
+	public function getServer()
+	{
+		return $this->settings;
+	}
+
 
 	/**
 	 * Start Tasks
@@ -156,7 +165,7 @@ class ilECSTaskScheduler
 	 	try
 	 	{
 	 		include_once('./Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php');
-			$this->event_reader = new ilECSEventQueueReader();
+			$this->event_reader = new ilECSEventQueueReader($this->getServer()->getServerId());
 			$this->event_reader->refresh();
 	 	}
 	 	catch(ilException $exc)
@@ -200,7 +209,7 @@ class ilECSTaskScheduler
 	 		try
 	 		{
 				include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
-				$reader = new ilECSEContentReader($event['id']);
+				$reader = new ilECSEContentReader($this->getServer()->getServerId(),$event['id']);
 				$reader->read();
 				$reader->read(true);
 	 		}
@@ -335,10 +344,10 @@ class ilECSTaskScheduler
 		global $ilLog;
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
-		if(!ilECSParticipantSettings::_getInstance()->isEnabled($content->getOwner()))
+		if(!ilECSParticipantSettings::getInstanceByServerId($this->getServer()->getServerId())->isImportAllowed($content->getOwner()))
 		{
 			$ilLog->write('Ignoring disabled participant. MID: '.$content->getOwner());
-			continue;
+			return false;
 		}
 
 		include_once('Services/WebServices/ECS/classes/class.ilECSImport.php');
@@ -415,7 +424,7 @@ class ilECSTaskScheduler
 	 		$this->mids = array();
 	 		
 	 		include_once('./Services/WebServices/ECS/classes/class.ilECSCommunityReader.php');
-	 		$reader = ilECSCommunityReader::_getInstance();
+	 		$reader = ilECSCommunityReader::getInstanceByServerId($this->getServer()->getServerId());
 	 		foreach($reader->getCommunities() as $com)
 	 		{
 	 			foreach($com->getParticipants() as $part)
@@ -444,6 +453,7 @@ class ilECSTaskScheduler
 	public function checkNextExecution()
 	{
 	 	global $ilLog, $ilDB;
+
 	 	
 	 	if(!$this->settings->isEnabled())
 	 	{
@@ -456,19 +466,17 @@ class ilECSTaskScheduler
 	 		return false;
 	 	}
 
-		// @FIXME: one setting for each server
-
-
 	 	// check next task excecution time:
 	 	// If it's greater than time() directly increase this value with the polling time
 		/* synchronized { */
 		$query = 'UPDATE settings SET '.
 			'value = '.$ilDB->quote(time() + $this->settings->getPollingTime(),'text').' '.
 			'WHERE module = '.$ilDB->quote('ecs','text').' '.
-			'AND keyword = '.$ilDB->quote('next_execution','text').' '.
+			'AND keyword = '.$ilDB->quote('next_execution_'.$this->settings->getServerId(),'text').' '.
 			'AND value < '.$ilDB->quote(time(),'text');
 		$affected_rows = $ilDB->manipulate($query);
 		/* } */
+
 
 		if(!$affected_rows)
 		{

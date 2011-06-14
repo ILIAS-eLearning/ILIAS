@@ -52,14 +52,14 @@ class ilECSEventQueueReader
 	 *
 	 * @access public
 	 */
-	public function __construct()
+	public function __construct($a_server_id)
 	{
 	 	global $ilLog,$ilDB;
 	 	
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
 		include_once('Services/WebServices/ECS/classes/class.ilECSReaderException.php');
 	 	
-	 	$this->settings = ilECSSetting::_getInstance();
+	 	$this->settings = ilECSSetting::getInstanceByServerId($a_server_id);
 	 	$this->log = $ilLog;
 	 	$this->db = $ilDB;
 	 	
@@ -210,7 +210,16 @@ class ilECSEventQueueReader
 		}
 		return true;
 	 }
-	
+
+
+	 /**
+	  * get server setting
+	  * @return ilECSSetting
+	  */
+	 public function getServer()
+	 {
+		 return $this->settings;
+	 }
 	
 	
 	/**
@@ -233,7 +242,8 @@ class ilECSEventQueueReader
 	{
 	 	global $ilDB;
 	 	
-	 	$query = "DELETE FROM ecs_events";
+	 	$query = "DELETE FROM ecs_events ".
+			'WHERE server_id = '.$ilDB->quote($this->getServer()->getServerId(),'integer');
 		$res = $ilDB->manipulate($query);
 	 	return true;
 	}
@@ -248,7 +258,8 @@ class ilECSEventQueueReader
 	 	global $ilDB;
 	 	
 	 	$query = "DELETE FROM ecs_events ".
-	 		"WHERE type = ".$this->db->quote(self::TYPE_ECONTENT,'text');
+	 		"WHERE type = ".$this->db->quote(self::TYPE_ECONTENT,'text').' '.
+			'AND server_id = '.$ilDB->quote($this->getServer()->getServerId(),'integer');
 	 	$res = $ilDB->manipulate($query);
 	 	return true;
 	}
@@ -263,7 +274,8 @@ class ilECSEventQueueReader
 	 	global $ilDB;
 	 	
 	 	$query = "DELETE FROM ecs_events ".
-	 		"WHERE type = ".$this->db->quote(self::TYPE_EXPORTED,'text');
+	 		"WHERE type = ".$this->db->quote(self::TYPE_EXPORTED,'text').' '.
+			'AND server_id = '.$ilDB->quote($this->getServer()->getServerId(),'integer');
 		$res = $ilDB->manipulate($query);
 	 	return true;
 	}
@@ -280,7 +292,7 @@ class ilECSEventQueueReader
 		 	include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
 			include_once('Services/WebServices/ECS/classes/class.ilECSConnectorException.php');
 
-			$connector = new ilECSConnector();
+			$connector = new ilECSConnector($this->getServer());
 			while(true)
 			{
 				$res = $connector->readEventFifo(false);
@@ -317,7 +329,8 @@ class ilECSEventQueueReader
 
 		$query = "SELECT * FROM ecs_events ".
 			"WHERE type = ".$ilDB->quote(self::TYPE_ECONTENT,'integer')." ".
-			"AND id = ".$ilDB->quote($ev->getRessourceId(),'integer')." ";
+			"AND id = ".$ilDB->quote($ev->getRessourceId(),'integer')." ".
+			'AND server_id = '.$ilDB->quote($this->getServer()->getServerId(),'integer');
 		$res = $ilDB->query($query);
 
 		$event_id = 0;
@@ -331,12 +344,13 @@ class ilECSEventQueueReader
 		if(!$event_id)
 		{
 			// No previous entry exists => perform insert
-			$query = "INSERT ecs_events (event_id,type,id,op) ".
+			$query = "INSERT ecs_events (event_id,type,id,op,server_id) ".
 				"VALUES( ".
 				$ilDB->quote($ilDB->nextId('ecs_events'),'integer').','.
 				$ilDB->quote(self::TYPE_ECONTENT,'text').', '.
 				$ilDB->quote($ev->getRessourceId(),'integer').', '.
-				$ilDB->quote($ev->getStatus(),'text').' '.
+				$ilDB->quote($ev->getStatus(),'text').', '.
+				$ilDB->quote($this->getServer()->getServerId(),'integer').' '.
 				')';
 			$ilDB->manipulate($query);
 			return true;
@@ -365,7 +379,8 @@ class ilECSEventQueueReader
 		}
 		$query = "UPDATE ecs_events ".
 			"SET op = ".$ilDB->quote($ev->getStatus(),'text')." ".
-			"WHERE event_id = ".$ilDB->quote($event_id,'integer');
+			"WHERE event_id = ".$ilDB->quote($event_id,'integer').' '.
+			'AND server_id = '.$ilDB->quote($this->getServer()->getServerId(),'integer');
 		$ilDB->manipulate($query);
 		return true;
 	}
@@ -401,12 +416,13 @@ class ilECSEventQueueReader
 	 	global $ilDB;
 
 	 	$next_id = $ilDB->nextId('ecs_events');
-	 	$query = "INSERT INTO ecs_events (event_id,type,id,op) ".
+	 	$query = "INSERT INTO ecs_events (event_id,type,id,op,server_id) ".
 	 		"VALUES (".
 	 		$ilDB->quote($next_id,'integer').", ".
 			$this->db->quote($a_type,'text').", ".
 	 		$this->db->quote($a_id,'integer').", ".
-	 		$this->db->quote($a_op,'text')." ".
+	 		$this->db->quote($a_op,'text').", ".
+			$ilDB->quote($this->getServer()->getServerId(),'integer').' '.
 	 		")";
 		$res = $ilDB->manipulate($query);
 	 	
@@ -433,7 +449,8 @@ class ilECSEventQueueReader
 	 	$query = "UPDATE ecs_events ".
 	 		"SET op = ".$this->db->quote($a_operation,'text')." ".
 	 		"WHERE type = ".$this->db->quote($a_type,'text')." ".
-	 		"AND id = ".$this->db->quote($a_id,'integer')." ";
+	 		"AND id = ".$this->db->quote($a_id,'integer')." ".
+			'AND server_id = '.$ilDB->quote($this->getServer()->getServerId(),'integer');
 		$res = $ilDB->manipulate($query);
 	}
 	
@@ -448,7 +465,8 @@ class ilECSEventQueueReader
 	 	global $ilDB;
 	 	
 	 	$query = "DELETE FROM ecs_events ".
-	 		"WHERE event_id = ".$this->db->quote($a_event_id,'integer')." ";
+	 		"WHERE event_id = ".$this->db->quote($a_event_id,'integer')." ".
+			'AND server_id = '.$ilDB->quote($this->getServer()->getServerId(),'integer');
 		$res = $ilDB->manipulate($query);
 	 	unset($this->econtent_ids[$a_event_id]);
 	 	return true;
@@ -462,7 +480,8 @@ class ilECSEventQueueReader
 	{
 	 	global $ilDB;
 	 	
-	 	$query = "SELECT * FROM ecs_events ORDER BY event_id ";
+	 	$query = "SELECT * FROM ecs_events ORDER BY event_id ".
+			'AND server_id = '.$ilDB->quote($this->getServer()->getServerId(),'integer');
 	 	$res = $this->db->query($query);
 	 	$counter = 0;
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

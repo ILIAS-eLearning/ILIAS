@@ -519,9 +519,11 @@ class ilAdvancedMDRecordGUI
 	private function handleECSDefinitions($a_definition)
 	{
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
-		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
-		
-		if(!ilECSSettings::_getInstance()->isEnabled() or ($this->obj_type != 'crs' and $this->obj_type != 'rcrs'))
+		include_once('./Services/WebServices/ECS/classes/class.ilECSServerSettings.php');
+
+		if(ilECSServerSettings::getInstance()->activeServerExists() or
+			($this->obj_type != 'crs' and $this->obj_type != 'rcrs')
+		)
 		{
 			return false;
 		}
