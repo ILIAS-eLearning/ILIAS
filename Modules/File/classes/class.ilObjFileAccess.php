@@ -74,6 +74,13 @@ class ilObjFileAccess extends ilObjectAccess
 		global $ilAccess;
 		
 		$t_arr = explode("_", $a_target);
+		
+		// personal workspace context: do not force normal login
+		if(isset($t_arr[2]) && $t_arr[2] == "wsp")
+		{
+			include_once "Services/PersonalWorkspace/classes/class.ilSharedResourceGUI.php";
+			return ilSharedResourceGUI::hasAccess($t_arr[1]);
+		}
 
 		if ($t_arr[0] != "file" || ((int) $t_arr[1]) <= 0)
 		{

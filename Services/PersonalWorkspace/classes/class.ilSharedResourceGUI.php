@@ -66,45 +66,9 @@ class ilSharedResourceGUI
 		{
 			exit("invalid call");
 		}
-		
-		$has_permission = false;
-		
-		// if we have current user - check with normal access handler
-		if($ilUser && $ilUser->getId())
-		{
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 			
-			$tree = new ilWorkspaceTree($ilUser->getId());
-			$access_handler = new ilWorkspaceAccessHandler($tree);
-			if($access_handler->checkAccess("read", "", $this->node_id))
-			{
-				$has_permission = true;
-			}
-		}
-	
-		// check if public (no proper login needed)
-		if(!$has_permission)
-		{
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
-			
-			$shared = ilWorkspaceAccessHandler::getPermissions($this->node_id);
-		
-			// object is "public"
-			if(in_array(ilWorkspaceAccessGUI::PERMISSION_ALL, $shared))
-			{
-				$has_permission = true;			
-			}
-
-			// password protected
-			if(!$has_permission && in_array(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD, $shared))
-			{
-				$ilCtrl->redirect($this, "passwordForm");
-			}			
-		}		
-				
-		if(!$has_permission)
+		/*
+		if(!self::hasAccess($this->node_id))
 		{
 			if(!$ilUser)		
 			{
@@ -116,9 +80,50 @@ class ilSharedResourceGUI
 			{
 				exit("no permission");
 			}
-		}
+		}		 
+	    */
 		
 		$this->redirectToResource($this->node_id);	     		
+	}
+	
+	public static function hasAccess($a_node_id)
+	{
+		global $ilCtrl, $ilUser;
+	
+		// if we have current user - check with normal access handler
+		if($ilUser && $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+			
+			$tree = new ilWorkspaceTree($ilUser->getId());
+			$access_handler = new ilWorkspaceAccessHandler($tree);
+			if($access_handler->checkAccess("read", "", $a_node_id))
+			{
+				return true;
+			}
+		}
+		
+		// not logged in yet
+		
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
+
+		$shared = ilWorkspaceAccessHandler::getPermissions($a_node_id);
+
+		// object is "public"
+		if(in_array(ilWorkspaceAccessGUI::PERMISSION_ALL, $shared))
+		{
+			return true;
+		}
+
+		// password protected
+		if(in_array(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD, $shared))
+		{
+			ilUtil::redirect("ilias.php?baseClass=ilSharedResourceGUI&cmd=passwordForm&wsp_id=".$a_node_id);
+		}		
+		
+		return false;
 	}
 	
 	protected function redirectToResource($a_node_id)
