@@ -22,6 +22,7 @@
 */
 
 include_once './Services/WebServices/ECS/classes/class.ilECSContentWriterException.php';
+include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
 
 /** 
 * Handles request like update delete addEContent 
@@ -43,7 +44,8 @@ class ilECSContentWriter
 	
 	protected $content_obj = null;
 	protected $export_settings = null;
-	
+
+	protected $server_id = 0;
 	protected $exportable = true;
 	protected $owner = 0;
 	protected $mids = null;
@@ -55,18 +57,19 @@ class ilECSContentWriter
 	 * @param object content obj (e.g course_obj)
 	 * 
 	 */
-	public function __construct($a_cont_obj)
+	public function __construct($a_cont_obj,$a_server_id)
 	{
 	 	global $ilLog;
 	 	
 	 	$this->log = $ilLog;
 	 	
 	 	$this->content_obj = $a_cont_obj;
+		$this->server_id = $a_server_id;
 
 	 	include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-	 	$this->export_settings = new ilECSExport($this->content_obj->getId());
+	 	$this->export_settings = new ilECSExport($this->getServerId(),$this->content_obj->getId());
 	}
-	
+
 	/**
 	 * handle delete
 	 * Objects that are moved to the trash call ECS-Remove
@@ -78,13 +81,13 @@ class ilECSContentWriter
 	 */
 	public static function _handleDelete($a_subbtree_nodes)
 	{
-		include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
-		if(!ilECSSetting::_getInstance()->isEnabled())
+		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
+		if(!ilECSServerSettings::getInstance()->activeServerExists())
 		{
 			return false;
 		}
+
 		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-		// @FIXME: check get exported ids
 		$exported = ilECSExport::getExportedIds();
 		foreach($a_subbtree_nodes as $node)
 		{
@@ -94,8 +97,12 @@ class ilECSContentWriter
 				{
 					try
 					{
-						$writer = new ilECSContentWriter($content_obj);
-						$writer->deleteECSContent();
+						// Read export server ids
+						foreach(ilECSExport::getExportServerIds($node['obj_id']) as $sid)
+						{
+							$writer = new ilECSContentWriter($content_obj, $sid);
+							$writer->deleteECSContent();
+						}
 					}
 					catch(ilECSContentWriterException $exc)
 					{
@@ -106,6 +113,15 @@ class ilECSContentWriter
 		}
 		
 		
+	}
+
+	/**
+	 * Get current server id
+	 * @return int
+	 */
+	public function getServerId()
+	{
+		return $this->server_id;
 	}
 	
 	/**
@@ -277,7 +293,7 @@ class ilECSContentWriter
 		{
 			$this->log->write(__METHOD__.': Start deleting ECS content...');
 			
-			$connector = new ilECSConnector();
+			$connector = new ilECSConnector(ilECSSetting::getInstanceByServerId($this->getServerId()));
 			if(!$this->export_settings->getEContentId())
 			{
 				$this->log->write(__METHOD__.': Missing eid. Aborting.');
@@ -313,7 +329,7 @@ class ilECSContentWriter
 			$this->createJSON();
 			$this->updateJSON();
 			
-	 		$connector = new ilECSConnector();
+	 		$connector = new ilECSConnector(ilECSSetting::getInstanceByServerId($this->getServerId()));
 			$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, implode(',',$this->getParticipantIds()));
 			#$connector->addHeader(ilECSConnector::HEADER_COMMUNITIES, )
 	 		$econtent_id = $connector->addResource(json_encode($this->json));
@@ -347,7 +363,7 @@ class ilECSContentWriter
 	 	try
 	 	{
 	 		include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
-	 		$reader = new ilECSEContentReader($this->export_settings->getEContentId());
+	 		$reader = new ilECSEContentReader($this->getServerId(),$this->export_settings->getEContentId());
 	 		$reader->read();
 			$reader->read(true);
 	 		$content = $reader->getEContent();
@@ -361,7 +377,7 @@ class ilECSContentWriter
 	 		}
 	 		$this->json = $content;
 	 		$this->updateJSON();
-	 		$connector = new ilECSConnector();
+	 		$connector = new ilECSConnector(ilECSSetting::getInstanceByServerId($this->getServerId()));
 			#$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, implode(',',$this->getParticipantIds()));
 			if($this->getParticipantIds() == null)
 			{
@@ -389,7 +405,7 @@ class ilECSContentWriter
 	private function sendNewContentNotification()
 	{
 		include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
-		$settings = ilECSSetting::_getInstance();
+		$settings = ilECSSetting::getInstanceByServerId($this->getServerId());
 		if(!count($rcps = $settings->getApprovalRecipients()))
 		{
 			return true;
@@ -413,11 +429,11 @@ class ilECSContentWriter
 		// Participant info
 		$message .= ("\n".$lang->txt('ecs_published_for'));
 		
-		$export = new ilECSExport($this->content_obj->getId());
+		$export = new ilECSExport($this->getServerId(),$this->content_obj->getId());
 		try
 		{
 			include_once './Services/WebServices/ECS/classes/class.ilECSEContentReader.php';
-			$reader = new ilECSEContentReader($export->getEContentId());
+			$reader = new ilECSEContentReader($this->getServerId(),$export->getEContentId());
 			$reader->read(true);
 			
 			$found = false;
@@ -428,7 +444,7 @@ class ilECSContentWriter
 					$found = true;
 					
 					include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
-					$part = ilECSCommunityReader::_getInstance()->getParticipantByMID($member);
+					$part = ilECSCommunityReader::getInstanceByServerId($this->getServerId())->getParticipantByMID($member);
 					
 					$message .= ("\n\n".$part->getParticipantName()."\n");
 					$message .= ($part->getDescription());
@@ -518,7 +534,7 @@ class ilECSContentWriter
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-		$mappings = ilECSDataMappingSettings::_getInstance();
+		$mappings = ilECSDataMappingSettings::getInstanceByServerId($this->getServerId());
 		$values = ilAdvancedMDValues::_getValuesByObjId($this->content_obj->getId());
 
 		// Study courses

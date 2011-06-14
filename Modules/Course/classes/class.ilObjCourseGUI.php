@@ -1087,26 +1087,52 @@ class ilObjCourseGUI extends ilContainerGUI
 			return true;
 		}
 
+		// Parse post data
+		$mids = array();
+		foreach((array) $_POST['ecs_sid'] as $sid_mid)
+		{
+			$tmp = explode('_',$sid_mid);
+			$mids[$tmp[0]][] = $tmp[1];
+		}
+
 		try
 		{
-			$this->object->handleECSSettings(
-				(bool) $_POST['ecs_export'],
-				(array) $_POST['sid_mid']
-			);
-			return true;
+			include_once './Services/WebServices/ECS/classes/class.ilECSCommunitiesCache.php';
+			include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
 
+			// Update for each server
+			foreach(ilECSParticipantSettings::getExportServers() as $server_id)
+			{
+				// Export
+				$export = true;
+				if(!$_POST['ecs_export'])
+				{
+					$export = false;
+				}
+				if(!count($mids[$server_id]))
+				{
+					$export = false;
+				}
+				$this->object->handleECSSettings(
+					$server_id,
+					$export,
+					ilECSCommunitiesCache::getInstance()->lookupOwnId($server_id,$mids[$server_id][0]),
+					$mids[$server_id]
+				);
+			}
+			return true;
 		}
-		catch(ilECSConnectorException $e)
+		catch(ilECSConnectorException $exc)
 		{
 			ilUtil::sendFailure('Error connecting to ECS server: '.$exc->getMessage());
 			return false;
 		}
-		catch(ilECSContentWriterException $e)
+		catch(ilECSContentWriterException $exc)
 		{
 			ilUtil::sendFailure('Course export failed with message: '.$exc->getMessage());
 			return false;
 		}
-		
+		return true;
 
 		if($_POST['ecs_export'] and !$_POST['ecs_owner'])
 		{
@@ -1529,9 +1555,41 @@ class ilObjCourseGUI extends ilContainerGUI
 		// @TODO: Active checkboxes for recipients
 		//$publish_for->setValue((array) $members);
 
+		// Read receivers
+		$receivers = array();
+		foreach(ilECSExport::getExportServerIds($this->object->getId()) as $sid)
+		{
+			$exp = new ilECSExport($sid, $this->object->getId());
+			$eid = $exp->getEContentId();
+			try
+			{
+				include_once './Services/WebServices/ECS/classes/class.ilECSEContentReader.php';
+				$econtent_reader = new ilECSEContentReader($sid,$eid);
+				$econtent_reader->read(true);
+				$details = $econtent_reader->getEContentDetails();
+				if($details instanceof ilECSEContentDetails)
+				{
+					foreach($details->getReceivers() as $mid)
+					{
+						$receivers[] = $sid.'_'.$mid;
+					}
+					#$owner = $details->getFirstSender();
+				}
+			}
+			catch(ilECSConnectorException $exc)
+			{
+				$ilLog->write(__METHOD__.': Error connecting to ECS server. '.$exc->getMessage());
+			}
+			catch(ilECSReaderException $exc)
+			{
+				$ilLog->write(__METHOD__.': Error parsing ECS query: '.$exc->getMessage());
+			}
+		}
+
+		$publish_for->setValue($receivers);
+
 		foreach($exportablePart as $pInfo)
 		{
-
 			include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
 			$partSetting = new ilECSParticipantSetting($pInfo['sid'], $pInfo['mid']);
 
@@ -1541,169 +1599,9 @@ class ilObjCourseGUI extends ilContainerGUI
 			);
 			$com->setValue($pInfo['sid'].'_'.$pInfo['mid']);
 			$publish_for->addOption($com);
-
-
 		}
 		$on->addSubItem($publish_for);
 		return true;
-	}
-
-
-				
-	/**
-	 * @access protected
-	 * @param void
-	 * @return bool
-	 */
-	protected function fillECSExportSettings2(ilPropertyFormGUI $a_form)
-	{
-		global $ilLog;
-		
-		include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
-		
-		// ECS enabled
-		$ecs_settings = ilECSSetting::_getInstance();
-		if(!$ecs_settings->isEnabled())
-		{
-			return true;
-		}
-		
-		include_once('./Services/WebServices/ECS/classes/class.ilECSCommunityReader.php');
-		include_once('./Services/WebServices/ECS/classes/class.ilECSConnectorException.php');
-		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-
-
-		$ecs_export = new ilECSExport($this->object->getId());
-		try {
-			if(
-				!count(ilECSCommunityReader::_getInstance()->getEnabledParticipants()) and
-				!$ecs_export->isExported())
-			{
-				return true;
-			}
-		}
-		catch(ilECSConnectorException $e)
-		{
-			$GLOBALS['ilLog']->write(__METHOD__.': ECS failure: '.$e->getMessage());
-			return true;
-		}
-
-		$this->lng->loadLanguageModule('ecs');
-		
-		$ecs = new ilFormSectionHeaderGUI();
-		$ecs->setTitle($this->lng->txt('ecs_export'));
-		$a_form->addItem($ecs);
-		
-		
-		$exp = new ilRadioGroupInputGUI($this->lng->txt('ecs_export_obj_settings'),'ecs_export');
-		$exp->setRequired(true);
-		$exp->setValue($ecs_export->isExported() ? 1 : 0);
-		
-			$off = new ilRadioOption($this->lng->txt('ecs_export_disabled'),0);
-			$exp->addOption($off);
-			
-			$on = new ilRadioOption($this->lng->txt('ecs_export_enabled'),1);
-			$exp->addOption($on);
-			
-		$a_form->addItem($exp);
-
-		try
-		{
-			$owner = 0;
-			$members = array();
-			if($ecs_export->getEContentId())
-			{
-				include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
-				
-				$econtent_reader = new ilECSEContentReader($ecs_export->getEContentId());
-				$econtent_reader->read(true);
-				$details = $econtent_reader->getEContentDetails();
-				if($details instanceof ilECSEContentDetails)
-				{
-					$members = $details->getReceivers();
-					$owner = $details->getFirstSender();
-				}
-			}
-			
-			$reader = ilECSCommunityReader::_getInstance();
-			if(count($parts = $reader->getPublishableParticipants()) > 0)
-			{
-				$ilLog->write(__METHOD__.': Found '.count($parts).' participants for publishing');
-				#$publish_as = new ilCustomInputGUI('','');
-				#$publish_as->setHtml('<strong>'.$this->lng->txt('ecs_publish_as').'</strong>');
-				
-				#$publish_as = new ilCheckboxGroupInputGUI(
-				#	$this->lng->txt('ecs_publish_as'),
-				#	'ecs_owner'
-				#);
-				
-				$coms = new ilRadioGroupInputGUI($this->lng->txt('ecs_publish_as'),'ecs_owner');
-				$coms->setValue($owner);
-				
-				foreach($parts as $participant)
-				{
-					$community = $reader->getCommunityById($participant->getCommunityId());
-					
-					$part = new ilRadioOption($community->getTitle(),$participant->getMID());
-					$part->setInfo($community->getDescription());
-					$coms->addOption($part);
-				}
-				#$publish_as->addSubItem($coms);
-				#$on->addSubItem($publish_as);
-				$on->addSubItem($coms);
-			}
-			else
-			{
-				$ilLog->write(__METHOD__.': Found '.count($parts).' participants for publishing');
-				$hidden = new ilHiddenInputGUI('ecs_owner');
-				$owner_ids = $reader->getOwnMIDs();
-				$hidden->setValue($owner_ids[0]);
-				$a_form->addItem($hidden);
-			}
-			
-			#$publish_for = new ilCustomInputGUI('','');
-			$publish_for = new ilCheckboxGroupInputGUI($this->lng->txt('ecs_publish_for'),'ecs_mids');
-			$publish_for->setValue((array) $members);
-			
-			#$publish_for->setHtml('<strong>'.$this->lng->txt('ecs_publish_for').'</strong>');
-			
-			foreach($reader->getEnabledParticipants() as $participant)
-			{
-				$community = $reader->getCommunityById($participant->getCommunityId());
-				
-				$com = new ilCheckboxInputGUI(
-					$community->getTitle().': '.$participant->getParticipantName(),
-					'ecs_mids'
-				);
-				
-				
-				$com = new ilCheckboxOption(
-					$community->getTitle().': '.$participant->getParticipantName(),
-					$participant->getMID()
-				);
-				$publish_for->addOption($com);
-				
-				
-				#$com = new ilCheckboxInputGUI('111','ecs_mids[]');
-				#$com->setOptionTitle($community->getTitle().': '.$participant->getParticipantName());
-				#$com->setValue($participant->getMID());
-				#$com->setChecked(in_array($participant->getMID(),$members));
-				#$publish_for->addSubItem($com);
-			}
-			
-			$on->addSubItem($publish_for);
-		}
-		catch(ilECSConnectorException $exc)
-		{
-			$ilLog->write(__METHOD__.': Error connecting to ECS server. '.$exc->getMessage());
-			return true;
-		}
-		catch(ilECSReaderException $exc)
-		{
-			$ilLog->write(__METHOD__.': Error parsing ECS query: '.$exc->getMessage());
-			return true;
-		}
-		return true;		
 	}
 
 

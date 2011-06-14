@@ -103,6 +103,28 @@ class ilECSParticipantSettings
 	}
 
 	/**
+	 * Get server ids which allow an export
+	 * @global <type> $ilDB
+	 * @return <type>
+	 */
+	public static function getExportServers()
+	{
+		global $ilDB;
+
+		$query = 'SELECT DISTINCT(sid) FROM ecs_part_settings  ep '.
+			'JOIN ecs_server es ON ep.sid = es.server_id '.
+			'WHERE export = '.$ilDB->quote(1,'integer').' '.
+			'AND active = '.$ilDB->quote(1,'integer').' ';
+		$res = $ilDB->query($query);
+		$sids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$sids[] = $row->sid;
+		}
+		return $sids;
+	}
+
+	/**
 	 * Get server id
 	 * @return int
 	 */
