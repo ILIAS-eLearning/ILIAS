@@ -1708,13 +1708,13 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * @param array array of participant mids
 	 * @throws ilECSConnectorException, ilECSContentWriterException
 	 */
-	public function handleECSSettings($a_export,$a_owner,$a_mids)
+	public function handleECSSettings($a_server_id,$a_export,$a_owner,$a_mids)
 	{
 		try
 		{
 			include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');
 			
-			$writer = new ilECSContentWriter($this);
+			$writer = new ilECSContentWriter($this,$a_server_id);
 			$writer->setExportable($a_export);
 			$writer->setOwnerId($a_owner);
 			$writer->setParticipantIds((array) $a_mids);

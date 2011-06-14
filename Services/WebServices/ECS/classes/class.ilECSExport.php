@@ -134,7 +134,29 @@ class ilECSExport
 		}
 		return $obj_ids ? $obj_ids : array();
 	}
-	
+
+	/**
+	 * lookup server ids of exported materials
+	 * @global ilDB $ilDB
+	 * @param int $a_obj_id
+	 * @return array
+	 */
+	public static function getExportServerIds($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = 'SELECT * FROM ecs_export '.
+			'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
+		$res = $ilDB->query($query);
+
+		$sids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$sids[] = $row->server_id;
+		}
+		return $sids;
+	}
+
 	/**
 	 * get exported ids for server
 	 *

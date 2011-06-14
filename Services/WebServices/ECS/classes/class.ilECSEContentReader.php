@@ -53,7 +53,7 @@ class ilECSEContentReader
 	 * @access public
 	 * @throws ilECSConnectorException 
 	 */
-	public function __construct($a_econtent_id = 0)
+	public function __construct($a_server_id,$a_econtent_id = 0)
 	{
 		global $ilLog;
 
@@ -63,8 +63,8 @@ class ilECSEContentReader
 		include_once('Services/WebServices/ECS/classes/class.ilECSEContent.php');
 		include_once('Services/WebServices/ECS/classes/class.ilECSReaderException.php');
 
-		$this->settings = ilECSSetting::_getInstance();
-		$this->connector = new ilECSConnector();
+		$this->settings = ilECSSetting::getInstanceByServerId($a_server_id);
+		$this->connector = new ilECSConnector($this->settings);
 		$this->log = $ilLog;
 
 		$this->econtent_id = $a_econtent_id;

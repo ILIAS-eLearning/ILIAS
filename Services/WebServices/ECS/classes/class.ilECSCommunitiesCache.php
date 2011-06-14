@@ -57,6 +57,33 @@ class ilECSCommunitiesCache
 		}
 		return self::$instance = new ilECSCommunitiesCache();
 	}
+	
+	/**
+	 * Get communities
+	 * @return array ilECSCommunityCache
+	 */
+	public function getCommunities()
+	{
+		return (array) $this->communities;
+	}
+
+	/**
+	 * Lookup own mid of the community of a mid
+	 */
+	public function lookupOwnId($a_server_id,$a_mid)
+	{
+		foreach($this->getCommunities() as $com)
+		{
+			if($com->getServerId() == $a_server_id)
+			{
+				if(in_array($a_mid,$com->getMids()))
+				{
+					return $com->getOwnId();
+				}
+			}
+		}
+		return 0;
+	}
 
 	/**
 	 * Read comunities
