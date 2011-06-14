@@ -496,7 +496,7 @@ class ilObjRemoteCourse extends ilObject
 
 		include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
 		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMapping.php';
-		$ecs_settings = ilECSSetting::_getInstance();
+		$ecs_settings = ilECSSetting::getInstanceByServerId($a_server_id);
 		
 		$remote_crs = new ilObjRemoteCourse();
 		$remote_crs->setType('rcrs');

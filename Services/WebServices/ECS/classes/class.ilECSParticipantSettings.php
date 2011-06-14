@@ -65,8 +65,8 @@ class ilECSParticipantSettings
 
 	/**
 	 * Get instance by server id
-	 * @param <type> $a_server_id
-	 * @return <type>
+	 * @param int $a_server_id
+	 * @return ilECSParticipantSettings
 	 */
 	public static function getInstanceByServerId($a_server_id)
 	{
@@ -152,6 +152,16 @@ class ilECSParticipantSettings
 			$this->import_type[$row->mid] = $row->import_type;
 		}
 		return true;
+	}
+
+	/**
+	 * Check if import is allowed for scecific mid
+	 * @param <type> $a_mid
+	 * @return <type>
+	 */
+	public function isImportAllowed($a_mid)
+	{
+		return $this->import[$a_mid] ? true : false;
 	}
 
 	/**

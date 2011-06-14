@@ -470,6 +470,7 @@ class ilECSSettingsGUI
 		if(!$error = $this->settings->validate())
 		{
 			$this->settings->update();
+			$this->initTaskScheduler();
 			$this->updateTitle();
 			ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
 		}
@@ -495,6 +496,8 @@ class ilECSSettingsGUI
 		if(!$error = $this->settings->validate())
 		{
 			$this->settings->save();
+			$this->initTaskScheduler();
+
 			$this->updateTitle();
 			ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
 		}
@@ -1513,6 +1516,23 @@ class ilECSSettingsGUI
 		$loc->addContextItems($a_ref_id);
 		
 		return $loc->getHTML();
+	}
+
+	/**
+	 * Init next task execution
+	 * @global <type> $ilDB
+	 * @global <type> $ilSetting
+	 */
+	protected function initTaskScheduler()
+	{
+		global $ilDB,$ilSetting;
+
+		#$ilDB->lockTables(array('name' => 'settings', 'type' => ilDB::LOCK_WRITE));
+		$setting = new ilSetting('ecs');
+		$setting->set(
+			'next_execution_'.$this->settings->getServerId(),
+			time() + (int) $this->settings->getPollingTime()
+		);
 	}
 	
 }
