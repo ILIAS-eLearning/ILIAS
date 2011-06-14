@@ -67,21 +67,11 @@ class ilSharedResourceGUI
 			exit("invalid call");
 		}
 			
-		/*
+		// if already logged in, we need to re-check for public password
 		if(!self::hasAccess($this->node_id))
 		{
-			if(!$ilUser)		
-			{
-				// registered or user-related
-				var_dump(":TODO: redirect to login first");
-				exit();
-			}
-			else
-			{
-				exit("no permission");
-			}
+			exit("no permission");
 		}		 
-	    */
 		
 		$this->redirectToResource($this->node_id);	     		
 	}
@@ -91,7 +81,7 @@ class ilSharedResourceGUI
 		global $ilCtrl, $ilUser;
 	
 		// if we have current user - check with normal access handler
-		if($ilUser && $ilUser->getId() != ANONYMOUS_USER_ID)
+		if($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
@@ -104,7 +94,7 @@ class ilSharedResourceGUI
 			}
 		}
 		
-		// not logged in yet
+		// not logged in yet or no read access
 		
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
