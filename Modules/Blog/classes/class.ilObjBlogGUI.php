@@ -115,7 +115,7 @@ class ilObjBlogGUI extends ilObject2GUI
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
-
+		
 		switch($next_class)
 		{
 			case 'ilblogpostinggui':
@@ -463,8 +463,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		$id = explode("_", $a_target);
 	
-		$_GET["baseClass"] = "ilPersonalDesktopGUI";
-		$_GET["cmd"] = "jumptoworkspace";		
+		$_GET["baseClass"] = "ilsharedresourceGUI";	
 		$_GET["wsp_id"] = $id[0];		
 		include("ilias.php");
 		exit;

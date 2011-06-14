@@ -72,53 +72,76 @@ class ilWorkspaceAccessHandler
 				return false;
 			}
 		}
-
-		// workspace owner has all rights
-		if($a_tree->getTreeId() == $a_user_id)
+		
+		// node owner has all rights
+		if($a_tree->lookupOwner($a_node_id) == $a_user_id)
 		{
 			return true;
 		}
-
-		// get all objects with explicit permission
-		$objects = $this->getPermissions($a_node_id);
-		if($objects)
+		
+		// other users can only read
+		if($a_permission == "read")
 		{
-			// check if given user is member of object or has role
-			foreach($objects as $obj_id)
+			// get all objects with explicit permission
+			$objects = $this->getPermissions($a_node_id);
+			if($objects)
 			{
-				switch(ilObject::_lookupType($obj_id))
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
+				
+				// check if given user is member of object or has role
+				foreach($objects as $obj_id)
 				{
-					case "grp":
-						// member of group?
-						if(ilGroupParticipants::_getInstanceByObjId($obj_id)->isAssigned($a_user_id))
-						{
+					switch($obj_id)
+					{
+						case ilWorkspaceAccessGUI::PERMISSION_ALL:						
+						case ilWorkspaceAccessGUI::PERMISSION_REGISTERED:
 							return true;
-						}
-						break;
+							
+						case ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD:
+							// check against input kept in session
+							if(self::getSharedNodePassword($a_node_id) == self::getSharedSessionPassword($a_node_id))
+							{
+								return true;
+							}
+							return false;
+					
+						default:
+							switch(ilObject::_lookupType($obj_id))
+							{
+								case "grp":
+									// member of group?
+									if(ilGroupParticipants::_getInstanceByObjId($obj_id)->isAssigned($a_user_id))
+									{
+										return true;
+									}
+									break;
 
-					case "crs":
-						// member of course?
-						if(ilCourseParticipants::_getInstanceByObjId($obj_id)->isAssigned($a_user_id))
-						{
-							return true;
-						}
-						break;
+								case "crs":
+									// member of course?
+									if(ilCourseParticipants::_getInstanceByObjId($obj_id)->isAssigned($a_user_id))
+									{
+										return true;
+									}
+									break;
 
-					case "role":
-						// has role?
-						if($rbacreview->isAssigned($a_user_id, $obj_id))
-						{
-							return true;
-						}
-						break;
+								case "role":
+									// has role?
+									if($rbacreview->isAssigned($a_user_id, $obj_id))
+									{
+										return true;
+									}
+									break;
 
-					case "usr":
-						// direct assignment
-						if($a_user_id == $obj_id)
-						{
-							return true;
-						}
-						break;
+								case "usr":
+									// direct assignment
+									if($a_user_id == $obj_id)
+									{
+										return true;
+									}
+									break;
+							}
+							break;
+					}
 				}
 			}
 		}
@@ -190,7 +213,7 @@ class ilWorkspaceAccessHandler
 	 * @param int $a_node_id
 	 * @return array
 	 */
-	public function getPermissions($a_node_id)
+	public static function getPermissions($a_node_id)
 	{
 		global $ilDB;
 
@@ -234,7 +257,7 @@ class ilWorkspaceAccessHandler
 		return (bool)$ilDB->numRows($set);
 	}
 	
-	protected function getPossibleSharedTargets()
+	public static function getPossibleSharedTargets()
 	{
 		global $ilUser;
 		
@@ -245,10 +268,10 @@ class ilWorkspaceAccessHandler
 		
 		$obj_ids = array_merge($grp_ids, $crs_ids);
 		$obj_ids[] = $ilUser->getId();
-		$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_REGISTERED;
-		$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD;
+		$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_REGISTERED;		
 		$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_ALL;
-		
+		$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD;
+
 		return $obj_ids;
 	}
 	
@@ -295,6 +318,32 @@ class ilWorkspaceAccessHandler
 		}
 	
 		return $res;
+	}
+	
+	public static function getSharedNodePassword($a_node_id)
+	{
+		global $ilDB;
+		
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
+		
+		$set = $ilDB->query("SELECT * FROM acl_ws".
+			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
+			" AND object_id = ".$ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD, "integer"));
+		$res = $ilDB->fetchAssoc($set);
+		if($res)
+		{
+			return $res["extended_data"];
+		}
+	}
+	
+	public static function keepSharedSessionPassword($a_node_id, $a_password) 
+	{
+		$_SESSION["ilshpw_".$a_node_id] = $a_password;
+	}
+	
+	public static function getSharedSessionPassword($a_node_id)
+	{
+		return $_SESSION["ilshpw_".$a_node_id];
 	}
 }
 
