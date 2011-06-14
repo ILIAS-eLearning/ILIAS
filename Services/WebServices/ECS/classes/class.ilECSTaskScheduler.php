@@ -366,7 +366,7 @@ class ilECSTaskScheduler
 					continue;
 				}
 				$ilLog->write(__METHOD__.': ... update called.');
-				$remote->updateFromECSContent($content);
+				$remote->updateFromECSContent($this->getServer()->getServerId(),$content);
 			}
 			else
 			{

@@ -347,7 +347,7 @@ class ilECSImport
 			'AND server_id = '.$ilDB->quote($this->getServerId(),'integer');
 		$res = $ilDB->manipulate($query);
 		
-		$query = "INSERT INTO ecs_import (server_id,obj_id,mid,econtent_id) ".
+		$query = "INSERT INTO ecs_import (obj_id,mid,econtent_id,server_id) ".
 			"VALUES ( ".
 			$this->db->quote($this->obj_id,'integer').", ".
 			$this->db->quote($this->mid,'integer').", ".

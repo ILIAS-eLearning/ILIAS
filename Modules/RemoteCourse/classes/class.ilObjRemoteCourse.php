@@ -503,13 +503,20 @@ class ilObjRemoteCourse extends ilObject
 		$remote_crs->setOwner(0);
 		$new_obj_id = $remote_crs->create();
 		$remote_crs->createReference();
-		$remote_crs->putInTree(ilECSCategoryMapping::getMatchingCategory($ecs_content));
+		$remote_crs->putInTree(ilECSCategoryMapping::getMatchingCategory($a_server_id,$ecs_content));
 		$remote_crs->setPermissions($ecs_settings->getImportId());
 		
 		$remote_crs->setECSImported($a_server_id,$ecs_content->getEContentId(),$a_mid,$new_obj_id);
-		$remote_crs->updateFromECSContent($ecs_content);
+		$remote_crs->updateFromECSContent($a_server_id,$ecs_content);
 		
-		$ilAppEventHandler->raise('Modules/RemoteCourse','create',array('rcrs' => $remote_crs));
+		$ilAppEventHandler->raise(
+			'Modules/RemoteCourse',
+			'create',
+			array(
+				'rcrs' => $remote_crs,
+				'server_id' => $a_server_id
+			)
+		);
 		return $remote_crs;
 	}
 	
@@ -520,13 +527,13 @@ class ilObjRemoteCourse extends ilObject
 	 * @param ilECSEContent object with course settings
 	 * 
 	 */
-	public function updateFromECSContent(ilECSEContent $ecs_content)
+	public function updateFromECSContent($a_server_id,ilECSEContent $ecs_content)
 	{
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 		
-		$mappings = ilECSDataMappingSettings::_getInstance();
+		$mappings = ilECSDataMappingSettings::getInstanceByServerId($a_server_id);
 		
 		$this->setTitle($ecs_content->getTitle());
 		$this->setDescription($ecs_content->getAbstract());
@@ -647,7 +654,7 @@ class ilObjRemoteCourse extends ilObject
 		}
 		
 		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMapping.php';
-		ilECSCategoryMapping::handleUpdate($ecs_content,$this->getId());
+		ilECSCategoryMapping::handleUpdate($a_server_id,$ecs_content,$this->getId());
 		
 		
 		return true;

@@ -61,7 +61,7 @@ class ilECSCategoryMapping
 	 * @return
 	 * @static
 	 */
-	public static function getMatchingCategory(ilECSEContent $econtent)
+	public static function getMatchingCategory($a_server_id,ilECSEContent $econtent)
 	{
 		global $ilLog;
 		
@@ -80,7 +80,8 @@ class ilECSCategoryMapping
 		}
 		// Return default container
 		$ilLog->write(__METHOD__.': Using default container');
-		return ilECSSetting::_getInstance()->getImportId();
+
+		return ilECSSetting::getInstanceByServerId($a_server_id)->getImportId();
 	}
 	
 	/**
@@ -89,14 +90,14 @@ class ilECSCategoryMapping
 	 * @return
 	 * @static
 	 */
-	 public static function handleUpdate(ilECSEContent $econtent,$a_obj_id)
+	 public static function handleUpdate($a_server_id,ilECSEContent $econtent,$a_obj_id)
 	 {
 	 	global $tree,$ilLog;
 	 	
 	 	$a_ref_id = current(ilObject::_getAllReferences($a_obj_id));
 	 	
 	 	$references = ilObject::_getAllReferences(ilObject::_lookupObjId($a_ref_id));
-	 	$cat = self::getMatchingCategory($econtent);
+	 	$cat = self::getMatchingCategory($a_server_id,$econtent);
 	 	$all_cats = self::lookupHandledCategories();
 	 	
 	 	
