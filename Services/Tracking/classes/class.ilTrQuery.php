@@ -1417,8 +1417,8 @@ class ilTrQuery
 		{
 			$row["read_count"] += $row["childs_read_count"];
 			$row["spent_seconds"] += $row["childs_spent_seconds"];
-			$res[$row["obj_id"]][$row[$column]] = array("read_count"=>$row["read_count"],
-				"spent_seconds"=>$row["spent_seconds"]);
+			$res[$row["obj_id"]][$row[$column]]["read_count"] += $row["read_count"];
+			$res[$row["obj_id"]][$row[$column]]["spent_seconds"] += $row["spent_seconds"];
 		}
 		return $res;
 	}
@@ -1480,8 +1480,8 @@ class ilTrQuery
 		{
 			$row["read_count"] += $row["childs_read_count"];
 			$row["spent_seconds"] += $row["childs_spent_seconds"];
-			$res[$row["obj_id"]][(int)$row["hh"]] = array("read_count"=>$row["read_count"],
-				"spent_seconds"=>$row["spent_seconds"]);
+			$res[$row["obj_id"]][(int)$row["hh"]]["read_count"] += $row["read_count"];
+			$res[$row["obj_id"]][(int)$row["hh"]]["spent_seconds"] += $row["spent_seconds"];
 		}
 		return $res;
 	}
