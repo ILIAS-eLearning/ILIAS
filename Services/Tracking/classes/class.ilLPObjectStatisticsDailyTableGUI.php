@@ -218,7 +218,6 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 			$this->tpl->setVariable("CHECKBOX_STATE", " checked=\"checked\"");
 		}
 
-		$sum = 0;
 		$this->tpl->setCurrentBlock("hour");
 		for($loop = 0; $loop<24; $loop+=2)
 		{
@@ -260,7 +259,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		$legend = new ilChartLegend();
 		$chart->setLegend($legend);
 
-		$value_ticks = array();
+		$max_value = 0;
 		foreach($this->getData() as $object)
 		{
 			if(in_array($object["obj_id"], $a_graph_items))
@@ -270,19 +269,16 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
 				for($loop = 0; $loop<24; $loop++)
 				{
-					$value = $tvalue = (int)$object["graph"]["hour".$loop];
-					if($this->filter["measure"] == "read_count")
-					{
-						$tvalue = $this->anonymizeValue($tvalue);
-						$value = $this->anonymizeValue($value, true);
-					}
-					$value_ticks[$value] = $tvalue;
+					$value = (int)$object["graph"]["hour".$loop];
+					$max_value = max($max_value, $value);
 					$series->addPoint($loop, $value);
 				}
 
 				$chart->addData($series);
 			}
 		}
+		
+		$value_ticks = $this->buildValueScale($max_value, ($this->filter["measure"] == "read_count"));
 
 		$labels = array();
 		for($loop = 0; $loop<24; $loop++)
@@ -303,12 +299,10 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 	{
 		$a_worksheet->write($a_row, 0, ilObject::_lookupTitle($a_set["obj_id"]));
 			
-		$sum = 0;
 		$col = 0;
 		for($loop = 0; $loop<24; $loop+=2)
 		{
-			$sum += (int)$a_set["sum"]["hour".$loop];
-			$value = (int)$a_set["sum"]["hour".$loop];
+			$value = (int)$a_set["hour".$loop];
 			if(!$value)
 			{
 				$value = "-";
@@ -328,11 +322,11 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		
 		if($this->filter["measure"] == "spent_seconds")
 		{
-			$sum = $this->formatSeconds($sum);
+			$sum = $this->formatSeconds((int)$a_set["sum"]);
 		}
 		else
 		{
-			$sum = $this->anonymizeValue($sum);
+			$sum = $this->anonymizeValue((int)$a_set["sum"]);
 		}			
 		$col++;
 		$a_worksheet->write($a_row, $col, $sum);
@@ -347,11 +341,9 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 	{
 		$a_csv->addColumn(ilObject::_lookupTitle($a_set["obj_id"]));
 			
-		$sum = 0;
 		for($loop = 0; $loop<24; $loop+=2)
 		{
-			$sum += (int)$a_set["sum"]["hour".$loop];
-			$value = (int)$a_set["sum"]["hour".$loop];
+			$value = (int)$a_set["hour".$loop];
 			if(!$value)
 			{
 				$value = "-";
@@ -370,11 +362,11 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		
 		if($this->filter["measure"] == "spent_seconds")
 		{
-			$sum = $this->formatSeconds($sum);
+			$sum = $this->formatSeconds((int)$a_set["sum"]);
 		}		
 		else
 		{
-			$sum = $this->anonymizeValue($sum);
+			$sum = $this->anonymizeValue((int)$a_set["sum"]);
 		}	
 		$a_csv->addColumn($sum);
 		

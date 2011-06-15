@@ -650,6 +650,37 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		}
 		return $a_value;
 	}
+	
+	protected function buildValueScale($a_max_value, $a_anonymize = false)
+	{
+		$step = 0;
+		if($a_max_value)
+		{
+			$step = $a_max_value / 10;
+			$base = ceil(log($step, 10));		
+			$fac = ceil($step / pow(10, ($base - 1)));
+			$step = pow(10, $base - 1) * $fac;
+		}
+		if ($step <= 1)
+		{
+			$step = 1;
+		}
+		$ticks = range(0, $a_max_value+$step, $step);
+		
+		$value_ticks = array();
+		foreach($ticks as $tick)
+		{
+			$value = $tvalue = $tick;
+			if($a_anonymize)
+			{
+				$value = $this->anonymizeValue($value, true);
+				$tvalue = $this->anonymizeValue($tvalue);
+			}
+			$value_ticks[$value] = $tvalue;				
+		}	
+	
+		return $value_ticks;
+	}
 }
 
 ?>
