@@ -35,7 +35,10 @@ class ilAuthContainerECS extends Auth_Container
 {
 	protected $mid = null;
 	protected $abreviation = null;
-	
+
+	protected $currentServer = null;
+	protected $servers = null;
+
 	protected $log;
 
 	/**
@@ -48,6 +51,7 @@ class ilAuthContainerECS extends Auth_Container
 	public function __construct($a_params = array())
 	{
 	 	parent::__construct($a_params);
+
 		$this->initECSServices();
 		
 		$this->log = $GLOBALS['ilLog'];
@@ -74,44 +78,87 @@ class ilAuthContainerECS extends Auth_Container
 	{
 		return $this->mid;	 	
 	}
+
+	/**
+	 * Set current server
+	 * @param ilECSSetting $server
+	 */
+	public function setCurrentServer(ilECSSetting $server = null)
+	{
+		$this->currentServer = $server;
+	}
+
+	/**
+	 * Get current server
+	 * @return ilECSSetting
+	 */
+	public function getCurrentServer()
+	{
+		return $this->currentServer;
+	}
+
+	/**
+	 * Get server settings
+	 * @return ilECSServerSettings
+	 */
+	public function getServerSettings()
+	{
+		return $this->servers;
+	}
+
+	/**
+	 * Check for valid ecs_hash
+	 * @param string $a_username
+	 * @param string $a_pass
+	 */
+	public function fetchData($a_username,$a_pass)
+	{
+		global $ilLog;
+
+		$ilLog->write(__METHOD__.': Starting ECS authentication.');
+
+		if(!$this->getServerSettings()->activeServerExists())
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': no active ecs server found. Aborting');
+			return false;
+		}
+
+		// Iterate through all active ecs instances
+		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
+		foreach($this->getServerSettings() as $server)
+		{
+			$this->setCurrentServer($server);
+			if($this->validateHash())
+			{
+				return true;
+			}
+		}
+		$GLOBALS['ilLog']->write(__METHOD__.': Could not validate ecs hash for any server');
+		return false;
+
+	}
 	
 	
 	/**
-	 * fetch data
+	 * Validate ECS hash
 	 *
 	 * @access public
 	 * @param string username
 	 * @param string pass
 	 * 
 	 */
-	public function fetchData($a_username,$a_pass)
+	public function validateHash()
 	{
-		global $ilLog;
-		
-		$ilLog->write(__METHOD__.': Starting ECS authentication.');
-		
-		if(!$this->settings->isEnabled())
-		{
-			$ilLog->write(__METHOD__.': ECS settings .');
-			return false;
-		}
 
 	 	// Check if hash is valid ...
-	 	include_once('./Services/WebServices/ECS/classes/class.ilECSConnector.php');
-	 	
 	 	try
 	 	{
-	 		$connector = new ilECSConnector();
+		 	include_once('./Services/WebServices/ECS/classes/class.ilECSConnector.php');
+	 		$connector = new ilECSConnector($this->getCurrentServer());
 	 		$res = $connector->getAuth($_GET['ecs_hash']);
 			$auths = $res->getResult();
 			$this->abreviation = $auths->abbr;
 			$ilLog->write(__METHOD__.': Got abr: '.$this->abreviation);
-			/*			
-			// Read abbreviation from mid
-			$res = $connector->getMemberships($this->mid);
-			$member = $res->getResult();
-			$this->abbreviation = $member[0]->participants[0]->abr;
-			*/
 		 	return true;
 	 	}
 	 	catch(ilECSConnectorException $e)
@@ -166,61 +213,60 @@ class ilAuthContainerECS extends Auth_Container
 	 */
 	protected function createUser(ilECSUser $user)
 	{
-			global $ilClientIniFile,$ilSetting,$rbacadmin,$ilLog;
-			
-			$userObj = new ilObjUser();
-			
-			include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
-			$local_user = ilAuthUtils::_generateLogin($this->getAbreviation().'_'.$user->getLogin());
-			
-			$newUser["login"] = $local_user;
-			$newUser["firstname"] = $user->getFirstname();
-			$newUser["lastname"] = $user->getLastname();
-			$newUser['email'] = $user->getEmail();
-			$newUser['institution'] = $user->getInstitution();
-			
-			// set "plain md5" password (= no valid password)
-			$newUser["passwd"] = ""; 
-			$newUser["passwd_type"] = IL_PASSWD_MD5;
-							
-			$newUser["auth_mode"] = "ecs";
-			$newUser["profile_incomplete"] = 0;
-			
-			// system data
-			$userObj->assignData($newUser);
-			$userObj->setTitle($userObj->getFullname());
-			$userObj->setDescription($userObj->getEmail());
-		
-			// set user language to system language
-			$userObj->setLanguage($ilSetting->get("language"));
-			
-			// Time limit
-			$userObj->setTimeLimitOwner(7);
-			$userObj->setTimeLimitUnlimited(0);
-			$userObj->setTimeLimitFrom(time());
-			$userObj->setTimeLimitUntil(time() + $ilClientIniFile->readVariable("session","expire"));
-							
-			// Create user in DB
-			$userObj->setOwner(6);
-			$userObj->create();
-			$userObj->setActive(1);
-			$userObj->updateOwner();
-			$userObj->saveAsNew();
-			$userObj->writePrefs();
+		global $ilClientIniFile, $ilSetting, $rbacadmin, $ilLog;
 
-			$this->initSettings();
-			if($global_role = $this->settings->getGlobalRole())
-			{
-				$rbacadmin->assignUser($this->settings->getGlobalRole(),$userObj->getId(),true);
-			}
-			ilObject::_writeImportId($userObj->getId(),$user->getImportId());
-			
-			$ilLog->write(__METHOD__.': Created new remote user with usr_id: '.$user->getImportId());
-			
-			// Send Mail
-			#$this->sendNotification($userObj);
-			
-			return $userObj->getLogin();
+		$userObj = new ilObjUser();
+
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
+		$local_user = ilAuthUtils::_generateLogin($this->getAbreviation() . '_' . $user->getLogin());
+
+		$newUser["login"] = $local_user;
+		$newUser["firstname"] = $user->getFirstname();
+		$newUser["lastname"] = $user->getLastname();
+		$newUser['email'] = $user->getEmail();
+		$newUser['institution'] = $user->getInstitution();
+
+		// set "plain md5" password (= no valid password)
+		$newUser["passwd"] = "";
+		$newUser["passwd_type"] = IL_PASSWD_MD5;
+
+		$newUser["auth_mode"] = "ecs";
+		$newUser["profile_incomplete"] = 0;
+
+		// system data
+		$userObj->assignData($newUser);
+		$userObj->setTitle($userObj->getFullname());
+		$userObj->setDescription($userObj->getEmail());
+
+		// set user language to system language
+		$userObj->setLanguage($ilSetting->get("language"));
+
+		// Time limit
+		$userObj->setTimeLimitOwner(7);
+		$userObj->setTimeLimitUnlimited(0);
+		$userObj->setTimeLimitFrom(time());
+		$userObj->setTimeLimitUntil(time() + $ilClientIniFile->readVariable("session", "expire"));
+
+		// Create user in DB
+		$userObj->setOwner(6);
+		$userObj->create();
+		$userObj->setActive(1);
+		$userObj->updateOwner();
+		$userObj->saveAsNew();
+		$userObj->writePrefs();
+
+		if($global_role = $this->getCurrentServer()->getGlobalRole())
+		{
+			$rbacadmin->assignUser($this->getCurrentServer()->getGlobalRole(), $userObj->getId(), true);
+		}
+		ilObject::_writeImportId($userObj->getId(), $user->getImportId());
+
+		$ilLog->write(__METHOD__ . ': Created new remote user with usr_id: ' . $user->getImportId());
+
+		// Send Mail
+		#$this->sendNotification($userObj);
+
+		return $userObj->getLogin();
 	}
 	
 	/**
@@ -249,26 +295,17 @@ class ilAuthContainerECS extends Auth_Container
 		$user_obj->refreshLogin();
 		
 		$this->initSettings();
-		if($global_role = $this->settings->getGlobalRole())
+		if($global_role = $this->getCurrentServer()->getGlobalRole())
 		{
-			$rbacadmin->assignUser($this->settings->getGlobalRole(),$user_obj->getId(),true);
+			$rbacadmin->assignUser(
+				$this->getCurrentServer()->getGlobalRole(),
+				$user_obj->getId(),
+				true
+			);
 		}
 
 		$ilLog->write(__METHOD__.': Finished update of remote user with usr_id: '.$user->getImportId());	
 		return $user_obj->getLogin();
-	}
-	
-	
-	/**
-	 * init ecs settings
-	 *
-	 * @access private
-	 * 
-	 */
-	private function initSettings()
-	{
-	 	include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
-	 	$this->settings = ilECSSetting::_getInstance();
 	}
 	
 
@@ -280,8 +317,8 @@ class ilAuthContainerECS extends Auth_Container
 	 */
 	private function initECSServices()
 	{
-	 	include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
-	 	$this->settings = ilECSSetting::_getInstance();
+	 	include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
+		$this->servers = ilECSServerSettings::getInstance();
 	}
 	
 	/**
@@ -293,7 +330,7 @@ class ilAuthContainerECS extends Auth_Container
 	 */
 	private function sendNotification($user_obj)
 	{
-		if(!count($this->settings->getUserRecipients()))
+		if(!count($this->getCurrentServer()->getUserRecipients()))
 		{
 			return true;
 		}
@@ -315,9 +352,15 @@ class ilAuthContainerECS extends Auth_Container
 		$body .= $user_obj->getProfileAsString($lang)."\n\n";
 		$body .= ilMail::_getAutoGeneratedMessageString($lang);
 		
-		$mail->sendMail($this->settings->getUserRecipientsAsString(),"","",$subject,$body,array(),array("normal"));
+		$mail->sendMail(
+			$this->getCurrentServer()->getUserRecipientsAsString(),
+			"",
+			"",
+			$subject,
+			$body,
+			array(),
+			array("normal")
+		);
 	}
 }
-
-
 ?>
