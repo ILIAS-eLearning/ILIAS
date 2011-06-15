@@ -11541,3 +11541,4 @@ mail#:#mail_enable_crs_member_notification#:#Kursbenachrichtigung
 mail#:#mail_enable_grp_member_notification#:#Gruppenbenachrichtigung
 mail#:#mail_enable_crs_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen ihrer Kursmitgliedschaften per Mail informatiert.
 mail#:#mail_enable_grp_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen ihrer Gruppenmitgliedschaften per Mail informiert.
+common#:#profile_portfolios#:#Profil / Portfolios

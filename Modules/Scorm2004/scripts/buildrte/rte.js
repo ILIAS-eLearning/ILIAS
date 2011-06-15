@@ -12600,8 +12600,71 @@ function onWindowResize()
 	}
 }
 
-
 function buildNavTree(rootAct,name,tree){
+	
+//console.log('buildNavTree');
+	if (false)
+	{
+		ilNestedList.addList('rte_tree', {});
+		
+		var par_id = 0;
+		//root node only when in TOC
+		if (mlaunch.mNavState.mChoice!=null)
+		{
+			var id=rootAct.id;
+			if (rootAct.isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {	
+				//display the rootNode
+				//var rootNode = new YAHOO.widget.TextNode(rootAct.title, root, true);
+				//rootNode.href="#this";
+				//rootNode.target="_self";
+				//rootNode.labelElId=ITEM_PREFIX + rootAct.id;
+//console.log(rootAct.title);
+//console.log(ITEM_PREFIX + rootAct.id);
+				ilNestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.id,
+					"<a href='#this' id='" + ITEM_PREFIX + rootAct.id + "' target='_self'>" + rootAct.title + "</a>");
+				par_id = ITEM_PREFIX + rootAct.id;
+			}	
+		}
+	
+		function build2(rootAct, par_id){
+			if (rootAct.item) {
+				for (var i=0;i<rootAct.item.length;i++) {
+					//only include if visible
+					var id=rootAct.item[i].id;
+					if (mlaunch.mNavState.mChoice!=null) {
+						if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
+							
+							ilNestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.item[i].id,
+								"<a href='#this' id='" + ITEM_PREFIX + rootAct.item[i].id + "' target='_self'>" + rootAct.item[i].title + "</a>");
+							var next_par_id = ITEM_PREFIX + rootAct.item[i].id;
+
+//							var sub = new YAHOO.widget.TextNode({label:rootAct.item[i].title, id:ITEM_PREFIX + rootAct.item[i].id}, attach, true);
+//							sub.href="#this";
+//							sub.target="_self";
+//							sub.labelElId=ITEM_PREFIX + rootAct.item[i].id;
+						}	
+					}
+					//further childs
+					if(rootAct.item[i].item) {
+						build2(rootAct.item[i], next_par_id);
+					}
+				}
+			}	
+		}
+		
+		build2(rootAct, par_id);
+		
+//console.trace();
+//		ilNestedList.addList('rte_tree', {});
+//		ilNestedList.addNode('rte_tree', 0, 1, 'Node 1');
+//		ilNestedList.addNode('rte_tree', 0, 2, 'Node 2');
+//		ilNestedList.addNode('rte_tree', 0, 3, 'Node 3');
+		$("#treeView").empty();
+		ilNestedList.draw('rte_tree', 0, 'treeView');
+		return;
+	}
+	
+	
 	var tocView = all('treeView');
 	
 	//create the TreeView instance:
