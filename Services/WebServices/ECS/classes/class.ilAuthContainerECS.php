@@ -125,7 +125,7 @@ class ilAuthContainerECS extends Auth_Container
 
 		// Iterate through all active ecs instances
 		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
-		foreach($this->getServerSettings() as $server)
+		foreach($this->getServerSettings()->getServers() as $server)
 		{
 			$this->setCurrentServer($server);
 			if($this->validateHash())
@@ -149,8 +149,9 @@ class ilAuthContainerECS extends Auth_Container
 	 */
 	public function validateHash()
 	{
+	 	global $ilLog;
 
-	 	// Check if hash is valid ...
+		// Check if hash is valid ...
 	 	try
 	 	{
 		 	include_once('./Services/WebServices/ECS/classes/class.ilECSConnector.php');
