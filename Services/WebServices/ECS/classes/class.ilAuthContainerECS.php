@@ -295,7 +295,6 @@ class ilAuthContainerECS extends Auth_Container
 		$user_obj->update();
 		$user_obj->refreshLogin();
 		
-		$this->initSettings();
 		if($global_role = $this->getCurrentServer()->getGlobalRole())
 		{
 			$rbacadmin->assignUser(
