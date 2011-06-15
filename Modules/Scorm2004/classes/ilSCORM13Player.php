@@ -331,6 +331,7 @@ class ilSCORM13Player
 		$this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		$this->tpl->setVariable('YUI_PATH', ilYuiUtil::getLocalPath());
+		$this->tpl->setVariable('TREE_JS', "./Services/UIComponent/NestedList/js/ilNestedList.js");
 		$this->tpl->setVariable($langstrings);
 		$this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());

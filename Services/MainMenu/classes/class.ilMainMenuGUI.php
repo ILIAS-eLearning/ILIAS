@@ -672,26 +672,26 @@ class ilMainMenuGUI
 				// workspace
 				$selection->addItem($lng->txt("personal_workspace"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace",
 					"", "", "_top");
-
-				// mail
-				if ($this->mail)
-				{
-					$selection->addItem($lng->txt("mail"), "", "ilias.php?baseClass=ilMailGUI",
-						"", "", "_top");
-				}
 				
 				// profile
-				$selection->addItem($lng->txt("personal_profile"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
+				//$selection->addItem($lng->txt("personal_profile"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
+				//	"", "", "_top");
+				$selection->addItem($lng->txt("profile_portfolios"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
 					"", "", "_top");
 				
-				// settings
-				$selection->addItem($lng->txt("personal_settings"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSettings",
-					"", "", "_top");
-
 				// news
 				if ($ilSetting->get("block_activated_news"))
 				{
 					$selection->addItem($lng->txt("news"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNews",
+						"", "", "_top");
+				}
+
+				// Learning Progress
+				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+				if (ilObjUserTracking::_enabledLearningProgress())
+				{
+					//$ilTabs->addTarget("learning_progress", $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"));
+					$selection->addItem($lng->txt("learning_progress"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToLP",
 						"", "", "_top");
 				}
 
@@ -704,17 +704,10 @@ class ilMainMenuGUI
 						"", "", "_top");
 				}
 
-				// private notes
-				if (!$this->ilias->getSetting("disable_notes"))
+				// mail
+				if ($this->mail)
 				{
-					$selection->addItem($lng->txt("notes_and_comments"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNotes",
-						"", "", "_top");
-				}
-
-				// bookmarks
-				if (!$this->ilias->getSetting("disable_bookmarks"))
-				{
-					$selection->addItem($lng->txt("bookmarks"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",
+					$selection->addItem($lng->txt("mail"), "", "ilias.php?baseClass=ilMailGUI",
 						"", "", "_top");
 				}
 
@@ -730,14 +723,24 @@ class ilMainMenuGUI
 					//$ilTabs->addTarget("mail_addressbook", $this->ctrl->getLinkTargetByClass("ilmailaddressbookgui"));
 				}
 
-				// Learning Progress
-				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-				if (ilObjUserTracking::_enabledLearningProgress())
+				// private notes
+				if (!$this->ilias->getSetting("disable_notes"))
 				{
-					//$ilTabs->addTarget("learning_progress", $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"));
-					$selection->addItem($lng->txt("learning_progress"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToLP",
+					$selection->addItem($lng->txt("notes_and_comments"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNotes",
 						"", "", "_top");
 				}
+
+				// bookmarks
+				if (!$this->ilias->getSetting("disable_bookmarks"))
+				{
+					$selection->addItem($lng->txt("bookmarks"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",
+						"", "", "_top");
+				}
+				
+				// settings
+				$selection->addItem($lng->txt("personal_settings"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSettings",
+					"", "", "_top");
+
 				break;
 
 			// administration

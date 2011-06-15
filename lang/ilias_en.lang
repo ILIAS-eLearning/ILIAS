@@ -11541,3 +11541,4 @@ mail#:#mail_enable_crs_member_notification#:#Course Notification
 mail#:#mail_enable_grp_member_notification#:#Group Notification
 mail#:#mail_enable_crs_member_notification_info#:#If enabled, course participants will be notified automatically about membership changes.
 mail#:#mail_enable_grp_member_notification_info#:#If enabled, group participants will be notified automatically about membership changes.
+common#:#profile_portfolios#:#Profile / Portfolios
