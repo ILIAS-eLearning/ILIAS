@@ -211,8 +211,6 @@ class ilECSSettingsGUI
 	{
 		global $ilTabs;
 
-		$GLOBALS['ilLog']->logStack();
-
 		$this->initSettings((int) $_REQUEST['server_id']);
 		$this->ctrl->saveParameter($this,'server_id',(int) $_REQUEST['server_id']);
 
