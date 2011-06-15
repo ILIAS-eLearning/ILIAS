@@ -102,7 +102,7 @@ class ilWorkspaceAccessHandler
 							{
 								return true;
 							}
-							return false;
+							break;
 					
 						case ilWorkspaceAccessGUI::PERMISSION_REGISTERED:
 							if($ilUser->getId() != ANONYMOUS_USER_ID)
