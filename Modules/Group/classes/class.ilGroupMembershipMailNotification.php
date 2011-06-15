@@ -50,6 +50,12 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 		switch($this->getType())
 		{
 			case self::TYPE_ADMISSION_MEMBER:
+
+				// automatic mails about status change disabled
+				if($ilSetting->get('mail_grp_member_notification',false))
+				{
+					return;
+				}
 				
 				foreach($this->getRecipients() as $rcp)
 				{
@@ -74,6 +80,12 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 				break;
 				
 			case self::TYPE_DISMISS_MEMBER:
+
+				// automatic mails about status change disabled
+				if($ilSetting->get('mail_grp_member_notification',false))
+				{
+					return;
+				}
 				
 				foreach($this->getRecipients() as $rcp)
 				{

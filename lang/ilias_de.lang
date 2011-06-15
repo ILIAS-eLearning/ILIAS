@@ -11536,3 +11536,8 @@ style#:#sty_type_qover#:#Fragenübersicht
 sahs#:#sahs_desc_objectives#:#Beschreibung/Ziele
 content#:#cont_localization#:#Sprache
 content#:#cont_localization_info#:#Die Einstellung wird für vordefinierte Texte im Modul (z.B. "Vor" / "Zurück") benötigt.
+mail#:#mail_member_notification#:#Teilnehmerbenachrichtigung
+mail#:#mail_enable_crs_member_notification#:#Kursbenachrichtigung
+mail#:#mail_enable_grp_member_notification#:#Gruppenbenachrichtigung
+mail#:#mail_enable_crs_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen ihrer Kursmitgliedschaften per Mail informatiert.
+mail#:#mail_enable_grp_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen ihrer Gruppenmitgliedschaften per Mail informiert.
