@@ -1512,9 +1512,9 @@ class ilTrQuery
 	    return $ilDB->manipulate($sql);
 	}
 	
-	static public function searchObjects($a_type, $a_title = null)
+	static public function searchObjects($a_type, $a_title = null, $a_root = null)
 	{
-		global $ilDB;
+		global $ilDB, $tree;
 		
 		if($a_type == "lres")
 		{
@@ -1546,7 +1546,21 @@ class ilTrQuery
 		$res = array();
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			$res[$row["obj_id"]][] = $row["ref_id"];			
+			if($a_root && $a_root != ROOT_FOLDER_ID)
+			{
+				foreach(ilObject::_getAllReferences($row['obj_id']) as $ref_id)
+				{
+					if($tree->isGrandChild($a_root, $ref_id))
+					{
+						$res[$row["obj_id"]][] = $row["ref_id"];	
+						continue;
+					}
+				}
+			}
+			else
+			{
+				$res[$row["obj_id"]][] = $row["ref_id"];	
+			}	
 		}
 		return $res;
 	}
