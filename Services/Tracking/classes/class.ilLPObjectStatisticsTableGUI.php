@@ -273,7 +273,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		$legend = new ilChartLegend();
 		$chart->setLegend($legend);
 
-		$value_ticks = array();
+		$max_value = 0;
 		foreach($this->getData() as $object)
 		{
 			if(in_array($object["obj_id"], $a_graph_items))
@@ -285,13 +285,8 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 				{
 					for($loop = 1; $loop<13; $loop++)
 					{
-						$value = $tvalue = (int)$object["month_".$loop];
-						if($this->filter["measure"] == "read_count")
-						{
-							$tvalue = $this->anonymizeValue($tvalue);
-							$value = $this->anonymizeValue($value, true);
-						}
-						$value_ticks[$value] = $tvalue;
+						$value = (int)$object["month_".$loop];
+						$max_value = max($max_value, $value);
 						$series->addPoint($loop, $value);
 					}
 				}
@@ -299,13 +294,8 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 				{
 					for($loop = 1; $loop<32; $loop++)
 					{
-						$value = $tvalue = (int)$object["day_".$loop];
-						if($this->filter["measure"] == "read_count")
-						{
-							$tvalue = $this->anonymizeValue($tvalue);
-							$value = $this->anonymizeValue($value, true);
-						}
-						$value_ticks[$value] = $tvalue;
+						$value = (int)$object["day_".$loop];
+						$max_value = max($max_value, $value);
 						$series->addPoint($loop, $value);
 					}
 				}
@@ -313,6 +303,8 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 				$chart->addData($series);
 			}
 		}
+		
+		$value_ticks = $this->buildValueScale($max_value, ($this->filter["measure"] == "read_count"));
 		
 		$labels = array();
 		if(strpos($this->filter["yearmonth"], "-") === false)
@@ -343,13 +335,11 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 	{
 		$a_worksheet->write($a_row, 0, ilObject::_lookupTitle($a_set["obj_id"]));
 			
-		$sum = 0;
 		$col = 0;
 		if(strpos($this->filter["yearmonth"], "-") === false)
 		{
 			for($loop = 1; $loop<13; $loop++)
 			{
-				$sum += (int)$a_set["month_".$loop];
 				$value = (int)$a_set["month_".$loop];
 				if(!$value)
 				{
@@ -368,21 +358,14 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 				$a_worksheet->write($a_row, $col, $value);
 			}
 		}
-		else
-		{
-			for($loop = 1; $loop<32; $loop++)
-			{
-				$sum += (int)$a_set["day_".$loop];
-			}			
-		}
 		
 		if($this->filter["measure"] == "spent_seconds")
 		{
-			$sum = $this->formatSeconds($sum);
+			$sum = $this->formatSeconds((int)$a_set["total"]);
 		}
 		else 
 		{
-			$sum = $this->anonymizeValue($sum);
+			$sum = $this->anonymizeValue((int)$a_set["total"]);
 		}	
 		$col++;
 		$a_worksheet->write($a_row, $col, $sum);
@@ -397,12 +380,10 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 	{
 		$a_csv->addColumn(ilObject::_lookupTitle($a_set["obj_id"]));
 			
-		$sum = 0;
 		if(strpos($this->filter["yearmonth"], "-") === false)
 		{
 			for($loop = 1; $loop<13; $loop++)
 			{
-				$sum += (int)$a_set["month_".$loop];
 				$value = (int)$a_set["month_".$loop];
 				if(!$value)
 				{
@@ -420,21 +401,14 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 				$a_csv->addColumn($value);
 			}
 		}
-		else
-		{
-			for($loop = 1; $loop<32; $loop++)
-			{
-				$sum += (int)$a_set["day_".$loop];
-			}			
-		}
 		
 		if($this->filter["measure"] == "spent_seconds")
 		{
-			$sum = $this->formatSeconds($sum);
+			$sum = $this->formatSeconds((int)$a_set["total"]);
 		}	
 		else 
 		{
-			$sum = $this->anonymizeValue($sum);
+			$sum = $this->anonymizeValue((int)$a_set["total"]);
 		}	
 		$a_csv->addColumn($sum);
 		
