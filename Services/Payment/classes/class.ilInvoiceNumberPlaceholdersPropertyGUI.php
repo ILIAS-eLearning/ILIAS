@@ -65,8 +65,8 @@ class ilInvoiceNumberPlaceholdersPropertyGUI extends ilFormPropertyGUI
 
 		if($invObj->getUDInvoiceNumberActive() == 1)
 		{
-			$current_number = ilUserDefinedInvoiceNumber::_nextIncCurrentValue();
-			$next_number = $current_number++;
+			$next_number = ilUserDefinedInvoiceNumber::_nextIncCurrentValue();
+			
 			$invoice_number = $invObj->getInvoiceNumberText();
 
 			$invoice_number = str_replace('[CURRENT_TIMESTAMP]', $cur_time, $invoice_number);

@@ -140,12 +140,18 @@ class ilPurchaseBaseGUI
 			$oForm->addItem($oPoBox);
 
 			$oZipCode = new ilTextInputGUI($this->lng->txt('zipcode'), 'zipcode');
+			if($this->user_obj->getZipCode() && !isset($_POST['zipcode']))
+				$oZipCode->setValue($this->user_obj->getZipCode());
+			else
 			$oZipCode->setValue($this->error != '' && isset($_POST['zipcode'])
 									? ilUtil::prepareFormOutput($_POST['zipcode'],true)
 									: ilUtil::prepareFormOutput($_SESSION[$this->session_var]['personal_data']['zipcode'],true));
 			$oForm->addItem($oZipCode);
 
 			$oCity = new ilTextInputGUI($this->lng->txt('city'), 'city');
+			if($this->user_obj->getCity()&& !isset($_POST['city']))
+				$oCity->setValue($this->user_obj->getCity());
+			else
 			$oCity->setValue($this->error != '' && isset($_POST['city'])
 									? ilUtil::prepareFormOutput($_POST['city'],true)
 									: ilUtil::prepareFormOutput($_SESSION[$this->session_var]['personal_data']['city'],true));
@@ -153,6 +159,10 @@ class ilPurchaseBaseGUI
 
 			$oCountry = new ilSelectInputGUI($this->lng->txt('country'), 'country');
 			$oCountry->setOptions($this->__getCountries());
+
+			if($this->user_obj->getSelectedCountry()&& !isset($_POST['country']))
+				$oCountry->setValue($this->user_obj->getSelectedCountry());
+			else
 			$oCountry->setValue($this->error != '' && isset($_POST['country']) ? $_POST['country'] 
 					: $_SESSION[$this->session_var]['personal_data']['country']);
 			$oForm->addItem($oCountry);	

@@ -197,7 +197,7 @@ class ilPayMethods
 		array('integer'), array($a_pm_id));
 		
 		$row = $ilDB->fetchAssoc($res);
-		return (int)$row['pm_title'];
+		return $row['pm_title'];
 		
 	}
 	
