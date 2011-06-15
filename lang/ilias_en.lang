@@ -11536,3 +11536,8 @@ exc#:#exc_create_blog_select_info#:#Please select the resource folder to add the
 exc#:#exc_create_portfolio_select_info#:#Please select the resource folder to add the portfolio to.
 exc#:#exc_blog_created#:#Blog was created.
 exc#:#exc_portfolio_created#:#Portfolio was created.
+mail#:#mail_member_notification#:#Participant Notification
+mail#:#mail_enable_crs_member_notification#:#Course Notification
+mail#:#mail_enable_grp_member_notification#:#Group Notification
+mail#:#mail_enable_crs_member_notification_info#:#If enabled, course participants will be notified automatically about membership changes.
+mail#:#mail_enable_grp_member_notification_info#:#If enabled, group participants will be notified automatically about membership changes.

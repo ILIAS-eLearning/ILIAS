@@ -141,6 +141,21 @@ class ilObjMailGUI extends ilObjectGUI
 		$ti->setMaxLength(10);
 		$ti->setSize(10);
 		$this->form->addItem($ti);
+
+		// Course/Group member notification
+		$mn = new ilFormSectionHeaderGUI();
+		$mn->setTitle($this->lng->txt('mail_member_notification'));
+		$this->form->addItem($mn);
+
+		// Course member notification
+		$cn = new ilCheckboxInputGUI($this->lng->txt('mail_enable_crs_member_notification'), 'mail_crs_member_notification');
+		$cn->setInfo($this->lng->txt('mail_enable_crs_member_notification_info'));
+		$this->form->addItem($cn);
+
+		// Group member notification
+		$gn = new ilCheckboxInputGUI($this->lng->txt('mail_enable_grp_member_notification'), 'mail_grp_member_notification');
+		$gn->setInfo($this->lng->txt('mail_enable_grp_member_notification_info'));
+		$this->form->addItem($gn);
 		
 		$this->form->addCommandButton('save', $this->lng->txt('save'));
 	}
@@ -157,13 +172,15 @@ class ilObjMailGUI extends ilObjectGUI
 			'mail_external_sender_noreply' => $settings['mail_external_sender_noreply'],
 			'prevent_smtp_globally' => ($settings['prevent_smtp_globally'] == '1') ? true : false,
 			'mail_maxsize_attach' => $settings['mail_maxsize_attach'],
-			'mail_notification' => $settings['mail_notification']
+			'mail_notification' => $settings['mail_notification'],
+			'mail_crs_member_notification' => isset($settings['mail_crs_member_notification']) ? $settings['mail_crs_member_notification'] : 1,
+			'mail_grp_member_notification' => isset($settings['mail_grp_member_notification']) ? $settings['mail_grp_member_notification'] : 1
 		));
 	}
 	
 	public function saveObject()
 	{
-		global $ilAccess;
+		global $ilAccess,$ilSetting;
 		
 		if(!$ilAccess->checkAccess('write,read', '', $this->object->getRefId()))
 		{
@@ -180,6 +197,8 @@ class ilObjMailGUI extends ilObjectGUI
 			$this->ilias->setSetting('mail_external_sender_noreply', $this->form->getInput('mail_external_sender_noreply'));
 			$this->ilias->setSetting('prevent_smtp_globally', (int)$this->form->getInput('prevent_smtp_globally'));
 			$this->ilias->setSetting('mail_notification', (int)$this->form->getInput('mail_notification'));
+			$ilSetting->set('mail_crs_member_notification', (int) $this->form->getInput('mail_crs_member_notification'));
+			$ilSetting->set('mail_grp_member_notification', (int) $this->form->getInput('mail_grp_member_notification'));
 
 			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		}		

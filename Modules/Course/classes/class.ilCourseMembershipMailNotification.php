@@ -45,6 +45,8 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 	 */
 	public function send()
 	{
+		global $ilSetting;
+
 		if( (int) $this->getRefId() &&
 			in_array($this->getType(), array(self::TYPE_ADMISSION_MEMBER)) )
 		{
@@ -63,6 +65,12 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 		{
 			case self::TYPE_ADMISSION_MEMBER:
 				
+				// automatic mails about status change disabled
+				if($ilSetting->get('mail_crs_member_notification',false))
+				{
+					return;
+				}
+
 				foreach($this->getRecipients() as $rcp)
 				{
 					$this->initLanguage($rcp);
@@ -161,6 +169,12 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 				
 
 			case self::TYPE_DISMISS_MEMBER:
+
+				// automatic mails about status change disabled
+				if($ilSetting->get('mail_crs_member_notification',false))
+				{
+					return;
+				}
 				
 				foreach($this->getRecipients() as $rcp)
 				{

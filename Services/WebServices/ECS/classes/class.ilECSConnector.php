@@ -66,7 +66,8 @@ class ilECSConnector
 		}
 		else
 		{
-			$this->settings = ilECSSetting::_getInstance();
+			$GLOBALS['ilLog']->write(__METHOD__.': Using deprecated call');
+			$GLOBALS['ilLog']->logStack();
 		}
 	}
 
