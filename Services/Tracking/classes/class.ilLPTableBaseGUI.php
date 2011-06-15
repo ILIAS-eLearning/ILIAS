@@ -436,6 +436,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				case "sel_country":
 				case "query":
 				case "type":
+				case "area":
 					if($value)
 					{
 						$result[$id] = $value;
