@@ -197,7 +197,8 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		global $tpl, $ilTabs, $ilCtrl, $lng, $ilToolbar;
 		
-		if(!$this->checkPermissionBool("read"))
+		// we have to discuss this for portfolios
+		if(!$this->checkPermissionBool("read") && $this->mode != self::MODE_EMBEDDED_FULL)
 		{
 			ilUtil::sendInfo($lng->txt("no_permission"), true);
 			// $ilCtrl->redirect($this, "infoScreen");
