@@ -4,7 +4,7 @@
 /**
 * Class ilPurchaseBillGUI
 *
-* @author Nadia Krzywon
+* @author Nadia Ahmad
 * @version $Id: class.ilPurchaseBillGUI.php 
 *
 * @package core

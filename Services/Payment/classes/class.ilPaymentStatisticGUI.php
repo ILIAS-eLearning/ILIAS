@@ -1026,7 +1026,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$obj = new ilPaymentObject($this->user_obj, $pObjectId);
 
 		$this->__initBookingObject();
-		$transaction = ilInvoiceNumberPlaceholdersPropertyGUI::_generateInvoiceNumber($ilUser->getId());
+		$transaction = ilInvoiceNumberPlaceholdersPropertyGUI::_generateInvoiceNumber($_GET["user_id"]);
 
 		$this->booking_obj->setTransaction($transaction);
 		$this->booking_obj->setTransactionExtern($_POST["transaction"]);

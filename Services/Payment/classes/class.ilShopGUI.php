@@ -104,13 +104,18 @@ class ilShopGUI extends ilShopBaseGUI
 							$cmd = 'performSearch';
 						}
 						break;
-
+					case 'resetFilter':
+						$cmd = 'resetFilter';
+						break;
+					case 'setFilter':
+						$cmd = 'setFilter';
+						break;
 					default:
 						$cmd = 'performSearch';
 						break;
 				}
 
-				if($this->cmd != 'firstpage' && (isset($_GET['ref_id']) || $this->cmd == 'showTree') )#&& $_GET['ref_id'] != ROOT_FOLDER_ID )
+				if($this->cmd != 'firstpage' && (isset($_GET['ref_id']) || $this->cmd == 'showTree') )#&& $_GET['ref_id'] != ROOT_FOLDER_ID )				
 				{
 					$obj_type = ilObject::_lookupType(ilObject::_lookupObjId($this->cur_ref_id));
 					$container = array("root", "cat", 'catr', "grp", "icrs", "crs", 'crsr','rcrs');
@@ -223,12 +228,12 @@ class ilShopGUI extends ilShopBaseGUI
 
 	public function setFilter()
 	{
-#		$this->setString($_POST['filter_text']);
-#		$this->setType($_POST['sel_filter_type']);
+		$this->setString($_POST['filter_text']);
+		$this->setType($_POST['sel_filter_type']);
 		$this->setTopicId($_POST['filter_topic_id']);
 
-#		$this->setSortingTypeTopics($_POST['topics_sorting_type']);
-#		$this->setSortingDirectionTopics($_POST['topics_sorting_direction']);
+		$this->setSortingTypeTopics($_POST['topics_sorting_type']);
+		$this->setSortingDirectionTopics($_POST['topics_sorting_direction']);
 		$this->setSortField($_POST['order_field']);
 		$this->setSortDirection('asc');
 
