@@ -191,27 +191,31 @@ class ilPersonalWorkspaceGUI
 
 		$ilLocator->clearItems();
 		
+		// we have no path if shared item
 		$path = $this->tree->getPathFull($this->node_id);
-		foreach($path as $node)
+		if($path)
 		{
-			$obj_class = "ilObj".$objDefinition->getClassName($node["type"])."GUI";
+			foreach($path as $node)
+			{
+				$obj_class = "ilObj".$objDefinition->getClassName($node["type"])."GUI";
 
-			$ilCtrl->setParameter($this, "wsp_id", $node["wsp_id"]);
+				$ilCtrl->setParameter($this, "wsp_id", $node["wsp_id"]);
 
-			switch($node["type"])
-			{			
-				case "wsrt":
-					$ilLocator->addItem($lng->txt("wsp_personal_workspace"), $ilCtrl->getLinkTargetByClass($obj_class, "render"));
-					break;
+				switch($node["type"])
+				{			
+					case "wsrt":
+						$ilLocator->addItem($lng->txt("wsp_personal_workspace"), $ilCtrl->getLinkTargetByClass($obj_class, "render"));
+						break;
 
-				case "blog":
-				case $objDefinition->isContainer($node["type"]):
-					$ilLocator->addItem($node["title"], $ilCtrl->getLinkTargetByClass($obj_class, "render"));
-					break;
+					case "blog":
+					case $objDefinition->isContainer($node["type"]):
+						$ilLocator->addItem($node["title"], $ilCtrl->getLinkTargetByClass($obj_class, "render"));
+						break;
 
-				default:
-					$ilLocator->addItem($node["title"], $ilCtrl->getLinkTargetByClass($obj_class, "edit"));
-					break;
+					default:
+						$ilLocator->addItem($node["title"], $ilCtrl->getLinkTargetByClass($obj_class, "edit"));
+						break;
+				}
 			}
 		}
 
