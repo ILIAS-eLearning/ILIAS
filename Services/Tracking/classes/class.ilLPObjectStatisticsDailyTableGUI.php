@@ -222,11 +222,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		for($loop = 0; $loop<24; $loop+=2)
 		{
 			$value = (int)$a_set["hour".$loop];
-			if(!$value)
-			{
-				$value = "-";
-			}
-			else if($this->filter["measure"] == "read_count")
+			if($this->filter["measure"] == "read_count")
 			{
 				$value = $this->anonymizeValue($value);
 			}	
@@ -271,6 +267,10 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 				{
 					$value = (int)$object["graph"]["hour".$loop];
 					$max_value = max($max_value, $value);
+					if($this->filter["measure"] == "read_count")
+					{
+						$value = $this->anonymizeValue($value, true);
+					}	
 					$series->addPoint($loop, $value);
 				}
 
@@ -303,11 +303,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		for($loop = 0; $loop<24; $loop+=2)
 		{
 			$value = (int)$a_set["hour".$loop];
-			if(!$value)
-			{
-				$value = "-";
-			}
-			else if($this->filter["measure"] == "read_count")
+			if($this->filter["measure"] == "read_count")
 			{
 				$value = $this->anonymizeValue($value);
 			}	
@@ -344,11 +340,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		for($loop = 0; $loop<24; $loop+=2)
 		{
 			$value = (int)$a_set["hour".$loop];
-			if(!$value)
-			{
-				$value = "-";
-			}
-			else if($this->filter["measure"] == "read_count")
+			if($this->filter["measure"] == "read_count")
 			{
 				$value = $this->anonymizeValue($value);
 			}	
