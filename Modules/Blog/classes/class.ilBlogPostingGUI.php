@@ -157,6 +157,16 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	function preview()
 	{
 		global $ilCtrl, $lng, $tpl, $ilUser, $ilToolbar;
+		
+		
+		// render navigation
+		include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
+		$blog_id = $this->getBlogPosting()->getBlogId();		
+		$blog_gui = new ilObjBlogGUI($blog_id, ilObjBlogGUI::WORKSPACE_OBJECT_ID);
+		$items = $blog_gui->buildPostingList($blog_id);
+		$tpl->setRightContent($blog_gui->renderNavigation($items));
+		unset($items);
+		
 
 		$this->getBlogPosting()->increaseViewCnt();
 		

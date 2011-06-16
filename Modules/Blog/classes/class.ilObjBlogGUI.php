@@ -206,12 +206,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		}
 
 		// gather postings by month
-		$items = array();
-		foreach(ilBlogPosting::getAllPostings($this->object->getId()) as $posting)
-		{
-			$month = substr($posting["created"]->get(IL_CAL_DATE), 0, 7);
-			$items[$month][$posting["id"]] = $posting;
-		}
+		$items = $this->buildPostingList($this->object->getId());
 
 		$lng->loadLanguageModule("blog");
 		
@@ -265,6 +260,17 @@ class ilObjBlogGUI extends ilObject2GUI
 				}
 			}
 		}
+	}
+	
+	function buildPostingList($a_obj_id)
+	{
+		$items = array();
+		foreach(ilBlogPosting::getAllPostings($a_obj_id) as $posting)
+		{
+			$month = substr($posting["created"]->get(IL_CAL_DATE), 0, 7);
+			$items[$month][$posting["id"]] = $posting;
+		}
+		return $items;
 	}
 
 	function renderToolbar()
@@ -361,6 +367,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		$wtpl = new ilTemplate("tpl.blog_list_navigation.html",	true, true,
 			"Modules/Blog");
 
+		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$counter = 0;
 		foreach($items as $month => $postings)
 		{
