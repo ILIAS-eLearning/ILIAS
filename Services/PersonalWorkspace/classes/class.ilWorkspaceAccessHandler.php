@@ -80,7 +80,7 @@ class ilWorkspaceAccessHandler
 		}
 		
 		// other users can only read
-		if($a_permission == "read")
+		if($a_permission == "read" || $a_permission == "visible")
 		{
 			// get all objects with explicit permission
 			$objects = $this->getPermissions($a_node_id);
@@ -98,7 +98,8 @@ class ilWorkspaceAccessHandler
 								
 						case ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD:
 							// check against input kept in session
-							if(self::getSharedNodePassword($a_node_id) == self::getSharedSessionPassword($a_node_id))
+							if(self::getSharedNodePassword($a_node_id) == self::getSharedSessionPassword($a_node_id) || 
+								$a_permission == "visible")
 							{
 								return true;
 							}
@@ -311,7 +312,7 @@ class ilWorkspaceAccessHandler
 		$obj_ids = $this->getPossibleSharedTargets();
 		
 		$res = array();
-		$set = $ilDB->query("SELECT DISTINCT(obj.obj_id)".
+		$set = $ilDB->query("SELECT ref.wsp_id,obj.obj_id".
 			" FROM object_data obj".
 			" JOIN object_reference_ws ref ON (obj.obj_id = ref.obj_id)".
 			" JOIN tree_workspace tree ON (tree.child = ref.wsp_id)".
@@ -320,7 +321,7 @@ class ilWorkspaceAccessHandler
 			" AND obj.owner = ".$ilDB->quote($a_owner_id, "integer"));
 		while ($row = $ilDB->fetchAssoc($set))
 		{
-			$res[] = $row["obj_id"];
+			$res[$row["wsp_id"]] = $row["obj_id"];
 		}
 	
 		return $res;

@@ -64,16 +64,17 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		$objects = $this->handler->getSharedObjects($a_user_id);
 		if($objects)
 		{
-			foreach($objects as $obj_id)
+			foreach($objects as $wsp_id => $obj_id)
 			{
 				$data[] = array(
+					"wsp_id" => $wsp_id,
 					"obj_id" => $obj_id,
 					"type" => ilObject::_lookupType($obj_id),
 					"title" => ilObject::_lookupTitle($obj_id)
 					);					
 			}
 		}			
-						
+					
 		$this->setData($data);
 	}
 	
@@ -115,7 +116,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		}
 
 		$item_list_gui->setContainerObject($this->parent_obj);
-
+		
 		if($html = $item_list_gui->getListItemHTML($node["wsp_id"], $node["obj_id"],
 				$node["title"], $node["description"], false, false, "", ilObjectListGUI::CONTEXT_WORKSPACE_SHARING))
 		{
