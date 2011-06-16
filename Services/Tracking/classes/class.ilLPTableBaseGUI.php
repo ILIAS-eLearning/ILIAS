@@ -94,7 +94,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				
 		/* for performance issues: fast search WITHOUT any permission checks
 		include_once "Services/Tracking/classes/class.ilTrQuery.php";
-		return ilTrQuery::searchObjects($filter["type"], $filter["query"]);
+		return ilTrQuery::searchObjects($filter["type"], $filter["query"], $filter["area"]);
 		*/
 
 		include_once './Services/Search/classes/class.ilQueryParser.php';
