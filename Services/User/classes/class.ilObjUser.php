@@ -2188,6 +2188,24 @@ class ilObjUser extends ilObject
         return $this->active;
     }
 
+	/**
+	 * Check user account active
+	 */
+	public function _lookupActive($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = 'SELECT usr_id FROM usr_data '.
+			'WHERE active = '.$ilDB->quote(1,'integer').' '.
+			'AND usr_id = '.$ilDB->quote($a_usr_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return true;
+		}
+		return false;
+	}
+
     /**
     * synchronizes current and stored user active values
     * for the owner value to be set correctly, this function should only be called when an admin is approving a user account

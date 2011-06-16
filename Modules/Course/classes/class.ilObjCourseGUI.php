@@ -3747,6 +3747,11 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 			  $usr_obj = $member["usr_obj"];
 
+			  if(!$usr_obj->getActive())
+			  {
+				  continue;
+			  }
+
 			  $public_profile = in_array($usr_obj->getPref("public_profile"), array("y", "g")) ? "y" : "";
 				
 				// SET LINK TARGET FOR USER PROFILE
