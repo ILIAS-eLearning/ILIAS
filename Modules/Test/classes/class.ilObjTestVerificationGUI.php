@@ -76,13 +76,26 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 	 */
 	public function render($a_return = false)
 	{
+		global $lng;
+		
+		$lng->loadLanguageModule("assessment");
+		
 		$tmp = array();
-		$tmp[] = $this->object->getTitle();
-		$tmp[] = $this->object->getDescription();
-		$tmp[] = ilDatePresentation::formatDate($this->object->getProperty("issued_on"));
-		$tmp[] = $this->object->getProperty("result");
-		$tmp[] = $this->object->getProperty("success");
-		$tmp[] = $this->object->getProperty("mark");
+		$tmp[] = $lng->txt("title").": ".$this->object->getTitle();
+		$tmp[] = $lng->txt("description").": ".$this->object->getDescription();
+		$tmp[] = $lng->txt("created").": ".ilDatePresentation::formatDate($this->object->getProperty("issued_on"));
+		$tmp[] = $lng->txt("tst_score_reporting").": ".$this->object->getProperty("result");
+		
+		if($this->object->getProperty("success"))
+		{
+			$tmp[] = $lng->txt("result").": ".$lng->txt("tst_mark_passed");
+		}
+		else
+		{
+			$tmp[] = $lng->txt("result").": ".$lng->txt("failed_short");
+		}		
+		
+		$tmp[] = $lng->txt("tst_mark").": ".$this->object->getProperty("mark");
 		
 		if(!$a_return)
 		{
