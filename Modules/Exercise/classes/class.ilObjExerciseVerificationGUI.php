@@ -76,16 +76,29 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 	 */
 	public function render($a_return = false)
 	{
+		global $lng;
+		
+		$lng->loadLanguageModule("exercise");
+		
 		$setting = ilDatePresentation::UseRelativeDates();
 		ilDatePresentation::setUseRelativeDates(false);
 
 		$tmp = array();
-		$tmp[] = $this->object->getTitle();
-		$tmp[] = $this->object->getDescription();
-		$tmp[] = ilDatePresentation::formatDate($this->object->getProperty("issued_on"));		
-		$tmp[] = $this->object->getProperty("success");
-		$tmp[] = $this->object->getProperty("mark");
-		$tmp[] = $this->object->getProperty("comment");
+		$tmp[] = $lng->txt("title").": ".$this->object->getTitle();
+		$tmp[] = $lng->txt("description").": ".$this->object->getDescription();
+		$tmp[] = $lng->txt("created").": ".ilDatePresentation::formatDate($this->object->getProperty("issued_on"));	
+		
+		if($this->object->getProperty("success"))
+		{
+			$tmp[] = $lng->txt("exc_grading").": ".$lng->txt("exc_passed");
+		}
+		else
+		{
+			$tmp[] = $lng->txt("exc_grading").": ".$lng->txt("exc_failed");
+		}		
+		
+		$tmp[] = $lng->txt("exc_mark").": ".$this->object->getProperty("mark");
+		$tmp[] = $lng->txt("exc_comment").": ".$this->object->getProperty("comment");
 		
 		ilDatePresentation::setUseRelativeDates($setting);
 		
