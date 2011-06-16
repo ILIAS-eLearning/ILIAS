@@ -837,6 +837,11 @@ class ilObjGroupGUI extends ilContainerGUI
 				{
 					continue;
 				}
+
+				if(!$usr_obj->getActive())
+				{
+					continue;
+				}
 				
 				// please do not use strtoupper on first/last name for output
 				// this messes up with some unicode characters, i guess

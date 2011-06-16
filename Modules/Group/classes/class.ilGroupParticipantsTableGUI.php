@@ -138,8 +138,18 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
         if(!$ilAccess->checkAccessOfUser($a_set['usr_id'],'read','',$this->getParentObject()->object->getRefId()) and 
             is_array($info = $ilAccess->getInfo()))
         {
-            $this->tpl->setVariable('PARENT_ACCESS',$info[0]['text']);
+			$this->tpl->setCurrentBlock('access_warning');
+			$this->tpl->setVariable('PARENT_ACCESS',$info[0]['text']);
+			$this->tpl->parseCurrentBlock();
         }
+
+		if(!ilObjUser::_lookupActive($a_set['usr_id']))
+		{
+			$this->tpl->setCurrentBlock('access_warning');
+			$this->tpl->setVariable('PARENT_ACCESS',$this->lng->txt('usr_account_inactive'));
+			$this->tpl->parseCurrentBlock();
+		}
+
         
         foreach($this->getSelectedColumns() as $field)
         {
