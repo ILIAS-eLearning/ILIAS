@@ -235,11 +235,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 			for($loop = 1; $loop<13; $loop++)
 			{
 				$value = (int)$a_set["month_".$loop];
-				if(!$value)
-				{
-					$value = "-";
-				}
-				else if($this->filter["measure"] == "read_count")
+				if($this->filter["measure"] == "read_count")
 				{
 					$value = $this->anonymizeValue($value);
 				}						
@@ -287,6 +283,10 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 					{
 						$value = (int)$object["month_".$loop];
 						$max_value = max($max_value, $value);
+						if($this->filter["measure"] == "read_count")
+						{
+							$value = $this->anonymizeValue($value, true);
+						}	
 						$series->addPoint($loop, $value);
 					}
 				}
@@ -296,6 +296,10 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 					{
 						$value = (int)$object["day_".$loop];
 						$max_value = max($max_value, $value);
+						if($this->filter["measure"] == "read_count")
+						{
+							$value = $this->anonymizeValue($value, true);
+						}	
 						$series->addPoint($loop, $value);
 					}
 				}
@@ -341,11 +345,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 			for($loop = 1; $loop<13; $loop++)
 			{
 				$value = (int)$a_set["month_".$loop];
-				if(!$value)
-				{
-					$value = "-";
-				}
-				else if($this->filter["measure"] == "read_count")
+				if($this->filter["measure"] == "read_count")
 				{
 					$value = $this->anonymizeValue($value);
 				}	
@@ -385,11 +385,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 			for($loop = 1; $loop<13; $loop++)
 			{
 				$value = (int)$a_set["month_".$loop];
-				if(!$value)
-				{
-					$value = "-";
-				}
-				else if($this->filter["measure"] == "read_count")
+				if($this->filter["measure"] == "read_count")
 				{
 					$value = $this->anonymizeValue($value);
 				}	

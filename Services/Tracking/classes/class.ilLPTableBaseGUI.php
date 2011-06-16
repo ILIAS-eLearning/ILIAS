@@ -636,16 +636,17 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		
 		if(is_numeric($a_value))
 		{
+			$threshold = 3;		
 			$a_value = (int)$a_value;
-			if($a_value && $a_value <= 3)
+			if($a_value <= $threshold)
 			{
 				if(!$a_force_number)
 				{
-					return "0-3";
+					return "0-".$threshold;
 				}
 				else
 				{
-					return 1;
+					return $threshold;
 				}
 			}
 		}
@@ -668,7 +669,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		}
 		$ticks = range(0, $a_max_value+$step, $step);
 		
-		$value_ticks = array();
+		$value_ticks = array(0 => 0);
 		foreach($ticks as $tick)
 		{
 			$value = $tvalue = $tick;
