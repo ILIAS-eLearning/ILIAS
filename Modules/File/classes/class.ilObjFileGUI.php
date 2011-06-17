@@ -685,7 +685,7 @@ class ilObjFileGUI extends ilObject2GUI
 		
 		if($this->id_type == self::WORKSPACE_NODE_ID)
 		{
-			$info->addProperty("goto test", ILIAS_HTTP_PATH.'/goto_'.urlencode(CLIENT_ID).'_file_'.$this->node_id.'_wsp.html');
+			$info->addProperty("goto test", $this->getAccessHandler()->getGotoLink($this->node_id, $this->object->getId()));
 		}
 
 		// forward the command

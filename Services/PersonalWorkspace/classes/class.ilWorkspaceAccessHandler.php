@@ -352,6 +352,12 @@ class ilWorkspaceAccessHandler
 	{
 		return $_SESSION["ilshpw_".$a_node_id];
 	}
+	
+	public static function getGotoLink($a_node_id, $a_obj_id)
+	{
+		include_once('classes/class.ilLink.php');
+		return ilLink::_getStaticLink($a_node_id, ilObject::_lookupType($a_obj_id), true, "_wsp");
+	}		
 }
 
 ?>

@@ -78,6 +78,7 @@ class ilObjectListGUI
 	
 	protected $repository_transfer_enabled = false;
 	protected $shared = false;
+	protected $restrict_to_goto = false;
 	
 	static protected $cnt_notes = array();
 	static protected $cnt_tags = array();
@@ -860,6 +861,16 @@ class ilObjectListGUI
 	}
 	
 	/**
+	 * Restrict all actions/links to goto
+	 * 
+	 * @param bool $a_value 
+	 */
+	public function restrictToGoto($a_value)
+	{
+		$this->restrict_to_goto = (bool)$a_value;
+	}
+	
+	/**
 	 * 
 	 * @param
 	 * @return
@@ -1341,7 +1352,13 @@ class ilObjectListGUI
 	*/
 	public function insertTitle()
 	{
-		if (!$this->default_command || !$this->getCommandsStatus())
+		if($this->restrict_to_goto)
+		{
+			$this->default_command = array("frame" => "",
+				"link" => $this->buildGotoLink());
+		}
+		
+		if (!$this->default_command || (!$this->getCommandsStatus() && !$this->restrict_to_goto))
 		{
 			$this->tpl->setCurrentBlock("item_title");
 			$this->tpl->setVariable("TXT_TITLE", $this->getTitle());
@@ -1375,6 +1392,20 @@ class ilObjectListGUI
 		{
 			$this->tpl->touchBlock('bold_title_start');
 			$this->tpl->touchBlock('bold_title_end');
+		}
+	}
+	
+	protected function buildGotoLink()
+	{
+		switch($this->context)
+		{
+			case self::CONTEXT_WORKSPACE_SHARING:
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+				return ilWorkspaceAccessHandler::getGotoLink($this->ref_id, $this->obj_id);
+			
+			default:
+				// not implemented yet
+				break;
 		}
 	}
 	
@@ -2384,6 +2415,11 @@ class ilObjectListGUI
 				$this->insertCommand($command["link"], $this->lng->txt($command["lang_var"]),
 					$command["frame"], "", $command["cmd"]);
 			}
+		}
+		
+		if($this->restrict_to_goto)
+		{
+			return;
 		}
 
 		// info screen commmand
