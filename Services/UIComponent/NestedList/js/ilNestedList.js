@@ -92,10 +92,10 @@ ilNestedList =
 
 				// output node
 				var li_id = "list_" + list_id + "_" + k + "_li";
-				childs_ul.append("<li id='" + li_id + "' " + li_class_str + ">" +
+				childs_ul.append("<li id='" + li_id + "' " + li_class_str + "><div>" +
 					expand_link +
 					this.lists[list_id].nodes[k].content
-					+ "</li>");
+					+ "</div></li>");
 				
 				// draw children
 				this.draw(list_id, k, li_id);

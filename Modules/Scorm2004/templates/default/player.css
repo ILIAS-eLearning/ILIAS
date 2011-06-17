@@ -268,20 +268,20 @@ ul.ilc_rte_tul_RTETreeList
 
 li.ilc_rte_tli_RTETreeItem
 {
-	padding: 0px 0px 0px 18px;
+	padding: 0px 0px 0px 20px;
 	margin: 0px;
 }
 
-a.ilc_rte_texp_RTETreeExpand,
-a.ilc_rte_texp_RTETreeCollapsed
+.ilc_rte_texp_RTETreeExpand,
+.ilc_rte_texp_RTETreeCollapsed
 {
 	background: url(images/tree_exp.png) 0 0 no-repeat;
 	display:block;
 	width:16px;
 	height:16px;
 	float: left;
-	margin-left: -16px;
-	margin-top: 6px;
+	margin-left: -17px;
+	margin-top: 1px;
 	cursor: pointer;
 }
 
