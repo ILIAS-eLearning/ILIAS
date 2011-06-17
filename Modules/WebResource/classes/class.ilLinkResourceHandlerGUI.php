@@ -72,7 +72,7 @@ class ilLinkResourceHandlerGUI
 		{
 			case 'ilobjlinkresourcegui':
 				require_once "./Modules/WebResource/classes/class.ilObjLinkResourceGUI.php";
-				$link_gui =& new ilObjLinkResourceGUI("", (int) $_GET["ref_id"], true, false);
+				$link_gui =& new ilObjLinkResourceGUI((int)$_GET["ref_id"], ilObjLinkResourceGUI::REPOSITORY_NODE_ID);
 				$this->ctrl->forwardCommand($link_gui);
 				break;
 		}

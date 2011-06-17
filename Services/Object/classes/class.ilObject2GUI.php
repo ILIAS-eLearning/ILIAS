@@ -74,7 +74,6 @@ abstract class ilObject2GUI extends ilObjectGUI
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 
-
 		$params = array();		
 		switch($this->id_type)
 		{
@@ -468,7 +467,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	/**
 	 * view object content (repository/workspace switch)
 	 */
-	final public function view()
+	public function view()
 	{
 		switch($this->id_type)
 		{

@@ -6,7 +6,8 @@
 	</baseclasses>
 	<objects>
 		<object id="webr" class_name="LinkResource" dir="classes" default_pos="100"  default_pres_pos="120"
-			checkbox="1" inherit="0" allow_link="1" allow_copy="1" translate="0" rbac="1" devmode="0" export="1">
+			checkbox="1" inherit="0" allow_link="1" allow_copy="1" translate="0" rbac="1" devmode="0" export="1"
+			workspace="1" repository="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
@@ -14,6 +15,8 @@
 			<parent id="grp">grp</parent>
 			<parent id="recf">recf</parent>
 			<parent id="root">root</parent>
+			<parent id="wfld">wfld</parent>
+			<parent id="wsrt">wsrt</parent>
 		</object>
 	</objects>
 </module>

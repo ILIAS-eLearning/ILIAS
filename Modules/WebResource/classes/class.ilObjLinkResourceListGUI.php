@@ -147,25 +147,37 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-
-		// separate method for this line
-		switch($a_cmd)
+		if($_REQUEST["wsp_id"] || $_REQUEST["cmdClass"] = "ilpersonalworkspacegui")
 		{
-			case '':
-				if($this->__checkDirectLink())
-				{
-					$this->__readLink();
-					// $cmd_link = $this->link_data['target'];
-					$cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$this->ref_id."&cmd=calldirectlink";
-				}
-				else
-				{
-					$cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$this->ref_id."&cmd=$a_cmd";
-				}
-				break;
+			if($this->__checkDirectLink() && $a_cmd == '')
+			{
+				$a_cmd = "calldirectlink";
+			}			
+			$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", "");
+			$this->ctrl->setParameterByClass($this->gui_class_name, "wsp_id", $this->ref_id);
+			return $this->ctrl->getLinkTargetByClass($this->gui_class_name, $a_cmd);
+		}		
+		else
+		{
+			// separate method for this line
+			switch($a_cmd)
+			{
+				case '':
+					if($this->__checkDirectLink())
+					{
+						$this->__readLink();
+						// $cmd_link = $this->link_data['target'];
+						$cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$this->ref_id."&cmd=calldirectlink";
+					}
+					else
+					{
+						$cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$this->ref_id."&cmd=$a_cmd";
+					}
+					break;
 
-			default:
-				$cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$this->ref_id."&cmd=$a_cmd";
+				default:
+					$cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$this->ref_id."&cmd=$a_cmd";
+			}			
 		}
 		return $cmd_link;
 	}
