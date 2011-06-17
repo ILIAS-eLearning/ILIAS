@@ -740,6 +740,8 @@ class ilObjFile extends ilObject2
 
 	protected function doDelete()
 	{
+		global $ilDB;
+		
 		// delete file data entry
 		$q = "DELETE FROM file_data WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
 		$this->ilias->db->query($q);
