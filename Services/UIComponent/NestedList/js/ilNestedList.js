@@ -10,7 +10,7 @@ ilNestedList =
 		this.lists[id] = {
 			cfg: cfg,
 			nodes: {},
-			childs: {},
+			childs: {}
 			};
 	},
 
