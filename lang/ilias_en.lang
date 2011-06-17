@@ -11025,11 +11025,11 @@ content#:#cont_special_page#:#Special Content Page
 wiki#:#wiki_public_comments#:#Public Comments
 trac#:#trac_learning_progress_of#:#Lernfortschritt von %s
 trac#:#trac_learning_progress_objects_description#:#This table shows an overview of all your courses and objects.
-common#:#personal_workspace#:#Resources
-wsp#:#wsp_personal_workspace#:#Resources
+common#:#personal_workspace#:#My Workspace
+wsp#:#wsp_personal_workspace#:#My Workspace
 wsp#:#wsp_personal_workspace_description#:#Here you can manage your private files, blogs and artifacts.
 wsp#:#wsp_navigation_folders#:#View Folder
-wsp#:#wsp_root_folder#:#Resources
+wsp#:#wsp_root_folder#:#My Workspace
 wsp#:#wsp_navigation_resource#:#Create New
 wsp#:#wsp_type_file#:#File
 wsp#:#wsp_type_wfld#:#Folder
@@ -11245,7 +11245,7 @@ rbac#:#precondition_num_optional_info#:#Please enter the minimum number of mater
 trac#:#trac_min_passed#:#Minimum Number of Passed Materials:
 crs#:#crs_deact_auto_noti#:#Suppress notification about new membership
 crs#:#crs_deact_auto_noti_info#:#Supresses mail notificaton about course membership for members admitted to course by edit participants view.
-wsp#:#wsp_type_tstv#:#Verification: Test
+wsp#:#wsp_type_tstv#:#Certificate: Test
 content#:#cont_par_format#:#Paragraph
 content#:#cont_char_format#:#Character
 content#:#cont_lists#:#Lists
@@ -11284,11 +11284,11 @@ common#:#new_customer#:#Are you a new customer?
 common#:#new_customer_info#:#Please klick here if you do not have an user account.
 payment#:#shop_url#:#Link to shop
 payment#:#shop_bought_objects_url#:#Link to bought objects
-tstv#:#tstv_create#:#Create Test Verification
-tstv#:#tstv_create_info#:#Select a completed test to generate a verification for it
-wsp#:#wsp_type_excv#:#Verification: Exercise
-excv#:#excv_create#:#Create Exercise Verification
-excv#:#excv_create_info#:#Select a completed exercise to generate a verification for it
+tstv#:#tstv_create#:#Create Test Certificate
+tstv#:#tstv_create_info#:#Select a completed test to generate a certificate for it
+wsp#:#wsp_type_excv#:#Certificate: Exercise
+excv#:#excv_create#:#Create Exercise Certificate
+excv#:#excv_create_info#:#Select a completed exercise to generate a certificate for it
 content#:#cont_fn#:#Footnote
 common#:#enable_course_group_notifications#:#Daily Mail for Groups and Course News
 common#:#enable_course_group_notifications_desc#:#If enabled, Participants can subscribe to a daily summary of news.
