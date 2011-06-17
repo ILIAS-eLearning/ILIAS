@@ -12623,7 +12623,7 @@ function buildNavTree(rootAct,name,tree){
 //console.log(rootAct.title);
 //console.log(ITEM_PREFIX + rootAct.id);
 				ilNestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.id,
-					"<div><a href='#this' id='" + ITEM_PREFIX + rootAct.id + "' target='_self'>" + rootAct.title + "</a></div>",
+					"<a href='#this' id='" + ITEM_PREFIX + rootAct.id + "' target='_self'>" + rootAct.title + "</a>",
 					true);
 				par_id = ITEM_PREFIX + rootAct.id;
 			}	
@@ -12638,7 +12638,7 @@ function buildNavTree(rootAct,name,tree){
 						if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
 							
 							ilNestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.item[i].id,
-								"<div><a href='#this' id='" + ITEM_PREFIX + rootAct.item[i].id + "' target='_self'>" + rootAct.item[i].title + "</a></div>",
+								"<a href='#this' id='" + ITEM_PREFIX + rootAct.item[i].id + "' target='_self'>" + rootAct.item[i].title + "</a>",
 								true);
 							var next_par_id = ITEM_PREFIX + rootAct.item[i].id;
 
