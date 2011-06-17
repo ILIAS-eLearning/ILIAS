@@ -1354,23 +1354,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		}
 
 		// display infopanel if something happened
-		ilUtil::infoPanel();
-
-		// set header
-		$this->__setHeader();
-	}
-
-	function __setHeader()
-	{
-		include_once './classes/class.ilTabsGUI.php';
-
-		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_webr_b.gif"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("HEADER",$this->object->getTitle());
-		$this->tpl->setVariable("H_DESCRIPTION",$this->object->getDescription());
-
-		$this->setTabs();
+		ilUtil::infoPanel();;
 	}
 
 	function __setLocator()
