@@ -26,12 +26,12 @@ class ilPortfolioTableGUI extends ilTable2GUI
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		$this->setTitle($lng->txt("portfolios"));
+		$this->setTitle($lng->txt("prtf_portfolios"));
 
 		$this->addColumn($this->lng->txt(""), "", "1");
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("online"), "is_online");
-		$this->addColumn($this->lng->txt("default"), "is_default");
+		$this->addColumn($this->lng->txt("prtf_default_portfolio"), "is_default");
 		$this->addColumn($this->lng->txt("actions"));
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));

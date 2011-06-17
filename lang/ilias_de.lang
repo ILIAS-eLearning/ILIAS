@@ -3956,7 +3956,7 @@ common#:#person_title#:#Titel
 common#:#personal_data#:#Daten zur Person
 common#:#personal_desktop#:#Persönlicher Schreibtisch
 common#:#personal_picture#:#Persönliches Bild
-common#:#personal_profile#:#Persönliches Profil
+common#:#personal_profile#:#Persönliche Daten
 common#:#persons#:#Personen
 common#:#pg_a#:#eine Seite
 common#:#pg_add#:#Seite anlegen
@@ -4020,7 +4020,7 @@ common#:#pub_section#:#Öffentlicher Bereich
 common#:#pub_section_info#:#Die Option ermöglicht es, Teile des Systems öffentlich und ohne Authentifizierung zugänglich zu machen. Die Berechtigungen der Rolle "Anonymous" bestimmen, wie Ressourcen öffentlich zugänglich sind.
 common#:#public#:#öffentlich
 common#:#public_notes#:#Öffentliche Notizen
-common#:#public_profile#:#Öffentliches Profil
+common#:#public_profile#:#Öffentlich
 common#:#public_profile_not_visible#:#Das Benutzerprofil ist nicht öffentlich
 common#:#publication#:#Veröffentlichung
 common#:#publication_date#:#Veröffentlichungsdatum
@@ -11294,13 +11294,13 @@ common#:#enable_course_group_notifications#:#Tägliche Mail für Gruppen und Kur
 common#:#enable_course_group_notifications_desc#:#Bei Aktivierung können Teilnehmer eine Zusammenfassung der News abonnieren.
 assessment#:#copy_no_questions_selected#:#Bitte wählen Sie mindestens eine Frage zum Kopieren aus.
 assessment#:#copy_questions_success#:#Die Frage(n) wurden kopiert.
-user#:#portfolios#:#Portfolios
+prtf#:#prtf_portfolios#:#Portfolios
 prtf#:#prtf_add_portfolio#:#Portfolio hinzufügen
 prtf#:#prtf_edit_portfolio#:#Portfolio bearbeiten
 prtf#:#prtf_create_portfolio#:#Portfolio hinzufügen
 prtf#:#prtf_portfolio_created#:#Portfolio wurde hinzugefügt
 prtf#:#prtf_portfolio_updated#:#Portfolio wurde aktualisiert
-prtf#:#prtf_set_as_default#:#Als Default setzen
+prtf#:#prtf_set_as_default#:#Als Mein Profil setzen
 prtf#:#prtf_sure_delete_portfolios#:#Wollen Sie die folgenden Portfolios wirklich löschen?
 prtf#:#prtf_portfolio_deleted#:#Portfolios wurden gelöscht
 prtf#:#prtf_add_page#:#Seite hinzufügen
@@ -11542,4 +11542,8 @@ mail#:#mail_enable_grp_member_notification#:#Gruppenbenachrichtigung
 mail#:#mail_enable_crs_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen ihrer Kursmitgliedschaften per Mail informatiert.
 mail#:#mail_enable_grp_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen ihrer Gruppenmitgliedschaften per Mail informiert.
 common#:#usr_account_inactive#:#Inaktiver Benutzer
-common#:#profile_portfolios#:#Profil / Portfolios
+common#:#portfolio#:#Portfolio
+prtf#:#prtf_default_portfolio#:#Mein Profil
+user#:#user_portfolios#:#Portfolios
+user#:#user_portfolios_desc#:#Benutzer können Portfolios anlegen und als Profil verwenden.
+user#:#user_profile_portfolio#:#Sie können ein Portfolio als öffentliches Profil verwenden.

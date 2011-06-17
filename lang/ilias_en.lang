@@ -3984,7 +3984,7 @@ common#:#person_title#:#Title
 common#:#personal_data#:#Personal Information
 common#:#personal_desktop#:#Personal Desktop
 common#:#personal_picture#:#Personal Picture
-common#:#personal_profile#:#Personal Profile
+common#:#personal_profile#:#Personal Data
 common#:#persons#:#Persons
 common#:#pg_a#:#a page
 common#:#pg_add#:#Add page
@@ -4048,7 +4048,7 @@ common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, us
 common#:#pub_section#:#Public Area
 common#:#public_notes#:#Public Notes
 common#:#public_profile_not_visible#:#The User Profile is not public
-common#:#public_profile#:#Public Profile
+common#:#public_profile#:#Public
 common#:#public#:#public
 common#:#publication_date#:#Publication Date
 common#:#publication#:#Publication
@@ -11306,13 +11306,13 @@ style#:#sty_type_qordli#:#Order List Item
 style#:#sty_type_qordul#:#Order List
 style#:#sty_type_qetitem#:#Error Text Item
 style#:#sty_type_qetcorr#:#Error Text Corrected
-user#:#portfolios#:#Portfolios
+prtf#:#prtf_portfolios#:#Portfolios
 prtf#:#prtf_add_portfolio#:#Add Portfolio
 prtf#:#prtf_edit_portfolio#:#Edit Portfolio
 prtf#:#prtf_create_portfolio#:#Add Portfolio 
 prtf#:#prtf_portfolio_created#:#Portfolio added
 prtf#:#prtf_portfolio_updated#:#Portfolio updated
-prtf#:#prtf_set_as_default#:#Set As Default
+prtf#:#prtf_set_as_default#:#Set As My Profile
 prtf#:#prtf_sure_delete_portfolios#:#Are you sure you want to delete the following portfolios?
 prtf#:#prtf_portfolio_deleted#:#Portfolios deleted
 prtf#:#prtf_add_page#:#Add Page
@@ -11542,4 +11542,8 @@ mail#:#mail_enable_grp_member_notification#:#Group Notification
 mail#:#mail_enable_crs_member_notification_info#:#If enabled, course participants will be notified automatically about membership changes.
 mail#:#mail_enable_grp_member_notification_info#:#If enabled, group participants will be notified automatically about membership changes.
 common#:#usr_account_inactive#:#Inactive Account
-common#:#profile_portfolios#:#Profile / Portfolios
+common#:#portfolio#:#Portfolio
+prtf#:#prtf_default_portfolio#:#My Profile
+user#:#user_portfolios#:#Portfolios
+user#:#user_portfolios_desc#:#Users can create portfolios and use them as profile.
+user#:#user_profile_portfolio#:#You can use a portfolio as public profile.

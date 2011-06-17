@@ -3077,7 +3077,8 @@ else
 				'prevent_reuse_of_loginnames' => (bool)$ilSetting->get('prevent_reuse_of_loginnames'),
 				'loginname_change_blocking_time' => (int)$ilSetting->get('loginname_change_blocking_time'),
 				'user_adm_alpha_nav' => (int)$ilSetting->get('user_adm_alpha_nav'),
-				'user_ext_profiles' => (int)$ilSetting->get('user_ext_profiles')
+				// 'user_ext_profiles' => (int)$ilSetting->get('user_ext_profiles')
+				'user_portfolios' => (int)$ilSetting->get('user_portfolios')
 			)
 		);
 						
@@ -3120,7 +3121,8 @@ else
 				$ilSetting->set('prevent_reuse_of_loginnames', (int)$this->form->getInput('prevent_reuse_of_loginnames'));
 				$ilSetting->set('loginname_change_blocking_time', (int)$this->form->getInput('loginname_change_blocking_time'));
 				$ilSetting->set('user_adm_alpha_nav', (int)$this->form->getInput('user_adm_alpha_nav'));
-				$ilSetting->set('user_ext_profiles', (int)$this->form->getInput('user_ext_profiles'));
+				// $ilSetting->set('user_ext_profiles', (int)$this->form->getInput('user_ext_profiles'));
+				$ilSetting->set('user_portfolios', (int)$this->form->getInput('user_portfolios'));
 				
 				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 			}
@@ -3170,10 +3172,16 @@ else
 		$alph->setValue(1);
 		$this->form->addItem($alph);
 
-		// extended user profiles
+		/* extended user profiles
 		$cb = new ilCheckboxInputGUI($this->lng->txt("user_ext_profiles"), "user_ext_profiles");
 		$cb->setInfo($this->lng->txt('user_ext_profiles_desc'));
-		$this->form->addItem($cb);
+		$this->form->addItem($cb);		 
+		*/
+		
+		// portfolios 
+		$cb = new ilCheckboxInputGUI($this->lng->txt("user_portfolios"), "user_portfolios");
+		$cb->setInfo($this->lng->txt('user_portfolios_desc'));
+		$this->form->addItem($cb);		 
 
 		$log = new ilFormSectionHeaderGUI();
 		$log->setTitle($this->lng->txt('loginname_settings'));

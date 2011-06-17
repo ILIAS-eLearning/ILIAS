@@ -63,7 +63,9 @@ class ilPortfolioGUI
 		global $ilCtrl, $ilTabs, $lng, $tpl, $ilUser;
 
 		$next_class = $ilCtrl->getNextClass($this);
-		$cmd = $ilCtrl->getCmd();
+		$cmd = $ilCtrl->getCmd("show");
+		
+		$lng->loadLanguageModule("user");
 
 		switch($next_class)
 		{
@@ -118,7 +120,9 @@ class ilPortfolioGUI
 				$tpl->setContent($content.$ilCtrl->forwardCommand($note_gui));
 				break;
 			
-			default:				
+			default:		
+				$tpl->setTitle($lng->txt("portfolio"));
+				
 				$this->$cmd();
 				break;
 		}
