@@ -21,7 +21,7 @@
 
 
 #treeView a {
-	display: block;
+	/* display: block; */
 }
 
 
@@ -252,17 +252,60 @@ a.ilc_rte_mlink_RTELinkDisabled:hover
 a.ilc_rte_tlink_RTETreeLink
 {
 	color: #2020C0;
-	text-decoration: underline;
+	font-size: 90%;
+	text-decoration: none;
 }
 a.ilc_rte_tlink_RTETreeLink:hover
 {
 }
+
+ul.ilc_rte_tul_RTETreeList
+{
+	padding: 0px;
+	margin: 0px;
+	list-style-type: none;
+}
+
+li.ilc_rte_tli_RTETreeItem
+{
+	padding: 0px 0px 0px 18px;
+	margin: 0px;
+}
+
+a.ilc_rte_texp_RTETreeExpand,
+a.ilc_rte_texp_RTETreeCollapsed
+{
+	background: url(images/tree_exp.png) 0 0 no-repeat;
+	display:block;
+	width:16px;
+	height:16px;
+	float: left;
+	margin-left: -16px;
+	margin-top: 6px;
+	cursor: pointer;
+}
+
+a.ilc_rte_texp_RTETreeCollapsed
+{
+	background: url(images/tree_col.png) 0 0 no-repeat;
+}
+
+div.ilc_rte_node_RTECourse, div.ilc_rte_node_RTEChapter, div.ilc_rte_node_RTESco,
+div.ilc_rte_node_RTEAsset,
+div.ilc_rte_node_RTECourseDisabled, div.ilc_rte_node_RTEChapterDisabled, div.ilc_rte_node_RTEScoDisabled,
+div.ilc_rte_node_RTEAssetDisabled
+{
+	padding-top: 5px;
+}
+
 #treeView a.ilc_rte_tlink_RTETreeLinkDisabled, a.ilc_rte_tlink_RTETreeLinkDisabled
 {
 	color: #A0A0A0;
 	background-color: #E0E0E0;
 	cursor: not-allowed;
 	text-decoration:none;
+	font-size: 90%;
+
 }
 #treeView a.ilc_rte_tlink_RTETreeLinkDisabled:hover, a.ilc_rte_tlink_RTETreeLinkDisabled:hover
 {

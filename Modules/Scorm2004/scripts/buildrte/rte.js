@@ -12603,9 +12603,11 @@ function onWindowResize()
 function buildNavTree(rootAct,name,tree){
 	
 //console.log('buildNavTree');
-	if (false)
+	if (true)
 	{
-		ilNestedList.addList('rte_tree', {});
+		ilNestedList.addList('rte_tree', {ul_class: 'ilc_rte_tul_RTETreeList',
+			li_class: 'ilc_rte_tli_RTETreeItem', exp_class: 'ilc_rte_texp_RTETreeExpand',
+			col_class: 'ilc_rte_texp_RTETreeCollapsed'});
 		
 		var par_id = 0;
 		//root node only when in TOC
@@ -12621,7 +12623,8 @@ function buildNavTree(rootAct,name,tree){
 //console.log(rootAct.title);
 //console.log(ITEM_PREFIX + rootAct.id);
 				ilNestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.id,
-					"<a href='#this' id='" + ITEM_PREFIX + rootAct.id + "' target='_self'>" + rootAct.title + "</a>");
+					"<div><a href='#this' id='" + ITEM_PREFIX + rootAct.id + "' target='_self'>" + rootAct.title + "</a></div>",
+					true);
 				par_id = ITEM_PREFIX + rootAct.id;
 			}	
 		}
@@ -12635,7 +12638,8 @@ function buildNavTree(rootAct,name,tree){
 						if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
 							
 							ilNestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.item[i].id,
-								"<a href='#this' id='" + ITEM_PREFIX + rootAct.item[i].id + "' target='_self'>" + rootAct.item[i].title + "</a>");
+								"<div><a href='#this' id='" + ITEM_PREFIX + rootAct.item[i].id + "' target='_self'>" + rootAct.item[i].title + "</a></div>",
+								true);
 							var next_par_id = ITEM_PREFIX + rootAct.item[i].id;
 
 //							var sub = new YAHOO.widget.TextNode({label:rootAct.item[i].title, id:ITEM_PREFIX + rootAct.item[i].id}, attach, true);

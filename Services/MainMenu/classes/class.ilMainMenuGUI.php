@@ -604,6 +604,7 @@ class ilMainMenuGUI
 		
 		
 		$this->setTemplateVars();
+
 		return $this->tpl->get();
 	}
 	
