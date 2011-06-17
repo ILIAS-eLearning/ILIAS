@@ -107,14 +107,9 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		$item_list_gui->enableIcon(true);
 		// $item_list_gui->enableCheckbox(false);
 		// $item_list_gui->setSeparateCommands(true);
+		$item_list_gui->restrictToGoto(true);
+		$item_list_gui->enableCommands(false);
 		
-		$item_list_gui->enableCopy($objDefinition->allowCopy($node["type"]));
-		
-		if($node["type"] == "file")
-		{
-			$item_list_gui->enableRepositoryTransfer(true);
-		}
-
 		$item_list_gui->setContainerObject($this->parent_obj);
 		
 		if($html = $item_list_gui->getListItemHTML($node["wsp_id"], $node["obj_id"],

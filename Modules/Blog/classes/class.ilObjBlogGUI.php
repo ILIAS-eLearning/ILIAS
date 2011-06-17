@@ -471,7 +471,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		// standard meta data
 		$info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
 		
-		$info->addProperty("goto test", ILIAS_HTTP_PATH.'/goto_'.urlencode(CLIENT_ID).'_blog_'.$this->node_id.'_wsp.html');
+		$info->addProperty("goto test", $this->getAccessHandler()->getGotoLink($this->node_id, $this->object->getId()));
 		
 		$this->ctrl->forwardCommand($info);
 	}
