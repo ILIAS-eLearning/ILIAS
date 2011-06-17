@@ -192,7 +192,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				}
 			}
 
-			if($collection["scorm"])
+			if($collection["scorm"] && $data["set"])
 			{
 				$this->sco_ids = array();
 				foreach(array_keys($data["set"]) as $user_id)
