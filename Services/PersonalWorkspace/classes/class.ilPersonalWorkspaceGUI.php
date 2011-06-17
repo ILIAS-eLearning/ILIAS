@@ -156,29 +156,29 @@ class ilPersonalWorkspaceGUI
 	 */
 	protected function renderToolbar()
 	{
-		global $lng, $ilCtrl, $objDefinition, $ilToolbar;
-
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		global $lng, $ilCtrl, $objDefinition, $tpl;
 
 		$root = $this->tree->getNodeData($this->node_id);
 		$subtypes = $objDefinition->getCreatableSubObjects($root["type"], ilObjectDefinition::MODE_WORKSPACE);
 		if($subtypes)
 		{
 			// :TODO: permission checks?
-			$options = array(""=>"-");
+			$subobj = array();
 			foreach(array_keys($subtypes) as $type)
 			{
 				$class = $objDefinition->getClassName($type);
-				$options[$type] = $lng->txt("wsp_type_".$type);
+				
+				$subobj[] = array("value" => $type,
+								  "title" => $lng->txt("wsp_type_".$type),
+								  "img" => ilObject::_getIcon("", "tiny", $type),
+								  "alt" => $lng->txt("wsp_type_".$type));
 			}
-
-			asort($options);
-			$types = new ilSelectInputGUI($lng->txt("wsp_navigation_resource"), "new_type");
-			$types->setOptions($options);
-			$ilToolbar->addInputItem($types, "new_type");
-
-			$ilToolbar->addFormButton($lng->txt("ok"), "create");
+			
+			$subobj = ilUtil::sortArray($subobj, "title", 1);
+			
+			$lng->loadLanguageModule("cntr");
+			$tpl->setCreationSelector($ilCtrl->getFormAction($this),
+				$subobj, "create", $lng->txt("add"));
 		}
 	}
 
