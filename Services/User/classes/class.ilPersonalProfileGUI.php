@@ -7,7 +7,7 @@
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI, ilPortfolioGUI
+ * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI
  */
 class ilPersonalProfileGUI
 {
@@ -61,16 +61,6 @@ class ilPersonalProfileGUI
 				$tpl->show();
 				break;
 
-			case "ilportfoliogui":
-				$this->__initSubTabs("portfolios");
-				$ilTabs->activateTab("portfolios");
-				$tpl->setTitle($lng->txt("personal_profile"));
-				include_once("./Services/Portfolio/classes/class.ilPortfolioGUI.php");
-				$portfolio_gui = new ilPortfolioGUI($ilUser->getId());
-				$ilCtrl->forwardCommand($portfolio_gui);
-				$tpl->show();
-				break;
-
 			default:
 				//$this->setTabs();
 				
@@ -96,6 +86,7 @@ class ilPersonalProfileGUI
 					ilUtil::sendInfo( sprintf($msg,$password_age), true );
 				}
 
+				$this->setTabs();
 				$this->$cmd();
 				break;
 		}
@@ -604,43 +595,27 @@ class ilPersonalProfileGUI
 	}
 
 	// init sub tabs
-	function __initSubTabs($a_cmd)
+	function setTabs()
 	{
-		global $ilTabs, $ilSetting, $ilUser;
+		global $ilTabs, $ilUser;
 
-		// profile
-		$ilTabs->addTab("profile", 
-			$this->lng->txt("profile"),
+		// personal data
+		$ilTabs->addTab("personal_data", 
+			$this->lng->txt("personal_data"),
 			$this->ctrl->getLinkTarget($this, "showPersonalData"));
-		
-		if($a_cmd == "showPersonalData")
-		{
-			// personal data
-			$ilTabs->addSubTab("personal_data", 
-				$this->lng->txt("personal_data"),
-				$this->ctrl->getLinkTarget($this, "showPersonalData"));
 
-			// public profile
-			$ilTabs->addSubTab("public_profile",
-				$this->lng->txt("public_profile"),
-				$this->ctrl->getLinkTarget($this, "showPublicProfile"));
-			
-			if($ilUser->getPref("public_profile") != "n")
-			{			
-				// profile preview
-				$ilTabs->addSubTab("profile_preview",
-					$this->lng->txt("user_profile_preview"),
-					$this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "view"));
-			}
-		}
-		
-		// :TODO: admin setting
-		if(true)
-		{
-			$ilTabs->addTab("portfolios", 
-				$this->lng->txt("portfolios"),
-				$this->ctrl->getLinkTargetByClass("ilportfoliogui", "show"));
-		}
+		// public profile
+		$ilTabs->addTab("public_profile",
+			$this->lng->txt("public_profile"),
+			$this->ctrl->getLinkTarget($this, "showPublicProfile"));
+
+		if($ilUser->getPref("public_profile") != "n")
+		{			
+			// profile preview
+			$ilTabs->addNonTabbedLink("profile_preview",
+				$this->lng->txt("user_profile_preview"),
+				$this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "view"));
+		}		
 	}
 
 
@@ -749,9 +724,7 @@ class ilPersonalProfileGUI
 	{
 		global $ilUser, $styleDefinition, $rbacreview, $ilias, $lng, $ilSetting, $ilTabs;
 		
-		$this->__initSubTabs("showPersonalData");
-		$ilTabs->activateTab("profile");
-		$ilTabs->activateSubTab("personal_data");
+		$ilTabs->activateTab("personal_data");
 
 		$settings = $ilias->getAllSettings();
 
@@ -1020,15 +993,18 @@ class ilPersonalProfileGUI
 	{
 		global $ilUser, $lng, $ilSetting, $ilTabs;
 		
-		$this->__initSubTabs("showPersonalData");
-		$ilTabs->activateTab("profile");
-		$ilTabs->activateSubTab("public_profile");
+		$ilTabs->activateTab("public_profile");
 
 		$this->setHeader();
 
 		if (!$a_no_init)
 		{
 			$this->initPublicProfileForm();
+		}
+		
+		if ($ilSetting->get('user_portfolios') && $ilUser->getPref("public_profile") != "n")
+		{
+			ilUtil::sendInfo($lng->txt("user_profile_portfolio"));
 		}
 		
 		$ptpl = new ilTemplate("tpl.edit_personal_profile.html", true, true, "Services/User");

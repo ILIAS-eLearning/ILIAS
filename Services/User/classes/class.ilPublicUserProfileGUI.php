@@ -632,6 +632,31 @@ class ilPublicUserProfileGUI
 
 				return $ilCtrl->getHTML($page_gui);			
 			}
+			else
+			{
+				$this->renderTitle();
+				return $this->getEmbeddable();	
+			}
+		}
+	}
+	
+	function renderTitle()
+	{
+		global $tpl, $ilTabs, $lng;
+		
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+		$tpl->setTitle(ilUserUtil::getNamePresentation($this->getUserId()));
+		$tpl->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->getUserId(), "xxsmall"));
+		
+		$back = ($this->getBackUrl() != "")
+			? $this->getBackUrl()
+			: $_GET["back_url"];
+
+		if ($back != "")
+		{
+			$ilTabs->clearTargets();
+			$ilTabs->setBackTarget($lng->txt("back"),
+				$back);
 		}
 	}
 
@@ -644,20 +669,7 @@ class ilPublicUserProfileGUI
 	{
 		global $ilTabs, $ilUser, $lng, $ilCtrl, $tpl;
 
-		include_once("./Services/User/classes/class.ilUserUtil.php");
-		$tpl->setTitle(ilUserUtil::getNamePresentation($this->getUserId()));
-		$tpl->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->getUserId(), "xxsmall"));
-
-		$back = ($this->getBackUrl() != "")
-			? $this->getBackUrl()
-			: $_GET["back_url"];
-
-		if ($back != "")
-		{
-			$ilTabs->clearTargets();
-			$ilTabs->setBackTarget($lng->txt("back"),
-				$back);
-		}
+		$this->renderTitle();
 		
 		if($this->portfolioid)
 		{					

@@ -16,6 +16,7 @@ include_once "Services/Mail/classes/class.ilMail.php";
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilMailAddressbookGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilPortfolioGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -240,6 +241,15 @@ class ilPersonalDesktopGUI
 				include_once 'Services/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php';
 				$wsgui = new ilPersonalWorkspaceGUI();
 				$ret = $this->ctrl->forwardCommand($wsgui);				
+				$this->tpl->show();
+				break;
+			
+			case 'ilportfoliogui':
+				$this->getStandardTemplates();
+				$this->setTabs();
+				include_once 'Services/Portfolio/classes/class.ilPortfolioGUI.php';
+				$pfgui = new ilPortfolioGUI($ilUser->getId());
+				$ret = $this->ctrl->forwardCommand($pfgui);				
 				$this->tpl->show();
 				break;
 
@@ -598,6 +608,14 @@ class ilPersonalDesktopGUI
 	function jumpToProfile()
 	{
 		$this->ctrl->redirectByClass("ilpersonalprofilegui");
+	}
+	
+	/**
+	 * workaround for menu in calendar only
+	 */
+	function jumpToPortfolio()
+	{
+		$this->ctrl->redirectByClass("ilportfoliogui");
 	}
 	
 	/**

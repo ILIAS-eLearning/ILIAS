@@ -674,10 +674,15 @@ class ilMainMenuGUI
 					"", "", "_top");
 				
 				// profile
-				//$selection->addItem($lng->txt("personal_profile"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
-				//	"", "", "_top");
-				$selection->addItem($lng->txt("profile_portfolios"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
+				$selection->addItem($lng->txt("personal_profile"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
 					"", "", "_top");
+						
+				// portfolio
+				if ($ilSetting->get('user_portfolios'))
+				{
+					$selection->addItem($lng->txt("portfolio"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToPortfolio",
+						"", "", "_top");
+				}
 				
 				// news
 				if ($ilSetting->get("block_activated_news"))
