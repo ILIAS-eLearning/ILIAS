@@ -148,7 +148,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				
 			case "ilinfoscreengui":
 				$this->setTabs();
-				$this->infoScreen();	// forwards command
+				$this->infoScreenForward();	
 				break;
 
 			default:
@@ -419,9 +419,21 @@ class ilObjBlogGUI extends ilObject2GUI
 	}
 	
 	/**
-	* show information screen
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
 	*/
 	function infoScreen()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreenForward();
+	}
+	
+	/**
+	* show information screen
+	*/
+	function infoScreenForward()
 	{
 		global $ilTabs, $ilErr;
 		
@@ -461,10 +473,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		$info->addProperty("goto test", ILIAS_HTTP_PATH.'/goto_'.urlencode(CLIENT_ID).'_blog_'.$this->node_id.'_wsp.html');
 		
-		// forward the command
-	    $this->ctrl->setCmd("showSummary");
-		$this->ctrl->setCmdClass("ilinfoscreengui");
-	    $this->ctrl->forwardCommand($info);
+		$this->ctrl->forwardCommand($info);
 	}
 
 	function _goto($a_target)
