@@ -75,7 +75,7 @@ class ilObjFileGUI extends ilObject2GUI
 		switch ($next_class)
 		{
 			case "ilinfoscreengui":
-				$this->infoScreen();	// forwards command
+				$this->infoScreenForward();	// forwards command
 				break;
 
 			case 'ilmdeditorgui':
@@ -613,9 +613,21 @@ class ilObjFileGUI extends ilObject2GUI
 	}
 	
 	/**
-	* show information screen
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
 	*/
 	function infoScreen()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreenForward();
+	}
+	
+	/**
+	* show information screen
+	*/
+	function infoScreenForward()
 	{
 		global $ilTabs, $ilErr;
 		
@@ -677,8 +689,8 @@ class ilObjFileGUI extends ilObject2GUI
 		}
 
 		// forward the command
-	    $this->ctrl->setCmd("showSummary");
-		$this->ctrl->setCmdClass("ilinfoscreengui");
+	    // $this->ctrl->setCmd("showSummary");
+		// $this->ctrl->setCmdClass("ilinfoscreengui");
 	    $this->ctrl->forwardCommand($info);
 	}
 

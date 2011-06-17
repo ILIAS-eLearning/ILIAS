@@ -364,8 +364,13 @@ class ilPortfolio
 	 */
 	static function getDefaultPortfolio($a_user_id)
 	{
-		global $ilDB;
+		global $ilDB, $ilSetting;
 		
+		if(!$ilSetting->get('user_portfolios'))
+		{
+			return;
+		}
+			
 		$set = $ilDB->query("SELECT id FROM usr_portfolio".
 			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
 			" AND is_default = ".$ilDB->quote(1, "integer"));

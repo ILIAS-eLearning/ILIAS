@@ -73,8 +73,8 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 					"title" => ilObject::_lookupTitle($obj_id)
 					);					
 			}
-		}			
-					
+		}		
+		
 		$this->setData($data);
 	}
 	
