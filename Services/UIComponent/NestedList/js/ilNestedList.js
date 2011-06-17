@@ -19,7 +19,7 @@ ilNestedList =
 		this.lists[list_id].nodes[node_id] = {
 			parent_id: parent_id,
 			content: content,
-			expanded: expanded,
+			expanded: expanded
 		};
 //console.log("adding: " + parent_id + ", " + node_id );
 		if (typeof this.lists[list_id].childs[parent_id] == 'undefined')
