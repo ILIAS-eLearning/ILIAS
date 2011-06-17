@@ -12603,7 +12603,7 @@ function onWindowResize()
 function buildNavTree(rootAct,name,tree){
 	
 //console.log('buildNavTree');
-	if (true)
+	if (!true)
 	{
 		ilNestedList.addList('rte_tree', {ul_class: 'ilc_rte_tul_RTETreeList',
 			li_class: 'ilc_rte_tli_RTETreeItem', exp_class: 'ilc_rte_texp_RTETreeExpand',
