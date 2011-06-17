@@ -8579,7 +8579,7 @@ pd#:#pd_enable_notes#:#Notizen aktivieren
 pd#:#pd_my_memberships#:#Meine Mitgliedschaften
 pd#:#pd_my_memberships_intro#:#Willkommen zu Ihren Kurs- und Gruppenmitgliedschaften
 pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen, in denen Sie Mitglied sind. Zur Zeit verfügen Sie über keinerlei Mitgliedschaften. Um Kurs- oder Gruppenmitglied zu werden gibt es zwei Wege:<br /><ol><li>Sie können Kursen oder Gruppen beitreten, bei denen der Beitritt von einen Administrator erlaubt wurde.</li><li>Ein Administrator kann Ihnen eine Kurs- oder Gruppenmitgliedsrolle zuweisen.</li></ol><br />In beiden Fällen erscheinen die entsprechenden Kurse oder Gruppen automatisch in dieser Übersicht.
-pd#:#pd_my_offers#:#Meine Angebote
+pd#:#pd_my_offers#:#Ausgewählte Angebote
 pd#:#pd_osi_host#:#OSI-Host
 pd#:#pd_osi_host_info#:#Server zur Anzeige des Instant-Messenger-Online-Status (optional). Siehe:
 pd#:#pd_personal_items_default_view#:#Standard-Sicht
@@ -11000,11 +11000,11 @@ common#:#preconditions_obligatory_hint#:#Bitte bearbeiten Sie die folgenden Vorb
 common#:#preconditions_optional_hint#:#Bitte bearbeiten Sie mindestens <b>%s</b> der folgenden Vorbedingungen, um Zugriff zu erlangen
 trac#:#trac_learning_progress_of#:#Learning Progress of %s
 trac#:#trac_learning_progress_objects_description#:#Diese Liste zeigt eine Übersicht all Ihrer Kurse und Objekte.
-common#:#personal_workspace#:#Materialien
-wsp#:#wsp_personal_workspace#:#Materialien
+common#:#personal_workspace#:#Mein Arbeitsraum
+wsp#:#wsp_personal_workspace#:#Mein Arbeitsraum
 wsp#:#wsp_personal_workspace_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
 wsp#:#wsp_navigation_folders#:#Ordner anzeigen
-wsp#:#wsp_root_folder#:#Materialien
+wsp#:#wsp_root_folder#:#Mein Arbeitsraum
 wsp#:#wsp_navigation_resource#:#Neu hinzufügen
 wsp#:#wsp_type_file#:#Datei
 wsp#:#wsp_type_wfld#:#Ordner
@@ -11245,7 +11245,7 @@ rbac#:#precondition_num_optional_info#:#Bitte geben Sie die minimale Anzahl der 
 trac#:#trac_min_passed#:#Minimalanzahl zu bestehender Materialien:
 crs#:#crs_deact_auto_noti#:#Unterbindung von Mail-Benachrichtigungen aktivieren
 crs#:#crs_deact_auto_noti_info#:#Unterbindet den Versand der Mail-Benachrichtigung für den Kursbeitritt an jene Teilnehmer, die über die Teilnehmerverwaltung in den Kurs aufgenommen wurden.
-wsp#:#wsp_type_tstv#:#Nachweis: Test
+wsp#:#wsp_type_tstv#:#Zertifikat: Test
 content#:#cont_par_format#:#Absatzformat
 content#:#cont_char_format#:#Zeichenformat
 content#:#cont_lists#:#Listen
@@ -11285,11 +11285,11 @@ common#:#new_customer#:#Sind Sie ein neuer Kunde?
 common#:#new_customer_info#:#Wenn Sie noch kein Benutzerkonto besitzen klicken Sie bitte hier.
 payment#:#shop_url#:#Link zum Shop
 payment#:#shop_bought_objects_url#:#Link zu den gekauften Objekten
-tstv#:#tstv_create#:#Testnachweis erstellen
-tstv#:#tstv_create_info#:#Wählen Sie einen Test, für den Sie einen Nachweis benötigen
-wsp#:#wsp_type_excv#:#Nachweis: Übung
-excv#:#excv_create#:#Übungsnachweis erstellen
-excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie einen Nachweis benötigen
+tstv#:#tstv_create#:#Testzertifikat erstellen
+tstv#:#tstv_create_info#:#Wählen Sie einen Test, für den Sie ein Zertifikat benötigen
+wsp#:#wsp_type_excv#:#Zertifikat: Übung
+excv#:#excv_create#:#Übungszertifikat erstellen
+excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie ein Zertifikat benötigen
 common#:#enable_course_group_notifications#:#Tägliche Mail für Gruppen und Kurs News
 common#:#enable_course_group_notifications_desc#:#Bei Aktivierung können Teilnehmer eine Zusammenfassung der News abonnieren.
 assessment#:#copy_no_questions_selected#:#Bitte wählen Sie mindestens eine Frage zum Kopieren aus.
