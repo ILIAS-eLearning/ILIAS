@@ -65,7 +65,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			case "illearningprogressgui":
 				$this->addLocations();
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$this->setTabs();
+				$this->setTabs("learning_progress");
 
 				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
 				$new_gui->activateStatistics();
@@ -76,7 +76,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			case 'ilmdeditorgui':
 				$this->addLocations();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-				$this->setTabs();
+				$this->setTabs("meta");
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 
@@ -160,7 +160,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				else
 				{
 					$this->addLocations(true);
-					$this->setTabs();
+					$this->setTabs("perm");
 				}
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
@@ -170,7 +170,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			// infoscreen
 			case 'ilinfoscreengui':
 				$this->addLocations(true);
-				$this->setTabs();
+				$this->setTabs("info");
 				include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 				$info = new ilInfoScreenGUI($this);
 				$info->enablePrivateNotes();
@@ -192,7 +192,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			
 			case "ilexportgui":
 				$this->addLocations(true);
-				$this->setTabs();
+				$this->setTabs("export");
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml", "", $this, "export");
@@ -269,7 +269,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		global $lng;
 
 		$lng->loadLanguageModule("style");
-		$this->setTabs();
+		$this->setTabs("settings");
 		$this->setSubTabs("cont_general_properties");
 
 		//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
@@ -286,13 +286,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// view button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", "ilias.php?baseClass=ilLMPresentationGUI&ref_id=".$this->object->getRefID());
-		$this->tpl->setVariable("BTN_TARGET"," target=\"".$buttonTarget."\" ");
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
-		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "fixTreeConfirm"));
@@ -1195,6 +1188,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		global $tree, $lng, $ilCtrl, $ilUser;
 
 		$this->setTabs();
+		$this->setContentSubTabs("chapters");
 		
 		if ($ilUser->getPref("lm_js_chapter_editing") != "disable")
 		{
@@ -1333,7 +1327,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		global $tree, $tpl, $ilToolbar, $ilCtrl, $lng;
 
 		$this->setTabs();
-		$this->setPagesSubTabs("pages");
+		$this->setContentSubTabs("pages");
 
 		if (!false)
 		{
@@ -1505,7 +1499,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		global $tpl;
 		
 		$this->setTabs();
-		$this->setLinkSubTabs("internal_links");
+		$this->setContentSubTabs("internal_links");
 		
 		include_once("./Modules/LearningModule/classes/class.ilLinksTableGUI.php");
 		$table_gui = new ilLinksTableGUI($this, "listLinks",
@@ -2650,6 +2644,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		global $tpl;
 
 		$this->setTabs();
+		$this->setContentSubTabs("export_ids");
 		
 		include_once("./Modules/LearningModule/classes/class.ilLMQuestionListTableGUI.php");
 		$table = new ilLMQuestionListTableGUI($this, "listQuestions", $this->object);
@@ -2665,34 +2660,57 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	/**
 	* output tabs
 	*/
-	function setTabs()
+	function setTabs($a_act = "")
 	{
-		// catch feedback message
-		#include_once("classes/class.ilTabsGUI.php");
-		#$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($this->tabs_gui);
-		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_lm_b.gif"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("content");
-		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-		$this->tpl->setVariable("HEADER", $this->object->getTitle());
+		global $lng;
+		
+		$this->addTabs($a_act);
+		$this->tpl->setTitle($this->object->getTitle());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"),
+			$lng->txt("obj_lm"));
 	}
 
 	/**
-	 * Set link sub tabs
+	 * Set pages tabs
 	 *
 	 * @param
 	 * @return
 	 */
-	function setLinkSubTabs($a_active)
+	function setContentSubTabs($a_active)
 	{
 		global $ilTabs, $lng, $ilCtrl;
 
+		$lm_set = new ilSetting("lm");
+
+		// chapters
+		$ilTabs->addSubtab("chapters",
+			$lng->txt("cont_chapters"),
+			$ilCtrl->getLinkTarget($this, "chapters"));
+		
+		// all pages
+		$ilTabs->addSubtab("pages",
+			$lng->txt("cont_all_pages"),
+			$ilCtrl->getLinkTarget($this, "pages"));
+		
+		// questions
+		$ilTabs->addSubtab("questions",
+			$lng->txt("objs_qst"),
+			$ilCtrl->getLinkTarget($this, "listQuestions"));
+
+		// export ids
+		if ($lm_set->get("html_export_ids"))
+		{
+			$ilTabs->addSubtab("export_ids",
+				$lng->txt("cont_html_export_ids"),
+				$ilCtrl->getLinkTarget($this, "showExportIDsOverview"));
+		}
+		
+		// list links
 		$ilTabs->addSubtab("internal_links",
 			$lng->txt("cont_internal_links"),
 			$ilCtrl->getLinkTarget($this, "listLinks"));
 
+		// web link checker
 		if ($this->object->getType() == "lm")
 		{
 			if(@include_once('HTTP/Request.php'))
@@ -2702,119 +2720,86 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 					$ilCtrl->getLinkTarget($this, "linkChecker"));
 			}
 		}
-
+		
 		$ilTabs->activateSubTab($a_active);
-		$ilTabs->activateTab("cont_links");
+		$ilTabs->activateTab("content");
 	}
 
 	/**
-	 * Set pages tabs
-	 *
-	 * @param
-	 * @return
+	 * Adds tabs
 	 */
-	function setPagesSubTabs($a_active)
+	function addTabs($a_act = "")
 	{
-		global $ilTabs, $lng, $ilCtrl;
+		global $rbacsystem, $ilUser, $ilTabs, $lng;
+		
+$tabs_gui = $ilTabs;
 
-		$lm_set = new ilSetting("lm");
-
-		if ($lm_set->get("html_export_ids"))
-		{
-			$ilTabs->addSubtab("pages",
-				$lng->txt("cont_all_pages"),
-				$ilCtrl->getLinkTarget($this, "pages"));
-
-			$ilTabs->addSubtab("export_ids",
-				$lng->txt("cont_html_export_ids"),
-				$ilCtrl->getLinkTarget($this, "showExportIDsOverview"));
-
-			$ilTabs->activateSubTab($a_active);
-			$ilTabs->activateTab("cont_all_pages");
-		}
-	}
-
-	/**
-	* adds tabs to tab gui object
-	*
-	* @param	object		$tabs_gui		ilTabsGUI object
-	*/
-	function getTabs(&$tabs_gui)
-	{
-		global $rbacsystem,$ilUser;
-
-		// back to upper context
-		//$tabs_gui->getTargetsByObjectType($this, $this->object->getType());
-
-		// chapters
-		$tabs_gui->addTarget("cont_chapters",
-			$this->ctrl->getLinkTarget($this, "chapters"),
-			"chapters", get_class($this));
-
-		// pages
-		$tabs_gui->addTarget("cont_all_pages",
-			$this->ctrl->getLinkTarget($this, "pages"),
-			"pages", get_class($this));
-
-		// questions
-		$tabs_gui->addTarget("objs_qst",
-			$this->ctrl->getLinkTarget($this, "listQuestions"),
-			"listQuestions", get_class($this));
+		// content
+		$ilTabs->addTab("content",
+			$lng->txt("content"),
+			$this->ctrl->getLinkTarget($this, "chapters"));
 
 		// info
-		$tabs_gui->addTarget("info_short",
-			$this->ctrl->getLinkTargetByClass("ilinfoscreengui",'showSummary'),
-			"", "ilinfoscreengui");
+		$ilTabs->addTab("info",
+			$lng->txt("info_short"),
+			$this->ctrl->getLinkTargetByClass("ilinfoscreengui",'showSummary'));
 			
-		// properties
-		$tabs_gui->addTarget("settings",
-			$this->ctrl->getLinkTarget($this,'properties'),
-			"properties", get_class($this));
+		// settings
+		$ilTabs->addTab("settings",
+			$lng->txt("settings"),
+			$this->ctrl->getLinkTarget($this,'properties'));
 
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()) and ($this->object->getType() == 'lm' or $this->object->getType() == 'dbk'))
 		{
-			$tabs_gui->addTarget('learning_progress',
-								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
-								 '',
-								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui','illmstatisticsgui'));
+			$ilTabs->addTab('learning_progress',
+				$lng->txt("learning_progress"),
+				$this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''));
 		}
-			
-		// links
-		$tabs_gui->addTarget("cont_links",
-			$this->ctrl->getLinkTarget($this,'listLinks'),
-			"listLinks", get_class($this));
 
 		if ($this->object->getType() != "lm")
 		{
 			// bibliographical data
-			$tabs_gui->addTarget("bib_data",
-				$this->ctrl->getLinkTarget($this, "editBibItem"),
-				"editBibItem", get_class($this));
+			$ilTabs->addTab("bib_data",
+				$lng->txt("bib_data"),
+				$this->ctrl->getLinkTarget($this, "editBibItem"));
 		}
 		
-		$tabs_gui->addTarget("history", $this->ctrl->getLinkTarget($this, "history")
-			, "history", get_class($this));
+		// history
+		$ilTabs->addTab("history",
+			$lng->txt("history"),
+			$this->ctrl->getLinkTarget($this, "history"));
 
-		$tabs_gui->addTarget("meta_data",
-			$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			"", "ilmdeditorgui");
+		// meta data
+		$ilTabs->addTab("meta",
+			$lng->txt("meta_data"),
+			$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''));
 
 		if ($this->object->getType() == "lm")
 		{				
 			// export
-			$tabs_gui->addTarget("export",
-				$this->ctrl->getLinkTargetByClass("ilexportgui", ""),
-				"", "ilexportgui");		
+			$ilTabs->addTab("export",
+				$lng->txt("export"),
+				$this->ctrl->getLinkTargetByClass("ilexportgui", ""));		
 		}
 		
 		// permissions
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+			$ilTabs->addTab("perm",
+				$lng->txt("perm_settings"),
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
 		}
+		
+		if ($a_act != "")
+		{
+			$ilTabs->activateTab($a_act);
+		}
+		
+		// presentation view
+		$ilTabs->addNonTabbedLink("pres_mode", $lng->txt("cont_presentation_view"),
+			"ilias.php?baseClass=ilLMPresentationGUI&ref_id=".$this->object->getRefID(), "_top");
 	}
 
 	/**
@@ -2941,7 +2926,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function history()
 	{
-		$this->setTabs();
+		$this->setTabs("history");
 
 		require_once("classes/class.ilHistoryGUI.php");
 		$hist_gui =& new ilHistoryGUI($this->object->getId() ,
@@ -2991,7 +2976,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->__initLinkChecker();
 
 		$this->setTabs();
-		$this->setLinkSubTabs("link_check");
+		$this->setContentSubTabs("link_check");
 		
 		require_once 'Services/LinkChecker/classes/class.ilLinkCheckerTableGUI.php';
 		
@@ -3585,7 +3570,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		global $tpl;
 
 		$this->setTabs();
-		$this->setPagesSubTabs("export_ids");
+		$this->setContentSubTabs("export_ids");
 		
 		include_once("./Modules/LearningModule/classes/class.ilExportIDTableGUI.php");
 		$tbl = new ilExportIDTableGUI($this, "showExportIDsOverview", $a_validation);
