@@ -41,7 +41,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function &executeCommand()
 	{
-		global $ilAccess, $lng;
+		global $ilAccess, $lng, $ilTabs, $ilCtrl;
 		
 		if ($this->ctrl->getRedirectSource() == "ilinternallinkgui")
 		{
@@ -106,6 +106,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				break;
 
 			case "illmpageobjectgui":
+				
+				$ilTabs->setBackTarget($lng->txt("learning module"),
+					$ilCtrl->getLinkTarget($this, "chapters"));
 				$this->ctrl->saveParameter($this, array("obj_id"));
 				$this->addLocations();
 				$this->ctrl->setReturn($this, "chapters");
@@ -127,6 +130,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				break;
 
 			case "ilstructureobjectgui":
+				$ilTabs->setBackTarget($lng->txt("learning module"),
+					$ilCtrl->getLinkTarget($this, "chapters"));
+
 				$this->ctrl->saveParameter($this, array("obj_id"));
 				$this->addLocations();
 				$this->ctrl->setReturn($this, "chapters");
