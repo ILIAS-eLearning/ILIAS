@@ -939,7 +939,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function setTabs()
 	{
-		global $ilTabs, $ilUser;
+		global $ilTabs, $ilUser, $lng;
 
 		if ($ilUser->getPref("lm_js_chapter_editing") == "disable")
 		{
@@ -979,6 +979,10 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 		$this->tpl->setVariable("HEADER",
 			$this->lng->txt($this->obj->getType()).": ".$this->obj->getTitle());
+		
+		// presentation view
+		$ilTabs->addNonTabbedLink("pres_mode", $lng->txt("cont_presentation_view"),
+			ILIAS_HTTP_PATH."/goto.php?target=st_".$this->obj->getId(), "_top");
 	}
 
 	/**
