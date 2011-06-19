@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "classes/class.ilObjectGUI.php";
 include_once "./Modules/LearningModule/classes/class.ilObjContentObject.php";
@@ -906,6 +906,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		// create content object tree
 		$a_new_object->createLMTree();
+		
+		// create a first chapter
+		$a_new_object->addFirstChapterAndPage();
 
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt($this->type."_added"), true);

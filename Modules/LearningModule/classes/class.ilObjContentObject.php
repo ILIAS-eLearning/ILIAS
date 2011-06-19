@@ -248,6 +248,36 @@ class ilObjContentObject extends ilObject
 		$this->lm_tree->addTree($this->getId(), 1);
 	}
 
+	/**
+	 * Add first chapter and page
+	 */
+	function addFirstChapterAndPage()
+	{
+		global $lng;
+		
+		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+		include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
+		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
+		
+		$root_id = $this->lm_tree->getRootId();
+		
+		// chapter
+		$chap = new ilStructureObject($this);
+		$chap->setType("st");
+		$chap->setTitle($lng->txt("cont_new_chap"));
+		$chap->setLMId($this->getId());
+		$chap->create();
+		ilLMObject::putInTree($chap, $root_id, IL_FIRST_NODE);
+
+		// page
+		$page = new ilLMPageObject($this);
+		$page->setType("pg");
+		$page->setTitle($lng->txt("cont_new_page"));
+		$page->setLMId($this->getId());
+		$page->create();
+		ilLMObject::putInTree($page, $chap->getId(), IL_FIRST_NODE);
+	}
+	
 
 	/**
 	* get content object tree
