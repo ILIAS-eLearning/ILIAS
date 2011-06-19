@@ -81,12 +81,15 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 		if ($this->current_folder != $this->tree->getRootId() && !$this->all_objects)
 		{
 			$node = $this->tree->getNodeData($this->current_folder);
-			$this->setTitle($node["title"], "icon_fold.gif",
+			$this->setTitle(
+				$lng->txt("mep_choose_from_folder").": ".$node["title"], "icon_fold.gif",
 				$node["title"]);
 		}
 		else
 		{
-			$this->setTitle(ilObject::_lookupTitle($this->media_pool->getId()),
+			$this->setTitle(
+				$lng->txt("mep_choose_from_mep").": ".
+				ilObject::_lookupTitle($this->media_pool->getId()),
 				"icon_mep.gif",
 				ilObject::_lookupTitle($this->media_pool->getId()));
 		}
@@ -122,17 +125,6 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 		{
 			$this->setSelectAllCheckbox("id");
 		}
-		
-		if ($this->current_folder != $this->tree->getRootId() && !$this->all_objects)
-		{
-			$ilCtrl->setParameter($this->parent_obj, $this->folder_par,
-				$this->tree->getParentId($this->current_folder));
-			$this->addHeaderCommand($ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd),
-				$lng->txt("mep_parent_folder"));
-			$ilCtrl->setParameter($this->parent_obj, $this->folder_par,
-				$this->current_folder);
-		}
-
 	}
 
 	/**
@@ -455,7 +447,51 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 		}
 	}
 
-// cmd=listMedia&cmdClass=ilobjmediapoolgui&cmdNode=5i:5k&baseClass=ilMediaPoolPresentationGUI&item_id=28
-// item_id=28&obj_id=28&cmd=listMedia&cmdClass=ilobjmediapoolgui&cmdNode=5i:5k&baseClass=ilMediaPoolPresentationGUI
+	/**
+	 * get HTML
+	 *
+	 * @param
+	 * @return
+	 */
+	function render()
+	{
+		global $ilCtrl, $lng;
+		
+		$mtpl = new ilTemplate("tpl.media_sel_table.html", true, true, "Modules/MediaPool");
+		
+		$pre = "";
+		if ($this->current_folder != $this->tree->getRootId() && !$this->all_objects)
+		{
+			$path = $this->tree->getPathFull($this->current_folder);
+
+			include_once("./Services/Locator/classes/class.ilLocatorGUI.php");
+			$loc = new ilLocatorGUI();
+			foreach ($path as $p)
+			{
+				$ilCtrl->setParameter($this->parent_obj, $this->folder_par, $p["child"]);
+				$title = $p["title"];
+				if ($this->tree->getRootId() == $p["child"])
+				{
+					$title = ilObject::_lookupTitle($this->media_pool->getId());
+				}
+				$loc->addItem(
+					$title,
+					$ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd)
+					);
+			}
+			$ilCtrl->setParameter($this->parent_obj, $this->folder_par,
+				$this->current_folder);
+			
+			$mtpl->setCurrentBlock("loc");
+			$mtpl->setVariable("LOC", $loc->getHTML());
+			$mtpl->parseCurrentBlock();
+		}
+
+		$mtpl->setVariable("TABLE", parent::render());
+		
+		return $mtpl->get();
+	}
+	
+	
 }
 ?>

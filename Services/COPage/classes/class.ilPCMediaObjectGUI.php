@@ -255,7 +255,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function insertFromPool($a_change_obj_ref = false)
 	{
-		global $ilCtrl, $ilAccess, $ilTabs, $tpl, $lng;
+		global $ilCtrl, $ilAccess, $ilTabs, $tpl, $lng, $ilToolbar;
 		
 
 		if ($_SESSION["cont_media_pool"] != "" &&
@@ -276,7 +276,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 					$ilCtrl->getLinkTarget($this, "insert"));
 			}
 			$ilCtrl->setParameter($this, "subCmd", "");
-			$tpl->setVariable("BTN_TXT", $lng->txt("cont_select_media_pool"));
+			$tpl->setVariable("BTN_TXT", $lng->txt("cont_switch_to_media_pool"));
 			$tpl->parseCurrentBlock();
 
 			$this->getTabs($ilTabs, true, $a_change_obj_ref);
