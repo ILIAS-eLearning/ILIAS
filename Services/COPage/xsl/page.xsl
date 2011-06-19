@@ -697,12 +697,6 @@
 		</xsl:call-template>
 	</xsl:if>
 
-	<!-- insert section -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">insert_sec</xsl:with-param>
-		<xsl:with-param name="langvar">ed_insert_section</xsl:with-param>
-	</xsl:call-template>
-
 	<!-- insert data table -->
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">insert_dtab</xsl:with-param>
@@ -720,6 +714,20 @@
 		<xsl:with-param name="command">insert_list</xsl:with-param>
 		<xsl:with-param name="langvar">ed_insert_list</xsl:with-param>
 	</xsl:call-template>
+
+	<!-- insert section -->
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">insert_sec</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_section</xsl:with-param>
+	</xsl:call-template>
+
+	<!-- insert tabbed content -->
+	<xsl:if test = "$enable_tabs = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_tabs</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_tabs</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
 
 	<!-- insert interactive image -->
 	<xsl:call-template name="EditMenuItem">
@@ -741,14 +749,6 @@
 		<xsl:with-param name="langvar">ed_insert_code</xsl:with-param>
 	</xsl:call-template>
 
-	<!-- insert tabbed content -->
-	<xsl:if test = "$enable_tabs = 'y'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">insert_tabs</xsl:with-param>
-			<xsl:with-param name="langvar">ed_insert_tabs</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>
-	
 	<!-- insert content snippets -->
 	<xsl:if test = "$enable_content_includes = 'y'">
 		<xsl:call-template name="EditMenuItem">
