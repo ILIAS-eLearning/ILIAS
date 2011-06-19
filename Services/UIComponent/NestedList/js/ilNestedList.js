@@ -117,5 +117,27 @@ ilNestedList =
 			$(toggle_link).attr("class", this.lists[list_id].cfg['exp_class']);
 			this.lists[list_id].nodes[node_id].expanded = true;
 		}
+	},
+	
+	expandAll: function(list_id)
+	{
+		for (k in this.lists[list_id].nodes)
+		{
+			$('#list_' + list_id + '_' + k + '_ul').css("display", "");
+			$('#list_' + list_id + '_' + k + '_li a.' + this.lists[list_id].cfg['col_class']).
+				attr("class", this.lists[list_id].cfg['exp_class']);
+			this.lists[list_id].nodes[k].expanded = true;
+		}
+	},
+	
+	collapseAll:  function(list_id)
+	{
+		for (k in this.lists[list_id].nodes)
+		{
+			$('#list_' + list_id + '_' + k + '_ul').css("display", "none");
+			$('#list_' + list_id + '_' + k + '_li a.' + this.lists[list_id].cfg['exp_class']).
+				attr("class", this.lists[list_id].cfg['col_class']);
+			this.lists[list_id].nodes[k].expanded = false;
+		}
 	}
 };

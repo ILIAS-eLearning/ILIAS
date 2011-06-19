@@ -5950,3 +5950,35 @@ $ilDB->addTableColumn("sahs_lm", "localization", array(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3367>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("RTETreeList", "rte_tul", "ul",
+				array());
+	ilDBUpdate3136::addStyleClass("RTETreeItem", "rte_tli", "li",
+				array());
+	ilDBUpdate3136::addStyleClass("RTETreeExpanded", "rte_texp", "a",
+				array());
+	ilDBUpdate3136::addStyleClass("RTETreeCollapsed", "rte_texp", "a",
+				array());
+?>
+<#3368>
+<?php
+$ilDB->manipulate("UPDATE style_parameter SET ".
+	" tag = ".$ilDB->quote("div", "integer").
+	" WHERE type = ".$ilDB->quote("rte_node", "text")
+	);
+?>
+<#3369>
+<?php
+$ilDB->manipulate("UPDATE style_parameter SET ".
+	" tag = ".$ilDB->quote("div", "integer").
+	" WHERE type = ".$ilDB->quote("rte_status", "text")
+	);
+?>
+<#3370>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("RTETreeCurrent", "rte_tlink", "a",
+				array());
+?>

@@ -29,10 +29,6 @@
 	text-decoration: underline;
 }
 
-#scormplayer .current
-{
-	background-color: powderblue !important;
-}
 
 #scormplayer .suspended
 {
@@ -223,6 +219,10 @@ div.iosRTEMenu
 	background-color: #F3F3F3;
 }
 
+div.ilc_rte_menu_RTEMenu
+{
+}
+
 div.iosRTELogo
 {
 	float:left;
@@ -268,11 +268,11 @@ ul.ilc_rte_tul_RTETreeList
 
 li.ilc_rte_tli_RTETreeItem
 {
-	padding: 0px 0px 0px 20px;
+	padding: 5px 0px 0px 20px;
 	margin: 0px;
 }
 
-.ilc_rte_texp_RTETreeExpand,
+.ilc_rte_texp_RTETreeExpanded,
 .ilc_rte_texp_RTETreeCollapsed
 {
 	background: url(images/tree_exp.png) 0 0 no-repeat;
@@ -295,19 +295,25 @@ div.ilc_rte_node_RTEAsset,
 div.ilc_rte_node_RTECourseDisabled, div.ilc_rte_node_RTEChapterDisabled, div.ilc_rte_node_RTEScoDisabled,
 div.ilc_rte_node_RTEAssetDisabled
 {
-	padding-top: 5px;
 }
 
-#treeView a.ilc_rte_tlink_RTETreeLinkDisabled, a.ilc_rte_tlink_RTETreeLinkDisabled
+/* tree links */
+a.ilc_rte_tlink_RTETreeLinkDisabled, a.ilc_rte_tlink_RTETreeLinkDisabled
 {
 	color: #A0A0A0;
 	background-color: #E0E0E0;
 	cursor: not-allowed;
 	text-decoration:none;
 	font-size: 90%;
-
 }
-#treeView a.ilc_rte_tlink_RTETreeLinkDisabled:hover, a.ilc_rte_tlink_RTETreeLinkDisabled:hover
+
+a.ilc_rte_tlink_RTETreeLinkDisabled:hover, a.ilc_rte_tlink_RTETreeLinkDisabled:hover
 {
 	text-decoration:none;
 }
+
+a.ilc_rte_tlink_RTETreeCurrent
+{
+	background-color: #B0E0E6;
+}
+
