@@ -960,7 +960,6 @@ class ilObjContentObject extends ilObject
 	*/
 	function getAvailableLayouts()
 	{
-		// read sdir, copy files and copy directories recursively
 		$dir = opendir("./Modules/LearningModule/layouts/lm");
 
 		$layouts = array();
@@ -977,6 +976,18 @@ class ilObjContentObject extends ilObject
 			}
 		}
 		asort($layouts);
+		
+		// workaround: fix ordering
+		return array(
+			'toc2win' => 'toc2win',
+			'toc2windyn' => 'toc2windyn',
+			'1window' => '1window',
+			'2window' => '2window',
+			'3window' => '3window',
+			'presentation' => 'presentation',
+			'fullscreen' => 'fullscreen'
+			);
+
 		return $layouts;
 	}
 
