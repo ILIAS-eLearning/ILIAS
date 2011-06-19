@@ -284,17 +284,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$buttonTarget = "ilContObj".$this->object->getID();
 		}
 
-		//add template for view button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "fixTreeConfirm"));
-		//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_fix_tree"));
-		$this->tpl->parseCurrentBlock();
-
-		//$this->tpl->touchBlock("btn_row");
-
 		// lm properties
 		$this->initPropertiesForm();
 		$this->getPropertiesFormValues();
@@ -1508,7 +1497,20 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$tpl->setContent($table_gui->getHTML());
 	}
 	
-	
+	/**
+	 * Show maintenance
+	 */
+	function showMaintenance()
+	{
+		global $tpl, $ilToolbar;
+		
+		$this->setTabs();
+		$this->setContentSubTabs("maintenance");
+		
+		$ilToolbar->addButton($this->lng->txt("cont_fix_tree"),
+			$this->ctrl->getLinkTarget($this, "fixTreeConfirm"));
+	}
+
 	/**
 	* activates or deactivates pages
 	*/
@@ -2266,6 +2268,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	function fixTreeConfirm()
 	{
 		$this->setTabs();
+		$this->setContentSubTabs("maintenance");
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm.html");
 
@@ -2274,7 +2277,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		//
 		$this->tpl->setVariable("TXT_CONFIRM", $this->lng->txt("confirmation"));
 		$this->tpl->setVariable("TXT_CONTENT", $this->lng->txt("cont_fix_tree_confirm"));
-		$this->tpl->setVariable("CMD_CANCEL", "cancelFixTree");
+		$this->tpl->setVariable("CMD_CANCEL", "showMaintenance");
 		$this->tpl->setVariable("CMD_OK", "fixTree");
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_OK", $this->lng->txt("cont_fix_tree"));
@@ -2291,22 +2294,15 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		//$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
 	}
 
-	/**
-	* cancel tree fixing
-	*/
-	function cancelFixTree()
-	{
-		$this->ctrl->redirect($this, "properties");
-	}
 
 	/**
-	* fix tree
-	*/
+	 * Fix tree
+	 */
 	function fixTree()
 	{
 		$this->object->fixTree();
 		ilUtil::sendSuccess($this->lng->txt("cont_tree_fixed"), true);
-		$this->ctrl->redirect($this, "properties");
+		$this->ctrl->redirect($this, "showMaintenance");
 	}
 
 	/**
@@ -2720,6 +2716,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 					$ilCtrl->getLinkTarget($this, "linkChecker"));
 			}
 		}
+		
+		// maintenance
+		$ilTabs->addSubtab("maintenance",
+			$lng->txt("cont_maintenance"),
+			$ilCtrl->getLinkTarget($this, "showMaintenance"));
 		
 		$ilTabs->activateSubTab($a_active);
 		$ilTabs->activateTab("content");
