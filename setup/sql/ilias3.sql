@@ -29408,6 +29408,7 @@ INSERT INTO `settings` VALUES ('common','session_min_idle','15');
 INSERT INTO `settings` VALUES ('common','session_max_idle','30');
 INSERT INTO `settings` VALUES ('common','session_max_idle_after_first_request','1');
 INSERT INTO `settings` VALUES ('common','session_allow_client_maintenance','1');
+INSERT INTO `settings` VALUES ('lm','time_scheduled_page_activation','1');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 
 --
