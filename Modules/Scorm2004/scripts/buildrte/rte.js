@@ -10854,11 +10854,13 @@ function toggleTree() {
 	
 	if (treeState==false) {
 		elm.innerHTML="Collapse All";
-		treeYUI.expandAll();
+		//treeYUI.expandAll();
+		ilNestedList.expandAll('rte_tree');
 		treeState=true;
 	} else {
 		elm.innerHTML="Expand All";
-		treeYUI.collapseAll();
+		//treeYUI.collapseAll();
+		ilNestedList.collapseAll('rte_tree');
 		treeState=false;
 	}
 }
@@ -12523,20 +12525,20 @@ function setResource(id, url, base)
 	
 	if (guiItem) 
 	{
-		removeClass(guiItem, "current");
-		removeClass(guiItem, "ilc_rte_status_RTERunning");
+		removeClass(guiItem, "ilc_rte_tlink_RTETreeCurrent");
+		removeClass(guiItem.parentNode, "ilc_rte_status_RTERunning");
 		
 	}
 	guiItem = all(ITEM_PREFIX + id);
 	if (guiItem)
 	{
-		removeClass(guiItem,"ilc_rte_status_RTENotAttempted",1);
-		removeClass(guiItem,"ilc_rte_status_RTEIncomplete",1);
-		removeClass(guiItem,"ilc_rte_status_RTECompleted",1);
-		removeClass(guiItem,"ilc_rte_status_RTEFailed",1);
-		removeClass(guiItem,"ilc_rte_status_RTEPassed",1);
-		addClass(guiItem, "current");
-		addClass(guiItem,"ilc_rte_status_RTERunning");
+		removeClass(guiItem.parentNode,"ilc_rte_status_RTENotAttempted",1);
+		removeClass(guiItem.parentNode,"ilc_rte_status_RTEIncomplete",1);
+		removeClass(guiItem.parentNode,"ilc_rte_status_RTECompleted",1);
+		removeClass(guiItem.parentNode,"ilc_rte_status_RTEFailed",1);
+		removeClass(guiItem.parentNode,"ilc_rte_status_RTEPassed",1);
+		addClass(guiItem, "ilc_rte_tlink_RTETreeCurrent");
+		addClass(guiItem.parentNode,"ilc_rte_status_RTERunning");
 	}
 	onWindowResize();
 	//reset
@@ -12549,7 +12551,7 @@ function removeResource(callback)
 {
 	if (guiItem) 
 	{
-		removeClass(guiItem, "current");
+		removeClass(guiItem, "ilc_rte_tlink_RTETreeCurrent");
 	}
 	var resContainer = window.document.getElementById("res");
 	resContainer.src="about:blank";
@@ -12602,73 +12604,52 @@ function onWindowResize()
 
 function buildNavTree(rootAct,name,tree){
 	
-//console.log('buildNavTree');
-	if (!true)
-	{
-		ilNestedList.addList('rte_tree', {ul_class: 'ilc_rte_tul_RTETreeList',
-			li_class: 'ilc_rte_tli_RTETreeItem', exp_class: 'ilc_rte_texp_RTETreeExpand',
-			col_class: 'ilc_rte_texp_RTETreeCollapsed'});
-		
-		var par_id = 0;
-		//root node only when in TOC
-		if (mlaunch.mNavState.mChoice!=null)
-		{
-			var id=rootAct.id;
-			if (rootAct.isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {	
-				//display the rootNode
-				//var rootNode = new YAHOO.widget.TextNode(rootAct.title, root, true);
-				//rootNode.href="#this";
-				//rootNode.target="_self";
-				//rootNode.labelElId=ITEM_PREFIX + rootAct.id;
-//console.log(rootAct.title);
-//console.log(ITEM_PREFIX + rootAct.id);
-				ilNestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.id,
-					"<a href='#this' id='" + ITEM_PREFIX + rootAct.id + "' target='_self'>" + rootAct.title + "</a>",
-					true);
-				par_id = ITEM_PREFIX + rootAct.id;
-			}	
-		}
+	// new implementation
+	ilNestedList.addList('rte_tree', {ul_class: 'ilc_rte_tul_RTETreeList',
+		li_class: 'ilc_rte_tli_RTETreeItem', exp_class: 'ilc_rte_texp_RTETreeExpanded',
+		col_class: 'ilc_rte_texp_RTETreeCollapsed'});
 	
-		function build2(rootAct, par_id){
-			if (rootAct.item) {
-				for (var i=0;i<rootAct.item.length;i++) {
-					//only include if visible
-					var id=rootAct.item[i].id;
-					if (mlaunch.mNavState.mChoice!=null) {
-						if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
-							
-							ilNestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.item[i].id,
-								"<a href='#this' id='" + ITEM_PREFIX + rootAct.item[i].id + "' target='_self'>" + rootAct.item[i].title + "</a>",
-								true);
-							var next_par_id = ITEM_PREFIX + rootAct.item[i].id;
+	var par_id = 0;
+	//root node only when in TOC
+	if (mlaunch.mNavState.mChoice!=null)
+	{
+		var id=rootAct.id;
+		if (rootAct.isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {	
+			ilNestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.id,
+				"<a href='#this' id='" + ITEM_PREFIX + rootAct.id + "' target='_self'>" + rootAct.title + "</a>",
+				true);
+			par_id = ITEM_PREFIX + rootAct.id;
+		}	
+	}
 
-//							var sub = new YAHOO.widget.TextNode({label:rootAct.item[i].title, id:ITEM_PREFIX + rootAct.item[i].id}, attach, true);
-//							sub.href="#this";
-//							sub.target="_self";
-//							sub.labelElId=ITEM_PREFIX + rootAct.item[i].id;
-						}	
-					}
-					//further childs
-					if(rootAct.item[i].item) {
-						build2(rootAct.item[i], next_par_id);
-					}
+	function build2(rootAct, par_id){
+		if (rootAct.item) {
+			for (var i=0;i<rootAct.item.length;i++) {
+				//only include if visible
+				var id=rootAct.item[i].id;
+				if (mlaunch.mNavState.mChoice!=null) {
+					if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
+						
+						ilNestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.item[i].id,
+							"<a href='#this' id='" + ITEM_PREFIX + rootAct.item[i].id + "' target='_self'>" + rootAct.item[i].title + "</a>",
+							true);
+						var next_par_id = ITEM_PREFIX + rootAct.item[i].id;
+					}	
 				}
-			}	
-		}
-		
-		build2(rootAct, par_id);
-		
-//console.trace();
-//		ilNestedList.addList('rte_tree', {});
-//		ilNestedList.addNode('rte_tree', 0, 1, 'Node 1');
-//		ilNestedList.addNode('rte_tree', 0, 2, 'Node 2');
-//		ilNestedList.addNode('rte_tree', 0, 3, 'Node 3');
-		$("#treeView").empty();
-		ilNestedList.draw('rte_tree', 0, 'treeView');
-		return;
+				//further childs
+				if(rootAct.item[i].item) {
+					build2(rootAct.item[i], next_par_id);
+				}
+			}
+		}	
 	}
 	
+	build2(rootAct, par_id);
 	
+	$("#treeView").empty();
+	ilNestedList.draw('rte_tree', 0, 'treeView');
+return;
+
 	var tocView = all('treeView');
 	
 	//create the TreeView instance:
@@ -14399,28 +14380,28 @@ function updateNav(ignore) {
 			var node_stat_completion=activities[tree[i].mActivityID].completion_status;
 			//not attempted
 			if (node_stat_completion==null || node_stat_completion=="not attempted") {
-				toggleClass(elm,"ilc_rte_status_RTENotAttempted",1);
+				toggleClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);
 			}
 		
 			//incomplete
 			if (node_stat_completion=="unknown" || node_stat_completion=="incomplete" || statusArray[[tree[i].mActivityID]]['completion'] == "unknown" ||
 				statusArray[[tree[i].mActivityID]]['completion'] == "incomplete") {
-				removeClass(elm,"ilc_rte_status_RTENotAttempted",1);
-				toggleClass(elm,"ilc_rte_status_RTEIncomplete",1);
+				removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);
+				toggleClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);
 			}
 			
 			//just in case-support not required due to spec
 			if (node_stat_completion=="browsed") {
-					removeClass(elm,"ilc_rte_status_RTENotAttempted",1);
-					toggleClass(elm,"ilc_rte_status_RTEBrowsed",1);
+					removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);
+					toggleClass(elm.parentNode,"ilc_rte_status_RTEBrowsed",1);
 			}
 			
 			//completed
 			if (node_stat_completion=="completed" || statusArray[[tree[i].mActivityID]]['completion'] == "completed") {
-				removeClass(elm,"not_attempted",1);
-				removeClass(elm,"ilc_rte_status_RTEIncomplete",1);
-				removeClass(elm,"ilc_rte_status_RTEBrowsed",1);
-				toggleClass(elm,"ilc_rte_status_RTECompleted",1);
+				removeClass(elm.parentNode,"not_attempted",1);
+				removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);
+				removeClass(elm.parentNode,"ilc_rte_status_RTEBrowsed",1);
+				toggleClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);
 			}
 			
 			//overwrite if we have information on success (interaction sco) - ignore success=unknown
@@ -14431,12 +14412,12 @@ function updateNav(ignore) {
 				
 				//passed
 				if (node_stat_success=="passed" || statusArray[[tree[i].mActivityID]]['success'] == "passed") {
-					removeClass(elm,"ilc_rte_status_RTEFailed",1);
-					toggleClass(elm,"ilc_rte_status_RTEPassed",1);
+					removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);
+					toggleClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);
 				//failed
 				} else {
-					removeClass(elm,"ilc_rte_status_RTEPassed",1);
-					toggleClass(elm,"ilc_rte_status_RTEFailed",1);
+					removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);
+					toggleClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);
 				}
 			}
 
@@ -14447,7 +14428,7 @@ function updateNav(ignore) {
 
 		} else {
 			if (elm && activities[tree[i].mActivityID].href) {
-				toggleClass(elm,"ilc_rte_status_RTEAsset",1);
+				toggleClass(elm.parentNode,"ilc_rte_status_RTEAsset",1);
 				if (elm.parentNode)
 				{
 					toggleClass(elm.parentNode,"ilc_rte_node_RTEAsset" + disabled_str,1);
