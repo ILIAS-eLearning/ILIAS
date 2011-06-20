@@ -70,9 +70,15 @@ class ilRegistrationCode
 			$cnt = $rec["cnt"];
 		}
 		
+		$sql = "SELECT * FROM ".self::DB_TABLE.$where;
+		if($order_field)
+		{
+			$sql .= " ORDER BY ".$order_field." ".$order_direction;
+		}
+		
 		// set query
 		$ilDB->setLimit((int)$limit, (int)$offset);
-		$set = $ilDB->query("SELECT * FROM ".self::DB_TABLE.$where." ORDER BY ".$order_field." ".$order_direction);
+		$set = $ilDB->query($sql);
 		$result = array();
 		while($rec = $ilDB->fetchAssoc($set))
 		{
