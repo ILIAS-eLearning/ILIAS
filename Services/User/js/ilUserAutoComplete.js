@@ -1,4 +1,9 @@
 function ilUserAutoComplete(oResultData, sQuery, sResultMatch)
-{ 
-	return oResultData.lastname + ", " + oResultData.firstname + " [" + oResultData.login + "]";
+{
+	var email = "";
+	if(oResultData.email.toUpperCase().indexOf(sQuery.toUpperCase()) > -1)
+	{
+		email = ", " + oResultData.email;
+	}
+	return oResultData.lastname + ", " + oResultData.firstname + " [" + oResultData.login + "]" + email;
 } 

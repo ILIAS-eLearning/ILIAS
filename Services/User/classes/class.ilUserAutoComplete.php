@@ -30,26 +30,41 @@ class ilUserAutoComplete
 		{
 			return ilJsonUtil::encode($result);
 		}
+
+		$serach = ' ';
+		foreach(array('firstname','lastname','email') as $field)
+		{
+			include_once './Services/Search/classes/class.ilUserSearchOptions.php';
+			if(ilUserSearchOptions::_isSearchable($field))
+			{
+				$search .= $ilDB->like($field,'text',$a_str.'%').' OR ';
+			}
+		}
+		$search .= $ilDB->like("login", "text", $a_str."%")." ";
+
+
 		
 		include_once './Services/User/classes/class.ilUserAccountSettings.php';
 		if(ilUserAccountSettings::getInstance()->isUserAccessRestricted())
 		{
 			include_once './Services/User/classes/class.ilUserFilter.php';
-			$query = "SELECT login, firstname, lastname FROM usr_data ".
+			$query = "SELECT login, firstname, lastname, email FROM usr_data ".
 				"WHERE (".
-				$ilDB->like("login", "text", $a_str."%")." OR ".
-				$ilDB->like("firstname", "text", $a_str."%")." OR ".
-				$ilDB->like("lastname", "text", $a_str."%").
+				$search.
+				#$ilDB->like("login", "text", $a_str."%")." OR ".
+				#$ilDB->like("firstname", "text", $a_str."%")." OR ".
+				#$ilDB->like("lastname", "text", $a_str."%").
 				") AND ".$ilDB->in('time_limit_owner',ilUserFilter::getInstance()->getFolderIds(),false,'integer')." ".
 				"ORDER BY login ";
 			$set = $ilDB->query($query);
 		}
 		else
 		{
-			$set = $ilDB->query("SELECT login, firstname, lastname FROM usr_data WHERE ".
-				$ilDB->like("login", "text", $a_str."%")." OR ".
-				$ilDB->like("firstname", "text", $a_str."%")." OR ".
-				$ilDB->like("lastname", "text", $a_str."%").
+			$set = $ilDB->query("SELECT login, firstname, lastname, email FROM usr_data WHERE ".
+				$search.
+				#$ilDB->like("login", "text", $a_str."%")." OR ".
+				#$ilDB->like("firstname", "text", $a_str."%")." OR ".
+				#$ilDB->like("lastname", "text", $a_str."%").
 				" ORDER BY login");
 		}
 		$max = 20;
@@ -60,6 +75,7 @@ class ilUserAutoComplete
 			$result->response->results[$cnt]->login = $rec["login"];
 			$result->response->results[$cnt]->firstname = $rec["firstname"];
 			$result->response->results[$cnt]->lastname = $rec["lastname"];
+			$result->response->results[$cnt]->email = $rec["email"];
 			$cnt++;
 		}
 		
