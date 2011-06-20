@@ -11328,15 +11328,15 @@ content#:#cont_profile_mode_inherit#:#Automatic
 content#:#cont_profile_mode_inherit_info#:#Use your public profile settings
 content#:#cont_profile_mode_manual#:#Manual
 content#:#cont_profile_mode_manual_info#:#Use the following data:
-content#:#cont_ed_insert_verification#:#Insert Verification
-content#:#cont_pc_vrfc#:#Verification
-content#:#cont_insert_verification#:#Add Verification
-content#:#cont_update_verification#:#Edit Verification
-content#:#cont_verification_object#:#Verification
+content#:#cont_ed_insert_verification#:#Insert Certificate
+content#:#cont_pc_vrfc#:#Certificate
+content#:#cont_insert_verification#:#Add Certificate
+content#:#cont_update_verification#:#Edit Certificate
+content#:#cont_verification_object#:#Certificate
 content#:#cont_ed_insert_blog#:#Insert Blog
 content#:#cont_pc_blog#:#Blog
-content#:#cont_insert_blog#:#Add Blog
-content#:#cont_update_blog#:#Edit Blog
+content#:#cont_insert_blog#:#Add Blog Posting
+content#:#cont_update_blog#:#Edit Blog Posting
 content#:#cont_active_areas#:#Triggers
 content#:#cont_content_popups#:#Content Popups
 content#:#cont_overlay_images#:#Overlay Images

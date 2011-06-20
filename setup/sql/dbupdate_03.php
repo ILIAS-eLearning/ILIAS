@@ -5982,3 +5982,15 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 	ilDBUpdate3136::addStyleClass("RTETreeCurrent", "rte_tlink", "a",
 				array());
 ?>
+<#3371>
+<?php
+	if (!$ilDB->tableColumnExists("usr_portfolio_page", "type"))
+	{
+		$ilDB->addTableColumn("usr_portfolio_page", "type", array(
+			"type" => "integer",
+			"notnull" => true,
+		 	"length" => 1,
+		 	"default" => 1)
+		);
+	}
+?>

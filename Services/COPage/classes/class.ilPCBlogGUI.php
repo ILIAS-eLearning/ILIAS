@@ -68,7 +68,7 @@ class ilPCBlogGUI extends ilPageContentGUI
 	}
 
 	/**
-	 * Insert new personal data form.
+	 * Insert blog form
 	 *
 	 * @param ilPropertyFormGUI $a_form
 	 */
@@ -86,7 +86,7 @@ class ilPCBlogGUI extends ilPageContentGUI
 	}
 
 	/**
-	 * Edit personal data form.
+	 * Edit blog form
 	 *
 	 * @param ilPropertyFormGUI $a_form
 	 */
@@ -144,58 +144,193 @@ class ilPCBlogGUI extends ilPageContentGUI
 		
 		if ($a_insert)
 		{
-			$form->addCommandButton("create_blog", $this->lng->txt("save"));
+			$form->addCommandButton("create_blog", $this->lng->txt("select"));
 			$form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
 		}
 		else
 		{
 			$obj->setValue($this->content_obj->getBlogId());
+			$form->addCommandButton("update", $this->lng->txt("select"));
+			$form->addCommandButton("cancelUpdate", $this->lng->txt("cancel"));
+		}
+
+		return $form;
+	}		
+
+	/**
+	* Create new blog
+	*/
+	function create()
+	{
+		if(!$_POST["blog_id"])
+		{
+			$form = $this->initForm(true);
+			if(!$form->checkInput())
+			{
+				return $this->insertPosting($_POST["blog"]);
+			}
+			
+			$form->setValuesByPost();
+			return $this->insert($form);
+		}
+		else
+		{
+			$form = $this->initPostingForm($_POST["blog_id"], true);
+			if($form->checkInput())
+			{									
+				$this->content_obj = new ilPCBlog($this->dom);
+				$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
+				$this->content_obj->setData($form->getInput("blog_id"), $form->getInput("posting"));
+				$this->updated = $this->pg_obj->update();
+				if ($this->updated === true)
+				{
+					$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+				}
+			}
+			
+			$form->setValuesByPost();
+			return $this->insertPosting($_POST["blog_id"], $form);
+		}
+	}
+
+	/**
+	* Update blog
+	*/
+	function update()
+	{		
+		if(!$_POST["blog_id"])
+		{
+			$form = $this->initForm();
+			if($form->checkInput())
+			{
+				return $this->editPosting($_POST["blog"]);
+			}
+			
+			$this->pg_obj->addHierIDs();
+			$form->setValuesByPost();
+			return $this->edit($form);
+		}
+		else
+		{
+			$form = $this->initPostingForm($_POST["blog_id"]);
+			if($form->checkInput())
+			{	
+				$this->content_obj->setData($form->getInput("blog_id"), $form->getInput("posting"));
+				$this->updated = $this->pg_obj->update();
+				if ($this->updated === true)
+				{
+					$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+				}
+			}
+			
+			$this->pg_obj->addHierIDs();
+			$form->setValuesByPost();
+			return $this->editPosting($_POST["blog_id"], $form);	
+		}
+	}
+	
+	
+	/**
+	 * Insert new blog posting form.
+	 *
+	 * @param int $a_blog_id
+	 * @param ilPropertyFormGUI $a_form
+	 */
+	function insertPosting($a_blog_id, ilPropertyFormGUI $a_form = null)
+	{
+		global $tpl;
+
+		$this->displayValidationError();
+
+		if(!$a_form)
+		{
+			$a_form = $this->initPostingForm($a_blog_id, true);
+		}
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	/**
+	 * Edit blog posting form
+	 *
+	 * @param int $a_blog_id
+	 * @param ilPropertyFormGUI $a_form
+	 */
+	function editPosting($a_blog_id, ilPropertyFormGUI $a_form = null)
+	{
+		global $tpl;
+
+		$this->displayValidationError();
+
+		if(!$a_form)
+		{
+			$a_form = $this->initPostingForm($a_blog_id);
+		}
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	/**
+	 * Init blog posting form
+	 *
+	 * @param int $a_blog_id
+	 * @param bool $a_insert
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initPostingForm($a_blog_id, $a_insert = false)
+	{
+		global $ilCtrl, $ilUser, $lng;
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		if ($a_insert)
+		{
+			$form->setTitle($this->lng->txt("cont_insert_blog"));
+		}
+		else
+		{
+			$form->setTitle($this->lng->txt("cont_update_blog"));
+		}
+
+		$options = array();
+		include_once "Modules/Blog/classes/class.ilBlogPosting.php";
+		$postings = ilBlogPosting::getAllPostings($a_blog_id);
+		if($postings)
+		{
+			foreach($postings as $post)
+			{
+				$date = new ilDateTime($post["date"], IL_CAL_DATETIME);
+				$title = $post["title"]." - ".
+					ilDatePresentation::formatDate($date);
+				
+				$cbox = new ilCheckboxInputGUI($title, "posting");
+				$cbox->setValue($post["id"]);
+				
+				$options[] = $cbox;
+			}
+		}
+		asort($options);
+		$obj = new ilCheckboxGroupInputGUI($this->lng->txt("cont_pc_blog_posting"), "posting");
+		$obj->setRequired(true);
+		$obj->setOptions($options);
+		$form->addItem($obj);
+		
+		$blog_id = new ilHiddenInputGUI("blog_id");
+		$blog_id->setValue($a_blog_id);
+		$form->addItem($blog_id);
+		
+		if ($a_insert)
+		{
+			$form->addCommandButton("create_blog", $this->lng->txt("save"));
+			$form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
+		}
+		else
+		{
+			$obj->setValue($this->content_obj->getPostings());
 			$form->addCommandButton("update", $this->lng->txt("save"));
 			$form->addCommandButton("cancelUpdate", $this->lng->txt("cancel"));
 		}
 
 		return $form;
-	}
-
-	/**
-	* Create new blog data
-	*/
-	function create()
-	{
-		$form = $this->initForm(true);
-		if($form->checkInput())
-		{
-			$this->content_obj = new ilPCBlog($this->dom);
-			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-			$this->content_obj->setData($form->getInput("blog"));
-			$this->updated = $this->pg_obj->update();
-			if ($this->updated === true)
-			{
-				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
-			}
-		}
-
-		$this->insert($form);
-	}
-
-	/**
-	* Update personal data.
-	*/
-	function update()
-	{
-		$form = $this->initForm(true);
-		if($form->checkInput())
-		{
-			$this->content_obj->setData($form->getInput("blog"));
-			$this->updated = $this->pg_obj->update();
-			if ($this->updated === true)
-			{
-				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
-			}
-		}
-
-		$this->pg_obj->addHierIDs();
-		$this->edit($form);
 	}
 }
 

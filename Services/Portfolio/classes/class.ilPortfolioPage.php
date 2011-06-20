@@ -15,6 +15,12 @@ include_once("./Services/Portfolio/classes/class.ilPortfolio.php");
 class ilPortfolioPage extends ilPageObject
 {
 	protected $portfolio_id;
+	protected $type;
+	protected $title;
+	protected $order_nr;
+	
+	const TYPE_PAGE = 1;
+	const TYPE_BLOG = 2;
 	
 	/**
 	 * Constructor
@@ -26,8 +32,29 @@ class ilPortfolioPage extends ilPageObject
 	function __construct($a_portfolio_id, $a_id = 0, $a_old_nr = 0)
 	{
 		$this->portfolio_id = (int)$a_portfolio_id;
+		$this->type = self::TYPE_PAGE;
 		
 		parent::__construct("prtf", $a_id, $a_old_nr);
+	}
+	
+	/**
+	 * Set type
+	 *
+	 * @param	int	type
+	 */
+	function setType($a_val)
+	{
+		$this->type = $a_val;
+	}
+
+	/**
+	 * Get type
+	 *
+	 * @return	int	type
+	 */
+	function getType()
+	{
+		return $this->type;
 	}
 
 	/**
@@ -65,7 +92,7 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	function setOrderNr($a_val)
 	{
-		$this->order_nr = $a_val;
+		$this->order_nr = (int)$a_val;
 	}
 
 	/**
@@ -102,6 +129,7 @@ class ilPortfolioPage extends ilPageObject
 	protected function getPropertiesForDB()
 	{
 		$fields = array("portfolio_id" => array("integer", $this->portfolio_id),
+			"type" => array("integer", $this->getType()),
 			"title" => array("text", $this->getTitle()),
 			"order_nr" => array("integer", $this->getOrderNr()));
 
@@ -163,6 +191,7 @@ class ilPortfolioPage extends ilPageObject
 		$set = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($set);
 
+		$this->setType($rec["type"]);
 		$this->setTitle($rec["title"]);
 		$this->setOrderNr($rec["order_nr"]);
 		

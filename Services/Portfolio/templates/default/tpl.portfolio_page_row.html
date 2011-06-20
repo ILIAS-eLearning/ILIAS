@@ -6,9 +6,16 @@
 		<input type="text" size="3" maxlength="3" name="order[{ID}]" value="{VAL_ORDER_NR}" />
 	</td>
 	<td class="std small">
+		<!-- BEGIN title_field -->
 		<input type="text" size="20" maxlength="200" name="title[{ID}]" value="{VAL_TITLE}" />
+		<!-- END title_field -->
+		<!-- BEGIN title_static -->
+		{VAL_TITLE}
+		<!-- END title_static -->
 	</td>
 	<td class="std small">
+		<!-- BEGIN action -->
 		<a href="{CMD_EDIT}">{TXT_EDIT}</a>
+		<!-- END action -->
 	</td>
 </tr>
