@@ -262,6 +262,12 @@ class ilObjBlogGUI extends ilObject2GUI
 		}
 	}
 	
+	function renderPostings(array $a_posting_ids)
+	{
+		
+		
+	}
+	
 	function buildPostingList($a_obj_id)
 	{
 		$items = array();

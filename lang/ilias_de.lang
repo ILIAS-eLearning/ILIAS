@@ -11316,15 +11316,15 @@ content#:#cont_profile_mode_inherit#:#Automatisch
 content#:#cont_profile_mode_inherit_info#:#Verwendet die Daten ihres öffentlichen Profils
 content#:#cont_profile_mode_manual#:#Manuell
 content#:#cont_profile_mode_manual_info#:#Verwendet die folgenden Daten:
-content#:#cont_ed_insert_verification#:#Nachweis einfügen
-content#:#cont_pc_vrfc#:#Nachweis
-content#:#cont_insert_verification#:#Nachweis hinzufügen
-content#:#cont_update_verification#:#Nachweis bearbeiten
-content#:#cont_verification_object#:#Nachweis
-content#:#cont_ed_insert_blog#:#Blog hinzufügen
+content#:#cont_ed_insert_verification#:#Zertifikat einfügen
+content#:#cont_pc_vrfc#:#Zertifikat
+content#:#cont_insert_verification#:#Zertifikat hinzufügen
+content#:#cont_update_verification#:#Zertifikat bearbeiten
+content#:#cont_verification_object#:#Zertifikat
+content#:#cont_ed_insert_blog#:#Blog-Eintrag hinzufügen
 content#:#cont_pc_blog#:#Blog
-content#:#cont_insert_blog#:#Blog hinzufügen
-content#:#cont_update_blog#:#Blog bearbeiten
+content#:#cont_insert_blog#:#Blog-Eintrag hinzufügen
+content#:#cont_update_blog#:#Blog-Eintrag bearbeiten
 user#:#user_profile_preview#:#Preview
 prtf#:#prtf_portfolio_default#:#Standardansicht
 common#:#settings_per_members#:#Einstellungen pro Benutzer

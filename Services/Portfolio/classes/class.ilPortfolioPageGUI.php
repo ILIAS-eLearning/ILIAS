@@ -11,7 +11,7 @@ include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
  * @version $Id$
  *
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilPublicUserProfileGUI, ilObjBlogGUI
+ * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilPublicUserProfileGUI, ilObjBlogGUI, ilBlogPostingGUI
  *
  * @ingroup ServicesPortfolio
  */
@@ -89,7 +89,13 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function showPage()
 	{
-		global $tpl, $ilCtrl;
+		global $tpl, $ilCtrl, $ilUser;
+		
+		// render blog directly
+		if($this->getPageObject()->getType() == ilPortfolioPage::TYPE_BLOG)
+		{
+			return $this->renderBlog($ilUser->getId(), (int)$this->getPageObject()->getTitle());
+		}
 		
 		$this->setTemplateOutput(false);
 		// $this->setPresentationTitle($this->getPageObject()->getTitle());
@@ -171,9 +177,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 							{
 								foreach(explode(";", $blocks[3][$idx]) as $sub)
 								{
-									$subs[] = trim($sub);
+									if(trim($sub))
+									{
+										$subs[] = trim($sub);
+									}
 								}
-							}							
+							}			
 							$snippet = $this->{"render".$type}($blocks[1][$idx], 
 								$blocks[2][$idx], $subs);
 							break;
@@ -237,18 +246,53 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		// :TODO: what about user?
 		
-		include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
-		$blog = new ilObjBlogGUI($a_blog_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
-		$blog->setMode(ilObjBlogGUI::MODE_EMBEDDED_FULL);	
-		return $ilCtrl->getHTML($blog);
+		if(!$a_posting_ids)
+		{
+			include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
+			$blog = new ilObjBlogGUI($a_blog_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
+			$blog->setMode(ilObjBlogGUI::MODE_EMBEDDED_FULL);	
+			return $ilCtrl->getHTML($blog);
+		}
+		else
+		{
+			$html = array();
+			
+			include_once "Modules/Blog/classes/class.ilObjBlog.php";
+			$html[] = ilObjBlog::_lookupTitle($a_blog_id);
+			
+			include_once "Modules/Blog/classes/class.ilBlogPostingGUI.php";
+			foreach($a_posting_ids as $post)
+			{				
+				$page = new ilBlogPostingGUI(0, null, $post);
+				$page->setOutputMode(IL_PAGE_PREVIEW);
+				$html[] = $page->showPage();
+			}		
+			
+			return implode("\n", $html);
+		}
 	}	
 	
 	protected function renderBlogTeaser($a_user_id, $a_blog_id, array $a_posting_ids = null)
 	{
 		global $lng;
 		
+		$postings = "";
+		if($a_posting_ids)
+		{
+			$postings = array("<ul>");
+			include_once "Modules/Blog/classes/class.ilBlogPosting.php";
+			foreach($a_posting_ids as $post)
+			{				
+				$post = new ilBlogPosting($post);
+				$postings[] = "<li>".$post->getTitle()." - ".
+					ilDatePresentation::formatDate($post->getCreated())."</li>";
+			}
+			$postings[] = "</ul>";
+			$postings = implode("\n", $postings);	
+		}
+		
 		return "<div style=\"margin:5px\">".$lng->txt("obj_blog").": \"".
-			ilObject::_lookupTitle($a_blog_id)."\"</div>";
+				ilObject::_lookupTitle($a_blog_id)."\"".$postings."</div>";
 	}	
 }
 ?>

@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
+include_once("./Modules/Blog/classes/class.ilObjBlog.php");
 
 /**
  * Portfolio page table
@@ -57,17 +58,32 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 	{
 		global $lng, $lng, $ilCtrl;
 
+		switch($a_set["type"])
+		{
+			case ilPortfolioPage::TYPE_PAGE:
+				$this->tpl->setCurrentBlock("title_field");
+				$this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
+				$this->tpl->parseCurrentBlock();
+				
+				$this->tpl->setCurrentBlock("action");
+				$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+				$ilCtrl->setParameterByClass("ilportfoliopagegui",
+					"ppage", $a_set["id"]);
+				$this->tpl->setVariable("CMD_EDIT",
+					$ilCtrl->getLinkTargetByClass("ilportfoliopagegui", "edit"));	
+				$this->tpl->parseCurrentBlock();
+				break;
+			
+			case ilPortfolioPage::TYPE_BLOG:
+				$this->tpl->setCurrentBlock("title_static");
+				$this->tpl->setVariable("VAL_TITLE", $lng->txt("obj_blog").": ".ilObjBlog::_lookupTitle($a_set["title"]));
+				$this->tpl->parseCurrentBlock();
+				break;
+		}
+		
 		$this->tpl->setVariable("ID", $a_set["id"]);
 		$this->tpl->setVariable("VAL_ORDER_NR", $a_set["order_nr"]);
-		$this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
-
-		$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
-		$ilCtrl->setParameterByClass("ilportfoliopagegui",
-			"ppage", $a_set["id"]);
-		$this->tpl->setVariable("CMD_EDIT",
-			$ilCtrl->getLinkTargetByClass("ilportfoliopagegui", "edit"));
-
-		
 	}
-	
-}?>
+}
+
+?>

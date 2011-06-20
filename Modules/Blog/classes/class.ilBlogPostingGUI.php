@@ -31,7 +31,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 * @param bool $a_enable_notes
 	 * @return ilBlogPostingGUI
 	 */
-	function __construct($a_node_id, $a_access_handler, $a_id = 0, $a_old_nr = 0, $a_enable_public_notes = true)
+	function __construct($a_node_id, $a_access_handler = null, $a_id = 0, $a_old_nr = 0, $a_enable_public_notes = true)
 	{
 		global $tpl, $lng;
 
