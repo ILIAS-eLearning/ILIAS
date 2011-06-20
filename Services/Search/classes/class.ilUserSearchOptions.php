@@ -129,7 +129,7 @@ class ilUserSearchOptions
 					 'matriculation');
 	}
 
-	function _isSearchable($a_key)
+	public static function _isSearchable($a_key)
 	{
 		return in_array($a_key,ilUserSearchOptions::_getPossibleFields());
 	}
