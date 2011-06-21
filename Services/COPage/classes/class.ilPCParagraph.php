@@ -1469,13 +1469,13 @@ echo htmlentities($a_text);*/
 	static function handleAjaxContent($a_content)
 	{
 		$a_content = "<dummy>".$a_content."</dummy>";
-		
+
 		$doc = new DOMDocument();
 
 		$content = ilUtil::stripSlashes($a_content, false);
 		$content = str_replace("&lt;", "<", $content);
 		$content = str_replace("&gt;", ">", $content);
-//echo htmlentities($content);
+
 		$res = $doc->loadXML($content);
 
 		if (!$res)
