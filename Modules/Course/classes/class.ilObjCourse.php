@@ -1762,26 +1762,29 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	public function updateECSContent()
 	{
 		global $ilLog;
-		
-		include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
-		$settings = ilECSSetting::_getInstance();
-		if(!$settings->isEnabled())
+
+
+		include_once './Services/WebServices/ECS/classes/class.ilECSExport.php';
+
+		$export_servers = ilECSExport::getExportServerIds($this->getId());
+		foreach($export_servers as $server_id)
 		{
-			return true;
+			include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
+			if(ilECSSetting::getInstanceByServerId($server_id)->isEnabled())
+			{
+				try {
+					// Update ECS EContent
+					include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');
+					$writer = new ilECSContentWriter($this,$server_id);
+					$writer->refreshSettings();
+			 	}
+				catch(ilException $exc)
+				{
+					$ilLog->write(__METHOD__.': Cannot save ECS settings. '.$exc->getMessage());
+					return false;
+				}
+			}
 		}
-	 	try
-	 	{
-			// Update ECS EContent
-		 	include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');
-		 	$writer = new ilECSContentWriter($this);
-		 	$writer->refreshSettings();
-	 	}
-	 	catch(ilException $exc)
-	 	{
-	 		$ilLog->write(__METHOD__.': Cannot save ECS settings. '.$exc->getMessage());
-	 		return false;
-	 	}
-	 	return true;
 	}
 	
 	/**
