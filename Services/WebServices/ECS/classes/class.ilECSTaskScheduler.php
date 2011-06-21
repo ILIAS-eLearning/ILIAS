@@ -73,6 +73,8 @@ class ilECSTaskScheduler
 	 * @access private
 	 * @static
 	 *
+	 * @return ilECSTaskScheduler
+	 *
 	 */
 	public static function _getInstanceByServerId($a_server_id)
 	{
@@ -132,7 +134,7 @@ class ilECSTaskScheduler
 	 * Start Tasks
 	 *
 	 * @access private
-	 * 
+	 *
 	 */
 	public function startTaskExecution()
 	{
@@ -243,12 +245,12 @@ class ilECSTaskScheduler
 		include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriterException.php');
 		
 		
-		$export = new ilECSExport($a_obj_id);
+		$export = new ilECSExport($this->getServer()->getServerId(),$a_obj_id);
 		$econtent_id = $export->getEContentId();
 
 		try
 		{
-			$reader = new ilECSEContentReader($econtent_id);
+			$reader = new ilECSEContentReader($this->getServer()->getServerId(),$econtent_id);
 			$reader->read();
 			$reader->read(true);
 			
@@ -263,7 +265,7 @@ class ilECSTaskScheduler
 					return false;
 				}
 				// Delete resource			
-				$writer = new ilECSContentWriter($obj);
+				$writer = new ilECSContentWriter($obj,$this->getServer()->getServerId());
 				$writer->setExportable(false);
 				$writer->setOwnerId($details->getFirstSender());
 				$writer->setParticipantIds($details->getReceivers());

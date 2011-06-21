@@ -156,18 +156,22 @@ class ilECSSettingsGUI
 		include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
 		include_once('Services/WebServices/ECS/classes/class.ilECSConnectorException.php');
 		include_once('./Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php');
+		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
 
 		try
 		{
-			ilECSEventQueueReader::handleImportReset();
-			ilECSEventQueueReader::handleExportReset();
-			
-			include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
-			ilECSTaskScheduler::startExecution();
+			foreach(ilECSServerSettings::getInstance()->getServers() as $server)
+			{
+				ilECSEventQueueReader::handleImportReset($server);
+				ilECSEventQueueReader::handleExportReset($server);
 
-			ilUtil::sendInfo($this->lng->txt('ecs_remote_imported'));
-			$this->imported();
-			return true;
+				include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
+				ilECSTaskScheduler::_getInstanceByServerId($server->getServerId())->startTaskExecution();
+
+				ilUtil::sendInfo($this->lng->txt('ecs_remote_imported'));
+				$this->imported();
+				return true;
+			}
 		}
 		catch(ilECSConnectorException $e1)
 		{
@@ -1164,7 +1168,8 @@ class ilECSSettingsGUI
 				$this->ctrl->getLinkTarget($this,'exportImported')
 			);
 		}
-		if($this->settings->isEnabled())
+		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
+		if(ilECSServerSettings::getInstance()->activeServerExists())
 		{
 			$tb->addButton(
 				$this->lng->txt('ecs_read_remote_links'),
