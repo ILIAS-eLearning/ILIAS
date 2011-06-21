@@ -133,6 +133,15 @@ class ilObjUserTracking extends ilObject
 		global $ilSetting;
 		return (boolean) $ilSetting->get('save_user_related_data');
 	}
+	
+	/**
+	* check wether object statistics is enabled or not
+	*/
+	function _enabledObjectStatistics()
+	{
+		global $ilSetting;
+		return (boolean) $ilSetting->get('object_statistics');
+	}
 
 	function setValidTimeSpan($a_time_span)
 	{
@@ -175,6 +184,26 @@ class ilObjUserTracking extends ilObject
 	}
 	// END ChangeEvent
 
+	/**
+	* Sets the object statistics property.
+	* 
+	* @param	boolean	new value
+	* @return	void
+	*/
+	public function setObjectStatisticsEnabled($newValue)
+	{
+		$this->object_statistics_enabled = (bool)$newValue;
+	}
+	/**
+	* Gets the object statistic property.
+	* 
+	* @return	boolean	value
+	*/
+	public function isObjectStatisticsEnabled()
+	{
+		return $this->object_statistics_enabled;
+	}
+	
 	function updateSettings()
 	{
 		global $ilias;
@@ -183,6 +212,7 @@ class ilObjUserTracking extends ilObject
 		$ilias->setSetting("save_user_related_data",$this->enabledUserRelatedData() ? 1 : 0);
 		$ilias->setSetting("tracking_time_span",$this->getValidTimeSpan());
 		$ilias->setSetting("lp_extended_data", $this->extended_data);
+		$ilias->setSetting("object_statistics", $this->object_statistics_enabled);
 
 		// BEGIN ChangeEvent
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
@@ -198,7 +228,6 @@ class ilObjUserTracking extends ilObject
 			}
 		}
 		// END ChangeEvent
-
 
 		return true;
 	}
@@ -511,8 +540,9 @@ class ilObjUserTracking extends ilObject
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
 		$this->is_change_event_tracking_enabled = ilChangeEvent::_isActive();
 		// END ChangeEvent
-
+		
 		$this->setExtendedData($ilias->getSetting("lp_extended_data"),0);
+		$this->setObjectStatisticsEnabled($ilias->getSetting("object_statistics"),0);
 
 		return true;
 	}

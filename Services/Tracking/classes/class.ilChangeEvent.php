@@ -261,6 +261,11 @@ class ilChangeEvent
 	function _recordObjStats($a_obj_id, $a_spent_seconds, $a_read_count, $a_childs_spent_seconds = null, $a_child_read_count = null)
 	{
 		global $ilDB;
+		
+		if (!ilObjUserTracking::_enabledObjectStatistics())
+		{
+			return;
+		}
 
 		$now = time();
 
