@@ -1418,7 +1418,6 @@ class ilObjForumGUI extends ilObjectGUI
 		$oPostGUI->setRTERootBlockElement('');
 		$oPostGUI->usePurifier(true);
 		$oPostGUI->disableButtons(array(
-			'removeformat',
 			'charmap',
 			'undo',
 			'redo',
@@ -1432,7 +1431,6 @@ class ilObjForumGUI extends ilObjectGUI
 			'copy',
 			'paste',
 			'pastetext',
-			'pasteword',
 			'formatselect',
 			'ibrowser',
 			'image'
@@ -3294,7 +3292,6 @@ class ilObjForumGUI extends ilObjectGUI
 		$post_gui->setRTERootBlockElement('');	
 		$post_gui->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html');
 		$post_gui->disableButtons(array(
-			'removeformat',
 			'charmap',
 			'undo',
 			'redo',
@@ -3308,7 +3305,6 @@ class ilObjForumGUI extends ilObjectGUI
 			'copy',
 			'paste',
 			'pastetext',
-			'pasteword',
 			'formatselect',
 			'image',
 			'ibrowser'
