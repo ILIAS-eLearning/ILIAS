@@ -106,11 +106,14 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 								 "settings",
 								 get_class($this));
 			
-			$tabs_gui->addTarget("statistics",
-									 $this->ctrl->getLinkTargetByClass("illpobjectstatisticsgui",
-																	   "access"),
-									 "",
-									 "illpobjectstatisticsgui");
+			if (ilObjUserTracking::_enabledObjectStatistics())
+			{
+				$tabs_gui->addTarget("statistics",
+										 $this->ctrl->getLinkTargetByClass("illpobjectstatisticsgui",
+																		   "access"),
+										 "",
+										 "illpobjectstatisticsgui");
+			}
 
 			if (ilObjUserTracking::_enabledLearningProgress())
 			{
@@ -172,6 +175,8 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$activate->addSubItem($tracking);
 		$event = new ilCheckboxInputGUI($this->lng->txt('trac_repository_changes'), 'change_event_tracking');
 		$activate->addSubItem($event);
+		$objstat = new ilCheckboxInputGUI($this->lng->txt('trac_object_statistics'), 'object_statistics');
+		$activate->addSubItem($objstat);
 
 		if($this->object->getActivationStatus() == UT_ACTIVE_BOTH ||
 			$this->object->getActivationStatus() == UT_ACTIVE_UT)
@@ -186,6 +191,10 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		if($this->object->isChangeEventTrackingEnabled())
 		{
 			$event->setChecked(true);
+		}
+		if($this->object->isObjectStatisticsEnabled())
+		{
+			$objstat->setChecked(true);
 		}
 
 		$access = new ilCheckboxInputGUI($this->lng->txt('trac_first_and_last_access'), 'lp_access');
@@ -265,6 +274,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$this->object->setExtendedData($code);
 		}
 		
+		$this->object->setObjectStatisticsEnabled((bool)$_POST["object_statistics"]);
 		$this->object->enableUserRelatedData((int) !$_POST['user_related']);
 		$this->object->setValidTimeSpan($_POST['valid_request']);
 
