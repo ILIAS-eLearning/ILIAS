@@ -537,7 +537,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->redirect($this, "infoScreen");
 	}
 
-	function listStructureObject()
+	/**
+	 * List start objects
+	 * @global ilRbacSystem $rbacsystem
+	 * @return void
+	 */
+	protected function listStructureObject()
 	{
 		include_once './Modules/Course/classes/class.ilCourseStart.php';
 
@@ -556,7 +561,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tabs_gui->setSubTabActive('crs_start_objects');
 
 
-		$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());
+		$crs_start = new ilCourseStart($this->object->getRefId(),$this->object->getId());
+
+
+
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_list_starter.html",'Modules/Course');
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -858,11 +866,6 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function initInfoEditor()
 	{
-		if(is_object($this->form))
-		{
-			return true;
-		}
-	
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this,'updateInfo'));
@@ -928,7 +931,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'crs',$this->object->getId());
-		$record_gui->setPropertyForm($this->form);
+		$record_gui->setPropertyForm($form);
 		$record_gui->parse();
 
 		return $form;
@@ -939,12 +942,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $ilErr,$ilAccess;
 
 		$this->checkPermission('write');
-		/*
-		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
-		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
-		}
-		*/
+
 		include_once 'Modules/Course/classes/class.ilCourseFile.php';
 		$file_obj = new ilCourseFile();
 		$file_obj->setCourseId($this->object->getId());
