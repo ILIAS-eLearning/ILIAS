@@ -1,49 +1,47 @@
 <?php
+
 /*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
+  +-----------------------------------------------------------------------------+
+  | ILIAS open source                                                           |
+  +-----------------------------------------------------------------------------+
+  | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+  |                                                                             |
+  | This program is free software; you can redistribute it and/or               |
+  | modify it under the terms of the GNU General Public License                 |
+  | as published by the Free Software Foundation; either version 2              |
+  | of the License, or (at your option) any later version.                      |
+  |                                                                             |
+  | This program is distributed in the hope that it will be useful,             |
+  | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+  | GNU General Public License for more details.                                |
+  |                                                                             |
+  | You should have received a copy of the GNU General Public License           |
+  | along with this program; if not, write to the Free Software                 |
+  | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+  +-----------------------------------------------------------------------------+
+ */
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesCourse
-*/
-
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup ModulesCourse
+ */
 class ilCourseParticipantsTableGUI extends ilTable2GUI
 {
 	protected $type = 'admin';
 	protected $show_learning_progress = false;
 	protected $show_timings = false;
 	protected $show_edit_link = true;
-	
 	protected static $export_allowed = false;
 	protected static $confirmation_required = true;
 	protected static $accepted_ids = null;
-	
 	protected static $all_columns = null;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -51,76 +49,76 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj,$a_type = 'admin',$show_content = true,$a_show_learning_progress = false,$a_show_timings = false, $a_show_edit_link=true)
+	public function __construct($a_parent_obj, $a_type = 'admin', $show_content = true, $a_show_learning_progress = false, $a_show_timings = false, $a_show_edit_link=true)
 	{
-	 	global $lng,$ilCtrl;
-	 	
+		global $lng, $ilCtrl;
+
 		$this->show_learning_progress = $a_show_learning_progress;
 		$this->show_timings = $a_show_timings;
 		$this->show_edit_link = $a_show_edit_link;
-	 	
+
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('trac');
 		$this->ctrl = $ilCtrl;
-	 	
-	 	$this->type = $a_type; 
-	 	
-	 	include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-	 	$this->privacy = ilPrivacySettings::_getInstance();
-	 	
-		// required before constructor for columns 
-		$this->setId('crs_'.$a_type.'_'.$a_parent_obj->object->getId());
-		parent::__construct($a_parent_obj,'members');
-		
+
+		$this->type = $a_type;
+
+		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		$this->privacy = ilPrivacySettings::_getInstance();
+
+		// required before constructor for columns
+		$this->setId('crs_' . $a_type . '_' . $a_parent_obj->object->getId());
+		parent::__construct($a_parent_obj, 'members');
+
 		$this->initAcceptedAgreements();
 
 		$this->setFormName('participants');
 
-	 	$this->addColumn('','f',"1");
-	 	$this->addColumn($this->lng->txt('name'),'lastname','20%');
-		
+		$this->addColumn('', 'f', "1");
+		$this->addColumn($this->lng->txt('name'), 'lastname', '20%');
+
 		$all_cols = $this->getSelectableColumns();
-        foreach($this->getSelectedColumns() as $col)
-        {
-			$this->addColumn($all_cols[$col]['txt'],$col);
-        }
+		foreach($this->getSelectedColumns() as $col)
+		{
+			$this->addColumn($all_cols[$col]['txt'], $col);
+		}
 
 		if($this->show_learning_progress)
 		{
-			$this->addColumn($this->lng->txt('learning_progress'),'progress');
+			$this->addColumn($this->lng->txt('learning_progress'), 'progress');
 		}
 
-	 	if($this->privacy->enabledCourseAccessTimes())
-	 	{
-		 	$this->addColumn($this->lng->txt('last_access'),'access_ut','16em');
-	 	}
-		$this->addColumn($this->lng->txt('crs_member_passed'),'passed');
+		if($this->privacy->enabledCourseAccessTimes())
+		{
+			$this->addColumn($this->lng->txt('last_access'), 'access_ut', '16em');
+		}
+		$this->addColumn($this->lng->txt('crs_member_passed'), 'passed');
 		if($this->type == 'admin')
 		{
 			$this->setPrefix('admin');
 			$this->setSelectAllCheckbox('admins');
-		 	$this->addColumn($this->lng->txt('crs_notification'),'notification');
-			$this->addCommandButton('updateAdminStatus',$this->lng->txt('save'));
+			$this->addColumn($this->lng->txt('crs_notification'), 'notification');
+			$this->addCommandButton('updateAdminStatus', $this->lng->txt('save'));
 		}
 		elseif($this->type == 'tutor')
 		{
 			$this->setPrefix('tutor');
 			$this->setSelectAllCheckbox('tutors');
-		 	$this->addColumn($this->lng->txt('crs_notification'),'notification');
-			$this->addCommandButton('updateTutorStatus',$this->lng->txt('save'));
+			$this->addColumn($this->lng->txt('crs_notification'), 'notification');
+			$this->addCommandButton('updateTutorStatus', $this->lng->txt('save'));
 		}
 		else
 		{
 			$this->setPrefix('member');
 			$this->setSelectAllCheckbox('members');
-			$this->addColumn($this->lng->txt('crs_blocked'),'blocked');
-			$this->addCommandButton('updateMemberStatus',$this->lng->txt('save'));
+			$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
+			$this->addCommandButton('updateMemberStatus', $this->lng->txt('save'));
 		}
-	 	$this->addColumn($this->lng->txt(''),'optional');
-	 	
-		$this->setRowTemplate("tpl.show_participants_row.html","Modules/Course");
-		
+		$this->addColumn($this->lng->txt(''), 'optional');
+
+		$this->setRowTemplate("tpl.show_participants_row.html", "Modules/Course");
+
 		if($show_content)
 		{
 			$this->setDefaultOrderField('lastname');
@@ -137,20 +135,19 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->disable('numinfo');
 			$this->disable('select_all');
 		}
-		
+
 		$this->getItems();
 		$this->setTopCommands(true);
 		$this->setEnableHeader(true);
 		$this->setEnableTitle(true);
 		$this->initFilter();
-		
 	}
-	
+
 	public function getItems()
 	{
 		
 	}
-	
+
 	/**
 	 * Get selectable columns
 	 * @return 
@@ -161,13 +158,13 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		{
 			return self::$all_columns;
 		}
-		
+
 		include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
 		$ef = ilExportFieldsInfo::_getInstanceByType($this->getParentObject()->object->getType());
 		self::$all_columns = $ef->getSelectableFieldsInfo($this->getParentObject()->object->getId());
 		return self::$all_columns;
 	}
-	
+
 	/**
 	 * fill row 
 	 *
@@ -177,56 +174,56 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		global $ilUser,$ilAccess;
-		
-		$this->tpl->setVariable('VAL_ID',$a_set['usr_id']);
-		$this->tpl->setVariable('VAL_NAME',$a_set['lastname'].', '.$a_set['firstname']);
-		
-		if(!$ilAccess->checkAccessOfUser($a_set['usr_id'],'read','',$this->getParentObject()->object->getRefId()) and 
+		global $ilUser, $ilAccess;
+
+		$this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
+		$this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
+
+		if(!$ilAccess->checkAccessOfUser($a_set['usr_id'], 'read', '', $this->getParentObject()->object->getRefId()) and
 			is_array($info = $ilAccess->getInfo()))
 		{
 			$this->tpl->setCurrentBlock('access_warning');
-			$this->tpl->setVariable('PARENT_ACCESS',$info[0]['text']);
+			$this->tpl->setVariable('PARENT_ACCESS', $info[0]['text']);
 			$this->tpl->parseCurrentBlock();
 		}
 
 		if(!ilObjUser::_lookupActive($a_set['usr_id']))
 		{
 			$this->tpl->setCurrentBlock('access_warning');
-			$this->tpl->setVariable('PARENT_ACCESS',$this->lng->txt('usr_account_inactive'));
+			$this->tpl->setVariable('PARENT_ACCESS', $this->lng->txt('usr_account_inactive'));
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		
+
+
 		foreach($this->getSelectedColumns() as $field)
 		{
 			switch($field)
 			{
 				case 'gender':
-					$a_set['gender'] = $a_set['gender'] ? $this->lng->txt('gender_'.$a_set['gender']) : '';					
+					$a_set['gender'] = $a_set['gender'] ? $this->lng->txt('gender_' . $a_set['gender']) : '';
 					$this->tpl->setCurrentBlock('custom_fields');
-					$this->tpl->setVariable('VAL_CUST',$a_set[$field]);
+					$this->tpl->setVariable('VAL_CUST', $a_set[$field]);
 					$this->tpl->parseCurrentBlock();
 					break;
-					
+
 				case 'birthday':
-					$a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate($a_set['birthday'],IL_CAL_DATE)) : $this->lng->txt('no_date');				
+					$a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate($a_set['birthday'], IL_CAL_DATE)) : $this->lng->txt('no_date');
 					$this->tpl->setCurrentBlock('custom_fields');
-					$this->tpl->setVariable('VAL_CUST',$a_set[$field]);
+					$this->tpl->setVariable('VAL_CUST', $a_set[$field]);
 					$this->tpl->parseCurrentBlock();
 					break;
-										
+
 				default:
 					$this->tpl->setCurrentBlock('custom_fields');
-					$this->tpl->setVariable('VAL_CUST',$a_set[$field] ? $a_set[$field] : '');
+					$this->tpl->setVariable('VAL_CUST', $a_set[$field] ? $a_set[$field] : '');
 					$this->tpl->parseCurrentBlock();
 					break;
 			}
 		}
-		
+
 		if($this->privacy->enabledCourseAccessTimes())
 		{
-			$this->tpl->setVariable('VAL_ACCESS',$a_set['access_time']);
+			$this->tpl->setVariable('VAL_ACCESS', $a_set['access_time']);
 		}
 		if($this->show_learning_progress)
 		{
@@ -234,76 +231,75 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			switch($a_set['progress'])
 			{
 				case LP_STATUS_COMPLETED:
-					$this->tpl->setVariable('LP_STATUS_ALT',$this->lng->txt($a_set['progress']));
-					$this->tpl->setVariable('LP_STATUS_PATH',ilUtil::getImagePath('scorm/complete.gif'));
+					$this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
+					$this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/complete.gif'));
 					break;
-					
+
 				case LP_STATUS_IN_PROGRESS:
-					$this->tpl->setVariable('LP_STATUS_ALT',$this->lng->txt($a_set['progress']));
-					$this->tpl->setVariable('LP_STATUS_PATH',ilUtil::getImagePath('scorm/incomplete.gif'));
+					$this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
+					$this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/incomplete.gif'));
 					break;
 
 				case LP_STATUS_NOT_ATTEMPTED:
-					$this->tpl->setVariable('LP_STATUS_ALT',$this->lng->txt($a_set['progress']));
-					$this->tpl->setVariable('LP_STATUS_PATH',ilUtil::getImagePath('scorm/not_attempted.gif'));
+					$this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
+					$this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/not_attempted.gif'));
 					break;
-					
+
 				case LP_STATUS_FAILED:
-					$this->tpl->setVariable('LP_STATUS_ALT',$this->lng->txt($a_set['progress']));
-					$this->tpl->setVariable('LP_STATUS_PATH',ilUtil::getImagePath('scorm/failed.gif'));
+					$this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt($a_set['progress']));
+					$this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/failed.gif'));
 					break;
-							
 			}
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		if($this->type == 'admin')
 		{
-			$this->tpl->setVariable('VAL_POSTNAME','admins');
-			$this->tpl->setVariable('VAL_NOTIFICATION_ID',$a_set['usr_id']);
-			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',($a_set['notification'] ? 'checked="checked"' : ''));
+			$this->tpl->setVariable('VAL_POSTNAME', 'admins');
+			$this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
+			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', ($a_set['notification'] ? 'checked="checked"' : ''));
 		}
 		elseif($this->type == 'tutor')
 		{
-			$this->tpl->setVariable('VAL_POSTNAME','tutors');
-			$this->tpl->setVariable('VAL_NOTIFICATION_ID',$a_set['usr_id']);
-			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',($a_set['notification'] ? 'checked="checked"' : ''));
+			$this->tpl->setVariable('VAL_POSTNAME', 'tutors');
+			$this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
+			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', ($a_set['notification'] ? 'checked="checked"' : ''));
 		}
 		else
 		{
 			$this->tpl->setCurrentBlock('blocked');
-			$this->tpl->setVariable('VAL_BLOCKED_ID',$a_set['usr_id']);
-			$this->tpl->setVariable('VAL_BLOCKED_CHECKED',($a_set['blocked'] ? 'checked="checked"' : ''));
+			$this->tpl->setVariable('VAL_BLOCKED_ID', $a_set['usr_id']);
+			$this->tpl->setVariable('VAL_BLOCKED_CHECKED', ($a_set['blocked'] ? 'checked="checked"' : ''));
 			$this->tpl->parseCurrentBlock();
-			
-			$this->tpl->setVariable('VAL_POSTNAME','members');
+
+			$this->tpl->setVariable('VAL_POSTNAME', 'members');
 		}
-		
-		$this->tpl->setVariable('VAL_PASSED_ID',$a_set['usr_id']);
-		$this->tpl->setVariable('VAL_PASSED_CHECKED',($a_set['passed'] ? 'checked="checked"' : ''));
-		
-		
-		$this->ctrl->setParameter($this->parent_obj,'member_id',$a_set['usr_id']);
-		if ($this->show_edit_link)
+
+		$this->tpl->setVariable('VAL_PASSED_ID', $a_set['usr_id']);
+		$this->tpl->setVariable('VAL_PASSED_CHECKED', ($a_set['passed'] ? 'checked="checked"' : ''));
+
+
+		$this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
+		if($this->show_edit_link)
 		{
 			$this->tpl->setCurrentBlock('link');
-			$this->tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this->parent_obj,'editMember'));
-			$this->tpl->setVariable('LINK_TXT',$this->lng->txt('edit'));
+			$this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTarget($this->parent_obj, 'editMember'));
+			$this->tpl->setVariable('LINK_TXT', $this->lng->txt('edit'));
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->ctrl->clearParameters($this->parent_obj);
-		
-		
+
+
 		if($this->show_timings)
 		{
-			$this->ctrl->setParameterByClass('ilcoursecontentgui','member_id',$a_set['usr_id']);
+			$this->ctrl->setParameterByClass('ilcoursecontentgui', 'member_id', $a_set['usr_id']);
 			$this->tpl->setCurrentBlock('link');
-			$this->tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','showUserTimings'));
-			$this->tpl->setVariable('LINK_TXT',$this->lng->txt('timings_timings'));
+			$this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTargetByClass('ilcoursecontentgui', 'showUserTimings'));
+			$this->tpl->setVariable('LINK_TXT', $this->lng->txt('timings_timings'));
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-	
+
 	/**
 	 * Parse data
 	 * @return 
@@ -311,18 +307,18 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	public function parse($a_user_data)
 	{
 		include_once './Services/User/classes/class.ilUserQuery.php';
-		
+
 		$additional_fields = $this->getSelectedColumns();
 		unset($additional_fields["firstname"]);
 		unset($additional_fields["lastname"]);
 		unset($additional_fields["last_login"]);
 		unset($additional_fields["access_until"]);
-		
+
 		switch($this->type)
 		{
 			case 'admin':
 				$part = ilCourseParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getAdmins();
-				break;				
+				break;
 			case 'tutor':
 				$part = ilCourseParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getTutors();
 				break;
@@ -330,39 +326,39 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 				$part = ilCourseParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getMembers();
 				break;
 		}
-		
+
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)
 		{
-			if(substr($field,0,3) == 'udf')
+			if(substr($field, 0, 3) == 'udf')
 			{
-				$udf_ids[] = substr($field,4);
+				$udf_ids[] = substr($field, 4);
 				continue;
 			}
-			if(substr($field,0,3) == 'odf')
+			if(substr($field, 0, 3) == 'odf')
 			{
-				$odf_ids[] = substr($field,4);
+				$odf_ids[] = substr($field, 4);
 				continue;
 			}
-			
+
 			$usr_data_fields[] = $field;
 		}
 
 		$usr_data = ilUserQuery::getUserListData(
-			'login',
-			'ASC',
-			0,
-			999999,
-			'',
-			'',
-			null,
-			false,
-			false,
-			0,
-			0,
-			null,
-			$usr_data_fields,
-			$part
+				'login',
+				'ASC',
+				0,
+				999999,
+				'',
+				'',
+				null,
+				false,
+				false,
+				0,
+				0,
+				null,
+				$usr_data_fields,
+				$part
 		);
 		// Custom user data fields
 		if($udf_ids)
@@ -371,14 +367,14 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$data = ilUserDefinedData::lookupData($part, $udf_ids);
 			foreach($data as $usr_id => $fields)
 			{
-	            if(!$this->checkAcceptance($usr_id))
-    	        {
+				if(!$this->checkAcceptance($usr_id))
+				{
 					continue;
-            	}
-				
+				}
+
 				foreach($fields as $field_id => $value)
 				{
-					$a_user_data[$usr_id]['udf_'.$field_id] = $value;
+					$a_user_data[$usr_id]['udf_' . $field_id] = $value;
 				}
 			}
 		}
@@ -389,19 +385,19 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$data = ilCourseUserData::_getValuesByObjId($this->getParentObject()->object->getId());
 			foreach($data as $usr_id => $fields)
 			{
-	            // #7264: as we get data for all course members filter against user data
-	            if(!$this->checkAcceptance($usr_id) || !in_array($usr_id, $part))
-    	        {
+				// #7264: as we get data for all course members filter against user data
+				if(!$this->checkAcceptance($usr_id) || !in_array($usr_id, $part))
+				{
 					continue;
-            	}
-				
+				}
+
 				foreach($fields as $field_id => $value)
 				{
-					$a_user_data[$usr_id]['odf_'.$field_id] = $value;
+					$a_user_data[$usr_id]['odf_' . $field_id] = $value;
 				}
 			}
 		}
-		
+
 
 		foreach($usr_data['set'] as $user)
 		{
@@ -418,7 +414,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		}
 		return $this->setData($a_user_data);
 	}
-	
+
 	public function checkAcceptance($a_usr_id)
 	{
 		if(!self::$confirmation_required)
@@ -429,9 +425,9 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		{
 			return false;
 		}
-		return in_array($a_usr_id,self::$accepted_ids);
+		return in_array($a_usr_id, self::$accepted_ids);
 	}
-	
+
 	/**
 	 * Init acceptance
 	 * @return 
@@ -442,12 +438,13 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		{
 			return true;
 		}
-		
+
 		self::$export_allowed = ilPrivacySettings::_getInstance()->checkExportAccess($this->getParentObject()->object->getRefId());
 		self::$confirmation_required = ilPrivacySettings::_getInstance()->courseConfirmationRequired();
-		
+
 		include_once 'Services/Membership/classes/class.ilMemberAgreement.php';
 		self::$accepted_ids = ilMemberAgreement::lookupAcceptedAgreements($this->getParentObject()->object->getId());
 	}
+
 }
 ?>

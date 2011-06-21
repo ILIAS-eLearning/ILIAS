@@ -355,10 +355,14 @@ class ilObjRemoteCourse extends ilObject
 	 	
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSAuth.php');
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
+		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
+		include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
 
 		try
 		{	 	
-	 		$connector = new ilECSConnector();
+			$server_id = ilECSImport::lookupServerId($this->getId());
+			
+			$connector = new ilECSConnector(ilECSSetting::getInstanceByServerId($server_id));
 			$auth = new ilECSAuth();
 			$auth->setUrl($this->getRemoteLink());
 			$this->auth_hash = $connector->addAuth(@json_encode($auth),$this->getMID());

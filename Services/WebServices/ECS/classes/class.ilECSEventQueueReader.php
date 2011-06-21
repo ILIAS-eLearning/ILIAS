@@ -72,7 +72,7 @@ class ilECSEventQueueReader
 	 * @return bool
 	 * @static
 	 */
-	 public static function handleImportReset()
+	 public static function handleImportReset(ilECSSetting $server)
 	 {
 		global $ilLog;
 		
@@ -86,14 +86,14 @@ class ilECSEventQueueReader
 			include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
 			include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
 			
-			$event_queue = new ilECSEventQueueReader();
+			$event_queue = new ilECSEventQueueReader($server->getServerId());
 			$event_queue->deleteAllEContentEvents();
 			
-			$reader = new ilECSEContentReader();
+			$reader = new ilECSEContentReader($server->getServerId());
 			$list = $reader->readResourceList();
 			//$all_content = $reader->getEContent();
 
-			$imported = ilECSImport::_getAllImportedLinks();
+			$imported = ilECSImport::_getAllImportedLinks($server->getServerId());
 
 			if(count($list))
 			{
@@ -156,22 +156,22 @@ class ilECSEventQueueReader
 	 * @return bool
 	 * @static
 	 */
-	 public static function handleExportReset()
+	 public static function handleExportReset(ilECSSetting $server)
 	 {
 	 	include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
 
 		// Delete all export events
-	 	$queue = new ilECSEventQueueReader();
+	 	$queue = new ilECSEventQueueReader($server->getServerId());
 	 	$queue->deleteAllExportedEvents();
 
 		// Read all local export info
-		$local_econtent_ids = ilECSExport::_getAllEContentIds();
+		$local_econtent_ids = ilECSExport::_getAllEContentIds($server->getServerId());
 
 		// Read remote list
 		try
 		{
 			include_once './Services/WebServices/ECS/classes/class.ilECSEContentReader.php';
-			$reader = new ilECSEContentReader();
+			$reader = new ilECSEContentReader($server->getServerId());
 			$list = $reader->readResourceList(ilECSEContentReader::SENDER_ONLY);
 		}
 		catch(ilECSConnectorException $e)
@@ -196,7 +196,7 @@ class ilECSEventQueueReader
 		{
 			if(!in_array($econtent_id, $remote_econtent_ids))
 			{
-				ilECSExport::_deleteEContentIds(array($econtent_id));
+				ilECSExport::_deleteEContentIds($server->getServerId(),array($econtent_id));
 			}
 		}
 
@@ -205,7 +205,7 @@ class ilECSEventQueueReader
 		{
 			if(!isset($local_econtent_ids[$econtent_id]))
 			{
-				ilECSExport::_deleteEContentIds(array($econtent_id));
+				ilECSExport::_deleteEContentIds($server->getServerId(),array($econtent_id));
 			}
 		}
 		return true;
