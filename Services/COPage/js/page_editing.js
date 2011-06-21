@@ -1615,6 +1615,14 @@ statusbar = false;
 //alert("bb");
 	if (!moved)
 	{
+		// without using p tags
+		/*	remove_linebreaks : false,
+			convert_newlines_to_brs : false,
+			force_p_newlines : false,
+			force_br_newlines : true,
+			forced_root_block : 'div', */
+
+		
 		tinyMCE.init({
 			mode : "textareas",
 			theme : "advanced",
@@ -1625,14 +1633,14 @@ statusbar = false;
 			fix_list_elements : true,
 			theme_advanced_blockformats : "code",
 			theme_advanced_toolbar_align : "left",
-			theme_advanced_buttons1 : "save,b,code,il_strong,styleselect,formatselect,bullist,numlist,outdent,indent,pasteword",
+			theme_advanced_buttons1 : "p,save,b,code,il_strong,styleselect,formatselect,bullist,numlist,outdent,indent,pasteword",
 			theme_advanced_buttons2 : "",
 			theme_advanced_buttons3 : "",
 			content_css: ilCOPage.content_css,
 			theme_advanced_toolbar_location : "external",
 			theme_advanced_path : show_path,
 			theme_advanced_statusbar_location : statusbar,
-			valid_elements : "br,div[class|id],span[class],code,ul[class],ol[class],li[class]",
+			valid_elements : "p,br,div[class|id],span[class],code,ul[class],ol[class],li[class]",
 			removeformat_selector : 'span,code',
 			remove_linebreaks : false,
 			convert_newlines_to_brs : false,
@@ -1655,8 +1663,34 @@ statusbar = false;
 				{title : 'Accent', inline : 'span', classes : 'ilc_text_inline_Accent'}
 			],
 			
-			paste_auto_cleanup_on_paste : true,
+			paste_auto_cleanup_on_paste : false,
+			paste_text_linebreaktype : "br",
+			paste_remove_styles: true,
 
+			/**
+			 * Event is triggered after the paste plugin put the content
+			 * that should be pasted into a dom structure now
+			 * BUT the content is not put into the document yet
+			 */
+			paste_preprocess: function (pl, o) {
+				var ed = ed = tinyMCE.activeEditor;
+				
+				if (o.wordContent)
+				{
+					o.content = o.content.replace(/(\r\n|\r|\n)/g, '\n');
+					o.content = o.content.replace(/(\n)/g, ' ');
+				}
+
+				// make all p -> br
+				o.content = o.content.replace(/(<p [^>]*>)/g, '');
+				o.content = o.content.replace(/(<p>)/g, '');
+				o.content = o.content.replace(/(<\/p>)/g, '<br />');
+				
+				// remove all divs
+				o.content = o.content.replace(/(<div [^>]*>)/g, '');
+				o.content = o.content.replace(/(<\/div>)/g, '');
+			},
+			
 			/**
 			 * Event is triggered after the paste plugin put the content
 			 * that should be pasted into a dom structure now
@@ -1664,6 +1698,12 @@ statusbar = false;
 			 */
 			paste_postprocess: function (pl, o) {
 				var ed = ed = tinyMCE.activeEditor;
+				
+				if (o.wordContent)
+				{
+					
+				}
+
 				// remove all id attributes from the content
 				tinyMCE.each(ed.dom.select('*[id!=""]', o.node), function(el) {
 					el.id = '';
