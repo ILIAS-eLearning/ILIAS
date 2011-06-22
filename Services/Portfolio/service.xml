@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="prtf">
+	<baseclasses>
+		<baseclass name="ilObjPortfolioGUI" dir="classes" />
+	</baseclasses>
+	<objects>
+		<object id="prtf" class_name="Portfolio" dir="classes"
+			checkbox="0" inherit="0" translate="0" rbac="0">
+		</object>
+	</objects>
+</service>

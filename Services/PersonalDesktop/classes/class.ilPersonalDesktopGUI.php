@@ -16,7 +16,7 @@ include_once "Services/Mail/classes/class.ilMail.php";
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilMailAddressbookGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilPortfolioGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjPortfolioGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -244,11 +244,11 @@ class ilPersonalDesktopGUI
 				$this->tpl->show();
 				break;
 			
-			case 'ilportfoliogui':
+			case 'ilobjportfoliogui':
 				$this->getStandardTemplates();
 				$this->setTabs();
-				include_once 'Services/Portfolio/classes/class.ilPortfolioGUI.php';
-				$pfgui = new ilPortfolioGUI($ilUser->getId());
+				include_once 'Services/Portfolio/classes/class.ilObjPortfolioGUI.php';
+				$pfgui = new ilObjPortfolioGUI();
 				$ret = $this->ctrl->forwardCommand($pfgui);				
 				$this->tpl->show();
 				break;
@@ -615,7 +615,16 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToPortfolio()
 	{
-		$this->ctrl->redirectByClass("ilportfoliogui");
+		// used for goto links
+		if($_GET["prt_id"])
+		{
+			$this->ctrl->setParameterByClass("ilobjportfoliogui", "prt_id", $_GET["prt_id"]);
+			$this->ctrl->redirectByClass("ilobjportfoliogui", "preview");
+		}
+		else
+		{
+			$this->ctrl->redirectByClass("ilobjportfoliogui");
+		}
 	}
 	
 	/**

@@ -245,8 +245,8 @@ class ilExAssignmentGUI
 						$portfolio_id = array_pop($delivered_files);
 						$portfolio_id = (int)$portfolio_id["filetitle"];
 						
-						include_once "Services/Portfolio/classes/class.ilPortfolio.php";
-						$portfolio = new ilPortfolio($portfolio_id);
+						include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+						$portfolio = new ilObjPortfolio($portfolio_id);
 						
 						$files_str = '<a href="#TODO">'.$portfolio->getTitle().'</a>';
 					}

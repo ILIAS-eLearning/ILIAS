@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Portfolio/classes/class.ilPortfolio.php");
+include_once("./Services/Portfolio/classes/class.ilObjPortfolio.php");
 
 /**
  * Portfolio view gui class
@@ -9,28 +9,26 @@ include_once("./Services/Portfolio/classes/class.ilPortfolio.php");
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
- * @ilCtrl_Calls ilPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
+ * @ilCtrl_Calls ilObjPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
+ * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
  *
  * @ingroup ServicesPortfolio
  */
-class ilPortfolioGUI 
+class ilObjPortfolioGUI 
 {
 	protected $user_id; // [int]
-	protected $portfolio; // [ilPortfolio]
+	protected $portfolio; // [ilObjPortfolio]
 	
 	/**
 	 * Constructor
-	 *
-	 * @param int $a_user_id
 	 */
-	function __construct($a_user_id)
+	function __construct()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser;
 
 		$lng->loadLanguageModule("prtf");
 
-		$this->user_id = (int)$a_user_id;
+		$this->user_id = $ilUser->getId();
 
 		$portfolio_id = $_REQUEST["prt_id"];
 		$ilCtrl->setParameter($this, "prt_id", $portfolio_id);
@@ -48,7 +46,7 @@ class ilPortfolioGUI
 	 */
 	function initPortfolioObject($a_id)
 	{
-		$portfolio = new ilPortfolio($a_id, false);
+		$portfolio = new ilObjPortfolio($a_id, false);
 		if($portfolio->getId() && $portfolio->getOwner() == $this->user_id)
 		{
 			$this->portfolio = $portfolio;
@@ -123,7 +121,7 @@ class ilPortfolioGUI
 				$tpl->setContent($content.$ilCtrl->forwardCommand($note_gui));
 				break;
 			
-			default:										
+			default:				
 				$this->$cmd();
 				break;
 		}
@@ -169,7 +167,7 @@ class ilPortfolioGUI
 		{
 			if(trim($title))
 			{
-				$portfolio = new ilPortfolio($id, false);
+				$portfolio = new ilObjPortfolio($id, false);
 				$portfolio->setTitle($title);
 				
 				if(is_array($_POST["online"]) && in_array($id, $_POST["online"]))
@@ -211,7 +209,7 @@ class ilPortfolioGUI
 		$form = $this->initForm();
 		if($form->checkInput())
 		{
-			$portfolio = new ilPortfolio();
+			$portfolio = new ilObjPortfolio();
 			$portfolio->setTitle($form->getInput("title"));
 			// $portfolio->setDescription($form->getInput("desc"));
 			$portfolio->create();
@@ -260,7 +258,7 @@ class ilPortfolioGUI
 			// if portfolio is not online, it cannot be default
 			if(!$form->getInput("online"))
 			{
-				ilPortfolio::setUserDefault($ilUser->getId(), 0);
+				ilObjPortfolio::setUserDefault($ilUser->getId(), 0);
 			}
 
 			ilUtil::sendSuccess($lng->txt("prtf_portfolio_updated"), true);
@@ -339,7 +337,7 @@ class ilPortfolioGUI
 
 		if($this->portfolio)
 		{
-			ilPortfolio::setUserDefault($this->user_id, $this->portfolio->getId());
+			ilObjPortfolio::setUserDefault($this->user_id, $this->portfolio->getId());
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		}
 		$ilCtrl->redirect($this, "show");
@@ -368,7 +366,7 @@ class ilPortfolioGUI
 
 			foreach ($_POST["prtfs"] as $id)
 			{
-				$cgui->addItem("prtfs[]", $id, ilPortfolio::_lookupTitle($id));
+				$cgui->addItem("prtfs[]", $id, ilObjPortfolio::_lookupTitle($id));
 			}
 
 			$tpl->setContent($cgui->getHTML());
@@ -386,7 +384,7 @@ class ilPortfolioGUI
 		{
 			foreach ($_POST["prtfs"] as $id)
 			{
-				$portfolio = new ilPortfolio($id, false);
+				$portfolio = new ilObjPortfolio($id, false);
 				if ($portfolio->getOwner() == $this->user_id)
 				{
 					$portfolio->delete();
@@ -637,13 +635,13 @@ class ilPortfolioGUI
 		
 		foreach($users as $user_id)
 		{		
-			$port = new ilPortfolio();
+			$port = new ilObjPortfolio();
 			$port->setOwner($user_id);
 			$port->setTitle($lng->txt("prtf_portfolio_default"));
 			$port->setOnline(true);
 			$port->create();
 			
-			ilPortfolio::setUserDefault($user_id, $port->getId());
+			ilObjPortfolio::setUserDefault($user_id, $port->getId());
 			
 			// first page has public profile as default
 			$xml = "<PageObject>".
@@ -756,6 +754,17 @@ class ilPortfolioGUI
 		$note_gui->setRepositoryMode(false);
 		
 		$tpl->setContent($content.$note_gui->getNotesHTML());			
+	}
+	
+	function _goto($a_target)
+	{
+		$id = explode("_", $a_target);
+	
+		$_GET["baseClass"] = "ilPersonalDesktopGUI";	
+		$_GET["prt_id"] = $id[0];		
+		$_GET["cmd"] = "jumpToPortfolio";		
+		include("ilias.php");
+		exit;
 	}
 }
 

@@ -11,7 +11,7 @@ require_once "Services/Object/classes/class.ilObject2.php";
  *
  * @ingroup ServicesPortfolio
  */
-class ilPortfolio extends ilObject2
+class ilObjPortfolio extends ilObject2
 {
 	protected $online; // [bool]
 	protected $default; // [bool]

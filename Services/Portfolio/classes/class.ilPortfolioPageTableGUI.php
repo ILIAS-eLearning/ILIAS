@@ -19,7 +19,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, ilPortfolio $a_portfolio)
+	function __construct($a_parent_obj, $a_parent_cmd, ilObjPortfolio $a_portfolio)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $ilUser;
 
