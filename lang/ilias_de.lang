@@ -11550,3 +11550,8 @@ user#:#user_profile_portfolio#:#Sie können ein Portfolio als öffentliches Prof
 ecs#:#ecs_cert_valid_until#:#Zertifikat gültig bis
 wsp#:#wsp_type_webr#:#Weblink
 trac#:#trac_object_statistics#:#Objekt-Statistik
+ecs#:#ecs_auth_type#:#Authentifizierungsart
+ecs#:#ecs_auth_type_cert#:#Zertifikatbasiert
+ecs#:#ecs_auth_type_apache#:#Benutzername/Passwort
+ecs#:#ecs_apache_user#:#Benutzername
+ecs#:#ecs_apache_pass#:#Passwort

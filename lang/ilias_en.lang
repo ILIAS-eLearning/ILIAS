@@ -11554,3 +11554,8 @@ mep#:#mep_choose_from_mep#:#Choose from Pool
 ecs#:#ecs_cert_valid_until#:#Certificate valid until
 mep#:#mep_choose_from_folder#:#Choose from Folder
 trac#:#trac_object_statistics#:#Object Statistics
+ecs#:#ecs_auth_type#:#Authentication Type
+ecs#:#ecs_auth_type_cert#:#Certificate-Base
+ecs#:#ecs_auth_type_apache#:#Username/Password
+ecs#:#ecs_apache_user#:#Username
+ecs#:#ecs_apache_pass#:#Password

@@ -369,7 +369,7 @@ class ilECSSettingsGUI
 		$cert_based->addSubItem($cer);
 
 		// Apache auth
-		$apa_based = new ilRadioOption($this->lng->txt('ecs_auth_type_cert'), ilECSSetting::AUTH_APACHE);
+		$apa_based = new ilRadioOption($this->lng->txt('ecs_auth_type_apache'), ilECSSetting::AUTH_APACHE);
 		$tcer->addOption($apa_based);
 
 		$user = new ilTextInputGUI($this->lng->txt('ecs_apache_user'),'auth_user');
