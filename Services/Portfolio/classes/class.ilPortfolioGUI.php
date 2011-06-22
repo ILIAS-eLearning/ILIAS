@@ -66,13 +66,16 @@ class ilPortfolioGUI
 		$cmd = $ilCtrl->getCmd("show");
 		
 		$lng->loadLanguageModule("user");
+		$tpl->setTitle($lng->txt("portfolio"));
 
 		switch($next_class)
 		{
 			case "ilworkspaceaccessgui";				
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($lng->txt("back"),
-					$ilCtrl->getLinkTarget($this, "show"));								
+					$ilCtrl->getLinkTarget($this, "show"));			
+				
+				$tpl->setTitle($lng->txt("portfolio"));
 				
 				include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
 				include_once('./Services/Portfolio/classes/class.ilPortfolioAccessHandler.php');
@@ -120,9 +123,7 @@ class ilPortfolioGUI
 				$tpl->setContent($content.$ilCtrl->forwardCommand($note_gui));
 				break;
 			
-			default:		
-				$tpl->setTitle($lng->txt("portfolio"));
-				
+			default:										
 				$this->$cmd();
 				break;
 		}

@@ -78,8 +78,8 @@ class ilPortfolio extends ilObject2
 		
 		$ilDB->manipulate("INSERT INTO usr_portfolio (id,is_online,is_default)".
 			" VALUES (".$ilDB->quote($this->id, "integer").",".
-			$ilDB->quote(false, "integer").",".
-			$ilDB->quote(false, "integer").")");
+			$ilDB->quote($this->isOnline(), "integer").",".
+			$ilDB->quote($this->isDefault(), "integer").")");
 	}
 	
 	protected function doUpdate()
