@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/COPage/classes/class.ilPageObject.php");
-include_once("./Services/Portfolio/classes/class.ilPortfolio.php");
+include_once("./Services/Portfolio/classes/class.ilObjPortfolio.php");
 
 /**
  * Page for user portfolio

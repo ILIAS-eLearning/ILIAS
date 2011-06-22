@@ -6015,3 +6015,7 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 	}
 	$ilDB->dropSequence('usr_portfolio');
 ?>
+<#3373>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

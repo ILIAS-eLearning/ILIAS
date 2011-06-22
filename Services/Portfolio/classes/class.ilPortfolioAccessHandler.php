@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Portfolio/classes/class.ilPortfolio.php";
+include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
 include_once "Modules/Group/classes/class.ilGroupParticipants.php";
 include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 
@@ -54,7 +54,7 @@ class ilPortfolioAccessHandler
 
 		// :TODO: create permission for parent node with type ?!
 		
-		$pf = new ilPortfolio($a_node_id);
+		$pf = new ilObjPortfolio($a_node_id);
 		if(!$pf->getId())
 		{
 			return false;

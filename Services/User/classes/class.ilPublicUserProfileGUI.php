@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Portfolio/classes/class.ilPortfolio.php";
+include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
 include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
 
 /**
@@ -602,7 +602,7 @@ class ilPublicUserProfileGUI
 	    $user_id = $this->getUserId();
 		if(self::validateUser($user_id))
 		{		
-			$this->portfolioid = ilPortfolio::getDefaultPortfolio($user_id);
+			$this->portfolioid = ilObjPortfolio::getDefaultPortfolio($user_id);
 			if($this->portfolioid)
 			{			
 				$current_page = $_GET["user_page"];

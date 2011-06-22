@@ -48,8 +48,8 @@ class ilPortfolioTableGUI extends ilTable2GUI
 
 	protected function getItems()
 	{
-		include_once "Services/Portfolio/classes/class.ilPortfolio.php";
-		$data = ilPortfolio::getPortfoliosOfUser($this->user_id);
+		include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+		$data = ilObjPortfolio::getPortfoliosOfUser($this->user_id);
 		$this->setData($data);
 	}
 
