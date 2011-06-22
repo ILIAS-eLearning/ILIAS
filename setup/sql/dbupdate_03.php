@@ -5994,3 +5994,24 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 		);
 	}
 ?>
+<#3372>
+<?php
+	// remove existing portfolios which are not based on object_data
+	$ilDB->manipulate("DELETE FROM usr_portfolio");
+	$ilDB->manipulate("DELETE FROM usr_portfolio_page");
+
+	// remove obsolete portfolio columns
+	if($ilDB->tableColumnExists('usr_portfolio','user_id'))
+	{
+		$ilDB->dropTableColumn('usr_portfolio', 'user_id');
+	}
+	if($ilDB->tableColumnExists('usr_portfolio','title'))
+	{
+		$ilDB->dropTableColumn('usr_portfolio', 'title');
+	}
+	if($ilDB->tableColumnExists('usr_portfolio','description'))
+	{
+		$ilDB->dropTableColumn('usr_portfolio', 'description');
+	}
+	$ilDB->dropSequence('usr_portfolio');
+?>
