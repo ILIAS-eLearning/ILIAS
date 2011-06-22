@@ -114,7 +114,7 @@
 .ygtvblankdepthcell { width:16px; height:22px; }
 
 /* the style of the div around each node */
-.ygtvitem {font-size:13px;}  
+.ygtvitem {font-size:13px;}
 
 /* the style of the div around each node's collection of children */
 .ygtvchildren { }  
@@ -130,8 +130,8 @@
 
 
 span.frmTitle {
-	color:#054784;	
-	font-size: 18px;
+	color:#054784;
+	font-size:14px;
 }
 span.frmTitle a:link {
 	color:#054784;
@@ -142,7 +142,7 @@ span.frmTitle a:hover {
 
 span.frmTitleBold {
 	color:#054784;
-	font-size: 18px;
+	font-size:14px;
 	font-weight: bold;
 }
 span.frmTitleBold a:link {
@@ -154,4 +154,13 @@ span.frmTitleBold a:hover {
 	font-weight: bold;
 }
 
-
+span.frmPostTitle {
+	color:#054784;
+	font-size:18px;
+}
+span.frmPostTitle a:link {
+	color:#054784;
+}
+span.frmPostTitle a:hover {
+	color:#054784;
+}
