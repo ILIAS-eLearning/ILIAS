@@ -6019,3 +6019,27 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3374>
+<?php
+	if(!$ilDB->tableColumnExists('ecs_server','auth_user'))
+	{
+		$ilDB->addTableColumn("ecs_server", "auth_user", array(
+			"type" => "text",
+			"length" => 32,
+			"notnull" => false,
+			"default" => null)
+		);
+	}
+?>
+<#3375>
+<?php
+	if(!$ilDB->tableColumnExists('ecs_server','auth_pass'))
+	{
+		$ilDB->addTableColumn("ecs_server", "auth_pass", array(
+			"type" => "text",
+			"length" => 32,
+			"notnull" => false,
+			"default" => null)
+		);
+	}
+?>
