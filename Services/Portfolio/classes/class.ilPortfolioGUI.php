@@ -48,8 +48,8 @@ class ilPortfolioGUI
 	 */
 	function initPortfolioObject($a_id)
 	{
-		$portfolio = new ilPortfolio($a_id);
-		if($portfolio->getId() && $portfolio->getUserId() == $this->user_id)
+		$portfolio = new ilPortfolio($a_id, false);
+		if($portfolio->getId() && $portfolio->getOwner() == $this->user_id)
 		{
 			$this->portfolio = $portfolio;
 		}
@@ -168,7 +168,7 @@ class ilPortfolioGUI
 		{
 			if(trim($title))
 			{
-				$portfolio = new ilPortfolio($id);
+				$portfolio = new ilPortfolio($id, false);
 				$portfolio->setTitle($title);
 				
 				if(is_array($_POST["online"]) && in_array($id, $_POST["online"]))
@@ -367,7 +367,7 @@ class ilPortfolioGUI
 
 			foreach ($_POST["prtfs"] as $id)
 			{
-				$cgui->addItem("prtfs[]", $id, ilPortfolio::lookupTitle($id));
+				$cgui->addItem("prtfs[]", $id, ilPortfolio::_lookupTitle($id));
 			}
 
 			$tpl->setContent($cgui->getHTML());
@@ -385,8 +385,8 @@ class ilPortfolioGUI
 		{
 			foreach ($_POST["prtfs"] as $id)
 			{
-				$portfolio = new ilPortfolio($id);
-				if ($portfolio->getUserId() == $this->user_id)
+				$portfolio = new ilPortfolio($id, false);
+				if ($portfolio->getOwner() == $this->user_id)
 				{
 					$portfolio->delete();
 				}
@@ -636,7 +636,8 @@ class ilPortfolioGUI
 		
 		foreach($users as $user_id)
 		{		
-			$port = new ilPortfolio(null, $user_id);
+			$port = new ilPortfolio();
+			$port->setOwner($user_id);
 			$port->setTitle($lng->txt("prtf_portfolio_default"));
 			$port->setOnline(true);
 			$port->create();
@@ -685,7 +686,7 @@ class ilPortfolioGUI
 		global $ilUser, $tpl, $ilCtrl, $ilTabs, $lng;
 		
 		$portfolio_id = $this->portfolio->getId();
-		$user_id = $this->portfolio->getUserId();
+		$user_id = $this->portfolio->getOwner();
 		
 		// page title
 		include_once("./Services/User/classes/class.ilUserUtil.php");
