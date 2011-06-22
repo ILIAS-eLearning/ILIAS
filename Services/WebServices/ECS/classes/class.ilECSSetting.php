@@ -695,6 +695,15 @@ class ilECSSetting
 			{
 				return self::ERROR_REQUIRED;
 			}
+			// Check import id
+			if(!$this->fetchSerialID())
+			{
+				return self::ERROR_EXTRACT_SERIAL;
+			}
+			if(!$this->fetchCertificateExpiration())
+			{
+				return self::ERROR_CERT_EXPIRED;
+			}
 		}
 		// Apache auth
 		if($this->getAuthType() == self::AUTH_APACHE)
@@ -712,15 +721,6 @@ class ilECSSetting
 			return self::ERROR_REQUIRED;
 		}
 		
-		// Check import id
-		if(!$this->fetchSerialID())
-		{
-			return self::ERROR_EXTRACT_SERIAL;
-		}
-		if(!$this->fetchCertificateExpiration())
-		{
-			return self::ERROR_CERT_EXPIRED;
-		}
 		if(!$this->checkImportId())
 		{
 			return self::ERROR_INVALID_IMPORT_ID;			
@@ -820,7 +820,8 @@ class ilECSSetting
 			'approval_rcp = '.$ilDB->quote($this->getApprovalRecipientsAsString(),'text').', '.
 			'duration = '.$ilDB->quote($this->getDuration(),'integer').', '.
 			'auth_user = '.$ilDB->quote($this->getAuthUser(),'text').', '.
-			'auth_pass = '.$ilDB->quote($this->getAuthPass(),'text').' '.
+			'auth_pass = '.$ilDB->quote($this->getAuthPass(),'text').', '.
+			'auth_type = '.$ilDB->quote($this->getAuthType(),'integer').' '.
 			'WHERE server_id = '.$ilDB->quote($this->getServerId(),'integer')
 		);
 	}
@@ -952,6 +953,7 @@ class ilECSSetting
 			$this->setDuration($row['duration']);
 			$this->setAuthUser($row['auth_user']);
 			$this->setAuthPass($row['auth_pass']);
+			$this->setAuthType($row['auth_type']);
 		}
 	}
 

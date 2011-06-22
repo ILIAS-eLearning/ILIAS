@@ -101,8 +101,6 @@ class ilECSSettingsGUI
 	{
 		global $ilToolbar,$ilTabs;
 
-		$GLOBALS['ilLog']->logStack();
-		
 		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
 
 		$ilTabs->setSubTabActive('overview');
@@ -315,14 +313,7 @@ class ilECSSettingsGUI
 		$ena->setChecked($this->settings->isEnabled());
 		$ena->setValue(1);
 		$this->form->addItem($ena);
-		/*
-		$tit = new ilTextInputGUI($this->lng->txt('title'), 'title');
-		$tit->setRequired(true);
-		$tit->setSize(32);
-		$tit->setMaxLength(64);
-		$tit->setValue($this->settings->getTitle());
-		$this->form->addItem($tit);
-		*/
+
 		$ser = new ilTextInputGUI($this->lng->txt('ecs_server_url'),'server');
 		$ser->setValue((string) $this->settings->getServer());
 		$ser->setRequired(true);
@@ -343,35 +334,62 @@ class ilECSSettingsGUI
 		$por->setValue((string) $this->settings->getPort());
 		$por->setRequired(true);
 		$this->form->addItem($por);
+
+		$tcer = new ilRadioGroupInputGUI($this->lng->txt('ecs_auth_type'),'auth_type');
+		$tcer->setValue($this->settings->getAuthType());
+		$this->form->addItem($tcer);
+
+		// Certificate based authentication
+		$cert_based = new ilRadioOption($this->lng->txt('ecs_auth_type_cert'), ilECSSetting::AUTH_CERTIFICATE);
+		$tcer->addOption($cert_based);
+
+		$cli = new ilTextInputGUI($this->lng->txt('ecs_client_cert'),'client_cert');
+		$cli->setSize(60);
+		$cli->setValue((string) $this->settings->getClientCertPath());
+		$cli->setRequired(true);
+		$cert_based->addSubItem($cli);
 		
-		$cer = new ilTextInputGUI($this->lng->txt('ecs_client_cert'),'client_cert');
-		$cer->setSize(60);
-		$cer->setValue((string) $this->settings->getClientCertPath());
-		$cer->setRequired(true);
-		$this->form->addItem($cer);
+		$key = new ilTextInputGUI($this->lng->txt('ecs_cert_key'),'key_path');
+		$key->setSize(60);
+		$key->setValue((string) $this->settings->getKeyPath());
+		$key->setRequired(true);
+		$cert_based->addSubItem($key);
 		
-		$cer = new ilTextInputGUI($this->lng->txt('ecs_cert_key'),'key_path');
-		$cer->setSize(60);
-		$cer->setValue((string) $this->settings->getKeyPath());
-		$cer->setRequired(true);
-		$this->form->addItem($cer);
-		
-		$cer = new ilTextInputGUI($this->lng->txt('ecs_key_password'),'key_password');
-		$cer->setSize(12);
-		$cer->setValue((string) $this->settings->getKeyPassword());
-		$cer->setInputType('password');
-		$cer->setRequired(true);
-		$this->form->addItem($cer);
+		$cerp = new ilTextInputGUI($this->lng->txt('ecs_key_password'),'key_password');
+		$cerp->setSize(12);
+		$cerp->setValue((string) $this->settings->getKeyPassword());
+		$cerp->setInputType('password');
+		$cerp->setRequired(true);
+		$cert_based->addSubItem($cerp);
 
 		$cer = new ilTextInputGUI($this->lng->txt('ecs_ca_cert'),'ca_cert');
 		$cer->setSize(60);
 		$cer->setValue((string) $this->settings->getCACertPath());
 		$cer->setRequired(true);
-		$this->form->addItem($cer);
+		$cert_based->addSubItem($cer);
+
+		// Apache auth
+		$apa_based = new ilRadioOption($this->lng->txt('ecs_auth_type_cert'), ilECSSetting::AUTH_APACHE);
+		$tcer->addOption($apa_based);
+
+		$user = new ilTextInputGUI($this->lng->txt('ecs_apache_user'),'auth_user');
+		$user->setSize(32);
+		$user->setValue((string) $this->settings->getAuthUser());
+		$user->setRequired(true);
+		$apa_based->addSubItem($user);
+
+		$pass = new ilPasswordInputGUI($this->lng->txt('ecs_apache_pass'), 'auth_pass');
+		$pass->setRetype(false);
+		$pass->setSize(16);
+		$pass->setMaxLength(32);
+		$pass->setValue((string) $this->settings->getAuthPass());
+		$pass->setRequired(true);
+		$apa_based->addSubItem($pass);
+
 
 		$ser = new ilNonEditableValueGUI($this->lng->txt('cert_serial'));
 		$ser->setValue($this->settings->getCertSerialNumber() ? $this->settings->getCertSerialNumber() : $this->lng->txt('ecs_no_value'));
-		$this->form->addItem($ser);
+		$cert_based->addSubItem($cer);
 
 		$loc = new ilFormSectionHeaderGUI();
 		$loc->setTitle($this->lng->txt('ecs_local_settings'));
@@ -565,6 +583,10 @@ class ilECSSettingsGUI
 		$this->settings->setUserRecipients(ilUtil::stripSlashes($_POST['user_recipients']));
 		$this->settings->setEContentRecipients(ilUtil::stripSlashes($_POST['econtent_recipients']));
 		$this->settings->setApprovalRecipients(ilUtil::stripSlashes($_POST['approval_recipients']));
+
+		$this->settings->setAuthType((int) $_POST['auth_type']);
+		$this->settings->setAuthPass(ilUtil::stripSlashes($_POST['auth_pass']));
+		$this->settings->setAuthUser(ilUtil::stripSlashes($_POST['auth_user']));
 
 	}
 	
