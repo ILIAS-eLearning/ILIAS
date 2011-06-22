@@ -65,6 +65,9 @@ class ilECSSetting
 	private $cert_serial;
 	private $global_role;
 	private $duration;
+
+	private $auth_user = '';
+	private $auth_pass = '';
 	
 	private $user_recipients = array();
 	private $econtent_recipients = array();
@@ -78,7 +81,6 @@ class ilECSSetting
 	private function __construct($a_server_id = 0)
 	{
 	 	$this->server_id = $a_server_id;
-		//$this->initStorage();
 	 	$this->read();
 	}
 	
@@ -145,6 +147,42 @@ class ilECSSetting
 	public function getAuthType()
 	{
 		return $this->auth_type;
+	}
+
+	/**
+	 * Set apache auth user
+	 * @param string $a_user 
+	 */
+	public function setAuthUser($a_user)
+	{
+		$this->auth_user = $a_user;
+	}
+
+	/**
+	 * Get apache auth user
+	 * @return string
+	 */
+	public function getAuthUser()
+	{
+		return $this->auth_user;
+	}
+
+	/**
+	 * Set Apache auth password
+	 * @param string $a_pass
+	 */
+	public function setAuthPass($a_pass)
+	{
+		$this->auth_pass = $a_pass;
+	}
+
+	/**
+	 * Get auth password
+	 * @return string
+	 */
+	public function getAuthPass()
+	{
+		return $this->auth_pass;
 	}
 
 	/**
@@ -649,8 +687,26 @@ class ilECSSetting
 	 	{
 	 		return '';
 	 	}
-		if(!$this->getServer() or !$this->getPort() or !$this->getClientCertPath() or !$this->getCACertPath()
-			or !$this->getKeyPath() or !$this->getKeyPassword() or !$this->getPollingTime() or !$this->getImportId()
+
+		// Cert based authentication
+		if($this->getAuthType() == self::AUTH_CERTIFICATE)
+		{
+			if(!$this->getClientCertPath() or !$this->getCACertPath() or !$this->getKeyPath() or !$this->getKeyPassword())
+			{
+				return self::ERROR_REQUIRED;
+			}
+		}
+		// Apache auth
+		if($this->getAuthType() == self::AUTH_APACHE)
+		{
+			if(!$this->getAuthUser() or !$this->getAuthPass())
+			{
+				return self::ERROR_REQUIRED;
+			}
+		}
+
+		// required fields
+		if(!$this->getServer() or !$this->getPort() or !$this->getPollingTime() or !$this->getImportId()
 			or !$this->getGlobalRole() or !$this->getDuration())
 		{
 			return self::ERROR_REQUIRED;
@@ -709,7 +765,7 @@ class ilECSSetting
 
 		$this->server_id = $ilDB->nextId('ecs_server');
 		$ilDB->manipulate($q = 'INSERT INTO ecs_server (server_id,active,title,protocol,server,port,auth_type,client_cert_path,ca_cert_path,'.
-			'key_path,key_password,cert_serial,polling_time,import_id,global_role,econtent_rcp,user_rcp,approval_rcp,duration) '.
+			'key_path,key_password,cert_serial,polling_time,import_id,global_role,econtent_rcp,user_rcp,approval_rcp,duration,auth_user,auth_pass) '.
 			'VALUES ('.
 			$ilDB->quote($this->getServerId(),'integer').', '.
 			$ilDB->quote((int) $this->isEnabled(),'integer').', '.
@@ -729,7 +785,9 @@ class ilECSSetting
 			$ilDB->quote($this->getEContentRecipientsAsString(),'text').', '.
 			$ilDB->quote($this->getUserRecipientsAsString(),'text').', '.
 			$ilDB->quote($this->getApprovalRecipientsAsString(),'text').', '.
-			$ilDB->quote($this->getDuration(),'integer').
+			$ilDB->quote($this->getDuration(),'integer').', '.
+			$ilDB->quote($this->getAuthUser(),'text').', '.
+			$ilDB->quote($this->getAuthPass(),'text').' '.
 			')'
 		);
 	}
@@ -760,7 +818,9 @@ class ilECSSetting
 			'econtent_rcp = '.$ilDB->quote($this->getEContentRecipientsAsString(),'text').', '.
 			'user_rcp = '.$ilDB->quote($this->getUserRecipientsAsString(),'text').', '.
 			'approval_rcp = '.$ilDB->quote($this->getApprovalRecipientsAsString(),'text').', '.
-			'duration = '.$ilDB->quote($this->getDuration(),'integer').' '.
+			'duration = '.$ilDB->quote($this->getDuration(),'integer').', '.
+			'auth_user = '.$ilDB->quote($this->getAuthUser(),'text').', '.
+			'auth_pass = '.$ilDB->quote($this->getAuthPass(),'text').' '.
 			'WHERE server_id = '.$ilDB->quote($this->getServerId(),'integer')
 		);
 	}
@@ -854,18 +914,6 @@ class ilECSSetting
 		}
 	}
 	
-	
-	/**
-	 * Init storage class (ilSetting)
-	 * @access private
-	 * @deprecated
-	 */
-	private function initStorage()
-	{
-	 	include_once('./Services/Administration/classes/class.ilSetting.php');
-	 	$this->storage = new ilSetting('ecs');
-	}
-	
 	/**
 	 * Read settings
 	 *
@@ -902,6 +950,8 @@ class ilECSSetting
 			$this->approval_recipients = $row['approval_rcp'];
 			$this->user_recipients = $row['user_rcp'];
 			$this->setDuration($row['duration']);
+			$this->setAuthUser($row['auth_user']);
+			$this->setAuthPass($row['auth_pass']);
 		}
 	}
 
@@ -923,6 +973,8 @@ class ilECSSetting
 		$this->setCACertPath('');
 		$this->setCertSerialNumber('');
 		$this->setAuthType(self::AUTH_CERTIFICATE);
+		$this->setAuthUser('');
+		$this->setAuthPass('');
 	}
 }
 ?>
