@@ -42,6 +42,8 @@ class ilPortfolioTableGUI extends ilTable2GUI
 			$lng->txt("prtf_save_status_and_titles"));
 
 		$this->getItems();
+		
+		$lng->loadLanguageModule("wsp");
 	}
 
 	protected function getItems()
@@ -90,7 +92,7 @@ class ilPortfolioTableGUI extends ilTable2GUI
 		
 		$this->tpl->setVariable("URL_ACTION",
 			$ilCtrl->getLinkTargetByClass("ilworkspaceaccessgui", "share"));
-		$this->tpl->setVariable("TXT_ACTION", $lng->txt("perm_settings"));
+		$this->tpl->setVariable("TXT_ACTION", $lng->txt("wsp_permissions"));
 		$this->tpl->parseCurrentBlock();
 
 		if(!$a_set["is_default"] && $a_set["is_online"])
