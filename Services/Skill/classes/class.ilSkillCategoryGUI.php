@@ -97,6 +97,86 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 //			$_POST["il_hform_fc"], $_POST["il_hform_as_subitem"]);
 //		$ilCtrl->redirect($this, "showOrganization");
 	}
+
+	/**
+	 * Edit
+	 */
+	function edit()
+	{
+		global $tpl;
+
+		$this->initForm();
+		$this->getValues();
+		$tpl->setContent($this->form->getHTML());
+	}
+
+	/**
+	 * Init form.
+	 *
+	 * @param        int        $a_mode        Edit Mode
+	 */
+	public function initForm()
+	{
+		global $lng, $ilCtrl;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+
+		// allow self evaluation?
+		$cb = new ilCheckboxInputGUI($lng->txt("skmg_allow_self_evaluation"), "self_eval");
+		$this->form->addItem($cb);
+
+		$this->form->addCommandButton("updateSkillCategory", $lng->txt("save"));
+		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+
+		$this->form->setTitle($lng->txt("skmg_edit_scat"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	 * Get current values for from
+	 */
+	public function getValues()
+	{
+		$values = array();
+		$values["self_eval"] = $this->node_object->getSelfEvaluation();
+		$this->form->setValuesByArray($values);
+	}
+
+	/**
+	 * Update form
+	 */
+	function updateSkillCategory()
+	{
+		global $lng, $ilCtrl, $tpl;
+
+		$this->initForm("edit");
+		if ($this->form->checkInput())
+		{
+			// perform update
+			$this->node_object->setSelfEvaluation($_POST["self_eval"]);
+			$this->node_object->update();
+
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "edit");
+		}
+
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHtml());
+	}
+
+	/**
+	 * Cancel
+	 *
+	 * @param
+	 * @return
+	 */
+	function cancel()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirectByClass("ilobjskillmanagementgui", "editSkills");
+	}
 }
 
 ?>

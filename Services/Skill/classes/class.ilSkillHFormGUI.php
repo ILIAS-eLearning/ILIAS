@@ -165,9 +165,9 @@ class ilSkillHFormGUI extends ilHierarchyFormGUI
 			case "scat":
 				$ilCtrl->setParameterByClass("ilskillcategorygui", "obj_id",
 					$a_item["node_id"]);
-				//$commands[] = array("text" => $lng->txt("edit"),
-				//	"link" => $ilCtrl->getLinkTargetByClass(array("ilobjskillmanagementgui",
-				//		"ilskillcategorygui"), "edit"));
+				$commands[] = array("text" => $lng->txt("edit"),
+					"link" => $ilCtrl->getLinkTargetByClass(array("ilobjskillmanagementgui",
+						"ilskillcategorygui"), "edit"));
 				break;
 
 			case "skll":

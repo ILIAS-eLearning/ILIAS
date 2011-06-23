@@ -11606,3 +11606,14 @@ skmg#:#skmg_cert_skill_level_title#:#Skill Level Title
 skmg#:#skmg_cert_skill_trigger_title#:#Skill Trigger Title
 skmg#:#skmg_cert_achievement_date#:#Achievement Date
 skmg#:#skmg_cert_achievement_datetime#:#Achievement Date and Time
+skmg#:#skmg_edit_scat#:#Edit Skill Category
+skmg#:#skmg_please_select_self_skill#:#Start a new Self Evaluation. Skill:
+skmg#:#skmg_execute_self_evaluation#:#Start
+skmg#:#skmg_your_self_evaluation#:#Your Self-Evaluation
+skmg#:#skmg_no_skills#:#No Skills
+skmg#:#skmg_save_self_evaluation#:#Finish Self-Evaluation
+skmg#:#skmg_self_evaluations#:#Self-Evaluations
+skmg#:#skmg_update_self_evaluation#:#Update Self-Evaluation
+skmg#:#skmg_sure_delete_self_evaluation#:#Do you really want to delete the following self-evaluations?
+skmg#:#skmg_please_select_your_skill_levels#:#Please select your skill levels.
+skmg#:#skmg_self_evaluation#:#Self-Evaluation

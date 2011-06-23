@@ -94,6 +94,26 @@ class ilSkillTreeNode
 	}
 
 	/**
+	 * Set self evaluation
+	 *
+	 * @param	boolean	self evaluation
+	 */
+	function setSelfEvaluation($a_val)
+	{
+		$this->self_eval = $a_val;
+	}
+
+	/**
+	 * Get self evaluation
+	 *
+	 * @return	boolean	self evaluation
+	 */
+	function getSelfEvaluation()
+	{
+		return $this->self_eval;
+	}
+
+	/**
 	* Read Data of Node
 	*/
 	function read()
@@ -109,6 +129,7 @@ class ilSkillTreeNode
 		}
 		$this->setType($this->data_record["type"]);
 		$this->setTitle($this->data_record["title"]);
+		$this->setSelfEvaluation($this->data_record["self_eval"]);
 	}
 
 	/**
@@ -182,12 +203,14 @@ class ilSkillTreeNode
 
 		// insert object data
 		$id = $ilDB->nextId("skl_tree_node");
-		$query = "INSERT INTO skl_tree_node (obj_id, title, type, create_date) ".
+		$query = "INSERT INTO skl_tree_node (obj_id, title, type, create_date, self_eval) ".
 			"VALUES (".
 			$ilDB->quote($id, "integer").",".
 			$ilDB->quote($this->getTitle(), "text").",".
 			$ilDB->quote($this->getType(), "text").", ".
-			$ilDB->now().")";
+			$ilDB->now().", ".
+			$ilDB->quote((int) $this->getSelfEvaluation(), "integer").
+			")";
 		$ilDB->manipulate($query);
 		$this->setId($id);
 	}
@@ -201,6 +224,7 @@ class ilSkillTreeNode
 
 		$query = "UPDATE skl_tree_node SET ".
 			" title = ".$ilDB->quote($this->getTitle(), "text").
+			" ,self_eval = ".$ilDB->quote((int) $this->getSelfEvaluation(), "integer").
 			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
 
 		$ilDB->manipulate($query);
@@ -546,6 +570,7 @@ class ilSkillTreeNode
 		return $target_item->getId();
 	}
 
+<<<<<<< .working
 	/**
 	 * Is id in tree?
 	 *
@@ -561,5 +586,27 @@ class ilSkillTreeNode
 		}
 		return false;
 	}
+=======
+	/**
+	 * Get all self evaluation nodes
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getAllSelfEvaluationNodes()
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT obj_id, title FROM skl_tree_node WHERE ".
+			" self_eval = ".$ilDB->quote(true, "integer")." ORDER BY TITLE "
+			);
+		$nodes = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$nodes[$rec["obj_id"]] = $rec["title"];
+		}
+		return $nodes;
+	}
+>>>>>>> .merge-right.r24787
 }
 ?>

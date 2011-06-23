@@ -61,6 +61,13 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case 'ilskillcategorygui':
+				$this->tabs_gui->activateTab("skills");
+				include_once("./Services/Skill/classes/class.ilSkillCategoryGUI.php");
+				$scat_gui = new ilSkillCategoryGUI((int) $_GET["obj_id"]);
+				$ret = $this->ctrl->forwardCommand($scat_gui);
+				break;
+
 			case 'ilbasicskillgui':
 				$this->tabs_gui->activateTab("skills");
 				include_once("./Services/Skill/classes/class.ilBasicSkillGUI.php");
