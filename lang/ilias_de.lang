@@ -3349,7 +3349,7 @@ common#:#mail_system#:#Systemnachricht
 common#:#mail_system_message#:#Benutzer darf Systemnachrichten senden
 common#:#mail_use_pear_mail#:#PEAR-Mail verwenden
 common#:#mail_use_pear_mail_info#:#Verwende PEAR-Mail zum Parsen von Mailbox-Adressen. Der in ILIAS integrierte Parser ist sehr limitiert. PEAR-Mail unterstützt Internet-konforme E-Mail-Adressen vollständig.
-common#:#mail_visible#:#Maileinstellungen sind sichtbar
+common#:#mail_visible#:#Mailsystem benutzen
 common#:#mail_write#:#Maileinstellungen bearbeiten
 common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
@@ -4456,7 +4456,7 @@ common#:#system_groups#:#Systemgruppen
 common#:#system_grp#:#Systemgruppe
 common#:#system_information#:#Systeminformation
 common#:#system_language#:#Systemsprache
-common#:#system_message#:#Systemnachricht(en)
+common#:#system_message#:#Systemnachrichten senden
 common#:#system_style_settings#:#Einstellungen für System-Styles
 common#:#system_styles#:#System-Styles
 common#:#systemcheck_cron#:#System Check via Cronjob
@@ -10848,8 +10848,8 @@ dateplaner#:#cal_ch_target_object#:#Objekt im Magazin
 dateplaner#:#cal_ch_target_object_info#:#Begrenzt Sprechstunden auf die ausgewählten Objekte im Magazin.
 dateplaner#:#cal_ch_unknown_repository_object#:#Die angegebene Kennung des Objekts ist nicht gültig.
 rbac#:#push_desktop_items#:#Objekte auf Persönlichen Schreibtisch legen
-rbac#:#smtp_mail#:#Mail versenden
-rbac#:#mail_to_global_roles#:#Mail an globale Rollen
+rbac#:#smtp_mail#:#E-Mail (SMTP) senden
+rbac#:#mail_to_global_roles#:#Mail an globale Rollen senden
 rbac#:#add_post#:#Beitrag anlegen
 rbac#:#add_thread#:#Thema anlegen
 rbac#:#moderate_frm#:#Moderieren
