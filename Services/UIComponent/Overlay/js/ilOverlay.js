@@ -182,7 +182,11 @@ ilOverlayFunc.prototype =
 	fixPosition: function(id)
 	{
 		var el = document.getElementById(id);
-//if (el == null) console.log(id);
+
+		if (!el)
+		{
+			return;
+		}
 		el.style.overflow = '';
 		var el_reg = YAHOO.util.Region.getRegion(el);
 		var cl_reg = YAHOO.util.Dom.getClientRegion();
