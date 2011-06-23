@@ -11596,9 +11596,15 @@ skmg#:#skmg_remove_trigger#:#Auslöser entfernen
 skmg#:#skmg_select_trigger#:#Auslöser auswählen
 adm#:#adm_update_skill_tables#:#Skill DB-Tabellen aktualisieren
 adm#:#adm_update_skill_status#:#Skillstatus global aktualisieren
-skmg#:#skmg_skill_management_deactivated#:#Das Skillmanagement ist zur Zeit deaktiviert.
-skmg#:#skmg_cert_skill_title#:#Skill
-skmg#:#skmg_cert_skill_level_title#:#Skillausprägung
-skmg#:#skmg_cert_skill_trigger_title#:#Skill Auslöser
-skmg#:#skmg_cert_achievement_date#:#Datum des Erreichens
-skmg#:#skmg_cert_achievement_datetime#:#Datum und Zeit des Erreichens
+skmg#:#skmg_edit_scat#:#Skillkategorie ändern
+skmg#:#skmg_allow_self_evaluation#:#Selbsteinschätzung zulassen
+skmg#:#skmg_please_select_self_skill#:#Neue Selbsteinschätzung
+skmg#:#skmg_execute_self_evaluation#:#Start
+skmg#:#skmg_your_self_evaluation#:#Ihre Selbsteinschätzung
+skmg#:#skmg_no_skills#:#Keine Fähigkeit
+skmg#:#skmg_save_self_evaluation#:#Selbsteinschätzung abschliessen
+skmg#:#skmg_self_evaluations#:#Selbsteinschätzungen
+skmg#:#skmg_update_self_evaluation#:#Selbsteinschätzung bearbeiten
+skmg#:#skmg_sure_delete_self_evaluation#:#Möchten Sie die folgenden Selbsteinschätzungen wirklich löschen?
+skmg#:#skmg_please_select_your_skill_levels#:#Bitte wählen Sie ihre Fahigkeiten
+skmg#:#skmg_self_evaluation#:#Selbsteinschätzung
