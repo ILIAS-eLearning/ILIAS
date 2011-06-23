@@ -947,6 +947,32 @@ class ilSoapFunctions {
 
 		return $sou->deleteExpiredDualOptInUserObjects($sid, $usr_id);
 	}
+
+	public static function getSkillCompletionDateForTriggerRefId($sid, $usr_id, $a_ref_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapSkillAdministration.php';
+		$s = new ilSoapSkillAdministration();
+
+		$res = $s->getCompletionDateForTriggerRefId($sid, $usr_id, $a_ref_id);
+		return $res;
+	}
+
+	public static function checkSkillUserCertificateForTriggerRefId($sid, $usr_id, $a_ref_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapSkillAdministration.php';
+
+		$s = new ilSoapSkillAdministration();
+		return $s->checkUserCertificateForTriggerRefId($sid, $usr_id, $a_ref_id);
+	}
+
+	public static function getSkillTriggerOfAllCertificates($sid, $usr_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapSkillAdministration.php';
+
+		$s = new ilSoapSkillAdministration();
+		return $s->getTriggerOfAllCertificates($sid, $usr_id);
+	}
+
 }
 
 /*	function  ilClone($sid,$copy_identifier)

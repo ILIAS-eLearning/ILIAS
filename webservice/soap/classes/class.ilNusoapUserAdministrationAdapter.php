@@ -1185,7 +1185,39 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS getClientInfoXML(): returns XML following installation_info dtd, contains the client the data of given client id');
-								
+
+		$this->server->register('getSkillCompletionDateForTriggerRefId',
+								array('sid' => 'xsd:string',
+									  'user_id' => 'xsd:string',
+									  'ref_id' => 'xsd:string'),
+								array('dates' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getSkillCompletionDateForTriggerRefId',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getSkillCompletionDateForTriggerRefId(). Get completion dates for skill trigger ref ids.');
+
+		$this->server->register('checkSkillUserCertificateForTriggerRefId',
+								array('sid' => 'xsd:string',
+									  'user_id' => 'xsd:string',
+									  'ref_id' => 'xsd:string'),
+								array('have_certificates' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#checkSkillUserCertificateForTriggerRefId',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS checkSkillUserCertificateForTriggerRefId(). Check user certificates for trigger ref ids.');
+
+		$this->server->register('getSkillTriggerOfAllCertificates',
+								array('sid' => 'xsd:string',
+									  'user_id' => 'xsd:string'),
+								array('certificate_triggers' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getSkillTriggerOfAllCertificates',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getSkillTriggerOfAllCertificates(). Check get all trigger with certificate for a user.');
+
 		$this->server->register ('getUserIdBySid',
 								array('sid' => 'xsd:string'),
 								array('usr_id' => 'xsd:int'),
