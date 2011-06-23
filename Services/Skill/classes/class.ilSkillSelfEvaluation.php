@@ -130,9 +130,22 @@ class ilSkillSelfEvaluation
 	 *
 	 * @param	array	level; index: skill id, value: level id (or 0 for no skills)
 	 */
-	function setLevels($a_val)
+	function setLevels($a_val, $a_keep_existing = false)
 	{
-		$this->levels = $a_val;
+		if (!$a_keep_existing)
+		{
+			$this->levels = $a_val;
+		}
+		else
+		{
+			if (is_array($a_val))
+			{
+				foreach ($a_val as $k => $v)
+				{
+					$this->levels[$k] = $v;
+				}
+			}
+		}
 	}
 
 	/**
@@ -370,6 +383,38 @@ class ilSkillSelfEvaluation
 		return null;
 	}
 
+	/**
+	 * Determine steps
+	 *
+	 * @param
+	 * @return
+	 */
+	static function determineSteps($a_sn_id)
+	{
+		$steps = array();
+		if ($a_sn_id > 0 )
+		{
+			include_once("./Services/Skill/classes/class.ilSkillTree.php");
+			include_once("./Services/Skill/classes/class.ilSkillSelfEvalSkillTableGUI.php");
+			$stree = new ilSkillTree();
+
+			if ($stree->isInTree($a_sn_id))
+			{
+				$cnode = $stree->getNodeData($a_sn_id);
+				$childs = $stree->getSubTree($cnode);
+				foreach ($childs as $child)
+				{
+					if ($child["type"] == "skll")
+					{
+						$steps[] = $child["child"];
+					}
+				}
+			}
+		}
+		return $steps;
+	}
+	
+	
 }
 
 ?>

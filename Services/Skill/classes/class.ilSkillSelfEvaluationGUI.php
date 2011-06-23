@@ -177,41 +177,46 @@ class ilSkillSelfEvaluationGUI
 		ilUtil::sendInfo($lng->txt("skmg_please_select_your_skill_levels"));
 
 		$se_tpl = new ilTemplate("tpl.self_evaluation.html", true, true, "Services/Skill");
-		if ($this->sn_id > 0 )
-		{
-			include_once("./Services/Skill/classes/class.ilSkillTree.php");
-			include_once("./Services/Skill/classes/class.ilSkillSelfEvalSkillTableGUI.php");
-			$stree = new ilSkillTree();
+		include_once("./Services/Skill/classes/class.ilSkillSelfEvaluation.php");
 
-			if ($stree->isInTree($this->sn_id))
-			{
-				$cnode = $stree->getNodeData($this->sn_id);
-				$childs = $stree->getSubTree($cnode);
-				foreach ($childs as $child)
-				{
-					if ($child["type"] == "skll")
-					{
-						$table = new ilSkillSelfEvalSkillTableGUI($this, "startSelfEvaluation",
-							$child["child"], $se);
-						$se_tpl->setCurrentBlock("se_table");
-						$se_tpl->setVariable("SE_TABLE", $table->getHTML());
-						$se_tpl->parseCurrentBlock();
-					}
-				}
-			}
-		}
+		$steps = ilSkillSelfEvaluation::determineSteps($this->sn_id);
+		$cstep = (int) $_GET["step"];
+		$ilCtrl->setParameter($this, "step", $cstep);
+		include_once("./Services/Skill/classes/class.ilSkillSelfEvalSkillTableGUI.php");
+		$table = new ilSkillSelfEvalSkillTableGUI($this, "startSelfEvaluation",
+			$steps[$cstep], $se);
+		
+		$se_tpl->setCurrentBlock("se_table");
+		$se_tpl->setVariable("SE_TABLE", $table->getHTML());
+		$se_tpl->parseCurrentBlock();
 
 		include_once("./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php");
 		$tb = new ilToolbarGUI();
 		if ($a_mode == "edit")
 		{
-			$tb->addFormButton($lng->txt("skmg_update_self_evaluation"), "updateSelfEvaluation");
-			$tb->addFormButton($lng->txt("cancel"), "");
+			if ($cstep > 0)
+			{
+				$tb->addFormButton("< ".$lng->txt("skmg_previous_step"), "updateBackSelfEvaluation");
+			}
+			if ($cstep < count($steps) - 1)
+			{
+				$tb->addFormButton($lng->txt("skmg_next_step")." >", "updateSelfEvaluation");
+			}
+			else if ($cstep == count($steps) - 1)
+			{
+				$tb->addFormButton($lng->txt("skmg_save_self_evaluation"), "updateSelfEvaluation");
+			}
 		}
 		else
 		{
-			$tb->addFormButton($lng->txt("skmg_save_self_evaluation"), "saveSelfEvaluation");
-			$tb->addFormButton($lng->txt("cancel"), "");
+			if ($cstep < count($steps) - 1)
+			{
+				$tb->addFormButton($lng->txt("skmg_next_step")." >", "saveSelfEvaluation");
+			}
+			else if ($cstep == count($steps) - 1)
+			{
+				$tb->addFormButton($lng->txt("skmg_save_self_evaluation"), "saveSelfEvaluation");
+			}
 		}
 		$se_tpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this));
 		$se_tpl->setVariable("TOOLBAR", $tb->getHTML());
@@ -229,6 +234,7 @@ class ilSkillSelfEvaluationGUI
 		global $ilUser, $lng, $ilCtrl;
 
 		include_once("./Services/Skill/classes/class.ilSkillSelfEvaluation.php");
+		
 		$se = new ilSkillSelfEvaluation();
 		$se->setUserId($ilUser->getId());
 		$se->setTopSkillId($_GET["sn_id"]);
@@ -237,8 +243,18 @@ class ilSkillSelfEvaluationGUI
 			$se->setLevels($_POST["se_sk"]);
 		}
 		$se->create();
+		
+		$steps = ilSkillSelfEvaluation::determineSteps($this->sn_id);
+		$cstep = (int) $_GET["step"];
+		
+		if (count($steps))
+		{
+			$ilCtrl->setParameter($this, "step", 1);
+			$ilCtrl->setParameter($this, "se_id", $se->getId());
+			$ilCtrl->redirect($this, "editSelfEvaluation");
+		}
 
-		ilUtil::sendInfo($lng->txt("msg_obj_modified"));
+		ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "");
 	}
 
@@ -254,12 +270,25 @@ class ilSkillSelfEvaluationGUI
 	}
 
 	/**
+	 * Update self evaluation and go one step back
+	 *
+	 * @param
+	 * @return
+	 */
+	function updateBackSelfEvaluation()
+	{
+		$this->updateSelfEvaluation(true);
+	}
+	
+	
+	
+	/**
 	 * Update self evaluation
 	 *
 	 * @param
 	 * @return
 	 */
-	function updateSelfEvaluation()
+	function updateSelfEvaluation($a_back = false)
 	{
 		global $ilUser, $lng, $ilCtrl;
 
@@ -268,13 +297,29 @@ class ilSkillSelfEvaluationGUI
 
 		if ($se->getUserId() == $ilUser->getId())
 		{
-			$se->setLevels(array());
+			$steps = ilSkillSelfEvaluation::determineSteps($this->sn_id);
+			$cstep = (int) $_GET["step"];
+
 			if (is_array($_POST["se_sk"]))
 			{
-				$se->setLevels($_POST["se_sk"]);
+				$se->setLevels($_POST["se_sk"], true);
 			}
 			$se->update();
-			ilUtil::sendInfo($lng->txt("msg_obj_modified"));
+
+			if ($a_back)
+			{
+				$ilCtrl->setParameter($this, "step", (int) $_GET["step"] - 1);
+				$ilCtrl->setParameter($this, "se_id", $se->getId());
+				$ilCtrl->redirect($this, "editSelfEvaluation");
+			}
+			else if (count($steps) - 1 > $cstep)
+			{
+				$ilCtrl->setParameter($this, "step", (int) $_GET["step"] + 1);
+				$ilCtrl->setParameter($this, "se_id", $se->getId());
+				$ilCtrl->redirect($this, "editSelfEvaluation");
+			}
+
+			ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
 		}
 
 		$ilCtrl->redirect($this, "");
