@@ -11555,3 +11555,50 @@ ecs#:#ecs_auth_type_cert#:#Zertifikatbasiert
 ecs#:#ecs_auth_type_apache#:#Benutzername/Passwort
 ecs#:#ecs_apache_user#:#Benutzername
 ecs#:#ecs_apache_pass#:#Passwort
+common#:#obj_skmg#:#Skillmanagement
+skmg#:#skmg_settings#:#Skillmanagement Einstellungen
+skmg#:#skmg_enable_skmg#:#Skillmanagement aktivieren
+skmg#:#skmg_skills#:#Skills
+skmg#:#skmg_skill_hierarchie#:#Skillhierarchie
+skmg#:#skmg_insert_basic_skill#:#Basisskill hinzufügen
+skmg#:#skmg_insert_skill_category#:#Skillkategorie hinzufügen
+skmg#:#skmg_insert_basic_skill_child#:#Basisskill hinzufügen (untergeordnet)
+skmg#:#skmg_insert_skill_category_child#:#Skillkategorie hinzufügen (untergeordnet)
+skmg#:#skmg_new_skill#:#Neuer Basisskill
+skmg#:#skmg_new_skill_category#:#Neue Skillkatgorie
+skmg#:#skmg_save_all_titles#:#Alle Titel speichern
+skmg#:#skmg_choose_only_skill_categories_or_basic_skills#:#Bitte nur Basisskills oder nur Skillkategorien auswählen.
+skmg#:#skmg_insert_basic_skill_from_clip#:#Basisskills aus Zwischenablage einfügen.
+skmg#:#skmg_insert_skill_category_from_clip#:#Skillkategorien aus Zwischenablage einfügen.
+skmg#:#skmg_insert_basic_skill_from_clip_child#:#Basisskills aus Zwischenablage einfügen (untergeordnet).
+skmg#:#skmg_insert_skill_category_from_clip_child#:#Skillkategorien aus Zwischenablage einfügen (untergeordnet).
+skmg#:#skmg_selected_items_have_been_copied#:#Die ausgewählten Objekte wurden kopiert.
+skmg#:#skmg_selected_items_have_been_cut#:#Die ausgewählten Objekte wurden ausgeschnitten.
+common#:#obj_skmg_desc#:#Basisskills und Skillkategorien verwalten
+skmg#:#skmg_insert_on_same_level#:#Auf gleicher Ebene einfügen
+skmg#:#skmg_insert_as_subitem#:#Untergeordnet einfügen
+skmg#:#skll#:#Basisskill
+skmg#:#scat#:#Skillkategorie
+skmg#:#skmg_add_level#:#Ausprägung hinzufügen
+skmg#:#skmg_skill_level#:#Skillausprägung
+skmg#:#skmg_nr#:#Nr
+skmg#:#skmg_trigger#:#Auslöser
+skmg#:#skmg_new_level#:#Neue Ausprägung
+skmg#:#skmg_edit_level#:#Ausprägung editieren
+skmg#:#skmg_update_order#:#Reihenfolge speichern
+skmg#:#skmg_really_delete_levels#:#Sollen die folgenden Skillausprägungen wirklich gelöscht werden?
+skmg#:#skmg_skill#:#Skill
+skmg#:#skmg_skill_levels#:#Skillausprägungen
+skmg#:#skmg_certificate#:#Zertifikat
+skmg#:#skmg_skill_level_trigger#:#Auslöser
+skmg#:#skmg_no_trigger#:#Kein Auslöser
+skmg#:#skmg_remove_trigger#:#Auslöser entfernen
+skmg#:#skmg_select_trigger#:#Auslöser auswählen
+adm#:#adm_update_skill_tables#:#Skill DB-Tabellen aktualisieren
+adm#:#adm_update_skill_status#:#Skillstatus global aktualisieren
+skmg#:#skmg_skill_management_deactivated#:#Das Skillmanagement ist zur Zeit deaktiviert.
+skmg#:#skmg_cert_skill_title#:#Skill
+skmg#:#skmg_cert_skill_level_title#:#Skillausprägung
+skmg#:#skmg_cert_skill_trigger_title#:#Skill Auslöser
+skmg#:#skmg_cert_achievement_date#:#Datum des Erreichens
+skmg#:#skmg_cert_achievement_datetime#:#Datum und Zeit des Erreichens

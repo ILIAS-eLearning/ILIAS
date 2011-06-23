@@ -11559,3 +11559,50 @@ ecs#:#ecs_auth_type_cert#:#Certificate-Base
 ecs#:#ecs_auth_type_apache#:#Username/Password
 ecs#:#ecs_apache_user#:#Username
 ecs#:#ecs_apache_pass#:#Password
+common#:#obj_skmg#:#Skill Management
+skmg#:#skmg_settings#:#Skill Management Settings
+skmg#:#skmg_enable_skmg#:#Activate Skill Management
+skmg#:#skmg_skills#:#Skills
+skmg#:#skmg_skill_hierarchie#:#Skill Hierarchy
+skmg#:#skmg_insert_basic_skill#:#Insert Basic Skill
+skmg#:#skmg_insert_skill_category#:#Insert Skill Category
+skmg#:#skmg_insert_basic_skill_child#:#Insert Basic Skill as Subitem
+skmg#:#skmg_insert_skill_category_child#:#Insert Skill Category as Subitem
+skmg#:#skmg_new_skill#:#New Skill
+skmg#:#skmg_new_skill_category#:#New Skill Category
+skmg#:#skmg_save_all_titles#:#Save All Titles
+skmg#:#skmg_choose_only_skill_categories_or_basic_skills#:#Please choose either only basic skills or only skill categories.
+skmg#:#skmg_insert_basic_skill_from_clip#:#Insert Basic Skills from Clipboard
+skmg#:#skmg_insert_skill_category_from_clip#:#Insert Skill Categories from Clipboard
+skmg#:#skmg_insert_basic_skill_from_clip_child#:#Insert Basic Skills from Clipboard as Subitems
+skmg#:#skmg_insert_skill_category_from_clip_child#:#Insert Skill Categories from Clipboard as Subitems
+skmg#:#skmg_selected_items_have_been_copied#:#Selected items have been copied.
+skmg#:#skmg_selected_items_have_been_cut#:#Selected items have been cut.
+common#:#obj_skmg_desc#:#Manage skills and skill categories.
+skmg#:#skmg_insert_on_same_level#:#Insert on Same Level
+skmg#:#skmg_insert_as_subitem#:#Insert as Subitem
+skmg#:#skll#:#Basic Skill
+skmg#:#scat#:#Skill Category
+skmg#:#skmg_add_level#:#Add Level
+skmg#:#skmg_skill_level#:#Skill Level
+skmg#:#skmg_nr#:#Nr
+skmg#:#skmg_trigger#:#Trigger
+skmg#:#skmg_new_level#:#New Level
+skmg#:#skmg_edit_level#:#Edit Level
+skmg#:#skmg_update_order#:#Update Order
+skmg#:#skmg_really_delete_levels#:#Do you really want to delete the following skill levels?
+skmg#:#skmg_skill#:#Skill
+skmg#:#skmg_skill_levels#:#Skill Levels
+skmg#:#skmg_certificate#:#Certificate
+skmg#:#skmg_skill_level_trigger#:#Skill Level Trigger
+skmg#:#skmg_no_trigger#:#No Trigger
+skmg#:#skmg_remove_trigger#:#Remove Trigger
+skmg#:#skmg_select_trigger#:#Select Trigger
+adm#:#adm_update_skill_tables#:#Update Skill Tables
+adm#:#adm_update_skill_status#:#Update Skill Status
+skmg#:#skmg_skill_management_deactivated#:#Skill Management is currently deaktivated.
+skmg#:#skmg_cert_skill_title#:#Skill Title
+skmg#:#skmg_cert_skill_level_title#:#Skill Level Title
+skmg#:#skmg_cert_skill_trigger_title#:#Skill Trigger Title
+skmg#:#skmg_cert_achievement_date#:#Achievement Date
+skmg#:#skmg_cert_achievement_datetime#:#Achievement Date and Time
