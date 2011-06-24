@@ -993,7 +993,14 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$form = $this->getApacheAuthSettingsForm();
 
 			$settings = new ilSetting('apache_auth');
-			$form->setValuesByArray($settings->getAll());
+			$settingsMap = $settings->getAll();
+
+			$path = ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt';			
+			if (file_exists($path) && is_readable($path)) {
+				$settingsMap['apache_auth_domains'] = file_get_contents($path);
+			}
+			
+			$form->setValuesByArray($settingsMap);
 		}
 		$tpl->setVariable('ADM_CONTENT', $form->getHtml());
 	}
@@ -1034,8 +1041,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				}
 			}
 
-
-
+			$allowedDomains = $this->validateApacheAuthAllowedDomains($form->getInput('apache_auth_domains'));
+			file_put_contents(ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt', $allowedDomains);
+			
 			ilUtil::sendSuccess($this->lng->txt('apache_settings_changed_success'), true);
 			$this->ctrl->redirect($this, 'apacheAuthSettings');
 		}
@@ -1121,10 +1129,23 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 /*		$txt = new ilTextInputGUI($this->lng->txt('apache_auth_username_by_function_functionname'), 'apache_auth_username_by_function_functionname');
 		$rao->addSubItem($txt);*/
 
+		$sec = new ilFormSectionHeaderGUI();
+		$sec->setTitle($this->lng->txt('apache_auth_security'));
+		$form->addItem($sec);
+		
+		$txt = new ilTextAreaInputGUI($this->lng->txt('apache_auth_domains'), 'apache_auth_domains');
+		$txt->setInfo($this->lng->txt('apache_auth_domains_description'));
+		
+		$form->addItem($txt);
+		
 		$form->addCommandButton('saveApacheSettings',$this->lng->txt('save'));
 		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
 
 		return $form;
+	}
+	
+	private function validateApacheAuthAllowedDomains($text) {
+		return join("\n",  preg_split("/[\r\n]+/", $text));
 	}
 
 } // END class.ilObjAuthSettingsGUI
