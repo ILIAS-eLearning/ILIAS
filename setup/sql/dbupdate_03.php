@@ -6043,3 +6043,447 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 		);
 	}
 ?>
+
+<#3376>
+<?php
+	$setting = new ilSetting();
+	$sk_step = (int) $setting->get('sk_db');
+	if ($sk_step <= 0)
+	{
+		// skill tree
+		$fields = array(
+				'skl_tree_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true,
+						'default' => 0
+				),
+				'child' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true,
+						'default' => 0
+				),
+				'parent' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => false,
+						'default' => null
+				),
+				'lft' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true,
+						'default' => 0
+				),
+				'rgt' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true,
+						'default' => 0
+				),
+				'depth' => array(
+						'type' => 'integer',
+						'length' => 2,
+						'notnull' => true,
+						'default' => 0
+				)
+		);
+		$ilDB->createTable('skl_tree', $fields);
+	}
+?>
+<#3377>
+<?php
+	$setting = new ilSetting();
+	$sk_step = (int) $setting->get('sk_db');
+	if ($sk_step <= 1)
+	{
+		// skill tree nodes
+		$fields = array(
+				'obj_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true,
+						'default' => 0
+
+				),
+				'title' => array(
+						'type' => 'text',
+						'length' => 200,
+						'notnull' => false
+				),
+				'type' => array(
+						'type' => 'text',
+						'length' => 4,
+						'fixed' => true,
+						'notnull' => false
+				),
+				'create_date' => array(
+						'type' => 'timestamp',
+						'notnull' => false
+				),
+				'last_update' => array(
+						'type' => 'timestamp',
+						'notnull' => false
+				)
+		);
+		$ilDB->createTable('skl_tree_node', $fields);
+		$ilDB->createSequence('skl_tree_node');
+		$ilDB->addPrimaryKey("skl_tree_node", array("obj_id"));
+	}
+?>
+<#3378>
+<?php
+	$setting = new ilSetting();
+	$sk_step = (int) $setting->get('sk_db');
+	if ($sk_step <= 2)
+	{
+		// add new type "skmg" for skill management
+		$nid = $ilDB->nextId("object_data");
+		$ilDB->manipulate("INSERT INTO object_data ".
+			"(obj_id, type, title, description, owner, create_date, last_update) VALUES (".
+			$ilDB->quote($nid, "integer").",".
+			$ilDB->quote("typ", "text").",".
+			$ilDB->quote("skmg", "text").",".
+			$ilDB->quote("Skill Management", "text").",".
+			$ilDB->quote(-1, "integer").",".
+			$ilDB->now().",".
+			$ilDB->now().
+			")");
+		$typ_id = $nid;
+
+		// add skill management node in settings folder
+		$nid = $ilDB->nextId("object_data");
+		$ilDB->manipulate("INSERT INTO object_data ".
+			"(obj_id, type, title, description, owner, create_date, last_update) VALUES (".
+			$ilDB->quote($nid, "integer").",".
+			$ilDB->quote("skmg", "text").",".
+			$ilDB->quote("__SkillManagement", "text").",".
+			$ilDB->quote("Skill Management", "text").",".
+			$ilDB->quote(-1, "integer").",".
+			$ilDB->now().",".
+			$ilDB->now().
+			")");
+
+		$nrid = $ilDB->nextId("object_reference");
+		$ilDB->manipulate("INSERT INTO object_reference ".
+			"(ref_id, obj_id) VALUES (".
+			$ilDB->quote($nrid, "integer").",".
+			$ilDB->quote($nid, "integer").
+			")");
+
+		// put in tree
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$tree->insertNode($nrid, SYSTEM_FOLDER_ID);
+
+
+		$set = $ilDB->query("SELECT obj_id FROM object_data WHERE ".
+			" type = ".$ilDB->quote("typ", "text")." AND ".
+			" title = ".$ilDB->quote("skmg", "text")
+			);
+		$rec = $ilDB->fetchAssoc($set);
+		$typ_id = $rec["obj_id"];
+
+		// add rbac operations
+		// 1: edit_permissions, 2: visible, 3: read, 4:write
+		$ilDB->manipulate("INSERT INTO rbac_ta ".
+			"(typ_id, ops_id) VALUES (".
+			$ilDB->quote($typ_id, "integer").",".
+			$ilDB->quote(1, "integer").
+			")");
+		$ilDB->manipulate("INSERT INTO rbac_ta ".
+			"(typ_id, ops_id) VALUES (".
+			$ilDB->quote($typ_id, "integer").",".
+			$ilDB->quote(2, "integer").
+			")");
+		$ilDB->manipulate("INSERT INTO rbac_ta ".
+			"(typ_id, ops_id) VALUES (".
+			$ilDB->quote($typ_id, "integer").",".
+			$ilDB->quote(3, "integer").
+			")");
+		$ilDB->manipulate("INSERT INTO rbac_ta ".
+			"(typ_id, ops_id) VALUES (".
+			$ilDB->quote($typ_id, "integer").",".
+			$ilDB->quote(4, "integer").
+			")");
+	}
+?>
+<#3379>
+<?php
+	$setting = new ilSetting();
+	$sk_step = (int) $setting->get('sk_db');
+	if ($sk_step <= 4)
+	{
+		// add skill tree and root node
+		$nid = $ilDB->nextId("skl_tree_node");
+		$ilDB->manipulate("INSERT INTO skl_tree_node ".
+			"(obj_id, type, title, create_date) VALUES (".
+			$ilDB->quote($nid, "integer").",".
+			$ilDB->quote("skrt", "text").",".
+			$ilDB->quote("Skill Tree Root Node", "text").",".
+			$ilDB->now().
+			")");
+
+		$skill_tree = new ilTree(1);
+		$skill_tree->setTreeTablePK("skl_tree_id");
+		$skill_tree->setTableNames('skl_tree', 'skl_tree_node');
+		$skill_tree->addTree(1, $nid);
+	}
+?>
+<#3380>
+<?php
+	$setting = new ilSetting();
+	$sk_step = (int) $setting->get('sk_db');
+	if ($sk_step <= 6)
+	{
+		$fields = array(
+				'id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true
+				),
+				'skill_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true
+				),
+				'nr' => array(
+						'type' => 'integer',
+						'length' => 2,
+						'notnull' => true
+				),
+				'title' => array(
+						'type' => 'text',
+						'length' => 200,
+						'notnull' => false
+				),
+				'description' => array(
+						'type' => 'clob'
+				)
+			);
+		$ilDB->createTable('skl_level', $fields);
+		$ilDB->createSequence('skl_level');
+		$ilDB->addPrimaryKey("skl_level", array("id"));
+	}
+?>
+<#3381>
+<?php
+	$setting = new ilSetting();
+	$sk_step = (int) $setting->get('sk_db');
+	if ($sk_step <= 8)
+	{
+		$ilDB->addTableColumn("skl_level", "trigger_ref_id", array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 4,
+			"default" => 0
+			));
+		$ilDB->addTableColumn("skl_level", "trigger_obj_id", array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 4,
+			"default" => 0
+			));
+	}
+?>
+<#3382>
+<?php
+	$setting = new ilSetting();
+	$sk_step = (int) $setting->get('sk_db');
+	if ($sk_step <= 9)
+	{
+		$fields = array(
+				'level_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true
+				),
+				'user_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true
+				),
+				'status_date' => array(
+						'type' => 'timestamp',
+						'notnull' => true
+				),
+				'skill_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true
+				),
+				'status' => array(
+						'type' => 'integer',
+						'length' => 1,
+						'notnull' => true
+				),
+				'valid' => array(
+						'type' => 'integer',
+						'length' => 1,
+						'notnull' => true,
+						'default' => 0
+				),
+				'trigger_ref_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true
+				),
+				'trigger_obj_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true
+				),
+				'trigger_title' => array(
+						'type' => 'text',
+						'length' => 200,
+						'notnull' => false
+				)
+			);
+		$ilDB->createTable('skl_user_skill_level', $fields);
+		$ilDB->addIndex("skl_user_skill_level", array("skill_id"), "isk");
+		$ilDB->addIndex("skl_user_skill_level", array("level_id"), "ilv");
+		$ilDB->addIndex("skl_user_skill_level", array("user_id"), "ius");
+		$ilDB->addIndex("skl_user_skill_level", array("status_date"), "isd");
+		$ilDB->addIndex("skl_user_skill_level", array("status"), "ist");
+		$ilDB->addIndex("skl_user_skill_level", array("valid"), "ivl");
+	}
+?>
+<#3383>
+<?php
+	$setting = new ilSetting();
+	$sk_step = (int) $setting->get('sk_db');
+	if ($sk_step <= 10)
+	{
+		$fields = array(
+				'level_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true
+				),
+				'user_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true
+				),
+				'status_date' => array(
+						'type' => 'timestamp',
+						'notnull' => true
+				),
+				'skill_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true
+				),
+				'trigger_ref_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true
+				),
+				'trigger_obj_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true
+				),
+				'trigger_title' => array(
+						'type' => 'text',
+						'length' => 200,
+						'notnull' => false
+				)
+			);
+		$ilDB->createTable('skl_user_has_level', $fields);
+		$ilDB->addPrimaryKey('skl_user_has_level',
+			array("level_id", "user_id"));
+	}
+?>
+<#3384>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3385>
+<?php
+	$setting = new ilSetting();
+	$cd_step = (int) $setting->get('cd_db');
+	if ($cd_step <= 3)
+	{
+		$ilDB->addTableColumn("skl_tree_node", "self_eval", array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0
+			));
+	}
+?>
+<#3386>
+<?php
+	$setting = new ilSetting();
+	$cd_step = (int) $setting->get('cd_db');
+	if ($cd_step <= 5)
+	{
+		// skill self evaluation table
+		$fields = array(
+				'id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true,
+						'default' => 0
+				),
+				'user_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true,
+						'default' => 0
+				),
+				'top_skill_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true,
+						'default' => 0
+				),
+				'created' => array(
+						'type' => 'timestamp',
+						'notnull' => true,
+				),
+				'last_update' => array(
+						'type' => 'timestamp',
+						'notnull' => true,
+				)
+		);
+
+		$ilDB->createTable('skl_self_eval', $fields);
+		$ilDB->addPrimaryKey("skl_self_eval", array("id"));
+		$ilDB->createSequence('skl_self_eval');
+	}
+?>
+<#3387>
+<?php
+	$setting = new ilSetting();
+	$cd_step = (int) $setting->get('cd_db');
+	if ($cd_step <= 6)
+	{
+		// skill self evaluation table
+		$fields = array(
+				'self_eval_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true,
+						'default' => 0
+				),
+				'skill_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true,
+						'default' => 0
+				),
+				'level_id' => array(
+						'type' => 'integer',
+						'length' => 4,
+						'notnull' => true,
+						'default' => 0
+				)
+		);
+
+		$ilDB->createTable('skl_self_eval_level', $fields);
+		$ilDB->addPrimaryKey("skl_self_eval_level",
+			array("self_eval_id", "skill_id"));
+	}
+?>
