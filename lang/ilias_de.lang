@@ -11608,3 +11608,6 @@ skmg#:#skmg_update_self_evaluation#:#Selbsteinschätzung bearbeiten
 skmg#:#skmg_sure_delete_self_evaluation#:#Möchten Sie die folgenden Selbsteinschätzungen wirklich löschen?
 skmg#:#skmg_please_select_your_skill_levels#:#Bitte wählen Sie ihre Fähigkeiten
 skmg#:#skmg_self_evaluation#:#Selbsteinschätzung
+administration#:#apache_auth_security#:#Sicherheitseinstellungen
+administration#:#apache_auth_domains#:#Erlaubte Umleitungsdomains
+administration#:#apache_auth_domains_description#:#Tragen Sie hier pro Zeile eine erlaubte Domain ein, zu der umgeleitet werden darf.<br/>Ist ILIAS unter einen eindeutigen Domain erreichbar muss hierfür kein eigener Eintrag vorgenommen werden. Andernfalls tragen Sie bitte alle Domains ein. <br />Beispiel: example.com gestattet die Umleitung zu http://example.com und http://www.example.com sowie allen Seiten unterhalb der Domains. 
