@@ -452,6 +452,26 @@ class ilHierarchyFormGUI extends ilFormGUI
 	}
 
 	/**
+	 * Set type whitelist
+	 *
+	 * @param array $a_val white list of types	
+	 */
+	function setTypeWhiteList($a_val)
+	{
+		$this->white_list = $a_val;
+	}
+	
+	/**
+	 * Get type whitelist
+	 *
+	 * @return array white list of types
+	 */
+	function getTypeWhiteList()
+	{
+		return $this->white_list;
+	}
+
+	/**
 	* Get all childs of current node. Standard implementation uses
 	* tree object.
 	*/
@@ -466,11 +486,15 @@ class ilHierarchyFormGUI extends ilFormGUI
 		$childs = array();
 		foreach($tree_childs as $tree_child)
 		{
-			$childs[] = array("node_id" => $tree_child["child"],
-				"title" => $tree_child["title"],
-				"type" => $tree_child["type"],
-				"depth" => $tree_child["depth"]
-				);
+			
+			if (!is_array($this->white_list) || in_array($tree_child["type"], $this->white_list))
+			{
+				$childs[] = array("node_id" => $tree_child["child"],
+					"title" => $tree_child["title"],
+					"type" => $tree_child["type"],
+					"depth" => $tree_child["depth"]
+					);
+			}
 		}
 		
 		return $childs;

@@ -570,7 +570,6 @@ class ilSkillTreeNode
 		return $target_item->getId();
 	}
 
-<<<<<<< .working
 	/**
 	 * Is id in tree?
 	 *
@@ -586,7 +585,7 @@ class ilSkillTreeNode
 		}
 		return false;
 	}
-=======
+
 	/**
 	 * Get all self evaluation nodes
 	 *
@@ -607,6 +606,6 @@ class ilSkillTreeNode
 		}
 		return $nodes;
 	}
->>>>>>> .merge-right.r24787
+
 }
 ?>
