@@ -75,6 +75,20 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 				$ret = $this->ctrl->forwardCommand($skill_gui);
 				break;
 
+			case 'ilskilltemplatecategorygui':
+				$this->tabs_gui->activateTab("skill_templates");
+				include_once("./Services/Skill/classes/class.ilSkillTemplateCategoryGUI.php");
+				$sctp_gui = new ilSkillTemplateCategoryGUI((int) $_GET["obj_id"]);
+				$ret = $this->ctrl->forwardCommand($sctp_gui);
+				break;
+
+			case 'ilbasicskilltemplategui':
+				$this->tabs_gui->activateTab("skill_templates");
+				include_once("./Services/Skill/classes/class.ilBasicSkillTemplateGUI.php");
+				$sktp_gui = new ilBasicSkillTemplateGUI((int) $_GET["obj_id"]);
+				$ret = $this->ctrl->forwardCommand($sktp_gui);
+				break;
+
 			case 'ilpermissiongui':
 				$this->tabs_gui->activateTab('permissions');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
@@ -109,6 +123,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 			$this->tabs_gui->addTab("skills",
 				$lng->txt("skmg_skills"),
 				$this->ctrl->getLinkTarget($this, "editSkills"));
+
+			$this->tabs_gui->addTab("skill_templates",
+				$lng->txt("skmg_skill_templates"),
+				$this->ctrl->getLinkTarget($this, "editSkillTemplates"));
 
 			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
@@ -275,6 +293,50 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	}
 
 	/**
+	 * Insert one or multiple basic skill templates
+	 *
+	 * @param
+	 * @return
+	 */
+	function insertBasicSkillTemplate()
+	{
+		global $ilCtrl, $lng;
+
+		include_once("./Services/Skill/classes/class.ilSkillHFormGUI.php");
+		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+
+		$num = ilSkillHFormGUI::getPostMulti();
+		$node_id = ilSkillHFormGUI::getPostNodeId();
+
+		if (!ilSkillHFormGUI::getPostFirstChild())	// insert after node id
+		{
+			$parent_id = $this->skill_tree->getParentId($node_id);
+			$target = $node_id;
+		}
+		else													// insert as first child
+		{
+			$parent_id = $node_id;
+			$target = IL_FIRST_NODE;
+		}
+		include_once("./Services/Skill/classes/class.ilBasicSkillTemplate.php");
+
+		$skill_ids = array();
+		for ($i = 1; $i <= $num; $i++)
+		{
+			$skill = new ilBasicSkillTemplate();
+			$skill->setTitle($lng->txt("skmg_new_skill_template"));
+			$skill->create();
+			ilSkillTreeNode::putInTree($skill, $parent_id, $target);
+			$skill_ids[] = $skill->getId();
+		}
+		$skill_ids = array_reverse($skill_ids);
+		$skill_ids = implode($skill_ids, ":");
+
+		$ilCtrl->setParameter($this, "highlight", $skill_ids);
+		$ilCtrl->redirect($this, "editSkillTemplates", "node_".$node_id);
+	}
+
+	/**
 	 * Insert one or multiple skill categories
 	 *
 	 * @param
@@ -319,6 +381,47 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 	}
 
 	/**
+	 * Insert one or multiple skill template categories
+	 */
+	function insertSkillTemplateCategory()
+	{
+		global $ilCtrl, $lng;
+
+		include_once("./Services/Skill/classes/class.ilSkillHFormGUI.php");
+		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+
+		$num = ilSkillHFormGUI::getPostMulti();
+		$node_id = ilSkillHFormGUI::getPostNodeId();
+
+		if (!ilSkillHFormGUI::getPostFirstChild())	// insert after node id
+		{
+			$parent_id = $this->skill_tree->getParentId($node_id);
+			$target = $node_id;
+		}
+		else													// insert as first child
+		{
+			$parent_id = $node_id;
+			$target = IL_FIRST_NODE;
+		}
+		include_once("./Services/Skill/classes/class.ilSkillTemplateCategory.php");
+
+		$skill_ids = array();
+		for ($i = 1; $i <= $num; $i++)
+		{
+			$skill = new ilSkillTemplateCategory();
+			$skill->setTitle($lng->txt("skmg_new_skill_template_category"));
+			$skill->create();
+			ilSkillTreeNode::putInTree($skill, $parent_id, $target);
+			$skill_ids[] = $skill->getId();
+		}
+		$skill_ids = array_reverse($skill_ids);
+		$skill_ids = implode($skill_ids, ":");
+
+		$ilCtrl->setParameter($this, "highlight", $skill_ids);
+		$ilCtrl->redirect($this, "editSkillTemplates", "node_".$node_id);
+	}
+
+	/**
 	 * Save all titles of chapters/scos/pages
 	 */
 	function saveAllTitles($a_succ_mess = true)
@@ -343,6 +446,33 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 			}
 		}
 		$ilCtrl->redirect($this, "editSkills");
+	}
+
+	/**
+	 * Save all titles of chapters/scos/pages
+	 */
+	function saveAllTemplateTitles($a_succ_mess = true)
+	{
+		global $ilCtrl, $lng;
+
+		if (is_array($_POST["title"]))
+		{
+			include_once("./Services/Skill/classes/class.ilSkillTreeNodeFactory.php");
+			foreach($_POST["title"] as $id => $title)
+			{
+				$node_obj = ilSkillTreeNodeFactory::getInstance($id);
+				if (is_object($node_obj))
+				{
+					// update title
+					ilSkillTreeNode::_writeTitle($id, ilUtil::stripSlashes($title));
+				}
+			}
+			if ($a_succ_mess)
+			{
+				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			}
+		}
+		$ilCtrl->redirect($this, "editSkillTemplates");
 	}
 
 
@@ -867,6 +997,62 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
 		$ilTabs->activateSubtab($a_act);
 
+	}
+
+	//
+	// Skill Templates
+	//
+	
+	/**
+	 * Edit skill templates
+	 */
+	function editSkillTemplates()
+	{
+		global $tpl, $ilTabs, $lng, $ilCtrl;
+
+		$ilTabs->activateTab("skill_templates");
+
+		$skmg_set = new ilSetting("skmg");
+		$enable_skmg = $skmg_set->get("enable_skmg");
+		if (!$enable_skmg)
+		{
+			ilUtil::sendInfo($lng->txt("skmg_skill_management_deactivated"));
+			return;
+		}
+
+
+		$a_form_action = $ilCtrl->getFormAction($this);
+		$a_top_node = $this->skill_tree->getRootId();
+
+		$a_gui_obj = $this;
+		$a_gui_cmd = "editSkillTemplates";
+
+		include_once("./Services/Skill/classes/class.ilSkillTemplateHFormGUI.php");
+		$form_gui = new ilSkillTemplateHFormGUI();
+		$form_gui->setParentCommand($a_gui_obj, $a_gui_cmd);
+		$form_gui->setFormAction($a_form_action);
+		$form_gui->setTitle($lng->txt("skmg_skill_templates"));
+		$form_gui->setTree($this->skill_tree);
+		$form_gui->setCurrentTopNodeId($a_top_node);
+		$form_gui->addMultiCommand($lng->txt("delete"), "deleteNodes");
+		$form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
+		$form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
+		$form_gui->addCommand($lng->txt("skmg_save_all_titles"), "saveAllTemplateTitles");
+		$form_gui->addCommand($lng->txt("expand_all"), "expandAllTemplates");
+		$form_gui->addCommand($lng->txt("collapse_all"), "collapseAllTemplates");
+		$form_gui->setTriggeredUpdateCommand("saveAllTemplateTitles");
+
+		// highlighted nodes
+		if ($_GET["highlight"] != "")
+		{
+			$hl = explode(":", $_GET["highlight"]);
+			$form_gui->setHighlightedNodes($hl);
+			$form_gui->setFocusId($hl[0]);
+		}
+
+		$ilCtrl->setParameter($this, "active_node", $_GET["obj_id"]);
+
+		$tpl->setContent($form_gui->getHTML());
 	}
 
 }

@@ -24,6 +24,7 @@ class ilSkillHFormGUI extends ilHierarchyFormGUI
 		$this->setCheckboxName("id");
 		$lng->loadLanguageModule("skmg");
 		$this->setExpandVariable("skexpand");
+		$this->setTypeWhiteList(array("skrt", "skll", "scat"));
 	}
 	
 	/**

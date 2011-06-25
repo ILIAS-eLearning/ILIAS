@@ -5,6 +5,8 @@
 include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 include_once("./Services/Skill/classes/class.ilSkillCategory.php");
 include_once("./Services/Skill/classes/class.ilSkillRoot.php");
+include_once("./Services/Skill/classes/class.ilBasicSkillTemplate.php");
+include_once("./Services/Skill/classes/class.ilSkillTemplateCategory.php");
 
 /**
  * Factory for skill tree nodes
@@ -36,6 +38,20 @@ class ilSkillTreeNodeFactory
 
 			case "scat":
 				$obj = new ilSkillCategory();
+				$obj->setId($obj_rec["obj_id"]);
+				$obj->setDataRecord($obj_rec);
+				$obj->read();
+				break;
+
+			case "sktp":
+				$obj = new ilBasicSkillTemplate();
+				$obj->setId($obj_rec["obj_id"]);
+				$obj->setDataRecord($obj_rec);
+				$obj->read();
+				break;
+
+			case "sctp":
+				$obj = new ilSkillTemplateCategory();
 				$obj->setId($obj_rec["obj_id"]);
 				$obj->setDataRecord($obj_rec);
 				$obj->read();

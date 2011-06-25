@@ -11619,6 +11619,15 @@ skmg#:#skmg_please_select_your_skill_levels#:#Please select your skill levels.
 skmg#:#skmg_self_evaluation#:#Self-Evaluation
 skmg#:#skmg_next_step#:#Next Step
 skmg#:#skmg_previous_step#:#Previous Step
+skmg#:#skmg_skill_templates#:#Skill Templates
+skmg#:#skmg_new_skill_template#:#New Skill Template
+skmg#:#skmg_insert_basic_skill_template#:#Insert Skill Template
+skmg#:#skmg_insert_skill_template_category#:#Insert Skill Template Category
+skmg#:#skmg_new_skill_template_category#:#New Skill Template Category
+skmg#:#skmg_insert_basic_skill_template_child#:#Insert Skill Template as Subitem
+skmg#:#skmg_insert_skill_template_category_child#:#Insert Skill Template Category as Subitem
+skmg#:#skmg_skill_template#:#Skill Template
+skmg#:#skmg_skill_template_category#:#Skill Template Category
 administration#:#apache_auth_security#:#Security Settings
 administration#:#apache_auth_domains#:#Allowed Redirection Domains
 administration#:#apache_auth_domains_description#:#Enter one domain per line to allow redirection to this target.<br/>If ILIAS is reachable by more than one domain please enter all target you want to allow.<br />Example: example.com allows the redirection to http://example.com and http://www.example.com and all pages located there.
