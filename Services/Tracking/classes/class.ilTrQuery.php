@@ -1403,8 +1403,8 @@ class ilTrQuery
 		}
 
 		$res = array();
-		$sql = "SELECT obj_id,obj_type,".$column.",read_count,childs_read_count,".
-			"spent_seconds,childs_spent_seconds".
+		$sql = "SELECT obj_id,".$column.",SUM(read_count) read_count,SUM(childs_read_count) childs_read_count,".
+			"SUM(spent_seconds) spent_seconds,SUM(childs_spent_seconds) childs_spent_seconds".
 			" FROM obj_stat".
 			" WHERE ".$ilDB->in("obj_id", $obj_ids, "", "integer").
 			" AND yyyy = ".$ilDB->quote($a_year, "integer");
@@ -1412,6 +1412,7 @@ class ilTrQuery
 		{
 			$sql .= " AND mm = ".$ilDB->quote($a_month, "integer");
 		}
+		$sql .= " GROUP BY obj_id,".$column;
 		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))
 		{
@@ -1466,8 +1467,8 @@ class ilTrQuery
 		$obj_ids = array_keys($a_ref_ids);
 
 		$res = array();
-		$sql = "SELECT obj_id,obj_type,hh,read_count,childs_read_count,".
-			"spent_seconds,childs_spent_seconds".
+		$sql = "SELECT obj_id,hh,SUM(read_count) read_count,SUM(childs_read_count) childs_read_count,".
+			"SUM(spent_seconds) spent_seconds,SUM(childs_spent_seconds) childs_spent_seconds".
 			" FROM obj_stat".
 			" WHERE ".$ilDB->in("obj_id", $obj_ids, "", "integer").
 			" AND yyyy = ".$ilDB->quote($a_year, "integer");
@@ -1475,6 +1476,7 @@ class ilTrQuery
 		{
 			$sql .= " AND mm = ".$ilDB->quote($a_month, "integer");
 		}
+		$sql .= " GROUP BY obj_id,hh";
 		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))
 		{
