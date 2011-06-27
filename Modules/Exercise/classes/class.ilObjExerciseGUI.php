@@ -1708,6 +1708,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 		
 		// type
+		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$types = array(
 			ilExAssignment::TYPE_UPLOAD => $this->lng->txt("exc_type_upload"),
 			ilExAssignment::TYPE_BLOG => $this->lng->txt("exc_type_blog"),
