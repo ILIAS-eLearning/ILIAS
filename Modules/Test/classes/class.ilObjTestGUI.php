@@ -1235,6 +1235,12 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// title & description (meta data)
 
+		// online
+		$online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
+		$online->setValue(1);
+		$online->setChecked($this->object->isOnline());
+		$form->addItem($online);
+
 		include_once 'Services/MetaData/classes/class.ilMD.php';
 		$md_obj = new ilMD($this->object->getId(), 0, "tst");
 		$md_section = $md_obj->getGeneral();
@@ -1655,6 +1661,12 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$errors = !$form->checkInput();
 			$form->setValuesByPost();
+			if( $online->getChecked() && !$this->object->isComplete() )
+			{
+				$online->setAlert($this->lng->txt("cannot_switch_to_online_no_questions_andor_no_mark_steps"));
+				ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+				$errors = true;
+			}
 			if ($errors) $checkonly = false;
 		}
 
@@ -1705,6 +1717,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$template_settings = $template->getSettings();
 			}
+
+
 
 			include_once 'Services/MetaData/classes/class.ilMD.php';
 			$md_obj =& new ilMD($this->object->getId(), 0, "svy");
@@ -1779,6 +1793,8 @@ class ilObjTestGUI extends ilObjectGUI
 			
 			if (!$total)
 			{
+				$this->object->setOnline($_POST["online"]);
+
 				$this->object->setAnonymity($_POST["anonymity"]);
 				$this->object->setRandomTest($random_test);
 				$this->object->setNrOfTries($_POST["nr_of_tries"]);
@@ -1874,9 +1890,9 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 
-                        //$this->object->setExpressModeQuestionPoolAllowed($_POST['express_allow_question_pool']);
-                        $this->object->setEnabledViewMode($_POST['enabled_view_mode']);
-                        $this->object->setPoolUsage($_POST['use_pool']);
+            //$this->object->setExpressModeQuestionPoolAllowed($_POST['express_allow_question_pool']);
+            $this->object->setEnabledViewMode($_POST['enabled_view_mode']);
+            $this->object->setPoolUsage($_POST['use_pool']);
 
 			$this->object->saveToDb(true);
 
