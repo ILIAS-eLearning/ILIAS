@@ -366,8 +366,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function viewObject($reset_filter = FALSE)
 	{
 		global $rbacsystem, $ilUser, $ilToolbar, $tpl, $ilSetting, $lng;
-		
-		// toolbar
+
 		$ilToolbar->addButton($this->lng->txt("usr_add"),
 			$this->ctrl->getLinkTarget($this, "addUser"));
 		$ilToolbar->addButton($this->lng->txt("import_users"),
@@ -398,6 +397,19 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		include_once("./Services/User/classes/class.ilUserTableGUI.php");
 		$utab = new ilUserTableGUI($this, "view");
 		$tpl->setContent($utab->getHTML());
+	}
+
+	/**
+	 * Show auto complete results
+	 */
+	protected function addUserAutoCompleteObject()
+	{
+		include_once './Services/User/classes/class.ilUserAutoComplete.php';
+		$auto = new ilUserAutoComplete();
+		$auto->setSearchFields(array('login','firstname','lastname','email'));
+		$auto->enableFieldSearchableCheck(false);
+		echo $auto->getList($_REQUEST['query']);
+		exit();
 	}
 
 	/**

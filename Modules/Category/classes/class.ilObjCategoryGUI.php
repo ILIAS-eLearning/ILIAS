@@ -890,6 +890,20 @@ class ilObjCategoryGUI extends ilContainerGUI
 		return true;
 	}
 
+	/**
+	 * Show auto complete results
+	 */
+	protected function addUserAutoCompleteObject()
+	{
+		include_once './Services/User/classes/class.ilUserAutoComplete.php';
+		$auto = new ilUserAutoComplete();
+		$auto->setSearchFields(array('login','firstname','lastname','email'));
+		$auto->enableFieldSearchableCheck(true);
+		echo $auto->getList($_REQUEST['query']);
+		exit();
+	}
+
+
 	function performDeleteUsersObject()
 	{
 		include_once './Services/User/classes/class.ilLocalUser.php';
