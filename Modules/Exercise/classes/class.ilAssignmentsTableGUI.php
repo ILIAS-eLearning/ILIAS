@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
+include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 
 /**
 * Assignments table
