@@ -775,7 +775,7 @@ class ilCalendarCategories
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$cat_ids[] = $row->cat_id;
-			$course_sessions[$row->crs_id][] = $row->cat_id;
+			$course_sessions[$row->crs_id][$row->sess_id] = $row->cat_id;
 			$this->subitem_categories[] = $row->cat_id;
 		}
 		
@@ -786,14 +786,16 @@ class ilCalendarCategories
 				isset($course_sessions[$this->categories_info[$cat_id]['obj_id']]) &&
 				is_array($course_sessions[$this->categories_info[$cat_id]['obj_id']]))
 			{
-				foreach($course_sessions[$this->categories_info[$cat_id]['obj_id']] as $sess_cat_id)
+				foreach($course_sessions[$this->categories_info[$cat_id]['obj_id']] as $sess_id => $sess_cat_id)
 				{
-					$this->categories_info[$cat_id]['subitem_ids'][] = $sess_cat_id;
+					$this->categories_info[$cat_id]['subitem_ids'][$sess_id] = $sess_cat_id;
+					$this->categories_info[$cat_id]['subitem_obj_ids'][$sess_cat_id] = $sess_id;
 				}
 			}
 			else
 			{
 				$this->categories_info[$cat_id]['subitem_ids'] = array();
+				$this->categories_info[$cat_id]['subitem_obj_ids'] = array();
 			}
 		}
 	}

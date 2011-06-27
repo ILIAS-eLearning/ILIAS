@@ -153,7 +153,10 @@ class ilCalendarAppointmentPanelGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 		$cat_id = ilCalendarCategoryAssignments::_lookupCategory($a_app['event']->getEntryId());
 		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
-		
+		$entry_obj_id = isset($cat_info['subitem_obj_ids'][$cat_id]) ?
+			$cat_info['subitem_obj_ids'][$cat_id] :
+			$cat_info['obj_id'];
+
 		$this->tpl->setVariable('PANEL_TXT_CAL_TYPE',$this->lng->txt('cal_cal_type'));
 		switch($cat_info['type'])
 		{
@@ -340,14 +343,14 @@ class ilCalendarAppointmentPanelGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 		if($cat_info['type'] == ilCalendarCategory::TYPE_OBJ)
 		{
-			$refs = ilObject::_getAllReferences($cat_info['obj_id']);
-			$type = ilObject::_lookupType($cat_info['obj_id']);
-			$title = ilObject::_lookupTitle($cat_info['obj_id']) ? 
-				ilObject::_lookupTitle($cat_info['obj_id']) :
+			$refs = ilObject::_getAllReferences($entry_obj_id);
+			$type = ilObject::_lookupType($entry_obj_id);
+			$title = ilObject::_lookupTitle($entry_obj_id) ?
+				ilObject::_lookupTitle($entry_obj_id) :
 				$lng->txt('obj_'.$type);
-						
+
 			include_once('classes/class.ilLink.php');
-			$href = ilLink::_getStaticLink(current($refs),ilObject::_lookupType($cat_info['obj_id']));
+			$href = ilLink::_getStaticLink(current($refs),ilObject::_lookupType($entry_obj_id));
 			$parent = $tree->getParentId(current($refs));
 			$parent_title = ilObject::_lookupTitle(ilObject::_lookupObjId($parent));
 			$this->tpl->setVariable('PANEL_TXT_LINK',$this->lng->txt('ext_link'));
