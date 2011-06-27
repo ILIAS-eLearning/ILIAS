@@ -1191,10 +1191,14 @@ class ilObjGroupGUI extends ilContainerGUI
 	/**
 	* Add Member for autoComplete
 	*/
-	function addMemberAutoCompleteObject()
+	protected function addMemberAutoCompleteObject()
 	{
-		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
-		ilUserLoginAutoCompleteInputGUI::echoAutoCompleteList();
+		include_once './Services/User/classes/class.ilUserAutoComplete.php';
+		$auto = new ilUserAutoComplete();
+		$auto->setSearchFields(array('login','firstname','lastname','email'));
+		$auto->enableFieldSearchableCheck(true);
+		echo $auto->getList($_REQUEST['query']);
+		exit();
 	}
 
 	/**

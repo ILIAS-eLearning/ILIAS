@@ -7,10 +7,108 @@
 */
 class ilUserAutoComplete
 {
+	private $searchable_check = false;
+	private $user_access_check = true;
+	private $possible_fields = array();
+
+
+	/**
+	 * Default constructor
+	 */
+	public function __construct()
+	{
+		
+	}
+
+	/**
+	 * Enable the check whether the field is searchable in Administration -> Settings -> Standard Fields
+	 * @param bool $a_status
+	 */
+	public function enableFieldSearchableCheck($a_status)
+	{
+		$this->searchable_check = $a_status;
+	}
+
+	/**
+	 * Searchable check enabled
+	 * @return bool
+	 */
+	public function isFieldSearchableCheckEnabled()
+	{
+		return $this->searchable_check;
+	}
+
+	/**
+	 * Enable user access check.
+	 * @see Administration -> User Accounts -> Settings -> General Settings
+	 * @param bool $a_status
+	 */
+	public function enableUserAccessCheck($a_status)
+	{
+		$this->user_access_check = $a_status;
+	}
+
+	/**
+	 * Check if user access check is enabled
+	 * @return bool
+	 */
+	public function isUserAccessCheckEnabled()
+	{
+		return $this->user_access_check;
+	}
+
+	/**
+	 * Set searchable fields
+	 * @param array $a_fields
+	 */
+	public function setSearchFields($a_fields)
+	{
+		$this->possible_fields = $a_fields;
+	}
+
+	/**
+	 * get possible search fields
+	 * @return array
+	 */
+	public function getSearchFields()
+	{
+		return $this->possible_fields;
+	}
+
+	/**
+	 * Get searchable fields
+	 * @return array
+	 */
+	protected function getFields()
+	{
+		if(!$this->isFieldSearchableCheckEnabled())
+		{
+			return $this->getSearchFields();
+		}
+		$available_fields = array();
+		foreach($this->getSearchFields() as $field)
+		{
+
+			// Ignore fixed login field
+			if($field == 'login')
+			{
+				continue;
+			}
+
+			include_once './Services/Search/classes/class.ilUserSearchOptions.php';
+			if(ilUserSearchOptions::_isEnabled($field))
+			{
+				$available_fields[] = $field;
+			}
+		}
+		return $available_fields;
+	}
+
+
 	/**
 	* Get completion list
 	*/
-	public static function getList($a_str)
+	public function getList($a_str)
 	{
 		global $ilDB;
 		
@@ -32,17 +130,11 @@ class ilUserAutoComplete
 		}
 
 		$serach = ' ';
-		foreach(array('firstname','lastname','email') as $field)
+		foreach($this->getFields() as $field)
 		{
-			include_once './Services/Search/classes/class.ilUserSearchOptions.php';
-			if(ilUserSearchOptions::_isSearchable($field))
-			{
-				$search .= $ilDB->like($field,'text',$a_str.'%').' OR ';
-			}
+			$search .= $ilDB->like($field,'text',$a_str.'%').' OR ';
 		}
 		$search .= $ilDB->like("login", "text", $a_str."%")." ";
-
-
 		
 		include_once './Services/User/classes/class.ilUserAccountSettings.php';
 		if(ilUserAccountSettings::getInstance()->isUserAccessRestricted())
@@ -51,31 +143,30 @@ class ilUserAutoComplete
 			$query = "SELECT login, firstname, lastname, email FROM usr_data ".
 				"WHERE (".
 				$search.
-				#$ilDB->like("login", "text", $a_str."%")." OR ".
-				#$ilDB->like("firstname", "text", $a_str."%")." OR ".
-				#$ilDB->like("lastname", "text", $a_str."%").
-				") AND ".$ilDB->in('time_limit_owner',ilUserFilter::getInstance()->getFolderIds(),false,'integer')." ".
+				") ".
+				"AND " . $ilDB->in('time_limit_owner', ilUserFilter::getInstance()->getFolderIds(), false, 'integer') . " " .
 				"ORDER BY login ";
 			$set = $ilDB->query($query);
 		}
 		else
 		{
-			$set = $ilDB->query("SELECT login, firstname, lastname, email FROM usr_data WHERE ".
+			$query = "SELECT login, firstname, lastname, email FROM usr_data WHERE ".
 				$search.
-				#$ilDB->like("login", "text", $a_str."%")." OR ".
-				#$ilDB->like("firstname", "text", $a_str."%")." OR ".
-				#$ilDB->like("lastname", "text", $a_str."%").
-				" ORDER BY login");
+				" ORDER BY login";
+			$set = $ilDB->query($query);
 		}
+
+		$GLOBALS['ilLog']->write(__METHOD__.': Query: '.$query);
+
 		$max = 20;
 		$cnt = 0;
 		while (($rec = $ilDB->fetchAssoc($set)) && $cnt < $max)
 		{
 			$result->response->results[$cnt] = new stdClass();
-			$result->response->results[$cnt]->login = $rec["login"];
-			$result->response->results[$cnt]->firstname = $rec["firstname"];
-			$result->response->results[$cnt]->lastname = $rec["lastname"];
-			$result->response->results[$cnt]->email = $rec["email"];
+			$result->response->results[$cnt]->login = (string) $rec["login"];
+			$result->response->results[$cnt]->firstname = (string) $rec["firstname"];
+			$result->response->results[$cnt]->lastname = (string) $rec["lastname"];
+			$result->response->results[$cnt]->email = (string) $rec["email"];
 			$cnt++;
 		}
 		

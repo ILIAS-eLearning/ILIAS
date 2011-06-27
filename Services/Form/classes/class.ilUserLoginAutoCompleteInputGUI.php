@@ -40,16 +40,4 @@ class ilUserLoginAutoCompleteInputGUI extends ilTextInputGUI
 		$this->setDataSourceSchema($dsSchema);
 
 	}
-
-	/**
-	* Static asynchronous default auto complete function.
-	*/
-	static function echoAutoCompleteList()
-	{
-		$q = $_REQUEST["query"];
-		include_once("./Services/User/classes/class.ilUserAutoComplete.php");
-		$list = ilUserAutoComplete::getList($q);
-		echo $list;
-		exit;
-	}
 }

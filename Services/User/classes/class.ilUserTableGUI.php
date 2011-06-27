@@ -323,7 +323,21 @@ class ilUserTableGUI extends ilTable2GUI
 			}
 		}
 		
-		// title/description
+		// User name, login, email filter
+		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
+		$ul = new ilUserLoginAutoCompleteInputGUI(
+			$lng->txt("login")."/".$lng->txt("email")."/".$lng->txt("name"),
+			"query",
+			$this->getParentObject(),
+			"addUserAutoComplete"
+		);
+		$ul->setSize(20);
+		$ul->setSubmitFormOnEnter(true);
+		$this->addFilterItem($ul);
+		$ul->readFromSession();
+		$this->filter["query"] = $ul->getValue();
+
+		/*
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 		$ti = new ilTextInputGUI($lng->txt("login")."/".$lng->txt("email")."/".$lng->txt("name"), "query");
 		$ti->setMaxLength(64);
@@ -332,6 +346,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
 		$this->filter["query"] = $ti->getValue();
+		*/
 		
 		// activation
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
