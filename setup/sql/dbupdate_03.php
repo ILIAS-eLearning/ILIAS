@@ -6487,3 +6487,25 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 			array("self_eval_id", "skill_id"));
 	}
 ?>
+<#3388>
+<?php
+	if(!$ilDB->tableColumnExists('tst_tests','online_status'))
+	{
+		$ilDB->addTableColumn("tst_tests", "online_status", array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0
+		));
+	}
+?>
+<#3389>
+<?php
+
+	$query = "
+		UPDATE		tst_tests
+		SET			online_status = 1
+		WHERE		complete = 1
+	";
+
+?>

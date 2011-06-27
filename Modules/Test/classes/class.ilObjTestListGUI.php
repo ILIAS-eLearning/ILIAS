@@ -127,11 +127,19 @@ class ilObjTestListGUI extends ilObjectListGUI
 
 		$props = array();
 		include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-		if (!ilObjTestAccess::_lookupCreationComplete($this->obj_id))
+
+//		if (!ilObjTestAccess::_lookupCreationComplete($this->obj_id))
+//		{
+//			$props[] = array("alert" => true, "property" => $lng->txt("status"),
+//				"value" => $lng->txt("tst_warning_test_not_complete"));
+//		}
+		if (!ilObjTestAccess::_isOnline($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
-				"value" => $lng->txt("tst_warning_test_not_complete"));
+				"value" => $lng->txt("offline"));
 		}
+
+
 		// we cannot use ilObjTestAccess::_isOffline() because of text messages
 		$onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->obj_id, $ilUser->id);
 		if ($onlineaccess !== true)

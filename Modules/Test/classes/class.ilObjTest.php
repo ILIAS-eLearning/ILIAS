@@ -403,7 +403,15 @@ class ilObjTest extends ilObject
 	 */
 	private $import_dir;
 
-        private $template_id;
+    private $template_id;
+
+	/**
+     * the object's online status
+     *
+	 * @var bool $online
+	 */
+	private $online = null;
+
 	/**
 	* Constructor
 	* @access	public
@@ -1183,9 +1191,9 @@ class ilObjTest extends ilObject
 				"reset_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, " .
 				"ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
 				"shuffle_questions, results_presentation, show_summary, password, allowedusers, mailnottype, exportsettings, " .
-				"alloweduserstimegap, certificate_visibility, mailnotification, created, tstamp, enabled_view_mode, template_id, pool_usage) " .
+				"alloweduserstimegap, certificate_visibility, mailnotification, created, tstamp, enabled_view_mode, template_id, pool_usage, online_status) " .
 				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
-				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				array(
 					'integer', 'integer', 'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
@@ -1194,7 +1202,7 @@ class ilObjTest extends ilObject
 					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
 					'text', 'integer', 'integer', 'text', 'integer', 'integer', 'integer',
-					'integer', 'text', 'integer', 'integer', 'integer', 'text', 'text', 'integer'
+					'integer', 'text', 'integer', 'integer', 'integer', 'text', 'text', 'integer', 'integer'
 				),
 				array(
 					$next_id, 
@@ -1251,9 +1259,10 @@ class ilObjTest extends ilObject
 					$this->getMailNotification(),
 					time(), 
 					time(),
-                                        $this->getEnabledViewMode(),
-                                        $this->getTemplate(),
-                                        $this->getPoolUsage(),
+                    $this->getEnabledViewMode(),
+                    $this->getTemplate(),
+                    $this->getPoolUsage(),
+					(int)$this->isOnline()
 				)
 			);
 			$this->test_id = $next_id;
@@ -1286,7 +1295,7 @@ class ilObjTest extends ilObject
 				"reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, complete = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, " .
 				"ects_e = %s, ects_fx = %s, random_test = %s, random_question_count = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, " . 
 				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedusers = %s, mailnottype = %s, exportsettings = %s, " . 
-				"alloweduserstimegap = %s, certificate_visibility = %s, mailnotification = %s, tstamp = %s, enabled_view_mode = %s, template_id = %s, pool_usage = %s WHERE test_id = %s",
+				"alloweduserstimegap = %s, certificate_visibility = %s, mailnotification = %s, tstamp = %s, enabled_view_mode = %s, template_id = %s, pool_usage = %s, online_status = %s WHERE test_id = %s",
 				array(
 					'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
@@ -1295,7 +1304,7 @@ class ilObjTest extends ilObject
 					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
 					'text', 'integer', 'integer', 'text', 'integer','integer', 'integer',
-					'integer', 'text', 'integer', 'integer', 'text', 'text', 'integer', 'integer'
+					'integer', 'text', 'integer', 'integer', 'text', 'text', 'integer', 'integer', 'integer'
 				),
 				array(
 					$this->getAuthor(), 
@@ -1349,9 +1358,10 @@ class ilObjTest extends ilObject
 					$this->getCertificateVisibility(), 
 					$this->getMailNotification(),
 					time(),
-                                        $this->getEnabledViewMode(),
-                                        $this->getTemplate(),
-                                        $this->getPoolUsage(),
+                    $this->getEnabledViewMode(),
+                    $this->getTemplate(),
+                    $this->getPoolUsage(),
+					(int)$this->isOnline(),
 					$this->getTestId()
 				)
 			);
@@ -2109,6 +2119,7 @@ class ilObjTest extends ilObject
                         $this->setEnabledViewMode($data->enabled_view_mode);
                         $this->setTemplate($data->template_id);
 			$this->setPoolUsage($data->pool_usage);
+			$this->setOnline($data->online_status);
 			$this->loadQuestions();
 		}
 	}
@@ -10448,6 +10459,17 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		return $this->questions;
 	}
+
+	public function isOnline()
+	{
+		return $this->online;
+	}
+
+	public function setOnline($a_online = true)
+	{
+		$this->online = (bool)$a_online;
+	}
+
 } // END class.ilObjTest
 
 ?>

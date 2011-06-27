@@ -793,7 +793,7 @@ function _getQuestionCount($test_id)
 	}
 
 	/**
-	 * Type-specific implementation of general status
+	 * returns the objects's OFFline status
 	 *
 	 * Used in ListGUI and Learning Progress
 	 *
@@ -802,9 +802,32 @@ function _getQuestionCount($test_id)
 	 */
 	static function _isOffline($a_obj_id)
 	{
-		global $ilUser;		
-		return (self::_lookupOnlineTestAccess($a_obj_id, $ilUser->getId()) !== true) ||
-			(!ilObjTestAccess::_lookupCreationComplete($a_obj_id));
+//		global $ilUser;
+//		return (self::_lookupOnlineTestAccess($a_obj_id, $ilUser->getId()) !== true) ||
+//			(!ilObjTestAccess::_lookupCreationComplete($a_obj_id));
+		return !self::_isOnline($a_obj_id);
+	}
+
+	/**
+	 * returns the objects's ONline status
+	 *
+	 * @param integer $a_obj_id
+	 * @return boolean $online
+	 */
+	public static function _isOnline($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "
+			SELECT		test_id
+			FROM		tst_tests
+			WHERE		obj_fi = %s
+			AND			online_status = 1
+		";
+
+		$result = $ilDB->queryF( $query, array('integer'), array($a_obj_id) );
+
+		return $result->numRows() == 1;
 	}
 }
 

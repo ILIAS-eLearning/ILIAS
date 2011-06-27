@@ -11631,3 +11631,4 @@ skmg#:#skmg_skill_template_category#:#Skill Template Category
 administration#:#apache_auth_security#:#Security Settings
 administration#:#apache_auth_domains#:#Allowed Redirection Domains
 administration#:#apache_auth_domains_description#:#Enter one domain per line to allow redirection to this target.<br/>If ILIAS is reachable by more than one domain please enter all target you want to allow.<br />Example: example.com allows the redirection to http://example.com and http://www.example.com and all pages located there.
+assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#The status cannot be changed to &quot;online&quot; because there are no questions and/or no marks in the test!
