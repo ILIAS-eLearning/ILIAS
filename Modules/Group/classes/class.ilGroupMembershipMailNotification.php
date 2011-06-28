@@ -45,6 +45,8 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 	 */
 	public function send()
 	{
+		global $ilSetting;
+
 		parent::send();
 		
 		switch($this->getType())
