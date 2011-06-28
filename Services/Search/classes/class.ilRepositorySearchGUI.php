@@ -95,6 +95,8 @@ class ilRepositorySearchGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
+		$this->ctrl->setReturn($this,'');
+
 		switch($next_class)
 		{
 			default:
@@ -134,16 +136,32 @@ class ilRepositorySearchGUI
 
 	public function addUser()
 	{
-		// call callback if that function does give a return value => show error message
-		$class =& $this->callback['class'];
+		$class = $this->callback['class'];
 		$method = $this->callback['method'];
 
+		// call callback if that function does give a return value => show error message
 		// listener redirects if everything is ok.
 		$class->$method($_POST['user']);
+
 		$this->showSearchResults();
 	}
 
-	function setCallback(&$class,$method,$a_add_options = array())
+	/**
+	 * Handle multi command
+	 */
+	protected function handleMultiCommand()
+	{
+		$class = $this->callback['class'];
+		$method = $this->callback['method'];
+
+		// Redirects if everything is ok
+		if(!$class->$method($_POST['selectedCommand'],$_POST['user']))
+		{
+			$this->showSearchResults();
+		}
+	}
+
+	public function setCallback(&$class,$method,$a_add_options = array())
 	{
 		$this->callback = array('class' => $class,'method' => $method);
 		$this->add_options = $a_add_options ? $a_add_options : array();
@@ -601,7 +619,15 @@ class ilRepositorySearchGUI
 		include_once './Services/Search/classes/class.ilRepositoryUserResultTableGUI.php';
 		
 		$table = new ilRepositoryUserResultTableGUI($this,$a_parent_cmd);
-		$table->initMultiCommands($this->add_options);
+		if(count($this->add_options))
+		{
+			$table->addMultiItemSelectionButton(
+				'selectedCommand',
+				$this->add_options,
+				'handleMultiCommand',
+				$this->lng->txt('execute')
+			);
+		}
 		$table->parseUserIds($a_usr_ids);
 		
 		$this->tpl->setVariable('RES_TABLE',$table->getHTML());

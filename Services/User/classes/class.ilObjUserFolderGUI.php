@@ -73,8 +73,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			case 'iladminusersearchgui':
 				include_once('./Services/Search/classes/class.ilAdminUserSearchGUI.php');
 				$user_search =& new ilAdminUserSearchGUI();
-				$user_search->setCallbackClass($this);
-
+				$user_search->setCallback(
+					$this,
+					'searchResultHandler',
+					array(
+						'delete'		=> $this->lng->txt('delete'),
+						'activate'		=> $this->lng->txt('activate'),
+						'deactivate'	=> $this->lng->txt('deactivate'),
+						'accessRestrict'=> $this->lng->txt('accessRestrict'),
+						'accessFree'	=> $this->lng->txt('accessFree'),
+						'export'		=> $this->lng->txt('export')
+					)
+				);
 				$this->tabs_gui->setTabActive('search_user_extended');
 				$this->ctrl->setReturn($this,'view');
 				$ret =& $this->ctrl->forwardCommand($user_search);
@@ -556,8 +566,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function cancelUserFolderAction()
 	{
-		session_unregister("saved_post");
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->redirectByClass('iladminusersearchgui','showSearchResults');
+
+		#session_unregister("saved_post");
+		#$this->ctrl->returnToParent($this);
 	}
 
 	/**
@@ -898,8 +910,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				"last_update" => $obj_data->getLastUpdateDate());
 		}
 
-		$this->data["buttons"] = array( "cancelDelete"  => $this->lng->txt("cancel"),
-								  "confirmedDelete"  => $this->lng->txt("confirm"));
+		$this->data["buttons"] = array(
+			"confirmedDelete"  => $this->lng->txt("confirm"),
+			"cancelDelete"  => $this->lng->txt("cancel")
+		);
 
 		$this->getTemplateFile("confirm");
 
@@ -954,6 +968,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_VALUE",$value);
 			$this->tpl->parseCurrentBlock();
 		}
+
+		return true;
 	}
 
 	function selectExportFormat()
@@ -1023,6 +1039,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 
 		$this->tpl->setContent($cgui->getHTML());
+
+		return true;
 	}
 
 	/**
@@ -3810,9 +3828,13 @@ else
 			$tabs_gui->addTarget("obj_usrf",
 				$this->ctrl->getLinkTarget($this, "view"), array("view","delete","resetFilter", "userAction", ""), "", "");
 
-			$tabs_gui->addTarget("search_user_extended",
-				$this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','startExtended'),
-				array(""), "iladminusersearchgui", "");
+			$tabs_gui->addTarget(
+				"search_user_extended",
+				$this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI',''),
+				array(),
+				"iladminusersearchgui",
+				""
+			);
 		}
 		
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
@@ -3999,11 +4021,33 @@ else
 		}
 	}
 
-	
-	/*
-	function showUpperIcon()
+	/**
+	 * Handles multi command from admin user search gui
+	 */
+	public  function searchResultHandler($a_cmd,$a_usr_ids)
 	{
-		var_dump($this->ctrl->getCmd());
-	}*/
+
+
+		if(!count((array) $a_usr_ids))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			return false;
+		}
+
+		$_POST['id'] = $a_usr_ids;
+
+		switch($a_cmd)
+		{
+			case 'delete':
+				return $this->deleteObject();
+
+			default:
+				$_POST['selectedAction'] = $a_cmd;
+				return $this->showActionConfirmation($a_cmd);
+		}
+
+	}
+
+
 } // END class.ilObjUserFolderGUI
 ?>
