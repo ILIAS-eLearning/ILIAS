@@ -667,6 +667,10 @@ class ilRepositorySearchGUI
 				$this->lng->txt('execute')
 			);
 		}
+		else
+		{
+			$table->addMultiCommand('addUser', $this->lng->txt('btn_add'));
+		}
 		$table->parseUserIds($a_usr_ids);
 		
 		$this->tpl->setVariable('RES_TABLE',$table->getHTML());

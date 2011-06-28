@@ -52,7 +52,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->files = $a_files;
 	}
 
-		function &executeCommand()
+	function executeCommand()
 	{
   		global $ilUser,$ilCtrl, $ilTabs, $lng;
   
@@ -144,7 +144,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 			case 'ilrepositorysearchgui':
 				$ilTabs->activateTab("grades");
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search = new ilRepositorySearchGUI();
+				$rep_search->setTitle($this->lng->txt("exc_add_participant"));
 				$rep_search->setCallback($this,'addMembersObject');
 
 				// Set tabs
@@ -769,6 +770,37 @@ class ilObjExerciseGUI extends ilObjectGUI
 	}
 
 	/**
+	* Add user as member
+	*/
+	public function addAsMemberObject()
+	{
+		if(!strlen(trim($_POST['user_login'])))
+		{
+			ilUtil::sendFailure($this->lng->txt('msg_no_search_string'));
+			$this->membersObject();
+			return false;
+		}
+		$users = explode(',', $_POST['user_login']);
+
+		foreach($users as $user)
+		{
+			$user_id = ilObjUser::_lookupId($user);
+
+			if(!$user_id)
+			{
+				ilUtil::sendFailure($this->lng->txt('user_not_known'));
+				return $this->membersObject();
+			}
+			$_POST['user'][] = $user_id;
+		}
+
+		if(!$this->addMembersObject());
+		{
+			$this->membersObject();
+		}
+	}
+
+	/**
 	 * Add new partipant
 	 */
 	function addMembersObject()
@@ -802,7 +834,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	 */
 	function membersObject()
 	{
-		global $rbacsystem, $tree, $tpl, $ilToolbar, $ilCtrl, $ilTabs;
+		global $rbacsystem, $tree, $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
 
 		$ilTabs->activateTab("grades");
 		
@@ -842,8 +874,20 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		
 		// add member
-		$ilToolbar->addButton($this->lng->txt("exc_add_participant"),
-			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
+		$ul = new ilUserLoginAutoCompleteInputGUI($lng->txt("user"), "user_login", $this, "addMemberAutoComplete");
+		$ul->setSize(15);
+		$ilToolbar->addInputItem($ul, true);
+
+		// add button
+		$ilToolbar->addFormButton($lng->txt("add"), "addAsMember");
+
+		$ilToolbar->addSpacer();
+
+		$ilToolbar->addButton(
+			$lng->txt("exc_add_participant"),
+			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI',''));
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 		
 		// add course members button, in case the exercise is inside a course
 		$parent_id = $tree->getParentId($_GET["ref_id"]);
@@ -875,6 +919,19 @@ class ilObjExerciseGUI extends ilObjectGUI
 			ilUtil::sendInfo("exc_no_assignments_available");
 		}
 		return;		
+	}
+
+	/**
+	* Add Member for autoComplete
+	*/
+	protected function addMemberAutoCompleteObject()
+	{
+		include_once './Services/User/classes/class.ilUserAutoComplete.php';
+		$auto = new ilUserAutoComplete();
+		$auto->setSearchFields(array('login','firstname','lastname','email'));
+		$auto->enableFieldSearchableCheck(true);
+		echo $auto->getList($_REQUEST['query']);
+		exit();
 	}
 
 	/**
