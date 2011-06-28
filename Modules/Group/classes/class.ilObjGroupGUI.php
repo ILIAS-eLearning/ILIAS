@@ -1785,7 +1785,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$_POST['user'][] = ilObjUser::_lookupId($user);
 		}
 		
-		if(!$this->addUserObject())
+		if(!$this->addUserObject($_POST['member_type'], $_POST['user']))
 		{
 			$this->membersObject();
 		}
@@ -1795,23 +1795,20 @@ class ilObjGroupGUI extends ilContainerGUI
 	* displays confirmation formular with users that shall be assigned to group
 	* @access public
 	*/
-	function addUserObject()
+	function addUserObject($a_type, $user_ids)
 	{
-		$user_ids = $_POST["user"];
 		
 		$mail = new ilMail($_SESSION["AccountId"]);
 
 		if (empty($user_ids[0]))
 		{
-			// TODO: jumps back to grp content. go back to last search result
-			#$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			return false;
 		}
 
 		foreach ($user_ids as $new_member)
 		{
-			switch($_POST['member_type'])
+			switch($a_type)
 			{
 				case ilObjGroup::GRP_MEMBER:
 					if (!$this->object->addMember($new_member,$this->object->getDefaultMemberRole()))
