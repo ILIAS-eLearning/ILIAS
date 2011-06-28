@@ -22,11 +22,14 @@ class ilUserLoginAutoCompleteInputGUI extends ilTextInputGUI
 	{
 		global $tpl, $ilCtrl;
 		
-		if (is_object($a_class))
+		if(is_object($a_class))
 		{
 			$a_class = get_class($a_class);
 		}
-		$a_class = strtolower($a_class);
+		if(!is_array($a_class))
+		{
+			$a_class = strtolower($a_class);
+		}
 		
 		parent::__construct($a_title, $a_postvar);
 		$this->setInputType("logac");

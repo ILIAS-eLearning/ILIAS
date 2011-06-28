@@ -1024,7 +1024,10 @@ class ilCtrl
 	function getFormActionByClass($a_class, $a_fallback_cmd = "", $a_anchor = "", $a_asynch = false,
 		$xml_style = true)
 	{
-		$a_class = strtolower($a_class);
+		if(!is_array($a_class))
+		{
+			$a_class = strtolower($a_class);
+		}
 		
 		$tok = $this->getRequestToken();
 

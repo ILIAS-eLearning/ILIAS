@@ -10314,7 +10314,7 @@ common#:#mail_mail_to_global_roles#:#User may send Emails to global roles
 common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles
 common#:#mail_no_valid_group_role#:#No valid group role
 payment#:#paya_bill_history#:#Bill History
-assessment#:#tst_search_users#:#Add fixed participants
+assessment#:#tst_search_users#:#Search Participants
 survey#:#svy_search_users#:#Search for participants
 trac#:#trac_first_access#:#First Access
 trac#:#trac_read_count#:#Access Number

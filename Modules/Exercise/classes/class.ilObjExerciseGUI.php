@@ -772,7 +772,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	/**
 	* Add user as member
 	*/
-	public function addAsMemberObject()
+	public function addUserFromAutoCompleteObject()
 	{
 		if(!strlen(trim($_POST['user_login'])))
 		{
@@ -782,6 +782,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		$users = explode(',', $_POST['user_login']);
 
+		$user_ids = array();
 		foreach($users as $user)
 		{
 			$user_id = ilObjUser::_lookupId($user);
@@ -791,30 +792,32 @@ class ilObjExerciseGUI extends ilObjectGUI
 				ilUtil::sendFailure($this->lng->txt('user_not_known'));
 				return $this->membersObject();
 			}
-			$_POST['user'][] = $user_id;
+			$user_ids[] = $user_id;
 		}
 
-		if(!$this->addMembersObject());
+		if(!$this->addMembersObject($user_ids));
 		{
 			$this->membersObject();
+			return false;
 		}
+		return true;
 	}
 
 	/**
 	 * Add new partipant
 	 */
-	function addMembersObject()
+	function addMembersObject($a_user_ids = array())
 	{
 		global $ilAccess,$ilErr;
 
 		$this->checkPermission("write");
-		if(!count($_POST['user']))
+		if(!count($a_user_ids))
 		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			return false;
 		}
 
-		if(!$this->object->members_obj->assignMembers($_POST["user"]))
+		if(!$this->object->members_obj->assignMembers($a_user_ids))
 		{
 			ilUtil::sendFailure($this->lng->txt("exc_members_already_assigned"));
 			return false;
@@ -825,7 +828,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 //exit;
 		$this->ctrl->redirect($this, "members");
-		return false;
+		return true;
 	}
 
 
@@ -874,13 +877,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		
 		// add member
-		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
-		$ul = new ilUserLoginAutoCompleteInputGUI($lng->txt("user"), "user_login", $this, "addMemberAutoComplete");
-		$ul->setSize(15);
-		$ilToolbar->addInputItem($ul, true);
-
-		// add button
-		$ilToolbar->addFormButton($lng->txt("add"), "addAsMember");
+		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+		ilRepositorySearchGUI::fillAutoCompleteToolbar(
+			$this,
+			$ilToolbar,
+			array(
+				'auto_complete_name'	=> $lng->txt('user'),
+				'submit_name'			=> $lng->txt('add')
+			)
+		);
 
 		$ilToolbar->addSpacer();
 
@@ -919,19 +924,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 			ilUtil::sendInfo("exc_no_assignments_available");
 		}
 		return;		
-	}
-
-	/**
-	* Add Member for autoComplete
-	*/
-	protected function addMemberAutoCompleteObject()
-	{
-		include_once './Services/User/classes/class.ilUserAutoComplete.php';
-		$auto = new ilUserAutoComplete();
-		$auto->setSearchFields(array('login','firstname','lastname','email'));
-		$auto->enableFieldSearchableCheck(true);
-		echo $auto->getList($_REQUEST['query']);
-		exit();
 	}
 
 	/**

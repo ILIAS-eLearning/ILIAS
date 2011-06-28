@@ -1887,13 +1887,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 	/**
 	* Invite users or groups to a survey
 	*/
-	public function inviteUserGroupObject()
+	public function inviteUserGroupObject($a_user_ids = array())
 	{
 		$invited = 0;
 		// add users to invitation
-		if (is_array($_POST["user"]))
+		if (is_array($a_user_ids))
 		{
-			foreach ($_POST["user"] as $user_id)
+			foreach ($a_user_ids as $user_id)
 			{
 				$this->object->inviteUser($user_id);
 				$invited++;
@@ -1901,11 +1901,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		if ($invited == 0)
 		{
-			ilUtil::sendFailure($this->lng->txt('no_user_invited'), TRUE);	
+			ilUtil::sendFailure($this->lng->txt('no_user_invited'), TRUE);
+			return false;
 		}
 		else
 		{
-			ilUtil::sendSuccess(sprintf($this->lng->txt('users_invited'), $invited), TRUE);	
+			ilUtil::sendSuccess(sprintf($this->lng->txt('users_invited'), $invited), TRUE);
+			return false;
 		}
 		$this->ctrl->redirect($this, "invite");
 	}
@@ -1944,6 +1946,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $ilAccess;
 		global $rbacsystem;
 		global $ilToolbar;
+		global $lng;
 
 		if ((!$rbacsystem->checkAccess("visible,invite", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
 		{
@@ -1998,8 +2001,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($this->object->getInvitation() && $this->object->getInvitationMode() == 1)
 		{
 			// search button
+			include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+			ilRepositorySearchGUI::fillAutoCompleteToolbar(
+				$this,
+				$tb,
+				array(
+					'auto_complete_name'	=> $lng->txt('user'),
+					'submit_name'			=> $lng->txt('svy_invite')
+				)
+			);
+
+			$ilToolbar->addSpacer();
+
 			$ilToolbar->addButton($this->lng->txt("svy_search_users"),
-				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI',''));
 
 			$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 

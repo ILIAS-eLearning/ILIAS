@@ -1623,38 +1623,6 @@ class ilObjRoleGUI extends ilObjectGUI
     }
 
 
-	/**
-	* Add user as member
-	*/
-	public function assignUserObject()
-	{
-		if(!strlen(trim($_POST['user_login'])))
-		{
-			ilUtil::sendFailure($this->lng->txt('msg_no_search_string'));
-			$this->membersObject();
-			return false;
-		}
-		$users = explode(',', $_POST['user_login']);
-
-		foreach($users as $user)
-		{
-			$user_id = ilObjUser::_lookupId($user);
-
-			if(!$user_id)
-			{
-				ilUtil::sendFailure($this->lng->txt('user_not_known'));
-				return $this->userassignmentObject();
-			}
-			$_POST['user'][] = $user_id;
-		}
-
-		if(!$this->addUserObject($_POST['user']));
-		{
-			$this->userassignmentObject();
-		}
-	}
-
-
 	
 	/**
 	 * Assign user (callback from ilRepositorySearchGUI) 
@@ -1667,18 +1635,18 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		if(!$this->checkAccess('edit_userassignment','edit_permission'))
 		{
-			ilUtil::sendFailure($this->lng->txt('msg_no_perm_assign_user_to_role'));
+			ilUtil::sendFailure($this->lng->txt('msg_no_perm_assign_user_to_role'),true);
 			return false;
 		}
 		if(!$rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id) &&
 			$this->rolf_ref_id != ROLE_FOLDER_ID)
 		{
-			ilUtil::sendFailure($this->lng->txt('err_role_not_assignable'));
+			ilUtil::sendFailure($this->lng->txt('err_role_not_assignable'),true);
 			return false;
 		}
 		if(!$a_user_ids)
 		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);
 			return false;
 		}
 		
@@ -1690,7 +1658,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		// selected users all already assigned. stop
         if (count($assigned_users_new) == 0)
 		{
-			ilUtil::sendFailure($this->lng->txt("rbac_msg_user_already_assigned"));
+			ilUtil::sendFailure($this->lng->txt("rbac_msg_user_already_assigned"),true);
 			return false;
 		}
 		
@@ -1885,17 +1853,26 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 		$tb = new ilToolbarGUI();
-		$tb->setFormAction($this->ctrl->getFormAction($this));
 
 		// add member
-		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
+		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+		ilRepositorySearchGUI::fillAutoCompleteToolbar(
+			$this,
+			$tb,
+			array(
+				'auto_complete_name'	=> $lng->txt('user'),
+				'submit_name'			=> $lng->txt('add')
+			)
+		);
+
+/*		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
 		$ul = new ilUserLoginAutoCompleteInputGUI($lng->txt("user"), "user_login", $this, "assignUserAutoComplete");
 		$ul->setSize(15);
 		$tb->addInputItem($ul, true);
 
 		// add button
 		$tb->addFormButton($lng->txt("add"), "assignUser");
-
+*/
 		$tb->addSpacer();
 
 		$tb->addButton(
@@ -1918,18 +1895,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		
     }
 
-	/**
-	* Add Member for autoComplete
-	*/
-	protected function assignUserAutoCompleteObject()
-	{
-		include_once './Services/User/classes/class.ilUserAutoComplete.php';
-		$auto = new ilUserAutoComplete();
-		$auto->setSearchFields(array('login','firstname','lastname','email'));
-		$auto->enableFieldSearchableCheck(true);
-		echo $auto->getList($_REQUEST['query']);
-		exit();
-	}
 
 	
 	function __showAssignedUsersTable($a_result_set,$a_user_ids = NULL)

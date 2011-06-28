@@ -3495,7 +3495,7 @@ EOT;
 	*/
 	function participantsObject()
 	{
-		global $ilAccess, $ilToolbar;
+		global $ilAccess, $ilToolbar, $lng;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
@@ -3506,6 +3506,17 @@ EOT;
 
 		if ($this->object->getFixedParticipants())
 		{
+			// search button
+			include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+			ilRepositorySearchGUI::fillAutoCompleteToolbar(
+				$this,
+				$tb,
+				array(
+					'auto_complete_name'	=> $lng->txt('user'),
+					'submit_name'			=> $lng->txt('add')
+				)
+			);
+
 			// search button
 			$ilToolbar->addButton($this->lng->txt("tst_search_users"),
 				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
@@ -3797,14 +3808,14 @@ EOT;
 		}
 	}
 	
-	function addParticipantsObject()
+	function addParticipantsObject($a_user_ids = array())
 	{
 		$countusers = 0;
 		// add users 
-		if (is_array($_POST["user"]))
+		if (is_array($a_user_ids))
 		{
 			$i = 0;
-			foreach ($_POST["user"] as $user_id)
+			foreach ($a_user_ids as $user_id)
 			{
 				$client_ip = $_POST["client_ip"][$i];
 				$this->object->inviteUser($user_id, $client_ip);
@@ -3824,6 +3835,7 @@ EOT;
 		else
 		{
 			ilUtil::sendInfo($this->lng->txt("tst_invited_nobody"), TRUE);
+			return false;
 		}
 		
 		$this->ctrl->redirect($this, "participants");

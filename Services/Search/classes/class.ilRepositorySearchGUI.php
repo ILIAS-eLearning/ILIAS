@@ -113,6 +113,91 @@ class ilRepositorySearchGUI
 
 
 	/**
+	 * fill toolbar with
+	 * @param ilToolbarGUI $toolbar
+	 * @param array options:  all are optional e.g.
+	 * array(
+	 *		auto_complete_name = $lng->txt('user'),
+	 *		auto_complete_size = 15,
+	 *		user_type = array(ilCourseParticipants::CRS_MEMBER,ilCourseParticpants::CRS_TUTOR),
+	 *		submit_name = $lng->txt('add')
+	 * )
+	 *
+	 * @return ilToolbarGUI
+	 */
+	public static function fillAutoCompleteToolbar($parent_object, ilToolbarGUI $toolbar = null, $a_options = array())
+	{
+		global $ilToolbar, $lng, $ilCtrl;
+
+		if(!$toolbar instanceof ilToolbarGUI)
+		{
+			$toolbar = $ilToolbar;
+		}
+
+		// Fill default options
+		if(!isset($a_options['auto_complete_name']))
+		{
+			$a_options['auto_complete_name'] = $lng->txt('obj_user');
+		}
+		if(!isset($a_options['auto_complete_size']))
+		{
+			$a_options['auto_complete_size'] = 15;
+		}
+		if(!isset($a_options['submit_name']))
+		{
+			$a_options['submit_name'] = $lng->txt('btn_add');
+		}
+
+		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
+		$ul = new ilUserLoginAutoCompleteInputGUI(
+			$a_options['auto_complete_name'],
+			"user_login",
+			array(get_class($parent_object),get_class($this)),
+			"doUserAutoComplete"
+		);
+		$ul->setSize($a_options['auto_complete_size']);
+		$toolbar->addInputItem($ul, true);
+
+		if(count((array) $a_options['user_type']))
+		{
+			include_once './Services/Form/classes/class.ilSelectInputGUI.php';
+			$si = new ilSelectInputGUI("", "user_type");
+			$si->setOptions($a_options['user_type']);
+			$toolbar->addInputItem($si);
+		}
+
+		$toolbar->addFormButton(
+			$a_options['submit_name'],
+			'addUserFromAutoComplete'
+		);
+		
+		$toolbar->setFormAction(
+			$ilCtrl->getFormActionByClass(
+				array(
+					get_class($parent_object),
+					get_class($this))
+			)
+		);
+		return $toolbar;
+	}
+
+	/**
+	 * Do auto completion
+	 * @return void
+	 */
+	protected function doUserAutoComplete()
+	{
+		include_once './Services/User/classes/class.ilUserAutoComplete.php';
+		$auto = new ilUserAutoComplete();
+		$auto->setSearchFields(array('login','firstname','lastname','email'));
+		$auto->enableFieldSearchableCheck(true);
+		echo $auto->getList($_REQUEST['query']);
+		exit();
+	}
+
+
+
+	/**
 	* Set/get search string
 	* @access public
 	*/
@@ -188,6 +273,29 @@ class ilRepositorySearchGUI
 	}
 
 	/**
+	 * Add user from auto complete input
+	 */
+	protected function addUserFromAutoComplete()
+	{
+		$class = $this->callback['class'];
+		$method = $this->callback['method'];
+
+		$users = explode(',', $_POST['user_login']);
+		$user_ids = array();
+		foreach($users as $user)
+		{
+			$user_ids[] = ilObjUser::_lookupId($user);
+		}
+
+		$user_type = isset($_POST['user_type']) ? $_POST['user_type'] : 0;
+
+		if(!$class->$method($user_ids,$user_type))
+		{
+			$GLOBALS['ilCtrl']->returnToParent($this);
+		}
+	}
+
+	/**
 	 * Handle multi command
 	 */
 	protected function handleMultiCommand()
@@ -196,7 +304,7 @@ class ilRepositorySearchGUI
 		$method = $this->callback['method'];
 
 		// Redirects if everything is ok
-		if(!$class->$method($_POST['selectedCommand'],$_POST['user']))
+		if(!$class->$method((array) $_POST['user'],$_POST['selectedCommand']))
 		{
 			$this->showSearchResults();
 		}
