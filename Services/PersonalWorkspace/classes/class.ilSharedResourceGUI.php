@@ -31,13 +31,16 @@ class ilSharedResourceGUI
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 	
-		$tpl->getStandardTemplate();
+		if($cmd != "preview" && !$_REQUEST["prvw"])
+		{
+			$tpl->getStandardTemplate();
+		}
 		
 		switch($next_class)
 		{
 			case "ilobjbloggui":
 				include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
-				$bgui = new ilObjBlogGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
+				$bgui = new ilObjBlogGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);				
 				$ilCtrl->forwardCommand($bgui);			
 				break;
 			
@@ -130,6 +133,9 @@ class ilSharedResourceGUI
 		switch($object_data["type"])
 		{
 			case "blog":
+				$ilCtrl->setParameterByClass("ilobj".$object_data["type"]."gui", "wsp_id", $a_node_id);
+				$ilCtrl->redirectByClass("ilobj".$object_data["type"]."gui", "preview");
+				
 			case "file":
 				$ilCtrl->setParameterByClass("ilobj".$object_data["type"]."gui", "wsp_id", $a_node_id);
 				$ilCtrl->redirectByClass("ilobj".$object_data["type"]."gui");

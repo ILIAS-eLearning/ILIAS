@@ -223,23 +223,38 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		global $tpl, $lng, $ilCtrl, $ilUser;
 		
+		$owner = $this->object->getOwner();
+		
 		$tpl->fillCssFiles();
 		$tpl->fillInlineCss();
 		$tpl->fillContentStyle();
 
-		$page = new ilTemplate("tpl.blog_preview.html", false, false, "Modules/Blog");
+		$page = new ilTemplate("tpl.blog_preview.html", true, true, "Modules/Blog");
 
-		$page->setVariable("TXT_ILIAS_BACK", $lng->txt("blog_back_to_ilias"));
+		// back		
+		if($owner == $ilUser->getId())
+		{			
+			$ilCtrl->setParameter($this, "prvw", "");
+			$back = $ilCtrl->getLinkTarget($this, "");
+			$page->setCurrentBlock("back");
+			$page->setVariable("URL_ILIAS_BACK", $back);
+			$page->setVariable("TXT_ILIAS_BACK", $lng->txt("blog_back_to_ilias"));		
+			$page->parseCurrentBlock();
+		}
+		else
+		{
+			// if deeplink this will not be possible
+		}		
 		
-		$ilCtrl->setParameter($this, "prvw", "");
-		$page->setVariable("URL_ILIAS_BACK", $ilCtrl->getLinkTarget($this, ""));
-		
+		// title
 		$page->setVariable("TXT_BLOG_TITLE", $this->object->getTitle());
 		
+		// owner
 		include_once("./Services/User/classes/class.ilUserUtil.php");
-		$owner = ilUserUtil::getNamePresentation($ilUser->getId(), true, false); 		
+		$owner = ilUserUtil::getNamePresentation($owner, true, false); 		
 		$page->setVariable("TXT_OWNER", $owner);
 		
+		// content
 		$page->setVariable("LIST", $a_content);
 		$page->setVariable("NAV", $a_navigation);
 
