@@ -436,6 +436,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			{
 				$tpl->setVariable('DELIMITER_ARRAY', ilJsonUtil::encode($this->getDataSourceDelimiter()));	
 			}
+			$tpl->setVariable("AC_STYLE", 'style="position:absolute; width:400px;"');
 		}
 		
 		if ($a_mode == "toolbar")
@@ -444,10 +445,6 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			// -moz-inline-stack for FF2
 			// zoom 1; *display:inline for IE6 & 7
 			$tpl->setVariable("STYLE_PAR", 'display: -moz-inline-stack; display:inline-block; zoom: 1; *display:inline;');
-			if ($this->getDataSource() && $this->getDataSourceSchema())
-			{
-				$tpl->setVariable("AC_STYLE", 'style="position:absolute; width:400px;"');
-			}
 		}
 		else
 		{
