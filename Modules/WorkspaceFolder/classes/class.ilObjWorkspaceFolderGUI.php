@@ -486,12 +486,22 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 			$wizard_options->deleteAll();
 		}
 		
+		// redirect to target if not repository
+		if(!$_SESSION['clipboard']['wsp2repo'])
+		{
+			$redirect_node = $target_node_id;
+		}
+		else
+		{
+			$redirect_node = $source_node_id;
+		}
+		
 		unset($_SESSION['clipboard']['cmd']);
 		unset($_SESSION['clipboard']['source_id']);
 		unset($_SESSION['clipboard']['wsp2repo']);
 		
 		ilUtil::sendSuccess($this->lng->txt('msg_cut_copied'), true);
-		$this->ctrl->setParameter($this, "wsp_id", $target_node_id);
+		$this->ctrl->setParameter($this, "wsp_id", $redirect_node);
 		$this->ctrl->redirect($this);		 
 	}
 	

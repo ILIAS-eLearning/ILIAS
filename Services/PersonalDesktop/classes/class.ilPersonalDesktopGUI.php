@@ -235,12 +235,12 @@ class ilPersonalDesktopGUI
 				$ret = $this->ctrl->forwardCommand($mailgui);
 				break;
 
-			case 'ilpersonalworkspacegui':
-				$this->getStandardTemplates();
+			case 'ilpersonalworkspacegui':				
 				$this->setTabs();
 				include_once 'Services/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php';
 				$wsgui = new ilPersonalWorkspaceGUI();
 				$ret = $this->ctrl->forwardCommand($wsgui);				
+				$this->getStandardTemplates();
 				$this->tpl->show();
 				break;
 			

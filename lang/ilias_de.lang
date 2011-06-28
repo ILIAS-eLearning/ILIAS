@@ -11612,3 +11612,4 @@ administration#:#apache_auth_security#:#Sicherheitseinstellungen
 administration#:#apache_auth_domains#:#Erlaubte Umleitungsdomains
 administration#:#apache_auth_domains_description#:#Tragen Sie hier pro Zeile eine erlaubte Domain ein, zu der umgeleitet werden darf.<br/>Ist ILIAS unter einen eindeutigen Domain erreichbar muss hierfür kein eigener Eintrag vorgenommen werden. Andernfalls tragen Sie bitte alle Domains ein. <br />Beispiel: example.com gestattet die Umleitung zu http://example.com und http://www.example.com sowie allen Seiten unterhalb der Domains. 
 assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen und/oder Noten hinzugefügt wurden!
+blog#:#blog_preview#:#Vorschau

@@ -27,7 +27,13 @@ class ilObjBlogGUI extends ilObject2GUI
 	
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
+		global $lng, $ilCtrl;
+		
+		$lng->loadLanguageModule("blog");
 		$this->mode = self::MODE_WORKSPACE;		
+		
+		$ilCtrl->saveParameter($this, "prvw");
+		
 		return parent::__construct($a_id, $a_id_type, $a_parent_node_id);		
 	}
 
@@ -103,6 +109,9 @@ class ilObjBlogGUI extends ilObject2GUI
 			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "edit"));
+			
+			$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"), 
+				$this->ctrl->getLinkTarget($this, "preview"));
 		}
 
 		// will add permissions if needed
@@ -141,8 +150,20 @@ class ilObjBlogGUI extends ilObject2GUI
 
 				$ret = $ilCtrl->forwardCommand($bpost_gui);
 				if ($ret != "")
-				{
-					$tpl->setContent($ret);
+				{					
+					$items = $this->buildPostingList($this->object->getId());
+					$nav = $this->renderNavigation($items);
+					unset($items);
+					
+					if(!$_REQUEST["prvw"])
+					{
+						$tpl->setRightContent($nav);
+						$tpl->setContent($ret);
+					}
+					else
+					{
+						$this->renderFullScreen($ret, $nav);
+					}
 				}
 				break;
 				
@@ -152,12 +173,13 @@ class ilObjBlogGUI extends ilObject2GUI
 				break;
 
 			default:
-				return parent::executeCommand();
+				$a_no_prepare_output = ($cmd == "preview" || $_REQUEST["prvw"]);
+				return parent::executeCommand($a_no_prepare_output);			
 		}
 
 		return true;
 	}
-
+	
 	/**
 	 * Create new posting
 	 */
@@ -187,6 +209,45 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		return $this->render(true);			
 	}
+	
+	function preview()
+	{
+		global $ilCtrl;
+		
+		$_REQUEST["prvw"] = 1;		
+		$ilCtrl->setParameter($this, "prvw", 1);
+		$this->render();
+	}
+	
+	function renderFullScreen($a_content, $a_navigation)
+	{
+		global $tpl, $lng, $ilCtrl, $ilUser;
+		
+		$tpl->fillCssFiles();
+		$tpl->fillInlineCss();
+		$tpl->fillContentStyle();
+
+		$page = new ilTemplate("tpl.blog_preview.html", false, false, "Modules/Blog");
+
+		$page->setVariable("TXT_ILIAS_BACK", $lng->txt("blog_back_to_ilias"));
+		
+		$ilCtrl->setParameter($this, "prvw", "");
+		$page->setVariable("URL_ILIAS_BACK", $ilCtrl->getLinkTarget($this, ""));
+		
+		$page->setVariable("TXT_BLOG_TITLE", $this->object->getTitle());
+		
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+		$owner = ilUserUtil::getNamePresentation($ilUser->getId(), true, false); 		
+		$page->setVariable("TXT_OWNER", $owner);
+		
+		$page->setVariable("LIST", $a_content);
+		$page->setVariable("NAV", $a_navigation);
+
+		$tpl->setVariable("CONTENT", $page->get());
+
+		echo $tpl->get();
+		exit();
+	}
 
 	/**
 	 * Render root folder
@@ -207,10 +268,8 @@ class ilObjBlogGUI extends ilObject2GUI
 
 		// gather postings by month
 		$items = $this->buildPostingList($this->object->getId());
-
-		$lng->loadLanguageModule("blog");
 		
-		if($this->mode == self::MODE_WORKSPACE)
+		if($this->mode == self::MODE_WORKSPACE && !$a_return)
 		{
 			$ilTabs->activateTab("content");
 			$this->renderToolbar();
@@ -227,20 +286,23 @@ class ilObjBlogGUI extends ilObject2GUI
 			}
 
 			if($items[$this->month])
-			{
-				include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-				$title = ilCalendarUtil::_numericMonthToString(substr($this->month, 6)).
-					" ".substr($this->month, 0, 4);
-				
+			{				
 				$ilCtrl->setParameter($this, "bmn", $this->month);
 				$list = $this->renderList($items[$this->month]);
 				$nav = $this->renderNavigation($items);
 				
 				if(!$a_return)
 				{
-					$tpl->setDescription($title);
-					$tpl->setContent($list);
-					$tpl->setRightContent($nav);
+					if(!$_REQUEST["prvw"])
+					{					
+						$tpl->setDescription($title);
+						$tpl->setContent($list);
+						$tpl->setRightContent($nav);
+					}
+					else
+					{							
+						$this->renderFullScreen($list, $nav);
+					}
 				}
 				else
 				{
@@ -260,12 +322,6 @@ class ilObjBlogGUI extends ilObject2GUI
 				}
 			}
 		}
-	}
-	
-	function renderPostings(array $a_posting_ids)
-	{
-		
-		
 	}
 	
 	function buildPostingList($a_obj_id)
@@ -301,6 +357,11 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/Blog");
+		
+		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+		$title = ilCalendarUtil::_numericMonthToString(substr($this->month, 6)).
+				" ".substr($this->month, 0, 4);
+		$wtpl->setVariable("TXT_CURRENT_MONTH", $title);		
 		
 		foreach($items as $item)
 		{
