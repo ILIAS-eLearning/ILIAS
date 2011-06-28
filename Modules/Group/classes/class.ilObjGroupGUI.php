@@ -1032,26 +1032,19 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
 		
 		// add members
-		
-		// user input
-		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
-		$ul = new ilUserLoginAutoCompleteInputGUI($lng->txt("user"), "user_login", $this, "addMemberAutoComplete");
-		$ul->setSize(15);
-		$ilToolbar->addInputItem($ul, true);
-
-		// member type
-		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		$options = array(
-			ilObjGroup::GRP_MEMBER => $lng->txt("member"),
-			ilObjGroup::GRP_ADMIN => $lng->txt("administrator")
-			);
-		$si = new ilSelectInputGUI("", "member_type");
-		$si->setOptions($options);
-		$ilToolbar->addInputItem($si);
-		
-		// add button
-		$ilToolbar->addFormButton($lng->txt("add"), "addAsMember");
-		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+		ilRepositorySearchGUI::fillAutoCompleteToolbar(
+			$this,
+			$ilToolbar,
+			array(
+				'auto_complete_name'	=> $lng->txt('user'),
+				'user_type'				=> array(
+					ilObjGroup::GRP_MEMBER => $lng->txt("member"),
+					ilObjGroup::GRP_ADMIN => $lng->txt("administrator")
+				),
+				'submit_name'			=> $lng->txt('add')
+			)
+		);
 		
 		// spacer
 		$ilToolbar->addSeparator();
@@ -1188,19 +1181,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 	}
 	
-	/**
-	* Add Member for autoComplete
-	*/
-	protected function addMemberAutoCompleteObject()
-	{
-		include_once './Services/User/classes/class.ilUserAutoComplete.php';
-		$auto = new ilUserAutoComplete();
-		$auto->setSearchFields(array('login','firstname','lastname','email'));
-		$auto->enableFieldSearchableCheck(true);
-		echo $auto->getList($_REQUEST['query']);
-		exit();
-	}
-
 	/**
 	 * assign subscribers
 	 *
@@ -1775,34 +1755,16 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 
 	/**
-	* Add user as member
-	*/
-	function addAsMemberObject()
-	{	
-		$users = explode(',', $_POST['user_login']);
-		foreach($users as $user)
-		{
-			$_POST['user'][] = ilObjUser::_lookupId($user);
-		}
-		
-		if(!$this->addUserObject($_POST['member_type'], $_POST['user']))
-		{
-			$this->membersObject();
-		}
-	}
-
-	/**
 	* displays confirmation formular with users that shall be assigned to group
 	* @access public
 	*/
-	function addUserObject($a_type, $user_ids)
+	function addUserObject($user_ids, $a_type)
 	{
-		
 		$mail = new ilMail($_SESSION["AccountId"]);
 
 		if (empty($user_ids[0]))
 		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);
 			return false;
 		}
 

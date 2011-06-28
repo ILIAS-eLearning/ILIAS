@@ -125,7 +125,7 @@ class ilToolbarGUI
 	/**
 	* Add input item
 	*/
-	function addInputItem(ilToolbarItem $a_item, $a_output_label = false)
+	public function addInputItem(ilToolbarItem $a_item, $a_output_label = false)
 	{
 		$this->items[] = array("type" => "input", "input" => $a_item, "label" => $a_output_label);
 	}
