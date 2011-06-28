@@ -2417,10 +2417,12 @@ class ilObjectListGUI
 			}
 		}
 		
+		/*
 		if($this->restrict_to_goto)
 		{
 			return;
-		}
+		}		 
+		*/
 
 		// info screen commmand
 		if ($this->getInfoScreenStatus() && !$only_default)
