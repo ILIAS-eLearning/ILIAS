@@ -73,6 +73,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			case 'iladminusersearchgui':
 				include_once('./Services/Search/classes/class.ilAdminUserSearchGUI.php');
 				$user_search =& new ilAdminUserSearchGUI();
+				$user_search->enableSearchableCheck(false);
 				$user_search->setCallback(
 					$this,
 					'searchResultHandler',

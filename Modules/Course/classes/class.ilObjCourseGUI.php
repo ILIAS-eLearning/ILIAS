@@ -2631,18 +2631,25 @@ class ilObjCourseGUI extends ilContainerGUI
 			$_POST['user'][] = $user_id;
 		}
 		
-		if(!$this->assignMembersObject())
+		if(!$this->assignMembersObject($_POST['member_type'], $_POST['user']));
 		{
 			$this->membersObject();
 		}
 	}
 	
-	public function assignMembersObject()
+	/**
+	 * callback from repository search gui
+	 * @global ilRbacSystem $rbacsystem
+	 * @param int $a_type
+	 * @param array $a_usr_ids
+	 * @return bool
+	 */
+	public function assignMembersObject($a_type, array $a_usr_ids)
 	{
 		global $rbacsystem;
 
 		$this->checkPermission('write');
-		if(!is_array($_POST["user"]))
+		if(!count($a_usr_ids))
 		{
 			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"));
 			return false;
@@ -2650,7 +2657,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->initCourseMemberObject();
 
 		$added_users = 0;
-		foreach($_POST["user"] as $user_id)
+		foreach($a_usr_ids as $user_id)
 		{
 			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id,false))
 			{
@@ -2660,7 +2667,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				continue;
 			}
-			switch($_POST['member_type'])
+			switch($a_type)
 			{
 				case ilCourseConstants::CRS_MEMBER:
 					$this->object->members_obj->add($user_id,IL_CRS_MEMBER);

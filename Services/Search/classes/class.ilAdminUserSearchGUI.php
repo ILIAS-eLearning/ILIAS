@@ -48,6 +48,8 @@ class ilAdminUserSearchGUI extends ilRepositorySearchGUI
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->setTitle($this->lng->txt('search_user_extended'));
 	}
 }
 ?>

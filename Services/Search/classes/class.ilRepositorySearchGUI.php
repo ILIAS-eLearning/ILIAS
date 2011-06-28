@@ -44,6 +44,9 @@ class ilRepositorySearchGUI
 	
 	protected $add_options = array();
 	protected $object_selection = false;
+
+	protected $searchable_check = true;
+	protected $search_title = '';
 	
 	var $search_type = 'usr';
 
@@ -61,6 +64,8 @@ class ilRepositorySearchGUI
 		$this->lng->loadLanguageModule('search');
 		$this->lng->loadLanguageModule('crs');
 
+		$this->setTitle($this->lng->txt('add_members_header'));
+
 		$this->__setSearchType();
 		$this->__loadQueries();
 
@@ -68,6 +73,42 @@ class ilRepositorySearchGUI
 		$this->result_obj->setMaxHits(1000000);
 		$this->settings =& new ilSearchSettings();
 
+	}
+
+	/**
+	 * Set form title
+	 * @param string $a_title
+	 */
+	public function setTitle($a_title)
+	{
+		$this->search_title = $a_title;
+	}
+
+	/**
+	 * Get search form title
+	 * @return string
+	 */
+	public function getTitle()
+	{
+		return $this->search_title;
+	}
+
+	/**
+	 * En/disable the validation of the searchable flag
+	 * @param bool $a_status
+	 */
+	public function enableSearchableCheck($a_status)
+	{
+		$this->searchable_check = $a_status;
+	}
+
+	/**
+	 *
+	 * @return bool
+	 */
+	public function isSearchableCheckEnabled()
+	{
+		return $this->searchable_check;
 	}
 
 
@@ -179,7 +220,7 @@ class ilRepositorySearchGUI
 		
 		$this->form =  new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this,'search'));
-		$this->form->setTitle($this->lng->txt('add_members_header'));
+		$this->form->setTitle($this->getTitle());
 		$this->form->addCommandButton('performSearch', $this->lng->txt('search'));
 		$this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
 		
@@ -188,60 +229,58 @@ class ilRepositorySearchGUI
 		$kind->setValue($this->search_type);
 		$this->form->addItem($kind);
 		
-			// Users
-			$users = new ilRadioOption($this->lng->txt('search_for_users'),'usr');
+		// Users
+		$users = new ilRadioOption($this->lng->txt('search_for_users'),'usr');
 			
-			// UDF
-			include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
-			foreach(ilUserSearchOptions::_getSearchableFieldsInfo() as $info)
+		// UDF
+		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
+		foreach(ilUserSearchOptions::_getSearchableFieldsInfo(!$this->isSearchableCheckEnabled()) as $info)
+		{
+			switch($info['type'])
 			{
-				switch($info['type'])
-				{
-					case FIELD_TYPE_UDF_SELECT:
-					case FIELD_TYPE_SELECT:
+				case FIELD_TYPE_UDF_SELECT:
+				case FIELD_TYPE_SELECT:
 						
-						$sel = new ilSelectInputGUI($info['lang'],"rep_query[usr][".$info['db']."]");
-						$sel->setOptions($info['values']);
-						$users->addSubItem($sel);
-						break;
+					$sel = new ilSelectInputGUI($info['lang'],"rep_query[usr][".$info['db']."]");
+					$sel->setOptions($info['values']);
+					$users->addSubItem($sel);
+					break;
 	
-					case FIELD_TYPE_UDF_TEXT:
-					case FIELD_TYPE_TEXT:
+				case FIELD_TYPE_UDF_TEXT:
+				case FIELD_TYPE_TEXT:
 
-						$txt = new ilTextInputGUI($info['lang'],"rep_query[usr][".$info['db']."]");
-						$txt->setSize(30);
-						$txt->setMaxLength(120);
-						$users->addSubItem($txt);
-						break;
-				}
+					$txt = new ilTextInputGUI($info['lang'],"rep_query[usr][".$info['db']."]");
+					$txt->setSize(30);
+					$txt->setMaxLength(120);
+					$users->addSubItem($txt);
+					break;
 			}
+		}
 		$kind->addOption($users);
 
-			// Role
-			$roles = new ilRadioOption($this->lng->txt('search_for_role_members'),'role');
-				$role = new ilTextInputGUI($this->lng->txt('search_role_title'),'rep_query[role][title]');
-				$role->setSize(30);
-				$role->setMaxLength(120);
-			$roles->addSubItem($role);
+		// Role
+		$roles = new ilRadioOption($this->lng->txt('search_for_role_members'),'role');
+		$role = new ilTextInputGUI($this->lng->txt('search_role_title'),'rep_query[role][title]');
+		$role->setSize(30);
+		$role->setMaxLength(120);
+		$roles->addSubItem($role);
 		$kind->addOption($roles);
 			
-			// Course
-			$groups = new ilRadioOption($this->lng->txt('search_for_crs_members'),'crs');
-				$group = new ilTextInputGUI($this->lng->txt('search_crs_title'),'rep_query[crs][title]');
-				$group->setSize(30);
-				$group->setMaxLength(120);
-			$groups->addSubItem($group);
+		// Course
+		$groups = new ilRadioOption($this->lng->txt('search_for_crs_members'),'crs');
+		$group = new ilTextInputGUI($this->lng->txt('search_crs_title'),'rep_query[crs][title]');
+		$group->setSize(30);
+		$group->setMaxLength(120);
+		$groups->addSubItem($group);
 		$kind->addOption($groups);
 
-			// Group
-			$groups = new ilRadioOption($this->lng->txt('search_for_grp_members'),'grp');
-				$group = new ilTextInputGUI($this->lng->txt('search_grp_title'),'rep_query[grp][title]');
-				$group->setSize(30);
-				$group->setMaxLength(120);
-			$groups->addSubItem($group);
+		// Group
+		$groups = new ilRadioOption($this->lng->txt('search_for_grp_members'),'grp');
+		$group = new ilTextInputGUI($this->lng->txt('search_grp_title'),'rep_query[grp][title]');
+		$group->setSize(30);
+		$group->setMaxLength(120);
+		$groups->addSubItem($group);
 		$kind->addOption($groups);
-		
-		
 	}
 	
 
