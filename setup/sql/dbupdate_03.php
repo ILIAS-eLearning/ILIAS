@@ -6509,3 +6509,15 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 	";
 
 ?>
+<#3390>
+<?php
+
+	$query = "
+		UPDATE		tst_tests
+		SET			online_status = 1
+		WHERE		complete = 1
+	";
+
+	$ilDB->manipulate($query);
+
+?>
