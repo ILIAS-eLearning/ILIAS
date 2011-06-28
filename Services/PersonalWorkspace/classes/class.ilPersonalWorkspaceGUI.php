@@ -116,7 +116,7 @@ class ilPersonalWorkspaceGUI
 
 	protected function renderTitle()
 	{
-		global $tpl, $lng, $ilTabs, $ilCtrl;
+		global $tpl, $lng, $ilTabs, $ilCtrl, $ilUser;
 		
 		$root = $this->tree->getNodeData($this->node_id);
 		if($root["type"] == "wfld" || $root["type"] == "wsrt")
@@ -130,19 +130,35 @@ class ilPersonalWorkspaceGUI
 			// do not override existing back targets, e.g. public user profile gui
 			if(!$ilTabs->back_target)
 			{
-				$parent = $this->tree->getParentNodeData($this->node_id);
-				if($parent["type"] == "wsrt")
+				$owner = $this->tree->lookupOwner($this->node_id);
+				// workspace
+				if($owner == $ilUser->getId())
 				{
-					$class = "ilobjworkspacerootfoldergui";
+					$parent = $this->tree->getParentNodeData($this->node_id);				
+					if($parent["wsp_id"])
+					{
+						if($parent["type"] == "wsrt")
+						{
+							$class = "ilobjworkspacerootfoldergui";
+						}
+						else
+						{
+							$class = "ilobjworkspacefoldergui";
+						}
+						$ilCtrl->setParameterByClass($class, "wsp_id", $parent["wsp_id"]);
+						$ilTabs->setBackTarget($lng->txt("back"),
+							$ilCtrl->getLinkTargetByClass($class, ""));
+					}
 				}
+				// "shared by others"
 				else
 				{
-					$class = "ilobjworkspacefoldergui";
+					$ilCtrl->setParameterByClass("ilobjworkspacerootfoldergui", "wsp_id", "");
+					$ilCtrl->setParameterByClass("ilobjworkspacerootfoldergui", "user", $owner);
+					$ilTabs->setBackTarget($lng->txt("back"),
+						$ilCtrl->getLinkTargetByClass("ilobjworkspacerootfoldergui", "share"));
 				}
-
-				$ilCtrl->setParameterByClass($class, "wsp_id", $parent["wsp_id"]);
-				$ilTabs->setBackTarget($lng->txt("back"),
-					$ilCtrl->getLinkTargetByClass($class, ""));
+				
 			}
 			
 			$title = $root["title"];

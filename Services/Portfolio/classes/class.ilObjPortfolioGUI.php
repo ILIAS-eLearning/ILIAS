@@ -753,7 +753,12 @@ class ilObjPortfolioGUI
 		$note_gui->enablePublicNotesDeletion($ilUser->getId() == $user_id);
 		$note_gui->setRepositoryMode(false);
 		
-		$tpl->setContent($content.$note_gui->getNotesHTML());			
+		include_once('classes/class.ilLink.php');
+		$goto = ilLink::_getStaticLink($portfolio_id, "prtf", true);
+		$goto = "<div style=\"margin:10px;\" class=\"small\"><a href=\"".$goto.
+			"\" target=\"blank\">goto test</a></div>";
+		
+		$tpl->setContent($content.$goto.$note_gui->getNotesHTML());			
 	}
 	
 	function _goto($a_target)

@@ -22,12 +22,14 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 	 * @param string $a_parent_cmd parent default command
 	 * @param object $a_handler workspace access handler
 	 * @param int $a_user_id 
+	 * @param int $a_parent_node_id
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_handler, $a_user_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_handler, $a_user_id, $a_parent_node_id)
 	{
 		global $ilCtrl, $lng;
 
 		$this->handler = $a_handler;
+		$this->parent_node_id = $a_parent_node_id;
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -85,7 +87,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($node)
 	{
-		global $objDefinition;
+		global $objDefinition, $ilCtrl;
 		
 		$class = $objDefinition->getClassName($node["type"]);
 		$location = $objDefinition->getLocation($node["type"]);
@@ -105,10 +107,18 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		$item_list_gui->enableSearchFragments(false);
 		$item_list_gui->enableRelevance(false);
 		$item_list_gui->enableIcon(true);
-		// $item_list_gui->enableCheckbox(false);
-		// $item_list_gui->setSeparateCommands(true);
 		$item_list_gui->restrictToGoto(true);
-		$item_list_gui->enableCommands(false);
+		$item_list_gui->enableInfoScreen(true);
+		
+		if($node["type"] == "file")
+		{
+			$ilCtrl->setParameter($this->parent_obj, "wsp_id",
+				$this->parent_node_id);									
+			$ilCtrl->setParameter($this->parent_obj, "item_ref_id", 
+				$node["wsp_id"]);
+			$copy = $ilCtrl->getLinkTarget($this->parent_obj, "copy");
+			$item_list_gui->addCustomCommand($copy, "copy");			
+		}
 		
 		$item_list_gui->setContainerObject($this->parent_obj);
 		

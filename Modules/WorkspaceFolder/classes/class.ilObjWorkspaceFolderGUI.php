@@ -210,6 +210,8 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	 */
 	function copy()
 	{
+		global $ilUser;
+		
 		if (!$_REQUEST["item_ref_id"])
 		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
@@ -217,18 +219,38 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		}
 
 		$current_node = $_REQUEST["item_ref_id"];
-		$parent_node = $this->tree->getParentId($current_node);
+		$owner = $this->tree->lookupOwner($current_node);
+		
+		// if source object is shared do not try to find it in current tree
+		if($owner == $ilUser->getId())
+		{		
+			$parent_node = $this->tree->getParentId($current_node);
 
-		// on cancel or fail we return to parent node
-		$this->ctrl->setParameter($this, "wsp_id", $parent_node);
+			// on cancel or fail we return to parent node
+			$this->ctrl->setParameter($this, "wsp_id", $parent_node);
 
-		// open current position
-		// using the explorer session storage directly is basically a hack
-		// as we do not use setExpanded() [see below]
-		$_SESSION['paste_copy_wspexpand'] = array();
-		foreach((array)$this->tree->getPathId($parent_node) as $node_id)
-		{
-			$_SESSION['paste_copy_wspexpand'][] = $node_id;
+			// open current position
+			// using the explorer session storage directly is basically a hack
+			// as we do not use setExpanded() [see below]
+			$_SESSION['paste_copy_wspexpand'] = array();
+			foreach((array)$this->tree->getPathId($parent_node) as $node_id)
+			{
+				$_SESSION['paste_copy_wspexpand'][] = $node_id;
+			}
+		}
+		else
+		{		
+			// check if object is shared
+			$handler = $this->getAccessHandler();
+			$objects = $handler->getSharedObjects($owner);
+			if(!array_key_exists($current_node, $objects))
+			{
+				ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+				$this->ctrl->redirect($this);
+			}		
+			
+			// on cancel or fail we return to parent node
+			$this->ctrl->setParameter($this, "wsp_id", $_REQUEST["wsp_id"]);
 		}
 
 		// remember source node
@@ -346,7 +368,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 		// object instances
 		$source_obj_id = $this->tree->lookupObjectId($source_node_id);
-		$source_parent_id = $this->tree->getParentId($source_node_id);
 		$source_object = ilObjectFactory::getInstanceByObjId($source_obj_id);
 		
 		if(!$_SESSION['clipboard']['wsp2repo'])
@@ -390,14 +411,16 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 					$source_object->getTitle(), $target_object->getTitle());
 			}
 			
-			if($mode == "copy" && !$this->checkPermissionBool('copy', '', '', $source_node_id))
+			// if object is shared permission to copy has been checked above
+			$owner = $this->tree->lookupOwner($source_node_id);			
+			if($mode == "copy" && $ilUser->getId() == $owner && !$this->checkPermissionBool('copy', '', '', $source_node_id))
 			{
 				$fail[] = $this->lng->txt('permission_denied');
 			}
 		}
 		else
-		{
-			if($mode == "copy" && !$ilAccess->checkAccess('copy', '', $source_node_id))
+		{						
+			if($mode == "copy" &&  !$ilAccess->checkAccess('copy', '', $source_node_id))
 			{
 				$fail[] = $this->lng->txt('permission_denied');
 			}
@@ -468,7 +491,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		unset($_SESSION['clipboard']['wsp2repo']);
 		
 		ilUtil::sendSuccess($this->lng->txt('msg_cut_copied'), true);
-		$this->ctrl->setParameter($this, "wsp_id", $source_node_id);
+		$this->ctrl->setParameter($this, "wsp_id", $target_node_id);
 		$this->ctrl->redirect($this);		 
 	}
 	
@@ -496,7 +519,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 			$si->setValue($_REQUEST["user"]);
 			
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
-			$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $_REQUEST["user"]);		
+			$tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $_REQUEST["user"], $this->node_id);		
 			$tpl->setContent($tbl->getHTML());
 		}	
 	}
