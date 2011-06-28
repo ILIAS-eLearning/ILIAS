@@ -110,6 +110,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		$item_list_gui->restrictToGoto(true);
 		$item_list_gui->enableInfoScreen(true);
 		
+		// files may be copied to own workspace
 		if($node["type"] == "file")
 		{
 			$ilCtrl->setParameter($this->parent_obj, "wsp_id",
