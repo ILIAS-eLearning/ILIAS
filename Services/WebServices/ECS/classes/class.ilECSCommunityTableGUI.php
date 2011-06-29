@@ -93,6 +93,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 	{
 		$this->tpl->setVariable('S_ID', $this->getServer()->getServerId());
 		$this->tpl->setVariable('M_ID', $a_set['mid']);
+		$this->tpl->setVariable('VAL_ID', $this->getServer()->getServerId().'_'.$a_set['mid']);
 		$this->tpl->setVariable('VAL_ORG', (string) $a_set['org']);
 		$this->tpl->setVariable('VAL_CHECKED',$a_set['checked'] ? 'checked="checked"' : '');
 		$this->tpl->setVariable('VAL_TITLE',$a_set['participants']);

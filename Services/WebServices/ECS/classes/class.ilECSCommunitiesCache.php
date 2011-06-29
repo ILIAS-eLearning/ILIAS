@@ -86,6 +86,26 @@ class ilECSCommunitiesCache
 	}
 
 	/**
+	 * Lookup community title
+	 * @param int server_id
+	 * @param int mid
+	 */
+	public function lookupTitle($a_server_id, $a_mid)
+	{
+		foreach($this->getCommunities() as $com)
+		{
+			if($com->getServerId() == $a_server_id)
+			{
+				if(in_array($a_mid, $com->getMids()))
+				{
+					return $com->getCommunityName();
+				}
+			}
+		}
+		return '';
+	}
+
+	/**
 	 * Read comunities
 	 */
 	private function read()

@@ -40,6 +40,7 @@ class ilECSCommunityCache
 	protected $mids = array();
 
 	protected $entryExists = false;
+	
 
 	/**
 	 * Singleton constructor
@@ -68,6 +69,8 @@ class ilECSCommunityCache
 		}
 		return self::$instance[$a_sid][$a_cid] = new ilECSCommunityCache($a_sid, $a_cid);
 	}
+
+
 
 	public function getServerId()
 	{

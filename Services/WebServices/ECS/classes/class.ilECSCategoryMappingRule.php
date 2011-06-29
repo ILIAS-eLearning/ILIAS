@@ -365,7 +365,7 @@ class ilECSCategoryMappingRule
 	 * @param object	$econtent	ilECSEContent
 	 * @return bool
 	 */
-	public function matches(ilECSEcontent $econtent)
+	public function matches($a_server_id, ilECSEcontent $econtent)
 	{
 		global $ilLog;
 		
@@ -392,6 +392,13 @@ class ilECSCategoryMappingRule
 				
 			case 'credits':
 				return $this->matchesValue($econtent->getCredits(),self::ATTR_STRING);
+
+			case 'community':
+				include_once './Services/WebServices/ECS/classes/class.ilECSCommunitiesCache.php';
+				return $this->matchesValue(
+					ilECSCommunitiesCache::getInstance()->lookupTitle($a_server_id, $econtent->getOwner()),
+					self::ATTR_STRING
+				);
 		}
 		return false;
 	}
@@ -421,7 +428,7 @@ class ilECSCategoryMappingRule
 				$values = array($a_value);
 				break;
 				
-			case self::ATTR_INT:
+			case self::ATTR_STRING:
 				$values = array($a_value);
 				break;
 		}
