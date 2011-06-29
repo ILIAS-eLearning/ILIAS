@@ -164,7 +164,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand($a_no_prepare_output = false)
+	function &executeCommand()
 	{
 		global $rbacsystem;
 
@@ -183,10 +183,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				break;
 			
 			default:
-				if(!$a_no_prepare_output)
-				{
-					$this->prepareOutput(); 
-				}
+				$this->prepareOutput(); 
 				if(!$cmd)
 				{
 					$cmd = "render";
