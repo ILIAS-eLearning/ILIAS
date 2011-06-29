@@ -920,6 +920,19 @@ class ilTree
 								   $a_node['rgt']);
 
 			$this->log->write($message,$this->log->FATAL);
+			
+			if (DEVMODE == 1)
+			{
+				try
+				{
+					throw new Exception("e");
+				}
+				catch(Exception $e)
+				{
+					echo $e->getTraceAsString();
+					exit;
+				}
+			}
 
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
