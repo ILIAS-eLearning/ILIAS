@@ -173,8 +173,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				break;
 
 			default:
-				$a_no_prepare_output = ($cmd == "preview" || $_REQUEST["prvw"]);
-				return parent::executeCommand($a_no_prepare_output);			
+				return parent::executeCommand();			
 		}
 
 		return true;
@@ -221,25 +220,18 @@ class ilObjBlogGUI extends ilObject2GUI
 	
 	function renderFullScreen($a_content, $a_navigation)
 	{
-		global $tpl, $lng, $ilCtrl, $ilUser;
+		global $tpl, $lng, $ilCtrl, $ilUser, $ilTabs;
 		
 		$owner = $this->object->getOwner();
 		
-		$tpl->fillCssFiles();
-		$tpl->fillInlineCss();
-		$tpl->fillContentStyle();
-
-		$page = new ilTemplate("tpl.blog_preview.html", true, true, "Modules/Blog");
-
+		$ilTabs->clearTargets();
+		
 		// back		
 		if($owner == $ilUser->getId())
 		{			
 			$ilCtrl->setParameter($this, "prvw", "");
 			$back = $ilCtrl->getLinkTarget($this, "");
-			$page->setCurrentBlock("back");
-			$page->setVariable("URL_ILIAS_BACK", $back);
-			$page->setVariable("TXT_ILIAS_BACK", $lng->txt("blog_back_to_ilias"));		
-			$page->parseCurrentBlock();
+			$ilTabs->setBackTarget($lng->txt("blog_back_to_ilias"), $back);
 		}
 		else
 		{
@@ -247,20 +239,19 @@ class ilObjBlogGUI extends ilObject2GUI
 		}		
 		
 		// title
-		$page->setVariable("TXT_BLOG_TITLE", $this->object->getTitle());
+		$tpl->setTitle($this->object->getTitle());
+		$tpl->setTitleIcon(null);
 		
 		// owner
 		include_once("./Services/User/classes/class.ilUserUtil.php");
 		$owner = ilUserUtil::getNamePresentation($owner, true, false); 		
-		$page->setVariable("TXT_OWNER", $owner);
+		$tpl->setDescription($owner);
 		
 		// content
-		$page->setVariable("LIST", $a_content);
-		$page->setVariable("NAV", $a_navigation);
+		$tpl->setContent($a_content);
+		$tpl->setRightContent($a_navigation);
 
-		$tpl->setVariable("CONTENT", $page->get());
-
-		echo $tpl->get();
+		echo $tpl->show("DEFAULT", true, true);
 		exit();
 	}
 
