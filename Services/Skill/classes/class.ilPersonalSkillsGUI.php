@@ -232,5 +232,56 @@ class ilPersonalSkillsGUI
 		
 	}
 	
+	
+	/**
+	 * Assign materials to skill level
+	 *
+	 * @param
+	 * @return
+	 */
+	function assignMaterial()
+	{
+		global $tpl, $ilUser, $ilCtrl, $ilTabs, $lng;
+		
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "assignMaterials"));
+		
+		// get ws tree
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		$tree = new ilWorkspaceTree($ilUser->getId());
+		
+		// get access handler
+		include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php");
+		$acc_handler = new ilWorkspaceAccessHandler($tree);
+		
+		// get es explorer
+		include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceExplorer.php");
+		$exp = new ilWorkspaceExplorer(ilWorkspaceExplorer::SEL_TYPE_CHECK, '', 
+			'skill_wspexpand', $tree, $acc_handler);
+		$exp->setTargetGet('wsp_id');
+		$exp->setFiltered(false);
+		$exp->removeAllFormItemTypes();
+		$exp->addFormItemForType("file");
+		$exp->addFormItemForType("tstv");
+		$exp->addFormItemForType("excv");
+
+		if($_GET['skill_wspexpand'] == '')
+		{
+			// not really used as session is already set [see above]
+			$expanded = $tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET['skill_wspexpand'];
+		}
+		$exp->setCheckedItems(array((int)$_POST['node']));
+		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'assignMaterial'));
+		$exp->setPostVar('node');
+		$exp->setExpand($expanded);
+		$exp->setOutput(0);
+					
+		$tpl->setContent($exp->getOutput());
+	}
+	
 }
 ?>

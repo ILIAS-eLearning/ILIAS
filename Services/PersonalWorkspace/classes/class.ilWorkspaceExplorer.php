@@ -92,6 +92,10 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 	{
 		$this->form_items[$type] = false;
 	}
+	public function removeAllFormItemTypes()
+	{
+		$this->form_items = array();
+	}
 	public function setCheckedItems($a_checked_items = array())
 	{
 		$this->checked_items = $a_checked_items;
