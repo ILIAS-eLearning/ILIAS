@@ -153,7 +153,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	function postOutputProcessing($a_output)
 	{		
 		$parts = array(
-			"Profile" => array("0-9", "a-z", "a-z;\W"), // user, mode, fields
+			"Profile" => array("0-9", "a-z", "a-z_;\W"), // user, mode, fields
 			"Verification" => array("0-9", "a-z", "0-9"), // user, type, id
 			"Blog" => array("0-9", "0-9", "0-9;\W"),  // user, blog id, posting ids
 			"BlogTeaser" => array("0-9", "0-9", "0-9;\W")  // user, blog id, posting ids
