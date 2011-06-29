@@ -678,6 +678,14 @@ class ilMainMenuGUI
 				$selection->addItem($lng->txt("personal_profile"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
 					"", "", "_top");
 						
+				// skills
+				$skmg_set = new ilSetting("skmg");
+				if ($skmg_set->get("enable_skmg"))
+				{
+					$selection->addItem($lng->txt("skills"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSkills",
+						"", "", "_top");
+				}
+				
 				// portfolio
 				if ($ilSetting->get('user_portfolios'))
 				{

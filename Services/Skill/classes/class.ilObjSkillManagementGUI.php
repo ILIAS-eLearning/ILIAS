@@ -89,6 +89,13 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 				$ret = $this->ctrl->forwardCommand($sktp_gui);
 				break;
 
+			case 'ilskilltemplatereferencegui':
+				$this->tabs_gui->activateTab("skills");
+				include_once("./Services/Skill/classes/class.ilSkillTemplateReferenceGUI.php");
+				$sktr_gui = new ilSkillTemplateReferenceGUI((int) $_GET["obj_id"]);
+				$ret = $this->ctrl->forwardCommand($sktr_gui);
+				break;
+
 			case 'ilpermissiongui':
 				$this->tabs_gui->activateTab('permissions');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
@@ -1053,6 +1060,37 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		$ilCtrl->setParameter($this, "active_node", $_GET["obj_id"]);
 
 		$tpl->setContent($form_gui->getHTML());
+	}
+
+	/**
+	 * Insert skill template reference
+	 *
+	 * @param
+	 * @return
+	 */
+	function insertSkillTemplateReference()
+	{
+		global $ilCtrl, $lng;
+
+		include_once("./Services/Skill/classes/class.ilSkillHFormGUI.php");
+		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+
+		$node_id = ilSkillHFormGUI::getPostNodeId();
+
+		if (!ilSkillHFormGUI::getPostFirstChild())	// insert after node id
+		{
+			$parent_id = $this->skill_tree->getParentId($node_id);
+			$target = $node_id;
+		}
+		else													// insert as first child
+		{
+			$parent_id = $node_id;
+			$target = IL_FIRST_NODE;
+		}
+		include_once("./Services/Skill/classes/class.ilSkillTemplateReferenceGUI.php");
+		$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "parent_id", $parent_id);
+		$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "target", $target);
+		$ilCtrl->redirectByClass("ilskilltemplatereferencegui", "insert");
 	}
 
 }

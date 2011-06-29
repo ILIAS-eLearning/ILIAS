@@ -24,7 +24,7 @@ class ilSkillHFormGUI extends ilHierarchyFormGUI
 		$this->setCheckboxName("id");
 		$lng->loadLanguageModule("skmg");
 		$this->setExpandVariable("skexpand");
-		$this->setTypeWhiteList(array("skrt", "skll", "scat"));
+		$this->setTypeWhiteList(array("skrt", "skll", "scat", "sktr"));
 	}
 	
 	/**
@@ -42,11 +42,17 @@ class ilSkillHFormGUI extends ilHierarchyFormGUI
 			if ($a_node["type"] == "skll" || $a_node["type"] == "scat")
 			{
 				$cmds[] = array("text" => $lng->txt("skmg_insert_basic_skill"), "cmd" => "insertBasicSkill", "multi" => 10);
+				$cmds[] = array("text" => $lng->txt("skmg_insert_skill_template_reference"), "cmd" => "insertSkillTemplateReference");
 				$cmds[] = array("text" => $lng->txt("skmg_insert_skill_category"), "cmd" => "insertSkillCategory", "multi" => 10);
 				if ($ilUser->clipboardHasObjectsOfType("skll"))
 				{
 					$cmds[] = array("text" => $lng->txt("skmg_insert_basic_skill_from_clip"),
 						"cmd" => "insertBasicSkillClip", "as_subitem" => false);
+				}
+				if ($ilUser->clipboardHasObjectsOfType("sktr"))
+				{
+					$cmds[] = array("text" => $lng->txt("skmg_insert_skill_template_reference_from_clip"),
+						"cmd" => "insertSkillTemplateReferenceClip", "as_subitem" => false);
 				}
 				if ($ilUser->clipboardHasObjectsOfType("scat"))
 				{
@@ -59,12 +65,19 @@ class ilSkillHFormGUI extends ilHierarchyFormGUI
 			{
 				$cmds[] = array("text" => $lng->txt("skmg_insert_basic_skill_child"), "cmd" => "insertBasicSkill", "multi" => 10,
 					"as_subitem" => true);
+				$cmds[] = array("text" => $lng->txt("skmg_insert_skill_template_reference_child"), "cmd" => "insertSkillTemplateReference",
+					"as_subitem" => true);
 				$cmds[] = array("text" => $lng->txt("skmg_insert_skill_category_child"), "cmd" => "insertSkillCategory", "multi" => 10,
 					"as_subitem" => true);
 				if ($ilUser->clipboardHasObjectsOfType("skll"))
 				{
 					$cmds[] = array("text" => $lng->txt("skmg_insert_basic_skill_from_clip_child"),
 						"cmd" => "insertBasicSkillClip", "as_subitem" => true);
+				}
+				if ($ilUser->clipboardHasObjectsOfType("sktr"))
+				{
+					$cmds[] = array("text" => $lng->txt("skmg_insert_skill_template_reference_from_clip_child"),
+						"cmd" => "insertSkillTemplateReferenceClip", "as_subitem" => true);
 				}
 				if ($ilUser->clipboardHasObjectsOfType("scat"))
 				{
@@ -79,11 +92,17 @@ class ilSkillHFormGUI extends ilHierarchyFormGUI
 					|| $a_node["type"] == "scat")
 			{
 				$cmds[] = array("text" => $lng->txt("skmg_insert_basic_skill"), "cmd" => "insertBasicSkill", "multi" => 10);
+				$cmds[] = array("text" => $lng->txt("skmg_insert_skill_template_reference"), "cmd" => "insertSkillTemplateReference");
 				$cmds[] = array("text" => $lng->txt("skmg_insert_skill_category"), "cmd" => "insertSkillCategory", "multi" => 10);
 				if ($ilUser->clipboardHasObjectsOfType("skll"))
 				{
 					$cmds[] = array("text" => $lng->txt("skmg_insert_basic_skill_from_clip"),
 						"cmd" => "insertBasicSkillClip", "as_subitem" => false);
+				}
+				if ($ilUser->clipboardHasObjectsOfType("sktr"))
+				{
+					$cmds[] = array("text" => $lng->txt("skmg_insert_skill_template_reference_from_clip"),
+						"cmd" => "insertSkillTemplateReferenceClip", "as_subitem" => false);
 				}
 				if ($ilUser->clipboardHasObjectsOfType("scat"))
 				{
@@ -177,6 +196,14 @@ class ilSkillHFormGUI extends ilHierarchyFormGUI
 				$commands[] = array("text" => $lng->txt("edit"),
 					"link" => $ilCtrl->getLinkTargetByClass(array("ilobjskillmanagementgui",
 						"ilbasicskillgui"), "edit"));
+				break;
+
+			case "sktr":
+				$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "obj_id",
+					$a_item["node_id"]);
+				$commands[] = array("text" => $lng->txt("edit"),
+					"link" => $ilCtrl->getLinkTargetByClass(array("ilobjskillmanagementgui",
+						"ilskilltemplatereferencegui"), "edit"));
 				break;
 
 		}

@@ -16,7 +16,7 @@ include_once "Services/Mail/classes/class.ilMail.php";
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilMailAddressbookGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjPortfolioGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjPortfolioGUI, ilPersonalSkillsGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -727,7 +727,15 @@ class ilPersonalDesktopGUI
 	{
 		$this->ctrl->redirectByClass("ilpersonalworkspacegui");
 	}
-
+	
+	/**
+	 * Jump to personal skills
+	 */
+	function jumpToSkills()
+	{
+		$this->ctrl->redirectByClass("ilpersonalskillsgui");
+	}
+	
 	function __loadNextClass()
 	{
 		$stored_classes = array('ilpersonaldesktopgui',
