@@ -71,7 +71,7 @@ class ilECSCategoryMapping
 		}
 		foreach(self::$cached_active_rules as $rule)
 		{
-			if($rule->matches($econtent))
+			if($rule->matches($a_server_id,$econtent))
 			{
 				$ilLog->write(__METHOD__.': Found assignment for field type: '.$rule->getFieldName());
 				return $rule->getContainerId();
