@@ -473,9 +473,10 @@ class ilObjPortfolioGUI
 		$options = array();
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		$tree = new ilWorkspaceTree($ilUser->getId());
-echo "<br>".$tree->getRootId();
+echo "<br>Id:".$tree->getRootId();
+echo "<br>IsInTree:".$tree->isInTree($tree->getRootId());
 		$root = $tree->getNodeData($tree->getRootId());
-var_dump($root);
+echo "<br>".var_dump($root);
 		foreach ($tree->getSubTree($root) as $node)
 		{
 			if ($node["type"] == "blog")
