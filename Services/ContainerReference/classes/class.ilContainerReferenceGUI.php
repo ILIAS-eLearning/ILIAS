@@ -70,7 +70,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	{
 		global $ilUser,$ilAccess,$ilErr,$ilSetting;
 		
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		$new_type = $_REQUEST["new_type"];
 		if(!$ilAccess->checkAccess("create_".$this->getReferenceType(),'',$_GET["ref_id"], $new_type))
 		{
 			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
@@ -110,7 +110,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	 */
 	public function saveObject()
 	{
-		global $ilAccess,$tree;
+		global $ilAccess;
 		
 		if(!(int) $_REQUEST['target_id'])
 		{
@@ -125,15 +125,24 @@ class ilContainerReferenceGUI extends ilObjectGUI
 			return false;	
 		}
 		
-		$ref = parent::saveObject();
-		
+		parent::saveObject();		
+	}
+	
+	protected function initCreateForm($a_new_type)
+	{
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		return $form;
+	}	
+	
+	protected function afterSave(ilObject $a_new_object)
+	{		
 		$target_obj_id = ilObject::_lookupObjId((int) $_REQUEST['target_id']);
-		$ref->setTargetId($target_obj_id);
-		$ref->update();
+		$a_new_object->setTargetId($target_obj_id);
+		$a_new_object->update();
 		
-		$ref_id = $ref->getRefId();
-		$parent = $tree->getParentId($ref_id);
-		ilUtil::redirect('repository.php?ref_id='.$parent);
+		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+		$this->ctrl->returnToParent($this);
 	}
 	
 	/**
