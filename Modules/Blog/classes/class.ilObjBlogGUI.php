@@ -410,7 +410,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				// count (public) notes
 				include_once("Services/Notes/classes/class.ilNote.php");
 				$count = sizeof(ilNote::_getNotesOfObject($this->obj_id, 
-					$item["id"], "wpg", IL_NOTE_PUBLIC));
+					$item["id"], "blp", IL_NOTE_PUBLIC));
 				
 				$wtpl->setCurrentBlock("comments");
 				$wtpl->setVariable("TEXT_COMMENTS", $lng->txt("blog_comments"));
