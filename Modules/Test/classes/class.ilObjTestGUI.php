@@ -4126,6 +4126,11 @@ EOT;
 				}
 			}
 		}
+
+		if( !$this->object->isOnline() )
+		{
+			ilUtil::sendInfo($this->lng->txt("test_is_offline"));
+		}
 		
 		if ($this->object->getShowInfo())
 		{

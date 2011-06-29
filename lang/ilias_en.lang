@@ -11638,3 +11638,4 @@ assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#The stat
 blog#:#blog_preview#:#Preview
 skmg#:#skmg_new_sktr#:#New Skill Template Reference
 skmg#:#skmg_edit_sktr#:#Edit Skill Template Reference
+assessment#:#test_is_offline#:#You cannot start the test! The test is offline.
