@@ -11646,3 +11646,6 @@ skmg#:#skmg_add_skill#:#Add Skill
 skmg#:#skmg_selectable#:#Selectable
 skmg#:#skmg_selectable_info#:#Allows user to select this category as a personal skill.
 assessment#:#test_is_offline#:#You cannot start the test! The test is offline.
+skmg#:#skmg_materials#:#Materials
+skmg#:#skmg_remove_skills#:#Remove Skills
+skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig skills from your list?
