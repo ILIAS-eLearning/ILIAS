@@ -6525,8 +6525,8 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 
 		$ilDB->manipulate($query);
 	}
-
 ?>
+
 <#3391>
 <?php
 	// skill template reference
@@ -6578,3 +6578,15 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 	$ilDB->createTable("skl_personal_skill", $fields);
 	$ilDB->addPrimaryKey("skl_personal_skill", array("user_id", "skill_node_id"));
 ?>
+<#3395>
+<?php
+
+	if(!$ilDB->tableExists('ecs_container_mapping_seq'))
+	{
+		$res = $ilDB->query('SELECT mapping_id FROM ecs_container_mapping ');
+		$rows = $res->numRows();
+
+		$ilDB->createSequence('ecs_container_mapping',++$rows);
+	}
+?>
+
