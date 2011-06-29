@@ -29,7 +29,7 @@ class ilPersonalSkillsGUI
 
 		$lng->loadLanguageModule('skmg');
 		
-		$ilCtrl->saveParameter("skill_id");
+		$ilCtrl->saveParameter($this, "skill_id");
 
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->skill_tree = new ilSkillTree();
@@ -188,7 +188,40 @@ class ilPersonalSkillsGUI
 	 */
 	function assignMaterials()
 	{
+		global $ilTabs, $lng, $ilCtrl, $tpl, $ilToolbar;
 		
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "listSkills"));
+		
+		$ilCtrl->saveParameter($this, "basic_skill_id");
+		
+		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+		$tpl->setTitle(ilSkillTreeNode::_lookupTitle((int) $_GET["skill_id"]));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_".
+			ilSkillTreeNode::_lookupType((int) $_GET["skill_id"]).
+			"_b.gif"));
+		 
+		// basic skill selection
+		$bs = ilSkillTreeNode::getBasicSkillsUnderNode((int) $_GET["skill_id"]);
+		$options = array();
+		foreach ($bs as $b)
+		{
+			$options[$b["id"]] = ilSkillTreeNode::_lookupTitle($b["id"]);
+		}
+		
+		$cur_basic_skill_id = ((int) $_GET["skill_id"] > 0)
+			? (int) $_GET["skill_id"]
+			: key($options);
+		
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$si = new ilSelectInputGUI($lng->txt("skmg_skill"), "basic_skill_id");
+		$si->setOptions($options);
+		$si->setValue($cur_basic_skill_id);
+		$ilToolbar->addInputItem($si, true);
+		$ilToolbar->addFormButton($lng->txt("select"),
+			"assignMaterials");
+		
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 	}
 	
 }

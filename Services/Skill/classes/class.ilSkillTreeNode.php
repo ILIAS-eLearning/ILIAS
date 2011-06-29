@@ -644,5 +644,83 @@ class ilSkillTreeNode
 		return $sel_skills;
 	}
 
+	
+	/**
+	 * Get basic skills under node
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getBasicSkillsUnderNode($a_node_id)
+	{
+		$basic_skills = array();
+		if ($a_node_id > 0)
+		{
+			include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
+			include_once("./Services/Skill/classes/class.ilSkillTree.php");
+			$stree = new ilSkillTree();
+
+			if ($stree->isInTree($a_node_id))
+			{
+				$cnode = $stree->getNodeData($a_node_id);
+				
+				// is node basic skill?
+				if ($cnode["type"] == "skll")
+				{
+					$basic_skills[] = array("id" => $a_node_id,
+						"type" => $cnode["type"]);
+				}
+
+				// is node skill template reference?
+				if ($cnode["type"] == "sktr")
+				{
+					$tr_ref = new ilSkillTemplateReference($cnode["child"]);
+					$cnode2 = $stree->getNodeData($tr_ref->getSkillTemplateId());
+					$childs2 = $stree->getSubTree($cnode2);
+					foreach ($childs2 as $child2)
+					{
+						// find basic skills templates
+						if ($child2["type"] == "sktp")
+						{
+							$basic_skills[] = array("id" => $child2["child"],
+								"type" => $child2["type"]);
+						}
+					}						
+				}
+				else
+				{
+					$childs = $stree->getSubTree($cnode);
+					foreach ($childs as $child)
+					{
+						// find basic skills
+						if ($child["type"] == "skll")
+						{
+							$basic_skills[] = array("id" => $child["child"],
+								"type" => $child["type"]);
+						}
+						
+						// handle template references
+						if ($child["type"] == "sktr")
+						{
+							$tr_ref = new ilSkillTemplateReference($child["child"]);
+							$cnode2 = $stree->getNodeData($tr_ref->getSkillTemplateId());
+							$childs2 = $stree->getSubTree($cnode2);
+							foreach ($childs2 as $child2)
+							{
+								// find basic skills templates
+								if ($child2["type"] == "sktp")
+								{
+									$basic_skills[] = array("id" => $child2["child"],
+										"type" => $child2["type"]);
+								}
+							}						
+						}
+					}
+				}
+			}
+		}
+		return $basic_skills;
+	}
+
 }
 ?>
