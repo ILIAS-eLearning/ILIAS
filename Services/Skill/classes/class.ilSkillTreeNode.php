@@ -607,5 +607,19 @@ class ilSkillTreeNode
 		return $nodes;
 	}
 
+	/**
+	 * Get top skill templates and template categories
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getTopTemplates()
+	{
+		$tr = new ilSkillTree();
+		$childs = $tr->getChildsByTypeFilter($tr->getRootId(), array("sktp", "sctp"));
+		
+		return $childs;
+	}
+	
 }
 ?>

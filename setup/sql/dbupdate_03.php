@@ -6527,3 +6527,32 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 	}
 
 ?>
+<#3391>
+<?php
+	// skill template reference
+	$fields = array(
+			'skl_node_id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'templ_id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			)
+	);
+
+	$ilDB->createTable('skl_templ_ref', $fields);
+	$ilDB->addPrimaryKey("skl_templ_ref", array("skl_node_id"));
+?>
+<#3392>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3393>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
