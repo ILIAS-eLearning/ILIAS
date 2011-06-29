@@ -250,6 +250,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		// content
 		$tpl->setContent($a_content);
 		$tpl->setRightContent($a_navigation);
+		$tpl->setFrameFixedWidth(true);
 
 		echo $tpl->show("DEFAULT", true, true);
 		exit();
@@ -275,7 +276,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		// gather postings by month
 		$items = $this->buildPostingList($this->object->getId());
 		
-		if($this->mode == self::MODE_WORKSPACE && !$a_return)
+		if($this->mode == self::MODE_WORKSPACE && !$a_return && !$_REQUEST["prvw"])
 		{
 			$ilTabs->activateTab("content");
 			$this->renderToolbar();
