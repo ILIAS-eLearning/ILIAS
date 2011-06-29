@@ -621,5 +621,28 @@ class ilSkillTreeNode
 		return $childs;
 	}
 	
+	/**
+	 * Get selectable skills
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getSelectableSkills()
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM skl_tree_node ".
+			" WHERE self_eval = ".$ilDB->quote(1, "integer")
+			);
+		
+		$sel_skills = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$sel_skills[] = $rec;
+		}
+		
+		return $sel_skills;
+	}
+
 }
 ?>
