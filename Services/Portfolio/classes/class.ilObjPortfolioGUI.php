@@ -687,11 +687,14 @@ class ilObjPortfolioGUI
 		$portfolio_id = $this->portfolio->getId();
 		$user_id = $this->portfolio->getOwner();
 		
+		// title
+		$tpl->setTitle($this->portfolio->getTitle());
+		$tpl->setTitleIcon(null);
+		
 		// page title
 		include_once("./Services/User/classes/class.ilUserUtil.php");
-		$tpl->setTitle(ilUserUtil::getNamePresentation($user_id));
-		$tpl->setTitleIcon(ilObjUser::_getPersonalPicturePath($user_id, "xxsmall"));
-
+		$tpl->setDescription(ilUserUtil::getNamePresentation($user_id, true, false));
+		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "show"));
@@ -759,6 +762,10 @@ class ilObjPortfolioGUI
 			"\" target=\"blank\">goto test</a></div>";
 		
 		$tpl->setContent($content.$goto.$note_gui->getNotesHTML());			
+		$tpl->setFrameFixedWidth(true);
+		
+		echo $tpl->show("DEFAULT", true, true);
+		exit();
 	}
 	
 	function _goto($a_target)
