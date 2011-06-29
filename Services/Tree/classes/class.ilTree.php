@@ -921,7 +921,8 @@ class ilTree
 
 			$this->log->write($message,$this->log->FATAL);
 			
-			if (DEVMODE == 1)
+			//if (DEVMODE == 1)
+			if (true)
 			{
 				try
 				{
