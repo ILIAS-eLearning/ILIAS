@@ -172,6 +172,7 @@ class ilECSCategoryMapping
 	public static function getPossibleFields()
 	{
 		return array(
+			'community',
 			'part_id',
 			'study_courses',
 			'courseType',

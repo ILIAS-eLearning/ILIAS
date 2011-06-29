@@ -1076,11 +1076,13 @@ class ilECSSettingsGUI
 	 */
 	protected function initCategoryMappingForm($a_mode = 'add')
 	{
+		global $ilDB;
+
 		if(is_object($this->form))
 		{
 			return true;
 		}
-		
+
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMappingRule.php';
 		

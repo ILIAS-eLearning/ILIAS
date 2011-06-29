@@ -11636,6 +11636,7 @@ skmg#:#skmg_insert_skill_template_reference_child#:#Insert Skill Template Refere
 skmg#:#skmg_insert_skill_template_reference_from_clip#:#Insert Skill Template Reference from Clipboard
 assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#The status cannot be changed to &quot;online&quot; because there are no questions and/or no marks in the test!
 blog#:#blog_preview#:#Preview
+ecs#:#ecs_field_community#:#Community
 skmg#:#skmg_new_sktr#:#New Skill Template Reference
 skmg#:#skmg_edit_sktr#:#Edit Skill Template Reference
 common#:#skills#:#Skills
