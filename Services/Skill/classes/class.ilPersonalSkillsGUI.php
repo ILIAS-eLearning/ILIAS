@@ -209,8 +209,8 @@ class ilPersonalSkillsGUI
 			$options[$b["id"]] = ilSkillTreeNode::_lookupTitle($b["id"]);
 		}
 		
-		$cur_basic_skill_id = ((int) $_GET["skill_id"] > 0)
-			? (int) $_GET["skill_id"]
+		$cur_basic_skill_id = ((int) $_GET["basic_skill_id"] > 0)
+			? (int) $_GET["basic_skill_id"]
 			: key($options);
 		
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
@@ -222,6 +222,14 @@ class ilPersonalSkillsGUI
 			"assignMaterials");
 		
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		
+		// table
+		include_once("./Services/Skill/classes/class.ilSkillAssignMaterialsTableGUI.php");
+		$tab = new ilSkillAssignMaterialsTableGUI($this, "assignMaterials",
+			(int) $_GET["skill_id"], $cur_basic_skill_id);
+		
+		$tpl->setContent($tab->getHTML());
+		
 	}
 	
 }
