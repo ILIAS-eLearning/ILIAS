@@ -476,7 +476,7 @@ class ilObjPortfolioGUI
 echo "<br>Id:".$tree->getRootId();
 echo "<br>IsInTree:".$tree->isInTree($tree->getRootId());
 		$root = $tree->getNodeData($tree->getRootId());
-echo "<br>".var_dump($root);
+echo "<br>";var_dump($root);
 		foreach ($tree->getSubTree($root) as $node)
 		{
 			if ($node["type"] == "blog")
