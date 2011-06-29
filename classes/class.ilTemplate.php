@@ -52,6 +52,7 @@ class ilTemplate extends ilTemplateX
 	protected $permanent_link = false;
 	protected $adv_layout = false;
 	protected $content_style_sheet = "";
+	protected $frame_fixed_width = false;
 
 	/**
 	* constructor
@@ -385,6 +386,16 @@ class ilTemplate extends ilTemplateX
 	function setContentType($a_content_type = "text/html")
 	{
 		$this->contenttype = $a_content_type;
+	}
+	
+	/**
+	 * Restrict content frame to fixed width (will be centered on screen)
+	 * 
+	 * @param bool $a_value 	 
+	 */
+	function setFrameFixedWidth($a_value)
+	{
+		$this->frame_fixed_width = (bool)$a_value;
 	}
 	
 	/**
@@ -1353,6 +1364,11 @@ class ilTemplate extends ilTemplateX
 	private function fillHeader()
 	{
 		global $lng;
+		
+		if($this->frame_fixed_width)
+		{
+			$this->setVariable("FRAME_FIXED_WIDTH", " ilFrameFixedWidth");
+		}
 		
 		if ($this->icon_path != "")
 		{

@@ -3061,3 +3061,9 @@ li.ilWikiBlockItem
 	padding:0;
 }
 
+div.ilFrameFixedWidth
+{
+	width: 980px;
+	margin-left: auto;
+	margin-right: auto;
+}
