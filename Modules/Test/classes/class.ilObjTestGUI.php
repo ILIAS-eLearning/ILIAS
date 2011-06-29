@@ -67,9 +67,21 @@ class ilObjTestGUI extends ilObjectGUI
 			global $ilias;
 			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
 		}
+
 		$cmd = $this->ctrl->getCmd("properties");
+		
+		$cmdsDisabledDueToOfflineStatus = array(
+			'resume', 'start', 'outUserResultsOverview', 'outUserListOfAnswerPasses'		
+		);
+		
+		if( !$this->object->isOnline() && in_array($cmd, $cmdsDisabledDueToOfflineStatus) )
+		{
+			$cmd = 'infoScreen';
+		}
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");
+
 		if (method_exists($this->object, "getTestStyleLocation")) $this->tpl->addCss($this->object->getTestStyleLocation("output"), "screen");
 		
 		// add entry to navigation history
@@ -4062,7 +4074,7 @@ EOT;
 				ilUtil::sendInfo($online_access_result);
 			}
 		}
-		if ($this->object->isComplete())
+		if( $this->object->isOnline() && $this->object->isComplete() )
 		{
 			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{
@@ -4159,7 +4171,7 @@ EOT;
 			$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
 			$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
 		}
-		if ($this->object->isComplete())
+		if( $this->object->isOnline() && $this->object->isComplete() )
 		{
 			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{
