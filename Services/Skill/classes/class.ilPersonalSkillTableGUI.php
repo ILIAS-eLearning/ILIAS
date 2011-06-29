@@ -43,7 +43,17 @@ class ilPersonalSkillTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		global $lng, $ilCtrl;
+		
+		// assign materials
+		$ilCtrl->setParameterByClass("ilpersonalskillsgui", "skill_id", $a_set["skill_node_id"]);
+		$this->tpl->setCurrentBlock("cmd");
+		$this->tpl->setVariable("TXT_CMD", $lng->txt("skmg_assign_materials"));
+		$this->tpl->setVariable("HREF_CMD",
+			$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "assignMaterials"));
+		$this->tpl->parseCurrentBlock();
+		$ilCtrl->setParameterByClass("ilpersonalskillsgui", "skill_id", "");
+		
 //var_dump($a_set);
 		$this->tpl->setVariable("SKL_NODE_ID", $a_set["skill_node_id"]);
 		$this->tpl->setVariable("TITLE", $a_set["title"]);

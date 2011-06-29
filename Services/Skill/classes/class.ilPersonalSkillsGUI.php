@@ -28,6 +28,8 @@ class ilPersonalSkillsGUI
 		global $ilCtrl, $lng;
 
 		$lng->loadLanguageModule('skmg');
+		
+		$ilCtrl->saveParameter("skill_id");
 
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->skill_tree = new ilSkillTree();
@@ -176,6 +178,17 @@ class ilPersonalSkillsGUI
 		
 		ilUtil::sendSuccess($lng->txt("msg_object_modified"));
 		$ilCtrl->redirect($this, "listSkills");
+	}
+	
+	/**
+	 * Assign materials to skill levels
+	 *
+	 * @param
+	 * @return
+	 */
+	function assignMaterials()
+	{
+		
 	}
 	
 }

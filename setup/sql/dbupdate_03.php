@@ -6589,4 +6589,44 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 		$ilDB->createSequence('ecs_container_mapping',++$rows);
 	}
 ?>
+<#3396>
+<?php
+
+	// assigned materials
+	$fields = array(
+			'user_id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'top_skill_id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'skill_id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'level_id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'wsp_id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			)
+	);
+
+	$ilDB->createTable("skl_assigned_material", $fields);
+	$ilDB->addPrimaryKey("skl_assigned_material", array("user_id", "top_skill_id", "skill_id", "level_id", "wsp_id"));
+?>
 
