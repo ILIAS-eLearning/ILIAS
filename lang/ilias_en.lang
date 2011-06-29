@@ -11638,4 +11638,10 @@ assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#The stat
 blog#:#blog_preview#:#Preview
 skmg#:#skmg_new_sktr#:#New Skill Template Reference
 skmg#:#skmg_edit_sktr#:#Edit Skill Template Reference
+common#:#skills#:#Skills
+skmg#:#skmg_list_skills#:#List Skills
+skmg#:#skmg_assign_materials#:#Assign Materials
+skmg#:#skmg_add_skill#:#Add Skill
+skmg#:#skmg_selectable#:#Selectable
+skmg#:#skmg_selectable_info#:#Allows user to select this category as a personal skill.
 assessment#:#test_is_offline#:#You cannot start the test! The test is offline.

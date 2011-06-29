@@ -122,8 +122,9 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
-		// allow self evaluation?
-		$cb = new ilCheckboxInputGUI($lng->txt("skmg_allow_self_evaluation"), "self_eval");
+		// selectable
+		$cb = new ilCheckboxInputGUI($lng->txt("skmg_selectable"), "self_eval");
+		$cb->setInfo($lng->txt("skmg_selectable_info"));
 		$this->form->addItem($cb);
 
 		$this->form->addCommandButton("updateSkillCategory", $lng->txt("save"));

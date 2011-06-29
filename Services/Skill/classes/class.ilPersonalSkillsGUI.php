@@ -23,9 +23,9 @@ class ilPersonalSkillsGUI
 	 */
 	public function __construct()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 
-		$this->lng->loadLanguageModule('skmg');
+		$lng->loadLanguageModule('skmg');
 
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->skill_tree = new ilSkillTree();
@@ -39,12 +39,13 @@ class ilPersonalSkillsGUI
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem, $ilErr, $ilAccess, $ilTabs;
+		global $ilCtrl, $tpl, $lng;
 
-		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
-
-		$this->prepareOutput();
+		$next_class = $ilCtrl->getNextClass($this);
+		$cmd = $ilCtrl->getCmd("listSkills");
+		
+		$tpl->setTitle($lng->txt("skills"));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg_b.gif"));
 
 		switch($next_class)
 		{
@@ -57,19 +58,43 @@ class ilPersonalSkillsGUI
 
 
 	/**
-	 * Edit skills
-	 *
-	 * @param
-	 * @return
+	 * List skills
 	 */
-	function editSkills()
+	function listSkills()
 	{
-		global $tpl, $ilTabs, $lng, $ilCtrl;
+		global $tpl, $ilTabs, $lng, $ilCtrl, $ilToolbar;
 
-		$ilTabs->activateTab("skills");
+		$this->setTabs("list_skills");
+		
+		$ilToolbar->addButton($lng->txt("skmg_add_skill"),
+			$ilCtrl->getLinkTarget($this, "addPersonalSkill"));
+		
+		include_once("./Services/Skill/classes/class.ilPersonalSkillTableGUI.php");
+		$sktab = new ilPersonalSkillTableGUI($this, "listSkills");
+		
+		$tpl->setContent($sktab->getHTML());
 
 	}
 
+	/**
+	 * Set tabs
+	 */
+	function setTabs($a_activate)
+	{
+		global $ilTabs, $lng, $ilCtrl;
+		
+		// list skills
+		$ilTabs->addTab("list_skills",
+			$lng->txt("skmg_list_skills"),
+			$ilCtrl->getLinkTarget($this, "listSkills"));
+
+		// assign materials
+		$ilTabs->addTab("assign_materials",
+			$lng->txt("skmg_assign_materials"),
+			$ilCtrl->getLinkTarget($this, "assignMaterials"));
+
+		$ilTabs->activateTab($a_activate);
+	}
 	
 }
 ?>

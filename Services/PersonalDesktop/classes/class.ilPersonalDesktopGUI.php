@@ -253,6 +253,15 @@ class ilPersonalDesktopGUI
 				$this->tpl->show();
 				break;
 
+			case 'ilpersonalskillsgui':				
+				$this->setTabs();
+				include_once './Services/Skill/classes/class.ilPersonalSkillsGUI.php';
+				$skgui = new ilPersonalSkillsGUI();
+				$this->getStandardTemplates();
+				$ret = $this->ctrl->forwardCommand($skgui);
+				$this->tpl->show();
+				break;
+
 			case 'redirect':
 				$this->redirect();
 				break;

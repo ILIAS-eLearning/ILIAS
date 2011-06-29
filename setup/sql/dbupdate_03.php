@@ -6556,3 +6556,25 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3394>
+<?php
+
+	// personal skill
+	$fields = array(
+			'user_id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'skill_node_id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			)
+	);
+
+	$ilDB->createTable("skl_personal_skill", $fields);
+	$ilDB->addPrimaryKey("skl_personal_skill", array("user_id", "skill_node_id"));
+?>

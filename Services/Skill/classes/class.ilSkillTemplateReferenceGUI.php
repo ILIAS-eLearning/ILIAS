@@ -159,6 +159,11 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 		$si->setOptions($options);
 		$si->setRequired(true);
 		$this->form->addItem($si);
+		
+		// selectable
+		$cb = new ilCheckboxInputGUI($lng->txt("skmg_selectable"), "selectable");
+		$cb->setInfo($lng->txt("skmg_selectable_info"));
+		$this->form->addItem($cb);
 
 		if ($a_mode == "insert")
 		{
@@ -182,6 +187,7 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 		$values = array();
 		$values["skill_template_id"] = $this->node_object->getSkillTemplateId();
 		$values["title"] = $this->node_object->getTitle();
+		$values["selectable"] = $this->node_object->getSelfEvaluation();
 		$this->form->setValuesByArray($values);
 	}
 
@@ -198,6 +204,7 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 			$sktr = new ilSkillTemplateReference();
 			$sktr->setTitle($_POST["title"]);
 			$sktr->setSkillTemplateId($_POST["skill_template_id"]);
+			$sktr->setSelfEvaluation($_POST["selectable"]);
 			$sktr->create();
 			ilSkillTreeNode::putInTree($sktr,
 				(int)$_GET["parent_id"], (int)$_GET["target"]);
@@ -223,6 +230,7 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 			// perform update
 			$this->node_object->setSkillTemplateId($_POST["skill_template_id"]);
 			$this->node_object->setTitle($_POST["title"]);
+			$this->node_object->setSelfEvaluation($_POST["selectable"]);
 			$this->node_object->update();
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
