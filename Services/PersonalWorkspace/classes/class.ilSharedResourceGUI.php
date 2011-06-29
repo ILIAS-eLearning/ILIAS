@@ -30,11 +30,8 @@ class ilSharedResourceGUI
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
-	
-		if($cmd != "preview" && !$_REQUEST["prvw"])
-		{
-			$tpl->getStandardTemplate();
-		}
+		
+		$tpl->getStandardTemplate();
 		
 		switch($next_class)
 		{
@@ -134,6 +131,7 @@ class ilSharedResourceGUI
 		{
 			case "blog":
 				$ilCtrl->setParameterByClass("ilobj".$object_data["type"]."gui", "wsp_id", $a_node_id);
+				$ilCtrl->setParameterByClass("ilobj".$object_data["type"]."gui", "gtp", $_GET["gtp"]);
 				$ilCtrl->redirectByClass("ilobj".$object_data["type"]."gui", "preview");
 				
 			case "file":
