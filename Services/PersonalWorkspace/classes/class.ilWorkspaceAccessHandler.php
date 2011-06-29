@@ -353,10 +353,10 @@ class ilWorkspaceAccessHandler
 		return $_SESSION["ilshpw_".$a_node_id];
 	}
 	
-	public static function getGotoLink($a_node_id, $a_obj_id)
+	public static function getGotoLink($a_node_id, $a_obj_id, $a_additional = null)
 	{
 		include_once('classes/class.ilLink.php');
-		return ilLink::_getStaticLink($a_node_id, ilObject::_lookupType($a_obj_id), true, "_wsp");
+		return ilLink::_getStaticLink($a_node_id, ilObject::_lookupType($a_obj_id), true, $a_additional."_wsp");
 	}		
 }
 

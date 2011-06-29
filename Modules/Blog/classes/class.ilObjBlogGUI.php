@@ -122,6 +122,18 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		global $ilCtrl, $tpl, $ilTabs, $lng;
 
+		// goto link to blog posting
+		if($_GET["gtp"])
+		{
+			$ilCtrl->setCmdClass('ilblogpostinggui');
+			$ilCtrl->setCmd('preview');
+			$_GET["page"] = $_GET["gtp"];
+			
+			// force fullscreen / fixed width
+			$_REQUEST["prvw"] = 1;
+			$ilCtrl->setParameter($this, "prvw", 1);
+		}
+		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 		
@@ -416,7 +428,8 @@ class ilObjBlogGUI extends ilObject2GUI
 				ilDatePresentation::formatDate($item["created"], IL_CAL_DATE));
 
 			// permanent link
-			$wtpl->setVariable("URL_PERMALINK", $preview); // :TODO:
+			$goto = $this->getAccessHandler()->getGotoLink($this->node_id, $this->obj_id, "_".$item["id"]);
+			$wtpl->setVariable("URL_PERMALINK", $goto); // :TODO:
 			$wtpl->setVariable("TEXT_PERMALINK", $lng->txt("blog_permanent_link"));
 
 			// content
@@ -553,9 +566,13 @@ class ilObjBlogGUI extends ilObject2GUI
 	function _goto($a_target)
 	{
 		$id = explode("_", $a_target);
-	
+		
 		$_GET["baseClass"] = "ilsharedresourceGUI";	
 		$_GET["wsp_id"] = $id[0];		
+		if(sizeof($id) == 3)
+		{
+			$_GET["gtp"] = $id[1];
+		}
 		include("ilias.php");
 		exit;
 	}
