@@ -48,7 +48,7 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		$tree = new ilWorkspaceTree($ilUser->getId());
 		$nodes = $tree->getChilds($this->node_id, "title");
 		
-		$this->shared_objects = $this->access_handler->getSharedObjects($ilUser->getId());
+		$this->shared_objects = $this->access_handler->getObjectsIShare();
 		
 		$this->setData($nodes);
 	}
