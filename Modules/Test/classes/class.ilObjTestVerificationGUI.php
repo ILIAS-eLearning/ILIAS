@@ -54,9 +54,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 			include_once "Modules/Test/classes/class.ilObjTestVerification.php";
 			$newObj = ilObjTestVerification::createFromTest($test, $ilUser->getId());
 			if($newObj)
-			{
-				$newObj->create();
-
+			{				
 				$parent_id = $this->node_id;
 				$this->node_id = null;
 				$this->putObjectInTree($newObj, $parent_id);
@@ -68,6 +66,16 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 		ilUtil::sendFailure($this->lng->txt("select_one"));
 		$this->create();
 	}
+	
+	public function deliver()
+	{
+		$path = $this->object->initStorage($this->object->getId(), "certificate");
+		$file = $path.$this->object->getProperty("file");
+		if($file)
+		{
+			ilUtil::deliverFile($file, $this->object->getTitle().".pdf");
+		}
+	}
 
 	/**
 	 * Render content
@@ -76,35 +84,32 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 	 */
 	public function render($a_return = false)
 	{
-		global $lng;
-		
-		$lng->loadLanguageModule("assessment");
-		
-		$tmp = array();
-		$tmp[] = $lng->txt("title").": ".$this->object->getTitle();
-		$tmp[] = $lng->txt("description").": ".$this->object->getDescription();
-		$tmp[] = $lng->txt("created").": ".ilDatePresentation::formatDate($this->object->getProperty("issued_on"));
-		$tmp[] = $lng->txt("tst_score_reporting").": ".$this->object->getProperty("result");
-		
-		if($this->object->getProperty("success"))
-		{
-			$tmp[] = $lng->txt("result").": ".$lng->txt("tst_mark_passed");
-		}
-		else
-		{
-			$tmp[] = $lng->txt("result").": ".$lng->txt("failed_short");
-		}		
-		
-		$tmp[] = $lng->txt("tst_mark").": ".$this->object->getProperty("mark");
+		global $ilUser;
 		
 		if(!$a_return)
-		{
-			$this->tpl->setContent(implode("<br>", $tmp));
+		{					
+			$this->deliver();
 		}
 		else
-		{
-			return implode("<br>", $tmp);
+		{			
+			$tree = new ilWorkspaceTree($ilUser->getId());
+			$wsp_id = $tree->lookupNodeId($this->object->getId());
+			
+			$caption = $this->object->getTitle();			
+			$link = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());
+			
+			return "<a href=\"".$link."\">".$caption."</a>";
 		}
+	}
+	
+	function _goto($a_target)
+	{
+		$id = explode("_", $a_target);
+		
+		$_GET["baseClass"] = "ilsharedresourceGUI";	
+		$_GET["wsp_id"] = $id[0];		
+		include("ilias.php");
+		exit;
 	}
 }
 

@@ -7,7 +7,8 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  * 
- * @ilCtrl_Calls ilSharedResourceGUI: ilObjBlogGUI, ilObjFileGUI
+ * @ilCtrl_Calls ilSharedResourceGUI: ilObjBlogGUI, ilObjFileGUI, ilObjTestVerificationGUI
+ * @ilCtrl_Calls ilSharedResourceGUI: ilObjExerciseVerificationGUI
  *
  * @ingroup ServicesPersonalWorkspace
  */
@@ -45,7 +46,19 @@ class ilSharedResourceGUI
 				include_once "Modules/File/classes/class.ilObjFileGUI.php";
 				$fgui = new ilObjFileGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
 				$ilCtrl->forwardCommand($fgui);
-				break;				
+				break;		
+			
+			case "ilobjtestverificationgui":
+				include_once "Modules/Test/classes/class.ilObjTestVerificationGUI.php";
+				$tgui = new ilObjTestVerificationGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
+				$ilCtrl->forwardCommand($tgui);
+				break;		
+			
+			case "ilobjexerciseverificationgui":
+				include_once "Modules/Exercise/classes/class.ilObjExerciseVerificationGUI.php";
+				$egui = new ilObjExerciseVerificationGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
+				$ilCtrl->forwardCommand($egui);
+				break;		
 			
 			default:
 				if(!$cmd)
@@ -118,7 +131,7 @@ class ilSharedResourceGUI
 	
 	protected function redirectToResource($a_node_id)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $objDefinition;
 				
 		$object_data = $this->getObjectDataFromNode($a_node_id);
 
@@ -127,16 +140,24 @@ class ilSharedResourceGUI
 			exit("invalid object");
 		}
 		
+		$class = $objDefinition->getClassName($object_data["type"]);
+		$gui = "ilobj".$class."gui";
+		
 		switch($object_data["type"])
 		{
 			case "blog":
-				$ilCtrl->setParameterByClass("ilobj".$object_data["type"]."gui", "wsp_id", $a_node_id);
-				$ilCtrl->setParameterByClass("ilobj".$object_data["type"]."gui", "gtp", $_GET["gtp"]);
-				$ilCtrl->redirectByClass("ilobj".$object_data["type"]."gui", "preview");
+				$ilCtrl->setParameterByClass($gui, "wsp_id", $a_node_id);
+				$ilCtrl->setParameterByClass($gui, "gtp", $_GET["gtp"]);
+				$ilCtrl->redirectByClass($gui, "preview");
+				
+			case "tstv":
+			case "excv":
+				$ilCtrl->setParameterByClass($gui, "wsp_id", $a_node_id);
+				$ilCtrl->redirectByClass($gui, "deliver");
 				
 			case "file":
-				$ilCtrl->setParameterByClass("ilobj".$object_data["type"]."gui", "wsp_id", $a_node_id);
-				$ilCtrl->redirectByClass("ilobj".$object_data["type"]."gui");
+				$ilCtrl->setParameterByClass($gui, "wsp_id", $a_node_id);
+				$ilCtrl->redirectByClass($gui);
 		
 			default:
 				exit("invalid object type");						
