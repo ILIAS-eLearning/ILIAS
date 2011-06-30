@@ -235,6 +235,11 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$a_form->addItem($frm_subject);
 
+		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('mark_moderator_posts'), 'mark_mod_posts');
+		$cb_prop->setValue('1');
+		$cb_prop->setInfo($this->lng->txt('mark_moderator_posts_desc'));
+		$a_form->addItem($cb_prop);
+
 	}
 
 	protected function getEditFormCustomValues(array &$a_values)
@@ -244,6 +249,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$a_values['statistics_enabled'] = $this->objProperties->isStatisticEnabled();
 		$a_values['post_activation'] = $this->objProperties->isPostActivationEnabled();
 		$a_values['subject_setting'] = $this->objProperties->getSubjectSetting();
+		$a_values['mark_mod_posts'] = $this->objProperties->getMarkModeratorPosts();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -261,6 +267,7 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 		$this->objProperties->setPostActivation((int)$a_form->getInput('post_activation'));
 		$this->objProperties->setSubjectSetting($a_form->getInput('subject_setting'));
+		$this->objProperties->setMarkModeratorPosts((int)$a_form->getInput('mark_mod_posts'));
 
 		$this->objProperties->update();
 	}
@@ -2498,8 +2505,18 @@ class ilObjForumGUI extends ilObjectGUI
 					$tpl->setVariable('TXT_PERMA_LINK', $lng->txt('perma_link'));
 					$tpl->setVariable('PERMA_TARGET', '_top');
 					$tpl->setVariable('IMG_POSTING', ilUtil::getImagePath('icon_posting_s.gif'));
-					
-					$rowCol = ilUtil::switchColor($z, 'tblrow1', 'tblrow2');
+
+					if($this->objProperties->getMarkModeratorPosts() == 1)
+					{
+						$is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getUserId());
+						if($is_moderator)
+						{
+							#$tpl->setVariable('MODROWCOL',   "background-color:rgb(248,168,42)");
+							$rowCol = 'ilHighlighted';
+						}
+						else $rowCol = ilUtil::switchColor($z, 'tblrow1', 'tblrow2');
+					}
+						else $rowCol = ilUtil::switchColor($z, 'tblrow1', 'tblrow2');
 					if ((  $_GET['action'] != 'delete' && $_GET['action'] != 'censor' && 
 						   #!$this->displayConfirmPostDeactivation() &&						    
 						   !$this->displayConfirmPostActivation()
@@ -2789,6 +2806,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$tpl->setVariable('TXT_POST', $lng->txt('forums_thread').': '.$this->objCurrentTopic->getSubject());
 
 		$oThreadToolbar = clone $ilToolbar;
+		$oThreadToolbar->addButton($this->lng->txt('move_up'),'#move_up');
 		$tpl->setVariable('THREAD_TOOLBAR', $oThreadToolbar->getHTML());
 		
 		$tpl->setVariable('TPLPATH', $tpl->vars['TPLPATH']);

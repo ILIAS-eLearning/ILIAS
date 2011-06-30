@@ -105,6 +105,7 @@ class ilForumProperties
 	 */
 	private $add_re_subject = 0;
 
+	private $mark_mod_posts = 0;
 
 	/**
 	 * DB Object
@@ -160,6 +161,7 @@ class ilForumProperties
 				$this->add_re_subject = $row->add_re_subject;
 
 				$this->notification_type = $row->notification_type == null ? 'default': $row->notification_type;
+				$this->mark_mod_posts = $row->mark_mod_posts == 1 ? true : false;
 
 				return true;
 			}
@@ -184,7 +186,8 @@ class ilForumProperties
 					'user_toggle_noti'	=> array('integer', $this->user_toggle_noti),
 					'preset_subject'	=> array('integer', $this->preset_subject),
 					'add_re_subject'	=> array('integer', $this->add_re_subject),
-					'notification_type' => array('text', $this->notification_type))
+					'notification_type' => array('text', $this->notification_type),
+					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts))
 			);
 
 			return true;
@@ -206,7 +209,8 @@ class ilForumProperties
 					'user_toggle_noti'	=> array('integer', $this->user_toggle_noti),
 					'preset_subject'	=> array('integer', $this->preset_subject),
 					'add_re_subject'	=> array('integer', $this->add_re_subject),
-					'notification_type' => array('text', $this->notification_type)),
+					'notification_type' => array('text', $this->notification_type),
+					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts)),
 			array(	'obj_id'			=> array('integer', $this->obj_id))
 			);
 			return true;
@@ -228,7 +232,8 @@ class ilForumProperties
 					'user_toggle_noti'	=> array('integer', $this->user_toggle_noti),
 					'preset_subject'	=> array('integer', $this->preset_subject),
 					'add_re_subject'	=> array('integer', $this->add_re_subject),
-					'notification_type' => array('text', $this->notification_type))
+					'notification_type' => array('text', $this->notification_type),
+					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts))
 			);
 			return true;
 		}
@@ -418,5 +423,16 @@ class ilForumProperties
 			$this->setAddReSubject(1);
 		}
 	}
+
+	public function setMarkModeratorPosts($a_mod_post)
+	{
+		$this->mark_mod_posts = $a_mod_post;
+	}
+
+	public function getMarkModeratorPosts()
+	{
+		return $this->mark_mod_posts;
+	}
+
 }
 ?>

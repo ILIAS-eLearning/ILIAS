@@ -6629,4 +6629,11 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 	$ilDB->createTable("skl_assigned_material", $fields);
 	$ilDB->addPrimaryKey("skl_assigned_material", array("user_id", "top_skill_id", "skill_id", "level_id", "wsp_id"));
 ?>
-
+<#3397>
+<?php
+		$ilDB->addTableColumn("frm_settings", "mark_mod_posts", array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 1,
+		"default" => 0));
+?>
