@@ -358,6 +358,25 @@ class ilWorkspaceAccessHandler
 		include_once('classes/class.ilLink.php');
 		return ilLink::_getStaticLink($a_node_id, ilObject::_lookupType($a_obj_id), true, $a_additional."_wsp");
 	}		
+	
+	public function getObjectsIShare()
+	{
+		global $ilDB, $ilUser;
+		
+		$res = array();
+		$set = $ilDB->query("SELECT ref.wsp_id,obj.obj_id".
+			" FROM object_data obj".
+			" JOIN object_reference_ws ref ON (obj.obj_id = ref.obj_id)".
+			" JOIN tree_workspace tree ON (tree.child = ref.wsp_id)".
+			" JOIN acl_ws acl ON (acl.node_id = tree.child)".
+			" WHERE obj.owner = ".$ilDB->quote($ilUser->getId(), "integer"));
+		while ($row = $ilDB->fetchAssoc($set))
+		{
+			$res[$row["wsp_id"]] = $row["obj_id"];
+		}			
+		
+		return $res;
+	}
 }
 
 ?>
