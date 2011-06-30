@@ -91,6 +91,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	{
 		global $tpl, $ilCtrl, $ilUser;
 		
+		if(!$this->getPageObject())
+		{
+			return;
+		}
+		
 		// render blog directly
 		if($this->getPageObject()->getType() == ilPortfolioPage::TYPE_BLOG)
 		{

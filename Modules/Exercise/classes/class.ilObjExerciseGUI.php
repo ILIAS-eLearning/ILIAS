@@ -2320,7 +2320,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->checkPermission("read");
 		
 		include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
-		$portfolio = new ilObjPortfolio(null, $ilUser->getId());
+		$portfolio = new ilObjPortfolio();
 		$portfolio->setTitle($this->object->getTitle()." - ".$this->ass->getTitle());
 		$portfolio->create();
 		

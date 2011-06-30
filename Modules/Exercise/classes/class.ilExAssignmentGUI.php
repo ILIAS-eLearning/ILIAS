@@ -224,10 +224,10 @@ class ilExAssignmentGUI
 						$blog_id = (int)$blog_id["filetitle"];
 						
 						include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-						
-						$tree = new ilWorkspaceTree($ilUser->getId());
-						$node = $tree->getNodeData($blog_id);
-						$files_str = '<a href="goto_'.urlencode(CLIENT_ID).'_blog_'.$blog_id.'_wsp.html">'.
+						include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";						
+						$wsp_tree = new ilWorkspaceTree($ilUser->getId());
+						$node = $wsp_tree->getNodeData($blog_id);
+						$files_str = '<a href="'.ilWorkspaceAccessHandler::getGotoLink($blog_id, $node["obj_id"]).'">'.
 							$node["title"].'</a>';
 					}
 					else
@@ -246,9 +246,11 @@ class ilExAssignmentGUI
 						$portfolio_id = (int)$portfolio_id["filetitle"];
 						
 						include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
-						$portfolio = new ilObjPortfolio($portfolio_id);
+						include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
+						$portfolio = new ilObjPortfolio($portfolio_id, false);											
 						
-						$files_str = '<a href="#TODO">'.$portfolio->getTitle().'</a>';
+						$files_str = '<a href="'.ilWorkspaceAccessHandler::getGotoLink($portfolio_id, $portfolio_id).
+							'">'.$portfolio->getTitle().'</a>';
 					}
 					else
 					{
