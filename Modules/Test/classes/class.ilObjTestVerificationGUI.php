@@ -61,9 +61,15 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 				
 				$this->afterSave($newObj);
 			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt("msg_failed"));
+			}
 		}
-
-		ilUtil::sendFailure($this->lng->txt("select_one"));
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt("select_one"));
+		}
 		$this->create();
 	}
 	
