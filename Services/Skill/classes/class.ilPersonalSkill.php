@@ -60,8 +60,8 @@ class ilPersonalSkill
 	/**
 	 * Remove personal skill
 	 *
-	 * @param
-	 * @return
+	 * @param int $a_user_id user id
+	 * @param int $a_skill_node_id the "selectable" top skill
 	 */
 	function removeSkill($a_user_id, $a_skill_node_id)
 	{
@@ -74,6 +74,78 @@ class ilPersonalSkill
 		
 	}
 	
+	/**
+	 * Assign material to skill level
+	 *
+	 * @param int $a_user_id user id
+	 * @param int $a_top_skill the "selectable" top skill
+	 * @param int $a_basic_skill the basic skill the level belongs to
+	 * @param int $a_level level id
+	 * @param int $a_wsp_id workspace object
+	 */
+	static function assignMaterial($a_user_id, $a_top_skill, $a_basic_skill, $a_level, $a_wsp_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM skl_assigned_material ".
+			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND top_skill_id = ".$ilDB->quote($a_top_skill, "integer").
+			" AND skill_id = ".$ilDB->quote($a_basic_skill, "integer").
+			" AND level_id = ".$ilDB->quote($a_level, "integer").
+			" AND wsp_id = ".$ilDB->quote($a_wsp_id, "integer")
+			);
+		if (!$ilDB->fetchAssoc($set))
+		{
+			$ilDB->manipulate("INSERT INTO skl_assigned_material ".
+				"(user_id, top_skill_id, skill_id, level_id, wsp_id) VALUES (".
+				$ilDB->quote($a_user_id, "integer").",".
+				$ilDB->quote($a_top_skill, "integer").",".
+				$ilDB->quote($a_basic_skill, "integer").",".
+				$ilDB->quote($a_level, "integer").",".
+				$ilDB->quote($a_wsp_id, "integer").
+				")");
+		}
+	}
+	
+	/**
+	 * Get assigned material (for a skill level and user)
+	 *
+	 * @param int $a_user_id user id
+	 * @param int $a_level level id
+	 */
+	static function getAssignedMaterial($a_user_id, $a_level)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM skl_assigned_material ".
+			" WHERE level_id = ".$ilDB->quote($a_level, "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
+			);
+		$mat = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$mat[] = $rec;
+		}
+		return $mat;
+	}
+	
+	/**
+	 * Remove material
+	 *
+	 * @param
+	 * @return
+	 */
+	static function removeMaterial($a_user_id, $a_level_id, $a_wsp_id)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM skl_assigned_material WHERE ".
+			" user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND level_id = ".$ilDB->quote($a_level_id, "integer").
+			" AND wsp_id = ".$ilDB->quote($a_wsp_id, "integer")
+			);
+		
+	}
 	
 }
 

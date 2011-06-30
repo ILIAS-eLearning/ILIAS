@@ -193,6 +193,7 @@ class ilPersonalSkillsGUI
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "listSkills"));
 		
+		$ilCtrl->saveParameter($this, "skill_id");
 		$ilCtrl->saveParameter($this, "basic_skill_id");
 		
 		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
@@ -209,10 +210,14 @@ class ilPersonalSkillsGUI
 			$options[$b["id"]] = ilSkillTreeNode::_lookupTitle($b["id"]);
 		}
 		
-		$cur_basic_skill_id = ((int) $_GET["basic_skill_id"] > 0)
-			? (int) $_GET["basic_skill_id"]
-			: key($options);
-		
+		$cur_basic_skill_id = ((int) $_POST["basic_skill_id"] > 0)
+			? (int) $_POST["basic_skill_id"]
+			: (((int) $_GET["basic_skill_id"] > 0)
+				? (int) $_GET["basic_skill_id"]
+				: key($options));
+
+		$ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
+			
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$si = new ilSelectInputGUI($lng->txt("skmg_skill"), "basic_skill_id");
 		$si->setOptions($options);
@@ -242,6 +247,10 @@ class ilPersonalSkillsGUI
 	function assignMaterial()
 	{
 		global $tpl, $ilUser, $ilCtrl, $ilTabs, $lng;
+		
+		$ilCtrl->saveParameter($this, "skill_id");
+		$ilCtrl->saveParameter($this, "level_id");
+		$ilCtrl->saveParameter($this, "basic_skill_id");
 		
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "assignMaterials"));
@@ -274,13 +283,68 @@ class ilPersonalSkillsGUI
 		{
 			$expanded = $_GET['skill_wspexpand'];
 		}
-		$exp->setCheckedItems(array((int)$_POST['node']));
+		$exp->setCheckedItems(array((int)$_POST['wsp_id']));
 		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'assignMaterial'));
-		$exp->setPostVar('node');
+		$exp->setPostVar('wsp_id[]');
 		$exp->setExpand($expanded);
 		$exp->setOutput(0);
-					
-		$tpl->setContent($exp->getOutput());
+		
+		// fill template
+		$mtpl = new ilTemplate("tpl.materials_selection.html", true, true, "Services/Skill");
+		$mtpl->setVariable("EXP", $exp->getOutput());
+		
+		// toolbars
+		$tb = new ilToolbarGUI();
+		$tb->addFormButton($lng->txt("assign"),
+			"selectMaterial");
+		$tb->setFormAction($ilCtrl->getFormAction($this));
+		$tb->setOpenFormTag(true);
+		$tb->setCloseFormTag(false);
+		$mtpl->setVariable("TOOLBAR1", $tb->getHTML());
+		$tb->setOpenFormTag(false);
+		$tb->setCloseFormTag(true);
+		$mtpl->setVariable("TOOLBAR2", $tb->getHTML());
+		
+		$tpl->setContent($mtpl->get());
+	}
+	
+	/**
+	 * Select material
+	 */
+	function selectMaterial()
+	{
+		global $ilUser, $ilCtrl, $lng;
+		
+		include_once("./Services/Skill/classes/class.ilPersonalSkill.php");
+		if (is_array($_POST["wsp_id"]))
+		{
+			foreach ($_POST["wsp_id"] as $w)
+			{
+				ilPersonalSkill::assignMaterial($ilUser->getId(), (int) $_GET["skill_id"],
+					(int) $_GET["basic_skill_id"], (int) $_GET["level_id"], (int) $w);
+			}
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+		
+		$ilCtrl->saveParameter($this, "skill_id");
+		$ilCtrl->saveParameter($this, "level_id");
+		$ilCtrl->saveParameter($this, "basic_skill_id");
+		
+		$ilCtrl->redirect($this, "assignMaterials");
+	}
+	
+	
+	/**
+	 * Remove material
+	 */
+	function removeMaterial()
+	{
+		global $ilUser, $lng, $ilCtrl;
+		
+		ilPersonalSkill::removeMaterial($ilUser->getId(), (int) $_GET["level_id"],
+			(int) $_GET["wsp_id"]);
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "assignMaterials");
 	}
 	
 }
