@@ -11649,3 +11649,5 @@ assessment#:#test_is_offline#:#You cannot start the test! The test is offline.
 skmg#:#skmg_materials#:#Materials
 skmg#:#skmg_remove_skills#:#Remove Skills
 skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig skills from your list?
+forum#:#mark_moderator_posts#:#Mark moderator posts
+forum#:#mark_moderator_posts_dec#:#If activated moderator posts will be highlighted

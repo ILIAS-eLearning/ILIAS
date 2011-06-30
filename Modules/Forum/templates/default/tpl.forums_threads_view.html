@@ -1,5 +1,5 @@
 <!--{COUNT_POST}-->
-<br />
+<br /><a name="move_up"></a>
 {THREAD_MENU}
 <br />
 <!-- BEGIN posttable -->
@@ -10,7 +10,7 @@
 </tr>
 <!-- BEGIN posts_row -->
 <tr>
-	<td valign="top" class="{ROWCOL}" style="width: 100px;">
+	<td valign="top" class="{ROWCOL}" style="width: 100px;{MODROWCOL};">
 		<span class="small">
 		<!-- BEGIN usr_name -->{USR_NAME}<br /><!-- END usr_name -->{AUTHOR}<!-- BEGIN role --> ({ROLE})<!-- END role --><!-- BEGIN pseudonym --> ({PSEUDONYM})<!-- END pseudonym -->
 		<!-- BEGIN usr_image --><br /><img src="{USR_IMAGE}" border="0" style="vertical-align: text-bottom; margin: 5px;" /><!-- END usr_image -->
@@ -18,7 +18,7 @@
 		<!-- BEGIN num_posts --><!--<br /><nobr>{TXT_NUM_POSTS}</nobr><br /><nobr>{NUM_POSTS}</nobr>--><!-- END num_posts -->
 		</span>
 	</td>
-	<td class="{ROWCOL}" valign="top">
+<td class="{ROWCOL}" valign="top" style="{MODROWCOL};">
     	<div style="float: right;">
 			<span class="small">{TXT_CREATE_DATE}:&nbsp;{POST_DATE}</span>
 			<!-- BEGIN post_update --><br /><span class="small">{POST_UPDATE}</span><!-- END post_update -->
