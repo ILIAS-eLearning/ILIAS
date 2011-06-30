@@ -294,6 +294,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			$this->renderToolbar();
 		}
 		
+		$list = $nav = "";		
 		if($items)
 		{			
 			// current month (if none given or empty)
@@ -309,36 +310,34 @@ class ilObjBlogGUI extends ilObject2GUI
 				$ilCtrl->setParameter($this, "bmn", $this->month);
 				$list = $this->renderList($items[$this->month]);
 				$nav = $this->renderNavigation($items);
-				
-				if(!$a_return)
-				{
-					if(!$_REQUEST["prvw"])
-					{					
-						$tpl->setDescription($title);
-						$tpl->setContent($list);
-						$tpl->setRightContent($nav);
-					}
-					else
-					{							
-						$this->renderFullScreen($list, $nav);
-					}
-				}
-				else
-				{
-					switch($this->mode)
-					{
-						case self::MODE_WORKSPACE:
-							return array("list"=>$list,
-								"navigation"=>$nav);
-						
-						case self::MODE_EMBEDDED_FULL:
-							$wtpl = new ilTemplate("tpl.blog_embedded.html", true, true, "Modules/Blog");
-							$wtpl->setVariable("VAL_TITLE", $title);
-							$wtpl->setVariable("VAL_LIST", $list);
-							$wtpl->setVariable("VAL_NAVIGATION", $nav);							
-							return $wtpl->get();
-					}
-				}
+			}			
+		}
+		
+		if(!$a_return)
+		{
+			if(!$_REQUEST["prvw"])
+			{					
+				$tpl->setContent($list);
+				$tpl->setRightContent($nav);
+			}
+			else
+			{							
+				$this->renderFullScreen($list, $nav);
+			}
+		}
+		else
+		{
+			switch($this->mode)
+			{
+				case self::MODE_WORKSPACE:
+					return array("list"=>$list,
+						"navigation"=>$nav);
+
+				case self::MODE_EMBEDDED_FULL:
+					$wtpl = new ilTemplate("tpl.blog_embedded.html", true, true, "Modules/Blog");
+					$wtpl->setVariable("VAL_LIST", $list);
+					$wtpl->setVariable("VAL_NAVIGATION", $nav);							
+					return $wtpl->get();
 			}
 		}
 	}
