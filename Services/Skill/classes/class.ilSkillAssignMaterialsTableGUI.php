@@ -20,10 +20,15 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_top_skill_id, $a_basic_skill_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng, $ilAccess, $lng, $ilUser;
 		
 		$this->top_skill_id = $a_top_skill_id;
 		$this->basic_skill_id = $a_basic_skill_id;
+		
+		// workspace tree
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		$this->ws_tree = new ilWorkspaceTree($ilUser->getId());
+
 
 		// build title
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
@@ -81,9 +86,25 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilUser;
 
+		include_once("./Services/Skill/classes/class.ilPersonalSkill.php");
+		$mat = ilPersonalSkill::getAssignedMaterial($ilUser->getId(), $a_set["id"]);
 		$ilCtrl->setParameter($this->parent_obj, "level_id", $a_set["id"]);
+		foreach ($mat as $m)
+		{
+			$this->tpl->setCurrentBlock("mat");
+			$obj_id = $this->ws_tree->lookupObjectId($m["wsp_id"]);
+			$this->tpl->setVariable("MAT_TITLE",
+				ilObject::_lookupTitle($obj_id));
+			$this->tpl->setVariable("MAT_IMG",
+				ilUtil::img(ilUtil::getImagePath("icon_".ilObject::_lookupType($obj_id)."_s.gif")));
+			$this->tpl->setVariable("TXT_REMOVE", $lng->txt("remove"));
+			$ilCtrl->setParameter($this->parent_obj, "wsp_id", $m["wsp_id"]);
+			$this->tpl->setVariable("HREF_REMOVE", $ilCtrl->getLinkTarget($this->parent_obj, "removeMaterial"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setCurrentBlock("cmd");
 		$this->tpl->setVariable("HREF_CMD", $ilCtrl->getLinkTarget($this->parent_obj,
 			"assignMaterial"));
