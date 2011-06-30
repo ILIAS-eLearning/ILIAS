@@ -204,17 +204,31 @@ abstract class ilVerificationObject extends ilObject2
 		return false;
 	}
 
+	public function doCreate()
+	{
+		return $this->saveProperties();
+	}
+	
+	public function doUpdate()
+	{
+		return $this->saveProperties();
+	}
+	
 	/**
 	 * Save current properties to database
 	 *
 	 * @return bool
 	 */
-	public function doCreate()
+	protected function saveProperties()
 	{
 		global $ilDB;
-
+		
 		if($this->id)
 		{
+			// remove all existing properties
+			$ilDB->manipulate("DELETE FROM il_verification".
+				" WHERE id = ".$ilDB->quote($this->id, "integer"));
+			
 			foreach($this->getPropertyMap() as $name => $type)
 			{
 				$property = $this->exportProperty($name);
@@ -231,6 +245,7 @@ abstract class ilVerificationObject extends ilObject2
 		}
 		return false;
 	}
+	
 
 	/**
 	 * Delete entry from database
@@ -243,11 +258,37 @@ abstract class ilVerificationObject extends ilObject2
 
 		if($this->id)
 		{
+			// remove all files
+			include_once "Services/Verification/classes/class.ilVerificationStorageFile.php";
+			$storage = new ilVerificationStorageFile($this->id);
+			$storage->delete();
+			
 			$ilDB->manipulate("DELETE FROM il_verification".
 				" WHERE id = ".$ilDB->quote($this->id, "integer"));
 			return true;
 		}
 		return false;
+	}
+	
+	public static function initStorage($a_id, $a_subdir = null)
+	{		
+		include_once "Services/Verification/classes/class.ilVerificationStorageFile.php";
+		$storage = new ilVerificationStorageFile($a_id);
+		$storage->create();
+		
+		$path = $storage->getAbsolutePath()."/";
+		
+		if($a_subdir)
+		{
+			$path .= $a_subdir."/";
+			
+			if(!is_dir($path))
+			{
+				mkdir($path);
+			}
+		}
+				
+		return $path;
 	}
 }
 

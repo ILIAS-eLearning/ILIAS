@@ -68,6 +68,27 @@ class ilWorkspaceTree extends ilTree
 		return $res[$this->obj_pk];
 	}
 	
+	
+	/**
+	 * Get node id for object id
+	 * 
+	 * As we do not allow references in workspace this should not be ambigious
+	 *
+	 * @param int $a_obj_id
+	 * @return int node id
+	 */
+	public function lookupNodeId($a_obj_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT ".$this->ref_pk.
+			" FROM ".$this->table_obj_reference.
+			" WHERE ".$this->obj_pk." = ".$ilDB->quote($a_obj_id, "integer"));
+		$res = $ilDB->fetchAssoc($set);
+
+		return $res[$this->ref_pk];
+	}
+	
 	/**
 	 * Get owner for node id
 	 *
