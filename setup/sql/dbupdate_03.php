@@ -6581,7 +6581,7 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 <#3395>
 <?php
 
-	if(!$ilDB->tableExists('ecs_container_mapping_seq'))
+	if($ilDB->tableExists('ecs_container_mapping_seq'))
 	{
 		$res = $ilDB->query('SELECT mapping_id FROM ecs_container_mapping ');
 		$rows = $res->numRows();
@@ -6636,4 +6636,21 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 		"notnull" => true,
 		"length" => 1,
 		"default" => 0));
+?>
+<#3398>
+<?php
+
+	if(!$ilDB->tableColumnExists('cal_entries','notification'))
+	{
+		$ilDB->addTableColumn(
+			'cal_entries',
+			'notification',
+			array(
+				'type' 		=> 'integer',
+				'length' 	=> 1,
+				'notnull'	=> true,
+				'default'	=> 0
+			)
+		);
+	}
 ?>

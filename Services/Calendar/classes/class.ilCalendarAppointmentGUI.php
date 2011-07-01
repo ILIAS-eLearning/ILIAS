@@ -316,7 +316,7 @@ class ilCalendarAppointmentGUI
 			$not = new ilCheckboxInputGUI($this->lng->txt('cal_notification'),'not');
 			$not->setInfo($this->lng->txt('cal_notification_info'));
 			$not->setValue(1);
-			$not->setChecked(false);
+			$not->setChecked($this->app->isNotificationEnabled());
 			$not->setDisabled($disabled);
 			$this->form->addItem($not);
 		}
@@ -864,6 +864,7 @@ class ilCalendarAppointmentGUI
 		$this->app->setLocation(ilUtil::stripSlashes($_POST['location']));
 		$this->app->setDescription(ilUtil::stripSlashes($_POST['description']));
 		$this->app->setTitle(ilUtil::stripSlashes($_POST['title']));
+		$this->app->enableNotification((int) $_POST['not']);
 		if ($a_as_milestone)	// milestones are always fullday events
 		{
 			$this->app->setFullday(true);

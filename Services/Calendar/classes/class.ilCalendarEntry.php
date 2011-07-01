@@ -39,6 +39,8 @@ class ilCalendarEntry implements ilDatePeriod
 	protected $is_milestone = false;
 	protected $completion = 0;
 
+	protected $notification = false;
+
 	/**
 	 * Constructor
 	 *
@@ -443,6 +445,24 @@ class ilCalendarEntry implements ilDatePeriod
 	}
 	
 	/**
+	 * Enable course group notification
+	 * @param bool $a_status 
+	 */
+	public function enableNotification($a_status)
+	{
+		$this->notification = $a_status;
+	}
+	
+	/**
+	 * Check if course group notification is enabled
+	 * @return bool
+	 */
+	public function isNotificationEnabled()
+	{
+		return (bool) $this->notification;
+	}
+	
+	/**
 	 * update
 	 *
 	 * @access public
@@ -470,7 +490,8 @@ class ilCalendarEntry implements ilDatePeriod
 	 		"translation_type = ".$this->db->quote($this->getTranslationType() ,'integer').", ".
 	 		"context_id = ".$this->db->quote($this->getContextId() ,'integer').", ".
 			"completion = ".$this->db->quote($this->getCompletion(), 'integer').", ".
-			"is_milestone = ".$this->db->quote($this->isMilestone() ? 1 : 0, 'integer')." ".
+			"is_milestone = ".$this->db->quote($this->isMilestone() ? 1 : 0, 'integer').", ".
+			'notification = '.$this->db->quote($this->isNotificationEnabled() ? 1 : 0,'integer').' '.
 	 		"WHERE cal_id = ".$this->db->quote($this->getEntryId() ,'integer')." ";
 	 	$res = $ilDB->manipulate($query);
 
@@ -492,7 +513,7 @@ class ilCalendarEntry implements ilDatePeriod
 	 	$utc_timestamp = $now->get(IL_CAL_TIMESTAMP,'',ilTimeZone::UTC);
 
 	 	$query = "INSERT INTO cal_entries (cal_id,title,last_update,subtitle,description,location,fullday,starta,enda, ".
-			"informations,auto_generated,context_id,translation_type, completion, is_milestone) ".
+			"informations,auto_generated,context_id,translation_type, completion, is_milestone, notification) ".
 			"VALUES( ".
 			$ilDB->quote($next_id,'integer').", ".
 	 		$this->db->quote($this->getTitle(),'text').", ".
@@ -508,7 +529,8 @@ class ilCalendarEntry implements ilDatePeriod
 	 		$this->db->quote($this->getContextId() ,'integer').", ".
 	 		$this->db->quote($this->getTranslationType() ,'integer').", ".
 			$this->db->quote($this->getCompletion(), 'integer').", ".
-			$this->db->quote($this->isMilestone() ? 1 : 0, 'integer')." ".
+			$this->db->quote($this->isMilestone() ? 1 : 0, 'integer').", ".
+			$this->db->quote($this->isNotificationEnabled() ? 1 : 0,'integer').' '.
 	 		")";
 	 	$res = $ilDB->manipulate($query);	
 		
@@ -588,6 +610,7 @@ class ilCalendarEntry implements ilDatePeriod
 			$this->setTranslationType($row->translation_type);
 			$this->setCompletion($row->completion);
 			$this->setMilestone($row->is_milestone);
+			$this->enableNotification((bool) $row->notification);
 			
 			if($this->isFullday())
 			{
