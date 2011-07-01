@@ -92,7 +92,7 @@ class ilCalendarInboxGUI
 				$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
 				
 				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
-				$app = new ilCalendarAppointmentGUI($this->seed,(int) $_GET['app_id']);
+				$app = new ilCalendarAppointmentGUI($this->seed,$this->seed, (int) $_GET['app_id']);
 				$this->ctrl->forwardCommand($app);
 				break;
 			
