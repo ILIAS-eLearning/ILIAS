@@ -11653,3 +11653,5 @@ forum#:#mark_moderator_posts#:#Mark moderator posts
 forum#:#mark_moderator_posts_dec#:#If activated moderator posts will be highlighted
 dateplaner#:#cal_cache_settings#:#Cache
 dateplaner#:#cal_milestone_settings#:#Milestones
+assessment#:#test_edit_settings#:#Edit Settings
+assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Test has been set to offline, because toggling the setting for random question selection causes the allready existing questions to be removed.
