@@ -87,6 +87,8 @@ class ilCalendarMonthGUI
 	{
 		global $ilCtrl,$tpl;
 
+		$this->ctrl->saveParameter($this,'seed');
+
 		$next_class = $ilCtrl->getNextClass();
 		switch($next_class)
 		{
@@ -95,7 +97,11 @@ class ilCalendarMonthGUI
 				$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
 				
 				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
-				$app = new ilCalendarAppointmentGUI($this->seed,(int) $_GET['app_id']);
+
+				// initial date for new calendar appointments
+				$idate = new ilDate($_REQUEST['idate'], IL_CAL_DATE);
+
+				$app = new ilCalendarAppointmentGUI($this->seed,$idate,(int) $_GET['app_id']);
 				$this->ctrl->forwardCommand($app);
 				break;
 			
@@ -170,7 +176,8 @@ class ilCalendarMonthGUI
 				if ($settings->getEnableGroupMilestones())
 				{
 					$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
-					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
+					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
+					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$date->get(IL_CAL_DATE));
 					$this->tpl->setCurrentBlock("new_ms");
 					$this->tpl->setVariable('H_NEW_MS_SRC',ilUtil::getImagePath('ms_add.gif'));
 					$this->tpl->setVariable('H_NEW_MS_ALT',$this->lng->txt('cal_new_ms'));
@@ -183,7 +190,8 @@ class ilCalendarMonthGUI
 				$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('date_add.gif'));
 				$this->tpl->setVariable('NEW_ALT',$this->lng->txt('cal_new_app'));
 				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
-				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
+				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$date->get(IL_CAL_DATE));
+				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 				$this->tpl->setVariable('ADD_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -316,7 +324,7 @@ class ilCalendarMonthGUI
 			$this->tpl->setCurrentBlock('il_event');
 
 			include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-			$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance()->getHTML($item));
+			$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($item));
 			$this->tpl->setVariable('PANEL_NUM',$this->num_appointments);
 
 			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');

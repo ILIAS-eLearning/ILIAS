@@ -36,6 +36,7 @@ include_once('./Services/Calendar/classes/class.ilDateTime.php');
 class ilCalendarAppointmentGUI
 {
 	protected $seed = null;
+	protected $initialDate = null;
 	protected $default_fulltime = true;
 	
 	protected $app = null;
@@ -53,7 +54,7 @@ class ilCalendarAppointmentGUI
 	 * @param ilDate seed
 	 * @return
 	 */
-	public function __construct(ilDate $seed,$a_appointment_id = 0)
+	public function __construct(ilDate $seed,ilDate $initialDate, $a_appointment_id = 0)
 	{
 		global $ilCtrl,$lng;
 		
@@ -63,6 +64,7 @@ class ilCalendarAppointmentGUI
 
 		$this->initTimeZone();
 		$this->initSeed($seed);
+		$this->initInitialDate($initialDate);
 		$this->initAppointment($a_appointment_id);
 	}
 	
@@ -126,7 +128,7 @@ class ilCalendarAppointmentGUI
 		switch($a_mode)
 		{
 			case 'create':
-				$this->ctrl->saveParameter($this,array('seed'));
+				$this->ctrl->saveParameter($this,array('seed','idate'));
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
 				if ($a_as_milestone)
 				{
@@ -151,7 +153,7 @@ class ilCalendarAppointmentGUI
 				{
 					$this->form->setTitle($this->lng->txt('cal_edit_appointment'));
 				}
-				$this->ctrl->saveParameter($this,array('seed','app_id'));
+				$this->ctrl->saveParameter($this,array('seed','app_id','idate'));
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
 				
 				$ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
@@ -699,7 +701,7 @@ class ilCalendarAppointmentGUI
 
 		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 		
-		$this->ctrl->saveParameter($this,array('seed','app_id','dt'));
+		$this->ctrl->saveParameter($this,array('seed','app_id','dt','idate'));
 
 		$confirm = new ilConfirmationGUI();
 		$confirm->setFormAction($this->ctrl->getFormAction($this));
@@ -775,19 +777,16 @@ class ilCalendarAppointmentGUI
 		
 		$this->timezone = $ilUser->getTimeZone();
 	}
-	
+
 	/**
-	 * init seed
-	 *
-	 * @access protected
-	 * @param
-	 * @return
+	 * init initial date
+	 * @param ilDate $initialDate
 	 */
-	protected function initSeed(ilDate $seed)
+	protected function initInitialDate(ilDate $initialDate)
 	{
 		if(!isset($_GET['hour']))
 		{
-			$this->seed = clone $seed;
+			$this->initialDate = clone $initialDate;
 			$this->default_fulltime = true;
 		}
 		else
@@ -800,10 +799,22 @@ class ilCalendarAppointmentGUI
 			{
 				$time = (int) $_GET['hour'].':00:00';
 			}
-			$this->seed = new ilDateTime($seed->get(IL_CAL_DATE).' '.$time,IL_CAL_DATETIME,$this->timezone);
+			$this->initialDate = new ilDateTime($initialDate->get(IL_CAL_DATE).' '.$time,IL_CAL_DATETIME,$this->timezone);
 			$this->default_fulltime = false;
 		}
-		
+	}
+	
+	/**
+	 * init seed
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function initSeed(ilDate $seed)
+	{
+		$this->seed = clone $seed;
+		$this->default_fulltime = true;
 	}
 	
 	/**
@@ -821,10 +832,10 @@ class ilCalendarAppointmentGUI
 		
 		if(!$a_app_id)
 		{
-			$start = clone $this->seed;
+			$start = clone $this->initialDate;
 			$this->app->setStart($start);
 
-			$seed_end = clone $this->seed;
+			$seed_end = clone $this->initialDate;
 			if($this->default_fulltime)
 			{
 				#$seed_end->increment(IL_CAL_DAY,1);
