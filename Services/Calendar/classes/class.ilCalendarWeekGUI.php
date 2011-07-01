@@ -87,6 +87,9 @@ class ilCalendarWeekGUI
 	{
 		global $ilCtrl,$tpl;
 
+		$this->ctrl->saveParameter($this,'seed');
+
+
 		$next_class = $ilCtrl->getNextClass();
 		switch($next_class)
 		{
@@ -94,8 +97,11 @@ class ilCalendarWeekGUI
 				$this->ctrl->setReturn($this,'');
 				$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
 				
+				// initial date for new calendar appointments
+				$idate = new ilDate($_REQUEST['idate'], IL_CAL_DATE);
+
 				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
-				$app = new ilCalendarAppointmentGUI($this->seed,(int) $_GET['app_id']);
+				$app = new ilCalendarAppointmentGUI($this->seed,$idate,(int) $_GET['app_id']);
 				$this->ctrl->forwardCommand($app);
 				break;
 			
@@ -177,6 +183,7 @@ class ilCalendarWeekGUI
 		{	
 			$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
+			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$date->get(IL_CAL_DATE));
 			$this->ctrl->setParameterByClass('ilcalendardaygui','seed',$date->get(IL_CAL_DATE));
 
 			if(!$no_add)
@@ -284,7 +291,8 @@ class ilCalendarWeekGUI
 				if(!$hour['apps_num'] && !$ilUser->prefs["screen_reader_optimization"] && !$no_add)
 				{
 					$this->tpl->setCurrentBlock('new_app_link');
-					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->weekdays[$num_day]->get(IL_CAL_DATE));
+					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$this->weekdays[$num_day]->get(IL_CAL_DATE));
+					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','hour',$num_hour);
 					$this->tpl->setVariable('DAY_NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
 					$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
@@ -356,7 +364,7 @@ class ilCalendarWeekGUI
 		$this->tpl->setCurrentBlock('fullday_app');
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-		$this->tpl->setVariable('PANEL_F_DAY_DATA',ilCalendarAppointmentPanelGUI::_getInstance()->getHTML($a_app));
+		$this->tpl->setVariable('PANEL_F_DAY_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
 		$this->tpl->setVariable('F_DAY_ID',$this->num_appointments);
 		
 		$compl = ($a_app['event']->isMilestone() && $a_app['event']->getCompletion() > 0)
@@ -402,7 +410,7 @@ class ilCalendarWeekGUI
 		}
 
 		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-		$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance()->getHTML($a_app));
+		$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());

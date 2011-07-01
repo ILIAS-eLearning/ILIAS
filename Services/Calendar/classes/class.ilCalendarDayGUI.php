@@ -93,9 +93,12 @@ class ilCalendarDayGUI
 			case 'ilcalendarappointmentgui':
 				$this->ctrl->setReturn($this,'');
 				$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
-				
+
+				// initial date for new calendar appointments
+				$idate = new ilDate($_REQUEST['idate'], IL_CAL_DATE);
+
 				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
-				$app = new ilCalendarAppointmentGUI($this->seed,(int) $_GET['app_id']);
+				$app = new ilCalendarAppointmentGUI($this->seed,$idate,(int) $_GET['app_id']);
 				$this->ctrl->forwardCommand($app);
 				break;
 			
@@ -202,6 +205,7 @@ class ilCalendarDayGUI
 				$this->tpl->setCurrentBlock("new_app2");
 				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
+				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$this->seed->get(IL_CAL_DATE));
 				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','hour',$numeric);
 				$this->tpl->setVariable('NEW_APP_HOUR_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
 				$this->tpl->setVariable('NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
@@ -256,7 +260,7 @@ class ilCalendarDayGUI
 
 		$this->tpl->setCurrentBlock('fullday_app');
 		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-		$this->tpl->setVariable('PANEL_F_DAY_DATA',ilCalendarAppointmentPanelGUI::_getInstance()->getHTML($a_app));
+		$this->tpl->setVariable('PANEL_F_DAY_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
 		$this->tpl->setVariable('F_DAY_ID',$this->num_appointments);
 		
 		$compl = ($a_app['event']->isMilestone() && $a_app['event']->getCompletion() > 0)
@@ -302,7 +306,7 @@ class ilCalendarDayGUI
 		}
 
 		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
-		$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance()->getHTML($a_app));
+		$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance($this->seed)->getHTML($a_app));
 		$this->tpl->setVariable('PANEL_NUM',$this->num_appointments);
 
 		$this->tpl->setVariable('APP_ROWSPAN',$a_app['rowspan']);
