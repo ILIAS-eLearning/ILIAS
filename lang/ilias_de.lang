@@ -11619,3 +11619,5 @@ forum#:#mark_moderator_posts#:#Moderatoren-Beiträge markieren
 forum#:#mark_moderator_posts_dec#:#Wenn aktiviert, werden Moderatoren-Beiträge farblich hervorgehoben.
 dateplaner#:#cal_cache_settings#:#Cache
 dateplaner#:#cal_milestone_settings#:#Meilensteine
+assessment#:#test_edit_settings#:#Einstellungen bearbeiten
+assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Der Test wurde auf Offline gesetzt, da alle bereits im Test enthaltenen Fragen entfernt wurden, weil die Einstellung für die zufällige Auswahl von Fragen verändert wurde.

@@ -1805,7 +1805,19 @@ class ilObjTestGUI extends ilObjectGUI
 			
 			if (!$total)
 			{
-				$this->object->setOnline($_POST["online"]);
+				if( $randomtest_switch && $this->object->isOnline() && $_POST["online"] )
+				{
+					$online = false;
+
+					$info = $this->lng->txt(
+						"tst_set_offline_due_to_switched_random_test_setting"
+					);
+
+					ilUtil::sendInfo($info, true);
+				}
+				else $online = $_POST["online"];
+
+				$this->object->setOnline($online);
 
 				$this->object->setAnonymity($_POST["anonymity"]);
 				$this->object->setRandomTest($random_test);
@@ -4128,14 +4140,21 @@ EOT;
 		}
 
 		if( !$this->object->isOnline() )
-		{
-			ilUtil::sendInfo($this->lng->txt("test_is_offline"));
+ 		{
+			$message = $this->lng->txt("test_is_offline");
+
+			if($ilAccess->checkAccess("write", "", $this->ref_id))
+			{
+				$message .= "<br /><a href=\"".$this->ctrl->getLinkTarget($this, "properties")."\">".
+					$this->lng->txt("test_edit_settings")."</a>";
+			}
+
+			ilUtil::sendInfo($message);
 		}
 		
 		if ($this->object->getShowInfo())
 		{
 			$info->enablePrivateNotes();
-
 		}
 		/*
 		if (strlen($this->object->getIntroduction()))
@@ -4198,7 +4217,7 @@ EOT;
 					}
 				}
 				// hide previous results
-				if (!$this->object->isRandomTest())
+				if( !$this->object->isRandomTest() )
 				{
 					if ($this->object->getNrOfTries() != 1)
 					{
