@@ -11651,3 +11651,5 @@ skmg#:#skmg_remove_skills#:#Remove Skills
 skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig skills from your list?
 forum#:#mark_moderator_posts#:#Mark moderator posts
 forum#:#mark_moderator_posts_dec#:#If activated moderator posts will be highlighted
+dateplaner#:#cal_cache_settings#:#Cache
+dateplaner#:#cal_milestone_settings#:#Milestones

@@ -294,45 +294,18 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$select->setInfo($this->lng->txt('cal_def_time_format_info'));
 		$select->setValue($this->settings->getDefaultTimeFormat());
 		$this->form->addItem($select);
-		
+
+		// Weekstart
 		$radio = new ilRadioGroupInputGUI($this->lng->txt('cal_def_week_start'),'default_week_start');
 		$radio->setValue($this->settings->getDefaultWeekStart());
-	
+
 		$option = new ilRadioOption($this->lng->txt('l_su'),0);
 		$radio->addOption($option);
 		$option = new ilRadioOption($this->lng->txt('l_mo'),1);
 		$radio->addOption($option);
-		
-		// Calendar cache		
-		$cache = new ilRadioGroupInputGUI($this->lng->txt('cal_cache'),'cache');
-		$cache->setValue((int) $this->settings->isCacheUsed());
-		$cache->setInfo($this->lng->txt('cal_cache_info'));
-		$cache->setRequired(true);
-		
-		$sync_cache = new ilRadioOption($this->lng->txt('cal_cache_disabled'),0);
-		$cache->addOption($sync_cache);
-		
-		$sync_cache = new ilRadioOption($this->lng->txt('cal_cache_enabled'),1);
-		$cache->addOption($sync_cache);
-		
-		$cache_t = new ilNumberInputGUI('','cache_time');
-		$cache_t->setValue($this->settings->getCacheMinutes());
-		$cache_t->setMinValue(0);
-		$cache_t->setSize(3);
-		$cache_t->setMaxLength(3);
-		$cache_t->setSuffix($this->lng->txt('form_minutes'));
-		$sync_cache->addSubItem($cache_t);
-		$this->form->addItem($cache);
-		
-		// enable milestone planning in groups
-		$checkm = new ilCheckboxInputGUI($this->lng->txt('cal_enable_group_milestones'),'enable_grp_milestones');
-		$checkm->setValue(1);
-		$checkm->setChecked($this->settings->getEnableGroupMilestones() ? true : false);
-		$checkm->setInfo($this->lng->txt('cal_enable_group_milestones_desc'));
-		$this->form->addItem($checkm);
-		
+
 		$this->form->addItem($radio);
-		
+
 		// Day start
 		$day_start = new ilSelectInputGUI($this->lng->txt('cal_day_start'),'dst');
 		$day_start->setOptions(
@@ -340,14 +313,27 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		);
 		$day_start->setValue($this->settings->getDefaultDayStart());
 		$this->form->addItem($day_start);
-		
+
 		$day_end = new ilSelectInputGUI($this->lng->txt('cal_day_end'),'den');
 		$day_end->setOptions(
 			ilCalendarUtil::getHourSelection($this->settings->getDefaultTimeFormat())
 		);
 		$day_end->setValue($this->settings->getDefaultDayEnd());
 		$this->form->addItem($day_end);
-		
+
+
+
+		// enable milestone planning in groups
+		$mil = new ilFormSectionHeaderGUI();
+		$mil->setTitle($this->lng->txt('cal_milestone_settings'));
+		$this->form->addItem($mil);
+
+		$checkm = new ilCheckboxInputGUI($this->lng->txt('cal_enable_group_milestones'),'enable_grp_milestones');
+		$checkm->setValue(1);
+		$checkm->setChecked($this->settings->getEnableGroupMilestones() ? true : false);
+		$checkm->setInfo($this->lng->txt('cal_enable_group_milestones_desc'));
+		$this->form->addItem($checkm);
+
 		// Consultation hours
 		$con = new ilFormSectionHeaderGUI();
 		$con->setTitle($this->lng->txt('cal_ch_form_header'));
@@ -359,31 +345,6 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$ch->setChecked($this->settings->areConsultationHoursEnabled());
 		$this->form->addItem($ch);
 		
-		// Synchronisation cache
-		$sec = new ilFormSectionHeaderGUI();
-		$sec->setTitle($this->lng->txt('cal_sync_header'));
-		$this->form->addItem($sec);
-		
-		$cache = new ilRadioGroupInputGUI($this->lng->txt('cal_sync_cache'),'sync_cache');
-		$cache->setValue((int) $this->settings->isSynchronisationCacheEnabled());
-		$cache->setInfo($this->lng->txt('cal_sync_cache_info'));
-		$cache->setRequired(true);
-		
-		$sync_cache = new ilRadioOption($this->lng->txt('cal_sync_disabled'),0);
-		$cache->addOption($sync_cache);
-		
-		$sync_cache = new ilRadioOption($this->lng->txt('cal_sync_enabled'),1);
-		$cache->addOption($sync_cache);
-		
-		$cache_t = new ilNumberInputGUI('','sync_cache_time');
-		$cache_t->setValue($this->settings->getSynchronisationCacheMinutes());
-		$cache_t->setMinValue(0);
-		$cache_t->setSize(3);
-		$cache_t->setMaxLength(3);
-		$cache_t->setSuffix($this->lng->txt('form_minutes'));
-		$sync_cache->addSubItem($cache_t);
-		
-		$this->form->addItem($cache);
 		
 		// Notifications
 		$not = new ilFormSectionHeaderGUI();
@@ -406,7 +367,54 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$cgn->setChecked($this->settings->isCGRegistrationEnabled());
 		$cgn->setInfo($this->lng->txt('cal_cg_registration_info'));
 		$this->form->addItem($cgn);
-		
+
+		// Synchronisation cache
+		$sec = new ilFormSectionHeaderGUI();
+		$sec->setTitle($this->lng->txt('cal_cache_settings'));
+		$this->form->addItem($sec);
+
+		$cache = new ilRadioGroupInputGUI($this->lng->txt('cal_sync_cache'),'sync_cache');
+		$cache->setValue((int) $this->settings->isSynchronisationCacheEnabled());
+		$cache->setInfo($this->lng->txt('cal_sync_cache_info'));
+		$cache->setRequired(true);
+
+		$sync_cache = new ilRadioOption($this->lng->txt('cal_sync_disabled'),0);
+		$cache->addOption($sync_cache);
+
+		$sync_cache = new ilRadioOption($this->lng->txt('cal_sync_enabled'),1);
+		$cache->addOption($sync_cache);
+
+		$cache_t = new ilNumberInputGUI('','sync_cache_time');
+		$cache_t->setValue($this->settings->getSynchronisationCacheMinutes());
+		$cache_t->setMinValue(0);
+		$cache_t->setSize(3);
+		$cache_t->setMaxLength(3);
+		$cache_t->setSuffix($this->lng->txt('form_minutes'));
+		$sync_cache->addSubItem($cache_t);
+
+		$this->form->addItem($cache);
+
+		// Calendar cache
+		$cache = new ilRadioGroupInputGUI($this->lng->txt('cal_cache'),'cache');
+		$cache->setValue((int) $this->settings->isCacheUsed());
+		$cache->setInfo($this->lng->txt('cal_cache_info'));
+		$cache->setRequired(true);
+
+		$sync_cache = new ilRadioOption($this->lng->txt('cal_cache_disabled'),0);
+		$cache->addOption($sync_cache);
+
+		$sync_cache = new ilRadioOption($this->lng->txt('cal_cache_enabled'),1);
+		$cache->addOption($sync_cache);
+
+		$cache_t = new ilNumberInputGUI('','cache_time');
+		$cache_t->setValue($this->settings->getCacheMinutes());
+		$cache_t->setMinValue(0);
+		$cache_t->setSize(3);
+		$cache_t->setMaxLength(3);
+		$cache_t->setSuffix($this->lng->txt('form_minutes'));
+		$sync_cache->addSubItem($cache_t);
+		$this->form->addItem($cache);
+
 	}
 }
 ?>
