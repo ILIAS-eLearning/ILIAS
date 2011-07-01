@@ -103,10 +103,15 @@ class ilCalendarExport
 		
 		if($app->isFullday())
 		{
+			// According to RFC 5545 3.6.1 DTEND is not inklusive.
+			// But ILIAS stores inklusive dates in the database.
+			$app->getEnd()->increment(IL_CAL_DAY,1);
+
 			#$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\Z',ilTimeZone::UTC);
 			$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd',$ilUser->getTimeZone());
 			#$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\Z',ilTimeZone::UTC);
 			$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd',$ilUser->getTimeZone());
+			
 			$this->writer->addLine('DTSTART;VALUE=DATE:' . $start);
 			$this->writer->addLine('DTEND;VALUE=DATE:'.$end);
 		}
