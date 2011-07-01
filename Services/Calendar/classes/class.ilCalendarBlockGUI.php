@@ -191,7 +191,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		{
 			case "ilcalendarappointmentgui":
 				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
-				$app_gui = new ilCalendarAppointmentGUI($this->seed);
+				$app_gui = new ilCalendarAppointmentGUI($this->seed,$this->seed);
 				$ilCtrl->forwardCommand($app_gui);
 				break;
 				

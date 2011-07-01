@@ -57,9 +57,9 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 	 	
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 		$this->setFormName('appointments');
-	 	$this->addColumn($this->lng->txt('title'),'title',"40%");
-	 	$this->addColumn($this->lng->txt('cal_start'),'begin',"15%");
-	 	$this->addColumn($this->lng->txt('cal_duration'),'duration',"20%");
+	 	$this->addColumn($this->lng->txt('title'),'title',"30%");
+	 	$this->addColumn($this->lng->txt('date'),'begin',"30%");
+	 	$this->addColumn($this->lng->txt('cal_duration'),'duration',"15%");
 	 	$this->addColumn($this->lng->txt('cal_recurrences'),'frequence',"10%");
 	 	$this->addColumn($this->lng->txt('last_update'),'last_update',"15%");
 	 	
@@ -127,14 +127,19 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 		// TOD: Localization
 		if($a_set['fullday'])
 		{
-			$start = new ilDate($a_set['begin'],IL_CAL_UNIX);
-			$this->tpl->setVariable('VAL_BEGIN',ilDatePresentation::formatDate($start));
+			$date =  ilDatePresentation::formatPeriod(
+				new ilDate($a_set['begin'],IL_CAL_UNIX),
+				new ilDate($a_set['end'],IL_CAL_UNIX)
+			);
 		}
 		else
 		{
-			$start = new ilDateTime($a_set['begin'],IL_CAL_UNIX,'UTC');
-			$this->tpl->setVariable('VAL_BEGIN',ilDatePresentation::formatDate($start));
+			$date =  ilDatePresentation::formatPeriod(
+				new ilDateTime($a_set['begin'],IL_CAL_UNIX),
+				new ilDateTime($a_set['end'],IL_CAL_UNIX)
+			);
 		}
+		$this->tpl->setVariable('VAL_BEGIN',$date);
 		if($a_set['duration'])
 		{
 			if($a_set['milestone'])
