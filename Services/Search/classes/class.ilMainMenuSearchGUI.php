@@ -66,13 +66,15 @@ class ilMainMenuSearchGUI
 		
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initAutocomplete();
-		$this->tpl = new ilTemplate('tpl.main_menu_search2.html',true,true,'Services/Search');
+		$this->tpl = new ilTemplate('tpl.main_menu_search.html',true,true,'Services/Search');
 		$this->tpl->setVariable('FORMACTION','ilias.php?baseClass=ilSearchController&cmd=post'.
 			'&rtoken='.$ilCtrl->getRequestToken().'&fallbackCmd=remoteSearch');
 		$this->tpl->setVariable('BTN_SEARCH',$this->lng->txt('search'));
 		$this->tpl->setVariable('CONT_REF_ID',ROOT_FOLDER_ID);
 		$this->tpl->setVariable('ID_AUTOCOMPLETE', "mm_sr_auto");
 		$this->tpl->setVariable('YUI_DATASOURCE', "ilias.php?baseClass=ilSearchController&cmd=autoComplete");
+		
+/*
 		$this->tpl->setVariable('ARROW', ilUtil::getImagePath("mm_down_arrow_dark.gif"));
 		$this->tpl->setVariable('SRC_ICON', ilUtil::getImagePath("icon_seas_s.gif"));
 		$this->tpl->setVariable('TXT_LAST_SEARCH', " > ".$lng->txt("last_search_result"));
@@ -83,7 +85,7 @@ class ilMainMenuSearchGUI
 		$ov->setTrigger("mm_search_trigger");
 		$ov->setAnchor("mm_search_trigger", "tr", "br");
 		$ov->setAutoHide(false);
-		$ov->add();
+		$ov->add();*/
 		
 		return $this->tpl->get();
 	} 

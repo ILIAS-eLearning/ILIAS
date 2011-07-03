@@ -909,7 +909,7 @@ div.ilLogin
 	margin-top:0px;
 	margin-bottom:0px;
 	white-space: nowrap;
-	text-align:right;
+	float:right;
 	font-size:80%;
 }
 
@@ -2089,6 +2089,7 @@ a.MMActive:hover
 }
 
 div.ilMainMenuSearch {
+	clear: right;
 	text-align: right;
 	margin: 3px 15px 0px 15px;
 }
