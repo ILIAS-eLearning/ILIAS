@@ -471,12 +471,10 @@ class ilObjGlossary extends ilObject
 		// initialize temporary target directory
 		ilUtil::delDir($a_target_dir);
 		ilUtil::makeDir($a_target_dir);
-		$mob_dir = $a_target_dir."/mobs";
-		ilUtil::makeDir($mob_dir);
-		$file_dir = $a_target_dir."/files";
-		ilUtil::makeDir($file_dir);
-		$tex_dir = $a_target_dir."/teximg";
-		ilUtil::makeDir($tex_dir);
+		
+		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
+		$this->co_page_html_export = new ilCOPageHTMLExport($a_target_dir);
+		$this->co_page_html_export->createDirectories();
 
 		// export system style sheet
 		$location_stylesheet = ilUtil::getStyleSheetLocation("filesystem");
