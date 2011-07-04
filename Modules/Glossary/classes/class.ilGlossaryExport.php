@@ -251,25 +251,14 @@ class ilGlossaryExport
 	{
 		global $ilBench;
 
-		$ilBench->start("GlossaryExport", "buildHTMLPackage");
-
 		// create directories
 		$this->glo_obj->createExportDirectory("html");
 
 		// get Log File
 		$expDir = $this->glo_obj->getExportDirectory();
-		/*
-		$expLog = new ilLog($expDir, "export.log");
-		$expLog->delete();
-		$expLog->setLogFormat("");
-		$expLog->write(date("[y-m-d H:i:s] ")."Start Export");*/
 
 		// get xml content
-		$ilBench->start("GlossaryExport", "buildExportFile_getHTML");
 		$this->glo_obj->exportHTML($this->export_dir."/".$this->subdir, $expLog);
-		$ilBench->stop("GlossaryExport", "buildExportFile_getHTML");
-
-		$ilBench->stop("GlossaryExport", "buildHTMLPackage");
 	}
 
 }
