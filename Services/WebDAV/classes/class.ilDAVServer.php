@@ -148,7 +148,11 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		|| strpos($userAgent,'microsoft') !== false)
 		{
 			$this->clientOS = 'windows';
-			$this->clientOSFlavor = 'xp';
+                        if(strpos($userAgent,'nt 5.1') !== false){
+                            $this->clientOSFlavor = 'xp';
+                        }else{
+                            $this->clientOSFlavor = 'nichtxp';
+                        }
 
 		} else if (strpos($userAgent,'darwin') !== false
                 || strpos($userAgent,'macintosh') !== false
@@ -1228,7 +1232,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 						return '403 Forbidden';
 				}
 				$dstParentDAV->addMove($srcDAV, $dstName);
-		}
+                }
 
 		// Record write event
 		if (ilChangeEvent::_isActive())
