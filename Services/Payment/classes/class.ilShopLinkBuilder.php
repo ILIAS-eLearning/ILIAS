@@ -14,13 +14,13 @@ class ilShopLinkBuilder
 {
 	// define reachable shop-targets for goto_ links
 	static public $linkArray = array(
-		'ilshopgui' =>  array('baseClass' => 'ilShopController', 'cmdClass' => 'ilShopGUI'),
-		'ilshopadvancedsearchgui' =>  array('baseClass' => 'ilShopController', 'cmdClass' => 'ilShopAdvancedSearchGUI'),
-		'ilshopinfogui' =>  array('baseClass' => 'ilShopController', 'cmdClass' => 'ilShopInfoGUI'),
-		'ilshopnewsgui' =>  array('baseClass' => 'ilShopController', 'cmdClass' => 'ilShopNewsGUI'),
-		'ilshopboughtobjectsgui' => array('baseClass' => 'ilShopController', 'cmdClass' => 'ilShopBoughtObjectsGUI'),
-		'ilshopshoppingcartgui' => array('baseClass' => 'ilShopController', 'cmdClass' => 'ilShopShoppingCartGUI'),
-		'iltermsconditionsgui' => array('baseClass' => 'ilShopController', 'cmdClass' => 'ilTermsConditionsGUI')
+		'ilshopgui' =>  array('baseClass' => 'ilShopController', 'cmdClass' => 'ilShopGUI', 'public' => 'true'),
+		'ilshopadvancedsearchgui' =>  array('baseClass' => 'ilShopController', 'cmdClass' => 'ilShopAdvancedSearchGUI','public' => 'true'),
+		'ilshopinfogui' =>  array('baseClass' => 'ilShopController', 'cmdClass' => 'ilShopInfoGUI','public' => 'true'),
+		'ilshopnewsgui' =>  array('baseClass' => 'ilShopController', 'cmdClass' => 'ilShopNewsGUI','public' => 'true'),
+		'ilshopboughtobjectsgui' => array('baseClass' => 'ilShopController', 'cmdClass' => 'ilShopBoughtObjectsGUI','public' => 'false'),
+		'ilshopshoppingcartgui' => array('baseClass' => 'ilShopController', 'cmdClass' => 'ilShopShoppingCartGUI','public' => 'true'),
+		'iltermsconditionsgui' => array('baseClass' => 'ilShopController', 'cmdClass' => 'ilTermsConditionsGUI','public' => 'true')
 	);
 
 	/**

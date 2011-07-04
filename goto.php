@@ -91,9 +91,12 @@ $shop_classes = array_keys(ilShopLinkBuilder::$linkArray);
 if(in_array($target_type, $shop_classes))
 {
 	$class = $target_type;
-	 ilUtil::redirect('ilias.php?baseClass='.ilShopLinkBuilder::$linkArray[strtolower($class)]['baseClass']
-		.'&cmdClass='.strtolower(ilShopLinkBuilder::$linkArray[strtolower($class)]['cmdClass']));
-	  exit;
+	if(ilShopLinkBuilder::$linkArray[strtolower($class)]['public'] == 'true')
+	{
+		 ilUtil::redirect('ilias.php?baseClass='.ilShopLinkBuilder::$linkArray[strtolower($class)]['baseClass']
+			.'&cmdClass='.strtolower(ilShopLinkBuilder::$linkArray[strtolower($class)]['cmdClass']));
+		  exit;
+	}
 }
 
 // if anonymous and goto is not granted: go to login page
