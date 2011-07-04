@@ -74,7 +74,7 @@ class ilObjTestGUI extends ilObjectGUI
 			'resume', 'start', 'outUserResultsOverview', 'outUserListOfAnswerPasses'		
 		);
 		
-		if( !$this->object->isOnline() && in_array($cmd, $cmdsDisabledDueToOfflineStatus) )
+		if( !$this->getCreationMode() && !$this->object->isOnline() && in_array($cmd, $cmdsDisabledDueToOfflineStatus) )
 		{
 			$cmd = 'infoScreen';
 		}
