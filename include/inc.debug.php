@@ -55,12 +55,16 @@ function vd()
 		echo "</pre><br/>";
 		$num++;
 	}
+
+	flush(); ob_flush();
 }
 
 function pr($var,$name = '')
 {
 	if($name != '') $name .= ' = ';
 	echo '<pre>'.$name.print_r($var,true).'</pre>';
+
+	flush(); ob_flush();
 }
 
 ?>
