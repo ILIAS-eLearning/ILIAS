@@ -107,7 +107,7 @@ class ilWikiHTMLExport
 	{
 		global $ilUser, $lng;
 
-		$this->tpl = $this->co_page_html_export->getPreparedMainTempalte();
+		$this->tpl = $this->co_page_html_export->getPreparedMainTemplate();
 		
 		$this->tpl->getStandardTemplate();
 		$file = $this->export_dir."/wpg_".$a_page_id.".html";

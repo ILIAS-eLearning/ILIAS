@@ -163,7 +163,7 @@ class ilCOPageHTMLExport
 	 * @param
 	 * @return
 	 */
-	function getPreparedMainTempalte()
+	function getPreparedMainTemplate()
 	{
 		global $ilUser;
 		
