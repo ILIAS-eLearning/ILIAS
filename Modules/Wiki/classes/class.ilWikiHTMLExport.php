@@ -73,7 +73,6 @@ class ilWikiHTMLExport
 			$zip_file = ilExport::_getExportDirectory($this->wiki->getId(), "html", "wiki").
 				"/".$date."__".IL_INST_ID."__".
 				$this->wiki->getType()."_".$this->wiki->getId().".zip";
-echo $this->export_dir; exit;
 			ilUtil::zip($this->export_dir, $zip_file);
 			ilUtil::delDir($this->export_dir);
 		}
