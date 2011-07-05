@@ -32,6 +32,8 @@
 
 class ilCalendarCategory
 {
+	private static $instances = null;
+
 	const DEFAULT_COLOR = '#04427e';
 	
 	const TYPE_USR = 1;		// user
@@ -86,7 +88,22 @@ class ilCalendarCategory
 	 	}
 	 	return null;
 	 }
-	 
+
+	 /**
+	  * Get instance by category id
+	  * @param int $a_cat_id
+	  * @return ilCalendarCategory
+	  */
+	 public static function getInstanceByCategoryId($a_cat_id)
+	 {
+		 if(!self::$instances[$a_cat_id])
+		 {
+			 return self::$instances[$a_cat_id] = new ilCalendarCategory($a_cat_id);
+		 }
+		 return self::$instances[$a_cat_id];
+	 }
+
+
 	 /**
 	  * get all assigned appointment ids
 	  * @return 
