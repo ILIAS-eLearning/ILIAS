@@ -143,6 +143,16 @@ class ilChangeEvent
 				$time = $ilDB->quote((time() - $row->last_access) <= $validTimeSpan
 							 ? $row->spent_seconds + time() - $row->last_access
 							 : $row->spent_seconds,'integer');
+				
+				// if we are in the valid interval, we do not
+				// add anything to the read_count, since this is the
+				// same access for us
+				if ((time() - $row->last_access) <= $validTimeSpan)
+				{
+					$read_count = '';
+					$read_count_init = 1;
+					$read_count_diff = 0;
+				}
 			}
 			$time_diff = $time - (int) $row->spent_seconds;
 			
