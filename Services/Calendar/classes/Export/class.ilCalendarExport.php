@@ -135,7 +135,8 @@ class ilCalendarExport
 			$this->writer->addLine('LOCATION:'.ilICalWriter::escapeText($app->getLocation()));
 
 		// TODO: URL
-		$this->writer->addLine('URL:'.ILIAS_HTTP_PATH);
+		$this->buildAppointmentUrl($app);
+
 		$this->writer->addLine('END:VEVENT');
 		
 	}
@@ -157,5 +158,31 @@ class ilCalendarExport
 	public function getExportString()
 	{
 		return $this->writer->__toString();
+	}
+
+	/**
+	 * Build url from calendar entry
+	 * @param ilCalendarEntry $entry
+	 * @return string
+	 */
+	protected function buildAppointmentUrl(ilCalendarEntry $entry)
+	{
+		$cat = ilCalendarCategory::getInstanceByCategoryId(
+			current((array) ilCalendarCategoryAssignments::_lookupCategories($entry->getEntryId()))
+		);
+
+		if($cat->getType() != ilCalendarCategory::TYPE_OBJ)
+		{
+			$this->writer->addLine('URL;VALUE=URI:'.ILIAS_HTTP_PATH);
+		}
+		else
+		{
+			$refs = ilObject::_getAllReferences($cat->getObjId());
+
+			include_once './classes/class.ilLink.php';
+			$this->writer->addLine(
+				'URL;VALUE=URI:'.ilLink::_getLink(current((array) $refs))
+			);
+		}
 	}
 }
