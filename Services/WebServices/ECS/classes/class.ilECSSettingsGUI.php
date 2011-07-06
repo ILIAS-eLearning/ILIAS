@@ -34,6 +34,10 @@ include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
 */
 class ilECSSettingsGUI
 {
+	const MAPPING_EXPORT = 1;
+	const MAPPING_IMPORT = 2;
+
+
 	protected $tpl;
 	protected $lng;
 	protected $ctrl;
@@ -797,38 +801,93 @@ class ilECSSettingsGUI
 		*/
 		return true;
 	}
+
+
+	/**
+	 * Handle tabs for ECS data mapping
+	 * @param int $a_active
+	 * @global ilTabsGUI ilTabs
+	 */
+	protected function setMappingTabs($a_active)
+	{
+		global $ilTabs;
+
+		$ilTabs->clearTargets();
+		$ilTabs->clearSubTabs();
+
+		$ilTabs->setBackTarget(
+			$this->lng->txt('ecs_settings'),
+			$this->ctrl->getLinkTarget($this,'overview')
+		);
+		$ilTabs->addTab(
+			'import',
+			$this->lng->txt('ecs_tab_import'),
+			$this->ctrl->getLinkTarget($this,'importMappings')
+		);
+		$ilTabs->addTab(
+			'export',
+			$this->lng->txt('ecs_tab_export'),
+			$this->ctrl->getLinkTarget($this,'exportMappings')
+		);
+
+
+		switch($a_active)
+		{
+			case self::MAPPING_IMPORT:
+				$ilTabs->activateTab('import');
+				break;
+
+			case self::MAPPING_EXPORT:
+				$ilTabs->activateTab('export');
+				break;
+		}
+		return true;
+	}
 	
 	/**
 	 * Show mapping settings (EContent-Data <-> (Remote)Course
 	 *
 	 * @access public
 	 */
-	public function mappings()
+	public function importMappings()
 	{
 	 	include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-	 	
-	 	$this->tabs_gui->setSubTabActive('ecs_mappings');
+
+		$this->setMappingTabs(self::MAPPING_IMPORT);
+
+		$fields = ilAdvancedMDFieldDefinition::_getActiveDefinitionsByObjType('crs');
+		if(!count($fields))
+		{
+			ilUtil::sendInfo($this->lng->txt('ecs_no_adv_md'));
+			return true;
+		}
 
 		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
 		$settings = ilECSServerSettings::getInstance();
 		$settings->readInactiveServers();
 
+		include_once './Services/Accordion/classes/class.ilAccordionGUI.php';
+		$acc = new ilAccordionGUI();
+
+		// Iterate all servers
 		foreach($settings->getServers() as $server)
 		{
+			$acc->setOrientation(ilAccordionGUI::FIRST_OPEN);
+			$acc->setId('ecs_mapping_import_'.$server->getServerId());
 
+			$form = $this->initMappingsForm($server->getServerId());
+
+			$acc->addItem(
+				$server->getTitle() ? $server->getTitle() : 'ECS',
+				'<br />'.$form->getHTML().'<br />'
+			);
 		}
 
-	 	
-	 	$fields = ilAdvancedMDFieldDefinition::_getActiveDefinitionsByObjType('crs');
-	 	if(!count($fields))
-	 	{
-	 		ilUtil::sendInfo($this->lng->txt('ecs_no_adv_md'));
-	 		return true;
-	 	}
-	 	
-	 	$this->initMappingsForm();
-		$this->tpl->setContent($this->form->getHTML());
-	 	return true;
+		if($acc instanceof ilAccordionGUI)
+		{
+			$this->tpl->setContent($acc->getHTML());
+		}
+		return true;
 	}
 	
 	/**
@@ -837,59 +896,113 @@ class ilECSSettingsGUI
 	 * @access protected
 	 * 
 	 */
-	protected function saveMappings()
+	protected function saveImportMappings()
 	{
-		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
-		$mapping_settings = ilECSDataMappingSettings::_getInstance();
-		$mapping_settings->setMappings($_POST['mapping']);
-		$mapping_settings->save();
+		foreach((array) $_POST['mapping'] as $mtype => $mappings)
+		{
+			foreach((array) $mappings as $ecs_field => $advmd_id)
+			{
+				include_once './Services/WebServices/ECS/classes/class.ilECSDataMappingSetting.php';
+				$map = new ilECSDataMappingSetting(
+					(int) $_POST['ecs_mapping_server'],
+					(int) $mtype,
+					$ecs_field
+				);
+				$map->setAdvMDId($advmd_id);
+				$map->save();
+			}
+		}
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
-		$this->mappings();
+		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this,'importMappings');
 		return true;
 	}
 
 	/**
 	 * init mapping form
 	 *
+	 * @param int $a_server_id
+	 * @return ilPropertyFormGUI $form
+	 *
 	 * @access protected
 	 */
-	protected function initMappingsForm()
+	protected function initMappingsForm($a_server_id)
 	{
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		
-		if(is_object($this->form))
-		{
-			return true;
-		}
 
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
-		$mapping_settings = ilECSDataMappingSettings::_getInstance();
+		$mapping_settings = ilECSDataMappingSettings::getInstanceByServerId($a_server_id);
 			
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('ecs_mapping_tbl'));
+		$form->setFormAction($this->ctrl->getFormAction($this,'saveMappings'));
+		$form->addCommandButton('saveImportMappings',$this->lng->txt('save'));
+		$form->addCommandButton('importMappings',$this->lng->txt('cancel'));
+
+		$assignments = new ilCheckboxGroupInputGUI('', 'mapping_type');
+		$form->addItem($assignments);
+
+		$option = new ilCheckboxInputGUI($this->lng->txt('ecs_mapping_crs'), 'mapping_type');
+		$option->setValue(ilECSDataMappingSetting::MAPPING_IMPORT_CRS);
+
+		$assignments->addOption($option);
+
+
 	 	include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-	 	$fields = ilAdvancedMDFieldDefinition::_getActiveDefinitionsByObjType('crs');
-		$fields = array_unique(array_merge(ilAdvancedMDFieldDefinition::_getActiveDefinitionsByObjType('crs'),
-								ilAdvancedMDFieldDefinition::_getActiveDefinitionsByObjType('rcrs')));
-		
-		 	
-		$options = $this->prepareFieldSelection($fields);	
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setTitle($this->lng->txt('ecs_mapping_tbl'));
-		$this->form->setFormAction($this->ctrl->getFormAction($this,'saveMappings'));
-		$this->form->addCommandButton('saveMappings',$this->lng->txt('save'));
-		$this->form->addCommandButton('mappings',$this->lng->txt('cancel'));
-				
-		// get all optional fields
+		$fields = ilAdvancedMDFieldDefinition::_getActiveDefinitionsByObjType('crs');
+		$options = $this->prepareFieldSelection($fields);
+
+		// get all optional ecourse fields
 		include_once('./Services/WebServices/ECS/classes/class.ilECSUtils.php');
-		$optional = ilECSUtils::_getOptionalEContentFields();
-		
+		$optional = ilECSUtils::_getOptionalECourseFields();
 		foreach($optional as $field_name)
 		{
-			$select = new ilSelectInputGUI($this->lng->txt('ecs_field_'.$field_name),'mapping['.$field_name.']');
-			$select->setValue($mapping_settings->getMappingByECSName($field_name));
+			$select = new ilSelectInputGUI(
+				$this->lng->txt('ecs_field_'.$field_name),
+				'mapping'.'['.ilECSDataMappingSetting::MAPPING_IMPORT_CRS.']['.$field_name.']');
+			$select->setValue(
+				$mapping_settings->getMappingByECSName(
+					ilECSDataMappingSetting::MAPPING_IMPORT_CRS,
+					$field_name)
+			);
 			$select->setOptions($options);
-			$this->form->addItem($select);
+			$option->addSubItem($select);
 		}
+
+		// Remote courses
+		$rcrs = new ilCheckboxInputGUI($this->lng->txt('ecs_mapping_rcrs'), 'mapping_type');
+		$rcrs->setValue(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS);
+
+		$assignments->addOption($rcrs);
+
+	 	include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+		$fields = ilAdvancedMDFieldDefinition::_getActiveDefinitionsByObjType('rcrs');
+		$options = $this->prepareFieldSelection($fields);
+
+		// get all optional econtent fields
+		include_once('./Services/WebServices/ECS/classes/class.ilECSUtils.php');
+		$optional = ilECSUtils::_getOptionalEContentFields();
+		foreach($optional as $field_name)
+		{
+			$select = new ilSelectInputGUI(
+				$this->lng->txt('ecs_field_'.$field_name),
+				'mapping['.ilECSDataMappingSetting::MAPPING_IMPORT_RCRS.']['.$field_name.']');
+			$select->setValue(
+				$mapping_settings->getMappingByECSName(
+					ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,
+					$field_name)
+			);
+			$select->setOptions($options);
+			$rcrs->addSubItem($select);
+		}
+
+		$server = new ilHiddenInputGUI('ecs_mapping_server');
+		$server->setValue($a_server_id);
+		
+		$form->addItem($server);
+
+		return $form;
 	}
 	
 	/**
@@ -1281,34 +1394,34 @@ class ilECSSettingsGUI
 			{
 				$writer->addColumn($participant->getParticipantName());
 			}
-			$field = $settings->getMappingByECSName('courseID');
+			$field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'courseID');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('term');
+			$field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'term');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('lecturer');
+			$field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'lecturer');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('courseType');
+			$field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'courseType');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('semester_hours');
+			$field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'semester_hours');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('credits');
+			$field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'credits');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('room');
+			$field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'room');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('cycle');
+			$field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'cycle');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('begin');
+			$field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'begin');
 			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
 			
-			$field = $settings->getMappingByECSName('end');
+			$field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'end');
 			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
 			
 			$writer->addColumn($ilObjDataCache->lookupLastUpdate($obj_id));
@@ -1500,8 +1613,8 @@ class ilECSSettingsGUI
 			"communities",get_class($this));
 			
 		$this->tabs_gui->addSubTabTarget('ecs_mappings',
-			$this->ctrl->getLinkTarget($this,'mappings'),
-			'mappings',get_class($this));
+			$this->ctrl->getLinkTarget($this,'importMappings'),
+			'importMappings',get_class($this));
 			
 		$this->tabs_gui->addSubTabTarget('ecs_category_mapping',
 			$this->ctrl->getLinkTarget($this,'categoryMapping'));

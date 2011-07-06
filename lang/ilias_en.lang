@@ -11655,3 +11655,7 @@ dateplaner#:#cal_cache_settings#:#Cache
 dateplaner#:#cal_milestone_settings#:#Milestones
 assessment#:#test_edit_settings#:#Edit Settings
 assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Test has been set to offline, because toggling the setting for random question selection causes the allready existing questions to be removed.
+ecs#:#ecs_tab_import#:#Import
+ecs#:#ecs_tab_export#:#Export
+ecs#:#ecs_mapping_crs#:#Mapping for Courses
+ecs#:#ecs_mapping_rcrs#:#Mapping for Remote Courses

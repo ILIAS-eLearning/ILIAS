@@ -121,43 +121,43 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 		
 		$values = ilAdvancedMDValues::_getValuesByObjId($a_set['obj_id']);
 		
-		if($field = $settings->getMappingByECSName('lecturer'))
+		if($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'lecturer'))
 		{
 			$this->tpl->setVariable('VAL_LECTURER',isset($values[$field]) ? $values[$field] : '--');
 		}
-		if($field = $settings->getMappingByECSName('term'))
+		if($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'term'))
 		{
 			$this->tpl->setVariable('VAL_TERM',isset($values[$field]) ? $values[$field] : '--');
 		}
-		if($field = $settings->getMappingByECSName('courseID'))
+		if($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'courseID'))
 		{
 			$this->tpl->setVariable('VAL_CRS_ID',isset($values[$field]) ? $values[$field] : '--');
 		}
-		if($field = $settings->getMappingByECSName('courseType'))
+		if($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'courseType'))
 		{
 			$this->tpl->setVariable('VAL_CRS_TYPE',isset($values[$field]) ? $values[$field] : '--');
 		}
-		if($field = $settings->getMappingByECSName('credits'))
+		if($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'credits'))
 		{
 			$this->tpl->setVariable('VAL_CREDITS',isset($values[$field]) ? $values[$field] : '--');
 		}
-		if($field = $settings->getMappingByECSName('semester_hours'))
+		if($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'semester_hours'))
 		{
 			$this->tpl->setVariable('VAL_SWS',isset($values[$field]) ? $values[$field] : '--');
 		}
-		if($field = $settings->getMappingByECSName('room'))
+		if($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'room'))
 		{
 			$this->tpl->setVariable('VAL_ROOM',isset($values[$field]) ? $values[$field] : '--');
 		}
-		if($field = $settings->getMappingByECSName('cycle'))
+		if($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'cycle'))
 		{
 			$this->tpl->setVariable('VAL_CYCLE',isset($values[$field]) ? $values[$field] : '--');
 		}
-		if($field = $settings->getMappingByECSName('begin'))
+		if($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'begin'))
 		{
 			$this->tpl->setVariable('VAL_START',isset($values[$field]) ? ilDatePresentation::formatDate(new ilDateTime($values[$field],IL_CAL_UNIX)) : '--');
 		}
-		if($field = $settings->getMappingByECSName('end'))
+		if($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'end'))
 		{
 			$this->tpl->setVariable('VAL_END',isset($values[$field]) ? ilDatePresentation::formatDate(new ilDateTime($values[$field],IL_CAL_UNIX)) : '--');
 		}
