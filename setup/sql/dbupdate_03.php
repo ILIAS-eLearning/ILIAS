@@ -6654,3 +6654,45 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 		);
 	}
 ?>
+<#3399>
+<?php
+	// assigned materials
+	$fields = array(
+			'user_id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'nr' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'ref_id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'type' => array(
+					'type' => 'text',
+					'length' => 10,
+					'notnull' => true,
+			),
+			'sub_obj_id' => array(
+					'type' => 'text',
+					'length' => 40,
+					'notnull' => false
+			),
+			'goto_link' => array(
+					'type' => 'text',
+					'length' => 1000,
+					'notnull' => false
+			)
+	);
+
+	$ilDB->createTable("last_visited", $fields);
+	$ilDB->addPrimaryKey("last_visited", array("user_id", "nr"));
+?>
