@@ -1802,11 +1802,18 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$randomtest_switch = true;
 			}
+
+			// buffer online status sent by form in local variable and store
+			// it to model after the following if block, because the new status
+			// gets reset when random test setting is switched
+			$online = $_POST["online"];
 			
 			if (!$total)
 			{
-				if( $randomtest_switch && $this->object->isOnline() && $_POST["online"] )
+				if( $randomtest_switch && $this->object->isOnline() && $online )
 				{
+					// reset online status that is stored to model later on
+					// due to fact that the random test setting has been changed
 					$online = false;
 
 					$info = $this->lng->txt(
@@ -1815,9 +1822,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 					ilUtil::sendInfo($info, true);
 				}
-				else $online = $_POST["online"];
-
-				$this->object->setOnline($online);
 
 				$this->object->setAnonymity($_POST["anonymity"]);
 				$this->object->setRandomTest($random_test);
@@ -1831,6 +1835,10 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->object->setStartingTime('');
 				}
 			}
+
+			// store effective online status to model
+			$this->object->setOnline($online);
+
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$this->object->setIntroduction($_POST["introduction"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 			$this->object->setShowInfo(($_POST["showinfo"]) ? 1 : 0);
