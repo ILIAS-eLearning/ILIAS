@@ -597,7 +597,7 @@ class ilAdvancedSelectionListGUI
 				$tpl->setVariable("IT_ID", $this->getId());
 				$tpl->setVariable("IT_HID_NAME", $this->form_mode["select_name"]);
 				$tpl->setVariable("IT_HID_VAL", $item["value"]);
-				$tpl->setVariable("IT_TITLE", $item["title"]);
+				$tpl->setVariable("IT_TITLE", str_replace("'", "\\'", $item["title"]));
 				$tpl->parseCurrentBlock();
 			}
 		}
