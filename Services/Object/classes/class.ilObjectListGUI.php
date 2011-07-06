@@ -2602,6 +2602,26 @@ class ilObjectListGUI
 			{
 				$this->tpl->touchBlock("i_1");	// indent
 			}
+			
+			// icon link
+			if (!$this->default_command || (!$this->getCommandsStatus() && !$this->restrict_to_goto))
+			{
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("icon_link_s");
+
+				if ($this->default_command["frame"] != "")
+				{
+					$this->tpl->setVariable("ICON_TAR", "target='".$this->default_command["frame"]."'");
+				}
+
+				$this->tpl->setVariable("ICON_HREF",
+					$this->default_command["link"]);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->touchBlock("icon_link_e");
+			}
+
 			$this->tpl->setCurrentBlock("icon");
 			if (!$objDefinition->isPlugin($this->getIconImageType()))
 			{
