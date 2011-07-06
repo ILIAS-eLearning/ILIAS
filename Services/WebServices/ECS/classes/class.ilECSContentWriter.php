@@ -538,64 +538,64 @@ class ilECSContentWriter
 		$values = ilAdvancedMDValues::_getValuesByObjId($this->content_obj->getId());
 
 		// Study courses
-		if($field = $mappings->getMappingByECSName('study_courses'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, 'study_courses'))
 		{
 			$value = isset($values[$field]) ? $values[$field] : '';
 			$this->json->setStudyCourses($value);
 		}
 		// Lecturer
-		if($field = $mappings->getMappingByECSName('lecturer'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, 'lecturer'))
 		{
 			$value = isset($values[$field]) ? $values[$field] : '';
 			$this->json->setLecturers($value);
 		}
 		// CourseType
-		if($field = $mappings->getMappingByECSName('courseType'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, 'courseType'))
 		{
 			$value = isset($values[$field]) ? $values[$field] : '';
 			$this->json->setCourseType($value);
 		}
 		// Course ID
-		if($field = $mappings->getMappingByECSName('courseID'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT,'courseID'))
 		{
 			$value = isset($values[$field]) ? $values[$field] : '';
 			$this->json->setCourseID($value);
 		}
 		// Credits
-		if($field = $mappings->getMappingByECSName('credits'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT,'credits'))
 		{
 			$value = isset($values[$field]) ? $values[$field] : '';
 			$this->json->setCredits($value);
 		}
 		// SWS
-		if($field = $mappings->getMappingByECSName('semester_hours'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT,'semester_hours'))
 		{
 			$value = isset($values[$field]) ? $values[$field] : '';
 			$this->json->setSemesterHours($value);
 		}
 		// Term
-		if($field = $mappings->getMappingByECSName('term'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT,'term'))
 		{
 			$value = isset($values[$field]) ? $values[$field] : '';
 			$this->json->setTerm($value);
 		}
 		// TIME PLACE OBJECT ########################
-		if($field = $mappings->getMappingByECSName('begin'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT,'begin'))
 		{
 			$value = isset($values[$field]) ? $values[$field] : '';
 			$this->json->getTimePlace()->setBegin($value);
 		}
-		if($field = $mappings->getMappingByECSName('end'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT,'end'))
 		{
 			$value = isset($values[$field]) ? $values[$field] : '';
 			$this->json->getTimePlace()->setEnd($value);
 		}
-		if($field = $mappings->getMappingByECSName('room'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT,'room'))
 		{
 			$value = isset($values[$field]) ? $values[$field] : '';
 			$this->json->getTimePlace()->setRoom($value);
 		}
-		if($field = $mappings->getMappingByECSName('cycle'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT,'cycle'))
 		{
 			$value = isset($values[$field]) ? $values[$field] : '';
 			$this->json->getTimePlace()->setCycle($value);

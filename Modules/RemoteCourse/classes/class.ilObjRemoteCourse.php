@@ -548,10 +548,8 @@ class ilObjRemoteCourse extends ilObject
 		
 		$this->update();
 		
-		
-		
 		// Study courses
-		if($field = $mappings->getMappingByECSName('study_courses'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'study_courses'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
 			$value->toggleDisabledStatus(true); 
@@ -560,7 +558,7 @@ class ilObjRemoteCourse extends ilObject
 		}
 
 		// Lecturer
-		if($field = $mappings->getMappingByECSName('lecturer'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'lecturer'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
 			$value->toggleDisabledStatus(true); 
@@ -568,7 +566,7 @@ class ilObjRemoteCourse extends ilObject
 			$value->save();
 		}
 		// CourseType
-		if($field = $mappings->getMappingByECSName('courseType'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'courseType'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
 			$value->toggleDisabledStatus(true); 
@@ -576,7 +574,7 @@ class ilObjRemoteCourse extends ilObject
 			$value->save();
 		}
 		// CourseID
-		if($field = $mappings->getMappingByECSName('courseID'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'courseID'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
 			$value->toggleDisabledStatus(true); 
@@ -584,7 +582,7 @@ class ilObjRemoteCourse extends ilObject
 			$value->save();
 		}		
 		// Credits
-		if($field = $mappings->getMappingByECSName('credits'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'credits'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
 			$value->toggleDisabledStatus(true); 
@@ -592,7 +590,7 @@ class ilObjRemoteCourse extends ilObject
 			$value->save();
 		}
 		
-		if($field = $mappings->getMappingByECSName('semester_hours'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'semester_hours'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
 			$value->toggleDisabledStatus(true); 
@@ -600,7 +598,7 @@ class ilObjRemoteCourse extends ilObject
 			$value->save();
 		}
 		// Term
-		if($field = $mappings->getMappingByECSName('term'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'term'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
 			$value->toggleDisabledStatus(true); 
@@ -609,7 +607,7 @@ class ilObjRemoteCourse extends ilObject
 		}
 		
 		// TIME PLACE OBJECT ########################
-		if($field = $mappings->getMappingByECSName('begin'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'begin'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
 			$value->toggleDisabledStatus(true); 
@@ -626,7 +624,7 @@ class ilObjRemoteCourse extends ilObject
 			}
 			$value->save();
 		}
-		if($field = $mappings->getMappingByECSName('end'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'end'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
 			$value->toggleDisabledStatus(true); 
@@ -642,14 +640,14 @@ class ilObjRemoteCourse extends ilObject
 			}
 			$value->save();
 		}
-		if($field = $mappings->getMappingByECSName('room'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'room'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
 			$value->toggleDisabledStatus(true); 
 			$value->setValue($ecs_content->getTimePlace()->getRoom());
 			$value->save();
 		}
-		if($field = $mappings->getMappingByECSName('cycle'))
+		if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'cycle'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
 			$value->toggleDisabledStatus(true); 

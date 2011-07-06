@@ -110,11 +110,12 @@ class ilECSDataMappingSettings
 	 * get mapping by key
 	 *
 	 * @access public
+	 * @param int mapping type import, export, crs, rcrs
 	 * @param string ECS data field name. E.g. 'lecturer'
 	 * @return int AdvancedMetaData field id or 0 (no mapping)
 	 * 
 	 */
-	public function getMappingByECSName($a_key,$a_mapping_type = 0)
+	public function getMappingByECSName($a_mapping_type,$a_key)
 	{
 	 	if(!$a_mapping_type)
 		{

@@ -205,19 +205,19 @@ class ilAdvancedMDRecordGUI
 	protected function loadECSDurationPost()
 	{
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
-		include_once('./Services/WebServices/ECS/classes/class.ilECSSetting.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSServerSettings.php');
 		
-		if(!ilECSSetting::_getInstance()->isEnabled())
+		if(!ilECSServerSettings::getInstance()->activeServerExists())
 		{
 			return false;
 		}
 		$mapping = ilECSDataMappingSettings::_getInstance();
 		
-		if(!$start_id = $mapping->getMappingByECSName('begin'))
+		if(!$start_id = $mapping->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'begin'))
 		{
 			return false;
 		}
-		if(!$end_id = $mapping->getMappingByECSName('end'))
+		if(!$end_id = $mapping->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'end'))
 		{
 			return false;
 		}
@@ -527,25 +527,28 @@ class ilAdvancedMDRecordGUI
 		{
 			return false;
 		}
+		return false;
+		/*
 		$mapping = ilECSDataMappingSettings::_getInstance();
 		
-		if($mapping->getMappingByECSName('begin') == $a_definition->getFieldId())
+		if($mapping->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'begin') == $a_definition->getFieldId())
 		{
 			$this->showECSStart($a_definition);
 			return true;
 		}
-		if($mapping->getMappingByECSName('end') == $a_definition->getFieldId())
+		if($mapping->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'end') == $a_definition->getFieldId())
 		{
 			return true;
 		}
-		if($mapping->getMappingByECSName('cycle') == $a_definition->getFieldId())
+		if($mapping->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'cycle') == $a_definition->getFieldId())
 		{
 			return true;
 		}
-		if($mapping->getMappingByECSName('room') == $a_definition->getFieldId())
+		if($mapping->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'room') == $a_definition->getFieldId())
 		{
 			return true;
 		}
+		*/
 	}
 	
 	/**

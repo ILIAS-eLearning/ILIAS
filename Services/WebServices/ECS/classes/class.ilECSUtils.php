@@ -86,6 +86,30 @@ class ilECSUtils
 	}
 	
 	/**
+	 * get optional econtent fields
+	 * These fields might be mapped against AdvancedMetaData field definitions
+	 *
+	 * @access public
+	 * @static
+	 *
+	 */
+	public static function _getOptionalECourseFields()
+	{
+		return array(
+			'study_courses',
+			'lecturer',
+			'courseType',
+			'courseID',
+			'term',
+			'credits',
+			'semester_hours',
+			'begin',
+			'end',
+			'room',
+			'cycle');
+	}
+
+	/**
 	 * Lookup participant name 
 	 * @param int	$a_owner	Mid of participant
 	 * @return

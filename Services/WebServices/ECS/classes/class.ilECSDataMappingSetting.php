@@ -43,10 +43,11 @@ class ilECSDataMappingSetting
 
 
  	/**
-	 * @access private
+	 * constructor
+	 * @access public
 	 * 
 	 */
-	private function __construct($a_server_id = 0,$mapping_type = 0,$ecs_field = '')
+	public function __construct($a_server_id = 0,$mapping_type = 0,$ecs_field = '')
 	{
 		$this->setServerId($a_server_id);
 		$this->setMappingType($mapping_type);
@@ -132,6 +133,7 @@ class ilECSDataMappingSetting
 			'WHERE sid = '.$ilDB->quote($this->getServerId(),'integer').' '.
 			'AND mapping_type = '.$ilDB->quote($this->getMappingType(),'integer').' '.
 			'AND ecs_field = '.$ilDB->quote($this->getECSField(),'text');
+		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
 			$this->update();
@@ -151,7 +153,10 @@ class ilECSDataMappingSetting
 		global $ilDB;
 
 		$query = 'UPDATE ecs_data_mapping '.
-			'SET advmd_id = '.$ilDB->db->quote($this->getAdvMDId(),'integer');
+			'SET advmd_id = '.$ilDB->db->quote($this->getAdvMDId(),'integer').' '.
+			'WHERE sid = '.$ilDB->quote($this->getServerId(),'integer').' '.
+			'AND mapping_type = '.$ilDB->quote($this->getMappingType(),'integer').' '.
+			'AND ecs_field = '.$ilDB->quote($this->getECSField(),'text');
 		$ilDB->manipulate($query);
 	}
 
@@ -170,7 +175,7 @@ class ilECSDataMappingSetting
 	}
 
 
-			/**
+	/**
 	 * Read settings
 	 *
 	 * @access private

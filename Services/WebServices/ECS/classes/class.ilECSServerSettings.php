@@ -97,7 +97,7 @@ class ilECSServerSettings
 
 		$query = 'SELECT server_id FROM ecs_server '.
 			'WHERE active =  '.$ilDB->quote(0,'integer').' '.
-			'ORDER BY server_id ';
+			'ORDER BY title ';
 		$res = $ilDB->query($query);
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -116,7 +116,7 @@ class ilECSServerSettings
 
 		$query = 'SELECT server_id FROM ecs_server '.
 			'WHERE active =  '.$ilDB->quote(1,'integer').' '.
-			'ORDER BY server_id ';
+			'ORDER BY title ';
 		$res = $ilDB->query($query);
 
 		$this->servers = array();
