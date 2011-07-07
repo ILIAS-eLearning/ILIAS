@@ -601,8 +601,9 @@ class ilValidator extends PEAR
 			}
 		}
 		
+		$this->filterWorkspaceObjects($this->missing_objects);
 		if (count($this->missing_objects) > 0)
-		{
+		{						
 			$this->writeScanLogLine("obj_id\ttype\tref_id\tchild\ttitle\tdesc\towner\tcreate_date\tlast_update");
 			$this->writeScanLogArray($this->missing_objects);
 			return true;
@@ -684,8 +685,9 @@ class ilValidator extends PEAR
 											);
 		}
 			
+		$this->filterWorkspaceObjects($this->invalid_rolefolders);			
 		if (count($this->invalid_rolefolders) > 0)
-		{
+		{			
 			$this->writeScanLogLine("obj_id\ttype\tref_id\tchild\ttitle\tdesc\towner\tcreate_date\tlast_update");
 			$this->writeScanLogArray($this->invalid_rolefolders);
 			return true;
@@ -764,8 +766,9 @@ class ilValidator extends PEAR
 											);
 		}
 			
+		$this->filterWorkspaceObjects($this->invalid_rolefolders);
 		if (count($this->invalid_rolefolders) > 0)
-		{
+		{						
 			$this->writeScanLogLine("obj_id\ttype\tref_id\tchild\ttitle\tdesc\towner\tcreate_date\tlast_update");
 			$this->writeScanLogArray($this->invalid_rolefolders);
 			return true;
@@ -831,8 +834,9 @@ class ilValidator extends PEAR
 											);
 		}
 
+		$this->filterWorkspaceObjects($this->invalid_references);
 		if (count($this->invalid_references) > 0)
-		{
+		{						
 			$this->writeScanLogLine("ref_id\t\tobj_id");
 			$this->writeScanLogArray($this->invalid_references);
 			return true;
@@ -1128,6 +1132,9 @@ removal starts here
 		$message = sprintf('%s::removeInvalidReferences(): Started...',
 						   get_class($this));
 		$ilLog->write($message,$ilLog->WARNING);
+		
+		// to make sure
+		$this->filterWorkspaceObjects($a_invalid_refs);
 
 		foreach ($a_invalid_refs as $entry)
 		{
@@ -1261,6 +1268,9 @@ removal starts here
 						   get_class($this));
 		$ilLog->write($message,$ilLog->WARNING);
 		
+		// to make sure
+		$this->filterWorkspaceObjects($a_invalid_rolefolders);
+		
 		foreach ($a_invalid_rolefolders as $rolf)
 		{
 			// restore ref_id in case of missing
@@ -1332,6 +1342,9 @@ restore starts here
 		$message = sprintf('%s::restoreMissingObjects(): Started...',
 						   get_class($this));
 		$ilLog->write($message,$ilLog->WARNING);
+		
+		// to make sure
+		$this->filterWorkspaceObjects($a_missing_objects);
 		
 		foreach ($a_missing_objects as $missing_obj)
 		{
@@ -2068,7 +2081,7 @@ restore starts here
 		}		
 		
 		// dump tree
-		$q = "SELECT tree.*,ref.ref_id,ref.obj_id refobj_id,ref.deleted,dat.*,usr.login "
+		$q = "SELECT tree.*,ref.ref_id,dat.obj_id objobj_id,ref.obj_id refobj_id,ref.deleted,dat.*,usr.login "
 			."FROM tree "
 			."RIGHT JOIN object_reference ref ON tree.child = ref.ref_id "
 			."RIGHT JOIN object_data dat ON ref.obj_id = dat.obj_id "
@@ -2096,13 +2109,19 @@ restore starts here
 
 		// The previous number is used for gap checking
 		$previousNumber = 0; 
-
+		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			// workspace objects are not to be processed
+			if($this->workspace_object_ids && 
+				in_array($row->objobj_id, $this->workspace_object_ids))
+			{
+				continue;
+			}
+			
 			// If there is no entry in table tree for the object, we display it here
 			if (is_null($row->child))
-			{
-				$not_in_tree_count++;
+			{										
 				switch ($row->type) {
 					case 'crsg' :
 					case 'usr' :
@@ -2149,6 +2168,9 @@ restore starts here
 						$isDepthOkay = false;
 						break;
 				}
+
+				// moved here (below continues in switch)
+				$not_in_tree_count++;
 				
 				$this->writeScanLogLine(
 					'<tr>'
@@ -2494,5 +2516,35 @@ restore starts here
 		}
 		return in_array($a_type,$this->object_types_exclude);
 	}
+	
+	protected function filterWorkspaceObjects(array &$a_data, $a_index = "obj_id")
+	{
+		global $ilDB;
+		
+		if(sizeof($a_data))
+		{
+			if($this->workspace_object_ids === null)
+			{
+				$this->workspace_object_ids = array();
+				$set = $ilDB->query("SELECT DISTINCT(obj_id) FROM object_reference_ws");
+				while($row = $ilDB->fetchAssoc($set))
+				{
+					$this->workspace_object_ids[] = $row["obj_id"];
+				}
+			}
+
+			// remove workspace objects from result objects
+			if(is_array($this->workspace_object_ids))
+			{
+				foreach($a_data as $idx => $item)
+				{
+					if(in_array($item[$a_index], $this->workspace_object_ids))
+					{
+						unset($a_data[$idx]);
+					}					
+				}
+			}			
+		}				
+	}	
 } // END class.ilValidator
 ?>
