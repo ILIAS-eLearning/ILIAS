@@ -1260,9 +1260,17 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		global $lng;
 		
 		$allcolumnswithwidth = true;
-		foreach ((array) $this->column as $column)
+		foreach ((array) $this->column as $idx => $column)
 		{
-			if (!strlen($column["width"])) $allcolumnswithwidth = false;
+			if (!strlen($column["width"])) 
+			{
+				$allcolumnswithwidth = false;
+			}
+			else if($column["width"] == "1")
+			{
+				// IE does not like 1 but seems to work with 1%
+				$this->column[$idx]["width"] = "1%";
+			}
 		}
 		if ($allcolumnswithwidth)
 		{
