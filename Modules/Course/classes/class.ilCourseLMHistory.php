@@ -73,13 +73,12 @@ class ilCourseLMHistory
 		$res = $ilDB->manipulate($query);
 
 		// Add new entry
-		$query = "INSERT INTO crs_lm_history ".
-			"SET usr_id = ".$ilDB->quote($a_user_id,'integer').", ".
-			"crs_ref_id = ".$ilDB->quote($crs_ref_id,'integer').", ".
-			"lm_ref_id = ".$ilDB->quote($a_lm_ref_id,'integer').", ".
-			"lm_page_id = ".$ilDB->quote($a_page_id,'integer').", ".
-			"last_access = ".$ilDB->quote(time(),'integer')."";
-		$res = $ilDB->manipulate($query);
+		$fields = array("usr_id" => array("integer", $a_user_id),
+			"crs_ref_id" => array("integer", $crs_ref_id),
+			"lm_ref_id" => array("integer", $a_lm_ref_id),
+			"lm_page_id" => array("integer", $a_page_id),
+			"last_access" => array("integer", time()));
+		$ilDB->insert("crs_lm_history", $fields);
 		return true;
 	}
 
