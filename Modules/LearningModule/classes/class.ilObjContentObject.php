@@ -2751,5 +2751,32 @@ class ilObjContentObject extends ilObject
 		return $mess;
 	}
 
+	/**
+	 * Clone learning module
+	 *
+	 * @access public
+	 * @param int target ref_id
+	 * @param int copy id
+	 *
+	 */
+/*
+	public function cloneObject($a_target_id,$a_copy_id = 0)
+	{
+		global $ilDB,$ilUser;
+
+	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	 	
+	 	$new_obj->setGroupType($this->getGroupType());
+
+		// Copy learning progress settings
+		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
+		$obj_settings = new ilLPObjSettings($this->getId());
+		$obj_settings->cloneSettings($new_obj->getId());
+		unset($obj_settings);
+		
+
+		return $new_obj;
+	}
+*/
 }
 ?>
