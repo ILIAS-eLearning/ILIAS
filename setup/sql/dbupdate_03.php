@@ -6696,3 +6696,8 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 	$ilDB->createTable("last_visited", $fields);
 	$ilDB->addPrimaryKey("last_visited", array("user_id", "nr"));
 ?>
+<#3400>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
