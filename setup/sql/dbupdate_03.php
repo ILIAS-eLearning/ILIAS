@@ -6700,4 +6700,41 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3401>
+<?php
+
+	// Crs typ-id
+	$query = 'SELECT obj_id FROM object_data WHERE type = '.$ilDB->quote('typ','text').' AND title = '.$ilDB->quote('crs');
+	$res = $ilDB->query($query);
+	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	$typ_id = $row->obj_id;
+
+	// operation create_crsr
+	$query = 'SELECT * FROM rbac_operations WHERE operation = '.$ilDB->quote('create_crsr');
+	$res = $ilDB->query($query);
+	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	$crs_create_id = $row->ops_id;
+
+	// operation create_catr
+	$query = 'SELECT * FROM rbac_operations WHERE operation = '.$ilDB->quote('create_catr');
+	$res = $ilDB->query($query);
+	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	$cat_create_id = $row->ops_id;
+
+	$query = 'SELECT * FROM rbac_ta WHERE typ_id = '.$ilDB->quote($typ_id,'integer').' AND ops_id = '.$ilDB->quote($crs_create_id,'integer');
+	$res = $ilDB->query($query);
+	if(!$res->numRows())
+	{
+		$query = 'INSERT INTO rbac_ta (typ_id,ops_id) VALUES( '.$ilDB->quote($typ_id,'integer').', '.$ilDB->quote($crs_create_id,'integer').')';
+		$ilDB->manipulate($query);
+	}
+
+	$query = 'SELECT * FROM rbac_ta WHERE typ_id = '.$ilDB->quote($typ_id,'integer').' AND ops_id = '.$ilDB->quote($cat_create_id,'integer');
+	$res = $ilDB->query($query);
+	if(!$res->numRows())
+	{
+		$query = 'INSERT INTO rbac_ta (typ_id,ops_id) VALUES( '.$ilDB->quote($typ_id,'integer').', '.$ilDB->quote($cat_create_id,'integer').')';
+		$ilDB->manipulate($query);
+	}
+?>
 
