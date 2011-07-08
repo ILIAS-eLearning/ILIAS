@@ -3374,7 +3374,7 @@ common#:#mail_system_message#:#User may send internal system messages
 common#:#mail_system#:#System Message
 common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is very limited. Pear Mail fully supports internet compliant e-mail addresses.
 common#:#mail_use_pear_mail#:#Use Pear Mail
-common#:#mail_visible#:#Mail settings are visible
+common#:#mail_visible#:#Use internal mail sytem
 common#:#mail_write#:#Edit mail settings
 common#:#mail_z_local#:#User Folders
 common#:#mail#:#Mail
@@ -10841,7 +10841,7 @@ dateplaner#:#cal_ch_target_object#:#Repository Object
 dateplaner#:#cal_ch_target_object_info#:#Restrict appointments to given repository object.
 dateplaner#:#cal_ch_unknown_repository_object#:#The given repository object ref-id is not valid.
 rbac#:#push_desktop_items#:#Push Items on the Personal Desktop
-rbac#:#smtp_mail#:#Send Mail
+rbac#:#smtp_mail#:#Send (SMTP) Mail
 rbac#:#mail_to_global_roles#:#Mail to Global Roles
 rbac#:#add_post#:#Add Post
 rbac#:#add_thread#:#Add Thread
