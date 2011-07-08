@@ -3349,7 +3349,7 @@ common#:#mail_system#:#Systemnachricht
 common#:#mail_system_message#:#Benutzer darf Systemnachrichten senden
 common#:#mail_use_pear_mail#:#PEAR-Mail verwenden
 common#:#mail_use_pear_mail_info#:#Verwende PEAR-Mail zum Parsen von Mailbox-Adressen. Der in ILIAS integrierte Parser ist sehr limitiert. PEAR-Mail unterstützt Internet-konforme E-Mail-Adressen vollständig.
-common#:#mail_visible#:#Mailsystem benutzen
+common#:#mail_visible#:#Internes Mailsystem benutzen
 common#:#mail_write#:#Maileinstellungen bearbeiten
 common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
