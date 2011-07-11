@@ -17,7 +17,7 @@ support UTF-8 encodings.
 PHP curl is required for using the Java server features.
 On Debian based systems try:
 
-bash$ apt-get install php5-curl 
+bash$ apt-get install php5-curl curl
 
 
 A Installation
