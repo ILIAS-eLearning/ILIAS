@@ -11309,8 +11309,8 @@ prtf#:#prtf_sure_delete_portfolio_pages#:#Wollen Sie die folgenden Portfolio-Sei
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio-Seiten wurden gelöscht
 content#:#cont_ed_insert_profile#:#Persönliche Daten einfügen
 content#:#cont_pc_prof#:#Persönliche Daten
-content#:#cont_insert_profile#:#Persönliche Daten hinzufügen
-content#:#cont_update_profile#:#Persönliche Daten bearbeiten
+content#:#cont_insert_profile#:#Persönliche Daten veröffentlichenn
+content#:#cont_update_profile#:#Veröffentlichte Daten bearbeiten
 content#:#cont_profile_mode#:#Modus
 content#:#cont_profile_mode_inherit#:#Automatisch
 content#:#cont_profile_mode_inherit_info#:#Verwendet die Daten ihres öffentlichen Profils
@@ -11625,3 +11625,4 @@ ecs#:#ecs_tab_import#:#Import
 ecs#:#ecs_tab_export#:#Export
 ecs#:#ecs_mapping_crs#:#Zuordnung für Kurse
 ecs#:#ecs_mapping_rcrs#:#Zuordnung für externe Kurse
+content#:#cont_edit_personal_data#:#Persönliche Daten editieren
