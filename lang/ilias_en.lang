@@ -11321,8 +11321,8 @@ prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the fo
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio pages deleted
 content#:#cont_ed_insert_profile#:#Insert Personal Data
 content#:#cont_pc_prof#:#Personal Data
-content#:#cont_insert_profile#:#Add Personal Data
-content#:#cont_update_profile#:#Edit Personal Data
+content#:#cont_insert_profile#:#Publish Personal Data
+content#:#cont_update_profile#:#Edit Published Data 
 content#:#cont_profile_mode#:#Mode
 content#:#cont_profile_mode_inherit#:#Automatic
 content#:#cont_profile_mode_inherit_info#:#Use your public profile settings
@@ -11659,3 +11659,4 @@ ecs#:#ecs_tab_import#:#Import
 ecs#:#ecs_tab_export#:#Export
 ecs#:#ecs_mapping_crs#:#Mapping for Courses
 ecs#:#ecs_mapping_rcrs#:#Mapping for Remote Courses
+content#:#cont_edit_personal_data#:#Edit Personal Data

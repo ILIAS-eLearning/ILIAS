@@ -111,7 +111,11 @@ class ilPCProfileGUI extends ilPageContentGUI
 	 */
 	protected function initForm($a_insert = false)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilToolbar;
+		
+		$ilToolbar->addButton($this->lng->txt("cont_edit_personal_data"), 
+			$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumptoprofile"),
+			"profile");
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
