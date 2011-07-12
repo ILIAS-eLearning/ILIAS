@@ -90,6 +90,8 @@ class ilCOPageHTMLExport
 	 */
 	function exportStyles()
 	{
+		include_once "Services/Style/classes/class.ilObjStyleSheet.php";
+		
 		// export content style sheet
 		if ($this->getContentStyleId() < 1)
 		{
@@ -108,7 +110,7 @@ class ilCOPageHTMLExport
 			fwrite(fopen($this->content_style_dir."/content.css",'w'),$css);
 		}
 		else
-		{
+		{			
 			$style = new ilObjStyleSheet($this->getContentStyleId());
 			$style->writeCSSFile($this->content_style_dir."/content.css", "images");
 			$style->copyImagesToDir($this->content_style_img_dir);

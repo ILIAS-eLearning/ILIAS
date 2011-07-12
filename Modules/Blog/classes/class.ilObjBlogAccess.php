@@ -32,6 +32,7 @@ class ilObjBlogAccess extends ilObjectAccess
 			array("permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true),
 			array("permission" => "read", "cmd" => "infoscreen", "lang_var" => "info_short"),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+			array("permission" => "write", "cmd" => "export", "lang_var" => "export"),
 		);
 		
 		return $commands;

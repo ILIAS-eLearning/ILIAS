@@ -225,7 +225,10 @@ class ilBlogPosting extends ilPageObject
 		
 		$pages = parent::getAllPages("blp", $a_blog_id);
 
-		$ilDB->setLimit($a_limit, $a_offset);
+		if($limit)
+		{
+			$ilDB->setLimit($a_limit, $a_offset);
+		}
 		
 		$query = "SELECT * FROM il_blog_posting".
 			" WHERE blog_id = ".$ilDB->quote($a_blog_id, "integer").
