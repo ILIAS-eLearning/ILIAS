@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 //require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 
@@ -52,8 +33,9 @@ class ilScorm2004Export
 	{
 		global $ilErr, $ilDB, $ilias;
 
-		$this->export_types = array("SCORM 2004 3rd","SCORM 2004 4th","SCORM 1.2","HTML","ISO","PDF");
-		
+		$this->export_types = array("SCORM 2004 3rd","SCORM 2004 4th","SCORM 1.2","HTML","ISO","PDF",
+			"HTMLOne");
+
 		if(!in_array($a_mode,$this->export_types))
 			die("Unsupported format");
 		
@@ -107,6 +89,8 @@ class ilScorm2004Export
 				return $ret."_scorm2004_4th";
 			case "HTML":
 				return $ret."_html";
+			case "HTMLOne":
+				return $ret."_html_one";
 			case "SCORM 1.2":		
 				return $ret."_scorm12";
 		}
@@ -159,6 +143,8 @@ class ilScorm2004Export
 				return $this->buildExportFileSCORM("12");
 			case "HTML":
 				return $this->buildExportFileHTML();
+			case "HTMLOne":
+				return $this->buildExportFileHTMLOne();
 			case "ISO":
 				return $this->buildExportFileISO();	
 			case "PDF":
@@ -212,10 +198,6 @@ class ilScorm2004Export
 	*/
 	function buildExportFileHTML()
 	{
-		global $ilBench;
-
-		$ilBench->start("ContentObjectExport", "buildExportFile");
-
 		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
 		// create directories
@@ -230,20 +212,45 @@ class ilScorm2004Export
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export");
 
 		// get xml content
-		
-		$ilBench->start("ContentObjectExport", "buildExportFile_getXML");
 		$this->cont_obj->exportHTML($this->inst_id, $this->export_dir."/".$this->subdir, $expLog);
-		$ilBench->stop("ContentObjectExport", "buildExportFile_getXML");
 
 		// zip the file
-		$ilBench->start("ContentObjectExport", "buildExportFile_zipFile");
-		ilUtil::zip($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".zip", true);
-		$ilBench->stop("ContentObjectExport", "buildExportFile_zipFile");
+//		ilUtil::zip($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".zip", true);
 		
-		ilUtil::delDir($this->export_dir."/".$this->subdir);
+//		ilUtil::delDir($this->export_dir."/".$this->subdir);
 		
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
-		$ilBench->stop("ContentObjectExport", "buildExportFile");
+
+		return $this->export_dir."/".$this->subdir.".zip";
+	}
+	
+	/**
+	* build xml export file
+	*/
+	function buildExportFileHTMLOne()
+	{
+		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
+
+		// create directories
+		$this->createExportDirectory();
+		ilUtil::makeDir($this->export_dir."/".$this->subdir);
+
+		// get Log File
+		$expDir = $this->export_dir;
+		$expLog = new ilLog($expDir, "export.log");
+		$expLog->delete();
+		$expLog->setLogFormat("");
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export");
+
+		// get xml content
+		$this->cont_obj->exportHTMLOne($this->inst_id, $this->export_dir."/".$this->subdir, $expLog);
+
+		// zip the file
+//		ilUtil::zip($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".zip", true);
+		
+//		ilUtil::delDir($this->export_dir."/".$this->subdir);
+		
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
 
 		return $this->export_dir."/".$this->subdir.".zip";
 	}

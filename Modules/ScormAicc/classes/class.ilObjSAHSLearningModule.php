@@ -84,8 +84,6 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setAssignedGlossary($lm_rec["glossary"]);
 			$this->setTries($lm_rec["question_tries"]);
 			$this->setLocalization($lm_rec["localization"]);
-//			$this->setFinalLMPage($lm_rec["final_lm_page"]);
-//			$this->setFinalScoPage($lm_rec["final_sco_page"]);
 			$this->setSession(ilUtil::yn2tf($lm_rec["unlimited_session"]));
 			$this->setNoMenu(ilUtil::yn2tf($lm_rec["no_menu"]));
 			$this->setHideNavig(ilUtil::yn2tf($lm_rec["hide_navig"]));
@@ -184,38 +182,6 @@ class ilObjSAHSLearningModule extends ilObject
 	function getTries()
 	{
 		return $this->tries;
-	}
-
-	/**
-	 * Set final page of lm
-	 */
-	public function setFinalLMPage($a_val)
-	{
-		$this->final_lm_page = $a_val;
-	}
-
-	/**
-	 * Get final page of lm
-	 */
-	public function getFinalLMPage()
-	{
-		return $this->final_lm_page;
-	}
-
-	/**
-	 * Set final page of sco
-	 */
-	public function setFinalScoPage($a_val)
-	{
-		$this->final_sco_page = $a_val;
-	}
-
-	/**
-	 * Get final page of sco
-	 */
-	public function getFinalScoPage()
-	{
-		return $this->final_sco_page;
 	}
 	
 	/**
@@ -585,8 +551,6 @@ class ilObjSAHSLearningModule extends ilObject
 				no_menu = %s,
 				hide_navig = %s,
 				debug = %s,
-				final_lm_page = %s,
-				final_sco_page = %s,
 				localization = %s,
 				seq_exp_mode = %s,
 				debugpw = %s
@@ -609,8 +573,6 @@ class ilObjSAHSLearningModule extends ilObject
 				'text',
 				'text',
 				'text',
-				'integer',
-				'integer',
 				'text',
 				'integer',
 				'text',
@@ -633,8 +595,6 @@ class ilObjSAHSLearningModule extends ilObject
 				ilUtil::tf2yn($this->getNoMenu()),
 				ilUtil::tf2yn($this->getHideNavig()),
 				ilUtil::tf2yn($this->getDebug()),
-				$this->getFinalLMPage(),
-				$this->getFinalScoPage(),
 				$this->getLocalization(),
 				$this->getSequencingExpertMode(),
 				$this->getDebugPw(),

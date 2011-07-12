@@ -6737,4 +6737,8 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 		$ilDB->manipulate($query);
 	}
 ?>
-
+<#3402>
+<?php
+	$ilDB->dropTableColumn("sahs_lm", "final_lm_page");
+	$ilDB->dropTableColumn("sahs_lm", "final_sco_page");
+?>

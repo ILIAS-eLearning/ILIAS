@@ -39,31 +39,6 @@ die("deprecated");
 		$this->addMultiCommand("confirmSpecialPageDeletion", $lng->txt("delete"));
 	}
 
-	/**
-	 * Get special pages
-	 */
-/*	function getSpecialPages()
-	{
-		global $lng;
-
-		$sp = array();
-		if ($this->slm->getEntryPage() > 0)
-		{
-			$sp[] = array("page_id" => $this->slm->getEntryPage(),
-				"purpose" => $lng->txt("cont_entry_page"));
-		}
-		if ($this->slm->getFinalScoPage() > 0)
-		{
-			$sp[] = array("page_id" => $this->slm->getFinalScoPage(),
-				"purpose" => $lng->txt("cont_final_sco_page"));
-		}
-		if ($this->slm->getFinalLMPage() > 0)
-		{
-			$sp[] = array("page_id" => $this->slm->getFinalLMPage(),
-				"purpose" => $lng->txt("cont_final_lm_page"));
-		}
-		$this->setData($sp);
-	}*/
 
 	/**
 	 * Fill table row

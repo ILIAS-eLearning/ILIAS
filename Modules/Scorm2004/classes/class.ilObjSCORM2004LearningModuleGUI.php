@@ -398,8 +398,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		}
 		$values["q_tries"] = $this->object->getTries();
 		$values["localization"] = $this->object->getLocalization();
-//		$values["final_sco_page"] = $this->object->getFinalScoPage();
-//		$values["final_lm_page"] = $this->object->getFinalLMPage();
 	
 		$this->form->setValuesByArray($values);
 	}
@@ -431,8 +429,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			{
 				$this->object->setTries($_POST["q_tries"]);
 				$this->object->setLocalization($_POST["localization"]);
-//				$this->object->setFinalScoPage($_POST["final_sco_page"]);
-//				$this->object->setFinalLMPage($_POST["final_lm_page"]);
 			}
 		}
 		$this->object->update();
@@ -1517,6 +1513,7 @@ function showTrackingItem()
 			case "exportPDF":
 			case "exportISO":
 			case "exportHTML":
+			case "exportHTMLOne":
 				$this->ctrl->redirect($this, $_POST['select_export']);
 				break;
 			default:
@@ -1540,7 +1537,8 @@ function showTrackingItem()
 			"exportScorm12" => $this->lng->txt("scorm_create_export_file_scrom12"),
 			"exportPDF" => $this->lng->txt("scorm_create_export_file_pdf"),
 			"exportISO" => $this->lng->txt("scorm_create_export_file_iso"),
-			"exportHTML" => $this->lng->txt("scorm_create_export_file_html")
+			"exportHTML" => $this->lng->txt("scorm_create_export_file_html"),
+			"exportHTMLOne" => $this->lng->txt("scorm_create_export_file_html_one")
 		);
 		foreach ($buttons as $value => $text)
 		{
@@ -2621,6 +2619,13 @@ function showTrackingItem()
 	function exportHTML()
 	{
 		$export = new ilScorm2004Export($this->object,'HTML');
+		$export->buildExportFile();
+		$this->ctrl->redirect($this, "showExportList");
+	}
+
+	function exportHTMLOne()
+	{
+		$export = new ilScorm2004Export($this->object,'HTMLOne');
 		$export->buildExportFile();
 		$this->ctrl->redirect($this, "showExportList");
 	}

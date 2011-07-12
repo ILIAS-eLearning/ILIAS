@@ -138,6 +138,13 @@ class ilCOPageHTMLExport
 		// basic js
 		copy('./Services/JavaScript/js/Basic.js', $this->js_dir.'/Basic.js');
 		
+		copy('./Services/UIComponent/Overlay/js/ilOverlay.js',$this->js_dir.'/ilOverlay.js');
+		
+		// jquery
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		copy(iljQueryUtil::getLocaljQueryPath(), $this->js_dir.'/jquery.js');
+		copy(iljQueryUtil::getLocaljQueryUIPath(), $this->js_dir.'/jquery-ui-min.js');
+
 		// yui stuff we use
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		copy(ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
@@ -165,17 +172,24 @@ class ilCOPageHTMLExport
 	 * @param
 	 * @return
 	 */
-	function getPreparedMainTemplate()
+	function getPreparedMainTemplate($a_tpl = "")
 	{
 		global $ilUser;
 		
-		// template workaround: reset of template
-		$tpl = new ilTemplate("tpl.main.html", true, true);
+		if ($a_tpl != "")
+		{
+			$tpl = $a_tpl;
+		}
+		else
+		{
+			// template workaround: reset of template
+			$tpl = new ilTemplate("tpl.main.html", true, true);
+		}
 		
 		// scripts needed
 		$scripts = array("./js/yahoo/yahoo-min.js", "./js/yahoo/yahoo-dom-event.js",
 			"./js/yahoo/container_core-min.js", "./js/yahoo/animation-min.js",
-			"./js/Basic.js",
+			"./js/Basic.js", "./js/jquery.js", "./js/jquery-ui-min.js",
 			"./js/ilOverlay.js", "./js/accordion.js", "./js/ilCOPagePres.js");
 		foreach ($scripts as $script)
 		{
@@ -185,7 +199,9 @@ class ilCOPageHTMLExport
 		}
 
 		// css files needed
-		$css_files = array("./css/accordion.css");
+		$style_name = $ilUser->prefs["style"].".css";
+		$css_files = array("./css/accordion.css",
+			"./content_style/content.css", "./style/".$style_name);
 		foreach ($css_files as $css)
 		{
 			$tpl->setCurrentBlock("css_file");
@@ -193,12 +209,6 @@ class ilCOPageHTMLExport
 			$tpl->parseCurrentBlock();
 		}
 
-		$tpl->setCurrentBlock("ContentStyle");
-		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "./content_style/content.css");
-		$tpl->parseCurrentBlock();
-		$style_name = $ilUser->prefs["style"].".css";
-		$tpl->setVariable("LOCATION_STYLESHEET","./style/".$style_name);
-		
 		return $tpl;
 	}
 	
