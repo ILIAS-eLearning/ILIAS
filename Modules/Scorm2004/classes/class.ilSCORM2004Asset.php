@@ -168,66 +168,14 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		}
 	}
 
-	function exportHTML($a_inst, $a_target_dir, &$expLog, $a_asset_type = "sco")
+
+	function exportHTML($a_inst, $a_target_dir, &$expLog, $a_asset_type = "sco",
+		$a_one_file = "")
 	{
-		ilUtil::makeDir($a_target_dir.'/css');
-		ilUtil::makeDir($a_target_dir.'/css/yahoo');
-		ilUtil::makeDir($a_target_dir.'/objects');
-		ilUtil::makeDir($a_target_dir.'/images');
-		ilUtil::makeDir($a_target_dir.'/js');
-		ilUtil::makeDir($a_target_dir.'/players');
 
-		copy('./Services/MediaObjects/flash_flv_player/flvplayer.swf', $a_target_dir.'/players/flvplayer.swf');
-		copy('./Services/MediaObjects/flash_mp3_player/mp3player.swf', $a_target_dir.'/players/mp3player.swf');
-		copy('./Modules/Scorm2004/scripts/scorm_2004.js',$a_target_dir.'/js/scorm.js');
-		copy('./Modules/Scorm2004/scripts/pager.js',$a_target_dir.'/js/pager.js');
-		copy('./Modules/Scorm2004/scripts/questions/pure.js',$a_target_dir.'/js/pure.js');
-		
-		// jquery
-		//copy('./Modules/Scorm2004/scripts/questions/jquery.js',$a_target_dir.'/js/jquery.js');
-		//copy('./Modules/Scorm2004/scripts/questions/jquery-ui-min.js',$a_target_dir.'/js/jquery-ui-min.js');
-		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		copy(iljQueryUtil::getLocaljQueryPath(), $a_target_dir.'/js/jquery.js');
-		copy(iljQueryUtil::getLocaljQueryUIPath(), $a_target_dir.'/js/jquery-ui-min.js');
-
-		// accordion stuff
-		ilUtil::makeDir($a_target_dir.'/js/yahoo');
-		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		copy(ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'), $a_target_dir.'/js/yahoo/yahoo-min.js');
-		copy(ilYuiUtil::getLocalPath('yahoo-dom-event/yahoo-dom-event.js'), $a_target_dir.'/js/yahoo/yahoo-dom-event.js');
-		copy(ilYuiUtil::getLocalPath('container/container_core-min.js'), $a_target_dir.'/js/yahoo/container_core-min.js');
-		copy(ilYuiUtil::getLocalPath('animation/animation-min.js'), $a_target_dir.'/js/yahoo/animation-min.js');
-		copy(ilYuiUtil::getLocalPath('container/assets/skins/sam/container.css'), $a_target_dir.'/css/yahoo/container.css');
-		copy('./Services/Accordion/js/accordion.js',$a_target_dir.'/js/accordion.js');
-		copy('./Services/Accordion/css/accordion.css',$a_target_dir.'/css/accordion.css');
-		copy('./Services/JavaScript/js/Basic.js',$a_target_dir.'/js/Basic.js');
-		copy('./Services/UIComponent/Overlay/js/ilOverlay.js',$a_target_dir.'/js/ilOverlay.js');
-		copy('./Services/COPage/js/ilCOPagePres.js',$a_target_dir.'/js/ilCOPagePres.js');
-
-		// export content css
-		include_once("./Modules/Scorm2004/classes/class.ilScormExportUtil.php");
-		ilScormExportUtil::exportContentCSS($this->slm_object, $a_target_dir);
-
-		// export system style sheet
-		$css = fread(fopen(ilUtil::getStyleSheetLocation("filesystem"),'r'),filesize(ilUtil::getStyleSheetLocation("filesystem")));
-		preg_match_all("/url\(([^\)]*)\)/",$css,$files);
-		$currdir = getcwd();
-		chdir(dirname(ilUtil::getStyleSheetLocation("filesystem")));
-		foreach (array_unique($files[1]) as $fileref)
-		{
-			if(file_exists($fileref))
-			{
-				copy($fileref,$a_target_dir."/images/".basename($fileref));
-				$css = str_replace($fileref,"../images/".basename($fileref),$css);
-			}
-		}
-		copy('images/spacer.gif',$a_target_dir."/images/spacer.gif");
-		copy('images/enlarge.gif',$a_target_dir."/images/enlarge.gif");
-		chdir($currdir);
-		fwrite(fopen($a_target_dir.'/css/system.css','w'),$css);
-
+		$this->slm_object->prepareHTMLExporter($a_target_dir);
 		$this->exportHTMLPageObjects($a_inst, $a_target_dir, $expLog, 'full',
-			$a_asset_type);
+			$a_asset_type, $a_one_file);
 
 	}
 
@@ -317,7 +265,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	 * Export HTML pages of SCO
 	 */
 	function exportHTMLPageObjects($a_inst, $a_target_dir, &$expLog, $mode,
-		$a_asset_type = "sco")
+		$a_asset_type = "sco", $a_one_file = "", $a_sco_tpl = null)
 	{
 		global $tpl, $ilCtrl, $ilBench,$ilLog, $lng;
 
@@ -341,9 +289,21 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		// alex, 4 Apr 09
 		//
 
-		$sco_tpl = new ilTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
-		if ($mode != 'pdf')
+//		if ($a_one_file == "")
+//		{
+			$sco_tpl = new ilTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
+//		}
+//		else
+//		{
+//			$sco_tpl = $a_sco_tpl;
+//		}
+		
+		if ($mode != 'pdf' && $a_one_file == "")
 		{
+			include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
+			$pg_exp = new ilCOPageHTMLExport($a_target_dir);
+			$pg_exp->getPreparedMainTemplate($sco_tpl);
+			
 			// init and question lang vars
 			$lk = ilObjSAHSLearningModule::getAffectiveLocalization($this->slm_id);
 			$sco_tpl->setCurrentBlock("init");
@@ -351,30 +311,26 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 				ilPageObjectGUI::getJSTextInitCode($lk));
 			$sco_tpl->parseCurrentBlock();
 			
-			// style sheets needed
-			$styles = array("./css/system.css", "./css/style.css",
-				"./css/accordion.css", "./css/yahoo/container.css",
+			// (additional) style sheets needed
+			$styles = array("./css/yahoo/container.css",
 				"./css/question_handling.css");
 			foreach ($styles as $style)
 			{
-				$sco_tpl->setCurrentBlock("style_sheet");
-				$sco_tpl->setVariable("STYLE_HREF", $style);
+				$sco_tpl->setCurrentBlock("css_file");
+				$sco_tpl->setVariable("CSS_FILE", $style);
 				$sco_tpl->parseCurrentBlock();
 			}
 			
-			// scripts needed
-			$scripts = array("./js/scorm.js", "./js/jquery.js", "./js/jquery-ui-min.js",
-				"./js/pager.js", "./js/pure.js", "./js/yahoo/yahoo-min.js", "./js/yahoo/yahoo-dom-event.js",
-				"./js/yahoo/container_core-min.js", "./js/yahoo/animation-min.js", "./js/Basic.js",
-				"./js/ilCOPagePres.js",
-				"./js/ilOverlay.js", "./js/questions_".$this->getId().".js");
+			// (additional) scripts needed
+			$scripts = array("./js/scorm.js",
+				"./js/pager.js", "./js/pure.js", 
+				"./js/questions_".$this->getId().".js");
 			foreach ($scripts as $script)
 			{
-				$sco_tpl->setCurrentBlock("script");
-				$sco_tpl->setVariable("SCRIPT_SRC", $script);
+				$sco_tpl->setCurrentBlock("js_file");
+				$sco_tpl->setVariable("JS_FILE", $script);
 				$sco_tpl->parseCurrentBlock();
 			}
-			
 			
 			if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset")
 			{
@@ -399,26 +355,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		// init export (this initialises glossary template)
 		ilSCORM2004PageGUI::initExport();
 		$terms = array();
-		/*if ($a_asset_type == "entry_asset")
-		{
-			$pages[] = array("obj_id" => $this->slm_object->getEntryPage());
-		}
-		else if ($a_asset_type == "final_asset")
-		{
-			$pages[] = array("obj_id" => $this->slm_object->getFinalLMPage());
-		}
-		else
-		{*/
-			$terms = $this->getGlossaryTermIds();
-			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
-			$pages = $tree->getSubTree($tree->getNodeData($this->getId()),true,'page');
-
-			/*if ($this->getSLMObject()->getFinalScoPage() > 0)
-			{
-				$pages[] = array("obj_id" => $this->getSLMObject()->getFinalScoPage());
-			}*/
-		//}
-
+		$terms = $this->getGlossaryTermIds();
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
+		$pages = $tree->getSubTree($tree->getNodeData($this->getId()),true,'page');
 		foreach($pages as $page)
 		{
 			//echo(print_r($page));
@@ -490,7 +429,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 				$this->file_ids[$file_id] = $file_id;
 			}
 
-			if($mode=='pdf')
+			if ( $mode == 'pdf')
 			{
 				$q_ids = ilSCORM2004Page::_getQuestionIdsForPage("sahs", $page["obj_id"]);
 				foreach ($q_ids as $q_id)
@@ -501,37 +440,19 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 					$html = $q_gui->getPreview(TRUE);
 					$page_output = preg_replace("/{{{{{Question;il__qst_".$q_id."}}}}}/i",$html,$page_output);
 				}
-			}
-
-			if ($mode == 'pdf')
-			{
+				
 				$sco_tpl->touchBlock("pdf_pg_break");
 			}
 
-			if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset")
-			{
-				$sco_tpl->setCurrentBlock("page");
-				$sco_tpl->setVariable("PAGE", $page_output);
-				$sco_tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$sco_tpl->setVariable("ENTRY_PAGE", $page_output);
-			}
+			$sco_tpl->setCurrentBlock("page");
+			$sco_tpl->setVariable("PAGE", $page_output);
+			$sco_tpl->parseCurrentBlock();
 		}
 
-		// final sco success message
-/*		if ($this->getSLMObject()->getFinalScoPage() && $mode != 'pdf' && $this->getType() == "sco")
-		{
-			$mtpl = new ilTemplate("tpl.final_message.html", true, true, "Modules/Scorm2004");
-			$mtpl->setVariable("MESS", sprintf($lng->txt("sahs_sco_final_message"),
-				$this->getTitle()));
-			$sco_tpl->setCurrentBlock("page");
-			$sco_tpl->setVariable("PAGE", $mtpl->get());
-			$sco_tpl->setVariable("PAGE_ID_ATTR", "id='sco_succ_message'");
-			$sco_tpl->parseCurrentBlock();
-		}*/
 		
+//echo "-".htmlentities($sco_tpl->get("page"))."-";
+		fputs($a_one_file, $sco_tpl->get("page"));
+
 		// glossary
 		if ($mode!='pdf')
 		{
@@ -571,7 +492,10 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$this->q_media = ilQuestionExporter::getFiles();
 		//questions export end
 
-		fputs(fopen($a_target_dir.'/index.html','w+'),$output);
+		if ($a_one_file == "")
+		{
+			fputs(fopen($a_target_dir.'/index.html','w+'),$output);
+		}
 
 		$this->exportFileItems($a_target_dir, $expLog);
 
@@ -737,10 +661,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$tree->setTreeTablePK("slm_id");
 
 		$pages = $tree->getSubTree($tree->getNodeData($this->getId()),true,'page');
-		/*if ($this->getSLMObject()->getFinalScoPage() > 0)
-		{
-			$pages[] = array("obj_id" => $this->getSLMObject()->getFinalScoPage());
-		}*/
 		foreach($pages as $page)
 		{
 			$ilBench->start("ContentObjectExport", "exportPageObject");

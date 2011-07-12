@@ -125,9 +125,18 @@ class ilFramesetGUI
 	}
 
 	/**
-	* show frameset
-	*/
-	function show()
+	 * Get
+	 */
+	function get()
+	{
+		return $this->show(true);
+	}
+	
+	
+	/**
+	 * Show frameset
+	 */
+	function show($a_get_only = false)
 	{
 		global $ilSetting;
 		
@@ -165,7 +174,14 @@ class ilFramesetGUI
 				"ILIAS");
 		}
 
-		$tpl->show("DEFAULT", false);
+		if ($a_get_only)
+		{
+			return $tpl->get();
+		}
+		else
+		{
+			$tpl->show("DEFAULT", false);
+		}
 	}
 
 }

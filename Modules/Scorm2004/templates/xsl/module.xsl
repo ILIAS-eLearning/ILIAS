@@ -22,7 +22,7 @@
 		<li>
 		<xsl:choose>
 			<xsl:when test="@identifierref!=''">
-				<a>
+				<a target="content">
 					<xsl:attribute name="href"><xsl:value-of select="substring-after(@identifier,'sco_')"/>/index.html</xsl:attribute>
 					<xsl:value-of select="title"/>
 				</a>
