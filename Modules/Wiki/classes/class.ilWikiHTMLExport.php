@@ -63,7 +63,7 @@ class ilWikiHTMLExport
 		$this->co_page_html_export->exportSupportScripts();
 
 		// export pages
-		$this->exportHTMLPages($lm_gui, $this->export_dir);
+		$this->exportHTMLPages();
 
 		// zip everything
 		if (true)
