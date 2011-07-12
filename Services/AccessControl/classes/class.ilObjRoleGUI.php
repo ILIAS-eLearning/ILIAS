@@ -1876,7 +1876,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$tb->addSpacer();
 
 		$tb->addButton(
-			$this->lng->txt('role_add_user'),
+			$this->lng->txt('search_user'),
 			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start')
 		);
 		$tb->addSpacer();
