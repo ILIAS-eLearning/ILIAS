@@ -586,11 +586,9 @@ class ilObjBlogGUI extends ilObject2GUI
 	
 	function export()
 	{
-		$this->buildExportFile();
+		$zip = $this->buildExportFile();
 		
-		// :TODO: message
-		
-	    // $ilCtrl->redirect($this, "render");
+	    ilUtil::deliverFile($zip, $this->object->getTitle().".zip", '', false, true);
 	}
 	
 	/**
@@ -645,6 +643,8 @@ class ilObjBlogGUI extends ilObject2GUI
 			ilUtil::zip($this->export_dir, $zip_file);
 			ilUtil::delDir($this->export_dir);
 		}
+		
+		return $zip_file;
 	}
 
 	/**
