@@ -59,11 +59,12 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 		$this->setId($set->getServerId().'_'.$cid.'_'.'community_table');
 
 	 	parent::__construct($a_parent_obj,$a_parent_cmd);
-	 	$this->addColumn($this->lng->txt('ecs_participants'),'participants',"40%");
-	 	$this->addColumn($this->lng->txt('ecs_participants_infos'),'infos',"40%");
+	 	$this->addColumn($this->lng->txt('ecs_participants'),'participants',"35%");
+	 	$this->addColumn($this->lng->txt('ecs_participants_infos'),'infos',"35%");
 		$this->addColumn($this->lng->txt('ecs_tbl_export'),'export','5%');
 		$this->addColumn($this->lng->txt('ecs_tbl_import'),'import','5%');
 		$this->addColumn($this->lng->txt('ecs_tbl_import_type'), 'type','10%');
+		$this->addColumn('', 'actions','10%');
 		$this->disable('form');	 	
 		$this->setRowTemplate("tpl.participant_row.html","Services/WebServices/ECS");
 		$this->setDefaultOrderField('participants');
@@ -91,6 +92,8 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
+		global $ilCtrl;
+
 		$this->tpl->setVariable('S_ID', $this->getServer()->getServerId());
 		$this->tpl->setVariable('M_ID', $a_set['mid']);
 		$this->tpl->setVariable('VAL_ID', $this->getServer()->getServerId().'_'.$a_set['mid']);
@@ -130,6 +133,43 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 			true
 		);
 		$this->tpl->setVariable('IMPORT_SEL', $sel);
+
+		include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+		$list = new ilAdvancedSelectionListGUI();
+		$list->setId('actl_'.$set['server_id'].'_'.$a_set['mid']);
+		$list->setListTitle($this->lng->txt('actions'));
+
+		switch($part->getImportType())
+		{
+			case ilECSParticipantSetting::IMPORT_RCRS;
+				// Do nothing
+				break;
+
+			case ilECSParticipantSetting::IMPORT_CRS:
+				// Possible action => Edit course allocation
+				$list->addItem(
+					$this->lng->txt('ecs_crs_alloc_set'),
+					'',
+					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','dSettings')
+				);
+				$this->tpl->setVariable('ACTIONS',$list->getHTML());
+				break;
+
+			case ilECSParticipantSetting::IMPORT_CMS:
+				// Possible action => Edit course allocation, edit node mapping
+				$list->addItem(
+					$this->lng->txt('ecs_crs_alloc_set'),
+					'',
+					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','cSettings')
+				);
+				$list->addItem(
+					$this->lng->txt('ecs_dir_alloc_set'),
+					'',
+					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','dSettings')
+				);
+				$this->tpl->setVariable('ACTIONS',$list->getHTML());
+				break;
+		}
 	}
 	
 	/**
