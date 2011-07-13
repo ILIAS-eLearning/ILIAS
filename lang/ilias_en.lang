@@ -11665,4 +11665,7 @@ ecs#:#ecs_import_cms#:#Campus Managment
 ecs#:#ecs_node_mapping_activate#:#Enable Directory Mapping
 ecs#:#ecs_node_mapping_create_empty#:#Create Categories only, which contain Courses
 ecs#:#ecs_node_mapping_create_empty_info#:#Useable only in combination with course mapping, which will be activated automatically.
+ecs#:#ecs_campus_connect_title#:#CampusConnect Mappings
 ecs#:#ecs_invalid_import_type_cms#:#The import type "Campus Managment" can be chosen only once.
+ecs#:#ecs_cc_mapping_overview#:#Mapping Overview
+ecs#:#ecs_cms_dir_tree#:#CMS Directory Trees

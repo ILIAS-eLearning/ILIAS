@@ -14,6 +14,9 @@ include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
  */
 class ilECSMappingSettingsGUI
 {
+	const TAB_DIRECTORY = 1;
+	const TAB_COURSE = 2;
+
 	private $container = null;
 	private $server = null;
 
@@ -58,6 +61,8 @@ class ilECSMappingSettingsGUI
 	public function executeCommand()
 	{
 		global $ilCtrl;
+
+		$GLOBALS['tpl']->setTitle($this->lng->txt('ecs_campus_connect_title'));
 
 		$this->ctrl->saveParameter($this,'server_id');
 
@@ -183,7 +188,9 @@ class ilECSMappingSettingsGUI
 	{
 		global $ilTabs;
 
+		$this->setSubTabs(self::TAB_DIRECTORY);
 		$ilTabs->activateTab('ecs_dir_allocation');
+		$ilTabs->activateSubTab('dSettings');
 
 		$form = $this->initFormDSettings();
 
@@ -225,7 +232,7 @@ class ilECSMappingSettingsGUI
 
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt('settings'));
+		$form->setTitle($this->lng->txt('general_settings'));
 
 		$active = new ilCheckboxInputGUI($this->lng->txt('ecs_node_mapping_activate'), 'active');
 		$active->setChecked(ilECSNodeMappingSettings::getInstance()->isEnabled());
@@ -265,6 +272,35 @@ class ilECSMappingSettingsGUI
 			$this->lng->txt('ecs_crs_alloc'),
 			$this->ctrl->getLinkTarget($this,'cSettings')
 		);
+	}
+
+	/**
+	 * Set Sub tabs
+	 * @global ilTabsGUI $ilTabs
+	 * @param string $a_tab 
+	 */
+	protected function setSubTabs($a_tab)
+	{
+		global $ilTabs;
+
+		if($a_tab == self::TAB_DIRECTORY)
+		{
+			$ilTabs->addSubTab(
+				'dMappingOverview',
+				$this->lng->txt('ecs_cc_mapping_overview'),
+				'dMappingOverview'
+			);
+			$ilTabs->addSubTab(
+				'dTrees',
+				$this->lng->txt('ecs_cms_dir_tree'),
+				'dTrees'
+			);
+			$ilTabs->addSubTab(
+				'dSettings',
+				$this->lng->txt('settings'),
+				'dSettings'
+			);
+		}
 	}
 }
 ?>
