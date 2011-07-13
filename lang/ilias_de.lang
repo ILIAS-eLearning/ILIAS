@@ -11627,3 +11627,5 @@ ecs#:#ecs_mapping_crs#:#Zuordnung für Kurse
 ecs#:#ecs_mapping_rcrs#:#Zuordnung für externe Kurse
 ecs#:#ecs_mapping_exp_tbl#:#Zuordnung von ILIAS Erweiterten Metadaten zu ECS-Daten
 content#:#cont_edit_personal_data#:#Persönliche Daten editieren
+ecs#:#ecs_import_cms#:#Campus Managment
+ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus Mamagment" nur für maximal einen Teilnehmer auswählen.
