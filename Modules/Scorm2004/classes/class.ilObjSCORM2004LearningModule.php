@@ -1653,8 +1653,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$one_file = fopen($a_target_dir.'/index.html','w+');
 		$this->exportHTML($a_inst, $a_target_dir, &$expLog, $one_file);
 		fclose($one_file);
-echo "<br>".$a_target_dir.'/index.html';
-echo "<br>LM->exportHTMLOne: Finished."; exit;
 	}
 	
 	/**
@@ -1815,7 +1813,32 @@ echo "<br>LM->exportHTMLOne: Finished."; exit;
 			$sco_tpl = new ilTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
 			include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
 			$sco_tpl = ilCOPageHTMLExport::getPreparedMainTemplate($sco_tpl);
+			
+			$sco_tpl->setCurrentBlock("js_file");
+			$sco_tpl->setVariable("JS_FILE", "./js/pure.js");
+			$sco_tpl->parseCurrentBlock();
+			$sco_tpl->setCurrentBlock("js_file");
+			$sco_tpl->setVariable("JS_FILE", "./js/question_handling.js");
+			$sco_tpl->parseCurrentBlock();
+			
+			
+			$sco_tpl->setCurrentBlock("head");
+			$sco_tpl->parseCurrentBlock();
 			fputs($a_one_file, $sco_tpl->get("head"));
+			
+			// toc
+			include_once("class.ilContObjectManifestBuilder.php");
+			$manifestBuilder = new ilContObjectManifestBuilder($this);
+			$manifestBuilder->buildManifest('12');
+			$xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/module.xsl");
+			$xml = simplexml_load_string($manifestBuilder->writer->xmlDumpMem());
+			$args = array( '/_xml' => $xml->organizations->organization->asXml(), '/_xsl' => $xsl );
+			$xh = xslt_create();
+			$params = array("one_page" => "y");
+			$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args,$params);
+			xslt_free($xh);
+			fputs($a_one_file, $output);
+
 		}
 		
 		foreach($tree->getSubTree($tree->getNodeData($tree->getRootId()),true,'sco') as $sco)
@@ -1880,6 +1903,8 @@ echo "<br>LM->exportHTMLOne: Finished."; exit;
 		copy('./Modules/Scorm2004/scripts/scorm_2004.js',$a_target_dir.'/js/scorm.js');
 		copy('./Modules/Scorm2004/scripts/pager.js',$a_target_dir.'/js/pager.js');
 		copy('./Modules/Scorm2004/scripts/questions/pure.js',$a_target_dir.'/js/pure.js');
+		copy('./Modules/Scorm2004/scripts/questions/question_handling.js',
+			$a_target_dir.'/js/question_handling.js');
 		
 	}
 	

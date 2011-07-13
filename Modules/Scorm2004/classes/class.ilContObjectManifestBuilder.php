@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Page.php");
+include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
 /**
  * Scorm 2004 Content Object Manifest export class

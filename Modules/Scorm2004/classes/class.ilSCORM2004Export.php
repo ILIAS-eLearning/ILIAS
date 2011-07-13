@@ -215,9 +215,9 @@ class ilScorm2004Export
 		$this->cont_obj->exportHTML($this->inst_id, $this->export_dir."/".$this->subdir, $expLog);
 
 		// zip the file
-//		ilUtil::zip($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".zip", true);
+		ilUtil::zip($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".zip", true);
 		
-//		ilUtil::delDir($this->export_dir."/".$this->subdir);
+		ilUtil::delDir($this->export_dir."/".$this->subdir);
 		
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
 
@@ -246,9 +246,9 @@ class ilScorm2004Export
 		$this->cont_obj->exportHTMLOne($this->inst_id, $this->export_dir."/".$this->subdir, $expLog);
 
 		// zip the file
-//		ilUtil::zip($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".zip", true);
+		ilUtil::zip($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".zip", true);
 		
-//		ilUtil::delDir($this->export_dir."/".$this->subdir);
+		ilUtil::delDir($this->export_dir."/".$this->subdir);
 		
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
 

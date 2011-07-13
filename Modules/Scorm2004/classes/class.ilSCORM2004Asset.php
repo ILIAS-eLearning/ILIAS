@@ -345,8 +345,13 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$sco_tpl->parseCurrentBlock();
 		$sco_tpl->touchBlock("tail");
 
-		// meta page (meta info at SCO beginning) start...
+		// meta page (meta info at SCO beginning)
 		self::renderMetaPage($sco_tpl, $this, $a_asset_type, $mode);
+		if ($a_one_file != "")
+		{
+			fputs($a_one_file, "<a name='sco".$this->getId()."'></a>");
+			fputs($a_one_file, $sco_tpl->get("meta_page"));
+		}
 
 		//notify Question Exporter of new SCO
 		require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
@@ -358,6 +363,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$terms = $this->getGlossaryTermIds();
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
 		$pages = $tree->getSubTree($tree->getNodeData($this->getId()),true,'page');
+		$sco_q_ids = array();
 		foreach($pages as $page)
 		{
 			//echo(print_r($page));
@@ -447,11 +453,20 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			$sco_tpl->setCurrentBlock("page");
 			$sco_tpl->setVariable("PAGE", $page_output);
 			$sco_tpl->parseCurrentBlock();
+			
+			// get all question ids of the sco
+			if ($a_one_file != "")
+			{
+				$q_ids = ilSCORM2004Page::_getQuestionIdsForPage("sahs", $page["obj_id"]);
+				foreach ($q_ids as $i)
+				{
+					if (!in_array($i, $sco_q_ids))
+					{
+						$sco_q_ids[] = $i;
+					}
+				}
+			}
 		}
-
-		
-//echo "-".htmlentities($sco_tpl->get("page"))."-";
-		fputs($a_one_file, $sco_tpl->get("page"));
 
 		// glossary
 		if ($mode!='pdf')
@@ -460,7 +475,14 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 				ilSCORM2004PageGUI::getGlossaryHTML($this));
 		}
 
-		$output = $sco_tpl->get();
+		if ($a_one_file == "")
+		{
+			$output = $sco_tpl->get();
+		}
+		else
+		{
+			$output = $sco_tpl->get("page");
+		}
 
 		if($mode=='pdf')
 			$output = preg_replace("/<div class=\"ilc_page_title_PageTitle\">(.*?)<\/div>/i","<h2>$1</h2>",$output);
@@ -471,6 +493,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$output = preg_replace("/\.\/Services\/MediaObjects\/flash_mp3_player/i","./players",$output);
 		$output = preg_replace("/\.\/Services\/MediaObjects\/flash_flv_player/i","./players",$output);
 		$output = preg_replace("/file=..\/..\/..\/.\//i","file=../",$output);
+
 		if($mode!='pdf')
 		{
 			$output = preg_replace_callback("/href=\"&mob_id=(\d+)&pg_id=(\d+)\"/",array(get_class($this), 'fixFullscreeenLink'),$output);
@@ -484,6 +507,24 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			copy("./Modules/Scorm2004/templates/default/question_handling.css",
 				$a_target_dir.'/css/question_handling.css');
 
+			// hack to get the question js into the file and to display the correct answers
+			if ($a_one_file != "")
+			{
+				$output = '<script type="text/javascript">'.ilQuestionExporter::questionsJS().'</script>'.$output;
+				if (count($sco_q_ids) > 0)
+				{
+					$output.= '<script type="text/javascript">';
+					foreach ($sco_q_ids as $i)
+					{
+						if ($i > 0)
+						{
+							$output.= "ilias.questions.showCorrectAnswers(".$i."); \n";
+						}
+					}
+					$output.= '</script>';
+				}
+			}
+
 			foreach(ilQuestionExporter::getMobs() as $mob_id)
 			{
 				$this->mob_ids[$mob_id] = $mob_id;
@@ -492,11 +533,11 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$this->q_media = ilQuestionExporter::getFiles();
 		//questions export end
 
-		if ($a_one_file == "")
+		if ($a_one_file != "")
 		{
-			fputs(fopen($a_target_dir.'/index.html','w+'),$output);
+			fputs($a_one_file, $output);
 		}
-
+		
 		$this->exportFileItems($a_target_dir, $expLog);
 
 	}
@@ -646,7 +687,10 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	//callback function for question export
 	private function insertQuestion($matches) {
 		$q_exporter = new ilQuestionExporter();
-		return $q_exporter->exportQuestion($matches[2], "./objects/");
+		
+		$ret = $q_exporter->exportQuestion($matches[2], "./objects/");
+		
+		return $ret;
 	}
 
 	function exportXMLPageObjects($a_target_dir, &$a_xml_writer, $a_inst, &$expLog)
