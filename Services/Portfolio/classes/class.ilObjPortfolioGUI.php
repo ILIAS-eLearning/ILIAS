@@ -768,6 +768,16 @@ class ilObjPortfolioGUI
 		exit();
 	}
 	
+		
+	function export()
+	{
+		include_once "Services/Portfolio/classes/class.ilPortfolioHTMLExport.php";
+		$export = new ilPortfolioHTMLExport($this, $this->portfolio);
+		$zip = $export->buildExportFile();
+		
+	    ilUtil::deliverFile($zip, $this->portfolio->getTitle().".zip", '', false, true);
+	}
+	
 	function _goto($a_target)
 	{
 		$id = explode("_", $a_target);

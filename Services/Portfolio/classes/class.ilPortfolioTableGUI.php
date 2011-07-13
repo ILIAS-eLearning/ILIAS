@@ -83,12 +83,10 @@ class ilPortfolioTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_ACTION", $lng->txt("pages"));
 		$this->tpl->parseCurrentBlock();
 		
-		/*
 		$this->tpl->setVariable("URL_ACTION",
-			$ilCtrl->getLinkTarget($this->parent_obj, "edit"));
-		$this->tpl->setVariable("TXT_ACTION", $lng->txt("settings"));
-		$this->tpl->parseCurrentBlock();		 
-		*/
+			$ilCtrl->getLinkTarget($this->parent_obj, "export"));
+		$this->tpl->setVariable("TXT_ACTION", $lng->txt("export"));
+		$this->tpl->parseCurrentBlock();
 		
 		$this->tpl->setVariable("URL_ACTION",
 			$ilCtrl->getLinkTargetByClass("ilworkspaceaccessgui", "share"));

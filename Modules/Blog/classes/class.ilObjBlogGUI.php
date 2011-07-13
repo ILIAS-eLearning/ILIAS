@@ -758,13 +758,6 @@ class ilObjBlogGUI extends ilObject2GUI
 		$back = "blm_".substr($a_date, 0, 7).".html";
 
 		$this->writeExportFile("blp_".$a_post_id.".html", $page_content, $a_navigation, $back);
-
-		/*
-		if ($this->wiki->getStartPage() == $wpg_gui->getPageObject()->getTitle())
-		{
-			copy($file, $this->export_dir."/index.html");
-		}		 
-		*/
 	}
 
 	function _goto($a_target)
