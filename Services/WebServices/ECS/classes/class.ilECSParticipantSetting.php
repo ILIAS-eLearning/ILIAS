@@ -31,8 +31,10 @@
 */
 class ilECSParticipantSetting
 {
+	const IMPORT_UNCHANGED = 0;
 	const IMPORT_RCRS = 1;
 	const IMPORT_CRS = 2;
+	const IMPORT_CMS = 3;
 	
 	private $server_id = 0;
 	private $mid = 0;
@@ -100,7 +102,10 @@ class ilECSParticipantSetting
 
 	public function setImportType($a_type)
 	{
-		$this->import_type = $a_type;
+		if($a_type != self::IMPORT_UNCHANGED)
+		{
+			$this->import_type = $a_type;
+		}
 	}
 
 	public function getImportType()

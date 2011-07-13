@@ -645,6 +645,51 @@ class ilECSSettingsGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+
+	/**
+	 * Validate import types
+	 * @param array $import_types
+	 * @return bool
+	 */
+	protected function validateImportTypes(&$import_types)
+	{
+		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
+		
+		$num_cms = 0;
+		foreach((array) $import_types as $sid => $server)
+		{
+			foreach((array) $server as $mid => $import_type)
+			{
+				if($import_type == ilECSParticipantSetting::IMPORT_CMS)
+				{
+					++$num_cms;
+				}
+			}
+		}
+		
+		if($num_cms <= 1)
+		{
+			return true;
+		}
+		// Change to import type "UNCHANGED"
+		$new_types = array();
+		foreach((array) $import_types as $sid => $server)
+		{
+			foreach((array) $server as $mid => $import_type)
+			{
+				if($import_type == ilECSParticipantSetting::IMPORT_CMS)
+				{
+					$new_types[$sid][$mid] = ilECSParticipantSetting::IMPORT_UNCHANGED;
+				}
+				else
+				{
+					$new_types[$sid][$mid] = $import_type;
+				}
+			}
+		}
+		$import_types = $new_types;
+		return false;
+	}
 	
 	/**
 	 * update whitelist
@@ -660,6 +705,11 @@ class ilECSSettingsGUI
 		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
 
 		// @TODO: Delete deprecated communities
+		$invalidImportTypes = false;
+		if(!$this->validateImportTypes($_POST['import_type']))
+		{
+			$invalidImportTypes = true;
+		}
 
 		$servers = ilECSServerSettings::getInstance();
 		foreach($servers->getServers() as $server)
@@ -716,7 +766,14 @@ class ilECSSettingsGUI
 				$set->update();
 			}
 		}
-		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		if($invalidImportTypes)
+		{
+			ilUtil::sendFailure($this->lng->txt('ecs_invalid_import_type_cms'),true);
+		}
+		else
+		{
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		}
 		$GLOBALS['ilCtrl']->redirect($this,'communities');
 
 		// TODO: Do update of remote courses and ...
