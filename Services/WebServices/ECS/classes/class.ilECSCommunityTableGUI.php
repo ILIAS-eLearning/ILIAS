@@ -150,7 +150,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 				$list->addItem(
 					$this->lng->txt('ecs_crs_alloc_set'),
 					'',
-					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','dSettings')
+					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','dStart')
 				);
 				$this->tpl->setVariable('ACTIONS',$list->getHTML());
 				break;
@@ -160,12 +160,12 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 				$list->addItem(
 					$this->lng->txt('ecs_crs_alloc_set'),
 					'',
-					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','cSettings')
+					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','cStart')
 				);
 				$list->addItem(
 					$this->lng->txt('ecs_dir_alloc_set'),
 					'',
-					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','dSettings')
+					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','dStart')
 				);
 				$this->tpl->setVariable('ACTIONS',$list->getHTML());
 				break;

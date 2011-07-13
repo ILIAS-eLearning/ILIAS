@@ -11662,4 +11662,7 @@ ecs#:#ecs_mapping_rcrs#:#Mapping for Remote Courses
 ecs#:#ecs_mapping_exp_tbl#:#Mapping ILIAS Advanced Meta Data to ECS-Data
 content#:#cont_edit_personal_data#:#Edit Personal Data
 ecs#:#ecs_import_cms#:#Campus Managment
+ecs#:#ecs_node_mapping_activate#:#Enable Directory Mapping
+ecs#:#ecs_node_mapping_create_empty#:#Create Categories only, which contain Courses
+ecs#:#ecs_node_mapping_create_empty_info#:#Useable only in combination with course mapping, which will be activated automatically.
 ecs#:#ecs_invalid_import_type_cms#:#The import type "Campus Managment" can be chosen only once.
