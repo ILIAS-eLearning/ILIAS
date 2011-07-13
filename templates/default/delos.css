@@ -2135,6 +2135,23 @@ input.ilMainMenuSearchSubmit
 	display: inline-block;
 }
 
+span.ilMMStatus {
+	position: absolute;
+	font-size: 0.85em;
+	font-weight: bold;
+	margin-top: -3px;
+	margin-left: -6px;
+	background-color: #FFFF99;
+	background-color: #D06000;
+	color: #303030;
+	color: #F0F0F0;
+	padding: 0px 2px;
+	rborder: 1px solid #FFDD77;
+	rborder: 1px solid #000000;
+	border-radius: 3px;
+	box-shadow: 1px 1px 1px #303030;
+}
+
 /* Main Menu Top Title */
 div.ilTopTitle
 {
@@ -3068,3 +3085,4 @@ div.ilFrameFixedWidth
 	margin-left: auto;
 	margin-right: auto;
 }
+

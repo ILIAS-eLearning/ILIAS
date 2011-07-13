@@ -3,6 +3,9 @@
 	<xsl:output method="html"/>
 	<!-- strip white spaces between tags -->
 	<xsl:strip-space elements="*"/>
+	
+	<xsl:param name="one_page"/>
+	
 	<xsl:template match="/">
 		<xsl:apply-templates/>
 	</xsl:template>
@@ -22,8 +25,14 @@
 		<li>
 		<xsl:choose>
 			<xsl:when test="@identifierref!=''">
-				<a target="content">
-					<xsl:attribute name="href"><xsl:value-of select="substring-after(@identifier,'sco_')"/>/index.html</xsl:attribute>
+				<a>
+					<xsl:if test="$one_page != 'y'">
+						<xsl:attribute name="href"><xsl:value-of select="substring-after(@identifier,'sco_')"/>/index.html</xsl:attribute>
+						<xsl:attribute name="target">content</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$one_page = 'y'">
+						<xsl:attribute name="href">#sco<xsl:value-of select="substring-after(@identifier,'sco_')"/></xsl:attribute>
+					</xsl:if>
 					<xsl:value-of select="title"/>
 				</a>
 			</xsl:when>
