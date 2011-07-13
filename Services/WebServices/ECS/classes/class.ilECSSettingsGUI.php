@@ -80,7 +80,7 @@ class ilECSSettingsGUI
 			case 'ilecsmappingsettingsgui':
 				include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingSettingsGUI.php';
 				$mapset = new ilECSMappingSettingsGUI($this, (int) $_REQUEST['server_id']);
-				$this->ctrl->setReturn($this,'overview');
+				$this->ctrl->setReturn($this,'communities');
 				$this->ctrl->forwardCommand($mapset);
 				break;
 			
