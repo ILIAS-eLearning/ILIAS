@@ -11632,3 +11632,6 @@ ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus Mamagment
 ecs#:#ecs_node_mapping_activate#:#Verzeichniszuordnung aktivieren
 ecs#:#ecs_node_mapping_create_empty#:#Nur Kategorien anlegen, die Kurse enthalten
 ecs#:#ecs_node_mapping_create_empty_info#:#Nur in Verbindung mit der Kurszuordnung nutzbar (diese wird automatisch aktiviert). 
+ecs#:#ecs_campus_connect_title#:#CampusConnect-Zuordnungen
+ecs#:#ecs_cc_mapping_overview#:#Zuordnungsübersicht
+ecs#:#ecs_cms_dir_tree#:#CMS-Verzeichnisbäume
