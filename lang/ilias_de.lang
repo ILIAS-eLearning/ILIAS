@@ -11629,3 +11629,6 @@ ecs#:#ecs_mapping_exp_tbl#:#Zuordnung von ILIAS Erweiterten Metadaten zu ECS-Dat
 content#:#cont_edit_personal_data#:#Persönliche Daten editieren
 ecs#:#ecs_import_cms#:#Campus Managment
 ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus Mamagment" nur für maximal einen Teilnehmer auswählen.
+ecs#:#ecs_node_mapping_activate#:#Verzeichniszuordnung aktivieren
+ecs#:#ecs_node_mapping_create_empty#:#Nur Kategorien anlegen, die Kurse enthalten
+ecs#:#ecs_node_mapping_create_empty_info#:#Nur in Verbindung mit der Kurszuordnung nutzbar (diese wird automatisch aktiviert). 

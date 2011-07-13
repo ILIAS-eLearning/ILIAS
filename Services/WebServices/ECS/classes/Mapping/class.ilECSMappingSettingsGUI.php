@@ -70,7 +70,7 @@ class ilECSMappingSettingsGUI
 			default:
 				if(!$cmd)
 				{
-					$cmd = "dSettings";
+					$cmd = "cStart";
 				}
 				$this->$cmd();
 				break;
@@ -80,6 +80,41 @@ class ilECSMappingSettingsGUI
 		$GLOBALS['tpl']->setDescription('');
 
 		return true;
+	}
+
+	/**
+	 * return to parent container
+	 */
+	public function cancel()
+	{
+		$GLOBALS['ilCtrl']->returnToParent($this);
+	}
+
+	/**
+	 * Goto default page
+	 * @return <type>
+	 */
+	protected function cStart()
+	{
+		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
+		if(!ilECSNodeMappingSettings::getInstance()->isEnabled())
+		{
+			return $this->cSettings();
+		}
+	}
+
+	/**
+	 * Goto default page
+	 * @return <type>
+	 */
+	protected function dStart()
+	{
+		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
+		if(!ilECSNodeMappingSettings::getInstance()->isEnabled())
+		{
+			return $this->dSettings();
+		}
+		return $this->dSettings();
 	}
 
 	/**
@@ -150,7 +185,61 @@ class ilECSMappingSettingsGUI
 
 		$ilTabs->activateTab('ecs_dir_allocation');
 
+		$form = $this->initFormDSettings();
+
+		$GLOBALS['tpl']->setContent($form->getHTML());
 		return true;
+	}
+
+	/**
+	 * Update node mapping settings
+	 */
+	protected function dUpdateSettings()
+	{
+		global $ilCtrl;
+
+		$form = $this->initFormDSettings();
+		if($form->checkInput())
+		{
+			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
+			ilECSNodeMappingSettings::getInstance()->enable((bool) $form->getInput('active'));
+			ilECSNodeMappingSettings::getInstance()->enableEmptyContainerCreation(!$form->getInput('empty'));
+			ilECSNodeMappingSettings::getInstance()->update();
+			ilUtil::sendSuccess($this->lng->txt('saved_settings'),true);
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt('err_check_input'),true);
+			$form->setValuesByPost();
+		}
+		$ilCtrl->redirect($this,'dSettings');
+	}
+
+	/**
+	 *
+	 */
+	protected function initFormDSettings()
+	{
+		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('settings'));
+
+		$active = new ilCheckboxInputGUI($this->lng->txt('ecs_node_mapping_activate'), 'active');
+		$active->setChecked(ilECSNodeMappingSettings::getInstance()->isEnabled());
+		$form->addItem($active);
+
+		$create_empty = new ilCheckboxInputGUI($this->lng->txt('ecs_node_mapping_create_empty'), 'empty');
+		$create_empty->setChecked(!ilECSNodeMappingSettings::getInstance()->isEmptyContainerCreationEnabled());
+		$create_empty->setInfo($this->lng->txt('ecs_node_mapping_create_empty_info'));
+		$form->addItem($create_empty);
+
+		$form->addCommandButton('dUpdateSettings',$this->lng->txt('save'));
+		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
+
+		return $form;
 	}
 
 	/**
