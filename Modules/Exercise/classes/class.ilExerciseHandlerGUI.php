@@ -47,14 +47,14 @@ class ilExerciseHandlerGUI
 				"ilias.php?baseClass=ilExerciseHandlerGUI&cmd=infoScreen&ref_id=".$_GET["ref_id"], "exc");
 		}
 
-		switch ($next_class)
-		{
-			case 'ilobjexercisegui':
-				require_once "./Modules/Exercise/classes/class.ilObjExerciseGUI.php";
-				$ex_gui =& new ilObjExerciseGUI("", (int) $_GET["ref_id"], true, false);
-				$this->ctrl->forwardCommand($ex_gui);
-				break;
-		}
+			switch ($next_class)
+			{
+				case 'ilobjexercisegui':
+					require_once "./Modules/Exercise/classes/class.ilObjExerciseGUI.php";
+					$ex_gui =& new ilObjExerciseGUI("", (int) $_GET["ref_id"], true, false);
+					$this->ctrl->forwardCommand($ex_gui);
+					break;
+			}
 
 		$tpl->show();
 	}

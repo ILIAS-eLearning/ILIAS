@@ -762,7 +762,7 @@ class ilPaymentObject
 	{
 		global $ilDB, $tree;
 
-		$filter = array('file', 'exc', 'tst', 'icrs','crs','crsr','rcrs');
+		$filter = array('file', 'exc', 'tst', 'icrs','crs','crsr','rcrs', 'glo');
 		$objects = $tree->getChildsByTypeFilter($a_ref_id, $filter);
 
 		$res = array();

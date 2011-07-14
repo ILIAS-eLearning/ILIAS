@@ -372,7 +372,7 @@ class ilShopGUI extends ilShopBaseGUI
 		}
 
 		// search
-		$types = array('crs', 'lm', 'sahs', 'htlm', 'file', 'tst', 'exc');
+		$types = array('crs', 'lm', 'sahs', 'htlm', 'file', 'tst', 'exc', 'glo');
 		if ($this->getType() == '' || $this->getType() == 'title' ||
 			$query_parser->getQueryString() == '')
 		{

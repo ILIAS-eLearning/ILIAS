@@ -198,7 +198,7 @@ class ilStartUpGUI
 		$tpl->addBlockFile("CONTENT", "content", "tpl.login.html","Services/Init");
 
 		#$this->ctrl->setTargetScript("login.php");
-		if (isset($_GET['forceShoppingCartRedirect']))
+		if(isset($_GET['forceShoppingCartRedirect']) && (int)$_GET['forceShoppingCartRedirect'] == 1)
 		{
   			$this->ctrl->setParameter($this, 'forceShoppingCartRedirect', 1);
 		}
@@ -232,6 +232,7 @@ class ilStartUpGUI
 		{
 			$lng->loadLanguageModule('payment');
 			$this->showFailure($lng->txt("payment_login_to_buy_object"));
+			$_SESSION['forceShoppingCartRedirect'] = '1';
 		}
 		else if (isset($_GET['reg_confirmation_msg']) && strlen(trim($_GET['reg_confirmation_msg'])))
 		{
@@ -1443,9 +1444,29 @@ class ilStartUpGUI
 		{
 			if(IS_PAYMENT_ENABLED)
 			{
-                $usr_id = $ilUser->getId();
+                  $usr_id = $ilUser->getId();
+
+				include_once './Services/Payment/classes/class.ilShopLinkBuilder.php';
+				$shop_classes = array_keys(ilShopLinkBuilder::$linkArray);
+
 				include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
 				ilPaymentShoppingCart::_assignObjectsToUserId($usr_id);
+
+				if((int)$_GET['forceShoppingCartRedirect'])
+				{
+					$class = 'ilshopshoppingcartgui';
+					  ilUtil::redirect('ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilshopshoppingcartgui');
+				}
+
+				// handle goto_ links for shop after login
+				$tarr = explode("_", $_GET["target"]);
+				if(in_array($tarr[0], $shop_classes))
+				{
+					$class = $tarr[0];
+					 ilUtil::redirect('ilias.php?baseClass='.ilShopLinkBuilder::$linkArray[strtolower($class)]['baseClass']
+						.'&cmdClass='.strtolower(ilShopLinkBuilder::$linkArray[strtolower($class)]['cmdClass']));
+					  exit;
+				}
 			}
 						
 			if	(!$this->_checkGoto($_GET["target"]))
