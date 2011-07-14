@@ -11022,7 +11022,7 @@ content#:#cont_save_types#:#Save Types
 content#:#cont_layout_template#:#Layout Template
 content#:#cont_special_page#:#Special Content Page
 wiki#:#wiki_public_comments#:#Public Comments
-trac#:#trac_learning_progress_of#:#Lernfortschritt von %s
+trac#:#trac_learning_progress_of#:#Learning Progress of %s
 trac#:#trac_learning_progress_objects_description#:#This table shows an overview of all your courses and objects.
 common#:#personal_workspace#:#My Workspace
 wsp#:#wsp_personal_workspace#:#My Workspace

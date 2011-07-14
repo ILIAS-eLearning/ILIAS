@@ -34,6 +34,12 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 
 		if(!$this->details)
 		{
+			$user = $this->tracked_user;
+			if(!$user)
+			{
+				$user = $ilUser;
+			}
+			
 			$this->addColumn("", "", "1", true);
 			$this->addColumn($this->lng->txt("trac_title"), "title", "26%");
 			$this->addColumn($this->lng->txt("status"), "status", "7%");
@@ -45,7 +51,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->addColumn($this->lng->txt("path"), "", "20%");
 			$this->addColumn($this->lng->txt("actions"), "", "5%");
 
-			$this->setTitle(sprintf($this->lng->txt("trac_learning_progress_of"), $ilUser->getFullName()));
+			$this->setTitle(sprintf($this->lng->txt("trac_learning_progress_of"), $user->getFullName()));
 			$this->initFilter();
 
 			$this->setSelectAllCheckbox("item_id");

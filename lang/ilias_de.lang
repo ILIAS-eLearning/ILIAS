@@ -10998,7 +10998,7 @@ trac#:#trac_group_materials#:#Gruppierung mit optionalen Materialien erstellen
 trac#:#trac_release_materials#:#Gruppierung mit optionalen Materialien auflösen
 common#:#preconditions_obligatory_hint#:#Bitte bearbeiten Sie die folgenden Vorbedingungen, um Zugriff zu erlangen
 common#:#preconditions_optional_hint#:#Bitte bearbeiten Sie mindestens <b>%s</b> der folgenden Vorbedingungen, um Zugriff zu erlangen
-trac#:#trac_learning_progress_of#:#Learning Progress of %s
+trac#:#trac_learning_progress_of#:#Lernfortschritt von %s
 trac#:#trac_learning_progress_objects_description#:#Diese Liste zeigt eine Übersicht all Ihrer Kurse und Objekte.
 common#:#personal_workspace#:#Mein Arbeitsraum
 wsp#:#wsp_personal_workspace#:#Mein Arbeitsraum
