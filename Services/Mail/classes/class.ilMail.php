@@ -225,6 +225,8 @@ class ilMail
 	var $soap_enabled = true;
 	var $mail_to_global_roles = 0;
 
+	private $use_pear = true;
+
 	protected $mlists = null;
 
 	protected $appendInstallationSignature = false;
@@ -1289,9 +1291,10 @@ class ilMail
 		global $log, $rbacreview;
 		$ids = array();
 
-		if (ilMail::_usePearMail())
+		$this->validatePear($a_recipients);
+		if (ilMail::_usePearMail() && $this->getUsePear() == true)
 		{
-			$tmp_names = $this->explodeRecipients($a_recipients);
+			$tmp_names = $this->explodeRecipients($a_recipients );
 			if (! is_a($tmp_names, 'PEAR_Error'))
 			{
 				for ($i = 0;$i < count($tmp_names); $i++)
@@ -1342,7 +1345,7 @@ class ilMail
 		}
 		else
 		{
-			$tmp_names = $this->explodeRecipients($a_recipients);
+			$tmp_names = $this->explodeRecipients($a_recipients,  $this->getUsePear());
 			for ($i = 0;$i < count($tmp_names); $i++)
 			{
 				if (substr($tmp_names[$i],0,1) == '#')
@@ -1427,7 +1430,8 @@ class ilMail
 	{
 		$addresses = array();
 
-		if (ilMail::_usePearMail())
+		$this->validatePear($a_rcp);
+		if (ilMail::_usePearMail() && $this->getUsePear())
 		{
 			$tmp_rcp = $this->explodeRecipients($a_rcp);
 			if (! is_a($tmp_rcp, 'PEAR_Error'))
@@ -1468,7 +1472,7 @@ class ilMail
 		}
 		else
 		{
-			$tmp_rcp = $this->explodeRecipients($a_rcp);
+			$tmp_rcp = $this->explodeRecipients($a_rcp, $this->getUsePear());
 
 			foreach ($tmp_rcp as $rcp)
 			{
@@ -1525,11 +1529,10 @@ class ilMail
 		global $rbacsystem,$rbacreview;
 		$wrong_rcps = '';
 
-		if (ilMail::_usePearMail())
+		$this->validatePear($a_recipients);
+		if (ilMail::_usePearMail() && $this->getUsePear())
 		{
-			
-
-			$tmp_rcp = $this->explodeRecipients($a_recipients);
+			$tmp_rcp = $this->explodeRecipients($a_recipients, $this->getUsePear());
 
 			if (is_a($tmp_rcp, 'PEAR_Error'))
 			{
@@ -1604,13 +1607,12 @@ class ilMail
 				}
 			}
 		}
-		else
+		else // NO PEAR
 		{	
-
-			$tmp_rcp = $this->explodeRecipients($a_recipients);
+			$tmp_rcp = $this->explodeRecipients($a_recipients, $this->getUsePear());
 
 			foreach ($tmp_rcp as $rcp)
-			{ 
+			{
 				if (empty($rcp))
 				{
 					continue;
@@ -1840,7 +1842,7 @@ class ilMail
 		$rcp_cc = $this->parseRcptOfMailingLists($a_rcp_cc);
 		$rcp_bc = $this->parseRcptOfMailingLists($a_rcp_bc);
 
-		if (! ilMail::_usePearMail())
+		if (! ilMail::_usePearMail() )
 		{
 			// REPLACE ALL LOGIN NAMES WITH '@' BY ANOTHER CHARACTER
 			$rcp_to = $this->__substituteRecipients($rcp_to,"substitute");
@@ -1931,7 +1933,7 @@ class ilMail
 	function parseRcptOfMailingLists($rcpt = '')
 	{
 		if ($rcpt == '') return $rcpt;
-
+//@todo check rcp pear validation
 		$arrRcpt = $this->explodeRecipients(trim($rcpt));
 		if (!is_array($arrRcpt) || empty($arrRcpt)) return $rcpt;
 
@@ -2238,9 +2240,9 @@ class ilMail
 	* a PEAR_Error object, if exploding failed. Use is_a() to test, if the return
 	* value is a PEAR_Error, then use $rcp->message to retrieve the error message.
 	*/
-	function explodeRecipients($a_recipients)
+	function explodeRecipients($a_recipients, $use_pear = true)
 	{
-		if (ilMail::_usePearMail())
+		if (ilMail::_usePearMail() && $use_pear == true)
 		{
 			if (strlen(trim($a_recipients)) > 0)
 			{
@@ -2275,7 +2277,8 @@ class ilMail
 	{
 		$counter = 0;
 
-		if (ilMail::_usePearMail())
+		$this->validatePear($rcp);
+		if (ilMail::_usePearMail() && $this->getUsePear())
 		{
 			$tmp_rcp = $this->explodeRecipients($rcp);
 			if (! is_a($tmp_rcp, 'PEAR_Error'))
@@ -2307,13 +2310,13 @@ class ilMail
 		}
 		else
 		{
-			foreach ($this->explodeRecipients($rcp) as $to)
+			foreach ($this->explodeRecipients($rcp,$this->getUsePear()) as $to)
 			{
 				if ($a_only_email)
 				{
 					$to = $this->__substituteRecipients($to,"resubstitute");
 					if (strpos($to,'@'))
-					{
+					{							
 						// Fixed mantis bug #5875
 						if(ilObjUser::_lookupId($to))
 						{
@@ -2477,7 +2480,8 @@ class ilMail
      * @param lastname
 	 * @access	public
 	 */
-	public static function _getUserInternalMailboxAddress($usr_id, $login=null, $firstname=null, $lastname=null) {
+	public static function _getUserInternalMailboxAddress($usr_id, $login=null, $firstname=null, $lastname=null) 
+	{
 		if (ilMail::_usePearMail())
 		{
 			if ($login == null)
@@ -2510,7 +2514,8 @@ class ilMail
 	 *
 	 * @access	public
 	 */
-	public static function _usePearMail() {
+	public static function _usePearMail()
+	{
 		global $ilias;
 
 		$result = false;
@@ -2657,5 +2662,38 @@ class ilMail
 			($name['firstname'] ? $name['firstname'].' ' : '').
 			$name['lastname'].',';
 	}
+
+	private function setUsePear($bool)
+	{
+		$this->use_pear = $bool;
+	}
+	private function getUsePear()
+	{
+		return $this->use_pear;
+	}
+
+	// Force fallbackfor sending mails via ILIAS, if internal Pear-Validation returns PEAR_Error
+	/**
+	 *
+	 * @param <type> $a_recipients
+	 */
+	private function validatePear($a_recipients)
+	{
+		if(ilMail::_usePearMail())
+		{
+			$this->setUsePear(true);
+			$tmp_names = $this->explodeRecipients($a_recipients, $this->getUsePear());
+			if(is_a($tmp_names, 'PEAR_Error'))
+			{
+				$this->setUsePear(false);
+			}
+		}
+		else
+		{
+			$this->setUsePear(false);
+		}
+	}
+
+
 } // END class.ilMail
 ?>
