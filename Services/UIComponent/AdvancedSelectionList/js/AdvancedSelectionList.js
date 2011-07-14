@@ -99,8 +99,37 @@ ilAdvancedSelectionListFunc.prototype =
 		{
 			this.selectForm(id, this.items[id][value]["hid_name"], value, this.items[id][value]["title"]);
 		}
+	},
+	
+	openTarget: function (t, f)
+	{
+		if (f == '')
+		{
+			location = t;
+		}
+		else if (f == '_top')
+		{
+			parent.location = t;
+		}
+		else if (f == '_blank')
+		{
+			var w = window.open(t);
+			w.focus();
+		}
+		else
+		{
+			if (typeof top.frames[f] != "undefined")
+			{
+				top.frames[f].location.href = t;
+			}
+			else
+			{
+				location = t;
+			}
+		}
+		
+		return false;
 	}
-
 
 };
 var ilAdvancedSelectionList = new ilAdvancedSelectionListFunc();
