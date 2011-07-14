@@ -828,13 +828,12 @@ class ilPersonalProfileGUI
 				"firstname" => "FirstName",
 				"lastname" => "LastName",
 				"title" => "UTitle",
-				"selcountry" => "SelectedCountry",
+				"sel_country" => "SelectedCountry",
 				"phone_office" => "PhoneOffice",
 				"phone_home" => "PhoneHome",
 				"phone_mobile" => "PhoneMobile",
 				"referral_comment" => "Comment"
 			);
-			
 			include_once("./Services/User/classes/class.ilUserProfile.php");
 			$up = new ilUserProfile();
 			foreach($up->getStandardFields() as $f => $p)
