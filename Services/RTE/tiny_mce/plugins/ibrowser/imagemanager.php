@@ -21,6 +21,13 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
+foreach($_GET as $k => $v)
+{
+	$_GET[$k] = str_replace(array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"), "", $v);
+	$_GET[$k] = strip_tags($_GET[$k]);
+}
+
 include_once "config.php";
 
 $_GET["client_id"] = str_replace("..", "", $_GET["client_id"]);
@@ -33,6 +40,9 @@ chdir($dir);
 $preview = "";
 $arr_tinyMCE_image_files = array();
 $request_uri = urldecode(empty($_POST['request_uri'])?(empty($_GET['request_uri'])?'':$_GET['request_uri']):$_POST['request_uri']);
+$request_uri = ilUtil::stripSlashes($request_uri);
+
+
 $img = isset($_POST['imglist'])?$_POST['imglist']:'';
 $_root = $installpath;
 $errors = array();
