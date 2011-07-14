@@ -121,8 +121,8 @@ class ilCalendarExport
 			$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\THis',$ilUser->getTimeZone());
 			#$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',ilTimeZone::UTC);
 			$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\THis',$ilUser->getTimeZone());
-			$this->writer->addLine('DTSTART:' . $start);
-			$this->writer->addLine('DTEND:'.$end);
+			$this->writer->addLine('DTSTART;TZID='.$ilUser->getTimezone().':'. $start);
+			$this->writer->addLine('DTEND;TZID='.$ilUser->getTimezone().':'.$end);
 		}
 		
 		
