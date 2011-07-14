@@ -17,7 +17,7 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilGlossaryPresentationGUI: ilNoteGUI, ilInfoScreenGUI
+* @ilCtrl_Calls ilGlossaryPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilShopPurchaseGUI
 *
 * @ingroup ModulesGlossary
 */
@@ -111,22 +111,34 @@ class ilGlossaryPresentationGUI
 			$this->prepareOutput();
 		}
 
-		switch($next_class)
+		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
+		if(IS_PAYMENT_ENABLED == true 
+		&& (ilPaymentObject::_requiresPurchaseToAccess($_GET["ref_id"], $type = (isset($_GET['purchasetype']) ? $_GET['purchasetype'] : NULL) )))
 		{
-			case "ilnotegui":
-				$this->setTabs();
-				$ret =& $this->listDefinitions();
-				break;
-				
-			case "ilinfoscreengui":
-				$ret =& $this->outputInfoScreen();
-				break;
-				
-			default: 
-				$ret =& $this->$cmd();
-				break;
-		}
+			$this->tpl->getStandardTemplate();
 
+			include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
+			$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);
+			$ret = $this->ctrl->forwardCommand($pp);
+		}
+		else
+		{
+			switch($next_class)
+			{
+				case "ilnotegui":
+					$this->setTabs();
+					$ret =& $this->listDefinitions();
+					break;
+
+				case "ilinfoscreengui":
+					$ret =& $this->outputInfoScreen();
+					break;
+
+				default:
+					$ret =& $this->$cmd();
+					break;
+			}
+		}
 		$this->tpl->show();
 	}
 

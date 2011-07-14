@@ -270,7 +270,7 @@
 				break;
 
 			default:
-				$detail_link = 'repository.php?ref_id='.$a_ref_id;
+				$detail_link = $ilCtrl->getLinkTargetByClass("ilShopPurchaseGUI", "showDetails").'&ref_id='.$a_ref_id;
 				break;
  }
 		$img = ilUtil::img('./templates/default/images/payment/shopcart_add_32.png');

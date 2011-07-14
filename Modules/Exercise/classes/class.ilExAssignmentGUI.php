@@ -1,11 +1,13 @@
 <?php
-
+include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
 /**
  * GUI clas for exercise assignments
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup 
+ *
+ * @ilCtrl_Calls ilExAssignmentGUI: ilShopPurchaseGUI
  */
 class ilExAssignmentGUI
 {
@@ -155,17 +157,50 @@ class ilExAssignmentGUI
 				$info->addSection($lng->txt("exc_files"));
 				foreach($files as $file)
 				{
-					$ilCtrl->setParameterByClass("ilobjexercisegui", "file", urlencode($file["name"]));
-					$info->addProperty($file["name"],
-						$lng->txt("download"),
-						$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadFile"));
-					$ilCtrl->setParameter($this, "file", "");
+					// if download must be purchased first show a "buy"-button
+					if(IS_PAYMENT_ENABLED && (ilPaymentObject::_isBuyable($_GET['ref_id'],'download') &&
+					   !ilPaymentObject::_hasAccess($_GET['ref_id'],'','download')))
+					{
+						$info->addProperty($file["name"],
+							$lng->txt("buy"),
+							$ilCtrl->getLinkTargetByClass("ilShopPurchaseGUI", "showDetails"));
+					}
+					else
+					{
+						$ilCtrl->setParameterByClass("ilobjexercisegui", "file", urlencode($file["name"]));
+						$info->addProperty($file["name"],
+							$lng->txt("download"),
+							$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadFile"));
+						$ilCtrl->setParameter($this, "file", "");
 				}
 			}
+		}
 	
 			// submission
+
+			// if submission must be purchased first
+			if(IS_PAYMENT_ENABLED
+				&& (ilPaymentObject::_isBuyable($_GET['ref_id'],'upload')
+				&& !ilPaymentObject::_hasAccess($_GET['ref_id'],'','upload')))
+			{
 			$info->addSection($lng->txt("exc_your_submission"));
-			$delivered_files = ilExAssignment::getDeliveredFiles($a_data["exc_id"], $a_data["id"], $ilUser->getId());
+
+				$ilCtrl->clearParameters($this);
+
+				$ilCtrl->setParameter($this, "ref_id", $_GET['ref_id']);
+				$ilCtrl->setParameter($this,'subtype','upload');
+				$info->addProperty($lng->txt('exc_hand_in'),
+					$lng->txt("buy"),
+					$ilCtrl->getLinkTargetByClass("ilShopPurchaseGUI", "showDetails"));
+			}
+			else
+
+			if( (ilPaymentObject::_isBuyable($_GET['ref_id'],'download') && ilPaymentObject::_hasAccess($_GET['ref_id'],'','download'))
+			|| (ilPaymentObject::_isBuyable($_GET['ref_id'],'upload') && ilPaymentObject::_hasAccess($_GET['ref_id'],'','upload')))
+
+			{
+
+				$delivered_files = ilExAssignment::getDeliveredFiles($a_data["exc_id"], $a_data["id"], $ilUser->getId());
 						
 			switch($a_data["type"])
 			{
@@ -310,6 +345,7 @@ class ilExAssignmentGUI
 					}
 				}
 			}
+		}
 		}
 
 		$tpl->setVariable("CONTENT", $info->getHTML());

@@ -264,7 +264,7 @@ class ilShopResultPresentationGUI
 							break;
 
 							default:
-								$demo_link = 'repository.php?ref_id='.$item['ref_id'].'&purchasetype=demo';
+								$demo_link = $this->ctrl->getLinkTargetByClass('ilshoppurchasegui', 'showDemoVersion').'&purchasetype=demo&ref_id='.$item["ref_id"];
 								break;
 						}
 

@@ -32,7 +32,7 @@ class ilObjExerciseListGUI extends ilObjectListGUI
 		$this->copy_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
-		$this->payment_enabled = false;
+		$this->payment_enabled = true;
 		$this->info_screen_enabled = true;
 		$this->type = "exc";
 		$this->gui_class_name = "ilobjexercisegui";

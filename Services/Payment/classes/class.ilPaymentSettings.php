@@ -97,8 +97,8 @@ class ilPaymentSettings
 			"value" => array("clob", $a_val),
 			"scope" => array("text", $a_scope)));
 
-		$this->setting[$a_key] = $a_val;
-
+		#$this->setting[$a_key] = $a_val;
+		
 		return true;
 	}
 

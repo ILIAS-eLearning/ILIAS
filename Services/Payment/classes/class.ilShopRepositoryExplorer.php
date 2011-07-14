@@ -174,9 +174,9 @@ class ilShopRepositoryExplorer extends ilExplorer
 			case "frm":
 				return "repository.php?cmd=edit&ref_id=".$a_node_id;
 
-/*			case "glo":
+			case "glo":
 				return "ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$a_node_id;
-*/
+
 			case "exc":
 				return "ilias.php?baseClass=ilExerciseHandlerGUI&cmd=view&ref_id=".$a_node_id;
 

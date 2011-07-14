@@ -1353,13 +1353,13 @@ class ilObjectListGUI
 	public function insertTitle()
 	{
 		if($this->restrict_to_goto)
-		{
+		{			
 			$this->default_command = array("frame" => "",
 				"link" => $this->buildGotoLink());
 		}
 		
 		if (!$this->default_command || (!$this->getCommandsStatus() && !$this->restrict_to_goto))
-		{
+		{		
 			$this->tpl->setCurrentBlock("item_title");
 			$this->tpl->setVariable("TXT_TITLE", $this->getTitle());
 			$this->tpl->parseCurrentBlock();
@@ -1368,16 +1368,16 @@ class ilObjectListGUI
 		{
 			if ($this->default_command["frame"] != "")
 			{
-				$this->tpl->setCurrentBlock("title_linked_frame");
-				$this->tpl->setVariable("TARGET_TITLE_LINKED", $this->default_command["frame"]);
-				$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("title_linked_frame");
+					$this->tpl->setVariable("TARGET_TITLE_LINKED", $this->default_command["frame"]);
+					$this->tpl->parseCurrentBlock();
 			}
-			
+				
 			// workaround for repository frameset
 			#var_dump("<pre>",$this->default_command['link'],"</pre>");
 			$this->default_command["link"] = 
 				$this->appendRepositoryFrameParameter($this->default_command["link"]);
-				
+
 			#var_dump("<pre>",$this->default_command['link'],"</pre>");
 			
 
@@ -1759,8 +1759,8 @@ class ilObjectListGUI
 			if($command['default'] === true)
 			{
 				$command = $this->createDefaultCommand($command);
-				if(is_null($command['link']))
-				{
+//				if(is_null($command['link']) )
+//				{
 					switch($this->type)
 					{
 						case 'sahs':
@@ -1771,14 +1771,11 @@ class ilObjectListGUI
 							$command['link'] = 'ilias.php?baseClass=ilLMPresentationGUI&ref_id='.$this->ref_id;
 							break;
 						case 'exc':
-							$command['link'] = 'ilias.php?baseClass=ilExcerciseHandlerGUI&ref_id='.$this->ref_id;
-						break;
-						
 						default:
-							$command['link'] = 'repository.php?ref_id='.$this->ref_id;
+							$command['link'] = 'ilias.php?baseClass=ilShopController&cmdClass=ilshoppurchasegui&ref_id='.$this->ref_id;
 							break;	
 					}					
-				}
+//				}
 
 				$type = $this->type;
 				if(strpos($command['link'], '_'.$type.'_') !== false)
