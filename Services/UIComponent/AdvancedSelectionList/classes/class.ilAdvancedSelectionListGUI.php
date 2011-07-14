@@ -539,16 +539,8 @@ class ilAdvancedSelectionListGUI
 					}
 					else
 					{
-						if ($item["frame"] == "_top")
-						{
-							$tpl->setVariable("ONCLICK_ITEM",
-								'onclick="parent.location='."'".$item["link"]."';".'"');
-						}
-						else
-						{
-							$tpl->setVariable("ONCLICK_ITEM",
-								'onclick="location='."'".$item["link"]."';".'"');
-						}
+						$tpl->setVariable("ONCLICK_ITEM",
+							'onclick="'."return ilAdvancedSelectionList.openTarget('".$item["link"]."','".$item["frame"]."');".'"');
 					}
 
 					$tpl->setVariable("HREF_ITEM",'href="'.$item["link"].'"');
