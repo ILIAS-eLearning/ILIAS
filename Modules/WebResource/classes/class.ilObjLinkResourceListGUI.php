@@ -49,8 +49,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 		if($this->__checkDirectLink())
 		{
 			$this->__readLink();
-			
-			return $this->link_data['description'];
+			return ilUtil::shortenText($this->link_data['description'],MAXLENGTH_OBJ_DESC,true);
 		}
 		return parent::getDescription();
 	}
