@@ -2258,7 +2258,6 @@ common#:#dbk_read#:#Read access to Digilib Book
 common#:#dbk_visible#:#Digilib Book is visible
 common#:#dbk_write#:#Edit Digilib Book
 common#:#dbk#:#Digilib Book
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#deactivate#:#Set Inactive
 common#:#decrease_attempts#:#Attempts - 1
 common#:#def_repository_view#:#Default repository view
