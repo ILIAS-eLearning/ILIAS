@@ -11635,3 +11635,5 @@ ecs#:#ecs_node_mapping_create_empty_info#:#Nur in Verbindung mit der Kurszuordnu
 ecs#:#ecs_campus_connect_title#:#CampusConnect-Zuordnungen
 ecs#:#ecs_cc_mapping_overview#:#Zuordnungsübersicht
 ecs#:#ecs_cms_dir_tree#:#CMS-Verzeichnisbäume
+registration#:#registration_code_no_role#:#Der angegebene Code ist ohne Rolle definiert und kann momentan nicht benutzt werden. Bitte kontaktieren Sie den System-Administrator.
+registration#:#registration_no_valid_role#:#Es ist momentan keine Rolle für Registrierungen definiert. Bitte kontaktieren Sie den System-Administrator.

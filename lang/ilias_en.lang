@@ -11669,3 +11669,5 @@ ecs#:#ecs_campus_connect_title#:#CampusConnect Mappings
 ecs#:#ecs_invalid_import_type_cms#:#The import type "Campus Managment" can be chosen only once.
 ecs#:#ecs_cc_mapping_overview#:#Mapping Overview
 ecs#:#ecs_cms_dir_tree#:#CMS Directory Trees
+registration#:#registration_code_no_role#:#The registration code given does not specify a role and can not be used currently. Please contact your administrator.
+registration#:#registration_no_valid_role#:#There is currently no valid role for new accounts. Please contact your administrator.

@@ -643,14 +643,18 @@ class ilUserProfile
 							{
 								$options[$role["id"]] = $role["title"];
 							}
-							$ta = new ilSelectInputGUI($lng->txt('default_role'), "usr_".$f);
-							$ta->setOptions($options);
-							$ta->setRequired($ilSetting->get("require_".$f));
-							if(!$ta->getRequired())
+							// registration form validation will take care of missing field / value
+							if($options)
 							{
-								$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+								$ta = new ilSelectInputGUI($lng->txt('default_role'), "usr_".$f);
+								$ta->setOptions($options);
+								$ta->setRequired($ilSetting->get("require_".$f));
+								if(!$ta->getRequired())
+								{
+									$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+								}
+								$a_form->addItem($ta);
 							}
-							$a_form->addItem($ta);
 						}
 					}
 					break;
