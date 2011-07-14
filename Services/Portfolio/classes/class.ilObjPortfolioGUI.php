@@ -86,12 +86,23 @@ class ilObjPortfolioGUI
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, "pages"));
-
-				$ilCtrl->setParameter($this, "ppage", $_REQUEST["ppage"]);
+				
+				// edit
+				if(isset($_REQUEST["ppage"]))
+				{
+					$page_id = $_REQUEST["ppage"];
+					$ilCtrl->setParameter($this, "ppage", $_REQUEST["ppage"]);
+				}
+				// preview
+				else
+				{
+					$page_id = $_REQUEST["user_page"];
+					$ilCtrl->setParameter($this, "user_page", $_REQUEST["user_page"]);
+				}
 				
 				include_once("Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
 				$page_gui = new ilPortfolioPageGUI($this->portfolio->getId(),
-					$_REQUEST["ppage"]);
+					$page_id);
 
 				$tpl->setCurrentBlock("ContentStyle");
 				$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -101,7 +112,14 @@ class ilObjPortfolioGUI
 				$ret = $ilCtrl->forwardCommand($page_gui);
 				if ($ret != "")
 				{
-					$tpl->setContent($ret);
+					if(isset($_REQUEST["user_page"]))
+					{
+						$this->preview(false, $ret);
+					}
+					else
+					{
+						$tpl->setContent($ret);
+					}
 				}
 				break;
 				
@@ -680,7 +698,7 @@ class ilObjPortfolioGUI
 	/**
 	 * Show user page
 	 */
-	function preview($a_return = false)
+	function preview($a_return = false, $a_content = false)
 	{
 		global $ilUser, $tpl, $ilCtrl, $ilTabs, $lng;
 		
@@ -732,17 +750,24 @@ class ilObjPortfolioGUI
 			$ilCtrl->setParameter($this, "user_page", $current_page);
 		}
 			
-		// get current page content
-		include_once("./Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
-		$page_gui = new ilPortfolioPageGUI($portfolio_id, $current_page);
-		$page_gui->setEmbedded(true);
-		
-		$tpl->setCurrentBlock("ContentStyle");
-		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath(0));
-		$tpl->parseCurrentBlock();
-		
-		$content = $ilCtrl->getHTML($page_gui);
+		if(!$a_content)
+		{
+			// get current page content
+			include_once("./Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
+			$page_gui = new ilPortfolioPageGUI($portfolio_id, $current_page);
+			$page_gui->setEmbedded(true);
+
+			$tpl->setCurrentBlock("ContentStyle");
+			$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath(0));
+			$tpl->parseCurrentBlock();
+
+			$content = $ilCtrl->getHTML($page_gui);
+		}
+		else
+		{
+			$content = $a_content;
+		}
 		
 		if($a_return)
 		{

@@ -163,9 +163,10 @@ class ilPublicUserProfileGUI
 		}
 	}
 	
-	function setEmbedded($a_value)
+	function setEmbedded($a_value, $a_offline = false)
 	{
 		$this->embedded = (bool)$a_value;
+		$this->offline = (bool)$a_offline;
 	}
 
 	/**
@@ -199,11 +200,15 @@ class ilPublicUserProfileGUI
 			return;
 		}
 		
-		$tpl->setVariable("TXT_MAIL", $lng->txt("send_mail"));
-
-        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		$tpl->setVariable('HREF_MAIL', ilMailFormCall::_getLinkTarget(basename($_SERVER['REQUEST_URI']), '', array(), array('type' => 'new', 'rcp_to' => urlencode($user->getLogin()))));
-
+		if(!$this->offline)
+		{
+			$tpl->setCurrentBlock("mail");
+			$tpl->setVariable("TXT_MAIL", $lng->txt("send_mail"));
+			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+			$tpl->setVariable('HREF_MAIL', ilMailFormCall::_getLinkTarget(basename($_SERVER['REQUEST_URI']), '', array(), array('type' => 'new', 'rcp_to' => urlencode($user->getLogin()))));
+			$tpl->parseCurrentBlock();			
+		}
+		
 		$first_name = "";
 		if($this->getPublicPref($user, "public_title") == "y")
 		{
@@ -214,24 +219,27 @@ class ilPublicUserProfileGUI
 		$tpl->setVariable("TXT_NAME", $lng->txt("name"));
 		$tpl->setVariable("FIRSTNAME", $first_name);
 		$tpl->setVariable("LASTNAME", $user->getLastName());
-
-		// vcard
-		$tpl->setCurrentBlock("vcard");
-		$tpl->setVariable("TXT_VCARD", $lng->txt("vcard"));
-		$tpl->setVariable("TXT_DOWNLOAD_VCARD", $lng->txt("vcard_download"));
-		$ilCtrl->setParameter($this, "user", $this->getUserId());
-		$tpl->setVariable("HREF_VCARD", $ilCtrl->getLinkTarget($this, "deliverVCard"));
-		//$tpl->setVariable("IMG_VCARD", ilUtil::getImagePath("vcard.png"));
-
-		// link to global profile
-		if ($user->prefs["public_profile"] == "g" && $ilSetting->get('enable_global_profiles'))
+		
+		if(!$this->offline)
 		{
-			$tpl->setCurrentBlock("link");
-			$tpl->setVariable("TXT_LINK", $lng->txt("usr_link_to_profile"));
-			include_once("./classes/class.ilLink.php");
-			$tpl->setVariable("HREF_LINK",
-				ilLink::_getStaticLink($user->getId(), "usr"));
-			$tpl->parseCurrentBlock();
+			// vcard
+			$tpl->setCurrentBlock("vcard");
+			$tpl->setVariable("TXT_VCARD", $lng->txt("vcard"));
+			$tpl->setVariable("TXT_DOWNLOAD_VCARD", $lng->txt("vcard_download"));
+			$ilCtrl->setParameter($this, "user", $this->getUserId());
+			$tpl->setVariable("HREF_VCARD", $ilCtrl->getLinkTarget($this, "deliverVCard"));
+			//$tpl->setVariable("IMG_VCARD", ilUtil::getImagePath("vcard.png"));
+
+			// link to global profile
+			if ($user->prefs["public_profile"] == "g" && $ilSetting->get('enable_global_profiles'))
+			{
+				$tpl->setCurrentBlock("link");
+				$tpl->setVariable("TXT_LINK", $lng->txt("usr_link_to_profile"));
+				include_once("./classes/class.ilLink.php");
+				$tpl->setVariable("HREF_LINK",
+					ilLink::_getStaticLink($user->getId(), "usr"));
+				$tpl->parseCurrentBlock();
+			}
 		}
 		
 		$webspace_dir = ilUtil::getWebspaceDir("user");

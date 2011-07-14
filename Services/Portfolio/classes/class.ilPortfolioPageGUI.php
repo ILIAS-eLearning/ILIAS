@@ -69,7 +69,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		
 		switch($next_class)
-		{				
+		{					
+			case "ilobjbloggui":
+				return $this->renderBlog($ilUser->getId(), (int)$this->getPageObject()->getTitle(), array($_REQUEST["page"]));				
+			
 			case "ilpageobjectgui":
 				$page_gui = new ilPageObjectGUI("prtf",
 					$this->getPageObject()->getId(), $this->getPageObject()->old_nr);
@@ -212,7 +215,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
 		$pub_profile = new ilPublicUserProfileGUI($a_user_id);
-		$pub_profile->setEmbedded(true);
+		$pub_profile->setEmbedded(true, ($this->getOutputMode() == "offline"));
 		
 		// full circle: additional was set in the original public user profile call
 		$pub_profile->setAdditional($this->getAdditional());
@@ -231,7 +234,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$pub_profile->setCustomPrefs($prefs);
 		}
 
-		return $ilCtrl->getHTML($pub_profile);
+		if($this->getOutputMode() != "offline")
+		{
+			return $ilCtrl->getHTML($pub_profile);
+		}
+		else
+		{
+			return $pub_profile->getEmbeddable();
+		}
 	}
 	
 	protected function renderVerification($a_user_id, $a_type, $a_id)
@@ -256,7 +266,15 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
 			$blog = new ilObjBlogGUI($a_blog_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
 			$blog->setMode(ilObjBlogGUI::MODE_EMBEDDED_FULL);	
-			return $ilCtrl->getHTML($blog);
+			
+			if($this->getOutputMode() != "offline")
+			{
+				return $ilCtrl->getHTML($blog);
+			}
+			else
+			{
+				
+			}
 		}
 		else
 		{
