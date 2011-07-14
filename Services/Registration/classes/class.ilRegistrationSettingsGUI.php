@@ -821,7 +821,7 @@ class ilRegistrationSettingsGUI
 	
 	function initAddCodesForm()
 	{
-		global $rbacreview, $ilObjDataCache;
+		global $rbacreview, $ilObjDataCache, $lng;
 		
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
@@ -838,7 +838,7 @@ class ilRegistrationSettingsGUI
 		$this->form_gui->addItem($count);
 
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		$options = array();
+		$options = array("" => "");
 		foreach($rbacreview->getGlobalRoles() as $role_id)
 		{
 			if(!in_array($role_id, array(SYSTEM_ROLE_ID, ANONYMOUS_ROLE_ID)))
@@ -848,7 +848,7 @@ class ilRegistrationSettingsGUI
 		}
 		$roles = new ilSelectInputGUI($this->lng->txt("registration_codes_roles"), "reg_codes_role");
 		$roles->setOptions($options);
-		$roles->setRequired(true);
+		// $roles->setRequired(true);
 		$this->form_gui->addItem($roles);
 
 		$this->form_gui->addCommandButton('createCodes', $this->lng->txt('create'));

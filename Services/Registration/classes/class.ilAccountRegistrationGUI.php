@@ -375,10 +375,15 @@ class ilAccountRegistrationGUI
 		{
 			include_once './Services/Registration/classes/class.ilRegistrationCode.php';
 			ilRegistrationCode::useCode($code);
-			$default_role = ilRegistrationCode::getCodeRole($code);
 			$this->code_was_used = true;
+			
+			// #7508: if role is set with code, use that one (even if it overwrites user input)
+			$code_role = ilRegistrationCode::getCodeRole($code);
+			if($code_role)
+			{
+				$default_role = $code_role;
+			}			
 		}
-
 
 		if ($this->registration_settings->getAccessLimitation())
 		{

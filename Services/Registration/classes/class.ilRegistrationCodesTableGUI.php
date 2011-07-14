@@ -58,7 +58,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 	*/
 	function getItems()
 	{
-		global $lng;
+		global $lng, $rbacreview, $ilObjDataCache;
 
 		$this->determineOffsetAndOrder();
 		
@@ -96,12 +96,15 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		}
 		
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		$role_map = array();
-		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
+		$options = array();
+		foreach($rbacreview->getGlobalRoles() as $role_id)
 		{
-			$role_map[$role['id']] = $role['title'];
+			if(!in_array($role_id, array(SYSTEM_ROLE_ID, ANONYMOUS_ROLE_ID)))
+			{
+				$role_map[$role_id] = $ilObjDataCache->lookupTitle($role_id);
+			}
 		}
-
+		
 		$result = array();
 		foreach ($codes_data["set"] as $k => $code)
 		{
@@ -116,7 +119,10 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 				$result[$k]["registration_used"] = "";
 			}
 
-			$result[$k]["role"] = $role_map[$code["role"]];
+			if($code["role"])
+			{
+				$result[$k]["role"] = $role_map[$code["role"]];
+			}
 			$result[$k]["registration_code"] = $code["code"];
 			$result[$k]["code_id"] = $code["code_id"];
 		}
