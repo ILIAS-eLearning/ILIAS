@@ -451,11 +451,14 @@ class ilMailSearchGUI
 							if (substr($role['title'], 0, 14) == 'il_grp_member_' ||
 								substr($role['title'], 0, 13) == 'il_grp_admin_')
 							{
-								array_push($members, $rbacreview->getRoleMailboxAddress($role['obj_id']));
+								// does not work if Pear is enabled and Mailbox Address contain special chars!!
+								//array_push($members, $rbacreview->getRoleMailboxAddress($role['obj_id']));
+								// FIX for Mantis: 7523
+								array_push($members, $role['title']);
 							}
 						}
 						$str_members = implode(',',$members);
-						
+		
 						$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_grp[]', $str_members) . 
 													  ilUtil::formCheckbox(0, 'search_name_cc[]', $str_members) .
 													  ilUtil::formCheckbox(0, 'search_name_bcc[]',$str_members);		

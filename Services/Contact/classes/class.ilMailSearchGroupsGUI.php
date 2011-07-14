@@ -71,7 +71,7 @@ class ilMailSearchGroupsGUI
 
 		if ($_GET["view"] == "mygroups")
 		{
-			$ids = ((int) $_GET['search_grp']) ? array((int)$_GET['search_grp']) : $_POST['search_grp'];  
+			$ids = ((int) $_GET['search_grp']) ? array((int)$_GET['search_grp']) : $_POST['search_grp'];
 			if ($ids)
 			{
 				$this->mailGroups();

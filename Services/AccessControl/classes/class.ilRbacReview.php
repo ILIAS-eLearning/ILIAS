@@ -369,7 +369,9 @@ class ilRbacReview
 			}
 
 			// If the domain contains illegal characters, we get rid of it.
-			if (domain != null && preg_match('/[\[\]\\]|[\x00-\x1f]/',$domain))
+			//if (domain != null && preg_match('/[\[\]\\]|[\x00-\x1f]/',$domain))
+			// Fix for Mantis Bug: 7429 sending mail fails because of brakets
+			if ($domain != null && preg_match('/[\[\]\\]|[\x00-\x1f]|[\x28-\x29]/',$domain))
 			{
 				$domain = null;
 			}
@@ -377,9 +379,9 @@ class ilRbacReview
 			// If the domain contains special characters, we put square
 			//   brackets around it.
 			if ($domain != null && 
-					(preg_match('/[()<>@,;:\\".\[\]]/',$domain) || 
+					(preg_match('/[()<>@,;:\\".\[\]]/',$domain) ||
 					preg_match('/[^\x21-\x8f]/',$domain))
-					)
+				)
 			{
 				$domain = '['.$domain.']';
 			}
