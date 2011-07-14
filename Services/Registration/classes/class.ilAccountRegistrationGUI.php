@@ -184,73 +184,116 @@ class ilAccountRegistrationGUI
 		global $ilias, $lng, $rbacadmin, $ilDB, $ilErr, $ilSetting;
 
 		$this->__initForm();
-		if($this->form->checkInput())
-		{
-			require_once 'Services/User/classes/class.ilObjUser.php';
-			
-			// custom validation
-			
-			$form_valid = true;
-			
-			if(!$this->form->getInput("usr_agreement"))
-			{
-				ilUtil::sendInfo($lng->txt("force_accept_usr_agreement"), true);
-				$form_valid = false;
-			}
+		$form_valid = $this->form->checkInput();
+	
+		require_once 'Services/User/classes/class.ilObjUser.php';
 
-			// validate registration code
-			if($this->registration_settings->registrationCodeRequired() ||
-				$this->registration_settings->getAllowCodes())
+		// custom validation
+
+		if(!$this->form->getInput("usr_agreement"))
+		{
+			$agr_obj = $this->form->getItemByPostVar('usr_agreement');
+			$agr_obj->setAlert($lng->txt("force_accept_usr_agreement"));
+			$form_valid = false;
+		}
+
+		$valid_role = false;
+
+		// manual selection	
+		if ($this->registration_settings->roleSelectionEnabled())
+		{
+			include_once "./Services/AccessControl/classes/class.ilObjRole.php";
+			$selected_role = $this->form->getInput("usr_roles");
+			if ($selected_role && ilObjRole::_lookupAllowRegister($selected_role))
 			{
-				$code = $this->form->getInput("usr_registration_code");
-				if($code || $this->registration_settings->registrationCodeRequired())
+				$valid_role = true;
+			}
+		}
+		// assign by email
+		else
+		{				
+			include_once 'Services/Registration/classes/class.ilRegistrationEmailRoleAssignments.php';
+			$registration_role_assignments = new ilRegistrationRoleAssignments();
+			if ($registration_role_assignments->getRoleByEmail($this->form->getInput("usr_email")))
+			{
+				$valid_role = true;
+			}
+		}
+
+		// validate registration code		
+		$code_role_warning = false;
+		if($this->registration_settings->registrationCodeRequired() ||
+			$this->registration_settings->getAllowCodes())
+		{
+			$code = $this->form->getInput("usr_registration_code");
+			if($code || $this->registration_settings->registrationCodeRequired())
+			{
+				// if a code is given or required we do not want to message below
+				$code_role_warning = true;		
+				
+				include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+				if(!ilRegistrationCode::isUnusedCode($code))
 				{
-					include_once './Services/Registration/classes/class.ilRegistrationCode.php';
-					if(!ilRegistrationCode::isUnusedCode($code))
+					$code_obj = $this->form->getItemByPostVar('usr_registration_code');
+					$code_obj->setAlert($lng->txt('registration_code_not_valid'));
+					$form_valid = false;
+				}
+				else
+				{
+					$code_role = ilRegistrationCode::getCodeRole($code);
+					if($code_role)
+					{
+						$valid_role = true;
+					}					
+					else if(!$valid_role)
 					{
 						$code_obj = $this->form->getItemByPostVar('usr_registration_code');
-						$code_obj->setAlert($lng->txt('registration_code_not_valid'));
+						$code_obj->setAlert($lng->txt("registration_code_no_role"));
 						$form_valid = false;
 					}
 				}
 			}
-			
-			// validate username
-			$login_obj = $this->form->getItemByPostVar('username');
-			$login = $this->form->getInput("username");
-			if (!ilUtil::isLogin($login))
-			{
-				$login_obj->setAlert($lng->txt("login_invalid"));
-				$form_valid = false;
-			}
-			else if (ilObjUser::_loginExists($login))
-			{
-				$login_obj->setAlert($lng->txt("login_exists"));
-				$form_valid = false;
-			}
-			else if ((int)$ilSetting->get('allow_change_loginname') &&
-				(int)$ilSetting->get('prevent_reuse_of_loginnames') &&
-				ilObjUser::_doesLoginnameExistInHistory($login))
-			{
-				$login_obj->setAlert($lng->txt('login_exists'));
-				$form_valid = false;
-			}
-
-			// Do some Radius checks
-			$this->__validateRole($this->form->getInput("usr_roles"));
-			
-			if(!$form_valid)
-			{
-				ilUtil::sendFailure($lng->txt('form_input_not_valid'));
-			}
-			else
-			{
-				$password = $this->__createUser();
-				$this->__distributeMails($password);
-				$this->login($password);
-				return true;
-			}
 		}
+		
+		// no valid role could be determined
+	    if (!$valid_role && !$code_role_warning)
+		{
+			ilUtil::sendInfo($lng->txt("registration_no_valid_role"));
+			$form_valid = false;
+		}			
+
+		// validate username
+		$login_obj = $this->form->getItemByPostVar('username');
+		$login = $this->form->getInput("username");
+		if (!ilUtil::isLogin($login))
+		{
+			$login_obj->setAlert($lng->txt("login_invalid"));
+			$form_valid = false;
+		}
+		else if (ilObjUser::_loginExists($login))
+		{
+			$login_obj->setAlert($lng->txt("login_exists"));
+			$form_valid = false;
+		}
+		else if ((int)$ilSetting->get('allow_change_loginname') &&
+			(int)$ilSetting->get('prevent_reuse_of_loginnames') &&
+			ilObjUser::_doesLoginnameExistInHistory($login))
+		{
+			$login_obj->setAlert($lng->txt('login_exists'));
+			$form_valid = false;
+		}
+
+		if(!$form_valid)
+		{
+			ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+		}
+		else
+		{
+			$password = $this->__createUser();
+			$this->__distributeMails($password);
+			$this->login($password);
+			return true;
+		}		
 
 		$this->form->setValuesByPost();
 		$this->displayForm();
@@ -384,6 +427,14 @@ class ilAccountRegistrationGUI
 				$default_role = $code_role;
 			}			
 		}
+		
+		// something went wrong with the form validation
+		if(!$default_role)
+		{			
+			global $ilias;
+			$ilias->raiseError("Invalid role selection in registration".
+				", IP: ".$_SERVER["REMOTE_ADDR"], $ilias->error_obj->FATAL);
+		}
 
 		if ($this->registration_settings->getAccessLimitation())
 		{
@@ -471,22 +522,6 @@ class ilAccountRegistrationGUI
 		$rbacadmin->assignUser((int)$default_role, $this->userObj->getId(), true);
 
 		return $password;
-	}
-
-	protected function __validateRole($role)
-	{
-		global $ilDB,$ilias,$ilErr,$lng;
-
-		// validate role
-		include_once("./Services/AccessControl/classes/class.ilObjRole.php");
-		if ($this->registration_settings->roleSelectionEnabled() and
-			!ilObjRole::_lookupAllowRegister($role))
-		{
-			$ilias->raiseError("Invalid role selection in registration: ".
-							   ilObject::_lookupTitle($role)." [".$role."]".
-							   ", IP: ".$_SERVER["REMOTE_ADDR"],$ilias->error_obj->FATAL);
-		}
-		return true;
 	}
 
 	protected function __distributeMails($password)
