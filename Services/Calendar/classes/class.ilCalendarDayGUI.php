@@ -132,6 +132,11 @@ class ilCalendarDayGUI
 			$user_id = $_GET["bkid"];
 			$no_add = true;
 		}
+		elseif($ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			$user_id = $ilUser->getId();
+			$no_add = true;
+		}
 		else
 		{
 			$user_id = $ilUser->getId();

@@ -149,6 +149,12 @@ class ilCalendarMonthGUI
 			$disable_empty = true;
 			$no_add = true;
 		}
+		elseif($ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			$user_id = $ilUser->getId();
+			$disable_empty = false;
+			$no_add = true;
+		}
 		else
 		{
 			$user_id = $ilUser->getId();
