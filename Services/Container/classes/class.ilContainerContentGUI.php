@@ -336,6 +336,12 @@ abstract class ilContainerContentGUI
 						// all rows
 						$item_rendered = false;
 						$position = 1;
+
+						if($type == 'sess')
+						{
+							$this->items['sess'] = ilUtil::sortArray($this->items['sess'],'start','ASC',true,true);
+						}
+
 						foreach($this->items[$type] as $k => $item_data)
 						{
 							$html = $this->renderItem($item_data,$position++);
