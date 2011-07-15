@@ -92,7 +92,7 @@ class ilExAssignmentGUI
 		global $lng, $ilCtrl, $ilUser;
 		
 		$tpl = new ilTemplate("tpl.assignment_body.html", true, true, "Modules/Exercise");
-		
+
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI(null);
 		$info->setTableClass("");
@@ -147,7 +147,7 @@ class ilExAssignmentGUI
 		}
 
 		$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $a_data["id"]);
-		
+
 		if (!$not_started_yet)
 		{
 			// download files
@@ -172,9 +172,9 @@ class ilExAssignmentGUI
 							$lng->txt("download"),
 							$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadFile"));
 						$ilCtrl->setParameter($this, "file", "");
+					}
 				}
 			}
-		}
 	
 			// submission
 
@@ -183,7 +183,7 @@ class ilExAssignmentGUI
 				&& (ilPaymentObject::_isBuyable($_GET['ref_id'],'upload')
 				&& !ilPaymentObject::_hasAccess($_GET['ref_id'],'','upload')))
 			{
-			$info->addSection($lng->txt("exc_your_submission"));
+				$info->addSection($lng->txt("exc_your_submission"));
 
 				$ilCtrl->clearParameters($this);
 
@@ -193,159 +193,156 @@ class ilExAssignmentGUI
 					$lng->txt("buy"),
 					$ilCtrl->getLinkTargetByClass("ilShopPurchaseGUI", "showDetails"));
 			}
-			else
-
-			if( (ilPaymentObject::_isBuyable($_GET['ref_id'],'download') && ilPaymentObject::_hasAccess($_GET['ref_id'],'','download'))
-			|| (ilPaymentObject::_isBuyable($_GET['ref_id'],'upload') && ilPaymentObject::_hasAccess($_GET['ref_id'],'','upload')))
-
+			else if(!IS_PAYMENT_ENABLED ||
+				(ilPaymentObject::_isBuyable($_GET['ref_id'],'download') && ilPaymentObject::_hasAccess($_GET['ref_id'],'','download'))
+				|| (ilPaymentObject::_isBuyable($_GET['ref_id'],'upload') && ilPaymentObject::_hasAccess($_GET['ref_id'],'','upload')))
 			{
-
 				$delivered_files = ilExAssignment::getDeliveredFiles($a_data["exc_id"], $a_data["id"], $ilUser->getId());
-						
-			switch($a_data["type"])
-			{
-				case ilExAssignment::TYPE_UPLOAD:					
-					$titles = array();
-					foreach($delivered_files as $file)
-					{
-						$titles[] = $file["filetitle"];
-					}
-					$files_str = implode($titles, ", ");
-					if ($files_str == "")
-					{
-						$files_str = $lng->txt("message_no_delivered_files");
-					}
 
-					$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $a_data["id"]);
-
-					if ($a_data["deadline"] - time() > 0)
-					{
-						$files_str.= ' <a class="submit" href="'.
-							$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen").'">'.
-							(count($titles) == 0
-								? $lng->txt("exc_hand_in")
-								: $lng->txt("exc_edit_submission")).'</a>';
-					}
-					else
-					{
-						$files_str.= ' <a class="submit" href="'.
-							$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen").'">'.
-							$lng->txt("already_delivered_files").'</a>';
-					}
-
-					$info->addProperty($lng->txt("exc_files_returned"),
-						$files_str);
-					$last_sub = ilExAssignment::getLastSubmission($a_data["id"], $ilUser->getId());
-					if ($last_sub)
-					{
-						$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
-					}
-					else
-					{
-						$last_sub = "---";
-					}
-
-					if ($last_sub != "---")
-					{
-						$info->addProperty($lng->txt("exc_last_submission"),
-							$last_sub);
-					}
-					break;
-					
-				case ilExAssignment::TYPE_BLOG:
-					if(sizeof($delivered_files))
-					{
-						$blog_id = array_pop($delivered_files);
-						$blog_id = (int)$blog_id["filetitle"];
-						
-						include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-						include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";						
-						$wsp_tree = new ilWorkspaceTree($ilUser->getId());
-						$node = $wsp_tree->getNodeData($blog_id);
-						$files_str = '<a href="'.ilWorkspaceAccessHandler::getGotoLink($blog_id, $node["obj_id"]).'">'.
-							$node["title"].'</a>';
-					}
-					else
-					{
-						$files_str = '<a class="submit" href="'.
-							$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createBlog").'">'.
-							$lng->txt("exc_create_blog").'</a>';
-					}
-					$info->addProperty($lng->txt("exc_blog_returned"), $files_str);
-					break;
-					
-				case ilExAssignment::TYPE_PORTFOLIO:
-					if(sizeof($delivered_files))
-					{
-						$portfolio_id = array_pop($delivered_files);
-						$portfolio_id = (int)$portfolio_id["filetitle"];
-						
-						include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
-						include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
-						$portfolio = new ilObjPortfolio($portfolio_id, false);											
-						
-						$files_str = '<a href="'.ilWorkspaceAccessHandler::getGotoLink($portfolio_id, $portfolio_id).
-							'">'.$portfolio->getTitle().'</a>';
-					}
-					else
-					{
-						$files_str = '<a class="submit" href="'.
-							$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createPortfolio").'">'.
-							$lng->txt("exc_create_portfolio").'</a>';
-					}
-					$info->addProperty($lng->txt("exc_portfolio_returned"), $files_str);
-					break;
-			}
-									
-			// feedback from tutor
-			$storage = new ilFSStorageExercise($a_data["exc_id"], $a_data["id"]);
-			$cnt_files = $storage->countFeedbackFiles($ilUser->getId());
-			$lpcomment = ilExAssignment::lookupCommentForUser($a_data["id"], $ilUser->getId());
-			$mark = ilExAssignment::lookupMarkOfUser($a_data["id"], $ilUser->getId());
-			$status = ilExAssignment::lookupStatusOfUser($a_data["id"], $ilUser->getId());
-			if ($lpcomment != "" || $mark != "" || $status != "notgraded" || $cnt_files > 0)
-			{
-				$info->addSection($lng->txt("exc_feedback_from_tutor"));
-				if ($lpcomment != "")
+				switch($a_data["type"])
 				{
-					$info->addProperty($lng->txt("exc_comment"),
-						$lpcomment);
-				}
-				if ($mark != "")
-				{
-					$info->addProperty($lng->txt("exc_mark"),
-						$mark);
-				}
+					case ilExAssignment::TYPE_UPLOAD:					
+						$titles = array();
+						foreach($delivered_files as $file)
+						{
+							$titles[] = $file["filetitle"];
+						}
+						$files_str = implode($titles, ", ");
+						if ($files_str == "")
+						{
+							$files_str = $lng->txt("message_no_delivered_files");
+						}
 	
-				if ($status == "") 
-				{
-//				  $info->addProperty($lng->txt("status"),
-//						$lng->txt("message_no_delivered_files"));				
+						$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $a_data["id"]);
+	
+						if ($a_data["deadline"] - time() > 0)
+						{
+							$files_str.= ' <a class="submit" href="'.
+								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen").'">'.
+								(count($titles) == 0
+									? $lng->txt("exc_hand_in")
+									: $lng->txt("exc_edit_submission")).'</a>';
+						}
+						else
+						{
+							$files_str.= ' <a class="submit" href="'.
+								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen").'">'.
+								$lng->txt("already_delivered_files").'</a>';
+						}
+	
+						$info->addProperty($lng->txt("exc_files_returned"),
+							$files_str);
+						$last_sub = ilExAssignment::getLastSubmission($a_data["id"], $ilUser->getId());
+						if ($last_sub)
+						{
+							$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
+						}
+						else
+						{
+							$last_sub = "---";
+						}
+	
+						if ($last_sub != "---")
+						{
+							$info->addProperty($lng->txt("exc_last_submission"),
+								$last_sub);
+						}
+						break;
+						
+					case ilExAssignment::TYPE_BLOG:
+						if(sizeof($delivered_files))
+						{
+							$blog_id = array_pop($delivered_files);
+							$blog_id = (int)$blog_id["filetitle"];
+							
+							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";						
+							$wsp_tree = new ilWorkspaceTree($ilUser->getId());
+							$node = $wsp_tree->getNodeData($blog_id);
+							$files_str = '<a href="'.ilWorkspaceAccessHandler::getGotoLink($blog_id, $node["obj_id"]).'">'.
+								$node["title"].'</a>';
+						}
+						else
+						{
+							$files_str = '<a class="submit" href="'.
+								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createBlog").'">'.
+								$lng->txt("exc_create_blog").'</a>';
+						}
+						$info->addProperty($lng->txt("exc_blog_returned"), $files_str);
+						break;
+						
+					case ilExAssignment::TYPE_PORTFOLIO:
+						if(sizeof($delivered_files))
+						{
+							$portfolio_id = array_pop($delivered_files);
+							$portfolio_id = (int)$portfolio_id["filetitle"];
+							
+							include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
+							$portfolio = new ilObjPortfolio($portfolio_id, false);											
+							
+							$files_str = '<a href="'.ilWorkspaceAccessHandler::getGotoLink($portfolio_id, $portfolio_id).
+								'">'.$portfolio->getTitle().'</a>';
+						}
+						else
+						{
+							$files_str = '<a class="submit" href="'.
+								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createPortfolio").'">'.
+								$lng->txt("exc_create_portfolio").'</a>';
+						}
+						$info->addProperty($lng->txt("exc_portfolio_returned"), $files_str);
+						break;
 				}
-				else if ($status != "notgraded")
+										
+				// feedback from tutor
+				$storage = new ilFSStorageExercise($a_data["exc_id"], $a_data["id"]);
+				$cnt_files = $storage->countFeedbackFiles($ilUser->getId());
+				$lpcomment = ilExAssignment::lookupCommentForUser($a_data["id"], $ilUser->getId());
+				$mark = ilExAssignment::lookupMarkOfUser($a_data["id"], $ilUser->getId());
+				$status = ilExAssignment::lookupStatusOfUser($a_data["id"], $ilUser->getId());
+				if ($lpcomment != "" || $mark != "" || $status != "notgraded" || $cnt_files > 0)
 				{
-					$img = '<img border="0" src="'.ilUtil::getImagePath("scorm/".$status.".gif").'" '.
-						' alt="'.$lng->txt("exc_".$status).'" title="'.$lng->txt("exc_".$status).
-						'" style="vertical-align:middle;"/>';
-					$info->addProperty($lng->txt("status"),
-						$img." ".$lng->txt("exc_".$status));
-				}
-				
-				if ($cnt_files > 0)
-				{
-					$info->addSection($lng->txt("exc_fb_files"));
-					$files = $storage->getFeedbackFiles($ilUser->getId());
-					foreach($files as $file)
+					$info->addSection($lng->txt("exc_feedback_from_tutor"));
+					if ($lpcomment != "")
 					{
-						$ilCtrl->setParameterByClass("ilobjexercisegui", "file", urlencode($file));
-						$info->addProperty($file,
-							$lng->txt("download"),
-							$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadFeedbackFile"));
-						$ilCtrl->setParameter($this, "file", "");
+						$info->addProperty($lng->txt("exc_comment"),
+							$lpcomment);
+					}
+					if ($mark != "")
+					{
+						$info->addProperty($lng->txt("exc_mark"),
+							$mark);
+					}
+		
+					if ($status == "") 
+					{
+	//				  $info->addProperty($lng->txt("status"),
+	//						$lng->txt("message_no_delivered_files"));				
+					}
+					else if ($status != "notgraded")
+					{
+						$img = '<img border="0" src="'.ilUtil::getImagePath("scorm/".$status.".gif").'" '.
+							' alt="'.$lng->txt("exc_".$status).'" title="'.$lng->txt("exc_".$status).
+							'" style="vertical-align:middle;"/>';
+						$info->addProperty($lng->txt("status"),
+							$img." ".$lng->txt("exc_".$status));
+					}
+					
+					if ($cnt_files > 0)
+					{
+						$info->addSection($lng->txt("exc_fb_files"));
+						$files = $storage->getFeedbackFiles($ilUser->getId());
+						foreach($files as $file)
+						{
+							$ilCtrl->setParameterByClass("ilobjexercisegui", "file", urlencode($file));
+							$info->addProperty($file,
+								$lng->txt("download"),
+								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadFeedbackFile"));
+							$ilCtrl->setParameter($this, "file", "");
+						}
 					}
 				}
 			}
-		}
 		}
 
 		$tpl->setVariable("CONTENT", $info->getHTML());
