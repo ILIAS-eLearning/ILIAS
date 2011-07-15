@@ -2741,7 +2741,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			);
 		}
 
-		if($this->checkAccess('write','edit_permission') && $activate_role_edit)
+		if($this->checkAccess('write','edit_permission') && $activate_role_edit && $this->object->getId() != ANONYMOUS_ROLE_ID)
 		{
 			$tabs_gui->addTarget("user_assignment",
 				$this->ctrl->getLinkTarget($this, "userassignment"),
@@ -2749,7 +2749,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				get_class($this));
 		}
 
-		if($this->checkAccess('write','edit_permission') && $activate_role_edit)
+		if($this->checkAccess('write','edit_permission') && $activate_role_edit  && $this->object->getId() != ANONYMOUS_ROLE_ID)
 		{
 			$tabs_gui->addTarget("desktop_items",
 				$this->ctrl->getLinkTarget($this, "listDesktopItems"),
