@@ -3102,7 +3102,7 @@ class ilLMPresentationGUI
 	/**
 	* show print view
 	*/
-	function showPrintView($a_free_page = 0)
+	function showPrintView()
 	{
 		global $ilBench,$ilUser,$lng,$ilCtrl;
 
@@ -3121,7 +3121,10 @@ class ilLMPresentationGUI
 		// set values according to selection
 		if ($_POST["sel_type"] == "page")
 		{
-			$_POST["obj_id"][] = $c_obj_id;
+			if (!is_array($_POST["obj_id"]) || !in_array($c_obj_id, $_POST["obj_id"]))
+			{
+				$_POST["obj_id"][] = $c_obj_id;
+			}
 		}
 		if ($_POST["sel_type"] == "chapter" && $c_obj_id > 0)
 		{
@@ -3232,9 +3235,9 @@ class ilLMPresentationGUI
 		// add free selected pages
 		if (is_array($_POST["obj_id"]))
 		{
-			foreach($_POST["obj_id"] as $k => $item)
+			foreach($_POST["obj_id"] as $k)
 			{
-				if ($item == "1" && $k > 0 && !$this->lm_tree->isInTree($k))
+				if ($k > 0 && !$this->lm_tree->isInTree($k))
 				{
 					if (ilLMObject::_lookupType($k) == "pg")
 					{
@@ -3248,7 +3251,7 @@ class ilLMPresentationGUI
 			ilUtil::sendFailure($lng->txt("cont_print_no_page_selected"),true);
 			$ilCtrl->redirect($this, "showPrintViewSelection");
 		}
-		
+
 		foreach ($nodes as $node_key => $node)
 		{
 			// check page activation
