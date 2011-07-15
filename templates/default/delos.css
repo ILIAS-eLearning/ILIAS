@@ -646,14 +646,15 @@ table.il_InfoScreen
 	border-color:#D6D6D6;
 }
 
-th.il_InfoScreen
+
+div.ilInfoScreenSec
 {
-	text-align:left;
+	padding: 10px;
 }
 
-h3.il_InfoScreenSection,th.il_InfoScreenSection
+div.ilInfoScreenSec > h3
 {
-	margin: 18px 10px 8px 10px;
+	margin: 8px 0px 14px 0px;
 	border-bottom-width:1px;
 	border-bottom-style:solid;
 	border-bottom-color:#D6D6D6;
@@ -671,6 +672,7 @@ td.il_InfoScreenProperty
 	padding: 6px 10px 6px 4px;
 	vertical-align: top;
 	color:#505050;
+	width: 200px;
 }
 
 td.il_InfoScreenPropertyValue
