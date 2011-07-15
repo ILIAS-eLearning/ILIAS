@@ -567,6 +567,12 @@ class ilRepositoryExplorer extends ilExplorer
 				$sort = ilContainerSorting::_getInstance($a_parent_obj_id);
 				$group = $sort->sortItems($group);
 				
+				// need extra session sorting here
+				if ($t == "sess")
+				{
+
+				}
+				
 				foreach ($group[$t] as $k => $item)
 				{
 					$nodes[] = $item;
