@@ -56,6 +56,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	static function _getCharacteristics($a_style_id)
 	{
+		$st_chars = ilPCParagraphGUI::_getStandardCharacteristics();
 		$chars = ilPCParagraphGUI::_getStandardCharacteristics();
 
 		if ($a_style_id > 0 &&
@@ -72,9 +73,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$new_chars = array();
 			foreach ($chars as $char)
 			{
-				if ($chars[$char] != "")	// keep lang vars for standard chars
+				if ($st_chars[$char] != "")	// keep lang vars for standard chars
 				{
-					$new_chars[$char] = $chars[$char];
+					$new_chars[$char] = $st_chars[$char];
 				}
 				else
 				{
@@ -84,6 +85,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			}
 			$chars = $new_chars;
 		}
+
 		return $chars;
 	}
 	
