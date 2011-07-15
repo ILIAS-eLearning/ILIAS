@@ -450,7 +450,7 @@ assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
 assessment#:#internal_links_update#:#Aktualisierung
 assessment#:#javaapplet#:#Java-Applet
-assessment#:#keywords_hint#:#Um eine automatische Punktevergabe für die Freitext-Frage zu erreichen, geben Sie hier bitte eine Liste von Schlagwörtern an, die durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sind. Wenn eines der Schlagwörter in dem Antworttext gefunden wird, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
+assessment#:#keywords_hint#:#Um eine automatische Punktevergabe für die Freitext-Frage zu erreichen, geben Sie hier bitte eine Liste von Schlagwörtern an, die durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sind. Wenn eines der Schlagwörter im Antworttext gefunden wird, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
 assessment#:#kiosk#:#Kiosk-Modus
 assessment#:#kiosk_description#:#Führt den Test in einem sogenannten Kiosk-Modus aus. Alle Bildschirmelemente, die nicht zum Test gehören, werden ausgeblendet, damit die Teilnehmerinnen und Teilnehmer keine Möglichkeit haben, den Test zu verlassen.
 assessment#:#kiosk_options#:#Kiosk-Modus Einstellungen
@@ -2962,7 +2962,7 @@ common#:#ilinc_header_edit_users#:#Liste der beteiligten Benutzer bearbeiten
 common#:#ilinc_id#:#iLinc-ID
 common#:#ilinc_involved_users#:#Beteiligte Benutzer
 common#:#ilinc_login#:#iLinc-Login
-common#:#ilinc_mail_body_new_subscription#:#Sie sind in dem LearnLinc-Seminar als Teilnehmer aufgenommen worden.
+common#:#ilinc_mail_body_new_subscription#:#Sie sind im oben genannten LearnLinc-Seminar als Teilnehmer aufgenommen worden.
 common#:#ilinc_mail_body_subscription_cancelled#:#Ihre Mitgliedschaft wurde aufgehoben.
 common#:#ilinc_mail_subj_new_subscription#:#Neue Mitgliedschaft
 common#:#ilinc_mail_subj_subscription_cancelled#:#Mitgliedschaft aufgehoben
