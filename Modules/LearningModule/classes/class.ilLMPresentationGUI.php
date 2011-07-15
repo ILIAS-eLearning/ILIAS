@@ -1904,6 +1904,8 @@ class ilLMPresentationGUI
 	*/
 	function getLinkXML($a_int_links, $a_layoutframes)
 	{
+		global $ilCtrl;
+		
 		// Determine whether the view of a learning resource should
 		// be shown in the frameset of ilias, or in a separate window.
 		//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
@@ -2032,6 +2034,14 @@ class ilLMPresentationGUI
 						$ltarget = ilFrameTargetInfo::_getFrame("MainContent");
 						break;
 
+					case "File":
+						if (!$this->offlineMode())
+						{
+							$ilCtrl->setParameter($this, "file_id", "il__file_".$target_id);
+							$href = $ilCtrl->getLinkTarget($this, "downloadFile");
+							$ilCtrl->setParameter($this, "file_id", "");
+						}
+						break;
 				}
 				
 				$anc_par = 'Anchor="'.$anc.'"';
@@ -3730,8 +3740,9 @@ class ilLMPresentationGUI
 	function downloadFile()
 	{
 		$file = explode("_", $_GET["file_id"]);
+		$file_id = (int) $file[count($file) - 1];
 		require_once("./Modules/File/classes/class.ilObjFile.php");
-		$fileObj =& new ilObjFile($file[count($file) - 1], false);
+		$fileObj =& new ilObjFile($file_id, false);
 		$fileObj->sendFile();
 		exit;
 	}
