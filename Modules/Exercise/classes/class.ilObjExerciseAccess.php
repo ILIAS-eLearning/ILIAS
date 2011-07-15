@@ -43,18 +43,21 @@ class ilObjExerciseAccess extends ilObjectAccess
 	{
 		global $ilDB, $lng;
 		
-		$q = "SELECT time_stamp FROM exc_data WHERE obj_id = ".
-			$ilDB->quote($a_obj_id, "integer");
+		$q = "SELECT MIN(time_stamp) mtime FROM exc_assignment WHERE exc_id = ".
+			$ilDB->quote($a_obj_id, "integer").
+			" AND time_stamp > ".$ilDB->quote(time(), "integer");
 		$set = $ilDB->query($q);
 		$rec = $ilDB->fetchAssoc($set);
 		
-		if ($rec["time_stamp"] - time() <= 0)
+/*		if ($rec["time_stamp"] - time() <= 0)
 		{
 			$time_str = $lng->txt("exc_time_over_short");
 		}
 		else
+		{*/
+		if ($rec["mtime"] > 0)
 		{
-			$time_diff = ilUtil::int2array($rec["time_stamp"] - time(), null);
+			$time_diff = ilUtil::int2array($rec["mtime"] - time(), null);
 			$time_str = ilUtil::timearray2string($time_diff);
 		}
 		return $time_str;
