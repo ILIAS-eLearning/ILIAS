@@ -197,6 +197,8 @@ class ilExAssignmentGUI
 				(ilPaymentObject::_isBuyable($_GET['ref_id'],'download') && ilPaymentObject::_hasAccess($_GET['ref_id'],'','download'))
 				|| (ilPaymentObject::_isBuyable($_GET['ref_id'],'upload') && ilPaymentObject::_hasAccess($_GET['ref_id'],'','upload')))
 			{
+				$info->addSection($lng->txt("exc_your_submission"));
+				
 				$delivered_files = ilExAssignment::getDeliveredFiles($a_data["exc_id"], $a_data["id"], $ilUser->getId());
 
 				switch($a_data["type"])
@@ -225,9 +227,12 @@ class ilExAssignmentGUI
 						}
 						else
 						{
-							$files_str.= ' <a class="submit" href="'.
-								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen").'">'.
-								$lng->txt("already_delivered_files").'</a>';
+							if (count($titles) > 0)
+							{
+								$files_str.= ' <a class="submit" href="'.
+									$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen").'">'.
+									$lng->txt("already_delivered_files").'</a>';
+							}
 						}
 	
 						$info->addProperty($lng->txt("exc_files_returned"),
