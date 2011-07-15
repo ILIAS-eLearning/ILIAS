@@ -853,13 +853,13 @@ class ilObjForumGUI extends ilObjectGUI
 
 		if($parent_type == 'grp' || $parent_type == 'crs')
 		{
-			#show member-tab for notification
-			if ($ilAccess->checkAccess('edit_permission', '', $this->ref_id))
+			#show member-tab for notification if forum-notification is enabled in administration
+			if ($ilAccess->checkAccess('edit_permission', '', $this->ref_id) && $this->ilias->getSetting('forum_notification') == 1 )
 			{
 				$mem_active = array('showMembers', 'forums_notification_settings');
 				(in_array($_GET['cmd'],$mem_active)) ? $force_mem_active = true : $force_mem_active = false;
 
-					$ilTabs->addSubTabTarget('notifications', $this->ctrl->getLinkTarget($this, 'showMembers'), $_GET['cmd'], get_class($this), '', $force_mem_active);
+				$ilTabs->addSubTabTarget('notifications', $this->ctrl->getLinkTarget($this, 'showMembers'), $_GET['cmd'], get_class($this), '', $force_mem_active);
 			}
 		}
 		return true;
@@ -3879,7 +3879,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->objProperties->update();
 
 			// print success message
-			ilUtil::sendInfo($this->lng->txt('saved_successfully'));
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		}
 		$this->notificationSettingsForm->setValuesByPost();
 
@@ -4132,7 +4132,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$tbl_mod->addColumn($lng->txt('firstname'), '', '10%');
 			$tbl_mod->addColumn($lng->txt('lastname'), '', '10%');
 #			$tbl_mod->addColumn($lng->txt('admin_force_noti'), '', '10%');
-			$tbl_mod->addColumn($lng->txt('user_toggle_noti'), '', '10%');
+			$tbl_mod->addColumn($lng->txt('allow_user_toggle_noti'), '', '10%');
 			$tbl_mod->setSelectAllCheckbox('user_id');
 
 			$tbl_mod->setRowTemplate('tpl.forums_members_row.html', 'Modules/Forum');
@@ -4159,7 +4159,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$tbl_adm->addColumn($lng->txt('firstname'), '', '10%');
 			$tbl_adm->addColumn($lng->txt('lastname'), '', '10%');
 	#		$tbl_adm->addColumn($lng->txt('admin_force_noti'), '', '10%');
-			$tbl_adm->addColumn($lng->txt('user_toggle_noti'), '', '10%');
+			$tbl_adm->addColumn($lng->txt('allow_user_toggle_noti'), '', '10%');
 			$tbl_adm->setSelectAllCheckbox('user_id');
 			$tbl_adm->setRowTemplate('tpl.forums_members_row.html', 'Modules/Forum');
 
@@ -4187,7 +4187,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$tbl_mem->addColumn($lng->txt('firstname'), '', '10%');
 			$tbl_mem->addColumn($lng->txt('lastname'), '', '10%');
 	#		$tbl_mem->addColumn($lng->txt('admin_force_noti'), '', '10%');
-			$tbl_mem->addColumn($lng->txt('user_toggle_noti'), '', '10%');
+			$tbl_mem->addColumn($lng->txt('allow_user_toggle_noti'), '', '10%');
 			$tbl_mem->setSelectAllCheckbox('user_id');
 			$tbl_mem->setRowTemplate('tpl.forums_members_row.html', 'Modules/Forum');
 			$tbl_mem->setData($members);
@@ -4213,7 +4213,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$tbl_tut->addColumn($lng->txt('firstname'), '', '10%');
 			$tbl_tut->addColumn($lng->txt('lastname'), '', '10%');
 		#	$tbl_tut->addColumn($lng->txt('admin_force_noti'), '', '10%');
-			$tbl_tut->addColumn($lng->txt('user_toggle_noti'), '', '10%');
+			$tbl_tut->addColumn($lng->txt('allow_user_toggle_noti'), '', '10%');
 			$tbl_tut->setSelectAllCheckbox('user_id');
 			$tbl_tut->setRowTemplate('tpl.forums_members_row.html', 'Modules/Forum');
 			$tbl_tut->setData($tutors);
@@ -4266,7 +4266,7 @@ class ilObjForumGUI extends ilObjectGUI
 			}
 
 			// print success message
-			ilUtil::sendInfo($this->lng->txt('saved_successfully'));
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		}
 
 		return $this->showMembersObject();
@@ -4303,7 +4303,7 @@ class ilObjForumGUI extends ilObjectGUI
 			}
 
 			// print success message
-			ilUtil::sendInfo($this->lng->txt('saved_successfully'));
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		}
 
 		return $this->showMembersObject();
@@ -4345,7 +4345,7 @@ class ilObjForumGUI extends ilObjectGUI
 			}
 
 			// print success message
-			ilUtil::sendInfo($this->lng->txt('saved_successfully'));
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		}
 
 		return $this->showMembersObject();
@@ -4386,7 +4386,7 @@ class ilObjForumGUI extends ilObjectGUI
 			}
 
 			// print success message
-			ilUtil::sendInfo($this->lng->txt('saved_successfully'));
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		}
 
 		return $this->showMembersObject();

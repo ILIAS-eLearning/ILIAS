@@ -11616,7 +11616,7 @@ blog#:#blog_preview#:#Vorschau
 ecs#:#ecs_field_community#:#Community
 assessment#:#test_is_offline#:#Sie können den Test nicht starten! Der Test ist offline (nicht aktiviert).
 forum#:#mark_moderator_posts#:#Moderatoren-Beiträge markieren
-forum#:#mark_moderator_posts_dec#:#Wenn aktiviert, werden Moderatoren-Beiträge farblich hervorgehoben.
+forum#:#mark_moderator_posts_desc#:#Wenn aktiviert, werden Moderatoren-Beiträge farblich hervorgehoben.
 dateplaner#:#cal_cache_settings#:#Cache
 dateplaner#:#cal_milestone_settings#:#Meilensteine
 assessment#:#test_edit_settings#:#Einstellungen bearbeiten
