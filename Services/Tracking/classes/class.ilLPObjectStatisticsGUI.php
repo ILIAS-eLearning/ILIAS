@@ -61,7 +61,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 	function applyAccessFilter()
 	{
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsTableGUI.php");
-		$lp_table = new ilLPObjectStatisticsTableGUI($this, "access");
+		$lp_table = new ilLPObjectStatisticsTableGUI($this, "access", null, false);
 		$lp_table->resetOffset();
 		$lp_table->writeFilterToSession();
 		$this->access();
@@ -70,7 +70,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 	function resetAccessFilter()
 	{
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsTableGUI.php");
-		$lp_table = new ilLPObjectStatisticsTableGUI($this, "access");
+		$lp_table = new ilLPObjectStatisticsTableGUI($this, "access", null, false);
 		$lp_table->resetOffset();
 		$lp_table->resetFilter();
 		$this->access();
@@ -109,7 +109,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 	function applyTypesFilter()
 	{
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsTypesTableGUI.php");
-		$lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types");
+		$lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types", null, false);
 		$lp_table->resetOffset();
 		$lp_table->writeFilterToSession();
 		$this->types();
@@ -118,7 +118,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 	function resetTypesFilter()
 	{
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsTypesTableGUI.php");
-		$lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types");
+		$lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types", null, false);
 		$lp_table->resetOffset();
 		$lp_table->resetFilter();
 		$this->types();
@@ -157,7 +157,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 	function applyDailyFilter()
 	{
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsDailyTableGUI.php");
-		$lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily");
+		$lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", null, false);
 		$lp_table->resetOffset();
 		$lp_table->writeFilterToSession();
 		$this->daily();
@@ -166,7 +166,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 	function resetDailyFilter()
 	{
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsDailyTableGUI.php");
-		$lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily");
+		$lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", null, false);
 		$lp_table->resetOffset();
 		$lp_table->resetFilter();
 		$this->daily();

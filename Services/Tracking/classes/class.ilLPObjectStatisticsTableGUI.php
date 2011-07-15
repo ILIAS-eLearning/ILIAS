@@ -17,7 +17,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, array $a_preselect = null)
+	function __construct($a_parent_obj, $a_parent_cmd, array $a_preselect = null, $a_load_items = true)
 	{
 		global $ilCtrl, $lng;
 		
@@ -61,7 +61,10 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		
 		include_once("./Services/Tracking/classes/class.ilLPObjSettings.php");
 
-		$this->getItems();
+		if($a_load_items)
+		{
+			$this->getItems();
+		}
 	}
 	
 	public function numericOrdering($a_field) 
