@@ -1039,8 +1039,8 @@ return true;
 	}
 
 	/**
-	* Init map creation/update form
-	*/
+	 * Init map creation/update form
+	 */
 	function initCharacteristicForm($a_target, $a_types)
 	{
 		global $ilCtrl, $lng;
