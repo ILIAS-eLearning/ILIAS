@@ -151,7 +151,11 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 				7 => "1 ".$lng->txt("week"),
 				14 => "2 ".$lng->txt("weeks"),
 				30 => "1 ".$lng->txt("month"),
-				60 => "2 ".$lng->txt("months"));
+				60 => "2 ".$lng->txt("months"),
+				120 => "4 ".$lng->txt("months"),
+				180 => "6 ".$lng->txt("months"),
+				365 => "1 ".$lng->txt("year")
+				);
 			$rssp_sel = new ilSelectInputGUI($lng->txt("news_rss_period"),
 				"news_rss_period");
 			$rssp_sel->setOptions($rssp_opts);
