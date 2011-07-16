@@ -52,7 +52,8 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 	{
 		global $lng,$ilTabs;
 
-		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
+		// see bug #7452
+//		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
 
 		include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
 
