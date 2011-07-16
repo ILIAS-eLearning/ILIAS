@@ -70,6 +70,16 @@ $feed_set = new ilSetting("news");
 			$writer->showFeed();
 		}
 		else {
+			
+			// send appropriate header, if password is wrong, otherwise
+			// there is no chance to re-enter it (unless, e.g. the browser is closed)
+			if (md5($_SERVER['PHP_AUTH_PW']) != ilObjUser::_getFeedPass(ilObjUser::_lookupId($_SERVER['PHP_AUTH_USER'])))
+			{
+				Header("WWW-Authenticate: Basic realm=\"ILIAS Newsfeed\"");
+				Header("HTTP/1.0 401 Unauthorized");
+				exit;
+			}
+			
 			include_once("./Services/Feeds/classes/class.ilFeedItem.php");
 			include_once("./Services/Feeds/classes/class.ilFeedWriter.php");
 
