@@ -1618,7 +1618,7 @@
 		</xsl:if>
 	</xsl:if>
 	<!-- class and width output for table edit -->
-	<xsl:if test="$mode = 'table_edit'">
+	<xsl:if test="$mode = 'table_edit' and count(ancestor::Table) = 1">
 		<div class="small" style="white-space:nowrap; padding:2px; margin:2px; background-color:#FFFFFF; border: solid 1px #C0C0C0; color:#000000;">
 			{{{{{TableEdit;<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>}}}}}
 			<!--  <xsl:value-of select="//LVs/LV[@name='ed_class']/@value"/>:

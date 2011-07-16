@@ -430,6 +430,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		$params = array ('mode' => $a_mode,
 			'med_disabled_path' => $med_disabled_path,
 			'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"),
+			'media_mode' => 'disable',
 			'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
