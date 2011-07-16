@@ -560,6 +560,12 @@ class ilLMPresentationGUI
 			if ($this->lm->getLayoutPerPage())
 			{
 				$pg_id = $this->getCurrentPageId();
+				
+				if (in_array($_GET["cmd"], array("media", "glossary")) && $_GET["from_page"] > 0)
+				{
+					$pg_id = (int) $_GET["from_page"];
+				}
+				
 				if ($pg_id > 0)
 				{
 					$lay = ilLMObject::lookupLayout($pg_id);
@@ -1546,6 +1552,7 @@ class ilLMPresentationGUI
 			$onclick = $res->nodeset[$i]->get_attribute("OnClick");
 			$targets[$type] = array("Type" => $type, "Frame" => $frame, "OnClick" => $onclick);
 		}
+
 		return $targets;
 	}
 
@@ -3992,6 +3999,8 @@ class ilLMPresentationGUI
 		// handle online links
 		if (!$this->offlineMode())
 		{
+			$this->ctrl->setParameter($this, "from_page", $cur_page_id);
+			
 			if ($a_anchor !=  "")
 			{
 				$this->ctrl->setParameter($this, "anchor", rawurlencode($a_anchor));
