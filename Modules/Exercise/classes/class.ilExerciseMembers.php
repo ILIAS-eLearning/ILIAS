@@ -163,28 +163,7 @@ class ilExerciseMembers
 		ilLPStatusWrapper::_updateStatus($this->getObjId(), $a_usr_id);
 		
 		// delete all delivered files of the member
-/*
-		$delivered_files =& $this->getDeliveredFiles($a_usr_id);
-		$files_to_delete = array();
-		$userfile = "";
-		foreach ($delivered_files as $key => $value)
-		{
-			array_push($files_to_delete, $value["returned_id"]);
-			$userfile = $value["filename"];
-		}
-		$this->deleteDeliveredFiles($files_to_delete, $a_usr_id);
-
-		// delete the user directory if existing
-		if ($userfile)
-		{
-			$pathinfo = pathinfo($userfile);
-			$dir = $pathinfo["dirname"];
-		}
-		if (is_dir($dir))
-		{
-			rmdir($dir);
-		}
-*/
+		$this->exc->deleteAllDeliveredFilesOfUser($a_usr_id);
 
 // @todo: delete all assignment associations (and their files)
 		

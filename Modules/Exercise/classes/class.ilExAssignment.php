@@ -881,7 +881,6 @@ class ilExAssignment
 		}
 		
 		//$delivered_files = ilObjExercise::_fixFilenameArray($delivered_files);
-
 		return $delivered_files;
 	}
 
@@ -928,6 +927,43 @@ class ilExAssignment
 		}
 	}
 
+	/**
+	 * Delete all delivered files of user
+	 *
+	 * @param int $a_exc_id excercise id
+	 * @param int $a_user_id user id
+	 */
+	static function deleteAllDeliveredFilesOfUser($a_exc_id, $a_user_id)
+	{
+		global $ilDB;
+		
+		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+		
+		// get the files and...
+		$set = $ilDB->query("SELECT * FROM exc_returned ".
+			" WHERE obj_id = ".$ilDB->quote($a_exc_id, "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
+			);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$fs = new ilFSStorageExercise($a_exc_id, $rec["ass_id"]);
+			
+			// ...delete files
+			$filename = $fs->getAbsoluteSubmissionPath().
+				"/".$a_user_id."/".basename($rec["filename"]);
+			if (is_file($filename))
+			{
+				unlink($filename);
+			}
+		}
+		// delete exc_returned records
+		$ilDB->manipulate($d = "DELETE FROM exc_returned WHERE ".
+			" obj_id = ".$ilDB->quote($a_exc_id, "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
+			);
+	}
+	
+	
 	/**
 	 * was: deliverReturnedFiles($a_member_id, $a_only_new = false)
 	 */
