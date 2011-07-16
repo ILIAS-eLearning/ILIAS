@@ -1247,7 +1247,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			foreach($_POST["member"] as $usr_id => $member)
 			{
-				$this->object->members_obj->deassignMember($usr_id);
+				$this->object->members_obj->deassignMember((int) $usr_id);
 			}
 			ilUtil::sendSuccess($lng->txt("exc_msg_participants_removed"), true);
 			$ilCtrl->redirect($this, "members");

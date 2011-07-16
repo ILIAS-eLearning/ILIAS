@@ -1030,6 +1030,17 @@ class ilObjExercise extends ilObject
 		ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, 1);
 		ilExerciseMembers::_writeReturned($this->getId(), $user_id, 1);
 	}
+	
+	/**
+	 * Delete all delivered files of user
+	 *
+	 * @param int $a_user_id user id
+	 */
+	function deleteAllDeliveredFilesOfUser($a_user_id)
+	{
+		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+		ilExAssignment::deleteAllDeliveredFilesOfUser($this->getId(), $a_user_id);
+	}
 }
 
 ?>
