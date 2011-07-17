@@ -293,7 +293,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$this->object->setWebdavEnabled($_POST['enable_webdav'] == '1');
 //		$this->object->setWebdavActionsVisible($_POST['webdav_actions_visible'] == '1');
 		$this->object->setCustomWebfolderInstructionsEnabled($_POST['custom_webfolder_instructions_choice']=='custom');
-		$this->object->setCustomWebfolderInstructions(ilUtil::stripSlashes($_POST['custom_webfolder_instructions']));
+		$this->object->setCustomWebfolderInstructions(ilUtil::stripSlashes($_POST['custom_webfolder_instructions'], false));
 		$this->object->update();
 		
 		ilUtil::sendInfo($lng->txt('settings_saved'),true);
