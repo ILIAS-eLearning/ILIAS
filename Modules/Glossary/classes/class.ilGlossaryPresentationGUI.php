@@ -1186,7 +1186,7 @@ if (!false)
 						$this->ctrl->setParameter($this, "obj_type", $a_type);
 					}
 					$link = $this->ctrl->getLinkTarget($this, $a_cmd);
-					$link = str_replace("&", "&amp;", $link);
+//					$link = str_replace("&", "&amp;", $link);
 					break;
 			}
 		}
