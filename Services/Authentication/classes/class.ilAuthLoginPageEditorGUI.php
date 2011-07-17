@@ -389,6 +389,7 @@ class ilAuthLoginPageEditorGUI
 			$textarea->setRows(10);
 			$textarea->setValue($login_settings["login_message_".$lang_key]);
 			$textarea->setUseRte(true);
+			$textarea->setRteTagSet("extended");
 			$this->form->addItem($textarea);
 
 			unset($login_settings["login_message_".$lang_key]);
@@ -403,7 +404,7 @@ class ilAuthLoginPageEditorGUI
 			$textarea->setRows(10);
 			$textarea->setValue($message);
 			$textarea->setUseRte(true);
-
+			$textarea->setRteTagSet("extended");
 			if(!in_array($lang_key,$languages))
 			{
 				$textarea->setAlert($lng->txt("not_installed"));
