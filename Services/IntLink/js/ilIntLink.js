@@ -75,6 +75,7 @@ il.IntLink =
 		var callback =
 		{
 			success: this.handleAjaxSuccess,
+			upload: this.handleAjaxUpload,
 			failure: this.handleAjaxFailure,
 			argument: { mode: cfg.mode}
 		};
@@ -90,6 +91,13 @@ il.IntLink =
 			var f = document.getElementById("ilIntLinkResetForm");
 			sUrl = f.action;
 			YAHOO.util.Connect.setForm("ilIntLinkResetForm");
+			var request = YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
+		}
+		else if (cfg.mode == "save_file_link")
+		{
+			var f = document.getElementById("ilFileLinkUploadForm");
+			sUrl = f.action + "&cmd=saveFileLink";
+			YAHOO.util.Connect.setForm("ilFileLinkUploadForm", true);
 			var request = YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
 		}
 		else if (cfg.mode == "sel_target_obj")
@@ -143,6 +151,18 @@ il.IntLink =
 		}
 	},
 
+	handleAjaxUpload: function(o)
+	{
+		// perform page modification
+		if(o.responseText !== undefined)
+		{
+			//if (o.argument.mode == 'int_link')
+			//{
+			//}
+			il.IntLink.insertPanelHTML(o.responseText);
+		}
+	},
+
 	// FailureHandler
 	handleAjaxFailure: function(o)
 	{
@@ -177,6 +197,12 @@ il.IntLink =
 			YAHOO.util.Event.addListener(el, "click", this.clickChangeTargetObjectEvent);
 		}
 
+		var el = document.getElementById("ilSaveFileLink");
+		if (el)
+		{
+			YAHOO.util.Event.addListener(el, "click", this.clickSaveFileLinkEvent);
+		}
+
 	},
 
 	selectLinkTypeEvent: function(ev)
@@ -198,6 +224,13 @@ il.IntLink =
 		YAHOO.util.Event.stopPropagation(ev);
 	},
 
+	clickSaveFileLinkEvent: function(ev)
+	{
+		il.IntLink.initAjax({mode: 'save_file_link'});
+		YAHOO.util.Event.preventDefault(ev);
+		YAHOO.util.Event.stopPropagation(ev);
+	},
+	
 	selectLinkTargetObject: function (type, ref_id)
 	{
 		il.IntLink.initAjax({mode: 'sel_target_obj', ref_id: ref_id, type: type});

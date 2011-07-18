@@ -636,7 +636,7 @@ class ilInternalLinkGUI
 			$tpl = new ilTemplate("tpl.link_file.html", true, true, "Modules/LearningModule");
 			$tpl->setCurrentBlock("form");
 			$tpl->setVariable("FORM_ACTION",
-				$ilCtrl->getFormAction($this));
+				$ilCtrl->getFormAction($this, "saveFileLink", "", true));
 			$tpl->setVariable("TXT_SELECT_FILE", $lng->txt("cont_select_file"));
 			$tpl->setVariable("TXT_SAVE_LINK", $lng->txt("cont_create_link"));
 			$tpl->setVariable("CMD_SAVE_LINK", "saveFileLink");
@@ -651,11 +651,13 @@ class ilInternalLinkGUI
 		{
 			$tpl = new ilTemplate("tpl.link_file.html", true, true, "Modules/LearningModule");
 			$tpl->setCurrentBlock("link_js");
-			$tpl->setVariable("LINK_FILE",
-				$this->prepareJavascriptOutput("[iln dfile=\"".$this->uploaded_file->getId()."\"] [/iln]")
-				);
-			$tpl->setVariable("LINK_FILE_SCR",
-				"[iln dfile=\"".$this->uploaded_file->getId()."\"] [/iln]");
+//			$tpl->setVariable("LINK_FILE",
+//				$this->prepareJavascriptOutput("[iln dfile=\"".$this->uploaded_file->getId()."\"] [/iln]")
+//				);
+			$tpl->setVariable("TAG_B",
+				'[iln dfile=\x22'.$this->uploaded_file->getId().'\x22]');
+			$tpl->setVariable("TAG_E",
+				"[/iln]");
 			$tpl->setVariable("TXT_FILE",
 				$this->uploaded_file->getTitle());
 			$tpl->parseCurrentBlock();
@@ -670,7 +672,7 @@ class ilInternalLinkGUI
 	{
 		$mtpl =& new ilTemplate("tpl.link_help.html", true, true, "Modules/LearningModule");
 		$mtpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		
+
 		if ($_FILES["link_file"]["name"] != "")
 		{
 			include_once("./Modules/File/classes/class.ilObjFile.php");
