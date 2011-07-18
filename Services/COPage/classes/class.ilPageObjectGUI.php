@@ -2234,24 +2234,37 @@ class ilPageObjectGUI
 		$btpl->setVariable("IMG_BLIST", ilUtil::img(ilUtil::getImagePath("tn_blist.gif"),
 			"", 20, 20));
 		$btpl->parseCurrentBlock();
+		ilTooltipGUI::addTooltip("il_edm_blist",
+			$lng->txt("cont_blist"),
+			"iltinymenu_bd");
 
 		// numbered list
 		$btpl->setCurrentBlock("nlist_button");
 		$btpl->setVariable("IMG_NLIST", ilUtil::img(ilUtil::getImagePath("tn_nlist.gif"),
 			"", 20, 20));
 		$btpl->parseCurrentBlock();
+		ilTooltipGUI::addTooltip("il_edm_nlist",
+			$lng->txt("cont_nlist"),
+			"iltinymenu_bd");
 
 		// list indent
 		$btpl->setCurrentBlock("list_indent");
 		$btpl->setVariable("IMG_LIST_INDENT", ilUtil::img(ilUtil::getImagePath("tn_indent.gif"),
 			"", 20, 20));
 		$btpl->parseCurrentBlock();
+		ilTooltipGUI::addTooltip("ilIndentBut",
+			$lng->txt("cont_list_indent"),
+			"iltinymenu_bd");
+
 
 		// list outdent
 		$btpl->setCurrentBlock("list_outdent");
 		$btpl->setVariable("IMG_LIST_OUTDENT", ilUtil::img(ilUtil::getImagePath("tn_outdent.gif"),
 			"", 20, 20));
 		$btpl->parseCurrentBlock();
+		ilTooltipGUI::addTooltip("ilOutdentBut",
+			$lng->txt("cont_list_outdent"),
+			"iltinymenu_bd");
 
 		if ($a_int_links)
 		{
@@ -2284,6 +2297,9 @@ class ilPageObjectGUI
 			include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
 			$btpl->setVariable("STYLE_SELECTOR", ilPCParagraphGUI::getStyleSelector($a_selected,
 				ilPCParagraphGUI::_getCharacteristics($a_style_id), true));
+			ilTooltipGUI::addTooltip("ilAdvSelListAnchorText_style_selection",
+				$lng->txt("cont_paragraph_styles"), "iltinymenu_bd");
+
 			$btpl->parseCurrentBlock();
 		}
 
@@ -2328,6 +2344,10 @@ class ilPageObjectGUI
 					$btpl->setCurrentBlock("bb_".$c."_button");
 					$btpl->setVariable("CC_".strtoupper($c), $cc_code);
 					$btpl->parseCurrentBlock();
+					ilTooltipGUI::addTooltip("il_edm_cc_".$c,
+						$lng->txt("cont_cc_".$cc_code),
+						"iltinymenu_bd");
+
 //					$btpl->setVariable("TXT_".strtoupper($c), $this->lng->txt("cont_text_".$c));
 				}
 			}
@@ -2371,6 +2391,8 @@ class ilPageObjectGUI
 		$btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
 		
 		$btpl->setVariable("CHAR_STYLE_SELECTOR", ilPCParagraphGUI::getCharStyleSelector($a_par_type));
+		ilTooltipGUI::addTooltip("ilAdvSelListAnchorElement_char_style_selection",
+			$lng->txt("cont_more_character_styles"), "iltinymenu_bd");
 
 		return $btpl->get();
 	}

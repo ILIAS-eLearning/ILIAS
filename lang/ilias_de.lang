@@ -11675,3 +11675,12 @@ skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig ski
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)###18 07 2011 new variable
 common#:#password_allow_chars#:#Erlaubte Zeichen: %s
 rbac#:#rbac_role_selection#:#Rollentyp
+content#:#cont_paragraph_styles#:#Paragraph Styles
+content#:#cont_cc_str#:#Stark
+content#:#cont_cc_emp#:#Betont
+content#:#cont_cc_imp#:#Wichtig
+content#:#cont_more_character_styles#:#Zeichen-Styles
+content#:#cont_blist#:#Aufzählungsliste
+content#:#cont_nlist#:#Numerierte Liste
+content#:#cont_list_outdent#:#Liste ausrücken
+content#:#cont_list_indent#:#Liste einrücken
