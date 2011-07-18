@@ -2540,7 +2540,7 @@ common#:#file_locked_by#:#File locked by
 common#:#file_new#:#Upload Single File
 common#:#file_not_found#:#File Not Found
 common#:#file_not_valid#:#File not valid!
-common#:#file_notice#:#Please take note of the maximum file size of
+common#:#file_notice#:#Maximum upload size:
 common#:#file_read#:#Download File
 common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:
 common#:#file_suffix_repl#:#File Upload Suffix Replacement
@@ -11068,7 +11068,7 @@ book#:#book_add#:#Add Booking Pool
 book#:#book_edit#:#Edit Booking Pool
 common#:#glo_import#:#Import Glossary
 common#:#title_and_translations#:#Title and Translations
-sahs#:#sahs_authoring_mode_info#:#The package must have been created with the ILIAS SCORM editor and it must have been exported as SCORM 1.2/2004 package.
+sahs#:#sahs_authoring_mode_info#:#The SCORM ZIP package must have been created with the ILIAS SCORM editor and it must have been exported as SCORM 1.2/2004 package.
 sahs#:#sahs_authoring_mode#:#Authoring Mode
 sahs#:#sahs_std_sequencing#:#Standard Sequencing
 sahs#:#sahs_std_sequencing_info#:#Use ILIAS standard sequencing behaviour.
