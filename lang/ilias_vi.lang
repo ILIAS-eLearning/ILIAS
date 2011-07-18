@@ -788,7 +788,6 @@ chat#:#chat_yellow#:#vàng
 chat#:#chats#:#Chat
 chat#:#my_chats#:#Chat của tôi
 common#:#3rd_party_software#:#Phần mềm bên thứ ba
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#absolute_path#:#Đường dẫn tuyệt đối
 common#:#accept_usr_agreement#:#Chấp nhận thỏa thuận sử dụng?
 common#:#access#:#Truy cập
@@ -11308,7 +11307,6 @@ style#:#sty_type_qordli#:#Order List Item###12 06 2011 new variable
 style#:#sty_type_qordul#:#Order List###12 06 2011 new variable
 style#:#sty_type_qetitem#:#Error Text Item###12 06 2011 new variable
 style#:#sty_type_qetcorr#:#Error Text Corrected###12 06 2011 new variable
-user#:#portfolios#:#Portfolios###12 06 2011 new variable
 prtf#:#prtf_add_portfolio#:#Add Portfolio###12 06 2011 new variable
 prtf#:#prtf_edit_portfolio#:#Edit Portfolio###12 06 2011 new variable
 prtf#:#prtf_create_portfolio#:#Add Portfolio ###12 06 2011 new variable
@@ -11543,4 +11541,136 @@ mail#:#mail_enable_crs_member_notification#:#Course Notification###15 06 2011 ne
 mail#:#mail_enable_grp_member_notification#:#Group Notification###15 06 2011 new variable
 mail#:#mail_enable_crs_member_notification_info#:#If enabled, course participants will be notified automatically about membership changes.###15 06 2011 new variable
 mail#:#mail_enable_grp_member_notification_info#:#If enabled, group participants will be notified automatically about membership changes.###15 06 2011 new variable
-common#:#profile_portfolios#:#Profile / Portfolios###15 06 2011 new variable
+prtf#:#prtf_portfolios#:#Portfolios###18 07 2011 new variable
+common#:#usr_account_inactive#:#Inactive Account###18 07 2011 new variable
+common#:#portfolio#:#Portfolio###18 07 2011 new variable
+prtf#:#prtf_default_portfolio#:#My Profile###18 07 2011 new variable
+user#:#user_portfolios#:#Portfolios###18 07 2011 new variable
+user#:#user_portfolios_desc#:#Users can create portfolios and use them as profile.###18 07 2011 new variable
+user#:#user_profile_portfolio#:#You can use a portfolio as public profile.###18 07 2011 new variable
+wsp#:#wsp_type_webr#:#Weblink###18 07 2011 new variable
+content#:#cont_maintenance#:#Maintenance###18 07 2011 new variable
+content#:#cont_switch_to_media_pool#:#Switch to other Media Pool###18 07 2011 new variable
+mep#:#mep_choose_from_mep#:#Choose from Pool###18 07 2011 new variable
+ecs#:#ecs_cert_valid_until#:#Certificate valid until###18 07 2011 new variable
+mep#:#mep_choose_from_folder#:#Choose from Folder###18 07 2011 new variable
+trac#:#trac_object_statistics#:#Object Statistics###18 07 2011 new variable
+ecs#:#ecs_auth_type#:#Authentication Type###18 07 2011 new variable
+ecs#:#ecs_auth_type_cert#:#Certificate-Base###18 07 2011 new variable
+ecs#:#ecs_auth_type_apache#:#Username/Password###18 07 2011 new variable
+ecs#:#ecs_apache_user#:#Username###18 07 2011 new variable
+ecs#:#ecs_apache_pass#:#Password###18 07 2011 new variable
+common#:#obj_skmg#:#Skill Management###18 07 2011 new variable
+skmg#:#skmg_settings#:#Skill Management Settings###18 07 2011 new variable
+skmg#:#skmg_enable_skmg#:#Activate Skill Management###18 07 2011 new variable
+skmg#:#skmg_skills#:#Skills###18 07 2011 new variable
+skmg#:#skmg_skill_hierarchie#:#Skill Hierarchy###18 07 2011 new variable
+skmg#:#skmg_insert_basic_skill#:#Insert Basic Skill###18 07 2011 new variable
+skmg#:#skmg_insert_skill_category#:#Insert Skill Category###18 07 2011 new variable
+skmg#:#skmg_insert_basic_skill_child#:#Insert Basic Skill as Subitem###18 07 2011 new variable
+skmg#:#skmg_insert_skill_category_child#:#Insert Skill Category as Subitem###18 07 2011 new variable
+skmg#:#skmg_new_skill#:#New Skill###18 07 2011 new variable
+skmg#:#skmg_new_skill_category#:#New Skill Category###18 07 2011 new variable
+skmg#:#skmg_save_all_titles#:#Save All Titles###18 07 2011 new variable
+skmg#:#skmg_choose_only_skill_categories_or_basic_skills#:#Please choose either only basic skills or only skill categories.###18 07 2011 new variable
+skmg#:#skmg_insert_basic_skill_from_clip#:#Insert Basic Skills from Clipboard###18 07 2011 new variable
+skmg#:#skmg_insert_skill_category_from_clip#:#Insert Skill Categories from Clipboard###18 07 2011 new variable
+skmg#:#skmg_insert_basic_skill_from_clip_child#:#Insert Basic Skills from Clipboard as Subitems###18 07 2011 new variable
+skmg#:#skmg_insert_skill_category_from_clip_child#:#Insert Skill Categories from Clipboard as Subitems###18 07 2011 new variable
+skmg#:#skmg_selected_items_have_been_copied#:#Selected items have been copied.###18 07 2011 new variable
+skmg#:#skmg_selected_items_have_been_cut#:#Selected items have been cut.###18 07 2011 new variable
+common#:#obj_skmg_desc#:#Manage skills and skill categories.###18 07 2011 new variable
+skmg#:#skmg_insert_on_same_level#:#Insert on Same Level###18 07 2011 new variable
+skmg#:#skmg_insert_as_subitem#:#Insert as Subitem###18 07 2011 new variable
+skmg#:#skll#:#Basic Skill###18 07 2011 new variable
+skmg#:#scat#:#Skill Category###18 07 2011 new variable
+skmg#:#skmg_add_level#:#Add Level###18 07 2011 new variable
+skmg#:#skmg_skill_level#:#Skill Level###18 07 2011 new variable
+skmg#:#skmg_nr#:#Nr###18 07 2011 new variable
+skmg#:#skmg_trigger#:#Trigger###18 07 2011 new variable
+skmg#:#skmg_new_level#:#New Level###18 07 2011 new variable
+skmg#:#skmg_edit_level#:#Edit Level###18 07 2011 new variable
+skmg#:#skmg_update_order#:#Update Order###18 07 2011 new variable
+skmg#:#skmg_really_delete_levels#:#Do you really want to delete the following skill levels?###18 07 2011 new variable
+skmg#:#skmg_skill#:#Skill###18 07 2011 new variable
+skmg#:#skmg_skill_levels#:#Skill Levels###18 07 2011 new variable
+skmg#:#skmg_certificate#:#Certificate###18 07 2011 new variable
+skmg#:#skmg_skill_level_trigger#:#Skill Level Trigger###18 07 2011 new variable
+skmg#:#skmg_no_trigger#:#No Trigger###18 07 2011 new variable
+skmg#:#skmg_remove_trigger#:#Remove Trigger###18 07 2011 new variable
+skmg#:#skmg_select_trigger#:#Select Trigger###18 07 2011 new variable
+adm#:#adm_update_skill_tables#:#Update Skill Tables###18 07 2011 new variable
+adm#:#adm_update_skill_status#:#Update Skill Status###18 07 2011 new variable
+skmg#:#skmg_skill_management_deactivated#:#Skill Management is currently deaktivated.###18 07 2011 new variable
+skmg#:#skmg_cert_skill_title#:#Skill Title###18 07 2011 new variable
+skmg#:#skmg_cert_skill_level_title#:#Skill Level Title###18 07 2011 new variable
+skmg#:#skmg_cert_skill_trigger_title#:#Skill Trigger Title###18 07 2011 new variable
+skmg#:#skmg_cert_achievement_date#:#Achievement Date###18 07 2011 new variable
+skmg#:#skmg_cert_achievement_datetime#:#Achievement Date and Time###18 07 2011 new variable
+skmg#:#skmg_edit_scat#:#Edit Skill Category###18 07 2011 new variable
+skmg#:#skmg_please_select_self_skill#:#Start a new Self Evaluation. Skill:###18 07 2011 new variable
+skmg#:#skmg_execute_self_evaluation#:#Start###18 07 2011 new variable
+skmg#:#skmg_your_self_evaluation#:#Your Self-Evaluation###18 07 2011 new variable
+skmg#:#skmg_no_skills#:#No Skills###18 07 2011 new variable
+skmg#:#skmg_save_self_evaluation#:#Finish Self-Evaluation###18 07 2011 new variable
+skmg#:#skmg_self_evaluations#:#Self-Evaluations###18 07 2011 new variable
+skmg#:#skmg_update_self_evaluation#:#Update Self-Evaluation###18 07 2011 new variable
+skmg#:#skmg_sure_delete_self_evaluation#:#Do you really want to delete the following self-evaluations?###18 07 2011 new variable
+skmg#:#skmg_please_select_your_skill_levels#:#Please select your skill levels.###18 07 2011 new variable
+skmg#:#skmg_self_evaluation#:#Self-Evaluation###18 07 2011 new variable
+skmg#:#skmg_next_step#:#Next Step###18 07 2011 new variable
+skmg#:#skmg_previous_step#:#Previous Step###18 07 2011 new variable
+skmg#:#skmg_skill_templates#:#Skill Templates###18 07 2011 new variable
+skmg#:#skmg_new_skill_template#:#New Skill Template###18 07 2011 new variable
+skmg#:#skmg_insert_basic_skill_template#:#Insert Skill Template###18 07 2011 new variable
+skmg#:#skmg_insert_skill_template_category#:#Insert Skill Template Category###18 07 2011 new variable
+skmg#:#skmg_new_skill_template_category#:#New Skill Template Category###18 07 2011 new variable
+skmg#:#skmg_insert_basic_skill_template_child#:#Insert Skill Template as Subitem###18 07 2011 new variable
+skmg#:#skmg_insert_skill_template_category_child#:#Insert Skill Template Category as Subitem###18 07 2011 new variable
+skmg#:#skmg_skill_template#:#Skill Template###18 07 2011 new variable
+skmg#:#skmg_skill_template_category#:#Skill Template Category###18 07 2011 new variable
+administration#:#apache_auth_security#:#Security Settings###18 07 2011 new variable
+administration#:#apache_auth_domains#:#Allowed Redirection Domains###18 07 2011 new variable
+administration#:#apache_auth_domains_description#:#Enter one domain per line to allow redirection to this target.<br/>If ILIAS is reachable by more than one domain please enter all target you want to allow.<br />Example: example.com allows the redirection to http://example.com and http://www.example.com and all pages located there.###18 07 2011 new variable
+skmg#:#skmg_insert_skill_template_reference#:#Insert Skill Template Reference###18 07 2011 new variable
+skmg#:#skmg_insert_skill_template_reference_child#:#Insert Skill Template Reference as Subitem###18 07 2011 new variable
+skmg#:#skmg_insert_skill_template_reference_from_clip#:#Insert Skill Template Reference from Clipboard###18 07 2011 new variable
+assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#The status cannot be changed to &quot;online&quot; because there are no questions and/or no marks in the test!###18 07 2011 new variable
+blog#:#blog_preview#:#Preview###18 07 2011 new variable
+ecs#:#ecs_field_community#:#Community###18 07 2011 new variable
+skmg#:#skmg_new_sktr#:#New Skill Template Reference###18 07 2011 new variable
+skmg#:#skmg_edit_sktr#:#Edit Skill Template Reference###18 07 2011 new variable
+common#:#skills#:#Skills###18 07 2011 new variable
+skmg#:#skmg_list_skills#:#List Skills###18 07 2011 new variable
+skmg#:#skmg_assign_materials#:#Assign Materials###18 07 2011 new variable
+skmg#:#skmg_add_skill#:#Add Skill###18 07 2011 new variable
+skmg#:#skmg_selectable#:#Selectable###18 07 2011 new variable
+skmg#:#skmg_selectable_info#:#Allows user to select this category as a personal skill.###18 07 2011 new variable
+assessment#:#test_is_offline#:#You cannot start the test! The test is offline.###18 07 2011 new variable
+skmg#:#skmg_materials#:#Materials###18 07 2011 new variable
+skmg#:#skmg_remove_skills#:#Remove Skills###18 07 2011 new variable
+skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig skills from your list?###18 07 2011 new variable
+forum#:#mark_moderator_posts#:#Mark moderator posts###18 07 2011 new variable
+forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlighted###18 07 2011 new variable
+dateplaner#:#cal_cache_settings#:#Cache###18 07 2011 new variable
+dateplaner#:#cal_milestone_settings#:#Milestones###18 07 2011 new variable
+assessment#:#test_edit_settings#:#Edit Settings###18 07 2011 new variable
+assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Test has been set to offline, because toggling the setting for random question selection causes the allready existing questions to be removed.###18 07 2011 new variable
+ecs#:#ecs_tab_import#:#Import###18 07 2011 new variable
+ecs#:#ecs_tab_export#:#Export###18 07 2011 new variable
+ecs#:#ecs_mapping_crs#:#Mapping for Courses###18 07 2011 new variable
+ecs#:#ecs_mapping_rcrs#:#Mapping for Remote Courses###18 07 2011 new variable
+ecs#:#ecs_mapping_exp_tbl#:#Mapping ILIAS Advanced Meta Data to ECS-Data###18 07 2011 new variable
+content#:#cont_edit_personal_data#:#Edit Personal Data###18 07 2011 new variable
+sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)###18 07 2011 new variable
+ecs#:#ecs_import_cms#:#Campus Managment###18 07 2011 new variable
+ecs#:#ecs_node_mapping_activate#:#Enable Directory Mapping###18 07 2011 new variable
+ecs#:#ecs_node_mapping_create_empty#:#Create Categories only, which contain Courses###18 07 2011 new variable
+ecs#:#ecs_node_mapping_create_empty_info#:#Useable only in combination with course mapping, which will be activated automatically.###18 07 2011 new variable
+ecs#:#ecs_campus_connect_title#:#CampusConnect Mappings###18 07 2011 new variable
+ecs#:#ecs_invalid_import_type_cms#:#The import type "Campus Managment" can be chosen only once.###18 07 2011 new variable
+ecs#:#ecs_cc_mapping_overview#:#Mapping Overview###18 07 2011 new variable
+ecs#:#ecs_cms_dir_tree#:#CMS Directory Trees###18 07 2011 new variable
+registration#:#registration_code_no_role#:#The registration code given does not specify a role and can not be used currently. Please contact your administrator.###18 07 2011 new variable
+registration#:#registration_no_valid_role#:#There is currently no valid role for new accounts. Please contact your administrator.###18 07 2011 new variable
+common#:#exc_next_deadline#:#Next Deadline###18 07 2011 new variable

@@ -2258,7 +2258,6 @@ common#:#dbk_read#:#Olvasási elérés elektronikus könyvhöz
 common#:#dbk_visible#:#Az elektronikus könyv látható
 common#:#dbk_write#:#Elektronikus könyv szerkesztése
 common#:#dbk#:#Elektronikus könyv
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#deactivate#:#Inaktívnak beállítás
 common#:#decrease_attempts#:#Csatlakozók - 1
 common#:#def_repository_view#:#Alapértelmezett taneszköz tároló
@@ -4888,7 +4887,6 @@ content#:#cont_all_closed#:#Minden bezárva
 content#:#cont_all_definitions#:#Minden definíció
 content#:#cont_all_pages#:#Minden lap
 content#:#cont_alphabetic_s#:#Alfabetikus a, b, ...
-content#:#cont_Alphabetic#:#Ábécérend a, b,…
 content#:#cont_anchor#:#Horgony
 content#:#cont_annex#:#Melléklet
 content#:#cont_api_adapter#:#API csatoló neve
@@ -5389,7 +5387,6 @@ content#:#cont_right#:#Jobbra
 content#:#cont_rollback_confirmation#:#Valóban visszaakarja állítani ennek a lapnak a régi változatát?
 content#:#cont_rollback#:#Visszagörgetés
 content#:#cont_roman_s#:#Római i, ii,...
-content#:#cont_Roman#:#Római I, II,...
 content#:#cont_rowspan#:#Row Span
 content#:#cont_rvalue#:#Érték
 content#:#cont_save_all_titles#:#Címek mentése
@@ -11650,7 +11647,6 @@ skmg#:#skmg_materials#:#Anyagok
 skmg#:#skmg_remove_skills#:#Készség eltávolítása
 skmg#:#skmg_really_remove_skills#:#Biztos, hogy el akarja távolítani az alábbi készségeket a listáról?
 forum#:#mark_moderator_posts#:#Moderátor hozzászólásainak megjelölése
-forum#:#mark_moderator_posts_dec#:#Ha aktivált, a moderátor hozzászólásai kiemelésre kerülnek.
 dateplaner#:#cal_cache_settings#:#Elrejtés
 dateplaner#:#cal_milestone_settings#:#Mérföldkövek
 assessment#:#test_edit_settings#:#Beállítások szerkesztése
@@ -11660,4 +11656,18 @@ ecs#:#ecs_tab_export#:#Export
 ecs#:#ecs_mapping_crs#:#Leképezés kurzusokra
 ecs#:#ecs_mapping_rcrs#:#Leképezés átirányíott kurzusokhoz
 ecs#:#ecs_mapping_exp_tbl#:#ILIAS haladó metaadatok leképezése ECS-adatokba
-content#:#cont_edit_personal_data#:#Személyes adatok szerkesztése
+content#:#cont_edit_personal_data#:#Személyes adatok szerkesztésecontent#:#cont_alphabetic#:#Alphabetic A, B, ...###18 07 2011 new variable
+content#:#cont_roman#:#Roman I, II, ...###18 07 2011 new variable
+forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlighted###18 07 2011 new variable
+sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)###18 07 2011 new variable
+ecs#:#ecs_import_cms#:#Campus Managment###18 07 2011 new variable
+ecs#:#ecs_node_mapping_activate#:#Enable Directory Mapping###18 07 2011 new variable
+ecs#:#ecs_node_mapping_create_empty#:#Create Categories only, which contain Courses###18 07 2011 new variable
+ecs#:#ecs_node_mapping_create_empty_info#:#Useable only in combination with course mapping, which will be activated automatically.###18 07 2011 new variable
+ecs#:#ecs_campus_connect_title#:#CampusConnect Mappings###18 07 2011 new variable
+ecs#:#ecs_invalid_import_type_cms#:#The import type "Campus Managment" can be chosen only once.###18 07 2011 new variable
+ecs#:#ecs_cc_mapping_overview#:#Mapping Overview###18 07 2011 new variable
+ecs#:#ecs_cms_dir_tree#:#CMS Directory Trees###18 07 2011 new variable
+registration#:#registration_code_no_role#:#The registration code given does not specify a role and can not be used currently. Please contact your administrator.###18 07 2011 new variable
+registration#:#registration_no_valid_role#:#There is currently no valid role for new accounts. Please contact your administrator.###18 07 2011 new variable
+common#:#exc_next_deadline#:#Next Deadline###18 07 2011 new variable
