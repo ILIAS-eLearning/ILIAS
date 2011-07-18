@@ -11068,7 +11068,7 @@ book#:#book_add#:#Buchungspool hinzufügen
 book#:#book_edit#:#Buchungspool bearbeiten
 common#:#glo_import#:#Glossar importieren
 common#:#title_and_translations#:#Titel und Übersetzungen
-sahs#:#sahs_authoring_mode_info#:#The package must have been created with the ILIAS SCORM editor and it must have been exported as SCORM 1.2/2004 package.###01 04 2011 new variable
+sahs#:#sahs_authoring_mode_info#:#Die SCORM ZIP-Datei muß mit dem ILIAS SCORM-Editor erstellt worden sein und als SCORM 1.2/2004 Package exportiert worden sein.
 sahs#:#sahs_authoring_mode#:#Authoring Mode###01 04 2011 new variable
 sahs#:#sahs_std_sequencing#:#Standard Sequencing###01 04 2011 new variable
 sahs#:#sahs_std_sequencing_info#:#Use ILIAS standard sequencing behaviour.###01 04 2011 new variable
