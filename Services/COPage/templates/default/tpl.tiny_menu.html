@@ -28,25 +28,25 @@
 <div class="ilTinyMenuSection">
 	<p class="small">{TXT_CHAR_FORMAT}</p>
 	<!-- BEGIN bb_str_button -->
-	<a style="color:black;" class="ilEditSubmit" href="#" accesskey="b" onClick="ilCOPage.cmdSpan('Strong'); return false;" ><span class="ilc_text_inline_Strong">&nbsp;{CC_STR}&nbsp;</span></a>
+	<a id="il_edm_cc_str" style="color:black;" class="ilEditSubmit" href="#" accesskey="b" onClick="ilCOPage.cmdSpan('Strong'); return false;" ><span class="ilc_text_inline_Strong">&nbsp;{CC_STR}&nbsp;</span></a>
 	<!-- END bb_str_button -->
 	<!-- BEGIN bb_emp_button -->
-	<a style="color:black;" class="ilEditSubmit" href="#" accesskey="e" onClick="ilCOPage.cmdSpan('Emph'); return false;"  ><span class="ilc_text_inline_Emph">&nbsp;{CC_EMP}&nbsp;</span></a>
+	<a id="il_edm_cc_emp" style="color:black;" class="ilEditSubmit" href="#" accesskey="e" onClick="ilCOPage.cmdSpan('Emph'); return false;"  ><span class="ilc_text_inline_Emph">&nbsp;{CC_EMP}&nbsp;</span></a>
 	<!-- END bb_emp_button -->
 	<!-- BEGIN bb_imp_button -->
-	<a style="color:black;" class="ilEditSubmit" href="#" accesskey="m" onClick="ilCOPage.cmdSpan('Important'); return false;" ><span class="ilc_text_inline_Important">&nbsp;{CC_IMP}&nbsp;</span></a>
+	<a id="il_edm_cc_imp" style="color:black;" class="ilEditSubmit" href="#" accesskey="m" onClick="ilCOPage.cmdSpan('Important'); return false;" ><span class="ilc_text_inline_Important">&nbsp;{CC_IMP}&nbsp;</span></a>
 	<!-- END bb_imp_button -->
 	<!-- BEGIN bb_com_button -->
-	<a style="color:black;" class="ilEditSubmit" href="#" accesskey="c" onClick="ilCOPage.cmdSpan('Comment'); return false;" ><span class="ilc_text_inline_Comment">&nbsp;{CC_COM}&nbsp;</span></a>
+	<a id="il_edm_cc_com" style="color:black;" class="ilEditSubmit" href="#" accesskey="c" onClick="ilCOPage.cmdSpan('Comment'); return false;" ><span class="ilc_text_inline_Comment">&nbsp;{CC_COM}&nbsp;</span></a>
 	<!-- END bb_com_button -->
 	<!-- BEGIN bb_quot_button -->
-	<a style="color:black;" class="ilEditSubmit" href="#" accesskey="q" onClick="ilCOPage.cmdSpan('Quotation'); return false;" ><span class="ilc_text_inline_Quotation">&nbsp;{CC_QUOT}&nbsp;</span></a>
+	<a id="il_edm_cc_quot" style="color:black;" class="ilEditSubmit" href="#" accesskey="q" onClick="ilCOPage.cmdSpan('Quotation'); return false;" ><span class="ilc_text_inline_Quotation">&nbsp;{CC_QUOT}&nbsp;</span></a>
 	<!-- END bb_quot_button -->
 	<!-- BEGIN bb_acc_button -->
-	<a style="color:black;" class="ilEditSubmit" href="#" accesskey="a" onClick="ilCOPage.cmdSpan('Accent'); return false;" ><span class="ilc_text_inline_Accent">&nbsp;{CC_ACC}&nbsp;</span></a>
+	<a id="il_edm_cc_acc" style="color:black;" class="ilEditSubmit" href="#" accesskey="a" onClick="ilCOPage.cmdSpan('Accent'); return false;" ><span class="ilc_text_inline_Accent">&nbsp;{CC_ACC}&nbsp;</span></a>
 	<!-- END bb_acc_button -->
 	<!-- BEGIN bb_code_button -->
-	<a style="color:black;" class="ilEditSubmit" href="#" accesskey="d" onClick="ilCOPage.cmdCode(); return false;" ><code>&nbsp;{CC_CODE}&nbsp;</code></a>
+	<a id="il_edm_cc_code" style="color:black;" class="ilEditSubmit" href="#" accesskey="d" onClick="ilCOPage.cmdCode(); return false;" ><code>&nbsp;{CC_CODE}&nbsp;</code></a>
 	<!-- END bb_code_button -->
 	{CHAR_STYLE_SELECTOR}
 	<!-- BEGIN rformat_button -->
@@ -56,10 +56,10 @@
 <div class="ilTinyMenuSection">
 	<p class="small">{TXT_LISTS}</p>
 	<!-- BEGIN blist_button -->
-	<a style="color:black;" class="ilEditSubmit" href="#" onClick="ilCOPage.cmdBList(); return false;" >&nbsp;{IMG_BLIST}&nbsp;</a>
+	<a id="il_edm_blist" style="color:black;" class="ilEditSubmit" href="#" onClick="ilCOPage.cmdBList(); return false;" >&nbsp;{IMG_BLIST}&nbsp;</a>
 	<!-- END blist_button -->
 	<!-- BEGIN nlist_button -->
-	<a style="color:black;" class="ilEditSubmit" href="#" onClick="ilCOPage.cmdNList(); return false;" >&nbsp;{IMG_NLIST}&nbsp;</a>
+	<a id="il_edm_nlist" style="color:black;" class="ilEditSubmit" href="#" onClick="ilCOPage.cmdNList(); return false;" >&nbsp;{IMG_NLIST}&nbsp;</a>
 	<!-- END nlist_button -->
 	<!-- BEGIN list_outdent -->
 	<a style="color:black;" id="ilOutdentBut" class="ilEditSubmit" href="#" onClick="ilCOPage.cmdListOutdent(); return false;" >&nbsp;{IMG_LIST_OUTDENT}&nbsp;</a>

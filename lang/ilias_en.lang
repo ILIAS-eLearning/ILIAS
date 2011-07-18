@@ -11675,3 +11675,12 @@ rbac#:#rbac_global_rolt#:#Global Role Template
 common#:#exc_next_deadline#:#Next Deadline
 common#:#password_allow_chars#:#Allowed chars: %s
 rbac#:#rbac_role_selection#:#Role Type
+content#:#cont_paragraph_styles#:#Paragraph Styles
+content#:#cont_cc_str#:#Strong
+content#:#cont_cc_emp#:#Emphatic
+content#:#cont_cc_imp#:#Important
+content#:#cont_more_character_styles#:#...more character styles
+content#:#cont_blist#:#Bullet List
+content#:#cont_nlist#:#Numbered List
+content#:#cont_list_outdent#:#Outdent List
+content#:#cont_list_indent#:#Indent List
