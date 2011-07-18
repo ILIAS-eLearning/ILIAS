@@ -2234,7 +2234,6 @@ common#:#dbk_new#:#Neues Digilib-Buch anlegen
 common#:#dbk_read#:#Digilib-Buch lesen
 common#:#dbk_visible#:#Digilib-Buch ist sichtbar
 common#:#dbk_write#:#Digilib-Buch bearbeiten
-common#:#DD.MM.YYYY#:#TT.MM.JJJJ
 common#:#deactivate#:#Deaktivieren
 common#:#decrease_attempts#:#Versuche - 1
 common#:#def_repository_view#:#Standard-Magazinansicht
@@ -11597,7 +11596,6 @@ skmg#:#skmg_select_trigger#:#Auslöser auswählen
 adm#:#adm_update_skill_tables#:#Skill DB-Tabellen aktualisieren
 adm#:#adm_update_skill_status#:#Skillstatus global aktualisieren
 skmg#:#skmg_edit_scat#:#Skillkategorie ändern
-skmg#:#skmg_allow_self_evaluation#:#Selbsteinschätzung zulassen
 skmg#:#skmg_please_select_self_skill#:#Neue Selbsteinschätzung
 skmg#:#skmg_execute_self_evaluation#:#Start
 skmg#:#skmg_your_self_evaluation#:#Ihre Selbsteinschätzung
@@ -11638,3 +11636,39 @@ ecs#:#ecs_cms_dir_tree#:#CMS-Verzeichnisbäume
 registration#:#registration_code_no_role#:#Der angegebene Code ist ohne Rolle definiert und kann momentan nicht benutzt werden. Bitte kontaktieren Sie den System-Administrator.
 registration#:#registration_no_valid_role#:#Es ist momentan keine Rolle für Registrierungen definiert. Bitte kontaktieren Sie den System-Administrator.
 common#:#exc_next_deadline#:#Nächster Abgabetermin
+content#:#cont_maintenance#:#Maintenance###18 07 2011 new variable
+content#:#cont_switch_to_media_pool#:#Switch to other Media Pool###18 07 2011 new variable
+mep#:#mep_choose_from_mep#:#Choose from Pool###18 07 2011 new variable
+mep#:#mep_choose_from_folder#:#Choose from Folder###18 07 2011 new variable
+skmg#:#skmg_skill_management_deactivated#:#Skill Management is currently deaktivated.###18 07 2011 new variable
+skmg#:#skmg_cert_skill_title#:#Skill Title###18 07 2011 new variable
+skmg#:#skmg_cert_skill_level_title#:#Skill Level Title###18 07 2011 new variable
+skmg#:#skmg_cert_skill_trigger_title#:#Skill Trigger Title###18 07 2011 new variable
+skmg#:#skmg_cert_achievement_date#:#Achievement Date###18 07 2011 new variable
+skmg#:#skmg_cert_achievement_datetime#:#Achievement Date and Time###18 07 2011 new variable
+skmg#:#skmg_next_step#:#Next Step###18 07 2011 new variable
+skmg#:#skmg_previous_step#:#Previous Step###18 07 2011 new variable
+skmg#:#skmg_skill_templates#:#Skill Templates###18 07 2011 new variable
+skmg#:#skmg_new_skill_template#:#New Skill Template###18 07 2011 new variable
+skmg#:#skmg_insert_basic_skill_template#:#Insert Skill Template###18 07 2011 new variable
+skmg#:#skmg_insert_skill_template_category#:#Insert Skill Template Category###18 07 2011 new variable
+skmg#:#skmg_new_skill_template_category#:#New Skill Template Category###18 07 2011 new variable
+skmg#:#skmg_insert_basic_skill_template_child#:#Insert Skill Template as Subitem###18 07 2011 new variable
+skmg#:#skmg_insert_skill_template_category_child#:#Insert Skill Template Category as Subitem###18 07 2011 new variable
+skmg#:#skmg_skill_template#:#Skill Template###18 07 2011 new variable
+skmg#:#skmg_skill_template_category#:#Skill Template Category###18 07 2011 new variable
+skmg#:#skmg_insert_skill_template_reference#:#Insert Skill Template Reference###18 07 2011 new variable
+skmg#:#skmg_insert_skill_template_reference_child#:#Insert Skill Template Reference as Subitem###18 07 2011 new variable
+skmg#:#skmg_insert_skill_template_reference_from_clip#:#Insert Skill Template Reference from Clipboard###18 07 2011 new variable
+skmg#:#skmg_new_sktr#:#New Skill Template Reference###18 07 2011 new variable
+skmg#:#skmg_edit_sktr#:#Edit Skill Template Reference###18 07 2011 new variable
+common#:#skills#:#Skills###18 07 2011 new variable
+skmg#:#skmg_list_skills#:#List Skills###18 07 2011 new variable
+skmg#:#skmg_assign_materials#:#Assign Materials###18 07 2011 new variable
+skmg#:#skmg_add_skill#:#Add Skill###18 07 2011 new variable
+skmg#:#skmg_selectable#:#Selectable###18 07 2011 new variable
+skmg#:#skmg_selectable_info#:#Allows user to select this category as a personal skill.###18 07 2011 new variable
+skmg#:#skmg_materials#:#Materials###18 07 2011 new variable
+skmg#:#skmg_remove_skills#:#Remove Skills###18 07 2011 new variable
+skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig skills from your list?###18 07 2011 new variable
+sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)###18 07 2011 new variable
