@@ -428,6 +428,7 @@ class ilObjectGUI
 		{
 			$tabs_gui->addTarget("view",
 				$this->ctrl->getLinkTarget($this, "view"), array("", "view"), get_class($this));
+
 		}
 		
 		if ($this->checkPermissionBool("edit_permission"))
