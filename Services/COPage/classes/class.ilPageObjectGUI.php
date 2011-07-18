@@ -2228,6 +2228,9 @@ class ilPageObjectGUI
 		$btpl->setVariable("IMG_PWORD", ilUtil::img(ilUtil::getImagePath("tn_pword.gif"),
 			"", 20, 20));
 		$btpl->parseCurrentBlock();
+		ilTooltipGUI::addTooltip("il_edm_pword",
+			$lng->txt("cont_pword"),
+			"iltinymenu_bd");
 		
 		// bullet list
 		$btpl->setCurrentBlock("blist_button");
