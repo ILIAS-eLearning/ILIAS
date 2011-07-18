@@ -11635,6 +11635,7 @@ ecs#:#ecs_cc_mapping_overview#:#Zuordnungsübersicht
 ecs#:#ecs_cms_dir_tree#:#CMS-Verzeichnisbäume
 registration#:#registration_code_no_role#:#Der angegebene Code ist ohne Rolle definiert und kann momentan nicht benutzt werden. Bitte kontaktieren Sie den System-Administrator.
 registration#:#registration_no_valid_role#:#Es ist momentan keine Rolle für Registrierungen definiert. Bitte kontaktieren Sie den System-Administrator.
+rbac#:#rbac_global_rolt#:#Globale Rollenvorlage
 common#:#exc_next_deadline#:#Nächster Abgabetermin
 content#:#cont_maintenance#:#Maintenance###18 07 2011 new variable
 content#:#cont_switch_to_media_pool#:#Switch to other Media Pool###18 07 2011 new variable
@@ -11673,3 +11674,4 @@ skmg#:#skmg_remove_skills#:#Remove Skills###18 07 2011 new variable
 skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig skills from your list?###18 07 2011 new variable
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)###18 07 2011 new variable
 common#:#password_allow_chars#:#Erlaubte Zeichen: %s
+rbac#:#rbac_role_selection#:#Rollentyp

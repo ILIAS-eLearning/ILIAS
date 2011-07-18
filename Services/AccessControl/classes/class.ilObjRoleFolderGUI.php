@@ -80,264 +80,141 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		}
 		return true;
 	}
-	
-	/**
-	* view object
-	*
-	* @access	public
-	*/
-	function viewObject ()
-	{
-		global $rbacreview,$rbacsystem;
-
-		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_role_assignment.html');
-		
-		$assignable = false;
-
-		if ($this->object->getId() == ROLE_FOLDER_ID)
-		{
-            $assignable = true;
-
-		    $_SESSION['filtered_roles'] = isset($_POST['filter']) ? $_POST['filter'] : $_SESSION['filtered_roles'];
-
-            if ($_SESSION['filtered_roles'] == 0)
-            {
-                $_SESSION['filtered_roles'] = 2;
-            }
-        
-		    $this->tpl->setCurrentBlock("filter");
-		    $this->tpl->setVariable("FILTER_TXT_FILTER",$this->lng->txt('filter'));
-		    $this->tpl->setVariable("SELECT_FILTER",$this->__buildFilterSelect());
-		    $this->tpl->setVariable("FILTER_ACTION",$this->ctrl->getFormAction($this));
-		    $this->tpl->setVariable("FILTER_NAME",'view');
-		    $this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
-		    $this->tpl->parseCurrentBlock();
-
-
-      		// now get roles depending on filter settings
-        	$role_list = $rbacreview->getRolesByFilter($_SESSION["filtered_roles"],$this->object->getId());
-        }
-        else
-        {
-            $role_list = $rbacreview->getRoleListByObject($_GET["ref_id"],true);
-        }
-
-        $counter = 0;
-        
-        include_once ('./Services/AccessControl/classes/class.ilObjRole.php');
-
-		foreach ($role_list as $role)
-		{
-            // exclude templates
-            if ($role["type"] == "rolt")
-            {
-                $path = $this->lng->txt("obj_rolt");
-                $rolf = ROLE_FOLDER_ID;
-            }
-            else
-            {
-                // fetch context path of role
-                $rolf_list = $rbacreview->getFoldersAssignedToRole($role["obj_id"],$assignable);
-
-                if ($this->object->getId() != ROLE_FOLDER_ID)
-                {
-                    $rolf = $this->object->getRefId();
-                }
-                else
-                {
-                    $rolf = $rolf_list[0];
-                }
-                
-    			// only list roles that are not set to status "deleted"
-    			if ($rbacreview->isDeleted($rolf))
-			    {
-                    continue;
-                }
-
-                // build context path
-                $path = "";
-
-                if ($this->tree->isInTree($rolf))
-			    {
-                    if ($rolf[0] == ROLE_FOLDER_ID)
-                    {
-                        $path = $this->lng->txt("global");
-                    }
-                    else
-                    {
-				        $tmpPath = $this->tree->getPathFull($rolf);
-				        $path = $tmpPath[count($tmpPath)-2]["title"];
-				    }
-			    }
-			    else
-			    {
-				    $path = "<b>Rolefolder ".$rolf." not found in tree! (Role ".$role["obj_id"].")</b>";
-			    }
-			}
-			
-			$disabled = false;
-			$checkbox = ilUtil::formCheckBox(0,"role_id[]",$role["obj_id"],$disabled);
-
-			// disable checkbox for system role for the system user
-			if ($role["role_type"] != 'linked'
-				&& ($role["obj_id"] == SYSTEM_ROLE_ID 
-					or $role["obj_id"] == ANONYMOUS_ROLE_ID 
-					or substr($role["title"],0,3) == "il_"))
-			{
-				$disabled = true;
-				$checkbox = "";
-			}
-
-            if ($_SESSION["filtered_roles"] != 4)
-            {
-                $result_set[$counter][] = $checkbox ? $checkbox : '';
-                $role_ids[$counter] = $role["obj_id"];
-            }
-            
-            if (substr($role["title"],0,3) == "il_" and $role['type'] != "rolt")
-            {
-            	if (!$assignable)
-            	{
-            		$rolf_arr = $rbacreview->getFoldersAssignedToRole($role["obj_id"],true);
-            		$rolf2 = $rolf_arr[0];
-            	}
-            	else
-            	{
-            		$rolf2 = $rolf;
-            	}
-            		
-				$parent_node = $this->tree->getParentNodeData($rolf2);
-				
-				$role["description"] = $this->lng->txt("obj_".$parent_node["type"])."&nbsp;(#".$parent_node["obj_id"].")";
-            }
-            
-            if ($role["type"] == "rolt" and (substr($role["title"],0,3) == "il_"))
-            {
-            	$role["description"] .= "<br/><i>".$this->lng->txt("predefined_template")." (".$role["title"].")</i>";
-            }
-
-            $result_set[$counter][] = "<img src=\"".ilUtil::getImagePath("icon_".$role["type"].".gif")."\" alt=\"".$this->lng->txt("obj_".$role["type"])."\" title=\"".$this->lng->txt("obj_".$role["type"])."\" border=\"0\" vspace=\"0\"/>";
-			if ($role["type"] == "role")
-			{
-				if (($this->object->getId() == ROLE_FOLDER_ID) &&
-					($role["role_type"] == "local"))
-				{
-					$this->ctrl->setParameterByClass("ilobjrolegui", "rolf_ref_id", $rolf);
-				}
-				$this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $role["obj_id"]);
-				$link = $this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm");
-				$this->ctrl->setParameterByClass("ilobjrolegui", "rolf_ref_id", "");
-			}
-			else
-			{
-				$this->ctrl->setParameterByClass("ilobjroletemplategui", "obj_id", $role["obj_id"]);
-				$link = $this->ctrl->getLinkTargetByClass("ilobjroletemplategui", "perm");
-			}
-			$result_set[$counter][] = "<a title=\"".ilObjRole::_getTranslation($role["title"])."\" href=\"$link\">".ilObjRole::_getTranslation($role["title"])."</a>";
-            $result_set[$counter][] = $role["description"] ? $role['description'] : '';
-			$result_set[$counter][] = $path." (".$role["role_type"].")";;
-
-   			++$counter;
-        }
-
-		return $this->__showRolesTable($result_set,$role_ids);
-    }
-
 
 	/**
-	* confirmObject
-	* handles deletion of roles and role templates NOT the rolefolder object itself!!
-	* 
-	* @access	public
-	*/
-	function confirmedDeleteObject()
+	 *
+	 * @global ilErrorHandler $ilErr
+	 * @global ilRbacSystem $rbacsystem
+	 * @global ilToolbarGUI $ilToolbar
+	 */
+	public function viewObject()
 	{
-		global $rbacsystem,$rbacreview;
+		global $ilErr, $rbacsystem, $ilToolbar,$rbacreview,$ilTabs;
 
-		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
-		if (!$rbacsystem->checkAccess('delete',$this->object->getRefId()))
+		$ilTabs->activateTab('view');
+
+		if(!$rbacsystem->checkAccess('visible,read',$this->object->getRefId()))
 		{
-			$perform_delete = false;
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
-						 $not_deletable,$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 		}
 
-		$return_loc = $this->tree->getParentId($this->object->getRefId());
-		
-		$feedback["count"] = count($_SESSION["saved_post"]);
+		$this->ctrl->setParameter($this,'new_type','role');
+		$ilToolbar->addButton(
+			$this->lng->txt('rolf_create_role'),
+			$this->ctrl->getLinkTarget($this,'create')
+		);
+		$this->ctrl->setParameter($this,'new_type','rolt');
+		$ilToolbar->addButton(
+			$this->lng->txt('rolf_create_rolt'),
+			$this->ctrl->getLinkTarget($this,'create')
+		);
+		$this->ctrl->clearParameters($this);
 
-		// FOR ALL SELECTED OBJECTS
-		foreach ($_SESSION["saved_post"] as $id)
+		include_once './Services/AccessControl/classes/class.ilRoleTableGUI.php';
+		$table = new ilRoleTableGUI($this,'view');
+		$table->init();
+		$table->parse($this->object->getId());
+
+		$this->tpl->setContent($table->getHTML());
+	}
+
+	/**
+	 * Apply role filter
+	 */
+	protected function applyFilterObject()
+    {
+		include_once './Services/AccessControl/classes/class.ilRoleTableGUI.php';
+		$table = new ilRoleTableGUI($this,'view');
+		$table->init();
+		$table->resetOffset();
+		$table->writeFilterToSession();
+
+		$this->viewObject();
+	}
+
+	/**
+	 * Reset role filter
+	 */
+	function resetFilterObject()
+    {
+		include_once './Services/AccessControl/classes/class.ilRoleTableGUI.php';
+		$table = new ilRoleTableGUI($this,'view');
+		$table->init();
+		$table->resetOffset();
+		$table->resetFilter();
+
+		$this->viewObject();
+	}
+
+	/**
+	 * Confirm deletion of roles
+	 */
+	protected function confirmDeleteObject()
+	{
+		global $ilCtrl;
+
+		if(!count($_POST['roles']))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			$ilCtrl->redirect($this,'view');
+		}
+
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirm = new ilConfirmationGUI();
+		$confirm->setFormAction($ilCtrl->getFormAction($this));
+		$confirm->setConfirm($this->lng->txt('delete'), 'deleteRole');
+		$confirm->setCancel($this->lng->txt('cancel'), 'cancel');
+
+
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		foreach($_POST['roles'] as $role_id)
+		{
+			$confirm->addItem(
+				'roles',
+				$role_id,
+				ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id))
+			);
+		}
+		$this->tpl->setContent($confirm->getHTML());
+	}
+
+	/**
+	 * Delete roles
+	 */
+	protected function deleteRoleObject()
+	{
+		global $rbacsystem,$ilErr,$rbacreview,$ilCtrl;
+
+		if(!$rbacsystem->checkAccess('delete',$this->object->getRefId()))
+		{
+			$ilErr->raiseError(
+				$this->lng->txt('msg_no_perm_delete'),
+				$ilErr->MESSAGE
+			);
+		}
+
+		foreach((array) $_POST['roles'] as $id)
 		{
 			// instatiate correct object class (role or rolt)
-			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
+			$obj = ilObjectFactory::getInstanceByObjId($id,false);
 
 			if ($obj->getType() == "role")
 			{
-					$rolf_arr = $rbacreview->getFoldersAssignedToRole($obj->getId(),true);
-					$obj->setParent($rolf_arr[0]);
-
-				$feedback["role"] = true;
-			}
-			else
-			{
-				$feedback["rolt"] = true;
+				$rolf_arr = $rbacreview->getFoldersAssignedToRole($obj->getId(),true);
+				$obj->setParent($rolf_arr[0]);
 			}
 
 			$obj->delete();
-			unset($obj);
 		}
 
 		// set correct return location if rolefolder is removed
-		$return_loc = ilObject::_exists($this->object->getId()) ? $_GET["ref_id"] : $return_loc;
-	
-		// Compose correct feedback
-		if ($feedback["count"] > 1)
-		{
-			if ($feedback["role"] === true)
-			{
-				if ($feedback["rolt"] === true)
-				{
-					ilUtil::sendSuccess($this->lng->txt("msg_deleted_roles_rolts"),true);					
-				}
-				else
-				{
-					ilUtil::sendSuccess($this->lng->txt("msg_deleted_roles"),true);						
-				}
-			}
-			else
-			{
-				ilUtil::sendSuccess($this->lng->txt("msg_deleted_rolts"),true);						
-			}
-		}
-		else
-		{
-			if ($feedback["role"] === true)
-			{
-				ilUtil::sendSuccess($this->lng->txt("msg_deleted_role"),true);	
-			}
-			else
-			{
-			ilUtil::sendSuccess($this->lng->txt("msg_deleted_rolt"),true);	
-			}	
-		}
-		
-		//$this->ctrl->setParameter($this, "ref_id", $return_loc);
-		//$this->ctrl->redirect($this, "view");
-		
-		// fixed for admin view
-		#$this->redirectToRefId($return_loc, "view");
-		$obj_type = ilObject::_lookupType($return_loc,true);
-		$class_name = $this->objDefinition->getClassName($obj_type);
-		$class = strtolower("ilObj".$class_name."GUI");
-		$this->ctrl->setParameterByClass($class,'ref_id',$return_loc);
-		$this->ctrl->redirectByClass($class,'view');
+		ilUtil::sendSuccess($this->lng->txt("msg_deleted_roles_rolts"),true);
+		$ilCtrl->redirect($this,'view');
 	}
+
+
+	
+
 	
 	/**
 	* role folders are created automatically
@@ -534,168 +411,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "view");
 	}
 
-	function __showRolesTable($a_result_set,$a_role_ids)
-	{
-        global $rbacsystem;
-
-		$actions = array("delete"  => $this->lng->txt("delete"));
-
-        $tbl =& $this->__initTableGUI();
-		$tpl =& $tbl->getTemplateObject();
-
-		$tpl->setCurrentBlock("tbl_form_header");
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
-		
-		$tpl = $this->showPossibleSubObjects($tpl);
-
-		$tpl->setCurrentBlock("tbl_action_row");
-
-		$tpl->setVariable("COLUMN_COUNTS",($_SESSION["filtered_roles"] == 4) ? 4 : 5);
-
-		if ($_SESSION["filtered_roles"] != 4)
-		{
-			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-
-			foreach ($actions as $name => $value)
-			{
-				$tpl->setCurrentBlock("tbl_action_btn");
-				$tpl->setVariable("BTN_NAME",$name);
-				$tpl->setVariable("BTN_VALUE",$value);
-				$tpl->parseCurrentBlock();
-			}
-			
-			if (!empty($a_role_ids))
-			{
-		
-				// set checkbox toggles
-				$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
-				$tpl->setVariable("JS_VARNAME","role_id");			
-				$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_role_ids));
-				$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-				$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-				$tpl->parseCurrentBlock();
-			}
-		}
-
-		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-
-
-		$this->ctrl->setParameter($this,"cmd","view");
-
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("roles"),"icon_role.gif",$this->lng->txt("roles"));
-
-		if ($_SESSION["filtered_roles"] == 4)
-		{
-			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("role"),
-									   $this->lng->txt("description"),$this->lng->txt("context")));
-			$tbl->setHeaderVars(array("type","title","description","context"),$this->ctrl->getParameterArray($this,"",false));
-			$tbl->setColumnWidth(array("","30%","40%","30%"));
-		} 
-		else 
-		{
-			$tbl->setHeaderNames(array("",$this->lng->txt("type"),
-									   $this->lng->txt("role"),
-									   $this->lng->txt("description"),
-									   $this->lng->txt("context")));
-			$tbl->setHeaderVars(array("","type","title","description","context"),$this->ctrl->getParameterArray($this,"",false));
-			$tbl->setColumnWidth(array("","","30%","40%","30%"));
-		}
-		$this->__setTableGUIBasicData($tbl,$a_result_set,"view");
-		$tbl->render();
-		$this->tpl->setVariable("ROLES_TABLE",$tbl->tpl->get());
-
-		return true;
-	}
-
-	function &__initTableGUI()
-	{
-		include_once "./Services/Table/classes/class.ilTableGUI.php";
-
-		return new ilTableGUI(0,false);
-	}
-
-	function __setTableGUIBasicData(&$tbl,&$result_set,$from = "")
-	{
-        switch($from)
-		{
-			default:
-                if (!$_GET["sort_by"] or $_GET["sort_by"] == "name")
-                {
-                    $_GET["sort_by"] = "title";
-                }
-                
-	           	$order = $_GET["sort_by"];
-				break;
-		}
-
-        //$tbl->enable("hits");
-		$tbl->setOrderColumn($order);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		$tbl->setData($result_set);
-	}
-
-	function __unsetSessionVariables()
-	{
-        // empty
-	}
-
-	function __buildFilterSelect()
-	{
-		$action[1] = $this->lng->txt('all_roles');
-		$action[2] = $this->lng->txt('all_global_roles');
-		$action[3] = $this->lng->txt('all_local_roles');
-		$action[4] = $this->lng->txt('internal_local_roles_only');
-		$action[5] = $this->lng->txt('non_internal_local_roles_only');
-		$action[6] = $this->lng->txt('role_templates_only');
-		
-		return ilUtil::formSelect($_SESSION['filtered_roles'],"filter",$action,false,true);
-	}
-	
-	function hitsperpageObject()
-	{
-        parent::hitsperpageObject();
-        $this->viewObject();
-	}
-	
-	/**
-	* get tabs
-	* @access	public
-	* @param	object	tabs gui object
-	*/
-	function getTabs(&$tabs_gui)
-	{
-		// METHOD NOT USED????
-		
-		
-		global $rbacsystem, $tree;
-
-		// for role administration check visible,write of global role folder
-		if ($this->object->getRefId() == ROLE_FOLDER_ID)
-		{
-			$access = $rbacsystem->checkAccess('visible,write',$this->object->getRefId());
-		}
-		else	// for local roles check 'edit permission' of parent object of the local role folder
-		{
-			$access = $rbacsystem->checkAccess('edit_permission',$tree->getParentId($this->object->getRefId()));
-		}
-			
-		if ($access)
-		{
-			$tabs_gui->addTarget("obj_rolf",
-				$this->ctrl->getLinkTarget($this, "view"), array("view","delete",""), "", "");
-		}
-
-		if ($this->object->getRefId() == ROLE_FOLDER_ID and $rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
-		{
-			$tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
-		}
-	}
 
 } // END class.ilObjRoleFolderGUI
 ?>

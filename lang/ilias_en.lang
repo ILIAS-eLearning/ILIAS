@@ -11671,5 +11671,7 @@ ecs#:#ecs_cc_mapping_overview#:#Mapping Overview
 ecs#:#ecs_cms_dir_tree#:#CMS Directory Trees
 registration#:#registration_code_no_role#:#The registration code given does not specify a role and can not be used currently. Please contact your administrator.
 registration#:#registration_no_valid_role#:#There is currently no valid role for new accounts. Please contact your administrator.
+rbac#:#rbac_global_rolt#:#Global Role Template
 common#:#exc_next_deadline#:#Next Deadline
 common#:#password_allow_chars#:#Allowed chars: %s
+rbac#:#rbac_role_selection#:#Role Type

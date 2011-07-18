@@ -19,6 +19,13 @@
 */
 class ilRbacReview
 {
+	const FILTER_ALL = 1;
+	const FILTER_ALL_GLOBAL = 2;
+	const FILTER_ALL_LOCAL = 3;
+	const FILTER_INTERNAL = 4;
+	const FILTER_NOT_INTERNAL = 5;
+	const FILTER_TEMPLATES = 6;
+
 	protected $assigned_roles = array();
 	var $log = null;
 
