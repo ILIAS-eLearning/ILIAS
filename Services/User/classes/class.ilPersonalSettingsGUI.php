@@ -630,6 +630,7 @@ class ilPersonalSettingsGUI
 			// new password
 			$ipass = new ilPasswordInputGUI($lng->txt("desired_password"), "new_password");
 			$ipass->setRequired(true);
+			$ipass->setInfo(ilUtil::getPasswordRequirementsInfo());
 
 			if ($ilSetting->get("passwd_auto_generate") == 1)	// auto generation list
 			{

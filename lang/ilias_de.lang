@@ -11672,3 +11672,4 @@ skmg#:#skmg_materials#:#Materials###18 07 2011 new variable
 skmg#:#skmg_remove_skills#:#Remove Skills###18 07 2011 new variable
 skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig skills from your list?###18 07 2011 new variable
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)###18 07 2011 new variable
+common#:#password_allow_chars#:#Erlaubte Zeichen: %s

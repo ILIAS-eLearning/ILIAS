@@ -293,15 +293,15 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 				$text = new ilTextInputGUI($this->lng->txt('ps_password_max_length'),'password_max_length');
 				$text->setInfo($this->lng->txt('ps_password_max_length_info'));
 				$text->setValue( $security->getPasswordMaxLength() );
-				$text->setSize(1);
-				$text->setMaxLength(2);
+				$text->setSize(2);
+				$text->setMaxLength(3);
 			$radio_opt->addSubItem($text);
 
 				$text = new ilTextInputGUI($this->lng->txt('ps_password_max_age'),'password_max_age');
 				$text->setInfo($this->lng->txt('ps_password_max_age_info'));
 				$text->setValue( $security->getPasswordMaxAge() );
-				$text->setSize(1);
-				$text->setMaxLength(2);
+				$text->setSize(2);
+				$text->setMaxLength(3);
 			$radio_opt->addSubItem($text);
 
 				$text = new ilTextInputGUI($this->lng->txt('ps_login_max_attempts'),'login_max_attempts');

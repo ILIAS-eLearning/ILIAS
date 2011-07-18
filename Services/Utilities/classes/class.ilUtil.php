@@ -1256,15 +1256,35 @@ class ilUtil
 					}
 
 				}
+				else
+				{
+					// use ILIAS-Standard
+					if (!preg_match("/^[A-Za-z0-9]+/", $a_passwd))
+					{
+						return false;
+					}
+
+				}
 				// if passwd must contains Special-Chars
 				if( $security->isPasswordSpecialCharsEnabled() )
 				{
-					$reg = '/[_\.\+\?\#\-\*\@!\$\%\~]+/';
+					#$reg = '/[_\.\+\?\#\-\*\@!\$\%\~]+/';
+					$reg = '/[_\.\+\?\#\-\*\@!\$\%\/\:\;\~]+/';
+
 					if( !preg_match($reg,$a_passwd) )
 					{
 						$custom_error = $lng->txt('password_must_special_chars');
 						return false;
 					}
+				}
+				else
+				{
+					// use ILIAS-Standard
+					if (!preg_match("/^[_\.\+\?\#\-\*\@!\$\%\~]+/", $a_passwd))
+					{
+						return false;
+					}
+
 				}
 			}
 		}
@@ -1288,6 +1308,40 @@ class ilUtil
 		}
 
 		return true;
+	}
+
+	/**
+	 *	infotext for ilPasswordInputGUI setInfo()
+	 *
+	 * @global <type> $lng
+	 * @return <string>  info about allowed chars for password
+	 */
+	public function getPasswordRequirementsInfo()
+	{
+		global $lng;
+
+		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+		$security = ilSecuritySettings::_getInstance();
+		$ok = '';
+		if( $security->getAccountSecurityMode() == ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
+		{
+			if( $security->isPasswordCharsAndNumbersEnabled() )
+			{
+				$ok .= 'A-Za-z0-9';
+			}
+			else $ok .= 'A-Za-z0-9';
+			if( $security->isPasswordSpecialCharsEnabled() )
+			{
+				$ok .= '_.+?#-*@!$%/:;~';
+			}
+			else $ok .= '_.+?#-*@!$%~';
+		}
+		else
+		{			
+			$ok .= 'A-Za-z0-9_.+?#-*@!$%~';
+		}
+
+		return sprintf($lng->txt('password_allow_chars'), $ok);
 	}
 
 	/*
