@@ -505,7 +505,10 @@ class ilPCParagraph extends ilPageContent
 //echo "<br>between:".htmlentities($a_text);
 
 		// mask html
+if (!$a_wysiwyg)
+{
 		$a_text = str_replace("&","&amp;",$a_text);
+}
 		$a_text = str_replace("<","&lt;",$a_text);
 		$a_text = str_replace(">","&gt;",$a_text);
 
@@ -1100,6 +1103,8 @@ echo htmlentities($a_text);*/
 			$a_text = str_replace("<br/>", "\n", $a_text);
 		}
 
+if (!$a_wysiwyg)
+{
 		// prevent curly brackets from being swallowed up by template engine
 		$a_text = str_replace("{", "&#123;", $a_text);
 		$a_text = str_replace("}", "&#125;", $a_text);
@@ -1118,7 +1123,7 @@ echo htmlentities($a_text);*/
 		// make &gt; and $lt; work to allow (disabled) html descriptions
 		$a_text = str_replace("&lt;", "&amp;lt;", $a_text);
 		$a_text = str_replace("&gt;", "&amp;gt;", $a_text);
-
+}
 		return $a_text;
 		//return str_replace("<br />", chr(13).chr(10), $a_text);
 	}
@@ -1473,9 +1478,10 @@ echo htmlentities($a_text);*/
 		$doc = new DOMDocument();
 
 		$content = ilUtil::stripSlashes($a_content, false);
-		$content = str_replace("&lt;", "<", $content);
-		$content = str_replace("&gt;", ">", $content);
 
+//		$content = str_replace("&lt;", "<", $content);
+//		$content = str_replace("&gt;", ">", $content);
+//echo "<br><br>".htmlentities($content); exit;
 		$res = $doc->loadXML($content);
 
 		if (!$res)
@@ -1556,7 +1562,7 @@ echo htmlentities($a_text);*/
 				$ret[] = array("text" => $text, "id" => $id, "class" => $class);
 			}
 		}
-		
+
 		return $ret;
 	}
 
