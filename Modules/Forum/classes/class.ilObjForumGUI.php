@@ -1422,7 +1422,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$oPostGUI->removePlugin('advlink');
 		$oPostGUI->removePlugin('ibrowser');
 		$oPostGUI->removePlugin('image');
-		$oPostGUI->setRTERootBlockElement('false');
+		$oPostGUI->setRTERootBlockElement('');
 		$oPostGUI->usePurifier(true);
 		$oPostGUI->disableButtons(array(
 			'charmap',
@@ -3307,7 +3307,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$post_gui->removePlugin('ibrowser');
 		$post_gui->removePlugin('image');
 		$post_gui->usePurifier(true);	
-		$post_gui->setRTERootBlockElement('false');
+		$post_gui->setRTERootBlockElement('');
 		$post_gui->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html');
 		$post_gui->disableButtons(array(
 			'charmap',
