@@ -95,6 +95,8 @@ class ilForumExplorer
 	{
 		global $lng, $ilUser, $ilCtrl;
 		static $counter = 0;
+		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
+
 		if (is_numeric($a_parent) && $objects = $this->objCurrentTopic->getPostChilds($a_parent, 'explorer'))
 		{
 			++$a_depth;
@@ -136,19 +138,21 @@ class ilForumExplorer
 				$this->tpl->setVariable('OLD_THR_ID', $_SESSION['thread_control']['old']);
 				$this->tpl->setVariable('NEW_THR_ID', $_SESSION['thread_control']['new']);
 
+				$node = new stdClass();
+				$node->html = $title;
 				if($object['child'] == $this->root_id)
 				{
 					$this->tpl->setVariable('FRM_TREE_ROOT_NODE_VARIABLE', 'frmNode'.$object['child']);
-					$this->tpl->setVariable('FRM_TREE_ROOT_NODE_LINK', $title);
+					$this->tpl->setVariable('FRM_TREE_ROOT_NODE_LINK', ilJsonUtil::encode($node));
 				}
 				else
 				{
 					$this->tpl->setCurrentBlock('frm_nodes');
 					$this->tpl->setVariable('FRM_NODES_VARNAME', 'frmNode'.$object['child']);
 					$this->tpl->setVariable('FRM_NODES_PARENT_VARNAME', 'frmNode'.$object['parent']);
-					$this->tpl->setVariable('FRM_NODES_LINK', $title);
+					$this->tpl->setVariable('FRM_NODES_LINK', ilJsonUtil::encode($node));
 					$this->tpl->parseCurrentBlock();
-				}			
+				}
 				++$counter;
 
 				// Recursive
