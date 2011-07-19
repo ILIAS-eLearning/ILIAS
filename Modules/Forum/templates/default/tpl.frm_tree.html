@@ -111,10 +111,10 @@ if (!window.console) {
 	var rootNode = tree.getRoot()
 	
 	//begin adding children
-	var nodeHTML = "{FRM_TREE_ROOT_NODE_LINK}{FRM_TREE_ROOT_NODE_AUTHOR_AND_DATE}";
-	var {FRM_TREE_ROOT_NODE_VARIABLE} = new YAHOO.widget.HTMLNode(nodeHTML, tree.getRoot(), false, true);<!-- BEGIN frm_nodes -->
-	var nodeHTML = "{FRM_NODES_LINK}{FRM_NODES_AUTHOR_AND_DATE}";
-	var {FRM_NODES_VARNAME} = new YAHOO.widget.HTMLNode(nodeHTML, {FRM_NODES_PARENT_VARNAME}, false, true);
+	var node = {FRM_TREE_ROOT_NODE_LINK};
+	var {FRM_TREE_ROOT_NODE_VARIABLE} = new YAHOO.widget.HTMLNode(node.html, tree.getRoot(), false, true);<!-- BEGIN frm_nodes -->
+	var node = {FRM_NODES_LINK};
+	var {FRM_NODES_VARNAME} = new YAHOO.widget.HTMLNode(node.html, {FRM_NODES_PARENT_VARNAME}, false, true);
 	<!-- END frm_nodes -->
 
 	//the tree won't show up until you draw (render) it:
