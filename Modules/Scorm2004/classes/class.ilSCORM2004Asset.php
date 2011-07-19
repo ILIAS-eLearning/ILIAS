@@ -81,7 +81,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$ass->setTitle($this->getTitle());
 		if ($this->getSLMId() != $a_target_slm->getId())
 		{
-			$sco->setImportId("il__ass_".$this->getId());
+			$ass->setImportId("il__ass_".$this->getId());
 		}
 		$ass->setSLMId($a_target_slm->getId());
 		$ass->setType($this->getType());
