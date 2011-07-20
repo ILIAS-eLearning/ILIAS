@@ -42,6 +42,8 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	protected static $accepted_ids = null;
 	protected static $all_columns = null;
 
+	protected $role_id = 0;
+
 	/**
 	 * Constructor
 	 *
@@ -141,6 +143,23 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setEnableTitle(true);
 		$this->initFilter();
+	}
+
+	/**
+	 * Set current role id
+	 */
+	public function setRoleId($a_role_id)
+	{
+		$this->role_id = $a_role_id;
+	}
+
+	/**
+	 * Get current role id
+	 * @return int
+	 */
+	public function getRoleId()
+	{
+		return $this->role_id;
 	}
 
 	public function getItems()
