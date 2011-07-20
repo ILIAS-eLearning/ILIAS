@@ -56,7 +56,8 @@ class ilGlossaryExport
 		$this->mode = $a_mode;
 
 		$settings = $this->ilias->getAllSettings();
-		$this->inst_id = $settings["inst_id"];
+		// The default '0' is required for the directory structure (smeyer)
+		$this->inst_id = $settings["inst_id"] ? $settings['inst_id'] : 0;
 
 		$date = time();
 		switch($this->mode)

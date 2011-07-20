@@ -26,7 +26,7 @@ class ilGlossaryImporter extends ilXmlImporter
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
 
 			$xml_file = $this->getImportDirectory().'/'.basename($this->getImportDirectory()).'.xml';
-			$GLOBALS['ilLog']->write(__METHOD__.': '.$xml_file);
+			$GLOBALS['ilLog']->write(__METHOD__.': Using XML file '.$xml_file);
 
 		}
 		else	// case ii, non container
@@ -34,6 +34,12 @@ class ilGlossaryImporter extends ilXmlImporter
 			// Shouldn't happen
 			$GLOBALS['ilLog']->write(__METHOD__.': Called in non container mode');
 			$GLOBALS['ilLog']->logStack();
+			return false;
+		}
+
+		if(!file_exists($xml_file))
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': ERROR Cannot find '.$xml_file);
 			return false;
 		}
 
