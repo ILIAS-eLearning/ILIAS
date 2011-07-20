@@ -250,6 +250,26 @@ class ilECSMappingSettingsGUI
 	}
 
 	/**
+	 * Show directory trees
+	 */
+	protected function dTrees()
+	{
+		$this->setSubTabs(self::TAB_DIRECTORY);
+		$GLOBALS['ilTabs']->activateSubTab('dTrees');
+		$GLOBALS['ilTabs']->activateTab('ecs_dir_allocation');
+	}
+
+	/**
+	 * Show directory trees
+	 */
+	protected function dMappingOverview()
+	{
+		$this->setSubTabs(self::TAB_DIRECTORY);
+		$GLOBALS['ilTabs']->activateSubTab('dMappingOverview');
+		$GLOBALS['ilTabs']->activateTab('ecs_dir_allocation');
+	}
+
+	/**
 	 * Set tabs
 	 * @global ilTabsGUI $ilTabs
 	 */
@@ -288,17 +308,17 @@ class ilECSMappingSettingsGUI
 			$ilTabs->addSubTab(
 				'dMappingOverview',
 				$this->lng->txt('ecs_cc_mapping_overview'),
-				'dMappingOverview'
+				$this->ctrl->getLinkTarget($this,'dMappingOverview')
 			);
 			$ilTabs->addSubTab(
 				'dTrees',
 				$this->lng->txt('ecs_cms_dir_tree'),
-				'dTrees'
+				$this->ctrl->getLinkTarget($this,'dTrees')
 			);
 			$ilTabs->addSubTab(
 				'dSettings',
 				$this->lng->txt('settings'),
-				'dSettings'
+				$this->ctrl->getLinkTarget($this,'dSettings')
 			);
 		}
 	}
