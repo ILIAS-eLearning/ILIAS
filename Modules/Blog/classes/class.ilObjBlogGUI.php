@@ -121,7 +121,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		if($_GET["gtp"])
 		{
 			$ilCtrl->setCmdClass("ilblogpostinggui");
-			$ilCtrl->setCmd("preview");
+			$ilCtrl->setCmd("previewFullscreen");
 			$_GET["page"] = $_GET["gtp"];
 		}
 		
@@ -670,17 +670,23 @@ class ilObjBlogGUI extends ilObject2GUI
 
 	/**
 	 * Export all pages
+	 * 
+	 * @param string $a_target_directory
+	 * @param string $a_link_template (embedded)
+	 * @param array $a_tpl_callback (embedded)
+	 * @param object $a_co_page_html_export (embedded)
+	 * @param string $a_index_name (embedded)
 	 */
-	function exportHTMLPages($a_target_directory, $a_tpl = null, $a_link_template = null)
-	{				
-		if(!$a_tpl)
-		{
-			$a_tpl = $this->buildExportTemplate();
-		}
-		
+	function exportHTMLPages($a_target_directory, $a_link_template = null, $a_tpl_callback = null, $a_co_page_html_export = null, $a_index_name = "index.html")
+	{					
 		if(!$a_link_template)
 		{
 			$a_link_template = "bl{TYPE}_{ID}.html";
+		}
+		
+		if($a_co_page_html_export)
+		{
+			$this->co_page_html_export = $a_co_page_html_export;
 		}
 		
 		$nav = $this->renderNavigation($this->items, "", "", $a_link_template);
@@ -691,12 +697,22 @@ class ilObjBlogGUI extends ilObject2GUI
 		{									
 			$file = $this->buildExportLink($a_link_template, "list", $month);
 			$list = $this->renderList($this->items[$month], $month, "", $a_link_template);			
-			$file = $this->writeExportFile($a_target_directory, $file, 
-				$a_tpl, $list, $nav);
 			
+			if(!$a_tpl_callback)
+			{
+				$tpl = $this->buildExportTemplate();
+			}
+			else
+			{
+				$tpl = call_user_func($a_tpl_callback);				
+			}		
+			
+			$file = $this->writeExportFile($a_target_directory, $file, 
+				$tpl, $list, $nav);
+
 			if(!$has_index)
 			{
-				copy($file, $a_target_directory."/index.html");
+				copy($file, $a_target_directory."/".$a_index_name);
 				$has_index = true;
 			}
 		}
@@ -718,8 +734,17 @@ class ilObjBlogGUI extends ilObject2GUI
 					substr($page["created"]->get(IL_CAL_DATE), 0, 7));
 				
 				$file = $this->buildExportLink($a_link_template, "posting", $page["id"]);
+								
+				if(!$a_tpl_callback)
+				{
+					$tpl = $this->buildExportTemplate();
+				}
+				else
+				{
+					$tpl = call_user_func($a_tpl_callback);				
+				}		
 				
-				$this->writeExportFile($a_target_directory, $file, $a_tpl, 
+				$this->writeExportFile($a_target_directory, $file, $tpl, 
 					$page_content, $nav, $back);
 				
 				$this->co_page_html_export->collectPageElements("blp:pg", $page["id"]);
