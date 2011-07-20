@@ -71,8 +71,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		switch($next_class)
 		{					
 			case "ilobjbloggui":
-				return $this->renderBlog($ilUser->getId(), (int)$this->getPageObject()->getTitle(), array($_REQUEST["page"]));				
-			
+				include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
+				$blog_gui = new ilObjBlogGUI((int)$this->getPageObject()->getTitle(),
+					ilObjBlogGUI::WORKSPACE_OBJECT_ID);
+				return $ilCtrl->forwardCommand($blog_gui);
+				
 			case "ilpageobjectgui":
 				$page_gui = new ilPageObjectGUI("prtf",
 					$this->getPageObject()->getId(), $this->getPageObject()->old_nr);
@@ -259,16 +262,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	{
 		global $ilCtrl;
 		
+		
 		// :TODO: what about user?
 		
 		if(!$a_posting_ids)
 		{
 			include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
 			$blog = new ilObjBlogGUI($a_blog_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
-			$blog->setMode(ilObjBlogGUI::MODE_EMBEDDED_FULL);	
 			
 			if($this->getOutputMode() != "offline")
-			{
+			{			
 				return $ilCtrl->getHTML($blog);
 			}
 			else
@@ -280,8 +283,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{
 			$html = array();
 			
+			/*
 			include_once "Modules/Blog/classes/class.ilObjBlog.php";
 			$html[] = ilObjBlog::_lookupTitle($a_blog_id);
+			*/
 			
 			include_once "Modules/Blog/classes/class.ilBlogPostingGUI.php";
 			foreach($a_posting_ids as $post)

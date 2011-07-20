@@ -19,22 +19,31 @@ include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 class ilObjBlogGUI extends ilObject2GUI
 {
 	protected $month; // [string]
-	protected $mode; // [int]
-	
-	const MODE_WORKSPACE = 1;
-	const MODE_EMBEDDED_FULL = 2;
-	// const MODE_EMBEDDED_LIST = 3;
+	protected $items; // [array]
 	
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
 		global $lng, $ilCtrl;
 		
+	    parent::__construct($a_id, $a_id_type, $a_parent_node_id);		
+	
+		$this->month = $_REQUEST["bmn"];
+		
+		// gather postings by month
+		$this->items = $this->buildPostingList($this->object->getId());	
+		if($this->items)
+		{			
+			// current month (if none given or empty)			
+			if(!$this->month || !$this->items[$this->month])
+			{
+				$this->month = array_keys($this->items);
+				$this->month = array_shift($this->month);
+			}
+		}
+		
+		$ilCtrl->setParameter($this, "bmn", $this->month);
+		
 		$lng->loadLanguageModule("blog");
-		$this->mode = self::MODE_WORKSPACE;		
-		
-		$ilCtrl->saveParameter($this, "prvw");
-		
-		return parent::__construct($a_id, $a_id_type, $a_parent_node_id);		
 	}
 
 	function getType()
@@ -42,20 +51,6 @@ class ilObjBlogGUI extends ilObject2GUI
 		return "blog";
 	}
 	
-	/**
-	 * Set display mode
-	 * 
-	 * @param int $a_mode 
-	 */
-	function setMode($a_mode)
-	{
-		$a_mode = (int)$a_mode;
-		if(in_array($a_mode, array(self::MODE_WORKSPACE, self::MODE_EMBEDDED_FULL)))
-		{
-			$this->mode = $a_mode;
-		}		
-	}
-
 	protected function initCreationForms($a_new_type)
 	{
 		$forms = parent::initCreationForms($a_new_type);
@@ -125,13 +120,9 @@ class ilObjBlogGUI extends ilObject2GUI
 		// goto link to blog posting
 		if($_GET["gtp"])
 		{
-			$ilCtrl->setCmdClass('ilblogpostinggui');
-			$ilCtrl->setCmd('preview');
+			$ilCtrl->setCmdClass("ilblogpostinggui");
+			$ilCtrl->setCmd("preview");
 			$_GET["page"] = $_GET["gtp"];
-			
-			// force fullscreen / fixed width
-			$_REQUEST["prvw"] = 1;
-			$ilCtrl->setParameter($this, "prvw", 1);
 		}
 		
 		$next_class = $ilCtrl->getNextClass($this);
@@ -162,19 +153,26 @@ class ilObjBlogGUI extends ilObject2GUI
 
 				$ret = $ilCtrl->forwardCommand($bpost_gui);
 				if ($ret != "")
-				{					
-					$items = $this->buildPostingList($this->object->getId());
-					$nav = $this->renderNavigation($items);
-					unset($items);
-					
-					if(!$_REQUEST["prvw"])
+				{						
+					switch($cmd)
 					{
-						$tpl->setRightContent($nav);
-						$tpl->setContent($ret);
-					}
-					else
-					{
-						$this->renderFullScreen($ret, $nav);
+						// blog preview
+						case "previewFullscreen":
+							$nav = $this->renderNavigation($this->items, "preview", $cmd);							
+							$this->renderFullScreen($ret, $nav);
+							break;
+							
+						// blog in portfolio
+						case "previewEmbedded":
+							$nav = $this->renderNavigation($this->items, "gethtml", $cmd);	
+							return $this->buildEmbedded($ret, $nav);
+						
+						// ilias
+						default:
+							$tpl->setContent($ret);
+							$nav = $this->renderNavigation($this->items, "render", $cmd);	
+							$tpl->setRightContent($nav);	
+							break;
 					}
 				}
 				break;
@@ -189,341 +187,6 @@ class ilObjBlogGUI extends ilObject2GUI
 		}
 
 		return true;
-	}
-	
-	/**
-	 * Create new posting
-	 */
-	function createPosting()
-	{
-		global $ilCtrl, $lng;
-
-		if($_POST["title"])
-		{
-			// create new posting
-			include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
-			$posting = new ilBlogPosting();
-			$posting->setTitle($_POST["title"]);
-			$posting->setBlogId($this->object->getId());
-			$posting->create();
-
-			$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $posting->getId());
-			$ilCtrl->redirectByClass("ilblogpostinggui", "edit");
-		}
-		else
-		{
-			$ilCtrl->redirect($this, "render");
-		}
-	}
-	
-	function getHTML()
-	{
-		return $this->render(true);			
-	}
-	
-	function preview()
-	{
-		global $ilCtrl;
-		
-		$_REQUEST["prvw"] = 1;		
-		$ilCtrl->setParameter($this, "prvw", 1);
-		$this->render();
-	}
-	
-	function renderFullScreen($a_content, $a_navigation)
-	{
-		global $tpl, $lng, $ilCtrl, $ilUser, $ilTabs;
-		
-		$owner = $this->object->getOwner();
-		
-		$ilTabs->clearTargets();
-		
-		// back		
-		if($owner == $ilUser->getId())
-		{			
-			$ilCtrl->setParameter($this, "prvw", "");
-			$back = $ilCtrl->getLinkTarget($this, "");
-			$ilTabs->setBackTarget($lng->txt("blog_back_to_ilias"), $back);
-		}
-		else
-		{
-			// if deeplink this will not be possible
-		}		
-		
-		// title
-		$tpl->setTitle($this->object->getTitle());
-		$tpl->setTitleIcon(null);
-		
-		// owner
-		include_once("./Services/User/classes/class.ilUserUtil.php");
-		$owner = ilUserUtil::getNamePresentation($owner, true, false); 		
-		$tpl->setDescription($owner);
-		
-		// content
-		$tpl->setContent($a_content);
-		$tpl->setRightContent($a_navigation);
-		$tpl->setFrameFixedWidth(true);
-
-		echo $tpl->show("DEFAULT", true, true);
-		exit();
-	}
-
-	/**
-	 * Render root folder
-	 * 
-	 * @param bool $a_return
-	 */
-	function render($a_return = false)
-	{
-		global $tpl, $ilTabs, $ilCtrl, $lng, $ilToolbar;
-		
-		// we have to discuss this for portfolios
-		if(!$this->checkPermissionBool("read") && $this->mode != self::MODE_EMBEDDED_FULL)
-		{
-			ilUtil::sendInfo($lng->txt("no_permission"), true);
-			// $ilCtrl->redirect($this, "infoScreen");
-			return;
-		}
-
-		// gather postings by month
-		$items = $this->buildPostingList($this->object->getId());
-		
-		if($this->mode == self::MODE_WORKSPACE && !$a_return && !$_REQUEST["prvw"])
-		{
-			$ilTabs->activateTab("content");
-			$this->renderToolbar();
-		}
-		
-		$list = $nav = "";		
-		if($items)
-		{			
-			// current month (if none given or empty)
-			$this->month = $_REQUEST["bmn"];
-			if(!$this->month || !$items[$this->month])
-			{
-				$this->month = array_keys($items);
-				$this->month = array_shift($this->month);
-			}
-
-			if($items[$this->month])
-			{				
-				$ilCtrl->setParameter($this, "bmn", $this->month);
-				$list = $this->renderList($items[$this->month], $this->month);
-				$nav = $this->renderNavigation($items);
-			}			
-		}
-		
-		if(!$a_return)
-		{
-			if(!$_REQUEST["prvw"])
-			{					
-				$tpl->setContent($list);
-				$tpl->setRightContent($nav);
-			}
-			else
-			{							
-				$this->renderFullScreen($list, $nav);
-			}
-		}
-		else
-		{
-			switch($this->mode)
-			{
-				case self::MODE_WORKSPACE:
-					return array("list"=>$list,
-						"navigation"=>$nav);
-
-				case self::MODE_EMBEDDED_FULL:
-					$wtpl = new ilTemplate("tpl.blog_embedded.html", true, true, "Modules/Blog");
-					$wtpl->setVariable("VAL_LIST", $list);
-					$wtpl->setVariable("VAL_NAVIGATION", $nav);							
-					return $wtpl->get();
-			}
-		}
-	}
-	
-	function buildPostingList($a_obj_id)
-	{
-		$items = array();
-		foreach(ilBlogPosting::getAllPostings($a_obj_id) as $posting)
-		{
-			$month = substr($posting["created"]->get(IL_CAL_DATE), 0, 7);
-			$items[$month][$posting["id"]] = $posting;
-		}
-		return $items;
-	}
-
-	function renderToolbar()
-	{
-		global $lng, $ilCtrl, $ilToolbar;
-
-		if($this->checkPermissionBool("write"))
-		{
-			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-
-			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-			$title = new ilTextInputGUI($lng->txt("title"), "title");
-			$ilToolbar->addInputItem($title, $lng->txt("title"));
-
-			$ilToolbar->addFormButton($lng->txt("blog_add_posting"), "createPosting");
-		}
-	}
-
-	function renderList(array $items, $a_month, $a_offline = false)
-	{
-		global $lng, $ilCtrl;
-		
-		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/Blog");
-		
-		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-		$title = ilCalendarUtil::_numericMonthToString(substr($a_month, 6)).
-				" ".substr($a_month, 0, 4);
-		$wtpl->setVariable("TXT_CURRENT_MONTH", $title);		
-		
-		foreach($items as $item)
-		{
-			if(!$a_offline)
-			{
-				$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $item["id"]);
-				$preview = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "preview");
-			}
-			else
-			{
-				$preview = "blp_".$item["id"].".html";
-			}
-
-			// actions
-			if($this->checkPermissionBool("write") && !$a_offline)
-			{
-				include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-				$alist = new ilAdvancedSelectionListGUI();
-				$alist->setId($item["id"]);
-				$alist->setListTitle($lng->txt("actions"));
-				$alist->addItem($lng->txt("edit"), "edit", 
-					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit"));
-				$alist->addItem($lng->txt("delete"), "delete",
-					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "deleteBlogPostingConfirmationScreen"));
-
-				$wtpl->setCurrentBlock("actions");
-				$wtpl->setVariable("ACTION_SELECTOR", $alist->getHTML());
-				$wtpl->parseCurrentBlock();
-			}
-
-			// comments
-			if($this->object->getNotesStatus())
-			{
-				// count (public) notes
-				include_once("Services/Notes/classes/class.ilNote.php");
-				$count = sizeof(ilNote::_getNotesOfObject($this->obj_id, 
-					$item["id"], "blp", IL_NOTE_PUBLIC));
-				
-				$wtpl->setCurrentBlock("comments");
-				$wtpl->setVariable("TEXT_COMMENTS", $lng->txt("blog_comments"));
-				$wtpl->setVariable("URL_COMMENTS", $preview);
-				$wtpl->setVariable("COUNT_COMMENTS", $count);
-				$wtpl->parseCurrentBlock();
-			}
-
-			$wtpl->setCurrentBlock("posting");
-			
-			// title
-			$wtpl->setVariable("URL_TITLE", $preview);
-			$wtpl->setVariable("TITLE", $item["title"]);
-			$wtpl->setVariable("DATETIME",
-				ilDatePresentation::formatDate($item["created"], IL_CAL_DATE));
-			
-			// permanent link
-			$goto = $this->getAccessHandler()->getGotoLink($this->node_id, $this->obj_id, "_".$item["id"]);
-			$wtpl->setVariable("URL_PERMALINK", $goto); // :TODO:
-			$wtpl->setVariable("TEXT_PERMALINK", $lng->txt("blog_permanent_link"));
-
-			// content
-			$page = new ilBlogPosting($item["id"]);
-			$page->buildDom();
-			$wtpl->setVariable("CONTENT", $page->getFirstParagraphText());
-			$wtpl->setVariable("URL_MORE", $preview); 
-			$wtpl->setVariable("TEXT_MORE", $lng->txt("blog_list_more"));
-
-			$wtpl->parseCurrentBlock();
-		}
-
-		return $wtpl->get();
-	}
-
-	function renderNavigation(array $items, $a_offline = false)
-	{
-		global $ilCtrl;
-
-		$max_detail_postings = 10;
-		
-		$wtpl = new ilTemplate("tpl.blog_list_navigation.html",	true, true,
-			"Modules/Blog");
-
-		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-		$counter = 0;
-		foreach($items as $month => $postings)
-		{
-			$month_name = ilCalendarUtil::_numericMonthToString(substr($month, 6)).
-				" ".substr($month, 0, 4);
-
-			if(!$a_offline)
-			{
-				$ilCtrl->setParameter($this, "bmn", $month);
-				$month_url = $ilCtrl->getLinkTarget($this, "render");
-			}
-			else
-			{
-				$month_url = "blm_".$month.".html";
-			}
-
-			// list postings for month
-			if($counter < $max_detail_postings)
-			{
-				$wtpl->setCurrentBlock("navigation_item");
-				foreach($postings as $id => $posting)
-				{
-					$counter++;
-
-					$caption = /* ilDatePresentation::formatDate($posting["created"], IL_CAL_DATETIME).
-						", ".*/ $posting["title"];
-
-					if(!$a_offline)
-					{
-						$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $id);
-						$url = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "preview");					
-					}
-					else
-					{
-						$url = "blp_".$id.".html";
-					}
-					
-					$wtpl->setVariable("NAV_ITEM_URL", $url);
-					$wtpl->setVariable("NAV_ITEM_CAPTION", $caption);
-					$wtpl->parseCurrentBlock();
-				}
-
-				$wtpl->setCurrentBlock("navigation_month_details");
-				$wtpl->setVariable("NAV_MONTH", $month_name);
-				$wtpl->setVariable("URL_MONTH", $month_url);
-				$wtpl->parseCurrentBlock();
-			}
-			// summarized month
-			else
-			{
-				$ilCtrl->setParameter($this, "bmn", $month);
-
-				$wtpl->setCurrentBlock("navigation_month");
-				$wtpl->setVariable("MONTH_NAME", $month_name);				
-				$wtpl->setVariable("URL_MONTH", $month_url);
-				$wtpl->setVariable("MONTH_COUNT", sizeof($postings));
-				$wtpl->parseCurrentBlock();
-			}
-		}
-
-		$ilCtrl->setParameter($this, "bmn", $this->month);
-
-		return $wtpl->get();
 	}
 	
 	/**
@@ -584,6 +247,349 @@ class ilObjBlogGUI extends ilObject2GUI
 		$this->ctrl->forwardCommand($info);
 	}
 	
+	/**
+	 * Create new posting
+	 */
+	function createPosting()
+	{
+		global $ilCtrl, $lng;
+
+		if($_POST["title"])
+		{
+			// create new posting
+			include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
+			$posting = new ilBlogPosting();
+			$posting->setTitle($_POST["title"]);
+			$posting->setBlogId($this->object->getId());
+			$posting->create();
+
+			$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $posting->getId());
+			$ilCtrl->redirectByClass("ilblogpostinggui", "edit");
+		}
+		else
+		{
+			$ilCtrl->redirect($this, "render");
+		}
+	}
+	
+	// --- ObjectGUI End
+	
+	
+	/**
+	 * Render object context
+	 */
+	function render()
+	{
+		global $tpl, $ilTabs, $ilCtrl, $lng, $ilToolbar;
+		
+		if(!$this->checkPermissionBool("read"))
+		{
+			ilUtil::sendInfo($lng->txt("no_permission"));
+			return;
+		}
+
+		$ilTabs->activateTab("content");
+		
+		// toolbar
+		if($this->checkPermissionBool("write"))
+		{
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+
+			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+			$title = new ilTextInputGUI($lng->txt("title"), "title");
+			$ilToolbar->addInputItem($title, $lng->txt("title"));
+
+			$ilToolbar->addFormButton($lng->txt("blog_add_posting"), "createPosting");
+		}
+		
+		$list = $nav = "";		
+		if($this->items[$this->month])
+		{						
+			$list = $this->renderList($this->items[$this->month], $this->month);
+			$nav = $this->renderNavigation($this->items);		
+		}
+					
+		$tpl->setContent($list);
+		$tpl->setRightContent($nav);
+	}
+
+	/**
+	 * Return embeddable HTML chunk
+	 * 
+	 * @return string 
+	 */	
+	function getHTML()
+	{
+		global $ilCtrl;
+		
+		// there is no way to do a permissions check here, we have no wsp
+		
+		$list = $nav = "";
+		if($this->items[$this->month])
+		{				
+			$list = $this->renderList($this->items[$this->month], $this->month, "previewEmbedded");
+			$nav = $this->renderNavigation($this->items, "gethtml", "previewEmbedded");
+		}		
+		
+		return $this->buildEmbedded($list, $nav);
+		
+	}
+	
+	protected function buildEmbedded($a_content, $a_nav)
+	{
+		$wtpl = new ilTemplate("tpl.blog_embedded.html", true, true, "Modules/Blog");
+		$wtpl->setVariable("VAL_LIST", $a_content);
+		$wtpl->setVariable("VAL_NAVIGATION", $a_nav);							
+		return $wtpl->get();
+	}
+	
+	/**
+	 * Render fullscreen presentation
+	 */
+	function preview()
+	{		
+		global $lng, $ilCtrl;
+		
+		if(!$this->checkPermissionBool("read"))
+		{
+			ilUtil::sendInfo($lng->txt("no_permission"));
+			return;
+		}
+
+		$list = $nav = "";		
+		if($this->items[$this->month])
+		{									
+			$list = $this->renderList($this->items[$this->month], $this->month, "previewFullscreen");
+			$nav = $this->renderNavigation($this->items, "preview", "previewFullscreen");		
+		}
+						
+		$this->renderFullScreen($list, $nav);
+	}
+	
+	
+	// --- help functions 
+	
+	/**
+	 * Build fullscreen context
+	 * 
+	 * @param string $a_content
+	 * @param string $a_navigation
+	 */	
+	function renderFullScreen($a_content, $a_navigation)
+	{
+		global $tpl, $lng, $ilCtrl, $ilUser, $ilTabs;
+		
+		$owner = $this->object->getOwner();
+		
+		$ilTabs->clearTargets();
+		
+		// back		
+		if($owner == $ilUser->getId())
+		{			
+			$back = $ilCtrl->getLinkTarget($this, "");
+			$ilTabs->setBackTarget($lng->txt("blog_back_to_ilias"), $back);
+		}
+		else
+		{
+			// if deeplink this will not be possible
+		}		
+		
+		// title
+		$tpl->setTitle($this->object->getTitle());
+		$tpl->setTitleIcon(null);
+		
+		// owner
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+		$owner = ilUserUtil::getNamePresentation($owner, true, false); 		
+		$tpl->setDescription($owner);
+		
+		// content
+		$tpl->setContent($a_content);
+		$tpl->setRightContent($a_navigation);
+		$tpl->setFrameFixedWidth(true);
+
+		echo $tpl->show("DEFAULT", true, true);
+		exit();
+	}
+	
+	/**
+	 * Gather all blog postings
+	 * 
+	 * @param int $a_obj_id
+	 * @return array
+	 */
+	protected function buildPostingList($a_obj_id)
+	{
+		$items = array();
+		foreach(ilBlogPosting::getAllPostings($a_obj_id) as $posting)
+		{
+			$month = substr($posting["created"]->get(IL_CAL_DATE), 0, 7);
+			$items[$month][$posting["id"]] = $posting;
+		}
+		return $items;
+	}
+	
+	/**
+	 * Build posting month list
+	 * 
+	 * @param array $items
+	 * @param string $a_month
+	 * @param string $a_cmd
+	 * @param bool $a_offline
+	 * @return string 
+	 */
+	function renderList(array $items, $a_month, $a_cmd = "preview", $a_offline = false)
+	{
+		global $lng, $ilCtrl;
+		
+		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/Blog");
+		
+		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+		$title = ilCalendarUtil::_numericMonthToString(substr($a_month, 6)).
+				" ".substr($a_month, 0, 4);
+		$wtpl->setVariable("TXT_CURRENT_MONTH", $title);		
+		
+		foreach($items as $item)
+		{
+			if(!$a_offline)
+			{
+				$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $item["id"]);
+				$preview = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_cmd);
+			}
+			else
+			{
+				$preview = "blp_".$item["id"].".html";
+			}
+
+			// actions
+			if($this->checkPermissionBool("write") && !$a_offline)
+			{
+				include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+				$alist = new ilAdvancedSelectionListGUI();
+				$alist->setId($item["id"]);
+				$alist->setListTitle($lng->txt("actions"));
+				$alist->addItem($lng->txt("edit"), "edit", 
+					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit"));
+				$alist->addItem($lng->txt("delete"), "delete",
+					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "deleteBlogPostingConfirmationScreen"));
+
+				$wtpl->setCurrentBlock("actions");
+				$wtpl->setVariable("ACTION_SELECTOR", $alist->getHTML());
+				$wtpl->parseCurrentBlock();
+			}
+
+			// comments
+			if($this->object->getNotesStatus() && !$a_offline)
+			{
+				// count (public) notes
+				include_once("Services/Notes/classes/class.ilNote.php");
+				$count = sizeof(ilNote::_getNotesOfObject($this->obj_id, 
+					$item["id"], "blp", IL_NOTE_PUBLIC));
+				
+				$wtpl->setCurrentBlock("comments");
+				$wtpl->setVariable("TEXT_COMMENTS", $lng->txt("blog_comments"));
+				$wtpl->setVariable("URL_COMMENTS", $preview);
+				$wtpl->setVariable("COUNT_COMMENTS", $count);
+				$wtpl->parseCurrentBlock();
+			}
+
+			$wtpl->setCurrentBlock("posting");
+			
+			// title
+			$wtpl->setVariable("URL_TITLE", $preview);
+			$wtpl->setVariable("TITLE", $item["title"]);
+			$wtpl->setVariable("DATETIME",
+				ilDatePresentation::formatDate($item["created"], IL_CAL_DATE));
+			
+			// permanent link
+			$goto = $this->getAccessHandler()->getGotoLink($this->node_id, $this->obj_id, "_".$item["id"]);
+			$wtpl->setVariable("URL_PERMALINK", $goto); // :TODO:
+			$wtpl->setVariable("TEXT_PERMALINK", $lng->txt("blog_permanent_link"));
+
+			// content
+			$page = new ilBlogPosting($item["id"]);
+			$page->buildDom();
+			$wtpl->setVariable("CONTENT", $page->getFirstParagraphText());
+			$wtpl->setVariable("URL_MORE", $preview); 
+			$wtpl->setVariable("TEXT_MORE", $lng->txt("blog_list_more"));
+
+			$wtpl->parseCurrentBlock();
+		}
+
+		return $wtpl->get();
+	}
+
+	function renderNavigation(array $items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_offline = false)
+	{
+		global $ilCtrl;
+
+		$max_detail_postings = 10;
+		
+		$wtpl = new ilTemplate("tpl.blog_list_navigation.html",	true, true,
+			"Modules/Blog");
+
+		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+		$counter = 0;
+		foreach($items as $month => $postings)
+		{
+			$month_name = ilCalendarUtil::_numericMonthToString(substr($month, 6)).
+				" ".substr($month, 0, 4);
+
+			if(!$a_offline)
+			{
+				$month_url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
+			}
+			else
+			{
+				$month_url = "blm_".$month.".html";
+			}
+
+			// list postings for month
+			if($counter < $max_detail_postings)
+			{
+				$wtpl->setCurrentBlock("navigation_item");
+				foreach($postings as $id => $posting)
+				{
+					$counter++;
+
+					$caption = /* ilDatePresentation::formatDate($posting["created"], IL_CAL_DATETIME).
+						", ".*/ $posting["title"];
+
+					if(!$a_offline)
+					{
+						$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $id);
+						$url = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_posting_cmd);					
+					}
+					else
+					{
+						$url = "blp_".$id.".html";
+					}
+					
+					$wtpl->setVariable("NAV_ITEM_URL", $url);
+					$wtpl->setVariable("NAV_ITEM_CAPTION", $caption);
+					$wtpl->parseCurrentBlock();
+				}
+
+				$wtpl->setCurrentBlock("navigation_month_details");
+				$wtpl->setVariable("NAV_MONTH", $month_name);
+				$wtpl->setVariable("URL_MONTH", $month_url);
+				$wtpl->parseCurrentBlock();
+			}
+			// summarized month
+			else
+			{
+				$wtpl->setCurrentBlock("navigation_month");
+				$wtpl->setVariable("MONTH_NAME", $month_name);				
+				$wtpl->setVariable("URL_MONTH", $month_url);
+				$wtpl->setVariable("MONTH_COUNT", sizeof($postings));
+				$wtpl->parseCurrentBlock();
+			}
+		}
+
+		return $wtpl->get();
+	}
+
 	function export()
 	{
 		$zip = $this->buildExportFile();

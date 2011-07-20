@@ -108,13 +108,14 @@ class ilObjPortfolioGUI
 				$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath(0));
 				$tpl->parseCurrentBlock();
-				
+
 				$ret = $ilCtrl->forwardCommand($page_gui);
-				if ($ret != "")
-				{
+				
+				if ($ret != "" && $ret !== true)
+				{									
 					if(isset($_REQUEST["user_page"]))
-					{
-						$this->preview(false, $ret);
+					{						
+						$this->preview(false, $ret, ($cmd != "previewEmbedded"));
 					}
 					else
 					{
@@ -698,7 +699,7 @@ class ilObjPortfolioGUI
 	/**
 	 * Show user page
 	 */
-	function preview($a_return = false, $a_content = false)
+	function preview($a_return = false, $a_content = false, $a_show_notes = true)
 	{
 		global $ilUser, $tpl, $ilCtrl, $ilTabs, $lng;
 		
@@ -774,19 +775,24 @@ class ilObjPortfolioGUI
 			return $content;
 		}
 		
-		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-		$note_gui = new ilNoteGUI($portfolio_id, 0, "pf", false);
-		$note_gui->enablePublicNotes(true);
-		$note_gui->enablePrivateNotes(true);
-		$note_gui->enablePublicNotesDeletion($ilUser->getId() == $user_id);
-		$note_gui->setRepositoryMode(false);
+		$notes = "";
+		if($a_show_notes)
+		{
+			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+			$note_gui = new ilNoteGUI($portfolio_id, 0, "pf", false);
+			$note_gui->enablePublicNotes(true);
+			$note_gui->enablePrivateNotes(true);
+			$note_gui->enablePublicNotesDeletion($ilUser->getId() == $user_id);
+			$note_gui->setRepositoryMode(false);
+			$notes = $note_gui->getNotesHTML();
+		}
 		
 		include_once('classes/class.ilLink.php');
 		$goto = ilLink::_getStaticLink($portfolio_id, "prtf", true);
 		$goto = "<div style=\"margin:10px;\" class=\"small\"><a href=\"".$goto.
 			"\" target=\"blank\">goto test</a></div>";
 		
-		$tpl->setContent($content.$goto.$note_gui->getNotesHTML());			
+		$tpl->setContent($content.$goto.$notes);			
 		$tpl->setFrameFixedWidth(true);
 		
 		echo $tpl->show("DEFAULT", true, true);
