@@ -273,10 +273,22 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 	
 	function insertPCText() {
 		
-		global $ilCtrl;
+		global $ilCtrl, $ilSetting;
+		
 		switch ($_POST['pctext_type']) {
 			
 			case '0':  //Paragraph / Text
+				
+				// js editing? -> redirect to js page editor
+				if ($ilSetting->get("enable_js_edit", 1) && ilPageEditorGUI::_doJSEditing())
+				{
+					$ret_class = $ilCtrl->getReturnClass($this);
+					$ilCtrl->setParameterByClass($ret_class, "pl_hier_id", $this->hier_id);
+					$ilCtrl->setParameterByClass($ret_class, "pl_pc_id", $this->pc_id);
+					$ilCtrl->redirectByClass($ret_class,
+						"insertJSAtPlaceholder");
+				}
+
 				include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
 				$ilCtrl->setCmdClass("ilpcparagraphgui");
 				$ilCtrl->setCmd("insert");
@@ -335,5 +347,12 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 		}
 	}
 	
-	
+	/**
+	 * Cancel
+	 */
+	function cancel()
+	{ 
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
 }

@@ -2865,9 +2865,9 @@ class ilPageObjectGUI
 		return $this->showPage();
 	}
 
-	/*
-	* edit ("view" before)
-	*/
+	/**
+	 * edit ("view" before)
+	 */
 	function edit()
 	{
 		global $tree, $lng, $ilCtrl;
@@ -2882,15 +2882,35 @@ class ilPageObjectGUI
 
 		$html = $this->showPage();
 		
-		// scorm2004-start
 		if ($this->isEnabledNotes())
 		{
 			$html.= "<br /><br />".$this->getNotesHTML();
-		}
-		// scorm2004-end	
+		}	
 	
 		return $html;
 	}
+	
+	/**
+	 * InsertJS at placeholder
+	 *
+	 * @param
+	 * @return
+	 */
+	function insertJSAtPlaceholder()
+	{
+		global $tpl;
+		
+//		  'pl_hier_id' => string '2_1_1_1' (length=7)
+//  'pl_pc_id' => string '1f77eb1d8a478497d69b99d938fda8f' (length=31)
+		$html =  $this->edit();
+
+		$tpl->addOnLoadCode("ilCOPage.insertJSAtPlaceholder('".
+			$_GET["pl_hier_id"].":".$_GET["pl_pc_id"].
+			"');", 3);
+
+		return $html;
+	}
+	
 
 	/*
 	* presentation

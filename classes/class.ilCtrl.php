@@ -1385,6 +1385,26 @@ class ilCtrl
 	}
 
 	/**
+	 * Get return class
+	 *
+	 * @param
+	 * @return
+	 */
+	function getReturnClass($a_class)
+	{
+		if (is_object($a_class))
+		{
+			$class = strtolower(get_class($a_class));
+		}
+		else
+		{
+			$class = strtolower($a_class);
+		}
+		return $this->searchReturnClass($class);
+	}
+	
+	
+	/**
 	 * Determine current return class
 	 */
 	private function searchReturnClass($a_class)

@@ -988,6 +988,14 @@ tinymce.activeEditor.formatter.register('mycode', {
 				}
 			}
 		}
+	},
+	
+	insertJSAtPlaceholder: function(cmd_id)
+	{
+		clickcmdid = cmd_id;
+		var pl = document.getElementById('CONTENT' + cmd_id);
+		pl.style.display = 'none';
+		doActionForm('cmd[exec]', 'command', 'insert_par', '', 'PageContent', '');
 	}
 }
 
@@ -1889,7 +1897,8 @@ function saveParagraph()
 function doActionForm(cmd, command, value, target, type, char)
 {
 	if (cmd_called) return;
-//alert("-" + cmd + "-" + command + "-" + value + "-" + target + "-");
+//alert("-" + cmd + "-" + command + "-" + value + "-" + target + "-"+ type + "-" + char + "-");
+//alert(clickcmdid);
 //-cmd[exec]-command-edit--
     doCloseContextMenuCounter = 2;
 
