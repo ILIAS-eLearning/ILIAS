@@ -167,7 +167,7 @@ class ilObjBlogGUI extends ilObject2GUI
 							$nav = $this->renderNavigation($this->items, "gethtml", $cmd);	
 							return $this->buildEmbedded($ret, $nav);
 						
-						// ilias
+						// ilias/editor
 						default:
 							$tpl->setContent($ret);
 							$nav = $this->renderNavigation($this->items, "render", $cmd);	
@@ -335,14 +335,6 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 	}
 	
-	protected function buildEmbedded($a_content, $a_nav)
-	{
-		$wtpl = new ilTemplate("tpl.blog_embedded.html", true, true, "Modules/Blog");
-		$wtpl->setVariable("VAL_LIST", $a_content);
-		$wtpl->setVariable("VAL_NAVIGATION", $a_nav);							
-		return $wtpl->get();
-	}
-	
 	/**
 	 * Render fullscreen presentation
 	 */
@@ -365,9 +357,34 @@ class ilObjBlogGUI extends ilObject2GUI
 						
 		$this->renderFullScreen($list, $nav);
 	}
+		
+	/**
+	 * Build and deliver export file 	 
+	 */
+	function export()
+	{
+		$zip = $this->buildExportFile();
+		
+	    ilUtil::deliverFile($zip, $this->object->getTitle().".zip", '', false, true);
+	}
 	
 	
-	// --- help functions 
+	// --- helper functions 
+	
+	/**
+	 * Combine content (list/posting) and navigation to html chunk
+	 * 
+	 * @param string $a_content
+	 * @param string $a_nav
+	 * @return string
+	 */
+	protected function buildEmbedded($a_content, $a_nav)
+	{
+		$wtpl = new ilTemplate("tpl.blog_embedded.html", true, true, "Modules/Blog");
+		$wtpl->setVariable("VAL_LIST", $a_content);
+		$wtpl->setVariable("VAL_NAVIGATION", $a_nav);							
+		return $wtpl->get();
+	}
 	
 	/**
 	 * Build fullscreen context
@@ -435,10 +452,10 @@ class ilObjBlogGUI extends ilObject2GUI
 	 * @param array $items
 	 * @param string $a_month
 	 * @param string $a_cmd
-	 * @param bool $a_offline
+	 * @param bool $a_link_template
 	 * @return string 
 	 */
-	function renderList(array $items, $a_month, $a_cmd = "preview", $a_offline = false)
+	function renderList(array $items, $a_month, $a_cmd = "preview", $a_link_template = null)
 	{
 		global $lng, $ilCtrl;
 		
@@ -452,18 +469,18 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		foreach($items as $item)
 		{
-			if(!$a_offline)
+			if(!$a_link_template)
 			{
 				$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $item["id"]);
 				$preview = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_cmd);
 			}
 			else
 			{
-				$preview = "blp_".$item["id"].".html";
+				$preview = $this->buildExportLink($a_link_template, "posting", $item["id"]);
 			}
 
 			// actions
-			if($this->checkPermissionBool("write") && !$a_offline)
+			if($this->checkPermissionBool("write") && !$a_link_template)
 			{
 				include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 				$alist = new ilAdvancedSelectionListGUI();
@@ -480,7 +497,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			}
 
 			// comments
-			if($this->object->getNotesStatus() && !$a_offline)
+			if($this->object->getNotesStatus() && !$a_link_template)
 			{
 				// count (public) notes
 				include_once("Services/Notes/classes/class.ilNote.php");
@@ -520,7 +537,16 @@ class ilObjBlogGUI extends ilObject2GUI
 		return $wtpl->get();
 	}
 
-	function renderNavigation(array $items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_offline = false)
+	/**
+	 * Build navigation block
+	 *
+	 * @param array $items
+	 * @param string $a_list_cmd
+	 * @param string $a_posting_cmd
+	 * @param bool $a_link_template
+	 * @return string
+	 */
+	function renderNavigation(array $items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null)
 	{
 		global $ilCtrl;
 
@@ -536,13 +562,13 @@ class ilObjBlogGUI extends ilObject2GUI
 			$month_name = ilCalendarUtil::_numericMonthToString(substr($month, 6)).
 				" ".substr($month, 0, 4);
 
-			if(!$a_offline)
+			if(!$a_link_template)
 			{
 				$month_url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
 			}
 			else
 			{
-				$month_url = "blm_".$month.".html";
+				$month_url = $this->buildExportLink($a_link_template, "list", $month);
 			}
 
 			// list postings for month
@@ -556,14 +582,14 @@ class ilObjBlogGUI extends ilObject2GUI
 					$caption = /* ilDatePresentation::formatDate($posting["created"], IL_CAL_DATETIME).
 						", ".*/ $posting["title"];
 
-					if(!$a_offline)
+					if(!$a_link_template)
 					{
 						$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $id);
 						$url = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_posting_cmd);					
 					}
 					else
 					{
-						$url = "blp_".$id.".html";
+						$url = $this->buildExportLink($a_link_template, "posting", $id);
 					}
 					
 					$wtpl->setVariable("NAV_ITEM_URL", $url);
@@ -590,45 +616,34 @@ class ilObjBlogGUI extends ilObject2GUI
 		return $wtpl->get();
 	}
 
-	function export()
-	{
-		$zip = $this->buildExportFile();
-		
-	    ilUtil::deliverFile($zip, $this->object->getTitle().".zip", '', false, true);
-	}
-	
 	/**
 	 * Build export file
 	 *
-	 * @param
-	 * @return
+	 * @return string
 	 */
 	function buildExportFile()
 	{
-		global $ilias;
-
 		// create export file
 		include_once("./Services/Export/classes/class.ilExport.php");
 		ilExport::_createExportDirectory($this->object->getId(), "html", "blog");
-		$exp_dir =
-			ilExport::_getExportDirectory($this->object->getId(), "html", "blog");
+		$exp_dir = ilExport::_getExportDirectory($this->object->getId(), "html", "blog");
 
-		$this->subdir = $this->object->getType()."_".$this->object->getId();
-		$this->export_dir = $exp_dir."/".$this->subdir;
+		$subdir = $this->object->getType()."_".$this->object->getId();
+		$export_dir = $exp_dir."/".$subdir;
 
 		// initialize temporary target directory
-		ilUtil::delDir($this->export_dir);
-		ilUtil::makeDir($this->export_dir);
+		ilUtil::delDir($export_dir);
+		ilUtil::makeDir($export_dir);
 		
 		// system style html exporter
 		include_once("./Services/Style/classes/class.ilSystemStyleHTMLExport.php");
-		$this->sys_style_html_export = new ilSystemStyleHTMLExport($this->export_dir);
+		$this->sys_style_html_export = new ilSystemStyleHTMLExport($export_dir);
 	    $this->sys_style_html_export->addImage("icon_blog_b.gif");
 		$this->sys_style_html_export->export();
 
 		// init co page html exporter
 		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
-		$this->co_page_html_export = new ilCOPageHTMLExport($this->export_dir);
+		$this->co_page_html_export = new ilCOPageHTMLExport($export_dir);
 		/* $this->co_page_html_export->setContentStyleId(
 			$this->object->getStyleSheetId()); */
 		$this->co_page_html_export->createDirectories();
@@ -636,7 +651,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		$this->co_page_html_export->exportSupportScripts();
 
 		// export pages
-		$this->exportHTMLPages();
+		$this->exportHTMLPages($export_dir);
 
 		// zip everything
 		if (true)
@@ -646,8 +661,8 @@ class ilObjBlogGUI extends ilObject2GUI
 			$zip_file = ilExport::_getExportDirectory($this->object->getId(), "html", "blog").
 				"/".$date."__".IL_INST_ID."__".
 				$this->object->getType()."_".$this->object->getId().".zip";
-			ilUtil::zip($this->export_dir, $zip_file);
-			ilUtil::delDir($this->export_dir);
+			ilUtil::zip($export_dir, $zip_file);
+			ilUtil::delDir($export_dir);
 		}
 		
 		return $zip_file;
@@ -656,25 +671,32 @@ class ilObjBlogGUI extends ilObject2GUI
 	/**
 	 * Export all pages
 	 */
-	function exportHTMLPages()
-	{
-		global $tpl, $ilBench, $ilLocator;
-
-		$pages = ilBlogPosting::getAllPostings($this->object->getId(), 0);
+	function exportHTMLPages($a_target_directory, $a_tpl = null, $a_link_template = null)
+	{				
+		if(!$a_tpl)
+		{
+			$a_tpl = $this->buildExportTemplate();
+		}
 		
-		$items = $this->buildPostingList($this->object->getId());
-		$nav = $this->renderNavigation($items, true);
+		if(!$a_link_template)
+		{
+			$a_link_template = "bl{TYPE}_{ID}.html";
+		}
+		
+		$nav = $this->renderNavigation($this->items, "", "", $a_link_template);
 		
 		// month list
 		$has_index = false;
-		foreach(array_keys($items) as $month)
-		{						
-			$list = $this->renderList($items[$month], $month, true);			
-			$file = $this->writeExportFile("blm_".$month.".html", $list, $nav);
+		foreach(array_keys($this->items) as $month)
+		{									
+			$file = $this->buildExportLink($a_link_template, "list", $month);
+			$list = $this->renderList($this->items[$month], $month, "", $a_link_template);			
+			$file = $this->writeExportFile($a_target_directory, $file, 
+				$a_tpl, $list, $nav);
 			
 			if(!$has_index)
 			{
-				copy($file, $this->export_dir."/index.html");
+				copy($file, $a_target_directory."/index.html");
 				$has_index = true;
 			}
 		}
@@ -682,30 +704,99 @@ class ilObjBlogGUI extends ilObject2GUI
 		// single postings
 		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		$pages = ilBlogPosting::getAllPostings($this->object->getId(), 0);		
 		foreach ($pages as $page)
 		{
 			if (ilPageObject::_exists("blp", $page["id"]))
-			{
-				$this->exportPageHTML($page["id"], $nav, $page["created"]->get(IL_CAL_DATE));
+			{				
+				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
+				$blp_gui = new ilBlogPostingGUI(0, null, $page["id"]);
+				$blp_gui->setOutputMode("offline");
+				$page_content = $blp_gui->showPage();
+							
+				$back = $this->buildExportLink($a_link_template, "list", 
+					substr($page["created"]->get(IL_CAL_DATE), 0, 7));
+				
+				$file = $this->buildExportLink($a_link_template, "posting", $page["id"]);
+				
+				$this->writeExportFile($a_target_directory, $file, $a_tpl, 
+					$page_content, $nav, $back);
+				
 				$this->co_page_html_export->collectPageElements("blp:pg", $page["id"]);
 			}
 		}
 		$this->co_page_html_export->exportPageElements();
 	}
 	
-	function writeExportFile($a_file, $a_content, $a_right_content = null, $a_back_url = null)
+	/**
+	 * Build static export link
+	 * 
+	 * @param string $a_template
+	 * @param string $a_type
+	 * @param mixed $a_id
+	 * @return string
+	 */
+	protected function buildExportLink($a_template, $a_type, $a_id)
 	{
-		global $lng, $ilTabs;
+		if($a_type == "list")
+		{
+			$a_type = "m";
+		}
+		else
+		{
+			$a_type = "p";
+		}
+		$link = str_replace("{TYPE}", $a_type, $a_template);
+		return str_replace("{ID}", $a_id, $link);
+	}
+	
+	/**
+	 * Build export "frame"
+	 * 
+	 * @param type $a_back_url
+	 * @return ilTemplate 
+	 */
+	protected function buildExportTemplate($a_back_url = "")
+	{		
+		global $ilTabs, $lng;
 		
-		$this->tpl = $this->co_page_html_export->getPreparedMainTemplate();
+		$tpl = $this->co_page_html_export->getPreparedMainTemplate();
 		
-		$this->tpl->getStandardTemplate();
-		$file = $this->export_dir."/".$a_file;
+		$tpl->getStandardTemplate();
+	
+		// workaround
+		$tpl->setVariable("MAINMENU", "<div style='min-height:40px;'></div>");
+		$tpl->setTitle($this->object->getTitle());
+		$tpl->setTitleIcon("./images/icon_blog_b.gif",
+			$lng->txt("obj_blog"));
+		
+		$ilTabs->clearTargets();
+		if($a_back_url)
+		{			
+			$ilTabs->setBackTarget($lng->txt("back"), $a_back_url);
+		}
+
+		return $tpl;
+	}
+	
+	/**
+	 * Write HTML to file
+	 * 
+	 * @param type $a_target_directory
+	 * @param type $a_file
+	 * @param type $a_tpl
+	 * @param type $a_content
+	 * @param type $a_right_content
+	 * @return string 
+	 */
+	protected function writeExportFile($a_target_directory, $a_file, $a_tpl, $a_content, $a_right_content = null)
+	{
+		$file = $a_target_directory."/".$a_file;
 		// return if file is already existing
 		if (@is_file($file))
 		{
 			return;
-		}
+		}		
 		
 		// export template: page content
 		$ep_tpl = new ilTemplate("tpl.export_page.html", true, true,
@@ -718,22 +809,10 @@ class ilObjBlogGUI extends ilObject2GUI
 			$ep_tpl->setVariable("RIGHT_CONTENT", $a_right_content);
 		}
 		
-		// workaround
-		$this->tpl->setVariable("MAINMENU", "<div style='min-height:40px;'></div>");
-		$this->tpl->setTitle($this->object->getTitle());
-		$this->tpl->setTitleIcon("./images/icon_blog_b.gif",
-			$lng->txt("obj_blog"));
-		
-		$ilTabs->clearTargets();
-		if($a_back_url)
-		{			
-			$ilTabs->setBackTarget($lng->txt("back"), $a_back_url);
-		}
+		$a_tpl->setContent($ep_tpl->get());		
 
-		$this->tpl->setContent($ep_tpl->get());
-		//$this->tpl->fillMainContent();
-		$content = $this->tpl->get("DEFAULT", false, false, false,
-			true, true, true);
+		$content = $a_tpl->get("DEFAULT", false, false, false,
+			true, true, true);		
 
 		// open file
 		if (!file_put_contents($file, $content))
@@ -749,23 +828,10 @@ class ilObjBlogGUI extends ilObject2GUI
 	}
 
 	/**
-	 * Export page html
+	 * Deep link
+	 * 
+	 * @param string $a_target 
 	 */
-	function exportPageHTML($a_post_id, $a_navigation, $a_date)
-	{
-		global $lng;
-		
-		// page
-		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
-		$blp_gui = new ilBlogPostingGUI(0, null, $a_post_id);
-		$blp_gui->setOutputMode("offline");
-		$page_content = $blp_gui->showPage();
-		
-		$back = "blm_".substr($a_date, 0, 7).".html";
-
-		$this->writeExportFile("blp_".$a_post_id.".html", $page_content, $a_navigation, $back);
-	}
-
 	function _goto($a_target)
 	{
 		$id = explode("_", $a_target);
