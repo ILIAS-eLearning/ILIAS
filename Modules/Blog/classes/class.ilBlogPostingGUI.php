@@ -81,7 +81,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$cmd = $ilCtrl->getCmd();
 
 		$posting = $this->getBlogPosting();
-
+		
 		switch($next_class)
 		{
 			case "ilnotegui":
@@ -200,6 +200,16 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$ilCtrl->setParameter($this, "page", $this->getBlogPosting()->getId());
 
 		return $wtpl->get();
+	}
+	
+	function previewEmbedded()
+	{		
+		return $this->preview();
+	}
+	
+	function previewFullscreen()
+	{		
+		return $this->preview();
 	}
 
 	/**
