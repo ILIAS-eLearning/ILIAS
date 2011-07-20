@@ -1857,6 +1857,7 @@ class ilPageObjectGUI
 
 		// added UTF-8 encoding otherwise umlaute are converted too
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
+						 'layout_mode' => $this->getLayoutMode() ? "y" : "n",
 						 'pg_id' => $this->obj->getId(), 'pg_title_class' => $pg_title_class,
 						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path,
 						 'img_add' => $add_path,
@@ -1928,9 +1929,13 @@ class ilPageObjectGUI
 		}
 		else
 		{
-			if ($this->getLayoutMode() == true) {
-				$xsl = file_get_contents("./Services/COPage/xsl/page_layout.xsl");
-			} else {
+			if ($this->getLayoutMode() == true)
+			{
+//				$xsl = file_get_contents("./Services/COPage/xsl/page_layout.xsl");
+				$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
+			}
+			else
+			{
 				$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");	
 			}
 //echo htmlentities($content); exit;

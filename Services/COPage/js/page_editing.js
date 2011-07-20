@@ -896,6 +896,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 			if (ilAdvancedSelectionList != null)
 			{
 				ilAdvancedSelectionList.init['style_selection']();
+				ilAdvancedSelectionList.init['char_style_selection']();
 			}
 		}
 	},
@@ -2167,7 +2168,7 @@ function showToolbar(ed_id)
 
 		ilCOPage.menu_panel_opened = true;
 
-		DOM.setStyle(e, 'left', -1000);
+		DOM.setStyle(e, 'left', -6000);
 		var ed_el = document.getElementById(ed_id + '_parent');
 		var m_el = document.getElementById('iltinymenu');
 //		m_el.style.display = '';

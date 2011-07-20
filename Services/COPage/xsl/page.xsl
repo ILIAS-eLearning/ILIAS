@@ -645,161 +645,187 @@
 <!-- Insert Menu Items -->
 <xsl:template name="EditMenuInsertItems">
 
-	<!-- paste actual clipboard content -->
-	<xsl:if test = "$paste = 'y'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">paste</xsl:with-param>
-			<xsl:with-param name="langvar">ed_paste</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>
+	<xsl:if test = "$layout_mode != 'y'">
 
-	<!-- insert paragraph -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">insert_par</xsl:with-param>
-		<xsl:with-param name="langvar">ed_insert_par</xsl:with-param>
-	</xsl:call-template>
+		<!-- paste actual clipboard content -->
+		<xsl:if test = "$paste = 'y'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">paste</xsl:with-param>
+				<xsl:with-param name="langvar">ed_paste</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
 	
-	<!-- insert repository objects -->
-	<xsl:if test = "$enable_rep_objects = 'y'">
+		<!-- insert paragraph -->
 		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">insert_repobj</xsl:with-param>
-			<xsl:with-param name="langvar">ed_insert_repobj</xsl:with-param>
+			<xsl:with-param name="command">insert_par</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_par</xsl:with-param>
 		</xsl:call-template>
-	</xsl:if>
-
-	<!-- insert login page element -->
-	<xsl:if test = "$enable_login_page = 'y'">
+	
+		<!-- insert repository objects -->
+		<xsl:if test = "$enable_rep_objects = 'y'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">insert_repobj</xsl:with-param>
+				<xsl:with-param name="langvar">ed_insert_repobj</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+	
+		<!-- insert login page element -->
+		<xsl:if test = "$enable_login_page = 'y'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">insert_lpe</xsl:with-param>
+				<xsl:with-param name="langvar">ed_insert_login_page_element</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+	
+		<!-- insert media object -->
 		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">insert_lpe</xsl:with-param>
-			<xsl:with-param name="langvar">ed_insert_login_page_element</xsl:with-param>
+			<xsl:with-param name="command">insert_mob</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_media</xsl:with-param>
 		</xsl:call-template>
-	</xsl:if>
-
-	<!-- insert media object -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">insert_mob</xsl:with-param>
-		<xsl:with-param name="langvar">ed_insert_media</xsl:with-param>
-	</xsl:call-template>
-
-	<!-- insert question -->
-	<xsl:if test = "$enable_sa_qst = 'y'">
+	
+		<!-- insert question -->
+		<xsl:if test = "$enable_sa_qst = 'y'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">insert_pcqst</xsl:with-param>
+				<xsl:with-param name="langvar">ed_insert_pcqst</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+	
+		<!-- insert file list -->
+		<xsl:if test = "$enable_file_list = 'y'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">insert_flst</xsl:with-param>
+				<xsl:with-param name="langvar">ed_insert_filelist</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+	
+		<!-- insert data table -->
 		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">insert_pcqst</xsl:with-param>
-			<xsl:with-param name="langvar">ed_insert_pcqst</xsl:with-param>
+			<xsl:with-param name="command">insert_dtab</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_dtable</xsl:with-param>
 		</xsl:call-template>
-	</xsl:if>
-
-	<!-- insert file list -->
-	<xsl:if test = "$enable_file_list = 'y'">
+	
+		<!-- insert advanced table -->
 		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">insert_flst</xsl:with-param>
-			<xsl:with-param name="langvar">ed_insert_filelist</xsl:with-param>
+			<xsl:with-param name="command">insert_tab</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_atable</xsl:with-param>
 		</xsl:call-template>
-	</xsl:if>
-
-	<!-- insert data table -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">insert_dtab</xsl:with-param>
-		<xsl:with-param name="langvar">ed_insert_dtable</xsl:with-param>
-	</xsl:call-template>
-
-	<!-- insert advanced table -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">insert_tab</xsl:with-param>
-		<xsl:with-param name="langvar">ed_insert_atable</xsl:with-param>
-	</xsl:call-template>
-
-	<!-- insert list -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">insert_list</xsl:with-param>
-		<xsl:with-param name="langvar">ed_insert_list</xsl:with-param>
-	</xsl:call-template>
-
-	<!-- insert section -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">insert_sec</xsl:with-param>
-		<xsl:with-param name="langvar">ed_insert_section</xsl:with-param>
-	</xsl:call-template>
-
-	<!-- insert tabbed content -->
-	<xsl:if test = "$enable_tabs = 'y'">
+	
+		<!-- insert list -->
 		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">insert_tabs</xsl:with-param>
-			<xsl:with-param name="langvar">ed_insert_tabs</xsl:with-param>
+			<xsl:with-param name="command">insert_list</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_list</xsl:with-param>
 		</xsl:call-template>
-	</xsl:if>
-
-	<!-- insert interactive image -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">insert_iim</xsl:with-param>
-		<xsl:with-param name="langvar">ed_insert_iim</xsl:with-param>
-	</xsl:call-template>
-
-	<!-- insert map (geographical) -->
-	<xsl:if test = "$enable_map = 'y'">
+	
+		<!-- insert section -->
 		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">insert_map</xsl:with-param>
-			<xsl:with-param name="langvar">ed_insert_map</xsl:with-param>
+			<xsl:with-param name="command">insert_sec</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_section</xsl:with-param>
 		</xsl:call-template>
-	</xsl:if>
-
-	<!-- insert code -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">insert_src</xsl:with-param>
-		<xsl:with-param name="langvar">ed_insert_code</xsl:with-param>
-	</xsl:call-template>
-
-	<!-- insert content snippets -->
-	<xsl:if test = "$enable_content_includes = 'y'">
+	
+		<!-- insert tabbed content -->
+		<xsl:if test = "$enable_tabs = 'y'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">insert_tabs</xsl:with-param>
+				<xsl:with-param name="langvar">ed_insert_tabs</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+	
+		<!-- insert interactive image -->
 		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">insert_incl</xsl:with-param>
-			<xsl:with-param name="langvar">ed_insert_incl</xsl:with-param>
+			<xsl:with-param name="command">insert_iim</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_iim</xsl:with-param>
 		</xsl:call-template>
+	
+		<!-- insert map (geographical) -->
+		<xsl:if test = "$enable_map = 'y'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">insert_map</xsl:with-param>
+				<xsl:with-param name="langvar">ed_insert_map</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+	
+		<!-- insert code -->
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_src</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_code</xsl:with-param>
+		</xsl:call-template>
+	
+		<!-- insert content snippets -->
+		<xsl:if test = "$enable_content_includes = 'y'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">insert_incl</xsl:with-param>
+				<xsl:with-param name="langvar">ed_insert_incl</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+		
+		<!-- insert plugged component -->
+		<xsl:for-each select="//ComponentPlugins/ComponentPlugin">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">insert_plug_<xsl:value-of select="@Name" /></xsl:with-param>
+				<xsl:with-param name="text"><xsl:value-of select="@InsertText" /></xsl:with-param>
+			</xsl:call-template>
+		</xsl:for-each>
+	
+		<!-- insert profile -->
+		<xsl:if test = "$enable_profile = 'y'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">insert_prof</xsl:with-param>
+				<xsl:with-param name="langvar">ed_insert_profile</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+		
+		<!-- insert verification -->
+		<xsl:if test = "$enable_verification = 'y'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">insert_vrfc</xsl:with-param>
+				<xsl:with-param name="langvar">ed_insert_verification</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+		
+		<!-- insert blog -->
+		<xsl:if test = "$enable_blog = 'y'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">insert_blog</xsl:with-param>
+				<xsl:with-param name="langvar">ed_insert_blog</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+		
+		<!-- question overview -->
+		<xsl:if test = "$enable_qover = 'y'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">insert_qover</xsl:with-param>
+				<xsl:with-param name="langvar">ed_insert_qover</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+		
+		<!-- paste from clipboard -->
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">pasteFromClipboard</xsl:with-param>
+		<xsl:with-param name="langvar">ed_paste_clip</xsl:with-param></xsl:call-template>
+		
 	</xsl:if>
 	
-	<!-- insert plugged component -->
-	<xsl:for-each select="//ComponentPlugins/ComponentPlugin">
+	<xsl:if test = "$layout_mode = 'y'">
+	
+		<!-- insert  placeholder -->
 		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">insert_plug_<xsl:value-of select="@Name" /></xsl:with-param>
-			<xsl:with-param name="text"><xsl:value-of select="@InsertText" /></xsl:with-param>
+			<xsl:with-param name="command">insert_plach</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_plach</xsl:with-param>
 		</xsl:call-template>
-	</xsl:for-each>
+	
+		<!-- insert advanced table -->
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_tab</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_atable</xsl:with-param>
+		</xsl:call-template>
+		
+		<!-- insert paragraph -->
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_par</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_par</xsl:with-param>
+		</xsl:call-template>
 
-	<!-- insert profile -->
-	<xsl:if test = "$enable_profile = 'y'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">insert_prof</xsl:with-param>
-			<xsl:with-param name="langvar">ed_insert_profile</xsl:with-param>
-		</xsl:call-template>
 	</xsl:if>
-	
-	<!-- insert verification -->
-	<xsl:if test = "$enable_verification = 'y'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">insert_vrfc</xsl:with-param>
-			<xsl:with-param name="langvar">ed_insert_verification</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>
-	
-	<!-- insert blog -->
-	<xsl:if test = "$enable_blog = 'y'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">insert_blog</xsl:with-param>
-			<xsl:with-param name="langvar">ed_insert_blog</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>
-	
-	<!-- question overview -->
-	<xsl:if test = "$enable_qover = 'y'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">insert_qover</xsl:with-param>
-			<xsl:with-param name="langvar">ed_insert_qover</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>
-	
-	<!-- paste from clipboard -->
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">pasteFromClipboard</xsl:with-param>
-	<xsl:with-param name="langvar">ed_paste_clip</xsl:with-param></xsl:call-template>
 
 </xsl:template>
 
@@ -3536,7 +3562,12 @@
 					width:<xsl:value-of select="@Width"/>;
 				</xsl:if>	
 			</xsl:attribute>
-			<xsl:value-of select="//LVs/LV[@name='media_placeh']/@value"/>
+			<xsl:if test = "$layout_mode != 'y'">
+				<xsl:value-of select="//LVs/LV[@name='media_placeh']/@value"/>
+			</xsl:if>
+			<xsl:if test = "$layout_mode = 'y'">
+				<xsl:value-of select="//LVs/LV[@name='media_placehl']/@value"/>
+			</xsl:if>
 		</div>	
 	</xsl:if>
 	
@@ -3550,8 +3581,13 @@
 					width:<xsl:value-of select="@Width"/>;
 				</xsl:if>
 			</xsl:attribute>
-			<xsl:value-of select="//LVs/LV[@name='text_placeh']/@value"/>
-		</div>	  
+			<xsl:if test = "$layout_mode != 'y'">
+				<xsl:value-of select="//LVs/LV[@name='text_placeh']/@value"/>
+			</xsl:if>
+			<xsl:if test = "$layout_mode = 'y'">
+				<xsl:value-of select="//LVs/LV[@name='text_placehl']/@value"/>
+			</xsl:if>
+		</div>
 	</xsl:if>
 	
 	<xsl:if test="@ContentClass='Question'">
@@ -3564,7 +3600,13 @@
 					width:<xsl:value-of select="@Width"/>;
 				</xsl:if>
 				</xsl:attribute>
-			<xsl:value-of select="//LVs/LV[@name='question_placeh']/@value"/>
+			<xsl:if test = "$layout_mode != 'y'">
+				<xsl:value-of select="//LVs/LV[@name='question_placeh']/@value"/>
+			</xsl:if>
+			<xsl:if test = "$layout_mode = 'y'">
+				<xsl:value-of select="//LVs/LV[@name='question_placehl']/@value"/>
+			</xsl:if>
+
 		</div>		
 	</xsl:if>
 	
