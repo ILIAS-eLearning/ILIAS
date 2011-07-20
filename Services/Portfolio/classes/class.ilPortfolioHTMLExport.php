@@ -6,7 +6,8 @@
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
- * @ingroup Modules/Wiki
+ * 
+ * @ingroup ServicesPortfolio
  */
 class ilPortfolioHTMLExport
 {
@@ -37,8 +38,7 @@ class ilPortfolioHTMLExport
 		// create export file
 		include_once("./Services/Export/classes/class.ilExport.php");
 		ilExport::_createExportDirectory($this->object->getId(), "html", "prtf");
-		$exp_dir =
-			ilExport::_getExportDirectory($this->object->getId(), "html", "prtf");
+		$exp_dir = ilExport::_getExportDirectory($this->object->getId(), "html", "prtf");
 
 		$this->subdir = $this->object->getType()."_".$this->object->getId();
 		$this->export_dir = $exp_dir."/".$this->subdir;
@@ -89,28 +89,84 @@ class ilPortfolioHTMLExport
 
 		require_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
 		$pages = ilPortfolioPage::getAllPages($this->object->getId());
+			
+		$this->tabs = array();
+		foreach($pages as $page)
+		{
+			// substitute blog id with title
+			if($page["type"] == ilPortfolioPage::TYPE_BLOG)
+			{
+				include_once "Modules/Blog/classes/class.ilObjBlog.php";
+				$page["title"] = ilObjBlog::_lookupTitle((int)$page["title"]);
+			}
+			
+			$this->tabs[$page["id"]] = $page["title"];
+		}
+				
+		// for sub-pages, e.g. blog postings
+		$tpl_callback = array($this, "buildExportTemplate");
 		
-		// single postings
 		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		$has_index = false;
 		foreach ($pages as $page)
-		{
+		{						
 			if (ilPageObject::_exists("prtf", $page["id"]))
 			{
-				$this->exportPageHTML($page["id"]);
-				$this->co_page_html_export->collectPageElements("prtf:pg", $page["id"]);
+				$this->active_tab = "user_page_".$page["id"];
+				
+				if($page["type"] == ilPortfolioPage::TYPE_BLOG)
+				{										
+					$link_template = "prtf_".$page["id"]."_bl{TYPE}_{ID}.html";
+					
+					include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
+					$blog = new ilObjBlogGUI((int)$page["title"], ilObject2GUI::WORKSPACE_OBJECT_ID);					
+					$blog->exportHTMLPages($this->export_dir."/", $link_template, $tpl_callback, $this->co_page_html_export, "prtf_".$page["id"].".html");
+				}
+				else
+				{
+					$this->exportPageHTML($page["id"]);
+					$this->co_page_html_export->collectPageElements("prtf:pg", $page["id"]);
+				}
+				
+				 if(!$has_index)
+				 {
+					 copy($this->export_dir."/prtf_".$page["id"].".html", 
+						$this->export_dir."/index.html");
+					 $has_index = true;
+				 }
 			}
 		}
 		$this->co_page_html_export->exportPageElements();
 	}
 	
-	function writeExportFile($a_file, $a_content, array $a_tabs = null)
+	function buildExportTemplate()
 	{
-		global $lng, $ilTabs;
+		global $ilTabs;
 		
 		$this->tpl = $this->co_page_html_export->getPreparedMainTemplate();
-		
 		$this->tpl->getStandardTemplate();
+		
+		// workaround
+		$this->tpl->setVariable("MAINMENU", "<div style='min-height:40px;'></div>");
+		$this->tpl->setTitle($this->object->getTitle());
+		
+		$ilTabs->clearTargets();
+		if($this->tabs)
+		{			
+			foreach($this->tabs as $id => $caption)
+			{
+				$ilTabs->addTab("user_page_".$id, $caption, "prtf_".$id.".html");
+			}
+			
+			$ilTabs->activateTab($this->active_tab);
+		}
+		
+		return $this->tpl;
+	}
+	
+	function writeExportFile($a_file, $a_content)
+	{
 		$file = $this->export_dir."/".$a_file;
 		// return if file is already existing
 		if (@is_file($file))
@@ -123,21 +179,9 @@ class ilPortfolioHTMLExport
 			"Services/Portfolio");
 		$ep_tpl->setVariable("PAGE_CONTENT", $a_content);		
 		
-		// workaround
-		$this->tpl->setVariable("MAINMENU", "<div style='min-height:40px;'></div>");
-		$this->tpl->setTitle($this->object->getTitle());
-		
-		$ilTabs->clearTargets();
-		if($a_tabs)
-		{			
-			foreach($tabs as $caption => $url)
-			{
-				$ilTabs->addTab($caption, $url);
-			}
-		}
-
+		$this->buildExportTemplate();	
 		$this->tpl->setContent($ep_tpl->get());
-		//$this->tpl->fillMainContent();
+
 		$content = $this->tpl->get("DEFAULT", false, false, false,
 			true, true, true);
 
@@ -167,7 +211,7 @@ class ilPortfolioHTMLExport
 		$pgui->setOutputMode("offline");
 		$page_content = $pgui->showPage();
 		
-		$this->writeExportFile("blp_".$a_post_id.".html", $page_content);
+		$this->writeExportFile("prtf_".$a_post_id.".html", $page_content);
 	}
 }
 
