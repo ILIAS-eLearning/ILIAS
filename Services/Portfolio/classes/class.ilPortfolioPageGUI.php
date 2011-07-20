@@ -261,10 +261,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	protected function renderBlog($a_user_id, $a_blog_id, array $a_posting_ids = null)
 	{
 		global $ilCtrl;
-		
-		
+				
 		// :TODO: what about user?
 		
+		// full blog (separate tab/page)
 		if(!$a_posting_ids)
 		{
 			include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
@@ -279,14 +279,13 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				
 			}
 		}
+		// embedded postings
 		else
 		{
 			$html = array();
 			
-			/*
 			include_once "Modules/Blog/classes/class.ilObjBlog.php";
 			$html[] = ilObjBlog::_lookupTitle($a_blog_id);
-			*/
 			
 			include_once "Modules/Blog/classes/class.ilBlogPostingGUI.php";
 			foreach($a_posting_ids as $post)

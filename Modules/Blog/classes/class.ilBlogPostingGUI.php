@@ -202,18 +202,28 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		return $wtpl->get();
 	}
 	
+	/**
+	 * Needed for portfolio/blog handling
+	 * 
+	 * @return string
+	 */
 	function previewEmbedded()
 	{		
 		return $this->preview();
 	}
 	
+	/**
+	 * Needed for portfolio/blog handling
+	 * 
+	 * @return string
+	 */
 	function previewFullscreen()
 	{		
 		return $this->preview();
 	}
 
 	/**
-	 * Show current page
+	 * Embedded posting in portfolio
 	 *
 	 * @return string
 	 */

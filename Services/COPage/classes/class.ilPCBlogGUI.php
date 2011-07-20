@@ -165,7 +165,7 @@ class ilPCBlogGUI extends ilPageContentGUI
 		if(!$_POST["blog_id"])
 		{
 			$form = $this->initForm(true);
-			if(!$form->checkInput())
+			if($form->checkInput())
 			{
 				return $this->insertPosting($_POST["blog"]);
 			}
