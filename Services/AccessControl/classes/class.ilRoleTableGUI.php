@@ -46,14 +46,13 @@ class ilRoleTableGUI extends ilTable2GUI
 	 */
 	public function init()
 	{
-	 
 		$this->lng->loadLanguageModule('rbac');
 
 		$this->addColumn('','f','1px');
 		$this->lng->loadLanguageModule('search');
 	 	$this->addColumn($this->lng->txt('search_title_description'),'title','40%');
-	 	$this->addColumn($this->lng->txt('context'),'','60%');
-
+	 	$this->addColumn($this->lng->txt('context'),'','50%');
+		$this->addColumn($this->lng->txt('actions'),'','10%');
 		$this->setRowTemplate('tpl.role_row.html','Services/AccessControl');
 		$this->setDefaultOrderField('title');
 		$this->setDefaultOrderDirection('asc');
@@ -100,7 +99,17 @@ class ilRoleTableGUI extends ilTable2GUI
 			$roles->setValue(ilRbacReview::FILTER_ALL);
 		}
 
+		// title filter
+		include_once './Services/Form/classes/class.ilTextInputGUI.php';
+		$title = new ilTextInputGUI($this->lng->txt('title'), 'role_title');
+		$title->setSize(16);
+		$title->setMaxLength(64);
+
+		$this->addFilterItem($title);
+		$title->readFromSession();
+
 		$this->filter['role_type'] = $roles->getValue();
+		$this->filter['role_title'] = $title->getValue();
 	}
 
 	/**
@@ -167,6 +176,17 @@ class ilRoleTableGUI extends ilTable2GUI
 				$this->getPathGUI()->getPath(ROOT_FOLDER_ID,$ref)
 			);
 		}
+
+		// Copy role
+		$this->tpl->setVariable('COPY_TEXT',$this->lng->txt('rbac_role_rights_copy'));
+		$this->ctrl->setParameter($this->getParentObject(), "obj_id", $set["obj_id"]);
+		$link = $this->ctrl->getLinkTarget($this->getParentObject(),'roleSearch');
+		$this->tpl->setVariable(
+			'COPY_LINK',
+			$link
+		);
+
+
 	}
 
 	/**
@@ -175,13 +195,22 @@ class ilRoleTableGUI extends ilTable2GUI
 	 */
 	public function parse($role_folder_id)
 	{
-		global $rbacreview;
+		global $rbacreview,$ilUser;
 
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 
+		$filter = $this->getFilterItemByPostVar('role_title')->getValue();
+		$type = $this->getFilterItemByPostVar('role_type')->getValue();
+		
+		if($type == ilRbacReview::FILTER_INTERNAL or $type == ilRbacReview::FILTER_ALL)
+		{
+			$filter = '';
+		}
+
 		$role_list = $rbacreview->getRolesByFilter(
-			$this->getFilterItemByPostVar('role_type')->getValue(),
-			$role_folder_id
+			$type,
+			0,
+			$filter
 		);
 
 
@@ -189,8 +218,20 @@ class ilRoleTableGUI extends ilTable2GUI
 		$rows = array();
 		foreach((array) $role_list as $role)
 		{
+			$title = ilObjRole::_getTranslation($role['title']);
+
+			if($type == ilRbacReview::FILTER_INTERNAL or $type == ilRbacReview::FILTER_ALL)
+			{
+				if(strlen($this->getFilterItemByPostVar('role_title')->getValue()))
+				{
+					if(stristr($title, $this->getFilterItemByPostVar('role_title')->getValue()) == FALSE)
+					{
+						continue;
+					}
+				}
+			}
 			$rows[$counter]['title_orig'] = $role['title'];
-			$rows[$counter]['title'] = ilObjRole::_getTranslation($role['title']);
+			$rows[$counter]['title'] = $title;
 			$rows[$counter]['description'] = $role['description'];
 			$rows[$counter]['obj_id'] = $role['obj_id'];
 			$rows[$counter]['parent'] = $role['parent'];
@@ -200,8 +241,6 @@ class ilRoleTableGUI extends ilTable2GUI
 		}
 		$this->setData($rows);
 	}
-
-
 }
 
 ?>

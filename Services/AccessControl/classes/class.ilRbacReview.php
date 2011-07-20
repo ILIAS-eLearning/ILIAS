@@ -690,7 +690,7 @@ class ilRbacReview
 	* @param	boolean	if true fetch template roles too
 	* @return	array	set ids
 	*/
-	function getAssignableRoles($a_templates = false,$a_internal_roles = false)
+	function getAssignableRoles($a_templates = false,$a_internal_roles = false, $title_filter = '')
 	{
 		global $ilDB;
 		
@@ -702,6 +702,15 @@ class ilRbacReview
 			 "JOIN rbac_fa ON obj_id = rol_id ".
 			 $where.
 			 "AND rbac_fa.assign = 'y' ";
+
+		if(strlen($title_filter))
+		{
+			$query .= (' AND '.$ilDB->like(
+				'title',
+				'text',
+				$title_filter.'%'
+			));
+		}
 		$res = $ilDB->query($query);
 
 		while ($row = $ilDB->fetchAssoc($res))
@@ -1544,7 +1553,7 @@ class ilRbacReview
 		return in_array($a_role_id,$this->getGlobalRoles());
 	}
 	
-	function getRolesByFilter($a_filter = 0,$a_user_id = 0)
+	function getRolesByFilter($a_filter = 0,$a_user_id = 0, $title_filter = '')
 	{
 		global $ilDB;
 		
@@ -1553,24 +1562,24 @@ class ilRbacReview
 		switch($a_filter)
 		{
             // all (assignable) roles
-            case 1:
-				return $this->getAssignableRoles();
+            case self::FILTER_ALL:
+				return $this->getAssignableRoles($title_filter);
 				break;
 
             // all (assignable) global roles
-            case 2:
+            case self::FILTER_ALL_GLOBAL:
 				$where = 'WHERE '.$ilDB->in('rbac_fa.rol_id',$this->getGlobalRoles(),false,'integer').' ';
 				break;
 
             // all (assignable) local roles
-            case 3:
-            case 4:
-            case 5:
+            case self::FILTER_ALL_LOCAL:
+            case self::FILTER_INTERNAL:
+            case self::FILTER_NOT_INTERNAL:
 				$where = 'WHERE '.$ilDB->in('rbac_fa.rol_id',$this->getGlobalRoles(),true,'integer');
 				break;
 				
             // all role templates
-            case 6:
+            case self::FILTER_TEMPLATES:
 				$where = "WHERE object_data.type = 'rolt'";
 				$assign = "n";
 				break;
@@ -1591,7 +1600,16 @@ class ilRbacReview
 			 "JOIN rbac_fa ON obj_id = rol_id ".
 			 $where.
 			 "AND rbac_fa.assign = ".$ilDB->quote($assign,'text')." ";
-		
+
+		if(strlen($title_filter))
+		{
+			$query .= (' AND '.$ilDB->like(
+				'title',
+				'text',
+				'%'.$title_filter.'%'
+			));
+		}
+
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchAssoc($res))
 		{
