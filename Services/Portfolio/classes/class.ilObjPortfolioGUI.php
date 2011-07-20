@@ -112,11 +112,14 @@ class ilObjPortfolioGUI
 				$ret = $ilCtrl->forwardCommand($page_gui);
 				
 				if ($ret != "" && $ret !== true)
-				{									
+				{						
+					// preview (fullscreen)
 					if(isset($_REQUEST["user_page"]))
 					{						
+						// suppress notes for blog postings 
 						$this->preview(false, $ret, ($cmd != "previewEmbedded"));
 					}
+					// edit
 					else
 					{
 						$tpl->setContent($ret);
