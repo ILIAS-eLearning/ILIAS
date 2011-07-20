@@ -109,8 +109,12 @@ class ilPCParagraph extends ilPageContent
 	function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
 	{
 //echo "-$a_pc_id-";
+//echo "<br>-".htmlentities($a_pg_obj->getXMLFromDom())."-<br><br>"; mk();
 		$this->node =& $this->dom->create_element("PageContent");
+		
+		// this next line kicks out placeholders, if something is inserted
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
+		
 		$this->par_node =& $this->dom->create_element("Paragraph");
 		$this->par_node =& $this->node->append_child($this->par_node);
 		$this->par_node->set_attribute("Language", "");
