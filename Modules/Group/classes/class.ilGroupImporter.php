@@ -32,7 +32,9 @@ class ilGroupImporter extends ilXmlImporter
 		include_once './Modules/Group/classes/class.ilObjGroup.php';
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
-			$this->group = ilObjectFactory::getInstanceByObjId($new_id,false);
+			$refs = ilObject::_getAllReferences($new_id);
+			$this->group = ilObjectFactory::getInstanceByRefId(end($refs),false);
+			#$this->group = ilObjectFactory::getInstanceByObjId($new_id,false);
 		}
 		// Mapping for containers without subitems
 		elseif($new_id = $a_mapping->getMapping('Services/Container','refs',0))

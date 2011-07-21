@@ -35,6 +35,17 @@ class ilTestImporter extends ilXmlImporter
 
 		list($xml_file,$qti_file) = $this->parseXmlFileNames();
 
+		if(!@file_exists($xml_file))
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Cannot find xml definition: '. $xml_file);
+			return false;
+		}
+		if(!@file_exists($qti_file))
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Cannot find xml definition: '. $qti_file);
+			return false;
+		}
+
 		// FIXME: Copied from ilObjTestGUI::importVerifiedFileObject
 		// TODO: move all logic to ilObjTest::importVerifiedFile and call 
 		// this method from ilObjTestGUI and ilTestImporter 

@@ -627,6 +627,7 @@ class ilRbacReview
 
 		if (!isset($a_endnode_id))
 		{
+			$GLOBALS['ilLog']->logStack();
 			$message = get_class($this)."::getParentRoleIds(): No node_id (ref_id) given!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
