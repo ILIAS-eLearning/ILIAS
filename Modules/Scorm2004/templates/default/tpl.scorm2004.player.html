@@ -22,53 +22,43 @@
 				
 	</head>
 	<body class="loadingState">
+		<div id="zmove"></div>
 
-		<table {VAL_DISPLAY} id="toolbarTable" width="100%" height="100%" style="height: 100%" cellspacing="0" cellpadding="0" border="0" summary="">
-			<tr height="1%">
-				<td>
-						<div class="iosRTEMenu ilc_rte_menu_RTEMenu" style="clear:both;">
-							<div class="iosRTELogo ilc_rte_menu_RTELogo" ></div>
-							<div class="ilc_rte_menu_RTELinkBar">
-								<a target="_self" href="#" class="ilc_rte_mlink_RTELink" onclick="toggleView();" id="treeToggle">{btnhidetree}</a>
-								&nbsp;
-								<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navStart">{btnStart}</a>
-								<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navExit">{btnExit}</a>
-								<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navExitAll">{btnExitAll}</a>
-								<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navSuspendAll">{btnSuspendAll}</a>
-								<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navPrevious">&lt; {btnPrevious}</a>
-								<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navContinue">{btnContinue} &gt;</a>
-							</div>
-							<div style="clear:both;"></div>
-						</div>
-					</div>
-				</td>
-			</tr>
-		</table>
-		
-		<table id="introTable" width="100%" cellspacing="0" cellpadding="0" border="0" summary="">
-			<tr valign="top" >			
-				<td class="std">
-					<noscript>{NO_JAVASCRIPT}</noscript>
-					<div style="display: none !important; background-color: red !important; color: white !important; font: 14pt/1.0 monospace !important">{NO_CSS}</div>
-					<div id="introLabel">loading</div>
-				</td>				
-			</tr>
-		</table>
-
-		<table id="mainTable" width="100%" height="100%" style="width: 100%; height: 100%"
-			cellspacing="0" cellpadding="0" border="0" summary="">
-				<tr valign="top">
-				<td style="width:25%" width="25%" id="leftView">
-					<div id="treeView" class="ilc_rte_tree_RTETree"></div>
-					<div id="ilLog" style="font-size:9px; white-space:pre; overflow:scroll;"><pre id="ilLogPre" style="font-family:Verdana,Arial,Helvetica,sans-serif;"></pre></div>
-					<div id="treeControls" style="vertical-align:middle; margin-left:5px"><a id="toggleLog" href="#" onclick="toggleLog();" style="font-size:11px;">Show Log</a> &nbsp; &nbsp;<a id="toggleTree" href="#" onclick="toggleTree();" style="font-size:11px;">Collapse All</a> </div>
-				</td>
-				<td style="width:75%; height:98%;" width="75%" height="98%" id="tdResource">
-					<iframe id="res" style="width: 100%; height:100%;" frameborder="0"></iframe>
-				</td>
-			</tr>
-			
-		</table>
+		<div {VAL_DISPLAY} id="toolbar">
+			<div class="iosRTEMenu ilc_rte_menu_RTEMenu" style="clear:both;">
+				<div class="iosRTELogo ilc_rte_menu_RTELogo" ></div>
+				<div class="ilc_rte_menu_RTELinkBar">
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" onclick="toggleView();" id="treeToggle">{btnhidetree}</a>
+					&nbsp;
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navStart">{btnStart}</a>
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navExit">{btnExit}</a>
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navExitAll">{btnExitAll}</a>
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navSuspendAll">{btnSuspendAll}</a>
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navPrevious">&lt; {btnPrevious}</a>
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navContinue">{btnContinue} &gt;</a>
+				</div>
+				<div style="clear:both;"></div>
+			</div>
+		</div>
+		<div id="intro">
+			<div id="introLabel">loading</div>
+		</div>
+		<div id="mainTable">
+			<div id="leftView">
+				<div id="treeView" class="ilc_rte_tree_RTETree"></div>
+				<div id="ilLog">
+					<pre id="ilLogPre"></pre>
+				</div>
+				<div id="treeControls">
+					<a id="toggleLog" href="#" onclick="toggleLog();">Show Log</a>&nbsp;&nbsp;
+					<a id="toggleTree" href="#" onclick="toggleTree();">Collapse All</a>
+				</div>
+			</div>
+			<div id="dragbar"></div>
+			<div id="tdResource">
+				<iframe id="res" style="width: 100%; height:100%;" frameborder="0"></iframe>
+			</div>
+		</div>
 		
 		<script type="text/javascript" src="{YUI_PATH}yahoo/yahoo-min.js"></script>
 		<script type="text/javascript" src="{YUI_PATH}event/event-min.js"></script>

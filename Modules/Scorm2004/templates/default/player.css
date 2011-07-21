@@ -1,4 +1,66 @@
 /* special SCORM 2004 Styles */
+#zmove{
+	background: url(images/transparent.gif) 0 0 repeat;
+	position:absolute;
+	width:100%;
+	height:100%;
+	z-index:7;
+	display:none;
+}
+#leftView{
+	width:230px;
+	position:absolute;
+	float:left;
+	top:30px;
+	bottom:0;
+}
+#dragbar{
+	background-color:#0066ff;
+	z-index:8;
+	width:2px;
+	cursor:col-resize;
+	position:absolute;
+	top:30px;
+	bottom:0px;
+	left:230px;
+}
+#tdResource{
+	float:right;
+	position:absolute;
+	right:0;
+	top:30px;
+	bottom:0px;
+	left:232px;
+}
+#ilLog{
+	font-size:9px;
+	white-space:pre;
+	overflow:scroll;
+}
+#ilLogPre{
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+}
+#treeControls{
+	vertical-align:middle;
+	margin-left:5px;
+	font-size:11px;
+}
+#toggleLog{
+	display:none;
+}
+#toolbar{
+	height:30px;
+	background-color: #F3F3F3;
+}
+
+.il_ContainerItemCommands{
+	clear:both;
+	margin: 1px 8px 3px 8px;
+}
+
+.asset, .completed , .not_attempted, .running, .incomplete, .passed, .failed, .browsed {
+	padding-left: 18px;
+}
 
 #scormplayer html 
 {
@@ -62,13 +124,15 @@
 
 .loadingState .il_MainMenu {display: none}
 .loadingState #il_PDBlock {display: none}
-.loadingState #introTable {display: table}
+.loadingState #intro {display: block}
 .loadingState #mainTable {display: none}
+.loadingState .il_ContainerItemCommands {visibility:hidden}
 
 .playingState .il_MainMenu {display: block}
 .playingState #il_PDBlock {display: block}
-.playingState #introTable {display: none}
-.playingState #mainTable {display: table;}
+.playingState #intro {display: none}
+.playingState #mainTable {display: block;}
+.playingState .il_ContainerItemCommands {visibility:visible}
 
 #treeView 
 {

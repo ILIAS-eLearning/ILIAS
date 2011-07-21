@@ -1,4 +1,4 @@
-// Build: 2011517122428 
+// Build: 2011721224718 
 
 function ADLAuxiliaryResource()
 {}
@@ -2306,9 +2306,9 @@ return action;},size:function()
 {if(this.mRules!=null)
 {return this.mRules.length;}
 return 0;}};
-var log_auto_flush=false;var log_buffer="";var ilRTEDisabledClass='ilc_rte_mlink_RTELinkDisabled';if(disable_all_logging==true){elm=all("toggleLog");elm.innerHTML="";}
-function toggleView(){elm_left=all("leftView");elm_right=all("tdResource");elm_tree=all("treeView");elm_log=all("ilLog");elm_controls=all("treeControls");elm_toggle=all("treeToggle");if(treeView==false){elm_left.style.width='25%';elm_right.style.width='75%';elm_tree.style.display='block';elm_log.style.display='block';elm_controls.style.display='block';elm_toggle.innerHTML=this.config.langstrings['btnhidetree'];treeView=true;}else{elm_left.style.width='0%';elm_right.style.width='100%';elm_tree.style.display='none';elm_log.style.display='none';elm_controls.style.display='none';elm_toggle.innerHTML=this.config.langstrings['btnshowtree'];treeView=false;}}
-function toggleTree(){elm=all("toggleTree");if(treeState==false){elm.innerHTML="Collapse All";treeYUI.expandAll();treeState=true;}else{elm.innerHTML="Expand All";treeYUI.collapseAll();treeState=false;}}
+var log_auto_flush=false;var log_buffer="";var ilRTEDisabledClass='ilc_rte_mlink_RTELinkDisabled';debugWindow=null;var leftViewWidth=230;$('#dragbar').mousedown(function(e){e.preventDefault();$('#zmove').css("display","block");$('#zmove').mousemove(function(e){leftViewWidth=e.pageX;$('#dragbar').css("left",e.pageX);$('#leftView').css("width",e.pageX);$('#tdResource').css("left",e.pageX+2);})});$(document).mouseup(function(e){$('#dragbar').unbind('mousemove');$('#zmove').css("display","none");$(document).unbind('mousemove');});if(disable_all_logging==true){elm=all("toggleLog");elm.innerHTML="";}
+function toggleView(){elm_left=all("leftView");elm_drag=all("dragbar");elm_right=all("tdResource");elm_tree=all("treeView");elm_log=all("ilLog");elm_controls=all("treeControls");elm_toggle=all("treeToggle");if(treeView==false){elm_left.style.width=leftViewWidth+'px';elm_drag.style.left=leftViewWidth+'px';elm_drag.style.display='block';elm_right.style.left=(leftViewWidth+2)+'px';elm_tree.style.display='block';elm_log.style.display='block';elm_controls.style.display='block';elm_toggle.innerHTML=this.config.langstrings['btnhidetree'];treeView=true;}else{elm_left.style.width='0%';elm_drag.style.display='none';elm_right.style.left='0';elm_tree.style.display='none';elm_log.style.display='none';elm_controls.style.display='none';elm_toggle.innerHTML=this.config.langstrings['btnshowtree'];treeView=false;}}
+function toggleTree(){elm=all("toggleTree");if(treeState==false){elm.innerHTML="Collapse All";ilNestedList.expandAll('rte_tree');treeState=true;}else{elm.innerHTML="Expand All";ilNestedList.collapseAll('rte_tree');treeState=false;}}
 function toggleLog(){elm=all("toggleLog");if(logState==false){elm.innerHTML="Hide Log";logState=true;onWindowResize();}else{elm.innerHTML="Show Log";logState=false;onWindowResize();}}
 function sclog(mess,type)
 {if(disable_all_logging){return;}
@@ -2681,13 +2681,13 @@ var resContainer=window.document.getElementById("res");resContainer.src=url;resC
 else
 {open(url,RESOURCE_NAME);}
 if(guiItem)
-{removeClass(guiItem,"current");removeClass(guiItem,"ilc_rte_status_RTERunning");}
+{removeClass(guiItem,"ilc_rte_tlink_RTETreeCurrent");removeClass(guiItem.parentNode,"ilc_rte_status_RTERunning");}
 guiItem=all(ITEM_PREFIX+id);if(guiItem)
-{removeClass(guiItem,"ilc_rte_status_RTENotAttempted",1);removeClass(guiItem,"ilc_rte_status_RTEIncomplete",1);removeClass(guiItem,"ilc_rte_status_RTECompleted",1);removeClass(guiItem,"ilc_rte_status_RTEFailed",1);removeClass(guiItem,"ilc_rte_status_RTEPassed",1);addClass(guiItem,"current");addClass(guiItem,"ilc_rte_status_RTERunning");}
+{removeClass(guiItem.parentNode,"ilc_rte_status_RTENotAttempted",1);removeClass(guiItem.parentNode,"ilc_rte_status_RTEIncomplete",1);removeClass(guiItem.parentNode,"ilc_rte_status_RTECompleted",1);removeClass(guiItem.parentNode,"ilc_rte_status_RTEFailed",1);removeClass(guiItem.parentNode,"ilc_rte_status_RTEPassed",1);addClass(guiItem,"ilc_rte_tlink_RTETreeCurrent");addClass(guiItem.parentNode,"ilc_rte_status_RTERunning");}
 onWindowResize();adlnavreq=false;sclogdump("Launched: "+id,"info");sclogflush();}
 function removeResource(callback)
 {if(guiItem)
-{removeClass(guiItem,"current");}
+{removeClass(guiItem,"ilc_rte_tlink_RTETreeCurrent");}
 var resContainer=window.document.getElementById("res");resContainer.src="about:blank";resContainer.name=RESOURCE_NAME;if(typeof(callback)==='function')
 {callback();}}
 function onWindowResize()
@@ -2700,7 +2700,11 @@ elm=all("ilLog");if(elm)
 {if(logState==true){elm.style.height=(hh*0.3)+"px";}else{elm.style.height="0px";}}
 elm=all("res");if(elm)
 {elm.style.height=h;}}
-function buildNavTree(rootAct,name,tree){var tocView=all('treeView');treeYUI=new YAHOO.widget.TreeView(tocView);var root=treeYUI.getRoot();if(mlaunch.mNavState.mChoice!=null){var id=rootAct.id;if(rootAct.isvisible==true&&typeof(mlaunch.mNavState.mChoice[id])=="object"){var rootNode=new YAHOO.widget.TextNode(rootAct.title,root,true);rootNode.href="#this";rootNode.target="_self";rootNode.labelElId=ITEM_PREFIX+rootAct.id;}}
+function buildNavTree(rootAct,name,tree){ilNestedList.addList('rte_tree',{ul_class:'ilc_rte_tul_RTETreeList',li_class:'ilc_rte_tli_RTETreeItem',exp_class:'ilc_rte_texp_RTETreeExpanded',col_class:'ilc_rte_texp_RTETreeCollapsed'});var par_id=0;if(mlaunch.mNavState.mChoice!=null)
+{var id=rootAct.id;if(rootAct.isvisible==true&&typeof(mlaunch.mNavState.mChoice[id])=="object"){ilNestedList.addNode('rte_tree',par_id,ITEM_PREFIX+rootAct.id,"<a href='#this' id='"+ITEM_PREFIX+rootAct.id+"' target='_self'>"+rootAct.title+"</a>",true);par_id=ITEM_PREFIX+rootAct.id;}}
+function build2(rootAct,par_id){if(rootAct.item){for(var i=0;i<rootAct.item.length;i++){var id=rootAct.item[i].id;if(mlaunch.mNavState.mChoice!=null){if(rootAct.item[i].isvisible==true&&typeof(mlaunch.mNavState.mChoice[id])=="object"){ilNestedList.addNode('rte_tree',par_id,ITEM_PREFIX+rootAct.item[i].id,"<a href='#this' id='"+ITEM_PREFIX+rootAct.item[i].id+"' target='_self'>"+rootAct.item[i].title+"</a>",true);var next_par_id=ITEM_PREFIX+rootAct.item[i].id;}}
+if(rootAct.item[i].item){build2(rootAct.item[i],next_par_id);}}}}
+build2(rootAct,par_id);$("#treeView").empty();ilNestedList.draw('rte_tree',0,'treeView');return;var tocView=all('treeView');treeYUI=new YAHOO.widget.TreeView(tocView);var root=treeYUI.getRoot();if(mlaunch.mNavState.mChoice!=null){var id=rootAct.id;if(rootAct.isvisible==true&&typeof(mlaunch.mNavState.mChoice[id])=="object"){var rootNode=new YAHOO.widget.TextNode(rootAct.title,root,true);rootNode.href="#this";rootNode.target="_self";rootNode.labelElId=ITEM_PREFIX+rootAct.id;}}
 build(rootAct,rootNode);function build(rootAct,attach){if(rootAct.item){for(var i=0;i<rootAct.item.length;i++){var id=rootAct.item[i].id;if(mlaunch.mNavState.mChoice!=null){if(rootAct.item[i].isvisible==true&&typeof(mlaunch.mNavState.mChoice[id])=="object"){var sub=new YAHOO.widget.TextNode({label:rootAct.item[i].title,id:ITEM_PREFIX+rootAct.item[i].id},attach,true);sub.href="#this";sub.target="_self";sub.labelElId=ITEM_PREFIX+rootAct.item[i].id;}}
 if(rootAct.item[i].item){build(rootAct.item[i],sub);}}}}
 treeYUI.draw();treeYUI.expandAll();}
@@ -3024,13 +3028,13 @@ var elm=all(ITEM_PREFIX+tree[i].mActivityID);if(disable)
 {toggleClass(elm,'ilc_rte_tlink_RTETreeLinkDisabled',1);}
 else
 {toggleClass(elm,'ilc_rte_tlink_RTETreeLink',1);}
-if(activities[tree[i].mActivityID].sco&&activities[tree[i].mActivityID].href){var node_stat_completion=activities[tree[i].mActivityID].completion_status;if(node_stat_completion==null||node_stat_completion=="not attempted"){toggleClass(elm,"ilc_rte_status_RTENotAttempted",1);}
-if(node_stat_completion=="unknown"||node_stat_completion=="incomplete"||statusArray[[tree[i].mActivityID]]['completion']=="unknown"||statusArray[[tree[i].mActivityID]]['completion']=="incomplete"){removeClass(elm,"ilc_rte_status_RTENotAttempted",1);toggleClass(elm,"ilc_rte_status_RTEIncomplete",1);}
-if(node_stat_completion=="browsed"){removeClass(elm,"ilc_rte_status_RTENotAttempted",1);toggleClass(elm,"ilc_rte_status_RTEBrowsed",1);}
-if(node_stat_completion=="completed"||statusArray[[tree[i].mActivityID]]['completion']=="completed"){removeClass(elm,"not_attempted",1);removeClass(elm,"ilc_rte_status_RTEIncomplete",1);removeClass(elm,"ilc_rte_status_RTEBrowsed",1);toggleClass(elm,"ilc_rte_status_RTECompleted",1);}
-var node_stat_success=activities[tree[i].mActivityID].success_status;if(node_stat_success=="passed"||node_stat_success=="failed"||statusArray[[tree[i].mActivityID]]['success']=="failed"||statusArray[[tree[i].mActivityID]]['success']=="passed"){if(node_stat_success=="passed"||statusArray[[tree[i].mActivityID]]['success']=="passed"){removeClass(elm,"ilc_rte_status_RTEFailed",1);toggleClass(elm,"ilc_rte_status_RTEPassed",1);}else{removeClass(elm,"ilc_rte_status_RTEPassed",1);toggleClass(elm,"ilc_rte_status_RTEFailed",1);}}
+if(activities[tree[i].mActivityID].sco&&activities[tree[i].mActivityID].href){var node_stat_completion=activities[tree[i].mActivityID].completion_status;if(node_stat_completion==null||node_stat_completion=="not attempted"){toggleClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);}
+if(node_stat_completion=="unknown"||node_stat_completion=="incomplete"||statusArray[[tree[i].mActivityID]]['completion']=="unknown"||statusArray[[tree[i].mActivityID]]['completion']=="incomplete"){removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);toggleClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);}
+if(node_stat_completion=="browsed"){removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);toggleClass(elm.parentNode,"ilc_rte_status_RTEBrowsed",1);}
+if(node_stat_completion=="completed"||statusArray[[tree[i].mActivityID]]['completion']=="completed"){removeClass(elm.parentNode,"not_attempted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);removeClass(elm.parentNode,"ilc_rte_status_RTEBrowsed",1);toggleClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);}
+var node_stat_success=activities[tree[i].mActivityID].success_status;if(node_stat_success=="passed"||node_stat_success=="failed"||statusArray[[tree[i].mActivityID]]['success']=="failed"||statusArray[[tree[i].mActivityID]]['success']=="passed"){if(node_stat_success=="passed"||statusArray[[tree[i].mActivityID]]['success']=="passed"){removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);toggleClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);}else{removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);toggleClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);}}
 if(elm!=null&&elm.parentNode)
-{toggleClass(elm.parentNode,"ilc_rte_node_RTESco"+disabled_str,1);}}else{if(elm&&activities[tree[i].mActivityID].href){toggleClass(elm,"ilc_rte_status_RTEAsset",1);if(elm.parentNode)
+{toggleClass(elm.parentNode,"ilc_rte_node_RTESco"+disabled_str,1);}}else{if(elm&&activities[tree[i].mActivityID].href){toggleClass(elm.parentNode,"ilc_rte_status_RTEAsset",1);if(elm.parentNode)
 {toggleClass(elm.parentNode,"ilc_rte_node_RTEAsset"+disabled_str,1);}}
 else if(!activities[tree[i].mActivityID].href&&elm!=null&&elm.parentNode)
 {if(!first)
