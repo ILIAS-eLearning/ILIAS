@@ -3083,8 +3083,49 @@ li.ilWikiBlockItem
 
 div.ilFrameFixedWidth
 {
-	width: 980px;
+	max-width: 900px;
 	margin-left: auto;
 	margin-right: auto;
 }
+
+div.ilFrameFixedWidthHeader
+{
+	max-width: 880px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0;
+	margin-bottom: 10px;
+}
+
+.ilFrameFixedWidthHeader div.ilHeaderBanner
+{
+	max-width: 880px;
+	margin-top: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 5px;
+}
+
+.ilFrameFixedWidthHeader div.ilHeaderImg
+{
+	float:left; 
+	margin: 2px 10px 0px 0px;
+}
+
+.ilFrameFixedWidthHeader .ilHeaderImg img
+{
+	border: 0;
+}
+
+.ilFrameFixedWidthHeader h1.ilHeader
+{
+	padding: 0;
+	margin-top: 5px;
+}
+
+.ilFrameFixedWidthHeader div.ilHeaderDesc 
+{
+	padding-left: 0;
+}
+
 

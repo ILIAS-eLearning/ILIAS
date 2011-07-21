@@ -2014,5 +2014,68 @@ class ilTemplate extends ilTemplateX
 		}
 	}
 
+	/**
+	 * Set fullscreen header data
+	 * 
+	 * @param string $a_title
+	 * @param string $a_description
+	 * @param string $a_icon path
+	 * @param string $a_img banner full path (background image)
+	 * @param string $a_bg_color html color code (page background)
+	 * @param string $a_font_color html color code (title and description)
+	 * @param int $a_width banner width
+	 * @param int $a_height banner height
+	 */
+	function setFullscreenHeader($a_title, $a_description = null, $a_icon = null, $a_img = null, $a_bg_color = null, $a_font_color = null, $a_width = 880, $a_height = 100)
+	{
+		$this->setTitle(null);
+		$this->setTitleIcon(null);
+		$this->setDescription(null);
+		
+		$this->setVariable("FULLSCREEN_TITLE", $a_title);
+	
+		if($a_description)
+		{			
+			$this->setCurrentBlock("fullscreen_descbl");
+			$this->setVariable("FULLSCREEN_DESCRIPTION", $a_description);
+						
+			if($a_font_color)
+			{
+				$this->setVariable("FULLSCREEN_FONT_COLOR", " style=\"color: #".$a_font_color."\"");
+			}
+			
+			$this->parseCurrentBlock();
+		}
+		
+		if($a_icon)
+		{
+			$this->setCurrentBlock("fullscreen_iconbl");
+			$this->setVariable("FULLSCREEN_ICON", $a_icon);
+			$this->parseCurrentBlock();
+		}
+		
+		if($a_bg_color)
+		{
+			$this->setVariable("FRAME_BG_COLOR", " style=\"background-color: #".$a_bg_color."\"");
+		}
+		
+		if($a_font_color)
+		{
+			$this->setVariable("FULLSCREEN_FONT_COLOR", " style=\"color: #".$a_font_color."\"");
+		}
+		
+		if($a_img)
+		{
+			// :TODO:
+			$a_img = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["PHP_SELF"])."/".$a_img;
+			
+			$this->setCurrentBlock("fullscreen_bannerbl");
+			$this->setVariable("FULLSCREEN_BANNER_WIDTH", $a_width);
+			$this->setVariable("FULLSCREEN_BANNER_HEIGHT", $a_height);
+			$this->setVariable("FULLSCREEN_BG", " background-image: url(".$a_img.")");
+			
+			$this->parseCurrentBlock();
+		}
+	}
 }
 ?>

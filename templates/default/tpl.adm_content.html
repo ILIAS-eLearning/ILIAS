@@ -3,7 +3,7 @@
 <script type="text/javascript">ilAddOnLoad(ilScreenReaderFocus); var il_sr_opt = true;</script>
 <!-- END sr_focus -->
 </div></div></div>
-<div class="ilFrameBL"><div class="ilFrameBR">
+<div class="ilFrameBL"><div class="ilFrameBR"{FRAME_BG_COLOR}>
 <div id="mainspacekeeper">
 <div id="mainscrolldiv">
 <div>
@@ -14,9 +14,34 @@
 
 <div class="il_HeaderOuter">
 <div class="il_Header">
+
+	<!-- BEGIN fullscreen_headerbl -->
+	<div class="ilFrameFixedWidthHeader">
+		
+		<!-- BEGIN fullscreen_bannerbl -->
+		<div class="ilHeaderBanner" style="width:{FULLSCREEN_BANNER_WIDTH}px; height:{FULLSCREEN_BANNER_HEIGHT}px;{FULLSCREEN_BG}">
+			&nbsp;
+		</div>
+		<!-- END fullscreen_bannerbl -->
+		
+		<!-- BEGIN fullscreen_iconbl -->
+		<div class="ilHeaderImg">
+			<img src="{FULLSCREEN_ICON}" id="headerimage" />
+		</div>
+		<!-- END fullscreen_iconbl -->
+		
+		<div>
+			<h1 class="ilHeader"{FULLSCREEN_FONT_COLOR}>{FULLSCREEN_TITLE}</h1>		
+			<!-- BEGIN fullscreen_descbl --><div class="ilHeaderDesc"{FULLSCREEN_FONT_COLOR}>{FULLSCREEN_DESCRIPTION}</div><!-- END fullscreen_descbl -->
+		</div>
+		
+		<div style="clear:both;"></div>
+	</div>
+	<!-- END fullscreen_headerbl -->
+	
 	<div class="il_HeaderInner">
 	<!-- BEGIN headerbl --><h1 class="ilHeader"><!-- BEGIN header_image --><span style="position: relative; margin: 1px 0px 0px 5px;"><img style="vertical-align:middle" alt="{IMAGE_ALT}" <!-- BEGIN header_image_desc -->title="{IMAGE_DESC}"<!-- END header_image_desc --> border="0" src="{IMG_HEADER}" id="headerimage" /></span> <!-- END header_image --><a class="ilAccAnchor" id="il_mhead_t_focus" name="il_mhead_t_focus">{HEADER}</a></h1><!-- END headerbl -->
-	<!-- BEGIN header_desc --><div class="ilHeaderDesc">{H_DESCRIPTION}</div><!-- END header_desc -->
+	<!-- BEGIN header_desc --><div class="ilHeaderDesc">{H_DESCRIPTION}</div><!-- END header_desc -->	
 	</div>
 	<!-- BEGIN tree_icons -->
 	<div class="il_TreeIcons" style="float:right;">

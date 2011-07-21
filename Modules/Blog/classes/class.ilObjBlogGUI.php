@@ -67,6 +67,16 @@ class ilObjBlogGUI extends ilObject2GUI
 
 		$notes = new ilCheckboxInputGUI($lng->txt("blog_enable_notes"), "notes");
 		$a_form->addItem($notes);
+		
+		$img = new ilImageFileInputGUI($lng->txt("blog_banner"), "banner");
+		$a_form->addItem($img);
+		
+		$bg_color = new ilColorPickerInputGUI($lng->txt("blog_background_color"), "bg_color");
+		$a_form->addItem($bg_color);
+		
+		$font_color = new ilColorPickerInputGUI($lng->txt("blog_font_color"), "font_color");
+		$a_form->addItem($font_color);
+		
 	}
 
 	protected function getEditFormCustomValues(array &$a_values)
@@ -411,14 +421,13 @@ class ilObjBlogGUI extends ilObject2GUI
 			// if deeplink this will not be possible
 		}		
 		
-		// title
-		$tpl->setTitle($this->object->getTitle());
-		$tpl->setTitleIcon(null);
+		$name = ilObjUser::_lookupName($owner);
+		$name = $name["lastname"].", ".($t = $name["title"] ? $t . " " : "").$name["firstname"];
 		
-		// owner
 		include_once("./Services/User/classes/class.ilUserUtil.php");
-		$owner = ilUserUtil::getNamePresentation($owner, true, false); 		
-		$tpl->setDescription($owner);
+		$tpl->setFullscreenHeader($this->object->getTitle(), 
+			$name, 	
+			ilObjUser::_getPersonalPicturePath($owner, "big"));
 		
 		// content
 		$tpl->setContent($a_content);
