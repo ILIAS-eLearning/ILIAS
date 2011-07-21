@@ -13,7 +13,12 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilRoleTableGUI extends ilTable2GUI
 {
+	const TYPE_VIEW = 1;
+	const TYPE_SEARCH = 2;
+	
 	private $path_gui = null;
+
+	private $type = self::TYPE_VIEW;
 
 	/**
 	 * Constructor
@@ -27,7 +32,25 @@ class ilRoleTableGUI extends ilTable2GUI
 		$this->ctrl = $ilCtrl;
 
 		parent::__construct($a_parent_gui, $a_parent_cmd);
-		$this->setId('rolf_role_tbl');
+		$this->lng->loadLanguageModule('rbac');
+		$this->lng->loadLanguageModule('search');
+	}
+
+	/**
+	 * Set table type
+	 * @param int $a_type
+	 */
+	public function setType($a_type)
+	{
+		$this->type = $a_type;
+	}
+
+	/**
+	 * Get table type
+	 */
+	public function getType()
+	{
+		return $this->type;
 	}
 
 	/**
@@ -46,21 +69,36 @@ class ilRoleTableGUI extends ilTable2GUI
 	 */
 	public function init()
 	{
-		$this->lng->loadLanguageModule('rbac');
-
 		$this->addColumn('','f','1px');
-		$this->lng->loadLanguageModule('search');
-	 	$this->addColumn($this->lng->txt('search_title_description'),'title','40%');
-	 	$this->addColumn($this->lng->txt('context'),'','50%');
-		$this->addColumn($this->lng->txt('actions'),'','10%');
+
+		switch($this->getType())
+		{
+			case self::TYPE_VIEW:
+				$this->setId('rolf_role_tbl');
+				$this->addColumn($this->lng->txt('search_title_description'),'title','40%');
+				$this->addColumn($this->lng->txt('context'),'','50%');
+				$this->addColumn($this->lng->txt('actions'),'','10%');
+				$this->setTitle($this->lng->txt('objs_role'));
+				$this->addMultiCommand('confirmDelete',$this->lng->txt('delete'));
+				break;
+			
+			case self::TYPE_SEARCH:
+				$this->setId('rolf_role_search_tbl');
+				$this->addColumn('','f','1px');
+				$this->addColumn($this->lng->txt('search_title_description'),'title','40%');
+				$this->addColumn($this->lng->txt('context'),'','60%');
+				$this->setTitle($this->lng->txt('rbac_role_rights_copy'));
+				$this->addMultiCommand('copyPermOptions',$this->lng->txt('copy'));
+				break;
+		}
+
+
 		$this->setRowTemplate('tpl.role_row.html','Services/AccessControl');
 		$this->setDefaultOrderField('title');
 		$this->setDefaultOrderDirection('asc');
 		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
 		$this->setSelectAllCheckbox('roles');
-		$this->setTitle($this->lng->txt('objs_role'));
 
-		$this->addMultiCommand('confirmDelete',$this->lng->txt('delete'));
 
 		include_once './Services/Tree/classes/class.ilPathGUI.php';
 		$this->path_gui = new ilPathGUI();
@@ -69,7 +107,6 @@ class ilRoleTableGUI extends ilTable2GUI
 
 		// Filter initialisation
 		$this->initFilter();
-		
 	}
 
 	/**
@@ -79,15 +116,28 @@ class ilRoleTableGUI extends ilTable2GUI
 	{
 		$this->setDisableFilterHiding(true);
 
+		switch($this->getType())
+		{
+			case self::TYPE_VIEW:
+				$action[ilRbacReview::FILTER_ALL] = $this->lng->txt('all_roles');
+				$action[ilRbacReview::FILTER_ALL_GLOBAL] = $this->lng->txt('all_global_roles');
+				$action[ilRbacReview::FILTER_ALL_LOCAL] = $this->lng->txt('all_local_roles');
+				$action[ilRbacReview::FILTER_INTERNAL] = $this->lng->txt('internal_local_roles_only');
+				$action[ilRbacReview::FILTER_NOT_INTERNAL] = $this->lng->txt('non_internal_local_roles_only');
+				$action[ilRbacReview::FILTER_TEMPLATES] = $this->lng->txt('role_templates_only');
+				break;
+
+			case self::TYPE_SEARCH:
+				$action[ilRbacReview::FILTER_ALL] = $this->lng->txt('all_roles');
+				$action[ilRbacReview::FILTER_ALL_GLOBAL] = $this->lng->txt('all_global_roles');
+				$action[ilRbacReview::FILTER_ALL_LOCAL] = $this->lng->txt('all_local_roles');
+				$action[ilRbacReview::FILTER_INTERNAL] = $this->lng->txt('internal_local_roles_only');
+				$action[ilRbacReview::FILTER_NOT_INTERNAL] = $this->lng->txt('non_internal_local_roles_only');
+				break;
+		}
+
 		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 		$roles = new ilSelectInputGUI($this->lng->txt('rbac_role_selection'), 'role_type');
-
-		$action[ilRbacReview::FILTER_ALL] = $this->lng->txt('all_roles');
-		$action[ilRbacReview::FILTER_ALL_GLOBAL] = $this->lng->txt('all_global_roles');
-		$action[ilRbacReview::FILTER_ALL_LOCAL] = $this->lng->txt('all_local_roles');
-		$action[ilRbacReview::FILTER_INTERNAL] = $this->lng->txt('internal_local_roles_only');
-		$action[ilRbacReview::FILTER_NOT_INTERNAL] = $this->lng->txt('non_internal_local_roles_only');
-		$action[ilRbacReview::FILTER_TEMPLATES] = $this->lng->txt('role_templates_only');
 
 		$roles->setOptions($action);
 
@@ -177,15 +227,17 @@ class ilRoleTableGUI extends ilTable2GUI
 			);
 		}
 
-		// Copy role
-		$this->tpl->setVariable('COPY_TEXT',$this->lng->txt('rbac_role_rights_copy'));
-		$this->ctrl->setParameter($this->getParentObject(), "obj_id", $set["obj_id"]);
-		$link = $this->ctrl->getLinkTarget($this->getParentObject(),'roleSearch');
-		$this->tpl->setVariable(
-			'COPY_LINK',
-			$link
-		);
-
+		if($this->getType() == self::TYPE_VIEW)
+		{
+			// Copy role
+			$this->tpl->setVariable('COPY_TEXT',$this->lng->txt('rbac_role_rights_copy'));
+			$this->ctrl->setParameter($this->getParentObject(), "copy_source", $set["obj_id"]);
+			$link = $this->ctrl->getLinkTarget($this->getParentObject(),'roleSearch');
+			$this->tpl->setVariable(
+				'COPY_LINK',
+				$link
+			);
+		}
 
 	}
 

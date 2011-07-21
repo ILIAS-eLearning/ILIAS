@@ -119,6 +119,31 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	}
 
 	/**
+	 * Search target roles
+	 */
+	protected function roleSearchObject()
+	{
+		global $rbacsystem, $ilCtrl, $ilTabs;
+
+		$ilTabs->activateTab('view');
+
+		if(!$rbacsystem->checkAccess('visible,read',$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
+		}
+
+		$ilCtrl->setParameter($this,'copy_source',(int) $_REQUEST['copy_source']);
+		
+		include_once './Services/AccessControl/classes/class.ilRoleTableGUI.php';
+		$table = new ilRoleTableGUI($this,'view');
+		$table->setType(ilRoleTableGUI::TYPE_SEARCH);
+		$table->init();
+		$table->parse($this->object->getId());
+
+		$this->tpl->setContent($table->getHTML());
+	}
+
+	/**
 	 * Apply role filter
 	 */
 	protected function applyFilterObject()
