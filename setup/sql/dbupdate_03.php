@@ -6742,3 +6742,40 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 	$ilDB->dropTableColumn("sahs_lm", "final_lm_page");
 	$ilDB->dropTableColumn("sahs_lm", "final_sco_page");
 ?>
+<#3403>
+<?php
+
+		$ilDB->createTable('didactic_tpl_settings',
+			array(
+				"id" => array(
+					"type" => "integer",
+					"length" => 4,
+					"notnull" => true
+				),
+				"enabled" => array(
+					"type" => "integer",
+					"length" => 1,
+					"notnull" => true
+				),
+				"type" => array(
+					"type" => "integer",
+					"length" => 1,
+					"notnull" => true
+				),
+				"title" => array(
+					"type" => "text", 
+					"length" => 64,
+					"notnull" => false
+				),
+				"description" => array(
+					"type" => "text",
+					"length" => 512,
+					"notnull" => false
+				)
+			)
+		);
+		$ilDB->createSequence('didactic_tpl_settings');
+		$ilDB->addPrimaryKey('didactic_tpl_settings',array('id'));
+?>
+
+
