@@ -540,6 +540,13 @@ class ilPageContentGUI
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
+	/**
+	 * Cancel
+	 */
+	function cancel()
+	{ 
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
 
 	/**
 	 * gui function
