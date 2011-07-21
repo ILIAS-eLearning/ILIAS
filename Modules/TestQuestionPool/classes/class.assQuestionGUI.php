@@ -970,13 +970,20 @@ class assQuestionGUI
 			{
 				$nr_tries = $this->getDefaultNrOfTries();
 			}
-			if ($nr_tries <= 0)
+			/*if ($nr_tries <= 0)
 			{
 				$nr_tries = 1;
+			}*/
+			
+			if ($nr_tries < 0)
+			{
+				$nr_tries = 0;
 			}
+			
 			$ni = new ilNumberInputGUI($this->lng->txt("qst_nr_of_tries"), "nr_of_tries");
 			$ni->setValue($nr_tries);
-			$ni->setMinValue(1);
+			//$ni->setMinValue(1);
+			$ni->setMinValue(0);
 			$ni->setSize(5);
 			$ni->setMaxLength(5);
 			$ni->setRequired(true);
