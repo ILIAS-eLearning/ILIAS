@@ -39,6 +39,12 @@ class ilSurveyImporter extends ilXmlImporter
 		
 		list($xml_file) = $this->parseXmlFileNames();
 
+		if(!@file_exists($xml_file))
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Cannot find xml definition: '. $xml_file);
+			return false;
+		}
+
 		$pool_ref = $a_mapping->getMapping('Services/Container','spl',$newObj->getId());
 		$pool_obj = ilObject::_lookupObjId($pool_ref);
 		
