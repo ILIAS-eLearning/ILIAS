@@ -211,7 +211,7 @@ class ilDidacticTemplateSetting
 	{
 		global $ilDB;
 
-		$query = 'INSERT INTO didactic_tpl_settings_ass (id,obj_type) '.
+		$query = 'INSERT INTO didactic_tpl_sa (id,obj_type) '.
 			'VALUES( '.
 			'id = '.$ilDB->quote($this->getId(),'integer').', '.
 			'obj_type = '.$ilDB->quote($a_obj_type,'text').
@@ -228,7 +228,7 @@ class ilDidacticTemplateSetting
 	{
 		global $ilDB;
 
-		$query = 'DELETE FROM didactic_tpl_settings_ass '.
+		$query = 'DELETE FROM didactic_tpl_sa '.
 			'WHERE id = '.$ilDB->quote($this->getId(),'integer');
 		$ilDB->manipulate($query);
 		return true;

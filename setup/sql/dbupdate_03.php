@@ -6777,5 +6777,22 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 		$ilDB->createSequence('didactic_tpl_settings');
 		$ilDB->addPrimaryKey('didactic_tpl_settings',array('id'));
 ?>
+<#3404>
+<?php
 
-
+		$ilDB->createTable('didactic_tpl_sa',
+			array(
+				"id" => array(
+					"type" => "integer",
+					"length" => 4,
+					"notnull" => true
+				),
+				"obj_type" => array(
+					"type" => "text",
+					"length" => 8,
+					"notnull" => false
+				)
+			)
+		);
+		$ilDB->addPrimaryKey('didactic_tpl_sa',array('id','obj_type'));
+?>
