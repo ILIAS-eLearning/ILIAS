@@ -155,7 +155,12 @@ class ilForumXMLWriter extends ilXmlWriter
 				$this->xmlElement("Notification", null, $rowPost->notify);
 				$this->xmlElement("ImportName", null, $rowPost->import_name);
 				$this->xmlElement("Status", null, (int)$rowPost->pos_status);
-				$this->xmlElement("Message", null, $rowPost->pos_message);
+				/*
+				 *
+				 * Do not escape tinymce content
+				 * 
+				 */
+				$this->xmlElement("Message", null, $rowPost->pos_message, true, false);
 
 				$this->xmlElement("Lft", null, (int)$rowPost->lft);
 				$this->xmlElement("Rgt", null, (int)$rowPost->rgt);

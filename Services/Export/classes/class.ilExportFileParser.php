@@ -126,7 +126,16 @@ class ilExportFileParser extends ilSaxParser
 
 		if ($this->in_export_item)
 		{
-			$this->export_item_writer->xmlData($a_data);
+			if($this->entity == 'frm')
+			{
+				// Do not remove this behaviour: Tinymce content of forums may not be encoded and we have to add cdata because of umlauts, entities etc.
+				// We add cdata already in export
+				$this->export_item_writer->xmlData("<![CDATA[".$a_data."]]>", true, false);
+			}
+			else
+			{			
+				$this->export_item_writer->xmlData($a_data);
+			}
 		}
 
 	}
