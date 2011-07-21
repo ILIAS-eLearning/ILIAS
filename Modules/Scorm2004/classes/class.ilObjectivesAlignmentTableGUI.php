@@ -110,7 +110,8 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
 					$this->tpl->setCurrentBlock("question");
 					//$qtitle = assQuestion::_getTitle($qid);
 					$qtype = assQuestion::_getQuestionType($qid);
-					$qtext = assQuestion::_getQuestionText($qid);
+					//$qtext = assQuestion::_getQuestionText($qid);
+					$qtext = assQuestion::_getQuestionTitle($qid);
 					$this->tpl->setVariable("TXT_QUESTION", $qtext);
 					$this->tpl->setVariable("TXT_QTYPE", $lng->txt($qtype));
 					$this->tpl->setVariable("IMG_QST",
