@@ -967,7 +967,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 													 $this->ctrl->getLinkTarget($this,'authSettings'),
 													 "");
 				}
-				
 				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget(
