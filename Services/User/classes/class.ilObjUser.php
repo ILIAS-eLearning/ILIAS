@@ -3909,7 +3909,7 @@ class ilObjUser extends ilObject
 				$thumb_file = $image_dir."/usr_".$a_usr_id."_".$a_size.".jpg";
 		}
 		// END DiskQuota: Support 'big' user images
-
+		
 		if((($upload && $profile) || $a_force_pic)
 			&& @is_file($thumb_file))
 		{
@@ -3919,6 +3919,11 @@ class ilObjUser extends ilObject
 		{
 			if (!$a_prevent_no_photo_image)
 			{
+				// we only have xsmall and xxsmall for this
+				if($a_size == "small" || $a_size == "big")
+				{
+					$a_size = "xsmall";
+				}				
 				$file = ilUtil::getImagePath("no_photo_".$a_size.".jpg");
 			}
 		}
