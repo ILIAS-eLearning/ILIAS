@@ -1,4 +1,4 @@
-// Build: 2011517122428 
+// Build: 2011721224718 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -10813,6 +10813,26 @@ var log_buffer = "";
 
 var ilRTEDisabledClass = 'ilc_rte_mlink_RTELinkDisabled';
 
+debugWindow = null;
+
+// to move NavigationBar
+var  leftViewWidth=230;
+$('#dragbar').mousedown(function(e){
+	e.preventDefault();
+	$('#zmove').css("display","block");
+	$('#zmove').mousemove(function(e){
+		leftViewWidth=e.pageX;
+		$('#dragbar').css("left",e.pageX);
+		$('#leftView').css("width",e.pageX);
+		$('#tdResource').css("left",e.pageX+2);
+	})
+});
+$(document).mouseup(function(e){
+	$('#dragbar').unbind('mousemove');
+	$('#zmove').css("display","none");
+	$(document).unbind('mousemove');
+});
+
 //disable logging controls
 
 if (disable_all_logging==true) {
@@ -10822,6 +10842,7 @@ if (disable_all_logging==true) {
 
 function toggleView() {
 	elm_left = all("leftView");
+	elm_drag = all("dragbar");
 	elm_right= all("tdResource");
 	elm_tree = all("treeView");
 	elm_log = all("ilLog");
@@ -10829,8 +10850,10 @@ function toggleView() {
 	elm_toggle=all("treeToggle");
 	
 	if (treeView==false) {
-		elm_left.style.width='25%';
-		elm_right.style.width='75%';
+		elm_left.style.width=leftViewWidth+'px';
+		elm_drag.style.left=leftViewWidth+'px';
+		elm_drag.style.display='block';
+		elm_right.style.left=(leftViewWidth+2)+'px';
 		elm_tree.style.display='block';
 		elm_log.style.display='block';
 		elm_controls.style.display='block';
@@ -10838,7 +10861,8 @@ function toggleView() {
 		treeView=true;
 	} else {
 		elm_left.style.width='0%';
-		elm_right.style.width='100%';
+		elm_drag.style.display='none';
+		elm_right.style.left='0';
 		elm_tree.style.display='none';
 		elm_log.style.display='none';
 		elm_controls.style.display='none';
@@ -12601,6 +12625,7 @@ function onWindowResize()
 		elm.style.height = h;
 	}
 }
+
 
 function buildNavTree(rootAct,name,tree){
 	
