@@ -215,6 +215,11 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$choices->setQuestionObject($this->object);
 		$choices->setSingleline($isSingleline);
 		$choices->setAllowMove(false);
+		if ($this->getSelfAssessmentEditingMode())
+		{
+			$choices->setSize(40);
+			$choices->setMaxLength(800);
+		}
 		if ($this->object->getAnswerCount() == 0) $this->object->addAnswer("", 0, 0, 0);
 		$choices->setValues($this->object->getAnswers());
 		$form->addItem($choices);
