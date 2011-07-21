@@ -54,14 +54,25 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
+		global $ilTabs;
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
 
 		switch($next_class)
 		{
+			case 'ildidactictemplatesettingsgui':
+
+				$ilTabs->activateTab('didactic');
+
+				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettingsGUI.php';
+				$did = new ilDidacticTemplateSettingsGUI($this);
+				$this->ctrl->forwardCommand($did);
+				break;
+
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
@@ -435,6 +446,44 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		
 		$this->ctrl->redirect($this, "view");
 	}
+
+	/**
+	* administration tabs show only permissions and trash folder
+	*/
+	function getAdminTabs(&$tabs_gui)
+	{
+		global $tree;
+
+		if ($this->checkPermissionBool("visible,read"))
+		{
+			$tabs_gui->addTarget(
+				"view",
+				$this->ctrl->getLinkTarget($this, "view"),
+				array("", "view"),
+				get_class($this)
+			);
+
+		}
+
+		if($this->checkPermissionBool('write'))
+		{
+			$tabs_gui->addTarget(
+				'didactic',
+				$this->ctrl->getLinkTargetByClass('ildidactictemplatesettingsgui','overview')
+			);
+		}
+
+		if($this->checkPermissionBool("edit_permission"))
+		{
+			$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'),
+				"perm"),
+				"",
+				"ilpermissiongui");
+		}
+
+	}
+
 
 
 } // END class.ilObjRoleFolderGUI
