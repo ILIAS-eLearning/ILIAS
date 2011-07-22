@@ -11685,3 +11685,8 @@ content#:#cont_nlist#:#Numbered List
 content#:#cont_list_outdent#:#Outdent List
 content#:#cont_list_indent#:#Indent List
 content#:#cont_pword#:#Paste from Word
+blog#:#blog_edit#:#Edit Blog
+blog#:#blog_banner#:#Banner
+blog#:#blog_background_color#:#Background Color
+blog#:#blog_font_color#:#Font Color
+blog#:#blog_back_to_ilias#:#Back to ILIAS

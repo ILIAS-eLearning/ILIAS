@@ -27,21 +27,24 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 	    parent::__construct($a_id, $a_id_type, $a_parent_node_id);		
 	
-		$this->month = $_REQUEST["bmn"];
-		
-		// gather postings by month
-		$this->items = $this->buildPostingList($this->object->getId());	
-		if($this->items)
-		{			
-			// current month (if none given or empty)			
-			if(!$this->month || !$this->items[$this->month])
-			{
-				$this->month = array_keys($this->items);
-				$this->month = array_shift($this->month);
+		if($this->object)
+		{
+			$this->month = $_REQUEST["bmn"];
+
+			// gather postings by month
+			$this->items = $this->buildPostingList($this->object->getId());	
+			if($this->items)
+			{			
+				// current month (if none given or empty)			
+				if(!$this->month || !$this->items[$this->month])
+				{
+					$this->month = array_keys($this->items);
+					$this->month = array_shift($this->month);
+				}
 			}
+
+			$ilCtrl->setParameter($this, "bmn", $this->month);
 		}
-		
-		$ilCtrl->setParameter($this, "bmn", $this->month);
 		
 		$lng->loadLanguageModule("blog");
 	}
@@ -71,22 +74,42 @@ class ilObjBlogGUI extends ilObject2GUI
 		$img = new ilImageFileInputGUI($lng->txt("blog_banner"), "banner");
 		$a_form->addItem($img);
 		
+		// show existing file
+		$file = $this->object->getImageFullPath(true);
+		if($file)
+		{
+			$img->setImage($file);
+		}
+		
 		$bg_color = new ilColorPickerInputGUI($lng->txt("blog_background_color"), "bg_color");
 		$a_form->addItem($bg_color);
 		
 		$font_color = new ilColorPickerInputGUI($lng->txt("blog_font_color"), "font_color");
-		$a_form->addItem($font_color);
-		
+		$a_form->addItem($font_color);		
 	}
 
 	protected function getEditFormCustomValues(array &$a_values)
 	{
 		$a_values["notes"] = $this->object->getNotesStatus();
+		$a_values["bg_color"] = $this->object->getBackgroundColor();
+		$a_values["font_color"] = $this->object->getFontColor();
+		$a_values["banner"] = $this->object->getImage();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
-		$this->object->updateNotesStatus($a_form->getInput("notes"));
+		$this->object->setNotesStatus($a_form->getInput("notes"));
+		$this->object->setBackgroundColor($a_form->getInput("bg_color"));
+		$this->object->setFontColor($a_form->getInput("font_color"));
+				
+	    if($_FILES["banner"]["tmp_name"]) 
+		{
+			$this->object->uploadImage($_FILES["banner"]);
+		}
+		else if($a_form->getItemByPostVar("banner")->getDeletionFlag())
+		{
+			$this->object->deleteImage();
+		}
 	}
 
 	function setTabs()
@@ -427,7 +450,10 @@ class ilObjBlogGUI extends ilObject2GUI
 		include_once("./Services/User/classes/class.ilUserUtil.php");
 		$tpl->setFullscreenHeader($this->object->getTitle(), 
 			$name, 	
-			ilObjUser::_getPersonalPicturePath($owner, "big"));
+			ilObjUser::_getPersonalPicturePath($owner, "big"),
+			$this->object->getImageFullPath(),
+			$this->object->getBackgroundColor(),
+			$this->object->getFontColor());
 		
 		// content
 		$tpl->setContent($a_content);

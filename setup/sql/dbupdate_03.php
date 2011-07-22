@@ -6796,3 +6796,44 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 		);
 		$ilDB->addPrimaryKey('didactic_tpl_sa',array('id','obj_type'));
 ?>
+<#3405>
+<?php
+	if(!$ilDB->tableColumnExists('il_blog','bg_color'))
+	{
+		$ilDB->addTableColumn(
+			'il_blog',
+			'bg_color',
+			array(
+				'type' 		=> 'text',
+				'length' 	=> 6,
+				'notnull'	=> false,
+				'fixed'		=> true
+			)
+		);
+	}
+	if(!$ilDB->tableColumnExists('il_blog','font_color'))
+	{
+		$ilDB->addTableColumn(
+			'il_blog',
+			'font_color',
+			array(
+				'type' 		=> 'text',
+				'length' 	=> 6,
+				'notnull'	=> false,
+				'fixed'		=> true
+			)
+		);
+	}
+	if(!$ilDB->tableColumnExists('il_blog','img'))
+	{
+		$ilDB->addTableColumn(
+			'il_blog',
+			'img',
+			array(
+				'type' 		=> 'text',
+				'length' 	=> 255,
+				'notnull'	=> false
+			)
+		);
+	}
+?>
