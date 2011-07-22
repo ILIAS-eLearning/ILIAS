@@ -1430,7 +1430,9 @@ class ilPageObjectGUI
 						$this->getPageObject()->getParentType(),
 						$this->getEnabledInternalLinks(),
 						$this->getPageObject()->getParentType() == "wpg",
-						"", $this->getStyleId()));
+						"", $this->getStyleId(), true, true,
+						$this->getEnableAnchors()
+						));
 					
 					// add int link parts
 					include_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
@@ -2210,10 +2212,11 @@ class ilPageObjectGUI
 	 */
 	static function getTinyMenu($a_par_type,
 		$a_int_links = false, $a_wiki_links = false, $a_keywords = false,
-		$a_style_id = 0, $a_paragraph_styles = true, $a_save_return = true)
+		$a_style_id = 0, $a_paragraph_styles = true, $a_save_return = true,
+		$a_anchors = false)
 	{
 		global $lng;
-		
+
 		$jsMathSetting = new ilSetting("jsMath");
 		
 		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
@@ -2376,13 +2379,16 @@ class ilPageObjectGUI
 			$btpl->parseCurrentBlock();
 		}
 
-/*		if ($a_anchors)
+		if ($a_anchors)
 		{
-			$btpl->touchBlock("bb_anc_button");
-			$btpl->setVariable("TXT_ANC", $lng->txt("cont_anchor").":");
+			$btpl->setCurrentBlock("bb_anc_button");
+			$btpl->setVariable("CC_ANC", "anc");
+			$btpl->parseCurrentBlock();
+			ilTooltipGUI::addTooltip("il_edm_anc", $lng->txt("cont_anchor"),
+				"iltinymenu_bd");
 		}
 
-		// footnote
+/*		// footnote
 		$btpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
 		$btpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
 		$btpl->setVariable("TXT_WLN", $lng->txt("wiki_wiki_page"));

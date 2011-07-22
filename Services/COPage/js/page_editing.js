@@ -252,6 +252,11 @@ tinymce.activeEditor.formatter.register('mycode', {
 		this.addBBCode('[xln url="http://"]', '[/xln]');
 	},
 
+	cmdAnc: function()
+	{
+		this.addBBCode('[anc name=""]', '[/anc]');
+	},
+
 	cmdBList: function()
 	{
 		var ed = tinyMCE.get('tinytarget');
