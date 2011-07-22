@@ -326,10 +326,12 @@ class ilForumXMLParser extends ilSaxParser
 
 					$this->forumThread->setForumId( $this->lastHandledForumId );
 					$this->forumThread->setSubject($this->threadArray['Subject']);
-					$this->forumThread->setUserAlias($this->threadArray['Alias']);
 					$this->forumThread->setSticky($this->threadArray['Sticky']);
 					$this->forumThread->setClosed($this->threadArray['Closed']);
-
+					$this->forumThread->setCreateDate($this->threadArray['CreateDate']);
+					$this->forumThread->setChangeDate($this->threadArray['UpdateDate']);
+					$this->forumThread->setImportName($this->threadArray['ImportName']);
+					
 					$usr_data = $this->getUserIdAndAlias(
 						$this->threadArray['UserId'], $this->threadArray['Alias']
 					);
@@ -408,6 +410,8 @@ class ilForumXMLParser extends ilSaxParser
 					$this->forumPost->setThread($this->forumThread);
 					$this->forumPost->setThreadId($this->lastHandledThreadId);
 					$this->forumPost->setForumId($this->lastHandledForumId);
+					$this->forumPost->setCreateDate($this->postArray['CreateDate']);
+					$this->forumPost->setChangeDate($this->postArray['UpdateDate']);
 
 					$usr_data = $this->getUserIdAndAlias(
 						$this->postArray['UserId'], $this->postArray['Alias']
@@ -699,7 +703,6 @@ class ilForumXMLParser extends ilSaxParser
 	/**
 	 * starts parsing an changes object by side effect.
 	 *
-	 * @throws ilFileException when obj id != - 1 and if it it does not match the id in the xml
 	 * @return boolean true, if no errors happend.
 	 *
 	 */
