@@ -443,6 +443,18 @@ class ilWikiUtil
 		} else {
 			
 //var_dump($trail);
+
+			// remove anchor from text, define anchor
+			$anc = "";
+			if ($nt->mFragment != "")
+			{
+				if (substr($text, strlen($text) - strlen("#".$nt->mFragment))
+					== "#".$nt->mFragment)
+				{
+					$text = substr($text, 0, strlen($text) - strlen("#".$nt->mFragment));
+					$anc = "#".$nt->mFragment;
+				}
+			}
 			
 			# Separate the link trail from the rest of the link
 			list( $inside, $trail ) = ilWikiUtil::splitTrail( $trail );
@@ -451,7 +463,9 @@ class ilWikiUtil
 			$url_title = ilWikiUtil::makeUrlTitle($nt->mTextform);
 			$db_title = ilWikiUtil::makeDbTitle($nt->mTextform);
 			$pg_exists = ilWikiPage::_wikiPageExists($a_wiki_id, $db_title);
-
+//var_dump($nt);
+//var_dump($inside);
+//var_dump($trail);
 			$wiki_link_class = (!$pg_exists)
 				? ' class="ilWikiPageMissing" ' : "";
 
@@ -459,7 +473,7 @@ class ilWikiUtil
 			{
 				$ilCtrl->setParameterByClass("ilobjwikigui", "page", $url_title);
 				$retVal = '<a '.$wiki_link_class.' href="'.
-					$ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoPage").
+					$ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoPage").$anc.
 					'">'.$text.'</a>'.$trail;
 			}
 			else
@@ -468,7 +482,7 @@ class ilWikiUtil
 				{
 					$pg_id = ilWikiPage::getIdForPageTitle($a_wiki_id, $db_title);
 					$retVal = '<a '.$wiki_link_class.' href="'.
-						"wpg_".$pg_id.".html".
+						"wpg_".$pg_id.".html".$anc.
 						'">'.$text.'</a>'.$trail;
 				}
 				else
