@@ -296,13 +296,13 @@ class ilSurveyExecutionGUI
 		if(!$this->preview)
 		{
 			// security check if someone tries to go into a survey using an URL to one of the questions
-			$canStart = $this->object->canStartSurvey($_SESSION["anonymous_id"]);
+			$canStart = $this->object->canStartSurvey($_SESSION["anonymous_id"][$this->object->getId()]);
 			if (!$canStart["result"])
 			{
 				ilUtil::sendInfo(implode("<br />", $canStart["messages"]), TRUE);
 				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
 			}
-			$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"]);
+			$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $_SESSION["anonymous_id"][$this->object->getId()]);
 			if ($survey_started === FALSE)
 			{
 				ilUtil::sendInfo($this->lng->txt("survey_use_start_button"), TRUE);
@@ -588,9 +588,9 @@ class ilSurveyExecutionGUI
 				// delete old answers
 				$this->object->deleteWorkingData($data["question_id"], $_SESSION["finished_id"][$this->object->getId()]);
 
-				if ($this->object->isSurveyStarted($user_id, $_SESSION["anonymous_id"]) === false)
+				if ($this->object->isSurveyStarted($user_id, $_SESSION["anonymous_id"][$this->object->getId()]) === false)
 				{
-					$_SESSION["finished_id"][$this->object->getId()] = $this->object->startSurvey($user_id, $_SESSION["anonymous_id"]);
+					$_SESSION["finished_id"][$this->object->getId()] = $this->object->startSurvey($user_id, $_SESSION["anonymous_id"][$this->object->getId()]);
 				}
 				if ($this->object->getAnonymize())
 				{
