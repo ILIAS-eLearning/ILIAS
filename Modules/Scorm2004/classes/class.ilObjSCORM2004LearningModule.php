@@ -1651,7 +1651,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	function exportHTMLOne($a_inst, $a_target_dir, &$expLog)
 	{
 		$one_file = fopen($a_target_dir.'/index.html','w+');
-		$this->exportHTML($a_inst, $a_target_dir, &$expLog, $one_file);
+		$this->exportHTML($a_inst, $a_target_dir, $expLog, $one_file);
 		fclose($one_file);
 	}
 	
