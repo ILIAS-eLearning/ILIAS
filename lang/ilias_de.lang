@@ -11685,6 +11685,13 @@ content#:#cont_nlist#:#Numerierte Liste
 content#:#cont_list_outdent#:#Liste ausrücken
 content#:#cont_list_indent#:#Liste einrücken
 content#:#cont_pword#:#Aus Word einfügen
+didactic#:#didactic_adm_tab#:#Didaktik
+didactic#:#didactic_import_btn#:#Didaktische Vorlagen importieren
+didactic#:#didactic_applicable_for#:#Anwendbar auf
+didactic#:#didactic_available_templates#:#Verfügbare didaktische Vorlagen
+didactic#:#didactic_copy_suc_message#:#Die didaktische Vorlage wurde kopiert
+didactic#:#didactic_confirm_delete_msg#:#Sind Sie sicher, dass die folgenden didaktischen Vorlagen gelöscht werden sollen?
+didactic#:#didactic_delete_msg#:#Die ausgewählten didaktischen Vorlagen wurden gelöscht.
 blog#:#blog_edit#:#Blog editieren
 blog#:#blog_banner#:#Banner
 blog#:#blog_background_color#:#Hintergrundfarbe

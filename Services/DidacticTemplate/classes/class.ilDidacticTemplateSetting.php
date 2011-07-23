@@ -9,11 +9,14 @@
  */
 class ilDidacticTemplateSetting
 {
+	const TYPE_CREATION = 1;
+
+
 	private $id = 0;
 	private $enabled = false;
 	private $title = '';
 	private $description = '';
-	private $type = '';
+	private $type = self::TYPE_CREATION;
 	private $assignments = array();
 
 
@@ -92,15 +95,6 @@ class ilDidacticTemplateSetting
 
 	/**
 	 * Set description
-	 * @param string $a_desc
-	 */
-	public function setDescription($a_desc)
-	{
-		$this->description = $a_desc;
-	}
-
-	/**
-	 * Set description
 	 * @param string $a_description
 	 */
 	public function setDescription($a_description)
@@ -145,6 +139,15 @@ class ilDidacticTemplateSetting
 	}
 
 	/**
+	 * Add one assignment obj type
+	 * @param string $a_obj_type 
+	 */
+	public function addAssignment($a_obj_type)
+	{
+		$this->assignments[] = $a_obj_type;
+	}
+
+	/**
 	 * Delete settings
 	 */
 	public function delete()
@@ -157,7 +160,7 @@ class ilDidacticTemplateSetting
 		$ilDB->manipulate($query);
 
 		// Delete obj assignments
-		$query = 'DELETE FROM didactic_tpl_settings_ass '.
+		$query = 'DELETE FROM didactic_tpl_sa '.
 			'WHERE id = '.$ilDB->quote($this->getId(),'integer');
 		$ilDB->manipulate($query);
 
@@ -213,8 +216,8 @@ class ilDidacticTemplateSetting
 
 		$query = 'INSERT INTO didactic_tpl_sa (id,obj_type) '.
 			'VALUES( '.
-			'id = '.$ilDB->quote($this->getId(),'integer').', '.
-			'obj_type = '.$ilDB->quote($a_obj_type,'text').
+			$ilDB->quote($this->getId(),'integer').', '.
+			$ilDB->quote($a_obj_type,'text').
 			')';
 		$ilDB->manipulate($query);
 	}
@@ -279,14 +282,16 @@ class ilDidacticTemplateSetting
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setType($row->type);
+			$this->enable($row->enabled);
 			$this->setTitle($row->title);
 			$this->setDescription($row->description);
+
 		}
 
 		/**
 		 * Read assigned objects
 		 */
-		$query = 'SELECT * FROM didactic_tpl_settings_ass '.
+		$query = 'SELECT * FROM didactic_tpl_sa '.
 			'WHERE id = '.$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -294,6 +299,15 @@ class ilDidacticTemplateSetting
 			$this->addAssignment($row->obj_type);
 		}
 		return true;
+	}
+
+	/**
+	 * Implemented clone method
+	 */
+	public function  __clone()
+	{
+		$this->setId(0);
+		$this->enable(false);
 	}
 }
 

@@ -91,7 +91,7 @@ class ilUtil
 	* @param	boolean		should be set to true, if the image is within a module
 	*						template directory (e.g. content/templates/default/images/test.gif)
 	*/
-	function getImagePath($img, $module_path = "", $mode = "output", $offline = false)
+	public static function getImagePath($img, $module_path = "", $mode = "output", $offline = false)
 	{
 		global $ilias, $styleDefinition, $ilCtrl, $ilUser;
 

@@ -66,7 +66,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		{
 			case 'ildidactictemplatesettingsgui':
 
-				$ilTabs->activateTab('didactic');
+				$ilTabs->activateTab('didactic_adm_tab');
 
 				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettingsGUI.php';
 				$did = new ilDidacticTemplateSettingsGUI($this);
@@ -448,11 +448,14 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	}
 
 	/**
-	* administration tabs show only permissions and trash folder
-	*/
+	 * Add role folder tabs
+	 * @global ilTree $tree
+	 * @global ilLanguage $lng
+	 * @param ilTabsGUI $tabs_gui 
+	 */
 	function getAdminTabs(&$tabs_gui)
 	{
-		global $tree;
+		global $tree,$lng;
 
 		if ($this->checkPermissionBool("visible,read"))
 		{
@@ -467,8 +470,9 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 		if($this->checkPermissionBool('write'))
 		{
+			$lng->loadLanguageModule('didactic');
 			$tabs_gui->addTarget(
-				'didactic',
+				'didactic_adm_tab',
 				$this->ctrl->getLinkTargetByClass('ildidactictemplatesettingsgui','overview')
 			);
 		}
