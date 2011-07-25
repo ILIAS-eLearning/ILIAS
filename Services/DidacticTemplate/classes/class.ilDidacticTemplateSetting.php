@@ -302,6 +302,37 @@ class ilDidacticTemplateSetting
 	}
 
 	/**
+	 * Export
+	 * @param ilXmlWriter $writer
+	 * @return ilXmlWriter
+	 */
+	public function toXml(ilXmlWriter $writer)
+	{
+		
+		switch($this->getType())
+		{
+			case self::TYPE_CREATION:
+				$type = 'creation';
+				break;
+		}
+		
+		$writer->xmlStartTag('didacticTemplate',array('type' => $type));
+		$writer->xmlElement('title',array(),$this->getTitle());
+		$writer->xmlElement('description', array(), $this->getDescription());
+
+		// Assignments
+		$writer->xmlStartTag('assignments');
+		foreach($this->getAssignments() as $assignment)
+		{
+			$writer->xmlElement('assignment', array(), $assignment);
+		}
+		$writer->xmlEndTag('assignments');
+		$writer->xmlEndTag('didacticTemplate');
+
+		return $writer;
+	}
+
+	/**
 	 * Implemented clone method
 	 */
 	public function  __clone()
