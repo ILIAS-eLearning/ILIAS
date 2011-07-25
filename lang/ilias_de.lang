@@ -11704,3 +11704,10 @@ didactic#:#didactic_import_table_title#:#Import einer didaktischen Vorlage
 didactic#:#didactic_back_to_overview#:#Zurück zur Übersicht
 didactic#:#didactic_import_success#:#Die didaktische Vorlage wurde erfolgreich importiert
 didactic#:#didactic_import_failed#:#Die didaktische Vorlage konnte nicht importiert werden:
+rbac#:#rbac_auto_global#:#Automatisch generierte globale Rolle
+rbac#:#rbac_ud_global#:#Selbst erstellte globale Rolle
+rbac#:#rbac_auto_local#:#Automatisch generierte lokale Rolle
+rbac#:#rbac_ud_local#:#Selbst erstelle lokale Rolle
+rbac#:#rbac_auto_rolt#:#Automatisch generierte Rollenvorlage
+rbac#:#rbac_ud_rolt#:#Selbst erstellte Rollenvorlage
+rbac#:#rbac_context_global#:#Global
