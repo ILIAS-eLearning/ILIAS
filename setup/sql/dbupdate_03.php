@@ -6837,3 +6837,7 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 		);
 	}
 ?>
+<#3406>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

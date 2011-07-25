@@ -11685,7 +11685,7 @@ content#:#cont_nlist#:#Numbered List
 content#:#cont_list_outdent#:#Outdent List
 content#:#cont_list_indent#:#Indent List
 didactic#:#didactic_adm_tab#:#Didactic
-didactic#:#didactic_import_btn#:#Import Didactic Templates
+didactic#:#didactic_import_btn#:#Import Didactic Template
 didactic#:#didactic_applicable_for#:#Applicalble for
 didactic#:#didactic_available_templates#:#Available Didactic Templates
 didactic#:#didactic_copy_suc_message#:#Copied didactic template
@@ -11696,4 +11696,11 @@ blog#:#blog_edit#:#Edit Blog
 blog#:#blog_banner#:#Banner
 blog#:#blog_background_color#:#Background Color
 blog#:#blog_font_color#:#Font Color
+didactic#:#didactic_activated_msg#:#Activated didactic templates
+didactic#:#didactic_deactivated_msg#:#Deactivated didactic templates
+didactic#:#didactic_do_export#:#Export
+didactic#:#didactic_import_table_title#:#Import of a didactic template
+didactic#:#didactic_back_to_overview#:#Back to Overview
 blog#:#blog_back_to_ilias#:#Back to ILIAS
+didactic#:#didactic_import_success#:#Successfully imported didactical template
+didactic#:#didactic_import_failed#:#Importing the didactical template failed with message: 

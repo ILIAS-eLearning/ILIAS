@@ -38,7 +38,11 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('actions'),'','20%');
 
 		$this->setTitle($this->lng->txt('didactic_available_templates'));
-		$this->addMultiCommand('confirmDelete',$this->lng->txt('delete'),'20%');
+
+		$this->addMultiCommand('activateTemplates', $this->lng->txt('activate'));
+		$this->addMultiCommand('deactivateTemplates', $this->lng->txt('deactivate'));
+		$this->addMultiCommand('confirmDelete',$this->lng->txt('delete'));
+
 
 
 		$this->setRowTemplate('tpl.didactic_template_overview_row.html','Services/DidacticTemplate');
@@ -111,12 +115,22 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 			'tplid',
 			$set['id']
 		);
+		$this->tpl->setCurrentBlock('action_link');
 		$this->tpl->setVariable(
-			'COPY_LINK',
+			'A_LINK',
 			$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'copyTemplate')
 		);
-		$this->tpl->setVariable('COPY_TEXT', $this->lng->txt('copy'));
+		$this->tpl->setVariable('A_TEXT', $this->lng->txt('copy'));
+		$this->tpl->parseCurrentBlock();
+
+		// Export
+		$this->tpl->setCurrentBlock('action_link');
+		$this->tpl->setVariable(
+			'A_LINK',
+			$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'exportTemplate')
+		);
+		$this->tpl->setVariable('A_TEXT', $this->lng->txt('didactic_do_export'));
+		$this->tpl->parseCurrentBlock();
 	}
-	
 }
 ?>

@@ -11686,7 +11686,7 @@ content#:#cont_list_outdent#:#Liste ausrücken
 content#:#cont_list_indent#:#Liste einrücken
 content#:#cont_pword#:#Aus Word einfügen
 didactic#:#didactic_adm_tab#:#Didaktik
-didactic#:#didactic_import_btn#:#Didaktische Vorlagen importieren
+didactic#:#didactic_import_btn#:#Didaktische Vorlage importieren
 didactic#:#didactic_applicable_for#:#Anwendbar auf
 didactic#:#didactic_available_templates#:#Verfügbare didaktische Vorlagen
 didactic#:#didactic_copy_suc_message#:#Die didaktische Vorlage wurde kopiert
@@ -11697,3 +11697,10 @@ blog#:#blog_banner#:#Banner
 blog#:#blog_background_color#:#Hintergrundfarbe
 blog#:#blog_font_color#:#Schriftfarbe
 blog#:#blog_back_to_ilias#:#Zurück zu ILIAS
+didactic#:#didactic_activated_msg#:#Die ausgewählten didaktischen Vorlagen wurden aktiviert.
+didactic#:#didactic_deactivated_msg#:#Die ausgewählten didaktischen Vorlagen wurden deaktiviert.
+didactic#:#didactic_do_export#:#Exportieren
+didactic#:#didactic_import_table_title#:#Import einer didaktischen Vorlage
+didactic#:#didactic_back_to_overview#:#Zurück zur Übersicht
+didactic#:#didactic_import_success#:#Die didaktische Vorlage wurde erfolgreich importiert
+didactic#:#didactic_import_failed#:#Die didaktische Vorlage konnte nicht importiert werden:

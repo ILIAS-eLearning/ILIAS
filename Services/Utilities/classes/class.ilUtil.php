@@ -3831,7 +3831,7 @@ class ilUtil
 	/**
 	* move uploaded file
 	*/
-	function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true,
+	public function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true,
 		$a_mode = "move_uploaded")
 	{
 		global $lng, $ilias;
