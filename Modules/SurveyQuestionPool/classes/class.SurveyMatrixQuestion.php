@@ -1098,10 +1098,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 	}
 
-	function saveUserInput($post_data, $active_id)
+	function saveUserInput($post_data, $active_id, $a_return = false)
 	{
 		global $ilDB;
 
+		if($a_return)
+		{
+			$return_data = array();
+		}
 		switch ($this->getSubtype())
 		{
 			case 0:
@@ -1109,12 +1113,21 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				{
 					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
 					{
-						$next_id = $ilDB->nextId('svy_answer');
-						$other_value = (array_key_exists('matrix_other_' . $this->getId() . '_' . $matches[1], $post_data)) ? ($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]) : null;
-						$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-							array('integer','integer','integer','float','text','integer','integer'),
-							array($next_id, $this->getId(), $active_id, $value, $other_value, $matches[1], time())
-						);
+						$other_value = (array_key_exists('matrix_other_' . $this->getId() . '_' . $matches[1], $post_data)) ? ($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]) : null;					
+						if(!$a_return)
+						{
+							$next_id = $ilDB->nextId('svy_answer');							
+							$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+								array('integer','integer','integer','float','text','integer','integer'),
+								array($next_id, $this->getId(), $active_id, $value, $other_value, $matches[1], time())
+							);
+						}
+						else
+						{
+							$return_data[] = array("value"=>$value, 
+								"textanswer"=>$other_value, 
+								"rowvalue"=>$matches[1]);
+						}
 					}
 				}
 				break;
@@ -1128,16 +1141,29 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						{
 							if (strlen($checked))
 							{
-								$next_id = $ilDB->nextId('svy_answer');
-								$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-									array('integer','integer','integer','float','text','integer','integer'),
-									array($next_id, $this->getId(), $active_id, $checked, $other_value, $matches[1], time())
-								);
+								if(!$a_return)
+								{
+									$next_id = $ilDB->nextId('svy_answer');
+									$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+										array('integer','integer','integer','float','text','integer','integer'),
+										array($next_id, $this->getId(), $active_id, $checked, $other_value, $matches[1], time())
+									);
+								}
+								else
+								{
+									$return_data[] = array("value"=>$checked, 
+										"textanswer"=>$other_value, 
+										"rowvalue"=>$matches[1]);
+								}
 							}
 						}
 					}
 				}
 				break;
+		}
+		if($a_return)
+		{
+			return $return_data;
 		}
 	}
 

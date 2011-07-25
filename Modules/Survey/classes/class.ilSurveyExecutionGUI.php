@@ -128,6 +128,10 @@ class ilSurveyExecutionGUI
 		global $ilUser;
 		global $rbacsystem;
 
+		if($this->preview)
+		{
+			unset($_SESSION["preview_data"]); 
+		}
 		unset($_SESSION["svy_errors"]);
 		if (!$rbacsystem->checkAccess("read", $this->object->ref_id)) 
 		{
@@ -326,7 +330,14 @@ class ilSurveyExecutionGUI
 				$constraint_true = ($page[0]['constraints'][0]['conjunction'] == 0) ? true : false;
 				foreach ($page[0]["constraints"] as $constraint)
 				{
-					$working_data = $this->object->loadWorkingData($constraint["question"], $_SESSION["finished_id"][$this->object->getId()]);
+					if(!$this->preview)
+					{					
+						$working_data = $this->object->loadWorkingData($constraint["question"], $_SESSION["finished_id"][$this->object->getId()]);
+					}
+					else
+					{												
+						$working_data = $_SESSION["preview_data"][$this->object->getId()][$constraint["question"]];												
+					}
 					if ($constraint['conjunction'] == 0)
 					{
 						// and
@@ -595,8 +606,13 @@ class ilSurveyExecutionGUI
 				if ($this->object->getAnonymize())
 				{
 					$user_id = 0;
-				}
+				}				
 				$question->saveUserInput($_POST, $_SESSION["finished_id"][$this->object->getId()]);
+			}
+			else
+			{
+				$_SESSION["preview_data"][$this->object->getId()][$data["question_id"]] = 
+					$question->saveUserInput($_POST, $_SESSION["finished_id"][$this->object->getId()], true);
 			}
 			return 0;
 		}
