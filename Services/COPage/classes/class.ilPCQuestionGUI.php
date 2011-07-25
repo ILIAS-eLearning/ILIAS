@@ -320,15 +320,14 @@ class ilPCQuestionGUI extends ilPageContentGUI
 			if ($q_id > 0)
 			{
 				$edit_gui->setQuestionId($q_id);
-//				$edit_gui->setPoolObjId(assQuestion::_lookupQPoolId($q_id));
-$edit_gui->setPoolObjId(0);
+				$edit_gui->setPoolObjId(0);
 			}
 			else
 			{
 				if ($_GET["qpool_ref_id"] > 0)
 				{
 					$edit_gui->setPoolRefId($_GET["qpool_ref_id"]);
-$edit_gui->setPoolRefId(0);
+					$edit_gui->setPoolRefId(0);
 				}
 				//set default tries
 				$edit_gui->setDefaultNrOfTries(ilObjSAHSLearningModule::_getTries($this->scormlmid));
@@ -578,6 +577,27 @@ $edit_gui->setPoolRefId(0);
 		$table_gui->setData($data);
 */
 		$tpl->setContent($table_gui->getHTML());
+	}
+	
+	/**
+	 * Copy question into page
+	 *
+	 * @param
+	 * @return
+	 */
+	function copyQuestion()
+	{
+		global $ilCtrl;
+		
+		$this->content_obj = new ilPCQuestion($this->dom);
+		$this->content_obj->create($this->pg_obj, $_GET["hier_id"]);
+		
+		$this->content_obj->copyPoolQuestionIntoPage(
+			(int) $_GET["q_id"], $_GET["hier_id"]);
+		
+		$this->updated = $this->pg_obj->update();
+		
+		$ilCtrl->returnToParent($this);
 	}
 	
 }

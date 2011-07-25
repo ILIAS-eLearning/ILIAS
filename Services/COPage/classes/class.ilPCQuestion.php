@@ -94,5 +94,23 @@ class ilPCQuestion extends ilPageContent
 		$this->q_node->set_attribute("QRef", "");
 	}
 	
+	/**
+	 * 
+	 *
+	 * @param
+	 * @return
+	 */
+	function copyPoolQuestionIntoPage($a_q_id, $a_hier_id)
+	{
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		$question = assQuestion::_instanciateQuestion($a_q_id);
+		$duplicate_id = $question->duplicate(false);
+		$duplicate = assQuestion::_instanciateQuestion($duplicate_id);
+		$duplicate->setObjId(0);
+		$duplicate->saveQuestionDataToDb();
+		
+		$this->q_node->set_attribute("QRef", "il__qst_".$duplicate_id);
+	}
+	
 }
 ?>
