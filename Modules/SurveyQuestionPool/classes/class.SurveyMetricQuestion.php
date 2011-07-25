@@ -558,14 +558,21 @@ class SurveyMetricQuestion extends SurveyQuestion
 		);
 	}
 
-	function saveUserInput($post_data, $active_id)
+	function saveUserInput($post_data, $active_id, $a_return = false)
 	{
 		global $ilDB;
 		
 		$entered_value = $post_data[$this->getId() . "_metric_question"];
-		if (strlen($entered_value) == 0) return;
+		
 		// replace german notation with international notation
 		$entered_value = str_replace(",", ".", $entered_value);
+		
+		if($a_return)
+		{
+			return array(array("value"=>$entered_value, "textanswer"=>null));
+		}
+		if (strlen($entered_value) == 0) return;
+		
 		$next_id = $ilDB->nextId('svy_answer');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
 			array('integer','integer','integer','float','text','integer'),

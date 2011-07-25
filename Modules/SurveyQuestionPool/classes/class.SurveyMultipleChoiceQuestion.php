@@ -467,23 +467,39 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		}
 	}
 	
-	function saveUserInput($post_data, $active_id)
+	function saveUserInput($post_data, $active_id, $a_return = false)
 	{
 		global $ilDB;
 
+		if($a_return)
+		{
+			$return_data = array();
+		}
 		if (is_array($post_data[$this->getId() . "_value"]))
 		{
 			foreach ($post_data[$this->getId() . "_value"] as $entered_value)
 			{
 				if (strlen($entered_value) > 0)
 				{
-					$next_id = $ilDB->nextId('svy_answer');
-					$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-						array('integer','integer','integer','float','text','integer'),
-						array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : null, time())
-					);
+					if(!$a_return)
+					{
+						$next_id = $ilDB->nextId('svy_answer');
+						$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+							array('integer','integer','integer','float','text','integer'),
+							array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : null, time())
+						);
+					}
+					else
+					{
+						$return_data[] = array("value"=>$entered_value, 
+								"textanswer"=>$post_data[$this->getId() . "_" . $entered_value . "_other"]);
+					}
 				}
 			}
+		}
+		if($a_return)
+		{
+			return $return_data;
 		}
 	}
 

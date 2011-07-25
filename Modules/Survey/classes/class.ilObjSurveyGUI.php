@@ -447,7 +447,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		// general properties
 		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("properties"));
+		$header->setTitle($this->lng->txt("settings"));
 		$form->addItem($header);
 		
 		// online
@@ -3296,7 +3296,7 @@ EOT;
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_constraints_list.html", "Modules/Survey");
 		$survey_questions =& $this->object->getSurveyQuestions();
-		$last_questionblock_title = "";
+		$last_questionblock_id = 0;
 		$counter = 1;
 		$hasPreconditions = FALSE;
 		$structure = array();
@@ -3309,9 +3309,9 @@ EOT;
 			{
 				$title = $data["questionblock_title"];
 				$type = $this->lng->txt("questionblock");
-				if (strcmp($title, $last_questionblock_title) != 0) 
+				if ($data["questionblock_id"] != $last_questionblock_id) 
 				{
-					$last_questionblock_title = $title;
+					$last_questionblock_id = $data["questionblock_id"];
 					$structure[$counter] = array();
 					array_push($structure[$counter], $data["question_id"]);
 				}
