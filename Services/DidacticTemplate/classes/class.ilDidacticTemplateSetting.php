@@ -164,6 +164,13 @@ class ilDidacticTemplateSetting
 			'WHERE id = '.$ilDB->quote($this->getId(),'integer');
 		$ilDB->manipulate($query);
 
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
+		foreach (ilDidacticTemplateActionFactory::getActionsByTemplateId($this->getId()) as $action)
+		{
+			$action->delete();
+		}
+
+
 		return true;
 	}
 

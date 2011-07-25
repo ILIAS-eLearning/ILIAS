@@ -74,7 +74,8 @@ class ilDidacticTemplateImport
 				break;
 		}
 
-		$this->parseSettings($root);
+		$settings = $this->parseSettings($root);
+		$this->parseActions($settings,$root->didacticTemplate->actions);
 
 	}
 
@@ -91,7 +92,7 @@ class ilDidacticTemplateImport
 
 		foreach($root->didacticTemplate as $tpl)
 		{
-			switch((string) $tpl->type)
+			switch((string) $tpl->attributes()->type)
 			{
 				case 'creation':
 				default:
@@ -108,6 +109,73 @@ class ilDidacticTemplateImport
 		}
 		$setting->save();
 		return $setting;
+	}
+
+	/**
+	 * Parse template action from xml
+	 * @param ilDidacticTemplateSetting $set
+	 * @param SimpleXMLElement $root
+	 */
+	protected function parseActions(ilDidacticTemplateSetting $set, SimpleXMLElement $actions)
+	{
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
+
+
+		foreach($actions->action as $ele)
+		{
+			$act = ilDidacticTemplateActionFactory::factoryByTypeString((string) $ele->attributes()->type);
+			$act->setTemplateId($set->getId());
+
+			if($act instanceof ilDidacticTemplateLocalPolicyAction)
+			{
+				// Filter type
+				foreach($ele->filter as $fis)
+				{
+					switch((string) $fis->attributes()->type)
+					{
+						case ilDidacticTemplateLocalPolicyAction::FILTER_POSITIVE:
+							$act->setFilterType(ilDidacticTemplateLocalPolicyAction::FILTER_POSITIVE);
+							break;
+
+						case ilDidacticTemplateLocalPolicyAction::FILTER_NEGATIVE:
+							$act->setFilterType(ilDidacticTemplateLocalPolicyAction::FILTER_NEGATIVE);
+							break;
+					}
+				}
+				// local policy template
+				foreach($ele->localPolicyTemplate as $lpt)
+				{
+					switch((string) $lpt->attributes()->type)
+					{
+						case ilDidacticTemplateLocalPolicyAction::TPL_ACTION_OVERWRITE:
+							$act->setRoleTemplateType(ilDidacticTemplateLocalPolicyAction::TPL_ACTION_OVERWRITE);
+							break;
+
+						case ilDidacticTemplateLocalPolicyAction::TPL_ACTION_INTERSECT:
+							$act->setRoleTemplateType(ilDidacticTemplateLocalPolicyAction::TPL_ACTION_INTERSECT);
+							break;
+
+						case ilDidacticTemplateLocalPolicyAction::TPL_ACTION_ADD:
+							$act->setRoleTemplateType(ilDidacticTemplateLocalPolicyAction::TPL_ACTION_ADD);
+							break;
+
+						case ilDidacticTemplateLocalPolicyAction::TPL_ACTION_SUBTRACT:
+							$act->setRoleTemplateType(ilDidacticTemplateLocalPolicyAction::TPL_ACTION_SUBTRACT);
+							break;
+
+						case ilDidacticTemplateLocalPolicyAction::TPL_ACTION_UNION:
+							$act->setRoleTemplateType(ilDidacticTemplateLocalPolicyAction::TPL_ACTION_UNION);
+							break;
+					}
+					$act->setRoleTemplateId((string) $lpt->attributes()->id);
+				}
+
+			}
+
+			// Other action types
+
+			$act->save();
+		}
 	}
 
 	/**

@@ -6841,3 +6841,59 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3407>
+<?php
+		$ilDB->createTable('didactic_tpl_a',
+			array(
+				"id" => array(
+					"type" => "integer",
+					"length" => 4,
+					"notnull" => true
+				),
+				"tpl_id" => array(
+					"type" => "integer",
+					"length" => 4,
+					"notnull" => true
+				),
+				"type_id" => array(
+					"type" => "integer",
+					"length" => 1,
+					"notnull" => true
+				)
+			)
+		);
+		
+		$ilDB->createSequence('didactic_tpl_a');
+		$ilDB->addPrimaryKey('didactic_tpl_a',array('id'));
+?>
+
+<#3408>
+<?php
+		$ilDB->createTable('didactic_tpl_alp',
+			array(
+				"action_id" => array(
+					"type" => "integer",
+					"length" => 4,
+					"notnull" => true
+				),
+				"filter_type" => array(
+					"type" => "integer",
+					"length" => 1,
+					"notnull" => true
+				),
+				"template_type" => array(
+					"type" => "integer",
+					"length" => 1,
+					"notnull" => true
+				),
+				"template_id" => array(
+					"type" => "integer",
+					"length" => 4,
+					"notnull" => true
+				)
+			)
+		);
+
+		$ilDB->addPrimaryKey('didactic_tpl_alp',array('action_id'));
+?>
+
