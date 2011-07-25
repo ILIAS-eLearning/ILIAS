@@ -237,7 +237,7 @@ class ilDidacticTemplateSettingsGUI
 		foreach((array) $_REQUEST['tpls'] as $tplid)
 		{
 			$tpl = new ilDidacticTemplateSetting($tplid);
-			$confirm->addItem('tpls', $tpl->getId(), $tpl->getTitle());
+			$confirm->addItem('tpls[]', $tpl->getId(), $tpl->getTitle());
 		}
 
 		ilUtil::sendQuestion($this->lng->txt('didactic_confirm_delete_msg'));

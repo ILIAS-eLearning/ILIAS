@@ -64,8 +64,8 @@ class ilDidacticTemplateImport
 		{
 			case self::IMPORT_FILE:
 
-				$element = simplexml_load_file($this->getInputFile());
-				if($element == FALSE)
+				$root = simplexml_load_file($this->getInputFile());
+				if($root == FALSE)
 				{
 					throw new ilDidacticTemplateImportException(
 						$this->parseXmlErrors()
@@ -74,17 +74,40 @@ class ilDidacticTemplateImport
 				break;
 		}
 
-		$this->parseSettings($element);
+		$this->parseSettings($root);
 
 	}
 
 	/**
 	 * Parse settings
 	 * @param SimpleXMLElement $el
+	 * @return ilDidacticTemplateSetting
 	 */
-	protected function parseSettings(SimpleXMLElement $el)
+	protected function parseSettings(SimpleXMLElement $root)
 	{
 
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
+		$setting = new ilDidacticTemplateSetting();
+
+		foreach($root->didacticTemplate as $tpl)
+		{
+			switch((string) $tpl->type)
+			{
+				case 'creation':
+				default:
+					$setting->setType(ilDidacticTemplateSetting::TYPE_CREATION);
+					break;
+			}
+			$setting->setTitle(trim((string) $tpl->title));
+			$setting->setDescription(trim((string) $tpl->description));
+
+			foreach($tpl->assignments->assignment as $element)
+			{
+				$setting->addAssignment(trim((string) $element));
+			}
+		}
+		$setting->save();
+		return $setting;
 	}
 
 	/**
