@@ -91,9 +91,15 @@ class ilPCQuestionGUI extends ilPageContentGUI
 			
 			default:
 				//set tabs
-				if ($cmd != "insert") {
+				if ($cmd != "insert")
+				{
 					$this->setTabs();
 				}
+				else if ($_GET["subCmd"] != "")
+				{
+					$cmd = $_GET["subCmd"];
+				}
+				
 				$ret = $this->$cmd();
 		}
 		
@@ -122,15 +128,39 @@ class ilPCQuestionGUI extends ilPageContentGUI
 		return $this->selfassessmentmode;
 	}
 
-
-	
+	/**
+	 * Set insert tabs
+	 *
+	 * @param string $a_active active tab id
+	 */
+	function setInsertTabs($a_active)
+	{
+		global $ilTabs, $ilCtrl, $lng;
+		
+		// new question
+		$ilTabs->addSubTab("new_question",
+			$lng->txt("cont_new_question"),
+			$ilCtrl->getLinkTarget($this, "insert"));
+		
+		// copy from pool
+		$ilCtrl->setParameter($this, "subCmd", "insertFromPool");
+		$ilTabs->addSubTab("copy_question",
+			$lng->txt("cont_copy_question_from_pool"),
+			$ilCtrl->getLinkTarget($this, "insert"));
+		
+		$ilTabs->activateSubTab($a_active);
+		
+		$ilCtrl->setParameter($this, "subCmd", "");
+	}
 	
 	/**
-	* Insert new question form
-	*/
+	 * Insert new question form
+	 */
 	function insert($a_mode = "create")
 	{
 		global $ilUser, $lng, $ilCtrl;
+		
+		$this->setInsertTabs("new_question");
 
 		$this->displayValidationError();
 		
@@ -429,5 +459,126 @@ $edit_gui->setPoolRefId(0);
 		}
 	}
 
+	////
+	//// Get question from pool
+	////
+	
+	/**
+	 * Insert question from ppol
+	 */
+	function insertFromPool()
+	{
+		global $ilCtrl, $ilAccess, $ilTabs, $tpl, $lng, $ilToolbar;
+//var_dump($_SESSION["cont_qst_pool"]);
+		if ($_SESSION["cont_qst_pool"] != "" &&
+			$ilAccess->checkAccess("write", "", $_SESSION["cont_qst_pool"])
+			&& ilObject::_lookupType(ilObject::_lookupObjId($_SESSION["cont_qst_pool"])) == "qpl")
+		{
+			$this->listPoolQuestions();
+		}
+		else
+		{
+			$this->poolSelection();
+		}
+	}
+
+	/**
+	 * Pool selection
+	 *
+	 * @param
+	 * @return
+	 */
+	function poolSelection()
+	{
+		global $ilCtrl, $tree, $tpl, $ilTabs;
+		
+		$this->setInsertTabs("copy_question");
+
+		include_once "./Services/COPage/classes/class.ilPoolSelectorGUI.php";
+
+		$exp = new ilPoolSelectorGUI($ilCtrl->getLinkTarget($this, "insert"));
+
+		if ($_GET["expand"] == "")
+		{
+			$expanded = $tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["expand"];
+		}
+		$exp->setExpand($expanded);
+
+		$exp->setTargetGet("sel_id");
+		$ilCtrl->setParameter($this, "target_type", $a_type);
+		$ilCtrl->setParameter($this, "subCmd", "poolSelection");
+		$exp->setParamsGet($this->ctrl->getParameterArray($this, "insert"));
+		
+		// filter
+		$exp->setFiltered(true);
+		$exp->setFilterMode(IL_FM_POSITIVE);
+		$exp->addFilter("root");
+		$exp->addFilter("cat");
+		$exp->addFilter("grp");
+		$exp->addFilter("fold");
+		$exp->addFilter("crs");
+		$exp->addFilter("qpl");
+		$exp->setContentGUIClass("ilpcquestiongui");
+		$exp->setSelectableTypes(array('qpl'));
+
+		$exp->setOutput(0);
+
+		$tpl->setContent($exp->getOutput());
+	}
+	
+	/**
+	 * Select concrete question pool
+	 */
+	function selectPool()
+	{
+		global $ilCtrl;
+		
+		$_SESSION["cont_qst_pool"] = $_GET["pool_ref_id"];
+		$ilCtrl->setParameter($this, "subCmd", "insertFromPool");
+		$ilCtrl->redirect($this, "insert");
+	}
+
+	/**
+	 * List questions of pool
+	 *
+	 * @param
+	 * @return
+	 */
+	function listPoolQuestions()
+	{
+		global $ilToolbar, $tpl, $ilCtrl, $lng;
+		
+		$ilCtrl->setParameter($this, "subCmd", "poolSelection");
+		$ilToolbar->addButton(
+			$lng->txt("cont_select_other_qpool"),
+			$ilCtrl->getLinkTarget($this, "insert"));
+		$ilCtrl->setParameter($this, "subCmd", "");
+
+		$this->setInsertTabs("copy_question");
+
+		include_once "./Services/COPage/classes/class.ilCopySelfAssQuestionTableGUI.php";
+		
+		$ilCtrl->setParameter($this, "subCmd", "listPoolQuestions");
+		$table_gui = new ilCopySelfAssQuestionTableGUI($this, 'insert',
+			$_SESSION["cont_qst_pool"]);
+/*
+		$arrFilter = array();
+		foreach ($table_gui->getFilterItems() as $item)
+		{
+			if ($item->getValue() !== false)
+			{
+				$arrFilter[$item->getPostVar()] = $item->getValue();
+			}
+		}
+		$data = $this->object->getAvailableQuestions($arrFilter, 1);
+		$table_gui->setData($data);
+*/
+		$tpl->setContent($table_gui->getHTML());
+	}
+	
 }
 ?>

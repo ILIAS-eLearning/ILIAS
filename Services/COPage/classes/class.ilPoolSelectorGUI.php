@@ -35,6 +35,7 @@ class ilPoolSelectorGUI extends ilExplorer
 			$this->force_open_path = $tree->getPathId($_GET["ref_id"]);
 		}
 
+		$this->setSelectableTypes(array('mep'));
 	}
 
 	/**
@@ -62,6 +63,11 @@ class ilPoolSelectorGUI extends ilExplorer
 		$this->selectable_types  = $a_types;
 	}
 	
+	function getSelectableTypes()
+	{
+		return $this->selectable_types;
+	}
+	
 	function setRefId($a_ref_id)
 	{
 		$this->ref_id = $a_ref_id;
@@ -86,7 +92,7 @@ class ilPoolSelectorGUI extends ilExplorer
 	{
 		global $ilUser, $ilAccess;
 		
-		if ($a_type == "mep" &&
+		if (in_array($a_type, $this->getSelectableTypes()) &&
 			$ilAccess->checkAccess("write", "", $a_ref_id))
 		{
 			return true;
