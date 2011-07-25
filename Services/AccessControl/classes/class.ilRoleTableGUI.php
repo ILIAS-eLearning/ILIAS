@@ -13,6 +13,14 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilRoleTableGUI extends ilTable2GUI
 {
+	const TYPE_GLOBAL_AU = 1;
+	const TYPE_GLOBAL_UD = 2;
+	const TYPE_LOCAL_AU = 3;
+	const TYPE_LOCAL_UD = 4;
+	const TYPE_ROLT_AU = 5;
+	const TYPE_ROLT_UD = 6;
+
+
 	const TYPE_VIEW = 1;
 	const TYPE_SEARCH = 2;
 	
@@ -75,8 +83,9 @@ class ilRoleTableGUI extends ilTable2GUI
 		{
 			case self::TYPE_VIEW:
 				$this->setId('rolf_role_tbl');
-				$this->addColumn($this->lng->txt('search_title_description'),'title','40%');
-				$this->addColumn($this->lng->txt('context'),'','50%');
+				$this->addColumn($this->lng->txt('search_title_description'),'title','30%');
+				$this->addColumn($this->lng->txt('type'),'rtype','20%');
+				$this->addColumn($this->lng->txt('context'),'','40%');
 				$this->addColumn($this->lng->txt('actions'),'','10%');
 				$this->setTitle($this->lng->txt('objs_role'));
 				$this->addMultiCommand('confirmDelete',$this->lng->txt('delete'));
@@ -85,8 +94,9 @@ class ilRoleTableGUI extends ilTable2GUI
 			case self::TYPE_SEARCH:
 				$this->setId('rolf_role_search_tbl');
 				$this->addColumn('','f','1px');
-				$this->addColumn($this->lng->txt('search_title_description'),'title','40%');
-				$this->addColumn($this->lng->txt('context'),'','60%');
+				$this->addColumn($this->lng->txt('search_title_description'),'title','30%');
+				$this->addColumn($this->lng->txt('type'),'rtype','20%');
+				$this->addColumn($this->lng->txt('context'),'','50%');
 				$this->setTitle($this->lng->txt('rbac_role_rights_copy'));
 				$this->addMultiCommand('copyPermOptions',$this->lng->txt('copy'));
 				break;
@@ -172,7 +182,7 @@ class ilRoleTableGUI extends ilTable2GUI
 
 		if($set['type'] == 'role')
 		{
-			if($set['obj_id'] != 8)
+			if($set['obj_id'] != ROLE_FOLDER_ID)
 			{
 				$this->ctrl->setParameterByClass(
 					"ilobjrolegui",
@@ -191,7 +201,34 @@ class ilRoleTableGUI extends ilTable2GUI
 			$link = $this->ctrl->getLinkTargetByClass("ilobjroletemplategui", "perm");
 		}
 
-		if($set['obj_id'] != ANONYMOUS_ROLE_ID and $set['obj_id'] != SYSTEM_ROLE_ID)
+		switch($set['rtype'])
+		{
+			case self::TYPE_GLOBAL_AU:
+				$this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_auto_global'));
+				break;
+			case self::TYPE_GLOBAL_UD:
+				$this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_ud_global'));
+				break;
+			case self::TYPE_LOCAL_AU:
+				$this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_auto_local'));
+				break;
+			case self::TYPE_LOCAL_UD:
+				$this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_ud_local'));
+				break;
+			case self::TYPE_ROLT_AU:
+				$this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_auto_rolt'));
+				break;
+			case self::TYPE_ROLT_UD:
+				$this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_ud_rolt'));
+				break;
+		}
+
+
+
+		if(
+			$set['obj_id'] != ANONYMOUS_ROLE_ID and
+			$set['obj_id'] != SYSTEM_ROLE_ID and
+			substr($set['title_orig'],0,3) != 'il_')
 		{
 			$this->tpl->setVariable('VAL_ID', $set['obj_id']);
 		}
@@ -202,22 +239,17 @@ class ilRoleTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('VAL_DESC', $set['description']);
 		}
 
+		/**
 		if((substr($set['title_orig'],0,3) == 'il_') and ($set['type'] == 'rolt'))
 		{
 			$this->tpl->setVariable('VAL_PRE',$this->lng->txt('predefined_template'));
 		}
+		*/
 
 		$ref = $set['parent'];
-
-		if($set['type'] == 'rolt')
+		if($ref == ROLE_FOLDER_ID)
 		{
-			$this->lng->loadLanguageModule('rbac');
-			$this->tpl->setVariable('CONTEXT', $this->lng->txt('rbac_global_rolt'));
-		}
-		elseif($ref == 8)
-		{
-			$this->lng->loadLanguageModule('user');
-			$this->tpl->setVariable('CONTEXT', $this->lng->txt('user_global_role'));
+			$this->tpl->setVariable('CONTEXT', $this->lng->txt('rbac_context_global'));
 		}
 		else
 		{
@@ -288,6 +320,34 @@ class ilRoleTableGUI extends ilTable2GUI
 			$rows[$counter]['obj_id'] = $role['obj_id'];
 			$rows[$counter]['parent'] = $role['parent'];
 			$rows[$counter]['type'] = $role['type'];
+
+			$auto = (substr($role['title'], 0, 3) == 'il_' ? true : false);
+
+
+			// Role templates
+			if($role['type'] == 'rolt')
+			{
+				$rows[$counter]['rtype'] = $auto ? self::TYPE_ROLT_AU :	self::TYPE_ROLT_UD;
+			}
+			else
+			{
+				// Roles
+				if($role['parent'] == ROLE_FOLDER_ID)
+				{
+					if($role['obj_id'] == ANONYMOUS_ROLE_ID or $role['obj_id'] == SYSTEM_ROLE_ID)
+					{
+						$rows[$counter]['rtype'] = self::TYPE_GLOBAL_AU;
+					}
+					else
+					{
+						$rows[$counter]['rtype'] = self::TYPE_GLOBAL_UD;
+					}
+				}
+				else
+				{
+					$rows[$counter]['rtype'] = $auto ? self::TYPE_LOCAL_AU : self::TYPE_LOCAL_UD;
+				}
+			}
 
 			++$counter;
 		}

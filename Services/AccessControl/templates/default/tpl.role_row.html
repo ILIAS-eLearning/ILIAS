@@ -1,4 +1,4 @@
-<tr class="{CSS_ROW}">
+<tr class="{CSS_ROW}" style="font-size: small">
 	<td class="std" style="vertical-align:top;">
 		<!-- BEGIN del_role -->
 		<input type="checkbox" name="roles[]" value="{VAL_ID}" />
@@ -18,15 +18,14 @@
 		<!-- END predefined -->
 	</td>
 	<td class="std" style="vertical-align:top">
-		<font class="small">
-			{CONTEXT}
-		</font>
+		{ROLE_TYPE}
+	</td>
+	<td class="std" style="vertical-align:top">
+		{CONTEXT}
 	</td>
 	<!-- BEGIN action_col -->
 	<td class="std" style="vertical-align:top">
-		<font class="small">
-			<a class="il_ContainerItemCommand2" href="{COPY_LINK}">{COPY_TEXT}</a>
-		</font>
+		<a class="il_ContainerItemCommand2" href="{COPY_LINK}">{COPY_TEXT}</a>
 	</td>
 	<!-- END action_col -->
 </tr>

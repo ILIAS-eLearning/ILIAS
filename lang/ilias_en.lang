@@ -11705,6 +11705,13 @@ didactic#:#didactic_do_export#:#Export
 didactic#:#didactic_import_table_title#:#Import of a didactic template
 didactic#:#didactic_back_to_overview#:#Back to Overview
 didactic#:#didactic_import_success#:#Successfully imported didactical template
+rbac#:#rbac_auto_global#:#Auto generated global role
+rbac#:#rbac_ud_global#:#User defined global role
+rbac#:#rbac_auto_local#:#Auto generated local role
+rbac#:#rbac_ud_local#:#User defined local role
+rbac#:#rbac_auto_rolt#:#Auto generated role template
+rbac#:#rbac_ud_rolt#:#User defined role template
 didactic#:#didactic_import_failed#:#Importing the didactical template failed with message: 
+rbac#:#rbac_context_global#:#Global
 content#:#cont_select_other_qpool#:#Select other Pool
 content#:#cont_copy_question_into_page#:#Copy into Page
