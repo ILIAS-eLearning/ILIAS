@@ -155,7 +155,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 		// questionpool select
 		$options = array();
 		$options[""] = $lng->txt('filter_all_questionpools');
-		asort($this->questionpools);
+		natcasesort($this->questionpools);
 		foreach ($this->questionpools as $obj_id => $title)
 		{
 			$options[$obj_id] = $title;
