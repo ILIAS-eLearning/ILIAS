@@ -236,22 +236,7 @@ class ilExAssignmentGUI
 						}
 	
 						$info->addProperty($lng->txt("exc_files_returned"),
-							$files_str);
-						$last_sub = ilExAssignment::getLastSubmission($a_data["id"], $ilUser->getId());
-						if ($last_sub)
-						{
-							$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
-						}
-						else
-						{
-							$last_sub = "---";
-						}
-	
-						if ($last_sub != "---")
-						{
-							$info->addProperty($lng->txt("exc_last_submission"),
-								$last_sub);
-						}
+							$files_str);						
 						break;
 						
 					case ilExAssignment::TYPE_BLOG:
@@ -279,24 +264,7 @@ class ilExAssignmentGUI
 								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createBlog").'">'.
 								$lng->txt("exc_create_blog").'</a>';
 						}
-						$info->addProperty($lng->txt("exc_blog_returned"), $files_str);
-						
-						
-						$last_sub = ilExAssignment::getLastSubmission($a_data["id"], $ilUser->getId());
-						if ($last_sub)
-						{
-							$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
-						}
-						else
-						{
-							$last_sub = "---";
-						}
-
-						if ($last_sub != "---")
-						{
-							$info->addProperty($lng->txt("exc_last_submission"),
-								$last_sub);
-						}
+						$info->addProperty($lng->txt("exc_blog_returned"), $files_str);						
 						break;
 						
 					case ilExAssignment::TYPE_PORTFOLIO:
@@ -323,8 +291,25 @@ class ilExAssignmentGUI
 								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createPortfolio").'">'.
 								$lng->txt("exc_create_portfolio").'</a>';
 						}
-						$info->addProperty($lng->txt("exc_portfolio_returned"), $files_str);
-						break;
+						$info->addProperty($lng->txt("exc_portfolio_returned"), $files_str);						
+						break;												
+				}
+				
+				
+				$last_sub = ilExAssignment::getLastSubmission($a_data["id"], $ilUser->getId());
+				if ($last_sub)
+				{
+					$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
+				}
+				else
+				{
+					$last_sub = "---";
+				}
+
+				if ($last_sub != "---")
+				{
+					$info->addProperty($lng->txt("exc_last_submission"),
+						$last_sub);
 				}
 										
 				// feedback from tutor

@@ -107,6 +107,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 		switch ($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case 'exc':
+				include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 				include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id) ||
 					ilExerciseMembers::_hasReturned($a_obj_id, $a_user_id))

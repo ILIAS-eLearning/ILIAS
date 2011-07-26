@@ -11718,3 +11718,6 @@ content#:#cont_copy_question_into_page#:#Copy into Page
 blog#:#blog_exercise_info#:#This blog is part of the assignment "%s" of the exercise "%s".
 blog#:#blog_finalize_blog#:#Finalize and Submit Blog
 blog#:#blog_finalized#:#The Blog has been submitted.
+prtf#:#prtf_exercise_info#:#This portfolio is part of the assignment "%s" of the exercise "%s".
+prtf#:#prtf_finalize_portfolio#:#Finalize and Submit Portfolio
+prtf#:#prtf_finalized#:#The portfolio has been submitted.
