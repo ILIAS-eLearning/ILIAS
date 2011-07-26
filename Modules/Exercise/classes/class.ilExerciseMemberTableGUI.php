@@ -207,18 +207,34 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				break;
 				
 			case ilExAssignment::TYPE_BLOG:
+				$has_submitted = false;
 				$this->tpl->setVariable("TXT_SUBMITTED_FILES",
 					$lng->txt("exc_blog_returned"));
 				$blogs = ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id);
 				if($blogs)
 				{
-					$blog_id = array_pop($blogs);
-					$blog_id = (int)$blog_id["filetitle"];
+					$blogs = array_pop($blogs);
+					$blog_id = (int)$blogs["filetitle"];					
+					if($blogs["filename"])
+					{
+						$has_submitted = true;
+						$this->tpl->setVariable("VAL_SUBMITTED_FILES", 1);
 						
-					$this->tpl->setVariable("VAL_SUBMITTED_FILES", '<a href="goto_'.urlencode(CLIENT_ID).'_blog_'.$blog_id.'_wsp.html">'.
-							$this->lng->txt("view").'</a>');
+						$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
+						$this->tpl->setCurrentBlock("download_link");
+						$this->tpl->setVariable("LINK_DOWNLOAD",
+							$ilCtrl->getLinkTarget($this->parent_obj, "downloadReturned"));												
+						$this->tpl->setVariable("TXT_DOWNLOAD",
+							$lng->txt("exc_download_files"));						
+						$this->tpl->parseCurrentBlock();
+
+						/*
+						$this->tpl->setVariable("VAL_SUBMITTED_FILES", '<a href="goto_'.urlencode(CLIENT_ID).'_blog_'.$blog_id.'_wsp.html">'.
+								$this->lng->txt("exc_download_files").'</a>');						 
+						*/
+					}
 				}
-				else
+				if(!$has_submitted)
 				{
 					$this->tpl->setVariable("VAL_SUBMITTED_FILES", "---");
 				}

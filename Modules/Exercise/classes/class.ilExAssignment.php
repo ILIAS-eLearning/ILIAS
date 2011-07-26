@@ -1000,6 +1000,16 @@ class ilExAssignment
 		if ($count == 1)
 		{
 			$row = $ilDB->fetchAssoc($result);
+			
+			if(self::lookupType($a_ass_id) == self::TYPE_BLOG)
+			{				
+				$row["filetitle"] = ilObjUser::_lookupName($a_user_id);
+				$row["filetitle"] = ilObject::_lookupTitle($a_exc_id)." - ".
+					$row["filetitle"]["firstname"]." ".
+					$row["filetitle"]["lastname"]." (".
+					$row["filetitle"]["login"].").zip";
+			}
+			
 			ilExAssignment::downloadSingleFile($a_exc_id, $a_ass_id, $a_user_id,
 				$row["filename"], $row["filetitle"]);
 		}

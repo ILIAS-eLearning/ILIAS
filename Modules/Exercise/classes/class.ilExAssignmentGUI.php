@@ -255,8 +255,9 @@ class ilExAssignmentGUI
 						break;
 						
 					case ilExAssignment::TYPE_BLOG:
+						$valid_blog = false;
 						if(sizeof($delivered_files))
-						{
+						{							
 							$blog_id = array_pop($delivered_files);
 							$blog_id = (int)$blog_id["filetitle"];
 							
@@ -264,19 +265,42 @@ class ilExAssignmentGUI
 							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";						
 							$wsp_tree = new ilWorkspaceTree($ilUser->getId());
 							$node = $wsp_tree->getNodeData($blog_id);
-							$files_str = '<a href="'.ilWorkspaceAccessHandler::getGotoLink($blog_id, $node["obj_id"]).'">'.
-								$node["title"].'</a>';
-						}
-						else
+							
+							if($node["title"])
+							{								
+								$files_str = '<a href="'.ilWorkspaceAccessHandler::getGotoLink($blog_id, $node["obj_id"]).'">'.
+									$node["title"].'</a>';
+								$valid_blog = true;
+							}							
+						}						
+						if(!$valid_blog)
 						{
 							$files_str = '<a class="submit" href="'.
 								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createBlog").'">'.
 								$lng->txt("exc_create_blog").'</a>';
 						}
 						$info->addProperty($lng->txt("exc_blog_returned"), $files_str);
+						
+						
+						$last_sub = ilExAssignment::getLastSubmission($a_data["id"], $ilUser->getId());
+						if ($last_sub)
+						{
+							$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
+						}
+						else
+						{
+							$last_sub = "---";
+						}
+
+						if ($last_sub != "---")
+						{
+							$info->addProperty($lng->txt("exc_last_submission"),
+								$last_sub);
+						}
 						break;
 						
 					case ilExAssignment::TYPE_PORTFOLIO:
+						$valid_prtf = false;
 						if(sizeof($delivered_files))
 						{
 							$portfolio_id = array_pop($delivered_files);
@@ -286,10 +310,14 @@ class ilExAssignmentGUI
 							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
 							$portfolio = new ilObjPortfolio($portfolio_id, false);											
 							
-							$files_str = '<a href="'.ilWorkspaceAccessHandler::getGotoLink($portfolio_id, $portfolio_id).
-								'">'.$portfolio->getTitle().'</a>';
+							if($portfolio->getTitle())
+							{
+								$files_str = '<a href="'.ilWorkspaceAccessHandler::getGotoLink($portfolio_id, $portfolio_id).
+									'">'.$portfolio->getTitle().'</a>';
+								$valid_prtf = true;
+							}
 						}
-						else
+						if(!$valid_prtf)
 						{
 							$files_str = '<a class="submit" href="'.
 								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createPortfolio").'">'.
