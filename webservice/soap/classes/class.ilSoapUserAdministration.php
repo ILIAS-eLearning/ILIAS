@@ -952,8 +952,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 				break;
 			case "crs":
 			{
-				$object->initCourseMemberObject();
-
 				// GET ALL MEMBERS
 				$roles = $object->__getLocalRoles();
 

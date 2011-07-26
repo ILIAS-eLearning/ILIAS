@@ -192,7 +192,7 @@ abstract class ilParticipant
 
 	/**
 	 * Read participant status
-	 * @global <type> $ilDB
+	 * @global ilDB $ilDB
 	 */
 	protected function readParticipantStatus()
 	{
@@ -210,6 +210,225 @@ abstract class ilParticipant
 	 		$this->participants_status[$this->getUserId()]['notification']  = $row->notification;
 	 		$this->participants_status[$this->getUserId()]['passed'] = $row->passed;
 	 	}
+	}
+	
+	/**
+	 * Add user to course
+	 *
+	 * @access public
+	 * @param int user id
+	 * @param int role IL_CRS_ADMIN || IL_CRS_TUTOR || IL_CRS_MEMBER
+	 *
+	 * global ilRbacReview $rbacreview
+	 * 
+	 */
+	public function add($a_usr_id,$a_role)
+	{
+	 	global $rbacadmin,$ilLog,$ilAppEventHandler,$rbacreview;
+	 	
+
+		if($rbacreview->isAssignedToAtLeastOneGivenRole($a_usr_id,$this->roles))
+		{
+			return false;
+		}
+	 	
+	 	switch($a_role)
+	 	{
+	 		case IL_CRS_ADMIN:
+	 			$this->admins = true;
+	 			break;
+
+	 		case IL_CRS_TUTOR:
+	 			$this->tutors = true;
+	 			break;
+
+	 		case IL_CRS_MEMBER:
+	 			$this->members = true;	 			
+	 			break;
+	 			
+	 		case IL_GRP_ADMIN:
+	 			$this->admins = true;
+	 			break;
+	 			
+	 		case IL_GRP_MEMBER:
+	 			$this->members = true;
+	 			break;
+	 	}
+
+		$rbacadmin->assignUser($this->role_data[$a_role],$a_usr_id);
+		$this->addDesktopItem($a_usr_id);
+		
+		// Delete subscription request
+		$this->deleteSubscriber($a_usr_id);
+		
+		include_once './Services/Membership/classes/class.ilWaitingList.php';
+		ilWaitingList::deleteUserEntry($a_usr_id,$this->obj_id);
+
+		if($this->type == 'crs')
+		{
+		 	// Add event: used for ecs accounts
+			$ilLog->write(__METHOD__.': Raise new event: Modules/Course addParticipant');
+			$ilAppEventHandler->raise("Modules/Course", "addParticipant", array('obj_id' => $this->obj_id, 'usr_id' => $a_usr_id,'role_id' => $a_role));
+		}
+	 	return true;
+	}
+	
+	/**
+	 * Drop user from all roles
+	 *
+	 * @access public
+	 * @param int usr_id
+	 * 
+	 */
+	public function delete($a_usr_id)
+	{
+		global $rbacadmin,$ilDB, $ilAppEventHandler;
+		
+		$this->dropDesktopItem($a_usr_id);
+		foreach($this->roles as $role_id)
+		{
+			$rbacadmin->deassignUser($role_id,$a_usr_id);
+		}
+		
+		$query = "DELETE FROM crs_members ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($this->obj_id ,'integer');
+		$res = $ilDB->manipulate($query);
+		
+		if($this->type == 'crs')
+		{
+		 	// Add event: used for ecs accounts
+			$ilAppEventHandler->raise("Modules/Course", "deleteParticipant", array('obj_id' => $this->obj_id, 'usr_id' => $a_usr_id));
+		}		
+		
+		return true;
+	}
+	
+	/**
+	 * Delete subsciber
+	 *
+	 * @access public
+	 */
+	public function deleteSubscriber($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "DELETE FROM il_subscribers ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
+
+		return true;
+	}
+	
+	/**
+	 * Add desktop item
+	 *
+	 * @access public
+	 * @param int usr_id
+	 * 
+	 */
+	public function addDesktopItem($a_usr_id)
+	{
+		if(!ilObjUser::_isDesktopItem($a_usr_id, $this->ref_id,$this->type))
+		{
+			ilObjUser::_addDesktopItem($a_usr_id, $this->ref_id,$this->type);
+		}
+		return true;
+	}
+	
+	/**
+	 * Drop desktop item
+	 *
+	 * @access public
+	 * @param int usr_id
+	 * 
+	 */
+	function dropDesktopItem($a_usr_id)
+	{
+		if(ilObjUser::_isDesktopItem($a_usr_id, $this->ref_id,$this->type))
+		{
+			ilObjUser::_dropDesktopItem($a_usr_id, $this->ref_id,$this->type);
+		}
+
+		return true;
+	}
+	
+	/**
+	 * Update notification status
+	 *
+	 * @access public
+	 * @param int usr_id
+	 * @param bool passed
+	 * 
+	 */
+	public function updateNotification($a_usr_id,$a_notification)
+	{
+		global $ilDB;
+		
+		$this->participants_status[$a_usr_id]['notification'] = (int) $a_notification;
+
+		$query = "SELECT * FROM crs_members ".
+			"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer');
+		$res = $ilDB->query($query);
+		if($res->numRows())
+		{
+			$query = "UPDATE crs_members SET ".
+				"notification = ".$ilDB->quote((int) $a_notification ,'integer')." ".
+				"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ".
+				"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer');
+		}
+		else
+		{
+			$query = "INSERT INTO crs_members (notification,obj_id,usr_id,passed,blocked) ".
+				"VALUES ( ".
+				$ilDB->quote((int) $a_notification ,'integer').", ".
+				$ilDB->quote($this->obj_id ,'integer').", ".
+				$ilDB->quote($a_usr_id ,'integer').", ".
+				$ilDB->quote(0,'integer').", ".
+				$ilDB->quote(0,'integer').
+				")";
+			
+		}
+		$res = $ilDB->manipulate($query);
+		return true;
+	}
+	
+	/**
+	 * Check if user for deletion are last admins
+	 *
+	 * @access public
+	 * @param array array of user ids for deletion
+	 * 
+	 */
+	public function checkLastAdmin($a_usr_ids)
+	{
+		global $ilDB;
+		
+		$admin_role_id = 
+			$this->type == 'crs' ? 
+			$this->role_data[IL_CRS_ADMIN] :
+			$this->role_data[IL_GRP_ADMIN];
+		
+		
+		$query = "
+		SELECT			COUNT(rolesusers.usr_id) cnt
+		
+		FROM			object_data rdata
+		
+		LEFT JOIN		rbac_ua  rolesusers		
+		ON				rolesusers.rol_id = rdata.obj_id
+		
+		WHERE			rdata.obj_id = %s
+		";
+		
+		$query .= ' AND '.$ilDB->in('rolesusers.usr_id', $a_usr_ids, true, 'integer');		
+		$res = $ilDB->queryF($query, array('integer'), array($admin_role_id));		
+
+		$data = $ilDB->fetchAssoc($res);
+					
+		return (int)$data['cnt'] > 0;	
 	}
 }
 ?>

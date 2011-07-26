@@ -432,7 +432,6 @@ class ilFeedback
 	*/
 	function canVote($a_user_id,$a_fb_id){
 		global $ilDB, $ilUser;
-		include_once('Modules/Course/classes/class.ilCourseParticipants.php');
 		
 		$q = "SELECT * FROM feedback_results WHERE ".
 			"fb_id = ".$ilDB->quote($a_fb_id, "integer")." AND ".
@@ -452,13 +451,14 @@ class ilFeedback
 			return (0);
 		}
 		
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($row_items['obj_id']);
+		include_once('Modules/Course/classes/class.ilCourseParticipant.php');
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($row_items['obj_id'],$ilUser->getId());
 		
 		//Check if the user is Member of that course, otherwise its not necessary that he votes
-		if(($res->numRows()==0) && $members_obj->isAssigned($ilUser->getId()))
+		if(($res->numRows()==0) && $members_obj->isAssigned())
 			return(1);
 
-		if($members_obj->isAssigned($ilUser->getId()))
+		if($members_obj->isAssigned())
 		{
 			if($row_items['repeat_interval'] > 0){
 				$interval = $this->interval2seconds($row_items['repeat_interval'], $row_items['interval_unit']);
