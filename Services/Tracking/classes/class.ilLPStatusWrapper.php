@@ -305,7 +305,7 @@ class ilLPStatusWrapper
 	 * @param
 	 * @return
 	 */
-	static function _determineStatus($a_obj_id, $a_usr_id)
+	public static function _determineStatus($a_obj_id, $a_usr_id)
 	{
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
 		$trac_obj = new $class($a_obj_id);

@@ -561,22 +561,25 @@ class ilLearningProgressBaseGUI
 	function __readStatus($a_obj_id,$user_id)
 	{
 		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		$status = ilLPStatusWrapper::_determineStatus($a_obj_id, $user_id);
 
-		if(in_array($user_id,ilLPStatusWrapper::_getInProgress($a_obj_id)))
+		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+		switch($status)
 		{
-			return $status = LP_STATUS_IN_PROGRESS;
-		}
-		elseif(in_array($user_id,ilLPStatusWrapper::_getCompleted($a_obj_id)))
-		{
-			return $status = LP_STATUS_COMPLETED;
-		}
-		elseif(in_array($user_id,ilLPStatusWrapper::_getFailed($a_obj_id)))
-		{
-			return $status = LP_STATUS_FAILED;
-		}
-		else
-		{
-			return $status = LP_STATUS_NOT_ATTEMPTED;
+			case LP_STATUS_IN_PROGRESS_NUM:
+				return LP_STATUS_IN_PROGRESS;
+
+			case LP_STATUS_COMPLETED_NUM:
+				return LP_STATUS_COMPLETED;
+
+			case LP_STATUS_FAILED_NUM:
+				return LP_STATUS_FAILED;
+
+			case LP_STATUS_NOT_ATTEMPTED_NUM:
+				return LP_STATUS_NOT_ATTEMPTED;
+
+			default:
+				return $status;
 		}
 	}
 
