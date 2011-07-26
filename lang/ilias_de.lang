@@ -11717,3 +11717,7 @@ blog#:#blog_finalized#:#Der Blog wurde abgegeben.
 prtf#:#prtf_exercise_info#:#Dieses Portfolio ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
 prtf#:#prtf_finalize_portfolio#:#Portfolio abschliessen und abgeben
 prtf#:#prtf_finalized#:#Das Portfolio wurde abgegeben.
+administration#:#obj_blga#:#Blog
+administration#:#obj_blga_desc#:#Globale Blogeinstellungen
+administration#:#obj_prfa#:#Portfolio
+administration#:#obj_prfa_desc#:#Globale Portfolioeinstellungen
