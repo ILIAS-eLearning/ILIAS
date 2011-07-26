@@ -1041,6 +1041,23 @@ class ilObjExercise extends ilObject
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		ilExAssignment::deleteAllDeliveredFilesOfUser($this->getId(), $a_user_id);
 	}
+	
+	/**
+	 * Check if given file was assigned
+	 * 
+	 * @param int $a_user_id
+	 * @param string $a_filetitle 
+	 */
+	public static function findUserFiles($a_user_id, $a_filetitle)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT obj_id, ass_id".
+			" FROM exc_returned".
+			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND filetitle = ".$ilDB->quote($a_filetitle, "text"));
+		return $ilDB->fetchAssoc($set);
+	}
 }
 
 ?>

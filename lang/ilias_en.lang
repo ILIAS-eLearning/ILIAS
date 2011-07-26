@@ -11715,3 +11715,6 @@ didactic#:#didactic_import_failed#:#Importing the didactical template failed wit
 rbac#:#rbac_context_global#:#Global
 content#:#cont_select_other_qpool#:#Select other Pool
 content#:#cont_copy_question_into_page#:#Copy into Page
+blog#:#blog_exercise_info#:#This blog is part of the assignment "%s" of the exercise "%s".
+blog#:#blog_finalize_blog#:#Finalize and Submit Blog
+blog#:#blog_finalized#:#The Blog has been submitted.

@@ -11711,3 +11711,6 @@ rbac#:#rbac_ud_local#:#Selbst erstelle lokale Rolle
 rbac#:#rbac_auto_rolt#:#Automatisch generierte Rollenvorlage
 rbac#:#rbac_ud_rolt#:#Selbst erstellte Rollenvorlage
 rbac#:#rbac_context_global#:#Global
+blog#:#blog_exercise_info#:#Dieser Blog ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
+blog#:#blog_finalize_blog#:#Blog abschliessen und abgeben
+blog#:#blog_finalized#:#Der Blog wurde abgegeben.

@@ -313,7 +313,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	 */
 	function render()
 	{
-		global $tpl, $ilTabs, $ilCtrl, $lng, $ilToolbar;
+		global $tpl, $ilTabs, $ilCtrl, $lng, $ilToolbar, $ilUser;
 		
 		if(!$this->checkPermissionBool("read"))
 		{
@@ -331,8 +331,41 @@ class ilObjBlogGUI extends ilObject2GUI
 			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 			$title = new ilTextInputGUI($lng->txt("title"), "title");
 			$ilToolbar->addInputItem($title, $lng->txt("title"));
-
+			
 			$ilToolbar->addFormButton($lng->txt("blog_add_posting"), "createPosting");
+						
+			// exercise blog?			
+			include_once "Modules/Exercise/classes/class.ilObjExercise.php";			
+			$exercise = ilObjExercise::findUserFiles($ilUser->getId(), $this->node_id);
+			if($exercise)
+			{
+				// work instructions
+				include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
+				$ass = new ilExAssignment($exercise["ass_id"]);
+								
+				$info = sprintf($lng->txt("blog_exercise_info"), 
+					$ass->getTitle(),
+					ilObject::_lookupTitle($exercise["obj_id"]));
+								
+				$ass = $ass->getInstruction();
+				if($ass)
+				{
+					$info .= "<br /><br />".$lng->txt("exc_instruction").":<br />".
+						nl2br($ass);
+					
+				}
+				
+				ilUtil::sendInfo($info);
+				
+				$ilToolbar->addSeparator();
+				
+				$ilCtrl->setParameter($this, "exc", $exercise["obj_id"]);
+				$ilCtrl->setParameter($this, "ass", $exercise["ass_id"]);
+				$ilToolbar->addButton($lng->txt("blog_finalize_blog"),
+					$ilCtrl->getLinkTarget($this, "finalize"));
+				$ilCtrl->setParameter($this, "ass", "");
+				$ilCtrl->setParameter($this, "exc", "");
+			}
 		}
 		
 		$list = $nav = "";		
@@ -885,6 +918,47 @@ class ilObjBlogGUI extends ilObject2GUI
 		chmod($file, 0770);
 		
 		return $file;
+	}
+	
+	/**
+	 * Finalize and submit blog to exercise
+	 */
+	protected function finalize()
+	{
+		global $ilUser, $ilCtrl, $lng;
+		
+		$exc_id = (int)$_REQUEST["exc"];
+		$ass_id = (int)$_REQUEST["ass"];
+		
+		$file = $this->buildExportFile();
+		
+		$meta = array(
+			"name" => $this->node_id,
+			"tmp_name" => $file,
+			"size" => filesize($file),			
+			);		
+		
+		// remove existing files
+		include_once "Modules/Exercise/classes/class.ilExAssignment.php";
+		$ass = new ilExAssignment($ass_id);
+		$uploads = $ass->getDeliveredFiles($exc_id, $ass_id, $ilUser->getID());
+		if($uploads)
+		{
+			$ids = array();
+			foreach($uploads as $item)
+			{
+				$ids[] = $item["returned_id"];
+			}
+			$ass->deleteDeliveredFiles($exc_id, $ass_id, $ids, $ilUser->getID());
+		}
+			
+		// add export file as upload
+		include_once "Modules/Exercise/classes/class.ilObjExercise.php";		
+		$exc = new ilObjExercise($exc_id, false);
+		$exc->deliverFile($meta, $ass_id, $ilUser->getID(), true);		
+		
+		ilUtil::sendSuccess($lng->txt("blog_finalized"), true);
+		$ilCtrl->redirect($this, "render");
 	}
 
 	/**
