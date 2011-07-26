@@ -11714,3 +11714,6 @@ rbac#:#rbac_context_global#:#Global
 blog#:#blog_exercise_info#:#Dieser Blog ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
 blog#:#blog_finalize_blog#:#Blog abschliessen und abgeben
 blog#:#blog_finalized#:#Der Blog wurde abgegeben.
+prtf#:#prtf_exercise_info#:#Dieses Portfolio ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
+prtf#:#prtf_finalize_portfolio#:#Portfolio abschliessen und abgeben
+prtf#:#prtf_finalized#:#Das Portfolio wurde abgegeben.

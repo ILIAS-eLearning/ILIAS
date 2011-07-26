@@ -351,8 +351,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				if($ass)
 				{
 					$info .= "<br /><br />".$lng->txt("exc_instruction").":<br />".
-						nl2br($ass);
-					
+						nl2br($ass);					
 				}
 				
 				ilUtil::sendInfo($info);

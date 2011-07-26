@@ -1001,14 +1001,21 @@ class ilExAssignment
 		{
 			$row = $ilDB->fetchAssoc($result);
 			
-			if(self::lookupType($a_ass_id) == self::TYPE_BLOG)
-			{				
-				$row["filetitle"] = ilObjUser::_lookupName($a_user_id);
-				$row["filetitle"] = ilObject::_lookupTitle($a_exc_id)." - ".
-					$row["filetitle"]["firstname"]." ".
-					$row["filetitle"]["lastname"]." (".
-					$row["filetitle"]["login"].").zip";
-			}
+			switch(self::lookupType($a_ass_id))
+			{
+				case self::TYPE_BLOG:
+				case self::TYPE_PORTFOLIO:
+					$row["filetitle"] = ilObjUser::_lookupName($a_user_id);
+					$row["filetitle"] = ilObject::_lookupTitle($a_exc_id)." - ".
+						self::lookupTitle($a_ass_id)." - ".
+						$row["filetitle"]["firstname"]." ".
+						$row["filetitle"]["lastname"]." (".
+						$row["filetitle"]["login"].").zip";
+					break;
+				
+				default:
+					break;
+			}			
 			
 			ilExAssignment::downloadSingleFile($a_exc_id, $a_ass_id, $a_user_id,
 				$row["filename"], $row["filetitle"]);

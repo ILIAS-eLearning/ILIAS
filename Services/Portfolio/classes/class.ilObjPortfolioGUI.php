@@ -427,7 +427,7 @@ class ilObjPortfolioGUI
 	 */
 	protected function pages()
 	{
-		global $tpl, $lng, $ilToolbar, $ilCtrl, $ilTabs;
+		global $tpl, $lng, $ilToolbar, $ilCtrl, $ilTabs, $ilUser;
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
@@ -435,9 +435,44 @@ class ilObjPortfolioGUI
 
 		$ilToolbar->addButton($lng->txt("prtf_add_page"),
 			$ilCtrl->getLinkTarget($this, "addPage"));
-	
+				
 		include_once "Services/Portfolio/classes/class.ilPortfolioPageTableGUI.php";
 		$table = new ilPortfolioPageTableGUI($this, "show", $this->portfolio);
+		
+		// exercise portfolio?			
+		include_once "Modules/Exercise/classes/class.ilObjExercise.php";			
+		$exercise = ilObjExercise::findUserFiles($ilUser->getId(), $this->portfolio->getId());
+		if($exercise)
+		{
+			// work instructions
+			include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
+			$ass = new ilExAssignment($exercise["ass_id"]);
+
+			$info = sprintf($lng->txt("prtf_exercise_info"), 
+				$ass->getTitle(),
+				ilObject::_lookupTitle($exercise["obj_id"]));
+
+			$ass = $ass->getInstruction();
+			if($ass)
+			{
+				$info .= "<br /><br />".$lng->txt("exc_instruction").":<br />".
+					nl2br($ass);
+			}
+
+			ilUtil::sendInfo($info);
+			
+			if($table->dataExists())
+			{
+				$ilToolbar->addSeparator();
+
+				$ilCtrl->setParameter($this, "exc", $exercise["obj_id"]);
+				$ilCtrl->setParameter($this, "ass", $exercise["ass_id"]);
+				$ilToolbar->addButton($lng->txt("prtf_finalize_portfolio"),
+					$ilCtrl->getLinkTarget($this, "finalize"));
+				$ilCtrl->setParameter($this, "ass", "");
+				$ilCtrl->setParameter($this, "exc", "");
+			}	
+		}
 
 		$tpl->setContent($table->getHTML());
 	}
@@ -801,8 +836,7 @@ class ilObjPortfolioGUI
 		echo $tpl->show("DEFAULT", true, true);
 		exit();
 	}
-	
-		
+			
 	function export()
 	{
 		include_once "Services/Portfolio/classes/class.ilPortfolioHTMLExport.php";
@@ -810,6 +844,49 @@ class ilObjPortfolioGUI
 		$zip = $export->buildExportFile();
 		
 	    ilUtil::deliverFile($zip, $this->portfolio->getTitle().".zip", '', false, true);
+	}
+	
+	/**
+	 * Finalize and submit blog to exercise
+	 */
+	protected function finalize()
+	{
+		global $ilUser, $ilCtrl, $lng;
+		
+		$exc_id = (int)$_REQUEST["exc"];
+		$ass_id = (int)$_REQUEST["ass"];
+		
+		include_once "Services/Portfolio/classes/class.ilPortfolioHTMLExport.php";
+		$export = new ilPortfolioHTMLExport($this, $this->portfolio);
+		$file = $export->buildExportFile();
+		
+		$meta = array(
+			"name" => $this->portfolio->getId(),
+			"tmp_name" => $file,
+			"size" => filesize($file),			
+			);		
+				
+		// remove existing files
+		include_once "Modules/Exercise/classes/class.ilExAssignment.php";
+		$ass = new ilExAssignment($ass_id);
+		$uploads = $ass->getDeliveredFiles($exc_id, $ass_id, $ilUser->getID());
+		if($uploads)
+		{
+			$ids = array();
+			foreach($uploads as $item)
+			{
+				$ids[] = $item["returned_id"];
+			}
+			$ass->deleteDeliveredFiles($exc_id, $ass_id, $ids, $ilUser->getID());
+		}
+			
+		// add export file as upload
+		include_once "Modules/Exercise/classes/class.ilObjExercise.php";		
+		$exc = new ilObjExercise($exc_id, false);
+		$exc->deliverFile($meta, $ass_id, $ilUser->getID(), true);		
+		
+		ilUtil::sendSuccess($lng->txt("prtf_finalized"), true);
+		$ilCtrl->redirect($this, "pages");
 	}
 	
 	function _goto($a_target)

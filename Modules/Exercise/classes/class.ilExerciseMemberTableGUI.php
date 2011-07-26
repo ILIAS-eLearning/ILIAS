@@ -227,11 +227,6 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 						$this->tpl->setVariable("TXT_DOWNLOAD",
 							$lng->txt("exc_download_files"));						
 						$this->tpl->parseCurrentBlock();
-
-						/*
-						$this->tpl->setVariable("VAL_SUBMITTED_FILES", '<a href="goto_'.urlencode(CLIENT_ID).'_blog_'.$blog_id.'_wsp.html">'.
-								$this->lng->txt("exc_download_files").'</a>');						 
-						*/
 					}
 				}
 				if(!$has_submitted)
@@ -241,18 +236,30 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				break;
 				
 			case ilExAssignment::TYPE_PORTFOLIO:
+				$has_submitted = false;
 				$this->tpl->setVariable("TXT_SUBMITTED_FILES",
 					$lng->txt("exc_portfolio_returned"));
 				$portfolios = ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id);
 				if($portfolios)
 				{
-					$portfolio_id = array_pop($portfolios);
-					$portfolio_id = (int)$portfolio_id["filetitle"];
+					$portfolios = array_pop($portfolios);
+					$portfolio_id = (int)$portfolios["filetitle"];
+					
+					if($portfolios["filename"])
+					{
+						$has_submitted = true;
+						$this->tpl->setVariable("VAL_SUBMITTED_FILES", 1);
 						
-					$this->tpl->setVariable("VAL_SUBMITTED_FILES", '<a href="#TODO">'.
-							$this->lng->txt("view").'</a>');
+						$ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
+						$this->tpl->setCurrentBlock("download_link");
+						$this->tpl->setVariable("LINK_DOWNLOAD",
+							$ilCtrl->getLinkTarget($this->parent_obj, "downloadReturned"));												
+						$this->tpl->setVariable("TXT_DOWNLOAD",
+							$lng->txt("exc_download_files"));						
+						$this->tpl->parseCurrentBlock();
+					}
 				}
-				else
+				if(!$has_submitted)
 				{
 					$this->tpl->setVariable("VAL_SUBMITTED_FILES", "---");
 				}
