@@ -11721,3 +11721,11 @@ administration#:#obj_blga#:#Blog
 administration#:#obj_blga_desc#:#Globale Blogeinstellungen
 administration#:#obj_prfa#:#Portfolio
 administration#:#obj_prfa_desc#:#Globale Portfolioeinstellungen
+blog#:#blog_settings#:#Blog Administration
+blog#:#blog_preview_banner_width#:#Banner Breite
+blog#:#blog_preview_banner_height#:#Banner Höhe
+blog#:#blog_preview_banner#:#Personalisiertes Banner
+prtf#:#prtf_settings#:#Portfolio Administration
+prtf#:#prtf_preview_banner_width#:#Banner Breite
+prtf#:#prtf_preview_banner_height#:#Banner Höhe
+prtf#:#prtf_preview_banner#:#Personalisiertes Banner
