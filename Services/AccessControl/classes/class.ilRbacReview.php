@@ -860,6 +860,24 @@ class ilRbacReview
 		
 		return $a_role_list;
 	}
+
+	/**
+	 * Get the number of assigned users to roles
+	 * @global ilDB $ilDB
+	 * @param array $a_roles
+	 * @return int
+	 */
+	public function getNumberofAssignedUsers(Array $a_roles)
+	{
+		global $ilDB;
+
+		$query = 'SELECT COUNT(DISTINCT(usr_id)) as num FROM rbac_ua '.
+			'WHERE '.$ilDB->in('rol_id', $a_roles, false, 'integer').' '.
+			'GROUP BY usr_id';
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		return $row->num ? $row->num : 0;
+	}
 	
 	/**
 	* get all assigned users to a given role

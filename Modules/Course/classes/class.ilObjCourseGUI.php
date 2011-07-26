@@ -478,8 +478,13 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			if ($this->object->isSubscriptionMembershipLimited()) 
 			{
-				$info->addProperty($this->lng->txt("mem_free_places"),
-								   max(0,$this->object->getSubscriptionMaxMembers()- count($this->object->getMembers())));
+				include_once './Services/Membership/classes/class.ilParticipants.php';
+				$info->addProperty(
+					$this->lng->txt("mem_free_places"),
+					max(
+						0,
+						$this->object->getSubscriptionMaxMembers() - ilParticipants::lookupNumberOfParticipants($this->object->getRefId()))
+				);
 				
 			}
 				
@@ -1826,9 +1831,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacadmin, $ilUser;
 		
-		$a_new_object->initCourseMemberObject();
-		$a_new_object->members_obj->add($ilUser->getId(),IL_CRS_ADMIN);
-		$a_new_object->members_obj->updateNotification($ilUser->getId(),1);
+		$a_new_object->getMemberObject()->add($ilUser->getId(),IL_CRS_ADMIN);
+		$a_new_object->getMemberObject()->updateNotification($ilUser->getId(),1);
 		$a_new_object->update();
 		
 		// BEGIN ChangeEvent: Record write event.
@@ -1942,9 +1946,9 @@ class ilObjCourseGUI extends ilContainerGUI
 			$tmp_data['firstname'] = $name['firstname'];
 			$tmp_data['lastname'] = $name['lastname'];
 			$tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
-			$tmp_data['passed'] = $this->object->members_obj->hasPassed($usr_id) ? 1 : 0;
-			$tmp_data['notification'] = $this->object->members_obj->isNotificationEnabled($usr_id) ? 1 : 0;
-			$tmp_data['blocked'] = $this->object->members_obj->isBlocked($usr_id) ? 1 : 0;
+			$tmp_data['passed'] = $this->object->getMembersObject()->hasPassed($usr_id) ? 1 : 0;
+			$tmp_data['notification'] = $this->object->getMembersObject()->isNotificationEnabled($usr_id) ? 1 : 0;
+			$tmp_data['blocked'] = $this->object->getMembersObject()->isBlocked($usr_id) ? 1 : 0;
 			$tmp_data['usr_id'] = $usr_id;
 
 			if($this->show_tracking)
@@ -2225,7 +2229,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		$this->checkPermission('write');
 		
-		$visible_members = array_intersect(array_unique((array) $_POST['visible_member_ids']),$this->object->members_obj->getAdmins());
+		$visible_members = array_intersect(array_unique((array) $_POST['visible_member_ids']),$this->object->getMembersObject()->getAdmins());
 		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
 		$notification = is_array($_POST['notification']) ? $_POST['notification'] : array();
 		
@@ -2243,7 +2247,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		$this->checkPermission('write');
 		
-		$visible_members = array_intersect(array_unique((array) $_POST['visible_member_ids']),$this->object->members_obj->getTutors());
+		$visible_members = array_intersect(array_unique((array) $_POST['visible_member_ids']),$this->object->getMembersObject()->getTutors());
 		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
 		$notification = is_array($_POST['notification']) ? $_POST['notification'] : array();
 
@@ -2261,7 +2265,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		$this->checkPermission('write');
 		
-		$visible_members = array_intersect(array_unique((array) $_POST['visible_member_ids']),$this->object->members_obj->getMembers());
+		$visible_members = array_intersect(array_unique((array) $_POST['visible_member_ids']),$this->object->getMembersObject()->getMembers());
 		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
 		$blocked = is_array($_POST['blocked']) ? $_POST['blocked'] : array();
 		
@@ -2275,25 +2279,25 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		foreach($visible_members as $member_id)
 		{
-			$this->object->members_obj->updatePassed($member_id,in_array($member_id,$passed));
+			$this->object->getMembersObject()->updatePassed($member_id,in_array($member_id,$passed));
 			switch($type)
 			{
 				case 'admins';
-					$this->object->members_obj->updateNotification($member_id,in_array($member_id,$notification));
-					$this->object->members_obj->updateBlocked($member_id,false);
+					$this->object->getMembersObject()->updateNotification($member_id,in_array($member_id,$notification));
+					$this->object->getMembersObject()->updateBlocked($member_id,false);
 					break;
 					
 				case 'members':
-					if($this->object->members_obj->isBlocked($member_id) and !in_array($member_id,$blocked))
+					if($this->object->getMembersObject()->isBlocked($member_id) and !in_array($member_id,$blocked))
 					{
-						$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_UNBLOCK_MEMBER,$member_id);
+						$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_UNBLOCK_MEMBER,$member_id);
 					}
-					if(!$this->object->members_obj->isBlocked($member_id) and in_array($member_id,$blocked))
+					if(!$this->object->getMembersObject()->isBlocked($member_id) and in_array($member_id,$blocked))
 					{
-						$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_BLOCK_MEMBER,$member_id);
+						$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_BLOCK_MEMBER,$member_id);
 					}					
-					$this->object->members_obj->updateNotification($member_id,false);
-					$this->object->members_obj->updateBlocked($member_id,in_array($member_id,$blocked));
+					$this->object->getMembersObject()->updateNotification($member_id,false);
+					$this->object->getMembersObject()->updateBlocked($member_id,in_array($member_id,$blocked));
 					
 					
 					break;
@@ -2309,7 +2313,6 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
 
-		$this->object->initCourseMemberObject();
 		$this->object->initWaitingList();
 		if($this->object->waiting_list_obj->getCountUsers())
 		{
@@ -2350,13 +2353,13 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function __showSubscribers()
 	{
-		if(count($this->object->members_obj->getSubscribers()))
+		if(count($this->object->getMembersObject()->getSubscribers()))
 		{
 			$counter = 0;
 			$f_result = array();
-			foreach($this->object->members_obj->getSubscribers() as $member_id)
+			foreach($this->object->getMembersObject()->getSubscribers() as $member_id)
 			{
-				$member_data = $this->object->members_obj->getSubscriberData($member_id);
+				$member_data = $this->object->getMembersObject()->getSubscriberData($member_id);
 
 				// GET USER OBJ
 				if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
@@ -2520,23 +2523,23 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		foreach($_POST['participants'] as $usr_id)
 		{
-			$this->object->members_obj->updateRoleAssignments($usr_id,(array) $_POST['roles'][$usr_id]);
+			$this->object->getMembersObject()->updateRoleAssignments($usr_id,(array) $_POST['roles'][$usr_id]);
 			
 			// Disable notification for all of them
-			$this->object->members_obj->updateNotification($usr_id,0);
-			if(($this->object->members_obj->isTutor($usr_id) or $this->object->members_obj->isAdmin($usr_id)) and in_array($usr_id,$notifications))
+			$this->object->getMembersObject()->updateNotification($usr_id,0);
+			if(($this->object->getMembersObject()->isTutor($usr_id) or $this->object->getMembersObject()->isAdmin($usr_id)) and in_array($usr_id,$notifications))
 			{
-				$this->object->members_obj->updateNotification($usr_id,1);
+				$this->object->getMembersObject()->updateNotification($usr_id,1);
 			}
 			
-			$this->object->members_obj->updateBlocked($usr_id,0);
-			if((!$this->object->members_obj->isAdmin($usr_id) and !$this->object->members_obj->isTutor($usr_id)) and in_array($usr_id,$blocked))
+			$this->object->getMembersObject()->updateBlocked($usr_id,0);
+			if((!$this->object->getMembersObject()->isAdmin($usr_id) and !$this->object->getMembersObject()->isTutor($usr_id)) and in_array($usr_id,$blocked))
 			{
-				$this->object->members_obj->updateBlocked($usr_id,1);
+				$this->object->getMembersObject()->updateBlocked($usr_id,1);
 			}
-			$this->object->members_obj->updatePassed($usr_id,in_array($usr_id,$passed));
-			$this->object->members_obj->sendNotification(
-				$this->object->members_obj->NOTIFY_STATUS_CHANGED,
+			$this->object->getMembersObject()->updatePassed($usr_id,in_array($usr_id,$passed));
+			$this->object->getMembersObject()->sendNotification(
+				$this->object->getMembersObject()->NOTIFY_STATUS_CHANGED,
 				$usr_id);
 		}
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
@@ -2552,32 +2555,30 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
-		$this->object->initCourseMemberObject();
-
 		$this->checkPermission('write');
 
 		// CHECK MEMBER_ID
-		if(!isset($_GET["member_id"]) or !$this->object->members_obj->isAssigned((int) $_GET["member_id"]))
+		if(!isset($_GET["member_id"]) or !$this->object->getMembersObject()->isAssigned((int) $_GET["member_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("crs_no_valid_member_id_given"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		
 		// Remember settings for notification
-		$passed = $this->object->members_obj->hasPassed((int) $_GET['member_id']);
-		$notify = $this->object->members_obj->isNotificationEnabled((int) $_GET['member_id']);
-		$blocked = $this->object->members_obj->isBlocked((int) $_GET['member_id']);
+		$passed = $this->object->getMembersObject()->hasPassed((int) $_GET['member_id']);
+		$notify = $this->object->getMembersObject()->isNotificationEnabled((int) $_GET['member_id']);
+		$blocked = $this->object->getMembersObject()->isBlocked((int) $_GET['member_id']);
 		
-		$this->object->members_obj->updateRoleAssignments((int) $_GET['member_id'],$_POST['roles']);
-		$this->object->members_obj->updatePassed((int) $_GET['member_id'],(int) $_POST['passed']);
-		$this->object->members_obj->updateNotification((int) $_GET['member_id'],(int) $_POST['notification']);
-		$this->object->members_obj->updateBlocked((int) $_GET['member_id'],(int) $_POST['blocked']);
+		$this->object->getMembersObject()->updateRoleAssignments((int) $_GET['member_id'],$_POST['roles']);
+		$this->object->getMembersObject()->updatePassed((int) $_GET['member_id'],(int) $_POST['passed']);
+		$this->object->getMembersObject()->updateNotification((int) $_GET['member_id'],(int) $_POST['notification']);
+		$this->object->getMembersObject()->updateBlocked((int) $_GET['member_id'],(int) $_POST['blocked']);
 		
-		if($passed != $this->object->members_obj->hasPassed((int) $_GET['member_id']) or
-			$notify != $this->object->members_obj->isNotificationEnabled((int) $_GET['member_id']) or
-			$blocked != $this->object->members_obj->isBlocked((int) $_GET['member_id']))
+		if($passed != $this->object->getMembersObject()->hasPassed((int) $_GET['member_id']) or
+			$notify != $this->object->getMembersObject()->isNotificationEnabled((int) $_GET['member_id']) or
+			$blocked != $this->object->getMembersObject()->isBlocked((int) $_GET['member_id']))
 		{
-			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_STATUS_CHANGED,(int) $_GET['member_id']);
+			$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_STATUS_CHANGED,(int) $_GET['member_id']);
 		}
 
 		ilUtil::sendSuccess($this->lng->txt("crs_member_updated"));
@@ -2604,7 +2605,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"),true);
 			return false;
 		}
-		$this->object->initCourseMemberObject();
 
 		$added_users = 0;
 		foreach($a_usr_ids as $user_id)
@@ -2613,24 +2613,24 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				continue;
 			}
-			if($this->object->members_obj->isAssigned($user_id))
+			if($this->object->getMembersObject()->isAssigned($user_id))
 			{
 				continue;
 			}
 			switch($a_type)
 			{
 				case ilCourseConstants::CRS_MEMBER:
-					$this->object->members_obj->add($user_id,IL_CRS_MEMBER);
+					$this->object->getMembersObject()->add($user_id,IL_CRS_MEMBER);
 					break;
 				case ilCourseConstants::CRS_TUTOR:
-					$this->object->members_obj->add($user_id,IL_CRS_TUTOR);
+					$this->object->getMembersObject()->add($user_id,IL_CRS_TUTOR);
 					break;
 				case ilCourseConstants::CRS_ADMIN:
-					$this->object->members_obj->add($user_id,IL_CRS_ADMIN);
+					$this->object->getMembersObject()->add($user_id,IL_CRS_ADMIN);
 					break;
 				
 			}
-			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_USER,$user_id);
+			$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
 
 			include_once './Modules/Forum/classes/class.ilForumNotification.php';
 			ilForumNotification::checkForumsExistsInsert($this->object->getRefId(), $user_id);
@@ -2664,8 +2664,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			return false;
 		}
-		$this->object->initCourseMemberObject();
-
 		include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
 		$waiting_list = new ilCourseWaitingList($this->object->getId());
 
@@ -2676,12 +2674,12 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				continue;
 			}
-			if($this->object->members_obj->isAssigned($user_id))
+			if($this->object->getMembersObject()->isAssigned($user_id))
 			{
 				continue;
 			}
-			$this->object->members_obj->add($user_id,IL_CRS_MEMBER);
-			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_USER,$user_id);
+			$this->object->getMembersObject()->add($user_id,IL_CRS_MEMBER);
+			$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
 			$waiting_list->removeFromList($user_id);
 
 			include_once('./Modules/Forum/classes/class.ilForumNotification.php');
@@ -2728,7 +2726,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		foreach($_POST["waiting"] as $user_id)
 		{
 			$waiting_list->removeFromList($user_id);
-			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_DISMISS_SUBSCRIBER,$user_id);
+			$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,$user_id);
 		}
 		
 		ilUtil::sendSuccess($this->lng->txt('crs_users_removed_from_list'));
@@ -2783,9 +2781,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			return false;
 		}
-		$this->object->initCourseMemberObject();
 		
-		if(!$this->object->members_obj->assignSubscribers($_POST["subscribers"]))
+		if(!$this->object->getMembersObject()->assignSubscribers($_POST["subscribers"]))
 		{
 			ilUtil::sendFailure($ilErr->getMessage());
 			$this->membersObject();
@@ -2795,7 +2792,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			foreach($_POST["subscribers"] as $usr_id)
 			{
-				$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_SUBSCRIBER,$usr_id);
+				$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_ACCEPT_SUBSCRIBER,$usr_id);
 
 				include_once('./Modules/Forum/classes/class.ilForumNotification.php');
 				ilForumNotification::checkForumsExistsInsert($this->object->getRefId(), $usr_id);
@@ -2812,17 +2809,16 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $rbacsystem;
 
 		$this->checkPermission('write');
-		$this->object->initCourseMemberObject();
 
 		if($this->object->isSubscriptionMembershipLimited() and $this->object->getSubscriptionMaxMembers() and 
-		   $this->object->getSubscriptionMaxMembers() <= $this->object->members_obj->getCountMembers())
+		   $this->object->getSubscriptionMaxMembers() <= $this->object->getMembersObject()->getCountMembers())
 		{
 			ilUtil::sendFailure($this->lng->txt("crs_max_members_reached"));
 			$this->membersObject();
 
 			return false;
 		}
-		if($number = $this->object->members_obj->autoFillSubscribers())
+		if($number = $this->object->getMembersObject()->autoFillSubscribers())
 		{
 			ilUtil::sendSuccess($this->lng->txt("crs_number_users_added")." ".$number);
 		}
@@ -2861,7 +2857,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		// SHOW DELETE SCREEN
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html",'Modules/Course');
-		$this->object->initCourseMemberObject();
 
 		// SAVE IDS IN SESSION
 		$_SESSION["crs_delete_subscriber_ids"] = $_POST["subscriber"];
@@ -2871,7 +2866,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		foreach($_POST["subscriber"] as $member_id)
 		{
-			$member_data = $this->object->members_obj->getSubscriberData($member_id);
+			$member_data = $this->object->getMembersObject()->getSubscriberData($member_id);
 
 			// GET USER OBJ
 			if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
@@ -2913,7 +2908,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		// SHOW DELETE SCREEN
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html",'Modules/Course');
-		$this->object->initCourseMemberObject();
 		$this->object->initWaitingList();
 
 		// SAVE IDS IN SESSION
@@ -2947,7 +2941,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$this->checkPermission('leave');
 		
-		if($this->object->members_obj->isLastAdmin($ilUser->getId()))
+		if($this->object->getMembersObject()->isLastAdmin($ilUser->getId()))
 		{
 			ilUtil::sendFailure($this->lng->txt('crs_min_one_admin'));
 			$this->viewObject();
@@ -3003,10 +2997,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		// CHECK ACCESS
 		$this->checkPermission('leave');
-		$this->object->initCourseMemberObject();
-		$this->object->members_obj->delete($this->ilias->account->getId());
-		$this->object->members_obj->sendUnsubscribeNotificationToAdmins($this->ilias->account->getId());
-		$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_UNSUBSCRIBE,$ilUser->getId());
+		$this->object->getMembersObject()->delete($this->ilias->account->getId());
+		$this->object->getMembersObject()->sendUnsubscribeNotificationToAdmins($this->ilias->account->getId());
+		$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_UNSUBSCRIBE,$ilUser->getId());
 		
 		include_once './Modules/Forum/classes/class.ilForumNotification.php';
 		ilForumNotification::checkForumsExistsDelete($this->ref_id, $ilUser->getId());
@@ -3036,8 +3029,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		// Check last admin
-		$this->object->initCourseMemberObject();
-		if(!$this->object->members_obj->checkLastAdmin($participants))
+		if(!$this->object->getMembersObject()->checkLastAdmin($participants))
 		{
 			ilUtil::sendFailure($this->lng->txt('crs_at_least_one_admin'));
 			$this->membersObject();
@@ -3094,7 +3086,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			return false;
 		}
-		$this->object->initCourseMemberObject();
 		
 		// If the user doesn't have the edit_permission, he may not remove
 		// members who have the course administrator role
@@ -3121,7 +3112,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 		}
         
-		if(!$this->object->members_obj->deleteParticipants($_POST["participants"]))
+		if(!$this->object->getMembersObject()->deleteParticipants($_POST["participants"]))
 		{
 			ilUtil::sendFailure($this->object->getMessage());
 			$this->membersObject();
@@ -3135,7 +3126,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			// SEND NOTIFICATION
 			foreach($_POST["participants"] as $usr_id)
 			{
-				$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_DISMISS_MEMBER,$usr_id);
+				$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_DISMISS_MEMBER,$usr_id);
 				ilForumNotification::checkForumsExistsDelete($this->object->getRefId(), $usr_id);
 			}
 		}
@@ -3158,9 +3149,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 	
-		$this->object->initCourseMemberObject();
-
-		if(!$this->object->members_obj->deleteSubscribers($_POST["subscribers"]))
+		if(!$this->object->getMembersObject()->deleteSubscribers($_POST["subscribers"]))
 		{
 			ilUtil::sendFailure($this->object->getMessage());
 			$this->membersObject();
@@ -3170,7 +3159,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			foreach($_POST['subscribers'] as $usr_id)
 			{
-				$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_DISMISS_SUBSCRIBER,$usr_id);
+				$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER,$usr_id);
 			}
 		}
 
@@ -3185,8 +3174,6 @@ class ilObjCourseGUI extends ilContainerGUI
 	function getTabs(&$tabs_gui)
 	{
 		global $rbacsystem,$ilAccess,$ilUser, $lng;
-
-		$this->object->initCourseMemberObject();
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
@@ -3320,7 +3307,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		// Join/Leave
 		if($ilAccess->checkAccess('join','',$this->ref_id)
-			and !$this->object->members_obj->isAssigned($ilUser->getId()))
+			and !$this->object->getMembersObject()->isAssigned($ilUser->getId()))
 		{
 			include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
 			if(ilCourseWaitingList::_isOnList($ilUser->getId(), $this->object->getId()))
@@ -3342,7 +3329,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 		}
 		if($ilAccess->checkAccess('leave','',$this->object->getRefId())
-			and $this->object->members_obj->isMember($ilUser->getId()))
+			and $this->object->getMemberObject()->isMember())
 		{
 			$tabs_gui->addTarget("crs_unsubscribe",
 								 $this->ctrl->getLinkTarget($this, "unsubscribe"), 
@@ -3357,7 +3344,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		foreach($a_members as $member_id)
 		{
 			
-			$member_data = $this->object->members_obj->getSubscriberData($member_id);
+			$member_data = $this->object->getMembersObject()->getSubscriberData($member_id);
 
 			if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
 			{
@@ -3417,21 +3404,21 @@ class ilObjCourseGUI extends ilContainerGUI
 				$print_member[$member_id]['login'] = $tmp_obj->getLogin();
 				$print_member[$member_id]['name'] = $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();
 
-				if($this->object->members_obj->isAdmin($member_id))
+				if($this->object->getMembersObject()->isAdmin($member_id))
 				{
 					$print_member[$member_id]['role'] = $this->lng->txt("il_crs_admin");
 				}
-				elseif($this->object->members_obj->isTutor($member_id))
+				elseif($this->object->getMembersObject()->isTutor($member_id))
 				{
 					$print_member[$member_id]['role'] = $this->lng->txt("il_crs_tutor");
 				}
-				elseif($this->object->members_obj->isMember($member_id))
+				elseif($this->object->getMembersObject()->isMember($member_id))
 				{
 					$print_member[$member_id]['role'] = $this->lng->txt("il_crs_member");
 				}
-				if($this->object->members_obj->isAdmin($member_id) or $this->object->members_obj->isTutor($member_id))
+				if($this->object->getMembersObject()->isAdmin($member_id) or $this->object->getMembersObject()->isTutor($member_id))
 				{
-					if($this->object->members_obj->isNotificationEnabled($member_id))
+					if($this->object->getMembersObject()->isNotificationEnabled($member_id))
 					{
 						$print_member[$member_id]['status'] = $this->lng->txt("crs_notify");
 					}
@@ -3442,7 +3429,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 				else
 				{
-					if($this->object->members_obj->isBlocked($member_id))
+					if($this->object->getMembersObject()->isBlocked($member_id))
 					{
 						$print_member[$member_id]['status'] = $this->lng->txt("crs_blocked");
 					}
@@ -3454,7 +3441,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 				if($is_admin)
 				{
-					$print_member[$member_id]['passed'] = $this->object->members_obj->hasPassed($member_id) ?
+					$print_member[$member_id]['passed'] = $this->object->getMembersObject()->hasPassed($member_id) ?
 									  $this->lng->txt('crs_member_passed') :
 									  $this->lng->txt('crs_member_not_passed');
 					
@@ -3531,8 +3518,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$is_admin = true;
 		$tpl = new ilTemplate('tpl.crs_members_print.html',true,true,'Modules/Course');
 
-		$this->object->initCourseMemberObject();
-		
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$privacy = ilPrivacySettings::_getInstance();
 		if($privacy->enabledCourseAccessTimes())
@@ -3549,7 +3534,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 
 		// MEMBERS
-		if(count($members = $this->object->members_obj->getParticipants()))
+		if(count($members = $this->object->getMembersObject()->getParticipants()))
 		{
 			$members = $this->fetchPrintMemberData($members);
 			
@@ -3616,7 +3601,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		}
 		// SUBSCRIBERS
-		if(count($members = $this->object->members_obj->getSubscribers()))
+		if(count($members = $this->object->getMembersObject()->getSubscribers()))
 		{
 			$members = $this->fetchPrintSubscriberData($members);
 			foreach($members as $member_data)
@@ -3675,10 +3660,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('crs_members_gallery');
 		
-		$this->object->initCourseMemberObject();
-
 		// MEMBERS 
-		if(count($members = $this->object->members_obj->getParticipants()))
+		if(count($members = $this->object->getMembersObject()->getParticipants()))
 		{
 			$ordered_members = array();
 
@@ -3720,7 +3703,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				// GET USER IMAGE
 				$file = $usr_obj->getPersonalPicturePath("xsmall");
 				
-				if($this->object->members_obj->isAdmin($member["id"]) or $this->object->members_obj->isTutor($member["id"]))
+				if($this->object->getMembersObject()->isAdmin($member["id"]) or $this->object->getMembersObject()->isTutor($member["id"]))
 				{
 					if ($public_profile == "y")
 					{
@@ -4568,7 +4551,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		
 		// Disable aggrement if is not member of course
-		if(!$this->object->members_obj->isAssigned($ilUser->getId()))
+		if(!$this->object->getMemberObject()->isAssigned())
 		{
 			return true;
 		}
@@ -4906,10 +4889,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		$map->setEnableTypeControl(true);
 		$map->setEnableNavigationControl(true);
 		$map->setEnableCentralMarker(true);
-		
 
-		$this->object->initCourseMemberObject();
-		if(count($members = $this->object->members_obj->getParticipants()))
+		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+		if(count($members = ilCourseParticipants::_getInstanceByObjId($this->object->getId()))->getMembers())
 		{
 			foreach($members as $user_id)
 			{

@@ -40,7 +40,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	const CAL_ACTIVATION_START = 3;
 	const CAL_ACTIVATION_END = 4;
 
-	var $members_obj;
+	private $member_obj = null;
+	private $members_obj = null;
 	var $archives_obj;
 	var $items_obj;
 	
@@ -96,15 +97,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
 		parent::__construct($a_id,$a_call_by_reference);
 
-		if($a_id)
-		{
-			#$this->__initMetaObject();
-			$this->initCourseMemberObject();
-		}
-		else
-		{
-
-		}
 	}
 	
 	/**
@@ -587,12 +579,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$this->message .= $a_message;
 	}
 
-	function getMembers()
-	{
-		return $this->members_obj->getMembers();
-	}
-
-
 	function isActivated($a_check_archive = false)
 	{
 		if($a_check_archive)
@@ -784,8 +770,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 	$this->cloneMetaData($new_obj);
 	 	
 	 	// Assign admin
-		$new_obj->initCourseMemberObject();
-		$new_obj->members_obj->add($ilUser->getId(),IL_CRS_ADMIN);
+		$new_obj->getMemberObject()->add($ilUser->getId(),IL_CRS_ADMIN);
 		
 		// Copy settings
 		$this->cloneSettings($new_obj);
@@ -896,8 +881,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
 	function validate()
 	{
-		$this->initCourseMemberObject();
-
 		$this->setMessage('');
 
 		#if(($this->getSubscriptionLimitationType() != IL_CRS_SUBSCRIPTION_DEACTIVATED) and
@@ -1274,12 +1257,59 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return true;
 	}
 		
-		
-	function initCourseMemberObject()
+
+	/**
+	 * Init course member object
+	 * @global ilObjUser $ilUser
+	 * @return <type>
+	 */
+	protected function initCourseMemberObject()
 	{
+		global $ilUser;
+
+		include_once "./Modules/Course/classes/class.ilCourseParticipant.php";
+		$this->member_obj = ilCourseParticipant::_getInstanceByObjId($this->getId(),$ilUser->getId());
+		return true;
+	}
+
+	/**
+	 * Init course member object
+	 * @global ilObjUser $ilUser
+	 * @return <type>
+	 */
+	protected function initCourseMembersObject()
+	{
+		global $ilUser;
+
 		include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
 		$this->members_obj = ilCourseParticipants::_getInstanceByObjId($this->getId());
 		return true;
+	}
+
+	/**
+	 * Get course member object
+	 * @return ilCourseParticipant
+	 */
+	public function getMemberObject()
+	{
+		if(!$this->member_obj instanceof ilCourseParticipant)
+		{
+			$this->initCourseMemberObject();
+		}
+		return $this->member_obj;
+	}
+
+	/**
+	 * @deprecated
+	 * @return ilCourseParticipants
+	 */
+	public function getMembersObject()
+	{
+		if(!$this->members_obj instanceof ilCourseParticipants)
+		{
+			$this->initCourseMembersObject();
+		}
+		return $this->members_obj;
 	}
 
 	function initCourseItemObject($a_child_id = 0)

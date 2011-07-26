@@ -140,7 +140,24 @@ class ilParticipants
         
         return $rbacreview->isAssignedToAtLeastOneGivenRole($a_usr_id, $local_roles);
 	}
-	
+
+	/**
+	 * Lookup the number of participants (crs admins, tutors, members, grp admins, members)
+	 *
+	 * @global ilRbacReview $rbacreview
+	 * @param int $a_ref_id
+	 *
+	 */
+	public static function lookupNumberOfParticipants($a_ref_id)
+	{
+		global $rbacreview;
+
+		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
+		$lroles = $rbacreview->getRolesOfRoleFolder($rolf['ref_id'],false);
+		return $rbacreview->getNumberofAssignedUsers($lroles);
+	}
+
+
 	/**
 	 * Check if user is blocked
 	 *

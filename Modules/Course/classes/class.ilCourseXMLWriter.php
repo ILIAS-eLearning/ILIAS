@@ -175,13 +175,11 @@ class ilCourseXMLWriter extends ilXmlWriter
 	
 	function __buildAdmin()
 	{
-		$this->course_obj->initCourseMemberObject();
-
-		foreach($this->course_obj->members_obj->getAdmins() as $id)
+		foreach($this->course_obj->getMembersObject()->getAdmins() as $id)
 		{
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
-			$attr['notification'] = ($this->course_obj->members_obj->isNotificationEnabled($id)) ? 'Yes' : 'No';
-			$attr['passed'] = $this->course_obj->members_obj->hasPassed($id) ? 'Yes' : 'No';
+			$attr['notification'] = ($this->course_obj->getMembersObject()->isNotificationEnabled($id)) ? 'Yes' : 'No';
+			$attr['passed'] = $this->course_obj->getMembersObject()->hasPassed($id) ? 'Yes' : 'No';
 
 			$this->xmlStartTag('Admin',$attr);
 			$this->xmlEndTag('Admin');
@@ -191,13 +189,11 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 	function __buildTutor()
 	{
-		$this->course_obj->initCourseMemberObject();
-
-		foreach($this->course_obj->members_obj->getTutors() as $id)
+		foreach($this->course_obj->getMembersObject()->getTutors() as $id)
 		{
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
-			$attr['notification'] = ($this->course_obj->members_obj->isNotificationEnabled($id)) ? 'Yes' : 'No';
-			$attr['passed'] = $this->course_obj->members_obj->hasPassed($id) ? 'Yes' : 'No';
+			$attr['notification'] = ($this->course_obj->getMembersObject()->isNotificationEnabled($id)) ? 'Yes' : 'No';
+			$attr['passed'] = $this->course_obj->getMembersObject()->hasPassed($id) ? 'Yes' : 'No';
 
 			$this->xmlStartTag('Tutor',$attr);
 			$this->xmlEndTag('Tutor');
@@ -206,13 +202,11 @@ class ilCourseXMLWriter extends ilXmlWriter
 	}
 	function __buildMember()
 	{
-		$this->course_obj->initCourseMemberObject();
-
-		foreach($this->course_obj->members_obj->getMembers() as $id)
+		foreach($this->course_obj->getMembersObject()->getMembers() as $id)
 		{
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
-			$attr['blocked'] = ($this->course_obj->members_obj->isBlocked($id)) ? 'Yes' : 'No';
-			$attr['passed'] = $this->course_obj->members_obj->hasPassed($id) ? 'Yes' : 'No';
+			$attr['blocked'] = ($this->course_obj->getMembersObject()->isBlocked($id)) ? 'Yes' : 'No';
+			$attr['passed'] = $this->course_obj->getMembersObject()->hasPassed($id) ? 'Yes' : 'No';
 
 			$this->xmlStartTag('Member',$attr);
 			$this->xmlEndTag('Member');
@@ -222,11 +216,9 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 	function __buildSubscriber()
 	{
-		$this->course_obj->initCourseMemberObject();
-
-		foreach($this->course_obj->members_obj->getSubscribers() as $id)
+		foreach($this->course_obj->getMembersObject()->getSubscribers() as $id)
 		{
-			$data = $this->course_obj->members_obj->getSubscriberData($id);
+			$data = $this->course_obj->getMembersObject()->getSubscriberData($id);
 
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
 			$attr['subscriptionTime'] = $data['time'];

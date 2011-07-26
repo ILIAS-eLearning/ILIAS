@@ -179,7 +179,6 @@
 							$new_crs->createReference();
 							$new_crs->putInTree($node["child"]);
 							$new_crs->setPermissions($node["child"]);
-							$new_crs->initCourseMemberObject();
 							
 							$a_current++;
 						}

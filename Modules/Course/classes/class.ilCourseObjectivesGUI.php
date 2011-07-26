@@ -355,9 +355,6 @@ class ilCourseObjectivesGUI
 			$this->ilErr->raiseError("ilCourseObjectivesGUI: cannot create course object",$this->ilErr->MESSAGE);
 			exit;
 		}
-		// do i need members?
-		$this->course_obj->initCourseMemberObject();
-
 		return true;
 	}
 
