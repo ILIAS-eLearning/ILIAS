@@ -6866,7 +6866,6 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 		$ilDB->createSequence('didactic_tpl_a');
 		$ilDB->addPrimaryKey('didactic_tpl_a',array('id'));
 ?>
-
 <#3408>
 <?php
 		$ilDB->createTable('didactic_tpl_alp',
@@ -6896,4 +6895,91 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 
 		$ilDB->addPrimaryKey('didactic_tpl_alp',array('action_id'));
 ?>
+<#3409>
+<?php
+// register new object type 'blga' for blog administration
+ $id = $ilDB->nextId("object_data");
+$ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
+		"VALUES (%s, %s, %s, %s, %s, %s, %s)",
+		array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+		array($id, "typ", "blga", "Blog administration", -1, ilUtil::now(), ilUtil::now()));
+$typ_id = $id;
 
+// create object data entry
+$id = $ilDB->nextId("object_data");
+$ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
+		"VALUES (%s, %s, %s, %s, %s, %s, %s)",
+		array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+		array($id, "blga", "__BlogAdministration", "Blog Administration", -1, ilUtil::now(), ilUtil::now()));
+
+// create object reference entry
+$ref_id = $ilDB->nextId('object_reference');
+$res = $ilDB->manipulateF("INSERT INTO object_reference (ref_id, obj_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($ref_id, $id));
+
+// put in tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
+
+// add rbac operations
+// 1: edit_permissions, 2: visible, 3: read, 4:write
+$ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($typ_id, 1));
+$ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($typ_id, 2));
+$ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($typ_id, 3));
+$ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($typ_id, 4));
+?>
+<#3410>
+<?php
+// register new object type 'prfa' for portfolio administration
+ $id = $ilDB->nextId("object_data");
+$ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
+		"VALUES (%s, %s, %s, %s, %s, %s, %s)",
+		array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+		array($id, "typ", "prfa", "Portfolio administration", -1, ilUtil::now(), ilUtil::now()));
+$typ_id = $id;
+
+// create object data entry
+$id = $ilDB->nextId("object_data");
+$ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
+		"VALUES (%s, %s, %s, %s, %s, %s, %s)",
+		array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+		array($id, "prfa", "__PortfolioAdministration", "Portfolio Administration", -1, ilUtil::now(), ilUtil::now()));
+
+// create object reference entry
+$ref_id = $ilDB->nextId('object_reference');
+$res = $ilDB->manipulateF("INSERT INTO object_reference (ref_id, obj_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($ref_id, $id));
+
+// put in tree
+$tree = new ilTree(ROOT_FOLDER_ID);
+$tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
+
+// add rbac operations
+// 1: edit_permissions, 2: visible, 3: read, 4:write
+$ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($typ_id, 1));
+$ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($typ_id, 2));
+$ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($typ_id, 3));
+$ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
+	array("integer", "integer"),
+	array($typ_id, 4));
+?>
+<#3411>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

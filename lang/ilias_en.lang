@@ -11721,3 +11721,7 @@ blog#:#blog_finalized#:#The Blog has been submitted.
 prtf#:#prtf_exercise_info#:#This portfolio is part of the assignment "%s" of the exercise "%s".
 prtf#:#prtf_finalize_portfolio#:#Finalize and Submit Portfolio
 prtf#:#prtf_finalized#:#The portfolio has been submitted.
+administration#:#obj_blga#:#Blog
+administration#:#obj_blga_desc#:#Global Blog Settings
+administration#:#obj_prfa#:#Portfolio
+administration#:#obj_prfa_desc#:#Global Portfolio Settings
