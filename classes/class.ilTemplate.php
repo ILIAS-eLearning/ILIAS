@@ -1443,7 +1443,7 @@ class ilTemplate extends ilTemplateX
 			foreach($this->title_alerts as $alert)
 			{
 				$this->setCurrentBlock('header_alert');
-				$this->setVariable('H_PROP', $alert['property']);
+				$this->setVariable('H_PROP', $alert['property'].':');
 				$this->setVariable('H_VALUE', $alert['value']);
 				$this->parseCurrentBlock();
 			}
