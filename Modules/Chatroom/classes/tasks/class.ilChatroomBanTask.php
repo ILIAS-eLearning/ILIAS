@@ -1,0 +1,166 @@
+<?php
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
+
+/**
+ * Class ilChatroomBanTask
+ *
+ * @author Jan Posselt <jposselt@databay.de>
+ * @version $Id$
+ *
+ * @ingroup ModulesChatroom
+ */
+class ilChatroomBanTask extends ilDBayTaskHandler
+{
+
+	private $gui;
+
+	/**
+	 * Constructor
+	 *
+	 * Sets $this->gui using given $gui.
+	 * Requires ilChatroom.
+	 *
+	 * @param ilDBayObjectGUI $gui
+	 */
+	public function __construct(ilDBayObjectGUI $gui)
+	{
+		$this->gui = $gui;
+		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+	}
+
+	/**
+	 * Displays banned users task.
+	 *
+	 * @global ilCtrl2 $ilCtrl
+	 */
+	public function show()
+	{
+		//global $lng, $ilCtrl;
+		global $ilCtrl;
+
+		$this->gui->switchToVisibleMode();
+
+		require_once 'Modules/Chatroom/classes/class.ilBannedUsersTableGUI.php';
+
+		$table = new ilBannedUsersTableGUI( $this->gui, 'ban-show' );
+		$table->setFormAction( $ilCtrl->getFormAction( $this->gui, 'ban-show' ) );
+
+		$room = ilChatroom::byObjectId( $this->gui->object->getId() );
+
+		if( $room )
+		{
+			$table->setData( $room->getBannedUsers() );
+		}
+
+		$this->gui->tpl->setVariable( 'ADM_CONTENT', $table->getHTML() );
+	}
+
+	/**
+	 * Unbans users fetched from $_REQUEST['banned_user_id'].
+	 *
+	 * @global ilCtrl2 $ilCtrl
+	 */
+	public function delete()
+	{
+		global $ilCtrl;
+
+		$users = $_REQUEST['banned_user_id'];
+
+		if( !is_array( $users ) )
+		{
+			return;
+		}
+
+		$room = ilChatroom::byObjectId( $this->gui->object->getId() );
+		$room->unbanUser( $users );
+
+		$ilCtrl->redirect( $this->gui, 'ban-show' );
+	}
+
+	/**
+	 * Calls $this->show method.
+	 *
+	 * @param string $method
+	 */
+	public function executeDefault($method)
+	{
+		$this->show();
+	}
+
+	/**
+	 * Kicks and bans user, fetched from $_REQUEST['user'] and adds history entry.
+	 *
+	 * @global ilObjUser $ilUser
+	 */
+	public function active()
+	{
+		//global $tpl, $ilUser;
+		global $ilUser;
+
+		$room = ilChatroom::byObjectId( $this->gui->object->getId() );
+
+		if( $room )
+		{
+			// if user is in scope
+			$scope = $room->getRoomId();
+
+			$chat_user = new ilChatroomUser( $ilUser, $room );
+
+			$message = json_encode( $this->buildMessage(
+			ilUtil::stripSlashes( $_REQUEST['user'] ),
+			$chat_user
+			) );
+			$params = array(
+				'message' => $message,
+				'userToKick' => $_REQUEST['user']
+			);
+
+			$query			= http_build_query( $params );
+			$connector		= $this->gui->getConnector();
+			$response		= $connector->kick( $scope, $query );
+			$responseObject = json_decode( $response );
+
+			$room->banUser( $_REQUEST['user'] );
+
+			if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
+			{
+				$room->addHistoryEntry( $message, '', 1 );
+			}
+		}
+		else
+		{
+			$response = json_encode( array(
+					'success'	=> false,
+					'reason'	=> 'unkown room'
+					) );
+		}
+
+		echo $response;
+		exit;
+	}
+
+	/**
+	 * Instantiates stdClass, sets $data->user and $data->userToKick using given
+	 * $messageString and $chat_user and returns $data
+	 *
+	 * @param string $messageString
+	 * @param ilChatroomUser $user
+	 * @return stdClass
+	 */
+	private function buildMessage($messageString, ilChatroomUser $user)
+	{
+		$data = new stdClass();
+
+		$data->user			= $this->gui->object->getPersonalInformation( $user );
+		$data->userToKick	= $messageString;
+		$data->timestamp	= date( 'c' );
+		$data->type			= 'kick';
+
+		return $data;
+	}
+
+}
+
+?>

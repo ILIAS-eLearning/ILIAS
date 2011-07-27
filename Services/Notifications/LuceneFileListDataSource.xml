@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<DataSource type="JDBC" action="create">
+	<Query>
+		SELECT lm_id, file_id, file_name, version, 'file' AS type FROM lm_data
+		JOIN file_usage ON obj_id = usage_id 
+		JOIN file_data ON id = file_id
+		WHERE lm_id IN(?)
+		AND usage_type = concat(?,':pg')
+		AND usage_hist_nr = 0
+	</Query>
+	<Param format="list" type="int" value="objId" />
+	<Param format="single" type="string" value="objType" />
+	<Field global="NO" store="YES" index="NOT_ANALYZED" column="lm_id" type="integer" name="objId" />
+	<Field global="NO" store="YES" index="NOT_ANALYZED" column="file_id" type="integer" name="subItem" />
+	<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" type="text" name="type"  />
+	<Field global="YES" store="YES" index="ANALYZED" column="file_name" type="text" name="propertyHigh">
+		<Transformer name="FilenameExtractor" />
+	</Field>
+	<DataSource type="File" action="append">
+		<PathCreator name="FileListPathCreator41" />
+		<Field store="YES" index="ANALYZED" name="content">
+			<Transformer name="LinefeedSanitizer" />
+		</Field>
+	</DataSource>
+</DataSource>
+ 

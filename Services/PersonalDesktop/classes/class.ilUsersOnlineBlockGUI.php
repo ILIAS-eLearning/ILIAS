@@ -268,8 +268,8 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 				$this->tpl->parseCurrentBlock();
 			}
 	
-			include_once './Modules/Chat/classes/class.ilChatServerConfig.php';
-			if(ilChatServerConfig::_isActive())
+			$chatSettings = new ilSetting('chatroom');
+			if(/*ilChatServerConfig::_isActive() && */$chatSettings->get('chat_enabled'))
 			{
 				if(!$this->__showActiveChatsOfUser($a_set["id"]))
 				{
@@ -279,14 +279,17 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 				
 				global $rbacsystem;
 				
-				include_once './Modules/Chat/classes/class.ilObjChat.php';
+				//include_once './Modules/Chat/classes/class.ilObjChat.php';
+				include_once './Modules/Chatroom/classes/class.ilObjChatroom.php';
 				if($a_set["id"] == $ilUser->getId() &&
-				   $rbacsystem->checkAccess('read', ilObjChat::_getPublicChatRefId()))
+				   //$rbacsystem->checkAccess('read', ilObjChat::_getPublicChatRefId()))
+					$rbacsystem->checkAccess('read', ilObjChatroom::_getPublicRefId()))
 				{
 					$this->tpl->setCurrentBlock('chat_link');
 					$this->tpl->setVariable('TXT_CHAT_INVITE', $lng->txt('chat_enter_public_room'));
 					$this->tpl->setVariable('TXT_CHAT_INVITE_TOOLTIP', $lng->txt('chat_enter_public_room_tooltip'));
-					$this->tpl->setVariable('CHAT_LINK','./ilias.php?baseClass=ilChatPresentationGUI&ref_id='.ilObjChat::_getPublicChatRefId());
+//					$this->tpl->setVariable('CHAT_LINK','./ilias.php?baseClass=ilChatPresentationGUI&ref_id='.ilObjChat::_getPublicChatRefId());
+					$this->tpl->setVariable('CHAT_LINK','./repository.php?cmd=view&ref_id='.ilObjChatroom::_getPublicRefId());
 					$this->tpl->parseCurrentBlock();
 				}
 			}
@@ -466,8 +469,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		global $rbacsystem, $lng;
 		
 		// show chat info
-		include_once './Modules/Chat/classes/class.ilChatRoom.php';
-		
+		/*
 		$chat_id = ilChatRoom::_isActive($a_usr_id);
 		foreach(ilObject::_getAllReferences($chat_id) as $ref_id)
 		{
@@ -481,7 +483,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 				
 				return true;
 			}
-		}
+		}*/
 		return false;
 	}
 	
@@ -489,20 +491,24 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	{
 		global $rbacsystem,$ilUser,$lng;
 		
-		include_once './Modules/Chat/classes/class.ilObjChat.php';
+		//include_once './Modules/Chat/classes/class.ilObjChat.php';
+		include_once './Modules/Chatroom/classes/class.ilObjChatroom.php';
 		
 		if($a_usr_id == $ilUser->getId())
 		{
 			return false;
 		}
 
-		if($rbacsystem->checkAccess('read',ilObjChat::_getPublicChatRefId())
-		and $rbacsystem->checkAccessOfUser($a_usr_id,'read',ilObjChat::_getPublicChatRefId()))
+		//if($rbacsystem->checkAccess('read',ilObjChat::_getPublicChatRefId())
+		//and $rbacsystem->checkAccessOfUser($a_usr_id,'read',ilObjChat::_getPublicChatRefId()))
+		if($rbacsystem->checkAccess('read',ilObjChatroom::_getPublicRefId())
+		and $rbacsystem->checkAccessOfUser($a_usr_id,'read',ilObjChatroom::_getPublicRefId()))
 		{
 			$this->tpl->setCurrentBlock("chat_link");
 			$this->tpl->setVariable("TXT_CHAT_INVITE",$lng->txt('chat_invite_public_room'));
-			$this->tpl->setVariable("CHAT_LINK",'./ilias.php?baseClass=ilChatPresentationGUI&ref_id='.ilObjChat::_getPublicChatRefId().
-			'&usr_id='.$a_usr_id.'&cmd=invitePD');
+			//$this->tpl->setVariable("CHAT_LINK",'./ilias.php?baseClass=ilChatPresentationGUI&ref_id='.ilObjChat::_getPublicChatRefId().
+			//'&usr_id='.$a_usr_id.'&cmd=invitePD');
+			$this->tpl->setVariable("CHAT_LINK",'./repository.php?ref_id='.ilObjChatroom::_getPublicRefId().'&usr_id='.$a_usr_id.'&cmd=view-invitePD');
 			$this->tpl->setVariable('TXT_CHAT_INVITE_TOOLTIP', $lng->txt('chat_invite_public_room_tooltip'));
 			$this->tpl->parseCurrentBlock();
 			

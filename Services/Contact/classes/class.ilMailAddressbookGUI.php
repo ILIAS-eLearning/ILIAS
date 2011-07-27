@@ -15,7 +15,7 @@ require_once "Services/Contact/classes/class.ilAddressbookTableGUI.php";
 *
 * @ingroup ServicesMail
 * @ilCtrl_Calls ilMailAddressbookGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
-* @ilCtrl_Calls ilMailAddressbookGUI: ilObjChat, ilObjChatGUI, ilMailFormGUI
+* @ilCtrl_Calls ilMailAddressbookGUI: ilMailFormGUI
 */
 class ilMailAddressbookGUI
 {
@@ -479,8 +479,8 @@ class ilMailAddressbookGUI
 
 				$current_selection_list->addItem($this->lng->txt("delete"), '', $this->ctrl->getLinkTarget($this, "confirmDelete"));
 				
-				if ($chat_active)
-					$current_selection_list->addItem($this->lng->txt("invite_to_chat"), '', $this->ctrl->getLinkTarget($this, "inviteToChat"));
+				/*if ($chat_active)
+					$current_selection_list->addItem($this->lng->txt("invite_to_chat"), '', $this->ctrl->getLinkTarget($this, "inviteToChat"));*/
 				
 				$this->ctrl->clearParameters($this);
 				
@@ -493,8 +493,8 @@ class ilMailAddressbookGUI
 
 			$tbl->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
 			
-			if ($chat_active)
-				$tbl->addMultiCommand('inviteToChat', $this->lng->txt('invite_to_chat'));			
+			/*if ($chat_active)
+				$tbl->addMultiCommand('inviteToChat', $this->lng->txt('invite_to_chat'));			*/
 		}
 		else
 		{
@@ -521,7 +521,7 @@ class ilMailAddressbookGUI
 	/**
 	 * send chat invitations to selected Users
 	 */
-	public function inviteToChat()
+/*	public function inviteToChat()
 	{
 		global $ilUser, $ilObjDataCache, $lng, $ilCtrl, $tpl;
 
@@ -623,13 +623,13 @@ class ilMailAddressbookGUI
 		$tpl->setTitle($lng->txt('mail_invite_users_to_chat'));
 		$tpl->setContent($form->getHtml());
 		$tpl->show();
-	}
+	}*/
 	
 	/**
 	 * last step of chat invitations
 	 * check access for every selected user and do invitation
 	 */
-	public function submitInvitation()
+	/*public function submitInvitation()
 	{
 		global $ilObjDataCache, $ilUser,$ilCtrl, $rbacsystem, $lng, $ilias;
 		
@@ -760,7 +760,7 @@ class ilMailAddressbookGUI
 		ilUtil::sendInfo($lng->txt('chat_users_have_been_invited') . $userlist .$link, true);
 		$link = $ilCtrl->getLinkTarget($this, 'showAddressbook', '', false, false);
 		ilUtil::redirect($link);
-	}
+	}*/
 	
 	public function lookupAddressbookAsync()
 	{

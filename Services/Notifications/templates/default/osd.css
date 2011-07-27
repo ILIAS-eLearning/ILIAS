@@ -1,0 +1,32 @@
+
+.osdNotificationContainer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+
+    width: 200px;
+
+}
+
+.osdNotification {
+    background-color: white;
+    border: 1px solid #FFDD77;
+    border-color: #BCCAE5 #BCCAE5 #A7B4CC;
+    /*padding: 8px;*/
+}
+
+.osdNotificationTitle {
+    padding: 8px;
+    background-color: #e8effe;
+}
+
+.osdNotificationIcon {
+    /*float: left;*/
+    line-height: 100%;
+    vertical-align: middle;
+}
+
+.osdNotificationShortDescription {
+    margin: 8px;
+}

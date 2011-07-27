@@ -165,16 +165,6 @@ class ilStartUpGUI
 			include_once './Services/Tracking/classes/class.ilOnlineTracking.php';
 			ilOnlineTracking::_addUser($ilUser->getId());
 
-			// handle chat kicking
-			if ($ilSetting->get("chat_active"))
-			{
-				include_once "./Modules/Chat/classes/class.ilChatServerCommunicator.php";
-				include_once "./Modules/Chat/classes/class.ilChatRoom.php";
-
-				ilChatServerCommunicator::_login();
-				ilChatRoom::_unkick($ilUser->getId());
-			}
-
 			// update last forum visit
 			include_once './Modules/Forum/classes/class.ilObjForum.php';
 			ilObjForum::_updateOldAccess($ilUser->getId());
@@ -996,13 +986,6 @@ class ilStartUpGUI
 	function showLogout()
 	{
 		global $tpl, $ilSetting, $ilAuth, $lng, $ilIliasIniFile;
-
-		// LOGOUT CHAT USER
-		if($ilSetting->get("chat_active"))
-		{
-			include_once "./Modules/Chat/classes/class.ilChatServerCommunicator.php";
-			ilChatServerCommunicator::_logout();
-		}
 
 		$ilAuth->logout();
 		session_destroy();

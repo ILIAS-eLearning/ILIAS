@@ -1,0 +1,142 @@
+<script type="text/javascript">
+var myId = {MY_ID};
+
+
+    ilAddOnLoad(function() {
+	var lang = {
+		'main' : '{LBL_MAINROOM}',
+		'leave' : '{LBL_LEAVE}',
+		'enter' : '{LBL_JOIN}',
+		'delete' : '{LBL_DELETE}',
+		'invite_users' : '{LBL_INVITE}',
+		'kick' : '{LBL_KICK}',
+		'ban' : '{LBL_BAN}',
+		'address' : '{LBL_ADDRESS}',
+		'whisper' : '{LBL_WHISPER}',
+		'connect' : '{LBL_CONNECT}',
+		'disconnected' : '{LBL_DISCONNECT}',
+		'create_private_room' : '{LBL_CREATE_PRIVATE_ROOM}',
+		'welcome_to_chat' : 'Willkommen im Chat', //todo
+		'ok' : 'Ok', //todo
+		'cancel' : 'Abbrechen', //todo
+		'user_invited' : 'Der Benutzer <b>#user#</b> wurde eingeladen.', //todo
+		'user_invited_self' : 'Sie wurden von <b>#user#</b> in den Raum <b>#room#</b> eingeladen.', //todo
+		'private_room_closed' : 'Der Raum <b>#title#</b> wurde geschlossen.',
+		'private_room_entered' : 'Willkommen  im Separee <b>#title#</b>.'
+	};
+	$('#colorpicker').colorPicker();
+        var initial = {INITIAL_DATA};
+	$('#chat_messages').chat(lang, '{BASEURL}', '{SESSION_ID}', '{INSTANCE}', '{SCOPE}', '{POSTURL}', initial);
+    });
+</script>
+
+<div id="invite_users_container" style="display: none;">
+	<div>
+		<input type="radio" name="invite_users_type" id="invite_users_in_room"/>Benutzer im Chat&nbsp;&nbsp;
+		<input type="radio" name="invite_users_type" id="invite_users_global"/>Benutzer Suchen
+	</div>
+	<div>
+		<p id="invite_user_text_wrapper" style="display: none">{LBL_USER}: <input type="text" id="invite_user_text" /></p>
+		<ul id="invite_users_available">
+			<li></li>
+		</ul>
+	</div>
+</div>
+
+<table id="chat_wrapper">
+    <tr>
+        <td valign="bottom" colspan="2">
+		<h2 class="current_room_title"></h2>
+		<span style="white-space: nowrap; margin-left: 10px;">
+			<a class="small" target="_top" href="#" onclick="this.blur(); return false;">
+				<span id="chat_actions">{ACTION}<img border="0" alt="" src="./templates/default/images/mm_down_arrow_dark.gif"/></span>
+			</a>
+		</span>
+
+	</td>
+    </tr>
+    <tr>
+        <td>
+            <div id="chat_messages" style="width: 100%; min-height: 200px">
+
+            </div>
+        </td>
+        <td style="width: 200px; height: auto;" rowspan="4" valign="top">
+	    <div id="chat_users" style="overflow: auto; height: 100%">
+		    <h3 class="chat_block_title">Benutzer</h3>
+	    </div>
+	    <div id="private_rooms" style="z-index: 200; display: none"></div>
+        </td>
+    </tr>
+    <tr>
+	    <td style="text-align: right"><label for="chat_auto_scroll">{LBL_AUTO_SCROLL}</label><input type="checkbox" id="chat_auto_scroll" checked="checked"/></td>
+    </tr>
+    <tr>
+        <td>
+<table class="ilForm" id="chat_toolbox" style="width: 100%">
+                <tr class="ilFormHeader">
+                        <td class="ilFormHeader" colspan="2"><h3 class="ilFormHeader">{LBL_MESSAGE}</h3></td>
+                </tr>
+                <tr>
+                        <td class="ilFormOption"><label for="submit_message_text"><span id="message_recipient_info">{LBL_TOALL}</span></label></td>
+                        <td class="ilFormValue">
+                                <input type="text" name="message" id="submit_message_text"/>
+                                <input type="button" class="submit" value="{LBL_SEND}" id="submit_message" />
+
+                        </td>
+                </tr>
+                <tr>
+                        <td class="ilFormOption"><label onclick="$('#show_options').click()">{LBL_OPTIONS}</label></td>
+                        <td class="ilFormValue">
+                                <a id="show_options" href="javascript:;" onclick="$(this).next().toggle()">{LBL_DISPLAY}</a>
+
+                                <div class="chat optionlist ilSubForm">
+                                        <table class="nobackground">
+                                                <tr>
+                                                        <td class="ilFormSubOption"><label for="colorpicker">{LBL_FONTCOLOR}:</label></td>
+                                                        <td class="ilFormSubOption"><input type="text" id="colorpicker" value="{VAL_FONTCOLOR}"/></td>
+                                                </tr>
+                                                <tr>
+                                                        <td class="ilFormSubOption"><label for="fontfamily">{LBL_FONTFAMILY}:</label></td>
+                                                        <td class="ilFormSubOption">
+                                                                <select id="fontfamily">
+                                                                        <!-- BEGIN chat_fontfamily -->
+                                                                        <option value="{VAL_FONTFAMILY}" {SELECTED_FONTFAMILY}>{LBL_FONTFAMILY}</option>
+                                                                        <!-- END chat_fontfamily -->
+                                                                </select>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td class="ilFormSubOption"><label for="fontstyle">{LBL_FONTSTYLE}:</label></td>
+                                                        <td class="ilFormSubOption">
+                                                                <select id="fontstyle">
+                                                                        <!-- BEGIN chat_fontstyle -->
+                                                                        <option value="{VAL_FONTSTYLE}" {SELECTED_FONTSTYLE}>{LBL_FONTSTYLE}</option>
+                                                                        <!-- END chat_fontstyle -->
+                                                                </select>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td class="ilFormSubOption"><label for="fontsize">{LBL_FONTSIZE}:</label></td>
+                                                        <td class="ilFormSubOption">
+                                                                <select id="fontsize">
+                                                                        <!-- BEGIN chat_fontsize -->
+                                                                        <option value="{VAL_FONTSIZE}" {SELECTED_FONTSIZE}>{LBL_FONTSIZE}</option>
+                                                                        <!-- END chat_fontsize -->
+                                                                </select>
+                                                        </td>
+                                                </tr>
+                                        </table>
+                                </div>
+                        </td>
+                </tr>
+        </table>
+        </td>
+    </tr>
+</table>
+
+<input style="visibility: hidden" type="text" name="moreOptions" id="moreOptions"/>
+
+<div style="display: none" id="create_private_room_dialog">
+	{LBL_CREATE_PRIVATE_ROOM}: <input type="text" id="new_room_name"/>
+</div>

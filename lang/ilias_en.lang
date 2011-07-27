@@ -11743,3 +11743,111 @@ notes#:#note_update_note#:#Update Note
 common#:#added_to_desktop#:#The item has been added to the desktop.
 common#:#removed_from_desktop#:#The item has been removed from the desktop.
 notes#:#notes_comments#:#Comments
+common#:#chtr_visible#:#Visible
+common#:#chtr_read#:#Read
+common#:#chtr_write#:#Write
+common#:#chtr_edit_permission#:#Change Permissions
+common#:#objs_chtr#:#Chats
+common#:#obj_chta#:#Chat
+chatroom#:#history_by_day#:#Daily history
+chatroom#:#history_by_session#:#Session history
+chatroom#:#connected#:#Connection established
+chatroom#:#period#:#Period
+chatroom#:#disconnected#:#Connection closed
+chatroom#:#allow_anonymous#:#Allow anonymous login
+chatroom#:#autogen_usernames#:#Auto generated usernames
+chatroom#:#allow_custom_usernames#:#Allow custom usernames
+chatroom#:#enable_history#:#Enable history
+chatroom#:#restrict_history#:#Restrict history
+chatroom#:#restrict_history_info#:#No entries generated during absence from chatroom
+chatroom#:#allow_private_rooms#:#Allow private rooms
+chatroom#:#settings_general#:#General
+chatroom#:#settings_privacy#:#Privacy
+chatroom#:#autogen_usernames_info#:#Pattern for auto generated usernames. '#' will be automatically replaced by a number
+chatroom#:#bans#:#Bans
+chatroom#:#permissions#:#Permissions
+chatroom#:#remark#:#Remark
+chatroom#:#session#:#Session
+chatroom#:#fontcolor#:#Font color
+chatroom#:#fontstyle#:#Font style
+chatroom#:#fontsize#:#Font size
+chatroom#:#italic#:#Italic
+chatroom#:#underlined#:#Underlined
+chatroom#:#select_custom_username#:#Select custom username
+chatroom#:#custom_username#:#Custom username
+chatroom#:#enter#:#Enter chatroom
+chatroom#:#fontfamily#:#Font family
+chatroom#:#small#:#Small
+chatroom#:#large#:#Large
+chatroom#:#duration_from#:#From
+chatroom#:#duration_to#:#To
+chatroom#:#obj_chtr#:#Chatroom
+chatroom#:#chat_message#:#Message
+chatroom#:#chat_message_to_all#:#to all
+chatroom#:#chat_message_options#:#Display
+chatroom#:#chat_message_display#:#Options
+chatroom#:#chat_mainroom#:#Main room
+chatroom#:#chat_leave#:#Leave
+chatroom#:#chat_join#:#Join
+chatroom#:#chat_delete#:#Delete
+chatroom#:#chat_invite#:#Invite
+chatroom#:#chat_kick#:#Kick
+chatroom#:#chat_ban#:#Ban
+chatroom#:#chat_address#:#Address
+chatroom#:#chat_whisper#:#Whisper
+chatroom#:#chat_connection_established#:#Connection established
+chatroom#:#chat_connection_disconnected#:#Disconnected
+chatroom#:#chat_invite_users#:#Invite users
+chatroom#:#chat_right_box_user#:#User
+chatroom#:#chat_create_new_private_room#:#Create new private room
+chatroom#:#chat_private_room#:#Private room
+chatroom#:#chat_to_mainroom#:#To main room
+chatroom#:#chat_create_private_room_button#:#Create private room
+chatroom#:#moderate#:#Moderate
+chatroom#:#chatroom_smiley_keyword#:#Keyword
+chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name##
+chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.
+chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.
+chatroom#:#settings_title#:#Settings
+chatroom#:#history_byday_title#:#History by day
+chatroom#:#history_bysession_title#:#History by session
+chatroom#:#ban_table_title#:#Banned users
+chatroom#:#main#:#Main room
+chatroom_adm#:#chatroom_available_smilies#:#Available Smilies
+chatroom_adm#:#chatroom_delete_selected#:#Delete selected smilies
+chatroom_adm#:#chatroom_smiley_image#:#Smiley
+chatroom_adm#:#chatroom_add_smiley#:#Add smiley
+chatroom_adm#:#chatroom_image_path#:#Path to smiley
+chatroom_adm#:#chatroom_smiley_keywords#:#Keywords
+chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#One keyword per line
+chatroom_adm#:#chatroom_upload_smiley#:#Upload smiley
+chatroom_adm#:#obj_chta_desc#:#Chat Administration
+chatroom_adm#:#protocol#:#Protocol
+chatroom_adm#:#instance#:#Instance
+chatroom_adm#:#smiley#:#Smilies
+chatroom_adm#:#chatroom_edit_smiley#:#Edit smiley
+chatroom_adm#:#chatroom_current_smiley_image_path#:#Current smiley
+chatroom_adm#:#chatroom_current_smiley_image#:#Current smiley icon
+chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Choose a new smiley icon only if the current one is to be replaced.
+chatroom_adm#:#server_settings#:#Server settings
+chatroom_adm#:#client_settings#:#Client settings
+chatroom_adm#:#priv_hosts#:#Privileged hosts
+chatroom_adm#:#https#:#HTTPS
+chatroom_adm#:#chat_enabled#:#Enable chat
+chatroom_adm#:#enable_osd#:#Enable OSD
+chatroom_adm#:#hash#:#Hash
+chatroom_adm#:#client_settings_title#:#Client settings
+chatroom_adm#:#osd_intervall#:#OSD interval
+chatroom_adm#:#server_settings_title#:#Server settings
+chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete the selected smiley?
+chatroom#:#soap_must_be_enabled#:#You must active SOAP support in the general settings to enable the chat.
+chatroom#:#auto_scroll#:#Scroll to bottom
+chatroom#:#public_chat_created#:#The public chat room has been added to the repository
+chatroom#:#lost_connection#:#The connection to the chatserver was interrupted.
+chatroom#:#banned#:#You have been banned from this chat
+chatroom#:#unban#:#Unban
+chatroom_adm#:#keystore#:#Keystore
+chatroom_adm#:#keypass#:#Keypass
+chatroom_adm#:#storepass#:#Storepass
+chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
+common#:#obj_chtr#:#Chatroom
