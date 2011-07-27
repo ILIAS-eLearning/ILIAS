@@ -81,6 +81,35 @@ class ilCourseParticipants extends ilParticipants
 	}
 
 	/**
+	 * Get member roles
+	 * @param int $a_ref_id
+	 */
+	public static function getMemberRoles($a_ref_id)
+	{
+		global $rbacreview;
+
+		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
+		$lrol = $rbacreview->getRolesOfRoleFolder($rolf['ref_id'],false);
+
+		$roles = array();
+		foreach($lrol as $role)
+		{
+			$title = ilObject::_lookupTitle($role);
+			switch(substr($title,0,8))
+			{
+				case 'il_crs_a':
+				case 'il_crs_t':
+				case 'il_crs_m':
+					continue;
+
+				default:
+					$roles[$role] = $role;
+			}
+		}
+		return $roles;
+	}
+
+	/**
 	 * Update passed status
 	 *
 	 * @access public
