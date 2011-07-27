@@ -394,6 +394,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 			$this->tpl->setTitleIcon($icon, $this->lng->txt("obj_".$this->object->getType()));
+
+			include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
+			$lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
+			$this->tpl->setAlertProperties($lgui->getAlertProperties());
 		}
 	}
 

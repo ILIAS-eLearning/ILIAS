@@ -325,6 +325,10 @@ class ilObjectGUI
 			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"),
 				$this->lng->txt("obj_" . $this->object->getType()));
 		}
+
+		include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
+		$lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
+		$this->tpl->setAlertProperties($lgui->getAlertProperties());
 	}
 	
 	protected function showUpperIcon()
