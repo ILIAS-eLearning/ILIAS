@@ -82,7 +82,7 @@ class ilCalendarCategoryGUI
 				$this->ctrl->setReturn($this,'details');
 				
 				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
-				$app = new ilCalendarAppointmentGUI($this->seed,(int) $_GET['app_id']);
+				$app = new ilCalendarAppointmentGUI($this->seed,$this->seed, (int) $_GET['app_id']);
 				$this->ctrl->forwardCommand($app);
 				break;
 			
