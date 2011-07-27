@@ -71,21 +71,25 @@ class ilObjBlogGUI extends ilObject2GUI
 		$notes = new ilCheckboxInputGUI($lng->txt("blog_enable_notes"), "notes");
 		$a_form->addItem($notes);
 		
-		$img = new ilImageFileInputGUI($lng->txt("blog_banner"), "banner");
-		$a_form->addItem($img);
-		
-		// show existing file
-		$file = $this->object->getImageFullPath(true);
-		if($file)
-		{
-			$img->setImage($file);
-		}
+		$blga_set = new ilSetting("blga");
+		if($blga_set->get("banner"))
+		{		
+			$img = new ilImageFileInputGUI($lng->txt("blog_banner"), "banner");
+			$a_form->addItem($img);
+
+			// show existing file
+			$file = $this->object->getImageFullPath(true);
+			if($file)
+			{
+				$img->setImage($file);
+			}
+		}		
 		
 		$bg_color = new ilColorPickerInputGUI($lng->txt("blog_background_color"), "bg_color");
 		$a_form->addItem($bg_color);
-		
+
 		$font_color = new ilColorPickerInputGUI($lng->txt("blog_font_color"), "font_color");
-		$a_form->addItem($font_color);		
+		$a_form->addItem($font_color);	
 	}
 
 	protected function getEditFormCustomValues(array &$a_values)
@@ -479,11 +483,19 @@ class ilObjBlogGUI extends ilObject2GUI
 		$name = ilObjUser::_lookupName($owner);
 		$name = $name["lastname"].", ".($t = $name["title"] ? $t . " " : "").$name["firstname"];
 		
+		// show banner?
+		$banner = false;
+		$blga_set = new ilSetting("blga");
+		if($blga_set->get("banner"))
+		{		
+			$banner = $this->object->getImageFullPath();
+		}
+		
 		include_once("./Services/User/classes/class.ilUserUtil.php");
 		$tpl->setFullscreenHeader($this->object->getTitle(), 
 			$name, 	
 			ilObjUser::_getPersonalPicturePath($owner, "big"),
-			$this->object->getImageFullPath(),
+			$banner,
 			$this->object->getBackgroundColor(),
 			$this->object->getFontColor());
 		

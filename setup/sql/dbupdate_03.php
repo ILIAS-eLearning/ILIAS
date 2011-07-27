@@ -6983,3 +6983,44 @@ $ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3412>
+<?php
+	if(!$ilDB->tableColumnExists('usr_portfolio','bg_color'))
+	{
+		$ilDB->addTableColumn(
+			'usr_portfolio',
+			'bg_color',
+			array(
+				'type' 		=> 'text',
+				'length' 	=> 6,
+				'notnull'	=> false,
+				'fixed'		=> true
+			)
+		);
+	}
+	if(!$ilDB->tableColumnExists('usr_portfolio','font_color'))
+	{
+		$ilDB->addTableColumn(
+			'usr_portfolio',
+			'font_color',
+			array(
+				'type' 		=> 'text',
+				'length' 	=> 6,
+				'notnull'	=> false,
+				'fixed'		=> true
+			)
+		);
+	}
+	if(!$ilDB->tableColumnExists('usr_portfolio','img'))
+	{
+		$ilDB->addTableColumn(
+			'usr_portfolio',
+			'img',
+			array(
+				'type' 		=> 'text',
+				'length' 	=> 255,
+				'notnull'	=> false
+			)
+		);
+	}
+?>

@@ -15,6 +15,9 @@ class ilObjPortfolio extends ilObject2
 {
 	protected $online; // [bool]
 	protected $default; // [bool]
+	protected $bg_color; // [string]
+	protected $font_color; // [string]
+	protected $img; // [string]
 
 	function initType()
 	{
@@ -61,6 +64,75 @@ class ilObjPortfolio extends ilObject2
 		return $this->default;
 	}
 	
+	
+	/**
+	 * Get background color
+	 * 
+	 * @return string
+	 */
+	function getBackgroundColor()
+	{
+		if(!$this->bg_color)
+		{
+			$this->bg_color = "ffffff";
+		}
+		return $this->bg_color;
+	}
+
+	/**
+	 * Set background color
+	 *
+	 * @param string $a_value
+	 */
+	function setBackgroundColor($a_value)
+	{
+		$this->bg_color = (string)$a_value;
+	}
+	
+	/**
+	 * Get font color
+	 * 
+	 * @return string
+	 */
+	function getFontColor()
+	{
+		if(!$this->font_color)
+		{
+			$this->font_color = "505050";
+		}
+		return $this->font_color;
+	}
+
+	/**
+	 * Set font color
+	 *
+	 * @param string $a_value
+	 */
+	function setFontColor($a_value)
+	{		
+		$this->font_color = (string)$a_value;
+	}
+	
+	/**
+	 * Get banner image
+	 * 
+	 * @return string
+	 */
+	function getImage()
+	{
+		return $this->img;
+	}
+
+	/**
+	 * Set banner image
+	 *
+	 * @param string $a_value
+	 */
+	function setImage($a_value)
+	{		
+		$this->img = (string)$a_value;
+	}
+	
 	protected function doRead()
 	{
 		global $ilDB;
@@ -70,6 +142,9 @@ class ilObjPortfolio extends ilObject2
 		$row = $ilDB->fetchAssoc($set);
 		$this->setOnline((bool)$row["is_online"]);
 		$this->setDefault((bool)$row["is_default"]);		
+		$this->setBackgroundColor($row["bg_color"]);
+		$this->setFontColor($row["font_color"]);
+		$this->setImage($row["img"]);
 	}
 
 	protected function doCreate()
@@ -94,13 +169,18 @@ class ilObjPortfolio extends ilObject2
 		
 		$ilDB->manipulate("UPDATE usr_portfolio SET".
 			" is_online = ".$ilDB->quote($this->isOnline(), "integer").
-			", is_default = ".$ilDB->quote($this->isDefault(), "integer").
+			",is_default = ".$ilDB->quote($this->isDefault(), "integer").
+			",bg_color = ".$ilDB->quote($this->getBackgroundColor(), "text").
+			",font_color = ".$ilDB->quote($this->getFontcolor(), "text").
+			",img = ".$ilDB->quote($this->getImage(), "text").
 			" WHERE id = ".$ilDB->quote($this->id, "integer"));
 	}
 
 	protected function doDelete()
 	{
 		global $ilDB;
+		
+		$this->deleteImage();
 
 		$ilDB->manipulate("DELETE FROM usr_portfolio".
 			" WHERE id = ".$ilDB->quote($this->id, "integer"));
@@ -180,6 +260,108 @@ class ilObjPortfolio extends ilObject2
 		{
 			return $res["id"];
 		}		
+	}
+	
+	/**
+	 * Get banner image incl. path
+	 *
+	 * @param bool $a_as_thumb
+	 */
+	function getImageFullPath($a_as_thumb = false)
+	{		
+		if($this->img)
+		{
+			$path = $this->initStorage($this->id);
+			if(!$a_as_thumb)
+			{
+				return $path.$this->img;
+			}
+			else
+			{
+				return $path."thb_".$this->img;
+			}
+		}
+	}
+	
+	/**
+	 * remove existing file
+	 */
+	public function deleteImage()
+	{
+		if($this->id)
+		{
+			include_once "Services/Portfolio/classes/class.ilFSStoragePortfolio.php";
+			$storage = new ilFSStoragePortfolio($this->id);
+			$storage->delete();
+			
+			$this->setImage(null);
+		}
+	}
+		
+	/**
+	 * Init file system storage
+	 * 
+	 * @param type $a_id
+	 * @param type $a_subdir
+	 * @return string 
+	 */
+	public static function initStorage($a_id, $a_subdir = null)
+	{		
+		include_once "Services/Portfolio/classes/class.ilFSStoragePortfolio.php";
+		$storage = new ilFSStoragePortfolio($a_id);
+		$storage->create();
+		
+		$path = $storage->getAbsolutePath()."/";
+		
+		if($a_subdir)
+		{
+			$path .= $a_subdir."/";
+			
+			if(!is_dir($path))
+			{
+				mkdir($path);
+			}
+		}
+				
+		return $path;
+	}
+	
+	/**
+	 * Upload new image file
+	 * 
+	 * @param array $a_upload
+	 * @return bool
+	 */
+	function uploadImage(array $a_upload)
+	{
+		if(!$this->id)
+		{
+			return false;
+		}
+		
+		$this->deleteImage();
+	
+		$path = $this->initStorage($this->id);
+		$original = "org_".$this->id."_".$a_upload["name"];
+		$thumb = "thb_".$this->id."_".$a_upload["name"];
+		$processed = $this->id."_".$a_upload["name"];
+		
+		if(@move_uploaded_file($a_upload["tmp_name"], $path.$original))
+		{
+			chmod($path.$original, 0770);
+
+			// take quality 100 to avoid jpeg artefacts when uploading jpeg files
+			// taking only frame [0] to avoid problems with animated gifs
+			$original_file = ilUtil::escapeShellArg($path.$original);
+			$thumb_file = ilUtil::escapeShellArg($path.$thumb);
+			$processed_file = ilUtil::escapeShellArg($path.$processed);
+			ilUtil::execConvert($original_file."[0] -geometry 100x100 -quality 100 JPEG:".$thumb_file);
+			ilUtil::execConvert($original_file."[0] -geometry 880x200! -quality 100 JPEG:".$processed_file);
+			
+			$this->setImage($processed);
+			return true;
+		}
+		return false;
 	}
 }
 
