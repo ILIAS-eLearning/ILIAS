@@ -1946,7 +1946,7 @@ class ilObjectListGUI
 	* @param	string		$a_text		link text
 	* @param	string		$a_frame	link frame target
 	*/
-	function insertCommand($a_href, $a_text, $a_frame = "", $a_img = "", $a_cmd = "")
+	function insertCommand($a_href, $a_text, $a_frame = "", $a_img = "", $a_cmd = "", $a_onclick = "")
 	{
 		$this->ctpl = new ilTemplate ("tpl.container_list_item_commands.html", true, true, false, "DEFAULT", false, true);
 
@@ -1968,7 +1968,7 @@ class ilObjectListGUI
 			$prevent_background_click = true;
 		}
 		$this->current_selection_list->addItem($a_text, "", $a_href, $a_img, $a_text, $a_frame,
-			"", $prevent_background_click);
+			"", $prevent_background_click, $a_onclick);
 	}
 
 	/**
@@ -2304,8 +2304,11 @@ class ilObjectListGUI
 		$cmd_link = $this->getCommandLink("infoScreen")."#notes_top";
 		$cmd_tag_link = $this->getCommandLink("infoScreen");
 		$cmd_frame = $this->getCommandFrame("infoScreen");
-		$this->insertCommand($cmd_link, $this->lng->txt("notes_public_commenting"), $cmd_frame);
-		$this->insertCommand($cmd_link, $this->lng->txt("notes_private_annotating"), $cmd_frame);
+		$this->insertCommand("#", $this->lng->txt("notes_public_commenting"), $cmd_frame,
+			"", "", ilNoteGUI::getListCommentsJSCall($this->ref_id));
+		//$this->insertCommand($cmd_link, $this->lng->txt("notes_private_annotating"), $cmd_frame);
+		$this->insertCommand("#", $this->lng->txt("notes_private_annotating"), $cmd_frame,
+			"", "", ilNoteGUI::getListNotesJSCall($this->ref_id));
 		$this->insertCommand($cmd_tag_link, $this->lng->txt("tagging_set_tag"), $cmd_frame);
 	}
 

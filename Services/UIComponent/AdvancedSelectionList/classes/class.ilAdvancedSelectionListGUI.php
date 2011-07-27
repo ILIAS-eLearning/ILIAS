@@ -112,11 +112,12 @@ class ilAdvancedSelectionListGUI
 	* @param	string		item html (is used instead of title if js is active)
 	*/
 	function addItem($a_title, $a_value = "", $a_link = "", $a_img = "", $a_alt = "", $a_frame = "",
-		$a_html = "", $a_prevent_background_click = false)
+		$a_html = "", $a_prevent_background_click = false, $a_onclick = "")
 	{
 		$this->items[] = array("title" => $a_title, "value" => $a_value,
 			"link" => $a_link, "img" => $a_img, "alt" => $a_alt, "frame" => $a_frame,
-			"html" => $a_html, "prevent_background_click" => $a_prevent_background_click);
+			"html" => $a_html, "prevent_background_click" => $a_prevent_background_click,
+			"onclick" => $a_onclick);
 	}
 
 	public function flush()
@@ -532,15 +533,22 @@ class ilAdvancedSelectionListGUI
 				if ($this->getOnClickMode() ==
 					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_HREF)
 				{
-//var_dump($item);
 					if ($item["prevent_background_click"])
 					{
 						$tpl->setVariable("ONCLICK_ITEM",'');
 					}
 					else
 					{
-						$tpl->setVariable("ONCLICK_ITEM",
-							'onclick="'."return ilAdvancedSelectionList.openTarget('".$item["link"]."','".$item["frame"]."');".'"');
+						if ($item["onclick"] == "")
+						{
+							$tpl->setVariable("ONCLICK_ITEM",
+								'onclick="'."return ilAdvancedSelectionList.openTarget('".$item["link"]."','".$item["frame"]."');".'"');
+						}
+						else
+						{
+							$tpl->setVariable("ONCLICK_ITEM",
+								'onclick="'."return ".$item["onclick"].";".'"');
+						}
 					}
 
 					$tpl->setVariable("HREF_ITEM",'href="'.$item["link"].'"');

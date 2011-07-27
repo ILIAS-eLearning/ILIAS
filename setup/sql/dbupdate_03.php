@@ -7024,3 +7024,7 @@ $ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
 		);
 	}
 ?>
+<#3413>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

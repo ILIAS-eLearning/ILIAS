@@ -33,11 +33,16 @@ class ilNoteGUI
 		global $ilCtrl, $lng;
 		
 		$lng->loadLanguageModule("notes");
+		
+		$ilCtrl->saveParameter($this, "notes_only");
+		$this->only = $_GET["notes_only"];
 
 		$this->rep_obj_id = $a_rep_obj_id;
 		$this->obj_id = $a_obj_id;
 		$this->obj_type = $a_obj_type;
 		$this->inc_sub = $a_include_subobjects;
+		
+		$this->ajax = $ilCtrl->isAsynch();
 		
 		$this->ctrl =& $ilCtrl;
 		$this->lng =& $lng;
@@ -193,6 +198,36 @@ class ilNoteGUI
 		$this->repository_mode = (bool)$a_value;
 	}
 
+	
+	/**
+	 * Get only notes html
+	 *
+	 * @param
+	 * @return
+	 */
+	function getOnlyNotesHTML()
+	{
+		global $ilCtrl;
+		$ilCtrl->setParameter($this, "notes_only", "notes");
+		$this->only = "notes";
+		return $this->getNotesHTML($a_init_form = true);
+	}
+	
+	/**
+	 * Get only comments html
+	 *
+	 * @param
+	 * @return
+	 */
+	function getOnlyCommentsHTML()
+	{
+		global $ilCtrl;
+		$ilCtrl->setParameter($this, "notes_only", "comments");
+		$this->only = "comments";
+		return $this->getNotesHTML($a_init_form = true);
+	}
+	
+	
 	/***
 	* get note lists html code
 	*/
@@ -206,7 +241,8 @@ class ilNoteGUI
 			"Services/Notes");
 
 		// check, whether column is hidden due to processing in other column
-		$hide_notes = $hide_comments = false;
+		$hide_comments = ($this->only == "notes");
+		$hide_notes = ($this->only == "comments");
 		switch($ilCtrl->getCmd())
 		{
 			case "addNoteForm":
@@ -223,7 +259,7 @@ class ilNoteGUI
 				}
 				break;
 		}
-			
+
 		$nodes_col = false;
 		if ($this->private_enabled && ($ilUser->getId() != ANONYMOUS_USER_ID)
 			&& !$hide_notes)
@@ -272,12 +308,10 @@ class ilNoteGUI
 		if ($comments_col)
 		{
 			$ntpl->setCurrentBlock("comments_col");
-			// scorm2004-start
 			if ($nodes_col)
 			{
 				$ntpl->touchBlock("comments_style");
 			}
-			// scorm2004-end
 			$ntpl->parseCurrentBlock();
 		}
 		
@@ -317,6 +351,16 @@ class ilNoteGUI
 		if ($mtxt != "")
 		{
 			$ntpl->setVariable("NOTE_MESS", $ntpl->getMessageHTML($mtxt, $mtype));
+		}
+		else
+		{
+			$ntpl->setVariable("NOTE_MESS", "");
+		}
+
+		if ($this->ajax)
+		{
+			echo $ntpl->get();
+			exit;
 		}
 		
 		return $ntpl->get();
@@ -428,6 +472,13 @@ class ilNoteGUI
 			? "notes_top"
 			: "";
 		$tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this, "getNotesHTML", $anch));
+		if ($this->ajax)
+		{
+			$os = "onsubmit = \"ilNotes.cmdAjaxForm(event, '".
+				$ilCtrl->getFormActionByClass("ilnotegui", "", "", true).
+				"');\"";
+			$tpl->setVariable("ON_SUBMIT_FORM", $os);
+		}
 		
 		if ($this->export_html || $this->print)
 		{
@@ -466,55 +517,43 @@ class ilNoteGUI
 		{
 			if ($ilUser->getPref("notes_".$suffix) == "n")
 			{
-				$tpl->setCurrentBlock("show_notes");
-				$tpl->setVariable("LINK_SHOW_NOTES",
-					$this->ctrl->getLinkTargetByClass("ilnotegui", "showNotes", "notes_top"));
 				if ($a_type == IL_NOTE_PUBLIC)
 				{
-					$tpl->setVariable("TXT_SHOW_NOTES", $lng->txt("notes_show_comments"));
+					$txt = $lng->txt("notes_show_comments");
 				}
 				else
 				{
-					$tpl->setVariable("TXT_SHOW_NOTES", $lng->txt("show_".$suffix."_notes"));
+					$txt = $lng->txt("show_".$suffix."_notes");
 				}
-				$tpl->parseCurrentBlock();
+				$this->renderLink($tpl, "show_notes", $txt, "showNotes", "notes_top");
 			}
 			else
 			{
 				// never individually hide for anonymous users
 				if (($ilUser->getId() != ANONYMOUS_USER_ID))
 				{
-					$tpl->setCurrentBlock("hide_notes");
-					$tpl->setVariable("LINK_HIDE_NOTES",
-						$this->ctrl->getLinkTargetByClass("ilnotegui", "hideNotes", "notes_top"));
 					if ($a_type == IL_NOTE_PUBLIC)
 					{
-						$tpl->setVariable("TXT_HIDE_NOTES", $lng->txt("notes_hide_comments"));
+						$txt = $lng->txt("notes_hide_comments");
 					}
 					else
 					{
-						$tpl->setVariable("TXT_HIDE_NOTES", $lng->txt("hide_".$suffix."_notes"));
+						$txt = $lng->txt("hide_".$suffix."_notes");
 					}
-					$tpl->parseCurrentBlock();
+					$this->renderLink($tpl, "hide_notes", $txt, "hideNotes", "notes_top");
 					
 					// show all public notes / my notes only switch
 					if ($a_type == IL_NOTE_PUBLIC)
 					{
 						if ($ilUser->getPref("notes_pub_all") == "n")
 						{
-							$tpl->setCurrentBlock("all_pub_notes");
-							$tpl->setVariable("LINK_ALL_PUB_NOTES",
-								$this->ctrl->getLinkTargetByClass("ilnotegui", "showAllPublicNotes", "notes_top"));
-							$tpl->setVariable("TXT_ALL_PUB_NOTES", $lng->txt("notes_all_comments"));
-							$tpl->parseCurrentBlock();
+							$this->renderLink($tpl, "all_pub_notes", $lng->txt("notes_all_comments"),
+								"showAllPublicNotes", "notes_top");
 						}
 						else
 						{
-							$tpl->setCurrentBlock("my_pub_notes");
-							$tpl->setVariable("LINK_MY_PUB_NOTES",
-								$this->ctrl->getLinkTargetByClass("ilnotegui", "showMyPublicNotes", "notes_top"));
-							$tpl->setVariable("TXT_MY_PUB_NOTES", $lng->txt("notes_my_comments"));
-							$tpl->parseCurrentBlock();
+							$this->renderLink($tpl, "my_pub_notes", $lng->txt("notes_my_comments"),
+								"showMyPublicNotes", "notes_top");
 						}
 					}
 				}
@@ -566,13 +605,9 @@ class ilNoteGUI
 						&& !$this->export_html && !$this->print
 						&& !$this->edit_note_form && !$this->add_note_form)
 					{
-						$tpl->setCurrentBlock("delete_note");
-						$tpl->setVariable("TXT_DELETE_NOTE", $lng->txt("delete"));
 						$ilCtrl->setParameterByClass("ilnotegui", "note_id", $note->getId());
-						$tpl->setVariable("LINK_DELETE_NOTE",
-							$ilCtrl->getLinkTargetByClass("ilnotegui", "deleteNote")
-							."#note_".$note->getId());
-						$tpl->parseCurrentBlock();
+						$this->renderLink($tpl, "delete_note", $lng->txt("delete"),
+								"deleteNote", "note_".$note->getId());
 					}
 					
 					// checkboxes in multiselection mode
@@ -592,13 +627,9 @@ class ilNoteGUI
 						if (!$this->delete_note && !$this->export_html && !$this->print
 							&& !$this->edit_note_form && !$this->add_note_form)
 						{
-							$tpl->setCurrentBlock("edit_note");
-							$tpl->setVariable("TXT_EDIT_NOTE", $lng->txt("edit"));
 							$ilCtrl->setParameterByClass("ilnotegui", "note_id", $note->getId());
-							$tpl->setVariable("LINK_EDIT_NOTE",
-								$ilCtrl->getLinkTargetByClass("ilnotegui", "editNoteForm")
-								."#note_edit");
-							$tpl->parseCurrentBlock();
+							$this->renderLink($tpl, "edit_note", $lng->txt("edit"),
+								"editNoteForm", "note_edit");
 						}
 					}
 					
@@ -1099,7 +1130,7 @@ class ilNoteGUI
 			$note->setLabel($_POST["note_label"]);
 			$note->create();
 			$ilCtrl->setParameter($this, "note_mess", "mod");
-			$ilCtrl->redirect($this, "showNotes", "notes_top");
+			$ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 		}
 		
 		$this->note_mess = "frmfld";
@@ -1128,7 +1159,7 @@ class ilNoteGUI
 				$note->update();
 				$ilCtrl->setParameter($this, "note_mess", "mod");
 			}
-			$ilCtrl->redirect($this, "showNotes", "notes_top");
+			$ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 		}
 		
 		$this->note_mess = "frmfld";
@@ -1211,7 +1242,7 @@ class ilNoteGUI
 		{
 			$ilCtrl->setParameter($this, "note_mess", "ntdel");
 		}
-		$ilCtrl->redirect($this, "showNotes", "notes_top");
+		$ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	}
 
 	/**
@@ -1293,5 +1324,72 @@ class ilNoteGUI
 		
 		return $this->getNotesHTML();
 	}
+	
+	/**
+	 * Init javascript
+	 */
+	function initJavascript($a_ajax_url)
+	{
+		global $tpl;
+		
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		ilYuiUtil::initPanel();
+		$tpl->addJavascript("./Modules/Scorm2004/scripts/questions/jquery.js");
+		$tpl->addJavascript("./Services/Notes/js/ilNotes.js");
+		
+		$tpl->addOnLoadCode("ilNotes.setAjaxUrl('".$a_ajax_url."');");
+	}
+	
+	/**
+	 * Get list notes js call
+	 *
+	 * @param
+	 * @return
+	 */
+	function getListNotesJSCall($a_ref_id = 0)
+	{
+		return "ilNotes.listNotes(event, ".$a_ref_id.");";
+	}
+	
+	/**
+	 * Get list comments js call
+	 *
+	 * @param
+	 * @return
+	 */
+	function getListCommentsJSCall($a_ref_id = 0)
+	{
+		return "ilNotes.listComments(event, ".$a_ref_id.");";
+	}
+	
+	/**
+	 * Render a link
+	 */
+	function renderLink($a_tpl, $a_var, $a_txt, $a_cmd, $a_anchor = "")
+	{
+		global $ilCtrl;
+		
+		$low_var = strtolower($a_var);
+		$up_var = strtoupper($a_var);
+
+		if ($this->ajax)
+		{
+			$a_tpl->setVariable("LINK_".$up_var, "#");
+			$oc = "onclick = \"ilNotes.cmdAjaxLink(event, '".
+				$ilCtrl->getLinkTargetByClass("ilnotegui", $a_cmd, "", true).
+				"');\"";
+			$a_tpl->setVariable("ON_CLICK_".$up_var, $oc);
+		}
+		else
+		{
+			$a_tpl->setVariable("LINK_".$up_var,
+				$ilCtrl->getLinkTargetByClass("ilnotegui", $a_cmd, $a_anchor));
+		}
+		
+		$a_tpl->setCurrentBlock($low_var);
+		$a_tpl->setVariable("TXT_".$up_var, $a_txt);
+		$a_tpl->parseCurrentBlock();
+	}
+	
 }
 ?>
