@@ -1645,22 +1645,19 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	
 	
-
 	function getDefaultMemberRole()
 	{
 		$local_roles = $this->__getLocalRoles();
 
 		foreach($local_roles as $role_id)
 		{
-			if($tmp_role =& ilObjectFactory::getInstanceByObjId($role_id,false))
+			$title = ilObject::_lookupTitle($role_id);
+			if(substr($title,0,8) == 'il_crs_m')
 			{
-				if(!strcmp($tmp_role->getTitle(),"il_crs_member_".$this->getRefId()))
-				{
-					return $role_id;
-				}
+				return $role_id;
 			}
 		}
-		return false;
+		return 0;
 	}
 	function getDefaultTutorRole()
 	{

@@ -51,7 +51,14 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_type = 'admin', $show_content = true, $a_show_learning_progress = false, $a_show_timings = false, $a_show_edit_link=true)
+	public function __construct(
+		$a_parent_obj,
+		$a_type = 'admin',
+		$show_content = true,
+		$a_show_learning_progress = false,
+		$a_show_timings = false,
+		$a_show_edit_link= true,
+		$a_role_id = 0)
 	{
 		global $lng, $ilCtrl;
 
@@ -65,12 +72,13 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		$this->ctrl = $ilCtrl;
 
 		$this->type = $a_type;
+		$this->setRoleId($a_role_id);
 
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$this->privacy = ilPrivacySettings::_getInstance();
 
 		// required before constructor for columns
-		$this->setId('crs_' . $a_type . '_' . $a_parent_obj->object->getId());
+		$this->setId('crs_' . $a_type . '_' . $a_role_id.'_'. $a_parent_obj->object->getId());
 		parent::__construct($a_parent_obj, 'members');
 
 		$this->initAcceptedAgreements();
@@ -110,12 +118,20 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt('crs_notification'), 'notification');
 			$this->addCommandButton('updateTutorStatus', $this->lng->txt('save'));
 		}
-		else
+		elseif($this->type == 'member')
 		{
 			$this->setPrefix('member');
 			$this->setSelectAllCheckbox('members');
 			$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
 			$this->addCommandButton('updateMemberStatus', $this->lng->txt('save'));
+		}
+		else
+		{
+			$this->setPrefix('role_'. $this->getRoleId());
+			$this->setSelectAllCheckbox('roles');
+			$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
+			$this->addCommandButton('updateRoleStatus', $this->lng->txt('save'));
+
 		}
 		$this->addColumn($this->lng->txt(''), 'optional');
 
@@ -284,7 +300,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
 			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', ($a_set['notification'] ? 'checked="checked"' : ''));
 		}
-		else
+		elseif($this->type == 'member')
 		{
 			$this->tpl->setCurrentBlock('blocked');
 			$this->tpl->setVariable('VAL_BLOCKED_ID', $a_set['usr_id']);
@@ -292,6 +308,15 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setVariable('VAL_POSTNAME', 'members');
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock('blocked');
+			$this->tpl->setVariable('VAL_BLOCKED_ID', $a_set['usr_id']);
+			$this->tpl->setVariable('VAL_BLOCKED_CHECKED', ($a_set['blocked'] ? 'checked="checked"' : ''));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setVariable('VAL_POSTNAME', 'roles');
 		}
 
 		$this->tpl->setVariable('VAL_PASSED_ID', $a_set['usr_id']);
@@ -308,7 +333,6 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		}
 		$this->ctrl->clearParameters($this->parent_obj);
 
-
 		if($this->show_timings)
 		{
 			$this->ctrl->setParameterByClass('ilcoursecontentgui', 'member_id', $a_set['usr_id']);
@@ -321,10 +345,14 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 
 	/**
 	 * Parse data
-	 * @return 
+	 * @return
+	 *
+	 * @global ilRbacReview $rbacreview
 	 */
 	public function parse($a_user_data)
 	{
+		global $rbacreview;
+
 		include_once './Services/User/classes/class.ilUserQuery.php';
 
 		$additional_fields = $this->getSelectedColumns();
@@ -342,7 +370,12 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 				$part = ilCourseParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getTutors();
 				break;
 			case 'member':
-				$part = ilCourseParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getMembers();
+				$part = $rbacreview->assignedUsers($this->getRoleId());
+				#$part = ilCourseParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getMembers();
+				break;
+
+			default:
+				$part = $rbacreview->assignedUsers($this->getRoleId());
 				break;
 		}
 

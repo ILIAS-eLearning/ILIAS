@@ -108,7 +108,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				(array) $_POST['tutors'],
 				(array) $_POST['admins'],
 				(array) $_POST['waiting'],
-				(array) $_POST['subscribers']));
+				(array) $_POST['subscribers'],
+				(array) $_POST['roles']
+			));
 		}
 		
 
@@ -1919,6 +1921,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$ilUser->writePref('crs_wait_hide',(int) $_GET['wait_hide']);
 		}
+		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+		foreach(ilCourseParticipants::getMemberRoles($this->object->getRefId()) as $role_id)
+		{
+			if(isset($_GET['role_hide_'.$role_id]))
+			{
+				$ilUser->writePref('crs_role_hide_'.$role_id,(int) $_GET['role_hide_'.$role_id]);
+			}
+		}
 	}
 	
 	protected function readMemberData($ids,$role = 'admin')
@@ -1999,7 +2009,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function membersObject()
 	{
-		global $ilUser, $rbacsystem, $ilToolbar, $lng, $ilCtrl, $tpl;
+		global $ilUser, $rbacsystem, $ilToolbar, $lng, $ilCtrl, $tpl, $rbacreview;
 		
 		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
 		include_once('./Modules/Course/classes/class.ilCourseParticipantsTableGUI.php');
@@ -2183,7 +2193,16 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			if($ilUser->getPref('crs_member_hide'))
 			{
-				$table_gui = new ilCourseParticipantsTableGUI($this,'member',false,$this->show_tracking,$this->timings_enabled);
+				$table_gui = new ilCourseParticipantsTableGUI(
+					$this,
+					'member',
+					false,
+					$this->show_tracking,
+					$this->timings_enabled,
+					true,
+					$this->object->getDefaultMemberRole()
+				);
+
 				$this->ctrl->setParameter($this,'member_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'),
@@ -2193,7 +2212,15 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilCourseParticipantsTableGUI($this,'member',true,$this->show_tracking,$this->timings_enabled);
+				$table_gui = new ilCourseParticipantsTableGUI(
+					$this,
+					'member',
+					true,
+					$this->show_tracking,
+					$this->timings_enabled,
+					true,
+					$this->object->getDefaultMemberRole()
+				);
 				$this->ctrl->setParameter($this,'member_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'),
@@ -2202,9 +2229,60 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->setTitle($this->lng->txt('crs_members'),'icon_usr.gif',$this->lng->txt('crs_members'));
-			$table_gui->parse($this->readMemberData($part->getMembers()));
-			$this->tpl->setVariable('MEMBERS',$table_gui->getHTML());	
-			
+			$table_gui->parse($this->readMemberData($rbacreview->assignedUsers($this->object->getDefaultMemberRole())));
+			$this->tpl->setCurrentBlock('member_block');
+			$this->tpl->setVariable('MEMBERS',$table_gui->getHTML());
+			$this->tpl->parseCurrentBlock();
+		}
+
+		foreach(ilCourseParticipants::getMemberRoles($this->object->getRefId()) as $role_id)
+		{
+			if($ilUser->getPref('crs_role_hide_'.$role_id))
+			{
+				$table_gui = new ilCourseParticipantsTableGUI(
+					$this,
+					'role',
+					false,
+					$this->show_tracking,
+					$this->timings_enabled,
+					true,
+					$role_id
+				);
+				$this->ctrl->setParameter($this,'role_hide_'.$role_id,0);
+				$table_gui->addHeaderCommand(
+					$this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('show'),
+					'',
+					ilUtil::getImagePath('edit_add.png')
+				);
+				$this->ctrl->clearParameters($this);
+			}
+			else
+			{
+				$table_gui = new ilCourseParticipantsTableGUI(
+					$this,
+					'role',
+					true,
+					$this->show_tracking,
+					$this->timings_enabled,
+					true,
+					$role_id
+				);
+				$this->ctrl->setParameter($this,'role_hide_'.$role_id,1);
+				$table_gui->addHeaderCommand(
+					$this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('hide'),
+					'',
+					ilUtil::getImagePath('edit_remove.png')
+				);
+				$this->ctrl->clearParameters($this);
+			}
+
+			$table_gui->setTitle(ilObject::_lookupTitle($role_id),'icon_usr.gif',$this->lng->txt('crs_members'));
+			$table_gui->parse($this->readMemberData($rbacreview->assignedUsers($role_id)));
+			$this->tpl->setCurrentBlock('member_block');
+			$this->tpl->setVariable('MEMBERS',$table_gui->getHTML());
+			$this->tpl->parseCurrentBlock();
 		}
 		
 		
@@ -2264,13 +2342,39 @@ class ilObjCourseGUI extends ilContainerGUI
 	public function updateMemberStatusObject()
 	{
 		$this->checkPermission('write');
-		
+
 		$visible_members = array_intersect(array_unique((array) $_POST['visible_member_ids']),$this->object->getMembersObject()->getMembers());
 		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
 		$blocked = is_array($_POST['blocked']) ? $_POST['blocked'] : array();
 		
 		$this->updateParticipantsStatus('members',$visible_members,$passed,array(),$blocked);
 	
+	}
+
+	/**
+	 * Update status of additional course roles
+	 */
+	public function updateRoleStatusObject()
+	{
+		global $rbacreview;
+
+		$this->checkPermission('write');
+
+		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+
+		$users = array();
+		foreach(ilCourseParticipants::getMemberRoles($this->object->getRefId()) as $role_id)
+		{
+			$users = array_merge($users,$rbacreview->assignedUsers($role_id));
+		}
+
+		var_dump($users);
+		ob_end_flush();
+
+		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
+		$blocked = is_array($_POST['blocked']) ? $_POST['blocked'] : array();
+
+		$this->updateParticipantsStatus('members',$users,$passed,array(),$blocked);
 	}
 
 	function updateParticipantsStatus($type,$visible_members,$passed,$notification,$blocked)
@@ -2405,7 +2509,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		$this->checkPermission('write');
 		
-		$participants = array_unique(array_merge((array) $_POST['admins'],(array) $_POST['tutors'],(array) $_POST['members']));
+		$participants = array_unique(array_merge((array) $_POST['admins'],(array) $_POST['tutors'],(array) $_POST['members'], (array) $_POST['roles']));
 		
 		if(!count($participants))
 		{
@@ -3019,7 +3123,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('crs_member_administration');
 		
-		$participants = array_merge((array) $_POST['admins'],(array) $_POST['tutors'], (array) $_POST['members']);
+		$participants = array_merge((array) $_POST['admins'],(array) $_POST['tutors'], (array) $_POST['members'], (array) $_POST['roles']);
 		
 		if(!$participants)
 		{
