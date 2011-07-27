@@ -2563,6 +2563,7 @@ class ilObjectListGUI
 		}
 		if ($cnt[$a_obj_id][IL_NOTE_PUBLIC] > 0)
 		{
+			$lng->loadLanguageModule("notes");
 			$htpl->setCurrentBlock("prop");
 			$htpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("comment_unlabeled.gif")));
 			$htpl->setVariable("PROP_TXT", $cnt[$a_obj_id][IL_NOTE_PUBLIC]);
