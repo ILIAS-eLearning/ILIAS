@@ -25,7 +25,7 @@ class ilTooltipGUI
 			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 			ilYuiUtil::initTooltip();
 			$tpl->addJavascript("./Services/UIComponent/Tooltip/js/ilTooltip.js");
-			$tpl->addOnLoadCode('ilTooltip.init();', 3); 
+			$tpl->addOnLoadCode('ilTooltip.init();', 3);
 			self::$initialized = true;
 		}
 		

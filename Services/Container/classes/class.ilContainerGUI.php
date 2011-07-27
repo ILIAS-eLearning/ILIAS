@@ -394,6 +394,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 			$this->tpl->setTitleIcon($icon, $this->lng->txt("obj_".$this->object->getType()));
+			$this->tpl->setHeaderActionMenu($this);
 
 			include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
 			$lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
@@ -1457,7 +1458,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function addToDeskObject()
     {
-    	global $ilSetting;
+    	global $ilSetting, $lng;
 		
     	if((int)$ilSetting->get('disable_my_offers'))
 		{
@@ -1466,6 +1467,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
 	 	ilDesktopItemGUI::addToDesktop();
+	 	ilUtil::sendSuccess($lng->txt("added_to_desktop"));
 		$this->renderObject();
     }
     
@@ -1474,7 +1476,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function removeFromDeskObject()
     {
-    	global $ilSetting;
+    	global $ilSetting, $lng;
 		
     	if((int)$ilSetting->get('disable_my_offers'))
 		{
@@ -1483,6 +1485,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
 	 	ilDesktopItemGUI::removeFromDesktop();
+	 	ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
 		$this->renderObject();
     }
 	
