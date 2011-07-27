@@ -2368,9 +2368,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			$users = array_merge($users,$rbacreview->assignedUsers($role_id));
 		}
 
-		var_dump($users);
-		ob_end_flush();
-
 		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
 		$blocked = is_array($_POST['blocked']) ? $_POST['blocked'] : array();
 
