@@ -14,7 +14,6 @@ var ilTooltip =
 	 * @param object cfg configuration object
 	 */
 	add: function(el_id, cfg) {
-		
 		this.tooltips.push({el_id: el_id, cfg: cfg});
 	},
 	
@@ -24,7 +23,7 @@ var ilTooltip =
 	init: function() {
 		
 		var k;
-		
+
 		for (k in this.tooltips)
 		{
 			this.tooltips[k].tp = new YAHOO.widget.Tooltip("ttip_" + this.tooltips[k].el_id,

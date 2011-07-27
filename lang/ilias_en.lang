@@ -11736,3 +11736,10 @@ prtf#:#prtf_preview_banner#:#Custom Banner
 prtf#:#prtf_banner#:#Banner
 prtf#:#prtf_background_color#:#Background Color
 prtf#:#prtf_font_color#:#Font Color
+notes#:#note_add_note#:#Add Note
+notes#:#note_add_comment#:#Add Comment
+notes#:#note_update_comment#:#Update Comment
+notes#:#note_update_note#:#Update Note
+common#:#added_to_desktop#:#The item has been added to the desktop.
+common#:#removed_from_desktop#:#The item has been removed from the desktop.
+notes#:#notes_comments#:#Comments

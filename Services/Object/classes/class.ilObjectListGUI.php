@@ -1610,16 +1610,18 @@ class ilObjectListGUI
 			if (self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC] > 0)
 			{
 				$props[] = array("alert" => false,
-					"property" => $lng->txt("notes_public_comments"),
-					"value" => self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC],
+					"property" => $lng->txt("notes_comments"),
+					"value" => "<a href='#' onclick='return ".ilNoteGUI::getListCommentsJSCall($this->ref_id).";'>".
+						self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC]."</a>",
 					"newline" => $nl);
 				$nl = false;
 			}
 			if (self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE] > 0)
 			{
 				$props[] = array("alert" => false,
-					"property" => $lng->txt("private_notes"),
-					"value" => self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE],
+					"property" => $lng->txt("notes"),
+					"value" => "<a href='#' onclick='return ".ilNoteGUI::getListNotesJSCall($this->ref_id).";'>".
+						self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE]."</a>",
 					"newline" => $nl);
 				$nl = false;
 			}
@@ -2321,10 +2323,10 @@ class ilObjectListGUI
 		$cmd_link = $this->getCommandLink("infoScreen")."#notes_top";
 		$cmd_tag_link = $this->getCommandLink("infoScreen");
 		$cmd_frame = $this->getCommandFrame("infoScreen");
-		$this->insertCommand("#", $this->lng->txt("notes_public_commenting"), $cmd_frame,
+		$this->insertCommand("#", $this->lng->txt("notes_comments"), $cmd_frame,
 			"", "", ilNoteGUI::getListCommentsJSCall($this->ref_id));
 		//$this->insertCommand($cmd_link, $this->lng->txt("notes_private_annotating"), $cmd_frame);
-		$this->insertCommand("#", $this->lng->txt("notes_private_annotating"), $cmd_frame,
+		$this->insertCommand("#", $this->lng->txt("notes"), $cmd_frame,
 			"", "", ilNoteGUI::getListNotesJSCall($this->ref_id));
 		$this->insertCommand($cmd_tag_link, $this->lng->txt("tagging_set_tag"), $cmd_frame);
 	}
@@ -2337,7 +2339,7 @@ class ilObjectListGUI
 	* @param	int			$a_ref_id	item reference id
 	*/
 	function insertCommands($a_use_asynch = false, $a_get_asynch_commands = false,
-		$a_asynch_url = "")
+		$a_asynch_url = "", $a_header_actions = false)
 	{
 		global $lng;
 
@@ -2377,124 +2379,129 @@ class ilObjectListGUI
 
 		$this->default_command = false;
 		
-		foreach($commands as $command)
-		{
-			if ($command["granted"] == true )
-			{
-				if (!$command["default"] === true)
-				{
-					if (!$this->std_cmd_only && !$only_default)
-					{
-						// workaround for repository frameset
-						$command["link"] = 
-							$this->appendRepositoryFrameParameter($command["link"]);
-							
-						// standard edit icon
-						if ($command["lang_var"] == "edit" && $command["img"] == "")
-						{
-							$command["img"] = ilUtil::getImagePath("cmd_edit_s.gif");
-						}
-
-						$cmd_link = $command["link"];
-						$txt = ($command["lang_var"] == "")
-							? $command["txt"]
-							: $this->lng->txt($command["lang_var"]);
-						$this->insertCommand($cmd_link, $txt,
-							$command["frame"], $command["img"], $command["cmd"]);
-					}
-				}
-				else
-				{
-					$this->default_command = $this->createDefaultCommand($command);
-					//$this->default_command = $command;
-				}
-			}
-			elseif($command["default"] === true)
-			{
-				$items =& $command["access_info"];
-				foreach ($items as $item)
-				{
-					if ($item["type"] == IL_NO_LICENSE)
-					{
-						$this->addCustomProperty($this->lng->txt("license"),$item["text"],true);
-						$this->enableProperties(true);
-						break;
-					}
-				}
-			}
-		}
-
-		// custom commands
-		if (is_array($this->cust_commands))
-		{
-			foreach ($this->cust_commands as $command)
-			{
-				$this->insertCommand($command["link"], $this->lng->txt($command["lang_var"]),
-					$command["frame"], "", $command["cmd"]);
-			}
-		}
 		
-		/*
-		if($this->restrict_to_goto)
+		if (!$a_header_actions)
 		{
-			return;
-		}		 
-		*/
-
-		// info screen commmand
-		if ($this->getInfoScreenStatus() && !$only_default)
-		{
-			$this->insertInfoScreenCommand();
-		}
-
-		if (!$this->isMode(IL_LIST_AS_TRIGGER) && !$only_default)
-		{
-			// delete
-			if ($this->delete_enabled)
+			foreach($commands as $command)
 			{
-				$this->insertDeleteCommand();
+				if ($command["granted"] == true )
+				{
+					if (!$command["default"] === true)
+					{
+						if (!$this->std_cmd_only && !$only_default)
+						{
+							// workaround for repository frameset
+							$command["link"] = 
+								$this->appendRepositoryFrameParameter($command["link"]);
+								
+							// standard edit icon
+							if ($command["lang_var"] == "edit" && $command["img"] == "")
+							{
+								$command["img"] = ilUtil::getImagePath("cmd_edit_s.gif");
+							}
+	
+							$cmd_link = $command["link"];
+							$txt = ($command["lang_var"] == "")
+								? $command["txt"]
+								: $this->lng->txt($command["lang_var"]);
+							$this->insertCommand($cmd_link, $txt,
+								$command["frame"], $command["img"], $command["cmd"]);
+						}
+					}
+					else
+					{
+						$this->default_command = $this->createDefaultCommand($command);
+						//$this->default_command = $command;
+					}
+				}
+				elseif($command["default"] === true)
+				{
+					$items =& $command["access_info"];
+					foreach ($items as $item)
+					{
+						if ($item["type"] == IL_NO_LICENSE)
+						{
+							$this->addCustomProperty($this->lng->txt("license"),$item["text"],true);
+							$this->enableProperties(true);
+							break;
+						}
+					}
+				}
+			}
+	
+			// custom commands
+			if (is_array($this->cust_commands))
+			{
+				foreach ($this->cust_commands as $command)
+				{
+					$this->insertCommand($command["link"], $this->lng->txt($command["lang_var"]),
+						$command["frame"], "", $command["cmd"]);
+				}
 			}
 
-			// link
-			if ($this->link_enabled)
+			// info screen commmand
+			if ($this->getInfoScreenStatus() && !$only_default)
 			{
-				$this->insertLinkCommand();
+				$this->insertInfoScreenCommand();
 			}
-
-			// cut
-			if ($this->cut_enabled)
+		
+			if (!$this->isMode(IL_LIST_AS_TRIGGER) && !$only_default)
 			{
-				$this->insertCutCommand();
-			}
-
-			// copy
-			if ($this->copy_enabled)
-			{
-				$this->insertCopyCommand();
-			}
+				// delete
+				if ($this->delete_enabled)
+				{
+					$this->insertDeleteCommand();
+				}
+	
+				// link
+				if ($this->link_enabled)
+				{
+					$this->insertLinkCommand();
+				}
+	
+				// cut
+				if ($this->cut_enabled)
+				{
+					$this->insertCutCommand();
+				}
+	
+				// copy
+				if ($this->copy_enabled)
+				{
+					$this->insertCopyCommand();
+				}
 			
-			// cut/copy from workspace to repository
-			if ($this->repository_transfer_enabled)
-			{
-				$this->insertCutCommand(true);
-				$this->insertCopyCommand(true);
+				// cut/copy from workspace to repository
+				if ($this->repository_transfer_enabled)
+				{
+					$this->insertCutCommand(true);
+					$this->insertCopyCommand(true);
+				}
+				
+				// subscribe
+				if ($this->subscribe_enabled)
+				{
+					$this->insertSubscribeCommand();
+				}
+	
+				// BEGIN PATCH Lucene search
+				if($this->cut_enabled or $this->link_enabled)
+				{
+					$this->insertPasteCommand();
+				}
+				// END PATCH Lucene Search
+	
+				$this->insertPayment();
 			}
-
+		}
+		else
+		{
 			// subscribe
 			if ($this->subscribe_enabled)
 			{
 				$this->insertSubscribeCommand();
 			}
-
-			// BEGIN PATCH Lucene search
-			if($this->cut_enabled or $this->link_enabled)
-			{
-				$this->insertPasteCommand();
-			}
-			// END PATCH Lucene Search
-
-			}
-			$this->insertPayment();
+		}
 
 		
 		// common social commands (comment, notes, tags)
@@ -2506,6 +2513,11 @@ class ilObjectListGUI
 		
 		$this->ctrl->clearParametersByClass($this->gui_class_name);
 
+		if ($a_header_actions)
+		{
+			return $this->current_selection_list->getHTML();
+		}
+		
 		if ($a_use_asynch && $a_get_asynch_commands)
 		{
 			return $this->current_selection_list->getHTML(true);
@@ -2514,6 +2526,59 @@ class ilObjectListGUI
 		$this->ctpl->setVariable("COMMAND_SELECTION_LIST",
 			$this->current_selection_list->getHTML());
 	}
+	
+	/**
+	 * Get header action
+	 *
+	 * @param
+	 * @return
+	 */
+	function getHeaderAction($a_ref_id, $a_obj_id)
+	{
+		global $ilAccess, $ilBench, $ilUser, $ilCtrl, $lng;
+		
+		$this->ctpl = new ilTemplate ("tpl.container_list_item_commands.html", true, true, false, "DEFAULT", false, true);
+		$this->initItem($a_ref_id, $a_obj_id);
+		
+		$htpl = new ilTemplate("tpl.header_action.html", true, true, "Services/Repository");
+		
+		include_once("./Services/Notes/classes/class.ilNote.php");
+		$cnt = ilNote::_countNotesAndComments(array($a_obj_id));
+		if ($cnt[$a_obj_id][IL_NOTE_PRIVATE] > 0)
+		{
+			$htpl->setCurrentBlock("prop");
+			$htpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("note_unlabeled.gif")));
+			$htpl->setVariable("PROP_TXT", $cnt[$a_obj_id][IL_NOTE_PRIVATE]);
+			$htpl->setVariable("PROP_ID", "headp_notes");
+			$htpl->setVariable("PROP_HREF", "#");
+			$htpl->setVariable("PROP_ONCLICK", "onclick=' return ".ilNoteGUI::getListNotesJSCall($this->ref_id).";'");
+			$htpl->parseCurrentBlock();
+			
+			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+			ilTooltipGUI::addTooltip("headp_notes",
+				$lng->txt("private_notes").": ".$cnt[$a_obj_id][IL_NOTE_PRIVATE]);
+		}
+		if ($cnt[$a_obj_id][IL_NOTE_PUBLIC] > 0)
+		{
+			$htpl->setCurrentBlock("prop");
+			$htpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("comment_unlabeled.gif")));
+			$htpl->setVariable("PROP_TXT", $cnt[$a_obj_id][IL_NOTE_PUBLIC]);
+			$htpl->setVariable("PROP_ID", "headp_comments");
+			$htpl->setVariable("PROP_HREF", "#");
+			$htpl->setVariable("PROP_ONCLICK", "onclick=' return ".ilNoteGUI::getListCommentsJSCall($this->ref_id).";'");
+			$htpl->parseCurrentBlock();
+			
+			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+			ilTooltipGUI::addTooltip("headp_comments",
+				$lng->txt("notes_public_comments").": ".$cnt[$a_obj_id][IL_NOTE_PUBLIC]);
+		}
+		
+		$htpl->setVariable("ACTION_DROP_DOWN",
+			$this->insertCommands(false, false, "", true));
+		
+		return $htpl->get();
+	}
+	
 
 	/**
 	* workaround: all links into the repository (from outside)

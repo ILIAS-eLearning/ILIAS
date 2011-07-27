@@ -77,6 +77,8 @@ ilNotes =
 		{
 			this.panel.show();
 		}
+		
+		ilNotes.insertPanelHTML("");
 
 		var obj = document.getElementById('ilNotesPanel_c');
 		obj.style.position = 'fixed';
@@ -111,7 +113,7 @@ ilNotes =
 		{
 			window.eventReturnValue = false;
 		}
-		
+
 		this.sendAjaxGetRequestToUrl(url, {}, {mode: 'cmd'});
 	},
 	
@@ -126,7 +128,6 @@ ilNotes =
 		{
 			window.eventReturnValue = false;
 		}
-		
 		this.sendAjaxPostRequest("ilNoteForm", url, {mode: 'cmd'});
 	},
 	

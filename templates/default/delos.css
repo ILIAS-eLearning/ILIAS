@@ -858,19 +858,33 @@ div.il_Header, a#il_mhead_t_focus
 
 h1.ilHeader
 {
-	margin: 0px;
-	padding: 15px 10px 0px 0px;
+	margin: 0px 0px 0px 50px;
+	padding: 15px 0px 5px 0px;
 	font-size: 140%;
 	font-weight: normal;
+	border-bottom: 1px solid #EAEAEA;
 }
 span.ilHeader
 {
+}
+div.ilHeadAction
+{
+	float: right;
+	margin-top: 21px;
+}
+div.ilHeadAction  .prop
+{
+	padding-right: 10px;
+}
+div.ilHeadAction a:hover
+{
+	text-decoration: none;
 }
 div.ilHeaderDesc
 {
 	padding-left: 51px;
 	font-size: 80%;
-	padding-top: 3px;
+	padding-top: 5px;
 	color: #808080;
 }
 
@@ -884,9 +898,8 @@ div.ilHeaderAlert
 
 div.il_HeaderInner
 {
-	float:left;
 	margin: 0px;
-	padding: 0px 10px 20px 10px;
+	padding: 0px 10px 15px 10px;
 	color:#222222;
 }
 
@@ -2906,12 +2919,32 @@ a.ilAccAnchor, a.ilAccAnchor:hover {
 
 /* Notes */
 
+div.ilNotes
+{
+	max-width: 600px;
+}
+
+div.ilComment
+{
+	padding-left: 50px;
+}
+
+div.ilNotesUImage
+{
+	float:left;
+	margin-left: -50px;
+}
+
+div.ilNoteText
+{
+	font-size: 95%;
+	margin-top:5px;
+}
+
 div.ilNotesHeader{
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #606060;
+	background-color: #F0F0F0;
 	margin-bottom:5px;
-	padding-bottom:5px;
+	padding:5px;
 }
 
 h3.ilNotesHeader{
@@ -2922,14 +2955,13 @@ h3.ilNotesHeader{
 
 h4.ilNoteTitle{
 	font-size:100%;
-	display: inline;
 	margin: 0px;
 	padding: 0px;
 }
 
 td.ilNoteList {
 	padding: 10px 5px;
-	border-bottom: 1px dotted #A0A0A0;
+	border-top: 1px dotted #A0A0A0;
 	vertical-align: top;
 }
 

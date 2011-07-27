@@ -215,7 +215,6 @@ class ilTemplate extends ilTemplateX
 			$this->fillInlineCss();
 			$this->fillContentStyle();
 			$this->fillBodyClass();
-			$this->fillOnLoadCode();
 
 			// these fill just plain placeholder variables in tpl.main.html
 			$this->setCurrentBlock("DEFAULT");
@@ -237,6 +236,7 @@ class ilTemplate extends ilTemplateX
 
 			// late loading of javascipr files, since operations above may add files
 			$this->fillJavaScriptFiles();
+			$this->fillOnLoadCode();
 
 			// these fill just plain placeholder variables in tpl.adm_content.html
 			if ($this->blockExists("content"))
@@ -448,7 +448,6 @@ class ilTemplate extends ilTemplateX
 			$this->fillNewContentStyle();
 			$this->fillContentLanguage();
 			$this->fillWindowTitle();
-			$this->fillOnLoadCode();
 
 			// these fill blocks in tpl.adm_content.html
 			$this->fillHeader();
@@ -464,6 +463,7 @@ class ilTemplate extends ilTemplateX
 
 			// late loading of javascipr files, since operations above may add files
 			$this->fillJavaScriptFiles();
+			$this->fillOnLoadCode();
 
 			// these fill just plain placeholder variables in tpl.adm_content.html
 			// these fill just plain placeholder variables in tpl.adm_content.html
@@ -1375,7 +1375,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	private function fillHeader()
 	{
-		global $lng;
+		global $lng, $ilUser;
 		
 		if($this->frame_fixed_width)
 		{
@@ -1423,6 +1423,18 @@ class ilTemplate extends ilTemplateX
 		{
 			$this->setCurrentBlock("header_desc");
 			$this->setVariable("H_DESCRIPTION", $this->title_desc);
+			$this->parseCurrentBlock();
+		}
+		
+		if (is_object($this->getHeaderActionMenu()) && $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			$this->setCurrentBlock("head_action");
+			include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
+			$lg = ilObjectListGUIFactory::_getListGUIByType($this->getHeaderActionMenu()->object->getType());
+			$lg->setContainerObject($this->getHeaderActionMenu());
+			$this->setVariable("HEAD_ACTION", $lg->getHeaderAction(
+				$this->getHeaderActionMenu()->object->getRefId(),
+				$this->getHeaderActionMenu()->object->getId()));
 			$this->parseCurrentBlock();
 		}
 
@@ -1493,6 +1505,26 @@ class ilTemplate extends ilTemplateX
 		{
 			$this->touchBlock("stop_floating");
 		}
+	}
+	
+	/**
+	 * Set header action menu
+	 *
+	 * @param int $a_val ref id	
+	 */
+	function setHeaderActionMenu($a_val)
+	{
+		$this->header_action_ref_id = $a_val;
+	}
+	
+	/**
+	 * Get header action menu
+	 *
+	 * @return int ref id
+	 */
+	function getHeaderActionMenu()
+	{
+		return $this->header_action_ref_id;
 	}
 	
 	/**
