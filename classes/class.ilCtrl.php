@@ -1194,12 +1194,12 @@ class ilCtrl
 	 * @param	string		command
 	 * @param	string		anchor
 	 */
-	public function redirect(&$a_gui_obj, $a_cmd = "", $a_anchor = "")
+	public function redirect(&$a_gui_obj, $a_cmd = "", $a_anchor = "", $a_asynch = false)
 	{
 		global $ilBench;
 		
 		$script = $this->getLinkTargetByClass(strtolower(get_class($a_gui_obj)), $a_cmd,
-			"", false, false);
+			"", $a_asynch, false);
 		if  (is_object($ilBench))
 		{
 			$ilBench->save();

@@ -301,6 +301,13 @@ class ilElbaDBCreator
 		}
 
 
+		// STEP 20
+		if ($elb_db <= 19)
+		{
+			$this->reloadControlStructure();
+			$ilSetting->set("elb_db", 20);
+		}
+
 		// keep this line at the end of the method
 		$this->finalProcessing();
 	}
