@@ -2276,12 +2276,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		$cumulated =& $this->calculateCumulatedResults($survey_id);
 		$questiontext = preg_replace("/\<[^>]+?>/ims", "", $this->getQuestiontext());
-		$maxlen = 37;
+		
+		$maxlen = 75;
 		if (strlen($questiontext) > $maxlen + 3)
 		{
 			include_once "./Services/Utilities/classes/class.ilStr.php";
 			$questiontext = ilStr::substr($questiontext, 0, $maxlen) . "...";
 		}
+		
 		$result = array();
 		$row = array(
 			'counter' => $counter,
@@ -2296,10 +2298,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			'arithmetic_mean' => $cumulated['TOTAL']['ARITHMETIC_MEAN']
 		);
 		array_push($result, $row);
+		$maxlen -= 3;
 		foreach ($cumulated as $key => $value)
 		{
 			if (is_numeric($key))
 			{
+				if (strlen($value['ROW']) > $maxlen + 3)
+				{
+					$value['ROW'] = ilStr::substr($value['ROW'], 0, $maxlen) . "...";
+				}
+				
 				$row = array(
 					'title' => '',
 					'question' => ($key+1) . ". " . $value['ROW'],
