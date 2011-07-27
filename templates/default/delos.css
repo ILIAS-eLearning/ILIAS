@@ -874,6 +874,14 @@ div.ilHeaderDesc
 	color: #808080;
 }
 
+div.ilHeaderAlert
+{
+	padding-left: 51px;
+	font-size: 80%;
+	padding-top: 5px;
+	color: #C04000;
+}
+
 div.il_HeaderInner
 {
 	float:left;

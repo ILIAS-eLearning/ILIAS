@@ -54,6 +54,8 @@ class ilTemplate extends ilTemplateX
 	protected $content_style_sheet = "";
 	protected $frame_fixed_width = false;
 
+	protected $title_alerts = array();
+
 	/**
 	* constructor
 	* @param	string	$file 		templatefile (mit oder ohne pfad)
@@ -1357,6 +1359,16 @@ class ilTemplate extends ilTemplateX
 		$this->title = ilUtil::stripScriptHTML($a_title);
 		$this->header_page_title = $a_title;
 	}
+
+	/**
+	 * Set alert properties
+	 * @param array $a_props
+	 * @return void
+	 */
+	public function setAlertProperties(array $a_props)
+	{
+		$this->title_alerts = $a_props;
+	}
 	
 	/**
 	* Fill header
@@ -1412,6 +1424,17 @@ class ilTemplate extends ilTemplateX
 			$this->setCurrentBlock("header_desc");
 			$this->setVariable("H_DESCRIPTION", $this->title_desc);
 			$this->parseCurrentBlock();
+		}
+
+		if(count((array) $this->title_alerts))
+		{
+			foreach($this->title_alerts as $alert)
+			{
+				$this->setCurrentBlock('header_alert');
+				$this->setVariable('H_PROP', $alert['property']);
+				$this->setVariable('H_VALUE', $alert['value']);
+				$this->parseCurrentBlock();
+			}
 		}
 	}
 	
