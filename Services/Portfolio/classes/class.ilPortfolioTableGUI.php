@@ -72,7 +72,7 @@ class ilPortfolioTableGUI extends ilTable2GUI
 
 		$ilCtrl->setParameter($this->parent_obj, "prt_id", $a_set["id"]);
 		$this->tpl->setCurrentBlock("action");
-		
+				
 		$this->tpl->setVariable("URL_ACTION",
 			$ilCtrl->getLinkTarget($this->parent_obj, "preview"));
 		$this->tpl->setVariable("TXT_ACTION", $lng->txt("user_profile_preview"));
@@ -80,9 +80,10 @@ class ilPortfolioTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable("URL_ACTION",
 			$ilCtrl->getLinkTarget($this->parent_obj, "pages"));
-		$this->tpl->setVariable("TXT_ACTION", $lng->txt("pages"));
+		$this->tpl->setVariable("TXT_ACTION", $lng->txt("edit"));
 		$this->tpl->parseCurrentBlock();
-		
+	
+		/*
 		$this->tpl->setVariable("URL_ACTION",
 			$ilCtrl->getLinkTarget($this->parent_obj, "export"));
 		$this->tpl->setVariable("TXT_ACTION", $lng->txt("export"));
@@ -91,7 +92,8 @@ class ilPortfolioTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("URL_ACTION",
 			$ilCtrl->getLinkTargetByClass("ilworkspaceaccessgui", "share"));
 		$this->tpl->setVariable("TXT_ACTION", $lng->txt("wsp_permissions"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();		 
+		*/
 
 		if(!$a_set["is_default"] && $a_set["is_online"])
 		{
