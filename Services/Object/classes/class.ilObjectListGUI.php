@@ -2312,14 +2312,17 @@ class ilObjectListGUI
 	 * @param
 	 * @return
 	 */
-	function insertCommonSocialCommands()
+	function insertCommonSocialCommands($a_header_actions = false)
 	{
-		global $ilSetting;
+		global $ilSetting, $lng;
 		
-		if ($this->std_cmd_only || !$ilSetting->get('comments_tagging_quick_access'))
+		if ($this->std_cmd_only ||
+			(!$ilSetting->get('comments_tagging_quick_access') && !$a_header_actions))
 		{
 			return;
 		}
+		$lng->loadLanguageModule("notes");
+		$lng->loadLanguageModule("tagging");
 		$cmd_link = $this->getCommandLink("infoScreen")."#notes_top";
 		$cmd_tag_link = $this->getCommandLink("infoScreen");
 		$cmd_frame = $this->getCommandFrame("infoScreen");
@@ -2507,7 +2510,7 @@ class ilObjectListGUI
 		// common social commands (comment, notes, tags)
 		if ($this->getInfoScreenStatus() && !$only_default && !$this->isMode(IL_LIST_AS_TRIGGER))
 		{
-			$this->insertCommonSocialCommands();
+			$this->insertCommonSocialCommands($a_header_actions);
 		}
 
 		
