@@ -1,0 +1,530 @@
+(function($) {
+
+	var iconsByType = {
+		user: 'templates/default/images/icon_usr_s.gif',
+		room: 'templates/default/images/icon_chat_s.gif'
+	}
+
+	$.fn.ilChatDialog = function( method ) {
+		var applyStyle = function(dialog) {
+			dialog.css('position', 'absolute');
+		}
+
+		var methods = {
+			init: function(params) {
+				var $content = $(this);
+
+				var defaultButtons =  (params.defaultButtons === false) ? [] : [
+							{
+								label: translate('cancel'),
+								callback: function(e) {
+									var close = true;
+									if (typeof params.negativeAction == 'function') {
+										close = params.negativeAction.call($content, e);
+									}
+									if (typeof close == 'undefined' || close) {
+										$content.ilChatDialog('close');
+									}
+								}
+							},
+							{
+								label: translate('ok'),
+								callback: function(e) {
+									var close = true;
+									if (typeof params.positiveAction == 'function') {
+										close = params.positiveAction.call($content, e);
+									}
+									if (typeof close == 'undefined' || close) {
+										$content.ilChatDialog('close');
+									}
+								}
+							},
+						];
+
+
+
+				var properties = $.extend(true, {}, {
+					title: '',
+					parent: $('body'),
+					position: null,
+					buttons: defaultButtons
+				}, params);
+
+				var dialog = $('<div class="ilChatDialog">');
+
+				applyStyle(dialog);
+
+				$(this).data('ilChatDialog', $.extend(properties, {
+					_dialog: dialog,
+					_parent: $(this).parent()
+				}));
+
+				if (properties.title) {
+					var title = $('<h3>').text(properties.title).addClass('chat_block_title');
+					dialog.append(title);
+				}
+
+				$('#modal_alpha').remove();
+
+				$('<div id="modal_alpha">')
+					.css('height', $('body').height())
+					.css('width', $('body').width())
+					.appendTo($('body'));
+
+				var dialogBody = $('<div class="ilChatDialogBody">').appendTo(dialog);
+				$(this).appendTo(dialogBody).show();
+
+				dialog.appendTo(properties.parent);
+
+				if (properties.buttons) {
+					var dialogButtons = $('<div class="ilChatDialogButtons">').appendTo(dialog);
+					$.each(properties.buttons, function() {
+						$('<input type="button" class="submit">')
+							.click(this.callback)
+							.val(this.label)
+							.appendTo(dialogButtons);
+					});
+				}
+
+				if (!properties.position) {
+					properties.position = {
+						x: ($(window).width() - dialog.width()) / 2,
+						y: ($(window).height() - dialog.height()) / 2
+					}
+				}
+
+				dialog.css('left', properties.position.x)
+					.css('top', properties.position.y);
+
+				
+
+
+				return $(this);
+			},
+			close: function() {
+				var data = $(this).data('ilChatDialog');
+
+				if (typeof data.close == 'function') {
+					data.close();
+				}
+
+				if (data._parent) {
+					$(this).appendTo($(data._parent)).hide();
+				}
+				$('#modal_alpha').remove();
+				$(data._dialog).remove();
+			}
+		}
+
+		if ( methods[method] ) {
+			return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
+		} else if ( typeof method === 'object' || ! method ) {
+			return methods.init.apply( this, arguments );
+		} else {
+			$.error( 'Method ' +  method + ' does not exist on jQuery.ilChatList' );
+		}
+	}
+
+	function getMenuLine(label, callback, icon) {
+		var line = $('<tr class="il_adv_sel"></tr>');
+		var content = $('<td class="il_adv_sel"><a href="#">'+(icon ? ('<img style="margin-right: 8px" src="'+icon+'"/>'): '')+'<span class="small">'+label+'</span></a></td>');
+		line.append(content);
+		if (callback) {
+			line.click(function(e) {
+				$(this).parents('.menu').hide();
+				menuContainer.data('ilChatMenu')._attatched.removeClass('menu_attached');
+				e.stopPropagation();
+				e.preventDefault();
+				callback.call($(this).parents('.menu'));
+			})
+			.mouseout(function() {
+				ilAdvancedSelectionList.itemOff(this);
+			})
+			.mouseover(function() {
+				ilAdvancedSelectionList.itemOn(this);
+			});
+		}
+		return line;
+	}
+
+	var menuContainer;
+
+	$.fn.ilChatMenu = function( method ) {
+
+		var methods = {
+			init: function(menuitems) {
+
+			},
+			show: function(menuitems) {
+
+				if (!menuContainer) {
+					menuContainer = $('<div class="il_adv_sel menu" style="position: absolute; z-index: 5000"></div>')
+						.append($('<table class="il_adv_sel chat"></table>'))
+						.appendTo($('body'));
+				}
+
+				if ($(this).hasClass('menu_attached')) {
+					$(this).removeClass('menu_attached');
+					menuContainer.hide();
+					return;
+				}
+				else if (menuContainer.is(':visible')) {
+					menuContainer.hide();
+				}
+
+				menuContainer.find('tr').remove();
+
+				$(this).addClass('menu_attached');
+
+				var table = menuContainer.find('table');
+
+				$.each(menuitems, function() {
+					var line = getMenuLine(this.separator ? '<hr/>' : this.label, this.callback, this.icon).appendTo(table);
+					if (this.addClass) {
+						line.find('span').addClass(this.addClass);
+					}
+				});
+
+				menuContainer.css('left', $(this).offset().left)
+					.css('top', $(this).offset().top + $(this).height());
+
+				menuContainer.data('ilChatMenu', {
+					_attatched: this
+				})
+
+				menuContainer.show();
+				
+			}
+		}
+
+		if ( methods[method] ) {
+			return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
+		} else if ( typeof method === 'object' || ! method ) {
+			return methods.init.apply( this, arguments );
+		} else {
+			$.error( 'Method ' +  method + ' does not exist on jQuery.ilChatList' );
+		}
+	}
+
+	$.fn.ilChatList = function( method ) {
+
+		function getMenuLine(label, callback) {
+			var line = $('<tr class="il_adv_sel"></tr>')
+			.append(
+				$('<td class="il_adv_sel"><a href="#"><span class="small">'+label+'</span></a></td>')
+				.click(function(e) {
+					$(this).parents('.menu').hide();
+					e.stopPropagation();
+					e.preventDefault();
+					callback.call($(this).parents('.menu').data('ilChat').context);
+				})
+				)
+			.mouseout(function() {
+				ilAdvancedSelectionList.itemOff(this);
+			})
+			.mouseover(function() {
+				ilAdvancedSelectionList.itemOn(this);
+			});
+
+			return line;
+		}
+
+		var menuContainer = $('<div class="il_adv_sel menu" style="display: none; position: absolute; z-index: 5000"></div>')
+			.append($('<table class="il_adv_sel chat"></table>'))
+			.appendTo($('body'));
+
+		var methods = {
+			init: function(menuitems) {
+				$(this).data('ilChatList', {
+					_index: {},
+					_menuitems: menuitems
+				});
+                    
+				$('.listentry', $(this)).live('click', function() {
+					if ($(this).hasClass('menu_attached')) {
+						$(this).removeClass('menu_attached');
+						menuContainer.hide();
+						return;
+					}
+					else if (menuContainer.is(':visible')) {
+						menuContainer.hide();
+					}
+
+					menuContainer.find('tr').remove();
+					var data = $(this).data('ilChatList');
+					if (data.type == 'user' && data.id == personalUserInfo.userid) {
+						return;
+					}
+
+					$(this).addClass('menu_attached');
+
+					$.each(menuitems, function() {
+
+						if (this.permission == undefined) {
+							menuContainer.find('table').append(getMenuLine(this.label, this.callback));
+						}
+						else if (
+							(personalUserInfo.moderator && this.permission.indexOf('moderator') >= 0)
+							|| (personalUserInfo.userid == data.owner && this.permission.indexOf('owner') >= 0)
+							) {
+							menuContainer.find('table').append(getMenuLine(this.label, this.callback));
+						}
+					});
+                        
+					menuContainer.css('left', $(this).offset().left)
+					.css('top', $(this).offset().top + $(this).height());
+                        
+					menuContainer.data('ilChat', {
+						context: $(this).data('ilChatList')
+					})
+                        
+					menuContainer.show();
+				});
+			},
+			add: function(options) {
+				if ($(this).data('ilChatList')._index['id_' + options.id]) {
+					return $(this);
+				}
+                    
+				var line = $('<p class="listentry '+options.type+'_'+options.id+' online_user"><img src="'+iconsByType[options.type]+'" />&nbsp;<a class="label" href="javascript:void(0);">' + options.label + '</a></p>')
+                    
+				line.data('ilChatList', options);
+                    
+				$(this).data('ilChatList')._index['id_' + options.id] = line;
+
+				if (options.type == 'user' && personalUserInfo.userid == options.id) {
+					line.addClass('self');
+				}
+				else if (options.type == 'user') {
+					line.find('.label').append($('<img>').attr('src', 'templates/default/images/mm_down_arrow_dark.gif').css('margin-left', '5px'));
+				}
+				else if (options.type == 'room' && options.owner == personalUserInfo.userid) {
+					line.addClass('self');
+				}
+                    
+				$(this).append(line);
+			       
+				return $(this).ilChatList('sort');
+			},
+			sort: function() {
+				var tmp = [];
+				$.each($(this).data('ilChatList')._index, function(i) {
+					tmp.push({id: i, data: this});
+				});
+				
+				tmp.sort(function(a, b) {
+					return (a.data.data('ilChatList').label < b.data.data('ilChatList').label) ? -1 : 1;
+				});
+				for(var i = 0; i < tmp.length; ++i) {
+					$(this).append(tmp[i].data);
+				}
+
+				return $(this);
+			},
+			removeById: function(id) {
+				var line = $(this).data('ilChatList')._index['id_' + id];
+				if (line) {
+					line.remove();
+					delete $(this).data('ilChatList')._index['id_' + id];
+				}
+				if (line.type == 'user' || line.type == '') {
+					$(line.type + '_' + id).remove();
+				}
+				return $(this);
+			},
+			getDataById: function(id) {
+				return $(this).data('ilChatList')._index['id_' + id] ? $(this).data('ilChatList')._index['id_' + id].data('ilChatList') : undefined;
+			},
+			getAll: function() {
+				var result = [];
+				$.each($(this).data('ilChatList')._index, function() {
+					result.push(this.data('ilChatList'));
+				});
+
+				result.sort(function(a, b) {
+					return (a.label < b.label) ? -1 : 1;
+				});
+
+				return result;
+			}
+		}
+	
+		if ( methods[method] ) {
+			return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
+		} else if ( typeof method === 'object' || ! method ) {
+			return methods.init.apply( this, arguments );
+		} else {
+			$.error( 'Method ' +  method + ' does not exist on jQuery.ilChatList' );
+		}
+  
+	};
+  
+  
+	$.fn.ilChatMessageArea = function( method ) {
+    
+		var methods = {
+			init: function() {
+				$(this).data('ilChatMessageArea', {
+					_scopes: {}
+				});
+			},
+			addScope: function(scope_id, scope) {
+				var tmp = $('<div class="messageContainer">');
+				$(this).data('ilChatMessageArea')._scopes['id_' + scope_id] = tmp;
+				$(this).append(tmp);
+				tmp.data('ilChatMessageArea', scope);
+				tmp.hide();
+			},
+			addMessage: function(scope, message) {
+				var containers;
+				if (scope == -1) {
+					containers = $(this).data('ilChatMessageArea')._scopes;
+				}
+				else {
+					containers = [$(this).data('ilChatMessageArea')._scopes['id_' + scope]];
+				}
+
+				$.each(containers, function() {
+					var container = this;
+
+					if (!container) {
+						return;
+					}
+                        
+					var data = container.data('ilChatMessageArea');
+                        
+					var line = $('<div class="messageLine chat"></div>')
+					.addClass((message['public'] || message['public'] == undefined) ? 'public' : 'private');
+
+					switch(message.type) {
+						case 'message':
+							var content = JSON.parse(message.message);
+
+							line.append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp) + ') '))
+								.append($('<span class="chat content username"></span>').append(message.user.username));
+
+							if (message.recipients) {
+								var parts = message.recipients.split(',');
+								for (var i in parts) {
+									if (parts[i] != message.user.id) {
+										var data = $('#chat_users').ilChatList('getDataById', parts[i]);
+										if (data) {
+											line.append($('<span class="chat recipient">@</span>').append(data.label))
+										}
+										else {
+											line.append($('<span class="chat recipient">@</span>').append('unkown'))
+										}
+									}
+								}
+							}
+
+							var messageSpan = $('<span class="chat content message"></span>');
+								messageSpan.text(messageSpan.text(content.content).text())
+									.html(replaceSmileys(messageSpan.text()));
+							line.append($('<span class="chat content messageseparator">:</span>'))
+								.append(messageSpan);
+								
+
+							for(var i in content.format) {
+								if (i != 'color')
+									messageSpan.addClass( i + '_' + content.format[i]);
+							}
+
+							messageSpan.css('color', content.format.color);
+
+							if (data.id != subRoomId) {
+								$('#room_' + data.id).addClass('new_events');
+							}
+
+							break;
+						case 'connected':
+							line
+							.append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp) + ') '))
+							.append($('<span class="chat content username"></span>').append(message.login))
+							.append($('<span class="chat content messageseparator">:</span>'))
+							.append($('<span class="chat content message"></span>').append(translate('connect')));
+							break;
+						case 'disconnected':
+							line
+							.append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp) + ') '))
+							.append($('<span class="chat content username"></span>').append(message.login))
+							.append($('<span class="chat content messageseparator">:</span>'))
+							.append($('<span class="chat content message"></span>').append(translate('disconnected')));
+							break;
+						case 'private_room_entered':
+							line
+							.append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp) + ') '))
+							.append($('<span class="chat content username"></span>').append(message.login))
+							.append($('<span class="chat content messageseparator">:</span>'))
+							.append($('<span class="chat content message"></span>').append(translate('connect')));
+							break;
+						case 'private_room_left':
+							break;
+						case 'notice':
+							line
+							.append($('<span class="chat"></span>').append(message.message));
+							line.addClass('notice');
+							break;
+						case 'error':
+							line
+							.append($('<span class="chat"></span>').append(message.message));
+							line.addClass('error');
+							break;
+					}
+
+					container.append(line);
+				})
+
+                    
+				return $(this);
+			},
+			show: function(id, posturl) {
+				var scopes = $(this).data('ilChatMessageArea')._scopes;
+                    
+				$.each(scopes, function() {
+					$(this).hide();
+				});
+                    
+				scopes['id_' + id].show();
+				$('.current_room_title').text(scopes['id_' + id].data('ilChatMessageArea').title);
+                    
+				$('.in_room').removeClass('in_room');
+                    
+				$('.room_' + id).addClass('in_room');
+
+				if (!id) {
+					$('#chat_users').find('.online_user').show();
+				}
+				else {
+					$('#chat_users').find('.online_user').hide();
+
+					$.get(
+						posturl.replace(/postMessage/, 'privateRoom-listUsers') + '&sub=' + id,
+						function(response)
+						{
+							response = typeof response == 'object' ? response : $.getAsObject(response);
+
+							$.each(response, function() {
+								$('#chat_users').find('.user_' + this).show();
+							});
+						},
+						'json'
+					);
+				}
+
+				subRoomId = id;
+
+				return $(this);
+			}
+		}
+	
+		if ( methods[method] ) {
+			return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
+		} else if ( typeof method === 'object' || ! method ) {
+			return methods.init.apply( this, arguments );
+		} else {
+			$.error( 'Method ' +  method + ' does not exist on jQuery.ilChatMessageArea' );
+		}
+  
+	};
+})(jQuery)

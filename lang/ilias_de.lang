@@ -11732,3 +11732,111 @@ prtf#:#prtf_preview_banner#:#Personalisiertes Banner
 prtf#:#prtf_banner#:#Banner
 prtf#:#prtf_background_color#:#Hintergrundfarbe
 prtf#:#prtf_font_color#:#Schriftfarbe
+common#:#chtr_visible#:#Anzeigen
+common#:#chtr_read#:#Lesezugriff
+common#:#chtr_write#:#Schreibzugriff
+common#:#chtr_edit_permission#:#Rechteeinstellungen ändern
+common#:#objs_chtr#:#Chats
+common#:#obj_chta#:#Chat
+chatroom#:#history_by_day#:#Tageshistorie
+chatroom#:#history_by_session#:#Sitzungshistorie
+chatroom#:#connected#:#Verbindung hergestellt
+chatroom#:#period#:#Zeitraum
+chatroom#:#disconnected#:#Verbindung geschlossen
+chatroom#:#allow_anonymous#:#Anonyme Anmeldung erlauben
+chatroom#:#autogen_usernames#:#Automatisch generierte Benutzernamen
+chatroom#:#allow_custom_usernames#:#Frei wählbare Benutzernamen
+chatroom#:#enable_history#:#Historie aktivieren
+chatroom#:#restrict_history#:#Historie begrenzen
+chatroom#:#restrict_history_info#:#Keine Einträge, zu deren Zeiten man selbst nicht im Raum war
+chatroom#:#allow_private_rooms#:#Private Räume erlauben
+chatroom#:#settings_general#:#Allgemein
+chatroom#:#settings_privacy#:#Privatsphäre
+chatroom#:#autogen_usernames_info#:#Schema für automatisch generierte Benutzernamen. '#' wird automatisch durch eine Zahl ersetzt
+chatroom#:#bans#:#Gesperrte Benutzer
+chatroom#:#permissions#:#Rechte
+chatroom#:#remark#:#Bemerkung
+chatroom#:#session#:#Sitzung
+chatroom#:#fontcolor#:#Schriftfarbe
+chatroom#:#fontstyle#:#Schriftbild
+chatroom#:#fontsize#:#Schriftgröße
+chatroom#:#italic#:#Kursiv
+chatroom#:#underlined#:#Unterstrichen
+chatroom#:#select_custom_username#:#Benutzernamen auswählen
+chatroom#:#custom_username#:#Eigener Benutzername
+chatroom#:#enter#:#Chat beitreten
+chatroom#:#fontfamily#:#Schriftart
+chatroom#:#small#:#Klein
+chatroom#:#large#:#Groß
+chatroom#:#duration_from#:#Von
+chatroom#:#duration_to#:#Bis
+chatroom#:#obj_chtr#:#Chatroom
+chatroom#:#chat_message#:#Nachricht
+chatroom#:#chat_message_to_all#:#an alle
+chatroom#:#chat_message_options#:#Optionen
+chatroom#:#chat_message_display#:#Anzeigen
+chatroom#:#chat_mainroom#:#Hauptraum
+chatroom#:#chat_leave#:#Verlassen
+chatroom#:#chat_join#:#Betreten
+chatroom#:#chat_delete#:#Löschen
+chatroom#:#chat_invite#:#Einladen
+chatroom#:#chat_kick#:#Rauswerfen
+chatroom#:#chat_ban#:#Sperren
+chatroom#:#chat_address#:#Ansprechen
+chatroom#:#chat_whisper#:#Flüstern
+chatroom#:#chat_connection_established#:#Verbindung hergestellt
+chatroom#:#chat_connection_disconnected#:#Verbindung getrennt
+chatroom#:#chat_invite_users#:#Benutzer einladen
+chatroom#:#chat_right_box_user#:#Benutzer
+chatroom#:#chat_private_room#:#Separee
+chatroom#:#chat_create_new_private_room#:#Neues Separee anlegen
+chatroom#:#chat_to_mainroom#:#Zum Hauptraum
+chatroom#:#chat_create_private_room_button#:#Separee Anlegen
+chatroom#:#moderate#:#Moderieren
+chatroom#:#chat_invitation#:#Einladung von ##inviter_name## in den Chatraum ##room_name##
+chatroom#:#chat_invitation_long#:#Sie wurden von ##inviter_name## in den Chatraum ##room_name## eingeladen.\n\nKlicken Sie auf den Link ##link## um direkt in den Raum zu gelangen.
+chatroom#:#chat_invitation_short#:#Klicken Sie auf den Titel um den Chatraum zu betreten.
+chatroom#:#settings_title#:#Einstellungen
+chatroom#:#history_byday_title#:#Tageshistorie
+chatroom#:#history_bysession_title#:#Sitzungshistorie
+chatroom#:#ban_table_title#:#Gesperrte Benutzer
+chatroom#:#main#:#Hauptraum
+chatroom_adm#:#chatroom_available_smilies#:#Verfügbare Smilies
+chatroom_adm#:#chatroom_delete_selected#:#Ausgewählte Smilies löschen
+chatroom_adm#:#chatroom_smiley_image#:#Smiley
+chatroom_adm#:#chatroom_smiley_keyword#:#Platzhalter
+chatroom_adm#:#chatroom_add_smiley#:#Smiley hinzufügen
+chatroom_adm#:#chatroom_image_path#:#Pfad zu Smiley
+chatroom_adm#:#chatroom_smiley_keywords#:#Platzhalter
+chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#Ein Platzhalter pro Zeile
+chatroom_adm#:#chatroom_upload_smiley#:#Smiley hochladen
+chatroom_adm#:#obj_chta_desc#:#Chat Administration
+chatroom_adm#:#protocol#:#Protokoll
+chatroom_adm#:#instance#:#Instanz
+chatroom_adm#:#smiley#:#Smilies
+chatroom_adm#:#chatroom_edit_smiley#:#Smiley bearbeiten
+chatroom_adm#:#chatroom_current_smiley_image_path#:#Aktueller Smiley
+chatroom_adm#:#chatroom_current_smiley_image#:#Aktueller Smiley
+chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Bitte nur einen neuen Smiley auswählen, wenn der aktuelle Smiley durch einen neuen ersetzt werden soll.
+chatroom_adm#:#server_settings#:#Server Einstellungen
+chatroom_adm#:#client_settings#:#Client Einstellungen
+chatroom_adm#:#priv_hosts#:#Bevorzugte Hosts
+chatroom_adm#:#https#:#HTTPS
+chatroom_adm#:#chat_enabled#:#Chat aktivieren
+chatroom_adm#:#enable_osd#:#OSD aktivieren
+chatroom_adm#:#hash#:#Hash
+chatroom_adm#:#client_settings_title#:#Client Einstellungen
+chatroom_adm#:#osd_intervall#:#OSD Intervall
+chatroom_adm#:#server_settings_title#:#Server Einstellungen
+chatroom_adm#:#chatroom_confirm_delete_smiley#:#Sind sie sicher, dass sie den ausgewählten Smiley löschen möchten?
+chatroom#:#soap_must_be_enabled#:#Bitte aktivieren Sie den SOAP Server in den allgemeinen Einstellungen bevor Sie den Chat aktivieren.
+chatroom#:#auto_scroll#:#Automatisch an das Ende Scrollen
+chatroom#:#public_chat_created#:#Es wurde ein neuer öffentlicher Chatraum im Magazin angelegt.
+chatroom#:#lost_connection#:#Die Verbindung zum Chatserver wurde unterbrochen.
+chatroom#:#banned#:#Sie wurden für diesen Chatraum gesperrt
+chatroom#:#unban#:#Entsperren
+chatroom_adm#:#keystore#:#Keystore
+chatroom_adm#:#keypass#:#Keypass
+chatroom_adm#:#storepass#:#Storepass
+chatroom_adm#:#settings_has_been_saved#:#Einstellungen wurden gespeichert.
+common#:#obj_chtr#:#Chatraum

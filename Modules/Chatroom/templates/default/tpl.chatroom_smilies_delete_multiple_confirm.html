@@ -1,0 +1,22 @@
+<form action="{FORMACTION}" method="post">
+<table class="std">
+<tr class="tblheader">
+	<th class="std"  colspan="2">{SMILIES_DELETE_INTRO}</th>
+</tr>
+<!-- BEGIN smilies_list -->
+<tr class="tblrow{ROW_CNT}">
+	<td class="std"><img src="{SMILEY_PATH}" alt=""></td>
+	<td class="std">{SMILEY_KEYWORDS}</td>
+</tr>
+<!-- END smilies_list -->
+<tr class="tblfooter">
+	<td class="submit" colspan="2" style="text-align: right">
+		<input class="submit" type="submit" name="cmd[smiley-confirmedDeleteMultipleObject]" value="{TXT_SUBMIT}"/>
+		<input class="submit" type="submit" name="cmd[smiley]" value="{TXT_CANCEL}"/>
+	</td>
+</tr>
+</table>
+
+<input type="hidden" name="sel_ids" value="{SMILIES_IDS}" />
+
+</form>

@@ -55,7 +55,7 @@ class ilColumnGUI
 		"ilHtmlBlockGUI" => "Services/Block/",
 		"ilPDFeedbackBlockGUI" => "Services/Feedback/",
 		'ilPDTaggingBlockGUI' => 'Services/Tagging/',
-		'ilChatBlockGUI' => 'Modules/Chat/'
+		//'ilChatBlockGUI' => 'Modules/Chat/'
 			);
 	
 	static protected $block_types = array(
@@ -74,7 +74,7 @@ class ilColumnGUI
 			"ilPDSelectedItemsBlockGUI" => "pditems",
 			"ilHtmlBlockGUI" => "html",
 			'ilPDTaggingBlockGUI' => 'pdtag',
-			'ilChatBlockGUI' => 'chatviewer'
+			//'ilChatBlockGUI' => 'chatviewer'
 		);
 	
 		
@@ -102,7 +102,7 @@ class ilColumnGUI
 			"ilUsersOnlineBlockGUI" => IL_COL_RIGHT,
 			"ilBookmarkBlockGUI" => IL_COL_RIGHT,
 			"ilPDTaggingBlockGUI" => IL_COL_RIGHT,
-			"ilChatBlockGUI" => IL_COL_RIGHT,
+			//"ilChatBlockGUI" => IL_COL_RIGHT,
 			)
 		);
 
@@ -130,7 +130,7 @@ class ilColumnGUI
 			"pdbookm" => true,
 			"pdtag" => true,
 			"pdnotes" => true,
-			"chatviewer" => true);
+			"chatviewer" => false);
 			
 	protected $check_nr_limit =
 		array("pdfeed" => true);
@@ -607,7 +607,7 @@ class ilColumnGUI
 			"html" => $lng->txt("html_block"),
 			"pdtag" => $lng->txt("tagging_my_tags"),
 			"pdcal" => $lng->txt('calendar'),
-			"chatviewer" => $lng->txt('chat'),
+			//"chatviewer" => $lng->txt('chat'),
 			);
 
 		foreach($this->blocks[$this->getSide()] as $block)

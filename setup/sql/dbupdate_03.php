@@ -7028,3 +7028,52 @@ $ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3414>
+<?php
+	require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
+	require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+	require_once 'Modules/Chatroom/classes/class.ilChatroomInstaller.php';
+	ilChatroomInstaller::install();
+
+	require_once 'Services/Notifications/classes/class.ilNotificationSetupHelper.php';
+	ilNotificationSetupHelper::setupTables();
+
+	$settings = new ilSetting('notifications');
+	$settings->set( 'enable_mail', 1 );
+
+	$ilDB->insert(
+		'notification_usercfg',
+		array(
+		    'usr_id' => array('integer', -1),
+		    'module' => array('text', 'chat_invitation'),
+		    'channel' => array('text', 'mail')
+		)
+	);
+	$ilDB->insert(
+		'notification_usercfg',
+		array(
+		    'usr_id' => array('integer', -1),
+		    'module' => array('text', 'chat_invitation'),
+		    'channel' => array('text', 'osd')
+		)
+	);
+	$ilDB->insert(
+		'notification_usercfg',
+		array(
+		    'usr_id' => array('integer', -1),
+		    'module' => array('text', 'osd_main'),
+		    'channel' => array('text', 'osd')
+		)
+	);
+
+	$ilDB->manipulate("UPDATE notification_channels SET config_type = 'set_by_admin'");
+?>
+<#3415>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3416>
+<?php
+	$ilDB->manipulate("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'chtr', 2, 8)");
+	$ilDB->manipulate("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'chtr', 3, 8)");
+?>
