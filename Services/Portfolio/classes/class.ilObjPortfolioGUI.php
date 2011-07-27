@@ -73,6 +73,9 @@ class ilObjPortfolioGUI
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, "show"));			
 				
+				$this->setPagesTabs();
+				$ilTabs->activateTab("share");
+				
 				$tpl->setTitle($lng->txt("portfolio"));
 				
 				include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
@@ -255,7 +258,14 @@ class ilObjPortfolioGUI
 	 */
 	protected function edit()
 	{
-		global $tpl;
+		global $tpl, $ilTabs, $ilCtrl, $lng;
+		
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "show"));
+		
+		$this->setPagesTabs();
+		$ilTabs->activateTab("edit");
 
 		$form = $this->initForm("edit");
 
@@ -422,6 +432,28 @@ class ilObjPortfolioGUI
 	// PAGES
 	//
 
+	protected function setPagesTabs()
+	{
+		global $lng, $ilTabs, $ilCtrl;				
+		
+		$ilTabs->addTab("pages",
+			$lng->txt("content"),
+			$ilCtrl->getLinkTarget($this, "pages"));
+		
+		$ilTabs->addTab("edit",
+			$lng->txt("settings"),
+			$ilCtrl->getLinkTarget($this, "edit"));
+		
+		$lng->loadLanguageModule("wsp");
+		$ilTabs->addTab("share",
+			$lng->txt("wsp_permissions"),
+			$ilCtrl->getLinkTargetByClass("ilworkspaceaccessgui", "share"));
+		
+		$ilTabs->addNonTabbedLink("preview", 
+			$lng->txt("user_profile_preview"),
+			$ilCtrl->getLinkTarget($this, "preview"));	
+	}
+	
 	/**
 	 * Show list of portfolio pages
 	 */
@@ -432,9 +464,17 @@ class ilObjPortfolioGUI
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "show"));
+		
+		$this->setPagesTabs();
+		$ilTabs->activateTab("pages");
 
 		$ilToolbar->addButton($lng->txt("prtf_add_page"),
 			$ilCtrl->getLinkTarget($this, "addPage"));
+		
+		$ilToolbar->addSeparator();
+		
+		$ilToolbar->addButton($lng->txt("export"),
+			$ilCtrl->getLinkTarget($this, "export"));		
 				
 		include_once "Services/Portfolio/classes/class.ilPortfolioPageTableGUI.php";
 		$table = new ilPortfolioPageTableGUI($this, "show", $this->portfolio);
@@ -754,7 +794,7 @@ class ilObjPortfolioGUI
 		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "show"));
+			$ilCtrl->getLinkTarget($this, "pages"));
 			
 		include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
 		$pages = ilPortfolioPage::getAllPages($portfolio_id);		
