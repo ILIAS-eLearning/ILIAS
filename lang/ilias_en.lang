@@ -11733,3 +11733,6 @@ prtf#:#prtf_settings#:#Portfolio Administration
 prtf#:#prtf_preview_banner_width#:#Banner Width
 prtf#:#prtf_preview_banner_height#:#Banner Height
 prtf#:#prtf_preview_banner#:#Custom Banner
+prtf#:#prtf_banner#:#Banner
+prtf#:#prtf_background_color#:#Background Color
+prtf#:#prtf_font_color#:#Font Color

@@ -11729,3 +11729,6 @@ prtf#:#prtf_settings#:#Portfolio Administration
 prtf#:#prtf_preview_banner_width#:#Banner Breite
 prtf#:#prtf_preview_banner_height#:#Banner Höhe
 prtf#:#prtf_preview_banner#:#Personalisiertes Banner
+prtf#:#prtf_banner#:#Banner
+prtf#:#prtf_background_color#:#Hintergrundfarbe
+prtf#:#prtf_font_color#:#Schriftfarbe

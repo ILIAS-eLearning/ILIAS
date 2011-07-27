@@ -285,16 +285,28 @@ class ilObjPortfolioGUI
 			$this->portfolio->setTitle($form->getInput("title"));
 			$this->portfolio->setDescription($form->getInput("desc"));
 			$this->portfolio->setOnline($form->getInput("online"));
-			$this->portfolio->update();
+			$this->portfolio->setBackgroundColor($form->getInput("bg_color"));
+			$this->portfolio->setFontcolor($form->getInput("font_color"));
 			
+			if($_FILES["banner"]["tmp_name"]) 
+			{
+				$this->portfolio->uploadImage($_FILES["banner"]);
+			}
+			else if($form->getItemByPostVar("banner")->getDeletionFlag())
+			{
+				$this->portfolio->deleteImage();
+			}			
+			
+			$this->portfolio->update();			
+
 			// if portfolio is not online, it cannot be default
 			if(!$form->getInput("online"))
 			{
 				ilObjPortfolio::setUserDefault($ilUser->getId(), 0);
 			}
-
+			
 			ilUtil::sendSuccess($lng->txt("prtf_portfolio_updated"), true);
-			$ilCtrl->redirect($this, "show");
+			$ilCtrl->redirect($this, "pages");
 		}
 
 		$form->setValuesByPost();
@@ -347,11 +359,33 @@ class ilObjPortfolioGUI
 			// online
 			$online = new ilCheckboxInputGUI($lng->txt("online"), "online");
 			$form->addItem($online);
+			
+			$prfa_set = new ilSetting("prfa");
+			if($prfa_set->get("banner"))
+			{
+				$img = new ilImageFileInputGUI($lng->txt("prtf_banner"), "banner");
+				$form->addItem($img);
+					
+				// show existing file
+				$file = $this->portfolio->getImageFullPath(true);
+				if($file)
+				{
+					$img->setImage($file);
+				}		
+			}
 
+			$bg_color = new ilColorPickerInputGUI($lng->txt("prtf_background_color"), "bg_color");
+			$form->addItem($bg_color);
+
+			$font_color = new ilColorPickerInputGUI($lng->txt("prtf_font_color"), "font_color");
+			$form->addItem($font_color);		
+						
 			$ti->setValue($this->portfolio->getTitle());
 			// $ta->setValue($this->portfolio->getDescription());
 			$online->setChecked($this->portfolio->isOnline());
-			
+			$bg_color->setValue($this->portfolio->getBackgroundColor());
+			$font_color->setValue($this->portfolio->getFontColor());
+		
 			$form->setTitle($lng->txt("prtf_edit_portfolio"));
 			$form->addCommandButton("update", $lng->txt("save"));
 			$form->addCommandButton("show", $lng->txt("cancel"));
@@ -784,14 +818,6 @@ class ilObjPortfolioGUI
 		$portfolio_id = $this->portfolio->getId();
 		$user_id = $this->portfolio->getOwner();
 		
-		// title
-		$tpl->setTitle($this->portfolio->getTitle());
-		$tpl->setTitleIcon(null);
-		
-		// page title
-		include_once("./Services/User/classes/class.ilUserUtil.php");
-		$tpl->setDescription(ilUserUtil::getNamePresentation($user_id, true, false));
-		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "pages"));
@@ -869,6 +895,25 @@ class ilObjPortfolioGUI
 		$goto = ilLink::_getStaticLink($portfolio_id, "prtf", true);
 		$goto = "<div style=\"margin:10px;\" class=\"small\"><a href=\"".$goto.
 			"\" target=\"blank\">goto test</a></div>";
+		
+		$name = ilObjUser::_lookupName($user_id);
+		$name = $name["lastname"].", ".($t = $name["title"] ? $t . " " : "").$name["firstname"];
+		
+		// show banner?
+		$banner = false;
+		$prfa_set = new ilSetting("prfa");
+		if($prfa_set->get("banner"))
+		{		
+			$banner = $this->portfolio->getImageFullPath();
+		}
+		
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+		$tpl->setFullscreenHeader($this->portfolio->getTitle(), 
+			$name, 	
+			ilObjUser::_getPersonalPicturePath($user_id, "big"),
+			$banner,
+			$this->portfolio->getBackgroundColor(),
+			$this->portfolio->getFontColor());
 		
 		$tpl->setContent($content.$goto.$notes);			
 		$tpl->setFrameFixedWidth(true);

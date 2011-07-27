@@ -31,7 +31,7 @@ class ilObjBlog extends ilObject2
 		$set = $ilDB->query("SELECT * FROM il_blog".
 				" WHERE id = ".$ilDB->quote($this->id, "integer"));
 		$row = $ilDB->fetchAssoc($set);
-		$this->setNotesStatus($row["notes"]);
+		$this->setNotesStatus((bool)$row["notes"]);
 		$this->setBackgroundColor($row["bg_color"]);
 		$this->setFontColor($row["font_color"]);
 		$this->setImage($row["img"]);
@@ -193,6 +193,8 @@ class ilObjBlog extends ilObject2
 			include_once "Modules/Blog/classes/class.ilFSStorageBlog.php";
 			$storage = new ilFSStorageBlog($this->id);
 			$storage->delete();
+			
+			$this->setImage(null);
 		}
 	}
 		
