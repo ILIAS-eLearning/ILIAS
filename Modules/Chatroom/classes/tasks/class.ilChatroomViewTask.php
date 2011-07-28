@@ -59,7 +59,14 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 
 		$scope = $room->getRoomId();
 		$connector = $this->gui->getConnector();
-		$response = $connector->connect($scope, $user_id);
+		$response = @$connector->connect($scope, $user_id);
+
+		if (!$response) {
+			ilUtil::sendFailure($lng->txt('unable_to_connect'), true);
+			$link = $ilCtrl->getLinkTargetByClass('ilinfoscreengui', 'info', '', false, false);
+			ilUtil::redirect($link);
+			exit;
+		}
 
 		if (!$room->isSubscribed($chat_user->getUserId()) && $room->connectUser($chat_user)) {
 			$connector->sendMessage(
