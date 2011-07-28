@@ -1034,6 +1034,7 @@ class ilInternalLinkGUI
 		$anchor_row_block = "anchor_link";
 		if ($this->isEnabledJavaScript())
 		{
+
 			$chapterRowBlock .= "_js";
 			$anchor_row_block .= "_js";
 		}
