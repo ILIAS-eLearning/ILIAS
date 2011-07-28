@@ -3408,7 +3408,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		// Join/Leave
 		if($ilAccess->checkAccess('join','',$this->ref_id)
-			and !$this->object->getMembersObject()->isAssigned($ilUser->getId()))
+			and !$this->object->getMemberObject()->isAssigned())
 		{
 			include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
 			if(ilCourseWaitingList::_isOnList($ilUser->getId(), $this->object->getId()))
