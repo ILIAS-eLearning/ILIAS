@@ -280,10 +280,11 @@ class ilChatroomFormFactory
 		$port->setRequired( true );
 		$form->addItem( $port );
 
+		/*
 		$instance = new ilTextInputGUI( $lng->txt( 'instance' ), 'instance' );
 		$instance->setRequired( true );
 		$form->addItem( $instance );
-
+		*/
 		$priv_hosts = new ilTextInputGUI( $lng->txt( 'priv_hosts' ), 'priv_hosts' );
 		$priv_hosts->setRequired( true );
 		$form->addItem( $priv_hosts );

@@ -11737,7 +11737,7 @@ common#:#chtr_read#:#Lesezugriff
 common#:#chtr_write#:#Schreibzugriff
 common#:#chtr_edit_permission#:#Rechteeinstellungen ändern
 common#:#objs_chtr#:#Chats
-common#:#obj_chta#:#Chat
+common#:#obj_chta#:#Chaträume
 chatroom#:#history_by_day#:#Tageshistorie
 chatroom#:#history_by_session#:#Sitzungshistorie
 chatroom#:#connected#:#Verbindung hergestellt
@@ -11823,10 +11823,10 @@ chatroom_adm#:#client_settings#:#Client Einstellungen
 chatroom_adm#:#priv_hosts#:#Bevorzugte Hosts
 chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#chat_enabled#:#Chat aktivieren
-chatroom_adm#:#enable_osd#:#OSD aktivieren
+chatroom_adm#:#enable_osd#:#On-Screen Benachrichtigungen aktivieren
 chatroom_adm#:#hash#:#Hash
 chatroom_adm#:#client_settings_title#:#Client Einstellungen
-chatroom_adm#:#osd_intervall#:#OSD Intervall
+chatroom_adm#:#osd_intervall#:#Abfrageintervall (Sekunden)
 chatroom_adm#:#server_settings_title#:#Server Einstellungen
 chatroom_adm#:#chatroom_confirm_delete_smiley#:#Sind sie sicher, dass sie den ausgewählten Smiley löschen möchten?
 chatroom#:#soap_must_be_enabled#:#Bitte aktivieren Sie den SOAP Server in den allgemeinen Einstellungen bevor Sie den Chat aktivieren.
