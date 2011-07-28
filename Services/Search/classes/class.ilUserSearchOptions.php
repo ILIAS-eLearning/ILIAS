@@ -39,7 +39,7 @@ class ilUserSearchOptions
 {
 	var $db = null;
 
-	function ilUserSearchOptions()
+	public function ilUserSearchOptions()
 	{
 		global $ilDB;
 
@@ -47,7 +47,29 @@ class ilUserSearchOptions
 		$this->__read();
 	}
 
-	function _getSearchableFieldsInfo($a_admin = false)
+	/**
+	 * Get info of searchable fields for selectable columns in table gui
+	 * @param bool $a_admin
+	 * @return array
+	 */
+	public static function getSelectableColumnInfo($a_admin = false)
+	{
+		$col_info = array();
+		foreach(self::_getSearchableFieldsInfo($a_admin) as $field)
+		{
+			$col_info[$field['db']] = array(
+				'txt'		=> $field['lang']
+			);
+
+			if($field['db'] == 'login' or $field['db'] == 'firstname' or $field['db'] == 'lastname')
+			{
+				$col_info[$field['db']]['default'] = true;
+			}
+		}
+		return $col_info;
+	}
+
+	public static function _getSearchableFieldsInfo($a_admin = false)
 	{
 		global $lng;
 
@@ -63,7 +85,7 @@ class ilUserSearchOptions
 			}
 			$fields[$counter]['values'] = array();
 			$fields[$counter]['type'] = FIELD_TYPE_TEXT;
-			$fields[$counter]['lang'] = $this->lng->txt($field);
+			$fields[$counter]['lang'] = $lng->txt($field);
 			$fields[$counter]['db'] = $field;
 
 
@@ -92,27 +114,8 @@ class ilUserSearchOptions
 		return $fields ? $fields : array();
 	}
 
-	function _getPossibleFields($a_admin = false)
+	public static function _getPossibleFields($a_admin = false)
 	{
-		if ($a_admin === true)
-		{
-			return array(
-			// 'active',
-			 'gender',
-			 'login',
-			 'lastname',
-			 'firstname',
-			 'title',
-			 'institution',
-			 'department',
-			 'street',
-			 'zipcode',
-			 'city',
-			 'country',
-			 'email',
-			 'matriculation');
-		}
-		
 		return array('gender',
 					 'login',
 					 'lastname',
