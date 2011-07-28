@@ -31,7 +31,7 @@ class ilForumXMLParser extends ilSaxParser
 	{
 		parent::__construct();
 		$this->forum = $forum;
-		$this->setXMLContent($a_xml_data);
+		$this->setXMLContent('<?xml version="1.0" encoding="utf-8"?>'.$a_xml_data);
 		$this->aobject = new ilObjUser(ANONYMOUS_USR_ID);
 	}
 
@@ -322,8 +322,8 @@ class ilForumXMLParser extends ilSaxParser
 				{
 					require_once 'Modules/Forum/classes/class.ilForumTopic.php';
 
-					$this->forumThread = new ilForumTopic($this->threadArray['Id']);
-
+					$this->forumThread = new ilForumTopic();
+					$this->forumThread->setId($this->threadArray['Id']);
 					$this->forumThread->setForumId( $this->lastHandledForumId );
 					$this->forumThread->setSubject($this->threadArray['Subject']);
 					$this->forumThread->setSticky($this->threadArray['Sticky']);
@@ -395,14 +395,15 @@ class ilForumXMLParser extends ilSaxParser
 				{
 					require_once 'Modules/Forum/classes/class.ilForumPost.php';
 
-					$this->forumPost = new ilForumPost($this->postArray['Id']);
-
+					$this->forumPost = new ilForumPost();
+					$this->forumPost->setId($this->postArray['Id']);
 					$this->forumPost->setCensorship($this->postArray['Censorship']);
 					$this->forumPost->setCensorshipComment($this->postArray['CensorshipMessage']);
 					$this->forumPost->setNotification($this->postArray['Notification']);
 					$this->forumPost->setImportName($this->postArray['ImportName']);
 					$this->forumPost->setStatus($this->postArray['Status']);
 					$this->forumPost->setMessage($this->postArray['Message']);
+					$this->forumPost->setSubject($this->postArray['Subject']);
 					$this->forumPost->setLft($this->postArray['Lft']);
 					$this->forumPost->setRgt($this->postArray['Rgt']);
 					$this->forumPost->setDepth($this->postArray['Depth']);
@@ -696,7 +697,7 @@ class ilForumXMLParser extends ilSaxParser
 			// Replace multiple tabs with one space
 			$a_data = preg_replace("/\t+/"," ",$a_data);
 
-			$this->cdata = $a_data;
+			$this->cdata .= $a_data;
 		}
 	}
 	
