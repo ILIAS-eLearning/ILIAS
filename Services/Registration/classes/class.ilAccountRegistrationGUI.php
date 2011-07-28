@@ -103,7 +103,7 @@ class ilAccountRegistrationGUI
 		$this->tpl->setVariable("FORM", $this->form->getHTML());
 	}
 	
-	protected function __initForm()
+	protected function __initForm($a_force_code = false)
 	{
 		global $lng, $ilUser;
 		
@@ -111,72 +111,165 @@ class ilAccountRegistrationGUI
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		
-		
-		// user defined fields
-
-		$user_defined_data = $ilUser->getUserDefinedData();
-
-		include_once './Services/User/classes/class.ilUserDefinedFields.php';
-		$user_defined_fields =& ilUserDefinedFields::_getInstance();
-		$custom_fields = array();
-		foreach($user_defined_fields->getRegistrationDefinitions() as $field_id => $definition)
+		// display code on separate page
+		if(($this->registration_settings->registrationCodeRequired() ||
+			$this->registration_settings->getAllowCodes()) &&
+			(!isset($_POST["usr_registration_code"]) || $a_force_code))
 		{
-			if($definition['field_type'] == UDF_TYPE_TEXT)
+			$sh = new ilFormSectionHeaderGUI();
+			$sh->setTitle($lng->txt("prerequisites"));
+			$this->form->addItem($sh);
+			
+			include_once 'Services/Registration/classes/class.ilRegistrationCode.php';
+			$code = new ilTextInputGUI($lng->txt("registration_code"), "usr_registration_code");
+			$code->setSize(40);
+			$code->setMaxLength(ilRegistrationCode::CODE_LENGTH);
+			if((bool)$this->registration_settings->registrationCodeRequired())
 			{
-				$custom_fields["udf_".$definition['field_id']] =
-					new ilTextInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$custom_fields["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
-				$custom_fields["udf_".$definition['field_id']]->setMaxLength(255);
-				$custom_fields["udf_".$definition['field_id']]->setSize(40);
-			}
-			else if($definition['field_type'] == UDF_TYPE_WYSIWYG)
-			{
-				$custom_fields["udf_".$definition['field_id']] =
-					new ilTextAreaInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$custom_fields["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
-				$custom_fields["udf_".$definition['field_id']]->setUseRte(true);
+				$code->setRequired(true);
+				$code->setInfo($lng->txt("registration_code_required_info"));
 			}
 			else
 			{
-				$custom_fields["udf_".$definition['field_id']] =
-					new ilSelectInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$custom_fields["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
-				$custom_fields["udf_".$definition['field_id']]->setOptions(
-					$user_defined_fields->fieldValuesToSelectArray($definition['field_values']));
+				$code->setInfo($lng->txt("registration_code_optional_info"));
 			}
-			if($definition['required'])
+			
+			$this->form->addItem($code);	
+			
+			$this->form->addCommandButton("saveCodeForm", $lng->txt("send"));
+		}
+		else
+		{							
+			if(!$this->registration_code)
 			{
-				$custom_fields["udf_".$definition['field_id']]->setRequired(true);
+				$this->registration_code = $_POST["usr_registration_code"];
+			}
+			
+			// code handling, check if role is 
+			$predefined_role = null;
+			if($this->registration_code)
+			{
+				$code = new ilNonEditableValueGUI($lng->txt("registration_code"), "usr_registration_code");
+				$code->setValue($this->registration_code);
+				$this->form->addItem($code);
+								
+				include_once 'Services/Registration/classes/class.ilRegistrationCode.php';
+				$predefined_role = ilRegistrationCode::getCodeRole($this->registration_code);												
+			}										
+						
+			
+			// user defined fields
+
+			$user_defined_data = $ilUser->getUserDefinedData();
+
+			include_once './Services/User/classes/class.ilUserDefinedFields.php';
+			$user_defined_fields =& ilUserDefinedFields::_getInstance();
+			$custom_fields = array();
+			foreach($user_defined_fields->getRegistrationDefinitions() as $field_id => $definition)
+			{
+				if($definition['field_type'] == UDF_TYPE_TEXT)
+				{
+					$custom_fields["udf_".$definition['field_id']] =
+						new ilTextInputGUI($definition['field_name'], "udf_".$definition['field_id']);
+					$custom_fields["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
+					$custom_fields["udf_".$definition['field_id']]->setMaxLength(255);
+					$custom_fields["udf_".$definition['field_id']]->setSize(40);
+				}
+				else if($definition['field_type'] == UDF_TYPE_WYSIWYG)
+				{
+					$custom_fields["udf_".$definition['field_id']] =
+						new ilTextAreaInputGUI($definition['field_name'], "udf_".$definition['field_id']);
+					$custom_fields["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
+					$custom_fields["udf_".$definition['field_id']]->setUseRte(true);
+				}
+				else
+				{
+					$custom_fields["udf_".$definition['field_id']] =
+						new ilSelectInputGUI($definition['field_name'], "udf_".$definition['field_id']);
+					$custom_fields["udf_".$definition['field_id']]->setValue($user_defined_data["f_".$field_id]);
+					$custom_fields["udf_".$definition['field_id']]->setOptions(
+						$user_defined_fields->fieldValuesToSelectArray($definition['field_values']));
+				}
+				if($definition['required'])
+				{
+					$custom_fields["udf_".$definition['field_id']]->setRequired(true);
+				}
+			}
+
+			// standard fields
+			include_once("./Services/User/classes/class.ilUserProfile.php");
+			$up = new ilUserProfile();
+			$up->setMode(ilUserProfile::MODE_REGISTRATION);
+			$up->skipGroup("preferences");
+
+			// add fields to form
+			$up->addStandardFieldsToForm($this->form, NULL, $custom_fields);
+			unset($custom_fields);
+						
+			// user agreement
+
+			$field = new ilFormSectionHeaderGUI();
+			$field->setTitle($lng->txt("usr_agreement"));
+			$this->form->addItem($field);
+
+			$field = new ilCustomInputGUI();
+			$field->setHTML('<div id="agreement">'.ilUserAgreement::_getText().'</div>');
+			$this->form->addItem($field);
+
+			$field = new ilCheckboxInputGUI($lng->txt("accept_usr_agreement"), "usr_agreement");
+			$field->setRequired(true);
+			$field->setValue(1);
+			$this->form->addItem($field);
+			
+			// remove role select if already defined
+			if($predefined_role)
+			{
+				$this->form->removeItemByPostVar("usr_roles");
+								
+				$role = new ilHiddenInputGUI("usr_roles");
+				$role->setValue($predefined_role);
+				$this->form->addItem($role);
+			}
+			
+			$this->form->addCommandButton("saveForm", $lng->txt("register"));
+		}	
+	}
+	
+	public function saveCodeForm()
+	{		
+		global $lng;
+		
+		$this->__initForm(true);
+		if($this->form->checkInput())
+		{
+			$code = $this->form->getInput("usr_registration_code");
+			if($code)
+			{
+				// invalid code
+				include_once './Services/Registration/classes/class.ilRegistrationCode.php';				
+				if(!ilRegistrationCode::isUnusedCode($code))
+				{
+					$code_obj = $this->form->getItemByPostVar('usr_registration_code');
+					$code_obj->setAlert($lng->txt('registration_code_not_valid'));
+				}
+				// valid code
+				else
+				{
+					$this->registration_code = $code;
+					unset($this->form);
+					return $this->displayForm();					
+				}
+			}
+			// optional code not given
+			else
+			{
+				unset($this->form);
+				return $this->displayForm();	
 			}
 		}
-
-		// standard fields
-		include_once("./Services/User/classes/class.ilUserProfile.php");
-		$up = new ilUserProfile();
-		$up->setMode(ilUserProfile::MODE_REGISTRATION);
-		$up->skipGroup("preferences");
-
-		// add fields to form
-		$up->addStandardFieldsToForm($this->form, NULL, $custom_fields);
-		unset($custom_fields);
-
-
-		// user agreement
-
-		$field = new ilFormSectionHeaderGUI();
-		$field->setTitle($lng->txt("usr_agreement"));
-		$this->form->addItem($field);
-
-		$field = new ilCustomInputGUI();
-		$field->setHTML('<div id="agreement">'.ilUserAgreement::_getText().'</div>');
-		$this->form->addItem($field);
-
-		$field = new ilCheckboxInputGUI($lng->txt("accept_usr_agreement"), "usr_agreement");
-		$field->setRequired(true);
-		$field->setValue(1);
-		$this->form->addItem($field);
-
-		$this->form->addCommandButton("saveForm", $lng->txt("register"));
+		
+		$this->form->setValuesByPost();
+		$this->displayForm();
 	}
 
 	public function saveForm()
@@ -185,7 +278,7 @@ class ilAccountRegistrationGUI
 
 		$this->__initForm();
 		$form_valid = $this->form->checkInput();
-	
+		
 		require_once 'Services/User/classes/class.ilObjUser.php';
 
 		// custom validation
@@ -220,43 +313,8 @@ class ilAccountRegistrationGUI
 			}
 		}
 
-		// validate registration code		
-		$code_role_warning = false;
-		if($this->registration_settings->registrationCodeRequired() ||
-			$this->registration_settings->getAllowCodes())
-		{
-			$code = $this->form->getInput("usr_registration_code");
-			if($code || $this->registration_settings->registrationCodeRequired())
-			{
-				// if a code is given or required we do not want to message below
-				$code_role_warning = true;		
-				
-				include_once './Services/Registration/classes/class.ilRegistrationCode.php';
-				if(!ilRegistrationCode::isUnusedCode($code))
-				{
-					$code_obj = $this->form->getItemByPostVar('usr_registration_code');
-					$code_obj->setAlert($lng->txt('registration_code_not_valid'));
-					$form_valid = false;
-				}
-				else
-				{
-					$code_role = ilRegistrationCode::getCodeRole($code);
-					if($code_role)
-					{
-						$valid_role = true;
-					}					
-					else if(!$valid_role)
-					{
-						$code_obj = $this->form->getItemByPostVar('usr_registration_code');
-						$code_obj->setAlert($lng->txt("registration_code_no_role"));
-						$form_valid = false;
-					}
-				}
-			}
-		}
-		
 		// no valid role could be determined
-	    if (!$valid_role && !$code_role_warning)
+	    if (!$valid_role)
 		{
 			ilUtil::sendInfo($lng->txt("registration_no_valid_role"));
 			$form_valid = false;

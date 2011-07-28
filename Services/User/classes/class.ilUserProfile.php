@@ -390,22 +390,7 @@ class ilUserProfile
 			$roles = self::$user_field["roles"];
 			unset(self::$user_field["roles"]);
 			self::$user_field["roles"] = $roles;
-			self::$user_field["roles"]["group"] = "settings";
-			
-			// add code field if required
-			if($registration_settings->registrationCodeRequired() ||
-				$registration_settings->getAllowCodes())
-			{
-				include_once 'Services/Registration/classes/class.ilRegistrationCode.php';
-				$code = array(
-					"input" => "text",
-					"maxlength" => ilRegistrationCode::CODE_LENGTH,
-					"size" => 40,
-					"required" => (bool)$registration_settings->registrationCodeRequired(),
-					"group" => "login_data"
-				);
- 				self::$user_field = array_merge(array("registration_code"=>$code), self::$user_field);
-			}
+			self::$user_field["roles"]["group"] = "settings";			
 		}
 		
 		$fields = $this->getStandardFields();
@@ -489,14 +474,7 @@ class ilUserProfile
 						}
 						$ti->setMaxLength($p["maxlength"]);
 						$ti->setSize($p["size"]);
-						if($f == "registration_code")
-						{
-							$ti->setRequired($p['required']);
-						}
-						else
-						{
-							$ti->setRequired($ilSetting->get("require_".$f));
-						}
+						$ti->setRequired($ilSetting->get("require_".$f));					
 						if(!$ti->getRequired() || $ti->getValue())
 						{
 							$ti->setDisabled($ilSetting->get("usr_settings_disable_".$f));
