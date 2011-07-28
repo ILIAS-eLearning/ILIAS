@@ -11840,3 +11840,4 @@ chatroom_adm#:#keypass#:#Keypass
 chatroom_adm#:#storepass#:#Storepass
 chatroom_adm#:#settings_has_been_saved#:#Einstellungen wurden gespeichert.
 common#:#obj_chtr#:#Chatraum
+chatroom#:#unable_to_connect#:#Die Verbindung zum Chatserver konnte nicht hergestellt werden.
