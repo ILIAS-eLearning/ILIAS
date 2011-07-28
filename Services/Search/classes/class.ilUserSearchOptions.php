@@ -41,10 +41,6 @@ class ilUserSearchOptions
 
 	public function ilUserSearchOptions()
 	{
-		global $ilDB;
-
-		$this->db =& $ilDB;
-		$this->__read();
 	}
 
 	/**
@@ -137,7 +133,7 @@ class ilUserSearchOptions
 		return in_array($a_key,ilUserSearchOptions::_getPossibleFields());
 	}
 
-	function _isEnabled($a_key)
+	public static function _isEnabled($a_key)
 	{
 		global $ilias;
 
@@ -150,7 +146,7 @@ class ilUserSearchOptions
 		return (bool) $ilias->getSetting('search_enabled_'.$a_key);
 	}
 
-	function _saveStatus($a_key,$a_enabled)
+	public static function _saveStatus($a_key,$a_enabled)
 	{
 		global $ilias;
 
@@ -158,7 +154,7 @@ class ilUserSearchOptions
 		return true;
 	}
 
-	function __appendUserDefinedFields($fields,$counter)
+	public static function __appendUserDefinedFields($fields,$counter)
 	{
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 
@@ -185,9 +181,11 @@ class ilUserSearchOptions
 		return $fields ? $fields : array();
 	}
 
-	function __prepareValues($a_values)
+	public static function __prepareValues($a_values)
 	{
-		$new_values = array(0 => $this->lng->txt('please_choose'));
+		global $lng;
+
+		$new_values = array(0 => $lng->txt('please_choose'));
 		foreach($a_values as $value)
 		{
 			$new_values[$value] = $value;
