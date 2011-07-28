@@ -114,11 +114,6 @@ class ilForumXMLWriter extends ilXmlWriter
 			$this->xmlElement("Sticky", null, (int)$row->is_sticky);
 			$this->xmlElement("Closed", null, (int)$row->is_closed);
 
-
-
-			// Hier die posts, achtung, unter dem thread muss genau 1 post sein, danach können
-			// posts beliebig ineinander geschachtelt werden
-
 			$query = 'SELECT frm_posts.*, frm_posts_tree.*
 						FROM frm_posts
 							INNER JOIN frm_data
@@ -155,13 +150,7 @@ class ilForumXMLWriter extends ilXmlWriter
 				$this->xmlElement("Notification", null, $rowPost->notify);
 				$this->xmlElement("ImportName", null, $rowPost->import_name);
 				$this->xmlElement("Status", null, (int)$rowPost->pos_status);
-				/*
-				 *
-				 * Do not escape tinymce content
-				 * 
-				 */
-				$this->xmlElement("Message", null, $rowPost->pos_message, true, false);
-
+				$this->xmlElement("Message", null, $rowPost->pos_message);
 				$this->xmlElement("Lft", null, (int)$rowPost->lft);
 				$this->xmlElement("Rgt", null, (int)$rowPost->rgt);
 				$this->xmlElement("Depth", null, (int)$rowPost->depth);
@@ -220,32 +209,10 @@ class ilForumXMLWriter extends ilXmlWriter
 
 	function getXML()
 	{
-		return $this->xmlDumpMem(false);
+		// Replace ascii code 11 characters because of problems with xml sax parser
+	    return str_replace('&#11;', '', $this->xmlDumpMem(false));
 	}
 
-	/**
-	* Writes data
-	* @param	string	data
-	* @param	string	ecode data (TRUE) or not (FALSE)
-	* @param	string	escape data (TRUE) or not (FALSE)
-	* @access	public
-	*/
-	function xmlData ($data, $encode = TRUE, $escape = TRUE)
-	{
-		// encode
-		if ($encode)
-		{
-		    $data = $this->xmlEncodeData($data);
-		}
-
-		// escape
-		if ($escape)
-		{
-			$data = ilXmlWriter::_xmlEscapeData($data);
-	    }
-
-		$this->xmlStr .= '<![CDATA['.$data.']]>';
-	}
 }
 
 ?>
