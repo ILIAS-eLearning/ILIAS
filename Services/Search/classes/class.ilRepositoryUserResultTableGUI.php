@@ -108,7 +108,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 
 				default:
 					$this->tpl->setCurrentBlock('custom_fields');
-					$this->tpl->setVariable('VAL_CUST', $a_set[$field] ? $a_set[$field] : '');
+					$this->tpl->setVariable('VAL_CUST', (string) ($a_set[$field] ? $a_set[$field] : ''));
 					$this->tpl->parseCurrentBlock();
 					break;
 			}
@@ -125,18 +125,16 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 	{
 		$additional_fields = $this->getSelectedColumns();
 
-
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)
 		{
 			if(substr($field, 0, 3) == 'udf')
 			{
-				$udf_ids[] = substr($field, 4);
+				$udf_ids[] = substr($field,4);
 				continue;
 			}
 			$usr_data_fields[] = $field;
 		}
-
 		include_once './Services/User/classes/class.ilUserQuery.php';
 		$usr_data = ilUserQuery::getUserListData(
 				'login',
@@ -155,7 +153,28 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 				$a_user_ids
 		);
 
-		$this->setData($usr_data['set']);
+		// Custom user data fields
+		if($udf_ids)
+		{
+			include_once './Services/User/classes/class.ilUserDefinedData.php';
+			$data = ilUserDefinedData::lookupData($a_user_ids, $udf_ids);
+
+			$users = array();
+			$counter = 0;
+			foreach($usr_data['set'] as $set)
+			{
+				$users[$counter] = $set;
+				foreach($udf_ids as $udf_field)
+				{
+					$users[$counter]['udf_'.$udf_field] = $data[$set['usr_id']][$udf_field];
+				}
+			}
+		}
+		else
+		{
+			$users = $usr_data['set'];
+		}
+		$this->setData($users);
 	}
 
 }

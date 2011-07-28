@@ -53,6 +53,11 @@ class ilUserSearchOptions
 		$col_info = array();
 		foreach(self::_getSearchableFieldsInfo($a_admin) as $field)
 		{
+			if(is_numeric($field['db']))
+			{
+				$field['db'] = 'udf_'.$field['db'];
+			}
+
 			$col_info[$field['db']] = array(
 				'txt'		=> $field['lang']
 			);
@@ -158,7 +163,7 @@ class ilUserSearchOptions
 	{
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 
-		$user_defined_fields =& ilUserDefinedFields::_getInstance();
+		$user_defined_fields = ilUserDefinedFields::_getInstance();
 		
 		foreach($user_defined_fields->getSearchableDefinitions() as $definition)
 		{
