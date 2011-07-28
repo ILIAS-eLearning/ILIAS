@@ -15,6 +15,14 @@ class ilChatroomServerConnector
 
 	private $settings;
 
+	private function file_get_contents($url) {
+		return file_get_contents($url, null, stream_context_create(array(
+		    'http' => array(
+			'header' => 'Connection: close'
+		    )
+		)));
+	}
+
 	/**
 	 * Constructor
 	 *
@@ -38,7 +46,7 @@ class ilChatroomServerConnector
 	 */
 	public function connect($scope, $userId)
 	{
-		return file_get_contents(
+		return $this->file_get_contents(
 		$this->settings->getURL( 'Connect', $scope ) . '?id=' . $userId
 		);
 	}
@@ -54,7 +62,7 @@ class ilChatroomServerConnector
 	 */
 	public function post($scope, $query)
 	{
-		return file_get_contents(
+		return $this->file_get_contents(
 		$this->settings->getURL( 'Post', $scope ) . '?' . $query
 		);
 	}
@@ -67,7 +75,7 @@ class ilChatroomServerConnector
 	 */
 	private function sendCreatePrivateRoom($scope, $query)
 	{
-		return file_get_contents(
+		return $this->file_get_contents(
 		$this->settings->getURL( 'CreatePrivateRoom', $scope ) . '?' . $query
 		);
 	}
@@ -80,7 +88,7 @@ class ilChatroomServerConnector
 	 */
 	public function enterPrivateRoom($scope, $query)
 	{
-		return file_get_contents(
+		return $this->file_get_contents(
 		$this->settings->getURL( 'EnterPrivateRoom', $scope ) . '?' . $query
 		);
 	}
@@ -93,7 +101,7 @@ class ilChatroomServerConnector
 	 */
 	public function leavePrivateRoom($scope, $query)
 	{
-		return file_get_contents(
+		return $this->file_get_contents(
 		$this->settings->getURL( 'LeavePrivateRoom', $scope ) . '?' . $query
 		);
 	}
@@ -109,7 +117,7 @@ class ilChatroomServerConnector
 	 */
 	public function kick($scope, $query)
 	{
-		return file_get_contents(
+		return $this->file_get_contents(
 		$this->settings->getURL( 'Kick', $scope ) . '?' . $query
 		);
 	}
@@ -236,7 +244,7 @@ class ilChatroomServerConnector
 		)
 		);
 
-		$response = @file_get_contents(
+		$response = @$this->file_get_contents(
 		$this->settings->getURL( 'Status', 0),
 		0,
 		$ctx
