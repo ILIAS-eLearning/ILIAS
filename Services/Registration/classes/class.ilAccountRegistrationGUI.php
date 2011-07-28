@@ -116,9 +116,11 @@ class ilAccountRegistrationGUI
 			$this->registration_settings->getAllowCodes()) &&
 			(!isset($_POST["usr_registration_code"]) || $a_force_code))
 		{
+			/*
 			$sh = new ilFormSectionHeaderGUI();
 			$sh->setTitle($lng->txt("prerequisites"));
 			$this->form->addItem($sh);
+			*/
 			
 			include_once 'Services/Registration/classes/class.ilRegistrationCode.php';
 			$code = new ilTextInputGUI($lng->txt("registration_code"), "usr_registration_code");
