@@ -398,6 +398,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 			include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
 			$lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
+			$lgui->initItem($this->object->getRefId(), $this->object->getId());
 			$this->tpl->setAlertProperties($lgui->getAlertProperties());
 		}
 	}

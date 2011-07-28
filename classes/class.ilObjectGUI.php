@@ -328,6 +328,7 @@ class ilObjectGUI
 
 		include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
 		$lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
+		$lgui->initItem($this->object->getRefId(), $this->object->getRefId());
 		$this->tpl->setAlertProperties($lgui->getAlertProperties());
 	}
 	
