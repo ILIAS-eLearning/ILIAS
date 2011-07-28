@@ -223,7 +223,7 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
 	 */
 	public function updateSmiliesObject()
 	{
-		global $rbacsystem, $ilCtrl;
+		global $rbacsystem, $ilCtrl, $tpl;
 
 		if( !$rbacsystem->checkAccess( 'write', $this->gui->ref_id ) )
 		{
@@ -231,35 +231,38 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
 			$lng->txt( 'msg_no_perm_write' ), $this->ilias->error_obj->MESSAGE
 			);
 		}
-
-		$this->initSmiliesEditForm();
+		
+		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		$this->form_gui = new ilPropertyFormGUI();
+		
+	//	$this->initSmiliesEditForm();
 
 		include_once "Modules/Chatroom/classes/class.ilChatroomSmilies.php";
 
 		$keywords = ilChatroomSmilies::_prepareKeywords(
-		ilUtil::stripSlashes( $_REQUEST["chatroom_smiley_keywords"] )
+			ilUtil::stripSlashes( $_REQUEST["chatroom_smiley_keywords"] )
 		);
 
 		$keywordscheck = count( $keywords ) > 0;
 
 		if( !$this->form_gui->checkInput() || !$keywordscheck )
 		{
-			$this->form_gui->setValuesByPost();
-			$this->tpl->setContent( $this->form_gui->getHtml() );
-			return;
+			$tpl->setContent( $this->form_gui->getHtml() );
+			ilUtil::sendFailure('test', true);
+			return $this->view();
 		}
 		else
 		{
 			$data = array();
 			$data["smiley_keywords"] = join( "\n", $keywords );
-			$data["smiley_id"] = $_REQUEST["chatroom_smiley_id"];
+			$data["smiley_id"] = $_REQUEST["smiley_id"];
 
 			if( $_FILES["chatroom_image_path"] )
 			{
 				move_uploaded_file(
-				$_FILES["chatroom_image_path"]["tmp_name"],
-				ilChatroomSmilies::_getSmiliesBasePath() .
-				$_FILES["chatroom_image_path"]["name"]
+					$_FILES["chatroom_image_path"]["tmp_name"],
+					ilChatroomSmilies::_getSmiliesBasePath() .
+					$_FILES["chatroom_image_path"]["name"]
 				);
 
 				$data["smiley_path"] = $_FILES["chatroom_image_path"]["name"];
@@ -435,6 +438,8 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
 
 		$table_nav = $_REQUEST["_table_nav"] ? "&_table_nav=" . $_REQUEST["_table_nav"] : "";
 
+		$ilCtrl->saveParameter($this->gui, 'smiley_id');
+		
 		$this->form_gui->setFormAction(
 		$ilCtrl->getFormAction( $this->gui, 'update' ) . $table_nav
 		);
@@ -502,6 +507,9 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
 		$this->initSmiliesForm();
 
 		include_once "Modules/Chatroom/classes/class.ilChatroomSmilies.php";
+		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		
+		$this->form_gui = new ilPropertyFormGUI();
 
 		$keywords = ilChatroomSmilies::_prepareKeywords(
 		ilUtil::stripSlashes( $_REQUEST["chatroom_smiley_keywords"] )
