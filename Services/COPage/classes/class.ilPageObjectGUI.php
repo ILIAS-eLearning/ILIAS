@@ -1410,9 +1410,6 @@ class ilPageObjectGUI
 					ilYuiUtil::initConnection();
 					ilYuiUtil::initPanel(false);
 					$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
-					//$GLOBALS["tpl"]->addJavaScript("./Services/RTE/tiny_mce/tiny_mce.js");
-					$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilpageedit.js");
-					//$GLOBALS["tpl"]->addJavascript("Services/COPage/js/wz_dragdrop.js");
 					$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
 
 					include_once './Services/Style/classes/class.ilObjStyleSheet.php';
