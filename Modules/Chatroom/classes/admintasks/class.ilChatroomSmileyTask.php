@@ -490,7 +490,7 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
 	public function uploadSmileyObject()
 	{
 		//global $rbacsystem, $ilSetting, $ilCtrl;
-		global $rbacsystem, $ilCtrl;
+		global $rbacsystem, $ilCtrl, $tpl;
 
 		if( !$rbacsystem->checkAccess( 'write', $this->gui->ref_id ) )
 		{
@@ -511,8 +511,8 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
 		if( !$this->form_gui->checkInput() )
 		{
 			$this->form_gui->setValuesByPost();
-			$this->tpl->setContent( $this->form_gui->getHtml() );
-			return;
+			$tpl->setContent( $this->form_gui->getHtml() );
+			return $this->view();
 		}
 
 		$pathinfo = pathinfo( $_FILES["chatroom_image_path"]["name"] );
