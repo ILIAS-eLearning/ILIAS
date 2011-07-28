@@ -60,7 +60,7 @@ class ilTimingCache
 		$obj_id = $ilObjDataCache->lookupObjId($a_ref_id);
 
 		// if completed no warning
-		if(in_array($a_usr_id,ilLPStatusWrapper::_getCompleted($obj_id)))
+		if(ilLPStatusWrapper::_determineStatus($obj_id, $a_usr_id) == LP_STATUS_COMPLETED_NUM)
 		{
 			return false;
 		}
