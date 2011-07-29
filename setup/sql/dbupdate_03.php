@@ -7121,3 +7121,29 @@ if(!$ilDB->tableExists('usr_account_codes'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3419>
+<?php
+
+	// fix missing mep_data entries
+	$set = $ilDB->query("SELECT * FROM object_data ".
+		" WHERE type = ".$ilDB->quote("mep", "text"));
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$set2 = $ilDB->query("SELECT * FROM mep_data ".
+			" WHERE id = ".$ilDB->quote($rec["obj_id"], "integer"));
+		if ($rec2 = $ilDB->fetchAssoc($set2))
+		{
+			// everything ok
+		}
+		else
+		{
+			$q = "INSERT INTO mep_data ".
+				"(id, default_width, default_height) VALUES (".
+				$ilDB->quote($rec["obj_id"], "integer").", ".
+				$ilDB->quote(null, "integer").", ".
+				$ilDB->quote(null, "integer").
+				")";
+			$ilDB->manipulate($q);
+		}
+	}
+?>
