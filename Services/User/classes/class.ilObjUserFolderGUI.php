@@ -12,6 +12,7 @@ require_once "./classes/class.ilObjectGUI.php";
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilAdminUserSearchGUI, ilUserTableGUI
+* @ilCtrl_Calls ilObjUserFolderGUI: ilAccountCodesGUI
 *
 * @ingroup ServicesUser
 */
@@ -50,6 +51,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	function &executeCommand()
 	{
+		global $ilTabs;
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
@@ -89,6 +92,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->tabs_gui->setTabActive('search_user_extended');
 				$this->ctrl->setReturn($this,'view');
 				$ret =& $this->ctrl->forwardCommand($user_search);
+				break;
+			
+			case 'ilaccountcodesgui':
+				$this->setSubTabs("settings");			
+				$ilTabs->activateSubTab("account_codes");
+				include_once("./Services/User/classes/class.ilAccountCodesGUI.php");
+				$acc = new ilAccountCodesGUI($this->ref_id);
+				$this->ctrl->forwardCommand($acc);
 				break;
 
 			default:
@@ -3678,8 +3689,9 @@ else
 												 "listUserDefinedFields",get_class($this));
 				$this->tabs_gui->addSubTabTarget("user_new_account_mail",
 												 $this->ctrl->getLinkTarget($this,'newAccountMail'),
-												 "newAccountMail",get_class($this));
-												 
+												 "newAccountMail",get_class($this));				
+				$this->tabs_gui->addSubTab("account_codes", $this->lng->txt("user_account_codes"),
+											 $this->ctrl->getLinkTargetByClass("ilaccountcodesgui"));												 
 				break;
 		}
 	}

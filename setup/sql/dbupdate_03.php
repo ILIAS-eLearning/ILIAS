@@ -7077,3 +7077,47 @@ $ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
 	$ilDB->manipulate("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'chtr', 2, 8)");
 	$ilDB->manipulate("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'chtr', 3, 8)");
 ?>
+<#3417>
+<?php
+if(!$ilDB->tableExists('usr_account_codes'))
+{
+	$fields = array (
+		'code_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+
+		'code' => array(
+			'type' => 'text',
+			'notnull' => false,
+			'length' => 50,
+			'fixed' => false),
+
+	 	'valid_until' => array(
+			'type' => 'text',
+			'notnull' => false,
+			'length' => 10),
+
+		'generated' => array(
+			'type' => 'integer',
+			'notnull' => false,
+			'length' => 4,
+			'default' => 0),
+
+		'used' => array(
+			'type' => 'integer',
+			'notnull' => true,
+			'length' => 4,
+			'default' => 0)
+	);
+	$ilDB->createTable('usr_account_codes', $fields);
+	$ilDB->addPrimaryKey('usr_account_codes', array('code_id'));
+	$ilDB->addIndex('usr_account_codes', array('code'), 'i1');
+	$ilDB->createSequence("usr_account_codes");
+}
+?>
+<#3418>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
