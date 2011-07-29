@@ -11855,3 +11855,4 @@ user#:#user_account_code_used#:#Verbraucht am
 user#:#user_account_code_generated_all#:#Alle Daten
 user#:#user_account_export_codes_no_data#:#Keine Codes wurden für den Export ausgewählt.
 user#:#user_account_code_not_valid#:#Der gegebene Code ist ungültig oder wurde bereits benutzt.
+user#:#user_account_code_valid_until_unlimited#:#Unlimitiert

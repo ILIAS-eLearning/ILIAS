@@ -45,7 +45,7 @@ class ilAccountCodesTableGUI extends ilTable2GUI
 
 		$this->setSelectAllCheckbox("id[]");
 		$this->setTopCommands(true);
-		$this->addMultiCommand("deleteCodeConfirmation", $lng->txt("delete"));
+		$this->addMultiCommand("deleteConfirmation", $lng->txt("delete"));
 		
 		$this->addCommandButton("exportCodes", $lng->txt("user_account_codes_export"));
 		
@@ -100,10 +100,24 @@ class ilAccountCodesTableGUI extends ilTable2GUI
 			{
 				$result[$k]["used"] = "";
 			}
-
+			
+			if($code["valid_until"] === "0")
+			{
+				$valid = $lng->txt("user_account_code_valid_until_unlimited");
+			}
+			else if(is_numeric($code["valid_until"]))
+			{
+				$valid = $code["valid_until"]." ".$lng->txt("days");
+			}
+			else
+			{
+				$valid = ilDatePresentation::formatDate(new ilDate($code["valid_until"], IL_CAL_DATE));
+			}
+			$result[$k]["valid_until"] = $valid;			
+			
 			$result[$k]["code"] = $code["code"];
 			$result[$k]["code_id"] = $code["code_id"];
-		}
+		}				
 		
 		$this->setMaxCount($codes_data["cnt"]);
 		$this->setData($result);
