@@ -21,15 +21,15 @@ class ilAccountCodesTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng;
 		
-		$this->setId("account_code");
+		$this->setId("user_account_code");
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->addColumn("", "", "1", true);
-		foreach ($this->getSelectedColumns() as $c)
-		{
-			$this->addColumn($this->lng->txt($c), $c);
-		}
+		$this->addColumn($lng->txt("user_account_code"), "code");
+		$this->addColumn($lng->txt("user_account_code_valid_until"), "valid_until");
+		$this->addColumn($lng->txt("user_account_code_generated"), "generated");
+		$this->addColumn($lng->txt("user_account_code_used"), "used");		
 				
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
@@ -40,14 +40,14 @@ class ilAccountCodesTableGUI extends ilTable2GUI
 		$this->initFilter();
 		$this->setFilterCommand("applyCodesFilter");
 		$this->setResetCommand("resetCodesFilter");
-		$this->setDefaultOrderField("code_generated");
+		$this->setDefaultOrderField("generated");
 		$this->setDefaultOrderDirection("desc");
 
 		$this->setSelectAllCheckbox("id[]");
 		$this->setTopCommands(true);
 		$this->addMultiCommand("deleteCodeConfirmation", $lng->txt("delete"));
 		
-		$this->addCommandButton("exportCodes", $lng->txt("account_codes_export"));
+		$this->addCommandButton("exportCodes", $lng->txt("user_account_codes_export"));
 		
 		$this->getItems();
 	}
@@ -62,16 +62,9 @@ class ilAccountCodesTableGUI extends ilTable2GUI
 		$this->determineOffsetAndOrder();
 		
 		include_once("./Services/User/classes/class.ilAccountCode.php");
-
-		$order_map = array(
-			"account_code" => "code",
-			"valid_until" => "valid_until", 
-			"code_generated" => "generated", 
-			"code_used" => "used"			
-		);
 		
 		$codes_data = ilAccountCode::getCodesData(
-			ilUtil::stripSlashes($order_map[$this->getOrderField()]),
+			ilUtil::stripSlashes($this->getOrderField()),
 			ilUtil::stripSlashes($this->getOrderDirection()),
 			ilUtil::stripSlashes($this->getOffset()),
 			ilUtil::stripSlashes($this->getLimit()),
@@ -97,18 +90,18 @@ class ilAccountCodesTableGUI extends ilTable2GUI
 		$result = array();
 		foreach ($codes_data["set"] as $k => $code)
 		{
-			$result[$k]["code_generated"] = ilDatePresentation::formatDate(new ilDateTime($code["generated"],IL_CAL_UNIX));
+			$result[$k]["generated"] = ilDatePresentation::formatDate(new ilDateTime($code["generated"],IL_CAL_UNIX));
 
 			if($code["used"])
 			{
-				$result[$k]["code_used"] = ilDatePresentation::formatDate(new ilDateTime($code["used"],IL_CAL_UNIX));
+				$result[$k]["used"] = ilDatePresentation::formatDate(new ilDateTime($code["used"],IL_CAL_UNIX));
 			}
 			else
 			{
-				$result[$k]["code_used"] = "";
+				$result[$k]["used"] = "";
 			}
 
-			$result[$k]["account_code"] = $code["code"];
+			$result[$k]["code"] = $code["code"];
 			$result[$k]["code_id"] = $code["code_id"];
 		}
 		
@@ -128,7 +121,7 @@ class ilAccountCodesTableGUI extends ilTable2GUI
 		
 		// code
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-		$ti = new ilTextInputGUI($lng->txt("account_code"), "query");
+		$ti = new ilTextInputGUI($lng->txt("user_account_code"), "query");
 		$ti->setMaxLength(ilAccountCode::CODE_LENGTH);
 		$ti->setSize(20);
 		$ti->setSubmitFormOnEnter(true);
@@ -138,21 +131,16 @@ class ilAccountCodesTableGUI extends ilTable2GUI
 		
 		// generated
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		$options = array("" => $this->lng->txt("account_code_generated_all"));
+		$options = array("" => $lng->txt("user_account_code_generated_all"));
 		foreach((array)ilAccountCode::getGenerationDates() as $date)
 		{
 			$options[$date] = ilDatePresentation::formatDate(new ilDateTime($date,IL_CAL_UNIX));
 		}
-		$si = new ilSelectInputGUI($this->lng->txt("code_generated"), "generated");
+		$si = new ilSelectInputGUI($lng->txt("user_account_code_generated"), "generated");
 		$si->setOptions($options);
 		$this->addFilterItem($si);
 		$si->readFromSession();
 		$this->filter["generated"] = $si->getValue();
-	}
-	
-	public function getSelectedColumns()
-	{
-		return array("account_code", "valid_until", "code_generated", "code_used");
 	}
 	
 	/**
@@ -161,11 +149,11 @@ class ilAccountCodesTableGUI extends ilTable2GUI
 	protected function fillRow($code)
 	{
 		$this->tpl->setVariable("ID", $code["code_id"]);
-		foreach ($this->getSelectedColumns() as $c)
-		{
-			$this->tpl->setVariable("VAL_".strtoupper($c), $code[$c]);
-		}
+		$this->tpl->setVariable("VAL_CODE", $code["code"]);
+		$this->tpl->setVariable("VAL_VALID_UNTIL", $code["valid_until"]);
+		$this->tpl->setVariable("VAL_GENERATED", $code["generated"]);
+		$this->tpl->setVariable("VAL_USED", $code["used"]);
 	}
-
 }
+
 ?>
