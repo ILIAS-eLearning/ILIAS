@@ -3429,13 +3429,16 @@ class ilPageObjectGUI
 	/**
 	 * Init question handling
 	 */
-	function initSelfAssessmentRendering()
+	function initSelfAssessmentRendering($a_force_no_form = false)
 	{
 		global $tpl, $ilCtrl, $lng;
 
 		if ($this->getEnabledSelfAssessment())
 		{
-			$qhtml = $this->getQuestionJsOfPage(($this->getOutputMode()=="edit") ? true : false);
+			$qhtml = $this->getQuestionJsOfPage(($this->getOutputMode()=="edit" || $a_force_no_form)
+				? true
+				: false);
+			$qhtml = $this->getQuestionJsOfPage(true);
 			$this->setQuestionHTML($qhtml);
 			//include JQuery Libraries before Prototpye
 //			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
@@ -3446,7 +3449,6 @@ class ilPageObjectGUI
 			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/pure.js");
 			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
 			$tpl->addCss("./Modules/Scorm2004/templates/default/question_handling.css");
-
 			if (!$this->getEnabledSelfAssessmentScorm() && $this->getOutputMode() != IL_PAGE_PREVIEW
 				&& $this->getOutputMode() != "offline")
 			{

@@ -572,8 +572,11 @@ die("pcinteractiveimage: setstyleclass");
 		for($i=0; $i < count($tr_nodes); $i++)
 		{
 			$tr_node = $tr_nodes[$i];
-			$tr_node->set_attribute("Overlay",
-				$a_ovs["".$tr_node->get_attribute("Nr")]);
+			if (isset($a_ovs["".$tr_node->get_attribute("Nr")]))
+			{
+				$tr_node->set_attribute("Overlay",
+					$a_ovs["".$tr_node->get_attribute("Nr")]);
+			}
 		}
 	}
 	
@@ -588,9 +591,12 @@ die("pcinteractiveimage: setstyleclass");
 		for($i=0; $i < count($tr_nodes); $i++)
 		{
 			$tr_node = $tr_nodes[$i];
-			$pos = explode(",", $a_pos["".$tr_node->get_attribute("Nr")]);
-			$tr_node->set_attribute("OverlayX", (int) $pos[0]);
-			$tr_node->set_attribute("OverlayY", (int) $pos[1]);
+			if (isset($a_pos["".$tr_node->get_attribute("Nr")]))
+			{
+				$pos = explode(",", $a_pos["".$tr_node->get_attribute("Nr")]);
+				$tr_node->set_attribute("OverlayX", (int) $pos[0]);
+				$tr_node->set_attribute("OverlayY", (int) $pos[1]);
+			}
 		}
 	}
 
@@ -607,9 +613,12 @@ die("pcinteractiveimage: setstyleclass");
 			$tr_node = $tr_nodes[$i];
 			if ($tr_node->get_attribute("Type") == self::MARKER)
 			{
-				$pos = explode(",", $a_pos["".$tr_node->get_attribute("Nr")]);
-				$tr_node->set_attribute("MarkerX", (int) $pos[0]);
-				$tr_node->set_attribute("MarkerY", (int) $pos[1]);
+				if (isset($a_pos["".$tr_node->get_attribute("Nr")]))
+				{
+					$pos = explode(",", $a_pos["".$tr_node->get_attribute("Nr")]);
+					$tr_node->set_attribute("MarkerX", (int) $pos[0]);
+					$tr_node->set_attribute("MarkerY", (int) $pos[1]);
+				}
 			}
 		}
 	}
@@ -625,9 +634,12 @@ die("pcinteractiveimage: setstyleclass");
 		for($i=0; $i < count($tr_nodes); $i++)
 		{
 			$tr_node = $tr_nodes[$i];
-			$pos = explode(",", $a_pos["".$tr_node->get_attribute("Nr")]);
-			$tr_node->set_attribute("PopupX", (int) $pos[0]);
-			$tr_node->set_attribute("PopupY", (int) $pos[1]);
+			if (isset($a_pos["".$tr_node->get_attribute("Nr")]))
+			{
+				$pos = explode(",", $a_pos["".$tr_node->get_attribute("Nr")]);
+				$tr_node->set_attribute("PopupX", (int) $pos[0]);
+				$tr_node->set_attribute("PopupY", (int) $pos[1]);
+			}
 		}
 	}
 	
@@ -642,9 +654,12 @@ die("pcinteractiveimage: setstyleclass");
 		for($i=0; $i < count($tr_nodes); $i++)
 		{
 			$tr_node = $tr_nodes[$i];
-			$size = explode(",", $a_size["".$tr_node->get_attribute("Nr")]);
-			$tr_node->set_attribute("PopupWidth", (int) $size[0]);
-			$tr_node->set_attribute("PopupHeight", (int) $size[1]);
+			if (isset($a_size["".$tr_node->get_attribute("Nr")]))
+			{
+				$size = explode(",", $a_size["".$tr_node->get_attribute("Nr")]);
+				$tr_node->set_attribute("PopupWidth", (int) $size[0]);
+				$tr_node->set_attribute("PopupHeight", (int) $size[1]);
+			}
 		}
 	}
 
@@ -659,8 +674,11 @@ die("pcinteractiveimage: setstyleclass");
 		for($i=0; $i < count($tr_nodes); $i++)
 		{
 			$tr_node = $tr_nodes[$i];
-			$pop = $a_pops["".$tr_node->get_attribute("Nr")];
-			$tr_node->set_attribute("PopupNr", $pop);
+			if (isset($a_pops["".$tr_node->get_attribute("Nr")]))
+			{
+				$pop = $a_pops["".$tr_node->get_attribute("Nr")];
+				$tr_node->set_attribute("PopupNr", $pop);
+			}
 		}
 	}
 
@@ -675,8 +693,11 @@ die("pcinteractiveimage: setstyleclass");
 		for($i=0; $i < count($tr_nodes); $i++)
 		{
 			$tr_node = $tr_nodes[$i];
-			$tr_node->set_attribute("Title",
-				$a_titles["".$tr_node->get_attribute("Nr")]);
+			if (isset($a_titles["".$tr_node->get_attribute("Nr")]))
+			{
+				$tr_node->set_attribute("Title",
+					$a_titles["".$tr_node->get_attribute("Nr")]);
+			}
 		}
 	}
 
