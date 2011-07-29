@@ -23,6 +23,8 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 		$a_parent_node_name)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
+		
+		$this->setId("cont_iim_tr");
 
 		$this->parent_node_name = $a_parent_node_name;
 		$this->pc_media_object = $a_pc_media_object;

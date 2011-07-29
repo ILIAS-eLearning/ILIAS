@@ -135,7 +135,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	public function initAreaEditingForm($a_edit_property)
 	{
 		global $lng, $ilCtrl;
-	
+
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setOpenTag(false);
@@ -291,7 +291,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 		$pg_gui = new ilPageObjectGUI($this->page->getParentType(), $this->page->getId());
 		$pg_gui->setOutputMode(IL_PAGE_PREVIEW);
 		$pg_gui->setEnabledSelfAssessment(true);
-		$pg_gui->initSelfAssessmentRendering();
+		$pg_gui->initSelfAssessmentRendering(true);
 		$qhtml = $pg_gui->getQuestionHTML();
 		if (is_array($qhtml))
 		{
