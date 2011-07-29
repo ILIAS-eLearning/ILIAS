@@ -11856,3 +11856,10 @@ user#:#user_account_code_generated_all#:#Alle Daten
 user#:#user_account_export_codes_no_data#:#Keine Codes wurden für den Export ausgewählt.
 user#:#user_account_code_not_valid#:#Der gegebene Code ist ungültig oder wurde bereits benutzt.
 user#:#user_account_code_valid_until_unlimited#:#Unlimitiert
+user#:#user_account_code_setting#:#Account-Reaktivierung durch Codes ermöglichen
+user#:#user_account_code_setting_info#:#Inaktive Accounts können durch vordefinierte Codes durch die Benutzer reaktiviert werden.
+registration#:#registration_code_optional_info#:#Einen evtl. vorhandenen ILIAS Registrierungs-Code können Sie hier eingeben.
+registration#:#registration_code_required_info#:#Ein ILIAS-Registrierungs-Code ist Voraussetzung für die erfolgreiche Registrierung.
+auth#:#auth_account_code#:#Code
+auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren können Sie einen ILIAS-Benutzerkonten-Code benutzen.
+auth#:#auth_account_code_title#:#Benutzerkonten Code

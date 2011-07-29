@@ -152,12 +152,17 @@ class ilStartUpGUI
 		{
 			// Or we do authentication here
 			// To do: check whether some $ilInit method could be used here.
-
+			
 			if(!$ilUser->checkTimeLimit())
 			{
 				$ilAuth->logout();
 				session_destroy();
 
+				if($ilSetting->get('user_reactivate_code'))
+				{				
+					return $this->showCodeForm();
+				}
+				
 				// to do: get rid of this
 				ilUtil::redirect('login.php?time_limit=true');
 			}
@@ -333,6 +338,87 @@ class ilStartUpGUI
 
 		$tpl->show("DEFAULT", false);
 	}
+	
+	protected function showCodeForm($a_form = null)
+	{
+		global $tpl, $ilCtrl, $lng;
+		
+		$tpl->addBlockFile("CONTENT", "content", "tpl.login_reactivate_code.html","Services/Init");
+		
+		$this->showFailure($lng->txt("time_limit_reached"));
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initCodeForm();
+		}
+	
+		$tpl->setVariable("FORM", $a_form->getHTML());
+		$tpl->show("DEFAULT", false);
+	}
+	
+	protected function initCodeForm()
+	{
+		global $lng, $ilCtrl;
+		
+		$lng->loadLanguageModule("auth");
+		
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this, 'showcodeform'));
+		$form->setTitle($lng->txt('auth_account_code_title'));
+		
+		$count = new ilTextInputGUI($lng->txt('auth_account_code'), 'code');
+		$count->setRequired(true);
+		$count->setInfo($lng->txt('auth_account_code_info'));
+		$form->addItem($count);
+		
+		$login = new ilHiddenInputGUI("username");
+		$login->setValue($_POST["username"]);
+		$form->addItem($login);
+		
+		$password = new ilHiddenInputGUI("password");
+		$password->setValue($_POST["password"]);
+		$form->addItem($password);
+		
+		$form->addCommandButton('processcode', $lng->txt('send'));
+		
+		return $form;
+	}
+	
+	protected function processCode()
+	{
+		global $lng;
+		
+		$form = $this->initCodeForm();
+		if($form->checkInput())
+		{
+			$code = $form->getInput("code");
+			
+			include_once "Services/User/classes/class.ilAccountCode.php";
+			if(ilAccountCode::isUnusedCode($code))
+			{
+				$valid_until = ilAccountCode::getCodeValidUntil($code);			
+				// ilAccountCode::useCode($code);
+				
+				/*
+				$this->processStartingPage();
+				exit();				
+			    */
+			}
+			else
+			{
+				$lng->loadLanguageModule("user");
+				$field = $form->getItemByPostVar("code");
+				$field->setAlert($lng->txt("user_account_code_not_valid"));
+			}			
+		}
+		
+		$form->setValuesByPost();
+		$this->showCodeForm($form);		
+	}
+	
+	
 
 	/**
 	 * Show login form 
