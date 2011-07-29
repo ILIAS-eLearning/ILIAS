@@ -2508,7 +2508,8 @@ class ilObjectListGUI
 
 		
 		// common social commands (comment, notes, tags)
-		if ($this->getInfoScreenStatus() && !$only_default && !$this->isMode(IL_LIST_AS_TRIGGER))
+		if ($this->context == self::CONTEXT_REPOSITORY &&
+			$this->getInfoScreenStatus() && !$only_default && !$this->isMode(IL_LIST_AS_TRIGGER))
 		{
 			$this->insertCommonSocialCommands($a_header_actions);
 		}
