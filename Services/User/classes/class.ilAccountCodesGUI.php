@@ -82,6 +82,29 @@ class ilAccountCodesGUI
 		$count->setMaxValue(1000);
 		$count->setRequired(true);
 		$this->form_gui->addItem($count);
+		
+		$valid = new ilRadioGroupInputGUI($lng->txt('user_account_code_valid_until'), 'valid_type');
+		$valid->setRequired(true);
+		
+		$unl = new ilRadioOption($lng->txt('user_account_code_valid_until_unlimited'), 'valid_unlimited');
+		$valid->addOption($unl);
+		
+		$st = new ilRadioOption($lng->txt('user_account_code_valid_until_static'), 'valid_static');
+		$valid->addOption($st);
+		
+		$dt = new ilDateTimeInputGUI($lng->txt('date'), 'valid_date');
+		$dt->setRequired(true);
+		$st->addSubItem($dt);
+		
+		$dyn = new ilRadioOption($lng->txt('user_account_code_valid_until_dynamic'), 'valid_dynamic');
+		$valid->addOption($dyn);
+		
+		$ds = new ilNumberInputGUI($lng->txt('days'), 'valid_days');
+		$ds->setSize(5);
+		$ds->setRequired(true);
+		$dyn->addSubItem($ds);
+					
+		$this->form_gui->addItem($valid);
 
 		$this->form_gui->addCommandButton('createCodes', $lng->txt('create'));
 		$this->form_gui->addCommandButton('listCodes', $lng->txt('cancel'));
@@ -102,7 +125,7 @@ class ilAccountCodesGUI
 	
 	function createCodes()
 	{
-		global $ilAccess, $ilErr, $lng, $tpl;
+		global $ilAccess, $ilErr, $lng, $tpl, $ilCtrl;
 
 		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
 		{
@@ -113,17 +136,32 @@ class ilAccountCodesGUI
 		if($this->form_gui->checkInput())
 		{
 			$number = $this->form_gui->getInput('acc_codes_number');
+			switch($this->form_gui->getInput('valid_type'))
+			{
+				case 'valid_unlimited':
+					$valid = 0;
+					break;
+				
+				case 'valid_static':
+					$valid = $this->form_gui->getInput('valid_date');
+					$valid = $valid['date'];
+					break;
+				
+				case 'valid_dynamic':
+					$valid = $this->form_gui->getInput('valid_days');
+					break;				
+			}
 			
 			include_once './Services/User/classes/class.ilAccountCode.php';
 			
 			$stamp = time();
 			for($loop = 1; $loop <= $number; $loop++)
 			{
-				ilAccountCode::create($role, $stamp);
+				ilAccountCode::create($valid, $stamp);
 			}
 			
 			ilUtil::sendSuccess($lng->txt('saved_successfully'), true);
-			$this->ctrl->redirect($this, "listCodes");
+			$ilCtrl->redirect($this, "listCodes");
 		}
 		else
 		{
