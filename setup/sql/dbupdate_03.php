@@ -7147,3 +7147,8 @@ if(!$ilDB->tableExists('usr_account_codes'))
 		}
 	}
 ?>
+<#3420>
+<?php
+	$ilDB->query("UPDATE notification_types SET config_type = 'set_by_admin' WHERE type_name = 'chat_invitation'");
+	$ilDB->query("UPDATE notification_types SET config_type = 'set_by_admin' WHERE type_name = 'osd_maint'");
+?>
