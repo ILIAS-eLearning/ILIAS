@@ -11841,3 +11841,17 @@ chatroom_adm#:#storepass#:#Storepass
 chatroom_adm#:#settings_has_been_saved#:#Einstellungen wurden gespeichert.
 common#:#obj_chtr#:#Chatraum
 chatroom#:#unable_to_connect#:#Die Verbindung zum Chatserver konnte nicht hergestellt werden.
+user#:#user_account_codes#:#Konten-Codes
+user#:#user_account_codes_add#:#Codes erzeugen
+user#:#user_account_codes_export#:#Codes exportieren
+user#:#user_account_codes_edit_header#:#Neue Codes erzeugen
+user#:#user_account_codes_number#:#Anzahl Codes
+user#:#user_account_code#:#Code
+user#:#user_account_code_valid_until#:#Gültig bis
+user#:#user_account_code_valid_until_static#:#Enddatum
+user#:#user_account_code_valid_until_dynamic#:#Anzahl Tage
+user#:#user_account_code_generated#:#Erzeugt am
+user#:#user_account_code_used#:#Verbraucht am
+user#:#user_account_code_generated_all#:#Alle Daten
+user#:#user_account_export_codes_no_data#:#Keine Codes wurden für den Export ausgewählt.
+user#:#user_account_code_not_valid#:#Der gegebene Code ist ungültig oder wurde bereits benutzt.

@@ -57,7 +57,7 @@ class ilAccountCodesGUI
 			$ilErr->raiseError($lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 		}
 
-		$ilToolbar->addButton($lng->txt("account_codes_add"),
+		$ilToolbar->addButton($lng->txt("user_account_codes_add"),
 			$ilCtrl->getLinkTarget($this, "addCodes"));
 
 		include_once("./Services/User/classes/class.ilAccountCodesTableGUI.php");
@@ -73,9 +73,9 @@ class ilAccountCodesGUI
 
 		$this->form_gui = new ilPropertyFormGUI();
 		$this->form_gui->setFormAction($ilCtrl->getFormAction($this, 'createCodes'));
-		$this->form_gui->setTitle($lng->txt('account_codes_edit_header'));
+		$this->form_gui->setTitle($lng->txt('user_account_codes_edit_header'));
 		
-		$count = new ilNumberInputGUI($lng->txt('account_codes_number'), 'acc_codes_number');
+		$count = new ilNumberInputGUI($lng->txt('user_account_codes_number'), 'acc_codes_number');
 		$count->setSize(4);
 		$count->setMaxLength(4);
 		$count->setMinValue(1);

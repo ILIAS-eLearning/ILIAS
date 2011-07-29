@@ -11852,3 +11852,18 @@ chatroom_adm#:#storepass#:#Storepass
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
 common#:#obj_chtr#:#Chatroom
 chatroom#:#unable_to_connect#:#The connection to the chatserver could not be established.
+user#:#user_account_codes#:#Account Codes
+user#:#user_account_codes_add#:#Add Codes
+user#:#user_account_codes_export#:#Export Codes
+user#:#user_account_codes_edit_header#:#Add Codes
+user#:#user_account_codes_number#:#Number Of Codes
+user#:#user_account_code#:#Code
+user#:#user_account_code_valid_until#:#Valid Until
+user#:#user_account_code_valid_until_static#:#End Date
+user#:#user_account_code_valid_until_dynamic#:#Number of Days
+user#:#user_account_code_generated#:#Date Of Generation
+user#:#user_account_code_used#:#Date Of Use
+user#:#user_account_used#:#Date Of Usage
+user#:#user_account_code_generated_all#:#All Dates
+user#:#user_account_export_codes_no_data#:#No codes to export were selected.
+user#:#user_account_code_not_valid#:#The given registration code is either invalid or already has been used.
