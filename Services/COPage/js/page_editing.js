@@ -14,6 +14,20 @@ var ilCOPage =
 	pc_id_str: '',
 	pasting: false,
 
+	splitBR: function() {
+		var snode = ilCOPage.getCurrentDivNode();
+		snode = snode.childNodes[0];
+		
+		var ed = tinyMCE.activeEditor;
+		var brs = ed.dom.select('br');
+		var k;
+		for (k in brs)
+		{
+			ed.dom.split(snode, brs[k]);
+		}
+
+	},
+	
 	switchDebugGhost: function() {
 		var tp = document.getElementById('tinytarget_parent');
 		if (!this.ghost_debugged)
@@ -26,6 +40,12 @@ var ilCOPage =
 			tp.style.display = '';
 			this.ghost_debugged = false;
 		}
+	},
+	
+	debugContent: function()
+	{
+		var content = tinyMCE.get('tinytarget').getContent();
+		alert(content);
 	},
 	
 	setContentCss: function (content_css)
@@ -305,7 +325,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		// plit all divs in divs
 		var ed = tinyMCE.activeEditor;
 		var divs = ed.dom.select('div > div');
-		var k
+		var k;
 		for (k in divs)
 		{
 			ed.dom.split(divs[k].parentNode, divs[k]);
@@ -1635,7 +1655,14 @@ statusbar = false;
 			force_p_newlines : false,
 			force_br_newlines : true,
 			forced_root_block : 'div', */
-
+			
+		// going fully to p tags
+		/*	remove_linebreaks : true,
+			convert_newlines_to_brs : false,
+			force_p_newlines : true,
+			force_br_newlines : false,
+			forced_root_block : 'div',
+			paste_text_linebreaktype : "p",*/
 		
 		tinyMCE.init({
 			mode : "textareas",
