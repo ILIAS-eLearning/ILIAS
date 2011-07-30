@@ -348,6 +348,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	static function xml2outputJS($s_text, $char, $a_pc_id)
 	{
 		$s_text = "<div class='ilc_text_block_".$char."' id='$a_pc_id'>".$s_text."</div>";
+//		$s_text = "<div class='ilc_text_block_".$char."' id='$a_pc_id'><p>".$s_text."</p></div>";
 		// lists
 		$s_text = str_replace(array("<SimpleBulletList>", "</SimpleBulletList>"),
 			array("<ul class='ilc_list_u_BulletedList'>", "</ul>"),
