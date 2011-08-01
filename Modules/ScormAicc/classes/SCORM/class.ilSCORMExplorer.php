@@ -247,7 +247,7 @@ class ilSCORMExplorer extends ilExplorer
 	* @access	public
 	* @return	string
 	*/
-	function getOutput()
+	function getOutput($jsApi = false)
 	{
 		global $ilBench;
 		
@@ -266,7 +266,7 @@ class ilSCORMExplorer extends ilExplorer
 			if ($options["visible"] and $key != 0)
 			{
 				$ilBench->start("SCORMExplorer", "formatObject");
-				$this->formatObject($options["child"],$options);
+				$this->formatObject($options["child"],$options,$jsApi);
 				$ilBench->stop("SCORMExplorer", "formatObject");
 			}
 		}
@@ -312,7 +312,7 @@ class ilSCORMExplorer extends ilExplorer
 	* @param	array
 	* @return	string
 	*/
-	function formatObject($a_node_id,$a_option)
+	function formatObject($a_node_id,$a_option,$jsApi)
 	{
 		global $lng, $ilBench;
 		
@@ -377,7 +377,7 @@ class ilSCORMExplorer extends ilExplorer
 		$ilBench->stop("SCORMExplorer", "initResource");
 		
 		$scormtype = strtolower(ilSCORMResource::_lookupScormType($sc_res_id));
-
+		
 		$ilBench->start("SCORMExplorer", "renderLink");
 		$ilBench->start("SCORMExplorer", "renderLink_OutputIcons");
 		if ($this->output_icons)
@@ -398,9 +398,13 @@ class ilSCORMExplorer extends ilExplorer
 			{
 				$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 				$tpl->setVariable("LINK_TARGET", "javascript:void(0);");
-				$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API."
-					.($scormtype == 'asset' ? 'IliasLaunchAsset' : 'IliasLaunchSahs')
-					."('".$a_node_id."');return false;\"");
+				if ($jsApi == true) {
+					$tpl->setVariable("ONCLICK", " onclick=\"parent.API.IliasLaunch('".$a_node_id."');return false;\"");
+				} else {
+					$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API."
+						.($scormtype == 'asset' ? 'IliasLaunchAsset' : 'IliasLaunchSahs')
+						."('".$a_node_id."');return false;\"");
+				}
 			}
 			$tpl->parseCurrentBlock();
 			$ilBench->stop("SCORMExplorer", "renderLink_parseLinkBlock");

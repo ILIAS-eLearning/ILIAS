@@ -83,10 +83,9 @@ class ilSCORMPresentationGUI
 	* Output main frameset. If only one SCO/Asset is given, it is displayed
 	* without the table of contents explorer frame on the left.
 	*/
-	function frameset()
-	{
+	function frameset()	{
 		global $lng;
-//echo "h".strtolower(get_class($this->slm))."h";
+		$javascriptAPI = true;
 		include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
 		$items = ilSCORMObject::_lookupPresentableItems($this->slm->getId());
 		
@@ -105,33 +104,52 @@ class ilSCORMPresentationGUI
 		$this->increase_attempt();
 		$this->save_module_version();
 
-
-		if (count($items) > 1
-			|| strtolower(get_class($this->slm)) == "ilobjaicclearningmodule"
-			|| strtolower(get_class($this->slm)) == "ilobjhacplearningmodule")
-		{
-			$this->ctrl->setParameter($this, "expand", "1");
-			$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
-			$this->tpl = new ilTemplate("tpl.sahs_pres_frameset.html", false, false, "Modules/ScormAicc");
-			$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
-			$api_link = $this->ctrl->getLinkTarget($this, "api");
+		if ($javascriptAPI == false) {
+			if (count($items) > 1
+				|| strtolower(get_class($this->slm)) == "ilobjaicclearningmodule"
+				|| strtolower(get_class($this->slm)) == "ilobjhacplearningmodule")
+			{
+				$this->ctrl->setParameter($this, "expand", "1");
+				$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
+				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset.html", false, false, "Modules/ScormAicc");
+				$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
+				$api_link = $this->ctrl->getLinkTarget($this, "api");
+				$this->tpl->setVariable("API_LINK", $api_link);
+				$pres_link = $this->ctrl->getLinkTarget($this, "view");
+				$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
+				$this->tpl->show("DEFAULT", false);
+			}
+			else if (count($items) == 1)
+			{
+				$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_one_page.html", false, false, "Modules/ScormAicc");
+				$this->ctrl->setParameter($this, "autolaunch", $items[0]);
+				$api_link = $this->ctrl->getLinkTarget($this, "api");
+				$this->tpl->setVariable("API_LINK", $api_link);
+				$pres_link = $this->ctrl->getLinkTarget($this, "view");
+				$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
+				$this->tpl->show("DEFAULT", false);
+			}
+		} else {
+			$debug = false;
+			$template = "tpl.sahs_pres_frameset_js";
+			if ($debug) $template .= "_debug";
+			if (count($items) > 1
+				|| strtolower(get_class($this->slm)) == "ilobjaicclearningmodule"
+				|| strtolower(get_class($this->slm)) == "ilobjhacplearningmodule")
+			{
+				$template .= ".html";
+				$this->ctrl->setParameter($this, "expand", "1");
+				$this->ctrl->setParameter($this, "jsApi", "1");
+				$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
+				$this->tpl = new ilTemplate($template, false, false, "Modules/ScormAicc");
+				$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
+			} else {
+				$template .= "_one_page.html";
+				$this->tpl = new ilTemplate($template, false, false, "Modules/ScormAicc");
+				$this->ctrl->setParameter($this, "autolaunch", $items[0]);
+			}
+			$api_link = $this->ctrl->getLinkTarget($this, "apiInitData");
 			$this->tpl->setVariable("API_LINK", $api_link);
-			$pres_link = $this->ctrl->getLinkTarget($this, "view");
-			$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
-			$this->tpl->show("DEFAULT", false);
-		}
-		else if (count($items) == 1)
-		{
-			//$this->ctrl->setParameter($this, "expand", "1");
-			//$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
-			$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_one_page.html",
-				false, false, "Modules/ScormAicc");
-			//$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
-			$this->ctrl->setParameter($this, "autolaunch", $items[0]);
-			$api_link = $this->ctrl->getLinkTarget($this, "api");
-			$this->tpl->setVariable("API_LINK", $api_link);
-			$pres_link = $this->ctrl->getLinkTarget($this, "view");
-			$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
 			$this->tpl->show("DEFAULT", false);
 		}
 		
@@ -301,6 +319,8 @@ class ilSCORMPresentationGUI
 		$exp->setFrameTarget($a_target);
 		
 		//$exp->setFiltered(true);
+		$jsApi=false;
+		if ($_GET["jsApi"] == "1") $jsApi=true;
 
 		if ($_GET["scexpand"] == "")
 		{
@@ -322,7 +342,7 @@ class ilSCORMPresentationGUI
 		$ilBench->stop("SCORMExplorer", "setOutput");
 
 		$ilBench->start("SCORMExplorer", "getOutput");
-		$output = $exp->getOutput();
+		$output = $exp->getOutput($jsApi);
 		$ilBench->stop("SCORMExplorer", "getOutput");
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
@@ -353,6 +373,169 @@ class ilSCORMPresentationGUI
 		$this->tpl->show(false);
 	}
 
+	
+	/**
+	* SCORM Data for Javascript-API
+	*/
+	function apiInitData() {
+		global $ilias, $ilLog, $ilUser, $lng, $ilDB;
+	
+		function encodeURIComponent($str) {
+			$revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')', '%7E'=>'~');
+			return strtr(rawurlencode($str), $revert);
+		}
+
+		if ($_GET["ref_id"] == "") {
+			print ('alert("no start without ref_id");');
+			die;
+		}
+		$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
+
+		header('Content-Type: text/javascript; charset=UTF-8');
+		print("function iliasApi() {\r\n");
+		$js_data = file_get_contents("./Modules/ScormAicc/scripts/basisAPI.js");
+		echo $js_data;
+		$js_data = file_get_contents("./Modules/ScormAicc/scripts/SCORM1_2standard.js");//want to give opportunities to different files (Uwe Kohnle)
+		echo $js_data;
+		print("}\r\n");
+		
+		//variables to set in administration interface
+		$b_checkSetValues='true';
+		$b_storeObjectives='true';
+		$b_storeInteractions='true';
+		$b_readInteractions='false';
+		$c_storeSessionTime='s';//n=no, s=sco, i=ilias
+		$b_autoContinue='false';
+		$i_lessonScoreMax='-1';
+		$i_lessonMasteryScore='-1';
+		$b_debug='false';
+		
+		//other variables
+		$b_messageLog='false';
+		if ($ilLog->current_log_level == 30) $b_messageLog='true';
+		$launchId='0';
+		if ($_GET["autolaunch"] != "") $launchId=$_GET["autolaunch"];
+		$session_timeout = 0; //unlimited sessions
+		if ($slm_obj->getSession()) {
+			$session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
+		}
+		$b_autoReview='false';
+		if ($this->slm->getAutoReview()) $b_autoReview='true';
+
+		$s_out='IliasScormVars={'
+			.'refId:'.$_GET["ref_id"].','
+			.'objId:'.$this->slm->getId().','
+			.'launchId:'.$launchId.','
+			.'launchNr:0,'
+			.'pingSession:'. $session_timeout.','
+			.'studentId:'.$ilias->account->getId().','
+			.'studentName:"'.encodeURIComponent($ilias->account->getLastname().', '.$ilias->account->getFirstname()).'",'
+			.'studentLogin:"'.encodeURIComponent($ilias->account->getLogin()).'",'
+			.'studentOu:"'.encodeURIComponent($ilias->account->getDepartment()).'",'
+			.'credit:"'.str_replace("_", "-", $this->slm->getCreditMode()).'",'
+			.'lesson_mode:"'.$this->slm->getDefaultLessonMode().'",'
+			.'b_autoReview:'.$b_autoReview.','
+			.'b_messageLog:'.$b_messageLog.','
+			.'b_checkSetValues:'.$b_checkSetValues.','
+			.'b_storeObjectives:'.$b_storeObjectives.','
+			.'b_storeInteractions:'.$b_storeInteractions.','
+			.'b_readInteractions:'.$b_readInteractions.','
+			.'c_storeSessionTime:"'.$c_storeSessionTime.'",'
+			.'b_autoContinue:'.$b_autoContinue.','
+			.'i_lessonScoreMax:'.$i_lessonScoreMax.','
+			.'i_lessonMasteryScore:'.$i_lessonMasteryScore.','
+			.'dataDirectory:"'.encodeURIComponent($this->slm->getDataDirectory("output").'/').'",'
+			.'img:{'
+				.'asset:"'.encodeURIComponent(ilUtil::getImagePath('scorm/asset.gif')).'",'
+				.'browsed:"'.encodeURIComponent(ilUtil::getImagePath('scorm/browsed.gif')).'",'
+				.'completed:"'.encodeURIComponent(ilUtil::getImagePath('scorm/completed.gif')).'",'
+				.'failed:"'.encodeURIComponent(ilUtil::getImagePath('scorm/failed.gif')).'",'
+				.'incomplete:"'.encodeURIComponent(ilUtil::getImagePath('scorm/incomplete.gif')).'",'
+				.'not_attempted:"'.encodeURIComponent(ilUtil::getImagePath('scorm/not_attempted.gif')).'",'
+				.'passed:"'.encodeURIComponent(ilUtil::getImagePath('scorm/passed.gif')).'",'
+				.'running:"'.encodeURIComponent(ilUtil::getImagePath('scorm/running.gif')).'"'
+			.'},'
+			.'statusTxt:{'
+				.'wait:"'.encodeURIComponent($lng->txt("please_wait")).'",'
+				.'status:"'.encodeURIComponent($lng->txt("cont_status")).'",'
+				.'browsed:"'.encodeURIComponent($lng->txt("cont_sc_stat_browsed")).'",'
+				.'completed:"'.encodeURIComponent($lng->txt("cont_sc_stat_completed")).'",'
+				.'failed:"'.encodeURIComponent($lng->txt("cont_sc_stat_failed")).'",'
+				.'incomplete:"'.encodeURIComponent($lng->txt("cont_sc_stat_incomplete")).'",'
+				.'not_attempted:"'.encodeURIComponent($lng->txt("cont_sc_stat_not_attempted")).'",'
+				.'passed:"'.encodeURIComponent($lng->txt("cont_sc_stat_passed")).'",'
+				.'running:"'.encodeURIComponent($lng->txt("cont_sc_stat_running")).'"'
+			.'}'
+		.'};';
+
+//		header('Content-Type: text/javascript; charset=UTF-8');
+		print($s_out."\r\n");
+		//prevdata
+		$s_out = 'IliasScormData=[';
+		$tquery = 'SELECT sco_id,lvalue,rvalue FROM scorm_tracking '
+				.'WHERE user_id = %s AND obj_id = %s '
+				."AND sco_id > 0 AND lvalue <> 'cmi.core.entry' AND lvalue <> 'cmi.core.session_time'";
+		if ($b_readInteractions == 'false') $tquery.=" AND LEFT(lvalue,16) <> 'cmi.interactions'";
+		$val_set = $ilDB->queryF($tquery,
+			array('integer','integer'),
+			array($ilUser->getId(),$this->slm->getId())	
+		);
+		while($val_rec = $ilDB->fetchAssoc($val_set)) {
+			if (!strpos($val_rec["lvalue"],"._count"))
+				$s_out.='['.$val_rec["sco_id"].',"'.$val_rec["lvalue"].'","'.encodeURIComponent($val_rec["rvalue"]).'"],';
+		}
+		//manifestData
+		$s_ids = "";
+		$val_set = $ilDB->queryF('
+			SELECT sc_item.obj_id,maxtimeallowed,timelimitaction,datafromlms,masteryscore 
+			FROM sc_item, scorm_object 
+			WHERE scorm_object.obj_id=sc_item.obj_id
+			AND scorm_object.c_type = %s
+			AND scorm_object.slm_id = %s',
+			array('text','integer'),
+			array('sit',$this->slm->getId())	
+		);
+		while($val_rec = $ilDB->fetchAssoc($val_set)) {
+			$s_ids.=$val_rec["obj_id"].',';
+			if($val_rec["maxtimeallowed"]!=null)
+				$s_out.='['.$val_rec["obj_id"].',"cmi.student_data.max_time_allowed","'.encodeURIComponent($val_rec["maxtimeallowed"]).'"],';
+			if($val_rec["timelimitaction"]!=null)
+				$s_out.='['.$val_rec["obj_id"].',"cmi.student_data.time_limit_action","'.encodeURIComponent($val_rec["timelimitaction"]).'"],';
+			if($val_rec["datafromlms"]!=null)
+				$s_out.='['.$val_rec["obj_id"].',"cmi.launch_data","'.encodeURIComponent($val_rec["datafromlms"]).'"],';
+			if($val_rec["masteryscore"]!=null)
+				$s_out.='['.$val_rec["obj_id"].',"cmi.student_data.mastery_score","'.encodeURIComponent($val_rec["masteryscore"]).'"],';
+		}
+		if(substr($s_out,(strlen($s_out)-1))==",") $s_out=substr($s_out,0,(strlen($s_out)-1));
+		$s_out.='];';
+		print($s_out."\r\n");
+
+		$s_ids = substr($s_ids,0,(strlen($s_ids)-1));
+		//URLs
+		$s_out='IliasScormResources=[';
+		$val_set = $ilDB->query("
+			SELECT sc_item.obj_id, sc_resource_file.href, sc_resource_file.nr, 
+			CASE WHEN sc_resource.scormtype = 'asset' THEN 1 ELSE 0 END AS asset
+			FROM sc_item, sc_resource, sc_resource_file
+			WHERE sc_item.obj_id IN (".$s_ids.")
+			AND sc_resource.import_id=sc_item.identifierref
+			AND sc_resource_file.res_id=sc_resource.obj_id
+			ORDER BY sc_resource_file.nr"
+		);
+		while($val_rec = $ilDB->fetchAssoc($val_set)) {
+			$s_out.='['.$val_rec["nr"].','.$val_rec["obj_id"].','.$val_rec["asset"].',"'.encodeURIComponent($val_rec["href"]).'"],';
+		}
+		if(substr($s_out,(strlen($s_out)-1))==",") $s_out=substr($s_out,0,(strlen($s_out)-1));
+		$s_out.="];\r\n";
+		// set alternative API name
+		if ($this->slm->getAPIAdapterName() != "API") $s_out.='var '.$this->slm->getAPIAdapterName().'=new iliasApi();';
+		else $s_out.='var API=new iliasApi();';
+
+		print($s_out);
+		
+	}
+
+	
 	function api()
 	{
 		global $ilias;
@@ -684,6 +867,18 @@ class ilSCORMPresentationGUI
 	function pingSession()
 	{
 		return true;
+	}
+
+	function logMessage() {
+		global $ilLog;
+		$logString = file_get_contents('php://input');
+		$ilLog->write("ScormAicc: ApiLog: Message: ".$logString);
+	}
+
+	function logWarning() {
+		global $ilLog;
+		$logString = file_get_contents('php://input');
+		$ilLog->write("ScormAicc: ApiLog: Warning: ".$logString,20);
 	}
 	
 	/**
