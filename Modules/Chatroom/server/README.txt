@@ -37,7 +37,7 @@ After you made changes, the chatserver must be restarted.
 ==== Address ====
   Example: 192.168.1.1
 
-  The IPv4 address, the chatserver will be listen on
+  The IPv4 address, the chatserver will be listening on
 
 ==== Port ====
   Example: 8080
