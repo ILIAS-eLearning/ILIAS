@@ -199,6 +199,16 @@ abstract class ilDB extends PEAR
 	*/
 	abstract static function getReservedWords();
 
+
+	/**
+	 * En/disable result buffering
+	 * @param bool $a_status 
+	 */
+	public function enableResultBuffering($a_status)
+	{
+		$this->db->setOption('result_buffering',$a_status);
+	}
+
 	/**
 	* Init db parameters from ini file
 	* @param $tmpClientIniFile	overwrite global client ini file if is set to an object 

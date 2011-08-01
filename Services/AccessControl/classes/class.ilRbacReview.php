@@ -867,13 +867,14 @@ class ilRbacReview
 	 * @param array $a_roles
 	 * @return int
 	 */
-	public function getNumberofAssignedUsers(Array $a_roles)
+	public function getNumberOfAssignedUsers(Array $a_roles)
 	{
 		global $ilDB;
 
 		$query = 'SELECT COUNT(DISTINCT(usr_id)) as num FROM rbac_ua '.
 			'WHERE '.$ilDB->in('rol_id', $a_roles, false, 'integer').' '.
 			'GROUP BY usr_id';
+
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		return $row->num ? $row->num : 0;
@@ -915,7 +916,8 @@ class ilRbacReview
                 $select = addslashes($select);
             }
 
-	        $query = "SELECT ".$select." FROM usr_data ".
+	        $ilDB->enableResultBuffering(false);
+			$query = "SELECT ".$select." FROM usr_data ".
                  "LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id ".
                  "WHERE rbac_ua.rol_id =".$ilDB->quote($a_rol_id,'integer');
             $res = $ilDB->query($query);
@@ -923,16 +925,19 @@ class ilRbacReview
             {
                 $result_arr[] = $row;
             }
+			$ilDB->enableResultBuffering(true);
         }
         else
         {
-		    $query = "SELECT usr_id FROM rbac_ua WHERE rol_id= ".$ilDB->quote($a_rol_id,'integer');
+		    $ilDB->enableResultBuffering(false);
+			$query = "SELECT usr_id FROM rbac_ua WHERE rol_id= ".$ilDB->quote($a_rol_id,'integer');
 			
 			$res = $ilDB->query($query);
             while($row = $ilDB->fetchAssoc($res))
             {
                 array_push($result_arr,$row["usr_id"]);
             }
+			$ilDB->enableResultBuffering(true);
         }
 		
 		$ilBench->stop("RBAC", "review_assignedUsers");
