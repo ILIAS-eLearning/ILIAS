@@ -1931,7 +1931,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 	}
 	
-	protected function readMemberData($ids,$role = 'admin')
+	public function readMemberData($ids,$role = 'admin')
 	{
 		if($this->show_tracking)
 		{
@@ -1950,7 +1950,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$progress = ilLearningProgress::_lookupProgressByObjId($this->object->getId());
 		}
 
-		foreach($ids as $usr_id)
+		foreach((array) $ids as $usr_id)
 		{
 			$name = ilObjUser::_lookupName($usr_id);
 			$tmp_data['firstname'] = $name['firstname'];
@@ -2002,8 +2002,9 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	
 	/**
-	 * member administration
+	 * Member administration
 	 *
+	 * @global ilRbacReview $rbacreview
 	 * @access protected
 	 * @return
 	 */
@@ -2026,7 +2027,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
 			ilObjUserTracking::_enabledUserRelatedData() and
 			ilLPObjSettings::_lookupMode($this->object->getId()) != LP_MODE_DEACTIVATED);
-		$part = ilCourseParticipants::_getInstanceByObjId($this->object->getId());
 
 		include_once('./Modules/Course/classes/class.ilCourseItems.php');
 		$this->timings_enabled = (ilCourseItems::_hasTimings($this->object->getRefId()) and 
@@ -2104,7 +2104,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		// Subscriber table
-		if(count($subscribers = $part->getSubscribers()))
+		if(count( $part = ilCourseParticipants::lookupSubscribers($this->object->getId())))
 		{
 			include_once('./Services/Membership/classes/class.ilSubscriberTableGUI.php');
 			if($ilUser->getPref('crs_subscriber_hide'))
@@ -2134,14 +2134,22 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 		
 		
-		if(count($part->getAdmins()))
+		if($rbacreview->getNumberOfAssignedUsers(array($this->object->getDefaultAdminRole())))
 		{
 			// Security: display the list of course administrators read-only, 
 			// if the user doesn't have the 'edit_permission' permission. 
  			$showEditLink = $rbacsystem->checkAccess("edit_permission", $this->object->getRefId());
 			if($ilUser->getPref('crs_admin_hide'))
 			{
-				$table_gui = new ilCourseParticipantsTableGUI($this,'admin',false,$this->show_tracking,$this->timings_enabled, $showEditLink);
+				$table_gui = new ilCourseParticipantsTableGUI(
+					$this,
+					'admin',
+					false,
+					$this->show_tracking,
+					$this->timings_enabled,
+					$showEditLink,
+					$this->object->getDefaultAdminRole()
+				);
 				$this->ctrl->setParameter($this,'admin_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'),
@@ -2151,7 +2159,15 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilCourseParticipantsTableGUI($this,'admin',true,$this->show_tracking,$this->timings_enabled, $showEditLink);
+				$table_gui = new ilCourseParticipantsTableGUI(
+					$this,
+					'admin',
+					true,
+					$this->show_tracking,
+					$this->timings_enabled,
+					$showEditLink,
+					$this->object->getDefaultAdminRole()
+				);
 				$this->ctrl->setParameter($this,'admin_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'),
@@ -2160,14 +2176,22 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->setTitle($this->lng->txt('crs_administrators'),'icon_usr.gif',$this->lng->txt('crs_administrators'));
-			$table_gui->parse($this->readMemberData($part->getAdmins()));
+			$table_gui->parse();
 			$this->tpl->setVariable('ADMINS',$table_gui->getHTML());	
 		}
-		if(count($part->getTutors()))
+		if($rbacreview->getNumberOfAssignedUsers(array($this->object->getDefaultTutorRole())))
 		{
 			if($ilUser->getPref('crs_tutor_hide'))
 			{
-				$table_gui = new ilCourseParticipantsTableGUI($this,'tutor',false,$this->show_tracking,$this->timings_enabled);
+				$table_gui = new ilCourseParticipantsTableGUI(
+					$this,
+					'tutor',
+					false,
+					$this->show_tracking,
+					$this->timings_enabled,
+					true,
+					$this->object->getDefaultTutorRole()
+				);
 				$this->ctrl->setParameter($this,'tutor_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'),
@@ -2177,7 +2201,15 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilCourseParticipantsTableGUI($this,'tutor',true,$this->show_tracking,$this->timings_enabled);
+				$table_gui = new ilCourseParticipantsTableGUI(
+					$this,
+					'tutor',
+					true,
+					$this->show_tracking,
+					$this->timings_enabled,
+					true,
+					$this->object->getDefaultTutorRole()
+				);
 				$this->ctrl->setParameter($this,'tutor_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'),
@@ -2186,10 +2218,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->setTitle($this->lng->txt('crs_tutors'),'icon_usr.gif',$this->lng->txt('crs_tutors'));
-			$table_gui->parse($this->readMemberData($part->getTutors()));
+			$table_gui->parse();
 			$this->tpl->setVariable('TUTORS',$table_gui->getHTML());	
 		}
-		if(count($part->getMembers()))
+		if($rbacreview->getNumberOfAssignedUsers(array($this->object->getDefaultMemberRole())))
 		{
 			if($ilUser->getPref('crs_member_hide'))
 			{
@@ -2229,10 +2261,11 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->setTitle($this->lng->txt('crs_members'),'icon_usr.gif',$this->lng->txt('crs_members'));
-			$table_gui->parse($this->readMemberData($rbacreview->assignedUsers($this->object->getDefaultMemberRole())));
+			$table_gui->parse();
 			$this->tpl->setCurrentBlock('member_block');
 			$this->tpl->setVariable('MEMBERS',$table_gui->getHTML());
 			$this->tpl->parseCurrentBlock();
+			
 		}
 
 		foreach(ilCourseParticipants::getMemberRoles($this->object->getRefId()) as $role_id)
@@ -2279,7 +2312,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 
 			$table_gui->setTitle(ilObject::_lookupTitle($role_id),'icon_usr.gif',$this->lng->txt('crs_members'));
-			$table_gui->parse($this->readMemberData($rbacreview->assignedUsers($role_id)));
+			$table_gui->parse();
 			$this->tpl->setCurrentBlock('member_block');
 			$this->tpl->setVariable('MEMBERS',$table_gui->getHTML());
 			$this->tpl->parseCurrentBlock();
@@ -3110,6 +3143,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		ilUtil::redirect("repository.php?ref_id=".$this->tree->getParentId($this->ref_id));
 	}
 
+	/**
+	 * Delete members
+	 * @global ilAccessHandler $ilAccess
+	 * @return
+	 */
 	function deleteMembersObject()
 	{
 		global $ilAccess;
@@ -3130,7 +3168,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		// Check last admin
-		if(!$this->object->getMembersObject()->checkLastAdmin($participants))
+		if(!$this->object->getMemberObject()->checkLastAdmin($participants))
 		{
 			ilUtil::sendFailure($this->lng->txt('crs_at_least_one_admin'));
 			$this->membersObject();
@@ -3141,11 +3179,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		// Access check for admin deletion
 		if(!$ilAccess->checkAccess('edit_permission', '',$this->object->getRefId()))
 		{
-			$part = ilCourseParticipants::_getInstanceByObjId($this->object->getId());
-
 			foreach ($participants as $usr_id)
 			{
-				if($part->isAdmin($usr_id))
+				$part = ilCourseParticipant::_getInstanceByObjId($this->object->getId(),$usr_id);
+				if($part->isAdmin())
 				{
 					ilUtil::sendFailure($this->lng->txt("msg_no_perm_perm"));
 					$this->membersObject();
@@ -3162,11 +3199,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		$confirm->setConfirm($this->lng->txt('confirm'),'removeMembers');
 		$confirm->setCancel($this->lng->txt('cancel'),'members');
 		
-		foreach($this->readMemberData($participants) as $participant)
+		foreach($participants as $usr_id)
 		{
+			$name = ilObjUser::_lookupName($usr_id);
+
 			$confirm->addItem('participants[]',
-				$participant['usr_id'],
-				$participant['lastname'].', '.$participant['firstname'].' ['.$participant['login'].']',
+				$name['user_id'],
+				$name['lastname'].', '.$name['firstname'].' ['.$name['login'].']',
 				ilUtil::getImagePath('icon_usr.gif'));
 		}
 		

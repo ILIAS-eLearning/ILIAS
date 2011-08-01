@@ -154,7 +154,7 @@ class ilParticipants
 
 		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
 		$lroles = $rbacreview->getRolesOfRoleFolder($rolf['ref_id'],false);
-		return $rbacreview->getNumberofAssignedUsers($lroles);
+		return $rbacreview->getNumberOfAssignedUsers($lroles);
 	}
 
 
@@ -938,6 +938,23 @@ class ilParticipants
 			$res = $ilDB->query($query);
 			return $res->numRows() ? true : false;
 		}
+	}
+
+	public static function lookupSubscribers($a_obj_id)
+	{
+		global $ilDB;
+
+		$subscribers = array();
+		$query = "SELECT usr_id FROM il_subscribers ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"ORDER BY sub_time ";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$subscribers = $row->usr_id;
+		}
+		return $subscribers;
 	}
 	
 	/**
