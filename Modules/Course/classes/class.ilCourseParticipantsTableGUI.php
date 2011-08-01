@@ -106,28 +106,24 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('crs_member_passed'), 'passed');
 		if($this->type == 'admin')
 		{
-			$this->setPrefix('admin');
 			$this->setSelectAllCheckbox('admins');
 			$this->addColumn($this->lng->txt('crs_notification'), 'notification');
 			$this->addCommandButton('updateAdminStatus', $this->lng->txt('save'));
 		}
 		elseif($this->type == 'tutor')
 		{
-			$this->setPrefix('tutor');
 			$this->setSelectAllCheckbox('tutors');
 			$this->addColumn($this->lng->txt('crs_notification'), 'notification');
 			$this->addCommandButton('updateTutorStatus', $this->lng->txt('save'));
 		}
 		elseif($this->type == 'member')
 		{
-			$this->setPrefix('member');
 			$this->setSelectAllCheckbox('members');
 			$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
 			$this->addCommandButton('updateMemberStatus', $this->lng->txt('save'));
 		}
 		else
 		{
-			$this->setPrefix('role_'. $this->getRoleId());
 			$this->setSelectAllCheckbox('roles');
 			$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
 			$this->addCommandButton('updateRoleStatus', $this->lng->txt('save'));
@@ -154,6 +150,10 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->disable('select_all');
 		}
 
+		$this->setExternalSorting(true);
+		$this->setExternalSegmentation(true);
+		$this->setEnableNumInfo(true);
+		
 		$this->getItems();
 		$this->setTopCommands(true);
 		$this->setEnableHeader(true);
@@ -303,11 +303,10 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		elseif($this->type == 'member')
 		{
 			$this->tpl->setCurrentBlock('blocked');
-			$this->tpl->setVariable('VAL_BLOCKED_ID', $a_set['usr_id']);
-			$this->tpl->setVariable('VAL_BLOCKED_CHECKED', ($a_set['blocked'] ? 'checked="checked"' : ''));
+			$this->tpl->setVariable('VAL_POSTNAME','members');
+			$this->tpl->setVariable('VAL_BLOCKED_ID',$a_set['usr_id']);
+			$this->tpl->setVariable('VAL_BLOCKED_CHECKED',($a_set['blocked'] ? 'checked="checked"' : ''));
 			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setVariable('VAL_POSTNAME', 'members');
 		}
 		else
 		{
@@ -316,13 +315,12 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('VAL_BLOCKED_CHECKED', ($a_set['blocked'] ? 'checked="checked"' : ''));
 			$this->tpl->parseCurrentBlock();
 
-			$this->tpl->setVariable('VAL_POSTNAME', 'roles');
+			$this->tpl->setVariable('VAL_POSTNAME','roles');
 		}
-
-		$this->tpl->setVariable('VAL_PASSED_ID', $a_set['usr_id']);
-		$this->tpl->setVariable('VAL_PASSED_CHECKED', ($a_set['passed'] ? 'checked="checked"' : ''));
-
-
+		
+		$this->tpl->setVariable('VAL_PASSED_ID',$a_set['usr_id']);
+		$this->tpl->setVariable('VAL_PASSED_CHECKED',($a_set['passed'] ? 'checked="checked"' : ''));
+		
 		$this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
 		if($this->show_edit_link)
 		{
@@ -349,9 +347,11 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	 *
 	 * @global ilRbacReview $rbacreview
 	 */
-	public function parse($a_user_data)
+	public function parse()
 	{
 		global $rbacreview;
+
+		$this->determineOffsetAndOrder();
 
 		include_once './Services/User/classes/class.ilUserQuery.php';
 
@@ -360,24 +360,6 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		unset($additional_fields["lastname"]);
 		unset($additional_fields["last_login"]);
 		unset($additional_fields["access_until"]);
-
-		switch($this->type)
-		{
-			case 'admin':
-				$part = ilCourseParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getAdmins();
-				break;
-			case 'tutor':
-				$part = ilCourseParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getTutors();
-				break;
-			case 'member':
-				$part = $rbacreview->assignedUsers($this->getRoleId());
-				#$part = ilCourseParticipants::_getInstanceByObjId($this->getParentObject()->object->getId())->getMembers();
-				break;
-
-			default:
-				$part = $rbacreview->assignedUsers($this->getRoleId());
-				break;
-		}
 
 		$udf_ids = $usr_data_fields = $odf_ids = array();
 		foreach($additional_fields as $field)
@@ -397,26 +379,39 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		}
 
 		$usr_data = ilUserQuery::getUserListData(
-				'login',
-				'ASC',
-				0,
-				999999,
-				'',
-				'',
-				null,
-				false,
-				false,
-				0,
-				0,
-				null,
-				$usr_data_fields,
-				$part
+			$this->getOrderField(),
+			$this->getOrderDirection(),
+			$this->getOffset(),
+			$this->getLimit(),
+			'',
+			'',
+			null,
+			false,
+			false,
+			0,
+			$this->getRoleId(),
+			null,
+			$usr_data_fields,
+			$part
 		);
+		foreach((array) $usr_data['set'] as $user)
+		{
+			$usr_ids[] = $user['usr_id'];
+		}
+
+		// merge course data
+		$course_user_data = $this->getParentObject()->readMemberData($usr_ids,$this->type == 'admin');
+		$a_user_data = array();
+		foreach((array) $usr_data['set'] as $ud)
+		{
+			$a_user_data[$ud['usr_id']] = array_merge($ud,$course_user_data[$ud['usr_id']]);
+		}
+
 		// Custom user data fields
 		if($udf_ids)
 		{
 			include_once './Services/User/classes/class.ilUserDefinedData.php';
-			$data = ilUserDefinedData::lookupData($part, $udf_ids);
+			$data = ilUserDefinedData::lookupData($usr_ids, $udf_ids);
 			foreach($data as $usr_id => $fields)
 			{
 				if(!$this->checkAcceptance($usr_id))
@@ -438,8 +433,8 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			foreach($data as $usr_id => $fields)
 			{
 				// #7264: as we get data for all course members filter against user data
-				if(!$this->checkAcceptance($usr_id) || !in_array($usr_id, $part))
-				{
+	            		if(!$this->checkAcceptance($usr_id) || !in_array($usr_id, $usr_ids))
+		    	        {
 					continue;
 				}
 
@@ -449,7 +444,6 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 				}
 			}
 		}
-
 
 		foreach($usr_data['set'] as $user)
 		{
@@ -464,6 +458,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 				$a_user_data[$user['usr_id']][$field] = $user[$field] ? $user[$field] : '';
 			}
 		}
+		$this->setMaxCount($usr_data['cnt'] ? $usr_data['cnt'] : 0);
 		return $this->setData($a_user_data);
 	}
 

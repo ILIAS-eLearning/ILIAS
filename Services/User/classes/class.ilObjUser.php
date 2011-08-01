@@ -677,6 +677,8 @@ class ilObjUser extends ilObject
 
 	/**
 	* lookup user name
+	 *
+	 * @return array array('user_id' => ...,'firstname' => ...,'lastname' => ...,'login' => ...,'title' => ...)
 	*/
 	public static function _lookupName($a_user_id)
 	{
