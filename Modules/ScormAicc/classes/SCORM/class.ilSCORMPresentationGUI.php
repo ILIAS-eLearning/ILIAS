@@ -485,7 +485,6 @@ class ilSCORMPresentationGUI
 				$s_out.='['.$val_rec["sco_id"].',"'.$val_rec["lvalue"].'","'.encodeURIComponent($val_rec["rvalue"]).'"],';
 		}
 		//manifestData
-		$s_ids = "";
 		$val_set = $ilDB->queryF('
 			SELECT sc_item.obj_id,maxtimeallowed,timelimitaction,datafromlms,masteryscore 
 			FROM sc_item, scorm_object 
@@ -496,7 +495,6 @@ class ilSCORMPresentationGUI
 			array('sit',$this->slm->getId())	
 		);
 		while($val_rec = $ilDB->fetchAssoc($val_set)) {
-			$s_ids.=$val_rec["obj_id"].',';
 			if($val_rec["maxtimeallowed"]!=null)
 				$s_out.='['.$val_rec["obj_id"].',"cmi.student_data.max_time_allowed","'.encodeURIComponent($val_rec["maxtimeallowed"]).'"],';
 			if($val_rec["timelimitaction"]!=null)
@@ -510,20 +508,22 @@ class ilSCORMPresentationGUI
 		$s_out.='];';
 		print($s_out."\r\n");
 
-		$s_ids = substr($s_ids,0,(strlen($s_ids)-1));
 		//URLs
 		$s_out='IliasScormResources=[';
-		$val_set = $ilDB->query("
-			SELECT sc_item.obj_id, sc_resource_file.href, sc_resource_file.nr, 
-			CASE WHEN sc_resource.scormtype = 'asset' THEN 1 ELSE 0 END AS asset
-			FROM sc_item, sc_resource, sc_resource_file
-			WHERE sc_item.obj_id IN (".$s_ids.")
-			AND sc_resource.import_id=sc_item.identifierref
-			AND sc_resource_file.res_id=sc_resource.obj_id
-			ORDER BY sc_resource_file.nr"
+		$val_set = $ilDB->queryF("
+			SELECT scorm_tree.lft, scorm_tree.child, 
+			CASE WHEN sc_resource.scormtype = 'asset' THEN 1 ELSE 0 END AS asset,
+			sc_resource.href
+			FROM scorm_tree, sc_resource, sc_item
+			WHERE scorm_tree.slm_id=%s 
+			AND sc_item.obj_id=scorm_tree.child 
+			AND sc_resource.import_id=sc_item.identifierref 
+			ORDER BY scorm_tree.lft",
+			array('integer'),
+			array($this->slm->getId())	
 		);
 		while($val_rec = $ilDB->fetchAssoc($val_set)) {
-			$s_out.='['.$val_rec["nr"].','.$val_rec["obj_id"].','.$val_rec["asset"].',"'.encodeURIComponent($val_rec["href"]).'"],';
+			$s_out.='['.$val_rec["lft"].','.$val_rec["child"].','.$val_rec["asset"].',"'.encodeURIComponent($val_rec["href"]).'"],';
 		}
 		if(substr($s_out,(strlen($s_out)-1))==",") $s_out=substr($s_out,0,(strlen($s_out)-1));
 		$s_out.="];\r\n";
