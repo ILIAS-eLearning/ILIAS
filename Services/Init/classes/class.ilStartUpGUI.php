@@ -305,6 +305,11 @@ class ilStartUpGUI
 			$lng->loadLanguageModule("auth");
 			$this->showSuccess($lng->txt("auth_account_code_used"));
 		}
+		
+		if (isset($_GET['time_limit']) && $_GET['time_limit'])
+		{
+			$this->showFailure($lng->txt("time_limit_reached"));
+		}
 
 		// output wrong IP message
 		if (isset($_GET['wrong_ip']) && $_GET['wrong_ip'])
