@@ -156,7 +156,7 @@ class ilStartUpGUI
 			if(!$ilUser->checkTimeLimit())
 			{
 				$ilAuth->logout();
-				session_destroy();
+				// session_destroy();
 
 				if($ilSetting->get('user_reactivate_code'))
 				{				
@@ -300,9 +300,10 @@ class ilStartUpGUI
 		}
 
 
-		if (isset($_GET['time_limit']) && $_GET['time_limit'])
+		if (isset($_GET['cu']) && $_GET['cu'])
 		{
-			$this->showFailure($lng->txt("time_limit_reached"));
+			$lng->loadLanguageModule("auth");
+			$this->showSuccess($lng->txt("auth_account_code_used"));
 		}
 
 		// output wrong IP message
@@ -351,6 +352,11 @@ class ilStartUpGUI
 		{
 			$a_form = $this->initCodeForm();
 		}
+		
+		if($_POST["username"])
+		{
+			$_SESSION["username"] = $_POST["username"];
+		}
 	
 		$tpl->setVariable("FORM", $a_form->getHTML());
 		$tpl->show("DEFAULT", false);
@@ -373,14 +379,6 @@ class ilStartUpGUI
 		$count->setInfo($lng->txt('auth_account_code_info'));
 		$form->addItem($count);
 		
-		$login = new ilHiddenInputGUI("username");
-		$login->setValue($_POST["username"]);
-		$form->addItem($login);
-		
-		$password = new ilHiddenInputGUI("password");
-		$password->setValue($_POST["password"]);
-		$form->addItem($password);
-		
 		$form->addCommandButton('processcode', $lng->txt('send'));
 		
 		return $form;
@@ -388,30 +386,70 @@ class ilStartUpGUI
 	
 	protected function processCode()
 	{
-		global $lng;
+		global $lng, $ilAuth, $ilCtrl;
 		
 		$form = $this->initCodeForm();
 		if($form->checkInput())
 		{
-			$code = $form->getInput("code");
-			
+			$code = $form->getInput("code");			
+						
 			include_once "Services/User/classes/class.ilAccountCode.php";
 			if(ilAccountCode::isUnusedCode($code))
 			{
 				$valid_until = ilAccountCode::getCodeValidUntil($code);			
-				// ilAccountCode::useCode($code);
 				
-				/*
-				$this->processStartingPage();
-				exit();				
-			    */
+				if(!$user_id = ilObjUser::_lookupId($_SESSION["username"]))
+				{
+					$this->showLogin();
+					return false;
+				}
+				
+				$invalid_code = false;
+				$user = new ilObjUser($user_id);	
+								
+				if($valid_until === "0")
+				{
+					$user->setTimeLimitUnlimited(true);
+				}
+				else
+				{					
+					if(is_numeric($valid_until))
+					{
+						$valid_until = strtotime("+".$valid_until."days");							
+					}
+					else
+					{
+						$valid_until = explode("-", $valid_until);
+						$valid_until = mktime(23, 59, 59, $valid_until[1], 
+							$valid_until[2], $valid_until[0]);						
+						if($valid_until < time())
+						{						
+							$invalid_code = true;
+						}						
+					}		
+					
+					if(!$invalid_code)
+					{						
+						$user->setTimeLimitUnlimited(false);					
+						$user->setTimeLimitUntil($valid_until);		
+					}
+				}
+				
+				if(!$invalid_code)
+				{
+					$user->setActive(true);	
+					$user->update();
+					
+					ilAccountCode::useCode($code);
+
+					$ilCtrl->setParameter($this, "cu", 1);
+					$ilCtrl->redirect($this, "showLogin");		
+				}
 			}
-			else
-			{
-				$lng->loadLanguageModule("user");
-				$field = $form->getItemByPostVar("code");
-				$field->setAlert($lng->txt("user_account_code_not_valid"));
-			}			
+			
+			$lng->loadLanguageModule("user");
+			$field = $form->getItemByPostVar("code");
+			$field->setAlert($lng->txt("user_account_code_not_valid"));						
 		}
 		
 		$form->setValuesByPost();

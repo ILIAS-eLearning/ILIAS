@@ -11875,3 +11875,4 @@ registration#:#registration_code_required_info#:#A pre-defined code is mandatory
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#To re-activate your account you can use a ILIAS account code.
 auth#:#auth_account_code_title#:#Account Code
+auth#:#auth_account_code_used#:#Your account has been re-activated. Please login once again for security reasons.

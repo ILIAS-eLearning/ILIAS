@@ -11863,3 +11863,4 @@ registration#:#registration_code_required_info#:#Ein ILIAS-Registrierungs-Code i
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten Code
+auth#:#auth_account_code_used#:#Ihr Account wurde re-aktiviert. Bitte loggen Sie sich zur Sicherheit erneut ein.
