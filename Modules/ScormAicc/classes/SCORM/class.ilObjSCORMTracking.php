@@ -92,7 +92,7 @@ class ilObjSCORMTracking
 		else
 		{
 			foreach($this->insert as $insert)
-			{		
+			{
 				$set = $ilDB->queryF('
 				SELECT * FROM scorm_tracking 
 				WHERE user_id = %s
@@ -123,7 +123,6 @@ class ilObjSCORMTracking
 			}
 			foreach($this->update as $update)
 			{
-
 				$set = $ilDB->queryF('
 				SELECT * FROM scorm_tracking 
 				WHERE user_id = %s
@@ -166,6 +165,97 @@ class ilObjSCORMTracking
 		ilObjSCORMTracking::_syncReadEvent($obj_id, $user_id, "sahs", $ref_id);
 	}
 	
+	function storeJsApi($obj_id=0) {
+		global $ilLog, $ilDB, $ilUser;
+		
+		$b_updateStatus=false;
+		
+		$b_messageLog=false;
+		if ($ilLog->current_log_level == 30)
+			$b_messageLog=true;
+	
+		$ref_id = $_GET["ref_id"];
+
+		if (empty($obj_id))
+			$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+		
+		if ($b_messageLog)
+			$ilLog->write("ScormAicc: CALLING SCORM storeJsApi() ".$_POST);
+			
+		if (is_object($ilUser))
+			$user_id = $ilUser->getId();
+
+		$aa_data = array();
+		if (is_array($_POST["S"])) {
+			foreach($_POST["S"] as $key => $value) {
+				$aa_data[] = array("sco_id" => $value, "left" => $_POST["L"][$key], "right" => rawurldecode($_POST["R"][$key]));
+			}
+		}
+
+		if ($obj_id <= 1) {
+			$ilLog->write("ScormAicc: storeJsApi: Error: No valid obj_id given.");
+		} 
+		else {
+			foreach($aa_data as $a_data) {
+				$set = $ilDB->queryF('
+				SELECT rvalue FROM scorm_tracking 
+				WHERE user_id = %s
+				AND sco_id =  %s
+				AND lvalue =  %s
+				AND obj_id = %s',
+				array('integer','integer','text','integer'), 
+				array($user_id,$a_data["sco_id"],$a_data["left"],$obj_id));
+				if ($rec = $ilDB->fetchAssoc($set)) {
+					if ($a_data["left"] == 'cmi.core.lesson_status' && $a_data["right"] != $rec["rvalue"]) {
+						$b_updateStatus = true;
+					}
+					$ilDB->update('scorm_tracking',
+						array(
+							'rvalue'		=> array('clob', $a_data["right"]),
+							'c_timestamp'	=> array('timestamp', ilUtil::now())
+						),
+						array(
+							'user_id'		=> array('integer', $user_id),
+							'sco_id'		=> array('integer', $a_data["sco_id"]),
+							'lvalue'		=> array('text', $a_data["left"]),
+							'obj_id'		=> array('integer', $obj_id)
+						)
+					);
+					if ($b_messageLog) {
+						$ilLog->write("ScormAicc: storeJsApi Updated - L:".$a_data["left"].",R:".
+						$a_data["right"]." for obj_id:".$obj_id.",sco_id:".$a_data["sco_id"].",user_id:".$user_id);
+					}
+				}
+				else {
+					if ($a_data["left"] == 'cmi.core.lesson_status') {
+						$b_updateStatus = true;
+					}
+					$ilDB->insert('scorm_tracking', array(
+						'obj_id'		=> array('integer', $obj_id),
+						'user_id'		=> array('integer', $user_id),
+						'sco_id'		=> array('integer', $a_data["sco_id"]),
+						'lvalue'		=> array('text', $a_data["left"]),
+						'rvalue'		=> array('clob', $a_data["right"]),
+						'c_timestamp'	=> array('timestamp', ilUtil::now())
+					));
+					if ($b_messageLog) {
+						$ilLog->write("ScormAicc: storeJsApi Inserted - L:".$a_data["left"].",R:".
+						$a_data["right"]." for obj_id:".$obj_id.",sco_id:".$$a_data["sco_id"].",user_id:".$user_id);
+					}
+				}
+			}
+		}
+		
+		// update status
+		if ($b_updateStatus == true) {
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+			ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
+		}
+		
+		// update time and numbers of attempts in change event
+		ilObjSCORMTracking::_syncReadEvent($obj_id, $user_id, "sahs", $ref_id);
+	}
+
 	/**
 	 * Synch read event table
 	 *
