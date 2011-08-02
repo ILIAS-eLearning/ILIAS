@@ -479,23 +479,42 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$desc->setValue($desc_obj->getDescription());
 			$form->addItem($desc);
 		}
+			
+		// pool usage
+		$pool_usage = new ilCheckboxInputGUI($this->lng->txt("survey_question_pool_usage"), "use_pool");
+		$pool_usage->setValue(1);
+		$pool_usage->setChecked($this->object->getPoolUsage());
+		$form->addItem($pool_usage);
 
-
-		// introduction
-		$intro = new ilTextAreaInputGUI($this->lng->txt("introduction"), "introduction");
-		$intro->setValue($this->object->prepareTextareaOutput($this->object->getIntroduction()));
-		$intro->setRows(10);
-		$intro->setCols(80);
-		$intro->setUseRte(TRUE);
-		$intro->setInfo($this->lng->txt("survey_introduction_info"));
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$intro->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-		$intro->addPlugin("latex");
-		$intro->addButton("latex");
-		$intro->addPlugin("pastelatex");
-		$intro->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
-		$form->addItem($intro);
-
+		
+		// access properties
+		$acc = new ilFormSectionHeaderGUI();
+		$acc->setTitle($this->lng->txt("access"));
+		$form->addItem($acc);
+		
+		// anonymization
+		$anonymization_options = new ilRadioGroupInputGUI($this->lng->txt("survey_auth_mode"), "anonymization_options");
+		if ($hasDatasets)
+		{
+			$anonymization_options->setDisabled(true);
+		}
+		$anonymization_options->addOption(new ilCheckboxOption($this->lng->txt("anonymize_personalized"),
+				'personalized', ''));
+		$anonymization_options->addOption(new ilCheckboxOption(
+				$this->lng->txt("anonymize_without_code"), 'anonymize_without_code', ''));
+		$anonymization_options->addOption(new ilCheckboxOption(
+				$this->lng->txt("anonymize_with_code"), 'anonymize_with_code', ''));
+		if(!$this->object->getAnonymize())
+		{
+			$anonymization_options->setValue('personalized');
+		}
+		else
+		{
+			$anonymization_options->setValue(($this->object->isAccessibleWithoutCode()) ?
+					'anonymize_without_code' : 'anonymize_with_code');
+		}
+		$anonymization_options->setInfo($this->lng->txt("anonymize_survey_description"));
+		$form->addItem($anonymization_options);
 
 		// enable start date
 		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("start_date"), "enabled_start_date");
@@ -536,37 +555,33 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$enableendingtime->addSubItem($endingtime);
 		$form->addItem($enableendingtime);
-
-		// anonymization
-		$anonymization_options = new ilRadioGroupInputGUI($this->lng->txt("survey_auth_mode"), "anonymization_options");
-		if ($hasDatasets)
-		{
-			$anonymization_options->setDisabled(true);
-		}
-		$anonymization_options->addOption(new ilCheckboxOption($this->lng->txt("anonymize_personalized"),
-				'personalized', ''));
-		$anonymization_options->addOption(new ilCheckboxOption(
-				$this->lng->txt("anonymize_without_code"), 'anonymize_without_code', ''));
-		$anonymization_options->addOption(new ilCheckboxOption(
-				$this->lng->txt("anonymize_with_code"), 'anonymize_with_code', ''));
-		if(!$this->object->getAnonymize())
-		{
-			$anonymization_options->setValue('personalized');
-		}
-		else
-		{
-			$anonymization_options->setValue(($this->object->isAccessibleWithoutCode()) ?
-					'anonymize_without_code' : 'anonymize_with_code');
-		}
-		$anonymization_options->setInfo($this->lng->txt("anonymize_survey_description"));
-		$form->addItem($anonymization_options);
+	
+		
+		// presentation properties
+		$info = new ilFormSectionHeaderGUI();
+		$info->setTitle($this->lng->txt("svy_presentation_properties"));
+		$form->addItem($info);
 		
 		// show question titles
-		$show_question_titles = new ilCheckboxInputGUI('', "show_question_titles");
-		$show_question_titles->setOptionTitle($this->lng->txt("svy_show_questiontitles"));
+		$show_question_titles = new ilCheckboxInputGUI($this->lng->txt("svy_show_questiontitles"), "show_question_titles");
 		$show_question_titles->setValue(1);
 		$show_question_titles->setChecked($this->object->getShowQuestionTitles());
 		$form->addItem($show_question_titles);
+		
+		// introduction
+		$intro = new ilTextAreaInputGUI($this->lng->txt("introduction"), "introduction");
+		$intro->setValue($this->object->prepareTextareaOutput($this->object->getIntroduction()));
+		$intro->setRows(10);
+		$intro->setCols(80);
+		$intro->setUseRte(TRUE);
+		$intro->setInfo($this->lng->txt("survey_introduction_info"));
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$intro->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
+		$intro->addPlugin("latex");
+		$intro->addButton("latex");
+		$intro->addPlugin("pastelatex");
+		$intro->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
+		$form->addItem($intro);
 
 		// final statement
 		$finalstatement = new ilTextAreaInputGUI($this->lng->txt("outro"), "outro");
@@ -581,12 +596,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$finalstatement->setRTESupport($this->object->getId(), "svy", "survey", null, $hide_rte_switch);
 		$form->addItem($finalstatement);
 
-		// pool usage
-		$pool_usage = new ilCheckboxInputGUI($this->lng->txt("survey_question_pool_usage"), "use_pool");
-		$pool_usage->setValue(1);
-		$pool_usage->setChecked($this->object->getPoolUsage());
-		$form->addItem($pool_usage);
-
+		
 		// results properties
 		$results = new ilFormSectionHeaderGUI();
 		$results->setTitle($this->lng->txt("results"));
