@@ -181,9 +181,8 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		$shuffle->setRequired(FALSE);
 		$form->addItem($shuffle);
 
-		$form->addCommandButton("saveReturn", $this->lng->txt("save_return"));
-		$form->addCommandButton("save", $this->lng->txt("save"));
-	
+		$this->addCommandButtons($form);
+		
 		$errors = false;
 	
 		if ($this->isSaveCommand())

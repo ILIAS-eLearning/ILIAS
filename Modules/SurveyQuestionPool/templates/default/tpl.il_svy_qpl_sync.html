@@ -1,10 +1,14 @@
-<tr class="{CSS_ROW}">
+<tr class="{CSS_ROW}" valign="top">
 	<td class="std">
-	<!-- BEGIN checkbox -->
-	<input type="checkbox" name="qid[]" value="{ID}" />
-	<!-- END checkbox -->
+		<!-- BEGIN checkbox -->
+		<input type="checkbox" name="qid[]" value="{ID}" />
+		<!-- END checkbox -->
 	</td>
-	<td class="std">{TITLE}</td>
-	<td class="std">{PATH}</td>
-	<td class="std">{MESSAGE}</td>
+	<td class="std">
+		{TITLE}<br />
+		{TXT_PATH}: {VALUE_PATH}
+		<!-- BEGIN message -->
+		<br /><span class="il_ItemAlertProperty">{TXT_MESSAGE}</span>
+		<!-- END message -->
+	</td>
 </tr>

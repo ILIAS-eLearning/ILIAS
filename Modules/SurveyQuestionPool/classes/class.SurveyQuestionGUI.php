@@ -235,19 +235,33 @@ class SurveyQuestionGUI
 			$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
 		}
 	}
+	
+	protected function addCommandButtons($a_form)
+	{
+		// pool question?
+		if(ilObject::_lookupType($this->object->getObjId()) == "spl")
+		{
+			if($this->object->hasCopies())
+			{				
+				$a_form->addCommandButton("saveSync", $this->lng->txt("svy_save_sync"));
+			}
+		}		
+		
+		$a_form->addCommandButton("save", $this->lng->txt("save"));
+	}
 
 	/**
 	 * save question and return to calling survey
 	 */
-	function saveReturn()
+	function saveSync()
 	{
-		$this->save(true);
+		$this->save($_REQUEST["rtrn"], true);
 	}
 
 	/**
 	* save question
 	*/
-	function save($a_return = false)
+	function save($a_return = false, $a_sync = false)
 	{
 		global $ilUser;
 
@@ -263,13 +277,11 @@ class SurveyQuestionGUI
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			
 			// pool question?
-			if(ilObject::_lookupType($this->object->getObjId()) == "spl")
-			{
-				if($this->object->hasCopies())
-				{				
-					$this->ctrl->redirect($this, 'copySyncForm');
-				}
-			}
+			if($a_sync)
+			{				
+				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+				$this->ctrl->redirect($this, 'copySyncForm');
+			}			
 			else
 			{
 				// form: update original pool question, too?
@@ -827,7 +839,7 @@ class SurveyQuestionGUI
 		}
 		
 		ilUtil::sendSuccess($lng->txt("survey_sync_success"), true);
-		$this->redirectAfterSaving(true);
+		$this->redirectAfterSaving($_REQUEST["rtrn"]);
 	}
 }
 

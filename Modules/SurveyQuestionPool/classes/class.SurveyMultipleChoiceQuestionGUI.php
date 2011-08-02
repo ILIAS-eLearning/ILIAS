@@ -215,9 +215,8 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 		$answers->setDisabledScale(false);
 		$form->addItem($answers);
 
-		$form->addCommandButton("saveReturn", $this->lng->txt("save_return"));
-		$form->addCommandButton("save", $this->lng->txt("save"));
-	
+		$this->addCommandButtons($form);
+		
 		$errors = false;
 
 		if ($this->isSaveCommand())

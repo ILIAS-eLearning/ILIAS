@@ -301,8 +301,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$rows->setValues($this->object->getRows());
 		$form->addItem($rows);
 
-		$form->addCommandButton("saveReturn", $this->lng->txt("save_return"));
-		$form->addCommandButton("save", $this->lng->txt("save"));
+		$this->addCommandButtons($form);
 		
 		$errors = false;
 
