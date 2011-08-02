@@ -330,7 +330,7 @@ class ilObjPortfolioGUI
 	 */
 	protected function initForm($a_mode = "create")
 	{
-		global $lng, $ilCtrl, $ilUser;
+		global $lng, $ilCtrl, $ilUser, $ilSetting;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -366,33 +366,36 @@ class ilObjPortfolioGUI
 			$tf->setRequired(true);
 			$type_page->addSubItem($tf);		
 			
-			$options = array();
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-			$tree = new ilWorkspaceTree($ilUser->getId());
-			$root = $tree->getNodeData($tree->readRootId());
-			foreach ($tree->getSubTree($root) as $node)
+			if(!$ilSetting->get('disable_wsp_blogs'))
 			{
-				if ($node["type"] == "blog")
+				$options = array();
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+				$tree = new ilWorkspaceTree($ilUser->getId());
+				$root = $tree->getNodeData($tree->readRootId());
+				foreach ($tree->getSubTree($root) as $node)
 				{
-					$options[$node["obj_id"]] = $node["title"];
+					if ($node["type"] == "blog")
+					{
+						$options[$node["obj_id"]] = $node["title"];
+					}
 				}
-			}
-			asort($options);		
-			
-			if(sizeof($options))
-			{			
-				$type_blog = new ilRadioOption($lng->txt("obj_blog"), "blog");
-				$type->addOption($type_blog);
+				asort($options);		
 
-				$obj = new ilSelectInputGUI($lng->txt("obj_blog"), "blog");
-				$obj->setRequired(true);
-				$obj->setOptions($options);
-				$type_blog->addSubItem($obj);
-			}
-			else
-			{
-				ilUtil::sendInfo($lng->txt("prtf_no_blogs_info"));				
-				$type->setValue("page");
+				if(sizeof($options))
+				{			
+					$type_blog = new ilRadioOption($lng->txt("obj_blog"), "blog");
+					$type->addOption($type_blog);
+
+					$obj = new ilSelectInputGUI($lng->txt("obj_blog"), "blog");
+					$obj->setRequired(true);
+					$obj->setOptions($options);
+					$type_blog->addSubItem($obj);
+				}
+				else
+				{
+					ilUtil::sendInfo($lng->txt("prtf_no_blogs_info"));				
+					$type->setValue("page");
+				}
 			}
 
 			$form->setTitle($lng->txt("prtf_create_portfolio"));
@@ -538,7 +541,7 @@ class ilObjPortfolioGUI
 	 */
 	protected function pages()
 	{
-		global $tpl, $lng, $ilToolbar, $ilCtrl, $ilTabs, $ilUser;
+		global $tpl, $lng, $ilToolbar, $ilCtrl, $ilTabs, $ilUser, $ilSetting;
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
@@ -550,8 +553,11 @@ class ilObjPortfolioGUI
 		$ilToolbar->addButton($lng->txt("prtf_add_page"),
 			$ilCtrl->getLinkTarget($this, "addPage"));
 		
-		$ilToolbar->addButton($lng->txt("prtf_add_blog"),
-			$ilCtrl->getLinkTarget($this, "addBlog"));
+		if(!$ilSetting->get('disable_wsp_blogs'))
+		{
+			$ilToolbar->addButton($lng->txt("prtf_add_blog"),
+				$ilCtrl->getLinkTarget($this, "addBlog"));
+		}
 		
 		$ilToolbar->addSeparator();
 		

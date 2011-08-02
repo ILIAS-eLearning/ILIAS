@@ -214,7 +214,37 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			$sb_prop->setValue((int)$ilSetting->get('personal_items_default_view'));
 			$form->addItem($sb_prop);
 		}
-
+		
+		// Enable 'Personal Workspace'
+		$wsp_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_personal_workspace'), 'wsp');
+		$wsp_prop->setValue('1');
+		$wsp_prop->setChecked(($ilSetting->get('disable_personal_workspace') ? '0' : '1'));
+		$form->addItem($wsp_prop);
+		
+		// Enable 'Blogs'
+		$blog_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_wsp_blogs'), 'blog');
+		$blog_prop->setValue('1');
+		$blog_prop->setChecked(($ilSetting->get('disable_wsp_blogs') ? '0' : '1'));
+		$wsp_prop->addSubItem($blog_prop);
+		
+		// Enable 'Files'
+		$file_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_wsp_files'), 'file');
+		$file_prop->setValue('1');
+		$file_prop->setChecked(($ilSetting->get('disable_wsp_files') ? '0' : '1'));
+		$wsp_prop->addSubItem($file_prop);
+		
+		// Enable 'Certificates'
+		$cert_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_wsp_certificates'), 'cert');
+		$cert_prop->setValue('1');
+		$cert_prop->setChecked(($ilSetting->get('disable_wsp_certificates') ? '0' : '1'));
+		$wsp_prop->addSubItem($cert_prop);
+		
+		// Enable 'Links'
+		$link_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_wsp_links'), 'link');
+		$link_prop->setValue('1');
+		$link_prop->setChecked(($ilSetting->get('disable_wsp_links') ? '0' : '1'));
+		$wsp_prop->addSubItem($link_prop);				
+		
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));
@@ -270,6 +300,21 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		
 		// Default view of personal items
 		$ilSetting->set('personal_items_default_view', (int)$_POST['personal_items_default_view']);
+		
+		// without personal workspace we have to disable to sub-items
+		if(!$_POST["wsp"])
+		{
+			$_POST["blog"] = 0;
+			$_POST["file"] = 0;
+			$_POST["cert"] = 0;
+			$_POST["link"] = 0;
+		}
+		
+		$ilSetting->set('disable_personal_workspace', (int)($_POST['wsp'] ? 0 : 1));
+		$ilSetting->set('disable_wsp_blogs', (int)($_POST['blog'] ? 0 : 1));
+		$ilSetting->set('disable_wsp_files', (int)($_POST['file'] ? 0 : 1));
+		$ilSetting->set('disable_wsp_certificates', (int)($_POST['cert'] ? 0 : 1));
+		$ilSetting->set('disable_wsp_links', (int)($_POST['link'] ? 0 : 1));
 		
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		
