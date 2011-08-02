@@ -166,14 +166,14 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 			"txt" => $lng->txt("description"),
 			"default" => true
 		);
-		$cols["author"] = array(
-			"txt" => $lng->txt("author"),
-			"default" => true
-		);
 		$cols["type"] = array(
 			"txt" => $lng->txt("question_type"),
 			"default" => true
 		);
+		$cols["author"] = array(
+			"txt" => $lng->txt("author"),
+			"default" => true
+		);		
 		$cols["created"] = array(
 			"txt" => $lng->txt("create_date"),
 			"default" => true
