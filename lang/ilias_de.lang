@@ -11462,7 +11462,7 @@ wsp#:#wsp_move_to_repository#:#Ins Magazin verschieben
 wsp#:#wsp_status_shared#:#Freigegeben
 book#:#book_schedule_warning_edit#:#Es sind momentan keine Zeitpläne vorhanden. Um den Pool nutzen zu können, muss zuerst ein Zeitplan angelegt werden.
 book#:#book_type_warning#:#Es sind momentan keine Buchungsobjekte vorhanden. Um den Pool nutzen zu können, müssen zuerst Buchungsobjekte angelegt werden.
-prtf#:#prtf_first_page_title#:#Titel der 1. Seite
+prtf#:#prtf_first_page_title#:#Typ der 1. Seite
 prtf#:#prtf_save_status_and_titles#:#Status und Titel speichern
 exc#:#exc_type_upload#:#Upload
 exc#:#exc_type_blog#:#Blog
@@ -11866,3 +11866,5 @@ auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten Code
 auth#:#auth_account_code_used#:#Ihr Account wurde re-aktiviert. Bitte loggen Sie sich zur Sicherheit erneut ein.
+prtf#:#prtf_no_blogs_info#:#Ihr Arbeitsraum enthält keine Blogs. Legen Sie dort Blogs, können Sie diese als Teils Ihres Portfolios verwenden.
+prtf#:#prtf_add_blog#:#Blog hinzufügen

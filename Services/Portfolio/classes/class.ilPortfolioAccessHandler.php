@@ -215,6 +215,23 @@ class ilPortfolioAccessHandler
 			" AND object_id = ".$ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD, "integer"));
 		return (bool)$ilDB->numRows($set);
 	}
+	
+	public function getObjectsIShare()
+	{
+		global $ilDB, $ilUser;
+		
+		$res = array();
+		$set = $ilDB->query("SELECT obj.obj_id".
+			" FROM object_data obj".
+			" JOIN usr_portf_acl acl ON (acl.node_id = obj.obj_id)".
+			" WHERE obj.owner = ".$ilDB->quote($ilUser->getId(), "integer"));
+		while ($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row["obj_id"];
+		}			
+		
+		return $res;
+	}
 }
 
 ?>

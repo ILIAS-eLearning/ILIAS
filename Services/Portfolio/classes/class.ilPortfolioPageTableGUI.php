@@ -46,9 +46,25 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 
 	function getItems()
 	{
+		global $ilUser;
+		
 		include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
 		$data = ilPortfolioPage::getAllPages($this->portfolio->getId());
 		$this->setData($data);
+		
+		$this->blogs = array();
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		$tree = new ilWorkspaceTree($ilUser->getId());
+		$root = $tree->getNodeData($tree->readRootId());
+		foreach ($tree->getSubTree($root) as $node)
+		{
+			if ($node["type"] == "blog")
+			{
+				$this->blogs[$node["obj_id"]] = $node["wsp_id"];
+			}
+		}		
+		
+	    include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
 	}
 
 	/**
@@ -78,6 +94,22 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 				$this->tpl->setCurrentBlock("title_static");
 				$this->tpl->setVariable("VAL_TITLE", $lng->txt("obj_blog").": ".ilObjBlog::_lookupTitle($a_set["title"]));
 				$this->tpl->parseCurrentBlock();
+												
+				$obj_id = (int)$a_set["title"];
+				if(isset($this->blogs[$obj_id]))
+				{
+					$node_id = $this->blogs[$obj_id];
+					$link = ilWorkspaceAccessHandler::getGotoLink($node_id, $obj_id);
+					
+					$ilCtrl->setParameterByClass("ilportfoliopagegui",
+						"ppage", $a_set["id"]);
+					$link = $ilCtrl->getLinkTargetByClass(array("ilportfoliopagegui", "ilobjbloggui"), "edit");
+
+					$this->tpl->setCurrentBlock("action");
+					$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+					$this->tpl->setVariable("CMD_EDIT", $link);	
+					$this->tpl->parseCurrentBlock();
+				}
 				break;
 		}
 		

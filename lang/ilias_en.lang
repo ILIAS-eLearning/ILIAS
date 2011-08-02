@@ -11522,7 +11522,7 @@ content#:#cont_localization#:#Localization
 content#:#cont_localization_info#:#Language used for predifined texts, e.g. "Previous" and "Next".
 book#:#book_schedule_warning_edit#:#Currently, there is no schedule available. To use the booking pool you need to create a schedule for booking.
 book#:#book_type_warning#:#Currently, there are no booking objects available. To use the booking pool you need to create booking objects.
-prtf#:#prtf_first_page_title#:#Title of first page
+prtf#:#prtf_first_page_title#:#Type of first page
 prtf#:#prtf_save_status_and_titles#:#Save Status and Titles
 exc#:#exc_type_upload#:#Upload
 exc#:#exc_type_blog#:#Blog
@@ -11878,3 +11878,5 @@ auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#To re-activate your account you can use a ILIAS account code.
 auth#:#auth_account_code_title#:#Account Code
 auth#:#auth_account_code_used#:#Your account has been re-activated. Please login once again for security reasons.
+prtf#:#prtf_no_blogs_info#:#Your workspace does not contain any blogs. Create blogs to use them as part of your portfolios.
+prtf#:#prtf_add_blog#:#Add Blog

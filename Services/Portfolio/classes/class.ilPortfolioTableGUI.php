@@ -48,9 +48,15 @@ class ilPortfolioTableGUI extends ilTable2GUI
 
 	protected function getItems()
 	{
+		global $ilUser;
+		
 		include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
 		$data = ilObjPortfolio::getPortfoliosOfUser($this->user_id);
 		$this->setData($data);
+		
+		include_once "Services/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+		$access_handler = new ilPortfolioAccessHandler($tree);
+		$this->shared_objects = $access_handler->getObjectsIShare();
 	}
 
 	/**
@@ -60,9 +66,16 @@ class ilPortfolioTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 
+		if(in_array($a_set["id"], $this->shared_objects))
+		{
+			$this->tpl->setCurrentBlock("shared");
+			$this->tpl->setVariable("TXT_SHARED", $lng->txt("wsp_status_shared"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
 		$this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
-
+		
 		$this->tpl->setVariable("STATUS_ONLINE",
 			($a_set["is_online"]) ? " checked=\"checked\"" : "");
 

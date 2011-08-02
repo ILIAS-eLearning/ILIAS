@@ -655,13 +655,18 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 */
 	protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_node_id = null)
 	{
+		global $ilUser;
+		
 		if($a_perm == "create")
 		{
 			if(!$a_node_id)
 			{
 				$a_node_id = $this->parent_id;
 			}
-			return $this->getAccessHandler()->checkAccess($a_perm, $a_cmd, $a_node_id, $a_type);
+			if($a_node_id)
+			{
+				return $this->getAccessHandler()->checkAccess($a_perm, $a_cmd, $a_node_id, $a_type);
+			}
 		}
 		else
 		{
@@ -670,8 +675,18 @@ abstract class ilObject2GUI extends ilObjectGUI
 			{
 				$a_node_id = $this->node_id;
 			}
-			return $this->getAccessHandler()->checkAccess($a_perm, $a_cmd, $a_node_id);
+			if($a_node_id)
+			{
+				return $this->getAccessHandler()->checkAccess($a_perm, $a_cmd, $a_node_id);
+			}
 		}
+		
+		// if we do not have a node id, check if current user is owner
+		if($this->obj_id && $this->object->getOwner() == $ilUser->getId())
+		{
+			return true;
+		}		
+		return false;
 	}
 }
 
