@@ -241,7 +241,16 @@ class ilObjPortfolioGUI
 			
 			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 			$page = new ilPortfolioPage($portfolio->getId());
-			$page->setTitle($form->getInput("fpage"));
+			if($form->getInput("ptype") == "page")
+			{				
+				$page->setType(ilPortfolioPage::TYPE_PAGE);
+				$page->setTitle($form->getInput("fpage"));				
+			}
+			else
+			{
+				$page->setType(ilPortfolioPage::TYPE_BLOG);
+				$page->setTitle($form->getInput("blog"));								
+			}
 			$page->create();
 
 			ilUtil::sendSuccess($lng->txt("prtf_portfolio_created"), true);
@@ -321,7 +330,7 @@ class ilObjPortfolioGUI
 	 */
 	protected function initForm($a_mode = "create")
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilUser;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -343,12 +352,48 @@ class ilObjPortfolioGUI
 		
 		if($a_mode == "create")
 		{
+			$type = new ilRadioGroupInputGUI($lng->txt("prtf_first_page_title"), "ptype");
+			$type->setRequired(true);
+			$form->addItem($type);
+			
+			$type_page = new ilRadioOption($lng->txt("page"), "page");
+			$type->addOption($type_page);
+						
 			// 1st page
-			$tf = new ilTextInputGUI($lng->txt("prtf_first_page_title"), "fpage");
+			$tf = new ilTextInputGUI($lng->txt("title"), "fpage");
 			$tf->setMaxLength(128);
 			$tf->setSize(40);
 			$tf->setRequired(true);
-			$form->addItem($tf);				
+			$type_page->addSubItem($tf);		
+			
+			$options = array();
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+			$tree = new ilWorkspaceTree($ilUser->getId());
+			$root = $tree->getNodeData($tree->readRootId());
+			foreach ($tree->getSubTree($root) as $node)
+			{
+				if ($node["type"] == "blog")
+				{
+					$options[$node["obj_id"]] = $node["title"];
+				}
+			}
+			asort($options);		
+			
+			if(sizeof($options))
+			{			
+				$type_blog = new ilRadioOption($lng->txt("obj_blog"), "blog");
+				$type->addOption($type_blog);
+
+				$obj = new ilSelectInputGUI($lng->txt("obj_blog"), "blog");
+				$obj->setRequired(true);
+				$obj->setOptions($options);
+				$type_blog->addSubItem($obj);
+			}
+			else
+			{
+				ilUtil::sendInfo($lng->txt("prtf_no_blogs_info"));				
+				$type->setValue("page");
+			}
 
 			$form->setTitle($lng->txt("prtf_create_portfolio"));
 			$form->addCommandButton("save", $lng->txt("save"));
@@ -505,6 +550,9 @@ class ilObjPortfolioGUI
 		$ilToolbar->addButton($lng->txt("prtf_add_page"),
 			$ilCtrl->getLinkTarget($this, "addPage"));
 		
+		$ilToolbar->addButton($lng->txt("prtf_add_blog"),
+			$ilCtrl->getLinkTarget($this, "addBlog"));
+		
 		$ilToolbar->addSeparator();
 		
 		$ilToolbar->addButton($lng->txt("export"),
@@ -547,8 +595,13 @@ class ilObjPortfolioGUI
 				$ilCtrl->setParameter($this, "exc", "");
 			}	
 		}
+		
+		include_once('classes/class.ilLink.php');
+		$goto = ilLink::_getStaticLink($this->portfolio->getId(), "prtf", true);
+		$goto = "<div style=\"margin:10px;\" class=\"small\"><a href=\"".$goto.
+			"\" target=\"blank\">goto test</a></div>";
 
-		$tpl->setContent($table->getHTML());
+		$tpl->setContent($table->getHTML().$goto);
 	}
 
 	/**
@@ -580,43 +633,11 @@ class ilObjPortfolioGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 
-		include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
-		
-		$type = new ilRadioGroupInputGUI($lng->txt("type"), "type");
-		$type->setRequired(true);
-		$form->addItem($type);
-		
-		// type: page
-		$page = new ilRadioOption($lng->txt("page"), ilPortfolioPage::TYPE_PAGE);
-		$type->addOption($page);
-		
 		// title
 		$ti = new ilTextInputGUI($lng->txt("title"), "title");
 		$ti->setMaxLength(200);
 		$ti->setRequired(true);
-		$page->addSubItem($ti);
-		
-		// type: blog
-		$blog = new ilRadioOption($lng->txt("obj_blog"), ilPortfolioPage::TYPE_BLOG);
-		$type->addOption($blog);
-		
-		// blog
-		$options = array();
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-		$tree = new ilWorkspaceTree($ilUser->getId());
-		$root = $tree->getNodeData($tree->readRootId());
-		foreach ($tree->getSubTree($root) as $node)
-		{
-			if ($node["type"] == "blog")
-			{
-				$options[$node["obj_id"]] = $node["title"];
-			}
-		}
-		asort($options);		
-		$obj = new ilSelectInputGUI($lng->txt("obj_blog"), "blog");
-		$obj->setRequired(true);
-		$obj->setOptions($options);
-		$blog->addSubItem($obj);
+		$form->addItem($ti);
 
 		// save and cancel commands
 		if ($a_mode == "create")
@@ -638,7 +659,7 @@ class ilObjPortfolioGUI
 		
 		return $form;
 	}
-
+		
 	/**
 	 * Create new portfolio page
 	 */
@@ -651,19 +672,111 @@ class ilObjPortfolioGUI
 		{
 			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 			$page = new ilPortfolioPage($this->portfolio->getId());
-			$page->setType($form->getInput("type"));
-			
-			switch($form->getInput("type"))
+			$page->setType(ilPortfolioPage::TYPE_PAGE);		
+			$page->setTitle($form->getInput("title"));									
+			$page->create();
+
+			ilUtil::sendSuccess($lng->txt("prtf_page_created"), true);
+			$ilCtrl->redirect($this, "pages");
+		}
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "pages"));
+
+		$form->setValuesByPost();
+		$tpl->setContent($form->getHtml());
+	}
+	
+	/**
+	 * Show portfolio blog page creation form
+	 */
+	protected function addBlog()
+	{
+		global $tpl, $lng, $ilTabs, $ilCtrl;
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "pages"));
+
+		$form = $this->initBlogForm("create");
+		$tpl->setContent($form->getHTML());
+	}
+	
+	/**
+	 * Init portfolio page form
+	 *
+	 * @param string $a_mode
+	 * @return ilPropertyFormGUI
+	 */
+	public function initBlogForm($a_mode = "create")
+	{
+		global $lng, $ilCtrl, $ilUser;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+
+		$options = array();
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		$tree = new ilWorkspaceTree($ilUser->getId());
+		$root = $tree->getNodeData($tree->readRootId());
+		foreach ($tree->getSubTree($root) as $node)
+		{
+			if ($node["type"] == "blog")
 			{
-				case ilPortfolioPage::TYPE_PAGE:
-					$page->setTitle($form->getInput("title"));		
-					break;
-				
-				case ilPortfolioPage::TYPE_BLOG:
-					$page->setTitle($form->getInput("blog"));		
-					break;
+				$options[$node["obj_id"]] = $node["title"];
 			}
-										
+		}
+		asort($options);	
+		
+		// no blogs to add?
+		if(!sizeof($options))
+		{
+			ilUtil::sendInfo($lng->txt("prtf_no_blogs_info"), true);
+			$ilCtrl->redirect($this, "pages");
+		}
+		
+		$obj = new ilSelectInputGUI($lng->txt("obj_blog"), "blog");
+		$obj->setRequired(true);
+		$obj->setOptions($options);
+		$form->addItem($obj);
+
+		// save and cancel commands
+		if ($a_mode == "create")
+		{
+			$form->setTitle($lng->txt("prtf_add_blog").": ".
+				$this->portfolio->getTitle());
+			$form->addCommandButton("savePage", $lng->txt("save"));
+			$form->addCommandButton("pages", $lng->txt("cancel"));
+			
+		}
+		else
+		{
+			/* edit is done directly in table gui
+			$form->setTitle($lng->txt("prtf_edit_page"));
+			$form->addCommandButton("updatePage", $lng->txt("save"));
+			$form->addCommandButton("pages", $lng->txt("cancel"));
+			*/			
+		}
+		
+		return $form;
+	}
+	
+	/**
+	 * Create new portfolio blog page
+	 */
+	public function saveBlog()
+	{
+		global $tpl, $lng, $ilCtrl, $ilTabs;
+
+		$form = $this->initPageForm("create");
+		if ($form->checkInput())
+		{
+			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
+			$page = new ilPortfolioPage($this->portfolio->getId());
+			$page->setType(ilPortfolioPage::TYPE_BLOG);		
+			$page->setTitle($form->getInput("blog"));									
 			$page->create();
 
 			ilUtil::sendSuccess($lng->txt("prtf_page_created"), true);
