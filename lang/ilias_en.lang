@@ -11181,7 +11181,7 @@ wiki#:#wiki_news_page_created#:#New wiki page has been created.
 wiki#:#wiki_news_page_changed#:#Wiki page has been updated.
 wiki#:#wiki_changed_by#:#Changed by
 wiki#:#wiki_page_status_blocked#:#Editing of this page is currently blocked for learners.
-survey#:#survey_copy_questions_to_pool#:#Copy Questions To Pool
+survey#:#survey_copy_questions_to_pool#:#Add to question pool
 survey#:#no_question_selected_for_copy_to_pool#:#Please select at least one question, which is not already linked to a question pool.
 survey#:#survey_copy_select_questionpool#:#Question pool to put the copies
 survey#:#survey_copy_to_questionpool_success#:#The questions were copied into the pool successfully.
