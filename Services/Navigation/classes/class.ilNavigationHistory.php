@@ -94,6 +94,17 @@ class ilNavigationHistory
 			$db_entries[] = $rec;
 		}
 		// same in db
+		
+		################## Locked ###########################
+		$ilDB->lockTables(
+			array(
+				0 => array(
+					'name' => 'last_visited',
+					'type' => ilDB::LOCK_WRITE
+				)
+			)
+		);
+
 		$ilDB->manipulate("DELETE FROM last_visited WHERE ".
 			" user_id = ".$ilDB->quote($ilUser->getId(), "integer")
 			);
@@ -112,6 +123,9 @@ class ilNavigationHistory
 					")");
 			}
 		}
+
+		################## Unlocked #########################
+		$ilDB->unlockTables();
 	}
 	
 	/**
