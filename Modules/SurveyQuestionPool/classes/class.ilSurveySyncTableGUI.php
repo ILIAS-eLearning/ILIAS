@@ -34,14 +34,12 @@ class ilSurveySyncTableGUI extends ilTable2GUI
 		$this->setDescription($lng->txt("survey_sync_question_copies_info"));
 		
 		$this->addCommandButton("synccopies", $lng->txt("survey_sync_question_copies"));
-		$this->addCommandButton("cancel", $lng->txt("cancel"));
+		$this->addCommandButton("cancelsync", $lng->txt("cancel"));
 
 		// $this->setSelectAllCheckbox("id[]");
 		$this->addColumn("", "", 1);
 		$this->addColumn($lng->txt("title"), "");
-		$this->addColumn($lng->txt("path"), "");
-		$this->addColumn($lng->txt("message"), "");
-	
+			
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 
@@ -58,46 +56,60 @@ class ilSurveySyncTableGUI extends ilTable2GUI
 	{
 		global $ilAccess, $lng;
 		
+		include_once "Modules/Survey/classes/class.ilObjSurvey.php";
+		
 		$table_data = array();
-		foreach($this->question->getCopyIds(true) as $survey_id => $questions)
+		foreach($this->question->getCopyIds(true) as $survey_obj_id => $questions)
 		{
+			$survey_id = new ilObjSurvey($survey_obj_id, false);
+			$survey_id->loadFromDB();
+			$survey_id = $survey_id->getSurveyId();
+			
+			$ref_ids = ilObject::_getAllReferences($survey_obj_id);
+			$message = "";
+			
 			// check permissions for "parent" survey
 			$can_write = false;
-			$ref_ids = ilObject::_getAllReferences($survey_id);
-			foreach($ref_ids as $ref_id)
-			{
-				if($ilAccess->checkAccess("edit", "", $ref_id))
+			if(!ilObjSurvey::_hasDatasets($survey_id))
+			{				
+				foreach($ref_ids as $ref_id)
+				{				
+					if($ilAccess->checkAccess("edit", "", $ref_id))
+					{					
+						$can_write = true;
+						break;						
+					}
+				}
+			
+				if(!$can_write)
 				{
-					$can_write = true;
-					break;
+					$message = $lng->txt("survey_sync_insufficient_permissions");
 				}
 			}
-			
-			$message = "";
-			if(!$can_write)
+			else
 			{
-				$message = $lng->txt("survey_sync_insufficient_permissions");
+				$message = $lng->txt("survey_has_datasets_warning");
 			}
+						
+			$survey_title = ilObject::_lookupTitle($survey_obj_id);
+			$survey_path = $this->buildPath($ref_ids);							
 			
-			$table_data[] = array(
-				"id" => null,
-				"title" => ilObject::_lookupTitle($survey_id),
-				"path" => $this->buildPath($ref_ids),
-				"message" => $message
-				);						
+			foreach($questions as $question_id)
+			{
+				$title = SurveyQuestion::_getTitle($question_id);
 				
-			if($can_write)
-			{
-				foreach($questions as $question_id)
+				if(!$can_write)
 				{
-					$table_data[] = array(
-						"id" => $question_id,
-						"title" => SurveyQuestion::_getTitle($question_id),
-						"path" => null,
-						"message" => null
-						);
-				}				
-			}
+					$question_id = null;
+				}
+
+				$table_data[] = array(
+					"id" => $question_id,
+					"title" => $title,
+					"path" => $survey_path,
+					"message" => $message
+					);
+			}							
 		}		
 
 		$this->setData($table_data);
@@ -111,23 +123,27 @@ class ilSurveySyncTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{
 		global $lng, $ilCtrl;
-
-		// survey
-		if(!$a_set["id"])
+		
+		$this->tpl->setVariable("TXT_PATH", $lng->txt("path"));
+		
+		if($a_set["message"])
 		{
-			$this->tpl->setVariable("TITLE", $a_set["title"]);
-			$this->tpl->setVariable("PATH", implode("<br />", $a_set["path"]));
-			$this->tpl->setVariable("MESSAGE", $a_set["message"]);	
+			$this->tpl->setCurrentBlock("message");
+			$this->tpl->setVariable("TXT_MESSAGE", $a_set["message"]);
+			$this->tpl->parseCurrentBlock();
 		}
+		
 		// question
-		else
-		{
-			$this->tpl->setVariable("TITLE", "- ".$a_set["title"]);
-			
+		if($a_set["id"])
+		{			
 			$this->tpl->setCurrentBlock("checkbox");
 			$this->tpl->setVariable("ID", $a_set["id"]);
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		
+		$this->tpl->setVariable("TITLE", $a_set["title"]);
+		$this->tpl->setVariable("VALUE_PATH", implode("<br />", $a_set["path"]));
 	}
 	
     /**
