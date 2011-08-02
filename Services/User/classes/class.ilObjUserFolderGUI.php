@@ -2913,7 +2913,6 @@ else
 				'loginname_change_blocking_time' => (int)$ilSetting->get('loginname_change_blocking_time'),
 				'user_adm_alpha_nav' => (int)$ilSetting->get('user_adm_alpha_nav'),
 				// 'user_ext_profiles' => (int)$ilSetting->get('user_ext_profiles')
-				'user_portfolios' => (int)$ilSetting->get('user_portfolios'),
 				'user_reactivate_code' => (int)$ilSetting->get('user_reactivate_code')
 			)
 		);
@@ -3014,11 +3013,6 @@ else
 		$cb->setInfo($this->lng->txt('user_ext_profiles_desc'));
 		$this->form->addItem($cb);		 
 		*/
-		
-		// portfolios 
-		$cb = new ilCheckboxInputGUI($this->lng->txt("user_portfolios"), "user_portfolios");
-		$cb->setInfo($this->lng->txt('user_portfolios_desc'));
-		$this->form->addItem($cb);		
 		
 		// account codes
 		$code = new ilCheckboxInputGUI($this->lng->txt("user_account_code_setting"), "user_reactivate_code");
