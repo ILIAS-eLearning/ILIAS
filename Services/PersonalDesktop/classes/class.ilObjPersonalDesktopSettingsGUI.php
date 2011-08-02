@@ -243,7 +243,15 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$link_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_wsp_links'), 'link');
 		$link_prop->setValue('1');
 		$link_prop->setChecked(($ilSetting->get('disable_wsp_links') ? '0' : '1'));
-		$wsp_prop->addSubItem($link_prop);				
+		$wsp_prop->addSubItem($link_prop);			
+		
+		// Enable 'Portfolios'
+		$lng->loadLanguageModule('user');
+		$prtf_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_prtf'), 'prtf');
+		$prtf_prop->setValue('1');
+		$prtf_prop->setInfo($lng->txt('user_portfolios_desc'));
+		$prtf_prop->setChecked(($ilSetting->get('user_portfolios') ? '1' : '0'));
+		$form->addItem($prtf_prop);
 		
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
@@ -315,6 +323,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ilSetting->set('disable_wsp_files', (int)($_POST['file'] ? 0 : 1));
 		$ilSetting->set('disable_wsp_certificates', (int)($_POST['cert'] ? 0 : 1));
 		$ilSetting->set('disable_wsp_links', (int)($_POST['link'] ? 0 : 1));
+		$ilSetting->set('user_portfolios', (int)($_POST['prtf'] ? 1 : 0));
 		
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		
