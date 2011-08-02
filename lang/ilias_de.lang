@@ -11868,3 +11868,8 @@ auth#:#auth_account_code_title#:#Benutzerkonten Code
 auth#:#auth_account_code_used#:#Ihr Account wurde re-aktiviert. Bitte loggen Sie sich zur Sicherheit erneut ein.
 prtf#:#prtf_no_blogs_info#:#Ihr Arbeitsraum enthält keine Blogs. Legen Sie dort Blogs, können Sie diese als Teils Ihres Portfolios verwenden.
 prtf#:#prtf_add_blog#:#Blog hinzufügen
+pd#:#pd_enable_personal_workspace#:#Mein Arbeitsraum aktivieren
+pd#:#pd_enable_wsp_blogs#:#Blogs aktivieren
+pd#:#pd_enable_wsp_files#:#Dateien aktivieren
+pd#:#pd_enable_wsp_certificates#:#Zertifikate aktivieren
+pd#:#pd_enable_wsp_links#:#Links aktivieren

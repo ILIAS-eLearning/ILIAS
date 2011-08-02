@@ -173,7 +173,13 @@ class ilPersonalWorkspaceGUI
 	 */
 	protected function renderToolbar()
 	{
-		global $lng, $ilCtrl, $objDefinition, $tpl;
+		global $lng, $ilCtrl, $objDefinition, $tpl, $ilSetting;
+		
+		$settings_map = array("blog" => "blogs",
+			"file" => "files",
+			"tstv" => "certificates",
+			"excv" => "certificates",
+			"webr" => "links");
 
 		$root = $this->tree->getNodeData($this->node_id);
 		$subtypes = $objDefinition->getCreatableSubObjects($root["type"], ilObjectDefinition::MODE_WORKSPACE);
@@ -183,6 +189,11 @@ class ilPersonalWorkspaceGUI
 			$subobj = array();
 			foreach(array_keys($subtypes) as $type)
 			{
+				if(isset($settings_map[$type]) && $ilSetting->get("disable_wsp_".$settings_map[$type]))
+				{
+					continue;
+				}
+				
 				$class = $objDefinition->getClassName($type);
 				
 				$subobj[] = array("value" => $type,

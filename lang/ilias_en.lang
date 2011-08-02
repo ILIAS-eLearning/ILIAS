@@ -11880,3 +11880,8 @@ auth#:#auth_account_code_title#:#Account Code
 auth#:#auth_account_code_used#:#Your account has been re-activated. Please login once again for security reasons.
 prtf#:#prtf_no_blogs_info#:#Your workspace does not contain any blogs. Create blogs to use them as part of your portfolios.
 prtf#:#prtf_add_blog#:#Add Blog
+pd#:#pd_enable_personal_workspace#:#Enable Personal Workspace
+pd#:#pd_enable_wsp_blogs#:#Enable Blogs
+pd#:#pd_enable_wsp_files#:#Enable Files
+pd#:#pd_enable_wsp_certificates#:#Enable Certificates
+pd#:#pd_enable_wsp_links#:#Enable Links

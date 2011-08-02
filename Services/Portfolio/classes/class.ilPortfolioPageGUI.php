@@ -22,7 +22,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function __construct($a_portfolio_id, $a_id = 0, $a_old_nr = 0)
 	{
-		global $tpl;
+		global $tpl, $ilSetting;
 
 		$this->portfolio_id = (int)$a_portfolio_id;
 		
@@ -41,8 +41,15 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$this->setEnabledInternalLinks(false);
 		$this->setEnabledPCTabs(true);
 		$this->setEnabledProfile(true);
-		$this->setEnabledVerification(true);
-		$this->setEnabledBlog(true);
+		
+		if(!$ilSetting->get('disable_wsp_certificates'))
+		{
+			$this->setEnabledVerification(true);
+		}
+		if(!$ilSetting->get('disable_wsp_blogs'))
+		{
+			$this->setEnabledBlog(true);
+		}
 	}
 
 	/**

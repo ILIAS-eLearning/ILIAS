@@ -681,9 +681,12 @@ class ilMainMenuGUI
 				$selection->addItem($lng->txt("overview"), "", "ilias.php?baseClass=ilPersonalDesktopGUI",
 					"", "", "_top");
 
-				// workspace
-				$selection->addItem($lng->txt("personal_workspace"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace",
-					"", "", "_top");
+				if(!$ilSetting->get("disable_personal_workspace"))
+				{
+					// workspace
+					$selection->addItem($lng->txt("personal_workspace"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace",
+						"", "", "_top");
+				}
 				
 				// profile
 				$selection->addItem($lng->txt("personal_profile"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
