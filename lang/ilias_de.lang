@@ -11829,6 +11829,8 @@ chatroom_adm#:#client_settings_title#:#Client Einstellungen
 chatroom_adm#:#osd_intervall#:#Abfrageintervall (Sekunden)
 chatroom_adm#:#server_settings_title#:#Server Einstellungen
 chatroom_adm#:#chatroom_confirm_delete_smiley#:#Sind sie sicher, dass sie den ausgewählten Smiley löschen möchten?
+chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies-Verzeichnis existiert nicht.
+chatroom_adm#:#chat_smilies_initialized#:#Chat Smilies wurden initialisiert
 chatroom#:#soap_must_be_enabled#:#Bitte aktivieren Sie den SOAP Server in den allgemeinen Einstellungen bevor Sie den Chat aktivieren.
 chatroom#:#auto_scroll#:#Automatisch an das Ende Scrollen
 chatroom#:#public_chat_created#:#Es wurde ein neuer öffentlicher Chatraum im Magazin angelegt.

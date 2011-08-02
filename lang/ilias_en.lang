@@ -11840,6 +11840,8 @@ chatroom_adm#:#client_settings_title#:#Client settings
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)
 chatroom_adm#:#server_settings_title#:#Server settings
 chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete the selected smiley?
+chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.
+chatroom_adm#:#chat_smilies_initialized#:#Chat smilies initialized
 chatroom#:#soap_must_be_enabled#:#You must active SOAP support in the general settings to enable the chat.
 chatroom#:#auto_scroll#:#Scroll to bottom
 chatroom#:#public_chat_created#:#The public chat room has been added to the repository
