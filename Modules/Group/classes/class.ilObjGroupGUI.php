@@ -2642,6 +2642,26 @@ class ilObjGroupGUI extends ilContainerGUI
 			$pres->setTitle($this->lng->txt('grp_setting_header_presentation'));
 			$this->form->addItem($pres);
 
+			// presentation type
+			$view_type = new ilRadioGroupInputGUI($this->lng->txt('grp_presentation_type'),'view_mode');
+			$view_type->setValue($this->object->getViewMode());
+
+			if($hasParentCourse)
+			{
+				$opt = new ilRadioOption($this->lng->txt('grp_view_inherit'),ilContainer::VIEW_INHERIT);
+				$opt->setInfo($this->lng->txt('grp_view_inherit_info'));
+				$view_type->addOption($opt);
+			}
+
+			$opt = new ilRadioOption($this->lng->txt('cntr_view_by_type'),  ilContainer::VIEW_BY_TYPE);
+			$opt->setInfo($this->lng->txt('grp_view_info_by_type'));
+			$view_type->addOption($opt);
+			$this->form->addItem($view_type);
+
+			$opt = new ilRadioOption($this->lng->txt('cntr_view_simple'),ilContainer::VIEW_SIMPLE);
+			$opt->setInfo($this->lng->txt('grp_view_info_simple'));
+			$view_type->addOption($opt);
+
 
 			$sog = new ilRadioGroupInputGUI($this->lng->txt('sorting_header'),'sor');
 			$sog->setRequired(true);
@@ -2683,7 +2703,6 @@ class ilObjGroupGUI extends ilContainerGUI
 			$sog->addOption($sti);
 
 			$this->form->addItem($sog);
-
 
 		}
 		
@@ -2740,6 +2759,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->enableWaitingList((bool) $_POST['waiting_list']);
 		$this->object->enableRegistrationAccessCode((bool) $_POST['reg_code_enabled']);
 		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
+		$this->object->setViewMode(ilUtil::stripSlashes($_POST['view_mode']));
 		
 		return true;
 	}
