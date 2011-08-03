@@ -11888,3 +11888,5 @@ pd#:#pd_enable_wsp_links#:#Enable Links
 pd#:#pd_enable_prtf#:#Enable Portfolios
 survey#:#svy_presentation_properties#:#Presentation
 survey#:#svy_save_sync#:#Save and Sync Question Copies
+grp#:#grp_setting_header_presentation#:#Group Presentation
+grp#:#grp_setting_header_registration#:#Group Registration
