@@ -166,7 +166,7 @@ function IliasLaunch(i_l){
 }
 
 function IliasLaunchAfterFinish(){
-	if(b_launched==false) IliasLaunch(iv.launchId);
+	if(b_launched==false) setTimeout("API.IliasLaunch("+iv.launchId+")",1);
 	else launchNext();
 }
 function IliasAbortSco(i_l){
