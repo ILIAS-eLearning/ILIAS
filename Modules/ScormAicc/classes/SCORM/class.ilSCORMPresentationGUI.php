@@ -444,6 +444,7 @@ class ilSCORMPresentationGUI
 			.'b_autoContinue:'.$b_autoContinue.','
 			.'i_lessonScoreMax:'.$i_lessonScoreMax.','
 			.'i_lessonMasteryScore:'.$i_lessonMasteryScore.','
+			.'b_debug:'.$b_debug.','
 			.'dataDirectory:"'.encodeURIComponent($this->slm->getDataDirectory("output").'/').'",'
 			.'img:{'
 				.'asset:"'.encodeURIComponent(ilUtil::getImagePath('scorm/asset.gif')).'",'

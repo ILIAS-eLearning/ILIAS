@@ -4,7 +4,9 @@ var	iv={},
 	data={},
 	a_toStore=[],
 	Initialized=false,
-	b_launched=true;
+	b_launched=true,
+	APIcallStartTimeMS,
+	as_APIcalls=[];
 
 
 /* XMLHHTP functions */
@@ -90,6 +92,34 @@ function sendRequest (url, data, callback, user, password, headers) {
 	}
 }
 
+function showCalls(APIcall,callResult,err,dia){
+	if (iv.b_debug){
+		if (err==null) err="";
+		if (dia==null) dia="";
+		if (err!=0 && err!="") dia=getErrorStringIntern(err)+'; '+dia;
+		var APIcallNowMS=new Date().getTime(),
+			APIms,
+			APIs_out='<table cellpadding=0><tr class="d"><td class="r">ms</td><td>sent to API</td><td>returns</td><td class="c">error</td><td>error string; diagnostic</td></tr>';
+		APIms=""+(APIcallNowMS-APIcallStartTimeMS);
+		if(callResult!="") callResult='"'+callResult+'"';
+		as_APIcalls.push('<tr><td class="r">'+APIms+'</td><td><div>'+APIcall+'</div></td><td><div>'+callResult+'</div></td><td class="c">'+err+'</td><td><div>'+dia+'</div></td></tr>');
+		for(var i=as_APIcalls.length-1;i>=0;i--) APIs_out+=as_APIcalls[i];
+		frames.logframe.document.getElementById("APIcalls").innerHTML=APIs_out+"</table>";
+	}
+}
+
+function initDebug(){
+	if (iv.b_debug==true){
+		var href="";
+		for(var i=0; i<ir.length; i++){
+			if(ir[i][1]==iv.launchId) href=ir[i][3];
+		}
+		as_APIcalls.push('<tr class="d"><td colspan=5>SCO: '+decodeURIComponent(iv.dataDirectory+href)+' (Id: '+iv.launchId+')</td></tr>');
+		APIcallStartTimeMS=new Date().getTime();
+	}
+}
+
+
 function message(s_send){
 	s_send = 'lm_'+iv.objId+': '+s_send;
 	if (iv.b_messageLog) sendRequest ('./ilias.php?baseClass=ilSAHSPresentationGUI&ref_id='+iv.refId+'&cmd=logMessage', s_send);
@@ -118,12 +148,15 @@ function IliasLaunch(i_l){
 		}
 	}
 	if (href=="") return false;
-	if (i_l!=iv.launchId && asset==1) status4tree(iv.launchId,'asset');
+
 	if (asset==1 || Initialized==false){
+		if (asset==1) status4tree(iv.launchId,'asset');
+		else status4tree(iv.launchId,getValueIntern(iv.launchId,'cmi.core.lesson_status'),getValueIntern(iv.launchId,'cmi.core.total_time'));
 		b_launched=true;
 		frames.sahs_content.document.location.replace(decodeURIComponent(iv.dataDirectory+href));
 	}
 	else {
+		status4tree(iv.launchId,getValueIntern(iv.launchId,'cmi.core.lesson_status'),getValueIntern(iv.launchId,'cmi.core.total_time'));
 		b_launched=false;
 		frames.sahs_content.document.location.replace('./Modules/ScormAicc/templates/default/dummy.html');
 		setTimeout("API.IliasAbortSco("+iv.launchId+")",3000);
@@ -134,6 +167,7 @@ function IliasLaunch(i_l){
 
 function IliasLaunchAfterFinish(){
 	if(b_launched==false) IliasLaunch(iv.launchId);
+	else launchNext();
 }
 function IliasAbortSco(i_l){
 	if (b_launched==true) return;
@@ -144,21 +178,22 @@ function IliasAbortSco(i_l){
 }
 
 function launchNext(){
-	if (b_autoContinue == true){
+	if (iv.b_autoContinue == true){
 		var i_l=0;
 		for (var i=0;i<ir.length;i++){
 			if (ir[i][0]==iv.launchNr && i<(ir.length-1)){
 				i_l=ir[i+1][1];
 			}
 		}
-		if (i_l>0) IliasLaunch(i_l);
+		if (i_l>0) setTimeout("API.IliasLaunch("+i_l+")",500);
 	}
 }
 
-function status4tree(i_i,s_status,s_time){
+function status4tree(i_sco,s_status,s_time){
 	if (typeof(frames.tree)!="undefined"){
-		var ico=frames.tree.document.getElementsByName('scoIcon'+i_i)[0];
+		var ico=frames.tree.document.getElementsByName('scoIcon'+i_sco)[0];
 		if(typeof(ico)!="undefined"){
+			if(s_status==null || s_status=="not attempted") s_status="not_attempted";
 			ico.src=decodeURIComponent(iv.img[s_status]);
 			if (s_status!='asset'){
 				var icotitle = iv.statusTxt.status+': '+iv.statusTxt[s_status];
@@ -184,34 +219,32 @@ function IliasCommit() {
 	}
 	a_toStore=[];
 	try {
-		sendRequest ("./Modules/ScormAICC/sahs_server.php?cmd=storeJsApi&ref_id="+iv.refId, s_s);
+		var ret=sendRequest ("./Modules/ScormAICC/sahs_server.php?cmd=storeJsApi&ref_id="+iv.refId, s_s);
 		return true;
 	} catch (e) {
-		alert ("Ilias cmi storage failed.");
+		warning("Ilias cmi storage failed.");
 	}
 	return false;
 }
 
-function getValueIntern(tsco,s_el){
-	var a_el=s_el.split('.');
-	if (typeof data[tsco] == "undefined") return null;
-	var o_el=data[tsco];
+function getValueIntern(i_sco,s_el){
+	var s_sco=""+i_sco,
+		a_el=s_el.split('.');
+	if (typeof data[s_sco] == "undefined") return null;
+	var o_el=data[s_sco];
 	for (var i=0;i<a_el.length;i++){
 		o_el=o_el[""+a_el[i]];
 		if (typeof o_el == "undefined") return null;
 	}
-	return ""+o_el;
+	return decodeURIComponent(""+o_el);
 }
 
-function getValueInternDecoded(tsco,s_el){
-	return decodeURIComponent(getValueIntern(tsco,s_el));
-}
-
-function setValueIntern(tsco,s_el,s_value,b_fromSCO){
+function setValueIntern(i_sco,s_el,s_value,b_store,b_noEncode){
 	//create data-elements
-	var a_el = s_el.split('.');
-	if (typeof data[tsco] == "undefined") data[tsco]=new Object();
-	var o_el=data[tsco];
+	var s_sco=""+i_sco,
+		a_el = s_el.split('.');
+	if (typeof data[s_sco] == "undefined") data[s_sco]=new Object();
+	var o_el=data[s_sco];
 	for (var i=0;i<a_el.length-1;i++){
 		if (typeof o_el[a_el[i]] == "undefined") o_el[a_el[i]]=new Object();
 		o_el=o_el[a_el[i]];
@@ -220,7 +253,7 @@ function setValueIntern(tsco,s_el,s_value,b_fromSCO){
 				o_el['_count']=new Number();
 				o_el['_count']=0;
 			}
-			if(b_fromSCO){
+			if(b_store){
 				if (a_el[i+1] == o_el['_count']) o_el['_count']++;
 				if (a_el[i+1] > o_el['_count']) return false;
 			} else {
@@ -230,20 +263,15 @@ function setValueIntern(tsco,s_el,s_value,b_fromSCO){
 	}
 	var s2s=a_el[a_el.length-1];
 	//store
-	if(b_fromSCO) s_value=encodeURIComponent(s_value);
-	if (typeof o_el[s2s] == "undefined"){
-		o_el[s2s] = new String();
-		if(b_fromSCO) a_toStore.push(tsco+';'+s_el);
-	}
-	else if (b_fromSCO && o_el[s2s] != s_value){
-		var b_toStore=true;
-		for (i=0;i<a_toStore.length;i++){
-			if (a_toStore[i] == tsco+';'+s_el) b_toStore=false;
-		}
-		if (b_toStore) a_toStore.push(tsco+';'+s_el);
-	}
+	if (typeof o_el[s2s] == "undefined") o_el[s2s] = new String();
+	if (!b_noEncode) s_value=encodeURIComponent(s_value);
 	o_el[s2s]=s_value;
-	//change if necessary
+	if (b_store){
+		for (var i=0;i<a_toStore.length;i++){
+			if (a_toStore[i] == s_sco+';'+s_el) b_store=false;
+		}
+		if (b_store) a_toStore.push(s_sco+';'+s_el);
+	}
 	return true;
 }
 
@@ -257,7 +285,7 @@ function basisInit() {
 	ir=IliasScormResources;
 	var s_w="";
 	for (var i=0; i<IliasScormData.length; i++) {
-		if (setValueIntern(IliasScormData[i][0],IliasScormData[i][1],IliasScormData[i][2],false) == false)
+		if (setValueIntern(IliasScormData[i][0],IliasScormData[i][1],IliasScormData[i][2],false,true) == false)
 			s_w+='; sco_id:'+IliasScormData[i][0]+', element:'+IliasScormData[i][1];
 	}
 	if (s_w != "") warning('Failure read previous data:'+s_w.substr(1));
