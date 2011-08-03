@@ -360,6 +360,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST['desc']));
 		$this->object->setGroupType(ilUtil::stripSlashes($_POST['grp_type']));
+		$this->object->setViewMode(ilContainer::VIEW_INHERIT);
 
 		$ilErr->setMessage('');
 		
