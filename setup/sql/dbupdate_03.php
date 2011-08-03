@@ -7158,3 +7158,21 @@ if(!$ilDB->tableExists('usr_account_codes'))
 	require_once 'Modules/Chatroom/classes/class.ilChatroomInstaller.php';
 	ilChatroomInstaller::createMissinRoomSettingsForConvertedObjects();
 ?>
+<#3422>
+<?php
+
+	if(!$ilDB->tableColumnExists('grp_settings','view_mode'))
+	{
+		$ilDB->addTableColumn(
+			'grp_settings',
+			'view_mode',
+			array(
+				'type' 		=> 'integer',
+				'length' 	=> 1,
+				'notnull'	=> true,
+				'default'		=> 6 
+			)
+		);
+	}
+?>
+

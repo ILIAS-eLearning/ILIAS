@@ -50,6 +50,8 @@ class ilContainer extends ilObject
 	const VIEW_BY_TYPE = 5;
 	const VIEW_INHERIT = 6;
 	const VIEW_ILINC = 7;
+	
+	const VIEW_DEFAULT = self::VIEW_BY_TYPE;
 
 	
 	const SORT_TITLE = 0;

@@ -86,6 +86,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	
 	private $reg_access_code = '';
 	private $reg_access_code_enabled = false;
+
+	private $view_mode = NULL;
 	
 	
 	
@@ -572,7 +574,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 		$query = "INSERT INTO grp_settings (obj_id,information,grp_type,registration_type,registration_enabled,".
 			"registration_unlimited,registration_start,registration_end,registration_password,registration_mem_limit,".
-			"registration_max_members,waiting_list,latitude,longitude,location_zoom,enablemap,reg_ac_enabled,reg_ac) ".
+			"registration_max_members,waiting_list,latitude,longitude,location_zoom,enablemap,reg_ac_enabled,reg_ac,view_mode) ".
 			"VALUES(".
 			$ilDB->quote($this->getId() ,'integer').", ".
 			$ilDB->quote($this->getInformation() ,'text').", ".
@@ -591,7 +593,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->getLocationZoom() ,'integer').", ".
 			$ilDB->quote((int) $this->getEnableGroupMap() ,'integer').", ".
 			$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
-			$ilDB->quote($this->getRegistrationAccessCode(),'text').' '.
+			$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
+			$ilDB->quote($this->getViewMode(),'integer').' '.
 			")";
 		$res = $ilDB->manipulate($query);
 
@@ -634,7 +637,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			"location_zoom = ".$ilDB->quote($this->getLocationZoom() ,'integer').", ".
 			"enablemap = ".$ilDB->quote((int) $this->getEnableGroupMap() ,'integer').", ".
 			'reg_ac_enabled = '.$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
-			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').' '.
+			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
+			'view_mode = '.$ilDB->quote($this->getViewMode(),'integer').' '.
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 		
@@ -713,6 +717,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$this->setEnableGroupMap($row->enablemap);
 			$this->enableRegistrationAccessCode($row->reg_ac_enabled);
 			$this->setRegistrationAccessCode($row->reg_ac);
+			$this->setViewMode(self::determineViewMode($this->getId(),$row->view_mode));
 		}
 		$this->initParticipants();
 		
@@ -757,6 +762,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->enableRegistrationAccessCode($this->isRegistrationAccessCodeEnabled());
 		include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
 		$new_obj->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
+
+		$new_obj->setViewMode($this->getViewMode());
 		
 		$new_obj->update();
 
@@ -1755,6 +1762,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	public function getViewMode()
 	{
 		global $tree;
+
+		return (int) $this->view_mode;
 		
 		// default: by type
 		$view = ilContainer::VIEW_BY_TYPE;
@@ -1772,6 +1781,73 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			}
 		}
 		return $view;
+	}
+
+	/**
+	 * Set group view mode
+	 * @param int $a_view_mode
+	 */
+	public function setViewMode($a_view_mode)
+	{
+		$this->view_mode = $a_view_mode;
+	}
+
+	/**
+	 * lookup view mode
+	 * @global $ilDB
+	 */
+	public static function lookupViewMode($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = 'SELECT view_mode FROM grp_settings '.
+			'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
+		$res = $ilDB->query($query);
+
+		$view_mode = NULL;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$view_mode = $row->view_mode;
+		}
+		return self::determineViewMode($a_obj_id,$view_mode);
+	}
+
+	/**
+	 * Determine view mode
+	 *
+	 * @global ilTree $tree
+	 */
+	protected static function determineViewMode($a_obj_id,$a_view_mode)
+	{
+		global $tree;
+
+		// View mode is set
+		if($a_view_mode and $a_view_mode != ilContainer::VIEW_INHERIT)
+		{
+			return $a_view_mode;
+		}
+		// view mode is inherit => check for parent course
+		if($a_view_mode == ilContainer::VIEW_INHERIT)
+		{
+			$ref = ilObject::_getAllReferences($a_obj_id);
+			$ref_id = end($ref);
+
+			$crs_ref = $tree->checkForParentType($ref_id, 'crs');
+			if(!$crs_ref)
+			{
+				return ilContainer::VIEW_DEFAULT;
+			}
+
+			include_once './Modules/Course/classes/class.ilObjCourse.php';
+			$view_mode = ilObjCourse::_lookupViewMode(ilObject::_lookupObjId($crs_ref));
+
+			if($view_mode === false)
+			{
+				return ilContainer::VIEW_DEFAULT;
+			}
+			return $a_view_mode;
+		}
+		return ilContainer::VIEW_DEFAULT;
 	}
 	
 	/**

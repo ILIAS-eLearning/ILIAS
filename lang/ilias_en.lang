@@ -11890,3 +11890,8 @@ survey#:#svy_presentation_properties#:#Presentation
 survey#:#svy_save_sync#:#Save and Sync Question Copies
 grp#:#grp_setting_header_presentation#:#Group Presentation
 grp#:#grp_setting_header_registration#:#Group Registration
+grp#:#grp_view_info_by_type#:#This content presentation groups all items by resource type.
+grp#:#grp_view_info_simple#:#This content presentation lists all items in one block.
+grp#:#grp_presentation_type#:#Presentation Type
+grp#:#grp_view_inherit#:#Standard
+grp#:#grp_view_inherit_info#:#The group presentation type is adapted from a parent course. 

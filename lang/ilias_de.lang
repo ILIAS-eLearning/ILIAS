@@ -11878,3 +11878,8 @@ survey#:#svy_presentation_properties#:#Darstellung
 survey#:#svy_save_sync#:#Speichern und Kopien aktualisieren
 grp#:#grp_setting_header_presentation#:#Gruppendarstellung
 grp#:#grp_setting_header_registration#:#Gruppenbeitritt
+grp#:#grp_presentation_type#:#Gruppenansicht
+grp#:#grp_view_info_by_type#:#Diese Gruppenansicht ordnet alle Gruppeninhalte nach ihrem Objekttyp.
+grp#:#grp_view_inherit#:#Standard
+grp#:#grp_view_inherit_info#:#Die Gruppenansicht wird vom übergeodneten Kurs übernommen.
+grp#:#grp_view_info_simple#:#Diese Gruppenansicht stellt alle Gruppeninhalte in einer Liste dar.
