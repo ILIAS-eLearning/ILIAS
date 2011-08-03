@@ -54,6 +54,13 @@ class ilChangeEvent
 	{
 		global $ilDB;
 		
+		/* see _recordReadEvent
+		if (!ilChangeEvent::_isActive())
+		{
+			return;
+		}		 
+		*/
+		
 		if ($parent_obj_id == null)
 		{
 			$pset = $ilDB->query('SELECT r2.obj_id par_obj_id FROM object_reference r1 '.
@@ -105,6 +112,13 @@ class ilChangeEvent
 		$isCatchupWriteEvents = true, $a_ext_rc = false, $a_ext_time = false)
 	{
 		global $ilDB, $tree;
+		
+		/* read_event data is now used for several features, so we are always keeping track
+		if (!ilChangeEvent::_isActive())
+		{
+			return;
+		}		 
+		*/
 		
 		include_once('Services/Tracking/classes/class.ilObjUserTracking.php');
 		$validTimeSpan = ilObjUserTracking::_getValidTimeSpan();		

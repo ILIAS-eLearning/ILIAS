@@ -1050,12 +1050,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			// BEGIN ChangeEvent: Record write event
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			if (ilChangeEvent::_isActive())
-			{
-				global $ilUser;
-				ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
-				ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
-			}
+			global $ilUser;
+			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+			ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());			
 			// END ChangeEvent: Record write event
 
 			// Update ecs export settings
@@ -1839,11 +1836,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// BEGIN ChangeEvent: Record write event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-		if (ilChangeEvent::_isActive())
-		{
-			global $ilUser;
-			ilChangeEvent::_recordWriteEvent($a_new_object->getId(), $ilUser->getId(), 'create');
-		}
+		global $ilUser;
+		ilChangeEvent::_recordWriteEvent($a_new_object->getId(), $ilUser->getId(), 'create');		
 		// END ChangeEvent: Record write event.
 
 		// always send a message

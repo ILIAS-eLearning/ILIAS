@@ -320,15 +320,13 @@ class ilCourseContentGUI
 	{
 		// BEGIN ChangeEvent: record read event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-		if (ilChangeEvent::_isActive())
-		{
-			global $ilUser;
-			$obj_id = ilObject::_lookupObjId($this->container_obj->getRefId());
-			ilChangeEvent::_recordReadEvent(
-				$this->container_obj->getType(), $this->container_obj->getRefId(),
-				$obj_id, $ilUser->getId());
-		}
+		global $ilUser;
+		$obj_id = ilObject::_lookupObjId($this->container_obj->getRefId());
+		ilChangeEvent::_recordReadEvent(
+			$this->container_obj->getType(), $this->container_obj->getRefId(),
+			$obj_id, $ilUser->getId());		
 		// END ChangeEvent: record read event.
+		
 		$this->getCenterColumnHTML();
 		
 		if (!$this->no_right_column)

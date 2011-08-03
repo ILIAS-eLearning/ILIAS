@@ -358,12 +358,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		// Record read event but don't catch up with write events, because
 		// with WebDAV, a user can not see all objects contained in a folder.
-		if (ilChangeEvent::_isActive())
-		{
-			global $ilUser;
-			ilChangeEvent::_recordReadEvent($objDAV->getILIASType(), $objDAV->getRefId(),
-				$objDAV->getObjectId(), $ilUser->getId(), false);
-		}
+		global $ilUser;
+		ilChangeEvent::_recordReadEvent($objDAV->getILIASType(), $objDAV->getRefId(),
+			$objDAV->getObjectId(), $ilUser->getId(), false);
+		
 		// ok, all done
 		$this->writelog('PROPFIND():true options='.var_export($options, true).' files='.var_export($files,true));
 		return true;
@@ -586,11 +584,9 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		}
 
 		// Record read event and catch up write events
-		if (ilChangeEvent::_isActive())
-		{
-			ilChangeEvent::_recordReadEvent($objDAV->getILIASType(), $objDAV->getRefId(),
-				$objDAV->getObjectId(), $ilUser->getId());
-		}
+		ilChangeEvent::_recordReadEvent($objDAV->getILIASType(), $objDAV->getRefId(),
+			$objDAV->getObjectId(), $ilUser->getId());
+		
 		$this->writelog('GET:'.var_export($options, true));
 
 		return true;
@@ -943,10 +939,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			}
 			$objDAV->write();
 			// Record write event
-			if (ilChangeEvent::_isActive())
-			{
-				ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'create', $parentDAV->getObjectId());
-			}
+			ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'create', $parentDAV->getObjectId());
 		}
 		else if ($objDAV->isNullResource())
 		{
@@ -967,10 +960,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			$objDAV->write();
 
 			// Record write event
-			if (ilChangeEvent::_isActive())
-			{
-				ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'create', $parentDAV->getObjectId());
-			}
+			ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'create', $parentDAV->getObjectId());
 		}
 		else
 		{
@@ -996,11 +986,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			$objDAV->write();
 
 			// Record write event
-			if (ilChangeEvent::_isActive())
-			{
-				ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'update');
-				ilChangeEvent::_catchupWriteEvents($objDAV->getObjectId(), $ilUser->getId(), 'update');
-			}
+			ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'update');
+			ilChangeEvent::_catchupWriteEvents($objDAV->getObjectId(), $ilUser->getId(), 'update');
 		}
 		// store this object, we reuse it in method PUTfinished
 		$this->putObjDAV = $objDAV;
@@ -1084,10 +1071,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		if ($objDAV != null)
 		{
 			// Record write event
-			if (ilChangeEvent::_isActive())
-			{
-				ilChangeEvent::_recordWriteEvent((int) $objDAV->getObjectId(), $ilUser->getId(), 'create', $parentDAV->getObjectId());
-			}
+			ilChangeEvent::_recordWriteEvent((int) $objDAV->getObjectId(), $ilUser->getId(), 'create', $parentDAV->getObjectId());
 		}
 
 		$result = ($objDAV != null) ? "201 Created" : "409 Conflict";
@@ -1126,10 +1110,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$parentDAV->remove($objDAV);
 
 		// Record write event
-		if (ilChangeEvent::_isActive())
-		{
-			ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'delete', $parentDAV->getObjectId());
-		}
+		ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'delete', $parentDAV->getObjectId());
 
 		return '204 No Content';
 	}
@@ -1235,18 +1216,15 @@ class ilDAVServer extends HTTP_WebDAV_Server
                 }
 
 		// Record write event
-		if (ilChangeEvent::_isActive())
+		if ($isOverwritten)
 		{
-			if ($isOverwritten)
-			{
-				ilChangeEvent::_recordWriteEvent($srcDAV->getObjectId(), $ilUser->getId(), 'rename');
-			}
-			else
-			{
-				ilChangeEvent::_recordWriteEvent($srcDAV->getObjectId(), $ilUser->getId(), 'remove', $srcParentDAV->getObjectId());
-				ilChangeEvent::_recordWriteEvent($srcDAV->getObjectId(), $ilUser->getId(), 'add', $dstParentDAV->getObjectId());
-			}
+			ilChangeEvent::_recordWriteEvent($srcDAV->getObjectId(), $ilUser->getId(), 'rename');
 		}
+		else
+		{
+			ilChangeEvent::_recordWriteEvent($srcDAV->getObjectId(), $ilUser->getId(), 'remove', $srcParentDAV->getObjectId());
+			ilChangeEvent::_recordWriteEvent($srcDAV->getObjectId(), $ilUser->getId(), 'add', $dstParentDAV->getObjectId());
+		}		
 
 		return ($isOverwritten) ? '204 No Content' : '201 Created';
 	}
@@ -1310,10 +1288,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				if ($dstDAV->isPermitted('delete'))
 				{
 					$dstParentDAV->remove($dstDAV);
-					if (ilChangeEvent::_isActive())
-					{
-						ilChangeEvent::_recordWriteEvent($dstDAV->getObjectId(), $ilUser->getId(), 'delete', $dstParentDAV->getObjectId());
-					}
+					ilChangeEvent::_recordWriteEvent($dstDAV->getObjectId(), $ilUser->getId(), 'delete', $dstParentDAV->getObjectId());
 
 					$dstDAV = null;
 					$isOverwritten = true;
@@ -1332,12 +1307,9 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$dstDAV = $dstParentDAV->addCopy($srcDAV, $dstName);
 
 		// Record write event
-		if (ilChangeEvent::_isActive())
-		{
-			ilChangeEvent::_recordReadEvent($srcDAV->getILIASType(), $srcDAV->getRefId(),
-				$srcDAV->getObjectId(), $ilUser->getId());
-			ilChangeEvent::_recordWriteEvent($dstDAV->getObjectId(), $ilUser->getId(), 'create', $dstParentDAV->getObjectId());
-		}
+		ilChangeEvent::_recordReadEvent($srcDAV->getILIASType(), $srcDAV->getRefId(),
+			$srcDAV->getObjectId(), $ilUser->getId());
+		ilChangeEvent::_recordWriteEvent($dstDAV->getObjectId(), $ilUser->getId(), 'create', $dstParentDAV->getObjectId());		
 
 		return ($isOverwritten) ? '204 No Content' : '201 Created';
 	}

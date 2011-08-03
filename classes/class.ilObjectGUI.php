@@ -870,10 +870,7 @@ class ilObjectGUI
 
 		// BEGIN ChangeEvent: Record save object.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-		if (ilChangeEvent::_isActive())
-		{
-			ilChangeEvent::_recordWriteEvent($this->obj_id, $ilUser->getId(), 'create');
-		}
+		ilChangeEvent::_recordWriteEvent($this->obj_id, $ilUser->getId(), 'create');
 		// END ChangeEvent: Record save object.
 
 		// rbac log
@@ -1309,14 +1306,11 @@ class ilObjectGUI
 		
 		// BEGIN ChangeEvent: record read event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-		if (ilChangeEvent::_isActive())
-		{
-			global $ilUser;
-			ilChangeEvent::_recordReadEvent(
-				$this->object->getType(),
-				$this->object->getRefId(),
-				$this->object->getId(), $ilUser->getId());
-		}
+		global $ilUser;
+		ilChangeEvent::_recordReadEvent(
+			$this->object->getType(),
+			$this->object->getRefId(),
+			$this->object->getId(), $ilUser->getId());		
 		// END ChangeEvent: record read event.
 
 		include_once("./Services/Repository/classes/class.ilAdminSubItemsTableGUI.php");

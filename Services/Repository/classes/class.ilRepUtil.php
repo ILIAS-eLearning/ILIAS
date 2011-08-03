@@ -212,14 +212,11 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 
 			// BEGIN ChangeEvent: Record remove from system.
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			if (ilChangeEvent::_isActive())
-			{
-				// Record write event
-				global $ilUser, $tree;
-				$parent_data = $tree->getParentNodeData($node_data['ref_id']);
-				ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'purge', 
-					$parent_data['obj_id']);
-			}
+			// Record write event
+			global $ilUser, $tree;
+			$parent_data = $tree->getParentNodeData($node_data['ref_id']);
+			ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'purge', 
+				$parent_data['obj_id']);			
 			// END ChangeEvent: Record remove from system.
 
 			// remember already checked deleted node_ids
@@ -381,20 +378,17 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			
 			// BEGIN ChangeEvent: Record undelete. 
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			if (ilChangeEvent::_isActive())
-			{
-				global $ilUser, $tree;
+			global $ilUser, $tree;
 
-				$node_data = $saved_tree->getNodeData($id);
-				$saved_tree->deleteTree($node_data);
-			
-				// Record undelete event
-				$node_data = $tree->getNodeData($id);
-				$parent_data = $tree->getParentNodeData($node_data['ref_id']);
-				ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'undelete', 
-					$parent_data['obj_id']);
-				ilChangeEvent::_catchupWriteEvents($cur_obj_id, $ilUser->getId());
-			}
+			$node_data = $saved_tree->getNodeData($id);
+			$saved_tree->deleteTree($node_data);
+
+			// Record undelete event
+			$node_data = $tree->getNodeData($id);
+			$parent_data = $tree->getParentNodeData($node_data['ref_id']);
+			ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'undelete', 
+				$parent_data['obj_id']);
+			ilChangeEvent::_catchupWriteEvents($cur_obj_id, $ilUser->getId());			
 			// END PATCH ChangeEvent: Record undelete.
 			
 		}

@@ -507,11 +507,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 				// BEGIN ChangeEvent: Record update
 				global $ilUser;
 				require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-				if (ilChangeEvent::_isActive())
-				{
-					ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
-					ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
-				}
+				ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+				ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());				
 				// END ChangeEvent: Record update
 
 				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);

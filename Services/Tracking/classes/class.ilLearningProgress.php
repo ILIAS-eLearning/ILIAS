@@ -49,7 +49,7 @@ class ilLearningProgress
 	{
 		global $ilDB;
 
-		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 		ilChangeEvent::_recordReadEvent($a_obj_type, $a_ref_id, $a_obj_id, $a_user_id);
 		
 		require_once 'Services/Tracking/classes/class.ilLPStatus.php';
