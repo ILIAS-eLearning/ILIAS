@@ -38,6 +38,7 @@ class ilChatroom
 			'enable_history' 			=> 'boolean',
 			'restrict_history' 			=> 'boolean',
 			'autogen_usernames' 		=> 'string',
+			'room_type' 		=> 'string',
 			'allow_private_rooms' 		=> 'integer',
 	);
 	private $roomId;
@@ -293,6 +294,10 @@ class ilChatroom
 			if( isset( $settings[$setting] ) ) {
 				$localSettings[$setting] = array($this->phpTypeToMDBType($type), $settings[$setting]);
 			}
+		}
+
+		if (!$localSettings['room_type'][1]) {
+			$localSettings['room_type'][1] = 'repository';
 		}
 
 		if( $this->roomId )

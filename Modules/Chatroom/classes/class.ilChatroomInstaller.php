@@ -390,7 +390,8 @@ class ilChatroomInstaller
 			{
 				$room->saveSettings(array(
 					'object_id' 			=> $obj_id,
-					'autogen_usernames'		=> 'Autogen #'
+					'autogen_usernames'		=> 'Autogen #',
+					'room_type'			=> 'repository'
 					));
 			}
 		}
@@ -424,6 +425,24 @@ class ilChatroomInstaller
 		");
 
 		self::setChatroomSettings($obj_ids);
+	}
+
+	public static function createMissinRoomSettingsForConvertedObjects() {
+		global $ilDB;
+
+		$res = $ilDB->query("
+			SELECT obj_id FROM object_data
+				LEFT JOIN chatroom_settings ON object_id = obj_id
+			WHERE type = 'chtr'
+				AND room_id IS NULL
+		");
+
+		$roomsToFix = array();
+		while ($row = $ilDB->fetchAssoc($res)) {
+			$roomsToFix[] = $row['obj_id'];
+		}
+
+		self::setChatroomSettings($roomsToFix);
 	}
 
 }
