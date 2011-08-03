@@ -21,6 +21,8 @@
         +-----------------------------------------------------------------------------+
 */
 
+include_once './classes/class.ilObjectAccess.php';
+
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
