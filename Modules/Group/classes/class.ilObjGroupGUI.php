@@ -2526,19 +2526,30 @@ class ilObjGroupGUI extends ilContainerGUI
 		$grp_type->setValue($type);
 		$grp_type->setRequired(true);
 
-		// OPEN GROUP
-		#$opt_open = new ilRadioOption($this->lng->txt('grp_open'),GRP_TYPE_OPEN,$this->lng->txt('grp_open_info'));
-		#$grp_type->addOption($opt_open);
-		
 		
 		// PUBLIC GROUP
 		$opt_public = new ilRadioOption($this->lng->txt('grp_public'),GRP_TYPE_PUBLIC,$this->lng->txt('grp_public_info'));
 		$grp_type->addOption($opt_public);
 
+
+		// CLOSED GROUP
+		$opt_closed = new ilRadioOption($this->lng->txt('grp_closed'),GRP_TYPE_CLOSED,$this->lng->txt('grp_closed_info'));
+		$grp_type->addOption($opt_closed);
+		if($a_mode == 'update_group_type')
+		{
+			$grp_type->setAlert($this->lng->txt('grp_type_changed_info'));
+		}
+		$this->form->addItem($grp_type);
+
 		if($a_mode == 'edit')
 		{
+			// Group registration ############################################################
+			$pres = new ilFormSectionHeaderGUI();
+			$pres->setTitle($this->lng->txt('grp_setting_header_registration'));
+			$this->form->addItem($pres);
+
 			// Registration type
-			$reg_type = new ilRadioGroupInputGUI('','registration_type');
+			$reg_type = new ilRadioGroupInputGUI($this->lng->txt('group_registration_mode'),'registration_type');
 			$reg_type->setValue($this->object->getRegistrationType());
 
 			$opt_dir = new ilRadioOption($this->lng->txt('grp_reg_direct'),GRP_REGISTRATION_DIRECT);#$this->lng->txt('grp_reg_direct_info'));
@@ -2552,7 +2563,6 @@ class ilObjGroupGUI extends ilContainerGUI
 			$pass->setMaxLength(32);
 			$opt_pass->addSubItem($pass);
 			$reg_type->addOption($opt_pass);
-			$opt_public->addSubItem($reg_type);
 
 			$opt_req = new ilRadioOption($this->lng->txt('grp_reg_request'),GRP_REGISTRATION_REQUEST,$this->lng->txt('grp_reg_request_info'));
 			$reg_type->addOption($opt_req);
@@ -2565,14 +2575,53 @@ class ilObjGroupGUI extends ilContainerGUI
 			$reg_code->setChecked($this->object->isRegistrationAccessCodeEnabled());
 			$reg_code->setValue(1);
 			$reg_code->setInfo($this->lng->txt('grp_reg_code_enabled_info'));
+			$this->form->addItem($reg_type);
 
-			/*
-			$code = new ilNonEditableValueGUI($this->lng->txt('crs_reg_code_value'));
-			$code->setValue($this->object->getRegistrationAccessCode());
-			$reg_code->addSubItem($code);
-			*/
+			// time limit
+			$time_limit = new ilCheckboxInputGUI($this->lng->txt('grp_reg_limited'),'reg_limit_time');
+			$time_limit->setOptionTitle($this->lng->txt('grp_reg_limit_time'));
+			$time_limit->setChecked($this->object->isRegistrationUnlimited() ? false : true);
 
-			// Create default access code
+			$this->lng->loadLanguageModule('dateplaner');
+			include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';
+			$tpl->addJavaScript('./Services/Form/js/date_duration.js');
+			$dur = new ilDateDurationInputGUI($this->lng->txt('grp_reg_period'),'reg');
+			$dur->setStartText($this->lng->txt('cal_start'));
+			$dur->setEndText($this->lng->txt('cal_end'));
+			$dur->setMinuteStepSize(5);
+			$dur->setShowDate(true);
+			$dur->setShowTime(true);
+			$dur->setStart($this->object->getRegistrationStart());
+			$dur->setEnd($this->object->getRegistrationEnd());
+
+			$time_limit->addSubItem($dur);
+			$this->form->addItem($time_limit);
+
+			// max member
+			$lim = new ilCheckboxInputGUI($this->lng->txt('reg_grp_max_members_short'),'registration_membership_limited');
+			$lim->setValue(1);
+			$lim->setOptionTitle($this->lng->txt('reg_grp_max_members'));
+			$lim->setChecked($this->object->isMembershipLimited());
+
+
+			$max = new ilTextInputGUI('','registration_max_members');
+			$max->setValue($this->object->getMaxMembers() ? $this->object->getMaxMembers() : '');
+			$max->setTitle($this->lng->txt('members').':');
+			$max->setSize(3);
+			$max->setMaxLength(4);
+			$max->setInfo($this->lng->txt('grp_reg_max_members_info'));
+			$lim->addSubItem($max);
+
+			$wait = new ilCheckboxInputGUI('','waiting_list');
+			$wait->setValue(1);
+			$wait->setOptionTitle($this->lng->txt('grp_waiting_list'));
+			$wait->setInfo($this->lng->txt('grp_waiting_list_info'));
+			$wait->setChecked($this->object->isWaitingListEnabled() ? true : false);
+			$lim->addSubItem($wait);
+			$this->form->addItem($lim);
+
+
+			// Registration codes
 			if(!$this->object->getRegistrationAccessCode())
 			{
 				include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
@@ -2587,37 +2636,21 @@ class ilObjGroupGUI extends ilContainerGUI
 			$val = ilLink::_getLink($this->object->getRefId(),$this->object->getType(),array(),'_rcode'.$this->object->getRegistrationAccessCode());
 			$link->setHTML('<font class="small">'.$val.'</font>');
 			$reg_code->addSubItem($link);
-			$opt_public->addSubItem($reg_code);
-		}
+			$this->form->addItem($reg_code);
 
-		// CLOSED GROUP
-		$opt_closed = new ilRadioOption($this->lng->txt('grp_closed'),GRP_TYPE_CLOSED,$this->lng->txt('grp_closed_info'));
-		$grp_type->addOption($opt_closed);
-		if($a_mode == 'update_group_type')
-		{
-			$grp_type->setAlert($this->lng->txt('grp_type_changed_info'));
-		}
-		$this->form->addItem($grp_type);
 
-		if($a_mode == 'edit')
-		{
-			// Sorting
-			if($a_mode == 'create')
-			{
-				$ref_id = (int) $_GET['ref_id'];
-			}
-			else
-			{
-				$ref_id = $this->object->getRefId();
-			}
+			// Group presentation
+			$hasParentCourse = $tree->checkForParentType($this->object->getRefId(),'crs');
+			$pres = new ilFormSectionHeaderGUI();
+			$pres->setTitle($this->lng->txt('grp_setting_header_presentation'));
+			$this->form->addItem($pres);
 
-			$hasParentCourse = $tree->checkForParentType($ref_id,'crs');
 
 			$sog = new ilRadioGroupInputGUI($this->lng->txt('sorting_header'),'sor');
 			$sog->setRequired(true);
 			if($a_mode == 'edit')
 			{
-				$sog->setValue(ilContainerSortingSettings::_readSortMode(ilObject::_lookupObjId($ref_id)));
+				$sog->setValue(ilContainerSortingSettings::_readSortMode(ilObject::_lookupObjId($this->object->getRefId())));
 			}
 			elseif($hasParentCourse)
 			{
@@ -2654,62 +2687,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			$this->form->addItem($sog);
 
-			// time limit
-			$time_limit = new ilCheckboxInputGUI($this->lng->txt('grp_reg_limited'),'reg_limit_time');
-			$time_limit->setOptionTitle($this->lng->txt('grp_reg_limit_time'));
-			$time_limit->setChecked($this->object->isRegistrationUnlimited() ? false : true);
 
-			$this->lng->loadLanguageModule('dateplaner');
-			include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';
-			$tpl->addJavaScript('./Services/Form/js/date_duration.js');
-			$dur = new ilDateDurationInputGUI($this->lng->txt('grp_reg_period'),'reg');
-			$dur->setStartText($this->lng->txt('cal_start'));
-			$dur->setEndText($this->lng->txt('cal_end'));
-			$dur->setMinuteStepSize(5);
-			$dur->setShowDate(true);
-			$dur->setShowTime(true);
-			$dur->setStart($this->object->getRegistrationStart());
-			$dur->setEnd($this->object->getRegistrationEnd());
-
-			$time_limit->addSubItem($dur);
-
-			/*
-			$start = new ilDateTimeInputGUI($this->lng->txt('grp_reg_start'),'registration_start');
-			$start->setShowTime(true);
-			$start->setDate($this->object->getRegistrationStart());
-			$time_limit->addSubItem($start);
-
-			$end = new ilDateTimeInputGUI($this->lng->txt('grp_reg_end'),'registration_end');
-			$end->setShowTime(true);
-			$end->setDate($this->object->getRegistrationEnd());
-
-			$time_limit->addSubItem($end);
-			*/
-
-			$this->form->addItem($time_limit);
-
-			// max member
-			$lim = new ilCheckboxInputGUI($this->lng->txt('reg_grp_max_members_short'),'registration_membership_limited');
-			$lim->setValue(1);
-			$lim->setOptionTitle($this->lng->txt('reg_grp_max_members'));
-			$lim->setChecked($this->object->isMembershipLimited());
-
-
-			$max = new ilTextInputGUI('','registration_max_members');
-			$max->setValue($this->object->getMaxMembers() ? $this->object->getMaxMembers() : '');
-			$max->setTitle($this->lng->txt('members').':');
-			$max->setSize(3);
-			$max->setMaxLength(4);
-			$max->setInfo($this->lng->txt('grp_reg_max_members_info'));
-			$lim->addSubItem($max);
-
-			$wait = new ilCheckboxInputGUI('','waiting_list');
-			$wait->setValue(1);
-			$wait->setOptionTitle($this->lng->txt('grp_waiting_list'));
-			$wait->setInfo($this->lng->txt('grp_waiting_list_info'));
-			$wait->setChecked($this->object->isWaitingListEnabled() ? true : false);
-			$lim->addSubItem($wait);
-			$this->form->addItem($lim);
 		}
 		
 		switch($a_mode)
