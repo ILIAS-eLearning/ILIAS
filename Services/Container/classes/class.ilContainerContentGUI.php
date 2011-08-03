@@ -79,15 +79,12 @@ abstract class ilContainerContentGUI
 		
 		// BEGIN ChangeEvent: record read event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-		if (ilChangeEvent::_isActive())
-		{
-			global $ilUser;
-			$obj_id = ilObject::_lookupObjId($this->getContainerObject()->getRefId());
-			ilChangeEvent::_recordReadEvent(
-				$this->getContainerObject()->getType(),
-				$this->getContainerObject()->getRefId(),
-				$obj_id, $ilUser->getId());
-		}
+		global $ilUser;
+		$obj_id = ilObject::_lookupObjId($this->getContainerObject()->getRefId());
+		ilChangeEvent::_recordReadEvent(
+			$this->getContainerObject()->getType(),
+			$this->getContainerObject()->getRefId(),
+			$obj_id, $ilUser->getId());
 		// END ChangeEvent: record read event.
 		
 		$tpl->setContent($this->getCenterColumnHTML());

@@ -257,11 +257,9 @@ class ilObjFileGUI extends ilObject2GUI
 
 			// BEGIN ChangeEvent: Record write event.
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			if (ilChangeEvent::_isActive())
-			{
-				ilChangeEvent::_recordWriteEvent($fileObj->getId(), $ilUser->getId(), 'create');
-			}
+			ilChangeEvent::_recordWriteEvent($fileObj->getId(), $ilUser->getId(), 'create');
 			// END ChangeEvent: Record write event.
+			
 			ilUtil::sendSuccess($this->lng->txt("file_added"),true);
 
 			if ($this->ctrl->getCmd() == "saveAndMeta")
@@ -464,12 +462,9 @@ class ilObjFileGUI extends ilObject2GUI
 		if (!empty($data["name"]))
 		{
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			if (ilChangeEvent::_isActive())
-			{
-				global $ilUser;
-				ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
-				ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
-			}
+			global $ilUser;
+			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+			ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());			
 		}
 		// END ChangeEvent: Record update event.
 		
@@ -564,13 +559,10 @@ class ilObjFileGUI extends ilObject2GUI
 		{
 			// BEGIN ChangeEvent: Record read event.
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			if (ilChangeEvent::_isActive())
-			{
-				global $ilUser;
-				// Record read event and catchup with write events
-				ilChangeEvent::_recordReadEvent($this->object->getType(), $this->object->getRefId(),
-					$this->object->getId(), $ilUser->getId());
-			}
+			global $ilUser;
+			// Record read event and catchup with write events
+			ilChangeEvent::_recordReadEvent($this->object->getType(), $this->object->getRefId(),
+				$this->object->getId(), $ilUser->getId());			
 			// END ChangeEvent: Record read event.
 
 			$this->object->sendFile($_GET["hist_id"]);

@@ -1812,16 +1812,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					ilConditionHandler::_adjustMovedObjectConditions($ref_id);
 	
 					// BEGIN ChangeEvent: Record cut event.
-					if(ilChangeEvent::_isActive() )
-					{
-						$node_data = $tree->getNodeData($ref_id);
-						$old_parent_data = $tree->getNodeData($old_parent);
-						ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'remove', 
-							$old_parent_data['obj_id']);
-						ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'add', 
-							$ilObjDataCache->lookupObjId($folder_ref_id));
-						ilChangeEvent::_catchupWriteEvents($node_data['obj_id'], $ilUser->getId());
-					}
+					$node_data = $tree->getNodeData($ref_id);
+					$old_parent_data = $tree->getNodeData($old_parent);
+					ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'remove', 
+						$old_parent_data['obj_id']);
+					ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'add', 
+						$ilObjDataCache->lookupObjId($folder_ref_id));
+					ilChangeEvent::_catchupWriteEvents($node_data['obj_id'], $ilUser->getId());					
 					// END PATCH ChangeEvent: Record cut event.
 				}
 				
@@ -1871,13 +1868,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 	
 					// BEGIN ChangeEvent: Record link event.
-					if(ilChangeEvent::_isActive())
-					{
-						$node_data = $tree->getNodeData($new_ref_id);
-						ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'add', 
-							$ilObjDataCache->lookupObjId($folder_ref_id));
-						ilChangeEvent::_catchupWriteEvents($node_data['obj_id'], $ilUser->getId());
-					}
+					$node_data = $tree->getNodeData($new_ref_id);
+					ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'add', 
+						$ilObjDataCache->lookupObjId($folder_ref_id));
+					ilChangeEvent::_catchupWriteEvents($node_data['obj_id'], $ilUser->getId());					
 					// END PATCH ChangeEvent: Record link event.
 				}
 	
@@ -2140,18 +2134,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$newRef = $this->cloneNodes($ref_id, $this->object->getRefId(), $refIdMapping, null);
 				}
 
-
 				// BEGIN ChangeEvent: Record copy event.
-				if (ilChangeEvent::_isActive() )
-				{
-					$old_parent_data = $tree->getParentNodeData($ref_id);
-					$newNode_data = $tree->getNodeData($newRef);
-					ilChangeEvent::_recordReadEvent($oldNode_data['type'], $ref_id,
-						$oldNode_data['obj_id'], $ilUser->getId());
-					ilChangeEvent::_recordWriteEvent($newNode_data['obj_id'], $ilUser->getId(), 'add', 
-						$this->object->getId());
-					ilChangeEvent::_catchupWriteEvents($newNode_data['obj_id'], $ilUser->getId());
-				}
+				$old_parent_data = $tree->getParentNodeData($ref_id);
+				$newNode_data = $tree->getNodeData($newRef);
+				ilChangeEvent::_recordReadEvent($oldNode_data['type'], $ref_id,
+					$oldNode_data['obj_id'], $ilUser->getId());
+				ilChangeEvent::_recordWriteEvent($newNode_data['obj_id'], $ilUser->getId(), 'add', 
+					$this->object->getId());
+				ilChangeEvent::_catchupWriteEvents($newNode_data['obj_id'], $ilUser->getId());				
 				// END ChangeEvent: Record copy event.
 			}
 			$log->write("ilObjectGUI::pasteObject(), copy finished");
@@ -2173,16 +2163,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				ilConditionHandler::_adjustMovedObjectConditions($ref_id);
 
 				// BEGIN ChangeEvent: Record cut event.
-				if (ilChangeEvent::_isActive() )
-				{
-					$node_data = $tree->getNodeData($ref_id);
-					$old_parent_data = $tree->getNodeData($old_parent);
-					ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'remove', 
-						$old_parent_data['obj_id']);
-					ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'add', 
-						$this->object->getId());
-					ilChangeEvent::_catchupWriteEvents($node_data['obj_id'], $ilUser->getId());
-				}
+				$node_data = $tree->getNodeData($ref_id);
+				$old_parent_data = $tree->getNodeData($old_parent);
+				ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'remove', 
+					$old_parent_data['obj_id']);
+				ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'add', 
+					$this->object->getId());
+				ilChangeEvent::_catchupWriteEvents($node_data['obj_id'], $ilUser->getId());				
 				// END PATCH ChangeEvent: Record cut event.
 			}
 		} // END CUT
@@ -2209,13 +2196,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$obj_data->setPermissions($_GET["ref_id"]);
 
 				// BEGIN ChangeEvent: Record link event.
-				if (ilChangeEvent::_isActive() )
-				{
-					$node_data = $tree->getNodeData($new_ref_id);
-					ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'add', 
-						$this->object->getId());
-					ilChangeEvent::_catchupWriteEvents($node_data['obj_id'], $ilUser->getId());
-				}
+				$node_data = $tree->getNodeData($new_ref_id);
+				ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'add', 
+					$this->object->getId());
+				ilChangeEvent::_catchupWriteEvents($node_data['obj_id'], $ilUser->getId());				
 				// END PATCH ChangeEvent: Record link event.
 			}
 

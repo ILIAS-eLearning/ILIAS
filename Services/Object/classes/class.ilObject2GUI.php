@@ -637,10 +637,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 		
 		// BEGIN ChangeEvent: Record save object.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-		if (ilChangeEvent::_isActive())
-		{
-			ilChangeEvent::_recordWriteEvent($this->object_id, $ilUser->getId(), 'create');
-		}
+		ilChangeEvent::_recordWriteEvent($this->object_id, $ilUser->getId(), 'create');
 		// END ChangeEvent: Record save object.
 	}
 
