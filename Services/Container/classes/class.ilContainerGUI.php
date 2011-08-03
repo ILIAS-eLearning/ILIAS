@@ -631,7 +631,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->object->gotItems() ? true : false
 			);
 		}
-		/*
 		if ($this->edit_order)
 		{			
 			if($this->object->gotItems() and $ilAccess->checkAccess("write", "", $this->object->getRefId()))
@@ -645,7 +644,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 		}
-*/
 	}
 
 	function __showTimingsButton(&$tpl)
