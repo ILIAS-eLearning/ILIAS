@@ -7175,4 +7175,37 @@ if(!$ilDB->tableExists('usr_account_codes'))
 		);
 	}
 ?>
+<#3423>
+<?php
+	$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'chta'";
+	$rset = $ilDB->query( $query );
+	$row = $ilDB->fetchAssoc($rset);
 
+	if (!$row) {
+		$typ_id = $ilDB->nextId('object_data');
+		$ilDB->insert(
+			'object_data',
+			array(
+			    'obj_id' => array('integer', $typ_id),
+			    'type' => array('text', 'typ'),
+			    'title' => array('text', 'chta'),
+			    'description' => array('text', 'Chatroom Administration Type'),
+			    'owner' => array('integer', -1),
+			    'create_date' => array('integer', time()),
+			    'last_update' => array('integer', time()),
+			)
+		);
+
+		// REGISTER RBAC OPERATIONS FOR OBJECT TYPE
+		// 1: edit_permissions, 2: visible, 3: read, 4:write
+		$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES"
+		. "  (" . $ilDB->quote( $typ_id ) . ",'1')"
+		. ", (" . $ilDB->quote( $typ_id ) . ",'2')"
+		. ", (" . $ilDB->quote( $typ_id ) . ",'3')"
+		. ", (" . $ilDB->quote( $typ_id ) . ",'4')"
+		;
+		$ilDB->manipulate($query);
+
+	}
+	
+?>
