@@ -10,7 +10,7 @@
 	</objectgroups>
 	<objects>
 		<object id="lm" class_name="LearningModule" dir="classes" checkbox="1"
-			inherit="1" translate="0" allow_link="1" rbac="1" group="lres"
+			inherit="1" translate="0" allow_link="1" allow_copy="1" rbac="1" group="lres"
 			default_pos="120" export="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
