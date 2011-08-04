@@ -48,7 +48,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* create content object
 	*/
-	function create($a_upload = false)
+	function create($a_no_meta_data = false)
 	{
 		global $ilUser;
 
@@ -56,19 +56,12 @@ class ilObjContentObject extends ilObject
 		
 		// meta data will be created by
 		// import parser
-		if (!$a_upload)
+		if (!$a_no_meta_data)
 		{
 			$this->createMetaData();
 		}
 
 		$this->createProperties();
-		if (!$a_upload)
-		{
-			if (is_object($ilUser))
-			{
-				//$this->meta_data->setLanguage($ilUser->getLanguage());
-			}
-		}
 	}
 
 	/**
@@ -2759,14 +2752,38 @@ class ilObjContentObject extends ilObject
 	 * @param int copy id
 	 *
 	 */
-/*
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
 		global $ilDB,$ilUser;
 
-	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+		$this->cloneMetaData($new_obj);
+		//$new_obj->createProperties();
 	 	
-	 	$new_obj->setGroupType($this->getGroupType());
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setDescription($this->getDescription());
+		$new_obj->setLayoutPerPage($this->getLayoutPerPage());
+		$new_obj->setLayout($this->getLayout());
+		$new_obj->setTOCMode($this->getTOCMode());
+		$new_obj->setActiveLMMenu($this->isActiveLMMenu());
+		$new_obj->setActiveTOC($this->isActiveTOC());
+		$new_obj->setActiveNumbering($this->isActiveNumbering());
+		$new_obj->setActivePrintView($this->isActivePrintView());
+		$new_obj->setActivePreventGlossaryAppendix($this->isActivePreventGlossaryAppendix());
+		$new_obj->setActiveDownloads($this->isActiveDownloads());
+		$new_obj->setActiveDownloadsPublic($this->isActiveDownloadsPublic());
+		$new_obj->setPublicNotes($this->publicNotes());
+		$new_obj->setCleanFrames($this->cleanFrames());
+		$new_obj->setHistoryUserComments($this->isActiveHistoryUserComments());
+		$new_obj->setPublicAccessMode($this->getPublicAccessMode());
+		
+		$new_obj->update();
+		
+		$new_obj->createLMTree();
+		
+		// todo: page header and footer
+		// todo: copy style
+		// todo: copy content
 
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
@@ -2777,6 +2794,6 @@ class ilObjContentObject extends ilObject
 
 		return $new_obj;
 	}
-*/
+
 }
 ?>
