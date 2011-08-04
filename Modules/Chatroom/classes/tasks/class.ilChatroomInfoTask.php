@@ -39,31 +39,38 @@ class ilChatroomInfoTask extends ilDBayTaskHandler
 	 */
 	public function executeDefault($method)
 	{
-		global $ilAccess, $ilCtrl, $lng;
+	    global $ilAccess, $ilCtrl, $lng;
 
-		$this->gui->switchToVisibleMode();
+	    include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
-		if( !$ilAccess->checkAccess( "visible", "", $this->gui->ref_id ) )
-		{
-			$this->gui->ilias->raiseError(
-			$lng->txt( "msg_no_perm_read" ), $this->ilias->error_obj->MESSAGE
-			);
-		}
+	    if ( !ilChatroom::checkUserPermissions( 'read' , $this->gui->ref_id ) )
+	    {
+		ilUtil::redirect("repository.php");
+	    }
 
-		$info = new ilInfoScreenGUI( $this->gui );
+	    $this->gui->switchToVisibleMode();
 
-		$info->enablePrivateNotes();
-
-		if( $ilAccess->checkAccess( "read", "", $_GET["ref_id"] ) )
-		{
-			$info->enableNews();
-		}
-
-		$info->addMetaDataSections(
-		$this->gui->object->getId(), 0, $this->gui->object->getType()
+	    if( !$ilAccess->checkAccess( "visible", "", $this->gui->ref_id ) )
+	    {
+		$this->gui->ilias->raiseError(
+		$lng->txt( "msg_no_perm_read" ), $this->ilias->error_obj->MESSAGE
 		);
-		$ilCtrl->setCmd( 'showSummary' );
-		$ilCtrl->forwardCommand( $info );
+	    }
+
+	    $info = new ilInfoScreenGUI( $this->gui );
+
+	    $info->enablePrivateNotes();
+
+	    if( $ilAccess->checkAccess( "read", "", $_GET["ref_id"] ) )
+	    {
+		$info->enableNews();
+	    }
+
+	    $info->addMetaDataSections(
+		$this->gui->object->getId(), 0, $this->gui->object->getType()
+	    );
+	    $ilCtrl->setCmd( 'showSummary' );
+	    $ilCtrl->forwardCommand( $info );
 	}
 
 }

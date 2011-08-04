@@ -25,13 +25,13 @@ class ilChatroomSettingsTask extends ilDBayTaskHandler
 	 * @param ilDBayObjectGUI $gui
 	 */
 	public function __construct(ilDBayObjectGUI $gui)
-	{
-		$this->gui = $gui;
+    {
+	    $this->gui = $gui;
 
-		require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
-		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-		require_once 'Modules/Chatroom/classes/class.ilChatroomInstaller.php';
-		//ilChatroomInstaller::install();
+	    require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
+	    require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+	    require_once 'Modules/Chatroom/classes/class.ilChatroomInstaller.php';
+	    //ilChatroomInstaller::install();
 	}
 
 	/**
@@ -44,50 +44,56 @@ class ilChatroomSettingsTask extends ilDBayTaskHandler
 	 */
 	public function general(ilPropertyFormGUI $settingsForm = null)
 	{
-		global $lng, $tpl, $ilCtrl;
+	    global $lng, $tpl, $ilCtrl;
 
-		$chatSettings = new ilSetting('chatroom');
-		if (!$chatSettings->get('chat_enabled')) {
-			ilUtil::sendInfo($lng->txt('server_disabled'), true);
-		}
+	    if ( !ilChatroom::checkUserPermissions( array('read', 'write') , $this->gui->ref_id ) )
+	    {
+		ilUtil::redirect("repository.php");
+	    }
 
-		$this->gui->switchToVisibleMode();
+	    $chatSettings = new ilSetting('chatroom');
+	    if( !$chatSettings->get('chat_enabled') )
+	    {
+		ilUtil::sendInfo($lng->txt('server_disabled'), true);
+	    }
 
-		$formFactory = new ilChatroomFormFactory();
+	    $this->gui->switchToVisibleMode();
 
-		if( !$settingsForm )
-		{
-			$settingsForm = $formFactory->getSettingsForm();
-		}
+	    $formFactory = new ilChatroomFormFactory();
 
-		$room = ilChatRoom::byObjectId( $this->gui->object->getId() );
+	    if( !$settingsForm )
+	    {
+		$settingsForm = $formFactory->getSettingsForm();
+	    }
 
-		$settings = array(
-			'title' => $this->gui->object->getTitle(),
-			'desc' => $this->gui->object->getDescription(),
+	    $room = ilChatRoom::byObjectId( $this->gui->object->getId() );
+
+	    $settings = array(
+		'title' => $this->gui->object->getTitle(),
+		'desc'  => $this->gui->object->getDescription(),
+	    );
+
+	    if( $room )
+	    {
+		//$settingsForm->setValuesByArray(array_merge($settings, $room->getSettings()));
+		ilChatroomFormFactory::applyValues(
+		    $settingsForm, array_merge( $settings, $room->getSettings() )
 		);
+	    }
+	    else
+	    {
+		//$settingsForm->setValuesByArray($settings);
+		ilChatroomFormFactory::applyValues( $settingsForm, $settings );
+	    }
 
-		if( $room )
-		{
-			//$settingsForm->setValuesByArray(array_merge($settings, $room->getSettings()));
-			ilChatroomFormFactory::applyValues(
-			$settingsForm, array_merge( $settings, $room->getSettings() )
-			);
-		}
-		else
-		{
-			//$settingsForm->setValuesByArray($settings);
-			ilChatroomFormFactory::applyValues( $settingsForm, $settings );
-		}
-
-		$settingsForm->setTitle( $lng->txt('settings_title') );
-		$settingsForm->addCommandButton( 'settings-saveGeneral', $lng->txt( 'save' ) );
-		$settingsForm->addCommandButton( 'settings-general', $lng->txt( 'cancel' ) );
-		$settingsForm->setFormAction(
+	    $settingsForm->setTitle( $lng->txt('settings_title') );
+	    $settingsForm->addCommandButton( 'settings-saveGeneral', $lng->txt( 'save' ) );
+	    $settingsForm->addCommandButton( 'settings-general', $lng->txt( 'cancel' ) );
+	    $settingsForm->setFormAction(
 		$ilCtrl->getFormAction( $this->gui, 'settings-saveGeneral' )
-		);
+	    );
 
-		$tpl->setVariable( 'ADM_CONTENT', $settingsForm->getHtml() );
+	    $tpl->setVariable( 'ADM_CONTENT', $settingsForm->getHtml() );
 	}
 
 	/**
@@ -97,33 +103,33 @@ class ilChatroomSettingsTask extends ilDBayTaskHandler
 	 */
 	public function saveGeneral()
 	{
-		global $ilCtrl;
+	    global $ilCtrl;
 
-		$formFactory	= new ilChatroomFormFactory();
-		$settingsForm	= $formFactory->getSettingsForm();
+	    $formFactory	= new ilChatroomFormFactory();
+	    $settingsForm	= $formFactory->getSettingsForm();
 
-		if( !$settingsForm->checkInput() )
+	    if( !$settingsForm->checkInput() )
+	    {
+		$this->general( $settingsForm );
+	    }
+	    else
+	    {
+		$this->gui->object->setTitle( $_POST['title'] );
+		$this->gui->object->setDescription( $_POST['desc'] );
+		$this->gui->object->update();
+
+		$settings   = $_POST;
+		$room	    = ilChatRoom::byObjectId( $this->gui->object->getId() );
+
+		if( !$room )
 		{
-			$this->general( $settingsForm );
+		    $room = new ilChatRoom();
+		    $settings['object_id'] = $this->gui->object->getId();
 		}
-		else
-		{
-			$this->gui->object->setTitle( $_POST['title'] );
-			$this->gui->object->setDescription( $_POST['desc'] );
-			$this->gui->object->update();
 
-			$settings	= $_POST;
-			$room		= ilChatRoom::byObjectId( $this->gui->object->getId() );
-
-			if( !$room )
-			{
-				$room = new ilChatRoom();
-				$settings['object_id'] = $this->gui->object->getId();
-			}
-
-			$room->saveSettings( $settings );
-			$ilCtrl->redirect( $this->gui, 'settings-general' );
-		}
+		$room->saveSettings( $settings );
+		$ilCtrl->redirect( $this->gui, 'settings-general' );
+	    }
 	}
 
 	/**
@@ -133,7 +139,7 @@ class ilChatroomSettingsTask extends ilDBayTaskHandler
 	 */
 	public function executeDefault($requestedMethod)
 	{
-		$this->general();
+	    $this->general();
 	}
 
 }

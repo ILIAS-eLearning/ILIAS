@@ -5,7 +5,7 @@
 /**
  * Class ilChatroomGetPermissionsTask
  *
- * Provides methods to upload a file.
+ * Returns user permissions
  *
  * @author Andreas Korodsz <akordosz@databay.de>
  * @version $Id$
@@ -36,17 +36,18 @@ class ilChatroomGetPermissionsTask extends ilDBayTaskHandler
 	{
 		global $ilUser;
 
-		switch($ilUser->getLogin()) {
-			case 'root':
-				$kick = $ban = true;
-				break;
-			default:
-				$kick = $ban = false;
+		switch($ilUser->getLogin())
+		{
+		    case 'root':
+			    $kick = $ban = true;
+			    break;
+		    default:
+			    $kick = $ban = false;
 		}
 
 		$permissions = array(
-		    'kick' => $kick,
-		    'ban' => $ban,
+		    'kick'  => $kick,
+		    'ban'   => $ban,
 		);
 
 		echo json_encode($permissions);

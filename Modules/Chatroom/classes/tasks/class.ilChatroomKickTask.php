@@ -40,6 +40,11 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 		require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
+		if ( !ilChatroom::checkUserPermissions( array('read', 'moderate') , $this->gui->ref_id ) )
+		{
+		    ilUtil::redirect("repository.php");
+		}
+
 		$room = ilChatroom::byObjectId( $this->gui->object->getId() );
 
 		if( $room )
@@ -58,22 +63,22 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 				'userToKick' => $_REQUEST['user']
 			);
 
-			$query			= http_build_query( $params );
-			$connector		= $this->gui->getConnector();
-			$response		= $connector->kick( $scope, $query );
+			$query		= http_build_query( $params );
+			$connector	= $this->gui->getConnector();
+			$response	= $connector->kick( $scope, $query );
 			$responseObject = json_decode( $response );
 
 			if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
 			{
-				$room->addHistoryEntry( $message, '', 1 );
+			    $room->addHistoryEntry( $message, '', 1 );
 			}
 		}
 		else
 		{
-			$response = json_encode( array(
-						'success' => false,
-						'reason' => 'unkown room'
-						) );
+		    $response = json_encode( array(
+			'success'   => false,
+			'reason'    => 'unkown room'
+			) );
 		}
 
 		echo $response;
@@ -92,10 +97,10 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 	{
 		$data = new stdClass();
 
-		$data->user			= $this->gui->object->getPersonalInformation( $chat_user );
-		$data->userToKick	= $messageString;
-		$data->timestamp	= date( 'c' );
-		$data->type			= 'kick';
+		$data->user	    = $this->gui->object->getPersonalInformation( $chat_user );
+		$data->userToKick   = $messageString;
+		$data->timestamp    = date( 'c' );
+		$data->type	    = 'kick';
 
 		return $data;
 	}
