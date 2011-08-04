@@ -85,7 +85,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 
 		ilUtil::sendSuccess( $lng->txt( 'settings_has_been_saved' ), true );
 
-		$ilCtrl->redirect( $this->gui, 'view' );
+		$ilCtrl->redirect( $this->gui, 'view-serversettings' );
 	}
 
 
@@ -284,7 +284,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	 * @global ilLanguage $lng
 	 * @param ilPropertyFormGUI $form
 	 */
-	public function view(ilPropertyFormGUI $form = null)
+	public function serversettings(ilPropertyFormGUI $form = null)
 	{
 		global $ilUser, $tpl, $ilCtrl, $lng;
 
@@ -320,7 +320,8 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	 */
 	public function executeDefault($method)
 	{
-		$this->view();
+		global $ilCtrl;
+		$ilCtrl->redirect($this->gui, 'view-serversettings');
 	}
 
 	public function clientsettings(ilPropertyFormGUI $form = null)

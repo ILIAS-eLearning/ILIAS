@@ -129,9 +129,9 @@ ilAddOnLoad(function() {
 
 							$('#chat_messages').ilChatMessageArea('show', room.id, posturl);
 
-							},
-							'json'
-						)
+						},
+						'json'
+					)
                                 }
                             },
                             {
@@ -746,6 +746,13 @@ $.each(rooms, function() {
 								$.each(response, function() {
 									$('#chat_users').find('.user_' + this).show();
 								});
+
+								if (!$('#chat_messages').ilChatMessageArea('hasContent', room.id)) {
+								    $('#chat_messages').ilChatMessageArea('addMessage', room.id, {
+										type: 'notice',
+										message: translate('private_room_entered', {title: room.label})
+								    });
+								}
 							},
 							'json'
 							);
