@@ -22,10 +22,11 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 	 *
 	 * @param ilDBayObjectGUI $gui
 	 */
-	public function __construct(ilDBayObjectGUI $gui) {
-		$this->gui = $gui;
-		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-		require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
+	public function __construct(ilDBayObjectGUI $gui)
+	{
+	    $this->gui = $gui;
+	    require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+	    require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 	}
 
 	/**
@@ -33,8 +34,9 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 	 *
 	 * @param string $message
 	 */
-	private function cancelJoin($message) {
-		ilUtil::sendFailure($message);
+	private function cancelJoin($message)
+	{
+	    ilUtil::sendFailure($message);
 	}
 
 	/**
@@ -47,157 +49,170 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 	 * @param ilChatroom $room
 	 * @param ilChatroomUser $chat_user
 	 */
-	private function showRoom(ilChatroom $room, ilChatroomUser $chat_user) {
-		global $tpl, $ilUser, $ilCtrl, $lng, $ilAccess, $lng;
+	private function showRoom(ilChatroom $room, ilChatroomUser $chat_user)
+	{
+	    global $tpl, $ilUser, $ilCtrl, $lng, $ilAccess, $lng;
 
-		$user_id = $chat_user->getUserId($ilUser);
+	    if ( !ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id ) )
+	    {
+		ilUtil::redirect("repository.php");
+	    }
 
-		if ($room->isUserBanned($user_id)) {
-			$this->cancelJoin($lng->txt('banned'));
-			return;
-		}
+	    $user_id = $chat_user->getUserId($ilUser);
 
-		$scope = $room->getRoomId();
-		$connector = $this->gui->getConnector();
-		$response = @$connector->connect($scope, $user_id);
+	    if( $room->isUserBanned($user_id) )
+	    {
+		$this->cancelJoin( $lng->txt('banned') );
+		return;
+	    }
 
-		if (!$response) {
-			ilUtil::sendFailure($lng->txt('unable_to_connect'), true);
-			$link = $ilCtrl->getLinkTargetByClass('ilinfoscreengui', 'info', '', false, false);
-			ilUtil::redirect($link);
-			exit;
-		}
+	    $scope	= $room->getRoomId();
+	    $connector	= $this->gui->getConnector();
+	    $response	= @$connector->connect($scope, $user_id);
 
-		if (!$room->isSubscribed($chat_user->getUserId()) && $room->connectUser($chat_user)) {
-			$connector->sendMessage(
-			$scope, $message = json_encode(
+	    if( !$response )
+	    {
+		    ilUtil::sendFailure($lng->txt('unable_to_connect'), true);
+		    $link = $ilCtrl->getLinkTargetByClass(
+			    'ilinfoscreengui', 'info', '', false, false
+		    );
+		    ilUtil::redirect($link);
+		    exit;
+	    }
+
+	    if( !$room->isSubscribed($chat_user->getUserId()) && $room->connectUser($chat_user) )
+	    {
+		$connector->sendMessage(
+		    $scope,
+		    $message = json_encode(
 			array(
-                        'type' => 'connected',
-                        'users' => array(
-			array(
-                                'login' => $chat_user->getUsername(),
-                                'id' => $user_id,
-			),
-			),
-                        'timestamp' => time() * 1000//date( 'c' )
+			    'type'  => 'connected',
+			    'users' => array(
+					    array( 'login'  => $chat_user->getUsername(),
+						    'id'    => $user_id,
+					    ),
+					),
+			    'timestamp' => time() * 1000//date( 'c' )
 			)
-			)
-			);
-
-			if ($room->getSetting('enable_history'))
-			$room->addHistoryEntry($message);
-		}
-
-		$connection_info = json_decode($response);
-		$settings = $connector->getSettings();
-
-		$known_private_room = $room->getActivePrivateRooms($ilUser->getId());
-
-		$initial = new stdClass();
-		$initial->users = $room->getConnectedUsers();
-		$initial->private_rooms = array_values($known_private_room);
-		$initial->redirect_url = $ilCtrl->getLinkTarget($this->gui, 'view-lostConnection', '', false, false);
-		$initial->userinfo = array(
-			'moderator' => $ilAccess->checkAccess('moderate', '', $_GET['ref_id']),
-			'userid' => $chat_user->getUserId()
+		    )
 		);
 
-		$smileys = array();
+		if( $room->getSetting('enable_history') )
+		    $room->addHistoryEntry($message);
+	    }
 
-		include_once('Modules/Chatroom/classes/class.ilChatroomSmilies.php');
+	    $connection_info	= json_decode($response);
+	    $settings		= $connector->getSettings();
+	    $known_private_room = $room->getActivePrivateRooms($ilUser->getId());
 
-		$smileys_array = ilChatroomSmilies::_getSmilies();
+	    $initial = new stdClass();
+	    $initial->users = $room->getConnectedUsers();
+	    $initial->private_rooms = array_values($known_private_room);
+	    $initial->redirect_url = $ilCtrl->getLinkTarget($this->gui, 'view-lostConnection', '', false, false);
 
-		foreach( $smileys_array as $smiley_array )
+	    $initial->userinfo = array(
+		'moderator' => $ilAccess->checkAccess('moderate', '', $_GET['ref_id']),
+		'userid' => $chat_user->getUserId()
+	    );
+
+	    $smileys = array();
+
+	    include_once('Modules/Chatroom/classes/class.ilChatroomSmilies.php');
+
+	    $smileys_array = ilChatroomSmilies::_getSmilies();
+
+	    foreach( $smileys_array as $smiley_array )
+	    {
+		foreach( $smiley_array as $key => $value )
 		{
-			foreach( $smiley_array as $key => $value )
-			{
-				if( $key == 'smiley_keywords' )
-				{
-					$new_keys = explode("\n", $value);
-				}
+		    if( $key == 'smiley_keywords' )
+		    {
+			$new_keys = explode("\n", $value);
+		    }
 
-				if( $key == 'smiley_fullpath' )
-				{
-					$new_val = $value;
-				}
-			}
-				
-			foreach( $new_keys as $new_key )
-			{
-				$smileys[$new_key] = $new_val;
-			}
+		    if( $key == 'smiley_fullpath' )
+		    {
+			$new_val = $value;
+		    }
 		}
 
-		$initial->smileys = $smileys;
-
-
-		$initial->messages = array();
-
-		if (isset($_REQUEST['sub'])) {
-			if ($known_private_room[$_REQUEST['sub']]) {
-				if( !$room->isAllowedToEnterPrivateRoom( $chat_user->getUserId(), $_REQUEST['sub'] ) )
-				{
-					$initial->messages[] = array(
-			    'type' => 'error',
-			    'message' => $lng->txt('not_allowed_to_enter'),
-					);
-				}
-				else {
-					$scope = $room->getRoomId();
-					$params = array();
-
-					$params['user'] = $chat_user->getUserId();
-					$params['sub'] = $_REQUEST['sub'];
-					$params['message'] = json_encode(
-					array(
-				'type' => 'private_room_entered',
-				'user' => $user_id
-					)
-					);
-
-
-					$query = http_build_query( $params );
-					$connector = $this->gui->getConnector();
-					$response = $connector->enterPrivateRoom( $scope, $query );
-					$responseObject = json_decode( $response );
-
-					if( $responseObject->success == true )
-					{
-						$room->subscribeUserToPrivateRoom( $params['sub'], $params['user'] );
-					}
-					$initial->enter_room = $_REQUEST['sub'];
-				}
-			} else {
-				$initial->messages[] = array(
-					'type' => 'error',
-					'message' => $lng->txt('unkown_private_room'),
-				);
-			}
+		foreach( $new_keys as $new_key )
+		{
+		    $smileys[$new_key] = $new_val;
 		}
+	    }
 
-		$roomTpl = new ilTemplate('tpl.chatroom.html', true, true, 'Modules/Chatroom');
-		$roomTpl->setVariable('SESSION_ID', $connection_info->{'session-id'});
-		$roomTpl->setVariable('BASEURL', $settings->getBaseURL());
-		$roomTpl->setVariable('INSTANCE', $settings->getInstance());
-		$roomTpl->setVariable('SCOPE', $scope);
-		$roomTpl->setVariable('MY_ID', $user_id);
-		$roomTpl->setVariable('INITIAL_DATA', json_encode($initial));
-		$roomTpl->setVariable('POSTURL', $ilCtrl->getLinkTarget($this->gui, 'postMessage', '', true, true));
+	    $initial->smileys	= $smileys;
+	    $initial->messages	= array();
 
-		$roomTpl->setVariable('ACTION', $lng->txt('action'));
-		$roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $lng->txt('create_private_room_label'));
-		$roomTpl->setVariable('LBL_USER', $lng->txt('user'));
-		$roomTpl->setVariable('LBL_AUTO_SCROLL', $lng->txt('auto_scroll'));
+	    if( isset($_REQUEST['sub']) )
+	    {
+		if( $known_private_room[$_REQUEST['sub']] )
+		{
+		    if( !$room->isAllowedToEnterPrivateRoom( $chat_user->getUserId(), $_REQUEST['sub'] ) )
+		    {
+			$initial->messages[] = array(
+			    'type'	=> 'error',
+			    'message'	=> $lng->txt('not_allowed_to_enter'),
+			);
+		    }
+		    else
+		    {
+			$scope		    = $room->getRoomId();
+			$params		    = array();
+			$params['user']	    = $chat_user->getUserId();
+			$params['sub']	    = $_REQUEST['sub'];
 
-		$roomTpl->setVariable('INITIAL_USERS', json_encode($room->getConnectedUsers()));
+			$params['message']  = json_encode(
+			    array( 'type' => 'private_room_entered',
+				   'user' => $user_id
+			    )
+			);
 
-		$this->renderFontSettings($roomTpl, array());
-		$this->renderFileUploadForm($roomTpl);
-		$this->renderSendMessageBox($roomTpl);
-		$this->renderRightUsersDock($roomTpl);
+			$query		= http_build_query( $params );
+			$connector	= $this->gui->getConnector();
+			$response	= $connector->enterPrivateRoom( $scope, $query );
+			$responseObject = json_decode( $response );
 
-		$tpl->setVariable('ADM_CONTENT', $roomTpl->get());
+			if( $responseObject->success == true )
+			{
+			    $room->subscribeUserToPrivateRoom( $params['sub'], $params['user'] );
+			}
+
+			$initial->enter_room = $_REQUEST['sub'];
+		    }
+		}
+		else
+		{
+		    $initial->messages[] = array(
+			'type'	=> 'error',
+			'message'	=> $lng->txt('unkown_private_room'),
+		    );
+		}
+	    }
+
+	    $roomTpl = new ilTemplate('tpl.chatroom.html', true, true, 'Modules/Chatroom');
+	    $roomTpl->setVariable('SESSION_ID', $connection_info->{'session-id'});
+	    $roomTpl->setVariable('BASEURL', $settings->getBaseURL());
+	    $roomTpl->setVariable('INSTANCE', $settings->getInstance());
+	    $roomTpl->setVariable('SCOPE', $scope);
+	    $roomTpl->setVariable('MY_ID', $user_id);
+	    $roomTpl->setVariable('INITIAL_DATA', json_encode($initial));
+	    $roomTpl->setVariable('POSTURL', $ilCtrl->getLinkTarget($this->gui, 'postMessage', '', true, true));
+
+	    $roomTpl->setVariable('ACTION', $lng->txt('action'));
+	    $roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $lng->txt('create_private_room_label'));
+	    $roomTpl->setVariable('LBL_USER', $lng->txt('user'));
+	    $roomTpl->setVariable('LBL_AUTO_SCROLL', $lng->txt('auto_scroll'));
+
+	    $roomTpl->setVariable('INITIAL_USERS', json_encode($room->getConnectedUsers()));
+
+	    $this->renderFontSettings($roomTpl, array());
+	    $this->renderFileUploadForm($roomTpl);
+	    $this->renderSendMessageBox($roomTpl);
+	    $this->renderRightUsersDock($roomTpl);
+
+	    $tpl->setVariable('ADM_CONTENT', $roomTpl->get());
 	}
 
 	protected function renderRightUsersDock($roomTpl) {
@@ -323,8 +338,13 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 	 * @global ilLanguage $lng
 	 * @param string $method
 	 */
-	public function executeDefault($method) {
+	public function executeDefault($method)
+	{
 		global $ilUser, $lng, $ilCtrl;
+
+		include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+
+		ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id );
 
 		$this->gui->switchToVisibleMode();
 		$this->setupTemplate();

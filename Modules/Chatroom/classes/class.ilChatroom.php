@@ -13,15 +13,15 @@
 class ilChatroom
 {
 
-	private $settings						= array();
-	private static $settingsTable			= 'chatroom_settings';
-	private static $historyTable			= 'chatroom_history';
-	private static $userTable				= 'chatroom_users';
-	private static $sessionTable			= 'chatroom_sessions';
-	private static $banTable				= 'chatroom_bans';
-	private static $privateRoomsTable		= 'chatroom_prooms';
+	private $settings = array();
+	private static $settingsTable		= 'chatroom_settings';
+	private static $historyTable		= 'chatroom_history';
+	private static $userTable		= 'chatroom_users';
+	private static $sessionTable		= 'chatroom_sessions';
+	private static $banTable		= 'chatroom_bans';
+	private static $privateRoomsTable	= 'chatroom_prooms';
 	private static $privateSessionsTable	= 'chatroom_psessions';
-	private static $uploadTable				= 'chatroom_uploads';
+	private static $uploadTable		= 'chatroom_uploads';
 	private static $privateRoomsAccessTable = 'chatroom_proomaccess';
 
 	/**
@@ -47,20 +47,50 @@ class ilChatroom
 
 	public function getTitle() 
 	{
-		if( !$this->object ) 
-		{
-			$this->object = ilObjectFactory::getInstanceByObjId($this->getSetting('object_id'));
-		}
+	    if( !$this->object )
+	    {
+		$this->object = ilObjectFactory::getInstanceByObjId($this->getSetting('object_id'));
+	    }
 
-		return $this->object->getTitle();
+	    return $this->object->getTitle();
 	}
 
-	public function getDescription() {
-		if (!$this->object) {
-			$this->object = ilObjectFactory::getInstanceByObjId($this->getSetting('object_id'));
-		}
+	/**
+	 * Checks user permissions by given array and ref_id.
+	 *
+	 * @global  Rbacsystem	$rbacsystem
+	 * @param   array	$permissions
+	 * @param   integer	$ref_id 
+	 */
+	public static function checkUserPermissions($permissions, $ref_id)
+	{
+	    global $rbacsystem, $lng;
+	    
+	    if( !is_array($permissions) )
+	    {
+		$permissions = array( $permissions );
+	    }
 
-		return $this->object->getDescription();
+	    foreach( $permissions as $permission )
+	    {
+		if( !$rbacsystem->checkAccess( $permission, $ref_id ) )
+		{
+		   ilUtil::sendFailure( $lng->txt("permission_denied"), true );
+		   return false;
+		}
+	    }
+
+	    return true;
+	}
+
+	public function getDescription()
+	{
+	    if (!$this->object)
+	    {
+		$this->object = ilObjectFactory::getInstanceByObjId($this->getSetting('object_id'));
+	    }
+
+	    return $this->object->getDescription();
 	}
 
 	/**
@@ -71,7 +101,7 @@ class ilChatroom
 	 */
 	public function getSetting($name)
 	{
-		return $this->settings[$name];
+	    return $this->settings[$name];
 	}
 
 	/**
@@ -90,7 +120,7 @@ class ilChatroom
 	 */
 	public function save()
 	{
-		$this->saveSettings( $this->settings );
+	    $this->saveSettings( $this->settings );
 	}
 
 	/**
@@ -105,16 +135,16 @@ class ilChatroom
 	 */
 	public function addHistoryEntry($message, $recipient = null, $publicMessage = true)
 	{
-		global $ilDB;
+	    global $ilDB;
 
-		$ilDB->insert(
+	    $ilDB->insert(
 		self::$historyTable,
 		array(
-					'room_id'	=> array('integer', $this->roomId),
-					'message'	=> array('text', $message),
-					'timestamp' => array('integer', time()),
+		    'room_id'	=> array('integer', $this->roomId),
+		    'message'	=> array('text', $message),
+		    'timestamp'	=> array('integer', time()),
 		)
-		);
+	    );
 	}
 
 	/**

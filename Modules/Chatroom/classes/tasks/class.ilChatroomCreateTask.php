@@ -39,6 +39,11 @@ class ilChatroomCreateTask extends ilDBayTaskHandler
 	{
 		global $tpl, $ilUser, $ilCtrl;
 
+		if ( !ilChatroom::checkUserPermissions( 'read' , $this->gui->ref_id ) )
+		{
+		    ilUtil::redirect("repository.php");
+		}
+
 		$this->gui->switchToVisibleMode();
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';

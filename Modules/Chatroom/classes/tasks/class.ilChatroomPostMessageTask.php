@@ -42,40 +42,45 @@ class ilChatroomPostMessageTask extends ilDBayTaskHandler
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 		require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
+		if ( !ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id ) )
+		{
+		    ilUtil::redirect("repository.php");
+		}
+
 		$room = ilChatroom::byObjectId( $this->gui->object->getId() );
 
-		$chat_user	= new ilChatroomUser($ilUser, $room);
-		$user_id	= $chat_user->getUserId();
+		$chat_user  = new ilChatroomUser($ilUser, $room);
+		$user_id    = $chat_user->getUserId();
 
 		if( !$room )
 		{
-			throw new Exception('unkown room');
+		    throw new Exception('unkown room');
 		}
 		else if( !$room->isSubscribed( $chat_user->getUserId() ) )
 		{
-			throw new Exception('not subscribed');
+		    throw new Exception('not subscribed');
 		}
 		else if ( isset($_REQUEST['sub']) && !$room->userIsInPrivateRoom( $_REQUEST['sub'], $chat_user->getUserId() ))
 		{
-			$response = json_encode( array(
-					'success'	=> false,
-					'reason'	=> 'not subscribed to private room'
-					) );
-					echo json_encode( $response );
-					exit;
-		}
+		    $response = json_encode( array(
+			    'success'	=> false,
+			    'reason'	=> 'not subscribed to private room'
+		    ) );
+		    echo json_encode( $response );
+		    exit;
+	    }
 
 		$scope	= $room->getRoomId();
 		$params = array();
 
 		if( ($recipient = $_REQUEST['recipient'] ) )
 		{
-			$params['recipients'] = join( ',', array_unique( array($user_id, $recipient) ) );
-			$params['public'] = isset( $_REQUEST['public'] ) ? (int)$_REQUEST['public'] : 0;
+		    $params['recipients'] = join( ',', array_unique( array($user_id, $recipient) ) );
+		    $params['public'] = isset( $_REQUEST['public'] ) ? (int)$_REQUEST['public'] : 0;
 		}
 		else
 		{
-			$params['public'] = 1;
+		    $params['public'] = 1;
 		}
 
 		if ($_REQUEST['sub'])
@@ -87,9 +92,9 @@ class ilChatroomPostMessageTask extends ilDBayTaskHandler
 
 		$params			= array_merge( $params, array('message' => $message) );
 		//print_r($params);exit;
-		$query			= http_build_query( $params );
-		$connector		= $this->gui->getConnector();
-		$response		= $connector->post( $scope, $query );
+		$query		= http_build_query( $params );
+		$connector	= $this->gui->getConnector();
+		$response	= $connector->post( $scope, $query );
 
 		$responseObject = json_decode( $response );
 

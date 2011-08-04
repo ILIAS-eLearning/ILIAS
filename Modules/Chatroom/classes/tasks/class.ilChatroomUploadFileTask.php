@@ -44,42 +44,46 @@ class ilChatroomUploadFileTask extends ilDBayTaskHandler
 	 */
 	public function uploadFile()
 	{
-		$upload_path = $this->getUploadPath();
+	    if ( !ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id ) )
+	    {
+		ilUtil::redirect("repository.php");
+	    }
 
-		$this->checkUploadPath($upload_path);
+	    $upload_path = $this->getUploadPath();
 
-		/**
-		 * @todo: filename must be unique.
-		 */
-		$file		= $_FILES['file_to_upload']['tmp_name'];
-		$filename	= $_FILES['file_to_upload']['name'];
-		$type		= $_FILES['file_to_upload']['type'];
-		$target		= $upload_path . $filename;
+	    $this->checkUploadPath($upload_path);
 
-		if( ilUtil::moveUploadedFile( $file, $filename, $target ) )
+	    /**
+	     * @todo: filename must be unique.
+	     */
+	    $file	= $_FILES['file_to_upload']['tmp_name'];
+	    $filename	= $_FILES['file_to_upload']['name'];
+	    $type	= $_FILES['file_to_upload']['type'];
+	    $target	= $upload_path . $filename;
+
+	    if( ilUtil::moveUploadedFile( $file, $filename, $target ) )
+	    {
+		global $ilUser;
+
+		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+		require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
+
+		$room	    = ilChatroom::byObjectId( $this->gui->object->getId() );
+		$chat_user  = new ilChatroomUser($ilUser, $room);
+		$user_id    = $chat_user->getUserId();
+
+		if( !$room )
 		{
-			global $ilUser;
-
-			require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-			require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
-				
-			$room = ilChatroom::byObjectId( $this->gui->object->getId() );
-
-			$chat_user = new ilChatroomUser($ilUser, $room);
-			$user_id = $chat_user->getUserId();
-
-			if( !$room )
-			{
-				throw new Exception('unkown room');
-			}
-			else if( !$room->isSubscribed( $chat_user->getUserId() ) )
-			{
-				throw new Exception('not subscribed');
-			}
-
-			$room->saveFileUploadToDb($user_id, $filename, $type);
-			$this->displayLinkToUploadedFile($room, $chat_user);
+		    throw new Exception('unkown room');
 		}
+		else if( !$room->isSubscribed( $chat_user->getUserId() ) )
+		{
+		    throw new Exception('not subscribed');
+		}
+
+		$room->saveFileUploadToDb($user_id, $filename, $type);
+		$this->displayLinkToUploadedFile($room, $chat_user);
+	    }
 
 	}
 
@@ -87,9 +91,9 @@ class ilChatroomUploadFileTask extends ilDBayTaskHandler
 	{
 		global $ilCtrl;
 
-		$scope				= $room->getRoomId();
-		$params				= array();
-		$params['public']	= 1;
+		$scope		    = $room->getRoomId();
+		$params		    = array();
+		$params['public']   = 1;
 		/**
 		 * @todo erwartet message als json
 		 */

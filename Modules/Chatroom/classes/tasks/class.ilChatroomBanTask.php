@@ -40,6 +40,10 @@ class ilChatroomBanTask extends ilDBayTaskHandler
 		//global $lng, $ilCtrl;
 		global $ilCtrl;
 
+		include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+
+		ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id );
+
 		$this->gui->switchToVisibleMode();
 
 		require_once 'Modules/Chatroom/classes/class.ilBannedUsersTableGUI.php';
@@ -96,49 +100,54 @@ class ilChatroomBanTask extends ilDBayTaskHandler
 	 */
 	public function active()
 	{
-		//global $tpl, $ilUser;
-		global $ilUser;
+	    //global $tpl, $ilUser;
+	    global $ilUser;
 
-		$room = ilChatroom::byObjectId( $this->gui->object->getId() );
+	    if ( !ilChatroom::checkUserPermissions( array('read', 'moderate') , $this->gui->ref_id ) )
+	    {
+		ilUtil::redirect("repository.php");
+	    }
 
-		if( $room )
+	    $room = ilChatroom::byObjectId( $this->gui->object->getId() );
+
+	    if( $room )
+	    {
+		// if user is in scope
+		$scope = $room->getRoomId();
+
+		$chat_user = new ilChatroomUser( $ilUser, $room );
+
+		$message = json_encode( $this->buildMessage(
+		ilUtil::stripSlashes( $_REQUEST['user'] ),
+		$chat_user
+		) );
+		$params = array(
+		    'message'	    => $message,
+		    'userToKick'    => $_REQUEST['user']
+		);
+
+		$query		= http_build_query( $params );
+		$connector	= $this->gui->getConnector();
+		$response	= $connector->kick( $scope, $query );
+		$responseObject = json_decode( $response );
+
+		$room->banUser( $_REQUEST['user'] );
+
+		if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
 		{
-			// if user is in scope
-			$scope = $room->getRoomId();
-
-			$chat_user = new ilChatroomUser( $ilUser, $room );
-
-			$message = json_encode( $this->buildMessage(
-			ilUtil::stripSlashes( $_REQUEST['user'] ),
-			$chat_user
-			) );
-			$params = array(
-				'message' => $message,
-				'userToKick' => $_REQUEST['user']
-			);
-
-			$query			= http_build_query( $params );
-			$connector		= $this->gui->getConnector();
-			$response		= $connector->kick( $scope, $query );
-			$responseObject = json_decode( $response );
-
-			$room->banUser( $_REQUEST['user'] );
-
-			if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
-			{
-				$room->addHistoryEntry( $message, '', 1 );
-			}
+		    $room->addHistoryEntry( $message, '', 1 );
 		}
-		else
-		{
-			$response = json_encode( array(
-					'success'	=> false,
-					'reason'	=> 'unkown room'
-					) );
-		}
+	    }
+	    else
+	    {
+		$response = json_encode( array(
+				'success'   => false,
+				'reason'    => 'unkown room'
+		) );
+	    }
 
-		echo $response;
-		exit;
+	    echo $response;
+	    exit;
 	}
 
 	/**

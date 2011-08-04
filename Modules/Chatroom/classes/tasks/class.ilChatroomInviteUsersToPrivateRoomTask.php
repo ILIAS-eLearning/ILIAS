@@ -51,8 +51,14 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilDBayTaskHandler
 		$this->inviteById($_REQUEST['users']);
 	}
 
-	private function inviteById($invited_id) {
+	private function inviteById($invited_id)
+	{
 		global $tpl, $ilUser;
+
+		if ( !ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id ) )
+		{
+		    ilUtil::redirect("repository.php");
+		}
 
 		$room = ilChatroom::byObjectId( $this->gui->object->getId() );
 

@@ -14,7 +14,6 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 {
 
 	private $gui;
-
 	private $commonSettings;
 
 	/**
@@ -26,17 +25,17 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	 */
 	public function __construct(ilDBayObjectGUI $gui)
 	{
-		$this->gui = $gui;
-
-		$this->commonSettings = new ilSetting('common');
+	    $this->gui = $gui;
+	    $this->commonSettings = new ilSetting('common');
 	}
 
-	private function showSoapWarningIfNeeded() {
-		if( !$this->commonSettings->get('soap_user_administration') )
-		{
-			global $lng;
-			ilUtil::sendInfo($lng->txt('soap_must_be_enabled'));
-		}
+	private function showSoapWarningIfNeeded()
+	{
+	    if( !$this->commonSettings->get('soap_user_administration') )
+	    {
+		global $lng;
+		ilUtil::sendInfo( $lng->txt('soap_must_be_enabled') );
+	    }
 	}
 
 	/**
@@ -97,48 +96,48 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	 */
 	public function saveClientSettings()
 	{
-		global $ilCtrl, $lng;
+	    global $ilCtrl, $lng;
 
-		require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
-		$factory = new ilChatroomFormFactory();
-		$form = $factory->getClientSettingsForm();
+	    require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
+	    $factory = new ilChatroomFormFactory();
+	    $form = $factory->getClientSettingsForm();
 
-		if( !$form->checkInput() )
-		{
-			$form->setValuesByPost();
-			return $this->clientsettings( $form );
-		}
+	    if( !$form->checkInput() )
+	    {
+		$form->setValuesByPost();
+		return $this->clientsettings( $form );
+	    }
 
-		$settings = array(
-			//'hash'			=> $_POST['hash'],
-			'hash'			=> $_POST['name'],
-			'name'			=> $_POST['name'],
-			'url'			=> $_POST['url'],
-			'user'			=> $_POST['user'],
-			'password'		=> $_POST['password'],
-			'client'		=> $_POST['client'],
-			'enable_osd'	=> (boolean)$_POST['enable_osd'],
-			'osd_intervall'	=> (int)$_POST['osd_intervall'],
-			'chat_enabled'	=> ((boolean)$_POST['chat_enabled']) && ((boolean)$this->commonSettings->get('soap_user_administration'))
-		);
+	    $settings = array(
+		    //'hash'		=> $_POST['hash'],
+		    'hash'		=> $_POST['name'],
+		    'name'		=> $_POST['name'],
+		    'url'		=> $_POST['url'],
+		    'user'		=> $_POST['user'],
+		    'password'		=> $_POST['password'],
+		    'client'		=> $_POST['client'],
+		    'enable_osd'	=> (boolean)$_POST['enable_osd'],
+		    'osd_intervall'	=> (int)$_POST['osd_intervall'],
+		    'chat_enabled'	=> ((boolean)$_POST['chat_enabled']) && ((boolean)$this->commonSettings->get('soap_user_administration'))
+	    );
 
-		$notificationSettings = new ilSetting('notifications');
+	    $notificationSettings = new ilSetting('notifications');
 
-		$notificationSettings->set('osd_polling_intervall', (int)$_POST['osd_intervall']);
-		$notificationSettings->set('enable_osd', (boolean)$_POST['enable_osd']);
+	    $notificationSettings->set('osd_polling_intervall', (int)$_POST['osd_intervall']);
+	    $notificationSettings->set('enable_osd', (boolean)$_POST['enable_osd']);
 
-		$chatSettings = new ilSetting('chatroom');
-		$chatSettings->set('chat_enabled', $settings['chat_enabled']);
+	    $chatSettings = new ilSetting('chatroom');
+	    $chatSettings->set('chat_enabled', $settings['chat_enabled']);
 
-		require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
-		$adminSettings = new ilChatroomAdmin( $this->gui->object->getId() );
-		$adminSettings->saveClientSettings( (object)$settings );
+	    require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
+	    $adminSettings = new ilChatroomAdmin( $this->gui->object->getId() );
+	    $adminSettings->saveClientSettings( (object)$settings );
 
-		$this->writeClientSettingsToFile( $settings );
+	    $this->writeClientSettingsToFile( $settings );
 
-		ilUtil::sendSuccess( $lng->txt( 'settings_has_been_saved' ), true );
+	    ilUtil::sendSuccess( $lng->txt( 'settings_has_been_saved' ), true );
 
-		$ilCtrl->redirect( $this->gui, 'view-clientsettings' );
+	    $ilCtrl->redirect( $this->gui, 'view-clientsettings' );
 	}
 
 
@@ -149,17 +148,17 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	 */
 	protected function writeClientSettingsToFile($settings)
 	{
-		if( $srv_prp_path = $this->checkDirectory() )
+	    if( $srv_prp_path = $this->checkDirectory() )
+	    {
+		$handle = fopen( $srv_prp_path.'client.properties', 'w' );
+
+		if( !fwrite($handle, $this->getClientFileContent($settings)) )
 		{
-			$handle = fopen( $srv_prp_path.'client.properties', 'w' );
-
-			if( !fwrite($handle, $this->getClientFileContent($settings)) )
-			{
-				throw new Exception('Cannot write to file');
-			}
-
-			fclose($handle);
+		    throw new Exception('Cannot write to file');
 		}
+
+		fclose($handle);
+	    }
 	}
 
 	/**
@@ -169,16 +168,16 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	 */
 	protected function getClientFileContent($settings)
 	{
-		$linebreak = "\n";
+	    $linebreak = "\n";
 
-		$content	 = 'hash = ' . $settings['hash'] . $linebreak;
-		$content	.= 'name = ' . $settings['name'] . $linebreak;
-		$content	.= 'url = ' . $settings['url'] . $linebreak;
-		$content	.= 'user = ' . $settings['user'] . $linebreak;
-		$content	.= 'password = ' . $settings['password'] . $linebreak;
-		$content	.= 'client = ' . $settings['client'];
+	    $content	 = 'hash = ' . $settings['hash'] . $linebreak;
+	    $content	.= 'name = ' . $settings['name'] . $linebreak;
+	    $content	.= 'url = ' . $settings['url'] . $linebreak;
+	    $content	.= 'user = ' . $settings['user'] . $linebreak;
+	    $content	.= 'password = ' . $settings['password'] . $linebreak;
+	    $content	.= 'client = ' . $settings['client'];
 
-		return $content;
+	    return $content;
 	}
 
 
@@ -189,17 +188,17 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	 */
 	protected function writeDataToFile($settings)
 	{
-		if( $srv_prp_path = $this->checkDirectory() )
+	    if( $srv_prp_path = $this->checkDirectory() )
+	    {
+		$handle = fopen( $srv_prp_path.'server.properties', 'w' );
+
+		if( !fwrite($handle, $this->getFileContent($settings)) )
 		{
-			$handle = fopen( $srv_prp_path.'server.properties', 'w' );
-
-			if( !fwrite($handle, $this->getFileContent($settings)) )
-			{
-				throw new Exception('Cannot write to file');
-			}
-
-			fclose($handle);
+		    throw new Exception('Cannot write to file');
 		}
+
+		fclose($handle);
+	    }
 	}
 
 	/**
@@ -209,20 +208,20 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	 */
 	protected function getFileContent($settings)
 	{
-		$linebreak = "\n";
+	    $linebreak = "\n";
 
-		$content 	 = 'host = ' . $settings['address'] . $linebreak;
-		$content   	.= 'port = ' . $settings['port'] . $linebreak;
-		$content	.= 'privileged_hosts = ' . $settings['priv_hosts'] . $linebreak;
+	    $content 	 = 'host = ' . $settings['address'] . $linebreak;
+	    $content   	.= 'port = ' . $settings['port'] . $linebreak;
+	    $content	.= 'privileged_hosts = ' . $settings['priv_hosts'] . $linebreak;
 
-		$settings['protocol'] == 'https' ? $https = 1 : $https = 0;
+	    $settings['protocol'] == 'https' ? $https = 1 : $https = 0;
 
-		$content	.= 'https = ' . $https . $linebreak;
-		$content	.= 'keystore = ' . $settings['keystore'] . $linebreak;
-		$content	.= 'keypass = ' . $settings['keypass'] . $linebreak;
-		$content	.= 'storepass = ' . $settings['storepass'];
+	    $content	.= 'https = ' . $https . $linebreak;
+	    $content	.= 'keystore = ' . $settings['keystore'] . $linebreak;
+	    $content	.= 'keypass = ' . $settings['keypass'] . $linebreak;
+	    $content	.= 'storepass = ' . $settings['storepass'];
 
-		return $content;
+	    return $content;
 	}
 
 
@@ -232,19 +231,19 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 
 	protected function checkDirectory()
 	{
-		global $lng;
+	    global $lng;
 
-		$srv_prp_path = ilUtil::getDataDir().'/chatroom/';
+	    $srv_prp_path = ilUtil::getDataDir().'/chatroom/';
 
-		if( !file_exists($srv_prp_path) )
+	    if( !file_exists($srv_prp_path) )
+	    {
+		if( !ilUtil::makeDir($srv_prp_path) )
 		{
-			if( !ilUtil::makeDir($srv_prp_path) )
-			{
-				throw new Exception('Directory cannot be created');
-			}
+		    throw new Exception('Directory cannot be created');
 		}
+	    }
 
-		return $srv_prp_path;
+	    return $srv_prp_path;
 	}
 
 
@@ -256,22 +255,22 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	 */
 	protected function checkPrivHosts($ipnumbers)
 	{
-		$ipnumbers = preg_replace( "/[^0-9.,]+/", "", $ipnumbers );
-		$ips = explode( ',', $ipnumbers );
+	    $ipnumbers = preg_replace( "/[^0-9.,]+/", "", $ipnumbers );
+	    $ips = explode( ',', $ipnumbers );
 
-		foreach( $ips as $ip )
+	    foreach( $ips as $ip )
+	    {
+		$ip_parts = explode( '.', $ip );
+
+		if( !($ip_parts[0] <= 255 && $ip_parts[1] <= 255 && $ip_parts[2] <= 255 && $ip_parts[3] <= 255 &&
+		preg_match("!^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$!", $ip))
+		)
 		{
-			$ip_parts = explode( '.', $ip );
-
-			if( !($ip_parts[0] <= 255 && $ip_parts[1] <= 255 && $ip_parts[2] <= 255 && $ip_parts[3] <= 255 &&
-			preg_match("!^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$!", $ip))
-			)
-			{
-				return false;
-			}
+		    return false;
 		}
+	    }
 
-		return true;
+	    return true;
 	}
 
 
@@ -286,31 +285,33 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	 */
 	public function serversettings(ilPropertyFormGUI $form = null)
 	{
-		global $ilUser, $tpl, $ilCtrl, $lng;
+	    global $ilUser, $tpl, $ilCtrl, $lng;
 
-		$this->forcePublicRoom();
+	    include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
-		$this->gui->switchToVisibleMode();
+	    ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id );
 
-		$this->showSoapWarningIfNeeded();
+	    $this->forcePublicRoom();
+	    $this->gui->switchToVisibleMode();
+	    $this->showSoapWarningIfNeeded();
 
-		if( $form === null )
-		{
-			require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
-			$factory = new ilChatroomFormFactory();
-			$form = $factory->getGeneralSettingsForm();
+	    if( $form === null )
+	    {
+		require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
+		$factory = new ilChatroomFormFactory();
+		$form = $factory->getGeneralSettingsForm();
 
-			require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
-			$adminSettings = new ilChatroomAdmin( $this->gui->object->getId() );
-			$form->setValuesByArray( (array)$adminSettings->loadGeneralSettings() );
-		}
+		require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
+		$adminSettings = new ilChatroomAdmin( $this->gui->object->getId() );
+		$form->setValuesByArray( (array)$adminSettings->loadGeneralSettings() );
+	    }
 
-		$form->setTitle( $lng->txt('server_settings_title') );
-		$form->addCommandButton( 'view-saveSettings', $lng->txt( 'save' ) );
-		$form->addCommandButton( 'view', $lng->txt( 'cancel' ) );
-		$form->setFormAction( $ilCtrl->getFormAction( $this->gui, 'view-saveSettings' ) );
+	    $form->setTitle( $lng->txt('server_settings_title') );
+	    $form->addCommandButton( 'view-saveSettings', $lng->txt( 'save' ) );
+	    $form->addCommandButton( 'view', $lng->txt( 'cancel' ) );
+	    $form->setFormAction( $ilCtrl->getFormAction( $this->gui, 'view-saveSettings' ) );
 
-		$tpl->setVariable( 'ADM_CONTENT', $form->getHTML() );
+	    $tpl->setVariable( 'ADM_CONTENT', $form->getHTML() );
 	}
 
 	/**
@@ -328,6 +329,8 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	{
 		global $ilUser, $tpl, $ilCtrl, $lng;
 
+		ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id );
+		
 		$this->forcePublicRoom();
 
 		$this->gui->switchToVisibleMode();
