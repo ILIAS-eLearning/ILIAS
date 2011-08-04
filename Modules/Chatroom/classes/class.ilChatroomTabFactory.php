@@ -62,7 +62,7 @@ class ilChatroomTabFactory
 				}
 			}
 		}
-		else if( count($commandParts) == 1 && isset( $config[$commandParts[0]] ) )
+		else if( count($commandParts) == 1 /*&& isset( $config[$commandParts[0]] )*/ )
 		{
 			$ilTabs->activateTab( $commandParts[0] );
 		}
@@ -98,12 +98,12 @@ class ilChatroomTabFactory
 				),
 			  'view' => array(
 			  'lng' => 'view',
-			  'link' => $ilCtrl->getLinkTarget($this->gui, 'view'),
+			  'link' => $ilCtrl->getLinkTarget($this->gui, 'view-serversettings'),
 			  'permission' => 'read',
 				'subtabs' => array(
-					'view' => array(
+					'serversettings' => array(
 						'lng' => 'server_settings',
-						'link' => $ilCtrl->getLinkTarget( $this->gui, 'view' ),
+						'link' => $ilCtrl->getLinkTarget( $this->gui, 'view-serversettings' ),
 						'permission' => 'read',
 				),
 					'clientsettings' => array(

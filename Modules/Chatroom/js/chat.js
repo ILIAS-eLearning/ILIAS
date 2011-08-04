@@ -478,6 +478,9 @@
                     
 				return $(this);
 			},
+			hasContent: function(id) {
+				return $(this).data('ilChatMessageArea')._scopes['id_' + id].find('div').length > 0;
+			},
 			show: function(id, posturl) {
 				var scopes = $(this).data('ilChatMessageArea')._scopes;
                     
