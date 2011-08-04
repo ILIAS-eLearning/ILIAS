@@ -301,7 +301,7 @@
 				else if (options.type == 'room' && options.owner == personalUserInfo.userid) {
 					line.addClass('self');
 				}
-                    
+
 				$(this).append(line);
 			       
 				return $(this).ilChatList('sort');

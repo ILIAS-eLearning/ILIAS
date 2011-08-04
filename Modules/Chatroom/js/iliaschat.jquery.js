@@ -442,6 +442,10 @@ if (typeof DEBUG != 'undefined' && DEBUG) {
                                                         type: 'user'
                                                     };
                                                     $('#chat_users').ilChatList('add', data);
+						    
+						    if (subRoomId) {
+							    $('.user_' + this.id).hide();
+						    }
 
                                                     $('#chat_messages').ilChatMessageArea('addMessage', 0, {
                                                         login: data.label,
