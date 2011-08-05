@@ -12059,3 +12059,5 @@ scormdebug#:#debugwindow_delete#:#Delete
 scormdebug#:#debugwindow_download#:#Download
 scormdebug#:#debugwindow_open#:#Open
 scormdebug#:#debugwindow_password_enter#:#Please enter your password
+common#:#password_multiple_errors#:#Multiple criterias are not satisfied:
+common#:#password_contains_invalid_chars#:#The password contains invalid characters
