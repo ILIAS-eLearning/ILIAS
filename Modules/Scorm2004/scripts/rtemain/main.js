@@ -53,12 +53,19 @@ $(document).mouseup(function(e){
 	$(document).unbind('mousemove');
 });
 
-//disable logging controls
-
+/*disable logging controls
 if (disable_all_logging==true) {
 	elm = all("toggleLog");
 	elm.innerHTML="";
-}
+}*/
+
+// for log
+function PopupCenter(pageURL, title,w,h) {
+	var left = (screen.width/2)-(w/2);
+	var top = (screen.height/2)-(h/2);
+	debugWindow = window.open (pageURL, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+	debugWindow.focus();
+} 
 
 function toggleView() {
 	elm_left = all("leftView");
@@ -1698,7 +1705,7 @@ function loadPage(src) {
 		resContainer.src=src;
 		resContainer.name=RESOURCE_NAME;
 		onWindowResize();	
-		save_global_objectives();
+		save_global_objectives();//
 		
 		if (treeView==true && mlaunch.mSeqNonContent!="_TOC_" && mlaunch.mSeqNonContent!="_SEQABANDON_" && mlaunch.mSeqNonContent!="_SEQABANDONALL_") {
 			toggleView();
@@ -1893,7 +1900,7 @@ function buildNavTree(rootAct,name,tree){
 	
 	$("#treeView").empty();
 	ilNestedList.draw('rte_tree', 0, 'treeView');
-return;
+return; //??
 
 	var tocView = all('treeView');
 	
@@ -2138,9 +2145,10 @@ function init(config)
 	
 	
 	//load global objectives
-	
 	loadGlobalObj();
 
+	//debugger start with sco-start
+	logActive = this.config.debug;
 	
 	//get suspend data
 	suspendData =  sendJSONRequest(this.config.get_suspend_url);
@@ -2253,6 +2261,10 @@ function init(config)
 	
 	updateControls();
 	updateNav();
+	if (logActive==true) {
+		var elm = all("toggleLog");
+		elm.style.display ="inline";
+	}
 	if (this.config.session_ping>0)
 	{
 		setTimeout("pingSession()", this.config.session_ping*1000);
@@ -2573,6 +2585,21 @@ function save()
 	walk (sharedObjectives, "objective");
 	// add activities
 	walk (activities, 'node');
+
+/*to integrate
+	result["adl_seq_utilities"]=this.adl_seq_utilities;
+	if (saved_adl_seq_utilities != this.adl_seq_utilities) {
+		saved_adl_seq_utilities = this.adl_seq_utilities;
+		result["changed_seq_utilities"]=1;
+	}
+	else {
+		result["changed_seq_utilities"]=0;
+	}
+	result["saved_global_status"]=saved_global_status;
+	
+	//alert("Before save "+result.node.length);
+	//if (!result.node.length) {return;} 
+*/
 	
 	//alert("Before save "+result.node.length);
 	if (!result.node.length) {return;} 
@@ -2592,6 +2619,9 @@ function save()
 			act.dirty = 0;
 		}
 	}
+
+	//alert(new_global_status);
+	//saved_global_status = new_global_status;
 	
 	if (typeof this.config.time === "number" && this.config.time>10) 
 	{
@@ -2845,6 +2875,7 @@ function onWindowLoad ()
 
 function onWindowUnload () 
 {
+	summaryOnUnload = true;
 	onItemUndeliver(true);
 	save_global_objectives();
 	save();
@@ -3739,6 +3770,63 @@ function pausecomp(millis)
 	while(curDate-date < millis);
 }
 
+function initDebug() 
+{
+	
+}
+
+//debug extensions
+function refreshDebugger(param) {
+	if (param == true) {
+		window.setTimeout("debugWindow.location.reload()",2000);
+	} else {
+		if (debugWindow!=null && debugWindow.closed!=true) {
+			var content = sendJSONRequest(this.config.livelog_url);
+			debugWindow.updateLiveLog();
+		}
+	}
+}
+
+function sendLogEntry(timespan,action,key,value,result,errorCode)
+{
+	var logEntry = new Object();
+	logEntry['timespan'] = timespan;
+	logEntry['action'] = action;
+	logEntry['key'] = key;
+	logEntry['value'] = value;
+	logEntry['result'] = (typeof(result)!='undefined') ? result : 'undefined';
+	logEntry['errorcode'] = errorCode;
+	
+	if (action == "Initialize") {
+		logEntryScoId = mlaunch.mActivityID;
+		logEntryScoTitle = activities[mlaunch.mActivityID].title;
+	}
+	logEntry['scoid'] = logEntryScoId;
+	logEntry['scotitle'] = logEntryScoTitle;
+	if (action!="DELETE") {
+		var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger());	
+	} else {
+		var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger(true));
+	}	
+}
+
+function removeByElement(arrayName,arrayElement)
+ {
+    for(var i=0; i<arrayName.length;i++ )
+     {
+        if(arrayName[i]==arrayElement)
+            arrayName.splice(i,1); 
+      } 
+ }
+
+function createSummary()
+{
+	var logEntry = new Object();
+	logEntry['action'] = "SUMMARY";
+	var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger(true));	
+}
+//end debug extensions
+
 // Server related Variables
 var remoteMapping = null; // mapping of userdata from client to server representation
 var remoteInsertId = 0; // pseudo IDs for newly generated data rows (will be prefixed by "$")
@@ -3797,6 +3885,14 @@ var currentAPI; // reference to API during runtime of a SCO
 var scoStartTime = null;
 
 var treeView=true;
+
+// Logging active
+var logActive = false;
+var scoDebugValues = null;
+var scoDebugValuesTest = null;
+var logEntryScoId = "";
+var logEntryScoTitle = "";
+var summaryOnUnload = false;
 
 //course wide variables
 var pubAPI=null;

@@ -205,7 +205,7 @@ class ilSCORM13Player
 			case 'getGobjective':	
 				$this->readGObjective();
 				break;
-			
+
 			case 'getSharedData':
 				$this->readSharedData($_GET['node_id']);
 				break;
@@ -227,7 +227,22 @@ class ilSCORM13Player
 			case 'specialPage':
 			 	$this->specialPage();
 				break;
-				
+
+			case 'debugGUI':	
+			 	$this->debugGUI();
+				break;
+			case 'postLogEntry':
+				$this->postLogEntry();
+				break;
+			case 'liveLogContent':
+				$this->liveLogContent();
+				break;
+			case 'downloadLog':
+				$this->downloadLog();
+				break;	
+			case 'openLog':
+				$this->openLog();
+				break;	
 				
 			default:
 				$this->getPlayer();
@@ -300,7 +315,11 @@ class ilSCORM13Player
 			'debug' => $this->slm->getDebug(),
 			'package_url' =>  $this->getDataDirectory()."/",
 			'session_ping' => $session_timeout,
-			'envEditor' => $this->envEditor 
+			'envEditor' => $this->envEditor,
+			'post_log_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=postLogEntry&ref_id='.$_GET["ref_id"],
+			'livelog_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=liveLogContent&ref_id='.$_GET["ref_id"],
+			'debug_fields' => $this->getDebugValues(),
+			'debug_fields_test' => $this->getDebugValues(true)
 		);
 				
 		
@@ -313,6 +332,8 @@ class ilSCORM13Player
 		$langstrings['btnContinue'] = $lng->txt('scplayer_continue');		
 		$langstrings['btnhidetree']=$lng->txt('scplayer_hidetree');
 		$langstrings['btnshowtree']=$lng->txt('scplayer_showtree');
+		$langstrings['linkexpandTree']=$lng->txt('scplayer_expandtree');
+		$langstrings['linkcollapseTree']=$lng->txt('scplayer_collapsetree');
 		$config['langstrings'] = $langstrings;
 		
 		//template variables	
@@ -339,6 +360,9 @@ class ilSCORM13Player
 		list($tsfrac, $tsint) = explode(' ', microtime());
 		$this->tpl->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
 		$this->tpl->setVariable('BASE_DIR', './Modules/Scorm2004/');
+		$this->tpl->setVariable('TXT_COLLAPSE',$lng->txt('scplayer_collapsetree'));
+		$this->tpl->setVariable('TXT_DEBUGGER',$lng->txt('scplayer_debugger'));
+		$this->tpl->setVariable('DEBUG_URL','ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=debugGUI&ref_id='.$_GET["ref_id"]);
 		
 		//set icons path
 		$this->tpl->setVariable('INLINE_CSS', ilSCORM13Player::getInlineCss());
@@ -630,7 +654,7 @@ class ilSCORM13Player
 		}
 	}	
 	
-
+//TODO connect with commit!
 	public function writeGObjective()
 	{
 		global $ilDB, $ilUser, $ilLog;
@@ -1523,7 +1547,7 @@ class ilSCORM13Player
 				$map[$table][$cmi_id] = $row[$cmi_no];
 			}
 		}
-//UK
+//UK change here like in lbex_dev 1297-1323
 		//hier global_objectives
 		//UK
 		//hier update_global_status
@@ -1841,5 +1865,753 @@ class ilSCORM13Player
 			);	
 		}
 	}
+	
+
+	//debug extentions
+	
+	private function getNodeData($sco_id,$fh)
+	{
+		global $ilDB,$ilLog;
+		
+		$fieldList = "cmi_node.cp_node_id, cmi_node.completion_threshold, cmi_node.c_exit, cmi_node.completion_status, cmi_node.progress_measure, cmi_node.success_status, cmi_node.scaled, cmi_node.session_time,".
+		  		  	 "cmi_node.c_min, cmi_node.c_max, cmi_node.c_raw, cmi_node.location, cmi_node.suspend_data, cmi_node.scaled_passing_score, cmi_node.total_time";
+		
+		
+		$res = $ilDB->queryF('
+					  SELECT '.$fieldList.'
+					  FROM cmi_node,cp_node,cp_item
+					  WHERE cp_node.slm_id = %s
+					  AND cp_node.cp_node_id = cp_item.cp_node_id
+					  AND cp_item.id = %s
+					  AND cmi_node.cp_node_id = cp_item.cp_node_id
+					  AND cmi_node.user_id = %s',
+					  array('integer','text','integer'),
+					  array($this->packageId, $sco_id, $this->userId)
+				);
+		$row = $ilDB->fetchAssoc($res);
+		$ilLog->write("DEBUG SQL".$row);
+		return $row;		
+	}
+
+	private function logTmpName()
+	{
+		$filename = $this->logDirectory()."/".$this->packageId.".tmp";
+		if (!file_exists($filename)) {
+			umask(0000);
+			$fHandle = fopen($filename, 'a') or die("can't open file");
+			fwrite($fHandle, $string);
+			fclose($fHandle);
+		}
+		return $filename;
+	}
+	
+	private function summaryFileName()
+	{
+		$filename = $this->logDirectory()."/".$this->packageId."_summary_".$this->get_actual_attempts();
+		$adder = "0";
+		$suffix = ".csv";
+		$i = 0;
+		while (file_exists($filename."_".$adder.$suffix)) {
+			$i++;
+			$adder = (string) $i;
+		}
+		$retname = $filename."_".$adder.$suffix;
+		
+		if (!file_exists($retname)) {
+			umask(0000);
+			$fHandle = fopen($retname, 'a') or die("can't open file");
+			fwrite($fHandle, $string);
+			fclose($fHandle);
+		}
+		return $retname;
+	}
+	
+	private function logFileName()
+	{
+		global $lng;
+		$lng->loadLanguageModule("scormdebug");
+
+		$filename = $this->logDirectory()."/".$this->packageId."_".$this->get_actual_attempts();
+		$path_csv = $filename.".csv";
+		$path_txt = $filename.".html";
+		if (!file_exists($path_csv)) {
+			umask(0000);
+			$fHandle = fopen($path_csv, 'a') or die("can't open file");
+			$string = '"CourseId";"ScoId";"ScoTitle";"Timestamp";"Action";"Key";"Value";"Return Value";"Errorcode";"Timespan";"ErrorDescription"'."\n";
+			fwrite($fHandle, $string);
+			fclose($fHandle);
+		} 
+		if (!file_exists($path_txt)) {
+			if (file_exists($this->logTmpName())) {
+				unlink($this->logTmpName());
+			}
+			umask(0000);
+			$fHandle2 = fopen($path_txt, 'a') or die("can't open file");
+			$logtpl = $this->getLogTemplate();
+			$logtpl->setCurrentBlock('NewLog');
+			$logtpl->setVariable("COURSETITLE", $this->slm->getTitle());
+			$logtpl->setVariable("COURSEID", $this->packageId);
+			$logtpl->setVariable("TIMESTAMP", date("d.m.Y H:i",time()));
+			$logtpl->setVariable("SESSION", $this->get_actual_attempts());
+			$logtpl->setVariable("error0", $lng->txt("error0"));
+			$logtpl->setVariable("error101", $lng->txt("error101"));
+			$logtpl->setVariable("error102", $lng->txt("error102"));
+			$logtpl->setVariable("error103", $lng->txt("error103"));
+			$logtpl->setVariable("error104", $lng->txt("error104"));
+			$logtpl->setVariable("error111", $lng->txt("error111"));
+			$logtpl->setVariable("error112", $lng->txt("error112"));
+			$logtpl->setVariable("error113", $lng->txt("error113"));
+			$logtpl->setVariable("error122", $lng->txt("error122"));
+			$logtpl->setVariable("error123", $lng->txt("error123"));
+			$logtpl->setVariable("error132", $lng->txt("error132"));
+			$logtpl->setVariable("error133", $lng->txt("error133"));
+			$logtpl->setVariable("error142", $lng->txt("error142"));
+			$logtpl->setVariable("error143", $lng->txt("error143"));
+			$logtpl->setVariable("error201", $lng->txt("error201"));
+			$logtpl->setVariable("error301", $lng->txt("error301"));
+			$logtpl->setVariable("error351", $lng->txt("error351"));
+			$logtpl->setVariable("error391", $lng->txt("error391"));
+			$logtpl->setVariable("error401", $lng->txt("error401"));
+			$logtpl->setVariable("error402", $lng->txt("error402"));
+			$logtpl->setVariable("error403", $lng->txt("error403"));
+			$logtpl->setVariable("error404", $lng->txt("error404"));
+			$logtpl->setVariable("error405", $lng->txt("error405"));
+			$logtpl->setVariable("error406", $lng->txt("error406"));
+			$logtpl->setVariable("error407", $lng->txt("error407"));
+			$logtpl->setVariable("error408", $lng->txt("error408"));
+			$logtpl->setVariable("SetValue", $lng->txt("SetValue"));
+			$logtpl->setVariable("GetValue", $lng->txt("GetValue"));
+			$logtpl->setVariable("Commit", $lng->txt("Commit"));
+			$logtpl->setVariable("Initialize", $lng->txt("Initialize"));
+			$logtpl->setVariable("Terminate", $lng->txt("Terminate"));
+			$logtpl->setVariable("GetErrorString", $lng->txt("GetErrorString"));
+			$logtpl->setVariable("GetLastError", $lng->txt("GetLastError"));
+			$logtpl->setVariable("GetDiagnostic", $lng->txt("GetDiagnostic"));
+			$logtpl->setVariable("cmi._version", $lng->txt("cmi._version"));
+			$logtpl->setVariable("cmi.comments_from_learner._children", $lng->txt("cmi.comments_from_learner._children"));
+			$logtpl->setVariable("cmi.comments_from_learner._count", $lng->txt("cmi.comments_from_learner._count"));
+			$logtpl->setVariable("cmi.comments_from_learner.n.comment", $lng->txt("cmi.comments_from_learner.n.comment"));
+			$logtpl->setVariable("cmi.comments_from_learner.n.location", $lng->txt("cmi.comments_from_learner.n.location"));
+			$logtpl->setVariable("cmi.comments_from_learner.n.timestamp", $lng->txt("cmi.comments_from_learner.n.timestamp"));
+			$logtpl->setVariable("cmi.comments_from_lms._children", $lng->txt("cmi.comments_from_lms._children"));
+			$logtpl->setVariable("cmi.comments_from_lms._count", $lng->txt("cmi.comments_from_lms._count"));
+			$logtpl->setVariable("cmi.comments_from_lms.n.comment", $lng->txt("cmi.comments_from_lms.n.comment"));
+			$logtpl->setVariable("cmi.comments_from_lms.n.location", $lng->txt("cmi.comments_from_lms.n.location"));
+			$logtpl->setVariable("cmi.comments_from_lms.n.timestamp", $lng->txt("cmi.comments_from_lms.n.timestamp"));
+			$logtpl->setVariable("cmi.completion_status", $lng->txt("cmi.completion_status"));
+			$logtpl->setVariable("cmi.completion_threshold", $lng->txt("cmi.completion_threshold"));
+			$logtpl->setVariable("cmi.credit", $lng->txt("cmi.credit"));
+			$logtpl->setVariable("cmi.entry", $lng->txt("cmi.entry"));
+			$logtpl->setVariable("cmi.exit", $lng->txt("cmi.exit"));
+			$logtpl->setVariable("cmi.interactions._children", $lng->txt("cmi.interactions._children"));
+			$logtpl->setVariable("cmi.interactions._count", $lng->txt("cmi.interactions._count"));
+			$logtpl->setVariable("cmi.interactions.n.id", $lng->txt("cmi.interactions.n.id"));
+			$logtpl->setVariable("cmi.interactions.n.type", $lng->txt("cmi.interactions.n.type"));
+			$logtpl->setVariable("cmi.interactions.n.objectives._count", $lng->txt("cmi.interactions.n.objectives._count"));
+			$logtpl->setVariable("cmi.interactions.n.objectives.n.id", $lng->txt("cmi.interactions.n.objectives.n.id"));
+			$logtpl->setVariable("cmi.interactions.n.timestamp", $lng->txt("cmi.interactions.n.timestamp"));
+			$logtpl->setVariable("cmi.interactions.n.correct_responses._count", $lng->txt("cmi.interactions.n.correct_responses._count"));
+			$logtpl->setVariable("cmi.interactions.n.correct_responses.n.pattern", $lng->txt("cmi.interactions.n.correct_responses.n.pattern"));
+			$logtpl->setVariable("cmi.interactions.n.weighting", $lng->txt("cmi.interactions.n.weighting"));
+			$logtpl->setVariable("cmi.interactions.n.learner_response", $lng->txt("cmi.interactions.n.learner_response"));
+			$logtpl->setVariable("cmi.interactions.n.result", $lng->txt("cmi.interactions.n.result"));
+			$logtpl->setVariable("cmi.interactions.n.latency", $lng->txt("cmi.interactions.n.latency"));
+			$logtpl->setVariable("cmi.interactions.n.description", $lng->txt("cmi.interactions.n.description"));
+			$logtpl->setVariable("cmi.launch_data", $lng->txt("cmi.launch_data"));
+			$logtpl->setVariable("cmi.learner_id", $lng->txt("cmi.learner_id"));
+			$logtpl->setVariable("cmi.learner_name", $lng->txt("cmi.learner_name"));
+			$logtpl->setVariable("cmi.learner_preference._children", $lng->txt("cmi.learner_preference._children"));
+			$logtpl->setVariable("cmi.learner_preference.audio_level", $lng->txt("cmi.learner_preference.audio_level"));
+			$logtpl->setVariable("cmi.learner_preference.language", $lng->txt("cmi.learner_preference.language"));
+			$logtpl->setVariable("cmi.learner_preference.delivery_speed", $lng->txt("cmi.learner_preference.delivery_speed"));
+			$logtpl->setVariable("cmi.learner_preference.audio_captioning", $lng->txt("cmi.learner_preference.audio_captioning"));
+			$logtpl->setVariable("cmi.location", $lng->txt("cmi.location"));
+			$logtpl->setVariable("cmi.max_time_allowed", $lng->txt("cmi.max_time_allowed"));
+			$logtpl->setVariable("cmi.mode", $lng->txt("cmi.mode"));
+			$logtpl->setVariable("cmi.objectives._children", $lng->txt("cmi.objectives._children"));
+			$logtpl->setVariable("cmi.objectives._count", $lng->txt("cmi.objectives._count"));
+			$logtpl->setVariable("cmi.objectives.n.id", $lng->txt("cmi.objectives.n.id"));
+			$logtpl->setVariable("cmi.objectives.n.score._children", $lng->txt("cmi.objectives.n.score._children"));
+			$logtpl->setVariable("cmi.objectives.n.score.scaled", $lng->txt("cmi.objectives.n.score.scaled"));
+			$logtpl->setVariable("cmi.objectives.n.score.raw", $lng->txt("cmi.objectives.n.score.raw"));
+			$logtpl->setVariable("cmi.objectives.n.score.min", $lng->txt("cmi.objectives.n.score.min"));
+			$logtpl->setVariable("cmi.objectives.n.score.max", $lng->txt("cmi.objectives.n.score.max"));
+			$logtpl->setVariable("cmi.objectives.n.success_status", $lng->txt("cmi.objectives.n.success_status"));
+			$logtpl->setVariable("cmi.objectives.n.completion_status", $lng->txt("cmi.objectives.n.completion_status"));
+			$logtpl->setVariable("cmi.objectives.n.progress_measure", $lng->txt("cmi.objectives.n.progress_measure"));
+			$logtpl->setVariable("cmi.objectives.n.description", $lng->txt("cmi.objectives.n.description"));
+			$logtpl->setVariable("cmi.progress_measure", $lng->txt("cmi.progress_measure"));
+			$logtpl->setVariable("cmi.scaled_passing_score", $lng->txt("cmi.scaled_passing_score"));
+			$logtpl->setVariable("cmi.score._children", $lng->txt("cmi.score._children"));
+			$logtpl->setVariable("cmi.score.scaled", $lng->txt("cmi.score.scaled"));
+			$logtpl->setVariable("cmi.score.raw", $lng->txt("cmi.score.raw"));
+			$logtpl->setVariable("cmi.score.min", $lng->txt("cmi.score.min"));
+			$logtpl->setVariable("cmi.score.max", $lng->txt("cmi.score.max"));
+			$logtpl->setVariable("cmi.session_time", $lng->txt("cmi.session_time"));
+			$logtpl->setVariable("cmi.success_status", $lng->txt("cmi.success_status"));
+			$logtpl->setVariable("cmi.suspend_data", $lng->txt("cmi.suspend_data"));
+			$logtpl->setVariable("cmi.time_limit_action", $lng->txt("cmi.time_limit_action"));
+			$logtpl->setVariable("cmi.total_time", $lng->txt("cmi.total_time"));
+			$logtpl->setVariable("adl.nav.request", $lng->txt("adl.nav.request"));
+			$logtpl->setVariable("adl.nav.request_valid.continue", $lng->txt("adl.nav.request_valid.continue"));
+			$logtpl->setVariable("adl.nav.request_valid.previous", $lng->txt("adl.nav.request_valid.previous"));
+			$logtpl->setVariable("adl.nav.request_valid.choice", $lng->txt("adl.nav.request_valid.choice"));
+			$logtpl->setVariable("i_green", $lng->txt("i_green"));
+			$logtpl->setVariable("i_red", $lng->txt("i_red"));
+			$logtpl->setVariable("i_orange", $lng->txt("i_orange"));
+			$logtpl->setVariable("i_fuchsia", $lng->txt("i_fuchsia"));
+			$logtpl->setVariable("error", $lng->txt("error"));
+			$logtpl->setVariable("strange_error", $lng->txt("strange_error"));
+			$logtpl->setVariable("strange_API-Call", $lng->txt("strange_API-Call"));
+			$logtpl->setVariable("unknown", $lng->txt("unknown"));
+			$logtpl->setVariable("undefined_color", $lng->txt("undefined_color"));
+			$logtpl->setVariable("description_for", $lng->txt("description_for"));
+			$logtpl->setVariable("hide", $lng->txt("hide"));
+			$logtpl->setVariable("all_API-calls_shown", $lng->txt("all_API-calls_shown"));
+			$logtpl->setVariable("show_only_important_API-calls", $lng->txt("show_only_important_API-calls"));
+			$logtpl->setVariable("only_important_API-Calls_shown", $lng->txt("only_important_API-Calls_shown"));
+			$logtpl->setVariable("show_all_API-calls", $lng->txt("show_all_API-calls"));
+			$logtpl->setVariable("log_for", $lng->txt("log_for"));
+			$logtpl->setVariable("started", $lng->txt("started"));
+			$logtpl->setVariable("nr_session", $lng->txt("nr_session"));
+			$logtpl->setVariable("id_learning_module", $lng->txt("id_learning_module"));
+			$logtpl->parseCurrentBlock();
+			fwrite($fHandle2,$logtpl->get());
+			fclose($fHandle2);
+		} 
+		return $filename;		
+	}
+
+	function getDataDirectory2()
+	{
+		$webdir=str_replace("/ilias.php","",$_SERVER["SCRIPT_NAME"]);	
+		//load ressources always with absolute URL..relative URLS fail on innersco navigation on certain browsers
+		$lm_dir=$webdir."/".ILIAS_WEB_DIR."/".$this->ilias->client_id ."/lm_data"."/lm_".$this->packageId;
+		return $lm_dir;
+	}
+
+	private function logDirectory()
+	{
+//		$logDir=ilUtil::getDataDir()."/SCORMlogs"."/lm_".$this->packageId;
+//		if (!file_exists($logDir)) ilUtil::makeDirParents($logDir);
+		$logDir=$this->slm->getDataDirectory()."/logs";
+		if (!file_exists($logDir)) {
+			ilUtil::makeDir($logDir);
+		}		
+		return $logDir;
+	}
+
+	
+	public function openLog(){
+		$filename = $_GET['logFile'];
+		//Header
+		header('Content-Type: text/html; charset=UTF-8');
+		echo file_get_contents($this->logDirectory()."/".$filename);
+		exit;	
+	}
+	
+	public function downloadLog(){
+		$filename = $_GET['logFile'];
+		//Header
+		header("Expires: 0");
+		header("Cache-Control: private");
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		header("Pragma: cache");
+		header("Content-Description: File Transfer");
+		header("Content-Type: application/octet-stream");
+		header("Content-disposition: attachment; filename=$filename");
+		echo file_get_contents($this->logDirectory()."/".$filename);
+		exit;	
+	}
+
+	private function getLogFileList($s_delete,$s_download,$s_open)
+	{
+		$data = array();
+		foreach (new DirectoryIterator($this->logDirectory()) as $fileInfo) {
+			if ($fileInfo->isDot()) {
+       			continue;
+   			}
+			$item['filename'] = $fileInfo->getFilename();
+			$parts = pathinfo($item['filename']);
+			$fnameparts = preg_split('/_/', $parts['filename'], -1, PREG_SPLIT_NO_EMPTY);
+			$deleteUrl = '&nbsp;<a href=#'." onclick=\"javascript:deleteFile('".$item['filename']."');\">".$s_delete."</a>";
+			//no delete for most recent file
+			if ($this->get_actual_attempts()==$fnameparts[1]) {$deleteUrl="";}
+			
+			$urlDownload = 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=downloadLog&ref_id='.$_GET["ref_id"].'&logFile='.$fileInfo->getFilename();
+			$urlOpen = 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=openLog&ref_id='.$_GET["ref_id"].'&logFile='.$fileInfo->getFilename();
+			$item['date'] = date('Y/m/d H:i:s', $fileInfo->getCTime());
+			if ($parts['extension'] == "html") {
+				$item['action'] =$deleteUrl."&nbsp;<a href=".$urlDownload.">".$s_download."</a>&nbsp;<a target=_new href=".$urlOpen.">".$s_open."</a>";
+			} else {
+				$item['action'] =$deleteUrl."&nbsp;<a href=".$urlDownload.">".$s_download."</a>";
+			}	
+			if ($parts['extension'] == "html" || $parts['extension'] == "csv") {
+				array_push($data,$item);
+			}
+		}
+		usort($data,"datecmp");
+		return $data;
+	}
+	
+	public function liveLogContent()
+	{
+		header('Content-Type: text/html; charset=UTF-8');
+		print file_get_contents($this->logFileName().".html");
+	}
+	
+	public function debugGUI()
+	{
+		global $lng;
+		$lng->loadLanguageModule("scormdebug");
+
+/*		if ($_POST['password'] == $this->slm->getDebugPw()) {
+			$_SESSION["debug_pw"] = $this->slm->getDebugPw();
+		}
+		if ($_SESSION["debug_pw"]!=$this->slm->getDebugPw()) {
+			$this->tpl = new ilTemplate("tpl.scorm2004.debug_pw.html", false, false, "./Modules/Scorm2004");
+			$this->tpl->setVariable('SUBMIT', $lng->txt("debugwindow_submit"));
+			$this->tpl->setVariable('CANCEL', $lng->txt("debugwindow_cancel"));
+			$this->tpl->setVariable('PASSWORD_ENTER', $lng->txt("debugwindow_password_enter"));
+			$this->tpl->setVariable('DEBUG_URL','ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=debugGUI&ref_id='.$_GET["ref_id"]);
+		} else {*/
+			$this->tpl = new ilTemplate("tpl.scorm2004.debug.html", false, false, "./Modules/Scorm2004");
+			$this->tpl->setVariable('CONSOLE', $lng->txt("debugwindow_console"));
+			$this->tpl->setVariable('LOGS', $lng->txt("debugwindow_logs"));
+			$this->tpl->setVariable('COMMENT', $lng->txt("debugwindow_comment"));
+			$this->tpl->setVariable('COMMENT_ENTER', $lng->txt("debugwindow_comment_enter"));
+			$this->tpl->setVariable('START_RECORDING', $lng->txt("debugwindow_start_recording"));
+			$this->tpl->setVariable('STOP_RECORDING', $lng->txt("debugwindow_stop_recording"));
+			$this->tpl->setVariable('DELETE_LOGFILE', $lng->txt("debugwindow_delete_logfile"));
+			$this->tpl->setVariable('SUBMISSION_FAILED', $lng->txt("debugwindow_submission_failed"));
+			$this->tpl->setVariable('SUBMIT', $lng->txt("debugwindow_submit"));
+			$this->tpl->setVariable('CANCEL', $lng->txt("debugwindow_cancel"));
+			$this->tpl->setVariable('FILENAME', $lng->txt("debugwindow_filename"));
+			$this->tpl->setVariable('DATE', $lng->txt("debugwindow_date"));
+			$this->tpl->setVariable('ACTION', $lng->txt("debugwindow_action"));
+			$this->tpl->setVariable('RECORD_IMG', ilUtil::getImagePath("record.png","./Modules/Scorm2004"));	
+			$this->tpl->setVariable('STOP_IMG', ilUtil::getImagePath("stop.png","./Modules/Scorm2004"));	
+			$this->tpl->setVariable('COMMENT_IMG', ilUtil::getImagePath("comment.png","./Modules/Scorm2004"));	
+			$logfile = $this->logFileName().".html";
+			$this->tpl->setVariable('LOGFILE',$this->logFileName().".html");		
+			$this->tpl->setVariable('FILES_DATA', json_encode($this->getLogFileList($lng->txt("debugwindow_delete"), $lng->txt("debugwindow_download"), $lng->txt("debugwindow_open"))));
+		//}
+		echo $this->tpl->get("DEFAULT", true);	
+	}
+	
+	private function getLogTemplate()
+	{
+		return new ilTemplate("tpl.scorm2004.debugtxt.txt", true, true, "Modules/Scorm2004");
+	}
+	
+	private function getDebugValues($test_sco = false)
+	{
+		global $ilDB,$ilLog;
+		$ini_array = null;
+		$dvalues = array();
+/*		
+		$res = $ilDB->queryF('
+					  SELECT debug_fields
+					  FROM sahs_lm
+					  WHERE id = %s',
+					  array('integer'),
+					  array($this->packageId)
+				);
+		$row = $ilDB->fetchAssoc($res);
+		$debug_fields = $row['debug_fields'];
+		if ($debug_fields == null) {*/
+			$debug_fields = parse_ini_file("./Modules/Scorm2004/scripts/rtemain/debug_default.ini",true);
+//		} 
+		if ($test_sco) {
+			$ini_array = $debug_fields['test_sco'];	
+		} else {
+			$ini_array = $debug_fields['normal_sco'];	
+		}
+		foreach ($ini_array as $key => $value) {
+			if ($value == 1) {
+				array_push($dvalues,$key);
+			}
+		}
+		return $dvalues;
+	}
+	
+	public function postLogEntry()
+	{
+		global $ilLog,$lng;
+		$lng->loadLanguageModule("scormdebug");
+		
+		$logdata = json_decode(file_get_contents('php://input'));
+		$filename = $this->logFileName();
+		$tmp_name = $this->logTmpName();
+				
+		$fh_txt = fopen($filename.".html", 'a') or die("can't open txt file");
+		$fh_csv = fopen($filename.".csv", 'a') or die("can't open csv file");
+		$fh_tmp = fopen($tmp_name, 'r') or die("can't open tmp file");
+		
+		//init tmp file
+		if (filesize($tmp_name)>0) {
+			$tmp_content = unserialize(fread($fh_tmp,filesize($tmp_name)));
+		} else {
+			$tmp_content = null;
+		}
+		
+		fclose($fh_tmp);
+		 
+		//reopen for writing
+		$fh_tmp2 = fopen($tmp_name, 'w') or die("can't open tmp file");
+
+		
+		//write tmp
+		$tmp_content[$logdata->scoid][$logdata->key]['value'] = $logdata->value; 
+		$tmp_content[$logdata->scoid][$logdata->key]['status'] = $logdata->result; 
+		$tmp_content[$logdata->scoid][$logdata->key]['action'] = $logdata->action; 
+
+		fwrite($fh_tmp2,serialize($tmp_content));
+		fclose($fh_tmp2);
+
+		$timestamp = date("d.m.Y H:i",time());
+		
+	
+		
+		if (strpos($logdata->action,"ANALYZE")===false)
+		{
+			$errorDescriptions = array("0" => "",
+				"101" => "General Exeption",
+				"102" => "General Initialization Failure",
+				"103" => "Already Initialized",
+				"104" => "Content Instance Terminated",
+				"111" => "General Termination Failure",
+				"112" => "Termination Before Initialization",
+				"113" => "Termination After Termination",
+				"122" => "Retrieve Data Before Initialization",
+				"123" => "Retrieve Data After Termination",
+				"132" => "Store Data Before Initialization",
+				"133" => "Store Data After Termination",
+				"142" => "Commit Before Initialization",
+				"143" => "Commit After Termination",
+				"201" => "General Argument Error",
+				"301" => "General Get Failure",
+				"351" => "General Set Failure",
+				"391" => "General Commit Failure",
+				"401" => "Undefined Data Model Element",
+				"402" => "Unimplemented Data Model Element",
+				"403" => "Data Model Element Value Not Initialized",
+				"404" => "Data Model Element Is Read Only",
+				"405" => "Data Model Element Is Write Only",
+				"406" => "Data Model Element Type Mismatch",
+				"407" => "Data Model Element Value Out Of Range",
+				"408" => "Data Model Dependency Not Established");
+			$csv_string = $this->packageId.';"'
+				.$logdata->scoid.'";"'
+				.$logdata->scotitle.'";'
+				.date("d.m.Y H:i",time()).';"'
+				.$logdata->action.'";"'
+				.$logdata->key.'";"'
+				.str_replace("\"","\"\"",$logdata->value).'";"'
+				.str_replace("\"","\"\"",$logdata->result).'";'
+				.$logdata->errorcode.';'
+				.$logdata->timespan.';"'
+				.$errorDescriptions[$logdata->errorcode].'"'."\n";
+			fwrite($fh_csv,$csv_string);
+		}
+//		$sql_txt = "";
+		$sqlwrite = false;
+		if($logdata->action == "Commit" || $logdata->action == "Terminate")
+		{
+			$sqlwrite = true;
+			$sql_data = $this->getNodeData($logdata->scoid,$fh_csv);
+			foreach ($sql_data as $key => $value) {
+				$sql_string =  $this->packageId.';"'
+					.$logdata->scoid.'";"'
+					.$logdata->scotitle.'";'
+					.$timestamp.';"SQL";"'
+					.$key.'";"'
+					.str_replace("\"","\"\"",$value).'";;;;'."\n";
+				fwrite($fh_csv,$sql_string);
+//				$sql_txt = $sql_txt.$key." = ".$value.", ";
+			}
+		}
+		
+		//delete files
+		if ($logdata->action == "DELETE")
+		{
+			$filename = $logdata->value;
+			$path = $this->logDirectory()."/".$filename;
+			unlink($path);
+			return;
+		}
+		
+		//write TXT
+		$logtpl = $this->getLogTemplate();
+		$errorcode = $logdata->errorcode;
+		$color = "red";
+		$importantkey=1;
+		$ArGetValues = array('comments_from_lms','completion_threshold','credit','entry','launch_data','learner_id','learner_name','max_time_allowed','mode','scaled_passing_score','time_limit_action','total_time');
+
+		switch ($logdata->action) {
+			case 'SetValue':
+				if ($logdata->result == "true" && $errorcode == 0) $color = "green";
+				if ($color=="green" && $logdata->key == "cmi.exit" && $logdata->value!="suspend") $color = "orange";
+				break;
+			case 'GetValue':
+				if ($errorcode == 0) $color = "green";
+				if ($logdata->result == "undefined") $color = "fuchsia";
+				break;
+			case 'Initialize':
+				if ($errorcode == 0)
+				{
+					$color = "green";
+					$logtpl->setCurrentBlock("InitializeStart");
+					$logtpl->setVariable("SCO-title", $lng->txt("SCO-title"));
+					$logtpl->setVariable("SCO_TITLE", $logdata->scotitle);
+					$logtpl->setVariable("SCO-name", $lng->txt("SCO-name"));
+					$logtpl->setVariable("SCO_NAME", $logdata->scoid);
+					$logtpl->setVariable("started", $lng->txt("started"));
+					$logtpl->setVariable("TIMESTAMP",  $timestamp);
+					$logtpl->setVariable("milliseconds", $lng->txt("milliseconds"));
+					$logtpl->setVariable("API-call", $lng->txt("API-call"));
+					$logtpl->setVariable("return_value", $lng->txt("return_value"));
+					$logtpl->setVariable("error", $lng->txt("error"));
+					$logtpl->parseCurrentBlock();
+				}
+				break;
+			case 'Commit':
+				if ($errorcode == 0) $color = "green";
+				break;
+			case 'Terminate':
+				if ($errorcode == 0) $color = "green";
+				break;
+			case 'GetErrorString':
+				$importantkey=0;
+				if ($errorcode == 0) $color = "green";
+				break;
+			case 'GetLastError':
+				$logtpl->setCurrentBlock("GetLastError");
+				$logtpl->setVariable("TIMESPAN",  $logdata->timespan);
+				$logtpl->setVariable("RESULT",  $logdata->result);
+				$logtpl->parseCurrentBlock();
+				break;
+			case 'GetDiagnostic':
+				$logtpl->setCurrentBlock("GetDiagnostic");
+				$logtpl->setVariable("TIMESPAN",  $logdata->timespan);
+				$logtpl->setVariable("KEY", $logdata->key);
+				$logtpl->setVariable("RESULT",  $logdata->result);
+				$logtpl->parseCurrentBlock();
+				break;
+			case 'INFO':
+				$logtpl->setCurrentBlock("INFO");
+				$logtpl->setVariable("generated", $lng->txt("generated"));
+				$logtpl->setVariable("TIMESTAMP",  $timestamp);
+				$logtpl->setVariable("KEY", $logdata->key);
+				$logtpl->setVariable("VALUE",  $logdata->value);
+				$logtpl->parseCurrentBlock();
+				break;
+			case 'COMMENT':
+				$logtpl->setCurrentBlock("COMMENT");
+				$logtpl->setVariable("comment", $lng->txt("comment"));
+				$logtpl->setVariable("generated", $lng->txt("generated"));
+				$logtpl->setVariable("TIMESTAMP",  $timestamp);
+				$logtpl->setVariable("VALUE",  $logdata->value);
+				$logtpl->parseCurrentBlock();
+				break;
+			case 'ANALYZE':
+				$logtpl->setCurrentBlock("ANALYZE");
+				if (count($logdata->value) == 0) {
+					$color = "green";
+					$logtpl->setVariable("ANALYZE_SUMMARY", $lng->txt("no_missing_API-calls"));
+					$logtpl->setVariable("VALUE", "");
+				} else {
+					$tmpvalue = "SetValue(\"".implode("\", ... ),<br/>SetValue(\"",$logdata->value)."\", ... )";
+					for ($i=0; $i <count($ArGetValues); $i++){
+						$tmpvalue = str_replace("SetValue(\"cmi.".$ArGetValues[$i]."\", ... )","GetValue(\"cmi.".$ArGetValues[$i]."\")",$tmpvalue);
+					}
+					$logtpl->setVariable("ANALYZE_SUMMARY", $lng->txt("missing_API-calls"));
+					$logtpl->setVariable("VALUE", $tmpvalue);
+				}
+				$logtpl->setVariable("summary_for_SCO_without_test", $lng->txt("summary_for_SCO_without_test"));
+				$logtpl->setVariable("generated", $lng->txt("generated"));
+				$logtpl->setVariable("TIMESTAMP",  $timestamp);
+				$logtpl->setVariable("COLOR", $color);
+				$logtpl->parseCurrentBlock();
+				break;	
+			case 'ANALYZETEST':
+				$logtpl->setCurrentBlock("ANALYZETEST");
+				if (count($logdata->value) == 0) {
+					$color = "green";
+					$logtpl->setVariable("ANALYZE_SUMMARY", $lng->txt("no_missing_API-calls"));
+					$logtpl->setVariable("VALUE", "");
+				} else {
+					$tmpvalue = "SetValue(\"".implode("\", ... ),<br/>SetValue(\"",$logdata->value)."\", ... )";
+					for ($i=0; $i <count($ArGetValues); $i++){
+						$tmpvalue = str_replace("SetValue(\"cmi.".$ArGetValues[$i]."\", ... )","GetValue(\"cmi.".$ArGetValues[$i]."\")",$tmpvalue);
+					}
+					$logtpl->setVariable("ANALYZE_SUMMARY", $lng->txt("missing_API-calls"));
+					$logtpl->setVariable("VALUE", $tmpvalue);
+				}
+				$logtpl->setVariable("summary_for_SCO_with_test", $lng->txt("summary_for_SCO_with_test"));
+				$logtpl->setVariable("generated", $lng->txt("generated"));
+				$logtpl->setVariable("TIMESTAMP",  $timestamp);
+				$logtpl->setVariable("COLOR", $color);
+				$logtpl->parseCurrentBlock();
+				break;		
+			case 'SUMMARY':
+				$logtpl->setCurrentBlock("SUMMARY");
+				$logtpl->setVariable("summary_csv", $lng->txt("summary_csv"));
+				$logtpl->setVariable("TIMESTAMP",  $timestamp);
+				$logtpl->setVariable("summary_download", $lng->txt("summary_download"));
+				$logtpl->parseCurrentBlock();
+				break;			
+			default:
+				$importantkey=0;
+				$color = "orange";
+				break;
+		}
+		if ($logdata->action == 'SetValue' || $logdata->action == 'GetValue')
+		{
+			$logtpl->setCurrentBlock($logdata->action);
+			$logtpl->setVariable("ACTION",  $logdata->action);
+			$logtpl->setVariable("TIMESPAN",  $logdata->timespan);
+			$logtpl->setVariable("KEY", $logdata->key);
+			$logtpl->setVariable("VALUE",  $logdata->value);
+			$logtpl->setVariable("RESULT",  $logdata->result);
+			$logtpl->setVariable("ERRORCODE", $errorcode);
+			$debugfields=$this->getDebugValues(true);
+			$importantkey=0;
+			for ($i=0; $i <count($debugfields) ; $i++){
+				if ($logdata->key == $debugfields[$i]) $importantkey=1;
+			}
+			$logtpl->setVariable("IMPORTANTKEY", "".$importantkey);
+			$logtpl->setVariable("COLOR", $color);
+			$logtpl->parseCurrentBlock();
+		}
+		else if ($logdata->action != 'INFO' && $logdata->action != 'ANALYZE' && $logdata->action != 'ANALYZETEST' && $logdata->action != 'SUMMARY' && $logdata->action != 'COMMENT' && $logdata->action != 'GetDiagnostic' && $logdata->action != 'GetLastError')
+		{
+			$logtpl->setCurrentBlock("defaultCall");
+			$logtpl->setVariable("ACTION",  $logdata->action);
+			$logtpl->setVariable("TIMESPAN",  $logdata->timespan);
+			$logtpl->setVariable("KEY", $logdata->key);
+			$logtpl->setVariable("VALUE",  $logdata->value);
+			$logtpl->setVariable("RESULT",  $logdata->result);
+			$logtpl->setVariable("ERRORCODE", $errorcode);
+			$logtpl->setVariable("IMPORTANTKEY", "".$importantkey);
+			$logtpl->setVariable("COLOR", $color);
+			$logtpl->parseCurrentBlock();
+		}
+		
+		/*
+		if ($sqlwrite == true) {
+			$ilLog->write("SQL WRITE");
+			$logtpl->setCurrentBlock("SqlLog");			
+			$logtpl->setVariable("SQL_STRING", $sql_text);
+			$logtpl->parseCurrentBlock();
+		}
+		*/
+		
+			//create summary
+		if ($logdata->action == "SUMMARY") {
+			$this->createSummary($tmp_content);
+		}
+		
+		fwrite($fh_txt,$logtpl->get());
+		fclose($fh_txt);
+		fclose($fh_csv);
+	}
+
+	private function getStructureFlat($data)
+	{
+		for ($i=0; $i <count($data) ; $i++) { 
+			$element = array();
+			$element['title'] = $data[$i]['title'];
+			$element['id'] = $data[$i]['id'];
+			if ($data[$i]['sco'] == 1) {
+				$element['sco'] = "sco";
+			} else {
+				$element['sco'] = "assset";
+			}	
+			if ( $data[$i]['href'] !=null ) {
+				array_push($this->flat_structure,$element);
+			}	
+			if ($data[$i]['item']!=null) {
+				$this->getStructureFlat($data[$i]['item']);
+			}
+		}
+	}	
+
+	private function createSummary($api_data)
+	{
+		global $ilDB;
+
+		$csv_data = null;
+		//csv columns
+		$columns_fixed = array('id','title','type','attempted');
+	
+		$ini_data = parse_ini_file("./Modules/Scorm2004/scripts/rtemain/debug_default.ini",true);
+		$ini_array = $ini_data['summary'];	
+		$colums_variable = array();
+		$api_keys = array();
+
+		foreach ($ini_array as $key => $value) {
+			if ($value == 1) {
+				array_push($colums_variable,$key);
+				array_push($api_keys,$key);
+				array_push($colums_variable,"Status");
+			}
+		}
+	
+		$header_array = array_merge($columns_fixed, $colums_variable);
+
+		$csv_header = implode(";",$header_array);
+	
+		//get strcuture
+		$res = $ilDB->queryF(
+			'SELECT jsdata FROM cp_package WHERE obj_id = %s',
+			array('integer'),
+			array($this->packageId)
+		);
+	
+		$packageData = $ilDB->fetchAssoc($res);		
+				
+		$structure = json_decode($packageData['jsdata'],true);
+		
+	
+		$this->flat_structure = array();  //used for recursion
+		$this->getStructureFlat($structure['item']['item']);
+
+		foreach ($this->flat_structure as $tree_element) {
+		
+			$csv_data = $csv_data.$tree_element['id'].";".$tree_element['title'].";".$tree_element['sco'].";";
+			if ($api_data[$tree_element['id']] != null) {
+				$csv_data = $csv_data."X".";";
+			} else {
+				$csv_data = $csv_data.";";
+			}
+		
+			//write api data
+			$id = $tree_element['id'];
+			foreach ($api_keys as $api_element) {
+				if ($api_data[$id]!=null) {
+					if ($api_data[$id][$api_element]!=null) {
+						$csv_data = $csv_data.$api_data[$id][$api_element]['value'].";".$api_data[$id][$api_element]['status'].";";
+					} else {
+						$csv_data = $csv_data.";;";
+					}
+				}
+			}
+			$csv_data = $csv_data."\n";		
+		}
+	
+		$fh = fopen($this->summaryFileName(),"w");
+		fwrite($fh,$csv_header."\n".$csv_data);
+		fclose($fh);
+		unlink($this->logTmpName());
+	}
 }
+
+function datecmp($a, $b){
+    if (strtotime($a['date']) == strtotime($b['date'])) {
+       	return 0;
+    }
+    return (strtotime($a['date']) < strtotime($b['date'])) ? 1 :-1;
+}
+
 ?>

@@ -121,6 +121,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$lm_set = new ilSetting("lm");
 		$lic_set = new ilSetting("license");
 		$lng->loadLanguageModule("license");
+		$lng->loadLanguageModule("scormdebug");
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -177,6 +178,12 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$tx_prop->setInfo($lng->txt("license_warning_info"));
 		$tx_prop->setValue($lic_set->get("license_warning"));
 		$form->addItem($tx_prop);
+		
+		// scormDebugger activation
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("scormdebug_global_activate"),"scormdebug_global_activate");
+		$cb_prop->setInfo($lng->txt("scormdebug_global_activate_info"));
+		$cb_prop->setChecked($lm_set->get("scormdebug_global_activate"));
+		$form->addItem($cb_prop);
 
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
@@ -203,6 +210,8 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 			ilUtil::stripSlashes($_POST["html_export_ids"]));
 		$lm_set->set("cont_upload_dir",
 			ilUtil::stripSlashes($_POST["cont_upload_dir"]));
+		$lm_set->setScormDebug("scormdebug_global_activate",
+			ilUtil::stripSlashes($_POST["scormdebug_global_activate"]));
 			
 		$lic_set = new ilSetting("license");
 		$lic_set->set("license_counter",

@@ -1,4 +1,4 @@
-// Build: 2011721224718 
+// Build: 2011806012419 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -10833,12 +10833,19 @@ $(document).mouseup(function(e){
 	$(document).unbind('mousemove');
 });
 
-//disable logging controls
-
+/*disable logging controls
 if (disable_all_logging==true) {
 	elm = all("toggleLog");
 	elm.innerHTML="";
-}
+}*/
+
+// for log
+function PopupCenter(pageURL, title,w,h) {
+	var left = (screen.width/2)-(w/2);
+	var top = (screen.height/2)-(h/2);
+	debugWindow = window.open (pageURL, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+	debugWindow.focus();
+} 
 
 function toggleView() {
 	elm_left = all("leftView");
@@ -12478,7 +12485,7 @@ function loadPage(src) {
 		resContainer.src=src;
 		resContainer.name=RESOURCE_NAME;
 		onWindowResize();	
-		save_global_objectives();
+		save_global_objectives();//
 		
 		if (treeView==true && mlaunch.mSeqNonContent!="_TOC_" && mlaunch.mSeqNonContent!="_SEQABANDON_" && mlaunch.mSeqNonContent!="_SEQABANDONALL_") {
 			toggleView();
@@ -12673,7 +12680,7 @@ function buildNavTree(rootAct,name,tree){
 	
 	$("#treeView").empty();
 	ilNestedList.draw('rte_tree', 0, 'treeView');
-return;
+return; //??
 
 	var tocView = all('treeView');
 	
@@ -12918,9 +12925,10 @@ function init(config)
 	
 	
 	//load global objectives
-	
 	loadGlobalObj();
 
+	//debugger start with sco-start
+	logActive = this.config.debug;
 	
 	//get suspend data
 	suspendData =  sendJSONRequest(this.config.get_suspend_url);
@@ -13033,6 +13041,10 @@ function init(config)
 	
 	updateControls();
 	updateNav();
+	if (logActive==true) {
+		var elm = all("toggleLog");
+		elm.style.display ="inline";
+	}
 	if (this.config.session_ping>0)
 	{
 		setTimeout("pingSession()", this.config.session_ping*1000);
@@ -13353,6 +13365,21 @@ function save()
 	walk (sharedObjectives, "objective");
 	// add activities
 	walk (activities, 'node');
+
+/*to integrate
+	result["adl_seq_utilities"]=this.adl_seq_utilities;
+	if (saved_adl_seq_utilities != this.adl_seq_utilities) {
+		saved_adl_seq_utilities = this.adl_seq_utilities;
+		result["changed_seq_utilities"]=1;
+	}
+	else {
+		result["changed_seq_utilities"]=0;
+	}
+	result["saved_global_status"]=saved_global_status;
+	
+	//alert("Before save "+result.node.length);
+	//if (!result.node.length) {return;} 
+*/
 	
 	//alert("Before save "+result.node.length);
 	if (!result.node.length) {return;} 
@@ -13372,6 +13399,9 @@ function save()
 			act.dirty = 0;
 		}
 	}
+
+	//alert(new_global_status);
+	//saved_global_status = new_global_status;
 	
 	if (typeof this.config.time === "number" && this.config.time>10) 
 	{
@@ -13625,6 +13655,7 @@ function onWindowLoad ()
 
 function onWindowUnload () 
 {
+	summaryOnUnload = true;
 	onItemUndeliver(true);
 	save_global_objectives();
 	save();
@@ -14519,6 +14550,63 @@ function pausecomp(millis)
 	while(curDate-date < millis);
 }
 
+function initDebug() 
+{
+	
+}
+
+//debug extensions
+function refreshDebugger(param) {
+	if (param == true) {
+		window.setTimeout("debugWindow.location.reload()",2000);
+	} else {
+		if (debugWindow!=null && debugWindow.closed!=true) {
+			var content = sendJSONRequest(this.config.livelog_url);
+			debugWindow.updateLiveLog();
+		}
+	}
+}
+
+function sendLogEntry(timespan,action,key,value,result,errorCode)
+{
+	var logEntry = new Object();
+	logEntry['timespan'] = timespan;
+	logEntry['action'] = action;
+	logEntry['key'] = key;
+	logEntry['value'] = value;
+	logEntry['result'] = (typeof(result)!='undefined') ? result : 'undefined';
+	logEntry['errorcode'] = errorCode;
+	
+	if (action == "Initialize") {
+		logEntryScoId = mlaunch.mActivityID;
+		logEntryScoTitle = activities[mlaunch.mActivityID].title;
+	}
+	logEntry['scoid'] = logEntryScoId;
+	logEntry['scotitle'] = logEntryScoTitle;
+	if (action!="DELETE") {
+		var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger());	
+	} else {
+		var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger(true));
+	}	
+}
+
+function removeByElement(arrayName,arrayElement)
+ {
+    for(var i=0; i<arrayName.length;i++ )
+     {
+        if(arrayName[i]==arrayElement)
+            arrayName.splice(i,1); 
+      } 
+ }
+
+function createSummary()
+{
+	var logEntry = new Object();
+	logEntry['action'] = "SUMMARY";
+	var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger(true));	
+}
+//end debug extensions
+
 // Server related Variables
 var remoteMapping = null; // mapping of userdata from client to server representation
 var remoteInsertId = 0; // pseudo IDs for newly generated data rows (will be prefixed by "$")
@@ -14578,6 +14666,14 @@ var scoStartTime = null;
 
 var treeView=true;
 
+// Logging active
+var logActive = false;
+var scoDebugValues = null;
+var scoDebugValuesTest = null;
+var logEntryScoId = "";
+var logEntryScoTitle = "";
+var summaryOnUnload = false;
+
 //course wide variables
 var pubAPI=null;
 var statusArray = new Object(); //just used for visual feedback
@@ -14610,7 +14706,7 @@ window.scorm_init = init;
 */
 
 /**
- * @author  Hendrik Holtmann <holtmann@mac.com>, Alfred Kohnert <alfred.kohnert@bigfoot.com>
+ * @author  Hendrik Holtmann <holtmann@mac.com>, Alfred Kohnert <alfred.kohnert@bigfoot.com>, modifications by Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @version $Id$
 */
 
@@ -14621,6 +14717,8 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	// public error code property getter
 	function GetLastError() 
 	{
+		if (logActive)
+			sendLogEntry(getMsecSinceStart(),'GetLastError',"","",String(error),"");
 		return String(error);
 	}
 
@@ -14634,10 +14732,15 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	{
 		if (typeof param !== 'string') 
 		{
+			if (logActive)
+				sendLogEntry(getMsecSinceStart(),'GetErrorString',String(param),"","false",201);
 			return setReturn(201, 'GetError param must be empty string', '');
 		}
-		var e = Runtime.errors[param]; 
-		return e && e.message ? String(e.message).substr(0,255) : '';
+		var e = Runtime.errors[param];
+		var returnValue = e && e.message ? String(e.message).substr(0,255) : '';
+		if (logActive)
+			sendLogEntry(getMsecSinceStart(),'GetErrorString',String(param),"",returnValue,0);
+		return returnValue;
 	}
 
 	/**
@@ -14648,7 +14751,10 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 */	 
 	function GetDiagnostic(param) 
 	{
-		return param + ': ' + (error ? String(diagnostic).substr(0,255) : ' no diagnostic');
+		var returnValue = param + ': ' + (error ? String(diagnostic).substr(0,255) : ' no diagnostic');
+		if (logActive)
+			sendLogEntry(getMsecSinceStart(),'GetDiagnostic',String(param),"",returnValue,"");
+		return returnValue;
 	}
 
 	/**
@@ -14658,9 +14764,37 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 */	 
 	function Initialize(param) 
 	{
+		//for SCORM Test Tool - function checks Values set at previous attempts
+		function checkInternalValues(a_debugValues){
+			function checkGetValue(cmivar){
+				var a_getValues = ['comments_from_lms','completion_threshold','credit','entry','launch_data','learner_id','learner_name','max_time_allowed','mode','scaled_passing_score','time_limit_action','total_time'];
+				var b_getValue=false;
+				for (var i=0; i<a_getValues.length; i++){
+					if(cmivar.indexOf("cmi."+a_getValues[i]) > -1) b_getValue=true;
+				}
+				return b_getValue;
+			}
+
+			var j=0;
+			while (j < a_debugValues.length){
+				if (a_debugValues[j].indexOf("completion_status") > -1){
+					if (GetValueIntern(a_debugValues[j]) !="unknown") removeByElement(a_debugValues,a_debugValues[j]);
+					else j++;
+				}
+				else if (a_debugValues[j].indexOf("success_status") > -1){
+					if (GetValueIntern(a_debugValues[j]) !="unknown") removeByElement(a_debugValues,a_debugValues[j]);
+					else j++;
+				}
+				else if (GetValueIntern(a_debugValues[j]) !="" && checkGetValue(a_debugValues[j]) == false)
+					removeByElement(a_debugValues,a_debugValues[j]);
+				else j++;
+			}
+		}
 		setReturn(-1, 'Initialize(' + param + ')');
 		if (param!=='') 
 		{
+			if (logActive)
+				sendLogEntry(getMsecSinceStart(),'Initialize',param,"","false",201);
 			return setReturn(201, 'param must be empty string', 'false');
 		}
 		switch (state) 
@@ -14670,18 +14804,42 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				if (cmiItem instanceof Object) 
 				{
 					state = RUNNING;
+					if (logActive) {
+						sendLogEntry(getMsecSinceStart(),'Initialize',"","","true",0);
+						scoDebugValues = new Array();
+						for (var i=0; i<gConfig.debug_fields.length; i++){
+							scoDebugValues[i] = gConfig.debug_fields[i];
+						}
+						scoDebugValuesTest = new Array();
+						for (var i=0; i<gConfig.debug_fields_test.length; i++){
+							scoDebugValuesTest[i] = gConfig.debug_fields_test[i];
+						}
+						if (GetValueIntern("cmi.entry") != "ab-initio") {
+							checkInternalValues(scoDebugValues);
+							checkInternalValues(scoDebugValuesTest);
+						}
+					}
 					return setReturn(0, '', 'true');
 				} 
 				else 
 				{
+					if (logActive)
+						sendLogEntry(getMsecSinceStart(),'Initialize',"","","false",102);
 					return setReturn(102, '', 'false');
 				}
 				break;
 			case RUNNING:
+				if (logActive)
+					sendLogEntry(getMsecSinceStart(),'Initialize',"","","false",103);
 				return setReturn(103, '', 'false');
 			case TERMINATED:
+				if (logActive)
+					sendLogEntry(getMsecSinceStart(),'Initialize',"","","false",104);
 				return setReturn(104, '', 'false');
 		}
+		if (logActive)
+			sendLogEntry(getMsecSinceStart(),'Initialize',"","","false",103);
+
 		return setReturn(103, '', 'false');
 	}	
 
@@ -14697,11 +14855,15 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 		setReturn(-1, 'Commit(' + param + ')');
 		if (param!=='') 
 		{
+			if (logActive)
+				sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",201);
 			return setReturn(201, 'param must be empty string', 'false');
 		}
 		switch (state) 
 		{
 			case NOT_INITIALIZED:
+				if (logActive)
+					sendLogEntry(getMsecSinceStart(),'Commit',"","","false",142);
 				return setReturn(142, '', 'false');
 			case RUNNING:
 				//store correct status in DB; returnValue1 because of IE;
@@ -14714,14 +14876,20 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				if (returnValue) 
 				{
 					dirty = false;
+					if (logActive && commitByTerminate==false)
+						sendLogEntry(getMsecSinceStart(),'Commit',"","","true",0);
 					return setReturn(0, '', 'true');
 				} 
 				else
 				{
+					if (logActive)
+						sendLogEntry(getMsecSinceStart(),'Commit',"","","false",391);
 					return setReturn(391, 'Persisting failed', 'false');
 				}
 				break;
 			case TERMINATED:
+				if (logActive)
+					sendLogEntry(getMsecSinceStart(),'Commit',"","","false",143);
 				return setReturn(143, '', 'false');
 		}
 	}
@@ -14735,11 +14903,15 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 		setReturn(-1, 'Terminate(' + param + ')');				
 		if (param!=='') 
 		{
+			if (logActive)
+				sendLogEntry(getMsecSinceStart(),'Terminate',param,"","false",201);
 			return setReturn(201, 'param must be empty string', 'false');
 		}
 		switch (state) 
 		{
 			case NOT_INITIALIZED:
+				if (logActive)
+					sendLogEntry(getMsecSinceStart(),'Terminate',"","","false",112);
 				return setReturn(112, '', 'false');
 			case RUNNING:
 				// TODO check for possible exceptions
@@ -14747,12 +14919,22 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				Runtime.onTerminate(cmiItem, msec); // wrapup from LMS 
 				setReturn(-1, 'Terminate(' + param + ') [after wrapup]');
 				saveOnCommit = true;
+				commitByTerminate=true;
 				var returnValue = Commit(''); // wrap up 
+				commitByTerminate=false;
 				saveOnCommit = true;
 				state = TERMINATED;
+				if (logActive) {
+					sendLogEntry(getMsecSinceStart(),'Terminate',"","",returnValue,0);
+					sendLogEntry(getMsecSinceStart(),'ANALYZE',"",scoDebugValues,"","");
+					sendLogEntry(getMsecSinceStart(),'ANALYZETEST',"",scoDebugValuesTest,"","");
+					if (summaryOnUnload == true) createSummary();
+				}
 				onTerminate(cmiItem); // callback
-				return setReturn(error, '', returnValue);
+				return setReturn(0, '', returnValue);//error should not change if logActive
 			case TERMINATED:
+				if (logActive)
+					sendLogEntry(getMsecSinceStart(),'Terminate',"","","false",113);
 				return setReturn(113, '', 'false');
 		}
 	}
@@ -14770,28 +14952,45 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 		switch (state) 
 		{
 			case NOT_INITIALIZED:
+				if (logActive)
+					sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"","false",122);
 				sclogdump("Not initialized","error");
 				return setReturn(122, '', '');
 			case RUNNING:
 				if (typeof(sPath)!=='string') 
 				{
-					sclogdump("201: must be string","error");					
+					if (logActive)
+						sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"","false",201);
+//					sclogdump("201: must be string","error");					
 					return setReturn(201, 'must be string', '');
 				}
 				if (sPath==='') 
 				{
-					sclogdump("301: cannot be empty string","error");
+					if (logActive)
+						sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"","false",301);
+//					sclogdump("301: cannot be empty string","error");
 					
 					return setReturn(301, 'cannot be empty string', '');
 				}
-//				var r = getValue(sPath, false);
+				var r = GetValueIntern(sPath);
 				//log.info("Returned:"+ r.toString());
 //				sclogdump("GetValue: Return: "+sPath + " : "+ r,"cmi");
-//				return error ? '' : setReturn(0, '', r); 
-				return GetValueIntern(sPath);
+				if (logActive) {
+					sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"",r,error);
+					var a_getValues = ['comments_from_lms','completion_threshold','credit','entry','launch_data','learner_id','learner_name','max_time_allowed','mode','scaled_passing_score','time_limit_action','total_time'];
+					for (var j=0; j<a_getValues.length; j++) {
+						if (sPath.indexOf("cmi."+a_getValues[j])>-1){
+							removeByElement(scoDebugValues,sPath);
+							removeByElement(scoDebugValuesTest,sPath);
+						}
+					}
+				}
+				return r;
 				// TODO wrap in TRY CATCH
 			case TERMINATED:
-				sclogdump("Error 123: Terminated","error");
+				if (logActive)
+					sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"","false",123);
+//				sclogdump("Error 123: Terminated","error");
 			
 				return setReturn(123, '', '');
 		}	
@@ -14846,22 +15045,27 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	function SetValue(sPath, sValue) 
 	{
 		setReturn(-1, 'SetValue(' + sPath + ', ' + sValue + ')');
-		sclogdump("Set: "+sPath+" : "+sValue,"cmi");
+//		sclogdump("Set: "+sPath+" : "+sValue,"cmi");
 		switch (state) 
 		{
 			case NOT_INITIALIZED:
-				sclogdump("Error 132: not initialized","error");
+//				sclogdump("Error 132: not initialized","error");
+				if (logActive)
+					sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",132);
 				return setReturn(132, '', 'false');
 			case RUNNING:
 				if (typeof(sPath)!=='string') 
 				{
-					sclogdump("Error 201: must be string","error");
+//					sclogdump("Error 201: must be string","error");
+					if (logActive)
+						sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",201);
 					return setReturn(201, 'must be string', 'false');
 				}
 				if (sPath==='') 
 				{
-					sclogdump("Error 351: 'Param 1 cannot be empty string","error");
-					
+//					sclogdump("Error 351: 'Param 1 cannot be empty string","error");
+					if (logActive)
+						sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",351);					
 					return setReturn(351, 'Param 1 cannot be empty string', 'false');
 				}
 				// we do not test datatype for there are to many scorm editors out there
@@ -14880,34 +15084,42 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				{
 					
 					var r = setValue(sPath, sValue);
-
-
-					
 					if (!error) {
-							var lastToken = sPath.substring(sPath.lastIndexOf('.') + 1);
-							if(lastToken == "completion_status" || lastToken == "success_status") {
-								setValue(sPath + "_SetBySco", "true");
-							}
-							if (sPath == "cmi.completion_status" && cmiItem.scoid != null ) {
-								statusHandler(cmiItem.scoid,"completion",sValue);
-							}
+						if (logActive) {
+							sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"true",0);
+							removeByElement(scoDebugValues,sPath);
+							removeByElement(scoDebugValuesTest,sPath);
+						}	
+						var lastToken = sPath.substring(sPath.lastIndexOf('.') + 1);
+						if(lastToken == "completion_status" || lastToken == "success_status") {
+							setValue(sPath + "_SetBySco", "true");
+						}
+						if (sPath == "cmi.completion_status" && cmiItem.scoid != null ) {
+							statusHandler(cmiItem.scoid,"completion",sValue);
+						}
 
-							if (sPath == "cmi.success_status" && cmiItem.scoid != null ) {
-								statusHandler(cmiItem.scoid,"success",sValue);
-							}
-						sclogdump("SetValue-return: "+ true,"cmi");
+						if (sPath == "cmi.success_status" && cmiItem.scoid != null ) {
+							statusHandler(cmiItem.scoid,"success",sValue);
+						}
+//						sclogdump("SetValue-return: "+ true,"cmi");
 					} else {
-						sclogdump("SetValue-return: "+ false,"error");
+						if (logActive)
+							sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",error);
+//						sclogdump("SetValue-return: "+ false,"error");
 					}	
 					return error ? 'false' : 'true'; 
 				} catch (e) 
 				{
-					sclogdump("351: Exception "+e,"error");
+					if (logActive)
+						sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",351);
+//					sclogdump("351: Exception "+e,"error");
 					return setReturn(351, 'Exception ' + e, 'false');
 				}
 				break;
 			case TERMINATED:
-				sclogdump("Error 133: Terminated","error");
+				if (logActive)
+					sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",133);
+//				sclogdump("Error 133: Terminated","error");
 				return setReturn(133, '', 'false');
 		}
 	}
@@ -15210,6 +15422,13 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 		return returnValue;
 	}
 
+	/**
+	 * useful for transmitting Milliseconds if logActive
+	 */
+	function getMsecSinceStart()
+	{
+		return currentTime()-msec;
+	}
 
 	// private constants: API states
 	var NOT_INITIALIZED = 0;
@@ -15228,6 +15447,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	var dirty = false;
 	var msec = currentTime(); // if session time not set by sco, msec will used as starting time in onterminate
 	var me = this; // reference to API for use in methods
+	var commitByTerminate=false; //when commit ist startet by terminate, then do not send log if logActive
 	
 	// possible public methods
 	var methods = 

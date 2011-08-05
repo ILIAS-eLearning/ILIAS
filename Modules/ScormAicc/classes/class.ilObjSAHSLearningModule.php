@@ -444,6 +444,16 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->hide_navig = $a_hide_navig;
 	}
 	
+	/**
+	* debugActivated
+	*/
+	function getDebugActivated()
+	{
+		global $ilSetting;
+		$lm_set = new ilSetting("lm");
+		if ($lm_set->get("scormdebug_global_activate") == "1") return true;
+		return false;
+	}
 	
 	/**
 	* debug

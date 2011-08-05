@@ -224,6 +224,16 @@ class ilSetting
 		return true;
 	}
 	
+	function setScormDebug($a_key, $a_val)
+	{
+		global $ilDB;
+		if ($a_val != "1") {
+			$ilDB->query("UPDATE sahs_lm SET debug = 'n'");
+		}
+		$setreturn = ilSetting::set($a_key, $a_val);
+		return $setreturn;
+	}
+	
 	public static function _lookupValue($a_module, $a_keyword)
 	{
 		global $ilDB;
