@@ -11895,3 +11895,167 @@ grp#:#grp_view_info_simple#:#This content presentation lists all items in one bl
 grp#:#grp_presentation_type#:#Presentation Type
 grp#:#grp_view_inherit#:#Standard
 grp#:#grp_view_inherit_info#:#The group presentation type is adapted from a parent course. 
+content#:#cont_open#:#Display
+content#:#cont_open_normal#:#in tab / new window with link
+content#:#cont_open_iframe_max#:#in iframe with full size
+content#:#cont_open_iframe_defined#:#in iframe with defined width and height
+content#:#cont_open_window_undefined#:#in new window without defined width and height
+content#:#cont_open_window_defined#:#in new window with defined width and height
+content#:#cont_open_width#:#width
+content#:#cont_open_heigth#:#height
+scormdebug#:#scormdebug_global_activate#:#Enable SCORM 2004 test tool
+scormdebug#:#scormdebug_global_activate_info#:#If enabled, the SCORM 2004 test tool can be activated for desired learning modules. If disabled, the test tool is deactivated for all learning modules.
+content#:#cont_debug_deactivate#:#Hint: The test tool can be disabled for all learning modules.
+content#:#cont_debug_deactivated#:#Hint: The test tool is disabled for all learning modules.
+scormdebug#:#error0#:#No error
+scormdebug#:#error101#:#General Exeption
+scormdebug#:#error102#:#General Initialization Failure
+scormdebug#:#error103#:#Already Initialized
+scormdebug#:#error104#:#Content Instance Terminated
+scormdebug#:#error111#:#General Termination Failure
+scormdebug#:#error112#:#Termination Before Initialization
+scormdebug#:#error113#:#Termination After Termination
+scormdebug#:#error122#:#Retrieve Data Before Initialization
+scormdebug#:#error123#:#Retrieve Data After Termination
+scormdebug#:#error132#:#Store Data Before Initialization
+scormdebug#:#error133#:#Store Data After Termination
+scormdebug#:#error142#:#Commit Before Initialization
+scormdebug#:#error143#:#Commit After Termination
+scormdebug#:#error201#:#General Argument Error
+scormdebug#:#error301#:#General Get Failure
+scormdebug#:#error351#:#General Set Failure
+scormdebug#:#error391#:#General Commit Failure
+scormdebug#:#error401#:#Undefined Data Model Element
+scormdebug#:#error402#:#Unimplemented Data Model Element
+scormdebug#:#error403#:#Data Model Element Value Not Initialized
+scormdebug#:#error404#:#Data Model Element Is Read Only
+scormdebug#:#error405#:#Data Model Element Is Write Only
+scormdebug#:#error406#:#Data Model Element Type Mismatch
+scormdebug#:#error407#:#Data Model Element Value Out Of Range
+scormdebug#:#error408#:#Data Model Dependency Not Established
+scormdebug#:#SetValue#:#send data
+scormdebug#:#GetValue#:#get data
+scormdebug#:#Commit#:#store data
+scormdebug#:#Initialize#:#initialize API-communication
+scormdebug#:#Terminate#:#store data and terminate API-communication
+scormdebug#:#GetErrorString#:#retrieve a textual description of the current error state
+scormdebug#:#GetLastError#:#request the error code for the current error state
+scormdebug#:#GetDiagnostic#:#allows the LMS (!) to define additional diagnostic information
+scormdebug#:#cmi._version#:#Represents the version of the data model
+scormdebug#:#cmi.comments_from_learner._children#:#Listing of supported data model elements
+scormdebug#:#cmi.comments_from_learner._count#:#Current number of learner comments
+scormdebug#:#cmi.comments_from_learner.n.comment#:#Textual input
+scormdebug#:#cmi.comments_from_learner.n.location#:#Point in the SCO to which the comment applies
+scormdebug#:#cmi.comments_from_learner.n.timestamp#:#Point in time at which the comment was created or most recently changed
+scormdebug#:#cmi.comments_from_lms._children#:#Listing of supported data model elements
+scormdebug#:#cmi.comments_from_lms._count#:#Current number of comments from the LMS
+scormdebug#:#cmi.comments_from_lms.n.comment#:#Comments or annotations associated with a SCO
+scormdebug#:#cmi.comments_from_lms.n.location#:#Point in the SCO to which the comment applies
+scormdebug#:#cmi.comments_from_lms.n.timestamp#:#Point in time at which the comment was created or most recently changed
+scormdebug#:#cmi.completion_status#:#Indicates whether the learner has completed the SCO
+scormdebug#:#cmi.completion_threshold#:#Used to determine whether the SCO should be considered complete
+scormdebug#:#cmi.credit#:#Indicates whether the learner will be credited for performance in the SCO
+scormdebug#:#cmi.entry#:#Asserts whether the learner has previously accessed the SCO
+scormdebug#:#cmi.exit#:#Indicates how or why the learner left the SCO
+scormdebug#:#cmi.interactions._children#:#Listing of supported data model elements
+scormdebug#:#cmi.interactions._count#:#Current number of interactions being stored by the LMS
+scormdebug#:#cmi.interactions.n.id#:#Unique label for the interaction
+scormdebug#:#cmi.interactions.n.type#:#Which type of interaction is recorded
+scormdebug#:#cmi.interactions.n.objectives._count#:#Current number of objectives (i.e., objective identifiers) being stored by the LMS for this interaction
+scormdebug#:#cmi.interactions.n.objectives.n.id#:#Label for objectives associated with the interaction
+scormdebug#:#cmi.interactions.n.timestamp#:#Point in time at which the interaction was first made available to the learner for learner interaction and response
+scormdebug#:#cmi.interactions.n.correct_responses._count#:#Current number of correct responses being stored by the LMS for this interaction
+scormdebug#:#cmi.interactions.n.correct_responses.n.pattern#:#One correct response pattern for the interaction
+scormdebug#:#cmi.interactions.n.weighting#:#Weight given to the interaction relative to other interactions
+scormdebug#:#cmi.interactions.n.learner_response#:#Data generated when a learner responds to an interaction
+scormdebug#:#cmi.interactions.n.result#:#Judgment of the correctness of the learner response
+scormdebug#:#cmi.interactions.n.latency#:#Time elapsed between the time the interaction was made available to the learner for response and the time of the first response
+scormdebug#:#cmi.interactions.n.description#:#Brief informative description of the interaction
+scormdebug#:#cmi.launch_data#:#Data provided to a SCO after launch, initialized from the dataFromLMS manifest element
+scormdebug#:#cmi.learner_id#:#Identifies the learner on behalf of whom the SCO was launched
+scormdebug#:#cmi.learner_name#:#Name provided for the learner by the LMS
+scormdebug#:#cmi.learner_preference._children#:#Listing of supported data model elements
+scormdebug#:#cmi.learner_preference.audio_level#:#Specifies an intended change in perceived audio level
+scormdebug#:#cmi.learner_preference.language#:#The learner's preferred language for SCOs with multilingual capability
+scormdebug#:#cmi.learner_preference.delivery_speed#:#The learner's preferred relative speed of content delivery
+scormdebug#:#cmi.learner_preference.audio_captioning#:#Specifies whether captioning text corresponding to audio is displayed
+scormdebug#:#cmi.location#:#The learner's current location in the SCO
+scormdebug#:#cmi.max_time_allowed#:#Amount of accumulated time the learner is allowed to use a SCO
+scormdebug#:#cmi.mode#:#Identifies one of three possible modes in which the SCO may be presented to the learner
+scormdebug#:#cmi.objectives._children#:#Listing of supported data model elements
+scormdebug#:#cmi.objectives._count#:#Current number of objectives being stored by the LMS
+scormdebug#:#cmi.objectives.n.id#:#Unique label for the objective
+scormdebug#:#cmi.objectives.n.score._children#:#Listing of supported data model elements
+scormdebug#:#cmi.objectives.n.score.scaled#:#Number that reflects the performance of the learner for the objective
+scormdebug#:#cmi.objectives.n.score.raw#:#Number that reflects the performance of the learner, for the objective, relative to the range bounded by the values of min and max
+scormdebug#:#cmi.objectives.n.score.min#:#Minimum value, for the objective, in the range for the raw score
+scormdebug#:#cmi.objectives.n.score.max#:#Maximum value, for the objective, in the range for the raw score
+scormdebug#:#cmi.objectives.n.success_status#:#Indicates whether the learner has mastered the objective
+scormdebug#:#cmi.objectives.n.completion_status#:#Indicates whether the learner has completed the associated objective
+scormdebug#:#cmi.objectives.n.progress_measure#:#Measure of the progress the learner has made toward completing the objective
+scormdebug#:#cmi.objectives.n.description#:#Provides a brief informative description of the objective
+scormdebug#:#cmi.progress_measure#:#Measure of the progress the learner has made toward completing the SCO
+scormdebug#:#cmi.scaled_passing_score#:#Scaled passing score required to master the SCO
+scormdebug#:#cmi.score._children#:#Listing of supported data model elements
+scormdebug#:#cmi.score.scaled#:#Number that reflects the performance of the learner
+scormdebug#:#cmi.score.raw#:#Number that reflects the performance of the learner relative to the range bounded by the values of min and max
+scormdebug#:#cmi.score.min#:#Minimum value in the range for the raw score
+scormdebug#:#cmi.score.max#:#Maximum value in the range for the raw score
+scormdebug#:#cmi.session_time#:#Amount of time that the learner has spent in the current learner session for this SCO
+scormdebug#:#cmi.success_status#:#Indicates whether the learner has mastered the SCO
+scormdebug#:#cmi.suspend_data#:#Provides space to store and retrieve data between learner sessions
+scormdebug#:#cmi.time_limit_action#:#Indicates what the SCO should do when cmi.max_time_allowed is exceeded
+scormdebug#:#cmi.total_time#:#Sum of all of the learner's session times accumulated in the current learner attempt
+scormdebug#:#adl.nav.request#:#Navigation request to be processed immediately following Terminate()
+scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Continue navigation request will succeed.
+scormdebug#:#adl.nav.request_valid.previous#:#Used by a SCO to determine if a Previous navigation request will succeed.
+scormdebug#:#adl.nav.request_valid.choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.
+scormdebug#:#i_green#:#green: okay
+scormdebug#:#i_red#:#red: failure!
+scormdebug#:#i_orange#:#orange: attention please!
+scormdebug#:#i_fuchsia#:#fuchsia: likely a failure by ILIAS
+scormdebug#:#error#:#error
+scormdebug#:#strange_error#:#strange error
+scormdebug#:#strange_API-Call#:#strange API-Call
+scormdebug#:#unknown#:#unknown
+scormdebug#:#undefined_color#:#undefined color
+scormdebug#:#description_for#:#description for
+scormdebug#:#hide#:#hide
+scormdebug#:#all_API-calls_shown#:#All API-calls are currently shown.
+scormdebug#:#show_only_important_API-calls#:#Show only important API-calls!
+scormdebug#:#only_important_API-Calls_shown#:#Only important API-Calls are currently shown.
+scormdebug#:#show_all_API-calls#:#Show all API-calls!
+scormdebug#:#log_for#:#Log for the learning module
+scormdebug#:#started#:#started
+scormdebug#:#nr_session#:#number of session
+scormdebug#:#id_learning_module#:#Id of the learning module
+scormdebug#:#SCO-title#:#SCO-title
+scormdebug#:#SCO-name#:#SCO-name
+scormdebug#:#milliseconds#:#milliseconds
+scormdebug#:#API-call#:#API-call
+scormdebug#:#return_value#:#return value
+scormdebug#:#generated#:#generated
+scormdebug#:#comment#:#Comment
+scormdebug#:#summary_for_SCO_without_test#:#Summary for a SCO without a test
+scormdebug#:#summary_for_SCO_with_test#:#Summary for a SCO with a test
+scormdebug#:#no_missing_API-calls#:#Missing API-calls had not been recognized.
+scormdebug#:#missing_API-calls#:#These API-calls are missing:
+scormdebug#:#summary_csv#:#Summary is generated as CSV-file to import for example in Excel
+scormdebug#:#summary_download#:#You can klick to 'Logs' and download it when you start this tool again.
+scormdebug#:#debugwindow_console#:#Console
+scormdebug#:#debugwindow_logs#:#Logs
+scormdebug#:#debugwindow_comment#:#comment
+scormdebug#:#debugwindow_comment_enter#:#Please enter your comment
+scormdebug#:#debugwindow_start_recording#:#Start Recording
+scormdebug#:#debugwindow_stop_recording#:#Stop Recording
+scormdebug#:#debugwindow_delete_logfile#:#Delete logfile
+scormdebug#:#debugwindow_submission_failed#:#Submission failed
+scormdebug#:#debugwindow_submit#:#Submit
+scormdebug#:#debugwindow_cancel#:#Cancel
+scormdebug#:#debugwindow_filename#:#Filename
+scormdebug#:#debugwindow_date#:#Date
+scormdebug#:#debugwindow_action#:#Action
+scormdebug#:#debugwindow_delete#:#Delete
+scormdebug#:#debugwindow_download#:#Download
+scormdebug#:#debugwindow_open#:#Open
+scormdebug#:#debugwindow_password_enter#:#Please enter your password
