@@ -200,20 +200,31 @@ class ilImport
 	/**
 	 * Process item xml
 	 *
-	 * @param
-	 * @return
+	 * @global ilObjectDefinition $objDefinition
 	 */
-	function processItemXml($a_entity, $a_schema_version, $a_id, $a_xml,
-		$a_install_id, $a_install_url)
+	function processItemXml($a_entity, $a_schema_version, $a_id, $a_xml,$a_install_id, $a_install_url)
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$a_entity);
-		
+		global $objDefinition;
+
+		if($this->getMapping()->getMapping('Services/Container', 'imported', $a_id))
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Ignoring referenced '.$a_entity.' with id '.$a_id);
+			return;
+		}
 		$this->importer->setInstallId($a_install_id);
 		$this->importer->setInstallUrl($a_install_url);
 		$this->importer->setSchemaVersion($a_schema_version);
 
 		$new_id = $this->importer->importXmlRepresentation($a_entity, $a_id, $a_xml, $this->mapping);
-		if ($new_id != "")
+
+		// Store information about imported obj_ids in mapping to avoid double imports of references
+		if($objDefinition->isRBACObject($a_entity))
+		{
+			$this->getMapping()->addMapping('Services/Container', 'imported', $a_id, 1);
+		}
+
+		// @TODO new id is not always set
+		if($new_id)
 		{
 			$this->mapping->addMapping($this->comp ,$a_entity, $a_id, $new_id);
 		}

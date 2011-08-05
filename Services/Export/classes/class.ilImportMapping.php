@@ -110,6 +110,10 @@ class ilImportMapping
 	 */
 	function getMapping($a_comp, $a_entity, $a_old_id)
 	{
+		if(!isset ($this->mappings[$a_comp]) or !isset ($this->mappings[$a_comp][$a_entity]))
+		{
+			return false;
+		}
 		if (isset($this->mappings[$a_comp][$a_entity][$a_old_id]))
 		{
 			return $this->mappings[$a_comp][$a_entity][$a_old_id];
