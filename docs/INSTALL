@@ -31,6 +31,11 @@ Appendix A: Note on using Apache 2
 
 1. I N T R O D U C T I O N
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+THIS IS A TESTING RELEASE. PLEASE DO NOT USE IT ON PRODUCTIVE SYSTEMS.
+DATA WILL BE CORRUPTED.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 ILIAS is a web-based Learning Content Managament System (LCMS) developed with
 the server-side scripting language PHP and distributed as Open Source software
 under the GNU General Public License (GPL). It uses the MySQL database and the
@@ -609,26 +614,26 @@ components:
 
 
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS stable version to
-ILIAS 4.1
+ILIAS 4.2
 
 BACKUP YOUR ILIAS DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
 AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
 
 BEFORE UPDATING FROM ANY ILIAS VERSION 3.9 OR LOWER YOU MUST UPGRADE TO
 ILIAS 3.10 FIRST. YOU SHOULD ONLY UPGRADE FROM A 3.10.x VERSION OR HIGHER TO
-ILIAS 4.1.
+ILIAS 4.2.
 
 We recommend not to update from an any alpha or beta version of ILIAS because
 this may cause ambiguous errors in the future. Please setup any stable version
 of ILIAS from scratch.
 
-For major updates (e.g. 4.0.x -> 4.1.x) the safest proceeding is, to upgrade
+For major updates (e.g. 4.1.x -> 4.2.x) the safest proceeding is, to upgrade
 a copy of your productive system first and test whether everything works ok.
 
 Please also note that major updates usually include changes in the style
 sheet and template files. So if you use individual styles/skins you will have
 to adopt them for the new release first. This does usually not apply for bugfix
-updates (e.g. 4.1.1 -> 4.1.2). See also
+updates (e.g. 4.2.1 -> 4.2.2). See also
 http://www.ilias.de/docu/goto.php?target=pg_16107_35&client_id=docu and
 http://www.ilias.de/docu/goto.php?target=pg_15917_367&client_id=docu
 
