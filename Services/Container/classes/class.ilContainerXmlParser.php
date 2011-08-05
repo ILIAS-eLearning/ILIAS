@@ -27,6 +27,16 @@ class ilContainerXmlParser
 		$this->mapping = $mapping;
 		$this->xml = $xml;
 	}
+
+	/**
+	 * Get ilImportMapping object
+	 *
+	 * @return ilImportMapping $map
+	 */
+	public function getMapping()
+	{
+		return $this->mapping;
+	}
 	
 	public function parse()
 	{
@@ -140,6 +150,22 @@ class ilContainerXmlParser
 	protected function createObject($ref_id,$obj_id,$type,$title,$parent_node)
 	{
 		global $objDefinition;
+
+		// A mapping for this object already exists => create reference
+		$new_obj_id = $this->getMapping()->getMapping('Services/Container', 'objs', $obj_id);
+		if($new_obj_id)
+		{
+			include_once './classes/class.ilObjectFactory.php';
+			$obj = ilObjectFactory::getInstanceByObjId($new_obj_id,false);
+			if($obj instanceof  ilObject)
+			{
+				$obj->createReference();
+				$obj->putInTree($parent_node);
+				$obj->setPermissions($parent_node);
+				$this->mapping->addMapping('Services/Container','refs',$ref_id,$obj->getRefId());
+				return $obj->getRefId();
+			}
+		}
 
 		$class_name = "ilObj".$objDefinition->getClassName($type);
 		$location = $objDefinition->getLocation($type);
