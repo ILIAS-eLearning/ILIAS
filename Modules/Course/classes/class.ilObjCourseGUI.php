@@ -1391,25 +1391,58 @@ class ilObjCourseGUI extends ilContainerGUI
 		$view_type = new ilRadioGroupInputGUI($this->lng->txt('crs_presentation_type'),'view_mode');
 		$view_type->setValue($this->object->getViewMode());
 		
-			$opt = new ilRadioOption($this->lng->txt('cntr_view_sessions'),IL_CRS_VIEW_SESSIONS);
-			$opt->setInfo($this->lng->txt('cntr_view_info_sessions'));
-			$view_type->addOption($opt);
-			
-			$opt = new ilRadioOption($this->lng->txt('cntr_view_simple'),IL_CRS_VIEW_SIMPLE);
-			$opt->setInfo($this->lng->txt('cntr_view_info_simple'));
-			$view_type->addOption($opt);
+			$opts = new ilRadioOption($this->lng->txt('cntr_view_sessions'),IL_CRS_VIEW_SESSIONS);
+			$opts->setInfo($this->lng->txt('cntr_view_info_sessions'));
+			$view_type->addOption($opts);
 
-			$opt = new ilRadioOption($this->lng->txt('cntr_view_by_type'),IL_CRS_VIEW_BY_TYPE);
-			$opt->setInfo($this->lng->txt('cntr_view_info_by_type'));
-			$view_type->addOption($opt);
-			
-			$opt = new ilRadioOption($this->lng->txt('crs_view_objective'),IL_CRS_VIEW_OBJECTIVE);
-			$opt->setInfo($this->lng->txt('crs_view_info_objective'));
-			$view_type->addOption($opt);
+				// Limited sessions
+				$sess = new ilCheckboxInputGUI($this->lng->txt('sess_limit'),'sl');
+				$sess->setValue(1);
+				$sess->setChecked($this->object->isSessionLimitEnabled());
+				$sess->setInfo($this->lng->txt('sess_limit_info'));
 
-			$opt = new ilRadioOption($this->lng->txt('crs_view_timing'),IL_CRS_VIEW_TIMING);
-			$opt->setInfo($this->lng->txt('crs_view_info_timing'));
-			$view_type->addOption($opt);
+					$prev = new ilNumberInputGUI($this->lng->txt('sess_num_prev'),'sp');
+					#$prev->setSubmitFormOnEnter(true);
+					$prev->setMinValue(0);
+					$prev->setValue($this->object->getNumberOfPreviousSessions() == -1 ?
+						'' :
+						$this->object->getNumberOfPreviousSessions()
+					);
+					$prev->setSize(2);
+					$prev->setMaxLength(3);
+					$sess->addSubItem($prev);
+
+					$next = new ilNumberInputGUI($this->lng->txt('sess_num_next'),'sn');
+					#$next->setSubmitFormOnEnter(true);
+					$next->setMinValue(0);
+					$next->setValue($this->object->getNumberOfNextSessions() == -1 ?
+						'' :
+						$this->object->getNumberOfnextSessions()
+					);
+					$next->setSize(2);
+					$next->setMaxLength(3);
+					$sess->addSubItem($next);
+
+				$opts->addSubItem($sess);
+
+
+
+			
+			$optsi = new ilRadioOption($this->lng->txt('cntr_view_simple'),IL_CRS_VIEW_SIMPLE);
+			$optsi->setInfo($this->lng->txt('cntr_view_info_simple'));
+			$view_type->addOption($optsi);
+
+			$optbt = new ilRadioOption($this->lng->txt('cntr_view_by_type'),IL_CRS_VIEW_BY_TYPE);
+			$optbt->setInfo($this->lng->txt('cntr_view_info_by_type'));
+			$view_type->addOption($optbt);
+			
+			$opto = new ilRadioOption($this->lng->txt('crs_view_objective'),IL_CRS_VIEW_OBJECTIVE);
+			$opto->setInfo($this->lng->txt('crs_view_info_objective'));
+			$view_type->addOption($opto);
+
+			$optt = new ilRadioOption($this->lng->txt('crs_view_timing'),IL_CRS_VIEW_TIMING);
+			$optt->setInfo($this->lng->txt('crs_view_info_timing'));
+			$view_type->addOption($optt);
 
 			/*
 			$opt = new ilRadioOption($this->lng->txt('crs_view_archive'),IL_CRS_VIEW_ARCHIVE);
@@ -1454,35 +1487,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			
 
 		$form->addItem($sort);
-
-		$sess = new ilCheckboxInputGUI($this->lng->txt('sess_limit'),'sl');
-		$sess->setValue(1);
-		$sess->setChecked($this->object->isSessionLimitEnabled());
-		$sess->setInfo($this->lng->txt('sess_limit_info'));
-			
-			$prev = new ilNumberInputGUI($this->lng->txt('sess_num_prev'),'sp');
-			#$prev->setSubmitFormOnEnter(true);
-			$prev->setMinValue(0);
-			$prev->setValue($this->object->getNumberOfPreviousSessions() == -1 ?
-				'' :
-				$this->object->getNumberOfPreviousSessions()
-			);
-			$prev->setSize(2);
-			$prev->setMaxLength(3);
-			$sess->addSubItem($prev);
-			
-			$next = new ilNumberInputGUI($this->lng->txt('sess_num_next'),'sn');
-			#$next->setSubmitFormOnEnter(true);
-			$next->setMinValue(0);
-			$next->setValue($this->object->getNumberOfNextSessions() == -1 ?
-				'' :
-				$this->object->getNumberOfnextSessions()
-			);
-			$next->setSize(2);
-			$next->setMaxLength(3);
-			$sess->addSubItem($next);
-			
-		$form->addItem($sess);
 		
 		$further = new ilFormSectionHeaderGUI();
 		$further->setTitle($this->lng->txt('crs_further_settings'));
