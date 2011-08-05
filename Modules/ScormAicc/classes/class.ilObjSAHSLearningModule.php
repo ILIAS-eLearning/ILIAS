@@ -90,6 +90,9 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setDebug(ilUtil::yn2tf($lm_rec["debug"]));
 			$this->setDebugPw($lm_rec["debugpw"]);
 			$this->setSequencingExpertMode($lm_rec["seq_exp_mode"]);
+			$this->setOpenMode($lm_rec["open_mode"]);
+			$this->setWidth($lm_rec["width"]);
+			$this->setHeight($lm_rec["height"]);
 		}
 	}
 
@@ -494,6 +497,51 @@ class ilObjSAHSLearningModule extends ilObject
 		return $this->seq_exp_mode;
 	}
 
+	
+	/**
+	* open_mode
+	* 0: in Tab/new Window like in previous versions
+	* 1: in iFrame with width=100% and heigth=100%
+	* 2: in iFrame with specified width and height
+	* 3: 
+	* 4:
+	* 5: in new Window without specified width and height
+	* 6: in new Window with specified width and height
+	*/
+	function getOpenMode()
+	{
+		return $this->open_mode;
+	}
+	function setOpenMode($a_open_mode)
+	{
+		$this->open_mode = $a_open_mode;
+	}
+	
+	/**
+	* width
+	*/
+	function getWidth()
+	{
+		return $this->width;
+	}
+	function setWidth($a_width)
+	{
+		$this->width = $a_width;
+	}
+
+	/**
+	* height
+	*/
+	function getHeight()
+	{
+		return $this->height;
+	}
+	function setHeight($a_height)
+	{
+		$this->height = $a_height;
+	}
+
+
 	/**
 	* update meta data only
 	*/
@@ -553,7 +601,10 @@ class ilObjSAHSLearningModule extends ilObject
 				debug = %s,
 				localization = %s,
 				seq_exp_mode = %s,
-				debugpw = %s
+				debugpw = %s,
+				open_mode = %s,
+				width = %s,
+				height = %s
 				
 			WHERE id = %s', 
 		array(	'text',
@@ -576,6 +627,9 @@ class ilObjSAHSLearningModule extends ilObject
 				'text',
 				'integer',
 				'text',
+				'integer',
+				'integer',
+				'integer',
 				'integer'
 				), 
 		array(	ilUtil::tf2yn($this->getOnline()),
@@ -598,6 +652,9 @@ class ilObjSAHSLearningModule extends ilObject
 				$this->getLocalization(),
 				$this->getSequencingExpertMode(),
 				$this->getDebugPw(),
+				$this->getOpenMode(),
+				$this->getWidth(),
+				$this->getHeight(),
 				$this->getId())
 		);
 

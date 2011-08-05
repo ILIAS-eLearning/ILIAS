@@ -1383,6 +1383,9 @@ class ilObjectListGUI
 		}
 		else
 		{
+			$this->default_command["link"] = 
+				$this->modifySAHSlaunch($this->default_command["link"],$this->default_command["frame"]);
+
 			if ($this->default_command["frame"] != "")
 			{
 					$this->tpl->setCurrentBlock("title_linked_frame");
@@ -2603,6 +2606,27 @@ class ilObjectListGUI
 			}
 		}
 		
+		return $a_link;
+	}
+
+	/**
+	* workaround: SAHS in new javavasript-created window or iframe
+	*/
+	function modifySAHSlaunch($a_link,$wtarget)
+	{
+		if (strstr($a_link, 'ilSAHSPresentationGUI'))
+		{
+			include_once 'Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
+			$sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
+			$om = $sahs_obj->getOpenMode();
+			$width = $sahs_obj->getWidth();
+			$height = $sahs_obj->getHeight();
+			if ($om != 0)
+			{
+				$this->default_command["frame"]="";
+				$a_link = "javascript:void(0); onclick=startSAHS('".$a_link."','".$wtarget."',".$om.",".$width.",".$height.");";
+			}
+		}
 		return $a_link;
 	}
 
