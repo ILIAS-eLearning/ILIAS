@@ -1,4 +1,4 @@
-// Build: 2011721224718 
+// Build: 2011806012419 
 
 function ADLAuxiliaryResource()
 {}
@@ -2306,7 +2306,7 @@ return action;},size:function()
 {if(this.mRules!=null)
 {return this.mRules.length;}
 return 0;}};
-var log_auto_flush=false;var log_buffer="";var ilRTEDisabledClass='ilc_rte_mlink_RTELinkDisabled';debugWindow=null;var leftViewWidth=230;$('#dragbar').mousedown(function(e){e.preventDefault();$('#zmove').css("display","block");$('#zmove').mousemove(function(e){leftViewWidth=e.pageX;$('#dragbar').css("left",e.pageX);$('#leftView').css("width",e.pageX);$('#tdResource').css("left",e.pageX+2);})});$(document).mouseup(function(e){$('#dragbar').unbind('mousemove');$('#zmove').css("display","none");$(document).unbind('mousemove');});if(disable_all_logging==true){elm=all("toggleLog");elm.innerHTML="";}
+var log_auto_flush=false;var log_buffer="";var ilRTEDisabledClass='ilc_rte_mlink_RTELinkDisabled';debugWindow=null;var leftViewWidth=230;$('#dragbar').mousedown(function(e){e.preventDefault();$('#zmove').css("display","block");$('#zmove').mousemove(function(e){leftViewWidth=e.pageX;$('#dragbar').css("left",e.pageX);$('#leftView').css("width",e.pageX);$('#tdResource').css("left",e.pageX+2);})});$(document).mouseup(function(e){$('#dragbar').unbind('mousemove');$('#zmove').css("display","none");$(document).unbind('mousemove');});function PopupCenter(pageURL,title,w,h){var left=(screen.width/2)-(w/2);var top=(screen.height/2)-(h/2);debugWindow=window.open(pageURL,title,'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);debugWindow.focus();}
 function toggleView(){elm_left=all("leftView");elm_drag=all("dragbar");elm_right=all("tdResource");elm_tree=all("treeView");elm_log=all("ilLog");elm_controls=all("treeControls");elm_toggle=all("treeToggle");if(treeView==false){elm_left.style.width=leftViewWidth+'px';elm_drag.style.left=leftViewWidth+'px';elm_drag.style.display='block';elm_right.style.left=(leftViewWidth+2)+'px';elm_tree.style.display='block';elm_log.style.display='block';elm_controls.style.display='block';elm_toggle.innerHTML=this.config.langstrings['btnhidetree'];treeView=true;}else{elm_left.style.width='0%';elm_drag.style.display='none';elm_right.style.left='0';elm_tree.style.display='none';elm_log.style.display='none';elm_controls.style.display='none';elm_toggle.innerHTML=this.config.langstrings['btnshowtree'];treeView=false;}}
 function toggleTree(){elm=all("toggleTree");if(treeState==false){elm.innerHTML="Collapse All";ilNestedList.expandAll('rte_tree');treeState=true;}else{elm.innerHTML="Expand All";ilNestedList.collapseAll('rte_tree');treeState=false;}}
 function toggleLog(){elm=all("toggleLog");if(logState==false){elm.innerHTML="Hide Log";logState=true;onWindowResize();}else{elm.innerHTML="Show Log";logState=false;onWindowResize();}}
@@ -2744,7 +2744,7 @@ delete seq.id;delete seq.sequencingId;}}
 for(k in cam)
 {if(typeof cam[k]!=="object")
 {globalAct[k]=cam[k];}}
-globalAct.cp_node_id=globalAct.foreignId;globalAct.index=activitiesByNo.length;activitiesByNo.push(globalAct);activitiesByCAM[globalAct.foreignId]=globalAct;activities[globalAct.id]=globalAct;globalAct.learner_id=this.config.learner_id;globalAct.learner_name=this.config.learner_name;globalAct.auto_review=this.config.auto_review;camWalk(cam.item,rootAct);load();loadGlobalObj();suspendData=sendJSONRequest(this.config.get_suspend_url);var wasSuspended=false;var wasFirstSession;if(suspendData){if(suspendData!=null){wasSuspended=true;}}
+globalAct.cp_node_id=globalAct.foreignId;globalAct.index=activitiesByNo.length;activitiesByNo.push(globalAct);activitiesByCAM[globalAct.foreignId]=globalAct;activities[globalAct.id]=globalAct;globalAct.learner_id=this.config.learner_id;globalAct.learner_name=this.config.learner_name;globalAct.auto_review=this.config.auto_review;camWalk(cam.item,rootAct);load();loadGlobalObj();logActive=this.config.debug;suspendData=sendJSONRequest(this.config.get_suspend_url);var wasSuspended=false;var wasFirstSession;if(suspendData){if(suspendData!=null){wasSuspended=true;}}
 if(wasSuspended==true){wasSuspended=true;wasFirstSession=false;for(var element in suspendData.mTracking){msequencer.mSeqTree.mActivityMap[element].mTracking=suspendData.mTracking[element];}
 var cur=suspendData.mCurActivity;msequencer.mSeqTree.mCurActivity=null;var first=suspendData.mFirstCandidate;msequencer.mSeqTree.mFirstCandidate=null;msequencer.mSeqTree.mLastLeaf=suspendData.mLastLeaf;var suspendAll=suspendData.mSuspendAll;msequencer.mSeqTree.mSuspendAll=msequencer.mSeqTree.mActivityMap[suspendAll];var valid=suspendData.mValidReq;msequencer.mSeqTree.mValidReq=valid;for(var element in suspendData.root){msequencer[element]=suspendData.root[element];}
 for(var element in suspendData.States){var source=suspendData.States[element];for(var subelement in source){msequencer.mSeqTree.mActivityMap[element][subelement]=source[subelement];}}
@@ -2754,7 +2754,8 @@ initStatusArray();if(wasSuspended==true){mlaunch=msequencer.navigate(NAV_RESUMEA
 var tolaunch=null;var count=0;for(var myitem in mlaunch.mNavState.mChoice){if(mlaunch.mNavState.mChoice[myitem].mInChoice==true&&mlaunch.mNavState.mChoice[myitem].mIsSelectable==true&&mlaunch.mNavState.mChoice[myitem].mIsEnabled==true){tolaunch=mlaunch.mNavState.mChoice[myitem].mID;count=count+1;}}
 if(count==1||this.config.hide_navig==1){toggleView();}
 if(mlaunch.mSeqNonContent==null){onItemDeliver(activities[mlaunch.mActivityID],wasSuspended);}else{if(count==1&&tolaunch!=null){launchTarget(tolaunch);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
-updateControls();updateNav();if(this.config.session_ping>0)
+updateControls();updateNav();if(logActive==true){var elm=all("toggleLog");elm.style.display="inline";}
+if(this.config.session_ping>0)
 {setTimeout("pingSession()",this.config.session_ping*1000);}}
 function initStatusArray(){for(element in msequencer.mSeqTree.mActivityMap){statusArray[element]=new Object();statusArray[element]['completion']=null;statusArray[element]['success']=null;}}
 function statusHandler(scoID,type,status){statusArray[scoID][type]=status;}
@@ -2897,7 +2898,7 @@ return c;}
 function onWindowLoad()
 {attachUIEvent(window,'unload',onWindowUnload);attachUIEvent(document,'click',onDocumentClick);setInfo('');setState('playing');attachUIEvent(window,'resize',onWindowResize);onWindowResize();}
 function onWindowUnload()
-{onItemUndeliver(true);save_global_objectives();save();}
+{summaryOnUnload=true;onItemUndeliver(true);save_global_objectives();save();}
 function loadData(item){var data=getAPI(item.foreignId);loadSharedData(item.cp_node_id);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var adlcpData=Array();for(ds in sharedData)
 {var dat=Array();dat["id"]=ds;dat["store"]=sharedData[ds].store;dat["readable"]=sharedData[ds].readSharedData;dat["writeable"]=sharedData[ds].writeSharedData;adlcpData.push(dat);}
 data.adl.data=adlcpData;var choice=validRequests['mChoice'];for(var k in choice){}
@@ -3048,47 +3049,91 @@ return valid;}else{return false;}}}
 function pausecomp(millis)
 {var date=new Date();var curDate=null;do{curDate=new Date();}
 while(curDate-date<millis);}
-var remoteMapping=null;var remoteInsertId=0;var globalAct=new Activity();var rootAct=new Activity();var activities=new Object();var activitiesByCAM=new Object();var activitiesByCMI=new Object();var activitiesByNo=new Array();var sharedObjectives=new Object();var sharedData=new Array();var msequencer=new ADLSequencer();var mlaunch=null;var adlnavreq=null;var treeYUI=null;var logState=false;var treeState=true;var ITEM_PREFIX="itm";var RESOURCE_PARENT="tdResource";var RESOURCE_NAME="frmResource";var RESOURCE_TOP="mainTable";var guiItem;var guiState;var gConfig;var RUNNING=1;var WAITING=0;var QUERYING=-1;var ABORTING=-2;var EXIT_ACTIONS=/^exit$/i;var POST_ACTIONS=/^exitParent|exitAll|retry|retryAll|continue|previous$/i;var SKIPPED_ACTIONS=/^skip$/i;var STOP_FORWARD_TRAVERSAL_ACTIONS=/^stopForwardTraversal$/i;var HIDDEN_FROM_CHOICE_ACTIONS=/^hiddenFromChoice$/i;var DISABLED_ACTIONS=/^disabled$/i;var state=WAITING;var currentAct=null;var SCOEntryedAct=null;var currentAPI;var scoStartTime=null;var treeView=true;var pubAPI=null;var statusArray=new Object();var isSaving=true;var saveOnCommit=true;window.scorm_init=init;
+function initDebug()
+{}
+function refreshDebugger(param){if(param==true){window.setTimeout("debugWindow.location.reload()",2000);}else{if(debugWindow!=null&&debugWindow.closed!=true){var content=sendJSONRequest(this.config.livelog_url);debugWindow.updateLiveLog();}}}
+function sendLogEntry(timespan,action,key,value,result,errorCode)
+{var logEntry=new Object();logEntry['timespan']=timespan;logEntry['action']=action;logEntry['key']=key;logEntry['value']=value;logEntry['result']=(typeof(result)!='undefined')?result:'undefined';logEntry['errorcode']=errorCode;if(action=="Initialize"){logEntryScoId=mlaunch.mActivityID;logEntryScoTitle=activities[mlaunch.mActivityID].title;}
+logEntry['scoid']=logEntryScoId;logEntry['scotitle']=logEntryScoTitle;if(action!="DELETE"){var result=sendJSONRequest(this.config.post_log_url,logEntry,refreshDebugger());}else{var result=sendJSONRequest(this.config.post_log_url,logEntry,refreshDebugger(true));}}
+function removeByElement(arrayName,arrayElement)
+{for(var i=0;i<arrayName.length;i++)
+{if(arrayName[i]==arrayElement)
+arrayName.splice(i,1);}}
+function createSummary()
+{var logEntry=new Object();logEntry['action']="SUMMARY";var result=sendJSONRequest(this.config.post_log_url,logEntry,refreshDebugger(true));}
+var remoteMapping=null;var remoteInsertId=0;var globalAct=new Activity();var rootAct=new Activity();var activities=new Object();var activitiesByCAM=new Object();var activitiesByCMI=new Object();var activitiesByNo=new Array();var sharedObjectives=new Object();var sharedData=new Array();var msequencer=new ADLSequencer();var mlaunch=null;var adlnavreq=null;var treeYUI=null;var logState=false;var treeState=true;var ITEM_PREFIX="itm";var RESOURCE_PARENT="tdResource";var RESOURCE_NAME="frmResource";var RESOURCE_TOP="mainTable";var guiItem;var guiState;var gConfig;var RUNNING=1;var WAITING=0;var QUERYING=-1;var ABORTING=-2;var EXIT_ACTIONS=/^exit$/i;var POST_ACTIONS=/^exitParent|exitAll|retry|retryAll|continue|previous$/i;var SKIPPED_ACTIONS=/^skip$/i;var STOP_FORWARD_TRAVERSAL_ACTIONS=/^stopForwardTraversal$/i;var HIDDEN_FROM_CHOICE_ACTIONS=/^hiddenFromChoice$/i;var DISABLED_ACTIONS=/^disabled$/i;var state=WAITING;var currentAct=null;var SCOEntryedAct=null;var currentAPI;var scoStartTime=null;var treeView=true;var logActive=false;var scoDebugValues=null;var scoDebugValuesTest=null;var logEntryScoId="";var logEntryScoTitle="";var summaryOnUnload=false;var pubAPI=null;var statusArray=new Object();var isSaving=true;var saveOnCommit=true;window.scorm_init=init;
 function Runtime(cmiItem,onCommit,onTerminate,onDebug)
 {function GetLastError()
-{return String(error);}
+{if(logActive)
+sendLogEntry(getMsecSinceStart(),'GetLastError',"","",String(error),"");return String(error);}
 function GetErrorString(param)
 {if(typeof param!=='string')
-{return setReturn(201,'GetError param must be empty string','');}
-var e=Runtime.errors[param];return e&&e.message?String(e.message).substr(0,255):'';}
+{if(logActive)
+sendLogEntry(getMsecSinceStart(),'GetErrorString',String(param),"","false",201);return setReturn(201,'GetError param must be empty string','');}
+var e=Runtime.errors[param];var returnValue=e&&e.message?String(e.message).substr(0,255):'';if(logActive)
+sendLogEntry(getMsecSinceStart(),'GetErrorString',String(param),"",returnValue,0);return returnValue;}
 function GetDiagnostic(param)
-{return param+': '+(error?String(diagnostic).substr(0,255):' no diagnostic');}
+{var returnValue=param+': '+(error?String(diagnostic).substr(0,255):' no diagnostic');if(logActive)
+sendLogEntry(getMsecSinceStart(),'GetDiagnostic',String(param),"",returnValue,"");return returnValue;}
 function Initialize(param)
-{setReturn(-1,'Initialize('+param+')');if(param!=='')
-{return setReturn(201,'param must be empty string','false');}
+{function checkInternalValues(a_debugValues){function checkGetValue(cmivar){var a_getValues=['comments_from_lms','completion_threshold','credit','entry','launch_data','learner_id','learner_name','max_time_allowed','mode','scaled_passing_score','time_limit_action','total_time'];var b_getValue=false;for(var i=0;i<a_getValues.length;i++){if(cmivar.indexOf("cmi."+a_getValues[i])>-1)b_getValue=true;}
+return b_getValue;}
+var j=0;while(j<a_debugValues.length){if(a_debugValues[j].indexOf("completion_status")>-1){if(GetValueIntern(a_debugValues[j])!="unknown")removeByElement(a_debugValues,a_debugValues[j]);else j++;}
+else if(a_debugValues[j].indexOf("success_status")>-1){if(GetValueIntern(a_debugValues[j])!="unknown")removeByElement(a_debugValues,a_debugValues[j]);else j++;}
+else if(GetValueIntern(a_debugValues[j])!=""&&checkGetValue(a_debugValues[j])==false)
+removeByElement(a_debugValues,a_debugValues[j]);else j++;}}
+setReturn(-1,'Initialize('+param+')');if(param!=='')
+{if(logActive)
+sendLogEntry(getMsecSinceStart(),'Initialize',param,"","false",201);return setReturn(201,'param must be empty string','false');}
 switch(state)
 {case NOT_INITIALIZED:dirty=false;if(cmiItem instanceof Object)
-{state=RUNNING;return setReturn(0,'','true');}
+{state=RUNNING;if(logActive){sendLogEntry(getMsecSinceStart(),'Initialize',"","","true",0);scoDebugValues=new Array();for(var i=0;i<gConfig.debug_fields.length;i++){scoDebugValues[i]=gConfig.debug_fields[i];}
+scoDebugValuesTest=new Array();for(var i=0;i<gConfig.debug_fields_test.length;i++){scoDebugValuesTest[i]=gConfig.debug_fields_test[i];}
+if(GetValueIntern("cmi.entry")!="ab-initio"){checkInternalValues(scoDebugValues);checkInternalValues(scoDebugValuesTest);}}
+return setReturn(0,'','true');}
 else
-{return setReturn(102,'','false');}
-break;case RUNNING:return setReturn(103,'','false');case TERMINATED:return setReturn(104,'','false');}
-return setReturn(103,'','false');}
+{if(logActive)
+sendLogEntry(getMsecSinceStart(),'Initialize',"","","false",102);return setReturn(102,'','false');}
+break;case RUNNING:if(logActive)
+sendLogEntry(getMsecSinceStart(),'Initialize',"","","false",103);return setReturn(103,'','false');case TERMINATED:if(logActive)
+sendLogEntry(getMsecSinceStart(),'Initialize',"","","false",104);return setReturn(104,'','false');}
+if(logActive)
+sendLogEntry(getMsecSinceStart(),'Initialize',"","","false",103);return setReturn(103,'','false');}
 function Commit(param)
 {setReturn(-1,'Commit('+param+')');if(param!=='')
-{return setReturn(201,'param must be empty string','false');}
+{if(logActive)
+sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",201);return setReturn(201,'param must be empty string','false');}
 switch(state)
-{case NOT_INITIALIZED:return setReturn(142,'','false');case RUNNING:var returnValue1=GetValueIntern("cmi.success_status");returnValue1=GetValueIntern("cmi.completion_status");var returnValue=onCommit(cmiItem);if(saveOnCommit==true){var returnCommit=save();}
+{case NOT_INITIALIZED:if(logActive)
+sendLogEntry(getMsecSinceStart(),'Commit',"","","false",142);return setReturn(142,'','false');case RUNNING:var returnValue1=GetValueIntern("cmi.success_status");returnValue1=GetValueIntern("cmi.completion_status");var returnValue=onCommit(cmiItem);if(saveOnCommit==true){var returnCommit=save();}
 if(returnValue)
-{dirty=false;return setReturn(0,'','true');}
+{dirty=false;if(logActive&&commitByTerminate==false)
+sendLogEntry(getMsecSinceStart(),'Commit',"","","true",0);return setReturn(0,'','true');}
 else
-{return setReturn(391,'Persisting failed','false');}
-break;case TERMINATED:return setReturn(143,'','false');}}
+{if(logActive)
+sendLogEntry(getMsecSinceStart(),'Commit',"","","false",391);return setReturn(391,'Persisting failed','false');}
+break;case TERMINATED:if(logActive)
+sendLogEntry(getMsecSinceStart(),'Commit',"","","false",143);return setReturn(143,'','false');}}
 function Terminate(param){setReturn(-1,'Terminate('+param+')');if(param!=='')
-{return setReturn(201,'param must be empty string','false');}
+{if(logActive)
+sendLogEntry(getMsecSinceStart(),'Terminate',param,"","false",201);return setReturn(201,'param must be empty string','false');}
 switch(state)
-{case NOT_INITIALIZED:return setReturn(112,'','false');case RUNNING:Runtime.onTerminate(cmiItem,msec);setReturn(-1,'Terminate('+param+') [after wrapup]');saveOnCommit=true;var returnValue=Commit('');saveOnCommit=true;state=TERMINATED;onTerminate(cmiItem);return setReturn(error,'',returnValue);case TERMINATED:return setReturn(113,'','false');}}
+{case NOT_INITIALIZED:if(logActive)
+sendLogEntry(getMsecSinceStart(),'Terminate',"","","false",112);return setReturn(112,'','false');case RUNNING:Runtime.onTerminate(cmiItem,msec);setReturn(-1,'Terminate('+param+') [after wrapup]');saveOnCommit=true;commitByTerminate=true;var returnValue=Commit('');commitByTerminate=false;saveOnCommit=true;state=TERMINATED;if(logActive){sendLogEntry(getMsecSinceStart(),'Terminate',"","",returnValue,0);sendLogEntry(getMsecSinceStart(),'ANALYZE',"",scoDebugValues,"","");sendLogEntry(getMsecSinceStart(),'ANALYZETEST',"",scoDebugValuesTest,"","");if(summaryOnUnload==true)createSummary();}
+onTerminate(cmiItem);return setReturn(0,'',returnValue);case TERMINATED:if(logActive)
+sendLogEntry(getMsecSinceStart(),'Terminate',"","","false",113);return setReturn(113,'','false');}}
 function GetValue(sPath)
 {setReturn(-1,'GetValue('+sPath+')');switch(state)
-{case NOT_INITIALIZED:sclogdump("Not initialized","error");return setReturn(122,'','');case RUNNING:if(typeof(sPath)!=='string')
-{sclogdump("201: must be string","error");return setReturn(201,'must be string','');}
+{case NOT_INITIALIZED:if(logActive)
+sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"","false",122);sclogdump("Not initialized","error");return setReturn(122,'','');case RUNNING:if(typeof(sPath)!=='string')
+{if(logActive)
+sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"","false",201);return setReturn(201,'must be string','');}
 if(sPath==='')
-{sclogdump("301: cannot be empty string","error");return setReturn(301,'cannot be empty string','');}
-return GetValueIntern(sPath);case TERMINATED:sclogdump("Error 123: Terminated","error");return setReturn(123,'','');}}
+{if(logActive)
+sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"","false",301);return setReturn(301,'cannot be empty string','');}
+var r=GetValueIntern(sPath);if(logActive){sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"",r,error);var a_getValues=['comments_from_lms','completion_threshold','credit','entry','launch_data','learner_id','learner_name','max_time_allowed','mode','scaled_passing_score','time_limit_action','total_time'];for(var j=0;j<a_getValues.length;j++){if(sPath.indexOf("cmi."+a_getValues[j])>-1){removeByElement(scoDebugValues,sPath);removeByElement(scoDebugValuesTest,sPath);}}}
+return r;case TERMINATED:if(logActive)
+sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"","false",123);return setReturn(123,'','');}}
 function GetValueIntern(sPath){var r=getValue(sPath,false);return error?'':setReturn(0,'',r);}
 function getValue(path,sudo)
 {var tokens=path.split('.');return walk(cmiItem,Runtime.models[tokens[0]],tokens,null,sudo,{parent:[]});}
@@ -3098,23 +3143,29 @@ else
 {sValue=String(sValue);}
 var r=setValue(sPath,sValue);return error?'':setReturn(0,'',r);}
 function SetValue(sPath,sValue)
-{setReturn(-1,'SetValue('+sPath+', '+sValue+')');sclogdump("Set: "+sPath+" : "+sValue,"cmi");switch(state)
-{case NOT_INITIALIZED:sclogdump("Error 132: not initialized","error");return setReturn(132,'','false');case RUNNING:if(typeof(sPath)!=='string')
-{sclogdump("Error 201: must be string","error");return setReturn(201,'must be string','false');}
+{setReturn(-1,'SetValue('+sPath+', '+sValue+')');switch(state)
+{case NOT_INITIALIZED:if(logActive)
+sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",132);return setReturn(132,'','false');case RUNNING:if(typeof(sPath)!=='string')
+{if(logActive)
+sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",201);return setReturn(201,'must be string','false');}
 if(sPath==='')
-{sclogdump("Error 351: 'Param 1 cannot be empty string","error");return setReturn(351,'Param 1 cannot be empty string','false');}
+{if(logActive)
+sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",351);return setReturn(351,'Param 1 cannot be empty string','false');}
 if(typeof sValue==="number")
 {sValue=""+sValue.toFixed(3);}
 else
 {sValue=String(sValue);}
 try
-{var r=setValue(sPath,sValue);if(!error){var lastToken=sPath.substring(sPath.lastIndexOf('.')+1);if(lastToken=="completion_status"||lastToken=="success_status"){setValue(sPath+"_SetBySco","true");}
+{var r=setValue(sPath,sValue);if(!error){if(logActive){sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"true",0);removeByElement(scoDebugValues,sPath);removeByElement(scoDebugValuesTest,sPath);}
+var lastToken=sPath.substring(sPath.lastIndexOf('.')+1);if(lastToken=="completion_status"||lastToken=="success_status"){setValue(sPath+"_SetBySco","true");}
 if(sPath=="cmi.completion_status"&&cmiItem.scoid!=null){statusHandler(cmiItem.scoid,"completion",sValue);}
-if(sPath=="cmi.success_status"&&cmiItem.scoid!=null){statusHandler(cmiItem.scoid,"success",sValue);}
-sclogdump("SetValue-return: "+true,"cmi");}else{sclogdump("SetValue-return: "+false,"error");}
+if(sPath=="cmi.success_status"&&cmiItem.scoid!=null){statusHandler(cmiItem.scoid,"success",sValue);}}else{if(logActive)
+sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",error);}
 return error?'false':'true';}catch(e)
-{sclogdump("351: Exception "+e,"error");return setReturn(351,'Exception '+e,'false');}
-break;case TERMINATED:sclogdump("Error 133: Terminated","error");return setReturn(133,'','false');}}
+{if(logActive)
+sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",351);return setReturn(351,'Exception '+e,'false');}
+break;case TERMINATED:if(logActive)
+sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",133);return setReturn(133,'','false');}}
 function setValue(path,value,sudo)
 {var tokens=path.split('.');return walk(cmiItem,Runtime.models[tokens[0]],tokens,value,sudo,{parent:[]});}
 function walk(dat,def,path,value,sudo,extra)
@@ -3216,7 +3267,9 @@ function setReturn(errCode,errInfo,returnValue)
 {if(errCode>-1)
 {top.status=[(new Date()).toLocaleTimeString(),errCode,errInfo].join(", ");}
 error=errCode;diagnostic=(typeof(errInfo)=='string')?errInfo:'';return returnValue;}
-var NOT_INITIALIZED=0;var RUNNING=1;var TERMINATED=2;var READONLY=1;var WRITEONLY=2;var READWRITE=3;var state=NOT_INITIALIZED;var error=0;var diagnostic='';var dirty=false;var msec=currentTime();var me=this;var methods={'Initialize':Initialize,'Terminate':Terminate,'GetValue':GetValue,'GetValueIntern':GetValueIntern,'SetValue':SetValue,'SetValueIntern':SetValueIntern,'Commit':Commit,'GetLastError':GetLastError,'GetErrorString':GetErrorString,'GetDiagnostic':GetDiagnostic};for(var k in Runtime.methods)
+function getMsecSinceStart()
+{return currentTime()-msec;}
+var NOT_INITIALIZED=0;var RUNNING=1;var TERMINATED=2;var READONLY=1;var WRITEONLY=2;var READWRITE=3;var state=NOT_INITIALIZED;var error=0;var diagnostic='';var dirty=false;var msec=currentTime();var me=this;var commitByTerminate=false;var methods={'Initialize':Initialize,'Terminate':Terminate,'GetValue':GetValue,'GetValueIntern':GetValueIntern,'SetValue':SetValue,'SetValueIntern':SetValueIntern,'Commit':Commit,'GetLastError':GetLastError,'GetErrorString':GetErrorString,'GetDiagnostic':GetDiagnostic};for(var k in Runtime.methods)
 {me[k]=methods[k];}}
 Runtime.prototype.version="1.0";Runtime.apiname="API_1484_11";Runtime.errors={0:{code:0,message:'No error'},101:{code:101,message:'General Exeption'},102:{code:102,message:'General Initialization Failure'},103:{code:103,message:'Already Initialized'},104:{code:104,message:'Content Instance Terminated'},111:{code:111,message:'General Termination Failure'},112:{code:112,message:'Termination Before Initialization'},113:{code:113,message:'Termination After Termination'},122:{code:122,message:'Retrieve Data Before Initialization'},123:{code:123,message:'Retrieve Data After Termination'},132:{code:132,message:'Store Data Before Initialization'},133:{code:133,message:'Store Data After Termination'},142:{code:142,message:'Commit Before Initialization'},143:{code:143,message:'Commit After Termination'},201:{code:201,message:'General Argument Error'},301:{code:301,message:'General Get Failure'},351:{code:351,message:'General Set Failure'},391:{code:391,message:'General Commit Failure'},401:{code:401,message:'Undefined Data Model Element'},402:{code:402,message:'Unimplemented Data Model Element'},403:{code:403,message:'Data Model Element Value Not Initialized'},404:{code:404,message:'Data Model Element Is Read Only'},405:{code:405,message:'Data Model Element Is Write Only'},406:{code:406,message:'Data Model Element Type Mismatch'},407:{code:407,message:'Data Model Element Value Out Of Range'},408:{code:408,message:'Data Model Dependency Not Established'}};Runtime.methods={'Initialize':'Initialize','Terminate':'Terminate','GetValue':'GetValue','GetValueIntern':'GetValueIntern','SetValue':'SetValue','SetValueIntern':'SetValueIntern','Commit':'Commit','GetLastError':'GetLastError','GetErrorString':'GetErrorString','GetDiagnostic':'GetDiagnostic'};Runtime.models={'cmi':new function(){var READONLY=1;var WRITEONLY=2;var READWRITE=3;function getDelimiter(str,typ,extra)
 {var redelim=new RegExp("^({("+typ+")=([^}]*)})?([\\s\\S]*)$");var rebool=/^(true|false)$/;var m=str.match(redelim);if(m[2]&&(m[2]==="lang"&&!LangType.isValid(m[3])||m[2]!=="lang"&&!BooleanType.isValid(m[3])))

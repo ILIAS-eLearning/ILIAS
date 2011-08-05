@@ -321,6 +321,23 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			{
 				$this->tpl->setVariable("CHK_HIDENAVIG", "checked");
 			}
+
+			//debug
+			$this->tpl->setVariable("TXT_DEBUG", $this->lng->txt("cont_debug"));
+			$this->tpl->setVariable("CBOX_DEBUG", "cobj_debug");
+			$this->tpl->setVariable("VAL_DEBUG", "y");
+			if ($this->object->getDebug())
+			{
+				$this->tpl->setVariable("CHK_DEBUG", "checked");
+			}
+			
+			//debugActivated
+			if ($this->object->getDebugActivated() == false) {
+				$this->tpl->setVariable("CHK_ACTIVATED", "disabled");
+				$this->tpl->setVariable("TXT_ACTIVATED", $this->lng->txt("cont_debug_deactivated"));
+			} else {
+				$this->tpl->setVariable("TXT_ACTIVATED", $this->lng->txt("cont_debug_deactivate"));
+			}
 		
 			$this->tpl->setCurrentBlock("commands");
 			$this->tpl->setVariable("BTN_NAME", "saveProperties");
@@ -442,7 +459,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$this->object->setSession(ilUtil::yn2tf($_POST["cobj_session"]));
 			$this->object->setNoMenu(ilUtil::yn2tf($_POST["cobj_nomenu"]));
 			$this->object->setHideNavig(ilUtil::yn2tf($_POST["cobj_hidenavig"]));
-			//$this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
+			$this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
 			//$this->object->setDebugPw($_POST["debug_pw"]);
 
 		}
