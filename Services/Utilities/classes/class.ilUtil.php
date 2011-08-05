@@ -1204,110 +1204,120 @@ class ilUtil
 	* @param	string	password
 	* @return	boolean	true if valid
 	*/
-	function isPassword($a_passwd,&$custom_error = null)
+	function isPassword($a_passwd, &$customError = null)
 	{
 		global $lng;
-		$a_custom_error = '';
-
-
+		
 		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 		$security = ilSecuritySettings::_getInstance();
 
-		// differentiate the account security mode (ilias standard/customized)
-		if( $security->getAccountSecurityMode() == ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
+		if( $security->getAccountSecurityMode() != ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
 		{
-			// check if passwd not empty
-			if( $a_passwd == '' )
-			{
-				$custom_error = $lng->txt('password_empty');
-				return false;
-			}
-			// check if passwd not to short
-			if( $security->getPasswordMinLength() > 0 &&
-				strlen($a_passwd) < $security->getPasswordMinLength() )
-			{
-				$custom_error = sprintf( $lng->txt('password_to_short'), $security->getPasswordMinLength() );
-				return false;
-			}
-			// check if passwd not to long
-			elseif( $security->getPasswordMaxLength() > 0 &&
-					strlen($a_passwd) > $security->getPasswordMaxLength() )
-			{
-				$custom_error = sprintf( $lng->txt('password_to_long'), $security->getPasswordMaxLength() );
-				return false;
-			}
-			else
-			{
-				// if passwd must contains Chars and Numbers
-				if( $security->isPasswordCharsAndNumbersEnabled() )
-				{
-					$reg = '/[A-Za-z]+/';
-					if( !preg_match($reg,$a_passwd) )
-					{
-						$custom_error = $lng->txt('password_must_chars_and_numbers');
-						return false;
-					}
+			/// standard ilias account security mode ///
+			
+			$customError = null;
 
-					$reg = '/[0-9]+/';
-					if( !preg_match($reg,$a_passwd) )
-					{
-						$custom_error = $lng->txt('password_must_chars_and_numbers');
-						return false;
-					}
-
-				}
-				else
-				{
-					// use ILIAS-Standard
-					if (!preg_match("/^[A-Za-z0-9]+/", $a_passwd))
-					{
-						return false;
-					}
-
-				}
-				// if passwd must contains Special-Chars
-				if( $security->isPasswordSpecialCharsEnabled() )
-				{
-					#$reg = '/[_\.\+\?\#\-\*\@!\$\%\~]+/';
-					$reg = '/[_\.\+\?\#\-\*\@!\$\%\/\:\;\~]+/';
-
-					if( !preg_match($reg,$a_passwd) )
-					{
-						$custom_error = $lng->txt('password_must_special_chars');
-						return false;
-					}
-				}
-				else
-				{
-					// use ILIAS-Standard
-					if (!preg_match("/^[_\.\+\?\#\-\*\@!\$\%\~]+/", $a_passwd))
-					{
-						return false;
-					}
-
-				}
-			}
-		}
-		else
-		{
-			if (empty($a_passwd))
+			switch( true )
 			{
-				return false;
-			}
-			if (strlen($a_passwd) < 6)
-			{
-				return false;
-			}
-			// due to bug in php does not work
-			//if (!ereg("^[A-Za-z0-9_\.\+\-\*\@!\$\%\~]+$", $a_passwd))
-
-			if (!preg_match("/^[A-Za-z0-9_\.\+\?\#\-\*\@!\$\%\~]+$/", $a_passwd))
-			{
-				return false;
+				// no empty password
+				case empty($a_passwd):
+				
+				// min password length is 6
+				case strlen($a_passwd) < 6:
+					
+				// valid chars for password
+				case !preg_match("/^[A-Za-z0-9_\.\+\?\#\-\*\@!\$\%\~]+$/", $a_passwd):
+					
+					return false;
+					
+				default:
+					
+					return true;
 			}
 		}
 
-		return true;
+		/// customized account security mode ///
+
+		// check if password is empty
+		if( empty($a_passwd) )
+		{
+			$customError = $lng->txt('password_empty');
+			return false;
+		}
+		
+		$isPassword = true;
+		$errors = array();
+		
+		// check if password to short
+		if( $security->getPasswordMinLength() > 0 && strlen($a_passwd) < $security->getPasswordMinLength() )
+		{
+			$errors[] = sprintf( $lng->txt('password_to_short'), $security->getPasswordMinLength() );
+			$isPassword = false;
+		}
+		
+		// check if password not to long
+		if( $security->getPasswordMaxLength() > 0 && strlen($a_passwd) > $security->getPasswordMaxLength() )
+		{
+			$errors[] = sprintf( $lng->txt('password_to_long'), $security->getPasswordMaxLength() );
+			$isPassword = false;
+		}
+
+		// if password must contains Chars and Numbers
+		if( $security->isPasswordCharsAndNumbersEnabled() )
+		{
+			$hasCharsAndNumbers = true;
+
+			// check password for existing chars
+			if( !preg_match('/[A-Za-z]+/',$a_passwd) )
+			{
+				$hasCharsAndNumbers = false;
+			}
+
+			// check password for existing numbers
+			if( !preg_match('/[0-9]+/',$a_passwd) )
+			{
+				$hasCharsAndNumbers = false;
+			}
+
+			if( !$hasCharsAndNumbers )
+			{
+				$errors[] = $lng->txt('password_must_chars_and_numbers');
+				$isPassword = false;
+			}
+		}
+
+		// if password must contains Special-Chars
+		if( $security->isPasswordSpecialCharsEnabled() )
+		{
+			$specialCharsReg = '/[_\.\+\?\#\-\*\@!\$\%\~\/\:\;]+/';
+		
+			// check password for existing special-chars
+			if( !preg_match($specialCharsReg, $a_passwd) )
+			{
+				$errors[] = $lng->txt('password_must_special_chars');
+				$isPassword = false;
+			}
+		}
+		
+		// ensure password matches the positive list of chars/special-chars
+		if( !preg_match("/^[A-Za-z0-9_\.\+\?\#\-\*\@!\$\%\~\/\:\;]+$/", $a_passwd) )
+		{
+			$errors[] = $lng->txt('password_contains_invalid_chars');
+			$isPassword = false;
+		}
+		
+		// build custom error message
+		if( count($errors) == 1 )
+		{
+			$customError = $errors[0];
+		}
+		elseif( count($errors) > 1 )
+		{
+			$customError = $lng->txt('password_multiple_errors');
+			$customError .= '<br />'.implode('<br />', $errors);
+		}
+
+		return $isPassword;
 	}
 
 	/**
@@ -1322,26 +1332,17 @@ class ilUtil
 
 		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
 		$security = ilSecuritySettings::_getInstance();
-		$ok = '';
+		
 		if( $security->getAccountSecurityMode() == ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
 		{
-			if( $security->isPasswordCharsAndNumbersEnabled() )
-			{
-				$ok .= 'A-Za-z0-9';
-			}
-			else $ok .= 'A-Za-z0-9';
-			if( $security->isPasswordSpecialCharsEnabled() )
-			{
-				$ok .= '_.+?#-*@!$%/:;~';
-			}
-			else $ok .= '_.+?#-*@!$%~';
+			$validPasswordChars = 'A-Z a-z 0-9 _.+?#-*@!$%~/:;';
 		}
 		else
 		{			
-			$ok .= 'A-Za-z0-9_.+?#-*@!$%~';
+			$validPasswordChars = 'A-Z a-z 0-9 _.+?#-*@!$%~';
 		}
 
-		return sprintf($lng->txt('password_allow_chars'), $ok);
+		return sprintf($lng->txt('password_allow_chars'), $validPasswordChars);
 	}
 
 	/*

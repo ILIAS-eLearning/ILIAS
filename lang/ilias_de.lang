@@ -12047,3 +12047,5 @@ scormdebug#:#debugwindow_delete#:#L&ouml;schen
 scormdebug#:#debugwindow_download#:#Herunterladen
 scormdebug#:#debugwindow_open#:#&Ouml;ffnen
 scormdebug#:#debugwindow_password_enter#:#Bitte geben Sie Ihr Passwort ein
+common#:#password_multiple_errors#:#Mehrere Passwort Kriterien werden nicht erfüllt:
+common#:#password_contains_invalid_chars#:#Das Passwort enthält ungültige Zeichen.
