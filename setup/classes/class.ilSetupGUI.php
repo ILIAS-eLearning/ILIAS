@@ -1841,7 +1841,7 @@ else
 		
 		$steps["ini"]["text"]       = $this->lng->txt("setup_process_step_ini");
 		$steps["db"]["text"]        = $this->lng->txt("setup_process_step_db");
-		$steps["sess"]["text"]      = $this->lng->txt("setup_process_step_sess");
+		//$steps["sess"]["text"]      = $this->lng->txt("setup_process_step_sess");
 		$steps["lang"]["text"]      = $this->lng->txt("setup_process_step_lang");
 		$steps["contact"]["text"]   = $this->lng->txt("setup_process_step_contact");
 		$steps["nic"]["text"]       = $this->lng->txt("setup_process_step_nic");
@@ -1992,7 +1992,7 @@ else
 
 			if ($db_status)
 			{
-				$this->setButtonNext("sess");
+				$this->setButtonNext("lang");
 			}
 		}
 		else	// database is not installed
@@ -2465,12 +2465,12 @@ else
 		$this->tpl->setVariable("TXT_INFO", '');
 		$this->tpl->setVariable("SETUP_CONTENT", $form->getHTML());
 
-		$this->setButtonPrev("db");
+		/*$this->setButtonPrev("db");
 
 		if($this->setup->checkClientSessionSettings($this->client,true))
 		{
 			$this->setButtonNext("lang");
-		}
+		}*/
 
 		$this->checkPanelMode();
 	}
@@ -2513,7 +2513,7 @@ else
 			$this->setup->getClient()->status["lang"]["comment"] = $this->lng->txt("lang_none_installed");
 		}
 
-		$this->setButtonPrev("sess");
+		$this->setButtonPrev("lang");
 		
 		if ($lang_count > 0)
 		{

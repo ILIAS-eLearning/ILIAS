@@ -827,8 +827,8 @@ class ilSetup extends PEAR
 		
 		if ($status["db"]["status"] === false and $status["db"]["update"] !== true)
 		{
-			$status["sess"]["status"] = false;
-			$status["sess"]["comment"] = $status["db"]["comment"];
+			//$status["sess"]["status"] = false;
+			//$status["sess"]["comment"] = $status["db"]["comment"];
 			$status["lang"]["status"] = false;
 			$status["lang"]["comment"] = $status["db"]["comment"];
 			$status["contact"]["status"] = false;
@@ -838,7 +838,7 @@ class ilSetup extends PEAR
 		}
 		else
 		{
-			$status["sess"] = $this->checkClientSessionSettings($client);
+			//$status["sess"] = $this->checkClientSessionSettings($client);
 			$status["lang"] = $this->checkClientLanguages($client);
 			$status["contact"] = $this->checkClientContact($client);
 			$status["nic"] = $this->checkClientNIC($client);
