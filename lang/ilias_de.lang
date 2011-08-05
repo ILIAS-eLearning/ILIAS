@@ -11883,3 +11883,167 @@ grp#:#grp_view_info_by_type#:#Diese Gruppenansicht ordnet alle Gruppeninhalte na
 grp#:#grp_view_inherit#:#Standard
 grp#:#grp_view_inherit_info#:#Die Gruppenansicht wird vom übergeodneten Kurs übernommen.
 grp#:#grp_view_info_simple#:#Diese Gruppenansicht stellt alle Gruppeninhalte in einer Liste dar.
+content#:#cont_open#:#Anzeigen
+content#:#cont_open_normal#:#in Tab / neuem Fenster
+content#:#cont_open_iframe_max#:#in iframe mit voller Größe
+content#:#cont_open_iframe_defined#:#in iframe mit festgelegter Breite und Höhe
+content#:#cont_open_window_undefined#:#in neuem Fenster ohne festgelegte Breite und Höhe
+content#:#cont_open_window_defined#:#in neuem Fenster mit festgelegter Breite und Höhe
+content#:#cont_open_width#:#Breite
+content#:#cont_open_heigth#:#Höhe
+scormdebug#:#scormdebug_global_activate#:#SCORM 2004 Testwerkzeug aktivieren
+scormdebug#:#scormdebug_global_activate_info#:#Die Funktion ermöglicht SCORM 2004-Lernmodule zu testen. Zusätzlich muss bei jedem gewünschten SCORM-Modul das Testwerkzeug aktiviert werden. Bei Deaktivierung des Testwerkzeugs an dieser Stelle wird bei allen Lernmodulen das Testwerzeug deaktiviert.
+content#:#cont_debug_deactivate#:#Hinweis: Testwerkzeug kann global für alle Lernmodule deaktiviert werden.
+content#:#cont_debug_deactivated#:#Hinweis: Testwerkzeug ist global für alle Lernmodule deaktiviert.
+scormdebug#:#error0#:#kein Fehler
+scormdebug#:#error101#:#Allgemeiner Ausnahmefehler
+scormdebug#:#error102#:#Allgemeiner Initialisierungsfehler
+scormdebug#:#error103#:#bereits initialisiert
+scormdebug#:#error104#:#Content-Instanz beendet
+scormdebug#:#error111#:#Allgemeiner Beendigungs-Fehler
+scormdebug#:#error112#:#Beendigung vor Initialisierung
+scormdebug#:#error113#:#Beendigung nach Beendigung
+scormdebug#:#error122#:#Daten abfragen vor Initialisierung
+scormdebug#:#error123#:#Daten abfragen nach Beendigung
+scormdebug#:#error132#:#Daten speichern vor Initialisierung
+scormdebug#:#error133#:#Daten speichern nach Beendigung
+scormdebug#:#error142#:#Daten sichern vor Initialisierung
+scormdebug#:#error143#:#Daten sichern nach Beendigung
+scormdebug#:#error201#:#Allgemeiner Fehler beim Argument
+scormdebug#:#error301#:#Allgemeiner Fehler beim Daten abrufen
+scormdebug#:#error351#:#Allgemeiner Fehler beim Daten senden
+scormdebug#:#error391#:#Allgemeiner Fehler beim Daten speichern
+scormdebug#:#error401#:#Undefiniertes Element im Datenmodell
+scormdebug#:#error402#:#Element im Datenmodell nicht implementiert
+scormdebug#:#error403#:#Wert des Elements im Datenmodell nicht initialisiert
+scormdebug#:#error404#:#Element im Datenmodell darf nur gelesen werden
+scormdebug#:#error405#:#Element im Datenmodell darf nur geschrieben werden
+scormdebug#:#error406#:#Datentyp des Elements im Datenmodell ist unpassend
+scormdebug#:#error407#:#Wert des Elements im Datenmodell ist nicht innerhalb des erlaubten Bereichs
+scormdebug#:#error408#:#Beziehung des Datenmodells ist nicht angelegt
+scormdebug#:#SetValue#:#Daten senden
+scormdebug#:#GetValue#:#Daten abrufen
+scormdebug#:#Commit#:#Daten speichern
+scormdebug#:#Initialize#:#Kommunikation mit der SCORM-API initialisieren (starten)
+scormdebug#:#Terminate#:#Daten speichern und Kommunikation mit der SCORM-API beenden
+scormdebug#:#GetErrorString#:#Beschreibung für den aktuellen Fehler-Status abrufen
+scormdebug#:#GetLastError#:#Fehler-Code für den aktuellen Fehler-Status abrufen
+scormdebug#:#GetDiagnostic#:#dient der Lernplattform zum Abrufen zus&auuml;tzlicher Informationen
+scormdebug#:#cmi._version#:#zeigt die Version des Datenmodells
+scormdebug#:#cmi.comments_from_learner._children#:#Auflistung der hier unterst&uuml;tzten Elemente des Datenmodells
+scormdebug#:#cmi.comments_from_learner._count#:#aktuelle Anzahl der Kommentare der/des Lernenden
+scormdebug#:#cmi.comments_from_learner.n.comment#:#Text des Kommentars
+scormdebug#:#cmi.comments_from_learner.n.location#:#Position innerhalb des SCO, auf die sich der Kommentar bezieht
+scormdebug#:#cmi.comments_from_learner.n.timestamp#:#Zeitpunkt, an dem der Kommentar erstellt oder zuletzt ge&auml;ndert wurde
+scormdebug#:#cmi.comments_from_lms._children#:#Auflistung der hier unterst&uuml;tzten Elemente des Datenmodells
+scormdebug#:#cmi.comments_from_lms._count#:#aktuelle Anzahl der Kommentare vom LMS
+scormdebug#:#cmi.comments_from_lms.n.comment#:#mit dem SCO verkn&uuml;pfter Kommentar vom LMS
+scormdebug#:#cmi.comments_from_lms.n.location#:#Position innerhalb des SCO, auf die sich der Kommentar bezieht
+scormdebug#:#cmi.comments_from_lms.n.timestamp#:#Zeitpunkt, an dem der Kommentar erstellt oder zuletzt ge&auml;ndert wurde
+scormdebug#:#cmi.completion_status#:#kennzeichnet, ob und in welchem Umfang das SCO bearbeitet wurde
+scormdebug#:#cmi.completion_threshold#:#bestimmt, ab welchem Grad ein SCO als vollst&auml;ndig bearbeitet (completed) gilt.
+scormdebug#:#cmi.credit#:#bestimmt, ob der Lernfortschritt f&uuml;r die/den Lernende(n) erfasst werden soll
+scormdebug#:#cmi.entry#:#&uuml;bermittelt, ob die/der Lernende das SCO bereits bearbeitet hat
+scormdebug#:#cmi.exit#:#&uuml;bermittelt, warum und wie die/der Lernende das SCO verlassen hat
+scormdebug#:#cmi.interactions._children#:#Auflistung der hier unterst&uuml;tzten Elemente des Datenmodells
+scormdebug#:#cmi.interactions._count#:#aktuelle Anzahl der vom LMS gespeicherten Interaktionen
+scormdebug#:#cmi.interactions.n.id#:#eindeutige ID der Interaktion
+scormdebug#:#cmi.interactions.n.type#:#Typ der Interaktion
+scormdebug#:#cmi.interactions.n.objectives._count#:#aktuelle Anzahl der Lernziele, die vom LMS f&uuml;r diese Interaktion gespeichert wurde
+scormdebug#:#cmi.interactions.n.objectives.n.id#:#ID des Lernziels, das mit dieser Interaktion verkn&uuml;pft ist
+scormdebug#:#cmi.interactions.n.timestamp#:#Zeitpunkt, an dem die Interaktion zur Bearbeitung bereitgestellt wurde
+scormdebug#:#cmi.interactions.n.correct_responses._count#:#aktuelle Anzahl richtiger Antworten, die vom LMS f&uuml;r diese Interaktion gespeichert wurden
+scormdebug#:#cmi.interactions.n.correct_responses.n.pattern#:#eine richtige Antwort f&uuml;r diese Interaktion
+scormdebug#:#cmi.interactions.n.weighting#:#Gewichtung dieser Interaktion bezogen auf andere Interaktionen
+scormdebug#:#cmi.interactions.n.learner_response#:#Antwort der/des Lernenden zu dieser Interaktion
+scormdebug#:#cmi.interactions.n.result#:#Bewertung zur Richtigkeit der Antwort der/des Lernenden
+scormdebug#:#cmi.interactions.n.latency#:#verstrichene Zeit zwischen der Bereitstellung der Interaktion und der Antwort der/des Lernenden
+scormdebug#:#cmi.interactions.n.description#:#Beschreibung der Interaktion
+scormdebug#:#cmi.launch_data#:#Daten, die dem SCO beim Start bereitgestellt werden
+scormdebug#:#cmi.learner_id#:#ID der/des Lernenden, wie sie im LMS gespeichert ist
+scormdebug#:#cmi.learner_name#:#Name der/des Lernenden, wie er im LMS gespeichert ist
+scormdebug#:#cmi.learner_preference._children#:#Auflistung der hier unterst&uuml;tzten Elemente des Datenmodells
+scormdebug#:#cmi.learner_preference.audio_level#:#stellt die zu merkende Lautst&auml;rke ein bzw. ruft sie ab
+scormdebug#:#cmi.learner_preference.language#:#stellt die zu merkende Sprache ein bzw. ruft sie ab
+scormdebug#:#cmi.learner_preference.delivery_speed#:#stellt die zu merkende Geschwindigkeit der Contentdarbietung ein bzw. ruft sie ab
+scormdebug#:#cmi.learner_preference.audio_captioning#:#stellt ein, ob Audio-erg&auml;nzender Text angezeigt werden soll
+scormdebug#:#cmi.location#:#aktuelle Position der/des Lernenden innerhalb des SCO
+scormdebug#:#cmi.max_time_allowed#:#gibt die der/dem Lernenden maximal erlaubten Lernzeit f&uuml;r das SCO aus
+scormdebug#:#cmi.mode#:#gibt an, in welchem Modus sich das SCO befindet
+scormdebug#:#cmi.objectives._children#:#Auflistung der hier unterst&uuml;tzten Elemente des Datenmodells
+scormdebug#:#cmi.objectives._count#:#aktuelle Anzahl der Lernziele, die vom LMS f&uuml;r das SCO gespeichert wurde
+scormdebug#:#cmi.objectives.n.id#:#ID des Lernziels
+scormdebug#:#cmi.objectives.n.score._children#:#Auflistung der hier unterst&uuml;tzten Elemente des Datenmodells
+scormdebug#:#cmi.objectives.n.score.scaled#:#bestimmt, welcher relativer Anteil am Punkteintervall zu diesem Lernziel erreicht wurde
+scormdebug#:#cmi.objectives.n.score.raw#:#erzielte Punktezahl f&uuml;r das Lernziel in der Spanne zwischen score.min und score.max
+scormdebug#:#cmi.objectives.n.score.min#:#zum Lernziel minimal zu erreichende Punktzahl
+scormdebug#:#cmi.objectives.n.score.max#:#zum Lernziel maximal zu erreichende Punktzahl
+scormdebug#:#cmi.objectives.n.success_status#:#kennzeichnet mit welchem Erfolg das Lernziel erreicht wurde
+scormdebug#:#cmi.objectives.n.completion_status#:#kennzeichnet in welchem Umfang das Lernziel erreicht wurde
+scormdebug#:#cmi.objectives.n.progress_measure#:#gibt den Grad der Bearbeitungsvollst&auml;ndigkeit eines Lernziels an
+scormdebug#:#cmi.objectives.n.description#:#Beschreibung des Lernziels
+scormdebug#:#cmi.progress_measure#:#gibt den Grad der Bearbeitungsvollst&auml;ndigkeit eines SCOs an
+scormdebug#:#cmi.scaled_passing_score#:#bestimmt, ab welchem relativen Anteil am Punkteintervall ein SCO erfolgreich bearbeitet wurde
+scormdebug#:#cmi.score._children#:#Auflistung der hier unterst&uuml;tzten Elemente des Datenmodells
+scormdebug#:#cmi.score.scaled#:#bestimmt, welcher relative Anteil am Punkteintervall in einem SCO erreicht wurde
+scormdebug#:#cmi.score.raw#:#erzielte Punktezahl in der Spanne zwischen score.min und score.max
+scormdebug#:#cmi.score.min#:#minimal im SCO zu erreichende Punktzahl
+scormdebug#:#cmi.score.max#:#maximal im SCO zu erreichende Punktzahl
+scormdebug#:#cmi.session_time#:#Zeit, welche die/der Lernende in einem SCO in dieser Sitzung verbringt
+scormdebug#:#cmi.success_status#:#kennzeichnet mit welchem Erfolg das SCO bearbeitet wurde
+scormdebug#:#cmi.suspend_data#:#Speicherraum f&uuml;r die Datenhaltung zwischen Lernsitzungen
+scormdebug#:#cmi.time_limit_action#:#kennzeichnet, wie sich das SCO verhalten soll wenn die maximal erlaubte Lernzeit erreicht ist
+scormdebug#:#cmi.total_time#:#Summe aller kumulierter Sessionzeiten des SCO im derzeitigen Lernversuch
+scormdebug#:#adl.nav.request#:#auszuf&uuml;hrender Navigationsaufruf nach Terminate()
+scormdebug#:#adl.nav.request_valid.continue#:#gibt dem SCO R&uuml;ckmeldung, ob eine Weiter-Navigation m&ouml;glich sein wird
+scormdebug#:#adl.nav.request_valid.previous#:#gibt dem SCO R&uuml;ckmeldung, ob eine Zur&uuml;ck-Navigation m&ouml;glich sein wird
+scormdebug#:#adl.nav.request_valid.choice#:#gibt dem SCO R&uuml;ckmeldung, ob ein spezifischer Navigationsaufruf m&ouml;glich sein wird
+scormdebug#:#i_green#:#gr&uuml;n: in Ordnung
+scormdebug#:#i_red#:#rot: Fehler!
+scormdebug#:#i_orange#:#orange: Achtung bitte!
+scormdebug#:#i_fuchsia#:#pink: wahrscheinlich ein Fehler von ILIAS
+scormdebug#:#error#:#Fehler
+scormdebug#:#strange_error#:#merkw&uuml;rdiger Fehler
+scormdebug#:#strange_API-Call#:#merkw&uuml;rdiger API-Call
+scormdebug#:#unknown#:#unbekannt
+scormdebug#:#undefined_color#:#nicht definierte Farbe
+scormdebug#:#description_for#:#Erl&auml;uterung f&uuml;r
+scormdebug#:#hide#:#ausblenden
+scormdebug#:#all_API-calls_shown#:#Es werden aktuell alle Aufrufe der SCORM-API angezeigt.
+scormdebug#:#show_only_important_API-calls#:#Nur wichtige API-Aufrufe anzeigen!
+scormdebug#:#only_important_API-Calls_shown#:#Es werden aktuell nur wichtige Aufrufe der SCORM-API angezeigt.
+scormdebug#:#show_all_API-calls#:#Alle API-Aufrufe anzeigen!
+scormdebug#:#log_for#:#Protokoll f&uuml;r das Lernmodul
+scormdebug#:#started#:#gestartet
+scormdebug#:#nr_session#:#Nummer der Sitzung
+scormdebug#:#id_learning_module#:#Id des Lernmoduls
+scormdebug#:#SCO-title#:#SCO-Titel
+scormdebug#:#SCO-name#:#SCO-Name
+scormdebug#:#milliseconds#:#Millisekunden
+scormdebug#:#API-call#:#API-Aufruf
+scormdebug#:#return_value#:#R&uuml;ckgabe
+scormdebug#:#generated#:#erstellt
+scormdebug#:#comment#:#Kommentar
+scormdebug#:#summary_for_SCO_without_test#:#Zusammenfassung f&uuml;r ein SCO ohne Test
+scormdebug#:#summary_for_SCO_with_test#:#Zusammenfassung f&uuml;r ein SCO mit Test
+scormdebug#:#no_missing_API-calls#:#Fehlende API-Aufrufe wurden nicht ermittelt.
+scormdebug#:#missing_API-calls#:#Folgende API-Aufrufe fehlen:
+scormdebug#:#summary_csv#:#Zusammenfassung als CSV-Datei zum Import z.B. in Excel wurde erstellt
+scormdebug#:#summary_download#:#Sie k&ouml;nnen die Datei &uuml;ber 'Logs' beim n&auml;chsten Start dieses Tools herunterladen.
+scormdebug#:#debugwindow_console#:#Konsole
+scormdebug#:#debugwindow_logs#:#Logdateien
+scormdebug#:#debugwindow_comment#:#Kommentar
+scormdebug#:#debugwindow_comment_enter#:#Bitte geben Sie Ihren Kommentar ein
+scormdebug#:#debugwindow_start_recording#:#Aufzeichnung starten
+scormdebug#:#debugwindow_stop_recording#:#Aufzeichnung beenden
+scormdebug#:#debugwindow_delete_logfile#:#Logdatei entfernen
+scormdebug#:#debugwindow_submission_failed#:#Speicherung gescheitert
+scormdebug#:#debugwindow_submit#:#absenden
+scormdebug#:#debugwindow_cancel#:#abbrechen
+scormdebug#:#debugwindow_filename#:#Dateiname
+scormdebug#:#debugwindow_date#:#Datum
+scormdebug#:#debugwindow_action#:#Aktion
+scormdebug#:#debugwindow_delete#:#L&ouml;schen
+scormdebug#:#debugwindow_download#:#Herunterladen
+scormdebug#:#debugwindow_open#:#&Ouml;ffnen
+scormdebug#:#debugwindow_password_enter#:#Bitte geben Sie Ihr Passwort ein
