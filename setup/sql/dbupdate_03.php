@@ -7209,3 +7209,54 @@ if(!$ilDB->tableExists('usr_account_codes'))
 	}
 	
 ?>
+<#3424>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','open_mode'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'open_mode',
+			array(
+				'type' 		=> 'integer',
+				'length' 	=> 1,
+				'notnull'	=> true,
+				'default'	=> 0 
+			)
+		);
+		$ilDB->query("UPDATE sahs_lm SET open_mode = 5");
+	}
+?>
+<#3425>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','width'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'width',
+			array(
+				'type' 		=> 'integer',
+				'length' 	=> 2,
+				'notnull'	=> true,
+				'default'	=> 950 
+			)
+		);
+		$ilDB->query("UPDATE sahs_lm SET width = 950");
+	}
+?>
+<#3426>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','height'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'height',
+			array(
+				'type' 		=> 'integer',
+				'length' 	=> 2,
+				'notnull'	=> true,
+				'default'	=> 650 
+			)
+		);
+		$ilDB->query("UPDATE sahs_lm SET height = 650");
+	}
+?>

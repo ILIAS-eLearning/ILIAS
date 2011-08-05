@@ -637,9 +637,23 @@ class ilSAHSPresentationGUI
 		// add read / back button
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$info->addButton($this->lng->txt("view"),
-				$this->ctrl->getLinkTarget($this, ""),
-				' target="ilContObj'.$this->slm_gui->object->getId().'" ');
+			include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
+			$sahs_obj = new ilObjSAHSLearningModule($_GET["ref_id"]);
+			$om = $sahs_obj->getOpenMode();
+			$width = $sahs_obj->getWidth();
+			$height = $sahs_obj->getHeight();
+			if ($om != 0)
+			{
+				$info->addButton($this->lng->txt("view"),
+					"javascript:void(0); onclick=startSAHS('".$this->ctrl->getLinkTarget($this, "")."','ilContObj".$this->slm_gui->object->getId()."',".$om.",".$width.",".$height.");",
+					'');
+			}
+			else
+			{
+				$info->addButton($this->lng->txt("view"),
+					$this->ctrl->getLinkTarget($this, ""),
+					' target="ilContObj'.$this->slm_gui->object->getId().'" ');
+			}
 		}
 		
 		// show standard meta data section

@@ -243,6 +243,27 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			{
 				$this->tpl->setVariable("CHK_ONLINE", "checked");
 			}
+
+			//open
+			$this->tpl->setVariable("TXT_OPEN", $this->lng->txt("cont_open"));
+			$open_modes = array(
+				"0" => $this->lng->txt("cont_open_normal"),
+				"1" => $this->lng->txt("cont_open_iframe_max"),
+				"2" => $this->lng->txt("cont_open_iframe_defined"),
+				"5" => $this->lng->txt("cont_open_window_undefined"),
+				"6" => $this->lng->txt("cont_open_window_defined")
+				);
+			$sel_open = ilUtil::formSelect($this->object->getOpenMode(),
+				"open_mode", $open_modes, false, true);
+			$this->tpl->setVariable("SEL_OPEN", $sel_open);
+
+			//width
+			$this->tpl->setVariable("TXT_WIDTH", $this->lng->txt("cont_open_width"));
+			$this->tpl->setVariable("VAL_WIDTH", $this->object->getWidth());
+
+			//heigth
+			$this->tpl->setVariable("TXT_HEIGHT", $this->lng->txt("cont_open_heigth"));
+			$this->tpl->setVariable("VAL_HEIGHT", $this->object->getHeight());
 	
 			// default lesson mode
 			$this->tpl->setVariable("TXT_LESSON_MODE", $this->lng->txt("cont_def_lesson_mode"));
@@ -411,6 +432,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		
 		if ($this->object->editable!=1) {
 			$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
+			$this->object->setOpenMode($_POST["open_mode"]);
+			$this->object->setWidth($_POST["width"]);
+			$this->object->setHeight($_POST["height"]);
 			$this->object->setCreditMode($_POST["credit_mode"]);
 			$this->object->setMaxAttempt($_POST["max_attempt"]);
 			$this->object->setAutoReview(ilUtil::yn2tf($_POST["auto_review"]));

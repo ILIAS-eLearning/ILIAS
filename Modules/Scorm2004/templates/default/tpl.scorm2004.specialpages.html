@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" id="scormplayer">
 	<head>
 		
-		
 		<link type="text/css" href="{LOCATION_STYLESHEET}" rel="stylesheet"/>
 	</head>
 	<body>
@@ -15,6 +14,12 @@
 		<h3 class="il_Header"><center> {TXT_SPECIALPAGE} </center></h3>
 		
 		<h4 class="il_Header"><center> {CLOSE_WINDOW} </center></h4>
+		<script type="text/javascript">
+		if (navigator.userAgent.indexOf("MSIE") >-1) {
+			if (document.getElementsByTagName("h4")[0].innerText.toString() != '' && parent.parent.location.href != parent.location.href) parent.parent.location.reload();
+		}
+		else if ((document.getElementsByTagName("h4")[0].innerHTML != '<center>  </center>') && parent.parent.location.href != parent.location.href) parent.parent.location.reload();
+		</script> 		
 		
 	</body>
 </html>

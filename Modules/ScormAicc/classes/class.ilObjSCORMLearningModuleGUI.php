@@ -100,6 +100,27 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			$this->tpl->setVariable("CHK_ONLINE", "checked");
 		}
 
+		//open
+		$this->tpl->setVariable("TXT_OPEN", $this->lng->txt("cont_open"));
+		$open_modes = array(
+			"0" => $this->lng->txt("cont_open_normal"),
+			"1" => $this->lng->txt("cont_open_iframe_max"),
+			"2" => $this->lng->txt("cont_open_iframe_defined"),
+			"5" => $this->lng->txt("cont_open_window_undefined"),
+			"6" => $this->lng->txt("cont_open_window_defined")
+			);
+		$sel_open = ilUtil::formSelect($this->object->getOpenMode(),
+			"open_mode", $open_modes, false, true);
+		$this->tpl->setVariable("SEL_OPEN", $sel_open);
+
+		//width
+		$this->tpl->setVariable("TXT_WIDTH", $this->lng->txt("cont_open_width"));
+		$this->tpl->setVariable("VAL_WIDTH", $this->object->getWidth());
+
+		//heigth
+		$this->tpl->setVariable("TXT_HEIGHT", $this->lng->txt("cont_open_heigth"));
+		$this->tpl->setVariable("VAL_HEIGHT", $this->object->getHeight());
+
 		// api adapter name
 		$this->tpl->setVariable("TXT_API_ADAPTER", $this->lng->txt("cont_api_adapter"));
 		$this->tpl->setVariable("VAL_API_ADAPTER", $this->object->getAPIAdapterName());
@@ -372,6 +393,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	function saveProperties()
 	{
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
+		$this->object->setOpenMode($_POST["open_mode"]);
+		$this->object->setWidth($_POST["width"]);
+		$this->object->setHeight($_POST["height"]);
 		$this->object->setAutoReview(ilUtil::yn2tf($_POST["auto_review"]));
 		$this->object->setAPIAdapterName($_POST["api_adapter"]);
 		$this->object->setAPIFunctionsPrefix($_POST["api_func_prefix"]);

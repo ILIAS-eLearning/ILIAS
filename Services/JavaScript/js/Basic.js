@@ -303,4 +303,19 @@ $(window).bind('resize',function(){
 	$('#mainscrolldiv').css('height',$(window).height()- $('#mainscrolldiv').offset().top - 15);
 });*/
 
+function startSAHS(SAHSurl, SAHStarget, SAHSopenMode, SAHSwidth, SAHSheight)
+{
+	if (SAHSopenMode == 1){
+		SAHSwidth = "100%";
+		SAHSheight = "650";
+		if(document.body.offsetHeight) SAHSheight=document.getElementById("mainspacekeeper").offsetHeight;
+	}
+	if (SAHSopenMode == 1 || SAHSopenMode == 2){
+		document.getElementById("mainspacekeeper").innerHTML='<iframe src="'+SAHSurl+'" width="'+SAHSwidth+'" height='+SAHSheight+' frameborder="0"></iframe>';
+	} else if (SAHSopenMode == 5){
+		window.open(SAHSurl,SAHStarget,'top=0,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no');
+	} else {
+		window.open(SAHSurl,SAHStarget,'top=0,width='+SAHSwidth+',height='+SAHSheight+',location=no,menubar=no,resizable=yes,scrollbars=yes,status=no');
+	}
+}
 
