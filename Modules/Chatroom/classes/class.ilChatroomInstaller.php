@@ -296,14 +296,14 @@ class ilChatroomInstaller
 
 			// REGISTER RBAC OPERATIONS FOR OBJECT TYPE
 			// 1: edit_permissions, 2: visible, 3: read, 4:write
-			$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES"
-			. "  (" . $ilDB->quote( $typ_id ) . ",1)"
-			. ", (" . $ilDB->quote( $typ_id ) . ",2)"
-			. ", (" . $ilDB->quote( $typ_id ) . ",3)"
-			. ", (" . $ilDB->quote( $typ_id ) . ",4)"
-			;
+			foreach(array(1,2,3,4) as $ops_id)
+			{
+				$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ( ".
+					$ilDB->quote( $typ_id ).",".$ilDB->quote($ops_id).
+					")";
+				$ilDB->query($query);
+			}
 
-			$ilDB->query( $query );
 
 			ilUtil::sendSuccess( 'registered object type chtr' );
 		}
