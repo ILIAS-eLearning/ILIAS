@@ -297,10 +297,10 @@ class ilChatroomInstaller
 			// REGISTER RBAC OPERATIONS FOR OBJECT TYPE
 			// 1: edit_permissions, 2: visible, 3: read, 4:write
 			$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES"
-			. "  (" . $ilDB->quote( $typ_id ) . ",'1')"
-			. ", (" . $ilDB->quote( $typ_id ) . ",'2')"
-			. ", (" . $ilDB->quote( $typ_id ) . ",'3')"
-			. ", (" . $ilDB->quote( $typ_id ) . ",'4')"
+			. "  (" . $ilDB->quote( $typ_id ) . ",1)"
+			. ", (" . $ilDB->quote( $typ_id ) . ",2)"
+			. ", (" . $ilDB->quote( $typ_id ) . ",3)"
+			. ", (" . $ilDB->quote( $typ_id ) . ",4)"
 			;
 
 			$ilDB->query( $query );
@@ -351,7 +351,7 @@ class ilChatroomInstaller
 	{
 		global $ilDB;
 
-		$query = 'SELECT * FROM object_data WHERE type = "chta"';
+		$query = 'SELECT * FROM object_data WHERE type = '.$ilDB->quote('chta','text');
 		if( !$ilDB->fetchAssoc( $ilDB->query( $query ) ) )
 		{
 			// ADD NODE IN SYSTEM SETTINGS FOLDER
@@ -360,13 +360,13 @@ class ilChatroomInstaller
 			$obj_id = $ilDB->nextId( 'object_data' );
 
 			$query = "INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) " .
-					"VALUES (" . $obj_id . ", 'chta', 'Chatroom Admin', 'Chatroom General Settings', -1, now(), now())";
+					"VALUES (" . $obj_id . ", 'chta', 'Chatroom Admin', 'Chatroom General Settings', -1, ".$ilDB->now().", ".$ilDB->now().")";
 			$ilDB->query( $query );
 
 			$ref_id = $ilDB->nextId( 'object_reference' );
 
 			// create object reference entry
-			$query = "INSERT INTO object_reference (ref_id, obj_id) VALUES(" . $ref_id . ", " . $ilDB->quote( $obj_id ) . ")";
+			$query = "INSERT INTO object_reference (ref_id, obj_id) VALUES(" . $ref_id . ", " . $ilDB->quote( $obj_id ,'integer') . ")";
 			$res = $ilDB->query( $query );
 
 			// put in tree
