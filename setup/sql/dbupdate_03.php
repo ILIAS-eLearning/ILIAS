@@ -7182,30 +7182,41 @@ if(!$ilDB->tableExists('usr_account_codes'))
 	$row = $ilDB->fetchAssoc($rset);
 
 	if (!$row) {
-		$typ_id = $ilDB->nextId('object_data');
-		$ilDB->insert(
-			'object_data',
-			array(
-			    'obj_id' => array('integer', $typ_id),
-			    'type' => array('text', 'typ'),
-			    'title' => array('text', 'chta'),
-			    'description' => array('text', 'Chatroom Administration Type'),
-			    'owner' => array('integer', -1),
-			    'create_date' => array('integer', time()),
-			    'last_update' => array('integer', time()),
-			)
-		);
 
-		// REGISTER RBAC OPERATIONS FOR OBJECT TYPE
+		$typ_id = $ilDB->nextId("object_data");
+		$ilDB->manipulate("INSERT INTO object_data ".
+			"(obj_id, type, title, description, owner, create_date, last_update) VALUES (".
+			$ilDB->quote($typ_id, "integer").",".
+			$ilDB->quote("typ", "text").",".
+			$ilDB->quote("chta", "text").",".
+			$ilDB->quote("Chatroom Administration Type", "text").",".
+			$ilDB->quote(-1, "integer").",".
+			$ilDB->now().",".
+			$ilDB->now().
+			")");
+
+		// add rbac operations
 		// 1: edit_permissions, 2: visible, 3: read, 4:write
-		$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES"
-		. "  (" . $ilDB->quote( $typ_id ) . ",'1')"
-		. ", (" . $ilDB->quote( $typ_id ) . ",'2')"
-		. ", (" . $ilDB->quote( $typ_id ) . ",'3')"
-		. ", (" . $ilDB->quote( $typ_id ) . ",'4')"
-		;
-		$ilDB->manipulate($query);
-
+		$ilDB->manipulate("INSERT INTO rbac_ta ".
+			"(typ_id, ops_id) VALUES (".
+			$ilDB->quote($typ_id, "integer").",".
+			$ilDB->quote(1, "integer").
+			")");
+		$ilDB->manipulate("INSERT INTO rbac_ta ".
+			"(typ_id, ops_id) VALUES (".
+			$ilDB->quote($typ_id, "integer").",".
+			$ilDB->quote(2, "integer").
+			")");
+		$ilDB->manipulate("INSERT INTO rbac_ta ".
+			"(typ_id, ops_id) VALUES (".
+			$ilDB->quote($typ_id, "integer").",".
+			$ilDB->quote(3, "integer").
+			")");
+		$ilDB->manipulate("INSERT INTO rbac_ta ".
+			"(typ_id, ops_id) VALUES (".
+			$ilDB->quote($typ_id, "integer").",".
+			$ilDB->quote(4, "integer").
+			")");
 	}
 	
 ?>
