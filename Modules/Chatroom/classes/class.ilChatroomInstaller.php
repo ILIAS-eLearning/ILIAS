@@ -290,7 +290,7 @@ class ilChatroomInstaller
 			$typ_id = $ilDB->nextId( 'object_data' );
 
 			$query = "INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) " .
-					"VALUES (" . $typ_id . ", 'typ', 'chtr', 'Chatroom Object', -1, now(), now())";
+					"VALUES (" . $typ_id . ", 'typ', 'chtr', 'Chatroom Object', -1, ".$ilDB->now().", ".$ilDB->now().")";
 
 			$ilDB->query( $query );
 
