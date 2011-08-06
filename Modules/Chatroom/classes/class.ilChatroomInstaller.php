@@ -282,7 +282,9 @@ class ilChatroomInstaller
 	{
 		global $ilDB;
 
-		$query = 'SELECT obj_id FROM object_data WHERE type = "typ" AND title = "chtr"';
+		$query = 'SELECT obj_id FROM object_data '.
+			'WHERE type = '.$ilDB->quote('typ','text').' '.
+			'AND title = '.$ilDB->quote('chatr','text');
 		if( !($object_definition_row = $ilDB->fetchAssoc( $ilDB->query( $query ) ) ) )
 		{
 			$typ_id = $ilDB->nextId( 'object_data' );
