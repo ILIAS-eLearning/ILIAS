@@ -11677,3 +11677,392 @@ ecs#:#ecs_cms_dir_tree#:#CMS Directory Trees###18 07 2011 new variable
 registration#:#registration_code_no_role#:#The registration code given does not specify a role and can not be used currently. Please contact your administrator.###18 07 2011 new variable
 registration#:#registration_no_valid_role#:#There is currently no valid role for new accounts. Please contact your administrator.###18 07 2011 new variable
 common#:#exc_next_deadline#:#Next Deadline###18 07 2011 new variable
+rbac#:#rbac_global_rolt#:#Global Role Template###06 08 2011 new variable
+common#:#password_allow_chars#:#Allowed chars: %s###06 08 2011 new variable
+rbac#:#rbac_role_selection#:#Role Type###06 08 2011 new variable
+content#:#cont_paragraph_styles#:#Paragraph Styles###06 08 2011 new variable
+content#:#cont_cc_str#:#Strong###06 08 2011 new variable
+content#:#cont_cc_emp#:#Emphatic###06 08 2011 new variable
+content#:#cont_cc_imp#:#Important###06 08 2011 new variable
+content#:#cont_more_character_styles#:#...more character styles###06 08 2011 new variable
+content#:#cont_blist#:#Bullet List###06 08 2011 new variable
+content#:#cont_nlist#:#Numbered List###06 08 2011 new variable
+content#:#cont_list_outdent#:#Outdent List###06 08 2011 new variable
+content#:#cont_list_indent#:#Indent List###06 08 2011 new variable
+didactic#:#didactic_adm_tab#:#Didactic###06 08 2011 new variable
+didactic#:#didactic_import_btn#:#Import Didactic Template###06 08 2011 new variable
+didactic#:#didactic_applicable_for#:#Applicalble for###06 08 2011 new variable
+didactic#:#didactic_available_templates#:#Available Didactic Templates###06 08 2011 new variable
+didactic#:#didactic_copy_suc_message#:#Copied didactic template###06 08 2011 new variable
+didactic#:#didactic_confirm_delete_msg#:#Do you really want to delete the following didactic templates?###06 08 2011 new variable
+didactic#:#didactic_delete_msg#:#Deleted didactical templates.###06 08 2011 new variable
+content#:#cont_pword#:#Paste from Word###06 08 2011 new variable
+blog#:#blog_edit#:#Edit Blog###06 08 2011 new variable
+blog#:#blog_banner#:#Banner###06 08 2011 new variable
+blog#:#blog_background_color#:#Background Color###06 08 2011 new variable
+blog#:#blog_font_color#:#Font Color###06 08 2011 new variable
+blog#:#blog_back_to_ilias#:#Back to ILIAS###06 08 2011 new variable
+content#:#cont_new_question#:#New Question###06 08 2011 new variable
+content#:#cont_copy_question_from_pool#:#Copy Question from Pool###06 08 2011 new variable
+didactic#:#didactic_activated_msg#:#Activated didactic templates###06 08 2011 new variable
+didactic#:#didactic_deactivated_msg#:#Deactivated didactic templates###06 08 2011 new variable
+didactic#:#didactic_do_export#:#Export###06 08 2011 new variable
+didactic#:#didactic_import_table_title#:#Import of a didactic template###06 08 2011 new variable
+didactic#:#didactic_back_to_overview#:#Back to Overview###06 08 2011 new variable
+didactic#:#didactic_import_success#:#Successfully imported didactical template###06 08 2011 new variable
+rbac#:#rbac_auto_global#:#Auto generated global role###06 08 2011 new variable
+rbac#:#rbac_ud_global#:#User defined global role###06 08 2011 new variable
+rbac#:#rbac_auto_local#:#Auto generated local role###06 08 2011 new variable
+rbac#:#rbac_ud_local#:#User defined local role###06 08 2011 new variable
+rbac#:#rbac_auto_rolt#:#Auto generated role template###06 08 2011 new variable
+rbac#:#rbac_ud_rolt#:#User defined role template###06 08 2011 new variable
+didactic#:#didactic_import_failed#:#Importing the didactical template failed with message: ###06 08 2011 new variable
+rbac#:#rbac_context_global#:#Global###06 08 2011 new variable
+content#:#cont_select_other_qpool#:#Select other Pool###06 08 2011 new variable
+content#:#cont_copy_question_into_page#:#Copy into Page###06 08 2011 new variable
+blog#:#blog_exercise_info#:#This blog is part of the assignment "%s" of the exercise "%s".###06 08 2011 new variable
+blog#:#blog_finalize_blog#:#Finalize and Submit Blog###06 08 2011 new variable
+blog#:#blog_finalized#:#The Blog has been submitted.###06 08 2011 new variable
+prtf#:#prtf_exercise_info#:#This portfolio is part of the assignment "%s" of the exercise "%s".###06 08 2011 new variable
+prtf#:#prtf_finalize_portfolio#:#Finalize and Submit Portfolio###06 08 2011 new variable
+prtf#:#prtf_finalized#:#The portfolio has been submitted.###06 08 2011 new variable
+administration#:#obj_blga#:#Blog###06 08 2011 new variable
+administration#:#obj_blga_desc#:#Global Blog Settings###06 08 2011 new variable
+administration#:#obj_prfa#:#Portfolio###06 08 2011 new variable
+administration#:#obj_prfa_desc#:#Global Portfolio Settings###06 08 2011 new variable
+blog#:#blog_settings#:#Blog Administration###06 08 2011 new variable
+blog#:#blog_preview_banner_width#:#Banner Width###06 08 2011 new variable
+blog#:#blog_preview_banner_height#:#Banner Height###06 08 2011 new variable
+blog#:#blog_preview_banner#:#Custom Banner###06 08 2011 new variable
+prtf#:#prtf_settings#:#Portfolio Administration###06 08 2011 new variable
+prtf#:#prtf_preview_banner_width#:#Banner Width###06 08 2011 new variable
+prtf#:#prtf_preview_banner_height#:#Banner Height###06 08 2011 new variable
+prtf#:#prtf_preview_banner#:#Custom Banner###06 08 2011 new variable
+prtf#:#prtf_banner#:#Banner###06 08 2011 new variable
+prtf#:#prtf_background_color#:#Background Color###06 08 2011 new variable
+prtf#:#prtf_font_color#:#Font Color###06 08 2011 new variable
+notes#:#note_add_note#:#Add Note###06 08 2011 new variable
+notes#:#note_add_comment#:#Add Comment###06 08 2011 new variable
+notes#:#note_update_comment#:#Update Comment###06 08 2011 new variable
+notes#:#note_update_note#:#Update Note###06 08 2011 new variable
+common#:#added_to_desktop#:#The item has been added to the desktop.###06 08 2011 new variable
+common#:#removed_from_desktop#:#The item has been removed from the desktop.###06 08 2011 new variable
+notes#:#notes_comments#:#Comments###06 08 2011 new variable
+common#:#chtr_visible#:#Visible###06 08 2011 new variable
+common#:#chtr_read#:#Read###06 08 2011 new variable
+common#:#chtr_write#:#Write###06 08 2011 new variable
+common#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
+common#:#objs_chtr#:#Chats###06 08 2011 new variable
+common#:#obj_chta#:#Chatrooms###06 08 2011 new variable
+chatroom#:#history_by_day#:#Daily history###06 08 2011 new variable
+chatroom#:#history_by_session#:#Session history###06 08 2011 new variable
+chatroom#:#connected#:#Connection established###06 08 2011 new variable
+chatroom#:#period#:#Period###06 08 2011 new variable
+chatroom#:#disconnected#:#Connection closed###06 08 2011 new variable
+chatroom#:#allow_anonymous#:#Allow anonymous login###06 08 2011 new variable
+chatroom#:#autogen_usernames#:#Auto generated usernames###06 08 2011 new variable
+chatroom#:#allow_custom_usernames#:#Allow custom usernames###06 08 2011 new variable
+chatroom#:#enable_history#:#Enable history###06 08 2011 new variable
+chatroom#:#restrict_history#:#Restrict history###06 08 2011 new variable
+chatroom#:#restrict_history_info#:#No entries generated during absence from chatroom###06 08 2011 new variable
+chatroom#:#allow_private_rooms#:#Allow private rooms###06 08 2011 new variable
+chatroom#:#settings_general#:#General###06 08 2011 new variable
+chatroom#:#settings_privacy#:#Privacy###06 08 2011 new variable
+chatroom#:#autogen_usernames_info#:#Pattern for auto generated usernames. '#' will be automatically replaced by a number###06 08 2011 new variable
+chatroom#:#bans#:#Bans###06 08 2011 new variable
+chatroom#:#permissions#:#Permissions###06 08 2011 new variable
+chatroom#:#remark#:#Remark###06 08 2011 new variable
+chatroom#:#session#:#Session###06 08 2011 new variable
+chatroom#:#fontcolor#:#Font color###06 08 2011 new variable
+chatroom#:#fontstyle#:#Font style###06 08 2011 new variable
+chatroom#:#fontsize#:#Font size###06 08 2011 new variable
+chatroom#:#italic#:#Italic###06 08 2011 new variable
+chatroom#:#underlined#:#Underlined###06 08 2011 new variable
+chatroom#:#select_custom_username#:#Select custom username###06 08 2011 new variable
+chatroom#:#custom_username#:#Custom username###06 08 2011 new variable
+chatroom#:#enter#:#Enter chatroom###06 08 2011 new variable
+chatroom#:#fontfamily#:#Font family###06 08 2011 new variable
+chatroom#:#small#:#Small###06 08 2011 new variable
+chatroom#:#large#:#Large###06 08 2011 new variable
+chatroom#:#duration_from#:#From###06 08 2011 new variable
+chatroom#:#duration_to#:#To###06 08 2011 new variable
+chatroom#:#obj_chtr#:#Chatroom###06 08 2011 new variable
+chatroom#:#chat_message#:#Message###06 08 2011 new variable
+chatroom#:#chat_message_to_all#:#to all###06 08 2011 new variable
+chatroom#:#chat_message_options#:#Display###06 08 2011 new variable
+chatroom#:#chat_message_display#:#Options###06 08 2011 new variable
+chatroom#:#chat_mainroom#:#Main room###06 08 2011 new variable
+chatroom#:#chat_leave#:#Leave###06 08 2011 new variable
+chatroom#:#chat_join#:#Join###06 08 2011 new variable
+chatroom#:#chat_delete#:#Delete###06 08 2011 new variable
+chatroom#:#chat_invite#:#Invite###06 08 2011 new variable
+chatroom#:#chat_kick#:#Kick###06 08 2011 new variable
+chatroom#:#chat_ban#:#Ban###06 08 2011 new variable
+chatroom#:#chat_address#:#Address###06 08 2011 new variable
+chatroom#:#chat_whisper#:#Whisper###06 08 2011 new variable
+chatroom#:#chat_connection_established#:#Connection established###06 08 2011 new variable
+chatroom#:#chat_connection_disconnected#:#Disconnected###06 08 2011 new variable
+chatroom#:#chat_invite_users#:#Invite users###06 08 2011 new variable
+chatroom#:#chat_right_box_user#:#User###06 08 2011 new variable
+chatroom#:#chat_create_new_private_room#:#Create new private room###06 08 2011 new variable
+chatroom#:#chat_private_room#:#Private room###06 08 2011 new variable
+chatroom#:#chat_to_mainroom#:#To main room###06 08 2011 new variable
+chatroom#:#chat_create_private_room_button#:#Create private room###06 08 2011 new variable
+chatroom#:#moderate#:#Moderate###06 08 2011 new variable
+chatroom#:#chatroom_smiley_keyword#:#Keyword###06 08 2011 new variable
+chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name#####06 08 2011 new variable
+chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.###06 08 2011 new variable
+chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.###06 08 2011 new variable
+chatroom#:#settings_title#:#Settings###06 08 2011 new variable
+chatroom#:#history_byday_title#:#History by day###06 08 2011 new variable
+chatroom#:#history_bysession_title#:#History by session###06 08 2011 new variable
+chatroom#:#ban_table_title#:#Banned users###06 08 2011 new variable
+chatroom#:#main#:#Main room###06 08 2011 new variable
+chatroom_adm#:#chatroom_available_smilies#:#Available Smilies###06 08 2011 new variable
+chatroom_adm#:#chatroom_delete_selected#:#Delete selected smilies###06 08 2011 new variable
+chatroom_adm#:#chatroom_smiley_image#:#Smiley###06 08 2011 new variable
+chatroom_adm#:#chatroom_add_smiley#:#Add smiley###06 08 2011 new variable
+chatroom_adm#:#chatroom_image_path#:#Path to smiley###06 08 2011 new variable
+chatroom_adm#:#chatroom_smiley_keywords#:#Keywords###06 08 2011 new variable
+chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#One keyword per line###06 08 2011 new variable
+chatroom_adm#:#chatroom_upload_smiley#:#Upload smiley###06 08 2011 new variable
+chatroom_adm#:#obj_chta_desc#:#Chat Administration###06 08 2011 new variable
+chatroom_adm#:#protocol#:#Protocol###06 08 2011 new variable
+chatroom_adm#:#instance#:#Instance###06 08 2011 new variable
+chatroom_adm#:#smiley#:#Smilies###06 08 2011 new variable
+chatroom_adm#:#chatroom_edit_smiley#:#Edit smiley###06 08 2011 new variable
+chatroom_adm#:#chatroom_current_smiley_image_path#:#Current smiley###06 08 2011 new variable
+chatroom_adm#:#chatroom_current_smiley_image#:#Current smiley icon###06 08 2011 new variable
+chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Choose a new smiley icon only if the current one is to be replaced.###06 08 2011 new variable
+chatroom_adm#:#server_settings#:#Server settings###06 08 2011 new variable
+chatroom_adm#:#client_settings#:#Client settings###06 08 2011 new variable
+chatroom_adm#:#priv_hosts#:#Privileged hosts###06 08 2011 new variable
+chatroom_adm#:#https#:#HTTPS###06 08 2011 new variable
+chatroom_adm#:#chat_enabled#:#Enable chat###06 08 2011 new variable
+chatroom_adm#:#enable_osd#:#Enable On-Screen notifications###06 08 2011 new variable
+chatroom_adm#:#hash#:#Hash###06 08 2011 new variable
+chatroom_adm#:#client_settings_title#:#Client settings###06 08 2011 new variable
+chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)###06 08 2011 new variable
+chatroom_adm#:#server_settings_title#:#Server settings###06 08 2011 new variable
+chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete the selected smiley?###06 08 2011 new variable
+chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.###06 08 2011 new variable
+chatroom_adm#:#chat_smilies_initialized#:#Chat smilies initialized###06 08 2011 new variable
+chatroom#:#soap_must_be_enabled#:#You must active SOAP support in the general settings to enable the chat.###06 08 2011 new variable
+chatroom#:#auto_scroll#:#Scroll to bottom###06 08 2011 new variable
+chatroom#:#public_chat_created#:#The public chat room has been added to the repository###06 08 2011 new variable
+chatroom#:#lost_connection#:#The connection to the chatserver was interrupted.###06 08 2011 new variable
+chatroom#:#banned#:#You have been banned from this chat###06 08 2011 new variable
+chatroom#:#unban#:#Unban###06 08 2011 new variable
+chatroom_adm#:#keystore#:#Keystore###06 08 2011 new variable
+chatroom_adm#:#keypass#:#Keypass###06 08 2011 new variable
+chatroom_adm#:#storepass#:#Storepass###06 08 2011 new variable
+chatroom_adm#:#settings_has_been_saved#:#Settings has been saved###06 08 2011 new variable
+common#:#obj_chtr#:#Chatroom###06 08 2011 new variable
+chatroom#:#unable_to_connect#:#The connection to the chatserver could not be established.###06 08 2011 new variable
+user#:#user_account_codes#:#Account Codes###06 08 2011 new variable
+user#:#user_account_codes_add#:#Add Codes###06 08 2011 new variable
+user#:#user_account_codes_export#:#Export Codes###06 08 2011 new variable
+user#:#user_account_codes_edit_header#:#Add Codes###06 08 2011 new variable
+user#:#user_account_codes_number#:#Number Of Codes###06 08 2011 new variable
+user#:#user_account_code#:#Code###06 08 2011 new variable
+user#:#user_account_code_valid_until#:#Valid Until###06 08 2011 new variable
+user#:#user_account_code_valid_until_static#:#End Date###06 08 2011 new variable
+user#:#user_account_code_valid_until_dynamic#:#Number of Days###06 08 2011 new variable
+user#:#user_account_code_generated#:#Date Of Generation###06 08 2011 new variable
+user#:#user_account_code_used#:#Date Of Use###06 08 2011 new variable
+user#:#user_account_used#:#Date Of Usage###06 08 2011 new variable
+user#:#user_account_code_generated_all#:#All Dates###06 08 2011 new variable
+user#:#user_account_export_codes_no_data#:#No codes to export were selected.###06 08 2011 new variable
+user#:#user_account_code_not_valid#:#The given registration code is either invalid or already has been used.###06 08 2011 new variable
+user#:#user_account_code_valid_until_unlimited#:#Unlimited###06 08 2011 new variable
+user#:#user_account_code_setting#:#Enable Account Re-Activation By Code###06 08 2011 new variable
+user#:#user_account_code_setting_info#:#Inactive Accounts can be re-activated by users with pre-defined codes.###06 08 2011 new variable
+registration#:#registration_code_optional_info#:#If you have an ILIAS registration code, you can enter it now.###06 08 2011 new variable
+registration#:#registration_code_required_info#:#A pre-defined code is mandatory for the registration process.###06 08 2011 new variable
+auth#:#auth_account_code#:#Code###06 08 2011 new variable
+auth#:#auth_account_code_info#:#To re-activate your account you can use a ILIAS account code.###06 08 2011 new variable
+auth#:#auth_account_code_title#:#Account Code###06 08 2011 new variable
+auth#:#auth_account_code_used#:#Your account has been re-activated. Please login once again for security reasons.###06 08 2011 new variable
+prtf#:#prtf_no_blogs_info#:#Your workspace does not contain any blogs. Create blogs to use them as part of your portfolios.###06 08 2011 new variable
+prtf#:#prtf_add_blog#:#Add Blog###06 08 2011 new variable
+pd#:#pd_enable_personal_workspace#:#Enable Personal Workspace###06 08 2011 new variable
+pd#:#pd_enable_wsp_blogs#:#Enable Blogs###06 08 2011 new variable
+pd#:#pd_enable_wsp_files#:#Enable Files###06 08 2011 new variable
+pd#:#pd_enable_wsp_certificates#:#Enable Certificates###06 08 2011 new variable
+pd#:#pd_enable_wsp_links#:#Enable Links###06 08 2011 new variable
+pd#:#pd_enable_prtf#:#Enable Portfolios###06 08 2011 new variable
+survey#:#svy_presentation_properties#:#Presentation###06 08 2011 new variable
+survey#:#svy_save_sync#:#Save and Sync Question Copies###06 08 2011 new variable
+grp#:#grp_setting_header_presentation#:#Group Presentation###06 08 2011 new variable
+grp#:#grp_setting_header_registration#:#Group Registration###06 08 2011 new variable
+grp#:#grp_view_info_by_type#:#This content presentation groups all items by resource type.###06 08 2011 new variable
+grp#:#grp_view_info_simple#:#This content presentation lists all items in one block.###06 08 2011 new variable
+grp#:#grp_presentation_type#:#Presentation Type###06 08 2011 new variable
+grp#:#grp_view_inherit#:#Standard###06 08 2011 new variable
+grp#:#grp_view_inherit_info#:#The group presentation type is adapted from a parent course. ###06 08 2011 new variable
+content#:#cont_open#:#Display###06 08 2011 new variable
+content#:#cont_open_normal#:#in tab / new window with link###06 08 2011 new variable
+content#:#cont_open_iframe_max#:#in iframe with full size###06 08 2011 new variable
+content#:#cont_open_iframe_defined#:#in iframe with defined width and height###06 08 2011 new variable
+content#:#cont_open_window_undefined#:#in new window without defined width and height###06 08 2011 new variable
+content#:#cont_open_window_defined#:#in new window with defined width and height###06 08 2011 new variable
+content#:#cont_open_width#:#width###06 08 2011 new variable
+content#:#cont_open_heigth#:#height###06 08 2011 new variable
+scormdebug#:#scormdebug_global_activate#:#Enable SCORM 2004 test tool###06 08 2011 new variable
+scormdebug#:#scormdebug_global_activate_info#:#If enabled, the SCORM 2004 test tool can be activated for desired learning modules. If disabled, the test tool is deactivated for all learning modules.###06 08 2011 new variable
+content#:#cont_debug_deactivate#:#Hint: The test tool can be disabled for all learning modules.###06 08 2011 new variable
+content#:#cont_debug_deactivated#:#Hint: The test tool is disabled for all learning modules.###06 08 2011 new variable
+scormdebug#:#error0#:#No error###06 08 2011 new variable
+scormdebug#:#error101#:#General Exeption###06 08 2011 new variable
+scormdebug#:#error102#:#General Initialization Failure###06 08 2011 new variable
+scormdebug#:#error103#:#Already Initialized###06 08 2011 new variable
+scormdebug#:#error104#:#Content Instance Terminated###06 08 2011 new variable
+scormdebug#:#error111#:#General Termination Failure###06 08 2011 new variable
+scormdebug#:#error112#:#Termination Before Initialization###06 08 2011 new variable
+scormdebug#:#error113#:#Termination After Termination###06 08 2011 new variable
+scormdebug#:#error122#:#Retrieve Data Before Initialization###06 08 2011 new variable
+scormdebug#:#error123#:#Retrieve Data After Termination###06 08 2011 new variable
+scormdebug#:#error132#:#Store Data Before Initialization###06 08 2011 new variable
+scormdebug#:#error133#:#Store Data After Termination###06 08 2011 new variable
+scormdebug#:#error142#:#Commit Before Initialization###06 08 2011 new variable
+scormdebug#:#error143#:#Commit After Termination###06 08 2011 new variable
+scormdebug#:#error201#:#General Argument Error###06 08 2011 new variable
+scormdebug#:#error301#:#General Get Failure###06 08 2011 new variable
+scormdebug#:#error351#:#General Set Failure###06 08 2011 new variable
+scormdebug#:#error391#:#General Commit Failure###06 08 2011 new variable
+scormdebug#:#error401#:#Undefined Data Model Element###06 08 2011 new variable
+scormdebug#:#error402#:#Unimplemented Data Model Element###06 08 2011 new variable
+scormdebug#:#error403#:#Data Model Element Value Not Initialized###06 08 2011 new variable
+scormdebug#:#error404#:#Data Model Element Is Read Only###06 08 2011 new variable
+scormdebug#:#error405#:#Data Model Element Is Write Only###06 08 2011 new variable
+scormdebug#:#error406#:#Data Model Element Type Mismatch###06 08 2011 new variable
+scormdebug#:#error407#:#Data Model Element Value Out Of Range###06 08 2011 new variable
+scormdebug#:#error408#:#Data Model Dependency Not Established###06 08 2011 new variable
+scormdebug#:#SetValue#:#send data###06 08 2011 new variable
+scormdebug#:#GetValue#:#get data###06 08 2011 new variable
+scormdebug#:#Commit#:#store data###06 08 2011 new variable
+scormdebug#:#Initialize#:#initialize API-communication###06 08 2011 new variable
+scormdebug#:#Terminate#:#store data and terminate API-communication###06 08 2011 new variable
+scormdebug#:#GetErrorString#:#retrieve a textual description of the current error state###06 08 2011 new variable
+scormdebug#:#GetLastError#:#request the error code for the current error state###06 08 2011 new variable
+scormdebug#:#GetDiagnostic#:#allows the LMS (!) to define additional diagnostic information###06 08 2011 new variable
+scormdebug#:#cmi._version#:#Represents the version of the data model###06 08 2011 new variable
+scormdebug#:#cmi.comments_from_learner._children#:#Listing of supported data model elements###06 08 2011 new variable
+scormdebug#:#cmi.comments_from_learner._count#:#Current number of learner comments###06 08 2011 new variable
+scormdebug#:#cmi.comments_from_learner.n.comment#:#Textual input###06 08 2011 new variable
+scormdebug#:#cmi.comments_from_learner.n.location#:#Point in the SCO to which the comment applies###06 08 2011 new variable
+scormdebug#:#cmi.comments_from_learner.n.timestamp#:#Point in time at which the comment was created or most recently changed###06 08 2011 new variable
+scormdebug#:#cmi.comments_from_lms._children#:#Listing of supported data model elements###06 08 2011 new variable
+scormdebug#:#cmi.comments_from_lms._count#:#Current number of comments from the LMS###06 08 2011 new variable
+scormdebug#:#cmi.comments_from_lms.n.comment#:#Comments or annotations associated with a SCO###06 08 2011 new variable
+scormdebug#:#cmi.comments_from_lms.n.location#:#Point in the SCO to which the comment applies###06 08 2011 new variable
+scormdebug#:#cmi.comments_from_lms.n.timestamp#:#Point in time at which the comment was created or most recently changed###06 08 2011 new variable
+scormdebug#:#cmi.completion_status#:#Indicates whether the learner has completed the SCO###06 08 2011 new variable
+scormdebug#:#cmi.completion_threshold#:#Used to determine whether the SCO should be considered complete###06 08 2011 new variable
+scormdebug#:#cmi.credit#:#Indicates whether the learner will be credited for performance in the SCO###06 08 2011 new variable
+scormdebug#:#cmi.entry#:#Asserts whether the learner has previously accessed the SCO###06 08 2011 new variable
+scormdebug#:#cmi.exit#:#Indicates how or why the learner left the SCO###06 08 2011 new variable
+scormdebug#:#cmi.interactions._children#:#Listing of supported data model elements###06 08 2011 new variable
+scormdebug#:#cmi.interactions._count#:#Current number of interactions being stored by the LMS###06 08 2011 new variable
+scormdebug#:#cmi.interactions.n.id#:#Unique label for the interaction###06 08 2011 new variable
+scormdebug#:#cmi.interactions.n.type#:#Which type of interaction is recorded###06 08 2011 new variable
+scormdebug#:#cmi.interactions.n.objectives._count#:#Current number of objectives (i.e., objective identifiers) being stored by the LMS for this interaction###06 08 2011 new variable
+scormdebug#:#cmi.interactions.n.objectives.n.id#:#Label for objectives associated with the interaction###06 08 2011 new variable
+scormdebug#:#cmi.interactions.n.timestamp#:#Point in time at which the interaction was first made available to the learner for learner interaction and response###06 08 2011 new variable
+scormdebug#:#cmi.interactions.n.correct_responses._count#:#Current number of correct responses being stored by the LMS for this interaction###06 08 2011 new variable
+scormdebug#:#cmi.interactions.n.correct_responses.n.pattern#:#One correct response pattern for the interaction###06 08 2011 new variable
+scormdebug#:#cmi.interactions.n.weighting#:#Weight given to the interaction relative to other interactions###06 08 2011 new variable
+scormdebug#:#cmi.interactions.n.learner_response#:#Data generated when a learner responds to an interaction###06 08 2011 new variable
+scormdebug#:#cmi.interactions.n.result#:#Judgment of the correctness of the learner response###06 08 2011 new variable
+scormdebug#:#cmi.interactions.n.latency#:#Time elapsed between the time the interaction was made available to the learner for response and the time of the first response###06 08 2011 new variable
+scormdebug#:#cmi.interactions.n.description#:#Brief informative description of the interaction###06 08 2011 new variable
+scormdebug#:#cmi.launch_data#:#Data provided to a SCO after launch, initialized from the dataFromLMS manifest element###06 08 2011 new variable
+scormdebug#:#cmi.learner_id#:#Identifies the learner on behalf of whom the SCO was launched###06 08 2011 new variable
+scormdebug#:#cmi.learner_name#:#Name provided for the learner by the LMS###06 08 2011 new variable
+scormdebug#:#cmi.learner_preference._children#:#Listing of supported data model elements###06 08 2011 new variable
+scormdebug#:#cmi.learner_preference.audio_level#:#Specifies an intended change in perceived audio level###06 08 2011 new variable
+scormdebug#:#cmi.learner_preference.language#:#The learner's preferred language for SCOs with multilingual capability###06 08 2011 new variable
+scormdebug#:#cmi.learner_preference.delivery_speed#:#The learner's preferred relative speed of content delivery###06 08 2011 new variable
+scormdebug#:#cmi.learner_preference.audio_captioning#:#Specifies whether captioning text corresponding to audio is displayed###06 08 2011 new variable
+scormdebug#:#cmi.location#:#The learner's current location in the SCO###06 08 2011 new variable
+scormdebug#:#cmi.max_time_allowed#:#Amount of accumulated time the learner is allowed to use a SCO###06 08 2011 new variable
+scormdebug#:#cmi.mode#:#Identifies one of three possible modes in which the SCO may be presented to the learner###06 08 2011 new variable
+scormdebug#:#cmi.objectives._children#:#Listing of supported data model elements###06 08 2011 new variable
+scormdebug#:#cmi.objectives._count#:#Current number of objectives being stored by the LMS###06 08 2011 new variable
+scormdebug#:#cmi.objectives.n.id#:#Unique label for the objective###06 08 2011 new variable
+scormdebug#:#cmi.objectives.n.score._children#:#Listing of supported data model elements###06 08 2011 new variable
+scormdebug#:#cmi.objectives.n.score.scaled#:#Number that reflects the performance of the learner for the objective###06 08 2011 new variable
+scormdebug#:#cmi.objectives.n.score.raw#:#Number that reflects the performance of the learner, for the objective, relative to the range bounded by the values of min and max###06 08 2011 new variable
+scormdebug#:#cmi.objectives.n.score.min#:#Minimum value, for the objective, in the range for the raw score###06 08 2011 new variable
+scormdebug#:#cmi.objectives.n.score.max#:#Maximum value, for the objective, in the range for the raw score###06 08 2011 new variable
+scormdebug#:#cmi.objectives.n.success_status#:#Indicates whether the learner has mastered the objective###06 08 2011 new variable
+scormdebug#:#cmi.objectives.n.completion_status#:#Indicates whether the learner has completed the associated objective###06 08 2011 new variable
+scormdebug#:#cmi.objectives.n.progress_measure#:#Measure of the progress the learner has made toward completing the objective###06 08 2011 new variable
+scormdebug#:#cmi.objectives.n.description#:#Provides a brief informative description of the objective###06 08 2011 new variable
+scormdebug#:#cmi.progress_measure#:#Measure of the progress the learner has made toward completing the SCO###06 08 2011 new variable
+scormdebug#:#cmi.scaled_passing_score#:#Scaled passing score required to master the SCO###06 08 2011 new variable
+scormdebug#:#cmi.score._children#:#Listing of supported data model elements###06 08 2011 new variable
+scormdebug#:#cmi.score.scaled#:#Number that reflects the performance of the learner###06 08 2011 new variable
+scormdebug#:#cmi.score.raw#:#Number that reflects the performance of the learner relative to the range bounded by the values of min and max###06 08 2011 new variable
+scormdebug#:#cmi.score.min#:#Minimum value in the range for the raw score###06 08 2011 new variable
+scormdebug#:#cmi.score.max#:#Maximum value in the range for the raw score###06 08 2011 new variable
+scormdebug#:#cmi.session_time#:#Amount of time that the learner has spent in the current learner session for this SCO###06 08 2011 new variable
+scormdebug#:#cmi.success_status#:#Indicates whether the learner has mastered the SCO###06 08 2011 new variable
+scormdebug#:#cmi.suspend_data#:#Provides space to store and retrieve data between learner sessions###06 08 2011 new variable
+scormdebug#:#cmi.time_limit_action#:#Indicates what the SCO should do when cmi.max_time_allowed is exceeded###06 08 2011 new variable
+scormdebug#:#cmi.total_time#:#Sum of all of the learner's session times accumulated in the current learner attempt###06 08 2011 new variable
+scormdebug#:#adl.nav.request#:#Navigation request to be processed immediately following Terminate()###06 08 2011 new variable
+scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Continue navigation request will succeed.###06 08 2011 new variable
+scormdebug#:#adl.nav.request_valid.previous#:#Used by a SCO to determine if a Previous navigation request will succeed.###06 08 2011 new variable
+scormdebug#:#adl.nav.request_valid.choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.###06 08 2011 new variable
+scormdebug#:#i_green#:#green: okay###06 08 2011 new variable
+scormdebug#:#i_red#:#red: failure!###06 08 2011 new variable
+scormdebug#:#i_orange#:#orange: attention please!###06 08 2011 new variable
+scormdebug#:#i_fuchsia#:#fuchsia: likely a failure by ILIAS###06 08 2011 new variable
+scormdebug#:#error#:#error###06 08 2011 new variable
+scormdebug#:#strange_error#:#strange error###06 08 2011 new variable
+scormdebug#:#strange_API-Call#:#strange API-Call###06 08 2011 new variable
+scormdebug#:#unknown#:#unknown###06 08 2011 new variable
+scormdebug#:#undefined_color#:#undefined color###06 08 2011 new variable
+scormdebug#:#description_for#:#description for###06 08 2011 new variable
+scormdebug#:#hide#:#hide###06 08 2011 new variable
+scormdebug#:#all_API-calls_shown#:#All API-calls are currently shown.###06 08 2011 new variable
+scormdebug#:#show_only_important_API-calls#:#Show only important API-calls!###06 08 2011 new variable
+scormdebug#:#only_important_API-Calls_shown#:#Only important API-Calls are currently shown.###06 08 2011 new variable
+scormdebug#:#show_all_API-calls#:#Show all API-calls!###06 08 2011 new variable
+scormdebug#:#log_for#:#Log for the learning module###06 08 2011 new variable
+scormdebug#:#started#:#started###06 08 2011 new variable
+scormdebug#:#nr_session#:#number of session###06 08 2011 new variable
+scormdebug#:#id_learning_module#:#Id of the learning module###06 08 2011 new variable
+scormdebug#:#SCO-title#:#SCO-title###06 08 2011 new variable
+scormdebug#:#SCO-name#:#SCO-name###06 08 2011 new variable
+scormdebug#:#milliseconds#:#milliseconds###06 08 2011 new variable
+scormdebug#:#API-call#:#API-call###06 08 2011 new variable
+scormdebug#:#return_value#:#return value###06 08 2011 new variable
+scormdebug#:#generated#:#generated###06 08 2011 new variable
+scormdebug#:#comment#:#Comment###06 08 2011 new variable
+scormdebug#:#summary_for_SCO_without_test#:#Summary for a SCO without a test###06 08 2011 new variable
+scormdebug#:#summary_for_SCO_with_test#:#Summary for a SCO with a test###06 08 2011 new variable
+scormdebug#:#no_missing_API-calls#:#Missing API-calls had not been recognized.###06 08 2011 new variable
+scormdebug#:#missing_API-calls#:#These API-calls are missing:###06 08 2011 new variable
+scormdebug#:#summary_csv#:#Summary is generated as CSV-file to import for example in Excel###06 08 2011 new variable
+scormdebug#:#summary_download#:#You can klick to 'Logs' and download it when you start this tool again.###06 08 2011 new variable
+scormdebug#:#debugwindow_console#:#Console###06 08 2011 new variable
+scormdebug#:#debugwindow_logs#:#Logs###06 08 2011 new variable
+scormdebug#:#debugwindow_comment#:#comment###06 08 2011 new variable
+scormdebug#:#debugwindow_comment_enter#:#Please enter your comment###06 08 2011 new variable
+scormdebug#:#debugwindow_start_recording#:#Start Recording###06 08 2011 new variable
+scormdebug#:#debugwindow_stop_recording#:#Stop Recording###06 08 2011 new variable
+scormdebug#:#debugwindow_delete_logfile#:#Delete logfile###06 08 2011 new variable
+scormdebug#:#debugwindow_submission_failed#:#Submission failed###06 08 2011 new variable
+scormdebug#:#debugwindow_submit#:#Submit###06 08 2011 new variable
+scormdebug#:#debugwindow_cancel#:#Cancel###06 08 2011 new variable
+scormdebug#:#debugwindow_filename#:#Filename###06 08 2011 new variable
+scormdebug#:#debugwindow_date#:#Date###06 08 2011 new variable
+scormdebug#:#debugwindow_action#:#Action###06 08 2011 new variable
+scormdebug#:#debugwindow_delete#:#Delete###06 08 2011 new variable
+scormdebug#:#debugwindow_download#:#Download###06 08 2011 new variable
+scormdebug#:#debugwindow_open#:#Open###06 08 2011 new variable
+scormdebug#:#debugwindow_password_enter#:#Please enter your password###06 08 2011 new variable
+common#:#password_multiple_errors#:#Multiple criterias are not satisfied:###06 08 2011 new variable
+common#:#password_contains_invalid_chars#:#The password contains invalid characters###06 08 2011 new variable

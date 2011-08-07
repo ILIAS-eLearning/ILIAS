@@ -11804,7 +11804,6 @@ chatroom#:#main#:#Hauptraum
 chatroom_adm#:#chatroom_available_smilies#:#Verfügbare Smilies
 chatroom_adm#:#chatroom_delete_selected#:#Ausgewählte Smilies löschen
 chatroom_adm#:#chatroom_smiley_image#:#Smiley
-chatroom_adm#:#chatroom_smiley_keyword#:#Platzhalter
 chatroom_adm#:#chatroom_add_smiley#:#Smiley hinzufügen
 chatroom_adm#:#chatroom_image_path#:#Pfad zu Smiley
 chatroom_adm#:#chatroom_smiley_keywords#:#Platzhalter
@@ -12049,3 +12048,16 @@ scormdebug#:#debugwindow_open#:#&Ouml;ffnen
 scormdebug#:#debugwindow_password_enter#:#Bitte geben Sie Ihr Passwort ein
 common#:#password_multiple_errors#:#Mehrere Passwort Kriterien werden nicht erfüllt:
 common#:#password_contains_invalid_chars#:#Das Passwort enthält ungültige Zeichen.
+content#:#cont_new_question#:#New Question###06 08 2011 new variable
+content#:#cont_copy_question_from_pool#:#Copy Question from Pool###06 08 2011 new variable
+content#:#cont_select_other_qpool#:#Select other Pool###06 08 2011 new variable
+content#:#cont_copy_question_into_page#:#Copy into Page###06 08 2011 new variable
+notes#:#note_add_note#:#Add Note###06 08 2011 new variable
+notes#:#note_add_comment#:#Add Comment###06 08 2011 new variable
+notes#:#note_update_comment#:#Update Comment###06 08 2011 new variable
+notes#:#note_update_note#:#Update Note###06 08 2011 new variable
+common#:#added_to_desktop#:#The item has been added to the desktop.###06 08 2011 new variable
+common#:#removed_from_desktop#:#The item has been removed from the desktop.###06 08 2011 new variable
+notes#:#notes_comments#:#Comments###06 08 2011 new variable
+chatroom#:#chatroom_smiley_keyword#:#Keyword###06 08 2011 new variable
+user#:#user_account_used#:#Date Of Usage###06 08 2011 new variable
