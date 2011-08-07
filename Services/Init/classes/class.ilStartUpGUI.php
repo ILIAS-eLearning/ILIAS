@@ -763,7 +763,7 @@ class ilStartUpGUI
 		$languages = $lng->getInstalledLanguages();
 		if(count($languages) <= 1)
 		{
-			return true;
+			return '';
 		}
 
 		$ltpl = new ilTemplate('tpl.login_form_lang_selection.html',true,true,'Services/Init');
