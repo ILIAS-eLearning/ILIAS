@@ -210,7 +210,7 @@ class ilChatroomInstaller
 	public static function removeOldChatEntries() {
 		global $ilDB;
 
-		$rset = $ilDB->query("SELECT obj_id FROM object_data WHERE title = 'chac'");
+		$rset = $ilDB->query("SELECT obj_id FROM object_data WHERE title = " . $ilDB->quote( 'chac' ,'text'));
 		$row = $ilDB->fetchAssoc($rset);
 
 		if ($row) {
@@ -226,12 +226,12 @@ class ilChatroomInstaller
 		global $ilDB;
 
 		if ($force) {
-			$query = 'DELETE FROM chatroom_settings WHERE room_type = \'default\'';
+			$query = 'DELETE FROM chatroom_settings WHERE room_type = ' . $ilDB->quote( 'default' ,'text');
 			$rset = $ilDB->query($query);
 			$create = true;
 		}
 		else {
-			$query = 'SELECT * FROM chatroom_settings WHERE room_type = \'default\'';
+			$query = 'SELECT * FROM chatroom_settings WHERE room_type = ' . $ilDB->quote( 'default' ,'text');
 			$rset = $ilDB->query($query);
 			$create = !$ilDB->fetchAssoc($rset);
 		}
@@ -284,7 +284,7 @@ class ilChatroomInstaller
 
 		$query = 'SELECT obj_id FROM object_data '.
 			'WHERE type = '.$ilDB->quote('typ','text').' '.
-			'AND title = '.$ilDB->quote('chatr','text');
+			'AND title = '.$ilDB->quote('chtr','text');
 		if( !($object_definition_row = $ilDB->fetchAssoc( $ilDB->query( $query ) ) ) )
 		{
 			$typ_id = $ilDB->nextId( 'object_data' );
@@ -360,7 +360,7 @@ class ilChatroomInstaller
 			$obj_id = $ilDB->nextId( 'object_data' );
 
 			$query = "INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) " .
-					"VALUES (" . $obj_id . ", 'chta', 'Chatroom Admin', 'Chatroom General Settings', -1, ".$ilDB->now().", ".$ilDB->now().")";
+					"VALUES (" . $ilDB->quote( $obj_id ,'integer') . ", 'chta', 'Chatroom Admin', 'Chatroom General Settings', -1, ".$ilDB->now().", ".$ilDB->now().")";
 			$ilDB->query( $query );
 
 			$ref_id = $ilDB->nextId( 'object_reference' );

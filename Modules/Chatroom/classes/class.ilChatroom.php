@@ -502,8 +502,8 @@ class ilChatroom
 		global $ilDB;
 
 		$ilDB->manipulate( 'DELETE FROM ' . self::$userTable );
-		$ilDB->manipulate( 'UPDATE ' . self::$privateRoomsTable . ' SET closed = ' . time() . ' WHERE closed = 0 OR closed IS NULL');
-		$ilDB->manipulate( 'UPDATE ' . self::$privateSessionsTable . ' SET disconnected = ' . time() . ' WHERE disconnected = 0 OR disconnected IS NULL');
+		$ilDB->manipulate( 'UPDATE ' . self::$privateRoomsTable . ' SET closed = ' . $ilDB->quote( time() ,'integer') . ' WHERE closed = 0 OR closed IS NULL');
+		$ilDB->manipulate( 'UPDATE ' . self::$privateSessionsTable . ' SET disconnected = ' . $ilDB->quote( time() ,'integer') . ' WHERE disconnected = 0 OR disconnected IS NULL');
 		/**
 		 * @todo nicht nur löschen, auch in Session Tabelle nachpflegen
 		 */
