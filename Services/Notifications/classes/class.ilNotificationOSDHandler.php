@@ -38,7 +38,7 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
         global $ilDB;
 
         $query = 'SELECT notification_osd_id, serialized, valid_until, type FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler
-            . ' WHERE usr_id = %s AND (valid_until = 0 OR valid_until > ' . time() . ') AND time_added > %s';
+            . ' WHERE usr_id = %s AND (valid_until = 0 OR valid_until > ' . $ilDB->quote( time() ,'integer') . ') AND time_added > %s';
 
         $types = array('integer', 'integer');
         $values = array($user_id, $max_age_seconds ? (time() - $max_age_seconds) : 0);
@@ -112,7 +112,7 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
 
     public static function cleanup() {
         global $ilDB;
-        $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE valid_until < ' . time();
+        $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE valid_until < ' . $ilDB->quote( time() ,'integer');
         $ilDB->manipulate($query);
     }
 

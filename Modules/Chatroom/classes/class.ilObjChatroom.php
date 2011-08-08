@@ -51,7 +51,7 @@ class ilObjChatroom extends ilObject
 	public static function _getPublicObjId() {
 		global $ilDB;
 
-		$rset = $ilDB->query('SELECT object_id FROM chatroom_settings WHERE room_type=\'default\'');
+		$rset = $ilDB->query('SELECT object_id FROM chatroom_settings WHERE room_type=' . $ilDB->quote( 'default' ,'text'));
 		if ($row = $ilDB->fetchAssoc($rset)) {
 			return $row['object_id'];
 		}
