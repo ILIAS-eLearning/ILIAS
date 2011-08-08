@@ -11684,9 +11684,9 @@ content#:#cont_blist#:#Bullet List
 content#:#cont_nlist#:#Numbered List
 content#:#cont_list_outdent#:#Outdent List
 content#:#cont_list_indent#:#Indent List
-didactic#:#didactic_adm_tab#:#Didactic
+didactic#:#didactic_adm_tab#:#Didactic Templates
 didactic#:#didactic_import_btn#:#Import Didactic Template
-didactic#:#didactic_applicable_for#:#Applicalble for
+didactic#:#didactic_applicable_for#:#Applicable for
 didactic#:#didactic_available_templates#:#Available Didactic Templates
 didactic#:#didactic_copy_suc_message#:#Copied didactic template
 didactic#:#didactic_confirm_delete_msg#:#Do you really want to delete the following didactic templates?
