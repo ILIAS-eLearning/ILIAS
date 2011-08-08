@@ -310,7 +310,8 @@ class ilPCFileListGUI extends ilPageContentGUI
 		
 		// select link 
 		$exp->setTypeClickable("file");
-		$exp->setCustomLinkTarget($ilCtrl->getLinkTarget($this, "selectFile"));
+		$ilCtrl->setParameter($this, "subCmd", "selectFile");
+		$exp->setCustomLinkTarget($ilCtrl->getLinkTarget($this, $a_cmd));
 		
 		// filter
 		$exp->setFiltered(true);
@@ -344,10 +345,12 @@ class ilPCFileListGUI extends ilPageContentGUI
 	{
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 
+		// from personal workspace
 		if(substr($_POST["file_ref_id"], 0, 4) == "wsp_")
 		{
 			$fileObj = new ilObjFile(substr($_POST["file_ref_id"], 4), false);
 		}
+		// upload
 		else if ($_POST["file_ref_id"] == 0)
 		{
 			$fileObj = new ilObjFile();
@@ -365,6 +368,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 			$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],
 				$_FILES["Fobject"]["name"]["file"]);
 		}
+		// from repository
 		else
 		{
 			$fileObj = new ilObjFile($_POST["file_ref_id"]);
@@ -686,10 +690,25 @@ class ilPCFileListGUI extends ilPageContentGUI
 	 */
 	function insertNewFileItem($a_file_ref_id = 0)
 	{
-		if ($a_file_ref_id == 0)
+		global $ilUser;
+		
+		// from personal workspace
+		if(isset($_GET["wsp_id"]))
+		{
+			// we need the object id for the instance
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+			$tree = new ilWorkspaceTree($ilUser->getId());			
+			$node = $tree->getNodeData($_GET["wsp_id"]);		
+			
+			include_once("./Modules/File/classes/class.ilObjFile.php");
+			$file_obj = new ilObjFile($node["obj_id"], false);
+		}
+		// upload
+		else if ($a_file_ref_id == 0)
 		{
 			$file_obj = $this->createFileItem();
 		}
+		// from repository
 		else
 		{
 			include_once("./Modules/File/classes/class.ilObjFile.php");
