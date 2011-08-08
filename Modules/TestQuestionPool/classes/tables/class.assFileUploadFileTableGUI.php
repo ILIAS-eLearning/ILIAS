@@ -26,6 +26,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
+* @author Björn Heyser <bheyser@databay.de>
 * @version $Id$
 *
 * @ingroup ModulesGroup
@@ -63,6 +64,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.il_as_qpl_fileupload_file_row.html", "Modules/TestQuestionPool");
 		
 		$this->disable('sort');
+		$this->disable('linkbar');
 		$this->enable('header');
 		$this->enable('select_all');
 	}
