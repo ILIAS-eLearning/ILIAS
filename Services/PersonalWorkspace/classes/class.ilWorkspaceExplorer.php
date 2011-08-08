@@ -24,6 +24,9 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 	private $form_items = array();
 	private $type = 0;
 	
+	protected $clickable = array();
+	protected $custom_link_target;
+	
 	/**
 	* Constructor
 	* @access	public
@@ -81,6 +84,11 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 	
 	public function isClickable($a_type, $a_ref_id, $a_obj_id = 0)
 	{
+		if(is_array($this->clickable) && in_array($a_type, $this->clickable) &&
+			$a_ref_id)
+		{
+			return true;
+		}
 		return false;
 	}	
 	
@@ -279,6 +287,27 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 		}
 		
 		$tpl->setVariable('OBJ_TITLE', $title);
+	}
+	
+	function setTypeClickable($a_type)
+	{
+		$this->clickable[] = $a_type;
+	}
+	
+	function setCustomLinkTarget($a_target)
+	{
+		$this->custom_link_target = $a_target;		
+	}
+	
+	function buildLinkTarget($a_node_id, $a_type)
+	{
+		if(!$this->custom_link_target)
+		{
+			return parent::buildLinkTarget($a_node_id, $a_type);
+		}
+		
+		$link = $this->custom_link_target."&wsp_id=".$a_node_id;
+		return $link;		
 	}
 }
 ?>

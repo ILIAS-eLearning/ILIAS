@@ -65,13 +65,21 @@ class ilPCFileListGUI extends ilPageContentGUI
 		{
 			$_SESSION["cont_file_insert"] = "insertFromRepository";
 		}
+		if ($_GET["subCmd"] == "insertFromWorkspace")
+		{
+			$_SESSION["cont_file_insert"] = "insertFromWorkspace";
+		}
 		if (($_GET["subCmd"] == "") && $_SESSION["cont_file_insert"] != "")
 		{
 			$_GET["subCmd"] = $_SESSION["cont_file_insert"];
 		}
-
+	
 		switch ($_GET["subCmd"])
 		{
+			case "insertFromWorkspace":
+				$this->insertFromWorkspace();
+				break;
+			
 			case "insertFromRepository":
 				$this->insertFromRepository();
 				break;
@@ -147,14 +155,34 @@ class ilPCFileListGUI extends ilPageContentGUI
 		
 		$this->tpl->setCurrentBlock("rep_file");
 		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("file"));
-		include_once("./Modules/File/classes/class.ilObjFile.php");
-		$file_obj = new ilObjFile($_GET["file_ref_id"]);
-		if (is_object($file_obj))
+		
+		if(isset($_GET["file_ref_id"]))
 		{
-			$this->tpl->setVariable("TXT_FILE_TITLE", $file_obj->getTitle());
-			$this->tpl->setVariable("FILE_REF_ID", $file_obj->getRefId());
+			include_once("./Modules/File/classes/class.ilObjFile.php");
+			$file_obj = new ilObjFile($_GET["file_ref_id"]);
+			if (is_object($file_obj))
+			{
+				$this->tpl->setVariable("TXT_FILE_TITLE", $file_obj->getTitle());
+				$this->tpl->setVariable("FILE_REF_ID", $file_obj->getRefId());
+			}
+			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->parseCurrentBlock();
+		else if(isset($_GET["wsp_id"]))
+		{
+			// we need the object id for the instance
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+			$tree = new ilWorkspaceTree($ilUser->getId());			
+			$node = $tree->getNodeData($_GET["wsp_id"]);			
+			
+			include_once("./Modules/File/classes/class.ilObjFile.php");
+			$file_obj = new ilObjFile($node["obj_id"], false);
+			if (is_object($file_obj))
+			{
+				$this->tpl->setVariable("TXT_FILE_TITLE", $file_obj->getTitle());
+				$this->tpl->setVariable("FILE_REF_ID", "wsp_".$node["obj_id"]);
+			}
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_list"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -245,7 +273,69 @@ class ilPCFileListGUI extends ilPageContentGUI
 
 		$tpl->setContent($exp->getOutput());
 	}
+	
+	/**
+	* Insert file from personal workspace
+	*/
+	function insertFromWorkspace($a_cmd = "insert")
+	{
+		global $ilTabs, $tree, $ilCtrl, $tpl, $ilUser;
 
+		if ($a_cmd == "insert")
+		{
+			$this->setTabs();
+		}
+		else
+		{
+			$this->setItemTabs($a_cmd);
+		}
+
+		$ilTabs->setSubTabActive("cont_file_from_workspace");
+		
+		// get ws tree
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		$tree = new ilWorkspaceTree($ilUser->getId());
+		
+		// get access handler
+		include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php");
+		$acc_handler = new ilWorkspaceAccessHandler($tree);
+		
+		// get es explorer
+		include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceExplorer.php");
+		$exp = new ilWorkspaceExplorer(ilWorkspaceExplorer::SEL_TYPE_RADIO, '', 
+			'filelist_wspexpand', $tree, $acc_handler);
+		$exp->setTargetGet('wsp_id');
+		$exp->setFiltered(false);
+		$exp->removeAllFormItemTypes();
+		
+		// select link 
+		$exp->setTypeClickable("file");
+		$exp->setCustomLinkTarget($ilCtrl->getLinkTarget($this, "selectFile"));
+		
+		// filter
+		$exp->setFiltered(true);
+		$exp->setFilterMode(IL_FM_POSITIVE);
+		$exp->addFilter("wsrt");
+		$exp->addFilter("wfld");
+		$exp->addFilter("file");
+	
+		// expand link
+		$ilCtrl->setParameter($this, "subCmd", "insertFromWorkspace");
+		$exp->setParamsGet($ilCtrl->getParameterArray($this, $a_cmd));		
+
+		if($_GET['filelist_wspexpand'] == '')
+		{
+			$expanded = $tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET['filelist_wspexpand'];
+		}
+		$exp->setExpand($expanded);
+		$exp->setOutput(0);
+		
+		$tpl->setContent($exp->getOutput());
+	}
 	
 	/**
 	* create new file list in dom and update page in db
@@ -254,7 +344,11 @@ class ilPCFileListGUI extends ilPageContentGUI
 	{
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 
-		if ($_POST["file_ref_id"] == 0)
+		if(substr($_POST["file_ref_id"], 0, 4) == "wsp_")
+		{
+			$fileObj = new ilObjFile(substr($_POST["file_ref_id"], 4), false);
+		}
+		else if ($_POST["file_ref_id"] == 0)
 		{
 			$fileObj = new ilObjFile();
 			$fileObj->setType("file");
@@ -375,7 +469,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 	*/
 	function setTabs($a_create = true)
 	{
-		global $ilTabs, $ilCtrl, $lng;
+		global $ilTabs, $ilCtrl, $lng, $ilSetting;
 
 		if ($a_create)
 		{
@@ -389,6 +483,15 @@ class ilPCFileListGUI extends ilPageContentGUI
 			$ilTabs->addSubTabTarget("cont_file_from_repository",
 				$ilCtrl->getLinkTarget($this, $cmd), $cmd);
 			$ilCtrl->setParameter($this, "subCmd", "");
+			
+			if(!$ilSetting->get("disable_personal_workspace") &&
+				!$ilSetting->get("disable_wsp_files"))
+			{
+				$ilCtrl->setParameter($this, "subCmd", "insertFromWorkspace");
+				$ilTabs->addSubTabTarget("cont_file_from_workspace",
+					$ilCtrl->getLinkTarget($this, $cmd), $cmd);
+				$ilCtrl->setParameter($this, "subCmd", "");
+			}
 		}
 		else
 		{
@@ -530,13 +633,21 @@ class ilPCFileListGUI extends ilPageContentGUI
 		{
 			$_SESSION["cont_file_insert"] = "insertFromRepository";
 		}
+		if ($_GET["subCmd"] == "insertFromWorkspace")
+		{
+			$_SESSION["cont_file_insert"] = "insertFromWorkspace";
+		}
 		if (($_GET["subCmd"] == "") && $_SESSION["cont_file_insert"] != "")
 		{
 			$_GET["subCmd"] = $_SESSION["cont_file_insert"];
 		}
 
 		switch ($_GET["subCmd"])
-		{
+		{		
+			case "insertFromWorkspace":
+				$this->insertFromWorkspace("newFileItem");
+				break;
+			
 			case "insertFromRepository":
 				$this->insertFromRepository("newFileItem");
 				break;
@@ -637,7 +748,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 	 */
 	function setItemTabs($a_cmd = "")
 	{
-		global $ilTabs, $ilCtrl;
+		global $ilTabs, $ilCtrl, $ilSetting;
 
 		$ilTabs->addTarget("cont_back",
 			$this->ctrl->getParentReturn($this), "",
@@ -653,6 +764,15 @@ class ilPCFileListGUI extends ilPageContentGUI
 			$ilTabs->addSubTabTarget("cont_file_from_repository",
 				$ilCtrl->getLinkTarget($this, $a_cmd), $a_cmd);
 			$ilCtrl->setParameter($this, "subCmd", "");
+			
+			if(!$ilSetting->get("disable_personal_workspace") &&
+				!$ilSetting->get("disable_wsp_files"))
+			{
+				$ilCtrl->setParameter($this, "subCmd", "insertFromWorkspace");
+				$ilTabs->addSubTabTarget("cont_file_from_workspace",
+					$ilCtrl->getLinkTarget($this, $a_cmd), $a_cmd);
+				$ilCtrl->setParameter($this, "subCmd", "");
+			}
 		}
 	}
 
