@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
 /**
  * Class ilChatroomViewTask
@@ -291,7 +292,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 
 	    ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id );
 
-	    $this->forcePublicRoom();
+	    $this->defaultActions();
 	    $this->gui->switchToVisibleMode();
 	    $this->showSoapWarningIfNeeded();
 
@@ -331,7 +332,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 
 		ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id );
 		
-		$this->forcePublicRoom();
+		$this->defaultActions();
 
 		$this->gui->switchToVisibleMode();
 
@@ -378,6 +379,13 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 		$tpl->setVariable( 'ADM_CONTENT', $form->getHTML() );
 	}
 
+        private function defaultActions() {
+            $chatSettings = new ilSetting('chatroom');
+	    if ($chatSettings->get('chat_enabled', false)) {
+                $this->forcePublicRoom();
+            }
+        }
+        
 	public function forcePublicRoom() {
 		$ref_id = ilObjChatroom::_getPublicRefId();
 		if (!$ref_id) {
@@ -407,7 +415,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	public function createPublicRoom() {
 		global $lng;
 		require_once 'Modules/Chatroom/classes/class.ilChatroomInstaller.php';
-		ilUtil::sendSuccess($lng->txt('public_chat_created'));
+		ilUtil::sendSuccess($lng->txt('public_chat_created'), true);
 		ilChatroomInstaller::createDefaultPublicRoom(true);
 	}
 }
