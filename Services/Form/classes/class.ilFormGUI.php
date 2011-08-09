@@ -18,6 +18,8 @@ class ilFormGUI
 	protected $multipart = false;
 	protected $keepopen = false;
 	protected $opentag = true;
+	protected $id;
+	protected $name;
 	
 	/**
 	* Constructor
@@ -107,6 +109,26 @@ class ilFormGUI
 	{
 		return $this->id;
 	}
+	
+	/**
+	* Set Name. Useful for Javascript
+	*
+	* @param	string	$a_name	Name
+	*/
+	function setName($a_name)
+	{
+		$this->name = $a_name;
+	}
+
+	/**
+	* Get Name.
+	*
+	* @return	string	Name
+	*/
+	function getName()
+	{
+		return $this->name;
+	}
 
 	/**
 	* Set Keep Form Tag Open.
@@ -184,6 +206,12 @@ class ilFormGUI
 			{
 				$opentpl->setCurrentBlock("form_target");
 				$opentpl->setVariable("FORM_TARGET", $this->getTarget());
+				$opentpl->parseCurrentBlock();
+			}
+			if ($this->getName() != "")
+			{
+				$opentpl->setCurrentBlock("form_name");
+				$opentpl->setVariable("FORM_NAME", $this->getName());
 				$opentpl->parseCurrentBlock();
 			}
 			if ($this->getMultipart())
