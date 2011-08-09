@@ -597,19 +597,22 @@ class ilUserProfile
 				case "roles":
 					if(self::$mode == self::MODE_DESKTOP)
 					{
-						$global_roles = $rbacreview->getGlobalRoles();
-						foreach($global_roles as $role_id)
+						if (ilUserProfile::userSettingVisible("roles"))
 						{
-							if (in_array($role_id,$rbacreview->assignedRoles($a_user->getId())))
+							$global_roles = $rbacreview->getGlobalRoles();
+							foreach($global_roles as $role_id)
 							{
-								$roleObj = $ilias->obj_factory->getInstanceByObjId($role_id);
-								$role_names .= $roleObj->getTitle().", ";
-								unset($roleObj);
+								if (in_array($role_id,$rbacreview->assignedRoles($a_user->getId())))
+								{
+									$roleObj = $ilias->obj_factory->getInstanceByObjId($role_id);
+									$role_names .= $roleObj->getTitle().", ";
+									unset($roleObj);
+								}
 							}
+							$dr = new ilNonEditableValueGUI($lng->txt("default_roles"), "ne_dr");
+							$dr->setValue(substr($role_names,0,-2));
+							$a_form->addItem($dr);
 						}
-						$dr = new ilNonEditableValueGUI($lng->txt("default_roles"), "ne_dr");
-						$dr->setValue(substr($role_names,0,-2));
-						$a_form->addItem($dr);
 					}
 					else if(self::$mode == self::MODE_REGISTRATION)
 					{

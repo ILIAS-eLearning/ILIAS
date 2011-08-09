@@ -3085,7 +3085,11 @@ else
 
 		global $ilias,$ilSetting;
 		
-		$profile_fields =& $this->object->getProfileFields();
+		// see ilUserFieldSettingsTableGUI
+		include_once("./Services/User/classes/class.ilUserProfile.php");
+		$up = new ilUserProfile();
+		$up->skipField("username");
+		$profile_fields = array_keys($up->getStandardFields());
 		
 		$valid = true;
 		foreach ($profile_fields as $field)
