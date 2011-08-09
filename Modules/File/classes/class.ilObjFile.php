@@ -307,6 +307,8 @@ class ilObjFile extends ilObject2
 		{
 			$this->updateMetaData();
 		}
+		
+		return true;
 	}
 
 	/**
