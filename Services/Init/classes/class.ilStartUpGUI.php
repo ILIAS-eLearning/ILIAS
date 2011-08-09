@@ -483,8 +483,9 @@ class ilStartUpGUI
 			include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 			$form = new ilPropertyFormGUI();
 			$form->setFormAction($this->ctrl->getFormAction($this,''));
+			$form->setName("formlogin");
 			$form->setShowTopButtons(false);
-			$form->setTitle($lng->txt("login_to_ilias"));
+			$form->setTitle($lng->txt("login_to_ilias"));			
 
 			// auth selection
 			include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
