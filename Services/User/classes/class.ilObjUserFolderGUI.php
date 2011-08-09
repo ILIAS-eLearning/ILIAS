@@ -95,6 +95,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				break;
 			
 			case 'ilaccountcodesgui':
+				$this->tabs_gui->setTabActive('settings');
 				$this->setSubTabs("settings");			
 				$ilTabs->activateSubTab("account_codes");
 				include_once("./Services/User/classes/class.ilAccountCodesGUI.php");
