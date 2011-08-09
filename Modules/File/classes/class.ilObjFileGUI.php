@@ -507,6 +507,8 @@ class ilObjFileGUI extends ilObject2GUI
 	protected function initPropertiesForm()
 	{
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		
+		$this->lng->loadLanguageModule('file');
 
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this),'update');
