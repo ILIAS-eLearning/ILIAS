@@ -4100,7 +4100,7 @@ class ilObjSurvey extends ilObject
 	*/
 	function importObject($file_info, $svy_qpl_id)
 	{
-		$GLOBALS['ilLog']->write(__METHOD__);
+		if ($svy_qpl_id < 1) $svy_qpl_id = -1;
 		// check if file was uploaded
 		$source = $file_info["tmp_name"];
 		$error = "";
