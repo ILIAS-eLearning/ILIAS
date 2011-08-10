@@ -785,7 +785,7 @@ class ilObjQuestionPool extends ilObject
 	* (data_dir/qpl_data/qpl_<id>/import, depending on data
 	* directory that is set in ILIAS setup/ini)
 	*/
-	function _createImportDirectory()
+	function createImportDirectory()
 	{
 		global $ilias;
 		
@@ -806,6 +806,7 @@ class ilObjQuestionPool extends ilObject
 		{
 			$ilias->raiseError("Creation of Questionpool Directory failed.",$ilias->error_obj->FATAL);
 		}
+		return $qpl_dir;
 	}
 
 	/**
@@ -842,19 +843,7 @@ class ilObjQuestionPool extends ilObject
 		{
 			return $_SESSION["qpl_import_dir"];
 		}
-		else
-		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			$import_dir = ilUtil::getDataDir()."/qpl_data/qpl_import";
-			if(@is_dir($import_dir))
-			{
-				return $import_dir;
-			}
-			else
-			{
-				return false;
-			}
-		}
+		return null;
 	}
 
 	/**
@@ -866,16 +855,7 @@ class ilObjQuestionPool extends ilObject
 		{
 			return $this->import_dir;
 		}
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$import_dir = ilUtil::getDataDir()."/qpl_data/qpl_import";
-		if(@is_dir($import_dir))
-		{
-			return $import_dir;
-		}
-		else
-		{
-			return false;
-		}
+		return null;
 	}
 	
 	/**
