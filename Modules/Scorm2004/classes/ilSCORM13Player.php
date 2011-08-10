@@ -2195,6 +2195,10 @@ class ilSCORM13Player
 			$logfile = $this->logFileName().".html";
 			$this->tpl->setVariable('LOGFILE',$this->logFileName().".html");		
 			$this->tpl->setVariable('FILES_DATA', json_encode($this->getLogFileList($lng->txt("debugwindow_delete"), $lng->txt("debugwindow_download"), $lng->txt("debugwindow_open"))));
+			
+			// path to latest yui distribution
+			include_once "Services/YUI/classes/class.ilYuiUtil.php";
+			$this->tpl->setVariable('PATH_YUI', ilYuiUtil::getLocalPath());			
 		//}
 		echo $this->tpl->get("DEFAULT", true);	
 	}
