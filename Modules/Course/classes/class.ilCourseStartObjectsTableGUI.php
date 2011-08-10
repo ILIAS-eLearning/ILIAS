@@ -31,8 +31,7 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
 		{
 			$this->setTitle($this->lng->txt('crs_select_starter'));		
 							 		 
-			$this->addCommandButton('addStarter', $this->lng->txt('crs_add_starter'));		
-			$this->addCommandButton('listStructure', $this->lng->txt('cancel'));	 			
+			$this->addMultiCommand('addStarter', $this->lng->txt('crs_add_starter'));		 			
 		}
 		// list 
 		else
