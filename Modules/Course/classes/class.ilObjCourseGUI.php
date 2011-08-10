@@ -1598,7 +1598,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		$form->setValuesByPost();
-		$this->initCourseIconsForm($form);	
+		$this->editCourseIconsObject($form);	
 	}
 
 
