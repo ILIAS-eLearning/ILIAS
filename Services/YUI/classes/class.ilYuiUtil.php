@@ -10,8 +10,8 @@
 */
 class ilYuiUtil
 {
-	//private static $ver = "2_7_0b";
-	private static $ver = "2_8_1";
+	//private static $ver = "2_8_1";
+	private static $ver = "2_9_0";
 	
 	/**
 	* Init YUI Connection module
@@ -320,14 +320,7 @@ class ilYuiUtil
 		global $tpl;
 		
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		if (self::$ver == "2_5_0")
-		{
-			$tpl->addJavaScript("./Services/YUI/js/2_5_0/element/element-beta-min.js");
-		}
-		else
-		{
-			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
-		}
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
 		
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container_core-min.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/menu/menu-min.js");
@@ -368,14 +361,7 @@ class ilYuiUtil
 		
 		$tpl->addCss("./Services/YUI/js/".self::$ver."/tabview/assets/skins/sam/tabview.css");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		if (self::$ver == "2_5_0")
-		{
-			$tpl->addJavaScript("./Services/YUI/js/2_5_0/element/element-beta-min.js");
-		}
-		else
-		{
-			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
-		}
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/tabview/tabview-min.js");
 	}
 	
@@ -392,14 +378,7 @@ class ilYuiUtil
 	 	$tpl->addCss("./Services/YUI/js/".self::$ver."/autocomplete/assets/skins/sam/autocomplete.css");
 
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		if (self::$ver == "2_5_0")
-		{
-			$tpl->addJavaScript('./Services/YUI/js/2_5_0/datasource/datasource-beta-min.js');
-		}
-		else
-		{
-			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/datasource/datasource-min.js");
-		}
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/datasource/datasource-min.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/connection/connection-min.js");		
 	 	$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/autocomplete/autocomplete-min.js");
 	 }
@@ -422,31 +401,15 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-//		 $tpl->addCss("./Services/YUI/js/2_5_0/reset-fonts-grids/reset-fonts-grids.css");
 		$tpl->addCss("./Services/YUI/js/".self::$ver."/assets/skins/sam/resize.css");
 		$tpl->addCss("./Services/YUI/js/".self::$ver."/assets/skins/sam/layout.css");
 		
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
-		if (self::$ver == "2_5_0")
-		{
-			$tpl->addJavaScript("./Services/YUI/js/2_5_0/element/element-beta-min.js");
-		}
-		else
-		{
-			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
-		}
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/element/element-min.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/animation/animation-min.js");
-		if (self::$ver == "2_5_0")
-		{
-			$tpl->addJavaScript("./Services/YUI/js/2_5_0/resize/resize-beta-min.js");
-			$tpl->addJavaScript("./Services/YUI/js/2_5_0/layout/layout-beta-min.js");
-		}
-		else
-		{
-			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/resize/resize-min.js");
-			$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/layout/layout-min.js");
-		}
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/resize/resize-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/layout/layout-min.js");
 	}
 	
 	/**
