@@ -330,11 +330,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		}
 		// create import directory
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		ilObjQuestionPool::_createImportDirectory();
+		$basedir = $this->object->createImportDirectory();
 
 		// copy uploaded file to import directory
 		$file = pathinfo($_FILES["xmldoc"]["name"]);
-		$full_path = ilObjQuestionPool::_getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+		$full_path = $basedir.'/'.$_FILES["xmldoc"]["name"];
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
 		if (strcmp($_FILES["xmldoc"]["type"], "text/xml") == 0)
@@ -348,8 +348,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	
 			// determine filenames of xml files
 			$subdir = basename($file["basename"],".".$file["extension"]);
-			$xml_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/".$subdir.".xml";
-			$qti_file = ilObjQuestionPool::_getImportDirectory()."/".$subdir."/". str_replace("qpl", "qti", $subdir).".xml";
+			$xml_file = $this->object->getImportDirectory().'/'.$subdir.".xml";
+			$qti_file = $this->object->getImportDirectory().'/'. str_replace("qpl", "qti", $subdir).".xml";
 		}
 
 		// start verification of QTI files
@@ -362,7 +362,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			// nothing found
 
 			// delete import directory
-			ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
+			ilUtil::delDir($basedir);
 
 			ilUtil::sendInfo($this->lng->txt("qpl_import_no_items"));
 			$this->importObject();
@@ -386,7 +386,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($complete == 0)
 		{
 			// delete import directory
-			ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
+			ilUtil::delDir($basedir);
 
 			ilUtil::sendInfo($this->lng->txt("qpl_import_non_ilias_files"));
 			$this->importObject();
@@ -560,7 +560,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		
 		// delete import directory
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		ilUtil::delDir(ilObjQuestionPool::_getImportDirectory());
+		ilUtil::delDir(dirname($this->object->getImportDirectory()));
 
 		if ($_POST["questions_only"] == 1)
 		{

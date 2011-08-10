@@ -26,7 +26,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
-			$newObj->setImportDirectory(dirname(rtrim($this->getImportDirectory(),'/')));
+			$newObj->setImportDirectory($this->getImportDirectory());
 		}
 		else	// case ii, non container
 		{

@@ -200,12 +200,12 @@ class assNumericImport extends assQuestionImport
 				if ($tst_id > 0)
 				{
 					include_once "./Modules/Test/classes/class.ilObjTest.php";
-					$importfile = ilObjTest::_getImportDirectory() . "/" . $_SESSION["tst_import_subdir"] . "/" . $mob["uri"];
+					$importfile = ilObjTest::_getImportDirectory() . '/' . $mob["uri"];
 				}
 				else
 				{
 					include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-					$importfile = ilObjQuestionPool::_getImportDirectory() . "/" . $_SESSION["qpl_import_subdir"] . "/" . $mob["uri"];
+					$importfile = ilObjQuestionPool::_getImportDirectory() . '/' . $mob["uri"];
 				}
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 				ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
