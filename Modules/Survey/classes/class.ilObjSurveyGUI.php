@@ -2245,8 +2245,8 @@ EOT;
 		$questionspools = $svy->getAvailableQuestionpools(true, true, true);
 
 		$pools = new ilSelectInputGUI($this->lng->txt("select_questionpool_short"), "spl");
-		$pools->setOptions(array(""=>$this->lng->txt("select_questionpool_option")) + $questionspools);
-		$pools->setRequired(true);
+		$pools->setOptions(array(""=>$this->lng->txt("dont_use_questionpool")) + $questionspools);
+		$pools->setRequired(false);
 		$form->addItem($pools);
 
 		$form->addCommandButton("importFile", $this->lng->txt("import"));

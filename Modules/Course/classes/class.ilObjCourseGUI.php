@@ -154,6 +154,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function afterImport(ilObject $a_new_object)
 	{
+		global $ilUser;
+		
 		$part = new ilCourseParticipants($a_new_object->getId());
 		$part->add($ilUser->getId(), ilCourseConstants::CRS_ADMIN);
 		$part->updateNotification($ilUser->getId(), 1);

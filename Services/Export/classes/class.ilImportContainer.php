@@ -34,7 +34,7 @@ class ilImportContainer extends ilImport
 		$manifest_file = $dir."/manifest.xml";
 		if(!file_exists($manifest_file))
 		{
-			return false;			
+			return false;
 		}
 		
 		include_once("./Services/Export/classes/class.ilManifestParser.php");
@@ -45,7 +45,7 @@ class ilImportContainer extends ilImport
 		{
 			$this->createDummy($type);
 			$new_id = parent::doImportObject($dir,$type);
-			return $new_id;			
+			return $new_id;
 		}
 		
 		// Handling containers with subitems

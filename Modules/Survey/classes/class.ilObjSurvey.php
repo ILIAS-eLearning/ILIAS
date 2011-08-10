@@ -4082,7 +4082,7 @@ class ilObjSurvey extends ilObject
 			}
 			foreach($files as $file)
 			{ 
-				if(@is_file($importDirectory."/".$file) && ($file != "." && $file!="..") && (strcmp(strtolower(substr($file, -4, 4)), ".xml") == 0))
+				if(@is_file($importDirectory."/".$file) && ($file != "." && $file!="..") && ereg("^[0-9]{10}_{2}[0-9]+_{2}(svy_)*[0-9]+\.[a-z]{1,3}\$", $file))
 				{
 					// found xml file
 					$xmlFile = $importDirectory."/".$file;
@@ -4100,6 +4100,7 @@ class ilObjSurvey extends ilObject
 	*/
 	function importObject($file_info, $svy_qpl_id)
 	{
+		$GLOBALS['ilLog']->write(__METHOD__);
 		// check if file was uploaded
 		$source = $file_info["tmp_name"];
 		$error = "";
@@ -4168,9 +4169,7 @@ class ilObjSurvey extends ilObject
 			if (strpos($xml, "questestinterop"))
 			{
 				include_once "./Services/Survey/classes/class.SurveyImportParserPre38.php";
-				include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
-				$spl = new ilObjSurveyQuestionPool($svy_qpl_id, FALSE);
-				$import = new SurveyImportParserPre38($spl, "", TRUE);
+				$import = new SurveyImportParserPre38($svy_qpl_id, "", TRUE);
 				$import->setSurveyObject($this);
 				$import->setXMLContent($xml);
 				$import->startParsing();
@@ -4178,9 +4177,7 @@ class ilObjSurvey extends ilObject
 			else
 			{
 				include_once "./Services/Survey/classes/class.SurveyImportParser.php";
-				include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
-				$spl = new ilObjSurveyQuestionPool($svy_qpl_id, FALSE);
-				$import = new SurveyImportParser($spl, "", TRUE);
+				$import = new SurveyImportParser($svy_qpl_id, "", TRUE);
 				$import->setSurveyObject($this);
 				$import->setXMLContent($xml);
 				$import->startParsing();
@@ -4434,9 +4431,7 @@ class ilObjSurvey extends ilObject
 		// get files and save the in the array
 		while ($entry = $dir->read())
 		{
-			if ($entry != "." and
-				$entry != ".." and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(survey__)*[0-9]+\.xml|zip\$", $entry))
+			if ($entry != "." && $entry != ".." && ereg("^[0-9]{10}_{2}[0-9]+_{2}(svy_)*[0-9]+\.[a-z]{1,3}\$", $entry))
 			{
 				$file[] = $entry;
 			}

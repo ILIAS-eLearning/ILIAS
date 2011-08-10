@@ -69,6 +69,7 @@ class SurveyImportParser extends ilSaxParser
 	var $constraints;
 	var $textblock;
 	var $textblocks;
+	var $survey_status;
 	var $in_questionblock;
 	var $questionblock;
 	var $questionblocks;
@@ -81,12 +82,13 @@ class SurveyImportParser extends ilSaxParser
 	*
 	* @access	public
 	*/
-	function SurveyImportParser(&$a_spl, $a_xml_file = '', $spl_exists = FALSE)
+	function SurveyImportParser($a_spl_id, $a_xml_file = '', $spl_exists = FALSE)
 	{
 		parent::ilSaxParser($a_xml_file);
-		$this->spl =& $a_spl;
+		$this->spl_id = $a_spl_id;
 		$this->has_error = FALSE;
 		$this->characterbuffer = "";
+		$this->survey_status = 0;
 		$this->activetag = "";
 		$this->material = array();
 		$this->depth = array();
@@ -218,6 +220,23 @@ class SurveyImportParser extends ilSaxParser
 					}
 				}
 				break;
+			case "surveyquestions":
+				foreach ($a_attribs as $attrib => $value)
+				{
+					switch ($attrib)
+					{
+						case "online":
+							if ($this->spl_id > 0)
+							{
+								include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
+								$spl = new ilObjSurveyQuestionPool($this->spl_id, false);
+								$spl->setOnline($value);
+								$spl->saveToDb();
+							}
+							break;
+					}
+				}
+				break;
 			case "survey":
 				$this->in_survey = TRUE;
 				foreach ($a_attribs as $attrib => $value)
@@ -300,7 +319,7 @@ class SurveyImportParser extends ilSaxParser
 					if (SurveyQuestion::_includeClass($type))
 					{
 						$this->activequestion = new $type();
-						$this->activequestion->setObjId($this->spl->getId());
+						$this->activequestion->setObjId($this->spl_id);
 					}
 				}
 				else
@@ -454,6 +473,7 @@ class SurveyImportParser extends ilSaxParser
 							$this->survey->createQuestionblock($title, $this->showQuestiontext, $qblock);
 						}
 					}
+					$this->survey->setStatus($this->survey_status);
 					$this->survey->saveToDb();
 
 					// write textblocks
@@ -653,7 +673,7 @@ class SurveyImportParser extends ilSaxParser
 								}
 								break;
 							case "status":
-								$this->survey->setStatus($value["entry"]);
+								$this->survey_status = $value["entry"];
 								break;
 							case "evaluation_access":
 								$this->survey->setEvaluationAccess($value["entry"]);
@@ -671,14 +691,19 @@ class SurveyImportParser extends ilSaxParser
 							{
 								if (strlen($value["entry"]))
 								{
-									include_once "./Services/MetaData/classes/class.ilMDSaxParser.php";
-									include_once "./Services/MetaData/classes/class.ilMD.php";
-									$md_sax_parser = new ilMDSaxParser();
-									$md_sax_parser->setXMLContent($value["entry"]);
-									$md_sax_parser->setMDObject($tmp = new ilMD($this->spl->getId(),0, "spl"));
-									$md_sax_parser->enableMDParsing(true);
-									$md_sax_parser->startParsing();
-									$this->spl->MDUpdateListener("General");
+									if ($this->spl_id > 0)
+									{
+										include_once "./Services/MetaData/classes/class.ilMDSaxParser.php";
+										include_once "./Services/MetaData/classes/class.ilMD.php";
+										include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
+										$md_sax_parser = new ilMDSaxParser();
+										$md_sax_parser->setXMLContent($value["entry"]);
+										$md_sax_parser->setMDObject($tmp = new ilMD($this->spl_id,0, "spl"));
+										$md_sax_parser->enableMDParsing(true);
+										$md_sax_parser->startParsing();
+										$spl = new ilObjSurveyQuestionPool($this->spl_id, false);
+										$spl->MDUpdateListener("General");
+									}
 								}
 							}
 						}

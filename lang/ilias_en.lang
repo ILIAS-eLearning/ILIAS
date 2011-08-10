@@ -10315,6 +10315,7 @@ common#:#mail_no_valid_group_role#:#No valid group role
 payment#:#paya_bill_history#:#Bill History
 assessment#:#tst_search_users#:#Search Participants
 survey#:#svy_search_users#:#Search for participants
+survey#:#dont_use_questionpool#:#Don't insert the questions in a questionpool (only available in this survey)
 trac#:#trac_first_access#:#First Access
 trac#:#trac_read_count#:#Access Number
 trac#:#trac_spent_seconds#:#Time Spent

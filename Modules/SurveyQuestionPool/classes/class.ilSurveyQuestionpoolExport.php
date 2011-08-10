@@ -63,7 +63,7 @@ class ilSurveyQuestionpoolExport
 			default:
 				$this->export_dir = $this->spl_obj->getExportDirectory();
 				$this->subdir = $date."__".$this->inst_id."__".
-					"spl"."__".$this->spl_obj->getId();
+					"spl"."_".$this->spl_obj->getId();
 				$this->filename = $this->subdir.".xml";
 				break;
 		}
@@ -81,7 +81,7 @@ class ilSurveyQuestionpoolExport
 	*   @access public
 	*   @return
 	*/
-	function buildExportFile($questions)
+	function buildExportFile($questions = null)
 	{
 		switch ($this->mode)
 		{
@@ -94,7 +94,7 @@ class ilSurveyQuestionpoolExport
 	/**
 	* build xml export file
 	*/
-	function buildExportFileXML($questions)
+	function buildExportFileXML($questions = null)
 	{
 		global $ilBench;
 
@@ -102,26 +102,29 @@ class ilSurveyQuestionpoolExport
 
 		// create directories
 		$this->spl_obj->createExportDirectory();
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		ilUtil::makeDir($this->export_dir."/".$this->subdir);
 
 		// get Log File
-		$expDir = $this->spl_obj->getExportDirectory();
 		include_once "./Services/Logging/classes/class.ilLog.php";
-		$expLog = new ilLog($expDir, "export.log");
+		$expLog = new ilLog($this->spl_obj->getExportDirectory(), "export.log");
 		$expLog->delete();
 		$expLog->setLogFormat("");
 		$expLog->write(date("[y-m-d H:i:s] ")."Start Export");
 		// write qti file
-		$qti_file = fopen($expDir . "/" . $this->filename, "w");
+		$qti_file = fopen($this->export_dir."/".$this->subdir."/". $this->filename, "w");
 		fwrite($qti_file, $this->spl_obj->toXML($questions));
 		fclose($qti_file);
-
 		// destroy writer object
 		$this->xml->_XmlWriter;
+
+		ilUtil::zip($this->export_dir."/".$this->subdir,
+			$this->export_dir."/".$this->subdir.".zip");
 
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
 		$ilBench->stop("SurveyQuestionpoolExport", "buildExportFile");
 
-		return $this->filename;
+		return $this->export_dir."/".$this->subdir.".zip";
 	}
 }
 

@@ -47,12 +47,16 @@ class ilQuestionpoolExport
 	* Constructor
 	* @access	public
 	*/
-	function ilQuestionpoolExport(&$a_qpl_obj, $a_mode = "xml", $array_questions)
+	function ilQuestionpoolExport(&$a_qpl_obj, $a_mode = "xml", $array_questions = null)
 	{
 		global $ilErr, $ilDB, $ilias, $lng;
 
 		$this->qpl_obj =& $a_qpl_obj;
-
+		if (!is_array($array_questions))
+		{
+			$array_questions =& $a_qpl_obj->getAllQuestionIds();
+		}
+		
 		$this->err =& $ilErr;
 		$this->ilias =& $ilias;
 		$this->db =& $ilDB;

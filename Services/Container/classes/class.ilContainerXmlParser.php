@@ -181,37 +181,7 @@ class ilContainerXmlParser
 		$this->mapping->addMapping('Services/Container','objs', $obj_id, $new->getId());
 		$this->mapping->addMapping('Services/Container','refs',$ref_id,$new->getRefId());
 		
-		if($type == 'svy')
-		{
-			$pool = $this->createSurveyPool($title,$parent_node);
-			$this->mapping->addMapping('Services/Container', 'spl', $new->getId(), $pool->getRefId());
-		}
-		
 		return $new->getRefId();
-	}
-	
-	/**
-	 * Create pool for survey
-	 * @param object $title
-	 * @param object $parent_node
-	 * @return 
-	 */
-	protected function createSurveyPool($title,$parent_node)
-	{
-		global $objDefinition;
-
-		$class_name = "ilObj".$objDefinition->getClassName('spl');
-		$location = $objDefinition->getLocation('spl');
-
-		include_once($location."/class.".$class_name.".php");
-		$new = new $class_name();
-		$new->setTitle($title);
-		$new->create(true);
-		$new->createReference();
-		$new->putInTree($parent_node);
-		$new->setPermissions($parent_node);
-		
-		return $new;
 	}
 }
 ?>

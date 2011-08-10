@@ -35,7 +35,6 @@ class ilSurveyImporter extends ilXmlImporter
 		
 		
 		include_once "./Services/Survey/classes/class.SurveyImportParser.php";
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 		
 		list($xml_file) = $this->parseXmlFileNames();
 
@@ -45,20 +44,36 @@ class ilSurveyImporter extends ilXmlImporter
 			return false;
 		}
 
-		$pool_ref = $a_mapping->getMapping('Services/Container','spl',$newObj->getId());
-		$pool_obj = ilObject::_lookupObjId($pool_ref);
-		
-		$spl = new ilObjSurveyQuestionPool($pool_obj, FALSE);	
-		$import = new SurveyImportParser($spl, $xml_file, TRUE);
+		$import = new SurveyImportParser(-1, $xml_file, TRUE);
 		$import->setSurveyObject($newObj);
 		$import->startParsing();
 
-		// Finally delete tmp question pool
-		if($spl->getType() == 'spl')
+		if (is_array($_SESSION["import_mob_xhtml"]))
 		{
-			$spl->delete();
+			include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
+			include_once "./Services/RTE/classes/class.ilRTE.php";
+			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+			foreach ($_SESSION["import_mob_xhtml"] as $mob)
+			{
+				$importfile = dirname($xml_file) . "/" . $mob["uri"];
+				if (file_exists($importfile))
+				{
+					$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
+					ilObjMediaObject::_saveUsage($media_object->getId(), "svy:html", $newObj->getId());
+					$newObj->setIntroduction(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $newObj->getIntroduction()));
+					$newObj->setOutro(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $newObj->getOutro()));
+				}
+				else
+				{
+					global $ilLog;
+					$ilLog->write("Error: Could not open XHTML mob file for test introduction during test import. File $importfile does not exist!");
+				}
+			}
+			$newObj->setIntroduction(ilRTE::_replaceMediaObjectImageSrc($newObj->getIntroduction(), 1));
+			$newObj->setOutro(ilRTE::_replaceMediaObjectImageSrc($newObj->getOutro(), 1));
+			$newObj->saveToDb();
 		}
-
+		
 		$a_mapping->addMapping("Modules/Survey", "svy", $a_id, $newObj->getId());
 
 		return true;

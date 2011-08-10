@@ -620,10 +620,9 @@ class ilObjSurveyQuestionPool extends ilObject
 		// get files and save the in the array
 		while ($entry = $dir->read())
 		{
-			if ($entry != "." and
-				$entry != ".." and
-				substr($entry, -4) == ".xml" and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(spl__)*[0-9]+\.xml\$", $entry))
+			if ($entry != "." &&
+				$entry != ".." &&
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(spl_)*[0-9]+\.[A-Za-z]{3}\$", $entry))
 			{
 				$file[] = $entry;
 			}
@@ -716,7 +715,8 @@ class ilObjSurveyQuestionPool extends ilObject
 		$a_xml_writer->xmlStartTag("surveyobject", $attrs);
 		$attrs = array(
 			"id" => "qpl_" . $this->getId(),
-			"label" => $this->getTitle()
+			"label" => $this->getTitle(),
+			"online" => $this->getOnline()
 		);
 		$a_xml_writer->xmlStartTag("surveyquestions", $attrs);
 		$a_xml_writer->xmlElement("dummy", NULL, "dummy");
@@ -781,14 +781,33 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		if (is_file($source))
 		{
+			$isZip = (strcmp(strtolower(substr($source, -3)), 'zip') == 0);
+			if ($isZip)
+			{
+				// unzip file
+				ilUtil::unzip($source);
+
+				// determine filenames of xml files
+				$subdir = basename($source, ".zip");
+				$source = dirname($source)."/".$subdir."/".$subdir.".xml";
+			}
+
 			$fh = fopen($source, "r") or die("");
 			$xml = fread($fh, filesize($source));
 			fclose($fh) or die("");
+			if ($isZip)
+			{
+				$subdir = basename($source, ".zip");
+				if (@is_dir(dirname($source)."/".$subdir))
+				{
+					ilUtil::delDir(dirname($source)."/".$subdir);
+				}
+			}
 			if (strpos($xml, "questestinterop") > 0)
 			{
 				// survey questions for ILIAS < 3.8
 				include_once "./Services/Survey/classes/class.SurveyImportParserPre38.php";
-				$import = new SurveyImportParserPre38($this, "", $spl_exists);
+				$import = new SurveyImportParserPre38($this->getId(), "", $spl_exists);
 				$import->setXMLContent($xml);
 				$import->startParsing();
 			}
@@ -796,11 +815,29 @@ class ilObjSurveyQuestionPool extends ilObject
 			{
 				// survey questions for ILIAS >= 3.8
 				include_once "./Services/Survey/classes/class.SurveyImportParser.php";
-				$import = new SurveyImportParser($this, "", $spl_exists);
+				$import = new SurveyImportParser($this->getId(), "", $spl_exists);
 				$import->setXMLContent($xml);
 				$import->startParsing();
 			}
 		}
+	}
+
+	public static function _setOnline($a_obj_id, $a_online_status)
+	{
+		global $ilDB;
+		
+		$status = "0";
+		switch ($a_online_status)
+		{
+			case 0:
+			case 1:
+				$status = "$a_online_status";
+				break;
+		}
+		$affectedRows = $ilDB->manipulateF("UPDATE svy_qpl SET isonline = %s  WHERE obj_fi = %s",
+			array('text','integer'),
+			array($status, $a_obj_id)
+		);
 	}
 	
 	/**

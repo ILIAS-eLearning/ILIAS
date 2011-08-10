@@ -4,13 +4,14 @@
 include_once("./Services/Export/classes/class.ilXmlImporter.php");
 
 /**
- * Importer class for files
+ * Importer class for question pools
  *
- * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id: $
+ * @author Helmut Schottmüller <ilias@aurealis.de>
+ * @version $Id$
  * @ingroup ModulesLearningModule
  */
-class ilTestImporter extends ilXmlImporter
+
+class ilTestQuestionPoolImporter extends ilXmlImporter
 {
 	/**
 	 * Import XML
@@ -20,6 +21,7 @@ class ilTestImporter extends ilXmlImporter
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
+		$GLOBALS['ilLog']->write(__METHOD__.': '. $a_entity . ":" . $a_id);
 		// Container import => test object already created
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
@@ -46,29 +48,34 @@ class ilTestImporter extends ilXmlImporter
 			return false;
 		}
 
-		// FIXME: Copied from ilObjTestGUI::importVerifiedFileObject
-		// TODO: move all logic to ilObjTest::importVerifiedFile and call 
-		// this method from ilObjTestGUI and ilTestImporter 
-		$newObj->mark_schema->flush();
-		$newObj->setImportDirectory($this->getImportDirectory());
-		ilObjTest::_setImportDirectory($this->getImportDirectory());
+		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+		ilObjQuestionPool::_setImportDirectory($this->getImportDirectory());
 
+		// FIXME: Copied from ilObjQuestionPoolGUI::importVerifiedFileObject
+		// TODO: move all logic to ilObjQuestionPoolGUI::importVerifiedFile and call 
+		// this method from ilObjQuestionPoolGUI and ilTestImporter 
+
+		$GLOBALS['ilLog']->write(__METHOD__.': xml file: '. $xml_file . ", qti file:" . $qti_file);
+		
+		$newObj->setOnline(true);
+		$newObj->saveToDb();
+		
 		// start parsing of QTI files
 		include_once "./Services/QTI/classes/class.ilQTIParser.php";
-		$qtiParser = new ilQTIParser($qti_file, IL_MO_PARSE_QTI, -1 , array());
-		$qtiParser->setTestObject($newObj);
+		$qtiParser = new ilQTIParser($qti_file, IL_MO_PARSE_QTI, $newObj->getId(), null);
 		$result = $qtiParser->startParsing();
-		$newObj->saveToDb();
 
 		// import page data
-		include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
-		$contParser = new ilContObjParser($newObj, $xml_file, basename($this->getImportDirectory()));
-		$contParser->setQuestionMapping($qtiParser->getImportMapping());
-		$contParser->startParsing();
+		if (strlen($xml_file))
+		{
+			include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
+			$contParser = new ilContObjParser($newObj, $xml_file, basename($this->getImportDirectory()));
+			$contParser->setQuestionMapping($qtiParser->getImportMapping());
+			$contParser->startParsing();
+		}
 
-		$a_mapping->addMapping("Modules/Test", "tst", $a_id, $newObj->getId());
-
-		ilObjTest::_setImportDirectory();
+		$a_mapping->addMapping("Modules/TestQuestionPool", "qpl", $a_id, $newObj->getId());
+		ilObjQuestionPool::_setImportDirectory(null);
 	}
 	
 	
@@ -83,7 +90,7 @@ class ilTestImporter extends ilXmlImporter
 		$basename = basename($this->getImportDirectory());
 
 		$xml = $this->getImportDirectory().'/'.$basename.'.xml';
-		$qti = $this->getImportDirectory().'/'.preg_replace('/test|tst/', 'qti', $basename).'.xml';
+		$qti = $this->getImportDirectory().'/'.preg_replace('/qpl/', 'qti', $basename).'.xml';
 		
 		return array($xml,$qti);
 	}
