@@ -1,41 +1,11 @@
-	<form action="{FORMACTION}" name="ObjectItems" method="post">
-	  <table class="std" width="60%">
-		<tr class="tbltitle">
-		  <th class="std" colspan="2">
-			<div class="float:left">
-			  <img src="{TYPE_IMG}" alt="{TBL_TITLE}" title="{TBL_TITLE}" border="0" vspace="0" align="left" />&nbsp;
-			  {TBL_TITLE}
-			</div>
-		  </th>
-		</tr>
-		<tr class="tblheader">
-		  <th class="std" width="1%"></th>
-		  <th class="std" width="99%">{HEADER_DESC}</th>
-		</tr>
-		<!-- BEGIN starter_row -->
-		<tr>
-		  <td class="{ROW_CLASS}">
-			{CHECK_STARTER}
-		  </td>
-		  <td class="{ROW_CLASS}">
-			{STARTER_TITLE}
-			<!-- BEGIN description -->
-			<div class="il_Description_no_margin">{DESCRIPTION_STARTER}</div>
-			<!-- END description -->
-		  </td>
-		</tr>
-		<!-- END starter_row -->
-		<tr>
-		  <td class="submit" colspan="2" align="left" nowrap="nowrap">
-			<table width="100%" cellpadding="0" cellspacing="0" border="0">
-			  <tr>
-				<td align="right">&nbsp;
-				  <input class="submit" type="submit" name="cmd[addStarter]" value="{BTN_ADD}" />
-				  <input class="submit" type="submit" name="cmd[listStructure]" value="{BTN_CANCEL}" />
-				</td>
-			  </tr>
-			</table>
-		  </td>
-		</tr>
-	  </table>
-	</form>
+<tr class="{CSS_ROW}">
+  	<td class="std">
+  		<input type="checkbox" name="starter[]" value="{ID}" />
+	</td>
+	<td class="std">
+  		{TXT_TITLE}
+	</td>
+	<td class="std">
+  		{TXT_DESCRIPTION}
+	</td>
+</tr>
