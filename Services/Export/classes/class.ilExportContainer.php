@@ -99,6 +99,7 @@ class ilExportContainer extends ilExport
 	 */
 	protected function addSubitems($a_id,$a_type,$a_target_release)
 	{
+		$GLOBALS['ilLog']->write(__METHOD__);
 		$set_number = 1;
 		foreach($this->eo->getSubitemsForExport() as $ref_id)
 		{

@@ -23,6 +23,12 @@ class ilObjQuestionPool extends ilObject
 	var $online;
 	
 	/**
+	 * Import for container (courses containing tests) import 
+	 * @var string
+	 */
+	private $import_dir;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
@@ -803,19 +809,51 @@ class ilObjQuestionPool extends ilObject
 	}
 
 	/**
+	 * Set import directory.
+	 * @param string $a_import_dir
+	 * @return 
+	 */
+	public function setImportDirectory($a_import_dir)
+	{
+		$this->import_dir = $a_import_dir;
+	}
+		
+	/**
+	* set import directory
+	*/
+	function _setImportDirectory($a_import_dir = null)
+	{
+		if (strlen($a_import_dir))
+		{
+			$_SESSION["qpl_import_dir"] = $a_import_dir;
+		}
+		else
+		{
+			unset($_SESSION["qpl_import_dir"]);
+		}
+	}
+
+	/**
 	* get import directory of lm
 	*/
 	function _getImportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$import_dir = ilUtil::getDataDir()."/qpl_data/qpl_import";
-		if(@is_dir($import_dir))
+		if (strlen($_SESSION["qpl_import_dir"]))
 		{
-			return $import_dir;
+			return $_SESSION["qpl_import_dir"];
 		}
 		else
 		{
-			return false;
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
+			$import_dir = ilUtil::getDataDir()."/qpl_data/qpl_import";
+			if(@is_dir($import_dir))
+			{
+				return $import_dir;
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 
@@ -824,6 +862,10 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function getImportDirectory()
 	{
+		if(strlen($this->import_dir))
+		{
+			return $this->import_dir;
+		}
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/qpl_data/qpl_import";
 		if(@is_dir($import_dir))

@@ -67,7 +67,7 @@ class ilSurveyExport
 			default:
 				$this->export_dir = $this->survey_obj->getExportDirectory();
 				$this->subdir = $date."__".$this->inst_id."__".
-					"survey"."__".$this->survey_obj->getId();
+					"svy"."_".$this->survey_obj->getId();
 				$this->filename = $this->subdir.".xml";
 				break;
 		}

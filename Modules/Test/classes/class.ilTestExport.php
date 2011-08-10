@@ -67,20 +67,20 @@ class ilTestExport
 		{
 			case "results":
 				$this->subdir = $date."__".$this->inst_id."__".
-					"test__results__".$this->test_obj->getId();
+					"tst__results_".$this->test_obj->getId();
 				break;
 			case "aggregated":
 				$this->subdir = $date."__".$this->inst_id."__".
-					"test__aggregated__results__".$this->test_obj->getId();
+					"test__aggregated__results_".$this->test_obj->getId();
 				break;
 			default:
 				$this->subdir = $date."__".$this->inst_id."__".
-					"test"."__".$this->test_obj->getId();
+					"tst"."_".$this->test_obj->getId();
 				$this->filename = $this->subdir.".xml";
 				$this->resultsfile = $date."__".$this->inst_id."__".
-					"results"."__".$this->test_obj->getId().".xml";
+					"results"."_".$this->test_obj->getId().".xml";
 				$this->qti_filename = $date."__".$this->inst_id."__".
-					"qti"."__".$this->test_obj->getId().".xml";
+					"qti"."_".$this->test_obj->getId().".xml";
 				break;
 		}
 		$this->filename = $this->subdir.".".$this->getExtension();

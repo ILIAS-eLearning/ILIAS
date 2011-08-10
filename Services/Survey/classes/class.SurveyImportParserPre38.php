@@ -92,10 +92,10 @@ class SurveyImportParserPre38 extends ilSaxParser
 	*
 	* @access	public
 	*/
-	function SurveyImportParserPre38(&$a_spl, $a_xml_file = '', $spl_exists = FALSE)
+	function SurveyImportParserPre38($a_spl_id, $a_xml_file = '', $spl_exists = FALSE)
 	{
 		parent::ilSaxParser($a_xml_file);
-		$this->spl =& $a_spl;
+		$this->spl_id = $a_spl_id;
 		$this->has_error = FALSE;
 		$this->characterbuffer = "";
 		$this->activetag = "";
@@ -227,7 +227,7 @@ class SurveyImportParserPre38 extends ilSaxParser
 				}
 				break;
 			case "section":
-				$this->spl->setTitle($a_attribs["title"]);
+				//$this->spl->setTitle($a_attribs["title"]);
 				break;
 			case "item":
 				$this->original_question_id = $a_attribs["ident"];
@@ -383,7 +383,7 @@ class SurveyImportParserPre38 extends ilSaxParser
 						{
 							include_once "./Modules/SurveyQuestionPool/classes/class.$questiontype.php";
 							$this->activequestion = new $questiontype();
-							$this->activequestion->setObjId($this->spl->getId());
+							$this->activequestion->setObjId($this->spl_id);
 						}
 						else
 						{
@@ -445,12 +445,14 @@ class SurveyImportParserPre38 extends ilSaxParser
 								{
 									include_once "./Services/MetaData/classes/class.ilMDSaxParser.php";
 									include_once "./Services/MetaData/classes/class.ilMD.php";
+									include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 									$md_sax_parser = new ilMDSaxParser();
-									$md_sax_parser->setXMLContent($meta["entry"]);
-									$md_sax_parser->setMDObject($tmp = new ilMD($this->spl->getId(), 0, "spl"));
-									$md_sax_parser->enableMDParsing(TRUE);
+									$md_sax_parser->setXMLContent($value["entry"]);
+									$md_sax_parser->setMDObject($tmp = new ilMD($this->spl_id,0, "spl"));
+									$md_sax_parser->enableMDParsing(true);
 									$md_sax_parser->startParsing();
-									$this->spl->MDUpdateListener("General");
+									$spl = new ilObjSurveyQuestionPool($this->spl_id, false);
+									$spl->MDUpdateListener("General");
 									break;
 								}
 						}

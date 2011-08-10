@@ -689,11 +689,11 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		include_once("./Modules/Test/classes/class.ilObjTest.php");
 		// create import directory
-		ilObjTest::_createImportDirectory();
+		$basedir = $this->object->createImportDirectory();
 
 		// copy uploaded file to import directory
 		$file = pathinfo($_FILES["xmldoc"]["name"]);
-		$full_path = ilObjTest::_getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+		$full_path = $basedir."/".$file;
 		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
 
 		// unzip file
@@ -701,9 +701,10 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// determine filenames of xml files
 		$subdir = basename($file["basename"],".".$file["extension"]);
-		$xml_file = ilObjTest::_getImportDirectory()."/".$subdir."/".$subdir.".xml";
-		$qti_file = ilObjTest::_getImportDirectory()."/".$subdir."/". str_replace("test", "qti", $subdir).".xml";
-		$results_file = ilObjTest::_getImportDirectory()."/".$subdir."/". str_replace("test", "results", $subdir).".xml";
+		$this->object->setImportDirectory($basedir . '/' . $subdir);
+		$xml_file = $this->object->getImportDirectory().'/'.$subdir.".xml";
+		$qti_file = $this->object->getImportDirectory().'/'. preg_replace("/test|tst/", "qti", $subdir).".xml";
+		$results_file = $this->object->getImportDirectory().'/'.$subdir."/". str_replace("/test|tst/", "results", $subdir).".xml";
 
 		// start verification of QTI files
 		include_once "./Services/QTI/classes/class.ilQTIParser.php";
@@ -716,7 +717,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// nothing found
 
 			// delete import directory
-			ilUtil::delDir(ilObjTest::_getImportDirectory());
+			ilUtil::delDir($basedir);
 
 			ilUtil::sendInfo($this->lng->txt("tst_import_no_items"));
 			$this->createObject();
@@ -740,7 +741,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($complete == 0)
 		{
 			// delete import directory
-			ilUtil::delDir(ilObjTest::_getImportDirectory());
+			ilUtil::delDir($basedir);
 
 			ilUtil::sendInfo($this->lng->txt("qpl_import_non_ilias_files"));
 			$this->createObject();
@@ -869,7 +870,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		// delete import directory
-		ilUtil::delDir(ilObjTest::_getImportDirectory());
+		ilUtil::delDir(dirname($this->object->getImportDirectory()));
 		ilUtil::sendSuccess($this->lng->txt("object_imported"),true);
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 				"&baseClass=ilObjTestGUI");

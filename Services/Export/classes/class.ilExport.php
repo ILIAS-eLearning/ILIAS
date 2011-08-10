@@ -17,14 +17,6 @@ class ilExport
 	// this should be part of module.xml and be parsed in the future
 	static $export_implementer = array("tst", "lm", "glo");
 	
-	// file type short (this is a workaround, for resource types,
-	// that used the wrong file type string in the past
-	static $file_type_str = array(
-		"tst" => "test_",
-		'svy' => 'survey_'
-	);
-	
-	
 	/**
 	 * Default constructor
 	 * @return 
@@ -35,23 +27,6 @@ class ilExport
 	}
 	
 
-	/**
-	* Get file type string
-	*
-	* @param	string		Object Type
-	*/
-	public static function _getFileTypeString($a_obj_type)
-	{
-		if (!empty(self::$file_type_str[$a_obj_type]))
-		{
-			return self::$file_type_str[$a_obj_type];
-		}
-		else
-		{
-			return $a_obj_type;
-		}
-	}
-	
 	/**
 	* Get a list of subitems of a repository resource, that implement
 	* the export. Includes also information on last export file.
@@ -158,6 +133,7 @@ class ilExport
 	 */
 	function _getExportFiles($a_obj_id, $a_export_types = "", $a_obj_type = "")
 	{
+		$GLOBALS['ilLog']->write(__METHOD__);
 
 		if ($a_obj_type == "")
 		{
@@ -198,7 +174,7 @@ class ilExport
 				if ($entry != "." and
 					$entry != ".." and
 					substr($entry, -4) == ".zip" and
-					ereg("^[0-9]{10}_{2}[0-9]+_{2}(".ilExport::_getFileTypeString($a_obj_type)."_)*[0-9]+\.zip\$", $entry))
+					ereg("^[0-9]{10}_{2}[0-9]+_{2}(".$a_obj_type."_)*[0-9]+\.zip\$", $entry))
 				{
 					$ts = substr($entry, 0, strpos($entry, "__"));
 					$file[$entry.$type] = array("type" => $type, "file" => $entry,
@@ -224,6 +200,7 @@ class ilExport
 	{
 		global $ilErr;
 		
+		$GLOBALS['ilLog']->write(__METHOD__);
 		if ($a_obj_type == "")
 		{
 			$a_obj_type = ilObject::_lookupType($a_obj_id);
@@ -364,7 +341,7 @@ class ilExport
 		$ts = time();
 		
 		// Workaround for test assessment
-		$sub_dir = $ts.'__'.IL_INST_ID.'__'.self::_getFileTypeString($a_type).'_'.$a_id;
+		$sub_dir = $ts.'__'.IL_INST_ID.'__'.$a_type.'_'.$a_id;
 		$new_file = $sub_dir.'.zip';
 		
 		$this->export_run_dir = $export_dir."/".$sub_dir;

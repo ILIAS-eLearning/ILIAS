@@ -831,7 +831,7 @@ class ilObjTest extends ilObject
 			if ($entry != "." and
 				$entry != ".." and
 				//substr($entry, -4) == ".zip" and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(test(__results)?__)*[0-9]+\.[a-z]{1,3}\$", $entry))
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(tst(__results)?_)*[0-9]+\.[a-z]{1,3}\$", $entry))
 			{
 				$file[] = $entry;
 			}
@@ -847,32 +847,18 @@ class ilObjTest extends ilObject
 		return $file;
 	}
 
-
 	/**
-	* creates data directory for import files
-	* (data_dir/tst_data/tst_<id>/import, depending on data
-	* directory that is set in ILIAS setup/ini)
+	* set import directory
 	*/
-	function _createImportDirectory()
+	function _setImportDirectory($a_import_dir = null)
 	{
-		global $ilias;
-
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
-		ilUtil::makeDir($tst_data_dir);
-
-		if (!is_writable($tst_data_dir))
+		if (strlen($a_import_dir))
 		{
-			$ilias->raiseError("Test data directory (".$tst_data_dir
-				.") not writeable.",$ilias->error_obj->FATAL);
+			$_SESSION["tst_import_dir"] = $a_import_dir;
 		}
-
-		// create test directory (data_dir/tst_data/tst_import)
-		$tst_dir = $tst_data_dir."/tst_import";
-		ilUtil::makeDir($tst_dir);
-		if (!@is_dir($tst_dir))
+		else
 		{
-			$ilias->raiseError("Creation of test import directory failed.",$ilias->error_obj->FATAL);
+			unset($_SESSION["tst_import_dir"]);
 		}
 	}
 
@@ -884,16 +870,11 @@ class ilObjTest extends ilObject
 */
 	function _getImportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$import_dir = ilUtil::getDataDir()."/tst_data/tst_import";
-		if (@is_dir($import_dir))
+		if (strlen($_SESSION["tst_import_dir"]))
 		{
-			return $import_dir;
+			return $_SESSION["tst_import_dir"];
 		}
-		else
-		{
-			return false;
-		}
+		return null;
 	}
 
 	/**
@@ -920,6 +901,7 @@ class ilObjTest extends ilObject
 		{
 			$ilias->raiseError("Creation of test import directory failed.",$ilias->error_obj->FATAL);
 		}
+		return $tst_dir;
 	}
 
 /**
@@ -934,17 +916,7 @@ class ilObjTest extends ilObject
 		{
 			return $this->import_dir;
 		}
-		
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$import_dir = ilUtil::getDataDir()."/tst_data/tst_import";
-		if (@is_dir($import_dir))
-		{
-			return $import_dir;
-		}
-		else
-		{
-			return false;
-		}
+		return null;
 	}
 	
 	/**
@@ -5945,7 +5917,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 			foreach ($_SESSION["import_mob_xhtml"] as $mob)
 			{
-				$importfile = $this->getImportDirectory() . "/" . $_SESSION["tst_import_subdir"] . "/" . $mob["uri"];
+				$importfile = $this->getImportDirectory() . '/' . $mob["uri"];
 				if (file_exists($importfile))
 				{
 					$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
