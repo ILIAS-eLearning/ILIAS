@@ -11,10 +11,6 @@ include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateAction
  */
 class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 {
-
-	const FILTER_POSITIVE = 1;
-	const FILTER_NEGATIVE = 2;
-
 	const TPL_ACTION_OVERWRITE = 1;
 	const TPL_ACTION_INTERSECT = 2;
 	const TPL_ACTION_ADD = 3;
@@ -121,7 +117,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 			$ilDB->quote($this->getActionId(),'integer').', '.
 			$ilDB->quote($this->getFilterType(),'integer').', '.
 			$ilDB->quote($this->getRoleTemplateType(),'integer').', '.
-			$ilDB->quote($this->getTemplateId(),'integer').' '.
+			$ilDB->quote($this->getRoleTemplateId(),'integer').' '.
 			')';
 		$ilDB->manipulate($query);
 
@@ -186,10 +182,27 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	/**
 	 * Export to xml
 	 * @param ilXmlWriter $writer
+	 * @return void
 	 */
 	public function  toXml(ilXmlWriter $writer)
 	{
-		;
+		$writer->xmlStartTag('localPolicyAction');
+
+		switch($this->getFilterType())
+		{
+			case self::FILTER_POSITIVE:
+				$writer->xmlStartTag('filter',array('type' => 'positiveList'));
+				$writer->xmlEndTag('filter');
+				break;
+
+			case self::FILTER_NEGATIVE:
+				$writer->xmlStartTag('filter',array('type' => 'negativeList'));
+				$writer->xmlEndTag('filter');
+				break;
+
+		}
+		$writer->xmlEndTag('localPolicyAction');
+		return void;
 	}
 
 	/**
@@ -198,6 +211,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	public function  __clone()
 	{
 		parent::__clone();
+
+
 		
 	}
 

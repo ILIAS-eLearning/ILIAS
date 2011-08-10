@@ -191,6 +191,7 @@ class ilDidacticTemplateSetting
 			$ilDB->quote($this->getDescription(),'text').', '.
 			$ilDB->quote($this->getType(),'integer').
 			')';
+
 		$ilDB->manipulate($query);
 
 		$this->saveAssignments();
@@ -315,7 +316,6 @@ class ilDidacticTemplateSetting
 	 */
 	public function toXml(ilXmlWriter $writer)
 	{
-		
 		switch($this->getType())
 		{
 			case self::TYPE_CREATION:
@@ -334,6 +334,15 @@ class ilDidacticTemplateSetting
 			$writer->xmlElement('assignment', array(), $assignment);
 		}
 		$writer->xmlEndTag('assignments');
+
+
+		$writer->xmlStartTag('actions');
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
+		foreach(ilDidacticTemplateActionFactory::getActionsByTemplateId($this->getId()) as $action)
+		{
+			$action->toXml($writer);
+		}
+		$writer->xmlEndTag('actions');
 		$writer->xmlEndTag('didacticTemplate');
 
 		return $writer;

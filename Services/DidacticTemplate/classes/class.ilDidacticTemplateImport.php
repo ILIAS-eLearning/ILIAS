@@ -115,10 +115,16 @@ class ilDidacticTemplateImport
 	 * Parse template action from xml
 	 * @param ilDidacticTemplateSetting $set
 	 * @param SimpleXMLElement $root
+	 * @return void
 	 */
-	protected function parseActions(ilDidacticTemplateSetting $set, SimpleXMLElement $actions)
+	protected function parseActions(ilDidacticTemplateSetting $set, SimpleXMLElement $actions = NULL)
 	{
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
+
+		if($actions === NULL)
+		{
+			return void;
+		}
 
 
 		foreach($actions->action as $ele)

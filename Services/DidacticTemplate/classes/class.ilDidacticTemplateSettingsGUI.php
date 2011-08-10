@@ -181,13 +181,13 @@ class ilDidacticTemplateSettingsGUI
 			return $ilCtrl->redirect($this,'overview');
 		}
 
-		$orig = new ilDidacticTemplateSetting((int) $_REQUEST['tplid']);
-		$copy = clone $orig;
-		$copy->save();
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateCopier.php';
+
+		$copier = new ilDidacticTemplateCopier((int) $_REQUEST['tplid']);
+		$copier->start();
 
 		ilUtil::sendSuccess($this->lng->txt('didactic_copy_suc_message'), true);
 		$ilCtrl->redirect($this,'overview');
-
 	}
 
 	/**
