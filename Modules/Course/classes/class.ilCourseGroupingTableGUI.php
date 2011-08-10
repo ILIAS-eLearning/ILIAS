@@ -18,11 +18,11 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
 		
 	 	$this->lng = $lng;	
 	 	$this->ctrl = $ilCtrl;
-		$this->lng->loadLanguageModule('crs');		
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);		
 		
 		$type = ilObject::_lookupType($a_content_obj->getId());
+		$this->lng->loadLanguageModule($type);		
 		
 		$this->addColumn('','', 1);
 		$this->addColumn($this->lng->txt('title'), 'title');
@@ -90,7 +90,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock("assigned");
 			$this->tpl->setVariable("ITEM_TITLE", $this->lng->txt('crs_grp_no_courses_assigned'));
 			$this->tpl->parseCurrentBlock();			
-		}
+		}		 
 		
 		$this->tpl->setVariable("ID", $a_set["id"]);
 		$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
