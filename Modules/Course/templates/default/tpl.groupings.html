@@ -1,52 +1,19 @@
-	<form action="{FORMACTION}" name="ObjectItems" method="post">
-	  <table class="fullwidth">
-		  <tr class="tblheader">
-			<th></th>
-			<th>{HEADER_DESC}</th>
-			<th>{HEADER_UNAMBIGUOUSNESS}</th>
-			<th>{ASSIGNED_ITEMS}</th>
-		  </tr>
-		  <!-- BEGIN no_items -->
-		  <tr>
-			<td class="option_value" colspan="4">
-			  {TXT_NO_ITEMS}
-			</td>
-		  </tr>
-		  <!-- END no_items -->
-		  <!-- BEGIN grouping_row -->
-		  <tr>
-			<td class="{ROW_CLASS}">
-			  {CHECK_GRP}
-			</td>
-			<td class="{ROW_CLASS}">
-			  {GRP_TITLE}
-			  <!-- BEGIN description -->
-			  <div class="il_Description_no_margin">{DESCRIPTION_GRP}</div>
-			  <!-- END description -->
-			</td>
-			<td class="{ROW_CLASS}">
-			  {AMB_GRP}
-			</td>
-			<td class="{ROW_CLASS}">
-			  <!-- BEGIN item -->
-			  <div>{ITEM_TITLE}</div>
-			  <!-- END item -->
-			</td>
-		  </tr>
-		  <!-- END grouping_row -->
-		  <tr>
-			<td class="submit" colspan="4">
-			  <!-- BEGIN has_items -->
-			  <div style="float:left;">
-				<img border="0" src="{ARR_DOWNRIGHT}" alt="{ACTIONS}" />
-				<input type="submit" class="submit" name="cmd[edit]" value="{EDIT}" />
-				<input type="submit" class="submit" name="cmd[askDeleteGrouping]" value="{DELETE}" />
-			  </div>
-			  <!-- END has_items -->
-			  <div style="text-align:right;">
-				<input type="submit" class="submit" name="cmd[create]" value="{ADD}" />
-			  </div>
-			</td>
-		  </tr>
-	  </table>
-	</form>
+<tr class="{CSS_ROW}">
+  	<td class="std">
+  		<input type="checkbox" name="grouping[]" value="{ID}" />
+	</td>
+	<td class="std">
+  		<a href="{EDIT_LINK}">{TXT_TITLE}</a>
+	</td>
+	<td class="std">
+  		{TXT_DESCRIPTION}
+	</td>
+	<td class="std">
+  		{TXT_UNIQUE}
+	</td>
+	<td class="std">
+		<!-- BEGIN assigned -->
+		<div>{ITEM_TITLE}</div>
+		<!-- END assigned -->
+	</td>
+</tr>

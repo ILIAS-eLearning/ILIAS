@@ -599,10 +599,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $tpl;
 
 		$this->checkPermission('write');
-			
-		$this->setSubTabs("properties");
-		$this->tabs_gui->setTabActive('settings');
-		$this->tabs_gui->setSubTabActive('crs_start_objects');
+
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt('back'),
+			$this->ctrl->getLinkTarget($this, 'listStructure'));
 		
 		include_once './Modules/Course/classes/class.ilCourseStartObjectsTableGUI.php';
 		$table = new ilCourseStartObjectsTableGUI($this, 'selectStarter', $this->object);
