@@ -543,9 +543,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	/**
 	* edit container icons
 	*/
-	public function editGroupIconsObject()
+	public function editGroupIconsObject($a_form = null)
 	{
-		global $rbacsystem;
+		global $tpl;
 
 		$this->checkPermission('write');
 		
@@ -553,14 +553,26 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('grp_icon_settings');
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_edit_icons.html",'Modules/Group');
-		$this->showCustomIconsEditing();
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this,'updateGroupIcons'));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("CMD_CANCEL", "cancel");
-		$this->tpl->setVariable("CMD_SUBMIT", "updateGroupIcons");
-		$this->tpl->parseCurrentBlock();
+		if(!$a_form)
+		{
+			$a_form = $this->initGroupIconsForm();
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	function initGroupIconsForm()
+	{
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));	
+		
+		$this->showCustomIconsEditing(1, $form);
+		
+		// $form->setTitle($this->lng->txt('edit_grouping'));
+		$form->addCommandButton('updateGroupIcons', $this->lng->txt('save'));					
+		
+		return $form;
 	}
 	
 	/**
@@ -573,48 +585,34 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		$this->checkPermission('write');
 		
-		//save custom icons
-		if ($this->ilias->getSetting("custom_icons"))
+		$form = $this->initGroupIconsForm();
+		if($form->checkInput())
 		{
-			$this->object->saveIcons($_FILES["cont_big_icon"]['tmp_name'],
-				$_FILES["cont_small_icon"]['tmp_name'], $_FILES["cont_tiny_icon"]['tmp_name']);
+			//save custom icons
+			if ($this->ilias->getSetting("custom_icons"))
+			{
+				if($_POST["cont_big_icon_delete"])
+				{
+					$this->object->removeBigIcon();
+				}
+				if($_POST["cont_small_icon_delete"])
+				{
+					$this->object->removeSmallIcon();
+				}
+				if($_POST["cont_tiny_icon_delete"])
+				{
+					$this->object->removeTinyIcon();
+				}				
+				$this->object->saveIcons($_FILES["cont_big_icon"]['tmp_name'],
+					$_FILES["cont_small_icon"]['tmp_name'], $_FILES["cont_tiny_icon"]['tmp_name']);
+			}
+			
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+			$this->ctrl->redirect($this,"editGroupIcons");
 		}
 
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-		$this->ctrl->redirect($this,"editGroupIcons");
-	}
-	
-	/**
-	* remove small icon
-	*
-	* @access	public
-	*/
-	public function removeSmallIconObject()
-	{
-		$this->object->removeSmallIcon();
-		$this->ctrl->redirect($this, "editGroupIcons");
-	}
-
-	/**
-	* remove big icon
-	*
-	* @access	public
-	*/
-	public function removeBigIconObject()
-	{
-		$this->object->removeBigIcon();
-		$this->ctrl->redirect($this, "editGroupIcons");
-	}
-	
-	/**
-	* remove big icon
-	*
-	* @access	public
-	*/
-	public function removeTinyIconObject()
-	{
-		$this->object->removeTinyIcon();
-		$this->ctrl->redirect($this, "editGroupIcons");
+		$form->setValuesByPost();
+		$this->editGroupIconsObject($form);	
 	}
 	
 	/**
