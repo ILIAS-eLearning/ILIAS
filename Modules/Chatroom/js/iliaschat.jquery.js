@@ -362,7 +362,6 @@ if (typeof DEBUG != 'undefined' && DEBUG) {
                                         case 'user_invited':
 					    if (messageObject.invited == personalUserInfo.userid) {
 						    var room_label;
-						    console.log(messageObject);
 						    if (messageObject.proom_id) {
 							    room_label = $('#private_rooms').ilChatList('getDataById', messageObject.proom_id).label;
 						    }
