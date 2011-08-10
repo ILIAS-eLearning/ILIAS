@@ -9,7 +9,7 @@
  */
 class iljQueryUtil
 {
-	private static $ver = "1_4_4";
+	private static $ver = "1_6_2";
 	private static $ui_ver = "1_8_12";
 	private static $min = "-min";
 	
