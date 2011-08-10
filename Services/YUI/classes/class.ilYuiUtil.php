@@ -85,13 +85,13 @@ class ilYuiUtil
 	 * @param void
 	 * @return void
 	 */
-	public function initPanel($a_resize = false)
+	static function initPanel($a_resize = false)
 	{
 		global $tpl;
 		
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
-		ilYuiUtil::addContainerCss();
+		self::addContainerCss();
 		$tpl->addCss("./Services/Calendar/css/panel_min.css");
 
 		if ($a_resize)
@@ -137,7 +137,7 @@ class ilYuiUtil
 		
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container_core-min.js");
-		ilYuiUtil::addContainerCss();
+		self::addContainerCss();
 	}
 	
 	/**
@@ -150,7 +150,7 @@ class ilYuiUtil
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/dragdrop/dragdrop-min.js");
-		ilYuiUtil::addContainerCss();
+		self::addContainerCss();
 		$tpl->addCss("./Services/YUI/templates/default/tpl.simpledialog.css");
 	}
 	
@@ -166,7 +166,7 @@ class ilYuiUtil
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/button/button-min.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
 		$tpl->addCss("./Services/YUI/js/".self::$ver."/button/assets/skins/sam/button.css");
-		ilYuiUtil::addContainerCss();
+		self::addContainerCss();
 	}
 	
 	/**
@@ -210,7 +210,7 @@ class ilYuiUtil
 	*/
 	static function getDragDropList($id_source, $title_source, $source, $id_dest, $title_dest, $dest)
 	{
-		ilYuiUtil::initDragDropList();
+		self::initDragDropList();
 		
 		$template = new ilTemplate("tpl.dragdroplist.html", TRUE, TRUE, "Services/YUI");
 		foreach ($source as $id => $name)
@@ -244,7 +244,7 @@ class ilYuiUtil
 	{
 		global $tpl, $lng;
 		
-		ilYuiUtil::initSimpleDialog();
+		self::initSimpleDialog();
 		
 		$template = new ilTemplate("tpl.yes_no_dialog.js", TRUE, TRUE, "Services/YUI");
 		$template->setVariable("DIALOGNAME", $dialogname);
@@ -296,7 +296,7 @@ class ilYuiUtil
 	 * @return
 	 * @static
 	 */
-	public static function initCalendar()
+	static function initCalendar()
 	{
 		global $tpl;
 		
@@ -315,7 +315,7 @@ class ilYuiUtil
 	 * @return void
 	 * @static
 	 */
-	public static function initButtonControl()
+	static function initButtonControl()
 	{
 		global $tpl;
 		
@@ -338,7 +338,7 @@ class ilYuiUtil
 	 * @return void
 	 * @static
 	 */
-	public static function initColorPicker()
+	static function initColorPicker()
 	{
 		global $tpl;
 
@@ -355,7 +355,7 @@ class ilYuiUtil
 	/**
 	* Init YUI TabView component
 	*/
-	public static function initTabView()
+	static function initTabView()
 	{
 		global $tpl;
 		
@@ -369,7 +369,7 @@ class ilYuiUtil
 	 * Init YUI AutoComplete component
 	 * @author jposselt@databay.de
 	 */
-	 public static function initAutoComplete()
+	 static function initAutoComplete()
 	 {
 	 	global $tpl;
 
@@ -387,7 +387,7 @@ class ilYuiUtil
 	  * Init YUI JSON component
 	  * @author jposselt@databay.de
 	  */
-	 public static function initJson()
+	 static function initJson()
 	 {
 		global $tpl;
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");		
@@ -397,7 +397,7 @@ class ilYuiUtil
 	/**
 	* Init layout (alpha!)
 	*/
-	public static function initLayout()
+	static function initLayout()
 	{
 		global $tpl;
 		
@@ -415,13 +415,13 @@ class ilYuiUtil
 	/**
 	* Init treeView
 	*/
-	public static function initTreeView()
+	static function initTreeView()
 	{
 		global $tpl;
 		
-		$tpl->addJavaScript(ilYuiUtil::getLocalPath().'/yahoo/yahoo-min.js');
-		$tpl->addJavaScript(ilYuiUtil::getLocalPath().'/event/event-min.js');
-		$tpl->addJavaScript(ilYuiUtil::getLocalPath().'/treeview/treeview.js');
+		$tpl->addJavaScript(self::getLocalPath().'/yahoo/yahoo-min.js');
+		$tpl->addJavaScript(self::getLocalPath().'/event/event-min.js');
+		$tpl->addJavaScript(self::getLocalPath().'/treeview/treeview.js');
 	}
 	
 	/**
@@ -431,7 +431,7 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-		ilYuiUtil::addContainerCss();
+		self::addContainerCss();
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/animation/animation-min.js");
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/container/container-min.js");
@@ -440,7 +440,7 @@ class ilYuiUtil
 	/**
 	* Get local path of a YUI js file
 	*/
-	function getLocalPath($a_name = "")
+	static function getLocalPath($a_name = "")
 	{
 		return "./Services/YUI/js/".self::$ver."/".$a_name;
 	}
@@ -452,7 +452,7 @@ class ilYuiUtil
 	{
 		global $tpl;
 		
-		$tpl->addCss(ilYuiUtil::getLocalPath("container/assets/skins/sam/container.css"));
+		$tpl->addCss(self::getLocalPath("container/assets/skins/sam/container.css"));
 	}
 	
 
