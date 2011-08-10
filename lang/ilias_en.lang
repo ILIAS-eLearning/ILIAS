@@ -12063,3 +12063,6 @@ scormdebug#:#debugwindow_password_enter#:#Please enter your password
 common#:#password_multiple_errors#:#Multiple criterias are not satisfied:
 common#:#password_contains_invalid_chars#:#The password contains invalid characters
 content#:#cont_file_from_workspace#:#File From My Workspace
+chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
+chatroom#:#chtr_new#:#New Chatroom
+chatroom#:#chtr_add#:#Add Chatroom

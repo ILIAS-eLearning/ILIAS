@@ -91,34 +91,34 @@ class ilChatroomTabFactory
 		}
 
 		$config = array(
-			'smiley' => array(
-				'lng'			=> 'smiley',
-				'link'			=> $ilCtrl->getLinkTarget( $this->gui, 'smiley' ),
-				'permission'	=> 'read'
-				),
-			  'view' => array(
-			  'lng' => 'view',
+                    'view' => array(
+			  'lng' => 'settings',
 			  'link' => $ilCtrl->getLinkTarget($this->gui, 'view-serversettings'),
 			  'permission' => 'read',
-				'subtabs' => array(
-					'serversettings' => array(
-						'lng' => 'server_settings',
-						'link' => $ilCtrl->getLinkTarget( $this->gui, 'view-serversettings' ),
-						'permission' => 'read',
-				),
-					'clientsettings' => array(
-						'lng' => 'client_settings',
-						'link' => $ilCtrl->getLinkTarget( $this->gui, 'view-clientsettings' ),
-						'permission' => 'read',
-				)
-				),
-				),
-				);
+                            'subtabs' => array(
+                                    'serversettings' => array(
+                                            'lng' => 'server_settings',
+                                            'link' => $ilCtrl->getLinkTarget( $this->gui, 'view-serversettings' ),
+                                            'permission' => 'read',
+                            ),
+                                    'clientsettings' => array(
+                                            'lng' => 'client_settings',
+                                            'link' => $ilCtrl->getLinkTarget( $this->gui, 'view-clientsettings' ),
+                                            'permission' => 'read',
+                            )
+			),
+                    ),
+                    'smiley' => array(
+                        'lng'			=> 'smiley',
+                        'link'			=> $ilCtrl->getLinkTarget( $this->gui, 'smiley' ),
+                        'permission'	=> 'read'
+                    ),
+		);
 
-				$commandParts = explode( '_', $command, 2 );
+                $commandParts = explode( '_', $command, 2 );
 
-				$this->buildTabs( $ilTabs, $config, $commandParts );
-				$this->activateTab( $commandParts, $config );
+                $this->buildTabs( $ilTabs, $config, $commandParts );
+                $this->activateTab( $commandParts, $config );
 	}
 
 	/**

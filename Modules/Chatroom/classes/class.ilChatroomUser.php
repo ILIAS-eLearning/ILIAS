@@ -81,25 +81,31 @@ class ilChatroomUser
 	}
 
 	/**
-	 * Returns username from Object or SESSION
+	 * Returns username from Object or SESSION. If no Username is set, the login name
+	 * will be returned.
 	 *
 	 * @return string
 	 */
 	public function getUsername()
 	{
+	    /*
 		if( !isset( $this->username ) &&
 		!$_SESSION['chat'][$this->room->getRoomId()]['username'] )
 		{
 			throw new Exception( 'no username set' );
 		}
+	    */
 
 		if( $this->username )
 		{
 			return $this->username;
 		}
-		else
+		else if ($_SESSION['chat'][$this->room->getRoomId()]['username'])
 		{
 			return $_SESSION['chat'][$this->room->getRoomId()]['username'];
+		}
+		else {
+		    return $this->user->getLogin();
 		}
 	}
 

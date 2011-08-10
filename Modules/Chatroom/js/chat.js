@@ -324,11 +324,11 @@
 			removeById: function(id) {
 				var line = $(this).data('ilChatList')._index['id_' + id];
 				if (line) {
-					line.remove();
-					delete $(this).data('ilChatList')._index['id_' + id];
-				}
-				if (line.type == 'user' || line.type == '') {
-					$(line.type + '_' + id).remove();
+				    line.remove();
+				    delete $(this).data('ilChatList')._index['id_' + id];
+				    if (line.type == 'user' || line.type == '') {
+					    $(line.type + '_' + id).remove();
+				    }
 				}
 				return $(this);
 			},

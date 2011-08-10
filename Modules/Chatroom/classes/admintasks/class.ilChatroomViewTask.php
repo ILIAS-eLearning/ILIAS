@@ -311,8 +311,12 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	    $form->addCommandButton( 'view-saveSettings', $lng->txt( 'save' ) );
 	    $form->addCommandButton( 'view', $lng->txt( 'cancel' ) );
 	    $form->setFormAction( $ilCtrl->getFormAction( $this->gui, 'view-saveSettings' ) );
-
-	    $tpl->setVariable( 'ADM_CONTENT', $form->getHTML() );
+            $serverTpl = new ilTemplate('tpl.chatroom_serversettings.html', true, true, 'Modules/Chatroom');
+            
+            $serverTpl->setVariable('VAL_SERVERSETTINGS_FORM', $form->getHTML());
+            $serverTpl->setVariable('LBL_SERVERSETTINGS_FURTHER_INFORMATION', sprintf($lng->txt('server_further_information'), ilUtil::_getHttpPath() . '/Modules/Chatroom/server/README.txt'));
+            
+	    $tpl->setVariable( 'ADM_CONTENT', $serverTpl->get() );
 	}
 
 	/**
@@ -375,8 +379,13 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 		$form->addCommandButton( 'view-saveClientSettings', $lng->txt( 'save' ) );
 		$form->addCommandButton( 'ClientSettings', $lng->txt( 'cancel' ) );
 		$form->setFormAction( $ilCtrl->getFormAction( $this->gui, 'view-saveClientSettings' ) );
+                
+                $settingsTpl = new ilTemplate('tpl.chatroom_serversettings.html', true, true, 'Modules/Chatroom');
 
-		$tpl->setVariable( 'ADM_CONTENT', $form->getHTML() );
+                $settingsTpl->setVariable('VAL_SERVERSETTINGS_FORM', $form->getHTML());
+                $settingsTpl->setVariable('LBL_SERVERSETTINGS_FURTHER_INFORMATION', sprintf($lng->txt('server_further_information'), ilUtil::_getHttpPath() . '/Modules/Chatroom/server/README.txt'));
+
+                $tpl->setVariable( 'ADM_CONTENT', $settingsTpl->get() );
 	}
 
         private function defaultActions() {
@@ -418,6 +427,11 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 		ilUtil::sendSuccess($lng->txt('public_chat_created'), true);
 		ilChatroomInstaller::createDefaultPublicRoom(true);
 	}
+        
+        public function getServerStatus() {
+            require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
+            echo array('server_alive' => (boolean)@ilChatroomServerConnector::checkServerConnection());
+        }
 }
 
 ?>

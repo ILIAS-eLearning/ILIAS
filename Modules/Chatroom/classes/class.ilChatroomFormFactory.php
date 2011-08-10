@@ -26,6 +26,8 @@ class ilChatroomFormFactory
 	/**
 	 * Instantiates and returns ilPropertyFormGUI containing ilTextInputGUI
 	 * and ilTextAreaInputGUI
+	 * 
+	 * @deprecated replaced by default creation screens
 	 *
 	 * @global ilLanguage $lng
 	 * @return ilPropertyFormGUI
