@@ -21,12 +21,13 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
-		$GLOBALS['ilLog']->write(__METHOD__.': '. $a_entity . ":" . $a_id);
+		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+		ilObjQuestionPool::_setImportDirectory($this->getImportDirectory());
+
 		// Container import => test object already created
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
-			$newObj->setImportDirectory($this->getImportDirectory());
 		}
 		else	// case ii, non container
 		{

@@ -397,13 +397,8 @@ class ilObjTest extends ilObject
 	protected $exportsettings;
 
 	protected $poolUsage;
-	/**
-	 * Import for container (courses containing tests) import 
-	 * @var string
-	 */
-	private $import_dir;
 
-    private $template_id;
+	private $template_id;
 
 	/**
      * the object's online status
@@ -876,13 +871,18 @@ class ilObjTest extends ilObject
 		}
 		return null;
 	}
+	
+	function getImportDirectory()
+	{
+		return ilObjTest::_getImportDirectory();
+	}
 
 	/**
 	* creates data directory for import files
 	* (data_dir/tst_data/tst_<id>/import, depending on data
 	* directory that is set in ILIAS setup/ini)
 	*/
-	function createImportDirectory()
+	function _createImportDirectory()
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
@@ -903,32 +903,6 @@ class ilObjTest extends ilObject
 		}
 		return $tst_dir;
 	}
-
-/**
-* Get the import directory location of the test
-*
-* @return string The location of the import directory or false if the directory doesn't exist
-* @access	public
-*/
-	function getImportDirectory()
-	{
-		if(strlen($this->import_dir))
-		{
-			return $this->import_dir;
-		}
-		return null;
-	}
-	
-	/**
-	 * Set import directory.
-	 * @param string $a_import_dir
-	 * @return 
-	 */
-	public function setImportDirectory($a_import_dir)
-	{
-		$this->import_dir = $a_import_dir;
-	}
-	
 
 	/**
 	* Returns TRUE if the test contains single choice results
@@ -5917,7 +5891,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 			foreach ($_SESSION["import_mob_xhtml"] as $mob)
 			{
-				$importfile = $this->getImportDirectory() . '/' . $mob["uri"];
+				$importfile = ilObjTest::_getImportDirectory() . '/' . $mob["uri"];
 				if (file_exists($importfile))
 				{
 					$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);

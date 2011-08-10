@@ -689,11 +689,11 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		include_once("./Modules/Test/classes/class.ilObjTest.php");
 		// create import directory
-		$basedir = $this->object->createImportDirectory();
+		$basedir = ilObjTest::_createImportDirectory();
 
 		// copy uploaded file to import directory
 		$file = pathinfo($_FILES["xmldoc"]["name"]);
-		$full_path = $basedir."/".$file;
+		$full_path = $basedir."/".$_FILES["xmldoc"]["name"];
 		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
 
 		// unzip file
@@ -701,10 +701,10 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// determine filenames of xml files
 		$subdir = basename($file["basename"],".".$file["extension"]);
-		$this->object->setImportDirectory($basedir . '/' . $subdir);
-		$xml_file = $this->object->getImportDirectory().'/'.$subdir.".xml";
-		$qti_file = $this->object->getImportDirectory().'/'. preg_replace("/test|tst/", "qti", $subdir).".xml";
-		$results_file = $this->object->getImportDirectory().'/'.$subdir."/". str_replace("/test|tst/", "results", $subdir).".xml";
+		ilObjTest::_setImportDirectory($basedir . '/' . $subdir);
+		$xml_file = ilObjTest::_getImportDirectory().'/'.$subdir.".xml";
+		$qti_file = ilObjTest::_getImportDirectory().'/'. preg_replace("/test|tst/", "qti", $subdir).".xml";
+		$results_file = ilObjTest::_getImportDirectory().'/'.$subdir."/". str_replace("/test|tst/", "results", $subdir).".xml";
 
 		// start verification of QTI files
 		include_once "./Services/QTI/classes/class.ilQTIParser.php";
@@ -870,7 +870,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		// delete import directory
-		ilUtil::delDir(dirname($this->object->getImportDirectory()));
+		ilUtil::delDir(dirname(ilObjTest::_getImportDirectory()));
 		ilUtil::sendSuccess($this->lng->txt("object_imported"),true);
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 				"&baseClass=ilObjTestGUI");
