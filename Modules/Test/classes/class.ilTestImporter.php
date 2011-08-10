@@ -21,10 +21,12 @@ class ilTestImporter extends ilXmlImporter
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
 		// Container import => test object already created
+		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		ilObjTest::_setImportDirectory($this->getImportDirectory());
+
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
-			$newObj->setImportDirectory($this->getImportDirectory());
 		}
 		else	// case ii, non container
 		{
@@ -50,8 +52,6 @@ class ilTestImporter extends ilXmlImporter
 		// TODO: move all logic to ilObjTest::importVerifiedFile and call 
 		// this method from ilObjTestGUI and ilTestImporter 
 		$newObj->mark_schema->flush();
-		$newObj->setImportDirectory($this->getImportDirectory());
-		ilObjTest::_setImportDirectory($this->getImportDirectory());
 
 		// start parsing of QTI files
 		include_once "./Services/QTI/classes/class.ilQTIParser.php";

@@ -785,7 +785,7 @@ class ilObjQuestionPool extends ilObject
 	* (data_dir/qpl_data/qpl_<id>/import, depending on data
 	* directory that is set in ILIAS setup/ini)
 	*/
-	function createImportDirectory()
+	static function _createImportDirectory()
 	{
 		global $ilias;
 		
@@ -809,16 +809,6 @@ class ilObjQuestionPool extends ilObject
 		return $qpl_dir;
 	}
 
-	/**
-	 * Set import directory.
-	 * @param string $a_import_dir
-	 * @return 
-	 */
-	public function setImportDirectory($a_import_dir)
-	{
-		$this->import_dir = $a_import_dir;
-	}
-		
 	/**
 	* set import directory
 	*/
@@ -846,18 +836,11 @@ class ilObjQuestionPool extends ilObject
 		return null;
 	}
 
-	/**
-	* get import directory of lm
-	*/
 	function getImportDirectory()
 	{
-		if(strlen($this->import_dir))
-		{
-			return $this->import_dir;
-		}
-		return null;
+		return ilObjQuestionPool::_getImportDirectory();
 	}
-	
+
 	/**
 	* Retrieve an array containing all question ids of the questionpool
 	*
