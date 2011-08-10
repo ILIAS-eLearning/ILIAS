@@ -156,10 +156,13 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
 				if (!$this->read_only)
 				{
-					// edit url
-					$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));
-					$table_data[$id]["url"] = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd) .
-						"&eqid=".$id."&eqpl=".$qpl_ref_id;
+					if ($data["obj_fi"] > 0)
+					{
+						// edit url
+						$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));
+						$table_data[$id]["url"] = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd) .
+							"&eqid=".$id."&eqpl=".$qpl_ref_id;
+					}
 
 					// order
 					if(sizeof($survey_questions) > 1)
@@ -316,7 +319,6 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 			$list = new ilAdvancedSelectionListGUI();
 			$list->setId($a_set["id"]);
 			$list->setListTitle($lng->txt("actions"));
-			
 			if($a_set["url"])
 			{
 				$list->addItem($lng->txt("edit"), "", $a_set["url"]);
