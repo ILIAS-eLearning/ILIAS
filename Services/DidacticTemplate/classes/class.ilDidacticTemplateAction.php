@@ -9,6 +9,9 @@
  */
 abstract class ilDidacticTemplateAction
 {
+	const FILTER_POSITIVE = 1;
+	const FILTER_NEGATIVE = 2;
+
 	const TYPE_LOCAL_POLICY = 1;
 	const TYPE_LOCAL_ROLE = 2;
 
@@ -166,7 +169,6 @@ abstract class ilDidacticTemplateAction
 	public function __clone()
 	{
 		$this->setActionId(0);
-		$this->setTemplateId(0);
 	}
 
 

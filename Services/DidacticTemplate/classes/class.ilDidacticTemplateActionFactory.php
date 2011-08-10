@@ -56,7 +56,7 @@ class ilDidacticTemplateActionFactory
 	 * @param int $a_actions_type
 	 * @return ilDidacticTemplateLocalPolicyAction 
 	 */
-	public static function factoryByTypeAndId($a_action_id,$a_actions_type)
+	public static function factoryByTypeAndId($a_action_id,$a_action_type)
 	{
 		switch($a_action_type)
 		{
