@@ -74,7 +74,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 		
 		$this->addMultiCommand('askDeleteObjective',$this->lng->txt('delete'));
 		$this->addCommandButton('saveSorting',$this->lng->txt('sorting_save'));
-		$this->addCommandButton('create',$this->lng->txt('crs_add_objective'));
+		// $this->addCommandButton('create',$this->lng->txt('crs_add_objective'));
 	}
 	
 	/**

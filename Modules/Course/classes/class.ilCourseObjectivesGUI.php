@@ -97,7 +97,7 @@ class ilCourseObjectivesGUI
 	 */
 	protected function listObjectives()
 	{
-	 	global $ilAccess,$ilErr,$ilObjDataCache;
+	 	global $ilAccess,$ilErr,$ilObjDataCache,$ilToolbar;
 	 	
 		$_SESSION['objective_mode'] = self::MODE_UNDEFINED;
 		if(!$ilAccess->checkAccess("write",'',$this->course_obj->getRefId()))
@@ -106,6 +106,9 @@ class ilCourseObjectivesGUI
 		}
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_objectives.html','Modules/Course');
+		
+		$ilToolbar->addButton($this->lng->txt('crs_add_objective'),
+			$this->ctrl->getLinkTarget($this, "'create"));
 		
 		include_once('./Modules/Course/classes/class.ilCourseObjectivesTableGUI.php');
 		$table = new ilCourseObjectivesTableGUI($this,$this->course_obj);
