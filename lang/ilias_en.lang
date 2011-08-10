@@ -4529,7 +4529,7 @@ common#:#time_limit_no_users_selected#:#Please select a user.
 common#:#time_limit_not_valid#:#The period is not valid.
 common#:#time_limit_not_within_owners#:#Your access is limited. The period is outside of your limit.
 common#:#time_limit_owner#:#Owner (time limit)
-common#:#time_limit_reached#:#Your access period is expired.
+common#:#time_limit_reached#:#Your user account is not active.
 common#:#time_limit_unlimited#:#Unlimited (time limit)
 common#:#time_limit_until#:#Until (time limit)
 common#:#time_limit_users_updated#:#User data updated
