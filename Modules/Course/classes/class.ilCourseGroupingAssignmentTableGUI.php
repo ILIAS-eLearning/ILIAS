@@ -18,9 +18,11 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
 		
 	 	$this->lng = $lng;	
 	 	$this->ctrl = $ilCtrl;
-		$this->lng->loadLanguageModule('crs');		
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);		
+		
+		$this->type = ilObject::_lookupType($a_content_obj->getId());
+		$this->lng->loadLanguageModule($this->type);		
 					
 		$this->addColumn('','', 1);
 		$this->addColumn($this->lng->txt('title'), 'title');
@@ -45,7 +47,7 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
 		global $ilUser, $tree;
 		
 		$counter = 0;
-		$items = ilUtil::_getObjectsByOperations(ilObject::_lookupType($a_content_obj->getId()),
+		$items = ilUtil::_getObjectsByOperations($this->type,
 												 'write', $ilUser->getId(), -1);												 
 		$items_obj_id = array();
 		$items_ids = array();

@@ -128,14 +128,15 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 
 			case 'ilobjcoursegroupinggui':
+				$this->setSubTabs('settings');
+				
 				include_once './Modules/Course/classes/class.ilObjCourseGroupingGUI.php';
-
 				$this->ctrl->setReturn($this,'edit');
 				$crs_grp_gui =& new ilObjCourseGroupingGUI($this->object,(int) $_GET['obj_id']);
 				$this->ctrl->forwardCommand($crs_grp_gui);
-				$this->setSubTabs('settings');
+				
 				$this->tabs_gui->setTabActive('settings');
-				$this->tabs_gui->setSubTabActive('groupings');
+				$this->tabs_gui->setSubTabActive('groupings');				
 				break;
 
 			case 'ilcoursecontentgui':
