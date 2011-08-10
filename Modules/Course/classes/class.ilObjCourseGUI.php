@@ -1525,28 +1525,35 @@ class ilObjCourseGUI extends ilContainerGUI
 	/**
 	* edit container icons
 	*/
-	function editCourseIconsObject()
+	function editCourseIconsObject($a_form = null)
 	{
-		global $rbacsystem;
+		global $tpl;
 
 		$this->checkPermission('write');
-		/*
-		if(!$rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
-		*/
+	
 		$this->setSubTabs("properties");
 		$this->tabs_gui->setTabActive('settings');
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initCourseIconsForm();
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit_icons.html",'Modules/Course');
-		$this->showCustomIconsEditing();
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this,'updateCourseIcons'));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("CMD_CANCEL", "cancel");
-		$this->tpl->setVariable("CMD_SUBMIT", "updateCourseIcons");
-		$this->tpl->parseCurrentBlock();
+	function initCourseIconsForm()
+	{
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));	
+		
+		$this->showCustomIconsEditing(1, $form);
+		
+		// $form->setTitle($this->lng->txt('edit_grouping'));
+		$form->addCommandButton('updateCourseIcons', $this->lng->txt('save'));					
+		
+		return $form;
 	}
 
 	function sendFileObject()
@@ -1562,20 +1569,36 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function updateCourseIconsObject()
 	{
-		global $rbacsystem;
-		
 		$this->checkPermission('write');
-
-		//save custom icons
-		if ($this->ilias->getSetting("custom_icons"))
+		
+		$form = $this->initCourseIconsForm();
+		if($form->checkInput())
 		{
-			$this->object->saveIcons($_FILES["cont_big_icon"]['tmp_name'],
-				$_FILES["cont_small_icon"]['tmp_name'], $_FILES["cont_tiny_icon"]['tmp_name']);
+			//save custom icons
+			if ($this->ilias->getSetting("custom_icons"))
+			{
+				if($_POST["cont_big_icon_delete"])
+				{
+					$this->object->removeBigIcon();
+				}
+				if($_POST["cont_small_icon_delete"])
+				{
+					$this->object->removeSmallIcon();
+				}
+				if($_POST["cont_tiny_icon_delete"])
+				{
+					$this->object->removeTinyIcon();
+				}				
+				$this->object->saveIcons($_FILES["cont_big_icon"]['tmp_name'],
+					$_FILES["cont_small_icon"]['tmp_name'], $_FILES["cont_tiny_icon"]['tmp_name']);
+			}
+			
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+			$this->ctrl->redirect($this,"editCourseIcons");
 		}
 
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-		$this->ctrl->redirect($this,"editCourseIcons");
-
+		$form->setValuesByPost();
+		$this->initCourseIconsForm($form);	
 	}
 
 
