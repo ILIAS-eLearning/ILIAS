@@ -29,6 +29,8 @@ abstract class ilDBayTaskHandler
 		global $lng;
 		
 		$lng->loadLanguageModule('chatroom');
+
+		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 		
 		if( method_exists( $this, $method ) )
 		{

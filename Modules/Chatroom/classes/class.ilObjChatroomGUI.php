@@ -4,6 +4,7 @@
 
 require_once "./classes/class.ilObjectGUI.php";
 require_once "./Modules/Chatroom/classes/class.ilObjChatroom.php";
+require_once "./Modules/Chatroom/classes/class.ilChatroom.php";
 require_once "./Modules/Chatroom/classes/class.ilObjChatroomAccess.php";
 require_once 'Modules/Chatroom/lib/DatabayHelper/databayHelperLoader.php';
 
@@ -88,12 +89,18 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		//global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilUser, $ilTabs;
 		global $ilCtrl;
 
+		if ('cancel' == $ilCtrl->getCmd() && $this->getCreationMode()) {
+		    parent::cancelCreation();
+		    return;
+		}
+		
 		$next_class = $ilCtrl->getNextClass();
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroomTabFactory.php';
-
-		$tabFactory = new ilChatroomTabFactory( $this );
-		$tabFactory->getTabsForCommand( $ilCtrl->getCmd() );
+		if (!$this->getCreationMode()) {
+		    $tabFactory = new ilChatroomTabFactory( $this );
+		    $tabFactory->getTabsForCommand( $ilCtrl->getCmd() );
+		}
 
 		switch($next_class)
 		{
@@ -249,6 +256,18 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		require 'repository.php';
 	}
 
+	protected function initCreationForms($a_new_type)
+	{
+		$forms = parent::initCreationForms($a_new_type);
+
+		unset($forms[self::CFORM_IMPORT]);
+		unset($forms[self::CFORM_CLONE]);
+		
+		$forms[self::CFORM_NEW]->clearCommandButtons();
+		$forms[self::CFORM_NEW]->addCommandButton("create-save", $this->lng->txt($a_new_type."_add"));
+		$forms[self::CFORM_NEW]->addCommandButton("cancel", $this->lng->txt("cancel"));
+		return $forms;
+	}
 }
 
 ?>

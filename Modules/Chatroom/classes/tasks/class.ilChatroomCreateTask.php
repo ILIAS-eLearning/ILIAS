@@ -37,25 +37,10 @@ class ilChatroomCreateTask extends ilDBayTaskHandler
 	 */
 	public function executeDefault($method)
 	{
-		global $tpl, $ilUser, $ilCtrl;
-
-		if ( !ilChatroom::checkUserPermissions( 'read' , $this->gui->ref_id ) )
-		{
-		    ilUtil::redirect("repository.php");
-		}
-
-		$this->gui->switchToVisibleMode();
-
-		require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
-
-		$formFactory = new ilChatroomFormFactory();
-		$form = $formFactory->getCreationForm();
-		$form->setFormAction( $ilCtrl->getFormAction( $this->gui, 'create-save' ) );
-		$form->setValuesByArray( $_POST );
-
-		$tpl->setVariable( 'ADM_CONTENT', $form->getHTML() );
-	}
-
+	    $this->gui->switchToVisibleMode();
+	    return $this->gui->createObject();
+ 	}
+ 
 	/**
 	 * Inserts new object into gui.
 	 *

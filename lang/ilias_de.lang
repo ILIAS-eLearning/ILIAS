@@ -12063,3 +12063,6 @@ chatroom#:#chatroom_smiley_keyword#:#Keyword###06 08 2011 new variable
 user#:#user_account_used#:#Date Of Usage###06 08 2011 new variable
 content#:#cont_file_from_workspace#:#Datei aus meinem Arbeitsraum
 survey#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen und nur für diese Umfrage verfügbar machen
+chatroom#:#server_further_information#:#Weitere Informationen zur Konfiguration des Servers finden Sie in der <a href="%1$s" target="_blank">Readme-Datei</a>.
+chatroom#:#chtr_new#:#Neuen Chatraum anlegen
+chatroom#:#chtr_add#:#Chatraum hinzufügen

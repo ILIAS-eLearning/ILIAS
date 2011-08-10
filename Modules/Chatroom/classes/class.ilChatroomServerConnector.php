@@ -156,18 +156,6 @@ class ilChatroomServerConnector
 		$chat_user = new ilChatroomUser( $inviter, $room );
 		$user_id = $chat_user->getUserId();
 
-		if ($room->isSubscribed( $user_id )) {
-			$message = json_encode( array(
-                        'type'		=> 'user_invited',
-                        'title' => ilChatroom::lookupPrivateRoomTitle($scope),
-                        'proom_id' => $scope,
-			'inviter' => $inviter->getId(),
-			'invited' => $invited_id
-			) );
-
-			$this->sendMessage( $room->getRoomId(), $message, array('public' => 0, 'recipients' => $invited) );
-		}
-
 		if ($scope) {
 			$room->inviteUserToPrivateRoom($invited_id, $scope);
 			$message = json_encode( array(
@@ -186,6 +174,19 @@ class ilChatroomServerConnector
 
 			$this->sendMessage( $room->getRoomId(), $message, array('public' => 0, 'recipients' => $invited_id) );
 		}
+		
+		if ($room->isSubscribed( $user_id )) {
+			$message = json_encode( array(
+                        'type'		=> 'user_invited',
+                        'title' => ilChatroom::lookupPrivateRoomTitle($scope),
+                        'proom_id' => $scope,
+			'inviter' => $inviter->getId(),
+			'invited' => $invited_id
+			) );
+
+			$this->sendMessage( $room->getRoomId(), $message, array('public' => 0, 'recipients' => $invited) );
+		}
+		
 		return array('success' => true, 'message' => 'users invited');
 	}
 
