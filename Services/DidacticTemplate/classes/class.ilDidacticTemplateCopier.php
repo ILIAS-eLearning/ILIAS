@@ -58,6 +58,8 @@ class ilDidacticTemplateCopier
 			$new = clone $action;
 			$new->save();
 		}
+
+
 	}
 }
 ?>
