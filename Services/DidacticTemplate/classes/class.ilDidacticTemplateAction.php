@@ -15,7 +15,7 @@ abstract class ilDidacticTemplateAction
 
 	private $action_id = 0;
 	private $tpl_id = 0;
-	private $ref_id = 0;
+	private $type = 0;
 
 
 	/**
@@ -23,6 +23,7 @@ abstract class ilDidacticTemplateAction
 	 */
 	public function __construct($action_id = 0)
 	{
+		$this->setActionId($action_id);
 		$this->read();
 	}
 
@@ -45,22 +46,13 @@ abstract class ilDidacticTemplateAction
 	}
 
 	/**
-	 * Set reference id of current object
+	 * Set type id
 	 *
 	 * @param int ref id
 	 */
-	public function setRefId($a_ref_id)
+	public function setType($a_type_id)
 	{
-		$this->ref_id = $a_ref_id;
-	}
-
-	/**
-	 * Get ref id of current object
-	 * @return <type>
-	 */
-	public function getRefId()
-	{
-		return $this->ref_id;
+		$this->type = $a_type_id;
 	}
 
 	/**
@@ -137,6 +129,7 @@ abstract class ilDidacticTemplateAction
 		{
 			$this->setTemplateId($row->tpl_id);
 		}
+		return true;
 	}
 
 	/**
