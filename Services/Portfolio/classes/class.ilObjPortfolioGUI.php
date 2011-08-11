@@ -753,7 +753,7 @@ class ilObjPortfolioGUI
 		{
 			$form->setTitle($lng->txt("prtf_add_blog").": ".
 				$this->portfolio->getTitle());
-			$form->addCommandButton("savePage", $lng->txt("save"));
+			$form->addCommandButton("saveBlog", $lng->txt("save"));
 			$form->addCommandButton("pages", $lng->txt("cancel"));
 			
 		}
@@ -776,7 +776,7 @@ class ilObjPortfolioGUI
 	{
 		global $tpl, $lng, $ilCtrl, $ilTabs;
 
-		$form = $this->initPageForm("create");
+		$form = $this->initBlogForm("create");
 		if ($form->checkInput())
 		{
 			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
