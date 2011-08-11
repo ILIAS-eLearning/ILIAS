@@ -126,7 +126,27 @@ class ilDidacticTemplateImport
 			return void;
 		}
 
+		////////////////////////////////////////////////
+		// Local role action
+		///////////////////////////////////////////////
+		foreach($actions->localRoleAction as $ele)
+		{
+			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateLocalRoleAction.php';
+			$act = new ilDidacticTemplateLocalRoleAction();
+			$act->setTemplateId($set->getId());
+
+			foreach($ele->roleTemplate as $tpl)
+			{
+				$act->setRoleTemplateId((string) $tpl->attributes()->id);
+			}
+			$act->save();
+		}
+
+
+
+		////////////////////////////////////////////
 		// Local policy action
+		/////////////////////////////////////////////
 		foreach($actions->localPolicyAction as $ele)
 		{
 			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateLocalPolicyAction.php';
@@ -181,6 +201,7 @@ class ilDidacticTemplateImport
 			// Save action including all filter patterns
 			$act->save();
 		}
+
 	}
 
 	/**

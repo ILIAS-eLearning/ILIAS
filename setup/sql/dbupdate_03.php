@@ -7325,5 +7325,24 @@ if(!$ilDB->tableExists('usr_account_codes'))
 	);
 ?>
 
+<#3429>
+<?php
+	$ilDB->createTable('didactic_tpl_alr',
+		array(
+			"action_id" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			),
+			"role_template_id" => array(
+				"type" => "integer",
+				"length" => 1,
+				"notnull" => true
+			)
+		)
+	);
+
+	$ilDB->addPrimaryKey('didactic_tpl_alr',array('action_id'));
+?>
 
 
