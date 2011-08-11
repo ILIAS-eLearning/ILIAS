@@ -219,8 +219,42 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		{
 			$pattern->toXml($writer);
 		}
-		
 		$writer->xmlEndTag('roleFilter');
+
+		switch($this->getRoleTemplateType())
+		{
+			case self::TPL_ACTION_OVERWRITE:
+				$writer->xmlElement(
+					'localPolicyTemplate',
+					array(
+						'type'	=> 'overwrite',
+						'id'	=> $this->getRoleTemplateId()
+					)
+				);
+				break;
+
+			case self::TPL_ACTION_INTERSECT:
+				$writer->xmlElement(
+					'localPolicyTemplate',
+					array(
+						'type'	=> 'intersect',
+						'id'	=> $this->getRoleTemplateId()
+					)
+				);
+				break;
+
+			case self::TPL_ACTION_UNION:
+				$writer->xmlElement(
+					'localPolicyTemplate',
+					array(
+						'type'	=> 'union',
+						'id'	=> $this->getRoleTemplateId()
+					)
+				);
+				break;
+		}
+
+
 		$writer->xmlEndTag('localPolicyAction');
 		return void;
 	}
@@ -243,10 +277,23 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
 	public function read()
 	{
+		global $ilDB;
+
 		if(!parent::read())
 		{
 			return false;
 		}
+
+		$query = 'SELECT * FROM didactic_tpl_alp '.
+			'WHERE action_id = '.$ilDB->quote($this->getActionId());
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->setFilterType($row->filter_type);
+			$this->setRoleTemplateType($row->template_type);
+			$this->setRoleTemplateId($row->template_id);
+		}
+
 		// Read filter
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateFilterPatternFactory.php';
 		foreach(ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId($this->getActionId(),self::PATTERN_PARENT_TYPE) as $pattern)
