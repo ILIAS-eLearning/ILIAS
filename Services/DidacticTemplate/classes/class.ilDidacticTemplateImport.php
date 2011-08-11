@@ -126,60 +126,59 @@ class ilDidacticTemplateImport
 			return void;
 		}
 
-
-		foreach($actions->action as $ele)
+		// Local policy action
+		foreach($actions->localPolicyAction as $ele)
 		{
-			$act = ilDidacticTemplateActionFactory::factoryByTypeString((string) $ele->attributes()->type);
+			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateLocalPolicyAction.php';
+			$act = new ilDidacticTemplateLocalPolicyAction();
 			$act->setTemplateId($set->getId());
 
-			if($act instanceof ilDidacticTemplateLocalPolicyAction)
+			// Role filter
+			foreach($ele->roleFilter as $rfi)
 			{
-				// Filter type
-				foreach($ele->filter as $fis)
+				$act->setFilterType((string) $rfi->attributes()->source);
+				foreach($rfi->includePattern as $pat)
 				{
-					switch((string) $fis->attributes()->type)
-					{
-						case ilDidacticTemplateLocalPolicyAction::FILTER_POSITIVE:
-							$act->setFilterType(ilDidacticTemplateLocalPolicyAction::FILTER_POSITIVE);
-							break;
-
-						case ilDidacticTemplateLocalPolicyAction::FILTER_NEGATIVE:
-							$act->setFilterType(ilDidacticTemplateLocalPolicyAction::FILTER_NEGATIVE);
-							break;
-					}
+					// @TODO other subtypes
+					include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateIncludeFilterPattern.php';
+					$pattern = new ilDidacticTemplateIncludeFilterPattern();
+					$pattern->setPatternSubType(ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX);
+					$pattern->setPattern((string) $pat->attributes()->preg);
+					$act->addFilterPattern($pattern);
 				}
-				// local policy template
-				foreach($ele->localPolicyTemplate as $lpt)
+				foreach($rfi->excludePattern as $pat)
 				{
-					switch((string) $lpt->attributes()->type)
-					{
-						case ilDidacticTemplateLocalPolicyAction::TPL_ACTION_OVERWRITE:
-							$act->setRoleTemplateType(ilDidacticTemplateLocalPolicyAction::TPL_ACTION_OVERWRITE);
-							break;
-
-						case ilDidacticTemplateLocalPolicyAction::TPL_ACTION_INTERSECT:
-							$act->setRoleTemplateType(ilDidacticTemplateLocalPolicyAction::TPL_ACTION_INTERSECT);
-							break;
-
-						case ilDidacticTemplateLocalPolicyAction::TPL_ACTION_ADD:
-							$act->setRoleTemplateType(ilDidacticTemplateLocalPolicyAction::TPL_ACTION_ADD);
-							break;
-
-						case ilDidacticTemplateLocalPolicyAction::TPL_ACTION_SUBTRACT:
-							$act->setRoleTemplateType(ilDidacticTemplateLocalPolicyAction::TPL_ACTION_SUBTRACT);
-							break;
-
-						case ilDidacticTemplateLocalPolicyAction::TPL_ACTION_UNION:
-							$act->setRoleTemplateType(ilDidacticTemplateLocalPolicyAction::TPL_ACTION_UNION);
-							break;
-					}
-					$act->setRoleTemplateId((string) $lpt->attributes()->id);
+					// @TODO other subtypes
+					include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateExcludeFilterPattern.php';
+					$pattern = new ilDidacticTemplateExcludeFilterPattern();
+					$pattern->setPatternSubType(ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX);
+					$pattern->setPattern((string) $pat->attributes()->preg);
+					$act->addFilterPattern($pattern);
 				}
-
 			}
 
-			// Other action types
+			// role template assignment
+			foreach($ele->localPolicyTemplate as $lpo)
+			{
+				$act->setFilterType(ilDidacticTemplateLocalPolicyAction::FILTER_SOURCE_TITLE);
+				$act->setRoleTemplateId((string) $lpo->attributes()->id);
+				switch((string) $lpo->attributes()->type)
+				{
+					case 'overwrite':
+						$act->setRoleTemplateType(ilDidacticTemplateLocalPolicyAction::TPL_ACTION_OVERWRITE);
+						break;
 
+					case 'union':
+						$act->setRoleTemplateType(ilDidacticTemplateLocalPolicyAction::TPL_ACTION_UNION);
+						break;
+
+					case 'intersect':
+						$act->setRoleTemplateType(ilDidacticTemplateLocalPolicyAction::TPL_ACTION_INTERSECT);
+						break;
+				}
+			}
+
+			// Save action including all filter patterns
 			$act->save();
 		}
 	}

@@ -20,8 +20,10 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	const FILTER_SOURCE_TITLE = 1;
 	const FILTER_SOURCE_OBJ_ID = 2;
 
-	private $filter = array();
-	private $filter_type = self::FILTER_POSITIVE;
+	const PATTERN_PARENT_TYPE = 'action';
+
+	private $pattern = array();
+	private $filter_type = self::FILTER_SOURCE_TITLE;
 	private $role_template_type = self::TPL_ACTION_OVERWRITE;
 	private $role_template_id = 0;
 
@@ -37,20 +39,29 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
 	/**
 	 * Add filter
-	 * @param ilDidactiTemplateLocalPolicyFilter $filter
+	 * @param ilDidacticTemplateFilterPatter $pattern
 	 */
-	public function addFilter(ilDidactiTemplateLocalPolicyFilter $filter)
+	public function addFilterPattern(ilDidacticTemplateFilterPattern $pattern)
 	{
-		$this->filter[] = $filter;
+		$this->pattern[] = $pattern;
 	}
 
 	/**
-	 * Get filter
+	 * Set filter patterns
+	 * @param array $patterns
+	 */
+	public function setFilterPatterns(Array $patterns)
+	{
+		$this->pattern = $patterns;
+	}
+
+	/**
+	 * Get filter pattern
 	 * @return array
 	 */
-	public function getFilter()
+	public function getFilterPattern()
 	{
-		return $this->filter;
+		return $this->pattern;
 	}
 
 	/**
@@ -124,11 +135,12 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 			')';
 		$ilDB->manipulate($query);
 
-		foreach($this->getFilter() as $filter)
+		foreach($this->getFilterPattern() as $pattern)
 		{
-			/* @var ilDidacticTemplateLocalPolicyFilter $filter */
-			$filter->setActionId($this->getActionId());
-			$filter->save();
+			/* @var ilDidacticTemplateFilterPattern $pattern */
+			$pattern->setParentId($this->getActionId());
+			$pattern->setParentType(self::PATTERN_PARENT_TYPE);
+			$pattern->save();
 		}
 	}
 
@@ -147,9 +159,9 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 			'WHERE action_id  = '.$ilDB->quote($this->getActionId(),'integer');
 		$ilDB->manipulate($query);
 
-		foreach($this->getFilter() as $filter)
+		foreach($this->getFilterPattern() as $pattern)
 		{
-			$filter->delete();
+			$pattern->delete();
 		}
 		return true;
 	}
@@ -194,16 +206,21 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		switch($this->getFilterType())
 		{
 			case self::FILTER_SOURCE_TITLE:
-				$writer->xmlStartTag('filter',array('source' => 'title'));
-				$writer->xmlEndTag('filter');
+				$writer->xmlStartTag('roleFilter',array('source' => 'title'));
 				break;
 
 			case self::FILTER_SOURCE_OBJ_ID:
-				$writer->xmlStartTag('filter',array('source' => 'objId'));
-				$writer->xmlEndTag('filter');
+				$writer->xmlStartTag('roleFilter',array('source' => 'objId'));
 				break;
 
 		}
+
+		foreach($this->getFilterPattern() as $pattern)
+		{
+			$pattern->toXml($writer);
+		}
+		
+		$writer->xmlEndTag('roleFilter');
 		$writer->xmlEndTag('localPolicyAction');
 		return void;
 	}
@@ -215,8 +232,13 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	{
 		parent::__clone();
 
-
-		
+		// Clone patterns
+		$cloned = array();
+		foreach($this->getFilterPattern() as $pattern)
+		{
+			$clones[] = clone $pattern;
+		}
+		$this->setFilterPatterns($clones);
 	}
 
 	public function read()
@@ -226,11 +248,11 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 			return false;
 		}
 		// Read filter
-		foreach(ilDidacticTemplateLocalPolicyFilter::lookupFilterIds($this->getActionId()) as $filter_id)
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateFilterPatternFactory.php';
+		foreach(ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId($this->getActionId(),self::PATTERN_PARENT_TYPE) as $pattern)
 		{
-			$this->addFilter(new ilDidacticTemplateLocalPolicyFilter($filter_id));
+			$this->addFilterPattern($pattern);
 		}
 	}
-
 }
 ?>

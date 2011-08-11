@@ -65,6 +65,7 @@ class ilDidacticTemplateActionFactory
 				return new ilDidacticTemplateLocalPolicyAction($a_action_id);
 
 			case ilDidacticTemplateAction::TYPE_LOCAL_ROLE:
+				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateLocalRoleAction.php';
 				return new ilDidacticTemplateLocalRoleAction($a_action_id);
 
 		}
