@@ -482,7 +482,7 @@ class ilStartUpGUI
 		{
 			include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 			$form = new ilPropertyFormGUI();
-			$form->setTableWidth('70%');
+			$form->setTableWidth('500');
 			$form->setFormAction($this->ctrl->getFormAction($this,''));
 			$form->setName("formlogin");
 			$form->setShowTopButtons(false);
@@ -1798,7 +1798,7 @@ class ilStartUpGUI
 		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
-		$form->setTableWidth('70%');
+		$form->setTableWidth('500');
 		$form->setShowTopButtons(false);
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($lng->txt('login_to_ilias_via_openid'));
