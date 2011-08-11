@@ -7271,3 +7271,33 @@ if(!$ilDB->tableExists('usr_account_codes'))
 		$ilDB->query("UPDATE sahs_lm SET height = 650");
 	}
 ?>
+<#3427>
+<?php
+
+		$ilDB->createTable('didactic_tpl_fp',
+			array(
+				"pattern_id" => array(
+					"type" => "integer",
+					"length" => 4,
+					"notnull" => true
+				),
+				"pattern_type" => array(
+					"type" => "integer",
+					"length" => 1,
+					"notnull" => true
+				),
+				"pattern_sub_type" => array(
+					"type" => "integer",
+					"length" => 1,
+					"notnull" => true
+				),
+				"pattern" => array(
+					"type" => "text",
+					"length" => 64,
+					"notnull" => false
+				)
+			)
+		);
+		$ilDB->createSequence('didactic_tpl_fp');
+		$ilDB->addPrimaryKey('didactic_tpl_fp',array('pattern_id'));
+?>

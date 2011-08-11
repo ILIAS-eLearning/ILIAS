@@ -17,6 +17,9 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	const TPL_ACTION_SUBTRACT = 4;
 	const TPL_ACTION_UNION = 5;
 
+	const FILTER_SOURCE_TITLE = 1;
+	const FILTER_SOURCE_OBJ_ID = 2;
+
 	private $filter = array();
 	private $filter_type = self::FILTER_POSITIVE;
 	private $role_template_type = self::TPL_ACTION_OVERWRITE;
@@ -190,13 +193,13 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
 		switch($this->getFilterType())
 		{
-			case self::FILTER_POSITIVE:
-				$writer->xmlStartTag('filter',array('type' => 'positiveList'));
+			case self::FILTER_SOURCE_TITLE:
+				$writer->xmlStartTag('filter',array('source' => 'title'));
 				$writer->xmlEndTag('filter');
 				break;
 
-			case self::FILTER_NEGATIVE:
-				$writer->xmlStartTag('filter',array('type' => 'negativeList'));
+			case self::FILTER_SOURCE_OBJ_ID:
+				$writer->xmlStartTag('filter',array('source' => 'objId'));
 				$writer->xmlEndTag('filter');
 				break;
 
