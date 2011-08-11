@@ -7301,3 +7301,29 @@ if(!$ilDB->tableExists('usr_account_codes'))
 		$ilDB->createSequence('didactic_tpl_fp');
 		$ilDB->addPrimaryKey('didactic_tpl_fp',array('pattern_id'));
 ?>
+<#3428>
+<?php
+
+	$ilDB->addTableColumn(
+		"didactic_tpl_fp",
+		"parent_id",
+		array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 4
+		)
+	);
+
+	$ilDB->addTableColumn(
+		"didactic_tpl_fp",
+		"parent_type",
+		array(
+			"type" => "text",
+			"notnull" => false,
+			"length" => 32
+		)
+	);
+?>
+
+
+
