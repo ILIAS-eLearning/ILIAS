@@ -853,7 +853,7 @@ class ilExAssignment
 	/**
 	 * was: getDeliveredFiles($a_member_id)
 	 */
-	function getDeliveredFiles($a_exc_id, $a_ass_id, $a_user_id)
+	function getDeliveredFiles($a_exc_id, $a_ass_id, $a_user_id, $a_filter_empty_filename = false)
 	{
 		global $ilDB;
 
@@ -869,6 +869,10 @@ class ilExAssignment
 		{
 			while ($row = $ilDB->fetchAssoc($result))
 			{
+				if($a_filter_empty_filename && !$row["filename"])
+				{
+					continue;
+				}
 				$row["timestamp"] = $row["ts"];
 				$row["timestamp14"] = substr($row["ts"], 0, 4).
 					substr($row["ts"], 5, 2).substr($row["ts"], 8, 2).
@@ -919,9 +923,12 @@ class ilExAssignment
 				// delete the files
 				foreach ($result_array as $key => $value)
 				{
-					$filename = $fs->getAbsoluteSubmissionPath().
-						"/".$value["user_id"]."/".basename($value["filename"]);
-					unlink($filename);
+					if($value["filename"])
+					{
+						$filename = $fs->getAbsoluteSubmissionPath().
+							"/".$value["user_id"]."/".basename($value["filename"]);
+						unlink($filename);
+					}
 				}
 			}
 		}

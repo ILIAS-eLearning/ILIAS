@@ -240,6 +240,7 @@ class ilExAssignmentGUI
 						break;
 						
 					case ilExAssignment::TYPE_BLOG:
+						$files_str = "";
 						$valid_blog = false;
 						if(sizeof($delivered_files))
 						{													
@@ -260,11 +261,14 @@ class ilExAssignmentGUI
 							}						
 						}																
 						if(!$valid_blog)
-						{
-							$files_str = '<a class="submit" href="'.
+						{							
+							$files_str .= '<a class="submit" href="'.
 								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createBlog").'">'.
 								$lng->txt("exc_create_blog").'</a>';
-						}						
+						}					
+						$files_str .=' <a class="submit" href="'.
+								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "selectBlog").'">'.
+								$lng->txt("exc_select_blog".($valid_blog ? "_change" : "")).'</a>';
 						$info->addProperty($lng->txt("exc_blog_returned"), $files_str);		
 						if($delivered_files && $delivered_files["filename"])
 						{							
@@ -278,6 +282,7 @@ class ilExAssignmentGUI
 						break;
 						
 					case ilExAssignment::TYPE_PORTFOLIO:
+						$files_str = "";
 						$valid_prtf = false;
 						if(sizeof($delivered_files))
 						{
@@ -297,10 +302,13 @@ class ilExAssignmentGUI
 						}
 						if(!$valid_prtf)
 						{
-							$files_str = '<a class="submit" href="'.
+							$files_str .= '<a class="submit" href="'.
 								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createPortfolio").'">'.
 								$lng->txt("exc_create_portfolio").'</a>';
 						}
+						$files_str .= ' <a class="submit" href="'.
+								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "selectPortfolio").'">'.
+								$lng->txt("exc_select_portfolio".($valid_prtf ? "_change" : "")).'</a>';
 						$info->addProperty($lng->txt("exc_portfolio_returned"), $files_str);		
 						if($delivered_files && $delivered_files["filename"])
 						{							

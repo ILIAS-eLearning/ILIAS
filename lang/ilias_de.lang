@@ -12071,3 +12071,12 @@ chatroom#:#server_further_information#:#Weitere Informationen zur Konfiguration 
 chatroom#:#chtr_new#:#Neuen Chatraum anlegen
 chatroom#:#chtr_add#:#Chatraum hinzufügen
 blog#:#blog_exercise_submitted_info#:#Ihre letzte Einreichung war am %s, bitte prüfen Sie die Export-Datei: %s.
+prtf#:#prtf_exercise_submitted_info#:#Ihre letzte Einreichung war am %s, bitte prüfen Sie die Export-Datei: %s.
+exc#:#exc_select_blog#:#Vorhandenen Blog nutzen
+exc#:#exc_select_portfolio#:#Vorhandenes Portfolio nutzen
+exc#:#exc_select_blog_info#:#Bitte wählen Sie einen Ihrer Blogs, um ihn mit dieser Übungseinheit zu benutzen.
+exc#:#exc_select_portfolio_info#:#Bitte wählen Sie einen Ihrer Portfolios, um ihn mit dieser Übungseinheit zu benutzen.
+exc#:#exc_select_blog_change#:#Anderen Blog benutzen
+exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
+exc#:#exc_blog_selected#:#Der Blog wurde verknüpft.
+exc#:#exc_portfolio_selected#:#Das Portfolio wurde verknüpft.

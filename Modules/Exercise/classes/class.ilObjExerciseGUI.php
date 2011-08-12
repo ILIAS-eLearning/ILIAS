@@ -2259,6 +2259,36 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setContent($tpl->get());
 	}
 	
+	protected function selectBlogObject()
+	{
+		global $ilUser;
+		
+		$this->checkPermission("read");
+		
+		// $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "showOverview"));
+		
+		$this->tabs_gui->setTabActive("content");
+		$this->addContentSubTabs("content");
+		
+		if (mktime() > $this->ass->getDeadline())
+		{
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
+		}
+		
+		$tpl = new ilTemplate("tpl.exc_select_resource.html", true, true, "Modules/Exercise");
+		$tpl->setVariable("TXT_TITLE", $this->lng->txt("exc_select_blog").": ".$this->ass->getTitle());
+		$tpl->setVariable("TREE", $this->renderWorkspaceExplorer("selectBlog"));
+		$tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$tpl->setVariable("CMD_SUBMIT", "setSelectedBlog");
+		$tpl->setVariable("CMD_CANCEL", "showOverview");
+		
+		ilUtil::sendInfo($this->lng->txt("exc_select_blog_info"));
+					
+		$this->tpl->setContent($tpl->get());
+	}
+	
 	protected function saveBlogObject()
 	{
 		global $ilUser;
@@ -2280,6 +2310,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$blog->create();
 		
 		$tree = new ilWorkspaceTree($ilUser->getId());
+		
 		$node_id = $tree->insertObject($parent_node, $blog->getId());
 		
 		$access_handler = new ilWorkspaceAccessHandler($tree);
@@ -2291,36 +2322,81 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "showOverview");
 	}
 	
-	protected function renderWorkspaceExplorer($a_cmd)
+	protected function setSelectedBlogObject()
 	{
 		global $ilUser;
 		
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-		require_once 'Services/PersonalWorkspace/classes/class.ilWorkspaceExplorer.php';
-		
-		$tree = new ilWorkspaceTree($ilUser->getId());
-		$access_handler = new ilWorkspaceAccessHandler($tree);
-		$exp = new ilWorkspaceExplorer(ilWorkspaceExplorer::SEL_TYPE_RADIO, '', 
-			'exc_wspexpand', $tree, $access_handler);
-		$exp->setTargetGet('wsp_id');
+		if($_POST["node"])
+		{
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";		
+			$tree = new ilWorkspaceTree($ilUser->getId());
+			$node = $tree->getNodeData($_POST["node"]);
+			if($node && $node["type"] == "blog")
+			{
+				// remove existing files (incl. blog reference)
+				$submitted = ilExAssignment::getDeliveredFiles($this->ass->getExerciseId(), $this->ass->getId(), $ilUser->getId());
+				if($submitted)
+				{
+					$files = array();
+					foreach($submitted as $item)
+					{
+						$files[] = $item["returned_id"];
+					}
+					ilExAssignment::deleteDeliveredFiles($this->ass->getExerciseId(), $this->ass->getId(), $files, $ilUser->getId());
+				}
+				
+				$this->object->addResourceObject($node["wsp_id"], $this->ass->getId(), $ilUser->getId());
 
-		if($_GET['exc_wspexpand'] == '')
-		{
-			// not really used as session is already set [see above]
-			$expanded = $tree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET['exc_wspexpand'];
+				ilUtil::sendSuccess($this->lng->txt("exc_blog_selected"), true);
+				$this->ctrl->redirect($this, "showOverview");				
+			}
 		}
 		
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, $a_cmd));
-		$exp->setPostVar('node');
-		$exp->setExpand($expanded);
-		$exp->setOutput(0);
+		ilUtil::sendFailure($this->lng->txt("select_one"));
+		return $this->selectPortfolioObject();
+	}
+	
+	protected function selectPortfolioObject()
+	{
+		global $ilUser;
 		
-		return $exp->getOutput();
+		$this->checkPermission("read");
+		
+		// $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "showOverview"));
+		
+		$this->tabs_gui->setTabActive("content");
+		$this->addContentSubTabs("content");
+		
+		if (mktime() > $this->ass->getDeadline())
+		{
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
+		}
+		
+		$tpl = new ilTemplate("tpl.exc_select_resource.html", true, true, "Modules/Exercise");
+		
+		include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+		$portfolios = ilObjPortfolio::getPortfoliosOfUser($ilUser->getId());
+		if($portfolios)
+		{
+			$tpl->setCurrentBlock("item");
+			foreach($portfolios as $portfolio)
+			{
+				$tpl->setVariable("ITEM_ID", $portfolio["id"]);
+				$tpl->setVariable("ITEM_TITLE", $portfolio["title"]);
+				$tpl->parseCurrentBlock();				
+			}			
+		}
+		
+		$tpl->setVariable("TXT_TITLE", $this->lng->txt("exc_select_portfolio").": ".$this->ass->getTitle());
+		$tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$tpl->setVariable("CMD_SUBMIT", "setSelectedPortfolio");
+		$tpl->setVariable("CMD_CANCEL", "showOverview");
+		
+		ilUtil::sendInfo($this->lng->txt("exc_select_portfolio_info"));
+					
+		$this->tpl->setContent($tpl->get());
 	}
 	
 	protected function createPortfolioObject()
@@ -2345,6 +2421,73 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		ilUtil::sendSuccess($this->lng->txt("exc_portfolio_created"), true);
 		$this->ctrl->redirect($this, "showOverview");
+	}
+	
+	protected function setSelectedPortfolioObject()
+	{
+		global $ilUser;
+		
+		if($_POST["item"])
+		{			
+			// remove existing files (incl. portfolio reference)
+			$submitted = ilExAssignment::getDeliveredFiles($this->ass->getExerciseId(), $this->ass->getId(), $ilUser->getId());
+			if($submitted)
+			{
+				$files = array();
+				foreach($submitted as $item)
+				{
+					$files[] = $item["returned_id"];
+				}
+				ilExAssignment::deleteDeliveredFiles($this->ass->getExerciseId(), $this->ass->getId(), $files, $ilUser->getId());
+			}
+									
+			$this->object->addResourceObject($_POST["item"], $this->ass->getId(), $ilUser->getId());
+
+			ilUtil::sendSuccess($this->lng->txt("exc_portfolio_selected"), true);
+			$this->ctrl->redirect($this, "showOverview");							
+		}
+		
+		ilUtil::sendFailure($this->lng->txt("select_one"));
+		return $this->selectPortfolioObject();
+	}
+	
+	protected function renderWorkspaceExplorer($a_cmd)
+	{
+		global $ilUser;
+		
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+		require_once 'Services/PersonalWorkspace/classes/class.ilWorkspaceExplorer.php';
+		
+		$tree = new ilWorkspaceTree($ilUser->getId());
+		$access_handler = new ilWorkspaceAccessHandler($tree);
+		$exp = new ilWorkspaceExplorer(ilWorkspaceExplorer::SEL_TYPE_RADIO, '', 
+			'exc_wspexpand', $tree, $access_handler);
+		$exp->setTargetGet('wsp_id');
+		
+		if($a_cmd == "selectBlog")
+		{
+			$exp->removeAllFormItemTypes();
+			$exp->addFilter('blog');
+			$exp->addFormItemForType('blog');
+		}
+	
+		if($_GET['exc_wspexpand'] == '')
+		{
+			// not really used as session is already set [see above]
+			$expanded = $tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET['exc_wspexpand'];
+		}
+		
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, $a_cmd));
+		$exp->setPostVar('node');
+		$exp->setExpand($expanded);
+		$exp->setOutput(0);
+	
+		return $exp->getOutput();
 	}
 }
 

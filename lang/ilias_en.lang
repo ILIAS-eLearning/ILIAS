@@ -12072,3 +12072,11 @@ chatroom#:#chtr_new#:#New Chatroom
 chatroom#:#chtr_add#:#Add Chatroom
 blog#:#blog_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.
 prtf#:#prtf_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.
+exc#:#exc_select_blog#:#Use Existing Blog
+exc#:#exc_select_portfolio#:#Use Existing Portfolio
+exc#:#exc_select_blog_info#:#Please select one of your blogs to use it with this assignment.
+exc#:#exc_select_portfolio_info#:#Please select one of your portfolios to use it with this assignment.
+exc#:#exc_select_blog_change#:#Use different Blog
+exc#:#exc_select_portfolio_change#:#Use different Portfolio
+exc#:#exc_blog_selected#:#The blog has been assigned.
+exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
