@@ -12071,3 +12071,4 @@ chatroom#:#server_further_information#:#You can find further information about t
 chatroom#:#chtr_new#:#New Chatroom
 chatroom#:#chtr_add#:#Add Chatroom
 blog#:#blog_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.
+prtf#:#prtf_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.

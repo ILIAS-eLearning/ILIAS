@@ -214,10 +214,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 		global $ilUser, $ilCtrl;
 		
 		$this->checkPermission("read");
-		if (count($_POST["delivered"]))
+		if (count($_REQUEST["delivered"]))
 		{
+			if(!is_array($_REQUEST["delivered"]))
+			{
+				$_REQUEST["delivered"] = array($_REQUEST["delivered"]);
+			}
 			ilExAssignment::downloadSelectedFiles($this->object->getId(), (int) $_GET["ass_id"],
-				$ilUser->getId(), $_POST["delivered"]);
+				$ilUser->getId(), $_REQUEST["delivered"]);
 			exit;
 		}
 		else

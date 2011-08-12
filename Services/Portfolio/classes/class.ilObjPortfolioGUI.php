@@ -572,22 +572,7 @@ class ilObjPortfolioGUI
 		$exercise = ilObjExercise::findUserFiles($ilUser->getId(), $this->portfolio->getId());
 		if($exercise)
 		{
-			// work instructions
-			include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
-			$ass = new ilExAssignment($exercise["ass_id"]);
-
-			$info = sprintf($lng->txt("prtf_exercise_info"), 
-				$ass->getTitle(),
-				ilObject::_lookupTitle($exercise["obj_id"]));
-
-			$ass = $ass->getInstruction();
-			if($ass)
-			{
-				$info .= "<br /><br />".$lng->txt("exc_instruction").":<br />".
-					nl2br($ass);
-			}
-
-			ilUtil::sendInfo($info);
+			ilUtil::sendInfo($this->getExerciseInfo($exercise["ass_id"]));
 			
 			if($table->dataExists())
 			{
@@ -608,6 +593,144 @@ class ilObjPortfolioGUI
 			"\" target=\"blank\">goto test</a></div>";
 
 		$tpl->setContent($table->getHTML().$goto);
+	}
+	
+	function getExerciseInfo($a_assignment_id)
+	{		
+		global $lng, $ilCtrl, $ilUser;
+		
+		include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
+		$ass = new ilExAssignment($a_assignment_id);		
+		$exercise_id = $ass->getExerciseId();
+
+		// exercise goto
+		include_once "classes/class.ilLink.php";
+		$exc_ref_id = array_shift(ilObject::_getAllReferences($exercise_id));
+		$exc_link = ilLink::_getStaticLink($exc_ref_id, "exc");
+
+		$info = sprintf($lng->txt("prtf_exercise_info"), 
+			$ass->getTitle(),
+			"<a href=\"".$exc_link."\">".
+			ilObject::_lookupTitle($exercise_id)."</a>");
+		
+		// submitted files
+		$submitted = ilExAssignment::getDeliveredFiles($exercise_id, $a_assignment_id, $ilUser->getId());
+		if($submitted)
+		{
+			$submitted = array_pop($submitted);
+			
+			$ilCtrl->setParameter($this, "ass", $a_assignment_id);
+			$dl_link = $ilCtrl->getLinkTarget($this, "downloadExcSubFile");
+			$ilCtrl->setParameter($this, "ass", "");
+			
+			$rel = ilDatePresentation::useRelativeDates();
+			ilDatePresentation::setUseRelativeDates(false);
+			
+			$info .= "<br />".sprintf($lng->txt("prtf_exercise_submitted_info"), 
+				ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
+				"<a href=\"".$dl_link."\">".$lng->txt("download")."</a>");
+			
+			ilDatePresentation::setUseRelativeDates($rel);
+		}		
+		
+		
+		// work instructions incl. files
+		
+		$tooltip = "";
+
+		$ass = $ass->getInstruction();
+		if($ass)
+		{
+			$tooltip .= nl2br($ass);					
+		}
+
+		$ass_files = ilExAssignment::getFiles($exercise_id, $a_assignment_id);
+		if (count($ass_files) > 0)
+		{
+			$tooltip .= "<br /><br />";
+			
+			foreach($ass_files as $file)
+			{
+				$ilCtrl->setParameter($this, "ass", $a_assignment_id);
+				$ilCtrl->setParameter($this, "file", urlencode($file["name"]));
+				$dl_link = $ilCtrl->getLinkTarget($this, "downloadExcAssFile");
+				$ilCtrl->setParameter($this, "file", "");			
+				$ilCtrl->setParameter($this, "ass", "");			
+				
+				$tooltip .= $file["name"].": <a href=\"".$dl_link."\">".
+					$lng->txt("download")."</a>";										
+			}
+		}			
+		
+		if($tooltip)
+		{
+			$ol_id = "exc_ass_".$a_assignment_id;
+
+			include_once "Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php";
+			$overlay = new ilOverlayGUI($ol_id);
+
+			// overlay
+			$overlay->setAnchor($ol_id."_tr");
+			$overlay->setTrigger($ol_id."_tr", "click", $ol_id."_tr");
+			$overlay->setAutoHide(false);
+			// $overlay->setCloseElementId($cl_id);
+			$overlay->add();
+
+			// trigger
+			$overlay->addTrigger($ol_id."_tr", "click", $ol_id."_tr");
+
+			$info .= "<div id=\"".$ol_id."_tr\"><a href=\"#\">".$lng->txt("exc_instruction")."</a></div>".
+				"<div id=\"".$ol_id."\" style=\"display:none; background-color:white; border: 1px solid #bbb; padding: 10px;\">".$tooltip."</div>";
+		}
+		
+		return $info;
+	}
+	
+	function downloadExcAssFile()
+	{
+		if($_GET["ass"] && $_GET["file"])
+		{		
+			include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
+			$ass = new ilExAssignment((int)$_GET["ass"]);
+			
+			$ass_files = ilExAssignment::getFiles($ass->getExerciseId(), $ass->getId());
+			if (count($ass_files) > 0)
+			{
+				foreach($ass_files as $file)
+				{
+					if($file["name"] == $_GET["file"])
+					{
+						ilUtil::deliverFile($file["fullpath"], $file["name"]);						
+					}												
+				}
+			}
+		}					
+	}
+	
+	function downloadExcSubFile()
+	{
+		global $ilUser;
+		
+		if($_GET["ass"])
+		{		
+			include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
+			$ass = new ilExAssignment((int)$_GET["ass"]);
+			
+			$submitted = ilExAssignment::getDeliveredFiles($ass->getExerciseId(), $ass->getId(), $ilUser->getId());
+			if (count($submitted) > 0)
+			{
+				$submitted = array_pop($submitted);			
+				
+				$user_data = ilObjUser::_lookupName($submitted["user_id"]);
+				$title = ilObject::_lookupTitle($submitted["obj_id"])." - ".
+					$ass->getTitle()." - ".
+					$user_data["firstname"]." ".
+					$user_data["lastname"]." (".
+					$user_data["login"].").zip";
+									
+				ilUtil::deliverFile($submitted["filename"], $title);																	
+			}
+		}					
 	}
 
 	/**

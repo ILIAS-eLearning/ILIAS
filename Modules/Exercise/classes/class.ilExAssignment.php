@@ -1087,6 +1087,22 @@ class ilExAssignment
 				}
 				if (count($array_found) == 1)
 				{
+					// blog/portfolio submission
+					if(is_numeric($array_found[0]["filetitle"]))
+					{						
+						$ass = new ilExAssignment($array_found[0]["ass_id"]);
+						if($ass->getType() == ilExAssignment::TYPE_BLOG || 
+							$ass->getType() == ilExAssignment::TYPE_PORTFOLIO)
+						{
+							$user_data = ilObjUser::_lookupName($array_found[0]["user_id"]);
+							$array_found[0]["filetitle"] = ilObject::_lookupTitle($array_found[0]["obj_id"])." - ".
+								$ass->getTitle()." - ".
+								$user_data["firstname"]." ".
+								$user_data["lastname"]." (".
+								$user_data["login"].").zip";
+						}
+					}
+					
 					ilExAssignment::downloadSingleFile($a_exc_id, $a_ass_id, $a_user_id,
 						$array_found[0]["filename"], $array_found[0]["filetitle"]);
 				}
