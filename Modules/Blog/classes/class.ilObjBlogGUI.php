@@ -343,8 +343,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			$exercise = ilObjExercise::findUserFiles($ilUser->getId(), $this->node_id);
 			if($exercise)
 			{
-				$info = $this->getExerciseInfo($exercise["ass_id"]);
-				ilUtil::sendInfo($info);
+				ilUtil::sendInfo($this->getExerciseInfo($exercise["ass_id"]));
 				
 				$ilToolbar->addSeparator();
 				
@@ -396,9 +395,14 @@ class ilObjBlogGUI extends ilObject2GUI
 			$dl_link = $ilCtrl->getLinkTarget($this, "downloadExcSubFile");
 			$ilCtrl->setParameter($this, "ass", "");
 			
+			$rel = ilDatePresentation::useRelativeDates();
+			ilDatePresentation::setUseRelativeDates(false);
+			
 			$info .= "<br />".sprintf($lng->txt("blog_exercise_submitted_info"), 
 				ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
 				"<a href=\"".$dl_link."\">".$lng->txt("download")."</a>");
+			
+			ilDatePresentation::setUseRelativeDates($rel);
 		}		
 		
 		
@@ -487,8 +491,16 @@ class ilObjBlogGUI extends ilObject2GUI
 			$submitted = ilExAssignment::getDeliveredFiles($ass->getExerciseId(), $ass->getId(), $ilUser->getId());
 			if (count($submitted) > 0)
 			{
-				$submitted = array_pop($submitted);				
-				ilUtil::deliverFile($submitted["filename"], $ass->getTitle().".zip");																	
+				$submitted = array_pop($submitted);			
+				
+				$user_data = ilObjUser::_lookupName($submitted["user_id"]);
+				$title = ilObject::_lookupTitle($submitted["obj_id"])." - ".
+					$ass->getTitle()." - ".
+					$user_data["firstname"]." ".
+					$user_data["lastname"]." (".
+					$user_data["login"].").zip";
+									
+				ilUtil::deliverFile($submitted["filename"], $title);																	
 			}
 		}					
 	}

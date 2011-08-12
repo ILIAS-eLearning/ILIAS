@@ -171,7 +171,7 @@ class ilExAssignmentGUI
 						$info->addProperty($file["name"],
 							$lng->txt("download"),
 							$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadFile"));
-						$ilCtrl->setParameter($this, "file", "");
+						$ilCtrl->setParameterByClass("ilobjexercisegui", "file", "");
 					}
 				}
 			}
@@ -267,10 +267,10 @@ class ilExAssignmentGUI
 						}						
 						$info->addProperty($lng->txt("exc_blog_returned"), $files_str);		
 						if($delivered_files && $delivered_files["filename"])
-						{
-							$ilCtrl->setParameterByClass("ilobjexercisegui", "member_id", $ilUser->getId());
-							$dl_link = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadReturned");
-							$ilCtrl->setParameter($this, "member_id", "");
+						{							
+							$ilCtrl->setParameterByClass("ilobjexercisegui", "delivered", $delivered_files["returned_id"]);
+							$dl_link = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "download");
+							$ilCtrl->setParameterByClass("ilobjexercisegui", "delivered", "");
 							
 							$info->addProperty($lng->txt("exc_files_returned"),
 								"<a href=\"".$dl_link."\">".$lng->txt("download")."</a>");		
@@ -281,8 +281,8 @@ class ilExAssignmentGUI
 						$valid_prtf = false;
 						if(sizeof($delivered_files))
 						{
-							$portfolio_id = array_pop($delivered_files);
-							$portfolio_id = (int)$portfolio_id["filetitle"];
+							$delivered_files = array_pop($delivered_files);
+							$portfolio_id = (int)$delivered_files["filetitle"];
 							
 							include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
 							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
@@ -301,7 +301,16 @@ class ilExAssignmentGUI
 								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createPortfolio").'">'.
 								$lng->txt("exc_create_portfolio").'</a>';
 						}
-						$info->addProperty($lng->txt("exc_portfolio_returned"), $files_str);						
+						$info->addProperty($lng->txt("exc_portfolio_returned"), $files_str);		
+						if($delivered_files && $delivered_files["filename"])
+						{							
+							$ilCtrl->setParameterByClass("ilobjexercisegui", "delivered", $delivered_files["returned_id"]);
+							$dl_link = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "download");
+							$ilCtrl->setParameterByClass("ilobjexercisegui", "delivered", "");
+							
+							$info->addProperty($lng->txt("exc_files_returned"),
+								"<a href=\"".$dl_link."\">".$lng->txt("download")."</a>");		
+						}			
 						break;												
 				}
 				
