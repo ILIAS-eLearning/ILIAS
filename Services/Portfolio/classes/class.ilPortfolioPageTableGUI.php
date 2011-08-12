@@ -27,7 +27,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		$this->setTitle($lng->txt("pages").": ".$a_portfolio->getTitle());
+		$this->setTitle($lng->txt("pages"));
 
 		$this->addColumn($this->lng->txt(""), "", "1");
 		$this->addColumn($this->lng->txt("user_order"));
@@ -42,6 +42,8 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 			$lng->txt("user_save_ordering_and_titles"));
 
 		$this->getItems();
+		
+		$lng->loadLanguageModule("blog");
 	}
 
 	function getItems()
@@ -64,7 +66,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 			}
 		}		
 		
-	    include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+	    include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
 	}
 
 	/**
@@ -82,7 +84,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 				$this->tpl->parseCurrentBlock();
 				
 				$this->tpl->setCurrentBlock("action");
-				$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+				$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit_page"));
 				$ilCtrl->setParameterByClass("ilportfoliopagegui",
 					"ppage", $a_set["id"]);
 				$this->tpl->setVariable("CMD_EDIT",
@@ -106,7 +108,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 					$link = $ilCtrl->getLinkTargetByClass(array("ilportfoliopagegui", "ilobjbloggui"), "edit");
 
 					$this->tpl->setCurrentBlock("action");
-					$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+					$this->tpl->setVariable("TXT_EDIT", $lng->txt("blog_edit"));
 					$this->tpl->setVariable("CMD_EDIT", $link);	
 					$this->tpl->parseCurrentBlock();
 				}

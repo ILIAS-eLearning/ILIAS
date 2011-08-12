@@ -93,7 +93,7 @@ class ilPortfolioTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable("URL_ACTION",
 			$ilCtrl->getLinkTarget($this->parent_obj, "pages"));
-		$this->tpl->setVariable("TXT_ACTION", $lng->txt("edit"));
+		$this->tpl->setVariable("TXT_ACTION", $lng->txt("prtf_edit_portfolio"));
 		$this->tpl->parseCurrentBlock();
 	
 		/*

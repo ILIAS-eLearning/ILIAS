@@ -64,7 +64,13 @@ class ilObjPortfolioGUI
 		$cmd = $ilCtrl->getCmd("show");
 		
 		$lng->loadLanguageModule("user");
-		$tpl->setTitle($lng->txt("portfolio"));
+		
+		$title = $lng->txt("portfolio");
+		if($this->portfolio)
+		{
+			$title .= ": ".$this->portfolio->getTitle();	
+		}
+		$tpl->setTitle($title);
 
 		switch($next_class)
 		{
