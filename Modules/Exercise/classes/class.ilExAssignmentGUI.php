@@ -242,9 +242,9 @@ class ilExAssignmentGUI
 					case ilExAssignment::TYPE_BLOG:
 						$valid_blog = false;
 						if(sizeof($delivered_files))
-						{							
-							$blog_id = array_pop($delivered_files);
-							$blog_id = (int)$blog_id["filetitle"];
+						{													
+							$delivered_files = array_pop($delivered_files);
+							$blog_id = (int)$delivered_files["filetitle"];							
 							
 							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";						
@@ -252,19 +252,29 @@ class ilExAssignmentGUI
 							$node = $wsp_tree->getNodeData($blog_id);
 							
 							if($node["title"])
-							{								
-								$files_str = '<a href="'.ilWorkspaceAccessHandler::getGotoLink($blog_id, $node["obj_id"]).'">'.
+							{				
+								$blog_link = ilWorkspaceAccessHandler::getGotoLink($blog_id, $node["obj_id"]);							
+								$files_str = '<a href="'.$blog_link.'">'.
 									$node["title"].'</a>';
 								$valid_blog = true;
-							}							
-						}						
+							}						
+						}																
 						if(!$valid_blog)
 						{
 							$files_str = '<a class="submit" href="'.
 								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createBlog").'">'.
 								$lng->txt("exc_create_blog").'</a>';
-						}
-						$info->addProperty($lng->txt("exc_blog_returned"), $files_str);						
+						}						
+						$info->addProperty($lng->txt("exc_blog_returned"), $files_str);		
+						if($delivered_files && $delivered_files["filename"])
+						{
+							$ilCtrl->setParameterByClass("ilobjexercisegui", "member_id", $ilUser->getId());
+							$dl_link = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "downloadReturned");
+							$ilCtrl->setParameter($this, "member_id", "");
+							
+							$info->addProperty($lng->txt("exc_files_returned"),
+								"<a href=\"".$dl_link."\">".$lng->txt("download")."</a>");		
+						}							
 						break;
 						
 					case ilExAssignment::TYPE_PORTFOLIO:

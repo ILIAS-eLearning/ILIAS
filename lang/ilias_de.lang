@@ -12070,3 +12070,4 @@ survey#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen und 
 chatroom#:#server_further_information#:#Weitere Informationen zur Konfiguration des Servers finden Sie in der <a href="%1$s" target="_blank">Readme-Datei</a>.
 chatroom#:#chtr_new#:#Neuen Chatraum anlegen
 chatroom#:#chtr_add#:#Chatraum hinzufügen
+blog#:#blog_exercise_submitted_info#:#Ihre letzte Einreichung war am %s, bitte prüfen Sie die Export-Datei: %s.

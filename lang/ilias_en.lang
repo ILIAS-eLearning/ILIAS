@@ -11528,8 +11528,8 @@ prtf#:#prtf_save_status_and_titles#:#Save Status and Titles
 exc#:#exc_type_upload#:#Upload
 exc#:#exc_type_blog#:#Blog
 exc#:#exc_type_portfolio#:#Portfolio
-exc#:#exc_blog_returned#:#Submitted Blog
-exc#:#exc_portfolio_returned#:#Submitted Portfolio
+exc#:#exc_blog_returned#:#Assignment Blog
+exc#:#exc_portfolio_returned#:#Assignment Portfolio
 exc#:#exc_create_blog#:#Create Blog
 exc#:#exc_create_portfolio#:#Create Portfolio
 exc#:#exc_create_blog_select_info#:#Please select the resource folder to add the blog to.
@@ -12070,3 +12070,4 @@ content#:#cont_file_from_workspace#:#File From My Workspace
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#chtr_new#:#New Chatroom
 chatroom#:#chtr_add#:#Add Chatroom
+blog#:#blog_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.
