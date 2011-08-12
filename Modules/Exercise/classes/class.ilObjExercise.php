@@ -1055,8 +1055,7 @@ class ilObjExercise extends ilObject
 		$set = $ilDB->query("SELECT obj_id, ass_id".
 			" FROM exc_returned".
 			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
-			" AND filetitle = ".$ilDB->quote($a_filetitle, "text").
-			" ORDER BY returned_id");
+			" AND filetitle = ".$ilDB->quote($a_filetitle, "text"));
 		$res = array();
 		while($row = $ilDB->fetchAssoc($set))
 		{

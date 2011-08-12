@@ -575,21 +575,9 @@ class ilObjPortfolioGUI
 			$info = array();
 			foreach($exercises as $exercise)
 			{
-				$info[] = $this->getExerciseInfo($exercise["ass_id"]);
+				$info[] = $this->getExerciseInfo($exercise["ass_id"], $table->dataExists());
 			}
-			ilUtil::sendInfo(implode("<br />", $info));
-			
-			if($table->dataExists())
-			{
-				$ilToolbar->addSeparator();
-
-				$ilCtrl->setParameter($this, "exc", $exercise["obj_id"]);
-				$ilCtrl->setParameter($this, "ass", $exercise["ass_id"]);
-				$ilToolbar->addButton($lng->txt("prtf_finalize_portfolio"),
-					$ilCtrl->getLinkTarget($this, "finalize"));
-				$ilCtrl->setParameter($this, "ass", "");
-				$ilCtrl->setParameter($this, "exc", "");
-			}	
+			ilUtil::sendInfo(implode("<br />", $info));									
 		}
 		
 		include_once('classes/class.ilLink.php');
@@ -600,7 +588,7 @@ class ilObjPortfolioGUI
 		$tpl->setContent($table->getHTML().$goto);
 	}
 	
-	function getExerciseInfo($a_assignment_id)
+	function getExerciseInfo($a_assignment_id, $a_add_submit = false)
 	{		
 		global $lng, $ilCtrl, $ilUser;
 		
@@ -617,6 +605,17 @@ class ilObjPortfolioGUI
 			$ass->getTitle(),
 			"<a href=\"".$exc_link."\">".
 			ilObject::_lookupTitle($exercise_id)."</a>");
+		
+		// submit button
+		if($a_add_submit)
+		{
+			$ilCtrl->setParameter($this, "exc", $exercise_id);				
+			$ilCtrl->setParameter($this, "ass", $a_assignment_id);
+			$submit_link = $ilCtrl->getLinkTarget($this, "finalize");
+			$ilCtrl->setParameter($this, "ass", "");
+			$ilCtrl->setParameter($this, "exc", "");	
+			$info .= " <a class=\"submit\" href=\"".$submit_link."\">".$lng->txt("prtf_finalize_portfolio")."</a>";
+		}
 		
 		// submitted files
 		$submitted = ilExAssignment::getDeliveredFiles($exercise_id, $a_assignment_id, $ilUser->getId(), true);

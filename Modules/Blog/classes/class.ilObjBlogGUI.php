@@ -348,16 +348,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				{
 					$info[] = $this->getExerciseInfo($exercise["ass_id"]);
 				}
-				ilUtil::sendInfo(implode("<br />", $info));
-				
-				$ilToolbar->addSeparator();
-				
-				$ilCtrl->setParameter($this, "exc", $exercise["obj_id"]);
-				$ilCtrl->setParameter($this, "ass", $exercise["ass_id"]);
-				$ilToolbar->addButton($lng->txt("blog_finalize_blog"),
-					$ilCtrl->getLinkTarget($this, "finalize"));
-				$ilCtrl->setParameter($this, "ass", "");
-				$ilCtrl->setParameter($this, "exc", "");
+				ilUtil::sendInfo(implode("<br />", $info));										
 			}
 		}
 		
@@ -384,11 +375,19 @@ class ilObjBlogGUI extends ilObject2GUI
 		include_once "classes/class.ilLink.php";
 		$exc_ref_id = array_shift(ilObject::_getAllReferences($exercise_id));
 		$exc_link = ilLink::_getStaticLink($exc_ref_id, "exc");
-
+		
 		$info = sprintf($lng->txt("blog_exercise_info"), 
 			$ass->getTitle(),
 			"<a href=\"".$exc_link."\">".
 			ilObject::_lookupTitle($exercise_id)."</a>");
+		
+		// submit button
+		$ilCtrl->setParameter($this, "exc", $exercise_id);				
+		$ilCtrl->setParameter($this, "ass", $a_assignment_id);
+		$submit_link = $ilCtrl->getLinkTarget($this, "finalize");
+		$ilCtrl->setParameter($this, "ass", "");
+		$ilCtrl->setParameter($this, "exc", "");	
+		$info .= " <a class=\"submit\" href=\"".$submit_link."\">".$lng->txt("blog_finalize_blog")."</a>";
 		
 		// submitted files
 		$submitted = ilExAssignment::getDeliveredFiles($exercise_id, $a_assignment_id, $ilUser->getId(), true);
