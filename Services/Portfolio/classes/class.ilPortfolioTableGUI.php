@@ -29,7 +29,7 @@ class ilPortfolioTableGUI extends ilTable2GUI
 		$this->setTitle($lng->txt("prtf_portfolios"));
 
 		$this->addColumn($this->lng->txt(""), "", "1");
-		$this->addColumn($this->lng->txt("title"), "title");
+		$this->addColumn($this->lng->txt("title"), "title", "50%");
 		$this->addColumn($this->lng->txt("online"), "is_online");
 		$this->addColumn($this->lng->txt("prtf_default_portfolio"), "is_default");
 		$this->addColumn($this->lng->txt("actions"));
