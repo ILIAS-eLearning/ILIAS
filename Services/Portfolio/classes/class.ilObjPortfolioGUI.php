@@ -569,10 +569,15 @@ class ilObjPortfolioGUI
 		
 		// exercise portfolio?			
 		include_once "Modules/Exercise/classes/class.ilObjExercise.php";			
-		$exercise = ilObjExercise::findUserFiles($ilUser->getId(), $this->portfolio->getId());
-		if($exercise)
+		$exercises = ilObjExercise::findUserFiles($ilUser->getId(), $this->portfolio->getId());
+		if($exercises)
 		{
-			ilUtil::sendInfo($this->getExerciseInfo($exercise["ass_id"]));
+			$info = array();
+			foreach($exercises as $exercise)
+			{
+				$info[] = $this->getExerciseInfo($exercise["ass_id"]);
+			}
+			ilUtil::sendInfo(implode("<br />", $info));
 			
 			if($table->dataExists())
 			{
@@ -614,7 +619,7 @@ class ilObjPortfolioGUI
 			ilObject::_lookupTitle($exercise_id)."</a>");
 		
 		// submitted files
-		$submitted = ilExAssignment::getDeliveredFiles($exercise_id, $a_assignment_id, $ilUser->getId());
+		$submitted = ilExAssignment::getDeliveredFiles($exercise_id, $a_assignment_id, $ilUser->getId(), true);
 		if($submitted)
 		{
 			$submitted = array_pop($submitted);

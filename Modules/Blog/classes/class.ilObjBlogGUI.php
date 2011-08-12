@@ -340,10 +340,15 @@ class ilObjBlogGUI extends ilObject2GUI
 						
 			// exercise blog?			
 			include_once "Modules/Exercise/classes/class.ilObjExercise.php";			
-			$exercise = ilObjExercise::findUserFiles($ilUser->getId(), $this->node_id);
-			if($exercise)
+			$exercises = ilObjExercise::findUserFiles($ilUser->getId(), $this->node_id);
+			if($exercises)
 			{
-				ilUtil::sendInfo($this->getExerciseInfo($exercise["ass_id"]));
+				$info = array();
+				foreach($exercises as $exercise)
+				{
+					$info[] = $this->getExerciseInfo($exercise["ass_id"]);
+				}
+				ilUtil::sendInfo(implode("<br />", $info));
 				
 				$ilToolbar->addSeparator();
 				
@@ -386,9 +391,9 @@ class ilObjBlogGUI extends ilObject2GUI
 			ilObject::_lookupTitle($exercise_id)."</a>");
 		
 		// submitted files
-		$submitted = ilExAssignment::getDeliveredFiles($exercise_id, $a_assignment_id, $ilUser->getId());
+		$submitted = ilExAssignment::getDeliveredFiles($exercise_id, $a_assignment_id, $ilUser->getId(), true);
 		if($submitted)
-		{
+		{						
 			$submitted = array_pop($submitted);
 			
 			$ilCtrl->setParameter($this, "ass", $a_assignment_id);
@@ -455,7 +460,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				"<div id=\"".$ol_id."\" style=\"display:none; background-color:white; border: 1px solid #bbb; padding: 10px;\">".$tooltip."</div>";
 		}
 		
-		return $info;
+		return "<div>".$info."</div>";
 	}
 	
 	function downloadExcAssFile()
