@@ -99,6 +99,8 @@ class ilObjPortfolioGUI
 				// edit
 				if(isset($_REQUEST["ppage"]))
 				{
+					$this->setLocator($_REQUEST["ppage"]);
+					
 					$page_id = $_REQUEST["ppage"];
 					$ilCtrl->setParameter($this, "ppage", $_REQUEST["ppage"]);
 				}
@@ -153,6 +155,7 @@ class ilObjPortfolioGUI
 				break;
 			
 			default:				
+				$this->setLocator();
 				$this->$cmd();
 				break;
 		}
@@ -550,8 +553,11 @@ class ilObjPortfolioGUI
 		global $tpl, $lng, $ilToolbar, $ilCtrl, $ilTabs, $ilUser, $ilSetting;
 
 		$ilTabs->clearTargets();
+		
+		$ilCtrl->setParameter($this, "prt_id", "");
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "show"));
+		$ilCtrl->setParameter($this, "prt_id", $this->portfolio->getId());
 		
 		$this->setPagesTabs();
 		$ilTabs->activateTab("pages");
@@ -1224,6 +1230,38 @@ class ilObjPortfolioGUI
 		
 		ilUtil::sendSuccess($lng->txt("prtf_finalized"), true);
 		$ilCtrl->redirect($this, "pages");
+	}
+	
+	protected function setLocator($a_page_id = null)
+	{
+		global $ilLocator, $lng, $ilCtrl, $tpl;
+		
+		$ilCtrl->setParameter($this, "prt_id", "");
+		$ilLocator->addItem($lng->txt("portfolio"),
+			$ilCtrl->getLinkTarget($this, "show"));
+		
+		if($this->portfolio)
+		{
+			$ilCtrl->setParameter($this, "prt_id", $this->portfolio->getId());	
+			$ilLocator->addItem($this->portfolio->getTitle(),
+				$ilCtrl->getLinkTarget($this, "pages"));
+		}
+		
+		if($a_page_id)
+		{
+			include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";			
+			$page = new ilPortfolioPage($this->portfolio->getId(), $a_page_id);
+			$title = $page->getTitle();
+			if($page->getType() == ilPortfolioPage::TYPE_BLOG)
+			{
+				$title = ilObject::_lookupTitle($title);
+			}
+			$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", $a_page_id);	
+			$ilLocator->addItem($title,
+				$ilCtrl->getLinkTargetByClass("ilportfoliopagegui", "edit"));			
+		}
+		
+		$tpl->setLocator();		
 	}
 	
 	function _goto($a_target)
