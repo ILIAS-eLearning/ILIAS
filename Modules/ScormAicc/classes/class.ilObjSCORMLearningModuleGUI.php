@@ -171,6 +171,15 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			$this->tpl->setVariable("CHK_SESSION", "checked");
 		}
 
+		// auto continue
+		$this->tpl->setVariable("TXT_AUTO_CONTINUE", $this->lng->txt("cont_sc_auto_continue"));
+		$this->tpl->setVariable("CBOX_AUTO_CONTINUE", "auto_continue");
+		$this->tpl->setVariable("VAL_AUTO_CONTINUE", "y");
+		if ($this->object->getAutoContinue())
+		{
+			$this->tpl->setVariable("CHK_AUTO_CONTINUE", "checked");
+		}
+
 		//debug
 		$this->tpl->setVariable("TXT_DEBUG", $this->lng->txt("cont_debug"));
 		$this->tpl->setVariable("CBOX_DEBUG", "cobj_debug");
@@ -421,6 +430,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$this->object->setMaxAttempt($_POST["max_attempt"]);
 		$this->object->setSession(ilUtil::yn2tf($_POST["cobj_session"]));
 		$this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
+		$this->object->setAutoContinue(ilUtil::yn2tf($_POST["auto_continue"]));
 		$this->object->update();
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");

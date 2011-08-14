@@ -405,7 +405,6 @@ class ilSCORMPresentationGUI
 		$b_storeInteractions='true';
 		$b_readInteractions='false';
 		$c_storeSessionTime='s';//n=no, s=sco, i=ilias
-		$b_autoContinue='false';
 		$i_lessonScoreMax='-1';
 		$i_lessonMasteryScore='-1';
 		
@@ -422,6 +421,8 @@ class ilSCORMPresentationGUI
 		if ($this->slm->getAutoReview()) $b_autoReview='true';
 		$b_debug='false';
 		if ($this->slm->getDebug()) $b_debug='true';
+		$b_autoContinue='false';
+		if ($this->slm->getAutoContinue()) $b_autoContinue='true';
 
 		$s_out='IliasScormVars={'
 			.'refId:'.$_GET["ref_id"].','

@@ -12089,3 +12089,4 @@ exc#:#exc_select_portfolio_change#:#Use different Portfolio
 exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
 common#:#my_courses_groups#:#My Courses & Groups
+content#:#cont_sc_auto_continue#:#Auto-Continue
