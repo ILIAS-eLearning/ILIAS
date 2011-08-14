@@ -4977,7 +4977,7 @@ content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_de_activate#:#(De-)Activate
 content#:#cont_deactivate_page#:#Deactivate Page
 content#:#cont_deactivated#:#Deactivated
-content#:#cont_debug#:#Show debug menu
+content#:#cont_debug#:#Show test tool
 content#:#cont_debugpw#:#Password
 content#:#cont_decimal#:#Decimal
 content#:#cont_def_layout#:#Default Layout
@@ -5597,7 +5597,7 @@ content#:#read offline#:#Read Offline
 content#:#saved_media_object#:#Saved media object.
 content#:#scplayer_collapsetree#:#Collapse All
 content#:#scplayer_continue#:#Continue
-content#:#scplayer_debugger#:#Show Debugger
+content#:#scplayer_debugger#:#Show test tool
 content#:#scplayer_exit#:#Exit
 content#:#scplayer_exitall#:#Exit All
 content#:#scplayer_expandtree#:#Expand All
@@ -11904,8 +11904,8 @@ content#:#cont_open_window_undefined#:#in new window without defined width and h
 content#:#cont_open_window_defined#:#in new window with defined width and height
 content#:#cont_open_width#:#width
 content#:#cont_open_heigth#:#height
-scormdebug#:#scormdebug_global_activate#:#Enable SCORM 2004 test tool
-scormdebug#:#scormdebug_global_activate_info#:#If enabled, the SCORM 2004 test tool can be activated for desired learning modules. If disabled, the test tool is deactivated for all learning modules.
+scormdebug#:#scormdebug_global_activate#:#Enable SCORM test tool
+scormdebug#:#scormdebug_global_activate_info#:#If enabled, the SCORM test tool can be activated for desired learning modules. If disabled, the test tool is deactivated for all learning modules.
 content#:#cont_debug_deactivate#:#Hint: The test tool can be disabled for all learning modules.
 content#:#cont_debug_deactivated#:#Hint: The test tool is disabled for all learning modules.
 scormdebug#:#error0#:#No error
