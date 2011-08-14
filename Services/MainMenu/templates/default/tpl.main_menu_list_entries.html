@@ -1,16 +1,17 @@
 <ul class="ilMainMenu">
 	<!-- BEGIN entry_desktop -->
-	<li class="ilMainMenu">{DESKTOP_DROP_DOWN}{SEL}</li>
+	<li class="ilMainMenu"><a id="mm_desk_tr" class="{MM_CLASS}" href="{SCRIPT_DESKTOP}" target="{TARGET_DESKTOP}">{TXT_DESKTOP}
+	<img border="0" alt="" src="{ARROW_IMG}"></a>{SEL}
+	<div id="mm_desk_ov" class="ilOverlay" style="display:none;">
+		{DESK_CONT_OV}
+	</div></li>
 	<!-- END entry_desktop -->
 	<!-- BEGIN entry_repository -->
 	<li class="ilMainMenu"><a id="mm_rep_tr" class="{MM_CLASS}" href="{SCRIPT_REPOSITORY}" target="{TARGET_REPOSITORY}">{TXT_REPOSITORY}
 	<img border="0" alt="" src="{ARROW_IMG}">
 	</a>{SEL}
 	<div id="mm_rep_ov" class="ilOverlay" style="display:none;">
-		<p style="margin: 5px 10px;"><a target="_top" href="{HREF_MAIN_PAGE}">{TXT_MAIN_PAGE}</a></p>
-		<!-- BEGIN lv --><div class="small" style="padding: 2px 10px; background-color:#F0F0F0;">{TXT_LAST_VISITED}</div>
-		<!-- BEGIN lv_item --><p style="margin: 5px 10px;"><a target="_top" href="{HREF_LV}">{TXT_LV}</a></p><!-- END lv_item -->
-		<!-- END lv -->
+		{REP_EN_OV}
 	</div></li>
 	<!-- END entry_repository -->
 	<!-- BEGIN entry_search -->

@@ -1,3 +1,7 @@
+<!-- BEGIN header_top_title -->
+<div class="ilTopTitle">
+	{TXT_HEADER_TITLE}
+</div><!-- END header_top_title -->
 <div class="ilMainHeader">
 	<!-- BEGIN osd_enabled --><script type="text/javascript">var OSDNotifier; $(function() { OSDNotifier = OSDNotifications({initialNotifications: {INITIAL_NOTIFICATIONS}, pollingIntervall: {OSD_POLLING_INTERVALL}})});</script><!-- END osd_enabled -->
 	<!-- BEGIN osd_container -->
@@ -5,13 +9,14 @@
 
         </div>
 	<!-- END osd_container -->
-	<div style="padding:2px 0px 9px 20px; float: left;">
-		<img style="vertical-align:middle; padding:0px 15px 0px 0px;" width="44" height="44" border="0" src="{HEADER_ICON}" alt="ILIAS Logo"/>
+	<div style="padding:2px 0px 0px 19px; float:left;">
+		<img style="margin:0px; padding:0px;" width="30" height="30" border="0" src="{HEADER_ICON}" alt="ILIAS Logo"/>
 	</div>
-	<div style="float:left;" class="ilTopTitle">
-		{TXT_HEADER_TITLE}
+	<div style="float:left;"></div>
+	<div class="ilMainMenu" style="float:left;">
+		<h1 class="ilAccHeadingHidden">{TXT_MAIN_MENU}</h1>
+		{MAIN_MENU_LIST_ENTRIES}
 	</div>
-	<!-- BEGIN top_section -->
 	<!-- BEGIN userisanonymous -->
 	<div class="ilLogin" >
 		<span class="il_menu">
@@ -23,22 +28,18 @@
 	<!-- END userisanonymous -->
 	<!-- BEGIN userisloggedin -->
 	<div class="ilLogin">
-		{TXT_LOGIN_AS} {USERNAME} » <a class="ilLogin" href="{LINK_LOGOUT2}" target="_top">{TXT_LOGOUT2}</a>
+		{USERNAME} » <a class="ilLogin" href="{LINK_LOGOUT2}" target="_top">{TXT_LOGOUT2}</a>
 	</div>
 	<!-- END userisloggedin -->
+	<!-- BEGIN search_box -->
+	<div style="float:right;">{SEARCHBOX}</div>
+	<!-- END search_box -->
 	<!-- BEGIN status_box -->
-	<div class="xsmall" style="float:right; margin: 2px 20px 0px 0px;">
+	<div class="xsmall" style="font-size: 85%; float:right; margin: 10px 10px 0px 0px;">
 		<!-- BEGIN status_item --><a href="{STATUS_HREF}"><img style="position:relative; top:-2px;" src="{STATUS_IMG}"/><span class="ilMMStatus">{STATUS_TXT}</span></a><!-- END status_item -->
 	</div>
 	<!-- END status_box -->
-	<!-- BEGIN search_box -->
-	{SEARCHBOX}
-	<!-- END search_box -->
+	<!-- BEGIN top_section -->
 	<!-- END top_section -->
-	<div class="ilMainMenu">
-	<h1 class="ilAccHeadingHidden">{TXT_MAIN_MENU}</h1>
-	{MAIN_MENU_LIST_ENTRIES}
-	<div style="clear:both;"></div>
-	</div>
 	<div style="clear:both;"></div>
 </div>

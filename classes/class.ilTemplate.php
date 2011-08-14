@@ -1382,8 +1382,10 @@ class ilTemplate extends ilTemplateX
 			$this->setVariable("FRAME_FIXED_WIDTH", " ilFrameFixedWidth");
 		}
 		
+		$icon = false;
 		if ($this->icon_path != "")
 		{
+			$icon = true;
 			if ($this->icon_desc != "")
 			{
 				$this->setCurrentBlock("header_image_desc");
@@ -1410,6 +1412,10 @@ class ilTemplate extends ilTemplateX
 		{
 			$this->title = ilUtil::stripScriptHTML($this->title);			
 			$this->setVariable("HEADER", $this->title);
+			if ($icon)
+			{
+				$this->setVariable("HICONCL", "ilHeaderHasIcon");
+			}
 			$header = true;
 		}
 		

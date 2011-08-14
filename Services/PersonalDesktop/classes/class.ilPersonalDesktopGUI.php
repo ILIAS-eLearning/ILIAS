@@ -635,6 +635,35 @@ class ilPersonalDesktopGUI
 	}
 	
 	/**
+	 * Jump to memberships
+	 */
+	function jumpToMemberships()
+	{
+		global $ilSetting, $ilUser;
+		
+		if ($ilSetting->get('disable_my_memberships') == 0)
+		{
+			$ilUser->writePref('pd_view', 1);
+		}
+		$this->show();
+	}
+	
+	/**
+	 * Jump to selected items
+	 */
+	function jumpToSelectedItems()
+	{
+		global $ilSetting, $ilUser;
+		
+		if ($ilSetting->get('disable_my_offers') == 0)
+		{
+			$ilUser->writePref('pd_view', 0);
+		}
+		$this->show();
+	}
+	
+
+	/**
 	 * workaround for menu in calendar only
 	 */
 	function jumpToProfile()

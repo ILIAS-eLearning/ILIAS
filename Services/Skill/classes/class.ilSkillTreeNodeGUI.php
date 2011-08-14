@@ -126,7 +126,27 @@ class ilSkillTreeNodeGUI
 		global $ilCtrl;
 
 		$ilCtrl->setParameter($this, "backcmd", $_GET["backcmd"]);
-		$this->getParentGUI()->deleteNodes($ilCtrl->getFormAction($this));
+		$this->getParentGUI()->deleteNodes();
+	}
+
+	/**
+	 * Cut items
+	 */
+	function cutItems()
+	{
+		global $ilCtrl;
+
+		$this->getParentGUI()->cutItems();
+	}
+
+	/**
+	 * Copy items
+	 */
+	function copyItems()
+	{
+		global $ilCtrl;
+
+		$this->getParentGUI()->copyItems();
 	}
 
 	/**
@@ -195,5 +215,135 @@ class ilSkillTreeNodeGUI
 		$tpl->setLocator();
 	}
 
+	/**
+	 * Create skill tree node
+	 */
+	function create()
+	{
+		global $tpl;
+		
+		$this->initForm("create");
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Save skill tree node
+	 *
+	 */
+	public function save()
+	{
+		global $tpl, $lng, $ilCtrl;
+	
+		$this->initForm("create");
+		if ($this->form->checkInput())
+		{
+			$this->saveItem();
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$this->afterSave();
+		}
+		else
+		{
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHtml());
+		}
+	}
+	
+	/**
+	 * After saving
+	 */
+	function afterSave()
+	{
+		$this->redirectToParent();
+	}
+	
+	
+	/**
+	 * Init  form.
+	 *
+	 * @param        int        $a_mode        Edit Mode
+	 */
+	public function initForm($a_mode = "edit")
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// title
+		$ti = new ilTextInputGUI($lng->txt("title"), "title");
+		$ti->setMaxLength(200);
+		$ti->setSize(50);
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+		
+		// order nr
+		$ni = new ilNumberInputGUI($lng->txt("skmg_order_nr"), "order_nr");
+		$ni->setMaxLength(6);
+		$ni->setSize(6);
+		$ni->setRequired(true);
+		$this->form->addItem($ni);
+		
+		// save and cancel commands
+		if ($a_mode == "create")
+		{
+			$this->form->addCommandButton("save", $lng->txt("save"));
+			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
+		}
+		else
+		{
+			$this->form->addCommandButton("update", $lng->txt("save"));
+			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+		}
+
+		$this->form->setTitle($lng->txt("skmg_create_".$this->getType()));
+		
+		$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+
+	}
+
+	/**
+	 * Cancel saving
+	 *
+	 * @param
+	 * @return
+	 */
+	function cancelSave()
+	{
+		$this->redirectToParent();
+	}
+
+	/**
+	 * Redirect to parent (identified by current obj_id)
+	 *
+	 * @param
+	 * @return
+	 */
+	function redirectToParent()
+	{
+		global $ilCtrl;
+		
+		$t = ilSkillTreeNode::_lookupType((int) $_GET["obj_id"]);
+
+		switch ($t)
+		{
+			case "skrt":
+				$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", (int) $_GET["obj_id"]);
+				$ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
+				break;
+
+			case "sctp":
+				$ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "obj_id", (int) $_GET["obj_id"]);
+				$ilCtrl->redirectByClass("ilskilltemplatecategorygui", "listItems");
+				break;
+
+			case "scat":
+				$ilCtrl->setParameterByClass("ilskillcategorygui", "obj_id", (int) $_GET["obj_id"]);
+				$ilCtrl->redirectByClass("ilskillcategorygui", "listItems");
+				break;
+		} 
+		
+	}
+	
 }
 ?>

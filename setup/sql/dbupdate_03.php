@@ -7271,6 +7271,7 @@ if(!$ilDB->tableExists('usr_account_codes'))
 		$ilDB->query("UPDATE sahs_lm SET height = 650");
 	}
 ?>
+
 <#3427>
 <?php
 
@@ -7301,6 +7302,7 @@ if(!$ilDB->tableExists('usr_account_codes'))
 		$ilDB->createSequence('didactic_tpl_fp');
 		$ilDB->addPrimaryKey('didactic_tpl_fp',array('pattern_id'));
 ?>
+
 <#3428>
 <?php
 
@@ -7345,4 +7347,24 @@ if(!$ilDB->tableExists('usr_account_codes'))
 	$ilDB->addPrimaryKey('didactic_tpl_alr',array('action_id'));
 ?>
 
+<#3430>
+<?php
+	if(!$ilDB->tableColumnExists('skl_tree_node','order_nr'))
+	{
+		$ilDB->addTableColumn(
+			'skl_tree_node',
+			'order_nr',
+			array(
+				'type' 		=> 'integer',
+				'length' 	=> 4,
+				'notnull'	=> true,
+				'default'		=> 0
+			)
+		);
+	}
+?>
+<#3431>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
 

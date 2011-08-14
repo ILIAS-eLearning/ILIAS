@@ -2329,6 +2329,7 @@ class ilObjectListGUI
 		$cmd_link = $this->getCommandLink("infoScreen")."#notes_top";
 		$cmd_tag_link = $this->getCommandLink("infoScreen");
 		$cmd_frame = $this->getCommandFrame("infoScreen");
+		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
 		$this->insertCommand("#", $this->lng->txt("notes_comments"), $cmd_frame,
 			"", "", ilNoteGUI::getListCommentsJSCall($this->ref_id));
 		//$this->insertCommand($cmd_link, $this->lng->txt("notes_private_annotating"), $cmd_frame);

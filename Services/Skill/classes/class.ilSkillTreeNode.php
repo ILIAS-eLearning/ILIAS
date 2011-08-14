@@ -112,6 +112,26 @@ class ilSkillTreeNode
 	{
 		return $this->self_eval;
 	}
+	
+	/**
+	 * Set order nr
+	 *
+	 * @param int $a_val order nr	
+	 */
+	function setOrderNr($a_val)
+	{
+		$this->order_nr = $a_val;
+	}
+	
+	/**
+	 * Get order nr
+	 *
+	 * @return int order nr
+	 */
+	function getOrderNr()
+	{
+		return $this->order_nr;
+	}
 
 	/**
 	* Read Data of Node
@@ -129,6 +149,7 @@ class ilSkillTreeNode
 		}
 		$this->setType($this->data_record["type"]);
 		$this->setTitle($this->data_record["title"]);
+		$this->setOrderNr($this->data_record["order_nr"]);
 		$this->setSelfEvaluation($this->data_record["self_eval"]);
 	}
 
@@ -203,13 +224,14 @@ class ilSkillTreeNode
 
 		// insert object data
 		$id = $ilDB->nextId("skl_tree_node");
-		$query = "INSERT INTO skl_tree_node (obj_id, title, type, create_date, self_eval) ".
+		$query = "INSERT INTO skl_tree_node (obj_id, title, type, create_date, self_eval, order_nr) ".
 			"VALUES (".
 			$ilDB->quote($id, "integer").",".
 			$ilDB->quote($this->getTitle(), "text").",".
 			$ilDB->quote($this->getType(), "text").", ".
 			$ilDB->now().", ".
-			$ilDB->quote((int) $this->getSelfEvaluation(), "integer").
+			$ilDB->quote((int) $this->getSelfEvaluation(), "integer").", ".
+			$ilDB->quote((int) $this->getOrderNr(), "integer").
 			")";
 		$ilDB->manipulate($query);
 		$this->setId($id);
@@ -225,6 +247,7 @@ class ilSkillTreeNode
 		$query = "UPDATE skl_tree_node SET ".
 			" title = ".$ilDB->quote($this->getTitle(), "text").
 			" ,self_eval = ".$ilDB->quote((int) $this->getSelfEvaluation(), "integer").
+			" ,order_nr = ".$ilDB->quote((int) $this->getOrderNr(), "integer").
 			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
 
 		$ilDB->manipulate($query);

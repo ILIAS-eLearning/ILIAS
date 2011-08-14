@@ -109,9 +109,22 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 //		$ilCtrl->redirect($this, "showOrganization");
 	}
 
+	/**
+	 * Save item
+	 */
+	function saveItem()
+	{
+		$it = new ilBasicSkill();
+		$it->setTitle($this->form->getInput("title"));
+		$it->setOrderNr($this->form->getInput("order_nr"));
+		$it->setSelfEvaluation($_POST["self_eval"]);
+		$it->create();
+		ilSkillTreeNode::putInTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
+	}
+
 
 	/**
-	 * Edit skil
+	 * Edit skill
 	 *
 	 * @param
 	 * @return
@@ -128,6 +141,55 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		include_once("./Services/Skill/classes/class.ilSkillLevelTableGUI.php");
 		$table = new ilSkillLevelTableGUI((int) $_GET["obj_id"], $this, "edit");
 		$tpl->setContent($table->getHTML());
+	}
+
+	/**
+	 * Init form.
+	 *
+	 * @param        int        $a_mode        Edit Mode
+	 */
+	public function initForm($a_mode = "edit")
+	{
+		global $lng, $ilCtrl;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+
+		// title
+		$ti = new ilTextInputGUI($lng->txt("title"), "title");
+		$ti->setMaxLength(200);
+		$ti->setSize(50);
+		$ti->setRequired(true);
+		$this->form->addItem($ti);
+		
+		// order nr
+		$ni = new ilNumberInputGUI($lng->txt("skmg_order_nr"), "order_nr");
+		$ni->setMaxLength(6);
+		$ni->setSize(6);
+		$ni->setRequired(true);
+		$this->form->addItem($ni);
+
+		// selectable
+		$cb = new ilCheckboxInputGUI($lng->txt("skmg_selectable"), "self_eval");
+		$cb->setInfo($lng->txt("skmg_selectable_info"));
+		$this->form->addItem($cb);
+
+		// save and cancel commands
+		if ($a_mode == "create")
+		{
+			$this->form->addCommandButton("save", $lng->txt("save"));
+			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
+			$this->form->setTitle($lng->txt("skmg_create_skll"));
+		}
+		else
+		{
+			$this->form->addCommandButton("update", $lng->txt("save"));
+			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+			$this->form->setTitle($lng->txt("skmg_edit_skll"));
+		}
+		
+		$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	}
 
 	//
@@ -538,5 +600,28 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		$ilCtrl->redirect($this, "editLevelTrigger");
 	}
 	
+	/**
+	 * Redirect to parent (identified by current obj_id)
+	 *
+	 * @param
+	 * @return
+	 */
+	function redirectToParent()
+	{
+		global $ilCtrl;
+		
+		$t = ilSkillTreeNode::_lookupType((int) $_GET["obj_id"]);
+
+		switch ($t)
+		{
+			case "skrt":
+				$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", (int) $_GET["obj_id"]);
+				$ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
+				break;
+		}
+		
+		parent::redirectToParent();
+	}
+
 }
 ?>

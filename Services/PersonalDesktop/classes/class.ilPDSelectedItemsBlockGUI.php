@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("Services/Block/classes/class.ilBlockGUI.php");
 include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
@@ -180,13 +161,13 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 	function getHTML()
 	{
-		global $ilCtrl, $ilSetting;
+		global $ilCtrl, $ilSetting, $tpl, $lng;
 
 		// both views are activated (show buttons)
 		if($ilSetting->get('disable_my_offers') == 0 &&
 		   $ilSetting->get('disable_my_memberships') == 0)
 		{
-			$ilCtrl->setParameter($this, 'block_type', $this->getBlockType());			
+/*			$ilCtrl->setParameter($this, 'block_type', $this->getBlockType());			
 			$ilCtrl->setParameter($this, 'view', self::VIEW_MY_OFFERS);
 			$this->addHeaderLink($ilCtrl->getLinkTarget($this, 'changeView'), $this->lng->txt('pd_my_offers'),
 				($this->view == self::VIEW_MY_OFFERS ? false : true) 
@@ -195,7 +176,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$this->addHeaderLink($ilCtrl->getLinkTarget($this, 'changeView'), $this->lng->txt('pd_my_memberships'),
 				($this->view == self::VIEW_MY_MEMBERSHIPS ? false : true) 
 			);
-			$ilCtrl->clearParameters($this);
+			$ilCtrl->clearParameters($this);*/
 		}
 
 		// workaround to show details row
@@ -203,7 +184,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		switch((int)$this->view)
 		{
-			case self::VIEW_MY_MEMBERSHIPS:				
+			case self::VIEW_MY_MEMBERSHIPS:
+				if ($ilSetting->get('disable_my_offers') == 0)
+				{
+					$tpl->setTitle($lng->txt("my_courses_groups"));
+				}
 				$this->setTitle($this->lng->txt('pd_my_memberships'));
 				$this->setContent($this->getMembershipItemsBlockHTML());
 				break;
