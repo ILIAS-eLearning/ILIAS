@@ -289,7 +289,7 @@ class ilMailSearchGroupsGUI
 
 		include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
 
-		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));
+		$this->tpl->setTitle($this->lng->txt('mail'));
 
 		$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
 		
@@ -412,7 +412,7 @@ class ilMailSearchGroupsGUI
 		}
 		else
 		{
-			$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
+			$this->tpl->setTitle($this->lng->txt("mail"));
 			include_once 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php';
 			$table = new ilMailSearchCoursesMembersTableGUI($this, 'grp', $_GET["ref"]);
 			$table->setId('show_grps_mmbrs_tbl');

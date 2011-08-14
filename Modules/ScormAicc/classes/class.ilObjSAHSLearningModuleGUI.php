@@ -629,13 +629,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function setTabs()
 	{
-		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_lm_b.gif"));
-		$this->tpl->parseCurrentBlock();
-
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
+		$this->tpl->setTitle($this->object->getTitle());
 		$this->getTabs($this->tabs_gui);
-		#$this->tpl->setVariable("TABS", $this->tabs_gui->getHTML());
-		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 	}
 
 	/**

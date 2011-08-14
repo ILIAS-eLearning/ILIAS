@@ -1493,31 +1493,21 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function getTemplate()
 	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$this->tpl->getStandardTemplate();
 
 		$title = $this->object->getTitle();
 
 
 		if ($_GET["term_id"] > 0)
 		{
-			//$this->tpl->setCurrentBlock("header_image");
-			//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_glo_b.gif"));
-			//$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("HEADER", $this->lng->txt("term").": ".
+			$this->tpl->setTitle($this->lng->txt("term").": ".
 				ilGlossaryTerm::_lookGlossaryTerm($_GET["term_id"]));
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock("header_image");
-			$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_glo_b.gif"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("HEADER", $this->lng->txt("glo").": ".$title);
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo_b.gif"));
+			$this->tpl->setTitle($this->lng->txt("glo").": ".$title);
 		}
-
-		//$this->setAdminTabs($_POST["new_type"]);
-		//$this->setLocator();
-
 	}
 
 	/**

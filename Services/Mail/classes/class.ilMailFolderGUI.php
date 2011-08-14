@@ -235,7 +235,7 @@ class ilMailFolderGUI
 		global $ilUser;
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
-		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));
+		$this->tpl->setTitle($this->lng->txt('mail'));
 		
 		include_once 'Services/Mail/classes/class.ilMailFolderTableGUI.php';
 		
@@ -579,7 +579,7 @@ class ilMailFolderGUI
 		$this->tpl->setVariable("TITLE_VALUE", $title_value);
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt('cancel'));
 		
-		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
+		$this->tpl->setTitle($this->lng->txt("mail"));
 		$this->tpl->show();
 		
 		return true;
@@ -739,7 +739,7 @@ class ilMailFolderGUI
 		$mailData = $this->umail->getMail($_GET["mail_id"]);
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_read.html", "Services/Mail");
-		$this->tpl->setVariable("HEADER",$this->lng->txt("mail_mails_of"));
+		$this->tpl->setTitle($this->lng->txt("mail_mails_of"));
 		
 		if ($_SESSION["viewmode"] == "tree") $this->tpl->setVariable("FORM_TARGET", ilFrameTargetInfo::_getFrame("MainContent"));
 		

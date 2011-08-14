@@ -180,7 +180,7 @@ class ilMailAttachmentGUI
 		global $rbacsystem;
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_attachment.html", "Services/Mail");
-		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
+		$this->tpl->setTitle($this->lng->txt("mail"));
 		$this->tpl->setVariable("TXT_ATTACHMENT",$this->lng->txt("attachment"));
 
 		$mailData = $this->umail->getSavedData();

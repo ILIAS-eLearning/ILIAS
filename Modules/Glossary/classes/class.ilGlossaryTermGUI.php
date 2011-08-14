@@ -110,7 +110,7 @@ class ilGlossaryTermGUI
 
 		$this->getTemplate();
 		$this->displayLocator();
-		$this->tpl->setVariable("HEADER", $this->lng->txt("cont_new_term"));
+		$this->tpl->setTitle($this->lng->txt("cont_new_term"));
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
 		$this->setTabs();
 
@@ -169,7 +169,7 @@ class ilGlossaryTermGUI
 		$ilTabs->activateTab("properties");
 		
 		//$this->displayLocator();
-		$this->tpl->setVariable("HEADER", $this->lng->txt("cont_term").": ".$this->term->getTerm());
+		$this->tpl->setTitle($this->lng->txt("cont_term").": ".$this->term->getTerm());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
 
 		// load template for table
@@ -355,7 +355,7 @@ class ilGlossaryTermGUI
 		//$this->tpl->addBlockfile("CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
 		//ilUtil::sendInfo();
 		$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->tpl->setVariable("HEADER",
+		$this->tpl->setTitle(
 			$this->lng->txt("cont_term").": ".$this->term->getTerm());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
 
@@ -449,7 +449,7 @@ class ilGlossaryTermGUI
 			ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setVariable("HEADER",
+		$this->tpl->setTitle(
 			$this->lng->txt("cont_term").": ".$this->term->getTerm());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
 
@@ -524,7 +524,7 @@ class ilGlossaryTermGUI
 		$this->getTemplate();
 		$this->displayLocator();
 		$this->setTabs();
-		$this->tpl->setVariable("HEADER", $this->lng->txt("cont_term").": ".$this->term->getTerm());
+		$this->tpl->setTitle($this->lng->txt("cont_term").": ".$this->term->getTerm());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
 
 		$term_id = $_GET["term_id"];
@@ -696,7 +696,7 @@ class ilGlossaryTermGUI
 		$this->displayLocator();
 		$this->setTabs();
 		$ilTabs->activateTab("usage");
-		$this->tpl->setVariable("HEADER", $this->lng->txt("cont_term").": ".$this->term->getTerm());
+		$this->tpl->setTitle($this->lng->txt("cont_term").": ".$this->term->getTerm());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
 		
 		include_once("./Modules/Glossary/classes/class.ilTermUsagesTableGUI.php");

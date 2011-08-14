@@ -2138,5 +2138,16 @@ class ilTemplate extends ilTemplateX
 			$this->parseCurrentBlock();
 		}
 	}
+	
+	/**
+	 * Set variable
+	 */
+	function setVariable($a, $b = "")
+	{
+parent::setVariable($a, $b); return;
+if ($a == "HEADER") mk();
+		parent::setVariable($a, $b);
+	}
+	
 }
 ?>

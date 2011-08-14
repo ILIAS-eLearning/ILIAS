@@ -297,7 +297,7 @@ class ilMailSearchCoursesGUI
 
 		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 	
-		$this->tpl->setVariable('HEADER', $this->lng->txt('mail') );
+		$this->tpl->setTitle($this->lng->txt('mail') );
 		
 		$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
 		
@@ -459,7 +459,7 @@ class ilMailSearchCoursesGUI
 				unset($oTmpCrs);
 			}			
 
-			$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
+			$this->tpl->setTitle($this->lng->txt("mail"));
 		
 			$this->ctrl->setParameter($this, "view", "crs_members");
 			if ($_GET["ref"] != "") $this->ctrl->setParameter($this, "ref", $_GET["ref"]);

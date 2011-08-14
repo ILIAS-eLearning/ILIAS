@@ -84,7 +84,7 @@ class ilMailOptionsGUI
 	{
 		global $lng, $ilUser, $ilSetting;
 		
-		$this->tpl->setVariable('HEADER', $lng->txt('mail'));
+		$this->tpl->setTitle($lng->txt('mail'));
 		$this->initMailOptionsForm();
 		
 		$mailOptions = new ilMailOptions($ilUser->getId());			
@@ -126,7 +126,7 @@ class ilMailOptionsGUI
 	{
 		global $lng;
 		
-		$this->tpl->setVariable('HEADER', $lng->txt('mail'));
+		$this->tpl->setTitle($lng->txt('mail'));
 		
 		$this->initMailOptionsForm();
 		$this->setMailOptionsValuesByDB();		
