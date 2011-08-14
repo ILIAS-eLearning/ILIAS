@@ -7367,4 +7367,21 @@ if(!$ilDB->tableExists('usr_account_codes'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3432>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','auto_continue'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'auto_continue',
+			array(
+				"type" => "text",
+				'length' => 1,
+				"notnull" => true,
+				"default" => 'n'
+			)
+		);
+		$ilDB->query("UPDATE sahs_lm SET auto_continue = 'n'");
+	}
+?>
 

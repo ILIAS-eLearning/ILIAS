@@ -93,6 +93,7 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setOpenMode($lm_rec["open_mode"]);
 			$this->setWidth($lm_rec["width"]);
 			$this->setHeight($lm_rec["height"]);
+			$this->setAutoContinue(ilUtil::yn2tf($lm_rec["auto_continue"]));
 		}
 	}
 
@@ -488,6 +489,22 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 	
 	/**
+	* get auto continue
+	*/
+	function setAutoContinue($a_auto_continue)
+	{
+		$this->auto_continue = $a_auto_continue;
+	}
+	/**
+	* set auto continue
+	*/
+	function getAutoContinue()
+	{
+		return $this->auto_continue;
+	}
+
+	
+	/**
 	 * Set sequencing expert mode
 	 *
 	 * @param boolean $a_val sequencing expert mode	
@@ -614,8 +631,8 @@ class ilObjSAHSLearningModule extends ilObject
 				debugpw = %s,
 				open_mode = %s,
 				width = %s,
-				height = %s
-				
+				height = %s,
+				auto_continue = %s
 			WHERE id = %s', 
 		array(	'text',
 				'text',
@@ -640,6 +657,7 @@ class ilObjSAHSLearningModule extends ilObject
 				'integer',
 				'integer',
 				'integer',
+				'text',
 				'integer'
 				), 
 		array(	ilUtil::tf2yn($this->getOnline()),
@@ -665,6 +683,7 @@ class ilObjSAHSLearningModule extends ilObject
 				$this->getOpenMode(),
 				$this->getWidth(),
 				$this->getHeight(),
+				ilUtil::tf2yn($this->getAutoContinue()),
 				$this->getId())
 		);
 
