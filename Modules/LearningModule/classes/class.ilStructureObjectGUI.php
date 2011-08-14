@@ -971,15 +971,10 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			 $this->ctrl->getLinkTargetByClass("ilmdeditorgui",''),
 			 "", "ilmdeditorgui");
 			 
-		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_st_b.gif"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("content");
-
-		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-		$this->tpl->setVariable("HEADER",
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_st_b.gif"));
+		$this->tpl->setTitle(
 			$this->lng->txt($this->obj->getType()).": ".$this->obj->getTitle());
-		
+
 		// presentation view
 		$ilTabs->addNonTabbedLink("pres_mode", $lng->txt("cont_presentation_view"),
 			ILIAS_HTTP_PATH."/goto.php?target=st_".$this->obj->getId(), "_top");

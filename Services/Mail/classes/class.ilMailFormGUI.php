@@ -276,7 +276,7 @@ class ilMailFormGUI
 	{
 		global $ilUser, $ilCtrl;
 		
-		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
+		$this->tpl->setTitle($this->lng->txt("mail"));
 
 		if ($save)
 		{
@@ -581,7 +581,7 @@ class ilMailFormGUI
 		global $rbacsystem, $ilUser, $ilCtrl, $lng, $ilTabs;
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_new.html", "Services/Mail");
-		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
+		$this->tpl->setTitle($this->lng->txt("mail"));
 		
 		$this->lng->loadLanguageModule("crs");
 

@@ -276,9 +276,10 @@ class ilMailGUI
 
 		$ilMainMenu->setActive("mail");
 
+//		$this->tpl->getStandardTemplate();
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_mail_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mail_b.gif"));
 		
 		// display infopanel if something happened
 		ilUtil::infoPanel();

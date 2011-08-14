@@ -206,7 +206,7 @@ class ilMailAddressbookGUI
 			$c_gui->addItem("addr_id[]", $addr_id, $entry["login"] ? $entry["login"] : $entry["email"]);
 		}
 		
-		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
+		$this->tpl->setTitle($this->lng->txt("mail"));
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html", "Services/Contact");
 		$this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
 		
@@ -255,7 +255,7 @@ class ilMailAddressbookGUI
 	{
 		global $rbacsystem, $lng, $ilUser;
 
-		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));		
+		$this->tpl->setTitle($this->lng->txt("mail"));		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook_form.html", "Services/Contact");
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -372,7 +372,7 @@ class ilMailAddressbookGUI
 	{
 		global $rbacsystem, $lng, $ilUser, $ilCtrl, $ilias;
 
-		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));		
+		$this->tpl->setTitle($this->lng->txt("mail"));		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html", "Services/Contact");		
 
 		// check if current user may send mails

@@ -336,28 +336,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 //echo ":".htmlentities($link_info).":";
 		return $link_info;
 	}
-	
-	
-	/**
-	* history
-	*
-	* @access	public
-	*/
-/*
-	function history()
-	{
-		$this->setTabs();
-		
-		require_once("classes/class.ilHistoryGUI.php");
-		$hist_gui =& new ilHistoryGUI($this->obj->getId() ,
-			$this->content_object->getType().":pg");
-		$hist_html = $hist_gui->getHistoryTable(
-			$this->ctrl->getParameterArray($this, "history"),
-			$this->content_object->isActiveHistoryUserComments()
-			);
-		
-		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
-	}*/
 
 	/**
 	* update history
@@ -371,71 +349,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	}
 
 	/**
-	* output tabs
-	*/
-	function setTabs()
-	{
-		global $ilTabs;
-return;
-//echo "setTabs";
-		// catch feedback message
-		#include_once("classes/class.ilTabsGUI.php");
-		#$tabs_gui =& new ilTabsGUI();
-		$this->getTabs($ilTabs);
-		
-		$this->tpl->setCurrentBlock("header_image");
-		$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pg_b.gif"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("content");
-
-		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-		$this->tpl->setVariable("HEADER",
-			$this->lng->txt($this->obj->getType()).": ".$this->obj->getTitle());
-	}
-
-	/**
-	* adds tabs to tab gui object
-	*
-	* @param	object		$tabs_gui		ilTabsGUI object
-	*/
-/*
-	function getTabs(&$tabs_gui)
-	{
-		// back to upper context
-		$tabs_gui->addTarget("edit", $this->ctrl->getLinkTarget($this, "view")
-			, array("", "view"), "ilpageobjectgui");
-
-		$tabs_gui->addTarget("cont_preview", $this->ctrl->getLinkTarget($this, "preview")
-			, "preview", "ilpageobjectgui");
-			
-		//$tabs_gui->addTarget("properties", $this->ctrl->getLinkTarget($this, "properties")
-		//	, "properties", get_class($this));
-
-		$tabs_gui->addTarget("meta_data",
-			 $this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
-			 "", "ilmdeditorgui");
-
-		$tabs_gui->addTarget("history", $this->ctrl->getLinkTarget($this, "history")
-			, "history", get_class($this));
-
-		$tabs = $this->ctrl->getTabs();
-		foreach ($tabs as $tab)
-		{
-			$tabs_gui->addTarget($tab["lang_var"], $tab["link"]
-				, $tab["cmd"], $tab["class"]);
-		}
-
-		//$tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
-		//	, "view", "ilEditClipboardGUI");
-
-	}
-*/
-
-	/**
-	* redirect script
-	*
-	* @param	string		$a_target
-	*/
+	 * redirect script
+	 *
+	 * @param	string		$a_target
+	 */
 	function _goto($a_target)
 	{
 		global $rbacsystem, $ilErr, $lng, $ilAccess;

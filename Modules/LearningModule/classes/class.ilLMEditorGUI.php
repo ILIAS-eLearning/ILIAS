@@ -242,11 +242,7 @@ class ilLMEditorGUI
 	{
 		global $lng;
 
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		//$this->tpl->setVariable("HEADER", $a_header_title);
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		//$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
-		//$this->displayLocator($a_type);
+		$this->tpl->getStandardTemplate();
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");

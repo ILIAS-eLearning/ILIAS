@@ -570,7 +570,7 @@ class ilObjGlossary extends ilObject
 		$style_name = $ilUser->prefs["style"].".css";;
 		$a_glo_gui->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
 		$a_glo_gui->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$a_glo_gui->tpl->setVariable("HEADER", $this->getTitle());
+		$a_glo_gui->tpl->setTitle($this->getTitle());
 
 		$content = $a_glo_gui->listTerms();
 		$file = $a_target_dir."/index.html";
