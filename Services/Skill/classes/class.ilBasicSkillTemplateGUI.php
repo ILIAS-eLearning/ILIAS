@@ -150,5 +150,16 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 		}
 	}
 
+	/**
+	 * Save item
+	 */
+	function saveItem()
+	{
+		$it = new ilBasicSkillTemplate();
+		$it->setTitle($this->form->getInput("title"));
+		$it->setOrderNr($this->form->getInput("order_nr"));
+		$it->create();
+		ilSkillTreeNode::putInTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
+	}
 }
 ?>

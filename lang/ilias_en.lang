@@ -3667,7 +3667,7 @@ common#:#not_logged_in#:#You are not logged in
 common#:#note_all_pub_notes#:#All notes
 common#:#note_my_pub_notes#:#My notes only
 common#:#note#:#Note
-common#:#notes_and_comments#:#Notes and Comments
+common#:#notes_and_comments#:#Notes & Comments
 common#:#notes#:#Notes
 common#:#notifications#:#Notifications
 common#:#num_users#:#Number of Users
@@ -11639,7 +11639,7 @@ blog#:#blog_preview#:#Preview
 ecs#:#ecs_field_community#:#Community
 skmg#:#skmg_new_sktr#:#New Skill Template Reference
 skmg#:#skmg_edit_sktr#:#Edit Skill Template Reference
-common#:#skills#:#Skills
+common#:#skills#:#My Skills
 skmg#:#skmg_list_skills#:#List Skills
 skmg#:#skmg_assign_materials#:#Assign Materials
 skmg#:#skmg_add_skill#:#Add Skill
@@ -12062,11 +12062,19 @@ scormdebug#:#debugwindow_open#:#Open
 scormdebug#:#debugwindow_password_enter#:#Please enter your password
 common#:#password_multiple_errors#:#Multiple criterias are not satisfied:
 common#:#password_contains_invalid_chars#:#The password contains invalid characters
+content#:#cont_file_from_workspace#:#File From My Workspace
+skmg#:#skmg_create_skill_template#:#Create Skill Template
+skmg#:#skmg_create_skill_template_category#:#Create Skill Template Category
+skmg#:#skmg_save_order#:#Save Order
+skmg#:#skmg_order#:#Order
+skmg#:#skmg_order_nr#:#Order Number
+skmg#:#skmg_create_skll#:#Create Skill
+skmg#:#skmg_create_skill_template_reference#:#Create Skill Template Reference
+skmg#:#skmg_create_skill_category#:#Create Skill Category
 common#:#notice#:#Notice
 common#:#public_room#:#Public room
 chatroom#:#chtr_moderate#:#Moderate
 chatroom#:#unkown_private_room#:#Unknown private room
-content#:#cont_file_from_workspace#:#File From My Workspace
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#chtr_new#:#New Chatroom
 chatroom#:#chtr_add#:#Add Chatroom
@@ -12080,3 +12088,4 @@ exc#:#exc_select_blog_change#:#Use different Blog
 exc#:#exc_select_portfolio_change#:#Use different Portfolio
 exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
+common#:#my_courses_groups#:#My Courses & Groups

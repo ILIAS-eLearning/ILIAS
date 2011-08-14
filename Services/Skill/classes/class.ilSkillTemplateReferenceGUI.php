@@ -110,7 +110,7 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 		
 		$ilCtrl->saveParameter($this, "parent_id");
 		$ilCtrl->saveParameter($this, "target");
-		$this->initForm("insert");
+		$this->initForm("create");
 		$tpl->setContent($this->form->getHTML());
 	}
 	
@@ -146,6 +146,13 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 		// title
 		$ti = new ilTextInputGUI($lng->txt("title"), "title");
 		$this->form->addItem($ti);
+		
+		// order nr
+		$ni = new ilNumberInputGUI($lng->txt("skmg_order_nr"), "order_nr");
+		$ni->setMaxLength(6);
+		$ni->setSize(6);
+		$ni->setRequired(true);
+		$this->form->addItem($ni);
 
 		// template
 		$options = array(
@@ -165,7 +172,7 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 		$cb->setInfo($lng->txt("skmg_selectable_info"));
 		$this->form->addItem($cb);
 
-		if ($a_mode == "insert")
+		if ($a_mode == "create")
 		{
 			$this->form->addCommandButton("saveSkillTemplateReference", $lng->txt("save"));
 			$this->form->setTitle($lng->txt("skmg_new_sktr"));
@@ -188,6 +195,7 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 		$values["skill_template_id"] = $this->node_object->getSkillTemplateId();
 		$values["title"] = $this->node_object->getTitle();
 		$values["selectable"] = $this->node_object->getSelfEvaluation();
+		$values["order_nr"] = $this->node_object->getOrderNr();
 		$this->form->setValuesByArray($values);
 	}
 
@@ -205,6 +213,7 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 			$sktr->setTitle($_POST["title"]);
 			$sktr->setSkillTemplateId($_POST["skill_template_id"]);
 			$sktr->setSelfEvaluation($_POST["selectable"]);
+			$sktr->setOrderNr($_POST["order_nr"]);
 			$sktr->create();
 			ilSkillTreeNode::putInTree($sktr,
 				(int)$_GET["parent_id"], (int)$_GET["target"]);
@@ -231,6 +240,7 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 			$this->node_object->setSkillTemplateId($_POST["skill_template_id"]);
 			$this->node_object->setTitle($_POST["title"]);
 			$this->node_object->setSelfEvaluation($_POST["selectable"]);
+			$this->node_object->setOrderNr($_POST["order_nr"]);
 			$this->node_object->update();
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);

@@ -61,38 +61,55 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case 'ilskillrootgui':
+				include_once("./Services/Skill/classes/class.ilSkillRootGUI.php");
+				$skrt_gui = new ilSkillRootGUI((int) $_GET["obj_id"], $this);
+				$skrt_gui->setParentGUI($this);
+				$ret = $this->ctrl->forwardCommand($skrt_gui);
+				break;
+
 			case 'ilskillcategorygui':
+				$this->showTree(false);
 				$this->tabs_gui->activateTab("skills");
 				include_once("./Services/Skill/classes/class.ilSkillCategoryGUI.php");
 				$scat_gui = new ilSkillCategoryGUI((int) $_GET["obj_id"]);
+				$scat_gui->setParentGUI($this);
 				$ret = $this->ctrl->forwardCommand($scat_gui);
 				break;
 
 			case 'ilbasicskillgui':
+				$this->showTree(false);
 				$this->tabs_gui->activateTab("skills");
 				include_once("./Services/Skill/classes/class.ilBasicSkillGUI.php");
 				$skill_gui = new ilBasicSkillGUI((int) $_GET["obj_id"]);
+				$skill_gui->setParentGUI($this);
 				$ret = $this->ctrl->forwardCommand($skill_gui);
 				break;
 
 			case 'ilskilltemplatecategorygui':
+				$this->showTree(true);
 				$this->tabs_gui->activateTab("skill_templates");
 				include_once("./Services/Skill/classes/class.ilSkillTemplateCategoryGUI.php");
 				$sctp_gui = new ilSkillTemplateCategoryGUI((int) $_GET["obj_id"]);
+				$sctp_gui->setParentGUI($this);
 				$ret = $this->ctrl->forwardCommand($sctp_gui);
 				break;
 
 			case 'ilbasicskilltemplategui':
+				$this->showTree(true);
 				$this->tabs_gui->activateTab("skill_templates");
 				include_once("./Services/Skill/classes/class.ilBasicSkillTemplateGUI.php");
 				$sktp_gui = new ilBasicSkillTemplateGUI((int) $_GET["obj_id"]);
+				$sktp_gui->setParentGUI($this);
 				$ret = $this->ctrl->forwardCommand($sktp_gui);
 				break;
 
 			case 'ilskilltemplatereferencegui':
+				$this->showTree(false);
 				$this->tabs_gui->activateTab("skills");
 				include_once("./Services/Skill/classes/class.ilSkillTemplateReferenceGUI.php");
 				$sktr_gui = new ilSkillTemplateReferenceGUI((int) $_GET["obj_id"]);
+				$sktr_gui->setParentGUI($this);
 				$ret = $this->ctrl->forwardCommand($sktr_gui);
 				break;
 
@@ -227,6 +244,8 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		$a_gui_obj = $this;
 		$a_gui_cmd = "editSkills";
 
+		
+		
 		include_once("./Services/Skill/classes/class.ilSkillHFormGUI.php");
 		$form_gui = new ilSkillHFormGUI();
 		$form_gui->setParentCommand($a_gui_obj, $a_gui_cmd);
@@ -250,9 +269,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 			$form_gui->setFocusId($hl[0]);
 		}
 
-		$ilCtrl->setParameter($this, "active_node", $_GET["obj_id"]);
-
 		$tpl->setContent($form_gui->getHTML());
+		
+		// show left handed tree
+		$this->showTree();
 	}
 
 	/**
@@ -1060,6 +1080,9 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		$ilCtrl->setParameter($this, "active_node", $_GET["obj_id"]);
 
 		$tpl->setContent($form_gui->getHTML());
+		
+		// show left handed tree
+		$this->showTree(true);
 	}
 
 	/**
@@ -1091,6 +1114,78 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 		$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "parent_id", $parent_id);
 		$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "target", $target);
 		$ilCtrl->redirectByClass("ilskilltemplatereferencegui", "insert");
+	}
+
+	//
+	// Tree
+	//
+	
+	/**
+	 * Show Editing Tree
+	 */
+	function showTree($a_templates = false)
+	{
+		global $ilUser, $tpl, $ilCtrl, $lng;
+
+//		$ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
+
+//		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+//		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+
+		require_once ("./Services/Skill/classes/class.ilSkillExplorer.php");
+		$exp = new ilSkillExplorer($ilCtrl->getLinkTarget($this, "editSkills"),
+			$a_templates);
+//		$exp->setFrameUpdater("content", "ilHierarchyFormUpdater");
+		$exp->setTargetGet("obj_id");
+		
+		if ($a_templates)
+		{
+			$exp->setExpandTarget($this->ctrl->getLinkTarget($this, "editSkillTemplates"));
+		}
+		else
+		{
+			$exp->setExpandTarget($this->ctrl->getLinkTarget($this, "editSkills"));
+		}
+		
+		if ($_GET["skexpand"] == "")
+		{
+			$expanded = $this->skill_tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["skexpand"];
+		}
+
+//echo "-".$_GET["active_node"]."-";
+		if ($_GET["obj_id"] > 0)
+		{
+			$path = $this->skill_tree->getPathId($_GET["obj_id"]);
+			$exp->setForceOpenPath($path);
+			$exp->highlightNode($_GET["obj_id"]);
+		}
+		$exp->setExpand($expanded);
+
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+
+		// asynchronous output
+		if ($ilCtrl->isAsynch())
+		{
+			echo $output; exit;
+		}
+		
+//		$this->tpl->setCurrentBlock("content");
+//		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("sahs_organization"));
+//		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
+//		$this->tpl->setVariable("EXPLORER",$output);
+		
+//		$this->ctrl->setParameter($this, "scexpand", $_GET["scexpand"]);
+//		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this, "showTree"));
+//		$this->tpl->parseCurrentBlock();
+//		$this->tpl->show(false);
+		
+		$tpl->setLeftContent($output);
 	}
 
 }

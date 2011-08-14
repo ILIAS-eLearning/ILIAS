@@ -285,6 +285,14 @@ class ilMainMenuGUI
 				$this->tpl->parseCurrentBlock();
 			}
 	
+			include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
+			$header_top_title = ilObjSystemFolder::_getHeaderTitle();
+			if (trim($header_top_title) != "" && $this->tpl->blockExists("header_top_title"))
+			{
+				$this->tpl->setCurrentBlock("header_top_title");
+				$this->tpl->setVariable("TXT_HEADER_TITLE", $header_top_title);
+				$this->tpl->parseCurrentBlock();
+			}
 	
 			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 	
@@ -292,7 +300,6 @@ class ilMainMenuGUI
 			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 			$this->tpl->setVariable("HEADER_BG_IMAGE", ilUtil::getImagePath("HeaderBackground.gif"));
 			include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
-			$this->tpl->setVariable("TXT_HEADER_TITLE", ilObjSystemFolder::_getHeaderTitle());
 	
 			// set link to return to desktop, not depending on a specific position in the hierarchy
 			//$this->tpl->setVariable("SCRIPT_START", $this->getScriptTarget("start.php"));
@@ -355,7 +362,17 @@ class ilMainMenuGUI
 				$lng->txt("personal_desktop"),
 				$this->getScriptTarget("ilias.php?baseClass=ilPersonalDesktopGUI"),
 				$this->target);*/
-			$this->renderDropDown($a_tpl, "desktop");
+//			$this->renderDropDown($a_tpl, "desktop");
+			$this->renderEntry($a_tpl, "desktop",
+				$lng->txt("personal_desktop"), "#");
+			
+			include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+			$ov = new ilOverlayGUI("mm_desk_ov");
+			$ov->setTrigger("mm_desk_tr");
+			$ov->setAnchor("mm_desk_tr");
+			$ov->setAutoHide(false);
+			$ov->add();
+
 		}
 
 		// repository
@@ -506,10 +523,25 @@ class ilMainMenuGUI
 	 */
 	function renderEntry($a_tpl, $a_id, $a_txt, $a_script, $a_target = "_top")
 	{
-		global $lng, $ilNavigationHistory;
+		global $lng, $ilNavigationHistory, $ilSetting;
 	
+		$id = strtolower($a_id);
+		$id_up = strtoupper($a_id);
+		$a_tpl->setCurrentBlock("entry_".$id);
+		
+		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
+
+		// repository
 		if ($a_id == "repository")
 		{
+			$gl = new ilGroupedListGUI();
+			
+			include_once("./classes/class.ilLink.php");
+			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.gif"));
+			$icon = ilUtil::img(ilObject::_getIcon(ilObject::_lookupObjId(1), "tiny"));
+			$gl->addEntry($icon." ".$lng->txt("rep_main_page"), ilLink::_getStaticLink(1,'root',true),
+				"_top");
+			
 			$items = $ilNavigationHistory->getItems();
 			reset($items);
 			$cnt = 0;
@@ -519,39 +551,139 @@ class ilMainMenuGUI
 				
 				if (!isset($item["ref_id"]) || !isset($_GET["ref_id"]) || $item["ref_id"] != $_GET["ref_id"])			// do not list current item
 				{
+					if ($cnt == 0)
+					{
+						$gl->addGroupHeader($lng->txt("last_visited"));
+					}
 					$obj_id = ilObject::_lookupObjId($item["ref_id"]);
-					//$selection->addItem($item["title"], $item["ref_id"], $item["link"],
-					//	ilObject::_getIcon($obj_id, "tiny", $item["type"]),
-					//	$lng->txt("obj_".$item["type"]), "_top");
-					
-					$a_tpl->setCurrentBlock("lv_item");
-					$a_tpl->setVariable("HREF_LV", $item["link"]);
-					$a_tpl->setVariable("TXT_LV", $item["title"]);
-					$a_tpl->parseCurrentBlock();
 					$cnt ++;
+					$icon = ilUtil::img(ilObject::_getIcon($obj_id, "tiny"));
+					$gl->addEntry($icon." ".$item["title"], $item["link"],
+						"_top");
+
 				}
 			}
-			
-			if ($cnt > 0)
-			{
-				$a_tpl->setCurrentBlock("lv");
-				$a_tpl->setVariable("TXT_LAST_VISITED", $lng->txt("last_visited"));
-				$a_tpl->parseCurrentBlock();
-			}
-		}
 
-		$id = strtolower($a_id);
-		$id_up = strtoupper($a_id);
-		$a_tpl->setCurrentBlock("entry_".$id);
-		
-		if ($a_id == "repository")
-		{
-			include_once("./classes/class.ilLink.php");
-			$a_tpl->setVariable("TXT_MAIN_PAGE", $lng->txt("rep_main_page"));
-			$a_tpl->setVariable("HREF_MAIN_PAGE", ilLink::_getStaticLink(1,'root',true));
-			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.gif"));
+			$a_tpl->setVariable("REP_EN_OV", $gl->getHTML());
 		}
 		
+		// desktop
+		if ($a_id == "desktop")
+		{
+			$gl = new ilGroupedListGUI();
+			
+			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.gif"));
+			
+			// overview
+			$gl->addEntry($lng->txt("overview"),
+				"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSelectedItems",
+				"_top");
+			
+			// my groups and courses, if both is available
+			if($ilSetting->get('disable_my_offers') == 0 &&
+				$ilSetting->get('disable_my_memberships') == 0)
+			{
+				$gl->addEntry($lng->txt("my_courses_groups"),
+					"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToMemberships",
+					"_top");
+			}
+			
+			// bookmarks
+			if (!$this->ilias->getSetting("disable_bookmarks"))
+			{
+				$gl->addEntry($lng->txt("bookmarks"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",
+					"_top");
+			}
+			
+			// private notes
+			if (!$this->ilias->getSetting("disable_notes"))
+			{
+				$gl->addEntry($lng->txt("notes_and_comments"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNotes",
+					"_top");
+			}
+
+			// news
+			if ($ilSetting->get("block_activated_news"))
+			{
+				$gl->addEntry($lng->txt("news"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNews",
+					"_top");
+			}
+
+			$gl->addSeparator();
+			
+			if(!$ilSetting->get("disable_personal_workspace"))
+			{
+				// workspace
+				$gl->addEntry($lng->txt("personal_workspace"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace",
+					"_top");
+			}
+			
+			// portfolio
+			if ($ilSetting->get('user_portfolios'))
+			{
+				$gl->addEntry($lng->txt("portfolio"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToPortfolio",
+					"_top");
+			}
+			
+			// skills
+			$skmg_set = new ilSetting("skmg");
+			if ($skmg_set->get("enable_skmg"))
+			{
+				$gl->addEntry($lng->txt("skills"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSkills",
+					"_top");
+			}
+
+			// Learning Progress
+			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+			if (ilObjUserTracking::_enabledLearningProgress())
+			{
+				//$ilTabs->addTarget("learning_progress", $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"));
+				$gl->addEntry($lng->txt("learning_progress"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToLP",
+					"_top");
+			}
+
+			$gl->addSeparator();
+			
+			// calendar
+			include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
+			$settings = ilCalendarSettings::_getInstance();
+			if($settings->isEnabled())
+			{
+				$gl->addEntry($lng->txt("calendar"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToCalendar",
+					"_top");
+			}
+
+			// mail
+			if ($this->mail)
+			{
+				$gl->addEntry($lng->txt("mail"), "ilias.php?baseClass=ilMailGUI",
+					"_top");
+			}
+
+			// contacts
+			include_once "Services/Mail/classes/class.ilMail.php";
+			$mail = new ilMail($_SESSION["AccountId"]);
+			if (!$this->ilias->getSetting("disable_contacts") &&
+				($this->ilias->getSetting("disable_contacts_require_mail") ||
+				$rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId())))
+			{
+				$gl->addEntry($lng->txt("mail_addressbook"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts",
+					"_top");
+				//$ilTabs->addTarget("mail_addressbook", $this->ctrl->getLinkTargetByClass("ilmailaddressbookgui"));
+			}
+			
+			$gl->addSeparator();
+			
+			// profile
+			$gl->addEntry($lng->txt("personal_profile"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
+				"_top");
+
+			// settings
+			$gl->addEntry($lng->txt("personal_settings"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSettings",
+				"_top");
+			
+			$a_tpl->setVariable("DESK_CONT_OV", $gl->getHTML());
+		}
 		
 		$a_tpl->setVariable("TXT_".$id_up, $a_txt);
 		$a_tpl->setVariable("SCRIPT_".$id_up, $a_script);
