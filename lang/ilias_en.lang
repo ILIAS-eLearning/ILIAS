@@ -10406,7 +10406,7 @@ common#:#settings_for_all_members#:#Global Setting for all Course/Group Members
 common#:#settings_per_users#:#Settings per Course/Group Member
 user#:#enable_local_user_administration#:#Enable Local User Administration
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.
-user#:#restrict_user_access#:#Restriced Access to User Accounts
+user#:#restrict_user_access#:#Restricted Access to User Accounts
 user#:#restrict_user_access_info#:#Enabled this option only if you want to restrict the access to user accounts. If enabled access to local and global user accounts is only granted when a role has the permission "Read Access to Local User Account". 
 common#:#backto_lua#:#Back to Local User Administration
 common#:#sort_activation_header#:#Nach Zeitvorgaben
