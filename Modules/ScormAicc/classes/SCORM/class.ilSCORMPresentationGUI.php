@@ -130,7 +130,7 @@ class ilSCORMPresentationGUI
 				$this->tpl->show("DEFAULT", false);
 			}
 		} else {
-			$debug = false;
+			$debug = $this->slm->getDebug();
 			$template = "tpl.sahs_pres_frameset_js";
 			if ($debug) $template .= "_debug";
 			if (count($items) > 1
@@ -408,7 +408,6 @@ class ilSCORMPresentationGUI
 		$b_autoContinue='false';
 		$i_lessonScoreMax='-1';
 		$i_lessonMasteryScore='-1';
-		$b_debug='false';
 		
 		//other variables
 		$b_messageLog='false';
@@ -421,6 +420,8 @@ class ilSCORMPresentationGUI
 		}
 		$b_autoReview='false';
 		if ($this->slm->getAutoReview()) $b_autoReview='true';
+		$b_debug='false';
+		if ($this->slm->getDebug()) $b_debug='true';
 
 		$s_out='IliasScormVars={'
 			.'refId:'.$_GET["ref_id"].','

@@ -4949,7 +4949,7 @@ content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_de_activate#:#(De-)Aktivieren
 content#:#cont_deactivate_page#:#Seite deaktivieren
 content#:#cont_deactivated#:#Deaktiviert
-content#:#cont_debug#:#Debug-Menü anzeigen
+content#:#cont_debug#:#Testwerkzeug anzeigen
 content#:#cont_debugpw#:#Zugangspasswort
 content#:#cont_decimal#:#Dezimal
 content#:#cont_def_layout#:#Standard-Layout
@@ -5564,7 +5564,7 @@ content#:#read offline#:#Offline lesen
 content#:#saved_media_object#:#Medienobjekt gespeichert
 content#:#scplayer_collapsetree#:#Baum einklappen
 content#:#scplayer_continue#:#Weiter
-content#:#scplayer_debugger#:#Debugger zeigen
+content#:#scplayer_debugger#:#Testwerkzeug zeigen
 content#:#scplayer_exit#:#Schliessen
 content#:#scplayer_exitall#:#Bearbeitung Beenden
 content#:#scplayer_expandtree#:#Baum ausklappen
@@ -11890,8 +11890,8 @@ content#:#cont_open_window_undefined#:#in neuem Fenster ohne festgelegte Breite 
 content#:#cont_open_window_defined#:#in neuem Fenster mit festgelegter Breite und Höhe
 content#:#cont_open_width#:#Breite
 content#:#cont_open_heigth#:#Höhe
-scormdebug#:#scormdebug_global_activate#:#SCORM 2004 Testwerkzeug aktivieren
-scormdebug#:#scormdebug_global_activate_info#:#Die Funktion ermöglicht SCORM 2004-Lernmodule zu testen. Zusätzlich muss bei jedem gewünschten SCORM-Modul das Testwerkzeug aktiviert werden. Bei Deaktivierung des Testwerkzeugs an dieser Stelle wird bei allen Lernmodulen das Testwerzeug deaktiviert.
+scormdebug#:#scormdebug_global_activate#:#SCORM Testwerkzeug aktivieren
+scormdebug#:#scormdebug_global_activate_info#:#Die Funktion ermöglicht SCORM-Lernmodule zu testen. Zusätzlich muss bei jedem gewünschten SCORM-Modul das Testwerkzeug aktiviert werden. Bei Deaktivierung des Testwerkzeugs an dieser Stelle wird bei allen Lernmodulen das Testwerzeug deaktiviert.
 content#:#cont_debug_deactivate#:#Hinweis: Testwerkzeug kann global für alle Lernmodule deaktiviert werden.
 content#:#cont_debug_deactivated#:#Hinweis: Testwerkzeug ist global für alle Lernmodule deaktiviert.
 scormdebug#:#error0#:#kein Fehler
