@@ -78,6 +78,15 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 		return true;
 	}
+	
+	protected function initCreationForms($a_new_type)
+	{
+		$forms = array(
+			self::CFORM_NEW => $this->initCreateForm($a_new_type)
+			);
+
+		return $forms;
+	}
 
 	/**
 	* Render root folder
