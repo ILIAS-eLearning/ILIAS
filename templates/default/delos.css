@@ -902,7 +902,7 @@ div.ilHeaderAlert
 
 div.il_HeaderInner
 {
-	margin: 10px 0px;
+	margin: 0px 0px;
 	padding: 0px 10px 15px 10px;
 	color:#222222;
 }
@@ -933,12 +933,12 @@ a.ilMainHeader, a.ilMainHeader:hover
 div.ilLogin
 {
 	padding:32px 20px 3px 10px;
-	padding:5px 20px 3px 10px;
+	padding:21px 20px 3px 10px;
 	margin-top:0px;
 	margin-bottom:0px;
 	white-space: nowrap;
 	float:right;
-	font-size:80%;
+	font-size:85%;
 }
 
 
@@ -2044,8 +2044,10 @@ div.ilMainHeader {
 
 div.ilMainMenuSection {
 	background-repeat: repeat-x;
-	border-top: 1px solid #a4c9ff;
-	border-bottom: 1px solid #78a1ff;
+	background-image: url(images/mm_back.gif);
+
+	dborder-top: 1px solid #a4c9ff;
+	dborder-bottom: 1px solid #78a1ff;
 }
 
 div.ilMainMenuHeadSection {
@@ -2106,12 +2108,15 @@ a.MMInactive:link, a.MMInactive:visited
 	color:#003388;
 	font-size: 85%;
 	text-decoration:none;
-	line-height: 28px;
+	line-height: 26px;
 	padding: 0px 10px 3px 10px;
 	margin: 0px 0px 2px 0px;
 	font-weight: normal;
 	white-space: nowrap;
 	margin-left: -1px;
+	margin-top: 1px;
+	background-repeat: repeat-x;
+	background-image: url(images/mm_back2.gif);
 }
 
 a.MMInactive:hover
@@ -2119,6 +2124,8 @@ a.MMInactive:hover
 	color:#000000;
 	text-decoration:none;
 	background-color: #d0e8ff;
+	background-repeat: repeat-x;
+	background-image: url(images/mm_back3.gif);
 }
 
 a.MMActive:link, a.MMActive:visited
@@ -2127,13 +2134,16 @@ a.MMActive:link, a.MMActive:visited
 	color:#003388;
 	font-size: 85%;
 	text-decoration:none;
-	line-height: 28px;
+	line-height: 27px;
 	padding: 0px 10px 3px 10px;
 	margin: 0px 0px 2px 0px;
 	font-weight: normal;
 	white-space: nowrap;
 	background-color: #d0e8ff;
 	margin-left: -1px;
+	margin-top: 1px;
+	background-repeat: repeat-x;
+	background-image: url(images/mm_back3.gif);
 }
 
 a.MMActive:hover
@@ -2192,7 +2202,7 @@ span.ilMMStatus {
 	font-size: 0.85em;
 	font-weight: bold;
 	margin-top: -3px;
-	margin-left: -6px;
+	margin-left: -3px;
 	background-color: #FFFF99;
 	background-color: #D06000;
 	color: #303030;
@@ -2251,7 +2261,7 @@ div.ilFrameBL
 	background-repeat: no-repeat;
 	background-position: bottom left;
 	background-color: #F9F9F9;
-	padding-top: 5px;
+	padding-top: 17px;
 }
 
 
