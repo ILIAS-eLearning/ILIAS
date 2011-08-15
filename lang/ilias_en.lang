@@ -36,7 +36,7 @@ administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lis
 administration#:#adm_locale#:#Locale
 administration#:#adm_repository_cache_time_info#:#Repository access cache time. Set 0 to disable the cache. Higher values may improve performance but also display actions that lead to a no-permission screen.
 administration#:#adm_repository_cache_time#:#Repository Cache Time
-administration#:#allow_change_loginname#:#Permit Change of Login Names in 'Personal Profile'
+administration#:#allow_change_loginname#:#Permit Change of Login Names in 'Personal Data'
 administration#:#analysis_options#:#Analysis options
 administration#:#analyze_data#:#Analyze and repair data integrity
 administration#:#analyzing_tree_structure#:#Analyzing tree structure...
@@ -4043,7 +4043,7 @@ common#:#ps_export_member_data#:#User may Access Member Data
 common#:#ps_read#:#Read Access to Privacy/Security Settings
 common#:#ps_visible#:#Privacy/Security Settings are Visible
 common#:#ps_write#:#Edit Privacy/Security
-common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
+common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, workspace, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
 common#:#pub_section#:#Public Area
 common#:#public_notes#:#Public Notes
 common#:#public_profile_not_visible#:#The profile is not public
@@ -4670,7 +4670,7 @@ common#:#user_cant_receive_mail#:#user is not allowed to use the mail system
 common#:#user_comment#:#User comment
 common#:#user_deactivated#:#User has been disapproved
 common#:#user_defined_fields#:#Custom Fields
-common#:#user_defined_list#:#Custom User Profile Fields
+common#:#user_defined_list#:#Custom User Data Fields
 common#:#user_deleted#:#User deleted
 common#:#user_detail#:#Detail Data
 common#:#user_ext_account_desc#:#Account used for external authentication. (CAS, SOAP, LDAP or Radius authentication)
@@ -4725,9 +4725,9 @@ common#:#usr_hits_per_page#:#Hits/page in tables
 common#:#usr_inactive_only#:#Inactive Users only
 common#:#usr_limited_access_only#:#Users with limited access only
 common#:#usr_new#:#New User
-common#:#usr_settings_explanation_profile#:#Check 'Visible' to show fields in the registration form and personal user profile on the personal desktop. Check 'Changeable' to allow the user to change the value in the personal profile. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal user profile. All data can be changed in the user administration independent on these settings.
+common#:#usr_settings_explanation_profile#:#Check 'Visible' to show fields in the registration form and personal data on the personal desktop. Check 'Changeable' to allow the user to change the value in the personal data. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal data. All data can be changed in the user administration independent on these settings.
 common#:#usr_settings_header_profile_profile#:#Personal profile setting
-common#:#usr_settings_header_profile#:#Standard User Profile Fields
+common#:#usr_settings_header_profile#:#Standard User Data Fields
 common#:#usr_settings_saved#:#Global user settings saved successfully!
 common#:#usr_settings_visib_lua#:#Visible in Local User Administration
 common#:#usr_settings_changeable_lua#:#Changeable in Local User Administration
@@ -6950,7 +6950,7 @@ gmaps#:#gmaps_extt_gmaps#:#Google Maps
 gmaps#:#gmaps_latitude#:#Latitude
 gmaps#:#gmaps_longitude#:#Longitude
 gmaps#:#gmaps_lookup_address#:#Lookup Address
-gmaps#:#gmaps_public_profile_info#:#Show location in your public profile.
+gmaps#:#gmaps_public_profile_info#:#Show location in your profile.
 gmaps#:#gmaps_settings#:#Google Maps Settings
 gmaps#:#gmaps_std_location_desc#:#Click map to set location.
 gmaps#:#gmaps_std_location#:#Default Location
@@ -8672,7 +8672,7 @@ pd#:#pd_enable_block_moving_info#:#Allow users to reorganize the content blocks 
 pd#:#pd_enable_block_moving#:#Enable Block Moving
 pd#:#pd_enable_bookmarks#:#Enable Bookmarks
 pd#:#pd_enable_global_profiles_info#:#If enabled, users can make their profiles visible to the internet.
-pd#:#pd_enable_global_profiles#:#Enable Global Profiles
+pd#:#pd_enable_global_profiles#:#Enable Public Profiles
 pd#:#pd_enable_my_memberships_info#:#'My Memberships' contains all courses and groups the user is assigned to as a member.
 pd#:#pd_enable_my_memberships#:#Enable 'My Memberships'
 pd#:#pd_enable_my_offers_info#:#The view 'Selected Items' contains all objects which are placed on the user's Personal Desktop.
@@ -10218,7 +10218,7 @@ user#:#user_public_profile_info#:#Please select which personal data is visible i
 user#:#user_screen_reader_optimization_info#:#Improve ILIAS for usage with screen readers.
 user#:#user_screen_reader_optimization#:#Screen Reader Optimization
 user#:#user_select_course_group#:#Select Course/Group
-user#:#user_visible_in_profile#:#Visible in Profile
+user#:#user_visible_in_profile#:#Visible in Personal Data
 user#:#usr_link_to_profile#:#Link to Profile
 user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.
 user#:#usr_public_profile_disabled#:#Profile Disabled
@@ -10547,7 +10547,7 @@ wiki#:#wiki_selected_pages#:#Selected Pages
 content#:#cont_whole_glossary#:#Whole Glossary
 content#:#cont_selected_terms#:#Selected Terms
 user#:#user_ext_profiles#:#Extended Profiles
-user#:#user_ext_profiles_desc#:#Allows users to add individual tabs to their public profiles.
+user#:#user_ext_profiles_desc#:#Allows users to add individual tabs to their profiles.
 user#:#user_ext_profile#:#Extended Profile
 user#:#user_new_profile_page#:#New Profile Page
 user#:#user_add_page#:#Add Page
@@ -11325,7 +11325,7 @@ content#:#cont_insert_profile#:#Publish Personal Data
 content#:#cont_update_profile#:#Edit Published Data 
 content#:#cont_profile_mode#:#Mode
 content#:#cont_profile_mode_inherit#:#Automatic
-content#:#cont_profile_mode_inherit_info#:#Use your public profile settings
+content#:#cont_profile_mode_inherit_info#:#Use your profile settings
 content#:#cont_profile_mode_manual#:#Manual
 content#:#cont_profile_mode_manual_info#:#Use the following data:
 content#:#cont_ed_insert_verification#:#Insert Certificate

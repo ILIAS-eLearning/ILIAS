@@ -100,7 +100,7 @@ class ilWorkspaceAccessGUI
 	
 	protected function share()
 	{
-		global $ilToolbar, $tpl, $ilUser;
+		global $ilToolbar, $tpl, $ilUser, $ilSetting;
 		
 		$options = array();
 		$options["user"] = $this->lng->txt("wsp_set_permission_single_user");
@@ -124,14 +124,17 @@ class ilWorkspaceAccessGUI
 			$options["registered"] = $this->lng->txt("wsp_set_permission_registered");
 		}
 		
-		if(!$this->getAccessHandler()->hasGlobalPasswordPermission($this->node_id))
-		{
-			$options["password"] = $this->lng->txt("wsp_set_permission_all_password");
-		}
-		
-		if(!$this->getAccessHandler()->hasGlobalPermission($this->node_id))
-		{
-			$options["all"] = $this->lng->txt("wsp_set_permission_all");		
+		if($ilSetting->get("pub_section"))
+		{		
+			if(!$this->getAccessHandler()->hasGlobalPasswordPermission($this->node_id))
+			{
+				$options["password"] = $this->lng->txt("wsp_set_permission_all_password");
+			}
+
+			if(!$this->getAccessHandler()->hasGlobalPermission($this->node_id))
+			{
+				$options["all"] = $this->lng->txt("wsp_set_permission_all");		
+			}
 		}
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
