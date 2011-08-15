@@ -902,8 +902,8 @@ div.ilHeaderAlert
 
 div.il_HeaderInner
 {
-	margin: 0px 0px;
-	padding: 0px 10px 15px 10px;
+	margin-bottom: 10px;
+	padding: 13px 10px 15px 10px;
 	color:#222222;
 }
 
@@ -2134,7 +2134,7 @@ a.MMActive:link, a.MMActive:visited
 	color:#003388;
 	font-size: 85%;
 	text-decoration:none;
-	line-height: 27px;
+	line-height: 26px;
 	padding: 0px 10px 3px 10px;
 	margin: 0px 0px 2px 0px;
 	font-weight: normal;
@@ -2261,7 +2261,7 @@ div.ilFrameBL
 	background-repeat: no-repeat;
 	background-position: bottom left;
 	background-color: #F9F9F9;
-	padding-top: 17px;
+	padding-top: 5px;
 }
 
 
