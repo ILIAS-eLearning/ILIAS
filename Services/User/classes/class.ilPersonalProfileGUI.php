@@ -1001,11 +1001,6 @@ class ilPersonalProfileGUI
 			$this->initPublicProfileForm();
 		}
 		
-		if ($ilSetting->get('user_portfolios') && $ilUser->getPref("public_profile") != "n")
-		{
-			ilUtil::sendInfo($lng->txt("user_profile_portfolio"));
-		}
-		
 		$ptpl = new ilTemplate("tpl.edit_personal_profile.html", true, true, "Services/User");
 		$ptpl->setVariable("FORM", $this->form->getHTML());
 		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
@@ -1040,11 +1035,11 @@ class ilPersonalProfileGUI
 		$radg->setValue($pub_prof);
 			$op1 = new ilRadioOption($lng->txt("usr_public_profile_disabled"), "n",$lng->txt("usr_public_profile_disabled_info"));
 			$radg->addOption($op1);
-			$op2 = new ilRadioOption($lng->txt("usr_public_profile_logged_in"), "y",$lng->txt("usr_public_profile_logged_in_info"));
+			$op2 = new ilRadioOption($lng->txt("usr_public_profile_logged_in"), "y");
 			$radg->addOption($op2);
 		if ($ilSetting->get('enable_global_profiles'))
 		{
-			$op3 = new ilRadioOption($lng->txt("usr_public_profile_global"), "g",$lng->txt("usr_public_profile_global_info"));
+			$op3 = new ilRadioOption($lng->txt("usr_public_profile_global"), "g");
 			$radg->addOption($op3);
 		}
 		$this->form->addItem($radg);
@@ -1053,9 +1048,27 @@ class ilPersonalProfileGUI
 		
 		// save and cancel commands
 		$this->form->addCommandButton("savePublicProfile", $lng->txt("save"));
+		
+		$prtf = null;
+		if ($ilSetting->get('user_portfolios') && $ilUser->getPref("public_profile") != "n")
+		{
+			include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+			$prtf = ilObjPortfolio::getDefaultPortfolio($ilUser->getId());
+			if(!$prtf)
+			{
+				$prtf = "<br />".$lng->txt("user_profile_portfolio");
+			}
+			else
+			{
+				$prtf = "<br />".$lng->txt("user_profile_portfolio_selected");
+			}
+			$prtf .= " <a href=\"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio\">&raquo; ".
+				$lng->txt("portfolio")."</a>";
+		}
+		
 	                
 		$this->form->setTitle($lng->txt("public_profile"));
-		$this->form->setDescription($lng->txt("user_public_profile_info"));
+		$this->form->setDescription($lng->txt("user_public_profile_info").$prtf);
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 	}
 

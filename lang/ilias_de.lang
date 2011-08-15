@@ -3952,10 +3952,10 @@ common#:#permission_denied_filed_locked_by#:#Zugriff verweigert. Die Datei wurde
 common#:#permission_settings#:#Rechteeinstellungen
 common#:#permission_settings_info#:#In diesem Formular stellen Sie die Zugriffsrechte für jede Rolle auf das aktuelle Objekt '%s' ein.
 common#:#person_title#:#Titel
-common#:#personal_data#:#Daten zur Person
+common#:#personal_data#:#Persönliche Daten
 common#:#personal_desktop#:#Persönlicher Schreibtisch
 common#:#personal_picture#:#Persönliches Bild
-common#:#personal_profile#:#Persönliche Daten
+common#:#personal_profile#:#Persönliche Daten & Profil
 common#:#persons#:#Personen
 common#:#pg_a#:#eine Seite
 common#:#pg_add#:#Seite anlegen
@@ -4019,7 +4019,7 @@ common#:#pub_section#:#Öffentlicher Bereich
 common#:#pub_section_info#:#Die Option ermöglicht es, Teile des Systems öffentlich und ohne Authentifizierung zugänglich zu machen. Die Berechtigungen der Rolle "Anonymous" bestimmen, wie Ressourcen öffentlich zugänglich sind.
 common#:#public#:#öffentlich
 common#:#public_notes#:#Öffentliche Notizen
-common#:#public_profile#:#Öffentlich
+common#:#public_profile#:#Profil
 common#:#public_profile_not_visible#:#Das Benutzerprofil ist nicht öffentlich
 common#:#publication#:#Veröffentlichung
 common#:#publication_date#:#Veröffentlichungsdatum
@@ -10098,8 +10098,8 @@ trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
 user#:#user_access_limited#:#Begrenzt
 user#:#user_access_unlimited#:#Unbegrenzt
-user#:#user_activate_public_profile#:#Öffentliches Profil aktivieren
-user#:#user_activate_public_profile_info#:#Globale Aktivierung Ihres öffentlichen Profiles. Vor- und Nachname werden sichtbar.
+user#:#user_activate_public_profile#:#Aktivierung
+user#:#user_activate_public_profile_info#:#Vor- und Nachname sind bei aktiviertem Profil immer sichtbar.
 user#:#user_activation#:#Aktivierung
 user#:#user_all#:#Alle
 user#:#user_any#:#Alle
@@ -10110,17 +10110,17 @@ user#:#user_limited_access#:#Begrenzter Zugriff
 user#:#user_member_of_course_group#:#Mitglied in Kurs/Gruppe
 user#:#user_no_courses#:#Keinem Kurs zugeordnet
 user#:#user_please_select_course_group#:#Bitte wählen Sie eine Gruppe oder einen Kurs aus.
-user#:#user_public_profile_info#:#Bitte wählen Sie aus, welche Daten im öffentlichen Profil erscheinen sollen.
+user#:#user_public_profile_info#:#Bitte wählen Sie aus, welche Daten in Ihrem Profil erscheinen sollen und welche Benutzer es betrachten können.
 user#:#user_screen_reader_optimization#:#Screen-Reader-Optimierung
 user#:#user_screen_reader_optimization_info#:#Passt ILIAS an die Nutzung mit einem Screenreader / Bildschirmleseprogramm an.
 user#:#user_select_course_group#:#Kurs/Gruppe auswählen
 user#:#user_visible_in_profile#:#Sichtbar im Profil
 user#:#usr_link_to_profile#:#Link zum Profil
-user#:#usr_public_profile_disabled#:#Öffentliches Profil deaktiviert
+user#:#usr_public_profile_disabled#:#Profil deaktiviert
 user#:#usr_public_profile_disabled_info#:#Ihre Angaben sind nur für Systemadministratoren einsehbar.
-user#:#usr_public_profile_global#:#Global sichtbar
+user#:#usr_public_profile_global#:#WWW / Für alle Benutzer des Internets sichtbar
 user#:#usr_public_profile_global_info#:#Ihr Profil ist ohne Einschränkung im Internet sichtbar.
-user#:#usr_public_profile_logged_in#:#Angemeldete Benutzer
+user#:#usr_public_profile_logged_in#:#Für angemeldete Benutzer sichtbar
 user#:#usr_public_profile_logged_in_info#:#Ihre Angaben sind nur für Benutzer sichtbar, die in ILIAS eingeloggt sind.
 webr#:#webr_active#:#Aktiv
 webr#:#webr_container_info#:#Da diese Weblinksammlung mehr als einen Weblink enthalten soll, sollten Sie einen Titel und eventuell einen Beschreibungstext für die Darstellung im Magazin vergeben.
@@ -11545,7 +11545,7 @@ common#:#portfolio#:#Portfolio
 prtf#:#prtf_default_portfolio#:#Mein Profil
 user#:#user_portfolios#:#Portfolios
 user#:#user_portfolios_desc#:#Benutzer können Portfolios anlegen und als Profil verwenden.
-user#:#user_profile_portfolio#:#Sie können ein Portfolio als öffentliches Profil verwenden.
+user#:#user_profile_portfolio#:#Wenn Sie ein Portfolio als Ihr Profil nutzen möchten, setzen Sie im Portfolio-Bereich das Attribut "Mein Profil".
 ecs#:#ecs_cert_valid_until#:#Zertifikat gültig bis
 wsp#:#wsp_type_webr#:#Weblink
 trac#:#trac_object_statistics#:#Objekt-Statistik
@@ -12081,3 +12081,4 @@ exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
 exc#:#exc_blog_selected#:#Der Blog wurde verknüpft.
 exc#:#exc_portfolio_selected#:#Das Portfolio wurde verknüpft.
 content#:#cont_sc_auto_continue#:#Automatische Fortsetzung
+user#:#user_profile_portfolio_selected#:#Sie benutzen momentan ein Portfolio als Ihr Profil.
