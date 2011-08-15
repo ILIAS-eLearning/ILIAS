@@ -537,7 +537,11 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		{
 			fputs($a_one_file, $output);
 		}
-		
+		else
+		{
+			fputs(fopen($a_target_dir.'/index.html','w+'),$output);
+		}
+  		        
 		$this->exportFileItems($a_target_dir, $expLog);
 
 	}
