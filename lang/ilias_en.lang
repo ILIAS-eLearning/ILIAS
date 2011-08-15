@@ -3980,10 +3980,10 @@ common#:#permission_settings_info#:#This form determines which role is allowed t
 common#:#permission_settings#:#Object Permission Settings
 common#:#permission#:#Permission
 common#:#person_title#:#Title
-common#:#personal_data#:#Personal Information
+common#:#personal_data#:#Personal Data
 common#:#personal_desktop#:#Personal Desktop
 common#:#personal_picture#:#Personal Picture
-common#:#personal_profile#:#Personal Data
+common#:#personal_profile#:#Personal Data & Profile
 common#:#persons#:#Persons
 common#:#pg_a#:#a page
 common#:#pg_add#:#Add page
@@ -4046,8 +4046,8 @@ common#:#ps_write#:#Edit Privacy/Security
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
 common#:#pub_section#:#Public Area
 common#:#public_notes#:#Public Notes
-common#:#public_profile_not_visible#:#The User Profile is not public
-common#:#public_profile#:#Public
+common#:#public_profile_not_visible#:#The profile is not public
+common#:#public_profile#:#Profile
 common#:#public#:#public
 common#:#publication_date#:#Publication Date
 common#:#publication#:#Publication
@@ -10202,8 +10202,8 @@ trac#:#vm_days_of_period#:#Days of Period
 trac#:#vm_times_of_day#:#Times of Days
 user#:#user_access_limited#:#Limited
 user#:#user_access_unlimited#:#Unlimited
-user#:#user_activate_public_profile_info#:#If activated your first and last name will always be visible.
-user#:#user_activate_public_profile#:#Public Profile Activation
+user#:#user_activate_public_profile_info#:#First and last name will always be visible in your profile, if it is activated.
+user#:#user_activate_public_profile#:#Activation
 user#:#user_activation#:#Activation
 user#:#user_all#:#All
 user#:#user_any#:#Any
@@ -10214,18 +10214,18 @@ user#:#user_limited_access#:#Limited Access
 user#:#user_member_of_course_group#:#Member of Course/Group
 user#:#user_no_courses#:#No Courses Assigned
 user#:#user_please_select_course_group#:#Please select a course or a group.
-user#:#user_public_profile_info#:#Please select which personal data should be visible to other users.
+user#:#user_public_profile_info#:#Please select which personal data is visible in your profile and which users should be able to visit your profile.
 user#:#user_screen_reader_optimization_info#:#Improve ILIAS for usage with screen readers.
 user#:#user_screen_reader_optimization#:#Screen Reader Optimization
 user#:#user_select_course_group#:#Select Course/Group
 user#:#user_visible_in_profile#:#Visible in Profile
 user#:#usr_link_to_profile#:#Link to Profile
 user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.
-user#:#usr_public_profile_disabled#:#Public Profile Disabled
+user#:#usr_public_profile_disabled#:#Profile Disabled
 user#:#usr_public_profile_global_info#:#Your profile is visible to the internet.
-user#:#usr_public_profile_global#:#Globale Visible
+user#:#usr_public_profile_global#:#WWW / Accessible for all Users on the Internet
 user#:#usr_public_profile_logged_in_info#:#Your information is only visible to users logged into the system.
-user#:#usr_public_profile_logged_in#:#Logged in Users
+user#:#usr_public_profile_logged_in#:#Visible for Logged in Users
 webr#:#webr_active#:#Active
 webr#:#webr_container_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.
 webr#:#webr_deactivate#:#Deactivate Weblink
@@ -11546,7 +11546,7 @@ common#:#portfolio#:#Portfolio
 prtf#:#prtf_default_portfolio#:#My Profile
 user#:#user_portfolios#:#Portfolios
 user#:#user_portfolios_desc#:#Users can create portfolios and use them as profile.
-user#:#user_profile_portfolio#:#You can use a portfolio as public profile.
+user#:#user_profile_portfolio#:#If you want to use a portfolio as your profile, go to the portfolio section and set "My Profile" for that portfolio.
 wsp#:#wsp_type_webr#:#Weblink
 content#:#cont_maintenance#:#Maintenance
 content#:#cont_switch_to_media_pool#:#Switch to other Media Pool
@@ -12090,3 +12090,4 @@ exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
 common#:#my_courses_groups#:#My Courses & Groups
 content#:#cont_sc_auto_continue#:#Auto-Continue
+user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile.
