@@ -87,7 +87,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng;
 
-		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
+		$this->tpl->setVariable("VAL_ID", $a_set["usr_id"]);
 		foreach($this->getSelectedColumns() as $field)
 		{
 			switch($field)
