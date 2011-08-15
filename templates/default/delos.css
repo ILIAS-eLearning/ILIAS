@@ -33,7 +33,6 @@ div.ilFrameH{
 	background-image: url(images/head_back.gif);
 	background-repeat: repeat-x;
 	background-color: #F0F0F0;
-	background-position: bottom;
     zoom: 1;
 }
 
@@ -933,7 +932,8 @@ a.ilMainHeader, a.ilMainHeader:hover
 
 div.ilLogin
 {
-	padding:10px 20px 3px 10px;
+	padding:32px 20px 3px 10px;
+	padding:5px 20px 3px 10px;
 	margin-top:0px;
 	margin-bottom:0px;
 	white-space: nowrap;
@@ -2036,11 +2036,20 @@ div.il_SearchFragment
 /* CHANGES */
 
 
-div.ilMainHeader
-{
+div.ilMainHeader {
 	right: 0px;
 	min-height: 35px;
 	padding: 0px;
+}
+
+div.ilMainMenuSection {
+	background-repeat: repeat-x;
+	border-top: 1px solid #a4c9ff;
+	border-bottom: 1px solid #78a1ff;
+}
+
+div.ilMainMenuHeadSection {
+	
 }
 
 div.ilMemberViewMainHeader
@@ -2058,6 +2067,11 @@ a.ilLogin, a.ilLogin:visited
 }
 
 /* MainMenu */
+div.ilMainMenuSection
+{
+	
+}
+	
 div.ilMainMenu
 {
 	background-repeat: repeat-x;
@@ -2078,10 +2092,11 @@ li.ilMainMenu
 {
 	float:left;
 	margin: 0px;
-	padding-top: 3px;
+	padding-top: 0px;
 	height: 31px;
 	border-left: 1px solid #d8ebff;
-	border-right: 1px solid #b0c8ff;
+	border-left: 1px solid #a3c8ff;
+	border-right: 1px solid #a3c8ff;
 }
 
 
@@ -2128,7 +2143,7 @@ a.MMActive:hover
 }
 
 div.ilMainMenuSearch {
-	margin: 7px 3px 0px 3px;
+	margin: 5px 20px 0px 3px;
 }
 
 form.ilMainMenuSearch
@@ -2192,13 +2207,15 @@ span.ilMMStatus {
 /* Main Menu Top Title */
 div.ilTopTitle
 {
-	font-size: 80%;
-	color: #E0E0E0;
-	letter-spacing: 0.05em;
-	word-spacing: -0.1em;
-	white-space: nowrap;
-	padding: 3px 10px 3px 20px;
-	background-color: #003f79;
+	color: #335599;
+    font-size: 120%;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    padding: 31px 0 0 20px;
+    padding: 16px 0 0 25px;
+    white-space: nowrap;
+    word-spacing: -0.1em;
+    float: left;
 }
 input.ilOpenIDBox
 {
