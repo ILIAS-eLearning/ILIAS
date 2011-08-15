@@ -12091,3 +12091,5 @@ exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
 common#:#my_courses_groups#:#My Courses & Groups
 content#:#cont_sc_auto_continue#:#Auto-Continue
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile.
+prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.
+blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.
