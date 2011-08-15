@@ -126,7 +126,7 @@ class ilExAssignmentGUI
 			$info->addProperty($lng->txt("exc_time_to_send"),
 				"<b>".$time_str."</b>");
 		}
-
+		
 		// public submissions
 		if ($this->exc->getShowSubmissions())
 		{
@@ -201,6 +201,12 @@ class ilExAssignmentGUI
 				
 				$delivered_files = ilExAssignment::getDeliveredFiles($a_data["exc_id"], $a_data["id"], $ilUser->getId());
 
+				$times_up = false;
+				if($a_data["deadline"] - time() < 0)
+				{
+					$times_up = true;
+				}
+		
 				switch($a_data["type"])
 				{
 					case ilExAssignment::TYPE_UPLOAD:					
@@ -217,7 +223,7 @@ class ilExAssignmentGUI
 	
 						$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $a_data["id"]);
 	
-						if ($a_data["deadline"] - time() > 0)
+						if (!$times_up)
 						{
 							$files_str.= ' <a class="submit" href="'.
 								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen").'">'.
@@ -259,17 +265,23 @@ class ilExAssignmentGUI
 									$node["title"].'</a>';
 								$valid_blog = true;
 							}						
-						}																
-						if(!$valid_blog)
-						{							
-							$files_str .= '<a class="submit" href="'.
-								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createBlog").'">'.
-								$lng->txt("exc_create_blog").'</a>';
-						}					
-						$files_str .=' <a class="submit" href="'.
-								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "selectBlog").'">'.
-								$lng->txt("exc_select_blog".($valid_blog ? "_change" : "")).'</a>';
-						$info->addProperty($lng->txt("exc_blog_returned"), $files_str);		
+						}						
+						if(!$times_up)
+						{
+							if(!$valid_blog)
+							{							
+								$files_str .= '<a class="submit" href="'.
+									$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createBlog").'">'.
+									$lng->txt("exc_create_blog").'</a>';
+							}					
+							$files_str .=' <a class="submit" href="'.
+									$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "selectBlog").'">'.
+									$lng->txt("exc_select_blog".($valid_blog ? "_change" : "")).'</a>';
+						}
+						if($files_str)
+						{
+							$info->addProperty($lng->txt("exc_blog_returned"), $files_str);		
+						}
 						if($delivered_files && $delivered_files["filename"])
 						{							
 							$ilCtrl->setParameterByClass("ilobjexercisegui", "delivered", $delivered_files["returned_id"]);
@@ -300,16 +312,22 @@ class ilExAssignmentGUI
 								$valid_prtf = true;
 							}
 						}
-						if(!$valid_prtf)
+						if(!$times_up)
 						{
-							$files_str .= '<a class="submit" href="'.
-								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createPortfolio").'">'.
-								$lng->txt("exc_create_portfolio").'</a>';
+							if(!$valid_prtf)
+							{
+								$files_str .= '<a class="submit" href="'.
+									$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createPortfolio").'">'.
+									$lng->txt("exc_create_portfolio").'</a>';
+							}
+							$files_str .= ' <a class="submit" href="'.
+									$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "selectPortfolio").'">'.
+									$lng->txt("exc_select_portfolio".($valid_prtf ? "_change" : "")).'</a>';
 						}
-						$files_str .= ' <a class="submit" href="'.
-								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "selectPortfolio").'">'.
-								$lng->txt("exc_select_portfolio".($valid_prtf ? "_change" : "")).'</a>';
-						$info->addProperty($lng->txt("exc_portfolio_returned"), $files_str);		
+						if($files_str)
+						{
+							$info->addProperty($lng->txt("exc_portfolio_returned"), $files_str);	
+						}
 						if($delivered_files && $delivered_files["filename"])
 						{							
 							$ilCtrl->setParameterByClass("ilobjexercisegui", "delivered", $delivered_files["returned_id"]);
