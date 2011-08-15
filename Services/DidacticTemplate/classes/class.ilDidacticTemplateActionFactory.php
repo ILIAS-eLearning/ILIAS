@@ -11,25 +11,6 @@ include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateAction
  */
 class ilDidacticTemplateActionFactory
 {
-
-	/**
-	 * Get action class by xml definition type string
-	 * @param string $a_action_type
-	 * @return ilDidacticTemplateAction
-	 */
-	public static function factoryByTypeString($a_action_type)
-	{
-		switch($a_action_type)
-		{
-			case 'localPolicy':
-				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateLocalPolicyAction.php';
-				return new ilDidacticTemplateLocalPolicyAction();
-
-			case 'localRole':
-				return new ilDidacticTemplateLocalRoleAction();
-		}
-	}
-
 	/**
 	 * Get action class by type
 	 * @param string $a_action_type
@@ -44,8 +25,12 @@ class ilDidacticTemplateActionFactory
 				return new ilDidacticTemplateLocalPolicyAction();
 
 			case ilDidacticTemplateAction::TYPE_LOCAL_ROLE:
+				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateLocalRoleAction.php';
 				return new ilDidacticTemplateLocalRoleAction();
 
+			case ilDidacticTemplateAction::TYPE_BLOCK_ROLE:
+				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateBlockRoleAction.php';
+				return new ilDidacticTemplateBlockRoleAction();
 		}
 	}
 	
@@ -68,6 +53,9 @@ class ilDidacticTemplateActionFactory
 				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateLocalRoleAction.php';
 				return new ilDidacticTemplateLocalRoleAction($a_action_id);
 
+			case ilDidacticTemplateAction::TYPE_BLOCK_ROLE:
+				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateBlockRoleAction.php';
+				return new ilDidacticTemplateBlockRoleAction($a_action_id);
 		}
 		
 	}

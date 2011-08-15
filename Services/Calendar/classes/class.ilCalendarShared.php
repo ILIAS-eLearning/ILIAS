@@ -71,7 +71,7 @@ class ilCalendarShared
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM cal_shared WHERE cal_id ".$ilDB->quote($a_cal_id ,'integer')." ";
+		$query = "DELETE FROM cal_shared WHERE cal_id = ".$ilDB->quote($a_cal_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 		return true;
 	}
