@@ -100,7 +100,11 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 	*/
 	public function editSettings($a_form = null)
 	{
+		global $lng;
+		
 		$this->tabs_gui->setTabActive('settings');	
+		
+		ilUtil::sendInfo($lng->txt("prtf_admin_toggle_info"));
 		
 		if(!$a_form)
 		{

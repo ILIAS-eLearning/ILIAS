@@ -12082,3 +12082,5 @@ exc#:#exc_blog_selected#:#Der Blog wurde verknüpft.
 exc#:#exc_portfolio_selected#:#Das Portfolio wurde verknüpft.
 content#:#cont_sc_auto_continue#:#Automatische Fortsetzung
 user#:#user_profile_portfolio_selected#:#Sie benutzen momentan ein Portfolio als Ihr Profil.
+prtf#:#prtf_admin_toggle_info#:#Das Portfolio-Feature kann in der Administration des Persönlichen Schreibtischs deaktiviert werden.
+blog#:#blog_admin_toggle_info#:#Das Blog-Feature kann in der Administration des Persönlichen Schreibtischs deaktiviert werden.
