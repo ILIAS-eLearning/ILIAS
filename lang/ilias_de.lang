@@ -36,7 +36,7 @@ administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Die Locale-Einstellung beeinflusst die alphabetische Sortierung in Listen. Beispiele sind nl_NL oder de_DE. Es können mehrere Werte angegeben werden (kommagetrennt). Der erste gültige Wert wird genutzt.
 administration#:#adm_repository_cache_time#:#Zeitspanne Magazin-Cache
 administration#:#adm_repository_cache_time_info#:#Cache-Zeit für Magazinzugriffe. Setzen Sie den Wert auf 0, um den Cache zu deaktivieren. Höhere Werte verbessern die Performanz des Magazins, können aber zur Anzeige von fehlenden Berechtigungen führen.
-administration#:#allow_change_loginname#:#Ändern des Benutzernamens im Persönlichen Profil
+administration#:#allow_change_loginname#:#Ändern des Benutzernamens in den Persönlichen Daten
 administration#:#analysis_options#:#Analyse-Optionen
 administration#:#analyze_data#:#Analysiere und repariere Datenintegrität
 administration#:#analyzing#:#Analysiert...
@@ -6850,7 +6850,7 @@ gmaps#:#gmaps_extt_gmaps#:#Google Maps
 gmaps#:#gmaps_latitude#:#Breitengrad
 gmaps#:#gmaps_longitude#:#Längengrad
 gmaps#:#gmaps_lookup_address#:#Adresse suchen
-gmaps#:#gmaps_public_profile_info#:#Wenn angeklickt, wird der eigene Standort Standort auf der Google Map im Öffentlichen Profil angezeigt. Dazu muss aber Ihr Öffentliches Profil aktiviert sein. Bei Kurs- und Gruppenkarten wird der Standort ebenfalls angezeigt.
+gmaps#:#gmaps_public_profile_info#:#Wenn angeklickt, wird der eigene Standort Standort auf der Google Map im Profil angezeigt. Dazu muss aber Ihr Profil aktiviert sein. Bei Kurs- und Gruppenkarten wird der Standort ebenfalls angezeigt.
 gmaps#:#gmaps_settings#:#Google Maps-Einstellungen
 gmaps#:#gmaps_std_location#:#Standort der Installation
 gmaps#:#gmaps_std_location_desc#:#Klicken Sie auf die Karte, um den Standort festzulegen.
@@ -8568,7 +8568,7 @@ pd#:#pd_enable_active_users#:#Block 'Aktive Benutzer' aktivieren
 pd#:#pd_enable_block_moving#:#'Verschieben der Blöcke' aktivieren
 pd#:#pd_enable_block_moving_info#:#Erlaube Benutzern, ihren Persönlichen Schreibtisch anzupassen.
 pd#:#pd_enable_bookmarks#:#Bookmarks aktivieren
-pd#:#pd_enable_global_profiles#:#Globale Profile aktivieren
+pd#:#pd_enable_global_profiles#:#Öffentliche Profile aktivieren
 pd#:#pd_enable_global_profiles_info#:#Die Option ermöglicht Benutzern, ihr Profil global (im Internet) zugänglich zu machen.
 pd#:#pd_enable_my_memberships#:#Aktiviere 'Meine Mitgliedschaften'
 pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
@@ -10114,7 +10114,7 @@ user#:#user_public_profile_info#:#Bitte wählen Sie aus, welche Daten in Ihrem P
 user#:#user_screen_reader_optimization#:#Screen-Reader-Optimierung
 user#:#user_screen_reader_optimization_info#:#Passt ILIAS an die Nutzung mit einem Screenreader / Bildschirmleseprogramm an.
 user#:#user_select_course_group#:#Kurs/Gruppe auswählen
-user#:#user_visible_in_profile#:#Sichtbar im Profil
+user#:#user_visible_in_profile#:#Sichtbar in den persönlichen Daten
 user#:#usr_link_to_profile#:#Link zum Profil
 user#:#usr_public_profile_disabled#:#Profil deaktiviert
 user#:#usr_public_profile_disabled_info#:#Ihre Angaben sind nur für Systemadministratoren einsehbar.
@@ -11308,11 +11308,11 @@ prtf#:#prtf_sure_delete_portfolio_pages#:#Wollen Sie die folgenden Portfolio-Sei
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio-Seiten wurden gelöscht
 content#:#cont_ed_insert_profile#:#Persönliche Daten einfügen
 content#:#cont_pc_prof#:#Persönliche Daten
-content#:#cont_insert_profile#:#Persönliche Daten veröffentlichenn
+content#:#cont_insert_profile#:#Persönliche Daten veröffentlichen
 content#:#cont_update_profile#:#Veröffentlichte Daten bearbeiten
 content#:#cont_profile_mode#:#Modus
 content#:#cont_profile_mode_inherit#:#Automatisch
-content#:#cont_profile_mode_inherit_info#:#Verwendet die Daten ihres öffentlichen Profils
+content#:#cont_profile_mode_inherit_info#:#Verwendet die Daten ihres Profils
 content#:#cont_profile_mode_manual#:#Manuell
 content#:#cont_profile_mode_manual_info#:#Verwendet die folgenden Daten:
 content#:#cont_ed_insert_verification#:#Zertifikat einfügen
