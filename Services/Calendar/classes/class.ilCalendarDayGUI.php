@@ -168,6 +168,8 @@ class ilCalendarDayGUI
 				$this->tpl->setCurrentBlock("new_ms");
 				$this->tpl->setVariable('H_NEW_MS_SRC',ilUtil::getImagePath('ms_add.gif'));
 				$this->tpl->setVariable('H_NEW_MS_ALT',$this->lng->txt('cal_new_ms'));
+				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
+				$this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'idate', $this->seed->get(IL_CAL_DATE));
 				$this->tpl->setVariable('NEW_MS_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','addMilestone'));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -175,6 +177,8 @@ class ilCalendarDayGUI
 		    $this->tpl->setCurrentBlock("new_app1");
 			$this->tpl->setVariable('H_NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
 			$this->tpl->setVariable('H_NEW_APP_ALT',$this->lng->txt('cal_new_app'));
+			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
+			$this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'idate', $this->seed->get(IL_CAL_DATE));
 			$this->tpl->setVariable('NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
 			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 			$this->tpl->parseCurrentBlock();
@@ -402,8 +406,7 @@ class ilCalendarDayGUI
 	 * @access protected
 	 * @return array hours
 	 */
-	protected function parseHourInfo($daily_apps, $morning_aggr = 7,
-		$evening_aggr = 20)
+	protected function parseHourInfo($daily_apps, $morning_aggr = 7,$evening_aggr = 20)
 	{
 		for($i = $morning_aggr;$i <= $evening_aggr;$i++)
 		{
