@@ -50,7 +50,7 @@ class ilFileUtils
 	 * @throws ilFileUtilsException
 	 */
 	 
-	function processZipFile ($a_directory, $a_file, $structure, $ref_id = null, $containerType = null) {
+	function processZipFile ($a_directory, $a_file, $structure, $ref_id = null, $containerType = null, $tree = null, $access_handler = null) {
 
 		global $lng;
 		include_once("Services/Utilities/classes/class.ilUtil.php");
@@ -120,7 +120,7 @@ class ilFileUtils
 		// Everything fine since we got here; so we can store files and folders into the system (if ref_id is given)
 		if ($ref_id != null)
 		{
-			ilFileUtils::createObjects ($a_directory, $structure, $ref_id, $containerType);
+			ilFileUtils::createObjects ($a_directory, $structure, $ref_id, $containerType, $tree, $access_handler);
 		}
 		
 	}
@@ -177,7 +177,7 @@ class ilFileUtils
 	 * @param string containerType object type of created containerobjects (folder or category)
 	 * @return integer errorcode
 	 */	
-	function createObjects($dir, $structure, $ref_id, $containerType)
+	function createObjects($dir, $structure, $ref_id, $containerType, $tree = null, $access_handler = null)
 	{
 		$dirlist = opendir($dir);
 		
@@ -195,17 +195,17 @@ class ilFileUtils
 				{
 					if ($structure) 
 					{
-					  	$new_ref_id = ilFileUtils::createContainer(ilFileUtils::utf8_encode($file), $ref_id, $containerType);						
-						ilFileUtils::createObjects($newpath, $structure, $new_ref_id, $containerType);
+					  	$new_ref_id = ilFileUtils::createContainer(ilFileUtils::utf8_encode($file), $ref_id, $containerType, $tree, $access_handler);						
+						ilFileUtils::createObjects($newpath, $structure, $new_ref_id, $containerType, $tree, $access_handler);
 					}
 					else 
 					{
-						ilFileUtils::createObjects($newpath, $structure, $ref_id, $containerType);
+						ilFileUtils::createObjects($newpath, $structure, $ref_id, $containerType, $tree, $access_handler);
 					}
 				}
 				else
 				{
-					ilFileUtils::createFile (end($level),$dir,$ref_id);
+					ilFileUtils::createFile (end($level), $dir, $ref_id, $tree, $access_handler);
 	      			}
 			}
 		}
@@ -223,34 +223,54 @@ class ilFileUtils
 	 * @param string $containerType Fold or Cat
 	 * @return integer ref_id of containerobject
 	 */
-	function createContainer($name, $ref_id, $containerType) 
+	function createContainer($name, $ref_id, $containerType, $tree = null, $access_handler = null) 
 	{
-		if ($containerType == "Category") 
+		switch($containerType)
 		{
-			include_once("./Modules/Category/classes/class.ilObjCategory.php");
-			$newObj = new ilObjCategory();
-			$newObj->setType("cat");
-		}
-		if ($containerType == "Folder")
-		{
-			include_once("./Modules/Folder/classes/class.ilObjFolder.php");
-			$newObj = new ilObjFolder();
-			$newObj->setType("fold");		
+			case "Category":		
+				include_once("./Modules/Category/classes/class.ilObjCategory.php");
+				$newObj = new ilObjCategory();
+				$newObj->setType("cat");
+				break;
+			
+			case "Folder":		
+				include_once("./Modules/Folder/classes/class.ilObjFolder.php");
+				$newObj = new ilObjFolder();
+				$newObj->setType("fold");		
+				break;
+			
+			case "WorkspaceFolder":
+				include_once("./Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolder.php");
+				$newObj = new ilObjWorkspaceFolder();		
+				break;
 		}
 
 		$newObj->setTitle($name);
 		$newObj->create();
-		$newObj->createReference();
-		$newObj->putInTree($ref_id);
-		$newObj->setPermissions($ref_id);
 		
-		if ($newObj->getType() == "cat") 
+		// repository
+		if(!$access_handler)
 		{
-			global $lng;
-			$newObj->addTranslation($name,"", $lng->getLangKey(), $lng->getLangKey());
+			$newObj->createReference();
+			$newObj->putInTree($ref_id);
+			$newObj->setPermissions($ref_id);
+			
+			if ($newObj->getType() == "cat") 
+			{
+				global $lng;
+				$newObj->addTranslation($name,"", $lng->getLangKey(), $lng->getLangKey());
+			}
+
+			return $newObj->getRefId();
 		}
-		
-		return $newObj->getRefId();
+		// workspace
+		else
+		{
+			$node_id = $tree->insertObject($ref_id, $newObj->getId());
+			$access_handler->setPermissions($ref_id, $node_id);
+			
+			return $node_id;
+		}
 	}
 	
 	/**
@@ -262,10 +282,19 @@ class ilFileUtils
 	 * @param string $path Path to file 
 	 * @param integer $ref_id ref_id of parent
 	 */
-	function createFile ($filename, $path, $ref_id)
+	function createFile ($filename, $path, $ref_id, $tree = null, $access_handler = null)
 	{
 		global $rbacsystem;	
-		if ($rbacsystem->checkAccess("create", $ref_id, "file")) {
+		
+		if(!$access_handler)
+		{
+			$permission = $rbacsystem->checkAccess("create", $ref_id, "file");
+		}
+		else
+		{
+			$permission = $access_handler->checkAccess("create", "", $ref_id, "file");
+		}
+		if ($permission) {
 	
 			// create and insert file in grp_tree
 			include_once("./Modules/File/classes/class.ilObjFile.php");
@@ -276,19 +305,25 @@ class ilFileUtils
 		
 			// better use this, mime_content_type is deprecated
 			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-			$fileObj->setFileType(ilObjMediaObject::getMimeType($path. "/" . $filename));
-			
+			$fileObj->setFileType(ilObjMediaObject::getMimeType($path. "/" . $filename));			
 			$fileObj->setFileSize(filesize($path. "/" . $filename));
 			$fileObj->create();
-			$fileObj->createReference();
-	
-			$fileObj->putInTree($ref_id);
-			$fileObj->setPermissions($ref_id);
+			
+			// repository
+			if(!$access_handler)
+			{
+				$fileObj->createReference();	
+				$fileObj->putInTree($ref_id);
+				$fileObj->setPermissions($ref_id);
+			}
+			else
+			{
+				$node_id = $tree->insertObject($ref_id, $fileObj->getId());
+				$access_handler->setPermissions($ref_id, $node_id);
+			}
 		
-			// upload file to filesystem
-	
-			$fileObj->createDirectory();
-	
+			// upload file to filesystem	
+			$fileObj->createDirectory();	
 			$fileObj->storeUnzipedFile($path. "/" . $filename,ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
 		}
 		else {

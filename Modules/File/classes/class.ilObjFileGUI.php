@@ -348,19 +348,39 @@ class ilObjFileGUI extends ilObject2GUI
 				// Create unzip-directory
 				$newDir = ilUtil::ilTempnam();
 				ilUtil::makeDir($newDir);
-
+				
 				// Check if permission is granted for creation of object, if necessary
-				$type = ilObject::_lookupType((int)$this->parent_id, true);
-				if($type == 'cat' or $type == 'root')
+				if($this->id_type != self::WORKSPACE_NODE_ID)
 				{
-					$permission = $this->checkPermissionBool("create", "", "cat");
-					$containerType = "Category";
+					
+					$type = ilObject::_lookupType((int)$this->parent_id, true);
 				}
-				else {
-					$permission = $this->checkPermissionBool("create", "", "fold");
-					$containerType = "Folder";			
-				}
-
+				else
+				{
+					$type = ilObject::_lookupType($this->tree->lookupObjectId($this->parent_id), false);
+				}			
+				$tree = $access_handler = null;
+				switch($type)
+				{
+					case 'cat':
+					case 'root':
+						$permission = $this->checkPermissionBool("create", "", "cat");
+						$containerType = "Category";
+						break;
+					
+					case 'fold':
+						$permission = $this->checkPermissionBool("create", "", "fold");
+						$containerType = "Folder";	
+						break;
+					
+					case 'wfld':
+					case 'wsrt':
+						$permission = $this->checkPermissionBool("create", "", "wfld");
+						$containerType = "WorkspaceFolder";	
+						$tree = $this->tree;
+						$access_handler = $this->getAccessHandler();
+						break;						
+				}												
 				// 	processZipFile ( 
 				//		Dir to unzip, 
 				//		Path to uploaded file, 
@@ -375,7 +395,8 @@ class ilObjFileGUI extends ilObject2GUI
 						($adopt_structure && $permission),
 						$this->parent_id,
 						$containerType,
-						true);
+						$tree,
+						$access_handler);
 					ilUtil::sendSuccess($this->lng->txt("file_added"),true);
 				}
 				catch (ilFileUtilsException $e) 
