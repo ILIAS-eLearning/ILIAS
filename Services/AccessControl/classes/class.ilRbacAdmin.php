@@ -353,10 +353,11 @@ class ilRbacAdmin
 	*/
 	function revokePermission($a_ref_id,$a_rol_id = 0,$a_keep_protected = true)
 	{
-		global $rbacreview,$log,$ilDB;
+		global $rbacreview,$log,$ilDB,$ilLog;
 
 		if (!isset($a_ref_id))
 		{
+			$ilLog->logStack();
 			$message = get_class($this)."::revokePermission(): Missing parameter! ref_id: ".$a_ref_id;
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
@@ -685,9 +686,60 @@ class ilRbacAdmin
 				$row->ops_id,
 				$a_dest_parent));
 		}
-
 		return true;
 	}
+
+	/**
+	 *
+	 * @global <type> $ilDB
+	 * @param <type> $a_source1_id
+	 * @param <type> $a_source1_parent
+	 * @param <type> $a_source2_id
+	 * @param <type> $a_source2_parent
+	 * @param <type> $a_dest_id
+	 * @param <type> $a_dest_parent
+	 * @return <type> 
+	 */
+	public function copyRolePermissionUnion(
+		$a_source1_id,
+		$a_source1_parent,
+		$a_source2_id,
+		$a_source2_parent,
+		$a_dest_id,
+		$a_dest_parent)
+	{
+		global $ilDB, $rbacreview;
+
+		$this->copyRoleTemplatePermissions(
+			$a_source1_id,
+			$a_source1_parent,
+			$a_dest_parent,
+			$a_dest_id
+		);
+
+		$s1_ops = $rbacreview->getAllOperationsOfRole($a_source1_id,$a_source1_parent);
+		$s2_ops = $rbacreview->getAlloperationsOfRole($a_source2_id,$a_source2_parent);
+
+		foreach($s2_ops as $type => $ops)
+		{
+			foreach($ops as $op)
+			{
+				if(!isset($s1_ops[$type]) or !in_array($op, $s1_ops[$type]))
+				{
+					$query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) '.
+						'VALUES( '.
+						$ilDB->quote($a_dest_id,'integer').', '.
+						$ilDB->quote($type,'text').', '.
+						$ilDB->quote($op,'integer').', '.
+						$ilDB->quote($a_dest_parent,'integer').' '.
+						')';
+					$ilDB->manipulate($query);
+				}
+			}
+		}
+		return true;
+	}
+
 	
 	/**
 	* Deletes all entries of a template. If an object type is given for third parameter only

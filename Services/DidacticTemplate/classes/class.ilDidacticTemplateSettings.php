@@ -12,6 +12,7 @@ include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettin
 class ilDidacticTemplateSettings
 {
 	private static $instance = null;
+	private static $instances = null;
 
 
 	private $templates = array();
@@ -38,6 +39,20 @@ class ilDidacticTemplateSettings
 			return self::$instance;
 		}
 		return self::$instance = new ilDidacticTemplateSettings();
+	}
+
+	/**
+	 * Get instance by obj type
+	 * @param string $a_obj_type
+	 * @return ilDidacticTemplateSettings
+	 */
+	public static function getInstanceByObjectType($a_obj_type)
+	{
+		if(self::$instances[$a_obj_type])
+		{
+			return self::$instances[$a_obj_type];
+		}
+		return self::$instances[$a_obj_type] = new ilDidacticTemplateSettings($a_obj_type);
 	}
 
 	/**
