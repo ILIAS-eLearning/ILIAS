@@ -777,9 +777,47 @@ class ilObjectGUI
 		$ta->setRows(2);
 		$form->addItem($ta);
 
+		$form = $this->initDidacticTemplate($form);
+
 		$form->addCommandButton("save", $this->lng->txt($a_new_type."_add"));
 		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
+		return $form;
+	}
+
+	/**
+	 * Show didactic template types
+	 * @param ilPropertyFormGUI $form
+	 * @return ilPropertyFormGUI $form
+	 */
+	protected function initDidacticTemplate(ilPropertyFormGUI $form)
+	{
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettings.php';
+		$templates = ilDidacticTemplateSettings::getInstanceByObjectType($this->type)->getTemplates();
+
+		if(!$templates)
+		{
+			return $form;
+		}
+
+		$type = new ilRadioGroupInputGUI(
+			$this->lng->txt($this->type.'_type'),
+			'didactic_type'
+		);
+
+		$default = new ilRadioOption($this->lng->txt('default'), 0);
+		$type->addOption($default);
+
+		foreach($templates as $template)
+		{
+			$tmpl = new ilRadioOption(
+				$template->getTitle(),
+				$template->getId(),
+				$template->getDescription()
+			);
+			$type->addOption($tmpl);
+		}
+		$form->addItem($type);
 		return $form;
 	}
 
@@ -828,6 +866,8 @@ class ilObjectGUI
 
 			$this->putObjectInTree($newObj);
 
+			$newObj->applyDidacticTemplate($form->getInput('didactic_type'));
+
 			// additional paramters are added to afterSave()
 			$args = func_get_args();
 			if($args)
@@ -844,6 +884,20 @@ class ilObjectGUI
 		// display only this form to correct input
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHtml());
+	}
+
+	/**
+	 * Handle didactic template settings
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function handleDidacticTemplateSettings(ilPropertyFormGUI $form, ilObject $obj)
+	{
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
+		$set = new ilDidacticTemplateSetting($form->getItemByPostVar('didactic_type')->getValue());
+
+
+
+
 	}
 
 	/**
