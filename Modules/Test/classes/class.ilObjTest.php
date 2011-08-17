@@ -6753,6 +6753,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$newObj->setShowInfo($this->getShowInfo());
 		$newObj->setForceJS($this->getForceJS());
 		$newObj->setCustomStyle($this->getCustomStyle());
+		$newObj->setKiosk($this->getKiosk());
 		$newObj->setShowFinalStatement($this->getShowFinalStatement());
 		$newObj->setListOfQuestionsSettings($this->getListOfQuestionsSettings());
 		$newObj->setMCScoring($this->getMCScoring());
@@ -6778,9 +6779,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$newObj->setUsePreviousAnswers($this->getUsePreviousAnswers());
 		$newObj->setCertificateVisibility($this->getCertificateVisibility());
 		$newObj->mark_schema = clone $this->mark_schema;
-                $newObj->setEnabledViewMode($this->getEnabledViewMode());
-                $newObj->setTemplate($this->getTemplate());
-                $newObj->setPoolUsage($this->getPoolUsage());
+		$newObj->setEnabledViewMode($this->getEnabledViewMode());
+		$newObj->setTemplate($this->getTemplate());
+		$newObj->setPoolUsage($this->getPoolUsage());
 
 		$newObj->saveToDb();
 		
@@ -9239,6 +9240,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"ShowMarker" => $this->getShowMarker(),
 			"ReportingDate" => $this->getReportingDate(),
 			"NrOfTries" => $this->getNrOfTries(),
+			"Shuffle" => $this->getShuffleQuestions(),
 			"Kiosk" => $this->getKiosk(),
 			"UsePreviousAnswers" => $this->getUsePreviousAnswers(),
 			"ProcessingTime" => $this->getProcessingTime(),
@@ -9299,6 +9301,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->setResultsPresentation($testsettings["ResultsPresentation"]);
 			$this->setAnonymity($testsettings["Anonymity"]);
 			$this->setShowCancel($testsettings["ShowCancel"]);
+			$this->setShuffleQuestions($testsettings["Shuffle"]);
 			$this->setShowMarker($testsettings["ShowMarker"]);
 			$this->setReportingDate($testsettings["ReportingDate"]);
 			$this->setNrOfTries($testsettings["NrOfTries"]);
