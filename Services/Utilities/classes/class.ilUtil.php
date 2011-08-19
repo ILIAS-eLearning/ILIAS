@@ -107,22 +107,28 @@ class ilUtil
 		// default image
 		$default_img = ".".$module_path."/templates/default/images/".$img;
 
+		// fim: [mobile] use ilStyleDefinition to get the current skin and style
+		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		$current_skin = ilStyleDefinition::getCurrentSkin();
+		$current_style = ilStyleDefinition::getCurrentStyle();
+		
 		if (is_object($styleDefinition))
 		{
-			$image_dir = $styleDefinition->getImageDirectory($ilias->account->prefs["style"]);
+			$image_dir = $styleDefinition->getImageDirectory($current_style);
 		}
-		if ($ilUser->skin == "default")
+		if ($current_skin == "default")
 		{
 			$user_img = ".".$module_path."/templates/default/".$image_dir."/".$img;
 			$skin_img = ".".$module_path."/templates/default/images/".$img;
 		}
-		else if (is_object($styleDefinition) && $ilUser->skin != "default")
+		else if (is_object($styleDefinition) && $current_skin != "default")
 		{
 			$user_img = "./Customizing/global/skin/".
-				$ilias->account->skin.$module_path."/".$image_dir."/".$img;
+				$current_skin.$module_path."/".$image_dir."/".$img;
 			$skin_img = "./Customizing/global/skin/".
-				$ilias->account->skin.$module_path."/images/".$img;
+				$current_skin.$module_path."/images/".$img;
 		}
+		// fim.	
 
 		if ($offline)
 		{
@@ -177,14 +183,20 @@ class ilUtil
 		global $ilias;
 
 		// add version as parameter to force reload for new releases
-		$stylesheet_name = (strlen($a_css_name)) ? $a_css_name : $ilias->account->prefs["style"].".css";
+		// fim: [mobile] use ilStyleDefinition to get the current style
+		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		$stylesheet_name = (strlen($a_css_name)) ? $a_css_name : ilStyleDefinition::getCurrentStyle().".css";
+		// fim.
 		if (strlen($a_css_location) && (strcmp(substr($a_css_location, -1), "/") != 0)) $a_css_location = $a_css_location . "/";
 
 		$filename = "";
-		if ($ilias->account->skin != "default")
+		// fim: [mobile] use ilStyleDefinition to get the current skin
+		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		if (ilStyleDefinition::getCurrentSkin() != "default")
 		{
-			$filename = "./Customizing/global/skin/".$ilias->account->skin."/".$a_css_location.$stylesheet_name;
+			$filename = "./Customizing/global/skin/".ilStyleDefinition::getCurrentSkin()."/".$a_css_location.$stylesheet_name;
 		}
+		// fim.
 		if (strlen($filename) == 0 || !file_exists($filename))
 		{
 			$filename = "./" . $a_css_location . "templates/default/".$stylesheet_name;
@@ -215,10 +227,13 @@ class ilUtil
 		if (strlen($a_js_location) && (strcmp(substr($a_js_location, -1), "/") != 0)) $a_js_location = $a_js_location . "/";
 
 		$filename = "";
-		if ($ilias->account->skin != "default")
+		// fim: [mobile] use ilStyleDefinition to get the current skin
+		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		if (ilStyleDefinition::getCurrentSkin() != "default")
 		{
-			$filename = "./Customizing/global/skin/".$ilias->account->skin."/".$a_js_location.$js_name;
+			$filename = "./Customizing/global/skin/".ilStyleDefinition::getCurrentSkin()."/".$a_js_location.$js_name;
 		}
+		// fim.
 		if (strlen($filename) == 0 || !file_exists($filename))
 		{
 			$filename = "./" . $a_js_location . "templates/default/".$js_name;
@@ -280,14 +295,19 @@ class ilUtil
 			$vers = "?vers=".str_replace(".", "-", $vers);
 		}
 
-		if ($ilias->account->skin == "default")
+		// fim: [mobile] use ilStyleDefinition to get the current skin and style
+		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		if (ilStyleDefinition::getCurrentSkin() == "default")
 		{
-			$in_style = "./templates/".$ilias->account->skin."/".$ilias->account->prefs["style"]."_cont.css";
+			$in_style = "./templates/".ilStyleDefinition::getCurrentSkin()."/"
+									.ilStyleDefinition::getCurrentStyle()."_cont.css";
 		}
 		else
 		{
-			$in_style = "./Customizing/global/skin/".$ilias->account->skin."/".$ilias->account->prefs["style"]."_cont.css";
+			$in_style = "./Customizing/global/skin/".ilStyleDefinition::getCurrentSkin()."/"
+													.ilStyleDefinition::getCurrentStyle()."_cont.css";
 		}
+		// fim.
 
 		if (is_file("./".$in_style))
 		{
@@ -3347,6 +3367,24 @@ class ilUtil
 			}
 		}
 //echo "<br>".$a_script; exit;
+  		// fim: [mobile] include the user interface hook
+		global $ilPluginAdmin;
+		if (is_object($ilPluginAdmin))
+		{
+			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+			foreach ($pl_names as $pl)
+			{
+				$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+				$gui_class = $ui_plugin->getUIClassInstance();
+				$resp = $gui_class->getHTML("Services/Utilities", "redirect", array("html" => $a_script));
+				if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
+				{
+					$a_script = $gui_class->modifyHTML($a_script, $resp);
+				}
+			}
+		}
+		// fim.     
+		  		
 		header("Location: ".$a_script);
 		exit();
 	}

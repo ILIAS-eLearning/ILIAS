@@ -689,6 +689,10 @@ class ilAdvancedSelectionListGUI
 		$tpl->setVariable("CFG", ilJsonUtil::encode($cfg));
 //echo htmlentities(ilJsonUtil::encode($cfg));
 		$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());
+
+		// fim: [mobile] set the async url to an extra template variable
+		$tpl->setVariable("ASYNC_URL", $this->getAsynchUrl());
+		// fim.
 		$tpl->parseCurrentBlock();
 		
 		// no js sections
