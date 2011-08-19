@@ -34,6 +34,19 @@ require_once("./classes/class.ilSaxParser.php");
 
 class ilStyleDefinition extends ilSaxParser
 {
+	/**
+	 * fim: [mobile] currently selected skin of this definition
+	 * @var string
+	 */
+	static $current_skin;
+	
+	
+	/**
+	 * fim: [mobile] currently selected style of this definition
+	 * @var string
+	 */
+	static $current_style;
+
 
 	/**
 	* Constructor
@@ -48,8 +61,14 @@ class ilStyleDefinition extends ilSaxParser
 
 		if ($a_template_id == "")
 		{
-			$a_template_id = $ilias->account->skin;
+			// fim: [mobile] use function to get the current skin
+			$a_template_id = self::getCurrentSkin();
+			// fim.
 		}
+
+		// fim: [mobile] remember the template id
+		$this->template_id = $a_template_id;
+		// fim.
 
 		if ($a_template_id == "default")
 		{
@@ -83,6 +102,13 @@ class ilStyleDefinition extends ilSaxParser
 		}
 	}
 
+	// fim: [mobile] new function getTemplateId()
+	function getTemplateId()
+	{
+		return $this->template_id;
+	}
+	// fim.
+	
 	function getTemplateName()
 	{
 		return $this->template_name;
@@ -297,6 +323,63 @@ class ilStyleDefinition extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
+	}
+		
+	
+	/**
+	 * fim: [mobile] get the current skin
+	 * 
+	 * @return	string	skin id
+	 */
+	public static function getCurrentSkin()
+	{
+		global $ilias;
+
+		return isset(self::$current_skin) ? self::$current_skin	:
+											$ilias->account->skin;
+	}
+	
+	/**
+	 * fim: [mobile] get the current style
+	 *
+	 * @return	string	style id
+	 */
+	public static function getCurrentStyle()
+	{
+		global $ilias;	
+		
+		return isset(self::$current_style) ? self::$current_style : 	
+											$ilias->account->prefs['style'];
+	}
+	
+	/**
+	 * fim: [mobile] set a new current skin
+	 * 
+	 * @param	string		skin id
+	 */
+	public static function setCurrentSkin($a_skin)
+	{
+		global $styleDefinition;
+		
+		if (is_object($styleDefinition)
+		and $styleDefinition->getTemplateId() != $a_skin)
+		{
+			$styleDefinition = new ilStyleDefinition($a_skin);
+			$styleDefinition->startParsing();
+		}
+		
+		self::$current_skin = $a_skin;
+	}
+	
+	
+	/**
+	 * fim: [mobile] set a new current style
+	 * 
+	 * @param	string	style id
+	 */
+	public static function setCurrentStyle($a_style)
+	{
+		self::$current_style = $a_style;
 	}
 }
 ?>

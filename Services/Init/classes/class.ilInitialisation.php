@@ -634,6 +634,18 @@ class ilInitialisation
 		$ilBench->start("Core", "HeaderInclude_getStyleDefinitions");
 		$styleDefinition = new ilStyleDefinition();
 		$GLOBALS['styleDefinition'] =& $styleDefinition;
+
+		// fim: [mobile] add user interface hook for style initialisation
+		global $ilPluginAdmin;
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+		foreach ($pl_names as $pl)
+		{
+			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+			$gui_class = $ui_plugin->getUIClassInstance();
+			$resp = $gui_class->modifyGUI("Services/Init", "init_style", array("styleDefinition" => $styleDefinition));
+		}
+		// fim.
+
 		$styleDefinition->startParsing();
 		$ilBench->stop("Core", "HeaderInclude_getStyleDefinitions");
 	}
@@ -1460,11 +1472,14 @@ class ilInitialisation
 		$GLOBALS['ilLocator'] =& $ilLocator;
 
 		// load style definitions
-		$ilBench->start("Core", "HeaderInclude_getStyleDefinitions");
-		$styleDefinition = new ilStyleDefinition();
-		$GLOBALS['styleDefinition'] =& $styleDefinition;
-		$styleDefinition->startParsing();
-		$ilBench->stop("Core", "HeaderInclude_getStyleDefinitions");
+		// fim: [mobile] use the init function with plugin hook here, too
+		$this->initStyle();
+		// $ilBench->start("Core", "HeaderInclude_getStyleDefinitions");
+		// $styleDefinition = new ilStyleDefinition();
+		// $GLOBALS['styleDefinition'] =& $styleDefinition;
+		// $styleDefinition->startParsing();
+		// $ilBench->stop("Core", "HeaderInclude_getStyleDefinitions");
+		// fim.
 
 		// load style sheet depending on user's settings
 		$location_stylesheet = ilUtil::getStyleSheetLocation();

@@ -82,6 +82,10 @@ class ilTemplate extends ilTemplateX
 
 		$this->tplName = basename($fname);
 		$this->tplPath = dirname($fname);
+		// fim: [mobile] set the template identifier
+		$this->tplIdentifier = $this->getTemplateIdentifier($file, $in_module);
+		// fim.
+		
 		// set default content-type to text/html
 		$this->contenttype = "text/html";
 		if (!file_exists($fname))
@@ -260,15 +264,34 @@ class ilTemplate extends ilTemplateX
 			$this->handleReferer();
 		}
 
+		// fim: [mobile] include the template output hook
 		if ($part == "DEFAULT")
 		{
-			return parent::get();
+			$html = parent::get();
 		}
 		else
 		{
-			return parent::get($part);
+			$html = parent::get($part);
 		}
 
+		global $ilPluginAdmin;
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+		foreach ($pl_names as $pl)
+		{
+			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+			$gui_class = $ui_plugin->getUIClassInstance();
+			
+			$resp = $gui_class->getHTML("", "template_get", 
+					array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html));
+
+			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
+			{
+				$html = $gui_class->modifyHTML($html, $resp);
+			}
+		}
+
+		return $html;
+		// fim.
 	}
 
 	/**
@@ -477,14 +500,34 @@ class ilTemplate extends ilTemplateX
 			}
 		}
 		
+		// fim: [mobile] include the template output hook
 		if ($part == "DEFAULT" or is_bool($part))
 		{
-			parent::show();
+			$html = parent::get();
 		}
 		else
 		{
-			parent::show($part);
+			$html = parent::get($part);
 		}
+		
+		global $ilPluginAdmin;
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+		foreach ($pl_names as $pl)
+		{
+			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+			$gui_class = $ui_plugin->getUIClassInstance();
+			
+			$resp = $gui_class->getHTML("", "template_show", 
+					array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html));
+
+			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
+			{
+				$html = $gui_class->modifyHTML($html, $resp);
+			}
+		}
+		
+		print $html;
+		// fim.
 		
 		$this->handleReferer();
 	}
@@ -1262,8 +1305,88 @@ class ilTemplate extends ilTemplateX
 			return false;
 		}
 
-		return parent::addBlockFile($var, $block, $tplfile);
+		// fim: [mobile] include the template input hook
+		$id = $this->getTemplateIdentifier($tplname, $in_module);
+		$template = $this->getFile($tplfile);
+		
+		global $ilPluginAdmin;
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+		foreach ($pl_names as $pl)
+		{
+			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+			$gui_class = $ui_plugin->getUIClassInstance();
+			
+			$resp = $gui_class->getHTML("", "template_add", 
+					array("tpl_id" => $id, "tpl_obj" => $this, "html" => $template));
+
+			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
+			{
+				$template = $gui_class->modifyHTML($template, $resp);
+			}
+		}
+		
+		return $this->addBlock($var, $block, $template);
+		// fim.
 	}
+
+	
+	/**
+	 * fim: [mobile] overwrite IT:loadTemplateFile to include the template input hook
+	 * 
+	 * include the template input hook 
+	 * 
+     * Reads a template file from the disk.
+     *
+     * @param    string      name of the template file
+     * @param    bool        how to handle unknown variables.
+     * @param    bool        how to handle empty blocks.
+     * @access   public
+     * @return   boolean    false on failure, otherwise true
+     * @see      $template, setTemplate(), $removeUnknownVariables,
+     *           $removeEmptyBlocks
+     */
+    function loadTemplatefile( $filename,
+                               $removeUnknownVariables = true,
+                               $removeEmptyBlocks = true )
+    {
+    	// copied:
+        $template = '';
+        if (!$this->flagCacheTemplatefile ||
+            $this->lastTemplatefile != $filename
+        ) {
+            $template = $this->getFile($filename);
+        }
+        $this->lastTemplatefile = $filename;
+		// copied.	
+        
+		// new:
+		global $ilPluginAdmin;
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+		foreach ($pl_names as $pl)
+		{
+			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+			$gui_class = $ui_plugin->getUIClassInstance();
+			
+			$resp = $gui_class->getHTML("", "template_load", 
+					array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $template));
+
+			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
+			{
+				$template = $gui_class->modifyHTML($template, $resp);
+			}
+		}
+		// new.     
+        
+        // copied:
+        return $template != '' ?
+                $this->setTemplate(
+                        $template,$removeUnknownVariables, $removeEmptyBlocks
+                    ) : false;
+        // copied.
+                    
+    }
+	// fim.
+	
 
 	/**
 	* builds a full template path with template and module name
@@ -1303,11 +1426,13 @@ class ilTemplate extends ilTemplateX
 				}
 			}
 
-			if ($ilias->account->skin != "default")
+			// fim: [mobile] use ilStyleDefinition to get the current skin
+			if (ilStyleDefinition::getCurrentSkin() != "default")
 			{
 				$fname = "./Customizing/global/skin/".
-					$ilias->account->skin."/".$module_path.basename($a_tplname);
+					ilStyleDefinition::getCurrentSkin()."/".$module_path.basename($a_tplname);
 			}
+			// fim.
 			if($fname == "" || !file_exists($fname))
 			{
 				$fname = "./".$module_path."templates/default/".basename($a_tplname);
@@ -1320,6 +1445,54 @@ class ilTemplate extends ilTemplateX
 		
 		return $fname;
 	}
+	
+	/**
+	 * fim: [mobile] new function to get a unique template identifier
+	 * 
+	 * @param	string				$a_tplname		template name
+	 * @param	string				$in_module		Component, e.g. "Modules/Forum"
+	 * 			boolean				$in_module		or true, if component should be determined by ilCtrl
+	 *
+	 * @return	string				template identifier, e.g. "Services/Calendar/tpl.minical.html", "tpl.confirm.html"
+	 */
+	function getTemplateIdentifier($a_tplname, $a_in_module = false)
+	{
+		global $ilCtrl;
+		
+		// if baseClass functionality is used (ilias.php):
+		// get template directory from ilCtrl
+		if (!empty($_GET["baseClass"]) && $a_in_module === true)
+		{
+			$a_in_module = $ilCtrl->getModuleDir();
+		}
+
+		if (strpos($a_tplname,"/") === false)
+		{
+			if ($a_in_module)
+			{
+				if ($a_in_module === true)
+				{
+					$module_path = ILIAS_MODULE."/";
+				}
+				else
+				{
+					$module_path = $a_in_module."/";
+				}
+			}
+			else
+			{
+				$module_path = "";
+			}
+			
+			return $module_path.basename($a_tplname);
+		}
+		else
+		{
+			return $a_tplname;
+		}
+	}
+	// fim.
+	
 	
 	function setHeaderPageTitle($a_title)
 	{

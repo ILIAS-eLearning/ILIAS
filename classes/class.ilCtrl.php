@@ -170,11 +170,13 @@ class ilCtrl
 			
 			$this->current_node = $nr;
 
-			if (DEVMODE == "1")
+			// fim: [mobile] always populate the call history
+			// if (DEVMODE == "1")
 			{
 				$this->call_hist[] = array("class" => get_class($a_gui_object),
 					"mode" => "execComm", "cmd" => $this->getCmd());
 			}
+			// fim.
 //echo "<br>class:".get_class($a_gui_object).":";
 			$html = $a_gui_object->executeCommand();
 			
@@ -206,11 +208,13 @@ class ilCtrl
 			// set current node to new gui class
 			$this->current_node = $nr;
 			
-			if (DEVMODE == "1")
+			// fim: [mobile] always populate the call history
+			// if (DEVMODE == "1")
 			{
 				$this->call_hist[] = array("class" => get_class($a_gui_object),
 					"mode" => "getHtml", "cmd" => $this->getCmd());
 			}
+			// fim.
 			
 			// get block
 			$html = $a_gui_object->getHTML();

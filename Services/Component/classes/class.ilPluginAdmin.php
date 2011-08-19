@@ -37,6 +37,21 @@ class ilPluginAdmin
 	var $got_data = false;
 	
 	/**
+	 * fim: [mobile] cached lists of active plugins
+	 * @var	array
+	 */
+	static $active_plugins = array();
+	// fim.
+
+	/**
+	 * fim: [mobile] cached lists of plugin objects
+	 * @var	array
+	 */
+	static $plugin_objects = array();
+	// fim.
+	
+	
+	/**
 	* Constructor
 	*/
 	function __construct()
@@ -276,8 +291,16 @@ class ilPluginAdmin
 	*/
 	function getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id)
 	{
+		// fim: [mobile] cache the list of active plugins
+		if (!isset(self::$active_plugins[$a_ctype][$a_cname][$a_slot_id]))
+		{
 		include_once "./Services/Component/classes/class.ilPlugin.php";
-		return ilPlugin::getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id);
+			
+			self::$active_plugins[$a_ctype][$a_cname][$a_slot_id] = 
+				ilPlugin::getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id);	
+		}
+		return self::$active_plugins[$a_ctype][$a_cname][$a_slot_id];
+		// fim.
 	}
 	
 	/**
@@ -290,7 +313,14 @@ class ilPluginAdmin
 	*/
 	static function getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
-		return ilPlugin::getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname);
+		// fim: [mobile] cache the plugin objects
+		if (!isset(self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id]))
+		{
+			self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id] = 
+				ilPlugin::getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname);
+		}
+		return self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id];
+		// fim.
 	}
 }
 
