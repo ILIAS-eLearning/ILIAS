@@ -763,7 +763,15 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToWorkspace()
 	{
-		$this->ctrl->redirectByClass("ilpersonalworkspacegui");
+		// incoming back link from shared resource
+		$cmd = "";
+		if($_REQUEST["dsh"])
+		{
+			$this->ctrl->setParameterByClass("ilpersonalworkspacegui", "user", $_REQUEST["dsh"]);
+			$cmd = "share";
+		}
+		
+		$this->ctrl->redirectByClass("ilpersonalworkspacegui", $cmd);
 	}
 	
 	/**
