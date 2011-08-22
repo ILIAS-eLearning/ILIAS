@@ -365,8 +365,8 @@ class ilCourseItems
 				continue;
 			}
 			// #7571: when node is removed from system, e.g. inactive trashcan, an empty array is returned
-			$node = $this->tree->getNodeData($ref_id);
-			if($node["ref_id"] == $ref_id)
+			$node = $this->tree->getNodeData($item);
+			if($node["ref_id"] == $item)
 			{
 				$items[] = $this->__getItemData($node);
 			}
