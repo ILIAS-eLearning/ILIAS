@@ -88,7 +88,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 				$this->getTabs();
 				$ilTabs->setTabActive("pg");
 				return $this->preview();
-				break;
 
 			/*
 			case "ilratinggui":
@@ -154,7 +153,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	/**
 	 * Preview blog posting
 	 */
-	function preview()
+	function preview($a_mode = null)
 	{
 		global $ilCtrl, $lng, $tpl, $ilUser, $ilToolbar;
 		
@@ -163,22 +162,24 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$wtpl = new ilTemplate("tpl.blog_page_view_main_column.html",
 			true, true, "Modules/Blog");
 		
-		// page commands
-		 
-		// delete
-		$page_commands = false;
-		if ($this->checkAccess("write"))
+		// page commands		 
+		if(!$a_mode)
 		{
-			$wtpl->setCurrentBlock("page_command");
-			$wtpl->setVariable("HREF_PAGE_CMD",
-				$ilCtrl->getLinkTarget($this, "deleteBlogPostingConfirmationScreen"));
-			$wtpl->setVariable("TXT_PAGE_CMD", $lng->txt("delete"));
-			$wtpl->parseCurrentBlock();
-		}		
-		if ($page_commands)
-		{
-			$wtpl->setCurrentBlock("page_commands");
-			$wtpl->parseCurrentBlock();
+			// delete
+			$page_commands = false;
+			if ($this->checkAccess("write"))
+			{
+				$wtpl->setCurrentBlock("page_command");
+				$wtpl->setVariable("HREF_PAGE_CMD",
+					$ilCtrl->getLinkTarget($this, "deleteBlogPostingConfirmationScreen"));
+				$wtpl->setVariable("TXT_PAGE_CMD", $lng->txt("delete"));
+				$wtpl->parseCurrentBlock();
+			}		
+			if ($page_commands)
+			{
+				$wtpl->setCurrentBlock("page_commands");
+				$wtpl->parseCurrentBlock();
+			}
 		}
 
 		// notes
@@ -209,7 +210,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function previewEmbedded()
 	{		
-		return $this->preview();
+		return $this->preview("embedded");
 	}
 	
 	/**
@@ -219,7 +220,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function previewFullscreen()
 	{		
-		return $this->preview();
+		return $this->preview("fullscreen");
 	}
 
 	/**

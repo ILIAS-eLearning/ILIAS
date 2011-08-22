@@ -154,8 +154,11 @@ class ilObjPortfolioGUI
 				$tpl->setContent($content.$ilCtrl->forwardCommand($note_gui));
 				break;
 			
-			default:				
-				$this->setLocator();
+			default:		
+				if($cmd != "preview")
+				{
+					$this->setLocator();
+				}
 				$this->$cmd();
 				break;
 		}

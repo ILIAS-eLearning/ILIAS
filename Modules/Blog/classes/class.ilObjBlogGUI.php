@@ -47,6 +47,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		}
 		
 		$lng->loadLanguageModule("blog");
+		$ilCtrl->saveParameter($this, "prvm");
 	}
 
 	function getType()
@@ -187,10 +188,30 @@ class ilObjBlogGUI extends ilObject2GUI
 					$this->object->getStyleSheetId(), "blog"));
 				$this->setContentStyleSheet();
 				*/
+				
+				// keep preview mode through notes gui (has its own commands)
+				switch($cmd)
+				{
+					// blog preview
+					case "previewFullscreen":
+						$ilCtrl->setParameter($this, "prvm", "fsc");
+						break;
 
+					// blog in portfolio
+					case "previewEmbedded":
+						$ilCtrl->setParameter($this, "prvm", "emb");
+						break;						
+				}
+				
 				$ret = $ilCtrl->forwardCommand($bpost_gui);
 				if ($ret != "")
-				{						
+				{	
+					// keep preview mode through notes gui
+					if($_REQUEST["prvm"])
+					{
+						$cmd = "preview".(($_REQUEST["prvm"] == "fsc") ? "Fullscreen" : "Embedded");						
+					}
+					
 					switch($cmd)
 					{
 						// blog preview
@@ -596,15 +617,17 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		$ilTabs->clearTargets();
 		
-		// back		
+		// back (edit)
 		if($owner == $ilUser->getId())
 		{			
 			$back = $ilCtrl->getLinkTarget($this, "");
 			$ilTabs->setBackTarget($lng->txt("blog_back_to_ilias"), $back);
 		}
-		else
+		// back (shared resources)
+		else if($ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
-			// if deeplink this will not be possible
+			$back = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&dsh=".$owner;
+			$ilTabs->setBackTarget($lng->txt("blog_back_to_ilias"), $back);
 		}		
 		
 		$name = ilObjUser::_lookupName($owner);
