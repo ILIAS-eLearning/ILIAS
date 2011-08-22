@@ -65,23 +65,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 				break;
 		}
 	}
-	
-	/**
-	 * output tabs
-	 */
-	function setTabs()
-	{
-		global $ilTabs, $ilCtrl, $tpl, $lng;
-
-		// properties
-		$ilTabs->addTarget("properties",
-			 $ilCtrl->getLinkTarget($this,'showProperties'),
-			 "showProperties", get_class($this));
-			 
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg_b.gif"));
-		$tpl->setTitle(
-			$lng->txt("skmg_basic_skill").": ".$this->node_object->getTitle());
-	}
 
 	/**
 	 * Show properties
@@ -120,8 +103,31 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		$it->setSelfEvaluation($_POST["self_eval"]);
 		$it->create();
 		ilSkillTreeNode::putInTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
+		$this->node_object = $it;
 	}
 
+	/**
+	 * After saving
+	 */
+	function afterSave()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->setParameterByClass("ilbasicskillgui", "obj_id",
+			$this->node_object->getId());
+		$ilCtrl->redirectByClass("ilbasicskillgui", "edit");
+	}
+
+	/**
+	 * Update item
+	 */
+	function updateItem()
+	{
+		$this->node_object->setTitle($this->form->getInput("title"));
+		$this->node_object->setOrderNr($this->form->getInput("order_nr"));
+		$this->node_object->setSelfEvaluation($_POST["self_eval"]);
+		$this->node_object->update();
+	}
 
 	/**
 	 * Edit skill
@@ -133,7 +139,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	{
 		global $tpl, $ilToolbar, $lng, $ilCtrl;
 
-		$this->setSkillHead();
+		$this->setSkillHead("levels");
 
 		$ilToolbar->addButton($lng->txt("skmg_add_level"),
 			$ilCtrl->getLinkTarget($this, "addLevel"));
@@ -184,13 +190,22 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		else
 		{
 			$this->form->addCommandButton("update", $lng->txt("save"));
-			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
 			$this->form->setTitle($lng->txt("skmg_edit_skll"));
 		}
 		
 		$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	}
+	
+	/**
+	 * Edit properties
+	 */
+	function editProperties()
+	{
+		$this->setSkillHead("properties");
+		parent::editProperties();
+	}
+	
 
 	//
 	//
@@ -356,7 +371,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	{
 		global $ilCtrl, $tpl, $lng;
 
-		$this->setSkillHead();
+		$this->setSkillHead("levels");
 
 		if (!is_array($_POST["id"]) || count($_POST["id"]) == 0)
 		{
@@ -424,13 +439,13 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 				$lng->txt("settings"),
 				$ilCtrl->getLinkTarget($this, "editLevel"));
 
-			$ilTabs->addTab("level_trigger",
+/*			$ilTabs->addTab("level_trigger",
 				$lng->txt("skmg_trigger"),
 				$ilCtrl->getLinkTarget($this, "editLevelTrigger"));
 
 			$ilTabs->addTab("level_certificate",
 				$lng->txt("certificate"),
-				$ilCtrl->getLinkTargetByClass("ilcertificategui", "certificateEditor"));
+				$ilCtrl->getLinkTargetByClass("ilcertificategui", "certificateEditor"));*/
 		}
 
 		// title
@@ -465,32 +480,38 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	 * @param
 	 * @return
 	 */
-	function setSkillHead()
+	function setSkillHead($a_tab = "levels")
 	{
 		global $ilTabs, $ilCtrl, $tpl, $lng;
 
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($lng->txt("skmg_skill_hierarchie"),
-			$ilCtrl->getLinkTargetByClass("ilobjskillmanagementgui", "editSkills"));
+//		$ilTabs->setBackTarget($lng->txt("skmg_skill_hierarchie"),
+//			$ilCtrl->getLinkTargetByClass("ilobjskillmanagementgui", "editSkills"));
 
 		if (is_object($this->node_object))
 		{
+
+			// levels
+			$ilTabs->addTab("levels", $lng->txt("skmg_skill_levels"),
+				$ilCtrl->getLinkTarget($this, 'edit'));
+	
+			// properties
+			$ilTabs->addTab("properties", $lng->txt("settings"),
+				$ilCtrl->getLinkTarget($this, 'editProperties'));
+			
+			$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
+				$this->node_object->skill_tree->getRootId());
+			$ilTabs->setBackTarget($lng->txt("obj_skmg"),
+				$ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills"));
+			$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
+				$_GET["obj_id"]);
+			
+			$ilTabs->activateTab($a_tab);
+
 			$tpl->setTitle($lng->txt("skmg_skill").": ".
 				$this->node_object->getTitle());
 		
-			include_once("./Services/Skill/classes/class.ilSkillTree.php");
-			$tree = new ilSkillTree();
-			$path = $tree->getPathFull($this->node_object->getId());
-			$desc = "";
-			foreach ($path as $p)
-			{
-				if (in_array($p["type"], array("scat", "skll")))
-				{
-					$desc.= $sep.$p["title"];
-					$sep = " > ";
-				}
-			}
-			$tpl->setDescription($desc);
+			$this->setSkillNodeDescription();
 		}
 		else
 		{

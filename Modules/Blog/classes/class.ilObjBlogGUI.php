@@ -106,14 +106,19 @@ class ilObjBlogGUI extends ilObject2GUI
 		$this->object->setNotesStatus($a_form->getInput("notes"));
 		$this->object->setBackgroundColor($a_form->getInput("bg_color"));
 		$this->object->setFontColor($a_form->getInput("font_color"));
-				
-	    if($_FILES["banner"]["tmp_name"]) 
-		{
-			$this->object->uploadImage($_FILES["banner"]);
-		}
-		else if($a_form->getItemByPostVar("banner")->getDeletionFlag())
-		{
-			$this->object->deleteImage();
+		
+		// banner field is optional
+		$banner = $a_form->getItemByPostVar("banner");
+		if($banner)
+		{				
+			if($_FILES["banner"]["tmp_name"]) 
+			{
+				$this->object->uploadImage($_FILES["banner"]);
+			}
+			else if($banner->getDeletionFlag())
+			{
+				$this->object->deleteImage();
+			}
 		}
 	}
 

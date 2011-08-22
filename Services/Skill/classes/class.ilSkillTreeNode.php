@@ -162,21 +162,34 @@ class ilSkillTreeNode
 	}
 
 	/**
-	* Lookup Title
-	*
-	* @param	int			Node ID
-	* @return	string		Title
-	*/
-	static function _lookupTitle($a_obj_id)
+	 * Lookup Title
+	 *
+	 * @param	int			Node ID
+	 * @return	string		Title
+	 */
+	protected static function _lookup($a_obj_id, $a_field)
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM skl_tree_node WHERE obj_id = ".
+		$query = "SELECT $a_field FROM skl_tree_node WHERE obj_id = ".
 			$ilDB->quote($a_obj_id, "integer");
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $ilDB->fetchAssoc($obj_set);
 
-		return $obj_rec["title"];
+		return $obj_rec[$a_field];
+	}
+
+	/**
+	 * Lookup Title
+	 *
+	 * @param	int			node ID
+	 * @return	string		title
+	 */
+	static function _lookupTitle($a_obj_id)
+	{
+		global $ilDB;
+
+		return self::_lookup($a_obj_id, "title");
 	}
 	
 	/**
@@ -277,6 +290,19 @@ class ilSkillTreeNode
 			? $a_parent_id
 			: $skill_tree->getRootId();
 
+		// make a check, whether the type of object is allowed under
+		// the parent
+		$allowed = array(
+			"skrt" => array("skll", "scat", "sktr", "sktp", "sctp"),
+			"scat" => array("skll", "scat", "sktr"),
+			"sctp" => array("sktp", "sctp"));
+		$par_type = self::_lookupType($parent_id);
+		if (!is_array($allowed[$par_type]) ||
+			!in_array($a_obj->getType(), $allowed[$par_type]))
+		{
+			return;
+		}
+		
 		// determine target
 		if ($a_target_node_id != "")
 		{
@@ -674,9 +700,9 @@ class ilSkillTreeNode
 	 * @param
 	 * @return
 	 */
-	static function getBasicSkillsUnderNode($a_node_id)
+	static function getSkillTreeNodes($a_node_id, $a_only_basic = false)
 	{
-		$basic_skills = array();
+		$skills = array();
 		if ($a_node_id > 0)
 		{
 			include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
@@ -688,10 +714,10 @@ class ilSkillTreeNode
 				$cnode = $stree->getNodeData($a_node_id);
 				
 				// is node basic skill?
-				if ($cnode["type"] == "skll")
+				if ($cnode["type"] == "skll" || !$a_only_basic)
 				{
-					$basic_skills[] = array("id" => $a_node_id,
-						"type" => $cnode["type"]);
+					$skills[] = array("id" => $a_node_id,
+						"type" => $cnode["type"], "parent" => $cnode["parent"]);
 				}
 
 				// is node skill template reference?
@@ -703,10 +729,13 @@ class ilSkillTreeNode
 					foreach ($childs2 as $child2)
 					{
 						// find basic skills templates
-						if ($child2["type"] == "sktp")
+						if ($child2["type"] == "sktp" || !$a_only_basic)
 						{
-							$basic_skills[] = array("id" => $child2["child"],
-								"type" => $child2["type"]);
+							$par = ($tr_ref->getSkillTemplateId() == $child2["child"])
+								? $cnode["child"]
+								: $child2["parent"];
+							$skills[] = array("id" => $child2["child"],
+								"type" => $child2["type"], "parent" => $par);
 						}
 					}						
 				}
@@ -716,10 +745,10 @@ class ilSkillTreeNode
 					foreach ($childs as $child)
 					{
 						// find basic skills
-						if ($child["type"] == "skll")
+						if ($child["type"] == "skll" || !$a_only_basic)
 						{
-							$basic_skills[] = array("id" => $child["child"],
-								"type" => $child["type"]);
+							$skills[] = array("id" => $child["child"],
+								"type" => $child["type"], "parent" => $child["parent"]);
 						}
 						
 						// handle template references
@@ -730,11 +759,14 @@ class ilSkillTreeNode
 							$childs2 = $stree->getSubTree($cnode2);
 							foreach ($childs2 as $child2)
 							{
+								$par = ($tr_ref->getSkillTemplateId() == $child2["child"])
+									? $cnode2["child"]
+									: $child2["parent"];
 								// find basic skills templates
-								if ($child2["type"] == "sktp")
+								if ($child2["type"] == "sktp" || !$a_only_basic)
 								{
-									$basic_skills[] = array("id" => $child2["child"],
-										"type" => $child2["type"]);
+									$skills[] = array("id" => $child2["child"],
+										"type" => $child2["type"], "parent" => $par);
 								}
 							}						
 						}
@@ -742,7 +774,7 @@ class ilSkillTreeNode
 				}
 			}
 		}
-		return $basic_skills;
+		return $skills;
 	}
 
 }

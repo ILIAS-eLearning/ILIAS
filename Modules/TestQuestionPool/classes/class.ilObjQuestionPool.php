@@ -1497,7 +1497,7 @@ class ilObjQuestionPool extends ilObject
 	*/ 
 	static function &_getSelfAssessmentQuestionTypes($all_tags = FALSE)
 	{
-		$allowed_types = array(
+/*		$allowed_types = array(
 			"assSingleChoice" => 1,
 			"assMultipleChoice" => 2,
 			"assClozeTest" => 3,
@@ -1506,6 +1506,17 @@ class ilObjQuestionPool extends ilObject
 			"assOrderingHorizontal" => 6,
 			"assImagemapQuestion" => 7,
 			"assTextQuestion" => 8,
+			"assTextSubset" => 9,
+			"assErrorText" => 10
+			);*/
+		$allowed_types = array(
+			"assSingleChoice" => 1,
+			"assMultipleChoice" => 2,
+			"assClozeTest" => 3,
+			"assMatchingQuestion" => 4,
+			"assOrderingQuestion" => 5,
+			"assOrderingHorizontal" => 6,
+			"assImagemapQuestion" => 7,
 			"assTextSubset" => 9,
 			"assErrorText" => 10
 			);

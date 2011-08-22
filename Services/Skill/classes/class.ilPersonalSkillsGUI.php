@@ -203,7 +203,7 @@ class ilPersonalSkillsGUI
 			"_b.gif"));
 		 
 		// basic skill selection
-		$bs = ilSkillTreeNode::getBasicSkillsUnderNode((int) $_GET["skill_id"]);
+		$bs = ilSkillTreeNode::getSkillTreeNodes((int) $_GET["skill_id"], true);
 		$options = array();
 		foreach ($bs as $b)
 		{

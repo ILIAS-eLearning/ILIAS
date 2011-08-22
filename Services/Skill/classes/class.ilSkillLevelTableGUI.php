@@ -35,8 +35,8 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("skmg_nr"));
 		$this->addColumn($this->lng->txt("title"));
 		$this->addColumn($this->lng->txt("description"));
-		$this->addColumn($this->lng->txt("skmg_trigger"));
-		$this->addColumn($this->lng->txt("skmg_certificate"));
+//		$this->addColumn($this->lng->txt("skmg_trigger"));
+//		$this->addColumn($this->lng->txt("skmg_certificate"));
 		$this->addColumn($this->lng->txt("actions"));
 		$this->setDefaultOrderField("nr");
 		$this->setDefaultOrderDirection("asc");
@@ -89,17 +89,18 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("HREF_CMD",
 			$ilCtrl->getLinkTarget($this->parent_obj, "editLevel"));
 		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setVariable("ID", $a_set["id"]);
 		$this->tpl->setVariable("VAL_NR", ((int) $a_set["nr"]) * 10);
 		$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 		$this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);
-		$this->tpl->setVariable("TXT_CERTIFICATE",
+/*		$this->tpl->setVariable("TXT_CERTIFICATE",
 			ilBasicSkill::_lookupCertificate($this->skill->getId(),
 			$a_set["id"])
 			? $lng->txt("yes")
-			: $lng->txt("no"));
+			: $lng->txt("no"));*/
 
-		$trigger = ilBasicSkill::lookupLevelTrigger((int) $a_set["id"]);
+/*		$trigger = ilBasicSkill::lookupLevelTrigger((int) $a_set["id"]);
 		if (ilObject::_lookupType($trigger["obj_id"]) != "crs" ||
 			ilObject::_isInTrash($trigger["ref_id"]))
 		{
@@ -111,7 +112,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable("TXT_TRIGGER",
 				ilObject::_lookupTitle($trigger["obj_id"]));
-		}
+		}*/
 	}
 
 }

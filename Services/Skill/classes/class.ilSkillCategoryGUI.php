@@ -59,31 +59,46 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 	/**
 	 * output tabs
 	 */
-	function setTabs()
+	function setTabs($a_tab)
 	{
 		global $ilTabs, $ilCtrl, $tpl, $lng;
 
+		$ilTabs->clearTargets();
+		
+		// content
+		$ilTabs->addTab("content", $lng->txt("content"),
+			$ilCtrl->getLinkTarget($this, 'listItems'));
+
 		// properties
-		$ilTabs->addTarget("properties",
-			 $ilCtrl->getLinkTarget($this,'showProperties'),
-			 "showProperties", get_class($this));
+		$ilTabs->addTab("properties", $lng->txt("settings"),
+			$ilCtrl->getLinkTarget($this, 'editProperties'));
+		
+		// back link
+		$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
+			$this->node_object->skill_tree->getRootId());
+		$ilTabs->setBackTarget($lng->txt("obj_skmg"),
+			$ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills"));
+		$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
+			$_GET["obj_id"]);
+
 			 
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg_b.gif"));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_scat_b.gif"));
 		$tpl->setTitle(
-			$lng->txt("skmg_basic_skill").": ".$this->node_object->getTitle());
+			$lng->txt("scat").": ".$this->node_object->getTitle());
+		$this->setSkillNodeDescription();
+		
+		$ilTabs->activateTab($a_tab);
 	}
 
 	/**
-	 * Show Sequencing
+	 * Edit properties
 	 */
-	function showProperties()
+	function editProperties()
 	{
 		global $tpl;
 		
-		$this->setTabs();
-		$this->setLocator();
-
-		$tpl->setContent("Properties");
+		$this->setTabs("properties");
+		parent::editProperties();
 	}
 
 	/**
@@ -151,7 +166,6 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 		else
 		{
 			$this->form->addCommandButton("update", $lng->txt("save"));
-			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
 			$this->form->setTitle($lng->txt("skmg_edit_scat"));
 		}
 		
@@ -185,9 +199,20 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 	}
 
 	/**
+	 * Update item
+	 */
+	function updateItem()
+	{
+		$this->node_object->setTitle($this->form->getInput("title"));
+		$this->node_object->setOrderNr($this->form->getInput("order_nr"));
+		$this->node_object->setSelfEvaluation($_POST["self_eval"]);
+		$this->node_object->update();
+	}
+
+	/**
 	 * Update form
 	 */
-	function updateSkillCategory()
+/*	function updateSkillCategory()
 	{
 		global $lng, $ilCtrl, $tpl;
 
@@ -204,7 +229,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 
 		$this->form->setValuesByPost();
 		$tpl->setContent($this->form->getHtml());
-	}
+	}*/
 
 	/**
 	 * List items
@@ -215,8 +240,9 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 	function listItems()
 	{
 		global $tpl;
-		
+
 		self::addCreationButtons();
+		$this->setTabs("content");
 		
 		include_once("./Services/Skill//classes/class.ilSkillCatTableGUI.php");
 		$table = new ilSkillCatTableGUI($this, "listItems", (int) $_GET["obj_id"],

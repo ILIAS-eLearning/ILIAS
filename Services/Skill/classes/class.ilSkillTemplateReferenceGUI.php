@@ -59,43 +59,40 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 	/**
 	 * output tabs
 	 */
-	function setTabs()
+	function setTabs($a_tab)
 	{
 		global $ilTabs, $ilCtrl, $tpl, $lng;
 
-		// properties
-		$ilTabs->addTarget("properties",
-			 $ilCtrl->getLinkTarget($this,'showProperties'),
-			 "showProperties", get_class($this));
-			 
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_sktr_b.gif"));
-		$tpl->setTitle(
-			$lng->txt("skmg_skill_template_reference").": ".$this->node_object->getTitle());
-	}
-
-	/**
-	 * Show Sequencing
-	 */
-	function showProperties()
-	{
-		global $tpl;
+		$ilTabs->clearTargets();
 		
-		$this->setTabs();
-		$this->setLocator();
-
-		$tpl->setContent("Properties");
-	}
-
-	/**
-	 * Perform drag and drop action
-	 */
-	function proceedDragDrop()
-	{
-		global $ilCtrl;
-
-//		$this->slm_object->executeDragDrop($_POST["il_hform_source_id"], $_POST["il_hform_target_id"],
-//			$_POST["il_hform_fc"], $_POST["il_hform_as_subitem"]);
-//		$ilCtrl->redirect($this, "showOrganization");
+		if (is_object($this->node_object))
+		{		
+			// content
+			$ilTabs->addTab("content", $lng->txt("content"),
+				$ilCtrl->getLinkTarget($this, 'listItems'));
+	
+			// properties
+			$ilTabs->addTab("properties", $lng->txt("settings"),
+				$ilCtrl->getLinkTarget($this, 'editProperties'));
+			
+			// back link
+			$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
+				$this->node_object->skill_tree->getRootId());
+			$ilTabs->setBackTarget($lng->txt("obj_skmg"),
+				$ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills"));
+			$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
+				$_GET["obj_id"]);
+			
+			$tid = ilSkillTemplateReference::_lookupTemplateId($this->node_object->getId());
+			$add = " (".ilSkillTreeNode::_lookupTitle($tid).")";
+	
+			$tpl->setTitleIcon(ilUtil::getImagePath("icon_sktr_b.gif"));
+			$tpl->setTitle(
+				$lng->txt("skmg_sktr").": ".$this->node_object->getTitle().$add);
+			$this->setSkillNodeDescription();
+			
+			$ilTabs->activateTab($a_tab);
+		}
 	}
 
 	/**
@@ -116,12 +113,14 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 	
 	
 	/**
-	 * Edit
+	 * Edit properties
 	 */
-	function edit()
+	function editProperties()
 	{
 		global $tpl;
 
+		$this->setTabs("properties");
+		
 		$this->initForm();
 		$this->getValues();
 		$tpl->setContent($this->form->getHTML());
@@ -175,6 +174,7 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 		if ($a_mode == "create")
 		{
 			$this->form->addCommandButton("saveSkillTemplateReference", $lng->txt("save"));
+			$this->form->addCommandButton("cancel", $lng->txt("cancel"));
 			$this->form->setTitle($lng->txt("skmg_new_sktr"));
 		}
 		else
@@ -182,7 +182,7 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 			$this->form->addCommandButton("updateSkillTemplateReference", $lng->txt("save"));
 			$this->form->setTitle($lng->txt("skmg_edit_sktr"));
 		}
-		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
+		
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	}
 
@@ -244,7 +244,7 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 			$this->node_object->update();
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-			$ilCtrl->redirectByClass("ilobjskillmanagementgui", "editSkills");
+			$ilCtrl->redirect($this, "editProperties");
 		}
 
 		$this->form->setValuesByPost();
@@ -263,6 +263,33 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 
 		$ilCtrl->redirectByClass("ilobjskillmanagementgui", "editSkills");
 	}
+	
+	/**
+	 * List items
+	 */
+	function listItems()
+	{
+		global $tpl;
+
+		$this->setTabs("content");
+		
+		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+		$bs = ilSkillTreeNode::getSkillTreeNodes((int) $_GET["obj_id"], false);
+
+		include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
+		$ns = new ilNestedList();
+		$ns->setListClass("il_Explorer");
+		foreach ($bs as $b)
+		{
+			$par = ($b["id"] == (int) $_GET["obj_id"])
+				? 0
+				: $b["parent"];
+				$ns->addListNode(ilSkillTreeNode::_lookupTitle($b["id"]), $b["id"], $par);
+		}
+		
+		$tpl->setContent($ns->getHTML());
+	}
+
 }
 
 ?>
