@@ -139,19 +139,7 @@ class ilObjPortfolioGUI
 				break;
 				
 			case "ilnotegui";				
-				$ilTabs->clearTargets();
-				$ilTabs->setBackTarget($lng->txt("back"),
-					$ilCtrl->getLinkTarget($this, "preview"));	
-				
-				$content = $this->preview(true);
-				
-				include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-				$note_gui = new ilNoteGUI($this->portfolio->getId(), 0, "pf", false);
-				$note_gui->enablePublicNotes(true);
-				$note_gui->enablePrivateNotes(true);
-				$note_gui->enablePublicNotesDeletion($ilUser->getId() == $this->portfolio->getUserId());
-				$note_gui->setRepositoryMode(false);
-				$tpl->setContent($content.$ilCtrl->forwardCommand($note_gui));
+				$this->preview();				
 				break;
 			
 			default:		
@@ -1149,7 +1137,16 @@ class ilObjPortfolioGUI
 			$note_gui->enablePrivateNotes(true);
 			$note_gui->enablePublicNotesDeletion($ilUser->getId() == $user_id);
 			$note_gui->setRepositoryMode(false);
-			$notes = $note_gui->getNotesHTML();
+			
+			$next_class = $ilCtrl->getNextClass($this);
+			if ($next_class == "ilnotegui")
+			{
+				$notes = $ilCtrl->forwardCommand($note_gui);
+			}
+			else
+			{
+				$notes = $note_gui->getNotesHTML();
+			}
 		}
 		
 		include_once('classes/class.ilLink.php');
