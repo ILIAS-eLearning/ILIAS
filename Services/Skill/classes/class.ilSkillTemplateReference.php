@@ -121,5 +121,24 @@ class ilSkillTemplateReference extends ilSkillTreeNode
 
 		return $sktr;
 	}
+	
+	/**
+	 * Lookup template ID
+	 *
+	 * @param	int			node ID
+	 * @return	string		template ID
+	 */
+	static function _lookupTemplateId($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT templ_id FROM skl_templ_ref WHERE skl_node_id = ".
+			$ilDB->quote($a_obj_id, "integer");
+		$obj_set = $ilDB->query($query);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
+
+		return $obj_rec["templ_id"];
+	}
+
 }
 ?>

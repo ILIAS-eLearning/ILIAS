@@ -12094,3 +12094,9 @@ content#:#cont_sc_auto_continue#:#Auto-Continue
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile.
 prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.
 blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.
+skmg#:#skmg_edit_skll#:#Edit Skill Settings
+skmg#:#skmg_sktr#:#Skill Template Reference
+skmg#:#skmg_items#:#Items
+skmg#:#skmg_create_sctp#:#Create Template Category
+skmg#:#skmg_edit_sctp#:#Edit Skill Template Category
+skmg#:#skmg_sctp#:#Skill Template Category

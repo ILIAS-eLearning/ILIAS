@@ -36,19 +36,20 @@ class ilSkillCatTableGUI extends ilTable2GUI
 		{
 			$this->setData($this->skill_tree->getChildsByTypeFilter($a_obj_id,
 				array("skrt", "skll", "scat", "sktr")));
-			$this->setTitle($lng->txt("skmg_skills"));
+//			$this->setTitle($lng->txt("skmg_skills"));
 		}
 		else if ($this->mode == self::MODE_SCTP)
 		{
 			$this->setData($this->skill_tree->getChildsByTypeFilter($a_obj_id,
 				array("skrt", "sktp", "sctp")));
-			$this->setTitle($lng->txt("skmg_skill_templates"));
+//			$this->setTitle($lng->txt("skmg_skill_templates"));
 		}
 		
 		if ($this->obj_id != $this->skill_tree->readRootId())
 		{
-			$this->setTitle(ilSkillTreeNode::_lookupTitle($this->obj_id));
+//			$this->setTitle(ilSkillTreeNode::_lookupTitle($this->obj_id));
 		}
+		$this->setTitle($lng->txt("skmg_items"));
 		
 		$this->addColumn($this->lng->txt(""), "", "1px", true);
 		$this->addColumn($this->lng->txt("type"), "", "1px");

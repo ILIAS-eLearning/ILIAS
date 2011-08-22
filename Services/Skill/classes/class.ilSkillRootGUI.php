@@ -63,7 +63,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
 	{
 		global $tpl, $ilToolbar, $ilCtrl, $lng, $ilTabs;
 		
-		$this->getParentGUI()->showTree(true);
+		$this->getParentGUI()->showTree(true, $this, "listTemplates");
 		$ilTabs->activateTab("skill_templates");
 
 		include_once("./Services/Skill/classes/class.ilSkillTemplateCategoryGUI.php");
@@ -83,7 +83,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
 	{
 		global $tpl, $ilToolbar, $ilCtrl, $lng, $ilTabs;
 
-		$this->getParentGUI()->showTree(false);
+		$this->getParentGUI()->showTree(false, $this, "listSkills");
 		$ilTabs->activateTab("skills");
 		
 		include_once("./Services/Skill/classes/class.ilSkillCategoryGUI.php");

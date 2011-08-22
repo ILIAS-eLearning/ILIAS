@@ -93,6 +93,10 @@ class ilSkillExplorer extends ilExplorer
 
 			$tpl->setCurrentBlock("link");
 			$tpl->setVariable("TITLE", $lng->txt("skmg_skill_templates"));
+			if ($this->highlighted == $this->tree->readRootId())
+			{
+				$tpl->setVariable("A_CLASS", "class='il_HighlightedNode'");
+			}
 			$tpl->setVariable("LINK_TARGET",
 				$ilCtrl->getLinkTargetByClass("ilskillrootgui", "listTemplates"));
 			$tpl->parseCurrentBlock();
@@ -106,6 +110,10 @@ class ilSkillExplorer extends ilExplorer
 
 			$tpl->setCurrentBlock("link");
 			$tpl->setVariable("TITLE", $lng->txt("skmg_skills"));
+			if ($this->highlighted == $this->tree->readRootId())
+			{
+				$tpl->setVariable("A_CLASS", "class='il_HighlightedNode'");
+			}
 			$tpl->setVariable("LINK_TARGET",
 				$ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills"));
 			$tpl->parseCurrentBlock();
@@ -173,7 +181,7 @@ class ilSkillExplorer extends ilExplorer
 			// skill template reference
 			case "sktr":
 				$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "obj_id", $a_node_id);
-				$ret = $ilCtrl->getLinkTargetByClass("ilskilltemplatereferencegui", "edit");
+				$ret = $ilCtrl->getLinkTargetByClass("ilskilltemplatereferencegui", "listItems");
 				$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "obj_id", $_GET["obj_id"]);
 				return $ret;
 				break;
@@ -204,6 +212,21 @@ class ilSkillExplorer extends ilExplorer
 				return $ret;
 				break;
 		}
+	}
+
+		/**
+	* standard implementation for title, may be overwritten by derived classes
+	*/
+	function buildTitle($a_title, $a_id, $a_type)
+	{
+		if ($a_type == "sktr")
+		{
+			include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
+			$tid = ilSkillTemplateReference::_lookupTemplateId($a_id);
+			$a_title.= " (".ilSkillTreeNode::_lookupTitle($tid).")";
+		}
+		
+		return $a_title;
 	}
 
 	/**

@@ -1572,12 +1572,19 @@ function showTrackingItem()
 
 		$template = new ilTemplate("tpl.scorm2004_export_buttons.html", true, true, 'Modules/Scorm2004');
 
-		$buttons = array(
+/*		$buttons = array(
 			"exportScorm2004_3rd" => $this->lng->txt("scorm_create_export_file_scrom2004"),
 			"exportScorm2004_4th" => $this->lng->txt("scorm_create_export_file_scrom2004_4th"),
 			"exportScorm12" => $this->lng->txt("scorm_create_export_file_scrom12"),
 			"exportPDF" => $this->lng->txt("scorm_create_export_file_pdf"),
 			"exportISO" => $this->lng->txt("scorm_create_export_file_iso"),
+			"exportHTML" => $this->lng->txt("scorm_create_export_file_html"),
+			"exportHTMLOne" => $this->lng->txt("scorm_create_export_file_html_one")
+		);*/
+		$buttons = array(
+			"exportScorm2004_3rd" => $this->lng->txt("scorm_create_export_file_scrom2004"),
+			"exportScorm2004_4th" => $this->lng->txt("scorm_create_export_file_scrom2004_4th"),
+			"exportScorm12" => $this->lng->txt("scorm_create_export_file_scrom12"),
 			"exportHTML" => $this->lng->txt("scorm_create_export_file_html"),
 			"exportHTMLOne" => $this->lng->txt("scorm_create_export_file_html_one")
 		);

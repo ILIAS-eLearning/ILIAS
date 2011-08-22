@@ -57,6 +57,40 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	}
 	
 	/**
+	 * output tabs
+	 */
+	function setTabs($a_tab)
+	{
+		global $ilTabs, $ilCtrl, $tpl, $lng;
+
+		$ilTabs->clearTargets();
+		
+		// content
+		$ilTabs->addTab("content", $lng->txt("content"),
+			$ilCtrl->getLinkTarget($this, 'listItems'));
+
+		// properties
+		$ilTabs->addTab("properties", $lng->txt("settings"),
+			$ilCtrl->getLinkTarget($this, 'editProperties'));
+		
+		// back link
+		$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
+			$this->node_object->skill_tree->getRootId());
+		$ilTabs->setBackTarget($lng->txt("obj_skmg"),
+			$ilCtrl->getLinkTargetByClass("ilskillrootgui", "listTemplates"));
+		$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
+			$_GET["obj_id"]);
+ 
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_sctp_b.gif"));
+		$tpl->setTitle(
+			$lng->txt("skmg_sctp").": ".$this->node_object->getTitle());
+		$this->setSkillNodeDescription();
+		
+		$ilTabs->activateTab($a_tab);
+
+	}
+
+	/**
 	 * List items
 	 *
 	 * @param
@@ -67,6 +101,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 		global $tpl;
 		
 		self::addCreationButtons();
+		$this->setTabs("content");
 		
 		include_once("./Services/Skill//classes/class.ilSkillCatTableGUI.php");
 		$table = new ilSkillCatTableGUI($this, "listItems", (int) $_GET["obj_id"],
@@ -95,49 +130,16 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 			$ilCtrl->getLinkTargetByClass("ilskilltemplatecategorygui", "create"));
 	}
 	
+	/**
+	 * Edit properties
+	 */
+	function editProperties()
+	{
+		$this->setTabs("properties");
+		parent::editProperties();
+	}
 	
-	/**
-	 * output tabs
-	 */
-	function setTabs()
-	{
-		global $ilTabs, $ilCtrl, $tpl, $lng;
-
-		// properties
-		$ilTabs->addTarget("properties",
-			 $ilCtrl->getLinkTarget($this,'showProperties'),
-			 "showProperties", get_class($this));
-			 
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_sktp_b.gif"));
-		$tpl->setTitle(
-			$lng->txt("skmg_skill_template_category").": ".$this->node_object->getTitle());
-	}
-
-	/**
-	 * Show Sequencing
-	 */
-	function showProperties()
-	{
-		global $tpl;
-		
-		$this->setTabs();
-		$this->setLocator();
-
-		$tpl->setContent("Properties");
-	}
-
-	/**
-	 * Perform drag and drop action
-	 */
-	function proceedDragDrop()
-	{
-		global $ilCtrl;
-
-//		$this->slm_object->executeDragDrop($_POST["il_hform_source_id"], $_POST["il_hform_target_id"],
-//			$_POST["il_hform_fc"], $_POST["il_hform_as_subitem"]);
-//		$ilCtrl->redirect($this, "showOrganization");
-	}
-
+	
 	/**
 	 * Save item
 	 */
@@ -148,6 +150,17 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 		$it->setOrderNr($this->form->getInput("order_nr"));
 		$it->create();
 		ilSkillTreeNode::putInTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
+	}
+
+	/**
+	 * Update item
+	 */
+	function updateItem()
+	{
+		$this->node_object->setTitle($this->form->getInput("title"));
+		$this->node_object->setOrderNr($this->form->getInput("order_nr"));
+		$this->node_object->setSelfEvaluation($_POST["self_eval"]);
+		$this->node_object->update();
 	}
 
 }

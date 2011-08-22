@@ -2,6 +2,7 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
 
 /**
  * Basic GUI class for skill tree nodes
@@ -24,9 +25,10 @@ class ilSkillTreeNodeGUI
 	{
 		$this->node_object = null;
 
-		if ($a_node_id > 0)
+		if ($a_node_id > 0 &&
+			$this->getType() == ilSkillTreeNode::_lookupType($a_node_id))
 		{
-			$this->readNodeObject($a_node_id);
+			$this->readNodeObject((int) $a_node_id);
 		}
 	}
 
@@ -126,7 +128,7 @@ class ilSkillTreeNodeGUI
 		global $ilCtrl;
 
 		$ilCtrl->setParameter($this, "backcmd", $_GET["backcmd"]);
-		$this->getParentGUI()->deleteNodes();
+		$this->getParentGUI()->deleteNodes($this);
 	}
 
 	/**
@@ -156,7 +158,7 @@ class ilSkillTreeNodeGUI
 	{
 		global $ilCtrl;
 		
-		$ilCtrl->redirect($this, "showOrganization");
+		$ilCtrl->redirect($this, "listItems");
 	}
 
 	/**
@@ -167,7 +169,7 @@ class ilSkillTreeNodeGUI
 		global $ilCtrl;
 		
 		$this->getParentGUI()->confirmedDelete(false);
-		$ilCtrl->redirect($this, "showOrganization");
+		$ilCtrl->redirect($this, "listItems");
 	}
 
 	/**
@@ -214,6 +216,31 @@ class ilSkillTreeNodeGUI
 		
 		$tpl->setLocator();
 	}
+	
+	/**
+	 * Set skill node description
+	 */
+	function setSkillNodeDescription()
+	{
+		global $tpl;
+		
+		if (is_object($this->node_object))
+		{
+			include_once("./Services/Skill/classes/class.ilSkillTree.php");
+			$tree = new ilSkillTree();
+			$path = $this->node_object->skill_tree->getPathFull($this->node_object->getId());
+			$desc = "";
+			foreach ($path as $p)
+			{
+				if (in_array($p["type"], array("scat", "skll", "sktr")))
+				{
+					$desc.= $sep.$p["title"];
+					$sep = " > ";
+				}
+			}
+		}
+		$tpl->setDescription($desc);
+	}
 
 	/**
 	 * Create skill tree node
@@ -226,6 +253,32 @@ class ilSkillTreeNodeGUI
 		$tpl->setContent($this->form->getHTML());
 	}
 	
+	/**
+	 * Edit properties form
+	 */
+	function editProperties()
+	{
+		global $tpl;
+		
+		$this->initForm("edit");
+		$this->getPropertyValues();
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * Get property values for edit form
+	 */
+	function getPropertyValues()
+	{
+		$values = array();
+		
+		$values["title"] = $this->node_object->getTitle();
+		$values["order_nr"] = $this->node_object->getOrderNr();
+		$values["self_eval"] = $this->node_object->getSelfEvaluation();
+		
+		$this->form->setValuesByArray($values); 
+    }
+    
 	/**
 	 * Save skill tree node
 	 *
@@ -258,6 +311,38 @@ class ilSkillTreeNodeGUI
 	
 	
 	/**
+	 * Update skill tree node
+	 *
+	 */
+	public function update()
+	{
+		global $tpl, $lng, $ilCtrl;
+	
+		$this->initForm("edit");
+		if ($this->form->checkInput())
+		{
+			$this->updateItem();
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$this->afterUpdate();
+		}
+		else
+		{
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHtml());
+		}
+	}
+	
+	/**
+	 * After update
+	 */
+	function afterUpdate()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->redirect($this, "editProperties");
+	}
+	
+	/**
 	 * Init  form.
 	 *
 	 * @param        int        $a_mode        Edit Mode
@@ -288,14 +373,14 @@ class ilSkillTreeNodeGUI
 		{
 			$this->form->addCommandButton("save", $lng->txt("save"));
 			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
+			$this->form->setTitle($lng->txt("skmg_create_".$this->getType()));
 		}
 		else
 		{
 			$this->form->addCommandButton("update", $lng->txt("save"));
-			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+			$this->form->setTitle($lng->txt("skmg_edit_".$this->getType()));
 		}
 
-		$this->form->setTitle($lng->txt("skmg_create_".$this->getType()));
 		
 		$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
