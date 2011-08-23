@@ -30,6 +30,16 @@ class ilWorkspaceAccessHandler
 		}
 		$this->tree = $a_tree;
 	}
+	
+	/**
+	 * Get workspace tree
+	 * 
+	 * @return ilWorkspaceTree
+	 */
+	public function getTree()
+	{
+		return $this->tree;
+	}
 
 	/**
 	 * check access for an object

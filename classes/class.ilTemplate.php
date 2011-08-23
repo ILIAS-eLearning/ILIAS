@@ -1606,14 +1606,29 @@ class ilTemplate extends ilTemplateX
 		}
 		
 		if (is_object($this->getHeaderActionMenu()) && $ilUser->getId() != ANONYMOUS_USER_ID)
-		{
-			$this->setCurrentBlock("head_action");
+		{		
+			$header_action_gui = $this->getHeaderActionMenu();							
 			include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
-			$lg = ilObjectListGUIFactory::_getListGUIByType($this->getHeaderActionMenu()->object->getType());
-			$lg->setContainerObject($this->getHeaderActionMenu());
-			$this->setVariable("HEAD_ACTION", $lg->getHeaderAction(
-				$this->getHeaderActionMenu()->object->getRefId(),
-				$this->getHeaderActionMenu()->object->getId()));
+			$lg = ilObjectListGUIFactory::_getListGUIByType($header_action_gui->object->getType());
+			$lg->setContainerObject($header_action_gui);
+			
+			// personal workspace
+			if($_REQUEST["wsp_id"])
+			{
+				$ref_id = $_REQUEST["wsp_id"];
+				$context = ilObjectListGUI::CONTEXT_WORKSPACE;
+			}	
+			// repository
+			else
+			{
+				$ref_id = $header_action_gui->object->getRefId();
+				$context = ilObjectListGUI::CONTEXT_REPOSITORY;
+			}
+			
+			$this->setCurrentBlock("head_action");
+			$this->setVariable("HEAD_ACTION", $lg->getHeaderAction($ref_id,
+				$header_action_gui->object->getId(),
+				$context, $this->header_action_sub_id));
 			$this->parseCurrentBlock();
 		}
 
@@ -1690,10 +1705,12 @@ class ilTemplate extends ilTemplateX
 	 * Set header action menu
 	 *
 	 * @param int $a_val ref id	
+	 * @param int $a_sub_id sub object id	
 	 */
-	function setHeaderActionMenu($a_val)
+	function setHeaderActionMenu($a_val, $a_sub_id = null)
 	{
 		$this->header_action_ref_id = $a_val;
+		$this->header_action_sub_id = $a_sub_id;
 	}
 	
 	/**

@@ -22,6 +22,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once("Services/Notes/classes/class.ilNote.php");
+
 /**
 * Private Notes on PD
 *
@@ -55,13 +57,30 @@ class ilPDNotesGUI
 	*/
 	function ilPDNotesGUI()
 	{
-		global $ilias, $tpl, $lng, $ilCtrl;
+		global $ilias, $tpl, $lng, $ilCtrl, $ilUser, $ilTabs;
 
 		// initiate variables
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->ctrl =& $ilCtrl;
+		
+		// link from ilPDNotesBlockGUI
+		if($_GET["rel_obj"])
+		{			
+			$mode = ($_GET["note_type"] == IL_NOTE_PRIVATE) ? self::PRIVATE_NOTES : self::PUBLIC_COMMENTS;
+			$ilUser->writePref("pd_notes_mode", $mode);
+			$ilUser->writePref("pd_notes_rel_obj".$mode, $_GET["rel_obj"]);
+		}		
+		// edit link
+		else if($_REQUEST["note_id"])
+		{
+			$note = new ilNote($_REQUEST["note_id"]);
+			$mode = ($note->getType() == IL_NOTE_PRIVATE) ? self::PRIVATE_NOTES : self::PUBLIC_COMMENTS;
+			$obj = $note->getObject();
+			$ilUser->writePref("pd_notes_mode", $mode);
+			$ilUser->writePref("pd_notes_rel_obj".$mode, $obj["rep_obj_id"]);
+		}
 	}
 
 	/**
@@ -120,7 +139,7 @@ class ilPDNotesGUI
 
 		//$this->tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.table.html")
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
-		
+				
 		// output related item selection (if more than one)
 		include_once("Services/Notes/classes/class.ilNote.php");
 		$rel_objs = ilNote::_getRelatedObjectsOfUser($this->getMode());
@@ -136,7 +155,7 @@ class ilPDNotesGUI
 				$this->current_rel_obj = $r["rep_obj_id"];
 			}
 			$first = false;
-		}
+		}		
 		if ($this->current_rel_obj > 0)
 		{
 			$notes_gui = new ilNoteGUI($this->current_rel_obj, 0,
@@ -233,7 +252,7 @@ class ilPDNotesGUI
 	{
 		global $ilUser;
 		
-		$ilUser->writePref("pd_notes_rel_obj".$this->getMode(), $_POST["rel_obj"]);
+		$ilUser->writePref("pd_notes_rel_obj".$this->getMode(), $_POST["rel_obj"]);				
 		$this->ctrl->redirect($this);
 	}
 

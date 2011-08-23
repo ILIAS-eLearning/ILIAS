@@ -173,7 +173,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		switch($next_class)
 		{
-			case 'ilblogpostinggui':
+			case 'ilblogpostinggui':				
 				$ilCtrl->setParameter($this, "bmn", $_REQUEST["bmn"]);
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, ""));
@@ -232,6 +232,17 @@ class ilObjBlogGUI extends ilObject2GUI
 						
 						// ilias/editor
 						default:
+							
+							
+							// prepare notes
+							include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+							ilNoteGUI::initJavascript(
+								$ilCtrl->getLinkTargetByClass(array("ilblogpostinggui", "ilnotegui"), "", "", true, false));
+
+							$tpl->setHeaderActionMenu($this, $_REQUEST["page"]);
+							
+							
+							
 							$tpl->setContent($ret);
 							$nav = $this->renderNavigation($this->items, "render", $cmd);	
 							$tpl->setRightContent($nav);	
@@ -387,6 +398,14 @@ class ilObjBlogGUI extends ilObject2GUI
 					
 		$tpl->setContent($list);
 		$tpl->setRightContent($nav);
+		
+		
+		// prepare notes
+		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+		ilNoteGUI::initJavascript(
+			$ilCtrl->getLinkTargetByClass(array("ilblogpostinggui", "ilnotegui"), "", "", true, false));
+		
+		$tpl->setHeaderActionMenu($this, 0);
 	}
 	
 	function getExerciseInfo($a_assignment_id)
@@ -798,6 +817,7 @@ class ilObjBlogGUI extends ilObject2GUI
 
 			if(!$a_link_template)
 			{
+				$ilCtrl->setParameter($this, "bmn", $month);
 				$month_url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
 			}
 			else
@@ -846,6 +866,8 @@ class ilObjBlogGUI extends ilObject2GUI
 				$wtpl->parseCurrentBlock();
 			}
 		}
+		
+		$ilCtrl->setParameter($this, "bmn", $this->month);
 
 		return $wtpl->get();
 	}
