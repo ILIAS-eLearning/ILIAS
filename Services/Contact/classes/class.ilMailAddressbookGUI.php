@@ -370,427 +370,448 @@ class ilMailAddressbookGUI
 	 */
 	public function showAddressbook()
 	{
-		global $rbacsystem, $lng, $ilUser, $ilCtrl, $ilias;
+	    global $rbacsystem, $lng, $ilUser, $ilCtrl, $ilias;
 
 		$this->tpl->setTitle($this->lng->txt("mail"));		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook.html", "Services/Contact");		
 
-		// check if current user may send mails
-		include_once "Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail($_SESSION["AccountId"]);
-		$mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+	    // check if current user may send mails
+	    include_once "Services/Mail/classes/class.ilMail.php";
+	    $mail = new ilMail($_SESSION["AccountId"]);
+	    $mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
 
-		// searchbox
-		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-		include_once 'Services/YUI/classes/class.ilYuiUtil.php';
-		ilYuiUtil::initAutoComplete();
-		$searchform = new ilPropertyFormGUI();
-		$searchform->setFormAction($this->ctrl->getFormAction($this, "saveEntry"));
+	    // searchbox
+	    include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+	    include_once 'Services/YUI/classes/class.ilYuiUtil.php';
+	    ilYuiUtil::initAutoComplete();
+	    $searchform = new ilPropertyFormGUI();
+	    $searchform->setFormAction($this->ctrl->getFormAction($this, "saveEntry"));
+
+	    //$dsSchema = array('response.results', 'login', 'firstname', 'lastname');
+	    $dsSchema = array("resultsList" => 'response.results',
+		    "fields" => array('login', 'firstname', 'lastname'));
+	    $dsFormatCallback = 'formatAutoCompleteResults';
+	    $dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupAddressbookAsync', '', true, false);
+
+	    $inp = new ilTextInputGUI($this->lng->txt('search_for'), 'search_qry');
+	    $inp->setDataSource($dsDataLink);
+	    $inp->setDataSourceSchema($dsSchema);
+	    $inp->setDataSourceResultFormat($dsFormatCallback);
+
+	    $searchform->addItem($inp);
+	    $searchform->addCommandButton('search', $this->lng->txt("send"));
+	    $this->tpl->setVariable('SEARCHFORM', $searchform->getHtml());
+
+
+	    $this->tpl->setVariable('ACTION', $this->ctrl->getFormAction($this, "saveEntry"));
+	    $this->tpl->setVariable("TXT_SEARCH_FOR",$this->lng->txt("search_for"));
+	    $this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("send"));
+
+	    if (strlen(trim($_SESSION["addr_search"])) > 0)
+	    {
+		$this->tpl->setVariable("VALUE_SEARCH_FOR", ilUtil::prepareFormOutput(trim($_SESSION["addr_search"]), true));
+	    }
+
+	    $tbl = new ilAddressbookTableGUI($this);
+	    $tbl->setTitle($lng->txt("mail_addr_entries"));
+	    $tbl->setRowTemplate("tpl.mail_addressbook_row.html", "Services/Contact");
+
+	    $tbl->setDefaultOrderField('login');
+
+	    $result = array();
+	    $this->abook->setSearchQuery($_SESSION['addr_search']);
+	    $entries = $this->abook->getEntries();
+
+	    $tbl->addColumn('', 'check', '10%', true);
+	    $tbl->addColumn($this->lng->txt('login'), 'login', '20%');
+	    $tbl->addColumn($this->lng->txt('firstname'), 'firstname', '20%');
+	    $tbl->addColumn($this->lng->txt('lastname'), 'lastname', '20%');
+	    $tbl->addColumn($this->lng->txt('email'), 'email', '20%');
+	    $tbl->addColumn($this->lng->txt('actions'), '', '10%');
+
+	    include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+
+	    if (count($entries))
+	    {
+		$tbl->enable('select_all');
+		$tbl->setSelectAllCheckbox('addr_id');
+
+		$chatSettings = new ilSetting('chatroom');
+		$chat_active = $chatSettings->get("chat_enabled", false);
+
+		$counter = 0;
 		
-		//$dsSchema = array('response.results', 'login', 'firstname', 'lastname');
-		$dsSchema = array("resultsList" => 'response.results',
-			"fields" => array('login', 'firstname', 'lastname'));
-		$dsFormatCallback = 'formatAutoCompleteResults';
-		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupAddressbookAsync', '', true, false);
-		
-		$inp = new ilTextInputGUI($this->lng->txt('search_for'), 'search_qry');
-		$inp->setDataSource($dsDataLink);
-		$inp->setDataSourceSchema($dsSchema);
-		$inp->setDataSourceResultFormat($dsFormatCallback);
-		
-		$searchform->addItem($inp);
-		$searchform->addCommandButton('search', $this->lng->txt("send"));
-		$this->tpl->setVariable('SEARCHFORM', $searchform->getHtml());
-		
-		
-		$this->tpl->setVariable('ACTION', $this->ctrl->getFormAction($this, "saveEntry"));
-		$this->tpl->setVariable("TXT_SEARCH_FOR",$this->lng->txt("search_for"));
-		$this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("send"));
-		
-		if (strlen(trim($_SESSION["addr_search"])) > 0)
+		foreach ($entries as $entry)
 		{
-			$this->tpl->setVariable("VALUE_SEARCH_FOR", ilUtil::prepareFormOutput(trim($_SESSION["addr_search"]), true));
-		}
-		
-		$tbl = new ilAddressbookTableGUI($this);
-		$tbl->setTitle($lng->txt("mail_addr_entries"));
-		$tbl->setRowTemplate("tpl.mail_addressbook_row.html", "Services/Contact");				
+		    $result[$counter]['check'] = ilUtil::formCheckbox(0, 'addr_id[]', $entry["addr_id"]);
 
-	 	$tbl->setDefaultOrderField('login');	
-		
-		$result = array();
-		$this->abook->setSearchQuery($_SESSION['addr_search']);
-		$entries = $this->abook->getEntries();
-		
-		$tbl->addColumn('', 'check', '10%', true);
-	 	$tbl->addColumn($this->lng->txt('login'), 'login', '20%');
-	 	$tbl->addColumn($this->lng->txt('firstname'), 'firstname', '20%');
-		$tbl->addColumn($this->lng->txt('lastname'), 'lastname', '20%');
-		$tbl->addColumn($this->lng->txt('email'), 'email', '20%');
-		$tbl->addColumn($this->lng->txt('actions'), '', '10%');
-		
-		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		    $this->ctrl->setParameter($this, 'addr_id',  $entry['addr_id']);
 
-		if (count($entries))
-		{		
-			$tbl->enable('select_all');				
-			$tbl->setSelectAllCheckbox('addr_id');
-			
-			// cache setting for iteration
-			$chat_active = $ilias->getSetting("chat_active");
-			
-			$counter = 0;
-			foreach ($entries as $entry)
-			{				
-				$result[$counter]['check'] = ilUtil::formCheckbox(0, 'addr_id[]', $entry["addr_id"]);
-				
-				$this->ctrl->setParameter($this, 'addr_id',  $entry['addr_id']);
-				
-				if ($entry["login"] != "")
-				{
-					if ($mailing_allowed)
-					{
-						$result[$counter]['login_linked_link'] = $this->ctrl->getLinkTarget($this, 'mailToUsers');
-						$result[$counter]['login_linked_login'] = $entry["login"];
-					}
-					else
-						$result[$counter]['login_unliked'] = $entry["login"];
-				}				
-				
-				$result[$counter]['firstname'] = $entry["firstname"];
-				$result[$counter]['lastname'] = $entry["lastname"];
-								
-				if ($_GET["baseClass"] == "ilMailGUI" && $rbacsystem->checkAccess("smtp_mail", $this->umail->getMailObjectReferenceId()))
-				{
-					$result[$counter]['email_linked_email'] = $entry["email"];
-					$result[$counter]['email_linked_link'] = $this->ctrl->getLinkTarget($this, "mailToUsers");
-				}
-				else
-					$result[$counter]['email_unlinked'] = $entry["email"] ? $entry["email"] : "&nbsp;";
-		
-				$current_selection_list = new ilAdvancedSelectionListGUI();
-				$current_selection_list->setListTitle($this->lng->txt("actions"));
-				$current_selection_list->setId("act_".$counter);
-
-				$current_selection_list->addItem($this->lng->txt("edit"), '', $this->ctrl->getLinkTarget($this, "showAddressForm"));
-
-				if ($mailing_allowed)
-					$current_selection_list->addItem($this->lng->txt("send_mail_to"), '', $this->ctrl->getLinkTarget($this, "mailToUsers"));
-
-				$current_selection_list->addItem($this->lng->txt("delete"), '', $this->ctrl->getLinkTarget($this, "confirmDelete"));
-				
-				/*if ($chat_active)
-					$current_selection_list->addItem($this->lng->txt("invite_to_chat"), '', $this->ctrl->getLinkTarget($this, "inviteToChat"));*/
-				
-				$this->ctrl->clearParameters($this);
-				
-				$result[$counter]['COMMAND_SELECTION_LIST'] = $current_selection_list->getHTML();
-				++$counter;
-			}			
-			
+		    if ($entry["login"] != "")
+		    {
 			if ($mailing_allowed)
-				$tbl->addMultiCommand('mailToUsers', $this->lng->txt('send_mail_to'));
+			{
+			    $result[$counter]['login_linked_link'] = $this->ctrl->getLinkTarget($this, 'mailToUsers');
+			    $result[$counter]['login_linked_login'] = $entry["login"];
+			}
+			else
+			    $result[$counter]['login_unliked'] = $entry["login"];
+		    }
 
-			$tbl->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
-			
-			/*if ($chat_active)
-				$tbl->addMultiCommand('inviteToChat', $this->lng->txt('invite_to_chat'));			*/
+		    $result[$counter]['firstname'] = $entry["firstname"];
+		    $result[$counter]['lastname'] = $entry["lastname"];
+
+		    if ($_GET["baseClass"] == "ilMailGUI" && $rbacsystem->checkAccess("smtp_mail", $this->umail->getMailObjectReferenceId()))
+		    {
+			$result[$counter]['email_linked_email'] = $entry["email"];
+			$result[$counter]['email_linked_link'] = $this->ctrl->getLinkTarget($this, "mailToUsers");
+		    }
+		    else
+			$result[$counter]['email_unlinked'] = $entry["email"] ? $entry["email"] : "&nbsp;";
+
+		    $current_selection_list = new ilAdvancedSelectionListGUI();
+		    $current_selection_list->setListTitle($this->lng->txt("actions"));
+		    $current_selection_list->setId("act_".$counter);
+
+		    $current_selection_list->addItem($this->lng->txt("edit"), '', $this->ctrl->getLinkTarget($this, "showAddressForm"));
+
+		    if ($mailing_allowed)
+			$current_selection_list->addItem($this->lng->txt("send_mail_to"), '', $this->ctrl->getLinkTarget($this, "mailToUsers"));
+
+		    $current_selection_list->addItem($this->lng->txt("delete"), '', $this->ctrl->getLinkTarget($this, "confirmDelete"));
+
+		    if ($chat_active)
+			$current_selection_list->addItem($this->lng->txt("invite_to_chat"), '', $this->ctrl->getLinkTarget($this, "inviteToChat"));
+
+		    $this->ctrl->clearParameters($this);
+
+		    $result[$counter]['COMMAND_SELECTION_LIST'] = $current_selection_list->getHTML();
+		    ++$counter;
+		}
+
+		if ($mailing_allowed)
+		    $tbl->addMultiCommand('mailToUsers', $this->lng->txt('send_mail_to'));
+
+		$tbl->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
+
+		if ($chat_active)
+		    $tbl->addMultiCommand('inviteToChat', $this->lng->txt('invite_to_chat'));
+	    }
+	    else
+	    {
+		$tbl->disable('header');
+		$tbl->disable('footer');
+
+		$tbl->setNoEntriesText($this->lng->txt('mail_search_no'));
+	    }
+
+	    $tbl->setData($result);
+
+	    $tbl->addCommandButton('showAddressForm', $this->lng->txt('add'));
+
+	    $this->tpl->setVariable('TABLE', $tbl->getHTML());
+
+	    $this->tpl->show();
+
+	    unset($_SESSION['addr_search']);
+
+	    return true;
+	}
+
+
+	/**
+	 * Send chat invitations to selected Users
+	 *
+	 * @global <type> $ilUser
+	 * @global <type> $lng
+	 * @global <type> $ilCtrl
+	 * @global <type> $tpl
+	 */
+	public function inviteToChat()
+	{
+	    global $ilUser, $lng, $ilCtrl, $tpl;
+
+	    $addr_ids = ( (int)$_GET['addr_id'] ) ?
+			array( (int)$_GET['addr_id'] ) :
+			$_POST['addr_id'];
+
+	    if( !$addr_ids )
+	    {
+		ilUtil::sendInfo($lng->txt('chat_no_users_selected'), true);
+		ilUtil::redirect(
+		    $ilCtrl->getLinkTarget($this, 'showAddressbook', '', false, false)
+		);
+		exit;
+	    }
+
+	    // store userdata for users without ilias login
+	    $no_login = array();
+
+	    foreach( $addr_ids as $id )
+	    {
+		$entry = $this->abook->getEntry($id);
+
+		// if login-name available, user has a local account
+		if( !$entry['login'] )
+		{
+		    $no_login[] = $id;
+		}
+	    }
+
+	    if( count($no_login) )
+	    {
+		$message .= $lng->txt('chat_users_without_login') . ':<br>';
+		$list = '';
+
+		foreach( $no_login as $e )
+		{
+		    $list .= '<li>' . $this->abook->entryToString($e) . '</li>';
+		}
+
+		$message .= '<ul>';
+		$message .= $list;
+		$message .= '</ul>';
+
+		ilUtil::sendInfo($message);
+		$this->showAddressbook();
+		exit;
+	    }
+
+	    include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+
+	    $ilChatroom = new ilChatroom();  
+	    $chat_rooms = $ilChatroom->getAllRooms( $ilUser->getId() );
+	    $subrooms	= array();
+
+	    foreach( $chat_rooms as $room_id => $title)
+	    {
+		$subrooms[] = $ilChatroom->getPrivateSubRooms( $room_id, $ilUser->getId() );
+	    }
+	    
+	    include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+
+	    $form = new ilPropertyFormGUI();
+	    $form->setTitle( $lng->txt("mail_invite_users_to_chat") );
+
+	    $psel = new ilSelectInputGUI( $lng->txt("chat_select_room"), 'room_id' );
+	    $options = array();
+
+	    foreach( $chat_rooms as $room_id => $room )
+	    {
+		$ref_id = $room_id;
+		
+		if( $ilChatroom->isUserBanned( $ilUser->getId() ) )
+		{
+		    continue;
+		}
+
+		$options[$ref_id] = $room;
+
+		foreach( $subrooms as $subroom )
+		{
+		    foreach( $subroom as $sub_id => $parent_id )
+		    {
+			if( $parent_id == $ref_id )
+			{
+			    $title = ilChatroom::lookupPrivateRoomTitle( $sub_id );
+			    $options[$ref_id . ',' . $sub_id] = '+&nbsp;' . $title;
+			}
+		    }
+		}
+	    }
+
+	    $psel->setOptions($options);
+	    $form->addItem($psel);
+	    $phidden = new ilHiddenInputGUI( 'addr_ids' );
+	    $phidden->setValue( join( ',', $addr_ids ) );
+	    $form->addItem( $phidden );
+	    $form->addCommandButton( 'submitInvitation', $this->lng->txt( 'submit' ) );
+	    $form->addCommandButton( 'cancel', $this->lng->txt( 'cancel' ) );
+	    $form->setFormAction( $ilCtrl->getFormAction( $this ) );
+
+	    $tpl->setTitle( $lng->txt( 'mail_invite_users_to_chat' ) );
+	    $tpl->setContent( $form->getHtml() );
+	    $tpl->show();
+	}
+
+	/**
+	 * Last step of chat invitations
+	 * check access for every selected user and send invitation
+	 *
+	 * @global  $ilUser
+	 * @global  $ilCtrl
+	 * @global  $lng
+	 */
+	public function submitInvitation()
+	{
+	    global $ilUser,$ilCtrl, $lng;
+
+	    if( !$_POST["addr_ids"] )
+	    {
+		ilUtil::sendInfo( $lng->txt( 'chat_no_users_selected' ), true );
+		$this->showAddressbook();
+		exit;
+	    }
+
+	    if( !$_POST["room_id"] )
+	    {
+		ilUtil::sendInfo( $lng->txt( 'chat_no_room_selected' ), true );
+		$_POST['addr_id'] = explode( ',', $_POST["addr_ids"] );
+		$this->showAddressbook();
+		exit;
+	    }
+
+	    // get selected users (comma seperated user id list)
+	    $ids = explode( ',', $_POST["addr_ids"] );
+
+	    // get selected chatroom from POST-String, format: "room_id , scope"
+	    $room_ids	= explode( ',', $_POST['room_id'] );
+	    $room_id	= (int)$room_ids[0];
+	    $scope	= 0;
+
+	    if( count($room_ids) > 0 )
+	    {
+		$scope = (int)$room_ids[1];
+	    }
+
+	    include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+
+	    $room	    = ilChatroom::byRoomId( (int)$room_id, true );
+	    $no_access	    = array();
+	    $no_login	    = array();
+	    $valid_users    = array();
+
+	    foreach( $ids as $id )
+	    {
+		$entry = $this->abook->getEntry($id);
+
+		if( $entry['login'] )
+		{
+		    $user_id	= $ilUser->getUserIdByLogin($entry['login']);
+		    $ref_id	= $room->getRefIdByRoomId($room_id);
+
+		    if
+		    (
+			!ilChatroom::checkPermissionsOfUser($user_id, 'read', $ref_id )
+			|| $room->isUserBanned( $user_id )
+		    )
+		    {
+			$no_access[] = $id;
+		    }
+		    else
+		    {
+			$valid_users[] = $user_id; 
+		    }
 		}
 		else
 		{
-			$tbl->disable('header');
-			$tbl->disable('footer');
+		    $no_login[] = $id;
+		}
+	    }
 
-			$tbl->setNoEntriesText($this->lng->txt('mail_search_no'));			
+	    if( count( $no_access ) || count( $no_login ) )
+	    {
+		$message = "";
+
+		if( count($no_access) )
+		{
+		    $message .= $lng->txt('chat_users_without_permission') . ':<br>';
+		    $list = '';
+
+		    foreach( $no_access as $e )
+		    {
+			$list .= '<li>'.$this->abook->entryToString($e).'</li>';
+		    }
+
+		    $message .= '<ul>';
+		    $message .= $list;
+		    $message .= '</ul>';
 		}
 
-		$tbl->setData($result);
-		
-		$tbl->addCommandButton('showAddressForm', $this->lng->txt('add'));
-		
-		$this->tpl->setVariable('TABLE', $tbl->getHTML());		
-		
-		$this->tpl->show();
-		
-		unset($_SESSION['addr_search']);
-		
-		return true;
+		if( count( $no_login ) )
+		{
+		    $message .= $lng->txt('chat_users_without_login') . ':<br>';
+		    $list = '';
+		    
+		    foreach( $no_login as $e )
+		    {
+			$list .= '<li>'.$this->abook->entryToString($e).'</li>';
+		    }
+
+		    $message .= '<ul>';
+		    $message .= $list;
+		    $message .= '</ul>';
+		}
+
+		ilUtil::sendInfo($message);
+		$_POST["addr_id"] = $ids;
+		$this->inviteToChat();
+		exit;
+	    }
+
+	    $ref_id = $room->getRefIdByRoomId( $room_id );
+
+	    if( $scope > 0 )
+	    {
+		$url = 'repository.php?ref_id=' . $ref_id .
+			'&cmd=view&rep_frame=1&sub=' . $scope;
+	    }
+	    else
+	    {
+		$url = 'repository.php?ref_id=' . $ref_id . '&cmd=view&rep_frame=1';
+	    }
+
+	    $url = ilUtil::_getHttpPath() . '/' .$url;
+
+	    $link = '<p><a target="chatframe" href="'.$url.'">' .
+		    $lng->txt('goto_invitation_chat') . '</a></p>';
+
+	    foreach( $valid_users as $id )
+	    {
+		$room->inviteUserToPrivateRoom( $id, $scope );
+
+		$room->sendInvitationNotification(
+			null, $ilUser->getId(), $id, (int)$scope, $url
+		);
+	    }
+
+	    ilUtil::sendInfo( 
+		$lng->txt('chat_users_have_been_invited') . $userlist . $link, true
+	    );
+	    $link = $ilCtrl->getLinkTarget( $this, 'showAddressbook', '', false, false );
+	    ilUtil::redirect( $link );
 	}
-
-	
-	/**
-	 * send chat invitations to selected Users
-	 */
-/*	public function inviteToChat()
-	{
-		global $ilUser, $ilObjDataCache, $lng, $ilCtrl, $tpl;
-
-		$addr_ids = ((int)$_GET['addr_id']) ? array((int)$_GET['addr_id']) : $_POST['addr_id'];
-		
-		// check if users has been selected
-		if (!$addr_ids)
-		{
-			ilUtil::sendInfo($lng->txt('chat_no_users_selected'), true);
-			ilUtil::redirect($ilCtrl->getLinkTarget($this, 'showAddressbook', '', false, false));
-			exit;
-		}
-
-		// check for anonymous accounts
-		
-		// store userdata for users without ilias login
-		$no_login = array();
-		
-		foreach($addr_ids as $id)
-		{
-			$entry = $this->abook->getEntry($id);
-			
-			// if login-name available, user has a local account
-			if (!$entry['login'])
-			{
-				$no_login[] = $id;
-			}
-		}
-		
-		// error message for anonymous users
-		if (count($no_login))
-		{
-			$message .= $lng->txt('chat_users_without_login') . ':<br>';
-			$list = '';
-			foreach($no_login as $e)
-			{
-				$list .= '<li>'.$this->abook->entryToString($e).'</li>';
-			}
-			$message .= '<ul>';
-			$message .= $list;
-			$message .= '</ul>';
-			ilUtil::sendInfo($message);
-			$this->showAddressbook();
-			exit;
-		}
-		
-		// include chat classes
-		include_once 'Modules/Chat/classes/class.ilChatRoom.php';
-		include_once 'Modules/Chat/classes/class.ilObjChat.php';
-		include_once 'Modules/Chat/classes/class.ilObjChatGUI.php';
-		include_once 'Modules/Chat/classes/class.ilChatBlockedUsers.php';
-		
-		// fetch rooms
-		$chat_rooms = ilChatRoom::getAllRooms();
-		$rooms = array();
-		foreach($chat_rooms as $room)
-		{
-			$rooms[] = $room;
-			$rooms[count($rooms)-1]["subrooms"] = ilChatRoom::getRoomsOfObject($ilObjDataCache->lookupObjId($room["ref_id"]), $ilUser->getId());
-		}
-
-		// sort rooms by title
-		$titel = array();
-		foreach($rooms as $k => $v) {
-			$titel[$k] = strtolower($v['title']);
-		}
-		array_multisort($titel, SORT_STRING, $rooms);
-		
-		// buid room select form
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-
-		$form = new ilPropertyFormGUI();		
-		$form->setTitle($lng->txt("mail_invite_users_to_chat"));
-		$psel = new ilSelectInputGUI($lng->txt("chat_select_room"), 'room_id');
-		$options = array();
-		foreach($rooms as $room)
-		{
-			$ref_id = $room['ref_id'];
-			if (ilChatBlockedUsers::_isBlocked($ilObjDataCache->lookupObjId($ref_id), $ilUser->getId()))
-				continue;
-			
-			$options[$ref_id] = $room['title'];
-			foreach($room['subrooms'] as $subroom)
-			{
-				if (ilChatRoom::_checkWriteAccess($ref_id, $subroom['room_id'], $ilUser->getId()))
-					$options[$ref_id.','.$subroom['room_id']] = '+&nbsp;'.$subroom['title'];
-			}
-		}
-		$psel->setOptions($options);
-		$form->addItem($psel);
-		$phidden = new ilHiddenInputGUI('addr_ids');
-		$phidden->setValue(join(',', $addr_ids));
-		$form->addItem($phidden);
-		$form->addCommandButton('submitInvitation',$this->lng->txt('submit'));
-		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
-		$form->setFormAction($ilCtrl->getFormAction($this));
-		
-		// finish... show form
-		$tpl->setTitle($lng->txt('mail_invite_users_to_chat'));
-		$tpl->setContent($form->getHtml());
-		$tpl->show();
-	}*/
-	
-	/**
-	 * last step of chat invitations
-	 * check access for every selected user and do invitation
-	 */
-	/*public function submitInvitation()
-	{
-		global $ilObjDataCache, $ilUser,$ilCtrl, $rbacsystem, $lng, $ilias;
-		
-		if (!$_POST["addr_ids"])
-		{
-			ilUtil::sendInfo($lng->txt('chat_no_users_selected'), true);
-			$this->showAddressbook();
-			exit;
-		}
-
-		if (!$_POST["room_id"])
-		{
-			ilUtil::sendInfo($lng->txt('chat_no_room_selected'), true);
-			$_POST['addr_id'] = explode(',', $_POST["addr_ids"]);
-			$this->showAddressbook();
-			exit;
-		}
-		
-		// get selected users (comma seperated user id list)
-		$ids = explode(',', $_POST["addr_ids"]);
-		
-		// get selected chat room from POST-String
-		// format: "ref_id , room_id"
-		$chat_ids = explode(',', $_POST['room_id']);
-		$chat_id = (int)$chat_ids[0];
-		// room_id is optional with default value 0
-		$room_id = 0;
-		if (count($chat_ids) > 0)
-		{
-			$room_id = (int)$chat_ids[1];
-		}
-		
-		// ready to check for room access
-		
-		// incldue chat room classes
-		include_once 'Modules/Chat/classes/class.ilChatRoom.php';
-		include_once 'Modules/Chat/classes/class.ilObjChat.php';
-		include_once 'Modules/Chat/classes/class.ilObjChatGUI.php';
-		include_once 'Modules/Chat/classes/class.ilChatBlockedUsers.php';
-		
-		$obj_id = $ilObjDataCache->lookupObjId($chat_id);
-		
-		// initiate target room
-		$room = new ilChatRoom($chat_id);
-		$room->setRoomId((int)$room_id);
-		
-		// store userdata for users with no access
-		$no_access = array();
-		
-		// store userdata for users without ilias login
-		$no_login = array();
-		
-		// store usersids with access
-		$valid_users = array();
-
-		foreach($ids as $id)
-		{
-			$entry = $this->abook->getEntry($id);
-			
-			// if login-name available, user has a local account
-			if ($entry['login'])
-			{
-				$user_id = $ilUser->getUserIdByLogin($entry['login']);
-				if ( 
-					!$rbacsystem->checkAccessOfUser($user_id, 'read', $chat_id)
-					|| ilChatBlockedUsers::_isBlocked($obj_id, $user_id)
-				)
-				{
-					$no_access[] = $id;
-				}
-				else
-				{
-					$valid_users[] = $user_id;
-				}
-			}
-			// if no login could be found, user has no access
-			// so anonymous users cant be invitated
-			else
-			{
-				$no_login[] = $id;
-			}
-		}
-		
-		if (count($no_access) || count($no_login))
-		{
-			$message = "";
-			// error message for users without access permissions
-			if (count($no_access))
-			{
-				$message .= $lng->txt('chat_users_without_permission') . ':<br>';
-				$list = '';
-				foreach($no_access as $e)
-				{
-					$list .= '<li>'.$this->abook->entryToString($e).'</li>';
-				}
-				$message .= '<ul>';
-				$message .= $list;
-				$message .= '</ul>';
-			}
-			
-			// error message for anonymous users
-			if (count($no_login))
-			{
-				$message .= $lng->txt('chat_users_without_login') . ':<br>';
-				$list = '';
-				foreach($no_login as $e)
-				{
-					$list .= '<li>'.$this->abook->entryToString($e).'</li>';
-				}
-				$message .= '<ul>';
-				$message .= $list;
-				$message .= '</ul>';
-			}
-			ilUtil::sendInfo($message);
-			$_POST["addr_id"] = $ids;
-			$this->inviteToChat();
-			exit;
-		}
-		
-		// load chat handler for room
-		$chatObject = new ilObjChat($ref_id);
-		foreach($valid_users as $id)
-		{
-			$room->invite($id);
-			$chatObject->sendMessageForRoom($id, $room);
-		}
-		$link = '<p><a target="chatframe" href="ilias.php?baseClass=ilChatPresentationGUI&ref_id='.$chat_id.'&room_id='.$room_id.'">'.$lng->txt('goto_invitation_chat').'</a></p>';		
-		ilUtil::sendInfo($lng->txt('chat_users_have_been_invited') . $userlist .$link, true);
-		$link = $ilCtrl->getLinkTarget($this, 'showAddressbook', '', false, false);
-		ilUtil::redirect($link);
-	}*/
 	
 	public function lookupAddressbookAsync()
 	{
-		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
-		include_once 'Services/Contact/classes/class.ilMailAddressbook.php';
-		
-		$search = "%" . $_REQUEST["query"] . "%";
-		$result = new stdClass();
-		$result->response = new stdClass();
-		$result->response->results = array();
-		if (!$search)
-		{
-			$result->response->total = 0;
-			echo ilJsonUtil::encode($result);
-			exit;
-		}
+	    include_once 'Services/JSON/classes/class.ilJsonUtil.php';
+	    include_once 'Services/Contact/classes/class.ilMailAddressbook.php';
 
-		$mailAdrBookObj = new ilMailAddressbook;
-		$result = $mailAdrBookObj->getAddressbookAsync($search);
-		
+	    $search = "%" . $_REQUEST["query"] . "%";
+	    $result = new stdClass();
+	    $result->response = new stdClass();
+	    $result->response->results = array();
+
+	    if( !$search )
+	    {
+		$result->response->total = 0;
 		echo ilJsonUtil::encode($result);
 		exit;
+	    }
+
+	    $mailAdrBookObj = new ilMailAddressbook;
+	    $result = $mailAdrBookObj->getAddressbookAsync($search);
+
+	    echo ilJsonUtil::encode($result);
+	    exit;
 	}
 	
 	function showSubTabs()
 	{
-		$this->tabs_gui->addSubTabTarget('mail_my_entries', $this->ctrl->getLinkTarget($this));
-		$this->tabs_gui->addSubTabTarget('mail_my_mailing_lists', $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
-		$this->tabs_gui->addSubTabTarget('mail_my_courses', $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));
-		$this->tabs_gui->addSubTabTarget('mail_my_groups', $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));		
+	    $this->tabs_gui->addSubTabTarget('mail_my_entries', $this->ctrl->getLinkTarget($this));
+	    $this->tabs_gui->addSubTabTarget('mail_my_mailing_lists', $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
+	    $this->tabs_gui->addSubTabTarget('mail_my_courses', $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));
+	    $this->tabs_gui->addSubTabTarget('mail_my_groups', $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));
 	}
 }
 ?>

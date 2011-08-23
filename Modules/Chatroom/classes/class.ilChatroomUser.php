@@ -32,10 +32,10 @@ class ilChatroomUser
 	 */
 	public function __construct(ilObjUser $user, ilChatroom $chatroom)
 	{
-		require_once 'Services/User/classes/class.ilObjUser.php';
+	    require_once 'Services/User/classes/class.ilObjUser.php';
 
-		$this->user = $user;
-		$this->room = $chatroom;
+	    $this->user = $user;
+	    $this->room = $chatroom;
 	}
 
 	/**
@@ -47,26 +47,26 @@ class ilChatroomUser
 	 */
 	public function getUserId()
 	{
-		$user_id = $this->user->getId();
+	    $user_id = $this->user->getId();
 
-		if( $user_id == ANONYMOUS_USER_ID )
+	    if( $user_id == ANONYMOUS_USER_ID )
+	    {
+		if( isset( $_SESSION['chat'][$this->room->getRoomId()]['user_id'] ) )
 		{
-			if( isset( $_SESSION['chat'][$this->room->getRoomId()]['user_id'] ) )
-			{
-				return $_SESSION['chat'][$this->room->getRoomId()]['user_id'];
-			}
-			else
-			{
-				$user_id = mt_rand( -99999, -20 );
-				$_SESSION['chat'][$this->room->getRoomId()]['user_id'] = $user_id;
-
-				return $user_id;
-			}
+		    return $_SESSION['chat'][$this->room->getRoomId()]['user_id'];
 		}
 		else
 		{
-			return $user_id;
+		    $user_id = mt_rand( -99999, -20 );
+		    $_SESSION['chat'][$this->room->getRoomId()]['user_id'] = $user_id;
+
+		    return $user_id;
 		}
+	    }
+	    else
+	    {
+		return $user_id;
+	    }
 	}
 
 	/**
@@ -76,8 +76,8 @@ class ilChatroomUser
 	 */
 	public function setUsername($username)
 	{
-		$this->username = htmlspecialchars( $username );
-		$_SESSION['chat'][$this->room->getRoomId()]['username'] = $this->username;
+	    $this->username = htmlspecialchars( $username );
+	    $_SESSION['chat'][$this->room->getRoomId()]['username'] = $this->username;
 	}
 
 	/**
@@ -116,22 +116,22 @@ class ilChatroomUser
 	 */
 	public function getChatNameSuggestions()
 	{
-		$firstname	= $this->user->getFirstname();
-		$lastname	= $this->user->getLastname();
-		$options	= array();
+	    $firstname	= $this->user->getFirstname();
+	    $lastname	= $this->user->getLastname();
+	    $options	= array();
 
-		if( $this->user->getId() == ANONYMOUS_USER_ID )
-		{
-			$options['anonymousName'] = $this->buildAnonymousName();
-		}
-		else
-		{
-			$options['fullname'] = $this->buildFullname();
-			$options['shortname'] = $this->buildShortname();
-			$options['login'] = $this->buildLogin();
-		}
+	    if( $this->user->getId() == ANONYMOUS_USER_ID )
+	    {
+		$options['anonymousName'] = $this->buildAnonymousName();
+	    }
+	    else
+	    {
+		$options['fullname'] = $this->buildFullname();
+		$options['shortname'] = $this->buildShortname();
+		$options['login'] = $this->buildLogin();
+	    }
 
-		return $options;
+	    return $options;
 	}
 
 	/**
@@ -141,11 +141,11 @@ class ilChatroomUser
 	 */
 	public function buildAnonymousName()
 	{
-		$anonymous_name = str_replace(
-			'#', mt_rand( 0, 10000 ), $this->room->getSetting('autogen_usernames')
-		);
+	    $anonymous_name = str_replace(
+		    '#', mt_rand( 0, 10000 ), $this->room->getSetting('autogen_usernames')
+	    );
 
-		return $anonymous_name;
+	    return $anonymous_name;
 	}
 
 	/**
@@ -155,7 +155,7 @@ class ilChatroomUser
 	 */
 	public function buildLogin()
 	{
-		return $this->user->getLogin();
+	    return $this->user->getLogin();
 	}
 
 	/**
@@ -165,7 +165,7 @@ class ilChatroomUser
 	 */
 	public function buildFullname()
 	{
-		return $this->user->getFullname();
+	    return $this->user->getFullname();
 	}
 
 	/**
@@ -175,9 +175,9 @@ class ilChatroomUser
 	 */
 	public function buildShortname()
 	{
-		$firstname = $this->user->getFirstname();
+	    $firstname = $this->user->getFirstname();
 
-		return $firstname{0} . '. ' . $this->user->getLastname();
+	    return $firstname{0} . '. ' . $this->user->getLastname();
 	}
 
 }

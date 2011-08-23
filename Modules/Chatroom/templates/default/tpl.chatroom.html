@@ -20,9 +20,13 @@ var myId = {MY_ID};
 		'ok' : 'Ok', //todo
 		'cancel' : 'Abbrechen', //todo
 		'user_invited' : 'Der Benutzer <b>#user#</b> wurde eingeladen.', //todo
+		'user_kicked' : 'Der Benutzer <b>#user#</b> wurde aus dem Raum geworfen.',
 		'user_invited_self' : 'Sie wurden von <b>#user#</b> in den Raum <b>#room#</b> eingeladen.', //todo
 		'private_room_closed' : 'Der Raum <b>#title#</b> wurde geschlossen.',
-		'private_room_entered' : 'Willkommen  im Separee <b>#title#</b>.'
+		'private_room_entered' : 'Willkommen  im Separee <b>#title#</b>.',
+		'private_room_left' : 'Der Benutzer <b>#user#</b> hat das Separee <b>#title#</b> verlassen.',
+		'private_room_entered_user' : 'Der Benutzer <b>#user#</b> hat das Separee <b>#title#</b> betreten.',
+		'kicked_from_private_room' : 'Sie wurden aus dem Raum <b>#title#</b> geworfen.'
 	};
 	$('#colorpicker').colorPicker();
         var initial = {INITIAL_DATA};
@@ -32,7 +36,7 @@ var myId = {MY_ID};
 
 <div id="invite_users_container" style="display: none;">
 	<div>
-		<input type="radio" name="invite_users_type" id="invite_users_in_room"/>Benutzer im Chat&nbsp;&nbsp;
+	    <input type="radio" name="invite_users_type" id="invite_users_in_room"/><span id="radioText">Benutzer im Chat&nbsp;&nbsp;</span>
 		<input type="radio" name="invite_users_type" id="invite_users_global"/>Benutzer Suchen
 	</div>
 	<div>
