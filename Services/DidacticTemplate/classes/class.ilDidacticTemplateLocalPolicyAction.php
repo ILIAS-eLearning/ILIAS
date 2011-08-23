@@ -174,7 +174,22 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	 */
 	public function  apply()
 	{
-		;
+		$source = $this->initSourceObject();
+		// Create a role folder for the new local policies
+
+		$roles = $this->filterRoles($source);
+
+		// Create role folder if there is any local role left
+		if(count($roles))
+		{
+			$source->createRoleFolder();
+		}
+		// Create local policy for filtered roles
+		foreach($roles as $role_id => $role)
+		{
+			$this->createLocalPolicy($source,$role);
+		}
+		return true;
 	}
 
 	/**
@@ -300,6 +315,103 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		{
 			$this->addFilterPattern($pattern);
 		}
+	}
+
+	/**
+	 * Filter roles
+	 * @param ilObject $object
+	 */
+	protected function filterRoles(ilObject $source)
+	{
+		global $rbacreview;
+
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateFilterPatternFactory.php';
+		$patterns = ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId(
+			$this->getActionId(),
+			self::PATTERN_PARENT_TYPE
+		);
+
+		$filtered = array();
+		foreach($rbacreview->getParentRoleIds($source->getRefId()) as $role_id => $role)
+		{
+			foreach($patterns as $pattern)
+			{
+				if($pattern->valid(ilObject::_lookupTitle($role_id)))
+				{
+					$GLOBALS['ilLog']->write(__METHOD__.' Role is valid: '. ilObject::_lookupTitle($role_id));
+					$filtered[$role_id] = $role;
+				}
+			}
+		}
+		return $filtered;
+	}
+
+	/**
+	 * Create local policy
+	 * @param ilObject $source
+	 * @param array $role
+	 * @return bool
+	 */
+	protected function createLocalPolicy(ilObject $source, $role)
+	{
+		global $rbacreview, $rbacadmin;
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': Using role: '.print_r($role,true));
+
+		$role_folder_id = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
+
+		$GLOBALS['ilLog']->write(__METHOD__.': Role folder id: '.$role_folder_id);
+
+		// Add local policy
+		$rbacadmin->assignRoleToFolder($role['obj_id'],$role_folder_id,'n');
+
+		switch($this->getRoleTemplateType())
+		{
+			case self::TPL_ACTION_UNION:
+
+				$GLOBALS['ilLog']->write(__METHOD__.': Using ilRbacAdmin::copyRolePermissionUnion()');
+				$rbacadmin->copyRolePermissionUnion(
+					$role['obj_id'],
+					$role['parent'],
+					$this->getRoleTemplateId(),
+					ROLE_FOLDER_ID,
+					$role['obj_id'],
+					$role_folder_id
+				);
+				break;
+
+			case self::TPL_ACTION_OVERWRITE:
+
+				$GLOBALS['ilLog']->write(__METHOD__.': Using ilRbacAdmin::copyRoleTemplatePermissions()');
+				$rbacadmin->copyRoleTemplatePermissions(
+					$this->getRoleTemplateId(),
+					ROLE_FOLDER_ID,
+					$role_folder_id,
+					$role['obj_id'],
+					true
+				);
+				break;
+
+			case self::TPL_ACTION_INTERSECT:
+
+				$GLOBALS['ilLog']->write(__METHOD__.': Using ilRbacAdmin::copyRolePermissionIntersection()');
+				$rbacadmin->copyRolePermissionIntersection(
+					$role['obj_id'],
+					$role['parent'],
+					$this->getRoleTemplateId(),
+					ROLE_FOLDER_ID,
+					$role['obj_id'],
+					$role_folder_id
+				);
+				break;
+
+		}
+
+		// Adjust permissions
+		$ops = $rbacreview->getOperationsOfRole($role['obj_id'], $source->getType(), $role_folder_id);
+		$rbacadmin->grantPermission($role['obj_id'], $ops, $source->getRefId());
+
+		return true;
 	}
 }
 ?>

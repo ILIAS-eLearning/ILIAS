@@ -1528,47 +1528,20 @@ class ilObject
 	{
 		global $tree,$rbacadmin,$rbacreview;
 
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		ilDidacticTemplateObjSettings::assignTemplate($this->getId(), $a_tpl_id);
+
 		if(!$a_tpl_id)
 		{
 			return true;
 		}
 
-		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
-		$templ = new ilDidacticTemplateSetting($a_tpl_id);
-
-		$this->createRoleFolder();
-
-		$crs_ref = $tree->checkForParentType($this->getRefId(),'crs');
-		include_once './classes/class.ilObjectFactory.php';
-
-		// member role
-		$crs = ilObjectFactory::getInstanceByRefId($crs_ref,false);
-		$member = $crs->getDefaultMemberRole();
-
-		//get Rolefolder of course
-		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());
-
-		$rbacadmin->assignRoleToFolder($member,$rolf_data["child"],'n');
-
-		// Copy role permissions
-		$crs_rolf = $rbacreview->getRoleFolderOfObject($crs_ref);
-		
-		foreach(ilObject::_getIdsForTitle('DTPL_', 'rolt',true) as $role_id)
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
+		foreach(ilDidacticTemplateActionFactory::getActionsByTemplateId($a_tpl_id) as $action)
 		{
-			$rbacadmin->copyRolePermissionUnion(
-				$member,
-				$crs_rolf['child'],
-				$role_id,
-				ROLE_FOLDER_ID,
-				$member,
-				$rolf_data['child']
-			);
-			continue;
+			$action->setRefId($this->getRefId());
+			$action->apply();
 		}
-		// Adjust permissions
-		$ops = $rbacreview->getOperationsOfRole($member, $this->getType(),$rolf_data['child']);
-		$rbacadmin->grantPermission($member, $ops, $this->getRefId());
-
 	}
 
 	/**

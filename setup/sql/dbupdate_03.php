@@ -7385,3 +7385,22 @@ if(!$ilDB->tableExists('usr_account_codes'))
 	}
 ?>
 
+<#3433>
+<?php
+	$ilDB->createTable('didactic_tpl_objs',
+		array(
+			"obj_id" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			),
+			"tpl_id" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			)
+		)
+	);
+
+	$ilDB->addPrimaryKey('didactic_tpl_objs',array('obj_id','tpl_id'));
+?>

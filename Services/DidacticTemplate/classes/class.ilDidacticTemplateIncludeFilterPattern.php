@@ -26,9 +26,15 @@ class ilDidacticTemplateIncludeFilterPattern extends ilDidacticTemplateFilterPat
 	/**
 	 * Check if patttern matches
 	 */
-	public function matches($a_source)
+	public function valid($a_source)
 	{
-		return true;
+		switch($this->getPatternSubType())
+		{
+			case self::PATTERN_SUBTYPE_REGEX:
+				$GLOBALS['ilLog']->write(__METHOD__.': Checking include pattern with '.$a_source.' against '.$this->getPattern());
+				return preg_match('/'.$this->getPattern().'/',$a_source) === 1;
+		}
+		return false;
 	}
 
 	/**

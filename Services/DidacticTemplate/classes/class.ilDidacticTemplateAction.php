@@ -18,6 +18,9 @@ abstract class ilDidacticTemplateAction
 	private $type = 0;
 
 
+	private $ref_id = 0;
+
+
 	/**
 	 * Constructor
 	 */
@@ -71,6 +74,24 @@ abstract class ilDidacticTemplateAction
 	public function getTemplateId()
 	{
 		return $this->tpl_id;
+	}
+
+	/**
+	 * Set ref id of target object.
+	 * @param int ref id
+	 * @reteurn void
+	 */
+	public function setRefId($a_ref_id)
+	{
+		$this->ref_id = $a_ref_id;
+	}
+
+	/**
+	 * Get ref id of target object
+	 */
+	public function getRefId()
+	{
+		return $this->ref_id;
 	}
 
 	/**
@@ -166,6 +187,19 @@ abstract class ilDidacticTemplateAction
 	 * Write xml for export
 	 */
 	abstract function toXml(ilXmlWriter $writer);
+
+
+	/**
+	 * Init the source object
+	 *
+	 * @return ilObject $obj
+	 */
+	protected function initSourceObject()
+	{
+		include_once './classes/class.ilObjectFactory.php';
+		$s = ilObjectFactory::getInstanceByRefId($this->getRefId(),false);
+		return $s;
+	}
 
 }
 ?>
