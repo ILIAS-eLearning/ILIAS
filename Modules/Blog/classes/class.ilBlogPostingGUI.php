@@ -84,10 +84,27 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		
 		switch($next_class)
 		{
-			case "ilnotegui":
-				$this->getTabs();
-				$ilTabs->setTabActive("pg");
-				return $this->preview();
+			case "ilnotegui":				
+				$notes_ref_id = (int)$_GET["notes_ref_id"];
+				if($notes_ref_id)
+				{
+					$notes_sub_id = (int)$_GET["notes_sub_id"];
+					$notes_obj_id = $this->access_handler->getTree()->lookupObjectId($notes_ref_id);
+					$ilCtrl->saveParameterByClass("ilnotegui", "notes_ref_id");
+					$ilCtrl->saveParameterByClass("ilnotegui", "notes_sub_id");	
+					
+					include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+					$note_gui = new ilNoteGUI($notes_obj_id, $notes_sub_id, "blp");
+					$note_gui->enablePrivateNotes();
+					$note_gui->enablePublicNotes();
+					$ilCtrl->forwardCommand($note_gui);
+				}
+				else
+				{
+					$this->getTabs();
+					$ilTabs->setTabActive("pg");
+					return $this->preview();
+				}
 
 			/*
 			case "ilratinggui":

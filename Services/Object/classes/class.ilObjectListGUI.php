@@ -1005,7 +1005,7 @@ class ilObjectListGUI
 		{
 			$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", "");
 			$this->ctrl->setParameterByClass($this->gui_class_name, "wsp_id", $this->ref_id);
-			return $this->ctrl->getLinkTargetByClass($this->gui_class_name, $a_cmd);
+			return $this->ctrl->getLinkTargetByClass(array("ilPersonalWorkspaceGUI", $this->gui_class_name), $a_cmd);
 		}
 	}
 
@@ -2331,10 +2331,10 @@ class ilObjectListGUI
 		$cmd_frame = $this->getCommandFrame("infoScreen");
 		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
 		$this->insertCommand("#", $this->lng->txt("notes_comments"), $cmd_frame,
-			"", "", ilNoteGUI::getListCommentsJSCall($this->ref_id));
+			"", "", ilNoteGUI::getListCommentsJSCall($this->ref_id, $this->sub_obj_id));
 		//$this->insertCommand($cmd_link, $this->lng->txt("notes_private_annotating"), $cmd_frame);
 		$this->insertCommand("#", $this->lng->txt("notes"), $cmd_frame,
-			"", "", ilNoteGUI::getListNotesJSCall($this->ref_id));
+			"", "", ilNoteGUI::getListNotesJSCall($this->ref_id, $this->sub_obj_id));
 		$this->insertCommand($cmd_tag_link, $this->lng->txt("tagging_set_tag"), $cmd_frame);
 	}
 
@@ -2348,7 +2348,7 @@ class ilObjectListGUI
 	function insertCommands($a_use_asynch = false, $a_get_asynch_commands = false,
 		$a_asynch_url = "", $a_header_actions = false)
 	{
-		global $lng;
+		global $lng;				
 
 		if (!$this->getCommandsStatus())
 		{
@@ -2375,8 +2375,6 @@ class ilObjectListGUI
 		
 		$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", $this->ref_id);
 
-		$commands = $this->getCommands($this->ref_id, $this->obj_id);
-		
 		// only standard command?
 		$only_default = false;
 		if ($a_use_asynch && !$a_get_asynch_commands)
@@ -2389,6 +2387,8 @@ class ilObjectListGUI
 		
 		if (!$a_header_actions)
 		{
+			$commands = $this->getCommands($this->ref_id, $this->obj_id);
+		
 			foreach($commands as $command)
 			{
 				if ($command["granted"] == true )
@@ -2512,8 +2512,7 @@ class ilObjectListGUI
 
 		
 		// common social commands (comment, notes, tags)
-		if ($this->context == self::CONTEXT_REPOSITORY &&
-			$this->getInfoScreenStatus() && !$only_default && !$this->isMode(IL_LIST_AS_TRIGGER))
+		if (!$only_default && !$this->isMode(IL_LIST_AS_TRIGGER))
 		{
 			$this->insertCommonSocialCommands($a_header_actions);
 		}
@@ -2541,17 +2540,20 @@ class ilObjectListGUI
 	 * @param
 	 * @return
 	 */
-	function getHeaderAction($a_ref_id, $a_obj_id)
+	function getHeaderAction($a_ref_id, $a_obj_id, $a_context = self::CONTEXT_REPOSITORY, $a_sub_obj_id = null)
 	{
 		global $ilAccess, $ilBench, $ilUser, $ilCtrl, $lng;
 		
 		$this->ctpl = new ilTemplate ("tpl.container_list_item_commands.html", true, true, false, "DEFAULT", false, true);
-		$this->initItem($a_ref_id, $a_obj_id);
+		$this->initItem($a_ref_id, $a_obj_id, "", "", $a_context);
 		
 		$htpl = new ilTemplate("tpl.header_action.html", true, true, "Services/Repository");
 		
+		$this->sub_obj_id = $a_sub_obj_id;
+		
 		include_once("./Services/Notes/classes/class.ilNote.php");
-		$cnt = ilNote::_countNotesAndComments(array($a_obj_id));
+		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+		$cnt = ilNote::_countNotesAndComments(array($a_obj_id), $a_sub_obj_id);
 		if ($cnt[$a_obj_id][IL_NOTE_PRIVATE] > 0)
 		{
 			$htpl->setCurrentBlock("prop");
@@ -2559,7 +2561,7 @@ class ilObjectListGUI
 			$htpl->setVariable("PROP_TXT", $cnt[$a_obj_id][IL_NOTE_PRIVATE]);
 			$htpl->setVariable("PROP_ID", "headp_notes");
 			$htpl->setVariable("PROP_HREF", "#");
-			$htpl->setVariable("PROP_ONCLICK", "onclick=' return ".ilNoteGUI::getListNotesJSCall($this->ref_id).";'");
+			$htpl->setVariable("PROP_ONCLICK", "onclick=' return ".ilNoteGUI::getListNotesJSCall($this->ref_id, $this->sub_obj_id).";'");
 			$htpl->parseCurrentBlock();
 			
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
@@ -2574,7 +2576,7 @@ class ilObjectListGUI
 			$htpl->setVariable("PROP_TXT", $cnt[$a_obj_id][IL_NOTE_PUBLIC]);
 			$htpl->setVariable("PROP_ID", "headp_comments");
 			$htpl->setVariable("PROP_HREF", "#");
-			$htpl->setVariable("PROP_ONCLICK", "onclick=' return ".ilNoteGUI::getListCommentsJSCall($this->ref_id).";'");
+			$htpl->setVariable("PROP_ONCLICK", "onclick=' return ".ilNoteGUI::getListCommentsJSCall($this->ref_id, $this->sub_obj_id).";'");
 			$htpl->parseCurrentBlock();
 			
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");

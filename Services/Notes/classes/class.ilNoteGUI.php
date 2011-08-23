@@ -1014,86 +1014,154 @@ return;
 	*/
 	function showTargets(&$tpl, $a_rep_obj_id, $a_note_id, $a_obj_type, $a_obj_id)
 	{
-		global $tree, $ilAccess, $objDefinition;
+		global $tree, $ilAccess, $objDefinition, $ilUser;
 
 		if ($this->targets_enabled)
 		{
 			if ($a_rep_obj_id > 0)
 			{
-
 				// get all visible references of target object
+				
+				// repository
 				$ref_ids = ilObject::_getAllReferences($a_rep_obj_id);
-				$vis_ref_ids = array();
-
-				foreach($ref_ids as $ref_id)
+				if($ref_ids)
 				{
-					if ($ilAccess->checkAccess("visible", "", $ref_id))
+					$vis_ref_ids = array();
+					foreach($ref_ids as $ref_id)
 					{
-						$vis_ref_ids[] = $ref_id;
+						if ($ilAccess->checkAccess("visible", "", $ref_id))
+						{
+							$vis_ref_ids[] = $ref_id;
+						}
 					}
-				}
 
-				// output links to targets
-				if (count($vis_ref_ids) > 0)
-				{
-					foreach($vis_ref_ids as $vis_ref_id)
+					// output links to targets
+					if (count($vis_ref_ids) > 0)
 					{
-						$type = ilObject::_lookupType($vis_ref_id, true);
-						$sub_link = $sub_title = "";
-						if ($type == "sahs")		// bad hack, needs general procedure
+						foreach($vis_ref_ids as $vis_ref_id)
 						{
-							$link = "goto.php?target=sahs_".$vis_ref_id;
-							$title = ilObject::_lookupTitle($a_rep_obj_id);
-							if ($a_obj_type == "sco" || $a_obj_type == "seqc" || $a_obj_type == "chap" || $a_obj_type == "pg")
+							$type = ilObject::_lookupType($vis_ref_id, true);
+							$sub_link = $sub_title = "";
+							if ($type == "sahs")		// bad hack, needs general procedure
 							{
-								$sub_link = "goto.php?target=sahs_".$vis_ref_id."_".$a_obj_id;
-								include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
-								$sub_title = ilSCORM2004Node::_lookupTitle($a_obj_id);
-								$sub_icon = ilUtil::getImagePath("icon_".$a_obj_type."_s.gif");
+								$link = "goto.php?target=sahs_".$vis_ref_id;
+								$title = ilObject::_lookupTitle($a_rep_obj_id);
+								if ($a_obj_type == "sco" || $a_obj_type == "seqc" || $a_obj_type == "chap" || $a_obj_type == "pg")
+								{
+									$sub_link = "goto.php?target=sahs_".$vis_ref_id."_".$a_obj_id;
+									include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
+									$sub_title = ilSCORM2004Node::_lookupTitle($a_obj_id);
+									$sub_icon = ilUtil::getImagePath("icon_".$a_obj_type."_s.gif");
+								}
 							}
-						}
-						else if ($a_obj_type != "pg")
-						{
-							if (!is_object($this->item_list_gui[$type]))
+							else if ($a_obj_type != "pg")
 							{
-								$class = $objDefinition->getClassName($type);
-								$location = $objDefinition->getLocation($type);
-								$full_class = "ilObj".$class."ListGUI";
-								include_once($location."/class.".$full_class.".php");
-								$this->item_list_gui[$type] = new $full_class();
-							}
-							$title = ilObject::_lookupTitle($a_rep_obj_id);
-							$this->item_list_gui[$type]->initItem($vis_ref_id, $a_rep_obj_id, $title);
-							$link = $this->item_list_gui[$type]->getCommandLink("infoScreen");
-							
-							// workaround, because # anchor can't be passed through frameset
-							$link = ilUtil::appendUrlParameterString($link, "anchor=note_".$a_note_id);
-							
-							$link = $this->item_list_gui[$type]->appendRepositoryFrameParameter($link)."#note_".$a_note_id;
-						}
-						else
-						{
-							$title = ilObject::_lookupTitle($a_rep_obj_id);
-							$link = "goto.php?target=pg_".$a_obj_id."_".$vis_ref_id;
-						}
-						
-						$par_id = $tree->getParentId($vis_ref_id);
-						
-						// sub object link
-						if ($sub_link != "")
-						{
-							if ($this->export_html || $this->print)
-							{
-								$tpl->setCurrentBlock("exp_target_sub_object");
+								if (!is_object($this->item_list_gui[$type]))
+								{
+									$class = $objDefinition->getClassName($type);
+									$location = $objDefinition->getLocation($type);
+									$full_class = "ilObj".$class."ListGUI";
+									include_once($location."/class.".$full_class.".php");
+									$this->item_list_gui[$type] = new $full_class();
+								}
+								$title = ilObject::_lookupTitle($a_rep_obj_id);
+								$this->item_list_gui[$type]->initItem($vis_ref_id, $a_rep_obj_id, $title);
+								$link = $this->item_list_gui[$type]->getCommandLink("infoScreen");
+
+								// workaround, because # anchor can't be passed through frameset
+								$link = ilUtil::appendUrlParameterString($link, "anchor=note_".$a_note_id);
+
+								$link = $this->item_list_gui[$type]->appendRepositoryFrameParameter($link)."#note_".$a_note_id;
 							}
 							else
 							{
-								$tpl->setCurrentBlock("target_sub_object");
-								$tpl->setVariable("LINK_SUB_TARGET", $sub_link);
+								$title = ilObject::_lookupTitle($a_rep_obj_id);
+								$link = "goto.php?target=pg_".$a_obj_id."_".$vis_ref_id;
 							}
-							$tpl->setVariable("TXT_SUB_TARGET", $sub_title);
-							$tpl->setVariable("IMG_SUB_TARGET", $sub_icon);
+
+							$par_id = $tree->getParentId($vis_ref_id);
+
+							// sub object link
+							if ($sub_link != "")
+							{
+								if ($this->export_html || $this->print)
+								{
+									$tpl->setCurrentBlock("exp_target_sub_object");
+								}
+								else
+								{
+									$tpl->setCurrentBlock("target_sub_object");
+									$tpl->setVariable("LINK_SUB_TARGET", $sub_link);
+								}
+								$tpl->setVariable("TXT_SUB_TARGET", $sub_title);
+								$tpl->setVariable("IMG_SUB_TARGET", $sub_icon);
+								$tpl->parseCurrentBlock();
+							}
+
+							// container and object link
+							if ($this->export_html || $this->print)
+							{
+								$tpl->setCurrentBlock("exp_target_object");
+							}
+							else
+							{
+								$tpl->setCurrentBlock("target_object");
+								$tpl->setVariable("LINK_TARGET", $link);
+							}
+							$tpl->setVariable("TXT_CONTAINER",
+								ilObject::_lookupTitle(
+								ilObject::_lookupObjId($par_id)));
+							$tpl->setVariable("IMG_CONTAINER",
+								ilObject::_getIcon(
+								ilObject::_lookupObjId($par_id), "tiny"));
+							$tpl->setVariable("TXT_TARGET", $title);
+							$tpl->setVariable("IMG_TARGET",
+								ilObject::_getIcon($a_rep_obj_id, "tiny"));
+
 							$tpl->parseCurrentBlock();
+						}
+						$tpl->touchBlock("target_objects");
+					}
+				}
+				// personal workspace
+				else
+				{
+					// we only need 1 instance
+					if(!$this->wsp_tree)
+					{
+						include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+						include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+						$this->wsp_tree = new ilWorkspaceTree($ilUser->getId());		
+						$this->wsp_access_handler = new ilWorkspaceAccessHandler($this->wsp_tree);
+					}
+					$node_id = $this->wsp_tree->lookupNodeId($a_rep_obj_id);
+					if($this->wsp_access_handler->checkAccess("visible", "", $node_id))
+					{
+						$path = $this->wsp_tree->getPathFull($node_id);
+						
+						$item = array_pop($path);
+						$parent = array_pop($path);
+						
+						if(!$parent["title"])
+						{
+							$parent["title"] = $this->lng->txt("wsp_personal_workspace");
+						}
+						
+						$link = ilWorkspaceAccessHandler::getGotoLink($node_id, $a_rep_obj_id);
+						
+						// sub-objects
+						if($a_obj_id)
+						{
+							switch($item["type"])
+							{							
+								case "blog":
+									// add posting, correct deep-link
+									include_once "Modules/Blog/classes/class.ilBlogPosting.php";
+									$posting = new ilBlogPosting($a_obj_id);
+									$item["title"] .= " (".$posting->getTitle().")";	
+									$link = ilWorkspaceAccessHandler::getGotoLink($node_id, $a_rep_obj_id, "_".$a_obj_id);
+									break;
+							}
 						}
 						
 						// container and object link
@@ -1106,19 +1174,20 @@ return;
 							$tpl->setCurrentBlock("target_object");
 							$tpl->setVariable("LINK_TARGET", $link);
 						}
-						$tpl->setVariable("TXT_CONTAINER",
-							ilObject::_lookupTitle(
-							ilObject::_lookupObjId($par_id)));
+					
+						
+						// :TODO: no images in template ?
+						
+						$tpl->setVariable("TXT_CONTAINER", $parent["title"]);
 						$tpl->setVariable("IMG_CONTAINER",
-							ilObject::_getIcon(
-							ilObject::_lookupObjId($par_id), "tiny"));
-						$tpl->setVariable("TXT_TARGET", $title);
+							ilObject::_getIcon($parent["obj_id"], "tiny"));
+						
+						$tpl->setVariable("TXT_TARGET", $item["title"]);
 						$tpl->setVariable("IMG_TARGET",
 							ilObject::_getIcon($a_rep_obj_id, "tiny"));
 
-						$tpl->parseCurrentBlock();
+						$tpl->parseCurrentBlock();								
 					}
-					$tpl->touchBlock("target_objects");
 				}
 			}
 		}
@@ -1162,7 +1231,7 @@ return;
 	function addNote()
 	{
 		global $ilUser, $lng, $ilCtrl;
-
+	
 		$this->initNoteForm("create", $_GET["note_type"]);
 
 		//if ($this->form->checkInput())
@@ -1395,9 +1464,16 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	 * @param
 	 * @return
 	 */
-	function getListNotesJSCall($a_ref_id = 0)
+	function getListNotesJSCall($a_ref_id = 0, $a_sub_id = null)
 	{
-		return "ilNotes.listNotes(event, ".$a_ref_id.");";
+		if($a_sub_id === null)
+		{
+			return "ilNotes.listNotes(event, ".$a_ref_id.");";
+		}
+		else
+		{
+			return "ilNotes.listNotes(event, ".$a_ref_id.", ".$a_sub_id.");";
+		}
 	}
 	
 	/**
@@ -1406,9 +1482,16 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	 * @param
 	 * @return
 	 */
-	function getListCommentsJSCall($a_ref_id = 0)
+	function getListCommentsJSCall($a_ref_id = 0, $a_sub_id = null)
 	{
-		return "ilNotes.listComments(event, ".$a_ref_id.");";
+		if($a_sub_id === null)
+		{
+			return "ilNotes.listComments(event, ".$a_ref_id.");";
+		}
+		else
+		{
+			return "ilNotes.listComments(event, ".$a_ref_id.", ".$a_sub_id.");";
+		}
 	}
 	
 	/**

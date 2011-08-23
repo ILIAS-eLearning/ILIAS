@@ -164,9 +164,16 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 
 			// details
 			$target = $note->getObject();
+			
+			// new notes do not have subject anymore
+			$title = $note->getSubject();
+			if(!$title)
+			{
+				$title = ilUtil::shortenText($note->getText(), 75, true, true);
+			}
 
 			$data[] = array(
-				"subject" => $note->getSubject(),
+				"subject" => $title,
 				"img" => $img,
 				"alt" => $alt,
 				"text" => ilUtil::shortenText($note->getText(), 150, true, true),

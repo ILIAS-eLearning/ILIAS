@@ -4,10 +4,11 @@
 ilNotes =
 {
 	ref_id: 0,
+	sub_id: 0,
 	panel: false,
 	ajax_url: '',
 	
-	listNotes: function (e, ref_id)
+	listNotes: function (e, ref_id, sub_id)
 	{
 		// prevent the default action
 		if (e && e.preventDefault)
@@ -23,12 +24,13 @@ ilNotes =
 		ilOverlay.hideAllOverlays(e, true);
 		
 		this.ref_id = ref_id;
+		this.sub_id = sub_id;
 		
 		// add panel
 		this.initPanel(false);
 	},
 	
-	listComments: function (e, ref_id)
+	listComments: function (e, ref_id, sub_id)
 	{
 		// prevent the default action
 		if (e && e.preventDefault)
@@ -44,6 +46,7 @@ ilNotes =
 		ilOverlay.hideAllOverlays(e, true);
 		
 		this.ref_id = ref_id;
+		this.sub_id = sub_id;
 		
 		// add panel
 		this.initPanel(true);
@@ -94,11 +97,11 @@ ilNotes =
 		
 		if (comments)
 		{
-			this.sendAjaxGetRequest({cmd: "getOnlyCommentsHTML", notes_ref_id: this.ref_id}, {mode: 'list_notes'});
+			this.sendAjaxGetRequest({cmd: "getOnlyCommentsHTML", notes_ref_id: this.ref_id, notes_sub_id: this.sub_id}, {mode: 'list_notes'});
 		}
 		else
 		{
-			this.sendAjaxGetRequest({cmd: "getOnlyNotesHTML", notes_ref_id: this.ref_id}, {mode: 'list_notes'});
+			this.sendAjaxGetRequest({cmd: "getOnlyNotesHTML", notes_ref_id: this.ref_id, notes_sub_id: this.sub_id}, {mode: 'list_notes'});
 		}
 	},
 

@@ -220,7 +220,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 			}
 		}
 	}
-
+	
 	/**
 	 * Get access handler
 	 *

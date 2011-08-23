@@ -561,8 +561,9 @@ class ilNote
 	 * Get all notes related to a specific object
 	 * 
 	 * @param array $a_rep_obj_ids repository object IDs array
+	 * @param int $a_sub_obj_id 
 	 */
-	static function _countNotesAndComments($a_rep_obj_ids)
+	static function _countNotesAndComments($a_rep_obj_ids, $a_sub_obj_id = null)
 	{
 		global $ilDB, $ilUser;
 		
@@ -570,8 +571,14 @@ class ilNote
 			" ((type = ".$ilDB->quote(IL_NOTE_PRIVATE, "integer")." AND ".
 			"author = ".$ilDB->quote((int) $ilUser->getId(), "integer").") OR ".
 			" type = ".$ilDB->quote(IL_NOTE_PUBLIC, "integer").") AND ".
-			$ilDB->in("rep_obj_id", $a_rep_obj_ids, false, "integer").
-			" GROUP BY rep_obj_id, type ";
+			$ilDB->in("rep_obj_id", $a_rep_obj_ids, false, "integer");
+		
+		if($a_sub_obj_id !== null)
+		{
+			$q .= " AND obj_id = ".$ilDB->quote($a_sub_obj_id, "integer");
+		}
+		
+		$q .= " GROUP BY rep_obj_id, type ";
 		
 		$cnt = array();
 		$set = $ilDB->query($q);
