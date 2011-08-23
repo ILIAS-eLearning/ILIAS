@@ -57,6 +57,8 @@ class ilSkillExplorer extends ilExplorer
 		$this->setSessionExpandVariable("skexpand");
 		$this->checkPermissions(false);
 		$this->setPostSort(false);
+		
+		$this->setOrderColumn("order_nr");
 //		$this->textwidth = 200;
 
 		$this->force_open_path = array();
@@ -248,5 +250,6 @@ class ilSkillExplorer extends ilExplorer
 	{
 		return "";
 	}
+	
 }
 ?>
