@@ -204,7 +204,7 @@ class ilMailSearchGUI
 	public function showResults()
 	{	
 		global $rbacsystem, $lng, $ilUser, $ilCtrl, $rbacreview;
-		
+
 		$form = $this->initSearchForm();
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_search.html", "Services/Contact");
@@ -321,7 +321,7 @@ class ilMailSearchGUI
 		
 			$all_results = new ilSearchResult();
 		
-			$query_parser = new ilQueryParser(ilUtil::stripSlashes($_SESSION['mail_search_search']));
+			$query_parser = new ilQueryParser(addcslashes($_SESSION['mail_search_search'],'%_'));
 			$query_parser->setCombination(QP_COMBINATION_OR);
 			$query_parser->setMinWordLength(3);
 			$query_parser->parse();
@@ -427,8 +427,8 @@ class ilMailSearchGUI
 	
 				$this->tpl->setVariable('TABLE_USERS', $tbl_users->getHTML());
 			}			
-		
-			$groups = ilUtil::searchGroups(addslashes(urldecode($_SESSION['mail_search_search'])));
+
+			$groups = ilUtil::searchGroups(addslashes(urldecode(addcslashes($_SESSION['mail_search_search'],'%_'))));
 
 			if (count($groups))
 			{					
