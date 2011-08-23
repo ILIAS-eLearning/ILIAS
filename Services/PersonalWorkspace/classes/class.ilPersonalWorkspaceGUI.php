@@ -11,7 +11,7 @@
 * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjWorkspaceRootFolderGUI, ilObjWorkspaceFolderGUI
 * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjectCopyGUI, ilObjFileGUI, ilObjBlogGUI
 * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjTestVerificationGUI, ilObjExerciseVerificationGUI
-* @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjLinkResourceGUI
+* @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjLinkResourceGUI, ilNoteGUI
 *
 * @ingroup ServicesPersonalWorkspace
 */
@@ -65,6 +65,21 @@ class ilPersonalWorkspaceGUI
 			$next_class = "ilObj".$objDefinition->getClassName($node["type"])."GUI";
 			$ilCtrl->setCmdClass($next_class);
 		}
+		// ajax 
+		else if($next_class == "ilnotegui")
+		{
+			$ilCtrl->saveParameter($this, "notes_ref_id");
+			$ilCtrl->saveParameter($this, "notes_sub_id");
+			
+			$obj_id = $this->tree->lookupObjectId($_GET["notes_ref_id"]);
+			
+			include_once "Services/Notes/classes/class.ilNoteGUI.php";
+			$note_gui = new ilNoteGUI($obj_id, (int)$_GET["notes_sub_id"]);
+			$note_gui->enablePrivateNotes(true);
+			$note_gui->enablePublicNotes(true);			
+			$ilCtrl->forwardCommand($note_gui);		
+			exit();
+		}
 		
 		// current node
 		$class_path = $ilCtrl->lookupClassPath($next_class);
@@ -88,6 +103,11 @@ class ilPersonalWorkspaceGUI
 		{
 			$this->renderToolbar();
 		}
+		
+		// prepare notes
+		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+		ilNoteGUI::initJavascript(
+			$ilCtrl->getLinkTargetByClass(array("ilpersonalworkspacegui", "ilnotegui"), "", "", true, false));
 	}
 
 	/**

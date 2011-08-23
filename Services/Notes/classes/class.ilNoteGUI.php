@@ -42,6 +42,21 @@ class ilNoteGUI
 		$this->obj_type = $a_obj_type;
 		$this->inc_sub = $a_include_subobjects;
 		
+		// auto-detect object type
+		if(!$this->obj_type && $a_rep_obj_id)
+		{
+			$this->obj_type = ilObject::_lookupType($a_rep_obj_id);
+			switch($this->obj_type)
+			{
+				case "blog":
+					if($a_obj_id)
+					{
+						$this->obj_type = "blp";
+					}
+					break;
+			}
+		}
+		
 		$this->ajax = $ilCtrl->isAsynch();
 		
 		$this->ctrl =& $ilCtrl;
@@ -467,8 +482,23 @@ if ($this->private_enabled && $this->public_enabled
 		// title
 		if ($this->ajax)
 		{
+			$title = ilObject::_lookupTitle($this->rep_obj_id);
+			
+			// add sub-object if given
+			if($this->obj_id)
+			{				
+				switch($this->obj_type)
+				{
+					case "blp":
+						include_once "Modules/Blog/classes/class.ilBlogPosting.php";
+						$post = new ilBlogPosting($this->obj_id);
+						$title .= " - ".$post->getTitle();
+						break;
+				}
+			}
+			
 			$tpl->setCurrentBlock("title");
-			$tpl->setVariable("TITLE", ilObject::_lookupTitle($this->rep_obj_id));
+			$tpl->setVariable("TITLE", $title);
 			$tpl->parseCurrentBlock();
 		}
 
@@ -496,6 +526,7 @@ if ($this->private_enabled && $this->public_enabled
 				$ilCtrl->getFormActionByClass("ilnotegui", "", "", true).
 				"');\"";
 			$tpl->setVariable("ON_SUBMIT_FORM", $os);
+			$tpl->setVariable("FORM_ID", "Ajax");
 		}
 		
 		if ($this->export_html || $this->print)
@@ -1136,32 +1167,44 @@ return;
 					}
 					$node_id = $this->wsp_tree->lookupNodeId($a_rep_obj_id);
 					if($this->wsp_access_handler->checkAccess("visible", "", $node_id))
-					{
+					{						
 						$path = $this->wsp_tree->getPathFull($node_id);
-						
-						$item = array_pop($path);
-						$parent = array_pop($path);
-						
-						if(!$parent["title"])
-						{
-							$parent["title"] = $this->lng->txt("wsp_personal_workspace");
-						}
-						
-						$link = ilWorkspaceAccessHandler::getGotoLink($node_id, $a_rep_obj_id);
-						
-						// sub-objects
-						if($a_obj_id)
-						{
-							switch($item["type"])
-							{							
-								case "blog":
-									// add posting, correct deep-link
-									include_once "Modules/Blog/classes/class.ilBlogPosting.php";
-									$posting = new ilBlogPosting($a_obj_id);
-									$item["title"] .= " (".$posting->getTitle().")";	
-									$link = ilWorkspaceAccessHandler::getGotoLink($node_id, $a_rep_obj_id, "_".$a_obj_id);
-									break;
+						if($path)
+						{						
+							$item = array_pop($path);
+							$parent = array_pop($path);
+
+							if(!$parent["title"])
+							{
+								$parent["title"] = $this->lng->txt("wsp_personal_workspace");
 							}
+
+							$link = ilWorkspaceAccessHandler::getGotoLink($node_id, $a_rep_obj_id);
+
+							// sub-objects
+							if($a_obj_id)
+							{
+								switch($item["type"])
+								{							
+									case "blog":
+										// add posting, correct deep-link
+										include_once "Modules/Blog/classes/class.ilBlogPosting.php";
+										$posting = new ilBlogPosting($a_obj_id);
+										$item["title"] .= " (".$posting->getTitle().")";	
+										$link = ilWorkspaceAccessHandler::getGotoLink($node_id, $a_rep_obj_id, "_".$a_obj_id);
+										break;
+								}
+							}
+						}
+						// shared resource
+						else
+						{					
+							$owner = ilObject::_lookupOwner($a_rep_obj_id);
+							$parent["title"] = $this->lng->txt("wsp_tab_shared").
+								" (".ilObject::_lookupOwnerName($owner).")";
+							$item["title"] = ilObject::_lookupTitle($a_rep_obj_id);
+							$link = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&dsh=".
+								$owner;
 						}
 						
 						// container and object link
