@@ -131,7 +131,7 @@ ilNotes =
 		{
 			window.eventReturnValue = false;
 		}
-		this.sendAjaxPostRequest("ilNoteForm", url, {mode: 'cmd'});
+		this.sendAjaxPostRequest("ilNoteFormAjax", url, {mode: 'cmd'});
 	},
 	
 	setAjaxUrl: function(url)
