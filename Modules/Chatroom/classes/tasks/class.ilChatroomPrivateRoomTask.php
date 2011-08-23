@@ -167,6 +167,7 @@ class ilChatroomPrivateRoomTask extends ilDBayTaskHandler
 
 		$chat_user = new ilChatroomUser( $ilUser, $room );
 		$user_id = $chat_user->getUserId();
+		$connector = $this->gui->getConnector();
 
 		if( !$room )
 		{
@@ -192,6 +193,14 @@ class ilChatroomPrivateRoomTask extends ilDBayTaskHandler
 
 		$params['user'] = $chat_user->getUserId();
 		$params['sub'] = $_REQUEST['sub'];
+
+		$message = json_encode( array(
+			'type' => 'private_room_left',
+			'user' => $params['user'],
+			'sub'	=> $params['sub']
+		));
+
+		$connector->sendMessage( $room->getRoomId(), $message, array('public' => 1, 'sub' => $params['sub']) );
 
 		if( $room->userIsInPrivateRoom( $params['sub'], $params['user'] ) )
 		{
@@ -263,6 +272,14 @@ class ilChatroomPrivateRoomTask extends ilDBayTaskHandler
 		$connector = $this->gui->getConnector();
 		$response = $connector->enterPrivateRoom( $scope, $query );
 		$responseObject = json_decode( $response );
+
+		$message = json_encode( array(
+			'type' => 'private_room_entered',
+			'user' => $params['user'],
+			'sub'	=> $params['sub']
+		));
+
+		$connector->sendMessage( $room->getRoomId(), $message, array('public' => 1, 'sub' => $params['sub']) );
 
 		if( $responseObject->success == true )
 		{

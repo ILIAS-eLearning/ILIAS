@@ -172,6 +172,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 			$query		= http_build_query( $params );
 			$connector	= $this->gui->getConnector();
 			$response	= $connector->enterPrivateRoom( $scope, $query );
+
 			$responseObject = json_decode( $response );
 
 			if( $responseObject->success == true )
@@ -179,7 +180,21 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 			    $room->subscribeUserToPrivateRoom( $params['sub'], $params['user'] );
 			}
 
+			$message = json_encode( array(
+			    'type'  => 'private_room_entered',
+			    'user'  => $params['user'],
+			    'sub'   => $params['sub']
+			));
+
+			$connector->sendMessage( $room->getRoomId(), $message, array('public' => 1, 'sub' => $params['sub']) );
+
 			$initial->enter_room = $_REQUEST['sub'];
+			$initial->messages[] = array(
+			    'type'	=> 'notice',
+			    'user'	=> $params['user'],
+			    'sub'	=> $params['sub'],
+			    'entersub'	=> 1
+			);
 		    }
 		}
 		else

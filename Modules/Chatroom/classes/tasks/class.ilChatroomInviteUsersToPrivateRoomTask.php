@@ -68,20 +68,20 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilDBayTaskHandler
 		if( !$room )
 		{
 			$response = json_encode( array(
-				    'success' => false,
-				    'reason' => 'unkown room'
-				    ) );
-				    echo json_encode( $response );
-				    exit;
+			    'success' => false,
+			    'reason' => 'unkown room'
+			) );
+			echo json_encode( $response );
+			exit;
 		}
 		else if( $_REQUEST['sub'] && !$room->isOwnerOfPrivateRoom( $user_id, $_REQUEST['sub'] ) )
 		{
 			$response = json_encode( array(
-				    'success' => false,
-				    'reason' => 'not owner of private room'
-				    ) );
-				    echo json_encode( $response );
-				    exit;
+			    'success' => false,
+			    'reason' => 'not owner of private room'
+			) );
+			echo json_encode( $response );
+			exit;
 		}
 
 		$connector = $this->gui->getConnector();
@@ -96,7 +96,8 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilDBayTaskHandler
 		exit;
 	}
 
-	public function getUserList() {
+	public function getUserList()
+	{
 		require_once 'Services/User/classes/class.ilUserAutoComplete.php';
 		$autocomplete = new ilUserAutoComplete();
 		echo $autocomplete->getList($_REQUEST['q']);

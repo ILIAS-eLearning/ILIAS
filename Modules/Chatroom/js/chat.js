@@ -459,7 +459,6 @@
 							.append($('<span class="chat content message"></span>').append(translate('connect')));
 							break;
 						case 'private_room_left':
-							break;
 						case 'notice':
 							line
 							.append($('<span class="chat"></span>').append(message.message));
@@ -469,6 +468,8 @@
 							line
 							.append($('<span class="chat"></span>').append(message.message));
 							line.addClass('error');
+							break;
+						case 'userjustkicked':
 							break;
 					}
 

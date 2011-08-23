@@ -24,7 +24,7 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 	 */
 	public function __construct(ilDBayObjectGUI $gui)
 	{
-		$this->gui = $gui;
+	    $this->gui = $gui;
 	}
 
 	/**
@@ -35,54 +35,54 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 	 */
 	public function executeDefault($method)
 	{
-		global $ilUser;
+	    global $ilUser;
 
-		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-		require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
+	    require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+	    require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
-		if ( !ilChatroom::checkUserPermissions( array('read', 'moderate') , $this->gui->ref_id ) )
+	    if ( !ilChatroom::checkUserPermissions( array('read', 'moderate') , $this->gui->ref_id ) )
+	    {
+		ilUtil::redirect("repository.php");
+	    }
+
+	    $room = ilChatroom::byObjectId( $this->gui->object->getId() );
+
+	    if( $room )
+	    {
+		// if user is in scope
+		$scope = $room->getRoomId();
+
+		$chat_user = new ilChatroomUser( $ilUser, $room );
+
+		$message = json_encode( $this->buildMessage(
+		    ilUtil::stripSlashes( $_REQUEST['user'] ), $chat_user
+		) );
+
+		$params = array(
+			'message' => $message,
+			'userToKick' => $_REQUEST['user']
+		);
+
+		$query		= http_build_query( $params );
+		$connector	= $this->gui->getConnector();
+		$response	= $connector->kick( $scope, $query );
+		$responseObject = json_decode( $response );
+
+		if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
 		{
-		    ilUtil::redirect("repository.php");
+		    $room->addHistoryEntry( $message, '', 1 );
 		}
+	    }
+	    else
+	    {
+		$response = json_encode( array(
+		    'success'   => false,
+		    'reason'    => 'unkown room'
+		) );
+	    }
 
-		$room = ilChatroom::byObjectId( $this->gui->object->getId() );
-
-		if( $room )
-		{
-			// if user is in scope
-			$scope = $room->getRoomId();
-
-			$chat_user = new ilChatroomUser( $ilUser, $room );
-
-			$message = json_encode( $this->buildMessage(
-			ilUtil::stripSlashes( $_REQUEST['user'] ), $chat_user
-			) );
-
-			$params = array(
-				'message' => $message,
-				'userToKick' => $_REQUEST['user']
-			);
-
-			$query		= http_build_query( $params );
-			$connector	= $this->gui->getConnector();
-			$response	= $connector->kick( $scope, $query );
-			$responseObject = json_decode( $response );
-
-			if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
-			{
-			    $room->addHistoryEntry( $message, '', 1 );
-			}
-		}
-		else
-		{
-		    $response = json_encode( array(
-			'success'   => false,
-			'reason'    => 'unkown room'
-			) );
-		}
-
-		echo $response;
-		exit;
+	    echo $response;
+	    exit;
 	}
 
 	/**
@@ -103,6 +103,104 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 		$data->type	    = 'kick';
 
 		return $data;
+	}
+
+	/**
+	 * Kicks user from subroom into mainroom
+	 * 
+	 * @global ilObjUser $ilUser 
+	 */
+	public function sub()
+	{
+	    global $ilUser;
+
+	    require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+	    require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
+
+	    $room = ilChatroom::byObjectId( $this->gui->object->getId() );
+
+	    if( $room )
+	    {
+		if( !$room->isOwnerOfPrivateRoom($ilUser->getId(), $_REQUEST['sub']) )
+		{
+		    if ( !ilChatroom::checkPermissionsOfUser( $ilUser->getId(), array('read', 'moderate') , $this->gui->ref_id ) )
+		    {	
+			ilUtil::redirect("repository.php");
+		    }
+		}
+
+		$scope		= $room->getRoomId();
+		$params		= array();
+		$params['user'] = $_REQUEST['user'];
+		$params['sub']  = $_REQUEST['sub'];
+
+		if( $room->userIsInPrivateRoom( $params['sub'], $params['user'] ) )
+		{
+		    $query	    = http_build_query( $params );
+		    $connector	    = $this->gui->getConnector();
+		    $response	    = $connector->leavePrivateRoom( $scope, $query );
+		    $responseObject = json_decode( $response );
+
+		    if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
+		    {
+			//$room->addHistoryEntry( $message, $recipient, $publicMessage );
+		    }
+
+		    $room->unsubscribeUserFromPrivateRoom( $params['sub'], $params['user'] );
+		    $this->recantInvitation( $params['sub'], $params['user'] );
+
+		    $message = json_encode( array(
+			    'type'  => 'userjustkicked',
+			    'user'  => $params['user'],
+			    'sub'   => $params['sub']
+			));
+
+			$connector->sendMessage( $room->getRoomId(), $message, array('public' => 1, 'sub' => 0) );
+		}
+		else
+		{
+		    $response = json_encode( array('success' => true, 'message' => 'was not in room') );
+		}
+
+		echo $response;
+		exit;
+	    }
+	}
+
+	/**
+	 * Recant invitation for given $user_id in given $subroom_id
+	 * 
+	 * @global ilDB $ilDB
+	 * @param integer $subroom_id
+	 * @param integer $user_id 
+	 */
+	public function recantInvitation($subroom_id, $user_id)
+	{
+	    global $ilDB;
+
+	    $query = "
+		SELECT		proom_id
+		FROM		chatroom_proomaccess
+		WHERE		proom_id = %s
+		AND		user_id = %s
+	    ";
+
+	    $types  = array( 'integer', 'integer' );
+	    $values = array( $subroom_id, $user_id );
+
+	    $res = $ilDB->queryF( $query, $types, $values );
+
+	    if( $row = $ilDB->fetchAssoc( $res ) )
+	    {
+		$delete = "
+		    DELETE
+		    FROM	chatroom_proomaccess
+		    WHERE	proom_id = %s
+		    AND		user_id = %s
+		";
+
+		$ilDB->manipulateF( $delete, $types, $values );
+	    }
 	}
 
 }
