@@ -757,8 +757,8 @@ menuEntries.push(
 
 						    if( !isIdInArray(id, usermanager.usersinroom(subRoomId))) {
 							$('#invite_users_available').append(
-							    $('<li class="invite_user_line_id invite_user_line">')
-								.append($('<a href="#">')
+							    $('<li class="invite_user_line_id invite_user_line"></li>')
+								.append($('<a href="#"></a>')
 									.text(this.label)
 									.click(function(e) {
 										e.preventDefault();
@@ -804,8 +804,8 @@ menuEntries.push(
 									if (response.response.results) {
 										$.each(response.response.results, function() {
 											var login = this.login;
-											$('<li class="invite_user_line_login invite_user_line">')
-											.append($('<a href="#">')
+											$('<li class="invite_user_line_login invite_user_line"></li>')
+											.append($('<a href="#"></a>')
 												.text(this.lastname + ', ' + this.firstname + ' [' + this.login + ']')
 												.click(function(e) {
 													e.preventDefault();
