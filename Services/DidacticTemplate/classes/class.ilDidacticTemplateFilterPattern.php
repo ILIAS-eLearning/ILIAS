@@ -147,12 +147,12 @@ abstract class ilDidacticTemplateFilterPattern
 	}
 
 	/**
-	 * Check if patter matches
+	 * Check if pattern matches
 	 *
 	 * @param mixed
 	 * @return bool
 	 */
-	abstract function matches($a_source);
+	abstract function valid($a_source);
 
 
 	/**

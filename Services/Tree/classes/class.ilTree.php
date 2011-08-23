@@ -1750,6 +1750,7 @@ class ilTree
 		
 		if (!isset($a_node_id))
 		{
+			$GLOBALS['ilLog']->logStack();
 			$this->ilErr->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilErr->WARNING);
 		}
 		if($this->__isMainTree())
