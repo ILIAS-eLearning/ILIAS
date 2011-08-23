@@ -292,6 +292,8 @@ class ilSkillTreeNodeGUI
 		{
 			$this->saveItem();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			ilSkillTreeNode::saveChildsOrder((int) $_GET["obj_id"], array(),
+				in_array($this->getType(), array("sktp", "sctp")));
 			$this->afterSave();
 		}
 		else
@@ -404,7 +406,7 @@ class ilSkillTreeNodeGUI
 	 * @param
 	 * @return
 	 */
-	function redirectToParent()
+	function redirectToParent($a_tmp_mode = true)
 	{
 		global $ilCtrl;
 		
@@ -414,7 +416,14 @@ class ilSkillTreeNodeGUI
 		{
 			case "skrt":
 				$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", (int) $_GET["obj_id"]);
-				$ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
+				if ($a_tmp_mode)
+				{
+					$ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
+				}
+				else
+				{
+					$ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
+				}
 				break;
 
 			case "sctp":
@@ -430,5 +439,18 @@ class ilSkillTreeNodeGUI
 		
 	}
 	
+	/**
+	 * Save order
+	 */
+	function saveOrder()
+	{
+		global $ilCtrl, $lng;
+		
+		ilSkillTreeNode::saveChildsOrder((int) $_GET["obj_id"], $_POST["order"],
+			(int) $_GET["tmpmode"]);
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$this->redirectToParent((int) $_GET["tmpmode"]);
+	}
+
 }
 ?>

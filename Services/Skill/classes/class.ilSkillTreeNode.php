@@ -227,6 +227,22 @@ class ilSkillTreeNode
 	}
 
 	/**
+	 * Write Order Nr
+	 *
+	 * @param	int			Node ID
+	 * @param	string		Order Nr
+	 */
+	static function _writeOrderNr($a_obj_id, $a_nr)
+	{
+		global $ilDB;
+
+		$query = "UPDATE skl_tree_node SET ".
+			" order_nr = ".$ilDB->quote($a_nr, "integer").
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
+		$ilDB->manipulate($query);
+	}
+	
+	/**
 	* Create Node
 	*
 	* @param	boolean		Upload Mode
@@ -777,5 +793,52 @@ class ilSkillTreeNode
 		return $skills;
 	}
 
+	/**
+	 * Save childs order
+	 *
+	 * @param
+	 * @return
+	 */
+	static function saveChildsOrder($a_par_id, $a_childs_order, $a_templates = false)
+	{
+		include_once("./Services/Skill/classes/class.ilSkillTree.php");
+		$skill_tree = new ilSkillTree();
+		
+		if ($a_par_id != $skill_tree->readRootId())
+		{
+			$childs = $skill_tree->getChilds($a_par_id);
+		}
+		else
+		{
+			if ($a_templates)
+			{
+				$childs = $skill_tree->getChildsByTypeFilter($a_par_id,
+					array("skrt", "sktp", "sctp"));
+			}
+			else
+			{
+				$childs = $skill_tree->getChildsByTypeFilter($a_par_id,
+					array("skrt", "skll", "scat", "sktr"));
+			}
+		}
+		
+		foreach ($childs as $k => $c)
+		{
+			if (isset($a_childs_order[$c["child"]]))
+			{
+				$childs[$k]["order_nr"] = (int) $a_childs_order[$c["child"]];
+			}
+		}
+		
+		$childs = ilUtil::sortArray($childs, "order_nr", "asc", true);
+
+		$cnt = 10;
+		foreach ($childs as $c)
+		{
+			ilSkillTreeNode::_writeOrderNr($c["child"], $cnt);
+			$cnt += 10;
+		}
+	}
+	
 }
 ?>

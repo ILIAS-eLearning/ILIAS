@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Skill/classes/class.ilSkillTreeNodeGUI.php");
+include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 
 /**
 * Basic skill GUI class

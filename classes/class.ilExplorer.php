@@ -589,14 +589,10 @@ class ilExplorer
 		$objects = $this->modifyChilds($a_parent_id, $objects);
 
 		// force expansion (of single nodes)
-//		if ($this->forceExpanded($a_obj_id) && !in_array($a_obj_id, $this->expanded))
-//		{
-//			$this->expanded[] = $a_obj_id;
-//		}
-if ($this->forceExpanded($a_parent_id) && !in_array($a_parent_id, $this->expanded))
-{
-	$this->expanded[] = $a_parent_id;
-}
+		if ($this->forceExpanded($a_parent_id) && !in_array($a_parent_id, $this->expanded))
+		{
+			$this->expanded[] = $a_parent_id;
+		}
 
 		if (count($objects) > 0)
 		{

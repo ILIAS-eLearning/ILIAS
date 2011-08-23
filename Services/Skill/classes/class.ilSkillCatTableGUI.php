@@ -25,6 +25,8 @@ class ilSkillCatTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
+		$ilCtrl->setParameter($a_parent_obj, "tmpmode", $a_mode);
+		
 		$this->mode = $a_mode;
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->skill_tree = new ilSkillTree();
@@ -34,15 +36,17 @@ class ilSkillCatTableGUI extends ilTable2GUI
 		
 		if ($this->mode == self::MODE_SCAT)
 		{
-			$this->setData($this->skill_tree->getChildsByTypeFilter($a_obj_id,
-				array("skrt", "skll", "scat", "sktr")));
-//			$this->setTitle($lng->txt("skmg_skills"));
+			$childs = $this->skill_tree->getChildsByTypeFilter($a_obj_id,
+				array("skrt", "skll", "scat", "sktr"));
+			$childs = ilUtil::sortArray($childs, "order_nr", "asc", true);
+			$this->setData($childs);
 		}
 		else if ($this->mode == self::MODE_SCTP)
 		{
-			$this->setData($this->skill_tree->getChildsByTypeFilter($a_obj_id,
-				array("skrt", "sktp", "sctp")));
-//			$this->setTitle($lng->txt("skmg_skill_templates"));
+			$childs = $this->skill_tree->getChildsByTypeFilter($a_obj_id,
+				array("skrt", "sktp", "sctp"));
+			$childs = ilUtil::sortArray($childs, "order_nr", "asc", true);
+			$this->setData($childs);
 		}
 		
 		if ($this->obj_id != $this->skill_tree->readRootId())
