@@ -96,6 +96,22 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
 		$tpl->setContent($table->getHTML());
 	}
 	
+	/**
+	 * cancel delete
+	 */
+	function cancelDelete()
+	{
+		global $ilCtrl;
+		if ($_GET["tmpmode"])
+		{
+			$ilCtrl->redirect($this, "listTemplates");
+		}
+		else
+		{
+			$ilCtrl->redirect($this, "listSkills");
+		}
+	}
+
 }
 
 ?>

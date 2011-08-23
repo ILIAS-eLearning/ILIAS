@@ -551,19 +551,22 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
 	 */
 	function deleteNodes($a_gui)
 	{
-		global $lng, $tpl;
+		global $lng, $tpl, $ilCtrl, $ilTabs;
 
 		if(!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		$ilTabs->clearTargets();
+		
 		// SAVE POST VALUES
 		$_SESSION["saved_post"] = $_POST["id"];
 
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$confirmation_gui = new ilConfirmationGUI();
 
+		$ilCtrl->setParameter($a_gui, "tmpmode", $_GET["tmpmode"]);
 		$a_form_action = $this->ctrl->getFormAction($a_gui);
 		$confirmation_gui->setFormAction($a_form_action);
 		$confirmation_gui->setHeaderText($this->lng->txt("info_delete_sure"));
