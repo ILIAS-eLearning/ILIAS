@@ -685,6 +685,12 @@ abstract class ilObject2GUI extends ilObjectGUI
 		}		
 		return false;
 	}
+	
+	
+	function getNotesSubId()
+	{
+		return null;
+	}
 }
 
 ?>

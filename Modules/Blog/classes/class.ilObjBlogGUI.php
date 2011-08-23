@@ -231,9 +231,7 @@ class ilObjBlogGUI extends ilObject2GUI
 							return $this->buildEmbedded($ret, $nav);
 						
 						// ilias/editor
-						default:
-							$tpl->setHeaderActionMenu($this, $_REQUEST["page"]);
-																					
+						default:																					
 							$tpl->setContent($ret);
 							$nav = $this->renderNavigation($this->items, "render", $cmd);	
 							$tpl->setRightContent($nav);	
@@ -389,8 +387,6 @@ class ilObjBlogGUI extends ilObject2GUI
 					
 		$tpl->setContent($list);
 		$tpl->setRightContent($nav);
-		
-		$tpl->setHeaderActionMenu($this, 0);
 	}
 	
 	function getExerciseInfo($a_assignment_id)
@@ -1151,6 +1147,16 @@ class ilObjBlogGUI extends ilObject2GUI
 		}
 		include("ilias.php");
 		exit;
+	}
+	
+	
+	function getNotesSubId()
+	{
+		if($_REQUEST["page"])
+		{
+			return $_REQUEST["page"];
+		}
+		return 0;
 	}
 }
 
