@@ -45,7 +45,7 @@ class ilPersonalWorkspaceGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl, $lng, $objDefinition;
+		global $ilCtrl, $lng, $objDefinition, $tpl;
 
 		$ilCtrl->setReturn($this, "render");		
 		$cmd = $ilCtrl->getCmd();
@@ -104,10 +104,13 @@ class ilPersonalWorkspaceGUI
 			$this->renderToolbar();
 		}
 		
+		
 		// prepare notes
 		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
 		ilNoteGUI::initJavascript(
 			$ilCtrl->getLinkTargetByClass(array("ilpersonalworkspacegui", "ilnotegui"), "", "", true, false));
+				
+		$tpl->setHeaderActionMenu($gui, $gui->getNotesSubId());
 	}
 
 	/**
