@@ -975,7 +975,7 @@ class ilObject
 	*
 	* @param	int		$a_id		object id
 	*/
-	function _lookupDescription($a_id)
+	public static function _lookupDescription($a_id)
 	{
 		global $ilObjDataCache;
 

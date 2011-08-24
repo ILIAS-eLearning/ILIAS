@@ -7423,3 +7423,8 @@ if(!$ilDB->tableExists('usr_account_codes'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3436>
+<?php
+	$ilDB->modifyTableColumn('didactic_tpl_alr', 'role_template_id',
+		array("type" => "integer", "length" => 4, "notnull" => false));
+?>

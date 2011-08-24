@@ -55,7 +55,40 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 	 */
 	public function apply()
 	{
-		;
+		global $rbacreview, $rbacadmin;
+
+		$source = $this->initSourceObject();
+
+		// Check if role folder already exists
+		$rolf_id = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
+		if(!$rolf_id)
+		{
+			$source->createRoleFolder();
+		}
+		$rolf_id = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
+
+		// Create role
+		$rolf = ilObjectFactory::getInstanceByRefId($rolf_id,false);
+		$role = $rolf->createRole(
+			ilObject::_lookupTitle($this->getRoleTemplateId()),
+			ilObject::_lookupDescription($this->getRoleTemplateId())
+		);
+
+
+		// Copy template permissions
+		$rbacadmin->copyRoleTemplatePermissions(
+			$this->getRoleTemplateId(),
+			ROLE_FOLDER_ID,
+			$rolf->getId(),
+			$role->getId()
+		);
+
+
+		// Set permissions
+		$ops = $rbacreview->getOperationsOfRole($role->getId(),$source->getType(),$rolf->getRefId());
+		$rbacadmin->grantPermission($role->getId(),$ops,$source->getRefId());
+
+		return true;
 	}
 
 	/**
