@@ -262,7 +262,6 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 		
 		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
 		$bs = ilSkillTreeNode::getSkillTreeNodes((int) $_GET["obj_id"], false);
-
 		include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
 		$ns = new ilNestedList();
 		$ns->setListClass("il_Explorer");
