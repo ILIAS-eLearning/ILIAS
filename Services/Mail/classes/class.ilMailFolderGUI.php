@@ -232,7 +232,7 @@ class ilMailFolderGUI
 	*/
 	public function showFolder()
 	{
-		global $ilUser;
+		global $ilUser, $ilToolbar;
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
 		$this->tpl->setTitle($this->lng->txt('mail'));
@@ -279,16 +279,12 @@ class ilMailFolderGUI
 		$mtree = new ilTree($ilUser->getId());
 		$mtree->setTableNames('mail_tree', 'mail_obj_data');		
 		if(!isset($_SESSION['viewmode']) || $_SESSION['viewmode'] == 'flat')
-		{		   
+		{	
+			$folder_options = array();
 			foreach($folders as $folder)
 			{
-				$this->tpl->setCurrentBLock('flat_select');
 				$folder_d = $mtree->getNodeData($folder['obj_id']);
-				if($folder['obj_id'] == $_GET['mobj_id'])
-				{
-					$this->tpl->setVariable('FLAT_SELECTED', ' selected="selected"');
-				}
-				$this->tpl->setVariable('FLAT_VALUE', $folder['obj_id']);
+
 				if($folder['type'] == 'user_folder')
 				{
 					$pre = '';
@@ -296,21 +292,23 @@ class ilMailFolderGUI
 						$pre .= '&nbsp';
 					if ($folder_d['depth'] > 1)
 						$pre .= '+';					
-					$this->tpl->setVariable('FLAT_NAME', $pre.' '.$folder['title']);
+					$folder_options[$folder['obj_id']] = $pre.' '.$folder['title'];
 				}
 				else
 				{
-					$this->tpl->setVariable('FLAT_NAME', $this->lng->txt('mail_'.$folder['title']));
+					$folder_options[$folder['obj_id']] = $this->lng->txt('mail_'.$folder['title']);
 				}
-				$this->tpl->parseCurrentBlock();
 			}			
-			
-			$this->tpl->setCurrentBlock('show_folder');
-			$this->tpl->setVariable('TXT_FOLDERS', $this->lng->txt('mail_change_to_folder'));
-			//$this->tpl->setVariable('FOLDER_VALUE', $this->lng->txt('submit'));
-			$this->tpl->setVariable('FOLDER_VALUE', $this->lng->txt('change'));
-			$this->tpl->setVariable('ACTION_FLAT', $this->ctrl->getFormAction($this, 'showFolder'));
-			$this->tpl->parseCurrentBlock();			
+
+			$ilToolbar->addText($this->lng->txt('mail_change_to_folder'));
+			include_once './Services/Form/classes/class.ilSelectInputGUI.php';
+			$si = new ilSelectInputGUI("", "mobj_id");
+			$si->setOptions($folder_options);
+			$si->setValue($_GET['mobj_id']);
+			$ilToolbar->addInputItem($si);
+
+			$ilToolbar->addFormButton($this->lng->txt('change'),'showFolder');
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'showFolder'));
 		}
 		// END SHOW_FOLDER
 		
