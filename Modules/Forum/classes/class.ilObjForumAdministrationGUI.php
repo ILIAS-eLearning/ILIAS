@@ -120,6 +120,16 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 
 		$frma_set = new ilSetting("frma");
 		$frma_set->set("forum_overview", ilUtil::stripSlashes($_POST["forum_overview"]));
+		
+		if(isset($_POST['anonymous_fora']))
+			$ilSetting->set('enable_anonymous_fora', 1);
+		else $ilSetting->set('enable_anonymous_fora', 0);
+
+		if(isset($_POST['fora_statistics']))
+			$ilSetting->set('enable_fora_statistics', 1);
+		else $ilSetting->set('enable_fora_statistics', 0);
+
+		$ilSetting->set('forum_notification', ilUtil::stripSlashes($_POST["forum_notification"]));
 
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 		$ilCtrl->redirect($this, "view");
@@ -142,10 +152,10 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-	    global $lng;
+	    global $lng, $ilSetting;
+
 		$this->tabs_gui->setTabActive('settings');
 		$frma_set = new ilSetting("frma");
-		
 		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
@@ -162,6 +172,29 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		$frm_radio->setValue($frma_set->get('forum_overview'));
 		$frm_radio->setInfo($this->lng->txt('topics_overview_info'));
 		$form->addItem($frm_radio);
+
+		$this->fora_statistics = (bool) $ilSetting->get('enable_fora_statistics',false);
+		$this->anonymous_fora = (bool) $ilSetting->get('enable_anonymous_fora',false);
+		$check = new ilCheckboxInputGui($this->lng->txt('enable_fora_statistics'), 'fora_statistics');
+		$check->setInfo($this->lng->txt('enable_fora_statistics_desc'));
+		$check->setChecked($this->fora_statistics);
+		$form->addItem($check);
+
+		$check = new ilCheckboxInputGui($this->lng->txt('enable_anonymous_fora'), 'anonymous_fora');
+		$check->setInfo($this->lng->txt('enable_anonymous_fora_desc'));
+		$check->setChecked($this->anonymous_fora);
+		$form->addItem($check);
+
+		$frm_sel =  new ilSelectInputGUI($this->lng->txt('cron_forum_notification'), 'forum_notification');
+		$notification_options = array(
+			0 => $this->lng->txt('cron_forum_notification_never'),
+			1 => $this->lng->txt('cron_forum_notification_directly'),
+			2 => $this->lng->txt('cron_forum_notification_cron'));
+		
+		$frm_sel->setOptions($notification_options);
+		$frm_sel->setValue($ilSetting->get('forum_notification'));
+		$frm_sel->setInfo($this->lng->txt('cron_forum_notification_desc'));
+		$form->addItem($frm_sel);
 
 		$this->tpl->setContent($form->getHTML());
 	}
