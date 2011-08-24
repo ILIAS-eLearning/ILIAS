@@ -20,7 +20,7 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 	 */
 	public function __construct($a_action_id = 0)
 	{
-		parent::__construct($action_id);
+		parent::__construct($a_action_id);
 	}
 
 	/**
@@ -67,6 +67,8 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 		}
 		$rolf_id = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
 
+		$GLOBALS['ilLog']->write(__METHOD__.': Current role folder id is: '.$rolf_id);
+
 		// Create role
 		$rolf = ilObjectFactory::getInstanceByRefId($rolf_id,false);
 		$role = $rolf->createRole(
@@ -74,15 +76,16 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 			ilObject::_lookupDescription($this->getRoleTemplateId())
 		);
 
+		$GLOBALS['ilLog']->write(__METHOD__.': Using rolt: '.$this->getRoleTemplateId().' with title "'.ilObject::_lookupTitle($this->getRoleTemplateId().'". '));
 
 		// Copy template permissions
 		$rbacadmin->copyRoleTemplatePermissions(
 			$this->getRoleTemplateId(),
 			ROLE_FOLDER_ID,
-			$rolf->getId(),
-			$role->getId()
+			$rolf->getRefId(),
+			$role->getId(),
+			true
 		);
-
 
 		// Set permissions
 		$ops = $rbacreview->getOperationsOfRole($role->getId(),$source->getType(),$rolf->getRefId());
