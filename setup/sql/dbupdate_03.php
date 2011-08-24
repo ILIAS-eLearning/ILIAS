@@ -7404,3 +7404,22 @@ if(!$ilDB->tableExists('usr_account_codes'))
 
 	$ilDB->addPrimaryKey('didactic_tpl_objs',array('obj_id','tpl_id'));
 ?>
+<#3434>
+<?php
+	if(!$ilDB->tableColumnExists('usr_portfolio','comments'))
+	{
+		$ilDB->addTableColumn(
+			'usr_portfolio',
+			'comments',
+			array(
+				'type'	=> 'integer',
+				'length'=> 1,
+				'notnull' => false
+			)
+		);
+	}
+?>
+<#3435>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
