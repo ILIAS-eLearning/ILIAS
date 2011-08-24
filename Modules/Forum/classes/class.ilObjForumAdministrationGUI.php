@@ -160,15 +160,15 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt('forum_settings'));
+		$form->setTitle($this->lng->txt('settings'));
 		$form->addCommandButton('saveSettings',$this->lng->txt('save'));
 		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
 
 		// forum overview
 
 		$frm_radio = new ilRadioGroupInputGUI($this->lng->txt('show_topics_overview'), 'forum_overview');
-		$frm_radio->addOption(new ilRadioOption($this->lng->txt('new').','.$this->lng->txt('is_read').','.$this->lng->txt('unread'), '0'));
-		$frm_radio->addOption(new ilRadioOption($this->lng->txt('is_read').','.$this->lng->txt('unread'), '1'));
+		$frm_radio->addOption(new ilRadioOption($this->lng->txt('new').', '.$this->lng->txt('is_read').', '.$this->lng->txt('unread'), '0'));
+		$frm_radio->addOption(new ilRadioOption($this->lng->txt('is_read').', '.$this->lng->txt('unread'), '1'));
 		$frm_radio->setValue($frma_set->get('forum_overview'));
 		$frm_radio->setInfo($this->lng->txt('topics_overview_info'));
 		$form->addItem($frm_radio);
