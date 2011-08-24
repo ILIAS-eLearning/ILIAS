@@ -7428,3 +7428,22 @@ if(!$ilDB->tableExists('usr_account_codes'))
 	$ilDB->modifyTableColumn('didactic_tpl_alr', 'role_template_id',
 		array("type" => "integer", "length" => 4, "notnull" => false));
 ?>
+<#3437>
+<?php
+	$ilDB->createTable('didactic_tpl_abr',
+		array(
+			"action_id" => array(
+				"type" => "integer",
+				"length" => 4,
+				"notnull" => true
+			),
+			"filter_type" => array(
+				"type" => "integer",
+				"length" => 1,
+				"notnull" => true
+			)
+		)
+	);
+
+	$ilDB->addPrimaryKey('didactic_tpl_abr',array('action_id'));
+?>

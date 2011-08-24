@@ -142,6 +142,42 @@ class ilDidacticTemplateImport
 			$act->save();
 		}
 
+		////////////////////////////////////////////////
+		// Block role action
+		//////////////////////////////////////////////
+		foreach($actions->blockRoleAction as $ele)
+		{
+			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateBlockRoleAction.php';
+			$act = new ilDidacticTemplateBlockRoleAction();
+			$act->setTemplateId($set->getId());
+
+			// Role filter
+			foreach($ele->roleFilter as $rfi)
+			{
+				$act->setFilterType((string) $rfi->attributes()->source);
+				foreach($rfi->includePattern as $pat)
+				{
+					// @TODO other subtypes
+					include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateIncludeFilterPattern.php';
+					$pattern = new ilDidacticTemplateIncludeFilterPattern();
+					$pattern->setPatternSubType(ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX);
+					$pattern->setPattern((string) $pat->attributes()->preg);
+					$act->addFilterPattern($pattern);
+				}
+				foreach($rfi->excludePattern as $pat)
+				{
+					// @TODO other subtypes
+					include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateExcludeFilterPattern.php';
+					$pattern = new ilDidacticTemplateExcludeFilterPattern();
+					$pattern->setPatternSubType(ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX);
+					$pattern->setPattern((string) $pat->attributes()->preg);
+					$act->addFilterPattern($pattern);
+				}
+			}
+
+			$act->save();
+		}
+
 
 
 		////////////////////////////////////////////
