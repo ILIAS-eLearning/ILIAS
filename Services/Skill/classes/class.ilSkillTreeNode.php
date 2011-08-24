@@ -710,18 +710,24 @@ class ilSkillTreeNode
 				if ($cnode["type"] == "sktr")
 				{
 					$tr_ref = new ilSkillTemplateReference($cnode["child"]);
-					$cnode2 = $stree->getNodeData($tr_ref->getSkillTemplateId());
-					$childs2 = $stree->getSubTree($cnode2);
-					foreach ($childs2 as $child2)
+					if ($tr_ref->getSkillTemplateId() > 0)
 					{
-						// find basic skills templates
-						if ($child2["type"] == "sktp" || !$a_only_basic)
+						$cnode2 = $stree->getNodeData($tr_ref->getSkillTemplateId());
+						if ($cnode2["child"] > 0)
 						{
-							$par = ($tr_ref->getSkillTemplateId() == $child2["child"])
-								? $cnode["child"]
-								: $child2["parent"];
-							$skills[] = array("id" => $child2["child"],
-								"type" => $child2["type"], "parent" => $par);
+							$childs2 = $stree->getSubTree($cnode2);
+							foreach ($childs2 as $child2)
+							{
+								// find basic skills templates
+								if ($child2["type"] == "sktp" || !$a_only_basic)
+								{
+									$par = ($tr_ref->getSkillTemplateId() == $child2["child"])
+										? $cnode["child"]
+										: $child2["parent"];
+									$skills[] = array("id" => $child2["child"],
+										"type" => $child2["type"], "parent" => $par);
+								}
+							}
 						}
 					}						
 				}
@@ -742,19 +748,25 @@ class ilSkillTreeNode
 						{
 							$tr_ref = new ilSkillTemplateReference($child["child"]);
 							$cnode2 = $stree->getNodeData($tr_ref->getSkillTemplateId());
-							$childs2 = $stree->getSubTree($cnode2);
-							foreach ($childs2 as $child2)
+							if ($tr_ref->getSkillTemplateId() > 0)
 							{
-								$par = ($tr_ref->getSkillTemplateId() == $child2["child"])
-									? $cnode2["child"]
-									: $child2["parent"];
-								// find basic skills templates
-								if ($child2["type"] == "sktp" || !$a_only_basic)
+								if ($cnode2["child"] > 0)
 								{
-									$skills[] = array("id" => $child2["child"],
-										"type" => $child2["type"], "parent" => $par);
+									$childs2 = $stree->getSubTree($cnode2);
+									foreach ($childs2 as $child2)
+									{
+										$par = ($tr_ref->getSkillTemplateId() == $child2["child"])
+											? $cnode2["child"]
+											: $child2["parent"];
+										// find basic skills templates
+										if ($child2["type"] == "sktp" || !$a_only_basic)
+										{
+											$skills[] = array("id" => $child2["child"],
+												"type" => $child2["type"], "parent" => $par);
+										}
+									}
 								}
-							}						
+							}
 						}
 					}
 				}
