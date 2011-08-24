@@ -11,6 +11,7 @@ abstract class ilDidacticTemplateAction
 {
 	const TYPE_LOCAL_POLICY = 1;
 	const TYPE_LOCAL_ROLE = 2;
+	const TYPE_BLOCK_ROLE = 3;
 
 
 	private $action_id = 0;

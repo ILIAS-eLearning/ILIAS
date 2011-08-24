@@ -36,7 +36,7 @@ class ilDidacticTemplateFilterPatternFactory
 					$patterns[] = new ilDidacticTemplateIncludeFilterPattern($row->pattern_id);
 					break;
 
-				case ilDidacticTemplateFilterPattern::PATTERN_INCLUDE:
+				case ilDidacticTemplateFilterPattern::PATTERN_EXCLUDE:
 					include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateExcludeFilterPattern.php';
 					$patterns[] = new ilDidacticTemplateExcludeFilterPattern($row->pattern_id);
 					break;
