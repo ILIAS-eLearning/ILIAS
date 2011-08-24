@@ -983,7 +983,13 @@ class ilObjPortfolioGUI
 			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 			foreach ($_POST["prtf_pages"] as $id)
 			{
-				$cgui->addItem("prtf_pages[]", $id, ilPortfolioPage::lookupTitle($id));
+				$page = new ilPortfolioPage($this->portfolio->getId(), $id);
+				$title = $page->getTitle();
+				if($page->getType() == ilPortfolioPage::TYPE_BLOG)
+				{
+					$title = $lng->txt("obj_blog").": ".ilObject::_lookupTitle((int)$title);		
+				}				
+				$cgui->addItem("prtf_pages[]", $id, $title);
 			}
 
 			$tpl->setContent($cgui->getHTML());
@@ -1351,7 +1357,7 @@ class ilObjPortfolioGUI
 				$target->create();							
 			}
 				
-			ilUtil::sendSuccess($lng->txt("prtf_pages_copied"));
+			ilUtil::sendSuccess($lng->txt("prtf_pages_copied"), true);
 			$ilCtrl->redirect($this, "pages");
 		}
 		
