@@ -67,7 +67,7 @@ class ilPersonalWorkspaceGUI
 		}
 		// ajax 
 		else if($next_class == "ilnotegui")
-		{
+		{		
 			$ilCtrl->saveParameter($this, "notes_ref_id");
 			$ilCtrl->saveParameter($this, "notes_sub_id");
 			
