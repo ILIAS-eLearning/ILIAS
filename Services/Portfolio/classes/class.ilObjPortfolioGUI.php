@@ -1286,6 +1286,128 @@ class ilObjPortfolioGUI
 		$tpl->setLocator();		
 	}
 	
+	/**
+	 * Select target portfolio for page(s) copy
+	 */
+	function copyPageForm($a_form = null)
+	{
+		global $ilCtrl, $tpl, $lng, $ilUser;
+
+		if (!is_array($_POST["prtf_pages"]) || count($_POST["prtf_pages"]) == 0)
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "pages");
+		}
+		else
+		{			
+			if(!$a_form)
+			{
+				$a_form = $this->initCopyPageForm();
+			}
+		
+			foreach($_POST["prtf_pages"] as $page_id)
+			{
+				$item = new ilHiddenInputGUI("prtf_pages[]");
+				$item->setValue($page_id);
+				$a_form->addItem($item);
+			}
+			
+			$tpl->setContent($a_form->getHTML());
+		}		
+	}
+	
+	function copyPage()
+	{		
+		global $ilCtrl, $lng;
+		
+		$form = $this->initCopyPageForm();
+		if($form->checkInput())
+		{
+			// existing
+			if($form->getInput("target") == "old")
+			{
+				$portfolio_id = $form->getInput("prtf");
+				$portfolio = new ilObjPortfolio($portfolio_id, false);				
+			}
+			// new
+			else
+			{
+				$portfolio = new ilObjPortfolio();
+				$portfolio->setTitle($form->getInput("title"));
+				$portfolio->create();		
+				$portfolio_id = $portfolio->getId();
+			}
+			
+			// copy page(s)
+			include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
+			foreach($_POST["prtf_pages"] as $page_id)
+			{				
+				$source = new ilPortfolioPage($portfolio_id, $page_id);
+			
+				$target = new ilPortfolioPage($portfolio_id);
+				$target->setXMLContent($source->copyXmlContent());
+				$target->setType($source->getType());
+				$target->setTitle($source->getTitle());
+				$target->create();							
+			}
+				
+			ilUtil::sendSuccess($lng->txt("prtf_pages_copied"));
+			$ilCtrl->redirect($this, "pages");
+		}
+		
+		$form->setValuesByPost();
+		$this->copyPageForm($form);
+	}
+	
+	function initCopyPageForm()
+	{
+		global $lng, $ilCtrl, $ilUser;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));		
+		$form->setTitle($lng->txt("prtf_copy_page"));			
+
+		$tgt = new ilRadioGroupInputGUI($lng->txt("target"), "target");
+		$tgt->setRequired(true);
+		$form->addItem($tgt);
+
+		$all = ilObjPortfolio::getPortfoliosOfUser($ilUser->getId());			
+		if(sizeof($all) > 1)
+		{			
+			$old = new ilRadioOption($lng->txt("prtf_existing_portfolio"), "old");
+			$tgt->addOption($old);
+
+			$options = array();
+			foreach($all as $item)
+			{
+				if($item["id"] != $this->portfolio->getId())
+				{
+					$options[$item["id"]] = $item["title"]; 
+				}
+			}				
+			$prtf = new ilSelectInputGUI($lng->txt("portfolio"), "prtf");
+			$prtf->setRequired(true);
+			$prtf->setOptions($options);
+			$old->addSubItem($prtf);
+		}
+
+		$new = new ilRadioOption($lng->txt("prtf_new_portfolio"), "new");
+		$tgt->addOption($new);
+
+		// 1st page
+		$tf = new ilTextInputGUI($lng->txt("title"), "title");
+		$tf->setMaxLength(128);
+		$tf->setSize(40);
+		$tf->setRequired(true);
+		$new->addSubItem($tf);		
+
+		$form->addCommandButton("copyPage", $lng->txt("save"));
+		$form->addCommandButton("pages", $lng->txt("cancel"));
+		
+		return $form;
+	}
+	
 	function _goto($a_target)
 	{
 		$id = explode("_", $a_target);

@@ -38,6 +38,8 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.portfolio_page_row.html", "Services/Portfolio");
 
 		$this->addMultiCommand("confirmPortfolioPageDeletion", $lng->txt("delete"));
+		$this->addMultiCommand("copyPageForm", $lng->txt("prtf_copy_page"));		
+		
 		$this->addCommandButton("savePortfolioPagesOrdering",
 			$lng->txt("user_save_ordering_and_titles"));
 
