@@ -12,7 +12,7 @@ include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 * $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
 *
 * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
-* @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI
+* @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI
 *
 * @extends ilObject2GUI
 */
@@ -243,6 +243,10 @@ class ilObjBlogGUI extends ilObject2GUI
 			case "ilinfoscreengui":
 				$this->setTabs();
 				$this->infoScreenForward();	
+				break;
+			
+			case "ilnotegui":
+				$this->preview();
 				break;
 
 			default:
@@ -767,8 +771,41 @@ class ilObjBlogGUI extends ilObject2GUI
 
 			$wtpl->parseCurrentBlock();
 		}
-
+		
+		// notes
+		if($a_cmd != "previewEmbedded")
+		{
+			$wtpl->setVariable("NOTES", $this->getNotesHTML());
+		}
+		
 		return $wtpl->get();
+	}
+	
+	function getNotesHTML()
+	{
+		global $ilCtrl, $ilUser;
+
+		include_once("Services/Notes/classes/class.ilNoteGUI.php");			
+		$notes_gui = new ilNoteGUI($this->object->getId(), 0, "blog");
+		// $notes_gui->enablePrivateNotes();
+		$notes_gui->enablePublicNotes();
+			
+		if($this->checkPermissionBool("write"))
+		{
+			$notes_gui->enablePublicNotesDeletion(true);
+		}
+		
+		$html = $notes_gui->getNotesHTML();
+		$next_class = $ilCtrl->getNextClass($this);
+		if ($next_class == "ilnotegui")
+		{
+			$html = $ilCtrl->forwardCommand($notes_gui);
+		}
+		else
+		{
+			$html = $notes_gui->getNotesHTML();
+		}		
+		return $html;
 	}
 
 	/**
@@ -788,6 +825,8 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		$wtpl = new ilTemplate("tpl.blog_list_navigation.html",	true, true,
 			"Modules/Blog");
+		
+		$ilCtrl->setParameter($this, "page", "");
 
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$counter = 0;
@@ -797,7 +836,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				" ".substr($month, 0, 4);
 
 			if(!$a_link_template)
-			{
+			{				
 				$ilCtrl->setParameter($this, "bmn", $month);
 				$month_url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
 			}

@@ -127,7 +127,7 @@ class ilObjPortfolioGUI
 					// preview (fullscreen)
 					if(isset($_REQUEST["user_page"]))
 					{						
-						// suppress notes for blog postings 
+						// suppress (portfolio) notes for blog postings 
 						$this->preview(false, $ret, ($cmd != "previewEmbedded"));
 					}
 					// edit
@@ -1084,26 +1084,32 @@ class ilObjPortfolioGUI
 		}		
 		
 		// render tabs
+		$current_blog = null;
 		if(count($pages) > 1)
 		{
 			foreach ($pages as $p)
-			{
+			{	
 				if($p["type"] == ilPortfolioPage::TYPE_BLOG)
-				{
+				{							
+					// needed for blog comments (see below)
+					if($p["id"] == $current_page)
+					{
+						$current_blog = (int)$p["title"];
+					}									
 					include_once "Modules/Blog/classes/class.ilObjBlog.php";
-					$p["title"] = ilObjBlog::_lookupTitle($p["title"]);
+					$p["title"] = ilObjBlog::_lookupTitle($p["title"]);										
 				}
 				
 				$ilCtrl->setParameter($this, "user_page", $p["id"]);
 				$ilTabs->addTab("user_page_".$p["id"],
 					$p["title"],
-					$ilCtrl->getLinkTarget($this, "preview"));
+					$ilCtrl->getLinkTarget($this, "preview"));				
 			}
-
+			
 			$ilTabs->activateTab("user_page_".$current_page);
 			$ilCtrl->setParameter($this, "user_page", $current_page);
 		}
-			
+		
 		if(!$a_content)
 		{
 			// get current page content
@@ -1130,14 +1136,24 @@ class ilObjPortfolioGUI
 		
 		$notes = "";
 		if($a_show_notes)
-		{
+		{			
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-			$note_gui = new ilNoteGUI($portfolio_id, 0, "pf", false);
+						
+			if(!$current_blog)
+			{
+				$note_gui = new ilNoteGUI($portfolio_id, 0, "pf");
+				$note_gui->setRepositoryMode(false);
+			}
+			// including blog object comments here  (or ilCtrl won't work)
+			else
+			{
+				$note_gui = new ilNoteGUI($current_blog, 0, "blog");
+			}
+			
 			$note_gui->enablePublicNotes(true);
 			$note_gui->enablePrivateNotes(true);
 			$note_gui->enablePublicNotesDeletion($ilUser->getId() == $user_id);
-			$note_gui->setRepositoryMode(false);
-			
+						
 			$next_class = $ilCtrl->getNextClass($this);
 			if ($next_class == "ilnotegui")
 			{
