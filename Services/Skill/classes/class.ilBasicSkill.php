@@ -72,8 +72,20 @@ class ilBasicSkill extends ilSkillTreeNode
 		$skill = new ilBasicSkill();
 		$skill->setTitle($this->getTitle());
 		$skill->setType($this->getType());
+		$skill->setSelfEvaluation($this->getSelfEvaluation());
+		$skill->setOrderNr($this->getOrderNr());
 		$skill->create();
 
+		$levels = $this->getLevelData();
+		if (sizeof($levels))
+		{
+			foreach($levels as $item)
+			{
+				$skill->addLevel($item["title"], $item["description"]);
+			}
+		}
+		$skill->update();
+		
 		return $skill;
 	}
 

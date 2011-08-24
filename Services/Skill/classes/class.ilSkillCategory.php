@@ -59,6 +59,8 @@ class ilSkillCategory extends ilSkillTreeNode
 		$scat = new ilSkillCategory();
 		$scat->setTitle($this->getTitle());
 		$scat->setType($this->getType());
+		$scat->setSelfEvaluation($this->getSelfEvaluation());
+		$scat->setOrderNr($this->getOrderNr());
 		$scat->create();
 
 		return $scat;

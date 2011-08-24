@@ -59,7 +59,6 @@ class ilSkillCatTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("type"), "", "1px");
 		$this->addColumn($this->lng->txt("skmg_order"), "", "1px");
 		$this->addColumn($this->lng->txt("title"));
-		$this->addColumn($this->lng->txt("actions"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.skill_cat_row.html", "Services/Skill");
@@ -76,8 +75,50 @@ class ilSkillCatTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 
+		switch($a_set["type"])
+		{
+			// category
+			case "scat":
+				$ilCtrl->setParameterByClass("ilskillcategorygui", "obj_id", $a_set["child"]);
+				$ret = $ilCtrl->getLinkTargetByClass("ilskillcategorygui", "listItems");
+				$ilCtrl->setParameterByClass("ilskillcategorygui", "obj_id", $_GET["obj_id"]);
+				break;
+				
+			// skill template reference
+			case "sktr":
+				$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "obj_id", $a_set["child"]);
+				$ret = $ilCtrl->getLinkTargetByClass("ilskilltemplatereferencegui", "listItems");
+				$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "obj_id", $_GET["obj_id"]);
+				break;
+				
+			// skill
+			case "skll":
+				$ilCtrl->setParameterByClass("ilbasicskillgui", "obj_id", $a_set["child"]);
+				$ret = $ilCtrl->getLinkTargetByClass("ilbasicskillgui", "edit");
+				$ilCtrl->setParameterByClass("ilbasicskillgui", "obj_id", $_GET["obj_id"]);
+				break;
+				
+			// --------
+				
+			// template
+			case "sktp":
+				$ilCtrl->setParameterByClass("ilbasicskilltemplategui", "obj_id", $a_set["child"]);
+				$ret = $ilCtrl->getLinkTargetByClass("ilbasicskilltemplategui", "edit");
+				$ilCtrl->setParameterByClass("ilbasicskilltemplategui", "obj_id", $_GET["obj_id"]);
+				break;
+
+			// template category
+			case "sctp":
+				$ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "obj_id", $a_set["child"]);
+				$ret = $ilCtrl->getLinkTargetByClass("ilskilltemplatecategorygui", "listItems");
+				$ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "obj_id", $_GET["obj_id"]);
+				break;
+		}
+
+		$this->tpl->setVariable("HREF_TITLE", $ret);
+		
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("OBJ_ID", $a_set["child"]);
 		$this->tpl->setVariable("ORDER_NR", $a_set["order_nr"]);

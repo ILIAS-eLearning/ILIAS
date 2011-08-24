@@ -61,54 +61,6 @@ class ilSkillTreeNodeGUI
 		$this->node_object = ilSkillTreeNodeFactory::getInstance($a_node_id);
 	}
 	
-	
-	/**
-	 * Insert Chapter
-	 */
-/*	function insertChapter()
-	{
-		global $ilCtrl;
-		
-		$res = $this->getParentGUI()->insertChapter(false);
-		$ilCtrl->setParameter($this, "highlight", $res["items"]);
-		$ilCtrl->redirect($this, "showOrganization", "node_".$res["node_id"]);
-	}
-*/
-	/**
-	* Insert Sco
-	*/
-/*	function insertSco()
-	{
-		global $ilCtrl;
-		
-		$res = $this->getParentGUI()->insertSco(false);
-		$ilCtrl->setParameter($this, "highlight", $res["items"]);
-		$ilCtrl->redirect($this, "showOrganization", "node_".$res["node_id"]);
-	}
-*/
-
-	/**
-	 * Collapse all
-	 */
-	function collapseAll()
-	{
-		global $ilCtrl;
-		
-		$this->getParentGUI()->collapseAll(false);
-		$ilCtrl->redirect($this, "showOrganization");
-	}
-
-	/**
-	 * Expand all
-	 */
-	function ExpandAll()
-	{
-		global $ilCtrl;
-		
-		$this->getParentGUI()->expandAll(false);
-		$ilCtrl->redirect($this, "showOrganization");
-	}
-
 	/**
 	 * Save Titles
 	 */
@@ -132,23 +84,92 @@ class ilSkillTreeNodeGUI
 	}
 
 	/**
-	 * Cut items
+	 * Copy items to clipboard, then cut them from the current tree
 	 */
 	function cutItems()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 
-		$this->getParentGUI()->cutItems();
+		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+
+		if (!is_array($_POST["id"]) || count($_POST["id"]) == 0)
+		{
+			$this->redirectToParent();
+		}
+		
+		$items = ilUtil::stripSlashesArray($_POST["id"]);
+		$todel = array();			// delete IDs < 0 (needed for non-js editing)
+		foreach($items as $k => $item)
+		{
+			if ($item < 0)
+			{
+				$todel[] = $k;
+			}
+		}
+		foreach($todel as $k)
+		{
+			unset($items[$k]);
+		}
+
+		if (!ilSkillTreeNode::uniqueTypesCheck($items))
+		{
+			ilUtil::sendInfo($lng->txt("skmg_insert_please_choose_one_type_only"), true);
+			$this->redirectToParent();
+		}
+
+		ilSkillTreeNode::clipboardCut(1, $items);
+
+		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
+		ilEditClipboard::setAction("cut");
+
+		ilUtil::sendInfo($lng->txt("skmg_selected_items_have_been_cut"), true);
+		
+		ilSkillTreeNode::saveChildsOrder((int) $_GET["obj_id"], array(),
+			$_GET["tmpmode"]);
+
+		$this->redirectToParent();
 	}
 
 	/**
-	 * Copy items
+	 * Copy items to clipboard
 	 */
 	function copyItems()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 
-		$this->getParentGUI()->copyItems();
+		if (!is_array($_POST["id"]) || count($_POST["id"]) == 0)
+		{
+			$this->redirectToParent();
+		}
+
+		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+
+		$items = ilUtil::stripSlashesArray($_POST["id"]);
+		$todel = array();				// delete IDs < 0 (needed for non-js editing)
+		foreach($items as $k => $item)
+		{
+			if ($item < 0)
+			{
+				$todel[] = $k;
+			}
+		}
+		foreach($todel as $k)
+		{
+			unset($items[$k]);
+		}
+		if (!ilSkillTreeNode::uniqueTypesCheck($items))
+		{
+			ilUtil::sendInfo($lng->txt("skmg_insert_please_choose_one_type_only"), true);
+			$this->redirectToParent();
+		}
+		ilSkillTreeNode::clipboardCopy(1, $items);
+
+		// @todo: move this to a service since it can be used here, too
+		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
+		ilEditClipboard::setAction("copy");
+		ilUtil::sendInfo($lng->txt("skmg_selected_items_have_been_copied"), true);
+
+		$this->redirectToParent();
 	}
 
 	/**
@@ -158,7 +179,7 @@ class ilSkillTreeNodeGUI
 	{
 		global $ilCtrl;
 		
-		$ilCtrl->redirect($this, "listItems");
+		$this->redirectToParent();
 	}
 
 	/**
@@ -169,7 +190,10 @@ class ilSkillTreeNodeGUI
 		global $ilCtrl;
 		
 		$this->getParentGUI()->confirmedDelete(false);
-		$ilCtrl->redirect($this, "listItems");
+		ilSkillTreeNode::saveChildsOrder((int) $_GET["obj_id"], array(),
+			$_GET["tmpmode"]);
+
+		$this->redirectToParent();
 	}
 
 	/**
@@ -406,9 +430,14 @@ class ilSkillTreeNodeGUI
 	 * @param
 	 * @return
 	 */
-	function redirectToParent($a_tmp_mode = true)
+	function redirectToParent($a_tmp_mode = false)
 	{
 		global $ilCtrl;
+		
+		if ($_GET["tmpmode"])
+		{
+			$a_tmp_mode = true;
+		}
 		
 		$t = ilSkillTreeNode::_lookupType((int) $_GET["obj_id"]);
 
@@ -452,5 +481,64 @@ class ilSkillTreeNodeGUI
 		$this->redirectToParent((int) $_GET["tmpmode"]);
 	}
 
+	/**
+	 * Insert basic skills from clipboard
+	 */
+	function insertBasicSkillClip()
+	{
+		global $ilCtrl, $ilUser;
+
+		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+		$nodes = ilSkillTreeNode::insertItemsFromClip("skll", (int) $_GET["obj_id"]);
+		$this->redirectToParent();
+	}
+
+	/**
+	 * Insert skill categories from clipboard
+	 */
+	function insertSkillCategoryClip()
+	{
+		global $ilCtrl, $ilUser;
+
+		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+		$nodes = ilSkillTreeNode::insertItemsFromClip("scat", (int) $_GET["obj_id"]);
+		$this->redirectToParent();
+	}
+	
+	/**
+	 * Insert skill template references from clipboard
+	 */
+	function insertTemplateReferenceClip()
+	{
+		global $ilCtrl, $ilUser;
+
+		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+		$nodes = ilSkillTreeNode::insertItemsFromClip("sktr", (int) $_GET["obj_id"]);
+		$this->redirectToParent();
+	}
+	
+	/**
+	 * Insert skill template from clipboard
+	 */
+	function insertSkillTemplateClip()
+	{
+		global $ilCtrl, $ilUser;
+
+		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+		$nodes = ilSkillTreeNode::insertItemsFromClip("sktp", (int) $_GET["obj_id"]);
+		$this->redirectToParent();
+	}
+
+	/**
+	 * Insert skill template category from clipboard
+	 */
+	function insertTemplateCategoryClip()
+	{
+		global $ilCtrl, $ilUser;
+
+		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+		$nodes = ilSkillTreeNode::insertItemsFromClip("sctp", (int) $_GET["obj_id"]);
+		$this->redirectToParent();
+	}
 }
 ?>

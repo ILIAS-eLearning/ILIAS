@@ -173,7 +173,7 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 
 		if ($a_mode == "create")
 		{
-			$this->form->addCommandButton("saveSkillTemplateReference", $lng->txt("save"));
+			$this->form->addCommandButton("save", $lng->txt("save"));
 			$this->form->addCommandButton("cancel", $lng->txt("cancel"));
 			$this->form->setTitle($lng->txt("skmg_new_sktr"));
 		}
@@ -200,30 +200,17 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 	}
 
 	/**
-	 * Save form
+	 * Save item
 	 */
-	function saveSkillTemplateReference()
+	function saveItem()
 	{
-		global $lng, $ilCtrl, $tpl;
-
-		$this->initForm("insert");
-		if ($this->form->checkInput())
-		{
-			$sktr = new ilSkillTemplateReference();
-			$sktr->setTitle($_POST["title"]);
-			$sktr->setSkillTemplateId($_POST["skill_template_id"]);
-			$sktr->setSelfEvaluation($_POST["selectable"]);
-			$sktr->setOrderNr($_POST["order_nr"]);
-			$sktr->create();
-			ilSkillTreeNode::putInTree($sktr,
-				(int)$_GET["parent_id"], (int)$_GET["target"]);
-
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-			$ilCtrl->redirectByClass("ilobjskillmanagementgui", "editSkills");
-		}
-
-		$this->form->setValuesByPost();
-		$tpl->setContent($this->form->getHtml());
+		$sktr = new ilSkillTemplateReference();
+		$sktr->setTitle($_POST["title"]);
+		$sktr->setSkillTemplateId($_POST["skill_template_id"]);
+		$sktr->setSelfEvaluation($_POST["selectable"]);
+		$sktr->setOrderNr($_POST["order_nr"]);
+		$sktr->create();
+		ilSkillTreeNode::putInTree($sktr, (int) $_GET["obj_id"], IL_LAST_NODE);
 	}
 
 	/**

@@ -117,6 +117,8 @@ class ilSkillTemplateReference extends ilSkillTreeNode
 		$sktr->setTitle($this->getTitle());
 		$sktr->setType($this->getType());
 		$sktr->setSkillTemplateId($this->getSkillTemplateId());
+		$sktr->setSelfEvaluation($this->getSelfEvaluation());
+		$sktr->setOrderNr($this->getOrderNr());
 		$sktr->create();
 
 		return $sktr;
