@@ -118,7 +118,9 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	 */
 	static function addCreationButtons()
 	{
-		global $ilCtrl, $lng, $ilToolbar;
+		global $ilCtrl, $lng, $ilToolbar, $ilUser;
+		
+		$ilCtrl->setParameterByClass("ilobjskillmanagementgui", "tmpmode", 1);
 		
 		$ilCtrl->setParameterByClass("ilbasicskilltemplategui",
 			"obj_id", (int) $_GET["obj_id"]);
@@ -128,6 +130,29 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 			"obj_id", (int) $_GET["obj_id"]);
 		$ilToolbar->addButton($lng->txt("skmg_create_skill_template_category"),
 			$ilCtrl->getLinkTargetByClass("ilskilltemplatecategorygui", "create"));
+		
+		// skill templates from clipboard
+		$sep = false;
+		if ($ilUser->clipboardHasObjectsOfType("sktp"))
+		{
+			$ilToolbar->addSeparator();
+			$sep = true;
+			$ilToolbar->addButton($lng->txt("skmg_insert_skill_template_from_clip"),
+				$ilCtrl->getLinkTargetByClass("ilskilltemplatecategorygui", "insertSkillTemplateClip"));
+		}
+
+		// template categories from clipboard
+		if ($ilUser->clipboardHasObjectsOfType("sctp"))
+		{
+			if (!$sep)
+			{
+				$ilToolbar->addSeparator();
+				$sep = true;
+			}
+			$ilToolbar->addButton($lng->txt("skmg_insert_template_category_from_clip"),
+				$ilCtrl->getLinkTargetByClass("ilskilltemplatecategorygui", "insertTemplateCategoryClip"));
+		}
+
 	}
 	
 	/**

@@ -34,6 +34,7 @@ class ilSkillTemplateCategory extends ilSkillTreeNode
 		$sctp = new ilSkillTemplateCategory();
 		$sctp->setTitle($this->getTitle());
 		$sctp->setType($this->getType());
+		$sctp->setOrderNr($this->getOrderNr());
 		$sctp->create();
 
 		return $sctp;

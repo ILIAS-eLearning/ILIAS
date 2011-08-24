@@ -386,6 +386,7 @@ class ilSkillTreeNode
 	 */
 	function clipboardCut($a_tree_id, $a_ids)
 	{
+		self::clearClipboard();
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$tree = new ilSkillTree();
 
@@ -438,11 +439,9 @@ class ilSkillTreeNode
 	{
 		global $ilUser;
 		
+		self::clearClipboard();
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$tree = new ilSkillTree();
-		
-		$ilUser->clipboardDeleteObjectsOfType("skll");
-		$ilUser->clipboardDeleteObjectsOfType("scat");
 		
 		// put them into the clipboard
 		$time = date("Y-m-d H:i:s", time());
@@ -476,33 +475,21 @@ class ilSkillTreeNode
 	/**
 	 * Insert basic skills from clipboard
 	 */
-	static function insertBasicSkillClip()
+	static function insertItemsFromClip($a_type, $a_obj_id)
 	{
 		global $ilCtrl, $ilUser;
 		
 		// @todo: move this to a service since it can be used here, too
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 
-		include_once("./Services/Skill/classes/class.ilSkillHFormGUI.php");
-		$node_id = ilSkillHFormGUI::getPostNodeId();
-		$first_child = ilSkillHFormGUI::getPostFirstChild();
-
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$tree = new ilSkillTree();
 		
-		if (!$first_child)	// insert after node id
-		{
-			$parent_id = $tree->getParentId($node_id);
-			$target = $node_id;
-		}
-		else				// insert as first child
-		{
-			$parent_id = $node_id;
-			$target = IL_FIRST_NODE;
-		}
+		$parent_id = $a_obj_id;
+		$target = IL_LAST_NODE;
 
 		// cut and paste
-		$skills = $ilUser->getClipboardObjects("skll");  // this will get all skills _regardless_ of level
+		$skills = $ilUser->getClipboardObjects($a_type);  // this will get all skills _regardless_ of level
 		$copied_nodes = array();
 		foreach ($skills as $skill)
 		{
@@ -516,69 +503,37 @@ class ilSkillTreeNode
 			}
 		}
 
-		if (ilEditClipboard::getAction() == "cut")
-		{
-			$ilUser->clipboardDeleteObjectsOfType("skll");
-			$ilUser->clipboardDeleteObjectsOfType("scat");
-			ilEditClipboard::clear();
-		}
+//		if (ilEditClipboard::getAction() == "cut")
+//		{
+			self::clearClipboard();
+//		}
+
+		ilSkillTreeNode::saveChildsOrder($a_obj_id, array(),
+			in_array($a_type, array("sktp", "sctp")));
 
 		return $copied_nodes;
 	}
 
 	/**
-	 * Insert skill categories from clipboard
+	 * Remove all skill items from clipboard
+	 *
+	 * @param
+	 * @return
 	 */
-	static function insertSkillCategoryClip()
+	static function clearClipboard()
 	{
-		global $ilCtrl, $ilUser;
-
-		// @todo: move this to a service since it can be used here, too
+		global $ilUser;
+		
+		$ilUser->clipboardDeleteObjectsOfType("skll");
+		$ilUser->clipboardDeleteObjectsOfType("scat");
+		$ilUser->clipboardDeleteObjectsOfType("sktr");
+		$ilUser->clipboardDeleteObjectsOfType("sktp");
+		$ilUser->clipboardDeleteObjectsOfType("sctp");
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
-
-		include_once("./Services/Skill/classes/class.ilSkillHFormGUI.php");
-		$node_id = ilSkillHFormGUI::getPostNodeId();
-		$first_child = ilSkillHFormGUI::getPostFirstChild();
-
-		include_once("./Services/Skill/classes/class.ilSkillTree.php");
-		$tree = new ilSkillTree();
-
-		if (!$first_child)	// insert after node id
-		{
-			$parent_id = $tree->getParentId($node_id);
-			$target = $node_id;
-		}
-		else				// insert as first child
-		{
-			$parent_id = $node_id;
-			$target = IL_FIRST_NODE;
-		}
-
-		// cut and paste
-		$scats = $ilUser->getClipboardObjects("scat"); // this will get all categories _regardless_ of level
-		$copied_nodes = array();
-		foreach ($scats as $scat)
-		{
-			// if category was already copied as part of tree - do not copy it again
-			if(!in_array($scat["id"], array_keys($copied_nodes)))
-			{
-				$cid = ilSkillTreeNode::pasteTree($scat["id"], $parent_id, $target,
-					$scat["insert_time"], $copied_nodes,
-					(ilEditClipboard::getAction() == "copy"), true);
-				$target = $cid;
-			}
-		}
-
-		if (ilEditClipboard::getAction() == "cut")
-		{
-			$ilUser->clipboardDeleteObjectsOfType("skll");
-			$ilUser->clipboardDeleteObjectsOfType("scat");
-			ilEditClipboard::clear();
-		}
-
-		return $copied_nodes;
+		ilEditClipboard::clear();
 	}
-
+	
+	
 	/**
 	 * Paste item (tree) from clipboard to skill tree
 	 */
@@ -598,6 +553,21 @@ class ilSkillTreeNode
 		{
 			include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 			$item = new ilBasicSkill($a_item_id);
+		}
+		else if ($item_type == "sktr")
+		{
+			include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
+			$item = new ilSkillTemplateReference($a_item_id);
+		}
+		else if ($item_type == "sktp")
+		{
+			include_once("./Services/Skill/classes/class.ilBasicSkillTemplate.php");
+			$item = new ilBasicSkillTemplate($a_item_id);
+		}
+		else if ($item_type == "sctp")
+		{
+			include_once("./Services/Skill/classes/class.ilSkillTemplateCategory.php");
+			$item = new ilSkillTemplateCategory($a_item_id);
 		}
 
 		$ilLog->write("Getting from clipboard type ".$item_type.", ".

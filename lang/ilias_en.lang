@@ -12100,6 +12100,9 @@ skmg#:#skmg_items#:#Items
 skmg#:#skmg_create_sctp#:#Create Template Category
 skmg#:#skmg_edit_sctp#:#Edit Skill Template Category
 skmg#:#skmg_sctp#:#Skill Template Category
+skmg#:#skmg_insert_skill_template_from_clip#:#Insert Skill Template from Clipboard
+skmg#:#skmg_insert_template_category_from_clip#:#Insert Template Category from Clipboard
+skmg#:#skmg_insert_please_choose_one_type_only#:#Please choose only one type of items.
 prtf#:#prtf_public_comments#:#Public Comments
 prtf#:#prtf_copy_page#:#Copy Page(s)
 prtf#:#prtf_existing_portfolio#:#Existing Portfolio

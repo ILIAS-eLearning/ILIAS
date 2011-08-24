@@ -34,7 +34,18 @@ class ilBasicSkillTemplate extends ilBasicSkill
 		$skill = new ilBasicSkillTemplate();
 		$skill->setTitle($this->getTitle());
 		$skill->setType($this->getType());
+		$skill->setOrderNr($this->getOrderNr());
 		$skill->create();
+
+		$levels = $this->getLevelData();
+		if (sizeof($levels))
+		{
+			foreach($levels as $item)
+			{
+				$skill->addLevel($item["title"], $item["description"]);
+			}
+		}
+		$skill->update();
 
 		return $skill;
 	}
