@@ -180,7 +180,7 @@ class ilObjBlogGUI extends ilObject2GUI
 
 				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$bpost_gui = new ilBlogPostingGUI($this->node_id, $this->getAccessHandler(),
-					$_GET["page"], $_GET["old_nr"], $this->object->getNotesStatus());
+					$_GET["page"], $_GET["old_nr"], $this->object->getNotesStatus() && !$this->disable_notes);
 				
 				if (!$this->checkPermissionBool("write"))
 				{
@@ -385,7 +385,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		$list = $nav = "";		
 		if($this->items[$this->month])
 		{						
-			$list = $this->renderList($this->items[$this->month], $this->month);
+			$list = $this->renderList($this->items[$this->month], $this->month, "render");
 			$nav = $this->renderNavigation($this->items);		
 		}
 					
@@ -773,7 +773,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		}
 		
 		// notes
-		if($a_cmd != "previewEmbedded")
+		if($a_cmd != "previewEmbedded" && $a_cmd != "render" && $this->object->getNotesStatus())
 		{
 			$wtpl->setVariable("NOTES", $this->getNotesHTML());
 		}
@@ -972,7 +972,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		foreach(array_keys($this->items) as $month)
 		{									
 			$file = $this->buildExportLink($a_link_template, "list", $month);
-			$list = $this->renderList($this->items[$month], $month, "", $a_link_template);			
+			$list = $this->renderList($this->items[$month], $month, "render", $a_link_template);			
 			
 			if(!$a_tpl_callback)
 			{
@@ -1168,6 +1168,21 @@ class ilObjBlogGUI extends ilObject2GUI
 		ilUtil::sendSuccess($lng->txt("blog_finalized"), true);
 		$ilCtrl->redirect($this, "render");
 	}
+	
+	
+	function getNotesSubId()
+	{
+		if($_REQUEST["page"])
+		{
+			return $_REQUEST["page"];
+		}
+		return 0;
+	}
+	
+	function disableNotes($a_value = false)
+	{
+		$this->disable_notes = (bool)$a_value;
+	}
 
 	/**
 	 * Deep link
@@ -1186,16 +1201,6 @@ class ilObjBlogGUI extends ilObject2GUI
 		}
 		include("ilias.php");
 		exit;
-	}
-	
-	
-	function getNotesSubId()
-	{
-		if($_REQUEST["page"])
-		{
-			return $_REQUEST["page"];
-		}
-		return 0;
 	}
 }
 

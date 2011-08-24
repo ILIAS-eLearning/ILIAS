@@ -113,8 +113,8 @@ class ilObjPortfolioGUI
 				
 				include_once("Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
 				$page_gui = new ilPortfolioPageGUI($this->portfolio->getId(),
-					$page_id);
-
+					$page_id, 0, $this->portfolio->hasPublicComments());
+				
 				$tpl->setCurrentBlock("ContentStyle");
 				$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath(0));
@@ -294,6 +294,7 @@ class ilObjPortfolioGUI
 			$this->portfolio->setTitle($form->getInput("title"));
 			$this->portfolio->setDescription($form->getInput("desc"));
 			$this->portfolio->setOnline($form->getInput("online"));
+			$this->portfolio->setPublicComments($form->getInput("comments"));
 			$this->portfolio->setBackgroundColor($form->getInput("bg_color"));
 			$this->portfolio->setFontcolor($form->getInput("font_color"));
 			
@@ -408,6 +409,10 @@ class ilObjPortfolioGUI
 			$online = new ilCheckboxInputGUI($lng->txt("online"), "online");
 			$form->addItem($online);
 			
+			// comments
+			$comments = new ilCheckboxInputGUI($lng->txt("prtf_public_comments"), "comments");
+			$form->addItem($comments);
+			
 			$prfa_set = new ilSetting("prfa");
 			if($prfa_set->get("banner"))
 			{
@@ -431,6 +436,7 @@ class ilObjPortfolioGUI
 			$ti->setValue($this->portfolio->getTitle());
 			// $ta->setValue($this->portfolio->getDescription());
 			$online->setChecked($this->portfolio->isOnline());
+			$comments->setChecked($this->portfolio->hasPublicComments());
 			$bg_color->setValue($this->portfolio->getBackgroundColor());
 			$font_color->setValue($this->portfolio->getFontColor());
 		
@@ -1135,7 +1141,7 @@ class ilObjPortfolioGUI
 		}
 		
 		$notes = "";
-		if($a_show_notes)
+		if($a_show_notes && $this->portfolio->hasPublicComments())
 		{			
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
 						
@@ -1151,7 +1157,7 @@ class ilObjPortfolioGUI
 			}
 			
 			$note_gui->enablePublicNotes(true);
-			$note_gui->enablePrivateNotes(true);
+			$note_gui->enablePrivateNotes(false);
 			$note_gui->enablePublicNotesDeletion($ilUser->getId() == $user_id);
 						
 			$next_class = $ilCtrl->getNextClass($this);

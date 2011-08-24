@@ -14,6 +14,7 @@ require_once "Services/Object/classes/class.ilObject2.php";
 class ilObjPortfolio extends ilObject2
 {
 	protected $online; // [bool]
+	protected $comments; // [bool]
 	protected $default; // [bool]
 	protected $bg_color; // [string]
 	protected $font_color; // [string]
@@ -25,7 +26,7 @@ class ilObjPortfolio extends ilObject2
 	}
 
 	/**
-	 * Set online
+	 * Set online status
 	 *
 	 * @param bool $a_value
 	 */
@@ -42,6 +43,26 @@ class ilObjPortfolio extends ilObject2
 	function isOnline()
 	{
 		return $this->online;
+	}
+	
+	/**
+	 * Set public comments status
+	 *
+	 * @param bool $a_value
+	 */
+	function setPublicComments($a_value)
+	{
+		$this->comments = (bool)$a_value;
+	}
+
+	/**
+	 * Active public comments?
+	 *
+	 * @return bool
+	 */
+	function hasPublicComments()
+	{
+		return $this->comments;
 	}
 
 	/**
@@ -141,6 +162,7 @@ class ilObjPortfolio extends ilObject2
 				" WHERE id = ".$ilDB->quote($this->id, "integer"));
 		$row = $ilDB->fetchAssoc($set);
 		$this->setOnline((bool)$row["is_online"]);
+		$this->setPublicComments((bool)$row["comments"]);
 		$this->setDefault((bool)$row["is_default"]);		
 		$this->setBackgroundColor($row["bg_color"]);
 		$this->setFontColor($row["font_color"]);
@@ -169,6 +191,7 @@ class ilObjPortfolio extends ilObject2
 		
 		$ilDB->manipulate("UPDATE usr_portfolio SET".
 			" is_online = ".$ilDB->quote($this->isOnline(), "integer").
+			",comments = ".$ilDB->quote($this->hasPublicComments(), "integer").
 			",is_default = ".$ilDB->quote($this->isDefault(), "integer").
 			",bg_color = ".$ilDB->quote($this->getBackgroundColor(), "text").
 			",font_color = ".$ilDB->quote($this->getFontcolor(), "text").

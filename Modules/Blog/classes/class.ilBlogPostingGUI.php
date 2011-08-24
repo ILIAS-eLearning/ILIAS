@@ -184,7 +184,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
 		// notes
 		$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getBlogPosting(),
-			true, $this->enable_public_notes, $this->checkAccess("write")));
+			false, $this->enable_public_notes, $this->checkAccess("write")));
 
 		// permanent link
 		$append = ($_GET["page"] != "")

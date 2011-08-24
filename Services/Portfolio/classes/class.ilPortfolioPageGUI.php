@@ -20,11 +20,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_portfolio_id, $a_id = 0, $a_old_nr = 0)
+	function __construct($a_portfolio_id, $a_id = 0, $a_old_nr = 0, $a_enable_comments = true)
 	{
 		global $tpl, $ilSetting;
 
 		$this->portfolio_id = (int)$a_portfolio_id;
+		$this->enable_comments = (bool)$a_enable_comments;
 		
 		parent::__construct("prtf", $a_id, $a_old_nr);
 		
@@ -81,6 +82,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
 				$blog_gui = new ilObjBlogGUI((int)$this->getPageObject()->getTitle(),
 					ilObjBlogGUI::WORKSPACE_OBJECT_ID);
+				$blog_gui->disableNotes(!$this->enable_comments);
 				return $ilCtrl->forwardCommand($blog_gui);
 				
 			case "ilpageobjectgui":
