@@ -12101,3 +12101,6 @@ skmg#:#skmg_create_sctp#:#Create Template Category
 skmg#:#skmg_edit_sctp#:#Edit Skill Template Category
 skmg#:#skmg_sctp#:#Skill Template Category
 prtf#:#prtf_public_comments#:#Public Comments
+prtf#:#prtf_copy_page#:#Copy Page(s)
+prtf#:#prtf_existing_portfolio#:#Existing Portfolio
+prtf#:#prtf_new_portfolio#:#New Portfolio 
