@@ -219,7 +219,7 @@ function IliasCommit() {
 	}
 	a_toStore=[];
 	try {
-		var ret=sendRequest ("./Modules/ScormAICC/sahs_server.php?cmd=storeJsApi&ref_id="+iv.refId, s_s);
+		var ret=sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=storeJsApi&ref_id="+iv.refId, s_s);
 		return true;
 	} catch (e) {
 		warning("Ilias cmi storage failed.");
