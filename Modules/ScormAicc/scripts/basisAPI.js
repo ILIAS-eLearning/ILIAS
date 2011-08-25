@@ -159,13 +159,14 @@ function IliasLaunch(i_l){
 		status4tree(iv.launchId,getValueIntern(iv.launchId,'cmi.core.lesson_status'),getValueIntern(iv.launchId,'cmi.core.total_time'));
 		b_launched=false;
 		frames.sahs_content.document.location.replace('./Modules/ScormAicc/templates/default/dummy.html');
-		setTimeout("API.IliasAbortSco("+iv.launchId+")",3000);
+		setTimeout("API.IliasAbortSco("+iv.launchId+")",5000);
 	}
 	iv.launchId=i_l;
 	status4tree(iv.launchId,'running');
 }
 
-function IliasLaunchAfterFinish(){
+function IliasLaunchAfterFinish(i_la){
+	status4tree(i_la,getValueIntern(i_la,'cmi.core.lesson_status'),getValueIntern(i_la,'cmi.core.total_time'));
 	if(b_launched==false) setTimeout("API.IliasLaunch("+iv.launchId+")",1);
 	else launchNext();
 }
