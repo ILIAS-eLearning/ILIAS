@@ -79,17 +79,19 @@ class ilPersonalSkill
 	 *
 	 * @param int $a_user_id user id
 	 * @param int $a_top_skill the "selectable" top skill
+	 * @param int $a_tref_id template reference id
 	 * @param int $a_basic_skill the basic skill the level belongs to
 	 * @param int $a_level level id
 	 * @param int $a_wsp_id workspace object
 	 */
-	static function assignMaterial($a_user_id, $a_top_skill, $a_basic_skill, $a_level, $a_wsp_id)
+	static function assignMaterial($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill, $a_level, $a_wsp_id)
 	{
 		global $ilDB;
 		
 		$set = $ilDB->query("SELECT * FROM skl_assigned_material ".
 			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
 			" AND top_skill_id = ".$ilDB->quote($a_top_skill, "integer").
+			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
 			" AND skill_id = ".$ilDB->quote($a_basic_skill, "integer").
 			" AND level_id = ".$ilDB->quote($a_level, "integer").
 			" AND wsp_id = ".$ilDB->quote($a_wsp_id, "integer")
@@ -97,9 +99,10 @@ class ilPersonalSkill
 		if (!$ilDB->fetchAssoc($set))
 		{
 			$ilDB->manipulate("INSERT INTO skl_assigned_material ".
-				"(user_id, top_skill_id, skill_id, level_id, wsp_id) VALUES (".
+				"(user_id, top_skill_id, tref_id, skill_id, level_id, wsp_id) VALUES (".
 				$ilDB->quote($a_user_id, "integer").",".
 				$ilDB->quote($a_top_skill, "integer").",".
+				$ilDB->quote((int) $a_tref_id, "integer").",".
 				$ilDB->quote($a_basic_skill, "integer").",".
 				$ilDB->quote($a_level, "integer").",".
 				$ilDB->quote($a_wsp_id, "integer").
@@ -111,14 +114,16 @@ class ilPersonalSkill
 	 * Get assigned material (for a skill level and user)
 	 *
 	 * @param int $a_user_id user id
+	 * @param int $a_tref_id template reference id
 	 * @param int $a_level level id
 	 */
-	static function getAssignedMaterial($a_user_id, $a_level)
+	static function getAssignedMaterial($a_user_id, $a_tref_id, $a_level)
 	{
 		global $ilDB;
 		
 		$set = $ilDB->query("SELECT * FROM skl_assigned_material ".
 			" WHERE level_id = ".$ilDB->quote($a_level, "integer").
+			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
 			);
 		$mat = array();
@@ -130,21 +135,42 @@ class ilPersonalSkill
 	}
 	
 	/**
+	 * Get assigned material (for a skill level and user)
+	 *
+	 * @param int $a_user_id user id
+	 * @param int $a_tref_id template reference id
+	 * @param int $a_level level id
+	 */
+	static function countAssignedMaterial($a_user_id, $a_tref_id, $a_level)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT count(*) as cnt FROM skl_assigned_material ".
+			" WHERE level_id = ".$ilDB->quote($a_level, "integer").
+			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
+			);
+		$rec = $ilDB->fetchAssoc($set);
+		return $rec["cnt"];
+	}
+	
+	/**
 	 * Remove material
 	 *
 	 * @param
 	 * @return
 	 */
-	static function removeMaterial($a_user_id, $a_level_id, $a_wsp_id)
+	static function removeMaterial($a_user_id, $a_tref_id, $a_level_id, $a_wsp_id)
 	{
 		global $ilDB;
 		
-		$ilDB->manipulate("DELETE FROM skl_assigned_material WHERE ".
+		$t = "DELETE FROM skl_assigned_material WHERE ".
 			" user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND tref_id = ".$ilDB->quote((int) $a_tref_id, "integer").
 			" AND level_id = ".$ilDB->quote($a_level_id, "integer").
-			" AND wsp_id = ".$ilDB->quote($a_wsp_id, "integer")
-			);
-		
+			" AND wsp_id = ".$ilDB->quote($a_wsp_id, "integer");
+
+		$ilDB->manipulate($t);
 	}
 	
 }

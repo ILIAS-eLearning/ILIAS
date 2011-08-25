@@ -31,6 +31,7 @@ class ilPersonalSkillsGUI
 		$lng->loadLanguageModule('skmg');
 		
 		$ilCtrl->saveParameter($this, "skill_id");
+		$ilCtrl->saveParameter($this, "tref_id");
 
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->skill_tree = new ilSkillTree();
@@ -186,7 +187,13 @@ class ilPersonalSkillsGUI
 
 				// self evaluation
 				$tpl->setCurrentBlock("material_td");
-				$tpl->setVariable("VAL_MATERIAL", "3");
+				$mat_cnt = ilPersonalSkill::countAssignedMaterial($ilUser->getId(),
+					$bs["tref"], $v["id"]);
+				if ($mat_cnt == 0)
+				{
+					$mat_cnt = " ";
+				}
+				$tpl->setVariable("VAL_MATERIAL", $mat_cnt);
 				$tpl->parseCurrentBlock();
 			}
 			
@@ -212,6 +219,7 @@ class ilPersonalSkillsGUI
 				$act_list->flush();
 				$act_list->setId("act_".$a_top_skill_id."_".$bs["id"]);
 				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "skill_id", $a_top_skill_id);
+				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "tref_id", $bs["tref"]);
 				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "basic_skill_id", $bs["id"]);
 				$act_list->addItem($lng->txt('skmg_assign_materials'), "",
 					$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "assignMaterials"), "", $lng->txt('skmg_assign_materials'));
@@ -322,6 +330,7 @@ class ilPersonalSkillsGUI
 		
 		$ilCtrl->saveParameter($this, "skill_id");
 		$ilCtrl->saveParameter($this, "basic_skill_id");
+		$ilCtrl->saveParameter($this, "tref_id");
 		
 		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
 		$tpl->setTitle(ilSkillTreeNode::_lookupTitle((int) $_GET["skill_id"]));
@@ -359,7 +368,7 @@ class ilPersonalSkillsGUI
 		// table
 		include_once("./Services/Skill/classes/class.ilSkillAssignMaterialsTableGUI.php");
 		$tab = new ilSkillAssignMaterialsTableGUI($this, "assignMaterials",
-			(int) $_GET["skill_id"], $cur_basic_skill_id);
+			(int) $_GET["skill_id"], (int) $_GET["tref_id"], $cur_basic_skill_id);
 		
 		$tpl->setContent($tab->getHTML());
 		
@@ -378,6 +387,7 @@ class ilPersonalSkillsGUI
 		
 		$ilCtrl->saveParameter($this, "skill_id");
 		$ilCtrl->saveParameter($this, "level_id");
+		$ilCtrl->saveParameter($this, "tref_id");
 		$ilCtrl->saveParameter($this, "basic_skill_id");
 		
 		$ilTabs->setBackTarget($lng->txt("back"),
@@ -449,6 +459,7 @@ class ilPersonalSkillsGUI
 			foreach ($_POST["wsp_id"] as $w)
 			{
 				ilPersonalSkill::assignMaterial($ilUser->getId(), (int) $_GET["skill_id"],
+					(int) $_GET["tref_id"],
 					(int) $_GET["basic_skill_id"], (int) $_GET["level_id"], (int) $w);
 			}
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -456,6 +467,7 @@ class ilPersonalSkillsGUI
 		
 		$ilCtrl->saveParameter($this, "skill_id");
 		$ilCtrl->saveParameter($this, "level_id");
+		$ilCtrl->saveParameter($this, "tref_id");
 		$ilCtrl->saveParameter($this, "basic_skill_id");
 		
 		$ilCtrl->redirect($this, "assignMaterials");
@@ -469,7 +481,8 @@ class ilPersonalSkillsGUI
 	{
 		global $ilUser, $lng, $ilCtrl;
 		
-		ilPersonalSkill::removeMaterial($ilUser->getId(), (int) $_GET["level_id"],
+		ilPersonalSkill::removeMaterial($ilUser->getId(), (int) $_GET["tref_id"],
+			(int) $_GET["level_id"],
 			(int) $_GET["wsp_id"]);
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "assignMaterials");
