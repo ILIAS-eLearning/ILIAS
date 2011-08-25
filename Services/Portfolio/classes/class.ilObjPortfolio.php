@@ -19,6 +19,7 @@ class ilObjPortfolio extends ilObject2
 	protected $bg_color; // [string]
 	protected $font_color; // [string]
 	protected $img; // [string]
+	protected $ppic; // [string]
 
 	function initType()
 	{
@@ -63,6 +64,26 @@ class ilObjPortfolio extends ilObject2
 	function hasPublicComments()
 	{
 		return $this->comments;
+	}
+	
+	/**
+	 * Get profile picture status
+	 * 
+	 * @return bool
+	 */
+	function hasProfilePicture()
+	{
+		return $this->ppic;
+	}
+
+	/**
+	 * Toggle profile picture status
+	 *
+	 * @param bool $a_status
+	 */
+	function setProfilePicture($a_status)
+	{
+		$this->ppic = (bool)$a_status;
 	}
 
 	/**
@@ -163,6 +184,7 @@ class ilObjPortfolio extends ilObject2
 		$row = $ilDB->fetchAssoc($set);
 		$this->setOnline((bool)$row["is_online"]);
 		$this->setPublicComments((bool)$row["comments"]);
+		$this->setProfilePicture((bool)$row["ppic"]);
 		$this->setDefault((bool)$row["is_default"]);		
 		$this->setBackgroundColor($row["bg_color"]);
 		$this->setFontColor($row["font_color"]);
@@ -192,6 +214,7 @@ class ilObjPortfolio extends ilObject2
 		$ilDB->manipulate("UPDATE usr_portfolio SET".
 			" is_online = ".$ilDB->quote($this->isOnline(), "integer").
 			",comments = ".$ilDB->quote($this->hasPublicComments(), "integer").
+			",ppic = ".$ilDB->quote($this->hasProfilePicture(), "integer").
 			",is_default = ".$ilDB->quote($this->isDefault(), "integer").
 			",bg_color = ".$ilDB->quote($this->getBackgroundColor(), "text").
 			",font_color = ".$ilDB->quote($this->getFontcolor(), "text").

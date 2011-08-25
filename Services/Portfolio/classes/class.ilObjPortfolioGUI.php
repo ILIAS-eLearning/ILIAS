@@ -295,6 +295,7 @@ class ilObjPortfolioGUI
 			$this->portfolio->setDescription($form->getInput("desc"));
 			$this->portfolio->setOnline($form->getInput("online"));
 			$this->portfolio->setPublicComments($form->getInput("comments"));
+			$this->portfolio->setProfilePicture($form->getInput("ppic"));
 			$this->portfolio->setBackgroundColor($form->getInput("bg_color"));
 			$this->portfolio->setFontcolor($form->getInput("font_color"));
 			
@@ -413,6 +414,10 @@ class ilObjPortfolioGUI
 			$comments = new ilCheckboxInputGUI($lng->txt("prtf_public_comments"), "comments");
 			$form->addItem($comments);
 			
+			// profile picture
+			$ppic = new ilCheckboxInputGUI($lng->txt("prtf_profile_picture"), "ppic");
+			$form->addItem($ppic);
+			
 			$prfa_set = new ilSetting("prfa");
 			if($prfa_set->get("banner"))
 			{
@@ -437,6 +442,7 @@ class ilObjPortfolioGUI
 			// $ta->setValue($this->portfolio->getDescription());
 			$online->setChecked($this->portfolio->isOnline());
 			$comments->setChecked($this->portfolio->hasPublicComments());
+			$ppic->setChecked($this->portfolio->hasProfilePicture());
 			$bg_color->setValue($this->portfolio->getBackgroundColor());
 			$font_color->setValue($this->portfolio->getFontColor());
 		
@@ -1193,10 +1199,17 @@ class ilObjPortfolioGUI
 			$banner = $this->portfolio->getImageFullPath();
 		}
 		
+		// profile picture
+		$ppic = null;
+		if($this->portfolio->hasProfilePicture())
+		{
+			$ppic = ilObjUser::_getPersonalPicturePath($user_id, "big");
+		}
+		
 		include_once("./Services/User/classes/class.ilUserUtil.php");
 		$tpl->setFullscreenHeader($this->portfolio->getTitle(), 
 			$name, 	
-			ilObjUser::_getPersonalPicturePath($user_id, "big"),
+			$ppic,
 			$banner,
 			$this->portfolio->getBackgroundColor(),
 			$this->portfolio->getFontColor());

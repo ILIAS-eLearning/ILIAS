@@ -7447,3 +7447,33 @@ if(!$ilDB->tableExists('usr_account_codes'))
 
 	$ilDB->addPrimaryKey('didactic_tpl_abr',array('action_id'));
 ?>
+<#3438>
+<?php
+	if(!$ilDB->tableColumnExists('il_blog','ppic'))
+	{
+		$ilDB->addTableColumn(
+			'il_blog',
+			'ppic',
+			array(
+				'type'	=> 'integer',
+				'length'=> 1,
+				'notnull' => false
+			)
+		);
+	}
+?>
+<#3439>
+<?php
+	if(!$ilDB->tableColumnExists('usr_portfolio','ppic'))
+	{
+		$ilDB->addTableColumn(
+			'usr_portfolio',
+			'ppic',
+			array(
+				'type'	=> 'integer',
+				'length'=> 1,
+				'notnull' => false
+			)
+		);
+	}
+?>

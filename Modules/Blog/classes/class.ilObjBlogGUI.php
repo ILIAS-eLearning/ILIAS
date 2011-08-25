@@ -72,6 +72,9 @@ class ilObjBlogGUI extends ilObject2GUI
 		$notes = new ilCheckboxInputGUI($lng->txt("blog_enable_notes"), "notes");
 		$a_form->addItem($notes);
 		
+		$ppic = new ilCheckboxInputGUI($lng->txt("blog_profile_picture"), "ppic");
+		$a_form->addItem($ppic);
+		
 		$blga_set = new ilSetting("blga");
 		if($blga_set->get("banner"))
 		{		
@@ -96,6 +99,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	protected function getEditFormCustomValues(array &$a_values)
 	{
 		$a_values["notes"] = $this->object->getNotesStatus();
+		$a_values["ppic"] = $this->object->hasProfilePicture();
 		$a_values["bg_color"] = $this->object->getBackgroundColor();
 		$a_values["font_color"] = $this->object->getFontColor();
 		$a_values["banner"] = $this->object->getImage();
@@ -104,6 +108,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
 		$this->object->setNotesStatus($a_form->getInput("notes"));
+		$this->object->setProfilePicture($a_form->getInput("ppic"));
 		$this->object->setBackgroundColor($a_form->getInput("bg_color"));
 		$this->object->setFontColor($a_form->getInput("font_color"));
 		
@@ -650,10 +655,16 @@ class ilObjBlogGUI extends ilObject2GUI
 			$banner = $this->object->getImageFullPath();
 		}
 		
+		$ppic = null;
+		if($this->object->hasProfilePicture())
+		{
+			$ppic = ilObjUser::_getPersonalPicturePath($owner, "big");
+		}
+		
 		include_once("./Services/User/classes/class.ilUserUtil.php");
 		$tpl->setFullscreenHeader($this->object->getTitle(), 
 			$name, 	
-			ilObjUser::_getPersonalPicturePath($owner, "big"),
+			$ppic,
 			$banner,
 			$this->object->getBackgroundColor(),
 			$this->object->getFontColor());
