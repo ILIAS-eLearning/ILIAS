@@ -3090,8 +3090,9 @@ else
 		include_once("./Services/User/classes/class.ilUserProfile.php");
 		$up = new ilUserProfile();
 		$up->skipField("username");
-		$profile_fields = array_keys($up->getStandardFields());
-		
+		$field_properties = $up->getStandardFields();
+		$profile_fields = array_keys($field_properties);
+				
 		$valid = true;
 		foreach ($profile_fields as $field)
 		{
@@ -3156,8 +3157,8 @@ else
 			{
 				ilUserSearchOptions::_saveStatus($field,(bool) $_POST['chb']['searchable_'.$field]);
 			}
-
-			if (! $_POST["chb"]["visible_".$field])
+		
+			if (!$_POST["chb"]["visible_".$field] && !$field_properties[$field]["visible_hide"])
 			{
 				$ilias->setSetting("usr_settings_hide_".$field, "1");
 			}
@@ -3166,7 +3167,7 @@ else
 				$ilias->deleteSetting("usr_settings_hide_".$field);
 			}
 
-			if (! $_POST["chb"]["changeable_" . $field])
+			if (!$_POST["chb"]["changeable_" . $field] && !$field_properties[$field]["changeable_hide"])
 			{
 				$ilias->setSetting("usr_settings_disable_".$field, "1");
 			}
@@ -3176,7 +3177,7 @@ else
 			}
 
 			// registration visible			
-			if ((int)$_POST['chb']['visib_reg_' . $field])
+			if ((int)$_POST['chb']['visib_reg_' . $field] && !$field_properties[$field]["visib_reg_hide"])
 			{
 				$ilSetting->set('usr_settings_visib_reg_'.$field, '1');
 			}
@@ -3205,7 +3206,7 @@ else
 				$ilSetting->set('usr_settings_changeable_lua_'.$field, '0');
 			}
 
-			if ($_POST["chb"]["export_" . $field])
+			if ($_POST["chb"]["export_" . $field] && !$field_properties[$field]["export_hide"])
 			{
 				$ilias->setSetting("usr_settings_export_".$field, "1");
 			}
@@ -3215,7 +3216,7 @@ else
 			}
 			
 			// Course export/visibility
-			if ($_POST["chb"]["course_export_" . $field])
+			if ($_POST["chb"]["course_export_" . $field] && !$field_properties[$field]["course_export_hide"])
 			{
 				$ilias->setSetting("usr_settings_course_export_".$field, "1");
 			}
@@ -3223,8 +3224,9 @@ else
 			{
 				$ilias->deleteSetting("usr_settings_course_export_".$field);
 			}
+			
 			// Group export/visibility
-			if ($_POST["chb"]["group_export_" . $field])
+			if ($_POST["chb"]["group_export_" . $field] && !$field_properties[$field]["group_export_hide"])
 			{
 				$ilias->setSetting("usr_settings_group_export_".$field, "1");
 			}
