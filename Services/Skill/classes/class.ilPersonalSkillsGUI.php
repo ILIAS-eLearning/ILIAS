@@ -164,10 +164,28 @@ class ilPersonalSkillsGUI
 		$b_skills = ilSkillTreeNode::getSkillTreeNodes($a_top_skill_id, true);
 		foreach ($b_skills as $bs)
 		{
+			$se_level = ilPersonalSkill::getSelfEvaluation($ilUser->getId(),
+				$a_top_skill_id, $bs["tref"], $bs["id"]);
+			
 			$skill = ilSkillTreeNodeFactory::getInstance($bs["id"]);
-			foreach ($skill->getLevelData() as $k => $v)
+			$level_data = $skill->getLevelData();
+			
+			// check, if current self eval level is in current level data
+			$valid_sel_level = false;
+			if ($se_level > 0)
 			{
-
+				foreach ($level_data as $k => $v)
+				{
+					if ($v["id"] == $se_level)
+					{
+						$valid_sel_level = true;
+					}
+				}
+			}
+			reset($level_data);
+			$found = false;
+			foreach ($level_data as $k => $v)
+			{
 				// level
 				$tpl->setCurrentBlock("level_td");
 				$tpl->setVariable("VAL_LEVEL", $v["title"]);
@@ -182,8 +200,20 @@ class ilPersonalSkillsGUI
 				
 				// self evaluation
 				$tpl->setCurrentBlock("self_eval_td");
-				$tpl->setVariable("VAL_SELF_EVAL", "x");
+				if ($valid_sel_level && !$found)
+				{
+					$tpl->setVariable("VAL_SELF_EVAL", "x");
+					$tpl->setVariable("CLASS_SELF_EVAL", "ilSkillSelf");
+				}
+				else
+				{
+					$tpl->setVariable("VAL_SELF_EVAL", " ");
+				}
 				$tpl->parseCurrentBlock();
+				if ($v["id"] == $se_level)
+				{
+					$found = true;
+				}
 
 				// self evaluation
 				$tpl->setCurrentBlock("material_td");
@@ -192,6 +222,10 @@ class ilPersonalSkillsGUI
 				if ($mat_cnt == 0)
 				{
 					$mat_cnt = " ";
+				}
+				else
+				{
+					$tpl->setVariable("CLASS_MAT", "ilSkillMat");
 				}
 				$tpl->setVariable("VAL_MATERIAL", $mat_cnt);
 				$tpl->parseCurrentBlock();
@@ -222,7 +256,9 @@ class ilPersonalSkillsGUI
 				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "tref_id", $bs["tref"]);
 				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "basic_skill_id", $bs["id"]);
 				$act_list->addItem($lng->txt('skmg_assign_materials'), "",
-					$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "assignMaterials"), "", $lng->txt('skmg_assign_materials'));
+					$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "assignMaterials"));
+				$act_list->addItem($lng->txt('skmg_self_evaluation'), "",
+					$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "selfEvaluation"));
 				$tpl->setVariable("ACTIONS2", $act_list->getHTML());
 			}
 
@@ -237,8 +273,8 @@ class ilPersonalSkillsGUI
 			$act_list->flush();
 			$act_list->setId("act_".$a_top_skill_id);
 			$ilCtrl->setParameterByClass("ilpersonalskillsgui", "skill_id", $a_top_skill_id);
-			$act_list->addItem($lng->txt('skmg_assign_materials'), "",
-				$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "assignMaterials"));
+//			$act_list->addItem($lng->txt('skmg_assign_materials'), "",
+//				$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "assignMaterials"));
 			$act_list->addItem($lng->txt('skmg_remove_skill'), "",
 				$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "confirmSkillRemove"));
 			$tpl->setVariable("ACTIONS1", $act_list->getHTML());
@@ -314,6 +350,11 @@ class ilPersonalSkillsGUI
 		ilUtil::sendSuccess($lng->txt("msg_object_modified"));
 		$ilCtrl->redirect($this, "listSkills");
 	}
+	
+	
+	//
+	// Materials assignments
+	//
 	
 	/**
 	 * Assign materials to skill levels
@@ -486,6 +527,90 @@ class ilPersonalSkillsGUI
 			(int) $_GET["wsp_id"]);
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "assignMaterials");
+	}
+	
+	
+	//
+	// Self evaluation
+	//
+	
+	/**
+	 * Assign materials to skill levels
+	 *
+	 * @param
+	 * @return
+	 */
+	function selfEvaluation()
+	{
+		global $ilTabs, $lng, $ilCtrl, $tpl, $ilToolbar;
+		
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "listSkills"));
+		
+		$ilCtrl->saveParameter($this, "skill_id");
+		$ilCtrl->saveParameter($this, "basic_skill_id");
+		$ilCtrl->saveParameter($this, "tref_id");
+		
+		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+		$tpl->setTitle(ilSkillTreeNode::_lookupTitle((int) $_GET["skill_id"]));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_".
+			ilSkillTreeNode::_lookupType((int) $_GET["skill_id"]).
+			"_b.gif"));
+		 
+		// basic skill selection
+// here basic skill id??
+		$bs = ilSkillTreeNode::getSkillTreeNodes((int) $_GET["skill_id"], true);
+		$options = array();
+		foreach ($bs as $b)
+		{
+			$options[$b["id"]] = ilSkillTreeNode::_lookupTitle($b["id"]);
+		}
+		
+		$cur_basic_skill_id = ((int) $_POST["basic_skill_id"] > 0)
+			? (int) $_POST["basic_skill_id"]
+			: (((int) $_GET["basic_skill_id"] > 0)
+				? (int) $_GET["basic_skill_id"]
+				: key($options));
+
+		$ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
+			
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$si = new ilSelectInputGUI($lng->txt("skmg_skill"), "basic_skill_id");
+		$si->setOptions($options);
+		$si->setValue($cur_basic_skill_id);
+		$ilToolbar->addInputItem($si, true);
+		$ilToolbar->addFormButton($lng->txt("select"),
+			"selfEvaluation");
+		
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		
+		// table
+		include_once("./Services/Skill/classes/class.ilSelfEvaluationSimpleTableGUI.php");
+		$tab = new ilSelfEvaluationSimpleTableGUI($this, "selfEvaluation",
+			(int) $_GET["skill_id"], (int) $_GET["tref_id"], $cur_basic_skill_id);
+		
+		$tpl->setContent($tab->getHTML());
+		
+	}
+
+	/**
+	 * Save self evaluation
+	 */
+	function saveSelfEvaluation()
+	{
+		global $ilUser, $lng, $ilCtrl;
+		
+		ilPersonalSkill::saveSelfEvaluation($ilUser->getId(), (int) $_GET["skill_id"],
+			(int) $_GET["tref_id"], (int) $_GET["basic_skill_id"], (int) $_POST["se"]);
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		
+/*		$ilCtrl->saveParameter($this, "skill_id");
+		$ilCtrl->saveParameter($this, "level_id");
+		$ilCtrl->saveParameter($this, "tref_id");
+		$ilCtrl->saveParameter($this, "basic_skill_id");*/
+		
+		$ilCtrl->redirect($this, "listSkills");
+
 	}
 	
 }
