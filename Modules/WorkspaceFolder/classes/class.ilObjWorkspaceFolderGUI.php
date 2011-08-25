@@ -562,6 +562,21 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		
 		$this->share();
 	}
+
+	/**
+	 * Deep link
+	 * 
+	 * @param string $a_target 
+	 */
+	function _goto($a_target)
+	{
+		$id = explode("_", $a_target);
+		
+		$_GET["baseClass"] = "ilsharedresourceGUI";	
+		$_GET["wsp_id"] = $id[0];		
+		include("ilias.php");
+		exit;
+	}
 }
 
 ?>

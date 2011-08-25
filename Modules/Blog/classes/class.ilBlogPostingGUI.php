@@ -75,7 +75,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $ilTabs;
+		global $ilCtrl, $ilTabs, $ilLocator, $tpl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -114,6 +114,13 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 				if($posting)
 				{
 					$this->setPresentationTitle($posting->getTitle());
+					
+					$tpl->setTitle(ilObject::_lookupTitle($this->getBlogPosting()->getBlogId())." - ".
+						$posting->getTitle());
+
+					$ilCtrl->setParameter($this, "page", $posting->getId());
+					$ilLocator->addItem($posting->getTitle(),
+						$ilCtrl->getLinkTarget($this, "preview"));			
 				}
 				return parent::executeCommand();
 		}
@@ -164,7 +171,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		
 		// page commands		 
 		if(!$a_mode)
-		{
+		{		
 			// delete
 			$page_commands = false;
 			if ($this->checkAccess("write"))
@@ -181,10 +188,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 				$wtpl->parseCurrentBlock();
 			}
 		}
-
-		// notes
-		$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getBlogPosting(),
-			false, $this->enable_public_notes, $this->checkAccess("write")));
+		else
+		{
+			// notes
+			$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getBlogPosting(),
+				false, $this->enable_public_notes, $this->checkAccess("write")));
+		}
 
 		// permanent link
 		$append = ($_GET["page"] != "")

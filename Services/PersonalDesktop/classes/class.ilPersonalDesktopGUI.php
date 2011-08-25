@@ -771,6 +771,16 @@ class ilPersonalDesktopGUI
 			$cmd = "share";
 		}
 		
+		if($_REQUEST["wsp_id"])
+		{
+			$this->ctrl->setParameterByClass("ilpersonalworkspacegui", "wsp_id", (int)$_REQUEST["wsp_id"]);
+		}
+		
+		if($_REQUEST["gtp"])
+		{
+			$this->ctrl->setParameterByClass("ilpersonalworkspacegui", "gtp", (int)$_REQUEST["gtp"]);
+		}
+		
 		$this->ctrl->redirectByClass("ilpersonalworkspacegui", $cmd);
 	}
 	
