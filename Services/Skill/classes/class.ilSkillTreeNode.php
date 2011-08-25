@@ -703,7 +703,8 @@ class ilSkillTreeNode
 				if ($cnode["type"] == "skll" || !$a_only_basic)
 				{
 					$skills[] = array("id" => $a_node_id,
-						"type" => $cnode["type"], "parent" => $cnode["parent"]);
+						"type" => $cnode["type"], "parent" => $cnode["parent"],
+						"tref" => 0);
 				}
 
 				// is node skill template reference?
@@ -725,7 +726,8 @@ class ilSkillTreeNode
 										? $cnode["child"]
 										: $child2["parent"];
 									$skills[] = array("id" => $child2["child"],
-										"type" => $child2["type"], "parent" => $par);
+										"type" => $child2["type"], "parent" => $par,
+										"tref" => $cnode["child"]);
 								}
 							}
 						}
@@ -740,7 +742,8 @@ class ilSkillTreeNode
 						if ($child["type"] == "skll" || !$a_only_basic)
 						{
 							$skills[] = array("id" => $child["child"],
-								"type" => $child["type"], "parent" => $child["parent"]);
+								"type" => $child["type"], "parent" => $child["parent"],
+								"tref" => 0);
 						}
 						
 						// handle template references
@@ -762,7 +765,8 @@ class ilSkillTreeNode
 										if ($child2["type"] == "sktp" || !$a_only_basic)
 										{
 											$skills[] = array("id" => $child2["child"],
-												"type" => $child2["type"], "parent" => $par);
+												"type" => $child2["type"], "parent" => $par,
+												"tref" => $child["child"]);
 										}
 									}
 								}
@@ -772,6 +776,7 @@ class ilSkillTreeNode
 				}
 			}
 		}
+//var_dump($skills);
 		return $skills;
 	}
 
