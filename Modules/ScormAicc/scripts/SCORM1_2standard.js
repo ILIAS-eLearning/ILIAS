@@ -512,7 +512,7 @@ function LMSGetValue(s_el){
 	else value=getValueIntern(sco_id,s_el);
 	if (value != null) return setreturn(0,"",value);
 	if (typeof o_elmod['dv'] == "undefined" || o_elmod['dv'] == null) return setreturn(0,"not set","");
-	else return setreturn(0,"",o_elmod['dv']);
+	else return setreturn(0,"",decodeURIComponent(o_elmod['dv']));
 	return setreturn(101,"");
 }
 
