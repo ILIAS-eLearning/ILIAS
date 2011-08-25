@@ -48,7 +48,7 @@ class ilObjTestVerification extends ilVerificationObject
 		$newObj->setDescription($a_test->getDescription());
 
 		$active_id = $a_test->getActiveIdOfUser($a_user_id);
-		$pass = $a_test::_getResultPass($active_id);
+		$pass = ilObjTest::_getResultPass($active_id);
 		
 		$date = $a_test->getPassFinishDate($active_id, $pass);
 		$newObj->setProperty("issued_on", new ilDate($date, IL_CAL_UNIX));
