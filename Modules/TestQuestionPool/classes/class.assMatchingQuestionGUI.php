@@ -1,25 +1,6 @@
 <?php
-/*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
@@ -368,7 +349,8 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
 			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
-			if ((!$errors) && (count($terms->getValues()) < (count($definitions->getValues()))))
+			if ((!$errors) && (count($terms->getValues()) < (count($definitions->getValues())))
+				&& !$this->getSelfAssessmentEditingMode())
 			{
 				$errors = true;
 				$terms->setAlert($this->lng->txt("msg_number_of_terms_too_low"));
