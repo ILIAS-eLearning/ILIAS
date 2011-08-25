@@ -435,7 +435,7 @@ function LMSFinish(param){
 //	}
 	if (IliasCommit()==false) return setreturn(101,"LMSFinish was not successful because of failure with implicit LMSCommit");
 	Initialized=false;
-	IliasLaunchAfterFinish();
+	IliasLaunchAfterFinish(sco_id);
 	return setreturn(0,"");
 }
 
