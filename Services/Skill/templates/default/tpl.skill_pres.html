@@ -1,14 +1,14 @@
-<div style="background-image:url('./templates/default/images/FramedBack.gif'); background-repeat:repeat-x; border: 1px solid #F0F0F0; padding: 5px; margin-bottom: 20px;">
-<h3 style="margin: 0; padding: 0;">{SKILL_TITLE}</h3>
+<div class="ilSkill">
+<h3>{SKILL_TITLE}</h3><div>{ACTIONS1}</div>
 <!-- BEGIN skill -->
-<h4 style="margin: 0; padding: 0;">{BSKILL_TITLE}</h3>
+<h4>{BSKILL_TITLE}</h4><div>{ACTIONS2}</div>
 <table style="border: 1px solid #F0F0F0; background-color: #FFFFFF;">
 	<tr>
 		<th>{TXT_LEVEL}
 		</th>
 		<!-- BEGIN level_td -->
-		<td>
-			{VAL_LEVEL}
+		<td class="ilSkillLevel" id="{TT_ID}">
+			<span>{VAL_LEVEL}</span>
 		</td>
 		<!-- END level_td -->
 	</tr>
