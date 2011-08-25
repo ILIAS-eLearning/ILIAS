@@ -85,12 +85,12 @@ class ilPersonalSkillsGUI
 	 */
 	function listSkills()
 	{
-		global $tpl, $ilTabs, $lng, $ilCtrl, $ilToolbar;
+		global $tpl, $ilTabs, $lng, $ilCtrl, $ilToolbar, $ilUser;
 
 		$this->setTabs("list_skills");
 		
 		
-		// skill selection
+		// skill selection / add new personal skill
 		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
 		$skills = ilSkillTreeNode::getSelectableSkills();
 		$options = array();
@@ -103,19 +103,99 @@ class ilPersonalSkillsGUI
 		$si->setOptions($options);
 		$ilToolbar->addInputItem($si);
 		
-		
 		$ilToolbar->addFormButton($lng->txt("skmg_add_skill"),
 			"addPersonalSkill");
-		
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 		
+		$skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());
+		$html = "";
+		foreach ($skills as $s)
+		{
+			$html.= $this->getSkillHTML($s["skill_node_id"]);
+		}
+		
+		// list skills
 		include_once("./Services/Skill/classes/class.ilPersonalSkillTableGUI.php");
 		$sktab = new ilPersonalSkillTableGUI($this, "listSkills");
 		
-		$tpl->setContent($sktab->getHTML());
+		$tpl->setContent($html.$sktab->getHTML());
 
 	}
 
+	/**
+	 * Get skill presentation HTML
+	 *
+	 * @return
+	 */
+	function getSkillHTML($a_top_skill_id, $a_user_id = 0, $a_edit = false)
+	{
+		global $ilUser, $lng;
+		
+		if ($a_user_id == 0)
+		{
+			$user = $ilUser;
+		}
+		else
+		{
+			$user = new ilObjectUser($a_user_id);
+		}
+
+		$tpl = new ilTemplate("tpl.skill_pres.html", true, true, "Services/Skill");
+		
+		include_once("./Services/Skill/classes/class.ilSkillTree.php");
+		$stree = new ilSkillTree();
+		
+		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+		include_once("./Services/Skill/classes/class.ilSkillTreeNodeFactory.php");
+		
+		$b_skills = ilSkillTreeNode::getSkillTreeNodes($a_top_skill_id, true);
+		foreach ($b_skills as $bs)
+		{
+			$skill = ilSkillTreeNodeFactory::getInstance($bs["id"]);
+			foreach ($skill->getLevelData() as $k => $v)
+			{
+
+				// level
+				$tpl->setCurrentBlock("level_td");
+				$tpl->setVariable("VAL_LEVEL", $v["title"]);
+				$tpl->parseCurrentBlock();
+				
+				// self evaluation
+				$tpl->setCurrentBlock("self_eval_td");
+				$tpl->setVariable("VAL_SELF_EVAL", "x");
+				$tpl->parseCurrentBlock();
+
+				// self evaluation
+				$tpl->setCurrentBlock("material_td");
+				$tpl->setVariable("VAL_MATERIAL", "3");
+				$tpl->parseCurrentBlock();
+			}
+			
+			$path = $stree->getPathFull($bs["id"]);
+			$title = $sep = "";
+			foreach ($path as $p)
+			{
+				if ($p["type"] != "skrt")
+				{
+					$title.= $sep.$p["title"];
+					$sep = " > ";
+				}
+			}
+
+			$tpl->setCurrentBlock("skill");
+			$tpl->setVariable("BSKILL_TITLE", $title);
+			$tpl->setVariable("TXT_LEVEL", $lng->txt("skmg_level"));
+			$tpl->setVariable("TXT_SELF_EVAL", $lng->txt("skmg_self_evaluation"));
+			$tpl->setVariable("TXT_MATERIAL", $lng->txt("skmg_material"));
+			$tpl->parseCurrentBlock();
+		}
+		
+		$tpl->setVariable("SKILL_TITLE", ilSkillTreeNode::_lookupTitle($a_top_skill_id));
+		
+		return $tpl->get();
+	}
+	
+	
 	/**
 	 * Add personal skill
 	 */
@@ -203,6 +283,7 @@ class ilPersonalSkillsGUI
 			"_b.gif"));
 		 
 		// basic skill selection
+// here basic skill id??
 		$bs = ilSkillTreeNode::getSkillTreeNodes((int) $_GET["skill_id"], true);
 		$options = array();
 		foreach ($bs as $b)

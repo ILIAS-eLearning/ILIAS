@@ -7477,3 +7477,15 @@ if(!$ilDB->tableExists('usr_account_codes'))
 		);
 	}
 ?>
+<#3440>
+<?php
+	$ilDB->addTableColumn("skl_assigned_material", "tref_id", array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 4,
+		"default" => 0));
+	$ilDB->dropPrimaryKey("skl_assigned_material");
+	$ilDB->addPrimaryKey("skl_assigned_material",
+		array("user_id", "top_skill_id", "tref_id", "skill_id", "level_id", "wsp_id"));
+?>
+
