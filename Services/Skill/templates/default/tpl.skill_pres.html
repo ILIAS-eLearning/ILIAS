@@ -1,31 +1,31 @@
 <div class="ilSkill">
-<h3>{SKILL_TITLE}</h3><div>{ACTIONS1}</div>
+<h3>{SKILL_TITLE}</h3><div class="ilSkillActions">{ACTIONS1}</div>
 <!-- BEGIN skill -->
-<h4>{BSKILL_TITLE}</h4><div>{ACTIONS2}</div>
-<table style="border: 1px solid #F0F0F0; background-color: #FFFFFF;">
+<h4>{BSKILL_TITLE}</h4><div class="ilSkillActions">{ACTIONS2}</div>
+<table class="ilSkill">
 	<tr>
-		<th>{TXT_LEVEL}
+		<th class="ilSkill">{TXT_LEVEL}
 		</th>
 		<!-- BEGIN level_td -->
-		<td class="ilSkillLevel" id="{TT_ID}">
+		<td class="ilSkill ilSkillLevel" id="{TT_ID}">
 			<span>{VAL_LEVEL}</span>
 		</td>
 		<!-- END level_td -->
 	</tr>
 	<tr>
-		<th>{TXT_SELF_EVAL}
+		<th class="ilSkill">{TXT_SELF_EVAL}
 		</th>
 		<!-- BEGIN self_eval_td -->
-		<td>
+		<td class="ilSkill {CLASS_SELF_EVAL}">
 			{VAL_SELF_EVAL}
 		</td>
 		<!-- END self_eval_td -->
 	</tr>
 	<tr>
-		<th>{TXT_MATERIAL}
+		<th class="ilSkill">{TXT_MATERIAL}
 		</th>
 		<!-- BEGIN material_td -->
-		<td>
+		<td class="ilSkill {CLASS_MAT}">
 			{VAL_MATERIAL}
 		</td>
 		<!-- END material_td -->

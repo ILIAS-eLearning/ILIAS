@@ -7488,4 +7488,29 @@ if(!$ilDB->tableExists('usr_account_codes'))
 	$ilDB->addPrimaryKey("skl_assigned_material",
 		array("user_id", "top_skill_id", "tref_id", "skill_id", "level_id", "wsp_id"));
 ?>
+<#3441>
+<?php
+	$ilDB->addTableColumn("skl_self_eval_level", "tref_id", array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 4,
+		"default" => 0));
+	$ilDB->addTableColumn("skl_self_eval_level", "user_id", array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 4,
+		"default" => 0));
+	$ilDB->addTableColumn("skl_self_eval_level", "top_skill_id", array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 4,
+		"default" => 0));
+	$ilDB->addTableColumn("skl_self_eval_level", "last_update", array(
+		"type" => "timestamp",
+		"notnull" => false));
+	$ilDB->dropPrimaryKey("skl_self_eval_level");
+	$ilDB->dropTableColumn("skl_self_eval_level", "self_eval_id");
+	$ilDB->addPrimaryKey("skl_self_eval_level",
+		array("user_id", "top_skill_id", "tref_id", "skill_id"));
+?>
 

@@ -3273,15 +3273,15 @@ div.ilSkill > h4 {
 	clear:left;
 }
 
-div.ilSkill > table, div.ilSkill td, div.ilSkill th {
+table.ilSkill, td.ilSkill, th.ilSkill {
 	border: 1px solid #E0E0E0;
 }
 
-div.ilSkill > div {
+div.ilSkillActions {
 	float:right;
 }
 
-div.ilSkill > table {
+table.ilSkill {
 	margin-bottom: 5px;
 	margin-left: 50px;
 	background-color: #FFFFFF;
@@ -3289,13 +3289,13 @@ div.ilSkill > table {
 	clear:both;
 }
 
-div.ilSkill td, div.ilSkill th {
+td.ilSkill, th.ilSkill {
 	font-size: 0.8em;
 	padding: 4px;
 	min-width: 50px;
 }
 
-div.ilSkill td {
+td.ilSkill {
 	text-align:center;
 }
 
@@ -3303,6 +3303,14 @@ td.ilSkillLevel {
 	cursor: pointer;
 }
 
-div.ilSkill th, td.ilSkillLevel{
+th.ilSkill, td.ilSkillLevel{
 	background-color: #F8F8F8;
+}
+
+td.ilSkillSelf {
+	background-color: #FFF0E0;
+}
+
+td.ilSkillMat {
+	background-color: #F0F0FF;
 }
