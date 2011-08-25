@@ -187,6 +187,11 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 			$width->setValue($prfa_set->get("banner_width"));
 			$height->setValue($prfa_set->get("banner_height"));
 		}
+		else
+		{
+			$width->setValue(850);
+			$height->setValue(100);
+		}
 
 		return $form;
 	}

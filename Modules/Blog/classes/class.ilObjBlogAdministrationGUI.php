@@ -187,6 +187,11 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 			$width->setValue($blga_set->get("banner_width"));
 			$height->setValue($blga_set->get("banner_height"));
 		}
+		else
+		{
+			$width->setValue(850);
+			$height->setValue(100);
+		}
 
 		return $form;
 	}
