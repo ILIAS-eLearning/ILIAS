@@ -145,7 +145,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	*
 	*/
 	function getCommandLink($a_cmd)
-	{
+	{		
 		if($_REQUEST["wsp_id"] || $_REQUEST["cmdClass"] == "ilpersonalworkspacegui")
 		{
 			if($this->__checkDirectLink() && $a_cmd == '')
@@ -154,7 +154,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 			}			
 			$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", "");
 			$this->ctrl->setParameterByClass($this->gui_class_name, "wsp_id", $this->ref_id);
-			return $this->ctrl->getLinkTargetByClass($this->gui_class_name, $a_cmd);
+			return $this->ctrl->getLinkTargetByClass(array("ilpersonalworkspacegui", $this->gui_class_name), $a_cmd);
 		}		
 		else
 		{

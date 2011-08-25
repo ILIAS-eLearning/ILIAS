@@ -1471,9 +1471,17 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		}		
 	}
 
-	function _goto($a_target)
+	function _goto($a_target, $a_additional = null)
 	{
 		global $ilAccess, $ilErr, $lng;
+				
+		if($a_additional && substr($a_additional, -3) == "wsp")
+		{
+			$_GET["baseClass"] = "ilsharedresourceGUI";	
+			$_GET["wsp_id"] = $a_target;		
+			include("ilias.php");
+			exit;
+		}
 
 		// Will be replaced in future releases by ilAccess::checkAccess()
 		if ($ilAccess->checkAccess("read", "", $a_target))

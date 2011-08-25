@@ -201,7 +201,7 @@ switch($target_type)
 	// please migrate to default branch implementation
 	case "webr":
 		require_once("./Modules/WebResource/classes/class.ilObjLinkResourceGUI.php");
-		ilObjLinkResourceGUI::_goto($target_id);
+		ilObjLinkResourceGUI::_goto($target_id, $rest);
 		break;
 
 	// please migrate to default branch implementation
