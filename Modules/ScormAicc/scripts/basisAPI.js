@@ -1,3 +1,8 @@
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+* @author  Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
+* @version $Id$
+*/
 
 var	iv={},
 	ir=[],
@@ -92,11 +97,12 @@ function sendRequest (url, data, callback, user, password, headers) {
 	}
 }
 
+// Debugger
 function showCalls(APIcall,callResult,err,dia){
 	if (iv.b_debug){
 		if (err==null) err="";
 		if (dia==null) dia="";
-		if (err!=0 && err!="") dia=getErrorStringIntern(err)+'; '+dia;
+		if (err!=0 && err!="") dia=getErrorStringIntern(err)+'; '+dia; //only function not in basisAPI
 		var APIcallNowMS=new Date().getTime(),
 			APIms,
 			APIs_out='<table cellpadding=0><tr class="d"><td class="r">ms</td><td>sent to API</td><td>returns</td><td class="c">error</td><td>error string; diagnostic</td></tr>';
@@ -119,7 +125,7 @@ function initDebug(){
 	}
 }
 
-
+// send to logfile
 function message(s_send){
 	s_send = 'lm_'+iv.objId+': '+s_send;
 	if (iv.b_messageLog) sendRequest ('./ilias.php?baseClass=ilSAHSPresentationGUI&ref_id='+iv.refId+'&cmd=logMessage', s_send);
@@ -130,11 +136,13 @@ function warning(s_send){
 	sendRequest ('./ilias.php?baseClass=ilSAHSPresentationGUI&ref_id='+iv.refId+'&cmd=logWarning', s_send);
 }
 
+// avoid sessionTimeOut
 function SchedulePing() {
 	var r = sendRequest('./ilias.php?baseClass=ilSAHSPresentationGUI&cmd=pingSession&ref_id='+iv.refId);
 	setTimeout("SchedulePing()", iv.pingSession*1000);
 }
 
+// launch functions
 function IliasLaunch(i_l){
 	if (isNaN(i_l)) return false;
 	var href="",asset=0;
@@ -165,19 +173,6 @@ function IliasLaunch(i_l){
 	status4tree(iv.launchId,'running');
 }
 
-function IliasLaunchAfterFinish(i_la){
-	status4tree(i_la,getValueIntern(i_la,'cmi.core.lesson_status'),getValueIntern(i_la,'cmi.core.total_time'));
-	if(b_launched==false) setTimeout("API.IliasLaunch("+iv.launchId+")",1);
-	else launchNext();
-}
-function IliasAbortSco(i_l){
-	if (b_launched==true) return;
-	warning('SCO '+i_l+' has not sent LMSFinish or Terminate');
-	//a_toStore=[];
-	Initialized=false;
-	IliasLaunch(iv.launchId);
-}
-
 function launchNext(){
 	if (iv.b_autoContinue == true){
 		var i_l=0;
@@ -190,6 +185,26 @@ function launchNext(){
 	}
 }
 
+function IliasWaitLaunch(i_l){
+	if (typeof frames.sahs_content == "undefined") setTimeout("API.IliasWaitLaunch("+i_l+")",100);
+	else API.IliasLaunch(i_l);
+}
+
+function IliasLaunchAfterFinish(i_la){
+	status4tree(i_la,getValueIntern(i_la,'cmi.core.lesson_status'),getValueIntern(i_la,'cmi.core.total_time'));
+	if(b_launched==false) setTimeout("API.IliasLaunch("+iv.launchId+")",1);
+	else launchNext();
+}
+
+function IliasAbortSco(i_l){
+	if (b_launched==true) return;
+	warning('SCO '+i_l+' has not sent LMSFinish or Terminate');
+	//a_toStore=[];
+	Initialized=false;
+	IliasLaunch(iv.launchId);
+}
+
+// status for navigation-tree
 function status4tree(i_sco,s_status,s_time){
 	if (typeof(frames.tree)!="undefined"){
 		var ico=frames.tree.document.getElementsByName('scoIcon'+i_sco)[0];
@@ -205,6 +220,7 @@ function status4tree(i_sco,s_status,s_time){
 	}
 }
 
+// store data
 function IliasCommit() {
 	if (a_toStore.length==0){
 		message("Nothing to do.");
@@ -228,6 +244,7 @@ function IliasCommit() {
 	return false;
 }
 
+// get data
 function getValueIntern(i_sco,s_el){
 	var s_sco=""+i_sco,
 		a_el=s_el.split('.');
@@ -240,6 +257,7 @@ function getValueIntern(i_sco,s_el){
 	return decodeURIComponent(""+o_el);
 }
 
+// set data
 function setValueIntern(i_sco,s_el,s_value,b_store,b_noEncode){
 	//create data-elements
 	var s_sco=""+i_sco,
@@ -276,11 +294,7 @@ function setValueIntern(i_sco,s_el,s_value,b_store,b_noEncode){
 	return true;
 }
 
-function IliasWaitLaunch(i_l){
-	if (typeof frames.sahs_content == "undefined") setTimeout("API.IliasWaitLaunch("+i_l+")",100);
-	else API.IliasLaunch(i_l);
-}
-
+// done at start
 function basisInit() {
 	iv=IliasScormVars;
 	ir=IliasScormResources;
