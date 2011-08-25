@@ -8,7 +8,7 @@
  * @version $Id$
  * 
  * @ilCtrl_Calls ilSharedResourceGUI: ilObjBlogGUI, ilObjFileGUI, ilObjTestVerificationGUI
- * @ilCtrl_Calls ilSharedResourceGUI: ilObjExerciseVerificationGUI
+ * @ilCtrl_Calls ilSharedResourceGUI: ilObjExerciseVerificationGUI, ilObjLinkResourceGUI
  *
  * @ingroup ServicesPersonalWorkspace
  */
@@ -58,6 +58,12 @@ class ilSharedResourceGUI
 				include_once "Modules/Exercise/classes/class.ilObjExerciseVerificationGUI.php";
 				$egui = new ilObjExerciseVerificationGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
 				$ilCtrl->forwardCommand($egui);
+				break;		
+			
+			case "ilobjlinkresourcegui":
+				include_once "Modules/WebResource/classes/class.ilObjLinkResourceGUI.php";
+				$lgui = new ilObjLinkResourceGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
+				$ilCtrl->forwardCommand($lgui);
 				break;		
 			
 			default:
@@ -168,6 +174,7 @@ class ilSharedResourceGUI
 				$ilCtrl->redirectByClass($gui, "deliver");
 				
 			case "file":
+			case "webr":
 				$ilCtrl->setParameterByClass($gui, "wsp_id", $a_node_id);
 				$ilCtrl->redirectByClass($gui);
 		
