@@ -3197,6 +3197,9 @@ li.ilWikiBlockItem
 	padding:0;
 }
 
+
+/* Modules/Blog / Common */
+
 div.ilFrameFixedWidth
 {
 	max-width: 900px;
@@ -3244,4 +3247,62 @@ div.ilFrameFixedWidthHeader
 	padding-left: 0;
 }
 
+/* Services/Skill */
 
+div.ilSkill {
+	background-image:url('./images/FramedBack.gif');
+	background-repeat:repeat-x;
+	border: 1px solid #E0E0E0;
+	padding: 5px;
+	margin-bottom: 20px;
+}
+
+div.ilSkill > h3 {
+	margin: 10px 0;
+	padding: 0;
+	font-size: 1.2em;
+	float:left;
+}
+
+div.ilSkill > h4 {
+	margin: 10px 0;
+	padding: 0;
+	font-size: 0.9em;
+	color: #909090;
+	float:left;
+	clear:left;
+}
+
+div.ilSkill > table, div.ilSkill td, div.ilSkill th {
+	border: 1px solid #E0E0E0;
+}
+
+div.ilSkill > div {
+	float:right;
+}
+
+div.ilSkill > table {
+	margin-bottom: 5px;
+	margin-left: 50px;
+	background-color: #FFFFFF;
+	border-collapse: collapse;
+	clear:both;
+}
+
+div.ilSkill td, div.ilSkill th {
+	font-size: 0.8em;
+	padding: 4px;
+	min-width: 50px;
+}
+
+div.ilSkill td {
+	text-align:center;
+}
+
+td.ilSkillLevel {
+	cursor: pointer;
+}
+
+div.ilSkill th, td.ilSkillLevel{
+	background-color: #F8F8F8;
+}

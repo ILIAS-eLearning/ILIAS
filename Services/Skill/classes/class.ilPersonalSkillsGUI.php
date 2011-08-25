@@ -17,6 +17,7 @@ include_once("./Services/Skill/classes/class.ilPersonalSkill.php");
 class ilPersonalSkillsGUI
 {
 	protected $skill_tree;
+	static $skill_tt_cnt = 1;
 	
 	/**
 	 * Contructor
@@ -111,14 +112,14 @@ class ilPersonalSkillsGUI
 		$html = "";
 		foreach ($skills as $s)
 		{
-			$html.= $this->getSkillHTML($s["skill_node_id"]);
+			$html.= $this->getSkillHTML($s["skill_node_id"], 0, true);
 		}
 		
 		// list skills
-		include_once("./Services/Skill/classes/class.ilPersonalSkillTableGUI.php");
-		$sktab = new ilPersonalSkillTableGUI($this, "listSkills");
+//		include_once("./Services/Skill/classes/class.ilPersonalSkillTableGUI.php");
+//		$sktab = new ilPersonalSkillTableGUI($this, "listSkills");
 		
-		$tpl->setContent($html.$sktab->getHTML());
+		$tpl->setContent($html);
 
 	}
 
@@ -129,7 +130,7 @@ class ilPersonalSkillsGUI
 	 */
 	function getSkillHTML($a_top_skill_id, $a_user_id = 0, $a_edit = false)
 	{
-		global $ilUser, $lng;
+		global $ilUser, $lng, $ilCtrl;
 		
 		if ($a_user_id == 0)
 		{
@@ -142,11 +143,22 @@ class ilPersonalSkillsGUI
 
 		$tpl = new ilTemplate("tpl.skill_pres.html", true, true, "Services/Skill");
 		
+		include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+		
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$stree = new ilSkillTree();
 		
 		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
 		include_once("./Services/Skill/classes/class.ilSkillTreeNodeFactory.php");
+		
+		// general settings for the action drop down
+		include_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$act_list = new ilAdvancedSelectionListGUI();
+		$act_list->setListTitle($lng->txt("actions"));
+		$act_list->setSelectionHeaderClass("small");
+//		$act_list->setLinksMode("il_ContainerItemCommand2");
+		$act_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
+		$act_list->setUseImages(false);
 		
 		$b_skills = ilSkillTreeNode::getSkillTreeNodes($a_top_skill_id, true);
 		foreach ($b_skills as $bs)
@@ -158,6 +170,13 @@ class ilPersonalSkillsGUI
 				// level
 				$tpl->setCurrentBlock("level_td");
 				$tpl->setVariable("VAL_LEVEL", $v["title"]);
+				$tt_id = "skmg_skl_tt_".self::$skill_tt_cnt;
+				self::$skill_tt_cnt++;
+				$tpl->setVariable("TT_ID", $tt_id);
+				if ($v["description"] != "")
+				{
+					ilTooltipGUI::addTooltip($tt_id, $v["description"]);
+				}
 				$tpl->parseCurrentBlock();
 				
 				// self evaluation
@@ -187,10 +206,35 @@ class ilPersonalSkillsGUI
 			$tpl->setVariable("TXT_LEVEL", $lng->txt("skmg_level"));
 			$tpl->setVariable("TXT_SELF_EVAL", $lng->txt("skmg_self_evaluation"));
 			$tpl->setVariable("TXT_MATERIAL", $lng->txt("skmg_material"));
+			
+			if ($a_edit)
+			{
+				$act_list->flush();
+				$act_list->setId("act_".$a_top_skill_id."_".$bs["id"]);
+				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "skill_id", $a_top_skill_id);
+				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "basic_skill_id", $bs["id"]);
+				$act_list->addItem($lng->txt('skmg_assign_materials'), "",
+					$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "assignMaterials"), "", $lng->txt('skmg_assign_materials'));
+				$tpl->setVariable("ACTIONS2", $act_list->getHTML());
+			}
+
+			
 			$tpl->parseCurrentBlock();
 		}
 		
 		$tpl->setVariable("SKILL_TITLE", ilSkillTreeNode::_lookupTitle($a_top_skill_id));
+		
+		if ($a_edit)
+		{
+			$act_list->flush();
+			$act_list->setId("act_".$a_top_skill_id);
+			$ilCtrl->setParameterByClass("ilpersonalskillsgui", "skill_id", $a_top_skill_id);
+			$act_list->addItem($lng->txt('skmg_assign_materials'), "",
+				$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "assignMaterials"));
+			$act_list->addItem($lng->txt('skmg_remove_skill'), "",
+				$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "confirmSkillRemove"));
+			$tpl->setVariable("ACTIONS1", $act_list->getHTML());
+		}
 		
 		return $tpl->get();
 	}
@@ -217,7 +261,10 @@ class ilPersonalSkillsGUI
 		global $ilCtrl, $tpl, $lng;
 			
 		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-		
+		if ($_GET["skill_id"] > 0)
+		{
+			$_POST["id"][] = $_GET["skill_id"];
+		}
 		if (!is_array($_POST["id"]) || count($_POST["id"]) == 0)
 		{
 			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
