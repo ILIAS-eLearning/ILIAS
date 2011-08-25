@@ -18,11 +18,13 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_top_skill_id, $a_basic_skill_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_top_skill_id, $a_tref_id,
+		$a_basic_skill_id)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $ilUser;
 		
 		$this->top_skill_id = $a_top_skill_id;
+		$this->tref_id = (int) $a_tref_id;
 		$this->basic_skill_id = $a_basic_skill_id;
 		
 		// workspace tree
@@ -50,6 +52,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 		$this->setLimit(9999);
 		
 		$this->addColumn($this->lng->txt("skmg_skill_level"));
+		$this->addColumn($this->lng->txt("description"), "", "60%");
 		$this->addColumn($this->lng->txt("skmg_materials"));
 		$this->addColumn($this->lng->txt("actions"));
 		
@@ -89,7 +92,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 		global $lng, $ilCtrl, $ilUser;
 
 		include_once("./Services/Skill/classes/class.ilPersonalSkill.php");
-		$mat = ilPersonalSkill::getAssignedMaterial($ilUser->getId(), $a_set["id"]);
+		$mat = ilPersonalSkill::getAssignedMaterial($ilUser->getId(), $this->tref_id, $a_set["id"]);
 		$ilCtrl->setParameter($this->parent_obj, "level_id", $a_set["id"]);
 		foreach ($mat as $m)
 		{
@@ -114,7 +117,8 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 		
 		$this->tpl->setVariable("LEVEL_ID", $a_set["id"]);
 		$this->tpl->setVariable("SKILL_ID", $this->basic_skill_id);
-		$this->tpl->setVariable("TXT_SKILL", $a_set["title"].": ".$a_set["description"]);
+		$this->tpl->setVariable("TXT_SKILL", $a_set["title"]);
+		$this->tpl->setVariable("TXT_SKILL_DESC", $a_set["description"]);
 	}
 	
 }
