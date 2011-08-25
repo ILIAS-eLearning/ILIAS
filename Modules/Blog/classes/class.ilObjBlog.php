@@ -18,6 +18,7 @@ class ilObjBlog extends ilObject2
 	protected $bg_color; // [string]
 	protected $font_color; // [string]
 	protected $img; // [string]
+	protected $ppic; // [string]
 	
 	function initType()
 	{
@@ -32,6 +33,7 @@ class ilObjBlog extends ilObject2
 				" WHERE id = ".$ilDB->quote($this->id, "integer"));
 		$row = $ilDB->fetchAssoc($set);
 		$this->setNotesStatus((bool)$row["notes"]);
+		$this->setProfilePicture((bool)$row["ppic"]);
 		$this->setBackgroundColor($row["bg_color"]);
 		$this->setFontColor($row["font_color"]);
 		$this->setImage($row["img"]);
@@ -41,8 +43,9 @@ class ilObjBlog extends ilObject2
 	{
 		global $ilDB;
 		
-		$ilDB->manipulate("INSERT INTO il_blog (id,notes) VALUES (".
+		$ilDB->manipulate("INSERT INTO il_blog (id,notes,ppic) VALUES (".
 			$ilDB->quote($this->id, "integer").",".
+			$ilDB->quote(true, "integer").",".
 			$ilDB->quote(true, "integer").")");
 	}
 	
@@ -67,6 +70,7 @@ class ilObjBlog extends ilObject2
 		{
 			$ilDB->manipulate("UPDATE il_blog".
 					" SET notes = ".$ilDB->quote($this->getNotesStatus(), "integer").
+					",ppic = ".$ilDB->quote($this->hasProfilePicture(), "integer").
 					",bg_color = ".$ilDB->quote($this->getBackgroundColor(), "text").
 					",font_color = ".$ilDB->quote($this->getFontcolor(), "text").
 					",img = ".$ilDB->quote($this->getImage(), "text").
@@ -92,6 +96,26 @@ class ilObjBlog extends ilObject2
 	function setNotesStatus($a_status)
 	{
 		$this->notes = (bool)$a_status;
+	}
+	
+	/**
+	 * Get profile picture status
+	 * 
+	 * @return bool
+	 */
+	function hasProfilePicture()
+	{
+		return $this->ppic;
+	}
+
+	/**
+	 * Toggle profile picture status
+	 *
+	 * @param bool $a_status
+	 */
+	function setProfilePicture($a_status)
+	{
+		$this->ppic = (bool)$a_status;
 	}
 	
 	/**
