@@ -131,13 +131,25 @@ class ilSharedResourceGUI
 	
 	protected function redirectToResource($a_node_id)
 	{
-		global $ilCtrl, $objDefinition;
+		global $ilCtrl, $objDefinition, $ilUser;
 				
 		$object_data = $this->getObjectDataFromNode($a_node_id);
 
 		if(!$object_data["obj_id"])
 		{
 			exit("invalid object");
+		}
+		
+		// if user owns target object, go to workspace directly
+		// e.g. deep-linking notices from personal desktop
+		if($ilUser->getId() == ilObject::_lookupOwner($object_data["obj_id"]))
+		{
+			// blog posting
+			if($_GET["gtp"])
+			{
+				$gtp = "&gtp=".(int)$_GET["gtp"];
+			}
+			ilUtil::redirect("ilias.php?baseClass=ilpersonaldesktopgui&cmd=jumptoworkspace&wsp_id=".$a_node_id.$gtp);
 		}
 		
 		$class = $objDefinition->getClassName($object_data["type"]);

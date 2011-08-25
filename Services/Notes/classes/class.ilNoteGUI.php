@@ -1178,10 +1178,9 @@ return;
 							{
 								$parent["title"] = $this->lng->txt("wsp_personal_workspace");
 							}
-
-							$link = ilWorkspaceAccessHandler::getGotoLink($node_id, $a_rep_obj_id);
-
+							
 							// sub-objects
+							$additional = null;
 							if($a_obj_id)
 							{
 								switch($item["type"])
@@ -1191,10 +1190,12 @@ return;
 										include_once "Modules/Blog/classes/class.ilBlogPosting.php";
 										$posting = new ilBlogPosting($a_obj_id);
 										$item["title"] .= " (".$posting->getTitle().")";	
-										$link = ilWorkspaceAccessHandler::getGotoLink($node_id, $a_rep_obj_id, "_".$a_obj_id);
+										$additional = "_".$a_obj_id;
 										break;
 								}
 							}
+														
+							$link = ilWorkspaceAccessHandler::getGotoLink($node_id, $a_rep_obj_id, $additional);							
 						}
 						// shared resource
 						else

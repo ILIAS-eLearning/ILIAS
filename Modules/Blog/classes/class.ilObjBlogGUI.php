@@ -163,14 +163,24 @@ class ilObjBlogGUI extends ilObject2GUI
 
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl, $ilTabs, $lng;
+		global $ilCtrl, $tpl, $ilTabs, $lng, $ilUser;
 
 		// goto link to blog posting
 		if($_GET["gtp"])
 		{
-			$ilCtrl->setCmdClass("ilblogpostinggui");
-			$ilCtrl->setCmd("previewFullscreen");
+			$ilCtrl->setCmdClass("ilblogpostinggui");			
 			$_GET["page"] = $_GET["gtp"];
+			
+			// preview
+			if($ilUser->getId() != $this->object->getOwner())
+			{
+				$ilCtrl->setCmd("previewFullscreen");
+			}
+			// edit
+			else
+			{
+				$ilCtrl->setCmd("preview");
+			}
 		}
 		
 		$next_class = $ilCtrl->getNextClass($this);
@@ -390,7 +400,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		$list = $nav = "";		
 		if($this->items[$this->month])
 		{						
-			$list = $this->renderList($this->items[$this->month], $this->month, "render");
+			$list = $this->renderList($this->items[$this->month], $this->month);
 			$nav = $this->renderNavigation($this->items);		
 		}
 					
@@ -634,7 +644,10 @@ class ilObjBlogGUI extends ilObject2GUI
 		// back (edit)
 		if($owner == $ilUser->getId())
 		{			
+			$prvm = $_REQUEST["prvm"];
+			$ilCtrl->setParameter($this, "prvm", "");
 			$back = $ilCtrl->getLinkTarget($this, "");
+			$ilCtrl->setParameter($this, "prvm", $prvm);
 			$ilTabs->setBackTarget($lng->txt("blog_back_to_ilias"), $back);
 		}
 		// back (shared resources)
@@ -784,7 +797,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		}
 		
 		// notes
-		if($a_cmd != "previewEmbedded" && $a_cmd != "render" && $this->object->getNotesStatus())
+		if($a_cmd != "previewEmbedded" && $a_cmd != "preview" && $this->object->getNotesStatus())
 		{
 			$wtpl->setVariable("NOTES", $this->getNotesHTML());
 		}
@@ -1180,7 +1193,6 @@ class ilObjBlogGUI extends ilObject2GUI
 		$ilCtrl->redirect($this, "render");
 	}
 	
-	
 	function getNotesSubId()
 	{
 		if($_REQUEST["page"])
@@ -1202,6 +1214,8 @@ class ilObjBlogGUI extends ilObject2GUI
 	 */
 	function _goto($a_target)
 	{
+		global $ilUser;
+		
 		$id = explode("_", $a_target);
 		
 		$_GET["baseClass"] = "ilsharedresourceGUI";	

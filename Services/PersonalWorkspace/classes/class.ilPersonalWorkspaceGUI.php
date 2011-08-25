@@ -81,6 +81,15 @@ class ilPersonalWorkspaceGUI
 			exit();
 		}
 		
+		//  if we do this here the object can still change the title and locator
+		$this->renderLocator();
+		$this->renderTitle();
+		
+		if(($cmd == "" || $cmd == "render" || $cmd == "view") && !$_REQUEST["new_type"])
+		{
+			$this->renderToolbar();
+		}
+		
 		// current node
 		$class_path = $ilCtrl->lookupClassPath($next_class);
 		include_once($class_path);
@@ -94,16 +103,7 @@ class ilPersonalWorkspaceGUI
 		{
 			$gui = new $class_name($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID, false);
 		}
-		$ilCtrl->forwardCommand($gui);
-		
-		$this->renderLocator();
-		$this->renderTitle();
-		
-		if(($cmd == "" || $cmd == "render" || $cmd == "view") && !$_REQUEST["new_type"])
-		{
-			$this->renderToolbar();
-		}
-		
+		$ilCtrl->forwardCommand($gui);		
 		
 		// prepare notes
 		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
@@ -111,6 +111,8 @@ class ilPersonalWorkspaceGUI
 			$ilCtrl->getLinkTargetByClass(array("ilpersonalworkspacegui", "ilnotegui"), "", "", true, false));
 				
 		$tpl->setHeaderActionMenu($gui, $gui->getNotesSubId());
+		
+		$tpl->setLocator();
 	}
 
 	/**
@@ -270,7 +272,6 @@ class ilPersonalWorkspaceGUI
 			}
 		}
 
-		$tpl->setLocator();
 		$ilCtrl->setParameter($this, "wsp_id", $this->node_id);
 	}
 }
