@@ -1,11 +1,15 @@
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+* @author  Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
+* @version $Id$
+*/
+
 var errorCode=0,
 	sco_id=0,
 	diag='',
 	entryAtInitialize='',
 	totalTimeAtInitialize='',
 	b_scoCredit=true;
-	
-//var noCreditElements='cmi.
 
 // DataModel
 // rx = regular Expression; ac = accessibility; dv = default value
@@ -283,8 +287,6 @@ var model = {
 			}
 		}
 	};
-//Version
-//functions for mastery_score etc.
 
 function getElementModel(s_el){
 	var a_elmod=s_el.split('.');
@@ -298,54 +300,34 @@ function getElementModel(s_el){
 	return o_elmod;
 }
 
-function AddTime(first, second) {
-	var sFirst = first.split(":");
-	var sSecond = second.split(":");
-	var cFirst = sFirst[2].split(".");
-	var cSecond = sSecond[2].split(".");
-	var change = 0;
-
-	FirstCents = 0;  //Cents
-	if (cFirst.length > 1) {
-		FirstCents = parseInt(cFirst[1],10);
+function addTime(s_a,s_b) {
+	function timestr2hsec(st) {
+		var a1=st.split(":");
+		var a2=a1[2].split(".");
+		var it=360000*parseInt(a1[0],10) + 6000*parseInt(a1[1],10) + 100*parseInt(a2[0],10);
+		if (a2.length>1) {
+			if(a2[1].length==1) it+=10*parseInt(a2[1],10);
+			else it+=parseInt(a2[1],10);
+		}
+		return it;
 	}
-	SecondCents = 0;
-	if (cSecond.length > 1) {
-		SecondCents = parseInt(cSecond[1],10);
+	function hsec2timestr(ts){
+		function fmt(ix){
+			var sx=Math.floor(ix).toString();
+			if(ix<10) sx="0"+sx;
+			return sx;
+		}
+		var ic=ts%100;
+		var is=(ts%6000)/100;
+		var im=(ts%360000)/6000;
+		var ih=ts/360000;
+		if(ih>9999) ih=9999;
+		if(ic == 0) return fmt(ih)+":"+fmt(im)+":"+fmt(is);
+		return fmt(ih)+":"+fmt(im)+":"+fmt(is)+"."+fmt(ic);
 	}
-	var cents = FirstCents + SecondCents;
-	change = Math.floor(cents / 100);
-	cents = cents - (change * 100);
-	if (Math.floor(cents) < 10) {
-		cents = "0" + cents.toString();
-	}
-
-	var secs = parseInt(cFirst[0],10)+parseInt(cSecond[0],10)+change;  //Seconds
-	change = Math.floor(secs / 60);
-	secs = secs - (change * 60);
-	if (Math.floor(secs) < 10) {
-		secs = "0" + secs.toString();
-	}
-
-	mins = parseInt(sFirst[1],10)+parseInt(sSecond[1],10)+change;   //Minutes
-	change = Math.floor(mins / 60);
-	mins = mins - (change * 60);
-	if (mins < 10) {
-		mins = "0" + mins.toString();
-	}
-
-	hours = parseInt(sFirst[0],10)+parseInt(sSecond[0],10)+change;  //Hours
-	if (hours < 10) {
-		hours = "0" + hours.toString();
-	}
-
-	if (cents != '0') {
-		return hours + ":" + mins + ":" + secs + '.' + cents;
-	} else {
-		return hours + ":" + mins + ":" + secs;
-	}
-}
-
+	var i_hs=timestr2hsec(s_a)+timestr2hsec(s_b);
+	return hsec2timestr(i_hs);
+}	
 
 function LMSInitialize(param){
 	function setreturn(thisErrorCode,thisDiag){
@@ -397,6 +379,12 @@ function LMSInitialize(param){
 	} else {
 		setValueIntern(sco_id,'cmi.core.credit','no-credit',true);
 	}
+	
+	if(iv.b_readInteractions==false) {
+		var o_i=data[""+sco_id];
+		o_i=o_i["cmi"];
+		o_i["interactions"]=new Object();
+	}
 
 	initDebug();
 
@@ -417,7 +405,6 @@ function LMSCommit(param) {
 	if (IliasCommit()==false) return setreturn(101,"LMSCommit was not successful");
 	else return setreturn(0,"");
 }
-
 
 function LMSFinish(param){
 	function setreturn(thisErrorCode,thisDiag){
@@ -477,12 +464,11 @@ function LMSGetDiagnostic(param){
 		if (diag=="") s_return='no additional info for last error with error code '+errorCode;
 		else s_return='additional info for last error with error code '+errorCode+': '+diag;
 	} else {
-		s_return='no additional info for last error with error code '+param;
+		s_return='no additional info for error code '+param;
 	}
 	showCalls('LMSGetDiagnostic("'+param+'")',s_return);
 	return s_return;
 }
-
 
 function LMSGetValue(s_el){
 	function setreturn(thisErrorCode,thisDiag,value){
@@ -551,7 +537,7 @@ function LMSSetValue(s_el,value){
 	var b_result=setValueIntern(sco_id,s_el,value,b_storeDB);
 	if (b_result==false) return setreturn(201,"out of order");
 	if (s_el=='cmi.core.session_time'){
-		var ttime = AddTime(totalTimeAtInitialize, value);
+		var ttime = addTime(totalTimeAtInitialize, value);
 		b_result=setValueIntern(sco_id,'cmi.core.total_time',ttime,true);
 	}
 	if (s_el=='cmi.core.exit'){
