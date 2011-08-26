@@ -774,6 +774,12 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 */
 function showTrackingItems()
 {
+	include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+	$privacy = ilPrivacySettings::_getInstance();
+	if (!$privacy->enabledSahsProtocolData())
+	{
+		$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+	}
 
 	include_once "./Services/Table/classes/class.ilTableGUI.php";
 	

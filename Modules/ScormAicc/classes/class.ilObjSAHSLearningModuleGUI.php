@@ -690,10 +690,15 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 
-		// tracking data
-		$tabs_gui->addTarget("cont_tracking_data",
+		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		$privacy = ilPrivacySettings::_getInstance();
+		if($privacy->enabledSahsProtocolData())
+		{
+			// tracking data
+			$tabs_gui->addTarget("cont_tracking_data",
 			$this->ctrl->getLinkTarget($this, "showTrackingItems"), "showTrackingItems",
 			get_class($this));
+		}
 
 		// create and insert object in objecttree
 		switch ($this->object->getSubType())

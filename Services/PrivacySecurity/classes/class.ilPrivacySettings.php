@@ -48,6 +48,7 @@ class ilPrivacySettings
 		private $show_grp_access_times;
 		private $show_crs_access_times;
 		private $ref_id;
+		private $sahs_protocol_data;
 
     /**
 	 * Private constructor: use _getInstance()
@@ -297,6 +298,8 @@ class ilPrivacySettings
 	 	$this->settings->set('ps_crs_access_times',(bool) $this->enabledCourseAccessTimes());
 	 	$this->settings->set('rbac_log',(bool) $this->enabledRbacLog());
 	 	$this->settings->set('rbac_log_age',(int) $this->getRbacLogAge());
+		$this->settings->set('enable_sahs_pd',(int) $this->enabledSahsProtocolData());
+
 	}
 	/**
 	 * read settings
@@ -328,7 +331,7 @@ class ilPrivacySettings
 		$this->show_crs_access_times = (bool) $this->settings->get('ps_crs_access_times',false);
 		$this->rbac_log = (bool) $this->settings->get('rbac_log',false);
 		$this->rbac_log_age = (int) $this->settings->get('rbac_log_age',6);
-
+		$this->sahs_protocol_data = (int) $this->settings->get('enable_sahs_pd', 0);
 	}
 
 	/**
@@ -341,6 +344,14 @@ class ilPrivacySettings
 	    return 0;
 	}
 
+	public function enabledSahsProtocolData()
+	{
+		return (int) $this->sahs_protocol_data;
+	}
+	public function enableSahsProtocolData($status)
+	{
+		$this->sahs_protocol_data = (int) $status;
+	}
 
 }
 ?>
