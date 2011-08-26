@@ -1258,7 +1258,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		
 		// modules
 		$mods = new ilCheckboxGroupInputGUI($this->lng->txt("modules"), "module");
-		$mods->setRequired(true);
+		// $mods->setRequired(true);
 		foreach(ilPageLayout::getAvailableModules() as $mod_id => $mod_caption)
 		{
 			$mod = new ilCheckboxOption($mod_caption, $mod_id);
@@ -1440,10 +1440,19 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 				{
 					$l = new ilPageLayout($id);
 					$l->readObject();
-					$l->setSpecialPage($t);
+					$l->setSpecialPage($t);		
+					if(is_array($_POST["module"][$id]))
+					{
+						$l->setModules(array_keys($_POST["module"][$id]));
+					}
+					else
+					{
+						$l->setModules();
+					}
 					$l->update();
 				}
-			}
+			}						
+			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"));
 		}
 

@@ -28,6 +28,7 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("description"));
 		$this->addColumn($lng->txt("obj_sty"));
 		$this->addColumn($lng->txt("type"));
+		$this->addColumn($lng->txt("modules"));
 		$this->addColumn($lng->txt("actions"));
 		
 		$this->addMultiCommand("activate", $lng->txt("activate"));
@@ -60,6 +61,7 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 	*/
 	function getPageLayouts() {
 	    $this->setData(ilPageLayout::getLayoutsAsArray());
+		$this->all_mods = ilPageLayout::getAvailableModules();
 	}
 	
 	/**
@@ -78,6 +80,21 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_ACTION", $lng->txt("export"));
 		$this->tpl->parseCurrentBlock();
 		$ilCtrl->setParameter($this->parent_obj, "layout_id", "");
+		
+		// modules
+		$this->tpl->setCurrentBlock("mod");
+		foreach($this->all_mods as $mod_id => $mod_caption)
+		{
+			if(($mod_id == ilPageLayout::MODULE_SCORM && $a_set["mod_scorm"]) ||
+				($mod_id == ilPageLayout::MODULE_PORTFOLIO && $a_set["mod_portfolio"]))	
+			{
+				$this->tpl->setVariable("MOD_STATUS", " checked=\"checked\"");
+			}
+			$this->tpl->setVariable("MODULE_ID", $mod_id);
+			$this->tpl->setVariable("LAYOUT_ID", $a_set["layout_id"]);
+			$this->tpl->setVariable("MOD_NAME", $mod_caption);
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		if ($a_set['active'])
 		{
