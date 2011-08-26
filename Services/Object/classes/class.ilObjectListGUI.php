@@ -1587,7 +1587,7 @@ class ilObjectListGUI
 	*/
 	function insertProperties($a_item = '')
 	{
-		global $ilAccess, $lng;
+		global $ilAccess, $lng, $ilUser;
 
 		$props = $this->getProperties($a_item);
 		$props = $this->getCustomProperties($props);
@@ -1605,9 +1605,10 @@ class ilObjectListGUI
 		}
 		
 		// add common properties (comments, notes, tags)
-		if (self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE] > 0 ||
+		if ((self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE] > 0 ||
 			self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC] > 0 || 
-			self::$cnt_tags[$this->obj_id] > 0)
+			self::$cnt_tags[$this->obj_id] > 0) &&
+			($ilUser->getId() != ANONYMOUS_USER_ID))
 		{
 			$nl = true;
 			if (self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC] > 0)
@@ -2317,10 +2318,11 @@ class ilObjectListGUI
 	 */
 	function insertCommonSocialCommands($a_header_actions = false)
 	{
-		global $ilSetting, $lng;
+		global $ilSetting, $lng, $ilUser;
 		
 		if ($this->std_cmd_only ||
-			(!$ilSetting->get('comments_tagging_quick_access') && !$a_header_actions))
+			(!$ilSetting->get('comments_tagging_quick_access') && !$a_header_actions) ||
+			($ilUser->getId() == ANONYMOUS_USER_ID))
 		{
 			return;
 		}
@@ -2543,6 +2545,11 @@ class ilObjectListGUI
 	function getHeaderAction($a_ref_id, $a_obj_id, $a_context = self::CONTEXT_REPOSITORY, $a_sub_obj_id = null)
 	{
 		global $ilAccess, $ilBench, $ilUser, $ilCtrl, $lng;
+		
+		if ($ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			return "";
+		}
 		
 		$this->ctpl = new ilTemplate ("tpl.container_list_item_commands.html", true, true, false, "DEFAULT", false, true);
 		$this->initItem($a_ref_id, $a_obj_id, "", "", $a_context);
