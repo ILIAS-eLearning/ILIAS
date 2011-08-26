@@ -792,7 +792,7 @@ class ilObjPortfolioGUI
 		{
 			include_once "Services/Style/classes/class.ilPageLayout.php";
 			$templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
-			if(!$templates)
+			if($templates)
 			{			
 				$use_template = new ilRadioGroupInputGUI($lng->txt("prtf_use_page_layout"), "tmpl");
 				$use_template->setRequired(true);
