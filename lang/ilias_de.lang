@@ -12096,3 +12096,4 @@ common#:#enable_sahs_protocol_data#:#Protokolldaten aktivieren
 common#:#enable_sahs_protocol_data_desc#:#Anzeige der Protokolldaten (SCORM/AICC)
 style#:#style_page_layout_module_scorm#:#Scorm
 style#:#style_page_layout_module_portfolio#:#Portfolio
+prtf#:#prtf_use_page_layout#:#Seitenlayout benutzen
