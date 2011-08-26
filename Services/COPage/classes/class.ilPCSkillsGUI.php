@@ -152,7 +152,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
 		}
 		else
 		{
-			$obj->setValue($this->content_obj->getSkillsId());
+			$obj->setValue($this->content_obj->getSkillId());
 			$form->addCommandButton("update", $this->lng->txt("select"));
 			$form->addCommandButton("cancelUpdate", $this->lng->txt("cancel"));
 		}

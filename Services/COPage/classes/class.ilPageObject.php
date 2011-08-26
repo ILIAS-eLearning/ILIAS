@@ -786,6 +786,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$qover->setHierId($a_hier_id);
 						$qover->setPcId($a_pc_id);
 						return $qover;
+						
+					case "Skills":
+						require_once("./Services/COPage/classes/class.ilPCSkills.php");
+						$skill = new ilPCSkills($this->dom);
+						$skill->setNode($cont_node);
+						$skill->setHierId($a_hier_id);
+						$skill->setPcId($a_pc_id);
+						return $skill;
 				}
 				break;
 
