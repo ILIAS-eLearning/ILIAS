@@ -146,7 +146,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 		
 		// modules
 		$mods = new ilCheckboxGroupInputGUI($this->lng->txt("modules"), "module");
-		$mods->setRequired(true);
+		// $mods->setRequired(true);
 		$mods->setValue($this->layout_object->getModules());
 		foreach(ilPageLayout::getAvailableModules() as $mod_id => $mod_caption)
 		{

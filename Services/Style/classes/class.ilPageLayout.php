@@ -121,7 +121,6 @@ class ilPageLayout
 		{
 			$this->modules = array();
 		}
-		var_dump($this->modules);
 	}
 
 	/**
