@@ -139,7 +139,7 @@ class ilPersonalSkillsGUI
 		}
 		else
 		{
-			$user = new ilObjectUser($a_user_id);
+			$user = new ilObjUser($a_user_id);
 		}
 
 		$tpl = new ilTemplate("tpl.skill_pres.html", true, true, "Services/Skill");

@@ -81,6 +81,7 @@
 <xsl:param name="enable_verification"/>
 <xsl:param name="enable_blog"/>
 <xsl:param name="enable_qover"/>
+<xsl:param name="enable_skills"/>
 
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -796,6 +797,14 @@
 			<xsl:call-template name="EditMenuItem">
 				<xsl:with-param name="command">insert_qover</xsl:with-param>
 				<xsl:with-param name="langvar">ed_insert_qover</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+		
+		<!-- insert skills -->
+		<xsl:if test = "$enable_skills = 'y'">
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">insert_skills</xsl:with-param>
+				<xsl:with-param name="langvar">ed_insert_skills</xsl:with-param>
 			</xsl:call-template>
 		</xsl:if>
 		
@@ -3690,6 +3699,26 @@
 			<xsl:value-of select="@Id"/>;
 		</xsl:for-each>
 	}}}}}
+	<xsl:if test="$mode = 'edit'">
+		<!-- <xsl:value-of select="../@HierId"/> -->
+		<xsl:if test="$javascript='disable'">
+			<br />
+			<input type="checkbox" name="target[]">
+				<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
+				</xsl:attribute>
+			</input>
+		</xsl:if>
+		<xsl:call-template name="EditMenu">
+			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="pc_id" select="../@PCID" />
+			<xsl:with-param name="edit">y</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+</xsl:template>
+
+<!-- Skills data -->
+<xsl:template match="Skills">
+	{{{{{Skills<xsl:if test="$mode = 'edit'">Teaser</xsl:if>#<xsl:value-of select="@User"/>#<xsl:value-of select="@Id"/>}}}}}
 	<xsl:if test="$mode = 'edit'">
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<xsl:if test="$javascript='disable'">

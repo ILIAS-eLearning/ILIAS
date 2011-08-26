@@ -21,6 +21,8 @@ class ilPersonalSkill
 	{
 		global $ilDB;
 		
+		include_once "Services/Skill/classes/class.ilSkillTreeNode.php";
+		
 		$set = $ilDB->query("SELECT * FROM skl_personal_skill ".
 			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer")
 			);

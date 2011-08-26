@@ -19,7 +19,7 @@ include_once ("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI, ilPCPluggedGUI, ilPCTabsGUI, IlPCPlaceHolderGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCContentIncludeGUI, ilPCLoginPageElementGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCInteractiveImageGUI, ilPCProfileGUI, ilPCVerificationGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCBlogGUI, ilPCQuestionOverviewGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCBlogGUI, ilPCQuestionOverviewGUI, ilPCSkillsGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -460,6 +460,10 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 				case "qover":
 					$this->ctrl->setCmdClass("ilPCQuestionOverviewGUI");
 					break;
+				
+				case "skills":					
+					$this->ctrl->setCmdClass("ilPCSkillsGUI");
+					break;
 
 			}
 			$next_class = $this->ctrl->getNextClass($this);
@@ -751,6 +755,14 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 				include_once ("./Services/COPage/classes/class.ilPCQuestionOverviewGUI.php");
 				$qover_gui =& new ilPCQuestionOverviewGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$ret = $this->ctrl->forwardCommand($qover_gui);
+				break;
+			
+			// Skills
+			case "ilpcskillsgui":
+				$this->tabs_gui->clearTargets();
+				include_once ("./Services/COPage/classes/class.ilPCSkillsGUI.php");
+				$skills_gui = new ilPCSkillsGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$ret = $this->ctrl->forwardCommand($skills_gui);
 				break;
 
 			default:

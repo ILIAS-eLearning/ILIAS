@@ -12098,3 +12098,7 @@ style#:#style_page_layout_module_scorm#:#Scorm
 style#:#style_page_layout_module_portfolio#:#Portfolio
 prtf#:#prtf_use_page_layout#:#Seitenlayout benutzen
 common#:#shoppingcart#:#Warenkorb
+content#:#cont_ed_insert_skills#:#Skills einfügen
+content#:#cont_pc_skills#:#Skill
+content#:#cont_insert_skills#:#Skill einfügen
+content#:#cont_update_skills#:#Skill bearbeiten
