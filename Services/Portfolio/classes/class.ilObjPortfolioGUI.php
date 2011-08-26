@@ -790,11 +790,27 @@ class ilObjPortfolioGUI
 		// save and cancel commands
 		if ($a_mode == "create")
 		{
+			$use_template = new ilRadioGroupInputGUI($lng->txt("prtf_use_page_layout"), "tmpl");
+			$use_template->setRequired(true);
+			$form->addItem($use_template);
+			
+			$opt = new ilRadioOption($lng->txt("none"), 0);
+			$use_template->addOption($opt);
+			
+			include_once "Services/Style/classes/class.ilPageLayout.php";
+			$templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
+			foreach ($templates as $templ)
+			{
+				$templ->readObject();
+				
+				$opt = new ilRadioOption($templ->getTitle().$templ->getPreview(), $templ->getId());
+				$use_template->addOption($opt);			
+			}
+			
 			$form->setTitle($lng->txt("prtf_add_page").": ".
 				$this->portfolio->getTitle());
 			$form->addCommandButton("savePage", $lng->txt("save"));
-			$form->addCommandButton("pages", $lng->txt("cancel"));
-			
+			$form->addCommandButton("pages", $lng->txt("cancel"));			
 		}
 		else
 		{
@@ -821,7 +837,17 @@ class ilObjPortfolioGUI
 			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 			$page = new ilPortfolioPage($this->portfolio->getId());
 			$page->setType(ilPortfolioPage::TYPE_PAGE);		
-			$page->setTitle($form->getInput("title"));									
+			$page->setTitle($form->getInput("title"));		
+			
+			// use template as basis
+			$layout_id = $form->getInput("tmpl");
+			if($layout_id)
+			{
+				include_once("./Services/Style/classes/class.ilPageLayout.php");
+				$layout_obj = new ilPageLayout($layout_id);
+				$page->setXMLContent($layout_obj->getXMLContent());
+			}
+			
 			$page->create();
 
 			ilUtil::sendSuccess($lng->txt("prtf_page_created"), true);

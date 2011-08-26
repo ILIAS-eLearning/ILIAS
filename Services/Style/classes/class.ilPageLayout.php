@@ -296,7 +296,7 @@ class ilPageLayout
 	/**
 	 * Get layouts
 	 */
-	public static function getLayouts($a_active = false, $a_special_page = false)
+	public static function getLayouts($a_active = false, $a_special_page = false, $a_module = null)
 	{
 		global $ilDB;
 		$arr_layouts = array();
@@ -304,6 +304,16 @@ class ilPageLayout
 		if ($a_active)
 		{
 			$add.= " AND (active = 1)";
+		}
+		switch($a_module)
+		{
+			case self::MODULE_SCORM:
+				$add .= " AND mod_scorm = 1";
+				break;
+			
+			case self::MODULE_PORTFOLIO:
+				$add .= " AND mod_portfolio = 1";
+				break;
 		}
 		$query = "SELECT layout_id FROM page_layout $add ORDER BY title ";
 		$result = $ilDB->query($query);
@@ -318,9 +328,9 @@ class ilPageLayout
 	/**
 	 * Get active layouts
 	 */
-	public static function activeLayouts($a_special_page = false)
+	public static function activeLayouts($a_special_page = false, $a_module = null)
 	{
-		return self::getLayouts(true, $a_special_page);
+		return self::getLayouts(true, $a_special_page, $a_module);
 	}
 	
 	/**

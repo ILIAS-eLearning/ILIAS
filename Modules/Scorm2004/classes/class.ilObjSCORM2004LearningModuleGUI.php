@@ -2187,7 +2187,7 @@ function showTrackingItem()
 		
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 		
-		$arr_templates = ilPageLayout::activeLayouts($a_special_page);
+		$arr_templates = ilPageLayout::activeLayouts($a_special_page, ilPageLayout::MODULE_SCORM);
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scormeditor_page_layout_chooser.html", "Modules/Scorm2004");
 
