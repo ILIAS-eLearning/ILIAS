@@ -20,9 +20,14 @@
 	<!-- BEGIN entry_mail -->
 	<li class="ilMainMenu"><a class="{MM_CLASS}" href="{SCRIPT_MAIL}" target="{TARGET_MAIL}">{TXT_MAIL}</a>{SEL}</li>
 	<!-- END entry_mail -->
-	<!-- BEGIN shopbutton -->
-	<li class="ilMainMenu"><a class="{MM_CLASS}" {STYLE_SHOP} href="{SCRIPT_SHOP}" target="{TARGET_SHOP}">{TXT_SHOP}</a><!-- BEGIN shoppingcart --><a class="{MM_CLASS_SHOPPINGCART}" href="{SCRIPT_SHOPPINGCART}" target="{TARGET_SHOPPINGCART}">{TXT_SHOPPINGCART}</a><!-- END shoppingcart -->{SEL}</li>
-	<!-- END shopbutton -->
+	<!-- BEGIN entry_shop -->
+	<li class="ilMainMenu"><a id="mm_shop_tr" class="{MM_CLASS}" href="{SCRIPT_SHOP}" target="{TARGET_SHOP}">{TXT_SHOP}
+	<img border="0" alt="" src="{ARROW_IMG}">
+	</a>{SEL}
+	<div id="mm_shop_ov" class="ilOverlay" style="display:none;">
+		{SHOP_CONT_OV}
+	</div></li>
+	<!-- END entry_shop -->
 	<!-- BEGIN entry_administration -->
 	<li class="ilMainMenu">{ADMINISTRATION_DROP_DOWN}{SEL}</li>
 	<!-- END entry_administration -->
