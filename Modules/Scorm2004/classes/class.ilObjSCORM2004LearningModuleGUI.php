@@ -196,13 +196,14 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	function properties()
 	{
-		global $rbacsystem, $tree, $tpl, $lng, $ilToolbar;;
+		global $rbacsystem, $tree, $tpl, $lng, $ilToolbar, $ilCtrl, $ilSetting;
 		
 		$this->setSubTabs("settings", "general_settings");
 		
 		$lng->loadLanguageModule("style");
 
-		if ($this->object->editable!=1)
+		// not editable
+		if ($this->object->editable != 1)
 		{
 			// view
 			$ilToolbar->addButton($this->lng->txt("view"),
@@ -213,15 +214,63 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$ilToolbar->addButton($this->lng->txt("cont_sc_new_version"),
 				$this->ctrl->getLinkTarget($this, "newModuleVersion"));
 		}
-		else
+		else  	// editable
 		{
-			// preview
-/*			$ilToolbar->addButton($this->lng->txt("cont_sc_preview"),
-				$this->ctrl->getLinkTarget($this, "preview"),
-				"_blank");*/
-		}
+			// glossary buttons to toolbar
+			$sep = false;
+			if (ilObject::_lookupType($this->object->getAssignedGlossary()) != "glo")
+			{
+				$parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
+				if ($rbacsystem->checkAccess("create", $parent_ref_id, "glo"))
+				{
+					$ilToolbar->addButton($this->lng->txt("cont_glo_create"),
+						$ilCtrl->getLinkTarget($this, "createGlossary"));
+				}
+				$ilToolbar->addButton($this->lng->txt("cont_glo_assign"),
+					$ilCtrl->getLinkTarget($this, "assignGlossary"));
+			}
+			else
+			{
+				$ilToolbar->addButton($this->lng->txt("cont_glo_detach"),
+					$ilCtrl->getLinkTarget($this, "detachGlossary"));
+			}
 
-		
+			// style buttons to toolbar
+			$fixed_style = $ilSetting->get("fixed_content_style_id");
+			$style_id = $this->object->getStyleSheetId();
+
+			if ($fixed_style == 0)
+			{
+				$st_styles = ilObjStyleSheet::_getStandardStyles(true, false,
+					$_GET["ref_id"]);
+	
+				$st_styles[0] = $this->lng->txt("default");
+				ksort($st_styles);
+	
+				if ($style_id > 0)
+				{
+					// individual style
+					if (!ilObjStyleSheet::_lookupStandard($style_id))
+					{
+						$ilToolbar->addSeparator();
+						
+						// delete command
+						$ilToolbar->addButton($this->lng->txt("cont_edit_style"),
+							$ilCtrl->getLinkTarget($this, "editStyle"));
+						$ilToolbar->addButton($this->lng->txt("cont_delete_style"),
+							$ilCtrl->getLinkTarget($this, "deleteStyle"));
+					}
+				}
+	
+				if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id))
+				{
+					$ilToolbar->addSeparator();
+					
+					$ilToolbar->addButton($this->lng->txt("sty_create_ind_style"),
+						$ilCtrl->getLinkTarget($this, "createStyle"));
+				}
+			}
+		}
 		
 		if ($this->object->editable!=1)
 		{
@@ -345,7 +394,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if ($this->object->editable==1)
+		if ($this->object->editable == 1)
 		{
 			$this->initPropertiesEditableForm();
 			$this->getPropertiesEditableValues();
@@ -358,21 +407,11 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	public function initPropertiesEditableForm()
 	{
-		global $lng, $ilCtrl, $tree, $rbacsystem;
+		global $lng, $ilCtrl, $tree, $rbacsystem, $ilSetting;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 	
-		// glossary
-		$ne = new ilNonEditableValueGUI($lng->txt("obj_glo"), "glossary");
-		$this->form->addItem($ne);
-		
-		// number of tries
-		$ni = new ilNumberInputGUI($lng->txt("cont_qtries"), "q_tries");
-		$ni->setMaxLength(3);
-		$ni->setSize(3);
-		$this->form->addItem($ni);
-		
 		// localization
 		$options = array(
 			"" => $lng->txt("please_select"),
@@ -387,34 +426,62 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$loc->setOptions($options);
 		$loc->setInfo($this->lng->txt("cont_localization_info"));
 		$this->form->addItem($loc);
-		
-		
-		// final sco page
-/*		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_final_sco_page"), "final_sco_page");
-		$cb->setInfo($this->lng->txt("cont_final_sco_page_info"));
-		$this->form->addItem($cb);
-		
-		// final lm page
-		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_final_lm_page"), "final_lm_page");
-		$cb->setInfo($this->lng->txt("cont_final_lm_page_info"));
-		$this->form->addItem($cb);*/
 
-		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
-		$parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
+		// glossary
+		$ne = new ilNonEditableValueGUI($lng->txt("obj_glo"), "glossary");
+		$this->form->addItem($ne);
 		
-		if (ilObject::_lookupType($this->object->getAssignedGlossary()) != "glo")
+		// style
+		$lng->loadLanguageModule("style");
+		$fixed_style = $ilSetting->get("fixed_content_style_id");
+		$style_id = $this->object->getStyleSheetId();
+
+		if ($fixed_style > 0)
 		{
-			if ($rbacsystem->checkAccess("create", $parent_ref_id, "glo"))
-			{
-				$this->form->addCommandButton("createGlossary", $lng->txt("cont_glo_create"));
-			}
-			$this->form->addCommandButton("assignGlossary", $lng->txt("cont_glo_assign"));
+			$st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
+			$st->setValue(ilObject::_lookupTitle($fixed_style)." (".
+				$this->lng->txt("global_fixed").")");
+			$this->form->addItem($st);
 		}
 		else
 		{
-			$this->form->addCommandButton("detachGlossary", $lng->txt("cont_glo_detach"));
+			$st_styles = ilObjStyleSheet::_getStandardStyles(true, false,
+				$_GET["ref_id"]);
+
+			$st_styles[0] = $this->lng->txt("default");
+			ksort($st_styles);
+
+			if ($style_id > 0)
+			{
+				// individual style
+				if (!ilObjStyleSheet::_lookupStandard($style_id))
+				{
+					$st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
+					$st->setValue(ilObject::_lookupTitle($style_id));
+					$this->form->addItem($st);
+				}
+			}
+
+			if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id))
+			{
+				$style_sel = ilUtil::formSelect ($style_id, "style_id",
+					$st_styles, false, true);
+				$style_sel = new ilSelectInputGUI($lng->txt("cont_current_style"), "style_id");
+				$style_sel->setOptions($st_styles);
+				$style_sel->setValue($style_id);
+				$this->form->addItem($style_sel);
+			}
 		}
-	                
+		
+		// number of tries
+		$ni = new ilNumberInputGUI($lng->txt("cont_qtries"), "q_tries");
+		$ni->setMaxLength(3);
+		$ni->setSize(3);
+		$this->form->addItem($ni);
+		
+
+		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
+
 		$this->form->setTitle($lng->txt("cont_lm_properties"));
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	}
@@ -436,6 +503,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		}
 		$values["q_tries"] = $this->object->getTries();
 		$values["localization"] = $this->object->getLocalization();
+		$values["style_id"] = $this->object->getStyleSheetId();
 	
 		$this->form->setValuesByArray($values);
 	}
@@ -447,7 +515,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	{
 		global $ilSetting;
 		
-		if ($this->object->editable!=1) {
+		if ($this->object->editable != 1)
+		{
 			$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 			$this->object->setOpenMode($_POST["open_mode"]);
 			$this->object->setWidth($_POST["width"]);
@@ -470,6 +539,13 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			{
 				$this->object->setTries($_POST["q_tries"]);
 				$this->object->setLocalization($_POST["localization"]);
+				
+				if ($ilSetting->get("fixed_content_style_id") <= 0 &&
+					(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
+					|| $this->object->getStyleSheetId() == 0))
+				{
+					$this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
+				}
 			}
 		}
 		$this->object->update();
@@ -1727,7 +1803,7 @@ function showTrackingItem()
 		if ($a_main_tab == "settings" &&
 			$this->object->editable == 1)
 		{
-			// general properties
+/*			// general properties
 			$ilTabs->addSubTab("general_settings",
 				$lng->txt("general_settings"),
 				$ilCtrl->getLinkTarget($this, 'properties'));
@@ -1736,7 +1812,7 @@ function showTrackingItem()
 			$ilTabs->addSubTab("style",
 				$lng->txt("cont_style"),
 				$ilCtrl->getLinkTarget($this, 'editStyleProperties'));
-
+*/
 			$ilTabs->activateSubTab($a_active);
 		}
 	}

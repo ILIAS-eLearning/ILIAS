@@ -139,7 +139,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 			case "ilobjstylesheetgui":
 				//$this->addLocations();
-				$this->ctrl->setReturn($this, "editStyleProperties");
+				$this->ctrl->setReturn($this, "properties");
 				$ilTabs->clearTargets();
 				$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
