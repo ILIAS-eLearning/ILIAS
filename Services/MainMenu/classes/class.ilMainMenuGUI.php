@@ -434,52 +434,14 @@ class ilMainMenuGUI
 		// webshop
 		if(IS_PAYMENT_ENABLED)
 		{
-			$a_tpl->setCurrentBlock('shopbutton');
-			$a_tpl->setVariable('SCRIPT_SHOP', $this->getScriptTarget('ilias.php?baseClass=ilShopController&cmd=firstpage'));
-			$a_tpl->setVariable('TARGET_SHOP', $this->target);
-
-			include_once 'Services/Payment/classes/class.ilPaymentShoppingCart.php';
-			$objShoppingCart = new ilPaymentShoppingCart($ilUser);
-			$items = $objShoppingCart->getEntries();
-
-			$a_tpl->setVariable('TXT_SHOP', $lng->txt('shop'));
-
-			// shoppingcart
-			if(count($items) > 0 )
-			{
-
-				$a_tpl->setVariable('SCRIPT_SHOPPINGCART', $this->getScriptTarget('ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilshopshoppingcartgui'));
-				$a_tpl->setVariable('TARGET_SHOPPINGCART', $this->target);
-				$a_tpl->setVariable('TXT_SHOPPINGCART', '('.count($items).')');
-				if($this->active == 'shop')
-				{
-					$a_tpl->setVariable('MM_CLASS_SHOPPINGCART', 'MMActive');
-				}
-				else
-				{
-					$a_tpl->setVariable('MM_CLASS_SHOPPINGCART', 'MMInactive');
-				}
-			}
-
-			if($this->active == 'shop')
-			{
-				$a_tpl->setVariable('MM_CLASS', 'MMActive');
-				$a_tpl->setVariable("SEL", '<span class="ilAccHidden">('.$lng->txt("stat_selected").')</span>');
-				if(count($items) > 0 )
-				{
-					$a_tpl->setVariable('STYLE_SHOP', 'style="margin-right: 5px;"');
-				}
-			}
-			else
-			{
-				$a_tpl->setVariable('MM_CLASS', 'MMInactive');
-				if(count($items) > 0 )
-				{
-					$a_tpl->setVariable('STYLE_SHOP', 'style="margin-right: 5px;"');
-				}
-			}
-			$a_tpl->parseCurrentBlock();
-
+			$title = $lng->txt("shop");
+			$this->renderEntry($a_tpl, "shop", $title, "#" );
+			include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+			$ov = new ilOverlayGUI("mm_shop_ov");
+			$ov->setTrigger("mm_shop_tr");
+			$ov->setAnchor("mm_shop_tr");
+			$ov->setAutoHide(false);
+			$ov->add();
 		}
 
 		// administration
@@ -528,7 +490,7 @@ class ilMainMenuGUI
 		$id = strtolower($a_id);
 		$id_up = strtoupper($a_id);
 		$a_tpl->setCurrentBlock("entry_".$id);
-		
+
 		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
 
 		// repository
@@ -684,7 +646,32 @@ class ilMainMenuGUI
 			
 			$a_tpl->setVariable("DESK_CONT_OV", $gl->getHTML());
 		}
-		
+		// shop
+		if ($a_id == "shop")
+		{
+			$gl = new ilGroupedListGUI();
+			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.gif"));
+
+			// shop_content
+			$gl->addEntry($lng->txt("content"),
+				"ilias.php?baseClass=ilShopController&amp;cmd=firstpage",
+				"_top");
+			
+			// shoppingcart
+			include_once 'Services/Payment/classes/class.ilPaymentShoppingCart.php';
+			global $ilUser;
+			$objShoppingCart = new ilPaymentShoppingCart($ilUser);
+			$items = $objShoppingCart->getEntries();
+
+			if(count($items) > 0 )
+			{
+				$gl->addEntry($lng->txt("shoppingcart").' ('.count($items).')',
+					"ilias.php?baseClass=ilShopController&amp;cmdClass=ilshopshoppingcartgui",
+					"_top");
+			}
+			$a_tpl->setVariable("SHOP_CONT_OV", $gl->getHTML());
+		}
+
 		$a_tpl->setVariable("TXT_".$id_up, $a_txt);
 		$a_tpl->setVariable("SCRIPT_".$id_up, $a_script);
 		$a_tpl->setVariable("TARGET_".$id_up, $a_target);
@@ -901,6 +888,14 @@ class ilMainMenuGUI
 				$selection->addItem($lng->txt("personal_settings"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSettings",
 					"", "", "_top");
 
+				break;
+
+			// shop
+			case 'shop':
+				$selection->setListTitle($lng->txt("shop"));
+				$selection->setId("dd_shp");
+				$selection->addItem($lng->txt("shop"), "", "ilias.php?baseClass=ilShopController&cmd=firstpage",
+					"", "", "_top");
 				break;
 
 			// administration
