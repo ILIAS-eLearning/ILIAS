@@ -790,21 +790,24 @@ class ilObjPortfolioGUI
 		// save and cancel commands
 		if ($a_mode == "create")
 		{
-			$use_template = new ilRadioGroupInputGUI($lng->txt("prtf_use_page_layout"), "tmpl");
-			$use_template->setRequired(true);
-			$form->addItem($use_template);
-			
-			$opt = new ilRadioOption($lng->txt("none"), 0);
-			$use_template->addOption($opt);
-			
 			include_once "Services/Style/classes/class.ilPageLayout.php";
 			$templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
-			foreach ($templates as $templ)
-			{
-				$templ->readObject();
-				
-				$opt = new ilRadioOption($templ->getTitle().$templ->getPreview(), $templ->getId());
-				$use_template->addOption($opt);			
+			if(!$templates)
+			{			
+				$use_template = new ilRadioGroupInputGUI($lng->txt("prtf_use_page_layout"), "tmpl");
+				$use_template->setRequired(true);
+				$form->addItem($use_template);
+
+				$opt = new ilRadioOption($lng->txt("none"), 0);
+				$use_template->addOption($opt);
+
+				foreach ($templates as $templ)
+				{
+					$templ->readObject();
+
+					$opt = new ilRadioOption($templ->getTitle().$templ->getPreview(), $templ->getId());
+					$use_template->addOption($opt);			
+				}
 			}
 			
 			$form->setTitle($lng->txt("prtf_add_page").": ".
