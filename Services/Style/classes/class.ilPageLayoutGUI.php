@@ -105,19 +105,29 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 	 *
 	 * @param string $a_mode edit mode
 	 */
-	function properties($a_mode="save")
+	function properties($a_mode="save", $a_form = null)
 	{
-		global $ilCtrl, $lng, $ilTabs, $ilSetting;
+		global $ilTabs;
 	
 		$ilTabs->setTabActive('properties');
 		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form_gui = new ilPropertyFormGUI();
-		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
-		$this->form_gui->setTitle($lng->txt("cont_ed_pglprop"));
-
-		include_once("Services/Form/classes/class.ilRadioMatrixInputGUI.php");
+		if(!$a_form)
+		{
+			$a_form = $this->initForm($a_mode);
+		}
+		
+		$this->tpl->setContent($a_form->getHTML());
+	}
 	
+	function initForm($a_mode)
+	{
+		global $ilCtrl, $lng, $ilSetting;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form_gui = new ilPropertyFormGUI();
+		$form_gui->setFormAction($ilCtrl->getFormAction($this));
+		$form_gui->setTitle($lng->txt("cont_ed_pglprop"));
+
 		// title
 		$title_input = new ilTextInputGUI($lng->txt("title"),"pgl_title");
 		$title_input->setSize(50);
@@ -133,9 +143,20 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 		$desc_input->setCols(37);
 		$desc_input->setTitle($lng->txt("description"));
 		$desc_input->setRequired(false);
+		
+		// modules
+		$mods = new ilCheckboxGroupInputGUI($this->lng->txt("modules"), "module");
+		$mods->setRequired(true);
+		$mods->setValue($this->layout_object->getModules());
+		foreach(ilPageLayout::getAvailableModules() as $mod_id => $mod_caption)
+		{
+			$mod = new ilCheckboxOption($mod_caption, $mod_id);
+			$mods->addOption($mod);			
+		}
 
-		$this->form_gui->addItem($title_input);
-		$this->form_gui->addItem($desc_input);
+		$form_gui->addItem($title_input);
+		$form_gui->addItem($desc_input);
+		$form_gui->addItem($mods);
 
 		// style
 		$fixed_style = $ilSetting->get("fixed_content_style_id");
@@ -146,7 +167,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 			$st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
 			$st->setValue(ilObject::_lookupTitle($fixed_style)." (".
 				$this->lng->txt("global_fixed").")");
-			$this->form_gui->addItem($st);
+			$form_gui->addItem($st);
 		}
 		else
 		{
@@ -157,13 +178,12 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 			$style_sel = new ilSelectInputGUI($lng->txt("obj_sty"), "style_id");
 			$style_sel->setOptions($st_styles);
 			$style_sel->setValue($style_id);
-			$this->form_gui->addItem($style_sel);
+			$form_gui->addItem($style_sel);
 		}
-
-				
+						
+		$form_gui->addCommandButton("updateProperties", $lng->txt($a_mode));
 		
-		$this->form_gui->addCommandButton("updateProperties", $lng->txt($a_mode));
-		$this->tpl->setContent($this->form_gui->getHTML());
+		return $form_gui;
 	}
 
 	/**
@@ -172,18 +192,21 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 	function updateProperties()
 	{
 		global $lng;
-
-		if($_POST["pgl_title"] == "")
+		
+		$form = $this->initForm("save");
+		if(!$form->checkInput())
 		{
-			$this->ilias->raiseError($this->lng->txt("no_title"),$this->ilias->error_obj->MESSAGE);
-			$this->properties();
-			exit;
+			$form->setValuesByPost();
+			return $this->properties("save", $form);
 		}
-		$this->layout_object->setTitle($_POST['pgl_title']);
-		$this->layout_object->setDescription($_POST['pgl_desc']);
-		$this->layout_object->setStyleId($_POST['style_id']);
+		
+		$this->layout_object->setTitle($form->getInput('pgl_title'));
+		$this->layout_object->setDescription($form->getInput('pgl_desc'));
+		$this->layout_object->setStyleId($form->getInput('style_id'));
+		$this->layout_object->setModules($form->getInput('module'));
 		$this->layout_object->update();
-		ilUtil::sendInfo($lng->txt("saved_successfully"),false);
+		
+		ilUtil::sendInfo($lng->txt("saved_successfully"));
 		$this->properties();
 	}
 	

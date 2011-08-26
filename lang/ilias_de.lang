@@ -12094,3 +12094,5 @@ blog#:#blog_profile_picture#:#Profil-Bild anzeigen
 prtf#:#prtf_profile_picture#:#Profil-Bild anzeigen
 common#:#enable_sahs_protocol_data#:#Protokolldaten aktivieren
 common#:#enable_sahs_protocol_data_desc#:#Anzeige der Protokolldaten (SCORM/AICC)
+style#:#style_page_layout_module_scorm#:#Scorm
+style#:#style_page_layout_module_portfolio#:#Portfolio

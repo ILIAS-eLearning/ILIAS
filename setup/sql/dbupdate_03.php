@@ -7513,4 +7513,31 @@ if(!$ilDB->tableExists('usr_account_codes'))
 	$ilDB->addPrimaryKey("skl_self_eval_level",
 		array("user_id", "top_skill_id", "tref_id", "skill_id"));
 ?>
-
+<#3442>
+<?php
+	if(!$ilDB->tableColumnExists('page_layout','mod_scorm'))
+	{
+		$ilDB->addTableColumn(
+			'page_layout',
+			'mod_scorm',
+			array(
+				'type'	=> 'integer',
+				'length'=> 1,
+				'notnull' => false,
+				'default' => 1
+			)
+		);
+	}
+	if(!$ilDB->tableColumnExists('page_layout','mod_portfolio'))
+	{
+		$ilDB->addTableColumn(
+			'page_layout',
+			'mod_portfolio',
+			array(
+				'type'	=> 'integer',
+				'length'=> 1,
+				'notnull' => false
+			)
+		);
+	}
+?>

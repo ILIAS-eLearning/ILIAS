@@ -16,10 +16,14 @@ class ilPageLayout
 	
 	const SEQ_TEMPLATE_DIR = './Modules/Scorm2004/templates/editor/page_layouts_temp/thumbnails';
 	
+	const MODULE_SCORM = 1;
+	const MODULE_PORTFOLIO = 2;
+	
 	var $layout_id = null;
 	var $title = null;
 	var $description = null;
 	var $active = null;
+	var $modules = array();
 	
 	function ilPageLayout($a_id=null)
 	{
@@ -102,6 +106,31 @@ class ilPageLayout
 	{
 		return $this->special_page;
 	}
+	
+	/**
+	 * Set modules
+	 */
+	public function setModules(array $a_values = null)
+	{
+		if($a_values)
+		{
+			$valid = array_keys($this->getAvailableModules());
+			$this->modules = array_intersect($a_values, $valid);
+		}
+		else
+		{
+			$this->modules = array();
+		}
+		var_dump($this->modules);
+	}
+
+	/**
+	 * Get modules
+	 */
+	public function getModules()
+	{
+		return $this->modules;
+	}
 
 	/**
 	 * (De-)Activate layout
@@ -134,12 +163,24 @@ class ilPageLayout
 	public function update()
 	{
 		global $ilias, $ilDB;
+		
+		$mod_scorm = $mod_portfolio = 0;
+		if(in_array(self::MODULE_SCORM, $this->modules))
+		{
+			$mod_scorm = 1;
+		}
+		if(in_array(self::MODULE_PORTFOLIO, $this->modules))
+		{
+			$mod_portfolio = 1;
+		}
 
 		$query = "UPDATE page_layout SET title=".$ilDB->quote($this->title, "text").
 			",description =".$ilDB->quote($this->description, "text").
 			",active =".$ilDB->quote($this->active, "integer").
 			",style_id =".$ilDB->quote($this->getStyleId(), "integer").
 			",special_page =".$ilDB->quote((int) $this->getSpecialPage(), "integer").
+			",mod_scorm =".$ilDB->quote($mod_scorm, "integer").
+			",mod_portfolio =".$ilDB->quote($mod_portfolio, "integer").
 			" WHERE layout_id =".$ilDB->quote($this->layout_id, "integer");
 	
 		$result = $ilDB->manipulate($query);
@@ -159,6 +200,17 @@ class ilPageLayout
 		$this->setSpecialPage($row['special_page']);
 		$this->description=$row['description'];
 		$this->active=$row['active'];
+		
+		$mods = array();
+		if($row["mod_scorm"])
+		{
+			$mods[] = self::MODULE_SCORM;
+		}
+		if($row["mod_portfolio"])
+		{
+			$mods[] = self::MODULE_PORTFOLIO;
+		}
+		$this->setModules($mods);
 	}
 
 	/**
@@ -288,5 +340,15 @@ class ilPageLayout
 			"pgtp", "Services/COPage");
 	}
 	
-	
+	static function getAvailableModules()
+	{
+		global $lng;
+		
+		return array(
+			self::MODULE_SCORM => $lng->txt("style_page_layout_module_scorm"),
+			self::MODULE_PORTFOLIO => $lng->txt("style_page_layout_module_portfolio")
+		);		
+	}		
 }
+
+?>
