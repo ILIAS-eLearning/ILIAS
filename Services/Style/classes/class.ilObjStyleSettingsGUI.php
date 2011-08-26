@@ -1198,31 +1198,40 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	function confirmedDeletePgObject()
 	{
 	 	global $ilDB, $ilUser;
-    
-    
-
+        
 	 	foreach ($_SESSION["pglayout_user_delete"] as $id)
 	 	{
    	 		$pg_obj = new ilPageLayout($id);
-			$pg_obj->delete();
-	 		
+			$pg_obj->delete();	 		
 	 	}
   
 	 	$this->ctrl->redirect($this, "viewPageLayouts");
 	}
 	
-	function addPageLayoutObject()
+	function addPageLayoutObject($a_form = null)
 	{
-    	global $ilCtrl, $lng, $ilTabs;
+    	global $ilTabs;
    
 		$ilTabs->setTabActive('page_layouts');
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initAddPageLayoutForm();
+		}
+
+    	$this->tpl->setContent($a_form->getHTML());
+	}
+	
+	function initAddPageLayoutForm()
+	{
+		global $lng, $ilCtrl;
 		
 		$lng->loadLanguageModule("content");
 		
     	include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-    	$this->form_gui = new ilPropertyFormGUI();
-    	$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
-    	$this->form_gui->setTitle($lng->txt("sty_create_pgl"));
+    	$form_gui = new ilPropertyFormGUI();
+    	$form_gui->setFormAction($ilCtrl->getFormAction($this));
+    	$form_gui->setTitle($lng->txt("sty_create_pgl"));
    
     	include_once("Services/Form/classes/class.ilRadioMatrixInputGUI.php");
    
@@ -1246,6 +1255,15 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
     		);
     	$si = new ilSelectInputGUI($this->lng->txt("type"), "special_page");
     	$si->setOptions($options);
+		
+		// modules
+		$mods = new ilCheckboxGroupInputGUI($this->lng->txt("modules"), "module");
+		$mods->setRequired(true);
+		foreach(ilPageLayout::getAvailableModules() as $mod_id => $mod_caption)
+		{
+			$mod = new ilCheckboxOption($mod_caption, $mod_id);
+			$mods->addOption($mod);			
+		}
 
 		$ttype_input = new ilSelectInputGUI($lng->txt("sty_based_on"), "pgl_template");
 		
@@ -1273,16 +1291,17 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
     	$desc_input->setTitle($lng->txt("description"));
     	$desc_input->setRequired(false);
    
-    	$this->form_gui->addItem($title_input);
-    	$this->form_gui->addItem($desc_input);
-    	$this->form_gui->addItem($si);
-    	$this->form_gui->addItem($ttype_input);
+    	$form_gui->addItem($title_input);
+    	$form_gui->addItem($desc_input);
+    	$form_gui->addItem($si);
+    	$form_gui->addItem($mods);
+    	$form_gui->addItem($ttype_input);
 
    
-    	$this->form_gui->addCommandButton("createPg", $lng->txt("save"));
-		$this->form_gui->addCommandButton("cancelCreate", $lng->txt("cancel"));
-
-    	$this->tpl->setContent($this->form_gui->getHTML());
+    	$form_gui->addCommandButton("createPg", $lng->txt("save"));
+		$form_gui->addCommandButton("cancelCreate", $lng->txt("cancel"));
+		
+		return $form_gui;		
 	}
 	
 
@@ -1290,17 +1309,19 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	{
 		global $ilCtrl;
 		
-		if($_POST["pgl_title"] == "")
+		$form_gui = $this->initAddPageLayoutForm();
+		if(!$form_gui->checkInput())
 		{
-				$this->ilias->raiseError($this->lng->txt("no_title"),$this->ilias->error_obj->MESSAGE);
-				$this->addPageLayoutObject();
-				exit;
+			$form_gui->setValuesByPost();
+			return $this->addPageLayoutObject($form_gui);			
 		}
+				
 		//create Page-Layout-Object first
 		$pg_object = new ilPageLayout();
-		$pg_object->setTitle(ilUtil::StripSlashes($_POST['pgl_title']));
-		$pg_object->setDescription(ilUtil::StripSlashes($_POST['pgl_desc']));
-		$pg_object->setSpecialPage((int) $_POST['special_page']);
+		$pg_object->setTitle($form_gui->getInput('pgl_title'));
+		$pg_object->setDescription($form_gui->getInput('pgl_desc'));
+		$pg_object->setSpecialPage($form_gui->getInput('special_page'));
+		$pg_object->setModules($form_gui->getInput('module'));		
 		$pg_object->update();
 		
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
@@ -1313,19 +1334,20 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		
 		$this->pg_content->setId($pg_object->getId());
 		
-		if ($_POST['pgl_template'] != "-1") {
-			$layout_obj = new ilPageLayout($_POST['pgl_template']);
+		$tmpl = $form_gui->getInput('pgl_template');
+		if ($tmpl != "-1") 
+		{
+			$layout_obj = new ilPageLayout($tmpl);
 			$this->pg_content->setXMLContent($layout_obj->getXMLContent());
 			$this->pg_content->create(false);
-		} else {
+		} 
+		else 
+		{
 			$this->pg_content->create(false);
 		}
 		
-		$this->pg_id = $pg_object->getId();
-		
-		$ilCtrl->setCmdClass("ilpagelayoutgui");
-		$ilCtrl->setCmd("edit");
-		$this->executeCommand();
+		$ilCtrl->setParameterByClass("ilpagelayoutgui", "obj_id", $pg_object->getId());
+		$ilCtrl->redirectByClass("ilpagelayoutgui", "edit");
 	}
 	
 	function cancelCreateObject() {
