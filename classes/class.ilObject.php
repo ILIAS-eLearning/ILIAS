@@ -1528,13 +1528,14 @@ class ilObject
 	{
 		global $tree,$rbacadmin,$rbacreview;
 
-		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
-		ilDidacticTemplateObjSettings::assignTemplate($this->getId(), $a_tpl_id);
 
 		if(!$a_tpl_id)
 		{
 			return true;
 		}
+
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		ilDidacticTemplateObjSettings::assignTemplate($this->getId(), (int) $a_tpl_id);
 
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
 		foreach(ilDidacticTemplateActionFactory::getActionsByTemplateId($a_tpl_id) as $action)
