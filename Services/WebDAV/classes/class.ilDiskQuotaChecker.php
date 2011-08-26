@@ -386,42 +386,75 @@ class ilDiskQuotaChecker
 	 */
 	private static function __updateDiskUsageReportOfType($a_access_obj, $a_type)
 	{
+		$data = array();
+		
+		// repository
+		$res = self::__getRepositoryObjectsByType($a_type);
+		self::__updateDiskUsageReportOfTypeHelper($a_access_obj, $res, $data);
+		
+		// personal workspace
+		$res = self::__getWorkspaceObjectsByType($a_type);
+		self::__updateDiskUsageReportOfTypeHelper($a_access_obj, $res, $data);
+		
+		// saving result to DB
+		if($data)
+		{
+			foreach($data as $owner => $item)
+			{
+				self::__saveUserData($owner, $a_type, $item["size"], $item["count"]);
+			}
+		}
+	}
+	
+	/**
+	 * Save disk quota for user
+	 * 
+	 * @param int $a_user_id
+	 * @param string $a_type
+	 * @param int $a_size
+	 * @param int $a_count 
+	 */
+	private static function __saveUserData($a_user_id, $a_type, $a_size, $a_count)
+	{
 		global $ilDB;
+		
+		if ($a_user_id && $a_size != null && $a_count != null)
+		{
+			$ilDB->manipulate("INSERT INTO usr_pref ".
+				"(usr_id, keyword, value) ".
+				"VALUES ".
+				"(".$ilDB->quote($a_user_id,'integer').", ".
+				$ilDB->quote('disk_usage.'.$a_type.'.size').", ".
+				$ilDB->quote($a_size, 'integer').")");
 
-		// get all objects of the desired type which are in the repository
-		// ordered by owner
-		$res = $ilDB->query("SELECT DISTINCT d.obj_id, d.owner ".
-			"FROM object_data d ".
-			"JOIN object_reference r ON d.obj_id=r.obj_id ".
-			"JOIN tree t ON t.child=r.ref_id ".
-			"WHERE d.type = ".$ilDB->quote($a_type, "text")." ".
-			"AND t.tree=1 ".
-			"ORDER BY d.owner"
-			);
-
-		// for each objects of an owner, count the number of objects and sum up
-		// the size
+			$ilDB->manipulate("INSERT INTO usr_pref ".
+				"(usr_id, keyword, value) ".
+				"VALUES ".
+				"(".$ilDB->quote($a_user_id,'integer').", ".
+				$ilDB->quote('disk_usage.'.$a_type.'.count').", ".
+				$ilDB->quote($a_count, 'integer').")"
+				);				
+		}
+	}
+	
+	/**
+	 * for each objects of an owner, count the number of objects and sum up
+	 * the size
+	 * 
+	 * @param object $a_access_obj
+	 * @param object $a_objects 
+	 * @param array $a_result
+	 */
+	private static function __updateDiskUsageReportOfTypeHelper($a_access_obj, $a_objects, &$a_result)
+	{
 		$count = null;
 		$size = null;
 		$owner = null;
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($row = $a_objects->fetchRow(DB_FETCHMODE_OBJECT)) {
 			if ($row->owner != $owner) {
-				if ($owner != null) {
-					$ilDB->manipulate("INSERT INTO usr_pref ".
-						"(usr_id, keyword, value) ".
-						"VALUES ".
-						"(".$ilDB->quote($owner,'integer').", ".
-						$ilDB->quote('disk_usage.'.$a_type.'.size').", ".
-						$ilDB->quote($size, 'integer').")");
-
-					$ilDB->manipulate("INSERT INTO usr_pref ".
-						"(usr_id, keyword, value) ".
-						"VALUES ".
-						"(".$ilDB->quote($owner,'integer').", ".
-						$ilDB->quote('disk_usage.'.$a_type.'.count').", ".
-						$ilDB->quote($count, 'integer').")"
-						);
-
+				if ($owner != null) {					
+					$a_result[$owner]["size"] += $size;
+					$a_result[$owner]["count"] += $count;					
 				}
 				$owner = $row->owner;
 				$size = 0;
@@ -430,22 +463,54 @@ class ilDiskQuotaChecker
 			$size += $a_access_obj->_lookupDiskUsage($row->obj_id);
 			$count++;
 		}
+		
+		// add last set data
 		if ($owner != null) {
-			$ilDB->manipulate("INSERT INTO usr_pref ".
-				"(usr_id, keyword, value) ".
-				"VALUES ".
-				"(".$ilDB->quote($owner,'integer').", ".
-				$ilDB->quote('disk_usage.'.$a_type.'.size').", ".
-				$ilDB->quote($size, 'integer').")");
-				
-			$ilDB->manipulate("INSERT INTO usr_pref ".
-				"(usr_id, keyword, value) ".
-				"VALUES ".
-				"(".$ilDB->quote($owner,'integer').", ".
-				$ilDB->quote('disk_usage.'.$a_type.'.count').", ".
-				$ilDB->quote($count, 'integer').")");
+			$a_result[$owner]["size"] += $size;
+			$a_result[$owner]["count"] += $count;	
 		}
-
+	}
+	
+	/**
+	 * get all objects of the desired type which are in the repository
+     * ordered by owner
+	 * 
+	 * @param type $a_type 
+	 * @return DB result object
+	 */
+	private static function __getRepositoryObjectsByType($a_type)
+	{		
+		global $ilDB;
+		
+		return $ilDB->query("SELECT DISTINCT d.obj_id, d.owner ".
+			"FROM object_data d ".
+			"JOIN object_reference r ON d.obj_id=r.obj_id ".
+			"JOIN tree t ON t.child=r.ref_id ".
+			"WHERE d.type = ".$ilDB->quote($a_type, "text")." ".
+			"AND t.tree=1 ".
+			"ORDER BY d.owner"
+			);		
+	}
+	
+	/**
+	 * get all objects of the desired type which are in the personal workspace
+	 * ordered by owner
+	 * 
+	 * @param type $a_type 
+	 * @return DB result object
+	 */
+	private static function __getWorkspaceObjectsByType($a_type)
+	{		
+		global $ilDB;
+		
+		return $ilDB->query("SELECT DISTINCT d.obj_id, d.owner ".
+			"FROM object_data d ".
+			"JOIN object_reference_ws r ON d.obj_id=r.obj_id ".
+			"JOIN tree_workspace t ON t.child=r.wsp_id ".
+			"WHERE d.type = ".$ilDB->quote($a_type, "text")." ".
+			"AND t.tree=d.owner ".
+			"ORDER BY d.owner"
+			);		
 	}
 
 	/**
@@ -471,22 +536,7 @@ class ilDiskQuotaChecker
 		// for each user count the number of objects and sum up the size
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
 			$data = $a_access_obj->_lookupDiskUsageOfUser($row->usr_id);
-
-			if ($data['size'] != null && $data['count'] != null)
-			{
-			$ilDB->manipulate("INSERT INTO usr_pref ".
-				"(usr_id, keyword, value) ".
-				"VALUES ".
-					"(".$ilDB->quote($row->usr_id,'integer').", ".
-					$ilDB->quote('disk_usage.'.$a_type.'.size').", ".
-					$ilDB->quote($data['size'], 'integer').")");
-			$ilDB->manipulate("INSERT INTO usr_pref ".
-				"(usr_id, keyword, value) ".
-				"VALUES ".
-					"(".$ilDB->quote($row->usr_id,'integer').", ".
-					$ilDB->quote('disk_usage.'.$a_type.'.count').", ".
-					$ilDB->quote($data['count'], 'integer').")");
-			}
+			self::__saveUserData($row->usr_id, $a_type, $data["size"], $data["count"]);
 		}
 	}
 	
