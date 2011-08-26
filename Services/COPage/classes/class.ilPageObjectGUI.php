@@ -115,6 +115,8 @@ class ilPageObjectGUI
 				"enabled" => false),
 		"QuestionOverview" => array(
 				"enabled" => false),
+		"Skills" => array(
+				"enabled" => false)
 		);
 	
 	
@@ -908,6 +910,25 @@ class ilPageObjectGUI
 	public function setEnabledBlog($a_enableblog)
 	{
 		$this->setEnablePCType("Blog", (bool)$a_enableblog);
+	}
+	
+	/**
+	* Get Enable Skills Content Component
+	*
+	* @return	boolean	Enable Skills Content Component
+	*/
+	function getEnabledSkills()
+	{
+		return $this->getEnablePCType("Skills");
+	}
+
+	/**
+	 * Set Enable Skills Content Component
+	 * @param bool $a_enableskills
+	 */
+	public function setEnabledSkills($a_enableskills)
+	{
+		$this->setEnablePCType("Skills", (bool)$a_enableskills);
 	}
 
 	/**
@@ -1897,6 +1918,7 @@ class ilPageObjectGUI
 						 'enable_profile' =>  $this->getEnabledProfile() ? "y" : "n",
 						 'enable_verification' =>  $this->getEnabledVerification() ? "y" : "n",
 						 'enable_blog' =>  $this->getEnabledBlog() ? "y" : "n",
+						 'enable_skills' =>  $this->getEnabledSkills() ? "y" : "n",
 						 'enable_qover' =>  $this->getEnablePCType("QuestionOverview") ? "y" : "n"
 						);
 		if($this->link_frame != "")		// todo other link types

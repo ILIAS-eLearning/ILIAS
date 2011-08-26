@@ -12117,3 +12117,7 @@ style#:#style_page_layout_module_scorm#:#Scorm
 style#:#style_page_layout_module_portfolio#:#Portfolio
 prtf#:#prtf_use_page_layout#:#Use Page Layout
 common#:#shoppingcart#:#Shoppingcart
+content#:#cont_ed_insert_skills#:#Insert Skills
+content#:#cont_pc_skills#:#Skill
+content#:#cont_insert_skills#:#Insert Skill
+content#:#cont_update_skills#:#Edit Skill

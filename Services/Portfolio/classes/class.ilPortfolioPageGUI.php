@@ -51,6 +51,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{
 			$this->setEnabledBlog(true);
 		}
+		
+		$skmg_set = new ilSetting("skmg");
+		if($skmg_set->get("enable_skmg"))
+		{
+			$this->setEnabledSkills(true);
+		}
 	}
 
 	/**
@@ -176,7 +182,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			"Profile" => array("0-9", "a-z", "a-z_;\W"), // user, mode, fields
 			"Verification" => array("0-9", "a-z", "0-9"), // user, type, id
 			"Blog" => array("0-9", "0-9", "0-9;\W"),  // user, blog id, posting ids
-			"BlogTeaser" => array("0-9", "0-9", "0-9;\W")  // user, blog id, posting ids
+			"BlogTeaser" => array("0-9", "0-9", "0-9;\W"),  // user, blog id, posting ids
+			"Skills" => array("0-9", "0-9"),  // user, skill id
+			"SkillsTeaser" => array("0-9", "0-9")  // user, skill id
 			);
 			
 		foreach($parts as $type => $def)
@@ -192,6 +200,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 						case "Profile":
 						case "Blog":
 						case "BlogTeaser":
+						case "Skills":
+						case "SkillsTeaser":
 							$subs = null;
 							if(trim($blocks[3][$idx]))
 							{
@@ -336,6 +346,24 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		return "<div style=\"margin:5px\">".$lng->txt("obj_blog").": \"".
 				ilObject::_lookupTitle($a_blog_id)."\"".$postings."</div>";
+	}	
+	
+	protected function renderSkills($a_user_id, $a_skills_id)
+	{
+		include_once "Services/Skill/classes/class.ilPersonalSkillsGUI.php";
+		$gui = new ilPersonalSkillsGUI();
+		$html = $gui->getSkillHTML($a_skills_id, $a_user_id);
+		return $html;
+	}
+	
+	protected function renderSkillsTeaser($a_user_id, $a_skills_id)
+	{
+		global $lng;
+		
+		include_once "Services/Skill/classes/class.ilSkillTreeNode.php";
+		
+		return "<div style=\"margin:5px\">".$lng->txt("skills").": \"".
+				ilSkillTreeNode::_lookupTitle($a_skills_id)."\"</div>";
 	}	
 }
 ?>
