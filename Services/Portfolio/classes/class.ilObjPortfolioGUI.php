@@ -244,7 +244,16 @@ class ilObjPortfolioGUI
 			if($form->getInput("ptype") == "page")
 			{				
 				$page->setType(ilPortfolioPage::TYPE_PAGE);
-				$page->setTitle($form->getInput("fpage"));				
+				$page->setTitle($form->getInput("fpage"));		
+				
+				// use template as basis
+				$layout_id = $form->getInput("tmpl");
+				if($layout_id)
+				{
+					include_once("./Services/Style/classes/class.ilPageLayout.php");
+					$layout_obj = new ilPageLayout($layout_id);
+					$page->setXMLContent($layout_obj->getXMLContent());
+				}
 			}
 			else
 			{
@@ -366,7 +375,24 @@ class ilObjPortfolioGUI
 			$tf->setMaxLength(128);
 			$tf->setSize(40);
 			$tf->setRequired(true);
-			$type_page->addSubItem($tf);		
+			$type_page->addSubItem($tf);	
+			
+			include_once "Services/Style/classes/class.ilPageLayout.php";
+			$templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
+			if($templates)
+			{			
+				$options = array(0 => $lng->txt("none"));
+				foreach ($templates as $templ)
+				{
+					$templ->readObject();
+					$options[$templ->getId()] = $templ->getTitle();			
+				}
+				
+				$use_template = new ilSelectInputGUI($lng->txt("prtf_use_page_layout"), "tmpl");
+				$use_template->setRequired(true);
+				$use_template->setOptions($options);
+				$type_page->addSubItem($use_template);
+			}
 			
 			if(!$ilSetting->get('disable_wsp_blogs'))
 			{
