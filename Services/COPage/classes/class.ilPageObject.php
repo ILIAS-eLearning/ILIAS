@@ -3445,6 +3445,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	*/
 	function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_INSERT_AFTER, $a_pcid = "")
 	{
+//echo "-".$a_pos."-".$a_pcid."-";
 		// move mode into container elements is always INSERT_CHILD
 		$curr_node = $this->getContentNode($a_pos, $a_pcid);
 		$curr_name = $curr_node->node_name();

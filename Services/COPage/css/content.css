@@ -251,13 +251,13 @@ td.ilc_table_cell_Cell4
 }
 
 /* Text (Block) and Sections */
-div.ilc_text_block_Standard
+div.ilc_text_block_Standard, body.ilc_text_block_Standard
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
-div.ilc_text_block_TableContent
+div.ilc_text_block_TableContent, body.ilc_text_block_TableContent
 {
 	margin-left: 0px;
 	margin-right: 0px;
@@ -270,13 +270,13 @@ div.ilc_text_block_TableContent
 }
 
 
-div.ilc_text_block_List
+div.ilc_text_block_List, body.ilc_text_block_List
 {
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
 
-h1.ilc_heading1_Headline1, div.ilc_text_block_Headline1
+h1.ilc_heading1_Headline1, div.ilc_text_block_Headline1, body.ilc_text_block_Headline1
 {
 	margin-top: 20px;
 	margin-bottom: 10px;
@@ -284,7 +284,7 @@ h1.ilc_heading1_Headline1, div.ilc_text_block_Headline1
 	font-weight: normal;
 }
 
-h2.ilc_heading2_Headline2, div.ilc_text_block_Headline2
+h2.ilc_heading2_Headline2, div.ilc_text_block_Headline2, body.ilc_text_block_Headline2
 {
 	margin-top: 20px;
 	margin-bottom: 10px;
@@ -292,7 +292,7 @@ h2.ilc_heading2_Headline2, div.ilc_text_block_Headline2
 	font-weight: normal;
 }
 
-h3.ilc_heading3_Headline3, div.ilc_text_block_Headline3
+h3.ilc_heading3_Headline3, div.ilc_text_block_Headline3, body.ilc_text_block_Headline3
 {
 	margin-top: 20px;
 	margin-bottom: 10px;
@@ -300,7 +300,7 @@ h3.ilc_heading3_Headline3, div.ilc_text_block_Headline3
 	font-weight: normal;
 }
 
-div.ilc_text_block_Example
+div.ilc_text_block_Example, body.ilc_text_block_Example
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -320,7 +320,7 @@ div.ilc_section_Example
 	border-left-color: blue;
 }
 
-div.ilc_text_block_Citation
+div.ilc_text_block_Citation, body.ilc_text_block_Citation
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -328,7 +328,7 @@ div.ilc_text_block_Citation
 	font-style: italic;
 }
 
-div.ilc_text_block_Mnemonic
+div.ilc_text_block_Mnemonic, body.ilc_text_block_Mnemonic
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -352,7 +352,7 @@ div.ilc_section_Mnemonic
 	border-color: red;
 }
 
-div.ilc_text_block_Additional
+div.ilc_text_block_Additional, body.ilc_text_block_Additional
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -372,7 +372,7 @@ div.ilc_section_Additional
 	border-color: blue;
 }
 
-div.ilc_text_block_Remark
+div.ilc_text_block_Remark, body.ilc_text_block_Remark
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -445,7 +445,7 @@ div.ilc_section_Hint
 	height: 25px;
 }
 
-div.ilc_text_block_Hint
+div.ilc_text_block_Hint, body.ilc_text_block_Hint
 {
 	margin: 20px 0px;
 	padding: 10px 10px 10px 50px;

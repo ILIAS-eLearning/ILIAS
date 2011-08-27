@@ -13,20 +13,7 @@ var ilCOPage =
 	quick_insert_id: null,
 	pc_id_str: '',
 	pasting: false,
-
-	splitBR: function() {
-		var snode = ilCOPage.getCurrentDivNode();
-		snode = snode.childNodes[0];
-		
-		var ed = tinyMCE.activeEditor;
-		var brs = ed.dom.select('br');
-		var k;
-		for (k in brs)
-		{
-			ed.dom.split(snode, brs[k]);
-		}
-
-	},
+	response_class: "",
 	
 	switchDebugGhost: function() {
 		var tp = document.getElementById('tinytarget_parent');
@@ -46,6 +33,7 @@ var ilCOPage =
 	{
 		var content = tinyMCE.get('tinytarget').getContent();
 		alert(content);
+		alert(this.getContentForSaving());
 	},
 	
 	setContentCss: function (content_css)
@@ -65,13 +53,13 @@ var ilCOPage =
 		if (this.getInsertStatus())
 		{
 //			ilFormSend("insertJS", ed_para, null, "saveonly");
-			var content = tinyMCE.get('tinytarget').getContent();
+			var content = this.getContentForSaving();
 			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
 			//this.copyInputToGhost(false);
 			//this.removeTiny();
 			this.sendCmdRequest("insertJS", ed_para, null,
 				{ajaxform_content: content,
-				pc_id_str: this.pc_id_str,
+				pc_id_str: ed_para,
 				ajaxform_char: style_class,
 				insert_at_id: ed_para,
 				quick_save: 1},
@@ -80,7 +68,7 @@ var ilCOPage =
 		else
 		{
 			//ilFormSend("saveJS", ed_para, null, "saveonly");
-			var content = tinyMCE.get('tinytarget').getContent();
+			var content = this.getContentForSaving();
 			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
 			//this.copyInputToGhost(false);
 			//this.removeTiny();
@@ -113,7 +101,7 @@ var ilCOPage =
 		}
 		else if (this.getInsertStatus() && !ilCOPage.quick_insert_id)
 		{
-			var content = tinyMCE.get('tinytarget').getContent();
+			var content = this.getContentForSaving();;
 			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
 			this.copyInputToGhost(false);
 			this.removeTiny();
@@ -127,7 +115,7 @@ var ilCOPage =
 		}
 		else
 		{
-			var content = tinyMCE.get('tinytarget').getContent();
+			var content = this.getContentForSaving();
 			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
 			this.copyInputToGhost(false);
 			this.removeTiny();
@@ -142,6 +130,130 @@ var ilCOPage =
 	switchTo: function(pc_id)
 	{
 		this.cmdSave(pc_id);
+	},
+	
+	getContentForSaving: function()
+	{
+		var ed = tinyMCE.get('tinytarget');
+		var cl = ed.dom.getRoot().className;
+		var c = ed.getContent();
+		c = "<div class='" + cl + "'>" + c + "</div>";
+		c = c.split("<p>").join("");
+		c = c.split("\n").join("");
+		c = c.split("</p>").join("<br />");
+		c = c.split("<br /></div>").join("</div>");
+		return c;
+	},
+
+	splitBR: function() {
+		var snode;		
+		var ed = tinyMCE.activeEditor;
+		var r = ed.dom.getRoot();
+//		var d = r.childNodes[0];
+//console.log(ed.getContent());
+//console.log(r);
+//		var d = r;
+
+		// make copy of root
+		var rcopy = r.cloneNode(true);
+
+		// remove all childs of top level
+		for (var k = r.childNodes.length - 1; k >= 0; k--)
+		{
+			r.removeChild(r.childNodes[k]);
+		}
+		
+		// cp -> current P
+		var cp = ed.dom.create('p', {}, '');
+		var cp_content = false; // has current P any content?
+		var cc, pc; // cc: currrent child (top level), pc: P child
+		
+		// walk through root copy and add content to emptied original root
+		for (var k = 0; k < rcopy.childNodes.length; k++)
+		{
+			cc = rcopy.childNodes[k];
+			
+			// handle Ps on top level
+			// main purpose: convert <p> ...<br />...</p> to <p>...</p><p>...</p>
+			if (cc.nodeName == "P")
+			{
+				// is there a current P with content? -> add it to top level
+				if (cp_content)
+				{
+					r.appendChild(cp);
+					cp = ed.dom.create('p', {}, '');
+					cp_content = false;
+				}
+				
+				// split all BRs into separate Ps on top level
+				for (var i = 0; i < cc.childNodes.length; i++)
+				{
+					pc = cc.childNodes[i];
+					if (pc.nodeName == "BR")
+					{
+						// append the current p an create a new one
+						r.appendChild(cp);
+						cp = ed.dom.create('p', {}, '');
+						cp_content = false;
+					}
+					else
+					{
+						// append the content to the current p
+						cp.appendChild(pc.cloneNode(true));
+						cp_content = true;
+					}
+				}
+				
+				// append current p and create a new one
+				if (cp_content)
+				{
+					r.appendChild(cp);
+					cp = ed.dom.create('p', {}, '');
+					cp_content = false;
+				}
+			}
+			else if (cc.nodeName == "UL" || cc.nodeName == "OL")
+			{
+				// UL and OL are simply appended to the root
+				if (cp_content)
+				{
+					r.appendChild(cp);
+					cp = ed.dom.create('p', {}, '');
+					cp_content = false;
+				}
+				r.appendChild(rcopy.childNodes[k].cloneNode(true));
+			}
+			else
+			{
+				cp.appendChild(rcopy.childNodes[k].cloneNode(true));
+				cp_content = true;
+			}
+		}
+		if (cp_content)
+		{
+			r.appendChild(cp);
+		}
+//		ed.dom.remove(d, false);
+//		r.appendChild(newd);
+
+		// this is the standard tiny br splitting (which fails in top level Ps)
+		tinymce.each(ed.dom.select('br').reverse(), function(b) {
+			try {
+				//snode = ilCOPage.getCurrentDivNode();
+				//snode = snode.childNodes[0];
+				var snode = ed.dom.getParent(b, 'p,li');
+				ed.dom.split(snode, b);
+			} catch (ex) {
+				// IE can sometimes fire an unknown runtime error so we just ignore it
+			}
+		});
+		
+		// remove brs (normally all should have been handled above
+		var c = ed.getContent();
+		c = c.split("<br />").join("");
+		c = c.split("\n").join("");
+		ed.setContent(c);
+		
 	},
 	
 	cmdCancel: function ()
@@ -322,13 +434,62 @@ tinymce.activeEditor.formatter.register('mycode', {
 	
 	cleanContent: function()
 	{
-		// plit all divs in divs
+		// split all divs in divs
 		var ed = tinyMCE.activeEditor;
-		var divs = ed.dom.select('div > div');
+		var divs = ed.dom.select('div > p > div');
 		var k;
 		for (k in divs)
 		{
 			ed.dom.split(divs[k].parentNode, divs[k]);
+		}
+	},
+	
+	checkContentAndCursor: function()
+	{
+return;
+		var ed = tinyMCE.activeEditor;
+		var ar = ed.selection.getRng();
+		var sc = ar.startContainer.nodeName.toLowerCase();
+//console.log(ar);
+		if (sc == "#text")
+		{
+			sc = ar.startContainer.parentNode.nodeName.toLowerCase();
+		}
+//console.log(sc);
+		if (sc == "body" || sc == "div")
+		{
+			// fix content if empty
+			if (ed.getContent() == "")
+			{
+				ed.setContent("<div class='ilc_text_block_Standard'><p></p></div>");
+			}
+
+			// get div > p node			
+			var r = ed.dom.getRoot();
+			var p = r.childNodes[0].childNodes[0];
+			if (p.nodeName == "#TEXT")
+			{
+				var p = r.childNodes[0].childNodes[1];
+			}
+//console.log(p.nodeName);
+			// fix content if p node missing
+			if (typeof p == "undefined" || !p ||
+				(p.nodeName != "P" && p.nodeName != "OL" && p.nodeName != "UL"))
+			{
+				ed.setContent("<div class='ilc_text_block_Standard'><p></p></div>");
+				r = ed.dom.getRoot();
+				p = r.childNodes[0].childNodes[0];
+			}
+			
+			// set selection to start of first p
+			if (ar.startOffset == 0 || sc == "body")
+			{
+				var rn = ed.dom.createRng();
+				rn.setStart(p, 0);
+				rn.setEnd(p, 0);
+				ed.selection.setRng(rn);
+				ed.selection.collapse(1);
+			}
 		}
 	},
 
@@ -392,7 +553,8 @@ tinymce.activeEditor.formatter.register('mycode', {
 	{
 		var ed = tinyMCE.activeEditor;
 		ed.focus();
-		var snode = ilCOPage.getCurrentDivNode();
+//		var snode = ilCOPage.getCurrentDivNode();
+		var snode = ed.dom.getRoot();
 		
 		if (snode)
 		{
@@ -449,7 +611,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 	{
 		var ed = tinyMCE.getInstanceById('tinytarget');
 		tinyMCE.execCommand('mceAddControl', false, 'tinytarget');
-		
+//console.log("prepareTiny");
 		if (!switched)
 		{
 			showToolbar('tinytarget');
@@ -466,43 +628,58 @@ tinymce.activeEditor.formatter.register('mycode', {
 		
 		this.setEditStatus(true);
 		this.setInsertStatus(insert);
-		this.focusTiny();
+		if (!insert)
+		{
+			this.focusTiny(false);
+		}
 		//this.autoScroll();
 		this.copyInputToGhost(true);
 		this.synchInputRegion();
 		this.updateMenuButtons();
 	},
 
-	focusTiny: function(insert)
+	focusTiny: function(delayed)
 	{
-		var ed = tinyMCE.getInstanceById('tinytarget');
-		if (ed)
+		var timeout = 1;
+		if (delayed)
 		{
-			var e = tinyMCE.DOM.get(ed.id + '_external');
-			var r = ed.dom.getRoot();
-			var fc = r.childNodes[0];
-			if (fc != null)
+			timeout = 500;
+		}
+		
+		setTimeout(function () {
+			var ed = tinyMCE.getInstanceById('tinytarget');
+			if (ed)
 			{
-				// set selection to start of first div
-				var rn = ed.dom.createRng();
-				rn.setStart(fc, 0);
-				rn.setEnd(fc, 0);
-				ed.selection.setRng(rn);
-				if (fc.className != null)
+				var e = tinyMCE.DOM.get(ed.id + '_external');
+				var r = ed.dom.getRoot();
+				// div
+			//	var fdiv = r.childNodes[0];
+				// p
+			var fc = r.childNodes[0];
+				if (fc != null)
 				{
-					var st = fc.className.substring(15);
-					var st_s = document.getElementById('style_selection');
-					if (st_s != null)
+					// set selection to start of first div
+					var rn = ed.dom.createRng();
+					rn.setStart(fc, 0);
+					rn.setEnd(fc, 0);
+					ed.selection.setRng(rn);
+					if (r.className != null)
 					{
-						ilAdvancedSelectionList.selectItem('style_selection', st);
+						var st = r.className.substring(15);
+						//var st = r.className;
+//						var st_s = document.getElementById('style_selection');
+//						if (st_s != null)
+//						{
+							ilAdvancedSelectionList.selectItem('style_selection', st);
+//console.log("setting class: " + st);
+//						}
 					}
 				}
+			
+				ed.getWin().focus();
 			}
-
-			// without the timeout, cursor will disappear, e.g. in firefox when
-			// new paragraph is inserted
-			setTimeout('tinyMCE.execCommand(\'mceFocus\',false,\'tinytarget\');', 1);
-		}
+			
+		}, timeout);
 	},
 
 	removeTiny: function() {
@@ -592,7 +769,8 @@ tinymce.activeEditor.formatter.register('mycode', {
 			var pdiv = document.getElementById(this.edit_ghost);
 			if (pdiv)
 			{
-				var c = ed.getContent();
+				var cl = ed.dom.getRoot().className;
+				var c = "<div class='" + cl + "'>" + ed.getContent() + "</div>";
 				var e = c.substr(c.length - 6);
 				var b = c.substr(c.length - 12, 6);
 				if (e == "</div>" && b != "<br />" && add_final_spacer)
@@ -803,10 +981,14 @@ tinymce.activeEditor.formatter.register('mycode', {
 		{
 //			ilCOPage.pc_id_str = "";
 			o.responseText = ilCOPage.extractPCIdsFromResponse(o.responseText);
+			o.responseText = ilCOPage.extractClassFromResponse(o.responseText);
 			ilCOPage.removeRedundantContent();
 			// paragraph editing
 			var ed = tinyMCE.getInstanceById('tinytarget');
 			ed.setContent(o.responseText);
+			var r = ed.dom.getRoot();
+			r.className = "ilc_text_block_" + ilCOPage.response_class;
+			ilCOPage.splitBR();
 			ed.setProgressState(0); // Show progress
 			ilCOPage.prepareTinyForEditing(false, o.argument.switched);
 			ilCOPage.autoResize();
@@ -857,6 +1039,17 @@ tinymce.activeEditor.formatter.register('mycode', {
 		{
 			ilCOPage.error_str = str;
 		}
+		return str;
+	},
+	
+	// extract class
+	extractClassFromResponse: function(str)
+	{
+		var end = str.indexOf("###", 0);
+		ilCOPage.response_class = str.substr(0,
+			end);
+		str = str.substr(end + 3,
+			str.length - (end + 3));
 		return str;
 	},
 	
@@ -1655,13 +1848,22 @@ statusbar = false;
 			force_p_newlines : false,
 			force_br_newlines : true,
 			forced_root_block : 'div', */
-			
+
+		// old
+		/*	remove_linebreaks : false,
+			convert_newlines_to_brs : false,
+			force_p_newlines : false,
+			force_br_newlines : true,
+			forced_root_block : 'div',
+			paste_text_linebreaktype : "br", */
+
 		// going fully to p tags
 		/*	remove_linebreaks : true,
 			convert_newlines_to_brs : false,
 			force_p_newlines : true,
 			force_br_newlines : false,
 			forced_root_block : 'div',
+			"p,br,div[class|id],span[class],code,ul[class],ol[class],li[class]"
 			paste_text_linebreaktype : "p",*/
 		
 		tinyMCE.init({
@@ -1681,13 +1883,14 @@ statusbar = false;
 			theme_advanced_toolbar_location : "external",
 			theme_advanced_path : show_path,
 			theme_advanced_statusbar_location : statusbar,
-			valid_elements : "p,br,div[class|id],span[class],code,ul[class],ol[class],li[class]",
+			valid_elements : "p,br[_moz_dirty],span[class],code,ul[class],ol[class],li[class]",
 			removeformat_selector : 'span,code',
-			remove_linebreaks : false,
+			remove_linebreaks : true,
 			convert_newlines_to_brs : false,
-			force_p_newlines : false,
-			force_br_newlines : true,
-			forced_root_block : 'div',
+			force_p_newlines : true,
+			force_br_newlines : false,
+			forced_root_block : 'p',
+			paste_text_linebreaktype : "p",
 			save_onsavecallback : "saveParagraph",
 			theme_advanced_resize_horizontal : false,
 			theme_advanced_resizing : resize,
@@ -1705,7 +1908,6 @@ statusbar = false;
 			],
 			
 			paste_auto_cleanup_on_paste : false,
-			paste_text_linebreaktype : "br",
 			paste_remove_styles: true,
 
 			/**
@@ -1761,6 +1963,8 @@ statusbar = false;
 				});
 				ed.onKeyDown.add(function(ed, ev)
 				{
+					ilCOPage.checkContentAndCursor();
+					
 //					console.log("onKeyDown" + ev.keyCode);
 //					console.log("shiftKey" + ev.shiftKey);
 					if(ev.keyCode == 9 && !ev.shiftKey)
@@ -1783,6 +1987,8 @@ statusbar = false;
 				{
 //console.log("onNodeChange");
 
+//console.log("----");
+//console.trace();
 					// clean content after paste
 					if (ilCOPage.pasting)
 					{
@@ -1845,7 +2051,6 @@ statusbar = false;
 
 				ed.onInit.add(function(ed, evt)
 				{
-//alert("cc");
 					ilCOPage.setEditFrameSize(width, height);
 					if (mode == 'edit')
 					{
@@ -1879,14 +2084,16 @@ statusbar = false;
 
 					if (mode == 'insert')
 					{
-						//alert("ff");
-//		console.log("onInit: setContent");
-						ed.setContent("<div class='ilc_text_block_Standard'></div>");
-						ilCOPage.prepareTinyForEditing(true, false);
-						//setTimeout('ilCOPage.prepareTinyForEditing(true);', 1);
+						ed.setContent("<p></p>");
+//				console.log(ed.getContent());
+						var snode = ed.dom.getRoot();
+						snode.className = 'ilc_text_block_Standard';
+						ilCOPage.prepareTinyForEditing(true);
 						ilCOPage.synchInputRegion();
-						ilCOPage.focusTiny();
+						ilCOPage.focusTiny(true);
+				//		setTimeout('ilCOPage.focusTiny();', 1000);
 						cmd_called = false;
+//				console.log(ed.getContent());
 					}
 
 					if (mode == 'td')
@@ -1894,7 +2101,7 @@ statusbar = false;
 						ed.setContent(pdiv.innerHTML);
 						ilCOPage.prepareTinyForEditing(false, false);
 						ilCOPage.synchInputRegion();
-						ilCOPage.focusTiny();
+						ilCOPage.focusTiny(true);
 						cmd_called = false;
 					}
 				});
@@ -1910,13 +2117,23 @@ statusbar = false;
 		ed.setContent(pdiv.innerHTML);
 //		ilCOPage.prepareTinyForEditing(true, false);
 		ilCOPage.synchInputRegion();
-		ilCOPage.focusTiny();
+		ilCOPage.focusTiny(false);
 		cmd_called = false;
 	}
 
 	tinyinit = true;
 }
 
+
+function eventT(ed)
+{
+	// window vs document
+//	console.log(window);
+//	console.log(tinymce.dom.Event);
+	tinymce.dom.Event.add(tinymce.dom.doc, 'mousedown',
+		function() {console.log("mouse down");}
+		, false);
+}
 
 /**
  * Save paragraph

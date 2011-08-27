@@ -37,7 +37,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	{
 		global $lng;
 		
-		return array("" => $lng->txt("cont_standard"),
+		return array("Standard" => $lng->txt("cont_standard"),
 			"Headline1" => $lng->txt("cont_Headline1"),
 			"Headline2" => $lng->txt("cont_Headline2"),
 			"Headline3" => $lng->txt("cont_Headline3"),
@@ -326,7 +326,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$s_text = $this->content_obj->xml2output($s_text, true, false);
 		$char = $this->determineCharacteristic(false);
 		$s_text = ilPCParagraphGUI::xml2outputJS($s_text, $char, $this->content_obj->readPCId());
-		$ids = "###".$this->content_obj->readHierId().":".$this->content_obj->readPCId()."###";
+		$ids = "###".$this->content_obj->readHierId().":".$this->content_obj->readPCId()."###".
+			$char."###";
 		echo $ids.$s_text;
 		exit;
 	}
@@ -347,8 +348,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	 */
 	static function xml2outputJS($s_text, $char, $a_pc_id)
 	{
-		$s_text = "<div class='ilc_text_block_".$char."' id='$a_pc_id'>".$s_text."</div>";
-//		$s_text = "<div class='ilc_text_block_".$char."' id='$a_pc_id'><p>".$s_text."</p></div>";
+//		$s_text = "<div class='ilc_text_block_".$char."' id='$a_pc_id'>".$s_text."</div>";
+		$s_text = $s_text;
 		// lists
 		$s_text = str_replace(array("<SimpleBulletList>", "</SimpleBulletList>"),
 			array("<ul class='ilc_list_u_BulletedList'>", "</ul>"),
@@ -715,7 +716,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			ilUtil::stripSlashes($_POST["ajaxform_char"]),
 			ilUtil::stripSlashes($_POST["pc_id_str"]),
 			$_POST["insert_at_id"]);
-		
 		if ($_POST["quick_save"])
 		{
 			if ($this->updated)

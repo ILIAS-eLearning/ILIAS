@@ -1485,7 +1485,12 @@ class ilObjStyleSheet extends ilObject
 			}
 			if (in_array($tag[0]["tag"], array("h1", "h2", "h3")))
 			{
-				fwrite ($css_file, ",div".".ilc_text_block_".$tag[0]["class"]."\n");
+				fwrite ($css_file, ",div.ilc_text_block_".$tag[0]["class"]."\n");
+				fwrite ($css_file, ",body.ilc_text_block_".$tag[0]["class"]."\n");
+			}
+			if ($tag[0]["type"] == "text_block")
+			{
+				fwrite ($css_file, ",body.ilc_text_block_".$tag[0]["class"]."\n");
 			}
 			fwrite ($css_file, "{\n");
 

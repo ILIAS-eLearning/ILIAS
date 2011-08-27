@@ -1438,7 +1438,9 @@ class ilPageObjectGUI
 						preloader.src = './templates/default/images/loader.gif';
 						ilCOPage.setContentCss('".
 						ilObjStyleSheet::getContentStylePath((int) $this->getStyleId()).
-						", ".ilUtil::getStyleSheetLocation()."')");
+						", ".ilUtil::getStyleSheetLocation().
+						", ./Services/COPage/css/tiny_extra.css".
+						"')");
 
 					$GLOBALS["tpl"]->addJavascript("Services/RTE/tiny_mce_3_3_9_2/il_tiny_mce_src.js");
 					$tpl->touchBlock("init_dragging");

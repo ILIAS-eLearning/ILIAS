@@ -1593,6 +1593,10 @@ if (!$a_wysiwyg)
 			array("<SimpleListItem>", "</SimpleListItem>"), $text);
 		$text = str_replace(array("&lt;li class=\"ilc_list_item_StandardListItem\"&gt;", "&lt;/li&gt;"),
 			array("<SimpleListItem>", "</SimpleListItem>"), $text);
+
+		$text = str_replace(array("&lt;li class=\"ilc_list_item_StandardListItem\"/&gt;"),
+			array("<SimpleListItem></SimpleListItem>"), $text);
+		
 		$text = str_replace("<SimpleBulletList><br />", "<SimpleBulletList>", $text);
 		$text = str_replace("<SimpleNumberedList><br />", "<SimpleNumberedList>", $text);
 		$text = str_replace("<br /><SimpleBulletList>", "<SimpleBulletList>", $text);

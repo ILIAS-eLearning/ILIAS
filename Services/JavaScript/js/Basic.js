@@ -3,9 +3,9 @@
 */
 function ilAddOnLoad(func)
 {
-	if (!document.getElementById | !document.getElementsByTagName) return
+	if (!document.getElementById | !document.getElementsByTagName) return;
 
-	var oldonload=window.onload
+	var oldonload=window.onload;
 	if (typeof window.onload != 'function')
 	{
 		window.onload = func;

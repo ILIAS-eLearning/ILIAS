@@ -500,7 +500,6 @@ tinymce.create('tinymce.util.Dispatcher', {
 
 	dispatch : function() {
 		var s, a = arguments, i, li = this.listeners, c;
-
 		// Needs to be a real loop since the listener count might change while looping
 		// And this is also more efficient
 		for (i = 0; i<li.length; i++) {
@@ -5421,7 +5420,6 @@ window.tinymce.dom.Sizzle = Sizzle;
 
 		select : function(node, content) {
 			var t = this, dom = t.dom, rng = dom.createRng(), idx;
-
 			idx = dom.nodeIndex(node);
 			rng.setStart(node.parentNode, idx);
 			rng.setEnd(node.parentNode, idx + 1);
@@ -9965,10 +9963,11 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 						ed.selection.select(ed.getBody(), 1);
 						ed.selection.collapse(1);
 						ed.getWin().focus();
+
 					}, 100);
 				}
+
 			}, 1);
-	
 			e = null;
 		},
 

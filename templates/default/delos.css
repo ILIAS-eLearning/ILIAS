@@ -1580,6 +1580,12 @@ a.ilTinyMenuDropDown
 	padding: 0px 2px 1px 0px;
 }
 
+#ilEditorTD p
+{
+	margin: 0;
+	padding: 0;
+}
+
 /* Page TOC */
 
 div.ilc_page_toc_PageTOC
