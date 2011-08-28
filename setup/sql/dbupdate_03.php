@@ -7541,3 +7541,9 @@ if(!$ilDB->tableExists('usr_account_codes'))
 		);
 	}
 ?>
+<#3443>
+<?php
+$ilDB->manipulate("UPDATE style_data SET ".
+	" uptodate = ".$ilDB->quote(0, "integer")
+	);
+?>
