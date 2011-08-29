@@ -1218,7 +1218,7 @@ class ilObjectListGUI
 	public function getAlertProperties()
 	{
 		$alert = array();
-		foreach($this->getProperties() as $prop)
+		foreach((array)$this->getProperties() as $prop)
 		{
 			if($prop['alert'] == true)
 			{

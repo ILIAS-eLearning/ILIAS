@@ -429,102 +429,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return true;
 	}
 	
-	
-	/**
-	 * create new event
-	 *
-	 * @access protected
-	 * @param
-	 * @return
-	 */
-	public function createObject()
+	protected function initCreateForm($a_new_type)
 	{
 		if(!is_object($this->object))
 		{
 			$this->object = new ilObjSession();
 		}
-		$this->ctrl->setParameter($this,'new_type','sess');
 		$this->initForm('create');
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.sess_create.html','Modules/Session');
-		$this->tpl->setVariable('EVENT_ADD_TABLE',$this->form->getHTML());
-		$this->fillCloneTemplate('DUPLICATE','sess');
-
-		$this->initImportForm("sess");
-		$this->tpl->setVariable("IMPORT", $this->form->getHTML());
-
-	}
-
-	/**
-	 * Init object import form
-	 *
-	 * @param        string        new type
-	 */
-	public function initImportForm($a_new_type = "")
-	{
-		global $lng, $ilCtrl;
-
-		$lng->loadLanguageModule("sess");
-
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setTableWidth('600px');
-		$this->form->setTarget("_top");
-
-		// Import file
-		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
-		$fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
-		$fi->setSuffixes(array("zip"));
-		$fi->setRequired(true);
-		$this->form->addItem($fi);
-
-		$this->form->addCommandButton("importFile", $lng->txt("import"));
-		$this->form->addCommandButton("cancel", $lng->txt("cancel"));
-		$this->form->setTitle($lng->txt($a_new_type."_import"));
-
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
-	}
-
-	/**
-	 * Import
-	 *
-	 * @access	public
-	 */
-	function importFileObject()
-	{
-		global $rbacsystem, $objDefinition, $tpl, $lng;
-
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
-		}
-		$this->ctrl->setParameter($this, "new_type", $new_type);
-		$this->initImportForm($new_type);
-		if ($this->form->checkInput())
-		{
-			// todo: make some check on manifest file
-			include_once("./Services/Export/classes/class.ilImport.php");
-			$imp = new ilImport((int) $_GET['ref_id']);
-			$new_id = $imp->importObject($newObj, $_FILES["importfile"]["tmp_name"],
-				$_FILES["importfile"]["name"], $new_type);
-			// put new object id into tree
-			if ($new_id > 0)
-			{
-				$newObj = ilObjectFactory::getInstanceByObjId($new_id);
-				$newObj->createReference();
-				$newObj->putInTree($_GET["ref_id"]);
-				$newObj->setPermissions($_GET["ref_id"]);
-				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-				//$this->afterSave($newObj);
-				$this->ctrl->returnToParent($this);
-			}
-			return;
-		}
-
-		$this->form->setValuesByPost();
-		$tpl->setContent($this->form->getHtml());
+		return $this->form;
 	}
 
 	/**
@@ -546,8 +458,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->ctrl->setParameter($this,'ref_id',$this->object->getRefId());
 		$this->ctrl->redirect($this,'materials');
 	}
-	
-	
+		
 	/**
 	 * save object
 	 *
