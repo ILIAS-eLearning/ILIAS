@@ -346,9 +346,15 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			// it would be better to store the content that has been changed
 			// in variables insted to read it from the dom and to jsonify it back
 			// to here
+$div = str_replace("</p>", "<br />", $div);
+$div = str_replace("\n", "", $div);
+$div = str_replace("<p>", "", $div);
+$div = "<div class='ilc_text_block_TableContent'>".$div;
 			$div = str_replace("<br>", "<br />", $div);
 			$div = str_replace("&nbsp;", " ", $div);
-
+$div = str_replace("<br /></div>", "</div>", $div);
+$div = str_replace("\n", "", $div);
+$div = str_replace("\r", "", $div);
 //
 			$text = ilPCParagraph::handleAjaxContent($div);
 			if ($text === false)

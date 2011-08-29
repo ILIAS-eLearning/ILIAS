@@ -634,7 +634,14 @@ return;
 			this.focusTiny(false);
 		}
 		//this.autoScroll();
-		this.copyInputToGhost(true);
+		if (ilCOPage.current_td != "")
+		{
+this.copyInputToGhost(false);
+		}
+		else
+		{
+			this.copyInputToGhost(true);
+		}
 		this.synchInputRegion();
 		this.updateMenuButtons();
 	},
@@ -763,6 +770,11 @@ return;
 	// copy input of tiny to ghost div in background
 	copyInputToGhost: function(add_final_spacer)
 	{
+		
+if (add_final_spacer)
+{
+//	console.trace();
+}
 		var ed = tinyMCE.get('tinytarget');
 
 		if (this.edit_ghost)
@@ -771,7 +783,14 @@ return;
 			if (pdiv)
 			{
 				var cl = ed.dom.getRoot().className;
+if (ilCOPage.current_td != "")
+{
+				var c = ed.getContent();
+}
+else
+{
 				var c = "<div class='" + cl + "'>" + ed.getContent() + "</div>";
+}
 				var e = c.substr(c.length - 6);
 				var b = c.substr(c.length - 12, 6);
 				if (e == "</div>" && b != "<br />" && add_final_spacer)
@@ -1742,6 +1761,7 @@ function editParagraph(div_id, mode, switched)
 		if (ilCOPage.current_td != "")
 		{
 			ilCOPage.copyInputToGhost(true);
+ilCOPage.copyInputToGhost(false);
 
 // try using ed.destroy???
 //			tinyMCE.execCommand('mceRemoveControl', false, 'tinytarget');
@@ -1762,6 +1782,7 @@ function editParagraph(div_id, mode, switched)
 		var pdiv = document.getElementById('div_' + div_id);
 		var pdiv_reg = YAHOO.util.Region.getRegion(pdiv);
 		ilCOPage.current_td = div_id;
+//console.log("Set current_td " + div_id);
 //		pdiv.style.minHeight = ilCOPage.minheight + "px";
 //		pdiv.style.minWidth = ilCOPage.minwidth + "px";
 
@@ -1772,6 +1793,7 @@ function editParagraph(div_id, mode, switched)
 	if (mode == 'td')
 	{
 		ilCOPage.edit_ghost = "div_" + ilCOPage.current_td;
+//ilCOPage.edit_ghost = "td_" + ilCOPage.current_td;
 	}
 	else if (mode == 'insert')
 	{
@@ -1814,7 +1836,17 @@ function editParagraph(div_id, mode, switched)
 		ta.className = 'par_textarea';
 		ta.style.height = '1px';
 		
-		ta_div = YAHOO.util.Dom.insertAfter(ta_div, pdiv);
+		if (ilCOPage.current_td != "")
+		{
+			// this should be the table
+			var ins_div = pdiv.parentNode.parentNode.parentNode.parentNode;
+		}
+		else
+		{
+			var ins_div = pdiv;
+		}
+		
+		ta_div = YAHOO.util.Dom.insertAfter(ta_div, ins_div);
 		ta_div.id = 'tinytarget_div';
 		ta_div.style.position = 'absolute';
 		ta_div.style.left = '-200px';
@@ -2100,6 +2132,7 @@ statusbar = false;
 
 					if (mode == 'td')
 					{
+//console.log("Setting content to: " + pdiv.innerHTML);
 						ed.setContent(pdiv.innerHTML);
 						ilCOPage.prepareTinyForEditing(false, false);
 						ilCOPage.synchInputRegion();
@@ -2111,12 +2144,13 @@ statusbar = false;
 
 		});
 	}
-	else
+	else	// moved (table editing)
 	{
 		//prepareTinyForEditing;
 		tinyMCE.execCommand('mceToggleEditor', false, 'tinytarget');
 		var ed = tinyMCE.get('tinytarget');
 		ed.setContent(pdiv.innerHTML);
+//console.log("Setting content to: " + pdiv.innerHTML);
 //		ilCOPage.prepareTinyForEditing(true, false);
 		ilCOPage.synchInputRegion();
 		ilCOPage.focusTiny(false);
