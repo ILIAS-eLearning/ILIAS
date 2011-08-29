@@ -4,7 +4,7 @@ CREATE TABLE `abstraction_progress` (
   `step` int(11) NOT NULL,
   PRIMARY KEY (`table_name`,`step`),
   KEY `t` (`table_name`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `abstraction_progress` (`table_name`, `step`) VALUES
 ('acc_cache', 10),
@@ -4825,7 +4825,7 @@ CREATE TABLE `acc_access_key` (
   `function_id` int(11) NOT NULL,
   `access_key` char(1) DEFAULT NULL,
   PRIMARY KEY (`lang_key`,`function_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `acc_cache` (
@@ -4833,7 +4833,7 @@ CREATE TABLE `acc_cache` (
   `time` int(11) NOT NULL DEFAULT '0',
   `result` longtext,
   PRIMARY KEY (`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `acc_user_access_key` (
@@ -4841,7 +4841,7 @@ CREATE TABLE `acc_user_access_key` (
   `function_id` smallint(6) NOT NULL,
   `access_key` char(1) DEFAULT NULL,
   PRIMARY KEY (`user_id`,`function_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `acl_ws` (
@@ -4849,7 +4849,7 @@ CREATE TABLE `acl_ws` (
   `object_id` int(11) NOT NULL DEFAULT '0',
   `extended_data` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`node_id`,`object_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `addressbook` (
@@ -4861,7 +4861,7 @@ CREATE TABLE `addressbook` (
   `email` varchar(80) DEFAULT NULL,
   PRIMARY KEY (`addr_id`),
   KEY `i1_idx` (`user_id`,`login`,`firstname`,`lastname`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `addressbook_mlist` (
@@ -4873,7 +4873,7 @@ CREATE TABLE `addressbook_mlist` (
   `changedate` datetime DEFAULT NULL,
   PRIMARY KEY (`ml_id`),
   KEY `i1_idx` (`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `addressbook_mlist_ass` (
@@ -4883,25 +4883,25 @@ CREATE TABLE `addressbook_mlist_ass` (
   PRIMARY KEY (`a_id`),
   KEY `i1_idx` (`ml_id`),
   KEY `i2_idx` (`addr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `addressbook_mlist_ass_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `addressbook_mlist_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `addressbook_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `adl_shared_data` (
@@ -4909,13 +4909,13 @@ CREATE TABLE `adl_shared_data` (
   `user_id` int(11) NOT NULL,
   `target_id` varchar(4000) NOT NULL,
   `store` longtext
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `adm_set_templ_hide_tab` (
   `template_id` int(11) NOT NULL,
   `tab_id` varchar(80) NOT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `adm_set_templ_value` (
@@ -4923,7 +4923,7 @@ CREATE TABLE `adm_set_templ_value` (
   `setting` varchar(40) NOT NULL,
   `value` varchar(4000) DEFAULT NULL,
   `hide` tinyint(4) DEFAULT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `adm_settings_template` (
@@ -4931,13 +4931,13 @@ CREATE TABLE `adm_settings_template` (
   `type` varchar(5) NOT NULL,
   `title` varchar(100) NOT NULL,
   `description` longtext
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `adm_settings_template_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `adv_md_record` (
@@ -4947,20 +4947,20 @@ CREATE TABLE `adv_md_record` (
   `title` varchar(128) DEFAULT NULL,
   `description` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`record_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `adv_md_record_objs` (
   `record_id` tinyint(4) NOT NULL DEFAULT '0',
   `obj_type` char(6) NOT NULL DEFAULT '',
   PRIMARY KEY (`record_id`,`obj_type`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `adv_md_record_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `adv_md_substitutions` (
@@ -4969,7 +4969,7 @@ CREATE TABLE `adv_md_substitutions` (
   `hide_description` tinyint(4) NOT NULL DEFAULT '0',
   `hide_field_names` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_type`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `adv_md_values` (
@@ -4979,7 +4979,7 @@ CREATE TABLE `adv_md_values` (
   `disabled` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`,`field_id`),
   KEY `i1_idx` (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `adv_mdf_definition` (
@@ -4994,13 +4994,13 @@ CREATE TABLE `adv_mdf_definition` (
   `searchable` tinyint(4) NOT NULL DEFAULT '0',
   `required` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`field_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `adv_mdf_definition_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `aicc_course` (
@@ -5020,7 +5020,7 @@ CREATE TABLE `aicc_course` (
   `max_normal` tinyint(4) DEFAULT NULL,
   `description` longtext,
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `aicc_object` (
@@ -5033,13 +5033,13 @@ CREATE TABLE `aicc_object` (
   `c_type` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`obj_id`),
   KEY `i1_idx` (`slm_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `aicc_object_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `aicc_units` (
@@ -5056,13 +5056,13 @@ CREATE TABLE `aicc_units` (
   `web_launch` varchar(255) DEFAULT NULL,
   `au_password` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `aicc_units_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `ass_log` (
@@ -5078,13 +5078,13 @@ CREATE TABLE `ass_log` (
   PRIMARY KEY (`ass_log_id`),
   KEY `i1_idx` (`user_fi`,`obj_fi`),
   KEY `i2_idx` (`obj_fi`)
-) TYPE=MyISAM COMMENT='Logging of Test&Assessment object changes';
+) ENGINE=MyISAM COMMENT='Logging of Test&Assessment object changes';
 
 
 CREATE TABLE `ass_log_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `benchmark` (
@@ -5094,7 +5094,7 @@ CREATE TABLE `benchmark` (
   `duration` double DEFAULT NULL,
   `sql_stmt` longtext,
   KEY `i1_idx` (`module`,`benchmark`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `booking_entry` (
@@ -5104,13 +5104,13 @@ CREATE TABLE `booking_entry` (
   `num_bookings` int(11) NOT NULL,
   `target_obj_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`booking_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `booking_entry_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `booking_object` (
@@ -5119,13 +5119,13 @@ CREATE TABLE `booking_object` (
   `type_id` int(11) NOT NULL,
   `schedule_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`booking_object_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `booking_object_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `booking_reservation` (
@@ -5136,13 +5136,13 @@ CREATE TABLE `booking_reservation` (
   `date_to` int(11) NOT NULL,
   `status` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`booking_reservation_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `booking_reservation_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `booking_schedule` (
@@ -5155,13 +5155,13 @@ CREATE TABLE `booking_schedule` (
   `raster` int(11) DEFAULT NULL,
   `auto_break` int(11) DEFAULT NULL,
   PRIMARY KEY (`booking_schedule_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `booking_schedule_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `booking_schedule_slot` (
@@ -5170,7 +5170,7 @@ CREATE TABLE `booking_schedule_slot` (
   `slot_id` tinyint(4) NOT NULL,
   `times` varchar(50) NOT NULL,
   PRIMARY KEY (`booking_schedule_id`,`day_id`,`slot_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `booking_settings` (
@@ -5179,7 +5179,7 @@ CREATE TABLE `booking_settings` (
   `pool_offline` tinyint(4) DEFAULT NULL,
   `slots_no` smallint(6) DEFAULT '0',
   PRIMARY KEY (`booking_pool_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `booking_type` (
@@ -5188,13 +5188,13 @@ CREATE TABLE `booking_type` (
   `pool_id` int(11) NOT NULL,
   `schedule_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`booking_type_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `booking_type_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `booking_user` (
@@ -5202,7 +5202,7 @@ CREATE TABLE `booking_user` (
   `user_id` int(11) NOT NULL,
   `tstamp` int(11) NOT NULL,
   PRIMARY KEY (`entry_id`,`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `bookmark_data` (
@@ -5213,7 +5213,7 @@ CREATE TABLE `bookmark_data` (
   `target` varchar(200) DEFAULT NULL,
   `type` varchar(4) DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`user_id`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `bookmark_data` (`obj_id`, `user_id`, `title`, `description`, `target`, `type`) VALUES
 (1, 0, 'dummy_folder', NULL, NULL, 'bmf');
@@ -5221,7 +5221,7 @@ INSERT INTO `bookmark_data` (`obj_id`, `user_id`, `title`, `description`, `targe
 CREATE TABLE `bookmark_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=2 ;
 
 INSERT INTO `bookmark_data_seq` (`sequence`) VALUES
 (1);
@@ -5233,7 +5233,7 @@ CREATE TABLE `bookmark_social_bm` (
   `sbm_icon` varchar(200) DEFAULT NULL,
   `sbm_active` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`sbm_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `bookmark_social_bm` (`sbm_id`, `sbm_title`, `sbm_link`, `sbm_icon`, `sbm_active`) VALUES
 (80, 'Facebook', 'http://www.facebook.com/share.php?u={LINK}&t={TITLE}', 'templates/default/images/socialbookmarks/facebook.png', 1),
@@ -5255,7 +5255,7 @@ INSERT INTO `bookmark_social_bm` (`sbm_id`, `sbm_title`, `sbm_link`, `sbm_icon`,
 CREATE TABLE `bookmark_social_bm_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=95 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=95 ;
 
 INSERT INTO `bookmark_social_bm_seq` (`sequence`) VALUES
 (94);
@@ -5269,7 +5269,7 @@ CREATE TABLE `bookmark_tree` (
   `depth` smallint(6) NOT NULL DEFAULT '0',
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`parent`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `bookmark_tree` (`tree`, `child`, `parent`, `lft`, `rgt`, `depth`) VALUES
 (6, 1, 0, 1, 2, 1);
@@ -5288,7 +5288,7 @@ CREATE TABLE `cache_clob` (
   PRIMARY KEY (`component`,`name`,`entry_id`),
   KEY `et_idx` (`expire_time`),
   KEY `iv_idx` (`ilias_version`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cache_text` (
@@ -5305,7 +5305,7 @@ CREATE TABLE `cache_text` (
   PRIMARY KEY (`component`,`name`,`entry_id`),
   KEY `et_idx` (`expire_time`),
   KEY `iv_idx` (`ilias_version`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cal_auth_token` (
@@ -5318,7 +5318,7 @@ CREATE TABLE `cal_auth_token` (
   PRIMARY KEY (`user_id`,`hash`),
   KEY `i1_idx` (`hash`),
   KEY `i2_idx` (`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cal_cat_assignments` (
@@ -5326,7 +5326,7 @@ CREATE TABLE `cal_cat_assignments` (
   `cat_id` int(11) NOT NULL DEFAULT '0',
   KEY `i1_idx` (`cal_id`,`cat_id`),
   KEY `i2_idx` (`cat_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cal_categories` (
@@ -5337,7 +5337,7 @@ CREATE TABLE `cal_categories` (
   `type` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`cat_id`),
   KEY `i2_idx` (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cal_categories_hidden` (
@@ -5345,20 +5345,20 @@ CREATE TABLE `cal_categories_hidden` (
   `cat_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`,`cat_id`),
   KEY `i1_idx` (`cat_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cal_categories_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `cal_ch_settings` (
   `user_id` int(11) NOT NULL,
   `admin_id` int(11) NOT NULL,
   PRIMARY KEY (`user_id`,`admin_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cal_entries` (
@@ -5379,13 +5379,13 @@ CREATE TABLE `cal_entries` (
   `completion` int(11) NOT NULL DEFAULT '0',
   `notification` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`cal_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cal_entries_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `cal_entry_responsible` (
@@ -5393,7 +5393,7 @@ CREATE TABLE `cal_entry_responsible` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   KEY `i1_idx` (`cal_id`),
   KEY `i2_idx` (`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cal_rec_exclusion` (
@@ -5402,13 +5402,13 @@ CREATE TABLE `cal_rec_exclusion` (
   `excl_date` date DEFAULT NULL,
   PRIMARY KEY (`excl_id`),
   KEY `i1_idx` (`cal_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cal_rec_exclusion_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `cal_recurrence_rules` (
@@ -5428,13 +5428,13 @@ CREATE TABLE `cal_recurrence_rules` (
   `weekstart` char(2) DEFAULT NULL,
   PRIMARY KEY (`rule_id`),
   KEY `i1_idx` (`cal_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cal_recurrence_rules_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `cal_registrations` (
@@ -5443,7 +5443,7 @@ CREATE TABLE `cal_registrations` (
   `dstart` int(11) NOT NULL DEFAULT '0',
   `dend` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`cal_id`,`usr_id`,`dstart`,`dend`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cal_shared` (
@@ -5452,7 +5452,7 @@ CREATE TABLE `cal_shared` (
   `obj_type` int(11) NOT NULL DEFAULT '0',
   `create_date` datetime DEFAULT NULL,
   PRIMARY KEY (`cal_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cal_shared_status` (
@@ -5460,7 +5460,7 @@ CREATE TABLE `cal_shared_status` (
   `usr_id` int(11) NOT NULL DEFAULT '0',
   `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`cal_id`,`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `catch_write_events` (
@@ -5468,13 +5468,13 @@ CREATE TABLE `catch_write_events` (
   `usr_id` int(11) NOT NULL DEFAULT '0',
   `ts` datetime DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chat_blocked` (
   `chat_id` int(11) NOT NULL DEFAULT '0',
   `usr_id` int(11) NOT NULL DEFAULT '0'
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chat_invitations` (
@@ -5485,7 +5485,7 @@ CREATE TABLE `chat_invitations` (
   `invitation_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`chat_id`,`room_id`,`guest_id`),
   KEY `i1_idx` (`guest_id`,`guest_informed`,`invitation_time`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chat_record_data` (
@@ -5494,13 +5494,13 @@ CREATE TABLE `chat_record_data` (
   `message` varchar(4000) DEFAULT NULL,
   `msg_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`record_data_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chat_record_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `chat_records` (
@@ -5513,13 +5513,13 @@ CREATE TABLE `chat_records` (
   `start_time` int(11) NOT NULL DEFAULT '0',
   `end_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`record_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chat_records_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `chat_room_messages` (
@@ -5529,13 +5529,13 @@ CREATE TABLE `chat_room_messages` (
   `message` varchar(4000) DEFAULT NULL,
   `commit_timestamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`entry_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chat_room_messages_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `chat_rooms` (
@@ -5544,13 +5544,13 @@ CREATE TABLE `chat_rooms` (
   `title` varchar(64) DEFAULT NULL,
   `owner` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`room_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chat_rooms_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `chat_smilies` (
@@ -5558,13 +5558,13 @@ CREATE TABLE `chat_smilies` (
   `smiley_keywords` varchar(100) DEFAULT NULL,
   `smiley_path` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`smiley_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chat_smilies_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `chat_user` (
@@ -5574,7 +5574,7 @@ CREATE TABLE `chat_user` (
   `last_conn_timestamp` int(11) DEFAULT NULL,
   `kicked` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`usr_id`,`chat_id`,`room_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chatroom_admconfig` (
@@ -5583,13 +5583,13 @@ CREATE TABLE `chatroom_admconfig` (
   `default_config` tinyint(4) NOT NULL DEFAULT '0',
   `client_settings` varchar(1000) NOT NULL,
   PRIMARY KEY (`instance_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chatroom_admconfig_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `chatroom_bans` (
@@ -5597,20 +5597,20 @@ CREATE TABLE `chatroom_bans` (
   `user_id` int(11) NOT NULL,
   `timestamp` int(11) NOT NULL,
   `remark` varchar(1000) DEFAULT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chatroom_history` (
   `room_id` int(11) NOT NULL,
   `message` varchar(4000) NOT NULL,
   `timestamp` int(11) NOT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chatroom_proomaccess` (
   `proom_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chatroom_prooms` (
@@ -5622,13 +5622,13 @@ CREATE TABLE `chatroom_prooms` (
   `closed` int(11) DEFAULT '0',
   `is_public` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`proom_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chatroom_prooms_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `chatroom_psessions` (
@@ -5636,7 +5636,7 @@ CREATE TABLE `chatroom_psessions` (
   `user_id` int(11) NOT NULL,
   `connected` int(11) NOT NULL,
   `disconnected` int(11) NOT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chatroom_sessions` (
@@ -5645,7 +5645,7 @@ CREATE TABLE `chatroom_sessions` (
   `userdata` varchar(4000) NOT NULL,
   `connected` int(11) NOT NULL,
   `disconnected` int(11) NOT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chatroom_settings` (
@@ -5659,7 +5659,7 @@ CREATE TABLE `chatroom_settings` (
   `autogen_usernames` varchar(50) DEFAULT 'Anonymous #',
   `allow_private_rooms` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`room_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `chatroom_settings` (`room_id`, `object_id`, `room_type`, `allow_anonymous`, `allow_custom_usernames`, `enable_history`, `restrict_history`, `autogen_usernames`, `allow_private_rooms`) VALUES
 (1, 132, 'repository', 0, 0, 0, 0, 'Autogen #', 0);
@@ -5667,7 +5667,7 @@ INSERT INTO `chatroom_settings` (`room_id`, `object_id`, `room_type`, `allow_ano
 CREATE TABLE `chatroom_settings_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=2 ;
 
 INSERT INTO `chatroom_settings_seq` (`sequence`) VALUES
 (1);
@@ -5677,13 +5677,13 @@ CREATE TABLE `chatroom_smilies` (
   `smiley_keywords` varchar(100) DEFAULT NULL,
   `smiley_path` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`smiley_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chatroom_smilies_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `chatroom_uploads` (
@@ -5694,13 +5694,13 @@ CREATE TABLE `chatroom_uploads` (
   `filetype` varchar(200) NOT NULL,
   `timestamp` int(11) NOT NULL,
   PRIMARY KEY (`upload_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `chatroom_uploads_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `chatroom_users` (
@@ -5709,7 +5709,7 @@ CREATE TABLE `chatroom_users` (
   `userdata` varchar(4000) NOT NULL,
   `connected` int(11) NOT NULL,
   PRIMARY KEY (`room_id`,`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cmi_comment` (
@@ -5721,13 +5721,13 @@ CREATE TABLE `cmi_comment` (
   `sourceislms` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`cmi_comment_id`),
   KEY `i2_idx` (`cmi_node_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cmi_comment_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `cmi_correct_response` (
@@ -5736,13 +5736,13 @@ CREATE TABLE `cmi_correct_response` (
   `pattern` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`cmi_correct_resp_id`),
   KEY `i1_idx` (`cmi_interaction_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cmi_correct_response_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `cmi_custom` (
@@ -5753,7 +5753,7 @@ CREATE TABLE `cmi_custom` (
   `rvalue` varchar(255) DEFAULT NULL,
   `c_timestamp` datetime DEFAULT NULL,
   PRIMARY KEY (`user_id`,`lvalue`,`obj_id`,`sco_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cmi_gobjective` (
@@ -5770,7 +5770,7 @@ CREATE TABLE `cmi_gobjective` (
   `completion_status` varchar(50) DEFAULT NULL,
   UNIQUE KEY `c1_idx` (`user_id`,`objective_id`,`scope_id`),
   KEY `i2_idx` (`scope_id`,`objective_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cmi_interaction` (
@@ -5787,13 +5787,13 @@ CREATE TABLE `cmi_interaction` (
   PRIMARY KEY (`cmi_interaction_id`),
   KEY `i2_idx` (`id`),
   KEY `i3_idx` (`c_type`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cmi_interaction_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `cmi_node` (
@@ -5845,13 +5845,13 @@ CREATE TABLE `cmi_node` (
   KEY `i2_idx` (`completion_status`),
   KEY `i3_idx` (`credit`),
   KEY `i5_idx` (`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cmi_node_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `cmi_objective` (
@@ -5872,13 +5872,13 @@ CREATE TABLE `cmi_objective` (
   KEY `i2_idx` (`cmi_interaction_id`),
   KEY `i3_idx` (`id`),
   KEY `i4_idx` (`success_status`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cmi_objective_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `conditions` (
@@ -5896,13 +5896,13 @@ CREATE TABLE `conditions` (
   `num_obligatory` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`condition_id`),
   KEY `tot_idx` (`target_obj_id`,`target_type`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `conditions_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `container_reference` (
@@ -5910,7 +5910,7 @@ CREATE TABLE `container_reference` (
   `target_obj_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`,`target_obj_id`),
   KEY `i1_idx` (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `container_settings` (
@@ -5918,7 +5918,7 @@ CREATE TABLE `container_settings` (
   `keyword` char(40) NOT NULL DEFAULT '',
   `value` char(50) DEFAULT NULL,
   PRIMARY KEY (`id`,`keyword`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `container_sorting` (
@@ -5928,14 +5928,14 @@ CREATE TABLE `container_sorting` (
   `parent_type` varchar(5) DEFAULT NULL,
   `parent_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`,`child_id`,`parent_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `container_sorting_set` (
   `obj_id` int(11) NOT NULL DEFAULT '0',
   `sort_mode` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `content_object` (
@@ -5963,7 +5963,7 @@ CREATE TABLE `content_object` (
   `layout_per_page` tinyint(4) DEFAULT NULL,
   `public_scorm_file` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `copy_wizard_options` (
@@ -5971,7 +5971,7 @@ CREATE TABLE `copy_wizard_options` (
   `source_id` int(11) NOT NULL DEFAULT '0',
   `options` longtext,
   PRIMARY KEY (`copy_id`,`source_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_auxilaryresource` (
@@ -5979,7 +5979,7 @@ CREATE TABLE `cp_auxilaryresource` (
   `cp_node_id` int(11) NOT NULL DEFAULT '0',
   `purpose` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_condition` (
@@ -5989,7 +5989,7 @@ CREATE TABLE `cp_condition` (
   `c_operator` varchar(50) DEFAULT NULL,
   `referencedobjective` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_datamap` (
@@ -6000,7 +6000,7 @@ CREATE TABLE `cp_datamap` (
   `read_shared_data` tinyint(4) DEFAULT '1',
   `write_shared_data` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`cp_node_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_dependency` (
@@ -6008,14 +6008,14 @@ CREATE TABLE `cp_dependency` (
   `resourceid` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`),
   KEY `i2_idx` (`resourceid`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_file` (
   `cp_node_id` int(11) NOT NULL DEFAULT '0',
   `href` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_hidelmsui` (
@@ -6023,7 +6023,7 @@ CREATE TABLE `cp_hidelmsui` (
   `value` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`),
   KEY `i1_idx` (`value`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_item` (
@@ -6042,7 +6042,7 @@ CREATE TABLE `cp_item` (
   PRIMARY KEY (`cp_node_id`),
   KEY `i1_idx` (`id`),
   KEY `i2_idx` (`sequencingid`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_manifest` (
@@ -6055,7 +6055,7 @@ CREATE TABLE `cp_manifest` (
   `version` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`),
   KEY `i1_idx` (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_mapinfo` (
@@ -6067,7 +6067,7 @@ CREATE TABLE `cp_mapinfo` (
   `writesatisfiedstatus` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`),
   KEY `i1_idx` (`targetobjectiveid`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_node` (
@@ -6077,13 +6077,13 @@ CREATE TABLE `cp_node` (
   PRIMARY KEY (`cp_node_id`),
   KEY `i2_idx` (`nodename`),
   KEY `i3_idx` (`slm_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_node_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `cp_objective` (
@@ -6093,7 +6093,7 @@ CREATE TABLE `cp_objective` (
   `c_primary` tinyint(4) DEFAULT NULL,
   `satisfiedbymeasure` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_organization` (
@@ -6106,7 +6106,7 @@ CREATE TABLE `cp_organization` (
   PRIMARY KEY (`cp_node_id`),
   KEY `i1_idx` (`id`),
   KEY `i2_idx` (`sequencingid`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_package` (
@@ -6123,7 +6123,7 @@ CREATE TABLE `cp_package` (
   `shared_data_global_to_system` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`obj_id`),
   KEY `i1_idx` (`c_identifier`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_resource` (
@@ -6135,7 +6135,7 @@ CREATE TABLE `cp_resource` (
   `c_type` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`),
   KEY `i1_idx` (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_rule` (
@@ -6147,7 +6147,7 @@ CREATE TABLE `cp_rule` (
   `minimumpercent` varchar(50) DEFAULT NULL,
   `c_type` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_sequencing` (
@@ -6186,7 +6186,7 @@ CREATE TABLE `cp_sequencing` (
   `usecurattemptproginfo` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`cp_node_id`),
   KEY `i1_idx` (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_suspend` (
@@ -6194,7 +6194,7 @@ CREATE TABLE `cp_suspend` (
   `user_id` int(11) DEFAULT NULL,
   `obj_id` int(11) DEFAULT NULL,
   UNIQUE KEY `c1_idx` (`user_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `cp_tree` (
@@ -6207,7 +6207,7 @@ CREATE TABLE `cp_tree` (
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`obj_id`),
   KEY `i3_idx` (`parent`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_archives` (
@@ -6219,13 +6219,13 @@ CREATE TABLE `crs_archives` (
   `archive_size` int(11) DEFAULT NULL,
   `archive_lang` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`archive_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_archives_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `crs_f_definitions` (
@@ -6236,13 +6236,13 @@ CREATE TABLE `crs_f_definitions` (
   `field_values` longtext,
   `field_required` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`field_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_f_definitions_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `crs_file` (
@@ -6252,13 +6252,13 @@ CREATE TABLE `crs_file` (
   `file_type` char(64) DEFAULT NULL,
   `file_size` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`file_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_file_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `crs_groupings` (
@@ -6268,7 +6268,7 @@ CREATE TABLE `crs_groupings` (
   `unique_field` char(32) DEFAULT NULL,
   PRIMARY KEY (`crs_grp_id`),
   KEY `i1_idx` (`crs_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_items` (
@@ -6286,7 +6286,7 @@ CREATE TABLE `crs_items` (
   `position` int(11) DEFAULT NULL,
   PRIMARY KEY (`parent_id`,`obj_id`),
   KEY `ob_idx` (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_lm_history` (
@@ -6296,7 +6296,7 @@ CREATE TABLE `crs_lm_history` (
   `lm_page_id` int(11) NOT NULL DEFAULT '0',
   `last_access` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`usr_id`,`crs_ref_id`,`lm_ref_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_members` (
@@ -6306,7 +6306,7 @@ CREATE TABLE `crs_members` (
   `notification` tinyint(4) NOT NULL DEFAULT '0',
   `passed` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_objective_lm` (
@@ -6316,13 +6316,13 @@ CREATE TABLE `crs_objective_lm` (
   `obj_id` int(11) NOT NULL DEFAULT '0',
   `type` char(6) DEFAULT NULL,
   PRIMARY KEY (`lm_ass_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_objective_lm_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `crs_objective_qst` (
@@ -6332,13 +6332,13 @@ CREATE TABLE `crs_objective_qst` (
   `obj_id` int(11) NOT NULL DEFAULT '0',
   `question_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`qst_ass_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_objective_qst_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `crs_objective_status` (
@@ -6346,14 +6346,14 @@ CREATE TABLE `crs_objective_status` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`objective_id`,`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_objective_status_p` (
   `objective_id` int(11) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`objective_id`,`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_objective_tst` (
@@ -6364,13 +6364,13 @@ CREATE TABLE `crs_objective_tst` (
   `tst_status` tinyint(4) DEFAULT NULL,
   `tst_limit` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`test_objective_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_objective_tst_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `crs_objectives` (
@@ -6382,13 +6382,13 @@ CREATE TABLE `crs_objectives` (
   `created` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`objective_id`),
   KEY `i1_idx` (`crs_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_objectives_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `crs_settings` (
@@ -6430,7 +6430,7 @@ CREATE TABLE `crs_settings` (
   `reg_ac` varchar(32) DEFAULT NULL,
   `auto_noti_disabled` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_start` (
@@ -6439,13 +6439,13 @@ CREATE TABLE `crs_start` (
   `item_ref_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`crs_start_id`),
   KEY `i1_idx` (`crs_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_start_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `crs_timings_planed` (
@@ -6454,7 +6454,7 @@ CREATE TABLE `crs_timings_planed` (
   `planed_start` int(11) NOT NULL DEFAULT '0',
   `planed_end` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`item_id`,`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_timings_usr_accept` (
@@ -6464,7 +6464,7 @@ CREATE TABLE `crs_timings_usr_accept` (
   `remark` varchar(4000) DEFAULT NULL,
   `visible` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`crs_id`,`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_user_data` (
@@ -6472,7 +6472,7 @@ CREATE TABLE `crs_user_data` (
   `field_id` int(11) NOT NULL DEFAULT '0',
   `value` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`usr_id`,`field_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `crs_waiting_list` (
@@ -6480,7 +6480,7 @@ CREATE TABLE `crs_waiting_list` (
   `usr_id` int(11) NOT NULL DEFAULT '0',
   `sub_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`,`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ctrl_calls` (
@@ -6488,7 +6488,7 @@ CREATE TABLE `ctrl_calls` (
   `child` varchar(100) DEFAULT NULL,
   `comp_prefix` varchar(50) DEFAULT NULL,
   KEY `i1_idx` (`parent`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `ctrl_calls` (`parent`, `child`, `comp_prefix`) VALUES
 ('ilobjassessmentfoldergui', 'ilpermissiongui', NULL),
@@ -7417,7 +7417,7 @@ CREATE TABLE `ctrl_classfile` (
   `cid` varchar(4) DEFAULT NULL,
   PRIMARY KEY (`class`),
   KEY `i1_idx` (`cid`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `ctrl_classfile` (`class`, `filename`, `comp_prefix`, `plugin_path`, `cid`) VALUES
 ('ilsearchresulttablegui', 'Services/Search/classes/class.ilSearchResultTableGUI.php', NULL, NULL, '1'),
@@ -8187,7 +8187,7 @@ CREATE TABLE `ctrl_structure` (
   `forward` longtext,
   `parent` longtext,
   PRIMARY KEY (`root_class`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `ctrl_structure` (`root_class`, `call_node`, `forward`, `parent`) VALUES
 ('ilrepositorygui', 'a:3647:{i:1;a:2:{s:5:"class";s:15:"ilrepositorygui";s:6:"parent";i:0;}i:2;a:2:{s:5:"class";s:21:"ilcourseobjectivesgui";s:6:"parent";i:1;}i:3;a:2:{s:5:"class";s:16:"ilobjcategorygui";s:6:"parent";i:1;}i:4;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:3;}i:5;a:2:{s:5:"class";s:0:"";s:6:"parent";i:4;}i:6;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:4;}i:7;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:4;}i:8;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:7;}i:9;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:7;}i:10;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:9;}i:11;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:7;}i:12;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:11;}i:13;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:7;}i:14;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:13;}i:15;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:7;}i:16;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:15;}i:17;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:4;}i:18;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:4;}i:19;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:4;}i:20;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:4;}i:21;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:4;}i:22;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:21;}i:23;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:4;}i:24;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:23;}i:25;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:23;}i:26;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:25;}i:27;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:23;}i:28;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:27;}i:29;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:23;}i:30;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:29;}i:31;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:23;}i:32;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:31;}i:33;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:4;}i:34;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:4;}i:35;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:4;}i:36;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:4;}i:37;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:4;}i:38;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:4;}i:39;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:4;}i:40;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:4;}i:41;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:4;}i:42;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:41;}i:43;a:2:{s:5:"class";s:22:"ilcontainerlinklistgui";s:6:"parent";i:3;}i:44;a:2:{s:5:"class";s:0:"";s:6:"parent";i:43;}i:45;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:3;}i:46;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:45;}i:47;a:2:{s:5:"class";s:0:"";s:6:"parent";i:46;}i:48;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:46;}i:49;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:46;}i:50;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:49;}i:51;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:49;}i:52;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:51;}i:53;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:49;}i:54;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:53;}i:55;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:49;}i:56;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:55;}i:57;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:49;}i:58;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:57;}i:59;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:46;}i:60;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:46;}i:61;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:46;}i:62;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:46;}i:63;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:46;}i:64;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:63;}i:65;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:46;}i:66;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:65;}i:67;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:65;}i:68;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:67;}i:69;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:65;}i:70;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:69;}i:71;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:65;}i:72;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:71;}i:73;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:65;}i:74;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:73;}i:75;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:46;}i:76;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:46;}i:77;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:46;}i:78;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:46;}i:79;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:46;}i:80;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:46;}i:81;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:46;}i:82;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:46;}i:83;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:46;}i:84;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:83;}i:85;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:45;}i:86;a:2:{s:5:"class";s:0:"";s:6:"parent";i:85;}i:87;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:45;}i:88;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:45;}i:89;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:3;}i:90;a:2:{s:5:"class";s:0:"";s:6:"parent";i:89;}i:91;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:3;}i:92;a:2:{s:5:"class";s:0:"";s:6:"parent";i:91;}i:93;a:2:{s:5:"class";s:18:"ilobjuserfoldergui";s:6:"parent";i:3;}i:94;a:2:{s:5:"class";s:20:"iladminusersearchgui";s:6:"parent";i:93;}i:95;a:2:{s:5:"class";s:12:"ilobjusergui";s:6:"parent";i:94;}i:96;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:95;}i:97;a:2:{s:5:"class";s:17:"illmstatisticsgui";s:6:"parent";i:96;}i:98;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:96;}i:99;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:98;}i:100;a:2:{s:5:"class";s:0:"";s:6:"parent";i:99;}i:101;a:2:{s:5:"class";s:19:"illpobjectstablegui";s:6:"parent";i:98;}i:102;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:101;}i:103;a:2:{s:5:"class";s:0:"";s:6:"parent";i:102;}i:104;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:102;}i:105;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:98;}i:106;a:2:{s:5:"class";s:0:"";s:6:"parent";i:105;}i:107;a:2:{s:5:"class";s:15:"iluserfiltergui";s:6:"parent";i:98;}i:108;a:2:{s:5:"class";s:0:"";s:6:"parent";i:107;}i:109;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:96;}i:110;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:109;}i:111;a:2:{s:5:"class";s:0:"";s:6:"parent";i:110;}i:112;a:2:{s:5:"class";s:20:"illpprogresstablegui";s:6:"parent";i:109;}i:113;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:112;}i:114;a:2:{s:5:"class";s:0:"";s:6:"parent";i:113;}i:115;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:113;}i:116;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:109;}i:117;a:2:{s:5:"class";s:0:"";s:6:"parent";i:116;}i:118;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:96;}i:119;a:2:{s:5:"class";s:0:"";s:6:"parent";i:118;}i:120;a:2:{s:5:"class";s:17:"ilobjilincusergui";s:6:"parent";i:95;}i:121;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:93;}i:122;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:121;}i:123;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:122;}i:124;a:2:{s:5:"class";s:14:"ilusertablegui";s:6:"parent";i:93;}i:125;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:124;}i:126;a:2:{s:5:"class";s:0:"";s:6:"parent";i:125;}i:127;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:125;}i:128;a:2:{s:5:"class";s:12:"ilobjusergui";s:6:"parent";i:3;}i:129;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:128;}i:130;a:2:{s:5:"class";s:17:"illmstatisticsgui";s:6:"parent";i:129;}i:131;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:129;}i:132;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:131;}i:133;a:2:{s:5:"class";s:0:"";s:6:"parent";i:132;}i:134;a:2:{s:5:"class";s:19:"illpobjectstablegui";s:6:"parent";i:131;}i:135;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:134;}i:136;a:2:{s:5:"class";s:0:"";s:6:"parent";i:135;}i:137;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:135;}i:138;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:131;}i:139;a:2:{s:5:"class";s:0:"";s:6:"parent";i:138;}i:140;a:2:{s:5:"class";s:15:"iluserfiltergui";s:6:"parent";i:131;}i:141;a:2:{s:5:"class";s:0:"";s:6:"parent";i:140;}i:142;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:129;}i:143;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:142;}i:144;a:2:{s:5:"class";s:0:"";s:6:"parent";i:143;}i:145;a:2:{s:5:"class";s:20:"illpprogresstablegui";s:6:"parent";i:142;}i:146;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:145;}i:147;a:2:{s:5:"class";s:0:"";s:6:"parent";i:146;}i:148;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:146;}i:149;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:142;}i:150;a:2:{s:5:"class";s:0:"";s:6:"parent";i:149;}i:151;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:129;}i:152;a:2:{s:5:"class";s:0:"";s:6:"parent";i:151;}i:153;a:2:{s:5:"class";s:17:"ilobjilincusergui";s:6:"parent";i:128;}i:154;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:3;}i:155;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:154;}i:156;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:155;}i:157;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:156;}i:158;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:156;}i:159;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:158;}i:160;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:156;}i:161;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:154;}i:162;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:154;}i:163;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:154;}i:164;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:163;}i:165;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:163;}i:166;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:165;}i:167;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:165;}i:168;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:167;}i:169;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:165;}i:170;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:163;}i:171;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:163;}i:172;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:163;}i:173;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:163;}i:174;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:163;}i:175;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:163;}i:176;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:163;}i:177;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:163;}i:178;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:177;}i:179;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:178;}i:180;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:178;}i:181;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:180;}i:182;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:178;}i:183;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:177;}i:184;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:183;}i:185;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:163;}i:186;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:163;}i:187;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:186;}i:188;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:187;}i:189;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:188;}i:190;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:188;}i:191;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:190;}i:192;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:188;}i:193;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:187;}i:194;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:193;}i:195;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:163;}i:196;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:163;}i:197;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:196;}i:198;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:197;}i:199;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:197;}i:200;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:197;}i:201;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:197;}i:202;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:197;}i:203;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:197;}i:204;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:197;}i:205;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:197;}i:206;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:197;}i:207;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:197;}i:208;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:163;}i:209;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:163;}i:210;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:163;}i:211;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:163;}i:212;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:163;}i:213;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:163;}i:214;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:154;}i:215;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:3;}i:216;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:215;}i:217;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:216;}i:218;a:2:{s:5:"class";s:25:"ilobjcategoryreferencegui";s:6:"parent";i:1;}i:219;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:218;}i:220;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:219;}i:221;a:2:{s:5:"class";s:0:"";s:6:"parent";i:220;}i:222;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:220;}i:223;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:220;}i:224;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:223;}i:225;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:223;}i:226;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:225;}i:227;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:223;}i:228;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:227;}i:229;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:223;}i:230;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:229;}i:231;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:223;}i:232;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:231;}i:233;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:220;}i:234;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:220;}i:235;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:220;}i:236;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:220;}i:237;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:220;}i:238;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:237;}i:239;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:220;}i:240;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:239;}i:241;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:239;}i:242;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:241;}i:243;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:239;}i:244;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:243;}i:245;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:239;}i:246;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:245;}i:247;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:239;}i:248;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:247;}i:249;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:220;}i:250;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:220;}i:251;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:220;}i:252;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:220;}i:253;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:220;}i:254;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:220;}i:255;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:220;}i:256;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:220;}i:257;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:220;}i:258;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:257;}i:259;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:219;}i:260;a:2:{s:5:"class";s:0:"";s:6:"parent";i:259;}i:261;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:219;}i:262;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:219;}i:263;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:218;}i:264;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:263;}i:265;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:264;}i:266;a:2:{s:5:"class";s:12:"ilobjchatgui";s:6:"parent";i:1;}i:267;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:266;}i:268;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:267;}i:269;a:2:{s:5:"class";s:0:"";s:6:"parent";i:268;}i:270;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:268;}i:271;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:268;}i:272;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:271;}i:273;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:271;}i:274;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:273;}i:275;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:271;}i:276;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:275;}i:277;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:271;}i:278;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:277;}i:279;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:271;}i:280;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:279;}i:281;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:268;}i:282;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:268;}i:283;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:268;}i:284;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:268;}i:285;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:268;}i:286;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:285;}i:287;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:268;}i:288;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:287;}i:289;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:287;}i:290;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:289;}i:291;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:287;}i:292;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:291;}i:293;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:287;}i:294;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:293;}i:295;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:287;}i:296;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:295;}i:297;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:268;}i:298;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:268;}i:299;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:268;}i:300;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:268;}i:301;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:268;}i:302;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:268;}i:303;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:268;}i:304;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:268;}i:305;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:268;}i:306;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:305;}i:307;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:267;}i:308;a:2:{s:5:"class";s:0:"";s:6:"parent";i:307;}i:309;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:267;}i:310;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:267;}i:311;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:266;}i:312;a:2:{s:5:"class";s:0:"";s:6:"parent";i:311;}i:313;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:266;}i:314;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:313;}i:315;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:314;}i:316;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:266;}i:317;a:2:{s:5:"class";s:14:"ilobjcoursegui";s:6:"parent";i:1;}i:318;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:317;}i:319;a:2:{s:5:"class";s:0:"";s:6:"parent";i:318;}i:320;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:318;}i:321;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:318;}i:322;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:321;}i:323;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:321;}i:324;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:323;}i:325;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:321;}i:326;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:325;}i:327;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:321;}i:328;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:327;}i:329;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:321;}i:330;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:329;}i:331;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:318;}i:332;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:318;}i:333;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:318;}i:334;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:318;}i:335;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:318;}i:336;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:335;}i:337;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:318;}i:338;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:337;}i:339;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:337;}i:340;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:339;}i:341;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:337;}i:342;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:341;}i:343;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:337;}i:344;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:343;}i:345;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:337;}i:346;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:345;}i:347;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:318;}i:348;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:318;}i:349;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:318;}i:350;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:318;}i:351;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:318;}i:352;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:318;}i:353;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:318;}i:354;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:318;}i:355;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:318;}i:356;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:355;}i:357;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:317;}i:358;a:2:{s:5:"class";s:0:"";s:6:"parent";i:357;}i:359;a:2:{s:5:"class";s:20:"ilcourseagreementgui";s:6:"parent";i:317;}i:360;a:2:{s:5:"class";s:0:"";s:6:"parent";i:359;}i:361;a:2:{s:5:"class";s:18:"ilcoursecontentgui";s:6:"parent";i:317;}i:362;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:361;}i:363;a:2:{s:5:"class";s:0:"";s:6:"parent";i:362;}i:364;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:362;}i:365;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:362;}i:366;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:365;}i:367;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:365;}i:368;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:367;}i:369;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:365;}i:370;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:369;}i:371;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:365;}i:372;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:371;}i:373;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:365;}i:374;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:373;}i:375;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:362;}i:376;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:362;}i:377;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:362;}i:378;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:362;}i:379;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:362;}i:380;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:379;}i:381;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:362;}i:382;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:381;}i:383;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:381;}i:384;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:383;}i:385;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:381;}i:386;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:385;}i:387;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:381;}i:388;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:387;}i:389;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:381;}i:390;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:389;}i:391;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:362;}i:392;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:362;}i:393;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:362;}i:394;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:362;}i:395;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:362;}i:396;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:362;}i:397;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:362;}i:398;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:362;}i:399;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:362;}i:400;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:399;}i:401;a:2:{s:5:"class";s:19:"ilcoursearchivesgui";s:6:"parent";i:361;}i:402;a:2:{s:5:"class";s:32:"ilcourseobjectivepresentationgui";s:6:"parent";i:361;}i:403;a:2:{s:5:"class";s:0:"";s:6:"parent";i:402;}i:404;a:2:{s:5:"class";s:29:"ilcourseitemadministrationgui";s:6:"parent";i:317;}i:405;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:404;}i:406;a:2:{s:5:"class";s:0:"";s:6:"parent";i:405;}i:407;a:2:{s:5:"class";s:21:"ilcourseobjectivesgui";s:6:"parent";i:317;}i:408;a:2:{s:5:"class";s:23:"ilcourseregistrationgui";s:6:"parent";i:317;}i:409;a:2:{s:5:"class";s:0:"";s:6:"parent";i:408;}i:410;a:2:{s:5:"class";s:21:"ilcourseuserfieldsgui";s:6:"parent";i:317;}i:411;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:317;}i:412;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:411;}i:413;a:2:{s:5:"class";s:0:"";s:6:"parent";i:412;}i:414;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:412;}i:415;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:412;}i:416;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:415;}i:417;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:415;}i:418;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:417;}i:419;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:415;}i:420;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:419;}i:421;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:415;}i:422;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:421;}i:423;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:415;}i:424;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:423;}i:425;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:412;}i:426;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:412;}i:427;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:412;}i:428;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:412;}i:429;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:412;}i:430;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:429;}i:431;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:412;}i:432;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:431;}i:433;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:431;}i:434;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:433;}i:435;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:431;}i:436;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:435;}i:437;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:431;}i:438;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:437;}i:439;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:431;}i:440;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:439;}i:441;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:412;}i:442;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:412;}i:443;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:412;}i:444;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:412;}i:445;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:412;}i:446;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:412;}i:447;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:412;}i:448;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:412;}i:449;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:412;}i:450;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:449;}i:451;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:411;}i:452;a:2:{s:5:"class";s:0:"";s:6:"parent";i:451;}i:453;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:411;}i:454;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:411;}i:455;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:317;}i:456;a:2:{s:5:"class";s:17:"illmstatisticsgui";s:6:"parent";i:455;}i:457;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:455;}i:458;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:457;}i:459;a:2:{s:5:"class";s:0:"";s:6:"parent";i:458;}i:460;a:2:{s:5:"class";s:19:"illpobjectstablegui";s:6:"parent";i:457;}i:461;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:460;}i:462;a:2:{s:5:"class";s:0:"";s:6:"parent";i:461;}i:463;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:461;}i:464;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:457;}i:465;a:2:{s:5:"class";s:0:"";s:6:"parent";i:464;}i:466;a:2:{s:5:"class";s:15:"iluserfiltergui";s:6:"parent";i:457;}i:467;a:2:{s:5:"class";s:0:"";s:6:"parent";i:466;}i:468;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:455;}i:469;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:468;}i:470;a:2:{s:5:"class";s:0:"";s:6:"parent";i:469;}i:471;a:2:{s:5:"class";s:20:"illpprogresstablegui";s:6:"parent";i:468;}i:472;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:471;}i:473;a:2:{s:5:"class";s:0:"";s:6:"parent";i:472;}i:474;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:472;}i:475;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:468;}i:476;a:2:{s:5:"class";s:0:"";s:6:"parent";i:475;}i:477;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:455;}i:478;a:2:{s:5:"class";s:0:"";s:6:"parent";i:477;}i:479;a:2:{s:5:"class";s:20:"illicenseoverviewgui";s:6:"parent";i:317;}i:480;a:2:{s:5:"class";s:0:"";s:6:"parent";i:479;}i:481;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:317;}i:482;a:2:{s:5:"class";s:17:"ilmemberexportgui";s:6:"parent";i:317;}i:483;a:2:{s:5:"class";s:0:"";s:6:"parent";i:482;}i:484;a:2:{s:5:"class";s:22:"ilobjcoursegroupinggui";s:6:"parent";i:317;}i:485;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:317;}i:486;a:2:{s:5:"class";s:0:"";s:6:"parent";i:485;}i:487;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:317;}i:488;a:2:{s:5:"class";s:0:"";s:6:"parent";i:487;}i:489;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:317;}i:490;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:489;}i:491;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:490;}i:492;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:491;}i:493;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:491;}i:494;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:493;}i:495;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:491;}i:496;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:489;}i:497;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:489;}i:498;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:489;}i:499;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:498;}i:500;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:498;}i:501;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:500;}i:502;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:500;}i:503;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:502;}i:504;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:500;}i:505;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:498;}i:506;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:498;}i:507;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:498;}i:508;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:498;}i:509;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:498;}i:510;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:498;}i:511;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:498;}i:512;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:498;}i:513;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:512;}i:514;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:513;}i:515;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:513;}i:516;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:515;}i:517;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:513;}i:518;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:512;}i:519;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:518;}i:520;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:498;}i:521;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:498;}i:522;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:521;}i:523;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:522;}i:524;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:523;}i:525;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:523;}i:526;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:525;}i:527;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:523;}i:528;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:522;}i:529;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:528;}i:530;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:498;}i:531;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:498;}i:532;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:531;}i:533;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:532;}i:534;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:532;}i:535;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:532;}i:536;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:532;}i:537;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:532;}i:538;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:532;}i:539;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:532;}i:540;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:532;}i:541;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:532;}i:542;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:532;}i:543;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:498;}i:544;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:498;}i:545;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:498;}i:546;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:498;}i:547;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:498;}i:548;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:498;}i:549;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:489;}i:550;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:317;}i:551;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:550;}i:552;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:551;}i:553;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:317;}i:554;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:317;}i:555;a:2:{s:5:"class";s:20:"ilsessionoverviewgui";s:6:"parent";i:317;}i:556;a:2:{s:5:"class";s:17:"ilshoppurchasegui";s:6:"parent";i:317;}i:557;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:556;}i:558;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:557;}i:559;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:558;}i:560;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:559;}i:561;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:559;}i:562;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:561;}i:563;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:559;}i:564;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:557;}i:565;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:557;}i:566;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:557;}i:567;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:566;}i:568;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:566;}i:569;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:568;}i:570;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:568;}i:571;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:570;}i:572;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:568;}i:573;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:566;}i:574;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:566;}i:575;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:566;}i:576;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:566;}i:577;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:566;}i:578;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:566;}i:579;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:566;}i:580;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:566;}i:581;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:580;}i:582;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:581;}i:583;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:581;}i:584;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:583;}i:585;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:581;}i:586;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:580;}i:587;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:586;}i:588;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:566;}i:589;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:566;}i:590;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:589;}i:591;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:590;}i:592;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:591;}i:593;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:591;}i:594;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:593;}i:595;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:591;}i:596;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:590;}i:597;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:596;}i:598;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:566;}i:599;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:566;}i:600;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:599;}i:601;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:600;}i:602;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:600;}i:603;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:600;}i:604;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:600;}i:605;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:600;}i:606;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:600;}i:607;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:600;}i:608;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:600;}i:609;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:600;}i:610;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:600;}i:611;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:566;}i:612;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:566;}i:613;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:566;}i:614;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:566;}i:615;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:566;}i:616;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:566;}i:617;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:557;}i:618;a:2:{s:5:"class";s:23:"ilobjcoursereferencegui";s:6:"parent";i:1;}i:619;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:618;}i:620;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:619;}i:621;a:2:{s:5:"class";s:0:"";s:6:"parent";i:620;}i:622;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:620;}i:623;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:620;}i:624;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:623;}i:625;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:623;}i:626;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:625;}i:627;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:623;}i:628;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:627;}i:629;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:623;}i:630;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:629;}i:631;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:623;}i:632;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:631;}i:633;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:620;}i:634;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:620;}i:635;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:620;}i:636;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:620;}i:637;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:620;}i:638;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:637;}i:639;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:620;}i:640;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:639;}i:641;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:639;}i:642;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:641;}i:643;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:639;}i:644;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:643;}i:645;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:639;}i:646;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:645;}i:647;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:639;}i:648;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:647;}i:649;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:620;}i:650;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:620;}i:651;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:620;}i:652;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:620;}i:653;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:620;}i:654;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:620;}i:655;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:620;}i:656;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:620;}i:657;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:620;}i:658;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:657;}i:659;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:619;}i:660;a:2:{s:5:"class";s:0:"";s:6:"parent";i:659;}i:661;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:619;}i:662;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:619;}i:663;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:618;}i:664;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:663;}i:665;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:664;}i:666;a:2:{s:5:"class";s:14:"ilobjdlbookgui";s:6:"parent";i:1;}i:667;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:666;}i:668;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:667;}i:669;a:2:{s:5:"class";s:0:"";s:6:"parent";i:668;}i:670;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:668;}i:671;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:668;}i:672;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:671;}i:673;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:671;}i:674;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:673;}i:675;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:671;}i:676;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:675;}i:677;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:671;}i:678;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:677;}i:679;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:671;}i:680;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:679;}i:681;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:668;}i:682;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:668;}i:683;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:668;}i:684;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:668;}i:685;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:668;}i:686;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:685;}i:687;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:668;}i:688;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:687;}i:689;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:687;}i:690;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:689;}i:691;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:687;}i:692;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:691;}i:693;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:687;}i:694;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:693;}i:695;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:687;}i:696;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:695;}i:697;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:668;}i:698;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:668;}i:699;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:668;}i:700;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:668;}i:701;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:668;}i:702;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:668;}i:703;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:668;}i:704;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:668;}i:705;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:668;}i:706;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:705;}i:707;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:667;}i:708;a:2:{s:5:"class";s:0:"";s:6:"parent";i:707;}i:709;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:667;}i:710;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:667;}i:711;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:666;}i:712;a:2:{s:5:"class";s:17:"illmstatisticsgui";s:6:"parent";i:711;}i:713;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:711;}i:714;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:713;}i:715;a:2:{s:5:"class";s:0:"";s:6:"parent";i:714;}i:716;a:2:{s:5:"class";s:19:"illpobjectstablegui";s:6:"parent";i:713;}i:717;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:716;}i:718;a:2:{s:5:"class";s:0:"";s:6:"parent";i:717;}i:719;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:717;}i:720;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:713;}i:721;a:2:{s:5:"class";s:0:"";s:6:"parent";i:720;}i:722;a:2:{s:5:"class";s:15:"iluserfiltergui";s:6:"parent";i:713;}i:723;a:2:{s:5:"class";s:0:"";s:6:"parent";i:722;}i:724;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:711;}i:725;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:724;}i:726;a:2:{s:5:"class";s:0:"";s:6:"parent";i:725;}i:727;a:2:{s:5:"class";s:20:"illpprogresstablegui";s:6:"parent";i:724;}i:728;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:727;}i:729;a:2:{s:5:"class";s:0:"";s:6:"parent";i:728;}i:730;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:728;}i:731;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:724;}i:732;a:2:{s:5:"class";s:0:"";s:6:"parent";i:731;}i:733;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:711;}i:734;a:2:{s:5:"class";s:0:"";s:6:"parent";i:733;}i:735;a:2:{s:5:"class";s:17:"illmpageobjectgui";s:6:"parent";i:666;}i:736;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:735;}i:737;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:736;}i:738;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:737;}i:739;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:738;}i:740;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:738;}i:741;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:740;}i:742;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:738;}i:743;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:736;}i:744;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:736;}i:745;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:736;}i:746;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:745;}i:747;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:745;}i:748;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:747;}i:749;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:747;}i:750;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:749;}i:751;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:747;}i:752;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:745;}i:753;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:745;}i:754;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:745;}i:755;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:745;}i:756;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:745;}i:757;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:745;}i:758;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:745;}i:759;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:745;}i:760;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:759;}i:761;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:760;}i:762;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:760;}i:763;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:762;}i:764;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:760;}i:765;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:759;}i:766;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:765;}i:767;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:745;}i:768;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:745;}i:769;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:768;}i:770;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:769;}i:771;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:770;}i:772;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:770;}i:773;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:772;}i:774;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:770;}i:775;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:769;}i:776;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:775;}i:777;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:745;}i:778;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:745;}i:779;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:778;}i:780;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:779;}i:781;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:779;}i:782;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:779;}i:783;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:779;}i:784;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:779;}i:785;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:779;}i:786;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:779;}i:787;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:779;}i:788;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:779;}i:789;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:779;}i:790;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:745;}i:791;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:745;}i:792;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:745;}i:793;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:745;}i:794;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:745;}i:795;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:745;}i:796;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:736;}i:797;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:666;}i:798;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:666;}i:799;a:2:{s:5:"class";s:0:"";s:6:"parent";i:798;}i:800;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:666;}i:801;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:800;}i:802;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:801;}i:803;a:2:{s:5:"class";s:20:"ilstructureobjectgui";s:6:"parent";i:666;}i:804;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:803;}i:805;a:2:{s:5:"class";s:0:"";s:6:"parent";i:804;}i:806;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:803;}i:807;a:2:{s:5:"class";s:16:"ilobjexercisegui";s:6:"parent";i:1;}i:808;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:807;}i:809;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:808;}i:810;a:2:{s:5:"class";s:0:"";s:6:"parent";i:809;}i:811;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:809;}i:812;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:809;}i:813;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:812;}i:814;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:812;}i:815;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:814;}i:816;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:812;}i:817;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:816;}i:818;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:812;}i:819;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:818;}i:820;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:812;}i:821;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:820;}i:822;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:809;}i:823;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:809;}i:824;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:809;}i:825;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:809;}i:826;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:809;}i:827;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:826;}i:828;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:809;}i:829;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:828;}i:830;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:828;}i:831;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:830;}i:832;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:828;}i:833;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:832;}i:834;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:828;}i:835;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:834;}i:836;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:828;}i:837;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:836;}i:838;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:809;}i:839;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:809;}i:840;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:809;}i:841;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:809;}i:842;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:809;}i:843;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:809;}i:844;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:809;}i:845;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:809;}i:846;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:809;}i:847;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:846;}i:848;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:808;}i:849;a:2:{s:5:"class";s:0:"";s:6:"parent";i:848;}i:850;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:808;}i:851;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:808;}i:852;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:807;}i:853;a:2:{s:5:"class";s:17:"illmstatisticsgui";s:6:"parent";i:852;}i:854;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:852;}i:855;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:854;}i:856;a:2:{s:5:"class";s:0:"";s:6:"parent";i:855;}i:857;a:2:{s:5:"class";s:19:"illpobjectstablegui";s:6:"parent";i:854;}i:858;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:857;}i:859;a:2:{s:5:"class";s:0:"";s:6:"parent";i:858;}i:860;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:858;}i:861;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:854;}i:862;a:2:{s:5:"class";s:0:"";s:6:"parent";i:861;}i:863;a:2:{s:5:"class";s:15:"iluserfiltergui";s:6:"parent";i:854;}i:864;a:2:{s:5:"class";s:0:"";s:6:"parent";i:863;}i:865;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:852;}i:866;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:865;}i:867;a:2:{s:5:"class";s:0:"";s:6:"parent";i:866;}i:868;a:2:{s:5:"class";s:20:"illpprogresstablegui";s:6:"parent";i:865;}i:869;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:868;}i:870;a:2:{s:5:"class";s:0:"";s:6:"parent";i:869;}i:871;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:869;}i:872;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:865;}i:873;a:2:{s:5:"class";s:0:"";s:6:"parent";i:872;}i:874;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:852;}i:875;a:2:{s:5:"class";s:0:"";s:6:"parent";i:874;}i:876;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:807;}i:877;a:2:{s:5:"class";s:0:"";s:6:"parent";i:876;}i:878;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:807;}i:879;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:878;}i:880;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:879;}i:881;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:807;}i:882;a:2:{s:5:"class";s:20:"ilobjexternalfeedgui";s:6:"parent";i:1;}i:883;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:882;}i:884;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:882;}i:885;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:884;}i:886;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:885;}i:887;a:2:{s:5:"class";s:19:"ilobjfilebasedlmgui";s:6:"parent";i:1;}i:888;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:887;}i:889;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:887;}i:890;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:889;}i:891;a:2:{s:5:"class";s:0:"";s:6:"parent";i:890;}i:892;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:890;}i:893;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:890;}i:894;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:893;}i:895;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:893;}i:896;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:895;}i:897;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:893;}i:898;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:897;}i:899;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:893;}i:900;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:899;}i:901;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:893;}i:902;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:901;}i:903;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:890;}i:904;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:890;}i:905;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:890;}i:906;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:890;}i:907;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:890;}i:908;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:907;}i:909;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:890;}i:910;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:909;}i:911;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:909;}i:912;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:911;}i:913;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:909;}i:914;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:913;}i:915;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:909;}i:916;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:915;}i:917;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:909;}i:918;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:917;}i:919;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:890;}i:920;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:890;}i:921;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:890;}i:922;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:890;}i:923;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:890;}i:924;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:890;}i:925;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:890;}i:926;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:890;}i:927;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:890;}i:928;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:927;}i:929;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:889;}i:930;a:2:{s:5:"class";s:0:"";s:6:"parent";i:929;}i:931;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:889;}i:932;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:889;}i:933;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:887;}i:934;a:2:{s:5:"class";s:17:"illmstatisticsgui";s:6:"parent";i:933;}i:935;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:933;}i:936;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:935;}i:937;a:2:{s:5:"class";s:0:"";s:6:"parent";i:936;}i:938;a:2:{s:5:"class";s:19:"illpobjectstablegui";s:6:"parent";i:935;}i:939;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:938;}i:940;a:2:{s:5:"class";s:0:"";s:6:"parent";i:939;}i:941;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:939;}i:942;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:935;}i:943;a:2:{s:5:"class";s:0:"";s:6:"parent";i:942;}i:944;a:2:{s:5:"class";s:15:"iluserfiltergui";s:6:"parent";i:935;}i:945;a:2:{s:5:"class";s:0:"";s:6:"parent";i:944;}i:946;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:933;}i:947;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:946;}i:948;a:2:{s:5:"class";s:0:"";s:6:"parent";i:947;}i:949;a:2:{s:5:"class";s:20:"illpprogresstablegui";s:6:"parent";i:946;}i:950;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:949;}i:951;a:2:{s:5:"class";s:0:"";s:6:"parent";i:950;}i:952;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:950;}i:953;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:946;}i:954;a:2:{s:5:"class";s:0:"";s:6:"parent";i:953;}i:955;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:933;}i:956;a:2:{s:5:"class";s:0:"";s:6:"parent";i:955;}i:957;a:2:{s:5:"class";s:12:"illicensegui";s:6:"parent";i:887;}i:958;a:2:{s:5:"class";s:0:"";s:6:"parent";i:957;}i:959;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:887;}i:960;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:887;}i:961;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:960;}i:962;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:961;}i:963;a:2:{s:5:"class";s:17:"ilshoppurchasegui";s:6:"parent";i:887;}i:964;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:963;}i:965;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:964;}i:966;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:965;}i:967;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:966;}i:968;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:966;}i:969;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:968;}i:970;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:966;}i:971;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:964;}i:972;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:964;}i:973;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:964;}i:974;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:973;}i:975;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:973;}i:976;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:975;}i:977;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:975;}i:978;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:977;}i:979;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:975;}i:980;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:973;}i:981;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:973;}i:982;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:973;}i:983;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:973;}i:984;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:973;}i:985;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:973;}i:986;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:973;}i:987;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:973;}i:988;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:987;}i:989;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:988;}i:990;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:988;}i:991;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:990;}i:992;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:988;}i:993;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:987;}i:994;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:993;}i:995;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:973;}i:996;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:973;}i:997;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:996;}i:998;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:997;}i:999;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:998;}i:1000;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:998;}i:1001;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1000;}i:1002;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:998;}i:1003;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:997;}i:1004;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1003;}i:1005;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:973;}i:1006;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:973;}i:1007;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:1006;}i:1008;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:1007;}i:1009;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:1007;}i:1010;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:1007;}i:1011;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:1007;}i:1012;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:1007;}i:1013;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:1007;}i:1014;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:1007;}i:1015;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:1007;}i:1016;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:1007;}i:1017;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:1007;}i:1018;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:973;}i:1019;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:973;}i:1020;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:973;}i:1021;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:973;}i:1022;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:973;}i:1023;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:973;}i:1024;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:964;}i:1025;a:2:{s:5:"class";s:12:"ilobjfilegui";s:6:"parent";i:1;}i:1026;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:1025;}i:1027;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:1026;}i:1028;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1027;}i:1029;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:1027;}i:1030;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:1027;}i:1031;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1030;}i:1032;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1030;}i:1033;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1032;}i:1034;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1030;}i:1035;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1034;}i:1036;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1030;}i:1037;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1036;}i:1038;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1030;}i:1039;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1038;}i:1040;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:1027;}i:1041;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:1027;}i:1042;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:1027;}i:1043;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:1027;}i:1044;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:1027;}i:1045;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:1044;}i:1046;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:1027;}i:1047;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1046;}i:1048;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1046;}i:1049;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1048;}i:1050;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1046;}i:1051;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1050;}i:1052;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1046;}i:1053;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1052;}i:1054;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1046;}i:1055;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1054;}i:1056;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:1027;}i:1057;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:1027;}i:1058;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:1027;}i:1059;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:1027;}i:1060;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:1027;}i:1061;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:1027;}i:1062;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:1027;}i:1063;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:1027;}i:1064;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:1027;}i:1065;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1064;}i:1066;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:1026;}i:1067;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1066;}i:1068;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:1026;}i:1069;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1026;}i:1070;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1025;}i:1071;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:1025;}i:1072;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1071;}i:1073;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:1025;}i:1074;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:1073;}i:1075;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:1074;}i:1076;a:2:{s:5:"class";s:17:"ilshoppurchasegui";s:6:"parent";i:1025;}i:1077;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:1076;}i:1078;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:1077;}i:1079;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1078;}i:1080;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1079;}i:1081;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1079;}i:1082;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1081;}i:1083;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1079;}i:1084;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1077;}i:1085;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:1077;}i:1086;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:1077;}i:1087;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1086;}i:1088;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1086;}i:1089;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1088;}i:1090;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1088;}i:1091;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1090;}i:1092;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1088;}i:1093;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:1086;}i:1094;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:1086;}i:1095;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:1086;}i:1096;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:1086;}i:1097;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:1086;}i:1098;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:1086;}i:1099;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:1086;}i:1100;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:1086;}i:1101;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1100;}i:1102;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1101;}i:1103;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1101;}i:1104;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1103;}i:1105;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1101;}i:1106;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:1100;}i:1107;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1106;}i:1108;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:1086;}i:1109;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:1086;}i:1110;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:1109;}i:1111;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1110;}i:1112;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1111;}i:1113;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1111;}i:1114;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1113;}i:1115;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1111;}i:1116;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:1110;}i:1117;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1116;}i:1118;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:1086;}i:1119;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:1086;}i:1120;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:1119;}i:1121;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:1120;}i:1122;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:1120;}i:1123;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:1120;}i:1124;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:1120;}i:1125;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:1120;}i:1126;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:1120;}i:1127;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:1120;}i:1128;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:1120;}i:1129;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:1120;}i:1130;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:1120;}i:1131;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:1086;}i:1132;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:1086;}i:1133;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:1086;}i:1134;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:1086;}i:1135;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:1086;}i:1136;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:1086;}i:1137;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1077;}i:1138;a:2:{s:5:"class";s:14:"ilobjfoldergui";s:6:"parent";i:1;}i:1139;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:1138;}i:1140;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1139;}i:1141;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:1139;}i:1142;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:1139;}i:1143;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1142;}i:1144;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1142;}i:1145;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1144;}i:1146;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1142;}i:1147;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1146;}i:1148;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1142;}i:1149;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1148;}i:1150;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1142;}i:1151;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1150;}i:1152;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:1139;}i:1153;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:1139;}i:1154;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:1139;}i:1155;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:1139;}i:1156;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:1139;}i:1157;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:1156;}i:1158;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:1139;}i:1159;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1158;}i:1160;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1158;}i:1161;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1160;}i:1162;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1158;}i:1163;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1162;}i:1164;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1158;}i:1165;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1164;}i:1166;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1158;}i:1167;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1166;}i:1168;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:1139;}i:1169;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:1139;}i:1170;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:1139;}i:1171;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:1139;}i:1172;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:1139;}i:1173;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:1139;}i:1174;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:1139;}i:1175;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:1139;}i:1176;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:1139;}i:1177;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1176;}i:1178;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:1138;}i:1179;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1178;}i:1180;a:2:{s:5:"class";s:18:"ilcoursecontentgui";s:6:"parent";i:1138;}i:1181;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:1180;}i:1182;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1181;}i:1183;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:1181;}i:1184;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:1181;}i:1185;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1184;}i:1186;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1184;}i:1187;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1186;}i:1188;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1184;}i:1189;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1188;}i:1190;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1184;}i:1191;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1190;}i:1192;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1184;}i:1193;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1192;}i:1194;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:1181;}i:1195;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:1181;}i:1196;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:1181;}i:1197;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:1181;}i:1198;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:1181;}i:1199;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:1198;}i:1200;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:1181;}i:1201;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1200;}i:1202;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1200;}i:1203;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1202;}i:1204;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1200;}i:1205;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1204;}i:1206;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1200;}i:1207;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1206;}i:1208;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1200;}i:1209;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1208;}i:1210;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:1181;}i:1211;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:1181;}i:1212;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:1181;}i:1213;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:1181;}i:1214;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:1181;}i:1215;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:1181;}i:1216;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:1181;}i:1217;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:1181;}i:1218;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:1181;}i:1219;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1218;}i:1220;a:2:{s:5:"class";s:19:"ilcoursearchivesgui";s:6:"parent";i:1180;}i:1221;a:2:{s:5:"class";s:32:"ilcourseobjectivepresentationgui";s:6:"parent";i:1180;}i:1222;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1221;}i:1223;a:2:{s:5:"class";s:29:"ilcourseitemadministrationgui";s:6:"parent";i:1138;}i:1224;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:1223;}i:1225;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1224;}i:1226;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:1138;}i:1227;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:1226;}i:1228;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1227;}i:1229;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:1227;}i:1230;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:1227;}i:1231;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1230;}i:1232;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1230;}i:1233;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1232;}i:1234;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1230;}i:1235;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1234;}i:1236;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1230;}i:1237;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1236;}i:1238;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1230;}i:1239;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1238;}i:1240;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:1227;}i:1241;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:1227;}i:1242;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:1227;}i:1243;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:1227;}i:1244;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:1227;}i:1245;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:1244;}i:1246;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:1227;}i:1247;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1246;}i:1248;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1246;}i:1249;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1248;}i:1250;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1246;}i:1251;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1250;}i:1252;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1246;}i:1253;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1252;}i:1254;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1246;}i:1255;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1254;}i:1256;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:1227;}i:1257;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:1227;}i:1258;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:1227;}i:1259;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:1227;}i:1260;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:1227;}i:1261;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:1227;}i:1262;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:1227;}i:1263;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:1227;}i:1264;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:1227;}i:1265;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1264;}i:1266;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:1226;}i:1267;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1266;}i:1268;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:1226;}i:1269;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1226;}i:1270;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:1138;}i:1271;a:2:{s:5:"class";s:17:"illmstatisticsgui";s:6:"parent";i:1270;}i:1272;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:1270;}i:1273;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:1272;}i:1274;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1273;}i:1275;a:2:{s:5:"class";s:19:"illpobjectstablegui";s:6:"parent";i:1272;}i:1276;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:1275;}i:1277;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1276;}i:1278;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:1276;}i:1279;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:1272;}i:1280;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1279;}i:1281;a:2:{s:5:"class";s:15:"iluserfiltergui";s:6:"parent";i:1272;}i:1282;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1281;}i:1283;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:1270;}i:1284;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:1283;}i:1285;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1284;}i:1286;a:2:{s:5:"class";s:20:"illpprogresstablegui";s:6:"parent";i:1283;}i:1287;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:1286;}i:1288;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1287;}i:1289;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:1287;}i:1290;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:1283;}i:1291;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1290;}i:1292;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:1270;}i:1293;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1292;}i:1294;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:1138;}i:1295;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1294;}i:1296;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:1138;}i:1297;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1296;}i:1298;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:1138;}i:1299;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:1298;}i:1300;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1299;}i:1301;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1300;}i:1302;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1300;}i:1303;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1302;}i:1304;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1300;}i:1305;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1298;}i:1306;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:1298;}i:1307;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:1298;}i:1308;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1307;}i:1309;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1307;}i:1310;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1309;}i:1311;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1309;}i:1312;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1311;}i:1313;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1309;}i:1314;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:1307;}i:1315;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:1307;}i:1316;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:1307;}i:1317;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:1307;}i:1318;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:1307;}i:1319;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:1307;}i:1320;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:1307;}i:1321;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:1307;}i:1322;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1321;}i:1323;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1322;}i:1324;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1322;}i:1325;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1324;}i:1326;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1322;}i:1327;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:1321;}i:1328;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1327;}i:1329;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:1307;}i:1330;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:1307;}i:1331;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:1330;}i:1332;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1331;}i:1333;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1332;}i:1334;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1332;}i:1335;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1334;}i:1336;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1332;}i:1337;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:1331;}i:1338;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1337;}i:1339;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:1307;}i:1340;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:1307;}i:1341;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:1340;}i:1342;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:1341;}i:1343;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:1341;}i:1344;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:1341;}i:1345;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:1341;}i:1346;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:1341;}i:1347;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:1341;}i:1348;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:1341;}i:1349;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:1341;}i:1350;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:1341;}i:1351;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:1341;}i:1352;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:1307;}i:1353;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:1307;}i:1354;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:1307;}i:1355;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:1307;}i:1356;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:1307;}i:1357;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:1307;}i:1358;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1298;}i:1359;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:1138;}i:1360;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:1359;}i:1361;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:1360;}i:1362;a:2:{s:5:"class";s:13:"ilobjforumgui";s:6:"parent";i:1;}i:1363;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:1362;}i:1364;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1363;}i:1365;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:1363;}i:1366;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:1363;}i:1367;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1366;}i:1368;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1366;}i:1369;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1368;}i:1370;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1366;}i:1371;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1370;}i:1372;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1366;}i:1373;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1372;}i:1374;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1366;}i:1375;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1374;}i:1376;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:1363;}i:1377;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:1363;}i:1378;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:1363;}i:1379;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:1363;}i:1380;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:1363;}i:1381;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:1380;}i:1382;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:1363;}i:1383;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1382;}i:1384;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1382;}i:1385;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1384;}i:1386;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1382;}i:1387;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1386;}i:1388;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1382;}i:1389;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1388;}i:1390;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1382;}i:1391;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1390;}i:1392;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:1363;}i:1393;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:1363;}i:1394;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:1363;}i:1395;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:1363;}i:1396;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:1363;}i:1397;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:1363;}i:1398;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:1363;}i:1399;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:1363;}i:1400;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:1363;}i:1401;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1400;}i:1402;a:2:{s:5:"class";s:16:"ilforumexportgui";s:6:"parent";i:1362;}i:1403;a:2:{s:5:"class";s:20:"ilforummoderatorsgui";s:6:"parent";i:1362;}i:1404;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:1362;}i:1405;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:1404;}i:1406;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1405;}i:1407;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:1405;}i:1408;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:1405;}i:1409;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1408;}i:1410;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1408;}i:1411;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1410;}i:1412;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1408;}i:1413;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1412;}i:1414;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1408;}i:1415;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1414;}i:1416;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1408;}i:1417;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1416;}i:1418;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:1405;}i:1419;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:1405;}i:1420;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:1405;}i:1421;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:1405;}i:1422;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:1405;}i:1423;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:1422;}i:1424;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:1405;}i:1425;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1424;}i:1426;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1424;}i:1427;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1426;}i:1428;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1424;}i:1429;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1428;}i:1430;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1424;}i:1431;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1430;}i:1432;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1424;}i:1433;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1432;}i:1434;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:1405;}i:1435;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:1405;}i:1436;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:1405;}i:1437;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:1405;}i:1438;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:1405;}i:1439;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:1405;}i:1440;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:1405;}i:1441;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:1405;}i:1442;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:1405;}i:1443;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1442;}i:1444;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:1404;}i:1445;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1444;}i:1446;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:1404;}i:1447;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1404;}i:1448;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:1362;}i:1449;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1448;}i:1450;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:1362;}i:1451;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:1450;}i:1452;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:1451;}i:1453;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1362;}i:1454;a:2:{s:5:"class";s:16:"ilobjglossarygui";s:6:"parent";i:1;}i:1455;a:2:{s:5:"class";s:17:"ilglossarytermgui";s:6:"parent";i:1454;}i:1456;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:1455;}i:1457;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:1456;}i:1458;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1457;}i:1459;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1458;}i:1460;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1458;}i:1461;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1460;}i:1462;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1458;}i:1463;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1456;}i:1464;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:1456;}i:1465;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:1456;}i:1466;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1465;}i:1467;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1465;}i:1468;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1467;}i:1469;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1467;}i:1470;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1469;}i:1471;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1467;}i:1472;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:1465;}i:1473;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:1465;}i:1474;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:1465;}i:1475;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:1465;}i:1476;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:1465;}i:1477;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:1465;}i:1478;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:1465;}i:1479;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:1465;}i:1480;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1479;}i:1481;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1480;}i:1482;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1480;}i:1483;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1482;}i:1484;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1480;}i:1485;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:1479;}i:1486;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1485;}i:1487;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:1465;}i:1488;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:1465;}i:1489;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:1488;}i:1490;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1489;}i:1491;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1490;}i:1492;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1490;}i:1493;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1492;}i:1494;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1490;}i:1495;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:1489;}i:1496;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1495;}i:1497;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:1465;}i:1498;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:1465;}i:1499;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:1498;}i:1500;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:1499;}i:1501;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:1499;}i:1502;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:1499;}i:1503;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:1499;}i:1504;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:1499;}i:1505;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:1499;}i:1506;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:1499;}i:1507;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:1499;}i:1508;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:1499;}i:1509;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:1499;}i:1510;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:1465;}i:1511;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:1465;}i:1512;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:1465;}i:1513;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:1465;}i:1514;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:1465;}i:1515;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:1465;}i:1516;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1456;}i:1517;a:2:{s:5:"class";s:25:"iltermdefinitioneditorgui";s:6:"parent";i:1455;}i:1518;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1517;}i:1519;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:1517;}i:1520;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:1519;}i:1521;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1520;}i:1522;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1521;}i:1523;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1521;}i:1524;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1523;}i:1525;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1521;}i:1526;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1519;}i:1527;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:1519;}i:1528;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:1519;}i:1529;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1528;}i:1530;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1528;}i:1531;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1530;}i:1532;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1530;}i:1533;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1532;}i:1534;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1530;}i:1535;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:1528;}i:1536;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:1528;}i:1537;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:1528;}i:1538;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:1528;}i:1539;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:1528;}i:1540;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:1528;}i:1541;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:1528;}i:1542;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:1528;}i:1543;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1542;}i:1544;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1543;}i:1545;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1543;}i:1546;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1545;}i:1547;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1543;}i:1548;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:1542;}i:1549;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1548;}i:1550;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:1528;}i:1551;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:1528;}i:1552;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:1551;}i:1553;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1552;}i:1554;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1553;}i:1555;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1553;}i:1556;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1555;}i:1557;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1553;}i:1558;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:1552;}i:1559;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1558;}i:1560;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:1528;}i:1561;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:1528;}i:1562;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:1561;}i:1563;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:1562;}i:1564;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:1562;}i:1565;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:1562;}i:1566;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:1562;}i:1567;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:1562;}i:1568;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:1562;}i:1569;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:1562;}i:1570;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:1562;}i:1571;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:1562;}i:1572;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:1562;}i:1573;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:1528;}i:1574;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:1528;}i:1575;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:1528;}i:1576;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:1528;}i:1577;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:1528;}i:1578;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:1528;}i:1579;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1519;}i:1580;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:1454;}i:1581;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:1580;}i:1582;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1581;}i:1583;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:1581;}i:1584;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:1581;}i:1585;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1584;}i:1586;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1584;}i:1587;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1586;}i:1588;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1584;}i:1589;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1588;}i:1590;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1584;}i:1591;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1590;}i:1592;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1584;}i:1593;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1592;}i:1594;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:1581;}i:1595;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:1581;}i:1596;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:1581;}i:1597;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:1581;}i:1598;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:1581;}i:1599;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:1598;}i:1600;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:1581;}i:1601;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1600;}i:1602;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1600;}i:1603;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1602;}i:1604;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1600;}i:1605;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1604;}i:1606;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1600;}i:1607;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1606;}i:1608;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1600;}i:1609;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1608;}i:1610;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:1581;}i:1611;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:1581;}i:1612;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:1581;}i:1613;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:1581;}i:1614;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:1581;}i:1615;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:1581;}i:1616;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:1581;}i:1617;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:1581;}i:1618;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:1581;}i:1619;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1618;}i:1620;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:1580;}i:1621;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1620;}i:1622;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:1580;}i:1623;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1580;}i:1624;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1454;}i:1625;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:1454;}i:1626;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:1625;}i:1627;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:1626;}i:1628;a:2:{s:5:"class";s:13:"ilobjgroupgui";s:6:"parent";i:1;}i:1629;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1628;}i:1630;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:1628;}i:1631;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1630;}i:1632;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:1630;}i:1633;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:1630;}i:1634;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1633;}i:1635;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1633;}i:1636;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1635;}i:1637;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1633;}i:1638;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1637;}i:1639;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1633;}i:1640;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1639;}i:1641;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1633;}i:1642;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1641;}i:1643;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:1630;}i:1644;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:1630;}i:1645;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:1630;}i:1646;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:1630;}i:1647;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:1630;}i:1648;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:1647;}i:1649;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:1630;}i:1650;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1649;}i:1651;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1649;}i:1652;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1651;}i:1653;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1649;}i:1654;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1653;}i:1655;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1649;}i:1656;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1655;}i:1657;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1649;}i:1658;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1657;}i:1659;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:1630;}i:1660;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:1630;}i:1661;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:1630;}i:1662;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:1630;}i:1663;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:1630;}i:1664;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:1630;}i:1665;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:1630;}i:1666;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:1630;}i:1667;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:1630;}i:1668;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1667;}i:1669;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:1628;}i:1670;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1669;}i:1671;a:2:{s:5:"class";s:18:"ilcoursecontentgui";s:6:"parent";i:1628;}i:1672;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:1671;}i:1673;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1672;}i:1674;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:1672;}i:1675;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:1672;}i:1676;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1675;}i:1677;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1675;}i:1678;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1677;}i:1679;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1675;}i:1680;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1679;}i:1681;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1675;}i:1682;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1681;}i:1683;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1675;}i:1684;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1683;}i:1685;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:1672;}i:1686;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:1672;}i:1687;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:1672;}i:1688;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:1672;}i:1689;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:1672;}i:1690;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:1689;}i:1691;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:1672;}i:1692;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1691;}i:1693;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1691;}i:1694;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1693;}i:1695;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1691;}i:1696;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1695;}i:1697;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1691;}i:1698;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1697;}i:1699;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1691;}i:1700;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1699;}i:1701;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:1672;}i:1702;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:1672;}i:1703;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:1672;}i:1704;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:1672;}i:1705;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:1672;}i:1706;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:1672;}i:1707;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:1672;}i:1708;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:1672;}i:1709;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:1672;}i:1710;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1709;}i:1711;a:2:{s:5:"class";s:19:"ilcoursearchivesgui";s:6:"parent";i:1671;}i:1712;a:2:{s:5:"class";s:32:"ilcourseobjectivepresentationgui";s:6:"parent";i:1671;}i:1713;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1712;}i:1714;a:2:{s:5:"class";s:29:"ilcourseitemadministrationgui";s:6:"parent";i:1628;}i:1715;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:1714;}i:1716;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1715;}i:1717;a:2:{s:5:"class";s:22:"ilgroupregistrationgui";s:6:"parent";i:1628;}i:1718;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:1628;}i:1719;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:1718;}i:1720;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1719;}i:1721;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:1719;}i:1722;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:1719;}i:1723;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1722;}i:1724;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1722;}i:1725;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1724;}i:1726;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1722;}i:1727;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1726;}i:1728;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1722;}i:1729;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1728;}i:1730;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1722;}i:1731;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1730;}i:1732;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:1719;}i:1733;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:1719;}i:1734;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:1719;}i:1735;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:1719;}i:1736;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:1719;}i:1737;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:1736;}i:1738;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:1719;}i:1739;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1738;}i:1740;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1738;}i:1741;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1740;}i:1742;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1738;}i:1743;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1742;}i:1744;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1738;}i:1745;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1744;}i:1746;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1738;}i:1747;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1746;}i:1748;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:1719;}i:1749;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:1719;}i:1750;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:1719;}i:1751;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:1719;}i:1752;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:1719;}i:1753;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:1719;}i:1754;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:1719;}i:1755;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:1719;}i:1756;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:1719;}i:1757;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1756;}i:1758;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:1718;}i:1759;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1758;}i:1760;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:1718;}i:1761;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1718;}i:1762;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:1628;}i:1763;a:2:{s:5:"class";s:17:"illmstatisticsgui";s:6:"parent";i:1762;}i:1764;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:1762;}i:1765;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:1764;}i:1766;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1765;}i:1767;a:2:{s:5:"class";s:19:"illpobjectstablegui";s:6:"parent";i:1764;}i:1768;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:1767;}i:1769;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1768;}i:1770;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:1768;}i:1771;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:1764;}i:1772;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1771;}i:1773;a:2:{s:5:"class";s:15:"iluserfiltergui";s:6:"parent";i:1764;}i:1774;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1773;}i:1775;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:1762;}i:1776;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:1775;}i:1777;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1776;}i:1778;a:2:{s:5:"class";s:20:"illpprogresstablegui";s:6:"parent";i:1775;}i:1779;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:1778;}i:1780;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1779;}i:1781;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:1779;}i:1782;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:1775;}i:1783;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1782;}i:1784;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:1762;}i:1785;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1784;}i:1786;a:2:{s:5:"class";s:22:"ilobjcoursegroupinggui";s:6:"parent";i:1628;}i:1787;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:1628;}i:1788;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1787;}i:1789;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:1628;}i:1790;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1789;}i:1791;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:1628;}i:1792;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:1791;}i:1793;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1792;}i:1794;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1793;}i:1795;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1793;}i:1796;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1795;}i:1797;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1793;}i:1798;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1791;}i:1799;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:1791;}i:1800;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:1791;}i:1801;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1800;}i:1802;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1800;}i:1803;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1802;}i:1804;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1802;}i:1805;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1804;}i:1806;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1802;}i:1807;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:1800;}i:1808;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:1800;}i:1809;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:1800;}i:1810;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:1800;}i:1811;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:1800;}i:1812;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:1800;}i:1813;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:1800;}i:1814;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:1800;}i:1815;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1814;}i:1816;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1815;}i:1817;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1815;}i:1818;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1817;}i:1819;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1815;}i:1820;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:1814;}i:1821;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1820;}i:1822;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:1800;}i:1823;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:1800;}i:1824;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:1823;}i:1825;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:1824;}i:1826;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:1825;}i:1827;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:1825;}i:1828;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1827;}i:1829;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1825;}i:1830;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:1824;}i:1831;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:1830;}i:1832;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:1800;}i:1833;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:1800;}i:1834;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:1833;}i:1835;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:1834;}i:1836;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:1834;}i:1837;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:1834;}i:1838;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:1834;}i:1839;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:1834;}i:1840;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:1834;}i:1841;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:1834;}i:1842;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:1834;}i:1843;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:1834;}i:1844;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:1834;}i:1845;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:1800;}i:1846;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:1800;}i:1847;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:1800;}i:1848;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:1800;}i:1849;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:1800;}i:1850;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:1800;}i:1851;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1791;}i:1852;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:1628;}i:1853;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:1852;}i:1854;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:1853;}i:1855;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1628;}i:1856;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:1628;}i:1857;a:2:{s:5:"class";s:22:"ilobjilincclassroomgui";s:6:"parent";i:1;}i:1858;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1857;}i:1859;a:2:{s:5:"class";s:19:"ilobjilinccoursegui";s:6:"parent";i:1;}i:1860;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:1859;}i:1861;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1860;}i:1862;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:1860;}i:1863;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:1860;}i:1864;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1863;}i:1865;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1863;}i:1866;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1865;}i:1867;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1863;}i:1868;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1867;}i:1869;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1863;}i:1870;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1869;}i:1871;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1863;}i:1872;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1871;}i:1873;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:1860;}i:1874;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:1860;}i:1875;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:1860;}i:1876;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:1860;}i:1877;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:1860;}i:1878;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:1877;}i:1879;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:1860;}i:1880;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1879;}i:1881;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1879;}i:1882;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1881;}i:1883;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1879;}i:1884;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1883;}i:1885;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1879;}i:1886;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1885;}i:1887;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1879;}i:1888;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1887;}i:1889;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:1860;}i:1890;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:1860;}i:1891;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:1860;}i:1892;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:1860;}i:1893;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:1860;}i:1894;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:1860;}i:1895;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:1860;}i:1896;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:1860;}i:1897;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:1860;}i:1898;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1897;}i:1899;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:1859;}i:1900;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:1899;}i:1901;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1900;}i:1902;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:1900;}i:1903;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:1900;}i:1904;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1903;}i:1905;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1903;}i:1906;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1905;}i:1907;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1903;}i:1908;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1907;}i:1909;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1903;}i:1910;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1909;}i:1911;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1903;}i:1912;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1911;}i:1913;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:1900;}i:1914;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:1900;}i:1915;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:1900;}i:1916;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:1900;}i:1917;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:1900;}i:1918;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:1917;}i:1919;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:1900;}i:1920;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1919;}i:1921;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1919;}i:1922;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1921;}i:1923;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1919;}i:1924;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1923;}i:1925;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1919;}i:1926;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1925;}i:1927;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1919;}i:1928;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1927;}i:1929;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:1900;}i:1930;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:1900;}i:1931;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:1900;}i:1932;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:1900;}i:1933;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:1900;}i:1934;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:1900;}i:1935;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:1900;}i:1936;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:1900;}i:1937;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:1900;}i:1938;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1937;}i:1939;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:1899;}i:1940;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1939;}i:1941;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:1899;}i:1942;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1899;}i:1943;a:2:{s:5:"class";s:22:"ilobjilincclassroomgui";s:6:"parent";i:1859;}i:1944;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1943;}i:1945;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:1859;}i:1946;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:1945;}i:1947;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:1946;}i:1948;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1859;}i:1949;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:1859;}i:1950;a:2:{s:5:"class";s:22:"ilobjlearningmodulegui";s:6:"parent";i:1;}i:1951;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:1950;}i:1952;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:1951;}i:1953;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1952;}i:1954;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:1952;}i:1955;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:1952;}i:1956;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1955;}i:1957;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1955;}i:1958;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1957;}i:1959;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1955;}i:1960;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1959;}i:1961;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1955;}i:1962;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1961;}i:1963;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1955;}i:1964;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1963;}i:1965;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:1952;}i:1966;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:1952;}i:1967;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:1952;}i:1968;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:1952;}i:1969;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:1952;}i:1970;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:1969;}i:1971;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:1952;}i:1972;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1971;}i:1973;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:1971;}i:1974;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1973;}i:1975;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:1971;}i:1976;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1975;}i:1977;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:1971;}i:1978;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1977;}i:1979;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:1971;}i:1980;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:1979;}i:1981;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:1952;}i:1982;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:1952;}i:1983;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:1952;}i:1984;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:1952;}i:1985;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:1952;}i:1986;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:1952;}i:1987;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:1952;}i:1988;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:1952;}i:1989;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:1952;}i:1990;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1989;}i:1991;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:1951;}i:1992;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1991;}i:1993;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:1951;}i:1994;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:1951;}i:1995;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:1950;}i:1996;a:2:{s:5:"class";s:17:"illmstatisticsgui";s:6:"parent";i:1995;}i:1997;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:1995;}i:1998;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:1997;}i:1999;a:2:{s:5:"class";s:0:"";s:6:"parent";i:1998;}i:2000;a:2:{s:5:"class";s:19:"illpobjectstablegui";s:6:"parent";i:1997;}i:2001;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:2000;}i:2002;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2001;}i:2003;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:2001;}i:2004;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:1997;}i:2005;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2004;}i:2006;a:2:{s:5:"class";s:15:"iluserfiltergui";s:6:"parent";i:1997;}i:2007;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2006;}i:2008;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:1995;}i:2009;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:2008;}i:2010;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2009;}i:2011;a:2:{s:5:"class";s:20:"illpprogresstablegui";s:6:"parent";i:2008;}i:2012;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:2011;}i:2013;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2012;}i:2014;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:2012;}i:2015;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:2008;}i:2016;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2015;}i:2017;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:1995;}i:2018;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2017;}i:2019;a:2:{s:5:"class";s:17:"illmpageobjectgui";s:6:"parent";i:1950;}i:2020;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:2019;}i:2021;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:2020;}i:2022;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2021;}i:2023;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2022;}i:2024;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2022;}i:2025;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2024;}i:2026;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2022;}i:2027;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2020;}i:2028;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:2020;}i:2029;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:2020;}i:2030;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2029;}i:2031;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2029;}i:2032;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2031;}i:2033;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2031;}i:2034;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2033;}i:2035;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2031;}i:2036;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:2029;}i:2037;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:2029;}i:2038;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:2029;}i:2039;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:2029;}i:2040;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:2029;}i:2041;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:2029;}i:2042;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:2029;}i:2043;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:2029;}i:2044;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2043;}i:2045;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2044;}i:2046;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2044;}i:2047;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2046;}i:2048;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2044;}i:2049;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:2043;}i:2050;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2049;}i:2051;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:2029;}i:2052;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:2029;}i:2053;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:2052;}i:2054;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2053;}i:2055;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2054;}i:2056;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2054;}i:2057;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2056;}i:2058;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2054;}i:2059;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:2053;}i:2060;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2059;}i:2061;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:2029;}i:2062;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:2029;}i:2063;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:2062;}i:2064;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:2063;}i:2065;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:2063;}i:2066;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:2063;}i:2067;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:2063;}i:2068;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:2063;}i:2069;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:2063;}i:2070;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:2063;}i:2071;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:2063;}i:2072;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:2063;}i:2073;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:2063;}i:2074;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:2029;}i:2075;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:2029;}i:2076;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:2029;}i:2077;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:2029;}i:2078;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:2029;}i:2079;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:2029;}i:2080;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2020;}i:2081;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:1950;}i:2082;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:1950;}i:2083;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2082;}i:2084;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:1950;}i:2085;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:2084;}i:2086;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:2085;}i:2087;a:2:{s:5:"class";s:20:"ilstructureobjectgui";s:6:"parent";i:1950;}i:2088;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:2087;}i:2089;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2088;}i:2090;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2087;}i:2091;a:2:{s:5:"class";s:20:"ilobjlinkresourcegui";s:6:"parent";i:1;}i:2092;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:2091;}i:2093;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:2092;}i:2094;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2093;}i:2095;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:2093;}i:2096;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:2093;}i:2097;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2096;}i:2098;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2096;}i:2099;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2098;}i:2100;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2096;}i:2101;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2100;}i:2102;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2096;}i:2103;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2102;}i:2104;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2096;}i:2105;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2104;}i:2106;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:2093;}i:2107;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:2093;}i:2108;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:2093;}i:2109;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:2093;}i:2110;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:2093;}i:2111;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:2110;}i:2112;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:2093;}i:2113;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2112;}i:2114;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2112;}i:2115;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2114;}i:2116;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2112;}i:2117;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2116;}i:2118;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2112;}i:2119;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2118;}i:2120;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2112;}i:2121;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2120;}i:2122;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:2093;}i:2123;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:2093;}i:2124;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:2093;}i:2125;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:2093;}i:2126;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:2093;}i:2127;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:2093;}i:2128;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:2093;}i:2129;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:2093;}i:2130;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:2093;}i:2131;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2130;}i:2132;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:2092;}i:2133;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2132;}i:2134;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:2092;}i:2135;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2092;}i:2136;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2091;}i:2137;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:2091;}i:2138;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2137;}i:2139;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:2091;}i:2140;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:2139;}i:2141;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:2140;}i:2142;a:2:{s:5:"class";s:17:"ilobjmediacastgui";s:6:"parent";i:1;}i:2143;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:2142;}i:2144;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:2143;}i:2145;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2144;}i:2146;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:2144;}i:2147;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:2144;}i:2148;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2147;}i:2149;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2147;}i:2150;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2149;}i:2151;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2147;}i:2152;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2151;}i:2153;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2147;}i:2154;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2153;}i:2155;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2147;}i:2156;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2155;}i:2157;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:2144;}i:2158;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:2144;}i:2159;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:2144;}i:2160;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:2144;}i:2161;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:2144;}i:2162;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:2161;}i:2163;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:2144;}i:2164;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2163;}i:2165;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2163;}i:2166;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2165;}i:2167;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2163;}i:2168;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2167;}i:2169;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2163;}i:2170;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2169;}i:2171;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2163;}i:2172;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2171;}i:2173;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:2144;}i:2174;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:2144;}i:2175;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:2144;}i:2176;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:2144;}i:2177;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:2144;}i:2178;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:2144;}i:2179;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:2144;}i:2180;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:2144;}i:2181;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:2144;}i:2182;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2181;}i:2183;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:2143;}i:2184;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2183;}i:2185;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:2143;}i:2186;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2143;}i:2187;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:2142;}i:2188;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:2187;}i:2189;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:2188;}i:2190;a:2:{s:5:"class";s:17:"ilobjmediapoolgui";s:6:"parent";i:1;}i:2191;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:2190;}i:2192;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2191;}i:2193;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2192;}i:2194;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2192;}i:2195;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2194;}i:2196;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2192;}i:2197;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:2190;}i:2198;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:2197;}i:2199;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2198;}i:2200;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:2198;}i:2201;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:2198;}i:2202;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2201;}i:2203;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2201;}i:2204;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2203;}i:2205;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2201;}i:2206;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2205;}i:2207;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2201;}i:2208;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2207;}i:2209;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2201;}i:2210;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2209;}i:2211;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:2198;}i:2212;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:2198;}i:2213;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:2198;}i:2214;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:2198;}i:2215;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:2198;}i:2216;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:2215;}i:2217;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:2198;}i:2218;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2217;}i:2219;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2217;}i:2220;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2219;}i:2221;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2217;}i:2222;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2221;}i:2223;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2217;}i:2224;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2223;}i:2225;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2217;}i:2226;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2225;}i:2227;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:2198;}i:2228;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:2198;}i:2229;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:2198;}i:2230;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:2198;}i:2231;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:2198;}i:2232;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:2198;}i:2233;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:2198;}i:2234;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:2198;}i:2235;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:2198;}i:2236;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2235;}i:2237;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:2197;}i:2238;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2237;}i:2239;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:2197;}i:2240;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2197;}i:2241;a:2:{s:5:"class";s:18:"ilmediapoolpagegui";s:6:"parent";i:2190;}i:2242;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:2241;}i:2243;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2242;}i:2244;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2243;}i:2245;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2243;}i:2246;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2245;}i:2247;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2243;}i:2248;a:2:{s:5:"class";s:25:"ilmediapooltargetselector";s:6:"parent";i:2241;}i:2249;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:2241;}i:2250;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2249;}i:2251;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2249;}i:2252;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2251;}i:2253;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2251;}i:2254;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2253;}i:2255;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2251;}i:2256;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:2249;}i:2257;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:2249;}i:2258;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:2249;}i:2259;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:2249;}i:2260;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:2249;}i:2261;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:2249;}i:2262;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:2249;}i:2263;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:2249;}i:2264;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2263;}i:2265;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2264;}i:2266;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2264;}i:2267;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2266;}i:2268;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2264;}i:2269;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:2263;}i:2270;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2269;}i:2271;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:2249;}i:2272;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:2249;}i:2273;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:2272;}i:2274;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2273;}i:2275;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2274;}i:2276;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2274;}i:2277;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2276;}i:2278;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2274;}i:2279;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:2273;}i:2280;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2279;}i:2281;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:2249;}i:2282;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:2249;}i:2283;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:2282;}i:2284;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:2283;}i:2285;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:2283;}i:2286;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:2283;}i:2287;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:2283;}i:2288;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:2283;}i:2289;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:2283;}i:2290;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:2283;}i:2291;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:2283;}i:2292;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:2283;}i:2293;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:2283;}i:2294;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:2249;}i:2295;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:2249;}i:2296;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:2249;}i:2297;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:2249;}i:2298;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:2249;}i:2299;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:2249;}i:2300;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:2241;}i:2301;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:2300;}i:2302;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2301;}i:2303;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2302;}i:2304;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2302;}i:2305;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2304;}i:2306;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2302;}i:2307;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2300;}i:2308;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:2300;}i:2309;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:2300;}i:2310;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2309;}i:2311;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2309;}i:2312;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2311;}i:2313;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2311;}i:2314;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2313;}i:2315;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2311;}i:2316;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:2309;}i:2317;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:2309;}i:2318;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:2309;}i:2319;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:2309;}i:2320;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:2309;}i:2321;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:2309;}i:2322;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:2309;}i:2323;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:2309;}i:2324;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2323;}i:2325;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2324;}i:2326;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2324;}i:2327;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2326;}i:2328;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2324;}i:2329;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:2323;}i:2330;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2329;}i:2331;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:2309;}i:2332;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:2309;}i:2333;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:2332;}i:2334;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2333;}i:2335;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2334;}i:2336;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2334;}i:2337;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2336;}i:2338;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2334;}i:2339;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:2333;}i:2340;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2339;}i:2341;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:2309;}i:2342;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:2309;}i:2343;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:2342;}i:2344;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:2343;}i:2345;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:2343;}i:2346;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:2343;}i:2347;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:2343;}i:2348;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:2343;}i:2349;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:2343;}i:2350;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:2343;}i:2351;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:2343;}i:2352;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:2343;}i:2353;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:2343;}i:2354;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:2309;}i:2355;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:2309;}i:2356;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:2309;}i:2357;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:2309;}i:2358;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:2309;}i:2359;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:2309;}i:2360;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2300;}i:2361;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2241;}i:2362;a:2:{s:5:"class";s:14:"ilobjfoldergui";s:6:"parent";i:2190;}i:2363;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:2362;}i:2364;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2363;}i:2365;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:2363;}i:2366;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:2363;}i:2367;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2366;}i:2368;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2366;}i:2369;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2368;}i:2370;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2366;}i:2371;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2370;}i:2372;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2366;}i:2373;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2372;}i:2374;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2366;}i:2375;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2374;}i:2376;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:2363;}i:2377;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:2363;}i:2378;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:2363;}i:2379;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:2363;}i:2380;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:2363;}i:2381;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:2380;}i:2382;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:2363;}i:2383;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2382;}i:2384;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2382;}i:2385;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2384;}i:2386;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2382;}i:2387;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2386;}i:2388;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2382;}i:2389;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2388;}i:2390;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2382;}i:2391;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2390;}i:2392;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:2363;}i:2393;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:2363;}i:2394;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:2363;}i:2395;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:2363;}i:2396;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:2363;}i:2397;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:2363;}i:2398;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:2363;}i:2399;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:2363;}i:2400;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:2363;}i:2401;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2400;}i:2402;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:2362;}i:2403;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2402;}i:2404;a:2:{s:5:"class";s:18:"ilcoursecontentgui";s:6:"parent";i:2362;}i:2405;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:2404;}i:2406;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2405;}i:2407;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:2405;}i:2408;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:2405;}i:2409;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2408;}i:2410;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2408;}i:2411;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2410;}i:2412;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2408;}i:2413;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2412;}i:2414;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2408;}i:2415;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2414;}i:2416;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2408;}i:2417;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2416;}i:2418;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:2405;}i:2419;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:2405;}i:2420;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:2405;}i:2421;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:2405;}i:2422;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:2405;}i:2423;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:2422;}i:2424;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:2405;}i:2425;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2424;}i:2426;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2424;}i:2427;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2426;}i:2428;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2424;}i:2429;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2428;}i:2430;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2424;}i:2431;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2430;}i:2432;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2424;}i:2433;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2432;}i:2434;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:2405;}i:2435;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:2405;}i:2436;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:2405;}i:2437;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:2405;}i:2438;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:2405;}i:2439;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:2405;}i:2440;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:2405;}i:2441;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:2405;}i:2442;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:2405;}i:2443;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2442;}i:2444;a:2:{s:5:"class";s:19:"ilcoursearchivesgui";s:6:"parent";i:2404;}i:2445;a:2:{s:5:"class";s:32:"ilcourseobjectivepresentationgui";s:6:"parent";i:2404;}i:2446;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2445;}i:2447;a:2:{s:5:"class";s:29:"ilcourseitemadministrationgui";s:6:"parent";i:2362;}i:2448;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:2447;}i:2449;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2448;}i:2450;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:2362;}i:2451;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:2450;}i:2452;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2451;}i:2453;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:2451;}i:2454;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:2451;}i:2455;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2454;}i:2456;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2454;}i:2457;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2456;}i:2458;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2454;}i:2459;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2458;}i:2460;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2454;}i:2461;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2460;}i:2462;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2454;}i:2463;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2462;}i:2464;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:2451;}i:2465;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:2451;}i:2466;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:2451;}i:2467;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:2451;}i:2468;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:2451;}i:2469;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:2468;}i:2470;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:2451;}i:2471;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2470;}i:2472;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2470;}i:2473;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2472;}i:2474;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2470;}i:2475;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2474;}i:2476;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2470;}i:2477;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2476;}i:2478;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2470;}i:2479;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2478;}i:2480;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:2451;}i:2481;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:2451;}i:2482;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:2451;}i:2483;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:2451;}i:2484;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:2451;}i:2485;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:2451;}i:2486;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:2451;}i:2487;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:2451;}i:2488;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:2451;}i:2489;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2488;}i:2490;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:2450;}i:2491;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2490;}i:2492;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:2450;}i:2493;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2450;}i:2494;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:2362;}i:2495;a:2:{s:5:"class";s:17:"illmstatisticsgui";s:6:"parent";i:2494;}i:2496;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:2494;}i:2497;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:2496;}i:2498;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2497;}i:2499;a:2:{s:5:"class";s:19:"illpobjectstablegui";s:6:"parent";i:2496;}i:2500;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:2499;}i:2501;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2500;}i:2502;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:2500;}i:2503;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:2496;}i:2504;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2503;}i:2505;a:2:{s:5:"class";s:15:"iluserfiltergui";s:6:"parent";i:2496;}i:2506;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2505;}i:2507;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:2494;}i:2508;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:2507;}i:2509;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2508;}i:2510;a:2:{s:5:"class";s:20:"illpprogresstablegui";s:6:"parent";i:2507;}i:2511;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:2510;}i:2512;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2511;}i:2513;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:2511;}i:2514;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:2507;}i:2515;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2514;}i:2516;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:2494;}i:2517;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2516;}i:2518;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:2362;}i:2519;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2518;}i:2520;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:2362;}i:2521;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2520;}i:2522;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:2362;}i:2523;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:2522;}i:2524;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2523;}i:2525;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2524;}i:2526;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2524;}i:2527;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2526;}i:2528;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2524;}i:2529;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2522;}i:2530;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:2522;}i:2531;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:2522;}i:2532;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2531;}i:2533;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2531;}i:2534;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2533;}i:2535;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2533;}i:2536;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2535;}i:2537;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2533;}i:2538;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:2531;}i:2539;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:2531;}i:2540;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:2531;}i:2541;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:2531;}i:2542;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:2531;}i:2543;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:2531;}i:2544;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:2531;}i:2545;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:2531;}i:2546;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2545;}i:2547;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2546;}i:2548;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2546;}i:2549;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2548;}i:2550;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2546;}i:2551;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:2545;}i:2552;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2551;}i:2553;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:2531;}i:2554;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:2531;}i:2555;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:2554;}i:2556;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2555;}i:2557;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2556;}i:2558;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2556;}i:2559;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2558;}i:2560;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2556;}i:2561;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:2555;}i:2562;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2561;}i:2563;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:2531;}i:2564;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:2531;}i:2565;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:2564;}i:2566;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:2565;}i:2567;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:2565;}i:2568;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:2565;}i:2569;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:2565;}i:2570;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:2565;}i:2571;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:2565;}i:2572;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:2565;}i:2573;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:2565;}i:2574;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:2565;}i:2575;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:2565;}i:2576;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:2531;}i:2577;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:2531;}i:2578;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:2531;}i:2579;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:2531;}i:2580;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:2531;}i:2581;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:2531;}i:2582;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2522;}i:2583;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:2362;}i:2584;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:2583;}i:2585;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:2584;}i:2586;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2190;}i:2587;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2586;}i:2588;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2586;}i:2589;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2588;}i:2590;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2586;}i:2591;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:2190;}i:2592;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:2591;}i:2593;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:2592;}i:2594;a:2:{s:5:"class";s:20:"ilobjquestionpoolgui";s:6:"parent";i:1;}i:2595;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:2594;}i:2596;a:2:{s:5:"class";s:15:"asserrortextgui";s:6:"parent";i:2594;}i:2597;a:2:{s:5:"class";s:16:"assfileuploadgui";s:6:"parent";i:2594;}i:2598;a:2:{s:5:"class";s:19:"assflashquestiongui";s:6:"parent";i:2594;}i:2599;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:2594;}i:2600;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:2594;}i:2601;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:2594;}i:2602;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:2594;}i:2603;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:2594;}i:2604;a:2:{s:5:"class";s:24:"assorderinghorizontalgui";s:6:"parent";i:2594;}i:2605;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:2594;}i:2606;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:2594;}i:2607;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:2594;}i:2608;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:2594;}i:2609;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2594;}i:2610;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:2594;}i:2611;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2610;}i:2612;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:2594;}i:2613;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:2612;}i:2614;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2613;}i:2615;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2614;}i:2616;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2614;}i:2617;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2616;}i:2618;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2614;}i:2619;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2612;}i:2620;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:2612;}i:2621;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:2612;}i:2622;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2621;}i:2623;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2621;}i:2624;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2623;}i:2625;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2623;}i:2626;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2625;}i:2627;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2623;}i:2628;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:2621;}i:2629;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:2621;}i:2630;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:2621;}i:2631;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:2621;}i:2632;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:2621;}i:2633;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:2621;}i:2634;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:2621;}i:2635;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:2621;}i:2636;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2635;}i:2637;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2636;}i:2638;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2636;}i:2639;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2638;}i:2640;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2636;}i:2641;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:2635;}i:2642;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2641;}i:2643;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:2621;}i:2644;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:2621;}i:2645;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:2644;}i:2646;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2645;}i:2647;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2646;}i:2648;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2646;}i:2649;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2648;}i:2650;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2646;}i:2651;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:2645;}i:2652;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2651;}i:2653;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:2621;}i:2654;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:2621;}i:2655;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:2654;}i:2656;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:2655;}i:2657;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:2655;}i:2658;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:2655;}i:2659;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:2655;}i:2660;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:2655;}i:2661;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:2655;}i:2662;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:2655;}i:2663;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:2655;}i:2664;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:2655;}i:2665;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:2655;}i:2666;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:2621;}i:2667;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:2621;}i:2668;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:2621;}i:2669;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:2621;}i:2670;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:2621;}i:2671;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:2621;}i:2672;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2612;}i:2673;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:2594;}i:2674;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:2673;}i:2675;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:2674;}i:2676;a:2:{s:5:"class";s:20:"ilobjremotecoursegui";s:6:"parent";i:1;}i:2677;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:2676;}i:2678;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:2677;}i:2679;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2678;}i:2680;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:2678;}i:2681;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:2678;}i:2682;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2681;}i:2683;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2681;}i:2684;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2683;}i:2685;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2681;}i:2686;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2685;}i:2687;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2681;}i:2688;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2687;}i:2689;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2681;}i:2690;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2689;}i:2691;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:2678;}i:2692;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:2678;}i:2693;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:2678;}i:2694;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:2678;}i:2695;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:2678;}i:2696;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:2695;}i:2697;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:2678;}i:2698;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2697;}i:2699;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2697;}i:2700;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2699;}i:2701;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2697;}i:2702;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2701;}i:2703;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2697;}i:2704;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2703;}i:2705;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2697;}i:2706;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2705;}i:2707;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:2678;}i:2708;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:2678;}i:2709;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:2678;}i:2710;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:2678;}i:2711;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:2678;}i:2712;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:2678;}i:2713;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:2678;}i:2714;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:2678;}i:2715;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:2678;}i:2716;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2715;}i:2717;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:2677;}i:2718;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2717;}i:2719;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:2677;}i:2720;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2677;}i:2721;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:2676;}i:2722;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:2721;}i:2723;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:2722;}i:2724;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:1;}i:2725;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:2724;}i:2726;a:2:{s:5:"class";s:18:"ilobjrootfoldergui";s:6:"parent";i:1;}i:2727;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:2726;}i:2728;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2727;}i:2729;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:2727;}i:2730;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:2727;}i:2731;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2730;}i:2732;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2730;}i:2733;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2732;}i:2734;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2730;}i:2735;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2734;}i:2736;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2730;}i:2737;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2736;}i:2738;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2730;}i:2739;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2738;}i:2740;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:2727;}i:2741;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:2727;}i:2742;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:2727;}i:2743;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:2727;}i:2744;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:2727;}i:2745;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:2744;}i:2746;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:2727;}i:2747;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2746;}i:2748;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2746;}i:2749;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2748;}i:2750;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2746;}i:2751;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2750;}i:2752;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2746;}i:2753;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2752;}i:2754;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2746;}i:2755;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2754;}i:2756;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:2727;}i:2757;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:2727;}i:2758;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:2727;}i:2759;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:2727;}i:2760;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:2727;}i:2761;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:2727;}i:2762;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:2727;}i:2763;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:2727;}i:2764;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:2727;}i:2765;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2764;}i:2766;a:2:{s:5:"class";s:22:"ilcontainerlinklistgui";s:6:"parent";i:2726;}i:2767;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2766;}i:2768;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:2726;}i:2769;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2768;}i:2770;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:2726;}i:2771;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2770;}i:2772;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:2726;}i:2773;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:2772;}i:2774;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2773;}i:2775;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2774;}i:2776;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2774;}i:2777;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2776;}i:2778;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2774;}i:2779;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2772;}i:2780;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:2772;}i:2781;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:2772;}i:2782;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2781;}i:2783;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2781;}i:2784;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2783;}i:2785;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2783;}i:2786;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2785;}i:2787;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2783;}i:2788;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:2781;}i:2789;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:2781;}i:2790;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:2781;}i:2791;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:2781;}i:2792;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:2781;}i:2793;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:2781;}i:2794;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:2781;}i:2795;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:2781;}i:2796;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2795;}i:2797;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2796;}i:2798;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2796;}i:2799;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2798;}i:2800;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2796;}i:2801;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:2795;}i:2802;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2801;}i:2803;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:2781;}i:2804;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:2781;}i:2805;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:2804;}i:2806;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:2805;}i:2807;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2806;}i:2808;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:2806;}i:2809;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2808;}i:2810;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2806;}i:2811;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:2805;}i:2812;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:2811;}i:2813;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:2781;}i:2814;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:2781;}i:2815;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:2814;}i:2816;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:2815;}i:2817;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:2815;}i:2818;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:2815;}i:2819;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:2815;}i:2820;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:2815;}i:2821;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:2815;}i:2822;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:2815;}i:2823;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:2815;}i:2824;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:2815;}i:2825;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:2815;}i:2826;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:2781;}i:2827;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:2781;}i:2828;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:2781;}i:2829;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:2781;}i:2830;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:2781;}i:2831;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:2781;}i:2832;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2772;}i:2833;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:2726;}i:2834;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:2833;}i:2835;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:2834;}i:2836;a:2:{s:5:"class";s:26:"ilobjsahslearningmodulegui";s:6:"parent";i:1;}i:2837;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:2836;}i:2838;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:2836;}i:2839;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:2838;}i:2840;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2839;}i:2841;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:2839;}i:2842;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:2839;}i:2843;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2842;}i:2844;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2842;}i:2845;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2844;}i:2846;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2842;}i:2847;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2846;}i:2848;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2842;}i:2849;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2848;}i:2850;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2842;}i:2851;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2850;}i:2852;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:2839;}i:2853;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:2839;}i:2854;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:2839;}i:2855;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:2839;}i:2856;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:2839;}i:2857;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:2856;}i:2858;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:2839;}i:2859;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2858;}i:2860;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2858;}i:2861;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2860;}i:2862;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2858;}i:2863;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2862;}i:2864;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2858;}i:2865;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2864;}i:2866;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2858;}i:2867;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2866;}i:2868;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:2839;}i:2869;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:2839;}i:2870;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:2839;}i:2871;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:2839;}i:2872;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:2839;}i:2873;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:2839;}i:2874;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:2839;}i:2875;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:2839;}i:2876;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:2839;}i:2877;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2876;}i:2878;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:2838;}i:2879;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2878;}i:2880;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:2838;}i:2881;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2838;}i:2882;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:2836;}i:2883;a:2:{s:5:"class";s:17:"illmstatisticsgui";s:6:"parent";i:2882;}i:2884;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:2882;}i:2885;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:2884;}i:2886;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2885;}i:2887;a:2:{s:5:"class";s:19:"illpobjectstablegui";s:6:"parent";i:2884;}i:2888;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:2887;}i:2889;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2888;}i:2890;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:2888;}i:2891;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:2884;}i:2892;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2891;}i:2893;a:2:{s:5:"class";s:15:"iluserfiltergui";s:6:"parent";i:2884;}i:2894;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2893;}i:2895;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:2882;}i:2896;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:2895;}i:2897;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2896;}i:2898;a:2:{s:5:"class";s:20:"illpprogresstablegui";s:6:"parent";i:2895;}i:2899;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:2898;}i:2900;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2899;}i:2901;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:2899;}i:2902;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:2895;}i:2903;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2902;}i:2904;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:2882;}i:2905;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2904;}i:2906;a:2:{s:5:"class";s:12:"illicensegui";s:6:"parent";i:2836;}i:2907;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2906;}i:2908;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2836;}i:2909;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:2836;}i:2910;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:2909;}i:2911;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:2910;}i:2912;a:2:{s:5:"class";s:15:"ilobjsessiongui";s:6:"parent";i:1;}i:2913;a:2:{s:5:"class";s:29:"ilcourseitemadministrationgui";s:6:"parent";i:2912;}i:2914;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:2913;}i:2915;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2914;}i:2916;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:2912;}i:2917;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:2916;}i:2918;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2917;}i:2919;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:2917;}i:2920;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:2917;}i:2921;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2920;}i:2922;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2920;}i:2923;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2922;}i:2924;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2920;}i:2925;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2924;}i:2926;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2920;}i:2927;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2926;}i:2928;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2920;}i:2929;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2928;}i:2930;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:2917;}i:2931;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:2917;}i:2932;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:2917;}i:2933;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:2917;}i:2934;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:2917;}i:2935;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:2934;}i:2936;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:2917;}i:2937;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2936;}i:2938;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2936;}i:2939;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2938;}i:2940;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2936;}i:2941;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2940;}i:2942;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2936;}i:2943;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2942;}i:2944;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2936;}i:2945;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2944;}i:2946;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:2917;}i:2947;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:2917;}i:2948;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:2917;}i:2949;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:2917;}i:2950;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:2917;}i:2951;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:2917;}i:2952;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:2917;}i:2953;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:2917;}i:2954;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:2917;}i:2955;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2954;}i:2956;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:2916;}i:2957;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2956;}i:2958;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:2916;}i:2959;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2916;}i:2960;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:2912;}i:2961;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2960;}i:2962;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:2912;}i:2963;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:2962;}i:2964;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:2963;}i:2965;a:2:{s:5:"class";s:14:"ilobjsurveygui";s:6:"parent";i:1;}i:2966;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:2965;}i:2967;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:2966;}i:2968;a:2:{s:5:"class";s:0:"";s:6:"parent";i:2967;}i:2969;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:2967;}i:2970;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:2967;}i:2971;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2970;}i:2972;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2970;}i:2973;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2972;}i:2974;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2970;}i:2975;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2974;}i:2976;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2970;}i:2977;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2976;}i:2978;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2970;}i:2979;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2978;}i:2980;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:2967;}i:2981;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:2967;}i:2982;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:2967;}i:2983;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:2967;}i:2984;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:2967;}i:2985;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:2984;}i:2986;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:2967;}i:2987;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2986;}i:2988;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:2986;}i:2989;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2988;}i:2990;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:2986;}i:2991;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2990;}i:2992;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:2986;}i:2993;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2992;}i:2994;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:2986;}i:2995;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:2994;}i:2996;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:2967;}i:2997;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:2967;}i:2998;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:2967;}i:2999;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:2967;}i:3000;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:2967;}i:3001;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:2967;}i:3002;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:2967;}i:3003;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:2967;}i:3004;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:2967;}i:3005;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3004;}i:3006;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:2966;}i:3007;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3006;}i:3008;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:2966;}i:3009;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:2966;}i:3010;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:2965;}i:3011;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:2965;}i:3012;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3011;}i:3013;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:2965;}i:3014;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:3013;}i:3015;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:3014;}i:3016;a:2:{s:5:"class";s:21:"ilsurveyevaluationgui";s:6:"parent";i:2965;}i:3017;a:2:{s:5:"class";s:20:"ilsurveyexecutiongui";s:6:"parent";i:2965;}i:3018;a:2:{s:5:"class";s:26:"ilobjsurveyquestionpoolgui";s:6:"parent";i:1;}i:3019;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3018;}i:3020;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:3018;}i:3021;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3020;}i:3022;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:3018;}i:3023;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:3022;}i:3024;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:3023;}i:3025;a:2:{s:5:"class";s:18:"ilsurveyphrasesgui";s:6:"parent";i:3018;}i:3026;a:2:{s:5:"class";s:23:"surveymatrixquestiongui";s:6:"parent";i:3018;}i:3027;a:2:{s:5:"class";s:23:"surveymetricquestiongui";s:6:"parent";i:3018;}i:3028;a:2:{s:5:"class";s:31:"surveymultiplechoicequestiongui";s:6:"parent";i:3018;}i:3029;a:2:{s:5:"class";s:29:"surveysinglechoicequestiongui";s:6:"parent";i:3018;}i:3030;a:2:{s:5:"class";s:21:"surveytextquestiongui";s:6:"parent";i:3018;}i:3031;a:2:{s:5:"class";s:12:"ilobjtestgui";s:6:"parent";i:1;}i:3032;a:2:{s:5:"class";s:16:"ilcertificategui";s:6:"parent";i:3031;}i:3033;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:3031;}i:3034;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:3033;}i:3035;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3034;}i:3036;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:3034;}i:3037;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:3034;}i:3038;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3037;}i:3039;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:3037;}i:3040;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3039;}i:3041;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:3037;}i:3042;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3041;}i:3043;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:3037;}i:3044;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3043;}i:3045;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:3037;}i:3046;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3045;}i:3047;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:3034;}i:3048;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:3034;}i:3049;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:3034;}i:3050;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:3034;}i:3051;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:3034;}i:3052;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:3051;}i:3053;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:3034;}i:3054;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3053;}i:3055;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:3053;}i:3056;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3055;}i:3057;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:3053;}i:3058;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3057;}i:3059;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:3053;}i:3060;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3059;}i:3061;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:3053;}i:3062;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3061;}i:3063;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:3034;}i:3064;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:3034;}i:3065;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:3034;}i:3066;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:3034;}i:3067;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:3034;}i:3068;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:3034;}i:3069;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:3034;}i:3070;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:3034;}i:3071;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:3034;}i:3072;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3071;}i:3073;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:3033;}i:3074;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3073;}i:3075;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:3033;}i:3076;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3033;}i:3077;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:3031;}i:3078;a:2:{s:5:"class";s:17:"illmstatisticsgui";s:6:"parent";i:3077;}i:3079;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:3077;}i:3080;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:3079;}i:3081;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3080;}i:3082;a:2:{s:5:"class";s:19:"illpobjectstablegui";s:6:"parent";i:3079;}i:3083;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:3082;}i:3084;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3083;}i:3085;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:3083;}i:3086;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:3079;}i:3087;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3086;}i:3088;a:2:{s:5:"class";s:15:"iluserfiltergui";s:6:"parent";i:3079;}i:3089;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3088;}i:3090;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:3077;}i:3091;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:3090;}i:3092;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3091;}i:3093;a:2:{s:5:"class";s:20:"illpprogresstablegui";s:6:"parent";i:3090;}i:3094;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:3093;}i:3095;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3094;}i:3096;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:3094;}i:3097;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:3090;}i:3098;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3097;}i:3099;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:3077;}i:3100;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3099;}i:3101;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3031;}i:3102;a:2:{s:5:"class";s:14:"ilobjcoursegui";s:6:"parent";i:3031;}i:3103;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:3102;}i:3104;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3103;}i:3105;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:3103;}i:3106;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:3103;}i:3107;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3106;}i:3108;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:3106;}i:3109;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3108;}i:3110;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:3106;}i:3111;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3110;}i:3112;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:3106;}i:3113;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3112;}i:3114;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:3106;}i:3115;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3114;}i:3116;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:3103;}i:3117;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:3103;}i:3118;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:3103;}i:3119;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:3103;}i:3120;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:3103;}i:3121;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:3120;}i:3122;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:3103;}i:3123;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3122;}i:3124;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:3122;}i:3125;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3124;}i:3126;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:3122;}i:3127;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3126;}i:3128;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:3122;}i:3129;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3128;}i:3130;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:3122;}i:3131;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3130;}i:3132;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:3103;}i:3133;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:3103;}i:3134;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:3103;}i:3135;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:3103;}i:3136;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:3103;}i:3137;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:3103;}i:3138;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:3103;}i:3139;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:3103;}i:3140;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:3103;}i:3141;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3140;}i:3142;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:3102;}i:3143;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3142;}i:3144;a:2:{s:5:"class";s:20:"ilcourseagreementgui";s:6:"parent";i:3102;}i:3145;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3144;}i:3146;a:2:{s:5:"class";s:18:"ilcoursecontentgui";s:6:"parent";i:3102;}i:3147;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:3146;}i:3148;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3147;}i:3149;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:3147;}i:3150;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:3147;}i:3151;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3150;}i:3152;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:3150;}i:3153;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3152;}i:3154;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:3150;}i:3155;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3154;}i:3156;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:3150;}i:3157;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3156;}i:3158;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:3150;}i:3159;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3158;}i:3160;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:3147;}i:3161;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:3147;}i:3162;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:3147;}i:3163;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:3147;}i:3164;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:3147;}i:3165;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:3164;}i:3166;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:3147;}i:3167;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3166;}i:3168;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:3166;}i:3169;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3168;}i:3170;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:3166;}i:3171;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3170;}i:3172;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:3166;}i:3173;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3172;}i:3174;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:3166;}i:3175;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3174;}i:3176;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:3147;}i:3177;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:3147;}i:3178;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:3147;}i:3179;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:3147;}i:3180;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:3147;}i:3181;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:3147;}i:3182;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:3147;}i:3183;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:3147;}i:3184;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:3147;}i:3185;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3184;}i:3186;a:2:{s:5:"class";s:19:"ilcoursearchivesgui";s:6:"parent";i:3146;}i:3187;a:2:{s:5:"class";s:32:"ilcourseobjectivepresentationgui";s:6:"parent";i:3146;}i:3188;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3187;}i:3189;a:2:{s:5:"class";s:29:"ilcourseitemadministrationgui";s:6:"parent";i:3102;}i:3190;a:2:{s:5:"class";s:27:"ilconditionhandlerinterface";s:6:"parent";i:3189;}i:3191;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3190;}i:3192;a:2:{s:5:"class";s:21:"ilcourseobjectivesgui";s:6:"parent";i:3102;}i:3193;a:2:{s:5:"class";s:23:"ilcourseregistrationgui";s:6:"parent";i:3102;}i:3194;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3193;}i:3195;a:2:{s:5:"class";s:21:"ilcourseuserfieldsgui";s:6:"parent";i:3102;}i:3196;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:3102;}i:3197;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:3196;}i:3198;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3197;}i:3199;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:3197;}i:3200;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:3197;}i:3201;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3200;}i:3202;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:3200;}i:3203;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3202;}i:3204;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:3200;}i:3205;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3204;}i:3206;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:3200;}i:3207;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3206;}i:3208;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:3200;}i:3209;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3208;}i:3210;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:3197;}i:3211;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:3197;}i:3212;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:3197;}i:3213;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:3197;}i:3214;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:3197;}i:3215;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:3214;}i:3216;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:3197;}i:3217;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3216;}i:3218;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:3216;}i:3219;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3218;}i:3220;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:3216;}i:3221;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3220;}i:3222;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:3216;}i:3223;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3222;}i:3224;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:3216;}i:3225;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3224;}i:3226;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:3197;}i:3227;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:3197;}i:3228;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:3197;}i:3229;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:3197;}i:3230;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:3197;}i:3231;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:3197;}i:3232;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:3197;}i:3233;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:3197;}i:3234;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:3197;}i:3235;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3234;}i:3236;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:3196;}i:3237;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3236;}i:3238;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:3196;}i:3239;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3196;}i:3240;a:2:{s:5:"class";s:21:"illearningprogressgui";s:6:"parent";i:3102;}i:3241;a:2:{s:5:"class";s:17:"illmstatisticsgui";s:6:"parent";i:3240;}i:3242;a:2:{s:5:"class";s:20:"illplistofobjectsgui";s:6:"parent";i:3240;}i:3243;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:3242;}i:3244;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3243;}i:3245;a:2:{s:5:"class";s:19:"illpobjectstablegui";s:6:"parent";i:3242;}i:3246;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:3245;}i:3247;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3246;}i:3248;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:3246;}i:3249;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:3242;}i:3250;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3249;}i:3251;a:2:{s:5:"class";s:15:"iluserfiltergui";s:6:"parent";i:3242;}i:3252;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3251;}i:3253;a:2:{s:5:"class";s:21:"illplistofprogressgui";s:6:"parent";i:3240;}i:3254;a:2:{s:5:"class";s:13:"illpfiltergui";s:6:"parent";i:3253;}i:3255;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3254;}i:3256;a:2:{s:5:"class";s:20:"illpprogresstablegui";s:6:"parent";i:3253;}i:3257;a:2:{s:5:"class";s:25:"ilformpropertydispatchgui";s:6:"parent";i:3256;}i:3258;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3257;}i:3259;a:2:{s:5:"class";s:28:"ilrepositoryselectorinputgui";s:6:"parent";i:3257;}i:3260;a:2:{s:5:"class";s:17:"ilpdfpresentation";s:6:"parent";i:3253;}i:3261;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3260;}i:3262;a:2:{s:5:"class";s:21:"illplistofsettingsgui";s:6:"parent";i:3240;}i:3263;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3262;}i:3264;a:2:{s:5:"class";s:20:"illicenseoverviewgui";s:6:"parent";i:3102;}i:3265;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3264;}i:3266;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3102;}i:3267;a:2:{s:5:"class";s:17:"ilmemberexportgui";s:6:"parent";i:3102;}i:3268;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3267;}i:3269;a:2:{s:5:"class";s:22:"ilobjcoursegroupinggui";s:6:"parent";i:3102;}i:3270;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:3102;}i:3271;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3270;}i:3272;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:3102;}i:3273;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3272;}i:3274;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:3102;}i:3275;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:3274;}i:3276;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3275;}i:3277;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3276;}i:3278;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3276;}i:3279;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3278;}i:3280;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3276;}i:3281;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3274;}i:3282;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:3274;}i:3283;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:3274;}i:3284;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3283;}i:3285;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3283;}i:3286;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3285;}i:3287;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3285;}i:3288;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3287;}i:3289;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3285;}i:3290;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:3283;}i:3291;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:3283;}i:3292;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:3283;}i:3293;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:3283;}i:3294;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:3283;}i:3295;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:3283;}i:3296;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:3283;}i:3297;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:3283;}i:3298;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3297;}i:3299;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3298;}i:3300;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3298;}i:3301;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3300;}i:3302;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3298;}i:3303;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:3297;}i:3304;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3303;}i:3305;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:3283;}i:3306;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:3283;}i:3307;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:3306;}i:3308;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3307;}i:3309;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3308;}i:3310;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3308;}i:3311;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3310;}i:3312;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3308;}i:3313;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:3307;}i:3314;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3313;}i:3315;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:3283;}i:3316;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:3283;}i:3317;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:3316;}i:3318;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:3317;}i:3319;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:3317;}i:3320;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:3317;}i:3321;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:3317;}i:3322;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:3317;}i:3323;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:3317;}i:3324;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:3317;}i:3325;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:3317;}i:3326;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:3317;}i:3327;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:3317;}i:3328;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:3283;}i:3329;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:3283;}i:3330;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:3283;}i:3331;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:3283;}i:3332;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:3283;}i:3333;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:3283;}i:3334;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3274;}i:3335;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:3102;}i:3336;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:3335;}i:3337;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:3336;}i:3338;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3102;}i:3339;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:3102;}i:3340;a:2:{s:5:"class";s:20:"ilsessionoverviewgui";s:6:"parent";i:3102;}i:3341;a:2:{s:5:"class";s:17:"ilshoppurchasegui";s:6:"parent";i:3102;}i:3342;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:3341;}i:3343;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:3342;}i:3344;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3343;}i:3345;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3344;}i:3346;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3344;}i:3347;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3346;}i:3348;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3344;}i:3349;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3342;}i:3350;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:3342;}i:3351;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:3342;}i:3352;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3351;}i:3353;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3351;}i:3354;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3353;}i:3355;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3353;}i:3356;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3355;}i:3357;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3353;}i:3358;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:3351;}i:3359;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:3351;}i:3360;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:3351;}i:3361;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:3351;}i:3362;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:3351;}i:3363;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:3351;}i:3364;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:3351;}i:3365;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:3351;}i:3366;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3365;}i:3367;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3366;}i:3368;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3366;}i:3369;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3368;}i:3370;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3366;}i:3371;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:3365;}i:3372;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3371;}i:3373;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:3351;}i:3374;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:3351;}i:3375;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:3374;}i:3376;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3375;}i:3377;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3376;}i:3378;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3376;}i:3379;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3378;}i:3380;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3376;}i:3381;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:3375;}i:3382;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3381;}i:3383;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:3351;}i:3384;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:3351;}i:3385;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:3384;}i:3386;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:3385;}i:3387;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:3385;}i:3388;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:3385;}i:3389;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:3385;}i:3390;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:3385;}i:3391;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:3385;}i:3392;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:3385;}i:3393;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:3385;}i:3394;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:3385;}i:3395;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:3385;}i:3396;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:3351;}i:3397;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:3351;}i:3398;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:3351;}i:3399;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:3351;}i:3400;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:3351;}i:3401;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:3351;}i:3402;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3342;}i:3403;a:2:{s:5:"class";s:15:"ilobjectcopygui";s:6:"parent";i:3031;}i:3404;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3403;}i:3405;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:3031;}i:3406;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:3405;}i:3407;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:3406;}i:3408;a:2:{s:5:"class";s:17:"ilshoppurchasegui";s:6:"parent";i:3031;}i:3409;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:3408;}i:3410;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:3409;}i:3411;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3410;}i:3412;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3411;}i:3413;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3411;}i:3414;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3413;}i:3415;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3411;}i:3416;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3409;}i:3417;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:3409;}i:3418;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:3409;}i:3419;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3418;}i:3420;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3418;}i:3421;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3420;}i:3422;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3420;}i:3423;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3422;}i:3424;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3420;}i:3425;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:3418;}i:3426;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:3418;}i:3427;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:3418;}i:3428;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:3418;}i:3429;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:3418;}i:3430;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:3418;}i:3431;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:3418;}i:3432;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:3418;}i:3433;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3432;}i:3434;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3433;}i:3435;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3433;}i:3436;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3435;}i:3437;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3433;}i:3438;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:3432;}i:3439;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3438;}i:3440;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:3418;}i:3441;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:3418;}i:3442;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:3441;}i:3443;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3442;}i:3444;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3443;}i:3445;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3443;}i:3446;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3445;}i:3447;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3443;}i:3448;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:3442;}i:3449;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3448;}i:3450;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:3418;}i:3451;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:3418;}i:3452;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:3451;}i:3453;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:3452;}i:3454;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:3452;}i:3455;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:3452;}i:3456;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:3452;}i:3457;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:3452;}i:3458;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:3452;}i:3459;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:3452;}i:3460;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:3452;}i:3461;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:3452;}i:3462;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:3452;}i:3463;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:3418;}i:3464;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:3418;}i:3465;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:3418;}i:3466;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:3418;}i:3467;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:3418;}i:3468;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:3418;}i:3469;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3409;}i:3470;a:2:{s:5:"class";s:19:"iltestevaluationgui";s:6:"parent";i:3031;}i:3471;a:2:{s:5:"class";s:15:"iltestoutputgui";s:6:"parent";i:3031;}i:3472;a:2:{s:5:"class";s:16:"iltestscoringgui";s:6:"parent";i:3031;}i:3473;a:2:{s:5:"class";s:16:"iltestservicegui";s:6:"parent";i:3031;}i:3474;a:2:{s:5:"class";s:12:"ilobjwikigui";s:6:"parent";i:1;}i:3475;a:2:{s:5:"class";s:15:"ilinfoscreengui";s:6:"parent";i:3474;}i:3476;a:2:{s:5:"class";s:11:"ilcolumngui";s:6:"parent";i:3475;}i:3477;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3476;}i:3478;a:2:{s:5:"class";s:18:"ilbookmarkblockgui";s:6:"parent";i:3476;}i:3479;a:2:{s:5:"class";s:18:"ilcalendarblockgui";s:6:"parent";i:3476;}i:3480;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3479;}i:3481;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:3479;}i:3482;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3481;}i:3483;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:3479;}i:3484;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3483;}i:3485;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:3479;}i:3486;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3485;}i:3487;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:3479;}i:3488;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3487;}i:3489;a:2:{s:5:"class";s:14:"ilchatblockgui";s:6:"parent";i:3476;}i:3490;a:2:{s:5:"class";s:15:"ildummyblockgui";s:6:"parent";i:3476;}i:3491;a:2:{s:5:"class";s:22:"ilexternalfeedblockgui";s:6:"parent";i:3476;}i:3492;a:2:{s:5:"class";s:14:"ilhtmlblockgui";s:6:"parent";i:3476;}i:3493;a:2:{s:5:"class";s:24:"ilnewsforcontextblockgui";s:6:"parent";i:3476;}i:3494;a:2:{s:5:"class";s:13:"ilnewsitemgui";s:6:"parent";i:3493;}i:3495;a:2:{s:5:"class";s:20:"ilpdcalendarblockgui";s:6:"parent";i:3476;}i:3496;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3495;}i:3497;a:2:{s:5:"class";s:16:"ilcalendardaygui";s:6:"parent";i:3495;}i:3498;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3497;}i:3499;a:2:{s:5:"class";s:18:"ilcalendarinboxgui";s:6:"parent";i:3495;}i:3500;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3499;}i:3501;a:2:{s:5:"class";s:18:"ilcalendarmonthgui";s:6:"parent";i:3495;}i:3502;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3501;}i:3503;a:2:{s:5:"class";s:17:"ilcalendarweekgui";s:6:"parent";i:3495;}i:3504;a:2:{s:5:"class";s:24:"ilcalendarappointmentgui";s:6:"parent";i:3503;}i:3505;a:2:{s:5:"class";s:24:"ilpdexternalfeedblockgui";s:6:"parent";i:3476;}i:3506;a:2:{s:5:"class";s:20:"ilpdfeedbackblockgui";s:6:"parent";i:3476;}i:3507;a:2:{s:5:"class";s:16:"ilpdmailblockgui";s:6:"parent";i:3476;}i:3508;a:2:{s:5:"class";s:16:"ilpdnewsblockgui";s:6:"parent";i:3476;}i:3509;a:2:{s:5:"class";s:17:"ilpdnotesblockgui";s:6:"parent";i:3476;}i:3510;a:2:{s:5:"class";s:25:"ilpdselecteditemsblockgui";s:6:"parent";i:3476;}i:3511;a:2:{s:5:"class";s:22:"ilpdsysmessageblockgui";s:6:"parent";i:3476;}i:3512;a:2:{s:5:"class";s:19:"ilpdtaggingblockgui";s:6:"parent";i:3476;}i:3513;a:2:{s:5:"class";s:21:"ilusersonlineblockgui";s:6:"parent";i:3476;}i:3514;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3513;}i:3515;a:2:{s:5:"class";s:13:"ilfeedbackgui";s:6:"parent";i:3475;}i:3516;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3515;}i:3517;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:3475;}i:3518;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3475;}i:3519;a:2:{s:5:"class";s:18:"ilobjstylesheetgui";s:6:"parent";i:3474;}i:3520;a:2:{s:5:"class";s:0:"";s:6:"parent";i:3519;}i:3521;a:2:{s:5:"class";s:15:"ilpermissiongui";s:6:"parent";i:3474;}i:3522;a:2:{s:5:"class";s:12:"ilobjrolegui";s:6:"parent";i:3521;}i:3523;a:2:{s:5:"class";s:21:"ilrepositorysearchgui";s:6:"parent";i:3522;}i:3524;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3474;}i:3525;a:2:{s:5:"class";s:13:"ilwikipagegui";s:6:"parent";i:3474;}i:3526;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:3525;}i:3527;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3526;}i:3528;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3527;}i:3529;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3527;}i:3530;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3529;}i:3531;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3527;}i:3532;a:2:{s:5:"class";s:25:"ilmediapooltargetselector";s:6:"parent";i:3525;}i:3533;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:3525;}i:3534;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:3525;}i:3535;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3534;}i:3536;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3534;}i:3537;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3536;}i:3538;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3536;}i:3539;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3538;}i:3540;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3536;}i:3541;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:3534;}i:3542;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:3534;}i:3543;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:3534;}i:3544;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:3534;}i:3545;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:3534;}i:3546;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:3534;}i:3547;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:3534;}i:3548;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:3534;}i:3549;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3548;}i:3550;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3549;}i:3551;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3549;}i:3552;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3551;}i:3553;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3549;}i:3554;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:3548;}i:3555;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3554;}i:3556;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:3534;}i:3557;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:3534;}i:3558;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:3557;}i:3559;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3558;}i:3560;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3559;}i:3561;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3559;}i:3562;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3561;}i:3563;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3559;}i:3564;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:3558;}i:3565;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3564;}i:3566;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:3534;}i:3567;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:3534;}i:3568;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:3567;}i:3569;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:3568;}i:3570;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:3568;}i:3571;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:3568;}i:3572;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:3568;}i:3573;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:3568;}i:3574;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:3568;}i:3575;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:3568;}i:3576;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:3568;}i:3577;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:3568;}i:3578;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:3568;}i:3579;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:3534;}i:3580;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:3534;}i:3581;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:3534;}i:3582;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:3534;}i:3583;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:3534;}i:3584;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:3534;}i:3585;a:2:{s:5:"class";s:15:"ilpageobjectgui";s:6:"parent";i:3525;}i:3586;a:2:{s:5:"class";s:18:"ileditclipboardgui";s:6:"parent";i:3585;}i:3587;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3586;}i:3588;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3587;}i:3589;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3587;}i:3590;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3589;}i:3591;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3587;}i:3592;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3585;}i:3593;a:2:{s:5:"class";s:9:"ilnotegui";s:6:"parent";i:3585;}i:3594;a:2:{s:5:"class";s:15:"ilpageeditorgui";s:6:"parent";i:3585;}i:3595;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3594;}i:3596;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3594;}i:3597;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3596;}i:3598;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3596;}i:3599;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3598;}i:3600;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3596;}i:3601;a:2:{s:5:"class";s:21:"ilpccontentincludegui";s:6:"parent";i:3594;}i:3602;a:2:{s:5:"class";s:16:"ilpcdatatablegui";s:6:"parent";i:3594;}i:3603;a:2:{s:5:"class";s:15:"ilpcfileitemgui";s:6:"parent";i:3594;}i:3604;a:2:{s:5:"class";s:15:"ilpcfilelistgui";s:6:"parent";i:3594;}i:3605;a:2:{s:5:"class";s:11:"ilpclistgui";s:6:"parent";i:3594;}i:3606;a:2:{s:5:"class";s:15:"ilpclistitemgui";s:6:"parent";i:3594;}i:3607;a:2:{s:5:"class";s:10:"ilpcmapgui";s:6:"parent";i:3594;}i:3608;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:3594;}i:3609;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3608;}i:3610;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3609;}i:3611;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3609;}i:3612;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3611;}i:3613;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3609;}i:3614;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:3608;}i:3615;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3614;}i:3616;a:2:{s:5:"class";s:16:"ilpcparagraphgui";s:6:"parent";i:3594;}i:3617;a:2:{s:5:"class";s:18:"ilpcplaceholdergui";s:6:"parent";i:3594;}i:3618;a:2:{s:5:"class";s:18:"ilpcmediaobjectgui";s:6:"parent";i:3617;}i:3619;a:2:{s:5:"class";s:19:"ilobjmediaobjectgui";s:6:"parent";i:3618;}i:3620;a:2:{s:5:"class";s:15:"ilfilesystemgui";s:6:"parent";i:3619;}i:3621;a:2:{s:5:"class";s:19:"ilimagemapeditorgui";s:6:"parent";i:3619;}i:3622;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3621;}i:3623;a:2:{s:5:"class";s:13:"ilmdeditorgui";s:6:"parent";i:3619;}i:3624;a:2:{s:5:"class";s:21:"ilpcimagemapeditorgui";s:6:"parent";i:3618;}i:3625;a:2:{s:5:"class";s:17:"ilinternallinkgui";s:6:"parent";i:3624;}i:3626;a:2:{s:5:"class";s:14:"ilpcpluggedgui";s:6:"parent";i:3594;}i:3627;a:2:{s:5:"class";s:15:"ilpcquestiongui";s:6:"parent";i:3594;}i:3628;a:2:{s:5:"class";s:17:"ilquestioneditgui";s:6:"parent";i:3627;}i:3629;a:2:{s:5:"class";s:15:"assclozetestgui";s:6:"parent";i:3628;}i:3630;a:2:{s:5:"class";s:22:"assimagemapquestiongui";s:6:"parent";i:3628;}i:3631;a:2:{s:5:"class";s:16:"assjavaappletgui";s:6:"parent";i:3628;}i:3632;a:2:{s:5:"class";s:22:"assmatchingquestiongui";s:6:"parent";i:3628;}i:3633;a:2:{s:5:"class";s:20:"assmultiplechoicegui";s:6:"parent";i:3628;}i:3634;a:2:{s:5:"class";s:13:"assnumericgui";s:6:"parent";i:3628;}i:3635;a:2:{s:5:"class";s:22:"assorderingquestiongui";s:6:"parent";i:3628;}i:3636;a:2:{s:5:"class";s:18:"asssinglechoicegui";s:6:"parent";i:3628;}i:3637;a:2:{s:5:"class";s:18:"asstextquestiongui";s:6:"parent";i:3628;}i:3638;a:2:{s:5:"class";s:16:"asstextsubsetgui";s:6:"parent";i:3628;}i:3639;a:2:{s:5:"class";s:16:"ilpcresourcesgui";s:6:"parent";i:3594;}i:3640;a:2:{s:5:"class";s:14:"ilpcsectiongui";s:6:"parent";i:3594;}i:3641;a:2:{s:5:"class";s:17:"ilpcsourcecodegui";s:6:"parent";i:3594;}i:3642;a:2:{s:5:"class";s:16:"ilpctabledatagui";s:6:"parent";i:3594;}i:3643;a:2:{s:5:"class";s:12:"ilpctablegui";s:6:"parent";i:3594;}i:3644;a:2:{s:5:"class";s:11:"ilpctabsgui";s:6:"parent";i:3594;}i:3645;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3585;}i:3646;a:2:{s:5:"class";s:22:"ilpublicuserprofilegui";s:6:"parent";i:3525;}i:3647;a:2:{s:5:"class";s:11:"ilratinggui";s:6:"parent";i:3525;}}', 'a:70:{s:16:"ilcalendardaygui";a:1:{i:0;s:24:"ilcalendarappointmentgui";}s:18:"ilcalendarinboxgui";a:1:{i:0;s:24:"ilcalendarappointmentgui";}s:18:"ilcalendarmonthgui";a:1:{i:0;s:24:"ilcalendarappointmentgui";}s:17:"ilcalendarweekgui";a:1:{i:0;s:24:"ilcalendarappointmentgui";}s:18:"ilcalendarblockgui";a:5:{i:0;s:24:"ilcalendarappointmentgui";i:1;s:16:"ilcalendardaygui";i:2;s:18:"ilcalendarinboxgui";i:3;s:18:"ilcalendarmonthgui";i:4;s:17:"ilcalendarweekgui";}s:24:"ilnewsforcontextblockgui";a:1:{i:0;s:13:"ilnewsitemgui";}s:20:"ilpdcalendarblockgui";a:5:{i:0;s:24:"ilcalendarappointmentgui";i:1;s:16:"ilcalendardaygui";i:2;s:18:"ilcalendarinboxgui";i:3;s:18:"ilcalendarmonthgui";i:4;s:17:"ilcalendarweekgui";}s:21:"ilusersonlineblockgui";a:1:{i:0;s:22:"ilpublicuserprofilegui";}s:11:"ilcolumngui";a:17:{i:0;s:18:"ilbookmarkblockgui";i:1;s:18:"ilcalendarblockgui";i:2;s:14:"ilchatblockgui";i:3;s:15:"ildummyblockgui";i:4;s:22:"ilexternalfeedblockgui";i:5;s:14:"ilhtmlblockgui";i:6;s:24:"ilnewsforcontextblockgui";i:7;s:20:"ilpdcalendarblockgui";i:8;s:24:"ilpdexternalfeedblockgui";i:9;s:20:"ilpdfeedbackblockgui";i:10;s:16:"ilpdmailblockgui";i:11;s:16:"ilpdnewsblockgui";i:12;s:17:"ilpdnotesblockgui";i:13;s:25:"ilpdselecteditemsblockgui";i:14;s:22:"ilpdsysmessageblockgui";i:15;s:19:"ilpdtaggingblockgui";i:16;s:21:"ilusersonlineblockgui";}s:15:"ilinfoscreengui";a:4:{i:0;s:11:"ilcolumngui";i:1;s:13:"ilfeedbackgui";i:2;s:9:"ilnotegui";i:3;s:22:"ilpublicuserprofilegui";}s:25:"ilformpropertydispatchgui";a:1:{i:0;s:28:"ilrepositoryselectorinputgui";}s:19:"illpobjectstablegui";a:1:{i:0;s:25:"ilformpropertydispatchgui";}s:20:"illplistofobjectsgui";a:4:{i:0;s:13:"illpfiltergui";i:1;s:19:"illpobjectstablegui";i:2;s:17:"ilpdfpresentation";i:3;s:15:"iluserfiltergui";}s:20:"illpprogresstablegui";a:1:{i:0;s:25:"ilformpropertydispatchgui";}s:21:"illplistofprogressgui";a:3:{i:0;s:13:"illpfiltergui";i:1;s:20:"illpprogresstablegui";i:2;s:17:"ilpdfpresentation";}s:21:"illearningprogressgui";a:4:{i:0;s:17:"illmstatisticsgui";i:1;s:20:"illplistofobjectsgui";i:2;s:21:"illplistofprogressgui";i:3;s:21:"illplistofsettingsgui";}s:12:"ilobjusergui";a:2:{i:0;s:21:"illearningprogressgui";i:1;s:17:"ilobjilincusergui";}s:20:"iladminusersearchgui";a:1:{i:0;s:12:"ilobjusergui";}s:12:"ilobjrolegui";a:1:{i:0;s:21:"ilrepositorysearchgui";}s:15:"ilpermissiongui";a:1:{i:0;s:12:"ilobjrolegui";}s:14:"ilusertablegui";a:1:{i:0;s:25:"ilformpropertydispatchgui";}s:18:"ilobjuserfoldergui";a:3:{i:0;s:20:"iladminusersearchgui";i:1;s:15:"ilpermissiongui";i:2;s:14:"ilusertablegui";}s:19:"ilimagemapeditorgui";a:1:{i:0;s:17:"ilinternallinkgui";}s:19:"ilobjmediaobjectgui";a:3:{i:0;s:15:"ilfilesystemgui";i:1;s:19:"ilimagemapeditorgui";i:2;s:13:"ilmdeditorgui";}s:18:"ileditclipboardgui";a:1:{i:0;s:19:"ilobjmediaobjectgui";}s:21:"ilpcimagemapeditorgui";a:1:{i:0;s:17:"ilinternallinkgui";}s:18:"ilpcmediaobjectgui";a:2:{i:0;s:19:"ilobjmediaobjectgui";i:1;s:21:"ilpcimagemapeditorgui";}s:18:"ilpcplaceholdergui";a:1:{i:0;s:18:"ilpcmediaobjectgui";}s:17:"ilquestioneditgui";a:10:{i:0;s:15:"assclozetestgui";i:1;s:22:"assimagemapquestiongui";i:2;s:16:"assjavaappletgui";i:3;s:22:"assmatchingquestiongui";i:4;s:20:"assmultiplechoicegui";i:5;s:13:"assnumericgui";i:6;s:22:"assorderingquestiongui";i:7;s:18:"asssinglechoicegui";i:8;s:18:"asstextquestiongui";i:9;s:16:"asstextsubsetgui";}s:15:"ilpcquestiongui";a:1:{i:0;s:17:"ilquestioneditgui";}s:15:"ilpageeditorgui";a:20:{i:0;s:17:"ilinternallinkgui";i:1;s:19:"ilobjmediaobjectgui";i:2;s:21:"ilpccontentincludegui";i:3;s:16:"ilpcdatatablegui";i:4;s:15:"ilpcfileitemgui";i:5;s:15:"ilpcfilelistgui";i:6;s:11:"ilpclistgui";i:7;s:15:"ilpclistitemgui";i:8;s:10:"ilpcmapgui";i:9;s:18:"ilpcmediaobjectgui";i:10;s:16:"ilpcparagraphgui";i:11;s:18:"ilpcplaceholdergui";i:12;s:14:"ilpcpluggedgui";i:13;s:15:"ilpcquestiongui";i:14;s:16:"ilpcresourcesgui";i:15;s:14:"ilpcsectiongui";i:16;s:17:"ilpcsourcecodegui";i:17;s:16:"ilpctabledatagui";i:18;s:12:"ilpctablegui";i:19;s:11:"ilpctabsgui";}s:15:"ilpageobjectgui";a:5:{i:0;s:18:"ileditclipboardgui";i:1;s:13:"ilmdeditorgui";i:2;s:9:"ilnotegui";i:3;s:15:"ilpageeditorgui";i:4;s:22:"ilpublicuserprofilegui";}s:16:"ilobjcategorygui";a:9:{i:0;s:11:"ilcolumngui";i:1;s:22:"ilcontainerlinklistgui";i:2;s:15:"ilinfoscreengui";i:3;s:15:"ilobjectcopygui";i:4;s:18:"ilobjstylesheetgui";i:5;s:18:"ilobjuserfoldergui";i:6;s:12:"ilobjusergui";i:7;s:15:"ilpageobjectgui";i:8;s:15:"ilpermissiongui";}s:25:"ilobjcategoryreferencegui";a:2:{i:0;s:15:"ilinfoscreengui";i:1;s:15:"ilpermissiongui";}s:12:"ilobjchatgui";a:4:{i:0;s:15:"ilinfoscreengui";i:1;s:15:"ilobjectcopygui";i:2;s:15:"ilpermissiongui";i:3;s:22:"ilpublicuserprofilegui";}s:18:"ilcoursecontentgui";a:3:{i:0;s:11:"ilcolumngui";i:1;s:19:"ilcoursearchivesgui";i:2;s:32:"ilcourseobjectivepresentationgui";}s:29:"ilcourseitemadministrationgui";a:1:{i:0;s:27:"ilconditionhandlerinterface";}s:17:"ilshoppurchasegui";a:1:{i:0;s:15:"ilpageobjectgui";}s:14:"ilobjcoursegui";a:22:{i:0;s:11:"ilcolumngui";i:1;s:27:"ilconditionhandlerinterface";i:2;s:20:"ilcourseagreementgui";i:3;s:18:"ilcoursecontentgui";i:4;s:29:"ilcourseitemadministrationgui";i:5;s:21:"ilcourseobjectivesgui";i:6;s:23:"ilcourseregistrationgui";i:7;s:21:"ilcourseuserfieldsgui";i:8;s:15:"ilinfoscreengui";i:9;s:21:"illearningprogressgui";i:10;s:20:"illicenseoverviewgui";i:11;s:13:"ilmdeditorgui";i:12;s:17:"ilmemberexportgui";i:13;s:22:"ilobjcoursegroupinggui";i:14;s:15:"ilobjectcopygui";i:15;s:18:"ilobjstylesheetgui";i:16;s:15:"ilpageobjectgui";i:17;s:15:"ilpermissiongui";i:18;s:22:"ilpublicuserprofilegui";i:19;s:21:"ilrepositorysearchgui";i:20;s:20:"ilsessionoverviewgui";i:21;s:17:"ilshoppurchasegui";}s:23:"ilobjcoursereferencegui";a:2:{i:0;s:15:"ilinfoscreengui";i:1;s:15:"ilpermissiongui";}s:17:"illmpageobjectgui";a:1:{i:0;s:15:"ilpageobjectgui";}s:20:"ilstructureobjectgui";a:2:{i:0;s:27:"ilconditionhandlerinterface";i:1;s:13:"ilmdeditorgui";}s:14:"ilobjdlbookgui";a:7:{i:0;s:15:"ilinfoscreengui";i:1;s:21:"illearningprogressgui";i:2;s:17:"illmpageobjectgui";i:3;s:13:"ilmdeditorgui";i:4;s:18:"ilobjstylesheetgui";i:5;s:15:"ilpermissiongui";i:6;s:20:"ilstructureobjectgui";}s:16:"ilobjexercisegui";a:5:{i:0;s:15:"ilinfoscreengui";i:1;s:21:"illearningprogressgui";i:2;s:15:"ilobjectcopygui";i:3;s:15:"ilpermissiongui";i:4;s:21:"ilrepositorysearchgui";}s:20:"ilobjexternalfeedgui";a:2:{i:0;s:22:"ilexternalfeedblockgui";i:1;s:15:"ilpermissiongui";}s:19:"ilobjfilebasedlmgui";a:7:{i:0;s:15:"ilfilesystemgui";i:1;s:15:"ilinfoscreengui";i:2;s:21:"illearningprogressgui";i:3;s:12:"illicensegui";i:4;s:13:"ilmdeditorgui";i:5;s:15:"ilpermissiongui";i:6;s:17:"ilshoppurchasegui";}s:12:"ilobjfilegui";a:5:{i:0;s:15:"ilinfoscreengui";i:1;s:13:"ilmdeditorgui";i:2;s:15:"ilobjectcopygui";i:3;s:15:"ilpermissiongui";i:4;s:17:"ilshoppurchasegui";}s:14:"ilobjfoldergui";a:10:{i:0;s:11:"ilcolumngui";i:1;s:27:"ilconditionhandlerinterface";i:2;s:18:"ilcoursecontentgui";i:3;s:29:"ilcourseitemadministrationgui";i:4;s:15:"ilinfoscreengui";i:5;s:21:"illearningprogressgui";i:6;s:15:"ilobjectcopygui";i:7;s:18:"ilobjstylesheetgui";i:8;s:15:"ilpageobjectgui";i:9;s:15:"ilpermissiongui";}s:13:"ilobjforumgui";a:7:{i:0;s:11:"ilcolumngui";i:1;s:16:"ilforumexportgui";i:2;s:20:"ilforummoderatorsgui";i:3;s:15:"ilinfoscreengui";i:4;s:15:"ilobjectcopygui";i:5;s:15:"ilpermissiongui";i:6;s:22:"ilpublicuserprofilegui";}s:25:"iltermdefinitioneditorgui";a:2:{i:0;s:13:"ilmdeditorgui";i:1;s:15:"ilpageobjectgui";}s:17:"ilglossarytermgui";a:2:{i:0;s:15:"ilpageobjectgui";i:1;s:25:"iltermdefinitioneditorgui";}s:16:"ilobjglossarygui";a:4:{i:0;s:17:"ilglossarytermgui";i:1;s:15:"ilinfoscreengui";i:2;s:13:"ilmdeditorgui";i:3;s:15:"ilpermissiongui";}s:13:"ilobjgroupgui";a:14:{i:0;s:11:"ilcolumngui";i:1;s:27:"ilconditionhandlerinterface";i:2;s:18:"ilcoursecontentgui";i:3;s:29:"ilcourseitemadministrationgui";i:4;s:22:"ilgroupregistrationgui";i:5;s:15:"ilinfoscreengui";i:6;s:21:"illearningprogressgui";i:7;s:22:"ilobjcoursegroupinggui";i:8;s:15:"ilobjectcopygui";i:9;s:18:"ilobjstylesheetgui";i:10;s:15:"ilpageobjectgui";i:11;s:15:"ilpermissiongui";i:12;s:22:"ilpublicuserprofilegui";i:13;s:21:"ilrepositorysearchgui";}s:19:"ilobjilinccoursegui";a:6:{i:0;s:11:"ilcolumngui";i:1;s:15:"ilinfoscreengui";i:2;s:22:"ilobjilincclassroomgui";i:3;s:15:"ilpermissiongui";i:4;s:22:"ilpublicuserprofilegui";i:5;s:21:"ilrepositorysearchgui";}s:22:"ilobjlearningmodulegui";a:7:{i:0;s:15:"ilinfoscreengui";i:1;s:21:"illearningprogressgui";i:2;s:17:"illmpageobjectgui";i:3;s:13:"ilmdeditorgui";i:4;s:18:"ilobjstylesheetgui";i:5;s:15:"ilpermissiongui";i:6;s:20:"ilstructureobjectgui";}s:20:"ilobjlinkresourcegui";a:4:{i:0;s:15:"ilinfoscreengui";i:1;s:13:"ilmdeditorgui";i:2;s:15:"ilobjectcopygui";i:3;s:15:"ilpermissiongui";}s:17:"ilobjmediacastgui";a:2:{i:0;s:15:"ilinfoscreengui";i:1;s:15:"ilpermissiongui";}s:18:"ilmediapoolpagegui";a:5:{i:0;s:18:"ileditclipboardgui";i:1;s:25:"ilmediapooltargetselector";i:2;s:15:"ilpageeditorgui";i:3;s:15:"ilpageobjectgui";i:4;s:22:"ilpublicuserprofilegui";}s:17:"ilobjmediapoolgui";a:6:{i:0;s:18:"ileditclipboardgui";i:1;s:15:"ilinfoscreengui";i:2;s:18:"ilmediapoolpagegui";i:3;s:14:"ilobjfoldergui";i:4;s:19:"ilobjmediaobjectgui";i:5;s:15:"ilpermissiongui";}s:20:"ilobjquestionpoolgui";a:18:{i:0;s:15:"assclozetestgui";i:1;s:15:"asserrortextgui";i:2;s:16:"assfileuploadgui";i:3;s:19:"assflashquestiongui";i:4;s:22:"assimagemapquestiongui";i:5;s:16:"assjavaappletgui";i:6;s:22:"assmatchingquestiongui";i:7;s:20:"assmultiplechoicegui";i:8;s:13:"assnumericgui";i:9;s:24:"assorderinghorizontalgui";i:10;s:22:"assorderingquestiongui";i:11;s:18:"asssinglechoicegui";i:12;s:18:"asstextquestiongui";i:13;s:16:"asstextsubsetgui";i:14;s:13:"ilmdeditorgui";i:15;s:15:"ilobjectcopygui";i:16;s:15:"ilpageobjectgui";i:17;s:15:"ilpermissiongui";}s:20:"ilobjremotecoursegui";a:2:{i:0;s:15:"ilinfoscreengui";i:1;s:15:"ilpermissiongui";}s:18:"ilobjrootfoldergui";a:6:{i:0;s:11:"ilcolumngui";i:1;s:22:"ilcontainerlinklistgui";i:2;s:15:"ilobjectcopygui";i:3;s:18:"ilobjstylesheetgui";i:4;s:15:"ilpageobjectgui";i:5;s:15:"ilpermissiongui";}s:26:"ilobjsahslearningmodulegui";a:6:{i:0;s:15:"ilfilesystemgui";i:1;s:15:"ilinfoscreengui";i:2;s:21:"illearningprogressgui";i:3;s:12:"illicensegui";i:4;s:13:"ilmdeditorgui";i:5;s:15:"ilpermissiongui";}s:15:"ilobjsessiongui";a:4:{i:0;s:29:"ilcourseitemadministrationgui";i:1;s:15:"ilinfoscreengui";i:2;s:15:"ilobjectcopygui";i:3;s:15:"ilpermissiongui";}s:14:"ilobjsurveygui";a:6:{i:0;s:15:"ilinfoscreengui";i:1;s:13:"ilmdeditorgui";i:2;s:15:"ilobjectcopygui";i:3;s:15:"ilpermissiongui";i:4;s:21:"ilsurveyevaluationgui";i:5;s:20:"ilsurveyexecutiongui";}s:26:"ilobjsurveyquestionpoolgui";a:9:{i:0;s:13:"ilmdeditorgui";i:1;s:15:"ilobjectcopygui";i:2;s:15:"ilpermissiongui";i:3;s:18:"ilsurveyphrasesgui";i:4;s:23:"surveymatrixquestiongui";i:5;s:23:"surveymetricquestiongui";i:6;s:31:"surveymultiplechoicequestiongui";i:7;s:29:"surveysinglechoicequestiongui";i:8;s:21:"surveytextquestiongui";}s:12:"ilobjtestgui";a:12:{i:0;s:16:"ilcertificategui";i:1;s:15:"ilinfoscreengui";i:2;s:21:"illearningprogressgui";i:3;s:13:"ilmdeditorgui";i:4;s:14:"ilobjcoursegui";i:5;s:15:"ilobjectcopygui";i:6;s:15:"ilpermissiongui";i:7;s:17:"ilshoppurchasegui";i:8;s:19:"iltestevaluationgui";i:9;s:15:"iltestoutputgui";i:10;s:16:"iltestscoringgui";i:11;s:16:"iltestservicegui";}s:13:"ilwikipagegui";a:7:{i:0;s:18:"ileditclipboardgui";i:1;s:25:"ilmediapooltargetselector";i:2;s:9:"ilnotegui";i:3;s:15:"ilpageeditorgui";i:4;s:15:"ilpageobjectgui";i:5;s:22:"ilpublicuserprofilegui";i:6;s:11:"ilratinggui";}s:12:"ilobjwikigui";a:5:{i:0;s:15:"ilinfoscreengui";i:1;s:18:"ilobjstylesheetgui";i:2;s:15:"ilpermissiongui";i:3;s:22:"ilpublicuserprofilegui";i:4;s:13:"ilwikipagegui";}s:15:"ilrepositorygui";a:31:{i:0;s:21:"ilcourseobjectivesgui";i:1;s:16:"ilobjcategorygui";i:2;s:25:"ilobjcategoryreferencegui";i:3;s:12:"ilobjchatgui";i:4;s:14:"ilobjcoursegui";i:5;s:23:"ilobjcoursereferencegui";i:6;s:14:"ilobjdlbookgui";i:7;s:16:"ilobjexercisegui";i:8;s:20:"ilobjexternalfeedgui";i:9;s:19:"ilobjfilebasedlmgui";i:10;s:12:"ilobjfilegui";i:11;s:14:"ilobjfoldergui";i:12;s:13:"ilobjforumgui";i:13;s:16:"ilobjglossarygui";i:14;s:13:"ilobjgroupgui";i:15;s:22:"ilobjilincclassroomgui";i:16;s:19:"ilobjilinccoursegui";i:17;s:22:"ilobjlearningmodulegui";i:18;s:20:"ilobjlinkresourcegui";i:19;s:17:"ilobjmediacastgui";i:20;s:17:"ilobjmediapoolgui";i:21;s:20:"ilobjquestionpoolgui";i:22;s:20:"ilobjremotecoursegui";i:23;s:12:"ilobjrolegui";i:24;s:18:"ilobjrootfoldergui";i:25;s:26:"ilobjsahslearningmodulegui";i:26;s:15:"ilobjsessiongui";i:27;s:14:"ilobjsurveygui";i:28;s:26:"ilobjsurveyquestionpoolgui";i:29;s:12:"ilobjtestgui";i:30;s:12:"ilobjwikigui";}}', 'a:161:{s:24:"ilcalendarappointmentgui";a:6:{i:0;s:16:"ilcalendardaygui";i:1;s:18:"ilcalendarinboxgui";i:2;s:18:"ilcalendarmonthgui";i:3;s:17:"ilcalendarweekgui";i:4;s:18:"ilcalendarblockgui";i:5;s:20:"ilpdcalendarblockgui";}s:16:"ilcalendardaygui";a:2:{i:0;s:18:"ilcalendarblockgui";i:1;s:20:"ilpdcalendarblockgui";}s:18:"ilcalendarinboxgui";a:2:{i:0;s:18:"ilcalendarblockgui";i:1;s:20:"ilpdcalendarblockgui";}s:18:"ilcalendarmonthgui";a:2:{i:0;s:18:"ilcalendarblockgui";i:1;s:20:"ilpdcalendarblockgui";}s:17:"ilcalendarweekgui";a:2:{i:0;s:18:"ilcalendarblockgui";i:1;s:20:"ilpdcalendarblockgui";}s:13:"ilnewsitemgui";a:1:{i:0;s:24:"ilnewsforcontextblockgui";}s:22:"ilpublicuserprofilegui";a:11:{i:0;s:21:"ilusersonlineblockgui";i:1;s:15:"ilinfoscreengui";i:2;s:15:"ilpageobjectgui";i:3;s:12:"ilobjchatgui";i:4;s:14:"ilobjcoursegui";i:5;s:13:"ilobjforumgui";i:6;s:13:"ilobjgroupgui";i:7;s:19:"ilobjilinccoursegui";i:8;s:18:"ilmediapoolpagegui";i:9;s:13:"ilwikipagegui";i:10;s:12:"ilobjwikigui";}s:18:"ilbookmarkblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:18:"ilcalendarblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:14:"ilchatblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:15:"ildummyblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:22:"ilexternalfeedblockgui";a:2:{i:0;s:11:"ilcolumngui";i:1;s:20:"ilobjexternalfeedgui";}s:14:"ilhtmlblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:24:"ilnewsforcontextblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:20:"ilpdcalendarblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:24:"ilpdexternalfeedblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:20:"ilpdfeedbackblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:16:"ilpdmailblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:16:"ilpdnewsblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:17:"ilpdnotesblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:25:"ilpdselecteditemsblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:22:"ilpdsysmessageblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:19:"ilpdtaggingblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:21:"ilusersonlineblockgui";a:1:{i:0;s:11:"ilcolumngui";}s:11:"ilcolumngui";a:9:{i:0;s:15:"ilinfoscreengui";i:1;s:16:"ilobjcategorygui";i:2;s:18:"ilcoursecontentgui";i:3;s:14:"ilobjcoursegui";i:4;s:14:"ilobjfoldergui";i:5;s:13:"ilobjforumgui";i:6;s:13:"ilobjgroupgui";i:7;s:19:"ilobjilinccoursegui";i:8;s:18:"ilobjrootfoldergui";}s:13:"ilfeedbackgui";a:1:{i:0;s:15:"ilinfoscreengui";}s:9:"ilnotegui";a:3:{i:0;s:15:"ilinfoscreengui";i:1;s:15:"ilpageobjectgui";i:2;s:13:"ilwikipagegui";}s:28:"ilrepositoryselectorinputgui";a:1:{i:0;s:25:"ilformpropertydispatchgui";}s:25:"ilformpropertydispatchgui";a:3:{i:0;s:19:"illpobjectstablegui";i:1;s:20:"illpprogresstablegui";i:2;s:14:"ilusertablegui";}s:13:"illpfiltergui";a:2:{i:0;s:20:"illplistofobjectsgui";i:1;s:21:"illplistofprogressgui";}s:19:"illpobjectstablegui";a:1:{i:0;s:20:"illplistofobjectsgui";}s:17:"ilpdfpresentation";a:2:{i:0;s:20:"illplistofobjectsgui";i:1;s:21:"illplistofprogressgui";}s:15:"iluserfiltergui";a:1:{i:0;s:20:"illplistofobjectsgui";}s:20:"illpprogresstablegui";a:1:{i:0;s:21:"illplistofprogressgui";}s:17:"illmstatisticsgui";a:1:{i:0;s:21:"illearningprogressgui";}s:20:"illplistofobjectsgui";a:1:{i:0;s:21:"illearningprogressgui";}s:21:"illplistofprogressgui";a:1:{i:0;s:21:"illearningprogressgui";}s:21:"illplistofsettingsgui";a:1:{i:0;s:21:"illearningprogressgui";}s:21:"illearningprogressgui";a:10:{i:0;s:12:"ilobjusergui";i:1;s:14:"ilobjcoursegui";i:2;s:14:"ilobjdlbookgui";i:3;s:16:"ilobjexercisegui";i:4;s:19:"ilobjfilebasedlmgui";i:5;s:14:"ilobjfoldergui";i:6;s:13:"ilobjgroupgui";i:7;s:22:"ilobjlearningmodulegui";i:8;s:26:"ilobjsahslearningmodulegui";i:9;s:12:"ilobjtestgui";}s:17:"ilobjilincusergui";a:1:{i:0;s:12:"ilobjusergui";}s:12:"ilobjusergui";a:2:{i:0;s:20:"iladminusersearchgui";i:1;s:16:"ilobjcategorygui";}s:21:"ilrepositorysearchgui";a:5:{i:0;s:12:"ilobjrolegui";i:1;s:14:"ilobjcoursegui";i:2;s:16:"ilobjexercisegui";i:3;s:13:"ilobjgroupgui";i:4;s:19:"ilobjilinccoursegui";}s:12:"ilobjrolegui";a:2:{i:0;s:15:"ilpermissiongui";i:1;s:15:"ilrepositorygui";}s:20:"iladminusersearchgui";a:1:{i:0;s:18:"ilobjuserfoldergui";}s:15:"ilpermissiongui";a:29:{i:0;s:18:"ilobjuserfoldergui";i:1;s:16:"ilobjcategorygui";i:2;s:25:"ilobjcategoryreferencegui";i:3;s:12:"ilobjchatgui";i:4;s:14:"ilobjcoursegui";i:5;s:23:"ilobjcoursereferencegui";i:6;s:14:"ilobjdlbookgui";i:7;s:16:"ilobjexercisegui";i:8;s:20:"ilobjexternalfeedgui";i:9;s:19:"ilobjfilebasedlmgui";i:10;s:12:"ilobjfilegui";i:11;s:14:"ilobjfoldergui";i:12;s:13:"ilobjforumgui";i:13;s:16:"ilobjglossarygui";i:14;s:13:"ilobjgroupgui";i:15;s:19:"ilobjilinccoursegui";i:16;s:22:"ilobjlearningmodulegui";i:17;s:20:"ilobjlinkresourcegui";i:18;s:17:"ilobjmediacastgui";i:19;s:17:"ilobjmediapoolgui";i:20;s:20:"ilobjquestionpoolgui";i:21;s:20:"ilobjremotecoursegui";i:22;s:18:"ilobjrootfoldergui";i:23;s:26:"ilobjsahslearningmodulegui";i:24;s:15:"ilobjsessiongui";i:25;s:14:"ilobjsurveygui";i:26;s:26:"ilobjsurveyquestionpoolgui";i:27;s:12:"ilobjtestgui";i:28;s:12:"ilobjwikigui";}s:14:"ilusertablegui";a:1:{i:0;s:18:"ilobjuserfoldergui";}s:17:"ilinternallinkgui";a:3:{i:0;s:19:"ilimagemapeditorgui";i:1;s:21:"ilpcimagemapeditorgui";i:2;s:15:"ilpageeditorgui";}s:15:"ilfilesystemgui";a:3:{i:0;s:19:"ilobjmediaobjectgui";i:1;s:19:"ilobjfilebasedlmgui";i:2;s:26:"ilobjsahslearningmodulegui";}s:19:"ilimagemapeditorgui";a:1:{i:0;s:19:"ilobjmediaobjectgui";}s:13:"ilmdeditorgui";a:16:{i:0;s:19:"ilobjmediaobjectgui";i:1;s:15:"ilpageobjectgui";i:2;s:14:"ilobjcoursegui";i:3;s:20:"ilstructureobjectgui";i:4;s:14:"ilobjdlbookgui";i:5;s:19:"ilobjfilebasedlmgui";i:6;s:12:"ilobjfilegui";i:7;s:25:"iltermdefinitioneditorgui";i:8;s:16:"ilobjglossarygui";i:9;s:22:"ilobjlearningmodulegui";i:10;s:20:"ilobjlinkresourcegui";i:11;s:20:"ilobjquestionpoolgui";i:12;s:26:"ilobjsahslearningmodulegui";i:13;s:14:"ilobjsurveygui";i:14;s:26:"ilobjsurveyquestionpoolgui";i:15;s:12:"ilobjtestgui";}s:19:"ilobjmediaobjectgui";a:4:{i:0;s:18:"ileditclipboardgui";i:1;s:18:"ilpcmediaobjectgui";i:2;s:15:"ilpageeditorgui";i:3;s:17:"ilobjmediapoolgui";}s:21:"ilpcimagemapeditorgui";a:1:{i:0;s:18:"ilpcmediaobjectgui";}s:18:"ilpcmediaobjectgui";a:2:{i:0;s:18:"ilpcplaceholdergui";i:1;s:15:"ilpageeditorgui";}s:15:"assclozetestgui";a:2:{i:0;s:17:"ilquestioneditgui";i:1;s:20:"ilobjquestionpoolgui";}s:22:"assimagemapquestiongui";a:2:{i:0;s:17:"ilquestioneditgui";i:1;s:20:"ilobjquestionpoolgui";}s:16:"assjavaappletgui";a:2:{i:0;s:17:"ilquestioneditgui";i:1;s:20:"ilobjquestionpoolgui";}s:22:"assmatchingquestiongui";a:2:{i:0;s:17:"ilquestioneditgui";i:1;s:20:"ilobjquestionpoolgui";}s:20:"assmultiplechoicegui";a:2:{i:0;s:17:"ilquestioneditgui";i:1;s:20:"ilobjquestionpoolgui";}s:13:"assnumericgui";a:2:{i:0;s:17:"ilquestioneditgui";i:1;s:20:"ilobjquestionpoolgui";}s:22:"assorderingquestiongui";a:2:{i:0;s:17:"ilquestioneditgui";i:1;s:20:"ilobjquestionpoolgui";}s:18:"asssinglechoicegui";a:2:{i:0;s:17:"ilquestioneditgui";i:1;s:20:"ilobjquestionpoolgui";}s:18:"asstextquestiongui";a:2:{i:0;s:17:"ilquestioneditgui";i:1;s:20:"ilobjquestionpoolgui";}s:16:"asstextsubsetgui";a:2:{i:0;s:17:"ilquestioneditgui";i:1;s:20:"ilobjquestionpoolgui";}s:17:"ilquestioneditgui";a:1:{i:0;s:15:"ilpcquestiongui";}s:21:"ilpccontentincludegui";a:1:{i:0;s:15:"ilpageeditorgui";}s:16:"ilpcdatatablegui";a:1:{i:0;s:15:"ilpageeditorgui";}s:15:"ilpcfileitemgui";a:1:{i:0;s:15:"ilpageeditorgui";}s:15:"ilpcfilelistgui";a:1:{i:0;s:15:"ilpageeditorgui";}s:11:"ilpclistgui";a:1:{i:0;s:15:"ilpageeditorgui";}s:15:"ilpclistitemgui";a:1:{i:0;s:15:"ilpageeditorgui";}s:10:"ilpcmapgui";a:1:{i:0;s:15:"ilpageeditorgui";}s:16:"ilpcparagraphgui";a:1:{i:0;s:15:"ilpageeditorgui";}s:18:"ilpcplaceholdergui";a:1:{i:0;s:15:"ilpageeditorgui";}s:14:"ilpcpluggedgui";a:1:{i:0;s:15:"ilpageeditorgui";}s:15:"ilpcquestiongui";a:1:{i:0;s:15:"ilpageeditorgui";}s:16:"ilpcresourcesgui";a:1:{i:0;s:15:"ilpageeditorgui";}s:14:"ilpcsectiongui";a:1:{i:0;s:15:"ilpageeditorgui";}s:17:"ilpcsourcecodegui";a:1:{i:0;s:15:"ilpageeditorgui";}s:16:"ilpctabledatagui";a:1:{i:0;s:15:"ilpageeditorgui";}s:12:"ilpctablegui";a:1:{i:0;s:15:"ilpageeditorgui";}s:11:"ilpctabsgui";a:1:{i:0;s:15:"ilpageeditorgui";}s:18:"ileditclipboardgui";a:4:{i:0;s:15:"ilpageobjectgui";i:1;s:18:"ilmediapoolpagegui";i:2;s:17:"ilobjmediapoolgui";i:3;s:13:"ilwikipagegui";}s:15:"ilpageeditorgui";a:3:{i:0;s:15:"ilpageobjectgui";i:1;s:18:"ilmediapoolpagegui";i:2;s:13:"ilwikipagegui";}s:22:"ilcontainerlinklistgui";a:2:{i:0;s:16:"ilobjcategorygui";i:1;s:18:"ilobjrootfoldergui";}s:15:"ilinfoscreengui";a:24:{i:0;s:16:"ilobjcategorygui";i:1;s:25:"ilobjcategoryreferencegui";i:2;s:12:"ilobjchatgui";i:3;s:14:"ilobjcoursegui";i:4;s:23:"ilobjcoursereferencegui";i:5;s:14:"ilobjdlbookgui";i:6;s:16:"ilobjexercisegui";i:7;s:19:"ilobjfilebasedlmgui";i:8;s:12:"ilobjfilegui";i:9;s:14:"ilobjfoldergui";i:10;s:13:"ilobjforumgui";i:11;s:16:"ilobjglossarygui";i:12;s:13:"ilobjgroupgui";i:13;s:19:"ilobjilinccoursegui";i:14;s:22:"ilobjlearningmodulegui";i:15;s:20:"ilobjlinkresourcegui";i:16;s:17:"ilobjmediacastgui";i:17;s:17:"ilobjmediapoolgui";i:18;s:20:"ilobjremotecoursegui";i:19;s:26:"ilobjsahslearningmodulegui";i:20;s:15:"ilobjsessiongui";i:21;s:14:"ilobjsurveygui";i:22;s:12:"ilobjtestgui";i:23;s:12:"ilobjwikigui";}s:15:"ilobjectcopygui";a:15:{i:0;s:16:"ilobjcategorygui";i:1;s:12:"ilobjchatgui";i:2;s:14:"ilobjcoursegui";i:3;s:16:"ilobjexercisegui";i:4;s:12:"ilobjfilegui";i:5;s:14:"ilobjfoldergui";i:6;s:13:"ilobjforumgui";i:7;s:13:"ilobjgroupgui";i:8;s:20:"ilobjlinkresourcegui";i:9;s:20:"ilobjquestionpoolgui";i:10;s:18:"ilobjrootfoldergui";i:11;s:15:"ilobjsessiongui";i:12;s:14:"ilobjsurveygui";i:13;s:26:"ilobjsurveyquestionpoolgui";i:14;s:12:"ilobjtestgui";}s:18:"ilobjstylesheetgui";a:8:{i:0;s:16:"ilobjcategorygui";i:1;s:14:"ilobjcoursegui";i:2;s:14:"ilobjdlbookgui";i:3;s:14:"ilobjfoldergui";i:4;s:13:"ilobjgroupgui";i:5;s:22:"ilobjlearningmodulegui";i:6;s:18:"ilobjrootfoldergui";i:7;s:12:"ilobjwikigui";}s:18:"ilobjuserfoldergui";a:1:{i:0;s:16:"ilobjcategorygui";}s:15:"ilpageobjectgui";a:12:{i:0;s:16:"ilobjcategorygui";i:1;s:17:"ilshoppurchasegui";i:2;s:14:"ilobjcoursegui";i:3;s:17:"illmpageobjectgui";i:4;s:14:"ilobjfoldergui";i:5;s:25:"iltermdefinitioneditorgui";i:6;s:17:"ilglossarytermgui";i:7;s:13:"ilobjgroupgui";i:8;s:18:"ilmediapoolpagegui";i:9;s:20:"ilobjquestionpoolgui";i:10;s:18:"ilobjrootfoldergui";i:11;s:13:"ilwikipagegui";}s:19:"ilcoursearchivesgui";a:1:{i:0;s:18:"ilcoursecontentgui";}s:32:"ilcourseobjectivepresentationgui";a:1:{i:0;s:18:"ilcoursecontentgui";}s:27:"ilconditionhandlerinterface";a:5:{i:0;s:29:"ilcourseitemadministrationgui";i:1;s:14:"ilobjcoursegui";i:2;s:20:"ilstructureobjectgui";i:3;s:14:"ilobjfoldergui";i:4;s:13:"ilobjgroupgui";}s:20:"ilcourseagreementgui";a:1:{i:0;s:14:"ilobjcoursegui";}s:18:"ilcoursecontentgui";a:3:{i:0;s:14:"ilobjcoursegui";i:1;s:14:"ilobjfoldergui";i:2;s:13:"ilobjgroupgui";}s:29:"ilcourseitemadministrationgui";a:4:{i:0;s:14:"ilobjcoursegui";i:1;s:14:"ilobjfoldergui";i:2;s:13:"ilobjgroupgui";i:3;s:15:"ilobjsessiongui";}s:21:"ilcourseobjectivesgui";a:2:{i:0;s:14:"ilobjcoursegui";i:1;s:15:"ilrepositorygui";}s:23:"ilcourseregistrationgui";a:1:{i:0;s:14:"ilobjcoursegui";}s:21:"ilcourseuserfieldsgui";a:1:{i:0;s:14:"ilobjcoursegui";}s:20:"illicenseoverviewgui";a:1:{i:0;s:14:"ilobjcoursegui";}s:17:"ilmemberexportgui";a:1:{i:0;s:14:"ilobjcoursegui";}s:22:"ilobjcoursegroupinggui";a:2:{i:0;s:14:"ilobjcoursegui";i:1;s:13:"ilobjgroupgui";}s:20:"ilsessionoverviewgui";a:1:{i:0;s:14:"ilobjcoursegui";}s:17:"ilshoppurchasegui";a:4:{i:0;s:14:"ilobjcoursegui";i:1;s:19:"ilobjfilebasedlmgui";i:2;s:12:"ilobjfilegui";i:3;s:12:"ilobjtestgui";}s:17:"illmpageobjectgui";a:2:{i:0;s:14:"ilobjdlbookgui";i:1;s:22:"ilobjlearningmodulegui";}s:20:"ilstructureobjectgui";a:2:{i:0;s:14:"ilobjdlbookgui";i:1;s:22:"ilobjlearningmodulegui";}s:12:"illicensegui";a:2:{i:0;s:19:"ilobjfilebasedlmgui";i:1;s:26:"ilobjsahslearningmodulegui";}s:16:"ilforumexportgui";a:1:{i:0;s:13:"ilobjforumgui";}s:20:"ilforummoderatorsgui";a:1:{i:0;s:13:"ilobjforumgui";}s:25:"iltermdefinitioneditorgui";a:1:{i:0;s:17:"ilglossarytermgui";}s:17:"ilglossarytermgui";a:1:{i:0;s:16:"ilobjglossarygui";}s:22:"ilgroupregistrationgui";a:1:{i:0;s:13:"ilobjgroupgui";}s:22:"ilobjilincclassroomgui";a:2:{i:0;s:19:"ilobjilinccoursegui";i:1;s:15:"ilrepositorygui";}s:25:"ilmediapooltargetselector";a:2:{i:0;s:18:"ilmediapoolpagegui";i:1;s:13:"ilwikipagegui";}s:18:"ilmediapoolpagegui";a:1:{i:0;s:17:"ilobjmediapoolgui";}s:14:"ilobjfoldergui";a:2:{i:0;s:17:"ilobjmediapoolgui";i:1;s:15:"ilrepositorygui";}s:15:"asserrortextgui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:16:"assfileuploadgui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:19:"assflashquestiongui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:24:"assorderinghorizontalgui";a:1:{i:0;s:20:"ilobjquestionpoolgui";}s:21:"ilsurveyevaluationgui";a:1:{i:0;s:14:"ilobjsurveygui";}s:20:"ilsurveyexecutiongui";a:1:{i:0;s:14:"ilobjsurveygui";}s:18:"ilsurveyphrasesgui";a:1:{i:0;s:26:"ilobjsurveyquestionpoolgui";}s:23:"surveymatrixquestiongui";a:1:{i:0;s:26:"ilobjsurveyquestionpoolgui";}s:23:"surveymetricquestiongui";a:1:{i:0;s:26:"ilobjsurveyquestionpoolgui";}s:31:"surveymultiplechoicequestiongui";a:1:{i:0;s:26:"ilobjsurveyquestionpoolgui";}s:29:"surveysinglechoicequestiongui";a:1:{i:0;s:26:"ilobjsurveyquestionpoolgui";}s:21:"surveytextquestiongui";a:1:{i:0;s:26:"ilobjsurveyquestionpoolgui";}s:16:"ilcertificategui";a:1:{i:0;s:12:"ilobjtestgui";}s:14:"ilobjcoursegui";a:2:{i:0;s:12:"ilobjtestgui";i:1;s:15:"ilrepositorygui";}s:19:"iltestevaluationgui";a:1:{i:0;s:12:"ilobjtestgui";}s:15:"iltestoutputgui";a:1:{i:0;s:12:"ilobjtestgui";}s:16:"iltestscoringgui";a:1:{i:0;s:12:"ilobjtestgui";}s:16:"iltestservicegui";a:1:{i:0;s:12:"ilobjtestgui";}s:11:"ilratinggui";a:1:{i:0;s:13:"ilwikipagegui";}s:13:"ilwikipagegui";a:1:{i:0;s:12:"ilobjwikigui";}s:16:"ilobjcategorygui";a:1:{i:0;s:15:"ilrepositorygui";}s:25:"ilobjcategoryreferencegui";a:1:{i:0;s:15:"ilrepositorygui";}s:12:"ilobjchatgui";a:1:{i:0;s:15:"ilrepositorygui";}s:23:"ilobjcoursereferencegui";a:1:{i:0;s:15:"ilrepositorygui";}s:14:"ilobjdlbookgui";a:1:{i:0;s:15:"ilrepositorygui";}s:16:"ilobjexercisegui";a:1:{i:0;s:15:"ilrepositorygui";}s:20:"ilobjexternalfeedgui";a:1:{i:0;s:15:"ilrepositorygui";}s:19:"ilobjfilebasedlmgui";a:1:{i:0;s:15:"ilrepositorygui";}s:12:"ilobjfilegui";a:1:{i:0;s:15:"ilrepositorygui";}s:13:"ilobjforumgui";a:1:{i:0;s:15:"ilrepositorygui";}s:16:"ilobjglossarygui";a:1:{i:0;s:15:"ilrepositorygui";}s:13:"ilobjgroupgui";a:1:{i:0;s:15:"ilrepositorygui";}s:19:"ilobjilinccoursegui";a:1:{i:0;s:15:"ilrepositorygui";}s:22:"ilobjlearningmodulegui";a:1:{i:0;s:15:"ilrepositorygui";}s:20:"ilobjlinkresourcegui";a:1:{i:0;s:15:"ilrepositorygui";}s:17:"ilobjmediacastgui";a:1:{i:0;s:15:"ilrepositorygui";}s:17:"ilobjmediapoolgui";a:1:{i:0;s:15:"ilrepositorygui";}s:20:"ilobjquestionpoolgui";a:1:{i:0;s:15:"ilrepositorygui";}s:20:"ilobjremotecoursegui";a:1:{i:0;s:15:"ilrepositorygui";}s:18:"ilobjrootfoldergui";a:1:{i:0;s:15:"ilrepositorygui";}s:26:"ilobjsahslearningmodulegui";a:1:{i:0;s:15:"ilrepositorygui";}s:15:"ilobjsessiongui";a:1:{i:0;s:15:"ilrepositorygui";}s:14:"ilobjsurveygui";a:1:{i:0;s:15:"ilrepositorygui";}s:26:"ilobjsurveyquestionpoolgui";a:1:{i:0;s:15:"ilrepositorygui";}s:12:"ilobjtestgui";a:1:{i:0;s:15:"ilrepositorygui";}s:12:"ilobjwikigui";a:1:{i:0;s:15:"ilrepositorygui";}}');
@@ -8204,7 +8204,7 @@ CREATE TABLE `data_cache` (
   `keyword` varchar(50) NOT NULL DEFAULT ' ',
   `value` longtext,
   PRIMARY KEY (`module`,`keyword`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `dav_lock` (
@@ -8222,7 +8222,7 @@ CREATE TABLE `dav_lock` (
   KEY `i1_idx` (`obj_id`,`node_id`),
   KEY `i2_idx` (`obj_id`,`node_id`,`token`),
   KEY `i3_idx` (`expires`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `dav_property` (
@@ -8233,14 +8233,14 @@ CREATE TABLE `dav_property` (
   `value` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`node_id`,`name`,`ns`),
   KEY `i1_idx` (`obj_id`,`node_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `dbk_translations` (
   `id` int(11) NOT NULL DEFAULT '0',
   `tr_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`,`tr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `desktop_item` (
@@ -8250,7 +8250,7 @@ CREATE TABLE `desktop_item` (
   `parameters` varchar(200) DEFAULT NULL,
   KEY `i1_idx` (`user_id`),
   KEY `it_idx` (`item_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `didactic_tpl_a` (
@@ -8258,13 +8258,13 @@ CREATE TABLE `didactic_tpl_a` (
   `tpl_id` int(11) NOT NULL,
   `type_id` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `didactic_tpl_a_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `didactic_tpl_alp` (
@@ -8273,14 +8273,14 @@ CREATE TABLE `didactic_tpl_alp` (
   `template_type` tinyint(4) NOT NULL,
   `template_id` int(11) NOT NULL,
   PRIMARY KEY (`action_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `didactic_tpl_sa` (
   `id` int(11) NOT NULL,
   `obj_type` varchar(8) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`,`obj_type`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `didactic_tpl_settings` (
@@ -8290,13 +8290,13 @@ CREATE TABLE `didactic_tpl_settings` (
   `title` varchar(64) DEFAULT NULL,
   `description` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `didactic_tpl_settings_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `ecs_community` (
@@ -8306,7 +8306,7 @@ CREATE TABLE `ecs_community` (
   `cname` varchar(255) DEFAULT NULL,
   `mids` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`sid`,`cid`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ecs_container_mapping` (
@@ -8318,7 +8318,7 @@ CREATE TABLE `ecs_container_mapping` (
   `date_range_start` int(11) NOT NULL DEFAULT '0',
   `date_range_end` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`mapping_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ecs_data_mapping` (
@@ -8327,7 +8327,7 @@ CREATE TABLE `ecs_data_mapping` (
   `ecs_field` varchar(32) NOT NULL DEFAULT '',
   `advmd_id` int(11) NOT NULL,
   PRIMARY KEY (`sid`,`mapping_type`,`ecs_field`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ecs_events` (
@@ -8337,13 +8337,13 @@ CREATE TABLE `ecs_events` (
   `op` char(32) DEFAULT NULL,
   `server_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`event_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ecs_events_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `ecs_export` (
@@ -8351,7 +8351,7 @@ CREATE TABLE `ecs_export` (
   `econtent_id` int(11) NOT NULL DEFAULT '0',
   `server_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`server_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ecs_import` (
@@ -8360,7 +8360,7 @@ CREATE TABLE `ecs_import` (
   `econtent_id` int(11) NOT NULL DEFAULT '0',
   `server_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`server_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ecs_part_settings` (
@@ -8371,7 +8371,7 @@ CREATE TABLE `ecs_part_settings` (
   `import_type` tinyint(4) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `cname` varchar(255) DEFAULT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ecs_server` (
@@ -8396,13 +8396,13 @@ CREATE TABLE `ecs_server` (
   `title` varchar(128) DEFAULT NULL,
   `auth_user` varchar(32) DEFAULT NULL,
   `auth_pass` varchar(32) DEFAULT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ecs_server_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `event` (
@@ -8418,7 +8418,7 @@ CREATE TABLE `event` (
   `registration` tinyint(4) NOT NULL DEFAULT '0',
   `participation` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`event_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `event_appointment` (
@@ -8430,13 +8430,13 @@ CREATE TABLE `event_appointment` (
   `ending_time` int(11) NOT NULL DEFAULT '0',
   `fulltime` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`appointment_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `event_appointment_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `event_file` (
@@ -8446,13 +8446,13 @@ CREATE TABLE `event_file` (
   `file_type` char(64) DEFAULT NULL,
   `file_size` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`file_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `event_file_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `event_items` (
@@ -8460,7 +8460,7 @@ CREATE TABLE `event_items` (
   `item_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`event_id`,`item_id`),
   KEY `i1_idx` (`event_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `event_participants` (
@@ -8471,13 +8471,13 @@ CREATE TABLE `event_participants` (
   `mark` longtext,
   `e_comment` longtext,
   PRIMARY KEY (`event_id`,`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `event_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `exc_assignment` (
@@ -8491,13 +8491,13 @@ CREATE TABLE `exc_assignment` (
   `order_nr` int(11) NOT NULL DEFAULT '0',
   `type` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `exc_assignment_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `exc_data` (
@@ -8510,7 +8510,7 @@ CREATE TABLE `exc_data` (
   `compl_by_submission` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`),
   FULLTEXT KEY `i1_idx` (`instruction`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `exc_mem_ass_status` (
@@ -8528,7 +8528,7 @@ CREATE TABLE `exc_mem_ass_status` (
   `mark` varchar(32) DEFAULT NULL,
   `u_comment` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`ass_id`,`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `exc_members` (
@@ -8545,7 +8545,7 @@ CREATE TABLE `exc_members` (
   `status` char(9) DEFAULT 'notgraded',
   PRIMARY KEY (`obj_id`,`usr_id`),
   KEY `ob_idx` (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `exc_returned` (
@@ -8560,13 +8560,13 @@ CREATE TABLE `exc_returned` (
   PRIMARY KEY (`returned_id`),
   KEY `i1_idx` (`obj_id`),
   KEY `i2_idx` (`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `exc_returned_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `exc_usr_tutor` (
@@ -8577,7 +8577,7 @@ CREATE TABLE `exc_usr_tutor` (
   `ass_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ass_id`,`usr_id`,`tutor_id`),
   KEY `ob_idx` (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `export_file_info` (
@@ -8589,7 +8589,7 @@ CREATE TABLE `export_file_info` (
   `filename` varchar(64) NOT NULL DEFAULT '',
   PRIMARY KEY (`obj_id`,`export_type`,`filename`),
   KEY `i1_idx` (`create_date`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `export_options` (
@@ -8600,7 +8600,7 @@ CREATE TABLE `export_options` (
   `value` varchar(32) DEFAULT NULL,
   `pos` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`export_id`,`keyword`,`ref_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `feedback_items` (
@@ -8620,13 +8620,13 @@ CREATE TABLE `feedback_items` (
   `obj_id` int(11) DEFAULT '0',
   `ref_id` int(11) DEFAULT '0',
   PRIMARY KEY (`fb_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `feedback_items_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `feedback_results` (
@@ -8635,7 +8635,7 @@ CREATE TABLE `feedback_results` (
   `vote` int(11) NOT NULL DEFAULT '0',
   `note` longtext,
   `votetime` int(11) NOT NULL DEFAULT '0'
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `file_based_lm` (
@@ -8643,7 +8643,7 @@ CREATE TABLE `file_based_lm` (
   `is_online` char(1) DEFAULT 'n',
   `startfile` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `file_data` (
@@ -8654,7 +8654,7 @@ CREATE TABLE `file_data` (
   `version` int(11) DEFAULT NULL,
   `f_mode` char(8) DEFAULT 'object',
   PRIMARY KEY (`file_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `file_usage` (
@@ -8663,7 +8663,7 @@ CREATE TABLE `file_usage` (
   `usage_id` int(11) NOT NULL DEFAULT '0',
   `usage_hist_nr` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`,`usage_type`,`usage_id`,`usage_hist_nr`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `frm_data` (
@@ -8682,13 +8682,13 @@ CREATE TABLE `frm_data` (
   `top_usr_id` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`top_pk`),
   KEY `i1_idx` (`top_frm_fk`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `frm_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `frm_notification` (
@@ -8700,13 +8700,13 @@ CREATE TABLE `frm_notification` (
   `user_toggle_noti` tinyint(4) NOT NULL DEFAULT '0',
   `user_id_noti` int(11) DEFAULT NULL,
   PRIMARY KEY (`notification_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `frm_notification_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `frm_posts` (
@@ -8730,13 +8730,13 @@ CREATE TABLE `frm_posts` (
   KEY `i2_idx` (`pos_top_fk`),
   KEY `i3_idx` (`pos_date`),
   FULLTEXT KEY `i4_idx` (`pos_subject`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `frm_posts_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `frm_posts_tree` (
@@ -8749,13 +8749,13 @@ CREATE TABLE `frm_posts_tree` (
   `depth` int(11) NOT NULL DEFAULT '0',
   `fpt_date` datetime DEFAULT NULL,
   PRIMARY KEY (`fpt_pk`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `frm_posts_tree_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `frm_settings` (
@@ -8771,7 +8771,7 @@ CREATE TABLE `frm_settings` (
   `add_re_subject` tinyint(4) NOT NULL DEFAULT '0',
   `mark_mod_posts` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `frm_thread_access` (
@@ -8783,7 +8783,7 @@ CREATE TABLE `frm_thread_access` (
   `access_old_ts` datetime DEFAULT NULL,
   PRIMARY KEY (`usr_id`,`obj_id`,`thread_id`),
   KEY `i1_idx` (`access_last`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `frm_threads` (
@@ -8802,13 +8802,13 @@ CREATE TABLE `frm_threads` (
   `is_closed` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`thr_pk`),
   FULLTEXT KEY `i1_idx` (`thr_subject`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `frm_threads_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `frm_user_read` (
@@ -8817,7 +8817,7 @@ CREATE TABLE `frm_user_read` (
   `thread_id` int(11) NOT NULL DEFAULT '0',
   `post_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`usr_id`,`obj_id`,`thread_id`,`post_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `glossary` (
@@ -8831,7 +8831,7 @@ CREATE TABLE `glossary` (
   `pres_mode` varchar(10) NOT NULL DEFAULT 'table',
   `snippet_length` int(11) NOT NULL DEFAULT '200',
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `glossary_definition` (
@@ -8841,13 +8841,13 @@ CREATE TABLE `glossary_definition` (
   `nr` int(11) NOT NULL DEFAULT '0',
   `short_text_dirty` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `glossary_definition_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `glossary_term` (
@@ -8861,13 +8861,13 @@ CREATE TABLE `glossary_term` (
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`glo_id`),
   FULLTEXT KEY `i2_idx` (`term`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `glossary_term_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `grp_settings` (
@@ -8891,7 +8891,7 @@ CREATE TABLE `grp_settings` (
   `reg_ac` varchar(32) DEFAULT NULL,
   `view_mode` tinyint(4) NOT NULL DEFAULT '6',
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `history` (
@@ -8905,13 +8905,13 @@ CREATE TABLE `history` (
   `user_comment` longtext,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`obj_id`,`obj_type`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `history_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_block_setting` (
@@ -8921,7 +8921,7 @@ CREATE TABLE `il_block_setting` (
   `setting` varchar(40) NOT NULL DEFAULT ' ',
   `value` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`type`,`user_id`,`block_id`,`setting`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_blog` (
@@ -8931,7 +8931,7 @@ CREATE TABLE `il_blog` (
   `font_color` char(6) DEFAULT NULL,
   `img` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_blog_posting` (
@@ -8941,13 +8941,13 @@ CREATE TABLE `il_blog_posting` (
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`created`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_blog_posting_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_component` (
@@ -8955,7 +8955,7 @@ CREATE TABLE `il_component` (
   `name` varchar(200) DEFAULT NULL,
   `id` char(10) NOT NULL DEFAULT '',
   PRIMARY KEY (`type`,`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `il_component` (`type`, `name`, `id`) VALUES
 ('Modules', 'ScormAicc', 'sahs'),
@@ -9039,33 +9039,33 @@ CREATE TABLE `il_custom_block` (
   `type` varchar(20) DEFAULT NULL,
   `title` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_custom_block_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_external_feed_block` (
   `id` int(11) NOT NULL DEFAULT '0',
   `feed_url` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_external_feed_block_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_html_block` (
   `id` int(11) NOT NULL DEFAULT '0',
   `content` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_log` (
@@ -9076,7 +9076,7 @@ CREATE TABLE `il_log` (
   KEY `i1_idx` (`created`),
   KEY `i2_idx` (`module`),
   KEY `i3_idx` (`log_level`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_md_cpr_selections` (
@@ -9088,7 +9088,7 @@ CREATE TABLE `il_md_cpr_selections` (
   `costs` tinyint(4) NOT NULL DEFAULT '0',
   `cpr_restrictions` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`entry_id`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `il_md_cpr_selections` (`entry_id`, `title`, `description`, `copyright`, `language`, `costs`, `cpr_restrictions`) VALUES
 (1, 'Attribution Non-commercial No Derivatives', 'Creative Commons License', '<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">\r\n<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png" />\r\n</a>\r\n<br />This \r\n<span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/" rel="dc:type">work</span> is licensed under a \r\n<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 License</a>.', 'en', 0, 1),
@@ -9101,7 +9101,7 @@ INSERT INTO `il_md_cpr_selections` (`entry_id`, `title`, `description`, `copyrig
 CREATE TABLE `il_md_cpr_selections_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=7 ;
 
 INSERT INTO `il_md_cpr_selections_seq` (`sequence`) VALUES
 (6);
@@ -9113,7 +9113,7 @@ CREATE TABLE `il_media_cast_data` (
   `downloadable` tinyint(4) DEFAULT '0',
   `def_access` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_annotation` (
@@ -9127,13 +9127,13 @@ CREATE TABLE `il_meta_annotation` (
   `description_language` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_annotation_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_annotation_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_classification` (
@@ -9146,13 +9146,13 @@ CREATE TABLE `il_meta_classification` (
   `description_language` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_classification_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_classification_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_contribute` (
@@ -9166,13 +9166,13 @@ CREATE TABLE `il_meta_contribute` (
   `c_date` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`meta_contribute_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_contribute_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_description` (
@@ -9187,13 +9187,13 @@ CREATE TABLE `il_meta_description` (
   PRIMARY KEY (`meta_description_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`),
   FULLTEXT KEY `i2_idx` (`description`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_description_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_educational` (
@@ -9211,13 +9211,13 @@ CREATE TABLE `il_meta_educational` (
   `typical_learning_time` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`meta_educational_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_educational_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_entity` (
@@ -9231,13 +9231,13 @@ CREATE TABLE `il_meta_entity` (
   PRIMARY KEY (`meta_entity_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`),
   FULLTEXT KEY `i2_idx` (`entity`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_entity_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_format` (
@@ -9249,13 +9249,13 @@ CREATE TABLE `il_meta_format` (
   PRIMARY KEY (`meta_format_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`),
   KEY `i2_idx` (`format`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_format_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_general` (
@@ -9271,13 +9271,13 @@ CREATE TABLE `il_meta_general` (
   PRIMARY KEY (`meta_general_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`),
   FULLTEXT KEY `i2_idx` (`title`,`coverage`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_general_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_identifier` (
@@ -9291,7 +9291,7 @@ CREATE TABLE `il_meta_identifier` (
   `entry` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`meta_identifier_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_identifier_` (
@@ -9305,19 +9305,19 @@ CREATE TABLE `il_meta_identifier_` (
   `entry` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`meta_identifier__id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_identifier__seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_identifier_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_keyword` (
@@ -9332,13 +9332,13 @@ CREATE TABLE `il_meta_keyword` (
   PRIMARY KEY (`meta_keyword_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`),
   FULLTEXT KEY `i2_idx` (`keyword`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_keyword_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_language` (
@@ -9351,13 +9351,13 @@ CREATE TABLE `il_meta_language` (
   `language` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_language_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_language_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_lifecycle` (
@@ -9370,13 +9370,13 @@ CREATE TABLE `il_meta_lifecycle` (
   `version_language` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_lifecycle_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_lifecycle_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_location` (
@@ -9390,13 +9390,13 @@ CREATE TABLE `il_meta_location` (
   `location_type` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`meta_location_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_location_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_meta_data` (
@@ -9408,13 +9408,13 @@ CREATE TABLE `il_meta_meta_data` (
   `language` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_meta_data_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_meta_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_relation` (
@@ -9425,13 +9425,13 @@ CREATE TABLE `il_meta_relation` (
   `kind` char(16) DEFAULT NULL,
   PRIMARY KEY (`meta_relation_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_relation_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_requirement` (
@@ -9450,13 +9450,13 @@ CREATE TABLE `il_meta_requirement` (
   `or_composite_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`meta_requirement_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_requirement_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_rights` (
@@ -9470,13 +9470,13 @@ CREATE TABLE `il_meta_rights` (
   `description_language` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_rights_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_rights_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_tar` (
@@ -9492,13 +9492,13 @@ CREATE TABLE `il_meta_tar` (
   `tar_max` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_tar_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_tar_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_taxon` (
@@ -9513,7 +9513,7 @@ CREATE TABLE `il_meta_taxon` (
   `taxon_id` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`meta_taxon_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_taxon_path` (
@@ -9527,19 +9527,19 @@ CREATE TABLE `il_meta_taxon_path` (
   `source_language` char(2) DEFAULT NULL,
   PRIMARY KEY (`meta_taxon_path_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_taxon_path_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_taxon_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_meta_technical` (
@@ -9555,13 +9555,13 @@ CREATE TABLE `il_meta_technical` (
   `duration` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`meta_technical_id`),
   KEY `i1_idx` (`rbac_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_meta_technical_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_news_item` (
@@ -9589,13 +9589,13 @@ CREATE TABLE `il_news_item` (
   KEY `i1_idx` (`context_obj_id`),
   KEY `i2_idx` (`creation_date`),
   KEY `mo_idx` (`mob_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_news_item_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `il_news_read` (
@@ -9604,14 +9604,14 @@ CREATE TABLE `il_news_read` (
   PRIMARY KEY (`user_id`,`news_id`),
   KEY `i1_idx` (`user_id`),
   KEY `i2_idx` (`news_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_news_subscription` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `ref_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`,`ref_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_object_def` (
@@ -9635,7 +9635,7 @@ CREATE TABLE `il_object_def` (
   `repository` tinyint(4) NOT NULL DEFAULT '1',
   `workspace` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `il_object_def` (`id`, `class_name`, `component`, `location`, `checkbox`, `inherit`, `translate`, `devmode`, `allow_link`, `allow_copy`, `rbac`, `system`, `sideblock`, `default_pos`, `grp`, `default_pres_pos`, `export`, `repository`, `workspace`) VALUES
 ('sahs', 'SAHSLearningModule', 'Modules/ScormAicc', 'Modules/ScormAicc/classes', 1, 1, '0', 0, 1, 0, 1, 0, 0, 140, 'lres', 0, 0, 1, 0),
@@ -9721,7 +9721,7 @@ CREATE TABLE `il_object_group` (
   `name` varchar(200) DEFAULT NULL,
   `default_pres_pos` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `il_object_group` (`id`, `name`, `default_pres_pos`) VALUES
 ('crs', 'Courses', 30),
@@ -9733,7 +9733,7 @@ CREATE TABLE `il_object_subobj` (
   `subobj` char(10) NOT NULL DEFAULT '',
   `mmax` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`parent`,`subobj`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `il_object_subobj` (`parent`, `subobj`, `mmax`) VALUES
 ('sahs', 'rolf', 1),
@@ -9995,7 +9995,7 @@ CREATE TABLE `il_plugin` (
   `db_version` int(11) NOT NULL DEFAULT '0',
   `plugin_id` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`component_type`,`component_name`,`slot_id`,`name`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_pluginslot` (
@@ -10003,7 +10003,7 @@ CREATE TABLE `il_pluginslot` (
   `id` char(10) NOT NULL DEFAULT '',
   `name` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`component`,`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `il_pluginslot` (`component`, `id`, `name`) VALUES
 ('Modules/SurveyQuestionPool', 'svyq', 'SurveyQuestions'),
@@ -10025,7 +10025,7 @@ CREATE TABLE `il_rating` (
   `rating` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`,`obj_type`,`sub_obj_id`,`sub_obj_type`,`user_id`),
   KEY `obj_idx` (`obj_id`,`obj_type`,`sub_obj_id`,`sub_obj_type`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_request_token` (
@@ -10036,7 +10036,7 @@ CREATE TABLE `il_request_token` (
   KEY `i1_idx` (`user_id`),
   KEY `i2_idx` (`session_id`),
   KEY `i3_idx` (`token`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_subscribers` (
@@ -10045,7 +10045,7 @@ CREATE TABLE `il_subscribers` (
   `subject` varchar(255) DEFAULT NULL,
   `sub_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`usr_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_tag` (
@@ -10060,7 +10060,7 @@ CREATE TABLE `il_tag` (
   KEY `i1_idx` (`obj_id`,`obj_type`,`sub_obj_id`,`sub_obj_type`),
   KEY `i2_idx` (`tag`),
   KEY `i3_idx` (`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_verification` (
@@ -10069,7 +10069,7 @@ CREATE TABLE `il_verification` (
   `parameters` varchar(1000) DEFAULT NULL,
   `raw_data` longtext,
   KEY `i1_idx` (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_wiki_contributor` (
@@ -10078,7 +10078,7 @@ CREATE TABLE `il_wiki_contributor` (
   `status` int(11) DEFAULT NULL,
   `status_time` datetime DEFAULT NULL,
   PRIMARY KEY (`wiki_id`,`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_wiki_data` (
@@ -10092,7 +10092,7 @@ CREATE TABLE `il_wiki_data` (
   `imp_pages` tinyint(4) DEFAULT NULL,
   `page_toc` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_wiki_imp_pages` (
@@ -10100,7 +10100,7 @@ CREATE TABLE `il_wiki_imp_pages` (
   `ord` int(11) NOT NULL,
   `indent` tinyint(4) NOT NULL,
   `page_id` int(11) NOT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_wiki_missing_page` (
@@ -10108,7 +10108,7 @@ CREATE TABLE `il_wiki_missing_page` (
   `source_id` int(11) NOT NULL DEFAULT '0',
   `target_name` varchar(200) DEFAULT NULL,
   KEY `i1_idx` (`wiki_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_wiki_page` (
@@ -10117,13 +10117,13 @@ CREATE TABLE `il_wiki_page` (
   `wiki_id` int(11) NOT NULL DEFAULT '0',
   `blocked` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `il_wiki_page_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `ilinc_data` (
@@ -10146,7 +10146,7 @@ CREATE TABLE `ilinc_data` (
   `akclassvalue1` varchar(40) DEFAULT NULL,
   `akclassvalue2` varchar(40) DEFAULT NULL,
   KEY `i1_idx` (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ilinc_registration` (
@@ -10156,7 +10156,7 @@ CREATE TABLE `ilinc_registration` (
   `application_date` datetime DEFAULT NULL,
   PRIMARY KEY (`obj_id`),
   KEY `i1_idx` (`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `int_link` (
@@ -10168,7 +10168,7 @@ CREATE TABLE `int_link` (
   PRIMARY KEY (`source_type`,`source_id`,`target_type`,`target_id`,`target_inst`),
   KEY `ta_idx` (`target_type`,`target_id`,`target_inst`),
   KEY `so_idx` (`source_type`,`source_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `last_visited` (
@@ -10179,7 +10179,7 @@ CREATE TABLE `last_visited` (
   `sub_obj_id` varchar(40) DEFAULT NULL,
   `goto_link` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`user_id`,`nr`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ldap_attribute_mapping` (
@@ -10189,7 +10189,7 @@ CREATE TABLE `ldap_attribute_mapping` (
   `perform_update` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`server_id`,`keyword`),
   KEY `i1_idx` (`server_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ldap_rg_mapping` (
@@ -10203,13 +10203,13 @@ CREATE TABLE `ldap_rg_mapping` (
   `mapping_info` varchar(4000) DEFAULT NULL,
   `mapping_info_type` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`mapping_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ldap_rg_mapping_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `ldap_role_assignments` (
@@ -10226,13 +10226,13 @@ CREATE TABLE `ldap_role_assignments` (
   `remove_on_update` tinyint(4) DEFAULT NULL,
   `plugin_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`server_id`,`rule_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ldap_role_assignments_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `ldap_server_settings` (
@@ -10269,13 +10269,13 @@ CREATE TABLE `ldap_server_settings` (
   `authentication` tinyint(4) NOT NULL DEFAULT '1',
   `authentication_type` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`server_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ldap_server_settings_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `license_data` (
@@ -10284,7 +10284,7 @@ CREATE TABLE `license_data` (
   `used` int(11) NOT NULL DEFAULT '0',
   `remarks` longtext,
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `link_check` (
@@ -10294,14 +10294,14 @@ CREATE TABLE `link_check` (
   `parent_type` varchar(8) DEFAULT NULL,
   `http_status_code` int(11) NOT NULL DEFAULT '0',
   `last_check` int(11) NOT NULL DEFAULT '0'
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `link_check_report` (
   `obj_id` int(11) NOT NULL DEFAULT '0',
   `usr_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`,`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `lm_data` (
@@ -10319,7 +10319,7 @@ CREATE TABLE `lm_data` (
   KEY `i1_idx` (`lm_id`),
   KEY `i2_idx` (`type`),
   KEY `im_idx` (`import_id`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `lm_data` (`obj_id`, `title`, `type`, `lm_id`, `import_id`, `public_access`, `create_date`, `last_update`, `active`, `layout`) VALUES
 (1, 'dummy', 'du', 0, NULL, 'n', NULL, NULL, 'y', NULL);
@@ -10327,7 +10327,7 @@ INSERT INTO `lm_data` (`obj_id`, `title`, `type`, `lm_id`, `import_id`, `public_
 CREATE TABLE `lm_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=2 ;
 
 INSERT INTO `lm_data_seq` (`sequence`) VALUES
 (1);
@@ -10344,13 +10344,13 @@ CREATE TABLE `lm_menu` (
   KEY `i1_idx` (`link_type`),
   KEY `i2_idx` (`lm_id`),
   KEY `i3_idx` (`active`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `lm_menu_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `lm_tree` (
@@ -10363,7 +10363,7 @@ CREATE TABLE `lm_tree` (
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`parent`),
   KEY `i3_idx` (`lm_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `lng_data` (
@@ -10376,7 +10376,7 @@ CREATE TABLE `lng_data` (
   PRIMARY KEY (`module`,`identifier`,`lang_key`),
   KEY `i1_idx` (`module`),
   KEY `i2_idx` (`lang_key`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `lng_data` (`module`, `identifier`, `lang_key`, `value`, `local_change`, `remarks`) VALUES
 ('notes', 'notes_edit_note', 'en', 'Edit Note', NULL, NULL),
@@ -22450,7 +22450,7 @@ CREATE TABLE `lng_modules` (
   `lang_key` char(2) NOT NULL DEFAULT '',
   `lang_array` longtext,
   PRIMARY KEY (`module`,`lang_key`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `lng_modules` (`module`, `lang_key`, `lang_array`) VALUES
 ('barometer', 'en', 'a:54:{s:9:"anonymous";s:9:"Anonymous";s:10:"bar_create";s:19:"Create New Feedback";s:13:"barometer_add";s:16:"Add new Feedback";s:27:"barometer_conflict_anon_req";s:91:"Anonymization can not be combined with type ''Required''. Please choose one of these options.";s:15:"barometer_title";s:8:"Feedback";s:4:"best";s:4:"Best";s:13:"change_course";s:13:"Change Course";s:10:"chart_type";s:10:"Chart type";s:11:"chart_users";s:10:"Chart user";s:11:"chart_votes";s:11:"Chart votes";s:3:"day";s:3:"Day";s:4:"days";s:4:"Days";s:6:"delete";s:6:"Delete";s:8:"duration";s:8:"Duration";s:14:"edit_barometer";s:13:"Edit feedback";s:4:"edit";s:4:"Edit";s:5:"every";s:5:"every";s:19:"feedb_edit_feedback";s:13:"Edit Feedback";s:19:"feedb_feedback_list";s:13:"Feedback List";s:23:"feedb_feedback_settings";s:17:"Feedback Settings";s:10:"feedb_time";s:4:"Time";s:10:"first_vote";s:14:"1. Vote is the";s:4:"from";s:4:"From";s:5:"hours";s:5:"Hours";s:5:"lines";s:5:"Lines";s:5:"login";s:5:"Login";s:14:"missing_fields";s:39:"Please fill in all required information";s:5:"month";s:5:"Month";s:6:"months";s:6:"Months";s:8:"new_vote";s:8:"New vote";s:4:"note";s:7:"Comment";s:8:"optional";s:8:"Optional";s:7:"options";s:7:"Options";s:3:"pie";s:3:"Pie";s:6:"repeat";s:12:"Repeat Every";s:8:"required";s:8:"Required";s:9:"save_vote";s:11:"Submit vote";s:4:"save";s:4:"Save";s:4:"skip";s:4:"Skip";s:10:"statistics";s:10:"Statistics";s:6:"status";s:6:"Status";s:5:"table";s:5:"Table";s:11:"text_answer";s:11:"Text answer";s:4:"text";s:4:"Text";s:4:"time";s:7:"Running";s:5:"title";s:5:"Title";s:4:"type";s:4:"Type";s:5:"until";s:5:"Until";s:4:"user";s:4:"User";s:4:"vote";s:4:"Vote";s:5:"votes";s:5:"Votes";s:5:"weeks";s:5:"Weeks";s:5:"worst";s:5:"Worst";s:4:"year";s:4:"Year";}'),
@@ -22551,7 +22551,7 @@ CREATE TABLE `lo_access` (
   `lm_id` int(11) NOT NULL DEFAULT '0',
   `obj_id` int(11) NOT NULL DEFAULT '0',
   `lm_title` varchar(200) DEFAULT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `loginname_history` (
@@ -22559,7 +22559,7 @@ CREATE TABLE `loginname_history` (
   `login` varchar(80) NOT NULL,
   `history_date` int(11) NOT NULL,
   PRIMARY KEY (`usr_id`,`login`,`history_date`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `mail` (
@@ -22584,14 +22584,14 @@ CREATE TABLE `mail` (
   KEY `i2_idx` (`folder_id`),
   KEY `i3_idx` (`m_status`),
   KEY `i4_idx` (`sender_id`,`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `mail_attachment` (
   `mail_id` int(11) NOT NULL DEFAULT '0',
   `path` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`mail_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `mail_obj_data` (
@@ -22601,7 +22601,7 @@ CREATE TABLE `mail_obj_data` (
   `m_type` char(16) DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`user_id`),
   KEY `i1_idx` (`user_id`,`m_type`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `mail_obj_data` (`obj_id`, `user_id`, `title`, `m_type`) VALUES
 (2, 6, 'a_root', 'root'),
@@ -22614,7 +22614,7 @@ INSERT INTO `mail_obj_data` (`obj_id`, `user_id`, `title`, `m_type`) VALUES
 CREATE TABLE `mail_obj_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=8 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=8 ;
 
 INSERT INTO `mail_obj_data_seq` (`sequence`) VALUES
 (7);
@@ -22626,7 +22626,7 @@ CREATE TABLE `mail_options` (
   `incoming_type` tinyint(4) DEFAULT NULL,
   `cronjob_notification` tinyint(4) NOT NULL DEFAULT '0',
   KEY `i1_idx` (`user_id`,`linebreak`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `mail_options` (`user_id`, `linebreak`, `signature`, `incoming_type`, `cronjob_notification`) VALUES
 (6, 60, NULL, NULL, 0);
@@ -22642,13 +22642,13 @@ CREATE TABLE `mail_saved` (
   `rcp_cc` longtext,
   `rcp_bcc` longtext,
   `attachments` longtext
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `mail_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `mail_template` (
@@ -22660,7 +22660,7 @@ CREATE TABLE `mail_template` (
   `sal_g` varchar(200) DEFAULT NULL,
   `type` varchar(4) NOT NULL DEFAULT ' ',
   PRIMARY KEY (`type`,`lang`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `mail_tree` (
@@ -22673,7 +22673,7 @@ CREATE TABLE `mail_tree` (
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`parent`),
   KEY `i3_idx` (`tree`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `mail_tree` (`tree`, `child`, `parent`, `lft`, `rgt`, `depth`) VALUES
 (6, 2, 0, 1, 12, 1),
@@ -22696,7 +22696,7 @@ CREATE TABLE `map_area` (
   `target_frame` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`item_id`,`nr`),
   KEY `lt_idx` (`link_type`,`target`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `media_item` (
@@ -22715,13 +22715,13 @@ CREATE TABLE `media_item` (
   `tried_thumb` char(1) DEFAULT 'n',
   `text_representation` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `media_item_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `member_agreement` (
@@ -22730,14 +22730,14 @@ CREATE TABLE `member_agreement` (
   `accepted` tinyint(4) NOT NULL DEFAULT '0',
   `acceptance_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`usr_id`,`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `member_usr_settings` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `settings` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `mep_data` (
@@ -22745,7 +22745,7 @@ CREATE TABLE `mep_data` (
   `default_width` int(11) DEFAULT NULL,
   `default_height` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `mep_item` (
@@ -22755,7 +22755,7 @@ CREATE TABLE `mep_item` (
   `foreign_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`obj_id`),
   KEY `ft_idx` (`foreign_id`,`type`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `mep_item` (`obj_id`, `type`, `title`, `foreign_id`) VALUES
 (1, 'dummy', 'Dummy', 1);
@@ -22763,7 +22763,7 @@ INSERT INTO `mep_item` (`obj_id`, `type`, `title`, `foreign_id`) VALUES
 CREATE TABLE `mep_item_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=2 ;
 
 INSERT INTO `mep_item_seq` (`sequence`) VALUES
 (1);
@@ -22778,7 +22778,7 @@ CREATE TABLE `mep_tree` (
   KEY `ch_idx` (`child`),
   KEY `pa_idx` (`parent`),
   KEY `me_idx` (`mep_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `mob_parameter` (
@@ -22786,7 +22786,7 @@ CREATE TABLE `mob_parameter` (
   `name` varchar(50) DEFAULT NULL,
   `value` varchar(2000) DEFAULT NULL,
   KEY `i1_idx` (`med_item_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `mob_usage` (
@@ -22796,7 +22796,7 @@ CREATE TABLE `mob_usage` (
   `usage_hist_nr` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`,`usage_type`,`usage_id`,`usage_hist_nr`),
   KEY `mi_idx` (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `module_class` (
@@ -22804,7 +22804,7 @@ CREATE TABLE `module_class` (
   `module` varchar(100) DEFAULT NULL,
   `dir` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`class`)
-) TYPE=MyISAM COMMENT='Class information of ILIAS Modules';
+) ENGINE=MyISAM COMMENT='Class information of ILIAS Modules';
 
 INSERT INTO `module_class` (`class`, `module`, `dir`) VALUES
 ('ilSAHSPresentationGUI', 'ScormAicc', 'classes'),
@@ -22846,13 +22846,13 @@ CREATE TABLE `note` (
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`author`),
   KEY `i2_idx` (`rep_obj_id`,`obj_id`,`obj_type`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `note_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `notification` (
@@ -22862,7 +22862,7 @@ CREATE TABLE `notification` (
   `last_mail` datetime DEFAULT NULL,
   `page_id` int(11) DEFAULT '0',
   PRIMARY KEY (`type`,`id`,`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `notification_channels` (
@@ -22873,7 +22873,7 @@ CREATE TABLE `notification_channels` (
   `include` varchar(100) NOT NULL,
   `config_type` varchar(30) NOT NULL,
   PRIMARY KEY (`channel_name`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `notification_channels` (`channel_name`, `title`, `description`, `class`, `include`, `config_type`) VALUES
 ('mail', 'mail', 'mail_desc', 'ilNotificationMailHandler', 'Services/Notifications/classes/class.ilNotificationMailHandler.php', 'set_by_admin'),
@@ -22883,13 +22883,13 @@ CREATE TABLE `notification_data` (
   `notification_id` int(11) NOT NULL,
   `serialized` varchar(4000) NOT NULL,
   PRIMARY KEY (`notification_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `notification_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `notification_listener` (
@@ -22898,7 +22898,7 @@ CREATE TABLE `notification_listener` (
   `sender_id` int(11) NOT NULL,
   `disabled` tinyint(4) NOT NULL,
   PRIMARY KEY (`usr_id`,`module`,`sender_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `notification_osd` (
@@ -22909,13 +22909,13 @@ CREATE TABLE `notification_osd` (
   `time_added` int(11) NOT NULL,
   `type` varchar(100) NOT NULL,
   PRIMARY KEY (`notification_osd_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `notification_osd_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `notification_queue` (
@@ -22923,7 +22923,7 @@ CREATE TABLE `notification_queue` (
   `usr_id` int(11) NOT NULL,
   `valid_until` int(11) NOT NULL,
   PRIMARY KEY (`notification_id`,`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `notification_types` (
@@ -22933,7 +22933,7 @@ CREATE TABLE `notification_types` (
   `notification_group` varchar(100) NOT NULL,
   `config_type` varchar(30) NOT NULL,
   PRIMARY KEY (`type_name`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `notification_types` (`type_name`, `title`, `description`, `notification_group`, `config_type`) VALUES
 ('chat_invitation', 'chat_invitation', 'chat_invitation_description', 'chat', 'set_by_admin'),
@@ -22944,7 +22944,7 @@ CREATE TABLE `notification_usercfg` (
   `module` varchar(100) NOT NULL,
   `channel` varchar(100) NOT NULL,
   PRIMARY KEY (`usr_id`,`module`,`channel`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `notification_usercfg` (`usr_id`, `module`, `channel`) VALUES
 (-1, 'chat_invitation', 'mail'),
@@ -22963,7 +22963,7 @@ CREATE TABLE `obj_stat` (
   `spent_seconds` int(11) DEFAULT NULL,
   `childs_spent_seconds` int(11) DEFAULT NULL,
   KEY `i1_idx` (`obj_id`,`yyyy`,`mm`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `obj_stat_log` (
@@ -22978,7 +22978,7 @@ CREATE TABLE `obj_stat_log` (
   `childs_read_count` int(11) DEFAULT NULL,
   `spent_seconds` int(11) DEFAULT NULL,
   `childs_spent_seconds` int(11) DEFAULT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `obj_stat_tmp` (
@@ -22993,7 +22993,7 @@ CREATE TABLE `obj_stat_tmp` (
   `childs_read_count` int(11) DEFAULT NULL,
   `spent_seconds` int(11) DEFAULT NULL,
   `childs_spent_seconds` int(11) DEFAULT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `object_data` (
@@ -23009,7 +23009,7 @@ CREATE TABLE `object_data` (
   KEY `i1_idx` (`type`),
   KEY `i2_idx` (`title`),
   FULLTEXT KEY `i3_idx` (`title`,`description`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `object_data` (`obj_id`, `type`, `title`, `description`, `owner`, `create_date`, `last_update`, `import_id`) VALUES
 (2, 'role', 'Administrator', 'Role for systemadministrators. This role grants access to everything!', -1, '2002-01-16 15:31:45', '2003-08-15 13:18:57', NULL),
@@ -23156,7 +23156,7 @@ INSERT INTO `object_data` (`obj_id`, `type`, `title`, `description`, `owner`, `c
 CREATE TABLE `object_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=183 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=183 ;
 
 INSERT INTO `object_data_seq` (`sequence`) VALUES
 (182);
@@ -23165,7 +23165,7 @@ CREATE TABLE `object_description` (
   `obj_id` int(11) NOT NULL DEFAULT '0',
   `description` longtext,
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `object_reference` (
@@ -23175,7 +23175,7 @@ CREATE TABLE `object_reference` (
   PRIMARY KEY (`ref_id`),
   KEY `i1_idx` (`obj_id`),
   KEY `i2_idx` (`deleted`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `object_reference` (`ref_id`, `obj_id`, `deleted`) VALUES
 (1, 1, NULL),
@@ -23220,7 +23220,7 @@ INSERT INTO `object_reference` (`ref_id`, `obj_id`, `deleted`) VALUES
 CREATE TABLE `object_reference_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=45 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=45 ;
 
 INSERT INTO `object_reference_seq` (`sequence`) VALUES
 (44);
@@ -23232,13 +23232,13 @@ CREATE TABLE `object_reference_ws` (
   PRIMARY KEY (`wsp_id`),
   KEY `i1_idx` (`obj_id`),
   KEY `i2_idx` (`deleted`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `object_reference_ws_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `object_translation` (
@@ -23248,7 +23248,7 @@ CREATE TABLE `object_translation` (
   `lang_code` char(2) NOT NULL DEFAULT '',
   `lang_default` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`,`lang_code`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `object_translation` (`obj_id`, `title`, `description`, `lang_code`, `lang_default`) VALUES
 (9, 'Open Source eLearning', NULL, 'en', 1);
@@ -23260,7 +23260,7 @@ CREATE TABLE `openid_provider` (
   `url` varchar(512) DEFAULT NULL,
   `image` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`provider_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `openid_provider` (`provider_id`, `enabled`, `name`, `url`, `image`) VALUES
 (1, 1, 'MyOpenID', 'http://%s.myopenid.com', 1);
@@ -23268,7 +23268,7 @@ INSERT INTO `openid_provider` (`provider_id`, `enabled`, `name`, `url`, `image`)
 CREATE TABLE `openid_provider_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=2 ;
 
 INSERT INTO `openid_provider_seq` (`sequence`) VALUES
 (1);
@@ -23281,7 +23281,7 @@ CREATE TABLE `org_unit_assignments` (
   `oa_cc_compl_not1` int(11) NOT NULL DEFAULT '0',
   `oa_cc_compl_not2` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`oa_ou_id`,`oa_usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `org_unit_data` (
@@ -23290,7 +23290,7 @@ CREATE TABLE `org_unit_data` (
   `ou_subtitle` varchar(128) DEFAULT NULL,
   `ou_import_id` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`ou_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `org_unit_data` (`ou_id`, `ou_title`, `ou_subtitle`, `ou_import_id`) VALUES
 (1, 'RootUnit', NULL, NULL);
@@ -23298,7 +23298,7 @@ INSERT INTO `org_unit_data` (`ou_id`, `ou_title`, `ou_subtitle`, `ou_import_id`)
 CREATE TABLE `org_unit_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=2 ;
 
 INSERT INTO `org_unit_data_seq` (`sequence`) VALUES
 (1);
@@ -23311,7 +23311,7 @@ CREATE TABLE `org_unit_tree` (
   `rgt` int(11) NOT NULL DEFAULT '0',
   `depth` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`tree`,`child`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `org_unit_tree` (`tree`, `child`, `parent`, `lft`, `rgt`, `depth`) VALUES
 (1, 1, 0, 1, 2, 1);
@@ -23321,7 +23321,7 @@ CREATE TABLE `page_anchor` (
   `page_id` int(11) NOT NULL DEFAULT '0',
   `anchor_name` varchar(120) NOT NULL DEFAULT ' ',
   PRIMARY KEY (`page_parent_type`,`page_id`,`anchor_name`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `page_editor_settings` (
@@ -23329,7 +23329,7 @@ CREATE TABLE `page_editor_settings` (
   `name` varchar(30) NOT NULL,
   `value` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`settings_grp`,`name`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `page_history` (
@@ -23342,7 +23342,7 @@ CREATE TABLE `page_history` (
   `content` longtext,
   `ilias_version` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`page_id`,`parent_type`,`hdate`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `page_layout` (
@@ -23354,7 +23354,7 @@ CREATE TABLE `page_layout` (
   `style_id` int(11) DEFAULT '0',
   `special_page` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`layout_id`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `page_layout` (`layout_id`, `content`, `title`, `description`, `active`, `style_id`, `special_page`) VALUES
 (1, NULL, '1A Simple text page with accompanying media', 'Example description', 1, 0, 0),
@@ -23366,7 +23366,7 @@ INSERT INTO `page_layout` (`layout_id`, `content`, `title`, `description`, `acti
 CREATE TABLE `page_layout_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=6 ;
 
 INSERT INTO `page_layout_seq` (`sequence`) VALUES
 (5);
@@ -23392,7 +23392,7 @@ CREATE TABLE `page_object` (
   `int_links` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`page_id`,`parent_type`),
   FULLTEXT KEY `i1_idx` (`content`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `page_object` (`page_id`, `parent_id`, `content`, `parent_type`, `last_change_user`, `view_cnt`, `last_change`, `created`, `create_user`, `render_md5`, `rendered_content`, `rendered_time`, `activation_start`, `activation_end`, `active`, `is_empty`, `inactive_elements`, `int_links`) VALUES
 (1, NULL, '<PageObject><PageContent PCID="9f77db1d8a478497d69b99d938faa8ff"><Paragraph Language="en" Characteristic="Headline1">Headline 1</Paragraph></PageContent><PageContent PCID="134d24457cbc90ea1bf1a1323d7c3a89"><Table Language="en" Border="0px" CellPadding="2px" CellSpacing="0px" HorizontalAlign="Left" Width="100%"><TableRow PCID="ccade07caf9fd13e8c7012f29c9510be"><TableData PCID="a4e417c08feebeafb1487e60a2e245a4" Width="66%"><PageContent PCID="1f77eb1d8a478497d69b99d938fda8f"><PlaceHolder ContentClass="Text" Height="500px"/></PageContent></TableData><TableData PCID="46ac4936082485f457c7041278b5c5f5"><PageContent PCID="2e77eb1d8a478497d69b99d938fda8e"><PlaceHolder ContentClass="Media" Height="300px"/></PageContent></TableData> </TableRow></Table></PageContent></PageObject>', 'stys', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, 0, 0),
@@ -23408,7 +23408,7 @@ CREATE TABLE `page_pc_usage` (
   `usage_id` int(11) NOT NULL,
   `usage_hist_nr` int(11) NOT NULL,
   PRIMARY KEY (`pc_type`,`pc_id`,`usage_type`,`usage_id`,`usage_hist_nr`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `page_qst_answer` (
@@ -23418,14 +23418,14 @@ CREATE TABLE `page_qst_answer` (
   `passed` tinyint(4) NOT NULL,
   `points` double NOT NULL,
   PRIMARY KEY (`qst_id`,`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `page_question` (
   `page_parent_type` varchar(4) DEFAULT NULL,
   `page_id` int(11) NOT NULL DEFAULT '0',
   `question_id` int(11) NOT NULL DEFAULT '0'
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `page_style_usage` (
@@ -23435,7 +23435,7 @@ CREATE TABLE `page_style_usage` (
   `template` tinyint(4) NOT NULL DEFAULT '0',
   `stype` varchar(30) DEFAULT NULL,
   `sname` char(30) DEFAULT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_coupons` (
@@ -23454,7 +23454,7 @@ CREATE TABLE `payment_coupons` (
   `pc_last_changed` datetime DEFAULT NULL,
   PRIMARY KEY (`pc_pk`),
   KEY `i1_idx` (`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_coupons_codes` (
@@ -23463,26 +23463,26 @@ CREATE TABLE `payment_coupons_codes` (
   `pcc_code` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`pcc_pk`),
   KEY `i1_idx` (`pcc_pc_fk`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_coupons_codes_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `payment_coupons_obj` (
   `pco_pc_fk` bigint(20) NOT NULL DEFAULT '0',
   `ref_id` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`pco_pc_fk`,`ref_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_coupons_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `payment_coupons_track` (
@@ -23493,13 +23493,13 @@ CREATE TABLE `payment_coupons_track` (
   PRIMARY KEY (`pct_pk`),
   KEY `i1_idx` (`pct_pcc_fk`),
   KEY `i2_idx` (`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_coupons_track_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `payment_currencies` (
@@ -23509,13 +23509,13 @@ CREATE TABLE `payment_currencies` (
   `symbol` varchar(4) DEFAULT NULL,
   `conversion_rate` double NOT NULL DEFAULT '0',
   PRIMARY KEY (`currency_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_currencies_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `payment_erp` (
@@ -23527,7 +23527,7 @@ CREATE TABLE `payment_erp` (
   `save_copy` int(11) DEFAULT '0',
   `use_ean` int(11) DEFAULT '0',
   PRIMARY KEY (`erp_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `payment_erp` (`erp_id`, `erp_short`, `name`, `description`, `url`, `save_copy`, `use_ean`) VALUES
 (0, 'none', 'none', 'No ERP system', NULL, 0, 0),
@@ -23539,7 +23539,7 @@ CREATE TABLE `payment_erps` (
   `active` int(11) DEFAULT NULL,
   `settings` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`erp_id`,`erps_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `payment_erps` (`erp_id`, `erps_id`, `active`, `settings`) VALUES
 (0, 0, 1, NULL),
@@ -23555,13 +23555,13 @@ CREATE TABLE `payment_news` (
   `news_content` longtext,
   PRIMARY KEY (`news_id`),
   KEY `i1_idx` (`creation_date`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_news_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `payment_objects` (
@@ -23576,13 +23576,13 @@ CREATE TABLE `payment_objects` (
   `subtype` varchar(10) DEFAULT NULL,
   `is_special` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`pobject_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_objects_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `payment_paymethods` (
@@ -23591,7 +23591,7 @@ CREATE TABLE `payment_paymethods` (
   `pm_enabled` tinyint(4) NOT NULL DEFAULT '0',
   `save_usr_adr` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`pm_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `payment_paymethods` (`pm_id`, `pm_title`, `pm_enabled`, `save_usr_adr`) VALUES
 (1, 'bill', 0, 0),
@@ -23602,7 +23602,7 @@ INSERT INTO `payment_paymethods` (`pm_id`, `pm_title`, `pm_enabled`, `save_usr_a
 CREATE TABLE `payment_paymethods_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=5 ;
 
 INSERT INTO `payment_paymethods_seq` (`sequence`) VALUES
 (4);
@@ -23616,13 +23616,13 @@ CREATE TABLE `payment_prices` (
   `unlimited_duration` tinyint(4) NOT NULL DEFAULT '0',
   `extension` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`price_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_prices_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `payment_settings` (
@@ -23630,7 +23630,7 @@ CREATE TABLE `payment_settings` (
   `value` longtext,
   `scope` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`keyword`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `payment_settings` (`keyword`, `value`, `scope`) VALUES
 ('settings_id', '0', NULL),
@@ -23673,13 +23673,13 @@ CREATE TABLE `payment_shopping_cart` (
   `price_id` int(11) NOT NULL DEFAULT '0',
   `session_id` varchar(80) NOT NULL,
   PRIMARY KEY (`psc_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_shopping_cart_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `payment_statistic` (
@@ -23711,7 +23711,7 @@ CREATE TABLE `payment_statistic` (
   `access_enddate` datetime DEFAULT NULL,
   `access_startdate` datetime DEFAULT NULL,
   PRIMARY KEY (`booking_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_statistic_coup` (
@@ -23721,13 +23721,13 @@ CREATE TABLE `payment_statistic_coup` (
   KEY `i1_idx` (`psc_ps_fk`),
   KEY `i2_idx` (`psc_pc_fk`),
   KEY `i3_idx` (`psc_pcc_fk`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_statistic_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `payment_topic_usr_sort` (
@@ -23735,7 +23735,7 @@ CREATE TABLE `payment_topic_usr_sort` (
   `ptus_usr_id` int(11) NOT NULL DEFAULT '0',
   `ptus_sorting` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ptus_pt_topic_fk`,`ptus_usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_topics` (
@@ -23745,13 +23745,13 @@ CREATE TABLE `payment_topics` (
   `pt_topic_created` int(11) NOT NULL DEFAULT '0',
   `pt_topic_changed` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`pt_topic_pk`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_topics_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `payment_trustees` (
@@ -23761,7 +23761,7 @@ CREATE TABLE `payment_trustees` (
   `perm_obj` int(11) NOT NULL DEFAULT '0',
   `perm_coupons` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`vendor_id`,`trustee_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_vats` (
@@ -23769,20 +23769,20 @@ CREATE TABLE `payment_vats` (
   `vat_title` varchar(255) NOT NULL,
   `vat_rate` double NOT NULL DEFAULT '0',
   PRIMARY KEY (`vat_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `payment_vats_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `payment_vendors` (
   `vendor_id` int(11) NOT NULL DEFAULT '0',
   `cost_center` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`vendor_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `personal_clipboard` (
@@ -23795,7 +23795,7 @@ CREATE TABLE `personal_clipboard` (
   `order_nr` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`,`item_id`,`type`),
   KEY `it_idx` (`item_id`,`type`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `personal_pc_clipboard` (
@@ -23804,7 +23804,7 @@ CREATE TABLE `personal_pc_clipboard` (
   `insert_time` datetime DEFAULT NULL,
   `order_nr` int(11) DEFAULT NULL,
   KEY `i1_idx` (`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_a_cloze` (
@@ -23821,13 +23821,13 @@ CREATE TABLE `qpl_a_cloze` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_a_cloze_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_a_errortext` (
@@ -23839,13 +23839,13 @@ CREATE TABLE `qpl_a_errortext` (
   `sequence` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_a_errortext_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_a_imagemap` (
@@ -23859,13 +23859,13 @@ CREATE TABLE `qpl_a_imagemap` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_a_imagemap_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_a_matching` (
@@ -23877,13 +23877,13 @@ CREATE TABLE `qpl_a_matching` (
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`),
   KEY `i2_idx` (`term_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_a_matching_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_a_mc` (
@@ -23897,13 +23897,13 @@ CREATE TABLE `qpl_a_mc` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_a_mc_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_a_mdef` (
@@ -23914,13 +23914,13 @@ CREATE TABLE `qpl_a_mdef` (
   `picture` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`def_id`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_a_mdef_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_a_mterm` (
@@ -23930,13 +23930,13 @@ CREATE TABLE `qpl_a_mterm` (
   `picture` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`term_id`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_a_mterm_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_a_ordering` (
@@ -23948,13 +23948,13 @@ CREATE TABLE `qpl_a_ordering` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_a_ordering_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_a_sc` (
@@ -23967,13 +23967,13 @@ CREATE TABLE `qpl_a_sc` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_a_sc_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_a_textsubset` (
@@ -23985,13 +23985,13 @@ CREATE TABLE `qpl_a_textsubset` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_a_textsubset_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_fb_generic` (
@@ -24002,13 +24002,13 @@ CREATE TABLE `qpl_fb_generic` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`feedback_id`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_fb_generic_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_fb_imap` (
@@ -24019,13 +24019,13 @@ CREATE TABLE `qpl_fb_imap` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`feedback_id`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_fb_imap_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_fb_mc` (
@@ -24036,13 +24036,13 @@ CREATE TABLE `qpl_fb_mc` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`feedback_id`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_fb_mc_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_fb_sc` (
@@ -24053,13 +24053,13 @@ CREATE TABLE `qpl_fb_sc` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`feedback_id`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_fb_sc_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_num_range` (
@@ -24071,13 +24071,13 @@ CREATE TABLE `qpl_num_range` (
   `question_fi` int(11) NOT NULL DEFAULT '0',
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`range_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_num_range_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_qst_cloze` (
@@ -24086,7 +24086,7 @@ CREATE TABLE `qpl_qst_cloze` (
   `identical_scoring` varchar(1) DEFAULT '1',
   `fixed_textlen` int(11) DEFAULT NULL,
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_qst_errortext` (
@@ -24095,7 +24095,7 @@ CREATE TABLE `qpl_qst_errortext` (
   `textsize` double NOT NULL DEFAULT '100',
   `points_wrong` double NOT NULL DEFAULT '-1',
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_qst_essay` (
@@ -24105,7 +24105,7 @@ CREATE TABLE `qpl_qst_essay` (
   `textgap_rating` varchar(2) DEFAULT NULL,
   `matchcondition` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_qst_fileupload` (
@@ -24114,7 +24114,7 @@ CREATE TABLE `qpl_qst_fileupload` (
   `maxsize` double DEFAULT NULL,
   `compl_by_submission` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_qst_flash` (
@@ -24124,7 +24124,7 @@ CREATE TABLE `qpl_qst_flash` (
   `width` int(11) NOT NULL DEFAULT '550',
   `height` int(11) NOT NULL DEFAULT '400',
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_qst_horder` (
@@ -24132,14 +24132,14 @@ CREATE TABLE `qpl_qst_horder` (
   `ordertext` varchar(2000) DEFAULT NULL,
   `textsize` double DEFAULT NULL,
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_qst_imagemap` (
   `question_fi` int(11) NOT NULL DEFAULT '0',
   `image_file` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_qst_javaapplet` (
@@ -24147,7 +24147,7 @@ CREATE TABLE `qpl_qst_javaapplet` (
   `image_file` varchar(100) DEFAULT NULL,
   `params` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_qst_matching` (
@@ -24157,7 +24157,7 @@ CREATE TABLE `qpl_qst_matching` (
   `thumb_geometry` int(11) NOT NULL DEFAULT '100',
   `element_height` int(11) DEFAULT NULL,
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_qst_mc` (
@@ -24167,14 +24167,14 @@ CREATE TABLE `qpl_qst_mc` (
   `resize_images` varchar(1) DEFAULT '0',
   `thumb_size` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_qst_numeric` (
   `question_fi` int(11) NOT NULL DEFAULT '0',
   `maxnumofchars` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_qst_ordering` (
@@ -24185,7 +24185,7 @@ CREATE TABLE `qpl_qst_ordering` (
   `scoring_type` mediumint(9) NOT NULL DEFAULT '0',
   `reduced_points` double NOT NULL DEFAULT '0',
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_qst_sc` (
@@ -24195,7 +24195,7 @@ CREATE TABLE `qpl_qst_sc` (
   `resize_images` varchar(1) DEFAULT '0',
   `thumb_size` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_qst_textsubset` (
@@ -24203,7 +24203,7 @@ CREATE TABLE `qpl_qst_textsubset` (
   `textgap_rating` varchar(2) DEFAULT NULL,
   `correctanswers` int(11) DEFAULT '0',
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_qst_type` (
@@ -24211,7 +24211,7 @@ CREATE TABLE `qpl_qst_type` (
   `type_tag` varchar(35) DEFAULT NULL,
   `plugin` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`question_type_id`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `qpl_qst_type` (`question_type_id`, `type_tag`, `plugin`) VALUES
 (1, 'assSingleChoice', 0),
@@ -24237,13 +24237,13 @@ CREATE TABLE `qpl_questionpool` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_questionpool`),
   KEY `i1_idx` (`obj_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_questionpool_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_questions` (
@@ -24267,13 +24267,13 @@ CREATE TABLE `qpl_questions` (
   KEY `i2_idx` (`original_id`),
   KEY `i3_idx` (`obj_fi`),
   KEY `i4_idx` (`title`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_questions_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `qpl_sol_sug` (
@@ -24287,13 +24287,13 @@ CREATE TABLE `qpl_sol_sug` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`suggested_solution_id`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `qpl_sol_sug_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `rbac_fa` (
@@ -24303,7 +24303,7 @@ CREATE TABLE `rbac_fa` (
   `protected` char(1) DEFAULT 'n',
   PRIMARY KEY (`rol_id`,`parent`),
   KEY `i1_idx` (`parent`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `rbac_fa` (`rol_id`, `parent`, `assign`, `protected`) VALUES
 (2, 8, 'y', 'y'),
@@ -24333,7 +24333,7 @@ CREATE TABLE `rbac_log` (
   `action` tinyint(4) NOT NULL,
   `data` varchar(4000) DEFAULT NULL,
   KEY `i1_idx` (`ref_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `rbac_operations` (
@@ -24344,7 +24344,7 @@ CREATE TABLE `rbac_operations` (
   `op_order` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`ops_id`),
   KEY `i1_idx` (`operation`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `rbac_operations` (`ops_id`, `operation`, `description`, `class`, `op_order`) VALUES
 (1, 'edit_permission', 'edit permissions', 'rbac', 9000),
@@ -24412,7 +24412,7 @@ INSERT INTO `rbac_operations` (`ops_id`, `operation`, `description`, `class`, `o
 CREATE TABLE `rbac_operations_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=73 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=73 ;
 
 INSERT INTO `rbac_operations_seq` (`sequence`) VALUES
 (72);
@@ -24423,7 +24423,7 @@ CREATE TABLE `rbac_pa` (
   `ref_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`rol_id`,`ref_id`),
   KEY `i1_idx` (`ref_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `rbac_pa` (`rol_id`, `ops_id`, `ref_id`) VALUES
 (5, 'a:2:{i:0;i:3;i:1;i:2;}', 1),
@@ -24450,7 +24450,7 @@ CREATE TABLE `rbac_ta` (
   `typ_id` int(11) NOT NULL DEFAULT '0',
   `ops_id` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`typ_id`,`ops_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `rbac_ta` (`typ_id`, `ops_id`) VALUES
 (15, 1),
@@ -24939,7 +24939,7 @@ CREATE TABLE `rbac_templates` (
   KEY `i3_idx` (`ops_id`),
   KEY `i4_idx` (`parent`),
   KEY `rp_idx` (`rol_id`,`parent`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `rbac_templates` (`rol_id`, `type`, `ops_id`, `parent`) VALUES
 (3, 'grp', 32, 8),
@@ -26042,7 +26042,7 @@ CREATE TABLE `rbac_ua` (
   PRIMARY KEY (`usr_id`,`rol_id`),
   KEY `i1_idx` (`usr_id`),
   KEY `i2_idx` (`rol_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `rbac_ua` (`usr_id`, `rol_id`) VALUES
 (6, 2),
@@ -26058,7 +26058,7 @@ CREATE TABLE `read_event` (
   `childs_read_count` int(11) NOT NULL DEFAULT '0',
   `childs_spent_seconds` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`,`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `reg_access_limit` (
@@ -26069,7 +26069,7 @@ CREATE TABLE `reg_access_limit` (
   `limit_relative_y` int(11) DEFAULT NULL,
   `limit_mode` char(16) DEFAULT 'absolute',
   PRIMARY KEY (`role_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `reg_er_assignments` (
@@ -26077,7 +26077,7 @@ CREATE TABLE `reg_er_assignments` (
   `domain` varchar(128) DEFAULT NULL,
   `role` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`assignment_id`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `reg_er_assignments` (`assignment_id`, `domain`, `role`) VALUES
 (1, NULL, 0);
@@ -26085,7 +26085,7 @@ INSERT INTO `reg_er_assignments` (`assignment_id`, `domain`, `role`) VALUES
 CREATE TABLE `reg_er_assignments_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=2 ;
 
 INSERT INTO `reg_er_assignments_seq` (`sequence`) VALUES
 (1);
@@ -26098,13 +26098,13 @@ CREATE TABLE `reg_registration_codes` (
   `used` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`code_id`),
   KEY `i1_idx` (`code`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `reg_registration_codes_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `remote_course_settings` (
@@ -26117,7 +26117,7 @@ CREATE TABLE `remote_course_settings` (
   `mid` int(11) NOT NULL DEFAULT '0',
   `organization` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `role_data` (
@@ -26127,7 +26127,7 @@ CREATE TABLE `role_data` (
   `auth_mode` char(16) DEFAULT 'default',
   `disk_quota` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`role_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `role_data` (`role_id`, `allow_register`, `assign_users`, `auth_mode`, `disk_quota`) VALUES
 (2, 0, 0, 'default', 9223372036854775807),
@@ -26144,13 +26144,13 @@ CREATE TABLE `role_desktop_items` (
   `item_type` char(16) DEFAULT NULL,
   PRIMARY KEY (`role_item_id`),
   KEY `i1_idx` (`role_item_id`,`role_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `role_desktop_items_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `sahs_lm` (
@@ -26180,21 +26180,21 @@ CREATE TABLE `sahs_lm` (
   `width` smallint(6) NOT NULL DEFAULT '950',
   `height` smallint(6) NOT NULL DEFAULT '650',
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sahs_sc13_sco` (
   `id` int(11) NOT NULL,
   `hide_obj_page` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sahs_sc13_seq_assign` (
   `identifier` varchar(50) DEFAULT NULL,
   `sahs_sc13_tree_node_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`sahs_sc13_tree_node_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sahs_sc13_seq_cond` (
@@ -26204,7 +26204,7 @@ CREATE TABLE `sahs_sc13_seq_cond` (
   `operator` varchar(50) DEFAULT NULL,
   `referencedobjective` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`seqnodeid`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sahs_sc13_seq_course` (
@@ -26213,7 +26213,7 @@ CREATE TABLE `sahs_sc13_seq_course` (
   `forwardonly` tinyint(4) DEFAULT '0',
   `obj_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sahs_sc13_seq_item` (
@@ -26228,7 +26228,7 @@ CREATE TABLE `sahs_sc13_seq_item` (
   `rootlevel` tinyint(4) NOT NULL DEFAULT '0',
   `importseqxml` longtext,
   PRIMARY KEY (`sahs_sc13_tree_node_id`,`rootlevel`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sahs_sc13_seq_mapinfo` (
@@ -26240,7 +26240,7 @@ CREATE TABLE `sahs_sc13_seq_mapinfo` (
   `writesatisfiedstatus` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`seqnodeid`),
   KEY `i1_idx` (`targetobjectiveid`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sahs_sc13_seq_node` (
@@ -26250,13 +26250,13 @@ CREATE TABLE `sahs_sc13_seq_node` (
   PRIMARY KEY (`seqnodeid`),
   KEY `i2_idx` (`tree_node_id`),
   KEY `i3_idx` (`nodename`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sahs_sc13_seq_node_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `sahs_sc13_seq_obj` (
@@ -26267,7 +26267,7 @@ CREATE TABLE `sahs_sc13_seq_obj` (
   `satisfiedbymeasure` tinyint(4) DEFAULT NULL,
   `import_objective_id` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`seqnodeid`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sahs_sc13_seq_rule` (
@@ -26279,7 +26279,7 @@ CREATE TABLE `sahs_sc13_seq_rule` (
   `minimumpercent` varchar(50) DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`seqnodeid`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sahs_sc13_seq_seq` (
@@ -26319,14 +26319,14 @@ CREATE TABLE `sahs_sc13_seq_seq` (
   `usecurrentattemptprogressinfo` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`seqnodeid`),
   KEY `i1_idx` (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sahs_sc13_seq_templ` (
   `seqnodeid` int(11) DEFAULT NULL,
   `id` varchar(50) DEFAULT NULL,
   KEY `i1_idx` (`seqnodeid`,`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sahs_sc13_seq_templts` (
@@ -26334,7 +26334,7 @@ CREATE TABLE `sahs_sc13_seq_templts` (
   `filename` varchar(50) DEFAULT NULL,
   `id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `sahs_sc13_seq_templts` (`identifier`, `filename`, `id`) VALUES
 ('pretestpost', 'pretest_posttest.xml', 1),
@@ -26345,7 +26345,7 @@ INSERT INTO `sahs_sc13_seq_templts` (`identifier`, `filename`, `id`) VALUES
 CREATE TABLE `sahs_sc13_seq_templts_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=5 ;
 
 INSERT INTO `sahs_sc13_seq_templts_seq` (`sequence`) VALUES
 (4);
@@ -26360,7 +26360,7 @@ CREATE TABLE `sahs_sc13_seq_tree` (
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`importid`),
   KEY `i3_idx` (`parent`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sahs_sc13_tree` (
@@ -26373,7 +26373,7 @@ CREATE TABLE `sahs_sc13_tree` (
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`parent`),
   KEY `i3_idx` (`slm_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sahs_sc13_tree_node` (
@@ -26387,7 +26387,7 @@ CREATE TABLE `sahs_sc13_tree_node` (
   PRIMARY KEY (`obj_id`),
   KEY `i1_idx` (`slm_id`),
   KEY `i2_idx` (`type`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `sahs_sc13_tree_node` (`obj_id`, `title`, `type`, `slm_id`, `import_id`, `create_date`, `last_update`) VALUES
 (1, 'Dummy top node for all trees.', NULL, 0, NULL, NULL, NULL);
@@ -26395,7 +26395,7 @@ INSERT INTO `sahs_sc13_tree_node` (`obj_id`, `title`, `type`, `slm_id`, `import_
 CREATE TABLE `sahs_sc13_tree_node_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=2 ;
 
 INSERT INTO `sahs_sc13_tree_node_seq` (`sequence`) VALUES
 (1);
@@ -26413,7 +26413,7 @@ CREATE TABLE `sc_item` (
   `datafromlms` longtext,
   `masteryscore` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sc_manifest` (
@@ -26422,7 +26422,7 @@ CREATE TABLE `sc_manifest` (
   `version` varchar(200) DEFAULT NULL,
   `xml_base` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sc_organization` (
@@ -26430,14 +26430,14 @@ CREATE TABLE `sc_organization` (
   `import_id` varchar(200) DEFAULT NULL,
   `structure` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sc_organizations` (
   `obj_id` int(11) NOT NULL DEFAULT '0',
   `default_organization` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sc_resource` (
@@ -26449,7 +26449,7 @@ CREATE TABLE `sc_resource` (
   `xml_base` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`obj_id`),
   KEY `i1_idx` (`import_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sc_resource_dependen` (
@@ -26458,13 +26458,13 @@ CREATE TABLE `sc_resource_dependen` (
   `identifierref` varchar(200) DEFAULT NULL,
   `nr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sc_resource_dependen_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `sc_resource_file` (
@@ -26473,20 +26473,20 @@ CREATE TABLE `sc_resource_file` (
   `href` varchar(4000) DEFAULT NULL,
   `nr` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `sc_resource_file_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `sc_resources` (
   `obj_id` int(11) NOT NULL DEFAULT '0',
   `xml_base` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `scorm_object` (
@@ -26495,13 +26495,13 @@ CREATE TABLE `scorm_object` (
   `c_type` char(3) DEFAULT NULL,
   `slm_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `scorm_object_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `scorm_tracking` (
@@ -26513,7 +26513,7 @@ CREATE TABLE `scorm_tracking` (
   `rvalue` longtext,
   PRIMARY KEY (`user_id`,`sco_id`,`lvalue`,`obj_id`),
   KEY `i2_idx` (`obj_id`,`sco_id`,`lvalue`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `scorm_tree` (
@@ -26525,7 +26525,7 @@ CREATE TABLE `scorm_tree` (
   `depth` smallint(6) NOT NULL DEFAULT '0',
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`parent`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `search_command_queue` (
@@ -26537,7 +26537,7 @@ CREATE TABLE `search_command_queue` (
   `last_update` datetime DEFAULT NULL,
   `finished` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`,`obj_type`,`sub_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `search_data` (
@@ -26547,13 +26547,13 @@ CREATE TABLE `search_data` (
   `target` varchar(4000) DEFAULT NULL,
   `type` varchar(4) DEFAULT NULL,
   PRIMARY KEY (`obj_id`,`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `search_data_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `search_tree` (
@@ -26565,7 +26565,7 @@ CREATE TABLE `search_tree` (
   `depth` smallint(6) NOT NULL DEFAULT '0',
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`parent`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `service_class` (
@@ -26573,7 +26573,7 @@ CREATE TABLE `service_class` (
   `service` varchar(100) DEFAULT NULL,
   `dir` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`class`)
-) TYPE=MyISAM COMMENT='Class information of ILIAS Modules';
+) ENGINE=MyISAM COMMENT='Class information of ILIAS Modules';
 
 INSERT INTO `service_class` (`class`, `service`, `dir`) VALUES
 ('ilPersonalDesktopGUI', 'PersonalDesktop', 'classes'),
@@ -26596,7 +26596,7 @@ CREATE TABLE `settings` (
   `keyword` varchar(50) NOT NULL DEFAULT ' ',
   `value` longtext,
   PRIMARY KEY (`module`,`keyword`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `settings` (`module`, `keyword`, `value`) VALUES
 ('common', 'convert_path', ''),
@@ -26707,7 +26707,7 @@ CREATE TABLE `settings_deactivated_s` (
   `skin` varchar(100) NOT NULL DEFAULT ' ',
   `style` varchar(100) NOT NULL DEFAULT ' ',
   PRIMARY KEY (`skin`,`style`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `shib_role_assignment` (
@@ -26720,13 +26720,13 @@ CREATE TABLE `shib_role_assignment` (
   `add_on_update` tinyint(4) NOT NULL DEFAULT '0',
   `remove_on_update` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`rule_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `shib_role_assignment_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `skl_assigned_material` (
@@ -26736,7 +26736,7 @@ CREATE TABLE `skl_assigned_material` (
   `level_id` int(11) NOT NULL DEFAULT '0',
   `wsp_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`,`top_skill_id`,`skill_id`,`level_id`,`wsp_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `skl_level` (
@@ -26748,20 +26748,20 @@ CREATE TABLE `skl_level` (
   `trigger_ref_id` int(11) NOT NULL DEFAULT '0',
   `trigger_obj_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `skl_level_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `skl_personal_skill` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `skill_node_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`,`skill_node_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `skl_self_eval` (
@@ -26771,7 +26771,7 @@ CREATE TABLE `skl_self_eval` (
   `created` datetime NOT NULL,
   `last_update` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `skl_self_eval_level` (
@@ -26779,20 +26779,20 @@ CREATE TABLE `skl_self_eval_level` (
   `skill_id` int(11) NOT NULL DEFAULT '0',
   `level_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`self_eval_id`,`skill_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `skl_self_eval_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `skl_templ_ref` (
   `skl_node_id` int(11) NOT NULL DEFAULT '0',
   `templ_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`skl_node_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `skl_tree` (
@@ -26802,7 +26802,7 @@ CREATE TABLE `skl_tree` (
   `lft` int(11) NOT NULL DEFAULT '0',
   `rgt` int(11) NOT NULL DEFAULT '0',
   `depth` smallint(6) NOT NULL DEFAULT '0'
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `skl_tree` (`skl_tree_id`, `child`, `parent`, `lft`, `rgt`, `depth`) VALUES
 (1, 1, 0, 1, 2, 1);
@@ -26815,7 +26815,7 @@ CREATE TABLE `skl_tree_node` (
   `last_update` datetime DEFAULT NULL,
   `self_eval` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `skl_tree_node` (`obj_id`, `title`, `type`, `create_date`, `last_update`, `self_eval`) VALUES
 (1, 'Skill Tree Root Node', 'skrt', '2011-08-07 11:39:00', NULL, 0);
@@ -26823,7 +26823,7 @@ INSERT INTO `skl_tree_node` (`obj_id`, `title`, `type`, `create_date`, `last_upd
 CREATE TABLE `skl_tree_node_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=2 ;
 
 INSERT INTO `skl_tree_node_seq` (`sequence`) VALUES
 (1);
@@ -26837,7 +26837,7 @@ CREATE TABLE `skl_user_has_level` (
   `trigger_obj_id` int(11) NOT NULL,
   `trigger_title` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`level_id`,`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `skl_user_skill_level` (
@@ -26856,7 +26856,7 @@ CREATE TABLE `skl_user_skill_level` (
   KEY `isd_idx` (`status_date`),
   KEY `ist_idx` (`status`),
   KEY `ivl_idx` (`valid`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `style_char` (
@@ -26866,7 +26866,7 @@ CREATE TABLE `style_char` (
   `hide` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`style_id`,`type`,`characteristic`),
   KEY `i1_idx` (`style_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `style_color` (
@@ -26874,7 +26874,7 @@ CREATE TABLE `style_color` (
   `color_name` varchar(30) NOT NULL DEFAULT '.',
   `color_code` char(10) DEFAULT NULL,
   PRIMARY KEY (`style_id`,`color_name`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `style_data` (
@@ -26884,14 +26884,14 @@ CREATE TABLE `style_data` (
   `category` int(11) DEFAULT NULL,
   `active` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `style_folder_styles` (
   `folder_id` int(11) NOT NULL DEFAULT '0',
   `style_id` int(11) NOT NULL DEFAULT '0',
   KEY `i1_idx` (`folder_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `style_parameter` (
@@ -26903,13 +26903,13 @@ CREATE TABLE `style_parameter` (
   `value` varchar(200) DEFAULT NULL,
   `type` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `style_parameter_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `style_setting` (
@@ -26917,7 +26917,7 @@ CREATE TABLE `style_setting` (
   `name` varchar(30) NOT NULL,
   `value` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`style_id`,`name`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `style_template` (
@@ -26927,27 +26927,27 @@ CREATE TABLE `style_template` (
   `preview` varchar(4000) DEFAULT NULL,
   `temp_type` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `style_template_class` (
   `template_id` int(11) NOT NULL,
   `class_type` char(30) DEFAULT NULL,
   `class` char(30) DEFAULT NULL
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `style_template_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `style_usage` (
   `obj_id` int(11) NOT NULL,
   `style_id` int(11) NOT NULL,
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_anonymous` (
@@ -26962,13 +26962,13 @@ CREATE TABLE `svy_anonymous` (
   KEY `i1_idx` (`survey_key`,`survey_fi`),
   KEY `i2_idx` (`survey_fi`),
   KEY `i3_idx` (`sent`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_anonymous_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_answer` (
@@ -26982,13 +26982,13 @@ CREATE TABLE `svy_answer` (
   PRIMARY KEY (`answer_id`),
   KEY `i1_idx` (`question_fi`),
   KEY `i2_idx` (`active_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_answer_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_category` (
@@ -27000,7 +27000,7 @@ CREATE TABLE `svy_category` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`category_id`),
   KEY `i1_idx` (`owner_fi`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `svy_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, `neutral`, `tstamp`) VALUES
 (1, 'dc_desired', '1', 0, '0', 1085190181),
@@ -27042,7 +27042,7 @@ INSERT INTO `svy_category` (`category_id`, `title`, `defaultvalue`, `owner_fi`, 
 CREATE TABLE `svy_category_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=36 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=36 ;
 
 INSERT INTO `svy_category_seq` (`sequence`) VALUES
 (35);
@@ -27056,13 +27056,13 @@ CREATE TABLE `svy_constraint` (
   PRIMARY KEY (`constraint_id`),
   KEY `i1_idx` (`question_fi`),
   KEY `i2_idx` (`relation_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_constraint_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_finished` (
@@ -27077,19 +27077,19 @@ CREATE TABLE `svy_finished` (
   KEY `i1_idx` (`survey_fi`),
   KEY `i2_idx` (`user_fi`),
   KEY `i3_idx` (`anonymous_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_finished_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_inv_grp_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_inv_usr` (
@@ -27100,13 +27100,13 @@ CREATE TABLE `svy_inv_usr` (
   PRIMARY KEY (`invited_user_id`),
   KEY `i1_idx` (`survey_fi`),
   KEY `i2_idx` (`user_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_inv_usr_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_material` (
@@ -27122,13 +27122,13 @@ CREATE TABLE `svy_material` (
   `material_type` int(11) DEFAULT '0',
   PRIMARY KEY (`material_id`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_material_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_phrase` (
@@ -27139,7 +27139,7 @@ CREATE TABLE `svy_phrase` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`phrase_id`),
   KEY `i1_idx` (`owner_fi`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `svy_phrase` (`phrase_id`, `title`, `defaultvalue`, `owner_fi`, `tstamp`) VALUES
 (1, 'dp_standard_attitude_desired_undesired', '1', 0, 1085190871),
@@ -27175,7 +27175,7 @@ CREATE TABLE `svy_phrase_cat` (
   PRIMARY KEY (`phrase_category_id`),
   KEY `i1_idx` (`phrase_fi`),
   KEY `i2_idx` (`category_fi`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `svy_phrase_cat` (`phrase_category_id`, `phrase_fi`, `category_fi`, `sequence`, `other`, `scale`) VALUES
 (1, 1, 1, 1, 0, NULL),
@@ -27252,7 +27252,7 @@ INSERT INTO `svy_phrase_cat` (`phrase_category_id`, `phrase_fi`, `category_fi`, 
 CREATE TABLE `svy_phrase_cat_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=71 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=71 ;
 
 INSERT INTO `svy_phrase_cat_seq` (`sequence`) VALUES
 (70);
@@ -27260,7 +27260,7 @@ INSERT INTO `svy_phrase_cat_seq` (`sequence`) VALUES
 CREATE TABLE `svy_phrase_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=23 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=23 ;
 
 INSERT INTO `svy_phrase_seq` (`sequence`) VALUES
 (22);
@@ -27274,7 +27274,7 @@ CREATE TABLE `svy_qblk` (
   `show_blocktitle` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`questionblock_id`),
   KEY `i1_idx` (`owner_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_qblk_qst` (
@@ -27286,19 +27286,19 @@ CREATE TABLE `svy_qblk_qst` (
   KEY `i1_idx` (`survey_fi`),
   KEY `i2_idx` (`questionblock_fi`),
   KEY `i3_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_qblk_qst_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_qblk_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_qpl` (
@@ -27308,13 +27308,13 @@ CREATE TABLE `svy_qpl` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_questionpool`),
   KEY `i1_idx` (`obj_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_qpl_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_qst_constraint` (
@@ -27326,19 +27326,19 @@ CREATE TABLE `svy_qst_constraint` (
   KEY `i1_idx` (`survey_fi`),
   KEY `i2_idx` (`question_fi`),
   KEY `i3_idx` (`constraint_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_qst_constraint_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_qst_mat_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_qst_matrix` (
@@ -27361,7 +27361,7 @@ CREATE TABLE `svy_qst_matrix` (
   `layout` varchar(4000) DEFAULT NULL,
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_qst_matrixrows` (
@@ -27373,13 +27373,13 @@ CREATE TABLE `svy_qst_matrixrows` (
   `label` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_svy_qst_matrixrows`),
   KEY `i1_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_qst_matrixrows_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_qst_mc` (
@@ -27389,14 +27389,14 @@ CREATE TABLE `svy_qst_mc` (
   `nr_min_answers` smallint(6) DEFAULT NULL,
   `nr_max_answers` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_qst_metric` (
   `question_fi` int(11) NOT NULL DEFAULT '0',
   `subtype` varchar(1) DEFAULT '3',
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_qst_oblig` (
@@ -27407,20 +27407,20 @@ CREATE TABLE `svy_qst_oblig` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`question_obligatory_id`),
   KEY `i1_idx` (`survey_fi`,`question_fi`)
-) TYPE=MyISAM COMMENT='Contains the obligatory state of questions in a survey';
+) ENGINE=MyISAM COMMENT='Contains the obligatory state of questions in a survey';
 
 
 CREATE TABLE `svy_qst_oblig_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_qst_sc` (
   `question_fi` int(11) NOT NULL DEFAULT '0',
   `orientation` varchar(1) DEFAULT '0',
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_qst_text` (
@@ -27429,7 +27429,7 @@ CREATE TABLE `svy_qst_text` (
   `width` int(11) NOT NULL DEFAULT '50',
   `height` int(11) NOT NULL DEFAULT '5',
   PRIMARY KEY (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_qtype` (
@@ -27437,7 +27437,7 @@ CREATE TABLE `svy_qtype` (
   `type_tag` varchar(30) DEFAULT NULL,
   `plugin` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`questiontype_id`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `svy_qtype` (`questiontype_id`, `type_tag`, `plugin`) VALUES
 (1, 'SurveyMultipleChoiceQuestion', 0),
@@ -27449,7 +27449,7 @@ INSERT INTO `svy_qtype` (`questiontype_id`, `type_tag`, `plugin`) VALUES
 CREATE TABLE `svy_qtype_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=6 ;
 
 INSERT INTO `svy_qtype_seq` (`sequence`) VALUES
 (5);
@@ -27473,13 +27473,13 @@ CREATE TABLE `svy_question` (
   KEY `i1_idx` (`obj_fi`),
   KEY `i2_idx` (`owner_fi`),
   FULLTEXT KEY `i3_idx` (`title`,`description`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_question_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_relation` (
@@ -27488,7 +27488,7 @@ CREATE TABLE `svy_relation` (
   `shortname` varchar(2) DEFAULT NULL,
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`relation_id`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `svy_relation` (`relation_id`, `longname`, `shortname`, `tstamp`) VALUES
 (1, 'less', '<', 1084867073),
@@ -27501,7 +27501,7 @@ INSERT INTO `svy_relation` (`relation_id`, `longname`, `shortname`, `tstamp`) VA
 CREATE TABLE `svy_relation_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=7 ;
 
 INSERT INTO `svy_relation_seq` (`sequence`) VALUES
 (6);
@@ -27514,13 +27514,13 @@ CREATE TABLE `svy_settings` (
   `value` longtext,
   PRIMARY KEY (`settings_id`),
   KEY `i1_idx` (`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_settings_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_svy` (
@@ -27548,7 +27548,7 @@ CREATE TABLE `svy_svy` (
   PRIMARY KEY (`survey_id`),
   KEY `i1_idx` (`obj_fi`),
   FULLTEXT KEY `i2_idx` (`introduction`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_svy_qst` (
@@ -27561,19 +27561,19 @@ CREATE TABLE `svy_svy_qst` (
   PRIMARY KEY (`survey_question_id`),
   KEY `i1_idx` (`survey_fi`),
   KEY `i2_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_svy_qst_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_svy_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `svy_times` (
@@ -27582,7 +27582,7 @@ CREATE TABLE `svy_times` (
   `left_page` int(11) DEFAULT NULL,
   `first_question` int(11) DEFAULT NULL,
   KEY `i1_idx` (`finished_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_variable` (
@@ -27598,13 +27598,13 @@ CREATE TABLE `svy_variable` (
   PRIMARY KEY (`variable_id`),
   KEY `i1_idx` (`category_fi`),
   KEY `i2_idx` (`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `svy_variable_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `table_properties` (
@@ -27613,7 +27613,7 @@ CREATE TABLE `table_properties` (
   `property` varchar(20) NOT NULL,
   `value` varchar(4000) NOT NULL DEFAULT ' ',
   PRIMARY KEY (`table_id`,`user_id`,`property`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `table_templates` (
@@ -27622,7 +27622,7 @@ CREATE TABLE `table_templates` (
   `context` varchar(128) NOT NULL,
   `value` longtext,
   PRIMARY KEY (`name`,`user_id`,`context`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `tree` (
@@ -27635,7 +27635,7 @@ CREATE TABLE `tree` (
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`parent`),
   KEY `i3_idx` (`tree`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `tree` (`tree`, `child`, `parent`, `lft`, `rgt`, `depth`) VALUES
 (1, 1, 0, 1, 140, 1),
@@ -27687,7 +27687,7 @@ CREATE TABLE `tree_workspace` (
   KEY `i1_idx` (`child`),
   KEY `i2_idx` (`parent`),
   KEY `i3_idx` (`tree`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `tst_active` (
@@ -27705,13 +27705,13 @@ CREATE TABLE `tst_active` (
   KEY `i1_idx` (`user_fi`),
   KEY `i2_idx` (`test_fi`),
   KEY `i3_idx` (`anonymous_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `tst_active_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `tst_invited_user` (
@@ -27720,7 +27720,7 @@ CREATE TABLE `tst_invited_user` (
   `clientip` varchar(255) DEFAULT NULL,
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`test_fi`,`user_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `tst_manual_fb` (
@@ -27734,13 +27734,13 @@ CREATE TABLE `tst_manual_fb` (
   KEY `i1_idx` (`active_fi`),
   KEY `i2_idx` (`question_fi`),
   KEY `i3_idx` (`pass`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `tst_manual_fb_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `tst_mark` (
@@ -27753,13 +27753,13 @@ CREATE TABLE `tst_mark` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`mark_id`),
   KEY `i1_idx` (`test_fi`)
-) TYPE=MyISAM COMMENT='Mark steps of mark schemas';
+) ENGINE=MyISAM COMMENT='Mark steps of mark schemas';
 
 
 CREATE TABLE `tst_mark_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `tst_pass_result` (
@@ -27772,7 +27772,7 @@ CREATE TABLE `tst_pass_result` (
   `workingtime` int(11) NOT NULL DEFAULT '0',
   `tstamp` int(11) NOT NULL DEFAULT '0',
   UNIQUE KEY `c1_idx` (`active_fi`,`pass`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `tst_qst_solved` (
@@ -27780,7 +27780,7 @@ CREATE TABLE `tst_qst_solved` (
   `question_fi` int(11) NOT NULL DEFAULT '0',
   `solved` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`active_fi`,`question_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `tst_result_cache` (
@@ -27794,7 +27794,7 @@ CREATE TABLE `tst_result_cache` (
   `failed` int(11) NOT NULL,
   `tstamp` int(11) NOT NULL DEFAULT '0',
   KEY `i1_idx` (`active_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `tst_rnd_cpy` (
@@ -27806,13 +27806,13 @@ CREATE TABLE `tst_rnd_cpy` (
   KEY `i1_idx` (`qst_fi`),
   KEY `i2_idx` (`qpl_fi`),
   KEY `i3_idx` (`tst_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `tst_rnd_cpy_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `tst_rnd_qpl_title` (
@@ -27823,13 +27823,13 @@ CREATE TABLE `tst_rnd_qpl_title` (
   PRIMARY KEY (`title_id`),
   KEY `i1_idx` (`qpl_fi`),
   KEY `i2_idx` (`tst_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `tst_rnd_qpl_title_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `tst_sequence` (
@@ -27840,7 +27840,7 @@ CREATE TABLE `tst_sequence` (
   `hidden` varchar(4000) DEFAULT NULL,
   `tstamp` int(11) NOT NULL DEFAULT '0',
   UNIQUE KEY `c1_idx` (`active_fi`,`pass`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `tst_solutions` (
@@ -27855,13 +27855,13 @@ CREATE TABLE `tst_solutions` (
   PRIMARY KEY (`solution_id`),
   KEY `i1_idx` (`question_fi`),
   KEY `i2_idx` (`active_fi`)
-) TYPE=MyISAM COMMENT='Test and Assessment solutions';
+) ENGINE=MyISAM COMMENT='Test and Assessment solutions';
 
 
 CREATE TABLE `tst_solutions_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `tst_test_defaults` (
@@ -27873,13 +27873,13 @@ CREATE TABLE `tst_test_defaults` (
   `tstamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`test_defaults_id`),
   KEY `i1_idx` (`user_fi`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `tst_test_defaults_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `tst_test_question` (
@@ -27891,13 +27891,13 @@ CREATE TABLE `tst_test_question` (
   PRIMARY KEY (`test_question_id`),
   KEY `i1_idx` (`test_fi`),
   KEY `i2_idx` (`question_fi`)
-) TYPE=MyISAM COMMENT='Relation table for questions in tests';
+) ENGINE=MyISAM COMMENT='Relation table for questions in tests';
 
 
 CREATE TABLE `tst_test_question_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `tst_test_random` (
@@ -27910,13 +27910,13 @@ CREATE TABLE `tst_test_random` (
   PRIMARY KEY (`test_random_id`),
   KEY `i1_idx` (`test_fi`),
   KEY `i2_idx` (`questionpool_fi`)
-) TYPE=MyISAM COMMENT='Questionpools taken for a random test';
+) ENGINE=MyISAM COMMENT='Questionpools taken for a random test';
 
 
 CREATE TABLE `tst_test_random_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `tst_test_result` (
@@ -27931,13 +27931,13 @@ CREATE TABLE `tst_test_result` (
   KEY `i1_idx` (`active_fi`),
   KEY `i2_idx` (`question_fi`),
   KEY `i3_idx` (`pass`)
-) TYPE=MyISAM COMMENT='Test and Assessment user results for test questions';
+) ENGINE=MyISAM COMMENT='Test and Assessment user results for test questions';
 
 
 CREATE TABLE `tst_test_result_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `tst_test_rnd_qst` (
@@ -27951,13 +27951,13 @@ CREATE TABLE `tst_test_rnd_qst` (
   KEY `i1_idx` (`question_fi`),
   KEY `i2_idx` (`active_fi`),
   KEY `i3_idx` (`pass`)
-) TYPE=MyISAM COMMENT='Relation table for random questions in tests';
+) ENGINE=MyISAM COMMENT='Relation table for random questions in tests';
 
 
 CREATE TABLE `tst_test_rnd_qst_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `tst_tests` (
@@ -28025,13 +28025,13 @@ CREATE TABLE `tst_tests` (
   PRIMARY KEY (`test_id`),
   KEY `i1_idx` (`obj_fi`),
   FULLTEXT KEY `i2_idx` (`introduction`)
-) TYPE=MyISAM COMMENT='Tests in ILIAS Assessment';
+) ENGINE=MyISAM COMMENT='Tests in ILIAS Assessment';
 
 
 CREATE TABLE `tst_tests_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `tst_times` (
@@ -28044,13 +28044,13 @@ CREATE TABLE `tst_times` (
   PRIMARY KEY (`times_id`),
   KEY `i1_idx` (`active_fi`),
   KEY `i2_idx` (`pass`)
-) TYPE=MyISAM COMMENT='Editing times of an assessment test';
+) ENGINE=MyISAM COMMENT='Editing times of an assessment test';
 
 
 CREATE TABLE `tst_times_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `udf_clob` (
@@ -28058,13 +28058,13 @@ CREATE TABLE `udf_clob` (
   `field_id` int(11) NOT NULL,
   `value` longtext,
   PRIMARY KEY (`usr_id`,`field_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `udf_data` (
   `usr_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `udf_data` (`usr_id`) VALUES
 (6),
@@ -28086,13 +28086,13 @@ CREATE TABLE `udf_definition` (
   `changeable_lua` tinyint(4) NOT NULL DEFAULT '0',
   `group_export` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`field_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `udf_definition_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `udf_text` (
@@ -28100,7 +28100,7 @@ CREATE TABLE `udf_text` (
   `field_id` int(11) NOT NULL,
   `value` varchar(4000) DEFAULT NULL,
   PRIMARY KEY (`usr_id`,`field_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `usr_account_codes` (
@@ -28111,13 +28111,13 @@ CREATE TABLE `usr_account_codes` (
   `used` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`code_id`),
   KEY `i1_idx` (`code`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `usr_account_codes_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `usr_data` (
@@ -28180,7 +28180,7 @@ CREATE TABLE `usr_data` (
   `sel_country` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`usr_id`),
   KEY `i1_idx` (`login`,`passwd`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `usr_data` (`usr_id`, `login`, `passwd`, `firstname`, `lastname`, `title`, `gender`, `email`, `institution`, `street`, `city`, `zipcode`, `country`, `phone_office`, `last_login`, `last_update`, `create_date`, `hobby`, `department`, `phone_home`, `phone_mobile`, `fax`, `i2passwd`, `time_limit_owner`, `time_limit_unlimited`, `time_limit_from`, `time_limit_until`, `time_limit_message`, `referral_comment`, `matriculation`, `active`, `approve_date`, `agree_date`, `ilinc_id`, `ilinc_login`, `ilinc_passwd`, `client_ip`, `auth_mode`, `profile_incomplete`, `ext_account`, `im_icq`, `im_yahoo`, `im_msn`, `im_aim`, `im_skype`, `feed_hash`, `delicious`, `latitude`, `longitude`, `loc_zoom`, `login_attempts`, `last_password_change`, `im_jabber`, `im_voip`, `reg_hash`, `birthday`, `sel_country`) VALUES
 (6, 'root', 'dfa8327f5bfa4c672a04f9b38e348a70', 'root', 'user', NULL, 'm', 'ilias@yourserver.com', NULL, NULL, NULL, NULL, NULL, NULL, '2005-07-20 15:11:40', '2003-09-30 19:50:01', NULL, '', NULL, NULL, NULL, NULL, NULL, 7, 1, 0, 0, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 'default', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 1217068076, NULL, NULL, NULL, NULL, NULL),
@@ -28192,20 +28192,20 @@ CREATE TABLE `usr_ext_profile_page` (
   `order_nr` int(11) NOT NULL DEFAULT '0',
   `title` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `usr_ext_profile_page_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `usr_portf_acl` (
   `node_id` int(11) NOT NULL DEFAULT '0',
   `object_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`node_id`,`object_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `usr_portfolio` (
@@ -28216,7 +28216,7 @@ CREATE TABLE `usr_portfolio` (
   `font_color` char(6) DEFAULT NULL,
   `img` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `usr_portfolio_page` (
@@ -28226,13 +28226,13 @@ CREATE TABLE `usr_portfolio_page` (
   `order_nr` int(11) NOT NULL,
   `type` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `usr_portfolio_page_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `usr_pref` (
@@ -28240,7 +28240,7 @@ CREATE TABLE `usr_pref` (
   `keyword` char(40) NOT NULL DEFAULT '',
   `value` char(40) DEFAULT NULL,
   PRIMARY KEY (`usr_id`,`keyword`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `usr_pref` (`usr_id`, `keyword`, `value`) VALUES
 (6, 'style', 'delos'),
@@ -28266,7 +28266,7 @@ CREATE TABLE `usr_pwassist` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`pwassist_id`),
   UNIQUE KEY `c1_idx` (`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `usr_search` (
@@ -28280,7 +28280,7 @@ CREATE TABLE `usr_search` (
   `root` int(11) DEFAULT '1',
   `item_filter` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`usr_id`,`search_type`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `usr_session` (
@@ -28296,7 +28296,7 @@ CREATE TABLE `usr_session` (
   PRIMARY KEY (`session_id`),
   KEY `i1_idx` (`expires`),
   KEY `i2_idx` (`user_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 INSERT INTO `usr_session` (`session_id`, `expires`, `data`, `ctime`, `user_id`, `last_remind_ts`, `type`, `createtime`, `remote_addr`) VALUES
 ('a5cce8547ad6c807f38629e7b45b1715', 1248096561, '_authsession|a:0:{}_auth__authhttpa9f0e61a137d86aa9db53465e0801612|a:10:{s:12:"challengekey";s:32:"3b9d61518a1dd35403f310af0bc0c897";s:4:"data";a:0:{}s:9:"sessionip";s:14:"192.168.120.18";s:16:"sessionuseragent";s:99:"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.0.11) Gecko/2009060214 Firefox/3.0.11";s:19:"sessionforwardedfor";s:0:"";s:15:"challengecookie";s:32:"fde9b4eef8ec1c11a6ac530015dbc3db";s:10:"registered";b:1;s:8:"username";s:4:"alex";s:9:"timestamp";i:1248075833;s:4:"idle";i:1248089361;}lang|s:2:"en";locator_data|a:0:{}locator_level|i:-1;il_help_targets|a:0:{}post_vars|a:0:{}referer|s:133:"/ilias3/ilias.php?ref_id=973&obj_id=861&active_node=861&cmd=edit&cmdClass=ilpageobjectgui&cmdNode=c6:cd:c8:7r&baseClass=ilLMEditorGUI";AccountId|s:3:"157";tbl_limit|i:10;il_pd_history|s:11:"ilcolumngui";pdfeed_71_blnav|N;il_nav_history|s:162:"a:1:{i:0;a:4:{s:6:"ref_id";s:3:"973";s:4:"link";s:44:"ilias.php?baseClass=ilLMEditorGUI&ref_id=973";s:5:"title";s:20:"A new learing module";s:4:"type";s:2:"lm";}}";paragraph_plugins|O:18:"ilParagraphPlugins":3:{s:7:"plugins";a:0:{}s:15:"pluginDirectory";s:38:"/htdocs/ilias3/Services/COPage/plugins";s:15:"skipDirectories";a:3:{s:46:"/htdocs/ilias3/Services/COPage/plugins/classes";s:4:"skip";s:48:"/htdocs/ilias3/Services/COPage/plugins/resources";s:4:"skip";s:42:"/htdocs/ilias3/Services/COPage/plugins/CVS";s:4:"skip";}}lmexpand|a:1:{i:0;s:1:"1";}cont_media_insert|s:9:"insertNew";expand|a:1:{i:0;s:1:"1";}', 1248089361, 157, 0, NULL, NULL, NULL);
@@ -28318,13 +28318,13 @@ CREATE TABLE `ut_access` (
   `ut_month` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `i1_idx` (`acc_obj_id`,`acc_sub_id`,`session_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ut_access_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `ut_lp_collections` (
@@ -28334,7 +28334,7 @@ CREATE TABLE `ut_lp_collections` (
   `num_obligatory` int(11) NOT NULL DEFAULT '0',
   `active` tinyint(4) NOT NULL DEFAULT '1',
   KEY `i1_idx` (`obj_id`,`item_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ut_lp_marks` (
@@ -28348,7 +28348,7 @@ CREATE TABLE `ut_lp_marks` (
   `status_dirty` tinyint(4) NOT NULL DEFAULT '0',
   `percentage` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`obj_id`,`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ut_lp_settings` (
@@ -28357,7 +28357,7 @@ CREATE TABLE `ut_lp_settings` (
   `u_mode` tinyint(4) NOT NULL DEFAULT '0',
   `visits` int(11) DEFAULT '0',
   PRIMARY KEY (`obj_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ut_lp_user_status` (
@@ -28368,7 +28368,7 @@ CREATE TABLE `ut_lp_user_status` (
   PRIMARY KEY (`obj_id`,`usr_id`),
   KEY `i1_idx` (`obj_id`),
   KEY `i2_idx` (`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `ut_online` (
@@ -28376,7 +28376,7 @@ CREATE TABLE `ut_online` (
   `online_time` int(11) NOT NULL DEFAULT '0',
   `access_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`usr_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `webr_items` (
@@ -28394,13 +28394,13 @@ CREATE TABLE `webr_items` (
   PRIMARY KEY (`link_id`),
   KEY `i1_idx` (`link_id`,`webr_id`),
   FULLTEXT KEY `i2_idx` (`title`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `webr_items_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `webr_params` (
@@ -28411,13 +28411,13 @@ CREATE TABLE `webr_params` (
   `value` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`param_id`),
   KEY `i1_idx` (`link_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `webr_params_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `write_event` (
@@ -28430,7 +28430,7 @@ CREATE TABLE `write_event` (
   PRIMARY KEY (`write_id`),
   KEY `i1_idx` (`parent_obj_id`,`ts`),
   KEY `i2_idx` (`obj_id`)
-) TYPE=MyISAM ;
+) ENGINE=MyISAM ;
 
 INSERT INTO `write_event` (`obj_id`, `parent_obj_id`, `usr_id`, `action`, `ts`, `write_id`) VALUES
 (7, 9, -1, 'create', '2002-06-26 23:24:06', 1),
@@ -28462,7 +28462,7 @@ INSERT INTO `write_event` (`obj_id`, `parent_obj_id`, `usr_id`, `action`, `ts`, 
 CREATE TABLE `write_event_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM  AUTO_INCREMENT=26 ;
+) ENGINE=MyISAM  AUTO_INCREMENT=26 ;
 
 INSERT INTO `write_event_seq` (`sequence`) VALUES
 (25);
@@ -28472,13 +28472,13 @@ CREATE TABLE `xhtml_page` (
   `content` longtext,
   `save_content` longtext,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `xhtml_page_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `xmlnestedset` (
@@ -28489,7 +28489,7 @@ CREATE TABLE `xmlnestedset` (
   `ns_r` int(11) DEFAULT NULL,
   KEY `i1_idx` (`ns_tag_fk`),
   KEY `i2_idx` (`ns_book_fk`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `xmlnestedsettmp` (
@@ -28504,7 +28504,7 @@ CREATE TABLE `xmlnestedsettmp` (
   KEY `i3_idx` (`ns_r`),
   KEY `i4_idx` (`ns_book_fk`),
   KEY `i5_idx` (`ns_unique_id`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `xmlparam` (
@@ -28512,7 +28512,7 @@ CREATE TABLE `xmlparam` (
   `param_name` char(50) DEFAULT NULL,
   `param_value` char(255) DEFAULT NULL,
   KEY `i1_idx` (`tag_fk`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `xmltags` (
@@ -28520,13 +28520,13 @@ CREATE TABLE `xmltags` (
   `tag_depth` int(11) NOT NULL DEFAULT '0',
   `tag_name` char(50) DEFAULT NULL,
   PRIMARY KEY (`tag_pk`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `xmltags_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `xmlvalue` (
@@ -28536,11 +28536,11 @@ CREATE TABLE `xmlvalue` (
   PRIMARY KEY (`tag_value_pk`),
   KEY `i1_idx` (`tag_fk`),
   FULLTEXT KEY `i2_idx` (`tag_value`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `xmlvalue_seq` (
   `sequence` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`sequence`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
