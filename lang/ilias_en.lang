@@ -12121,3 +12121,5 @@ content#:#cont_ed_insert_skills#:#Insert Skills
 content#:#cont_pc_skills#:#Skill
 content#:#cont_insert_skills#:#Insert Skill
 content#:#cont_update_skills#:#Edit Skill
+common#:#enable_sahs_protocol_data#:#Activate Protocol Data
+common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM/AICC)
