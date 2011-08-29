@@ -910,7 +910,7 @@ class ilPersonalProfileGUI
 				$item = $this->form->getItemByPostVar($f);
 				if ($item && !$item->getDisabled())
 				{
-					$udf[$f] = $this->form->getInput($f);
+					$udf[$definition['field_id']] = $this->form->getInput($f);
 				}
 			}
 			$ilUser->setUserDefinedData($udf);

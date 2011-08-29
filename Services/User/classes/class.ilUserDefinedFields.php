@@ -167,6 +167,18 @@ class ilUserDefinedFields
 		}
 		return $searchable_definition ? $searchable_definition : array();
 	}
+	
+	public function getRequiredDefinitions()
+	{
+		foreach($this->definitions as $id => $definition)
+		{
+			if($definition['required'])
+			{
+				$required_definition[$id] = $definition;
+			}
+		}
+		return $required_definition ? $required_definition : array();
+	}
 
 	/**
 	 * get

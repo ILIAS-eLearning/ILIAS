@@ -792,6 +792,41 @@ class ilUserProfile
 		}
 		return false;
 	}
-	
+		
+	static function isProfileIncomplete($a_user, $a_include_udf = true)
+	{
+		global $ilSetting;
+		
+		// standard fields
+		foreach(self::$user_field as $field => $definition)
+		{
+			if($ilSetting->get("require_".$field) && $definition["method"])
+			{
+				$value = $a_user->{$definition["method"]}();
+				if($value == "")
+				{
+					return true;
+				}				
+			}
+		}
+		
+		// custom fields
+		if($a_include_udf)
+		{
+			$user_defined_data = $a_user->getUserDefinedData();
+						
+			include_once './Services/User/classes/class.ilUserDefinedFields.php';
+			$user_defined_fields = ilUserDefinedFields::_getInstance();						
+			foreach($user_defined_fields->getRequiredDefinitions() as $field => $definition)
+			{
+				if(!$user_defined_data["f_".$field])
+				{
+					return true;
+				}				
+			}					
+		}
+		
+		return false;
+	}	
 }
 ?>

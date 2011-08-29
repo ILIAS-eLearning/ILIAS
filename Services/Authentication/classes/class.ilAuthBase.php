@@ -98,6 +98,17 @@ abstract class ilAuthBase
 			$ilAppEventHandler->raise("Services/Authentication", "afterLogin",
 				array("username" => $a_auth->getUsername()));
 			
+			// check if profile is complete
+			include_once "Services/User/classes/class.ilObjUser.php";			
+			$user_id = ilObjUser::_loginExists($a_auth->getUsername());
+			$user = new ilObjUser($user_id);			
+			include_once "Services/User/classes/class.ilUserProfile.php";
+			if(ilUserProfile::isProfileIncomplete($user))
+			{
+				$user->setProfileIncomplete(true);
+				$user->update();
+			}
+			
 			$ilLog->write(__METHOD__.': logged in as '.$a_auth->getUsername().
 				', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
 				', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
