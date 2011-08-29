@@ -57,9 +57,10 @@ var ilCOPage =
 			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
 			//this.copyInputToGhost(false);
 			//this.removeTiny();
+			// pc_id_str: ed_para,
+			
 			this.sendCmdRequest("insertJS", ed_para, null,
 				{ajaxform_content: content,
-				pc_id_str: ed_para,
 				ajaxform_char: style_class,
 				insert_at_id: ed_para,
 				quick_save: 1},
@@ -1091,6 +1092,7 @@ return;
 			{
 				ilCOPage.displayError(ilCOPage.error_str);
 			}
+			ilCOPage.setInsertStatus(false);
 //			if (o.responseText.substr(0, 3) == "---")
 //			{
 //				ed_para = o.responseText.substr(3, o.responseText.length - 6);
