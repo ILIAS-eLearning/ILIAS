@@ -313,6 +313,15 @@ class ilWorkspaceFolderExplorer extends ilExplorer
 	{
 		return $this->tree->getParentId($a_node_id);
 	}
+	
+	function getOutput()
+	{
+		global $tpl;
+		
+		$html = parent::getOutput();	
+		$tpl->setBodyClass("std");
+		return $html;
+	}
 }
 
 ?>
