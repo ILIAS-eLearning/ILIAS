@@ -179,13 +179,13 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		foreach ($_POST as $key=>$value) {
 			if(preg_match('/(obj_)(.+)/', $key,$match)){
 				$objective = new ilScorm2004Objective($this->node_object->getId(),$match[2]);
-				if (!$value)
-				{
-					$empty=true;
-				} else {
+//				if (!$value)
+//				{
+//					$empty=true;
+//				} else {
 					$objective->setObjectiveID(ilUtil::stripSlashes($value));
 					$objective->updateObjective();
-				}
+//				}
 			}
 		}
 
