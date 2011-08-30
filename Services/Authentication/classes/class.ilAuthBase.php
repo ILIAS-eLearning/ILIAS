@@ -101,12 +101,15 @@ abstract class ilAuthBase
 			// check if profile is complete
 			include_once "Services/User/classes/class.ilObjUser.php";			
 			$user_id = ilObjUser::_loginExists($a_auth->getUsername());
-			$user = new ilObjUser($user_id);			
-			include_once "Services/User/classes/class.ilUserProfile.php";
-			if(ilUserProfile::isProfileIncomplete($user))
+			if($user_id != ANONYMOUS_USER_ID)
 			{
-				$user->setProfileIncomplete(true);
-				$user->update();
+				$user = new ilObjUser($user_id);			
+				include_once "Services/User/classes/class.ilUserProfile.php";
+				if(ilUserProfile::isProfileIncomplete($user))
+				{
+					$user->setProfileIncomplete(true);
+					$user->update();
+				}
 			}
 			
 			$ilLog->write(__METHOD__.': logged in as '.$a_auth->getUsername().
