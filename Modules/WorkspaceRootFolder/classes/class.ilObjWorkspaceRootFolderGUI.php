@@ -25,6 +25,17 @@ class ilObjWorkspaceRootFolderGUI extends ilObjWorkspaceFolderGUI
 	{
 		parent::setTabs(false);
 	}
+	
+	protected function setTitleAndDescription()
+	{
+		global $tpl, $lng;
+		
+		$title = $lng->txt("wsp_personal_workspace"); 
+		
+		$tpl->setTitle($title);
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_wsrt_b.gif"), $title);		
+		$tpl->setDescription($lng->txt("wsp_personal_workspace_description"));
+	}
 }
 
 ?>
