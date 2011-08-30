@@ -201,10 +201,13 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 		$des->update();
 		$gen->update();
 
-		if (!$empty) {
+		if (!$empty)
+		{
 			ilUtil::sendInfo($lng->txt("saved_successfully"),true);
-		} else {
-			ilUtil::sendInfo($lng->txt("sahs_empty_objectives_are_not_allowed"), true);
+		}
+		else
+		{
+			ilUtil::sendFailure($lng->txt("sahs_empty_objectives_are_not_allowed"), true);
 		}
 		$this->showProperties();
 	}
