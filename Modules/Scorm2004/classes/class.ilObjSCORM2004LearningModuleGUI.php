@@ -482,7 +482,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
 		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
 
-		$this->form->setTitle($lng->txt("cont_lm_properties"));
+		$this->form->setTitle($lng->txt("cont_scorm_ed_properties"));
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	}
 

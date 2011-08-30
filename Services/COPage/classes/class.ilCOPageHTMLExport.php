@@ -153,6 +153,8 @@ class ilCOPageHTMLExport
 			$this->js_yahoo_dir.'/yahoo-dom-event.js');
 		copy(ilYuiUtil::getLocalPath('animation/animation-min.js'),
 			$this->js_yahoo_dir.'/animation-min.js');
+		copy(ilYuiUtil::getLocalPath('container/container_core-min.js'),
+			$this->js_yahoo_dir.'/container_core-min.js');
 		
 		// accordion
 		copy('./Services/Accordion/js/accordion.js',
@@ -189,6 +191,7 @@ class ilCOPageHTMLExport
 		// scripts needed
 		$scripts = array("./js/yahoo/yahoo-min.js", "./js/yahoo/yahoo-dom-event.js",
 			"./js/yahoo/container_core-min.js", "./js/yahoo/animation-min.js",
+			"./js/yahoo/container-min.js",
 			"./js/Basic.js", "./js/jquery.js", "./js/jquery-ui-min.js",
 			"./js/ilOverlay.js", "./js/accordion.js", "./js/ilCOPagePres.js");
 		foreach ($scripts as $script)

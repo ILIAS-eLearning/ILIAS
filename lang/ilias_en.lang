@@ -5268,7 +5268,7 @@ content#:#cont_next_rev#:#Next Revision
 content#:#cont_no_access#:#No Access
 content#:#cont_no_assign_itself#:#The object cannot be assigned to itself
 content#:#cont_no_caption#:#No Caption
-content#:#cont_no_glossary#:#No glossary
+content#:#cont_no_glossary#:#No glossary assigned.
 content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.
 content#:#cont_no_object_found#:#Could not find any object with this title
 content#:#cont_no_page_in_chapter#:#Sorry, but there is currently no activated content within this chapter.
@@ -5355,7 +5355,7 @@ content#:#cont_public_notes_desc#:#Allow users to share notes on every page of t
 content#:#cont_public_notes#:#Public Notes
 content#:#cont_publisher#:#Publisher
 content#:#cont_purpose#:#Purpose
-content#:#cont_qtries#:#Number of tries for questions
+content#:#cont_qtries#:#Number of Tries for Questions
 content#:#cont_question_placeh#:#Click and edit to insert question
 content#:#cont_question_placehl#:#Question Placeholder
 content#:#cont_question_pool#:#Question Pool
@@ -12130,3 +12130,5 @@ common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM/AICC)
 search#:#lucene_max_fs#:#Maximum Filesize (in MB)
 search#:#lucene_max_fs_info#:#Defines the file size limit. Bigger files will not be included in the index.
 trac#:#trac_determines_learning_progress#:#Determines Learning Progress
+content#:#cont_scorm_ed_properties#:#Learning Module Properties / Glossary
+content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.
