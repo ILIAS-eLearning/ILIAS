@@ -2656,6 +2656,7 @@
 				<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:attribute name="autoplay">false</xsl:attribute>
 				<xsl:call-template name="MOBParams">
 					<xsl:with-param name="curPurpose" select="$curPurpose" />
 					<xsl:with-param name="mode">attributes</xsl:with-param>
