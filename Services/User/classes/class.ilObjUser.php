@@ -2329,6 +2329,10 @@ class ilObjUser extends ilObject
     }
     function getProfileIncomplete()
     {
+		if($this->id == ANONYMOUS_USER_ID)
+		{
+			return false;
+		}
         return $this->profile_incomplete;
     }
 
