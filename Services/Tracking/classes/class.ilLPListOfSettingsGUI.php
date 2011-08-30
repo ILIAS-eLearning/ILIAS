@@ -66,6 +66,44 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$form->setTitle($this->lng->txt('tracking_settings'));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
+		// Mode
+		$mod = new ilRadioGroupInputGUI($this->lng->txt('trac_mode'), 'modus');
+		$mod->setRequired(true);
+		$mod->setValue($this->obj_settings->getMode());
+		$form->addItem($mod);
+
+		foreach($this->obj_settings->getValidModes() as $mode_key => $mode_name)
+		{			
+			$opt = new ilRadioOption(
+				$mode_name,
+				$mode_key,
+				ilLPObjSettings::_mode2InfoText($mode_key)
+			);
+			$opt->setValue($mode_key);
+			$mod->addOption($opt);
+
+			// Subitem for vistits
+			if($mode_key == LP_MODE_VISITS)
+			{
+				$vis = new ilNumberInputGUI($this->lng->txt('trac_visits'), 'visits');
+				$vis->setSize(3);
+				$vis->setMaxLength(4);
+				$vis->setInfo($this->lng->txt('trac_visits_info'));
+				$vis->setRequired(true);
+				$vis->setValue($this->obj_settings->getVisits());
+				$opt->addSubItem($vis);
+				
+				// Timespan
+				$tim = new ilNonEditableValueGUI($this->lng->txt('trac_valid_request'), '');
+				$tim->setValue(
+					ilObjUserTracking::_getValidTimeSpan().' '.$this->lng->txt('seconds')
+				);
+				$tim->setInfo($this->lng->txt('info_valid_request'));
+				$opt->addSubItem($tim);
+			}
+		}
+				
+		/*
 		// Info Active
 		$act = new ilCustomInputGUI($this->lng->txt('trac_activated'), '');
 		$img = new ilTemplate('tpl.obj_settings_img_row.html',true,true,'Services/Tracking');
@@ -87,44 +125,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		);
 		$ano->setHTML($img->get());
 		$form->addItem($ano);
-
-		// Timespan
-		$tim = new ilNonEditableValueGUI($this->lng->txt('trac_valid_request'), '');
-		$tim->setValue(
-			ilObjUserTracking::_getValidTimeSpan().' '.$this->lng->txt('seconds')
-		);
-		$tim->setInfo($this->lng->txt('info_valid_request'));
-		$form->addItem($tim);
-
-		// Mode
-		$mod = new ilRadioGroupInputGUI($this->lng->txt('trac_mode'), 'modus');
-		$mod->setRequired(true);
-		$mod->setValue($this->obj_settings->getMode());
-		$form->addItem($mod);
-
-		foreach($this->obj_settings->getValidModes() as $mode_key => $mode_name)
-		{
-			$opt = new ilRadioOption(
-				$mode_name,
-				$mode_key,
-				ilLPObjSettings::_mode2InfoText($mode_key)
-			);
-			$opt->setValue($mode_key);
-			$mod->addOption($opt);
-
-			// Subitem for vistits
-			if($mode_key == LP_MODE_VISITS)
-			{
-				$vis = new ilNumberInputGUI($this->lng->txt('trac_visits'), 'visits');
-				$vis->setSize(3);
-				$vis->setMaxLength(4);
-				$vis->setInfo($this->lng->txt('trac_visits_info'));
-				$vis->setRequired(true);
-				$vis->setValue($this->obj_settings->getVisits());
-				$opt->addSubItem($vis);
-			}
-
-		}
+		*/				
 
 		$form->addCommandButton('saveSettings', $this->lng->txt('save'));
 

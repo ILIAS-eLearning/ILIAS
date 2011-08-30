@@ -9975,7 +9975,7 @@ trac#:#trac_anonymized_info_short#:#(Anonymisiert)
 trac#:#trac_assigned#:#Ausgewählt
 trac#:#trac_assignments#:#Zuordnungen
 trac#:#trac_below#:#Unterhalb von:
-trac#:#trac_collection_assign#:#Auswählen
+trac#:#trac_collection_assign#:#Für Lernfortschritts-Bestimmung auswählen
 trac#:#trac_collection_deassign#:#Auswahl aufheben
 trac#:#trac_comment#:#Kommentar
 trac#:#trac_comments#:#Kommentare
@@ -12102,3 +12102,4 @@ content#:#cont_ed_insert_skills#:#Skills einfügen
 content#:#cont_pc_skills#:#Skill
 content#:#cont_insert_skills#:#Skill einfügen
 content#:#cont_update_skills#:#Skill bearbeiten
+trac#:#trac_determines_learning_progress#:#Bestimmt Lernfortschritt

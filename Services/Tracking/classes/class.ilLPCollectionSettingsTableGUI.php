@@ -90,7 +90,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 	 * Fill template row
 	 * @param array $a_set
 	 */
-	protected function  fillRow($a_set)
+	protected function fillRow($a_set)
 	{
 		include_once './classes/class.ilLink.php';
 
@@ -113,44 +113,30 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('ALT_IMG', $this->lng->txt('obj_' . $a_set['type']));
 			$this->tpl->setVariable('COLL_LINK', ilLink::_getLink($a_set['ref_id'], $a_set['type']));
 			$this->tpl->setVariable('COLL_FRAME', ilFrameTargetInfo::_getFrame('MainContent', $a_set['type']));
-			$this->tpl->setVariable('COLL_PATH',$this->lng->txt('path').': '.$path->getPath($this->getNode(),$a_set['ref_id']));
+			$this->tpl->setVariable('COLL_PATH', $this->lng->txt('path').': '.$path->getPath($this->getNode(),$a_set['ref_id']));
 
-
-			$mode = ilLPObjSettings::_lookupMode($a_set['obj_id']);
+			$mode = $a_set['mode_id'];
 			if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_UNDEFINED)
 			{
-				$this->tpl->setVariable(
-					"COLL_MODE",
-					$this->lng->txt('trac_mode').": ". ilLPObjSettings::_mode2Text($mode)
-				);
+				$this->tpl->setVariable("COLL_MODE", $a_set['mode']);
 			}
 			else
 			{
-				$this->tpl->setVariable(
-					"COLL_MODE",
-					 $this->lng->txt('trac_mode').":"
-				);
-				$this->tpl->setVariable(
-					"COLL_MODE_DEACTIVATED",
-					ilLPObjSettings::_mode2Text($mode)
-				);
+				$this->tpl->setVariable("COLL_MODE", "");
+				$this->tpl->setVariable("COLL_MODE_DEACTIVATED", $a_set['mode']);			
 			}
 			if($this->isAnonymized($a_set))
 			{
-				$this->tpl->setVariable("ANONYMIZED",$this->lng->txt('trac_anonymized_info_short'));
+				$this->tpl->setVariable("ANONYMIZED", $this->lng->txt('trac_anonymized_info_short'));
 			}
 		}
 
 		// Assigned ?
-		$this->tpl->setVariable(
-			"ASSIGNED_IMG_OK",
-			$this->getCollection()->isAssigned($a_set['id'])
+		$this->tpl->setVariable("ASSIGNED_IMG_OK", $a_set['status']
 				? ilUtil::getImagePath('icon_ok.gif')
 				: ilUtil::getImagePath('icon_not_ok.gif')
 		);
-		$this->tpl->setVariable(
-			"ASSIGNED_STATUS",
-			$this->getCollection()->isAssigned($a_set['id'])
+		$this->tpl->setVariable("ASSIGNED_STATUS", $a_set['status']
 				? $this->lng->txt('trac_assigned')
 				: $this->lng->txt('trac_not_assigned')
 		);
@@ -185,7 +171,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 		$this->collections = new ilLPCollections(ilObject::_lookupObjId($this->getNode()));
 
 		$items = ilLPCollections::_getPossibleItems($this->getNode());
-
+	
 		$data = array();
 		$done = array();
 		foreach($items as $item)
@@ -241,7 +227,9 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 			$tmp['id'] = $obj_id;
 			$tmp['ref_id'] = 0;
 			$tmp['title'] = $item['title'];
-
+			
+			// status (sorting)
+			$tmp["status"] = $this->getCollection()->isAssigned($obj_id);
 
 			$data[] = $tmp;
 		}
@@ -261,6 +249,14 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 		$tmp['type'] = ilObject::_lookupType($tmp['obj_id']);
 		$tmp['title'] = ilObject::_lookupTitle($tmp['obj_id']);
 		$tmp['description'] = ilObject::_lookupDescription($tmp['obj_id']);
+		
+		// mode to text (sorting)
+		$tmp["mode_id"] = ilLPObjSettings::_lookupMode($tmp['obj_id']);
+		$tmp["mode"] = ilLPObjSettings::_mode2Text($tmp["mode_id"]);	
+		
+		// status (sorting)
+		$tmp["status"] = $this->getCollection()->isAssigned($item);
+		
 		return $tmp;
 	}
 
@@ -294,8 +290,14 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 		}
 
 		$this->addColumn('','','1px');
-		$this->addColumn($this->lng->txt('title'), 'title','80%');
-		$this->addColumn($this->lng->txt('active'), '');
+		$this->addColumn($this->lng->txt('item'), 'title', '50%');
+		
+		if($this->getMode() != LP_MODE_SCORM)
+		{
+			$this->addColumn($this->lng->txt('trac_mode'), 'mode');
+		}	
+		
+		$this->addColumn($this->lng->txt('trac_determines_learning_progress'), 'status');
 
 		$this->enable('select_all');
 		$this->setSelectAllCheckbox('item_ids');

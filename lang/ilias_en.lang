@@ -4559,7 +4559,7 @@ common#:#tracked_objects#:#Tracked objects
 common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?
 common#:#tracking_data_deleted#:#Tracking data deleted
 common#:#tracking_data#:#Tracking Data
-common#:#tracking_settings#:#Tracking Settings
+common#:#tracking_settings#:#Learning Progress Settings
 common#:#translation#:#Translation
 common#:#trash#:#Trash
 common#:#tree_frame_info#:#Defines whether the tree frame (e.g. repository tree) should appear on the left or on the right.
@@ -10079,8 +10079,8 @@ trac#:#trac_anonymized#:#Anonymized
 trac#:#trac_assigned#:#Assigned
 trac#:#trac_assignments#:#Assignments
 trac#:#trac_below#:#Below:
-trac#:#trac_collection_assign#:#Assign
-trac#:#trac_collection_deassign#:#Deassign
+trac#:#trac_collection_assign#:#Select for Learning Progress Determination
+trac#:#trac_collection_deassign#:#Deselect for Learning Progress Determination
 trac#:#trac_comment#:#Comment
 trac#:#trac_comments#:#Comments
 trac#:#trac_completed#:#Completed
@@ -10117,7 +10117,7 @@ trac#:#trac_learning_progress#:#Learning Progress
 trac#:#trac_lm_statistics#:#Access Statistics
 trac#:#trac_lp_determination_info_crs#:#Select the items that determine the overall learning progress status.
 trac#:#trac_lp_determination_info_sco#:#Select the items that determine the overall learning progress status of the SCORM learning module.
-trac#:#trac_lp_determination#:#Learning Progress Status Determination
+trac#:#trac_lp_determination#:#Determination of Learning Progress
 trac#:#trac_lp_filter#:#Filter
 trac#:#trac_mark#:#Mark
 trac#:#trac_marks#:#Marks
@@ -12123,3 +12123,4 @@ content#:#cont_insert_skills#:#Insert Skill
 content#:#cont_update_skills#:#Edit Skill
 common#:#enable_sahs_protocol_data#:#Activate Protocol Data
 common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM/AICC)
+trac#:#trac_determines_learning_progress#:#Determines Learning Progress
