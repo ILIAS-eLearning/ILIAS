@@ -56,7 +56,7 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
 		if (!$a_template)
 		{
 			$obj = new ilSCORM2004Objective($this->getId());
-			$obj->setObjectiveID("Objective SCO ".$this->getId());
+//			$obj->setObjectiveID("Objective SCO ".$this->getId());
 			$obj->setId("local_obj_".$this->getID()."_0");
 			$obj->update();
 		}
