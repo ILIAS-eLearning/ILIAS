@@ -23,6 +23,8 @@
 package de.ilias.services.lucene.index.file;
 
 
+import de.ilias.services.settings.ConfigurationException;
+import de.ilias.services.settings.ServerSettings;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -60,6 +62,11 @@ public class ExtensionFileHandler {
         if(!file.canRead()) {
             throw new FileHandlerException("No permission to read file: " + file.getAbsolutePath());
         }
+
+		// Check file size
+		if(!checkFileSizeLimit(file)) {
+			throw new FileHandlerException("File size limit exceeded. Ignoring file " + file.getAbsolutePath());
+		}
        
     	try {
 	        String fname = file.getName();
@@ -375,6 +382,29 @@ public class ExtensionFileHandler {
         	catch (IOException e) {
 			}
         }
+	}
+
+	/**
+	 * Check file size limit
+	 * @param file
+	 * @return bool
+	 */
+	private boolean checkFileSizeLimit(File file)
+	{
+		long maxFileSize = 0;
+
+		try {
+			maxFileSize = ServerSettings.getInstance().getMaxFileSize();
+		}
+		catch(ConfigurationException e) {
+			maxFileSize = ServerSettings.DEFAULT_MAX_FILE_SIZE;
+		}
+
+		if(file.length() > maxFileSize) {
+			logger.info("File size is " + file.length() + " bytes.");
+			return false;
+		}
+		return true;
 	}
 	
 

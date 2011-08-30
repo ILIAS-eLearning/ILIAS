@@ -12127,4 +12127,6 @@ administration#:#adm_services#:#Services
 administration#:#adm_objects#:#Objects
 common#:#enable_sahs_protocol_data#:#Activate Protocol Data
 common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM/AICC)
+search#:#lucene_max_fs#:#Maximum Filesize (in MB)
+search#:#lucene_max_fs_info#:#Defines the file size limit. Bigger files will not be included in the index.
 trac#:#trac_determines_learning_progress#:#Determines Learning Progress
