@@ -11,6 +11,8 @@
  */
 class ilGroupedListGUI
 {
+	private $multi_column = false;
+	
 	/**
 	 * Constructor
 	 */
@@ -38,6 +40,15 @@ class ilGroupedListGUI
 		$this->items[] = array("type" => "sep");
 	}
 	
+	/**
+	 * Add separator
+	 */
+	function nextColumn()
+	{
+		$this->items[] = array("type" => "next_col");
+		$this->multi_column = true;
+	}
+
 	/**
 	 * Add entry
 	 *
@@ -69,6 +80,11 @@ class ilGroupedListGUI
 					$tpl->touchBlock("item");
 					break;
 					
+				case "next_col":
+					$tpl->touchBlock("next_col");
+					$tpl->touchBlock("item");
+					break;
+					
 				case "group_head":
 					$tpl->setCurrentBlock("group_head");
 					$tpl->setVariable("GROUP_HEAD", $i["content"]);
@@ -92,6 +108,13 @@ class ilGroupedListGUI
 					break;
 			}
 		}
+		
+		if ($this->multi_column)
+		{
+			$tpl->touchBlock("multi_start");
+			$tpl->touchBlock("multi_end");
+		}
+		
 		return $tpl->get();
 	}
 	

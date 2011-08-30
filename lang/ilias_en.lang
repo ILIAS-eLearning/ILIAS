@@ -12121,6 +12121,10 @@ content#:#cont_ed_insert_skills#:#Insert Skills
 content#:#cont_pc_skills#:#Skill
 content#:#cont_insert_skills#:#Insert Skill
 content#:#cont_update_skills#:#Edit Skill
+administration#:#adm_basic#:#Basic
+administration#:#adm_users#:#Users
+administration#:#adm_services#:#Services
+administration#:#adm_objects#:#Objects
 common#:#enable_sahs_protocol_data#:#Activate Protocol Data
 common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM/AICC)
 trac#:#trac_determines_learning_progress#:#Determines Learning Progress

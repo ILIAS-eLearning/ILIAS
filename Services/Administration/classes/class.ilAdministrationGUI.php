@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTableGUI.php");
 include_once("classes/class.ilTabsGUI.php");
@@ -482,7 +463,7 @@ class ilAdministrationGUI
 			$items[] = $c;
 		}
 
-		$two_columns = false;
+/*		$two_columns = false;
 		if (count($items) > 10)
 		{
 			$two_columns = true;
@@ -500,8 +481,114 @@ class ilAdministrationGUI
 			}
 			$items = $n;
 		}
-
+*/
 		$cnt = 0;
+		
+////
+if (true)
+{
+//var_dump($items);
+
+		$titems = array();
+		foreach ($items as $i)
+		{
+			$titems[$i["type"]] = $i;
+		}
+		
+		// admin menu layout
+		$layout = array(
+			1 => array(
+				"basic" =>
+					array("adm", "stys", "adve", "lngf", "cmps", "accs", "trac"),
+				"users" =>
+					array("usrf", "rolf", "auth", "ps")
+				),
+			2 => array(
+				"services" =>
+					array("pdts", "nwss", "tags", "prfa", "skmg", "cals", "mail", "---", "seas",
+						"mds", "cert", "pays", "extt")
+				),
+			3 => array(
+				"objects" =>
+					array("blga", "chta", "facs", "frma", "lrss", "mcts", "svyf", "assf", "---",
+						"root", "recf")
+				)
+			);
+		
+		// now get all items and groups that are accessible
+		$groups = array();
+		for ($i = 1; $i <= 3; $i++)
+		{
+			$groups[$i] = array();
+			foreach ($layout[$i] as $group => $entries)
+			{
+				$groups[$i][$group] = array();
+				foreach ($entries as $e)
+				{
+					if ($e == "---" || $titems[$e]["type"] != "")
+					{
+						$groups[$i][$group][] = $e;
+					}
+				}
+			}
+		}
+		
+		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
+		$gl = new ilGroupedListGUI();
+		
+		for ($i = 1; $i <= 3; $i++)
+		{
+			if ($i > 1)
+			{
+				$gl->nextColumn();
+			}
+			foreach ($groups[$i] as $group => $entries)
+			{
+				if (count($entries) > 0)
+				{
+					$gl->addGroupHeader($lng->txt("adm_".$group));
+						
+					foreach ($entries as $e)
+					{
+						if ($e == "---")
+						{
+							$gl->addSeparator();
+						}
+						else
+						{
+							$path = ilUtil::getImagePath("icon_".$titems[$e]["type"]."_s.gif");
+							$icon = ($path != "")
+								? ilUtil::img($path)." "
+								: "";
+								
+							if ($_GET["admin_mode"] == "settings" && $titems[$e]["ref_id"] == ROOT_FOLDER_ID)
+							{
+								$gl->addEntry($icon.$titems[$e]["title"],
+									"ilias.php?baseClass=ilAdministrationGUI&amp;ref_id=".
+									$titems[$e]["ref_id"]."&amp;admin_mode=repository",
+									"_top");
+							}
+							else
+							{
+								$gl->addEntry($icon.$titems[$e]["title"],
+									"ilias.php?baseClass=ilAdministrationGUI&amp;ref_id=".
+										$titems[$e]["ref_id"]."&amp;cmd=jump",
+									"_top");
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		//$gl->addSeparator();
+
+		echo $gl->getHTML();
+		exit;
+}
+
+		
+		
 		foreach ($items as $c)
 		{
 			$cnt++;

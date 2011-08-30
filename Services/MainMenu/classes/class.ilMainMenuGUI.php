@@ -646,6 +646,7 @@ class ilMainMenuGUI
 			
 			$a_tpl->setVariable("DESK_CONT_OV", $gl->getHTML());
 		}
+		
 		// shop
 		if ($a_id == "shop")
 		{
@@ -784,6 +785,7 @@ class ilMainMenuGUI
 		{
 			$selection->setSelectionHeaderClass("MMInactive");
 		}
+		$selection->setSelectionHeaderSpanClass("MMSpan");
 
 		$selection->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_LIGHT);
 		$selection->setItemLinkClass("small");

@@ -174,6 +174,26 @@ class ilAdvancedSelectionListGUI
 	{
 		return $this->selectionheaderclass;
 	}
+	
+	/**
+	 * Set selection header span class
+	 *
+	 * @param string $a_val header span class	
+	 */
+	function setSelectionHeaderSpanClass($a_val)
+	{
+		$this->sel_head_span_class = $a_val;
+	}
+	
+	/**
+	 * Get selection header span class
+	 *
+	 * @return string header span class
+	 */
+	function getSelectionHeaderSpanClass()
+	{
+		return $this->sel_head_span_class;
+	}
 
 	/**
 	* Set Header Icon.
@@ -689,6 +709,11 @@ class ilAdvancedSelectionListGUI
 		$tpl->setVariable("CFG", ilJsonUtil::encode($cfg));
 //echo htmlentities(ilJsonUtil::encode($cfg));
 		$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());
+		if ($this->getSelectionHeaderSpanClass() != "")
+		{
+			$tpl->setVariable("CLASS_SEL_TOP_SPAN",
+				$this->getSelectionHeaderSpanClass());
+		}
 
 		// fim: [mobile] set the async url to an extra template variable
 		$tpl->setVariable("ASYNC_URL", $this->getAsynchUrl());
