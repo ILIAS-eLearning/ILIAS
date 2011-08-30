@@ -9,7 +9,6 @@
 			<!-- BEGIN description -->
 			<div class="il_Description_no_margin">{COLL_DESC}</div>
 			<!-- END description -->
-			<div class="il_info">{COLL_MODE}&nbsp;<span class="il_ItemAlertProperty">{COLL_MODE_DEACTIVATED} {ANONYMIZED}</span></div>
 			<div class="il_info">{COLL_PATH}</div>
 			<br />
 			<!-- END item_row -->
@@ -21,8 +20,9 @@
 		<!-- END num_passed_items -->
 	</td>
 	<td class="std" valign="top">
-		<div align="left">
-			<img src="{ASSIGNED_IMG_OK}" alt="{ASSIGNED_STATUS}" title="{ASSIGNED_STATUS}" border="0" vspace="0" align="center" />
-		</div>
+		{COLL_MODE}<span class="il_ItemAlertProperty">{COLL_MODE_DEACTIVATED} {ANONYMIZED}</span>
+	</td>
+	<td class="std" valign="top">
+		<img src="{ASSIGNED_IMG_OK}" alt="{ASSIGNED_STATUS}" title="{ASSIGNED_STATUS}" border="0" vspace="0" align="center" />
 	</td>
 </tr>
