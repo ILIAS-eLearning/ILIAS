@@ -2870,7 +2870,12 @@ class ilObjectListGUI
 			return "";
 		}
 		$ilBench->stop("ilObjectListGUI", "2000_getListHTML_check_visible");
-
+                // BEGIN WEBDAV
+                if($type=='file' AND ilObjFileAccess::_isFileHidden($a_title))
+                {
+                    return "";
+                }
+                // END WEBDAV
 
 		// commands
 		$ilBench->start("ilObjectListGUI", "4000_insert_commands");
