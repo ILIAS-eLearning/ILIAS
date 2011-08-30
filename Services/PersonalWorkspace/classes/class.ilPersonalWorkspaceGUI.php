@@ -81,9 +81,8 @@ class ilPersonalWorkspaceGUI
 			exit();
 		}
 		
-		//  if we do this here the object can still change the title and locator
-		$this->renderLocator();
-		$this->renderTitle();
+		//  if we do this here the object can still change the breadcrumb
+		$this->renderLocator();		
 		
 		if(($cmd == "" || $cmd == "render" || $cmd == "view") && !$_REQUEST["new_type"])
 		{
@@ -112,6 +111,7 @@ class ilPersonalWorkspaceGUI
 				
 		$tpl->setHeaderActionMenu($gui, $gui->getNotesSubId());
 		
+		$this->renderBack();
 		$tpl->setLocator();
 	}
 
@@ -139,18 +139,12 @@ class ilPersonalWorkspaceGUI
 		}
 	}
 
-	protected function renderTitle()
+	protected function renderBack()
 	{
-		global $tpl, $lng, $ilTabs, $ilCtrl, $ilUser;
+		global $lng, $ilTabs, $ilCtrl, $ilUser;
 		
 		$root = $this->tree->getNodeData($this->node_id);
-		if($root["type"] == "wfld" || $root["type"] == "wsrt")
-		{
-			$title = $lng->txt("wsp_personal_workspace");
-			$icon = ilUtil::getImagePath("icon_wsrt_b.gif");
-			$tpl->setDescription($lng->txt("wsp_personal_workspace_description"));
-		}
-		else
+		if($root["type"] != "wfld" && $root["type"] != "wsrt")
 		{
 			// do not override existing back targets, e.g. public user profile gui
 			if(!$ilTabs->back_target)
@@ -182,15 +176,9 @@ class ilPersonalWorkspaceGUI
 					$ilCtrl->setParameterByClass("ilobjworkspacerootfoldergui", "user", $owner);
 					$ilTabs->setBackTarget($lng->txt("back"),
 						$ilCtrl->getLinkTargetByClass("ilobjworkspacerootfoldergui", "share"));
-				}
-				
+				}				
 			}
-			
-			$title = $root["title"];
-			$icon = ilObject::_getIcon($root["obj_id"], "big");
 		}
-		$tpl->setTitle($title);
-		$tpl->setTitleIcon($icon, $title);		
 	}
 	
 	/**
