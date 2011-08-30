@@ -36,6 +36,7 @@ class ilRpcIniFileWriter
 	protected $logPath;
 	protected $logLevel;
 	protected $numThreads;
+	protected $max_file_size;
 	
 	
 	public function __construct()
@@ -56,6 +57,7 @@ class ilRpcIniFileWriter
 		$this->ini .= "LogLevel = ".$this->getLogLevel()."\n";
 		$this->ini .= "NumThreads = ".$this->getNumThreads()."\n";
 		$this->ini .= "RamBufferSize = 256\n";
+		$this->ini .= "IndexMaxFileSizeMB = ".$this->getMaxFileSize()."\n";
 		
 		$this->ini .= "\n";
 		
@@ -185,6 +187,24 @@ class ilRpcIniFileWriter
 	public function setPort($port)
 	{
 		$this->port=$port;
+	}
+
+	/**
+	 * Set max file size mb
+	 * @param int $a_fs
+	 */
+	public function setMaxFileSize($a_fs)
+	{
+		$this->max_file_size = $a_fs;
+	}
+
+	/**
+	 * Get max file size mb
+	 * @return int
+	 */
+	public function getMaxFileSize()
+	{
+		return $this->max_file_size;
 	}
 	
 	

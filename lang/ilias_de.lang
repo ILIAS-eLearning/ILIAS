@@ -12103,3 +12103,5 @@ content#:#cont_pc_skills#:#Skill
 content#:#cont_insert_skills#:#Skill einfügen
 content#:#cont_update_skills#:#Skill bearbeiten
 trac#:#trac_determines_learning_progress#:#Bestimmt Lernfortschritt
+search#:#lucene_max_fs#:#Maximale Dateigröße (in MB)
+search#:#lucene_max_fs_info#:#Definiert das Dateigrößenlimit, bis zu dem Dateien indexiert werden. Der Inhalt größerer Dateien wird nicht in den Index aufgenommen.

@@ -3228,6 +3228,16 @@ return $this->showServerInfoObject();
 		$cpu->setMinValue(1);
 		$cpu->setRequired(true);
 		$this->form->addItem($cpu);
+
+		// Max file size
+		$fs = new ilNumberInputGUI($this->lng->txt('lucene_max_fs'), 'fs');
+		$fs->setInfo($this->lng->txt('lucene_max_fs_info'));
+		$fs->setValue(500);
+		$fs->setSize(4);
+		$fs->setMaxLength(4);
+		$fs->setMinValue(1);
+		$fs->setRequired(true);
+		$this->form->addItem($fs);
 		
 		return true;
 	}
@@ -3249,6 +3259,7 @@ return $this->showServerInfoObject();
 			$ini->setLogPath($this->form->getInput('lo'));
 			$ini->setLogLevel($this->form->getInput('le'));
 			$ini->setNumThreads($this->form->getInput('cp'));
+			$ini->setMaxFileSize($this->form->getInput('fs'));
 			
 			$ini->write();
 			ilUtil::deliverData($ini->getIniString(),'ilServer.ini','text/plain','utf-8');
