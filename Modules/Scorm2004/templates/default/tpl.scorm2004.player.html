@@ -44,15 +44,17 @@
 			<div id="introLabel">loading</div>
 		</div>
 		<div id="mainTable">
-			<div id="leftView" class="ilc_rte_tree_RTETree">
-				<div id="treeView"></div>
-				<div id="ilLog">
-					<pre id="ilLogPre"></pre>
-				</div>
-				<div id="treeControls" class="ilc_rte_tree_RTETreeControl">
-					<!--<a id="toggleLog" href="#" onclick="toggleLog();">Show Log</a>&nbsp;&nbsp;-->
-					<a class="ilc_rte_tclink_RTETreeControlLink" id="toggleLog" href="#" onclick="PopupCenter('{DEBUG_URL}','Debug',800,600);">{TXT_DEBUGGER}</a>&nbsp;&nbsp;
-					<a class="ilc_rte_tclink_RTETreeControlLink" id="toggleTree" href="#" onclick="toggleTree();">{TXT_COLLAPSE}</a>
+			<div id="leftView">
+				<div class="ilc_rte_tree_RTETree">
+					<div id="treeView"></div>
+					<div id="ilLog">
+						<pre id="ilLogPre"></pre>
+					</div>
+					<div id="treeControls" class="ilc_rte_tree_RTETreeControl">
+						<!--<a id="toggleLog" href="#" onclick="toggleLog();">Show Log</a>&nbsp;&nbsp;-->
+						<a class="ilc_rte_tclink_RTETreeControlLink" id="toggleLog" href="#" onclick="PopupCenter('{DEBUG_URL}','Debug',800,600);">{TXT_DEBUGGER}</a>&nbsp;&nbsp;
+						<a class="ilc_rte_tclink_RTETreeControlLink" id="toggleTree" href="#" onclick="toggleTree();">{TXT_COLLAPSE}</a>
+					</div>
 				</div>
 			</div>
 			<div id="dragbar" class="dragbar ilc_rte_drag_RTEDragBar"></div>
