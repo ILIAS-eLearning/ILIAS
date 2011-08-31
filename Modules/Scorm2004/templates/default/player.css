@@ -14,7 +14,7 @@
 	top:30px;
 	bottom:0;
 }
-#dragbar{
+div.dragbar{
 	background-color:#D0D0D0;
 	z-index:8;
 	width:2px;
