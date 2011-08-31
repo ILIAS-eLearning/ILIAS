@@ -1,4 +1,4 @@
-// Build: 2011806012419 
+// Build: 2011831112902 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -12631,6 +12631,11 @@ function onWindowResize()
 	{
 		elm.style.height = h;
 	}
+	
+	var tbh = $('#toolbar').outerHeight();
+	$('#leftView').css('top', tbh + "px");
+	$('#dragbar').css('top', tbh + "px");
+	$('#tdResource').css('top', tbh + "px");
 }
 
 

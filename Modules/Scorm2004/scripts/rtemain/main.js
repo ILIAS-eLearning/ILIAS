@@ -1851,6 +1851,11 @@ function onWindowResize()
 	{
 		elm.style.height = h;
 	}
+	
+	var tbh = $('#toolbar').outerHeight();
+	$('#leftView').css('top', tbh + "px");
+	$('#dragbar').css('top', tbh + "px");
+	$('#tdResource').css('top', tbh + "px");
 }
 
 

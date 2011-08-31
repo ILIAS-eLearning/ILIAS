@@ -461,6 +461,13 @@
 <Style Tag="a" Type="rte_texp" Class="RTETreeCollapsed">
 </Style>
 
+<Style Tag="div" Type="rte_tree" Class="RTETreeControl">
+</Style>
+<Style Tag="a" Type="rte_tclink" Class="RTETreeControlLink">
+</Style>
+<Style Tag="div" Type="rte_drag" Class="RTEDragBar">
+</Style>
+
 
 <!-- Section -->
 <Style Tag="div" Type="section" Class="Additional">

@@ -41,16 +41,15 @@
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 }
 #treeControls{
-	vertical-align:middle;
-	margin-left:5px;
-	font-size:11px;
+	padding:5px;
+	height: 100%;
 }
 #toggleLog{
 	display:none;
 }
 #toolbar{
-	height:30px;
 	background-color: #F3F3F3;
+	zoom: 1;
 }
 
 .il_ContainerItemCommands{
@@ -295,6 +294,7 @@ a.ilc_rte_mlink_RTELink
 	color: #2020C0;
 	font-size: 80%;
 	text-decoration: underline;
+	zoom: 1;
 }
 a.ilc_rte_mlink_RTELink:hover
 {
@@ -306,6 +306,7 @@ a.ilc_rte_mlink_RTELinkDisabled
 	background-color: #E0E0E0;
 	cursor: not-allowed;
 	text-decoration:none;
+	zoom: 1;
 }
 a.ilc_rte_mlink_RTELinkDisabled:hover
 {
@@ -378,5 +379,16 @@ a.ilc_rte_tlink_RTETreeLinkDisabled:hover, a.ilc_rte_tlink_RTETreeLinkDisabled:h
 a.ilc_rte_tlink_RTETreeCurrent
 {
 	background-color: #B0E0E6;
+}
+
+a.ilc_rte_tclink_RTETreeControlLink
+{
+	color: #2020C0;
+	font-size: 90%;
+	text-decoration: none;
+}
+a.ilc_rte_tclink_RTETreeControlLink:hover
+{
+	text-decoration:underline;
 }
 
