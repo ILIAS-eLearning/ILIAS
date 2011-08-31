@@ -20,7 +20,7 @@ include_once("Services/Payment/classes/class.ilPaymentObject.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI, ilObjRoleGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjiLincCourseGUI, ilObjiLincClassroomGUI, ilObjLinkResourceGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjRootFolderGUI, ilObjMediaCastGUI, ilObjRemoteCourseGUI, ilObjSessionGUI
-* @ilCtrl_Calls ilRepositoryGUI: ilObjCourseReferenceGUI, ilObjCategoryReferenceGUI, ilNoteGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjCourseReferenceGUI, ilObjCategoryReferenceGUI
 *
 */
 class ilRepositoryGUI
@@ -175,11 +175,6 @@ class ilRepositoryGUI
 	{
 		global $tree, $rbacsystem, $ilias, $lng, $objDefinition,$ilUser, $ilCtrl;
 
-		// prepare notes
-		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-		ilNoteGUI::initJavascript(
-			$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilnotegui"), "", "", true, false));
-		
 		// Check for incomplete profile
 		if($ilUser->getProfileIncomplete())
 		{
@@ -272,18 +267,6 @@ class ilRepositoryGUI
 
 		switch ($next_class)
 		{
-			case "ilnotegui":
-				include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-				$notes_ref_id = (int) $_GET["notes_ref_id"];
-				$notes_obj_id = ilObject::_lookupObjId($notes_ref_id);
-				$notes_type = ilObject::_lookupType($notes_obj_id);
-				$ilCtrl->saveParameterByClass("ilnotegui", "notes_ref_id");
-				$note_gui = new ilNoteGUI($notes_obj_id, "", $notes_type);
-				$note_gui->enablePrivateNotes();
-				$note_gui->enablePublicNotes();
-				$ret = $ilCtrl->forwardCommand($note_gui);
-				break;
-			
 			default:
 				// forward all other classes to gui commands
 				if ($next_class != "" && $next_class != "ilrepositorygui")

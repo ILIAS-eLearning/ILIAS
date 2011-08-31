@@ -60,6 +60,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->getTemplate();
 				$this->setTabs();
 				$this->setLocator();
+				$this->addHeaderAction();
 
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
@@ -78,6 +79,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				break;
 				
 			case "ilinfoscreengui":
+				$this->addHeaderAction();
 				$this->showInfoScreen();
 				break;
 				
@@ -91,6 +93,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 					$this->getTemplate();
 					$this->setTabs();
 					$this->setLocator();
+					$this->addHeaderAction();
 				}
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
@@ -122,6 +125,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 							$this->getTemplate();
 							$this->setTabs();
 							$this->setLocator();
+							$this->addHeaderAction();
 						}
 					}
 					$ret =& $this->$cmd();

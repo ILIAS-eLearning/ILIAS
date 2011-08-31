@@ -394,12 +394,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 			$this->tpl->setTitleIcon($icon, $this->lng->txt("obj_".$this->object->getType()));
-			$this->tpl->setHeaderActionMenu($this);
-
+						
 			include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
 			$lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
 			$lgui->initItem($this->object->getRefId(), $this->object->getId());
 			$this->tpl->setAlertProperties($lgui->getAlertProperties());
+			
+			// the repository root has no infoscreen and needs no comments/notes
+			if($this->object->getType() != "root")
+			{
+				$this->addHeaderAction();
+			}
 		}
 	}
 

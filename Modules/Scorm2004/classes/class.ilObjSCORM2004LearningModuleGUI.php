@@ -54,7 +54,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$form_gui = new ilSCORM2004OrganizationHFormGUI();
 		$form_gui->setTree($this->getEditTree());
 		$form_gui->updateExpanded();
-
+		
 		switch($next_class)
 		{
 			// notes
@@ -76,7 +76,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 				$chap_gui = new ilSCORM2004ChapterGUI($this->object, $_GET["obj_id"]);
 				$chap_gui->setParentGUI($this);
 				return $ilCtrl->forwardCommand($chap_gui);
-				break;
 
 				// sequencing chapters
 			case "ilscorm2004seqchaptergui":
@@ -84,7 +83,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 				$chap_gui = new ilSCORM2004SeqChapterGUI($this->object, $_GET["obj_id"]);
 				$chap_gui->setParentGUI($this);
 				return $ilCtrl->forwardCommand($chap_gui);
-				break;
 
 				// scos
 			case "ilscorm2004scogui":
@@ -92,7 +90,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 				$sco_gui = new ilSCORM2004ScoGUI($this->object, $_GET["obj_id"]);
 				$sco_gui->setParentGUI($this);
 				return $ilCtrl->forwardCommand($sco_gui);
-				break;
 
 			// assets
 			case "ilscorm2004assetgui":
@@ -100,20 +97,19 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 				$ass_gui = new ilSCORM2004AssetGUI($this->object, $_GET["obj_id"]);
 				$ass_gui->setParentGUI($this);
 				return $ilCtrl->forwardCommand($ass_gui);
-				break;
 
 				// pages
 			case "ilscorm2004pagenodegui":
 				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNodeGUI.php");
 				$page_gui = new ilSCORM2004PageNodeGUI($this->object, $_GET["obj_id"]);
 				$page_gui->setParentGUI($this);
-				$html = $ilCtrl->forwardCommand($page_gui);
+				$ilCtrl->forwardCommand($page_gui);
 				break;
 
-			default:
+			default:						
+				$this->addHeaderAction();
 				return parent::executeCommand();
-				break;
-		}
+		}		
 	}
 
 	/**

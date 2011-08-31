@@ -77,7 +77,22 @@ class ilInfoScreenGUI
 		switch($next_class)
 		{
 			case "ilnotegui":
-				$this->showSummary();	// forwards command
+				if(isset($_GET["notes_ref_id"]))
+				{
+					$ilCtrl->saveParameter($this, "notes_ref_id");
+					$ilCtrl->saveParameter($this, "notes_sub_id");
+
+					include_once "Services/Notes/classes/class.ilNoteGUI.php";
+					$note_gui = new ilNoteGUI($this->gui_object->object->getId(), (int)$_GET["notes_sub_id"]);
+					$note_gui->enablePrivateNotes(true);
+					$note_gui->enablePublicNotes(true);			
+					$ilCtrl->forwardCommand($note_gui);		
+					exit();
+				}
+				else
+				{				
+					$this->showSummary();	// forwards command
+				}
 				break;
 
 			case "ilfeedbackgui":

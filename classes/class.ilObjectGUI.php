@@ -329,7 +329,28 @@ class ilObjectGUI
 		include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
 		$lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
 		$lgui->initItem($this->object->getRefId(), $this->object->getId());
-		$this->tpl->setAlertProperties($lgui->getAlertProperties());
+		$this->tpl->setAlertProperties($lgui->getAlertProperties());		
+	}
+	
+	protected function addHeaderAction()
+	{
+		// personal workspace is done elsewhere
+		if((!($this instanceof ilObject2GUI) || 
+			$this->id_type != ilObject2GUI::WORKSPACE_NODE_ID) &&
+			$this->object)
+		{		
+			// prepare notes
+			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+			ilNoteGUI::initJavascript(
+				$this->ctrl->getLinkTargetByClass(array("ilinfoscreengui", "ilnotegui"), "", "", true, false));
+
+			$this->tpl->setHeaderActionMenu($this);
+		}
+	}
+	
+	protected function removeHeaderAction()
+	{
+		$this->tpl->setHeaderActionMenu(null, null);
 	}
 	
 	protected function showUpperIcon()

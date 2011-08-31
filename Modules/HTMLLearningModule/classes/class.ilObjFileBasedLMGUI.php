@@ -68,6 +68,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$this->getTemplate();
 				$this->setLocator();
 				$this->setTabs();
+				$this->addHeaderAction();
 			}
 		}
 

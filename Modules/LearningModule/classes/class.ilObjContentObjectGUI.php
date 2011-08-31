@@ -63,6 +63,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		switch($next_class)
 		{
 			case "illearningprogressgui":
+				$this->addHeaderAction();
 				$this->addLocations();
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$this->setTabs("learning_progress");
@@ -74,6 +75,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				break;
 
 			case 'ilmdeditorgui':
+				$this->addHeaderAction();
 				$this->addLocations();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 				$this->setTabs("meta");
@@ -165,6 +167,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				}
 				else
 				{
+					$this->addHeaderAction();
 					$this->addLocations(true);
 					$this->setTabs("perm");
 				}
@@ -175,6 +178,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 			// infoscreen
 			case 'ilinfoscreengui':
+				$this->addHeaderAction();
 				$this->addLocations(true);
 				$this->setTabs("info");
 				include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
@@ -197,6 +201,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				break;
 			
 			case "ilexportgui":
+				$this->addHeaderAction();
 				$this->addLocations(true);
 				$this->setTabs("export");
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
@@ -253,6 +258,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 					}
 					else
 					{
+						$this->addHeaderAction();
 						$this->addLocations();
 						$ret =& $this->$cmd();
 					}

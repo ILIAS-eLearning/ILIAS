@@ -125,9 +125,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case "ilinfoscreengui":
+				$this->addHeaderAction();
 				$this->infoScreen();	// forwards command
 				break;
+			
 			case 'ilmdeditorgui':
+				$this->addHeaderAction();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
@@ -136,6 +139,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 			
 			case "ilsurveyevaluationgui":
+				$this->addHeaderAction();
 				include_once("./Modules/Survey/classes/class.ilSurveyEvaluationGUI.php");
 				$eval_gui = new ilSurveyEvaluationGUI($this->object);
 				$ret =& $this->ctrl->forwardCommand($eval_gui);
@@ -163,6 +167,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 				
 			case 'ilpermissiongui':
+				$this->addHeaderAction();
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
@@ -176,12 +181,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 
 			case 'ilsurveypagegui':
+				$this->addHeaderAction();
 				include_once './Modules/Survey/classes/class.ilSurveyPageGUI.php';
 				$pg = new ilSurveyPageGUI($this);
 				$this->ctrl->forwardCommand($pg);
 				break;
 
 			default:
+				$this->addHeaderAction();
 				$cmd.= "Object";
 				$ret =& $this->$cmd();
 				break;

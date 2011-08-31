@@ -194,6 +194,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 			break;
 		}
+		
+		$this->addHeaderAction();
   
   		return true;
 	}
