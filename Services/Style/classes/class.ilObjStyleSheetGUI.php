@@ -1195,7 +1195,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function listImagesObject()
 	{
-		global $tpl;
+		global $tpl, $ilToolbar, $ilCtrl, $lng;
+		
+		$ilToolbar->addButton($lng->txt("sty_add_image"),
+			$ilCtrl->getLinkTarget($this, "addImage"));
 		
 		include_once("./Services/Style/classes/class.ilStyleImageTableGUI.php");
 		$table_gui = new ilStyleImageTableGUI($this, "listImages",
