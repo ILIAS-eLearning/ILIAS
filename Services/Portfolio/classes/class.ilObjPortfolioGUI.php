@@ -71,6 +71,8 @@ class ilObjPortfolioGUI
 			$title .= ": ".$this->portfolio->getTitle();	
 		}
 		$tpl->setTitle($title);
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_prtf_b.gif"), 
+			$lng->txt("portfolio"));
 
 		switch($next_class)
 		{
@@ -81,8 +83,6 @@ class ilObjPortfolioGUI
 				
 				$this->setPagesTabs();
 				$ilTabs->activateTab("share");
-				
-				$tpl->setTitle($lng->txt("portfolio"));
 				
 				include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
 				include_once('./Services/Portfolio/classes/class.ilPortfolioAccessHandler.php');

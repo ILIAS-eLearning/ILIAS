@@ -508,5 +508,10 @@ class ilTabsGUI
 			return "";
 		}
 	}
+	
+	function hasTabs()
+	{
+		return (bool)sizeof($this->target);
+	}
 }
 ?>
