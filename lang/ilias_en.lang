@@ -12132,3 +12132,8 @@ search#:#lucene_max_fs_info#:#Defines the file size limit. Bigger files will not
 trac#:#trac_determines_learning_progress#:#Determines Learning Progress
 content#:#cont_scorm_ed_properties#:#Learning Module Properties / Glossary
 content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.
+style#:#sty_type_rte_drag#:#Drag Bar
+style#:#sty_type_rte_tclink#:#Tree Control Link
+style#:#sty_type_rte_texp#:#Tree Icon
+style#:#sty_type_rte_tli#:#Tree List Item
+style#:#sty_type_rte_tul#:#Tree List

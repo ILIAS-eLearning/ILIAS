@@ -7547,3 +7547,22 @@ $ilDB->manipulate("UPDATE style_data SET ".
 	" uptodate = ".$ilDB->quote(0, "integer")
 	);
 ?>
+<#3444>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("RTETreeControl", "rte_tree", "div",
+				array());
+?>
+<#3445>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("RTETreeControlLink", "rte_tclink", "a",
+				array());
+?>
+<#3446>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("RTEDragBar", "rte_drag", "div",
+				array());
+?>
+

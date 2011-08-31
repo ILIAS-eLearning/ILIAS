@@ -40,22 +40,22 @@
 				<div style="clear:both;"></div>
 			</div>
 		</div>
-		<div id="intro">
+		<div id="intro" style="display:none;">
 			<div id="introLabel">loading</div>
 		</div>
 		<div id="mainTable">
-			<div id="leftView">
-				<div id="treeView" class="ilc_rte_tree_RTETree"></div>
+			<div id="leftView" class="ilc_rte_tree_RTETree">
+				<div id="treeView"></div>
 				<div id="ilLog">
 					<pre id="ilLogPre"></pre>
 				</div>
-				<div id="treeControls">
+				<div id="treeControls" class="ilc_rte_tree_RTETreeControl">
 					<!--<a id="toggleLog" href="#" onclick="toggleLog();">Show Log</a>&nbsp;&nbsp;-->
-					<a id="toggleLog" href="#" onclick="PopupCenter('{DEBUG_URL}','Debug',800,600);">{TXT_DEBUGGER}</a>&nbsp;&nbsp;
-					<a id="toggleTree" href="#" onclick="toggleTree();">{TXT_COLLAPSE}</a>
+					<a class="ilc_rte_tclink_RTETreeControlLink" id="toggleLog" href="#" onclick="PopupCenter('{DEBUG_URL}','Debug',800,600);">{TXT_DEBUGGER}</a>&nbsp;&nbsp;
+					<a class="ilc_rte_tclink_RTETreeControlLink" id="toggleTree" href="#" onclick="toggleTree();">{TXT_COLLAPSE}</a>
 				</div>
 			</div>
-			<div id="dragbar"></div>
+			<div id="dragbar" class="ilc_rte_drag_RTEDragbar"></div>
 			<div id="tdResource">
 				<iframe id="res" style="width: 100%; height:100%;" frameborder="0"></iframe>
 			</div>

@@ -255,7 +255,7 @@ class ilObjStyleSheet extends ilObject
 		"glo" => array("glo_overlay", "glo_ovtitle", "glo_ovclink", "glo_ovuglink", "glo_ovuglistlink"),
 		"sco" => array("sco_title", "sco_keyw", "sco_desc", "sco_desct", "sco_obj", "sco_objt", "sco_fmess"),
 		"rte" => array("rte_menu", "rte_mlink", "rte_tree", "rte_node", "rte_tlink","rte_status",
-			"rte_tul", "rte_tli", "rte_rexp")
+			"rte_tul", "rte_tli", "rte_texp", "rte_tclink", "rte_drag")
 		);
 
 	// these types are expandable, i.e. the user can define new style classes
@@ -302,12 +302,14 @@ class ilObjStyleSheet extends ilObject
 		"rte_menu" => "div",
 		"rte_mlink" => "a",
 		"rte_tree" => "div",
+		"rte_tclink" => "a",
+		"rte_drag" => "div",
 		"rte_node" => "div",
 		"rte_status" => "div",
 		"rte_tlink" => "a",
 		"rte_tul" => "div",
 		"rte_tli" => "div",
-		"rte_rexp" => "a",
+		"rte_texp" => "a",
 		"list_o" => "ol",
 		"list_u" => "ul",
 		"list_item" => "li",
@@ -436,6 +438,9 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "rte_tli", "class" => "RTETreeItem"),
 			array("type" => "rte_texp", "class" => "RTETreeExpanded"),
 			array("type" => "rte_texp", "class" => "RTETreeCollapsed"),
+			array("type" => "rte_tree", "class" => "RTETreeControl"),
+			array("type" => "rte_tclink", "class" => "RTETreeControlLink"),
+			array("type" => "rte_drag", "class" => "RTEDragBar"),
 			array("type" => "list_o", "class" => "NumberedList"),
 			array("type" => "list_u", "class" => "BulletedList"),
 			array("type" => "list_item", "class" => "StandardListItem"),
