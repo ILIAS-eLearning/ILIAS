@@ -201,14 +201,10 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$check->setChecked($privacy->enabledAnonymousFora());
 		$form->addItem($check);
 
-		global $ilClientIniFile;
-		if ($ilClientIniFile->readVariable("system", "SHOW_SAHS_PROTOCOL_DATA_SETTING") == "yes")
-		{
-			$check = new ilCheckboxInputGui($this->lng->txt('enable_sahs_protocol_data'), 'enable_sahs_pd');
-			$check->setInfo($this->lng->txt('enable_sahs_protocol_data_desc'));
-			$check->setChecked($privacy->enabledSahsProtocolData());
-			$form->addItem($check);
-		}
+		$check = new ilCheckboxInputGui($this->lng->txt('enable_sahs_protocol_data'), 'enable_sahs_pd');
+		$check->setInfo($this->lng->txt('enable_sahs_protocol_data_desc'));
+		$check->setChecked($privacy->enabledSahsProtocolData());
+		$form->addItem($check);
 
 		$check = new ilCheckboxInputGui($this->lng->txt('rbac_log'), 'rbac_log');
 		$check->setInfo($this->lng->txt('rbac_log_info'));
@@ -385,13 +381,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$privacy->enableAnonymousFora ((int) $_POST['anonymous_fora']);
 		$privacy->enableRbacLog((int) $_POST['rbac_log']);
 		$privacy->setRbacLogAge((int) $_POST['rbac_log_age']);
-
-		global $ilClientIniFile;
-		if ($ilClientIniFile->readVariable("system", "SHOW_SAHS_PROTOCOL_DATA_SETTING") == "yes")
-		{
-			$privacy->enableSahsProtocolData((int) $_POST['enable_sahs_pd']);
-		}
-
+		$privacy->enableSahsProtocolData((int) $_POST['enable_sahs_pd']);
+		
         // validate settings
         $code = $privacy->validate();
 
