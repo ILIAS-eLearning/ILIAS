@@ -7870,7 +7870,7 @@ meta#:#meta_index#:#Index
 meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used other sections, e.g for learning progress statistics. Please insert atypical learning time in hours and/or minutes.
 meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Installation Remarks
-meta#:#meta_instructional_designer#:#Instructional designer
+meta#:#meta_instructional_designer#:#Instructional designer(s)
 meta#:#meta_instructionaldesigner#:#Instructional designer
 meta#:#meta_intended_end_user_role#:#Intended End User Role
 meta#:#meta_interactivity_level#:#Interactivity Level
@@ -8062,7 +8062,7 @@ meta#:#meta_other_plattform_requirements#:#Other Platform Requirements
 meta#:#meta_other#:#Other
 meta#:#meta_pc_dos#:#PC-DOS
 meta#:#meta_please_select#:#Please select
-meta#:#meta_pointofcontact#:#Point of Contact
+meta#:#meta_pointofcontact#:#Point(s) of Contact
 meta#:#meta_prerequisite#:#Prerequisite
 meta#:#meta_problem_statement#:#Problem Statement
 meta#:#meta_publisher#:#Publisher
@@ -8090,7 +8090,7 @@ meta#:#meta_slide#:#Slide
 meta#:#meta_source#:#Source
 meta#:#meta_status#:#Status
 meta#:#meta_structure#:#Structure
-meta#:#meta_subjectmatterexpert#:#Subject matter expert
+meta#:#meta_subjectmatterexpert#:#Subject matter expert(s)
 meta#:#meta_table#:#Table
 meta#:#meta_taxon_path#:#Taxon Path
 meta#:#meta_taxon#:#Taxon
