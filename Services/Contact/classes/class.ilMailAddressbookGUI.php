@@ -62,7 +62,7 @@ class ilMailAddressbookGUI
 			case 'ilmailsearchcoursesgui':
 				include_once 'Services/Contact/classes/class.ilMailSearchCoursesGUI.php';
 
-				$this->tabs_gui->activateSubTab('mail_my_courses');
+				$this->activateTab('mail_my_courses');
 
 				$this->ctrl->setReturn($this, "showAddressbook");
 				$this->ctrl->forwardCommand(new ilMailSearchCoursesGUI());
@@ -71,7 +71,7 @@ class ilMailAddressbookGUI
 			case 'ilmailsearchgroupsgui':
 				include_once 'Services/Contact/classes/class.ilMailSearchGroupsGUI.php';
 
-				$this->tabs_gui->activateSubTab('mail_my_groups');
+				$this->activateTab('mail_my_groups');
 
 				$this->ctrl->setReturn($this, "showAddressbook");
 				$this->ctrl->forwardCommand(new ilMailSearchGroupsGUI());
@@ -80,14 +80,14 @@ class ilMailAddressbookGUI
 			case 'ilmailinglistsgui':
 				include_once 'Services/Contact/classes/class.ilMailingListsGUI.php';
 
-				$this->tabs_gui->activateSubTab('mail_my_mailing_lists');
+				$this->activateTab('mail_my_mailing_lists');
 
 				$this->ctrl->setReturn($this, "showAddressbook");
 				$this->ctrl->forwardCommand(new ilMailingListsGUI());
 				break;
 
 			default:
-				$this->tabs_gui->activateSubTab('mail_my_entries');
+				$this->activateTab('mail_my_entries');
 
 				if (!($cmd = $this->ctrl->getCmd()))
 				{
@@ -808,10 +808,33 @@ class ilMailAddressbookGUI
 	
 	function showSubTabs()
 	{
-	    $this->tabs_gui->addSubTabTarget('mail_my_entries', $this->ctrl->getLinkTarget($this));
-	    $this->tabs_gui->addSubTabTarget('mail_my_mailing_lists', $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
-	    $this->tabs_gui->addSubTabTarget('mail_my_courses', $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));
-	    $this->tabs_gui->addSubTabTarget('mail_my_groups', $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));
+		if($this->tabs_gui->hasTabs())
+		{		
+			$this->tabs_gui->addSubTab('mail_my_entries', $this->lng->txt('mail_my_entries'), $this->ctrl->getLinkTarget($this));
+			$this->tabs_gui->addSubTab('mail_my_mailing_lists', $this->lng->txt('mail_my_mailing_lists'), $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
+			$this->tabs_gui->addSubTab('mail_my_courses', $this->lng->txt('mail_my_courses'), $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));
+			$this->tabs_gui->addSubTab('mail_my_groups', $this->lng->txt('mail_my_groups'), $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));
+			$this->has_sub_tabs = true;			
+		}
+		else
+		{
+			$this->tabs_gui->addTab('mail_my_entries', $this->lng->txt('mail_my_entries'), $this->ctrl->getLinkTarget($this));
+			$this->tabs_gui->addTab('mail_my_mailing_lists', $this->lng->txt('mail_my_mailing_lists'), $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
+			$this->tabs_gui->addTab('mail_my_courses', $this->lng->txt('mail_my_courses'), $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));
+			$this->tabs_gui->addTab('mail_my_groups', $this->lng->txt('mail_my_groups'), $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));
+		}
+	}
+	
+	function activateTab($a_id)
+	{
+		if($this->has_sub_tabs)
+		{		
+			$this->tabs_gui->activateSubTab($a_id);
+		}
+		else
+		{
+			$this->tabs_gui->activateTab($a_id);
+		}
 	}
 }
 ?>
