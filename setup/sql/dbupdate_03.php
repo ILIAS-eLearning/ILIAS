@@ -7565,4 +7565,8 @@ $ilDB->manipulate("UPDATE style_data SET ".
 	ilDBUpdate3136::addStyleClass("RTEDragBar", "rte_drag", "div",
 				array());
 ?>
-
+<#3447>
+<?php
+$setting = new ilSetting();
+$setting->set("enable_sahs_pd", 1);
+?>
