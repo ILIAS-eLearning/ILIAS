@@ -104,6 +104,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 					break;
 			}
 		}
+		
+		$this->addHeaderAction();
 
 		switch($next_class)
 		{
@@ -126,7 +128,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				break;
 
 			case "ilobjmediaobjectgui":
-
+				$this->removeHeaderAction();
+				
 				//$cmd.="Object";
 				if ($cmd == "create" || $cmd == "save" || $cmd == "cancel")
 				{

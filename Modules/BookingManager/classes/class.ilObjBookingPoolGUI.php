@@ -100,6 +100,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				$this->$cmd();
 				break;
 		}
+		
+		$this->addHeaderAction();
 		return true;
 	}
 

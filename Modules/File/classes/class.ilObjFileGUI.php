@@ -144,6 +144,8 @@ class ilObjFileGUI extends ilObject2GUI
 				$this->$cmd();
 				break;
 		}		
+		
+		$this->addHeaderAction();
 	}
 	
 	protected function initCreationForms()

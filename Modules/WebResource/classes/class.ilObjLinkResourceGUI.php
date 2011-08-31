@@ -106,6 +106,8 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			// Fill meta header tags
 			include_once('Services/MetaData/classes/class.ilMDUtils.php');
 			ilMDUtils::_fillHTMLMetaTags($this->object->getId(),$this->object->getId(),'webr');
+			
+			$this->addHeaderAction();
 		}
 		return true;
 	}

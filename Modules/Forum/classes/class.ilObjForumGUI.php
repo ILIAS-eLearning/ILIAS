@@ -190,6 +190,12 @@ class ilObjForumGUI extends ilObjectGUI
 
 				break;
 		}
+		
+		// suppress for topic level
+		if($cmd != "viewThreadObject")
+		{
+			$this->addHeaderAction();
+		}
 
 		return true;
 	}

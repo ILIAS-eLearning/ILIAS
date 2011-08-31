@@ -92,6 +92,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	
 			break;
 		}
+		
+		$this->addHeaderAction();
   
   		return true;
 	}

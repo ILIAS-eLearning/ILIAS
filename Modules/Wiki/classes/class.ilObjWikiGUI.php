@@ -49,10 +49,12 @@ class ilObjWikiGUI extends ilObjectGUI
 		{
 			case "ilinfoscreengui":
 				$this->checkPermission("visible");
+				$this->addHeaderAction();
 				$this->infoScreen();	// forwards command
 				break;
 
 			case 'ilpermissiongui':
+				$this->addHeaderAction();
 				$ilTabs->activateTab("perm_settings");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
@@ -117,6 +119,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
 			case "ilexportgui":
 //				$this->prepareOutput();
+				$this->addHeaderAction();
 				$ilTabs->activateTab("export");
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this);
@@ -128,6 +131,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
 
 			default:
+				$this->addHeaderAction();
 				if(!$cmd)
 				{
 					$cmd = "infoScreen";
@@ -141,8 +145,8 @@ class ilObjWikiGUI extends ilObjectGUI
 				{
 					$this->checkPermission("visible");
 				}
-				$this->$cmd();
-			break;
+				$this->$cmd();				
+				break;
 		}
   
   		return $ret;
@@ -803,6 +807,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->checkPermission("read");
 
 		$ilTabs->clearTargets();
+		$this->removeHeaderAction();
 
 		$page = ($_GET["page"] != "")
 			? $_GET["page"]

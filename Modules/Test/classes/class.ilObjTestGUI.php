@@ -118,7 +118,7 @@ class ilObjTestGUI extends ilObjectGUI
                     $this->ctrl->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
                 }
 
-
+		$this->addHeaderAction();
 
 		switch($next_class)
 		{
@@ -136,8 +136,8 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 			case "iltestoutputgui":
+				$this->removeHeaderAction();
 				include_once "./Modules/Test/classes/class.ilTestOutputGUI.php";
-
 				if (!$this->object->getKioskMode()) $this->prepareOutput();
 				$output_gui =& new ilTestOutputGUI($this->object);
 				$this->ctrl->forwardCommand($output_gui);
@@ -151,6 +151,7 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 				
 			case "iltestservicegui":
+				$this->removeHeaderAction();
 				include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
 				$this->prepareOutput();
 				$serviceGUI =& new ilTestServiceGUI($this->object);
@@ -166,7 +167,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 			case "illearningprogressgui":
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-
 				$this->prepareOutput();
 				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
@@ -174,6 +174,7 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 
 			case "ilcertificategui":
+				$this->removeHeaderAction();
 				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
 				$this->prepareOutput();
 				include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
