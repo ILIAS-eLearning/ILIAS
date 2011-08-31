@@ -126,6 +126,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	
 			break;
 		}
+		
+		$this->addHeaderAction();
+		
   		return true;
 	}
 	
