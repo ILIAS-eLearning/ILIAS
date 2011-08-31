@@ -175,16 +175,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	 */
 	private function initCommandButtons()
 	{
-		if($this->_folderNode['m_type'] == 'user_folder' || 
-		   $this->_folderNode['m_type'] == 'local')
-		{
-			if($this->_folderNode['m_type'] == 'user_folder')
-			{
-				$this->addCommandButton('enterFolderData', $this->lng->txt('edit'));
-			}
-			$this->addCommandButton('addSubFolder', $this->lng->txt('mail_add_subfolder'));
-		}
-		else if($this->_folderNode['m_type'] == 'trash')
+		if($this->_folderNode['m_type'] == 'trash')
 		{
 			$this->addCommandButton('askForEmptyTrash', $this->lng->txt('mail_empty_trash'));
 		}
