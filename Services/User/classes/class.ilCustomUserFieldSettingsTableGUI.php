@@ -26,7 +26,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 		$this->setTitle($lng->txt("user_defined_list"));
 		$this->setLimit(9999);
 		
-		//$this->addColumn($this->lng->txt("usrs_group"), "");
+		$this->addColumn("", "", 1);
 		$this->addColumn($this->lng->txt("user_field"), "");
 		$this->addColumn($this->lng->txt("access"), "");
 		$this->addColumn($this->lng->txt("export")." / ".$this->lng->txt("search"), "");
@@ -47,7 +47,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 		}
 		$this->setData($fds);
 		$this->addCommandButton("updateFields", $lng->txt("save"));
-		$this->addCommandButton("chooseFieldType", $lng->txt("add_user_defined_field"));
+		$this->addMultiCommand("askDeleteField", $lng->txt("delete"));
 	}
 	
 	/**
@@ -105,32 +105,13 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 		// actions
 		$ilCtrl->setParameter($this->parent_obj, 'field_id', $a_set["field_id"]);
 		$this->tpl->setCurrentBlock("action");
-		switch($a_set['field_type'])
-		{
-			case UDF_TYPE_TEXT:
-				$this->tpl->setVariable("HREF_CMD",
-					$ilCtrl->getLinkTarget($this->parent_obj, 'editTextField'));
-				break;
-
-			case UDF_TYPE_WYSIWYG:
-				$this->tpl->setVariable("HREF_CMD",
-					$ilCtrl->getLinkTarget($this->parent_obj, 'editWysiwygField'));
-				break;
-
-			case UDF_TYPE_SELECT:
-				$this->tpl->setVariable("HREF_CMD",
-					$ilCtrl->getLinkTarget($this->parent_obj, 'editSelectField'));
-				break;
-		}
-		$this->tpl->setVariable("TXT_CMD", $lng->txt("edit"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("action");
 		$this->tpl->setVariable("HREF_CMD",
-			$ilCtrl->getLinkTarget($this->parent_obj, 'askDeleteField'));
-		$this->tpl->setVariable("TXT_CMD", $lng->txt("delete"));
+			$ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
+		$this->tpl->setVariable("TXT_CMD", $lng->txt("edit"));
 		$this->tpl->parseCurrentBlock();
 		
 		// field name
+		$this->tpl->setVariable("FIELD_ID", $a_set["field_id"]);
 		$this->tpl->setVariable("TXT_FIELD", $a_set["field_name"]);
 	}
 	
