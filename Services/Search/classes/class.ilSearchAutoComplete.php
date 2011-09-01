@@ -45,14 +45,14 @@ class ilSearchAutoComplete
 		$lim = "";
 		while (($rec = $ilDB->fetchAssoc($set)) && $cnt < $max)
 		{
+			if (strpos($rec["title"], " ") > 0 || strpos($rec["title"], "-") > 0)
+			{
+				$rec["title"] = '"'.$rec["title"].'"';
+			}
 			if (!in_array($rec["title"], $list) && !in_array($rec["obj_id"], $checked))
 			{
 				if (ilSearchAutoComplete::checkObjectPermission($rec["obj_id"]))
 				{
-					if (strpos($rec["title"], " ") > 0 || strpos($rec["title"], "-") > 0)
-					{
-						$rec["title"] = '"'.$rec["title"].'"';
-					}
 					$list[] = $lim.$rec["title"];
 					$cnt++;
 				}
@@ -65,14 +65,14 @@ class ilSearchAutoComplete
 			.$ilDB->in('obj_type', $object_types, false, 'text')." ORDER BY keyword");
 		while (($rec = $ilDB->fetchAssoc($set)) && $cnt < $max)
 		{
+			if (strpos($rec["keyword"], " ") > 0)
+			{
+				$rec["keyword"] = '"'.$rec["keyword"].'"';
+			}
 			if (!in_array($rec["keyword"], $list) && !in_array($rec["rbac_id"], $checked))
 			{
 				if (ilSearchAutoComplete::checkObjectPermission($rec["rbac_id"]))
 				{
-					if (strpos($rec["keyword"], " ") > 0)
-					{
-						$rec["keyword"] = '"'.$rec["keyword"].'"';
-					}
 					$list[] = $lim.$rec["keyword"];
 					$cnt++;
 				}

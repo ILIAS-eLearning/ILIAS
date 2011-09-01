@@ -1,4 +1,11 @@
 /* Page */
+
+html {
+	font-size:0.89em;
+}
+body {
+	font-size:100%;
+}
 p
 {
 	margin: 0;

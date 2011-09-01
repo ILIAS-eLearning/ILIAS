@@ -7,14 +7,13 @@
 		zoom 1; *display:inline for IE6 & 7 -->
 	<div style="margin-left: width:150px; display: -moz-inline-stack; display:inline-block; zoom: 1; *display:inline;" id="myAutoComplete">
 		<label class="ilAccHidden" for="main_menu_search">{BTN_SEARCH}</label>
-		<input style="width:100px; font-size:80%" type="text" class="ilMainMenuSearch" id="main_menu_search" name="queryString" />
+		<input style="width:140px; font-size:80%" type="text" class="ilMainMenuSearch" id="main_menu_search" name="queryString" />
 		<input type="hidden" name="root_id" value="{CONT_REF_ID}" />
 	    <div class="yui-skin-sam" style="font-size: 75%;" id="{ID_AUTOCOMPLETE}"></div>
 	</div>
 	</td>
-	<td><!-- <input style="margin-left:5px;" class="ilMainMenuSearchSubmit" type="submit" name="cmd[remoteSearch]" value="{BTN_SEARCH}" />--></td>
 </tr></table>
-</div>
+</div><div class="ilOverlay" style="display:none;" id="mm_search_menu">{SEARCH_LINK_MENU}</div>
 	<script type="text/javascript">
 		ilAddOnLoad(
 			function()
@@ -48,11 +47,31 @@
 				// Instantiate the AutoComplete
 				var oAC = new YAHOO.widget.AutoComplete("main_menu_search", "{ID_AUTOCOMPLETE}", oDS);
 				oAC.minQueryLength = 2;
-				oAC.queryDelay = 0.5;
+				oAC.queryDelay = 0.5;	
 				oAC.autoHighlight = false;
 				oAC.responseType = YAHOO.widget.DS_XHR.TYPE_JSON;
+				oAC.animVert = false;
+				oAC.animSpeed = 0;
 				// compatibility for IE < 7
-				oAC.useIFrame = true; 
+				oAC.useIFrame = true;
+				
+				if (typeof $ != "undefined")
+				{
+					$("#main_menu_search").bind("focusin focusout keyup click", function(e) {
+							if (this.value.length < 1 && e.type != "focusout")
+							{
+								ilOverlay.show(e, "mm_search_menu", "main_menu_search",
+									false, 'tl', 'bl');
+							}
+							else
+							{
+								if (e.type == "keyup")
+								{
+									ilOverlay.hide(e, "mm_search_menu");
+								}
+							}
+						});
+				}
 			}
 		);
 	</script>
