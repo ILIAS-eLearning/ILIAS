@@ -181,7 +181,12 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		// workaround to show details row
 		$this->setData(array("dummy"));
-
+				
+		// prepare notes
+		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+		ilNoteGUI::initJavascript(
+			$ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilnotegui"), "", "", true, false));		
+		
 		switch((int)$this->view)
 		{
 			case self::VIEW_MY_MEMBERSHIPS:
