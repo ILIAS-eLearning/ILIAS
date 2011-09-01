@@ -12137,3 +12137,4 @@ style#:#sty_type_rte_tclink#:#Tree Control Link
 style#:#sty_type_rte_texp#:#Tree Icon
 style#:#sty_type_rte_tli#:#Tree List Item
 style#:#sty_type_rte_tul#:#Tree List
+chatroom_adm#:#port_info#:#Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked. 

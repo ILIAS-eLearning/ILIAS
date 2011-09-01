@@ -280,6 +280,7 @@ class ilChatroomFormFactory
 		$port->setMinValue( 1 );
 		$port->setMaxValue( 65535 );
 		$port->setRequired( true );
+		$port->setInfo($lng->txt('port_info'));
 		$form->addItem( $port );
 
 		/*
