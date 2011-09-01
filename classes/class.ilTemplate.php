@@ -1607,29 +1607,32 @@ class ilTemplate extends ilTemplateX
 		
 		if (is_object($this->getHeaderActionMenu()) && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{		
-			$header_action_gui = $this->getHeaderActionMenu();							
-			include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
-			$lg = ilObjectListGUIFactory::_getListGUIByType($header_action_gui->object->getType());
-			$lg->setContainerObject($header_action_gui);
-			
-			// personal workspace
-			if($_REQUEST["wsp_id"])
+			$header_action_gui = $this->getHeaderActionMenu();	
+			if($header_action_gui->object)
 			{
-				$ref_id = $_REQUEST["wsp_id"];
-				$context = ilObjectListGUI::CONTEXT_WORKSPACE;
-			}	
-			// repository
-			else
-			{
-				$ref_id = $header_action_gui->object->getRefId();
-				$context = ilObjectListGUI::CONTEXT_REPOSITORY;
+				include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
+				$lg = ilObjectListGUIFactory::_getListGUIByType($header_action_gui->object->getType());
+				$lg->setContainerObject($header_action_gui);
+
+				// personal workspace
+				if($_REQUEST["wsp_id"])
+				{
+					$ref_id = $_REQUEST["wsp_id"];
+					$context = ilObjectListGUI::CONTEXT_WORKSPACE;
+				}	
+				// repository
+				else
+				{
+					$ref_id = $header_action_gui->object->getRefId();
+					$context = ilObjectListGUI::CONTEXT_REPOSITORY;
+				}
+
+				$this->setCurrentBlock("head_action");
+				$this->setVariable("HEAD_ACTION", $lg->getHeaderAction($ref_id,
+					$header_action_gui->object->getId(),
+					$context, $this->header_action_sub_id));
+				$this->parseCurrentBlock();
 			}
-			
-			$this->setCurrentBlock("head_action");
-			$this->setVariable("HEAD_ACTION", $lg->getHeaderAction($ref_id,
-				$header_action_gui->object->getId(),
-				$context, $this->header_action_sub_id));
-			$this->parseCurrentBlock();
 		}
 
 		if(count((array) $this->title_alerts))
