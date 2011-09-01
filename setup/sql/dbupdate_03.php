@@ -7570,3 +7570,7 @@ $ilDB->manipulate("UPDATE style_data SET ".
 $setting = new ilSetting();
 $setting->set("enable_sahs_pd", 1);
 ?>
+<#3448>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
