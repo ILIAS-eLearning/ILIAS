@@ -2741,6 +2741,70 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 	}
 	
+	function initNewAccountMailForm()
+	{
+		global $lng, $ilCtrl;
+		
+		$lng->loadLanguageModule("meta");
+		$lng->loadLanguageModule("mail");
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		
+		$form->setTitleIcon(ilUtil::getImagePath("icon_mail.gif"));
+		$form->setTitle($lng->txt("user_new_account_mail"));
+		$form->setDescription($lng->txt("user_new_account_mail_desc"));
+				
+		$langs = $lng->getInstalledLanguages();
+		foreach($langs as $lang_key)
+		{
+			$amail = $this->object->_lookupNewAccountMail($lang_key);
+			
+			$title = $lng->txt("meta_l_".$lang_key);
+			if ($lang_key == $lng->getDefaultLanguage())
+			{
+				$title .= " (".$lng->txt("default").")";
+			}
+			
+			$header = new ilFormSectionHeaderGUI();
+			$header->setTitle($title);
+			$form->addItem($header);
+													
+			$subj = new ilTextInputGUI($lng->txt("subject"), "subject_".$lang_key);
+			// $subj->setRequired(true);
+			$subj->setValue($amail["subject"]);
+			$form->addItem($subj);
+			
+			$salg = new ilTextInputGUI($lng->txt("mail_salutation_general"), "sal_g_".$lang_key);
+			// $salg->setRequired(true);
+			$salg->setValue($amail["sal_g"]);
+			$form->addItem($salg);
+			
+			$salf = new ilTextInputGUI($lng->txt("mail_salutation_female"), "sal_f_".$lang_key);
+			// $salf->setRequired(true);
+			$salf->setValue($amail["sal_f"]);
+			$form->addItem($salf);
+			
+			$salm = new ilTextInputGUI($lng->txt("mail_salutation_male"), "sal_m_".$lang_key);
+			// $salm->setRequired(true);
+			$salm->setValue($amail["sal_m"]);
+			$form->addItem($salm);
+		
+			$body = new ilTextAreaInputGUI($lng->txt("message_content"), "body_".$lang_key);
+			// $body->setRequired(true);
+			$body->setValue($amail["body"]);
+			$body->setRows(10);
+			$body->setCols(100);
+			$form->addItem($body);		
+		}		
+	
+		$form->addCommandButton("saveNewAccountMail", $lng->txt("save"));
+		$form->addCommandButton("cancelNewAccountMail", $lng->txt("cancel"));
+				
+		return $form;		
+	}
+	
 	/**
 	* new account mail administration
 	*/
@@ -2751,16 +2815,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->setSubTabs('settings');
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('user_new_account_mail');
+				
+		$form = $this->initNewAccountMailForm();				
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_new_account_mail.html');
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_mail.gif"));
-		
-		$lng->loadLanguageModule("meta");
-		$lng->loadLanguageModule("mail");
-		$this->tpl->setVariable("TXT_NEW_USER_ACCOUNT_MAIL", $lng->txt("user_new_account_mail"));
-		$this->tpl->setVariable("TXT_NEW_USER_ACCOUNT_MAIL_DESC", $lng->txt("user_new_account_mail_desc"));
-		
+		$this->tpl->setVariable("FORM", $form->getHTML());
+
 		// placeholder help text
 		$this->tpl->setVariable("TXT_USE_PLACEHOLDERS", $lng->txt("mail_nacc_use_placeholder"));
 		$this->tpl->setVariable("TXT_MAIL_SALUTATION", $lng->txt("mail_nacc_salutation"));
@@ -2777,44 +2837,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TARGET", $lng->txt("mail_nacc_target"));
 		$this->tpl->setVariable("TXT_TARGET_TITLE", $lng->txt("mail_nacc_target_title"));
 		$this->tpl->setVariable("TXT_TARGET_TYPE", $lng->txt("mail_nacc_target_type"));
-		$this->tpl->setVariable("TXT_TARGET_BLOCK", $lng->txt("mail_nacc_target_block"));	
-		
-		$langs = $lng->getInstalledLanguages();
-		foreach($langs as $lang_key)
-		{
-			$amail = $this->object->_lookupNewAccountMail($lang_key);
-			$this->tpl->setCurrentBlock("mail_block");
-			$add = "";
-			if ($lang_key == $lng->getDefaultLanguage())
-			{
-				$add = " (".$lng->txt("default").")";
-			}
-			$this->tpl->setVariable("TXT_LANGUAGE",
-				$lng->txt("meta_l_".$lang_key).$add);
-			$this->tpl->setVariable("TXT_BODY", $lng->txt("message_content"));
-			$this->tpl->setVariable("TA_BODY", "body_".$lang_key);
-			$this->tpl->setVariable("VAL_BODY", 
-				ilUtil::prepareFormOutput($amail["body"]));
-			$this->tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
-			$this->tpl->setVariable("INPUT_SUBJECT", "subject_".$lang_key);
-			$this->tpl->setVariable("VAL_SUBJECT", 
-				ilUtil::prepareFormOutput($amail["subject"]));
-			$this->tpl->setVariable("TXT_SAL_G", $lng->txt("mail_salutation_general"));
-			$this->tpl->setVariable("INPUT_SAL_G", "sal_g_".$lang_key);
-			$this->tpl->setVariable("VAL_SAL_G", 
-				ilUtil::prepareFormOutput($amail["sal_g"]));
-			$this->tpl->setVariable("TXT_SAL_M", $lng->txt("mail_salutation_male"));
-			$this->tpl->setVariable("INPUT_SAL_M", "sal_m_".$lang_key);
-			$this->tpl->setVariable("VAL_SAL_M", 
-				ilUtil::prepareFormOutput($amail["sal_m"]));
-			$this->tpl->setVariable("TXT_SAL_F", $lng->txt("mail_salutation_female"));
-			$this->tpl->setVariable("INPUT_SAL_F", "sal_f_".$lang_key);
-			$this->tpl->setVariable("VAL_SAL_F", 
-				ilUtil::prepareFormOutput($amail["sal_f"]));
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setVariable("TXT_CANCEL", $lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SAVE", $lng->txt("save"));
+		$this->tpl->setVariable("TXT_TARGET_BLOCK", $lng->txt("mail_nacc_target_block"));					
 	}
 
 	function cancelNewAccountMailObject()
@@ -2825,8 +2848,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function saveNewAccountMailObject()
 	{
 		global $lng;
-		
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+				
 		$langs = $lng->getInstalledLanguages();
 		foreach($langs as $lang_key)
 		{
@@ -2837,6 +2859,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				ilUtil::stripSlashes($_POST["sal_m_".$lang_key]),
 				ilUtil::stripSlashes($_POST["body_".$lang_key]));
 		}
+		
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "newAccountMail");
 	}
 
