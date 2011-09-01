@@ -3224,12 +3224,13 @@ div.ilFrameFixedWidthHeader
 .ilFrameFixedWidthHeader .ilHeaderImg img
 {
 	border: 0;
+	margin-right: 25px;
 }
 
 .ilFrameFixedWidthHeader h1.ilHeader
 {
 	padding: 0;
-	margin-top: 5px;
+	margin-top: 25px;
 }
 
 .ilFrameFixedWidthHeader div.ilHeaderDesc 
