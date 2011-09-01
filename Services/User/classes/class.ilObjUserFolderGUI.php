@@ -2718,14 +2718,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("CSS_ROW", $css_row);
 			$this->tpl->parseCurrentBlock();
 		} //if is_array
+		/*
 		else
+		
 		{
 			$this->tpl->setCurrentBlock("notfound");
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 			$this->tpl->setVariable("NUM_COLS", 3);
 			$this->tpl->parseCurrentBlock();
 		}
-
+		*/
+		
 		$this->tpl->parseCurrentBlock();
 		
 		
@@ -2741,7 +2744,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 	}
 	
-	function initNewAccountMailForm()
+	protected function initNewAccountMailForm()
 	{
 		global $lng, $ilCtrl;
 		
