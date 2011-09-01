@@ -2287,7 +2287,7 @@ class ilTemplate extends ilTemplateX
 		$this->setDescription(null);
 		
 		$this->setVariable("FULLSCREEN_TITLE", $a_title);
-	
+		
 		if($a_description)
 		{			
 			$this->setCurrentBlock("fullscreen_descbl");
@@ -2310,7 +2310,11 @@ class ilTemplate extends ilTemplateX
 		
 		if($a_bg_color)
 		{
-			$this->setVariable("FRAME_BG_COLOR", " style=\"background-color: #".$a_bg_color."\"");
+			$this->setVariable("FRAME_BG_COLOR", " style=\"padding:1px; background-color: #".$a_bg_color."\"");
+		}
+		else
+		{
+			$this->setVariable("FRAME_BG_COLOR", " style=\"padding:1px;\"");
 		}
 		
 		if($a_font_color)

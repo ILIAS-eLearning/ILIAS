@@ -635,11 +635,13 @@ class ilObjBlogGUI extends ilObject2GUI
 	 */	
 	function renderFullScreen($a_content, $a_navigation)
 	{
-		global $tpl, $lng, $ilCtrl, $ilUser, $ilTabs;
+		global $tpl, $lng, $ilCtrl, $ilUser, $ilTabs, $ilLocator;
 		
 		$owner = $this->object->getOwner();
 		
 		$ilTabs->clearTargets();
+		$ilLocator->clearItems();
+		$tpl->setLocator();
 		
 		// back (edit)
 		if($owner == $ilUser->getId())
