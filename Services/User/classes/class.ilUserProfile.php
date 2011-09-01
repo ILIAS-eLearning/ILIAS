@@ -793,13 +793,27 @@ class ilUserProfile
 		return false;
 	}
 		
-	static function isProfileIncomplete($a_user, $a_include_udf = true)
+	/**
+	 * Check if all required personal data fields are set
+	 * 
+	 * @param ilObjUser $a_user
+	 * @param bool $a_include_udf check custom fields, too
+	 * @param bool $a_personal_data_only only check fields which are visible in personal data
+	 * @return bool 
+	 */
+	static function isProfileIncomplete($a_user, $a_include_udf = true, $a_personal_data_only = true)
 	{
 		global $ilSetting;
 		
 		// standard fields
 		foreach(self::$user_field as $field => $definition)
 		{
+			// only if visible in personal data
+			if($a_personal_data_only && $ilSetting->get("usr_settings_hide_".$field))
+			{
+				continue;
+			}
+			
 			if($ilSetting->get("require_".$field) && $definition["method"])
 			{
 				$value = $a_user->{$definition["method"]}();
@@ -819,6 +833,12 @@ class ilUserProfile
 			$user_defined_fields = ilUserDefinedFields::_getInstance();						
 			foreach($user_defined_fields->getRequiredDefinitions() as $field => $definition)
 			{
+				// only if visible in personal data
+				if($a_personal_data_only && !$definition["visible"])
+				{
+					continue;
+				}
+				
 				if(!$user_defined_data["f_".$field])
 				{
 					return true;
