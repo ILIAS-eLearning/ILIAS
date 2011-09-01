@@ -11656,7 +11656,8 @@ ecs#:#ecs_tab_export#:#Export
 ecs#:#ecs_mapping_crs#:#Leképezés kurzusokra
 ecs#:#ecs_mapping_rcrs#:#Leképezés átirányíott kurzusokhoz
 ecs#:#ecs_mapping_exp_tbl#:#ILIAS haladó metaadatok leképezése ECS-adatokba
-content#:#cont_edit_personal_data#:#Személyes adatok szerkesztésecontent#:#cont_alphabetic#:#Alphabetic A, B, ...###18 07 2011 new variable
+content#:#cont_edit_personal_data#:#Személyes adatok szerkesztése
+content#:#cont_alphabetic#:#Alphabetic A, B, ...###18 07 2011 new variable
 content#:#cont_roman#:#Roman I, II, ...###18 07 2011 new variable
 forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlighted###18 07 2011 new variable
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)###18 07 2011 new variable
