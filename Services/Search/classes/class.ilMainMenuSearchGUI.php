@@ -53,7 +53,7 @@ class ilMainMenuSearchGUI
 	
 	public function getHTML()
 	{
-		global $ilCtrl, $tpl, $lng;
+		global $ilCtrl, $tpl, $lng, $ilUser;
 		
 		if(!$this->isContainer)
 		{
@@ -74,18 +74,27 @@ class ilMainMenuSearchGUI
 		$this->tpl->setVariable('ID_AUTOCOMPLETE', "mm_sr_auto");
 		$this->tpl->setVariable('YUI_DATASOURCE', "ilias.php?baseClass=ilSearchController&cmd=autoComplete");
 		
-/*
-		$this->tpl->setVariable('ARROW', ilUtil::getImagePath("mm_down_arrow_dark.gif"));
-		$this->tpl->setVariable('SRC_ICON', ilUtil::getImagePath("icon_seas_s.gif"));
-		$this->tpl->setVariable('TXT_LAST_SEARCH', " > ".$lng->txt("last_search_result"));
-		$this->tpl->setVariable('HREF_LAST_SEARCH', "ilias.php?baseClass=ilSearchController");
-		$this->tpl->setVariable('TXT_SEARCH', $lng->txt("search"));
-		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
-		$ov = new ilOverlayGUI("mm_search");
-		$ov->setTrigger("mm_search_trigger");
-		$ov->setAnchor("mm_search_trigger", "tr", "br");
-		$ov->setAutoHide(false);
-		$ov->add();*/
+		// search link menu
+		//$this->tpl->setVariable('ARROW', ilUtil::getImagePath("mm_down_arrow_dark.gif"));
+		//$this->tpl->setVariable('SRC_ICON', ilUtil::getImagePath("icon_seas_s.gif"));
+		//$this->tpl->setVariable('TXT_LAST_SEARCH', " > ".$lng->txt("last_search_result"));
+		//$this->tpl->setVariable('HREF_LAST_SEARCH', "ilias.php?baseClass=ilSearchController");
+		
+		if ($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
+			$list = new ilGroupedListGUI();
+			$list->addEntry($lng->txt("last_search_result"), "ilias.php?baseClass=ilSearchController");
+			$this->tpl->setVariable('SEARCH_LINK_MENU', $list->getHTML());
+			$this->tpl->setVariable('TXT_SEARCH', $lng->txt("search"));
+			include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+			$ov = new ilOverlayGUI("mm_search_menu");
+			//$ov->setTrigger("main_menu_search", "none",
+			//	"main_menu_search", "tr", "br");
+			//$ov->setAnchor("main_menu_search", "tr", "br");
+			$ov->setAutoHide(false);
+			$ov->add();
+		}
 		
 		return $this->tpl->get();
 	} 

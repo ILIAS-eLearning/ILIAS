@@ -127,7 +127,7 @@ ilOverlayFunc.prototype =
 	show: function(e, id, anchor_id, center, ov_corner, anch_corner)
 	{
 		// hide all other overlays (currently the standard procedure)
-		ilOverlay.hideAllOverlays(e, true);
+		ilOverlay.hideAllOverlays(e, true, id);
 		
 		// display the overlay at the anchor position
 		var el = document.getElementById(id);
@@ -261,10 +261,16 @@ ilOverlayFunc.prototype =
 	},
 	
 	// hide all overlays
-	hideAllOverlays: function (e, force) {
+	hideAllOverlays: function (e, force, omit) {
 		for (var k in ilOverlayFunc.prototype.overlays)
 		{
 			var isIn = false;
+			
+			if (k == omit)
+			{
+
+				continue;
+			}
 
 			// problems with form select: pageXY can be outside layer
 			if (!force) {
@@ -410,4 +416,4 @@ ilOverlayFunc.prototype =
 };
 var ilOverlay = new ilOverlayFunc();
 YAHOO.util.Event.addListener(document, "click",
-	function(e) {ilOverlay.hideAllOverlays(e, false)});
+	function(e) {ilOverlay.hideAllOverlays(e, false, "")});

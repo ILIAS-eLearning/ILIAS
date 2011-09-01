@@ -326,15 +326,16 @@ class ilMainMenuGUI
 		// new mails?
 		if ($this->mail)
 		{
-			if ($new_mails = ilMailbox::_countNewMails($_SESSION["AccountId"]))
+			$new_mails = ilMailbox::_countNewMails($_SESSION["AccountId"]);
+			$a_tpl->setCurrentBlock("status_item");
+			if ($new_mails > 0)
 			{
-				$a_tpl->setCurrentBlock("status_item");
 				$a_tpl->setVariable("STATUS_TXT", $new_mails);
-				$a_tpl->setVariable("STATUS_IMG", ilUtil::getImagePath("icon_mail_s.gif"));
-				$a_tpl->setVariable("STATUS_HREF", "ilias.php?baseClass=ilMailGUI");
-				$a_tpl->parseCurrentBlock();
-				$box = true;
 			}
+			$a_tpl->setVariable("STATUS_IMG", ilUtil::getImagePath("icon_mail_s.gif"));
+			$a_tpl->setVariable("STATUS_HREF", "ilias.php?baseClass=ilMailGUI");
+			$a_tpl->parseCurrentBlock();
+			$box = true;
 		}
 		
 		if ($box)

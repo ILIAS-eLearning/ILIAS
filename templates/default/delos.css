@@ -1,5 +1,9 @@
 /* -- for link pseudo-classes, respect order: Link, Visited, Hover, Active -- 3120 */
 
+html {
+	
+}
+
 body {
 	color:#222222;
 	background-color: #FFFFFF;
@@ -674,14 +678,6 @@ td.il_InfoScreenPropertyValue
 }
 
 /* Explorer */
-
-body.il_Explorer {
-	background-image: url(images/frame_back.gif);
-	background-repeat: repeat-x;
-	background-color: #f0f0f0;
-	margin:0px;
-	font-size:0.9em;
-}
 
 table.ilExplorer {
 	width:100%;
