@@ -775,10 +775,10 @@ class ilPersonalProfileGUI
 			}
 			else
 			{
+				$options = $this->user_defined_fields->fieldValuesToSelectArray($definition['field_values']);
 				$this->input["udf_".$definition['field_id']] =
 					new ilSelectInputGUI($definition['field_name'], "udf_".$definition['field_id']);
-				$this->input["udf_".$definition['field_id']]->setOptions(
-					$this->user_defined_fields->fieldValuesToSelectArray($definition['field_values']));
+				$this->input["udf_".$definition['field_id']]->setOptions($options);
 			}			
 			
 			$value = $user_defined_data["f_".$field_id];
@@ -791,6 +791,13 @@ class ilPersonalProfileGUI
 			else if(!$definition['changeable'] && (!$definition['required'] || $value))
 			{
 				$this->input["udf_".$definition['field_id']]->setDisabled(true);
+			}
+			
+			// add "please select" if no current value
+			if($definition['field_type'] == UDF_TYPE_SELECT && !$value)
+			{
+				$options = array(""=>$lng->txt("please_select")) + $options;
+				$this->input["udf_".$definition['field_id']]->setOptions($options);
 			}
 		}
 		
