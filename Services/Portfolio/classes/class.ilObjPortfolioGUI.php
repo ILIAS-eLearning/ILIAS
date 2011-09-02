@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Portfolio/classes/class.ilObjPortfolio.php");
+include_once('./Services/Portfolio/classes/class.ilPortfolioAccessHandler.php');
 
 /**
  * Portfolio view gui class
@@ -18,6 +19,7 @@ class ilObjPortfolioGUI
 {
 	protected $user_id; // [int]
 	protected $portfolio; // [ilObjPortfolio]
+	protected $access_handler; // [ilPortfolioAccessHandler]
 	
 	/**
 	 * Constructor
@@ -29,16 +31,29 @@ class ilObjPortfolioGUI
 		$lng->loadLanguageModule("prtf");
 
 		$this->user_id = $ilUser->getId();
+		$this->access_handler = new ilPortfolioAccessHandler();
 
 		$portfolio_id = $_REQUEST["prt_id"];
 		$ilCtrl->setParameter($this, "prt_id", $portfolio_id);
-
+		
 		if($portfolio_id)
 		{
 			$this->initPortfolioObject($portfolio_id);
 		}
 	}
 
+	protected function checkAccess($a_permission, $a_portfolio_id = null)
+	{
+		if(!$a_portfolio_id && $this->portfolio)
+		{
+			$a_portfolio_id = $this->portfolio->getId();
+		}
+		if($a_portfolio_id)
+		{
+			return $this->access_handler->checkAccess($a_permission, "", $a_portfolio_id);
+		}
+	}
+	
 	/**
 	 * Init portfolio object
 	 *
@@ -47,7 +62,7 @@ class ilObjPortfolioGUI
 	function initPortfolioObject($a_id)
 	{
 		$portfolio = new ilObjPortfolio($a_id, false);
-		if($portfolio->getId() && $portfolio->getOwner() == $this->user_id)
+		if($portfolio->getId() && $this->access_handler->checkAccess("read", "", $a_id))
 		{
 			$this->portfolio = $portfolio;
 		}
@@ -76,19 +91,20 @@ class ilObjPortfolioGUI
 
 		switch($next_class)
 		{
-			case "ilworkspaceaccessgui";				
-				$ilTabs->clearTargets();
-				$ilTabs->setBackTarget($lng->txt("back"),
-					$ilCtrl->getLinkTarget($this, "show"));			
-				
-				$this->setPagesTabs();
-				$ilTabs->activateTab("share");
-				
-				include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
-				include_once('./Services/Portfolio/classes/class.ilPortfolioAccessHandler.php');
-				$handler = new ilPortfolioAccessHandler();
-				$wspacc = new ilWorkspaceAccessGUI($this->portfolio->getId(), $handler);
-				$ilCtrl->forwardCommand($wspacc);
+			case "ilworkspaceaccessgui";	
+				if($this->checkAccess("write"))
+				{
+					$ilTabs->clearTargets();
+					$ilTabs->setBackTarget($lng->txt("back"),
+						$ilCtrl->getLinkTarget($this, "show"));			
+
+					$this->setPagesTabs();
+					$ilTabs->activateTab("share");
+
+					include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
+					$wspacc = new ilWorkspaceAccessGUI($this->portfolio->getId(), $this->access_handler, true);
+					$ilCtrl->forwardCommand($wspacc);
+				}
 				break;
 			
 			case 'ilportfoliopagegui':
@@ -97,7 +113,7 @@ class ilObjPortfolioGUI
 					$ilCtrl->getLinkTarget($this, "pages"));
 				
 				// edit
-				if(isset($_REQUEST["ppage"]))
+				if(isset($_REQUEST["ppage"]) && $this->checkAccess("write"))
 				{
 					$this->setLocator($_REQUEST["ppage"]);
 					
@@ -146,6 +162,7 @@ class ilObjPortfolioGUI
 				if($cmd != "preview")
 				{
 					$this->setLocator();
+					$this->setTabs();
 				}
 				$this->$cmd();
 				break;
@@ -162,7 +179,15 @@ class ilObjPortfolioGUI
 	 */
 	function setTabs()
 	{
+		global $ilTabs, $lng, $ilCtrl;
 		
+		$ilTabs->addTab("mypf", $lng->txt("prtf_tab_portfolios"),
+			$ilCtrl->getLinkTarget($this));
+		
+		$ilTabs->addTab("otpf", $lng->txt("prtf_tab_other_users"),
+			$ilCtrl->getLinkTarget($this, "showother"));
+		
+		$ilTabs->activateTab("mypf");
 	}
 
 	/**
@@ -170,13 +195,16 @@ class ilObjPortfolioGUI
 	 */
 	protected function show()
 	{
-		global $tpl, $lng, $ilToolbar, $ilCtrl;
-
+		global $tpl, $lng, $ilToolbar, $ilCtrl, $ilTabs;
+				
 		$ilToolbar->addButton($lng->txt("prtf_add_portfolio"),
 			$ilCtrl->getLinkTarget($this, "add"));
 			
-		$ilToolbar->addButton("TEST IMPORT PROFILE",
-			$ilCtrl->getLinkTarget($this, "importProfile"));
+		if(DEVMODE)
+		{
+			$ilToolbar->addButton("TEST IMPORT PROFILE",
+				$ilCtrl->getLinkTarget($this, "importProfile"));
+		}				
 
 		include_once "Services/Portfolio/classes/class.ilPortfolioTableGUI.php";
 		$table = new ilPortfolioTableGUI($this, "show", $this->user_id);
@@ -192,19 +220,22 @@ class ilObjPortfolioGUI
 		{
 			if(trim($title))
 			{
-				$portfolio = new ilObjPortfolio($id, false);
-				$portfolio->setTitle($title);
-				
-				if(is_array($_POST["online"]) && in_array($id, $_POST["online"]))
+				if($this->checkAccess("write", $id))
 				{
-					$portfolio->setOnline(true);
+					$portfolio = new ilObjPortfolio($id, false);
+					$portfolio->setTitle($title);
+
+					if(is_array($_POST["online"]) && in_array($id, $_POST["online"]))
+					{
+						$portfolio->setOnline(true);
+					}
+					else
+					{
+						$portfolio->setOnline(false);
+					}
+
+					$portfolio->update();
 				}
-				else
-				{
-					$portfolio->setOnline(false);
-				}
-				
-				$portfolio->update();
 			}
 		}
 		
@@ -298,7 +329,7 @@ class ilObjPortfolioGUI
 		global $tpl, $lng, $ilCtrl, $ilUser;
 
 		$form = $this->initForm("edit");
-		if($form->checkInput())
+		if($form->checkInput() && $this->checkAccess("write"))
 		{
 			$this->portfolio->setTitle($form->getInput("title"));
 			$this->portfolio->setDescription($form->getInput("desc"));
@@ -487,7 +518,7 @@ class ilObjPortfolioGUI
 	{
 		global $ilCtrl, $lng;
 
-		if($this->portfolio)
+		if($this->portfolio && $this->checkAccess("write"))
 		{
 			ilObjPortfolio::setUserDefault($this->user_id, $this->portfolio->getId());
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
@@ -536,10 +567,13 @@ class ilObjPortfolioGUI
 		{
 			foreach ($_POST["prtfs"] as $id)
 			{
-				$portfolio = new ilObjPortfolio($id, false);
-				if ($portfolio->getOwner() == $this->user_id)
+				if($this->checkAccess("write", $id))
 				{
-					$portfolio->delete();
+					$portfolio = new ilObjPortfolio($id, false);
+					if ($portfolio->getOwner() == $this->user_id)
+					{
+						$portfolio->delete();
+					}
 				}
 			}
 		}
@@ -556,18 +590,21 @@ class ilObjPortfolioGUI
 	{
 		global $lng, $ilTabs, $ilCtrl;				
 		
-		$ilTabs->addTab("pages",
+		if($this->checkAccess("write"))
+		{
+			$ilTabs->addTab("pages",
 			$lng->txt("content"),
 			$ilCtrl->getLinkTarget($this, "pages"));
 		
-		$ilTabs->addTab("edit",
-			$lng->txt("settings"),
-			$ilCtrl->getLinkTarget($this, "edit"));
-		
-		$lng->loadLanguageModule("wsp");
-		$ilTabs->addTab("share",
-			$lng->txt("wsp_permissions"),
-			$ilCtrl->getLinkTargetByClass("ilworkspaceaccessgui", "share"));
+			$ilTabs->addTab("edit",
+				$lng->txt("settings"),
+				$ilCtrl->getLinkTarget($this, "edit"));
+
+			$lng->loadLanguageModule("wsp");
+			$ilTabs->addTab("share",
+				$lng->txt("wsp_permissions"),
+				$ilCtrl->getLinkTargetByClass("ilworkspaceaccessgui", "share"));
+		}
 		
 		$ilTabs->addNonTabbedLink("preview", 
 			$lng->txt("user_profile_preview"),
@@ -580,7 +617,12 @@ class ilObjPortfolioGUI
 	protected function pages()
 	{
 		global $tpl, $lng, $ilToolbar, $ilCtrl, $ilTabs, $ilUser, $ilSetting;
-
+		
+		if(!$this->checkAccess("write"))
+		{
+			return;
+		}
+		
 		$ilTabs->clearTargets();
 		
 		$ilCtrl->setParameter($this, "prt_id", "");
@@ -593,17 +635,17 @@ class ilObjPortfolioGUI
 
 		$ilToolbar->addButton($lng->txt("prtf_add_page"),
 			$ilCtrl->getLinkTarget($this, "addPage"));
-		
+
 		if(!$ilSetting->get('disable_wsp_blogs'))
 		{
 			$ilToolbar->addButton($lng->txt("prtf_add_blog"),
 				$ilCtrl->getLinkTarget($this, "addBlog"));
 		}
-		
+
 		$ilToolbar->addSeparator();
-		
+
 		$ilToolbar->addButton($lng->txt("export"),
-			$ilCtrl->getLinkTarget($this, "export"));		
+			$ilCtrl->getLinkTarget($this, "export"));				
 				
 		include_once "Services/Portfolio/classes/class.ilPortfolioPageTableGUI.php";
 		$table = new ilPortfolioPageTableGUI($this, "show", $this->portfolio);
@@ -861,7 +903,7 @@ class ilObjPortfolioGUI
 		global $tpl, $lng, $ilCtrl, $ilTabs;
 
 		$form = $this->initPageForm("create");
-		if ($form->checkInput())
+		if ($form->checkInput() && $this->checkAccess("write"))
 		{
 			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 			$page = new ilPortfolioPage($this->portfolio->getId());
@@ -974,7 +1016,7 @@ class ilObjPortfolioGUI
 		global $tpl, $lng, $ilCtrl, $ilTabs;
 
 		$form = $this->initBlogForm("create");
-		if ($form->checkInput())
+		if ($form->checkInput() && $this->checkAccess("write"))
 		{
 			include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 			$page = new ilPortfolioPage($this->portfolio->getId());
@@ -1000,6 +1042,11 @@ class ilObjPortfolioGUI
 	function savePortfolioPagesOrdering()
 	{
 		global $ilCtrl, $ilUser, $lng;
+		
+		if(!$this->checkAccess("write"))
+		{
+			return;
+		}
 
 		include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 
@@ -1063,6 +1110,11 @@ class ilObjPortfolioGUI
 	function deletePortfolioPages()
 	{
 		global $lng, $ilCtrl;
+				
+		if(!$this->checkAccess("write"))
+		{
+			return;
+		}
 
 		include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 		if (is_array($_POST["prtf_pages"]))
@@ -1080,6 +1132,11 @@ class ilObjPortfolioGUI
 	protected function importProfile()
 	{
 		global $ilUser, $lng;
+		
+		if(!DEV_MODE)
+		{
+			return;
+		}
 		
 		include_once "Services/User/classes/class.ilExtPublicProfilePage.php";
 		include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
@@ -1137,12 +1194,24 @@ class ilObjPortfolioGUI
 	{
 		global $ilUser, $tpl, $ilCtrl, $ilTabs, $lng;
 		
+		// shared
+		if(!$this->checkAccess("write"))
+		{
+			$ilCtrl->setParameter($this, "user", $this->portfolio->getOwner());
+			$back = $ilCtrl->getLinkTarget($this, "showOther");
+			$ilCtrl->setParameter($this, "user", "");
+		}
+		// owner
+		else
+		{
+			$back = $ilCtrl->getLinkTarget($this, "pages");
+		}
+		
 		$portfolio_id = $this->portfolio->getId();
 		$user_id = $this->portfolio->getOwner();
 		
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "pages"));
+		$ilTabs->setBackTarget($lng->txt("back"), $back);
 			
 		include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
 		$pages = ilPortfolioPage::getAllPages($portfolio_id);		
@@ -1202,7 +1271,7 @@ class ilObjPortfolioGUI
 			$content = $a_content;
 		}
 		
-		if($a_return)
+		if($a_return && $this->checkAccess("write"))
 		{
 			return $content;
 		}
@@ -1482,13 +1551,46 @@ class ilObjPortfolioGUI
 		return $form;
 	}
 	
+	protected function showOther()
+	{		
+		global $tpl, $lng, $ilCtrl, $ilToolbar, $ilTabs;
+		
+		$ilTabs->activateTab("otpf");
+		
+		include_once('./Services/Portfolio/classes/class.ilPortfolioAccessHandler.php');
+		$handler = new ilPortfolioAccessHandler();
+		$users = $handler->getSharedOwners();
+	
+		// user selection
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$si = new ilSelectInputGUI($lng->txt("user"), "user");
+		$si->setOptions(array(""=>"-")+$users);
+		$ilToolbar->addInputItem($si);
+		
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		$ilToolbar->addFormButton($lng->txt("ok"), "showOther");
+
+		if(!$_REQUEST["user"])
+		{			
+			ilUtil::sendInfo($lng->txt("wsp_share_select_user"));
+		}
+		else
+		{
+			$si->setValue($_REQUEST["user"]);
+			
+			include_once "Services/Portfolio/classes/class.ilPortfolioTableGUI.php";
+			$table = new ilPortfolioTableGUI($this, "showOther", $_REQUEST["user"], true);
+			$tpl->setContent($table->getHTML());
+		}	
+	}
+	
 	function _goto($a_target)
 	{
 		$id = explode("_", $a_target);
 	
-		$_GET["baseClass"] = "ilPersonalDesktopGUI";	
+		$_GET["baseClass"] = "ilsharedresourceGUI";	
 		$_GET["prt_id"] = $id[0];		
-		$_GET["cmd"] = "jumpToPortfolio";		
+		
 		include("ilias.php");
 		exit;
 	}

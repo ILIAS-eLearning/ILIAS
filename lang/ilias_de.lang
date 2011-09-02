@@ -12106,7 +12106,6 @@ trac#:#trac_determines_learning_progress#:#Bestimmt Lernfortschritt
 search#:#lucene_max_fs#:#Maximale Dateigröße (in MB)
 search#:#lucene_max_fs_info#:#Definiert das Dateigrößenlimit, bis zu dem Dateien indexiert werden. Der Inhalt größerer Dateien wird nicht in den Index aufgenommen.
 chatroom_adm#:#port_info#:#Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Nutzer werden mit ihrem Browser keine Verbindung zum Chatserver aufbauen können, wenn der eingetragene Port nicht offen ist. 
-blog#:#blog_rename_posting#:#Eintrag umbenennen
 payment#:#check_shop_activation#:#Überprüfung der Shop Einstellung zur Aktivierung
 payment#:#please_enter_currency#:#Bitte geben Sie eine Währung ein
 payment#:#please_enter_address#:#Bitte geben Sie eine Adresse ein
@@ -12119,3 +12118,9 @@ payment#:#please_enter_epay_data#:#Bitte geben Sie Ihre EPay Daten ein
 payment#:#please_enter_vats#:#Bitte erstellen Sie wenigstens einen Steuersatz
 payment#:#please_create_vendor#:#Bitte erstellen Sie wenigstens einen Verkäufer
 payment#:#shop_activation_ok#:#Die Shop Einstellungen sind vollständig. Sie können nun den Webshop aktivieren.
+blog#:#blog_rename_posting#:#Eintrag umbenennen
+prtf#:#prtf_tab_portfolios#:#Meine Portfolios
+prtf#:#prtf_tab_other_users#:#Portfolios anderer Benutzer
+wsp#:#wsp_password_protected_resource#:#Passwort-geschützte Ressource
+wsp#:#wsp_password_protected_resource_info#:#Für den Zugang zu dieser Ressource benötigen Sie ein Passwort.
+wsp#:#wsp_password_for#:#Passwort für
