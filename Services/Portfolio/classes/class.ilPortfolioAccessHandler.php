@@ -50,62 +50,92 @@ class ilPortfolioAccessHandler
 	 */
 	public function checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_node_id, $a_type = "")
 	{
-		global $rbacreview;
+		global $rbacreview, $ilUser;
 
 		// :TODO: create permission for parent node with type ?!
 		
-		$pf = new ilObjPortfolio($a_node_id);
+		$pf = new ilObjPortfolio($a_node_id, false);
 		if(!$pf->getId())
 		{
 			return false;
 		}
 		
 		// portfolio owner has all rights
-		if($pf->getUserId() == $a_user_id)
+		if($pf->getOwner() == $a_user_id)
 		{
 			return true;
 		}
 
-		// get all objects with explicit permission
-		$objects = $this->getPermissions($a_node_id);
-		if($objects)
+		// other users can only read
+		if($a_permission == "read" || $a_permission == "visible")
 		{
-			// check if given user is member of object or has role
-			foreach($objects as $obj_id)
+			// get all objects with explicit permission
+			$objects = $this->getPermissions($a_node_id);
+			if($objects)
 			{
-				switch(ilObject::_lookupType($obj_id))
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
+				
+				// check if given user is member of object or has role
+				foreach($objects as $obj_id)
 				{
-					case "grp":
-						// member of group?
-						if(ilGroupParticipants::_getInstanceByObjId($obj_id)->isAssigned($a_user_id))
-						{
+					switch($obj_id)
+					{
+						case ilWorkspaceAccessGUI::PERMISSION_ALL:				
 							return true;
-						}
-						break;
+								
+						case ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD:
+							// check against input kept in session
+							if(self::getSharedNodePassword($a_node_id) == self::getSharedSessionPassword($a_node_id) || 
+								$a_permission == "visible")
+							{
+								return true;
+							}
+							break;
+					
+						case ilWorkspaceAccessGUI::PERMISSION_REGISTERED:
+							if($ilUser->getId() != ANONYMOUS_USER_ID)
+							{
+								return true;
+							}
+							break;
+								
+						default:
+							switch(ilObject::_lookupType($obj_id))
+							{
+								case "grp":
+									// member of group?
+									if(ilGroupParticipants::_getInstanceByObjId($obj_id)->isAssigned($a_user_id))
+									{
+										return true;
+									}
+									break;
 
-					case "crs":
-						// member of course?
-						if(ilCourseParticipants::_getInstanceByObjId($obj_id)->isAssigned($a_user_id))
-						{
-							return true;
-						}
-						break;
+								case "crs":
+									// member of course?
+									if(ilCourseParticipants::_getInstanceByObjId($obj_id)->isAssigned($a_user_id))
+									{
+										return true;
+									}
+									break;
 
-					case "role":
-						// has role?
-						if($rbacreview->isAssigned($a_user_id, $obj_id))
-						{
-							return true;
-						}
-						break;
+								case "role":
+									// has role?
+									if($rbacreview->isAssigned($a_user_id, $obj_id))
+									{
+										return true;
+									}
+									break;
 
-					case "usr":
-						// direct assignment
-						if($a_user_id == $obj_id)
-						{
-							return true;
-						}
-						break;
+								case "usr":
+									// direct assignment
+									if($a_user_id == $obj_id)
+									{
+										return true;
+									}
+									break;
+							}
+							break;
+					}
 				}
 			}
 		}
@@ -129,8 +159,9 @@ class ilPortfolioAccessHandler
 	 *
 	 * @param int $a_node_id
 	 * @param int $a_object_id
+	 * @param string $a_extended_data
 	 */
-	public function addPermission($a_node_id, $a_object_id)
+	public function addPermission($a_node_id, $a_object_id, $a_extended_data = null)
 	{
 		global $ilDB, $ilUser;
 
@@ -140,9 +171,10 @@ class ilPortfolioAccessHandler
 			return;
 		}
 
-		$ilDB->manipulate("INSERT INTO usr_portf_acl (node_id, object_id)".
+		$ilDB->manipulate("INSERT INTO usr_portf_acl (node_id, object_id, extended_data)".
 			" VALUES (".$ilDB->quote($a_node_id, "integer").", ".
-			$ilDB->quote($a_object_id, "integer").")");
+			$ilDB->quote($a_object_id, "integer").",".
+			$ilDB->quote($a_extended_data, "text").")");
 	}
 
 	/**
@@ -231,6 +263,90 @@ class ilPortfolioAccessHandler
 		}			
 		
 		return $res;
+	}
+	
+	public static function getPossibleSharedTargets()
+	{
+		global $ilUser;
+		
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
+		include_once "Services/Membership/classes/class.ilParticipants.php";
+		$grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "grp");
+		$crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "crs");
+		
+		$obj_ids = array_merge($grp_ids, $crs_ids);
+		$obj_ids[] = $ilUser->getId();
+		$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_REGISTERED;		
+		$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_ALL;
+		$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD;
+
+		return $obj_ids;
+	}
+	
+	public function getSharedOwners()
+	{
+		global $ilUser, $ilDB;
+		
+		$obj_ids = $this->getPossibleSharedTargets();
+		
+		$user_ids = array();
+		$set = $ilDB->query("SELECT DISTINCT(obj.owner)".
+			" FROM object_data obj".
+			" JOIN usr_portf_acl acl ON (acl.node_id = obj.obj_id)".
+			" WHERE obj.owner <> ".$ilDB->quote($ilUser->getId(), "integer"));
+		while ($row = $ilDB->fetchAssoc($set))
+		{
+			$user_ids[$row["owner"]] = ilObject::_lookupTitle($row["owner"]);
+		}
+		
+		asort($user_ids);
+		return $user_ids;
+	}
+	
+	public function getSharedObjects($a_owner_id)
+	{
+		global $ilDB;
+		
+		$obj_ids = $this->getPossibleSharedTargets();
+		
+		$res = array();
+		$set = $ilDB->query("SELECT obj.obj_id".
+			" FROM object_data obj".
+			" JOIN usr_portf_acl acl ON (acl.node_id = obj.obj_id)".
+			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").
+			" AND obj.owner = ".$ilDB->quote($a_owner_id, "integer"));
+		while ($row = $ilDB->fetchAssoc($set))
+		{
+			$res[$row["obj_id"]] = $row["obj_id"];
+		}
+	
+		return $res;
+	}
+	
+	public static function getSharedNodePassword($a_node_id)
+	{
+		global $ilDB;
+		
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
+		
+		$set = $ilDB->query("SELECT extended_data FROM usr_portf_acl".
+			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
+			" AND object_id = ".$ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD, "integer"));
+		$res = $ilDB->fetchAssoc($set);
+		if($res)
+		{
+			return $res["extended_data"];
+		}
+	}
+	
+	public static function keepSharedSessionPassword($a_node_id, $a_password) 
+	{
+		$_SESSION["ilshpw_".$a_node_id] = $a_password;
+	}
+	
+	public static function getSharedSessionPassword($a_node_id)
+	{
+		return $_SESSION["ilshpw_".$a_node_id];
 	}
 }
 

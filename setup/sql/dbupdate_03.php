@@ -7574,3 +7574,18 @@ $setting->set("enable_sahs_pd", 1);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3449>
+<?php
+	if (!$ilDB->tableColumnExists("usr_portf_acl", "extended_data"))
+	{
+		$ilDB->addTableColumn("usr_portf_acl", "extended_data", array(
+			"type" => "text",
+			"notnull" => false,
+		 	"length" => 200,
+		 	"fixed" => false));
+	}
+?>
+<#3450>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

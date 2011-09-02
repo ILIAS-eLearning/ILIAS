@@ -24,13 +24,14 @@ class ilWorkspaceAccessGUI
 	const PERMISSION_ALL = -5;
 	
 	
-	function __construct($a_node_id, $a_access_handler)
+	function __construct($a_node_id, $a_access_handler, $a_is_portfolio = false)
 	{
 		global $ilCtrl, $lng;
 		
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		$this->node_id = $a_node_id;
+		$this->is_portfolio = (bool)$a_is_portfolio;
 		$this->access_handler = $a_access_handler;		
 	}
 	
@@ -51,9 +52,7 @@ class ilWorkspaceAccessGUI
 				$this->ctrl->setReturn($this, 'share');
 				$this->ctrl->forwardCommand($csearch);				
 				
-				// restore title
-				$obj_id = $this->access_handler->getTree()->lookupObjId($this->node_id);
-				$tpl->setTitle(ilObject::_lookupTitle($obj_id));
+				$this->setObjectTitle();
 				break;
 			
 			case "ilmailsearchgroupsgui";			
@@ -64,9 +63,7 @@ class ilWorkspaceAccessGUI
 				$this->ctrl->setReturn($this, 'share');
 				$this->ctrl->forwardCommand($gsearch);
 				
-				// restore title
-				$obj_id = $this->access_handler->getTree()->lookupObjectId($this->node_id);
-				$tpl->setTitle(ilObject::_lookupTitle($obj_id));
+				$this->setObjectTitle();
 				break;
 			
 			case "ilmailsearchgui";			
@@ -77,9 +74,7 @@ class ilWorkspaceAccessGUI
 				$this->ctrl->setReturn($this, 'share');
 				$this->ctrl->forwardCommand($usearch);
 				
-				// restore title
-				$obj_id = $this->access_handler->getTree()->lookupObjectId($this->node_id);
-				$tpl->setTitle(ilObject::_lookupTitle($obj_id));
+				$this->setObjectTitle();
 				break;
 			
 			case "ilpublicuserprofilegui";				
@@ -103,6 +98,26 @@ class ilWorkspaceAccessGUI
 		}
 
 		return true;
+	}
+	
+	/**
+	 * restore object title
+	 * 
+	 * @return string
+	 */
+	protected function setObjectTitle()
+	{
+		global $tpl;
+		
+		if(!$this->is_portfolio)
+		{
+			$obj_id = $this->access_handler->getTree()->lookupObjectId($this->node_id);
+		}
+		else
+		{
+			$obj_id = $this->node_id;
+		}
+		$tpl->setTitle(ilObject::_lookupTitle($obj_id));
 	}
 	
 	protected function getAccessHandler()

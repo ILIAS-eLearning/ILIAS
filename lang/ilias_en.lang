@@ -12138,7 +12138,6 @@ style#:#sty_type_rte_texp#:#Tree Icon
 style#:#sty_type_rte_tli#:#Tree List Item
 style#:#sty_type_rte_tul#:#Tree List
 chatroom_adm#:#port_info#:#Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked. 
-blog#:#blog_rename_posting#:#Rename Posting
 payment#:#check_shop_activation#:#Check Shop Settings for activation
 payment#:#please_enter_currency#:#Please enter a currency
 payment#:#please_enter_address#:#Please enter an address
@@ -12151,3 +12150,9 @@ payment#:#please_enter_epay_data#:#Please enter your EPay data
 payment#:#please_enter_vats#:#Please create at least one vat
 payment#:#please_create_vendor#:#Please create at least one vendor
 payment#:#shop_activation_ok#:#The payment settings are complete. You can now activate the webshop.
+blog#:#blog_rename_posting#:#Rename Posting
+prtf#:#prtf_tab_portfolios#:#My Portfolios
+prtf#:#prtf_tab_other_users#:#Portfolios From Other Users
+wsp#:#wsp_password_protected_resource#:#Password-protected Resource
+wsp#:#wsp_password_protected_resource_info#:#To access this resource you have to enter a password.
+wsp#:#wsp_password_for#:#Password for
