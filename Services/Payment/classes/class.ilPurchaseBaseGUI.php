@@ -300,10 +300,10 @@ class ilPurchaseBaseGUI
 	public function __addBookings($external_data = null)
 	{
 		global $ilUser,	$ilObjDataCache;
-			
+
 		$sc = $this->psc_obj->getShoppingCart($this->pm_id);
 
-		$this->psc_obj->clearCouponItemsSession();		
+#		$this->psc_obj->clearCouponItemsSession();
 
 		if (is_array($sc) && count($sc) > 0)
 		{
