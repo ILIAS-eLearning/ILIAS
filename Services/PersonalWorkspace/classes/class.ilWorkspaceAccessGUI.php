@@ -49,7 +49,11 @@ class ilWorkspaceAccessGUI
 				include_once('Services/Contact/classes/class.ilMailSearchCoursesGUI.php');
 				$csearch = new ilMailSearchCoursesGUI($this->access_handler, $this->node_id);
 				$this->ctrl->setReturn($this, 'share');
-				$this->ctrl->forwardCommand($csearch);					
+				$this->ctrl->forwardCommand($csearch);				
+				
+				// restore title
+				$obj_id = $this->access_handler->getTree()->lookupObjId($this->node_id);
+				$tpl->setTitle(ilObject::_lookupTitle($obj_id));
 				break;
 			
 			case "ilmailsearchgroupsgui";			
@@ -59,6 +63,10 @@ class ilWorkspaceAccessGUI
 				$gsearch = new ilMailSearchGroupsGUI($this->access_handler, $this->node_id);
 				$this->ctrl->setReturn($this, 'share');
 				$this->ctrl->forwardCommand($gsearch);
+				
+				// restore title
+				$obj_id = $this->access_handler->getTree()->lookupObjectId($this->node_id);
+				$tpl->setTitle(ilObject::_lookupTitle($obj_id));
 				break;
 			
 			case "ilmailsearchgui";			
@@ -68,6 +76,10 @@ class ilWorkspaceAccessGUI
 				$usearch = new ilMailSearchGUI($this->access_handler, $this->node_id);
 				$this->ctrl->setReturn($this, 'share');
 				$this->ctrl->forwardCommand($usearch);
+				
+				// restore title
+				$obj_id = $this->access_handler->getTree()->lookupObjectId($this->node_id);
+				$tpl->setTitle(ilObject::_lookupTitle($obj_id));
 				break;
 			
 			case "ilpublicuserprofilegui";				

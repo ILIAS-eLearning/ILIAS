@@ -170,11 +170,12 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		
+		$this->prepareOutput(); 
 
 		switch($next_class)
 		{
-			case "ilworkspaceaccessgui";				
-				$this->setTabs();
+			case "ilworkspaceaccessgui";								
 				$this->tabs_gui->activateTab("id_permissions");
 				
 				include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
@@ -182,8 +183,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($wspacc);
 				break;
 			
-			default:
-				$this->prepareOutput(); 
+			default:				
 				if(!$cmd)
 				{
 					$cmd = "render";
@@ -263,6 +263,14 @@ abstract class ilObject2GUI extends ilObjectGUI
 						$this->ctrl->getLinkTargetByClass(array("ilpermissiongui",
 							"ilobjrolegui"), "perm"));
 				}
+				
+				// in workspace this is done in ilPersonalWorkspaceGUI
+				if($this->object_id)
+				{
+					$this->addLocatorItems();
+				}
+				$tpl->setLocator();
+				
 				break;
 
 			case self::WORKSPACE_NODE_ID:
@@ -270,12 +278,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				break;
 		}
 
-		if($this->object_id)
-		{
-			$this->addLocatorItems();
-		}
-
-		$tpl->setLocator();
+		
 	}
 
 	/**
