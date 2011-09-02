@@ -234,6 +234,20 @@ class ilShopVats
 	{
 		return $this->rate;
 	}
+
+	public static function _readAllVats()
+	{
+		global $ilDB;
+
+		$vats = array();
+		$res = $ilDB->query('SELECT * FROM payment_vats');
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$vats[] = $row;
+		}
+		return $vats;
+	}
+
 }
 
 ?>

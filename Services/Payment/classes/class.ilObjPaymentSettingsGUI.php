@@ -59,12 +59,134 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$this->lng->loadLanguageModule('payment');
 	}
-	
+
+	public function checkShopActivationObject()
+	{
+// check general settings
+		$check = $this->genSetData->get('currency_unit');
+		if($check == null)
+		{
+			ilUtil::sendInfo($this->lng->txt('please_enter_currency'));
+			return $this->generalSettingsObject();
+		}
+
+		$check = $this->genSetData->get('address');
+		if($check == null)
+		{
+			ilUtil::sendInfo($this->lng->txt('please_enter_address'));
+			return $this->generalSettingsObject();
+		}
+
+		$check = $this->genSetData->get('bank_data');
+		if($check == null)
+		{
+			ilUtil::sendInfo($this->lng->txt('please_enter_bank_data'));
+			return $this->generalSettingsObject();
+		}
+
+		$check = $this->genSetData->get('pdf_path');
+		if($check == null)
+		{
+			ilUtil::sendInfo($this->lng->txt('please_enter_pdf_path'));
+			return $this->generalSettingsObject();
+		}
+
+// check paymethods
+		$pm_array = ilPaymethods::_getActivePaymethods();
+
+		if(count($pm_array) == 0)
+		{
+			ilUtil::sendInfo($this->lng->txt('please_activate_one_paymethod'));
+			return $this->payMethodsObject();
+		}
+
+		foreach($pm_array as $paymethod)
+		{
+			switch($paymethod['pm_title'])
+			{
+				case 'bmf':
+					$check = unserialize($this->genSetData->get('bmf'));
+					if ($check['mandantNr'] == '' ||
+						$check['bewirtschafterNr'] == '' ||
+						$check['haushaltsstelle'] == '' ||
+						$check['objektNr'] == '' ||
+						$check['kennzeichenMahnverfahren'] == '' ||
+						$check['waehrungskennzeichen'] == '' ||
+						$check['ePaymentServer'] == '' ||
+						$check['clientCertificate'] == '' ||
+						$check['caCertificate'] == '' ||
+						$check['timeOut'] == '')
+					{
+						ilUtil::sendInfo('please_enter_bmf_data');
+						return $this->bmfSettingsObject();
+					}
+					break;
+				case 'paypal':
+					$check = unserialize($this->genSetData->get('paypal'));
+					if ($check['server_host'] == '' ||
+						$check['server_path'] == '' ||
+						$check['vendor'] == '' ||
+						$check['auth_token'] == '')
+					{
+						ilUtil::sendInfo('please_enter_paypal_data');
+						return $this->paypalSettingsObject();
+					}
+					break;
+				case 'epay':
+					$check = unserialize($this->genSetData->get('epay'));
+					if ($check['server_host'] == '' ||
+						$check['server_path'] == '' ||
+						$check['merchant_number'] == '' ||
+						$check['auth_token'] == '' ||
+						$check['auth_email'] == '')
+					{
+						ilUtil::sendInfo('please_enter_epay_data');
+						return $this->paypalSettingsObject();
+					}
+					break;
+				case 'erp':
+					break;	
+			}
+		}
+// check vats
+		include_once './Services/Payment/classes/class.ilShopVats.php';
+		$check= ilShopVats::_readAllVats();
+		if(count($check) == 0)
+		{
+			ilUtil::sendInfo('please_enter_vats');
+			return $this->vatsObject();
+		}
+// check vendors
+		$this->object->initPaymentVendorsObject();
+		$vendors = $this->object->payment_vendors_obj->getVendors();
+
+		if(count($vendors)  == 0)
+		{
+			ilUtil::sendInfo($this->lng->txt('please_create_vendor'));
+			return $this->vendorsObject();
+		}
+
+// everything ok
+		ilUtil::sendInfo($this->lng->txt('shop_activation_ok'));
+		$this->generalSettingsObject();
+		return true;
+
+	}
+
 	public function executeCommand()
 	{		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
+
+/*
+ * shop activation guide
+ */
+		global $ilToolbar;
+
+		if(!IS_PAYMENT_ENABLED)
+			$ilToolbar->addButton($this->lng->txt('check_shop_activation'),$this->ctrl->getLinkTarget($this,'checkShopActivation'));
+/**/
 
 		$this->getTabs($this->tabs_gui);
 
@@ -176,6 +298,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 								#$cmd = 'InvoiceNumber';
 							break;
+					case 'checkShopActivation':
+						$cmd = $cmd;
+						break;
 				}	
 				$cmd .= 'Object';
 
@@ -2205,6 +2330,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$form->addItem($formItem);
 
 		$this->tpl->setVariable('FORM',$form->getHTML());
+		return true;
 	}
 	
 	public function saveGeneralSettingsObject()
@@ -2253,10 +2379,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$genSet->set('show_topics_filter', $_POST['show_topics_filter'], 'gui');
 		$genSet->set('show_shop_explorer', $_POST['show_shop_explorer'], 'gui');
 
-		$this->generalSettingsObject();
-
 		ilUtil::sendSuccess($this->lng->txt('pays_updated_general_settings'));
 
+		$this->generalSettingsObject();
 		return true;
 	}
 
