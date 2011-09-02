@@ -750,8 +750,10 @@ class ilObjBlogGUI extends ilObject2GUI
 				$alist = new ilAdvancedSelectionListGUI();
 				$alist->setId($item["id"]);
 				$alist->setListTitle($lng->txt("actions"));
-				$alist->addItem($lng->txt("edit"), "edit", 
+				$alist->addItem($lng->txt("edit_content"), "edit", 
 					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit"));
+				$alist->addItem($lng->txt("rename"), "rename", 
+					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edittitle"));
 				$alist->addItem($lng->txt("delete"), "delete",
 					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "deleteBlogPostingConfirmationScreen"));
 
