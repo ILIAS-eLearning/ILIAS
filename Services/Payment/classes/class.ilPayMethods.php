@@ -267,5 +267,21 @@ class ilPayMethods
 	
 		return $options;
 	}
+
+	public static function _getActivePaymethods()
+	{
+		global $ilDB;
+
+		$pm = array();
+		
+		$res = $ilDB->queryf('SELECT * FROM payment_paymethods WHERE pm_enabled = %s',
+				array('integer'), array(1));
+
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$pm[] = $row;
+		}
+		return $pm;
+	}
 }
 ?>
