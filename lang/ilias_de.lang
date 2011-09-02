@@ -12107,3 +12107,15 @@ search#:#lucene_max_fs#:#Maximale Dateigröße (in MB)
 search#:#lucene_max_fs_info#:#Definiert das Dateigrößenlimit, bis zu dem Dateien indexiert werden. Der Inhalt größerer Dateien wird nicht in den Index aufgenommen.
 chatroom_adm#:#port_info#:#Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Nutzer werden mit ihrem Browser keine Verbindung zum Chatserver aufbauen können, wenn der eingetragene Port nicht offen ist. 
 blog#:#blog_rename_posting#:#Eintrag umbenennen
+payment#:#check_shop_activation#:#Überprüfung der Shop Einstellung zur Aktivierung
+payment#:#please_enter_currency#:#Bitte geben Sie eine Währung ein
+payment#:#please_enter_address#:#Bitte geben Sie eine Adresse ein
+payment#:#please_enter_bank_data#:#Bitte geben Sie die Bankverbindung ein
+payment#:#please_enter_pdf_path#:#Bitte geben Sie den Pfad zur Rechnungsgenerierung als PDF-Datei an 
+payment#:#please_activate_one_paymethod#:#Bitte aktivieren Sie wenigstens eine Bezahlart
+payment#:#please_enter_bmf_data#:#Bitte geben Sie Ihre BMF Daten ein
+payment#:#please_enter_paypal_data#:#Bitte geben Sie Ihre Paypal Daten ein
+payment#:#please_enter_epay_data#:#Bitte geben Sie Ihre EPay Daten ein
+payment#:#please_enter_vats#:#Bitte erstellen Sie wenigstens einen Steuersatz
+payment#:#please_create_vendor#:#Bitte erstellen Sie wenigstens einen Verkäufer
+payment#:#shop_activation_ok#:#Die Shop Einstellungen sind vollständig. Sie können nun den Webshop aktivieren.
