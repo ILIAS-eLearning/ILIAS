@@ -28,7 +28,8 @@
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.13 2006/03/10 09:22:58 akill Exp $
 *
-* @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilColumnGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
+* @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, 
+* @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjStyleSheetGUI, ilNoteGUI
 * 
 * @extends ilObjectGUI
 */
@@ -168,6 +169,17 @@ class ilObjRootFolderGUI extends ilContainerGUI
 				$this->forwardToStyleSheet();
 				break;
 
+			case "ilnotegui":
+				$this->ctrl->saveParameter($this, "notes_ref_id");
+				$this->ctrl->saveParameter($this, "notes_sub_id");
+				include_once "Services/Notes/classes/class.ilNoteGUI.php";
+				$note_gui = new ilNoteGUI(ilObject::_lookupObjId($_GET["notes_ref_id"]), 
+					(int)$_GET["notes_sub_id"]);
+				$note_gui->enablePrivateNotes(true);
+				$note_gui->enablePublicNotes(true);			
+				$this->ctrl->forwardCommand($note_gui);		
+				break;
+			
 			default:
 				$this->prepareOutput();
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
@@ -193,6 +205,11 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	function renderObject()
 	{
 		global $ilTabs;
+		
+		// prepare notes
+		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+		ilNoteGUI::initJavascript(
+			$this->ctrl->getLinkTargetByClass("ilnotegui", "", "", true, false));
 		
 		$ilTabs->activateTab("view_content");
 		$ret =  parent::renderObject();
