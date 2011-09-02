@@ -11672,7 +11672,6 @@ ecs#:#ecs_cms_dir_tree#:#CMS Directory Trees###18 07 2011 new variable
 registration#:#registration_code_no_role#:#The registration code given does not specify a role and can not be used currently. Please contact your administrator.###18 07 2011 new variable
 registration#:#registration_no_valid_role#:#There is currently no valid role for new accounts. Please contact your administrator.###18 07 2011 new variable
 common#:#exc_next_deadline#:#Next Deadline###18 07 2011 new variable
-content#:#cont_alphabetic#:#Alphabetic A, B, ...###06 08 2011 new variable
 rbac#:#rbac_global_rolt#:#Global Role Template###06 08 2011 new variable
 common#:#password_allow_chars#:#Allowed chars: %s###06 08 2011 new variable
 rbac#:#rbac_role_selection#:#Role Type###06 08 2011 new variable
