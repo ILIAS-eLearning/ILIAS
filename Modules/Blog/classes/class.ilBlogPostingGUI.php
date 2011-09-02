@@ -334,6 +334,60 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		
 		$ilCtrl->redirectByClass("ilobjbloggui", "render");
 	}
+	
+	function editTitle($a_form = null)
+	{
+		global $tpl, $ilTabs;
+		
+		$ilTabs->activateTab("edit");
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initTitleForm();
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	function updateTitle()
+	{
+		global $ilCtrl, $lng;
+		
+		$form = $this->initTitleForm();
+		if($form->checkInput())
+		{
+			$page = $this->getPageObject();
+			$page->setTitle($form->getInput("title"));
+			$page->update();			
+			
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+			$ilCtrl->redirect($this, "preview");
+		}
+		
+		$form->setValuesByPost();
+		$this->editTitle($form);		
+	}
+	
+	function initTitleForm()
+	{
+		global $lng, $ilCtrl;
+		
+		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($lng->txt('blog_rename_posting'));
+		
+		$title = new ilTextInputGUI($lng->txt("title"), "title");
+		$title->setRequired(true);
+		$form->addItem($title);
+		
+		$title->setValue($this->getPageObject()->getTitle());
+	
+		$form->addCommandButton('updateTitle', $lng->txt('save'));
+		$form->addCommandButton('preview', $lng->txt('cancel'));
+
+		return $form;		
+	}
 }
 
 ?>
