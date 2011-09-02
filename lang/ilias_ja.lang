@@ -12063,3 +12063,98 @@ scormdebug#:#debugwindow_open#:#Open###06 08 2011 new variable
 scormdebug#:#debugwindow_password_enter#:#Please enter your password###06 08 2011 new variable
 common#:#password_multiple_errors#:#Multiple criterias are not satisfied:###06 08 2011 new variable
 common#:#password_contains_invalid_chars#:#The password contains invalid characters###06 08 2011 new variable
+survey#:#dont_use_questionpool#:#Don't insert the questions in a questionpool (only available in this survey)###02 09 2011 new variable
+common#:#fold_type#:#Folder Type###02 09 2011 new variable
+content#:#cont_file_from_workspace#:#File From My Workspace###02 09 2011 new variable
+skmg#:#skmg_create_skill_template#:#Create Skill Template###02 09 2011 new variable
+skmg#:#skmg_create_skill_template_category#:#Create Skill Template Category###02 09 2011 new variable
+skmg#:#skmg_save_order#:#Save Order###02 09 2011 new variable
+skmg#:#skmg_order#:#Order###02 09 2011 new variable
+skmg#:#skmg_order_nr#:#Order Number###02 09 2011 new variable
+skmg#:#skmg_create_skll#:#Create Skill###02 09 2011 new variable
+skmg#:#skmg_create_skill_template_reference#:#Create Skill Template Reference###02 09 2011 new variable
+skmg#:#skmg_create_skill_category#:#Create Skill Category###02 09 2011 new variable
+common#:#notice#:#Notice###02 09 2011 new variable
+common#:#public_room#:#Public room###02 09 2011 new variable
+chatroom#:#chtr_moderate#:#Moderate###02 09 2011 new variable
+chatroom#:#unkown_private_room#:#Unknown private room###02 09 2011 new variable
+chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.###02 09 2011 new variable
+chatroom#:#chtr_new#:#New Chatroom###02 09 2011 new variable
+chatroom#:#chtr_add#:#Add Chatroom###02 09 2011 new variable
+blog#:#blog_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.###02 09 2011 new variable
+prtf#:#prtf_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.###02 09 2011 new variable
+exc#:#exc_select_blog#:#Use Existing Blog###02 09 2011 new variable
+exc#:#exc_select_portfolio#:#Use Existing Portfolio###02 09 2011 new variable
+exc#:#exc_select_blog_info#:#Please select one of your blogs to use it with this assignment.###02 09 2011 new variable
+exc#:#exc_select_portfolio_info#:#Please select one of your portfolios to use it with this assignment.###02 09 2011 new variable
+exc#:#exc_select_blog_change#:#Use different Blog###02 09 2011 new variable
+exc#:#exc_select_portfolio_change#:#Use different Portfolio###02 09 2011 new variable
+exc#:#exc_blog_selected#:#The blog has been assigned.###02 09 2011 new variable
+exc#:#exc_portfolio_selected#:#The portfolio has been assigned.###02 09 2011 new variable
+common#:#my_courses_groups#:#My Courses & Groups###02 09 2011 new variable
+content#:#cont_sc_auto_continue#:#Auto-Continue###02 09 2011 new variable
+user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile.###02 09 2011 new variable
+prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.###02 09 2011 new variable
+blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.###02 09 2011 new variable
+skmg#:#skmg_edit_skll#:#Edit Skill Settings###02 09 2011 new variable
+skmg#:#skmg_sktr#:#Skill Template Reference###02 09 2011 new variable
+skmg#:#skmg_items#:#Items###02 09 2011 new variable
+skmg#:#skmg_create_sctp#:#Create Template Category###02 09 2011 new variable
+skmg#:#skmg_edit_sctp#:#Edit Skill Template Category###02 09 2011 new variable
+skmg#:#skmg_sctp#:#Skill Template Category###02 09 2011 new variable
+skmg#:#skmg_insert_skill_template_from_clip#:#Insert Skill Template from Clipboard###02 09 2011 new variable
+skmg#:#skmg_insert_template_category_from_clip#:#Insert Template Category from Clipboard###02 09 2011 new variable
+skmg#:#skmg_insert_please_choose_one_type_only#:#Please choose only one type of items.###02 09 2011 new variable
+prtf#:#prtf_public_comments#:#Public Comments###02 09 2011 new variable
+prtf#:#prtf_copy_page#:#Copy Page(s)###02 09 2011 new variable
+prtf#:#prtf_existing_portfolio#:#Existing Portfolio###02 09 2011 new variable
+prtf#:#prtf_new_portfolio#:#New Portfolio ###02 09 2011 new variable
+prtf#:#prtf_pages_copied#:#The pages have been copied.###02 09 2011 new variable
+skmg#:#skmg_level#:#Level###02 09 2011 new variable
+skmg#:#skmg_material#:#Material###02 09 2011 new variable
+blog#:#blog_profile_picture#:#Display Profile Picture###02 09 2011 new variable
+prtf#:#prtf_profile_picture#:#Display Profile Picture###02 09 2011 new variable
+skmg#:#skmg_remove_skill#:#Remove Skill###02 09 2011 new variable
+style#:#style_page_layout_module_scorm#:#Scorm###02 09 2011 new variable
+style#:#style_page_layout_module_portfolio#:#Portfolio###02 09 2011 new variable
+prtf#:#prtf_use_page_layout#:#Use Page Layout###02 09 2011 new variable
+common#:#shoppingcart#:#Shoppingcart###02 09 2011 new variable
+content#:#cont_ed_insert_skills#:#Insert Skills###02 09 2011 new variable
+content#:#cont_pc_skills#:#Skill###02 09 2011 new variable
+content#:#cont_insert_skills#:#Insert Skill###02 09 2011 new variable
+content#:#cont_update_skills#:#Edit Skill###02 09 2011 new variable
+administration#:#adm_basic#:#Basic###02 09 2011 new variable
+administration#:#adm_users#:#Users###02 09 2011 new variable
+administration#:#adm_services#:#Services###02 09 2011 new variable
+administration#:#adm_objects#:#Objects###02 09 2011 new variable
+common#:#enable_sahs_protocol_data#:#Activate Protocol Data###02 09 2011 new variable
+common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM/AICC)###02 09 2011 new variable
+search#:#lucene_max_fs#:#Maximum Filesize (in MB)###02 09 2011 new variable
+search#:#lucene_max_fs_info#:#Defines the file size limit. Bigger files will not be included in the index.###02 09 2011 new variable
+trac#:#trac_determines_learning_progress#:#Determines Learning Progress###02 09 2011 new variable
+content#:#cont_scorm_ed_properties#:#Learning Module Properties / Glossary###02 09 2011 new variable
+content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.###02 09 2011 new variable
+style#:#sty_type_rte_drag#:#Drag Bar###02 09 2011 new variable
+style#:#sty_type_rte_tclink#:#Tree Control Link###02 09 2011 new variable
+style#:#sty_type_rte_texp#:#Tree Icon###02 09 2011 new variable
+style#:#sty_type_rte_tli#:#Tree List Item###02 09 2011 new variable
+style#:#sty_type_rte_tul#:#Tree List###02 09 2011 new variable
+chatroom_adm#:#port_info#:#Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked. ###02 09 2011 new variable
+payment#:#check_shop_activation#:#Check Shop Settings for activation###02 09 2011 new variable
+payment#:#please_enter_currency#:#Please enter a currency###02 09 2011 new variable
+payment#:#please_enter_address#:#Please enter an address###02 09 2011 new variable
+payment#:#please_enter_bank_data#:#Please enter the bank details###02 09 2011 new variable
+payment#:#please_enter_pdf_path#:#Please enter a path for generating bill as PDF file###02 09 2011 new variable
+payment#:#please_activate_one_paymethod#:#Please activate at least one pay method###02 09 2011 new variable
+payment#:#please_enter_bmf_data#:#Please enter your BMF data###02 09 2011 new variable
+payment#:#please_enter_paypal_data#:#Please enter your Paypal data###02 09 2011 new variable
+payment#:#please_enter_epay_data#:#Please enter your EPay data###02 09 2011 new variable
+payment#:#please_enter_vats#:#Please create at least one vat###02 09 2011 new variable
+payment#:#please_create_vendor#:#Please create at least one vendor###02 09 2011 new variable
+payment#:#shop_activation_ok#:#The payment settings are complete. You can now activate the webshop.###02 09 2011 new variable
+blog#:#blog_rename_posting#:#Rename Posting###02 09 2011 new variable
+prtf#:#prtf_tab_portfolios#:#My Portfolios###02 09 2011 new variable
+prtf#:#prtf_tab_other_users#:#Portfolios From Other Users###02 09 2011 new variable
+wsp#:#wsp_password_protected_resource#:#Password-protected Resource###02 09 2011 new variable
+wsp#:#wsp_password_protected_resource_info#:#To access this resource you have to enter a password.###02 09 2011 new variable
+wsp#:#wsp_password_for#:#Password for###02 09 2011 new variable

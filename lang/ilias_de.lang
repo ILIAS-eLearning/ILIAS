@@ -12124,3 +12124,35 @@ prtf#:#prtf_tab_other_users#:#Portfolios anderer Benutzer
 wsp#:#wsp_password_protected_resource#:#Passwort-geschützte Ressource
 wsp#:#wsp_password_protected_resource_info#:#Für den Zugang zu dieser Ressource benötigen Sie ein Passwort.
 wsp#:#wsp_password_for#:#Passwort für
+skmg#:#skmg_create_skill_template#:#Create Skill Template###02 09 2011 new variable
+skmg#:#skmg_create_skill_template_category#:#Create Skill Template Category###02 09 2011 new variable
+skmg#:#skmg_save_order#:#Save Order###02 09 2011 new variable
+skmg#:#skmg_order#:#Order###02 09 2011 new variable
+skmg#:#skmg_order_nr#:#Order Number###02 09 2011 new variable
+skmg#:#skmg_create_skll#:#Create Skill###02 09 2011 new variable
+skmg#:#skmg_create_skill_template_reference#:#Create Skill Template Reference###02 09 2011 new variable
+skmg#:#skmg_create_skill_category#:#Create Skill Category###02 09 2011 new variable
+common#:#my_courses_groups#:#My Courses & Groups###02 09 2011 new variable
+skmg#:#skmg_edit_skll#:#Edit Skill Settings###02 09 2011 new variable
+skmg#:#skmg_sktr#:#Skill Template Reference###02 09 2011 new variable
+skmg#:#skmg_items#:#Items###02 09 2011 new variable
+skmg#:#skmg_create_sctp#:#Create Template Category###02 09 2011 new variable
+skmg#:#skmg_edit_sctp#:#Edit Skill Template Category###02 09 2011 new variable
+skmg#:#skmg_sctp#:#Skill Template Category###02 09 2011 new variable
+skmg#:#skmg_insert_skill_template_from_clip#:#Insert Skill Template from Clipboard###02 09 2011 new variable
+skmg#:#skmg_insert_template_category_from_clip#:#Insert Template Category from Clipboard###02 09 2011 new variable
+skmg#:#skmg_insert_please_choose_one_type_only#:#Please choose only one type of items.###02 09 2011 new variable
+skmg#:#skmg_level#:#Level###02 09 2011 new variable
+skmg#:#skmg_material#:#Material###02 09 2011 new variable
+skmg#:#skmg_remove_skill#:#Remove Skill###02 09 2011 new variable
+administration#:#adm_basic#:#Basic###02 09 2011 new variable
+administration#:#adm_users#:#Users###02 09 2011 new variable
+administration#:#adm_services#:#Services###02 09 2011 new variable
+administration#:#adm_objects#:#Objects###02 09 2011 new variable
+content#:#cont_scorm_ed_properties#:#Learning Module Properties / Glossary###02 09 2011 new variable
+content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.###02 09 2011 new variable
+style#:#sty_type_rte_drag#:#Drag Bar###02 09 2011 new variable
+style#:#sty_type_rte_tclink#:#Tree Control Link###02 09 2011 new variable
+style#:#sty_type_rte_texp#:#Tree Icon###02 09 2011 new variable
+style#:#sty_type_rte_tli#:#Tree List Item###02 09 2011 new variable
+style#:#sty_type_rte_tul#:#Tree List###02 09 2011 new variable
