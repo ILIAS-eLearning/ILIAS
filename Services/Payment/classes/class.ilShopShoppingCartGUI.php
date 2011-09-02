@@ -19,7 +19,7 @@ include_once './Services/Payment/classes/class.ilShopBoughtObjectsGUI.php';
 *
 * @author Michael Jansen <mjansen@databay.de>
 * @author Nadia Ahmad <nahmad@databay.de>
-* @version $Id:$
+* @version $Id: $
 * 
 * @ingroup ServicesPayment
 */
@@ -91,10 +91,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	}
 	public function unlockBillObjectsInShoppingCart()
 	{						
-		$this->addBookings(PAY_METHOD_BILL, 'bill');
-		$_SESSION['coupons']['bill'] = '';
-		
-		ilUtil::sendInfo($this->lng->txt('pay_bmf_thanks'), true);
+		include_once './Services/Payment/classes/class.ilPurchaseBaseGUI.php';
+		$purchase = new ilPurchaseBaseGUI($this->user_obj, ilPayMethods::_getIdByTitle('paypal'));
+		$purchase->__addBookings();
 		
 		$this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
 		
@@ -118,22 +117,27 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	}
 	
 	public function unlockPAYPALObjectsInShoppingCart()
-	{		
-		global $ilUser;
-		$this->addBookings(PAY_METHOD_PAYPAL, 'paypal');
-	
-		$_SESSION['coupons']['paypal'] = array();
+	{
+		include_once './Services/Payment/classes/class.ilPurchaseBaseGUI.php';
+		$purchase = new ilPurchaseBaseGUI($this->user_obj, ilPayMethods::_getIdByTitle('paypal'));
+		$purchase->__addBookings();
+
+
+//		global $ilUser;
+//		$this->addBookings(PAY_METHOD_PAYPAL, 'paypal');
+//
+//		$_SESSION['coupons']['paypal'] = array();
 
 		ilUtil::sendSuccess($this->lng->txt('pay_paypal_success'), true);
 
-		if(ANONYMOUS_USER_ID == $ilUser->getId() || isset($_SESSION['user_name']))
-		{
-			$this->ctrl->redirectByClass('ilShopShoppingCartGUI', '');	
-		}
-		else
-		{
+//		if(ANONYMOUS_USER_ID == $ilUser->getId() || isset($_SESSION['user_name']))
+//		{
+//			$this->ctrl->redirectByClass('ilShopShoppingCartGUI', '');
+//		}
+//		else
+//		{
 			$this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
-		}
+//		}
 		return true;
 	}
 	
@@ -146,7 +150,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';	
 		
 		$booking_obj = new ilPaymentBookings();		
-		$sc_obj = new ilPaymentShoppingCart($this->user_obj);			
+		$sc_obj = new ilPaymentShoppingCart($this->user_obj);
 		$items = $sc_obj->getEntries($pay_method);		
 		$sc_obj->clearCouponItemsSession();
 		
@@ -663,7 +667,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 				switch($pay_method['pm_title'])
 				{
 					case 'bill':
-						if ($this->totalAmount[$pay_method['pm_id']] == 0 && ANONYMOUS_USER_ID == $ilUser->getId())
+						if ($this->totalAmount[$pay_method['pm_id']] <= 0 && ANONYMOUS_USER_ID == $ilUser->getId())
 						{
 							$tpl->setVariable('TXT_UNLOCK', $this->lng->txt('pay_click_to_buy'));
 							$tpl->setVariable('LINK_UNLOCK', $this->ctrl->getLinkTarget($this, 'unlockBillObjectsInShoppingCart'));
@@ -686,7 +690,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 					case 'bmf':
 						#$tpl->setVariable("SCRIPT_LINK", './payment.php?view=start_bmf');
-						if ($this->totalAmount[$pay_method['pm_id']] == 0 && ANONYMOUS_USER_ID != $ilUser->getId())
+						if ($this->totalAmount[$pay_method['pm_id']] <= 0 && ANONYMOUS_USER_ID != $ilUser->getId())
 						{
 							$tpl->setVariable('TXT_UNLOCK', $this->lng->txt('pay_click_to_buy'));
 							$tpl->setVariable('LINK_UNLOCK', $this->ctrl->getLinkTarget($this, 'unlockBMFObjectsInShoppingCart'));
@@ -739,8 +743,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						break;
 								
 					case 'paypal':
-						if ($this->totalAmount[$pay_method['pm_id']] == 0 && ANONYMOUS_USER_ID != $ilUser->getId())
+						if ($this->totalAmount[$pay_method['pm_id']] <= 0 && ANONYMOUS_USER_ID != $ilUser->getId())
 						{
+							$tpl->touchBlock('attach_submit_event');
 							$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
 							$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTarget($this, 'unlockPAYPALObjectsInShoppingCart'));
 						}

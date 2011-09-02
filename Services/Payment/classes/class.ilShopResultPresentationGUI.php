@@ -501,14 +501,14 @@ class ilShopResultPresentationGUI
 
 				$this->lng->loadLanguageModule('content');
 				foreach($item['child'] as $child)
-				{
-					$tpl->setCurrentBlock("link_row");
-					$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('cont_term'));
-					$tpl->setVariable("SEPERATOR",': ');
-					$tpl->setVariable("LINK",ilLink::_getLink($item['ref_id'],'git',array('target' => 'git_'.$child.'_'.$item['ref_id'])));
-					$tpl->setVariable("TITLE",ilGlossaryTerm::_lookGlossaryTerm($child));
-					$tpl->parseCurrentBlock();
-				}
+					{
+						$tpl->setCurrentBlock("link_row");
+						$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('cont_term'));
+						$tpl->setVariable("SEPERATOR",': ');
+						$tpl->setVariable("LINK",ilLink::_getLink($item['ref_id'],'git',array('target' => 'git_'.$child.'_'.$item['ref_id'])));
+						$tpl->setVariable("TITLE",ilGlossaryTerm::_lookGlossaryTerm($child));
+						$tpl->parseCurrentBlock();
+					}
 				break;
 
 			case 'wiki':
