@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.logging.Level;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.index.CorruptIndexException;
@@ -66,7 +67,7 @@ public class CommandController {
 		}
 	};
 	
-	private static final int MAX_ELEMENTS = 10000;
+	private static final int MAX_ELEMENTS = 100;
 
 	protected static Logger logger = Logger.getLogger(CommandController.class);
 	
@@ -214,17 +215,19 @@ public class CommandController {
 				}
 				getFinished().add(currentElement.getObjId());
 				
-				// Write to index if MAX_ELEMENTS is reached
-				if(++elementCounter == MAX_ELEMENTS) {
+				// Update command queue if MAX ELEMENTS is reached.
+				if(++elementCounter > MAX_ELEMENTS) {
 					
-					/*
-					if(!writeToIndex()) {
-						break;
+					synchronized(this) {
+						queue.setFinished(this.getFinished());
+						this.setFinished(new Vector<Integer>());
+						elementCounter = 0;
 					}
-					elementCounter = 0;
-					*/
 				}
 			}
+		}
+		catch (SQLException e) {
+			logger.error(e);
 		}
 		catch (ObjectDefinitionException e) {
 			logger.warn("No definition found for objType: " + currentElement.getObjType());
