@@ -99,13 +99,14 @@ public class CommandQueue {
 		if(objIds.size() == 0) {
 			return;
 		}
-		PreparedStatement psta = DBFactory.getPreparedStatement("UPDATE search_command_queue SET finished = 1 WHERE obj_id = ?");
+		PreparedStatement psta = DBFactory.getPreparedStatement(
+				"UPDATE search_command_queue SET finished = 1 WHERE obj_id = ?"
+		);
 		for(int i = 0; i < objIds.size(); i++) {
 			psta.setInt(1,objIds.get(i));
 			psta.addBatch();
 		}
 		psta.executeBatch();
-		
 		return;
 	}
 
