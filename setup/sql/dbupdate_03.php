@@ -7589,3 +7589,7 @@ $setting->set("enable_sahs_pd", 1);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3451>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

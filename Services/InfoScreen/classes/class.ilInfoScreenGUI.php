@@ -11,6 +11,7 @@
 * @version $Id$
 *
 * @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilFeedbackGUI, ilColumnGUI, ilPublicUserProfileGUI
+* @ilCtrl_Calls ilInfoScreenGUI: ilTaggingGUI
 *
 * @ingroup ServicesInfoScreen
 */
@@ -99,6 +100,29 @@ class ilInfoScreenGUI
 				else
 				{				
 					$this->showSummary();	// forwards command
+				}
+				break;
+
+			case "iltagginggui":
+				if(isset($_GET["tags_ref_id"]))
+				{
+					$ilCtrl->saveParameter($this, "tags_ref_id");
+					$ilCtrl->saveParameter($this, "tags_sub_id");
+
+					include_once "Services/Tagging/classes/class.ilTaggingGUI.php";
+					$tags_gui = new ilTaggingGUI();
+					if ($_GET["tags_ref_id"] > 0)
+					{
+						$obj_id = ilObject::_lookupObjId($_GET["tags_ref_id"]);
+					}
+					else
+					{
+						$obj_id = $this->gui_object->object->getId();
+					}
+					$type = ilObject::_lookupType($obj_id);
+					$tags_gui->setObject($obj_id, $type);
+					$ilCtrl->forwardCommand($tags_gui);		
+					exit();
 				}
 				break;
 
