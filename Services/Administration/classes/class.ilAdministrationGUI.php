@@ -109,6 +109,7 @@ class ilAdministrationGUI
 		{
 			$ilias->raiseError("You are not entitled to access this page!",$ilias->error_obj->WARNING);
 		}
+		
 		// check creation mode
 		// determined by "new_type" parameter
 		$new_type = $_POST["new_type"]
@@ -196,6 +197,18 @@ class ilAdministrationGUI
 				// forward all other classes to gui commands
 				if ($next_class != "" && $next_class != "iladministrationgui")
 				{
+					// check db update
+					include_once ("./Services/Database/classes/class.ilDBUpdate.php");
+					$dbupdate = new ilDBUpdate($this->ilias->db,true);
+					if (!$dbupdate->getDBVersionStatus())
+					{
+						ilUtil::sendFailure($this->lng->txt("db_need_update"));
+					}
+					else if ($dbupdate->hotfixAvailable())
+					{
+						ilUtil::sendFailure($this->lng->txt("db_need_hotfix"));
+					}
+					
 					$class_path = $this->ctrl->lookupClassPath($next_class);
 					// get gui class instance
 					include_once($class_path);

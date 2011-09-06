@@ -1631,11 +1631,16 @@ class ilObjectListGUI
 			}
 			if (self::$cnt_tags[$this->obj_id] > 0)
 			{
-				$props[] = array("alert" => false,
-					"property" => $lng->txt("tagging_tags"),
-					"value" => self::$cnt_tags[$this->obj_id],
-					"newline" => $nl);
-				$nl = false;
+				$tags_set = new ilSetting("tags");
+				if ($tags_set->get("enable"))
+				{
+					$props[] = array("alert" => false,
+						"property" => $lng->txt("tagging_tags"),
+						"value" => "<a href='#' onclick='return ".ilTaggingGUI::getListTagsJSCall($this->ref_id).";'>".
+							self::$cnt_tags[$this->obj_id]."</a>",
+						"newline" => $nl);
+					$nl = false;
+				}
 			}
 		}
 
@@ -2321,7 +2326,6 @@ class ilObjectListGUI
 		global $ilSetting, $lng, $ilUser;
 		
 		if ($this->std_cmd_only ||
-			(!$ilSetting->get('comments_tagging_quick_access') && !$a_header_actions) ||
 			($ilUser->getId() == ANONYMOUS_USER_ID))
 		{
 			return;
@@ -2338,10 +2342,14 @@ class ilObjectListGUI
 		$this->insertCommand("#", $this->lng->txt("notes"), $cmd_frame,
 			"", "", ilNoteGUI::getListNotesJSCall($this->ref_id, $this->sub_obj_id));
 		
-		include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
-		//$this->insertCommand($cmd_tag_link, $this->lng->txt("tagging_set_tag"), $cmd_frame);
-		$this->insertCommand("#", $this->lng->txt("tagging_set_tag"), $cmd_frame,
-			"", "", ilTaggingGUI::getListTagsJSCall($this->ref_id, $this->sub_obj_id));
+		$tags_set = new ilSetting("tags");
+		if ($tags_set->get("enable"))
+		{
+			include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
+			//$this->insertCommand($cmd_tag_link, $this->lng->txt("tagging_set_tag"), $cmd_frame);
+			$this->insertCommand("#", $this->lng->txt("tagging_set_tag"), $cmd_frame,
+				"", "", ilTaggingGUI::getListTagsJSCall($this->ref_id, $this->sub_obj_id));
+		}
 	}
 
 	/**
@@ -2562,6 +2570,27 @@ class ilObjectListGUI
 		
 		$this->sub_obj_id = $a_sub_obj_id;
 		
+		// tags
+		include_once("./Services/Tagging/classes/class.ilTagging.php");
+		$tags = ilTagging::getTagsForUserAndObject($a_obj_id, ilObject::_lookupType($a_obj_id), 0, "", $ilUser->getId());
+		if (count($tags) > 0)
+		{
+			include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
+			$htpl->setCurrentBlock("prop");
+			$htpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_tags_s.gif")));
+			$htpl->setVariable("PROP_TXT", count($tags));
+			$htpl->setVariable("PROP_ID", "headp_tags");
+			$htpl->setVariable("PROP_HREF", "#");
+			$htpl->setVariable("PROP_ONCLICK", "onclick=' return ".ilTaggingGUI::getListTagsJSCall($this->ref_id, $this->sub_obj_id).";'");
+			$htpl->parseCurrentBlock();
+			
+			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+			$lng->loadLanguageModule("tagging");
+			ilTooltipGUI::addTooltip("headp_tags",
+				$lng->txt("tagging_tags").": ".count($tags));
+		}
+		
+		// notes and comments
 		include_once("./Services/Notes/classes/class.ilNote.php");
 		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
 		$cnt = ilNote::_countNotesAndComments(array($a_obj_id), $a_sub_obj_id);
