@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Tagging/classes/class.ilTagging.php");
 
@@ -33,6 +14,28 @@ include_once("./Services/Tagging/classes/class.ilTagging.php");
 */
 class ilTaggingGUI
 {
+	
+	/**
+	 * Execute command
+	 *
+	 * @param
+	 * @return
+	 */
+	function executeCommand()
+	{
+		global $ilCtrl;
+		
+		$next_class = $ilCtrl->getNextClass();
+		switch($next_class)
+		{
+			default:
+				$cmd = $ilCtrl->getCmd();
+				$this->$cmd();
+				break;
+		}
+	}
+	
+	
 	/**
 	* Set Object.
 	*
@@ -222,6 +225,106 @@ class ilTaggingGUI
 		return $ttpl->get();
 	}
 
+	
+	////
+	//// Ajax related methods
+	////
+	
+	/**
+	 * Init javascript
+	 */
+	function initJavascript($a_ajax_url)
+	{
+		global $tpl;
+		
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		ilYuiUtil::initPanel();
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		iljQueryUtil::initjQuery();
+		$tpl->addJavascript("./Services/Tagging/js/ilTagging.js");
+		
+		$tpl->addOnLoadCode("ilTagging.setAjaxUrl('".$a_ajax_url."');");
+	}
+	
+	/**
+	 * Get tagging js call
+	 *
+	 * @param
+	 * @return
+	 */
+	function getListTagsJSCall($a_ref_id = 0, $a_sub_id = null)
+	{
+		global $tpl;
+		
+		$tpl->addJavascript("./Services/Tagging/js/ilTagging.js");
+		if($a_sub_id === null)
+		{
+			return "ilTagging.listTags(event, ".$a_ref_id.");";
+		}
+		else
+		{
+			return "ilTagging.listTags(event, ".$a_ref_id.", ".$a_sub_id.");";
+		}
+	}
+
+	/**
+	 * Get HTML
+	 *
+	 * @param
+	 * @return
+	 */
+	function getHTML()
+	{
+		global $lng, $ilCtrl;
+		
+		$lng->loadLanguageModule("tagging");
+		$tpl = new ilTemplate("tpl.edit_tags.html", true, true, "Services/Tagging");
+		$tpl->setVariable("TXT_TAGS", $lng->txt("tagging_tags"));
+		$tpl->setVariable("TXT_OBJ_TITLE", ilObject::_lookupTitle($this->obj_id));
+		$tags = ilTagging::getTagsForUserAndObject($this->obj_id, $this->obj_type,
+			$this->sub_obj_id, $this->sub_obj_type, $this->getUserId());
+		$tpl->setVariable("VAL_TAGS",
+			ilUtil::prepareFormOutput(implode($tags, " ")));
+		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
+		$tpl->setVariable("CMD_SAVE", "saveJS");
+		
+		$os = "ilTagging.cmdAjaxForm(event, '".
+			$ilCtrl->getFormActionByClass("iltagginggui", "", "", true).
+			"');";
+		$tpl->setVariable("ON_SUBMIT", $os);
+
+		
+		echo $tpl->get();
+		exit;
+	}
+	
+	/**
+	 * Save JS
+	 */
+	function saveJS()
+	{
+		$input = ilUtil::stripSlashes($_POST["tags"]);
+		$input = str_replace(",", " ", $input);
+		$itags = explode(" ", $input);
+		$tags = array();
+		foreach($itags as $itag)
+		{
+			$itag = trim($itag);
+			if (!in_array($itag, $tags) && $itag != "")
+			{
+				if (!$this->isForbidden($itag))
+				{
+					$tags[] = $itag;
+				}
+			}
+		}
+
+		ilTagging::writeTagsForUserAndObject($this->obj_id, $this->obj_type,
+			$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(), $tags);
+		$this->getHTML();
+	}
+	
+	
 }
 
 ?>

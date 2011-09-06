@@ -344,6 +344,11 @@ class ilObjectGUI
 			ilNoteGUI::initJavascript(
 				$this->ctrl->getLinkTargetByClass(array("ilinfoscreengui", "ilnotegui"), "", "", true, false));
 
+			// prepare tagging
+			include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
+			ilTaggingGUI::initJavascript(
+				$this->ctrl->getLinkTargetByClass(array("ilinfoscreengui", "iltagginggui"), "", "", true, false));
+
 			$this->tpl->setHeaderActionMenu($this);
 		}
 	}

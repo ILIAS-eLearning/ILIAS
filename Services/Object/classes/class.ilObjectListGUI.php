@@ -2337,7 +2337,11 @@ class ilObjectListGUI
 		//$this->insertCommand($cmd_link, $this->lng->txt("notes_private_annotating"), $cmd_frame);
 		$this->insertCommand("#", $this->lng->txt("notes"), $cmd_frame,
 			"", "", ilNoteGUI::getListNotesJSCall($this->ref_id, $this->sub_obj_id));
-		$this->insertCommand($cmd_tag_link, $this->lng->txt("tagging_set_tag"), $cmd_frame);
+		
+		include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
+		//$this->insertCommand($cmd_tag_link, $this->lng->txt("tagging_set_tag"), $cmd_frame);
+		$this->insertCommand("#", $this->lng->txt("tagging_set_tag"), $cmd_frame,
+			"", "", ilTaggingGUI::getListTagsJSCall($this->ref_id, $this->sub_obj_id));
 	}
 
 	/**

@@ -1493,10 +1493,11 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	function initJavascript($a_ajax_url)
 	{
 		global $tpl;
-		
+
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initPanel();
-		$tpl->addJavascript("./Modules/Scorm2004/scripts/questions/jquery.js");
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		iljQueryUtil::initjQuery();
 		$tpl->addJavascript("./Services/Notes/js/ilNotes.js");
 		
 		$tpl->addOnLoadCode("ilNotes.setAjaxUrl('".$a_ajax_url."');");
