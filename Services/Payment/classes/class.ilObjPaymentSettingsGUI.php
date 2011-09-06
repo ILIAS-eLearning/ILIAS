@@ -117,7 +117,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 						$check['caCertificate'] == '' ||
 						$check['timeOut'] == '')
 					{
-						ilUtil::sendInfo('please_enter_bmf_data');
+						ilUtil::sendInfo($this->lng->txt('please_enter_bmf_data'));
 						return $this->bmfSettingsObject();
 					}
 					break;
@@ -128,7 +128,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 						$check['vendor'] == '' ||
 						$check['auth_token'] == '')
 					{
-						ilUtil::sendInfo('please_enter_paypal_data');
+						ilUtil::sendInfo($this->lng->txt('please_enter_paypal_data'));
 						return $this->paypalSettingsObject();
 					}
 					break;
@@ -140,7 +140,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 						$check['auth_token'] == '' ||
 						$check['auth_email'] == '')
 					{
-						ilUtil::sendInfo('please_enter_epay_data');
+						ilUtil::sendInfo($this->lng->txt('please_enter_epay_data'));
 						return $this->paypalSettingsObject();
 					}
 					break;
