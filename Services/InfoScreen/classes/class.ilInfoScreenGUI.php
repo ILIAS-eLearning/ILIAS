@@ -83,7 +83,14 @@ class ilInfoScreenGUI
 					$ilCtrl->saveParameter($this, "notes_sub_id");
 
 					include_once "Services/Notes/classes/class.ilNoteGUI.php";
-					$note_gui = new ilNoteGUI($this->gui_object->object->getId(), (int)$_GET["notes_sub_id"]);
+					if ($_GET["notes_ref_id"] > 0)
+					{
+						$note_gui = new ilNoteGUI(ilObject::_lookupObjId($_GET["notes_ref_id"]), (int)$_GET["notes_sub_id"]);
+					}
+					else
+					{
+						$note_gui = new ilNoteGUI($this->gui_object->object->getId(), (int)$_GET["notes_sub_id"]);
+					}
 					$note_gui->enablePrivateNotes(true);
 					$note_gui->enablePublicNotes(true);			
 					$ilCtrl->forwardCommand($note_gui);		
