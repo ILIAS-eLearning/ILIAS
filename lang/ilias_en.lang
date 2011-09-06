@@ -11385,7 +11385,6 @@ wsp#:#wsp_permission_all_info#:#This object has been published.
 style#:#sty_type_iim#:#Interactive Image Content Popup
 style#:#sty_type_marker#:#Interactive Image Marker
 style#:#sty_import_page_layout#:#Import Page Layout
-administration#:#adm_quick_access_comments_tagging#:#Quick Access for Notes, Comments and Tagging
 content#:#cont_remove_format#:#Remove Format
 content#:#cont_ed_edit_multiple#:#Edit Paragraph Sequence
 survey#:#survey_questions_to_clipboard_cut#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard. 
@@ -12156,3 +12155,4 @@ prtf#:#prtf_tab_other_users#:#Portfolios From Other Users
 wsp#:#wsp_password_protected_resource#:#Password-protected Resource
 wsp#:#wsp_password_protected_resource_info#:#To access this resource you have to enter a password.
 wsp#:#wsp_password_for#:#Password for
+administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists

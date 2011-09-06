@@ -69,8 +69,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function viewObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilAccess;
 
+if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+{
+	return $this->showBasicSettingsObject();
+}
 return $this->showServerInfoObject();
 // old stuff
 		
@@ -1779,11 +1783,13 @@ return $this->showServerInfoObject();
 
 		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
 
-/*		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+		// general settings
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "view"), array("view", "saveSettings"), get_class($this));
-		}*/
+			$tabs_gui->addTarget("general_settings",
+				$this->ctrl->getLinkTarget($this, "showBasicSettings"),
+				array("showBasicSettings", "saveBasicSettings"), get_class($this));
+		}
 
 		// server info
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
@@ -1791,14 +1797,6 @@ return $this->showServerInfoObject();
 			$tabs_gui->addTarget("server_data",
 				$this->ctrl->getLinkTarget($this, "showServerInfo"),
 				array("showServerInfo", "view"), get_class($this));
-		}
-
-		// general settings
-		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{
-			$tabs_gui->addTarget("general_settings",
-				$this->ctrl->getLinkTarget($this, "showBasicSettings"),
-				array("showBasicSettings", "saveBasicSettings"), get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
@@ -1882,16 +1880,8 @@ return $this->showServerInfoObject();
 		// database version
 		$ne = new ilNonEditableValueGUI($lng->txt("db_version"), "");
 		$ne->setValue($ilSetting->get("db_version"));
-				include_once ("./Services/Database/classes/class.ilDBUpdate.php");
-		$dbupdate = new ilDBUpdate($this->ilias->db,true);
-		if (!$dbupdate->getDBVersionStatus())
-		{
-			ilUtil::sendFailure($this->lng->txt("db_need_update"));
-		}
-		else if ($dbupdate->hotfixAvailable())
-		{
-			ilUtil::sendFailure($this->lng->txt("db_need_hotfix"));
-		}
+		
+		include_once ("./Services/Database/classes/class.ilDBUpdate.php");
 		$this->form->addItem($ne);
 		
 		// ilias version
@@ -2304,9 +2294,9 @@ return $this->showServerInfoObject();
 		$this->form->addItem($pl);
 
 		// notes/comments/tagging
-		$pl = new ilCheckboxInputGUI($this->lng->txt('adm_quick_access_comments_tagging'),'comments_tagging_quick_access');
+		$pl = new ilCheckboxInputGUI($this->lng->txt('adm_show_comments_tagging_in_lists'),'comments_tagging_in_lists');
 		$pl->setValue(1);
-		$pl->setChecked($ilSetting->get('comments_tagging_quick_access'));
+		$pl->setChecked($ilSetting->get('comments_tagging_in_lists'));
 		$this->form->addItem($pl);
 
 		// save and cancel commands
@@ -2343,7 +2333,7 @@ return $this->showServerInfoObject();
 			$ilSetting->set("passwd_auto_generate", $_POST["passwd_auto_generate"]);
 			$ilSetting->set("locale", $_POST["locale"]);
 			$ilSetting->set('preview_learner',(int) $_POST['preview_learner']);
-			$ilSetting->set('comments_tagging_quick_access',(int) $_POST['comments_tagging_quick_access']);
+			$ilSetting->set('comments_tagging_in_lists',(int) $_POST['comments_tagging_in_lists']);
 			$ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
 			$ilSetting->set('item_cmd_asynch',(int) $_POST['item_cmd_asynch']);
 			$ilSetting->set("repository_tree_pres", $_POST["tree_pres"]);
