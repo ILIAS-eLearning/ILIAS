@@ -11520,7 +11520,7 @@ common#:#cont_iim_content_popups_info#:#Content popups appear, when the user cli
 style#:#sty_type_iim#:#Interactive Image Content Popup###12 06 2011 new variable
 style#:#sty_type_marker#:#Interactive Image Marker###12 06 2011 new variable
 style#:#sty_import_page_layout#:#Seitenlayout importieren
-content#:#cont_pc_qover#:#Question Overview###12 06 2011 new variable
+content#:#cont_pc_qover#:#Fragenübersicht
 content#:#cont_ed_insert_qover#:#Fragenübersicht einfügen
 content#:#cont_update_qover#:#Fragenübersicht speichern
 content#:#cont_qover_short_message#:#Fragenstatus
@@ -11637,10 +11637,10 @@ registration#:#registration_code_no_role#:#Der angegebene Code ist ohne Rolle de
 registration#:#registration_no_valid_role#:#Es ist momentan keine Rolle für Registrierungen definiert. Bitte kontaktieren Sie den System-Administrator.
 rbac#:#rbac_global_rolt#:#Globale Rollenvorlage
 common#:#exc_next_deadline#:#Nächster Abgabetermin
-content#:#cont_maintenance#:#Maintenance###18 07 2011 new variable
-content#:#cont_switch_to_media_pool#:#Switch to other Media Pool###18 07 2011 new variable
-mep#:#mep_choose_from_mep#:#Choose from Pool###18 07 2011 new variable
-mep#:#mep_choose_from_folder#:#Choose from Folder###18 07 2011 new variable
+content#:#cont_maintenance#:#Wartung
+content#:#cont_switch_to_media_pool#:#In anderen Medienpool wechseln
+mep#:#mep_choose_from_mep#:#Aus Pool auswählen
+mep#:#mep_choose_from_folder#:#Aus Ordner auswählen
 skmg#:#skmg_skill_management_deactivated#:#Skill Management is currently deaktivated.###18 07 2011 new variable
 skmg#:#skmg_cert_skill_title#:#Skill Title###18 07 2011 new variable
 skmg#:#skmg_cert_skill_level_title#:#Skill Level Title###18 07 2011 new variable
@@ -11672,7 +11672,7 @@ skmg#:#skmg_selectable_info#:#Allows user to select this category as a personal 
 skmg#:#skmg_materials#:#Materials###18 07 2011 new variable
 skmg#:#skmg_remove_skills#:#Remove Skills###18 07 2011 new variable
 skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig skills from your list?###18 07 2011 new variable
-sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)###18 07 2011 new variable
+sahs#:#scorm_create_export_file_html_one#:#Exportdatei erzeugen (HTML, eine Seite, Review Mode)
 common#:#password_allow_chars#:#Erlaubte Zeichen: %s
 rbac#:#rbac_role_selection#:#Rollentyp
 content#:#cont_paragraph_styles#:#Paragraph Styles
@@ -12050,33 +12050,33 @@ scormdebug#:#debugwindow_password_enter#:#Bitte geben Sie Ihr Passwort ein
 common#:#password_multiple_errors#:#Mehrere Passwort Kriterien werden nicht erfüllt:
 common#:#password_contains_invalid_chars#:#Das Passwort enthält ungültige Zeichen.
 content#:#cont_new_question#:#New Question###06 08 2011 new variable
-content#:#cont_copy_question_from_pool#:#Copy Question from Pool###06 08 2011 new variable
-content#:#cont_select_other_qpool#:#Select other Pool###06 08 2011 new variable
-content#:#cont_copy_question_into_page#:#Copy into Page###06 08 2011 new variable
-notes#:#note_add_note#:#Add Note###06 08 2011 new variable
-notes#:#note_add_comment#:#Add Comment###06 08 2011 new variable
-notes#:#note_update_comment#:#Update Comment###06 08 2011 new variable
-notes#:#note_update_note#:#Update Note###06 08 2011 new variable
-common#:#added_to_desktop#:#The item has been added to the desktop.###06 08 2011 new variable
-common#:#removed_from_desktop#:#The item has been removed from the desktop.###06 08 2011 new variable
-notes#:#notes_comments#:#Comments###06 08 2011 new variable
-chatroom#:#chatroom_smiley_keyword#:#Keyword###06 08 2011 new variable
-user#:#user_account_used#:#Date Of Usage###06 08 2011 new variable
+content#:#cont_copy_question_from_pool#:#Frage aus Pool kopieren
+content#:#cont_select_other_qpool#:#Wählen Sie einen anderen Pool aus!
+content#:#cont_copy_question_into_page#:#In Seite kopieren
+notes#:#note_add_note#:#Notiz hinzufügen
+notes#:#note_add_comment#:#Kommentar hinzufügen
+notes#:#note_update_comment#:#Kommentar aktualisieren
+notes#:#note_update_note#:#Notiz aktualisieren
+common#:#added_to_desktop#:#Das Objekt wurde auf den Schreibtisch gelegt.
+common#:#removed_from_desktop#:#Das Objekt wurde vom Schreibtisch genommen.
+notes#:#notes_comments#:#Kommentare
+chatroom#:#chatroom_smiley_keyword#:#Schlagwort
+user#:#user_account_used#:#Datum der Nutzung
 common#:#notice#:#Hinweis
 common#:#public_room#:#Öffentlicher Chatraum
 chatroom#:#chtr_moderate#:#Moderieren
-chatroom#:#unkown_private_room#:#Unbekanntes Separee
+chatroom#:#unkown_private_room#:#Unbekanntes Séparée
 content#:#cont_file_from_workspace#:#Datei aus meinem Arbeitsraum
 survey#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen und nur für diese Umfrage verfügbar machen
 chatroom#:#server_further_information#:#Weitere Informationen zur Konfiguration des Servers finden Sie in der <a href="%1$s" target="_blank">Readme-Datei</a>.
 chatroom#:#chtr_new#:#Neuen Chatraum anlegen
 chatroom#:#chtr_add#:#Chatraum hinzufügen
-blog#:#blog_exercise_submitted_info#:#Ihre letzte Einreichung war am %s, bitte prüfen Sie die Export-Datei: %s.
-prtf#:#prtf_exercise_submitted_info#:#Ihre letzte Einreichung war am %s, bitte prüfen Sie die Export-Datei: %s.
+blog#:#blog_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s.
+prtf#:#prtf_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s.
 exc#:#exc_select_blog#:#Vorhandenen Blog nutzen
 exc#:#exc_select_portfolio#:#Vorhandenes Portfolio nutzen
 exc#:#exc_select_blog_info#:#Bitte wählen Sie einen Ihrer Blogs, um ihn mit dieser Übungseinheit zu benutzen.
-exc#:#exc_select_portfolio_info#:#Bitte wählen Sie einen Ihrer Portfolios, um ihn mit dieser Übungseinheit zu benutzen.
+exc#:#exc_select_portfolio_info#:#Bitte wählen Sie eines Ihrer Portfolios, um es mit dieser Übungseinheit zu benutzen.
 exc#:#exc_select_blog_change#:#Anderen Blog benutzen
 exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
 exc#:#exc_blog_selected#:#Der Blog wurde verknüpft.
@@ -12106,15 +12106,15 @@ trac#:#trac_determines_learning_progress#:#Bestimmt Lernfortschritt
 search#:#lucene_max_fs#:#Maximale Dateigröße (in MB)
 search#:#lucene_max_fs_info#:#Definiert das Dateigrößenlimit, bis zu dem Dateien indexiert werden. Der Inhalt größerer Dateien wird nicht in den Index aufgenommen.
 chatroom_adm#:#port_info#:#Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Nutzer werden mit ihrem Browser keine Verbindung zum Chatserver aufbauen können, wenn der eingetragene Port nicht offen ist. 
-payment#:#check_shop_activation#:#Überprüfung der Shop Einstellung zur Aktivierung
+payment#:#check_shop_activation#:#Überprüfung der Shop-Einstellung zur Aktivierung
 payment#:#please_enter_currency#:#Bitte geben Sie eine Währung ein
 payment#:#please_enter_address#:#Bitte geben Sie eine Adresse ein
 payment#:#please_enter_bank_data#:#Bitte geben Sie die Bankverbindung ein
 payment#:#please_enter_pdf_path#:#Bitte geben Sie den Pfad zur Rechnungsgenerierung als PDF-Datei an 
 payment#:#please_activate_one_paymethod#:#Bitte aktivieren Sie wenigstens eine Bezahlart
-payment#:#please_enter_bmf_data#:#Bitte geben Sie Ihre BMF Daten ein
-payment#:#please_enter_paypal_data#:#Bitte geben Sie Ihre Paypal Daten ein
-payment#:#please_enter_epay_data#:#Bitte geben Sie Ihre EPay Daten ein
+payment#:#please_enter_bmf_data#:#Bitte geben Sie Ihre BMF-Daten ein
+payment#:#please_enter_paypal_data#:#Bitte geben Sie Ihre Paypal-Daten ein
+payment#:#please_enter_epay_data#:#Bitte geben Sie Ihre EPay-Daten ein
 payment#:#please_enter_vats#:#Bitte erstellen Sie wenigstens einen Steuersatz
 payment#:#please_create_vendor#:#Bitte erstellen Sie wenigstens einen Verkäufer
 payment#:#shop_activation_ok#:#Die Shop Einstellungen sind vollständig. Sie können nun den Webshop aktivieren.
@@ -12132,7 +12132,7 @@ skmg#:#skmg_order_nr#:#Order Number###02 09 2011 new variable
 skmg#:#skmg_create_skll#:#Create Skill###02 09 2011 new variable
 skmg#:#skmg_create_skill_template_reference#:#Create Skill Template Reference###02 09 2011 new variable
 skmg#:#skmg_create_skill_category#:#Create Skill Category###02 09 2011 new variable
-common#:#my_courses_groups#:#My Courses & Groups###02 09 2011 new variable
+common#:#my_courses_groups#:#Meine Kurse und Gruppen
 skmg#:#skmg_edit_skll#:#Edit Skill Settings###02 09 2011 new variable
 skmg#:#skmg_sktr#:#Skill Template Reference###02 09 2011 new variable
 skmg#:#skmg_items#:#Items###02 09 2011 new variable
@@ -12145,10 +12145,10 @@ skmg#:#skmg_insert_please_choose_one_type_only#:#Please choose only one type of 
 skmg#:#skmg_level#:#Level###02 09 2011 new variable
 skmg#:#skmg_material#:#Material###02 09 2011 new variable
 skmg#:#skmg_remove_skill#:#Remove Skill###02 09 2011 new variable
-administration#:#adm_basic#:#Basic###02 09 2011 new variable
-administration#:#adm_users#:#Users###02 09 2011 new variable
-administration#:#adm_services#:#Services###02 09 2011 new variable
-administration#:#adm_objects#:#Objects###02 09 2011 new variable
+administration#:#adm_basic#:#Allgemein
+administration#:#adm_users#:#Benutzer
+administration#:#adm_services#:#Services
+administration#:#adm_objects#:#Objekte
 content#:#cont_scorm_ed_properties#:#Learning Module Properties / Glossary###02 09 2011 new variable
 content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.###02 09 2011 new variable
 style#:#sty_type_rte_drag#:#Drag Bar###02 09 2011 new variable
