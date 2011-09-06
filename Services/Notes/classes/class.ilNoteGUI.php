@@ -31,7 +31,7 @@ class ilNoteGUI
 	function ilNoteGUI($a_rep_obj_id = "", $a_obj_id = "", $a_obj_type = "", $a_include_subobjects = false)
 	{
 		global $ilCtrl, $lng;
-		
+
 		$lng->loadLanguageModule("notes");
 		
 		$ilCtrl->saveParameter($this, "notes_only");
