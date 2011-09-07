@@ -109,12 +109,22 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 		}
 		$this->tpl->setVariable('VAL_APPLICABLE', $atxt);
 
-		// Copy
 		$ilCtrl->setParameterByClass(
 			get_class($this->getParentObject()),
 			'tplid',
 			$set['id']
 		);
+
+		// Edit
+		$this->tpl->setCurrentBlock('action_link');
+		$this->tpl->setVariable(
+			'A_LINK',
+			$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'editTemplate')
+		);
+		$this->tpl->setVariable('A_TEXT',$this->lng->txt('edit'));
+		$this->tpl->parseCurrentBlock();
+
+		// Copy
 		$this->tpl->setCurrentBlock('action_link');
 		$this->tpl->setVariable(
 			'A_LINK',
