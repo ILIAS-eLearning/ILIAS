@@ -795,7 +795,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		
 		$form_gui = new ilPropertyFormGUI();
 		$form_gui->setFormAction($this->ctrl->getFormAction($this),'performSearch');
-		$form_gui->setTitle($this->lng->txt('crs_search_members'));
+		$form_gui->setTitle($this->lng->txt('grp_search_members'));
 		$form_gui->setId('search_form');
 	
 		$oTitle = new ilTextInputGUI($this->lng->txt('search_search_term'), 'search_str');
@@ -906,11 +906,11 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$tmp_obj = ilObjectFactory::getInstanceByRefId($sell_id, false);
 		if($tmp_obj)
 		{
-			$tmp_obj['title'] = $tmp_obj->getTitle();
+			$tmp_object['title'] = $tmp_obj->getTitle();
 		}
 		else
 		{
-			$tmp_obj['title'] = $this->lng->txt('object_not_found');
+			$tmp_object['title'] = $this->lng->txt('object_not_found');
 		}
 
 		// get customer_obj
