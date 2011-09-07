@@ -11120,12 +11120,9 @@ survey#:#survey_use_pool#:#Use Pool
 content#:#cont_page_toc#:#Page Overview
 wiki#:#wiki_page_toc#:#Enable Page Overview Block
 wiki#:#wiki_page_toc_info#:#This lists all headings linked to the content at the beginning of each page if that page uses at least two headings.
-wiki#:#wiki_block#:#Block
-wiki#:#wiki_unblock#:#Unblock
 wiki#:#wiki_page_unblocked#:#Wiki page unblocked.
 wiki#:#wiki_page_blocked#:#Wiki page blocked.
 wiki#:#wiki_last_edited#:#Last edited
-wiki#:#wiki_rename#:#Rename
 wiki#:#wiki_page_already_exists#:#A page with this title already exists.
 wiki#:#wiki_rename_page#:#Rename Page
 wiki#:#wiki_new_page_name#:#New Title
@@ -12156,3 +12153,9 @@ wsp#:#wsp_password_protected_resource#:#Password-protected Resource
 wsp#:#wsp_password_protected_resource_info#:#To access this resource you have to enter a password.
 wsp#:#wsp_password_for#:#Password for
 administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists
+content#:#cont_edit_mode#:#Edit Mode
+wiki#:#wiki_block_page#:#Block Page
+wiki#:#wiki_unblock_page#:#Unblock Page
+wiki#:#wiki_delete_page#:#Delete Page
+wiki#:#wiki_rename#:#Rename
+wiki#:#wiki_rate_page#:#Rate this Page

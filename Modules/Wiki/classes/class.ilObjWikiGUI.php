@@ -76,6 +76,11 @@ class ilObjWikiGUI extends ilObjectGUI
 				{
 					$wpage_gui->setEnableEditing(false);
 				}
+				
+				// alter title and description
+//				$tpl->setTitle($wpage_gui->getPageObject()->getTitle());
+//				$tpl->setDescription($this->object->getTitle());
+
 				$ret = $this->ctrl->forwardCommand($wpage_gui);
 				if ($ret != "")
 				{
@@ -851,6 +856,11 @@ class ilObjWikiGUI extends ilObjectGUI
 			$wpage_gui->setEnableEditing(false);
 		}
 
+		// alter title and description
+		//$tpl->setTitle($wpage_gui->getPageObject()->getTitle());
+		//$tpl->setDescription($this->object->getTitle());
+
+		
 		$html = $ilCtrl->forwardCommand($wpage_gui);
 		//$this->addPageTabs();
 		

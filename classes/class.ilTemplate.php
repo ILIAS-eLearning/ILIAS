@@ -1605,8 +1605,9 @@ class ilTemplate extends ilTemplateX
 			$this->parseCurrentBlock();
 		}
 		
-		if (is_object($this->getHeaderActionMenu()) && $ilUser->getId() != ANONYMOUS_USER_ID)
-		{		
+		if ((is_object($this->getHeaderActionMenu()) ||
+			$this->getHeaderActionMenuHTML() != "") && $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
 			$header_action_gui = $this->getHeaderActionMenu();	
 			if($header_action_gui->object)
 			{
@@ -1626,11 +1627,20 @@ class ilTemplate extends ilTemplateX
 					$ref_id = $header_action_gui->object->getRefId();
 					$context = ilObjectListGUI::CONTEXT_REPOSITORY;
 				}
-
-				$this->setCurrentBlock("head_action");
-				$this->setVariable("HEAD_ACTION", $lg->getHeaderAction($ref_id,
+				
+				$html = $lg->getHeaderAction($ref_id,
 					$header_action_gui->object->getId(),
-					$context, $this->header_action_sub_id));
+					$context, $this->header_action_sub_id);
+			}
+			else if ($this->getHeaderActionMenuHTML() != "")
+			{
+				$html = $this->getHeaderActionMenuHTML();
+			}
+			
+			if ($html != "")
+			{
+				$this->setCurrentBlock("head_action");
+				$this->setVariable("HEAD_ACTION", $html);
 				$this->parseCurrentBlock();
 			}
 		}
@@ -1726,6 +1736,27 @@ class ilTemplate extends ilTemplateX
 		return $this->header_action_ref_id;
 	}
 	
+	/**
+	 * Set header action menu html
+	 *
+	 * @param string $a_val html	
+	 */
+	function setHeaderActionMenuHTML($a_html)
+	{
+		$this->header_action_html = $a_html;
+	}
+	
+	/**
+	 * Get header action menu html
+	 *
+	 * @return string html
+	 */
+	function getHeaderActionMenuHTML()
+	{
+		return $this->header_action_html;
+	}
+	
+
 	/**
 	* sets content for standard template
 	*/

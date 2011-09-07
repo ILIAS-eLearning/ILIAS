@@ -195,6 +195,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$this->setSideBlock();
 		$wtpl = new ilTemplate("tpl.wiki_page_view_main_column.html",
 			true, true, "Modules/Wiki");
+		
+		$act_tpl = new ilTemplate("tpl.wiki_page_act_menu.html",
+			true, true, "Modules/Wiki");
 
 		// actions
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
@@ -213,10 +216,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
 					$ilCtrl->getLinkTarget($this));
 
 
-				$wtpl->setCurrentBlock("not_icon");
-				$wtpl->setVariable("NOT_SRC", ilUtil::getImagePath("notification_on.png"));
-				$wtpl->setVariable("NOT_ID", "not_icon");
-				$wtpl->parseCurrentBlock();
+				$act_tpl->setCurrentBlock("not_icon");
+				$act_tpl->setVariable("NOT_SRC", ilUtil::getImagePath("notification_on.png"));
+				$act_tpl->setVariable("NOT_ID", "not_icon");
+				$act_tpl->parseCurrentBlock();
 				include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 				ilTooltipGUI::addTooltip("not_icon", $lng->txt("wiki_notification_activated"));
 
@@ -232,10 +235,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
 					$list->addItem($lng->txt("wiki_notification_deactivate_page"), "",
 						$ilCtrl->getLinkTarget($this));
 
-					$wtpl->setCurrentBlock("not_icon");
-					$wtpl->setVariable("NOT_SRC", ilUtil::getImagePath("notification_on.png"));
-					$wtpl->setVariable("NOT_ID", "not_icon");
-					$wtpl->parseCurrentBlock();
+					$act_tpl->setCurrentBlock("not_icon");
+					$act_tpl->setVariable("NOT_SRC", ilUtil::getImagePath("notification_on.png"));
+					$act_tpl->setVariable("NOT_ID", "not_icon");
+					$act_tpl->parseCurrentBlock();
 					include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 					ilTooltipGUI::addTooltip("not_icon", $lng->txt("wiki_page_notification_activated"));
 
@@ -257,18 +260,18 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
 			// rename
-			$list->addItem($lng->txt("wiki_rename"), "",
+			$list->addItem($lng->txt("wiki_rename_page"), "",
 				$ilCtrl->getLinkTarget($this, "renameWikiPage"));
 
 			// block/unblock
 			if ($this->getPageObject()->getBlocked())
 			{
-				$list->addItem($lng->txt("wiki_unblock"), "",
+				$list->addItem($lng->txt("wiki_unblock_page"), "",
 					$ilCtrl->getLinkTarget($this, "unblockWikiPage"));
 			}
 			else
 			{
-				$list->addItem($lng->txt("wiki_block"), "",
+				$list->addItem($lng->txt("wiki_block_page"), "",
 					$ilCtrl->getLinkTarget($this, "blockWikiPage"));
 			}
 
@@ -276,13 +279,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			$st_page = ilObjWiki::_lookupStartPage($this->getPageObject()->getParentId());
 			if ($st_page != $this->getPageObject()->getTitle())
 			{
-				$list->addItem($lng->txt("delete"), "",
+				$list->addItem($lng->txt("wiki_delete_page"), "",
 					$ilCtrl->getLinkTarget($this, "deleteWikiPageConfirmationScreen"));
 			}
 		}
 
-		$wtpl->setVariable("ACTIONS", $list->getHTML());
-
+		$act_tpl->setVariable("ACTIONS", $list->getHTML());
 
 		// rating
 		if (ilObjWiki::_lookupRating($this->getPageObject()->getParentId())
@@ -292,9 +294,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			$rating_gui = new ilRatingGUI();
 			$rating_gui->setObject($this->getPageObject()->getParentId(), "wiki",
 				$this->getPageObject()->getId(), "wpg");
-			$wtpl->setVariable("RATING", $ilCtrl->getHtml($rating_gui));
+			$rating_gui->setYourRatingText($lng->txt("wiki_rate_page"));
+			$act_tpl->setVariable("RATING", $ilCtrl->getHtml($rating_gui));
 		}
 
+		$tpl->setHeaderActionMenuHTML($act_tpl->get());
 
 		// notes
 		$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getPageObject(),
