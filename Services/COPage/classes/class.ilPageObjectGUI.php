@@ -2113,13 +2113,14 @@ class ilPageObjectGUI
 
 		// actions
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-		$list = new ilAdvancedSelectionListGUI();
-		$list->setListTitle($lng->txt("actions"));
-		$list->setId("copage_act");
 
 		// activate/deactivate
 		if ($this->getEnabledActivation())
 		{
+			$list = new ilAdvancedSelectionListGUI();
+			$list->setListTitle($lng->txt("actions"));
+			$list->setId("copage_act");
+			
 			if ($this->getPageObject()->getActive())
 			{
 				$list->addItem($lng->txt("cont_deactivate_page"), "",
@@ -2130,7 +2131,13 @@ class ilPageObjectGUI
 				$list->addItem($lng->txt("cont_activate_page"), "",
 					$ilCtrl->getLinkTarget($this, "activatePage"));
 			}
+			
+			$a_tpl->setVariable("PAGE_ACTIONS", $list->getHTML());
 		}
+
+		$list = new ilAdvancedSelectionListGUI();
+		$list->setListTitle($lng->txt("cont_edit_mode"));
+		$list->setId("copage_ed_mode");
 
 		// media mode
 		if ($sel_media_mode == "enable")
@@ -2180,7 +2187,7 @@ class ilPageObjectGUI
 		}
 		$ilCtrl->setParameter($this, "js_mode", "");
 
-		$a_tpl->setVariable("PAGE_ACTIONS", $list->getHTML());
+		$a_tpl->setVariable("EDIT_MODE", $list->getHTML());
 	}
 
 	/**

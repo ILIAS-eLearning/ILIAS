@@ -83,6 +83,26 @@ class ilRatingGUI
 	{
 		return $this->userid;
 	}
+	
+	/**
+	 * Set "Your Rating" text
+	 *
+	 * @param string $a_val text	
+	 */
+	function setYourRatingText($a_val)
+	{
+		$this->your_rating_text = $a_val;
+	}
+	
+	/**
+	 * Get "Your Rating" text
+	 *
+	 * @return string text
+	 */
+	function getYourRatingText()
+	{
+		return $this->your_rating_text;
+	}
 
 	/**
 	* Get HTML for rating of an object (and a user)
@@ -199,7 +219,10 @@ class ilRatingGUI
 			$ttpl->setVariable("ID", $this->id);
 			
 			// user rating text
-			$ttpl->setVariable("TXT_YOUR_RATING", $lng->txt("rating_your_rating"));
+			$rate_text = ($this->getYourRatingText() != "")
+				? $this->getYourRatingText()
+				: $lng->txt("rating_your_rating");
+			$ttpl->setVariable("TXT_YOUR_RATING", $rate_text);
 			$ttpl->parseCurrentBlock();
 		}
 
