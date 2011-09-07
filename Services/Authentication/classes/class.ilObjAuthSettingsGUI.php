@@ -248,7 +248,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 		$this->tabs_gui->setTabActive("authentication_settings");
 		$this->setSubTabs("authSettings");		
-		$this->tabs_gui->setSubTabActive("login_information");
+		$this->tabs_gui->setSubTabActive("auth_login_editor");
 		
 		$lng->loadLanguageModule("meta");
 		
@@ -866,7 +866,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				
 				$this->setSubTabs("authSettings");
 				$this->tabs_gui->setTabActive('authentication_settings');
-				$this->tabs_gui->setSubTabActive("login_information");
+				$this->tabs_gui->setSubTabActive("auth_login_editor");
 
 				include_once './Services/Authentication/classes/class.ilAuthLoginPageEditorGUI.php';
 				$lpe = new ilAuthLoginPageEditorGUI($this->object->getRefId());
@@ -957,6 +957,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	function setSubTabs($a_tab)
 	{
 		global $rbacsystem,$ilUser,$ilAccess;
+
+		$GLOBALS['lng']->loadLanguageModule('auth');
 		
 		switch ($a_tab)
 		{			
@@ -970,7 +972,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget(
-						'login_information',
+						'auth_login_editor',
 						$this->ctrl->getLinkTargetByClass('ilauthloginpageeditorgui',''),
 						''
 					);
