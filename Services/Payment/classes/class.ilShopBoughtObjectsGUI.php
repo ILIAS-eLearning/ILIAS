@@ -342,7 +342,8 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 				
 		foreach($bookings as $booking)
 		{
-			$tmp_obj = ilObjectFactory::getInstanceByRefId($booking['ref_id']);
+			$tmp_obj = ilObjectFactory::getInstanceByRefId($booking['ref_id'], false);
+			
 			$tmp_vendor = ilObjectFactory::getInstanceByObjId($booking['b_vendor_id']);
 			$tmp_purchaser = ilObjectFactory::getInstanceByObjId($booking['customer_id']);
 			
@@ -353,10 +354,18 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			$transaction .= " (" . $str_paymethod . ")";
 			$f_result[$counter]['transaction'] = $transaction;
 
-			$obj_link = ilRepositoryExplorer::buildLinkTarget($booking['ref_id'],$tmp_obj->getType());
-			$obj_target = ilRepositoryExplorer::buildFrameTarget($tmp_obj->getType(),$booking['ref_id'],$tmp_obj->getId());
-			$f_result[$counter]['object_title'] = "<a href=\"".$obj_link."\" target=\"".$obj_target."\">".$tmp_obj->getTitle()."</a>";
-			
+			if($tmp_object)
+			{
+				$obj_link = ilRepositoryExplorer::buildLinkTarget($booking['ref_id'],$tmp_obj->getType());
+				$obj_target = ilRepositoryExplorer::buildFrameTarget($tmp_obj->getType(),$booking['ref_id'],$tmp_obj->getId());
+				$f_result[$counter]['object_title'] = "<a href=\"".$obj_link."\" target=\"".$obj_target."\">".$tmp_obj->getTitle()."</a>";
+			}
+			else
+			{
+				$obj_link = '';
+				$obj_target = '';
+				$f_result[$counter]['object_title'] = $booking['object_title'].'<br> ('.$this->lng->txt('object_deleted').')';
+			}
 			/*
 			if ($tmp_obj->getType() == "crs")
 			{

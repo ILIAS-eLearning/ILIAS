@@ -228,8 +228,15 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 				$objects = "";
 				for ($i = 0; $i < count($coupon['objects']); $i++)
 				{
-					$tmp_obj = ilObjectFactory::getInstanceByRefId($coupon['objects'][$i]);
-					$objects .= $tmp_obj->getTitle();
+					$tmp_obj = ilObjectFactory::getInstanceByRefId($coupon['objects'][$i], false);
+					if($tmp_obj)
+					{
+						$objects .= $tmp_obj->getTitle();
+					}
+					else
+					{
+						$objects .= $this->lng->txt('object_not_found');
+					}
 					
 					if ($i < count($coupon['objects']) - 1) $objects .= "<br />";
 					
@@ -309,7 +316,6 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 			if ($_GET['coupon_id'] != "")
 			{	
 				$this->coupon_obj->update();
-
 			}
 			else
 			{
@@ -850,28 +856,37 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 				$p_counter =& $counter_unassigned;
 				$p_result =& $f_result_unassigned;
 			}
-			
-			$tmp_obj = ilObjectFactory::getInstanceByRefId($data['ref_id']);
-			
-			$p_result[$p_counter]['object_id']	= ilUtil::formCheckbox(0, 'object_id[]', $data['ref_id']);
-			$p_result[$p_counter]['title'] = $tmp_obj->getTitle();
-			switch($data['status'])
-			{
-				case $this->pobject->STATUS_BUYABLE:
-					$p_result[$p_counter]['status'] = $this->lng->txt('paya_buyable');
-					break;
 
-				case $this->pobject->STATUS_NOT_BUYABLE:
-					$p_result[$p_counter]['status'] = $this->lng->txt('paya_not_buyable');
-					break;
-					
-				case $this->pobject->STATUS_EXPIRES:
-					$p_result[$p_counter]['status'] = $this->lng->txt('paya_expires');
-					break;
+			$tmp_obj = ilObjectFactory::getInstanceByRefId($data['ref_id'], false);
+			if($tmp_obj)
+			{
+				$p_result[$p_counter]['object_id']	= ilUtil::formCheckbox(0, 'object_id[]', $data['ref_id']);
+				$p_result[$p_counter]['title'] = $tmp_obj->getTitle();
+
+				switch($data['status'])
+				{
+					case $this->pobject->STATUS_BUYABLE:
+						$p_result[$p_counter]['status'] = $this->lng->txt('paya_buyable');
+						break;
+
+					case $this->pobject->STATUS_NOT_BUYABLE:
+						$p_result[$p_counter]['status'] = $this->lng->txt('paya_not_buyable');
+						break;
+
+					case $this->pobject->STATUS_EXPIRES:
+						$p_result[$p_counter]['status'] = $this->lng->txt('paya_expires');
+						break;
+				}
+				include_once './Services/Payment/classes/class.ilPayMethods.php';
+				$p_result[$p_counter]['pay_method'] = ilPaymethods::getStringByPaymethod($data['pay_method']);
 			}
-			include_once './Services/Payment/classes/class.ilPayMethods.php';
-			$p_result[$p_counter]['pay_method'] = ilPaymethods::getStringByPaymethod($data['pay_method']);
-				
+			else
+			{
+				$p_result[$p_counter]['object_id']	= '';
+				$p_result[$p_counter]['title'] = $this->lng->txt('object_not_found');
+				$p_result[$p_counter]['status'] = '';
+				$p_result[$p_counter]['pay_method'] ='';
+			}
 			++$p_counter;				
 							
 			unset($tmp_obj);			

@@ -418,14 +418,23 @@ class ilPaymentShoppingCart
 		{
 			$tmp_pobject = new ilPaymentObject($this->user_obj,$item['pobject_id']);
 
-			$tmp_obj = ilObjectFactory::getInstanceByRefId($tmp_pobject->getRefId());
+			$tmp_obj = ilObjectFactory::getInstanceByRefId($tmp_pobject->getRefId(), false);
 
-			
 			$f_result[$counter]["psc_id"] = $item['psc_id'];
 			$f_result[$counter]["pobject_id"] = $item['pobject_id'];
-			$f_result[$counter]["obj_id"] = $tmp_obj->getId();
-			$f_result[$counter]["type"] = $tmp_obj->getType();
-			$f_result[$counter]["object_title"] = $tmp_obj->getTitle();
+			if($tmp_obj)
+			{
+				$f_result[$counter]["obj_id"] = $tmp_obj->getId();
+				$f_result[$counter]["type"] = $tmp_obj->getType();
+				$f_result[$counter]["object_title"] = $tmp_obj->getTitle();
+			}
+			else
+			{
+				global $lng;
+				$f_result[$counter]["obj_id"] = '';
+				$f_result[$counter]["type"] = '';
+				$f_result[$counter]["object_title"] = $lng->txt('object_deleted');
+			}
 
 			$price_data = ilPaymentPrices::_getPrice($item['price_id']);
 			$price_string = ilPaymentPrices::_getPriceString($item['price_id']);
