@@ -169,6 +169,112 @@ class ilDidacticTemplateSettingsGUI
 	}
 
 	/**
+	 * Edit template
+	 * @return void
+	 */
+	protected function editTemplate(ilPropertyFormGUI $form = null)
+	{
+		global $ilCtrl,$ilTabs;
+
+		if(!$_REQUEST['tplid'])
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			return $ilCtrl->redirect($this,'overview');
+		}
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget(
+			$this->lng->txt('didactic_back_to_overview'),
+			$ilCtrl->getLinkTarget($this,'overview')
+		);
+
+
+		$ilCtrl->saveParameter($this,'tplid');
+
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$settings = new ilDidacticTemplateSetting((int) $_REQUEST['tplid']);
+			$form = $this->initEditTemplate($settings);
+		}
+		$GLOBALS['tpl']->setContent($form->getHTML());
+	}
+
+	/**
+	 * Update template
+	 */
+	protected function updateTemplate()
+	{
+		global $ilCtrl;
+
+		$temp = new ilDidacticTemplateSetting((int) $_REQUEST['tplid']);
+		$form = $this->initEditTemplate($temp);
+
+		if($form->checkInput())
+		{
+			$temp->setTitle($form->getInput('title'));
+			$temp->setDescription($form->getInput('description'));
+			$temp->setAssignments(array($form->getInput('type')));
+			$temp->update();
+
+			ilUtil::sendSuccess($this->lng->txt('save_settings'));
+			$ilCtrl->redirect($this,'overview');
+		}
+
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$form->setValuesByPost();
+		$this->editTemplate($form);
+	}
+
+	/**
+	 * Init edit template form
+	 */
+	protected function initEditTemplate(ilDidacticTemplateSetting $set)
+	{
+		global $ilCtrl,$objDefinition;
+
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setShowTopButtons(false);
+		$form->setFormAction($ilCtrl->getFormAction($this,'updateTemplate'));
+		$form->setTitle($this->lng->txt('didactic_edit_tpl'));
+		$form->addCommandButton('updateTemplate', $this->lng->txt('save'));
+		$form->addCommandButton('overview', $this->lng->txt('cancel'));
+
+		// title
+		$title = new ilTextInputGUI($this->lng->txt('title'), 'title');
+		$title->setValue($set->getTitle());
+		$title->setSize(40);
+		$title->setMaxLength(64);
+		$title->setRequired(true);
+		$form->addItem($title);
+
+		// desc
+		$desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
+		$desc->setValue($set->getDescription());
+		$desc->setRows(3);
+		$form->addItem($desc);
+
+		// object type
+		$type = new ilSelectInputGUI($this->lng->txt('obj_type'),'type');
+		$type->setRequired(true);
+		$assigned = $set->getAssignments();
+		$type->setValue(isset($assigned[0]) ? $assigned[0] : '');
+		$subs = $objDefinition->getCreatableSubobjects('root', false);
+		$options = array();
+		foreach(array_merge($subs,array('fold' => 1)) as $obj => $null)
+		{
+			if($objDefinition->isAllowedInRepository($obj))
+			{
+				$options[$obj] = $this->lng->txt('obj_'.$obj);
+			}
+		}
+		$type->setOptions($options);
+		$form->addItem($type);
+
+		return $form;
+	}
+
+	/**
 	 * Copy on template
 	 */
 	protected function copyTemplate()
