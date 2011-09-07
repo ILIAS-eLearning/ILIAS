@@ -696,8 +696,15 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this, 'cmd', 'editprices');
 		$tbl = new ilShopTableGUI($this);
 
-		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId());
-		$tbl->setTitle($tmp_obj->getTitle());
+		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId(), false);
+		if($tmp_obj)
+		{
+			$tbl->setTitle($tmp_obj->getTitle());
+		}
+		else
+		{
+			$tbl->setTitle($this->lng->txt($object_not_found));
+		}
 
 		$tbl->setId('tbl_bookings');
 		$tbl->setRowTemplate("tpl.shop_prices_row.html", "Services/Payment");
@@ -744,8 +751,15 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$ilToolbar->addButton($this->lng->txt('paya_edit_details'), $this->ctrl->getLinkTarget($this, 'editDetails'));
 		$ilToolbar->addButton($this->lng->txt('paya_edit_prices'), $this->ctrl->getLinkTarget($this, 'editPrices'));
 	
-		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId());		
-	
+		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId(), false);
+		if($tmp_obj)
+		{
+			$tmp_obj['title'] = $tmp_obj->getTitle();
+		}
+		else
+		{
+			$tmp_obj['title'] = $this->lng->txt('object_not_found');
+		}
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
 		
 		$form = new ilPropertyFormGUI();
@@ -754,7 +768,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		
 		// object_title
 		$oTitle = new ilNonEditableValueGUI($this->lng->txt('title'));
-		$oTitle->setValue($tmp_obj->getTitle());
+
+		$oTitle->setValue($tmp_obj['title']);
 		$form->addItem($oTitle);
 			
 		// duration
@@ -1039,12 +1054,23 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId());
+		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId(),false);
+		if($tmp_obj)
+		{
+			$tmp_obj['title'] = $tmp_obj->getTitle();
+			$tmp_obj['type'] = $tmp_obj->getType();
+		}
+		else
+		{
+			$tmp_obj['title'] = $this->lng->txt('object_not_found');
+			$tmp_obj['type'] = '';
+			
+		}
 
 		$oForm = new ilPropertyFormGUI();
 		$oForm->setFormAction($this->ctrl->getFormAction($this, 'updateDetails'));
-		$oForm->setTitle($tmp_obj->getTitle());
-		$oForm->setTitleIcon(ilUtil::getImagePath('icon_'.$tmp_obj->getType().'_b.gif'));
+		$oForm->setTitle($tmp_obj['title']);
+		$oForm->setTitleIcon(ilUtil::getImagePath('icon_'.$tmp_obj['type'].'_b.gif'));
 		
 		// repository path
 		$oPathGUI = new ilNonEditableValueGUI($this->lng->txt('path'));
@@ -3754,7 +3780,15 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$obj = new ilPaymentObject($this->user_obj, $pObjectId);
 
 		// get obj
-		$tmp_obj = ilObjectFactory::getInstanceByRefId($_GET['sell_id']);
+		$tmp_obj = ilObjectFactory::getInstanceByRefId($_GET['sell_id'], false);
+		if($tmp_obj)
+		{
+			$tmp_obj['title'] = $tmp_obj->getTitle();
+		}
+		else
+		{
+			$tmp_obj['title'] = $this->lng->txt('object_not_found');
+		}
 		// get customer_obj
 		$tmp_user = ilObjectFactory::getInstanceByObjId($_POST['user_id']);
 		// get vendor_obj

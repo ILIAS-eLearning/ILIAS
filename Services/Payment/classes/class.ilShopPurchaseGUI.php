@@ -38,8 +38,8 @@ class ilShopPurchaseGUI extends ilObjectGUI
 
 		$this->ref_id = $a_ref_id;
 
-		$this->object = ilObjectFactory::getInstanceByRefId($this->ref_id);
-		
+		$this->object = ilObjectFactory::getInstanceByRefId($this->ref_id, false);
+
 		$this->tpl->getStandardTemplate();
 				
 		$ilTabs->clearTargets();
@@ -99,9 +99,19 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.shop_abstract_details.html', 'Services/Payment');
 		
 		$this->tpl->setVariable("DETAILS_FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$this->object->getType().'_b.gif'));
-		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_'.$this->object->getType()));
-		$this->tpl->setVariable("TITLE",$this->object->getTitle());
+
+		if($this->object)
+		{
+			$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$this->object->getType().'_b.gif'));
+			$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_'.$this->object->getType()));
+			$this->tpl->setVariable("TITLE",$this->object->getTitle());
+		}
+		else
+		{
+				$this->tpl->setVariable("TITLE",$this->lng->txt('object_not_found'));
+		}
+
+
 		
 		// abstracts
 		if(($abstract_html = $this->__getAbstractHTML($this->pobject->getPobjectId())) != '')
@@ -385,15 +395,23 @@ class ilShopPurchaseGUI extends ilObjectGUI
 
 		$this->ctrl->setParameter($this, "ref_id", $this->pobject->getRefId());
 		$subtype = '';
-		if($this->object->getType() == 'exc')
+		if($this->object)
 		{
-			$subtype = ' ('.$this->lng->txt($this->pobject->getSubtype()).')';
-		}
+			if($this->object->getType() == 'exc')
+			{
+				$subtype = ' ('.$this->lng->txt($this->pobject->getSubtype()).')';
+			}
 
-		$this->tpl->setVariable("DETAILS_FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$this->object->getType().'_b.gif'));
-		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_'.$this->object->getType()));
-		$this->tpl->setVariable("TITLE",$this->object->getTitle().' '.$subtype);
+			$this->tpl->setVariable("DETAILS_FORMACTION",$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$this->object->getType().'_b.gif'));
+			$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_'.$this->object->getType()));
+			$this->tpl->setVariable("TITLE",$this->object->getTitle().' '.$subtype);
+		}
+		else
+		{
+			$this->tpl->setVariable("DETAILS_FORMACTION",$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("TITLE",$this->lng->txt('object_not_found'));
+		}
 		// payment infos
 		$this->tpl->setVariable("TXT_INFO",$this->lng->txt('info'));
 

@@ -815,8 +815,15 @@ class ilPurchaseBaseGUI
 		{
 			$tmp_pobject =& new ilPaymentObject($this->user_obj,$item['pobject_id']);
 
-			$tmp_obj =& ilObjectFactory::getInstanceByRefId($tmp_pobject->getRefId());
-					   $f_result[$counter]["object_title"] = $tmp_obj->getTitle();
+			$tmp_obj =& ilObjectFactory::getInstanceByRefId($tmp_pobject->getRefId(), false);
+			if($tmp_obj)
+			{
+				$f_result[$counter]["object_title"] = $tmp_obj->getTitle();
+			}
+			else
+			{
+				$f_result[$counter]["object_title"] = $this->lng->txt('object_not_found');
+			}
 
 			$price_arr = ilPaymentPrices::_getPrice($item['price_id']);
 
@@ -888,7 +895,7 @@ class ilPurchaseBaseGUI
 		{
 			$tmp_pobject = new ilPaymentObject($this->user_obj,$item['pobject_id']);
 
-			$tmp_obj = ilObjectFactory::getInstanceByRefId($tmp_pobject->getRefId());
+			$tmp_obj = ilObjectFactory::getInstanceByRefId($tmp_pobject->getRefId(), false);
 
 			$price_arr = ilPaymentPrices::_getPrice($item['price_id']);
 			
@@ -907,7 +914,14 @@ class ilPurchaseBaseGUI
 				}
 			}
 			$f_result[$counter]['item'] = '';
-			$f_result[$counter]['title'] = $tmp_obj->getTitle();
+			if($tmp_obj)
+			{
+				$f_result[$counter]['title'] = $tmp_obj->getTitle();
+			}
+			else
+			{
+				$f_result[$counter]['title'] = $this->lng->txt('object_not_found');
+			}
 			if ($assigned_coupons != '') $f_result[$counter][count($f_result[$counter]) - 1] .= $assigned_coupons;
 		
 			if($price_arr['duration'] == 0)

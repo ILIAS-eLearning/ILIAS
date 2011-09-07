@@ -903,7 +903,16 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$obj = new ilPaymentObject($this->user_obj, $pObjectId);
 
 		// get obj
-		$tmp_obj = ilObjectFactory::getInstanceByRefId($sell_id);
+		$tmp_obj = ilObjectFactory::getInstanceByRefId($sell_id, false);
+		if($tmp_obj)
+		{
+			$tmp_obj['title'] = $tmp_obj->getTitle();
+		}
+		else
+		{
+			$tmp_obj['title'] = $this->lng->txt('object_not_found');
+		}
+
 		// get customer_obj
 		$tmp_user = ilObjectFactory::getInstanceByObjId($user_id);
 		// get vendor_obj
