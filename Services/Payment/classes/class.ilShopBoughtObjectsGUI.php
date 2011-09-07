@@ -343,7 +343,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		foreach($bookings as $booking)
 		{
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($booking['ref_id'], false);
-			
+
 			$tmp_vendor = ilObjectFactory::getInstanceByObjId($booking['b_vendor_id']);
 			$tmp_purchaser = ilObjectFactory::getInstanceByObjId($booking['customer_id']);
 			
@@ -354,7 +354,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			$transaction .= " (" . $str_paymethod . ")";
 			$f_result[$counter]['transaction'] = $transaction;
 
-			if($tmp_object)
+			if($tmp_obj)
 			{
 				$obj_link = ilRepositoryExplorer::buildLinkTarget($booking['ref_id'],$tmp_obj->getType());
 				$obj_target = ilRepositoryExplorer::buildFrameTarget($tmp_obj->getType(),$booking['ref_id'],$tmp_obj->getId());
