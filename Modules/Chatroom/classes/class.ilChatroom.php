@@ -907,6 +907,8 @@ class ilChatroom
 
 	public function sendInvitationNotification($gui, $sender_id, $recipient_id, $subScope = 0, $invitationLink = '')
 	{
+	    global $lng;
+	    
 	    if ($gui && !$invitationLink)
 	    {
 		$invitationLink = $this->getChatURL($gui, $subScope);;
@@ -916,10 +918,13 @@ class ilChatroom
 	    {
 		$sender = ilObjectFactory::getInstanceByObjId($sender_id);
 
+		$recipient = new ilObjUser($recipient_id);
+		
 		$bodyParams = array(
 		    'link' => $invitationLink,
 		    'inviter_name' => $sender->getPublicName(),
-		    'room_name' => $this->getTitle()
+		    'room_name' => $this->getTitle(),
+		    'salutation' => $lng->txt('mail_salutation_' . $recipient->getGender()) . ' ' . $recipient->getFullname()
 		);
 
 		if ($subScope)

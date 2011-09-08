@@ -11804,7 +11804,7 @@ chatroom#:#chat_create_private_room_button#:#Create private room
 chatroom#:#moderate#:#Moderate
 chatroom#:#chatroom_smiley_keyword#:#Keyword
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name##
-chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.
+chatroom#:#chat_invitation_long#:###salutation##\n\nYou have been invited to a chatroom:\nChatroom title: ##room_name##\nInvited by: ##inviter_name##\nURL: ##link##\n\nIf you want to join the chatroom please follow the given URL.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.
 chatroom#:#settings_title#:#Settings
 chatroom#:#history_byday_title#:#History by day
@@ -12162,3 +12162,12 @@ wiki#:#wiki_rate_page#:#Rate this Page
 auth#:#auth_login_editor#:#Loginscreen Editor
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template
 common#:#chtr_moderate#:#Moderate Chatroom
+chatroom#:#welcome_to_chat#:#Welcome to the chatroom
+chatroom#:#user_invited#:#The user <b>#user#</b> has been invited.
+chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.
+chatroom#:#user_invited_self#:#<b>#user#</b> invited you to the chatroom <b>#room#</b>.
+chatroom#:#private_room_closed#:#The chatroom <b>#title#</b> has been closed.
+chatroom#:#private_room_entered#:#Welcome to the private room <b>#title#</b>.
+chatroom#:#private_room_left#:#The user <b>#user#</b> has left the private room <b>#title#</b>.
+chatroom#:#private_room_entered_user#:#The user <b>#user#</b> has entered the private room <b>#title#</b>.
+chatroom#:#kicked_from_private_room#:#You have been kicked from the private room <b>#title#</b>.

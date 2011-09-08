@@ -11795,7 +11795,7 @@ chatroom#:#chat_to_mainroom#:#Zum Hauptraum
 chatroom#:#chat_create_private_room_button#:#Separee Anlegen
 chatroom#:#moderate#:#Moderieren
 chatroom#:#chat_invitation#:#Einladung von ##inviter_name## in den Chatraum ##room_name##
-chatroom#:#chat_invitation_long#:#Sie wurden von ##inviter_name## in den Chatraum ##room_name## eingeladen.\n\nKlicken Sie auf den Link ##link## um direkt in den Raum zu gelangen.
+chatroom#:#chat_invitation_long#:###salutation##\n\nSie wurden in einen Chatraum eingeladen:\nTitel des Chatraums: ##room_name##\nEingeladen von: ##inviter_name##\nURL: ##link##\n\nZum Betreten des Chatraums folgen Sie bitte der angegebenen URL.
 chatroom#:#chat_invitation_short#:#Klicken Sie auf den Titel um den Chatraum zu betreten.
 chatroom#:#settings_title#:#Einstellungen
 chatroom#:#history_byday_title#:#Tageshistorie
@@ -12159,3 +12159,12 @@ style#:#sty_type_rte_tul#:#Tree List###02 09 2011 new variable
 auth#:#auth_login_editor#:#Loginseite gestalten
 didactic#:#didactic_edit_tpl#:#Didaktische Vorlage bearbeiten
 common#:#chtr_moderate#:#Chatraum moderieren
+chatroom#:#welcome_to_chat#:#Willkommen im Chatraum
+chatroom#:#user_invited#:#Der Benutzer <b>#user#</b> wurde eingeladen.
+chatroom#:#user_kicked#:#Der Benutzer <b>#user#</b> wurde aus dem Chatraum geworfen.
+chatroom#:#user_invited_self#:#Sie wurden von <b>#user#</b> in den Chatraum <b>#room#</b> eingeladen.
+chatroom#:#private_room_closed#:#Der Raum <b>#title#</b> wurde geschlossen.
+chatroom#:#private_room_entered#:#Willkommen im Separee <b>#title#</b>.
+chatroom#:#private_room_left#:#Der Benutzer <b>#user#</b> hat das Separée <b>#title#</b> verlassen.
+chatroom#:#private_room_entered_user#:#Der Benutzer <b>#user#</b> hat das Separée <b>#title#</b> betreten.
+chatroom#:#kicked_from_private_room#:#Sie wurden aus dem Separée <b>#title#</b> geworfen.

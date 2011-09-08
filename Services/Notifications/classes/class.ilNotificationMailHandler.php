@@ -6,7 +6,7 @@ class ilNotificationMailHandler extends ilNotificationHandler {
 	$sender_id = (isset($notification->handlerParams['mail']['sender']) ? $notification->handlerParams['mail']['sender'] : ANONYMOUS_USER_ID);
 
         $mail = new ilMail($sender_id);
-
+	$mail->appendInstallationSignature(true);
         $mail->sendMail(
                 $notification->user->getLogin(),
                 '',

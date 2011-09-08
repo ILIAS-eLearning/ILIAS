@@ -250,6 +250,18 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 		$roomTpl->setVariable('LBL_CREATE_NEW_PRIVATE_ROOM', $lng->txt('chat_create_new_private_room'));
 		$roomTpl->setVariable('LBL_TO_MAINROOM', $lng->txt('chat_to_mainroom'));
 		$roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $lng->txt('chat_create_private_room_button'));
+		
+		$roomTpl->setVariable('LBL_WELCOME_TO_CHAT', $lng->txt('welcome_to_chat'));
+		$roomTpl->setVariable('LBL_USER_INVITED', $lng->txt('user_invited'));
+		$roomTpl->setVariable('LBL_USER_KICKED', $lng->txt('user_kicked'));
+		$roomTpl->setVariable('LBL_USER_INVITED_SELF', $lng->txt('user_invited_self'));
+		$roomTpl->setVariable('LBL_PRIVATE_ROOM_CLOSED', $lng->txt('private_room_closed'));
+		$roomTpl->setVariable('LBL_PRIVATE_ROOM_ENTERED', $lng->txt('private_room_entered'));
+		$roomTpl->setVariable('LBL_PRIVATE_ROOM_LEFT', $lng->txt('private_room_left'));
+		$roomTpl->setVariable('LBL_PRIVATE_ROOM_ENTERED_USER', $lng->txt('private_room_entered_user'));
+		$roomTpl->setVariable('LBL_KICKED_FROM_PRIVATE_ROOM', $lng->txt('kicked_from_private_room'));
+		$roomTpl->setVariable('LBL_OK', $lng->txt('ok'));
+		$roomTpl->setVariable('LBL_CANCEL', $lng->txt('cancel'));
 	}
 
 	protected function renderSendMessageBox($roomTpl) {
