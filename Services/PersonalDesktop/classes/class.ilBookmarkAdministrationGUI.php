@@ -615,7 +615,9 @@ return;
 			$bmf->setParent($this->id);
 			$bmf->create();
 
-			$this->view();
+			global $ilCtrl;
+			$ilCtrl->saveParameter($this, 'bmf_id');
+			$ilCtrl->redirect($this, 'view');
 		}
 	}
 
@@ -642,8 +644,10 @@ return;
 			$bmf = new ilBookmarkFolder($_GET["obj_id"]);
 			$bmf->setTitle(ilUtil::stripSlashes($_POST["title"]));
 			$bmf->update();
-
-			$this->view();
+			
+			global $ilCtrl;
+			$ilCtrl->saveParameter($this, 'bmf_id');
+			$ilCtrl->redirect($this, 'view');
 		}
 	}
 
@@ -653,7 +657,7 @@ return;
 	*/
 	function createBookmark()
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 		if (!$this->tree->isInTree($this->id))
 		{
 			return;
@@ -684,8 +688,10 @@ return;
 			
 			if ($_POST['return_to'])
 				ilUtil::redirect($_POST['return_to_url']);
-			else
-				$this->view();
+			else {
+			    $ilCtrl->saveParameter($this, 'bmf_id');
+			    $ilCtrl->redirect($this, 'view');
+			}
 		}
 	}
 
