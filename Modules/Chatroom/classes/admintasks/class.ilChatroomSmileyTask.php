@@ -201,7 +201,13 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
 	include_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
 
 	ilChatroomSmilies::_checkSetup();
-	$form = $this->initSmiliesForm();
+	
+	if (!$this->form_gui) {
+	    $form = $this->initSmiliesForm();
+	}
+	else {
+	    $form = $this->form_gui;
+	}
 
 	include_once "Modules/Chatroom/classes/class.ilChatroomSmiliesGUI.php";
 
@@ -295,7 +301,7 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
 
 	$table_nav = $_REQUEST["_table_nav"] ? "&_table_nav=" . $_REQUEST["_table_nav"] : "";
 	$this->form_gui->setFormAction(
-	    $ilCtrl->getFormAction( $this->gui, 'update' ) . $table_nav
+	    $ilCtrl->getFormAction( $this->gui, 'smiley-uploadSmileyObject' ) . $table_nav
 	);
 
 	// chat server settings
@@ -445,7 +451,7 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
 	$ilCtrl->saveParameter($this->gui, 'smiley_id');
 
 	$this->form_gui->setFormAction(
-	    $ilCtrl->getFormAction( $this->gui, 'update' ) . $table_nav
+	    $ilCtrl->getFormAction( $this->gui, 'smiley-updateSmiliesObject' ) . $table_nav
 	);
 
 	$sec_l = new ilFormSectionHeaderGUI();
@@ -484,11 +490,10 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
 	$inp = new ilHiddenInputGUI( 'chatroom_smiley_id' );
 
 	$this->form_gui->addItem( $inp );
-	$this->form_gui->addCommandButton( 'smiley', $lng->txt( 'cancel' ) );
 	$this->form_gui->addCommandButton(
 	'smiley-updateSmiliesObject', $lng->txt( 'submit' )
 	);
-
+	$this->form_gui->addCommandButton( 'smiley', $lng->txt( 'cancel' ) );
 	return $this->form_gui;
     }
 
@@ -516,8 +521,10 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
 	include_once "Modules/Chatroom/classes/class.ilChatroomSmilies.php";
 	include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 
-	$this->form_gui = new ilPropertyFormGUI();
+	//$this->form_gui = new ilPropertyFormGUI();
 
+	$this->form_gui->setValuesByPost();	
+	    
 	$keywords = ilChatroomSmilies::_prepareKeywords(
 	    ilUtil::stripSlashes( $_REQUEST["chatroom_smiley_keywords"] )
 	);
@@ -526,7 +533,6 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
 
 	if( !$this->form_gui->checkInput() )
 	{
-	    $this->form_gui->setValuesByPost();
 	    $tpl->setContent( $this->form_gui->getHtml() );
 	    return $this->view();
 	}
