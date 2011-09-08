@@ -11741,12 +11741,12 @@ notes#:#note_update_note#:#Update Note
 common#:#added_to_desktop#:#The item has been added to the desktop.
 common#:#removed_from_desktop#:#The item has been removed from the desktop.
 notes#:#notes_comments#:#Comments
-common#:#chtr_visible#:#Visible
-common#:#chtr_read#:#Read
-common#:#chtr_write#:#Write
-common#:#chtr_edit_permission#:#Change Permissions
-common#:#objs_chtr#:#Chats
-common#:#obj_chta#:#Chatrooms
+common#:#chtr_visible#:#Chatroom is visible
+common#:#chtr_read#:#Read access to Chatroom
+common#:#chtr_write#:#Edit Chatroom
+common#:#chtr_edit_permission#:#Change Permission Settings
+common#:#objs_chtr#:#Chatrooms
+common#:#obj_chta#:#Chat
 chatroom#:#history_by_day#:#Daily history
 chatroom#:#history_by_session#:#Session history
 chatroom#:#connected#:#Connection established
@@ -12161,3 +12161,4 @@ wiki#:#wiki_rename#:#Rename
 wiki#:#wiki_rate_page#:#Rate this Page
 auth#:#auth_login_editor#:#Loginscreen Editor
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template
+common#:#chtr_moderate#:#Moderate Chatroom

@@ -11733,12 +11733,12 @@ prtf#:#prtf_preview_banner#:#Personalisiertes Banner
 prtf#:#prtf_banner#:#Banner
 prtf#:#prtf_background_color#:#Hintergrundfarbe
 prtf#:#prtf_font_color#:#Schriftfarbe
-common#:#chtr_visible#:#Anzeigen
-common#:#chtr_read#:#Lesezugriff
-common#:#chtr_write#:#Schreibzugriff
+common#:#chtr_visible#:#Chatraum sichtbar
+common#:#chtr_read#:#Lesezugriff auf Chatraum
+common#:#chtr_write#:#Chatraum bearbeiten
 common#:#chtr_edit_permission#:#Rechteeinstellungen ändern
-common#:#objs_chtr#:#Chats
-common#:#obj_chta#:#Chaträume
+common#:#objs_chtr#:#Chaträume
+common#:#obj_chta#:#Chat
 chatroom#:#history_by_day#:#Tageshistorie
 chatroom#:#history_by_session#:#Sitzungshistorie
 chatroom#:#connected#:#Verbindung hergestellt
@@ -12158,3 +12158,4 @@ style#:#sty_type_rte_tli#:#Tree List Item###02 09 2011 new variable
 style#:#sty_type_rte_tul#:#Tree List###02 09 2011 new variable
 auth#:#auth_login_editor#:#Loginseite gestalten
 didactic#:#didactic_edit_tpl#:#Didaktische Vorlage bearbeiten
+common#:#chtr_moderate#:#Chatraum moderieren
