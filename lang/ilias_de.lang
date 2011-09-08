@@ -11202,7 +11202,7 @@ assessment#:#test_template_reset#:#Die Vorlage wurde entfernt.
 assessment#:#test_using_template_link#:#Vorlage nicht mehr verwenden
 assessment#:#tst_mail_notification#:#Mail Benachrichtigungen
 assessment#:#saveOrder#:#Sortierung abspeichern
-assessment#:#copy_and_link_to_questionpool#:#In Fragenpool kopieren und verlinken
+assessment#:#copy_and_link_to_questionpool#:#Zu Fragenpool hinzufügen
 assessment#:#tst_result#:#Testergebnis
 common#:#first#:#An den Anfang
 common#:#behind#:#Nach
@@ -12168,3 +12168,4 @@ chatroom#:#private_room_entered#:#Willkommen im Separee <b>#title#</b>.
 chatroom#:#private_room_left#:#Der Benutzer <b>#user#</b> hat das Separée <b>#title#</b> verlassen.
 chatroom#:#private_room_entered_user#:#Der Benutzer <b>#user#</b> hat das Separée <b>#title#</b> betreten.
 chatroom#:#kicked_from_private_room#:#Sie wurden aus dem Separée <b>#title#</b> geworfen.
+assessment#:#tst_link_only_unassigned#:#Sie haben mindestens eine Frage ausgewählt, die bereits einem Fragepool zugeordnet ist. Nur Fragen, die keinem Fragenpool zugeordnet sind, können einem Fragenpool hinzugefügt werden. Bitte treffen Sie eine neue Auswahl.

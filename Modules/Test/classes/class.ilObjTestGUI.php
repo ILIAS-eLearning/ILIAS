@@ -5067,6 +5067,20 @@ EOT;
         }
 
         public function copyAndLinkToQuestionpoolObject() {
+	    global $lng;
+
+	    include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+	    
+	    foreach($_REQUEST['q_id'] as $q_id) {
+		$questionInstance = assQuestion::_instanciateQuestion($q_id);
+		$type = ilObject::_lookupType($questionInstance->getObjId());
+		if ($type !== 'tst') {
+		    ilUtil::sendFailure($lng->txt('tst_link_only_unassigned'), true);
+		    $this->backObject();
+		    return;
+		}
+	    }
+	    
             $this->createQuestionpoolTargetObject('copyAndLinkQuestionsToPool');
         }
 
