@@ -268,6 +268,16 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		$forms[self::CFORM_NEW]->addCommandButton("cancel", $this->lng->txt("cancel"));
 		return $forms;
 	}
+	
+	function addLocatorItems()
+	{
+		global $ilLocator;
+		
+		if (is_object($this->object))
+		{
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "view"), "", $this->getRefId());
+		}
+	}
 }
 
 ?>
