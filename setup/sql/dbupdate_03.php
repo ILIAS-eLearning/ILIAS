@@ -7639,4 +7639,18 @@ $setting->set("enable_sahs_pd", 1);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3454>
+<?php
+
+	if (!$ilDB->tableColumnExists("didactic_tpl_settings", "info"))
+	{
+		$ilDB->addTableColumn("didactic_tpl_settings", "info", array(
+			"type" => "text",
+			"notnull" => false,
+		 	"length" => 4000,
+		 	"fixed" => false));
+	}
+?>
+
+
 

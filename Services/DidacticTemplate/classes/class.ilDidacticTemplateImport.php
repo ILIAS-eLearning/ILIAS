@@ -102,6 +102,17 @@ class ilDidacticTemplateImport
 			$setting->setTitle(trim((string) $tpl->title));
 			$setting->setDescription(trim((string) $tpl->description));
 
+			$info = '';
+			foreach($tpl->info->p as $paragraph)
+			{
+				if(strlen($info))
+				{
+					$info .= "\n";
+				}
+				$info .= trim((string) $paragraph);
+			}
+			$setting->setInfo($info);
+
 			foreach($tpl->assignments->assignment as $element)
 			{
 				$setting->addAssignment(trim((string) $element));
