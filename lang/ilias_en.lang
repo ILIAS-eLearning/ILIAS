@@ -12178,4 +12178,5 @@ rbac#:#otpl_visible#:#Object Template Settings are visible
 rbac#:#otpl_read#:#Read Access to Object Template Settings
 rbac#:#otpl_write#:#Edit Object Template Settings
 rbac#:#otpl_edit_permission#:#Change Permission Settings
+didactic#:#didactic_default_type_info#:#Uses default permissions for %s
 didactic#:#didactic_install_info#:#General Information
