@@ -7982,7 +7982,7 @@ meta#:#meta_self_assessment#:#Selbsttest
 meta#:#meta_semantic_density#:#Semantische Dichte
 meta#:#meta_simulation#:#Simulation
 meta#:#meta_size#:#Größe
-meta#:#meta_skill_level#:#Stufe der Fertigkeit
+meta#:#meta_skill_level#:#Stufe der Kompetenz
 meta#:#meta_slide#:#Folie
 meta#:#meta_source#:#Quelle
 meta#:#meta_status#:#Status
@@ -11554,52 +11554,52 @@ ecs#:#ecs_auth_type_cert#:#Zertifikatbasiert
 ecs#:#ecs_auth_type_apache#:#Benutzername/Passwort
 ecs#:#ecs_apache_user#:#Benutzername
 ecs#:#ecs_apache_pass#:#Passwort
-common#:#obj_skmg#:#Skillmanagement
-skmg#:#skmg_settings#:#Skillmanagement Einstellungen
-skmg#:#skmg_enable_skmg#:#Skillmanagement aktivieren
-skmg#:#skmg_skills#:#Skills
-skmg#:#skmg_skill_hierarchie#:#Skillhierarchie
-skmg#:#skmg_insert_basic_skill#:#Basisskill hinzufügen
-skmg#:#skmg_insert_skill_category#:#Skillkategorie hinzufügen
-skmg#:#skmg_insert_basic_skill_child#:#Basisskill hinzufügen (untergeordnet)
-skmg#:#skmg_insert_skill_category_child#:#Skillkategorie hinzufügen (untergeordnet)
-skmg#:#skmg_new_skill#:#Neuer Basisskill
-skmg#:#skmg_new_skill_category#:#Neue Skillkatgorie
+common#:#obj_skmg#:#Kompetenzmanagement
+skmg#:#skmg_settings#:#Kompetenzmanagement Einstellungen
+skmg#:#skmg_enable_skmg#:#Kompetenzmanagement aktivieren
+skmg#:#skmg_skills#:#Kompetenzen
+skmg#:#skmg_skill_hierarchie#:#Kompetenzhierarchie
+skmg#:#skmg_insert_basic_skill#:#Basiskompetenz hinzufügen
+skmg#:#skmg_insert_skill_category#:#Kompetenzkategorie hinzufügen
+skmg#:#skmg_insert_basic_skill_child#:#Basiskompetenz hinzufügen (untergeordnet)
+skmg#:#skmg_insert_skill_category_child#:#Kompetenzkategorie hinzufügen (untergeordnet)
+skmg#:#skmg_new_skill#:#Neuer Basiskompetenz
+skmg#:#skmg_new_skill_category#:#Neue Kompetenzkatgorie
 skmg#:#skmg_save_all_titles#:#Alle Titel speichern
-skmg#:#skmg_choose_only_skill_categories_or_basic_skills#:#Bitte nur Basisskills oder nur Skillkategorien auswählen.
-skmg#:#skmg_insert_basic_skill_from_clip#:#Basisskills aus Zwischenablage einfügen.
-skmg#:#skmg_insert_skill_category_from_clip#:#Skillkategorien aus Zwischenablage einfügen.
-skmg#:#skmg_insert_basic_skill_from_clip_child#:#Basisskills aus Zwischenablage einfügen (untergeordnet).
-skmg#:#skmg_insert_skill_category_from_clip_child#:#Skillkategorien aus Zwischenablage einfügen (untergeordnet).
+skmg#:#skmg_choose_only_skill_categories_or_basic_skills#:#Bitte nur Basiskompetenzen oder nur Kompetenzkategorien auswählen.
+skmg#:#skmg_insert_basic_skill_from_clip#:#Basiskompetenzen aus Zwischenablage einfügen.
+skmg#:#skmg_insert_skill_category_from_clip#:#Kompetenzkategorien aus Zwischenablage einfügen.
+skmg#:#skmg_insert_basic_skill_from_clip_child#:#Basiskompetenzen aus Zwischenablage einfügen (untergeordnet).
+skmg#:#skmg_insert_skill_category_from_clip_child#:#Kompetenzkategorien aus Zwischenablage einfügen (untergeordnet).
 skmg#:#skmg_selected_items_have_been_copied#:#Die ausgewählten Objekte wurden kopiert.
 skmg#:#skmg_selected_items_have_been_cut#:#Die ausgewählten Objekte wurden ausgeschnitten.
-common#:#obj_skmg_desc#:#Basisskills und Skillkategorien verwalten
+common#:#obj_skmg_desc#:#Basiskompetenzen und Kompetenzkategorien verwalten
 skmg#:#skmg_insert_on_same_level#:#Auf gleicher Ebene einfügen
 skmg#:#skmg_insert_as_subitem#:#Untergeordnet einfügen
-skmg#:#skll#:#Basisskill
-skmg#:#scat#:#Skillkategorie
+skmg#:#skll#:#Basiskompetenz
+skmg#:#scat#:#Kompetenzkategorie
 skmg#:#skmg_add_level#:#Ausprägung hinzufügen
-skmg#:#skmg_skill_level#:#Skillausprägung
+skmg#:#skmg_skill_level#:#Kompetenzausprägung
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_trigger#:#Auslöser
 skmg#:#skmg_new_level#:#Neue Ausprägung
 skmg#:#skmg_edit_level#:#Ausprägung editieren
 skmg#:#skmg_update_order#:#Reihenfolge speichern
-skmg#:#skmg_really_delete_levels#:#Sollen die folgenden Skillausprägungen wirklich gelöscht werden?
-skmg#:#skmg_skill#:#Skill
-skmg#:#skmg_skill_levels#:#Skillausprägungen
+skmg#:#skmg_really_delete_levels#:#Sollen die folgenden Kompetenzausprägungen wirklich gelöscht werden?
+skmg#:#skmg_skill#:#Kompetenz
+skmg#:#skmg_skill_levels#:#Kompetenzausprägungen
 skmg#:#skmg_certificate#:#Zertifikat
 skmg#:#skmg_skill_level_trigger#:#Auslöser
 skmg#:#skmg_no_trigger#:#Kein Auslöser
 skmg#:#skmg_remove_trigger#:#Auslöser entfernen
 skmg#:#skmg_select_trigger#:#Auslöser auswählen
-adm#:#adm_update_skill_tables#:#Skill DB-Tabellen aktualisieren
-adm#:#adm_update_skill_status#:#Skillstatus global aktualisieren
-skmg#:#skmg_edit_scat#:#Skillkategorie ändern
+adm#:#adm_update_skill_tables#:#Kompetenz DB-Tabellen aktualisieren
+adm#:#adm_update_skill_status#:#Kompetenzstatus global aktualisieren
+skmg#:#skmg_edit_scat#:#Kompetenzkategorie ändern
 skmg#:#skmg_please_select_self_skill#:#Neue Selbsteinschätzung
 skmg#:#skmg_execute_self_evaluation#:#Start
 skmg#:#skmg_your_self_evaluation#:#Ihre Selbsteinschätzung
-skmg#:#skmg_no_skills#:#Keine Fähigkeit
+skmg#:#skmg_no_skills#:#Keine Kompetenz
 skmg#:#skmg_save_self_evaluation#:#Selbsteinschätzung abschliessen
 skmg#:#skmg_self_evaluations#:#Selbsteinschätzungen
 skmg#:#skmg_update_self_evaluation#:#Selbsteinschätzung bearbeiten
@@ -11641,37 +11641,37 @@ content#:#cont_maintenance#:#Wartung
 content#:#cont_switch_to_media_pool#:#In anderen Medienpool wechseln
 mep#:#mep_choose_from_mep#:#Aus Pool auswählen
 mep#:#mep_choose_from_folder#:#Aus Ordner auswählen
-skmg#:#skmg_skill_management_deactivated#:#Skill Management is currently deaktivated.###18 07 2011 new variable
-skmg#:#skmg_cert_skill_title#:#Skill Title###18 07 2011 new variable
-skmg#:#skmg_cert_skill_level_title#:#Skill Level Title###18 07 2011 new variable
-skmg#:#skmg_cert_skill_trigger_title#:#Skill Trigger Title###18 07 2011 new variable
+skmg#:#skmg_skill_management_deactivated#:#Das Kompetenzmanagement ist momentan deaktiviert.
+skmg#:#skmg_cert_skill_title#:#Titel Kompetenz
+skmg#:#skmg_cert_skill_level_title#:#Titel Kompetenzausprägung
+skmg#:#skmg_cert_skill_trigger_title#:#Titel Auslöser
 skmg#:#skmg_cert_achievement_date#:#Achievement Date###18 07 2011 new variable
 skmg#:#skmg_cert_achievement_datetime#:#Achievement Date and Time###18 07 2011 new variable
-skmg#:#skmg_next_step#:#Next Step###18 07 2011 new variable
-skmg#:#skmg_previous_step#:#Previous Step###18 07 2011 new variable
-skmg#:#skmg_skill_templates#:#Skill Templates###18 07 2011 new variable
-skmg#:#skmg_new_skill_template#:#New Skill Template###18 07 2011 new variable
-skmg#:#skmg_insert_basic_skill_template#:#Insert Skill Template###18 07 2011 new variable
-skmg#:#skmg_insert_skill_template_category#:#Insert Skill Template Category###18 07 2011 new variable
-skmg#:#skmg_new_skill_template_category#:#New Skill Template Category###18 07 2011 new variable
-skmg#:#skmg_insert_basic_skill_template_child#:#Insert Skill Template as Subitem###18 07 2011 new variable
-skmg#:#skmg_insert_skill_template_category_child#:#Insert Skill Template Category as Subitem###18 07 2011 new variable
-skmg#:#skmg_skill_template#:#Skill Template###18 07 2011 new variable
-skmg#:#skmg_skill_template_category#:#Skill Template Category###18 07 2011 new variable
-skmg#:#skmg_insert_skill_template_reference#:#Insert Skill Template Reference###18 07 2011 new variable
-skmg#:#skmg_insert_skill_template_reference_child#:#Insert Skill Template Reference as Subitem###18 07 2011 new variable
-skmg#:#skmg_insert_skill_template_reference_from_clip#:#Insert Skill Template Reference from Clipboard###18 07 2011 new variable
-skmg#:#skmg_new_sktr#:#New Skill Template Reference###18 07 2011 new variable
-skmg#:#skmg_edit_sktr#:#Edit Skill Template Reference###18 07 2011 new variable
-common#:#skills#:#Skills###18 07 2011 new variable
-skmg#:#skmg_list_skills#:#List Skills###18 07 2011 new variable
-skmg#:#skmg_assign_materials#:#Assign Materials###18 07 2011 new variable
-skmg#:#skmg_add_skill#:#Add Skill###18 07 2011 new variable
-skmg#:#skmg_selectable#:#Selectable###18 07 2011 new variable
-skmg#:#skmg_selectable_info#:#Allows user to select this category as a personal skill.###18 07 2011 new variable
-skmg#:#skmg_materials#:#Materials###18 07 2011 new variable
-skmg#:#skmg_remove_skills#:#Remove Skills###18 07 2011 new variable
-skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig skills from your list?###18 07 2011 new variable
+skmg#:#skmg_next_step#:#Nächster Schritt
+skmg#:#skmg_previous_step#:#Voriger Schritt
+skmg#:#skmg_skill_templates#:#Kompetenzvorlage
+skmg#:#skmg_new_skill_template#:#Neue Kompetenzvorlage
+skmg#:#skmg_insert_basic_skill_template#:#Kompetenzvorlage einfügen
+skmg#:#skmg_insert_skill_template_category#:#Kompetenzvorlagenkategorie einfügen
+skmg#:#skmg_new_skill_template_category#:#Neue Kompetenzvorlagenkategorie
+skmg#:#skmg_insert_basic_skill_template_child#:#Kompetenzvorlage als Unterobjekt anlegen
+skmg#:#skmg_insert_skill_template_category_child#:#Kompetenzvorlagenkategorie als Unterobjekt anlegen
+skmg#:#skmg_skill_template#:#Kompetenzvorlage
+skmg#:#skmg_skill_template_category#:#Kompetenzvorlagenkategorie
+skmg#:#skmg_insert_skill_template_reference#:#Kompetenzvorlagenreferenz einfügen
+skmg#:#skmg_insert_skill_template_reference_child#:#Kompetenzvorlagenreferenz als Unterobjekt einfügen
+skmg#:#skmg_insert_skill_template_reference_from_clip#:#Kompetenzvorlagenreferenz aus Zwischenablage einfügen
+skmg#:#skmg_new_sktr#:#Neue Kompetenzvorlagenreferenz
+skmg#:#skmg_edit_sktr#:#Kompetenzvorlagenreferenz bearbeiten
+common#:#skills#:#Kompetenzen
+skmg#:#skmg_list_skills#:#Kompetenzen auflisten
+skmg#:#skmg_assign_materials#:#Materialien zuordnen
+skmg#:#skmg_add_skill#:#Kompetenz hinzufügen
+skmg#:#skmg_selectable#:#Auswählbar
+skmg#:#skmg_selectable_info#:#Erlaubt Benutzern die Kompetenz als persönliche Kompetenz hinzuzufügen.
+skmg#:#skmg_materials#:#Materialien
+skmg#:#skmg_remove_skills#:#Kompetenz entfernen
+skmg#:#skmg_really_remove_skills#:#Möchten Sie die folgenden Kompetenzen wirklich entfernen?
 sahs#:#scorm_create_export_file_html_one#:#Exportdatei erzeugen (HTML, eine Seite, Review Mode)
 common#:#password_allow_chars#:#Erlaubte Zeichen: %s
 rbac#:#rbac_role_selection#:#Rollentyp
@@ -12124,27 +12124,27 @@ prtf#:#prtf_tab_other_users#:#Portfolios anderer Benutzer
 wsp#:#wsp_password_protected_resource#:#Passwort-geschützte Ressource
 wsp#:#wsp_password_protected_resource_info#:#Für den Zugang zu dieser Ressource benötigen Sie ein Passwort.
 wsp#:#wsp_password_for#:#Passwort für
-skmg#:#skmg_create_skill_template#:#Create Skill Template###02 09 2011 new variable
-skmg#:#skmg_create_skill_template_category#:#Create Skill Template Category###02 09 2011 new variable
-skmg#:#skmg_save_order#:#Save Order###02 09 2011 new variable
-skmg#:#skmg_order#:#Order###02 09 2011 new variable
-skmg#:#skmg_order_nr#:#Order Number###02 09 2011 new variable
-skmg#:#skmg_create_skll#:#Create Skill###02 09 2011 new variable
-skmg#:#skmg_create_skill_template_reference#:#Create Skill Template Reference###02 09 2011 new variable
-skmg#:#skmg_create_skill_category#:#Create Skill Category###02 09 2011 new variable
+skmg#:#skmg_create_skill_template#:#Kompetenzvorlage erstellen
+skmg#:#skmg_create_skill_template_category#:#Kompetenzvorlagenkategorie erstellen
+skmg#:#skmg_save_order#:#Reihenfolge speichern
+skmg#:#skmg_order#:#Reihenfolge
+skmg#:#skmg_order_nr#:#Nummer
+skmg#:#skmg_create_skll#:#Kompetenz erstellen
+skmg#:#skmg_create_skill_template_reference#:#Kompetenzvorlagenreferenz erstellen
+skmg#:#skmg_create_skill_category#:#Kompetenzkategorie erstellen
 common#:#my_courses_groups#:#Meine Kurse und Gruppen
-skmg#:#skmg_edit_skll#:#Edit Skill Settings###02 09 2011 new variable
-skmg#:#skmg_sktr#:#Skill Template Reference###02 09 2011 new variable
-skmg#:#skmg_items#:#Items###02 09 2011 new variable
-skmg#:#skmg_create_sctp#:#Create Template Category###02 09 2011 new variable
-skmg#:#skmg_edit_sctp#:#Edit Skill Template Category###02 09 2011 new variable
-skmg#:#skmg_sctp#:#Skill Template Category###02 09 2011 new variable
-skmg#:#skmg_insert_skill_template_from_clip#:#Insert Skill Template from Clipboard###02 09 2011 new variable
-skmg#:#skmg_insert_template_category_from_clip#:#Insert Template Category from Clipboard###02 09 2011 new variable
-skmg#:#skmg_insert_please_choose_one_type_only#:#Please choose only one type of items.###02 09 2011 new variable
-skmg#:#skmg_level#:#Level###02 09 2011 new variable
-skmg#:#skmg_material#:#Material###02 09 2011 new variable
-skmg#:#skmg_remove_skill#:#Remove Skill###02 09 2011 new variable
+skmg#:#skmg_edit_skll#:#Kompetenzeinstellungen bearbeiten
+skmg#:#skmg_sktr#:#Kompetenzvorlagenreferenz
+skmg#:#skmg_items#:#Einträge
+skmg#:#skmg_create_sctp#:#Vorlagenkategorie erstellen
+skmg#:#skmg_edit_sctp#:#Kompetenzvorlagenkategorie erstellen
+skmg#:#skmg_sctp#:#Kompetenzvorlagenkategorie
+skmg#:#skmg_insert_skill_template_from_clip#:#Kompetenzvorlage aus Zwischenablage einfügen
+skmg#:#skmg_insert_template_category_from_clip#:#Vorlagenkategorie aus Zwischenablage einfügen
+skmg#:#skmg_insert_please_choose_one_type_only#:#Bitte wählen Sie nur einen Objekttyp aus.
+skmg#:#skmg_level#:#Ausprägung
+skmg#:#skmg_material#:#Material
+skmg#:#skmg_remove_skill#:#Kompetenz entfernen
 administration#:#adm_basic#:#Allgemein
 administration#:#adm_users#:#Benutzer
 administration#:#adm_services#:#Services
