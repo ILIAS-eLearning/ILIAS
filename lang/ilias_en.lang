@@ -12172,3 +12172,9 @@ chatroom#:#private_room_left#:#The user <b>#user#</b> has left the private room 
 chatroom#:#private_room_entered_user#:#The user <b>#user#</b> has entered the private room <b>#title#</b>.
 chatroom#:#kicked_from_private_room#:#You have been kicked from the private room <b>#title#</b>.
 assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.
+administration#:#obj_otpl#:#Object Templates
+administration#:#obj_otpl_desc#:#Template for the creation of new objects
+rbac#:#otpl_visible#:#Object Template Settings are visible
+rbac#:#otpl_read#:#Read Access to Object Template Settings
+rbac#:#otpl_write#:#Edit Object Template Settings
+rbac#:#otpl_edit_permission#:#Change Permission Settings

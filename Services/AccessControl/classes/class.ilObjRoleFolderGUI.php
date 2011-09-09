@@ -64,14 +64,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
-			case 'ildidactictemplatesettingsgui':
-
-				$ilTabs->activateTab('didactic_adm_tab');
-
-				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettingsGUI.php';
-				$did = new ilDidacticTemplateSettingsGUI($this);
-				$this->ctrl->forwardCommand($did);
-				break;
 
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
@@ -466,15 +458,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 				get_class($this)
 			);
 
-		}
-
-		if($this->checkPermissionBool('write'))
-		{
-			$lng->loadLanguageModule('didactic');
-			$tabs_gui->addTarget(
-				'didactic_adm_tab',
-				$this->ctrl->getLinkTargetByClass('ildidactictemplatesettingsgui','overview')
-			);
 		}
 
 		if($this->checkPermissionBool("edit_permission"))

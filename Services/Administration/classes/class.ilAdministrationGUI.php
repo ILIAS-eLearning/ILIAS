@@ -418,6 +418,7 @@ class ilAdministrationGUI
 		$tpl = new ilTemplate("tpl.admin_drop_down.html", true, true, "Services/Administration");
 
 		$objects = $tree->getChilds(SYSTEM_FOLDER_ID);
+
 		foreach($objects as $object)
 		{
 			$new_objects[$object["title"].":".$object["child"]]
@@ -519,12 +520,12 @@ if (true)
 			2 => array(
 				"services" =>
 					array("pdts", "nwss", "tags", "prfa", "skmg", "cals", "mail", "---", "seas",
-						"mds", "cert", "pays", "extt")
+						"mds","cert", "pays", "extt")
 				),
 			3 => array(
 				"objects" =>
 					array("blga", "chta", "facs", "frma", "lrss", "mcts", "svyf", "assf", "---",
-						"root", "recf")
+						'otpl', "root", "recf")
 				)
 			);
 		
