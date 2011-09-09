@@ -721,6 +721,8 @@ class ilAdvancedSelectionListGUI
 		$tpl->parseCurrentBlock();
 		
 		// no js sections
+if (false)
+{
 		switch ($this->mode)
 		{
 			// links mode
@@ -786,9 +788,9 @@ class ilAdvancedSelectionListGUI
 				$tpl->setCurrentBlock("no_js_section");
 				$tpl->parseCurrentBlock();
 				break;
-
 		}
-		
+}
+
 		return $tpl->get();
 	}
 }
