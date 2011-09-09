@@ -55,7 +55,9 @@ function vd()
 		echo "</pre><br/>";
 		$num++;
 	}
-
+	
+	// BH: php 5.3 seems to not flushing the output consequently so following redirects are still performed
+	// and the output of vd() would be lost in nirvana if we not flush the output manualy
 	flush(); ob_flush();
 }
 
