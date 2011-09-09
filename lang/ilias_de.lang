@@ -11663,7 +11663,7 @@ skmg#:#skmg_insert_skill_template_reference_child#:#Kompetenzvorlagenreferenz al
 skmg#:#skmg_insert_skill_template_reference_from_clip#:#Kompetenzvorlagenreferenz aus Zwischenablage einfügen
 skmg#:#skmg_new_sktr#:#Neue Kompetenzvorlagenreferenz
 skmg#:#skmg_edit_sktr#:#Kompetenzvorlagenreferenz bearbeiten
-common#:#skills#:#Kompetenzen
+common#:#skills#:#Meine Kompetenzen
 skmg#:#skmg_list_skills#:#Kompetenzen auflisten
 skmg#:#skmg_assign_materials#:#Materialien zuordnen
 skmg#:#skmg_add_skill#:#Kompetenz hinzufügen
