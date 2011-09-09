@@ -818,6 +818,8 @@ class ilObjectGUI
 	 */
 	protected function initDidacticTemplate(ilPropertyFormGUI $form)
 	{
+		global $lng;
+
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettings.php';
 		$templates = ilDidacticTemplateSettings::getInstanceByObjectType($this->type)->getTemplates();
 
@@ -826,12 +828,20 @@ class ilObjectGUI
 			return $form;
 		}
 
+		$lng->loadLanguageModule('didactic');
+
 		$type = new ilRadioGroupInputGUI(
 			$this->lng->txt($this->type.'_type'),
 			'didactic_type'
 		);
 
 		$default = new ilRadioOption($this->lng->txt('default'), 0);
+		$default->setInfo(
+			sprintf(
+				$this->lng->txt('didactic_default_type_info'),
+				$this->lng->txt('objs_'.$this->type)
+			)
+		);
 		$type->addOption($default);
 
 		foreach($templates as $template)
