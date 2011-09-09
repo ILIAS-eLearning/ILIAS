@@ -7635,3 +7635,8 @@ $setting->set("enable_sahs_pd", 1);
 		array("integer", "integer"),
 		array($typ_id, 4));
 ?>
+<#3453>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
