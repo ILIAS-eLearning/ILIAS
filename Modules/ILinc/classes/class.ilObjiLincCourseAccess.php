@@ -59,7 +59,7 @@ class ilObjiLincCourseAccess extends ilObjectAccess
 			case "info":
 				include_once './Modules/ILinc/classes/class.ilObjiLincCourse.php';
 
-				if(ilObjiLincCourse::_isMember($a_user_id,$a_obj_id))
+				if(ilObjiLincCourse::_isMember($a_user_id,$a_ref_id))
 				{
 					$ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("info_is_member"));
 				}

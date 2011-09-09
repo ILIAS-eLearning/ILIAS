@@ -1230,6 +1230,15 @@ class ilObjiLincCourse extends ilContainer
 		return $akclassvalues = array($row->akclassvalue1,$row->akclassvalue2);
 	}
 	
+	/**
+	 * checks wether the user relating to the passed usr_id is member
+	 * of iLinc course with passed ref_id
+	 * 
+	 * @global ilRbacReview $rbacreview
+	 * @param integer $a_user_id
+	 * @param integer $a_ref_id
+	 * @return boolean
+	 */
 	function _isMember($a_user_id,$a_ref_id)
 	{
 		global $rbacreview;
