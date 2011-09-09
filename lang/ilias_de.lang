@@ -11685,7 +11685,7 @@ content#:#cont_nlist#:#Numerierte Liste
 content#:#cont_list_outdent#:#Liste ausrücken
 content#:#cont_list_indent#:#Liste einrücken
 content#:#cont_pword#:#Aus Word einfügen
-didactic#:#didactic_adm_tab#:#Didaktik
+didactic#:#didactic_adm_tab#:#Didaktische Vorlagen
 didactic#:#didactic_import_btn#:#Didaktische Vorlage importieren
 didactic#:#didactic_applicable_for#:#Anwendbar auf
 didactic#:#didactic_available_templates#:#Verfügbare didaktische Vorlagen
@@ -12169,3 +12169,9 @@ chatroom#:#private_room_left#:#Der Benutzer <b>#user#</b> hat das Separée <b>#t
 chatroom#:#private_room_entered_user#:#Der Benutzer <b>#user#</b> hat das Separée <b>#title#</b> betreten.
 chatroom#:#kicked_from_private_room#:#Sie wurden aus dem Separée <b>#title#</b> geworfen.
 assessment#:#tst_link_only_unassigned#:#Sie haben mindestens eine Frage ausgewählt, die bereits einem Fragepool zugeordnet ist. Nur Fragen, die keinem Fragenpool zugeordnet sind, können einem Fragenpool hinzugefügt werden. Bitte treffen Sie eine neue Auswahl.
+administration#:#obj_otpl#:#Objektvorlagen
+administration#:#obj_otpl_desc#:#Vorlagen für die Erstellung neuer Objekte
+rbac#:#otpl_visible#:#Einstellungen für Objektvorlagen sind sichtbar
+rbac#:#otpl_read#:#Leszugriff auf Einstellungen für Objektvorlagen
+rbac#:#otpl_write#:#Einstellungen für Objektvorlagen bearbeiten
+rbac#:#otpl_edit_permission#:#Rechteeinstellungen ändern
