@@ -57,7 +57,6 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettings.php';
 		$tpls = ilDidacticTemplateSettings::getInstance();
 		$tpls->readInactive();
@@ -69,6 +68,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 			$data[$counter]['id'] = $tpl->getId();
 			$data[$counter]['title'] = $tpl->getTitle();
 			$data[$counter]['description'] = $tpl->getDescription();
+			$data[$counter]['info'] = $tpl->getInfo();
 			$data[$counter]['enabled'] = (int) $tpl->isEnabled();
 			$data[$counter]['assignments'] = $tpl->getAssignments();
 
@@ -90,6 +90,19 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_ID',$set['id']);
 		$this->tpl->setVariable('VAL_TITLE', $set['title']);
 		$this->tpl->setVariable('VAL_DESC', $set['description']);
+
+		foreach((array) explode("\n", $set['info']) as $info)
+		{
+			$trimmed_info = trim($info);
+			if($trimmed_info)
+			{
+				$this->tpl->setCurrentBlock('info');
+				$this->tpl->setVariable('VAL_INFO',$trimmed_info);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+
 		$this->tpl->setVariable('VAL_IMAGE',
 			$set['enabled'] ? 
 			ilUtil::getImagePath('icon_ok.gif') :

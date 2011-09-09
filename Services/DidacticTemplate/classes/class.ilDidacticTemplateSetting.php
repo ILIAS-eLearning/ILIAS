@@ -16,6 +16,7 @@ class ilDidacticTemplateSetting
 	private $enabled = false;
 	private $title = '';
 	private $description = '';
+	private $info = '';
 	private $type = self::TYPE_CREATION;
 	private $assignments = array();
 
@@ -103,6 +104,24 @@ class ilDidacticTemplateSetting
 	}
 
 	/**
+	 * Set installation info text
+	 * @param string $a_info 
+	 */
+	public function setInfo($a_info)
+	{
+		$this->info = $a_info;
+	}
+
+	/**
+	 * Get installation info text
+	 * @return string
+	 */
+	public function getInfo()
+	{
+		return $this->info;
+	}
+
+	/**
 	 * Set type
 	 * @param int $a_type
 	 */
@@ -183,12 +202,13 @@ class ilDidacticTemplateSetting
 
 		$this->setId($ilDB->nextId('didactic_tpl_settings'));
 
-		$query = 'INSERT INTO didactic_tpl_settings (id,enabled,title,description,type) '.
+		$query = 'INSERT INTO didactic_tpl_settings (id,enabled,title,description,info,type) '.
 			'VALUES( '.
 			$ilDB->quote($this->getId(),'integer').', '.
 			$ilDB->quote($this->isEnabled(),'integer').', '.
 			$ilDB->quote($this->getTitle(),'text').', '.
 			$ilDB->quote($this->getDescription(),'text').', '.
+			$ilDB->quote($this->getInfo(),'text').', '.
 			$ilDB->quote($this->getType(),'integer').
 			')';
 
@@ -258,10 +278,10 @@ class ilDidacticTemplateSetting
 			'enabled = '.$ilDB->quote($this->isEnabled(),'integer').', '.
 			'title = '.$ilDB->quote($this->getTitle(),'text').', '.
 			'description = '.$ilDB->quote($this->getDescription(),'text').', '.
+			'info = '.$ilDB->quote($this->getInfo(),'text').', '.
 			'type = '.$ilDB->quote($this->getType(),'integer').' '.
 			'WHERE id = '.$ilDB->quote($this->getId(),'integer');
 		$ilDB->manipulate($query);
-
 		$this->deleteAssignments();
 		$this->saveAssignments();
 
@@ -293,6 +313,7 @@ class ilDidacticTemplateSetting
 			$this->enable($row->enabled);
 			$this->setTitle($row->title);
 			$this->setDescription($row->description);
+			$this->setInfo($row->info);
 
 		}
 
@@ -326,6 +347,24 @@ class ilDidacticTemplateSetting
 		$writer->xmlStartTag('didacticTemplate',array('type' => $type));
 		$writer->xmlElement('title',array(),$this->getTitle());
 		$writer->xmlElement('description', array(), $this->getDescription());
+
+		// info text with p-tags
+		if(strlen($this->getInfo()))
+		{
+			$writer->xmlStartTag('info');
+
+			$info_lines = (array) explode("\n",$this->getInfo());
+			foreach($info_lines as $info)
+			{
+				$trimmed_info = trim($info);
+				if(strlen($trimmed_info))
+				{
+					$writer->xmlElement('p', array(), $trimmed_info);
+				}
+			}
+
+			$writer->xmlEndTag('info');
+		}
 
 		// Assignments
 		$writer->xmlStartTag('assignments');

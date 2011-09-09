@@ -213,6 +213,7 @@ class ilDidacticTemplateSettingsGUI
 		{
 			$temp->setTitle($form->getInput('title'));
 			$temp->setDescription($form->getInput('description'));
+			$temp->setInfo($form->getInput('info'));
 			$temp->setAssignments(array($form->getInput('type')));
 			$temp->update();
 
@@ -253,6 +254,12 @@ class ilDidacticTemplateSettingsGUI
 		$desc->setValue($set->getDescription());
 		$desc->setRows(3);
 		$form->addItem($desc);
+
+		// info
+		$info = new ilTextAreaInputGUI($this->lng->txt('didactic_install_info'), 'info');
+		$info->setValue($set->getInfo());
+		$info->setRows(6);
+		$form->addItem($info);
 
 		// object type
 		$type = new ilSelectInputGUI($this->lng->txt('obj_type'),'type');
