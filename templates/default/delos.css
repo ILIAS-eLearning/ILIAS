@@ -2182,21 +2182,27 @@ input.ilMainMenuSearchSubmit
 	display: inline-block;
 }
 
-span.ilMMStatus {
+span.ilMMStatus, span.ilHActProp {
 	position: absolute;
-	font-size: 0.85em;
+	font-size: 0.80em;
 	font-weight: bold;
 	margin-top: -3px;
 	margin-left: -3px;
-	background-color: #FFFF99;
 	background-color: #D06000;
-	color: #303030;
 	color: #F0F0F0;
-	padding: 0px 2px;
-	rborder: 1px solid #FFDD77;
-	rborder: 1px solid #000000;
-	border-radius: 3px;
-	box-shadow: 1px 1px 1px #303030;
+	padding: 0px 3px 1px 3px;
+	border-radius: 8px;
+	box-shadow: 1px 1px 1px #505050;
+}
+
+span.ilHActProp {
+	margin-left: -4px;
+	font-size: 0.70em;
+	font-weight: normal;
+	border: 1px solid #E0E0E0;
+	color: #909090;
+	background-color: #F3F3F3;
+	box-shadow: 1px 1px 1px #B0B0B0;
 }
 
 /* Main Menu Top Title */

@@ -8085,7 +8085,7 @@ meta#:#meta_self_assessment#:#Self Assessment
 meta#:#meta_semantic_density#:#Semantic Density
 meta#:#meta_simulation#:#Simulation
 meta#:#meta_size#:#Size
-meta#:#meta_skill_level#:#Skill Level
+meta#:#meta_skill_level#:#Competence Level
 meta#:#meta_slide#:#Slide
 meta#:#meta_source#:#Source
 meta#:#meta_status#:#Status
@@ -11555,96 +11555,96 @@ ecs#:#ecs_auth_type_cert#:#Certificate-Base
 ecs#:#ecs_auth_type_apache#:#Username/Password
 ecs#:#ecs_apache_user#:#Username
 ecs#:#ecs_apache_pass#:#Password
-common#:#obj_skmg#:#Skill Management
-skmg#:#skmg_settings#:#Skill Management Settings
-skmg#:#skmg_enable_skmg#:#Activate Skill Management
-skmg#:#skmg_skills#:#Skills
-skmg#:#skmg_skill_hierarchie#:#Skill Hierarchy
-skmg#:#skmg_insert_basic_skill#:#Insert Basic Skill
-skmg#:#skmg_insert_skill_category#:#Insert Skill Category
-skmg#:#skmg_insert_basic_skill_child#:#Insert Basic Skill as Subitem
-skmg#:#skmg_insert_skill_category_child#:#Insert Skill Category as Subitem
-skmg#:#skmg_new_skill#:#New Skill
-skmg#:#skmg_new_skill_category#:#New Skill Category
+common#:#obj_skmg#:#Competence Management
+skmg#:#skmg_settings#:#Competence Management Settings
+skmg#:#skmg_enable_skmg#:#Activate Competence Management
+skmg#:#skmg_skills#:#Competences
+skmg#:#skmg_skill_hierarchie#:#Competence Hierarchy
+skmg#:#skmg_insert_basic_skill#:#Insert Basic Competence
+skmg#:#skmg_insert_skill_category#:#Insert Competence Category
+skmg#:#skmg_insert_basic_skill_child#:#Insert Basic Competence as Subitem
+skmg#:#skmg_insert_skill_category_child#:#Insert Competence Category as Subitem
+skmg#:#skmg_new_skill#:#New Competence
+skmg#:#skmg_new_skill_category#:#New Competence Category
 skmg#:#skmg_save_all_titles#:#Save All Titles
-skmg#:#skmg_choose_only_skill_categories_or_basic_skills#:#Please choose either only basic skills or only skill categories.
-skmg#:#skmg_insert_basic_skill_from_clip#:#Insert Basic Skills from Clipboard
-skmg#:#skmg_insert_skill_category_from_clip#:#Insert Skill Categories from Clipboard
-skmg#:#skmg_insert_basic_skill_from_clip_child#:#Insert Basic Skills from Clipboard as Subitems
-skmg#:#skmg_insert_skill_category_from_clip_child#:#Insert Skill Categories from Clipboard as Subitems
+skmg#:#skmg_choose_only_skill_categories_or_basic_skills#:#Please choose either only basic competences or only competence categories.
+skmg#:#skmg_insert_basic_skill_from_clip#:#Insert Basic Competences from Clipboard
+skmg#:#skmg_insert_skill_category_from_clip#:#Insert Competence Categories from Clipboard
+skmg#:#skmg_insert_basic_skill_from_clip_child#:#Insert Basic Competences from Clipboard as Subitems
+skmg#:#skmg_insert_skill_category_from_clip_child#:#Insert Competence Categories from Clipboard as Subitems
 skmg#:#skmg_selected_items_have_been_copied#:#Selected items have been copied.
 skmg#:#skmg_selected_items_have_been_cut#:#Selected items have been cut.
-common#:#obj_skmg_desc#:#Manage skills and skill categories.
+common#:#obj_skmg_desc#:#Manage competences and competence categories.
 skmg#:#skmg_insert_on_same_level#:#Insert on Same Level
 skmg#:#skmg_insert_as_subitem#:#Insert as Subitem
-skmg#:#skll#:#Basic Skill
-skmg#:#scat#:#Skill Category
+skmg#:#skll#:#Basic Competence
+skmg#:#scat#:#Competence Category
 skmg#:#skmg_add_level#:#Add Level
-skmg#:#skmg_skill_level#:#Skill Level
+skmg#:#skmg_skill_level#:#Competence Level
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_trigger#:#Trigger
 skmg#:#skmg_new_level#:#New Level
 skmg#:#skmg_edit_level#:#Edit Level
 skmg#:#skmg_update_order#:#Update Order
-skmg#:#skmg_really_delete_levels#:#Do you really want to delete the following skill levels?
-skmg#:#skmg_skill#:#Skill
-skmg#:#skmg_skill_levels#:#Skill Levels
+skmg#:#skmg_really_delete_levels#:#Do you really want to delete the following competence levels?
+skmg#:#skmg_skill#:#Competence
+skmg#:#skmg_skill_levels#:#Competence Levels
 skmg#:#skmg_certificate#:#Certificate
-skmg#:#skmg_skill_level_trigger#:#Skill Level Trigger
+skmg#:#skmg_skill_level_trigger#:#Competence Level Trigger
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_remove_trigger#:#Remove Trigger
 skmg#:#skmg_select_trigger#:#Select Trigger
-adm#:#adm_update_skill_tables#:#Update Skill Tables
-adm#:#adm_update_skill_status#:#Update Skill Status
-skmg#:#skmg_skill_management_deactivated#:#Skill Management is currently deaktivated.
-skmg#:#skmg_cert_skill_title#:#Skill Title
-skmg#:#skmg_cert_skill_level_title#:#Skill Level Title
-skmg#:#skmg_cert_skill_trigger_title#:#Skill Trigger Title
+adm#:#adm_update_skill_tables#:#Update Competence Tables
+adm#:#adm_update_skill_status#:#Update Competence Status
+skmg#:#skmg_skill_management_deactivated#:#Competence Management is currently deaktivated.
+skmg#:#skmg_cert_skill_title#:#Competence Title
+skmg#:#skmg_cert_skill_level_title#:#Competence Level Title
+skmg#:#skmg_cert_skill_trigger_title#:#Competence Trigger Title
 skmg#:#skmg_cert_achievement_date#:#Achievement Date
 skmg#:#skmg_cert_achievement_datetime#:#Achievement Date and Time
-skmg#:#skmg_edit_scat#:#Edit Skill Category
-skmg#:#skmg_please_select_self_skill#:#Start a new Self Evaluation. Skill:
+skmg#:#skmg_edit_scat#:#Edit Competence Category
+skmg#:#skmg_please_select_self_skill#:#Start a new Self Evaluation. Competence:
 skmg#:#skmg_execute_self_evaluation#:#Start
 skmg#:#skmg_your_self_evaluation#:#Your Self-Evaluation
-skmg#:#skmg_no_skills#:#No Skills
+skmg#:#skmg_no_skills#:#No Competences
 skmg#:#skmg_save_self_evaluation#:#Finish Self-Evaluation
 skmg#:#skmg_self_evaluations#:#Self-Evaluations
 skmg#:#skmg_update_self_evaluation#:#Update Self-Evaluation
 skmg#:#skmg_sure_delete_self_evaluation#:#Do you really want to delete the following self-evaluations?
-skmg#:#skmg_please_select_your_skill_levels#:#Please select your skill levels.
+skmg#:#skmg_please_select_your_skill_levels#:#Please select your competence levels.
 skmg#:#skmg_self_evaluation#:#Self-Evaluation
 skmg#:#skmg_next_step#:#Next Step
 skmg#:#skmg_previous_step#:#Previous Step
-skmg#:#skmg_skill_templates#:#Skill Templates
-skmg#:#skmg_new_skill_template#:#New Skill Template
-skmg#:#skmg_insert_basic_skill_template#:#Insert Skill Template
-skmg#:#skmg_insert_skill_template_category#:#Insert Skill Template Category
-skmg#:#skmg_new_skill_template_category#:#New Skill Template Category
-skmg#:#skmg_insert_basic_skill_template_child#:#Insert Skill Template as Subitem
-skmg#:#skmg_insert_skill_template_category_child#:#Insert Skill Template Category as Subitem
-skmg#:#skmg_skill_template#:#Skill Template
-skmg#:#skmg_skill_template_category#:#Skill Template Category
+skmg#:#skmg_skill_templates#:#Competence Templates
+skmg#:#skmg_new_skill_template#:#New Competence Template
+skmg#:#skmg_insert_basic_skill_template#:#Insert Competence Template
+skmg#:#skmg_insert_skill_template_category#:#Insert Competence Template Category
+skmg#:#skmg_new_skill_template_category#:#New Competence Template Category
+skmg#:#skmg_insert_basic_skill_template_child#:#Insert Competence Template as Subitem
+skmg#:#skmg_insert_skill_template_category_child#:#Insert Competence Template Category as Subitem
+skmg#:#skmg_skill_template#:#Competence Template
+skmg#:#skmg_skill_template_category#:#Competence Template Category
 administration#:#apache_auth_security#:#Security Settings
 administration#:#apache_auth_domains#:#Allowed Redirection Domains
 administration#:#apache_auth_domains_description#:#Enter one domain per line to allow redirection to this target.<br/>If ILIAS is reachable by more than one domain please enter all target you want to allow.<br />Example: example.com allows the redirection to http://example.com and http://www.example.com and all pages located there.
-skmg#:#skmg_insert_skill_template_reference#:#Insert Skill Template Reference
-skmg#:#skmg_insert_skill_template_reference_child#:#Insert Skill Template Reference as Subitem
-skmg#:#skmg_insert_skill_template_reference_from_clip#:#Insert Skill Template Reference from Clipboard
+skmg#:#skmg_insert_skill_template_reference#:#Insert Competence Template Reference
+skmg#:#skmg_insert_skill_template_reference_child#:#Insert Competence Template Reference as Subitem
+skmg#:#skmg_insert_skill_template_reference_from_clip#:#Insert Competence Template Reference from Clipboard
 assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#The status cannot be changed to &quot;online&quot; because there are no questions and/or no marks in the test!
 blog#:#blog_preview#:#Preview
 ecs#:#ecs_field_community#:#Community
-skmg#:#skmg_new_sktr#:#New Skill Template Reference
-skmg#:#skmg_edit_sktr#:#Edit Skill Template Reference
-common#:#skills#:#My Skills
-skmg#:#skmg_list_skills#:#List Skills
+skmg#:#skmg_new_sktr#:#New Competence Template Reference
+skmg#:#skmg_edit_sktr#:#Edit Competence Template Reference
+common#:#skills#:#My Competences
+skmg#:#skmg_list_skills#:#List Competences
 skmg#:#skmg_assign_materials#:#Assign Materials
-skmg#:#skmg_add_skill#:#Add Skill
+skmg#:#skmg_add_skill#:#Add Competence
 skmg#:#skmg_selectable#:#Selectable
-skmg#:#skmg_selectable_info#:#Allows user to select this category as a personal skill.
+skmg#:#skmg_selectable_info#:#Allows user to select this category as a personal competence.
 assessment#:#test_is_offline#:#You cannot start the test! The test is offline.
 skmg#:#skmg_materials#:#Materials
-skmg#:#skmg_remove_skills#:#Remove Skills
-skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig skills from your list?
+skmg#:#skmg_remove_skills#:#Remove Competences
+skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig competences from your list?
 forum#:#mark_moderator_posts#:#Mark moderator posts
 forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlighted
 dateplaner#:#cal_cache_settings#:#Cache
@@ -12060,14 +12060,14 @@ scormdebug#:#debugwindow_password_enter#:#Please enter your password
 common#:#password_multiple_errors#:#Multiple criterias are not satisfied:
 common#:#password_contains_invalid_chars#:#The password contains invalid characters
 content#:#cont_file_from_workspace#:#File From My Workspace
-skmg#:#skmg_create_skill_template#:#Create Skill Template
-skmg#:#skmg_create_skill_template_category#:#Create Skill Template Category
+skmg#:#skmg_create_skill_template#:#Create Competence Template
+skmg#:#skmg_create_skill_template_category#:#Create Competence Template Category
 skmg#:#skmg_save_order#:#Save Order
 skmg#:#skmg_order#:#Order
 skmg#:#skmg_order_nr#:#Order Number
-skmg#:#skmg_create_skll#:#Create Skill
-skmg#:#skmg_create_skill_template_reference#:#Create Skill Template Reference
-skmg#:#skmg_create_skill_category#:#Create Skill Category
+skmg#:#skmg_create_skll#:#Create Competence
+skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Reference
+skmg#:#skmg_create_skill_category#:#Create Competence Category
 common#:#notice#:#Notice
 common#:#public_room#:#Public room
 chatroom#:#chtr_moderate#:#Moderate
@@ -12090,13 +12090,13 @@ content#:#cont_sc_auto_continue#:#Auto-Continue
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile.
 prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.
 blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.
-skmg#:#skmg_edit_skll#:#Edit Skill Settings
-skmg#:#skmg_sktr#:#Skill Template Reference
+skmg#:#skmg_edit_skll#:#Edit Competence Settings
+skmg#:#skmg_sktr#:#Competence Template Reference
 skmg#:#skmg_items#:#Items
 skmg#:#skmg_create_sctp#:#Create Template Category
-skmg#:#skmg_edit_sctp#:#Edit Skill Template Category
-skmg#:#skmg_sctp#:#Skill Template Category
-skmg#:#skmg_insert_skill_template_from_clip#:#Insert Skill Template from Clipboard
+skmg#:#skmg_edit_sctp#:#Edit Competence Template Category
+skmg#:#skmg_sctp#:#Competence Template Category
+skmg#:#skmg_insert_skill_template_from_clip#:#Insert Competence Template from Clipboard
 skmg#:#skmg_insert_template_category_from_clip#:#Insert Template Category from Clipboard
 skmg#:#skmg_insert_please_choose_one_type_only#:#Please choose only one type of items.
 prtf#:#prtf_public_comments#:#Public Comments
@@ -12108,15 +12108,15 @@ skmg#:#skmg_level#:#Level
 skmg#:#skmg_material#:#Material
 blog#:#blog_profile_picture#:#Display Profile Picture
 prtf#:#prtf_profile_picture#:#Display Profile Picture
-skmg#:#skmg_remove_skill#:#Remove Skill
+skmg#:#skmg_remove_skill#:#Remove Competence
 style#:#style_page_layout_module_scorm#:#Scorm
 style#:#style_page_layout_module_portfolio#:#Portfolio
 prtf#:#prtf_use_page_layout#:#Use Page Layout
 common#:#shoppingcart#:#Shoppingcart
-content#:#cont_ed_insert_skills#:#Insert Skills
-content#:#cont_pc_skills#:#Skill
-content#:#cont_insert_skills#:#Insert Skill
-content#:#cont_update_skills#:#Edit Skill
+content#:#cont_ed_insert_skills#:#Insert Competences
+content#:#cont_pc_skills#:#Competence
+content#:#cont_insert_skills#:#Insert Competence
+content#:#cont_update_skills#:#Edit Competence
 administration#:#adm_basic#:#Basic
 administration#:#adm_users#:#Users
 administration#:#adm_services#:#Services
