@@ -36,10 +36,10 @@ class ilNewsItemGUI
 		
 		$this->ctrl = $ilCtrl;
 
-		include_once("Services/News/classes/class.ilNewsItemGen.php");
+		include_once("Services/News/classes/class.ilNewsItem.php");
 		if ($_GET["news_item_id"] > 0)
 		{
-			$this->news_item = new ilNewsItemGen($_GET["news_item_id"]);
+			$this->news_item = new ilNewsItem($_GET["news_item_id"]);
 		}
 
 		$this->ctrl->saveParameter($this, array("news_item_id"));
@@ -571,7 +571,7 @@ class ilNewsItemGUI
 		$block_gui->setEnableEdit($this->getEnableEdit());
 
 
-		$news_item = new ilNewsItemGen();
+		$news_item = new ilNewsItem();
 
 // changed
 		//$news_item->setContextObjId($this->ctrl->getContextObjId());
