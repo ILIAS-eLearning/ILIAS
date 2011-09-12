@@ -34,10 +34,10 @@ class ilNewsItemGUIGen
 		$this->ctrl = $ilCtrl;
 		
 		
-		include_once("Services/News/classes/class.ilNewsItemGen.php");
+		include_once("Services/News/classes/class.ilNewsItem.php");
 		if ($_GET["news_item_id"] > 0)
 		{
-			$this->news_item = new ilNewsItemGen($_GET["news_item_id"]);
+			$this->news_item = new ilNewsItem($_GET["news_item_id"]);
 		}
 		
 		$this->ctrl->saveParameter($this, array("news_item_id"));
@@ -433,7 +433,7 @@ class ilNewsItemGUIGen
 		$block_gui = new ilNewsForContextBlockGUI(get_class($this));
 		$this->prepareBlockNewsForContext($block_gui);
 		
-		$news_item = new ilNewsItemGen();
+		$news_item = new ilNewsItem();
 		$this->prepareBlockQueryNewsForContext($news_item);
 		$data = $news_item->queryNewsForContext();
 		
@@ -481,7 +481,7 @@ class ilNewsItemGUIGen
 		include_once("Services/News/classes/class.ilNewsForContextTableGUI.php");
 		$table_gui = new ilNewsForContextTableGUI($this, "getNewsForContextTable");
 		
-		$news_item = new ilNewsItemGen();
+		$news_item = new ilNewsItem();
 		$this->prepareTableQueryNewsForContext($news_item);
 		$data = $news_item->queryNewsForContext();
 		
