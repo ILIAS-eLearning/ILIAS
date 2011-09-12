@@ -37,7 +37,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		//$this->setImage(ilUtil::getImagePath("icon_bm_s.gif"));		
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
-		$this->setColSpan(2);
+//		$this->setColSpan(2);
 		$this->setAvailableDetailLevels(3, 1);
 		$this->setBigMode(true);
 		$this->lng = $lng;

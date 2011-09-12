@@ -469,7 +469,7 @@ class ilObject
 		}
 		return 0;
 	}
-
+	
 	/**
 	* get object owner
 	*
