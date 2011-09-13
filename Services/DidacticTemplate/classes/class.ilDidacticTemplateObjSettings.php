@@ -88,7 +88,7 @@ class ilDidacticTemplateObjSettings
 	{
 		global $ilDB;
 
-		self::deleteByRefId($a_obj_id);
+		self::deleteByRefId($a_ref_id);
 
 		$query = 'INSERT INTO didactic_tpl_objs (ref_id,obj_id,tpl_id) '.
 			'VALUES ( '.

@@ -12178,6 +12178,9 @@ rbac#:#otpl_edit_permission#:#Rechteeinstellungen ändern
 didactic#:#didactic_install_info#:#Allgemeine Informationen
 didactic#:#didactic_default_type_info#:#Erzeugt Standard-Rechteeinstellungen für %s
 didactic#:#didactic_selected_tpl_option#:#Angewandte didaktische Vorlage:
+didactic#:#didactic_confirm_apply_new_template#:#Sind Sie sicher, dass Sie diese didaktische Vorlage anwenden möchten? Alle Rechteanpassungen werden überschrieben und an die neue didaktische Vorlage angepasst.
+didactic#:#didactic_not_changed#:#Die aktive didaktische Vorlage wurde nicht geändert.
+didactic#:#didactic_template_applied#:#Die didaktische Vorlage wurde angewandt.
 chatroom#:#chatserver_address#:#IP-Adresse des Chatservers
 chatroom#:#chatserver_port#:#Port des Chatservers
 chatroom#:#instance_name#:#Eindeutiger Name der Instanz

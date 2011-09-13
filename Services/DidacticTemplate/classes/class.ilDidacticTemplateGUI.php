@@ -8,7 +8,7 @@ include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettin
  *
  * @author Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplate
- * @ilCtrl_IsCalledBy ilDidacticSettingsGUI: ilPermissionGUI
+ * @ilCtrl_IsCalledBy ilDidacticTemplateGUI: ilPermissionGUI
  */
 class ilDidacticTemplateGUI
 {
@@ -39,7 +39,7 @@ class ilDidacticTemplateGUI
 	public function executeCommand()
 	{
 		global $ilCtrl;
-		
+
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 
@@ -90,9 +90,122 @@ class ilDidacticTemplateGUI
 		$toolbar->addInputItem($tpl_selection);
 
 		// Apply templates switch
-		$toolbar->addFormButton($this->lng->txt('change'),'applyTemplate');
+		$toolbar->addFormButton($this->lng->txt('change'),'confirmTemplateSwitch');
 		return true;
 	}
 
+	/*
+	 * Show didactic template switch confirmation screen
+	 */
+	protected function confirmTemplateSwitch()
+	{
+		global $ilCtrl, $ilTabs, $tpl;
+
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+
+		// Check if template is changed
+		$new_tpl_id = (int) $_REQUEST['tplid'];
+		if($new_tpl_id == ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->object->getRefId()))
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Template id: '.$new_tpl_id);
+			ilUtil::sendInfo($this->lng->txt('didactic_not_changed'),true);
+			$ilCtrl->returnToParent($this);
+		}
+
+		$ilTabs->clearTargets();
+
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirm = new ilConfirmationGUI();
+		$confirm->setFormAction($ilCtrl->getFormAction($this));
+		$confirm->setHeaderText($this->lng->txt('didactic_confirm_apply_new_template'));
+		$confirm->setConfirm($this->lng->txt('apply'), 'switchTemplate');
+		$confirm->setCancel($this->lng->txt('cancel'), 'cancel');
+
+		if($new_tpl_id)
+		{
+			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
+			$dtpl = new ilDidacticTemplateSetting($new_tpl_id);
+
+			$confirm->addItem(
+				'tplid',
+				$new_tpl_id,
+				$dtpl->getTitle().
+				'<div class="il_Description">'.
+				$dtpl->getDescription().' '.
+				'</div>'
+			);
+		}
+		else
+		{
+			$confirm->addItem(
+				'tplid',
+				$new_tpl_id,
+				$this->lng->txt('default').' '.
+				'<div class="il_Description">'.
+				sprintf(
+					$this->lng->txt('didactic_default_type_info'),
+					$this->lng->txt('objs_'.$this->getParentObject()->object->getType())
+				).
+				'</div>'
+			);
+
+		}
+		$tpl->setContent($confirm->getHTML());
+	}
+
+	/**
+	 * Return to parent gui
+	 */
+	protected function cancel()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->returnToParent($this);
+	}
+
+	/**
+	 * Switch Template
+	 */
+	protected function switchTemplate()
+	{
+		global $ilCtrl;
+
+		$new_tpl_id = (int) $_REQUEST['tplid'];
+
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		$current_tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId(
+			$this->getParentObject()->object->getRefId()
+		);
+
+		// Revert current template
+		if($current_tpl_id)
+		{
+			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
+			foreach(ilDidacticTemplateActionFactory::getActionsByTemplateId($current_tpl_id) as $action)
+			{
+				$action->setRefId($this->getParentObject()->object->getRefId());
+				$action->revert();
+			}
+		}
+		if($new_tpl_id)
+		{
+			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
+			foreach(ilDidacticTemplateActionFactory::getActionsByTemplateId($new_tpl_id) as $action)
+			{
+				$action->setRefId($this->getParentObject()->object->getRefId());
+				$action->apply();
+			}
+		}
+
+		// Assign template id to object
+		ilDidacticTemplateObjSettings::assignTemplate(
+			$this->getParentObject()->object->getRefId(),
+			$this->getParentObject()->object->getId(),
+			$new_tpl_id
+		);
+
+		ilUtil::sendSuccess($this->lng->txt('didactic_template_applied'),true);
+		$ilCtrl->returnToParent($this);
+	}
 }
 ?>

@@ -12180,7 +12180,10 @@ rbac#:#otpl_write#:#Edit Object Template Settings
 rbac#:#otpl_edit_permission#:#Change Permission Settings
 didactic#:#didactic_default_type_info#:#Uses default permissions for %s
 didactic#:#didactic_install_info#:#General Information
+didactic#:#didactic_not_changed#:#The didactic template setting is unchanged.
 didactic#:#didactic_selected_tpl_option#:#Applied didactic template:
+didactic#:#didactic_template_applied#:#Applied didactic template.
+didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the chosen didactic template? All current permission settings will get lost!
 chatroom#:#chatserver_address#:#IP-Adress of the Chatservers
 chatroom#:#chatserver_port#:#Port of the Chatservers
 chatroom#:#instance_name#:#Unique Identifier
