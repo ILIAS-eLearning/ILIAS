@@ -359,7 +359,7 @@ ilAddOnLoad(function() {
 							myname: personalUserInfo.name
 						}) + '</span>')
 						.append(
-							$('<span>&nbsp;('+translate('cancel')+')</span>').click(
+							$('<span>&nbsp;<a href="javascript:void(0)">('+translate('cancel')+')</a></span>').click(
 								function() {
 									setRecipientOptions(false, 1);
 								}
