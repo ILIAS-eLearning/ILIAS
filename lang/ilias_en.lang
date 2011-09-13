@@ -11747,44 +11747,44 @@ common#:#chtr_write#:#Edit Chatroom
 common#:#chtr_edit_permission#:#Change Permission Settings
 common#:#objs_chtr#:#Chatrooms
 common#:#obj_chta#:#Chat
-chatroom#:#history_by_day#:#Daily history
-chatroom#:#history_by_session#:#Session history
-chatroom#:#connected#:#Connection established
+chatroom#:#history_by_day#:#Daily History
+chatroom#:#history_by_session#:#Session History
+chatroom#:#connected#:#Connection Established
 chatroom#:#period#:#Period
-chatroom#:#disconnected#:#Connection closed
-chatroom#:#allow_anonymous#:#Allow anonymous login
-chatroom#:#autogen_usernames#:#Auto generated usernames
-chatroom#:#allow_custom_usernames#:#Allow custom usernames
-chatroom#:#enable_history#:#Enable history
-chatroom#:#restrict_history#:#Restrict history
-chatroom#:#restrict_history_info#:#No entries generated during absence from chatroom
-chatroom#:#allow_private_rooms#:#Allow private rooms
+chatroom#:#disconnected#:#Connection Closed
+chatroom#:#allow_anonymous#:#Allow Anonymous Login
+chatroom#:#autogen_usernames#:#Auto Generated Usernames
+chatroom#:#allow_custom_usernames#:#Allow Custom Usernames
+chatroom#:#enable_history#:#Enable History
+chatroom#:#restrict_history#:#Restrict History
+chatroom#:#restrict_history_info#:#No entries generated during absence from chatroom.
+chatroom#:#allow_private_rooms#:#Allow Private Rooms
 chatroom#:#settings_general#:#General
 chatroom#:#settings_privacy#:#Privacy
-chatroom#:#autogen_usernames_info#:#Pattern for auto generated usernames. '#' will be automatically replaced by a number
+chatroom#:#autogen_usernames_info#:#Pattern for auto generated usernames. '#' will be automatically replaced by a number.
 chatroom#:#bans#:#Bans
 chatroom#:#permissions#:#Permissions
 chatroom#:#remark#:#Remark
 chatroom#:#session#:#Session
-chatroom#:#fontcolor#:#Font color
-chatroom#:#fontstyle#:#Font style
-chatroom#:#fontsize#:#Font size
+chatroom#:#fontcolor#:#Font Color
+chatroom#:#fontstyle#:#Font Style
+chatroom#:#fontsize#:#Font Size
 chatroom#:#italic#:#Italic
 chatroom#:#underlined#:#Underlined
-chatroom#:#select_custom_username#:#Select custom username
-chatroom#:#custom_username#:#Custom username
-chatroom#:#enter#:#Enter chatroom
-chatroom#:#fontfamily#:#Font family
+chatroom#:#select_custom_username#:#Select Custom Username
+chatroom#:#custom_username#:#Custom Username
+chatroom#:#enter#:#Enter Chatroom
+chatroom#:#fontfamily#:#Font Family
 chatroom#:#small#:#Small
 chatroom#:#large#:#Large
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
 chatroom#:#obj_chtr#:#Chatroom
 chatroom#:#chat_message#:#Message
-chatroom#:#chat_message_to_all#:#to all
+chatroom#:#chat_message_to_all#:#To All
 chatroom#:#chat_message_options#:#Display
 chatroom#:#chat_message_display#:#Options
-chatroom#:#chat_mainroom#:#Main room
+chatroom#:#chat_mainroom#:#Main Room
 chatroom#:#chat_leave#:#Leave
 chatroom#:#chat_join#:#Join
 chatroom#:#chat_delete#:#Delete
@@ -11793,58 +11793,58 @@ chatroom#:#chat_kick#:#Kick
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_address#:#Address
 chatroom#:#chat_whisper#:#Whisper
-chatroom#:#chat_connection_established#:#Connection established
+chatroom#:#chat_connection_established#:#Connection Established
 chatroom#:#chat_connection_disconnected#:#Disconnected
-chatroom#:#chat_invite_users#:#Invite users
+chatroom#:#chat_invite_users#:#Invite Users
 chatroom#:#chat_right_box_user#:#User
-chatroom#:#chat_create_new_private_room#:#Create new private room
-chatroom#:#chat_private_room#:#Private room
-chatroom#:#chat_to_mainroom#:#To main room
-chatroom#:#chat_create_private_room_button#:#Create private room
+chatroom#:#chat_create_new_private_room#:#Create new Private Room
+chatroom#:#chat_private_room#:#Private Room
+chatroom#:#chat_to_mainroom#:#To Main Room
+chatroom#:#chat_create_private_room_button#:#Create Private Room
 chatroom#:#moderate#:#Moderate
 chatroom#:#chatroom_smiley_keyword#:#Keyword
-chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name##
-chatroom#:#chat_invitation_long#:###salutation##\n\nYou have been invited to a chatroom:\nChatroom title: ##room_name##\nInvited by: ##inviter_name##\nURL: ##link##\n\nIf you want to join the chatroom please follow the given URL.
+chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to Chatroom ##room_name##
+chatroom#:#chat_invitation_long#:###salutation##\n\nYou have been invited to a chatroom:\nChatroom Title: ##room_name##\nInvited by: ##inviter_name##\nURL: ##link##\n\nIf you want to join the chatroom please follow the given URL.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.
 chatroom#:#settings_title#:#Settings
-chatroom#:#history_byday_title#:#History by day
-chatroom#:#history_bysession_title#:#History by session
-chatroom#:#ban_table_title#:#Banned users
-chatroom#:#main#:#Main room
+chatroom#:#history_byday_title#:#History by Day
+chatroom#:#history_bysession_title#:#History by Session
+chatroom#:#ban_table_title#:#Banned Users
+chatroom#:#main#:#Main Room
 chatroom_adm#:#chatroom_available_smilies#:#Available Smilies
-chatroom_adm#:#chatroom_delete_selected#:#Delete selected smilies
+chatroom_adm#:#chatroom_delete_selected#:#Delete Selected Smilies
 chatroom_adm#:#chatroom_smiley_image#:#Smiley
-chatroom_adm#:#chatroom_add_smiley#:#Add smiley
-chatroom_adm#:#chatroom_image_path#:#Path to smiley
+chatroom_adm#:#chatroom_add_smiley#:#Add Smiley
+chatroom_adm#:#chatroom_image_path#:#Path to Smiley
 chatroom_adm#:#chatroom_smiley_keywords#:#Keywords
-chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#One keyword per line
-chatroom_adm#:#chatroom_upload_smiley#:#Upload smiley
+chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#One Keyword per Line
+chatroom_adm#:#chatroom_upload_smiley#:#Upload Smiley
 chatroom_adm#:#obj_chta_desc#:#Chat Administration
 chatroom_adm#:#protocol#:#Protocol
 chatroom_adm#:#instance#:#Instance
 chatroom_adm#:#smiley#:#Smilies
-chatroom_adm#:#chatroom_edit_smiley#:#Edit smiley
-chatroom_adm#:#chatroom_current_smiley_image_path#:#Current smiley
-chatroom_adm#:#chatroom_current_smiley_image#:#Current smiley icon
+chatroom_adm#:#chatroom_edit_smiley#:#Edit Smiley
+chatroom_adm#:#chatroom_current_smiley_image_path#:#Current Smiley
+chatroom_adm#:#chatroom_current_smiley_image#:#Current Smiley Icon
 chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Choose a new smiley icon only if the current one is to be replaced.
-chatroom_adm#:#server_settings#:#Server settings
-chatroom_adm#:#client_settings#:#Client settings
-chatroom_adm#:#priv_hosts#:#Privileged hosts
+chatroom_adm#:#server_settings#:#Server Settings
+chatroom_adm#:#client_settings#:#Client Settings
+chatroom_adm#:#priv_hosts#:#Privileged Hosts
 chatroom_adm#:#https#:#HTTPS
-chatroom_adm#:#chat_enabled#:#Enable chat
-chatroom_adm#:#enable_osd#:#Enable On-Screen notifications
+chatroom_adm#:#chat_enabled#:#Enable Chat
+chatroom_adm#:#enable_osd#:#Enable On-Screen Notifications
 chatroom_adm#:#hash#:#Hash
-chatroom_adm#:#client_settings_title#:#Client settings
+chatroom_adm#:#client_settings_title#:#Client Settings
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)
-chatroom_adm#:#server_settings_title#:#Server settings
+chatroom_adm#:#server_settings_title#:#Server Settings
 chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete the selected smiley?
 chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.
 chatroom_adm#:#chat_smilies_initialized#:#Chat smilies initialized
 chatroom#:#soap_must_be_enabled#:#You must active SOAP support in the general settings to enable the chat.
-chatroom#:#auto_scroll#:#Scroll to bottom
-chatroom#:#public_chat_created#:#The public chat room has been added to the repository
-chatroom#:#lost_connection#:#The connection to the chatserver was interrupted.
-chatroom#:#banned#:#You have been banned from this chat
+chatroom#:#auto_scroll#:#Scroll to Bottom
+chatroom#:#public_chat_created#:#The public chatroom has been added to the repository.
+chatroom#:#lost_connection#:#The connection to the Chatserver was interrupted.
+chatroom#:#banned#:#You have been banned from this Chatroom
 chatroom#:#unban#:#Unban
 chatroom_adm#:#keystore#:#Keystore
 chatroom_adm#:#keypass#:#Keypass
@@ -12181,3 +12181,19 @@ rbac#:#otpl_edit_permission#:#Change Permission Settings
 didactic#:#didactic_default_type_info#:#Uses default permissions for %s
 didactic#:#didactic_install_info#:#General Information
 didactic#:#didactic_selected_tpl_option#:#Applied didactic template:
+chatroom#:#chatserver_address#:#IP-Adress of the Chatservers
+chatroom#:#chatserver_port#:#Port of the Chatservers
+chatroom#:#instance_name#:#Unique Identifier
+chatroom#:#ilias_url#:#Base-URL of your ILIAS Installation
+chatroom#:#soap_user#:#Name of the SOAP-User
+chatroom#:#soap_user_password#:#Password of the SOAP-User
+chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.
+chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the webserver must handle.
+chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chatserver to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.
+chatroom#:#enable_smilies#:#Enable Smilies
+chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smilies tab for configuration.
+chatroom#:#display_past_msgs#:#Number of Past Messages
+chatroom#:#hint_display_past_msgs#:#Number of past messages to show, when the room is entered. A value of "0" disables this feature.
+chatroom#:#speak_to#:#Whisper to <b>#user#</b>
+chatroom#:#whisper_to#:#Speak to <b>#user#</b>
+chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chatserver.

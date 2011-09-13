@@ -133,7 +133,7 @@ class ilChatroomBanTask extends ilDBayTaskHandler
 
 		$room->banUser( $_REQUEST['user'] );
 
-		if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
+		if( $responseObject->success == true /*&& $room->getSetting( 'enable_history' )*/ )
 		{
 		    $room->addHistoryEntry( $message, '', 1 );
 		}

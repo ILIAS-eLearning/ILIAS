@@ -12,7 +12,9 @@ var myId = {MY_ID};
 		'kick' : '{LBL_KICK}',
 		'ban' : '{LBL_BAN}',
 		'address' : '{LBL_ADDRESS}',
+		'speak_to' : '{LBL_SPEAK_TO}',
 		'whisper' : '{LBL_WHISPER}',
+		'whisper_to' : '{LBL_WHISPER_TO}',
 		'connect' : '{LBL_CONNECT}',
 		'disconnected' : '{LBL_DISCONNECT}',
 		'create_private_room' : '{LBL_CREATE_PRIVATE_ROOM}',
@@ -24,7 +26,9 @@ var myId = {MY_ID};
 		'private_room_entered' : '{LBL_PRIVATE_ROOM_ENTERED}',
 		'private_room_left' : '{LBL_PRIVATE_ROOM_LEFT}',
 		'private_room_entered_user' : '{LBL_PRIVATE_ROOM_ENTERED_USER}',
-		'kicked_from_private_room' : '{LBL_KICKED_FROM_PRIVATE_ROOM}'
+		'kicked_from_private_room' : '{LBL_KICKED_FROM_PRIVATE_ROOM}',
+		'ok' : '{LBL_OK}',
+		'cancel' : '{LBL_CANCEL}'
 	};
 	$('#colorpicker').colorPicker();
         var initial = {INITIAL_DATA};
@@ -80,7 +84,7 @@ var myId = {MY_ID};
                         <td class="ilFormHeader" colspan="2"><h3 class="ilFormHeader">{LBL_MESSAGE}</h3></td>
                 </tr>
                 <tr>
-                        <td class="ilFormOption"><label for="submit_message_text"><span id="message_recipient_info">{LBL_TOALL}</span></label></td>
+                        <td class="ilFormOption"><label for="submit_message_text"><span id="message_recipient_info_all">{LBL_TOALL}</span><span id="message_recipient_info"></span></label></td>
                         <td class="ilFormValue">
                                 <input type="text" name="message" id="submit_message_text"/>
                                 <input type="button" class="submit" value="{LBL_SEND}" id="submit_message" />

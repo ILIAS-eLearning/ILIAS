@@ -116,10 +116,11 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 		    'url'		=> $_POST['url'],
 		    'user'		=> $_POST['user'],
 		    'password'		=> $_POST['password'],
-		    'client'		=> $_POST['client'],
+		    'client'		=> CLIENT_ID,
 		    'enable_osd'	=> (boolean)$_POST['enable_osd'],
 		    'osd_intervall'	=> (int)$_POST['osd_intervall'],
-		    'chat_enabled'	=> ((boolean)$_POST['chat_enabled']) && ((boolean)$this->commonSettings->get('soap_user_administration'))
+		    'chat_enabled'	=> ((boolean)$_POST['chat_enabled']) && ((boolean)$this->commonSettings->get('soap_user_administration')),
+		    'enable_smilies'	=> (boolean)$_POST['enable_smilies']
 	    );
 
 	    $notificationSettings = new ilSetting('notifications');
@@ -296,17 +297,25 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	    $this->gui->switchToVisibleMode();
 	    $this->showSoapWarningIfNeeded();
 
+	    require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
+	    $adminSettings = new ilChatroomAdmin( $this->gui->object->getId() );
+	    $serverSettings = (array)$adminSettings->loadGeneralSettings();
 	    if( $form === null )
 	    {
 		require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
 		$factory = new ilChatroomFormFactory();
 		$form = $factory->getGeneralSettingsForm();
 
-		require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
-		$adminSettings = new ilChatroomAdmin( $this->gui->object->getId() );
-		$form->setValuesByArray( (array)$adminSettings->loadGeneralSettings() );
+		
+		$form->setValuesByArray( $serverSettings );
 	    }
 
+	    require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
+
+	    if ($serverSettings['port'] && $serverSettings['address'] && !(boolean)@ilChatroomServerConnector::checkServerConnection()) {
+		ilUtil::sendInfo($lng->txt('chat_cannot_connect_to_server'));
+	    }
+	    
 	    $form->setTitle( $lng->txt('server_settings_title') );
 	    $form->addCommandButton( 'view-saveSettings', $lng->txt( 'save' ) );
 	    $form->addCommandButton( 'view', $lng->txt( 'cancel' ) );
@@ -342,6 +351,9 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 
 		$this->showSoapWarningIfNeeded();
 
+		require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
+		$adminSettings = new ilChatroomAdmin( $this->gui->object->getId() );
+		
 		if( $form === null )
 		{
 			require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
@@ -353,8 +365,6 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 				$form->getItemByPostVar('chat_enabled')->setChecked(0);
 			}
 
-			require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
-			$adminSettings = new ilChatroomAdmin( $this->gui->object->getId() );
 			$data = (array)$adminSettings->loadClientSettings();
 
 			if( !$data )
@@ -375,6 +385,13 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 			$form->setValuesByArray( $data );
 		}
 
+		require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
+		
+		$serverSettings = (array)$adminSettings->loadGeneralSettings();
+		if ($serverSettings['port'] && $serverSettings['address'] && !(boolean)@ilChatroomServerConnector::checkServerConnection()) {
+		    ilUtil::sendInfo($lng->txt('chat_cannot_connect_to_server'));
+		}
+		
 		$form->setTitle( $lng->txt('client_settings_title') );
 		$form->addCommandButton( 'view-saveClientSettings', $lng->txt( 'save' ) );
 		$form->addCommandButton( 'ClientSettings', $lng->txt( 'cancel' ) );

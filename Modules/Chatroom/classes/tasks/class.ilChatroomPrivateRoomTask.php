@@ -209,12 +209,12 @@ class ilChatroomPrivateRoomTask extends ilDBayTaskHandler
 			$connector = $this->gui->getConnector();
 			$response = $connector->leavePrivateRoom( $scope, $query );
 			$responseObject = json_decode( $response );
-
+/*
 			if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
 			{
 				//$room->addHistoryEntry( $message, $recipient, $publicMessage );
 			}
-
+*/
 			$room->unsubscribeUserFromPrivateRoom( $params['sub'], $params['user'] );
 		}
 		else

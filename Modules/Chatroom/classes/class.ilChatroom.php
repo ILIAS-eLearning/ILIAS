@@ -40,7 +40,8 @@ class ilChatroom
 			'autogen_usernames' 		=> 'string',
 			'room_type' 		=> 'string',
 			'allow_private_rooms' 		=> 'integer',
-	);
+			'display_past_msgs' => 'integer'
+	);	
 	private $roomId;
 
 	private $object;
@@ -292,7 +293,7 @@ class ilChatroom
 				$prooms[] = $row_prooms['proom_id'];
 			}
 
-			if ($this->getSetting( 'enable_history' )) {
+			if (true || $this->getSetting( 'enable_history' )) {
 				$query = 'UPDATE ' . self::$privateSessionsTable . ' SET disconnected = %s WHERE ' . $ilDB->in('user_id', $userIds, false, 'integer') . ' AND ' . $ilDB->in('proom_id', $prooms, false, 'integer');
 				$ilDB->manipulateF($query, array('integer'), array(time()));
 			}
@@ -353,6 +354,9 @@ class ilChatroom
 		foreach( $this->availableSettings as $setting => $type )
 		{
 			if( isset( $settings[$setting] ) ) {
+				if ($type == 'boolean') {
+				    $settings[$setting] = (boolean)$settings[$setting];
+				}
 				$localSettings[$setting] = array($this->phpTypeToMDBType($type), $settings[$setting]);
 			}
 		}
@@ -364,9 +368,9 @@ class ilChatroom
 		if( $this->roomId )
 		{
 			$ilDB->update(
-			self::$settingsTable,
-			$localSettings,
-			array( 'room_id' => array('integer', $this->roomId) )
+			    self::$settingsTable,
+			    $localSettings,
+			    array( 'room_id' => array('integer', $this->roomId) )
 			);
 		}
 		else
@@ -693,7 +697,7 @@ class ilChatroom
 		$rset = $ilDB->queryF( $query, $types, $values );
 
 		if( $rset && ($row = $ilDB->fetchAssoc( $rset )) && $row['cnt'] )
-		return true;
+		    return true;
 
 		return false;
 	}
@@ -1244,6 +1248,19 @@ class ilChatroom
        return $row['ref_id'];
     }
 
+    public function getLastMessages($number) {
+	global $ilDB;
+	
+	$ilDB->setLimit($number);
+	$rset = $ilDB->queryF('SELECT * FROM ' . self::$historyTable . ' WHERE room_id = %s ORDER BY timestamp DESC', array('integer'), array($this->roomId));
+	
+	$results = array();
+	while($row = $ilDB->fetchAssoc($rset)) {
+	    $results[] = json_decode($row['message']);
+	}
+	
+	return $results;
+    }
 }
 
 ?>

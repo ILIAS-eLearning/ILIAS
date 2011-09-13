@@ -103,7 +103,7 @@ class ilChatroomSettingsTask extends ilDBayTaskHandler
 	 */
 	public function saveGeneral()
 	{
-	    global $ilCtrl;
+	    global $ilCtrl, $lng;
 
 	    $formFactory	= new ilChatroomFormFactory();
 	    $settingsForm	= $formFactory->getSettingsForm();
@@ -126,8 +126,11 @@ class ilChatroomSettingsTask extends ilDBayTaskHandler
 		    $room = new ilChatRoom();
 		    $settings['object_id'] = $this->gui->object->getId();
 		}
-
+//var_dump($settings);exit;
 		$room->saveSettings( $settings );
+		
+		ilUtil::sendSuccess($lng->txt('saved_successfully'), true);
+		
 		$ilCtrl->redirect( $this->gui, 'settings-general' );
 	    }
 	}

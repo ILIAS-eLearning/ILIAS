@@ -97,7 +97,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 		    )
 		);
 
-		if( $room->getSetting('enable_history') )
+		if( true || $room->getSetting('enable_history') )
 		    $room->addHistoryEntry($message);
 	    }
 
@@ -119,30 +119,36 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 
 	    include_once('Modules/Chatroom/classes/class.ilChatroomSmilies.php');
 
-	    $smileys_array = ilChatroomSmilies::_getSmilies();
+	    if ($settings->getSmiliesEnabled()) {
+		$smileys_array = ilChatroomSmilies::_getSmilies();
 
-	    foreach( $smileys_array as $smiley_array )
-	    {
-		foreach( $smiley_array as $key => $value )
+		foreach( $smileys_array as $smiley_array )
 		{
-		    if( $key == 'smiley_keywords' )
+		    foreach( $smiley_array as $key => $value )
 		    {
-			$new_keys = explode("\n", $value);
+			if( $key == 'smiley_keywords' )
+			{
+			    $new_keys = explode("\n", $value);
+			}
+
+			if( $key == 'smiley_fullpath' )
+			{
+			    $new_val = $value;
+			}
 		    }
 
-		    if( $key == 'smiley_fullpath' )
+		    foreach( $new_keys as $new_key )
 		    {
-			$new_val = $value;
+			$smileys[$new_key] = $new_val;
 		    }
 		}
 
-		foreach( $new_keys as $new_key )
-		{
-		    $smileys[$new_key] = $new_val;
-		}
+		$initial->smileys = $smileys;
 	    }
-
-	    $initial->smileys	= $smileys;
+	    else {
+		$initial->smileys = '{}';
+	    }
+	    
 	    $initial->messages	= array();
 
 	    if( isset($_REQUEST['sub']) )
@@ -206,6 +212,12 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 		}
 	    }
 
+	    if ((int)$room->getSetting('display_past_msgs')) {
+		$initial->messages = array_merge($initial->messages, array_reverse($room->getLastMessages($room->getSetting('display_past_msgs'))));
+	    }
+	    
+	    //var_dump($initial->messages);
+	    
 	    $roomTpl = new ilTemplate('tpl.chatroom.html', true, true, 'Modules/Chatroom');
 	    $roomTpl->setVariable('SESSION_ID', $connection_info->{'session-id'});
 	    $roomTpl->setVariable('BASEURL', $settings->getBaseURL());
@@ -262,6 +274,8 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 		$roomTpl->setVariable('LBL_KICKED_FROM_PRIVATE_ROOM', $lng->txt('kicked_from_private_room'));
 		$roomTpl->setVariable('LBL_OK', $lng->txt('ok'));
 		$roomTpl->setVariable('LBL_CANCEL', $lng->txt('cancel'));
+		$roomTpl->setVariable('LBL_WHISPER_TO', $lng->txt('whisper_to'));
+		$roomTpl->setVariable('LBL_SPEAK_TO', $lng->txt('speak_to'));
 	}
 
 	protected function renderSendMessageBox($roomTpl) {

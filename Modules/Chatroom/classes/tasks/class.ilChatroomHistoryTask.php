@@ -167,7 +167,7 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 	    $durationForm = $formFactory->getPeriodForm();
 	    $durationForm->setTitle( $lng->txt('history_byday_title') );
 	    $durationForm->addCommandButton( 'history-byDayExport', $lng->txt( 'export' ) );
-	    $durationForm->addCommandButton( 'history-byDay', $lng->txt( 'update' ) );
+	    $durationForm->addCommandButton( 'history-byDay', $lng->txt( 'show' ) );
 	    $durationForm->setFormAction( $ilCtrl->getFormAction( $this->gui ), 'history-byDay' );
 
 	    if( strtolower( $_SERVER['REQUEST_METHOD'] ) == 'post' )
@@ -218,7 +218,7 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 	$durationForm = $formFactory->getSessionForm( $room->getSessions( $chat_user ) );
 	$durationForm->setTitle( $lng->txt('history_bysession_title') );
 	$durationForm->addCommandButton( 'history-bySessionExport', $lng->txt( 'export' ) );
-	$durationForm->addCommandButton( 'history-bySession', $lng->txt( 'update' ) );
+	$durationForm->addCommandButton( 'history-bySession', $lng->txt( 'show' ) );
 	$durationForm->setFormAction(
 	$ilCtrl->getFormAction( $this->gui ), 'history-bySession'
 	);

@@ -109,6 +109,10 @@ class ilChatroomFormFactory
 
 		$cb_history = new ilCheckboxInputGUI( $lng->txt( 'enable_history' ), 'enable_history' );
 		$form->addItem( $cb_history );
+		
+		$num_msg_history = new ilNumberInputGUI( $lng->txt( 'display_past_msgs' ), 'display_past_msgs' );
+		$num_msg_history->setInfo($lng->txt('hint_display_past_msgs'));
+		$form->addItem( $num_msg_history );
 		/*
 		 $cb = new ilCheckboxInputGUI( $lng->txt( 'restrict_history' ), 'restrict_history' );
 		 $cb->setInfo( $lng->txt( 'restrict_history_info' ) );
@@ -272,11 +276,11 @@ class ilChatroomFormFactory
 
 		$form = new ilPropertyFormGUI();
 
-		$address = new ilTextInputGUI( $lng->txt( 'address' ), 'address' );
+		$address = new ilTextInputGUI( $lng->txt( 'chatserver_address' ), 'address' );
 		$address->setRequired( true );
 		$form->addItem( $address );
 
-		$port = new ilNumberInputGUI( $lng->txt( 'port' ), 'port' );
+		$port = new ilNumberInputGUI( $lng->txt( 'chatserver_port' ), 'port' );
 		$port->setMinValue( 1 );
 		$port->setMaxValue( 65535 );
 		$port->setRequired( true );
@@ -322,37 +326,44 @@ class ilChatroomFormFactory
 		$form->addItem( $cb );
 
 		$cb = new ilCheckboxInputGUI( $lng->txt( 'enable_osd' ), 'enable_osd' );
+		$cb->setInfo($lng->txt('hint_osd'));
 		$form->addItem( $cb );
 
 		$txt = new ilNumberInputGUI( $lng->txt( 'osd_intervall' ), 'osd_intervall' );
 		$txt->setMinValue(1);
 		$txt->setRequired( true );
+		$txt->setInfo($lng->txt('hint_osd_interval'));
 		$cb->addSubItem( $txt );
 
 		/*$hash = new ilTextInputGUI( $lng->txt( 'hash' ), 'hash' );
 		$hash->setRequired( true );
 		$form->addItem( $hash );*/
 
-		$name = new ilTextInputGUI( $lng->txt( 'name' ), 'name' );
+		$cb = new ilCheckboxInputGUI( $lng->txt( 'enable_smilies' ), 'enable_smilies' );
+		$cb->setInfo($lng->txt('hint_enable_smilies'));
+		$form->addItem( $cb );
+		
+		$name = new ilTextInputGUI( $lng->txt( 'instance_name' ), 'name' );
 		$name->setRequired( true );
+		$name->setInfo($lng->txt('hint_unique_name'));
 		$form->addItem( $name );
 
-		$url = new ilTextInputGUI( $lng->txt( 'url' ), 'url' );
+		$url = new ilTextInputGUI( $lng->txt( 'ilias_url' ), 'url' );
 		$url->setRequired( true );
 		$form->addItem( $url );
 
-		$user = new ilTextInputGUI( $lng->txt( 'user' ), 'user' );
+		$user = new ilTextInputGUI( $lng->txt( 'soap_user' ), 'user' );
 		$user->setRequired( true );
 		$form->addItem( $user );
 
-		$password = new ilPasswordInputGUI( $lng->txt( 'password' ), 'password' );
+		$password = new ilPasswordInputGUI( $lng->txt( 'soap_user_password' ), 'password' );
 		$password->setRequired( true );
 		$form->addItem( $password );
 
-		$client = new ilTextInputGUI( $lng->txt( 'client' ), 'client' );
-		$client->setRequired( true );
+		//$client = new ilTextInputGUI( $lng->txt( 'client' ), 'client' );
+		//$client->setRequired( true );
 		//$client->setValue( CLIENT_ID );
-		$form->addItem( $client );
+		//$form->addItem( $client );
 
 		return $form;
 	}

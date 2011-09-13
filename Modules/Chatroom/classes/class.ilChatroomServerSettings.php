@@ -124,6 +124,14 @@ class ilChatroomServerSettings
 	{
 		$this->instance = $instance;
 	}
+	
+	public function setSmiliesEnabled($a_bool) {
+	    $this->smilies_enabled = $a_bool;
+	}
+	
+	public function getSmiliesEnabled() {
+	    return (bool) $this->smilies_enabled;
+	}
 
 	public static function loadDefault() {
 		global $ilDB;
@@ -140,7 +148,7 @@ class ilChatroomServerSettings
 		$settings->setProtocol($server_settings->protocol);
 		$settings->setInstance($client_settings->name);
 		$settings->setDomain($server_settings->address);
-
+		$settings->setSmiliesEnabled($client_settings->enable_smilies);
 		return $settings;
 	}
 
