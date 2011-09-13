@@ -7670,6 +7670,7 @@ $setting->set("enable_sahs_pd", 1);
 	$ilDB->dropPrimaryKey('didactic_tpl_objs');
 	$ilDB->addPrimaryKey('didactic_tpl_objs',array('ref_id','tpl_id'));
 ?>
+
 <#3456>
 <?php
 	if (!$ilDB->tableColumnExists("chatroom_settings", "display_past_msgs"))
@@ -7680,4 +7681,8 @@ $setting->set("enable_sahs_pd", 1);
 			"length" => 4,
 			"default" => 0));
 	}
+?>
+<#3457>
+<?php
+	$ilCtrlStructureReader->getStructure();
 ?>

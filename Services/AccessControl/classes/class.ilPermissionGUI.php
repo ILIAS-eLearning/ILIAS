@@ -38,6 +38,19 @@ class ilPermissionGUI extends ilPermission2GUI
 	{
 		return $this->gui_obj->object;
 	}
+
+	/**
+	 * Called after toolbar action applyTemplateSwitch
+	 */
+	protected function confirmTemplateSwitch()
+	{
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php';
+		$this->ctrl->setReturn($this,'perm');
+		$this->ctrl->setCmdClass('ildidactictemplategui');
+		$dtpl_gui = new ilDidacticTemplateGUI($this->gui_obj);
+		$this->ctrl->forwardCommand($dtpl_gui,'confirmTemplateSwitch');
+	}
+
 	
 	/**
 	 * show permission table

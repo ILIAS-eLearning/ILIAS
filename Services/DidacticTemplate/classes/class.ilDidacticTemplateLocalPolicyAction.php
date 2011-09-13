@@ -194,10 +194,25 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
 	/**
 	 * Revert action
+	 *
+	 * @global ilRbacReview
 	 */
 	public function  revert()
 	{
-		;
+		global $rbacreview,$rbacadmin;
+
+		$source = $this->initSourceObject();
+		$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
+
+
+		$roles = $this->filterRoles($source);
+
+		// Delete local policy for filtered roles
+		foreach($roles as $role_id => $role)
+		{
+			$rbacadmin->deleteLocalRole($role_id,$rolf);
+		}
+		return true;
 	}
 
 	/**

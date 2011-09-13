@@ -73,6 +73,13 @@ class ilPermission2GUI
 				$this->gui_obj->setBackTarget($this->lng->txt("perm_settings"),$this->ctrl->getLinkTarget($this, "perm"));
 				$ret = $this->ctrl->forwardCommand($this->gui_obj);
 				break;
+
+			case 'ildidactictemplategui':
+				$this->ctrl->setReturn($this,'perm');
+				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php';
+				$did = new ilDidacticTemplateGUI($this->gui_obj);
+				$this->ctrl->forwardCommand($did);
+				break;
 				
 			default:
 				$cmd = $this->ctrl->getCmd();
@@ -82,6 +89,7 @@ class ilPermission2GUI
 
 		return true;
 	}
+
 
 	/**
 	* save permissions
