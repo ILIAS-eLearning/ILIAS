@@ -12180,3 +12180,4 @@ rbac#:#otpl_write#:#Edit Object Template Settings
 rbac#:#otpl_edit_permission#:#Change Permission Settings
 didactic#:#didactic_default_type_info#:#Uses default permissions for %s
 didactic#:#didactic_install_info#:#General Information
+didactic#:#didactic_selected_tpl_option#:#Applied didactic template:

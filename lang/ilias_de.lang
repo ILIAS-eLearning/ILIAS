@@ -12177,3 +12177,4 @@ rbac#:#otpl_write#:#Einstellungen für Objektvorlagen bearbeiten
 rbac#:#otpl_edit_permission#:#Rechteeinstellungen ändern
 didactic#:#didactic_install_info#:#Allgemeine Informationen
 didactic#:#didactic_default_type_info#:#Erzeugt Standard-Rechteeinstellungen für %s
+didactic#:#didactic_selected_tpl_option#:#Angewandte didaktische Vorlage:

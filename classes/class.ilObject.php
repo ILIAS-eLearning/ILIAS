@@ -1405,6 +1405,9 @@ class ilObject
 			include_once("./Services/Block/classes/class.ilBlockSetting.php");
 			ilBlockSetting::_deleteSettingsOfBlock($this->getId(), "news");
 
+			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+			ilDidacticTemplateObjSettings::deleteByObjId($this->getId());
+
 			/* remove notes (see infoscreen gui)
 			   as they can be seen as personal data we are keeping them for now
 			include_once("Services/Notes/classes/class.ilNote.php");
@@ -1448,6 +1451,10 @@ class ilObject
 
 			include_once "Services/AccessControl/classes/class.ilRbacLog.php";
 			ilRbacLog::delete($this->getRefId());
+
+			// Remove applied didactic template setting
+			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+			ilDidacticTemplateObjSettings::deleteByRefId($this->getRefId());
 
 			// Remove desktop items
 			ilUtil::removeItemFromDesktops($this->getRefId());
@@ -1535,7 +1542,7 @@ class ilObject
 		}
 
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
-		ilDidacticTemplateObjSettings::assignTemplate($this->getId(), (int) $a_tpl_id);
+		ilDidacticTemplateObjSettings::assignTemplate($this->getRefId(), $this->getId(), (int) $a_tpl_id);
 
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
 		foreach(ilDidacticTemplateActionFactory::getActionsByTemplateId($a_tpl_id) as $action)
