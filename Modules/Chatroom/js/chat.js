@@ -495,7 +495,7 @@
 
 							messageSpan.css('color', content.format.color);
 
-							if (data.id != subRoomId) {
+							if (data && data.id != subRoomId) {
 								$('#room_' + data.id).addClass('new_events');
 							}
 
