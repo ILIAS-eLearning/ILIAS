@@ -32,7 +32,7 @@ class ilPermissionGUI extends ilPermission2GUI
 	
 	/**
 	 * Get current object
-	 * @return 
+	 * @return ilObject
 	 */
 	public function getCurrentObject()
 	{
@@ -46,6 +46,17 @@ class ilPermissionGUI extends ilPermission2GUI
 	public function perm(ilTable2GUI $table = NULL )
 	{
 		global $objDefinition, $ilToolbar;
+
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php';
+		$dtpl = new ilDidacticTemplateGUI($this->gui_obj);
+		if($dtpl->appendToolbarSwitch(
+			$ilToolbar,
+			$this->getCurrentObject()->getType(),
+			$this->getCurrentObject()->getRefId()
+		))
+		{
+			$ilToolbar->addSeparator();
+		}
 		
 		if($objDefinition->hasLocalRoles($this->getCurrentObject()->getType()) and !$this->isAdminRoleFolder())
 		{

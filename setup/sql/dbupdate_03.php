@@ -7652,5 +7652,23 @@ $setting->set("enable_sahs_pd", 1);
 	}
 ?>
 
+<#3455>
+<?php
+
+	$query = 'DELETE FROM didactic_tpl_objs';
+	$ilDB->manipulate($query);
+
+	if (!$ilDB->tableColumnExists("didactic_tpl_objs", "ref_id"))
+	{
+		$ilDB->addTableColumn("didactic_tpl_objs", "ref_id", array(
+			"type" => "integer",
+			"notnull" => false,
+		 	"length" => 4
+		));
+	}
+
+	$ilDB->dropPrimaryKey('didactic_tpl_objs');
+	$ilDB->addPrimaryKey('didactic_tpl_objs',array('ref_id','tpl_id'));
+?>
 
 
