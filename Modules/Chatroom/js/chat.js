@@ -501,7 +501,7 @@
 
 							break;
 						case 'connected':
-							if (message.login || message.message.users[0].login) {
+							if (message.login || (message.message.users[0] && message.message.users[0].login)) {
 							    line
 							    .append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp || message.message.timestamp) + ') '))
 							    .append($('<span class="chat content username"></span>').append(message.login || message.message.users[0].login))
@@ -510,7 +510,7 @@
 							}
 							break;
 						case 'disconnected':
-							if (message.login || message.message.users[0].login) {
+							if (message.login || (message.message.users[0] && message.message.users[0].login)) {
 							    line
 							    .append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp || message.message.timestamp) + ') '))
 							    .append($('<span class="chat content username"></span>').append(message.login || message.message.users[0].login))
@@ -519,7 +519,7 @@
 							}
 							break;
 						case 'private_room_entered':
-							if (message.login || message.message.users[0].login) {
+							if (message.login || (message.message.users[0] && message.message.users[0].login)) {
 							    line
 							    .append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp || message.message.timestamp) + ') '))
 							    .append($('<span class="chat content username"></span>').append(message.login || message.message.users[0].login))
