@@ -1905,9 +1905,20 @@ class SurveyQuestion
 	* @param array $a_array An array which is used to append the title row entries
 	* @access public
 	*/
-	function addUserSpecificResultsExportTitles(&$a_array)
+	function addUserSpecificResultsExportTitles(&$a_array, $export_type = 'title_only')
 	{
-		array_push($a_array, $this->getTitle());
+		switch ($_POST['export_label'])
+		{
+			case 'label_only':
+				array_push($a_array, $this->label);
+				break;
+			case 'title_only':
+				array_push($a_array, $this->getTitle());
+				break;
+			default:
+				array_push($a_array, $this->getTitle() . ' / ' . $this->label);
+				break;
+		}
 	}
 
 	/**
