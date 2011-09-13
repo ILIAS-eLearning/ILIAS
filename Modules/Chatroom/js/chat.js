@@ -1,5 +1,10 @@
 (function($) {
 
+	$(document).click(function() {
+	    $('.il_adv_sel.menu').hide();
+	    $('.menu_attached').removeClass('menu_attached');
+	});
+	
 	var iconsByType = {
 		user: 'templates/default/images/icon_usr_s.gif',
 		room: 'templates/default/images/icon_chat_s.gif'
@@ -130,12 +135,13 @@
 		var content = $('<td class="il_adv_sel"><a href="#">'+(icon ? ('<img style="margin-right: 8px" src="'+icon+'"/>'): '')+'<span class="small">'+label+'</span></a></td>');
 		line.append(content);
 		if (callback) {
-			line.click(function(e) {
+			line.bind('click', function(ev) {
 				$(this).parents('.menu').hide();
 				menuContainer.data('ilChatMenu')._attatched.removeClass('menu_attached');
-				e.stopPropagation();
-				e.preventDefault();
 				callback.call($(this).parents('.menu'));
+				ev.preventDefault();
+				ev.stopPropagation();
+				return false;
 			})
 			.mouseout(function() {
 				ilAdvancedSelectionList.itemOff(this);
@@ -150,7 +156,7 @@
 	var menuContainer;
 
 	$.fn.ilChatMenu = function( method ) {
-
+	
 		var methods = {
 			init: function(menuitems) {
 
@@ -193,7 +199,6 @@
 				})
 
 				menuContainer.show();
-				
 			}
 		}
 
@@ -239,8 +244,12 @@
 					_index: {},
 					_menuitems: menuitems
 				});
-                    
-				$('.listentry', $(this)).live('click', function() {
+                    /*
+				$('.listentry', $(this)).live('click', function(e) {
+				    
+					e.preventDefault();
+					e.stopPropagation();
+				    
 					if ($(this).hasClass('menu_attached')) {
 						$(this).removeClass('menu_attached');
 						menuContainer.hide();
@@ -276,10 +285,10 @@
                         
 					menuContainer.data('ilChat', {
 						context: $(this).data('ilChatList')
-					})
+					});
                         
 					menuContainer.show();
-				});
+				});*/
 			},
 			add: function(options) {
 				if ($(this).data('ilChatList')._index['id_' + options.id]) {
@@ -289,8 +298,54 @@
 				var line = $('<p class="listentry '+options.type+'_'+options.id+' online_user"><img src="'+iconsByType[options.type]+'" />&nbsp;<a class="label" href="javascript:void(0);">' + options.label + '</a></p>')
                     
 				line.data('ilChatList', options);
-                    
-				$(this).data('ilChatList')._index['id_' + options.id] = line;
+				
+				var $this = $(this);
+				$this.data('ilChatList')._index['id_' + options.id] = line;
+
+				line.bind('click', function(e) {
+				    
+					e.preventDefault();
+					e.stopPropagation();
+				    
+					if ($(this).hasClass('menu_attached')) {
+						$(this).removeClass('menu_attached');
+						menuContainer.hide();
+						return;
+					}
+					else if (menuContainer.is(':visible')) {
+						menuContainer.hide();
+					}
+
+					menuContainer.find('tr').remove();
+					var data = $(this).data('ilChatList');
+					if (data.type == 'user' && data.id == personalUserInfo.userid) {
+						return;
+					}
+
+					$(this).addClass('menu_attached');
+
+					$.each($this.data('ilChatList')._menuitems, function() {
+
+						if (this.permission == undefined) {
+							menuContainer.find('table').append(getMenuLine(this.label, this.callback));
+						}
+						else if (
+							(personalUserInfo.moderator && this.permission.indexOf('moderator') >= 0)
+							|| (personalUserInfo.userid == data.owner && this.permission.indexOf('owner') >= 0)
+							) {
+							menuContainer.find('table').append(getMenuLine(this.label, this.callback));
+						}
+					});
+                        
+					menuContainer.css('left', $(this).offset().left)
+					.css('top', $(this).offset().top + $(this).height());
+                        
+					menuContainer.data('ilChat', {
+						context: $(this).data('ilChatList')
+					});
+                        
+					menuContainer.show();
+				});
 
 				if (options.type == 'user' && personalUserInfo.userid == options.id) {
 					line.addClass('self');
@@ -395,11 +450,19 @@
                         
 					var line = $('<div class="messageLine chat"></div>')
 					.addClass((message['public'] || message['public'] == undefined) ? 'public' : 'private');
-
+					if (message.message && message.message.message) {
+					    message = message.message;
+					}
 					switch(message.type) {
 						case 'message':
-							var content = JSON.parse(message.message);
-
+							var content;
+							try {
+							    content = JSON.parse(message.message);
+							}
+							catch (ex) {
+							    //console.log(ex);
+							    return true;
+							}
 							line.append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp) + ') '))
 								.append($('<span class="chat content username"></span>').append(message.user.username));
 
@@ -438,23 +501,24 @@
 
 							break;
 						case 'connected':
+						    //console.log(message);
 							line
-							.append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp) + ') '))
-							.append($('<span class="chat content username"></span>').append(message.login))
+							.append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp || message.message.timestamp) + ') '))
+							.append($('<span class="chat content username"></span>').append(message.login || message.message.users[0].login))
 							.append($('<span class="chat content messageseparator">:</span>'))
 							.append($('<span class="chat content message"></span>').append(translate('connect')));
 							break;
 						case 'disconnected':
 							line
-							.append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp) + ') '))
-							.append($('<span class="chat content username"></span>').append(message.login))
+							.append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp || message.message.timestamp) + ') '))
+							.append($('<span class="chat content username"></span>').append(message.login || message.message.users[0].login))
 							.append($('<span class="chat content messageseparator">:</span>'))
 							.append($('<span class="chat content message"></span>').append(translate('disconnected')));
 							break;
 						case 'private_room_entered':
 							line
-							.append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp) + ') '))
-							.append($('<span class="chat content username"></span>').append(message.login))
+							.append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp || message.message.timestamp) + ') '))
+							.append($('<span class="chat content username"></span>').append(message.login || message.message.users[0].login))
 							.append($('<span class="chat content messageseparator">:</span>'))
 							.append($('<span class="chat content message"></span>').append(translate('connect')));
 							break;

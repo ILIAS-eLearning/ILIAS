@@ -98,7 +98,7 @@ class ilChatroomPostMessageTask extends ilDBayTaskHandler
 
 		$responseObject = json_decode( $response );
 
-		if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
+		if( $responseObject->success == true /*&& $room->getSetting( 'enable_history' )*/ )
 		{
 			$room->addHistoryEntry( $message, $recipient, $publicMessage );
 		}

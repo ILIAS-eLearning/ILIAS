@@ -11773,7 +11773,7 @@ chatroom#:#duration_from#:#Von
 chatroom#:#duration_to#:#Bis
 chatroom#:#obj_chtr#:#Chatroom
 chatroom#:#chat_message#:#Nachricht
-chatroom#:#chat_message_to_all#:#an alle
+chatroom#:#chat_message_to_all#:#An alle
 chatroom#:#chat_message_options#:#Optionen
 chatroom#:#chat_message_display#:#Anzeigen
 chatroom#:#chat_mainroom#:#Hauptraum
@@ -12178,3 +12178,19 @@ rbac#:#otpl_edit_permission#:#Rechteeinstellungen ändern
 didactic#:#didactic_install_info#:#Allgemeine Informationen
 didactic#:#didactic_default_type_info#:#Erzeugt Standard-Rechteeinstellungen für %s
 didactic#:#didactic_selected_tpl_option#:#Angewandte didaktische Vorlage:
+chatroom#:#chatserver_address#:#IP-Adresse des Chatservers
+chatroom#:#chatserver_port#:#Port des Chatservers
+chatroom#:#instance_name#:#Eindeutiger Name der Instanz
+chatroom#:#ilias_url#:#Basis-URL der ILIAS-Installation
+chatroom#:#soap_user#:#Name des SOAP-Benutzer
+chatroom#:#soap_user_password#:#Passwort des SOAP-Benutzer
+chatroom#:#hint_osd#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Einladungen informiert.
+chatroom#:#hint_osd_interval#:#Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
+chatroom#:#hint_unique_name#:#Ein eindeutiger Name der diesen ILIAS-Mandanten beim Chatserver identifiziert. Diese Einstellung ist vorallem bei der Nutzung von mehreren ILIAS-Mandanten auf einem Chatserver zu beachten.
+chatroom#:#enable_smilies#:#Smilies aktivieren
+chatroom#:#hint_enable_smilies#:#Wenn aktiviert, werden konfigurierte Textbausteine durch ein Bild ersetzt. Die Konfiguration kamm im Smilies-Tab vorgenommen werden.
+chatroom#:#display_past_msgs#:#Anzahl vergangene Nachrichten
+chatroom#:#hint_display_past_msgs#:#Anzahl von vergangenen Nachrichten, die beim Betreten des Chatraums angezeigt werden sollen. "0" deaktiviert die Anzeige von vergangenen Nachrichten.
+chatroom#:#speak_to#:#<b>#user#</b> ansprechen
+chatroom#:#whisper_to#:#<b>#user#</b> anflüstern
+chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen.

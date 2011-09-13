@@ -9,6 +9,9 @@
 
   SOAP webservices must be enabled in your ILIAS administration
 
+  If you want to copy the Chatserver.jar to another location, make sure to copy
+  the lib folder as well.
+
 == Usage ==
 
 Single ILIAS client:

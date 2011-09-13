@@ -117,20 +117,21 @@ class ilChatroomServerHandler
 			if( $chatroom instanceof ilChatroom && is_array( $users ) )
 			{
 				$users = array_filter( $users );
-				$chatroom->disconnectUsers( $users );
-
+				$userDetails = $this->getUserInformation($users);
 				$message = json_encode( array(
 						'type'		=> 'disconnected',
-						'users'		=> $users,
+						'users'	    => $userDetails,
 						'timestamp' => date( 'c' )
 				) );
 
+				$chatroom->disconnectUsers( $users );
+				
 				$this->getConnector()->sendMessage( $chatroom->getRoomId(), $message );
 
-				if( $chatroom->getSetting( 'enable_history' ) ) {
+				if( true || $chatroom->getSetting( 'enable_history' ) ) {
 					$message = json_encode( array(
                                         'type'		=> 'disconnected',
-                                        'users'		=> $users,
+                                        'users'		=> $userDetails,
                                         'timestamp' => date( 'c' )
 					) );
 					$chatroom->addHistoryEntry( $message );
@@ -150,6 +151,16 @@ class ilChatroomServerHandler
 		ilChatroom::disconnectAllUsersFromAllRooms();
 	}
 
+	private function getUserInformation($user_ids) {
+	    global $ilDB;
+	    
+	    $rset = $ilDB->query('SELECT userdata FROM chatroom_users WHERE ' . $ilDB->in('user_id', $user_ids, false, 'integer'));
+	    $users = array();
+	    while($row = $ilDB->fetchAssoc($rset)) {
+		$users[] = json_decode($row['userdata']);
+	    }
+	    return $users;
+	}
 }
 
 ?>

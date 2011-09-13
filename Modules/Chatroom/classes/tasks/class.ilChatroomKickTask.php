@@ -68,7 +68,7 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 		$response	= $connector->kick( $scope, $query );
 		$responseObject = json_decode( $response );
 
-		if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
+		if( $responseObject->success == true /*&& $room->getSetting( 'enable_history' )*/ )
 		{
 		    $room->addHistoryEntry( $message, '', 1 );
 		}
@@ -140,12 +140,12 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 		    $connector	    = $this->gui->getConnector();
 		    $response	    = $connector->leavePrivateRoom( $scope, $query );
 		    $responseObject = json_decode( $response );
-
+/*
 		    if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
 		    {
 			//$room->addHistoryEntry( $message, $recipient, $publicMessage );
 		    }
-
+*/
 		    $room->unsubscribeUserFromPrivateRoom( $params['sub'], $params['user'] );
 		    $this->recantInvitation( $params['sub'], $params['user'] );
 

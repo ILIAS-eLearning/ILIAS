@@ -85,7 +85,23 @@ ilAddOnLoad(function() {
 		}
 
 		$.fn.chat = function(lang, baseurl, session_id, instance, scope, posturl, initial) {
+			var smileys = initial.smileys;
 
+			replaceSmileys = function (message) 
+			{
+				var replacedMessage = message;
+				
+				for (var i in smileys)
+				{
+					while( replacedMessage.indexOf(i) != -1 )
+					{
+						replacedMessage = replacedMessage.replace(i, '<img src="' + smileys[i] + '" />');
+					}
+				}
+				
+				return replacedMessage;
+			}
+			
 			// keep session open
 			window.setInterval(function() {
 				$.get(posturl.replace(/postMessage/, 'poll'));
@@ -246,7 +262,8 @@ ilAddOnLoad(function() {
 			    if (!this.sub) {
 				$('#chat_messages').ilChatMessageArea('addMessage', 0, {
 				    type: this.type,
-				    message: this.message
+				    //message: this.message
+				    message: this
 				});
 			    }
                         });
@@ -335,18 +352,24 @@ ilAddOnLoad(function() {
 
 				$('#message_recipient_info').children().remove();
 				if(recipient) {
-					$('#message_recipient_info').append(
+					$('#message_recipient_info_all').hide();
+					$('#message_recipient_info').html(
 						$('<span>' + translate(isPublic ? 'speak_to' : 'whisper_to', {
-							user: $('#chat_users').ilChatList('getDataById', recipient).label
+							user: $('#chat_users').ilChatList('getDataById', recipient).label,
+							myname: personalUserInfo.name
 						}) + '</span>')
 						.append(
-							$('<span>('+translate('cancel')+')</span>').click(
+							$('<span>&nbsp;('+translate('cancel')+')</span>').click(
 								function() {
 									setRecipientOptions(false, 1);
 								}
 								)
 							)
-						);
+						).show();
+				}
+				else {
+				    $('#message_recipient_info_all').show();
+				    $('#message_recipient_info').hide();
 				}
 			}
 
@@ -534,14 +557,14 @@ if (typeof DEBUG != 'undefined' && DEBUG) {
                                             break;
 					case 'disconnected':
                                             $(messageObject.users).each(function(i) {
-                                                var data = $('#chat_users').ilChatList('getDataById', messageObject.users[i]);
+                                                var data = $('#chat_users').ilChatList('getDataById', messageObject.users[i].id);
                                                 $('#chat_messages').ilChatMessageArea('addMessage', 0, {
                                                     login: data.label,
                                                     timestamp: messageObject.timestamp,
                                                     type: 'disconnected'
                                                 });
-                                                $('#chat_users').ilChatList('removeById', messageObject.users[i]);
-						usermanager.remove(messageObject.users[i], 0);
+                                                $('#chat_users').ilChatList('removeById', messageObject.users[i].id);
+						usermanager.remove(messageObject.users[i].id, 0);
                                             });
                                             break;
 					case 'connected':
@@ -610,9 +633,10 @@ if (typeof DEBUG != 'undefined' && DEBUG) {
 					);
 			}
 
-			$('#chat_actions').click(function() {
+			$('#chat_actions').click(function(e) {
 				$(this).removeClass('chat_new_events');
-
+				e.preventDefault();
+				e.stopPropagation();
 				var menuEntries = [];
 var room;
 
@@ -932,22 +956,6 @@ $.each(rooms, function() {
 				});
 				poll();
 			}, 10);
-			var smileys = initial.smileys;
-
-			replaceSmileys = function (message) 
-			{
-				var replacedMessage = message;
-				
-				for (var i in smileys)
-				{
-					while( replacedMessage.indexOf(i) != -1 )
-					{
-						replacedMessage = replacedMessage.replace(i, '<img src="' + smileys[i] + '" />');
-					}
-				}
-				
-				return replacedMessage;
-			}
 		}
 	}(jQuery)
 });
