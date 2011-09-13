@@ -448,7 +448,7 @@ class ilSurveyEvaluationGUI
 		{
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$question = SurveyQuestion::_instanciateQuestion($question_data["question_id"]);
-			$question->addUserSpecificResultsExportTitles($csvrow);
+			$question->addUserSpecificResultsExportTitles($csvrow, $_POST["export_format"]);
 			$questions[$question_data["question_id"]] = $question;
 		}
 		array_push($csvfile, $csvrow);

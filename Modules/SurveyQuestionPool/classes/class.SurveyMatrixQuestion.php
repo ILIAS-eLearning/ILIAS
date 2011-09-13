@@ -1632,7 +1632,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	* @param array $a_array An array which is used to append the title row entries
 	* @access public
 	*/
-	function addUserSpecificResultsExportTitles(&$a_array)
+	function addUserSpecificResultsExportTitles(&$a_array, $export_type = 'title_only')
 	{
 		parent::addUserSpecificResultsExportTitles($a_array);
 		for ($i = 0; $i < $this->getRowCount(); $i++)
