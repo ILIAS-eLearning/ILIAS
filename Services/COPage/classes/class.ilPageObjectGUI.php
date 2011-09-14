@@ -2135,6 +2135,7 @@ class ilPageObjectGUI
 			$a_tpl->setVariable("PAGE_ACTIONS", $list->getHTML());
 		}
 
+		$lng->loadLanguageModule("content");
 		$list = new ilAdvancedSelectionListGUI();
 		$list->setListTitle($lng->txt("cont_edit_mode"));
 		$list->setId("copage_ed_mode");
