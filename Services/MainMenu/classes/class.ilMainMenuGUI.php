@@ -508,11 +508,13 @@ class ilMainMenuGUI
 			$items = $ilNavigationHistory->getItems();
 			reset($items);
 			$cnt = 0;
-			foreach($items as $item)
+			$first = true;
+			foreach($items as $k => $item)
 			{
-				if ($cnt >= 20) break;
+				if ($cnt >= 10) break;
 				
-				if (!isset($item["ref_id"]) || !isset($_GET["ref_id"]) || $item["ref_id"] != $_GET["ref_id"])			// do not list current item
+				if (!isset($item["ref_id"]) || !isset($_GET["ref_id"]) ||
+					($item["ref_id"] != $_GET["ref_id"] || !$first))			// do not list current item
 				{
 					if ($cnt == 0)
 					{
@@ -521,10 +523,11 @@ class ilMainMenuGUI
 					$obj_id = ilObject::_lookupObjId($item["ref_id"]);
 					$cnt ++;
 					$icon = ilUtil::img(ilObject::_getIcon($obj_id, "tiny"));
-					$gl->addEntry($icon." ".$item["title"], $item["link"],
+					$gl->addEntry($icon." ".ilUtil::shortenText($item["title"], 50, true), $item["link"],
 						"_top");
 
 				}
+				$first = false;
 			}
 
 			$a_tpl->setVariable("REP_EN_OV", $gl->getHTML());

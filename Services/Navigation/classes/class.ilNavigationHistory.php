@@ -55,77 +55,32 @@ class ilNavigationHistory
 
 		$id = $a_ref_id.":".$a_sub_obj_id;
 
-		// remove id from stack, if existing
+		$new_items[$id] = array("id" => $id,"ref_id" => $a_ref_id, "link" => $a_link, "title" => $a_title,
+			"type" => $a_type, "sub_obj_id" => $a_sub_obj_id);
+		
+		$cnt = 1;
 		foreach($this->items as $key => $item)
 		{
-			if ($item["id"] == $id)
+			if ($item["id"] != $id && $cnt <= 10)
 			{
-				array_splice($this->items, $key, 1);
-				break;
+				$new_items[$item["id"]] = $item;
+				$cnt++;
 			}
 		}
-		// same in db
-		$ilDB->manipulate($q = "DELETE FROM last_visited WHERE ".
-			" user_id = ".$ilDB->quote($ilUser->getId(), "integer").
-			" AND ref_id = ".$ilDB->quote($a_ref_id, "integer").
-			" AND ".$ilDB->equals("sub_obj_id", $a_sub_obj_id, "text", true)
-			);
 		
 		// put items in session
-		$this->items = array_merge(
-			array(array("id" => $id,"ref_id" => $a_ref_id, "link" => $a_link, "title" => $a_title,
-			"type" => $a_type)), $this->items);
+		$this->items = $new_items;
+
 		$items  = serialize($this->items);
 		$_SESSION["il_nav_history"] = $items;
-		
-		// and into database
-		$db_entries[] = array("user_id" => $ilUser->getId(), "nr" => 1,
-			"ref_id" => $a_ref_id, "type" => $a_type, "sub_obj_id" => $a_sub_obj,
-			"goto_link" => $a_goto_link);
-		$set = $ilDB->query("SELECT * FROM last_visited ".
-			" WHERE user_id = ".$ilDB->quote($ilUser->getId(), "integer").
-			" ORDER BY nr ASC"
+//var_dump($new_items);
+		// update entries in db
+		$ilDB->update("usr_data",
+				array(
+					"last_visited" => array("clob", serialize($this->getItems()))),
+				array(
+				"usr_id" => array("integer", $ilUser->getId()))
 			);
-		$cnt = 1;
-		while ($rec = $ilDB->fetchAssoc($set))
-		{
-			$cnt++;
-			$rec["nr"] = $cnt;
-			$db_entries[] = $rec;
-		}
-		// same in db
-		
-		################## Locked ###########################
-		$ilDB->lockTables(
-			array(
-				0 => array(
-					'name' => 'last_visited',
-					'type' => ilDB::LOCK_WRITE
-				)
-			)
-		);
-
-		$ilDB->manipulate("DELETE FROM last_visited WHERE ".
-			" user_id = ".$ilDB->quote($ilUser->getId(), "integer")
-			);
-		foreach ($db_entries as $e)
-		{
-			if ($e["nr"] <= 10)
-			{
-				$ilDB->manipulate("INSERT INTO last_visited ".
-					"(user_id, nr, ref_id, type, sub_obj_id, goto_link) VALUES (".
-					$ilDB->quote($ilUser->getId(), "integer").",".
-					$ilDB->quote($e["nr"], "integer").",".
-					$ilDB->quote($e["ref_id"], "integer").",".
-					$ilDB->quote($e["type"], "text").",".
-					$ilDB->quote($e["sub_obj_id"], "text").",".
-					$ilDB->quote($e["goto_link"], "text").
-					")");
-			}
-		}
-
-		################## Unlocked #########################
-		$ilDB->unlockTables();
 	}
 	
 	/**
@@ -144,33 +99,43 @@ class ilNavigationHistory
 				$items[$it["ref_id"].":".$it["sub_obj_id"]] = $it;
 			}
 		}
-		
 		// less than 10? -> get items from db
 		if (count($items) < 10)
 		{
-			$set = $ilDB->query("SELECT * FROM last_visited ".
-				" WHERE user_id = ".$ilDB->quote($ilUser->getId(), "integer").
-				" ORDER BY nr ASC"
+			$set = $ilDB->query("SELECT last_visited FROM usr_data ".
+				" WHERE usr_id = ".$ilDB->quote($ilUser->getId(), "integer")
 				);
+			$rec  = $ilDB->fetchAssoc($set);
+			$db_entries = unserialize($rec["last_visited"]);
 			$cnt = count($items);
-			while ($rec = $ilDB->fetchAssoc($set))
+			if (is_array($db_entries))
 			{
-				include_once("./classes/class.ilLink.php");
-				
-				if ($cnt <= 10 && ! isset($items[$rec["ref_id"].":".$rec["sub_obj_id"]]))
+				foreach ($db_entries as $rec)
 				{
-					$link = $rec["goto_link"] != ""
-						? $rec["goto_link"]
-						: ilLink::_getLink($rec["ref_id"]);
-					$title = ilObject::_lookupTitle(ilObject::_lookupObjId($rec["ref_id"]));
-					$items[] = array("id" => $rec["ref_id"].":".$rec["sub_obj_id"],
-						"ref_id" => $rec["ref_id"], "link" => $link, "title" => $title,
-						"type" => $rec["type"]);
-					$cnt++;
+					include_once("./classes/class.ilLink.php");
+					
+					if ($cnt <= 10 && ! isset($items[$rec["ref_id"].":".$rec["sub_obj_id"]]))
+					{
+						$link = $rec["goto_link"] != ""
+							? $rec["goto_link"]
+							: ilLink::_getLink($rec["ref_id"]);
+						if ($rec["sub_obj_id"] != "")
+						{
+							$title = $rec["title"];
+						}
+						else
+						{
+							$title = ilObject::_lookupTitle(ilObject::_lookupObjId($rec["ref_id"]));
+						}
+						$items[] = array("id" => $rec["ref_id"].":".$rec["sub_obj_id"],
+							"ref_id" => $rec["ref_id"], "link" => $link, "title" => $title,
+							"type" => $rec["type"]);
+						$cnt++;
+					}
 				}
 			}
 		}
-		
+
 		return $items;
 	}
 }

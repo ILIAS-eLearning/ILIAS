@@ -7686,3 +7686,11 @@ $setting->set("enable_sahs_pd", 1);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3458>
+<?php
+	$ilDB->addTableColumn("usr_data", "last_visited", array(
+		"type" => "clob",
+		"notnull" => false,
+		"default" => null)
+	);
+?>
