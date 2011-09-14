@@ -29,7 +29,15 @@ var usermanager = (function() {
 	    if (!usersByRoom['room_' + roomid]) {
 		usersByRoom['room_' + roomid] = [];
 	    }
+	    for (var i in usersByRoom['room_' + roomid]) {
+		var current = usersByRoom['room_' + roomid][i];
+		if (current.id == userdata.id) {
+		    //tmp.push(current);
+		    return false;
+		}
+	    }
 	    usersByRoom['room_' + roomid].push(userdata);
+	    return true;
 	},
 	remove: function(userid, roomid) {
 	    if (!usersByRoom['room_' + roomid]) {
@@ -495,17 +503,21 @@ if (typeof DEBUG != 'undefined' && DEBUG) {
 					case 'private_room_entered':
 					    var data = $('#private_rooms').ilChatList('getDataById', messageObject.sub);
 					    var userdata = $('#chat_users').ilChatList('getDataById', messageObject.user);
-						    if (data) {
-							$('#chat_messages').ilChatMessageArea('addMessage', messageObject.sub || 0, {
-								type: 'notice',
-								message: translate('private_room_entered_user', {user: userdata.label, title: data.label})
+					    if (data) {
+						var added = usermanager.add(userdata, data.id);
+						if (userdata.id == myId && added) {
+						    $('#chat_messages').ilChatMessageArea('addMessage', messageObject.sub || 0, {
+							    type: 'notice',
+							    message: translate('private_room_entered', {title: data.label})
 						    });
-							$('#chat_messages').ilChatMessageArea('addMessage', messageObject.sub || 0, {
-								type: 'notice',
-								message: translate('private_room_entered', {title: data.label})
+						}
+						else if (added) {
+						    $('#chat_messages').ilChatMessageArea('addMessage', messageObject.sub || 0, {
+							    type: 'notice',
+							    message: translate('private_room_entered_user', {user: userdata.label, title: data.label})
 						    });
-						    usermanager.add(userdata, data.id);
-
+						}
+						$('.user_' + userdata.id).show();
 					    }
                                             
                                             if (messageObject.user == personalUserInfo.userid) {
@@ -524,7 +536,9 @@ if (typeof DEBUG != 'undefined' && DEBUG) {
 						if (messageObject.user == myId) {
 							roomHandler.getRoom(messageObject.sub).removeClass('in_room');
 						}*/
-						$('#chat_users').find('.user_' + messageObject.user).hide();
+						if (messageObject.sub && messageObject.sub == subRoomId) {
+						    $('#chat_users').find('.user_' + messageObject.user).hide();
+						}
 						usermanager.remove(messageObject.user, messageObject.sub);
 						break;
 					case 'private_room_created':

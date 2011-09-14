@@ -12197,6 +12197,9 @@ chatroom#:#enable_smilies#:#Enable Smilies
 chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smilies tab for configuration.
 chatroom#:#display_past_msgs#:#Number of Past Messages
 chatroom#:#hint_display_past_msgs#:#Number of past messages to show, when the room is entered. A value of "0" disables this feature.
-chatroom#:#speak_to#:#Whisper to <b>#user#</b>
-chatroom#:#whisper_to#:#Speak to <b>#user#</b>
+chatroom#:#speak_to#:#Speak to <b>#user#</b>
+chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chatserver.
+chatroom#:#leave_private_room#:#Leave Private Room
+chatroom#:#delete_private_room#:#Delete Private Room
+chatroom#:#invite_to_private_room#:#Invite to Current Room
