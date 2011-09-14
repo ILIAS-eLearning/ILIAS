@@ -129,7 +129,7 @@ class ilNavigationHistory
 						}
 						$items[] = array("id" => $rec["ref_id"].":".$rec["sub_obj_id"],
 							"ref_id" => $rec["ref_id"], "link" => $link, "title" => $title,
-							"type" => $rec["type"]);
+							"type" => $rec["type"], "sub_obj_id" => $rec["sub_obj_id"]);
 						$cnt++;
 					}
 				}
