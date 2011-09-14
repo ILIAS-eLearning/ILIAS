@@ -11079,7 +11079,7 @@ sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode
 sahs#:#sahs_activate_expert_mode_info#:#The sequencing expert mode allows you to directly edit the sequencing information of the package tree. If you are unsure what this means we recommend to use the default sequencing behaviour.
 mep#:#mobs_restrict_file_types#:#Restrict File Types
 mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.
-common#:#rep_main_page#:#Main Page
+common#:#rep_main_page#:#Home
 common#:#personal_settings#:#Settings
 certificate#:#certificate_ph_scormmaxpoints#:#Maximum value in the range for the raw score of the last relevant sco (most suitable for a final exam)
 certificate#:#certificate_ph_login#:#Login

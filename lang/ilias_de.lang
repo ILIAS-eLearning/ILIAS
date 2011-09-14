@@ -11079,7 +11079,7 @@ sahs#:#sahs_activate_expert_mode_info#:#The sequencing expert mode allows you to
 mep#:#mobs_restrict_file_types#:#Restrict File Types###01 04 2011 new variable
 mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.###01 04 2011 new variable
 common#:#personal_settings#:#Einstellungen
-common#:#rep_main_page#:#Hauptseite
+common#:#rep_main_page#:#Einstiegsseite
 certificate#:#certificate_ph_scormmaxpoints#:#Maximal erreichbare Punktzahl im letzten SCO, in dem der Wert für score.max gesetzt wurde (bspw. geeignet für einen Abschlusstest)
 certificate#:#certificate_ph_login#:#Benutzername 
 certificate#:#certificate_var_user_login#:#emustermann

@@ -502,13 +502,15 @@ class ilMainMenuGUI
 			include_once("./classes/class.ilLink.php");
 			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.gif"));
 			$icon = ilUtil::img(ilObject::_getIcon(ilObject::_lookupObjId(1), "tiny"));
-			$gl->addEntry($icon." ".$lng->txt("rep_main_page"), ilLink::_getStaticLink(1,'root',true),
+			
+			$gl->addEntry($icon." ".$a_txt." - ".$lng->txt("rep_main_page"), ilLink::_getStaticLink(1,'root',true),
 				"_top");
 			
 			$items = $ilNavigationHistory->getItems();
 			reset($items);
 			$cnt = 0;
 			$first = true;
+
 			foreach($items as $k => $item)
 			{
 				if ($cnt >= 10) break;
