@@ -159,16 +159,24 @@ class ilRatingGUI
 		$ttpl->setCurrentBlock("rating_icon");
 		if ($rating["cnt"] == 0)
 		{
-			$ttpl->setVariable("NR_RATINGS", $lng->txt("rat_not_rated_yet"));
+			$tt = $lng->txt("rat_not_rated_yet");
 		}
 		else if ($rating["cnt"] == 1)
 		{
-			$ttpl->setVariable("NR_RATINGS", $lng->txt("rat_one_rating"));
+			$tt = $lng->txt("rat_one_rating");
 		}
 		else
 		{
-			$ttpl->setVariable("NR_RATINGS",
-				sprintf($lng->txt("rat_nr_ratings"), $rating["cnt"]));
+			$tt =
+				sprintf($lng->txt("rat_nr_ratings"), $rating["cnt"]);
+		}
+		include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+		ilTooltipGUI::addTooltip($this->id."_tt", $tt);
+		if ($rating["cnt"] > 0)
+		{
+			$ttpl->setCurrentBlock("rat_nr");
+			$ttpl->setVariable("RT_NR", $rating["cnt"]);
+			$ttpl->parseCurrentBlock();
 		}
 
 		if ($this->getUserId() != ANONYMOUS_USER_ID)
@@ -226,6 +234,7 @@ class ilRatingGUI
 			$ttpl->parseCurrentBlock();
 		}
 
+		$ttpl->setVariable("TTID", $this->id);
 
 		return $ttpl->get();
 	}
