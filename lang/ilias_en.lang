@@ -12158,7 +12158,7 @@ wiki#:#wiki_block_page#:#Block Page
 wiki#:#wiki_unblock_page#:#Unblock Page
 wiki#:#wiki_delete_page#:#Delete Page
 wiki#:#wiki_rename#:#Rename
-wiki#:#wiki_rate_page#:#Rate this Page
+wiki#:#wiki_rate_page#:#Rate this Wiki Page
 auth#:#auth_login_editor#:#Loginscreen Editor
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template
 common#:#chtr_moderate#:#Moderate Chatroom
@@ -12203,3 +12203,5 @@ chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket conne
 chatroom#:#leave_private_room#:#Leave Private Room
 chatroom#:#delete_private_room#:#Delete Private Room
 chatroom#:#invite_to_private_room#:#Invite to Current Room
+wiki#:#wiki_page_actions#:#Page Actions
+wiki#:#wiki_notification_deactivated#:#Notification Deactivated

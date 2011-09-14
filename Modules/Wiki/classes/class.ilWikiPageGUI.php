@@ -248,13 +248,21 @@ class ilWikiPageGUI extends ilPageObjectGUI
 					$ilCtrl->setParameter($this, "ntf", 4);
 					$list->addItem($lng->txt("wiki_notification_activate_page"), "",
 						$ilCtrl->getLinkTarget($this));
+					
+					$act_tpl->setCurrentBlock("not_icon");
+					$act_tpl->setVariable("NOT_SRC", ilUtil::getImagePath("notification_off.png"));
+					$act_tpl->setVariable("NOT_ID", "not_icon");
+					$act_tpl->parseCurrentBlock();
+					include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+					ilTooltipGUI::addTooltip("not_icon", $lng->txt("wiki_notification_deactivated"));
 				}
 			}
 			$ilCtrl->setParameter($this, "ntf", "");
 		}
 
 		// other actions
-		
+if (false)	// currently moved to ilWikiFunctionsBlockGUI
+{
 		// delete
 		$page_commands = false;
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
@@ -283,7 +291,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 					$ilCtrl->getLinkTarget($this, "deleteWikiPageConfirmationScreen"));
 			}
 		}
-
+}
 		$act_tpl->setVariable("ACTIONS", $list->getHTML());
 
 		// rating
