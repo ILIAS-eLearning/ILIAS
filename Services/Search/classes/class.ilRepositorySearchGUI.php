@@ -152,7 +152,7 @@ class ilRepositorySearchGUI
 		$ul = new ilUserLoginAutoCompleteInputGUI(
 			$a_options['auto_complete_name'],
 			"user_login",
-			array(get_class($parent_object),get_class($this)),
+			array(get_class($parent_object),'ilRepositorySearchGUI'),
 			"doUserAutoComplete"
 		);
 		$ul->setSize($a_options['auto_complete_size']);
@@ -175,7 +175,7 @@ class ilRepositorySearchGUI
 			$ilCtrl->getFormActionByClass(
 				array(
 					get_class($parent_object),
-					get_class($this))
+					'ilRepositorySearchGUI')
 			)
 		);
 		return $toolbar;
