@@ -11789,10 +11789,10 @@ chatroom#:#chat_connection_established#:#Verbindung hergestellt
 chatroom#:#chat_connection_disconnected#:#Verbindung getrennt
 chatroom#:#chat_invite_users#:#Benutzer einladen
 chatroom#:#chat_right_box_user#:#Benutzer
-chatroom#:#chat_private_room#:#Separee
-chatroom#:#chat_create_new_private_room#:#Neues Separee anlegen
+chatroom#:#chat_private_room#:#Séparée
+chatroom#:#chat_create_new_private_room#:#Neues Séparée anlegen
 chatroom#:#chat_to_mainroom#:#Zum Hauptraum
-chatroom#:#chat_create_private_room_button#:#Separee Anlegen
+chatroom#:#chat_create_private_room_button#:#Séparée Anlegen
 chatroom#:#moderate#:#Moderieren
 chatroom#:#chat_invitation#:#Einladung von ##inviter_name## in den Chatraum ##room_name##
 chatroom#:#chat_invitation_long#:###salutation##\n\nSie wurden in einen Chatraum eingeladen:\nTitel des Chatraums: ##room_name##\nEingeladen von: ##inviter_name##\nURL: ##link##\n\nZum Betreten des Chatraums folgen Sie bitte der angegebenen URL.
@@ -12164,7 +12164,7 @@ chatroom#:#user_invited#:#Der Benutzer <b>#user#</b> wurde eingeladen.
 chatroom#:#user_kicked#:#Der Benutzer <b>#user#</b> wurde aus dem Chatraum geworfen.
 chatroom#:#user_invited_self#:#Sie wurden von <b>#user#</b> in den Chatraum <b>#room#</b> eingeladen.
 chatroom#:#private_room_closed#:#Der Raum <b>#title#</b> wurde geschlossen.
-chatroom#:#private_room_entered#:#Willkommen im Separee <b>#title#</b>.
+chatroom#:#private_room_entered#:#Willkommen im Séparée <b>#title#</b>.
 chatroom#:#private_room_left#:#Der Benutzer <b>#user#</b> hat das Separée <b>#title#</b> verlassen.
 chatroom#:#private_room_entered_user#:#Der Benutzer <b>#user#</b> hat das Separée <b>#title#</b> betreten.
 chatroom#:#kicked_from_private_room#:#Sie wurden aus dem Separée <b>#title#</b> geworfen.
@@ -12197,3 +12197,6 @@ chatroom#:#hint_display_past_msgs#:#Anzahl von vergangenen Nachrichten, die beim
 chatroom#:#speak_to#:#<b>#user#</b> ansprechen
 chatroom#:#whisper_to#:#<b>#user#</b> anflüstern
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen.
+chatroom#:#leave_private_room#:#Séparée verlassen
+chatroom#:#delete_private_room#:#Séparée löschen
+chatroom#:#invite_to_private_room#:#In aktuellen Raum einladen

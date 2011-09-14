@@ -246,10 +246,10 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 		global $lng;
 
 		$roomTpl->setVariable('LBL_MAINROOM', $lng->txt('chat_mainroom'));
-		$roomTpl->setVariable('LBL_LEAVE', $lng->txt('chat_leave'));
+		$roomTpl->setVariable('LBL_LEAVE_PRIVATE_ROOM', $lng->txt('leave_private_room'));
 		$roomTpl->setVariable('LBL_JOIN', $lng->txt('chat_join'));
-		$roomTpl->setVariable('LBL_DELETE', $lng->txt('chat_delete'));
-		$roomTpl->setVariable('LBL_INVITE', $lng->txt('chat_invite'));
+		$roomTpl->setVariable('LBL_DELETE_PRIVATE_ROOM', $lng->txt('delete_private_room'));
+		$roomTpl->setVariable('LBL_INVITE_TO_PRIVATE_ROOM', $lng->txt('invite_to_private_room'));
 		$roomTpl->setVariable('LBL_KICK', $lng->txt('chat_kick'));
 		$roomTpl->setVariable('LBL_BAN', $lng->txt('chat_ban'));
 		$roomTpl->setVariable('LBL_ADDRESS', $lng->txt('chat_address'));
