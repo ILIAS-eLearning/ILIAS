@@ -49,7 +49,6 @@ class ilNavigationHistoryGUI
 		foreach($items as $k => $item)
 		{
 			if ($cnt++ > 20) break;
-			
 			if (!isset($item["ref_id"]) || !isset($_GET["ref_id"]) ||
 				$item["ref_id"] != $_GET["ref_id"] || $k > 0)			// do not list current item
 			{
