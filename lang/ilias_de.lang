@@ -12195,11 +12195,13 @@ chatroom#:#speak_to#:#<b>#user#</b> ansprechen
 chatroom#:#whisper_to#:#<b>#user#</b> anflüstern
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen.
 administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists###14 09 2011 new variable
-content#:#cont_edit_mode#:#Edit Mode###14 09 2011 new variable
-wiki#:#wiki_block_page#:#Block Page###14 09 2011 new variable
-wiki#:#wiki_unblock_page#:#Unblock Page###14 09 2011 new variable
-wiki#:#wiki_delete_page#:#Delete Page###14 09 2011 new variable
-wiki#:#wiki_rate_page#:#Rate this Page###14 09 2011 new variable
+content#:#cont_edit_mode#:#Bearbeitungsmodus
+wiki#:#wiki_block_page#:#Seite blockieren
+wiki#:#wiki_unblock_page#:#Blockierung aufheben
+wiki#:#wiki_delete_page#:#Seite löschen
+wiki#:#wiki_rate_page#:#Wikiseite bewerten
 chatroom#:#leave_private_room#:#Séparée verlassen
 chatroom#:#delete_private_room#:#Séparée löschen
 chatroom#:#invite_to_private_room#:#In aktuellen Raum einladen
+wiki#:#wiki_page_actions#:#Aktionen zur Seite
+wiki#:#wiki_notification_deactivated#:#Benachrichtigungen deaktiviert

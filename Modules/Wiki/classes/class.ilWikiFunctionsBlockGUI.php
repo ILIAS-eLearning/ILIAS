@@ -193,6 +193,44 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 		$tpl->setVariable("PLAIN", $list->getHTML());
 		$tpl->parseCurrentBlock();
 		$tpl->touchBlock("item");
+
+		
+		// page actions
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$list = new ilAdvancedSelectionListGUI();
+			$list->setListTitle($lng->txt("wiki_page_actions"));
+			$list->setId("wiki_pgactions");
+
+			// rename
+			$list->addItem($lng->txt("wiki_rename_page"), "",
+				$ilCtrl->getLinkTargetByClass("ilwikipagegui", "renameWikiPage"));
+
+			// block/unblock
+			if ($this->getPageObject()->getBlocked())
+			{
+				$list->addItem($lng->txt("wiki_unblock_page"), "",
+					$ilCtrl->getLinkTargetByClass("ilwikipagegui", "unblockWikiPage"));
+			}
+			else
+			{
+				$list->addItem($lng->txt("wiki_block_page"), "",
+					$ilCtrl->getLinkTargetByClass("ilwikipagegui", "blockWikiPage"));
+			}
+
+			// delete page
+			$st_page = ilObjWiki::_lookupStartPage($this->getPageObject()->getParentId());
+			if ($st_page != $this->getPageObject()->getTitle())
+			{
+				$list->addItem($lng->txt("wiki_delete_page"), "",
+					$ilCtrl->getLinkTargetByClass("ilwikipagegui", "deleteWikiPageConfirmationScreen"));
+			}
+			$tpl->setCurrentBlock("plain");
+			$tpl->setVariable("PLAIN", $list->getHTML());
+			$tpl->parseCurrentBlock();
+			$tpl->touchBlock("item");
+		}
+
 		
 		// permissions
 //		if ($ilAccess->checkAccess('edit_permission', "", $_GET["ref_id"]))
