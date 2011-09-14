@@ -852,12 +852,11 @@ class ilObjForumGUI extends ilObjectGUI
 		$ilTabs->setTabActive('settings');
 		$ilTabs->addSubTabTarget('basic_settings', $this->ctrl->getLinkTarget($this, 'edit'), 'edit', get_class($this), '', $_GET['cmd']=='edit'? true : false );
 // member tab
-		$parent_ref_id = $tree->getParentId($this->object->getRefId());
-		$parent_obj = ilObjectFactory::getInstanceByRefId($parent_ref_id);
+		// check if there a parent-node is a grp or crs
+		$grp_ref_id = $tree->checkForParentType($this->object->getRefId(), 'grp');
+		$crs_ref_id = $tree->checkForParentType($this->object->getRefId(), 'crs');
 
-		$parent_type = $parent_obj->getType();
-
-		if($parent_type == 'grp' || $parent_type == 'crs')
+		if((int)$grp_ref_id > 0 || (int)$crs_ref_id > 0 )
 		{
 			#show member-tab for notification if forum-notification is enabled in administration
 			if ($ilAccess->checkAccess('edit_permission', '', $this->ref_id) && $this->ilias->getSetting('forum_notification') == 1 )
@@ -3975,25 +3974,26 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$frm_noti = new ilForumNotification($_GET['ref_id']);
 
-		$parent_ref_id = $tree->getParentId((int)$_GET['ref_id']);
-		$parent_obj = ilObjectFactory::getInstanceByRefId($parent_ref_id);
-		//$parent_type = ilForumNotification::_isParentNodeGrpCrs($_GET['ref_id']);
+		// check if there a parent-node is a grp or crs
+		$grp_ref_id = $tree->checkForParentType((int)$_GET['ref_id'], 'grp');
+		$crs_ref_id = $tree->checkForParentType((int)$_GET['ref_id'], 'crs');
 
-	//	if($parent_type == 'crs')
-		if($parent_obj->getType() == 'crs')
+		//if($parent_type == 'grp')
+		if($grp_ref_id > 0)
 		{
-			include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-			$oParticipants = ilCourseParticipants::_getInstanceByObjId(
-			#$frm_noti->getForumId());#
-			$parent_obj->getId());
-
-		}
-		else //if($parent_type == 'grp')
-		if($parent_obj->getType() == 'grp')
-		{
+			$parent_obj = ilObjectFactory::getInstanceByRefId($grp_ref_id);
 			include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
 			$oParticipants = ilGroupParticipants::_getInstanceByObjId(
-			#$frm_noti->getForumId());#
+			$parent_obj->getId());
+		}
+		else
+	//	if($parent_type == 'crs')
+		if($crs_ref_id > 0)
+		{
+			$parent_obj = ilObjectFactory::getInstanceByRefId($crs_ref_id);
+
+			include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+			$oParticipants = ilCourseParticipants::_getInstanceByObjId(
 			$parent_obj->getId());
 		}
 
