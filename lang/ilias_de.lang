@@ -11168,8 +11168,6 @@ wiki#:#wiki_imp_page_added#:#Die Seite wurde hinzugefügt.
 content#:#cont_page_toc#:#Seitenübersicht
 wiki#:#wiki_page_toc#:#Seitenübersicht aktivieren
 wiki#:#wiki_page_toc_info#:#Wenn mindestens zwei Überschriften auf der Seite genutzt werden, wird am Seitenanfang eine Liste aller Überschriften angezeigt.
-wiki#:#wiki_block#:#Blockieren
-wiki#:#wiki_unblock#:#Blockierung entfernen
 wiki#:#wiki_page_unblocked#:#Blockierung wurde entfernt.
 wiki#:#wiki_page_blocked#:#Die Seite wurde blockiert
 wiki#:#wiki_last_edited#:#Zuletzt geändert
@@ -11339,7 +11337,6 @@ wsp#:#wsp_set_permission_all#:#Veröffentlichen
 wsp#:#wsp_remove_permission#:#Freigabe entfernen
 wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten Benutzer freigegeben.
 wsp#:#wsp_permission_all_info#:#Diese Objekt ist ohne Registrierung sichtbar.
-administration#:#adm_quick_access_comments_tagging#:#Schnellzugriff für Notizen, Kommentare und Tagging
 content#:#cont_remove_format#:#Formate entfernen
 survey#:#survey_questions_to_clipboard_cut#:#Es wurden Fragen in die Zwischenablage kopiert. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage. 
 survey#:#survey_questions_to_clipboard_copy#:#Es wurden Fragen in die Zwischenablage kopiert. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage. 
@@ -12197,6 +12194,12 @@ chatroom#:#hint_display_past_msgs#:#Anzahl von vergangenen Nachrichten, die beim
 chatroom#:#speak_to#:#<b>#user#</b> ansprechen
 chatroom#:#whisper_to#:#<b>#user#</b> anflüstern
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen.
+administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists###14 09 2011 new variable
+content#:#cont_edit_mode#:#Edit Mode###14 09 2011 new variable
+wiki#:#wiki_block_page#:#Block Page###14 09 2011 new variable
+wiki#:#wiki_unblock_page#:#Unblock Page###14 09 2011 new variable
+wiki#:#wiki_delete_page#:#Delete Page###14 09 2011 new variable
+wiki#:#wiki_rate_page#:#Rate this Page###14 09 2011 new variable
 chatroom#:#leave_private_room#:#Séparée verlassen
 chatroom#:#delete_private_room#:#Séparée löschen
 chatroom#:#invite_to_private_room#:#In aktuellen Raum einladen

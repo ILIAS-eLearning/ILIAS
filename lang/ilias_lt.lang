@@ -11119,8 +11119,6 @@ survey#:#survey_use_pool#:#Use Pool###12 06 2011 new variable
 content#:#cont_page_toc#:#Page Overview###12 06 2011 new variable
 wiki#:#wiki_page_toc#:#Enable Page Overview Block###12 06 2011 new variable
 wiki#:#wiki_page_toc_info#:#This lists all headings linked to the content at the beginning of each page if that page uses at least two headings.###12 06 2011 new variable
-wiki#:#wiki_block#:#Block###12 06 2011 new variable
-wiki#:#wiki_unblock#:#Unblock###12 06 2011 new variable
 wiki#:#wiki_page_unblocked#:#Wiki page unblocked.###12 06 2011 new variable
 wiki#:#wiki_page_blocked#:#Wiki page blocked.###12 06 2011 new variable
 wiki#:#wiki_last_edited#:#Last edited###12 06 2011 new variable
@@ -11383,7 +11381,6 @@ wsp#:#wsp_permission_all_info#:#This object has been published.###12 06 2011 new
 style#:#sty_type_iim#:#Interactive Image Content Popup###12 06 2011 new variable
 style#:#sty_type_marker#:#Interactive Image Marker###12 06 2011 new variable
 style#:#sty_import_page_layout#:#Import Page Layout###12 06 2011 new variable
-administration#:#adm_quick_access_comments_tagging#:#Quick Access for Notes, Comments and Tagging###12 06 2011 new variable
 content#:#cont_remove_format#:#Remove Format###12 06 2011 new variable
 content#:#cont_ed_edit_multiple#:#Edit Paragraph Sequence###12 06 2011 new variable
 survey#:#survey_questions_to_clipboard_cut#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard. ###12 06 2011 new variable
@@ -12156,3 +12153,50 @@ prtf#:#prtf_tab_other_users#:#Portfolios From Other Users###02 09 2011 new varia
 wsp#:#wsp_password_protected_resource#:#Password-protected Resource###02 09 2011 new variable
 wsp#:#wsp_password_protected_resource_info#:#To access this resource you have to enter a password.###02 09 2011 new variable
 wsp#:#wsp_password_for#:#Password for###02 09 2011 new variable
+administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists###14 09 2011 new variable
+content#:#cont_edit_mode#:#Edit Mode###14 09 2011 new variable
+wiki#:#wiki_block_page#:#Block Page###14 09 2011 new variable
+wiki#:#wiki_unblock_page#:#Unblock Page###14 09 2011 new variable
+wiki#:#wiki_delete_page#:#Delete Page###14 09 2011 new variable
+wiki#:#wiki_rate_page#:#Rate this Page###14 09 2011 new variable
+auth#:#auth_login_editor#:#Loginscreen Editor###14 09 2011 new variable
+didactic#:#didactic_edit_tpl#:#Edit Didactic Template###14 09 2011 new variable
+common#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
+chatroom#:#welcome_to_chat#:#Welcome to the chatroom###14 09 2011 new variable
+chatroom#:#user_invited#:#The user <b>#user#</b> has been invited.###14 09 2011 new variable
+chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.###14 09 2011 new variable
+chatroom#:#user_invited_self#:#<b>#user#</b> invited you to the chatroom <b>#room#</b>.###14 09 2011 new variable
+chatroom#:#private_room_closed#:#The chatroom <b>#title#</b> has been closed.###14 09 2011 new variable
+chatroom#:#private_room_entered#:#Welcome to the private room <b>#title#</b>.###14 09 2011 new variable
+chatroom#:#private_room_left#:#The user <b>#user#</b> has left the private room <b>#title#</b>.###14 09 2011 new variable
+chatroom#:#private_room_entered_user#:#The user <b>#user#</b> has entered the private room <b>#title#</b>.###14 09 2011 new variable
+chatroom#:#kicked_from_private_room#:#You have been kicked from the private room <b>#title#</b>.###14 09 2011 new variable
+assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.###14 09 2011 new variable
+administration#:#obj_otpl#:#Object Templates###14 09 2011 new variable
+administration#:#obj_otpl_desc#:#Template for the creation of new objects###14 09 2011 new variable
+rbac#:#otpl_visible#:#Object Template Settings are visible###14 09 2011 new variable
+rbac#:#otpl_read#:#Read Access to Object Template Settings###14 09 2011 new variable
+rbac#:#otpl_write#:#Edit Object Template Settings###14 09 2011 new variable
+rbac#:#otpl_edit_permission#:#Change Permission Settings###14 09 2011 new variable
+didactic#:#didactic_default_type_info#:#Uses default permissions for %s###14 09 2011 new variable
+didactic#:#didactic_install_info#:#General Information###14 09 2011 new variable
+didactic#:#didactic_not_changed#:#The didactic template setting is unchanged.###14 09 2011 new variable
+didactic#:#didactic_selected_tpl_option#:#Applied didactic template:###14 09 2011 new variable
+didactic#:#didactic_template_applied#:#Applied didactic template.###14 09 2011 new variable
+didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the chosen didactic template? All current permission settings will get lost!###14 09 2011 new variable
+chatroom#:#chatserver_address#:#IP-Adress of the Chatservers###14 09 2011 new variable
+chatroom#:#chatserver_port#:#Port of the Chatservers###14 09 2011 new variable
+chatroom#:#instance_name#:#Unique Identifier###14 09 2011 new variable
+chatroom#:#ilias_url#:#Base-URL of your ILIAS Installation###14 09 2011 new variable
+chatroom#:#soap_user#:#Name of the SOAP-User###14 09 2011 new variable
+chatroom#:#soap_user_password#:#Password of the SOAP-User###14 09 2011 new variable
+chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.###14 09 2011 new variable
+chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the webserver must handle.###14 09 2011 new variable
+chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chatserver to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.###14 09 2011 new variable
+chatroom#:#enable_smilies#:#Enable Smilies###14 09 2011 new variable
+chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smilies tab for configuration.###14 09 2011 new variable
+chatroom#:#display_past_msgs#:#Number of Past Messages###14 09 2011 new variable
+chatroom#:#hint_display_past_msgs#:#Number of past messages to show, when the room is entered. A value of "0" disables this feature.###14 09 2011 new variable
+chatroom#:#speak_to#:#Whisper to <b>#user#</b>###14 09 2011 new variable
+chatroom#:#whisper_to#:#Speak to <b>#user#</b>###14 09 2011 new variable
+chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chatserver.###14 09 2011 new variable
