@@ -220,7 +220,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				{
 					$cmd = 'generalSettings';
 				}
-		
 				switch ($cmd)
 				{
 					// only needed for subtabs
@@ -229,26 +228,31 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 												$this->tabs_gui->setTabActive('settings');
 												$this->getSubTabs('settings', 'generalSettings');
 												break;
+					case 'payMethods':
+					case 'savePayMethods':
+												$this->tabs_gui->setTabActive('pay_methods');
+												$this->getSubTabs('payMethods', 'payMethods');
+												break;
 					case 'saveBmfSettings' :
-					case 'bmfSettings' :		$this->tabs_gui->setTabActive('settings');
-												$this->getSubTabs('settings', 'bmfSettings');
+					case 'bmfSettings' :		$this->tabs_gui->setTabActive('pay_methods');
+												$this->getSubTabs('payMethods', 'bmfSettings');
 												break;
 					case 'savePaypalSettings' :
 					case 'paypalSettings' :
-												$this->tabs_gui->setTabActive('settings');
-												$this->getSubTabs('settings', 'paypalSettings');
+												$this->tabs_gui->setTabActive('pay_methods');
+												$this->getSubTabs('payMethods', 'paypalSettings');
 												break;
 					case 'saveEPaySettings' :
 					case 'epaySettings' :
-												$this->tabs_gui->setTabActive('settings');
-												$this->getSubTabs('settings', 'epaySettings');
+												$this->tabs_gui->setTabActive('pay_methods');
+												$this->getSubTabs('payMethods', 'epaySettings');
 												break;
 					case 'saveERPsettings' :
 					case 'delERPpreview':
 					case 'testERPsettings' :
 					case 'erpSettings' :
-												$this->tabs_gui->setTabActive('settings');
-												$this->getSubTabs('settings', 'erpSettings');
+												$this->tabs_gui->setTabActive('payMethods');
+												$this->getSubTabs('payMethods', 'erpSettings');
 												break;
 					case 'deleteVat' :
 					case 'newVat':
@@ -2081,25 +2085,22 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('visible,read',$this->object->getRefId()))
 		{
 			// Settings
-			$tabs_gui->addTarget('settings',$this->ctrl->getLinkTarget($this, 'generalSettings'),
+			$tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'generalSettings'),
 			array('saveGeneralSettings','generalSettings ','saveBmfSettings','savePaypalSettings','paypalSettings',
 					'saveEPaySettings','epaySettings','saveERPsettings','delERPpreview','','testERPsettings','erpSettings','','view'), '', '');
 			
 			// Bookings
-			$tabs_gui->addTarget('bookings',
-				$this->ctrl->getLinkTarget($this, 'statistic'),
+			$tabs_gui->addTarget('bookings', $this->ctrl->getLinkTarget($this, 'statistic'),
 			array(	'statistic','editStatistic','updateStatistic','deleteStatistic','performDelete',
 					'resetFilter','exportVendors','addCustomer', 'saveCustomer','showObjectSelector',
 					'searchUserSP','performSearchSP'), '', '');
 			// Objects
-			$tabs_gui->addTarget('objects',
-				$this->ctrl->getLinkTarget($this, 'objects'),
-					array('updateObjectDetails','deleteObject','performObjectDelete','objects',
-							'editPrices','addPrice','editDetails','resetObjectFilter'), '', '');
+			$tabs_gui->addTarget('objects', $this->ctrl->getLinkTarget($this, 'objects'),
+			array('updateObjectDetails','deleteObject','performObjectDelete','objects',
+					'editPrices','addPrice','editDetails','resetObjectFilter'), '', '');
 			// Vendors
-			$tabs_gui->addTarget('vendors',
-				$this->ctrl->getLinkTarget($this, 'vendors'),
-				array('vendors','searchUser','search','performSearch','addVendor','addUser','exportVendors','deleteVendors','performDeleteVendors',
+			$tabs_gui->addTarget('vendors', $this->ctrl->getLinkTarget($this, 'vendors'),
+			array('vendors','searchUser','search','performSearch','addVendor','addUser','exportVendors','deleteVendors','performDeleteVendors',
 					'cancelDeleteVendors','editVendor','performEditVendor'), '', '');
 			
 #TODO: CURRENCY not finished yet
@@ -2110,8 +2111,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 					array('currencies','editCurrency','deleteCurrency','performDeleteCurrency','updateCurrency','updateDefaultCurrency'), '','');
 /**/
 			// Paymethods
-			$tabs_gui->addTarget('pay_methods',
-				$this->ctrl->getLinkTarget($this, 'payMethods'), array('payMethods','savePayMethods'), '', '');
+			$tabs_gui->addTarget('pay_methods', $this->ctrl->getLinkTarget($this, 'payMethods'),
+				#array('payMethods','savePayMethods'), '', '');
+			array('payMethods','savePayMethods ','saveBmfSettings','savePaypalSettings','paypalSettings',
+					'saveEPaySettings','epaySettings','saveERPsettings','delERPpreview','','testERPsettings','erpSettings','','view'), '', '');
 
 			// Topics
 			$tabs_gui->addTarget('topics',
@@ -2144,9 +2147,30 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				break;
 			case 'vendors':
 				break;
-			case 'paymethods':
+			case 'payMethods':
+
+				if(!$a_sub_tab) $a_sub_tab = 'payMethods';
+				$this->tabs_gui->addSubTabTarget('settings',
+					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'payMethods'),
+					'','', '',$a_sub_tab == 'paymethods' ? true : false);
+
+				$this->tabs_gui->addSubTabTarget('pays_bmf',
+					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'bmfSettings'),
+					'','', '',$a_sub_tab == 'bmfSettings' ? true : false);
+
+				$this->tabs_gui->addSubTabTarget('pays_paypal',
+					 $this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'paypalSettings'),
+					 '','', '',$a_sub_tab == 'paypalSettings' ? true : false);
+
+				$this->tabs_gui->addSubTabTarget('pays_epay',
+					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'epaySettings'),
+					'','', '',$a_sub_tab == 'epaySettings' ? true : false);
+
+				$this->tabs_gui->addSubTabTarget('pays_erp',
+					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'erpSettings'),
+					'','', '',$a_sub_tab == 'erpSettings' ? true : false);
 				break;
-			case 'currecies':
+			case 'currencies':
 				break;
 			case 'vats':
 				break;
@@ -2170,33 +2194,13 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			case 'settings':
 				if (($_GET['cmd'] == '') || ($_GET['cmd'] == 'view') || ($a_sub_tab == 'generalSettings'))
 				$a_sub_tab = 'generalSettings';
-
-				$this->tabs_gui->addSubTabTarget('pays_general',
-					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'generalSettings'),
-					'','', '',$a_sub_tab == 'generalSettings' ? true : false);
-
-				$this->tabs_gui->addSubTabTarget('pays_bmf',
-					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'bmfSettings'),
-					'','', '',$a_sub_tab == 'bmfSettings' ? true : false);
-
-				$this->tabs_gui->addSubTabTarget('pays_paypal',
-					 $this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'paypalSettings'),
-					 '','', '',$a_sub_tab == 'paypalSettings' ? true : false);
-
-				$this->tabs_gui->addSubTabTarget('pays_epay',
-					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'epaySettings'),
-					'','', '',$a_sub_tab == 'epaySettings' ? true : false);
-
-				$this->tabs_gui->addSubTabTarget('pays_erp',
-					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'erpSettings'),
-					'','', '',$a_sub_tab == 'erpSettings' ? true : false);
 				break;
 		}
 	}
 
 	public function generalSettingsObject($a_show_confirm = false)
 	{	
-		global $rbacsystem;
+		global $rbacsystem, $ilSetting;
 
 		// MINIMUM ACCESS LEVEL = 'read'
 		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
@@ -2355,13 +2359,32 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$formItem->setInfo($this->lng->txt('show_shop_explorer_info'));
 		$form->addItem($formItem);
 
+/**/
+		// Enable payment notifications
+		$payment_noti = new ilCheckboxInputGUI($this->lng->txt("payment_notification"), "payment_notification");
+		$payment_noti->setValue(1);
+		$payment_noti->setChecked((int)$ilSetting->get('payment_notification', 0) == 1);
+		$payment_noti->setInfo($this->lng->txt('payment_notification_desc'));
+
+		$num_days = new ilNumberInputGUI($this->lng->txt('payment_notification_days'),'payment_notification_days');
+		$num_days->setSize(3);
+		$num_days->setMinValue(0);
+		$num_days->setMaxValue(120);
+		$num_days->setRequired(true);
+		$num_days->setValue($ilSetting->get('payment_notification_days'));
+		$num_days->setInfo($this->lng->txt('payment_notification_days_desc'));
+
+		$payment_noti->addSubItem($num_days);
+		$form->addItem($payment_noti);
+
+/**/
 		$this->tpl->setVariable('FORM',$form->getHTML());
 		return true;
 	}
 	
 	public function saveGeneralSettingsObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilSetting;
 
 		// MINIMUM ACCESS LEVEL = 'read'
 		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
@@ -2404,6 +2427,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$genSet->set('show_general_filter', $_POST['show_general_filter'], 'gui');
 		$genSet->set('show_topics_filter', $_POST['show_topics_filter'], 'gui');
 		$genSet->set('show_shop_explorer', $_POST['show_shop_explorer'], 'gui');
+
+		// payment notification
+		$ilSetting->set('payment_notification', $_POST['payment_notification'] ? 1 : 0);
+		$ilSetting->set('payment_notification_days', $_POST['payment_notification_days']);
 
 		ilUtil::sendSuccess($this->lng->txt('pays_updated_general_settings'));
 
