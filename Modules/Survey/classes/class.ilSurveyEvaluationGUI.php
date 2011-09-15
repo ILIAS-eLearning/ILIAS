@@ -507,6 +507,7 @@ class ilSurveyEvaluationGUI
 				}
 				$row = 0;
 				include_once "./Services/Excel/classes/class.ilExcelUtils.php";
+				$contentstartrow = 0;
 				foreach ($csvfile as $csvrow)
 				{
 					$col = 0;
@@ -516,7 +517,21 @@ class ilSurveyEvaluationGUI
 						$mainworksheet =& $worksheets[$worksheet];
 						foreach ($csvrow as $text)
 						{
-							$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($text, $_POST["export_format"]), $format_title);
+							if (is_array($text))
+							{
+								$textcount = 0;
+								foreach ($text as $string)
+								{
+									$mainworksheet->writeString($row + $textcount, $col, ilExcelUtils::_convert_text($string, $_POST["export_format"]), $format_title);
+									$textcount++;
+									$contentstartrow = max($contentstartrow, $textcount);
+								}
+								$col++;
+							}
+							else
+							{
+								$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($text, $_POST["export_format"]), $format_title);
+							}
 							if ($col % 251 == 0) 
 							{
 								$worksheet++;
@@ -526,6 +541,7 @@ class ilSurveyEvaluationGUI
 							}
 						}
 						$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($this->lng->txt('workingtime'), $_POST['export_format']), $format_title);
+						$row = $contentstartrow;
 					}
 					else
 					{
