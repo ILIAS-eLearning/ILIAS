@@ -1910,13 +1910,13 @@ class SurveyQuestion
 		switch ($_POST['export_label'])
 		{
 			case 'label_only':
-				array_push($a_array, $this->label);
+				array_push($a_array, array($this->label));
 				break;
 			case 'title_only':
-				array_push($a_array, $this->getTitle());
+				array_push($a_array, array($this->getTitle()));
 				break;
 			default:
-				array_push($a_array, $this->getTitle() . ' / ' . $this->label);
+				array_push($a_array, array($this->getTitle(), $this->label));
 				break;
 		}
 	}
