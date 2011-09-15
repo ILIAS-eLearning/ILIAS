@@ -338,12 +338,14 @@ class ilObjPortfolioGUI
 			$this->portfolio->setProfilePicture($form->getInput("ppic"));
 			$this->portfolio->setBackgroundColor($form->getInput("bg_color"));
 			$this->portfolio->setFontcolor($form->getInput("font_color"));
-			
-			if($_FILES["banner"]["tmp_name"]) 
+
+			$prfa_set = new ilSetting("prfa");
+
+			if($_FILES["banner"]["tmp_name"])
 			{
 				$this->portfolio->uploadImage($_FILES["banner"]);
 			}
-			else if($form->getItemByPostVar("banner")->getDeletionFlag())
+			else if($prfa_set->get('banner') and $form->getItemByPostVar("banner")->getDeletionFlag())
 			{
 				$this->portfolio->deleteImage();
 			}			
