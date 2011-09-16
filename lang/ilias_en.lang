@@ -2949,7 +2949,7 @@ common#:#identifier#:#identifier
 common#:#if_no_title_then_filename#:#Leave blank to use file name as title.
 common#:#if_no_title_then_url#:#Leave blank to display the URL
 common#:#ignore_on_conflict#:#Ignore on conflict
-common#:#il_chat_moderator#:#Chat moderator
+common#:#il_chat_moderator#:#Chat Moderator
 common#:#il_crs_admin#:#Course Administrator
 common#:#il_crs_member#:#Course Member
 common#:#il_crs_non_member#:#Course non-member
@@ -12163,7 +12163,7 @@ auth#:#auth_login_editor#:#Loginscreen Editor
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template
 common#:#chtr_moderate#:#Moderate Chatroom
 chatroom#:#welcome_to_chat#:#Welcome to the chatroom
-chatroom#:#user_invited#:#The user <b>#user#</b> has been invited.
+chatroom#:#user_invited#:#The user has been invited.
 chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.
 chatroom#:#user_invited_self#:#<b>#user#</b> invited you to the chatroom <b>#room#</b>.
 chatroom#:#private_room_closed#:#The chatroom <b>#title#</b> has been closed.
@@ -12205,3 +12205,15 @@ chatroom#:#delete_private_room#:#Delete Private Room
 chatroom#:#invite_to_private_room#:#Invite to Current Room
 wiki#:#wiki_page_actions#:#Page Actions
 wiki#:#wiki_notification_deactivated#:#Notification Deactivated
+chatroom#:#scope#:#Room/Private Room
+chatroom#:#user_in_room#:#Invite user from current chatroom
+chatroom#:#user_in_ilias#:#Search and invite user from ILIAS
+chatroom#:#kick_question#:#Do you really want to kick the user from current room?
+chatroom#:#ban_question#:#Do you really want to ban the user from current room?
+chatroom#:#history_cleared#:#The messagehistory was deleted by a moderator.
+chatroom#:#clear_room_history#:#Delete Messagehistory
+chatroom#:#clear_room_history_question#:#Do you really want to delete all messages of the current room?
+chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the "Permissions" tab to allow anonymous user access to this repository item.
+chatroom_adm#:#public_chat_settings#:#Public Chatroom Settings
+chatroom_adm#:#public_chat_permissions#:#Public Chatroom Permissions
+chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation

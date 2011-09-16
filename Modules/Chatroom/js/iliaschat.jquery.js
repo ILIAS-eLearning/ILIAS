@@ -159,12 +159,12 @@ ilAddOnLoad(function() {
                                 callback: function() {
 					if (subRoomId) {
 						/* alert('kick from private rooms coming soon.') */
-						if(confirm(translate('kick')))
+						if(confirm(translate('kick_question')))
 						{
 						    kickUserOutOfSubroom(this.id);
 						}
 					}
-                                        else if (confirm(translate('kick'))) {
+                                        else if (confirm(translate('kick_question'))) {
                                                 kickUser(this.id);
                                         }
                                 },
@@ -266,17 +266,7 @@ ilAddOnLoad(function() {
 
                         $('#chat_messages').ilChatMessageArea('show', 0);
 
-                        $(initial.messages).each(function() {
-			    if (!this.sub) {
-				$('#chat_messages').ilChatMessageArea('addMessage', 0, {
-				    type: this.type,
-				    //message: this.message
-				    message: this
-				});
-			    }
-                        });
 
- 
 			var polling_url = baseurl + '/frontend/Poll/' + instance + '/' + scope + '?id=' + session_id;
 			
 			var messageOptions = {
@@ -352,6 +342,17 @@ ilAddOnLoad(function() {
 			    });
                         }
                         
+                        $(initial.messages).each(function() {
+			    //if (!this.sub) {
+				$('#chat_messages').ilChatMessageArea('addMessage', this.sub || 0, {
+				    type: this.type,
+				    //message: this.message
+				    message: this
+				});
+			    //}
+                        });
+
+			
                         smileys = initial.smileys;
 
 			function setRecipientOptions(recipient, isPublic) {
@@ -613,8 +614,21 @@ if (typeof DEBUG != 'undefined' && DEBUG) {
 						    });
 						    $('#private_rooms').ilChatList('removeById', messageObject.sub);
 						 }
+					case 'clear':
+						$('#chat_messages').ilChatMessageArea('clearMessages', messageObject.sub);
+						$('#chat_messages').ilChatMessageArea('addMessage', messageObject.sub, {
+						    type: 'notice',
+						    message: translate('history_has_been_cleared')
+						});
+					    break;
+					case 'notice':
+					    	$('#chat_messages').ilChatMessageArea('addMessage', messageObject.sub, {
+						    type: 'notice',
+						    message: messageObject.message
+						});
+						break;
 					default:
-
+						break;
 				}
 			}
 
@@ -865,6 +879,29 @@ menuEntries.push(
                                 }
                             }
 			);
+if (personalUserInfo.moderator) {
+    menuEntries.push(
+	    {
+		    label: translate('clear_room_history'),
+		    callback: function() {
+			    if (window.confirm(translate('clear_room_history_question'))) {
+
+				    $.get(
+					    posturl.replace(/postMessage/, 'clear') + (subRoomId ? ('&sub=' + subRoomId) : ''),
+					    function(response)
+					    {
+						    response = typeof response == 'object' ? response : $.getAsObject(response);
+						    if (!response.success) {
+							    alert(response.reason);
+						    }
+					    },
+					    'json'
+				    );
+			    }
+		    }
+	    }
+    );
+}
 
 menuEntries.push({separator: true});
 var rooms = [{

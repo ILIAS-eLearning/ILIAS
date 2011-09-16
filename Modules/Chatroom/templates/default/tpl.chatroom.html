@@ -11,6 +11,8 @@ var myId = {MY_ID};
 		'invite_users' : '{LBL_INVITE_TO_PRIVATE_ROOM}',
 		'kick' : '{LBL_KICK}',
 		'ban' : '{LBL_BAN}',
+		'kick_question' : '{LBL_KICK_QUESTION}',
+		'ban_question' : '{LBL_BAN_QUESTION}',
 		'address' : '{LBL_ADDRESS}',
 		'speak_to' : '{LBL_SPEAK_TO}',
 		'whisper' : '{LBL_WHISPER}',
@@ -28,7 +30,10 @@ var myId = {MY_ID};
 		'private_room_entered_user' : '{LBL_PRIVATE_ROOM_ENTERED_USER}',
 		'kicked_from_private_room' : '{LBL_KICKED_FROM_PRIVATE_ROOM}',
 		'ok' : '{LBL_OK}',
-		'cancel' : '{LBL_CANCEL}'
+		'cancel' : '{LBL_CANCEL}',
+		'history_has_been_cleared' : '{LBL_HISTORY_CLEARED}',
+		'clear_room_history' : '{LBL_CLEAR_ROOM_HISTORY}',
+		'clear_room_history_question' : '{LBL_CLEAR_ROOM_HISTORY_QUESTION}'
 	};
 	$('#colorpicker').colorPicker();
         var initial = {INITIAL_DATA};
@@ -38,8 +43,8 @@ var myId = {MY_ID};
 
 <div id="invite_users_container" style="display: none;">
 	<div>
-	    <input type="radio" name="invite_users_type" id="invite_users_in_room"/><span id="radioText">Benutzer im Chat&nbsp;&nbsp;</span>
-		<input type="radio" name="invite_users_type" id="invite_users_global"/>Benutzer Suchen
+	    <input type="radio" name="invite_users_type" id="invite_users_in_room"/><span id="radioText">{LBL_USER_IN_ROOM}&nbsp;&nbsp;</span>
+		<input type="radio" name="invite_users_type" id="invite_users_global"/>{LBL_USER_IN_ILIAS}
 	</div>
 	<div>
 		<p id="invite_user_text_wrapper" style="display: none">{LBL_USER}: <input type="text" id="invite_user_text" /></p>

@@ -55,13 +55,13 @@ abstract class ilDBayObjectGUI extends ilObjectGUI
 				ilFrameTargetInfo::_getFrame("MainContent"));
 			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "repository");
 		}
-
+/*
 		if ($this->checkPermissionBool("edit_permission"))
 		{
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), "", "ilpermissiongui");
 		}
-
+*/
 		if ($tree->getSavedNodeData($this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("trash",

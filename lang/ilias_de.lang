@@ -11829,7 +11829,7 @@ chatroom_adm#:#chatroom_confirm_delete_smiley#:#Sind sie sicher, dass sie den au
 chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies-Verzeichnis existiert nicht.
 chatroom_adm#:#chat_smilies_initialized#:#Chat Smilies wurden initialisiert
 chatroom#:#soap_must_be_enabled#:#Bitte aktivieren Sie den SOAP Server in den allgemeinen Einstellungen bevor Sie den Chat aktivieren.
-chatroom#:#auto_scroll#:#Automatisch an das Ende Scrollen
+chatroom#:#auto_scroll#:#Automatisch an das Ende scrollen
 chatroom#:#public_chat_created#:#Es wurde ein neuer öffentlicher Chatraum im Magazin angelegt.
 chatroom#:#lost_connection#:#Die Verbindung zum Chatserver wurde unterbrochen.
 chatroom#:#banned#:#Sie wurden für diesen Chatraum gesperrt
@@ -12157,7 +12157,7 @@ auth#:#auth_login_editor#:#Loginseite gestalten
 didactic#:#didactic_edit_tpl#:#Didaktische Vorlage bearbeiten
 common#:#chtr_moderate#:#Chatraum moderieren
 chatroom#:#welcome_to_chat#:#Willkommen im Chatraum
-chatroom#:#user_invited#:#Der Benutzer <b>#user#</b> wurde eingeladen.
+chatroom#:#user_invited#:#Der Benutzer wurde eingeladen.
 chatroom#:#user_kicked#:#Der Benutzer <b>#user#</b> wurde aus dem Chatraum geworfen.
 chatroom#:#user_invited_self#:#Sie wurden von <b>#user#</b> in den Chatraum <b>#room#</b> eingeladen.
 chatroom#:#private_room_closed#:#Der Raum <b>#title#</b> wurde geschlossen.
@@ -12205,3 +12205,15 @@ chatroom#:#delete_private_room#:#Séparée löschen
 chatroom#:#invite_to_private_room#:#In aktuellen Raum einladen
 wiki#:#wiki_page_actions#:#Aktionen zur Seite
 wiki#:#wiki_notification_deactivated#:#Benachrichtigungen deaktiviert
+chatroom#:#scope#:#Raum/Séparée
+chatroom#:#user_in_room#:#Benutzer im aktuellen Chatraum einladen
+chatroom#:#user_in_ilias#:#Benutzer in ILIAS suchen und einladen
+chatroom#:#kick_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum rauswerfen?
+chatroom#:#ban_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum ausschließen?
+chatroom#:#history_cleared#:#Der Nachrichtenverlauf wurde durch einen Moderator gelöscht.
+chatroom#:#clear_room_history#:#Nachrichtenverlauf löschen
+chatroom#:#clear_room_history_question#:#Wollen Sie wirklich alle Nachrichten des aktuellen Raumes löschen?
+chatroom#:#anonymous_hint#:#Bitte beachten Sie, dass für den Zugriff von anonymen Benutzer die entsprechenden Berechtigungen im "Berechtigungen"-Reiter gesetzt sein müssen.
+chatroom_adm#:#public_chat_settings#:#Öffentlicher Chatraum Einstellungen
+chatroom_adm#:#public_chat_permissions#:#Öffentlicher Chatraum Rechte
+chatroom_adm#:#play_invitation_sound#:#Ton bei Erhalt einer neuen Einaldung abspielen

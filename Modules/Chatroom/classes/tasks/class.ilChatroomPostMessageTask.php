@@ -86,9 +86,13 @@ class ilChatroomPostMessageTask extends ilDBayTaskHandler
 		if ($_REQUEST['sub'])
 		$params['sub'] = (int)$_REQUEST['sub'];
 
-		$message = json_encode( $this->buildMessage(
-		ilUtil::stripSlashes( $_REQUEST['message'] ), $params, $chat_user
-		) );
+		$messageObject = $this->buildMessage(
+			ilUtil::stripSlashes( $_REQUEST['message'] ),
+			$params,
+			$chat_user
+		);
+		
+		$message = json_encode( $messageObject );
 
 		$params			= array_merge( $params, array('message' => $message) );
 		//print_r($params);exit;
@@ -100,7 +104,7 @@ class ilChatroomPostMessageTask extends ilDBayTaskHandler
 
 		if( $responseObject->success == true /*&& $room->getSetting( 'enable_history' )*/ )
 		{
-			$room->addHistoryEntry( $message, $recipient, $publicMessage );
+			$room->addHistoryEntry( $messageObject, $recipient, $publicMessage );
 		}
 
 		echo $response;

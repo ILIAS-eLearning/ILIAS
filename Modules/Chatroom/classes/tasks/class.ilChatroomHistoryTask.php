@@ -175,8 +175,8 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 		    $durationForm->checkInput();
 		    $period = $durationForm->getItemByPostVar( 'timeperiod' );
 		    $messages = $room->getHistory(
-		    $period->getStart(), $period->getEnd(),
-		    $room->getSetting( 'restrict_history' ) ? $chat_user->getUserId() : null
+			$period->getStart(), $period->getEnd(),
+			/*$room->getSetting( 'restrict_history' ) ?*/ $chat_user->getUserId() /*: null*/
 		    );
 	    }
 	    else
@@ -190,7 +190,7 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 
 		    $messages = $room->getHistory(
 		    $from, $to,
-		    $room->getSetting( 'restrict_history' ) ? $chat_user->getUserId() : null
+		    /*$room->getSetting( 'restrict_history' ) ?*/ $chat_user->getUserId() /*: null*/
 		    );
 	    }
 
@@ -230,10 +230,10 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 	    $durationForm->setValuesByArray( array('session' => $_POST['session']) );
 
 	    $messages = $room->getHistory(
-	    new ilDateTime( $postVals[0], IL_CAL_UNIX ),
-	    new ilDateTime( $postVals[1], IL_CAL_UNIX ),
-	    $room->getSetting( 'restrict_history' ) ?
-	    $chat_user->getUserId() : null
+		new ilDateTime( $postVals[0], IL_CAL_UNIX ),
+		new ilDateTime( $postVals[1], IL_CAL_UNIX ),
+		/*$room->getSetting( 'restrict_history' ) ?*/
+		$chat_user->getUserId() /*: null*/
 	    );
 	}
 	else
@@ -252,9 +252,9 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 	    }
 
 	    $messages = $room->getHistory(
-	    $from, $to,
-	    $room->getSetting( 'restrict_history' ) ?
-	    $chat_user->getUserId() : null
+		$from, $to,
+		/*$room->getSetting( 'restrict_history' ) ?*/
+		$chat_user->getUserId() /*: null*/
 	    );
 	}
 

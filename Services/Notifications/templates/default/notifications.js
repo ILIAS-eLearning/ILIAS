@@ -70,8 +70,11 @@ console.log(settings);*/
 		}
 	    }
 
-	    function renderItems(data) {
+	    function renderItems(data, init) {
 		    var currentTime = parseInt(new Date().getTime() / 1000);
+		    
+		    var newItems = false;
+		    
 		    $(data.notifications).each(function(){
 			if (this.type == 'osd_maint') {
 			    if (this.data.title == 'deleted') {
@@ -81,6 +84,8 @@ console.log(settings);*/
 			else {
 			    var id = this.notification_osd_id;
 			    if ($('#osdNotification_' + id).length == 0 && (this.valid_until > currentTime || this.valid_until == 0)) {
+				newItems = true;
+				
 				var newElement = $(
 				    '<div class="osdNotification" id="osdNotification_'+this.notification_osd_id+'">'
 				    + ((getParam(this.data.handlerParams, 'osd.closable', true)) ? ('<div style="float: right" onclick="OSDNotifier.removeNotification('+this.notification_osd_id+')"><img src="templates/default/images/cancel.gif" alt="close"/></div>') : '')
@@ -103,6 +108,11 @@ console.log(settings);*/
 				}
 			    }
 			    items['osdNotification_' + this.notification_osd_id] = this;
+			}
+			
+			if (!init && settings.playSound && newItems) {
+				//console.log('ring');
+				ChatInvitationSound.play('Modules/Chatroom/sounds/receive.mp3');
 			}
 		});
 
@@ -145,7 +155,7 @@ console.log(settings);*/
 
             }
 
-	    renderItems({notifications: settings.initialNotifications});
+	    renderItems({notifications: settings.initialNotifications}, true);
 
             if (settings.pollingIntervall * 1000) {
                 window.setTimeout(me.poll, settings.pollingIntervall * 1000);
@@ -153,4 +163,90 @@ console.log(settings);*/
         }
     }();
 }
-    
+
+
+Browser = {
+    IE: !!(window.attachEvent && !window.opera),
+        Opera:  !!window.opera,
+        WebKit: navigator.userAgent.indexOf('AppleWebKit/') > -1,
+        Gecko:  navigator.userAgent.indexOf('Gecko') > -1 && navigator.userAgent.indexOf('KHTML') == -1,
+        MobileSafari: !!navigator.userAgent.match(/Apple.*Mobile.*Safari/),
+        Safari: (navigator.userAgent.indexOf('Gecko') > -1 && /Safari/.test(navigator.userAgent) && /KHTML/.test(navigator.userAgent)),
+        Chrome: (navigator.userAgent.indexOf('Gecko') > -1 && /Chrome/.test(navigator.userAgent) && /KHTML/.test(navigator.userAgent))
+}
+        
+ChatInvitationSound = {
+        _enabled: true,
+        enable: function(){
+        ChatInvitationSound._enabled = true;
+        },
+        disable: function(){
+                ChatInvitationSound._enabled = false;
+        },
+        _container: 'embed',
+        play: function(url){
+                if(!ChatInvitationSound._enabled) return;
+           
+            if(Browser.IE)
+            {
+                oBgsound = document.createElement('BGSOUND');
+                oBgsound.id = 'sound';
+                oBgsound.src = url;
+                oBgsound.loop = 0;
+                oBgsound.autostart = true;
+                document.body.appendChild(oBgsound);
+            }
+            else
+            {
+                switch(ChatInvitationSound._container)
+                {
+                        case 'embed':
+                                oBgsound = document.createElement('EMBED');
+                                oBgsound.id = 'sound';
+                                oBgsound.src = url;
+                                oBgsound.loop = false;
+                                oBgsound.autostart = true;
+                                oBgsound.hidden = true;
+                                oBgsound.width = '0';
+                                oBgsound.height = '0'
+                                document.body.appendChild(oBgsound);
+                                break;
+                        case 'object':
+                                oBgsound = document.createElement('OBJECT');
+                                oBgsound.id = 'sound';
+                                oBgsound.data = url;
+                                oBgsound.type = 'audio/mpeg';
+                                oBgsound.width = '0';
+                                oBgsound.height = '0'
+                                document.body.appendChild(oBgsound);
+                                break;  
+                }
+            }
+          }
+}
+
+if((Browser.Gecko && navigator.userAgent.indexOf('Win') > 0) ||
+        Browser.Safari || 
+        Browser.Chrome) {
+        if(navigator.plugins)
+        {
+                qt_found = false;
+                for(var i = 0; i < navigator.plugins.length; i++)
+                {
+                        if(navigator.plugins[i].name.indexOf('QuickTime') != -1)
+                        {
+                                qt_found = true;                                
+                        }
+                        
+                        if(qt_found == true) break;
+                }
+                if(qt_found == true)
+                {
+                        ChatInvitationSound._container = 'object';
+                }
+        }
+        else
+        {
+                ChatInvitationSound.play = function(){}
+        }
+}

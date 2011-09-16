@@ -54,9 +54,11 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 
 		$chat_user = new ilChatroomUser( $ilUser, $room );
 
-		$message = json_encode( $this->buildMessage(
+		$messageObject = $this->buildMessage(
 		    ilUtil::stripSlashes( $_REQUEST['user'] ), $chat_user
-		) );
+		);
+		
+		$message = json_encode( $messageObject );
 
 		$params = array(
 			'message' => $message,
@@ -70,7 +72,7 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 
 		if( $responseObject->success == true /*&& $room->getSetting( 'enable_history' )*/ )
 		{
-		    $room->addHistoryEntry( $message, '', 1 );
+		    $room->addHistoryEntry( $messageObject, '', 1 );
 		}
 	    }
 	    else
