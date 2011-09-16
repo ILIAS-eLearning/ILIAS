@@ -3962,7 +3962,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->booking_obj->setAccess((int) $_POST['access']);
 		$this->booking_obj->setPayed((int) $_POST['payed']);
 		$this->booking_obj->setVoucher('');
-		$this->booking_obj->setAccessEnddate($price['extension']);
+	#	$this->booking_obj->setAccessEnddate($price['extension']);
 		
 		$obj_id = $ilObjDataCache->lookupObjId($obj->getRefId());
 		$obj_type = $ilObjDataCache->lookupType($obj_id);
