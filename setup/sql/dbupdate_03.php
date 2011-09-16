@@ -7807,11 +7807,11 @@ $setting->set("enable_sahs_pd", 1);
 	    $settings = new ilSetting('chatroom');
 	    $settings->set('public_room_ref', $ref_id);
 	}
-	else {
-	    global $ilTree;
-	    
-	    $ilTree->moveTree($public_room_ref_id, $chatfolder_ref_id);
-	}
+//	else {
+//	    global $tree;
+//	    
+//	    $tree->moveTree($public_room_ref_id, $chatfolder_ref_id);
+//	}
 
 			
 	 
