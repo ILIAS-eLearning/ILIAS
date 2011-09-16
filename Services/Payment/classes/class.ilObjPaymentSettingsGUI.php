@@ -526,8 +526,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$prices_obj = new ilPaymentPrices((int) $_GET['pobject_id']);
 			$standard_prices = array();
 			$extension_prices = array();
-			$standard_prices = $price_obj->getPrices();
-			$extension_prices = $price_obj->getExtensionPrices();
+			$standard_prices = $prices_obj->getPrices();
+			$extension_prices = $prices_obj->getExtensionPrices();
 
 			$prices = array_merge($standard_prices, $extension_prices );
 
@@ -1227,10 +1227,13 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$path = $tree->getPathFull($a_ref_id);
 
 		unset($path[0]);
-
-		foreach($path as $data)
+		$html = '';
+		if(is_array($path))
 		{
-			$html .= $data['title'].' > ';
+			foreach($path as $data)
+			{
+				$html .= $data['title'].' > ';
+			}
 		}
 		return substr($html,0,-2);
 	}
