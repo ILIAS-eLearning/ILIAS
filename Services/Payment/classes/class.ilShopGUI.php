@@ -95,6 +95,15 @@ class ilShopGUI extends ilShopBaseGUI
 					case 'firstpage':
 						$this->clearFilter();
 
+					if(! $this->genSet->get('show_general_filter')
+					&& 	!$this->genSet->get('show_topics_filter')
+					&& 	!$this->genSet->get('show_shop_explorer'))
+					{
+						$cmd = 'performSearch';
+					}
+					else
+					{
+
 						if(ilPaymentSettings::useShopSpecials() == true)
 						{
 							$cmd = 'showSpecialContent';
@@ -103,6 +112,7 @@ class ilShopGUI extends ilShopBaseGUI
 						{
 							$cmd = 'performSearch';
 						}
+					}
 						break;
 					case 'resetFilter':
 						$cmd = 'resetFilter';
