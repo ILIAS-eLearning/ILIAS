@@ -826,7 +826,10 @@ menuEntries.push(
 						$('#invite_users_in_room').hide();
 						$('#radioText').hide();
 						$('input[name=invite_users_type]').removeAttr('checked');
-						$('#invite_users_global').click();
+						setTimeout(function() {
+							$('#invite_users_global').click();
+						}, 300);
+						
 					    }
 					    else{
 						$('#invite_users_in_room').show();
