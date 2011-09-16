@@ -7862,3 +7862,61 @@ $setting->set("enable_sahs_pd", 1);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3464>
+<?php
+if(!$ilDB->tableExists('note_settings'))
+{
+	$fields = array (
+		'rep_obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+
+	 	'obj_type' => array(
+			'type' => 'text',
+			'notnull' => true,
+			'length' => 10,
+			'default' => "-"),
+		
+	 	'activated' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0)
+	);
+	$ilDB->createTable('note_settings', $fields);
+	$ilDB->addPrimaryKey('note_settings', array('rep_obj_id', 'obj_id', 'obj_type'));
+}
+?>
+<#3465>
+<?php
+	$set = $ilDB->query("SELECT * FROM settings ".
+		" WHERE module = ".$ilDB->quote("notes", "text")
+		);
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$kw_arr = explode("_", $rec["keyword"]);
+		if ($rec["value"] == "1" && $kw_arr[0] == "activate")
+		{
+			if ($kw_arr[3] == "")
+			{
+				$kw_arr[3] = "-";
+			}
+			$q = "INSERT INTO note_settings ".
+				"(rep_obj_id, obj_id, obj_type, activated) VALUES (".
+				$ilDB->quote((int) $kw_arr[1], "integer").",".
+				$ilDB->quote((int) $kw_arr[2], "integer").",".
+				$ilDB->quote($kw_arr[3], "text").",".
+				$ilDB->quote(1, "integer").
+				")";
+			$ilDB->manipulate($q);
+		}
+	}
+?>

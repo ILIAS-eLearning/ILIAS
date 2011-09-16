@@ -252,18 +252,30 @@ class ilTaggingGUI
 	 * @param
 	 * @return
 	 */
-	function getListTagsJSCall($a_ref_id = 0, $a_sub_id = null)
+	function getListTagsJSCall($a_ref_id = 0, $a_sub_id = null,
+		$a_update_code = null)
 	{
 		global $tpl;
 		
-		$tpl->addJavascript("./Services/Tagging/js/ilTagging.js");
-		if($a_sub_id === null)
+		if ($a_update_code === null)
 		{
-			return "ilTagging.listTags(event, ".$a_ref_id.");";
+			$a_update_code = "null";
 		}
 		else
 		{
-			return "ilTagging.listTags(event, ".$a_ref_id.", ".$a_sub_id.");";
+			$a_update_code = "'".$a_update_code."'";
+		}
+
+		$tpl->addJavascript("./Services/Tagging/js/ilTagging.js");
+		if($a_sub_id === null)
+		{
+			return "ilTagging.listTags(event, ".$a_ref_id.", null, ".
+				$a_update_code.");";
+		}
+		else
+		{
+			return "ilTagging.listTags(event, ".$a_ref_id.", ".$a_sub_id.", ".
+				$a_update_code.");";
 		}
 	}
 
@@ -280,7 +292,25 @@ class ilTaggingGUI
 		$lng->loadLanguageModule("tagging");
 		$tpl = new ilTemplate("tpl.edit_tags.html", true, true, "Services/Tagging");
 		$tpl->setVariable("TXT_TAGS", $lng->txt("tagging_tags"));
-		$tpl->setVariable("TXT_OBJ_TITLE", ilObject::_lookupTitle($this->obj_id));
+	
+		switch($_GET["mess"] != "" ? $_GET["mess"] : $this->mess)
+		{
+			case "mod":
+				$mtype = "success";
+				$mtxt = $lng->txt("msg_obj_modified");
+				break;
+		}
+		if ($mtxt != "")
+		{
+			$tpl->setVariable("MESS", $tpl->getMessageHTML($mtxt, $mtype));
+		}
+		else
+		{
+			$tpl->setVariable("MESS", "");
+		}
+
+		$img = ilUtil::img(ilObject::_getIcon($this->obj_id, "tiny"));
+		$tpl->setVariable("TXT_OBJ_TITLE", $img." ".ilObject::_lookupTitle($this->obj_id));
 		$tags = ilTagging::getTagsForUserAndObject($this->obj_id, $this->obj_type,
 			$this->sub_obj_id, $this->sub_obj_type, $this->getUserId());
 		$tpl->setVariable("VAL_TAGS",
@@ -321,6 +351,9 @@ class ilTaggingGUI
 
 		ilTagging::writeTagsForUserAndObject($this->obj_id, $this->obj_type,
 			$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(), $tags);
+		
+		$this->mess = "mod";
+		
 		$this->getHTML();
 	}
 	

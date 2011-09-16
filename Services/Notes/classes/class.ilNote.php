@@ -590,5 +590,101 @@ class ilNote
 		return $cnt;
 	}
 
+	/**
+	 * Activate notes feature
+	 *
+	 * @param
+	 * @return
+	 */
+	static function activateComments($a_rep_obj_id, $a_obj_id, $a_obj_type, $a_activate = true)
+	{
+		global $ilDB;
+		
+		if ($a_obj_type == "")
+		{
+			$a_obj_type = "-";
+		}
+		$set = $ilDB->query("SELECT * FROM note_settings ".
+			" WHERE rep_obj_id = ".$ilDB->quote((int) $a_rep_obj_id, "integer").
+			" AND obj_id = ".$ilDB->quote((int) $a_obj_id, "integer").
+			" AND obj_type = ".$ilDB->quote($a_obj_type, "text")
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			if (($rec["activated"] == 0 && $a_activate) ||
+				($rec["activated"] == 1 && !$a_activate))
+			{
+				$ilDB->manipulate("UPDATE note_settings SET ".
+					" activated = ".$ilDB->quote((int) $a_activate, "integer").
+					" WHERE rep_obj_id = ".$ilDB->quote((int) $a_rep_obj_id, "integer").
+					" AND obj_id = ".$ilDB->quote((int) $a_obj_id, "integer").
+					" AND obj_type = ".$ilDB->quote($a_obj_type, "text")
+				);
+			}
+		}
+		else
+		{
+			if ($a_activate)
+			{
+				$q = "INSERT INTO note_settings ".
+					"(rep_obj_id, obj_id, obj_type, activated) VALUES (".
+					$ilDB->quote((int) $a_rep_obj_id, "integer").",".
+					$ilDB->quote((int) $a_obj_id, "integer").",".
+					$ilDB->quote($a_obj_type, "text").",".
+					$ilDB->quote(1, "integer").
+					")";
+				$ilDB->manipulate($q);
+			}
+		}
+	}
+	
+	/**
+	 * Are comments activated for object?
+	 *
+	 * @param
+	 * @return
+	 */
+	static function commentsActivated($a_rep_obj_id, $a_obj_id, $a_obj_type)
+	{
+		global $ilDB;
+		
+		if ($a_obj_type == "")
+		{
+			$a_obj_type = "-";
+		}
+		$set = $ilDB->query("SELECT * FROM note_settings ".
+			" WHERE rep_obj_id = ".$ilDB->quote((int) $a_rep_obj_id, "integer").
+			" AND obj_id = ".$ilDB->quote((int) $a_obj_id, "integer").
+			" AND obj_type = ".$ilDB->quote($a_obj_type, "text")
+			);
+		$rec = $ilDB->fetchAssoc($set);
+		return $rec["activated"];
+	}
+	
+	/**
+	 * Get activation for repository objects
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getRepObjActivation($a_rep_obj_ids)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM note_settings ".
+			" WHERE ".$ilDB->in("rep_obj_id", $a_rep_obj_ids, false, "integer").
+			" AND obj_id = 0 ");
+		$activations = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			if ($rec["activated"])
+			{
+				$activations[$rec["rep_obj_id"]][$rec["obj_type"]] = true;
+			}
+		}
+
+		return $activations;
+	}
+
 }
 ?>

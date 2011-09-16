@@ -475,12 +475,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 
 	/**
-	* render the object
-	*/
-	function renderObject()
+	 * Get content gui object
+	 *
+	 * @param
+	 * @return
+	 */
+	function getContentGUI()
 	{
-		global $ilDB, $tpl, $ilTabs, $ilCtrl, $ilSetting;
-
 		switch ($this->object->getViewMode())
 		{
 			// all items in one block
@@ -514,6 +515,20 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$container_view = new ilContainerByTypeContentGUI($this);
 				break;
 		}
+
+		return $container_view;
+	}
+	
+	
+	
+	/**
+	* render the object
+	*/
+	function renderObject()
+	{
+		global $ilDB, $tpl, $ilTabs, $ilCtrl, $ilSetting;
+
+		$container_view = $this->getContentGUI();
 
 		$this->setContentSubTabs();
 		if ($this->isActiveAdministrationPanel())
@@ -3141,5 +3156,27 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$form->setValuesByPost();
 		$this->showPasswordInstructionObject();
 	}
+	
+	/**
+	 * Redraw a list item (ajax)
+	 *
+	 * @param
+	 * @return
+	 */
+	function redrawListItemObject()
+	{
+		$item_data = $this->object->getSubItems(fals, false, (int) $_GET["child_ref_id"]);
+		$container_view = $this->getContentGUI();
+		foreach ($this->object->items["_all"] as $id)
+		{
+			if ($id["child"] == (int) $_GET["child_ref_id"])
+			{
+				$html = $container_view->renderItem($id);
+				echo $html;
+				exit;
+			}
+		}
+	}
+	
 }
 ?>

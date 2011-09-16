@@ -1222,9 +1222,13 @@ class ilCtrl
 	 * @param	string		command target class
 	 * @param	string		command
 	 */
-	public function redirectByClass($a_class, $a_cmd = "")
+	public function redirectByClass($a_class, $a_cmd = "", $a_anchor = "", $a_asynch = false)
 	{
-		$script = $this->getLinkTargetByClass($a_class, $a_cmd, "", false, false);
+		$script = $this->getLinkTargetByClass($a_class, $a_cmd, "", $a_asynch, false);
+		if ($a_anchor != "")
+		{
+			$script = $script."#".$a_anchor;
+		}
 		ilUtil::redirect($script);
 	}
 	

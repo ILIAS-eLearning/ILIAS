@@ -82,6 +82,7 @@ class ilObjectListGUI
 	
 	static protected $cnt_notes = array();
 	static protected $cnt_tags = array();
+	static protected $comments_activation = array();
 	
 	/**
 	* constructor
@@ -1611,20 +1612,26 @@ class ilObjectListGUI
 			($ilUser->getId() != ANONYMOUS_USER_ID))
 		{
 			$nl = true;
-			if (self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC] > 0)
+			if (self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC] > 0 &&
+				self::$comments_activation[$this->obj_id][$this->type])
 			{
 				$props[] = array("alert" => false,
 					"property" => $lng->txt("notes_comments"),
-					"value" => "<a href='#' onclick='return ".ilNoteGUI::getListCommentsJSCall($this->ref_id).";'>".
+					"value" => "<a href='#' onclick=\"return ".
+						ilNoteGUI::getListCommentsJSCall($this->ref_id, null,
+						"ilObject.redrawListItem(".$this->ref_id.");").";\">".
 						self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC]."</a>",
 					"newline" => $nl);
 				$nl = false;
 			}
+
 			if (self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE] > 0)
 			{
 				$props[] = array("alert" => false,
 					"property" => $lng->txt("notes"),
-					"value" => "<a href='#' onclick='return ".ilNoteGUI::getListNotesJSCall($this->ref_id).";'>".
+					"value" => "<a href='#' onclick=\"return ".
+						ilNoteGUI::getListNotesJSCall($this->ref_id, null,
+						"ilObject.redrawListItem(".$this->ref_id.");").";\">".
 						self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE]."</a>",
 					"newline" => $nl);
 				$nl = false;
@@ -1636,8 +1643,10 @@ class ilObjectListGUI
 				{
 					$props[] = array("alert" => false,
 						"property" => $lng->txt("tagging_tags"),
-						"value" => "<a href='#' onclick='return ".ilTaggingGUI::getListTagsJSCall($this->ref_id).";'>".
-							self::$cnt_tags[$this->obj_id]."</a>",
+						"value" => "<a href='#' onclick=\"return ".
+							ilTaggingGUI::getListTagsJSCall($this->ref_id, null,
+						"ilObject.redrawListItem(".$this->ref_id.");").";\">".
+						self::$cnt_tags[$this->obj_id]."</a>",
 						"newline" => $nl);
 					$nl = false;
 				}
@@ -2336,11 +2345,23 @@ class ilObjectListGUI
 		$cmd_tag_link = $this->getCommandLink("infoScreen");
 		$cmd_frame = $this->getCommandFrame("infoScreen");
 		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-		$this->insertCommand("#", $this->lng->txt("notes_comments"), $cmd_frame,
-			"", "", ilNoteGUI::getListCommentsJSCall($this->ref_id, $this->sub_obj_id));
-		//$this->insertCommand($cmd_link, $this->lng->txt("notes_private_annotating"), $cmd_frame);
+		
+		$js_updater = $a_header_actions
+			? "ilObject.redrawActionHeader();"
+			: "ilObject.redrawListItem(".$this->ref_id.")";
+			
+		include_once("./Services/Notes/classes/class.ilNote.php");
+		if ((!$a_header_actions && (self::$comments_activation[$this->obj_id][$this->type] ||
+				$this->checkCommandAccess('write','', $this->ref_id, $this->type))) ||
+			($a_header_actions && (ilNote::commentsActivated($this->obj_id, 0, $this->type) ||
+				$this->checkCommandAccess('write','', $this->ref_id, $this->type))))
+		{
+			$this->insertCommand("#", $this->lng->txt("notes_comments"), $cmd_frame,
+				"", "", ilNoteGUI::getListCommentsJSCall($this->ref_id, $this->sub_obj_id, $js_updater));
+		}
+
 		$this->insertCommand("#", $this->lng->txt("notes"), $cmd_frame,
-			"", "", ilNoteGUI::getListNotesJSCall($this->ref_id, $this->sub_obj_id));
+			"", "", ilNoteGUI::getListNotesJSCall($this->ref_id, $this->sub_obj_id, $js_updater));
 		
 		$tags_set = new ilSetting("tags");
 		if ($tags_set->get("enable"))
@@ -2348,7 +2369,7 @@ class ilObjectListGUI
 			include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
 			//$this->insertCommand($cmd_tag_link, $this->lng->txt("tagging_set_tag"), $cmd_frame);
 			$this->insertCommand("#", $this->lng->txt("tagging_set_tag"), $cmd_frame,
-				"", "", ilTaggingGUI::getListTagsJSCall($this->ref_id, $this->sub_obj_id));
+				"", "", ilTaggingGUI::getListTagsJSCall($this->ref_id, $this->sub_obj_id, $js_updater));
 		}
 	}
 
@@ -2581,7 +2602,9 @@ class ilObjectListGUI
 			$htpl->setVariable("PROP_TXT", count($tags));
 			$htpl->setVariable("PROP_ID", "headp_tags");
 			$htpl->setVariable("PROP_HREF", "#");
-			$htpl->setVariable("PROP_ONCLICK", "onclick=' return ".ilTaggingGUI::getListTagsJSCall($this->ref_id, $this->sub_obj_id).";'");
+			$htpl->setVariable("PROP_ONCLICK", "onclick=\" return ".
+				ilTaggingGUI::getListTagsJSCall($this->ref_id, $this->sub_obj_id,
+					"ilObject.redrawActionHeader();").";\"");
 			$htpl->parseCurrentBlock();
 			
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
@@ -2601,14 +2624,19 @@ class ilObjectListGUI
 			$htpl->setVariable("PROP_TXT", $cnt[$a_obj_id][IL_NOTE_PRIVATE]);
 			$htpl->setVariable("PROP_ID", "headp_notes");
 			$htpl->setVariable("PROP_HREF", "#");
-			$htpl->setVariable("PROP_ONCLICK", "onclick=' return ".ilNoteGUI::getListNotesJSCall($this->ref_id, $this->sub_obj_id).";'");
+			$htpl->setVariable("PROP_ONCLICK", $q = "onclick=\" return ".
+				ilNoteGUI::getListNotesJSCall($this->ref_id, $this->sub_obj_id,
+					"ilObject.redrawActionHeader();").";\"");
 			$htpl->parseCurrentBlock();
 			
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 			ilTooltipGUI::addTooltip("headp_notes",
 				$lng->txt("private_notes").": ".$cnt[$a_obj_id][IL_NOTE_PRIVATE]);
 		}
-		if ($cnt[$a_obj_id][IL_NOTE_PUBLIC] > 0)
+
+		include_once("./Services/Notes/classes/class.ilNote.php");
+		if ($cnt[$a_obj_id][IL_NOTE_PUBLIC] > 0 &&
+			ilNote::commentsActivated($this->obj_id, 0, $this->type))
 		{
 			$lng->loadLanguageModule("notes");
 			$htpl->setCurrentBlock("prop");
@@ -2616,7 +2644,9 @@ class ilObjectListGUI
 			$htpl->setVariable("PROP_TXT", $cnt[$a_obj_id][IL_NOTE_PUBLIC]);
 			$htpl->setVariable("PROP_ID", "headp_comments");
 			$htpl->setVariable("PROP_HREF", "#");
-			$htpl->setVariable("PROP_ONCLICK", "onclick=' return ".ilNoteGUI::getListCommentsJSCall($this->ref_id, $this->sub_obj_id).";'");
+			$htpl->setVariable("PROP_ONCLICK", $p = "onclick=\" return ".
+				ilNoteGUI::getListCommentsJSCall($this->ref_id, $this->sub_obj_id,
+					"ilObject.redrawActionHeader();").";\"");
 			$htpl->parseCurrentBlock();
 			
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
@@ -2626,6 +2656,12 @@ class ilObjectListGUI
 		
 		$htpl->setVariable("ACTION_DROP_DOWN",
 			$this->insertCommands(false, false, "", true));
+		
+		if ($ilCtrl->isAsynch())
+		{
+			echo $htpl->get();
+			exit;
+		}
 		
 		return $htpl->get();
 	}
@@ -2895,14 +2931,12 @@ class ilObjectListGUI
 		}
 
   		// visible check
-		$ilBench->start("ilObjectListGUI", "2000_getListHTML_check_visible");
 		if (!$this->checkCommandAccess("visible", "", $a_ref_id, "", $a_obj_id))
 		{
 			$this->storeAccessCache();
 			$ilBench->stop("ilObjectListGUI", "2000_getListHTML_check_visible");
 			return "";
 		}
-		$ilBench->stop("ilObjectListGUI", "2000_getListHTML_check_visible");
                 // BEGIN WEBDAV
                 if($type=='file' AND ilObjFileAccess::_isFileHidden($a_title))
                 {
@@ -2911,9 +2945,7 @@ class ilObjectListGUI
                 // END WEBDAV
 
 		// commands
-		$ilBench->start("ilObjectListGUI", "4000_insert_commands");
 		$this->insertCommands($a_use_asynch, $a_get_asynch_commands, $a_asynch_url);
-		$ilBench->stop("ilObjectListGUI", "4000_insert_commands");
 
 		// write to cache
 		$this->storeAccessCache();
@@ -2943,7 +2975,6 @@ class ilObjectListGUI
 		}
 
 		// insert title and describtion
-		$ilBench->start("ilObjectListGUI", "3000_insert_title_desc");
 		$this->insertTitle();
 		if (!$this->isMode(IL_LIST_AS_TRIGGER))
 		{
@@ -2952,7 +2983,6 @@ class ilObjectListGUI
 				$this->insertDescription();
 			}
 		}
-		$ilBench->stop("ilObjectListGUI", "3000_insert_title_desc");
 
 		if($this->getSearchFragmentStatus())
 		{
@@ -3076,11 +3106,9 @@ class ilObjectListGUI
 		$lng->loadLanguageModule("tagging");
 		include_once("./Services/Notes/classes/class.ilNote.php");
 		self::$cnt_notes = ilNote::_countNotesAndComments($a_obj_ids);
+		self::$comments_activation = ilNote::getRepObjActivation($a_obj_ids);
 		include_once("./Services/Tagging/classes/class.ilTagging.php");
 		self::$cnt_tags = ilTagging::_countTags($a_obj_ids);
 	}
-	
-	
-	
-} // END class.ilObjectListGUI
+}
 ?>

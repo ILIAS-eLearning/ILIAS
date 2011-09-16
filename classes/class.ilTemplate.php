@@ -1548,7 +1548,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	private function fillHeader()
 	{
-		global $lng, $ilUser;
+		global $lng, $ilUser, $ilCtrl;
 		
 		if($this->frame_fixed_width)
 		{
@@ -1616,7 +1616,7 @@ class ilTemplate extends ilTemplateX
 				$lg->setContainerObject($header_action_gui);
 
 				// personal workspace
-				if($_REQUEST["wsp_id"])
+				if ($_REQUEST["wsp_id"] || $ilCtrl->getCmdClass() == "ilobjworkspacerootfoldergui")
 				{
 					$ref_id = $_REQUEST["wsp_id"];
 					$context = ilObjectListGUI::CONTEXT_WORKSPACE;
@@ -1631,6 +1631,11 @@ class ilTemplate extends ilTemplateX
 				$html = $lg->getHeaderAction($ref_id,
 					$header_action_gui->object->getId(),
 					$context, $this->header_action_sub_id);
+				if ($context == ilObjectListGUI::CONTEXT_REPOSITORY)
+				{
+					$this->addOnLoadCode("ilObject.setRedrawAHUrl('".
+						$ilCtrl->getLinkTarget($header_action_gui, "redrawHeaderAction", "", true)."');");
+				}
 			}
 			else if ($this->getHeaderActionMenuHTML() != "")
 			{
@@ -1639,9 +1644,10 @@ class ilTemplate extends ilTemplateX
 			
 			if ($html != "")
 			{
-				$this->setCurrentBlock("head_action");
+				$this->setCurrentBlock("head_action_inner");
 				$this->setVariable("HEAD_ACTION", $html);
 				$this->parseCurrentBlock();
+				$this->touchBlock("head_action");
 			}
 		}
 

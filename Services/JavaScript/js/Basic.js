@@ -1,3 +1,90 @@
+ilUtil = {
+	
+	ajaxReplace: function(url, el_id)
+	{
+		this.sendAjaxGetRequestToUrl (url, {}, {el_id: el_id, inner: false}, this.ajaxReplaceSuccess)
+	},
+	
+	ajaxReplaceInner: function(url, el_id)
+	{
+		this.sendAjaxGetRequestToUrl (url, {}, {el_id: el_id, inner: true}, this.ajaxReplaceSuccess)
+	},
+	
+	ajaxReplaceSuccess: function(o)
+	{
+		// perform page modification
+		if(o.responseText !== undefined)
+		{
+			if (o.argument.inner)
+			{
+				$('#' + o.argument.el_id).html(o.responseText);
+			}
+			else
+			{
+				$('#' + o.argument.el_id).replaceWith(o.responseText);
+			}
+		}
+	},
+	
+	sendAjaxGetRequestToUrl: function(url, par, args, succ_cb)
+	{
+		var cb =
+		{
+			success: succ_cb,
+			failure: this.handleAjaxFailure,
+			argument: args
+		};
+		for (k in par)
+		{
+			url = url + "&" + k + "=" + par[k];
+		}
+		var request = YAHOO.util.Connect.asyncRequest('GET', url, cb);
+	},
+	
+	// FailureHandler
+	handleAjaxFailure: function(o)
+	{
+		console.log("ilNotes.js: Ajax Failure.");
+	}
+}
+
+ilObject = {
+	url_redraw_ah: "",
+	url_redraw_li: "",
+	
+	setRedrawAHUrl: function(url) {
+		this.url_redraw_ah = url;
+	},
+	
+	getRedrawAHUrl: function() {
+		return this.url_redraw_ah;
+	},
+	
+	redrawActionHeader: function() {
+		var ah = document.getElementById("il_head_action");
+		if (this.url_redraw_ah && ah != null)
+		{
+			ilUtil.ajaxReplaceInner(this.url_redraw_ah, "il_head_action");
+		}
+	},
+	
+	setRedrawListItemUrl: function(url) {
+		this.url_redraw_li = url;
+	},
+	
+	getRedrawListItemUrl: function() {
+		return this.url_redraw_li;
+	},
+	
+	redrawListItem: function(ref_id) {
+		var li = document.getElementById("lg_div_" + ref_id);
+		if (this.url_redraw_li && li != null)
+		{
+			ilUtil.ajaxReplace(this.url_redraw_li + "&child_ref_id=" + ref_id, "lg_div_" + ref_id);
+		}
+	}
+}
+
 /**
 * Adds a function to the window onload event
 */
@@ -291,17 +378,6 @@ function ilSubmitOnEnter(ev, form)
 	}
 	return true;
 }
-
-// layout test
-/*$(document).ready(function() {
-	$('#mainspacekeeper').css('height',$(window).height()- $('#mainscrolldiv').offset().top - 5);
-	$('#mainscrolldiv').addClass('iosMainScroll');
-	$('#mainscrolldiv').css('height',$(window).height()- $('#mainscrolldiv').offset().top - 15);
-});
-$(window).bind('resize',function(){
-	$('#mainspacekeeper').css('height',$(window).height() - $('#mainscrolldiv').offset().top - 5);
-	$('#mainscrolldiv').css('height',$(window).height()- $('#mainscrolldiv').offset().top - 15);
-});*/
 
 function startSAHS(SAHSurl, SAHStarget, SAHSopenMode, SAHSwidth, SAHSheight)
 {

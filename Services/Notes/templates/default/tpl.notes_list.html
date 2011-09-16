@@ -37,14 +37,14 @@ a.il_PrintBack
 <!-- BEGIN print_back -->
 <a class="il_PrintBack" href="{LINK_BACK}">{TXT_BACK}</a>
 <!-- END print_back -->
-<div class="ilNotes">
-<form {ON_SUBMIT_FORM} id="ilNoteForm{FORM_ID}" action="{FORMACTION}" name="cmd" method="post">
 <div class="ilNotesHeader">
 <!-- BEGIN notes_img -->
 <!-- <img alt="{ALT_NOTES}" title="{ALT_NOTES}" src="{IMG_NOTES}" border="0" style="vertical-align:text-bottom;" /> -->
 <!-- END notes_img -->
 <h3 class="ilNotesHeader">{TXT_NOTES}<!-- BEGIN title --><br /><span class="small">{TITLE}</span><!-- END title --></h3>
 </div>
+<div class="ilNotes">
+<form {ON_SUBMIT_FORM} id="ilNoteForm{FORM_ID}" action="{FORMACTION}" name="cmd" method="post">
 	<div class="il_ContainerItemCommands2" style="text-align:right;">
 	<!-- BEGIN show_notes -->
 <!--	<a class="il_ContainerItemCommand2" {ON_CLICK_SHOW_NOTES} href="{LINK_SHOW_NOTES}">{TXT_SHOW_NOTES}</a> -->
@@ -62,6 +62,8 @@ a.il_PrintBack
 	<!-- <a class="il_ContainerItemCommand2" href="{LINK_ADD_NOTE}">{TXT_ADD_NOTE}</a> -->
 	<!-- END add_note_btn -->
 	</div>
+<div style="padding:5px;">{MESS}</div>
+
 <table class="fullwidth_invisible" width="100%" style="clear:both;">
 <!-- BEGIN note_row -->
 <!-- BEGIN edit_note_form -->
