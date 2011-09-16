@@ -2550,7 +2550,7 @@ common#:#file_version#:#Version Provided in File
 common#:#file_visible#:#File is visible
 common#:#file_write#:#Edit File
 common#:#file#:#File
-common#:#filename_extension_missing#:#Filename extension missing
+common#:#filename_extension_missing#:#File name extension missing
 common#:#filename_extension_short#:#Extension
 common#:#filename_hidden_backup_file#:#Hidden backup file
 common#:#filename_hidden_unix_file#:#Hidden Unix file
@@ -2561,7 +2561,7 @@ common#:#filename_visibility#:#Visibility
 common#:#filename_windows_empty_extension#:#Due to the character . at the end of the name this object is not visible in Windows webfolders
 common#:#filename_windows_special_characters#:#Due to one of the characters \ / : * ? " < > | this object is not visible in Windows webfolders
 common#:#filename_windows_webdav_issue#:#Due to the character # this object is not visible in Windows webfolders
-common#:#filename#:#Filename
+common#:#filename#:#File Name
 common#:#files_location#:#Files Location
 common#:#files#:#Files
 common#:#filesize#:#File Size
@@ -5723,10 +5723,10 @@ crs#:#crs_end#:#End
 crs#:#crs_existing_files#:#Existing Files:
 crs#:#crs_export#:#Course export
 crs#:#crs_file_download#:#Files for Download
-crs#:#crs_file_name#:#File name
+crs#:#crs_file_name#:#File Name
 crs#:#crs_file_size_info#:#Filesize
 crs#:#crs_file#:#File
-crs#:#crs_filename#:#Filename
+crs#:#crs_filename#:#File Name
 crs#:#crs_free_places#:#Available Places
 crs#:#crs_from#:#From
 crs#:#crs_further_settings#:#Further Settings
@@ -6130,8 +6130,8 @@ crs#:#event_end_date#:#End
 crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.
 crs#:#event_existing_files#:#Existing Files:
 crs#:#event_file_download#:#Files for Download
-crs#:#event_file_name#:#Filename
-crs#:#event_file_size_info#:#Filesize
+crs#:#event_file_name#:#File Name
+crs#:#event_file_size_info#:#File Size
 crs#:#event_file#:#File
 crs#:#event_files#:#Assigned Files
 crs#:#event_full_time_info#:#full-time
@@ -6147,7 +6147,7 @@ crs#:#event_lecturer#:#Name
 crs#:#event_location#:#Location
 crs#:#event_materials#:#Session Materials
 crs#:#event_not_participated#:#Not Participated
-crs#:#event_overview#:#Participations in Sessions
+crs#:#event_overview#:#Participation in Sessions
 crs#:#event_participant_selection#:#Participant Selection
 crs#:#event_participated#:#Participated
 crs#:#event_participation#:#Participation
@@ -6424,7 +6424,7 @@ dateplaner#:#ERROR_DEL_MSG#:#This is a recurring event. Would you like to delete
 dateplaner#:#ERROR_END_START#:#Wrong end date input. End date is before start date.
 dateplaner#:#ERROR_ENDDATE#:#Wrong end date input. Format: dd/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Wrong end time. Format: hh:mm
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid CSV File.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid CSV file.
 dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>your browser doesn't accept JavaScript.<br />Please close this Window after insert manually.<br />Thank you</CENTER></B>
 dateplaner#:#error_minical_img#:#Cannot create GD-picture-stream
 dateplaner#:#ERROR_ROT_END_START#:#Wrong recurring end date input. Recurring end date is before start date.
@@ -6470,8 +6470,8 @@ dateplaner#:#help_properties_alt_l#:#Choose a keyword from the dialog box.<br />
 dateplaner#:#help_properties_alt#:#Changes the keyword
 dateplaner#:#help_properties_del_l#:#Choose a keyword from the dialog box. Click the button to delete the keyword.
 dateplaner#:#help_properties_del#:#Deletes the keyword
-dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Events. These events will be imported into the calendar.
-dateplaner#:#help_properties_import#:#Import of Outlook-CSV-Files
+dateplaner#:#help_properties_import_l#:#Here a CSC file can be selected, which contains Outlook-Events. These events will be imported into the calendar.
+dateplaner#:#help_properties_import#:#Import of Outlook CSV files
 dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \"new\". Important: max. 20 characters.
 dateplaner#:#help_properties_new#:#Add a keyword, max. 20 characters
 dateplaner#:#help_properties_time_l#:#The standard display time for the day view and week view can be changed. If dates are outside of the display time for a given days or week, the display time will be changed for that time span. Standard is 8h -18h.
@@ -7336,8 +7336,8 @@ mail#:#mail_entry_changed#:#The entry is changed
 mail#:#mail_entry_exists#:#An entry with the given login name already exists.
 mail#:#mail_entry_of_addressbook#:#Entry of Contacts
 mail#:#mail_external_sender_noreply#:#no-reply address
-mail#:#mail_file_name#:#File name
-mail#:#mail_file_size#:#File size
+mail#:#mail_file_name#:#File Name
+mail#:#mail_file_size#:#File Size
 mail#:#mail_files_deleted#:#The file(s) are deleted
 mail#:#mail_folder_created#:#A new folder has been created
 mail#:#mail_folder_deleted#:#The folder has been deleted
@@ -11240,8 +11240,8 @@ exc#:#exc_completion_by_submission#:#Completed by Submission
 exc#:#exc_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of an assignment. The score could be manually changed later. Switching this setting does not effect already submitted solutions.
 rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials which is required for fullfilling this precondition.
 trac#:#trac_min_passed#:#Minimum Number of Passed Materials:
-crs#:#crs_deact_auto_noti#:#Suppress notification about new membership
-crs#:#crs_deact_auto_noti_info#:#Supresses mail notificaton about course membership for members admitted to course by edit participants view.
+crs#:#crs_deact_auto_noti#:#No Notification For New Member
+crs#:#crs_deact_auto_noti_info#:#New members do not get a mail notification when added to course.
 wsp#:#wsp_type_tstv#:#Certificate: Test
 content#:#cont_par_format#:#Paragraph
 content#:#cont_char_format#:#Character
@@ -12050,7 +12050,7 @@ scormdebug#:#debugwindow_delete_logfile#:#Delete logfile
 scormdebug#:#debugwindow_submission_failed#:#Submission failed
 scormdebug#:#debugwindow_submit#:#Submit
 scormdebug#:#debugwindow_cancel#:#Cancel
-scormdebug#:#debugwindow_filename#:#Filename
+scormdebug#:#debugwindow_filename#:#File Name
 scormdebug#:#debugwindow_date#:#Date
 scormdebug#:#debugwindow_action#:#Action
 scormdebug#:#debugwindow_delete#:#Delete
@@ -12123,7 +12123,7 @@ administration#:#adm_services#:#Services
 administration#:#adm_objects#:#Objects
 common#:#enable_sahs_protocol_data#:#Activate Protocol Data
 common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM/AICC)
-search#:#lucene_max_fs#:#Maximum Filesize (in MB)
+search#:#lucene_max_fs#:#Maximum File Size (in MB)
 search#:#lucene_max_fs_info#:#Defines the file size limit. Bigger files will not be included in the index.
 trac#:#trac_determines_learning_progress#:#Determines Learning Progress
 content#:#cont_scorm_ed_properties#:#Learning Module Properties / Glossary
