@@ -816,7 +816,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$oCurrency->setValue($_SESSION['pay_objects']['currency_value']);
 		$oCurrency->setPostVar('currency_id');
  /**/
-		$currency_options = $this->genSetData['currency_unit'];
+		$currency_options = $genSet->get('currency_unit');
 		$oCurrency = new ilNonEditableValueGUI($this->lng->txt('currency'));
 		$oCurrency->setValue($currency_options);
 		$form->addItem($oCurrency);
@@ -1045,7 +1045,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$ilToolbar->addButton($this->lng->txt('paya_edit_details'), $this->ctrl->getLinkTarget($this, 'editDetails'));
 		$ilToolbar->addButton($this->lng->txt('paya_edit_prices'), $this->ctrl->getLinkTarget($this, 'editPrices'));
-		$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
+
+/*
+ * BUG: Editing the abstract information of an object modifies the GTC-Page. At this moment it is not possible to link the abstract-page to the spesific object.
+ * @TODO: Make this work in future
+  **/
+	#	$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
 		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
 		if($a_show_confirm)
