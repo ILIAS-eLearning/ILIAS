@@ -7807,14 +7807,7 @@ $setting->set("enable_sahs_pd", 1);
 	    $settings = new ilSetting('chatroom');
 	    $settings->set('public_room_ref', $ref_id);
 	}
-//	else {
-//	    global $tree;
-//	    
-//	    $tree->moveTree($public_room_ref_id, $chatfolder_ref_id);
-//	}
-
-			
-	 
+ 
 ?>
 <#3461>
 <?php
@@ -7842,4 +7835,26 @@ $setting->set("enable_sahs_pd", 1);
 		INTO rbac_fa
 		VALUES (".$ilDB->quote($chat_modetator_tpl_id).", 8, 'n', 'n')";
 	$ilDB->manipulate($query);
+?>
+<#3462>
+<?php
+
+	$ilDB->setLimit(1);
+	$query = "SELECT object_data.obj_id, object_reference.ref_id FROM object_data INNER JOIN object_reference on object_data.obj_id = object_reference.obj_id WHERE type = 'chta'";
+	$rset = $ilDB->query( $query );
+	$row = $ilDB->fetchAssoc($rset);
+	
+	$chatfolder_obj_id = $row['obj_id'];
+	$chatfolder_ref_id = $row['ref_id'];
+	
+	$settings = new ilSetting('chatroom');
+	$public_room_ref_id = $settings->get('public_room_ref', 0);
+
+	if ($public_room_ref_id) {
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$pid = $tree->getParentId($public_room_ref_id);
+		if ($pid != $chatfolder_ref_id) {
+			$tree->moveTree($public_room_ref_id, $chatfolder_ref_id);
+		}
+	}
 ?>
