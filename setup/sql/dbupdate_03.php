@@ -7694,3 +7694,152 @@ $setting->set("enable_sahs_pd", 1);
 		"default" => null)
 	);
 ?>
+<#3459>
+<?php
+	if (!$ilDB->tableColumnExists("chatroom_history", "sub_room"))
+	{
+		$ilDB->addTableColumn("chatroom_history", "sub_room", array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4,
+			"default" => 0));
+	}
+?>
+<#3460>
+<?php
+	$ilDB->setLimit(1);
+	$query = "SELECT object_data.obj_id, object_reference.ref_id FROM object_data INNER JOIN object_reference on object_data.obj_id = object_reference.obj_id WHERE type = 'chta'";
+	$rset = $ilDB->query( $query );
+	$row = $ilDB->fetchAssoc($rset);
+	
+	$chatfolder_obj_id = $row['obj_id'];
+	$chatfolder_ref_id = $row['ref_id'];
+	
+	$settings = new ilSetting('chatroom');
+	$public_room_ref_id = $settings->get('public_room_ref', 0);
+	
+	$query = "SELECT object_data.obj_id, object_reference.ref_id FROM object_data INNER JOIN object_reference on object_data.obj_id = object_reference.obj_id WHERE ref_id = %s AND deleted IS null";
+	$rset = $ilDB->queryF($query, array('integer'), array($public_room_ref_id));
+	
+	if (!$public_room_ref_id || !$rset->numRows($res)) {
+
+	    // add chat below ChatSettings for personal desktop chat
+
+	    $obj_id = $ilDB->nextId('object_data');
+
+	    // Get chat settings id
+
+	    $ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
+			    "VALUES (%s, %s, %s, %s, %s, %s, %s)",
+			    array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+			    array($obj_id, "chtr", "Public Chatroom", "Public Chatroom", -1, ilUtil::now(), ilUtil::now()));
+
+	    $ref_id = $ilDB->nextId('object_reference');
+
+	    // Create reference
+	    $ilDB->manipulateF(
+		    "INSERT INTO object_reference (ref_id, obj_id) VALUES (%s, %s)",
+		    array('integer', 'integer'),
+		    array($ref_id,$obj_id)
+	    );
+
+	    // put in tree
+	    $tree = new ilTree(ROOT_FOLDER_ID);
+	    $tree->insertNode($ref_id,$chatfolder_ref_id);
+
+	    $rolf_obj_id = $ilDB->nextId('object_data');
+
+	    // Create role folder
+	    $ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
+			    "VALUES (%s, %s, %s, %s, %s, %s, %s)",
+			    array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+			    array($rolf_obj_id, "rolf", $obj_id, "(ref_id ".$chat_ref_id.")", -1, ilUtil::now(), ilUtil::now()));
+
+	    $rolf_ref_id = $ilDB->nextId('object_reference');
+
+	    // Create reference
+	    $ilDB->manipulateF(
+		    "INSERT INTO object_reference (ref_id, obj_id) VALUES (%s, %s)",
+		    array('integer', 'integer'),
+		    array($rolf_ref_id,$rolf_obj_id)
+	    );
+
+	    // put in tree
+	    $tree->insertNode($rolf_ref_id,$ref_id);
+
+	    $role_obj_id = $ilDB->nextId('object_data');
+
+	    // Create role
+	    $ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
+			    "VALUES (%s, %s, %s, %s, %s, %s, %s)",
+			    array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+			    array($role_obj_id, "role", "il_chat_moderator_".$ref_id, "Moderator of chat obj_no.".$obj_id, -1, ilUtil::now(), ilUtil::now()));
+
+	    // Insert role_data
+	    $ilDB->manipulateF(
+		    'INSERT INTO role_data set role_id = %s',
+		    array('integer'),
+		    array($role_obj_id)
+	    );
+
+	    $permissions = ilRbacReview::_getOperationIdsByName(array('visible','read','moderate'));
+	    $rbacadmin = new ilRbacAdmin();
+	    $rbacadmin->grantPermission($role_obj_id, $permissions,$ref_id);
+	    $rbacadmin->assignRoleToFolder($role_obj_id,$rolf_ref_id);
+
+	    
+	    $id = $ilDB->nextId('chatroom_settings');
+	    $ilDB->insert(
+		'chatroom_settings',
+		array(
+		    'room_id' => array('integer', $id),
+		    'object_id' => array('integer', $obj_id),
+		    'room_type' => array('text', 'default'),
+		    'allow_anonymous' => array('integer', 0),
+		    'allow_custom_usernames' => array('integer', 0),
+		    'enable_history' => array('integer', 0),
+		    'restrict_history' => array('integer', 0),
+		    'autogen_usernames' => array('text', 'Anonymous #'),
+		    'allow_private_rooms' => array('integer', 1),
+		)
+	    );
+
+	    $settings = new ilSetting('chatroom');
+	    $settings->set('public_room_ref', $ref_id);
+	}
+	else {
+	    global $ilTree;
+	    
+	    $ilTree->moveTree($public_room_ref_id, $chatfolder_ref_id);
+	}
+
+			
+	 
+?>
+<#3461>
+<?php
+
+	$chat_modetator_tpl_id = $ilDB->nextId('object_data');
+	$query = "INSERT
+		INTO object_data (type, title, description, owner, create_date, last_update)
+		VALUES ('rolt', 'il_chat_moderator', 'Moderator template for chat moderators', -1, NOW(), NOW())";
+	$ilDB->manipulate($query);
+
+	$query = 'SELECT ops_id FROM rbac_operations WHERE operation = ' . $ilDB->quote('moderate', 'text');
+	$rset = $ilDB->query($query);
+	$row = $ilDB->fetchAssoc($rset);
+	$moderateId = $row['ops_id'];
+
+	$chat_modetator_ops = array(2,3,4,$moderateId);
+	foreach ($chat_modetator_ops as $op_id)
+	{
+		$query = "INSERT INTO rbac_templates
+		VALUES (".$ilDB->quote($chat_modetator_tpl_id).", 'chtr', ".$ilDB->quote($op_id).", 8)";
+		$ilDB->manipulate($query);
+	}
+
+	$query = "INSERT
+		INTO rbac_fa
+		VALUES (".$ilDB->quote($chat_modetator_tpl_id).", 8, 'n', 'n')";
+	$ilDB->manipulate($query);
+?>

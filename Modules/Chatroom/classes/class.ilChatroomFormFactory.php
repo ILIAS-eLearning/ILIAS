@@ -97,6 +97,7 @@ class ilChatroomFormFactory
 		$form->addItem( $description );
 
 		$cb = new ilCheckboxInputGUI( $lng->txt( 'allow_anonymous' ), 'allow_anonymous' );
+		$cb->setInfo($lng->txt( 'anonymous_hint' ));
 		$form->addItem( $cb );
 
 		$txt = new ilTextInputGUI( $lng->txt( 'autogen_usernames' ), 'autogen_usernames' );
@@ -334,6 +335,10 @@ class ilChatroomFormFactory
 		$txt->setRequired( true );
 		$txt->setInfo($lng->txt('hint_osd_interval'));
 		$cb->addSubItem( $txt );
+		
+		$cb1 = new ilCheckboxInputGUI( $lng->txt( 'play_invitation_sound' ), 'play_invitation_sound' );
+		$cb1->setInfo($lng->txt('play_invitation_sound'));
+		$cb->addSubItem( $cb1 );
 
 		/*$hash = new ilTextInputGUI( $lng->txt( 'hash' ), 'hash' );
 		$hash->setRequired( true );

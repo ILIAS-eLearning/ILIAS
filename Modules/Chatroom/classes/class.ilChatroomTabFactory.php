@@ -80,7 +80,7 @@ class ilChatroomTabFactory
 	 */
 	public function getAdminTabsForCommand($command)
 	{
-		global $ilTabs, $ilCtrl;
+		global $ilTabs, $ilCtrl, $ilDB;
 
 		$command = $this->convertLowerCamelCaseToUnderscoreCaseConversion( $command );
 		$stopCommands = array('create');
@@ -90,33 +90,96 @@ class ilChatroomTabFactory
 			return;
 		}
 
+		$settings = new ilSetting('chatroom');
+		$public_room_ref = $settings->get('public_room_ref');
+		
+		$query = 'SELECT ref_id FROM object_reference INNER JOIN object_data ON object_data.obj_id = object_reference.obj_id WHERE type = ' . $ilDB->quote('chta', 'text');
+		$rset = $ilDB->query($query);
+		$data = $ilDB->fetchAssoc($rset);
+		$admin_ref = $data['ref_id'];
+		
+		
+		$ilCtrl->setParameterByClass('ilObjChatroomAdminGUI', 'ref_id', $admin_ref);
+		
 		$config = array(
                     'view' => array(
 			  'lng' => 'settings',
-			  'link' => $ilCtrl->getLinkTarget($this->gui, 'view-serversettings'),
+			  'link' => $ilCtrl->getLinkTargetByClass('ilObjChatroomAdminGUI', 'view-serversettings'),
 			  'permission' => 'read',
                             'subtabs' => array(
                                     'serversettings' => array(
                                             'lng' => 'server_settings',
-                                            'link' => $ilCtrl->getLinkTarget( $this->gui, 'view-serversettings' ),
+                                            'link' => $ilCtrl->getLinkTargetByClass( 'ilObjChatroomAdminGUI', 'view-serversettings' ),
                                             'permission' => 'read',
                             ),
                                     'clientsettings' => array(
                                             'lng' => 'client_settings',
-                                            'link' => $ilCtrl->getLinkTarget( $this->gui, 'view-clientsettings' ),
+                                            'link' => $ilCtrl->getLinkTargetByClass( 'ilObjChatroomAdminGUI', 'view-clientsettings' ),
                                             'permission' => 'read',
                             )
 			),
                     ),
                     'smiley' => array(
                         'lng'			=> 'smiley',
-                        'link'			=> $ilCtrl->getLinkTarget( $this->gui, 'smiley' ),
+                        'link'			=> $ilCtrl->getLinkTargetByClass( 'ilObjChatroomAdminGUI', 'smiley' ),
                         'permission'	=> 'read'
                     ),
 		);
-
+			
+		$ilCtrl->setParameterByClass('ilObjChatroomGUI', 'ref_id', $public_room_ref);
+		$ilCtrl->setParameterByClass('ilPermissionGUI', 'ref_id', $public_room_ref);
+		
+                $config['settings'] = array(
+		    'lng'			=> 'public_chat_settings',
+		    'link'			=> $ilCtrl->getLinkTargetByClass( 'ilObjChatroomGUI', 'settings-general' ),
+		    'permission'	=> 'write',
+		    'subtabs' => array(
+			'settings' => array(
+				'lng' => 'settings',
+				'link' => $ilCtrl->getLinkTarget( $this->gui, 'settings-general' ),
+				'permission' => 'write'
+				),
+			'ban' => array(
+				'lng' => 'bans',
+				'link' => $ilCtrl->getLinkTargetByClass( 'ilObjChatroomGUI', 'ban-show' ),
+				'permission' => 'moderate',
+				),
+		));
+		
+                $config['perm'] = array(
+				'lng' => 'public_chat_permissions',
+				'link' => $ilCtrl->getLinkTargetByClass( 'ilpermissiongui', 'perm' ),
+				'permission' => 'write',
+			);
+		
+		$ilCtrl->clearParametersByClass('ilPermissionGUI');
+		$ilCtrl->setParameterByClass('ilPermissionGUI', 'ref_id', $admin_ref);
+		
+                $config['perm_settings'] = array(
+			'lng' => 'perm_settings',
+			'link' => $ilCtrl->getLinkTargetByClass( 'ilpermissiongui', 'perm' ),
+			'permission' => 'write',
+		);
+		
+		$ilCtrl->clearParametersByClass('ilPermissionGUI');
+		
                 $commandParts = explode( '_', $command, 2 );
 
+		if ($command == 'ban_show') {
+		    $commandParts[0] = 'settings';
+		    $commandParts[1] = 'ban';
+		}
+		else if ($command == 'settings_general') {
+		    $commandParts[0] = 'settings';
+		    $commandParts[1] = 'settings';
+		}
+		else if (in_array($command, array('perm', 'info', 'owner')) && $_REQUEST['ref_id'] == $public_room_ref) {
+		    $commandParts[0] = 'perm';
+		}
+		else if (in_array($command, array('perm', 'info', 'owner')) && $_REQUEST['ref_id'] == $admin_ref) {
+		    $commandParts[0] = 'perm_settings';
+		}
+		
                 $this->buildTabs( $ilTabs, $config, $commandParts );
                 $this->activateTab( $commandParts, $config );
 	}
@@ -216,11 +279,15 @@ class ilChatroomTabFactory
 				)
 				);
 
-				$commandParts = explode( '_', $command, 2 );
+			$commandParts = explode( '_', $command, 2 );
 
-				$this->buildTabs( $ilTabs, $config, $commandParts );
+			if (in_array($command, array('perm', 'info', 'owner')) && strtolower($_REQUEST['cmdClass']) == 'ilpermissiongui') {
+			    $commandParts[0] = 'perm';
+			}
+			
+			$this->buildTabs( $ilTabs, $config, $commandParts );
 
-				$this->activateTab( $commandParts, $config );
+			$this->activateTab( $commandParts, $config );
 	}
 
 	/**

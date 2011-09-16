@@ -530,7 +530,7 @@
 						case 'private_room_left':
 						case 'notice':
 							line
-							.append($('<span class="chat"></span>').append(message.message));
+							    .append($('<span class="chat"></span>').append(message.message));
 							line.addClass('notice');
 							break;
 						case 'error':
@@ -551,6 +551,9 @@
 			hasContent: function(id) {
 				return $(this).data('ilChatMessageArea')._scopes['id_' + id].find('div').length > 0;
 			},
+			clearMessages: function(id) {
+				$(this).data('ilChatMessageArea')._scopes['id_' + id].find('div').html('');
+			},
 			show: function(id, posturl) {
 				var scopes = $(this).data('ilChatMessageArea')._scopes;
                     
@@ -559,7 +562,21 @@
 				});
                     
 				scopes['id_' + id].show();
-				$('.current_room_title').text(scopes['id_' + id].data('ilChatMessageArea').title);
+				if (id == 0) {
+				    $('.current_room_title').text(scopes['id_' + id].data('ilChatMessageArea').title);
+				}
+				else {
+				    $('.current_room_title').html('').append(
+					$('<a href="#"></a>')
+					    .text(translate('main'))
+					    .click(function(e) {
+						e.preventDefault();
+						e.stopPropagation();
+						$('#chat_messages').ilChatMessageArea('show', 0);
+					    })
+				    )
+				    .append('&nbsp;&rarr;&nbsp;' + scopes['id_' + id].data('ilChatMessageArea').title);
+				}
                     
 				$('.in_room').removeClass('in_room');
                     

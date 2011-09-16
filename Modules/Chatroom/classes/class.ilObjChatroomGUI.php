@@ -18,7 +18,7 @@ require_once 'Modules/Chatroom/lib/DatabayHelper/databayHelperLoader.php';
  *
  * @ilCtrl_Calls ilObjChatroomGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjChatroomGUI: ilExportGUI
- * @ilCtrl_IsCalledBy ilObjChatroomGUI: ilRepositoryGUI, ilpersonaldesktopgui
+ * @ilCtrl_IsCalledBy ilObjChatroomGUI: ilRepositoryGUI, ilpersonaldesktopgui, iladministrationgui, ilobjrootfoldergui
  *
  * @ingroup ModulesChatroom
  */
@@ -56,6 +56,7 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		$this->type = 'chtr';
 		$this->ilObjectGUI( $a_data, $a_id, $a_call_by_reference, false );
 		$this->lng->loadLanguageModule( 'chatroom' );
+		$this->lng->loadLanguageModule( 'chatroom_adm' );
 	}
 
 	/**
@@ -99,7 +100,13 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		require_once 'Modules/Chatroom/classes/class.ilChatroomTabFactory.php';
 		if (!$this->getCreationMode()) {
 		    $tabFactory = new ilChatroomTabFactory( $this );
-		    $tabFactory->getTabsForCommand( $ilCtrl->getCmd() );
+		    
+		    if(strtolower($_GET["baseClass"]) == "iladministrationgui") {
+			$tabFactory->getAdminTabsForCommand( $ilCtrl->getCmd() );
+		    }
+		    else {
+			$tabFactory->getTabsForCommand( $ilCtrl->getCmd() );
+		    }
 		}
 
 		switch($next_class)

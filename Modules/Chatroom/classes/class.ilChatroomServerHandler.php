@@ -129,12 +129,13 @@ class ilChatroomServerHandler
 				$this->getConnector()->sendMessage( $chatroom->getRoomId(), $message );
 
 				if( true || $chatroom->getSetting( 'enable_history' ) ) {
-					$message = json_encode( array(
-                                        'type'		=> 'disconnected',
-                                        'users'		=> $userDetails,
-                                        'timestamp' => date( 'c' )
-					) );
-					$chatroom->addHistoryEntry( $message );
+					$messageObject = array(
+						'type'		=> 'disconnected',
+						'users'		=> $userDetails,
+						'timestamp' => date( 'c' )
+					);
+
+					$chatroom->addHistoryEntry( $messageObject );
 				}
 			}
 		}

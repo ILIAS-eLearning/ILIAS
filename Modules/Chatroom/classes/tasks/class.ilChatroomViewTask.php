@@ -82,23 +82,25 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 
 	    if( !$room->isSubscribed($chat_user->getUserId()) && $room->connectUser($chat_user) )
 	    {
-		$connector->sendMessage(
-		    $scope,
-		    $message = json_encode(
-			array(
-			    'type'  => 'connected',
-			    'users' => array(
-					    array( 'login'  => $chat_user->getUsername(),
-						    'id'    => $user_id,
-					    ),
-					),
-			    'timestamp' => time() * 1000//date( 'c' )
-			)
-		    )
-		);
+		    $messageObject = array(
+			'type'  => 'connected',
+			'users' => array(
+				array(
+				    'login'  => $chat_user->getUsername(),
+				    'id'    => $user_id,
+				),
+			),
+			'timestamp' => time() * 1000//date( 'c' )
+		    );
+		    $message = json_encode($messageObject);
+		    $connector->sendMessage(
+			$scope,
+			$message
+		    );
 
-		if( true || $room->getSetting('enable_history') )
-		    $room->addHistoryEntry($message);
+		    if( true || $room->getSetting('enable_history') ) {
+			$room->addHistoryEntry($messageObject);
+		    }
 	    }
 
 	    $connection_info	= json_decode($response);
@@ -202,12 +204,21 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 			    'entersub'	=> 1
 			);
 		    }
+		    
+		    if ($_SESSION['show_invitation_message']) {
+			$initial->messages[] = array(
+			    'type'  => 'notice',
+			    'message' => $lng->txt('user_invited'),
+			    'sub' => $_REQUEST['sub']
+			);
+			unset ($_SESSION['show_invitation_message']);
+		    }
 		}
 		else
 		{
 		    $initial->messages[] = array(
 			'type'	=> 'error',
-			'message'	=> $lng->txt('unkown_private_room'),
+			'message'	=> $lng->txt('user_invited'),
 		    );
 		}
 	    }
@@ -252,6 +263,8 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 		$roomTpl->setVariable('LBL_INVITE_TO_PRIVATE_ROOM', $lng->txt('invite_to_private_room'));
 		$roomTpl->setVariable('LBL_KICK', $lng->txt('chat_kick'));
 		$roomTpl->setVariable('LBL_BAN', $lng->txt('chat_ban'));
+		$roomTpl->setVariable('LBL_KICK_QUESTION', $lng->txt('kick_question'));
+		$roomTpl->setVariable('LBL_BAN_QUESTION', $lng->txt('ban_question'));
 		$roomTpl->setVariable('LBL_ADDRESS', $lng->txt('chat_address'));
 		$roomTpl->setVariable('LBL_WHISPER', $lng->txt('chat_whisper'));
 		$roomTpl->setVariable('LBL_CONNECT', $lng->txt('chat_connection_established'));
@@ -276,6 +289,13 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 		$roomTpl->setVariable('LBL_CANCEL', $lng->txt('cancel'));
 		$roomTpl->setVariable('LBL_WHISPER_TO', $lng->txt('whisper_to'));
 		$roomTpl->setVariable('LBL_SPEAK_TO', $lng->txt('speak_to'));
+		
+		$roomTpl->setVariable('LBL_USER_IN_ROOM', $lng->txt('user_in_room'));
+		$roomTpl->setVariable('LBL_USER_IN_ILIAS', $lng->txt('user_in_ilias'));
+		
+		$roomTpl->setVariable('LBL_HISTORY_CLEARED', $lng->txt('history_cleared'));
+		$roomTpl->setVariable('LBL_CLEAR_ROOM_HISTORY', $lng->txt('clear_room_history'));
+		$roomTpl->setVariable('LBL_CLEAR_ROOM_HISTORY_QUESTION', $lng->txt('clear_room_history_question'));
 	}
 
 	protected function renderSendMessageBox($roomTpl) {
@@ -308,9 +328,11 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 		$formFactory = new ilChatroomFormFactory();
 		$selectionForm = $formFactory->getUserChatNameSelectionForm($name_options);
 
+		$ilCtrl->saveParameter($this->gui, 'sub');
+		
 		$selectionForm->addCommandButton('view-joinWithCustomName', $lng->txt('enter'));
 		$selectionForm->setFormAction(
-		$ilCtrl->getFormAction($this->gui, 'view-joinWithCustomName')
+		    $ilCtrl->getFormAction($this->gui, 'view-joinWithCustomName')
 		);
 
 		$tpl->setVariable('ADM_CONTENT', $selectionForm->getHtml());
@@ -458,7 +480,8 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 
 		$_REQUEST['sub'] = $response->id;
 
-		ilUtil::sendInfo($lng->txt('user_invited'), true);
+		//ilUtil::sendInfo($lng->txt('user_invited'), true);
+		$_SESSION['show_invitation_message'] = $user_id;
 
 		$ilCtrl->setParameter($this->gui, 'sub', $response->id);
 		$ilCtrl->redirect($this->gui, 'view');

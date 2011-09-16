@@ -120,7 +120,8 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 		    'enable_osd'	=> (boolean)$_POST['enable_osd'],
 		    'osd_intervall'	=> (int)$_POST['osd_intervall'],
 		    'chat_enabled'	=> ((boolean)$_POST['chat_enabled']) && ((boolean)$this->commonSettings->get('soap_user_administration')),
-		    'enable_smilies'	=> (boolean)$_POST['enable_smilies']
+		    'enable_smilies'	=> (boolean)$_POST['enable_smilies'],
+		    'play_invitation_sound'	=> (boolean)$_POST['play_invitation_sound'],
 	    );
 
 	    $notificationSettings = new ilSetting('notifications');
@@ -130,7 +131,8 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 
 	    $chatSettings = new ilSetting('chatroom');
 	    $chatSettings->set('chat_enabled', $settings['chat_enabled']);
-
+	    $chatSettings->set('play_invitation_sound', (bool)$_POST['play_invitation_sound']);
+	    
 	    require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
 	    $adminSettings = new ilChatroomAdmin( $this->gui->object->getId() );
 	    $adminSettings->saveClientSettings( (object)$settings );

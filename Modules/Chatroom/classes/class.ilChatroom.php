@@ -169,11 +169,20 @@ class ilChatroom
 	{
 	    global $ilDB;
 
+	    $subRoom = 0;
+	    if (is_array($message)) {
+		$subRoom = (int) $message['sub'];
+	    }
+	    else if (is_object($message)) {
+		$subRoom = (int) $message->sub;
+	    }
+
 	    $ilDB->insert(
 		self::$historyTable,
 		array(
 		    'room_id'	=> array('integer', $this->roomId),
-		    'message'	=> array('text', $message),
+		    'sub_room'	=> array('integer', $subRoom),
+		    'message'	=> array('text', json_encode($message)),
 		    'timestamp'	=> array('integer', time()),
 		)
 	    );
@@ -561,7 +570,7 @@ class ilChatroom
 	 */
 	public function getHistory(ilDateTime $from = null, ilDateTime $to = null, $restricted_session_userid = null)
 	{
-		global $ilDB;
+		global $ilDB, $ilUser;
 
 		$join = '';
 
@@ -598,6 +607,10 @@ class ilChatroom
 		{
 			$row['message'] = json_decode( $row['message'] );
 			$row['message']->timestamp = $row['timestamp'];
+			if (!$row['public'] && !in_array($ilUser->getId(), explode(',', $row['recipients']))) {
+			    continue;
+			}
+			
 			$result[] = $row;
 		}
 		return $result;
@@ -1252,7 +1265,7 @@ class ilChatroom
 	global $ilDB;
 	
 	$ilDB->setLimit($number);
-	$rset = $ilDB->queryF('SELECT * FROM ' . self::$historyTable . ' WHERE room_id = %s ORDER BY timestamp DESC', array('integer'), array($this->roomId));
+	$rset = $ilDB->queryF('SELECT * FROM ' . self::$historyTable . ' WHERE room_id = %s AND sub_room = 0 ORDER BY timestamp DESC', array('integer'), array($this->roomId));
 	
 	$results = array();
 	while($row = $ilDB->fetchAssoc($rset)) {
@@ -1260,6 +1273,31 @@ class ilChatroom
 	}
 	
 	return $results;
+    }
+    
+    public function clearMessages($sub_room) {
+	global $ilDB;
+	
+	$ilDB->queryF(
+		'DELETE FROM ' . self::$historyTable . ' WHERE room_id = %s AND sub_room = %s',
+		array('integer', 'integer'),
+		array($this->roomId, (int)$sub_room)
+	);
+	
+	if ($sub_room) {
+	    $ilDB->queryF(
+		    'DELETE FROM ' . self::$sessionTable . ' WHERE proom_id = %s AND disconnected < %s',
+		    array('integer', 'integer'),
+		    array($sub_room, time())
+	    );
+	}
+	else {
+	    $ilDB->queryF(
+		    'DELETE FROM ' . self::$sessionTable . ' WHERE room_id = %s AND disconnected < %s',
+		    array('integer', 'integer'),
+		    array($this->roomId, time())
+	    );
+	}
     }
 }
 
