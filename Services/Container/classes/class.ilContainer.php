@@ -531,7 +531,8 @@ class ilContainer extends ilObject
 	*
 	* @return	array
 	*/
-	function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false)
+	function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false,
+		$a_get_single = 0)
 	{
 		global $objDefinition, $ilBench, $tree, $ilObjDataCache, $ilUser, $rbacsystem,
 			$ilSetting;
@@ -560,6 +561,11 @@ class ilContainer extends ilObject
 		
 		foreach ($objects as $key => $object)
 		{
+			if ($a_get_single > 0 && $object["child"] != $a_get_single)
+			{
+				continue;
+			}
+			
 			// hide object types in devmode
 			if ($objDefinition->getDevMode($object["type"]) || $object["type"] == "adm"
 				|| $object["type"] == "rolf")

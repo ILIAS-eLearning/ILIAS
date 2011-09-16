@@ -68,7 +68,8 @@ class ilNoteGUI
 		$this->private_enabled = false;
 		$notes_settings = new ilSetting("notes");
 		$id = $this->rep_obj_id."_".$this->obj_id."_".$this->obj_type;
-		if ($notes_settings->get("activate_".$id))
+		//if ($notes_settings->get("activate_".$id))
+		if (ilNote::commentsActivated($this->rep_obj_id, $this->obj_id, $this->obj_type))
 		{
 			$this->public_enabled = true;
 		}
@@ -295,9 +296,7 @@ if ($this->private_enabled && $this->public_enabled
 		
 		$comments_col = false;
 		if ($this->public_enabled && (!$this->delete_note || $this->public_deletion_enabled)
-			&& !$hide_comments)
-//		if ($this->public_enabled && ($ilUser->getId() != ANONYMOUS_USER_ID)
-//			&& !$hide_comments)
+			&& !$hide_comments && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$ntpl->setVariable("COMMENTS", $this->getNoteListHTML(IL_NOTE_PUBLIC, $a_init_form));
 			$comments_col = true;
@@ -309,22 +308,34 @@ if ($this->private_enabled && $this->public_enabled
 		{
 			$notes_settings = new ilSetting("notes");
 			$id = $this->rep_obj_id."_".$this->obj_id."_".$this->obj_type;
-			$active = $notes_settings->get("activate_".$id);
+			//$active = $notes_settings->get("activate_".$id);
+			$active = ilNote::commentsActivated($this->rep_obj_id, $this->obj_id, $this->obj_type);
 
-			$ntpl->setCurrentBlock("comments_settings");
 			if ($active)
 			{
-				$ntpl->setVariable("TXT_COMMENTS_SETTINGS", $lng->txt("notes_deactivate_comments"));
-				$ntpl->setVariable("HREF_COMMENTS_SETTINGS",
-					$ilCtrl->getLinkTargetByClass("ilnotegui", "deactivateComments", "notes_top"));
+				$this->renderLink($ntpl, "comments_settings", $lng->txt("notes_deactivate_comments"),
+					"deactivateComments", "notes_top");
+				$ntpl->setCurrentBlock("comments_settings2");
 			}
 			else
 			{
-				$ntpl->setVariable("TXT_COMMENTS_SETTINGS", $lng->txt("notes_activate_comments"));
-				$ntpl->setVariable("HREF_COMMENTS_SETTINGS",
-					$ilCtrl->getLinkTargetByClass("ilnotegui", "activateComments", "notes_top"));
+				$this->renderLink($ntpl, "comments_settings", $lng->txt("notes_activate_comments"),
+					"activateComments", "notes_top");
+				$ntpl->setCurrentBlock("comments_settings2");
+
+				if ($this->ajax && !$comments_col)
+				{
+					$ntpl->setVariable("COMMENTS_MESS",
+						$ntpl->getMessageHTML($lng->txt("comments_feature_currently_not_activated_for_object"), "info"));
+				}
 			}
 			$ntpl->parseCurrentBlock();
+			
+			if (!$comments_col)
+			{
+				$ntpl->setVariable("COMMENTS", "");
+			}
+			
 			$comments_col = true;
 		}
 		
@@ -333,51 +344,9 @@ if ($this->private_enabled && $this->public_enabled
 			$ntpl->setCurrentBlock("comments_col");
 			if ($nodes_col)
 			{
-				$ntpl->touchBlock("comments_style");
+//				$ntpl->touchBlock("comments_style");
 			}
 			$ntpl->parseCurrentBlock();
-		}
-		
-		switch($_GET["note_mess"] != "" ? $_GET["note_mess"] : $this->note_mess)
-		{
-			case "mod":
-				$mtype = "success";
-				$mtxt = $lng->txt("msg_obj_modified");
-				break;
-				
-			case "ntsdel":
-				$mtype = "success";
-				$mtxt = $lng->txt("notes_notes_deleted");
-				break;
-
-			case "ntdel":
-				$mtype = "success";
-				$mtxt = $lng->txt("notes_note_deleted");
-				break;
-				
-			case "frmfld":
-				$mtype = "failure";
-				$mtxt = $lng->txt("form_input_not_valid");
-				break;
-
-			case "qdel":
-				$mtype = "question";
-				$mtxt = $lng->txt("info_delete_sure");
-				break;
-				
-			case "noc":
-				$mtype = "failure";
-				$mtxt = $lng->txt("no_checkbox");
-				break;
-		}
-		
-		if ($mtxt != "")
-		{
-			$ntpl->setVariable("NOTE_MESS", $ntpl->getMessageHTML($mtxt, $mtype));
-		}
-		else
-		{
-			$ntpl->setVariable("NOTE_MESS", "");
 		}
 
 		if ($this->ajax)
@@ -401,10 +370,12 @@ if ($this->private_enabled && $this->public_enabled
 		if ($this->comments_settings)
 		{
 			$id = $this->rep_obj_id."_".$this->obj_id."_".$this->obj_type;
-			$notes_settings->set("activate_".$id, 1);
+			//$notes_settings->set("activate_".$id, 1);
+			ilNote::activateComments($this->rep_obj_id, $this->obj_id, $this->obj_type, true);
 		}
 		
-		$ilCtrl->redirectByClass("ilnotegui", "getNotesHtml");
+		$ilCtrl->redirectByClass("ilnotegui", "showNotes", "", $this->ajax);
+//		$ilCtrl->redirectByClass("ilnotegui", "getNotesHtml", "", $this->ajax);
 	}
 
 	/**
@@ -419,10 +390,12 @@ if ($this->private_enabled && $this->public_enabled
 		if ($this->comments_settings)
 		{
 			$id = $this->rep_obj_id."_".$this->obj_id."_".$this->obj_type;
-			$notes_settings->set("activate_".$id, 0);
+			//$notes_settings->set("activate_".$id, 0);
+			ilNote::activateComments($this->rep_obj_id, $this->obj_id, $this->obj_type, false);
 		}
 		
-		$ilCtrl->redirectByClass("ilnotegui", "getNotesHtml");
+		$ilCtrl->redirectByClass("ilnotegui", "showNotes", "", $this->ajax);
+		//$ilCtrl->redirectByClass("ilnotegui", "getNotesHtml", "", $this->ajax);
 	}
 
 	/**
@@ -483,6 +456,7 @@ if ($this->private_enabled && $this->public_enabled
 		if ($this->ajax)
 		{
 			$title = ilObject::_lookupTitle($this->rep_obj_id);
+			$img = ilUtil::img(ilObject::_getIcon($this->rep_obj_id, "tiny"));
 			
 			// add sub-object if given
 			if($this->obj_id)
@@ -498,7 +472,7 @@ if ($this->private_enabled && $this->public_enabled
 			}
 			
 			$tpl->setCurrentBlock("title");
-			$tpl->setVariable("TITLE", $title);
+			$tpl->setVariable("TITLE", $img." ".$title);
 			$tpl->parseCurrentBlock();
 		}
 
@@ -612,7 +586,7 @@ if ($this->private_enabled && $this->public_enabled
 		// show add new note text area
 		//if ($this->add_note_form && $a_type == $_GET["note_type"])
 		if (!$this->edit_note_form &&
-			$ilUser->getPref("notes_".$suffix) != "n")
+			$ilUser->getPref("notes_".$suffix) != "n" && !$this->delete_note)
 		{
 			if ($a_init_form)
 			{
@@ -825,6 +799,50 @@ if ($this->private_enabled && $this->public_enabled
 				$tpl->parseCurrentBlock();
 			}
 		}
+		
+		// message
+		switch($_GET["note_mess"] != "" ? $_GET["note_mess"] : $this->note_mess)
+		{
+			case "mod":
+				$mtype = "success";
+				$mtxt = $lng->txt("msg_obj_modified");
+				break;
+				
+			case "ntsdel":
+				$mtype = "success";
+				$mtxt = $lng->txt("notes_notes_deleted");
+				break;
+
+			case "ntdel":
+				$mtype = "success";
+				$mtxt = $lng->txt("notes_note_deleted");
+				break;
+				
+			case "frmfld":
+				$mtype = "failure";
+				$mtxt = $lng->txt("form_input_not_valid");
+				break;
+
+			case "qdel":
+				$mtype = "question";
+				$mtxt = $lng->txt("info_delete_sure");
+				break;
+				
+			case "noc":
+				$mtype = "failure";
+				$mtxt = $lng->txt("no_checkbox");
+				break;
+		}
+		if ($mtxt != "")
+		{
+			$tpl->setVariable("MESS", $tpl->getMessageHTML($mtxt, $mtype));
+		}
+		else
+		{
+			$tpl->setVariable("MESS", "");
+		}
+
+
 		
 		if ($this->delete_note && count($notes) == 0)
 		{
@@ -1509,15 +1527,26 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	 * @param
 	 * @return
 	 */
-	function getListNotesJSCall($a_ref_id = 0, $a_sub_id = null)
+	function getListNotesJSCall($a_ref_id = 0, $a_sub_id = null,
+		$a_update_code = null)
 	{
-		if($a_sub_id === null)
+		if ($a_update_code === null)
 		{
-			return "ilNotes.listNotes(event, ".$a_ref_id.");";
+			$a_update_code = "null";
 		}
 		else
 		{
-			return "ilNotes.listNotes(event, ".$a_ref_id.", ".$a_sub_id.");";
+			$a_update_code = "'".$a_update_code."'";
+		}
+		if ($a_sub_id === null)
+		{
+			return "ilNotes.listNotes(event, ".$a_ref_id.", null, ".
+				$a_update_code.");";
+		}
+		else
+		{
+			return "ilNotes.listNotes(event, ".$a_ref_id.", ".$a_sub_id.", ".
+				$a_update_code.");";
 		}
 	}
 	
@@ -1527,15 +1556,26 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	 * @param
 	 * @return
 	 */
-	function getListCommentsJSCall($a_ref_id = 0, $a_sub_id = null)
+	function getListCommentsJSCall($a_ref_id = 0, $a_sub_id = null,
+		$a_update_code = null)
 	{
-		if($a_sub_id === null)
+		if ($a_update_code === null)
 		{
-			return "ilNotes.listComments(event, ".$a_ref_id.");";
+			$a_update_code = "null";
 		}
 		else
 		{
-			return "ilNotes.listComments(event, ".$a_ref_id.", ".$a_sub_id.");";
+			$a_update_code = "'".$a_update_code."'";
+		}
+		if($a_sub_id === null)
+		{
+			return "ilNotes.listComments(event, ".$a_ref_id.", null, ".
+				$a_update_code.");";
+		}
+		else
+		{
+			return "ilNotes.listComments(event, ".$a_ref_id.", ".$a_sub_id.", ".
+				$a_update_code.");";
 		}
 	}
 	

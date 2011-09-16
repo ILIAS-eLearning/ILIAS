@@ -385,7 +385,6 @@ a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited
 {
 	font-size: 80%;
 	text-decoration: none;
-	border-bottom: 1px dotted #2020C0;
 	margin: 0px 3px 0px 0px;
 	white-space: nowrap;
 	font-weight: normal;
@@ -394,7 +393,7 @@ a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited
 a.il_ContainerItemCommand2:hover,
 a.il_ContainerItemCommand:hover
 {
-	border-bottom: 1px solid #000000;
+	text-decoration: underline;
 }
 
 div.il_ContainerItemCommands2
@@ -3022,7 +3021,7 @@ h4.ilNoteTitle{
 
 td.ilNoteList {
 	padding: 10px 5px;
-	border-top: 1px dotted #A0A0A0;
+	border-top: 1px solid #F0F0F0;
 	vertical-align: top;
 }
 

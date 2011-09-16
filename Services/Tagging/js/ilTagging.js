@@ -8,7 +8,7 @@ ilTagging =
 	panel: false,
 	ajax_url: '',
 	
-	listTags: function (e, ref_id, sub_id)
+	listTags: function (e, ref_id, sub_id, update_code)
 	{
 		// prevent the default action
 		if (e && e.preventDefault)
@@ -25,13 +25,14 @@ ilTagging =
 		
 		this.ref_id = ref_id;
 		this.sub_id = sub_id;
+		this.update_code = update_code;
 		
 		// add panel
-		this.initPanel(false);
+		this.initPanel(e);
 	},
 	
 	// init the notes editing panel
-	initPanel: function(comments)
+	initPanel: function(e)
 	{
 		if (!this.panel)
 		{
@@ -39,38 +40,30 @@ ilTagging =
 			if (!n)
 			{
 				var b = $("body");
-				b.append("<div class='yui-skin-sam'><div id='ilTagsPanel' style='overflow:auto; background-color:white;'>" +
-					"<div id='ilTagsPanelBody' style='background-color:white; padding:20px;'>&nbsp;</div></div>");
+				b.append("<div class='yui-skin-sam'><div id='ilTagsPanel' class='ilOverlay' style='overflow:auto;'>" +
+					"&nbsp;</div>");
 				var n = document.getElementById('ilTagsPanel');
 			}
 			
-			// Create a panel Instance, from the 'resizablepanel' DIV standard module markup
-			var panel = new YAHOO.widget.Panel("ilTagsPanel", {
-				draggable: false,
-				width: "500px",
-				autofillheight: "body", // default value, specified here to highlight its use in the example
-				constraintoviewport:true
-			});
-			panel.render();
-			this.panel = panel;
+			ilOverlay.add("ilTagsPanel", {yuicfg: {}});
+			ilOverlay.show(e, "ilTagsPanel");
+			this.panel = true;
+
 		}
 		else
 		{
-			this.panel.show();
+			ilOverlay.show(e, "ilTagsPanel");
 		}
 		
 		ilTagging.insertPanelHTML("");
 
-		var obj = document.getElementById('ilTagsPanel_c');
+		var obj = document.getElementById('ilTagsPanel');
 		obj.style.position = 'fixed';
 		obj.style.top = '0px';
 		obj.style.bottom = '0px';
-		obj.style.right = '2px';
+		obj.style.right = '0px';
 		obj.style.left = '';
-		obj = document.getElementById('ilTagsPanel');
-		obj.style.position = 'relative';
-		obj.style.top = '0px';
-		obj.style.right = '2px';
+		obj.style.width = '500px';
 		obj.style.height = '100%';
 		
 		this.sendAjaxGetRequest({cmd: "getHTML", tags_ref_id: this.ref_id, tags_sub_id: this.sub_id}, {mode: 'list_tags'});
@@ -139,6 +132,7 @@ ilTagging =
 	// send request per ajax
 	sendAjaxPostRequest: function(form_id, url, args)
 	{
+		args.reg_type = "post";
 		var cb =
 		{
 			success: this.handleAjaxSuccess,
@@ -164,6 +158,14 @@ ilTagging =
 			{
 				// default action: replace html
 				ilTagging.insertPanelHTML(o.responseText);
+				if (typeof ilTagging.update_code != "undefined" &&
+					ilTagging.update_code != null && ilTagging.update_code != "")
+				{
+					if (o.argument.reg_type == "post")
+					{
+						eval(ilTagging.update_code);
+					}
+				}
 			}
 		}
 	},
@@ -176,7 +178,7 @@ ilTagging =
 
 	insertPanelHTML: function(html)
 	{
-		$('div#ilTagsPanelBody').html(html);
+		$('div#ilTagsPanel').html(html);
 	}
 	
 

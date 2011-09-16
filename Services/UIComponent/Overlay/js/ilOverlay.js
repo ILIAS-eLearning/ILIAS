@@ -175,8 +175,11 @@ ilOverlayFunc.prototype =
 		}
 		
 		// handle event
-		YAHOO.util.Event.preventDefault(e);
-		YAHOO.util.Event.stopPropagation(e);		
+		//if (e != null)
+		//{
+			YAHOO.util.Event.preventDefault(e);
+			YAHOO.util.Event.stopPropagation(e);
+		//}
 	},
 	
 	fixPosition: function(id)

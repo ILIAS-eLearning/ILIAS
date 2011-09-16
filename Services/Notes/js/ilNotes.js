@@ -8,7 +8,7 @@ ilNotes =
 	panel: false,
 	ajax_url: '',
 	
-	listNotes: function (e, ref_id, sub_id)
+	listNotes: function (e, ref_id, sub_id, update_code)
 	{
 		// prevent the default action
 		if (e && e.preventDefault)
@@ -25,12 +25,13 @@ ilNotes =
 		
 		this.ref_id = ref_id;
 		this.sub_id = sub_id;
+		this.update_code = update_code;
 		
 		// add panel
-		this.initPanel(false);
+		this.initPanel(false, e);
 	},
 	
-	listComments: function (e, ref_id, sub_id)
+	listComments: function (e, ref_id, sub_id, update_code)
 	{
 		// prevent the default action
 		if (e && e.preventDefault)
@@ -47,13 +48,14 @@ ilNotes =
 		
 		this.ref_id = ref_id;
 		this.sub_id = sub_id;
+		this.update_code = update_code;
 		
 		// add panel
-		this.initPanel(true);
+		this.initPanel(true, e);
 	},
 	
 	// init the notes editing panel
-	initPanel: function(comments)
+	initPanel: function(comments, e)
 	{
 		if (!this.panel)
 		{
@@ -61,38 +63,30 @@ ilNotes =
 			if (!n)
 			{
 				var b = $("body");
-				b.append("<div class='yui-skin-sam'><div id='ilNotesPanel' style='overflow:auto; background-color:white;'>" +
-					"<div id='ilNotesPanelBody' style='background-color:white; padding:20px;'>&nbsp;</div></div>");
+				b.append("<div class='yui-skin-sam'><div id='ilNotesPanel' class='ilOverlay' style='overflow:auto;'>" +
+					"&nbsp;</div>");
 				var n = document.getElementById('ilNotesPanel');
 			}
 			
-			// Create a panel Instance, from the 'resizablepanel' DIV standard module markup
-			var panel = new YAHOO.widget.Panel("ilNotesPanel", {
-				draggable: false,
-				width: "500px",
-				autofillheight: "body", // default value, specified here to highlight its use in the example
-				constraintoviewport:true
-			});
-			panel.render();
-			this.panel = panel;
+			ilOverlay.add("ilNotesPanel", {yuicfg: {}});
+			ilOverlay.show(e, "ilNotesPanel");
+			this.panel = true;
 		}
 		else
 		{
-			this.panel.show();
+			ilOverlay.show(e, "ilNotesPanel");
+//			this.panel.show();
 		}
 		
 		ilNotes.insertPanelHTML("");
 
-		var obj = document.getElementById('ilNotesPanel_c');
+		var obj = document.getElementById('ilNotesPanel');
 		obj.style.position = 'fixed';
 		obj.style.top = '0px';
 		obj.style.bottom = '0px';
-		obj.style.right = '2px';
+		obj.style.right = '0px';
 		obj.style.left = '';
-		obj = document.getElementById('ilNotesPanel');
-		obj.style.position = 'relative';
-		obj.style.top = '0px';
-		obj.style.right = '2px';
+		obj.style.width = '500px';
 		obj.style.height = '100%';
 		
 		if (comments)
@@ -152,6 +146,7 @@ ilNotes =
 	
 	sendAjaxGetRequestToUrl: function(url, par, args)
 	{
+		args.reg_type = "get";
 		var cb =
 		{
 			success: this.handleAjaxSuccess,
@@ -168,6 +163,7 @@ ilNotes =
 	// send request per ajax
 	sendAjaxPostRequest: function(form_id, url, args)
 	{
+		args.reg_type = "post";
 		var cb =
 		{
 			success: this.handleAjaxSuccess,
@@ -193,6 +189,14 @@ ilNotes =
 			{
 				// default action: replace html
 				ilNotes.insertPanelHTML(o.responseText);
+				if (typeof ilNotes.update_code != "undefined" &&
+					ilNotes.update_code != null && ilNotes.update_code != "")
+				{
+					if (o.argument.reg_type == "post")
+					{
+						eval(ilNotes.update_code);
+					}
+				}
 			}
 		}
 	},
@@ -205,7 +209,7 @@ ilNotes =
 
 	insertPanelHTML: function(html)
 	{
-		$('div#ilNotesPanelBody').html(html);
+		$('div#ilNotesPanel').html(html);
 	}
 	
 

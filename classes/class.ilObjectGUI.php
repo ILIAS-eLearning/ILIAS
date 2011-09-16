@@ -353,6 +353,13 @@ class ilObjectGUI
 		}
 	}
 	
+	protected function redrawHeaderActionObject()
+	{
+		$this->addHeaderAction();
+		return $this->tpl->get("head_action_inner");
+		exit;
+	}
+	
 	protected function removeHeaderAction()
 	{
 		$this->tpl->setHeaderActionMenu(null, null);

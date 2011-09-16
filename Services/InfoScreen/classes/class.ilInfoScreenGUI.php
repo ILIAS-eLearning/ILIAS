@@ -93,7 +93,13 @@ class ilInfoScreenGUI
 						$note_gui = new ilNoteGUI($this->gui_object->object->getId(), (int)$_GET["notes_sub_id"]);
 					}
 					$note_gui->enablePrivateNotes(true);
-					$note_gui->enablePublicNotes(true);			
+					//$note_gui->enablePublicNotes(true);
+					if ($ilAccess->checkAccess("write", "", $_GET["notes_ref_id"]) ||
+						$ilAccess->checkAccess("edit_permissions", "", $_GET["notes_ref_id"]))
+					{
+						$note_gui->enableCommentsSettings();
+					}
+
 					$ilCtrl->forwardCommand($note_gui);		
 					exit();
 				}
@@ -1077,7 +1083,7 @@ class ilInfoScreenGUI
 			$notes_gui->enableCommentsSettings();
 		}
 
-		$notes_gui->enablePrivateNotes();
+//		$notes_gui->enablePrivateNotes();
 		//$notes_gui->enablePublicNotes();
 
 		if ($next_class == "ilnotegui")
