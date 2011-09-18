@@ -135,6 +135,10 @@ accordion.prototype =
 		}
 		myAnim.duration = 0.5;
 		myAnim.onComplete.subscribe(function(a, b, t) {
+				if (t.options.classNames.activeHead && t.showAccordion && t.options.classNames.activeHead != "") {
+					$(t.showAccordion.parentNode).children("div:first").children("div:first").
+						removeClass(t.options.classNames.activeHead);
+				}
 				t.showAccordion.style.height = 'auto';
 				t.showAccordion.style.display = 'none';
 				t.showAccordion = null;
@@ -185,6 +189,17 @@ accordion.prototype =
 				}
 				t.currentAccordion.style.height = 'auto';
 				
+				// add active class to opened accordion
+				if (t.options.classNames.activeHead && t.options.classNames.activeHead != '')
+				{
+					if (t.showAccordion) {
+						$(t.showAccordion.parentNode).children("div:first").children("div:first").
+							removeClass(t.options.classNames.activeHead);
+					}
+					$(t.currentAccordion.parentNode).children("div:first").children("div:first").
+						addClass(t.options.classNames.activeHead);
+				}
+				
 				// set the currently shown accordion
 				t.showAccordion = t.currentAccordion;
 				if (typeof t.options.save_url != "undefined" && t.options.save_url != "")
@@ -223,6 +238,7 @@ accordion.prototype =
 					}, 1, YAHOO.util.Easing.easeOut);
 			}
 			myAnim2.duration = 0.5;
+			
 			myAnim2.animate();
 
 		}
@@ -240,12 +256,13 @@ function ilInitAccordions()
 		ilInitAccordion(ilAccordionData[i][0], ilAccordionData[i][1],
 			ilAccordionData[i][2], ilAccordionData[i][3], ilAccordionData[i][4],
 			ilAccordionData[i][5], ilAccordionData[i][6], ilAccordionData[i][7],
-			ilAccordionData[i][8]);
+			ilAccordionData[i][8], ilAccordionData[i][9]);
 	}
 }
 
 
-function ilInitAccordion(id, toggle_class, toggle_active_class, content_class, width, height, direction, behavior, save_url)
+function ilInitAccordion(id, toggle_class, toggle_active_class, content_class, width, height, direction, behavior, save_url,
+	active_head_class)
 {
 	if (behavior != "ForceAllOpen")
 	{
@@ -254,7 +271,8 @@ function ilInitAccordion(id, toggle_class, toggle_active_class, content_class, w
 			classNames : {
 				toggle : toggle_class,
 				toggleActive : toggle_active_class,
-				content : content_class
+				content : content_class,
+				activeHead : active_head_class
 			},
 			defaultSize : {
 				width : width,

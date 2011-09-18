@@ -765,13 +765,14 @@ class ilObjectGUI
 				if (is_object($cf) && get_class($cf) == "ilPropertyFormGUI")
 				{
 					$htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
-					$htpl->setVariable("IMG_ARROW", ilUtil::getImagePath("accordion_arrow.gif"));
+//					$htpl->setVariable("IMG_ARROW", ilUtil::getImagePath("accordion_arrow.gif"));
 
 					// move title from form to accordion
 					$htpl->setVariable("TITLE", $this->lng->txt("option")." ".$cnt.": ".
 						$cf->getTitle());
 					$cf->setTitle(null);
 					$cf->setTitleIcon(null);
+					$cf->setTableWidth("100%");
 					
 					$acc->addItem($htpl->get(), $cf->getHTML());
 
@@ -779,7 +780,7 @@ class ilObjectGUI
 				}
 			}
 
-			return $acc->getHTML();
+			return "<div style='max-width:700px;'>".$acc->getHTML()."</div>";
 		}
 	}
 

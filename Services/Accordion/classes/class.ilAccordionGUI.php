@@ -130,6 +130,26 @@ class ilAccordionGUI
 		return $this->headerclass;
 	}
 
+	 /**
+	  * Set active header class
+	  *
+	  * @param	string	$a_h_class	Active Header CSS Class
+	  */
+	function setActiveHeaderClass($a_h_class)
+	{
+		$this->active_headerclass = $a_h_class;
+	}
+
+	/**
+	 * Get active Header CSS Class.
+	 *
+	 * @return	string	Active header CSS Class
+	 */
+	function getActiveHeaderClass()
+	{
+		return $this->active_headerclass;
+	}
+
 	/**
 	* Set Content CSS Class.
 	*
@@ -339,6 +359,22 @@ class ilAccordionGUI
 		if ($width > 0 && $this->getOrientation() == ilAccordionGUI::VERTICAL)
 		{
 			$tpl->setVariable("CWIDTH", 'style="width:'.$width.'px;"');
+		}
+
+		if ($this->head_class_set)
+		{
+			$tpl->setVariable("ACTIVE_HEAD_CLASS", $this->getActiveHeaderClass());
+		}
+		else
+		{
+			if ($this->getOrientation() == ilAccordionGUI::VERTICAL)
+			{
+				$tpl->setVariable("ACTIVE_HEAD_CLASS", "il_HAccordionHeadActive");
+			}
+			else
+			{
+				$tpl->setVariable("ACTIVE_HEAD_CLASS", "il_VAccordionHeadActive");
+			}
 		}
 
 		return $tpl->get();

@@ -469,29 +469,35 @@ span.il_ItemProperty
 
 /* Accordions */
 .il_VAccordionContainer, .il_HAccordionContainer {
-	border-bottom:1px solid #9EADBA;
 }
 
 .il_VAccordionHead, .il_HAccordionHead {
 	padding: 3px;
-	background-color: #F8F8F8;
+	background-color: #F3F3F3;
 	text-align:left;
-	border:1px solid #9EADBA;
-	border-bottom-width:0px;
+	border:1px solid #EAEAEA;
 	cursor: pointer;
-	background-image: url(images/block_top.gif);
-	background-repeat: repeat-x;
+	color:#3444aa;
+	font-size: 110%;
+	background-image: url(images/tree_col.png);
+	background-repeat: no-repeat;
+	background-position: 7px 7px;
 }
 
 .il_VAccordionContent, .il_HAccordionContent {
-	padding: 3px;
-	border:1px solid #9EADBA;
-	border-bottom-width:0px;
+}
+
+.il_VAccordionInnerContainer {
+	margin-bottom: 10px;
 }
 
 .il_HAccordionHead:hover, .il_VAccordionHead:hover {
-	background-image: none;
 	background-color: #FFFF99;
+}
+
+.il_HAccordionHeadActive, .il_VAccordionHeadActive {
+	background-image: url(images/tree_exp.png);
+	background-color: #FFFFC9;
 }
 
 /* SCORM styles */
@@ -557,7 +563,7 @@ table.ilForm
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:#D0D5EA;
+	border-color:#EAEAEA;
 }
 
 td.ilFormHeader, td.ilFormFooter
