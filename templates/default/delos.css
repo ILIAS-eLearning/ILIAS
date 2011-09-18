@@ -479,6 +479,7 @@ span.il_ItemProperty
 	cursor: pointer;
 	color:#3444aa;
 	font-size: 110%;
+	padding-left: 30px;
 	background-image: url(images/tree_col.png);
 	background-repeat: no-repeat;
 	background-position: 7px 7px;
