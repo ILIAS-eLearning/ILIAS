@@ -15,6 +15,10 @@ var ilCOPage =
 	pasting: false,
 	response_class: "",
 	
+	////
+	//// Debug/Error Functions
+	////
+	
 	switchDebugGhost: function() {
 		var tp = document.getElementById('tinytarget_parent');
 		if (!this.ghost_debugged)
@@ -36,10 +40,104 @@ var ilCOPage =
 		alert(this.getContentForSaving());
 	},
 	
+	// display error
+	displayError: function(str)
+	{
+		var ediv = document.createElement('div');
+		var mc = document.getElementById("il_CenterColumn");
+		var estr;
+		
+		estr = "Sorry, an error occured. Please copy the content of this window and report the error at:<br /> " +
+			"<a href='http://www.ilias.de/mantis' target='_blank'>http://www.ilias.de/mantis</a>." +
+			"<p><b>User Agent</b></p>" +
+			navigator.userAgent +
+			"<p><b>Error</b></p>";
+		estr = estr + ilCOPage.error_str;
+		estr = estr + "<p><b>Content</b></p>";
+		var content = tinyMCE.get('tinytarget').getContent();
+		content = content.split("<").join("&lt;");
+		content = content.split(">").join("&gt;");
+		estr = estr + content;
+		ediv.innerHTML = "<div style='background-color:#FFFFFF;' id='error_panel'>" +
+		"<div style='padding:20px; width:800px; height: 350px; overflow:auto;'>" + estr + "</div></div>";
+		ediv.className = "yui-skin-sam";
+		ediv = mc.appendChild(ediv);
+		var error_panel = new YAHOO.widget.Panel("error_panel", {
+			close: true,
+			constraintoviewport:true
+		});
+		error_panel.render();
+		error_panel.moveTo(20, 20);
+	},
+
+	////
+	//// Setters/getters
+	////
+
 	setContentCss: function (content_css)
 	{
 		this.content_css = content_css;
 	},
+
+	setEditStatus: function(status)
+	{
+		if (status)
+		{
+//			YAHOO.util.DragDropMgr.lock();
+		}
+		else
+		{
+//			YAHOO.util.DragDropMgr.unlock();
+		}
+		var elements = YAHOO.util.Dom.getElementsByClassName('il_droparea');
+
+		for (k in elements)
+		{
+			elements[k].style.visibility = 'hidden';
+		}
+		var obj = document.getElementById('ilPageEditModeMenu');
+		if (obj) obj.style.visibility = 'hidden';
+		var obj = document.getElementById('ilPageEditActionBar');
+		if (obj) obj.style.visibility = 'hidden';
+		var obj = document.getElementById('ilPageEditLegend');
+		if (obj) obj.style.visibility = 'hidden';
+		elements = YAHOO.util.Dom.getElementsByClassName('ilc_page_cont_PageContainer');
+		for (k in elements)
+		{
+			elements[k].style.backgroundColor = '#F0F0F0';
+		}
+		elements = YAHOO.util.Dom.getElementsByClassName('ilc_page_Page');
+		for (k in elements)
+		{
+			elements[k].style.backgroundColor = '#F0F0F0';
+		}
+
+		this.edit_status = status;
+	},
+
+	getEditStatus: function()
+	{
+		return this.edit_status;
+	},
+
+	setInsertStatus: function(status)
+	{
+		if (status)
+		{
+			this.quick_insert_id = null;
+		}
+		this.insert_status = status;
+	},
+
+	getInsertStatus: function()
+	{
+		return this.insert_status;
+	},
+
+
+	////
+	//// Text editor commands
+	////
 
 	cmdSave: function (switch_to)
 	{
@@ -131,130 +229,6 @@ var ilCOPage =
 	switchTo: function(pc_id)
 	{
 		this.cmdSave(pc_id);
-	},
-	
-	getContentForSaving: function()
-	{
-		var ed = tinyMCE.get('tinytarget');
-		var cl = ed.dom.getRoot().className;
-		var c = ed.getContent();
-		c = "<div class='" + cl + "'>" + c + "</div>";
-		c = c.split("<p>").join("");
-		c = c.split("\n").join("");
-		c = c.split("</p>").join("<br />");
-		c = c.split("<br /></div>").join("</div>");
-		return c;
-	},
-
-	splitBR: function() {
-		var snode;		
-		var ed = tinyMCE.activeEditor;
-		var r = ed.dom.getRoot();
-//		var d = r.childNodes[0];
-//console.log(ed.getContent());
-//console.log(r);
-//		var d = r;
-
-		// make copy of root
-		var rcopy = r.cloneNode(true);
-
-		// remove all childs of top level
-		for (var k = r.childNodes.length - 1; k >= 0; k--)
-		{
-			r.removeChild(r.childNodes[k]);
-		}
-		
-		// cp -> current P
-		var cp = ed.dom.create('p', {}, '');
-		var cp_content = false; // has current P any content?
-		var cc, pc; // cc: currrent child (top level), pc: P child
-		
-		// walk through root copy and add content to emptied original root
-		for (var k = 0; k < rcopy.childNodes.length; k++)
-		{
-			cc = rcopy.childNodes[k];
-			
-			// handle Ps on top level
-			// main purpose: convert <p> ...<br />...</p> to <p>...</p><p>...</p>
-			if (cc.nodeName == "P")
-			{
-				// is there a current P with content? -> add it to top level
-				if (cp_content)
-				{
-					r.appendChild(cp);
-					cp = ed.dom.create('p', {}, '');
-					cp_content = false;
-				}
-				
-				// split all BRs into separate Ps on top level
-				for (var i = 0; i < cc.childNodes.length; i++)
-				{
-					pc = cc.childNodes[i];
-					if (pc.nodeName == "BR")
-					{
-						// append the current p an create a new one
-						r.appendChild(cp);
-						cp = ed.dom.create('p', {}, '');
-						cp_content = false;
-					}
-					else
-					{
-						// append the content to the current p
-						cp.appendChild(pc.cloneNode(true));
-						cp_content = true;
-					}
-				}
-				
-				// append current p and create a new one
-				if (cp_content)
-				{
-					r.appendChild(cp);
-					cp = ed.dom.create('p', {}, '');
-					cp_content = false;
-				}
-			}
-			else if (cc.nodeName == "UL" || cc.nodeName == "OL")
-			{
-				// UL and OL are simply appended to the root
-				if (cp_content)
-				{
-					r.appendChild(cp);
-					cp = ed.dom.create('p', {}, '');
-					cp_content = false;
-				}
-				r.appendChild(rcopy.childNodes[k].cloneNode(true));
-			}
-			else
-			{
-				cp.appendChild(rcopy.childNodes[k].cloneNode(true));
-				cp_content = true;
-			}
-		}
-		if (cp_content)
-		{
-			r.appendChild(cp);
-		}
-//		ed.dom.remove(d, false);
-//		r.appendChild(newd);
-
-		// this is the standard tiny br splitting (which fails in top level Ps)
-		tinymce.each(ed.dom.select('br').reverse(), function(b) {
-			try {
-				//snode = ilCOPage.getCurrentDivNode();
-				//snode = snode.childNodes[0];
-				var snode = ed.dom.getParent(b, 'p,li');
-				ed.dom.split(snode, b);
-			} catch (ex) {
-				// IE can sometimes fire an unknown runtime error so we just ignore it
-			}
-		});
-		
-		// remove brs (normally all should have been handled above
-		var c = ed.getContent();
-		c = c.split("<br />").join("");
-		c = c.split("\n").join("");
-		ed.setContent(c);
-		
 	},
 	
 	cmdCancel: function ()
@@ -426,135 +400,10 @@ tinymce.activeEditor.formatter.register('mycode', {
 		this.autoResize(ed);
 	},
 	
-	fixListClasses: function()
-	{
-		tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('ol'), 'ilc_list_o_NumberedList');
-		tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('ul'), 'ilc_list_u_BulletedList');
-		tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('li'), 'ilc_list_item_StandardListItem');
-	},
-	
-	cleanContent: function()
-	{
-		// split all divs in divs
-		var ed = tinyMCE.activeEditor;
-		var divs = ed.dom.select('div > p > div');
-		var k;
-		for (k in divs)
-		{
-			ed.dom.split(divs[k].parentNode, divs[k]);
-		}
-	},
-	
-	checkContentAndCursor: function()
-	{
-return;
-		var ed = tinyMCE.activeEditor;
-		var ar = ed.selection.getRng();
-		var sc = ar.startContainer.nodeName.toLowerCase();
-//console.log(ar);
-		if (sc == "#text")
-		{
-			sc = ar.startContainer.parentNode.nodeName.toLowerCase();
-		}
-//console.log(sc);
-		if (sc == "body" || sc == "div")
-		{
-			// fix content if empty
-			if (ed.getContent() == "")
-			{
-				ed.setContent("<div class='ilc_text_block_Standard'><p></p></div>");
-			}
-
-			// get div > p node			
-			var r = ed.dom.getRoot();
-			var p = r.childNodes[0].childNodes[0];
-			if (p.nodeName == "#TEXT")
-			{
-				var p = r.childNodes[0].childNodes[1];
-			}
-//console.log(p.nodeName);
-			// fix content if p node missing
-			if (typeof p == "undefined" || !p ||
-				(p.nodeName != "P" && p.nodeName != "OL" && p.nodeName != "UL"))
-			{
-				ed.setContent("<div class='ilc_text_block_Standard'><p></p></div>");
-				r = ed.dom.getRoot();
-				p = r.childNodes[0].childNodes[0];
-			}
-			
-			// set selection to start of first p
-			if (ar.startOffset == 0 || sc == "body")
-			{
-				var rn = ed.dom.createRng();
-				rn.setStart(p, 0);
-				rn.setEnd(p, 0);
-				ed.selection.setRng(rn);
-				ed.selection.collapse(1);
-			}
-		}
-	},
-
-	setEditStatus: function(status)
-	{
-//console.log("set edit status " + status);
-		if (status)
-		{
-//			YAHOO.util.DragDropMgr.lock();
-		}
-		else
-		{
-//			YAHOO.util.DragDropMgr.unlock();
-		}
-		var elements = YAHOO.util.Dom.getElementsByClassName('il_droparea');
-
-		for (k in elements)
-		{
-			elements[k].style.visibility = 'hidden';
-		}
-		var obj = document.getElementById('ilPageEditModeMenu');
-		if (obj) obj.style.visibility = 'hidden';
-		var obj = document.getElementById('ilPageEditActionBar');
-		if (obj) obj.style.visibility = 'hidden';
-		var obj = document.getElementById('ilPageEditLegend');
-		if (obj) obj.style.visibility = 'hidden';
-		elements = YAHOO.util.Dom.getElementsByClassName('ilc_page_cont_PageContainer');
-		for (k in elements)
-		{
-			elements[k].style.backgroundColor = '#F0F0F0';
-		}
-		elements = YAHOO.util.Dom.getElementsByClassName('ilc_page_Page');
-		for (k in elements)
-		{
-			elements[k].style.backgroundColor = '#F0F0F0';
-		}
-
-		this.edit_status = status;
-	},
-
-	getEditStatus: function()
-	{
-		return this.edit_status;
-	},
-
-	setInsertStatus: function(status)
-	{
-		if (status)
-		{
-			this.quick_insert_id = null;
-		}
-		this.insert_status = status;
-	},
-
-	getInsertStatus: function()
-	{
-		return this.insert_status;
-	},
-
 	setParagraphClass: function(i)
 	{
 		var ed = tinyMCE.activeEditor;
 		ed.focus();
-//		var snode = ilCOPage.getCurrentDivNode();
 		var snode = ed.dom.getRoot();
 		
 		if (snode)
@@ -564,49 +413,177 @@ return;
 		this.autoResize(ed);
 	},
 
-	cmdNewParagraph: function(i)
-	{
-		var ed = tinyMCE.activeEditor;
-		ed.focus();
-		var snode = ilCOPage.getCurrentDivNode();
-		var el = ed.dom.create('div', {'class' : 'ilc_text_block_Standard'}, '&nbsp;');
-		ed.dom.insertAfter(el, snode);
-		
-		//rcopy = ed.selection.getRng().cloneRange();
-		//ed.selection.setContent('</div><div class="ilc_text_block_Standard">' + ed.selection.getContent());
-		r =  ed.dom.createRng();
-		r.setEnd(snode.nextSibling, 0);
-		r.setStart(snode.nextSibling, 0);
-		ed.selection.setRng(r);
-		ed.focus();
-
-		this.autoResize(ed);
-	},
-	
+	////
+	//// Content modifier
+	////
 	
 	/**
-	 * Very important for IE: If the event that triggers the action is triggered
-	 * by an <a> Tag without href attribute. The selection in the editor will
-	 * be messed up. No idea why this happens. Add href="#" to all anchors!
+	 * Get content to be sent per ajax to server. 
 	 */
-	getCurrentDivNode: function()
+	getContentForSaving: function()
 	{
+		var ed = tinyMCE.get('tinytarget');
+		var cl = ed.dom.getRoot().className;
+		var c = ed.getContent();
+		
+		// add wrapping div with style class
+		c = "<div class='" + cl + "'>" + c + "</div>";
+		
+		// remove <p> and \n
+		c = c.split("<p>").join("");
+		c = c.split("\n").join("");
+		
+		// convert </p> to <br />
+		c = c.split("</p>").join("<br />");
+		
+		// remove trailing <br />
+		c = c.split("<br /></div>").join("</div>");
+		return c;
+	},
+
+	/**
+	 * This function converts all <br /> into corresponding paragraphs
+	 * (server content comes with <br />, but tiny has all kind of issues
+	 * in "<br>" mode (e.g. IE cannot handle lists). So we use the more
+	 * reliable "<p>" mode of tiny.
+	 */
+	splitBR: function()
+	{
+		var snode;		
 		var ed = tinyMCE.activeEditor;
-		ed.focus();
-		var nnode = ed.selection.getStart();
-		var snode;
-		while (nnode && (nnode.nodeName.toLowerCase() != "body"))
+		var r = ed.dom.getRoot();
+
+		// STEP 1: Handle all top level <br />
+		
+		// make copy of root
+		var rcopy = r.cloneNode(true);
+
+		// remove all childs of top level
+		for (var k = r.childNodes.length - 1; k >= 0; k--)
 		{
-			snode = nnode;
-			nnode = nnode.parentNode;
+			r.removeChild(r.childNodes[k]);
 		}
-		if (snode.nodeName.toLowerCase() == "div")
+		
+		// cp -> current P
+		var cp = ed.dom.create('p', {}, '');
+		var cp_content = false; // has current P any content?
+		var cc, pc; // cc: currrent child (top level), pc: P child
+		
+		// walk through root copy and add content to emptied original root
+		for (var k = 0; k < rcopy.childNodes.length; k++)
 		{
-			return snode;
+			cc = rcopy.childNodes[k];
+			
+			// handle Ps on top level
+			// main purpose: convert <p> ...<br />...</p> to <p>...</p><p>...</p>
+			if (cc.nodeName == "P")
+			{
+				// is there a current P with content? -> add it to top level
+				if (cp_content)
+				{
+					r.appendChild(cp);
+					cp = ed.dom.create('p', {}, '');
+					cp_content = false;
+				}
+				
+				// split all BRs into separate Ps on top level
+				for (var i = 0; i < cc.childNodes.length; i++)
+				{
+					pc = cc.childNodes[i];
+					if (pc.nodeName == "BR")
+					{
+						// append the current p an create a new one
+						r.appendChild(cp);
+						cp = ed.dom.create('p', {}, '');
+						cp_content = false;
+					}
+					else
+					{
+						// append the content to the current p
+						cp.appendChild(pc.cloneNode(true));
+						cp_content = true;
+					}
+				}
+				
+				// append current p and create a new one
+				if (cp_content)
+				{
+					r.appendChild(cp);
+					cp = ed.dom.create('p', {}, '');
+					cp_content = false;
+				}
+			}
+			else if (cc.nodeName == "UL" || cc.nodeName == "OL")
+			{
+				// UL and OL are simply appended to the root
+				if (cp_content)
+				{
+					r.appendChild(cp);
+					cp = ed.dom.create('p', {}, '');
+					cp_content = false;
+				}
+				r.appendChild(rcopy.childNodes[k].cloneNode(true));
+			}
+			else
+			{
+				cp.appendChild(rcopy.childNodes[k].cloneNode(true));
+				cp_content = true;
+			}
+		}
+		if (cp_content)
+		{
+			r.appendChild(cp);
 		}
 
-		return false;
+		// STEP 2: Handle all non-top level <br />
+		
+		// this is the standard tiny br splitting (which fails in top level Ps)
+		tinymce.each(ed.dom.select('br').reverse(), function(b) {
+			try {
+				var snode = ed.dom.getParent(b, 'p,li');
+				ed.dom.split(snode, b);
+			} catch (ex) {
+				// IE can sometimes fire an unknown runtime error so we just ignore it
+			}
+		});
+		
+		
+		// STEP 3: Clean up
+		
+		// remove brs (normally all should have been handled above)
+		var c = ed.getContent();
+		c = c.split("<br />").join("");
+		c = c.split("\n").join("");
+		ed.setContent(c);
 	},
+	
+	/**
+	 * This one ensures that the standard ILIAS list style classes
+	 * are assigned to list elements
+	 */
+	fixListClasses: function()
+	{
+		tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('ol'), 'ilc_list_o_NumberedList');
+		tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('ul'), 'ilc_list_u_BulletedList');
+		tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('li'), 'ilc_list_item_StandardListItem');
+	},
+	
+	// remove all divs (used after pasting)
+	splitDivs: function()
+	{
+		// split all divs in divs
+		var ed = tinyMCE.activeEditor;
+		var divs = ed.dom.select('p > div');
+		var k;
+		for (k in divs)
+		{
+			ed.dom.split(divs[k].parentNode, divs[k]);
+		}
+	},
+	
+	////
+	//// Tiny/text area/menu handling
+	////
 
 	prepareTinyForEditing: function(insert, switched)
 	{
@@ -696,65 +673,7 @@ this.copyInputToGhost(false);
 		tt.style.display = 'none';
 	},
 	
-	editTD: function(id)
-	{
-		editParagraph(id, 'td', false);
-		//var ed = tinyMCE.get('tinytarget');
-		//this.focusTiny();
-	},
-
-	editNextCell: function()
-	{
-		// check whether next cell exists
-		var cdiv = this.current_td.split("_");
-		var next = "cell_" + cdiv[1] + "_" + (parseInt(cdiv[2]) + 1);
-		var nobj = document.getElementById("div_" + next);
-		if (nobj == null)
-		{
-			var next = "cell_" + (parseInt(cdiv[1]) + 1) + "_0";
-			var nobj = document.getElementById("div_" + next);
-		}
-		if (nobj != null)
-		{
-			editParagraph(next, "td", false);
-		}
-	},
-
-	editPreviousCell: function()
-	{
-		// check whether next cell exists
-		var prev = "";
-		var cdiv = this.current_td.split("_");
-		if (parseInt(cdiv[2]) > 0)
-		{
-			prev = "cell_" + cdiv[1] + "_" + (parseInt(cdiv[2]) - 1);
-			var pobj = document.getElementById("div_" + prev);
-		}
-		else if (parseInt(cdiv[1]) > 0)
-		{
-			var p = "cell_" + (parseInt(cdiv[1]) - 1) + "_0";
-			var o = document.getElementById("div_" + p);
-			var i = 0;
-			while (o != null)
-			{
-				pobj = o;
-				prev = p;
-				p = "cell_" + (parseInt(cdiv[1]) - 1) + "_" + i;
-				var o = document.getElementById("div_" + p);
-				i++;
-			}
-		}
-		if (prev != "")
-		{
-			var pobj = document.getElementById("div_" + prev);
-			if (pobj != null)
-			{
-				editParagraph(prev, "td", false);
-			}
-		}
-	},
-
-	// set frame size of editor
+		// set frame size of editor
 	setEditFrameSize: function(width, height)
 	{
 		var tinyifr = document.getElementById("tinytarget_ifr");
@@ -864,56 +783,96 @@ else
 			window.scrollTo(0, -20 + tiny_reg.y - (menu_reg.height + menu_reg.y - cl_reg.top));
 		}
 	},
-	
-	/**
-	 * Init all draggable elements (YUI)
-	 */
-	initDragElements: function()
+
+	updateMenuButtons: function()
 	{
-		var d;
-		
-		this.drag_contents = [];
-		this.drag_targets = [];
-		
-		// get all spans
-		obj=document.getElementsByTagName('div')
-		
-		// run through them
-		for (var i=0;i<obj.length;i++)
+		var ed = tinyMCE.get('tinytarget');
+		// update buttons
+		var cnode = ed.selection.getNode();
+		while (cnode)
 		{
-			// make all edit areas draggable
-			if(/il_editarea/.test(obj[i].className))
+			if (cnode.parentNode &&
+				cnode.parentNode.nodeName.toLowerCase() == "body" &&
+				cnode.nodeName.toLowerCase() == "div")
 			{
-				d = new ilDragContent(obj[i].id, "gr1");
-				this.drag_contents.push(d);
-	//d.locked = true;
+				var st = cnode.className.substring(15);
+				//var st_s = document.getElementById('style_selection');
+				//if (st_s != null)
+				//{
+					ilAdvancedSelectionList.selectItem('style_selection', st);
+				//}
 			}
-			// make all drop areas dropable
-			if(/il_droparea/.test(obj[i].className))
-			{
-				d = new ilDragTarget(obj[i].id, "gr1");
-				this.drag_targets.push(d);
-			}
+			
+			cnode = cnode.parentNode;
 		}
 	},
 	
-	disableDragContents: function()
+
+	////
+	//// Table editing
+	////
+	
+	editTD: function(id)
 	{
-		var i;
-		for (i in this.drag_contents)
+		editParagraph(id, 'td', false);
+		//var ed = tinyMCE.get('tinytarget');
+		//this.focusTiny();
+	},
+
+	editNextCell: function()
+	{
+		// check whether next cell exists
+		var cdiv = this.current_td.split("_");
+		var next = "cell_" + cdiv[1] + "_" + (parseInt(cdiv[2]) + 1);
+		var nobj = document.getElementById("div_" + next);
+		if (nobj == null)
 		{
-			this.drag_contents[i].locked = true;
+			var next = "cell_" + (parseInt(cdiv[1]) + 1) + "_0";
+			var nobj = document.getElementById("div_" + next);
+		}
+		if (nobj != null)
+		{
+			editParagraph(next, "td", false);
 		}
 	},
 
-	enableDragContents: function()
+	editPreviousCell: function()
 	{
-		var i;
-		for (i in this.drag_contents)
+		// check whether next cell exists
+		var prev = "";
+		var cdiv = this.current_td.split("_");
+		if (parseInt(cdiv[2]) > 0)
 		{
-			this.drag_contents[i].locked = false;
+			prev = "cell_" + cdiv[1] + "_" + (parseInt(cdiv[2]) - 1);
+			var pobj = document.getElementById("div_" + prev);
+		}
+		else if (parseInt(cdiv[1]) > 0)
+		{
+			var p = "cell_" + (parseInt(cdiv[1]) - 1) + "_0";
+			var o = document.getElementById("div_" + p);
+			var i = 0;
+			while (o != null)
+			{
+				pobj = o;
+				prev = p;
+				p = "cell_" + (parseInt(cdiv[1]) - 1) + "_" + i;
+				var o = document.getElementById("div_" + p);
+				i++;
+			}
+		}
+		if (prev != "")
+		{
+			var pobj = document.getElementById("div_" + prev);
+			if (pobj != null)
+			{
+				editParagraph(prev, "td", false);
+			}
 		}
 	},
+
+	////
+	//// Ajax calls functions
+	////
 
 	sendCmdRequest: function(cmd, source_id, target_id, par, ajax, args, success_cb)
 	{
@@ -1015,33 +974,6 @@ else
 		}
 	},
 	
-	/**
-	 * Removes all paragraphs from the background that are also in the editing
-	 * window (except one)
-	 */
-	removeRedundantContent: function()
-	{
-		var k, d,
-			darr = ilCOPage.pc_id_str.split(";");
-
-		for (k in darr)
-		{
-			if (darr[k] != ed_para)
-			{
-				d = document.getElementById("CONTENT" + darr[k]);
-				if (d != null)
-				{
-					d.style.display = 'none';
-				}
-				d = document.getElementById("TARGET" + darr[k]);
-				if (d != null)
-				{
-					d.style.display = 'none';
-				}
-			}
-		}
-	},
-	
 	// extract pc ids
 	extractPCIdsFromResponse: function(str)
 	{
@@ -1140,69 +1072,18 @@ else
 		}
 	},
 	
-	// display error
-	displayError: function(str)
+	insertJSAtPlaceholder: function(cmd_id)
 	{
-		var ediv = document.createElement('div');
-		var mc = document.getElementById("il_CenterColumn");
-		var estr;
-		
-		estr = "Sorry, an error occured. Please copy the content of this window and report the error at:<br /> " +
-			"<a href='http://www.ilias.de/mantis' target='_blank'>http://www.ilias.de/mantis</a>." +
-			"<p><b>User Agent</b></p>" +
-			navigator.userAgent +
-			"<p><b>Error</b></p>";
-		estr = estr + ilCOPage.error_str;
-		estr = estr + "<p><b>Content</b></p>";
-		var content = tinyMCE.get('tinytarget').getContent();
-		//content = content.replace(/</g, “&lt;”);
-		//content = content.replace(/>/g, “&gt;”);
-		content = content.split("<").join("&lt;");
-		content = content.split(">").join("&gt;");
-		estr = estr + content;
-		ediv.innerHTML = "<div style='background-color:#FFFFFF;' id='error_panel'>" +
-		"<div style='padding:20px; width:800px; height: 350px; overflow:auto;'>" + estr + "</div></div>";
-		ediv.className = "yui-skin-sam";
-//		ediv.style.position = 'absolute';
-//		ediv.style.width = '700px';
-//		ediv.style.height = '350px';
-//		ediv.style.overflow = 'auto';
-		ediv = mc.appendChild(ediv);
-//		var m_el = document.getElementById('iltinymenu');
-//		var m_reg = YAHOO.util.Region.getRegion(m_el);
-//		YAHOO.util.Dom.setX(ediv, m_reg.x);
-//		YAHOO.util.Dom.setY(ediv, m_reg.y + m_reg.height);
-		var error_panel = new YAHOO.widget.Panel("error_panel", {
-			close: true,
-			constraintoviewport:true
-		});
-		error_panel.render();
-		error_panel.moveTo(20, 20);
-
+		clickcmdid = cmd_id;
+		var pl = document.getElementById('CONTENT' + cmd_id);
+		pl.style.display = 'none';
+		doActionForm('cmd[exec]', 'command', 'insert_par', '', 'PageContent', '');
 	},
 	
-	updateMenuButtons: function()
-	{
-		var ed = tinyMCE.get('tinytarget');
-		// update buttons
-		var cnode = ed.selection.getNode();
-		while (cnode)
-		{
-			if (cnode.parentNode &&
-				cnode.parentNode.nodeName.toLowerCase() == "body" &&
-				cnode.nodeName.toLowerCase() == "div")
-			{
-				var st = cnode.className.substring(15);
-				//var st_s = document.getElementById('style_selection');
-				//if (st_s != null)
-				//{
-					ilAdvancedSelectionList.selectItem('style_selection', st);
-				//}
-			}
-			
-			cnode = cnode.parentNode;
-		}
-	},
+	
+	////
+	//// Page editing (incl. drag/drop and menues)
+	////
 	
 	/**
 	 * Render questions (YUI)
@@ -1228,14 +1109,84 @@ else
 			}
 		}
 	},
-	
-	insertJSAtPlaceholder: function(cmd_id)
+
+	/**
+	 * Removes all paragraphs from the background that are also in the editing
+	 * window (except one)
+	 */
+	removeRedundantContent: function()
 	{
-		clickcmdid = cmd_id;
-		var pl = document.getElementById('CONTENT' + cmd_id);
-		pl.style.display = 'none';
-		doActionForm('cmd[exec]', 'command', 'insert_par', '', 'PageContent', '');
+		var k, d,
+			darr = ilCOPage.pc_id_str.split(";");
+
+		for (k in darr)
+		{
+			if (darr[k] != ed_para)
+			{
+				d = document.getElementById("CONTENT" + darr[k]);
+				if (d != null)
+				{
+					d.style.display = 'none';
+				}
+				d = document.getElementById("TARGET" + darr[k]);
+				if (d != null)
+				{
+					d.style.display = 'none';
+				}
+			}
+		}
+	},
+
+	/**
+	 * Init all draggable elements (YUI)
+	 */
+	initDragElements: function()
+	{
+		var d;
+		
+		this.drag_contents = [];
+		this.drag_targets = [];
+		
+		// get all spans
+		obj=document.getElementsByTagName('div')
+		
+		// run through them
+		for (var i=0;i<obj.length;i++)
+		{
+			// make all edit areas draggable
+			if(/il_editarea/.test(obj[i].className))
+			{
+				d = new ilDragContent(obj[i].id, "gr1");
+				this.drag_contents.push(d);
+	//d.locked = true;
+			}
+			// make all drop areas dropable
+			if(/il_droparea/.test(obj[i].className))
+			{
+				d = new ilDragTarget(obj[i].id, "gr1");
+				this.drag_targets.push(d);
+			}
+		}
+	},
+	
+	disableDragContents: function()
+	{
+		var i;
+		for (i in this.drag_contents)
+		{
+			this.drag_contents[i].locked = true;
+		}
+	},
+
+	enableDragContents: function()
+	{
+		var i;
+		for (i in this.drag_contents)
+		{
+			this.drag_contents[i].locked = false;
+		}
 	}
+
 }
 
 var stopHigh = false;
@@ -1250,110 +1201,8 @@ var cmd_called = false;
 
 ilAddOnLoad(function(){var preloader = new Image();
 preloader.src = "./templates/default/images/loader.gif";});
-//document.onmousemove=followmouse1;
 YAHOO.util.Event.addListener(document, 'mousemove', followmouse1);
 
-/**
-* Get inner height of window
-*/
-function ilGetWinInnerHeight()
-{
-	if (self.innerHeight)
-	{
-		return self.innerHeight;
-	}
-	// IE 6 strict Mode
-	else if (document.documentElement && document.documentElement.clientHeight)
-	{
-		return document.documentElement.clientHeight;
-	}
-	// other IE
-	else if (document.body)
-	{
-		return document.body.clientHeight;
-	}
-}
-
-function ilGetWinPageYOffset()
-{
-	if (typeof(window.pageYOffset ) == 'number')
-	{
-		return window.pageYOffset;
-	}
-	else if(document.body && (document.body.scrollLeft || document.body.scrollTop ))
-	{
-		return document.body.scrollTop;
-	}
-	else if(document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrollTop))
-	{
-		return document.documentElement.scrollTop;
-	}
-	return 0;
-}
-
-function getBodyWidth()
-{
-	if (document.body && document.body.offsetWidth)
-	{
-		return document.body.offsetWidth;
-	}
-	else if (document.documentElement && document.documentElement.offsetWidth)
-	{
-		return document.documentElement.offsetWidth;
-	}
-	return 0;
-}
-
-function ilGetOffsetTop(el)
-{
-	var y = 0;
-	
-	if (typeof(el) == "object" && document.getElementById)
-	{
-		y = el.offsetTop;
-		if (el.offsetParent)
-		{
-			y += ilGetOffsetTop(el.offsetParent);
-		}
-		return y;
-	}
-	else 
-	{
-		return false;
-	}
-}
-
-function ilGetMouseX(e)
-{
-	if (e.pageX)
-	{
-		return e.pageX;
-	}
-	else if (document.documentElement)
-	{
-		return e.clientX + document.documentElement.scrollLeft;
-	}
-	if (document.body)
-	{
-		Mposx = e.clientX + document.body.scrollLeft;
-	}
-}
-
-function ilGetMouseY(e)
-{
-	if (e.pageY)
-	{
-		return e.pageY;
-	}
-	else if (document.documentElement)
-	{
-		return e.clientY + ilGetWinPageYOffset();
-	}
-	if (document.body)
-	{
-		Mposx = e.clientY + document.body.scrollTop;
-	}
-}
 
 /**
 * On mouse over: Set style class of element id to class
@@ -1432,15 +1281,9 @@ function doMouseOut(id, mclass, type, char)
 
 function followmouse1(e) 
 {
-//    if (!e) var e = window.event;
-    
-//	Mposx = ilGetMouseX(e);
-//	Mposy = ilGetMouseY(e);
-
 	var t = YAHOO.util.Event.getXY(e);
 	Mposx = t[0];
 	Mposy = t[1];
-
 }
 
 function showMenu(id, x, y)
@@ -1455,29 +1298,8 @@ function showMenu(id, x, y)
 	if (cmd_called) return;
 	
 	var obj = document.getElementById(id);
-obj.style.visibility = '';
-YAHOO.util.Dom.setXY(obj, [x,y], true);
-
-/*	obj.style.visibility = '';
-	obj.style.left = x + 10 + "px";
-	obj.style.top = y + "px";
-	
-	var w = Math.floor(getBodyWidth() / 2);
-	
-	var wih = ilGetWinInnerHeight();
-	var yoff = ilGetWinPageYOffset();
-	var top = ilGetOffsetTop(obj);
-	
-	if (Mposx > w)
-	{
-		obj.style.left = Mposx - (obj.offsetWidth + 10) + "px";
-	}
-
-	if (top + (obj.offsetHeight + 10) > wih + yoff)
-	{
-		obj.style.top = (wih + yoff - (obj.offsetHeight + 10)) + "px";
-	}
-*/
+	obj.style.visibility = '';
+	YAHOO.util.Dom.setXY(obj, [x,y], true);
 }
 
 function hideMenu(id, force)
@@ -1532,35 +1354,9 @@ var cmd4 = "";
 
 function doMouseUp(id) 
 {
-/*	if (dragDropShow)
-	{
-		if(mouseUpBlocked) return;
-		mouseUpBlocked = true;
-		setTimeout("mouseUpBlocked = false;",200);
-		
-		// mousebutton released over new object. call moveafter
-		//alert(dragId+" - "+overId);
-		DID = overId.substr(7);
-		OID = dragId.substr(7);
-		if (DID != OID) 
-		{ 
-			doCloseContextMenuCounter = 20;
-			openedMenu = "movebeforeaftermenu";
-			dd.elements.movebeforeaftermenu.moveTo(Mposx,Mposy);
-			dd.elements.movebeforeaftermenu.show();
-			cmd1 = 'cmd[exec_'+OID+']';
-			cmd2 = 'command'+OID;
-			cmd3 = 'moveAfter';
-			cmd4 = DID;
-			//doActionForm('cmd[exec_'+OID+']','command'+OID+'', 'moveAfter', DID);
-		}
-	}
-*/
 	dragId = "";
 	mouseIsDown = false;
 	dragDropShow = false;
-//	dd.elements.dragdropsymbol.hide();
-//	dd.elements.dragdropsymbol.moveTo(-1000,-1000);
 	setTimeout("dragDropShow = false",500);
 }
 
@@ -1640,8 +1436,9 @@ function doMouseClick(e, id, type, char)
 		var nextMenu = "contextmenu_" + extractHierId(clickcmdid);
 	}
 	
-	Mposx = ilGetMouseX(e);
-	Mposy = ilGetMouseY(e);
+	var t = YAHOO.util.Event.getXY(e);
+	Mposx = t[0];
+	Mposy = t[1];
 
 	if (!dragDropShow) 
 	{
@@ -1762,16 +1559,6 @@ function editParagraph(div_id, mode, switched)
 		{
 			ilCOPage.copyInputToGhost(true);
 ilCOPage.copyInputToGhost(false);
-
-// try using ed.destroy???
-//			tinyMCE.execCommand('mceRemoveControl', false, 'tinytarget');
-//			ed.destroy();
-//tinyMCE.execCommand('mceAddControl', false, 'tinytarget');
-//return;
-//			var ta = document.getElementById('tinytarget');
-//			var par = ta.parentNode;
-//			par.removeChild(ta);
-			//pdiv.style.display = '';
 			var pdiv = document.getElementById('div_' + ilCOPage.current_td);
 			pdiv.style.minHeight = '';
 			pdiv.style.minWidth = '';
@@ -1782,10 +1569,6 @@ ilCOPage.copyInputToGhost(false);
 		var pdiv = document.getElementById('div_' + div_id);
 		var pdiv_reg = YAHOO.util.Region.getRegion(pdiv);
 		ilCOPage.current_td = div_id;
-//console.log("Set current_td " + div_id);
-//		pdiv.style.minHeight = ilCOPage.minheight + "px";
-//		pdiv.style.minWidth = ilCOPage.minwidth + "px";
-
 	}
 
 
@@ -1852,54 +1635,23 @@ ilCOPage.copyInputToGhost(false);
 		ta_div.style.left = '-200px';
 
 	}
-//alert("dd");
+	
 	// init tiny
-	var tinytarget = document.getElementById("tinytarget");
-	var show_path = true;
-	var resize = true;
-	var statusbar = 'bottom';
-
-//show_path = false;
-resize = false;
-//statusbar = false;
-
-	if (mode == 'td')
+	var resize = false;
+	var show_path = false;
+	var statusbar = false;
+	
+	// for debugging, this may be activated
+	if (false && mode != 'td')
 	{
-		show_path = false;
-		resize = false;
-		statusbar = false;
+		show_path = true;
+		statusbar = 'bottom';
 	}
-show_path = false;
-resize = false;
-statusbar = false;
+
+	var tinytarget = document.getElementById("tinytarget");
 	tinytarget.style.display = '';
-//alert("bb");
 	if (!moved)
 	{
-		// without using p tags
-		/*	remove_linebreaks : false,
-			convert_newlines_to_brs : false,
-			force_p_newlines : false,
-			force_br_newlines : true,
-			forced_root_block : 'div', */
-
-		// old
-		/*	remove_linebreaks : false,
-			convert_newlines_to_brs : false,
-			force_p_newlines : false,
-			force_br_newlines : true,
-			forced_root_block : 'div',
-			paste_text_linebreaktype : "br", */
-
-		// going fully to p tags
-		/*	remove_linebreaks : true,
-			convert_newlines_to_brs : false,
-			force_p_newlines : true,
-			force_br_newlines : false,
-			forced_root_block : 'div',
-			"p,br,div[class|id],span[class],code,ul[class],ol[class],li[class]"
-			paste_text_linebreaktype : "p",*/
-		
 		tinyMCE.init({
 			mode : "textareas",
 			theme : "advanced",
@@ -1931,6 +1683,8 @@ statusbar = false;
 			cleanup_on_startup : true,
 			entity_encoding : "raw",
 			cleanup: true,
+			paste_auto_cleanup_on_paste : true,
+			paste_remove_styles: true,
 
 			style_formats : [
 				{title : 'Strong', inline : 'span', classes : 'ilc_text_inline_Strong'},
@@ -1941,9 +1695,6 @@ statusbar = false;
 				{title : 'Accent', inline : 'span', classes : 'ilc_text_inline_Accent'}
 			],
 			
-			paste_auto_cleanup_on_paste : false,
-			paste_remove_styles: true,
-
 			/**
 			 * Event is triggered after the paste plugin put the content
 			 * that should be pasted into a dom structure now
@@ -1957,12 +1708,11 @@ statusbar = false;
 					o.content = o.content.replace(/(\r\n|\r|\n)/g, '\n');
 					o.content = o.content.replace(/(\n)/g, ' ');
 				}
+				// remove any attributes from <p>
+				o.content = o.content.replace(/(<p [^>]*>)/g, '<p>');
+				//o.content = o.content.replace(/(<p>)/g, '');
+				//o.content = o.content.replace(/(<\/p>)/g, '<br />');
 
-				// make all p -> br
-				o.content = o.content.replace(/(<p [^>]*>)/g, '');
-				o.content = o.content.replace(/(<p>)/g, '');
-				o.content = o.content.replace(/(<\/p>)/g, '<br />');
-				
 				// remove all divs
 				o.content = o.content.replace(/(<div [^>]*>)/g, '');
 				o.content = o.content.replace(/(<\/div>)/g, '');
@@ -1981,12 +1731,36 @@ statusbar = false;
 					
 				}
 
+				// we must handle all valid elements here
+				// p (handled in paste_preprocess)
+				// br[_moz_dirty] (investigate)
+				// span[class] (todo)
+				// code (should be ok, since no attributes allowed)
+				// ul[class],ol[class],li[class] handled here
+				
+				// fix lists
+				ed.dom.setAttrib(ed.dom.select('ol', o.node), 'class', 'ilc_list_o_NumberedList');
+				ed.dom.setAttrib(ed.dom.select('ul', o.node), 'class', 'ilc_list_u_BulletedList');
+				ed.dom.setAttrib(ed.dom.select('li', o.node), 'class', 'ilc_list_item_StandardListItem');
+				
+				// replace all b nodes by spans[Strong]
+				tinymce.each(ed.dom.select('b', o.node), function(n) {
+					ed.dom.replace(ed.dom.create('span', {class: 'ilc_text_inline_Strong'}, n.innerHTML), n);
+				});
+				// replace all u nodes by spans[Important]
+				tinymce.each(ed.dom.select('u', o.node), function(n) {
+					ed.dom.replace(ed.dom.create('span', {class: 'ilc_text_inline_Important'}, n.innerHTML), n);
+				});
+				// replace all i nodes by spans[Emph]
+				tinymce.each(ed.dom.select('i', o.node), function(n) {
+					ed.dom.replace(ed.dom.create('span', {class: 'ilc_text_inline_Emph'}, n.innerHTML), n);
+				});
+ 
 				// remove all id attributes from the content
 				tinyMCE.each(ed.dom.select('*[id!=""]', o.node), function(el) {
 					el.id = '';
 				});
 				ilCOPage.pasting = true;
-//				ilCOPage.cleanContent();
 			},
 
 			setup : function(ed) {
@@ -1997,10 +1771,6 @@ statusbar = false;
 				});
 				ed.onKeyDown.add(function(ed, ev)
 				{
-					ilCOPage.checkContentAndCursor();
-					
-//					console.log("onKeyDown" + ev.keyCode);
-//					console.log("shiftKey" + ev.shiftKey);
 					if(ev.keyCode == 9 && !ev.shiftKey)
 					{
 //						console.log("tab");
@@ -2023,11 +1793,12 @@ statusbar = false;
 
 //console.log("----");
 //console.trace();
-					// clean content after paste
+					// clean content after paste (has this really an effect?)
 					if (ilCOPage.pasting)
 					{
 						ilCOPage.pasting = false;
-						ilCOPage.cleanContent();
+						ilCOPage.splitDivs();
+						ilCOPage.fixListClasses();
 					}
 
 					// update state of indent/outdent buttons
@@ -2285,35 +2056,6 @@ function M_out(cell)
 var oldMposx = -1;
 var oldMposy = -1;
 
-/*function doKeyDown(e) 
-{
-    if (!e) var e = window.event;
-    kc = e.keyCode;
-    kc = kc * 1;
-
-    if(kc == 17) 
-	{
-		dd.elements.contextmenu.hide();
-		oldMposx = Mposx;
-		oldMposy = Mposy;
-		mouseIsDown = true;
-	}
-}*/
-
-/*function doKeyUp(e)
-{
-	if (!e) var e = window.event;
-	kc = e.keyCode;
-	
-	kc = kc*1;
-	if(kc==17) 
-	{
-		mouseIsDown = false;
-		dd.elements.dragdropsymbol.hide();
-		dd.elements.dragdropsymbol.moveTo(-1000,-1000);
-		setTimeout("dragDropShow = false",500);
-	}
-}*/
 
 // This will be our extended DDProxy object
 ilDragContent = function(id, sGroup, config)
