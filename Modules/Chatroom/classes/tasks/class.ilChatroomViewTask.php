@@ -241,6 +241,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 	    $roomTpl->setVariable('ACTION', $lng->txt('action'));
 	    $roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $lng->txt('create_private_room_label'));
 	    $roomTpl->setVariable('LBL_USER', $lng->txt('user'));
+		$roomTpl->setVariable('LBL_USER_TEXT', $lng->txt('invite_username'));
 	    $roomTpl->setVariable('LBL_AUTO_SCROLL', $lng->txt('auto_scroll'));
 
 	    $roomTpl->setVariable('INITIAL_USERS', json_encode($room->getConnectedUsers()));
@@ -275,6 +276,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 		$roomTpl->setVariable('LBL_CREATE_NEW_PRIVATE_ROOM', $lng->txt('chat_create_new_private_room'));
 		$roomTpl->setVariable('LBL_TO_MAINROOM', $lng->txt('chat_to_mainroom'));
 		$roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $lng->txt('chat_create_private_room_button'));
+		$roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM_TEXT', $lng->txt('create_private_room_text'));
 		
 		$roomTpl->setVariable('LBL_WELCOME_TO_CHAT', $lng->txt('welcome_to_chat'));
 		$roomTpl->setVariable('LBL_USER_INVITED', $lng->txt('user_invited'));
