@@ -924,7 +924,7 @@ class MDB2
         if (!@ini_get('safe_mode')) {
              $dirs = explode(PATH_SEPARATOR, ini_get('include_path'));
              foreach ($dirs as $dir) {
-                 if (is_readable($dir . DIRECTORY_SEPARATOR . $file)) {
+                 if (@is_readable($dir . DIRECTORY_SEPARATOR . $file)) {
                      return true;
                  }
             }
