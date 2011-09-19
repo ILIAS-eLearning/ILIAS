@@ -281,6 +281,8 @@ class ilObjectGUI
 				$class_name = $this->ctrl->getClassForClasspath($class_path);
 //echo "<br>instantiating parent for title and description";
 				$this->parent_gui_obj = new $class_name("", $_GET["ref_id"], true, false);
+				// the next line prevents the header action menu being shown
+				$this->parent_gui_obj->setCreationMode(true);
 				$this->parent_gui_obj->setTitleAndDescription();
 			}
 		}
@@ -337,7 +339,7 @@ class ilObjectGUI
 		// personal workspace is done elsewhere
 		if((!($this instanceof ilObject2GUI) || 
 			$this->id_type != ilObject2GUI::WORKSPACE_NODE_ID) &&
-			$this->object)
+			$this->object && !$this->creation_mode)
 		{		
 			// prepare notes
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
@@ -348,7 +350,6 @@ class ilObjectGUI
 			include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
 			ilTaggingGUI::initJavascript(
 				$this->ctrl->getLinkTargetByClass(array("ilinfoscreengui", "iltagginggui"), "", "", true, false));
-
 			$this->tpl->setHeaderActionMenu($this);
 		}
 	}
