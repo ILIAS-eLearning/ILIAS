@@ -48,5 +48,8 @@ due to ILIAS bug #4636
 MDB2/Driver/mysql.php, line 395
 Performance fix
 
+MDB2.php, line 927
+Suppressed warnings of "is_readable" caused by open_basedir restrictions (leeds to performance issues and large log files) 
+
 */
 ?>
