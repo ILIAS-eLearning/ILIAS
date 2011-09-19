@@ -345,6 +345,9 @@ class ilObjBlogGUI extends ilObject2GUI
 			$posting->setBlogId($this->object->getId());
 			$posting->create();
 
+			// switch month list to current month (will include new posting)
+			$ilCtrl->setParameter($this, "bmn", date("Y-m"));
+			
 			$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $posting->getId());
 			$ilCtrl->redirectByClass("ilblogpostinggui", "edit");
 		}
