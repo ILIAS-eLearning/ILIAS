@@ -100,9 +100,13 @@ class ilObjPortfolioGUI
 
 					$this->setPagesTabs();
 					$ilTabs->activateTab("share");
+					
+					include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
+					$plink = new ilPermanentLinkGUI("prtf", $this->portfolio->getId());
+					$plink = $plink->getHTML();
 
 					include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
-					$wspacc = new ilWorkspaceAccessGUI($this->portfolio->getId(), $this->access_handler, true);
+					$wspacc = new ilWorkspaceAccessGUI($this->portfolio->getId(), $this->access_handler, true, $plink);
 					$ilCtrl->forwardCommand($wspacc);
 				}
 				break;
@@ -665,12 +669,7 @@ class ilObjPortfolioGUI
 			ilUtil::sendInfo(implode("<br />", $info));									
 		}
 		
-		include_once('classes/class.ilLink.php');
-		$goto = ilLink::_getStaticLink($this->portfolio->getId(), "prtf", true);
-		$goto = "<div style=\"margin:10px;\" class=\"small\"><a href=\"".$goto.
-			"\" target=\"blank\">goto test</a></div>";
-
-		$tpl->setContent($table->getHTML().$goto);
+		$tpl->setContent($table->getHTML());
 	}
 	
 	function getExerciseInfo($a_assignment_id, $a_add_submit = false)
@@ -1309,11 +1308,6 @@ class ilObjPortfolioGUI
 			}
 		}
 		
-		include_once('classes/class.ilLink.php');
-		$goto = ilLink::_getStaticLink($portfolio_id, "prtf", true);
-		$goto = "<div style=\"margin:10px;\" class=\"small\"><a href=\"".$goto.
-			"\" target=\"blank\">goto test</a></div>";
-		
 		$name = ilObjUser::_lookupName($user_id);
 		$name = $name["lastname"].", ".($t = $name["title"] ? $t . " " : "").$name["firstname"];
 		
@@ -1340,7 +1334,7 @@ class ilObjPortfolioGUI
 			$this->portfolio->getBackgroundColor(),
 			$this->portfolio->getFontColor());
 		
-		$tpl->setContent($content.$goto.$notes);			
+		$tpl->setContent($content.$notes);			
 		$tpl->setFrameFixedWidth(true);
 		
 		echo $tpl->show("DEFAULT", true, true);
