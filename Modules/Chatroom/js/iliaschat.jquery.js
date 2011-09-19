@@ -768,7 +768,8 @@ menuEntries.push(
 						},
 						positiveAction: function() {
 							
-						}
+						},
+						disabled_buttons: ['ok']
 					});
 
 					var sendInvitation = function(user, type, username) {

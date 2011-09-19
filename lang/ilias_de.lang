@@ -12216,5 +12216,8 @@ chatroom#:#clear_room_history_question#:#Wollen Sie wirklich alle Nachrichten de
 chatroom#:#anonymous_hint#:#Bitte beachten Sie, dass für den Zugriff von anonymen Benutzer die entsprechenden Berechtigungen im "Berechtigungen"-Reiter gesetzt sein müssen.
 chatroom_adm#:#public_chat_settings#:#Öffentlicher Chatraum Einstellungen
 chatroom_adm#:#public_chat_permissions#:#Öffentlicher Chatraum Rechte
+chatroom_adm#:#play_invitation_sound#:#Ton bei Erhalt einer neuen Einladung abspielen
+chatroom#:#create_private_room_text#:#Name des Séparées
+chatroom#:#invite_username#:#Benutzername
 chatroom_adm#:#play_invitation_sound#:#Ton bei Erhalt einer neuen Einaldung abspielen
 notes#:#comments_feature_currently_not_activated_for_object#:#Die öffentliche Kommentarfunktion ist für diese Ressource zur Zeit nicht aktiviert.

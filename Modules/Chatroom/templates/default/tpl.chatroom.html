@@ -47,7 +47,7 @@ var myId = {MY_ID};
 		<input type="radio" name="invite_users_type" id="invite_users_global"/>{LBL_USER_IN_ILIAS}
 	</div>
 	<div>
-		<p id="invite_user_text_wrapper" style="display: none">{LBL_USER}: <input type="text" id="invite_user_text" /></p>
+		<p id="invite_user_text_wrapper" style="display: none"><label for="invite_user_text">{LBL_USER_TEXT}:</label> <input type="text" id="invite_user_text" /></p>
 		<ul id="invite_users_available">
 			<li></li>
 		</ul>
@@ -149,5 +149,5 @@ var myId = {MY_ID};
 <input style="visibility: hidden" type="text" name="moreOptions" id="moreOptions"/>
 
 <div style="display: none" id="create_private_room_dialog">
-	{LBL_CREATE_PRIVATE_ROOM}: <input type="text" id="new_room_name"/>
+    <label for="new_room_name">{LBL_CREATE_PRIVATE_ROOM_TEXT}:</label> <input type="text" id="new_room_name"/>
 </div>

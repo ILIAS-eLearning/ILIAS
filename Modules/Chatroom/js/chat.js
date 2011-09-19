@@ -21,6 +21,7 @@
 
 				var defaultButtons =  (params.defaultButtons === false) ? [] : [
 							{
+								id: 'cancel',
 								label: translate('cancel'),
 								callback: function(e) {
 									var close = true;
@@ -33,6 +34,7 @@
 								}
 							},
 							{
+								id: 'ok',
 								label: translate('ok'),
 								callback: function(e) {
 									var close = true;
@@ -52,7 +54,8 @@
 					title: '',
 					parent: $('body'),
 					position: null,
-					buttons: defaultButtons
+					buttons: defaultButtons,
+					disabled_buttons: []
 				}, params);
 
 				var dialog = $('<div class="ilChatDialog">');
@@ -84,6 +87,9 @@
 				if (properties.buttons) {
 					var dialogButtons = $('<div class="ilChatDialogButtons">').appendTo(dialog);
 					$.each(properties.buttons, function() {
+						if (this.id && properties.disabled_buttons.indexOf(this.id) >= 0) {
+						    return;
+						}
 						$('<input type="button" class="submit">')
 							.click(this.callback)
 							.val(this.label)
