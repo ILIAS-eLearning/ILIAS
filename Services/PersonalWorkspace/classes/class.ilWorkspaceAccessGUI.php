@@ -18,21 +18,23 @@ class ilWorkspaceAccessGUI
 	protected $lng;
 	protected $node_id;
 	protected $access_handler;	
+	protected $footer;	
 	
 	const PERMISSION_REGISTERED = -1;
 	const PERMISSION_ALL_PASSWORD = -3;
 	const PERMISSION_ALL = -5;
 	
 	
-	function __construct($a_node_id, $a_access_handler, $a_is_portfolio = false)
+	function __construct($a_node_id, $a_access_handler, $a_is_portfolio = false, $a_footer = null)
 	{
 		global $ilCtrl, $lng;
 		
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		$this->node_id = $a_node_id;
-		$this->is_portfolio = (bool)$a_is_portfolio;
 		$this->access_handler = $a_access_handler;		
+		$this->is_portfolio = (bool)$a_is_portfolio;
+		$this->footer = $a_footer;		
 	}
 	
 	function executeCommand()
@@ -171,10 +173,10 @@ class ilWorkspaceAccessGUI
 		
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));		
 		$ilToolbar->addFormButton($this->lng->txt("add"), "addpermissionhandler");
-
+		
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessTableGUI.php";
 		$table = new ilWorkspaceAccessTableGUI($this, "share", $this->node_id, $this->getAccessHandler());
-		$tpl->setContent($table->getHTML());
+		$tpl->setContent($table->getHTML().$this->footer);
 	}
 	
 	public function addPermissionHandler()
