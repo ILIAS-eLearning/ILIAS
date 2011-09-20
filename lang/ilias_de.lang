@@ -11782,8 +11782,8 @@ chatroom#:#chat_kick#:#Rauswerfen
 chatroom#:#chat_ban#:#Sperren
 chatroom#:#chat_address#:#Ansprechen
 chatroom#:#chat_whisper#:#Flüstern
-chatroom#:#chat_connection_established#:#Verbindung hergestellt
-chatroom#:#chat_connection_disconnected#:#Verbindung getrennt
+chatroom#:#chat_connection_established#:#+++ <b>#username#</b> hat den Chatraum betreten +++
+chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> hat den Chatraum verlassen ---
 chatroom#:#chat_invite_users#:#Benutzer einladen
 chatroom#:#chat_right_box_user#:#Benutzer
 chatroom#:#chat_private_room#:#Séparée
