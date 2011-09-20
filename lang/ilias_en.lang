@@ -11827,8 +11827,8 @@ chatroom_adm#:#chatroom_edit_smiley#:#Edit Smiley
 chatroom_adm#:#chatroom_current_smiley_image_path#:#Current Smiley
 chatroom_adm#:#chatroom_current_smiley_image#:#Current Smiley Icon
 chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Choose a new smiley icon only if the current one is to be replaced.
-chatroom_adm#:#server_settings#:#Server Settings
-chatroom_adm#:#client_settings#:#Client Settings
+chatroom_adm#:#server_settings#:#Chatserver Settings
+chatroom_adm#:#client_settings#:#General Settings
 chatroom_adm#:#priv_hosts#:#Privileged Hosts
 chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#chat_enabled#:#Enable Chat
@@ -12192,7 +12192,7 @@ chatroom#:#soap_user#:#Name of the SOAP-User
 chatroom#:#soap_user_password#:#Password of the SOAP-User
 chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.
 chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the webserver must handle.
-chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chatserver to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.
+chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chatserver to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.<br/>The name may contain letters (A-Z/a-z), numerics (0-9) and the characters "-" and "_".
 chatroom#:#enable_smilies#:#Enable Smilies
 chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smilies tab for configuration.
 chatroom#:#display_past_msgs#:#Number of Past Messages
@@ -12223,3 +12223,4 @@ notes#:#comments_feature_currently_not_activated_for_object#:#The public comment
 chatroom#:#layout#:#Layout
 chatroom#:#show_settings#:#Show Settings
 chatroom#:#hide_settings#:#Hide Settings
+chatroom_adm#:#soap_user_hint#:#This user is used to send information from the chatserver to the ilias installation. No special permissions are required.<br/>If you create a new accout, please make sure that you are able to login with this user (e.g. accept licence aggreement).

@@ -104,19 +104,20 @@ class ilChatroomTabFactory
 		$config = array(
                     'view' => array(
 			  'lng' => 'settings',
-			  'link' => $ilCtrl->getLinkTargetByClass('ilObjChatroomAdminGUI', 'view-serversettings'),
+			  'link' => $ilCtrl->getLinkTargetByClass('ilObjChatroomAdminGUI', 'view-clientsettings'),
 			  'permission' => 'read',
                             'subtabs' => array(
-                                    'serversettings' => array(
-                                            'lng' => 'server_settings',
-                                            'link' => $ilCtrl->getLinkTargetByClass( 'ilObjChatroomAdminGUI', 'view-serversettings' ),
-                                            'permission' => 'read',
-                            ),
-                                    'clientsettings' => array(
-                                            'lng' => 'client_settings',
-                                            'link' => $ilCtrl->getLinkTargetByClass( 'ilObjChatroomAdminGUI', 'view-clientsettings' ),
-                                            'permission' => 'read',
-                            )
+				'clientsettings' => array(
+					'lng' => 'client_settings',
+					'link' => $ilCtrl->getLinkTargetByClass( 'ilObjChatroomAdminGUI', 'view-clientsettings' ),
+					'permission' => 'read',
+				),
+				'serversettings' => array(
+					'lng' => 'server_settings',
+					'link' => $ilCtrl->getLinkTargetByClass( 'ilObjChatroomAdminGUI', 'view-serversettings' ),
+					'permission' => 'read',
+				),
+                            
 			),
                     ),
                     'smiley' => array(
