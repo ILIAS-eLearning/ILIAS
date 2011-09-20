@@ -12220,3 +12220,6 @@ chatroom_adm#:#play_invitation_sound#:#Ton bei Erhalt einer neuen Einladung absp
 chatroom#:#create_private_room_text#:#Name des Séparées
 chatroom#:#invite_username#:#Benutzername
 notes#:#comments_feature_currently_not_activated_for_object#:#Die öffentliche Kommentarfunktion ist für diese Ressource zur Zeit nicht aktiviert.
+chatroom#:#layout#:#Layout
+chatroom#:#show_settings#:#Einstellungen anzeigen
+chatroom#:#hide_settings#:#Einstellungen verbergen

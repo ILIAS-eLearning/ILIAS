@@ -12220,3 +12220,6 @@ chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitat
 chatroom#:#create_private_room_text#:#Private room name
 chatroom#:#invite_username#:#Username
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not ativated for this resource.
+chatroom#:#layout#:#Layout
+chatroom#:#show_settings#:#Show Settings
+chatroom#:#hide_settings#:#Hide Settings
