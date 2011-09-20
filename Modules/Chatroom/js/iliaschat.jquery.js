@@ -359,11 +359,26 @@ ilAddOnLoad(function() {
                         
                         $(initial.messages).each(function() {
 			    //if (!this.sub) {
+			    if (this.type == 'connected' || this.type == 'disconnected') {
+				if (this.users) {
+					var message = this;
+					$(message.users).each(function() {
+						$('#chat_messages').ilChatMessageArea('addMessage', this.sub || 0, {
+							type: message.type,
+							//message: this.message
+							message: message,
+							login: this.login
+						});						
+					});
+				}    
+			    }
+			    else {
 				$('#chat_messages').ilChatMessageArea('addMessage', this.sub || 0, {
 				    type: this.type,
 				    //message: this.message
 				    message: this
 				});
+			    }
 			    //}
                         });
 
