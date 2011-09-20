@@ -29,7 +29,7 @@ include_once("./classes/class.ilObjectAccess.php");
 * @author 		Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 */
-class ilObjectPluginAccess
+class ilObjectPluginAccess extends ilObjectAccess
 {
 	/**
 	* Checks wether a user may invoke a command or not

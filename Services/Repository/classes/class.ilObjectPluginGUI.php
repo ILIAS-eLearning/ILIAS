@@ -16,9 +16,9 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	/**
 	* Constructor.
 	*/
-	function __construct($a_ref_id = 0)
+	function __construct($a_ref_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
-		parent::__construct($a_ref_id, true);
+		parent::__construct($a_ref_id, $a_id_type, $a_parent_node_id);
 		$this->plugin =
 			ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
 				ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->getType()));
@@ -144,9 +144,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		}
 	}
 
-
-	final public function cloneAll() { return parent::cloneAllObject(); }
-	
 	/**
 	* Get plugin object
 	*
