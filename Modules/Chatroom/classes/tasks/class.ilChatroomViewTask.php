@@ -238,7 +238,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 	    $roomTpl->setVariable('INITIAL_DATA', json_encode($initial));
 	    $roomTpl->setVariable('POSTURL', $ilCtrl->getLinkTarget($this->gui, 'postMessage', '', true, true));
 
-	    $roomTpl->setVariable('ACTION', $lng->txt('action'));
+	    $roomTpl->setVariable('ACTIONS', $lng->txt('actions'));
 	    $roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $lng->txt('create_private_room_label'));
 	    $roomTpl->setVariable('LBL_USER', $lng->txt('user'));
 		$roomTpl->setVariable('LBL_USER_TEXT', $lng->txt('invite_username'));
