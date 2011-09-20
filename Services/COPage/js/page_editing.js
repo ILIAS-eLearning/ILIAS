@@ -426,9 +426,17 @@ tinymce.activeEditor.formatter.register('mycode', {
 		var cl = ed.dom.getRoot().className;
 		var c = ed.getContent();
 		
+		c = this.p2br(c);
+		
 		// add wrapping div with style class
 		c = "<div class='" + cl + "'>" + c + "</div>";
 		
+		return c;
+	},
+
+	// convert <p> tags to <br />
+	p2br: function(c)
+	{
 		// remove <p> and \n
 		c = c.split("<p>").join("");
 		c = c.split("\n").join("");
@@ -437,10 +445,15 @@ tinymce.activeEditor.formatter.register('mycode', {
 		c = c.split("</p>").join("<br />");
 		
 		// remove trailing <br />
-		c = c.split("<br /></div>").join("</div>");
+		if (c.substr(c.length - 6) == "<br />")
+		{
+			c = c.substr(0, c.length - 6);
+		}
+		
 		return c;
 	},
-
+	
+	
 	/**
 	 * This function converts all <br /> into corresponding paragraphs
 	 * (server content comes with <br />, but tiny has all kind of issues
@@ -702,14 +715,11 @@ if (add_final_spacer)
 			if (pdiv)
 			{
 				var cl = ed.dom.getRoot().className;
-if (ilCOPage.current_td != "")
-{
-				var c = ed.getContent();
-}
-else
-{
-				var c = "<div class='" + cl + "'>" + ed.getContent() + "</div>";
-}
+				var c = this.p2br(ed.getContent());
+				if (ilCOPage.current_td == "")
+				{
+					var c = "<div class='" + cl + "'>" + c + "</div>";
+				}
 				var e = c.substr(c.length - 6);
 				var b = c.substr(c.length - 12, 6);
 				if (e == "</div>" && b != "<br />" && add_final_spacer)
@@ -757,8 +767,16 @@ else
 			back_reg = YAHOO.util.Region.getRegion(back_el);
 		}
 		
-		YAHOO.util.Dom.setX(tinyifr, back_reg.x);
-		YAHOO.util.Dom.setY(tinyifr, back_reg.y+1);
+		if (this.current_td)
+		{
+			YAHOO.util.Dom.setX(tinyifr, back_reg.x -2);
+			YAHOO.util.Dom.setY(tinyifr, back_reg.y -2);
+		}
+		else
+		{
+			YAHOO.util.Dom.setX(tinyifr, back_reg.x);
+			YAHOO.util.Dom.setY(tinyifr, back_reg.y+1);
+		}
 		this.setEditFrameSize(back_reg.width-2,
 			back_reg.height);
 	},
@@ -1905,6 +1923,7 @@ ilCOPage.copyInputToGhost(false);
 					{
 //console.log("Setting content to: " + pdiv.innerHTML);
 						ed.setContent(pdiv.innerHTML);
+						ilCOPage.splitBR();
 						ilCOPage.prepareTinyForEditing(false, false);
 						ilCOPage.synchInputRegion();
 						ilCOPage.focusTiny(true);
@@ -1921,6 +1940,7 @@ ilCOPage.copyInputToGhost(false);
 		tinyMCE.execCommand('mceToggleEditor', false, 'tinytarget');
 		var ed = tinyMCE.get('tinytarget');
 		ed.setContent(pdiv.innerHTML);
+		ilCOPage.splitBR();
 //console.log("Setting content to: " + pdiv.innerHTML);
 //		ilCOPage.prepareTinyForEditing(true, false);
 		ilCOPage.synchInputRegion();
