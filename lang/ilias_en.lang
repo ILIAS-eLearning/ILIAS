@@ -12210,8 +12210,8 @@ chatroom#:#user_in_room#:#Invite user from current chatroom
 chatroom#:#user_in_ilias#:#Search and invite user from ILIAS
 chatroom#:#kick_question#:#Do you really want to kick the user from current room?
 chatroom#:#ban_question#:#Do you really want to ban the user from current room?
-chatroom#:#history_cleared#:#The messagehistory was deleted by a moderator.
-chatroom#:#clear_room_history#:#Delete Messagehistory
+chatroom#:#history_cleared#:#The message history was deleted by a moderator.
+chatroom#:#clear_room_history#:#Delete Message History
 chatroom#:#clear_room_history_question#:#Do you really want to delete all messages of the current room?
 chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the "Permissions" tab to allow anonymous user access to this repository item.
 chatroom_adm#:#public_chat_settings#:#Public Chatroom Settings
