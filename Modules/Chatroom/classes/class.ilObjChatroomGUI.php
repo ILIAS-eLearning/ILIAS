@@ -221,20 +221,23 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 
 		$room = new ilChatroom();
 
-		$room->saveSettings(array(
+		$room->saveSettings(
+			array(
 			'object_id' 			=> $objId,
-			'autogen_usernames'		=> 'Autogen #'
-			));
+			'autogen_usernames'		=> 'Autogen #',
+			'display_past_msgs'		=> 20,
+			'private_rooms_enabled'		=> 0
+		));
 
-			// rbac log
-			include_once "Services/AccessControl/classes/class.ilRbacLog.php";
-			$rbac_log_roles = $rbacreview->getParentRoleIds( $newObj->getRefId(), false );
-			$rbac_log = ilRbacLog::gatherFaPa( $newObj->getRefId(), array_keys( $rbac_log_roles ) );
-			ilRbacLog::add( ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log );
+		// rbac log
+		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+		$rbac_log_roles = $rbacreview->getParentRoleIds( $newObj->getRefId(), false );
+		$rbac_log = ilRbacLog::gatherFaPa( $newObj->getRefId(), array_keys( $rbac_log_roles ) );
+		ilRbacLog::add( ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log );
 
-			$this->object = $newObj;
+		$this->object = $newObj;
 
-			return $newObj;
+		return $newObj;
 	}
 
 	/**

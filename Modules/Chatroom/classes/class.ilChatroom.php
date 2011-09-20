@@ -40,7 +40,8 @@ class ilChatroom
 			'autogen_usernames' 		=> 'string',
 			'room_type' 		=> 'string',
 			'allow_private_rooms' 		=> 'integer',
-			'display_past_msgs' => 'integer'
+			'display_past_msgs' => 'integer',
+			'private_rooms_enabled' => 'boolean'
 	);	
 	private $roomId;
 
@@ -913,7 +914,7 @@ class ilChatroom
 		{
 		    $ilCtrl->setParameter($gui, 'sub', $scope_id);
 		}
-
+		
 		$link = ilUtil::_getHttpPath() . '/'. $ilCtrl->getLinkTarget($gui, 'view', '', false, false);
 
 		$ilCtrl->clearParameters($gui);
