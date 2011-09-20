@@ -514,20 +514,26 @@
 							break;
 						case 'connected':
 							if (message.login || (message.message.users[0] && message.message.users[0].login)) {
-							    line
+							    /*line
 							    .append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp || message.message.timestamp) + ') '))
 							    .append($('<span class="chat content username"></span>').append(message.login || message.message.users[0].login))
 							    .append($('<span class="chat content messageseparator">:</span>'))
-							    .append($('<span class="chat content message"></span>').append(translate('connect')));
+							    .append($('<span class="chat content message"></span>').append(translate('connect')));*/
+								line
+								    .append($('<span class="chat"></span>').append(translate('connect', {username: message.login})));
+								line.addClass('notice');
 							}
 							break;
 						case 'disconnected':
 							if (message.login || (message.message.users[0] && message.message.users[0].login)) {
-							    line
+							    /*line
 							    .append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp || message.message.timestamp) + ') '))
 							    .append($('<span class="chat content username"></span>').append(message.login || message.message.users[0].login))
 							    .append($('<span class="chat content messageseparator">:</span>'))
-							    .append($('<span class="chat content message"></span>').append(translate('disconnected')));
+							    .append($('<span class="chat content message"></span>').append(translate('disconnected')));*/
+								line
+								    .append($('<span class="chat"></span>').append(translate('disconnected', {username: message.login})));
+								line.addClass('notice');
 							}
 							break;
 						case 'private_room_entered':

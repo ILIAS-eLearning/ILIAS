@@ -11793,8 +11793,8 @@ chatroom#:#chat_kick#:#Kick
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_address#:#Address
 chatroom#:#chat_whisper#:#Whisper
-chatroom#:#chat_connection_established#:#Connection Established
-chatroom#:#chat_connection_disconnected#:#Disconnected
+chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chatroom +++ 
+chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chatroom ---
 chatroom#:#chat_invite_users#:#Invite Users
 chatroom#:#chat_right_box_user#:#User
 chatroom#:#chat_create_new_private_room#:#Create new Private Room
