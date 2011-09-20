@@ -699,13 +699,13 @@ class ilObjectGUI
 	*/
 	public function createObject()
 	{
-		global $tpl;
+		global $tpl, $ilErr;
 
 		$new_type = $_REQUEST["new_type"];
 
 		if (!$this->checkPermissionBool("create", "", $new_type))
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
 		}
 		else
 		{
@@ -1947,7 +1947,7 @@ class ilObjectGUI
 	protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_ref_id = null)
 	{
 		global $ilAccess;
-		
+
 		if($a_perm == "create")
 		{
 			if(!$a_ref_id)
