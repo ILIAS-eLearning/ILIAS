@@ -701,7 +701,7 @@ $div = str_replace("\r", "", $div);
 			preloader.src = './templates/default/images/loader.gif';
 			ilCOPage.setContentCss('".
 			ilObjStyleSheet::getContentStylePath((int) $this->getStyleId()).
-			", ".ilUtil::getStyleSheetLocation()."');
+			", ".ilUtil::getStyleSheetLocation().", ./Services/COPage/css/tiny_extra.css');
 			ilCOPage.editTD('cell_0_0');
 				");
 
