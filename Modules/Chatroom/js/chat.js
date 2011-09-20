@@ -138,7 +138,7 @@
 
 	function getMenuLine(label, callback, icon) {
 		var line = $('<tr class="il_adv_sel"></tr>');
-		var content = $('<td class="il_adv_sel"><a href="#">'+(icon ? ('<img style="margin-right: 8px" src="'+icon+'"/>'): '')+'<span class="small">'+label+'</span></a></td>');
+		var content = $('<td class="il_adv_sel"><a class="" href="#">'+(icon ? ('<img style="margin-right: 8px" src="'+icon+'"/>'): '')+'<span class="xsmall">'+label+'</span></a></td>');
 		line.append(content);
 		if (callback) {
 			line.bind('click', function(ev) {
@@ -167,7 +167,7 @@
 			init: function(menuitems) {
 
 			},
-			show: function(menuitems) {
+			show: function(menuitems, alignToRight) {
 
 				if (!menuContainer) {
 					menuContainer = $('<div class="il_adv_sel menu" style="position: absolute; z-index: 5000"></div>')
@@ -197,8 +197,14 @@
 					}
 				});
 
-				menuContainer.css('left', $(this).offset().left)
-					.css('top', $(this).offset().top + $(this).height());
+				if (alignToRight) {
+					menuContainer.css('right', 0)
+						.css('top', $(this).offset().top + $(this).height());
+				}
+				else {
+					menuContainer.css('left', $(this).offset().left)
+						.css('top', $(this).offset().top + $(this).height());					
+				}
 
 				menuContainer.data('ilChatMenu', {
 					_attatched: this

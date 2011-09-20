@@ -118,8 +118,13 @@ ilAddOnLoad(function() {
 					$(this).text(translate('hide_settings'));
 				}
 				$(this).next().toggle();
-			})
+			});
 			
+			
+
+			$('<div id="tttt" style="white-space:nowrap;"></div>')
+				.append($('#chat_actions_wrapper')).insertBefore($('.il_HeaderInner').find('h1'));
+
 			// keep session open
 			window.setInterval(function() {
 				$.get(posturl.replace(/postMessage/, 'poll'));
@@ -1011,7 +1016,7 @@ $.each(rooms, function() {
 		});
 	});
 
-				$(this).ilChatMenu('show', menuEntries);
+				$(this).ilChatMenu('show', menuEntries, true);
 			});
 
 			window.setTimeout(function() {
