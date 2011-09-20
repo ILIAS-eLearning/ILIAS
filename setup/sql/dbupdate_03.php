@@ -7920,3 +7920,28 @@ if(!$ilDB->tableExists('note_settings'))
 		}
 	}
 ?>
+<#3466>
+<?php
+	if (!$ilDB->tableColumnExists("chatroom_settings", "private_rooms_enabled"))
+	{
+		$ilDB->addTableColumn("chatroom_settings", "private_rooms_enabled", array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 4,
+			"default" => 0));
+	}
+?>
+<#3467>
+<?php
+	$settings = new ilSetting('chatroom');
+	$public_room_ref_id = $settings->get('public_room_ref', 0);
+	if ($public_room_ref_id) {
+		//$ilDB->manipulateF('UPDATE ')
+		$rset = $ilDB->queryF('SELECT obj_id FROM object_reference WHERE ref_id = %s', array('integer'), array($public_room_ref_id));
+		$row = $ilDB->fetchAssoc($rset);
+		if ($row) {
+			$obj_id = $row['obj_id'];
+			$ilDB->manipulateF('UPDATE chatroom_settings SET private_rooms_enabled = 1 WHERE object_id = %s', array('integer'), array($obj_id));
+		}
+	}
+?>

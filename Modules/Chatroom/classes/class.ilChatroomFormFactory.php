@@ -117,11 +117,11 @@ class ilChatroomFormFactory
 		$num_msg_history->setMaxValue(100);
 		$form->addItem( $num_msg_history );
 		
-		/*
-		 $cb = new ilCheckboxInputGUI( $lng->txt( 'restrict_history' ), 'restrict_history' );
-		 $cb->setInfo( $lng->txt( 'restrict_history_info' ) );
-		 $cb_history->addSubItem( $cb );
-		 */
+		
+		$cb = new ilCheckboxInputGUI( $lng->txt( 'private_rooms_enabled' ), 'private_rooms_enabled' );
+		$cb->setInfo( $lng->txt( 'private_rooms_enabled_info' ) );
+		$form->addItem( $cb );
+		 
 		//$cb = new ilCheckboxInputGUI( $lng->txt( 'allow_private_rooms' ), 'allow_private_rooms' );
 		//$form->addItem( $cb );
 

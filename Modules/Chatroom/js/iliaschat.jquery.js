@@ -119,12 +119,14 @@ ilAddOnLoad(function() {
 				}
 				$(this).next().toggle();
 			});
-			
-			
+
 
 			$('<div id="tttt" style="white-space:nowrap;"></div>')
 				.append($('#chat_actions_wrapper')).insertBefore($('.il_HeaderInner').find('h1'));
-
+			
+			if (!initial.private_rooms_enabled) {
+				$('#chat_head_line').hide()
+			}
 			// keep session open
 			window.setInterval(function() {
 				$.get(posturl.replace(/postMessage/, 'poll'));
@@ -153,8 +155,6 @@ ilAddOnLoad(function() {
                                 prevSize = {width: $('body').width(), height: $('body').height()};
                             }
                         }, 500);
-
-
 
                         $('#chat_users').ilChatList([
                             {
@@ -735,36 +735,37 @@ menuEntries.push(
                             }
 			    )
 }
-
-menuEntries.push(
-	{
-		label: translate('create_private_room'),
-		callback: function() {
-			$('#create_private_room_dialog').ilChatDialog({
-					title: translate('create_private_room'),
-					positiveAction: function() {
-						if ($('#new_room_name').val().replace(/^\s*/, '').replace(/\s*$/) == '') {
-							alert(translate('empty_name'));
-							return false;
+if (initial.private_rooms_enabled) {
+	menuEntries.push(
+		{
+			label: translate('create_private_room'),
+			callback: function() {
+				$('#create_private_room_dialog').ilChatDialog({
+						title: translate('create_private_room'),
+						positiveAction: function() {
+							if ($('#new_room_name').val().replace(/^\s*/, '').replace(/\s*$/) == '') {
+								alert(translate('empty_name'));
+								return false;
+							}
+							else {
+								$.get(
+									posturl.replace(/postMessage/, 'privateRoom-create') + '&title=' + encodeURIComponent($('#new_room_name').val()),
+									function(response)
+									{
+										response = typeof response == 'object' ? response : $.getAsObject(response);
+										if (!response.success) {
+											alert(response.reason);
+										}
+									},
+									'json'
+								);
+							}
 						}
-						else {
-							$.get(
-								posturl.replace(/postMessage/, 'privateRoom-create') + '&title=' + encodeURIComponent($('#new_room_name').val()),
-								function(response)
-								{
-									response = typeof response == 'object' ? response : $.getAsObject(response);
-									if (!response.success) {
-										alert(response.reason);
-									}
-								},
-								'json'
-							);
-						}
-					}
-				});
+					});
+			}
 		}
-	}
-);
+	);
+}
 
 menuEntries.push(
 {
@@ -898,124 +899,125 @@ menuEntries.push(
                                 }
                             }
 			);
-if (personalUserInfo.moderator) {
-    menuEntries.push(
-	    {
-		    label: translate('clear_room_history'),
-		    callback: function() {
-			    if (window.confirm(translate('clear_room_history_question'))) {
+			if (personalUserInfo.moderator) {
+			    menuEntries.push(
+				    {
+					    label: translate('clear_room_history'),
+					    callback: function() {
+						    if (window.confirm(translate('clear_room_history_question'))) {
 
-				    $.get(
-					    posturl.replace(/postMessage/, 'clear') + (subRoomId ? ('&sub=' + subRoomId) : ''),
-					    function(response)
-					    {
-						    response = typeof response == 'object' ? response : $.getAsObject(response);
-						    if (!response.success) {
-							    alert(response.reason);
+							    $.get(
+								    posturl.replace(/postMessage/, 'clear') + (subRoomId ? ('&sub=' + subRoomId) : ''),
+								    function(response)
+								    {
+									    response = typeof response == 'object' ? response : $.getAsObject(response);
+									    if (!response.success) {
+										    alert(response.reason);
+									    }
+								    },
+								    'json'
+							    );
 						    }
-					    },
-					    'json'
-				    );
-			    }
-		    }
-	    }
-    );
-}
-
-menuEntries.push({separator: true});
-var rooms = [{
-	label: translate('main'),
-	id: 0,
-	owner: 0,
-	addClass: 'room_0' + (!subRoomId ? ' in_room' : '')
-}].concat($('#private_rooms').ilChatList('getAll'));
-
-rooms.sort(function(a,b) {
-
-	if (a.id == 0) {
-		return -1;
-	}
-	else if (b.id == 0) {
-		return 1;
-	}
-
-	return a.label < b.label ? -1 : 1;
-});
-
-$.each(rooms, function() {
-	var room = this;
-	var classes = ['room_' + room.id];
-
-	if (subRoomId == room.id) {
-		classes.push('in_room');
-	}
-	if (room.new_events) {
-		classes.push('chat_new_events');
-	}
-
-	menuEntries.push({
-		label: this.label,
-		icon: 'templates/default/images/' + (!room.id ? 'icon_chtr_s.gif' : 'icon_chtr_private_s.gif'),
-		addClass: classes.join(' '),
-		callback: function() {
-			if (!room.id) {
-				$('#chat_messages').ilChatMessageArea('show', 0);
-				return;
+					    }
+				    }
+			    );
 			}
-			room.new_events = false;
-			$.get(
-				posturl.replace(/postMessage/, 'privateRoom-enter') + '&sub=' + room.id,
-				function(response)
-				{
-					if (typeof response != 'object') {
-						response = $.getAsObject(response);
+			if (initial.private_rooms_enabled) {
+				menuEntries.push({separator: true});
+				var rooms = [{
+					label: translate('main'),
+					id: 0,
+					owner: 0,
+					addClass: 'room_0' + (!subRoomId ? ' in_room' : '')
+				}].concat($('#private_rooms').ilChatList('getAll'));
+
+				rooms.sort(function(a,b) {
+
+					if (a.id == 0) {
+						return -1;
+					}
+					else if (b.id == 0) {
+						return 1;
 					}
 
-					if (!response.success) {
-						alert(response.reason);
+					return a.label < b.label ? -1 : 1;
+				});
+	
+
+				$.each(rooms, function() {
+					var room = this;
+					var classes = ['room_' + room.id];
+
+					if (subRoomId == room.id) {
+						classes.push('in_room');
+					}
+					if (room.new_events) {
+						classes.push('chat_new_events');
 					}
 
-					subRoomId = room.id;
+					menuEntries.push({
+						label: this.label,
+						icon: 'templates/default/images/' + (!room.id ? 'icon_chtr_s.gif' : 'icon_chtr_private_s.gif'),
+						addClass: classes.join(' '),
+						callback: function() {
+							if (!room.id) {
+								$('#chat_messages').ilChatMessageArea('show', 0);
+								return;
+							}
+							room.new_events = false;
+							$.get(
+								posturl.replace(/postMessage/, 'privateRoom-enter') + '&sub=' + room.id,
+								function(response)
+								{
+									if (typeof response != 'object') {
+										response = $.getAsObject(response);
+									}
 
-					$('#chat_messages').ilChatMessageArea('show', room.id, posturl);
+									if (!response.success) {
+										alert(response.reason);
+									}
 
-					if (subRoomId) {
-						$('#chat_users').find('.online_user').hide();
-						usermanager.clear(room.id); 
-						$.get(
-							posturl.replace(/postMessage/, 'privateRoom-listUsers') + '&sub=' + room.id,
-							
-							function(response)
-							{
-								response = typeof response == 'object' ? response : $.getAsObject(response);
+									subRoomId = room.id;
 
-								$.each(response, function() {
-									$('#chat_users').find('.user_' + this).show();
-									userdata = $('#chat_users').ilChatList('getDataById', this);
-									usermanager.add(userdata, room.id);
-								});
+									$('#chat_messages').ilChatMessageArea('show', room.id, posturl);
 
-								if (!$('#chat_messages').ilChatMessageArea('hasContent', room.id)) {
-								    $('#chat_messages').ilChatMessageArea('addMessage', room.id, {
-										type: 'notice',
-										message: translate('private_room_entered', {title: room.label})
-								    });
-								}
-							},
-							'json'
-							);
-		
-					}
-					else {
-						$('#chat_users').find('.online_user').show();
-					}
-				},
-				'json'
-			    )
-			}
-		});
-	});
+									if (subRoomId) {
+										$('#chat_users').find('.online_user').hide();
+										usermanager.clear(room.id); 
+										$.get(
+											posturl.replace(/postMessage/, 'privateRoom-listUsers') + '&sub=' + room.id,
 
+											function(response)
+											{
+												response = typeof response == 'object' ? response : $.getAsObject(response);
+
+												$.each(response, function() {
+													$('#chat_users').find('.user_' + this).show();
+													userdata = $('#chat_users').ilChatList('getDataById', this);
+													usermanager.add(userdata, room.id);
+												});
+
+												if (!$('#chat_messages').ilChatMessageArea('hasContent', room.id)) {
+												    $('#chat_messages').ilChatMessageArea('addMessage', room.id, {
+														type: 'notice',
+														message: translate('private_room_entered', {title: room.label})
+												    });
+												}
+											},
+											'json'
+											);
+
+									}
+									else {
+										$('#chat_users').find('.online_user').show();
+									}
+								},
+								'json'
+							    )
+							}
+						});
+					});
+				}
 				$(this).ilChatMenu('show', menuEntries, true);
 			});
 
@@ -1026,6 +1028,7 @@ $.each(rooms, function() {
 				});
 				poll();
 			}, 10);
+
 		}
 	}(jQuery)
 });
