@@ -11815,8 +11815,8 @@ chatroom_adm#:#chatroom_edit_smiley#:#Smiley bearbeiten
 chatroom_adm#:#chatroom_current_smiley_image_path#:#Aktueller Smiley
 chatroom_adm#:#chatroom_current_smiley_image#:#Aktueller Smiley
 chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Bitte nur einen neuen Smiley auswählen, wenn der aktuelle Smiley durch einen neuen ersetzt werden soll.
-chatroom_adm#:#server_settings#:#Server Einstellungen
-chatroom_adm#:#client_settings#:#Client Einstellungen
+chatroom_adm#:#server_settings#:#Chatserver Einstellungen
+chatroom_adm#:#client_settings#:#Allgemeine Einstellungen
 chatroom_adm#:#priv_hosts#:#Bevorzugte Hosts
 chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#chat_enabled#:#Chat aktivieren
@@ -12223,3 +12223,4 @@ notes#:#comments_feature_currently_not_activated_for_object#:#Die öffentliche K
 chatroom#:#layout#:#Layout
 chatroom#:#show_settings#:#Einstellungen anzeigen
 chatroom#:#hide_settings#:#Einstellungen verbergen
+chatroom_adm#:#soap_user_hint#:#Dieser Benutzer wird benötigt, um vom Chatserver Informationen an diese ILIAS-Installation senden zu können. Es werden keine speziellen Berechtigungen benötigt.<br />Wenn Sie einen neuen Account erstellen, stellen Sie bitte sicher, dass sich der Benutzer anmelden kann (z.B. Akzeptieren der Nutzungsvereinbarung).

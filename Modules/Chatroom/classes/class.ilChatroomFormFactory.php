@@ -113,7 +113,10 @@ class ilChatroomFormFactory
 		
 		$num_msg_history = new ilNumberInputGUI( $lng->txt( 'display_past_msgs' ), 'display_past_msgs' );
 		$num_msg_history->setInfo($lng->txt('hint_display_past_msgs'));
+		$num_msg_history->setMinValue(0);
+		$num_msg_history->setMaxValue(100);
 		$form->addItem( $num_msg_history );
+		
 		/*
 		 $cb = new ilCheckboxInputGUI( $lng->txt( 'restrict_history' ), 'restrict_history' );
 		 $cb->setInfo( $lng->txt( 'restrict_history_info' ) );
@@ -350,6 +353,7 @@ class ilChatroomFormFactory
 		
 		$name = new ilTextInputGUI( $lng->txt( 'instance_name' ), 'name' );
 		$name->setRequired( true );
+		$name->setValidationRegexp('/^[a-z0-9_-]+$/i');
 		$name->setInfo($lng->txt('hint_unique_name'));
 		$form->addItem( $name );
 
@@ -358,6 +362,7 @@ class ilChatroomFormFactory
 		$form->addItem( $url );
 
 		$user = new ilTextInputGUI( $lng->txt( 'soap_user' ), 'user' );
+		$user->setInfo($lng->txt('soap_user_hint'));
 		$user->setRequired( true );
 		$form->addItem( $user );
 

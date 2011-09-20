@@ -338,7 +338,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	public function executeDefault($method)
 	{
 		global $ilCtrl;
-		$ilCtrl->redirect($this->gui, 'view-serversettings');
+		$ilCtrl->redirect($this->gui, 'view-clientsettings');
 	}
 
 	public function clientsettings(ilPropertyFormGUI $form = null)

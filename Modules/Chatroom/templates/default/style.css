@@ -42,7 +42,8 @@ body {
 #chat_messages {
     height: 300px;
     border: 1px solid #BCCAE5;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: auto;
 }
 
 #chat_wrapper {
