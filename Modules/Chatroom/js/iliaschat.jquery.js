@@ -110,6 +110,16 @@ ilAddOnLoad(function() {
 				return replacedMessage;
 			}
 			
+			$('#show_options').click(function() {
+				if ($(this).next().is(':visible')) {
+					$(this).text(translate('show_settings'));
+				}
+				else {
+					$(this).text(translate('hide_settings'));
+				}
+				$(this).next().toggle();
+			})
+			
 			// keep session open
 			window.setInterval(function() {
 				$.get(posturl.replace(/postMessage/, 'poll'));

@@ -33,7 +33,9 @@ var myId = {MY_ID};
 		'cancel' : '{LBL_CANCEL}',
 		'history_has_been_cleared' : '{LBL_HISTORY_CLEARED}',
 		'clear_room_history' : '{LBL_CLEAR_ROOM_HISTORY}',
-		'clear_room_history_question' : '{LBL_CLEAR_ROOM_HISTORY_QUESTION}'
+		'clear_room_history_question' : '{LBL_CLEAR_ROOM_HISTORY_QUESTION}',
+		'show_settings' : '{LBL_SHOW_SETTINGS}',
+		'hide_settings' : '{LBL_HIDE_SETTINGS}'
 	};
 	$('#colorpicker').colorPicker();
         var initial = {INITIAL_DATA};
@@ -97,9 +99,9 @@ var myId = {MY_ID};
                         </td>
                 </tr>
                 <tr>
-                        <td class="ilFormOption"><label onclick="$('#show_options').click()">{LBL_OPTIONS}</label></td>
+                        <td class="ilFormOption"><label onclick="$('#show_options').click()">{LBL_LAYOUT}</label></td>
                         <td class="ilFormValue">
-                                <a id="show_options" href="javascript:;" onclick="$(this).next().toggle()">{LBL_DISPLAY}</a>
+                                <a id="show_options" href="javascript:;">{LBL_SHOW_SETTINGS}</a>
 
                                 <div class="chat optionlist ilSubForm">
                                         <table class="nobackground">

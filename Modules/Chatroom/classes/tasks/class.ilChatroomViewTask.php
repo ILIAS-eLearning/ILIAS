@@ -298,6 +298,10 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 		$roomTpl->setVariable('LBL_HISTORY_CLEARED', $lng->txt('history_cleared'));
 		$roomTpl->setVariable('LBL_CLEAR_ROOM_HISTORY', $lng->txt('clear_room_history'));
 		$roomTpl->setVariable('LBL_CLEAR_ROOM_HISTORY_QUESTION', $lng->txt('clear_room_history_question'));
+		
+		$roomTpl->setVariable('LBL_LAYOUT', $lng->txt('layout'));
+		$roomTpl->setVariable('LBL_SHOW_SETTINGS', $lng->txt('show_settings'));
+		$roomTpl->setVariable('LBL_HIDE_SETTINGS', $lng->txt('hide_settings'));
 	}
 
 	protected function renderSendMessageBox($roomTpl) {
