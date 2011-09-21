@@ -2524,8 +2524,8 @@ class ilObjUser extends ilObject
 		$id = ilObjUser::_lookupId($login);
 		if ($id > 0)
 		{
-			// check for simultaneous logins 
-			if((int)$ilSetting->get('ps_prevent_simultaneous_logins') == 1)
+			// check for simultaneous logins, except the user is the anonymous one
+			if( $id != ANONYMOUS_USER_ID && (int)$ilSetting->get('ps_prevent_simultaneous_logins') == 1 )
 			{
 				$res = $ilDB->queryf('
 					SELECT * FROM usr_session WHERE user_id = %s AND expires > %s',
