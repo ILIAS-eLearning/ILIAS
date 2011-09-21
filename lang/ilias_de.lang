@@ -12226,3 +12226,5 @@ chatroom#:#hide_settings#:#Einstellungen verbergen
 chatroom_adm#:#soap_user_hint#:#Dieser Benutzer wird benötigt, um vom Chatserver Informationen an diese ILIAS-Installation senden zu können. Es werden keine speziellen Berechtigungen benötigt.<br />Wenn Sie einen neuen Account erstellen, stellen Sie bitte sicher, dass sich der Benutzer anmelden kann (z.B. Akzeptieren der Nutzungsvereinbarung).
 chatroom#:#private_rooms_enabled#:#Séparées aktivieren
 chatroom#:#private_rooms_enabled_info#:#Wenn aktiviert, können Benutzer Séparées anlegen, zu denen nur eingeladene Benutzer zutritt haben.
+chatroom#:#no_further_users#:#(leer)
+chatroom#:#users#:#Benutzer

@@ -303,6 +303,8 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 		$roomTpl->setVariable('LBL_LAYOUT', $lng->txt('layout'));
 		$roomTpl->setVariable('LBL_SHOW_SETTINGS', $lng->txt('show_settings'));
 		$roomTpl->setVariable('LBL_HIDE_SETTINGS', $lng->txt('hide_settings'));
+		$roomTpl->setVariable('LBL_NO_FURTHER_USERS', $lng->txt('no_further_users'));
+		$roomTpl->setVariable('LBL_USERS', $lng->txt('users'));
 	}
 
 	protected function renderSendMessageBox($roomTpl) {
