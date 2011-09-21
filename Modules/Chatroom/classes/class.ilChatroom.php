@@ -933,7 +933,7 @@ class ilChatroom
 	    }
 	    else
 	    {
-		if ($scope_id)
+		/*if ($scope_id)
 		{
 		    $ilCtrl->setParameter($gui, 'sub', $scope_id);
 		}
@@ -941,6 +941,11 @@ class ilChatroom
 		$link = ilUtil::_getHttpPath() . '/'. $ilCtrl->getLinkTarget($gui, 'view', '', false, false);
 
 		$ilCtrl->clearParameters($gui);
+		*/
+		$link = ilUtil::_getHttpPath() . '/repository.php?cmd=view&ref_id=' . $gui->getRefId();
+		if ($scope_id) {
+			$link .= '&sub=' . $scope_id;
+		}
 	    }
 
 	    return $link;
