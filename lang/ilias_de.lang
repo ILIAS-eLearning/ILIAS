@@ -12228,3 +12228,4 @@ chatroom#:#private_rooms_enabled#:#Séparées aktivieren
 chatroom#:#private_rooms_enabled_info#:#Wenn aktiviert, können Benutzer Séparées anlegen, zu denen nur eingeladene Benutzer zutritt haben.
 chatroom#:#no_further_users#:#(leer)
 chatroom#:#users#:#Benutzer
+chatroom#:#no_messages#:#Es sind keine Nachrichten für den ausgewählten Zeitraum verfügbar.

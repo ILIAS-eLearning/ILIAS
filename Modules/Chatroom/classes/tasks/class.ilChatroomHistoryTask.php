@@ -41,7 +41,7 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
      * @param array $messages
      * @param ilPropertyFormGUI $durationForm
      */
-    private function showMessages($messages, $durationForm, $export = false)
+    private function showMessages($messages, $durationForm, $export = false, $psessions = array())
     {
 	    //global $tpl, $ilUser, $ilCtrl, $lng;
 	    global $tpl, $lng;
@@ -66,6 +66,7 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 	    }
 
 	    $prevDate = '';
+	    $messagesShown = 0;
 	    foreach( $messages as $message )
 	    {
 		    $message['message']->message = json_decode( $message['message']->message );
@@ -73,9 +74,6 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 		    switch($message['message']->type)
 		    {
 			    case 'message':
-				    $scopes[$message['message']->sub] = true;
-
-
 				    if (($_REQUEST['scope'] && $message['message']->sub == $_REQUEST['scope']) || (!$_REQUEST['scope'] && !$message['message']->sub)) {
 					    $dateTime = new ilDateTime($message['timestamp'], IL_CAL_UNIX);
 					    $currentDate = ilDatePresentation::formatDate($dateTime);
@@ -92,21 +90,24 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 					    }
 					    $roomTpl->parseCurrentBlock();
 				    }
+				    ++$messagesShown;
 				    break;
 		    }
 	    }
 
-	    foreach(array_keys($scopes) as $scope) {
-		    if ($scope != '') {
-			    $scopes[$scope] = ilChatRoom::lookupPrivateRoomTitle($scope);
-		    }
-
+	    foreach($psessions as $session) {
+		    $scopes[$session['proom_id']] = $session['title'];
 	    }
 
 	    if (isset($scopes[''])) {
 		    unset($scopes['']);
 	    }
 
+	    if (!$messagesShown) {
+		    //$roomTpl->touchBlock('NO_MESSAGES');
+		    $roomTpl->setVariable('LBL_NO_MESSAGES', $lng->txt('no_messages'));
+	    }
+	    
 	    asort($scopes, SORT_STRING);
 
 	    $scopes = array($lng->txt('main')) + $scopes;
@@ -172,12 +173,14 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 
 	    if( strtolower( $_SERVER['REQUEST_METHOD'] ) == 'post' )
 	    {
-		    $durationForm->checkInput();
-		    $period = $durationForm->getItemByPostVar( 'timeperiod' );
-		    $messages = $room->getHistory(
-			$period->getStart(), $period->getEnd(),
-			/*$room->getSetting( 'restrict_history' ) ?*/ $chat_user->getUserId() /*: null*/
-		    );
+		$durationForm->checkInput();
+		$period = $durationForm->getItemByPostVar( 'timeperiod' );
+		$messages = $room->getHistory(
+			$from = $period->getStart(),
+			$to = $period->getEnd(),
+			/*$room->getSetting( 'restrict_history' ) ?*/ $chat_user->getUserId() /*: null*/,
+			isset($_REQUEST['scope']) ? $_REQUEST['scope'] : 0
+		);
 	    }
 	    else
 	    {
@@ -189,12 +192,21 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 		    $period->setEnd( $to );
 
 		    $messages = $room->getHistory(
-		    $from, $to,
-		    /*$room->getSetting( 'restrict_history' ) ?*/ $chat_user->getUserId() /*: null*/
+			$from,
+			$to,
+			$chat_user->getUserId(),
+			isset($_REQUEST['scope']) ? $_REQUEST['scope'] : 0
 		    );
 	    }
 
-	    $this->showMessages( $messages, $durationForm, $export );
+	$psessions = $room->getPrivateRoomSessions(
+		$from,
+		$to,
+		$chat_user->getUserId(),
+		$scope
+	);
+
+	$this->showMessages( $messages, $durationForm, $export, $psessions );
     }
 
     /**
@@ -220,7 +232,7 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 	$durationForm->addCommandButton( 'history-bySessionExport', $lng->txt( 'export' ) );
 	$durationForm->addCommandButton( 'history-bySession', $lng->txt( 'show' ) );
 	$durationForm->setFormAction(
-	$ilCtrl->getFormAction( $this->gui ), 'history-bySession'
+		$ilCtrl->getFormAction( $this->gui ), 'history-bySession'
 	);
 
 	if( strtolower( $_SERVER['REQUEST_METHOD'] ) == 'post' )
@@ -230,10 +242,10 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 	    $durationForm->setValuesByArray( array('session' => $_POST['session']) );
 
 	    $messages = $room->getHistory(
-		new ilDateTime( $postVals[0], IL_CAL_UNIX ),
-		new ilDateTime( $postVals[1], IL_CAL_UNIX ),
-		/*$room->getSetting( 'restrict_history' ) ?*/
-		$chat_user->getUserId() /*: null*/
+		$from = new ilDateTime( $postVals[0], IL_CAL_UNIX ),
+		$to = new ilDateTime( $postVals[1], IL_CAL_UNIX ),
+		$chat_user->getUserId(),
+		isset($_REQUEST['scope']) ? $_REQUEST['scope'] : 0
 	    );
 	}
 	else
@@ -252,13 +264,22 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 	    }
 
 	    $messages = $room->getHistory(
-		$from, $to,
-		/*$room->getSetting( 'restrict_history' ) ?*/
-		$chat_user->getUserId() /*: null*/
+		$from,
+		$to,
+		$chat_user->getUserId(),
+		isset($_REQUEST['scope']) ? $_REQUEST['scope'] : 0
 	    );
 	}
 
-	$this->showMessages( $messages, $durationForm, $export );
+
+	$psessions = $room->getPrivateRoomSessions(
+		$from,
+		$to,
+		$chat_user->getUserId(),
+		$scope
+	);
+
+	$this->showMessages( $messages, $durationForm, $export, $psessions );
     }
 
     /**
