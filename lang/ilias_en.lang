@@ -12228,3 +12228,4 @@ chatroom#:#private_rooms_enabled#:#Allow Private Rooms
 chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.
 chatroom#:#no_further_users#:#(empty)
 chatroom#:#users#:#Users
+chatroom#:#no_messages#:#There are no saved messages for the given period.

@@ -415,7 +415,6 @@ class ilChatroom
 	public static function byObjectId($object_id)
 	{
 		global $ilDB;
-		//var_dump($object_id);
 		$query	= 'SELECT * FROM ' . self::$settingsTable . ' WHERE object_id = %s';
 		$types	= array('integer');
 		$values = array($object_id);
@@ -569,20 +568,27 @@ class ilChatroom
 	 * @param integer $restricted_session_userid
 	 * @return array
 	 */
-	public function getHistory(ilDateTime $from = null, ilDateTime $to = null, $restricted_session_userid = null)
+	public function getHistory(ilDateTime $from = null, ilDateTime $to = null, $restricted_session_userid = null, $proom_id = 0)
 	{
 		global $ilDB, $ilUser;
 
 		$join = '';
 
-		if( !is_null( $restricted_session_userid ) )
+		if( !is_null( $restricted_session_userid ) && !$proom_id )
 		{
-			$join = ' INNER JOIN ' . self::$sessionTable .
-					' sessionTable ON sessionTable.room_id = historyTable.room_id AND user_id = ' .
-			$ilDB->quote( $restricted_session_userid, 'integer' ) .
-					' AND timestamp >= connected AND timestamp <= disconnected ';
+			$join .= ' INNER JOIN ' . self::$sessionTable . '
+				 sessionTable ON sessionTable.room_id = historyTable.room_id 
+				 AND sessionTable.user_id = '. $ilDB->quote( $restricted_session_userid, 'integer' ) . '
+				 AND historyTable.sub_room = 0 AND timestamp >= sessionTable.connected AND timestamp <= sessionTable.disconnected ';
 		}
-
+/*
+		if ($proom_id) {
+			$join .= $j = ' LEFT JOIN ' . self::$privateSessionsTable .
+				' pSessionTable ON pSessionTable.user_id = ' .
+				$ilDB->quote( $restricted_session_userid, 'integer' ) .
+				' AND historyTable.sub_room = pSessionTable.proom_id AND timestamp >= pSessionTable.connected AND timestamp <= pSessionTable.disconnected ';
+		}
+*/		
 		$query = 'SELECT historyTable.* FROM ' . self::$historyTable . ' historyTable ' .
 		$join . ' WHERE historyTable.room_id = ' . $this->getRoomId();
 
@@ -608,12 +614,29 @@ class ilChatroom
 		{
 			$row['message'] = json_decode( $row['message'] );
 			$row['message']->timestamp = $row['timestamp'];
-			if (!$row['public'] && !in_array($ilUser->getId(), explode(',', $row['recipients']))) {
+			if ($row['message']->public !== null && !$row['message']->public && !in_array($ilUser->getId(), explode(',', $row['recipients']))) {
 			    continue;
 			}
 			
 			$result[] = $row;
 		}
+		return $result;
+	}
+
+	public function getPrivateRoomSessions(ilDateTime $from = null, ilDateTime $to = null, $user_id = 0, $room_id=0 ) {
+		global $ilDB;
+		
+		$query = 'SELECT proom_id, title FROM ' . self::$privateRoomsTable . ' WHERE proom_id IN (
+			SELECT proom_id FROM '.self::$privateSessionsTable.' WHERE connected >= %s AND disconnected <= %s AND user_id = %s
+
+		) AND parent_id = %s';
+		
+		$rset = $ilDB->queryF($query, array('integer','integer','integer','integer'), array($from->getUnixTime(), $to->getUnixTime(), $user_id, $room_id));
+		$result = array();
+		while( $row = $ilDB->fetchAssoc( $rset ) )
+		{
+			$result[] = $row;
+		}		
 		return $result;
 	}
 
