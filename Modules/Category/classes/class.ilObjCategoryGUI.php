@@ -452,7 +452,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 
 		$form->addCommandButton("update", $this->lng->txt("save"));
-		$form->addCommandButton("addTranslationForm", $this->lng->txt("add_translation"));		
+		$form->addCommandButton("addTranslation", $this->lng->txt("add_translation"));		
 
 		return $form;
 	}
@@ -525,7 +525,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	/**
 	 * Edit title and translations
 	 */
-	function editTranslationsObject($a_get_post_values = false)
+	function editTranslationsObject($a_get_post_values = false, $a_add = false)
 	{
 		global $tpl;
 
@@ -553,6 +553,10 @@ class ilObjCategoryGUI extends ilContainerGUI
 			foreach($data["Fobject"] as $k => $v)
 			{
 				$data["Fobject"][$k]["default"] = ($k == $data["default_language"]);
+			}
+			if($a_add)
+			{
+				$data["Fobject"][++$k]["title"] = "";
 			}
 			$table->setData($data["Fobject"]);
 		}
@@ -619,10 +623,17 @@ class ilObjCategoryGUI extends ilContainerGUI
 	 */
 	function addTranslationObject()
 	{
-		$k = max(array_keys($_POST["title"]));
-		$k++;
-		$_POST["title"][$k] = "";
-		$this->editTranslationsObject(true);
+		if($_POST["title"])
+		{
+			$k = max(array_keys($_POST["title"]));
+			$k++;
+			$_POST["title"][$k] = "";
+			$this->editTranslationsObject(true);
+		}
+		else
+		{
+			$this->editTranslationsObject(false, true);
+		}
 	}
 
 	/**
