@@ -25,9 +25,9 @@ abstract class ilPluginConfigGUI
 	/**
 	 * Get plugin object
 	 *
-	 * @return	object	plugin object
+	 * @return ilPlugin	plugin object
 	 */
-	final function getPluginObject()
+	public final function getPluginObject()
 	{
 		return $this->plugin_object;
 	}
@@ -51,8 +51,10 @@ abstract class ilPluginConfigGUI
 		$tpl->setDescription("");
 
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($lng->txt("cmps_plugin_slot"),
-			$ilCtrl->getLinkTargetByClass("ilobjcomponentsettingsgui", "showPluginSlot"));
+		$ilTabs->setBackTarget(
+			$lng->txt("cmps_plugin_slot"),
+			$ilCtrl->getLinkTargetByClass("ilobjcomponentsettingsgui", "showPluginSlot")
+		);
 
 		$this->performCommand($ilCtrl->getCmd("configure"));
 
