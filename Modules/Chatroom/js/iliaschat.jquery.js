@@ -191,7 +191,7 @@ ilAddOnLoad(function() {
 					if (subRoomId) {
 						alert('banning from private rooms coming soon.')
 					}
-                                        else if (confirm(translate('ban'))) {
+                                        else if (confirm(translate('ban_question'))) {
                                                 banUser(this.id);
                                         }
                                 },
@@ -294,7 +294,7 @@ ilAddOnLoad(function() {
                                 e.stopPropagation();
 				subRoomId = 0;
                                 $('#chat_messages').ilChatMessageArea('show', 0);
-				$('#chat_users').find('.online_user').show();
+				$('#chat_users').find('.online_user').not('.hidden_entry').show();
 			});
 
 			$('#submit_message').click(function() {
@@ -327,9 +327,10 @@ ilAddOnLoad(function() {
                             var tmp = {
                                 id: this.id,
                                 label: this.login,
-                                type: 'user'
+                                type: 'user',
+				hide: this.id == personalUserInfo.userid
                             };
-			    $('#chat_users').ilChatList('add', tmp);
+			    $('#chat_users').ilChatList('add', tmp, {hide: true});
 			    usermanager.add(tmp, 0);
                         });
 
@@ -547,11 +548,19 @@ if (typeof DEBUG != 'undefined' && DEBUG) {
 							    type: 'notice',
 							    message: translate('private_room_entered_user', {user: userdata.label, title: data.label})
 						    });
+
+						    $('.user_' + userdata.id).show();
 						}
-						$('.user_' + userdata.id).show();
+						
+						if ($('.online_user:visible').length == 0) {
+							$('.no_users').show();
+						}
+						else {
+							$('.no_users').hide();
+						}
 					    }
                                             
-                                            if (messageObject.user == personalUserInfo.userid) {
+                                            if (messageObject.user == personalUserInfo.userid && subRoomId != messageObject.sub) {
                                                 $('#chat_messages').ilChatMessageArea('show', messageObject.sub, posturl);
                                             }
                                             
@@ -571,6 +580,12 @@ if (typeof DEBUG != 'undefined' && DEBUG) {
 						    $('#chat_users').find('.user_' + messageObject.user).hide();
 						}
 						usermanager.remove(messageObject.user, messageObject.sub);
+						if ($('.online_user:visible').length == 0) {
+							$('.no_users').show();
+						}
+						else {
+							$('.no_users').hide();
+						}
 						break;
 					case 'private_room_created':
                                                 $('#chat_messages').ilChatMessageArea('addScope', messageObject.proom_id, messageObject);
@@ -979,6 +994,9 @@ menuEntries.push(
 								$('#chat_messages').ilChatMessageArea('show', 0);
 								return;
 							}
+							else if (subRoomId == room.id) {
+								return;
+							}
 							room.new_events = false;
 							$.get(
 								posturl.replace(/postMessage/, 'privateRoom-enter') + '&sub=' + room.id,
@@ -996,7 +1014,7 @@ menuEntries.push(
 
 									$('#chat_messages').ilChatMessageArea('show', room.id, posturl);
 
-									if (subRoomId) {
+									if (subRoomId) {/*
 										$('#chat_users').find('.online_user').hide();
 										usermanager.clear(room.id); 
 										$.get(
@@ -1007,7 +1025,7 @@ menuEntries.push(
 												response = typeof response == 'object' ? response : $.getAsObject(response);
 
 												$.each(response, function() {
-													$('#chat_users').find('.user_' + this).show();
+													$('#chat_users').find('.user_' + this).not('.hidden_entry').show();
 													userdata = $('#chat_users').ilChatList('getDataById', this);
 													usermanager.add(userdata, room.id);
 												});
@@ -1020,11 +1038,11 @@ menuEntries.push(
 												}
 											},
 											'json'
-											);
+											);*/
 
 									}
 									else {
-										$('#chat_users').find('.online_user').show();
+										$('#chat_users').find('.online_user').not('.hidden_entry').show();
 									}
 								},
 								'json'

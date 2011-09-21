@@ -12226,3 +12226,5 @@ chatroom#:#hide_settings#:#Hide Settings
 chatroom_adm#:#soap_user_hint#:#This user is used to send information from the chatserver to the ilias installation. No special permissions are required.<br/>If you create a new accout, please make sure that you are able to login with this user (e.g. accept licence aggreement).
 chatroom#:#private_rooms_enabled#:#Allow Private Rooms
 chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.
+chatroom#:#no_further_users#:#(empty)
+chatroom#:#users#:#Users

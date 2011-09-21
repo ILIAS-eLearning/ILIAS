@@ -256,51 +256,6 @@
 					_index: {},
 					_menuitems: menuitems
 				});
-                    /*
-				$('.listentry', $(this)).live('click', function(e) {
-				    
-					e.preventDefault();
-					e.stopPropagation();
-				    
-					if ($(this).hasClass('menu_attached')) {
-						$(this).removeClass('menu_attached');
-						menuContainer.hide();
-						return;
-					}
-					else if (menuContainer.is(':visible')) {
-						menuContainer.hide();
-					}
-
-					menuContainer.find('tr').remove();
-					var data = $(this).data('ilChatList');
-					if (data.type == 'user' && data.id == personalUserInfo.userid) {
-						return;
-					}
-
-					$(this).addClass('menu_attached');
-
-					$.each(menuitems, function() {
-
-						if (this.permission == undefined) {
-							menuContainer.find('table').append(getMenuLine(this.label, this.callback));
-						}
-						else if (
-							(personalUserInfo.moderator && this.permission.indexOf('moderator') >= 0)
-							|| (personalUserInfo.userid == data.owner && this.permission.indexOf('owner') >= 0)
-							) {
-							menuContainer.find('table').append(getMenuLine(this.label, this.callback));
-						}
-					});
-                        
-					menuContainer.css('left', $(this).offset().left)
-					.css('top', $(this).offset().top + $(this).height());
-                        
-					menuContainer.data('ilChat', {
-						context: $(this).data('ilChatList')
-					});
-                        
-					menuContainer.show();
-				});*/
 			},
 			add: function(options) {
 				if ($(this).data('ilChatList')._index['id_' + options.id]) {
@@ -309,6 +264,10 @@
                     
 				var line = $('<p class="listentry '+options.type+'_'+options.id+' online_user"><img src="'+iconsByType[options.type]+'" />&nbsp;<a class="label" href="javascript:void(0);">' + options.label + '</a></p>')
                     
+				if (typeof options.hide != 'undefined' && options.hide == true) {
+					line.addClass('hidden_entry');
+				} 
+		    
 				line.data('ilChatList', options);
 				
 				var $this = $(this);
@@ -370,7 +329,19 @@
 				}
 
 				$(this).append(line);
-			       
+				if (line.hasClass('hidden_entry')) {
+					line.hide();
+				}
+				
+				if (options.type == 'user') {
+					if ($('.online_user:visible').length == 0) {
+						$('.no_users').show();
+					}
+					else {
+						$('.no_users').hide();
+					}
+				}
+				
 				return $(this).ilChatList('sort');
 			},
 			sort: function() {
@@ -391,11 +362,20 @@
 			removeById: function(id) {
 				var line = $(this).data('ilChatList')._index['id_' + id];
 				if (line) {
-				    line.remove();
-				    delete $(this).data('ilChatList')._index['id_' + id];
-				    if (line.type == 'user' || line.type == '') {
-					    $(line.type + '_' + id).remove();
-				    }
+					var data = line.data('ilChatList');
+					line.remove();
+					if (data.type == 'user' || data.type == '') {
+						$(data.type + '_' + id).remove();
+						if (data.type == 'user') {
+							if ($('.online_user:visible').length == 0) {
+								$('.no_users').show();
+							}
+							else {
+								$('.no_users').hide();
+							}
+						}
+					}
+					delete $(this).data('ilChatList')._index['id_' + id];
 				}
 				return $(this);
 			},
@@ -601,7 +581,7 @@
 				$('.room_' + id).addClass('in_room');
 
 				if (!id) {
-					$('#chat_users').find('.online_user').show();
+					$('#chat_users').find('.online_user').not('.hidden_entry').show();
 				}
 				else {
 					$('#chat_users').find('.online_user').hide();
@@ -610,14 +590,36 @@
 						posturl.replace(/postMessage/, 'privateRoom-listUsers') + '&sub=' + id,
 						function(response)
 						{
+							$('#chat_users').css('visibility', 'hidden');
 							response = typeof response == 'object' ? response : $.getAsObject(response);
 
 							$.each(response, function() {
-								$('#chat_users').find('.user_' + this).show();
+								var element = $('#chat_users').find('.user_' + this);
+								if (!element.hasClass('hidden_entry')) {
+									element.show();
+								}
+								else {
+									element.hide();
+								}
 							});
+							$('.hidden_entry').hide();
+							if ($('.online_user:visible').length == 0) {
+								$('.no_users').show();
+							}
+							else {
+								$('.no_users').hide();
+							}
+							$('#chat_users').css('visibility', 'visible');
 						},
 						'json'
 					);
+				}
+
+				if ($('.online_user:visible').length == 0) {
+					$('.no_users').show();
+				}
+				else {
+					$('.no_users').hide();
 				}
 
 				subRoomId = id;
