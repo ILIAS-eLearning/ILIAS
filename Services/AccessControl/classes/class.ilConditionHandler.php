@@ -852,7 +852,6 @@ class ilConditionHandler
 		$optional = self::getOptionalConditionsOfTarget($a_target_ref_id, $a_target_id, $a_target_type);
 		$num_required = self::calculateRequiredTriggers($a_target_ref_id, $a_target_id, $a_target_type);
 		$passed = 0;
-
 		foreach($conditions as $condition)
 		{
 			if($tree->isDeleted($condition['trigger_ref_id']))
@@ -864,7 +863,7 @@ class ilConditionHandler
 			if($check)
 			{
 				++$passed;
-				if($passed == $num_required)
+				if($passed >= $num_required)
 				{
 					return true;
 				}

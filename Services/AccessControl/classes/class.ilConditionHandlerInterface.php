@@ -375,7 +375,7 @@ class ilConditionHandlerInterface
 		}
 
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
-		$this->listConditions();
+		$this->ctrl->redirect($this,'listConditions');
 	}
 		
 
@@ -392,8 +392,8 @@ class ilConditionHandlerInterface
 		{
 			$this->ch_obj->deleteCondition($condition_id);
 		}
-		ilUtil::sendSuccess($this->lng->txt('condition_deleted'));
-		$this->listConditions();
+		ilUtil::sendSuccess($this->lng->txt('condition_deleted'),true);
+		$this->ctrl->redirect($this,'listConditions');
 
 		return true;
 	}
@@ -514,14 +514,14 @@ class ilConditionHandlerInterface
 		$this->ch_obj->enableAutomaticValidation($this->getAutomaticValidation());
 		if(!$this->ch_obj->storeCondition())
 		{
-			ilUtil::sendFailure($this->ch_obj->getErrorMessage());
+			ilUtil::sendFailure($this->ch_obj->getErrorMessage(),true);
 		}
 		else
 		{
-			ilUtil::sendSuccess($this->lng->txt('added_new_condition'));
+			ilUtil::sendSuccess($this->lng->txt('added_new_condition'),true);
 		}
 
-		$this->listConditions();
+		$this->ctrl->redirect($this,'listConditions');
 
 		return true;
 	}
