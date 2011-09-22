@@ -163,8 +163,18 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		}
 
 		ilUtil::sendSuccess($this->lng->txt('webr_link_added'));
-		ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".
-			$a_new_object->getRefId()."&cmd=view");
+		
+		// personal workspace
+		if($this->id_type == self::WORKSPACE_NODE_ID)
+		{
+			$this->ctrl->returnToParent($this);			
+		}
+		// repository
+		else
+		{
+			ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".
+				$a_new_object->getRefId()."&cmd=view");
+		}
 	}
 	
 	/**
