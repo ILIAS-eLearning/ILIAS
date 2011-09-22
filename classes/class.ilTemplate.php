@@ -55,6 +55,7 @@ class ilTemplate extends ilTemplateX
 	protected $frame_fixed_width = false;
 
 	protected $title_alerts = array();
+	protected $header_action;
 
 	/**
 	* constructor
@@ -1605,50 +1606,13 @@ class ilTemplate extends ilTemplateX
 			$this->parseCurrentBlock();
 		}
 		
-		if ((is_object($this->getHeaderActionMenu()) ||
-			$this->getHeaderActionMenuHTML() != "") && $ilUser->getId() != ANONYMOUS_USER_ID)
+		$header = $this->getHeaderActionMenu();
+		if ($header)
 		{
-			$header_action_gui = $this->getHeaderActionMenu();	
-			if($header_action_gui->object)
-			{
-				include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
-				$lg = ilObjectListGUIFactory::_getListGUIByType($header_action_gui->object->getType());
-				$lg->setContainerObject($header_action_gui);
-
-				// personal workspace
-				if ($_REQUEST["wsp_id"] || $ilCtrl->getCmdClass() == "ilobjworkspacerootfoldergui")
-				{
-					$ref_id = $_REQUEST["wsp_id"];
-					$context = ilObjectListGUI::CONTEXT_WORKSPACE;
-				}	
-				// repository
-				else
-				{
-					$ref_id = $header_action_gui->object->getRefId();
-					$context = ilObjectListGUI::CONTEXT_REPOSITORY;
-				}
-				
-				$html = $lg->getHeaderAction($ref_id,
-					$header_action_gui->object->getId(),
-					$context, $this->header_action_sub_id);
-				if ($context == ilObjectListGUI::CONTEXT_REPOSITORY)
-				{
-					$this->addOnLoadCode("ilObject.setRedrawAHUrl('".
-						$ilCtrl->getLinkTarget($header_action_gui, "redrawHeaderAction", "", true)."');");
-				}
-			}
-			else if ($this->getHeaderActionMenuHTML() != "")
-			{
-				$html = $this->getHeaderActionMenuHTML();
-			}
-			
-			if ($html != "")
-			{
-				$this->setCurrentBlock("head_action_inner");
-				$this->setVariable("HEAD_ACTION", $html);
-				$this->parseCurrentBlock();
-				$this->touchBlock("head_action");
-			}
+			$this->setCurrentBlock("head_action_inner");
+			$this->setVariable("HEAD_ACTION", $header);
+			$this->parseCurrentBlock();
+			$this->touchBlock("head_action");			
 		}
 
 		if(count((array) $this->title_alerts))
@@ -1723,13 +1687,11 @@ class ilTemplate extends ilTemplateX
 	/**
 	 * Set header action menu
 	 *
-	 * @param int $a_val ref id	
-	 * @param int $a_sub_id sub object id	
+	 * @param string $a_gui $a_header
 	 */
-	function setHeaderActionMenu($a_val, $a_sub_id = null)
-	{
-		$this->header_action_ref_id = $a_val;
-		$this->header_action_sub_id = $a_sub_id;
+	function setHeaderActionMenu($a_header)
+	{		
+		$this->header_action = $a_header;
 	}
 	
 	/**
@@ -1739,29 +1701,8 @@ class ilTemplate extends ilTemplateX
 	 */
 	function getHeaderActionMenu()
 	{
-		return $this->header_action_ref_id;
+		return $this->header_action;
 	}
-	
-	/**
-	 * Set header action menu html
-	 *
-	 * @param string $a_val html	
-	 */
-	function setHeaderActionMenuHTML($a_html)
-	{
-		$this->header_action_html = $a_html;
-	}
-	
-	/**
-	 * Get header action menu html
-	 *
-	 * @return string html
-	 */
-	function getHeaderActionMenuHTML()
-	{
-		return $this->header_action_html;
-	}
-	
 
 	/**
 	* sets content for standard template

@@ -13,7 +13,7 @@ require_once 'Services/LinkChecker/interfaces/interface.ilLinkCheckerGUIRowHandl
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjLinkResourceGUI: ilMDEditorGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjLinkResourceGUI: ilExportGUI, ilWorkspaceAccessGUI
+* @ilCtrl_Calls ilObjLinkResourceGUI: ilExportGUI, ilWorkspaceAccessGUI, ilCommonActionDispatcherGUI
 * 
 *
 * @ingroup ModulesWebResource
@@ -91,6 +91,12 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				$exp = new ilExportGUI($this);
 				$exp->addFormat('xml');
 				$this->ctrl->forwardCommand($exp);
+				break;
+			
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
 				break;
 				
 			default:

@@ -12,7 +12,7 @@ include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 * $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
 *
 * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
-* @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI
+* @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
 *
 * @extends ilObject2GUI
 */
@@ -188,11 +188,11 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		switch($next_class)
 		{
-			case 'ilblogpostinggui':				
+			case 'ilblogpostinggui':						
 				$ilCtrl->setParameter($this, "bmn", $_REQUEST["bmn"]);
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, ""));
-
+								
 				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$bpost_gui = new ilBlogPostingGUI($this->node_id, $this->getAccessHandler(),
 					$_GET["page"], $_GET["old_nr"], $this->object->getNotesStatus() && !$this->disable_notes);
@@ -246,7 +246,8 @@ class ilObjBlogGUI extends ilObject2GUI
 							return $this->buildEmbedded($ret, $nav);
 						
 						// ilias/editor
-						default:																					
+						default:			
+							$this->addHeaderAction();	
 							$tpl->setContent($ret);
 							$nav = $this->renderNavigation($this->items, "render", $cmd);	
 							$tpl->setRightContent($nav);	
@@ -263,11 +264,21 @@ class ilObjBlogGUI extends ilObject2GUI
 			case "ilnotegui":
 				$this->preview();
 				break;
+			
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
 
-			default:
+			default:				
+				if($cmd != "preview")
+				{
+					$this->addHeaderAction();
+				}
 				return parent::executeCommand();			
 		}
-
+		
 		return true;
 	}
 	
@@ -1212,6 +1223,34 @@ class ilObjBlogGUI extends ilObject2GUI
 	function disableNotes($a_value = false)
 	{
 		$this->disable_notes = (bool)$a_value;
+	}
+	
+	protected function initHeaderAction()
+	{
+		$sub_type = $sub_id = null;
+		if($_GET["page"])
+		{
+			$sub_type = "blp";
+			$sub_id = $_GET["page"];
+		}		
+		return parent::initHeaderAction($sub_type, $sub_id);
+	}
+	
+	/**
+	 * Get title for blog posting (used in ilNotesGUI)
+	 * 
+	 * @param int $a_blog_id
+	 * @param int $a_posting_id 
+	 * @return string
+	 */
+	static function lookupSubObjectTitle($a_blog_id, $a_posting_id)
+	{
+		include_once "Modules/Blog/classes/class.ilBlogPosting.php";
+		$post = new ilBlogPosting($a_posting_id);
+		if($post->getBlogId() == $a_blog_id)
+		{
+			return $post->getTitle();
+		}
 	}
 
 	/**

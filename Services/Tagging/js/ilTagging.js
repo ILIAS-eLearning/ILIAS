@@ -3,12 +3,12 @@
 
 ilTagging =
 {
-	ref_id: 0,
-	sub_id: 0,
+	hash: '',
+	update_code: '',
 	panel: false,
 	ajax_url: '',
 	
-	listTags: function (e, ref_id, sub_id, update_code)
+	listTags: function (e, hash, update_code)
 	{
 		// prevent the default action
 		if (e && e.preventDefault)
@@ -23,8 +23,7 @@ ilTagging =
 		// hide overlays
 		ilOverlay.hideAllOverlays(e, true);
 		
-		this.ref_id = ref_id;
-		this.sub_id = sub_id;
+		this.hash = hash;
 		this.update_code = update_code;
 		
 		// add panel
@@ -66,7 +65,7 @@ ilTagging =
 		obj.style.width = '500px';
 		obj.style.height = '100%';
 		
-		this.sendAjaxGetRequest({cmd: "getHTML", tags_ref_id: this.ref_id, tags_sub_id: this.sub_id}, {mode: 'list_tags'});
+		this.sendAjaxGetRequest({cmd: "getHTML", cadh: this.hash}, {mode: 'list_tags'});
 	},
 
 	cmdAjaxLink: function (e, url)

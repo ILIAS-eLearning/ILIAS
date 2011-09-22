@@ -33,7 +33,7 @@
 * @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilPageObjectGUI, ilColumnGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilCourseItemAdministrationGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjFolderGUI: ilExportGUI
+* @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI
 *
 * @extends ilObjectGUI
 */
@@ -186,6 +186,12 @@ class ilObjFolderGUI extends ilContainerGUI
 				$exp->addFormat('xml');
 				$this->ctrl->forwardCommand($exp);
 				break;
+			
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
 
 			default:
 
@@ -204,6 +210,8 @@ class ilObjFolderGUI extends ilContainerGUI
 				$this->$cmd();
 				break;
 		}
+		
+		$this->addHeaderAction();
 	}
 
 	/**

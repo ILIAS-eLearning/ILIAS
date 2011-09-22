@@ -3,12 +3,12 @@
 
 ilNotes =
 {
-	ref_id: 0,
-	sub_id: 0,
+	hash: '',
+	update_code: '',
 	panel: false,
 	ajax_url: '',
 	
-	listNotes: function (e, ref_id, sub_id, update_code)
+	listNotes: function (e, hash, update_code)
 	{
 		// prevent the default action
 		if (e && e.preventDefault)
@@ -23,15 +23,14 @@ ilNotes =
 		// hide overlays
 		ilOverlay.hideAllOverlays(e, true);
 		
-		this.ref_id = ref_id;
-		this.sub_id = sub_id;
+		this.hash = hash;
 		this.update_code = update_code;
 		
 		// add panel
 		this.initPanel(false, e);
 	},
 	
-	listComments: function (e, ref_id, sub_id, update_code)
+	listComments: function (e, hash, update_code)
 	{
 		// prevent the default action
 		if (e && e.preventDefault)
@@ -46,8 +45,7 @@ ilNotes =
 		// hide overlays
 		ilOverlay.hideAllOverlays(e, true);
 		
-		this.ref_id = ref_id;
-		this.sub_id = sub_id;
+		this.hash = hash;
 		this.update_code = update_code;
 		
 		// add panel
@@ -91,11 +89,11 @@ ilNotes =
 		
 		if (comments)
 		{
-			this.sendAjaxGetRequest({cmd: "getOnlyCommentsHTML", notes_ref_id: this.ref_id, notes_sub_id: this.sub_id}, {mode: 'list_notes'});
+			this.sendAjaxGetRequest({cmd: "getOnlyCommentsHTML", cadh: this.hash}, {mode: 'list_notes'});
 		}
 		else
 		{
-			this.sendAjaxGetRequest({cmd: "getOnlyNotesHTML", notes_ref_id: this.ref_id, notes_sub_id: this.sub_id}, {mode: 'list_notes'});
+			this.sendAjaxGetRequest({cmd: "getOnlyNotesHTML", cadh: this.hash}, {mode: 'list_notes'});
 		}
 	},
 

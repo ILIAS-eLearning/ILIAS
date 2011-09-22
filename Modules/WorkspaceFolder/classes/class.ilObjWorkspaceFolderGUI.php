@@ -10,7 +10,7 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
 *
-* @ilCtrl_Calls ilObjWorkspaceFolderGUI: 
+* @ilCtrl_Calls ilObjWorkspaceFolderGUI: ilCommonActionDispatcherGUI
 *
 * @extends ilObject2GUI
 */
@@ -66,8 +66,18 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 		switch($next_class)
 		{
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
+			
 			default:
-				$this->prepareOutput();
+				$this->prepareOutput();						
+				if($this->type != "wsrt")
+				{
+					$this->addHeaderAction();
+				}				
 				if(!$cmd)
 				{
 					$cmd = "render";
@@ -75,7 +85,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 				$this->$cmd();
 				break;
 		}
-
+		
 		return true;
 	}
 	

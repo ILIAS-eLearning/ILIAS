@@ -12,6 +12,7 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @version $Id$
 *
 * @ilCtrl_IsCalledBy ilPDSelectedItemsBlockGUI: ilColumnGUI
+* @ilCtrl_Calls ilPDSelectedItemsBlockGUI: ilCommonActionDispatcherGUI
 */
 class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandling
 {
@@ -182,10 +183,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		// workaround to show details row
 		$this->setData(array("dummy"));
 				
-		// prepare notes
-		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-		ilNoteGUI::initJavascript(
-			$ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilnotegui"), "", "", true, false));		
+		include_once "Services/Object/classes/class.ilObjectListGUI.php";
+		ilObjectListGUI::prepareJSLinks("", 
+			$ilCtrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
+			$ilCtrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
 		
 		switch((int)$this->view)
 		{
@@ -232,14 +233,24 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
 		
-		if(method_exists($this, $cmd))
+		switch($next_class)
 		{
-			return $this->$cmd();
-		}
-		else
-		{
-			$cmd .= 'Object';
-			return $this->$cmd();
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$ilCtrl->forwardCommand($gui);
+				break;
+				
+			default:		
+				if(method_exists($this, $cmd))
+				{
+					return $this->$cmd();
+				}
+				else
+				{
+					$cmd .= 'Object';
+					return $this->$cmd();
+				}
 		}
 	}
 
@@ -427,6 +438,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				if ($cur_obj_type != $item["type"])
 				{
 					$item_list_gui =& $this->getItemListGUI($item["type"]);
+										
+					$item_list_gui->enableNotes(true);
+					$item_list_gui->enableComments(true);
+					$item_list_gui->enableTags(true);
 					
 					$item_list_gui->enableIcon(true);
 					$item_list_gui->enableDelete(false);
@@ -585,6 +600,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$full_class = "ilObj".$class."ListGUI";
 						include_once($location."/class.".$full_class.".php");
 						$item_list_gui = new $full_class();
+						
+						$item_list_gui->enableNotes(true);
+						$item_list_gui->enableComments(true);
+						$item_list_gui->enableTags(true);
+						
 						$item_list_gui->enableIcon(true);
 						$item_list_gui->enableDelete(false);
 						$item_list_gui->enableCut(false);
@@ -797,6 +817,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$full_class = "ilObj".$class."ListGUI";
 						include_once($location."/class.".$full_class.".php");
 						$item_list_gui = new $full_class();
+						
+						$item_list_gui->enableNotes(true);
+						$item_list_gui->enableComments(true);
+						$item_list_gui->enableTags(true);
+						
 						$item_list_gui->enableIcon(true);
 						$item_list_gui->enableDelete(false);
 						$item_list_gui->enableCut(false);
@@ -804,7 +829,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$item_list_gui->enablePayment(false);
 						$item_list_gui->enableLink(false);
 						$item_list_gui->enableInfoScreen(false);
-						$item_list_gui->setContainerObject($this);
+						$item_list_gui->setContainerObject($this);						
 						if ($this->getCurrentDetailLevel() < 3)
 						{
 							$item_list_gui->enableDescription(false);
@@ -913,7 +938,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				if ($cur_obj_type != $item["type"])
 				{
 					$item_list_gui =& $this->getItemListGUI($item["type"]);
-
+					
+					$item_list_gui->enableNotes(true);
+					$item_list_gui->enableComments(true);
+					$item_list_gui->enableTags(true);
+					
 					$item_list_gui->enableIcon(true);
 					$item_list_gui->enableDelete(false);
 					$item_list_gui->enableCut(false);

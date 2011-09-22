@@ -28,11 +28,11 @@
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version  $Id$
 *
-* @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEvaluationGUI
-* @ilCtrl_Calls ilObjSurveyGUI: ilSurveyExecutionGUI
+* @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEvaluationGUI, ilSurveyExecutionGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilMDEditorGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilInfoScreenGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjSurveyGUI: ilRepositorySearchGUI, ilSurveyPageGUI
+* @ilCtrl_Calls ilObjSurveyGUI: ilCommonActionDispatcherGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesSurvey
@@ -185,6 +185,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 				include_once './Modules/Survey/classes/class.ilSurveyPageGUI.php';
 				$pg = new ilSurveyPageGUI($this);
 				$this->ctrl->forwardCommand($pg);
+				break;
+			
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			default:

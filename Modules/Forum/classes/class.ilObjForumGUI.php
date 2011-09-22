@@ -18,7 +18,8 @@ require_once 'Services/RTE/classes/class.ilRTE.php';
 * $Id$
 *
 * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI, ilObjectCopyGUI, ilExportGUI
+* @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI
+* @ilCtrl_Calls ilObjForumGUI: ilObjectCopyGUI, ilExportGUI, ilCommonActionDispatcherGUI
 *
 * @ingroup ModulesForum
 */
@@ -153,6 +154,12 @@ class ilObjForumGUI extends ilObjectGUI
 				$exp = new ilExportGUI($this);
 				$exp->addFormat('xml');
 				$this->ctrl->forwardCommand($exp);
+				break;
+			
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			default:

@@ -308,7 +308,6 @@ class ilObjectGUI
 		return true;
 	}
 	
-
 	/**
 	* called by prepare output
 	*/
@@ -334,36 +333,65 @@ class ilObjectGUI
 		$this->tpl->setAlertProperties($lgui->getAlertProperties());		
 	}
 	
-	protected function addHeaderAction()
+	/**
+	 * Add header action menu
+	 * 
+	 * @param string $a_sub_type
+	 * @param int $a_sub_id
+	 * @return ilObjectListGUI
+	 */
+	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
 	{
-		// personal workspace is done elsewhere
-		if((!($this instanceof ilObject2GUI) || 
-			$this->id_type != ilObject2GUI::WORKSPACE_NODE_ID) &&
-			$this->object && !$this->creation_mode)
-		{		
-			// prepare notes
-			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-			ilNoteGUI::initJavascript(
-				$this->ctrl->getLinkTargetByClass(array("ilinfoscreengui", "ilnotegui"), "", "", true, false));
-
-			// prepare tagging
-			include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
-			ilTaggingGUI::initJavascript(
-				$this->ctrl->getLinkTargetByClass(array("ilinfoscreengui", "iltagginggui"), "", "", true, false));
-			$this->tpl->setHeaderActionMenu($this);
+		global $ilAccess; 
+		
+		if(!$this->creation_mode && $this->object)
+		{
+			include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
+			$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, 
+				$ilAccess, $this->object->getType(), $this->ref_id, $this->object->getId());
+			
+			$dispatcher->setSubObject($a_sub_type, $a_sub_id);
+			
+			include_once "Services/Object/classes/class.ilObjectListGUI.php";
+				ilObjectListGUI::prepareJSLinks($this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true), 
+				$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false), 
+				$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
+			
+			$lg = $dispatcher->initHeaderAction();
+			$lg->enableComments(true);
+			$lg->enableNotes(true);
+			$lg->enableTags(true);
+			
+			return $lg;
 		}
 	}
 	
+	/**
+	 * Insert header action into main template
+	 * 
+	 * @param ilObjectListGUI $a_list_gui 
+	 */
+	protected function insertHeaderAction($a_list_gui)
+	{
+		$this->tpl->setHeaderActionMenu($a_list_gui->getHeaderAction());
+	}
+	
+	/**
+	 * Add header action menu
+	 */
+	protected function addHeaderAction()
+	{		
+		$this->insertHeaderAction($this->initHeaderAction());
+	}
+
+	/**
+	 * Ajax call: redraw action header only
+	 */
 	protected function redrawHeaderActionObject()
 	{
 		$this->addHeaderAction();
 		return $this->tpl->get("head_action_inner");
 		exit;
-	}
-	
-	protected function removeHeaderAction()
-	{
-		$this->tpl->setHeaderActionMenu(null, null);
 	}
 	
 	protected function showUpperIcon()

@@ -16,7 +16,7 @@ include_once("./Services/Style/classes/class.ilPageLayout.php");
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilInfoScreenGUI, ilSCORM2004ChapterGUI, ilSCORM2004SeqChapterGUI, ilSCORM2004PageNodeGUI, ilSCORM2004ScoGUI
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilCertificateGUI, ilObjStyleSheetGUI, ilNoteGUI, ilSCORM2004AssetGUI
-* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilLicenseGUI
+* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilLicenseGUI, ilCommonActionDispatcherGUI
 *
 * @ingroup ModulesScormAicc
 */
@@ -106,10 +106,10 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 				$ilCtrl->forwardCommand($page_gui);
 				break;
 
-			default:						
+			default:										
+				parent::executeCommand();
 				$this->addHeaderAction();
-				return parent::executeCommand();
-		}		
+		}					
 	}
 
 	/**

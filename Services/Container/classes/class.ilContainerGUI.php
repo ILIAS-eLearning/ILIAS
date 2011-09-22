@@ -398,13 +398,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
 			$lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
 			$lgui->initItem($this->object->getRefId(), $this->object->getId());
-			$this->tpl->setAlertProperties($lgui->getAlertProperties());
-			
-			// the repository root has no infoscreen and needs no comments/notes
-			if($this->object->getType() != "root")
-			{
-				$this->addHeaderAction();
-			}
+			$this->tpl->setAlertProperties($lgui->getAlertProperties());			
 		}
 	}
 
@@ -527,9 +521,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	function renderObject()
 	{
 		global $ilDB, $tpl, $ilTabs, $ilCtrl, $ilSetting;
-
+		
 		$container_view = $this->getContentGUI();
-
+		
 		$this->setContentSubTabs();
 		if ($this->isActiveAdministrationPanel())
 		{
@@ -956,6 +950,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 								$item_list_gui->enableCut(false);
 								$item_list_gui->enableCopy(false);
 							}
+							
+							// activate common social commands
+							$item_list_gui->enableComments(true);
+							$item_list_gui->enableNotes(true);
+							$item_list_gui->enableTags(true);
 							
 							$html = $item_list_gui->getListItemHTML($item["ref_id"],
 								$item["obj_id"], $item["title"], $item["description"]);

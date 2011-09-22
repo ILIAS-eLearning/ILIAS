@@ -11,6 +11,7 @@ require_once "./classes/class.ilObjectGUI.php";
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjMediaCastGUI: ilPermissionGUI, ilInfoScreenGUI, ilExportGUI
+* @ilCtrl_Calls ilObjMediaCastGUI: ilCommonActionDispatcherGUI
 * @ilCtrl_IsCalledBy ilObjMediaCastGUI: ilRepositoryGUI, ilAdministrationGUI
 */
 class ilObjMediaCastGUI extends ilObjectGUI
@@ -66,12 +67,17 @@ class ilObjMediaCastGUI extends ilObjectGUI
 //				$this->tpl->show();
 				break;
 
-
 			case 'ilpermissiongui':
 				$ilTabs->activateTab("id_permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+			
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
 				break;
 		
 			default:

@@ -12,7 +12,7 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilCourseItemAdministrationGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjSessionGUI: ilExportGUI
+* @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI
 *
 * @ingroup ModulesSession 
 */
@@ -107,6 +107,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 //				$this->tpl->show();
 				break;
 
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
 		
 			default:
 				if(!$cmd)

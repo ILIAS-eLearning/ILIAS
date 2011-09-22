@@ -12,7 +12,7 @@ require_once("classes/class.ilTabsGUI.php");
 * $Id$
 *
 * @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilLicenseGUI
+* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilLicenseGUI, ilCommonActionDispatcherGUI
 *
 * @ingroup ModulesScormAicc
 */
@@ -135,6 +135,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		
 				// forward the command
 				$this->ctrl->forwardCommand($info);
+				break;
+				
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			case "ilobjstylesheetgui":

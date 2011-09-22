@@ -12,7 +12,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI
 * 
 * @ingroup ModulesCategory
@@ -134,6 +134,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->ctrl->setReturn($this,'listUsers');
 				$this->ctrl->forwardCommand($u_table);
 				break;
+			
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
 
 			default:
 				if ($cmd == "infoScreen")
@@ -171,6 +177,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 				break;
 		}
+		
+		$this->addHeaderAction();
+		
 		return true;
 	}
 

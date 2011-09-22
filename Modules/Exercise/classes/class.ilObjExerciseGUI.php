@@ -12,8 +12,9 @@ require_once "classes/class.ilObjectGUI.php";
 * @author Michael Jansen <mjansen@databay.de>
 * $Id$
 * 
-* @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI, ilRepositorySearchGUI
+* @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilObjExerciseGUI: ilObjectCopyGUI, ilFileSystemGUI, ilExportGUI, ilShopPurchaseGUI
+* @ilCtrl_Calls ilObjExerciseGUI: iilRepositorySearchGUI, ilCommonActionDispatcherGUI
 * 
 * @ingroup ModulesExercise
 */
@@ -180,6 +181,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$sp = new ilShopPurchaseGUI($_GET['ref_id']);
 
 				$this->ctrl->forwardCommand($sp);
+				break;
+			
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			default:

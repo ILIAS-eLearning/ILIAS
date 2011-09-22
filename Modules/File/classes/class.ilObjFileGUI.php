@@ -12,7 +12,7 @@ require_once "./Modules/File/classes/class.ilObjFileAccess.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilShopPurchaseGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
+* @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI, ilCommonActionDispatcherGUI
 *
 * @ingroup ModulesFile
 */
@@ -123,10 +123,19 @@ class ilObjFileGUI extends ilObject2GUI
 				$this->ctrl->forwardCommand($wspacc);
 				break;
 			
+			// personal workspace header actions
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
+			
 			default:
 				// in personal workspace use object2gui 
 				if($this->id_type == self::WORKSPACE_NODE_ID)
 				{
+					$this->addHeaderAction();
+					
 					// coming from goto we need default command
 					if (empty($cmd))
 					{

@@ -22,8 +22,8 @@
 * @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI
 * @ilCtrl_Calls ilObjTestGUI: assTextQuestionGUI, assFlashQuestionGUI
 * @ilCtrl_Calls ilObjTestGUI: ilTestExpressPageObjectGUI, ilPageEditorGUI, ilPageObjectGUI
-* @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI
-* @ilCtrl_Calls ilObjTestGUI: ilEditClipboardGUI
+* @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI
+* @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesTest
@@ -118,25 +118,23 @@ class ilObjTestGUI extends ilObjectGUI
                     $this->ctrl->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
                 }
 
-		$this->addHeaderAction();
-
 		switch($next_class)
 		{
 			case "ilinfoscreengui":
 				$this->prepareOutput();
+				$this->addHeaderAction();
 				$this->infoScreen();	// forwards command
 				break;
-			case 'ilmdeditorgui':
-				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
-
+			case 'ilmdeditorgui':				
 				$this->prepareOutput();
+				$this->addHeaderAction();
+				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 
 				$this->ctrl->forwardCommand($md_gui);
 				break;
-			case "iltestoutputgui":
-				$this->removeHeaderAction();
+			case "iltestoutputgui":				
 				include_once "./Modules/Test/classes/class.ilTestOutputGUI.php";
 				if (!$this->object->getKioskMode()) $this->prepareOutput();
 				$output_gui =& new ilTestOutputGUI($this->object);
@@ -144,53 +142,58 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 
 			case "iltestevaluationgui":
-				include_once "./Modules/Test/classes/class.ilTestEvaluationGUI.php";
 				$this->prepareOutput();
+				$this->addHeaderAction();
+				include_once "./Modules/Test/classes/class.ilTestEvaluationGUI.php";
 				$evaluation_gui =& new ilTestEvaluationGUI($this->object);
 				$this->ctrl->forwardCommand($evaluation_gui);
 				break;
 				
 			case "iltestservicegui":
-				$this->removeHeaderAction();
-				include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
 				$this->prepareOutput();
+				$this->addHeaderAction();
+				include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
 				$serviceGUI =& new ilTestServiceGUI($this->object);
 				$this->ctrl->forwardCommand($serviceGUI);
 				break;
 
 			case 'ilpermissiongui':
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$this->prepareOutput();
+				$this->addHeaderAction();
+				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case "illearningprogressgui":
-				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$this->prepareOutput();
+				$this->addHeaderAction();
+				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
 
 				break;
 
 			case "ilcertificategui":
-				$this->removeHeaderAction();
-				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
 				$this->prepareOutput();
+				$this->addHeaderAction();
+				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
 				include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
 				$output_gui = new ilCertificateGUI(new ilTestCertificateAdapter($this->object));
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 
 			case "iltestscoringgui":
-				include_once "./Modules/Test/classes/class.ilTestScoringGUI.php";
 				$this->prepareOutput();
+				$this->addHeaderAction();
+				include_once "./Modules/Test/classes/class.ilTestScoringGUI.php";
 				$output_gui = new ilTestScoringGUI($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 				
 			case 'ilobjectcopygui':
 				$this->prepareOutput();
+				$this->addHeaderAction();
 				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('tst');
@@ -199,6 +202,7 @@ class ilObjTestGUI extends ilObjectGUI
 				
 			case 'ilrepositorysearchgui':
 				$this->prepareOutput();
+				$this->addHeaderAction();
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search =& new ilRepositorySearchGUI();
 				$rep_search->setCallback($this,
@@ -358,11 +362,18 @@ class ilObjTestGUI extends ilObjectGUI
 				$ret =& $this->ctrl->forwardCommand($page_gui);
 				$this->tpl->setContent($ret);
 
-                                break;
-                        case '':
+                break;
+				
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
+				
+            case '':
 			case 'ilobjtestgui':
-
 				$this->prepareOutput();
+				$this->addHeaderAction();
 				if (preg_match("/deleteqpl_\d+/", $cmd))
 				{
 					$cmd = "randomQuestions";
