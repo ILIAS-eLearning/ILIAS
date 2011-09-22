@@ -11750,7 +11750,7 @@ chatroom#:#restrict_history_info#:#Keine Einträge, zu deren Zeiten man selbst n
 chatroom#:#allow_private_rooms#:#Private Räume erlauben
 chatroom#:#settings_general#:#Allgemein
 chatroom#:#settings_privacy#:#Privatsphäre
-chatroom#:#autogen_usernames_info#:#Schema für automatisch generierte Benutzernamen. '#' wird automatisch durch eine Zahl ersetzt
+chatroom#:#autogen_usernames_info#:#Schema für automatisch generierte Benutzernamen bei anonymen Benutzern. '#' wird automatisch durch eine Zahl ersetzt
 chatroom#:#bans#:#Gesperrte Benutzer
 chatroom#:#permissions#:#Rechte
 chatroom#:#remark#:#Bemerkung
@@ -12226,6 +12226,8 @@ chatroom#:#hide_settings#:#Einstellungen verbergen
 chatroom_adm#:#soap_user_hint#:#Dieser Benutzer wird benötigt, um vom Chatserver Informationen an diese ILIAS-Installation senden zu können. Es werden keine speziellen Berechtigungen benötigt.<br />Wenn Sie einen neuen Account erstellen, stellen Sie bitte sicher, dass sich der Benutzer anmelden kann (z.B. Akzeptieren der Nutzungsvereinbarung).
 chatroom#:#private_rooms_enabled#:#Séparées aktivieren
 chatroom#:#private_rooms_enabled_info#:#Wenn aktiviert, können Benutzer Séparées anlegen, zu denen nur eingeladene Benutzer zutritt haben.
-chatroom#:#no_further_users#:#(leer)
+chatroom#:#no_further_users#:#Keine weiteren Benutzer anwesend
 chatroom#:#users#:#Benutzer
 chatroom#:#no_messages#:#Es sind keine Nachrichten für den ausgewählten Zeitraum verfügbar.
+chatroom#:#history_title_general#:#Unterhaltungen im Chatraum "%s"
+chatroom#:#history_title_private_room#:#Unterhaltungen im Séparée "%s"
