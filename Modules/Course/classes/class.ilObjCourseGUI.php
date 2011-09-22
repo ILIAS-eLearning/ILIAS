@@ -314,18 +314,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			$info->enableNewsEditing();
 		}
 
-		// :TEMP: course notification setting per user
-		if($ilSetting->get("crsgrp_ntf") &&
-			ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
-		{
-			$info->addSection($this->lng->txt("crs_notification"));
-			$info->addPropertyCheckbox($this->lng->txt("crs_activate_notification"),
-				"crs_ntf", 1, "", $ilUser->getPref("grpcrs_ntf_".$this->ref_id));
-
-			$info->setFormAction($this->ctrl->getFormAction($this));
-			$info->addFormButton("saveNotification", $this->lng->txt("save"));
-		}
-		
 		if(strlen($this->object->getImportantInformation()) or
 		   strlen($this->object->getSyllabus()) or
 		   count($files))
@@ -543,7 +531,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$ilUser->writePrefs();
 
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-		$this->ctrl->redirect($this, "infoScreen");
+		$this->ctrl->redirect($this, "");
 	}
 
 	/**
@@ -5364,6 +5352,43 @@ class ilObjCourseGUI extends ilContainerGUI
 		return rawurlencode(base64_encode($link));
 	}
 	
+	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null) 
+	{
+		global $ilSetting, $ilUser;
+		
+		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
+				
+		if($ilSetting->get("crsgrp_ntf") &&
+			ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
+		{						
+			if(!$ilUser->getPref("grpcrs_ntf_".$this->ref_id))
+			{
+				$lg->addHeaderIcon("not_icon",
+					ilUtil::getImagePath("notification_off.png"),
+					$this->lng->txt("crs_notification_deactivated"));
+				
+				$this->ctrl->setParameter($this, "crs_ntf", 1);
+				$caption = "crs_activate_notification";
+			}
+			else
+			{				
+				$lg->addHeaderIcon("not_icon",
+					ilUtil::getImagePath("notification_on.png"),
+					$this->lng->txt("crs_notification_activated"));
+				
+				$this->ctrl->setParameter($this, "crs_ntf", 0);
+				$caption = "crs_deactivate_notification";
+			}
+			
+			$lg->addCustomCommand($this->ctrl->getLinkTarget($this, "saveNotification"),
+				$caption);
+			
+			
+			$this->ctrl->setParameter($this, "crs_ntf", "");
+		}		
+		
+		return $lg;
+	}	
 	
 } // END class.ilObjCourseGUI
 ?>

@@ -12238,3 +12238,11 @@ common#:#il_chat_moderator_read#:#Read access to Chat Room
 common#:#il_chat_moderator_write#:#Edit Chat Room settings
 common#:#il_chat_moderator_moderate#:#Moderate Chat Room
 common#:#obj_il_chat_moderator#:#Chat Room Moderator
+crs#:#crs_activate_notification#:#Activate Notification
+crs#:#crs_deactivate_notification#:#Deactivate Notification
+crs#:#crs_notification_activated#:#Notification Activated
+crs#:#crs_notification_deactivated#:#Notification Deactivated
+grp#:#grp_activate_notification#:#Activate Notification
+grp#:#grp_deactivate_notification#:#Deactivate Notification
+grp#:#grp_notification_activated#:#Notification Activated
+grp#:#grp_notification_deactivated#:#Notification Deactivated
