@@ -124,7 +124,12 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 		    $durationForm->addItem($select);
 	    }
 
-	    $roomTpl->setVariable( 'ROOM_TITLE', $scopes[(int)$_REQUEST['scope']]);
+	    $room = ilChatroom::byObjectId( $this->gui->object->getId() );
+	    if ($room->getSetting('private_rooms_enabled')) {
+			$isPrivateRoom = (boolean)((int)$_REQUEST['scope']);
+			$lang_var = $isPrivateRoom ? 'history_title_private_room' : 'history_title_general';
+			$roomTpl->setVariable( 'ROOM_TITLE', sprintf($lng->txt($lang_var), $scopes[(int)$_REQUEST['scope']]));
+	    }
 
 	    if ($export) {
 		    header("Content-Type: text/html");

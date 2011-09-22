@@ -57,7 +57,13 @@ class ilObjChatroom extends ilObject
 		}
 		return 0;
 	}
-	
+	/**
+	 *
+	 * @global type $rbacadmin
+	 * @global type $rbacreview
+	 * @global ilDB $ilDB
+	 * @return type 
+	 */
 	function initDefaultRoles()
 	{
 		global $rbacadmin,$rbacreview,$ilDB;
@@ -70,20 +76,23 @@ class ilObjChatroom extends ilObject
 		$roles[] = $role_obj->getId();
 		
 		// SET PERMISSION TEMPLATE OF NEW LOCAL ADMIN ROLE
-		$statement = $ilDB->queryf('
+		$statement = $ilDB->queryF('
 			SELECT obj_id FROM object_data 
 			WHERE type = %s 
 			AND title = %s',
 			array('text', 'text'),
 			array('rolt', 'il_chat_moderator'));
 		
-		$res = $statement->fetchRow(DB_FETCHMODE_OBJECT);
+		//$res = $statement->fetchRow(DB_FETCHMODE_OBJECT);
+		$res = $ilDB->fetchAssoc($statement);
 		
-		$rbacadmin->copyRoleTemplatePermissions($res->obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
+		if (!$res) {
+			$rbacadmin->copyRoleTemplatePermissions($res['obj_id'],ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
 
-		// SET OBJECT PERMISSIONS OF COURSE OBJECT
-		$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"chtr",$rolf_obj->getRefId());
-		$rbacadmin->grantPermission($role_obj->getId(),$ops,$this->getRefId());
+			// SET OBJECT PERMISSIONS OF COURSE OBJECT
+			$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"chtr",$rolf_obj->getRefId());
+			$rbacadmin->grantPermission($role_obj->getId(),$ops,$this->getRefId());
+		}
 
 		return $roles ? $roles : array();
 	}

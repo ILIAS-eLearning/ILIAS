@@ -7813,10 +7813,12 @@ $setting->set("enable_sahs_pd", 1);
 <?php
 
 	$chat_modetator_tpl_id = $ilDB->nextId('object_data');
-	$query = "INSERT
-		INTO object_data (type, title, description, owner, create_date, last_update)
-		VALUES ('rolt', 'il_chat_moderator', 'Moderator template for chat moderators', -1, NOW(), NOW())";
-	$ilDB->manipulate($query);
+			
+	$ilDB->manipulateF("
+		INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
+		"VALUES (%s, %s, %s, %s, %s, %s, %s)",
+		array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+		array($chat_modetator_tpl_id, "rolt", "il_chat_moderator", "Moderator template for chat moderators", -1, ilUtil::now(), ilUtil::now()));
 
 	$query = 'SELECT ops_id FROM rbac_operations WHERE operation = ' . $ilDB->quote('moderate', 'text');
 	$rset = $ilDB->query($query);
@@ -7943,5 +7945,43 @@ if(!$ilDB->tableExists('note_settings'))
 			$obj_id = $row['obj_id'];
 			$ilDB->manipulateF('UPDATE chatroom_settings SET private_rooms_enabled = 1 WHERE object_id = %s', array('integer'), array($obj_id));
 		}
+	}
+?>
+<#3468>
+<?php
+	$statement = $ilDB->queryF('
+		SELECT obj_id FROM object_data 
+		WHERE type = %s 
+		AND title = %s',
+		array('text', 'text'),
+		array('rolt', 'il_chat_moderator'));
+
+	$res = $ilDB->fetchAssoc($statement);
+
+	if (!$res || $res->obj_id) {
+		$chat_modetator_tpl_id = $ilDB->nextId('object_data');
+		
+		$ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
+			"VALUES (%s, %s, %s, %s, %s, %s, %s)",
+			array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+			array($chat_modetator_tpl_id, "rolt", "il_chat_moderator", "Moderator template for chat moderators", -1, ilUtil::now(), ilUtil::now()));
+
+		$query = 'SELECT ops_id FROM rbac_operations WHERE operation = ' . $ilDB->quote('moderate', 'text');
+		$rset = $ilDB->query($query);
+		$row = $ilDB->fetchAssoc($rset);
+		$moderateId = $row['ops_id'];
+
+		$chat_modetator_ops = array(2,3,4,$moderateId);
+		foreach ($chat_modetator_ops as $op_id)
+		{
+			$query = "INSERT INTO rbac_templates
+			VALUES (".$ilDB->quote($chat_modetator_tpl_id).", 'chtr', ".$ilDB->quote($op_id).", 8)";
+			$ilDB->manipulate($query);
+		}
+
+		$query = "INSERT
+			INTO rbac_fa
+			VALUES (".$ilDB->quote($chat_modetator_tpl_id).", 8, 'n', 'n')";
+		$ilDB->manipulate($query);
 	}
 ?>

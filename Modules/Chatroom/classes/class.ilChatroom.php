@@ -590,7 +590,7 @@ class ilChatroom
 		}
 */		
 		$query = 'SELECT historyTable.* FROM ' . self::$historyTable . ' historyTable ' .
-		$join . ' WHERE historyTable.room_id = ' . $this->getRoomId();
+			$join . ' WHERE historyTable.room_id = ' . $this->getRoomId();
 
 		$filter = array();
 
@@ -606,7 +606,8 @@ class ilChatroom
 
 		if( $filter )
 		$query .= ' AND ' . join( ' AND ', $filter );
-
+		$query .= ' ORDER BY timestamp ASC';
+		
 		$rset	= $ilDB->query( $query );
 		$result = array();
 

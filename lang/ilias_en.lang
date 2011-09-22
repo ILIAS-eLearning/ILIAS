@@ -11761,7 +11761,7 @@ chatroom#:#restrict_history_info#:#No entries generated during absence from chat
 chatroom#:#allow_private_rooms#:#Allow Private Rooms
 chatroom#:#settings_general#:#General
 chatroom#:#settings_privacy#:#Privacy
-chatroom#:#autogen_usernames_info#:#Pattern for auto generated usernames. '#' will be automatically replaced by a number.
+chatroom#:#autogen_usernames_info#:#Pattern for auto generated usernames that is assigned to anonymous user accounts. '#' will be automatically replaced by a number.
 chatroom#:#bans#:#Bans
 chatroom#:#permissions#:#Permissions
 chatroom#:#remark#:#Remark
@@ -11807,8 +11807,8 @@ chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to Chatroom ##room
 chatroom#:#chat_invitation_long#:###salutation##\n\nYou have been invited to a chatroom:\nChatroom Title: ##room_name##\nInvited by: ##inviter_name##\nURL: ##link##\n\nIf you want to join the chatroom please follow the given URL.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.
 chatroom#:#settings_title#:#Settings
-chatroom#:#history_byday_title#:#History by Day
-chatroom#:#history_bysession_title#:#History by Session
+chatroom#:#history_byday_title#:#Show Conversation per Day
+chatroom#:#history_bysession_title#:#Show Conversation per Session
 chatroom#:#ban_table_title#:#Banned Users
 chatroom#:#main#:#Main Room
 chatroom_adm#:#chatroom_available_smilies#:#Available Smilies
@@ -12226,6 +12226,8 @@ chatroom#:#hide_settings#:#Hide Settings
 chatroom_adm#:#soap_user_hint#:#This user is used to send information from the chatserver to the ilias installation. No special permissions are required.<br/>If you create a new accout, please make sure that you are able to login with this user (e.g. accept licence aggreement).
 chatroom#:#private_rooms_enabled#:#Allow Private Rooms
 chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.
-chatroom#:#no_further_users#:#(empty)
+chatroom#:#no_further_users#:#No other users present
 chatroom#:#users#:#Users
 chatroom#:#no_messages#:#There are no saved messages for the given period.
+chatroom#:#history_title_general#:#Conversation in Chat Room "%s"
+chatroom#:#history_title_private_room#:#Conversation in Private Room "%s"
