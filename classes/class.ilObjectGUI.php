@@ -381,7 +381,11 @@ class ilObjectGUI
 	 */
 	protected function addHeaderAction()
 	{		
-		$this->insertHeaderAction($this->initHeaderAction());
+		$lg = $this->initHeaderAction();
+		if($lg)
+		{
+			$this->insertHeaderAction($lg->initHeaderAction());
+		}
 	}
 
 	/**
