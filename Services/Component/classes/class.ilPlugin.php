@@ -21,6 +21,7 @@ abstract class ilPlugin
 	final function __construct()
 	{
 		$this->__init();
+		$this->initAutoLoad();
 	}
 
 	/**
@@ -913,6 +914,29 @@ abstract class ilPlugin
 		{
 			return $rec["plugin_id"];
 		}
+	}
+
+	/**
+	 * Init auto loader
+	 * @return void
+	 */
+	protected function initAutoLoad()
+	{
+		spl_autoload_register(
+			array($this,'autoLoad')
+		);
+	}
+
+	/**
+	 * Auto load implementation
+	 *
+	 * @param string class name
+	 */
+	private final function autoLoad($a_classname)
+	{
+		$class_file = $this->getClassesDirectory().'/class.'.$a_classname.'.php';
+		$GLOBALS['ilLog']->write(__METHO__.': Trying to include '.$class_file);
+		@include_once($class_file);
 	}
 	
 }

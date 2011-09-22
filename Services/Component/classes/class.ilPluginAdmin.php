@@ -310,6 +310,7 @@ class ilPluginAdmin
 	* @param	string	$a_cname	Component Name
 	* @param	string	$a_slot_id	Slot ID
 	* @param	string	$a_pname	Plugin Name
+	 * @return ilPlugin the plugin
 	*/
 	static function getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
