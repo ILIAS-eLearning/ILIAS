@@ -306,7 +306,7 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 			return parent::buildLinkTarget($a_node_id, $a_type);
 		}
 		
-		$link = $this->custom_link_target."&wsp_id=".$a_node_id;
+		$link = $this->custom_link_target."&".$this->target_get."=".$a_node_id;
 		return $link;		
 	}
 }
