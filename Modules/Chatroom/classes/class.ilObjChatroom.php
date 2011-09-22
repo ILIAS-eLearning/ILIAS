@@ -96,6 +96,35 @@ class ilObjChatroom extends ilObject
 
 		return $roles ? $roles : array();
 	}
+	
+	public function cloneObject($a_target_id,$a_copy_id = 0,$a_omit_tree = false) {
+		global $rbacreview;
+		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+		$original_room = ilChatroom::byObjectId($this->getId());
+
+		$newObj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+		
+		
+		
+		$objId = $newObj->getId();
+
+		
+		
+		$original_settings = $original_room->getSettings();
+		$room = new ilChatroom();
+
+		$original_settings['object_id'] = $objId;
+		
+		$room->saveSettings($original_settings);
+
+		// rbac log
+		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+		$rbac_log_roles = $rbacreview->getParentRoleIds( $newObj->getRefId(), false );
+		$rbac_log = ilRbacLog::gatherFaPa( $newObj->getRefId(), array_keys( $rbac_log_roles ) );
+		ilRbacLog::add( ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log );
+		
+		return $newObj;
+	}
 }
 
 ?>

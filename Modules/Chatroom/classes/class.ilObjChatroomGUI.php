@@ -118,6 +118,13 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 				$perm_gui = & new ilPermissionGUI( $this );
 				$ret = & $this->ctrl->forwardCommand( $perm_gui );
 				break;
+			case 'ilobjectcopygui':
+				$this->prepareOutput();
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('chtr');
+				$this->ctrl->forwardCommand($cp);
+				break;
 			default:
 				try
 				{
@@ -271,7 +278,7 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		$forms = parent::initCreationForms($a_new_type);
 
 		unset($forms[self::CFORM_IMPORT]);
-		unset($forms[self::CFORM_CLONE]);
+		//unset($forms[self::CFORM_CLONE]);
 		
 		$forms[self::CFORM_NEW]->clearCommandButtons();
 		$forms[self::CFORM_NEW]->addCommandButton("create-save", $this->lng->txt($a_new_type."_add"));

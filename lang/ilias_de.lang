@@ -12231,3 +12231,10 @@ chatroom#:#users#:#Benutzer
 chatroom#:#no_messages#:#Es sind keine Nachrichten für den ausgewählten Zeitraum verfügbar.
 chatroom#:#history_title_general#:#Unterhaltungen im Chatraum "%s"
 chatroom#:#history_title_private_room#:#Unterhaltungen im Séparée "%s"
+common#:#chtr_copy#:#Chatraum kopieren
+common#:#obj_chtr_duplicate#:#Chatraum kopieren
+common#:#il_chat_moderator_visible#:#Chatraum ist sichtbar
+common#:#il_chat_moderator_read#:#Lesezugriff auf Chatraum
+common#:#il_chat_moderator_write#:#Chatraum bearbeiten
+common#:#il_chat_moderator_moderate#:#Chatraum moderieren
+common#:#obj_il_chat_moderator#:#Chatraum Moderator

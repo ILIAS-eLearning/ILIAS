@@ -7985,3 +7985,30 @@ if(!$ilDB->tableExists('note_settings'))
 		$ilDB->manipulate($query);
 	}
 ?>
+<#3469>
+<?php
+	$query = 'SELECT ops_id FROM rbac_operations WHERE operation = ' . $ilDB->quote('moderate', 'text');
+	$rset = $ilDB->query($query);
+	$row = $ilDB->fetchAssoc($rset);
+	$moderateId = $row['ops_id'];
+
+	$statement = $ilDB->queryF('
+		SELECT obj_id FROM object_data 
+		WHERE type = %s 
+		AND title = %s',
+		array('text', 'text'),
+		array('rolt', 'il_chat_moderator'));
+
+	$res = $ilDB->fetchAssoc($statement);
+
+	$typ_id = $res['obj_id'];
+	
+	$chat_moderator_ops = array(2,3,4,$moderateId);
+	foreach($chat_moderator_ops as $new_ops_id) {
+		$query = $ilDB->manipulateF(
+			'INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)',
+			array('integer','integer'),
+			array($typ_id, $new_ops_id)
+		);
+	}
+?>

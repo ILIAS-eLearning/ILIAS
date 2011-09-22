@@ -12231,3 +12231,10 @@ chatroom#:#users#:#Users
 chatroom#:#no_messages#:#There are no saved messages for the given period.
 chatroom#:#history_title_general#:#Conversation in Chat Room "%s"
 chatroom#:#history_title_private_room#:#Conversation in Private Room "%s"
+common#:#chtr_copy#:#Copy Chatroom
+common#:#obj_chtr_duplicate#:#Copy Chatroom
+common#:#il_chat_moderator_visible#:#Chat Room is visible
+common#:#il_chat_moderator_read#:#Read access to Chat Room
+common#:#il_chat_moderator_write#:#Edit Chat Room settings
+common#:#il_chat_moderator_moderate#:#Moderate Chat Room
+common#:#obj_il_chat_moderator#:#Chat Room Moderator
