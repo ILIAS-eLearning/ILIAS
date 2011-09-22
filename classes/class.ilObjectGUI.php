@@ -373,19 +373,18 @@ class ilObjectGUI
 	 */
 	protected function insertHeaderAction($a_list_gui)
 	{
-		$this->tpl->setHeaderActionMenu($a_list_gui->getHeaderAction());
+		if(is_object($a_list_gui))
+		{
+			$this->tpl->setHeaderActionMenu($a_list_gui->getHeaderAction());
+		}
 	}
 	
 	/**
 	 * Add header action menu
 	 */
 	protected function addHeaderAction()
-	{		
-		$lg = $this->initHeaderAction();
-		if($lg)
-		{
-			$this->insertHeaderAction($lg->initHeaderAction());
-		}
+	{	
+		$this->insertHeaderAction($this->initHeaderAction());
 	}
 
 	/**
