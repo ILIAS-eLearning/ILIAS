@@ -112,6 +112,9 @@ class ilObjRoleTemplate extends ilObject
 			case "il_frm_moderator":
 				$filter[] = 'frm';
 				break;
+			case "il_chat_moderator":
+				$filter[] = 'chtr';
+				break;
 		}
 		
 		return $filter;
