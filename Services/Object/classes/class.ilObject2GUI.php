@@ -389,10 +389,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 		global $lng, $objDefinition;
 
 		if(sizeof($_POST["id"]))
-		{
-			// redirect to parent of deleted node (no multiple node deletion yet)
-			$parent = $this->tree->getParentId($_REQUEST["wsp_id"]);
-
+		{			
 			foreach($_POST["id"] as $node_id)
 			{
 				$node = $this->tree->getNodeData($node_id);
@@ -412,7 +409,6 @@ abstract class ilObject2GUI extends ilObjectGUI
 				}
 			}
 
-			$this->ctrl->setParameter($this, "wsp_id", $parent);
 			ilUtil::sendSuccess($lng->txt("msg_removed"), true);
 		}
 		else
