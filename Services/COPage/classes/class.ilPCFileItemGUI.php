@@ -232,7 +232,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceExplorer.php");
 		$exp = new ilWorkspaceExplorer(ilWorkspaceExplorer::SEL_TYPE_RADIO, '', 
 			'filelist_wspexpand', $tree, $acc_handler);
-		$exp->setTargetGet('wsp_id');
+		$exp->setTargetGet('fl_wsp_id');
 		$exp->setFiltered(false);
 		$exp->removeAllFormItemTypes();
 		
@@ -274,12 +274,12 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		global $ilUser;
 		
 		$res = true;
-		if(isset($_GET["wsp_id"]))
+		if(isset($_GET["fl_wsp_id"]))
 		{
 			// we need the object id for the instance
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 			$tree = new ilWorkspaceTree($ilUser->getId());			
-			$node = $tree->getNodeData($_GET["wsp_id"]);		
+			$node = $tree->getNodeData($_GET["fl_wsp_id"]);		
 			
 			include_once("./Modules/File/classes/class.ilObjFile.php");
 			$this->file_object = new ilObjFile($node["obj_id"], false);
@@ -378,12 +378,12 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	function insertNewItemBefore($a_file_ref_id = 0)
 	{
 		$res = true;
-		if(isset($_GET["wsp_id"]))
+		if(isset($_GET["fl_wsp_id"]))
 		{
 			// we need the object id for the instance
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 			$tree = new ilWorkspaceTree($ilUser->getId());			
-			$node = $tree->getNodeData($_GET["wsp_id"]);		
+			$node = $tree->getNodeData($_GET["fl_wsp_id"]);		
 			
 			include_once("./Modules/File/classes/class.ilObjFile.php");
 			$this->file_object = new ilObjFile($node["obj_id"], false);
