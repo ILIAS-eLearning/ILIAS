@@ -11,7 +11,7 @@
 * @version $Id$
 *
 * @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilFeedbackGUI, ilColumnGUI, ilPublicUserProfileGUI
-* @ilCtrl_Calls ilInfoScreenGUI: ilTaggingGUI
+* @ilCtrl_Calls ilInfoScreenGUI: ilCommonActionDispatcherGUI
 *
 * @ingroup ServicesInfoScreen
 */
@@ -61,12 +61,10 @@ class ilInfoScreenGUI
 	*/
 	function &executeCommand()
 	{
-		global $rbacsystem;
-		global $tpl;
-		global $lng, $ilAccess, $ilCtrl;
+		global $rbacsystem, $tpl, $ilAccess;
 
 		// load additional language modules
-		$lng->loadLanguageModule("barometer");
+		$this->lng->loadLanguageModule("barometer");
 
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -77,59 +75,8 @@ class ilInfoScreenGUI
 
 		switch($next_class)
 		{
-			case "ilnotegui":
-				if(isset($_GET["notes_ref_id"]))
-				{
-					$ilCtrl->saveParameter($this, "notes_ref_id");
-					$ilCtrl->saveParameter($this, "notes_sub_id");
-
-					include_once "Services/Notes/classes/class.ilNoteGUI.php";
-					if ($_GET["notes_ref_id"] > 0)
-					{
-						$note_gui = new ilNoteGUI(ilObject::_lookupObjId($_GET["notes_ref_id"]), (int)$_GET["notes_sub_id"]);
-					}
-					else
-					{
-						$note_gui = new ilNoteGUI($this->gui_object->object->getId(), (int)$_GET["notes_sub_id"]);
-					}
-					$note_gui->enablePrivateNotes(true);
-					//$note_gui->enablePublicNotes(true);
-					if ($ilAccess->checkAccess("write", "", $_GET["notes_ref_id"]) ||
-						$ilAccess->checkAccess("edit_permissions", "", $_GET["notes_ref_id"]))
-					{
-						$note_gui->enableCommentsSettings();
-					}
-
-					$ilCtrl->forwardCommand($note_gui);		
-					exit();
-				}
-				else
-				{				
-					$this->showSummary();	// forwards command
-				}
-				break;
-
-			case "iltagginggui":
-				if(isset($_GET["tags_ref_id"]))
-				{
-					$ilCtrl->saveParameter($this, "tags_ref_id");
-					$ilCtrl->saveParameter($this, "tags_sub_id");
-
-					include_once "Services/Tagging/classes/class.ilTaggingGUI.php";
-					$tags_gui = new ilTaggingGUI();
-					if ($_GET["tags_ref_id"] > 0)
-					{
-						$obj_id = ilObject::_lookupObjId($_GET["tags_ref_id"]);
-					}
-					else
-					{
-						$obj_id = $this->gui_object->object->getId();
-					}
-					$type = ilObject::_lookupType($obj_id);
-					$tags_gui->setObject($obj_id, $type);
-					$ilCtrl->forwardCommand($tags_gui);		
-					exit();
-				}
+			case "ilnotegui":		
+				$this->showSummary();	// forwards command
 				break;
 
 			case "ilfeedbackgui":
@@ -148,9 +95,15 @@ class ilInfoScreenGUI
 			case "ilpublicuserprofilegui":
 				include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
 				$user_profile = new ilPublicUserProfileGUI($_GET["user_id"]);
-				$user_profile->setBackUrl($ilCtrl->getLinkTarget($this, "showSummary"));
-				$html = $ilCtrl->forwardCommand($user_profile);
+				$user_profile->setBackUrl($this->ctrl->getLinkTarget($this, "showSummary"));
+				$html = $this->ctrl->forwardCommand($user_profile);
 				$tpl->setContent($html);
+				break;
+			
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
 				break;
 				
 			default:

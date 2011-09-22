@@ -16,7 +16,7 @@ include_once "Services/Mail/classes/class.ilMail.php";
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilMailAddressbookGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjPortfolioGUI, ilPersonalSkillsGUI, ilNoteGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjPortfolioGUI, ilPersonalSkillsGUI
 *
 */
 class ilPersonalDesktopGUI
@@ -260,18 +260,6 @@ class ilPersonalDesktopGUI
 				$this->getStandardTemplates();
 				$ret = $this->ctrl->forwardCommand($skgui);
 				$this->tpl->show();
-				break;
-			
-			// ajax/overlay
-			case 'ilnotegui':
-				$this->ctrl->saveParameter($this, "notes_ref_id");
-				$this->ctrl->saveParameter($this, "notes_sub_id");
-				include_once "Services/Notes/classes/class.ilNoteGUI.php";
-				$note_gui = new ilNoteGUI(ilObject::_lookupObjId((int)$_GET["notes_ref_id"]), 
-					(int)$_GET["notes_sub_id"]);
-				$note_gui->enablePrivateNotes(true);
-				$note_gui->enablePublicNotes(true);			
-				$this->ctrl->forwardCommand($note_gui);		
 				break;
 			
 			case 'redirect':

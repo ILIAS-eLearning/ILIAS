@@ -17,7 +17,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI, ilCourseItemAdministrationGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
 *
 * 
 * @extends ilContainerGUI
@@ -4535,6 +4535,12 @@ class ilObjCourseGUI extends ilContainerGUI
 				$exp->addFormat('xml');
 				$this->ctrl->forwardCommand($exp);
 				break;
+			
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
 
 			default:
 				if(!$this->creation_mode)
@@ -4603,6 +4609,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					
 				break;
 		}
+		
+		$this->addHeaderAction();
 
 		return true;
 	}

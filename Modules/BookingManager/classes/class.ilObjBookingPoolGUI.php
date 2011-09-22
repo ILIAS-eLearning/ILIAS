@@ -9,7 +9,9 @@ require_once "./classes/class.ilObjectGUI.php";
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingTypeGUI, ilBookingObjectGUI, ilBookingScheduleGUI, ilInfoScreenGUI, ilPublicUserProfileGUI
+* @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingTypeGUI, ilBookingObjectGUI
+* @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingScheduleGUI, ilInfoScreenGUI, ilPublicUserProfileGUI
+* @ilCtrl_Calls ilObjBookingPoolGUI: ilCommonActionDispatcherGUI
 * @ilCtrl_IsCalledBy ilObjBookingPoolGUI: ilRepositoryGUI, ilAdministrationGUI
 */
 class ilObjBookingPoolGUI extends ilObjectGUI
@@ -92,6 +94,12 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 			case 'ilinfoscreengui':
 				$this->infoScreen();
+				break;
+			
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
 				break;
 			
 			default:

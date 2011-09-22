@@ -17,6 +17,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilPageObjectGUI,ilCourseItemAdministrationGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI
 * 
 *
 * @extends ilObjectGUI
@@ -234,7 +235,11 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($export);
 				break;
 				
-				
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
 
 			default:
 			
@@ -268,6 +273,8 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->$cmd();
 				break;
 		}
+		
+		$this->addHeaderAction();
 	}
 	
 	function viewObject()

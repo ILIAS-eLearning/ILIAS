@@ -14,7 +14,7 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 * @ilCtrl_Calls ilObjWikiGUI: ilPermissionGUI, ilInfoScreenGUI, ilWikiPageGUI
 * @ilCtrl_IsCalledBy ilObjWikiGUI: ilRepositoryGUI, ilAdministrationGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjWikiGUI: ilExportGUI
+* @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -133,7 +133,12 @@ class ilObjWikiGUI extends ilObjectGUI
 				$ret = $this->ctrl->forwardCommand($exp_gui);
 //				$this->tpl->show();
 				break;
-
+			
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
 
 			default:
 				$this->addHeaderAction();
@@ -812,7 +817,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->checkPermission("read");
 
 		$ilTabs->clearTargets();
-		$this->removeHeaderAction();
+		$tpl->setHeaderActionMenu(null);
 
 		$page = ($_GET["page"] != "")
 			? $_GET["page"]
@@ -1478,6 +1483,23 @@ class ilObjWikiGUI extends ilObjectGUI
 		require_once("./Modules/Wiki/classes/class.ilWikiHTMLExport.php");
 		$cont_exp = new ilWikiHTMLExport($this);
 		$cont_exp->buildExportFile();
+	}
+	
+	/**
+	 * Get title for wiki page (used in ilNotesGUI)
+	 * 
+	 * @param int $a_wiki_id
+	 * @param int $a_page_id 
+	 * @return string
+	 */
+	static function lookupSubObjectTitle($a_wiki_id, $a_page_id)
+	{
+		include_once "Modules/Wiki/classes/class.ilWikiPage.php";
+		$page = new ilWikiPage($a_page_id);
+		if($page->getWikiId() == $a_wiki_id)
+		{
+			return $page->getTitle();
+		}
 	}
 
 }

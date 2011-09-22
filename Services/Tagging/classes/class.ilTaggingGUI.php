@@ -249,11 +249,11 @@ class ilTaggingGUI
 	/**
 	 * Get tagging js call
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_hash
+	 * @param string $a_update_code
+	 * @return string 
 	 */
-	function getListTagsJSCall($a_ref_id = 0, $a_sub_id = null,
-		$a_update_code = null)
+	function getListTagsJSCall($a_hash, $a_update_code = null)
 	{
 		global $tpl;
 		
@@ -266,17 +266,7 @@ class ilTaggingGUI
 			$a_update_code = "'".$a_update_code."'";
 		}
 
-		$tpl->addJavascript("./Services/Tagging/js/ilTagging.js");
-		if($a_sub_id === null)
-		{
-			return "ilTagging.listTags(event, ".$a_ref_id.", null, ".
-				$a_update_code.");";
-		}
-		else
-		{
-			return "ilTagging.listTags(event, ".$a_ref_id.", ".$a_sub_id.", ".
-				$a_update_code.");";
-		}
+		return "ilTagging.listTags(event, '".$a_hash."', ".$a_update_code.");";
 	}
 
 	/**

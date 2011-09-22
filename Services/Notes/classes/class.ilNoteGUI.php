@@ -46,15 +46,6 @@ class ilNoteGUI
 		if(!$this->obj_type && $a_rep_obj_id)
 		{
 			$this->obj_type = ilObject::_lookupType($a_rep_obj_id);
-			switch($this->obj_type)
-			{
-				case "blog":
-					if($a_obj_id)
-					{
-						$this->obj_type = "blp";
-					}
-					break;
-			}
 		}
 		
 		$this->ajax = $ilCtrl->isAsynch();
@@ -454,20 +445,33 @@ if ($this->private_enabled && $this->public_enabled
 		
 		// title
 		if ($this->ajax)
-		{
-			$title = ilObject::_lookupTitle($this->rep_obj_id);
+		{			
+			switch($this->obj_type)
+			{
+				case "catr":
+				case "crsr":
+					include_once "Services/ContainerReference/classes/class.ilContainerReference.php";
+					$title = ilContainerReference::_lookupTitle($this->rep_obj_id);
+					break;
+				
+				default:
+					$title = ilObject::_lookupTitle($this->rep_obj_id);
+					break;
+			}
+			
 			$img = ilUtil::img(ilObject::_getIcon($this->rep_obj_id, "tiny"));
 			
 			// add sub-object if given
 			if($this->obj_id)
-			{				
-				switch($this->obj_type)
+			{		
+				$parent_type = ilObject::_lookupType($this->rep_obj_id);				
+				$parent_class = "ilObj".$objDefinition->getClassName($parent_type)."GUI";						
+				$parent_path = $ilCtrl->lookupClassPath($parent_class);
+				include_once $parent_path;
+				$sub_title = $parent_class::lookupSubObjectTitle($this->rep_obj_id, $this->obj_id);			
+				if($sub_title)
 				{
-					case "blp":
-						include_once "Modules/Blog/classes/class.ilBlogPosting.php";
-						$post = new ilBlogPosting($this->obj_id);
-						$title .= " - ".$post->getTitle();
-						break;
+					$title .= " - ".$sub_title;
 				}
 			}
 			
@@ -1517,18 +1521,18 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery();
 		$tpl->addJavascript("./Services/Notes/js/ilNotes.js");
-		
+
 		$tpl->addOnLoadCode("ilNotes.setAjaxUrl('".$a_ajax_url."');");
 	}
 	
 	/**
 	 * Get list notes js call
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_hash
+	 * @param string $a_update_code
+	 * @return string 
 	 */
-	function getListNotesJSCall($a_ref_id = 0, $a_sub_id = null,
-		$a_update_code = null)
+	function getListNotesJSCall($a_hash, $a_update_code = null)
 	{
 		if ($a_update_code === null)
 		{
@@ -1538,26 +1542,18 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 		{
 			$a_update_code = "'".$a_update_code."'";
 		}
-		if ($a_sub_id === null)
-		{
-			return "ilNotes.listNotes(event, ".$a_ref_id.", null, ".
-				$a_update_code.");";
-		}
-		else
-		{
-			return "ilNotes.listNotes(event, ".$a_ref_id.", ".$a_sub_id.", ".
-				$a_update_code.");";
-		}
+		
+		return "ilNotes.listNotes(event, '".$a_hash."', ".$a_update_code.");";
 	}
 	
 	/**
 	 * Get list comments js call
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_hash
+	 * @param string $a_update_code
+	 * @return string 
 	 */
-	function getListCommentsJSCall($a_ref_id = 0, $a_sub_id = null,
-		$a_update_code = null)
+	function getListCommentsJSCall($a_hash, $a_update_code = null)
 	{
 		if ($a_update_code === null)
 		{
@@ -1567,16 +1563,22 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 		{
 			$a_update_code = "'".$a_update_code."'";
 		}
-		if($a_sub_id === null)
-		{
-			return "ilNotes.listComments(event, ".$a_ref_id.", null, ".
-				$a_update_code.");";
-		}
-		else
-		{
-			return "ilNotes.listComments(event, ".$a_ref_id.", ".$a_sub_id.", ".
-				$a_update_code.");";
-		}
+		
+		return "ilNotes.listComments(event, '".$a_hash."', ".$a_update_code.");";
+	}
+	
+	/**
+	 * Combine properties to hash
+	 * 
+	 * @param string $a_node_type
+	 * @param int $a_node_id
+	 * @param int $a_sub_id
+	 * @param string $a_sub_type
+	 * @return string 
+	 */
+	protected static function buildAjaxHash($a_node_type, $a_node_id, $a_sub_id, $a_sub_type)
+	{
+		return $a_node_type.";".$a_node_id.";".$a_sub_id.";".$a_sub_type;
 	}
 	
 	/**

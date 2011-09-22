@@ -21,8 +21,15 @@
 	<!-- BEGIN item_progress -->
 	<div style="text-align: right;"><font class="small">{TXT_PROGRESS_INFO}:</font> <img src="{PROGRESS_TYPE_IMG}" alt="{PROGRESS_ALT_IMG}" title="{PROGRESS_ALT_IMG}" border="0" /></div>
 	<!-- END item_progress -->
-</div>	
-{COMMANDS}
+</div>
+<!-- BEGIN commands -->
+<div class="float_right">
+{COMMAND_SELECTION_LIST}
+</div>
+<!-- END commands -->
+<!-- BEGIN payment -->
+<div style="width: 22px;" class="float_right"><img src="{PAYMENT_TYPE_IMG}" alt="{PAYMENT_ALT_IMG}" title="{PAYMENT_ALT_IMG}" /></div>
+<!-- END payment -->
 <!-- BEGIN item_description -->
 <div style="clear:both; zoom:1;" class="il_Description">{TXT_DESC}</div>
 <!-- END item_description -->

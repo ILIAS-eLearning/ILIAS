@@ -216,7 +216,12 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$ret = $this->ctrl->forwardCommand($exp_gui);
 				break;
 
-
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
+			
 			default:
 				$new_type = $_POST["new_type"]
 					? $_POST["new_type"]

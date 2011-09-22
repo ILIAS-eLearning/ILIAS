@@ -12,6 +12,7 @@ include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 *
 * @ilCtrl_Calls ilWikiPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
 * @ilCtrl_Calls ilWikiPageGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
+* @ilCtrl_Calls ilWikiPageGUI: ilCommonActionDispatcherGUI
 *
 * @ingroup ModulesWiki
 */
@@ -105,6 +106,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				$page_gui->setPresentationTitle($this->getWikiPage()->getTitle());
 				return $ilCtrl->forwardCommand($page_gui);
 				
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
+				
 			default:
 
 				if($_GET["ntf"])
@@ -176,6 +183,87 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		ilObjWikiGUI::renderSideBlock($this->getWikiPage()->getId(),
 			$this->wiki_ref_id, $this->getWikiPage());
 	}
+	
+	function addHeaderAction()
+	{			
+		global $ilUser;
+		
+		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
+		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_WORKSPACE, 
+			$ilAccess, "wiki", $_GET["ref"], $this->getPageObject()->getParentId());
+		$dispatcher->setSubObject("wpg", $this->getPageObject()->getId());
+
+		include_once "Services/Object/classes/class.ilObjectListGUI.php";
+		ilObjectListGUI::prepareJSLinks($this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true), 			
+			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false), 
+			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
+
+		$lg = $dispatcher->initHeaderAction();
+		$lg->enableComments(true);
+		$lg->enableNotes(true);
+		// $lg->enableTags();
+		
+		// notification
+		if ($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			include_once "./Services/Notification/classes/class.ilNotification.php";
+			if(ilNotification::hasNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $this->getPageObject()->getParentId()))
+			{
+				$this->ctrl->setParameter($this, "ntf", 1);
+				$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "wiki_notification_deactivate_wiki");
+
+				$lg->addHeaderIcon("not_icon",
+					ilUtil::getImagePath("notification_on.png"),
+					$this->lng->txt("wiki_notification_activated"));
+			}
+			else
+			{
+				$ilCtrl->setParameter($this, "ntf", 2);
+				$lg->addCustomCommand($ilCtrl->getLinkTarget($this), "wiki_notification_activate_wiki");
+				
+				if(ilNotification::hasNotification(ilNotification::TYPE_WIKI_PAGE, $ilUser->getId(), $this->getPageObject()->getId()))
+				{
+					$this->ctrl->setParameter($this, "ntf", 3);
+					$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "wiki_notification_deactivate_page");
+
+					$lg->addHeaderIcon("not_icon",
+						ilUtil::getImagePath("notification_on.png"),
+						$this->lng->txt("wiki_page_notification_activated"));					
+				}
+				else
+				{
+					$this->ctrl->setParameter($this, "ntf", 4);
+					$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "wiki_notification_activate_page");
+					
+					$lg->addHeaderIcon("not_icon",
+						ilUtil::getImagePath("notification_off.png"),
+						$this->lng->txt("wiki_notification_deactivated"));
+				}
+			}
+			$this->ctrl->setParameter($this, "ntf", "");
+		}			
+		
+		// rating
+		if (ilObjWiki::_lookupRating($this->getPageObject()->getParentId())
+			&& $this->getPageObject()->old_nr == 0)
+		{
+			include_once("./Services/Rating/classes/class.ilRatingGUI.php");
+			$rating_gui = new ilRatingGUI();
+			$rating_gui->setObject($this->getPageObject()->getParentId(), "wiki",
+				$this->getPageObject()->getId(), "wpg");
+			$rating_gui->setYourRatingText($this->lng->txt("wiki_rate_page"));
+			$lg->addHeaderIconHTML("rating", $this->ctrl->getHtml($rating_gui));
+		}
+		
+		$this->tpl->setHeaderActionMenu($lg->getHeaderAction());					
+	}
+		
+	function redrawHeaderAction()
+	{
+		$this->addHeaderAction();
+		return $this->tpl->get("head_action_inner");
+		exit;
+	}
 
 	/**
 	* View wiki page.
@@ -190,77 +278,13 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			ilUtil::sendInfo($lng->txt("wiki_page_status_blocked"));
 		}
 
-
 		$this->getWikiPage()->increaseViewCnt(); // todo: move to page object
-		$this->setSideBlock();
-		$wtpl = new ilTemplate("tpl.wiki_page_view_main_column.html",
-			true, true, "Modules/Wiki");
-		
-		$act_tpl = new ilTemplate("tpl.wiki_page_act_menu.html",
-			true, true, "Modules/Wiki");
-
-		// actions
-		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-		$list = new ilAdvancedSelectionListGUI();
-		$list->setListTitle($lng->txt("actions"));
-		$list->setId("wiki_pgact");
+				
+		$this->addHeaderAction();
 			
-		// notification
-		if ($ilUser->getId() != ANONYMOUS_USER_ID)
-		{
-			include_once "./Services/Notification/classes/class.ilNotification.php";
-			if(ilNotification::hasNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $this->getPageObject()->getParentId()))
-			{
-				$ilCtrl->setParameter($this, "ntf", 1);
-				$list->addItem($lng->txt("wiki_notification_deactivate_wiki"), "",
-					$ilCtrl->getLinkTarget($this));
-
-
-				$act_tpl->setCurrentBlock("not_icon");
-				$act_tpl->setVariable("NOT_SRC", ilUtil::getImagePath("notification_on.png"));
-				$act_tpl->setVariable("NOT_ID", "not_icon");
-				$act_tpl->parseCurrentBlock();
-				include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-				ilTooltipGUI::addTooltip("not_icon", $lng->txt("wiki_notification_activated"));
-
-			}
-			else
-			{
-				$ilCtrl->setParameter($this, "ntf", 2);
-				$list->addItem($lng->txt("wiki_notification_activate_wiki"), "",
-					$ilCtrl->getLinkTarget($this));
-				if(ilNotification::hasNotification(ilNotification::TYPE_WIKI_PAGE, $ilUser->getId(), $this->getPageObject()->getId()))
-				{
-					$ilCtrl->setParameter($this, "ntf", 3);
-					$list->addItem($lng->txt("wiki_notification_deactivate_page"), "",
-						$ilCtrl->getLinkTarget($this));
-
-					$act_tpl->setCurrentBlock("not_icon");
-					$act_tpl->setVariable("NOT_SRC", ilUtil::getImagePath("notification_on.png"));
-					$act_tpl->setVariable("NOT_ID", "not_icon");
-					$act_tpl->parseCurrentBlock();
-					include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-					ilTooltipGUI::addTooltip("not_icon", $lng->txt("wiki_page_notification_activated"));
-
-				}
-				else
-				{
-					$ilCtrl->setParameter($this, "ntf", 4);
-					$list->addItem($lng->txt("wiki_notification_activate_page"), "",
-						$ilCtrl->getLinkTarget($this));
-					
-					$act_tpl->setCurrentBlock("not_icon");
-					$act_tpl->setVariable("NOT_SRC", ilUtil::getImagePath("notification_off.png"));
-					$act_tpl->setVariable("NOT_ID", "not_icon");
-					$act_tpl->parseCurrentBlock();
-					include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-					ilTooltipGUI::addTooltip("not_icon", $lng->txt("wiki_notification_deactivated"));
-				}
-			}
-			$ilCtrl->setParameter($this, "ntf", "");
-		}
 
 		// other actions
+		/*
 if (false)	// currently moved to ilWikiFunctionsBlockGUI
 {
 		// delete
@@ -291,23 +315,16 @@ if (false)	// currently moved to ilWikiFunctionsBlockGUI
 					$ilCtrl->getLinkTarget($this, "deleteWikiPageConfirmationScreen"));
 			}
 		}
-}
-		$act_tpl->setVariable("ACTIONS", $list->getHTML());
-
-		// rating
-		if (ilObjWiki::_lookupRating($this->getPageObject()->getParentId())
-			&& $this->getPageObject()->old_nr == 0)
-		{
-			include_once("./Services/Rating/classes/class.ilRatingGUI.php");
-			$rating_gui = new ilRatingGUI();
-			$rating_gui->setObject($this->getPageObject()->getParentId(), "wiki",
-				$this->getPageObject()->getId(), "wpg");
-			$rating_gui->setYourRatingText($lng->txt("wiki_rate_page"));
-			$act_tpl->setVariable("RATING", $ilCtrl->getHtml($rating_gui));
-		}
-
-		$tpl->setHeaderActionMenuHTML($act_tpl->get());
-
+}		 
+*/
+				
+		// content
+		
+		$this->setSideBlock();
+		
+		$wtpl = new ilTemplate("tpl.wiki_page_view_main_column.html",
+			true, true, "Modules/Wiki");
+		
 		// notes
 		$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getPageObject(),
 			true, ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()),

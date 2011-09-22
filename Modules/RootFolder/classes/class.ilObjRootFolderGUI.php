@@ -29,7 +29,8 @@
 * @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.13 2006/03/10 09:22:58 akill Exp $
 *
 * @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, 
-* @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjStyleSheetGUI, ilNoteGUI
+* @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
+* @ilCtrl_Calls ilObjRootFolderGUI: ilCommonActionDispatcherGUI
 * 
 * @extends ilObjectGUI
 */
@@ -168,16 +169,11 @@ class ilObjRootFolderGUI extends ilContainerGUI
 			case "ilobjstylesheetgui":
 				$this->forwardToStyleSheet();
 				break;
-
-			case "ilnotegui":
-				$this->ctrl->saveParameter($this, "notes_ref_id");
-				$this->ctrl->saveParameter($this, "notes_sub_id");
-				include_once "Services/Notes/classes/class.ilNoteGUI.php";
-				$note_gui = new ilNoteGUI(ilObject::_lookupObjId($_GET["notes_ref_id"]), 
-					(int)$_GET["notes_sub_id"]);
-				$note_gui->enablePrivateNotes(true);
-				$note_gui->enablePublicNotes(true);			
-				$this->ctrl->forwardCommand($note_gui);		
+			
+			case "ilcommonactiondispatchergui":	
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
 				break;
 			
 			default:
@@ -206,10 +202,10 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	{
 		global $ilTabs;
 		
-		// prepare notes
-		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-		ilNoteGUI::initJavascript(
-			$this->ctrl->getLinkTargetByClass("ilnotegui", "", "", true, false));
+		include_once "Services/Object/classes/class.ilObjectListGUI.php";
+		ilObjectListGUI::prepareJSLinks("", 
+			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
+			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
 		
 		$ilTabs->activateTab("view_content");
 		$ret =  parent::renderObject();

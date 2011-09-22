@@ -268,6 +268,11 @@ abstract class ilContainerContentGUI
 //			$item_list_gui->enableLink(false);
 //			$item_list_gui->enableCut(false);
 		}
+		
+		// activate common social commands
+		$item_list_gui->enableComments(true);
+		$item_list_gui->enableNotes(true);
+		$item_list_gui->enableTags(true);
 
 		// container specific modifications
 		$this->getContainerGUI()->modifyItemGUI($item_list_gui, $item_data, $a_show_path);

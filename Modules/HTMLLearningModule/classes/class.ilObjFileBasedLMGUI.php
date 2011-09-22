@@ -11,7 +11,7 @@
 * $Id$
 *
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilObjFileBasedLMGUI: ilShopPurchaseGUI
+* @ilCtrl_Calls ilObjFileBasedLMGUI: ilShopPurchaseGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilLicenseGUI, ilExportGUI
 * @ingroup ModulesHTMLLearningModule
 */
@@ -67,8 +67,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 			{
 				$this->getTemplate();
 				$this->setLocator();
-				$this->setTabs();
-				$this->addHeaderAction();
+				$this->setTabs();				
 			}
 		}
 
@@ -155,7 +154,12 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 //				$this->tpl->show();
 				break;
 
-
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
+			
 			default:				
 				$cmd = $this->ctrl->getCmd("frameset");
 				if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
@@ -166,6 +170,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$ret =& $this->$cmd();
 				break;
 		}
+		
+		$this->addHeaderAction();
 	}
 
 	protected function initCreationForms($a_new_type)

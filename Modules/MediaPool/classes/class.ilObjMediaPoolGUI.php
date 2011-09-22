@@ -18,6 +18,7 @@ include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 *
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI, ilFileSystemGUI
+* @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI
 *
 * @ingroup ModulesMediaPool
 */
@@ -104,13 +105,12 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 					break;
 			}
 		}
-		
-		$this->addHeaderAction();
-
+				
 		switch($next_class)
 		{
 			case 'ilmediapoolpagegui':
 				$this->prepareOutput();
+				$this->addHeaderAction();
 				$this->setMediaPoolPageTabs();
 				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
 				$mep_page_gui = new ilMediaPoolPageGUI($_GET["mepitem_id"], $_GET["old_nr"]);
@@ -128,8 +128,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				break;
 
 			case "ilobjmediaobjectgui":
-				$this->removeHeaderAction();
-				
 				//$cmd.="Object";
 				if ($cmd == "create" || $cmd == "save" || $cmd == "cancel")
 				{
@@ -188,6 +186,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 			case "ilobjfoldergui":
 // todo
+				$this->addHeaderAction();
 				$folder_gui = new ilObjFolderGUI("", 0, false, false);
 				$this->ctrl->setReturn($this, "listMedia");
 				$cmd.="Object";
@@ -240,6 +239,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 			case "ileditclipboardgui":
 				$this->prepareOutput();
+				$this->addHeaderAction();
 				$this->ctrl->setReturn($this, $_GET["mep_mode"] ? $_GET["mep_mode"] : "listMedia");
 				$clip_gui = new ilEditClipboardGUI();
 				$clip_gui->setMultipleSelections(true);
@@ -252,12 +252,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				
 			case 'ilinfoscreengui':
 				$this->prepareOutput();
+				$this->addHeaderAction();
 				$this->infoScreen();
 				$this->tpl->show();
 				break;
 
 			case 'ilpermissiongui':
 				$this->prepareOutput();
+				$this->addHeaderAction();
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
@@ -266,6 +268,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				
 			case "ilexportgui":
 				$this->prepareOutput();
+				$this->addHeaderAction();
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml");
@@ -275,6 +278,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 			case "ilfilesystemgui":
 				$this->prepareOutput();
+				$this->addHeaderAction();
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, "listMedia"));
@@ -295,9 +299,16 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				}
 				$this->tpl->show();
 				break;
+				
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
 
 			default:
 				$this->prepareOutput();
+				$this->addHeaderAction();
 				$cmd = $this->ctrl->getCmd("frameset");
 				$this->$cmd();
 				if (!$this->getCreationMode())

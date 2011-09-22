@@ -18,7 +18,7 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI
+* @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI
 * 
 * @ingroup ModulesGlossary
 */
@@ -98,6 +98,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				break;
+				
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			default:

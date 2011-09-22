@@ -80,6 +80,10 @@ class ilObjectListGUI
 	protected $shared = false;
 	protected $restrict_to_goto = false;
 	
+	protected $comments_enabled = false;
+	protected $notes_enabled = false;
+	protected $tags_enabled = false;
+	
 	static protected $cnt_notes = array();
 	static protected $cnt_tags = array();
 	static protected $comments_activation = array();
@@ -98,6 +102,10 @@ class ilObjectListGUI
 		$this->lng = $lng;
 		$this->mode = IL_LIST_FULL;
 		$this->path_enabled = false;
+		
+		$this->enableComments(false);
+		$this->enableNotes(false);
+		$this->enableTags(false);
 		
 //echo "list";
 		$this->init();
@@ -1605,6 +1613,8 @@ class ilObjectListGUI
 			}
 		}
 		
+		$redraw_js = "ilObject.redrawListItem(".$this->ref_id.");";
+		
 		// add common properties (comments, notes, tags)
 		if ((self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE] > 0 ||
 			self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC] > 0 || 
@@ -1618,8 +1628,7 @@ class ilObjectListGUI
 				$props[] = array("alert" => false,
 					"property" => $lng->txt("notes_comments"),
 					"value" => "<a href='#' onclick=\"return ".
-						ilNoteGUI::getListCommentsJSCall($this->ref_id, null,
-						"ilObject.redrawListItem(".$this->ref_id.");").";\">".
+						ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js).";\">".
 						self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC]."</a>",
 					"newline" => $nl);
 				$nl = false;
@@ -1630,8 +1639,7 @@ class ilObjectListGUI
 				$props[] = array("alert" => false,
 					"property" => $lng->txt("notes"),
 					"value" => "<a href='#' onclick=\"return ".
-						ilNoteGUI::getListNotesJSCall($this->ref_id, null,
-						"ilObject.redrawListItem(".$this->ref_id.");").";\">".
+						ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js).";\">".
 						self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE]."</a>",
 					"newline" => $nl);
 				$nl = false;
@@ -1644,8 +1652,7 @@ class ilObjectListGUI
 					$props[] = array("alert" => false,
 						"property" => $lng->txt("tagging_tags"),
 						"value" => "<a href='#' onclick=\"return ".
-							ilTaggingGUI::getListTagsJSCall($this->ref_id, null,
-						"ilObject.redrawListItem(".$this->ref_id.");").";\">".
+							ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js).";\">".
 						self::$cnt_tags[$this->obj_id]."</a>",
 						"newline" => $nl);
 					$nl = false;
@@ -1777,10 +1784,10 @@ class ilObjectListGUI
 				else
 				{
 				#	$this->current_selection_list->flush();
-					$this->ctpl->setCurrentBlock('payment');
-					$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays.gif'));
-					$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_buyable'));
-					$this->ctpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock('payment');
+					$this->tpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays.gif'));
+					$this->tpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_buyable'));
+					$this->tpl->parseCurrentBlock();
 
 					$this->insertPaymentCommand();
 				}
@@ -1985,20 +1992,6 @@ class ilObjectListGUI
 	*/
 	function insertCommand($a_href, $a_text, $a_frame = "", $a_img = "", $a_cmd = "", $a_onclick = "")
 	{
-		$this->ctpl = new ilTemplate ("tpl.container_list_item_commands.html", true, true, false, "DEFAULT", false, true);
-
-		if ($a_frame != "")
-		{
-			$this->ctpl->setCurrentBlock("item_frame");
-			$this->ctpl->setVariable("TARGET_COMMAND", $a_frame);
-			$this->ctpl->parseCurrentBlock();
-		}
-
-		$this->ctpl->setCurrentBlock("item_command");
-		$this->ctpl->setVariable("HREF_COMMAND", $a_href);
-		$this->ctpl->setVariable("TXT_COMMAND", $a_text);
-		$this->ctpl->parseCurrentBlock();
-		
 		$prevent_background_click = false;
 		if ($a_cmd =='mount_webfolder')
 		{
@@ -2322,7 +2315,7 @@ class ilObjectListGUI
 		$cmd_frame = $this->getCommandFrame("infoScreen");
 		$this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame,
 			ilUtil::getImagePath("cmd_info_s.gif"));
-	}
+	}		
 	
 	/**
 	 * Insert common social commands (comments, notes, tagging)
@@ -2332,7 +2325,7 @@ class ilObjectListGUI
 	 */
 	function insertCommonSocialCommands($a_header_actions = false)
 	{
-		global $ilSetting, $lng, $ilUser;
+		global $ilSetting, $lng, $ilUser, $tpl;
 		
 		if ($this->std_cmd_only ||
 			($ilUser->getId() == ANONYMOUS_USER_ID))
@@ -2349,28 +2342,35 @@ class ilObjectListGUI
 		$js_updater = $a_header_actions
 			? "ilObject.redrawActionHeader();"
 			: "ilObject.redrawListItem(".$this->ref_id.")";
-			
-		include_once("./Services/Notes/classes/class.ilNote.php");
-		if ((!$a_header_actions && (self::$comments_activation[$this->obj_id][$this->type] ||
-				$this->checkCommandAccess('write','', $this->ref_id, $this->type))) ||
-			($a_header_actions && (ilNote::commentsActivated($this->obj_id, 0, $this->type) ||
-				$this->checkCommandAccess('write','', $this->ref_id, $this->type))))
+		
+		$has_notes = false;
+		
+		if($this->comments_enabled)
 		{
-			$this->insertCommand("#", $this->lng->txt("notes_comments"), $cmd_frame,
-				"", "", ilNoteGUI::getListCommentsJSCall($this->ref_id, $this->sub_obj_id, $js_updater));
+			include_once("./Services/Notes/classes/class.ilNote.php");
+			if ((!$a_header_actions && (self::$comments_activation[$this->obj_id][$this->type] ||
+					$this->checkCommandAccess('write','', $this->ref_id, $this->type))) ||
+				($a_header_actions && (ilNote::commentsActivated($this->obj_id, 0, $this->type) ||
+					$this->checkCommandAccess('write','', $this->ref_id, $this->type))))
+			{
+				$this->insertCommand("#", $this->lng->txt("notes_comments"), $cmd_frame,
+					"", "", ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $js_updater));
+			}
 		}
 
-		$this->insertCommand("#", $this->lng->txt("notes"), $cmd_frame,
-			"", "", ilNoteGUI::getListNotesJSCall($this->ref_id, $this->sub_obj_id, $js_updater));
+		if($this->notes_enabled)
+		{
+			$this->insertCommand("#", $this->lng->txt("notes"), $cmd_frame,
+				"", "", ilNoteGUI::getListNotesJSCall($this->ajax_hash, $js_updater));
+		}
 		
-		$tags_set = new ilSetting("tags");
-		if ($tags_set->get("enable"))
+		if ($this->tags_enabled)
 		{
 			include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
 			//$this->insertCommand($cmd_tag_link, $this->lng->txt("tagging_set_tag"), $cmd_frame);
 			$this->insertCommand("#", $this->lng->txt("tagging_set_tag"), $cmd_frame,
-				"", "", ilTaggingGUI::getListTagsJSCall($this->ref_id, $this->sub_obj_id, $js_updater));
-		}
+				"", "", ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $js_updater));
+		}		
 	}
 
 	/**
@@ -2419,11 +2419,10 @@ class ilObjectListGUI
 
 		$this->default_command = false;
 		
-		
-		if (!$a_header_actions)
+		$commands = $this->getCommands($this->ref_id, $this->obj_id);
+
+		if(!$a_header_actions)
 		{
-			$commands = $this->getCommands($this->ref_id, $this->obj_id);
-		
 			foreach($commands as $command)
 			{
 				if ($command["granted"] == true )
@@ -2435,13 +2434,13 @@ class ilObjectListGUI
 							// workaround for repository frameset
 							$command["link"] = 
 								$this->appendRepositoryFrameParameter($command["link"]);
-								
+
 							// standard edit icon
 							if ($command["lang_var"] == "edit" && $command["img"] == "")
 							{
 								$command["img"] = ilUtil::getImagePath("cmd_edit_s.gif");
 							}
-	
+
 							$cmd_link = $command["link"];
 							$txt = ($command["lang_var"] == "")
 								? $command["txt"]
@@ -2470,7 +2469,10 @@ class ilObjectListGUI
 					}
 				}
 			}
-	
+		}
+
+		if (!$only_default)
+		{
 			// custom commands
 			if (is_array($this->cust_commands))
 			{
@@ -2482,176 +2484,288 @@ class ilObjectListGUI
 			}
 
 			// info screen commmand
-			if ($this->getInfoScreenStatus() && !$only_default)
+			if ($this->getInfoScreenStatus())
 			{
 				$this->insertInfoScreenCommand();
 			}
-		
-			if (!$this->isMode(IL_LIST_AS_TRIGGER) && !$only_default)
+
+			if (!$this->isMode(IL_LIST_AS_TRIGGER))
 			{
 				// delete
 				if ($this->delete_enabled)
 				{
 					$this->insertDeleteCommand();
 				}
-	
+
 				// link
 				if ($this->link_enabled)
 				{
 					$this->insertLinkCommand();
 				}
-	
+
 				// cut
 				if ($this->cut_enabled)
 				{
 					$this->insertCutCommand();
 				}
-	
+
 				// copy
 				if ($this->copy_enabled)
 				{
 					$this->insertCopyCommand();
 				}
-			
+
 				// cut/copy from workspace to repository
 				if ($this->repository_transfer_enabled)
 				{
 					$this->insertCutCommand(true);
 					$this->insertCopyCommand(true);
 				}
-				
+
 				// subscribe
 				if ($this->subscribe_enabled)
 				{
 					$this->insertSubscribeCommand();
 				}
-	
+
 				// BEGIN PATCH Lucene search
 				if($this->cut_enabled or $this->link_enabled)
 				{
 					$this->insertPasteCommand();
 				}
 				// END PATCH Lucene Search
-	
+
 				$this->insertPayment();
 			}
 		}
-		else
-		{
-			// subscribe
-			if ($this->subscribe_enabled)
-			{
-				$this->insertSubscribeCommand();
-			}
-		}
-
 		
 		// common social commands (comment, notes, tags)
 		if (!$only_default && !$this->isMode(IL_LIST_AS_TRIGGER))
 		{
 			$this->insertCommonSocialCommands($a_header_actions);
 		}
-
 		
 		$this->ctrl->clearParametersByClass($this->gui_class_name);
 
-		if ($a_header_actions)
-		{
-			return $this->current_selection_list->getHTML();
-		}
-		
 		if ($a_use_asynch && $a_get_asynch_commands)
 		{
 			return $this->current_selection_list->getHTML(true);
 		}
 		
-		$this->ctpl->setVariable("COMMAND_SELECTION_LIST",
-			$this->current_selection_list->getHTML());
+		return $this->current_selection_list->getHTML();		
+	}
+	
+	/**
+	 * Toogle comments action status
+	 * 
+	 * @param boolean $a_value 
+	 */
+	function enableComments($a_value)
+	{
+		$this->comments_enabled = (bool)$a_value;
+	}
+	
+	/**
+	 * Toogle notes action status
+	 * 
+	 * @param boolean $a_value 
+	 */
+	function enableNotes($a_value)
+	{
+		$this->notes_enabled = (bool)$a_value;
+	}
+	
+	/**
+	 * Toogle tags action status
+	 * 
+	 * @param boolean $a_value 
+	 */
+	function enableTags($a_value)
+	{
+		$tags_set = new ilSetting("tags");
+		if (!$tags_set->get("enable"))
+		{
+			$a_value = false;			
+		}
+		$this->tags_enabled = (bool)$a_value;
+	}
+	
+	/**
+	 * Insert js/ajax links into template	 
+	 */
+	static function prepareJsLinks($a_redraw_url, $a_notes_url, $a_tags_url)
+	{
+		global $tpl;
+		
+		if($a_notes_url)
+		{
+			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+			ilNoteGUI::initJavascript($a_notes_url);
+		}
+		
+		if($a_tags_url)
+		{
+			include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
+			ilTaggingGUI::initJavascript($a_tags_url);
+		}
+		
+		if($a_redraw_url)
+		{
+			$tpl->addOnLoadCode("ilObject.setRedrawAHUrl('".
+						$a_redraw_url."');");	
+		}
+	}
+	
+	/**
+	 * Set sub object identifier
+	 * 
+	 * @param string $a_type 
+	 * @param int $a_id 
+	 */
+	function setHeaderSubObject($a_type, $a_id)
+	{
+		$this->sub_obj_type = $a_type;
+		$this->sub_obj_id = (int)$a_id;
+	}		
+	
+	/**
+	 *
+	 * @param string $a_id
+	 * @param string $a_img
+	 * @param string $a_tooltip
+	 * @param string $a_onclick 
+	 * @param string $a_onclick 
+	 */	
+	function addHeaderIcon($a_id, $a_img, $a_tooltip = null, $a_onclick = null, $a_status_text = null)
+	{
+		$this->header_icons[$a_id] = array("img" => $a_img,
+				"tooltip" => $a_tooltip,
+				"onclick" => $a_onclick,
+				"status_text" => $a_status_text);
+	}
+	
+	/**
+	 *
+	 * @param string $a_id
+	 * @param string $a_html 
+	 */
+	function addHeaderIconHTML($a_id, $a_html)
+	{
+		$this->header_icons[$a_id] = $a_html;
+	}
+	
+	function setAjaxHash($a_hash)
+	{
+		$this->ajax_hash = $a_hash;
 	}
 	
 	/**
 	 * Get header action
-	 *
-	 * @param
-	 * @return
+	 * 
+	 * @return string
 	 */
-	function getHeaderAction($a_ref_id, $a_obj_id, $a_context = self::CONTEXT_REPOSITORY, $a_sub_obj_id = null)
+	function getHeaderAction()
 	{
 		global $ilAccess, $ilBench, $ilUser, $ilCtrl, $lng;
 		
-		if ($ilUser->getId() == ANONYMOUS_USER_ID)
-		{
-			return "";
-		}
+		$htpl = new ilTemplate("tpl.header_action.html", true, true, "Services/Repository");	
 		
-		$this->ctpl = new ilTemplate ("tpl.container_list_item_commands.html", true, true, false, "DEFAULT", false, true);
-		$this->initItem($a_ref_id, $a_obj_id, "", "", $a_context);
-		
-		$htpl = new ilTemplate("tpl.header_action.html", true, true, "Services/Repository");
-		
-		$this->sub_obj_id = $a_sub_obj_id;
+		$redraw_js = "ilObject.redrawActionHeader();";
 		
 		// tags
-		include_once("./Services/Tagging/classes/class.ilTagging.php");
-		$tags = ilTagging::getTagsForUserAndObject($a_obj_id, ilObject::_lookupType($a_obj_id), 0, "", $ilUser->getId());
-		if (count($tags) > 0)
+		if($this->tags_enabled)
+		{			
+			include_once("./Services/Tagging/classes/class.ilTagging.php");
+			$tags = ilTagging::getTagsForUserAndObject($this->obj_id, 
+				ilObject::_lookupType($this->obj_id), 0, "", $ilUser->getId());
+			if (count($tags) > 0)
+			{
+				include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
+				$lng->loadLanguageModule("tagging");
+				$this->addHeaderIcon("tags", 					
+					ilUtil::getImagePath("icon_tags_s.gif"),
+					$lng->txt("tagging_tags").": ".count($tags),
+					ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js),
+					count($tags));				
+			}
+		}
+	
+		// notes and comments
+		if($this->notes_enabled || $this->comments_enabled)
 		{
-			include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
-			$htpl->setCurrentBlock("prop");
-			$htpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_tags_s.gif")));
-			$htpl->setVariable("PROP_TXT", count($tags));
-			$htpl->setVariable("PROP_ID", "headp_tags");
-			$htpl->setVariable("PROP_HREF", "#");
-			$htpl->setVariable("PROP_ONCLICK", "onclick=\" return ".
-				ilTaggingGUI::getListTagsJSCall($this->ref_id, $this->sub_obj_id,
-					"ilObject.redrawActionHeader();").";\"");
-			$htpl->parseCurrentBlock();
-			
-			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-			$lng->loadLanguageModule("tagging");
-			ilTooltipGUI::addTooltip("headp_tags",
-				$lng->txt("tagging_tags").": ".count($tags));
+			include_once("./Services/Notes/classes/class.ilNote.php");
+			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+			$cnt = ilNote::_countNotesAndComments(array($this->obj_id), $this->sub_obj_id);
+
+			if($this->notes_enabled && $cnt[$this->obj_id][IL_NOTE_PRIVATE] > 0)
+			{
+				$this->addHeaderIcon("notes",
+					ilUtil::getImagePath("note_unlabeled.gif"),
+					$lng->txt("private_notes").": ".$cnt[$this->obj_id][IL_NOTE_PRIVATE],
+					ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js),
+					$cnt[$this->obj_id][IL_NOTE_PRIVATE]
+					);
+			}
+
+			if($this->comments_enabled && $cnt[$this->obj_id][IL_NOTE_PUBLIC] > 0 &&
+				ilNote::commentsActivated($this->obj_id, 0, $this->type))
+			{
+				$lng->loadLanguageModule("notes");
+				
+				$this->addHeaderIcon("comments",
+					ilUtil::getImagePath("comment_unlabeled.gif"),
+					$lng->txt("notes_public_comments").": ".$cnt[$this->obj_id][IL_NOTE_PUBLIC],
+					ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js),
+					$cnt[$this->obj_id][IL_NOTE_PUBLIC]);
+			}			
 		}
 		
-		// notes and comments
-		include_once("./Services/Notes/classes/class.ilNote.php");
-		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-		$cnt = ilNote::_countNotesAndComments(array($a_obj_id), $a_sub_obj_id);
-		if ($cnt[$a_obj_id][IL_NOTE_PRIVATE] > 0)
-		{
-			$htpl->setCurrentBlock("prop");
-			$htpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("note_unlabeled.gif")));
-			$htpl->setVariable("PROP_TXT", $cnt[$a_obj_id][IL_NOTE_PRIVATE]);
-			$htpl->setVariable("PROP_ID", "headp_notes");
-			$htpl->setVariable("PROP_HREF", "#");
-			$htpl->setVariable("PROP_ONCLICK", $q = "onclick=\" return ".
-				ilNoteGUI::getListNotesJSCall($this->ref_id, $this->sub_obj_id,
-					"ilObject.redrawActionHeader();").";\"");
-			$htpl->parseCurrentBlock();
-			
+		if($this->header_icons)
+		{			
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-			ilTooltipGUI::addTooltip("headp_notes",
-				$lng->txt("private_notes").": ".$cnt[$a_obj_id][IL_NOTE_PRIVATE]);
-		}
+			
+			$chunks = array();
+			foreach($this->header_icons as $id => $attr)
+			{								
+				$id = "headp_".$id;
+				
+				if(is_array($attr))
+				{				
+					if($attr["onclick"])
+					{				
+						$htpl->setCurrentBlock("onclick");
+						$htpl->setVariable("PROP_ONCLICK", $attr["onclick"]);
+						$htpl->parseCurrentBlock();
+					}
 
-		include_once("./Services/Notes/classes/class.ilNote.php");
-		if ($cnt[$a_obj_id][IL_NOTE_PUBLIC] > 0 &&
-			ilNote::commentsActivated($this->obj_id, 0, $this->type))
-		{
-			$lng->loadLanguageModule("notes");
-			$htpl->setCurrentBlock("prop");
-			$htpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("comment_unlabeled.gif")));
-			$htpl->setVariable("PROP_TXT", $cnt[$a_obj_id][IL_NOTE_PUBLIC]);
-			$htpl->setVariable("PROP_ID", "headp_comments");
-			$htpl->setVariable("PROP_HREF", "#");
-			$htpl->setVariable("PROP_ONCLICK", $p = "onclick=\" return ".
-				ilNoteGUI::getListCommentsJSCall($this->ref_id, $this->sub_obj_id,
-					"ilObject.redrawActionHeader();").";\"");
-			$htpl->parseCurrentBlock();
+					if($attr["status_text"])
+					{
+						$htpl->setCurrentBlock("status");
+						$htpl->setVariable("PROP_TXT", $attr["status_text"]);
+						$htpl->parseCurrentBlock();
+					}
+
+					$htpl->setCurrentBlock("prop");
+					$htpl->setVariable("PROP_ID", $id);
+					$htpl->setVariable("IMG", ilUtil::img($attr["img"]));
+					$htpl->parseCurrentBlock();
+
+					if($attr["tooltip"])
+					{					
+						ilTooltipGUI::addTooltip($id, $attr["tooltip"]);
+					}
+				}
+				else
+				{
+					$chunks[] = $attr;
+				}
+			}
 			
-			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-			ilTooltipGUI::addTooltip("headp_comments",
-				$lng->txt("notes_public_comments").": ".$cnt[$a_obj_id][IL_NOTE_PUBLIC]);
+			if(sizeof($chunks))
+			{
+				$htpl->setVariable("PROP_CHUNKS", 
+					implode("&nbsp;&nbsp;&nbsp;", $chunks)."&nbsp;&nbsp;&nbsp;");
+			}
 		}
 		
 		$htpl->setVariable("ACTION_DROP_DOWN",
@@ -2911,16 +3025,29 @@ class ilObjectListGUI
 
 		// initialization
 		$ilBench->start("ilObjectListGUI", "1000_getListHTML_init$type");
-		$this->tpl = new ilTemplate ("tpl.container_list_item.html", true, true, false, "DEFAULT", false, true);
-		$this->ctpl = new ilTemplate ("tpl.container_list_item_commands.html", true, true, false, "DEFAULT", false, true);
 		$this->initItem($a_ref_id, $a_obj_id, $a_title, $a_description, $a_context);
 		$ilBench->stop("ilObjectListGUI", "1000_getListHTML_init$type");
 		
+		// prepare ajax calls
+		if(!$this->ajax_hash)
+		{
+			include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
+			if($a_context = self::CONTEXT_REPOSITORY)
+			{
+				$node_type = ilCommonActionDispatcherGUI::TYPE_REPOSITORY;
+			}
+			else
+			{
+				$node_type = ilCommonActionDispatcherGUI::TYPE_WORKSPACE;
+			}
+			$this->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash($node_type, $a_ref_id, $type, $a_obj_id));
+		}
+				
 		if ($a_use_asynch && $a_get_asynch_commands)
 		{
 			return $this->insertCommands(true, true);
-		}
-
+		}				
+		
 		// read from cache
 		include_once("Services/Object/classes/class.ilListItemAccessCache.php");
 		$this->acache = new ilListItemAccessCache();
@@ -2929,49 +3056,42 @@ class ilObjectListGUI
 		{
 			$this->access_cache = unserialize($cres);
 		}
-
+		else
+		{
+			// write to cache
+			$this->storeAccessCache();
+		}
+		
   		// visible check
 		if (!$this->checkCommandAccess("visible", "", $a_ref_id, "", $a_obj_id))
-		{
-			$this->storeAccessCache();
+		{			
 			$ilBench->stop("ilObjectListGUI", "2000_getListHTML_check_visible");
 			return "";
 		}
-                // BEGIN WEBDAV
-                if($type=='file' AND ilObjFileAccess::_isFileHidden($a_title))
-                {
-                    return "";
-                }
-                // END WEBDAV
-
-		// commands
-		$this->insertCommands($a_use_asynch, $a_get_asynch_commands, $a_asynch_url);
-
-		// write to cache
-		$this->storeAccessCache();
-
-		// payment
-// todo
-/*
- * doesn't work for extension prices because current command list will be overwritten completely
- * but it is nessesary to add the "buy-extension"-command to the "standard commands"
- */
-/*		$ilBench->start("ilObjectListGUI", "5000_insert_pay");
-		$this->insertPayment();
-		$ilBench->stop("ilObjectListGUI", "5000_insert_pay");
-*/
-		if($this->getProgressInfoStatus())
+		
+		// BEGIN WEBDAV
+		if($type=='file' AND ilObjFileAccess::_isFileHidden($a_title))
 		{
-			$this->insertProgressInfo();	
+			return "";
 		}
+		// END WEBDAV
+		
+		
+		$this->tpl = new ilTemplate ("tpl.container_list_item.html", true, true, false, "DEFAULT", false, true);
 
 		if ($this->getCommandsStatus() || 
 			($this->payment_enabled && IS_PAYMENT_ENABLED))
 		{
 			if (!$this->getSeparateCommands())
 			{
-				$this->tpl->setVariable("COMMANDS", $this->ctpl->get());
+				$this->tpl->setVariable("COMMAND_SELECTION_LIST",
+					$this->insertCommands($a_use_asynch, $a_get_asynch_commands, $a_asynch_url));
 			}
+		}		 
+		
+		if($this->getProgressInfoStatus())
+		{
+			$this->insertProgressInfo();	
 		}
 
 		// insert title and describtion
@@ -3060,7 +3180,7 @@ class ilObjectListGUI
 	*/
 	function getCommandsHTML()
 	{
-		return $this->ctpl->get();
+		return $this->insertCommands();
 	}
 	
 	/**

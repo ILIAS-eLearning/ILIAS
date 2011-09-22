@@ -689,10 +689,52 @@ abstract class ilObject2GUI extends ilObjectGUI
 		return false;
 	}
 	
-	
-	function getNotesSubId()
+	/**
+	 * Add header action menu
+	 * 
+	 * @param string $a_sub_type
+	 * @param int $a_sub_id
+	 * @return ilObjectListGUI
+	 */
+	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
 	{
-		return null;
+		global $ilAccess; 
+		
+		if($this->id_type == self::WORKSPACE_NODE_ID)
+		{
+			if(!$this->creation_mode && $this->object_id)
+			{
+				include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
+				$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_WORKSPACE, 
+					$this->getAccessHandler(), $this->getType(), $this->node_id, $this->object_id);
+
+				$dispatcher->setSubObject($a_sub_type, $a_sub_id);
+				
+				include_once "Services/Object/classes/class.ilObjectListGUI.php";
+				ilObjectListGUI::prepareJSLinks($this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true), 
+					$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false), 
+					$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
+				
+				$lg = $dispatcher->initHeaderAction();
+				// $lg->enableComments(true);
+				$lg->enableNotes(true);
+				// $lg->enableTags(true);
+
+				return $lg;
+			}
+		}
+		else
+		{
+			return parent::initHeaderAction();
+		}
+	}
+	
+	/**
+	 * Updating icons after ajax call
+	 */
+	protected function redrawHeaderAction()
+	{
+		parent::redrawHeaderActionObject();
 	}
 }
 
