@@ -574,21 +574,13 @@ class ilChatroom
 
 		$join = '';
 
-		if( !is_null( $restricted_session_userid ) && !$proom_id )
-		{
-			$join .= ' INNER JOIN ' . self::$sessionTable . '
-				 sessionTable ON sessionTable.room_id = historyTable.room_id 
-				 AND sessionTable.user_id = '. $ilDB->quote( $restricted_session_userid, 'integer' ) . '
-				 AND historyTable.sub_room = 0 AND timestamp >= sessionTable.connected AND timestamp <= sessionTable.disconnected ';
-		}
-/*
 		if ($proom_id) {
-			$join .= $j = ' LEFT JOIN ' . self::$privateSessionsTable .
+			$join .= ' INNER JOIN ' . self::$privateSessionsTable .
 				' pSessionTable ON pSessionTable.user_id = ' .
 				$ilDB->quote( $restricted_session_userid, 'integer' ) .
 				' AND historyTable.sub_room = pSessionTable.proom_id AND timestamp >= pSessionTable.connected AND timestamp <= pSessionTable.disconnected ';
 		}
-*/		
+		
 		$query = 'SELECT historyTable.* FROM ' . self::$historyTable . ' historyTable ' .
 			$join . ' WHERE historyTable.room_id = ' . $this->getRoomId();
 
