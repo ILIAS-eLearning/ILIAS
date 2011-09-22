@@ -2285,18 +2285,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		$info->enablePrivateNotes();
 		$info->enableLearningProgress(true);
 
-		// :TEMP: group notification setting per user
-		if($ilSetting->get("crsgrp_ntf") &&
-			ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
-		{
-			$info->addSection($this->lng->txt("grp_notification"));
-			$info->addPropertyCheckbox($this->lng->txt("grp_activate_notification"),
-				"grp_ntf", 1, "", $ilUser->getPref("grpcrs_ntf_".$this->ref_id));
-
-			$info->setFormAction($this->ctrl->getFormAction($this));
-			$info->addFormButton("saveNotification", $this->lng->txt("save"));
-		}
-
 		$info->addSection($this->lng->txt('group_registration'));
 		$info->showLDAPRoleGroupMappingInfo();
 
@@ -2988,6 +2976,43 @@ class ilObjGroupGUI extends ilContainerGUI
 		return rawurlencode(base64_encode($link));
 	}
 	
+	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null) 
+	{
+		global $ilSetting, $ilUser;
+		
+		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
+				
+		if($ilSetting->get("crsgrp_ntf") &&
+			ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
+		{						
+			if(!$ilUser->getPref("grpcrs_ntf_".$this->ref_id))
+			{
+				$lg->addHeaderIcon("not_icon",
+					ilUtil::getImagePath("notification_off.png"),
+					$this->lng->txt("grp_notification_deactivated"));
+				
+				$this->ctrl->setParameter($this, "grp_ntf", 1);
+				$caption = "grp_activate_notification";
+			}
+			else
+			{				
+				$lg->addHeaderIcon("not_icon",
+					ilUtil::getImagePath("notification_on.png"),
+					$this->lng->txt("grp_notification_activated"));
+				
+				$this->ctrl->setParameter($this, "grp_ntf", 0);
+				$caption = "grp_deactivate_notification";
+			}
+			
+			$lg->addCustomCommand($this->ctrl->getLinkTarget($this, "saveNotification"),
+				$caption);
+			
+			
+			$this->ctrl->setParameter($this, "grp_ntf", "");
+		}		
+		
+		return $lg;
+	}	
 
 } // END class.ilObjGroupGUI
 ?>
