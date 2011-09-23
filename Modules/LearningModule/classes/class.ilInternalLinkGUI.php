@@ -994,16 +994,14 @@ class ilInternalLinkGUI
 		global $ilias;
 		
 		include_once("./Services/COPage/classes/class.ilPageEditorGUI.php");
-echo "1";
-		if($ilias->getSetting("enable_js_edit"))
-		{
-echo "2";
+
+//		if($ilias->getSetting("enable_js_edit"))
+//		{
 			if (ilPageEditorGUI::_doJSEditing())
 			{
-echo "3";
 				return true;
 			}
-		}
+//		}
 		return false;
 	}
 
