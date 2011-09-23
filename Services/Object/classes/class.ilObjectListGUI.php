@@ -81,6 +81,7 @@ class ilObjectListGUI
 	protected $restrict_to_goto = false;
 	
 	protected $comments_enabled = false;
+	protected $comments_settings_enabled = false;
 	protected $notes_enabled = false;
 	protected $tags_enabled = false;
 	
@@ -2346,12 +2347,8 @@ class ilObjectListGUI
 		$has_notes = false;
 		
 		if($this->comments_enabled)
-		{
-			include_once("./Services/Notes/classes/class.ilNote.php");
-			if ((!$a_header_actions && (self::$comments_activation[$this->obj_id][$this->type] ||
-					$this->checkCommandAccess('write','', $this->ref_id, $this->type))) ||
-				($a_header_actions && (ilNote::commentsActivated($this->obj_id, 0, $this->type) ||
-					$this->checkCommandAccess('write','', $this->ref_id, $this->type))))
+		{			
+			if ($this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, $a_header_actions))
 			{
 				$this->insertCommand("#", $this->lng->txt("notes_comments"), $cmd_frame,
 					"", "", ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $js_updater));
@@ -2560,9 +2557,10 @@ class ilObjectListGUI
 	 * 
 	 * @param boolean $a_value 
 	 */
-	function enableComments($a_value)
+	function enableComments($a_value, $a_enable_comments_settings = true)
 	{
 		$this->comments_enabled = (bool)$a_value;
+		$this->comments_settings_enabled = (bool)$a_enable_comments_settings;
 	}
 	
 	/**
@@ -2689,9 +2687,10 @@ class ilObjectListGUI
 					count($tags));				
 			}
 		}
-	
+				
 		// notes and comments
-		if($this->notes_enabled || $this->comments_enabled)
+		$comments_enabled = $this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, true);
+		if($this->notes_enabled || $comments_enabled)
 		{
 			include_once("./Services/Notes/classes/class.ilNote.php");
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
@@ -2707,8 +2706,7 @@ class ilObjectListGUI
 					);
 			}
 
-			if($this->comments_enabled && $cnt[$this->obj_id][IL_NOTE_PUBLIC] > 0 &&
-				ilNote::commentsActivated($this->obj_id, 0, $this->type))
+			if($comments_enabled && $cnt[$this->obj_id][IL_NOTE_PUBLIC] > 0)
 			{
 				$lng->loadLanguageModule("notes");
 				
@@ -3218,11 +3216,51 @@ class ilObjectListGUI
 		
 		$lng->loadLanguageModule("notes");
 		$lng->loadLanguageModule("tagging");
-		include_once("./Services/Notes/classes/class.ilNote.php");
-		self::$cnt_notes = ilNote::_countNotesAndComments($a_obj_ids);
-		self::$comments_activation = ilNote::getRepObjActivation($a_obj_ids);
+		
 		include_once("./Services/Tagging/classes/class.ilTagging.php");
 		self::$cnt_tags = ilTagging::_countTags($a_obj_ids);
+		
+		include_once("./Services/Notes/classes/class.ilNote.php");
+		self::$cnt_notes = ilNote::_countNotesAndComments($a_obj_ids);
+		if($this->comments_enabled && $this->comments_settings_enabled)
+		{
+			self::$comments_activation = ilNote::getRepObjActivation($a_obj_ids);
+		}		
+	}
+	
+	/**
+	 * Check comments status against comments settings and context
+	 * 
+	 * @param string $a_type
+	 * @param int $a_ref_id
+	 * @param int $a_obj_id
+	 * @param bool $a_header_actions
+	 * @return bool 
+	 */
+	protected function isCommentsActivated($a_type, $a_ref_id, $a_obj_id, $a_header_actions)
+	{
+		if($this->comments_enabled)
+		{
+			if(!$this->comments_settings_enabled)
+			{
+				return true;
+			}
+			if($this->checkCommandAccess('write','', $a_ref_id, $a_type))
+			{
+				return true;
+			}
+			include_once("./Services/Notes/classes/class.ilNote.php");
+			if(!$a_header_actions && self::$comments_activation[$a_obj_id][$a_type])
+			{
+				return true;
+			}
+			else if($a_header_actions && ilNote::commentsActivated($a_obj_id, 0, $a_type))
+			{	
+				return true;
+			}
+		}
+		return false;
 	}
 }
+
 ?>
