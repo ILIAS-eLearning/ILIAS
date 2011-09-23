@@ -186,7 +186,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	function addHeaderAction()
 	{			
-		global $ilUser;
+		global $ilUser, $ilCtrl;
 		
 		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
 		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_WORKSPACE, 
