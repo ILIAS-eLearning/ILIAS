@@ -468,7 +468,7 @@ if ($this->private_enabled && $this->public_enabled
 				$parent_class = "ilObj".$objDefinition->getClassName($parent_type)."GUI";						
 				$parent_path = $ilCtrl->lookupClassPath($parent_class);
 				include_once $parent_path;
-				$sub_title = $parent_class::lookupSubObjectTitle($this->rep_obj_id, $this->obj_id);			
+//				$sub_title = $parent_class::lookupSubObjectTitle($this->rep_obj_id, $this->obj_id);			
 				if($sub_title)
 				{
 					$title .= " - ".$sub_title;
