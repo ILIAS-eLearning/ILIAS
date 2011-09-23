@@ -109,6 +109,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			case "ilcommonactiondispatchergui":
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$gui->enableCommentsSettings(false);
 				$this->ctrl->forwardCommand($gui);
 				break;
 				
@@ -199,9 +200,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
 
 		$lg = $dispatcher->initHeaderAction();
-		$lg->enableComments(true);
-		$lg->enableNotes(true);
-		// $lg->enableTags();
 		
 		// notification
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
@@ -241,7 +239,13 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				}
 			}
 			$this->ctrl->setParameter($this, "ntf", "");
-		}			
+		}		
+		
+		$hash = $dispatcher->getAjaxHash();
+		$notes_url = ilNoteGUI::getListNotesJSCall($hash, "ilObject.redrawActionHeader();");
+		$comments_url = ilNoteGUI::getListCommentsJSCall($hash, "ilObject.redrawActionHeader();");
+		$lg->addCustomCommand("#", "notes", "", $notes_url);
+		$lg->addCustomCommand("#", "notes_comments", "", $comments_url);
 		
 		// rating
 		if (ilObjWiki::_lookupRating($this->getPageObject()->getParentId())
