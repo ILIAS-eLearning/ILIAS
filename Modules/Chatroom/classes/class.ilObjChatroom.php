@@ -86,7 +86,7 @@ class ilObjChatroom extends ilObject
 		//$res = $statement->fetchRow(DB_FETCHMODE_OBJECT);
 		$res = $ilDB->fetchAssoc($statement);
 		
-		if (!$res) {
+		if ($res) {
 			$rbacadmin->copyRoleTemplatePermissions($res['obj_id'],ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
 
 			// SET OBJECT PERMISSIONS OF COURSE OBJECT

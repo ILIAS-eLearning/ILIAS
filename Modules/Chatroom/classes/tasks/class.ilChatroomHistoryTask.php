@@ -41,7 +41,7 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
      * @param array $messages
      * @param ilPropertyFormGUI $durationForm
      */
-    private function showMessages($messages, $durationForm, $export = false, $psessions = array())
+    private function showMessages($messages, $durationForm, $export = false, $psessions = array(), $from ,$to)
     {
 	    //global $tpl, $ilUser, $ilCtrl, $lng;
 	    global $tpl, $lng;
@@ -64,6 +64,9 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 	    if ($export) {
 		    ilDatePresentation::setUseRelativeDates(false);
 	    }
+	    
+	global $ilUser;
+	$time_format = $ilUser->getTimeFormat();
 
 	    $prevDate = '';
 	    $messagesShown = 0;
@@ -82,12 +85,26 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 					    $roomTpl->setVariable( 'MESSAGECONTENT', $message['message']->message->content ); // oops... it is a message? ^^
 					    $roomTpl->setVariable( 'MESSAGESENDER', $message['message']->user->username );
 					    if ($prevDate != $currentDate) {
-						    $roomTpl->setVariable( 'MESSAGEDATE',  $currentDate);
-						    $prevDate = $currentDate;
+
+						    	switch($time_format)
+							{
+								case ilCalendarSettings::TIME_FORMAT_24:
+									$date_string = $dateTime->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone());
+									break;
+								case ilCalendarSettings::TIME_FORMAT_12:
+									$date_string = $dateTime->get(IL_CAL_FKT_DATE,'g:ia',$ilUser->getTimeZone());
+									break;
+							}
+						    
+							$roomTpl->setVariable( 'MESSAGEDATE',  $date_string);
+							$prevDate = $currentDate;
 					    }
+					    /*
 					    else {
-						    $roomTpl->setVariable( 'MESSAGEDATE',  "&nbsp;&nbsp;");
+						    $roomTpl->touchBlock( 'NO_MESSAGE_DATE');
 					    }
+					     * 
+					     */
 					    $roomTpl->parseCurrentBlock();
 				    }
 				    ++$messagesShown;
@@ -112,7 +129,6 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 
 	    $scopes = array($lng->txt('main')) + $scopes;
 
-
 	    if (count($scopes) > 1) {
 		    $select = new ilSelectInputGUI($lng->txt('scope'), 'scope');
 		    $select->setOptions($scopes);
@@ -125,11 +141,34 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 	    }
 
 	    $room = ilChatroom::byObjectId( $this->gui->object->getId() );
-	    if ($room->getSetting('private_rooms_enabled')) {
-			$isPrivateRoom = (boolean)((int)$_REQUEST['scope']);
-			$lang_var = $isPrivateRoom ? 'history_title_private_room' : 'history_title_general';
-			$roomTpl->setVariable( 'ROOM_TITLE', sprintf($lng->txt($lang_var), $scopes[(int)$_REQUEST['scope']]));
+	    //if ($room->getSetting('private_rooms_enabled')) {
+	    
+	    $prevUseRelDates = ilDatePresentation::useRelativeDates();
+	    ilDatePresentation::setUseRelativeDates(false);
+	    
+	    $unixFrom = $from->getUnixTime();
+	    $unixTo = $to->getUnixTime();
+	    
+	    if ($unixFrom == $unixTo) {
+		    $date = new ilDate($unixFrom, IL_CAL_UNIX);
+		    $date_sub = ilDatePresentation::formatDate($date);
 	    }
+	    else {
+		    $date1 = new ilDate($unixFrom, IL_CAL_UNIX);
+		    $date2 = new ilDate($unixTo, IL_CAL_UNIX);
+		    $date_sub = ilDatePresentation::formatPeriod($date1, $date2);
+	    }
+	    ilDatePresentation::setUseRelativeDates($prevUseRelDates);
+	    
+		$isPrivateRoom = (boolean)((int)$_REQUEST['scope']);
+		if ($isPrivateRoom) {
+			$roomTpl->setVariable( 'ROOM_TITLE', sprintf($lng->txt('history_title_private_room'), $scopes[(int)$_REQUEST['scope']]) . ' (' . $date_sub . ')');
+		}
+		else {
+			$roomTpl->setVariable( 'ROOM_TITLE', sprintf($lng->txt('history_title_general'), $this->gui->object->getTitle()) . ' (' . $date_sub . ')');
+		}
+
+	    //}
 
 	    if ($export) {
 		    header("Content-Type: text/html");
@@ -211,7 +250,7 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 		$scope
 	);
 
-	$this->showMessages( $messages, $durationForm, $export, $psessions );
+	$this->showMessages( $messages, $durationForm, $export, $psessions, $from, $to );
     }
 
     /**
@@ -284,7 +323,7 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 		$scope
 	);
 
-	$this->showMessages( $messages, $durationForm, $export, $psessions );
+	$this->showMessages( $messages, $durationForm, $export, $psessions, $from, $to );
     }
 
     /**
