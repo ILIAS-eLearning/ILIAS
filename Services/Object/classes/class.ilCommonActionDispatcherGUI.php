@@ -41,7 +41,7 @@ class ilCommonActionDispatcherGUI
 		$this->node_id = (int)$a_node_id;
 		$this->obj_id = (int)$a_obj_id;
 		
-		// :TODO: check access for object [read?!]
+		// check access for object 
 		if ($this->node_id && !$this->access_handler->checkAccess("visible", "", $this->node_id))
 		{
 			exit("invalid access");

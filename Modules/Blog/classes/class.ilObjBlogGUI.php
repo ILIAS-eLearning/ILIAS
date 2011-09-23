@@ -64,6 +64,14 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		return $forms;
 	}
+	
+	protected function afterSave(ilObject $a_new_object)
+	{
+		global $ilCtrl;
+		
+		ilUtil::sendSuccess($this->lng->txt("object_added"), true);		
+		$ilCtrl->redirect($this, "");
+	}
 
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
