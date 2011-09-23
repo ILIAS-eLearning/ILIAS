@@ -318,7 +318,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 		ilUtil::sendInfo($lng->txt('chat_cannot_connect_to_server'));
 	    }
 	    
-	    $form->setTitle( $lng->txt('server_settings_title') );
+	    $form->setTitle( $lng->txt('chatserver_settings_title') );
 	    $form->addCommandButton( 'view-saveSettings', $lng->txt( 'save' ) );
 	    $form->addCommandButton( 'view', $lng->txt( 'cancel' ) );
 	    $form->setFormAction( $ilCtrl->getFormAction( $this->gui, 'view-saveSettings' ) );
@@ -394,7 +394,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 		    ilUtil::sendInfo($lng->txt('chat_cannot_connect_to_server'));
 		}
 		
-		$form->setTitle( $lng->txt('client_settings_title') );
+		$form->setTitle( $lng->txt('general_settings_title') );
 		$form->addCommandButton( 'view-saveClientSettings', $lng->txt( 'save' ) );
 		$form->addCommandButton( 'ClientSettings', $lng->txt( 'cancel' ) );
 		$form->setFormAction( $ilCtrl->getFormAction( $this->gui, 'view-saveClientSettings' ) );

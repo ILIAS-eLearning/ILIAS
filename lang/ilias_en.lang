@@ -11834,9 +11834,9 @@ chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#chat_enabled#:#Enable Chat
 chatroom_adm#:#enable_osd#:#Enable On-Screen Notifications
 chatroom_adm#:#hash#:#Hash
-chatroom_adm#:#client_settings_title#:#Client Settings
+chatroom_adm#:#general_settings_title#:#General Chat Settings
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)
-chatroom_adm#:#server_settings_title#:#Server Settings
+chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
 chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete the selected smiley?
 chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.
 chatroom_adm#:#chat_smilies_initialized#:#Chat smilies initialized
