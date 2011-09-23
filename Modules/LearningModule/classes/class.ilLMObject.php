@@ -871,9 +871,12 @@ class ilLMObject
 	* Paste item (tree) from clipboard to current lm
 	*/
 	static function pasteTree($a_target_lm, $a_item_id, $a_parent_id, $a_target, $a_insert_time,
-		&$a_copied_nodes, $a_as_copy = false)
+		&$a_copied_nodes, $a_as_copy = false, $a_source_lm = null)
 	{
 		global $ilUser, $ilias, $ilLog;
+		
+		include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
+		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		
 		$item_lm_id = ilLMObject::_lookupContObjID($a_item_id);
 		$item_type = ilLMObject::_lookupType($a_item_id);
@@ -932,7 +935,18 @@ class ilLMObject
 		
 		ilLMObject::putInTree($target_item, $a_parent_id, $a_target);
 		
-		$childs = $ilUser->getClipboardChilds($item->getId(), $a_insert_time);
+		if ($a_source_lm == null)
+		{
+			$childs = $ilUser->getClipboardChilds($item->getId(), $a_insert_time);
+		}
+		else
+		{
+			$childs = $a_source_lm->lm_tree->getChilds($item->getId());
+			foreach ($childs as $k => $child)
+			{
+				$childs[$k]["id"] = $childs[$k]["child"];
+			}
+		}
 
 		foreach($childs as $child)
 		{

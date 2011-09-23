@@ -2754,7 +2754,7 @@ class ilObjContentObject extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		global $ilDB,$ilUser;
+		global $ilDB, $ilUser, $ilias;
 
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 		$this->cloneMetaData($new_obj);
@@ -2781,9 +2781,20 @@ class ilObjContentObject extends ilObject
 		
 		$new_obj->createLMTree();
 		
-		// todo: page header and footer
-		// todo: copy style
-		// todo: copy content
+		// copy style
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$style_id = $this->getStyleSheetId();
+		if ($style_id > 0 &&
+			!ilObjStyleSheet::_lookupStandard($style_id))
+		{
+			$style_obj = $ilias->obj_factory->getInstanceByObjId($style_id);
+			$new_id = $style_obj->ilClone();
+			$new_obj->setStyleSheetId($new_id);
+			$new_obj->update();
+		}
+		
+		// copy content
+		$this->copyAllPagesAndChapters($new_obj);
 
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
@@ -2794,6 +2805,48 @@ class ilObjContentObject extends ilObject
 
 		return $new_obj;
 	}
+	
+	/**
+	 * Copy all pages and chapters
+	 *
+	 * @param object $a_target_obj target learning module
+	 */
+	function copyAllPagesAndChapters($a_target_obj)
+	{
+		$parent_id = $a_target_obj->lm_tree->readRootId();
+		
+		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
+		
+		// get all chapters of root lm
+		$chapters = $this->lm_tree->getChildsByType($this->lm_tree->readRootId(), "st");
+		$copied_nodes = array();
+		//$time = time();
+		foreach ($chapters as $chap)
+		{
+			$cid = ilLMObject::pasteTree($a_target_obj, $chap["child"], $parent_id,
+				IL_LAST_NODE, $time, $copied_nodes, true, $this);
+			$target = $cid;
+		}
+		
+		// copy free pages
+		$pages = ilLMPageObject::getPageList($this->getId());
+		foreach ($pages as $p)
+		{
+			if (!$this->lm_tree->isInTree($p["obj_id"]))
+			{
+				$item = new ilLMPageObject($this, $p["obj_id"]);
+				$target_item = $item->copy($a_target_obj);
+				$copied_nodes[$item->getId()] = $target_item->getId();
+			}
+		}
+		
+		ilLMObject::updateInternalLinks($copied_nodes);
+
+		$a_target_obj->checkTree();
+
+	}
+	
 
 }
 ?>
