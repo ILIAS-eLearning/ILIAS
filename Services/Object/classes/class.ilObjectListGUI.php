@@ -2771,12 +2771,6 @@ class ilObjectListGUI
 		$htpl->setVariable("ACTION_DROP_DOWN",
 			$this->insertCommands(false, false, "", true));
 		
-		if ($ilCtrl->isAsynch())
-		{
-			echo $htpl->get();
-			exit;
-		}
-		
 		return $htpl->get();
 	}
 	
