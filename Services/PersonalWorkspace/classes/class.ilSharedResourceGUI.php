@@ -193,6 +193,7 @@ class ilSharedResourceGUI
 			$object_data["type"] = "prtf";
 		}
 		
+		/* currently unwanted feature
 		// if user owns target object, go to workspace directly
 		// e.g. deep-linking notices from personal desktop
 		if($ilUser->getId() == ilObject::_lookupOwner($object_data["obj_id"]))
@@ -210,7 +211,8 @@ class ilSharedResourceGUI
 			{
 				ilUtil::redirect("ilias.php?baseClass=ilpersonaldesktopgui&cmd=jumptoportfolio&prt_id=".$a_node_id);
 			}
-		}
+		}		 
+		*/
 		
 		$class = $objDefinition->getClassName($object_data["type"]);
 		$gui = "ilobj".$class."gui";

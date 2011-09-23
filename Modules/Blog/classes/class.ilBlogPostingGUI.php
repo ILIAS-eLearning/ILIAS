@@ -120,7 +120,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
 					$ilCtrl->setParameter($this, "page", $posting->getId());
 					$ilLocator->addItem($posting->getTitle(),
-						$ilCtrl->getLinkTarget($this, "preview"));			
+						$ilCtrl->getLinkTarget($this, "preview"));							
 				}
 				return parent::executeCommand();
 		}
