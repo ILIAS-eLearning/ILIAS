@@ -260,8 +260,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		
 	function redrawHeaderAction()
 	{
-		$this->addHeaderAction();
-		return $this->tpl->get("head_action_inner");
+		$lg = $this->initHeaderAction();
+		echo $lg->getHeaderAction();
 		exit;
 	}
 
