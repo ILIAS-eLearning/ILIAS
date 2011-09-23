@@ -91,7 +91,7 @@ class ilSharedResourceGUI
 		}
 			
 		// if already logged in, we need to re-check for public password
-		if($this->node_id )
+		if($this->node_id)
 		{
 			if(!self::hasAccess($this->node_id))
 			{
@@ -195,7 +195,7 @@ class ilSharedResourceGUI
 		
 		// if user owns target object, go to workspace directly
 		// e.g. deep-linking notices from personal desktop
-		if($ilUser->getId() == ilObject::_lookupOwner($object_id))
+		if($ilUser->getId() == ilObject::_lookupOwner($object_data["obj_id"]))
 		{
 			if(!$a_is_portfolio)
 			{
