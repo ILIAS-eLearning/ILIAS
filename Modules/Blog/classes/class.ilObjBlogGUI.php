@@ -666,7 +666,27 @@ class ilObjBlogGUI extends ilObject2GUI
 		// back (edit)
 		if($owner == $ilUser->getId())
 		{			
-			$back = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&wsp_id=".$this->node_id;
+			// from editor
+			if($_GET["baseClass"] == "ilPersonalDesktopGUI")
+			{
+				$prvm = $_GET["prvm"];
+				$this->ctrl->setParameter($this, "prvm", "");
+				if(!$_GET["page"])
+				{								
+					$back = $this->ctrl->getLinkTarget($this, "");
+				}
+				else
+				{
+					$this->ctrl->setParameterByClass("ilblogpostinggui", "page", $_GET["page"]);
+					$back = $this->ctrl->getLinkTargetByClass("ilblogpostinggui", "preview");
+				}
+				$this->ctrl->setParameter($this, "prvm", $prvm);
+			}
+			// from shared/deeplink
+			else
+			{
+				$back = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&wsp_id=".$this->node_id;
+			}
 			$ilTabs->setBackTarget($lng->txt("blog_back_to_ilias"), $back);
 		}
 		// back (shared resources)
@@ -780,16 +800,27 @@ class ilObjBlogGUI extends ilObject2GUI
 			}
 
 			// comments
-			if($this->object->getNotesStatus() && !$a_link_template && $a_cmd != "preview")
+			if($this->object->getNotesStatus() && !$a_link_template)
 			{
 				// count (public) notes
 				include_once("Services/Notes/classes/class.ilNote.php");
 				$count = sizeof(ilNote::_getNotesOfObject($this->obj_id, 
 					$item["id"], "blp", IL_NOTE_PUBLIC));
 				
+				if($a_cmd != "preview")
+				{
+					$notes_link = $preview;
+				}
+				else
+				{
+					$hash = ilCommonActionDispatcherGUI::buildAjaxHash(ilCommonActionDispatcherGUI::TYPE_WORKSPACE, 
+						$this->node_id, "blog", $this->obj_id, "blp", $item["id"]);
+					$notes_link = "#\" onclick=\"".ilNoteGUI::getListCommentsJSCall($hash);
+				}
+				
 				$wtpl->setCurrentBlock("comments");
 				$wtpl->setVariable("TEXT_COMMENTS", $lng->txt("blog_comments"));
-				$wtpl->setVariable("URL_COMMENTS", $preview);
+				$wtpl->setVariable("URL_COMMENTS", $notes_link);
 				$wtpl->setVariable("COUNT_COMMENTS", $count);
 				$wtpl->parseCurrentBlock();
 			}
@@ -806,8 +837,10 @@ class ilObjBlogGUI extends ilObject2GUI
 			if($a_cmd != "preview")
 			{
 				$goto = $this->getAccessHandler()->getGotoLink($this->node_id, $this->obj_id, "_".$item["id"]);
+				$wtpl->setCurrentBlock("permalink");
 				$wtpl->setVariable("URL_PERMALINK", $goto); 
 				$wtpl->setVariable("TEXT_PERMALINK", $lng->txt("blog_permanent_link"));
+				$wtpl->parseCurrentBlock();
 			}
 
 			// content
