@@ -430,12 +430,12 @@ class ilInternalLinkGUI
 				if ($type == "lm")
 				{
 					require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-					$cont_obj =& new ilObjLearningModule($_SESSION["il_link_cont_obj"], true);
+					$cont_obj = new ilObjLearningModule($_SESSION["il_link_cont_obj"], true);
 				}
 				else if ($type == "dbk")
 				{
 					require_once("./Modules/LearningModule/classes/class.ilObjDlBook.php");
-					$cont_obj =& new ilObjDlBook($_SESSION["il_link_cont_obj"], true);
+					$cont_obj = new ilObjDlBook($_SESSION["il_link_cont_obj"], true);
 				}
 
 				// get all chapters
@@ -443,7 +443,7 @@ class ilInternalLinkGUI
 				$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("cont_content_obj"));
-				$tpl->setVariable("TXT_CONT_TITLE", ilObject::_lookupTitle($_SESSION["il_link_cont_obj"]));
+				$tpl->setVariable("TXT_CONT_TITLE", $cont_obj->getTitle());
 				$tpl->setCurrentBlock("change_cont_obj");
 				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
 				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
@@ -1032,7 +1032,7 @@ class ilInternalLinkGUI
 	{
 		$chapterRowBlock = "chapter_row";
 		$anchor_row_block = "anchor_link";
-		if ($this->isEnabledJavaScript())
+		if ($this->isEnabledJavaScript() || true)
 		{
 
 			$chapterRowBlock .= "_js";
