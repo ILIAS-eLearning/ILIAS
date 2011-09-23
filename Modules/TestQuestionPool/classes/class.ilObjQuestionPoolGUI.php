@@ -35,7 +35,7 @@
 * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextSubsetGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: assSingleChoiceGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI, ilInfoScreenGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesTestQuestionPool
@@ -183,6 +183,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	//			$exp_gui->addCustomColumn($lng->txt("cont_public_access"), $this, "getPublicAccessColValue");
 	//			$exp_gui->addCustomMultiCommand($lng->txt("cont_public_access"), $this, "publishExportFile");
 				$ret = $this->ctrl->forwardCommand($exp_gui);
+				break;
+			
+			case "ilinfoscreengui":
+				$this->infoScreenForward();
 				break;
 				
 			case "ilobjquestionpoolgui":
@@ -1242,6 +1246,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				"toggleGraphicalAnswers", "deleteAnswer", "deleteImage", "removeJavaapplet"),
 			 "", "", $force_active);
 
+		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$tabs_gui->addTarget("info_short",
+				 $this->ctrl->getLinkTarget($this, "infoScreen"),
+				array("infoScreen", "showSummary"));		
+		}
+		
 		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']))
 		{
 			// properties
@@ -1282,6 +1293,40 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
+	}
+	
+	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function infoScreenObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreenForward();
+	}
+	
+	/**
+	* show information screen
+	*/
+	function infoScreenForward()
+	{
+		global $ilErr, $ilAccess;
+		
+		if(!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
+		}
+
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+		$info->enablePrivateNotes();
+
+		// standard meta data
+		$info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
+		
+		$this->ctrl->forwardCommand($info);
 	}
 
 	/**
