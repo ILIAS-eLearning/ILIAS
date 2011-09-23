@@ -738,6 +738,12 @@ class ilSkillTreeNode
 					$childs = $stree->getSubTree($cnode);
 					foreach ($childs as $child)
 					{
+						// getSubTree($cnode) will also return $cnode
+						if($child["child"] == $cnode["child"])
+						{
+							continue;
+						}
+						
 						// find basic skills
 						if ($child["type"] == "skll" || !$a_only_basic)
 						{

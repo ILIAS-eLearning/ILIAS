@@ -215,20 +215,43 @@ class ilPersonalSkillsGUI
 					$found = true;
 				}
 
-				// self evaluation
-				$tpl->setCurrentBlock("material_td");
+				// assigned materials	
 				$mat_cnt = ilPersonalSkill::countAssignedMaterial($ilUser->getId(),
 					$bs["tref"], $v["id"]);
 				if ($mat_cnt == 0)
 				{
-					$mat_cnt = " ";
+					$tpl->setCurrentBlock("material_td");
+					$tpl->setVariable("VAL_MATERIAL", " ");
+					$tpl->parseCurrentBlock();
 				}
 				else
-				{
+				{					
+					// links to material files
+					$tpl->setCurrentBlock("material_links");
+										
+					$mat_tt = array();
+					$cnt = 1;
+					foreach(ilPersonalSkill::getAssignedMaterial($ilUser->getId(),
+						$bs["tref"], $v["id"]) as $item)
+					{												
+						$mat_data = $this->getMaterialInfo($item["wsp_id"]);
+						$tpl->setVariable("URL_MATERIAL", $mat_data[1]);
+						$tpl->setVariable("TXT_MATERIAL", $cnt);
+						
+						// tooltip
+						$mat_tt_id = "skmg_skl_tt_mat_".self::$skill_tt_cnt;
+						self::$skill_tt_cnt++;
+						$tpl->setVariable("TOOLTIP_MATERIAL_ID", $mat_tt_id);
+						ilTooltipGUI::addTooltip($mat_tt_id, $mat_data[0]);
+						
+						$tpl->parseCurrentBlock();
+						$cnt++;
+					}																	
+					
+					$tpl->setCurrentBlock("material_td");
 					$tpl->setVariable("CLASS_MAT", "ilSkillMat");
-				}
-				$tpl->setVariable("VAL_MATERIAL", $mat_cnt);
-				$tpl->parseCurrentBlock();
+					$tpl->parseCurrentBlock();
+				}							
 			}
 			
 			$path = $stree->getPathFull($bs["id"]);
@@ -283,6 +306,30 @@ class ilPersonalSkillsGUI
 		return $tpl->get();
 	}
 	
+	/**
+	 * Get material file name and goto url
+	 * 
+	 * @param int $a_wsp_id
+	 * @return array caption, url 
+	 */
+	function getMaterialInfo($a_wsp_id)
+	{
+		global $ilUser;
+		
+		if(!$this->ws_tree)
+		{
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+			$this->ws_tree = new ilWorkspaceTree($ilUser->getId());
+			$this->ws_access = new ilWorkspaceAccessHandler($caption);
+		}
+		
+		$obj_id = $this->ws_tree->lookupObjectId($a_wsp_id);
+		$caption = ilObject::_lookupTitle($obj_id);
+		$url = $this->ws_access->getGotoLink($a_wsp_id, $obj_id);
+		
+		return array($caption, $url);
+	}
 	
 	/**
 	 * Add personal skill
