@@ -32,7 +32,7 @@ include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyMultipleChoiceQuestionGUI, SurveyMetricQuestionGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveySingleChoiceQuestionGUI, SurveyTextQuestionGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyMatrixQuestionGUI
-* @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilSurveyPhrasesGUI
+* @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilSurveyPhrasesGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
 *
 * @extends ilObjectGUI
@@ -117,6 +117,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('spl');
 				$this->ctrl->forwardCommand($cp);
+				break;
+			
+			case 'ilinfoscreengui':
+				$this->infoScreenForward();
 				break;
 
 			case "":
@@ -726,6 +730,40 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->redirectByClass(get_class($q_gui), "preview");
 	}
 	
+	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function infoScreenObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreenForward();
+	}
+	
+	/**
+	* show information screen
+	*/
+	function infoScreenForward()
+	{
+		global $ilErr, $ilAccess;
+		
+		if(!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
+		}
+
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+		$info->enablePrivateNotes();
+
+		// standard meta data
+		$info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
+		
+		$this->ctrl->forwardCommand($info);
+	}
+	
 	public function addLocatorItems()
 	{
 		global $ilLocator;
@@ -798,6 +836,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			 "savePhrase", "addPhrase"
 			 ),
 			 array("ilobjsurveyquestionpoolgui", "ilsurveyphrasesgui"), "", $force_active);
+		
+		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$tabs_gui->addTarget("info_short",
+				 $this->ctrl->getLinkTarget($this, "infoScreen"),
+				array("infoScreen", "showSummary"));		
+		}
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
