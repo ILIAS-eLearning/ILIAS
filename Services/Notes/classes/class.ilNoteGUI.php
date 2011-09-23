@@ -394,7 +394,7 @@ if ($this->private_enabled && $this->public_enabled
 	*/
 	function getNoteListHTML($a_type = IL_NOTE_PRIVATE, $a_init_form = true)
 	{
-		global $lng, $ilCtrl, $ilUser, $ilAccess, $tree, $objDefinition;
+		global $lng, $ilCtrl, $ilUser;
 		
 		include_once("./Services/User/classes/class.ilUserUtil.php");
 
@@ -464,11 +464,7 @@ if ($this->private_enabled && $this->public_enabled
 			// add sub-object if given
 			if($this->obj_id)
 			{		
-				$parent_type = ilObject::_lookupType($this->rep_obj_id);				
-				$parent_class = "ilObj".$objDefinition->getClassName($parent_type)."GUI";						
-				$parent_path = $ilCtrl->lookupClassPath($parent_class);
-				include_once $parent_path;
-//				$sub_title = $parent_class::lookupSubObjectTitle($this->rep_obj_id, $this->obj_id);			
+				$sub_title = $this->getSubObjectTitle($this->rep_obj_id, $this->obj_id);				
 				if($sub_title)
 				{
 					$title .= " - ".$sub_title;
@@ -859,6 +855,27 @@ if ($this->private_enabled && $this->public_enabled
 	}
 	
 	/**
+	 * Get sub object title if available with callback
+	 * 
+	 * @param int $parent_obj_id
+	 * @param int $sub_obj_id
+	 * @return string 
+	 */
+	protected function getSubObjectTitle($parent_obj_id, $sub_obj_id)
+	{
+		global $objDefinition, $ilCtrl;
+		
+		$parent_type = ilObject::_lookupType($parent_obj_id);				
+		$parent_class = "ilObj".$objDefinition->getClassName($parent_type)."GUI";						
+		$parent_path = $ilCtrl->lookupClassPath($parent_class);
+		include_once $parent_path;
+		if(method_exists($parent_class, "lookupSubObjectTitle"))
+		{
+			return call_user_func_array(array($parent_class, "lookupSubObjectTitle"), array($parent_obj_id, $sub_obj_id));			
+		}
+	}
+	
+	/**
 	* Check whether deletion is allowed
 	*/
 	function checkDeletion($a_note)
@@ -1205,16 +1222,12 @@ return;
 							$additional = null;
 							if($a_obj_id)
 							{
-								switch($item["type"])
-								{							
-									case "blog":
-										// add posting, correct deep-link
-										include_once "Modules/Blog/classes/class.ilBlogPosting.php";
-										$posting = new ilBlogPosting($a_obj_id);
-										$item["title"] .= " (".$posting->getTitle().")";	
-										$additional = "_".$a_obj_id;
-										break;
-								}
+								$sub_title = $this->getSubObjectTitle($a_rep_obj_id, $a_obj_id);
+								if($sub_title)
+								{
+									$item["title"] .= " (".$sub_title.")";	
+									$additional = "_".$a_obj_id;
+								}								
 							}
 														
 							$link = ilWorkspaceAccessHandler::getGotoLink($node_id, $a_rep_obj_id, $additional);							
