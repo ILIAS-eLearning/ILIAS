@@ -3026,7 +3026,7 @@ class ilObjectListGUI
 		if(!$this->ajax_hash)
 		{
 			include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
-			if($a_context = self::CONTEXT_REPOSITORY)
+			if($a_context == self::CONTEXT_REPOSITORY)
 			{
 				$node_type = ilCommonActionDispatcherGUI::TYPE_REPOSITORY;
 			}

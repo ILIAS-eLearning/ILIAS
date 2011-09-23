@@ -106,6 +106,11 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		global $tpl, $ilUser, $ilTabs;
 		
 		unset($_SESSION['clipboard']['wsp2repo']);
+				
+		include_once "Services/Object/classes/class.ilObjectListGUI.php";
+		ilObjectListGUI::prepareJsLinks("",
+			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false), 
+			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
 
 		include_once "Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderTableGUI.php";
 		$table = new ilObjWorkspaceFolderTableGUI($this, "render", $this->node_id, $this->getAccessHandler());

@@ -78,6 +78,7 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		// $item_list_gui->enableCheckbox(false);
 		// $item_list_gui->setSeparateCommands(true);
 		
+		$item_list_gui->enableNotes(true);		
 		$item_list_gui->enableCopy($objDefinition->allowCopy($node["type"]));
 		
 		if($node["type"] == "file")
