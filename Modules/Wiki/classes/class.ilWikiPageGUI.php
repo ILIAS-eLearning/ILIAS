@@ -185,7 +185,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			$this->wiki_ref_id, $this->getWikiPage());
 	}
 	
-	function addHeaderAction()
+	function addHeaderAction($a_redraw = false)
 	{			
 		global $ilUser, $ilCtrl;
 		
@@ -200,6 +200,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
 
 		$lg = $dispatcher->initHeaderAction();
+		$lg->enableNotes(true);
+		$lg->enableComments(true, false);
 		
 		// notification
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
@@ -241,12 +243,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			$this->ctrl->setParameter($this, "ntf", "");
 		}		
 		
-		$hash = $dispatcher->getAjaxHash();
-		$notes_url = ilNoteGUI::getListNotesJSCall($hash, "ilObject.redrawActionHeader();");
-		$comments_url = ilNoteGUI::getListCommentsJSCall($hash, "ilObject.redrawActionHeader();");
-		$lg->addCustomCommand("#", "notes", "", $notes_url);
-		$lg->addCustomCommand("#", "notes_comments", "", $comments_url);
-		
 		// rating
 		if (ilObjWiki::_lookupRating($this->getPageObject()->getParentId())
 			&& $this->getPageObject()->old_nr == 0)
@@ -259,13 +255,19 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			$lg->addHeaderIconHTML("rating", $this->ctrl->getHtml($rating_gui));
 		}
 		
-		$this->tpl->setHeaderActionMenu($lg->getHeaderAction());					
+		if(!$a_redraw)
+		{
+			$this->tpl->setHeaderActionMenu($lg->getHeaderAction());		
+		}
+		else
+		{
+			return $lg->getHeaderAction();
+		}
 	}
 		
 	function redrawHeaderAction()
-	{
-		$lg = $this->initHeaderAction();
-		echo $lg->getHeaderAction();
+	{		
+		echo $this->addHeaderAction(true);
 		exit;
 	}
 
