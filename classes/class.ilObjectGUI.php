@@ -827,7 +827,7 @@ class ilObjectGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setTarget("_top");
-		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setFormAction($this->ctrl->getFormAction($this, "save"));
 		$form->setTitle($this->lng->txt($a_new_type."_new"));
 
 		// title
@@ -1059,7 +1059,7 @@ class ilObjectGUI
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setFormAction($this->ctrl->getFormAction($this, "update"));
 		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
 
 		// title
@@ -1176,7 +1176,7 @@ class ilObjectGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setTarget("_top");
-		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setFormAction($this->ctrl->getFormAction($this, "importFile"));
 		$form->setTitle($this->lng->txt($a_new_type."_import"));
 
 		include_once("./Services/Form/classes/class.ilFileInputGUI.php");

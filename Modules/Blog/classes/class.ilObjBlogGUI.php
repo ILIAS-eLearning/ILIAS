@@ -389,7 +389,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		// toolbar
 		if($this->checkPermissionBool("write"))
 		{
-			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "createPosting"));
 
 			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 			$title = new ilTextInputGUI($lng->txt("title"), "title");
