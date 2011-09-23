@@ -732,6 +732,20 @@ abstract class ilObject2GUI extends ilObjectGUI
 	{
 		parent::redrawHeaderActionObject();
 	}
+	
+	protected function getPermanentLinkWidget($a_append = null)
+	{
+		if($this->id_type == self::WORKSPACE_NODE_ID)
+		{
+			$a_append .= "_wsp";
+		}
+		
+		include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
+		$plink = new ilPermanentLinkGUI($this->getType(), $this->node_id , $a_append);
+		$plink->setIncludePermanentLinkText(false);
+		$plink->setAlignCenter(false);
+		return $plink->getHTML();
+	}
 }
 
 ?>

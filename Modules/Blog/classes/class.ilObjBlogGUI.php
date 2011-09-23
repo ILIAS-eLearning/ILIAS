@@ -335,7 +335,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		// standard meta data
 		$info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
 		
-		$info->addProperty("goto test", $this->getAccessHandler()->getGotoLink($this->node_id, $this->object->getId()));
+		$info->addProperty($this->lng->txt("perma_link"), $this->getPermanentLinkWidget());
 		
 		$this->ctrl->forwardCommand($info);
 	}

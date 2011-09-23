@@ -710,8 +710,8 @@ class ilObjFileGUI extends ilObject2GUI
 			$this->object->getVersion());
 		
 		if($this->id_type == self::WORKSPACE_NODE_ID)
-		{
-			$info->addProperty("goto test", $this->getAccessHandler()->getGotoLink($this->node_id, $this->object->getId()));
+		{			
+			$info->addProperty($this->lng->txt("perma_link"), $this->getPermanentLinkWidget());
 		}
 
 		// forward the command
