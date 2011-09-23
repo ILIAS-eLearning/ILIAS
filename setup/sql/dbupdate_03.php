@@ -8002,7 +8002,7 @@ if(!$ilDB->tableExists('note_settings'))
 	$res = $ilDB->fetchAssoc($statement);
 
 	$typ_id = $res['obj_id'];
-	
+	/*
 	$chat_moderator_ops = array(2,3,4,$moderateId);
 	foreach($chat_moderator_ops as $new_ops_id) {
 		$query = $ilDB->manipulateF(
@@ -8011,6 +8011,7 @@ if(!$ilDB->tableExists('note_settings'))
 			array($typ_id, $new_ops_id)
 		);
 	}
+	 */
 ?>
 <#3470>
 <?php
@@ -8019,4 +8020,24 @@ if(!$ilDB->tableExists('note_settings'))
 <#3471>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+<#3472>
+<?php
+	$statement = $ilDB->queryF('
+		SELECT obj_id FROM object_data 
+		WHERE type = %s 
+		AND title = %s',
+		array('text', 'text'),
+		array('rolt', 'il_chat_moderator'));
+
+	$res = $ilDB->fetchAssoc($statement);
+
+	if ($res && $res['obj_id']) {
+		$chat_modetator_tpl_id = $res['obj_id'];
+		
+		$ilDB->manipulateF("DELETE FROM rbac_ta WHERE typ_id = %s",
+			array("integer"),
+			array($chat_modetator_tpl_id)
+		);
+	}
 ?>

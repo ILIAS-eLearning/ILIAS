@@ -11822,9 +11822,9 @@ chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#chat_enabled#:#Chat aktivieren
 chatroom_adm#:#enable_osd#:#On-Screen Benachrichtigungen aktivieren
 chatroom_adm#:#hash#:#Hash
-chatroom_adm#:#client_settings_title#:#Client Einstellungen
+chatroom_adm#:#general_settings_title#:#Allgemeine Chat-Einstellungen
 chatroom_adm#:#osd_intervall#:#Abfrageintervall (Sekunden)
-chatroom_adm#:#server_settings_title#:#Server Einstellungen
+chatroom_adm#:#chatserver_settings_title#:#Chatserver Einstellungen
 chatroom_adm#:#chatroom_confirm_delete_smiley#:#Sind sie sicher, dass sie den ausgewählten Smiley löschen möchten?
 chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies-Verzeichnis existiert nicht.
 chatroom_adm#:#chat_smilies_initialized#:#Chat Smilies wurden initialisiert
