@@ -994,10 +994,13 @@ class ilInternalLinkGUI
 		global $ilias;
 		
 		include_once("./Services/COPage/classes/class.ilPageEditorGUI.php");
+echo "1";
 		if($ilias->getSetting("enable_js_edit"))
 		{
+echo "2";
 			if (ilPageEditorGUI::_doJSEditing())
 			{
+echo "3";
 				return true;
 			}
 		}
@@ -1032,7 +1035,7 @@ class ilInternalLinkGUI
 	{
 		$chapterRowBlock = "chapter_row";
 		$anchor_row_block = "anchor_link";
-		if ($this->isEnabledJavaScript() || true)
+		if ($this->isEnabledJavaScript())
 		{
 
 			$chapterRowBlock .= "_js";
