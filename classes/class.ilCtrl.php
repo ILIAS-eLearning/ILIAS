@@ -162,7 +162,7 @@ class ilCtrl
 	function &forwardCommand(&$a_gui_object)
 	{
 		$class = strtolower(get_class($a_gui_object));
-//echo "<br>forward to $class";
+
 		$nr = $this->getNodeIdForTargetClass($this->current_node, $class);
 		if ($nr != "")
 		{
