@@ -19,6 +19,7 @@ class ilCommonActionDispatcherGUI
 	protected $obj_id; // [int]
 	protected $sub_type; // [string]
 	protected $sub_id; // [int]	
+	protected $enable_comments_settings; // [bool]
 	
 	const TYPE_REPOSITORY = 1;
 	const TYPE_WORKSPACE = 2;
@@ -120,6 +121,11 @@ class ilCommonActionDispatcherGUI
 				$dispatcher->setSubObject($sub_type, $sub_id);
 			}
 			
+			if($node_type == self::TYPE_REPOSITORY)
+			{								
+				$dispatcher->enableCommentsSettings(true);	
+			}
+			
 			return $dispatcher;
 		}		
 	}
@@ -145,14 +151,17 @@ class ilCommonActionDispatcherGUI
 				
 				include_once "Services/Notes/classes/class.ilNoteGUI.php";
 				$note_gui = new ilNoteGUI($this->obj_id, $this->sub_id, $obj_type);
-
-				$note_gui->enablePrivateNotes(true);
-				//$note_gui->enablePublicNotes(true);
+				$note_gui->enablePrivateNotes(true);	
 				
-				if ($this->access_handler->checkAccess("write", "", $this->node_id) ||
-					$this->access_handler->checkAccess("edit_permissions", "", $this->node_id))
+				if($this->enable_comments_settings && 
+					($this->access_handler->checkAccess("write", "", $this->node_id) ||
+					$this->access_handler->checkAccess("edit_permissions", "", $this->node_id)))
 				{
 					$note_gui->enableCommentsSettings();
+				}
+				else
+				{
+					$note_gui->enablePublicNotes(true);
 				}
 
 				$ilCtrl->forwardCommand($note_gui);		
@@ -183,6 +192,16 @@ class ilCommonActionDispatcherGUI
 	{
 		$this->sub_type = (string)$a_sub_obj_type;
 		$this->sub_id = (int)$a_sub_obj_id;			
+	}
+	
+	/**
+	 * Toggle comments settings
+	 * 
+	 * @param bool $a_value
+	 */
+	function enableCommentsSettings($a_value)
+	{
+		$this->enable_comments_settings = (bool)$a_value;
 	}
 	
 	/**

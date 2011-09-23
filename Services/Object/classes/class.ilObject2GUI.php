@@ -703,7 +703,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 				include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
 				$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_WORKSPACE, 
 					$this->getAccessHandler(), $this->getType(), $this->node_id, $this->object_id);
-
+				
 				$dispatcher->setSubObject($a_sub_type, $a_sub_id);
 				
 				include_once "Services/Object/classes/class.ilObjectListGUI.php";

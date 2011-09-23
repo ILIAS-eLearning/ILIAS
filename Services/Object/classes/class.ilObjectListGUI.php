@@ -1255,11 +1255,11 @@ class ilObjectListGUI
 	/**
 	* add a custom command
 	*/
-	public function addCustomCommand($a_link, $a_lang_var, $a_frame = "")
+	public function addCustomCommand($a_link, $a_lang_var, $a_frame = "", $onclick = "")
 	{
 		$this->cust_commands[] =
 			array("link" => $a_link, "lang_var" => $a_lang_var,
-			"frame" => $a_frame);
+			"frame" => $a_frame, "onclick" => $onclick);
 	}
 
 
@@ -2479,7 +2479,7 @@ class ilObjectListGUI
 				foreach ($this->cust_commands as $command)
 				{
 					$this->insertCommand($command["link"], $this->lng->txt($command["lang_var"]),
-						$command["frame"], "", $command["cmd"]);
+						$command["frame"], "", $command["cmd"], $command["onclick"]);
 				}
 			}
 
