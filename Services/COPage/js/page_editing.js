@@ -1763,15 +1763,15 @@ ilCOPage.copyInputToGhost(false);
 				
 				// replace all b nodes by spans[Strong]
 				tinymce.each(ed.dom.select('b', o.node), function(n) {
-					ed.dom.replace(ed.dom.create('span', {class: 'ilc_text_inline_Strong'}, n.innerHTML), n);
+					ed.dom.replace(ed.dom.create('span', {'class': 'ilc_text_inline_Strong'}, n.innerHTML), n);
 				});
 				// replace all u nodes by spans[Important]
 				tinymce.each(ed.dom.select('u', o.node), function(n) {
-					ed.dom.replace(ed.dom.create('span', {class: 'ilc_text_inline_Important'}, n.innerHTML), n);
+					ed.dom.replace(ed.dom.create('span', {'class': 'ilc_text_inline_Important'}, n.innerHTML), n);
 				});
 				// replace all i nodes by spans[Emph]
 				tinymce.each(ed.dom.select('i', o.node), function(n) {
-					ed.dom.replace(ed.dom.create('span', {class: 'ilc_text_inline_Emph'}, n.innerHTML), n);
+					ed.dom.replace(ed.dom.create('span', {'class': 'ilc_text_inline_Emph'}, n.innerHTML), n);
 				});
  
 				// remove all id attributes from the content
