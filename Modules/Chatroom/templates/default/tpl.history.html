@@ -4,13 +4,15 @@
 </div>
 <!-- END PERIOD_FORM -->
 <div>
-	<!-- BEGIN HISTORY_TITLE --><h2>{ROOM_TITLE}</h2><!-- END HISTORY_TITLE -->
+	<!-- BEGIN HISTORY_TITLE --><br /><h2 class="ilHeader">{ROOM_TITLE}</h2><!-- END HISTORY_TITLE -->
 <!-- BEGIN MESSAGELINE -->
-<div class="messageLine chat {MESSAGECLASS}">
-    <span class="chat content date">{MESSAGEDATE} </span>
-    <span class="chat content username">{MESSAGESENDER}</span>
-    <span class="chat content messageseparator">:</span>
-    <span class="chat content message">{MESSAGECONTENT}</span>
+<div class="messageLine chat {MESSAGECLASS} small">
+	<!-- BEGIN MESSAGE_DATE -->
+		<p style="margin-top: 0; margin-bottom: 0;"><span class="chat content date">{MESSAGEDATE} </span></p>
+	<!-- END MESSAGE_DATE -->
+	&nbsp;&nbsp;<span class="chat content username">{MESSAGESENDER}</span>
+	<span class="chat content messageseparator">:</span>
+	<span class="chat content message">{MESSAGECONTENT}</span>
 </div>
 <!-- END MESSAGELINE -->
 <!-- BEGIN NO_MESSAGES -->
