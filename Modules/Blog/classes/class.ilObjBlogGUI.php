@@ -178,17 +178,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		{
 			$ilCtrl->setCmdClass("ilblogpostinggui");			
 			$_GET["page"] = $_GET["gtp"];
-			
-			// preview
-			if($ilUser->getId() != $this->object->getOwner())
-			{
-				$ilCtrl->setCmd("previewFullscreen");
-			}
-			// edit
-			else
-			{
-				$ilCtrl->setCmd("preview");
-			}
+			$ilCtrl->setCmd("previewFullscreen");			
 		}
 		
 		$next_class = $ilCtrl->getNextClass($this);
@@ -228,7 +218,15 @@ class ilObjBlogGUI extends ilObject2GUI
 					// blog in portfolio
 					case "previewEmbedded":
 						$ilCtrl->setParameter($this, "prvm", "emb");
-						break;						
+						break;			
+					
+					// edit
+					default:						
+						$this->ctrl->setParameterByClass("ilblogpostinggui", "page", $_GET["page"]);
+						$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"), 
+							$this->ctrl->getLinkTargetByClass("ilblogpostinggui", "previewFullscreen"));
+						$this->ctrl->setParameterByClass("ilblogpostinggui", "page", "");
+						break;
 				}
 				
 				$ret = $ilCtrl->forwardCommand($bpost_gui);
@@ -265,7 +263,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				break;
 				
 			case "ilinfoscreengui":
-				$this->setTabs();
+				$this->prepareOutput();
 				$this->infoScreenForward();	
 				break;
 			
@@ -668,10 +666,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		// back (edit)
 		if($owner == $ilUser->getId())
 		{			
-			$prvm = $_REQUEST["prvm"];
-			$ilCtrl->setParameter($this, "prvm", "");
-			$back = $ilCtrl->getLinkTarget($this, "");
-			$ilCtrl->setParameter($this, "prvm", $prvm);
+			$back = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&wsp_id=".$this->node_id;
 			$ilTabs->setBackTarget($lng->txt("blog_back_to_ilias"), $back);
 		}
 		// back (shared resources)
@@ -751,7 +746,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$title = ilCalendarUtil::_numericMonthToString(substr($a_month, 6)).
 				" ".substr($a_month, 0, 4);
-		$wtpl->setVariable("TXT_CURRENT_MONTH", $title);		
+		$wtpl->setVariable("TXT_CURRENT_MONTH", $title);						
 		
 		foreach($items as $item)
 		{
@@ -766,7 +761,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			}
 
 			// actions
-			if($this->checkPermissionBool("write") && !$a_link_template)
+			if($this->checkPermissionBool("write") && !$a_link_template && $a_cmd == "preview")
 			{
 				include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 				$alist = new ilAdvancedSelectionListGUI();
@@ -785,7 +780,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			}
 
 			// comments
-			if($this->object->getNotesStatus() && !$a_link_template)
+			if($this->object->getNotesStatus() && !$a_link_template && $a_cmd != "preview")
 			{
 				// count (public) notes
 				include_once("Services/Notes/classes/class.ilNote.php");
@@ -808,9 +803,12 @@ class ilObjBlogGUI extends ilObject2GUI
 				ilDatePresentation::formatDate($item["created"], IL_CAL_DATE));
 			
 			// permanent link
-			$goto = $this->getAccessHandler()->getGotoLink($this->node_id, $this->obj_id, "_".$item["id"]);
-			$wtpl->setVariable("URL_PERMALINK", $goto); // :TODO:
-			$wtpl->setVariable("TEXT_PERMALINK", $lng->txt("blog_permanent_link"));
+			if($a_cmd != "preview")
+			{
+				$goto = $this->getAccessHandler()->getGotoLink($this->node_id, $this->obj_id, "_".$item["id"]);
+				$wtpl->setVariable("URL_PERMALINK", $goto); 
+				$wtpl->setVariable("TEXT_PERMALINK", $lng->txt("blog_permanent_link"));
+			}
 
 			// content
 			$page = new ilBlogPosting($item["id"]);
@@ -823,10 +821,12 @@ class ilObjBlogGUI extends ilObject2GUI
 		}
 		
 		// notes
-		if($a_cmd != "previewEmbedded" && $a_cmd != "preview" && $this->object->getNotesStatus())
+		/*
+		if($a_cmd == "previewFullscreen" && $this->object->getNotesStatus())
 		{
 			$wtpl->setVariable("NOTES", $this->getNotesHTML());
-		}
+		}		 
+		*/
 		
 		return $wtpl->get();
 	}
