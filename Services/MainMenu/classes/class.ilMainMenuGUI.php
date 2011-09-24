@@ -114,27 +114,18 @@ class ilMainMenuGUI
 		{
 			include_once './Services/Search/classes/class.ilMainMenuSearchGUI.php';
 			$main_search = new ilMainMenuSearchGUI();
-			$html = $main_search->getHTML();
+			$html = "";
 			
-			foreach ($pl_names as $pl)
+			// user interface plugin slot + default rendering
+			include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
+			$uip = new ilUIHookProcessor("Services/MainMenu", "main_menu_search",
+				array("main_menu_gui" => $this, "main_menu_search_gui" => $main_search));
+			if (!$uip->replaced())
 			{
-				$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-				$gui_class = $ui_plugin->getUIClassInstance();
-				$resp = $gui_class->getHTML("Services/MainMenu", "main_menu_search",
-					array("main_menu_gui" => $this, "main_menu_search_gui" => $main_search));
-				if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
-				{
-					$plugin_html = true;
-					break;		// first one wins
-				}
-
+				$html = $main_search->getHTML();
 			}
-			// combine plugin and default html
-			if ($plugin_html)
-			{
-				$html = $gui_class->modifyHTML($html, $resp);
-			}
-
+			$html = $uip->getHTML($html);
+			
 			if (strlen($html))
 			{
 				$this->tpl->setVariable('SEARCHBOX',$html);
@@ -143,35 +134,19 @@ class ilMainMenuGUI
 		
 		$this->renderStatusBox($this->tpl);
 
-		// user interface hook [uihk]
-		$plugin_html = false;
-		reset($pl_names);
-		foreach ($pl_names as $pl)
-		{
-			$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-			$gui_class = $ui_plugin->getUIClassInstance();
-			$resp = $gui_class->getHTML("Services/MainMenu", "main_menu_list_entries",
-				array("main_menu_gui" => $this));
-			if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
-			{
-				$plugin_html = true;
-				break;		// first one wins
-			}
-		}
-
-		// default html
-		if (!$plugin_html || $resp["mode"] != ilUIHookPluginGUI::REPLACE)
+		$mmle_html = "";
+		
+		// user interface plugin slot + default rendering
+		include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
+		$uip = new ilUIHookProcessor("Services/MainMenu", "main_menu_list_entries",
+			array("main_menu_gui" => $this));
+		if (!$uip->replaced())
 		{
 			$mmle_tpl = new ilTemplate("tpl.main_menu_list_entries.html", true, true, "Services/MainMenu");
 			$mmle_html = $this->renderMainMenuListEntries($mmle_tpl);
 		}
-
-		// combine plugin and default html
-		if ($plugin_html)
-		{
-			$mmle_html = $gui_class->modifyHTML($mmle_html, $resp);
-		}
-
+		$mmle_html = $uip->getHTML($mmle_html);
+		
 		$this->tpl->setVariable("MAIN_MENU_LIST_ENTRIES", $mmle_html);
 
 		$link_dir = (defined("ILIAS_MODULE"))

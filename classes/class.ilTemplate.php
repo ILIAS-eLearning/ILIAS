@@ -1782,31 +1782,23 @@ class ilTemplate extends ilTemplateX
 	{
 		global $ilLocator, $lng, $ilPluginAdmin;
 
-		$html = $ilLocator->getHTML();
-
+		$html = "";
 		if (is_object($ilPluginAdmin))
 		{
-			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-						foreach ($pl_names as $pl)
+			include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
+			$uip = new ilUIHookProcessor("Services/Locator", "main_locator",
+				array("locator_gui" => $ilLocator));
+			if (!$uip->replaced())
 			{
-				$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-				$gui_class = $ui_plugin->getUIClassInstance();
-				$resp = $gui_class->getHTML("Services/Locator", "main_locator",
-					array("locator_gui" => $ilLocator));
-				if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
-				{
-					$plugin_html = true;
-					break;		// first one wins
-				}
-
+				$html = $ilLocator->getHTML();
 			}
-			// combine plugin and default html
-			if ($plugin_html)
-			{
-				$html = $gui_class->modifyHTML($html, $resp);
-			}
+			$html = $uip->getHTML($html);
 		}
-
+		else
+		{
+			$html = $ilLocator->getHTML();
+		}
+		
 		$this->setVariable("LOCATOR", $html);
 	}
 	

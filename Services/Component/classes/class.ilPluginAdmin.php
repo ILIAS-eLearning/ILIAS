@@ -315,12 +315,12 @@ class ilPluginAdmin
 	static function getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
 		// fim: [mobile] cache the plugin objects
-		if (!isset(self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id]))
+		if (!isset(self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname]))
 		{
-			self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id] = 
+			self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname] = 
 				ilPlugin::getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname);
 		}
-		return self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id];
+		return self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname];
 		// fim.
 	}
 }
