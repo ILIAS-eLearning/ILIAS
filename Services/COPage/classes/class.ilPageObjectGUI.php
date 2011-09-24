@@ -3472,7 +3472,7 @@ class ilPageObjectGUI
 			$qhtml = $this->getQuestionJsOfPage(($this->getOutputMode()=="edit" || $a_force_no_form)
 				? true
 				: false);
-			$qhtml = $this->getQuestionJsOfPage(true);
+//			$qhtml = $this->getQuestionJsOfPage(true);
 			$this->setQuestionHTML($qhtml);
 			//include JQuery Libraries before Prototpye
 //			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
@@ -3519,7 +3519,12 @@ class ilPageObjectGUI
 	 */
 	static function getJSTextInitCode($a_lang)
 	{
-		global $lng;
+		global $lng, $ilUser;
+		
+		if ($a_lang == "")
+		{
+			$a_lang = $ilUser->getLanguage();
+		}
 		
 		return 
 			'
