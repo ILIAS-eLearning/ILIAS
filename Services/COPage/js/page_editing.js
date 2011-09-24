@@ -1082,7 +1082,8 @@ if (add_final_spacer)
 			$('#il_EditPage').replaceWith(o.responseText);
 			ilCOPage.initDragElements();
 			ilTooltip.init();
-			ilCOPage.renderQuestions();
+//			ilCOPage.renderQuestions();
+			ilCOPagePres.updateQuestionOverviews();
 			il.IntLink.refresh();
 			if (ilAdvancedSelectionList != null)
 			{
