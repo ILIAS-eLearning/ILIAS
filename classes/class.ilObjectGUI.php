@@ -358,9 +358,12 @@ class ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
 			
 			$lg = $dispatcher->initHeaderAction();
-			$lg->enableComments(true);
-			$lg->enableNotes(true);
-			$lg->enableTags(true);
+			if (is_object($lg))
+			{
+				$lg->enableComments(true);
+				$lg->enableNotes(true);
+				$lg->enableTags(true);
+			}
 			
 			return $lg;
 		}

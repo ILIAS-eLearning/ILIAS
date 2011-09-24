@@ -1078,10 +1078,12 @@ if (add_final_spacer)
 			var edit_div = document.getElementById('il_EditPage');
 //			var center_td = edit_div.parentNode;
 //			center_td.innerHTML = o.responseText;
-			edit_div.innerHTML = o.responseText;
+			//edit_div.innerHTML = o.responseText;
+			$('#il_EditPage').replaceWith(o.responseText);
 			ilCOPage.initDragElements();
 			ilTooltip.init();
 			ilCOPage.renderQuestions();
+			il.IntLink.refresh();
 			if (ilAdvancedSelectionList != null)
 			{
 				ilAdvancedSelectionList.init['style_selection']();

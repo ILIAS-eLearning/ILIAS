@@ -6,9 +6,16 @@ if (typeof il == "undefined")
 il.IntLink =
 {
 	int_link_url: '',
+	cfg: {},
+
+	refresh: function()
+	{
+		this.init(this.cfg);
+	},
 
 	init: function(cfg)
 	{
+		this.cfg = cfg;
 		var el = document.getElementById("iosEditInternalLinkTrigger");
 
 		if (el)
@@ -39,7 +46,8 @@ il.IntLink =
 
 	initPanel: function()
 	{
-		if (!this.panel)
+		var obj = document.getElementById('ilEditorPanel_c');
+		if (!obj)
 		{
 			var obj = document.getElementById('ilEditorPanel');
 			obj.style.display = "";

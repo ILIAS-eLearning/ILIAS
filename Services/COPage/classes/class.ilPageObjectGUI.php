@@ -2049,7 +2049,9 @@ class ilPageObjectGUI
 		if ($ilCtrl->isAsynch())
 		{
 			$tpl->setVariable($this->getTemplateOutputVar(), $output);
-			echo $tpl->get();
+			$tpl->setCurrentBlock("edit_page");
+			$tpl->parseCurrentBlock();
+			echo $tpl->get("edit_page");
 			exit;
 
 			$tpl->setVariable($this->getTemplateOutputVar(), $output);

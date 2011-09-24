@@ -234,18 +234,21 @@ class ilInternalLinkGUI
 		$target_str = ($this->link_target == "")
 			? ""
 			: " target=\"".$this->link_target."\"";
-
+//echo "-".$this->link_type."-";
 		if(($this->link_type == "GlossaryItem") &&
-			empty($_SESSION["il_link_glossary"]))
+			empty($_SESSION["il_link_glossary"]) ||
+			!in_array(ilObject::_lookupType($_SESSION["il_link_glossary"], true),
+				array("glo")))
 		{
 			$this->changeTargetObject("glo");
 		}
 		if(($this->link_type == "PageObject" || $this->link_type == "StructureObject") &&
-			empty($_SESSION["il_link_cont_obj"]))
+			(empty($_SESSION["il_link_cont_obj"]) ||
+			!in_array(ilObject::_lookupType($_SESSION["il_link_cont_obj"], true),
+				array("lm", "dbk"))))
 		{
 			$this->changeTargetObject("cont_obj");
 		}
-
 		if ($ilCtrl->isAsynch())
 		{
 			$tpl = new ilTemplate("tpl.link_help_asynch.html", true, true, "Modules/LearningModule");
@@ -343,19 +346,21 @@ class ilInternalLinkGUI
 		{
 			// page link
 			case "PageObject":
+var_dump($_SESSION["il_link_cont_obj"]);
+var_dump($type);
 				if ($type == "lm")
 				{
 					require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-					$cont_obj =& new ilObjLearningModule($_SESSION["il_link_cont_obj"], true);
+					$cont_obj = new ilObjLearningModule($_SESSION["il_link_cont_obj"], true);
 				}
 				else if ($type == "dbk")
 				{
 					require_once("./Modules/LearningModule/classes/class.ilObjDlBook.php");
-					$cont_obj =& new ilObjDlBook($_SESSION["il_link_cont_obj"], true);
+					$cont_obj = new ilObjDlBook($_SESSION["il_link_cont_obj"], true);
 				}
 
 				// get all chapters
-				$ctree =& $cont_obj->getLMTree();
+				$ctree = $cont_obj->getLMTree();
 				$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("cont_content_obj"));
@@ -1022,6 +1027,7 @@ class ilInternalLinkGUI
 
 		$ltpl = new ilTemplate("tpl.int_link_panel.html", true, true, "Services/IntLink");
 		$ltpl->setVariable("IL_INT_LINK_URL", $a_url);
+
 		return $ltpl->get();
 	}
 
