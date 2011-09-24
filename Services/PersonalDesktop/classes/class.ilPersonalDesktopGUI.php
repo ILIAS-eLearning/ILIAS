@@ -387,29 +387,17 @@ class ilPersonalDesktopGUI
 				}
 				else
 				{
-					$html = $ilCtrl->getHTML($column_gui);
-					
-					// user interface hook [uihk]
-					$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-					$plugin_html = false;
-					foreach ($pl_names as $pl)
+					$html = "";
+				
+					// user interface plugin slot + default rendering
+					include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
+					$uip = new ilUIHookProcessor("Services/PersonalDesktop", "center_column",
+						array("personal_desktop_gui" => $this));
+					if (!$uip->replaced())
 					{
-						$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-						$gui_class = $ui_plugin->getUIClassInstance();
-						$resp = $gui_class->getHTML("Services/PersonalDesktop", "center_column",
-							array("personal_desktop_gui" => $this));
-						if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
-						{
-							$plugin_html = true;
-							break;		// first one wins
-						}
+						$html = $ilCtrl->getHTML($column_gui);
 					}
-	
-					// combine plugin and default html
-					if ($plugin_html)
-					{
-						$html = $gui_class->modifyHTML($html, $resp);
-					}
+					$html = $uip->getHTML($html);
 
 				}
 			}
@@ -443,30 +431,17 @@ class ilPersonalDesktopGUI
 		{
 			if (!$ilCtrl->isAsynch())
 			{
-				$html = $ilCtrl->getHTML($column_gui);
+				$html = "";
 				
-				// user interface hook [uihk]
-				$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-				$plugin_html = false;
-				foreach ($pl_names as $pl)
+				// user interface plugin slot + default rendering
+				include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
+				$uip = new ilUIHookProcessor("Services/PersonalDesktop", "right_column",
+					array("personal_desktop_gui" => $this));
+				if (!$uip->replaced())
 				{
-					$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-					$gui_class = $ui_plugin->getUIClassInstance();
-					$resp = $gui_class->getHTML("Services/PersonalDesktop", "right_column",
-						array("personal_desktop_gui" => $this));
-					if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
-					{
-						$plugin_html = true;
-						break;		// first one wins
-					}
+					$html = $ilCtrl->getHTML($column_gui);
 				}
-
-				// combine plugin and default html
-				if ($plugin_html)
-				{
-					$html = $gui_class->modifyHTML($html, $resp);
-				}
-
+				$html = $uip->getHTML($html);
 			}
 		}
 
@@ -499,29 +474,17 @@ class ilPersonalDesktopGUI
 		{
 			if (!$ilCtrl->isAsynch())
 			{
-				$html = $ilCtrl->getHTML($column_gui);
+				$html = "";
 				
-				// user interface hook [uihk]
-				$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-				$plugin_html = false;
-				foreach ($pl_names as $pl)
+				// user interface plugin slot + default rendering
+				include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
+				$uip = new ilUIHookProcessor("Services/PersonalDesktop", "left_column",
+					array("personal_desktop_gui" => $this));
+				if (!$uip->replaced())
 				{
-					$ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-					$gui_class = $ui_plugin->getUIClassInstance();
-					$resp = $gui_class->getHTML("Services/PersonalDesktop", "left_column",
-						array("personal_desktop_gui" => $this));
-					if ($resp["mode"] != ilUIHookPluginGUI::KEEP)
-					{
-						$plugin_html = true;
-						break;		// first one wins
-					}
+					$html = $ilCtrl->getHTML($column_gui);
 				}
-
-				// combine plugin and default html
-				if ($plugin_html)
-				{
-					$html = $gui_class->modifyHTML($html, $resp);
-				}
+				$html = $uip->getHTML($html);
 			}
 		}
 
