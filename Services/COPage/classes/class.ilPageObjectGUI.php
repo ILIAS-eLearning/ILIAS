@@ -2046,7 +2046,7 @@ class ilPageObjectGUI
 		$output = $this->selfAssessmentRendering($output);
 
 		// output
-		if ($ilCtrl->isAsynch())
+		if ($ilCtrl->isAsynch() && !$this->getRawPageContent())
 		{
 			$tpl->setVariable($this->getTemplateOutputVar(), $output);
 			$tpl->setCurrentBlock("edit_page");
