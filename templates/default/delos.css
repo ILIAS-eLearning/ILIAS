@@ -2473,7 +2473,7 @@ div.ilGroupedListH {
 div.ilGroupedListSep {
 	padding-bottom: 3px;
 	border-bottom: 1px solid #E0E0E0;
-	height: 1px;
+	/* height: 1px; */
 	margin: 0 10px 3px 10px;
 }
 
