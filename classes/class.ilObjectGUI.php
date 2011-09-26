@@ -795,16 +795,27 @@ class ilObjectGUI
 			$acc = new ilAccordionGUI();
 			$acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
 			$cnt = 1;
-			foreach ($a_forms as $cf)
+			foreach ($a_forms as $form_type => $cf)
 			{
 				if (is_object($cf) && get_class($cf) == "ilPropertyFormGUI")
 				{
 					$htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
 //					$htpl->setVariable("IMG_ARROW", ilUtil::getImagePath("accordion_arrow.gif"));
+					
+					// using custom form titles (used for repository plugins)
+					$form_title = "";
+					if(method_exists($this, "getCreationFormTitle"))
+					{
+						$form_title = $this->getCreationFormTitle($form_type);
+					}
+					if(!$form_title)
+					{
+						$form_title = $cf->getTitle();
+					}
 
 					// move title from form to accordion
 					$htpl->setVariable("TITLE", $this->lng->txt("option")." ".$cnt.": ".
-						$cf->getTitle());
+						$form_title);
 					$cf->setTitle(null);
 					$cf->setTitleIcon(null);
 					$cf->setTableWidth("100%");

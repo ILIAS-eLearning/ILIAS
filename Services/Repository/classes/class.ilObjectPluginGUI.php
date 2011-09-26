@@ -163,6 +163,27 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	}
 	
 	/**
+	 * Use custom creation form titles
+	 * 
+	 * @param string $a_form_type
+	 * @return string
+	 */
+	protected function getCreationFormTitle($a_form_type)
+	{
+		switch($a_form_type)
+		{
+			case self::CFORM_NEW:
+				return $this->txt($this->getType()."_new");
+				
+			case self::CFORM_IMPORT:
+				return $this->lng->txt("import");
+				
+			case self::CFORM_CLONE:
+				return $this->txt("objs_".$this->getType()."_duplicate");
+		}
+	}
+	
+	/**
 	 * Init creation froms
 	 *
 	 * this will create the default creation forms: new, import, clone
@@ -174,8 +195,8 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	{
 		$forms = array(
 			self::CFORM_NEW => $this->initCreateForm($a_new_type),
-			self::CFORM_IMPORT => $this->initImportForm($a_new_type),
-			// self::CFORM_CLONE => $this->fillCloneTemplate(null, $a_new_type)
+			// self::CFORM_IMPORT => $this->initImportForm($a_new_type),
+			self::CFORM_CLONE => $this->fillCloneTemplate(null, $a_new_type)
 			);
 
 		return $forms;
