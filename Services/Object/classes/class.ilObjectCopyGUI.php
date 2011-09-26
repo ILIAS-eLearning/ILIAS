@@ -228,7 +228,19 @@ class ilObjectCopyGUI
 		}
 		else
 		{
-			$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('obj_'.$this->getType().'_duplicate'));
+			if(!$objDefinition->isPlugin($this->getType()))
+			{
+				$submit = $this->lng->txt('obj_'.$this->getType().'_duplicate');
+			}	
+			else
+			{
+				// get plugin instance
+				include_once "Services/Component/classes/class.ilPlugin.php";
+				$plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
+					ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->getType()));
+				$submit = $plugin->txt('obj_'.$this->getType().'_duplicate');
+			}
+			$this->tpl->setVariable('TXT_SUBMIT', $submit);
 		}
 		
 		$ilToolbar->addButton($this->lng->txt('back'), $ilCtrl->getLinkTarget($this,'cancel'));
