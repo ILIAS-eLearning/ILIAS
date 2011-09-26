@@ -434,10 +434,10 @@
 				$.each(containers, function() {
 					var container = this;
 
-					if (!container) {
+					if (!container || container == window) {
 						return;
 					}
-                        
+
 					var data = container.data('ilChatMessageArea');
                         
 					var line = $('<div class="messageLine chat"></div>')

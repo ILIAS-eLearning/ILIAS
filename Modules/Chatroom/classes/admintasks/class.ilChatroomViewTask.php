@@ -308,7 +308,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 		$factory = new ilChatroomFormFactory();
 		$form = $factory->getGeneralSettingsForm();
 
-		
+
 		$form->setValuesByArray( $serverSettings );
 	    }
 
@@ -369,6 +369,10 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 
 			$data = (array)$adminSettings->loadClientSettings();
 
+			if(!$data['osd_intervall']) {
+				$data['osd_intervall'] = 60;
+			}
+			
 			if( !$data )
 			{
 				$data = array();
@@ -384,6 +388,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 				$data['client'] = CLIENT_ID;
 			}
 
+			$data['password_retype'] = $data['password'];
 			$form->setValuesByArray( $data );
 		}
 
