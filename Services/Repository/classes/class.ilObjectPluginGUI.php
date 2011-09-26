@@ -163,47 +163,115 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	}
 	
 	/**
+	 * Init creation froms
+	 *
+	 * this will create the default creation forms: new, import, clone
+	 *
+	 * @param	string	$a_new_type
+	 * @return	array
+	 */
+	protected function initCreationForms($a_new_type)
+	{
+		$forms = array(
+			self::CFORM_NEW => $this->initCreateForm($a_new_type),
+			self::CFORM_IMPORT => $this->initImportForm($a_new_type),
+			// self::CFORM_CLONE => $this->fillCloneTemplate(null, $a_new_type)
+			);
+
+		return $forms;
+	}
+	
+	/**
 	* Init object creation form
-	*
-	* @param        int        $a_mode        Edit Mode
+	* 
+	* @param	string	$a_new_type 
+	* @return	ilPropertyFormGUI
 	*/
-	public function initEditForm($a_mode = "edit", $a_new_type = "")
+	public function initCreateForm($a_new_type)
+	{
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setTarget("_top");
+		$form->setFormAction($this->ctrl->getFormAction($this, "save"));
+		$form->setTitle($this->txt($a_new_type."_new"));
+
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$ti->setMaxLength(128);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$form->addItem($ti);
+
+		// description
+		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$ta->setCols(40);
+		$ta->setRows(2);
+		$form->addItem($ta);
+
+		$form->addCommandButton("save", $this->txt($a_new_type."_add"));
+		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+
+		return $form;		
+	}
+	
+	/**
+	* Init object update form
+	* 
+	* @return	ilPropertyFormGUI
+	*/
+	public function initEditForm()
 	{
 		global $lng, $ilCtrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setTarget("_top");
+		$form = new ilPropertyFormGUI();
+		$form->setTarget("_top");
+		$form->setFormAction($ilCtrl->getFormAction($this, "update"));	 
+		$form->setTitle($lng->txt("edit"));
 	
 		// title
 		$ti = new ilTextInputGUI($lng->txt("title"), "title");
 		$ti->setMaxLength(128);
 		$ti->setSize(40);
 		$ti->setRequired(true);
-		$this->form->addItem($ti);
+		$form->addItem($ti);
 		
 		// description
 		$ta = new ilTextAreaInputGUI($lng->txt("description"), "desc");
 		$ta->setCols(40);
 		$ta->setRows(2);
-		$this->form->addItem($ta);
+		$form->addItem($ta);
 	
-		// save and cancel commands
-		if ($a_mode == "create")
-		{
-			$this->form->addCommandButton("save", $this->txt($a_new_type."_add"));
-			$this->form->addCommandButton("cancelCreation", $lng->txt("cancel"));
-			$this->form->setTitle($this->txt($a_new_type."_new"));
-		}
-		else
-		{
-			$this->form->addCommandButton("update", $lng->txt("save"));
-			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
-			$this->form->setTitle($lng->txt("edit"));
-		}
-	                
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
-	 
+		$form->addCommandButton("update", $lng->txt("save"));
+		// $this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));	  
+		
+		return $form;
+	}
+	
+	/**
+	 * Init object import form
+	 *
+	 * @param	string	new type
+	 * @return	ilPropertyFormGUI
+	 */
+	protected function initImportForm($a_new_type)
+	{
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setTarget("_top");
+		$form->setFormAction($this->ctrl->getFormAction($this, "importFile"));
+		$form->setTitle($this->lng->txt("import"));
+
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($this->lng->txt("import_file"), "importfile");
+		$fi->setSuffixes(array("zip"));
+		$fi->setRequired(true);
+		$form->addItem($fi);
+
+		$form->addCommandButton("importFile", $this->lng->txt("import"));
+		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+	
+		return $form;
 	}
 
 	/**
