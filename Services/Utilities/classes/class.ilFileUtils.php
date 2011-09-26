@@ -68,7 +68,7 @@ class ilFileUtils
 		// Stores filename and paths into $filearray to check for viruses 
 		// Checks if filenames can be read, else -> throw exception and leave
 		ilFileUtils::recursive_dirscan($a_directory, $filearray);
-
+		
 		// if there are no files unziped (->broken file!)
 		if (empty($filearray)) {
 			throw new ilFileUtilsException($lng->txt("archive_broken"), ilFileUtilsException::$BROKEN_FILE);
@@ -78,7 +78,16 @@ class ilFileUtils
 		// virus handling
 		foreach ($filearray["file"] as $key => $value)
 		{
-			$vir = ilUtil::virusHandling($filearray[path][$key], $value);
+			// remove "invisible" files
+			if(substr($value, 0, 1) == "." || stristr($filearray["path"][$key], "/__MACOSX/"))
+			{				
+				unlink($filearray["path"][$key].$value);
+				unset($filearray["path"][$key]);
+				unset($filearray["file"][$key]);				
+				continue;
+			}			
+			
+			$vir = ilUtil::virusHandling($filearray["path"][$key], $value);
 			if (!$vir[0])
 			{
 				// Unlink file and throw exception
@@ -93,8 +102,7 @@ class ilFileUtils
 					throw new ilFileUtilsException($vir[1], ilFileUtilsException::$INFECTED_FILE);
 					break;
 				}
-			}
-			
+			}			
 		}
 		
 		// If archive is to be used "flat"
@@ -115,6 +123,14 @@ class ilFileUtils
 								ilFileUtilsException::$DOUBLETTES_FOUND);
 				break;
 			}
+		}
+		else
+		{			
+			$mac_dir = $a_directory."/__MACOSX";
+			if(file_exists($mac_dir))
+			{
+				ilUtil::delDir($mac_dir);
+			}		
 		}
 
 		// Everything fine since we got here; so we can store files and folders into the system (if ref_id is given)
