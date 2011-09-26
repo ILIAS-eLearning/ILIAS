@@ -1097,6 +1097,16 @@ class ilCtrl
 				
 				$this->rtoken = md5(uniqid(rand(), true));
 				
+				// delete entries older than two days
+				if (rand(1, 50) == 2)
+				{
+					$dt = new ilDateTime(time(),IL_CAL_UNIX);
+					$dt->increment(IL_CAL_DAY, -2);
+					$dq = "DELETE FROM il_request_token WHERE ".
+						" stamp < ".$ilDB->quote($dt->get(IL_CAL_DATETIME), "timestamp");
+					$ilDB->manipulate($dq);
+				}
+				
 				// IMPORTANT: Please do NOT try to move this implementation to a
 				// session basis. This will fail due to framesets that are used
 				// occasionally in ILIAS, e.g. in the chat, where multiple
