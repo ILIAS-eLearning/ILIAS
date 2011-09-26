@@ -525,10 +525,12 @@ if (typeof DEBUG != 'undefined' && DEBUG) {
 							    room_label = translate('main');
 						    }
 
-						    $('#chat_messages').ilChatMessageArea('addMessage', subRoomId, {
-							type: 'notice',
-							message: translate('user_invited_self', {user: $('#chat_users').ilChatList('getDataById', messageObject.inviter).label, room:room_label })
-						    });
+						    if ($('#chat_users').ilChatList('getDataById', messageObject.inviter)) {
+							    $('#chat_messages').ilChatMessageArea('addMessage', subRoomId, {
+								type: 'notice',
+								message: translate('user_invited_self', {user: $('#chat_users').ilChatList('getDataById', messageObject.inviter).label, room:room_label })
+							    });
+						    }
 					    }
 					    
 					    break;

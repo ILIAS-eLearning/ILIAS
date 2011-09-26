@@ -465,7 +465,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 		$user_id = $_REQUEST['usr_id'];
 
 		$connector = $this->gui->getConnector();
-
+/*
 		if (!$room->isSubscribed($chat_user->getUserId()) && $room->connectUser($chat_user)) {
 			$connector->sendMessage(
 			$scope, $message = json_encode(
@@ -482,7 +482,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 			)
 			);
 		}
-
+*/
 		$title = $room->getUniquePrivateRoomTitle($chat_user->getUsername());
 		$response = $connector->createPrivateRoom($room, $title, $chat_user);
 		$connector->inviteToPrivateRoom($room, $response->id, $ilUser, $user_id);
