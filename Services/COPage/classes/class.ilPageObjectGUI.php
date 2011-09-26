@@ -2497,6 +2497,10 @@ class ilPageObjectGUI
 						break;
 
 					case "GlossaryItem":
+						if ($targetframe == "None")
+						{
+							$targetframe = "Glossary";
+						}
 						$href = "./goto.php?target=git_".$target_id;
 						break;
 
@@ -2521,7 +2525,6 @@ class ilPageObjectGUI
 			}
 		}
 		$link_info.= "</IntLinkInfos>";
-//echo htmlentities($link_info);
 		$this->setLinkXML($link_info);
 	}
 	

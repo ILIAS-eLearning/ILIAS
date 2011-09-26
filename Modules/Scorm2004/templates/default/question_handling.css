@@ -1,7 +1,7 @@
 /* we need because of the placeholder element */
 ul.ordering_vrt_terms li {
-	height:20px;
-	width:200px;
+	min-height:20px;
+	width:400px;
 }
 ul.ordering_vrt_images li {
 
