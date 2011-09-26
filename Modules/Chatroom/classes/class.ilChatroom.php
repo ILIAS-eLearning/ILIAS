@@ -894,13 +894,14 @@ class ilChatroom
 		    'user_id' => array('integer', $user_id),
 		    'proom_id' => array('integer', $proom_id)
 		));
-
+/*
 		$ilDB->insert(self::$privateSessionsTable, array(
 		    'user_id' => array('integer', $user_id),
 		    'proom_id' => array('integer', $proom_id),
 		    'connected' => array('integer', time()),
 		    'disconnected' => array('integer', 0),
-		));
+ 		));
+ */
 	}
 
 	/**

@@ -796,9 +796,9 @@ if (initial.private_rooms_enabled) {
 		}
 	);
 }
-
-menuEntries.push(
-{
+		if (!subRoomId || (subRoomId && ((room = $('#private_rooms').ilChatList('getDataById', subRoomId)).owner == personalUserInfo.userid) || personalUserInfo.moderate == true)) {
+			menuEntries.push(
+			{
                                 label: translate('invite_users'),
                                 callback: function() {
 
@@ -929,6 +929,7 @@ menuEntries.push(
                                 }
                             }
 			);
+		}
 			if (personalUserInfo.moderator) {
 			    menuEntries.push(
 				    {
