@@ -12191,7 +12191,7 @@ chatroom#:#enable_smilies#:#Smilies aktivieren
 chatroom#:#hint_enable_smilies#:#Wenn aktiviert, werden konfigurierte Textbausteine durch ein Bild ersetzt. Die Konfiguration kamm im Smilies-Tab vorgenommen werden.
 chatroom#:#display_past_msgs#:#Anzahl vergangene Nachrichten
 chatroom#:#hint_display_past_msgs#:#Anzahl von vergangenen Nachrichten, die beim Betreten des Chatraums angezeigt werden sollen. "0" deaktiviert die Anzeige von vergangenen Nachrichten.
-chatroom#:#speak_to#:#<b>#user#</b> ansprechen
+chatroom#:#speak_to#:#<b>#user#</b>&nbsp;ansprechen
 chatroom#:#whisper_to#:#<b>#user#</b> anflüstern
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen.
 administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists###14 09 2011 new variable
@@ -12246,3 +12246,4 @@ grp#:#grp_activate_notification#:#Benachrichtigung aktivieren
 grp#:#grp_deactivate_notification#:#Benachrichtigung deaktivieren
 grp#:#grp_notification_activated#:#Benachrichtigung aktiviert
 grp#:#grp_notification_deactivated#:#Benachrichtigung deaktiviert
+chatroom#:#end_whisper#:#Beenden

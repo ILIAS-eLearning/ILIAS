@@ -399,7 +399,7 @@ ilAddOnLoad(function() {
 							myname: personalUserInfo.name
 						}) + '</span>')
 						.append(
-							$('<span>&nbsp;<a href="javascript:void(0)">('+translate('cancel')+')</a></span>').click(
+							$('<span>&nbsp;<a href="javascript:void(0)">('+translate('end_whisper')+')</a></span>').click(
 								function() {
 									setRecipientOptions(false, 1);
 								}
