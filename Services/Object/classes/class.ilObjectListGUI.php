@@ -3222,10 +3222,7 @@ class ilObjectListGUI
 		
 		include_once("./Services/Notes/classes/class.ilNote.php");
 		self::$cnt_notes = ilNote::_countNotesAndComments($a_obj_ids);
-/*		if($this->comments_enabled && $this->comments_settings_enabled)
-		{
-			self::$comments_activation = ilNote::getRepObjActivation($a_obj_ids);
-		}*/		
+		self::$comments_activation = ilNote::getRepObjActivation($a_obj_ids);	
 	}
 	
 	/**
