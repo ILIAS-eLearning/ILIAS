@@ -115,6 +115,12 @@ class ilComponentsTableGUI extends ilTable2GUI
 
 			foreach ($rep_types as $rt)
 			{
+				// we only want to display repository modules
+				if(!$rt["repository"])
+				{
+					continue;
+				}
+				
 				// group
 				if ($rt["grp"] != "")
 				{
