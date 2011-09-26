@@ -3,7 +3,7 @@ body {
 }
 
 .chat.messageLine.private {
-    background-color: #f68263;
+    background-color: #FAD8CF;
 }
 
 .chat.username {
@@ -123,11 +123,11 @@ body {
 }
 
 .chat.notice {
-    background-color: yellow;
+    background-color: #ECF0F9;
 }
 
 .chat.error {
-    background-color: red;
+    background-color: #FCEAEA;
 }
 
 .new_events {
