@@ -5639,7 +5639,7 @@ crs#:#crs_access#:#Access
 crs#:#crs_activation#:#Activation
 crs#:#crs_add_archive_html#:#Create a HTML Archive
 crs#:#crs_add_archive_xml#:#Create a XML Archive
-crs#:#crs_add_grouping#:#Add course grouping
+crs#:#crs_add_grouping#:#Add Membership Limitation 
 crs#:#crs_add_grp_assignment#:#Assign course(s)
 crs#:#crs_add_html_archive#:#Add HTML archive
 crs#:#crs_add_member#:#Add Member(s)
