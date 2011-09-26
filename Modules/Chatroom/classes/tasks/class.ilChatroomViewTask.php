@@ -51,7 +51,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 	 */
 	private function showRoom(ilChatroom $room, ilChatroomUser $chat_user)
 	{
-	    global $tpl, $ilUser, $ilCtrl, $lng, $ilAccess, $lng;
+	    global $tpl, $ilUser, $ilCtrl, $lng, $ilAccess, $lng, $ilNavigationHistory;
 
 	    if ( !ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id ) )
 	    {
@@ -60,6 +60,8 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 
 	    $user_id = $chat_user->getUserId($ilUser);
 
+	    $ilNavigationHistory->addItem($_GET['ref_id'], 'repository.php?cmd=view&ref_id='.$_GET['ref_id'], 'chtr');
+	    
 	    if( $room->isUserBanned($user_id) )
 	    {
 		$this->cancelJoin( $lng->txt('banned') );
