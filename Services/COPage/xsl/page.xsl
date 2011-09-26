@@ -203,6 +203,7 @@
 							<xsl:attribute name="class">iim</xsl:attribute>
 						</xsl:if>
 						<xsl:call-template name="outputImageMapAreas" />
+						<xsl:comment>Break</xsl:comment>
 					</map>
 				</xsl:for-each>
 			</xsl:when>
@@ -212,6 +213,7 @@
 					<map>
 						<xsl:attribute name="name">map_<xsl:value-of select="$corig"/>_<xsl:value-of select="$corigp"/></xsl:attribute>
 						<xsl:call-template name="outputImageMapAreas" />
+						<xsl:comment>Break</xsl:comment>
 					</map>
 				</xsl:for-each>
 			</xsl:otherwise>
@@ -261,13 +263,15 @@
 <!-- output image map areas -->
 <xsl:template name="outputImageMapAreas">
 	<xsl:for-each select="../MapArea">
-		<area>
-			<xsl:attribute name="shape"><xsl:value-of select="@Shape"/></xsl:attribute>
-			<xsl:attribute name="coords"><xsl:value-of select="@Coords"/></xsl:attribute>
-			<xsl:attribute name="id">marea_<xsl:value-of select = "$pg_id"/>_<xsl:number count="MapArea" level="any" /></xsl:attribute>
-			<xsl:call-template name="setAreaLinkAttributes">
-			</xsl:call-template>
-		</area>
+		<xsl:if test="@Shape != 'WholePicture'">
+			<area>
+				<xsl:attribute name="shape"><xsl:value-of select="@Shape"/></xsl:attribute>
+				<xsl:attribute name="coords"><xsl:value-of select="@Coords"/></xsl:attribute>
+				<xsl:attribute name="id">marea_<xsl:value-of select = "$pg_id"/>_<xsl:number count="MapArea" level="any" /></xsl:attribute>
+				<xsl:call-template name="setAreaLinkAttributes">
+				</xsl:call-template>
+			</area>
+		</xsl:if>
 		<xsl:if test="name(../..) = 'InteractiveImage'">
 			<script type="text/javascript">
 				ilAddOnLoad(function() {ilCOPagePres.addIIMArea(
@@ -2384,7 +2388,8 @@
 		<xsl:if test="$height != ''">
 		<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 		</xsl:if>
-		<xsl:if test = "//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/MapArea[1] or ./MapArea[1]">
+		<xsl:if test = "(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/MapArea[@Shape != 'WholePicture'][1] and not(./MapArea[1]))
+			or ./MapArea[@Shape != 'WholePicture'][1]">
 			<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test = "$inline = 'y'">
