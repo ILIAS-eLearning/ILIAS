@@ -12245,3 +12245,4 @@ grp#:#grp_activate_notification#:#Activate Notification
 grp#:#grp_deactivate_notification#:#Deactivate Notification
 grp#:#grp_notification_activated#:#Notification Activated
 grp#:#grp_notification_deactivated#:#Notification Deactivated
+chatroom#:#end_whisper#:#Cancel
