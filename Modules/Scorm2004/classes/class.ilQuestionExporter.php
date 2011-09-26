@@ -51,7 +51,7 @@ class ilQuestionExporter
 		// fix for bug 5386, alex 29.10.2009
 		if (!$a_preview_mode)
 		{
-			$this->tpl->setVariable("FORM_BEGIN", "<form>");
+			$this->tpl->setVariable("FORM_BEGIN", "<form onsubmit='return false;'>");
 			$this->tpl->setVariable("FORM_END", "</form>");
 		}
 
