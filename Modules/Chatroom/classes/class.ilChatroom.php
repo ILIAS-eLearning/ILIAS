@@ -64,7 +64,7 @@ class ilChatroom
 	 * @param   mixed	$permissions
 	 * @param   integer	$ref_id 
 	 */
-	public static function checkUserPermissions($permissions, $ref_id)
+	public static function checkUserPermissions($permissions, $ref_id, $send_info = true)
 	{
 	    global $rbacsystem, $lng;
 	    
@@ -77,8 +77,10 @@ class ilChatroom
 	    {
 		if( !$rbacsystem->checkAccess( $permission, $ref_id ) )
 		{
-		   ilUtil::sendFailure( $lng->txt("permission_denied"), true );
-		   return false;
+			if ($send_info) {
+				ilUtil::sendFailure( $lng->txt("permission_denied"), true );
+			}
+			return false;
 		}
 	    }
 

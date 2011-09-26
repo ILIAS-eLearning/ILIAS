@@ -306,13 +306,14 @@ class ilChatroomTabFactory
 	{
 		foreach( $config as $id => $tabDefinition )
 		{
-			if( !$this->access->checkAccess( $tabDefinition['permission'], '', $this->gui->getRefId() ) ) {
+			if( !ilChatroom::checkUserPermissions($tabDefinition['permission'], $this->gui->getRefId(), false)) {
+			//if( !$this->access->checkAccess( $tabDefinition['permission'], '', $this->gui->getRefId() ) ) {
 				continue;
 			}
 			else if (isset($tabDefinition['enabled']) && !$tabDefinition['enabled']) {
 				continue;
 			}
-					
+				
 			$tabs->addTab( $id, $this->getLabel( $tabDefinition, $id ), $tabDefinition['link'] );
 
 			if( $command[0] == $id && isset( $tabDefinition['subtabs'] ) &&
