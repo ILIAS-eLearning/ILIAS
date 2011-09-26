@@ -346,8 +346,6 @@ class ilInternalLinkGUI
 		{
 			// page link
 			case "PageObject":
-var_dump($_SESSION["il_link_cont_obj"]);
-var_dump($type);
 				if ($type == "lm")
 				{
 					require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");

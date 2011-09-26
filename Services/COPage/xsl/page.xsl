@@ -248,6 +248,9 @@
 		<xsl:if test="$link_target != ''">
 			<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
 		</xsl:if>
+		<xsl:if test="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick">
+			<xsl:attribute name="onclick"><xsl:value-of select="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick"/></xsl:attribute>
+		</xsl:if>
 
 		<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
 		<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>

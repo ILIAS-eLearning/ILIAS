@@ -1696,7 +1696,6 @@ class ilLMPresentationGUI
 		$lm_pg_obj->setLMId($this->lm->getId());
 		//$pg_obj->setParentId($this->lm->getId());
 		$page_object_gui->setLinkXML($link_xml);
-
 		
 		// USED FOR DBK PAGE TURNS
 		$page_object_gui->setBibId($_SESSION["bib_id"]);
@@ -2066,7 +2065,6 @@ class ilLMPresentationGUI
 			}
 		}
 		$link_info.= "</IntLinkInfos>";
-
 		return $link_info;
 	}
 
@@ -2081,7 +2079,6 @@ class ilLMPresentationGUI
 			$link_info.="<LinkTarget TargetFrame=\"".$t["Type"]."\" LinkTarget=\"".$t["Frame"]."\" OnClick=\"".$t["OnClick"]."\" />";
 		}
 		$link_info.= "</LinkTargets>";
-
 		return $link_info;
 	}
 
