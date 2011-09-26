@@ -3402,6 +3402,7 @@ class ilLMPresentationGUI
 					$page_object_gui->setFileDownloadLink("#");
 					$page_object_gui->setFullscreenLink("#");
 					$page_object_gui->setSourceCodeDownloadScript("#");
+					$page_object_gui->setEnabledSelfAssessment(true);
 					$page_content = $page_object_gui->showPage();
 					if ($this->lm->getPageHeader() != IL_PAGE_TITLE)
 					{
