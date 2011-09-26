@@ -167,8 +167,6 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	{
 		global $tpl, $ilTabs, $lng;
 		
-		ilUtil::sendInfo($lng->txt("cont_iim_base_image_info"));
-		
 		$ilTabs->activateTab("edit_base_image");
 		
 		$form = $this->initForm();
