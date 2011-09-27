@@ -1480,7 +1480,7 @@ function doMouseClick(e, id, type, char)
 			openedMenu = nextMenu;
 			showMenu(openedMenu, Mposx, Mposy-10);
 		}
-		doCloseContextMenuCounter = 20;
+		doCloseContextMenuCounter = 40;
 	}
 }
 
