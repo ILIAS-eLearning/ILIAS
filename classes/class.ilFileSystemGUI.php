@@ -279,6 +279,9 @@ class ilFileSystemGUI
 			{
 				$this->ilias->raiseError($this->lng->txt("select_a_file"),$this->ilias->error_obj->MESSAGE);
 			}
+			$file = (!empty($cur_subdir))
+				? $cur_subdir."/".ilUtil::stripSlashes($_POST["file"][$k])
+				: ilUtil::stripSlashes($_POST["file"][$k]);
 			$files[] = $file;
 		}
 
@@ -432,6 +435,8 @@ class ilFileSystemGUI
 	*/
 	function renameFileForm()
 	{
+		global $lng, $ilCtrl;
+		
 		if (!isset($_POST["file"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
@@ -452,27 +457,33 @@ class ilFileSystemGUI
 			? $this->main_dir."/".$cur_subdir."/".ilUtil::stripSlashes($_POST["file"][0])
 			: $this->main_dir."/".ilUtil::stripSlashes($_POST["file"][0]);
 
-		// load files templates
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.file_rename.html", false);
-
 		$this->ctrl->setParameter($this, "old_name", ilUtil::stripSlashes($_POST["file"][0]));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "renameFile"));
+			
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		
+		// file/dir name
+		$ti = new ilTextInputGUI($this->lng->txt("name"), "new_name");
+		$ti->setMaxLength(200);
+		$ti->setSize(40);
+		$ti->setValue(ilUtil::stripSlashes($_POST["file"][0]));
+		$form->addItem($ti);
+		
+		// save and cancel commands
+		$form->addCommandButton("renameFile", $lng->txt("rename"));
+		$form->addCommandButton("cancelRename", $lng->txt("cancel"));
+		$form->setFormAction($ilCtrl->getFormAction($this, "renameFile"));
+
 		if (@is_dir($file))
 		{
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("cont_rename_dir"));
+			$form->setTitle($this->lng->txt("cont_rename_dir"));
 		}
 		else
 		{
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("rename_file"));
+			$form->setTitle($this->lng->txt("rename_file"));
 		}
-		$this->tpl->setVariable("TXT_NAME", $this->lng->txt("name"));
-		$this->tpl->setVariable("VAL_NAME", ilUtil::stripSlashes($_POST["file"][0]));
-		$this->tpl->setVariable("CMD_CANCEL", "cancelRename");
-		$this->tpl->setVariable("CMD_SUBMIT", "renameFile");
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("rename"));
-
-		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setContent($form->getHTML());
 	}
 
 	/**
