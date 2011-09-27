@@ -14,7 +14,7 @@ require_once "classes/class.ilObjectGUI.php";
 * 
 * @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilObjExerciseGUI: ilObjectCopyGUI, ilFileSystemGUI, ilExportGUI, ilShopPurchaseGUI
-* @ilCtrl_Calls ilObjExerciseGUI: iilRepositorySearchGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjExerciseGUI: ilRepositorySearchGUI, ilCommonActionDispatcherGUI
 * 
 * @ingroup ModulesExercise
 */
@@ -909,7 +909,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$ilToolbar->addSpacer();
 
 		$ilToolbar->addButton(
-			$lng->txt("exc_add_participant"),
+			$lng->txt("exc_search_users"),
 			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI',''));
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 		

@@ -8041,3 +8041,7 @@ if(!$ilDB->tableExists('note_settings'))
 		);
 	}
 ?>
+<#3473>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
