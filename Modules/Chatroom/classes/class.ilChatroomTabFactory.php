@@ -304,6 +304,7 @@ class ilChatroomTabFactory
 	 */
 	private function buildTabs(ilTabsGUI $tabs, $config, $command)
 	{
+		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 		foreach( $config as $id => $tabDefinition )
 		{
 			if( !ilChatroom::checkUserPermissions($tabDefinition['permission'], $this->gui->getRefId(), false)) {
