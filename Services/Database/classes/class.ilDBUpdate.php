@@ -143,16 +143,15 @@ class ilDBUpdate
 	{
 		$GLOBALS["ilDB"] = $this->db;
 		include_once './Services/Administration/classes/class.ilSetting.php';
-		$set = new ilSetting();
+		$set = new ilSetting("common", true);
 		$this->currentVersion = (integer) $set->get("db_version");
-
 		return $this->currentVersion;
 	}
 
 	function setCurrentVersion ($a_version)
 	{
 		include_once './Services/Administration/classes/class.ilSetting.php';
-		$set = new ilSetting();
+		$set = new ilSetting("common", true);
 		$set->set("db_version", $a_version);
 		$this->currentVersion = $a_version;
 		
@@ -167,7 +166,7 @@ class ilDBUpdate
 	function setRunningStatus($a_nr)
 	{
 		include_once './Services/Administration/classes/class.ilSetting.php';
-		$set = new ilSetting();
+		$set = new ilSetting("common", true);
 		$set->set("db_update_running", $a_nr);
 		$this->db_update_running = $a_nr;
 	}
@@ -180,7 +179,7 @@ class ilDBUpdate
 	function getRunningStatus()
 	{
 		include_once './Services/Administration/classes/class.ilSetting.php';
-		$set = new ilSetting();
+		$set = new ilSetting("common", true);
 		$this->db_update_running = (integer) $set->get("db_update_running");
 
 		return $this->db_update_running;
@@ -192,7 +191,7 @@ class ilDBUpdate
 	function clearRunningStatus()
 	{
 		include_once './Services/Administration/classes/class.ilSetting.php';
-		$set = new ilSetting();
+		$set = new ilSetting("common", true);
 		$set->set("db_update_running", 0);
 		$this->db_update_running = 0;
 	}
@@ -622,7 +621,7 @@ class ilDBUpdate
 		}
 		include_once './Services/Administration/classes/class.ilSetting.php';
 		$GLOBALS["ilDB"] = $this->db;
-		$this->hotfix_setting = new ilSetting();
+		$this->hotfix_setting = new ilSetting("common", true);
 		$ilias_version = ILIAS_VERSION_NUMERIC;
 		$version_array = explode(".", $ilias_version);
 		$this->hotfix_version[0] = $version_array[0];

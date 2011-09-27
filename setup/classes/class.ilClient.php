@@ -461,7 +461,7 @@ class ilClient
 	function getSetting($a_keyword)
 	{
 		include_once './Services/Administration/classes/class.ilSetting.php';
-		$set = new ilSetting();
+		$set = new ilSetting("common", true);
 		return $set->get($a_keyword);
 	}
 
@@ -473,7 +473,7 @@ class ilClient
 	function getAllSettings()
 	{
 		include_once './Services/Administration/classes/class.ilSetting.php';
-		$set = new ilSetting();
+		$set = new ilSetting("common", true);
 		return $set->getAll();
 	}
 
@@ -487,7 +487,7 @@ class ilClient
 	function setSetting($a_key, $a_val)
 	{
 		include_once './Services/Administration/classes/class.ilSetting.php';
-		$set = new ilSetting();
+		$set = new ilSetting("common", true);
 		$set->set($a_key, $a_val);
 	}
 	

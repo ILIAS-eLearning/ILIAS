@@ -45,7 +45,7 @@ class ilCron
 		
 		$GLOBALS["ilDB"] = $this->db;
 		include_once './Services/Administration/classes/class.ilSetting.php';
-		$this->setting = new ilSetting();
+		$this->setting = new ilSetting("common", true);
 
 	}
 
