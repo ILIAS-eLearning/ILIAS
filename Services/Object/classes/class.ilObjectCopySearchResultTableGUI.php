@@ -53,8 +53,20 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
 		
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
+				
+		if(!$objDefinition->isPlugin($this->type))
+		{
+			$title = $this->lng->txt('obj_'.$this->type.'_duplicate');
+		}
+		else
+		{
+			include_once "Services/Component/classes/class.ilPlugin.php";
+			$plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
+					ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->type));
+			$title = $plugin->txt('obj_'.$this->type.'_duplicate');
+		}		
 		
-		$this->setTitle($this->lng->txt('obj_'.$this->type.'_duplicate'));
+		$this->setTitle($title);
 		$ilUser->getPref('search_max_hits');
 		
 		$this->addColumn($this->lng->txt('search_title_description'),'title','99%');
@@ -72,7 +84,7 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->addCommandButton('saveSource', $this->lng->txt('obj_'.$this->type.'_duplicate'));
+			$this->addCommandButton('saveSource', $title);
 		}
 		
 		$this->addCommandButton('cancel', $this->lng->txt('btn_back'));

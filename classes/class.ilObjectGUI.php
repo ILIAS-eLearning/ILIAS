@@ -747,6 +747,14 @@ class ilObjectGUI
 			$this->ctrl->setParameter($this, "new_type", $new_type);
 			
 			$forms = $this->initCreationForms($new_type);
+			
+			// copy form validation error: do not show other creation forms
+			if($_GET["cpfl"] && isset($forms[self::CFORM_CLONE]))
+			{
+				unset($forms[self::CFORM_NEW]);
+				unset($forms[self::CFORM_IMPORT]);
+			}
+			
 			$tpl->setContent($this->getCreationFormsHTML($forms));
 		}
 	}
