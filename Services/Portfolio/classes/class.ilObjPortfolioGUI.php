@@ -1255,11 +1255,6 @@ class ilObjPortfolioGUI
 			$page_gui = new ilPortfolioPageGUI($portfolio_id, $current_page);
 			$page_gui->setEmbedded(true);
 
-			$tpl->setCurrentBlock("ContentStyle");
-			$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath(0));
-			$tpl->parseCurrentBlock();
-
 			$content = $ilCtrl->getHTML($page_gui);
 		}
 		else
