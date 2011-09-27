@@ -3196,7 +3196,7 @@ li.ilWikiBlockItem
 }
 
 
-/* Modules/Blog / Common */
+/* Fixed Frame Width */
 
 div.ilFrameFixedWidth
 {
@@ -3245,6 +3245,37 @@ div.ilFrameFixedWidthHeader
 {
 	padding-left: 0;
 }
+
+
+/* Modules / Blog */
+
+div.ilBlogList {	
+	border: 1px solid #E0E0E0;
+	padding: 10px;
+}
+
+div.ilBlogListItem {
+	padding-bottom: 5px;
+	margin-bottom: 25px; 
+}
+
+div.ilBlogListItemTitle {
+	border-bottom: 1px solid #E0E0E0;
+}
+
+div.ilBlogListItemTitle h3 {
+	margin-bottom: 5px;
+}
+
+div.ilBlogListItemSubTitle {
+	margin-top: 5px;
+}
+
+div.ilBlogListItemSnippet {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
 
 /* Services/Skill */
 

@@ -187,7 +187,6 @@ class ilObjBlogGUI extends ilObject2GUI
 		switch($next_class)
 		{
 			case 'ilblogpostinggui':						
-				$ilCtrl->setParameter($this, "bmn", $_REQUEST["bmn"]);
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, ""));
 								
@@ -199,13 +198,6 @@ class ilObjBlogGUI extends ilObject2GUI
 				{
 					$bpost_gui->setEnableEditing(false);
 				}
-
-				/*
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-				$bpost_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-					$this->object->getStyleSheetId(), "blog"));
-				$this->setContentStyleSheet();
-				*/
 				
 				// keep preview mode through notes gui (has its own commands)
 				switch($cmd)
@@ -677,6 +669,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				}
 				else
 				{
+					$this->ctrl->setParameterByClass("ilblogpostinggui", "bmn", $this->month);
 					$this->ctrl->setParameterByClass("ilblogpostinggui", "page", $_GET["page"]);
 					$back = $this->ctrl->getLinkTargetByClass("ilblogpostinggui", "preview");
 				}
@@ -772,6 +765,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		{
 			if(!$a_link_template)
 			{
+				$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", $this->month);
 				$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $item["id"]);
 				$preview = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_cmd);
 			}
@@ -824,15 +818,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				$wtpl->setVariable("COUNT_COMMENTS", $count);
 				$wtpl->parseCurrentBlock();
 			}
-
-			$wtpl->setCurrentBlock("posting");
-			
-			// title
-			$wtpl->setVariable("URL_TITLE", $preview);
-			$wtpl->setVariable("TITLE", $item["title"]);
-			$wtpl->setVariable("DATETIME",
-				ilDatePresentation::formatDate($item["created"], IL_CAL_DATE));
-			
+							
 			// permanent link
 			if($a_cmd != "preview")
 			{
@@ -842,13 +828,30 @@ class ilObjBlogGUI extends ilObject2GUI
 				$wtpl->setVariable("TEXT_PERMALINK", $lng->txt("blog_permanent_link"));
 				$wtpl->parseCurrentBlock();
 			}
-
-			// content
+			
 			$page = new ilBlogPosting($item["id"]);
 			$page->buildDom();
-			$wtpl->setVariable("CONTENT", $page->getFirstParagraphText());
-			$wtpl->setVariable("URL_MORE", $preview); 
-			$wtpl->setVariable("TEXT_MORE", $lng->txt("blog_list_more"));
+			$snippet = $page->getFirstParagraphText();
+			
+			if($snippet)
+			{
+				$wtpl->setCurrentBlock("more");
+				$wtpl->setVariable("URL_MORE", $preview); 
+				$wtpl->setVariable("TEXT_MORE", $lng->txt("blog_list_more"));
+				$wtpl->parseCurrentBlock();
+			}
+			
+
+			$wtpl->setCurrentBlock("posting");
+			
+			// title
+			$wtpl->setVariable("URL_TITLE", $preview);
+			$wtpl->setVariable("TITLE", $item["title"]);
+			$wtpl->setVariable("DATETIME",
+				ilDatePresentation::formatDate($item["created"], IL_CAL_DATE));		
+
+			// content			
+			$wtpl->setVariable("CONTENT", $snippet);			
 
 			$wtpl->parseCurrentBlock();
 		}
@@ -909,6 +912,8 @@ class ilObjBlogGUI extends ilObject2GUI
 		$wtpl = new ilTemplate("tpl.blog_list_navigation.html",	true, true,
 			"Modules/Blog");
 		
+		$wtpl->setVariable("NAVIGATION_TITLE", $this->lng->txt("blog_navigation"));
+		
 		$ilCtrl->setParameter($this, "page", "");
 
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
@@ -941,6 +946,7 @@ class ilObjBlogGUI extends ilObject2GUI
 
 					if(!$a_link_template)
 					{
+						$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", $month);
 						$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $id);
 						$url = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_posting_cmd);					
 					}
@@ -971,6 +977,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		}
 		
 		$ilCtrl->setParameter($this, "bmn", $this->month);
+		$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", "");
 
 		return $wtpl->get();
 	}
@@ -1003,8 +1010,6 @@ class ilObjBlogGUI extends ilObject2GUI
 		// init co page html exporter
 		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
 		$this->co_page_html_export = new ilCOPageHTMLExport($export_dir);
-		/* $this->co_page_html_export->setContentStyleId(
-			$this->object->getStyleSheetId()); */
 		$this->co_page_html_export->createDirectories();
 		$this->co_page_html_export->exportStyles();
 		$this->co_page_html_export->exportSupportScripts();

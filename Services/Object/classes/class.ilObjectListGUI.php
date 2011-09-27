@@ -2542,7 +2542,10 @@ class ilObjectListGUI
 			$this->insertCommonSocialCommands($a_header_actions);
 		}
 		
-		$this->ctrl->clearParametersByClass($this->gui_class_name);
+		if(!$a_header_actions)
+		{
+			$this->ctrl->clearParametersByClass($this->gui_class_name);
+		}
 
 		if ($a_use_asynch && $a_get_asynch_commands)
 		{
