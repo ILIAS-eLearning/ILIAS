@@ -824,7 +824,6 @@ class ilSetup extends PEAR
 		$status = array();
 		$status["ini"] = $this->checkClientIni($client);		// check this one
 		$status["db"] = $this->checkClientDatabase($client);
-		
 		if ($status["db"]["status"] === false and $status["db"]["update"] !== true)
 		{
 			//$status["sess"]["status"] = false;

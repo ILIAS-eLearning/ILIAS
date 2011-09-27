@@ -52,10 +52,11 @@ class ilSetting
 	/**
 	* Initialize settings
 	*/
-	function ilSetting($a_module = "common")
+	function ilSetting($a_module = "common", $a_disabled_cache = false)
 	{
 		global $ilDB;
 		
+		$this->cache_disabled = $a_disabled_cache;
 		$this->module = $a_module;
 		// check whether ini file object exists
 		if (!is_object($ilDB))
@@ -76,15 +77,18 @@ class ilSetting
 		// The setting array of the class is a reference to the cache.
 		// So changing settings in one instance will change them in all.
 		// This is the same behaviour as if the are read from the DB.
-		if (isset(self::$settings_cache[$this->module]))
+		if (!$this->cache_disabled)
 		{
-	        $this->setting =& self::$settings_cache[$this->module];
-			return;
-		}
-		else
-		{
-		$this->setting = array();
-	        self::$settings_cache[$this->module] =& $this->setting;
+			if (isset(self::$settings_cache[$this->module]))
+			{
+				$this->setting =& self::$settings_cache[$this->module];
+				return;
+			}
+			else
+			{
+				$this->setting = array();
+				self::$settings_cache[$this->module] =& $this->setting;
+			}
 		}
 
 		$query = "SELECT * FROM settings WHERE module=".$ilDB->quote($this->module, "text");
@@ -94,6 +98,7 @@ class ilSetting
 		{
 			$this->setting[$row["keyword"]] = $row["value"];
 		}
+
 	}
 	
 	/**

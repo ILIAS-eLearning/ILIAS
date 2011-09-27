@@ -187,7 +187,7 @@ class ilCronClients extends PEAR
 	{
 		$GLOBALS["ilDB"] = $this->db;
 		include_once './Services/Administration/classes/class.ilSetting.php';
-		$setting = new ilSetting();
+		$setting = new ilSetting("common", true);
 
 		/*$query = "SELECT value FROM sett ings ".
 			"WHERE keyword = 'db_version'";

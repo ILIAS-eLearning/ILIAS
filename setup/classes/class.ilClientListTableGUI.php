@@ -66,7 +66,6 @@ class ilClientListTableGUI extends ilTable2GUI
 		{
 			// check status 
 			$status_arr = $this->setup->getStatus($client);
-
 			if (!$status_arr["db"]["status"])
 			{
 				$status =
