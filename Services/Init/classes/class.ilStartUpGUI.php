@@ -711,7 +711,7 @@ class ilStartUpGUI
 
 		// if page does not exist, return nothing
 		include_once './Services/COPage/classes/class.ilPageUtil.php';
-		if(!ilPageUtil::_existsAndNotEmpty('auth', $active_lang))
+		if(!ilPageUtil::_existsAndNotEmpty('auth', ilLanguage::lookupId($active_lang)))
 		{
 			return '';
 		}
