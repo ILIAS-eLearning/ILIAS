@@ -3344,3 +3344,26 @@ td.ilSkillSelf {
 td.ilSkillMat {
 	background-color: #F0F0FF;
 }
+
+
+/* Top-Bar */
+
+div.ilTopBar {
+  background-color: #444;
+  color: white;
+  padding: 5px 10px 5px 10px;
+}
+
+div.ilTopBar a {
+	color: white;
+}
+
+div.ilTopBarLeft {
+	float: left;
+	
+}
+
+div.ilTopBarRight {
+	float: right;
+
+}
