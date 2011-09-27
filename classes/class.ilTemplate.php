@@ -2307,6 +2307,28 @@ class ilTemplate extends ilTemplateX
 	}
 	
 	/**
+	 * Add top toolbar
+	 * 
+	 * @param string $a_back_url 
+	 */
+	function setTopBar($a_back_url)
+	{
+		global $lng, $ilUser;
+		
+		$this->setCurrentBlock("fullscreen_topbar");
+		
+		$this->setVariable("TOPBAR_BACK_URL", $a_back_url);
+		$this->setVariable("TOPBAR_BACK", "&laquo; ".$lng->txt("back"));
+		
+		if($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			$this->setVariable("TOPBAR_USER", $ilUser->getFullname());
+		}
+		
+		$this->parseCurrentBlock();
+	}
+	
+	/**
 	 * Set variable
 	 */
 /*	function setVariable($a, $b = "")

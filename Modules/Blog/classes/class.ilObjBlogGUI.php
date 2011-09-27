@@ -680,14 +680,14 @@ class ilObjBlogGUI extends ilObject2GUI
 			{
 				$back = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&wsp_id=".$this->node_id;
 			}
-			$ilTabs->setBackTarget($lng->txt("blog_back_to_ilias"), $back);
+			
 		}
 		// back (shared resources)
 		else if($ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$back = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&dsh=".$owner;
-			$ilTabs->setBackTarget($lng->txt("blog_back_to_ilias"), $back);
-		}		
+		}				
+		$tpl->setTopBar($back);
 		
 		$name = ilObjUser::_lookupName($owner);
 		$name = $name["lastname"].", ".($t = $name["title"] ? $t . " " : "").$name["firstname"];

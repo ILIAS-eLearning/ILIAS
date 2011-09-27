@@ -1202,12 +1202,12 @@ class ilObjPortfolioGUI
 		{
 			$back = $ilCtrl->getLinkTarget($this, "pages");
 		}
+		$tpl->setTopBar($back);
 		
 		$portfolio_id = $this->portfolio->getId();
 		$user_id = $this->portfolio->getOwner();
 		
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($lng->txt("back"), $back);
 			
 		include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
 		$pages = ilPortfolioPage::getAllPages($portfolio_id);		
