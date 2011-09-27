@@ -135,11 +135,6 @@ class ilObjPortfolioGUI
 				$page_gui = new ilPortfolioPageGUI($this->portfolio->getId(),
 					$page_id, 0, $this->portfolio->hasPublicComments());
 				
-				$tpl->setCurrentBlock("ContentStyle");
-				$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath(0));
-				$tpl->parseCurrentBlock();
-
 				$ret = $ilCtrl->forwardCommand($page_gui);
 				
 				if ($ret != "" && $ret !== true)

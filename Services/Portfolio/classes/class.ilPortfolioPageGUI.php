@@ -36,6 +36,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 			ilObjStyleSheet::getSyntaxStylePath());
 		$tpl->parseCurrentBlock();
+				
+		$tpl->setCurrentBlock("ContentStyle");
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath(0));
+		$tpl->parseCurrentBlock();
 		
 		// $this->setEnabledMaps(true);
 		// $this->setPreventHTMLUnmasking(true);
@@ -47,10 +52,13 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{
 			$this->setEnabledVerification(true);
 		}
+		
+		/* embedding blog postings currently disabled 
 		if(!$ilSetting->get('disable_wsp_blogs'))
 		{
 			$this->setEnabledBlog(true);
 		}
+		*/
 		
 		$skmg_set = new ilSetting("skmg");
 		if($skmg_set->get("enable_skmg"))
