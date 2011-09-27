@@ -51,6 +51,11 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			ilObjStyleSheet::getSyntaxStylePath());
 		$tpl->parseCurrentBlock();
 		
+		$tpl->setCurrentBlock("ContentStyle");
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath(0));
+		$tpl->parseCurrentBlock();
+		
 		$this->setEnabledMaps(true);
 		$this->setPreventHTMLUnmasking(true);
 		$this->setEnabledInternalLinks(false);

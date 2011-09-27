@@ -1,25 +1,30 @@
-<h4>{TXT_CURRENT_MONTH}</h4>
-
-<!-- BEGIN posting -->
-<div style="padding-bottom: 5px; margin-bottom: 5px; border-bottom: 1px solid #ccc;">
-	<!-- BEGIN actions -->
-	<div style="float:right">{ACTION_SELECTOR}</div>
-	<!-- END actions -->
-	<h3><a href="{URL_TITLE}">{TITLE}</a></h3>
-	<div class ="small">{DATETIME}</div>
-	<div style="margin:5px">
-		{CONTENT}
-		<span class="small">[<a href="{URL_MORE}">{TEXT_MORE}&hellip;</a>]</span>
-	</div>
-	<div class="small" style="text-align:right;">		
-		<!-- BEGIN comments -->
-		<a href="{URL_COMMENTS}">{TEXT_COMMENTS}</a> ({COUNT_COMMENTS})
-		<!-- END comments -->
-		<!-- BEGIN permalink -->
-		 &middot;  <a href="{URL_PERMALINK}">{TEXT_PERMALINK}</a>
-		 <!-- END permalink -->
-	</div>
+<div class="ilTableHeaderTitle">
+	<h3 class="ilTableHeaderTitle">{TXT_CURRENT_MONTH}</h3>
 </div>
-<!-- END posting -->
-
-{NOTES}
+<div class="ilBlogList">
+	<!-- BEGIN posting -->
+	<div class="ilBlogListItem">
+		<!-- BEGIN actions -->
+		<div style="float:right">{ACTION_SELECTOR}</div>
+		<!-- END actions -->
+		<div class="ilBlogListItemTitle">
+			<h3><a href="{URL_TITLE}">{TITLE}</a></h3>
+		</div>
+		<div class="ilBlogListItemSubTitle small">{DATETIME}</div>
+		<div class="ilBlogListItemSnippet">
+			{CONTENT}
+			<!-- BEGIN more -->
+			<span class="small">[<a href="{URL_MORE}">{TEXT_MORE}&hellip;</a>]</span>
+			<!-- END more -->
+		</div>
+		<div class="small">		
+			<!-- BEGIN comments -->
+			<a href="{URL_COMMENTS}">{TEXT_COMMENTS}</a> ({COUNT_COMMENTS})
+			<!-- END comments -->
+			<!-- BEGIN permalink -->
+			 &middot;  <a href="{URL_PERMALINK}">{TEXT_PERMALINK}</a>
+			 <!-- END permalink -->
+		</div>
+	</div>
+	<!-- END posting -->
+</div>
