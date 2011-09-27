@@ -81,7 +81,12 @@ class ilDOM2Util
 	 */
 	static function replaceByChilds($node)
 	{
-		// todo: currently only "called" (should never happen) in ilPCParagraph
+		foreach ($node->childNodes as $child)
+		{
+			$child2 = $child->cloneNode(true);
+			$node->parentNode->insertBefore($child2, $node);
+		}
+		$node->parentNode->removeChild($node);
 	}
 
 }

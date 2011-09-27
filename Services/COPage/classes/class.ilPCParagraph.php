@@ -1496,9 +1496,6 @@ if (!$a_wysiwyg)
 		// convert tags
 		$xpath = new DOMXpath($doc);
 		
-//echo "<br>before:<br>".
-//htmlentities($doc->saveXML($doc->documentElement));
-
 		$elements = $xpath->query("//span");
 		include_once("./Services/Utilities/classes/class.ilDOM2Util.php");
 		while (!is_null($elements) && !is_null($element = $elements->item(0)))
@@ -1518,6 +1515,7 @@ if (!$a_wysiwyg)
 			{
 				ilDOM2Util::replaceByChilds($element);
 			}
+			
 			$elements = $xpath->query("//span");
 		}
 
