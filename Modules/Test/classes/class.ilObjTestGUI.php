@@ -5098,20 +5098,33 @@ EOT;
         public function createQuestionPoolAndCopyObject() {
             $form = $this->getQuestionpoolCreationForm();
 
-            $ref_id = $this->createQuestionPool($_REQUEST['title'], $_REQUEST['description']);
+	    if ($_REQUEST['title']) {
+		    $title = $_REQUEST['title'];
+	    }
+	    else {
+		    $title = $_REQUEST['txt_qpl'];
+	    }
+	    
+	    if (!$title) {
+		    ilUtil::sendInfo($this->lng->txt("questionpool_not_entered"));
+		    return $this->copyAndLinkToQuestionpoolObject();
+	    }
+	    
+            $ref_id = $this->createQuestionPool($title, $_REQUEST['description']);
             $_REQUEST['sel_qpl'] = $ref_id;
 
-            if ($_REQUEST['link']) {
+            //if ($_REQUEST['link']) {
                 $this->copyAndLinkQuestionsToPoolObject();
-            }
-            else {
-                $this->copyQuestionsToPoolObject();
-            }
+            //}
+            //else {
+            //    $this->copyQuestionsToPoolObject();
+            //}
         }
 
 	/**
 	* Called when a new question should be created from a test
-*
+	* Important: $cmd may be overwritten if no question pool is available
+	*
 	* @access	public
 	*/
 	function createQuestionpoolTargetObject($cmd)
@@ -5150,6 +5163,7 @@ EOT;
 		if (count($questionpools) == 0)
 		{
 			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_enter_questionpool"));
+			$cmd = 'createQuestionPoolAndCopy';
 		}
 		else
 		{
@@ -5170,7 +5184,7 @@ EOT;
                     case 'copyQuestionsToPool':
                         break;
                 }
-                $createForm->setFormAction($this->ctrl->getFormAction($this));
+		$createForm->setFormAction($this->ctrl->getFormAction($this));
                 #$this->tpl->setVariable('CREATE_QPOOL_FORM', $createForm->getHTML());
 
 		$this->tpl->parseCurrentBlock();
