@@ -90,6 +90,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 				break;
 
 			default:
+				$cmd = $ilCtrl->getCmd("showOrganization");
 				$ret =& $this->$cmd();
 				break;
 		}
