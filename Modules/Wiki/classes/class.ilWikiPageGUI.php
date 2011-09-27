@@ -187,7 +187,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	function addHeaderAction($a_redraw = false)
 	{			
-		global $ilUser, $ilCtrl;
+		global $ilUser;
 		
 		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
 		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_WORKSPACE, 
@@ -218,8 +218,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			}
 			else
 			{
-				$ilCtrl->setParameter($this, "ntf", 2);
-				$lg->addCustomCommand($ilCtrl->getLinkTarget($this), "wiki_notification_activate_wiki");
+				$this->ctrl->setParameter($this, "ntf", 2);
+				$lg->addCustomCommand($this->ctrl->getLinkTarget($this), "wiki_notification_activate_wiki");
 				
 				if(ilNotification::hasNotification(ilNotification::TYPE_WIKI_PAGE, $ilUser->getId(), $this->getPageObject()->getId()))
 				{
