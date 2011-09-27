@@ -414,11 +414,32 @@ class ilSurveyPageGUI
 		$source = $pages[$data["source"]-1];
 		$target = $pages[$this->current_page-1];
 		$nodes = $data["nodes"];
-		if($data["source"] != $this->current_page || $data["mode"] != "cut")
+		
+		// append to last position?
+		$pos = 0;
+		if($_REQUEST["il_hform_node"] == "page_end")
 		{
-			// cut
-			
-			if($data["mode"] == "cut")
+			$a_id = $target;
+			$a_id = array_pop($a_id);
+			$a_id = $a_id["question_id"];
+			$pos = 1;
+		}
+		
+		// cut			
+		if($data["mode"] == "cut")
+		{				
+			// special case: paste cut on same page (no block handling needed)
+			if($data["source"] == $this->current_page)
+			{
+				// re-order nodes in page
+				if(sizeof($nodes) <= sizeof($source))
+				{
+					$this->object->moveQuestions($nodes, $a_id, $pos);									
+				}			
+				$this->clearClipboard();
+				return;
+			}
+			else
 			{
 				// only if source has block
 				$source_block_id = false;
@@ -449,104 +470,92 @@ class ilSurveyPageGUI
 					$this->current_page--;
 				}
 			}
-
-			
-			// copy
-
-			else if($data["mode"] == "copy")
+		}		
+		
+		// copy
+		else if($data["mode"] == "copy")
+		{
+			$titles = array();
+			foreach($this->object->getSurveyPages() as $page)
 			{
-				$titles = array();
-				foreach($this->object->getSurveyPages() as $page)
+				foreach($page as $question)
 				{
-					foreach($page as $question)
-					{
-						$titles[] = $question["title"];
-					}
+					$titles[] = $question["title"];
 				}
-			
-				// copy questions
-				$question_pointer = array();
-				foreach($nodes as $qid)
-				{										
-					// create new questions
-					$question = ilObjSurvey::_instanciateQuestion($qid);
-											
-					// handle exisiting copies
-					$title = $question->getTitle();
-					$max = 0;
-					foreach($titles as $existing_title)
-					{
-						if(preg_match("/".preg_quote($title)." \(([0-9]+)\)$/", $existing_title, $match))
-						{
-							$max = max($match[1], $max);						
-						}
-					}					
-					if($max)
-					{
-						$title .= " (".($max+1).")";
-					}
-					else
-					{
-						$title .= " (2)";
-					}					
-					$titles[] = $title;
-					$question->setTitle($title);					
-					
-					$question->id = -1;
-					$question->saveToDb();
-
-					$question_pointer[$qid] = $question->getId();
-					$this->appendNewQuestionToSurvey($question->getId(), false);
-				}
-
-				// copy textblocks
-				$this->object->cloneTextblocks($question_pointer);
-
-				$this->object->loadQuestionsFromDb();
-				
-				$nodes = array_values($question_pointer);
 			}
 
-			
-			// paste
+			// copy questions
+			$question_pointer = array();
+			foreach($nodes as $qid)
+			{										
+				// create new questions
+				$question = ilObjSurvey::_instanciateQuestion($qid);
 
-			// append to last position
-			$pos = 0;
-			if($_REQUEST["il_hform_node"] == "page_end")
-			{
-				$a_id = $target;
-				$a_id = array_pop($a_id);
-				$a_id = $a_id["question_id"];
-				$pos = 1;
-			}
-				
-			// create new block
-			if(sizeof($target) == 1)
-			{
-				$nodes = array_merge(array($a_id), $nodes);
-				
-				// moveQuestions() is called within
-				$this->object->createQuestionblock($this->getAutoBlockTitle(), true, false,
-					$nodes);
-			}
-			// add to existing block
-			else
-			{
-				$target_block_id = $target;
-				$target_block_id = array_shift($target_block_id);
-				$target_block_id = $target_block_id["questionblock_id"];
-
-				foreach($nodes as $qid)
+				// handle exisiting copies
+				$title = $question->getTitle();
+				$max = 0;
+				foreach($titles as $existing_title)
 				{
-					$this->object->addQuestionToBlock($qid, $target_block_id);
+					if(preg_match("/".preg_quote($title)." \(([0-9]+)\)$/", $existing_title, $match))
+					{
+						$max = max($match[1], $max);						
+					}
+				}					
+				if($max)
+				{
+					$title .= " (".($max+1).")";
 				}
-				
-				// move to new position
-				$this->object->moveQuestions($nodes, $a_id, $pos);
+				else
+				{
+					$title .= " (2)";
+				}					
+				$titles[] = $title;
+				$question->setTitle($title);					
+
+				$question->id = -1;
+				$question->saveToDb();
+
+				$question_pointer[$qid] = $question->getId();
+				$this->appendNewQuestionToSurvey($question->getId(), false);
 			}
-			
-			$this->clearClipboard();
+
+			// copy textblocks
+			$this->object->cloneTextblocks($question_pointer);
+
+			$this->object->loadQuestionsFromDb();
+
+			$nodes = array_values($question_pointer);
 		}
+
+			
+		// paste
+
+		// create new block
+		if(sizeof($target) == 1)
+		{
+			$nodes = array_merge(array($a_id), $nodes);
+
+			// moveQuestions() is called within
+			$this->object->createQuestionblock($this->getAutoBlockTitle(), true, false,
+				$nodes);
+		}
+		// add to existing block
+		else
+		{
+			$target_block_id = $target;
+			$target_block_id = array_shift($target_block_id);
+			$target_block_id = $target_block_id["questionblock_id"];
+
+			foreach($nodes as $qid)
+			{
+				$this->object->addQuestionToBlock($qid, $target_block_id);
+			}
+
+			// move to new position
+			$this->object->moveQuestions($nodes, $a_id, $pos);
+		}
+
+		$this->clearClipboard();
 	}
 
 	/**
@@ -1339,11 +1348,6 @@ class ilSurveyPageGUI
 		$ttpl = new ilTemplate("tpl.il_svy_svy_page_view_nodes.html", true, true, "Modules/Survey");
 
 		$has_clipboard = (bool)$_SESSION["survey_page_view"][$this->ref_id]["clipboard"];
-		if($has_clipboard)
-		{
-			$clipboard_same_page = ($_SESSION["survey_page_view"][$this->ref_id]["clipboard"]["source"] == $this->current_page &&
-					$_SESSION["survey_page_view"][$this->ref_id]["clipboard"]["mode"] == "cut");
-		}
 
 		// question block ?
 
@@ -1396,7 +1400,7 @@ class ilSurveyPageGUI
 							"text"=> $trans." ".$lng->txt("add"));
 					}
 				}
-				else if(!$clipboard_same_page)
+				else 
 				{
 					$menu[] = array("cmd" => "paste", "text" => $lng->txt("survey_dnd_paste"));
 				}
@@ -1474,7 +1478,7 @@ class ilSurveyPageGUI
 						"text"=> $trans." ".$lng->txt("add"));
 				}
 			}
-			else if(!$clipboard_same_page)
+			else 
 			{
 				$menu[] = array("cmd" => "paste", "text" => $lng->txt("survey_dnd_paste"));
 			}
