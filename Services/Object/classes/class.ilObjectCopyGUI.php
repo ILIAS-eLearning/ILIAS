@@ -78,6 +78,7 @@ class ilObjectCopyGUI
 	
 			$ilCtrl->setParameter($this,'new_type',$this->getType());
 			$ilCtrl->setParameterByClass(get_class($this->parent_obj), 'new_type', $this->getType());
+			$ilCtrl->setParameterByClass(get_class($this->parent_obj), 'cpfl', 1);
 			$ilCtrl->setReturnByClass(get_class($this->parent_obj), 'create');
 		}
 		elseif($_REQUEST['selectMode'] == self::SOURCE_SELECTION)

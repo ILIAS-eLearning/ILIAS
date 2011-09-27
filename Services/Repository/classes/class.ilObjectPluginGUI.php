@@ -92,7 +92,14 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 				$perm_gui = new ilPermissionGUI($this);
 				$ilTabs->setTabActive("perm_settings");
 				$ret = $ilCtrl->forwardCommand($perm_gui);
-			break;
+				break;
+		
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType($this->getType());
+				$this->ctrl->forwardCommand($cp);
+				break;
 
 			default:
 				if (strtolower($_GET["baseClass"]) == "iladministrationgui")
