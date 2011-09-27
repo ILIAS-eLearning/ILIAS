@@ -1815,6 +1815,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ref_ids = $_SESSION['clipboard']['ref_ids'];
 		unset($_SESSION['clipboard']['ref_ids']);
 		
+		// BEGIN ChangeEvent: Record paste event.
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		// END ChangeEvent: Record paste event.
+		
 		// process CUT command
 		if($_SESSION['clipboard']['cmd'] == 'cut')
 		{			
