@@ -1522,7 +1522,7 @@ function showTrackingItem()
 		global $tpl,$lng, $ilCtrl;
 		
 		include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
-		include_once("./Modules/Scorm2004/classes/class.ilScorm2004Sco.php");
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
 		$t = $this->object->getTree();
 		$root_node = $t->getNodeData($t->getRootId());
 		$nodes = $this->object->getTree()->getSubtree($root_node);
