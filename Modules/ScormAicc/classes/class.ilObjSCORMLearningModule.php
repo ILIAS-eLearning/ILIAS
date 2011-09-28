@@ -41,7 +41,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	*/
 	function validate($directory)
 	{
-		$this->validator =& new ilObjSCORMValidator($directory);
+		$this->validator = new ilObjSCORMValidator($directory);
 		$returnValue = $this->validator->validate();
 		return $returnValue;
 	}
