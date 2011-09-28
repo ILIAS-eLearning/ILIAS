@@ -103,7 +103,7 @@ class ilDidacticTemplateImport
 			$setting->setDescription(trim((string) $tpl->description));
 
 			$info = '';
-			foreach($tpl->info->p as $paragraph)
+			foreach((array) $tpl->info->p as $paragraph)
 			{
 				if(strlen($info))
 				{
