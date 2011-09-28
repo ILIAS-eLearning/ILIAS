@@ -36,11 +36,37 @@ class ilUserLoginAutoCompleteInputGUI extends ilTextInputGUI
 		$tpl->addJavaScript("./Services/User/js/ilUserAutoComplete.js");
 		$this->setMaxLength(70);
 		$this->setSize(30);
-		$dsSchema = array("resultsList" => 'response.results',
-			"fields" => array('login', 'firstname', 'lastname', 'email'));
+		$dsSchema = array(
+			"resultsList" => 'response.results',
+			"fields" => array( 'login','firstname', 'lastname', 'email')
+		);
 		$this->setDataSourceResultFormat("ilUserAutoComplete");
 		$this->setDataSource($ilCtrl->getLinkTargetByClass($a_class, $a_autocomplete_cmd,'',true));
 		$this->setDataSourceSchema($dsSchema);
+	}
 
+	/**
+	 * Set the field which is returned in the text input element after auto complete
+	 * @param string $a_field 
+	 */
+	public function setResultDataField($a_field)
+	{
+		$fields = $this->getDataSourceSchema();
+		$fields = $fields['fields'];
+
+		$schema_fields[] = $a_field;
+		foreach((array) $fields as $field)
+		{
+			if($field != $a_field)
+			{
+				$schema_fields[] = $field;
+			}
+		}
+		$this->setDataSourceSchema(
+			array(
+				'resultsList'	=> 'response.results',
+				'fields'		=> $schema_fields
+			)
+		);
 	}
 }

@@ -12,7 +12,7 @@ require_once "./classes/class.ilObjectGUI.php";
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilAdminUserSearchGUI, ilUserTableGUI
-* @ilCtrl_Calls ilObjUserFolderGUI: ilAccountCodesGUI, ilCustomUserFieldsGUI
+* @ilCtrl_Calls ilObjUserFolderGUI: ilAccountCodesGUI, ilCustomUserFieldsGUI, ilRepositorySearchGUI
 *
 * @ingroup ServicesUser
 */
