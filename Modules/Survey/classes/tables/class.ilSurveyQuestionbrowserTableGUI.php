@@ -105,7 +105,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 		
 		// title
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-		$ti = new ilTextInputGUI($lng->txt("title"), "title");
+		$ti = new ilTextInputGUI($lng->txt("survey_question_title"), "title");
 		$ti->setMaxLength(64);
 		$ti->setValidationRegexp('/^[^%]+$/is');
 		$ti->setSize(20);
