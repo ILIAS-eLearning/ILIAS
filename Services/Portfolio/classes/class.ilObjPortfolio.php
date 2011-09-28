@@ -238,7 +238,7 @@ class ilObjPortfolio extends ilObject2
 	 * @param int $a_user_id
 	 * @param int $a_portfolio_id
 	 */
-	public static function setUserDefault($a_user_id, $a_portfolio_id)
+	public static function setUserDefault($a_user_id, $a_portfolio_id = null)
 	{
 		global $ilDB;
 		
@@ -254,9 +254,12 @@ class ilObjPortfolio extends ilObject2
 				" WHERE ".$ilDB->in("id", $all, "", "integer"));
 		}
 
-		$ilDB->manipulate("UPDATE usr_portfolio".
-			" SET is_default = ".$ilDB->quote(true, "integer").
-			" WHERE id = ".$ilDB->quote($a_portfolio_id, "integer"));
+		if($a_portfolio_id)
+		{
+			$ilDB->manipulate("UPDATE usr_portfolio".
+				" SET is_default = ".$ilDB->quote(true, "integer").
+				" WHERE id = ".$ilDB->quote($a_portfolio_id, "integer"));
+		}
 	}
 
 	/**
