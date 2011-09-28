@@ -3420,10 +3420,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 			if($canStart["edit_settings"] &&
 				$ilAccess->checkAccess("write", "", $this->ref_id))
 			{
-				$canStart["messages"][] = "<a href=\"".$this->ctrl->getLinkTarget($this, "properties")."\">".
+				$canStart["messages"][] = "<a href=\"".$this->ctrl->getLinkTarget($this, "properties")."\">&raquo; ".
 					$this->lng->txt("survey_edit_settings")."</a>";
 			}
-			ilUtil::sendInfo(implode("<br />", $canStart["messages"]));
+			ilUtil::sendInfo(implode(" ", $canStart["messages"]));
 		}
 
 		$big_button = false;
