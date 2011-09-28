@@ -292,20 +292,18 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 						false, "");
 				}
 			}
+
+			if ($a_node["type"] == "chap" && count($a_childs) == 0)
+			{
+				$this->makeDragTarget($a_node["node_id"], "grp_sco", $a_first_child_drop_area,
+					true, $lng->txt("cont_insert_into_chap"));
+			}
 			
 			// sco targets
-			if ($a_node["type"] == "sco" || $a_node["type"] == "ass" || ($a_node["type"] == "chap" && count($a_childs) == 0))
+			if ($a_node["type"] == "sco" || $a_node["type"] == "ass" || $a_node["type"] == "chap")
 			{
-				if ($a_node["type"] == "chap")
-				{
-					$this->makeDragTarget($a_node["node_id"], "grp_sco", $a_first_child_drop_area,
-						true, $lng->txt("cont_insert_into_chap"));
-				}
-				else
-				{
-					$this->makeDragTarget($a_node["node_id"], "grp_sco", $a_first_child_drop_area,
-						false, $lng->txt("cont_insert_after_chap"));
-				}
+				$this->makeDragTarget($a_node["node_id"], "grp_sco", $a_first_child_drop_area,
+					false, $lng->txt("cont_insert_after_".$a_node["type"]));
 			}
 
 			//if ($a_node["type"] != "pg")
@@ -319,8 +317,8 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 			{
 				$this->makeDragTarget($a_node["node_id"], "grp_chap", $a_first_child_drop_area,
 					false, $lng->txt("sahs_insert_as_chapter"));
-				$this->makeDragTarget($a_node["node_id"], "grp_sco", $a_first_child_drop_area,
-					false, $lng->txt("cont_insert_after_chap"));
+//				$this->makeDragTarget($a_node["node_id"], "grp_sco", $a_first_child_drop_area,
+//					false, $lng->txt("cont_insert_after_chap"));
 			}
 		}
 		else
