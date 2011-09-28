@@ -1529,12 +1529,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$ver = "2004";
 		}
 
-		// Export special items (entry page...)
-		if ($ver = "2004")
-		{
-			$this->exportScormSpecialItems($a_inst, $a_target_dir, $expLog);
-		}
-
 		// add content css (note: this is also done per item)
 		$css_dir = $a_target_dir."/ilias_css_4_2";
 		ilUtil::makeDir($css_dir);
@@ -1553,7 +1547,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args,NULL);
 		xslt_free($xh);
 		fputs(fopen($a_target_dir.'/index.html','w+'),$output);
-
 		// copy xsd files to target
 		switch ($ver)
 		{
@@ -1570,7 +1563,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				ilUtil::rCopy('./Modules/Scorm2004/templates/xsd/adlcp_120_export_12',$a_target_dir,false);
 				break;	
 		}
-		
 		
 		$a_xml_writer->_XmlWriter;
 	}
@@ -1908,15 +1900,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		
 	}
 	
-	
-	/**
-	 * Export special items (entry page...)
-	 */
-	function exportScormSpecialItems($a_inst, $a_target_dir, $expLog)
-	{
-	}
-
-
 	/**
 	 * get public export file
 	 *
