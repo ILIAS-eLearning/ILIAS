@@ -1253,7 +1253,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		// add export file as upload
 		include_once "Modules/Exercise/classes/class.ilObjExercise.php";		
 		$exc = new ilObjExercise($exc_id, false);
-		$exc->deliverFile($meta, $ass_id, $ilUser->getID(), true);		
+		$exc->deliverFile($meta, $ass_id, $ilUser->getId(), true);		
 		
 		ilUtil::sendSuccess($lng->txt("blog_finalized"), true);
 		$ilCtrl->redirect($this, "render");

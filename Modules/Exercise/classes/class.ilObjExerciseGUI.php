@@ -2355,6 +2355,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 				}
 				
 				$this->object->addResourceObject($node["wsp_id"], $this->ass->getId(), $ilUser->getId());
+				
+				// submit current version of blog
+				include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
+				$blog_gui = new ilObjBlogGUI($node["wsp_id"]);
+				$file = $blog_gui->buildExportFile;
+				$meta = array(
+					"name" => $this->node_id,
+					"tmp_name" => $file,
+					"size" => filesize($file),			
+					);		
+				$this->object->deliverFile($meta, $this->ass->getId(), $ilUser->getId(), true);		
 
 				ilUtil::sendSuccess($this->lng->txt("exc_blog_selected"), true);
 				$this->ctrl->redirect($this, "showOverview");				
@@ -2451,6 +2462,19 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 									
 			$this->object->addResourceObject($_POST["item"], $this->ass->getId(), $ilUser->getId());
+			
+			// submit current version of portfolio
+			include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+			$prtf = new ilObjPortfolio($_POST["item"], false);			
+			include_once "Services/Portfolio/classes/class.ilPortfolioHTMLExport.php";
+			$export = new ilPortfolioHTMLExport(null, $prtf);
+			$file = $export->buildExportFile();
+			$meta = array(
+				"name" => $_POST["item"],
+				"tmp_name" => $file,
+				"size" => filesize($file),			
+				);		
+			$this->object->deliverFile($meta, $this->ass->getId(), $ilUser->getId(), true);		
 
 			ilUtil::sendSuccess($this->lng->txt("exc_portfolio_selected"), true);
 			$this->ctrl->redirect($this, "showOverview");							
