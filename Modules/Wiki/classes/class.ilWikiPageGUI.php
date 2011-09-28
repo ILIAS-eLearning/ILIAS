@@ -187,11 +187,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	
 	function addHeaderAction($a_redraw = false)
 	{			
-		global $ilUser;
+		global $ilUser, $ilAccess;
 		
 		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
-		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_WORKSPACE, 
-			$ilAccess, "wiki", $_GET["ref"], $this->getPageObject()->getParentId());
+		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, 
+			$ilAccess, "wiki", $_GET["ref_id"], $this->getPageObject()->getParentId());
 		$dispatcher->setSubObject("wpg", $this->getPageObject()->getId());
 
 		include_once "Services/Object/classes/class.ilObjectListGUI.php";
