@@ -238,6 +238,8 @@ class SurveyQuestionGUI
 	
 	protected function addCommandButtons($a_form)
 	{
+		$a_form->addCommandButton("save", $this->lng->txt("save"));
+		
 		// pool question?
 		if(ilObject::_lookupType($this->object->getObjId()) == "spl")
 		{
@@ -246,8 +248,6 @@ class SurveyQuestionGUI
 				$a_form->addCommandButton("saveSync", $this->lng->txt("svy_save_sync"));
 			}
 		}		
-		
-		$a_form->addCommandButton("save", $this->lng->txt("save"));
 	}
 
 	/**

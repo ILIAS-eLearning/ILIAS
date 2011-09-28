@@ -165,24 +165,28 @@ class ilSurveySyncTableGUI extends ilTable2GUI
 		foreach($ref_ids as $ref_id)
 		{
 			$path = "...";
+			
 			$counter = 0;
 			$path_full = $tree->getPathFull($ref_id);
-			foreach($path_full as $data)
+			if(sizeof($path_full))
 			{
-				if(++$counter < (count($path_full)-1))
+				foreach($path_full as $data)
 				{
-					continue;
-				}
-				$path .= " &raquo; ";
-				if($ref_id != $data['ref_id'])
-				{
-					$path .= $data['title'];
-				}
-				else
-				{
-					$path .= ('<a target="_top" href="'.
-							  ilLink::_getLink($data['ref_id'],$data['type']).'">'.
-							  $data['title'].'</a>');
+					if(++$counter < (count($path_full)-1))
+					{
+						continue;
+					}
+					$path .= " &raquo; ";
+					if($ref_id != $data['ref_id'])
+					{
+						$path .= $data['title'];
+					}
+					else
+					{
+						$path .= ('<a target="_top" href="'.
+								  ilLink::_getLink($data['ref_id'],$data['type']).'">'.
+								  $data['title'].'</a>');
+					}
 				}
 			}
 
