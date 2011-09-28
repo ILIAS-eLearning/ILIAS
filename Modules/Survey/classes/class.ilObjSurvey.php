@@ -5348,5 +5348,66 @@ class ilObjSurvey extends ilObject
 		return $use_pool;
 	}
 	
+	/**
+	 * Apply settings template
+	 * 
+	 * @param int $template_id
+	 */
+	function applySettingsTemplate($template_id)
+	{
+		if(!$template_id)
+		{
+			return;
+		}
+		
+		include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+		$template = new ilSettingsTemplate($template_id);
+		$template_settings = $template->getSettings();
+		if($template_settings)
+		{
+			if($template_settings["show_question_titles"] !== NULL)
+			{
+				if($template_settings["show_question_titles"]["value"])
+				{
+					$this->setShowQuestionTitles(true);
+				}
+				else
+				{
+					$this->setShowQuestionTitles(false);
+				}
+			}
+
+			if($template_settings["use_pool"] !== NULL)
+			{
+				if($template_settings["use_pool"]["value"])
+				{
+					$this->setPoolUsage(true);
+				}
+				else
+				{
+					$this->setPoolUsage(false);
+				}
+			}
+
+			if($template_settings["anonymization_options"]["value"])
+			{
+				$anon_map = array('personalized' => ANONYMIZE_OFF,
+					'anonymize_with_code' => ANONYMIZE_ON,
+					'anonymize_without_code' => ANONYMIZE_FREEACCESS);
+				$this->setAnonymize($anon_map[$template_settings["anonymization_options"]["value"]]);
+			}
+
+			/* other settings: not needed here
+			 * - enabled_end_date
+			 * - enabled_start_date
+			 * - rte_switch
+			 */
+		}
+
+		$this->setTemplate($template_id);
+		$this->saveToDb();
+	}
+	
 } // END class.ilObjSurvey
+
 ?>

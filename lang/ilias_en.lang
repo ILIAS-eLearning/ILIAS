@@ -760,14 +760,14 @@ assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your
 assessment#:#tst_count_correct_solutions#:#Count Only Complete Solutions
 assessment#:#tst_count_partial_solutions#:#Count Partial Solutions
 assessment#:#tst_count_system_description#:#If partial solutions are counted, the points for a question are given dependent on the answers of a participant. If only complete solutions are counted, a participant must reach the maximum available points for a question, otherwise the resulting points are set to zero.
-assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.
-assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains questions and/or participant datasets.
-assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!
-assessment#:#tst_defaults_available#:#Available test defaults
+assessment#:#tst_defaults_applied#:#The selected test default settings have been applied.
+assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test default settings to this test! Maybe this test already contains questions and/or participant datasets.
+assessment#:#tst_defaults_apply_select_one#:#Please select exact one test default settings entry to apply the default settings to this test!
+assessment#:#tst_defaults_available#:#Available test default settings
 assessment#:#tst_defaults_defaults_of_test#:#the settings of this test as
 assessment#:#tst_defaults_dont_use#:#--- Use the ILIAS test defaults ---
-assessment#:#tst_defaults_enter_name#:#Please enter a name for your test defaults!
-assessment#:#tst_defaults_not_defined#:#You don't have any test defaults defined yet.
+assessment#:#tst_defaults_enter_name#:#Please enter a name for your test default settings!
+assessment#:#tst_defaults_not_defined#:#You don't have any test default settings defined yet.
 assessment#:#tst_delete_all_user_data#:#Delete all User Data
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_delete_results#:#Reset Test
@@ -12249,3 +12249,4 @@ chatroom#:#end_whisper#:#Cancel
 exc#:#exc_search_users#:#Search Users
 blog#:#blog_navigation#:#Postings
 survey#:#survey_question_title#:#Question Title
+assessment#:#tst_default_settings#:#Personal Default Settings

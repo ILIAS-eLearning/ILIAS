@@ -881,42 +881,56 @@ class ilObjectGUI
 	protected function initDidacticTemplate(ilPropertyFormGUI $form)
 	{
 		global $lng;
-
-		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettings.php';
-		$templates = ilDidacticTemplateSettings::getInstanceByObjectType($this->type)->getTemplates();
-
-		if(!$templates)
-		{
-			return $form;
-		}
-
+		
 		$lng->loadLanguageModule('didactic');
-
-		$type = new ilRadioGroupInputGUI(
-			$this->lng->txt($this->type.'_type'),
-			'didactic_type'
-		);
-
-		$default = new ilRadioOption($this->lng->txt('default'), 0);
-		$default->setInfo(
+					
+		$options = array();
+		$options[0] = array($this->lng->txt('default'),
 			sprintf(
 				$this->lng->txt('didactic_default_type_info'),
 				$this->lng->txt('objs_'.$this->type)
-			)
-		);
-		$type->addOption($default);
-
-		foreach($templates as $template)
+			));
+		
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettings.php';
+		$templates = ilDidacticTemplateSettings::getInstanceByObjectType($this->type)->getTemplates();
+		if($templates)
 		{
-			$tmpl = new ilRadioOption(
-				$template->getTitle(),
-				$template->getId(),
-				$template->getDescription()
-			);
-			$type->addOption($tmpl);
+			foreach($templates as $template)
+			{
+				$options["dtpl_".$template->getId()] = array($template->getTitle(),
+					$template->getDescription());			
+			}
 		}
-		$form->addItem($type);
+		
+		$this->addDidacticTemplateOptions($options);
+		
+		if(sizeof($options) > 1)
+ 		{
+			$type = new ilRadioGroupInputGUI(
+				$this->lng->txt('type'),
+				'didactic_type'
+			);
+			$form->addItem($type);		
+
+			ilUtil::sortArray($options, 0);
+			foreach($options as $id => $data)
+			{
+				$option = new ilRadioOption($data[0], $id, $data[1]);
+				$type->addOption($option);
+			}
+		}
+							
 		return $form;
+	}
+	
+	/**
+	 * Add custom templates
+	 *
+	 * @param array $a_options 
+	 */
+	protected function addDidacticTemplateOptions(array &$a_options)
+	{
+		
 	}
 
 	/**
@@ -964,7 +978,12 @@ class ilObjectGUI
 
 			$this->putObjectInTree($newObj);
 
-			$newObj->applyDidacticTemplate($form->getInput('didactic_type'));
+			// apply didactic template?
+			$dtpl = $this->getDidacticTemplateVar("dtpl");
+			if($dtpl)
+			{
+				$newObj->applyDidacticTemplate($dtpl);
+			}
 
 			// additional paramters are added to afterSave()
 			$args = func_get_args();
@@ -983,19 +1002,20 @@ class ilObjectGUI
 		$form->setValuesByPost();
 		$tpl->setContent($form->getHtml());
 	}
-
+	
 	/**
-	 * Handle didactic template settings
-	 * @param ilPropertyFormGUI $form
+	 * Get didactic template setting from creation screen
+	 * 
+	 * @param string $a_type
+	 * @return string
 	 */
-	protected function handleDidacticTemplateSettings(ilPropertyFormGUI $form, ilObject $obj)
+	protected function getDidacticTemplateVar($a_type)
 	{
-		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
-		$set = new ilDidacticTemplateSetting($form->getItemByPostVar('didactic_type')->getValue());
-
-
-
-
+		$tpl = $_POST["didactic_type"];
+		if($tpl && substr($tpl, 0, strlen($a_type)+1) == $a_type."_")
+		{
+			return (int)substr($tpl, strlen($a_type)+1);
+		}
 	}
 
 	/**

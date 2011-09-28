@@ -1533,9 +1533,6 @@ class ilObject
 	 */
 	public function applyDidacticTemplate($a_tpl_id)
 	{
-		global $tree,$rbacadmin,$rbacreview;
-
-
 		if(!$a_tpl_id)
 		{
 			return true;
