@@ -86,13 +86,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$cmd = $ilCtrl->getCmd();
 
 		$posting = $this->getBlogPosting();
+		$ilCtrl->setParameter($this, "page", $posting->getId());
 		
 		switch($next_class)
 		{
 			case "ilnotegui":				
-				$this->getTabs();
-				$ilTabs->setTabActive("pg");
-				return $this->preview();
+				// $this->getTabs();
+				// $ilTabs->setTabActive("pg");
+				return $this->previewFullscreen();
 
 			/*
 			case "ilratinggui":
@@ -122,8 +123,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 					
 					$tpl->setTitle(ilObject::_lookupTitle($this->getBlogPosting()->getBlogId())." - ".
 						$posting->getTitle());
-
-					$ilCtrl->setParameter($this, "page", $posting->getId());
+					
 					$ilLocator->addItem($posting->getTitle(),
 						$ilCtrl->getLinkTarget($this, "preview"));							
 				}
