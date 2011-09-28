@@ -867,6 +867,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		return $wtpl->get();
 	}
 	
+	/*
 	function getNotesHTML()
 	{
 		global $ilCtrl, $ilUser;
@@ -892,7 +893,8 @@ class ilObjBlogGUI extends ilObject2GUI
 			$html = $notes_gui->getNotesHTML();
 		}		
 		return $html;
-	}
+	}	 
+	 */
 
 	/**
 	 * Build navigation block
