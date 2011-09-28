@@ -2048,16 +2048,14 @@ class ilPageObjectGUI
 		// output
 		if ($ilCtrl->isAsynch() && !$this->getRawPageContent())
 		{
+			if ($_GET["updated_pc_id_str"] != "")
+			{
+				echo $_GET["updated_pc_id_str"];
+			}
 			$tpl->setVariable($this->getTemplateOutputVar(), $output);
 			$tpl->setCurrentBlock("edit_page");
 			$tpl->parseCurrentBlock();
 			echo $tpl->get("edit_page");
-			exit;
-
-			$tpl->setVariable($this->getTemplateOutputVar(), $output);
-			$tpl->setCurrentBlock("adm_content");
-			$tpl->parseCurrentBlock();
-			echo $tpl->get("adm_content");
 			exit;
 		}
 		if ($this->outputToTemplate())

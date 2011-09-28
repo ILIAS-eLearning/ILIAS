@@ -43,31 +43,45 @@ var ilCOPage =
 	// display error
 	displayError: function(str)
 	{
-		var ediv = document.createElement('div');
-		var mc = document.getElementById("il_CenterColumn");
+		// build error string
 		var estr;
-		
-		estr = "Sorry, an error occured. Please copy the content of this window and report the error at:<br /> " +
+		/* estr = "Sorry, an error occured. Please copy the content of this window and report the error at:<br /> " +
 			"<a href='http://www.ilias.de/mantis' target='_blank'>http://www.ilias.de/mantis</a>." +
 			"<p><b>User Agent</b></p>" +
-			navigator.userAgent +
-			"<p><b>Error</b></p>";
+			navigator.userAgent + */
+		estr = "<p><b>Error</b></p>";
 		estr = estr + ilCOPage.error_str;
 		estr = estr + "<p><b>Content</b></p>";
 		var content = tinyMCE.get('tinytarget').getContent();
 		content = content.split("<").join("&lt;");
 		content = content.split(">").join("&gt;");
 		estr = estr + content;
-		ediv.innerHTML = "<div style='background-color:#FFFFFF;' id='error_panel'>" +
-		"<div style='padding:20px; width:800px; height: 350px; overflow:auto;'>" + estr + "</div></div>";
-		ediv.className = "yui-skin-sam";
-		ediv = mc.appendChild(ediv);
-		var error_panel = new YAHOO.widget.Panel("error_panel", {
-			close: true,
-			constraintoviewport:true
-		});
-		error_panel.render();
-		error_panel.moveTo(20, 20);
+		
+		
+		var epan = document.getElementById('error_panel_inner');
+		if (!epan)
+		{
+			var ediv = document.createElement('div');
+			var mc = document.getElementById("il_CenterColumn");
+		
+			ediv.innerHTML = "<div style='background-color:#FFFFFF;' id='error_panel'>" +
+			"<div style='padding:20px; width:800px; height: 350px; overflow:auto;' id='error_panel_inner'>" + estr + "</div></div>";
+			ediv.className = "yui-skin-sam";
+			ediv = mc.appendChild(ediv);
+			var error_panel = new YAHOO.widget.Panel("error_panel", {
+				close: true,
+				constraintoviewport:true
+			});
+			error_panel.render();
+			error_panel.moveTo(20, 20);
+			ilCOPage.error_panel = error_panel;
+		}
+		else
+		{
+			epan.innerHTML = 
+				estr;
+			ilCOPage.error_panel.show();
+		}
 	},
 
 	////
@@ -156,6 +170,12 @@ var ilCOPage =
 			//this.copyInputToGhost(false);
 			//this.removeTiny();
 			// pc_id_str: ed_para,
+
+			if (ed_para == "")
+			{
+				alert("Error: Calling insertJS without ed_para.");
+				return;
+			}
 			
 			this.sendCmdRequest("insertJS", ed_para, null,
 				{ajaxform_content: content,
@@ -171,8 +191,14 @@ var ilCOPage =
 			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
 			//this.copyInputToGhost(false);
 			//this.removeTiny();
+			
+			if (this.pc_id_str == "")
+			{
+				alert("Error: Calling saveJS without pc_id_str.");
+				return;
+			}
 
-			this.sendCmdRequest("saveJS", ed_para, null,
+			this.sendCmdRequest("saveJS", this.pc_id_str, null,
 				{ajaxform_content: content,
 				pc_id_str: this.pc_id_str,
 				ajaxform_char: style_class,
@@ -192,7 +218,7 @@ var ilCOPage =
 		if (ilCOPage.current_td != "")
 		{
 			//ilFormSend("saveDataTable", ed_para, null, null);
-			
+						
 			tbl = document.getElementById("ed_datatable");
 			this.sendCmdRequest("saveDataTable", ed_para, null,
 				{ajaxform_content: tbl.innerHTML},
@@ -202,27 +228,38 @@ var ilCOPage =
 		{
 			var content = this.getContentForSaving();;
 			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
-			this.copyInputToGhost(false);
-			this.removeTiny();
-			this.setInsertStatus(false);
+//			this.copyInputToGhost(false);
+//			this.removeTiny();
+
+			if (ed_para == "")
+			{
+				alert("Error2: Calling insertJS without ed_para.");
+				return;
+			}
+
 			this.sendCmdRequest("insertJS", ed_para, null,
 				{ajaxform_content: content,
 				pc_id_str: this.pc_id_str,
 				insert_at_id: ed_para,
 				ajaxform_char: style_class},
-				true, {}, this.pageReloadAjaxSuccess);
+				true, {}, this.saveReturnAjaxSuccess);
 		}
 		else
 		{
 			var content = this.getContentForSaving();
 			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
-			this.copyInputToGhost(false);
-			this.removeTiny();
-			this.sendCmdRequest("saveJS", ed_para, null,
+			
+			if (this.pc_id_str == "")
+			{
+				alert("Error2: Calling saveJS without pc_id_str.");
+				return;
+			}
+
+			this.sendCmdRequest("saveJS", this.pc_id_str, null,
 				{ajaxform_content: content,
 				pc_id_str: this.pc_id_str,
 				ajaxform_char: style_class},
-				true, {}, this.pageReloadAjaxSuccess);
+				true, {}, this.saveReturnAjaxSuccess);
 		}
 	},
 
@@ -429,7 +466,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		c = this.p2br(c);
 		
 		// add wrapping div with style class
-		c = "<div class='" + cl + "'>" + c + "</div>";
+		c = "<div id='" + this.pc_id_str + "' class='" + cl + "'>" + c + "</div>";
 		
 		return c;
 	},
@@ -995,7 +1032,7 @@ if (add_final_spacer)
 	// extract pc ids
 	extractPCIdsFromResponse: function(str)
 	{
-		ilCOPage.pc_id_str = "";
+		//ilCOPage.pc_id_str = "";
 		ilCOPage.error_str = "";
 		if (str.substr(0,3) == "###")
 		{
@@ -1029,22 +1066,26 @@ if (add_final_spacer)
 		var el = document.getElementById('ilsaving');
 		el.style.display = 'none';
 		ilCOPage.extractPCIdsFromResponse(o.responseText);
-		var pc_arr = ilCOPage.pc_id_str.split(";");
-		ed_para = pc_arr[0];
+		if (ilCOPage.pc_id_str != "")
+		{
+			ed_para = ilCOPage.pc_id_str;
+		}
 		if (ilCOPage.error_str != "")
 		{
 			ilCOPage.displayError(ilCOPage.error_str);
 		}
-		
-		if (typeof o.argument.switch_to != 'undefined' &&
-			o.argument.switch_to != null)
+		else
 		{
-//console.log(o.argument.switch_to);
-			ilCOPage.copyInputToGhost(false);
-
-			tinyMCE.get('tinytarget').setContent('');
-			ilCOPage.removeTiny();
-			editParagraph(o.argument.switch_to, 'edit', true);
+			if (typeof o.argument.switch_to != 'undefined' &&
+				o.argument.switch_to != null)
+			{
+	//console.log(o.argument.switch_to);
+				ilCOPage.copyInputToGhost(false);
+	
+				tinyMCE.get('tinytarget').setContent('');
+				ilCOPage.removeTiny();
+				editParagraph(o.argument.switch_to, 'edit', true);
+			}
 		}
 	},
 
@@ -1061,7 +1102,10 @@ if (add_final_spacer)
 			{
 				ilCOPage.displayError(ilCOPage.error_str);
 			}
-			ilCOPage.setInsertStatus(false);
+			else
+			{
+				ilCOPage.setInsertStatus(false);
+			}
 //			if (o.responseText.substr(0, 3) == "---")
 //			{
 //				ed_para = o.responseText.substr(3, o.responseText.length - 6);
@@ -1070,6 +1114,45 @@ if (add_final_spacer)
 		}
 	},
 	
+	// default callback for successfull ajax request, reloads page content
+	saveReturnAjaxSuccess: function(o)
+	{
+		if(o.responseText !== undefined)
+		{
+			var c = ilCOPage.extractPCIdsFromResponse(o.responseText);
+
+			if (ilCOPage.pc_id_str != "")
+			{
+				ed_para = ilCOPage.pc_id_str;
+			}
+
+			if (ilCOPage.error_str != "")
+			{
+				var el = document.getElementById('ilsaving');
+				el.style.display = 'none';
+				ilCOPage.displayError(ilCOPage.error_str);
+			}
+			else
+			{
+				ilCOPage.copyInputToGhost(false);
+				ilCOPage.removeTiny();
+				ilCOPage.setInsertStatus(false);
+
+				var edit_div = document.getElementById('il_EditPage');
+				$('#il_EditPage').replaceWith(c);
+				ilCOPage.initDragElements();
+				ilTooltip.init();
+				ilCOPagePres.updateQuestionOverviews();
+				il.IntLink.refresh();
+				if (ilAdvancedSelectionList != null)
+				{
+					ilAdvancedSelectionList.init['style_selection']();
+					ilAdvancedSelectionList.init['char_style_selection']();
+				}
+			}
+		}
+	},
+
 	// default callback for successfull ajax request, reloads page content
 	pageReloadAjaxSuccess: function(o)
 	{

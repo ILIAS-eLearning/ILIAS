@@ -361,7 +361,7 @@ $div = str_replace("\r", "", $div);
 			{
 				$ilCtrl->returnToParent($this, "jump".$this->hier_id);
 			}
-			$text = $text[0]["text"];
+			$text = $text["text"];
 
 			$text = ilPCParagraph::_input2xml($text,
 				$this->content_obj->getLanguage(), true, false);

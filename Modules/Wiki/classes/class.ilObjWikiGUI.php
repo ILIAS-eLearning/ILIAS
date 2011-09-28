@@ -27,6 +27,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		global $ilCtrl, $lng;
 		
 		$this->type = "wiki";
+		
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$lng->loadLanguageModule("wiki");
 		

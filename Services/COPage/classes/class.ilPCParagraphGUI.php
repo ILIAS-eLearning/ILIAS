@@ -398,18 +398,21 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$_POST["ajaxform_content"],
 			ilUtil::stripSlashes($_POST["ajaxform_char"]),
 			ilUtil::stripSlashes($_POST["pc_id_str"]));
-		
 		if ($_POST["quick_save"])
 		{
 			if ($this->updated)
 			{
-				$a_pc_id_str = $this->content_obj->getLastSavedPcIds($this->pg_obj, true);
+				$a_pc_id_str = $this->content_obj->getLastSavedPcId($this->pg_obj, true);
 				echo $a_pc_id_str;
 				exit;
 			}
 		}
 
-		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+		$a_pc_id_str = $this->content_obj->getLastSavedPcId($this->pg_obj, true);
+
+		$ilCtrl->setParameterByClass($ilCtrl->getReturnClass($this), "updated_pc_id_str",
+			urlencode($a_pc_id_str));
+		$ilCtrl->redirectByClass($ilCtrl->getReturnClass($this), "edit", "", true);
 	}
 	
 	/**
@@ -720,50 +723,16 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		{
 			if ($this->updated)
 			{
-				$a_pc_id_str = $this->content_obj->getLastSavedPcIds($this->pg_obj, true);
+				$a_pc_id_str = $this->content_obj->getLastSavedPcId($this->pg_obj, true);
 				echo $a_pc_id_str;
 				exit;
 			}
 		}
 
-$this->ctrl->returnToParent($this, "jump".$this->hier_id);
-
-		
-		// get paragraph object
-		$this->content_obj = new ilPCParagraph($this->dom);
-
-		// create object,  set language and characteristic
-		$this->content_obj->create($this->pg_obj, $_POST["ajaxform_hier_id"], "");
-		$lang = $_POST["ajaxform_lang"]
-			? $_POST["ajaxform_char"]
-			: $ilUser->getLanguage();
-		$this->content_obj->setLanguage($lang);
-		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $lang;
-		$this->content_obj->setCharacteristic($_POST["ajaxform_char"]);
-
-		// handle and insert text into xml
-		$text = ilPCParagraph::handleAjaxContent($_POST["ajaxform_content"]);
-		if ($text === false)
-		{
-			$ilCtrl->returnToParent($this, "jump".$this->hier_id);
-		}
-
-		$text = $this->content_obj->input2xml($text, true, false);
-		$text = ilPCParagraph::handleAjaxContentPost($text);
-		$this->updated = $this->content_obj->setText($text, true);
-
-		if ($this->updated)
-		{
-			$this->updated = $this->pg_obj->update();
-		}
-
-		if ($_POST["quick_save"])
-		{
-			$this->pg_obj->addHierIds();
-			echo "---".$this->content_obj->lookupHierId().":".$this->content_obj->readPCId()."---"; exit;
-		}
-		
-		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+		$a_pc_id_str = $this->content_obj->getLastSavedPcId($this->pg_obj, true);
+		$ilCtrl->setParameterByClass($ilCtrl->getReturnClass($this), "updated_pc_id_str",
+			urlencode($a_pc_id_str));
+		$ilCtrl->redirectByClass($ilCtrl->getReturnClass($this), "edit", "", true);
 	}
 
 	/**
