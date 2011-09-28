@@ -510,7 +510,7 @@ assessment#:#material_file#:#Material File
 assessment#:#material#:#Material
 assessment#:#maxchars#:#Maximum Number of Characters
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of passes for this test. The test cannot be entered!
-assessment#:#maximum_points#:#Maxium Available Points
+assessment#:#maximum_points#:#Maximum Available Points
 assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.
 assessment#:#maxsize#:#Maximum file upload size 
 assessment#:#meaning#:#Meaning
@@ -575,7 +575,7 @@ assessment#:#point#:#Point
 assessment#:#points_checked#:#Points when Checked
 assessment#:#points_short#:#Pt.
 assessment#:#points_unchecked#:#Points when Unchecked
-assessment#:#points_wrong_info#:#Enter the points for all selections that are not in the list of the marked errors.
+assessment#:#points_wrong_info#:#Enter the negative points for each selected word that is not in the list of the marked errors.
 assessment#:#points_wrong#:#Wrong Selections
 assessment#:#points#:#Points
 assessment#:#polygon_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)
@@ -622,7 +622,7 @@ assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists 
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.
 assessment#:#qpl_select_file_for_import#:#You must select a file for import!
 assessment#:#qst_hint_self#:#Self-Assessment-Mode active! Enter 0 points for incorrect answers, 1 point for correct answers.
-assessment#:#qst_nr_of_tries#:#Number of tries
+assessment#:#qst_nr_of_tries#:#Number of Tries
 assessment#:#qt_multiple_choice#:#Multiple Choice Question
 assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics
 assessment#:#question_instances_title#:#This question is used in the following tests
