@@ -461,21 +461,48 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setContent($form->getHTML());
 	}
 	
+	function addDidacticTemplateOptions(array &$a_options) 
+	{
+		include_once("./Modules/Test/classes/class.ilObjTest.php");
+		$tst = new ilObjTest();
+		$defaults = $tst->getAvailableDefaults();
+		if (count($defaults))
+		{
+			foreach ($defaults as $row)
+			{
+				$a_options["tstdef_".$row["test_defaults_id"]] = array($row["name"],
+					$this->lng->txt("tst_default_settings"));
+			}
+		}
+
+		// using template?
+		include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+		$templates = ilSettingsTemplate::getAllSettingsTemplates("tst");
+		if($templates)
+		{
+			foreach($templates as $item)
+			{
+				$a_options["tsttpl_".$item["id"]] = array($item["title"],
+					nl2br(trim($item["description"])));
+			}
+		}		
+	}
+	
 	/**
 	* save object
 	* @access	public
 	*/
 	function afterSave(ilObject $a_new_object)
 	{
-		if ($_POST["defaults"] > 0) 
+		$tstdef = $this->getDidacticTemplateVar("tstdef");
+		if ($tstdef) 
 		{
-			$a_new_object->applyDefaults($_POST["defaults"]);
+			$a_new_object->applyDefaults($tstdef);
 		}
 
-		if($_POST['template'])
-		{
-			$template_id = (int)$_POST['template'];
-
+		$template_id = $this->getDidacticTemplateVar("tsttpl");
+		if($template_id)
+		{			
 			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 			$template = new ilSettingsTemplate($template_id, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
 
@@ -3378,103 +3405,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$table_gui->setData($log);
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
-
-	/**
-	* form for new content object creation
-	*/
-	protected function initCreateForm($a_new_type)
-	{
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setTarget("_top");
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt($a_new_type."_new"));
-
-		// title
-		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$ti->setMaxLength(128);
-		$ti->setSize(40);
-		$ti->setRequired(true);
-		$form->addItem($ti);
-
-		// description
-		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-		$ta->setCols(40);
-		$ta->setRows(2);
-		$form->addItem($ta);
-
-		// defaults
-		include_once("./Modules/Test/classes/class.ilObjTest.php");
-		$tst = new ilObjTest();
-		$defaults = $tst->getAvailableDefaults();
-		if (count($defaults))
-		{
-			$options = array(0 => $this->lng->txt("tst_defaults_dont_use"));
-			foreach ($defaults as $row)
-			{
-				$options[$row["test_defaults_id"]] = $row["name"];
-			}
-
-			$def = new ilSelectInputGUI($this->lng->txt("defaults"), "defaults");
-			$def->setOptions($options);
-			$form->addItem($def);
-		}
-
-
-		// using template?
-		include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
-		$templates = ilSettingsTemplate::getAllSettingsTemplates("tst");
-		if($templates)
-		{
-			$this->tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
-			// $this->tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
-
-			$options = array(""=>$this->lng->txt("none"));
-			$js_data = array();
-			foreach($templates as $item)
-			{
-				$options[$item["id"]] = $item["title"];
-
-				$desc = str_replace("\n", "", nl2br(trim($item["description"])));
-				$desc = str_replace("\r", "", $desc);
-
-				$js_data[] = "jsInfo[".$item["id"]."] = \"".$desc."\"";
-			}
-
-			$tmpl = new ilSelectInputGUI($this->lng->txt("tst_settings_template"), "template");
-			$tmpl->setOptions($options);
-			$tmpl->addCustomAttribute("onChange=\"showInfo(this.value);\"");
-			$form->addItem($tmpl);
-
-			$js_data = implode("\n", $js_data);
-
-$preview = <<<EOT
-			<script>
-			var jsInfo = {};
-			$js_data
-			function showInfo(id) {
-				if(jsInfo[id] != undefined && jsInfo[id].length)
-				{
-					jQuery("#jsInfo").html(jsInfo[id]).css("display", "");
-				}
-				else
-				{
-					jQuery("#jsInfo").html("").css("display", "hidden");
-				}
-			}
-			</script>
-			<div id="jsInfo" style="display:none; margin: 5px;" class="small">xxx</div></td>
-EOT;
-
-			$tmpl->setInfo($preview);
-		}
-
-		$form->addCommandButton("save", $this->lng->txt($a_new_type."_add"));
-		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
-
-		return $form;
-	}
-
+	
 	function initImportForm($a_new_type)
 	{
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -4567,7 +4498,7 @@ EOT;
                 if (!in_array('defaults', $hiddenTabs)) {
                     // defaults subtab
                     $ilTabs->addSubTabTarget(
-                            "defaults",
+                            "tst_default_settings",
                             $this->ctrl->getLinkTarget($this, "defaults"),
                             array("defaults", "deleteDefaults", "addDefaults", "applyDefaults"),
                             array("", "ilobjtestgui", "ilcertificategui")
