@@ -1328,126 +1328,65 @@ if (!$a_wysiwyg)
 	 * @param
 	 * @return
 	 */
-	function saveJS($a_pg_obj, $a_content, $a_char, $a_pc_ids, $a_insert_at = "")
+	function saveJS($a_pg_obj, $a_content, $a_char, $a_pc_id, $a_insert_at = "")
 	{
 		global $ilUser;
-//echo "-$a_pc_ids-";
-//var_dump($a_content);
-		$text = self::handleAjaxContent($a_content);
+
+		$t = self::handleAjaxContent($a_content);
 		if ($text === false)
 		{
 			return false;
 		}
 
-		$pc_ids_arr = explode(";", $a_pc_ids);
-		$pc_ids = array();
+		$pc_id = explode(":", $a_pc_id);
+		$insert_at = explode(":", $a_insert_at);
+		$t_id = explode(":", $t["id"]);
 		
-//		if (!in_array($this->readHierId().":".$this->readPCId(), $pc_ids_arr))
-//		{
-//			$pc_ids_arr[] = $this->readHierId().":".$this->readPCId();
-//		}
-		foreach ($pc_ids_arr as $p)
+		// insert new paragraph
+		if ($a_insert_at != "")
 		{
-			$parts = explode(":", $p);
-			if ($parts[1] != "" && !in_array($parts[1], $pc_ids))
-			{
-				$pc_ids[] = $parts[1];
-			}
-		}
-
-		// step 1:
-		// get the first node, behind the current element that does not
-		// belong to the edited sequence (of the same parent)
-		// if this node exists: use insert_before mode, if not
-		// set append_child mode.
-		if ($a_insert_at == "")
-		{
-			$pc_parent_node = $childs = $this->par_node->parent_node()->parent_node();
-			$childs = $pc_parent_node->child_nodes();
-			$method = "append_child";
-			$c_node = $this->par_node->parent_node();
-			$found = false;
-			while (($c_node = $c_node->next_sibling()) && !$found)
-			{
-				if (!in_array($c_node->get_attribute("PCID"), $pc_ids))
-				{
-					$found = true;
-					$new_successor = $c_node;
-				}
-			}
+			$par = new ilPCParagraph($this->dom);
+			$par->create($a_pg_obj, $insert_at[0], $insert_at[1]);
 		}
 		else
 		{
-			$insert_at = explode(":", $a_insert_at);
+			$par = $a_pg_obj->getContentObject($pc_id[0], $pc_id[1]);
 		}
 		
-		// step 2:
-		// delete all elements of the sequence
-		foreach ($pc_ids as $p)
-		{
-			$a_pg_obj->deleteContent("", false, $p);
-		}
-
-		// step 3:
-		// insert all elements of the sequence at the position determined
-		// in step 1
-//var_dump($text); exit;
-		$this->inserted_pc_ids = array();
-		
-		// when inserting we use reverse, since the create method uses
-		// "insert after" (the fixed point where we insert)
 		if ($a_insert_at != "")
 		{
-			$text = array_reverse($text);
+			$pc_id = $a_pg_obj->generatePCId();
+			$par->writePCId($pc_id);
+			$this->inserted_pc_id = $pc_id;
 		}
-		foreach ($text as $t)
+		else
 		{
-			$par = new ilPCParagraph($this->dom);
-			if ($a_insert_at != "")
-			{
-				$par->create($a_pg_obj, $insert_at[0], $insert_at[1]);
-			}
-			else if ($found)
-			{
-				$par->createBeforeNode($new_successor);
-			}
-			else
-			{
-				$par->createAtNode($pc_parent_node);
-			}
-			if (trim($t["id"]) != "" && !$a_pg_obj->existsPCId($t["id"]))
-			{
-				$par->writePCId($t["id"]);
-				$this->inserted_pc_ids[] = $t["id"];
-			}
-			else
-			{
-				$pc_id = $a_pg_obj->generatePCId();
-				$par->writePCId($pc_id);
-				$this->inserted_pc_ids[] = $pc_id;
-			}
-			$par->setLanguage($ilUser->getLanguage());
-			$par->setCharacteristic($t["class"]);
-			$t2 = $par->input2xml($t["text"], true, false);
-			$t2 = ilPCParagraph::handleAjaxContentPost($t2);
-			$updated = $par->setText($t2, true);
+			$this->inserted_pc_id = $pc_id[1];
 		}
 
-		if (!$updated)
+		$par->setLanguage($ilUser->getLanguage());
+		$par->setCharacteristic($t["class"]);
+
+		$t2 = $par->input2xml($t["text"], true, false);
+		$t2 = ilPCParagraph::handleAjaxContentPost($t2);
+		$updated = $par->setText($t2, true);
+
+		if ($updated !== true)
 		{
+			echo $updated; exit;
 			return false;
 		}
 		$updated = $a_pg_obj->update();
 		return $updated;
 	}
-	
+
 	/**
 	 * Get last inserted pc ids
 	 *
 	 * @param
 	 * @return
 	 */
-	function getLastSavedPCIds($a_pg_obj, $a_as_ajax_str = false)
+	function getLastSavedPCId($a_pg_obj, $a_as_ajax_str = false)
 	{
 		if ($a_as_ajax_str)
 		{
@@ -1455,9 +1394,8 @@ if (!$a_wysiwyg)
 			$a_pg_obj->addHierIds();
 			$ids = "###";
 //var_dump($this->inserted_pc_ids);
-			$combined = $a_pg_obj->getHierIdsForPCIds($this->inserted_pc_ids);
-//var_dump($combined);
-			$sep = "";
+			$combined = $a_pg_obj->getHierIdsForPCIds(
+				array($this->inserted_pc_id));
 			foreach ($combined as $pc_id => $hier_id)
 			{
 //echo "1";
@@ -1468,7 +1406,7 @@ if (!$a_wysiwyg)
 			return $ids;
 		}
 
-		return $this->inserted_pc_ids;
+		return $this->inserted_pc_id;
 	}
 	
 	
@@ -1485,7 +1423,7 @@ if (!$a_wysiwyg)
 
 //		$content = str_replace("&lt;", "<", $content);
 //		$content = str_replace("&gt;", ">", $content);
-//echo "<br><br>".htmlentities($content); exit;
+//echo "<br><br>".htmlentities($content); mk();
 		$res = $doc->loadXML($content);
 
 		if (!$res)
@@ -1565,7 +1503,8 @@ if (!$a_wysiwyg)
 			}
 		}
 
-		return $ret;
+		// we should only have one here!
+		return $ret[0];
 	}
 
 	/**
