@@ -902,6 +902,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 		$data = $this->object->getQuestionsTable($arrFilter);
+		
+		// translate pools for proper sorting
+		if(sizeof($data))
+		{
+			$pools = $table_gui->getQuestionPools();
+			foreach($data as $idx => $row)
+			{
+				$data[$idx]["spl"] = $pools[$row["obj_fi"]];
+			}
+		}
+		
 		$table_gui->setData($data);
 		$this->tpl->setVariable('TABLE', $table_gui->getHTML());	
 

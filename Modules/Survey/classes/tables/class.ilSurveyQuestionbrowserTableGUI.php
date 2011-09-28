@@ -90,6 +90,11 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 
 		$this->initFilter();
 	}
+	
+	function getQuestionPools()
+	{
+		return $this->questionpools;
+	}
 
 	/**
 	* Init filter
@@ -192,7 +197,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 		include_once "./classes/class.ilFormat.php";
 		$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_UNIX)));
 		$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["tstamp"],IL_CAL_UNIX)));
-		$this->tpl->setVariable("QPL", ilUtil::prepareFormOutput($this->questionpools[$data['obj_fi']]));
+		$this->tpl->setVariable("QPL", ilUtil::prepareFormOutput($data["spl"]));
 	}
 	
 	public function setEditable($value)
