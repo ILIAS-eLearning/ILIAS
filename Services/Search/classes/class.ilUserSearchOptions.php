@@ -89,6 +89,26 @@ class ilUserSearchOptions
 			$fields[$counter]['lang'] = $lng->txt($field);
 			$fields[$counter]['db'] = $field;
 
+			/**
+			 * @todo: implement a more general solution
+			 */
+			$fields[$counter]['autoComplete'] = false;
+			if($field == 'login')
+			{
+				$fields[$counter]['autoComplete'] = true;
+			}
+			if($field == 'firstname')
+			{
+				$fields[$counter]['autoComplete'] = true;
+			}
+			if($field == 'lastname')
+			{
+				$fields[$counter]['autoComplete'] = true;
+			}
+			if($field == 'email')
+			{
+				$fields[$counter]['autoComplete'] = true;
+			}
 
 			if($field == 'gender')
 			{

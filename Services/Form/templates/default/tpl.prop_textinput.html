@@ -24,10 +24,10 @@
 			    // Use an XHRDataSource
 //			    var oDS = new YAHOO.widget.DS_XHR(aUri , responseSchema);
 //			    oDS.responseType = YAHOO.widget.DS_XHR.TYPE_JSON;
-var oDS = new YAHOO.util.DataSource(aUri);
-oDS.responseType = YAHOO.util.DataSource.TYPE_JSON; 
-oDS.connXhrMode = "queueRequests";
-oDS.responseSchema = responseSchema;
+				var oDS = new YAHOO.util.DataSource(aUri);
+				oDS.responseType = YAHOO.util.DataSource.TYPE_JSON;
+				oDS.connXhrMode = "queueRequests";
+				oDS.responseSchema = responseSchema;
 			    
 			    // set arguments
 			    oDS.scriptQueryAppend = additionalArguments;

@@ -1,7 +1,7 @@
 function ilUserAutoComplete(oResultData, sQuery, sResultMatch)
 {
 	var email = "";
-	if(oResultData.email.toUpperCase().indexOf(sQuery.toUpperCase()) > -1)
+	if((oResultData.email !== undefined) && oResultData.email.toUpperCase().indexOf(sQuery.toUpperCase()) > -1)
 	{
 		email = ", " + oResultData.email;
 	}

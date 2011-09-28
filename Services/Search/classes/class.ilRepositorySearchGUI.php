@@ -187,14 +187,24 @@ class ilRepositorySearchGUI
 	 */
 	protected function doUserAutoComplete()
 	{
+
+		if(!isset($_GET['autoCompleteField']))
+		{
+			$a_fields = array('login','firstname','lastname','email');
+		}
+		else
+		{
+			$a_fields = array((string) $_GET['autoCompleteField']);
+		}
+
+		$GLOBALS['ilLog']->write(print_r($a_fields,true));
 		include_once './Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
-		$auto->setSearchFields(array('login','firstname','lastname','email'));
+		$auto->setSearchFields($a_fields);
 		$auto->enableFieldSearchableCheck(true);
 		echo $auto->getList($_REQUEST['query']);
 		exit();
 	}
-
 
 
 	/**
@@ -324,6 +334,8 @@ class ilRepositorySearchGUI
 	
 	public function initFormSearch()
 	{
+		global $ilCtrl;
+
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		
 		$this->form =  new ilPropertyFormGUI();
@@ -357,14 +369,35 @@ class ilRepositorySearchGUI
 				case FIELD_TYPE_UDF_TEXT:
 				case FIELD_TYPE_TEXT:
 
-					$txt = new ilTextInputGUI($info['lang'],"rep_query[usr][".$info['db']."]");
-					$txt->setSize(30);
-					$txt->setMaxLength(120);
-					$users->addSubItem($txt);
+					if(isset($info['autoComplete']) and $info['autoComplete'])
+					{
+						include_once './Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php';
+
+						$ilCtrl->setParameterByClass(get_class($this),'autoCompleteField',$info['db']);
+						$ul = new ilUserLoginAutoCompleteInputGUI(
+							$info['lang'],
+							"rep_query[usr][".$info['db']."]",
+							array(get_class($this),get_class($this)),
+							'doUserAutoComplete'
+						);
+						$ul->setResultDataField($info['db']);
+						$ul->setSize(30);
+						$ul->setMaxLength(120);
+						$users->addSubItem($ul);
+					}
+					else
+					{
+						$txt = new ilTextInputGUI($info['lang'],"rep_query[usr][".$info['db']."]");
+						$txt->setSize(30);
+						$txt->setMaxLength(120);
+						$users->addSubItem($txt);
+					}
 					break;
 			}
 		}
 		$kind->addOption($users);
+
+
 
 		// Role
 		$roles = new ilRadioOption($this->lng->txt('search_for_role_members'),'role');

@@ -88,13 +88,6 @@ class ilUserAutoComplete
 		$available_fields = array();
 		foreach($this->getSearchFields() as $field)
 		{
-
-			// Ignore fixed login field
-			if($field == 'login')
-			{
-				continue;
-			}
-
 			include_once './Services/Search/classes/class.ilUserSearchOptions.php';
 			if(ilUserSearchOptions::_isEnabled($field))
 			{
@@ -112,14 +105,6 @@ class ilUserAutoComplete
 	{
 		global $ilDB;
 		
-		/*
-		$search = explode(',', $a_str);
-		if(count($search) > 1)
-		{
-			$a_str = end($search);
-		}
-		*/
-
 		include_once './Services/JSON/classes/class.ilJsonUtil.php';
 		$result = new stdClass();
 		$result->response = new stdClass();
