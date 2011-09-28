@@ -134,12 +134,22 @@ class ilPortfolioTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_ACTION", $lng->txt("prtf_edit_portfolio"));
 			$this->tpl->parseCurrentBlock();
 						
-			if(!$a_set["is_default"] && $a_set["is_online"])
+			if($a_set["is_online"])
 			{
-				$this->tpl->setVariable("URL_ACTION",
-					$ilCtrl->getLinkTarget($this->parent_obj, "setDefault"));
-				$this->tpl->setVariable("TXT_ACTION", $lng->txt("prtf_set_as_default"));
-				$this->tpl->parseCurrentBlock();
+				if(!$a_set["is_default"])
+				{
+					$this->tpl->setVariable("URL_ACTION",
+						$ilCtrl->getLinkTarget($this->parent_obj, "setDefault"));
+					$this->tpl->setVariable("TXT_ACTION", $lng->txt("prtf_set_as_default"));
+					$this->tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$this->tpl->setVariable("URL_ACTION",
+						$ilCtrl->getLinkTarget($this->parent_obj, "unsetDefault"));
+					$this->tpl->setVariable("TXT_ACTION", $lng->txt("prtf_unset_as_default"));
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 
 			$ilCtrl->setParameter($this->parent_obj, "prt_id", "");

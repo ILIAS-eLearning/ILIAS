@@ -526,6 +526,21 @@ class ilObjPortfolioGUI
 		}
 		$ilCtrl->redirect($this, "show");
 	}
+	
+	/**
+	 * Unset default portfolio for user
+	 */
+	protected function unsetDefault()
+	{
+		global $ilCtrl, $lng;
+
+		if($this->portfolio && $this->checkAccess("write"))
+		{
+			ilObjPortfolio::setUserDefault($this->user_id);
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		}
+		$ilCtrl->redirect($this, "show");
+	}
 
 	/**
 	 * Confirm portfolio deletion
