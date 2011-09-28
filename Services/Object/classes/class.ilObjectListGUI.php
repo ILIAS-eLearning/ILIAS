@@ -1015,7 +1015,7 @@ class ilObjectListGUI
 		{
 			$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", "");
 			$this->ctrl->setParameterByClass($this->gui_class_name, "wsp_id", $this->ref_id);
-			return $this->ctrl->getLinkTargetByClass(array("ilPersonalWorkspaceGUI", $this->gui_class_name), $a_cmd);
+			return $this->ctrl->getLinkTargetByClass($this->gui_class_name, $a_cmd);
 		}
 	}
 
