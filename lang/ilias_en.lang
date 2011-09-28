@@ -9755,7 +9755,7 @@ survey#:#no_user_phrases_defined#:#There are no user defined phrases available!
 survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
 survey#:#non_ratio#:#Interval
 survey#:#not_used#:#not used yet
-survey#:#obligatory#:#obligatory
+survey#:#obligatory#:#Obligatory
 survey#:#off#:#Off
 survey#:#offline#:#offline
 survey#:#on_additional#:#On, and additional
@@ -9873,7 +9873,7 @@ survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplet
 survey#:#survey_finish#:#Finish Survey
 survey#:#survey_finished#:#You have finished the survey. Thank you for your participation!
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the participants section.
-survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.
+survey#:#survey_is_offline#:#You cannot start the survey! The survey is currently offline.
 survey#:#survey_next#:#Next >>
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline!
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!
@@ -11138,7 +11138,7 @@ survey#:#survey_has_datasets_warning_page_view#:#The survey already contains dat
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants
 survey#:#survey_using_template#:#This survey uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
 survey#:#survey_using_template_link#:#Do not use template anymore
-common#:#toggle_hidden_sections#:#Show more Information
+common#:#toggle_hidden_sections#:#Show More Information
 assessment#:#test_enable_views#:#Enabled views
 assessment#:#test_enable_view_both#:#Table- and Page View
 assessment#:#test_enable_view_express#:#Page View
