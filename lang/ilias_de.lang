@@ -12254,3 +12254,7 @@ assessment#:#tst_default_settings#:#Persönliche Standardeinstellungen
 prtf#:#prtf_unset_as_default#:#Nicht als Mein Profil verwenden
 certificate#:#certificate_ph_date_completed#:#Datum des Bestehens
 certificate#:#certificate_ph_datetime_completed#:#Datum und Zeit des Bestehens
+certificate#:#certificate_ph_passed_exercise#:#"bestanden" oder "nicht bestanden"
+certificate#:#certificate_ph_mark#:#Erreichte Note
+certificate#:#certificate_ph_exercisetitle#:#Titel der Übung
+certificate#:#certificate_visibility_passed_exercise#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin die Übung bestanden hat
