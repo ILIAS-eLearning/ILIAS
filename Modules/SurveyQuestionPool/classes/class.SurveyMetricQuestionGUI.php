@@ -423,15 +423,18 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$data->setLabel($this->lng->txt("users_answered"));
 		$data->setBarOptions(0.1, "center");
 		
-		$labels = array();
-		foreach($a_values as $idx => $answer)
-		{			
-			$data->addPoint($answer["value"], $answer["selected"]);		
-			$labels[$answer["value"]] = $answer["value"];
+		if($a_values)
+		{
+			$labels = array();
+			foreach($a_values as $idx => $answer)
+			{			
+				$data->addPoint($answer["value"], $answer["selected"]);		
+				$labels[$answer["value"]] = $answer["value"];
+			}
+			$chart->addData($data);
+
+			$chart->setTicks($labels, false, true);
 		}
-		$chart->addData($data);
-		
-		$chart->setTicks($labels, false, true);
 
 		return "<div style=\"margin:10px\">".$chart->getHTML()."</div>";				
 	}
