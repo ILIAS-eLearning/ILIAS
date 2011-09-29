@@ -775,15 +775,18 @@ class SurveyQuestionGUI
 		
 		if(sizeof($a_variables) <= $max)
 		{
-			$labels = array();
-			foreach($a_variables as $idx => $points)
-			{			
-				$data->addPoint($idx, $points["selected"]);		
-				$labels[$idx] = ($idx+1).". ".ilUtil::prepareFormOutput($points["title"]);
+			if($a_variables)
+			{
+				$labels = array();
+				foreach($a_variables as $idx => $points)
+				{			
+					$data->addPoint($idx, $points["selected"]);		
+					$labels[$idx] = ($idx+1).". ".ilUtil::prepareFormOutput($points["title"]);
+				}
+				$chart->addData($data);
+
+				$chart->setTicks($labels, false, true);
 			}
-			$chart->addData($data);
-						
-			$chart->setTicks($labels, false, true);
 
 			return "<div style=\"margin:10px\">".$chart->getHTML()."</div>";		
 		}
