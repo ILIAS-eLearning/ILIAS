@@ -398,6 +398,23 @@ $div = str_replace("\r", "", $div);
 
 		$this->updated = $this->pg_obj->update();
 
+		
+		// perform table action? (move...?)
+		//$this->update(false);
+		$this->pg_obj->addHierIDs();
+
+		$cell_hier_id = ($_POST["tab_cmd_type"] == "col")
+			? $this->hier_id."_1_".($_POST["tab_cmd_id"] + 1)
+			: $this->hier_id."_".($_POST["tab_cmd_id"] + 1)."_1";
+		$cell_obj = $this->pg_obj->getContentObject($cell_hier_id);
+		if (is_object($cell_obj))
+		{
+			$cell_obj->$_POST["tab_cmd"]();
+			$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		}
+
+		
+		
 		//if ($a_redirect)
 		//{
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);

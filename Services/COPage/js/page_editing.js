@@ -228,8 +228,6 @@ var ilCOPage =
 		{
 			var content = this.getContentForSaving();;
 			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
-//			this.copyInputToGhost(false);
-//			this.removeTiny();
 
 			if (ed_para == "")
 			{
@@ -1184,6 +1182,30 @@ if (add_final_spacer)
 		doActionForm('cmd[exec]', 'command', 'insert_par', '', 'PageContent', '');
 	},
 	
+	////
+	//// Table Editing
+	////
+	
+	
+	handleDataTableCommand: function (type, command)
+	{
+		tbl = document.getElementById("ed_datatable");
+		this.sendCmdRequest("saveDataTable", ed_para, null,
+			{ajaxform_content: tbl.innerHTML,
+			tab_cmd_type: type, tab_cmd: command, tab_cmd_id: current_row_col},
+			false, null, null);
+
+/*		obj = document.getElementById("post");
+		hid_type = document.getElementById("dtform_type");
+		hid_type.value = type;
+		hid_cmd = document.getElementById("dtform_command");
+		hid_cmd.value = command;
+		hid_id = document.getElementById("dtform_nr");
+		hid_id.value = current_row_col;
+		
+		obj.submit();*/
+	},
+
 	
 	////
 	//// Page editing (incl. drag/drop and menues)
@@ -2345,3 +2367,5 @@ function showToolbar(ed_id)
 };
 
 //ilAddOnLoad(function(){ilCOPage.editTD('cell_0_0');});
+
+var current_row_col;
