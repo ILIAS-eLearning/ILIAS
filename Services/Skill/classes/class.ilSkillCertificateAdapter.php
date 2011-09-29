@@ -52,31 +52,24 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 	public function getCertificateVariablesForPreview()
 	{
 		global $lng, $ilUser;
-
-		include_once "./classes/class.ilFormat.php";
-		$insert_tags = array(
-			"[USER_FULLNAME]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_fullname")),
-			"[USER_FIRSTNAME]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_firstname")),
-			"[USER_LASTNAME]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_lastname")),
-			"[USER_TITLE]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_title")),
-			"[USER_SALUTATION]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_salutation")),
-			"[USER_BIRTHDAY]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_birthday")),
-			"[USER_INSTITUTION]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_institution")),
-			"[USER_DEPARTMENT]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_department")),
-			"[USER_STREET]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_street")),
-			"[USER_CITY]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_city")),
-			"[USER_ZIPCODE]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_zipcode")),
-			"[USER_COUNTRY]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_country")),
-			"[USER_LASTACCESS]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()-(24*60*60*5)), "datetime", TRUE, FALSE),
-			"[SKILL_TITLE]" => ilUtil::prepareFormOutput($this->skill->getTitleForCertificate()),
-			"[SKILL_LEVEL_TITLE]" => ilUtil::prepareFormOutput($this->skill->getLevelTitleForCertificate($this->skill_level_id)),
-			"[SKILL_TRIGGER_TITLE]" => ilUtil::prepareFormOutput($this->skill->getTriggerTitleForCertificate($this->skill_level_id)),
-			"[ACHIEVEMENT_DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date", FALSE, FALSE),
-			"[ACHIEVEMENT_DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE, FALSE),
-			"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date", FALSE, FALSE),
-			"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE, FALSE)
-		);
-
+		
+		$old = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+		
+		$vars = $this->getBaseVariablesForPreview(true, false);
+		$vars["SKILL_TITLE"] = ilUtil::prepareFormOutput($this->skill->getTitleForCertificate());
+		$vars["SKILL_LEVEL_TITLE"] = ilUtil::prepareFormOutput($this->skill->getLevelTitleForCertificate($this->skill_level_id));
+		$vars["SKILL_TRIGGER_TITLE"] = ilUtil::prepareFormOutput($this->skill->getTriggerTitleForCertificate($this->skill_level_id));
+		$vars["ACHIEVEMENT_DATE"] = ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX));
+		$vars["ACHIEVEMENT_DATETIME"] = ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX));
+		
+		ilDatePresentation::setUseRelativeDates($old);
+		
+		$insert_tags = array();
+		foreach($vars as $id => $caption)
+		{
+			$insert_tags["[".$id."]"] = $caption;
+		}		
 		return $insert_tags;
 	}
 
@@ -93,53 +86,35 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 		global $lng;
 		
 		$lng->loadLanguageModule('certificate');
+		
 		$user_data = $params["user_data"];
-		$salutation = "";
-		if (strlen($user_data["gender"]))
-		{
-			$salutation = $lng->txt("salutation_" . $user_data["gender"]);
-		}
-		$y = ""; $m = ""; $d = "";
-		if (preg_match("/(\\d{4})-(\\d{2})-(\\d{2})/", $user_data["birthday"], $matches))
-		{
-			$y = $matches[1];
-			$m = $matches[2];
-			$d = $matches[3];
-		}
-		include_once "./classes/class.ilFormat.php";
-		$insert_tags = array(
-			"[USER_FULLNAME]" => ilUtil::prepareFormOutput(trim($user_data["title"] . " " . $user_data["firstname"] . " " . $user_data["lastname"])),
-			"[USER_FIRSTNAME]" => ilUtil::prepareFormOutput($user_data["firstname"]),
-			"[USER_LASTNAME]" => ilUtil::prepareFormOutput($user_data["lastname"]),
-			"[USER_TITLE]" => ilUtil::prepareFormOutput($user_data["title"]),
-			"[USER_SALUTATION]" => ilUtil::prepareFormOutput($salutation),
-			"[USER_BIRTHDAY]" => ilUtil::prepareFormOutput((strlen($y.$m.$d)) ? str_replace("m", $m, str_replace("d", $d, str_replace("Y", $y, $lng->txt("lang_dateformat")))) : $lng->txt("not_available")),
-			"[USER_INSTITUTION]" => ilUtil::prepareFormOutput($user_data["institution"]),
-			"[USER_DEPARTMENT]" => ilUtil::prepareFormOutput($user_data["department"]),
-			"[USER_STREET]" => ilUtil::prepareFormOutput($user_data["street"]),
-			"[USER_CITY]" => ilUtil::prepareFormOutput($user_data["city"]),
-			"[USER_ZIPCODE]" => ilUtil::prepareFormOutput($user_data["zipcode"]),
-			"[USER_COUNTRY]" => ilUtil::prepareFormOutput($user_data["country"]),
-			"[USER_LASTACCESS]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime($params["last_access"]), "datetime", FALSE, FALSE),
-			"[SKILL_TITLE]" => ilUtil::prepareFormOutput($this->skill->getTitleForCertificate()),
-			"[SKILL_LEVEL_TITLE]" => ilUtil::prepareFormOutput($this->skill->getLevelTitleForCertificate($this->skill_level_id)),
-			"[SKILL_TRIGGER_TITLE]" => ilUtil::prepareFormOutput($this->skill->getTriggerTitleForCertificate($this->skill_level_id)),
-			"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date", FALSE, FALSE),
-			"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE, FALSE)
-		);
+		
+		$vars = $this->getBaseVariablesForPresentation($user_data, $params["last_access"], null);				
+		$vars["SKILL_TITLE"] = ilUtil::prepareFormOutput($this->skill->getTitleForCertificate());
+		$vars["SKILL_LEVEL_TITLE"] = ilUtil::prepareFormOutput($this->skill->getLevelTitleForCertificate($this->skill_level_id));
+		$vars["SKILL_TRIGGER_TITLE"] = ilUtil::prepareFormOutput($this->skill->getTriggerTitleForCertificate($this->skill_level_id));
+	
 		$achievement_date = ilBasicSkill::lookupLevelAchievementDate($user_data["usr_id"], $this->skill_level_id);
 		if ($achievement_date !== false)
-		{
-			$insert_tags["[ACHIEVEMENT_DATE]"] = ilFormat::formatDate($achievement_date, "date", FALSE, FALSE);
-			$insert_tags["[ACHIEVEMENT_DATETIME]"] = ilFormat::formatDate($achievement_date, "datetime", TRUE, FALSE);
+		{			
+			$old = ilDatePresentation::useRelativeDates();
+			ilDatePresentation::setUseRelativeDates(false);
+		
+			$vars["ACHIEVEMENT_DATE"] = ilDatePresentation::formatDate(new ilDate($achievement_date, IL_CAL_DATETIME));
+			$vars["ACHIEVEMENT_DATETIME"] = ilDatePresentation::formatDate(new ilDateTime($achievement_date, IL_CAL_DATETIME));
+			
+			ilDatePresentation::setUseRelativeDates($old);
 		}
 		else
 		{
-			$insert_tags["[ACHIEVEMENT_DATE]"] = "";
-			$insert_tags["[ACHIEVEMENT_DATETIME]"] = "";
+			$vars["ACHIEVEMENT_DATE"] = "";
+			$vars["ACHIEVEMENT_DATETIME"] = "";
 		}
-
-
+		
+		foreach($vars as $id => $caption)
+		{
+			$insert_tags["[".$id."]"] = $caption;
+		}		
 		return $insert_tags;
 	}
 	
@@ -155,31 +130,24 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 
 		$lng->loadLanguageModule("skmg");
 		
+		$vars = $this->getBaseVariablesDescription(true, false);
+		$vars["SKILL_TITLE"] = $lng->txt("skmg_cert_skill_title");
+		$vars["SKILL_LEVEL_TITLE"] = $lng->txt("skmg_cert_skill_level_title");
+		$vars["SKILL_TRIGGER_TITLE"] = $lng->txt("skmg_cert_skill_trigger_title");
+		$vars["ACHIEVEMENT_DATE"] = $lng->txt("skmg_cert_achievement_date");
+		$vars["ACHIEVEMENT_DATETIME"] = $lng->txt("skmg_cert_achievement_datetime");
+		
 		$template = new ilTemplate("tpl.certificate_edit.html", TRUE, TRUE, "Services/Skill");
+		$template->setCurrentBlock("items");
+		foreach($vars as $id => $caption)
+		{
+			$template->setVariable("ID", $id);
+			$template->setVariable("TXT", $caption);
+			$template->parseCurrentBlock();
+		}
+
 		$template->setVariable("PH_INTRODUCTION", $lng->txt("certificate_ph_introduction"));
-		$template->setVariable("PH_USER_FULLNAME", $lng->txt("certificate_ph_fullname"));
-		$template->setVariable("PH_USER_FIRSTNAME", $lng->txt("certificate_ph_firstname"));
-		$template->setVariable("PH_USER_LASTNAME", $lng->txt("certificate_ph_lastname"));
-		$template->setVariable("PH_RESULT_PASSED", $lng->txt("certificate_ph_passed"));
-		$template->setVariable("PH_RESULT_POINTS", $lng->txt("certificate_ph_resultpoints"));
-		$template->setVariable("PH_RESULT_PERCENT", $lng->txt("certificate_ph_resultpercent"));
-		$template->setVariable("PH_USER_TITLE", $lng->txt("certificate_ph_title"));
-		$template->setVariable("PH_USER_BIRTHDAY", $lng->txt("certificate_ph_birthday"));
-		$template->setVariable("PH_USER_SALUTATION", $lng->txt("certificate_ph_salutation"));
-		$template->setVariable("PH_USER_STREET", $lng->txt("certificate_ph_street"));
-		$template->setVariable("PH_USER_INSTITUTION", $lng->txt("certificate_ph_institution"));
-		$template->setVariable("PH_USER_DEPARTMENT", $lng->txt("certificate_ph_department"));
-		$template->setVariable("PH_USER_CITY", $lng->txt("certificate_ph_city"));
-		$template->setVariable("PH_USER_ZIPCODE", $lng->txt("certificate_ph_zipcode"));
-		$template->setVariable("PH_USER_COUNTRY", $lng->txt("certificate_ph_country"));
-		$template->setVariable("PH_USER_LASTACCESS", $lng->txt("certificate_ph_lastaccess"));
-		$template->setVariable("PH_SKILL_TITLE", $lng->txt("skmg_cert_skill_title"));
-		$template->setVariable("PH_SKILL_LEVEL_TITLE", $lng->txt("skmg_cert_skill_level_title"));
-		$template->setVariable("PH_SKILL_TRIGGER_TITLE", $lng->txt("skmg_cert_skill_trigger_title"));
-		$template->setVariable("PH_ACHIEVEMENT_DATE", $lng->txt("skmg_cert_achievement_date"));
-		$template->setVariable("PH_ACHIEVEMENT_DATETIME", $lng->txt("skmg_cert_achievement_datetime"));
-		$template->setVariable("PH_DATE", $lng->txt("certificate_ph_date"));
-		$template->setVariable("PH_DATETIME", $lng->txt("certificate_ph_datetime"));
+
 		return $template->get();
 	}
 

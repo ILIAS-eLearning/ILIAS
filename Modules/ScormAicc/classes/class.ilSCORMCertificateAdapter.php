@@ -32,7 +32,7 @@ include_once "./Services/Certificate/classes/class.ilCertificateAdapter.php";
 */
 class ilSCORMCertificateAdapter extends ilCertificateAdapter
 {
-	private $object;
+	protected $object;
 	
 	/**
 	* ilSCORMCertificateAdapter contructor
@@ -63,28 +63,17 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	public function getCertificateVariablesForPreview()
 	{
 		global $lng;
-		include_once "./classes/class.ilFormat.php";
-		$insert_tags = array(
-			"[USER_LOGIN]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_login")),
-			"[USER_FULLNAME]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_fullname")),
-			"[USER_FIRSTNAME]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_firstname")),
-			"[USER_LASTNAME]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_lastname")),
-			"[USER_TITLE]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_title")),
-			"[USER_SALUTATION]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_salutation")),
-			"[USER_BIRTHDAY]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_birthday")),
-			"[USER_INSTITUTION]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_institution")),
-			"[USER_DEPARTMENT]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_department")),
-			"[USER_STREET]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_street")),
-			"[USER_CITY]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_city")),
-			"[USER_ZIPCODE]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_zipcode")),
-			"[USER_COUNTRY]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_country")),
-			"[USER_LASTACCESS]" => ilDatePresentation::formatDate(new ilDateTime(time() - (24 * 60 * 60 * 5), IL_CAL_UNIX)),
-			"[SCORM_TITLE]" => ilUtil::prepareFormOutput($this->object->getTitle()),
-			"[SCORM_POINTS]" => number_format(80.7, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %",
-			"[SCORM_POINTS_MAX]" => number_format(90, 0, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")),
-			"[DATE]" => ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX)),
-			"[DATETIME]" => ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
-		);
+		
+		$vars = $this->getBaseVariablesForPreview();
+		$vars["SCORM_TITLE"] = ilUtil::prepareFormOutput($this->object->getTitle());
+		$vars["SCORM_POINTS"] = number_format(80.7, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %";
+		$vars["SCORM_POINTS_MAX"] = number_format(90, 0, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
+		
+		$insert_tags = array();
+		foreach($vars as $id => $caption)
+		{
+			$insert_tags["[".$id."]"] = $caption;
+		}		
 		return $insert_tags;
 	}
 
@@ -101,7 +90,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		global $lng;
 		
 		$lng->loadLanguageModule('certificate');
-		$user_data = $params["user_data"];
+				
 		$points = $this->object->getPointsInPercent();
 		$txtPoints = "";
 		if (is_null($points))
@@ -111,19 +100,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		else
 		{
 			$txtPoints = number_format($points, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %";
-		}
-		$salutation = "";
-		if (strlen($user_data["gender"]))
-		{
-			$salutation = $lng->txt("salutation_" . $user_data["gender"]);
-		}
-		$y = ""; $m = ""; $d = "";
-		if (preg_match("/(\\d{4})-(\\d{2})-(\\d{2})/", $user_data["birthday"], $matches))
-		{
-			$y = $matches[1];
-			$m = $matches[2];
-			$d = $matches[3];
-		}
+		}		
 		
 		$max_points = $this->object->getMaxPoints();
 		$txtMaxPoints = '';
@@ -143,28 +120,18 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 			}
 		}
 		
-		include_once "./classes/class.ilFormat.php";
-		$insert_tags = array(
-			"[USER_LOGIN]" => ilUtil::prepareFormOutput(trim($user_data["login"])),
-			"[USER_FULLNAME]" => ilUtil::prepareFormOutput(trim($user_data["title"] . " " . $user_data["firstname"] . " " . $user_data["lastname"])),
-			"[USER_FIRSTNAME]" => ilUtil::prepareFormOutput($user_data["firstname"]),
-			"[USER_LASTNAME]" => ilUtil::prepareFormOutput($user_data["lastname"]),
-			"[USER_TITLE]" => ilUtil::prepareFormOutput($user_data["title"]),
-			"[USER_SALUTATION]" => ilUtil::prepareFormOutput($salutation),
-			"[USER_BIRTHDAY]" => ilUtil::prepareFormOutput((strlen($y.$m.$d)) ? str_replace("m", $m, str_replace("d", $d, str_replace("Y", $y, $lng->txt("lang_dateformat")))) : $lng->txt("not_available")),
-			"[USER_INSTITUTION]" => ilUtil::prepareFormOutput($user_data["institution"]),
-			"[USER_DEPARTMENT]" => ilUtil::prepareFormOutput($user_data["department"]),
-			"[USER_STREET]" => ilUtil::prepareFormOutput($user_data["street"]),
-			"[USER_CITY]" => ilUtil::prepareFormOutput($user_data["city"]),
-			"[USER_ZIPCODE]" => ilUtil::prepareFormOutput($user_data["zipcode"]),
-			"[USER_COUNTRY]" => ilUtil::prepareFormOutput($user_data["country"]),
-			"[USER_LASTACCESS]" => ilDatePresentation::formatDate(new ilDateTime($params["last_access"], IL_CAL_DATETIME)),
-			"[SCORM_TITLE]" => ilUtil::prepareFormOutput($this->object->getTitle()),
-			"[SCORM_POINTS]" => $txtPoints,
-			"[SCORM_POINTS_MAX]" => $txtMaxPoints,
-			"[DATE]" => ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX)),
-			"[DATETIME]" => ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
-		);
+		$user_data = $params["user_data"];
+		$completion_date = $this->getUserCompletionDate($user_data["usr_id"]);		
+		
+		$vars = $this->getBaseVariablesForPresentation($user_data, $params["last_access"], $completion_date);		
+		$vars["SCORM_TITLE"] = ilUtil::prepareFormOutput($this->object->getTitle());
+		$vars["SCORM_POINTS"] = $txtPoints;
+		$vars["SCORM_POINTS_MAX"] = $txtMaxPoints;
+		
+		foreach($vars as $id => $caption)
+		{
+			$insert_tags["[".$id."]"] = $caption;
+		}		
 		return $insert_tags;
 	}
 	
@@ -178,30 +145,22 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	{
 		global $lng;
 		
-		$template = new ilTemplate("tpl.certificate_edit.html", TRUE, TRUE, "Modules/ScormAicc");
+		$vars = $this->getBaseVariablesDescription();
+		$vars["SCORM_TITLE"] = $lng->txt("certificate_ph_scormtitle");
+		$vars["SCORM_POINTS"] = $lng->txt("certificate_ph_scormpoints");
+		$vars["SCORM_POINTS_MAX"] = $lng->txt("certificate_ph_scormmaxpoints");
+		
+		$template = new ilTemplate("tpl.certificate_edit.html", TRUE, TRUE, "Modules/ScormAicc");		
+		$template->setCurrentBlock("items");
+		foreach($vars as $id => $caption)
+		{
+			$template->setVariable("ID", $id);
+			$template->setVariable("TXT", $caption);
+			$template->parseCurrentBlock();
+		}
+
 		$template->setVariable("PH_INTRODUCTION", $lng->txt("certificate_ph_introduction"));
-		$template->setVariable("PH_USER_LOGIN", $lng->txt("certificate_ph_login"));
-		$template->setVariable("PH_USER_FULLNAME", $lng->txt("certificate_ph_fullname"));
-		$template->setVariable("PH_USER_FIRSTNAME", $lng->txt("certificate_ph_firstname"));
-		$template->setVariable("PH_USER_LASTNAME", $lng->txt("certificate_ph_lastname"));
-		$template->setVariable("PH_RESULT_PASSED", $lng->txt("certificate_ph_passed"));
-		$template->setVariable("PH_RESULT_POINTS", $lng->txt("certificate_ph_resultpoints"));
-		$template->setVariable("PH_RESULT_PERCENT", $lng->txt("certificate_ph_resultpercent"));
-		$template->setVariable("PH_USER_TITLE", $lng->txt("certificate_ph_title"));
-		$template->setVariable("PH_USER_BIRTHDAY", $lng->txt("certificate_ph_birthday"));
-		$template->setVariable("PH_USER_SALUTATION", $lng->txt("certificate_ph_salutation"));
-		$template->setVariable("PH_USER_STREET", $lng->txt("certificate_ph_street"));
-		$template->setVariable("PH_USER_INSTITUTION", $lng->txt("certificate_ph_institution"));
-		$template->setVariable("PH_USER_DEPARTMENT", $lng->txt("certificate_ph_department"));
-		$template->setVariable("PH_USER_CITY", $lng->txt("certificate_ph_city"));
-		$template->setVariable("PH_USER_ZIPCODE", $lng->txt("certificate_ph_zipcode"));
-		$template->setVariable("PH_USER_COUNTRY", $lng->txt("certificate_ph_country"));
-		$template->setVariable("PH_USER_LASTACCESS", $lng->txt("certificate_ph_lastaccess"));
-		$template->setVariable("PH_SCORM_TITLE", $lng->txt("certificate_ph_scormtitle"));
-		$template->setVariable("PH_SCORM_POINTS", $lng->txt("certificate_ph_scormpoints"));
-		$template->setVariable("PH_SCORM_POINTS_MAX", $lng->txt("certificate_ph_scormmaxpoints"));
-		$template->setVariable("PH_DATE", $lng->txt("certificate_ph_date"));
-		$template->setVariable("PH_DATETIME", $lng->txt("certificate_ph_datetime"));
+
 		return $template->get();
 	}
 

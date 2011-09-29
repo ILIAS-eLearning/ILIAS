@@ -151,4 +151,179 @@ abstract class ilCertificateAdapter
 	{
 		return "certificate.pdf";
 	}
+	
+	/**
+	 * Get variable descriptions
+	 * 
+	 * @param bool $a_enable_last_access
+	 * @param bool $a_enable_completion_date
+	 * @return array 
+	 */
+	protected function getBaseVariablesDescription($a_enable_last_access = true, $a_enable_completion_date = true)
+	{
+		global $lng;
+			
+		$vars = array(		
+			"USER_LOGIN" => $lng->txt("certificate_ph_login"),
+			"USER_FULLNAME" => $lng->txt("certificate_ph_fullname"),
+			"USER_FIRSTNAME" => $lng->txt("certificate_ph_firstname"),
+			"USER_LASTNAME" => $lng->txt("certificate_ph_lastname"),
+			"USER_TITLE" => $lng->txt("certificate_ph_title"),
+			"USER_SALUTATION" => $lng->txt("certificate_ph_salutation"),
+			"USER_BIRTHDAY" => $lng->txt("certificate_ph_birthday"),
+			"USER_INSTITUTION" => $lng->txt("certificate_ph_institution"),
+			"USER_DEPARTMENT" => $lng->txt("certificate_ph_department"),
+			"USER_STREET" => $lng->txt("certificate_ph_street"),
+			"USER_CITY" => $lng->txt("certificate_ph_city"),
+			"USER_ZIPCODE" => $lng->txt("certificate_ph_zipcode"),
+			"USER_COUNTRY" => $lng->txt("certificate_ph_country")
+		);
+		
+		if($a_enable_last_access)
+		{
+			$vars["USER_LASTACCESS"] = $lng->txt("certificate_ph_lastaccess");
+		}
+		
+		$vars["DATE"] = $lng->txt("certificate_ph_date");
+		$vars["DATETIME"] = $lng->txt("certificate_ph_datetime");
+		
+		if($a_enable_completion_date)
+		{
+			$vars["DATE_COMPLETED"] = $lng->txt("certificate_ph_date_completed");
+			$vars["DATETIME_COMPLETED"] = $lng->txt("certificate_ph_datetime_completed");
+		}
+		
+		return $vars;
+	}		
+	
+	/**
+	 * Get variable dummys
+	 * 
+	 * @param bool $a_enable_last_access
+	 * @param bool $a_enable_completion_date
+	 * @return array 
+	 */
+	protected function getBaseVariablesForPreview($a_enable_last_access = true, $a_enable_completion_date = true)
+	{
+		global $lng;
+		
+		$old = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+		
+		$vars = array(
+			"USER_LOGIN" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_login")),
+			"USER_FULLNAME" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_fullname")),
+			"USER_FIRSTNAME" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_firstname")),
+			"USER_LASTNAME" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_lastname")),
+			"USER_TITLE" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_title")),
+			"USER_SALUTATION" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_salutation")),
+			"USER_BIRTHDAY" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_birthday")),
+			"USER_INSTITUTION" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_institution")),
+			"USER_DEPARTMENT" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_department")),
+			"USER_STREET" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_street")),
+			"USER_CITY" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_city")),
+			"USER_ZIPCODE" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_zipcode")),
+			"USER_COUNTRY" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_country"))
+		);
+		
+		if($a_enable_last_access)
+		{
+			$vars["USER_LASTACCESS"] = ilDatePresentation::formatDate(new ilDateTime(time() - (24 * 60 * 60 * 5), IL_CAL_UNIX));			
+		};
+				
+		$vars["DATE"] = ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX));
+		$vars["DATETIME"] = ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX));
+		
+		if($a_enable_completion_date)
+		{
+			$vars["DATE_COMPLETED"] = ilDatePresentation::formatDate(new ilDate(time() - (24 * 60 * 60 * 5), IL_CAL_UNIX));		
+			$vars["DATETIME_COMPLETED"] = ilDatePresentation::formatDate(new ilDateTime(time() - (24 * 60 * 60 * 5), IL_CAL_UNIX));		
+		}
+		
+		ilDatePresentation::setUseRelativeDates($old);
+		
+		return $vars;		
+	}
+	
+
+	/**
+	 * Get variable values
+	 * 
+	 * @param array $a_user_data
+	 * @param datetime $a_last_access
+	 * @param datetime $a_completion_date
+	 * @return array 
+	 */
+	protected function getBaseVariablesForPresentation($a_user_data, $a_last_access = null, $a_completion_date = false)
+	{		
+		global $lng;
+		
+		$old = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+		
+		$salutation = "";
+		if (strlen($a_user_data["gender"]))
+		{
+			$salutation = $lng->txt("salutation_" . $a_user_data["gender"]);
+		}
+		
+		$birthday = "";
+		if($a_user_data["birthday"])
+		{
+			$birthday = ilDatePresentation::formatDate(new ilDate($a_user_data["birthday"], IL_CAL_DATE));
+		}
+		
+		$vars = array(
+			"USER_LOGIN" => ilUtil::prepareFormOutput(trim($a_user_data["login"])),
+			"USER_FULLNAME" => ilUtil::prepareFormOutput(trim($a_user_data["title"] . " " . $a_user_data["firstname"] . " " . $a_user_data["lastname"])),
+			"USER_FIRSTNAME" => ilUtil::prepareFormOutput($a_user_data["firstname"]),
+			"USER_LASTNAME" => ilUtil::prepareFormOutput($a_user_data["lastname"]),
+			"USER_TITLE" => ilUtil::prepareFormOutput($a_user_data["title"]),
+			"USER_SALUTATION" => ilUtil::prepareFormOutput($salutation),
+			"USER_BIRTHDAY" => ilUtil::prepareFormOutput($birthday),
+			"USER_INSTITUTION" => ilUtil::prepareFormOutput($a_user_data["institution"]),
+			"USER_DEPARTMENT" => ilUtil::prepareFormOutput($a_user_data["department"]),
+			"USER_STREET" => ilUtil::prepareFormOutput($a_user_data["street"]),
+			"USER_CITY" => ilUtil::prepareFormOutput($a_user_data["city"]),
+			"USER_ZIPCODE" => ilUtil::prepareFormOutput($a_user_data["zipcode"]),
+			"USER_COUNTRY" => ilUtil::prepareFormOutput($a_user_data["country"])
+		);
+		
+		if($a_last_access)
+		{
+			$vars["USER_LASTACCESS"] = ilDatePresentation::formatDate(new ilDateTime($a_last_access, IL_CAL_DATETIME));
+		}
+		
+		$vars["DATE"] = ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX));
+		$vars["DATETIME"] = ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX));
+		
+		
+		if($a_completion_date)
+		{
+			$vars["DATE_COMPLETED"] = ilDatePresentation::formatDate(new ilDate($a_completion_date, IL_CAL_DATETIME));
+			$vars["DATETIME_COMPLETED"] = ilDatePresentation::formatDate(new ilDateTime($a_completion_date, IL_CAL_DATETIME));
+		}
+		
+		ilDatePresentation::setUseRelativeDates($old);
+		
+		return $vars;
+	}
+	
+	/**
+	 * Get completion for user
+	 * 
+	 * @param int $a_user_id
+	 * @param int $a_object_id
+	 * @return string datetime 
+	 */
+	protected function getUserCompletionDate($a_user_id, $a_object_id = null)
+	{
+		if(!$a_object_id)
+		{
+			$a_object_id = $this->object->getId();
+		}		
+		include_once "Services/Tracking/classes/class.ilLPStatus.php";
+		return ilLPStatus::_lookupStatusChanged($a_object_id, $a_user_id);
+	}
+	
 }
