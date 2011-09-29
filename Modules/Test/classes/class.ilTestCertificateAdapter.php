@@ -65,28 +65,21 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 	public function getCertificateVariablesForPreview()
 	{
 		global $lng;
-		include_once "./classes/class.ilFormat.php";
-		$insert_tags = array(
-			"[USER_FULLNAME]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_fullname")),
-			"[USER_FIRSTNAME]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_firstname")),
-			"[USER_LASTNAME]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_lastname")),
-			"[USER_TITLE]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_title")),
-			"[USER_INSTITUTION]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_institution")),
-			"[USER_DEPARTMENT]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_department")),
-			"[USER_STREET]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_street")),
-			"[USER_CITY]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_city")),
-			"[USER_ZIPCODE]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_zipcode")),
-			"[USER_COUNTRY]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_country")),
-			"[RESULT_PASSED]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_result_passed")),
-			"[RESULT_POINTS]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_result_points")),
-			"[RESULT_PERCENT]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_result_percent")),
-			"[MAX_POINTS]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_max_points")),
-			"[RESULT_MARK_SHORT]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_result_mark_short")),
-			"[RESULT_MARK_LONG]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_result_mark_long")),
-			"[TEST_TITLE]" => ilUtil::prepareFormOutput($this->object->getTitle()),
-			"[DATE]" => ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX)),
-			"[DATETIME]" => ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
-		);
+		
+		$vars = $this->getBaseVariablesForPreview(false);
+		$vars["RESULT_PASSED"] = ilUtil::prepareFormOutput($lng->txt("certificate_var_result_passed"));
+		$vars["RESULT_POINTS"] = ilUtil::prepareFormOutput($lng->txt("certificate_var_result_points"));
+		$vars["RESULT_PERCENT"] = ilUtil::prepareFormOutput($lng->txt("certificate_var_result_percent"));
+		$vars["MAX_POINTS"] = ilUtil::prepareFormOutput($lng->txt("certificate_var_max_points"));
+		$vars["RESULT_MARK_SHORT"] = ilUtil::prepareFormOutput($lng->txt("certificate_var_result_mark_short"));
+		$vars["RESULT_MARK_LONG"] = ilUtil::prepareFormOutput($lng->txt("certificate_var_result_mark_long"));
+		$vars["TEST_TITLE"] = ilUtil::prepareFormOutput($this->object->getTitle());
+		
+		$insert_tags = array();
+		foreach($vars as $id => $caption)
+		{
+			$insert_tags["[".$id."]"] = $caption;
+		}		
 		return $insert_tags;
 	}
 
@@ -135,28 +128,22 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 				return "";
 			}
 		}
-		include_once "./classes/class.ilFormat.php";
-		$insert_tags = array(
-			"[USER_FULLNAME]" => ilUtil::prepareFormOutput(trim($user_data["title"] . " " . $user_data["firstname"] . " " . $user_data["lastname"])),
-			"[USER_FIRSTNAME]" => ilUtil::prepareFormOutput($user_data["firstname"]),
-			"[USER_LASTNAME]" => ilUtil::prepareFormOutput($user_data["lastname"]),
-			"[USER_TITLE]" => ilUtil::prepareFormOutput($user_data["title"]),
-			"[USER_INSTITUTION]" => ilUtil::prepareFormOutput($user_data["institution"]),
-			"[USER_DEPARTMENT]" => ilUtil::prepareFormOutput($user_data["department"]),
-			"[USER_STREET]" => ilUtil::prepareFormOutput($user_data["street"]),
-			"[USER_CITY]" => ilUtil::prepareFormOutput($user_data["city"]),
-			"[USER_ZIPCODE]" => ilUtil::prepareFormOutput($user_data["zipcode"]),
-			"[USER_COUNTRY]" => ilUtil::prepareFormOutput($user_data["country"]),
-			"[RESULT_PASSED]" => ilUtil::prepareFormOutput($passed),
-			"[RESULT_POINTS]" => ilUtil::prepareFormOutput($result_array["test"]["total_reached_points"]),
-			"[RESULT_PERCENT]" => sprintf("%2.2f", $percentage) . "%",
-			"[MAX_POINTS]" => ilUtil::prepareFormOutput($result_array["test"]["total_max_points"]),
-			"[RESULT_MARK_SHORT]" => ilUtil::prepareFormOutput($mark_obj->getShortName()),
-			"[RESULT_MARK_LONG]" => ilUtil::prepareFormOutput($mark_obj->getOfficialName()),
-			"[TEST_TITLE]" => ilUtil::prepareFormOutput($this->object->getTitle()),
-			"[DATE]" => ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX)),
-			"[DATETIME]" => ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
-		);
+		
+		$completion_date = $this->getUserCompletionDate($user_data["usr_id"]);		
+		
+		$vars = $this->getBaseVariablesForPresentation($user_data, null, $completion_date);		
+		$vars["RESULT_PASSED"] = ilUtil::prepareFormOutput($passed);
+		$vars["RESULT_POINTS"] = ilUtil::prepareFormOutput($result_array["test"]["total_reached_points"]);
+		$vars["RESULT_PERCENT"] = sprintf("%2.2f", $percentage) . "%";
+		$vars["MAX_POINTS"] = ilUtil::prepareFormOutput($result_array["test"]["total_max_points"]);
+		$vars["RESULT_MARK_SHORT"] = ilUtil::prepareFormOutput($mark_obj->getShortName());
+		$vars["RESULT_MARK_LONG"] = ilUtil::prepareFormOutput($mark_obj->getOfficialName());
+		$vars["TEST_TITLE"] = ilUtil::prepareFormOutput($this->object->getTitle());
+		
+		foreach($vars as $id => $caption)
+		{
+			$insert_tags["[".$id."]"] = $caption;
+		}		
 		return $insert_tags;
 	}
 	
@@ -170,27 +157,26 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 	{
 		global $lng;
 		
-		$template = new ilTemplate("tpl.il_as_tst_certificate_edit.html", TRUE, TRUE, "Modules/Test");
+		$vars = $this->getBaseVariablesDescription(false);
+		$vars["RESULT_PASSED"] = $lng->txt("certificate_ph_passed");
+		$vars["RESULT_POINTS"] = $lng->txt("certificate_ph_resultpoints");
+		$vars["RESULT_PERCENT"] = $lng->txt("certificate_ph_resultpercent");		
+		$vars["MAX_POINTS"] = $lng->txt("certificate_ph_maxpoints");
+		$vars["RESULT_MARK_SHORT"] = $lng->txt("certificate_ph_markshort");
+		$vars["RESULT_MARK_LONG"] = $lng->txt("certificate_ph_marklong");
+		$vars["TEST_TITLE"] = $lng->txt("certificate_ph_testtitle");
+				
+		$template = new ilTemplate("tpl.il_as_tst_certificate_edit.html", TRUE, TRUE, "Modules/Test");	
+		$template->setCurrentBlock("items");
+		foreach($vars as $id => $caption)
+		{
+			$template->setVariable("ID", $id);
+			$template->setVariable("TXT", $caption);
+			$template->parseCurrentBlock();
+		}
+
 		$template->setVariable("PH_INTRODUCTION", $lng->txt("certificate_ph_introduction"));
-		$template->setVariable("PH_USER_FULLNAME", $lng->txt("certificate_ph_fullname"));
-		$template->setVariable("PH_USER_FIRSTNAME", $lng->txt("certificate_ph_firstname"));
-		$template->setVariable("PH_USER_LASTNAME", $lng->txt("certificate_ph_lastname"));
-		$template->setVariable("PH_RESULT_PASSED", $lng->txt("certificate_ph_passed"));
-		$template->setVariable("PH_RESULT_POINTS", $lng->txt("certificate_ph_resultpoints"));
-		$template->setVariable("PH_RESULT_PERCENT", $lng->txt("certificate_ph_resultpercent"));
-		$template->setVariable("PH_USER_TITLE", $lng->txt("certificate_ph_title"));
-		$template->setVariable("PH_USER_STREET", $lng->txt("certificate_ph_street"));
-		$template->setVariable("PH_USER_INSTITUTION", $lng->txt("certificate_ph_institution"));
-		$template->setVariable("PH_USER_DEPARTMENT", $lng->txt("certificate_ph_department"));
-		$template->setVariable("PH_USER_CITY", $lng->txt("certificate_ph_city"));
-		$template->setVariable("PH_USER_ZIPCODE", $lng->txt("certificate_ph_zipcode"));
-		$template->setVariable("PH_USER_COUNTRY", $lng->txt("certificate_ph_country"));
-		$template->setVariable("PH_MAX_POINTS", $lng->txt("certificate_ph_maxpoints"));
-		$template->setVariable("PH_RESULT_MARK_SHORT", $lng->txt("certificate_ph_markshort"));
-		$template->setVariable("PH_RESULT_MARK_LONG", $lng->txt("certificate_ph_marklong"));
-		$template->setVariable("PH_TEST_TITLE", $lng->txt("certificate_ph_testtitle"));
-		$template->setVariable("PH_DATE", $lng->txt("certificate_ph_date"));
-		$template->setVariable("PH_DATETIME", $lng->txt("certificate_ph_datetime"));
+
 		return $template->get();
 	}
 

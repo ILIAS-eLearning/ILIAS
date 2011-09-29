@@ -322,7 +322,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			WHERE cmi_node.cp_node_id = cp_node.cp_node_id 
 			AND cp_node.slm_id = %s
 			AND user_id = %s
-			ORDER BY c_timestamp DESC',
+			GROUP BY c_timestamp',
 		array('integer', 'integer'),
 		array($a_obj_id, $a_usr_id));
 		if ($ilDB->numRows($result))

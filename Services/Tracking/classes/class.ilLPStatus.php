@@ -517,6 +517,41 @@ class ilLPStatus
 			}
 		}
 	}
+	
+	/**
+	 * Lookup status changed
+	 *
+	 * @param int $a_obj_id object id
+	 * @param int $a_user_id user id
+	 */
+	function _lookupStatusChanged($a_obj_id, $a_user_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT status_changed FROM ut_lp_marks WHERE ".
+			" status_dirty = ".$ilDB->quote(0, "integer").
+			" AND usr_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND obj_id = ".$ilDB->quote($a_obj_id, "integer")
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return $rec["status_changed"];
+		}
+		else
+		{
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+			ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id); 
+			$set = $ilDB->query("SELECT status_changed FROM ut_lp_marks WHERE ".
+				" status_dirty = ".$ilDB->quote(0, "integer").
+				" AND usr_id = ".$ilDB->quote($a_user_id, "integer").
+				" AND obj_id = ".$ilDB->quote($a_obj_id, "integer")
+				);
+			if ($rec = $ilDB->fetchAssoc($set))
+			{
+				return $rec["status_changed"];
+			}
+		}
+	}
 
 }	
 ?>
