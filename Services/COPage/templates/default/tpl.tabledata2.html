@@ -7,38 +7,6 @@
 }
 </style>
 
-<script language="JavaScript" type="text/javascript">
-<!--
-
-function ilInitInsertions(el)
-{
-	text_name = el.id;
-	initInsertions();
-}
-
-function handleTDInput(el)
-{
-	storeCaret(el);
-	text_name = el.id;
-}
-
-function handleDataTableCommand(type, command)
-{
-	obj = document.getElementById("post");
-	hid_type = document.getElementById("dtform_type");
-	hid_type.value = type;
-	hid_cmd = document.getElementById("dtform_command");
-	hid_cmd.value = command;
-	hid_id = document.getElementById("dtform_nr");
-	hid_id.value = current_row_col;
-	
-    obj.submit();
-}
-
-var current_row_col;
-
-//-->
-</script>
 <form action="{FORMACTION}" id="post" name="post" method="post">
 <input type="hidden" id="dtform_type" name="type" value="" />
 <input type="hidden" id="dtform_command" name="action" value="" />
@@ -74,7 +42,7 @@ var current_row_col;
 <table class="il_editmenu" cellspacing="0" cellpadding="3">
 <!-- BEGIN menu_item -->
 <tr>
-<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="handleDataTableCommand('{TYPE}', '{CMD}');">{MENU_ITEM_TITLE}</td>
+<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="ilCOPage.handleDataTableCommand('{TYPE}', '{CMD}');">{MENU_ITEM_TITLE}</td>
 </tr>
 <!-- END menu_item -->
 </table>
