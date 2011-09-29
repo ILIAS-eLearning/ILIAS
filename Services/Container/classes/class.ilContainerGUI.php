@@ -82,6 +82,52 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 
 	/**
+	 * Get values for edit form
+	 *
+	 * @return array
+	 */
+	protected function getEditFormValues()
+	{
+		$values = parent::getEditFormValues();
+
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		$values['didactic_type'] =
+			'dtpl_'.ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
+
+		return $values;
+	}
+
+	/**
+	 *
+	 */
+	protected function afterUpdate()
+	{
+		// check if template is changed
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		$current_tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId(
+			$this->object->getRefId()
+		);
+		$new_tpl_id = $this->getDidacticTemplateVar('dtpl');
+
+
+
+		if($new_tpl_id != $current_tpl_id)
+		{
+			$_POST['tplid'] = $new_tpl_id;
+			
+			// redirect to didactic template confirmation
+			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php';
+			$this->ctrl->setReturn($this,'edit');
+			$this->ctrl->setCmdClass('ildidactictemplategui');
+			$this->ctrl->setCmd('confirmTemplateSwitch');
+			$dtpl_gui = new ilDidacticTemplateGUI($this);
+			return $this->ctrl->forwardCommand($dtpl_gui);
+		}
+		parent::afterUpdate();
+	}
+
+
+	/**
 	* Forward to style object
 	*/
 	function forwardToStyleSheet()
