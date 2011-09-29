@@ -33,7 +33,7 @@
 * @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilPageObjectGUI, ilColumnGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilCourseItemAdministrationGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilDidacticTemplateGUI
 *
 * @extends ilObjectGUI
 */
@@ -193,6 +193,13 @@ class ilObjFolderGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 
+			case 'ildidactictemplategui':
+				$this->ctrl->setReturn($this,'edit');
+				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php';
+				$did = new ilDidacticTemplateGUI($this);
+				$this->ctrl->forwardCommand($did);
+				break;
+
 			default:
 
 				$this->prepareOutput();
@@ -239,6 +246,9 @@ class ilObjFolderGUI extends ilContainerGUI
 
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form) 
 	{
+		// Show didactic template type
+		$this->initDidacticTemplate($a_form);
+
 		// Sorting
 		$sog = new ilRadioGroupInputGUI($this->lng->txt('sorting_header'),'sor');
 		$sog->setRequired(true);
