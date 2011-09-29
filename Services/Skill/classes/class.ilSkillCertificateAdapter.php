@@ -13,6 +13,7 @@ include_once "./Services/Certificate/classes/class.ilCertificateAdapter.php";
  */
 class ilSkillCertificateAdapter extends ilCertificateAdapter
 {
+	protected $object;
 	private $skill;
 	private $skill_level_id;
 	

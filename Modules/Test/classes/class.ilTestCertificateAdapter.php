@@ -32,7 +32,7 @@ include_once "./Services/Certificate/classes/class.ilCertificateAdapter.php";
 */
 class ilTestCertificateAdapter extends ilCertificateAdapter
 {
-	private $object;
+	protected $object;
 	
 	/**
 	* ilTestCertificateAdapter contructor
