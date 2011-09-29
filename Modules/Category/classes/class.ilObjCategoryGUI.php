@@ -13,7 +13,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 *
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI
 * 
 * @ingroup ModulesCategory
 */
@@ -140,6 +140,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
+
+			case 'ildidactictemplategui':
+				$this->ctrl->setReturn($this,'edit');
+				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php';
+				$did = new ilDidacticTemplateGUI($this);
+				$this->ctrl->forwardCommand($did);
+				break;
+
 
 			default:
 				if ($cmd == "infoScreen")
@@ -436,9 +444,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
 
+
+		// Show didactic template type
+		$this->initDidacticTemplate($form);
 		
 		// sorting
-		
 		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
 		$settings = new ilContainerSortingSettings($this->object->getId());
 
@@ -520,8 +530,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());				
 				// END ChangeEvent: Record update
 
-				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-				$this->ctrl->redirect($this, "edit");
+				return $this->afterUpdate();
 			}
 
 			// display form to correct errors

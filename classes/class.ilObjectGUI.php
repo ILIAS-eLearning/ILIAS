@@ -910,6 +910,14 @@ class ilObjectGUI
 				$this->lng->txt('type'),
 				'didactic_type'
 			);
+			// workaround for containers in edit mode
+			if(!$this->getCreationMode())
+			{
+				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+				$type->setValue(
+					'dtpl_'.ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId())
+				);
+			}
 			$form->addItem($type);		
 
 			ilUtil::sortArray($options, 0);

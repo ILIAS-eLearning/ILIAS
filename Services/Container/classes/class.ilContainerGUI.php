@@ -109,8 +109,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		);
 		$new_tpl_id = $this->getDidacticTemplateVar('dtpl');
 
-
-
 		if($new_tpl_id != $current_tpl_id)
 		{
 			$_POST['tplid'] = $new_tpl_id;

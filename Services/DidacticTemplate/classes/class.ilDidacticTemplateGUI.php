@@ -113,6 +113,7 @@ class ilDidacticTemplateGUI
 		}
 
 		$ilTabs->clearTargets();
+		$ilTabs->clearSubTabs();
 
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
