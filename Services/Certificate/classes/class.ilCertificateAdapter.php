@@ -208,7 +208,7 @@ abstract class ilCertificateAdapter
 		global $lng;
 		
 		$old = ilDatePresentation::useRelativeDates();
-		ilDatePresentation::setUseRelativeDates(false);
+		ilDatePresentation::setUseRelativeDates(false);				
 		
 		$vars = array(
 			"USER_LOGIN" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_login")),
@@ -217,7 +217,7 @@ abstract class ilCertificateAdapter
 			"USER_LASTNAME" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_lastname")),
 			"USER_TITLE" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_title")),
 			"USER_SALUTATION" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_salutation")),
-			"USER_BIRTHDAY" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_birthday")),
+			"USER_BIRTHDAY" => ilDatePresentation::formatDate(new ilDate($lng->txt("certificate_var_user_birthday"), IL_CAL_DATE)),
 			"USER_INSTITUTION" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_institution")),
 			"USER_DEPARTMENT" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_department")),
 			"USER_STREET" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_street")),
