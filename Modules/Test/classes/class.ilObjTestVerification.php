@@ -53,18 +53,6 @@ class ilObjTestVerification extends ilVerificationObject
 		$date = $a_test->getPassFinishDate($active_id, $pass);
 		$newObj->setProperty("issued_on", new ilDate($date, IL_CAL_UNIX));
 
-		/*
-		$result = $a_test->getTestResult($active_id, $pass);
-		$newObj->setProperty("success", (bool)$result["test"]["passed"]);
-		$newObj->setProperty("result", $result["test"]["total_reached_points"]."/".
-			$result["test"]["total_max_points"]);
-		$mark_obj = $a_test->mark_schema->getMatchingMark($result["pass"]["percent"] * 100);
-		if ($mark_obj)
-		{
-			$newObj->setProperty("mark", $mark_obj->getOfficialName());
-		}		 
-		*/
-		
 		// create certificate
 		include_once "Services/Certificate/classes/class.ilCertificate.php";
 		include_once "Modules/Test/classes/class.ilTestCertificateAdapter.php";

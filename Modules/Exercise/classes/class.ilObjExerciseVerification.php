@@ -39,27 +39,19 @@ class ilObjExerciseVerification extends ilVerificationObject
 	 */
 	public static function createFromExercise(ilObjExercise $a_exercise, $a_user_id)
 	{
+		global $lng;
+		
+		$lng->loadLanguageModule("exercise");
+		
 		$newObj = new self();
-		$newObj->setTitle($a_exercise->getTitle());
+		$newObj->setTitle($lng->txt("wsp_type_excv")." \"".$a_exercise->getTitle()."\"");
 		$newObj->setDescription($a_exercise->getDescription());
 
-		/*
-		include_once "Modules/Exercise/classes/class.ilExerciseMembers.php";
-		$status = ilExerciseMembers::_lookupStatus($a_exercise->getId(), $a_user_id);
-		$newObj->setProperty("success", ($status == "passed"));
-		*/
-		
 		include_once "Services/Tracking/classes/class.ilLPMarks.php";
 		$lp_marks = new ilLPMarks($a_exercise->getId(), $a_user_id);
 		$newObj->setProperty("issued_on", 
 			new ilDate($lp_marks->getStatusChanged(), IL_CAL_DATETIME));
-		/*
-		$newObj->setProperty("mark", $lp_marks->getMark());
-		$newObj->setProperty("comment", $lp_marks->getComment());		 
-		*/
-	
 		
-		/* :TODO: no exercise certificates yet
 		// create certificate
 		include_once "Services/Certificate/classes/class.ilCertificate.php";
 		include_once "Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
@@ -86,7 +78,6 @@ class ilObjExerciseVerification extends ilVerificationObject
 			// file creation failed, so remove to object, too
 			$newObj->delete();
 		}
-		*/
 
 		// remove if certificate works
 		$newObj->create();
