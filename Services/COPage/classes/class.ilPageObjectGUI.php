@@ -1401,12 +1401,12 @@ class ilPageObjectGUI
 					? "disable"
 					: "enable";
 				$sel_js_mode = "disable";
-				if($ilSetting->get("enable_js_edit", 1))
-				{
+				//if($ilSetting->get("enable_js_edit", 1))
+				//{
 					$sel_js_mode = (ilPageEditorGUI::_doJSEditing())
 						? "enable"
 						: "disable";
-				}
+				//}
 
 				// show prepending html
 				$tpl->setVariable("PREPENDING_HTML", $this->getPrependingHtml());

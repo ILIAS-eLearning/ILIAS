@@ -178,8 +178,8 @@ adve#:#adve_grp_rep#:#Magazinseiten
 adve#:#adve_grp_scorm#:#SCORM bearbeiten
 adve#:#adve_grp_test#:#Test & Assessment
 adve#:#adve_grp_wiki#:#Wikis
-adve#:#adve_page_editor_settings#:#Einstellungen ILIAS-Seiteneditor
-adve#:#adve_rte_settings#:#Einstellungen Rich Text Editor
+adve#:#adve_page_editor_settings#:#ILIAS-Seiteneditor
+adve#:#adve_rte_settings#:#TinyMCE Editor
 adve#:#adve_text_content_features#:#Text Content Menü
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#action#:#Aktion
@@ -1642,7 +1642,7 @@ common#:#advanced_editing_no_rte#:#Bearbeitung mit einem Rich-Text-Editor nicht 
 common#:#advanced_editing_rep_page_editing#:#Aktiviere Seitenbearbeitung im Magazin
 common#:#advanced_editing_rep_page_editing_desc#:#Diese Funktion ermöglicht das Hinzufügen von Text und Medien zu einer Kategorie, einem Ordner und zu den Inhaltsseiten von Kursen und Gruppen. Wenn die Funktion deaktiviert wird, werden bereits existierende Texte/Medien nicht mehr angezeigt.
 common#:#advanced_editing_required_tags#:#Die folgenden HTML-Auszeichnungen sind für diesen Bereich zwingend notwendig: %s
-common#:#advanced_editing_settings#:#Erweiterte Bearbeitungseinstellungen
+common#:#advanced_editing_settings#:#Editoreinstellungen
 common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für das Umfrage-Werkzeug
 common#:#advanced_editing_tinymce#:#TinyMCE-Editor
 common#:#adve_assessment_settings#:#Test&Assessment-Einstellungen
@@ -1650,11 +1650,11 @@ common#:#adve_edit_permission#:#Rechteeinstellungen ändern
 common#:#adve_frm_post_settings#:#Forenbeiträge
 common#:#adve_general_settings#:#Allgemeine Einstellungen
 common#:#adve_lm_settings#:#Lernmodul-/Glossar-Einstellungen
-common#:#adve_read#:#Zugriff auf die erweiterten Bearbeitungseinstellungen
+common#:#adve_read#:#Zugriff auf die Editoreinstellungen
 common#:#adve_rep_settings#:#Magazineinstellungen
 common#:#adve_survey_settings#:#Umfrage-Einstellungen
-common#:#adve_visible#:#Erweiterte Bearbeitungseinstellungen sind sichtbar
-common#:#adve_write#:#Erweiterte Bearbeitungseinstellungen bearbeiten
+common#:#adve_visible#:#Editoreinstellungen sind sichtbar
+common#:#adve_write#:#Editoreinstellungen bearbeiten
 common#:#agree_date#:#Zugestimmt am
 common#:#all_authors#:#Alle Autoren
 common#:#all_commands#:#Alle Funktionen
@@ -3656,7 +3656,7 @@ common#:#obj_accs_desc#:#Einstellungen zur Barrierefreiheit
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_adve#:#Editor
-common#:#obj_adve_desc#:#Administrationseinstellungen für erweiterte Bearbeitung wie z.B. Javascript-basierte Editoren, erlaubte HTML-Auszeichnungen etc.
+common#:#obj_adve_desc#:#Administrationseinstellungen für den ILIAS Editor und TinyMCE.
 common#:#obj_alm#:#Lernmodul AICC
 common#:#obj_assf#:#Test & Assessment
 common#:#obj_assf_desc#:#Protokollieren Sie Aktivitäten in Tests und werten Sie diese aus.
@@ -12253,6 +12253,8 @@ survey#:#survey_question_title#:#Fragetitel
 assessment#:#tst_default_settings#:#Persönliche Standardeinstellungen
 prtf#:#prtf_unset_as_default#:#Nicht als Mein Profil verwenden
 certificate#:#certificate_ph_date_completed#:#Datum des Bestehens
+adve#:#adve_activation#:#Aktivierung
+adve#:#adve_use_tiny_mce#:#TinyMCE für WYSIWYG-Editieren aktivieren
 certificate#:#certificate_ph_datetime_completed#:#Datum und Zeit des Bestehens
 certificate#:#certificate_ph_passed_exercise#:#"bestanden" oder "nicht bestanden"
 certificate#:#certificate_ph_mark#:#Erreichte Note

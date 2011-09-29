@@ -794,7 +794,6 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 		global $ilUser, $ilias, $ilSetting;
 
 		if ($ilUser->getPref("ilPageEditor_JavaScript") != "disable"
-			&& $ilSetting->get("enable_js_edit", 1)
 			&& ilPageEditorGUI::_isBrowserJSEditCapable())
 		{
 			return true;
@@ -839,19 +838,16 @@ return true;
 
 		$ilUser->writePref("ilPageEditor_MediaMode", $_POST["media_mode"]);
 		$ilUser->writePref("ilPageEditor_HTMLMode", $_POST["html_mode"]);
-		if ($ilias->getSetting("enable_js_edit"))
+		if ($ilUser->getPref("ilPageEditor_JavaScript") != $_POST["js_mode"])
 		{
-			if ($ilUser->getPref("ilPageEditor_JavaScript") != $_POST["js_mode"])
+			// not nice, should be solved differently in the future
+			if ($this->page->getParentType() == "lm" ||
+				$this->page->getParentType() == "dbk")
 			{
-				// not nice, should be solved differently in the future
-				if ($this->page->getParentType() == "lm" ||
-					$this->page->getParentType() == "dbk")
-				{
-					$this->ctrl->setParameterByClass("illmpageobjectgui", "reloadTree", "y");
-				}
+				$this->ctrl->setParameterByClass("illmpageobjectgui", "reloadTree", "y");
 			}
-			$ilUser->writePref("ilPageEditor_JavaScript", $_POST["js_mode"]);
 		}
+		$ilUser->writePref("ilPageEditor_JavaScript", $_POST["js_mode"]);
 		
 		// again not so nice...
 		if ($this->page->getParentType() == "lm" ||

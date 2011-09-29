@@ -280,7 +280,8 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 			case '0':  //Paragraph / Text
 				
 				// js editing? -> redirect to js page editor
-				if ($ilSetting->get("enable_js_edit", 1) && ilPageEditorGUI::_doJSEditing())
+				// if ($ilSetting->get("enable_js_edit", 1) && ilPageEditorGUI::_doJSEditing())
+				if (ilPageEditorGUI::_doJSEditing())
 				{
 					$ret_class = $ilCtrl->getReturnClass($this);
 					$ilCtrl->setParameterByClass($ret_class, "pl_hier_id", $this->hier_id);

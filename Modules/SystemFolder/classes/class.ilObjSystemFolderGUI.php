@@ -525,7 +525,6 @@ return $this->showServerInfoObject();
 			$this->ilias->setSetting('password_assistance',$_POST['password_assistance']);
 			$this->ilias->setSetting('passwd_auto_generate',$_POST['password_auto_generate']);
 
-			//$this->ilias->setSetting('enable_js_edit',$_POST['js_edit']);
 			$this->ilias->setSetting('short_inst_name',$_POST['short_inst_name']);
 			$this->ilias->setSetting('enable_trash',$_POST['enable_trash']);
 
@@ -880,13 +879,6 @@ return $this->showServerInfoObject();
 		{
 			$this->tpl->setVariable("PASSWORD_AUTO_GENERATE","checked=\"checked\"");
 		}
-
-		// js editing
-		/*
-		if($settings['enable_js_edit'])
-		{
-			$this->tpl->setVariable("JS_EDIT","checked=\"checked\"");
-		}*/
 
 		$this->tpl->setVariable("SUFFIX_REPL_ADDITIONAL", ilUtil::prepareFormOutput($settings['suffix_repl_additional']));
 

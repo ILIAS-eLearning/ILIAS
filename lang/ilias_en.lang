@@ -178,8 +178,8 @@ adve#:#adve_grp_rep#:#Repository Pages
 adve#:#adve_grp_scorm#:#SCORM Editing
 adve#:#adve_grp_test#:#Test & Assessment
 adve#:#adve_grp_wiki#:#Wikis
-adve#:#adve_page_editor_settings#:#ILIAS Page Editor Settings
-adve#:#adve_rte_settings#:#Rich Text Editor Settings
+adve#:#adve_page_editor_settings#:#ILIAS Content Editor
+adve#:#adve_rte_settings#:#TinyMCE Editor
 adve#:#adve_text_content_features#:#Text Content Menu
 assessment#:#0_unlimited#:#(0=unlimited)
 assessment#:#action#:#Action
@@ -1664,7 +1664,7 @@ common#:#advanced_editing_no_rte#:#Do not use rich text editing
 common#:#advanced_editing_rep_page_editing_desc#:#This feature allows to add text/media to category, course, group and folder pages. If deactivated, existing content will be hidden.
 common#:#advanced_editing_rep_page_editing#:#Enable Content Editing in Repository
 common#:#advanced_editing_required_tags#:#The following HTML tags are required: %s
-common#:#advanced_editing_settings#:#Advanced Editing Settings
+common#:#advanced_editing_settings#:#Editing Settings
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool
 common#:#advanced_editing_tinymce#:#TinyMCE Editor
 common#:#adve_assessment_settings#:#Test & Assessment Settings
@@ -1672,11 +1672,11 @@ common#:#adve_edit_permission#:#Change Permission Settings
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#General Settings
 common#:#adve_lm_settings#:#LM / Glossary Settings
-common#:#adve_read#:#Access Advanced Editing Administration
+common#:#adve_read#:#Access Editing Administration
 common#:#adve_rep_settings#:#Repository Settings
 common#:#adve_survey_settings#:#Survey Settings
-common#:#adve_visible#:#Advanced Editing Administration is Visible
-common#:#adve_write#:#Advanced Editing Administration
+common#:#adve_visible#:#Editing Administration is Visible
+common#:#adve_write#:#Editing Administration
 common#:#agree_date#:#Agreed on
 common#:#all_authors#:#All authors
 common#:#all_commands#:#All Commands
@@ -3681,8 +3681,8 @@ common#:#obj_accs_desc#:#Settings for accessibility features.
 common#:#obj_accs#:#Accessibility
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_adm#:#Administration
-common#:#obj_adve_desc#:#Administration settings for advanced editing like JavaScript based Rich Text Editors, LaTeX support etc..
-common#:#obj_adve#:#Advanced Editing
+common#:#obj_adve_desc#:#Administration settings for ILIAS page editor and TinyMCE.
+common#:#obj_adve#:#Editing
 common#:#obj_alm#:#Learning Module AICC
 common#:#obj_assf_desc#:#Platform settings for the Test & Assessment tool
 common#:#obj_assf#:#Test and Assessment
@@ -12252,6 +12252,8 @@ survey#:#survey_question_title#:#Question Title
 assessment#:#tst_default_settings#:#Personal Default Settings
 prtf#:#prtf_unset_as_default#:#Unset As My Profile
 certificate#:#certificate_ph_date_completed#:#Date of completion
+adve#:#adve_activation#:#Activation
+adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 certificate#:#certificate_ph_datetime_completed#:#Date and time of completion
 certificate#:#certificate_ph_passed_exercise#:#"Passed" or "Failed"
 certificate#:#certificate_ph_mark#:#Users mark
