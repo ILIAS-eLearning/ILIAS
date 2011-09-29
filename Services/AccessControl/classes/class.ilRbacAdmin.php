@@ -855,7 +855,7 @@ class ilRbacAdmin
 	*/
 	function assignRoleToFolder($a_rol_id,$a_parent,$a_assign = "y")
 	{
-		global $ilDB;
+		global $ilDB,$rbacreview;
 		
 		if (!isset($a_rol_id) or !isset($a_parent))
 		{
@@ -865,7 +865,7 @@ class ilRbacAdmin
 					   " assign: ".$a_assign;
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
-		
+
 		// exclude system role from rbac
 		if ($a_rol_id == SYSTEM_ROLE_ID)
 		{

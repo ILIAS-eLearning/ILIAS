@@ -1263,6 +1263,20 @@ class ilRbacReview
 	}
 
 	/**
+	 * Check if role
+	 */
+	public function isRoleAssignedToFolder($a_role_id, $a_parent_id)
+	{
+		global $rbacreview, $ilDB;
+
+		$query = 'SELECT * FROM rbac_fa '.
+			'WHERE rol_id = '.$ilDB->quote($a_role_id,'integer').' '.
+			'AND parent = '.$ilDB->quote($a_parent_id,'integer');
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false;
+	}
+
+	/**
 	* get all possible operations 
 	* @access	public
 	* @return	array	array of operation_id

@@ -174,13 +174,17 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	 */
 	public function  apply()
 	{
+		global $rbacreview;
+
 		$source = $this->initSourceObject();
 		// Create a role folder for the new local policies
 
 		$roles = $this->filterRoles($source);
 
 		// Create role folder if there is any local role left
-		if(count($roles))
+
+		$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
+		if(count($roles) and !$rolf)
 		{
 			$source->createRoleFolder();
 		}
@@ -378,7 +382,11 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		$GLOBALS['ilLog']->write(__METHOD__.': Role folder id: '.$role_folder_id);
 
 		// Add local policy
-		$rbacadmin->assignRoleToFolder($role['obj_id'],$role_folder_id,'n');
+
+		if(!$rbacreview->isRoleAssignedToFolder($role['obj_id'],$role_folder_id))
+		{
+			$rbacadmin->assignRoleToFolder($role['obj_id'],$role_folder_id,'n');
+		}
 
 		switch($this->getRoleTemplateType())
 		{
