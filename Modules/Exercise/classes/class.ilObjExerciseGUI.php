@@ -15,6 +15,7 @@ require_once "classes/class.ilObjectGUI.php";
 * @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilObjExerciseGUI: ilObjectCopyGUI, ilFileSystemGUI, ilExportGUI, ilShopPurchaseGUI
 * @ilCtrl_Calls ilObjExerciseGUI: ilRepositorySearchGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjExerciseGUI: ilCertificateGUI
 * 
 * @ingroup ModulesExercise
 */
@@ -168,7 +169,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 				break;
 
 			case "ilexportgui":
-//				$this->prepareOutput();
 				$ilTabs->activateTab("export");
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this);
@@ -187,6 +187,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
+				break;
+			
+			case "ilcertificategui":
+				$this->setSettingsSubTabs();
+				$this->tabs_gui->activateTab("settings");
+				$this->tabs_gui->activateSubTab("certificate");
+				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
+				include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
+				$output_gui = new ilCertificateGUI(new ilExerciseCertificateAdapter($this->object));
+				$this->ctrl->forwardCommand($output_gui);
 				break;
 
 			default:
@@ -1657,7 +1667,28 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// forward the command
 		$this->ctrl->forwardCommand($info);
 	}
-
+	
+	function editObject() 
+	{
+		$this->setSettingsSubTabs();
+		$this->tabs_gui->activateSubTab("edit");
+		return parent::editObject();
+	}
+	
+	protected function setSettingsSubTabs()
+	{
+		$this->tabs_gui->addSubTab("edit",
+			$this->lng->txt("general_settings"),
+			$this->ctrl->getLinkTarget($this, "edit"));
+		
+		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
+		if(ilRPCServerSettings::getInstance()->isEnabled())
+		{
+			$this->tabs_gui->addSubTab("certificate",
+				$this->lng->txt("certificate"),
+				$this->ctrl->getLinkTarget($this, "certificate"));		
+		}
+	}
 
 	/**
 	* redirect script
@@ -2139,7 +2170,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	 */
 	function showOverviewObject()
 	{
-		global $tpl, $ilTabs, $ilUser;
+		global $tpl, $ilTabs, $ilUser, $ilToolbar;
 		
 		$this->checkPermission("read");
 		
@@ -2149,6 +2180,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$ilTabs->activateTab("content");
 		$this->addContentSubTabs("content");
+		
+		// show certificate?
+		if($this->object->hasUserCertificate($ilUser->getId()))
+		{										
+			$ilToolbar->addButton($this->lng->txt("certificate"),
+				$this->ctrl->getLinkTarget($this, "outCertificate"));
+		}	
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
@@ -2521,6 +2559,34 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$exp->setOutput(0);
 	
 		return $exp->getOutput();
+	}
+	
+	function certificateObject()
+	{
+		$this->setSettingsSubTabs();
+		$this->tabs_gui->activateTab("settings");
+		$this->tabs_gui->activateSubTab("certificate");
+		
+		include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
+		include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
+		$output_gui = new ilCertificateGUI(new ilExerciseCertificateAdapter($this->object));
+		$output_gui->certificateEditor();				
+	}
+	
+	function outCertificateObject()
+	{
+		global $ilUser;
+	
+		if($this->object->hasUserCertificate($ilUser->getId()))
+		{	
+			ilUtil::sendFailure($this->lng->txt("msg_failed"));
+			$this->showOverviewObject();			
+		}
+		
+		include_once "./Services/Certificate/classes/class.ilCertificate.php";
+		include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
+		$certificate = new ilCertificate(new ilExerciseCertificateAdapter($this->object));
+		$certificate->outCertificate(array("user_id" => $ilUser->getId()));					
 	}
 }
 

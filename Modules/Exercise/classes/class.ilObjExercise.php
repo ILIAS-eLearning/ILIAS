@@ -30,6 +30,7 @@ class ilObjExercise extends ilObject
 	var $month;
 	var $year;
 	var $instruction;
+	var $certificate_visibility;
 	
 	/**
 	 * 
@@ -238,7 +239,8 @@ class ilObjExercise extends ilObject
 			"pass_mode" => array("text", $this->getPassMode()),
 			"pass_nr" => array("text", $this->getPassNr()),
 			"show_submissions" => array("integer", (int) $this->getShowSubmissions()),
-			'compl_by_submission' => array('integer', (int)$this->isCompletionBySubmissionEnabled())
+			'compl_by_submission' => array('integer', (int)$this->isCompletionBySubmissionEnabled()),
+			"certificate_visibility" => array("integer", (int)$this->getCertificateVisibility())
 			));
 		return true;
 	}
@@ -382,6 +384,7 @@ class ilObjExercise extends ilObject
 				$this->setPassNr($row->pass_nr);
 			}
 			$this->setCompletionBySubmission($row->compl_by_submission == 1 ? true : false);
+			$this->setCertificateVisibility($row->certificate_visibility);
 		}
 		
 		$this->members_obj = new ilExerciseMembers($this);
@@ -1062,6 +1065,77 @@ class ilObjExercise extends ilObject
 			$res[$row["ass_id"]] = $row;
 		}
 		return $res;
+	}
+	
+	/**
+	* Returns the visibility settings of the certificate
+	*
+	* @return integer The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
+	* @access public
+	*/
+	function getCertificateVisibility()
+	{
+		return (strlen($this->certificate_visibility)) ? $this->certificate_visibility : 0;
+	}
+
+	/**
+	* Sets the visibility settings of the certificate
+	*
+	* @param integer $a_value The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
+	* @access public
+	*/
+	function setCertificateVisibility($a_value)
+	{
+		$this->certificate_visibility = $a_value;
+	}
+	
+	/**
+	* Saves the visibility settings of the certificate
+	*
+	* @param integer $a_value The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
+	* @access private
+	*/
+	function saveCertificateVisibility($a_value)
+	{
+		global $ilDB;
+
+		$affectedRows = $ilDB->manipulateF("UPDATE exc_data SET certificate_visibility = %s WHERE obj_id = %s",
+			array('integer', 'integer'),
+			array($a_value, $this->getId())
+		);
+	}
+	
+	/**
+	 * Check if given user has certificate to show/download
+	 * 
+	 * @param int $a_user_id
+	 * @return bool 
+	 */
+	function hasUserCertificate($a_user_id)
+	{
+		// show certificate?
+		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
+		if(ilRPCServerSettings::getInstance()->isEnabled())
+		{
+			$certificate_visible = $this->getCertificateVisibility();
+			// if not never
+			if($certificate_visible != 2)
+			{
+				// if passed only
+				include_once 'Modules/Exercise/classes/class.ilExerciseMembers.php';
+				$status = ilExerciseMembers::_lookupStatus($this->getId(), $a_user_id);
+				if($certificate_visible == 1 && $status == "passed")
+				{
+					return true;
+				}
+				// always (excluding notgraded)
+				else if($certificate_visible == 0 && $status != "notgraded")
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }
 

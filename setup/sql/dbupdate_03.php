@@ -8053,3 +8053,18 @@ if(!$ilDB->tableExists('note_settings'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3476>
+<?php
+	if (!$ilDB->tableColumnExists("exc_data", "certificate_visibility"))
+	{
+		$ilDB->addTableColumn("exc_data", "certificate_visibility", array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 0));
+	}
+?>
+<#3477>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

@@ -12253,3 +12253,7 @@ assessment#:#tst_default_settings#:#Personal Default Settings
 prtf#:#prtf_unset_as_default#:#Unset As My Profile
 certificate#:#certificate_ph_date_completed#:#Date of completion
 certificate#:#certificate_ph_datetime_completed#:#Date and time of completion
+certificate#:#certificate_ph_passed_exercise#:#"Passed" or "Failed"
+certificate#:#certificate_ph_mark#:#Users mark
+certificate#:#certificate_ph_exercisetitle#:#Exercise Title
+certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise
