@@ -12251,3 +12251,5 @@ blog#:#blog_navigation#:#Postings
 survey#:#survey_question_title#:#Question Title
 assessment#:#tst_default_settings#:#Personal Default Settings
 prtf#:#prtf_unset_as_default#:#Unset As My Profile
+certificate#:#certificate_ph_date_completed#:#Date of completion
+certificate#:#certificate_ph_datetime_completed#:#Date and time of completion

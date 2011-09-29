@@ -12252,3 +12252,5 @@ blog#:#blog_navigation#:#Einträge
 survey#:#survey_question_title#:#Fragetitel
 assessment#:#tst_default_settings#:#Persönliche Standardeinstellungen
 prtf#:#prtf_unset_as_default#:#Nicht als Mein Profil verwenden
+certificate#:#certificate_ph_date_completed#:#Datum des Bestehens
+certificate#:#certificate_ph_datetime_completed#:#Datum und Zeit des Bestehens

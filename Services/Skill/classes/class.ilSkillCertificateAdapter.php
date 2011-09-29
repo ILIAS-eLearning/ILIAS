@@ -56,12 +56,10 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 		$old = ilDatePresentation::useRelativeDates();
 		ilDatePresentation::setUseRelativeDates(false);
 		
-		$vars = $this->getBaseVariablesForPreview(true, false);
+		$vars = $this->getBaseVariablesForPreview();
 		$vars["SKILL_TITLE"] = ilUtil::prepareFormOutput($this->skill->getTitleForCertificate());
 		$vars["SKILL_LEVEL_TITLE"] = ilUtil::prepareFormOutput($this->skill->getLevelTitleForCertificate($this->skill_level_id));
 		$vars["SKILL_TRIGGER_TITLE"] = ilUtil::prepareFormOutput($this->skill->getTriggerTitleForCertificate($this->skill_level_id));
-		$vars["ACHIEVEMENT_DATE"] = ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX));
-		$vars["ACHIEVEMENT_DATETIME"] = ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX));
 		
 		ilDatePresentation::setUseRelativeDates($old);
 		
@@ -94,21 +92,22 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 		$vars["SKILL_LEVEL_TITLE"] = ilUtil::prepareFormOutput($this->skill->getLevelTitleForCertificate($this->skill_level_id));
 		$vars["SKILL_TRIGGER_TITLE"] = ilUtil::prepareFormOutput($this->skill->getTriggerTitleForCertificate($this->skill_level_id));
 	
+		// custom completion date
 		$achievement_date = ilBasicSkill::lookupLevelAchievementDate($user_data["usr_id"], $this->skill_level_id);
 		if ($achievement_date !== false)
 		{			
 			$old = ilDatePresentation::useRelativeDates();
 			ilDatePresentation::setUseRelativeDates(false);
 		
-			$vars["ACHIEVEMENT_DATE"] = ilDatePresentation::formatDate(new ilDate($achievement_date, IL_CAL_DATETIME));
-			$vars["ACHIEVEMENT_DATETIME"] = ilDatePresentation::formatDate(new ilDateTime($achievement_date, IL_CAL_DATETIME));
+			$vars["DATE_COMPLETED"] = ilDatePresentation::formatDate(new ilDate($achievement_date, IL_CAL_DATETIME));
+			$vars["DATETIME_COMPLETED"] = ilDatePresentation::formatDate(new ilDateTime($achievement_date, IL_CAL_DATETIME));
 			
 			ilDatePresentation::setUseRelativeDates($old);
 		}
 		else
 		{
-			$vars["ACHIEVEMENT_DATE"] = "";
-			$vars["ACHIEVEMENT_DATETIME"] = "";
+			$vars["DATE_COMPLETED"] = "";
+			$vars["DATETIME_COMPLETED"] = "";
 		}
 		
 		foreach($vars as $id => $caption)
@@ -130,12 +129,10 @@ class ilSkillCertificateAdapter extends ilCertificateAdapter
 
 		$lng->loadLanguageModule("skmg");
 		
-		$vars = $this->getBaseVariablesDescription(true, false);
+		$vars = $this->getBaseVariablesDescription();
 		$vars["SKILL_TITLE"] = $lng->txt("skmg_cert_skill_title");
 		$vars["SKILL_LEVEL_TITLE"] = $lng->txt("skmg_cert_skill_level_title");
 		$vars["SKILL_TRIGGER_TITLE"] = $lng->txt("skmg_cert_skill_trigger_title");
-		$vars["ACHIEVEMENT_DATE"] = $lng->txt("skmg_cert_achievement_date");
-		$vars["ACHIEVEMENT_DATETIME"] = $lng->txt("skmg_cert_achievement_datetime");
 		
 		$template = new ilTemplate("tpl.certificate_edit.html", TRUE, TRUE, "Services/Skill");
 		$template->setCurrentBlock("items");
