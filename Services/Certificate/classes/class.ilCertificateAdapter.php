@@ -273,6 +273,17 @@ abstract class ilCertificateAdapter
 			$birthday = ilDatePresentation::formatDate(new ilDate($a_user_data["birthday"], IL_CAL_DATE));
 		}
 		
+		$country = $a_user_data["sel_country"];
+		if($country)
+		{
+			$lng->loadLanguageModule("meta");
+			$country = $lng->txt("meta_c_".$country);
+		}
+		else 
+		{
+			$country = $a_user_data["country"];
+		}
+		
 		$vars = array(
 			"USER_LOGIN" => ilUtil::prepareFormOutput(trim($a_user_data["login"])),
 			"USER_FULLNAME" => ilUtil::prepareFormOutput(trim($a_user_data["title"] . " " . $a_user_data["firstname"] . " " . $a_user_data["lastname"])),
@@ -286,7 +297,7 @@ abstract class ilCertificateAdapter
 			"USER_STREET" => ilUtil::prepareFormOutput($a_user_data["street"]),
 			"USER_CITY" => ilUtil::prepareFormOutput($a_user_data["city"]),
 			"USER_ZIPCODE" => ilUtil::prepareFormOutput($a_user_data["zipcode"]),
-			"USER_COUNTRY" => ilUtil::prepareFormOutput($a_user_data["country"])
+			"USER_COUNTRY" => ilUtil::prepareFormOutput($country)
 		);
 		
 		if($a_last_access)
