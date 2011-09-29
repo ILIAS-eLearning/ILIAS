@@ -54,7 +54,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 			default:
 				if($cmd == "" || $cmd == "view")
 				{
-					$cmd = "settings";
+					$cmd = "showGeneralPageEditorSettings";
 				}
 				$cmd .= "Object";
 				$this->$cmd();
@@ -92,31 +92,23 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	 */
 	function settingsObject()
 	{
-		global $ilAccess;
+		global $ilAccess, $tpl, $ilCtrl, $lng;
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing.html");
-		
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->tpl->setCurrentBlock("save");
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_ADVANCED_EDITING_SETTINGS", $this->lng->txt("advanced_editing_settings"));
-		$this->tpl->setVariable("TXT_ALLOW_JAVASCRIPT_EDITOR", $this->lng->txt("advanced_editing_allow_javascript_editor"));
-		$this->tpl->setVariable("NO_RTE_EDITOR", $this->lng->txt("advanced_editing_no_rte"));
-		$this->tpl->setVariable("TINY_MCE_EDITOR", $this->lng->txt("advanced_editing_tinymce"));
 		$editor = $this->object->_getRichTextEditor();
-		switch ($editor)
-		{
-			case "tinymce":
-				$this->tpl->setVariable("SELECTED_TINY_MCE_EDITOR", " selected=\"selected\"");
-				break;
-		}
 		
-		$this->tpl->parseCurrentBlock();
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+		$this->form->setTitle($lng->txt("adve_activation"));
+		$cb = new ilCheckboxInputGUI($this->lng->txt("adve_use_tiny_mce"), "use_tiny");
+		if ($editor == "tinymce")
+		{
+			$cb->setChecked(true);
+		}
+		$this->form->addItem($cb);
+		$this->form->addCommandButton("saveSettings", $lng->txt("save"));
+		
+		$tpl->setContent($this->form->getHTML());
 	}
 	
 	/**
@@ -203,6 +195,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	/**
 	* Display settings for learning module page JS editor (Currently HTMLArea)
 	*/
+/*
 	function learningModuleObject()
 	{
 		global $ilSetting;
@@ -223,144 +216,18 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
 		$this->tpl->parseCurrentBlock();
 	}
-
+*/
 	/**
 	* Save settings for learning module JS editing.
 	*/
+/*
 	function saveLearningModuleSettingsObject()
 	{
 		global $ilSetting;
 
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-		$ilSetting->set("enable_js_edit", $_POST["js_edit"]);
+		$ilSetting->set("enable_js_edit", (int) $_POST["js_edit"]);
 		$this->ctrl->redirect($this, 'learningmodule');
-	}
-
-	/**
-	* Display settings for categories.
-	*/
-	function repositorySettingsObject()
-	{
-		global $ilSetting, $tree, $ilCtrl, $lng, $tpl;
-
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-	
-		// allow editing 
-		$cb = new ilCheckboxInputGUI($this->lng->txt("advanced_editing_rep_page_editing"), "cat_page_edit");
-		$cb->setInfo($this->lng->txt("advanced_editing_rep_page_editing_desc"));
-		if ($ilSetting->get("enable_cat_page_edit"))
-		{
-			$cb->setChecked(true);
-		}
-		$this->form->addItem($cb);
-		
-		$this->form->addCommandButton("saveRepositorySettings", $lng->txt("save"));
-					
-		$this->form->setTitle($lng->txt("adve_rep_settings"));
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
-		
-		$tpl->setContent($this->form->getHTML());
-
-return;
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_category.html");
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_CAT_SETTINGS", $this->lng->txt("adve_cat_settings"));
-		$this->tpl->setVariable("TXT_CAT_PAGE_EDITING", $this->lng->txt("advanced_editing_cat_page_editing"));
-		$this->tpl->setVariable("TXT_CAT_PAGE_EDITING_DESC", $this->lng->txt("advanced_editing_cat_page_editing_desc"));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-		
-		$this->tpl->setVariable("TXT_CAT_PAGES",
-			$this->lng->txt("cat_pages"));
-		$this->tpl->setVariable("TXT_UNDO_LAST_CAT_CHANGES",
-			$this->lng->txt("cat_undo_last_page_changes"));
-		$this->tpl->setVariable("TXT_CLEAR_CAT_PAGE",
-			$this->lng->txt("cat_clear_page"));
-			
-		$root_node = $tree->getNodeData(ROOT_FOLDER_ID);
-		$nodes = $tree->getSubTree($root_node, true, "cat");
-		$cats[0] = $this->lng->txt("please_select");
-		$cats[$root_node["ref_id"]] = "- ".$this->lng->txt("repository");
-		foreach($nodes as $node)
-		{
-			$cats[$node["ref_id"]] = str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;",($node["depth"]-1))."- ".$node["title"];
-		}
-		$this->tpl->setVariable("SELECT_CATEGORY",
-			ilUtil::formSelect("", "cat_id", $cats, false, true));
-
-		if ($ilSetting->get("enable_cat_page_edit"))
-		{
-			$this->tpl->setVariable("CAT_PAGE_EDIT", "checked=\"checked\"");
-		}
-
-		$this->tpl->parseCurrentBlock();
-	}
-
-	/**
-	* Save settings for repository editing
-	*/
-	function saveRepositorySettingsObject()
-	{
-		global $ilSetting;
-
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-		$ilSetting->set("enable_cat_page_edit", $_POST["cat_page_edit"]);
-		$this->ctrl->redirect($this, 'repositorySettings');
-	}
-
-	/**
-	* Save settings for category editing
-	*/
-/*
-	function undoLastCategoryChangeObject()
-	{
-		global $ilSetting;
-
-		include_once("./Services/Container/classes/class.ilContainer.php");
-		$xpage_id = ilContainer::_lookupContainerSetting(
-			ilObject::_lookupObjId($_POST["cat_id"]),
-			"xhtml_page");
-		if ($xpage_id > 0)
-		{
-			ilUtil::sendSuccess($this->lng->txt("cat_pages_undone"), true);
-			include_once("./Services/XHTMLPage/classes/class.ilXHTMLPage.php");
-			$xpage = new ilXHTMLPage($xpage_id);
-			$xpage->undo();
-		}
-		else
-		{
-			ilUtil::sendFailure($this->lng->txt("cat_pages_not_created"), true);
-		}
-
-		$this->ctrl->redirect($this, 'category');
-	}
-*/
-	/**
-	* Save settings for category editing
-	*/
-/*
-	function clearCategoryPageObject()
-	{
-		global $ilSetting;
-
-		include_once("./Services/Container/classes/class.ilContainer.php");
-		$xpage_id = ilContainer::_lookupContainerSetting(
-			ilObject::_lookupObjId($_POST["cat_id"]),
-			"xhtml_page");
-		if ($xpage_id > 0)
-		{
-			ilUtil::sendSuccess($this->lng->txt("cat_pages_clear"), true);
-			include_once("./Services/XHTMLPage/classes/class.ilXHTMLPage.php");
-			$xpage = new ilXHTMLPage($xpage_id);
-			$xpage->clear();
-		}
-		else
-		{
-			ilUtil::sendFailure($this->lng->txt("cat_pages_not_created"), true);
-		}
-
-		$this->ctrl->redirect($this, 'category');
 	}
 */
 	/**
@@ -368,7 +235,14 @@ return;
 	*/
 	function saveSettingsObject()
 	{
-		$this->object->_setRichTextEditor($_POST["rte"]);
+		if ($_POST["use_tiny"])
+		{
+			$this->object->_setRichTextEditor("tinymce");
+		}
+		else
+		{
+			$this->object->_setRichTextEditor("");
+		}
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 
 		$this->ctrl->redirect($this,'settings');
@@ -427,13 +301,34 @@ return;
 	*/
 	public function initPageEditorForm($a_mode = "edit")
 	{
-		global $lng;
+		global $lng, $ilSetting;
 		
 		$lng->loadLanguageModule("content");
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 	
+		if ($this->cgrp == "rep")
+		{
+			$this->form->setTitle($lng->txt("adve_activation"));
+			$cb = new ilCheckboxInputGUI($this->lng->txt("advanced_editing_rep_page_editing"), "cat_page_edit");
+			$cb->setInfo($this->lng->txt("advanced_editing_rep_page_editing_desc"));
+			if ($ilSetting->get("enable_cat_page_edit"))
+			{
+				$cb->setChecked(true);
+			}
+			$this->form->addItem($cb);
+
+			$sh = new ilFormSectionHeaderGUI();
+			$sh->setTitle($lng->txt("adve_text_content_features"));
+			$this->form->addItem($sh);
+		}
+		else
+		{
+			$this->form->setTitle($lng->txt("adve_text_content_features"));
+		}
+
+		
 		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
 		
 		include_once("./Services/COPage/classes/class.ilPageContentGUI.php");
@@ -448,8 +343,7 @@ return;
 	
 		// save and cancel commands
 		$this->form->addCommandButton("savePageEditorSettings", $lng->txt("save"));
-	                
-		$this->form->setTitle($lng->txt("adve_text_content_features"));
+		
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 	 
 	}
@@ -460,7 +354,7 @@ return;
 	*/
 	public function savePageEditorSettingsObject()
 	{
-		global $tpl, $lng, $ilCtrl;
+		global $tpl, $lng, $ilCtrl, $ilSetting;
 	
 		$this->initPageEditorForm();
 		if ($this->form->checkInput())
@@ -473,6 +367,12 @@ return;
 				ilPageEditorSettings::writeSetting($_GET["grp"], "active_".$b,
 					$this->form->getInput("active_".$b));
 			}
+			
+			if ($_GET["grp"] == "rep")
+			{
+				$ilSetting->set("enable_cat_page_edit", (int) $_POST["cat_page_edit"]);
+			}
+			
 			ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
 		}
 		
@@ -486,7 +386,7 @@ return;
 	function showGeneralPageEditorSettingsObject()
 	{
 		global $tpl, $ilTabs;
-		
+
 		$this->addPageEditorSettingsSubTabs();
 		$ilTabs->activateTab("adve_page_editor_settings");
 		
@@ -543,14 +443,14 @@ return;
 	function addSubtabs(&$tabs_gui)
 	{
 		global $ilCtrl;
-		
+
 		if ($ilCtrl->getNextClass() != "ilpermissiongui" &&
-			$ilCtrl->getCmd() != "showPageEditorSettings" &&
-			$ilCtrl->getCmd() != "showGeneralPageEditorSettings")
+			!in_array($ilCtrl->getCmd(), array("showPageEditorSettings",
+				"showGeneralPageEditorSettings", "", "view")))
 		{
 			$tabs_gui->addSubTabTarget("adve_general_settings",
 											 $this->ctrl->getLinkTarget($this, "settings"),
-											 array("", "view", "settings", "saveSettings"),
+											 array("settings", "saveSettings"),
 											 "", "");
 			$tabs_gui->addSubTabTarget("adve_assessment_settings",
 											 $this->ctrl->getLinkTarget($this, "assessment"),
@@ -560,14 +460,10 @@ return;
 											 $this->ctrl->getLinkTarget($this, "survey"),
 											 array("survey", "saveSurveySettings"),
 											 "", "");
-			$tabs_gui->addSubTabTarget("adve_rep_settings",
-											 $this->ctrl->getLinkTarget($this, "repositorySettings"),
-											 array("repositorySettings"),
-											 "", "");
-			$tabs_gui->addSubTabTarget("adve_lm_settings",
+			/*$tabs_gui->addSubTabTarget("adve_lm_settings",
 											 $this->ctrl->getLinkTarget($this, "learningModule"),
 											 array("learningModule", "saveLearningModuleSettings"),
-											 "", "");
+											 "", "");*/
 			$tabs_gui->addSubTabTarget("adve_frm_post_settings",
 											 $this->ctrl->getLinkTarget($this, "frmPost"),
 											 array("frmPost", "saveFrmPostSettings"),
@@ -630,7 +526,7 @@ return;
 
 		$ilTabs->addSubTabTarget("adve_pe_general",
 			 $ilCtrl->getLinkTarget($this, "showGeneralPageEditorSettings"),
-			 array("showGeneralPageEditorSettings")); 
+			 array("showGeneralPageEditorSettings", "", "view")); 
 		
 		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
 		$grps = ilPageEditorSettings::getGroups();
@@ -657,14 +553,14 @@ return;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("adve_rte_settings",
-				$this->ctrl->getLinkTarget($this, "settings"),
-					array("settings","","view", "assessment", "survey", "learningModule",
-					"category"), "", "");
-			
 			$tabs_gui->addTarget("adve_page_editor_settings",
 				$this->ctrl->getLinkTarget($this, "showGeneralPageEditorSettings"),
-					array("showPageEditorSettings"));
+					array("showPageEditorSettings", "","view"));
+
+			$tabs_gui->addTarget("adve_rte_settings",
+				$this->ctrl->getLinkTarget($this, "settings"),
+					array("settings","assessment", "survey", "learningModule",
+					"frmPost"), "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
