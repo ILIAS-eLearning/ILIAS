@@ -1757,7 +1757,17 @@ class assQuestion
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 		$obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($_GET["ref_id"])) ? $_GET["ref_id"] : $_POST["sel_qpl"])) : $this->getObjId();
 		if ($obj_id > 0)
-		{
+		{			
+			if($a_create_page)
+			{
+				$tstamp = 0;
+			}
+			else
+			{
+				// question pool must not try to purge
+				$tstamp = time();
+			}
+			
 			$next_id = $ilDB->nextId('qpl_questions');
 			$affectedRows = $ilDB->insert("qpl_questions", array(
 				"question_id" => array("integer", $next_id),
@@ -1774,7 +1784,7 @@ class assQuestion
 				"complete" => array("text", $complete),
 				"created" => array("integer", time()),
 				"original_id" => array("integer", NULL),
-				"tstamp" => array("integer", 0)
+				"tstamp" => array("integer", $tstamp)
 			));
 			$this->setId($next_id);
 			

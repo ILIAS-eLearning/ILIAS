@@ -83,7 +83,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 				$edit_gui->setPageConfig($this->getPageConfig());
 				//$edit_gui->setPoolRefId($qpool_ref_id);		
 				$this->setTabs();
-				// $edit_gui->addNewIdListener($this, "setNewQuestionId");
+			    $edit_gui->addNewIdListener($this, "setNewQuestionId");
 				$edit_gui->setSelfAssessmentEditingMode(true);
 				$ret = $ilCtrl->forwardCommand($edit_gui);
 				$this->tpl->setContent($ret);
@@ -327,9 +327,6 @@ class ilPCQuestionGUI extends ilPageContentGUI
 				$q_gui =& assQuestionGUI::_getQuestionGUI($q_type);
 				$q_id = $q_gui->object->createNewQuestion(false);
 				unset($q_gui);
-				
-				// publish question id in page
-				$this->setNewQuestionId(array("new_id" => $q_id));
 				
 				if ($_GET["qpool_ref_id"] > 0)
 				{
