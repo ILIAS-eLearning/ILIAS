@@ -64,6 +64,11 @@ class ilPCIIMOverlaysTableGUI extends ilTable2GUI
 		$piname = pathinfo($a_set["filename"]);
 		$th_path = ilObjMediaObject::getThumbnailPath($this->mob->getId(),
 			basename($a_set["filename"], ".".$piname['extension']).".png");
+		if (!is_file($th_path))
+		{
+			$this->mob->makeThumbnail("overlays/".$a_set["filename"],
+				basename($a_set["filename"], ".".$piname['extension']).".png");
+		}
 		if (is_file($th_path))
 		{
 			$this->tpl->setVariable("THUMB", ilUtil::img($th_path));
