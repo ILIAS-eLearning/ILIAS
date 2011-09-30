@@ -182,8 +182,43 @@ class assSingleChoice extends assQuestion
 			);
 		}
 
+		if($this->suspended_upload)
+		{
+			$this->importAnswersFromPost();
+			$this->suspended_upload = false;
+
+			$this->saveToDb();
+		}
 		$this->rebuildThumbnails();
+		
 		parent::saveToDb($original_id);
+	}
+	
+	function importAnswersFromPost()
+	{
+		foreach ($_POST['choice']['answer'] as $index => $answertext)
+		{			
+			$picturefile = $_POST['choice']['imagename'][$index];
+			$file_org_name = $_FILES['choice']['name']['image'][$index];
+			$file_temp_name = $_FILES['choice']['tmp_name']['image'][$index];		
+						
+			if (strlen($file_temp_name))
+			{
+				// check suffix						
+				$suffix = strtolower(array_pop(explode(".", $file_org_name)));						
+				if(in_array($suffix, array("jpg", "jpeg", "png", "gif")))
+				{							
+					// upload image
+					$filename = $this->createNewImageFileName($file_org_name);
+					if ($this->setImageFile($filename, $file_temp_name) == 0)
+					{
+						$picturefile = $filename;
+					}
+				}
+			}
+
+			$this->addAnswer($answertext, $_POST['choice']['points'][$index], $index, $picturefile);
+		}
 	}
 
 	/*

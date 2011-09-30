@@ -166,11 +166,53 @@ class assOrderingQuestion extends assQuestion
 
 		if ($this->getOrderingType() == OQ_PICTURES)
 		{
+			if($this->suspended_upload)
+			{
+				$this->importAnswersFromPost();
+				$this->suspended_upload = false;
+				
+				$this->saveToDb();
+			}
 			$this->rebuildThumbnails();
 		}
 
 		$this->cleanImagefiles();
 		parent::saveToDb($original_id);
+	}
+	
+	function importAnswersFromPost($a_clear_answers = false)
+	{
+		foreach (array_keys($_POST['answers']['count']) as $index)
+		{															
+			if($a_clear_answers)
+			{
+				$this->addAnswer("");
+				continue;
+			}
+			
+			$picturefile = $_POST['answers']['imagename'][$index];
+			$file_org_name = $_FILES['answers']['name']['image'][$index];
+			$file_temp_name = $_FILES['answers']['tmp_name']['image'][$index];			
+			
+			// new file
+			if (strlen($file_temp_name))
+			{						
+				// check suffix						
+				$suffix = strtolower(array_pop(explode(".", $file_org_name)));						
+				if(in_array($suffix, array("jpg", "jpeg", "png", "gif")))
+				{							
+					// upload image
+					$filename = $this->createNewImageFileName($file_org_name);
+					$filename = $this->getEncryptedFilename($filename);
+					if ($this->setImageFile($file_temp_name, $filename, $picturefile))
+					{
+						$picturefile = $filename;
+					}
+				}
+			}
+			
+			$this->addAnswer($picturefile);
+		}
 	}
 
 	/**
