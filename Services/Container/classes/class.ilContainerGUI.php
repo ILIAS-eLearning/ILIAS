@@ -3212,7 +3212,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	function redrawListItemObject()
 	{
-		$item_data = $this->object->getSubItems(fals, false, (int) $_GET["child_ref_id"]);
+		$item_data = $this->object->getSubItems(false, false, (int) $_GET["child_ref_id"]);
 		$container_view = $this->getContentGUI();
 		foreach ($this->object->items["_all"] as $id)
 		{

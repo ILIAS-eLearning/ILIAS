@@ -2351,9 +2351,16 @@ class ilObjectListGUI
 		$cmd_frame = $this->getCommandFrame("infoScreen");
 		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
 		
+		// reference objects have translated ids, revert to originals
+		$note_ref_id = $this->ref_id;
+		if($this->reference_ref_id)
+		{
+			$note_ref_id = $this->reference_ref_id;
+		}
+		
 		$js_updater = $a_header_actions
 			? "ilObject.redrawActionHeader();"
-			: "ilObject.redrawListItem(".$this->ref_id.")";
+			: "ilObject.redrawListItem(".$note_ref_id.")";
 		
 		$has_notes = false;
 		
