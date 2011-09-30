@@ -144,8 +144,9 @@ class ilPortfolioHTMLExport
 	{
 		global $ilTabs;
 		
-		$this->tpl = $this->co_page_html_export->getPreparedMainTemplate();
+		$this->tpl = $this->co_page_html_export->getPreparedMainTemplate();		
 		$this->tpl->getStandardTemplate();
+		$this->tpl->addOnLoadCode('ilTooltip.init();', 3);
 		
 		// workaround
 		$this->tpl->setVariable("MAINMENU", "<div style='min-height:40px;'></div>");
@@ -165,7 +166,7 @@ class ilPortfolioHTMLExport
 		return $this->tpl;
 	}
 	
-	function writeExportFile($a_file, $a_content)
+	function writeExportFile($a_file, $a_content, $a_onload = null)
 	{
 		$file = $this->export_dir."/".$a_file;
 		// return if file is already existing
@@ -181,6 +182,15 @@ class ilPortfolioHTMLExport
 		
 		$this->buildExportTemplate();	
 		$this->tpl->setContent($ep_tpl->get());
+		
+		if(is_array($a_onload))
+		{
+			foreach($a_onload as $item)
+			{
+				$this->tpl->addOnLoadCode($item);
+			}
+		}
+				
 
 		$content = $this->tpl->get("DEFAULT", false, false, false,
 			true, true, true);
@@ -208,10 +218,10 @@ class ilPortfolioHTMLExport
 		// page
 		include_once "Services/Portfolio/classes/class.ilPortfolioPageGUI.php";
 		$pgui = new ilPortfolioPageGUI($this->object->getId(), $a_post_id);
-		$pgui->setOutputMode("offline");
+		$pgui->setOutputMode("offline");		
 		$page_content = $pgui->showPage();
 		
-		$this->writeExportFile("prtf_".$a_post_id.".html", $page_content);
+		$this->writeExportFile("prtf_".$a_post_id.".html", $page_content, $pgui->getJsOnloadCode());
 	}
 }
 

@@ -154,8 +154,10 @@ class ilCOPageHTMLExport
 			$this->js_yahoo_dir.'/yahoo-dom-event.js');
 		copy(ilYuiUtil::getLocalPath('animation/animation-min.js'),
 			$this->js_yahoo_dir.'/animation-min.js');
-		copy(ilYuiUtil::getLocalPath('container/container_core-min.js'),
-			$this->js_yahoo_dir.'/container_core-min.js');
+		copy(ilYuiUtil::getLocalPath('container/container-min.js'),
+			$this->js_yahoo_dir.'/container-min.js');
+		copy(ilYuiUtil::getLocalPath('container/assets/skins/sam/container.css'),
+			$this->css_dir.'/container.css');
 		
 		// accordion
 		copy('./Services/Accordion/js/accordion.js',
@@ -166,7 +168,10 @@ class ilCOPageHTMLExport
 		// page presentation js
 		copy('./Services/COPage/js/ilCOPagePres.js',
 			$this->js_dir.'/ilCOPagePres.js');
-
+		
+		// tooltip
+		copy('./Services/UIComponent/Tooltip/js/ilTooltip.js',
+			$this->js_dir.'/ilTooltip.js');
 	}
 
 	/**
@@ -191,10 +196,10 @@ class ilCOPageHTMLExport
 		
 		// scripts needed
 		$scripts = array("./js/yahoo/yahoo-min.js", "./js/yahoo/yahoo-dom-event.js",
-			"./js/yahoo/container_core-min.js", "./js/yahoo/animation-min.js",
-			"./js/yahoo/container-min.js",
+			"./js/yahoo/animation-min.js", "./js/yahoo/container-min.js",
 			"./js/Basic.js", "./js/jquery.js", "./js/jquery-ui-min.js",
-			"./js/ilOverlay.js", "./js/accordion.js", "./js/ilCOPagePres.js");
+			"./js/ilOverlay.js", "./js/accordion.js", "./js/ilCOPagePres.js",
+			"./js/ilTooltip.js");
 		foreach ($scripts as $script)
 		{
 			$tpl->setCurrentBlock("js_file");
@@ -204,7 +209,7 @@ class ilCOPageHTMLExport
 
 		// css files needed
 		$style_name = $ilUser->prefs["style"].".css";
-		$css_files = array("./css/accordion.css",
+		$css_files = array("./css/accordion.css", "./css/container.css",
 			"./content_style/content.css", "./style/".$style_name);
 		foreach ($css_files as $css)
 		{

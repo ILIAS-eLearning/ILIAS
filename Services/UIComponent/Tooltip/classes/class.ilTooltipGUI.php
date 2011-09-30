@@ -29,13 +29,26 @@ class ilTooltipGUI
 			self::$initialized = true;
 		}
 		
+		$code = self::getTooltip($a_el_id, $a_text, $a_container);
+		$tpl->addOnLoadCode($code); 
+	}
+	
+	/**
+	 * Get tooltip js code
+	 *
+	 * @param string $a_el_id element id
+	 * @param string $a_el_id tooltip text
+	 * @param string $a_el_id element id of container the tooltip should be added to
+	 */
+	static function getToolTip($a_el_id, $a_text, $a_container = "")
+	{
 		$addstr = "";
 		if ($a_container != "")
 		{
 			$addstr.= ", container: '".$a_container."'";
 		}
-		$tpl->addOnLoadCode('ilTooltip.add("'.$a_el_id.
-			'", { context:"'.$a_el_id.'", text:"'.htmlspecialchars($a_text).'" '.$addstr.'} );'); 
+		return 'ilTooltip.add("'.$a_el_id.'", { context:"'.$a_el_id.
+			'", text:"'.htmlspecialchars($a_text).'" '.$addstr.'} );';
 	}
 	
 }

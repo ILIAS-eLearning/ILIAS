@@ -17,6 +17,8 @@ include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
  */
 class ilPortfolioPageGUI extends ilPageObjectGUI
 {
+	protected $js_onload_code = array();
+	
 	/**
 	 * Constructor
 	 */
@@ -363,8 +365,18 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		if($this->getOutputMode() == "offline")
 		{			
 			$gui->setOfflineMode("./files/");
-		}
+		}		
 		$html = $gui->getSkillHTML($a_skills_id, $a_user_id);
+		
+		if($this->getOutputMode() == "offline")
+		{
+			$js = $gui->getTooltipsJs();
+			if(sizeof($js))
+			{
+				$this->js_onload_code = array_merge($this->js_onload_code, $js);
+			}
+		}
+			
 		return $html;
 	}
 	
@@ -377,5 +389,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		return "<div style=\"margin:5px\">".$lng->txt("skills").": \"".
 				ilSkillTreeNode::_lookupTitle($a_skills_id)."\"</div>";
 	}	
+	
+	function getJsOnloadCode()
+	{
+		return $this->js_onload_code;
+	}
 }
 ?>
