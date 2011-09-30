@@ -559,14 +559,14 @@ class assQuestionGUI
 			}
 			else
 			{
+				$this->callNewIdListeners($this->object->getId());
+				
 				if ($this->object->getId() !=  $old_id)
 				{
 					// first save
 					$this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
-					$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
-					$this->callNewIdListeners($this->object->getId());
+					$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);					
 					ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-
 
 					//global $___test_express_mode;
 					/**
