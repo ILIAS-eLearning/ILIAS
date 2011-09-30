@@ -189,7 +189,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 		}
 		else
 		{
-			$width->setValue(850);
+			$width->setValue(880);
 			$height->setValue(100);
 		}
 

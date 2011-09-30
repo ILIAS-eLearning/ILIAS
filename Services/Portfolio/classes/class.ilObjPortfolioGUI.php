@@ -478,8 +478,11 @@ class ilObjPortfolioGUI
 			
 			$prfa_set = new ilSetting("prfa");
 			if($prfa_set->get("banner"))
-			{
-				$img = new ilImageFileInputGUI($lng->txt("prtf_banner"), "banner");
+			{	
+				$dimensions = " (".$prfa_set->get("banner_width")."x".
+					$prfa_set->get("banner_height").")";
+				
+				$img = new ilImageFileInputGUI($lng->txt("prtf_banner").$dimensions, "banner");
 				$form->addItem($img);
 					
 				// show existing file

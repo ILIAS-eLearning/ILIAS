@@ -86,9 +86,12 @@ class ilObjBlogGUI extends ilObject2GUI
 		$blga_set = new ilSetting("blga");
 		if($blga_set->get("banner"))
 		{		
-			$img = new ilImageFileInputGUI($lng->txt("blog_banner"), "banner");
+			$dimensions = " (".$blga_set->get("banner_width")."x".
+				$blga_set->get("banner_height").")";
+			
+			$img = new ilImageFileInputGUI($lng->txt("blog_banner").$dimensions, "banner");
 			$a_form->addItem($img);
-
+			
 			// show existing file
 			$file = $this->object->getImageFullPath(true);
 			if($file)
