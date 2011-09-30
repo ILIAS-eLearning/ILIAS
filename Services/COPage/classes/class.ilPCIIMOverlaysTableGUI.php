@@ -27,6 +27,7 @@ class ilPCIIMOverlaysTableGUI extends ilTable2GUI
 		$this->setTitle($lng->txt("cont_overlay_images"));
 		
 		$this->addColumn("", "", "1", true);
+		$this->addColumn($this->lng->txt("thumbnail"), "", "20px");
 		$this->addColumn($this->lng->txt("filename"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -60,6 +61,13 @@ class ilPCIIMOverlaysTableGUI extends ilTable2GUI
 		global $lng;
 
 		$this->tpl->setVariable("FILENAME", $a_set["filename"]);
+		$piname = pathinfo($a_set["filename"]);
+		$th_path = ilObjMediaObject::getThumbnailPath($this->mob->getId(),
+			basename($a_set["filename"], ".".$piname['extension']).".png");
+		if (is_file($th_path))
+		{
+			$this->tpl->setVariable("THUMB", ilUtil::img($th_path));
+		}
 	}
 
 }
