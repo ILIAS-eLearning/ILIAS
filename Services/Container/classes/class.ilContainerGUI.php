@@ -104,14 +104,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		// check if template is changed
 		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
-		$current_tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId(
+		$current_tpl_id = (int) ilDidacticTemplateObjSettings::lookupTemplateId(
 			$this->object->getRefId()
 		);
-		$new_tpl_id = $this->getDidacticTemplateVar('dtpl');
+		$new_tpl_id = (int) $this->getDidacticTemplateVar('dtpl');
 
 		if($new_tpl_id != $current_tpl_id)
 		{
-			$_POST['tplid'] = $new_tpl_id;
+			$_REQUEST['tplid'] = $new_tpl_id;
 			
 			// redirect to didactic template confirmation
 			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php';
