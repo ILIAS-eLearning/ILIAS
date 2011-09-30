@@ -2265,6 +2265,31 @@ ilDragTarget.prototype.dInit = function(id, sGroup, config)
 
 function ilEditMultiAction(cmd)
 {
+	if (cmd == "selectAll")
+	{
+		var divs = $("div.il_editarea");
+		if (divs.length > 0)
+		{
+			for (var i = 0; i < divs.length; i++)
+			{
+				sel_edit_areas[divs[i].id] = true;
+				divs[i].className = "il_editarea_selected";
+			}
+		}
+		else
+		{
+			var divs = $("div.il_editarea_selected");
+			for (var i = 0; i < divs.length; i++)
+			{
+				sel_edit_areas[divs[i].id] = false;
+				divs[i].className = "il_editarea";
+			}
+		}
+
+		return false;
+	}
+	
+	
 	hid_exec = document.getElementById("cmform_exec");
 	hid_exec.name = "cmd[" + cmd + "]";
 	hid_cmd = document.getElementById("cmform_cmd");

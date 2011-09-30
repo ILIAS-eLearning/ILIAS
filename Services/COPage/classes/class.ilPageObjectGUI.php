@@ -1486,6 +1486,8 @@ class ilPageObjectGUI
 						$tpl->setVariable("ONCLICK_ASSIGN_CHARACTERISTIC", 'onclick="return ilEditMultiAction(\'assignCharacteristicForm\');"');
 						$tpl->setVariable("ONCLICK_COPY_SELECTED", 'onclick="return ilEditMultiAction(\'copySelected\');"');
 						$tpl->setVariable("ONCLICK_CUT_SELECTED", 'onclick="return ilEditMultiAction(\'cutSelected\');"');
+						$tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
+						$tpl->setVariable("ONCLICK_SELECT_ALL", 'onclick="return ilEditMultiAction(\'selectAll\');"');
 					}
 					$tpl->setVariable("TXT_DE_ACTIVATE_SELECTED", $this->lng->txt("cont_ed_enable"));
 					$tpl->setVariable("TXT_ASSIGN_CHARACTERISTIC", $this->lng->txt("cont_assign_characteristic"));
