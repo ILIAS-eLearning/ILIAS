@@ -139,6 +139,8 @@ class ilPersonalSkillsGUI
 	{
 		global $ilUser, $lng, $ilCtrl;
 		
+		$this->tooltips = array();
+		
 		if ($a_user_id == 0)
 		{
 			$user = $ilUser;
@@ -248,7 +250,15 @@ class ilPersonalSkillsGUI
 						$mat_tt_id = "skmg_skl_tt_mat_".self::$skill_tt_cnt;
 						self::$skill_tt_cnt++;
 						$tpl->setVariable("TOOLTIP_MATERIAL_ID", $mat_tt_id);
-						ilTooltipGUI::addTooltip($mat_tt_id, $mat_data[0]);
+						
+						if(!$this->offline_mode)
+						{
+							ilTooltipGUI::addTooltip($mat_tt_id, $mat_data[0]);
+						}
+						else
+						{							
+							$this->tooltips[] = ilTooltipGUI::getTooltip($mat_tt_id, $mat_data[0]);
+						}
 						
 						$tpl->parseCurrentBlock();
 						$cnt++;
@@ -310,6 +320,11 @@ class ilPersonalSkillsGUI
 		}
 		
 		return $tpl->get();
+	}
+	
+	function getTooltipsJs()
+	{
+		return $this->tooltips;
 	}
 	
 	/**
