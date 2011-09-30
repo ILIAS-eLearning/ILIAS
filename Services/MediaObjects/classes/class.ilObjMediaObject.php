@@ -1635,6 +1635,32 @@ class ilObjMediaObject extends ilObject
 	}
 
 	/**
+	 * Make thumbnail
+	 */
+	function makeThumbnail($a_file, $a_thumbname, $a_format = "png",
+		$a_size = "80")
+	{
+		$m_dir = ilObjMediaObject::_getDirectory($this->getId());
+		$t_dir = ilObjMediaObject::_getThumbnailDirectory($this->getId());
+		self::_createThumbnailDirectory($this->getId());
+		ilUtil::convertImage($m_dir."/".$a_file,
+			$t_dir."/".$a_thumbname, $a_format, $a_size);
+	}
+	
+	/**
+	 * Get thumbnail path
+	 *
+	 * @param string $a_thumbname thumbnail file name
+	 * @return string thumbnail path
+	 */
+	static function getThumbnailPath($a_mob_id, $a_thumbname)
+	{
+		$t_dir = ilObjMediaObject::_getThumbnailDirectory($a_mob_id);
+		return $t_dir."/".$a_thumbname;
+	}
+	
+	
+	/**
 	 * Remove additional file
 	 */
 	function removeAdditionalFile($a_file)

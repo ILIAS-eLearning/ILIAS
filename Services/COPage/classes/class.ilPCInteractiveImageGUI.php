@@ -112,7 +112,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 				);
 
 			$ilTabs->addTab("edit_base_image",
-				$lng->txt("cont_base_image"),
+				$lng->txt("cont_base_image")." & ".$lng->txt("cont_caption"),
 				$ilCtrl->getLinkTarget($this, "editBaseImage")
 				);
 
@@ -195,6 +195,15 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 		}
 		$form->addItem($fi);
 		
+		if ($a_mode == "edit")
+		{
+			// caption
+			$ti = new ilTextInputGUI($this->lng->txt("cont_caption"), "caption");
+			$ti->setMaxLength(200);
+			$ti->setSize(50);
+			$form->addItem($ti);
+		}
+		
 		// save and cancel commands
 		if ($a_mode == "create")
 		{
@@ -204,6 +213,11 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 		}
 		else
 		{
+			// get caption
+			$std_alias_item = new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+				$this->content_obj->getPcId(), "InteractiveImage");
+			$ti->setValue($std_alias_item->getCaption());
+			
 			$form->setTitle($lng->txt("cont_edit_base_image"));
 			$form->addCommandButton("update", $lng->txt("save"));
 		}
@@ -296,10 +310,16 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 			$std_item->setLocationType("LocalFile");
 			$mob->setDescription($format);
 			$mob->update();
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		}
 
-		$ilCtrl->redirectByClass("ilpcinteractiveimagegui", "edit");
+		// set caption
+		$std_alias_item = new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+			$this->content_obj->getPcId(), "InteractiveImage");
+		$std_alias_item->setCaption(ilUtil::stripSlashes($_POST["caption"]));
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+		$ilCtrl->redirectByClass("ilpcinteractiveimagegui", "editBaseImage");
 	}
 	
 	
@@ -465,6 +485,9 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 					
 					$this->content_obj->getMediaObject()->uploadAdditionalFile($name,
 						$tmp_name, "overlays");
+					$piname = pathinfo($name);
+					$this->content_obj->getMediaObject()->makeThumbnail("overlays/".$name,
+						basename($name, ".".$piname['extension']).".png");
 				}
 			}
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"));

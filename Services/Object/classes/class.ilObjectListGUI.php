@@ -1617,6 +1617,8 @@ class ilObjectListGUI
 		$redraw_js = "ilObject.redrawListItem(".$this->ref_id.");";
 		
 		// add common properties (comments, notes, tags)
+		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+		include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
 		if ((self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE] > 0 ||
 			self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC] > 0 || 
 			self::$cnt_tags[$this->obj_id] > 0) &&
