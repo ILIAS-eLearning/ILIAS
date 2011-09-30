@@ -174,16 +174,37 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			}
 			else
 			{
-				// edit
-				if($this->object->getId() > 0)
-				{
-					$this->object->importAnswersFromPost($clear_answers);
-				}
-				// create
-				else
-				{
-					$this->object->suspended_upload = true;
-				}								
+				foreach (array_keys($_POST['answers']['count']) as $index)
+				{															
+					if($clear_answers)
+					{
+						$this->object->addAnswer("");
+						continue;
+					}
+
+					$picturefile = $_POST['answers']['imagename'][$index];
+					$file_org_name = $_FILES['answers']['name']['image'][$index];
+					$file_temp_name = $_FILES['answers']['tmp_name']['image'][$index];			
+
+					// new file
+					if (strlen($file_temp_name))
+					{						
+						// check suffix						
+						$suffix = strtolower(array_pop(explode(".", $file_org_name)));						
+						if(in_array($suffix, array("jpg", "jpeg", "png", "gif")))
+						{							
+							// upload image
+							$filename = $this->object->createNewImageFileName($file_org_name);
+							$filename = $this->object->getEncryptedFilename($filename);
+							if ($this->object->setImageFile($file_temp_name, $filename, $picturefile))
+							{
+								$picturefile = $filename;
+							}
+						}
+					}
+
+					$this->object->addAnswer($picturefile);
+				}				
 			}
 			$this->object->setPoints($_POST["points"]);
 			return 0;
