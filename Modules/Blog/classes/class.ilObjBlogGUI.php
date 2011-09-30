@@ -709,6 +709,8 @@ class ilObjBlogGUI extends ilObject2GUI
 		if($blga_set->get("banner"))
 		{		
 			$banner = $this->object->getImageFullPath();
+			$banner_width = $blga_set->get("banner_width");
+			$banner_height = $blga_set->get("banner_height");
 		}
 		
 		$ppic = null;
@@ -723,7 +725,9 @@ class ilObjBlogGUI extends ilObject2GUI
 			$ppic,
 			$banner,
 			$this->object->getBackgroundColor(),
-			$this->object->getFontColor());
+			$this->object->getFontColor(),
+			$banner_width,
+			$banner_height);
 		
 		// content
 		$tpl->setContent($a_content);
