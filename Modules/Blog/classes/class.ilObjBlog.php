@@ -274,13 +274,17 @@ class ilObjBlog extends ilObject2
 		{
 			chmod($path.$original, 0770);
 
+			$blga_set = new ilSetting("blga");	
+			$dimensions = $blga_set->get("banner_width")."x".
+				$blga_set->get("banner_height");
+			
 			// take quality 100 to avoid jpeg artefacts when uploading jpeg files
 			// taking only frame [0] to avoid problems with animated gifs
 			$original_file = ilUtil::escapeShellArg($path.$original);
 			$thumb_file = ilUtil::escapeShellArg($path.$thumb);
 			$processed_file = ilUtil::escapeShellArg($path.$processed);
 			ilUtil::execConvert($original_file."[0] -geometry 100x100 -quality 100 JPEG:".$thumb_file);
-			ilUtil::execConvert($original_file."[0] -geometry 880x200! -quality 100 JPEG:".$processed_file);
+			ilUtil::execConvert($original_file."[0] -geometry ".$dimensions."! -quality 100 JPEG:".$processed_file);
 			
 			$this->setImage($processed);
 			return true;
