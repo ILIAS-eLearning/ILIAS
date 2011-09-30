@@ -1328,11 +1328,13 @@ class ilObjPortfolioGUI
 		$name = $name["lastname"].", ".($t = $name["title"] ? $t . " " : "").$name["firstname"];
 		
 		// show banner?
-		$banner = false;
+		$banner = $banner_width = $banner_height = false;
 		$prfa_set = new ilSetting("prfa");
 		if($prfa_set->get("banner"))
 		{		
 			$banner = $this->portfolio->getImageFullPath();
+			$banner_width = $prfa_set->get("banner_width");
+			$banner_height = $prfa_set->get("banner_height");
 		}
 		
 		// profile picture
@@ -1348,7 +1350,9 @@ class ilObjPortfolioGUI
 			$ppic,
 			$banner,
 			$this->portfolio->getBackgroundColor(),
-			$this->portfolio->getFontColor());
+			$this->portfolio->getFontColor(),
+			$banner_width,
+			$banner_height);
 		
 		$tpl->setContent($content.$notes);			
 		$tpl->setFrameFixedWidth(true);
