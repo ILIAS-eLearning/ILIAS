@@ -1598,7 +1598,7 @@ class ilObjectListGUI
 	function insertProperties($a_item = '')
 	{
 		global $ilAccess, $lng, $ilUser;
-
+		
 		$props = $this->getProperties($a_item);
 		$props = $this->getCustomProperties($props);
 
@@ -1614,40 +1614,49 @@ class ilObjectListGUI
 			}
 		}
 		
-		$redraw_js = "ilObject.redrawListItem(".$this->ref_id.");";
+		// reference objects have translated ids, revert to originals
+		$note_ref_id = $this->ref_id;
+		$note_obj_id = $this->obj_id;
+		if($this->reference_ref_id)
+		{
+			$note_ref_id = $this->reference_ref_id;
+			$note_obj_id = $this->reference_obj_id;
+		}
+		
+		$redraw_js = "ilObject.redrawListItem(".$note_ref_id.");";
 		
 		// add common properties (comments, notes, tags)
-		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-		include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
-		if ((self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE] > 0 ||
-			self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC] > 0 || 
-			self::$cnt_tags[$this->obj_id] > 0) &&
+		if ((self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] > 0 ||
+			self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0 || 
+			self::$cnt_tags[$note_obj_id] > 0) &&
 			($ilUser->getId() != ANONYMOUS_USER_ID))
-		{
+		{			
+			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+			include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
+			
 			$nl = true;
-			if (self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC] > 0 &&
-				self::$comments_activation[$this->obj_id][$this->type])
+			if (self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0)
 			{
 				$props[] = array("alert" => false,
 					"property" => $lng->txt("notes_comments"),
 					"value" => "<a href='#' onclick=\"return ".
 						ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js).";\">".
-						self::$cnt_notes[$this->obj_id][IL_NOTE_PUBLIC]."</a>",
+						self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC]."</a>",
 					"newline" => $nl);
 				$nl = false;
 			}
 
-			if (self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE] > 0)
+			if (self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] > 0)
 			{
 				$props[] = array("alert" => false,
 					"property" => $lng->txt("notes"),
 					"value" => "<a href='#' onclick=\"return ".
 						ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js).";\">".
-						self::$cnt_notes[$this->obj_id][IL_NOTE_PRIVATE]."</a>",
+						self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE]."</a>",
 					"newline" => $nl);
 				$nl = false;
 			}
-			if (self::$cnt_tags[$this->obj_id] > 0)
+			if (self::$cnt_tags[$note_obj_id] > 0)
 			{
 				$tags_set = new ilSetting("tags");
 				if ($tags_set->get("enable"))
@@ -1656,7 +1665,7 @@ class ilObjectListGUI
 						"property" => $lng->txt("tagging_tags"),
 						"value" => "<a href='#' onclick=\"return ".
 							ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js).";\">".
-						self::$cnt_tags[$this->obj_id]."</a>",
+						self::$cnt_tags[$note_obj_id]."</a>",
 						"newline" => $nl);
 					$nl = false;
 				}
@@ -2350,11 +2359,8 @@ class ilObjectListGUI
 		
 		if($this->comments_enabled)
 		{			
-			if ($this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, $a_header_actions))
-			{
-				$this->insertCommand("#", $this->lng->txt("notes_comments"), $cmd_frame,
-					"", "", ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $js_updater));
-			}
+			$this->insertCommand("#", $this->lng->txt("notes_comments"), $cmd_frame,
+				"", "", ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $js_updater));
 		}
 
 		if($this->notes_enabled)
@@ -3026,19 +3032,16 @@ class ilObjectListGUI
 		$ilBench->stop("ilObjectListGUI", "1000_getListHTML_init$type");
 		
 		// prepare ajax calls
-		if(!$this->ajax_hash)
+		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
+		if($a_context == self::CONTEXT_REPOSITORY)
 		{
-			include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
-			if($a_context == self::CONTEXT_REPOSITORY)
-			{
-				$node_type = ilCommonActionDispatcherGUI::TYPE_REPOSITORY;
-			}
-			else
-			{
-				$node_type = ilCommonActionDispatcherGUI::TYPE_WORKSPACE;
-			}
-			$this->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash($node_type, $a_ref_id, $type, $a_obj_id));
+			$node_type = ilCommonActionDispatcherGUI::TYPE_REPOSITORY;
 		}
+		else
+		{
+			$node_type = ilCommonActionDispatcherGUI::TYPE_WORKSPACE;
+		}
+		$this->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash($node_type, $a_ref_id, $type, $a_obj_id));		
 				
 		if ($a_use_asynch && $a_get_asynch_commands)
 		{
@@ -3247,10 +3250,12 @@ class ilObjectListGUI
 			{
 				return true;
 			}
+			/*
 			if($this->checkCommandAccess('write','', $a_ref_id, $a_type))
 			{
 				return true;
-			}
+			}			 
+			*/
 			include_once("./Services/Notes/classes/class.ilNote.php");
 			if(!$a_header_actions && self::$comments_activation[$a_obj_id][$a_type])
 			{

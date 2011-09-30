@@ -403,7 +403,11 @@ class ilObjBlogGUI extends ilObject2GUI
 				$info = array();
 				foreach($exercises as $exercise)
 				{
-					$info[] = $this->getExerciseInfo($exercise["ass_id"]);
+					$part = $this->getExerciseInfo($exercise["ass_id"]);
+					if($part)
+					{
+						$info[] = $part;
+					}
 				}
 				ilUtil::sendInfo(implode("<br />", $info));										
 			}
@@ -426,7 +430,11 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
 		$ass = new ilExAssignment($a_assignment_id);		
-		$exercise_id = $ass->getExerciseId();
+		$exercise_id = $ass->getExerciseId();		
+		if(!$exercise_id)
+		{
+			return;
+		}
 
 		// exercise goto
 		include_once "classes/class.ilLink.php";
