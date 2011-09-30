@@ -12258,4 +12258,12 @@ certificate#:#certificate_ph_datetime_completed#:#Date and time of completion
 certificate#:#certificate_ph_passed_exercise#:#"Passed" or "Failed"
 certificate#:#certificate_ph_mark#:#Users mark
 certificate#:#certificate_ph_exercisetitle#:#Exercise Title
+rbac#:#rbac_back_to_overview#:#Back to Role List
+rbac#:#rbac_choose_copy_targets#:#Please enter a quer for selecting the target roles.
+rbac#:#rbac_select_copy_targets#:#Please select the target roles
+rbac#:#rbac_role_title#:#Role Title
+rbac#:#rbac_copy_behaviour#:#Role Copy Settings
+rbac#:#rbac_not_change_existing_objects#:#Do NOT change existing objects
+rbac#:#rbac_copy_role#:#Copy Role
+rbac#:#rbac_copy_finished#:#Finished copying.
 certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise

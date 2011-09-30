@@ -50,8 +50,11 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	*/
 	function ilObjRoleFolderGUI($a_data,$a_id,$a_call_by_reference)
 	{
+		global $lng;
+
 		$this->type = "rolf";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		$lng->loadLanguageModule('rbac');
 	}
 	
 	function executeCommand()
@@ -128,7 +131,11 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $ilCtrl, $ilTabs;
 
-		$ilTabs->activateTab('view');
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget(
+			$this->lng->txt('rbac_back_to_overview'),
+			$this->ctrl->getLinkTarget($this,'view')
+		);
 
 		if(!$rbacsystem->checkAccess('visible,read',$this->object->getRefId()))
 		{
@@ -136,14 +143,197 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		}
 
 		$ilCtrl->setParameter($this,'copy_source',(int) $_REQUEST['copy_source']);
-		
-		include_once './Services/AccessControl/classes/class.ilRoleTableGUI.php';
-		$table = new ilRoleTableGUI($this,'view');
-		$table->setType(ilRoleTableGUI::TYPE_SEARCH);
-		$table->init();
-		$table->parse($this->object->getId());
+		ilUtil::sendInfo($this->lng->txt('rbac_choose_copy_targets'));
 
-		$this->tpl->setContent($table->getHTML());
+		$form = $this->initRoleSearchForm();
+		$this->tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * Init role search form
+	 */
+	protected function initRoleSearchForm()
+	{
+		global $ilCtrl;
+
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('rbac_role_title'));
+		$form->setFormAction($ilCtrl->getFormAction($this,'view'));
+
+		$search = new ilTextInputGUI($this->lng->txt('title'), 'title');
+		$search->setRequired(true);
+		$search->setSize(30);
+		$search->setMaxLength(255);
+		$form->addItem($search);
+
+		$form->addCommandButton('roleSearchList', $this->lng->txt('search'));
+		return $form;
+	}
+
+	/**
+	 * List roles
+	 */
+	protected function roleSearchListObject()
+	{
+		global $ilTabs, $ilCtrl;
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget(
+			$this->lng->txt('rbac_back_to_overview'),
+			$this->ctrl->getLinkTarget($this,'roleSearchList')
+		);
+
+		$ilCtrl->setParameter($this,'copy_source',(int) $_REQUEST['copy_source']);
+
+		$form = $this->initRoleSearchForm();
+		if($form->checkInput())
+		{
+			ilUtil::sendInfo($this->lng->txt('rbac_select_copy_targets'));
+
+			include_once './Services/AccessControl/classes/class.ilRoleTableGUI.php';
+			$table = new ilRoleTableGUI($this,'view');
+			$table->setType(ilRoleTableGUI::TYPE_SEARCH);
+			$table->setRoleTitleFilter($form->getInput('title'));
+			$table->init();
+			$table->parse($this->object->getId());
+			return $this->tpl->setContent($table->getHTML());
+		}
+
+		ilUtil::sendFailure($this->lng->txt('msg_no_search_string'), true);
+		$form->setValuesByPost();
+		$ilCtrl->redirect($this,'roleSearch');
+	}
+
+	/**
+	 * Chosse change existing objects,...
+	 *
+	 */
+	protected function chooseCopyBehaviourObject()
+	{
+		global $ilCtrl, $ilTabs;
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget(
+			$this->lng->txt('rbac_back_to_overview'),
+			$this->ctrl->getLinkTarget($this,'roleSearchList')
+		);
+
+		$ilCtrl->setParameter($this,'copy_source',(int) $_REQUEST['copy_source']);
+
+		$form = $this->initCopyBehaviourForm();
+		$this->tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * Show copy behaviour form
+	 */
+	protected function initCopyBehaviourForm()
+	{
+		global $ilCtrl;
+
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('rbac_copy_behaviour'));
+		$form->setFormAction($ilCtrl->getFormAction($this,'chooseCopyBehaviour'));
+
+		$ce = new ilRadioGroupInputGUI($this->lng->txt('change_existing_objects'), 'change_existing');
+		$ce->setRequired(true);
+		$ce->setValue(1);
+		$form->addItem($ce);
+
+		$ceo = new ilRadioOption($this->lng->txt('change_existing_objects'),1);
+		$ce->addOption($ceo);
+
+		$cne = new ilRadioOption($this->lng->txt('rbac_not_change_existing_objects'), 0);
+		$ce->addOption($cne);
+
+		$roles = new ilHiddenInputGUI('roles');
+		$roles->setValue(implode(',',(array) $_POST['roles']));
+		$form->addItem($roles);
+
+		$form->addCommandButton('copyRole', $this->lng->txt('rbac_copy_role'));
+		return $form;
+	}
+
+	/**
+	 * Copy role
+	 */
+	protected function copyRoleObject()
+	{
+		global $ilCtrl;
+
+		// Finally copy role/rolt
+		$roles = explode(',',$_POST['roles']);
+		$source = (int) $_REQUEST['copy_source'];
+
+		$form = $this->initCopyBehaviourForm();
+		if($form->checkInput())
+		{
+			foreach((array) $roles as $role_id)
+			{
+				if($role_id != $source)
+				{
+					$this->doCopyRole($source,$role_id,$form->getInput('change_existing'));
+				}
+			}
+
+			ilUtil::sendSuccess($this->lng->txt('rbac_copy_finished'),true);
+			$ilCtrl->redirect($this,'view');
+		}
+	}
+
+	/**
+	 * Perform copy of role
+	 * @global ilTree $tree
+	 * @global <type> $rbacadmin
+	 * @global <type> $rbacreview
+	 * @param <type> $source
+	 * @param <type> $target
+	 * @param <type> $change_existing
+	 * @return <type> 
+	 */
+	protected function doCopyRole($source, $target, $change_existing)
+	{
+		global $tree, $rbacadmin, $rbacreview;
+
+
+
+		// Copy role template permissions
+		$rbacadmin->copyRoleTemplatePermissions(
+			$source,
+			$this->object->getRefId(),
+			$rbacreview->getRoleFolderOfRole($target),
+			$target
+		);
+
+		if(!$change_existing)
+		{
+			return true;
+		}
+
+		$start = ($this->object->getRefId() == ROLE_FOLDER_ID) ?
+			ROOT_FOLDER_ID :
+			$tree->getParentId($this->object->getRefId());
+
+
+
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		if($rbacreview->isProtected($this->object->getRefId(),$source))
+		{
+			$mode = ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES;
+		}
+		else
+		{
+			$mode = ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES;
+		}
+
+		$role = new ilObjRole($target);
+		$role->changeExistingObjects(
+			$start,
+			$mode,
+			array('all')
+		);
 	}
 
 	/**
