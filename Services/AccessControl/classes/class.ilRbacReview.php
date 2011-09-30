@@ -1171,6 +1171,31 @@ class ilRbacReview
 	}
 
 	/**
+	 * Get local roles of object
+	 * @param int $a_ref_id
+	 */
+	public function getLocalRoles($a_ref_id)
+	{
+		global $ilDB;
+
+		// @todo: all this in one query
+		$rolf = $this->getRoleFolderIdOfObject($a_ref_id);
+		if(!$rolf)
+		{
+			return array();
+		}
+		$lroles = array();
+		foreach($this->getRolesOfRoleFolder($rolf) as $role_id)
+		{
+			if($this->isAssignable($role_id, $rolf))
+			{
+				$lroles[] = $role_id;
+			}
+		}
+		return $lroles;
+	}
+
+	/**
 	* get only 'global' roles
 	* @access	public
 	* @return	array		Array with rol_ids
@@ -2122,6 +2147,17 @@ class ilRbacReview
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Check if the role is system generate role or role template
+	 * @param int $a_role_id
+	 * @return bool
+	 */
+	public function isSystemGeneratedRole($a_role_id)
+	{
+		$title = ilObject::_lookupTitle($a_role_id);
+		return substr($title,0,3) == 'il_' ? true : false;
 	}
 } // END class.ilRbacReview
 ?>

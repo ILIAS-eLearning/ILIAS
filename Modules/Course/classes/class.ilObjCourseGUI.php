@@ -18,6 +18,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI, ilCourseItemAdministrationGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI
 *
 * 
 * @extends ilContainerGUI
@@ -960,9 +961,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->editObject();
 				return false;
 			}
-
-			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
-			$this->ctrl->redirect($this,'edit');
+			return $this->afterUpdate();
 		}
 		else
 		{
@@ -1124,6 +1123,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		$desc->setRows(2);
 		$desc->setCols(40);
 		$form->addItem($desc);
+
+		// Show didactic template type
+		$this->initDidacticTemplate($form);
 		
 		// reg type
 		$act_type = new ilRadioGroupInputGUI($this->lng->txt('crs_visibility'),'activation_type');
@@ -4529,6 +4531,14 @@ class ilObjCourseGUI extends ilContainerGUI
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
+
+			case 'ildidactictemplategui':
+				$this->ctrl->setReturn($this,'edit');
+				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php';
+				$did = new ilDidacticTemplateGUI($this);
+				$this->ctrl->forwardCommand($did);
+				break;
+
 
 			default:
 				if(!$this->creation_mode)

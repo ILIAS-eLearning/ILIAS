@@ -208,13 +208,17 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		$source = $this->initSourceObject();
 		$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
 
-
 		$roles = $this->filterRoles($source);
+
+		$lroles = $rbacreview->getLocalRoles($source->getRefId());
 
 		// Delete local policy for filtered roles
 		foreach($roles as $role_id => $role)
 		{
-			$rbacadmin->deleteLocalRole($role_id,$rolf);
+			if(!in_array($role_id,$lroles))
+			{
+				$rbacadmin->deleteLocalRole($role_id,$rolf);
+			}
 		}
 		return true;
 	}
