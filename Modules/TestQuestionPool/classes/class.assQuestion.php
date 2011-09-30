@@ -1748,7 +1748,7 @@ class assQuestion
 	*
 	* @return integer ID of the new question
 	*/
-	public function createNewQuestion()
+	public function createNewQuestion($a_create_page = true)
 	{
 		global $ilDB, $ilUser;
 		
@@ -1777,8 +1777,12 @@ class assQuestion
 				"tstamp" => array("integer", 0)
 			));
 			$this->setId($next_id);
-			// create page object of question
-			$this->createPageObject();
+			
+			if($a_create_page)
+			{
+				// create page object of question
+				$this->createPageObject();
+			}
 		}
 		return $this->getId();
 	}

@@ -83,7 +83,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 				$edit_gui->setPageConfig($this->getPageConfig());
 				//$edit_gui->setPoolRefId($qpool_ref_id);		
 				$this->setTabs();
-				$edit_gui->addNewIdListener($this, "setNewQuestionId");
+				// $edit_gui->addNewIdListener($this, "setNewQuestionId");
 				$edit_gui->setSelfAssessmentEditingMode(true);
 				$ret = $ilCtrl->forwardCommand($edit_gui);
 				$this->tpl->setContent($ret);
@@ -306,9 +306,12 @@ class ilPCQuestionGUI extends ilPageContentGUI
 				? $_POST["q_type"]
 				: $_GET["q_type"];
 			$ilCtrl->setParameter($this, "q_type", $q_type);
-
-// @todo: check access stuff
-
+			
+			if ($q_id == "" && $q_type == "")
+			{
+				return $this->insert("edit_empty");
+			}
+						
 			include_once("./Modules/TestQuestionPool/classes/class.ilQuestionEditGUI.php");
 			include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 			include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
@@ -316,28 +319,29 @@ class ilPCQuestionGUI extends ilPageContentGUI
 			$ilCtrl->setCmdClass("ilquestioneditgui");
 			$ilCtrl->setCmd("editQuestion");
 			$edit_gui = new ilQuestionEditGUI();
-
-			if ($q_id > 0)
+			
+			// create question first-hand (needed for uploads)
+			if($q_id < 1 && $q_type)
 			{
-				$edit_gui->setQuestionId($q_id);
-				$edit_gui->setPoolObjId(0);
-			}
-			else
-			{
+				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
+				$q_gui =& assQuestionGUI::_getQuestionGUI($q_type);
+				$q_id = $q_gui->object->createNewQuestion(false);
+				unset($q_gui);
+				
+				// publish question id in page
+				$this->setNewQuestionId(array("new_id" => $q_id));
+				
 				if ($_GET["qpool_ref_id"] > 0)
 				{
 					$edit_gui->setPoolRefId($_GET["qpool_ref_id"]);
 					$edit_gui->setPoolRefId(0);
-				}
+				}				
 				//set default tries
 				$edit_gui->setDefaultNrOfTries(ilObjSAHSLearningModule::_getTries($this->scormlmid));
 			}
-
-			if ($q_id == "" && $q_type == "")
-			{
-				return $this->insert("edit_empty");
-			}
-
+			
+			$edit_gui->setPoolObjId(0);
+			$edit_gui->setQuestionId($q_id);			
 			$edit_gui->setQuestionType($q_type);
 			$edit_gui->setSelfAssessmentEditingMode(true);
 			$edit_gui->setPageConfig($this->getPageConfig());
