@@ -360,6 +360,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	{
 		include_once "Services/Skill/classes/class.ilPersonalSkillsGUI.php";
 		$gui = new ilPersonalSkillsGUI();
+		if($this->getOutputMode() == "offline")
+		{			
+			$gui->setOfflineMode("./files/");
+		}
 		$html = $gui->getSkillHTML($a_skills_id, $a_user_id);
 		return $html;
 	}

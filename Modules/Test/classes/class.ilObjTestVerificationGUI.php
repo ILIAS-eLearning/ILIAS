@@ -75,8 +75,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 	
 	public function deliver()
 	{
-		$path = $this->object->initStorage($this->object->getId(), "certificate");
-		$file = $path.$this->object->getProperty("file");
+		$file = $path.$this->object->getFilePath();
 		if($file)
 		{
 			ilUtil::deliverFile($file, $this->object->getTitle().".pdf");
