@@ -2329,6 +2329,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$this->saveStyleUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveFileUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->saveContentIncludeUsage($old_rec["content"], $last_nr["mnr"] + 1);
+						$this->saveSkillUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->history_saved = true;		// only save one time
 					}
 					else
@@ -2430,6 +2431,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				
 				// save content include usage
 				$this->saveContentIncludeUsage($this->getXMLFromDom());
+				$this->saveSkillUsage($this->getXMLFromDom());
 			}
 			
 			// save internal link information
@@ -2471,6 +2473,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 		// delete style usages
 		$this->saveContentIncludeUsage("<dummy></dummy>");
+		$this->saveSkillUsage("<dummy></dummy>");
 
 		// delete internal links
 		$this->saveInternalLinks("<dummy></dummy>");
@@ -2739,6 +2742,56 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 
 		return $ci_ids;
+	}
+	
+	/**
+	* save content include usages
+	*/
+	function saveSkillUsage($a_xml = "", $a_old_nr = 0)
+	{
+		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
+		$skl_ids = $this->collectSkills($a_xml);
+		ilPageContentUsage::deleteAllUsages("skmg", $this->getParentType().":pg", $this->getId(), $a_old_nr);
+		foreach($skl_ids as $skl_id)
+		{
+			if ((int) $skl_id["inst_id"] <= 0)
+			{
+				ilPageContentUsage::saveUsage("skmg", $skl_id["id"], $this->getParentType().":pg", $this->getId(), $a_old_nr);
+			}
+		}
+	}
+
+	/**
+	* get all content includes that are used within the page
+	*/
+	function collectSkills($a_xml = "")
+	{
+		// determine all media aliases of the page
+		if ($a_xml == "")
+		{
+			$this->buildDom();
+			$xpc = xpath_new_context($this->dom);
+			$path = "//Skills";
+			$res =& xpath_eval($xpc, $path);
+		}
+		else
+		{
+			$doc = domxml_open_mem($a_xml);
+			$xpc = xpath_new_context($doc);
+			$path = "//Skills";
+			$res =& xpath_eval($xpc, $path);
+		}
+		$skl_ids = array();
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$user = $res->nodeset[$i]->get_attribute("User");
+			$id = $res->nodeset[$i]->get_attribute("Id");
+			$inst_id = $res->nodeset[$i]->get_attribute("InstId");
+			$skl_ids[$user.":".$id.":".$inst_id] = array(
+				"user" => $user, "id" => $id, "inst_id" => $inst_id);
+		}
+
+		return $skl_ids;
 	}
 
 	

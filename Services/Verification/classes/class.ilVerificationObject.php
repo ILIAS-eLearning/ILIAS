@@ -26,8 +26,8 @@ abstract class ilVerificationObject extends ilObject2
 
 	function __construct($a_id = 0, $a_reference = true)
 	{
-		parent::__construct($a_id, $a_reference);
 		$this->map = $this->getPropertyMap();
+		parent::__construct($a_id, $a_reference);		
 	}
 
 	/**
@@ -194,7 +194,7 @@ abstract class ilVerificationObject extends ilObject2
 			if($ilDB->numRows($set))
 			{
 				while($row = $ilDB->fetchAssoc($set))
-				{
+				{					
 					$this->importProperty($row["type"], $row["parameters"],
 						$row["raw_data"]);
 				}
@@ -289,6 +289,21 @@ abstract class ilVerificationObject extends ilObject2
 		}
 				
 		return $path;
+	}
+	
+	public function getFilePath()
+	{		
+		$file = $this->getProperty("file");
+		if($file)
+		{
+			$path = $this->initStorage($this->getId(), "certificate");
+			return $path.$file;
+		}
+	}
+	
+	public function getOfflineFilename()
+	{
+		return ilUtil::getASCIIFilename($this->getTitle()).".pdf";		
 	}
 }
 

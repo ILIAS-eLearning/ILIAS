@@ -16,6 +16,7 @@ include_once("./Services/Skill/classes/class.ilPersonalSkill.php");
  */
 class ilPersonalSkillsGUI
 {
+	protected $offline_mode;
 	protected $skill_tree;
 	static $skill_tt_cnt = 1;
 	
@@ -80,6 +81,11 @@ class ilPersonalSkillsGUI
 			$ilCtrl->getLinkTarget($this, "assignMaterials"));*/
 
 		$ilTabs->activateTab($a_activate);
+	}
+	
+	function setOfflineMode($a_file_path)
+	{
+		$this->offline_mode = $a_file_path;
 	}
 
 	/**
@@ -326,7 +332,36 @@ class ilPersonalSkillsGUI
 		
 		$obj_id = $this->ws_tree->lookupObjectId($a_wsp_id);
 		$caption = ilObject::_lookupTitle($obj_id);
-		$url = $this->ws_access->getGotoLink($a_wsp_id, $obj_id);
+		
+		if(!$this->offline_mode)
+		{
+			$url = $this->ws_access->getGotoLink($a_wsp_id, $obj_id);
+		}
+		else
+		{	
+			$url = $this->offline_mode."file_".$obj_id."/";
+						
+			// all possible material types for now
+			switch(ilObject::_lookupType($obj_id))
+			{
+				case "tstv":
+					include_once "Modules/Test/classes/class.ilObjTestVerification.php";
+					$obj = new ilObjTestVerification($obj_id, false);
+					$url .= $obj->getOfflineFilename();
+					break;
+					
+				case "excv":
+					include_once "Modules/Exercise/classes/class.ilObjExerciseVerification.php";
+					$obj = new ilObjExerciseVerification($obj_id, false);
+					$url .= $obj->getOfflineFilename();
+					break;
+				
+				case "file":
+					$file = new ilObjFile($obj_id, false);
+					$url .= $file->getFilename();
+					break;
+			}						
+		}
 		
 		return array($caption, $url);
 	}

@@ -12,6 +12,7 @@ class ilCOPageHTMLExport
 {
 	private $mobs = array();
 	private $files = array();
+	private $files_direct = array();
 	private $exp_dir = "";
 	private $content_style_id = 0;
 
@@ -238,31 +239,79 @@ class ilCOPageHTMLExport
 			$this->files[$f] = $f;
 		}
 
-		// get all snippets of page
-		/*
-		$pcs = ilPageContentUsage::getUsagesOfPage($page["id"], $this->getType().":pg");
-		foreach ($pcs as $pc)
-		{
-			if ($pc["type"] == "incl")
+		
+		$skill_tree = $ws_tree = null;		
+		
+		$pcs = ilPageContentUsage::getUsagesOfPage($a_id, $a_type);
+		foreach ($pcs as $pc)			
+		{		
+			// skils
+			if ($pc["type"] == "skmg")
 			{
-				$incl_mobs = ilObjMediaObject::_getMobsOfObject("mep:pg", $pc["id"]);
-				foreach($incl_mobs as $incl_mob)
+				$skill_id = $pc["id"];
+				
+				// get user id from portfolio page
+				include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
+				$page = new ilPortfolioPage(0, $a_id);
+				$user_id = $page->create_user;
+							
+				// we only need 1 instance each
+				if(!$skill_tree)
 				{
-					$mobs[$incl_mob] = $incl_mob;
+					include_once "Services/Skill/classes/class.ilSkillTree.php";
+					$skill_tree = new ilSkillTree();
+					
+					include_once "Services/Skill/classes/class.ilPersonalSkill.php";
+			
+					include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+					$ws_tree = new ilWorkspaceTree($user_id);
+				}				
+				
+				// walk skill tree
+				$b_skills = ilSkillTreeNode::getSkillTreeNodes($skill_id, true);
+				foreach ($b_skills as $bs)
+				{															
+					$skill = ilSkillTreeNodeFactory::getInstance($bs["id"]);
+					$level_data = $skill->getLevelData();			
+					foreach ($level_data as $k => $v)
+					{
+						// get assigned materials from personal skill				
+						$mat = ilPersonalSkill::getAssignedMaterial($user_id, $bs["tref"], $v["id"]);
+						if(sizeof($mat))
+						{														
+							foreach($mat as $item)
+							{
+								$wsp_id = $item["wsp_id"];
+								$obj_id = $ws_tree->lookupObjectId($wsp_id);
+								
+								// all possible material types for now
+								switch(ilObject::_lookupType($obj_id))
+								{
+									case "file":
+										$this->files[$obj_id] = $obj_id;
+										break;
+
+									case "tstv":
+										include_once "Modules/Test/classes/class.ilObjTestVerification.php";
+										$obj = new ilObjTestVerification($obj_id, false);
+										$this->files_direct[$obj_id] = array($obj->getFilePath(),
+											$obj->getOfflineFilename());								
+										break;
+
+									case "excv":										
+										include_once "Modules/Exercise/classes/class.ilObjExerciseVerification.php";
+										$obj = new ilObjExerciseVerification($obj_id, false);
+										$this->files_direct[$obj_id] = array($obj->getFilePath(),
+											$obj->getOfflineFilename());	
+										break;														
+								}
+							}
+						}
+					}
 				}
+						
 			}
-		}*/
-
-		// get all internal links of page
-/*
-				$pg_links = ilInternalLink::_getTargetsOfSource($this->getType().":pg", $page["id"]);
-				$int_links = array_merge($int_links, $pg_links);
-
-				// get all files of page
-				include_once("./Modules/File/classes/class.ilObjFile.php");
-				$pg_files = ilObjFile::_getFilesOfObject($this->getType().":pg", $page["id"]);
-				$this->offline_files = array_merge($this->offline_files, $pg_files);
-*/
+		}
 
 	}
 	
@@ -297,6 +346,12 @@ class ilCOPageHTMLExport
 		{
 			$this->exportHTMLFile($file);
 		}
+		
+		// export all files (which are not objects
+		foreach ($this->files_direct as $file_id => $attr)
+		{			
+			$this->exportHTMLFileDirect($file_id, $attr[0], $attr[1]);
+		}
 	}
 	
 	/**
@@ -313,35 +368,13 @@ class ilCOPageHTMLExport
 			ilUtil::rCopy($source_dir, $this->mobs_dir."/mm_".$a_mob_id);
 		}
 
-/*		$tpl = new ilTemplate("tpl.main.html", true, true);
-		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-//		$_GET["obj_type"]  = "MediaObject";
-//		$_GET["mob_id"]  = $a_mob_id;
-//		$_GET["cmd"] = "";
-$content =& $a_lm_gui->media();
-		$file = $this->export_dir."/media_".$a_mob_id.".html";
-
-		// open file
-		if (!($fp = @fopen($file,"w+")))
-		{
-			die ("<b>Error</b>: Could not open \"".$file."\" for writing".
-				" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
-		}
-		chmod($file, 0770);
-		fwrite($fp, $content);
-		fclose($fp);*/
-
 		// fullscreen
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mob_obj = new ilObjMediaObject($a_mob_id);
 		if ($mob_obj->hasFullscreenItem())
 		{
 			$tpl = new ilTemplate("tpl.main.html", true, true);
-			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-			//$_GET["obj_type"]  = "";
-			//$_GET["mob_id"]  = $a_mob_id;
-			//$_GET["cmd"] = "fullscreen";
-//			$content =& $a_lm_gui->fullscreen();
+			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");			
 			$file = $this->exp_dir."/fullscreen_".$a_mob_id.".html";
 
 			// open file
@@ -365,6 +398,7 @@ $content =& $a_lm_gui->media();
 	{
 		$file_dir = $this->files_dir."/file_".$a_file_id;
 		ilUtil::makeDir($file_dir);
+		
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$file_obj = new ilObjFile($a_file_id, false);
 		$source_file = $file_obj->getDirectory($file_obj->getVersion())."/".$file_obj->getFileName();
@@ -375,6 +409,21 @@ $content =& $a_lm_gui->media();
 		if (is_file($source_file))
 		{
 			copy($source_file, $file_dir."/".$file_obj->getFileName());
+		}
+	}
+	
+	/**
+	 * Export file from path
+	 */
+	function exportHTMLFileDirect($a_file_id, $a_source_file, $a_file_name)
+	{
+		$file_dir = $this->files_dir."/file_".$a_file_id;
+		ilUtil::makeDir($file_dir);
+								
+		if (is_file($a_source_file))
+		{
+			copy($a_source_file, 
+				$file_dir."/".ilUtil::getASCIIFilename($a_file_name));
 		}
 	}
 
