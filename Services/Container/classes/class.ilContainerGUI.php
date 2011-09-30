@@ -3110,6 +3110,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
 		$item_list_gui = ilObjectListGUIFactory::_getListGUIByType($type);
 		$item_list_gui->setContainerObject($this);
+		
+		$item_list_gui->enableComments(true);
+		$item_list_gui->enableNotes(true);
+		$item_list_gui->enableTags(true);
+		
 		$this->modifyItemGUI($item_list_gui, $data, false);
 		$html = $item_list_gui->getListItemHTML($ref_id,
 			$obj_id, "", "", true, true);
