@@ -598,10 +598,13 @@ class ilRbacAdmin
 			'AND parent = '.$ilDB->quote($a_dest_parent,'integer');
 		$res = $ilDB->manipulate($query);
 
+		$GLOBALS['ilLog']->write($query);
+
 		$query = 'SELECT * FROM rbac_templates '.
 			 'WHERE rol_id = '.$ilDB->quote($a_source_id,'integer').' '.
 			 'AND parent = '.$ilDB->quote($a_source_parent,'integer');
 		$res = $ilDB->query($query);
+		$GLOBALS['ilLog']->write($query);
 		while ($row = $ilDB->fetchObject($res))
 		{
 			$query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) '.

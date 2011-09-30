@@ -27,6 +27,7 @@ class ilRoleTableGUI extends ilTable2GUI
 	private $path_gui = null;
 
 	private $type = self::TYPE_VIEW;
+	private $role_title_filter = '';
 
 	/**
 	 * Constructor
@@ -51,6 +52,24 @@ class ilRoleTableGUI extends ilTable2GUI
 	public function setType($a_type)
 	{
 		$this->type = $a_type;
+	}
+
+	/**
+	 * Set role title filter
+	 * @param string $a_filter
+	 */
+	public function setRoleTitleFilter($a_filter)
+	{
+		$this->role_title_filter = $a_filter;
+	}
+
+	/**
+	 * Get role title filter
+	 * @return string
+	 */
+	public function getRoleTitleFilter()
+	{
+		return $this->role_title_filter;
 	}
 
 	/**
@@ -82,6 +101,8 @@ class ilRoleTableGUI extends ilTable2GUI
 		switch($this->getType())
 		{
 			case self::TYPE_VIEW:
+				$this->setDefaultOrderField('title');
+				$this->setDefaultOrderDirection('asc');
 				$this->setId('rolf_role_tbl');
 				$this->addColumn($this->lng->txt('search_title_description'),'title','30%');
 				$this->addColumn($this->lng->txt('type'),'rtype','20%');
@@ -92,23 +113,22 @@ class ilRoleTableGUI extends ilTable2GUI
 				break;
 			
 			case self::TYPE_SEARCH:
+				$this->disable('sort');
 				$this->setId('rolf_role_search_tbl');
-				$this->addColumn('','f','1px');
 				$this->addColumn($this->lng->txt('search_title_description'),'title','30%');
 				$this->addColumn($this->lng->txt('type'),'rtype','20%');
 				$this->addColumn($this->lng->txt('context'),'','50%');
 				$this->setTitle($this->lng->txt('rbac_role_rights_copy'));
-				$this->addMultiCommand('copyPermOptions',$this->lng->txt('copy'));
+				$this->addMultiCommand('chooseCopyBehaviour',$this->lng->txt('btn_next'));
+				$this->addCommandButton('roleSearch', $this->lng->txt('btn_previous'));
 				break;
 		}
 
 
+		#$this->setShowRowsSelector(true);
 		$this->setRowTemplate('tpl.role_row.html','Services/AccessControl');
-		$this->setDefaultOrderField('title');
-		$this->setDefaultOrderDirection('asc');
 		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
 		$this->setSelectAllCheckbox('roles');
-
 
 		include_once './Services/Tree/classes/class.ilPathGUI.php';
 		$this->path_gui = new ilPathGUI();
@@ -116,7 +136,11 @@ class ilRoleTableGUI extends ilTable2GUI
 		
 
 		// Filter initialisation
-		$this->initFilter();
+
+		if($this->getType() == self::TYPE_VIEW)
+		{
+			$this->initFilter();
+		}
 	}
 
 	/**
@@ -255,7 +279,7 @@ class ilRoleTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable(
 				'CONTEXT',
-				$this->getPathGUI()->getPath(ROOT_FOLDER_ID,$ref)
+				(string) $this->getPathGUI()->getPath(ROOT_FOLDER_ID,$ref)
 			);
 		}
 
@@ -282,10 +306,20 @@ class ilRoleTableGUI extends ilTable2GUI
 		global $rbacreview,$ilUser;
 
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-
-		$filter = $this->getFilterItemByPostVar('role_title')->getValue();
-		$type = $this->getFilterItemByPostVar('role_type')->getValue();
 		
+		if($this->getType() == self::TYPE_VIEW)
+		{
+			$filter = $this->getFilterItemByPostVar('role_title')->getValue();
+			$type = $this->getFilterItemByPostVar('role_type')->getValue();
+		}
+		else
+		{
+			$filter = $this->getRoleTitleFilter();
+			$type = ilRbacReview::FILTER_ALL_LOCAL;
+		}
+
+		
+		// @todo: check this
 		if($type == ilRbacReview::FILTER_INTERNAL or $type == ilRbacReview::FILTER_ALL)
 		{
 			$filter = '';
@@ -297,18 +331,16 @@ class ilRoleTableGUI extends ilTable2GUI
 			$filter
 		);
 
-
 		$counter = 0;
 		$rows = array();
 		foreach((array) $role_list as $role)
 		{
 			$title = ilObjRole::_getTranslation($role['title']);
-
 			if($type == ilRbacReview::FILTER_INTERNAL or $type == ilRbacReview::FILTER_ALL)
 			{
-				if(strlen($this->getFilterItemByPostVar('role_title')->getValue()))
+				if(strlen($filter))
 				{
-					if(stristr($title, $this->getFilterItemByPostVar('role_title')->getValue()) == FALSE)
+					if(stristr($title, $filter) == FALSE)
 					{
 						continue;
 					}
@@ -351,6 +383,7 @@ class ilRoleTableGUI extends ilTable2GUI
 
 			++$counter;
 		}
+		$this->setMaxCount(count($rows));
 		$this->setData($rows);
 	}
 }

@@ -2159,5 +2159,27 @@ class ilRbacReview
 		$title = ilObject::_lookupTitle($a_role_id);
 		return substr($title,0,3) == 'il_' ? true : false;
 	}
+
+
+	/**
+	 * Get role folder of role
+	 * @global ilDB $ilDB
+	 * @param int $a_role_id
+	 * @return int
+	 */
+	public function getRoleFolderOfRole($a_role_id)
+	{
+		global $ilDB;
+
+		$query = 'SELECT * FROM rbac_fa '.
+			'WHERE rol_id = '.$ilDB->quote($a_role_id,'integer').' '.
+			'AND assign = '.$ilDB->quote('y','text');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->parent;
+		}
+		return 0;
+	}
 } // END class.ilRbacReview
 ?>
