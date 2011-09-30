@@ -641,7 +641,7 @@ class ilSCORM13Package
 				$mdxml->startParsing();
 				$mdxml->getMDObject()->update();
 		  	}
-			$tnode = $page_xml->xpath("//MediaObject/MediaAlias");
+			$tnode = $page_xml->xpath("//MediaObject/MediaAlias | //InteractiveImage/MediaAlias");
 			foreach($tnode as $ttnode)
 			{
 				include_once './Services/MediaObjects/classes/class.ilObjMediaObject.php';
@@ -678,10 +678,14 @@ class ilSCORM13Package
 						$media_item->setHAlign($xMediaItem->Layout[HorizontalAlign]);
 						if($media_item->getLocationType()=="LocalFile")
 						{
-							$tmp_name = $this->packageFolder."/objects/".$OriginId."/".$xMediaItem->Location;
-							copy($tmp_name,  $mob_dir."/".$xMediaItem->Location);
+//							$tmp_name = $this->packageFolder."/objects/".$OriginId."/".$xMediaItem->Location;
+//							copy($tmp_name,  $mob_dir."/".$xMediaItem->Location);
 						}
 					}
+					
+					// copy whole directory
+					ilUtil::rCopy($this->packageFolder."/objects/".$OriginId, $mob_dir);
+
 					
 					// alex: fixed media import: these lines have been
 					// behind the next curly bracket which makes it fail
