@@ -674,7 +674,11 @@ class ilObjPortfolioGUI
 			$info = array();
 			foreach($exercises as $exercise)
 			{
-				$info[] = $this->getExerciseInfo($exercise["ass_id"], $table->dataExists());
+				$part = $this->getExerciseInfo($exercise["ass_id"], $table->dataExists());
+				if($part)
+				{
+					$info[] = $part;
+				}
 			}
 			ilUtil::sendInfo(implode("<br />", $info));									
 		}
@@ -689,6 +693,10 @@ class ilObjPortfolioGUI
 		include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
 		$ass = new ilExAssignment($a_assignment_id);		
 		$exercise_id = $ass->getExerciseId();
+		if(!$exercise_id)
+		{
+			return;
+		}
 
 		// exercise goto
 		include_once "classes/class.ilLink.php";
