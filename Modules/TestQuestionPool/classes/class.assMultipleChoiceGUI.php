@@ -105,22 +105,16 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			$this->object->flushAnswers();
 			if ($this->object->isSingleline)
 			{
-				foreach ($_POST['choice']['answer'] as $index => $answer)
+				// edit
+				if($this->object->getId() > 0)
 				{
-					$filename = $_POST['choice']['imagename'][$index];
-					if (strlen($_FILES['choice']['name']['image'][$index]))
-					{
-						// upload image
-						$filename = $this->object->createNewImageFileName($_FILES['choice']['name']['image'][$index]);
-						$upload_result = $this->object->setImageFile($filename, $_FILES['choice']['tmp_name']['image'][$index]);
-						if ($upload_result != 0)
-						{
-							$filename = "";
-						}
-					}
-					$answertext = $answer;
-					$this->object->addAnswer($answertext, $_POST['choice']['points'][$index], $_POST['choice']['points_unchecked'][$index], $index, $filename);
+					$this->object->importAnswersFromPost();
 				}
+				// create
+				else
+				{
+					$this->object->suspended_upload = true;
+				}									
 			}
 			else
 			{
