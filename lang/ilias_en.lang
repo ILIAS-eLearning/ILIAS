@@ -11062,8 +11062,8 @@ content#:#cont_final_lm_page_info#:#A status page will be displayed, if all ques
 style#:#sty_type_sco_fmess#:#SCORM Final Message
 trac#:#trac_group_materials#:#Create Grouping with Optional Materials
 trac#:#trac_release_materials#:#Disintegrate Grouping with Optional Materials
-common#:#preconditions_obligatory_hint#:#You need to fullfill the following preconditions
-common#:#preconditions_optional_hint#:#Please fullfill minimum <b>%s</b> of the following preconditions
+common#:#preconditions_obligatory_hint#:#You have to fulfill all of the following preconditions
+common#:#preconditions_optional_hint#:#You have to fulfill <b>%s</b> of the following preconditions
 book#:#book_new#:#New Booking Pool
 book#:#book_add#:#Add Booking Pool
 book#:#book_edit#:#Edit Booking Pool
@@ -12278,3 +12278,5 @@ rbac#:#rbac_precondition_mode_subset#:#Subset of Preconditions
 rbac#:#rbac_precondition_mode_subset_info#:#A subset of preconditions need to be fulfilled to give access. Some preconditions may still be set as obligatory.
 rbac#:#rbac_precondition_save_obligatory#:#Save Obligatory
 rbac#:#rbac_precondition_minimum_optional#:#At least 2 preconditions have to remain optional.
+common#:#precondition_required_itemlist#:#Required Precondition
+common#:#precondition_toggle#:#Preconditions that need to be fulfilled to access this object

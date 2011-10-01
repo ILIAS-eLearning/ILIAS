@@ -10995,8 +10995,8 @@ rbac#:#precondition_obligatory_info#:#Obligatorische Vorbedingen müssen erfüll
 trac#:#trac_status_changed#:#Letzte Statusänderung
 trac#:#trac_group_materials#:#Gruppierung mit optionalen Materialien erstellen
 trac#:#trac_release_materials#:#Gruppierung mit optionalen Materialien auflösen
-common#:#preconditions_obligatory_hint#:#Bitte bearbeiten Sie die folgenden Vorbedingungen, um Zugriff zu erlangen
-common#:#preconditions_optional_hint#:#Bitte bearbeiten Sie mindestens <b>%s</b> der folgenden Vorbedingungen, um Zugriff zu erlangen
+common#:#preconditions_obligatory_hint#:#Bitte erfüllen Sie die folgenden Vorbedingungen
+common#:#preconditions_optional_hint#:#Bitte erfüllen Sie mindestens <b>%s</b> der folgenden Vorbedingungen
 trac#:#trac_learning_progress_of#:#Lernfortschritt von %s
 trac#:#trac_learning_progress_objects_description#:#Diese Liste zeigt eine Übersicht all Ihrer Kurse und Objekte.
 common#:#personal_workspace#:#Mein Arbeitsraum
@@ -12279,3 +12279,5 @@ rbac#:#rbac_precondition_mode_subset#:#Untermenge der Vorbedingungen
 rbac#:#rbac_precondition_mode_subset_info#:#Eine Untermenge der Vorbedingungen müssen für einen Zugriff erfüllt werden. Einige Vorbedingungen können trotzdem verpflichtend sein.
 rbac#:#rbac_precondition_save_obligatory#:#Verpflichtend speichern
 rbac#:#rbac_precondition_minimum_optional#:#Es müssen mindestens 2 Vorbedingungen optional verbleiben.
+common#:#precondition_required_itemlist#:#Benötigte Vorbedingung
+common#:#precondition_toggle#:#Vorbedingungen, die für einen Zugriff erfüllt werden müssen

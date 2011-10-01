@@ -67,12 +67,19 @@
 <!-- END notice_item -->
 </div>
 <!-- END notice_property -->
+<!-- BEGIN preconditions_toggle -->
+<div  class="il_ItemProperties">
+{PRECONDITION_TOGGLE_INTRO}: <a href="#" onclick="ilObject.togglePreconditions({PRECONDITION_TOGGLE_ID}); return false;">&raquo; {PRECONDITION_TOGGLE_TRIGGER}</a>
+</div>
+<!-- END preconditions_toggle -->
 <!-- BEGIN preconditions -->
+<div style="display:none;" id="il_list_item_precondition{CONDITION_TOGGLE_ID}">
 <div style="clear:both; zoom:1;" class="il_Preconditions">
 {TXT_PRECONDITIONS}:</div>
 <!-- BEGIN precondition -->
 <div style="margin-left:50px">{TRIGGER_ITEM}</div>
 <!-- END precondition -->
+</div>
 <!-- END preconditions -->
 <!-- BEGIN subitem -->
 <div class="subitem">{SUBITEM}</div>

@@ -1857,7 +1857,7 @@ class ilObjectListGUI
 		}
 	}
 
-	protected function parseConditions($conditions,$obligatory = true)
+	protected function parseConditions($toggle_id,$conditions,$obligatory = true)
 	{
 		global $ilAccess, $lng, $objDefinition,$tree;
 		
@@ -1927,34 +1927,40 @@ class ilObjectListGUI
 			include_once($location."/class.".$full_class.".php");
 			$item_list_gui = new $full_class($this);
 			$item_list_gui->setMode(IL_LIST_AS_TRIGGER);
-			$item_list_gui->enablePath(true);
+			$item_list_gui->enablePath(false);
+			$item_list_gui->enableIcon(true);
 			$item_list_gui->setConditionDepth($this->condition_depth + 1);
+			$item_list_gui->addCustomProperty($this->lng->txt("precondition_required_itemlist"), $cond_txt, false, true);
 			$trigger_html = $item_list_gui->getListItemHTML($condition['trigger_ref_id'],
-				$condition['trigger_obj_id'], trim($cond_txt).": ".ilObject::_lookupTitle($condition["trigger_obj_id"]),
+				$condition['trigger_obj_id'], ilObject::_lookupTitle($condition["trigger_obj_id"]),
 				 "");
 			$this->tpl->setCurrentBlock("precondition");
 			if ($trigger_html == "")
 			{
 				$trigger_html = $this->lng->txt("precondition_not_accessible");
 			}
-			//$this->tpl->setVariable("TXT_CONDITION", trim($cond_txt));
+			$this->tpl->setVariable("TXT_CONDITION", trim($cond_txt));
 			$this->tpl->setVariable("TRIGGER_ITEM", $trigger_html);
 			$this->tpl->parseCurrentBlock();
 		}
-
+		
 		if ($missing_cond_exist and $obligatory)
 		{
 			$this->tpl->setCurrentBlock("preconditions");
+			$this->tpl->setVariable("CONDITION_TOGGLE_ID", "_obl_".$toggle_id);
 			$this->tpl->setVariable("TXT_PRECONDITIONS", $lng->txt("preconditions_obligatory_hint"));
 			$this->tpl->parseCurrentBlock();
+			
 		}
 		elseif($missing_cond_exist and !$obligatory)
 		{
 			$this->tpl->setCurrentBlock("preconditions");
+			$this->tpl->setVariable("CONDITION_TOGGLE_ID", "_opt_".$toggle_id);
 			$this->tpl->setVariable("TXT_PRECONDITIONS", sprintf($lng->txt("preconditions_optional_hint"),$num_optional_required));
 			$this->tpl->parseCurrentBlock();
 		}
 
+		return !$missing_cond_exist;
 	}
 
 	/**
@@ -1983,15 +1989,34 @@ class ilObjectListGUI
 		*/
 
 		$conditions = ilConditionHandler::_getConditionsOfTarget($this->ref_id, $this->obj_id);
-		for($i = 0; $i < count($conditions); $i++)
+		if(sizeof($conditions))
 		{
-			$conditions[$i]['title'] = ilObject::_lookupTitle($conditions[$i]['trigger_obj_id']);
-		}
-		$conditions = ilUtil::sortArray($conditions,'title','DESC');
+			for($i = 0; $i < count($conditions); $i++)
+			{
+				$conditions[$i]['title'] = ilObject::_lookupTitle($conditions[$i]['trigger_obj_id']);
+			}
+			$conditions = ilUtil::sortArray($conditions,'title','DESC');
+			
+			// revert to reference original id
+			$div_id = $this->reference_ref_id;
+			if(!$div_id)
+			{
+				$div_id = $this->ref_id;
+			}
 
-		// Show obligatory and optional preconditions seperated
-		$this->parseConditions($conditions,true);
-		$this->parseConditions($conditions,false);
+			// Show obligatory and optional preconditions seperated
+			$all_done_obl = $this->parseConditions($div_id,$conditions,true);
+			$all_done_opt = $this->parseConditions($div_id,$conditions,false);
+			
+			if(!$all_done_obl || !$all_done_opt)
+			{
+				$this->tpl->setCurrentBlock("preconditions_toggle");
+				$this->tpl->setVariable("PRECONDITION_TOGGLE_INTRO", $this->lng->txt("precondition_toggle"));
+				$this->tpl->setVariable("PRECONDITION_TOGGLE_TRIGGER", $this->lng->txt("show"));
+				$this->tpl->setVariable("PRECONDITION_TOGGLE_ID", $div_id);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 	}
 
 	/**
