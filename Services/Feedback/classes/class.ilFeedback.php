@@ -452,7 +452,7 @@ class ilFeedback
 		}
 		
 		include_once('Modules/Course/classes/class.ilCourseParticipant.php');
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($row_items['obj_id'],$ilUser->getId());
+		$members_obj = ilCourseParticipant::_getInstanceByObjId($row_items['obj_id'],$ilUser->getId());
 		
 		//Check if the user is Member of that course, otherwise its not necessary that he votes
 		if(($res->numRows()==0) && $members_obj->isAssigned())
