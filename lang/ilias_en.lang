@@ -12267,6 +12267,10 @@ rbac#:#rbac_not_change_existing_objects#:#Do NOT change existing objects
 rbac#:#rbac_copy_role#:#Copy Role
 rbac#:#rbac_copy_finished#:#Finished copying.
 certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise
+content#:#cont_ed_copy#:#Copy
+content#:#cont_ed_cut#:#Cut
+content#:#cont_sel_el_copied_use_paste#:#Selected elements have been copied. Please click the desired target placeholder and select "Paste".
+content#:#cont_sel_el_cut_use_paste#:#Selected elements have been cut. Please click the desired target placeholder and select "Paste".
 survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")
 survey#:#survey_sure_delete_questions#:#Are you sure that you want to delete the following questions or headings?
 rbac#:#rbac_precondition_source#:#Condition Trigger

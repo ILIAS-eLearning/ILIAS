@@ -12260,6 +12260,10 @@ certificate#:#certificate_ph_passed_exercise#:#"bestanden" oder "nicht bestanden
 certificate#:#certificate_ph_mark#:#Erreichte Note
 certificate#:#certificate_ph_exercisetitle#:#Titel der Übung
 certificate#:#certificate_visibility_passed_exercise#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin die Übung bestanden hat
+content#:#cont_ed_copy#:#Kopieren
+content#:#cont_ed_cut#:#Ausschneiden
+content#:#cont_sel_el_copied_use_paste#:#Die ausgewählten Elemente wurden kopiert. Klicken Sie nun den gewünschte Zielplatzhalter und klicken sie "Einfügen".
+content#:#cont_sel_el_cut_use_paste#:#Die ausgewählten Elemente wurden ausgeschnitten. Klicken Sie nun den gewünschte Zielplatzhalter und klicken sie "Einfügen".
 rbac#:#rbac_back_to_overview#:#Zurück zur Rollenübersicht
 rbac#:#rbac_choose_copy_targets#:#Bitte geben Sie einen Suchbegriff ein, um die Rollen zu finden, auf die Rechte übertragen werden sollen.
 rbac#:#rbac_select_copy_targets#:#Bitte wählen Sie die Rollen aus, auf die die Rechte übertragen werden sollen.

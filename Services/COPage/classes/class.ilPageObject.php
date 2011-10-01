@@ -1150,7 +1150,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			"pc_code", "pc_vacc", "pc_hacc", "pc_res", "pc_map", "pc_list", "ed_insert_incl", "pc_incl",
 			"pc_iim", "ed_insert_iim", "pc_prof", "ed_insert_profile", "pc_vrfc",
 			"ed_insert_verification", "pc_blog", "ed_insert_blog", "ed_edit_multiple", "pc_qover", "ed_insert_qover",
-			"pc_skills", "ed_insert_skills");
+			"pc_skills", "ed_insert_skills", "ed_cut", "ed_copy");
 
 		foreach ($lang_vars as $lang_var)
 		{
