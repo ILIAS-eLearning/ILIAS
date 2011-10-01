@@ -592,6 +592,14 @@
 				<xsl:with-param name="command">delete</xsl:with-param>
 				<xsl:with-param name="langvar">ed_delete</xsl:with-param>
 			</xsl:call-template>
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">copy</xsl:with-param>
+				<xsl:with-param name="langvar">ed_copy</xsl:with-param>
+			</xsl:call-template>
+			<xsl:call-template name="EditMenuItem">
+				<xsl:with-param name="command">cut</xsl:with-param>
+				<xsl:with-param name="langvar">ed_cut</xsl:with-param>
+			</xsl:call-template>
 		</xsl:if>
 		
 		<xsl:if test = "$javascript = 'enable' and $prevent_deletion = 'n'">

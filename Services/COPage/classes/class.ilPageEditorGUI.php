@@ -927,6 +927,8 @@ return true;
 	 */
 	function copySelected()
 	{
+		global $lng;
+		
 		if (is_int(strpos($_POST["target"][0], ";")))
 		{
 			$_POST["target"] = explode(";", $_POST["target"][0]);
@@ -934,6 +936,7 @@ return true;
 		if (is_array($_POST["target"]))
 		{
 			$this->page->copyContents($_POST["target"]);
+			ilUtil::sendSuccess($lng->txt("cont_sel_el_copied_use_paste"), true);
 		}
 		$this->ctrl->returnToParent($this);
 	}
@@ -943,6 +946,8 @@ return true;
 	 */
 	function cutSelected()
 	{
+		global $lng;
+		
 		if (is_int(strpos($_POST["target"][0], ";")))
 		{
 			$_POST["target"] = explode(";", $_POST["target"][0]);
@@ -958,6 +963,7 @@ return true;
 			{
 				unset($_SESSION["il_pg_error"]);
 			}
+			ilUtil::sendSuccess($lng->txt("cont_sel_el_cut_use_paste"), true);
 		}
 		$this->ctrl->returnToParent($this);
 	}

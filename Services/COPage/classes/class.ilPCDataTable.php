@@ -72,6 +72,8 @@ class ilPCDataTable extends ilPCTable
 		$xpc = xpath_new_context($this->dom);
 		$path = "//PageContent[@HierId='".$this->getHierId()."']".
 			"/Table/TableRow[$i+1]/TableData[$j+1]/PageContent[1]/Paragraph[1]";
+//echo "<br>++".$path;
+//]--//PageContent[@HierId='3']/Table/TableRow[+1]/TableData[0 style=+1]/PageContent[1]/Paragraph[1]
 		$res =& xpath_eval($xpc, $path);
 
 		if (is_object($res->nodeset[0]))

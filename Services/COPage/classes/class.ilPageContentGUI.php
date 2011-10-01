@@ -575,6 +575,45 @@ class ilPageContentGUI
 	}
 
 	/**
+	 * Cut single element
+	 */
+	function cut() 
+	{
+		global $lng;
+		
+		$obj = $this->content_obj;
+		
+	 	$updated = $this->pg_obj->cutContents(array($this->hier_id.":".$this->pc_id));
+		if($updated !== true)
+		{
+			$_SESSION["il_pg_error"] = $updated;
+		}
+		else
+		{
+			unset($_SESSION["il_pg_error"]);
+		}
+	
+		ilUtil::sendSuccess($lng->txt("cont_sel_el_cut_use_paste"), true);
+	 	$this->ctrl->returnToParent($this, "jump".$this->hier_id);	 	
+	}
+
+	/**
+	 * Copy single element
+	 */
+	function copy() 
+	{
+		global $lng;
+		
+		$obj = $this->content_obj;
+		
+		ilUtil::sendSuccess($lng->txt("cont_sel_el_copied_use_paste"), true);
+  		$this->pg_obj->copyContents(array($this->hier_id.":".$this->pc_id));
+  
+	 	$this->ctrl->returnToParent($this, "jump".$this->hier_id);	 	
+	}
+
+
+	/**
 	* Get table templates
 	*/
 	function getTemplateOptions($a_type)

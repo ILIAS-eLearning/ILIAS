@@ -621,7 +621,6 @@ class php4DOMXPath
 
 	function query($eval_str)
 	{
-//echo "-$eval_str-";
 		return new php4DOMNodelist($this->myDOMXPath->query($eval_str));
 	}
 

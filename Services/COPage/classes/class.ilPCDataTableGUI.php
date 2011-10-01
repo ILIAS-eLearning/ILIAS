@@ -323,39 +323,18 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		include_once("./Services/COPage/classes/class.ilPCParagraph.php");
 		include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
 		$data = array();
-
-		$content = ilUtil::stripSlashes($_POST["ajaxform_content"], false);
-		//$content = ilUtil::stripOnlySlashes($_POST["ajaxform_content"], false);
-//echo htmlentities($content); exit;
-
-		while (is_int($pos1 = strpos($content, '<div id="div_cell_')))
+		foreach ($_POST as $k => $content)
 		{
-			// get main div next table cell
-			$pos2 = strpos($content, '<!-- td_div_end -->', $pos1);
-			$pos3 = strpos($content, '>', $pos1) + 1;
-			$pos4 = strpos($content, '"', $pos1 + 18);
-			$div = substr($content, $pos3, $pos2-$pos3);
-			// determine id of table cell
-			$id = substr($content, $pos1 + 18, $pos4 - $pos1 - 18);
-			$id = explode("_", $id);
-
-			// @todo: General issue: we get different formatted content here
-			// compared to the paragraphs
-			// paragraphs: tiny -> ajax
-			// tables: tiny -> browser dom -> ajax
-			// it would be better to store the content that has been changed
-			// in variables insted to read it from the dom and to jsonify it back
-			// to here
-$div = str_replace("</p>", "<br />", $div);
-$div = str_replace("\n", "", $div);
-$div = str_replace("<p>", "", $div);
-$div = "<div class='ilc_text_block_TableContent'>".$div;
-			$div = str_replace("<br>", "<br />", $div);
-			$div = str_replace("&nbsp;", " ", $div);
-$div = str_replace("<br /></div>", "</div>", $div);
-$div = str_replace("\n", "", $div);
-$div = str_replace("\r", "", $div);
-//
+			if (substr($k, 0, 5) != "cell_")
+			{
+				continue;
+			}
+			
+			// determine cell content
+			$div = ilUtil::stripSlashes($content, false);
+			$p1 = strpos($div, '>');
+			$div = substr($div, $p1 + 1);
+			$div = "<div class='ilc_text_block_TableContent'>".$div;
 			$text = ilPCParagraph::handleAjaxContent($div);
 			if ($text === false)
 			{
@@ -367,27 +346,12 @@ $div = str_replace("\r", "", $div);
 				$this->content_obj->getLanguage(), true, false);
 			$text = ilPCParagraph::handleAjaxContentPost($text);
 
-			$data[$id[0]][$id[1]] = $text;
-
-			$content = substr($content, $pos1 + 10);
+			// set content in data array
+			$id = explode("_", $k);
+			$data[(int) $id[1]][(int) $id[2]] = $text;
 		}
 
-/*		if (is_array($_POST["cell"]))
-		{
-			foreach ($_POST["cell"] as $i => $row)
-			{
-				if (is_array($row))
-				{
-					foreach ($row as $j => $cell)
-					{
-						$data[$i][$j] =
-							ilPCParagraph::_input2xml($cell,
-								$this->content_obj->getLanguage());
-					}
-				}
-			}
-		}*/
-
+		// update data
 		$this->updated = $this->content_obj->setData($data);
 
 		if ($this->updated !== true)
@@ -403,16 +367,18 @@ $div = str_replace("\r", "", $div);
 		//$this->update(false);
 		$this->pg_obj->addHierIDs();
 
-		$cell_hier_id = ($_POST["tab_cmd_type"] == "col")
-			? $this->hier_id."_1_".($_POST["tab_cmd_id"] + 1)
-			: $this->hier_id."_".($_POST["tab_cmd_id"] + 1)."_1";
-		$cell_obj = $this->pg_obj->getContentObject($cell_hier_id);
-		if (is_object($cell_obj))
+		if ($_POST["tab_cmd"] != "")
 		{
-			$cell_obj->$_POST["tab_cmd"]();
-			$_SESSION["il_pg_error"] = $this->pg_obj->update();
+			$cell_hier_id = ($_POST["tab_cmd_type"] == "col")
+				? $this->hier_id."_1_".($_POST["tab_cmd_id"] + 1)
+				: $this->hier_id."_".($_POST["tab_cmd_id"] + 1)."_1";
+			$cell_obj = $this->pg_obj->getContentObject($cell_hier_id);
+			if (is_object($cell_obj))
+			{
+				$cell_obj->$_POST["tab_cmd"]();
+				$_SESSION["il_pg_error"] = $this->pg_obj->update();
+			}
 		}
-
 		
 		
 		//if ($a_redirect)

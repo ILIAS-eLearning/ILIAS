@@ -14,6 +14,7 @@ var ilCOPage =
 	pc_id_str: '',
 	pasting: false,
 	response_class: "",
+	tds: {},
 	
 	////
 	//// Debug/Error Functions
@@ -218,10 +219,9 @@ var ilCOPage =
 		if (ilCOPage.current_td != "")
 		{
 			//ilFormSend("saveDataTable", ed_para, null, null);
-						
-			tbl = document.getElementById("ed_datatable");
+			var pars = ilCOPage.tds;
 			this.sendCmdRequest("saveDataTable", ed_para, null,
-				{ajaxform_content: tbl.innerHTML},
+				pars,
 				false, null, null);
 		}
 		else if (this.getInsertStatus() && !ilCOPage.quick_insert_id)
@@ -755,6 +755,11 @@ if (add_final_spacer)
 				{
 					var c = "<div class='" + cl + "'>" + c + "</div>";
 				}
+				else
+				{
+					ilCOPage.tds[ilCOPage.current_td] =
+						ilCOPage.getContentForSaving();
+				}
 				var e = c.substr(c.length - 6);
 				var b = c.substr(c.length - 12, 6);
 				if (e == "</div>" && b != "<br />" && add_final_spacer)
@@ -1189,10 +1194,12 @@ if (add_final_spacer)
 	
 	handleDataTableCommand: function (type, command)
 	{
-		tbl = document.getElementById("ed_datatable");
+		var pars = ilCOPage.tds;
+		pars["tab_cmd_type"] = type;
+		pars["tab_cmd"] = command;
+		pars["tab_cmd_id"] = current_row_col;
 		this.sendCmdRequest("saveDataTable", ed_para, null,
-			{ajaxform_content: tbl.innerHTML,
-			tab_cmd_type: type, tab_cmd: command, tab_cmd_id: current_row_col},
+			pars,
 			false, null, null);
 
 /*		obj = document.getElementById("post");
