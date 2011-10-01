@@ -11365,7 +11365,6 @@ content#:#cont_edit_popup_position#:#Edit Popup Position###12 06 2011 new variab
 common#:#object_not_found#:#Objekt not found###12 06 2011 new variable
 common#:#user_not_found#:#User not found###12 06 2011 new variable
 content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit "Save".###12 06 2011 new variable
-common#:#cont_iim_base_image_info#:#The base image is the main underlying image.###12 06 2011 new variable
 common#:#cont_iim_create_info#:#Please upload the main underlying picuture for the interactive image.###12 06 2011 new variable
 common#:#cont_iim_overlay_info#:#Overlay images are used to alter (e.g. highlight) parts of the base image when the mouse hovers over them. After uploading the images, you can select them in the "Triggers" tab.###12 06 2011 new variable
 common#:#cont_iim_content_popups_info#:#Content popups appear, when the user clicks on interactive parts of the base image. On this screen you only define the popups. Their content can be edited on the main page editing screen.###12 06 2011 new variable
@@ -11833,9 +11832,7 @@ chatroom_adm#:#https#:#HTTPS###06 08 2011 new variable
 chatroom_adm#:#chat_enabled#:#Enable chat###06 08 2011 new variable
 chatroom_adm#:#enable_osd#:#Enable On-Screen notifications###06 08 2011 new variable
 chatroom_adm#:#hash#:#Hash###06 08 2011 new variable
-chatroom_adm#:#client_settings_title#:#Client settings###06 08 2011 new variable
 chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)###06 08 2011 new variable
-chatroom_adm#:#server_settings_title#:#Server settings###06 08 2011 new variable
 chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete the selected smiley?###06 08 2011 new variable
 chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.###06 08 2011 new variable
 chatroom_adm#:#chat_smilies_initialized#:#Chat smilies initialized###06 08 2011 new variable
@@ -12200,3 +12197,90 @@ chatroom#:#hint_display_past_msgs#:#Number of past messages to show, when the ro
 chatroom#:#speak_to#:#Whisper to <b>#user#</b>###14 09 2011 new variable
 chatroom#:#whisper_to#:#Speak to <b>#user#</b>###14 09 2011 new variable
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chatserver.###14 09 2011 new variable
+chatroom_adm#:#general_settings_title#:#General Chat Settings###01 10 2011 new variable
+chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings###01 10 2011 new variable
+chatroom#:#leave_private_room#:#Leave Private Room###01 10 2011 new variable
+chatroom#:#delete_private_room#:#Delete Private Room###01 10 2011 new variable
+chatroom#:#invite_to_private_room#:#Invite to Current Room###01 10 2011 new variable
+wiki#:#wiki_page_actions#:#Page Actions###01 10 2011 new variable
+wiki#:#wiki_notification_deactivated#:#Notification Deactivated###01 10 2011 new variable
+chatroom#:#scope#:#Room/Private Room###01 10 2011 new variable
+chatroom#:#user_in_room#:#Invite user from current chatroom###01 10 2011 new variable
+chatroom#:#user_in_ilias#:#Search and invite user from ILIAS###01 10 2011 new variable
+chatroom#:#kick_question#:#Do you really want to kick the user from current room?###01 10 2011 new variable
+chatroom#:#ban_question#:#Do you really want to ban the user from current room?###01 10 2011 new variable
+chatroom#:#history_cleared#:#The message history was deleted by a moderator.###01 10 2011 new variable
+chatroom#:#clear_room_history#:#Delete Message History###01 10 2011 new variable
+chatroom#:#clear_room_history_question#:#Do you really want to delete all messages of the current room?###01 10 2011 new variable
+chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the "Permissions" tab to allow anonymous user access to this repository item.###01 10 2011 new variable
+chatroom_adm#:#public_chat_settings#:#Public Chatroom Settings###01 10 2011 new variable
+chatroom_adm#:#public_chat_permissions#:#Public Chatroom Permissions###01 10 2011 new variable
+chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation###01 10 2011 new variable
+chatroom#:#create_private_room_text#:#Private room name###01 10 2011 new variable
+chatroom#:#invite_username#:#Username###01 10 2011 new variable
+notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not ativated for this resource.###01 10 2011 new variable
+chatroom#:#layout#:#Layout###01 10 2011 new variable
+chatroom#:#show_settings#:#Show Settings###01 10 2011 new variable
+chatroom#:#hide_settings#:#Hide Settings###01 10 2011 new variable
+chatroom_adm#:#soap_user_hint#:#This user is used to send information from the chatserver to the ilias installation. No special permissions are required.<br/>If you create a new accout, please make sure that you are able to login with this user (e.g. accept licence aggreement).###01 10 2011 new variable
+chatroom#:#private_rooms_enabled#:#Allow Private Rooms###01 10 2011 new variable
+chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.###01 10 2011 new variable
+chatroom#:#no_further_users#:#No other users present###01 10 2011 new variable
+chatroom#:#users#:#Users###01 10 2011 new variable
+chatroom#:#no_messages#:#There are no saved messages for the given period.###01 10 2011 new variable
+chatroom#:#history_title_general#:#Conversation in Chat Room "%s"###01 10 2011 new variable
+chatroom#:#history_title_private_room#:#Conversation in Private Room "%s"###01 10 2011 new variable
+common#:#chtr_copy#:#Copy Chatroom###01 10 2011 new variable
+common#:#obj_chtr_duplicate#:#Copy Chatroom###01 10 2011 new variable
+common#:#il_chat_moderator_visible#:#Chat Room is visible###01 10 2011 new variable
+common#:#il_chat_moderator_read#:#Read access to Chat Room###01 10 2011 new variable
+common#:#il_chat_moderator_write#:#Edit Chat Room settings###01 10 2011 new variable
+common#:#il_chat_moderator_moderate#:#Moderate Chat Room###01 10 2011 new variable
+common#:#obj_il_chat_moderator#:#Chat Room Moderator###01 10 2011 new variable
+crs#:#crs_activate_notification#:#Activate Notification###01 10 2011 new variable
+crs#:#crs_deactivate_notification#:#Deactivate Notification###01 10 2011 new variable
+crs#:#crs_notification_activated#:#Notification Activated###01 10 2011 new variable
+crs#:#crs_notification_deactivated#:#Notification Deactivated###01 10 2011 new variable
+grp#:#grp_activate_notification#:#Activate Notification###01 10 2011 new variable
+grp#:#grp_deactivate_notification#:#Deactivate Notification###01 10 2011 new variable
+grp#:#grp_notification_activated#:#Notification Activated###01 10 2011 new variable
+grp#:#grp_notification_deactivated#:#Notification Deactivated###01 10 2011 new variable
+chatroom#:#end_whisper#:#Cancel###01 10 2011 new variable
+exc#:#exc_search_users#:#Search Users###01 10 2011 new variable
+blog#:#blog_navigation#:#Postings###01 10 2011 new variable
+survey#:#survey_question_title#:#Question Title###01 10 2011 new variable
+assessment#:#tst_default_settings#:#Personal Default Settings###01 10 2011 new variable
+prtf#:#prtf_unset_as_default#:#Unset As My Profile###01 10 2011 new variable
+certificate#:#certificate_ph_date_completed#:#Date of completion###01 10 2011 new variable
+adve#:#adve_activation#:#Activation###01 10 2011 new variable
+adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing###01 10 2011 new variable
+certificate#:#certificate_ph_datetime_completed#:#Date and time of completion###01 10 2011 new variable
+certificate#:#certificate_ph_passed_exercise#:#"Passed" or "Failed"###01 10 2011 new variable
+certificate#:#certificate_ph_mark#:#Users mark###01 10 2011 new variable
+certificate#:#certificate_ph_exercisetitle#:#Exercise Title###01 10 2011 new variable
+rbac#:#rbac_back_to_overview#:#Back to Role List###01 10 2011 new variable
+rbac#:#rbac_choose_copy_targets#:#Please enter a quer for selecting the target roles.###01 10 2011 new variable
+rbac#:#rbac_select_copy_targets#:#Please select the target roles###01 10 2011 new variable
+rbac#:#rbac_role_title#:#Role Title###01 10 2011 new variable
+rbac#:#rbac_copy_behaviour#:#Role Copy Settings###01 10 2011 new variable
+rbac#:#rbac_not_change_existing_objects#:#Do NOT change existing objects###01 10 2011 new variable
+rbac#:#rbac_copy_role#:#Copy Role###01 10 2011 new variable
+rbac#:#rbac_copy_finished#:#Finished copying.###01 10 2011 new variable
+certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise###01 10 2011 new variable
+content#:#cont_ed_copy#:#Copy###01 10 2011 new variable
+content#:#cont_ed_cut#:#Cut###01 10 2011 new variable
+content#:#cont_sel_el_copied_use_paste#:#Selected elements have been copied. Please click the desired target placeholder and select "Paste".###01 10 2011 new variable
+content#:#cont_sel_el_cut_use_paste#:#Selected elements have been cut. Please click the desired target placeholder and select "Paste".###01 10 2011 new variable
+survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")###01 10 2011 new variable
+survey#:#survey_sure_delete_questions#:#Are you sure that you want to delete the following questions or headings?###01 10 2011 new variable
+rbac#:#rbac_precondition_source#:#Condition Trigger###01 10 2011 new variable
+rbac#:#rbac_precondition_target#:#Condition limits access to###01 10 2011 new variable
+rbac#:#rbac_precondition_mode#:#Mode###01 10 2011 new variable
+rbac#:#rbac_precondition_mode_all#:#All Preconditions###01 10 2011 new variable
+rbac#:#rbac_precondition_mode_all_info#:#All preconditions need to be fulfilled to give access.###01 10 2011 new variable
+rbac#:#rbac_precondition_mode_subset#:#Subset of Preconditions###01 10 2011 new variable
+rbac#:#rbac_precondition_mode_subset_info#:#A subset of preconditions need to be fulfilled to give access. Some preconditions may still be set as obligatory.###01 10 2011 new variable
+rbac#:#rbac_precondition_save_obligatory#:#Save Obligatory###01 10 2011 new variable
+rbac#:#rbac_precondition_minimum_optional#:#At least 2 preconditions have to remain optional.###01 10 2011 new variable
+common#:#precondition_required_itemlist#:#Required Precondition###01 10 2011 new variable
+common#:#precondition_toggle#:#Preconditions that need to be fulfilled to access this object###01 10 2011 new variable
