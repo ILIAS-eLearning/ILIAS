@@ -12267,3 +12267,4 @@ rbac#:#rbac_not_change_existing_objects#:#Do NOT change existing objects
 rbac#:#rbac_copy_role#:#Copy Role
 rbac#:#rbac_copy_finished#:#Finished copying.
 certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise
+survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")
