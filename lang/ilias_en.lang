@@ -11109,8 +11109,8 @@ administration#:#adm_add_settings_template#:#Add Template
 administration#:#adm_edit_settings_template#:#Edit Template
 administration#:#adm_hide_tabs#:#Hide Tabs
 administration#:#adm_predefined_settings#:#Predefined Settings
-administration#:#adm_value#:#Value
-administration#:#adm_hide#:#Hide
+administration#:#adm_value#:#Predefined Value
+administration#:#adm_hide#:#Hide in Settings Form
 administration#:#adm_sure_delete_settings_template#:#Do you really want to delete the following templates?
 survey#:#survey_prev_question#:#Previous Page
 survey#:#survey_next_question#:#Next Page

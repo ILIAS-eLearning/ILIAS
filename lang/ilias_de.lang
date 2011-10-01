@@ -11101,8 +11101,8 @@ administration#:#adm_add_settings_template#:#Vorlagen hinzufügen
 administration#:#adm_edit_settings_template#:#Vorlagen bearbeiten
 administration#:#adm_hide_tabs#:#Tabs ausblenden
 administration#:#adm_predefined_settings#:#Vordefinierte Einstellungen
-administration#:#adm_value#:#Wert
-administration#:#adm_hide#:#Ausblenden
+administration#:#adm_value#:#Vordefinierter Wert
+administration#:#adm_hide#:#Im Einstellungsformular ausblenden
 administration#:#adm_sure_delete_settings_template#:#Wollen Sie wirklich die folgenden Vorlagen löschen?
 survey#:#survey_per_page_view#:#Seitenansicht
 survey#:#survey_prev_question#:#Vorherige Seite
