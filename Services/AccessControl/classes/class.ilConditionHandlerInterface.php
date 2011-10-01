@@ -72,7 +72,6 @@ class ilConditionHandlerInterface
 			$this->setTargetType($this->target_obj->getType());
 			$this->setTargetTitle($this->target_obj->getTitle());
 		}
-		
 	}
 
 	function setBackButtons($a_btn_arr)
@@ -213,7 +212,7 @@ class ilConditionHandlerInterface
 		global $ilToolbar;
 
 		$ilToolbar->addButton($this->lng->txt('add_condition'),$this->ctrl->getLinkTarget($this,'selector'));
-
+		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.list_conditions.html','Services/AccessControl');
 
 		$optional_conditions = ilConditionHandler::getOptionalConditionsOfTarget(
@@ -221,14 +220,22 @@ class ilConditionHandlerInterface
 			$this->getTargetId(),
 			$this->getTargetType()
 		);
-		if(count($optional_conditions) > 1)
+		if(count($optional_conditions))
 		{
-			$form = $this->showObligatoryForm($optional_conditions);
-			$this->tpl->setVariable('TABLE_SETTINGS',$form->getHTML());
+			if(!$_REQUEST["list_mode"])
+			{
+				$_REQUEST["list_mode"] = "subset";
+			}
 		}
+		else if(!$_REQUEST["list_mode"])
+		{
+			$_REQUEST["list_mode"] = "all";
+		}
+		$form = $this->showObligatoryForm($optional_conditions);
+		$this->tpl->setVariable('TABLE_SETTINGS',$form->getHTML());
 
 		include_once './Services/AccessControl/classes/class.ilConditionHandlerTableGUI.php';
-		$table = new ilConditionHandlerTableGUI($this,'listConditions');
+		$table = new ilConditionHandlerTableGUI($this,'listConditions', ($_REQUEST["list_mode"] != "all"));
 		$table->setConditions(
 			ilConditionHandler::_getConditionsOfTarget(
 				$this->getTargetRefId(),
@@ -249,11 +256,52 @@ class ilConditionHandlerInterface
 		$form = $this->showObligatoryForm();
 		if($form->checkInput())
 		{
-			ilConditionHandler::saveNumberOfRequiredTriggers(
-				$this->getTargetRefId(),
-				$this->getTargetId(),
-				$form->getInput('required')
-			);
+			$old_mode = $form->getInput("old_list_mode");
+			switch($form->getInput("list_mode"))
+			{
+				case "all":
+					if($old_mode != "all")
+					{
+						include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+						$optional_conditions = ilConditionHandler::getOptionalConditionsOfTarget(
+							$this->getTargetRefId(),
+							$this->getTargetId(),
+							$this->getTargetType()
+						);
+						if(sizeof($optional_conditions) > 1)
+						{
+							// Set all optional conditions to obligatory
+							foreach($optional_conditions as $item)
+							{
+								ilConditionHandler::updateObligatory($item["condition_id"], true);
+							}
+						}
+					}
+					break;
+				
+				case "subset":
+					$num_req = $form->getInput('required');
+					if($old_mode != "subset")
+					{
+						$all_conditions = ilConditionHandler::_getConditionsOfTarget(
+							$this->getTargetRefId(),
+							$this->getTargetId(),
+							$this->getTargetType()
+						);
+						foreach($all_conditions as $item)
+						{
+							ilConditionHandler::updateObligatory($item["condition_id"], false);
+						}
+						$num_req = 1;
+					}
+					ilConditionHandler::saveNumberOfRequiredTriggers(
+									$this->getTargetRefId(),
+									$this->getTargetId(),
+									$num_req
+								);
+					break;
+			}
+			
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 			$this->ctrl->redirect($this,'listConditions');
 		}
@@ -261,6 +309,45 @@ class ilConditionHandlerInterface
 		$form->setValuesByPost();
 		ilUtil::sendFailure($this->lng->txt('err_check_input'));
 		$this->tpl->setContent($form->getHTML());
+	}
+	
+	/**
+	 * Save obligatory settings
+	 */
+	protected function saveObligatoryList()
+	{
+		$all_conditions = ilConditionHandler::_getConditionsOfTarget(
+							$this->getTargetRefId(),
+							$this->getTargetId(),
+							$this->getTargetType()
+						);
+		
+		if($_POST["obl"] && sizeof($_POST["obl"]) > sizeof($all_conditions)-2)
+		{
+			ilUtil::sendFailure($this->lng->txt("rbac_precondition_minimum_optional"), true);
+			$this->ctrl->redirect($this,'listConditions');
+		}
+		
+		foreach($all_conditions as $item)
+		{
+			$status = false;
+			if($_POST["obl"] && in_array($item["condition_id"], $_POST["obl"]))
+			{
+				$status = true;
+			}
+			ilConditionHandler::updateObligatory($item["condition_id"], $status);
+		}
+		
+		// re-calculate 
+		ilConditionHandler::calculateRequiredTriggers(
+				$this->getTargetRefId(),
+				$this->getTargetId(),
+				$this->getTargetType(),
+				true
+			);
+		
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		$this->ctrl->redirect($this,'listConditions');
 	}
 
 	/**
@@ -279,28 +366,51 @@ class ilConditionHandlerInterface
 		}
 
 		$all = ilConditionHandler::_getConditionsOfTarget($this->getTargetRefId(),$this->getTargetId());
-		$req = count($all) - count($opt);
-
+		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this),'listConditions');
 		$form->setTitle($this->lng->txt('precondition_obligatory_settings'));
 		$form->addCommandButton('saveObligatorySettings', $this->lng->txt('save'));
+		
+		$mode = new ilRadioGroupInputGUI($this->lng->txt("rbac_precondition_mode"), "list_mode");
+		$form->addItem($mode);
+		$mode->setValue($_REQUEST["list_mode"]);
+		
+		$mall = new ilRadioOption($this->lng->txt("rbac_precondition_mode_all"), "all");
+		$mall->setInfo($this->lng->txt("rbac_precondition_mode_all_info"));
+		$mode->addOption($mall);
+		
+		$msubset = new ilRadioOption($this->lng->txt("rbac_precondition_mode_subset"), "subset");
+		$msubset->setInfo($this->lng->txt("rbac_precondition_mode_subset_info"));
+		$mode->addOption($msubset);
 
-		$opt = new ilNumberInputGUI($this->lng->txt('precondition_num_obligatory'), 'required');
-		$opt->setInfo($this->lng->txt('precondition_num_optional_info'));
-		$obligatory = ilConditionHandler::calculateRequiredTriggers(
-			$this->getTargetRefId(),
-			$this->getTargetId(),
-			$this->getTargetType()
-		);
-		$opt->setValue($obligatory);
-		$opt->setRequired(true);
-		$opt->setSize(1);
-		$opt->setMinValue($req + 1);
-		$opt->setMaxValue(count($all) - 1);
-
-		$form->addItem($opt);
+		$obl = new ilNumberInputGUI($this->lng->txt('precondition_num_obligatory'), 'required');
+		$obl->setInfo($this->lng->txt('precondition_num_optional_info'));
+		if(count($opt))
+		{
+			$obligatory = ilConditionHandler::calculateRequiredTriggers(
+				$this->getTargetRefId(),
+				$this->getTargetId(),
+				$this->getTargetType()
+			);
+			$min = count($all) - count($opt) + 1;
+			$max = count($all) - 1;
+		}
+		else
+		{
+			$obligatory = $min = $max = 1;
+		}
+		$obl->setValue($obligatory);
+		$obl->setRequired(true);
+		$obl->setSize(1);
+		$obl->setMinValue($min);
+		$obl->setMaxValue($max);
+		$msubset->addSubItem($obl);
+		
+		$old_mode = new ilHiddenInputGUI("old_list_mode");
+		$old_mode->setValue($_REQUEST["list_mode"]);
+		$form->addItem($old_mode);
 
 		return $form;
 	}
@@ -604,7 +714,16 @@ class ilConditionHandlerInterface
 	 	$this->form = new ilPropertyFormGUI();
 	 	$this->ctrl->setParameter($this,'source_id',$a_source_id);
 	 	$this->form->setFormAction($this->ctrl->getFormAction($this));
-
+		
+		$info_source = new ilNonEditableValueGUI($this->lng->txt("rbac_precondition_source"));
+		$info_source->setValue(ilObject::_lookupTitle(ilObject::_lookupObjId($a_source_id)));
+		$this->form->addItem($info_source);
+		
+		$info_target = new ilNonEditableValueGUI($this->lng->txt("rbac_precondition_target"));
+		$info_target->setValue($this->getTargetTitle());
+		$this->form->addItem($info_target);
+		
+		/* moved to list
 		$obl = new ilCheckboxInputGUI($this->lng->txt('precondition_obligatory'), 'obligatory');
 		$obl->setInfo($this->lng->txt('precondition_obligatory_info'));
 		$obl->setValue(1);
@@ -615,6 +734,17 @@ class ilConditionHandlerInterface
 		else
 		{
 			$obl->setChecked(true);
+		}
+		$this->form->addItem($obl);
+	    */
+		$obl = new ilHiddenInputGUI('obligatory');
+		if($a_condition_id)
+		{
+			$obl->setValue($condition['obligatory']);
+		}
+		else
+		{
+			$obl->setValue(1);
 		}
 		$this->form->addItem($obl);
 	 	
@@ -675,9 +805,7 @@ class ilConditionHandlerInterface
 	 	{
 	 		case 'edit':
 	 			$this->form->setTitleIcon(ilUtil::getImagePath('icon_'.$this->getTargetType().'.gif'));
-	 			$this->form->setTitle($this->lng->txt('precondition').' ('.
-	 				$this->getTargetTitle().' -> '.
-	 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_source_id)).')');
+	 			$this->form->setTitle($this->lng->txt('precondition'));
 	 			$this->form->addCommandButton('updateCondition',$this->lng->txt('save'));
 	 			$this->form->addCommandButton('listConditions',$this->lng->txt('cancel'));
 	 			break;
@@ -685,9 +813,7 @@ class ilConditionHandlerInterface
 	 		
 	 		case 'add':
 	 			$this->form->setTitleIcon(ilUtil::getImagePath('icon_'.$this->getTargetType().'.gif'));
-	 			$this->form->setTitle($this->lng->txt('add_condition').' ('.
-	 				$this->getTargetTitle().' -> '.
-	 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_source_id)).')');
+	 			$this->form->setTitle($this->lng->txt('add_condition'));
 	 			$this->form->addCommandButton('assign',$this->lng->txt('save'));
 	 			$this->form->addCommandButton('selector',$this->lng->txt('back'));
 	 			break;

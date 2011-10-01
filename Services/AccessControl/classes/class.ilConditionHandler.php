@@ -492,7 +492,24 @@ class ilConditionHandler
 
 		return true;
 	}
+	
+	/**
+	 * Toggle condition obligatory status
+	 * 
+	 * @param int $a_id
+	 * @param bool $a_status
+	 */
+	static function updateObligatory($a_id, $a_status)
+	{
+		global $ilDB;
+		
+		$query = "UPDATE conditions SET ".
+			'obligatory = '.$ilDB->quote($a_status,'integer').' '.
+			"WHERE condition_id = ".$ilDB->quote($a_id,'integer');
+		$res = $ilDB->manipulate($query);
 
+		return true;
+	}
 
 	/**
 	* delete all trigger and target entries
@@ -781,7 +798,7 @@ class ilConditionHandler
 	 * @param int $a_target_obj_id
 	 * @return int
 	 */
-	public static function calculateRequiredTriggers($a_target_ref_id,$a_target_obj_id,$a_target_obj_type = '')
+	public static function calculateRequiredTriggers($a_target_ref_id,$a_target_obj_id,$a_target_obj_type = '', $a_force_update = false)
 	{
 		global $ilDB;
 
@@ -794,18 +811,28 @@ class ilConditionHandler
 		{
 			$set_obl = $all[0]['num_obligatory'];
 		}
-
+		
+		// existing value is valid
 		if($set_obl > 0 and
 			$set_obl < count($all) and
 			$set_obl > (count($all) - count($opt)  + 1))
 		{
 			return $set_obl;
 		}
+		
 		if(count($opt))
 		{
-			return count($all) - count($opt) + 1;
+			$result = count($all) - count($opt) + 1;
 		}
-		return count($opt);
+		else
+		{
+			$result = 0;
+		}
+		if($a_force_update)
+		{
+			self::saveNumberOfRequiredTriggers($a_target_ref_id,$a_target_obj_id,$result);
+		}
+		return $result;
 	}
 
 	/**

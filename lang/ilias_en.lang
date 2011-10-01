@@ -1624,7 +1624,7 @@ common#:#active_roles#:#Active Roles
 common#:#active#:#Active
 common#:#add_author#:#Add Author
 common#:#add_comments#:#Edit comments
-common#:#add_condition#:#Create New Association
+common#:#add_condition#:#Add Precondition
 common#:#add_member#:#Add Member
 common#:#add_members#:#Add Members
 common#:#add_new_user_defined_field#:#Add New Custom Field
@@ -11005,7 +11005,7 @@ style#:#sty_type_rte_tree#:#RTE Tree Section
 content#:#page_does_not_exist#:#We are sorry, but this page does not exist.
 rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled
 rbac#:#precondition_not_obligatory_alt#:#Precondition is optional
-rbac#:#active_preconditions#:#Active Preconditions
+rbac#:#active_preconditions#:#Preconditions
 rbac#:#precondition_obligatory#:#Obligatory
 rbac#:#precondition_obligatory_info#:#Obligatory preconditions must be fulfilled, for having access.
 trac#:#trac_status_changed#:#Last Status Change
@@ -12269,3 +12269,12 @@ rbac#:#rbac_copy_finished#:#Finished copying.
 certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise
 survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")
 survey#:#survey_sure_delete_questions#:#Are you sure that you want to delete the following questions or headings?
+rbac#:#rbac_precondition_source#:#Condition Trigger
+rbac#:#rbac_precondition_target#:#Condition limits access to
+rbac#:#rbac_precondition_mode#:#Mode
+rbac#:#rbac_precondition_mode_all#:#All Preconditions
+rbac#:#rbac_precondition_mode_all_info#:#All preconditions need to be fulfilled to give access.
+rbac#:#rbac_precondition_mode_subset#:#Subset of Preconditions
+rbac#:#rbac_precondition_mode_subset_info#:#A subset of preconditions need to be fulfilled to give access. Some preconditions may still be set as obligatory.
+rbac#:#rbac_precondition_save_obligatory#:#Save Obligatory
+rbac#:#rbac_precondition_minimum_optional#:#At least 2 preconditions have to remain optional.
