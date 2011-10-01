@@ -355,7 +355,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 					unset($result["status"][$status_code]);
 				}
 			}
-			$data["set"][$idx]["status"] = $this->getItemsPercentages($result["status"], $users_no, $status_map);
+			$data["set"][$idx]["status"] = $this->getItemsPercentagesStatus($result["status"], $users_no, $status_map);
 
 			if(!$this->isPercentageAvailable($result["obj_id"]))
 			{
@@ -416,7 +416,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 					$perc = round($count/$overall*100);
 					$result[] = array(
 						"caption" => $caption,
-						"absolute" => $count." ".($count > 1 ? $lng->txt("users") : $lng->txt("user")),
+						"absolute" => $count, // ." ".($count > 1 ? $lng->txt("users") : $lng->txt("user")),
 						"percentage" => $perc
 						);
 				}
@@ -432,12 +432,43 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				$perc = round($others_sum/$overall*100);
 				$result[] = array(
 					"caption" => $otherss_counter."  ".$lng->txt("trac_others"),
-					"absolute" => $others_sum." ".($others_sum > 1 ? $lng->txt("users") : $lng->txt("user")),
+					"absolute" => $others_sum, // ." ".($others_sum > 1 ? $lng->txt("users") : $lng->txt("user")),
 					"percentage" => $perc
 					);
 			}
 		}
 
+		return $result;
+	}
+	
+	/**
+	 * Render status data as needed for summary list (based on grouped values)
+	 *
+	 * @param	array	$data		rows data
+	 * @param	int		$overall	overall number of entries
+	 * @param	array	$value_map	labels for values
+	 * @return	array
+	 */
+	protected function getItemsPercentagesStatus(array $data = NULL, $overall, array $value_map = NULL)
+	{
+		global $lng;
+
+		$result = array();
+		foreach($value_map as $id => $caption)
+		{
+			$count = 0;
+			if(isset($data[$id]))
+			{
+				$count = $data[$id];
+			}
+			$perc = round($count/$overall*100);
+			
+			$result[] = array(
+				"caption" => $caption,
+				"absolute" => $count,
+				"percentage" => $perc
+				);
+		}
 
 		return $result;
 	}
@@ -644,18 +675,35 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			}
 			else
 			{
-				$worksheet->write($a_row, $cnt, $label." #1");
-				$worksheet->write($a_row, ++$cnt, $label." #1");
-				$worksheet->write($a_row, ++$cnt, $label." #1 %");
-				$worksheet->write($a_row, ++$cnt, $label." #2");
-				$worksheet->write($a_row, ++$cnt, $label." #2");
-				$worksheet->write($a_row, ++$cnt, $label." #2 %");
-				$worksheet->write($a_row, ++$cnt, $label." #3");
-				$worksheet->write($a_row, ++$cnt, $label." #3");
-				$worksheet->write($a_row, ++$cnt, $label." #3 %");
-				$worksheet->write($a_row, ++$cnt, $label." ".$this->lng->txt("trac_others"));
-				$worksheet->write($a_row, ++$cnt, $label." ".$this->lng->txt("trac_others"));
-				$worksheet->write($a_row, ++$cnt, $label." ".$this->lng->txt("trac_others")." %");
+				if($c != "status")
+				{
+					$worksheet->write($a_row, $cnt, $label." #1");
+					$worksheet->write($a_row, ++$cnt, $label." #1");
+					$worksheet->write($a_row, ++$cnt, $label." #1 %");
+					$worksheet->write($a_row, ++$cnt, $label." #2");
+					$worksheet->write($a_row, ++$cnt, $label." #2");
+					$worksheet->write($a_row, ++$cnt, $label." #2 %");
+					$worksheet->write($a_row, ++$cnt, $label." #3");
+					$worksheet->write($a_row, ++$cnt, $label." #3");
+					$worksheet->write($a_row, ++$cnt, $label." #3 %");
+					$worksheet->write($a_row, ++$cnt, $label." ".$this->lng->txt("trac_others"));
+					$worksheet->write($a_row, ++$cnt, $label." ".$this->lng->txt("trac_others"));
+					$worksheet->write($a_row, ++$cnt, $label." ".$this->lng->txt("trac_others")." %");
+				}
+				else
+				{
+					// build status to image map
+					include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+					include_once("./Services/Tracking/classes/class.ilLPStatus.php");			
+					$valid_status = array(LP_STATUS_NOT_ATTEMPTED_NUM, LP_STATUS_IN_PROGRESS_NUM, LP_STATUS_COMPLETED_NUM, LP_STATUS_FAILED_NUM);			
+					$cnt--;
+					foreach($valid_status as $status)
+					{
+						$text = ilLearningProgressBaseGUI::_getStatusText($status);
+						$worksheet->write($a_row, ++$cnt, $text);
+						$worksheet->write($a_row, ++$cnt, $text." %");
+					}
+				}
 				$cnt++;
 			}
 		}
@@ -680,15 +728,18 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				{
 					if($c == "status")
 					{
-						preg_match("/alt=\"([^\"]+)\"/", $value["caption"], $res);
-						$value["caption"] = $res[1];
+						$worksheet->write($a_row, $cnt, (int)$value["absolute"]);
+						$worksheet->write($a_row, ++$cnt, $value["percentage"]);
 					}
-					$worksheet->write($a_row, $cnt, $value["caption"]);
-					$worksheet->write($a_row, ++$cnt, (int)$value["absolute"]);
-					$worksheet->write($a_row, ++$cnt, $value["percentage"]);
+					else
+					{
+						$worksheet->write($a_row, $cnt, $value["caption"]);
+						$worksheet->write($a_row, ++$cnt, (int)$value["absolute"]);
+						$worksheet->write($a_row, ++$cnt, $value["percentage"]);
+					}
 					$cnt++;
 				}
-				if(sizeof($a_set[$c]) < 4)
+				if(sizeof($a_set[$c]) < 4 && $c != "status")
 				{
 					for($loop = 4; $loop > sizeof($a_set[$c]); $loop--)
 					{
@@ -719,18 +770,34 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			}
 			else
 			{
-				$a_csv->addColumn($label." #1");
-				$a_csv->addColumn($label." #1");
-				$a_csv->addColumn($label." #1 %");
-				$a_csv->addColumn($label." #2");
-				$a_csv->addColumn($label." #2");
-				$a_csv->addColumn($label." #2 %");
-				$a_csv->addColumn($label." #3");
-				$a_csv->addColumn($label." #3");
-				$a_csv->addColumn($label." #3 %");
-				$a_csv->addColumn($label." ".$this->lng->txt("trac_others"));
-				$a_csv->addColumn($label." ".$this->lng->txt("trac_others"));
-				$a_csv->addColumn($label." ".$this->lng->txt("trac_others")." %");
+				if($c != "status")
+				{
+					$a_csv->addColumn($label." #1");
+					$a_csv->addColumn($label." #1");
+					$a_csv->addColumn($label." #1 %");
+					$a_csv->addColumn($label." #2");
+					$a_csv->addColumn($label." #2");
+					$a_csv->addColumn($label." #2 %");
+					$a_csv->addColumn($label." #3");
+					$a_csv->addColumn($label." #3");
+					$a_csv->addColumn($label." #3 %");
+					$a_csv->addColumn($label." ".$this->lng->txt("trac_others"));
+					$a_csv->addColumn($label." ".$this->lng->txt("trac_others"));
+					$a_csv->addColumn($label." ".$this->lng->txt("trac_others")." %");
+				}
+				else
+				{
+					// build status to image map
+					include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+					include_once("./Services/Tracking/classes/class.ilLPStatus.php");			
+					$valid_status = array(LP_STATUS_NOT_ATTEMPTED_NUM, LP_STATUS_IN_PROGRESS_NUM, LP_STATUS_COMPLETED_NUM, LP_STATUS_FAILED_NUM);			
+					foreach($valid_status as $status)
+					{
+						$text = ilLearningProgressBaseGUI::_getStatusText($status);
+						$a_csv->addColumn($text);
+						$a_csv->addColumn($text." %");
+					}
+				}
 			}
 		}
 
@@ -752,16 +819,14 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			{
 				foreach($a_set[$c] as $idx => $value)
 				{
-					if($c == "status")
+					if($c != "status")
 					{
-						preg_match("/alt=\"([^\"]+)\"/", $value["caption"], $res);
-						$value["caption"] = $res[1];
+						$a_csv->addColumn($value["caption"]);
 					}
-					$a_csv->addColumn($value["caption"]);
 					$a_csv->addColumn((int)$value["absolute"]);
 					$a_csv->addColumn($value["percentage"]);
 				}
-				if(sizeof($a_set[$c]) < 4)
+				if(sizeof($a_set[$c]) < 4 && $c != "status")
 				{
 					for($loop = 4; $loop > sizeof($a_set[$c]); $loop--)
 					{
