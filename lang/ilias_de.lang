@@ -12269,3 +12269,4 @@ rbac#:#rbac_not_change_existing_objects#:#Vorhandene Objekte NICHT anpassen
 rbac#:#rbac_copy_role#:#Rolle kopieren
 rbac#:#rbac_copy_finished#:#Die Rechte wurden auf die ausgewählten Rollen übertragen.
 survey#:#survey_question_editor_settings_template#:#Listenansicht (im Reiter "Fragen")
+survey#:#survey_sure_delete_questions#:#Wollen Sie wirklich die folgenden Fragen bzw. Überschriften löschen?
