@@ -82,6 +82,33 @@ ilObject = {
 		{
 			ilUtil.ajaxReplace(this.url_redraw_li + "&child_ref_id=" + ref_id, "lg_div_" + ref_id);
 		}
+	},
+	
+	togglePreconditions: function(id) {
+		var li = document.getElementById("il_list_item_precondition_obl_" + id);
+		if(li != null)
+		{
+			if(li.style.display == "none")
+			{
+				li.style.display = "";
+			}
+			else
+			{
+				li.style.display = "none";
+			}
+		}
+		li = document.getElementById("il_list_item_precondition_opt_" + id);
+		if(li != null)
+		{
+			if(li.style.display == "none")
+			{
+				li.style.display = "";
+			}
+			else
+			{
+				li.style.display = "none";
+			}
+		}
 	}
 }
 
