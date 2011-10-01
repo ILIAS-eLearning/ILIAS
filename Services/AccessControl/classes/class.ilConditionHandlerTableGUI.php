@@ -12,14 +12,18 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
 */
 class ilConditionHandlerTableGUI extends ilTable2GUI
 {
-
+	protected $enable_editing;
+	
 	/**
 	 * Constructor
 	 * @param ilObjectGUI $a_parent_obj
 	 * @param string $a_parent_cmd
+	 * @param bool $a_enable_editing
 	 */
-	public function __construct($a_parent_obj,$a_parent_cmd)
+	public function __construct($a_parent_obj,$a_parent_cmd,$a_enable_editing = false)
 	{
+		$this->enable_editing = $a_enable_editing;
+		
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 
 		$this->initTable();
@@ -42,13 +46,26 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('COND_ID', $a_row['id']);
 		$this->tpl->setVariable('OBJ_CONDITION', $a_row['condition']);
 
-		$this->tpl->setVariable('OBL_SRC', ilUtil::getImagePath($a_row['obligatory'] ? 'icon_ok.gif' : 'icon_not_ok.gif'));
-		$this->tpl->setVariable(
-			'OBL_ALT',
-			$this->lng->txt($a_row['obligatory'] ?
-				'precondition_obligatory_alt' :
-				'precondition_not_obligatory_alt')
-		);
+		if(!$this->enable_editing)
+		{
+			$this->tpl->setCurrentBlock("obligatory_static");
+			$this->tpl->setVariable('OBL_SRC', ilUtil::getImagePath($a_row['obligatory'] ? 'icon_ok.gif' : 'icon_not_ok.gif'));
+			$this->tpl->setVariable(
+				'OBL_ALT',
+				$this->lng->txt($a_row['obligatory'] ?
+					'precondition_obligatory_alt' :
+					'precondition_not_obligatory_alt')
+			);
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("obligatory_edit");
+			$this->tpl->setVariable('OBL_ID', $a_row['id']);
+			$this->tpl->setVariable('OBL_STATUS', $a_row['obligatory'] ? ' checked="checked"' : '');
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$ilCtrl->setParameterByClass(get_class($this->getParentObject()),'condition_id',$a_row['id']);
 		$this->tpl->setVariable('EDIT_LINK',$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'edit'));
 		$this->tpl->setVariable('TXT_EDIT', $this->lng->txt('edit'));
@@ -93,7 +110,7 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 		$this->setTitle($this->lng->txt('active_preconditions'));
 
 		$this->addColumn('','','1');
-		$this->addColumn($this->lng->txt('title'),'title','66%');
+		$this->addColumn($this->lng->txt('rbac_precondition_source'),'title','66%');
 		$this->addColumn($this->lng->txt('condition'), 'condition');
 		$this->addColumn($this->lng->txt('precondition_obligatory'),'obligatory');
 		$this->addColumn($this->lng->txt('actions'));
@@ -103,7 +120,11 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject(),$this->getParentCmd()));
 		$this->addMultiCommand('delete', $this->lng->txt('delete'));
-
+		
+		if($this->enable_editing)
+		{
+			$this->addCommandButton("saveObligatoryList", $this->lng->txt("rbac_precondition_save_obligatory"));
+		}
 	}
 
 	

@@ -10989,7 +10989,7 @@ auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiz
 content#:#page_does_not_exist#:#Leider existiert diese Seite nicht (mehr).
 rbac#:#precondition_obligatory_alt#:#Die Vorbedingung muss erfüllt werden
 rbac#:#precondition_not_obligatory_alt#:#Die Vorbedingung ist optional
-rbac#:#active_preconditions#:#Aktive Vorbedingungen
+rbac#:#active_preconditions#:#Vorbedingungen
 rbac#:#precondition_obligatory#:#Obligatorisch
 rbac#:#precondition_obligatory_info#:#Obligatorische Vorbedingen müssen erfüllt werden, um Zugriff zu erlangen.
 trac#:#trac_status_changed#:#Letzte Statusänderung
@@ -12270,3 +12270,12 @@ rbac#:#rbac_copy_role#:#Rolle kopieren
 rbac#:#rbac_copy_finished#:#Die Rechte wurden auf die ausgewählten Rollen übertragen.
 survey#:#survey_question_editor_settings_template#:#Listenansicht (im Reiter "Fragen")
 survey#:#survey_sure_delete_questions#:#Wollen Sie wirklich die folgenden Fragen bzw. Überschriften löschen?
+rbac#:#rbac_precondition_source#:#Vorbedingung durch
+rbac#:#rbac_precondition_target#:#Vorbedingung für Zugriff auf
+rbac#:#rbac_precondition_mode#:#Modus
+rbac#:#rbac_precondition_mode_all#:#Alle Vorbedingungen
+rbac#:#rbac_precondition_mode_all_info#:#Alle Vorbedingungen müssen für einen Zugriff erfüllt werden.
+rbac#:#rbac_precondition_mode_subset#:#Untermenge der Vorbedingungen
+rbac#:#rbac_precondition_mode_subset_info#:#Eine Untermenge der Vorbedingungen müssen für einen Zugriff erfüllt werden. Einige Vorbedingungen können trotzdem verpflichtend sein.
+rbac#:#rbac_precondition_save_obligatory#:#Verpflichtend speichern
+rbac#:#rbac_precondition_minimum_optional#:#Es müssen mindestens 2 Vorbedingungen optional verbleiben.

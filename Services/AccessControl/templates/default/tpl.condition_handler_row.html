@@ -11,7 +11,12 @@
 		{OBJ_CONDITION}
 	</td>
 	<td class="std" valign="top" style="text-align: left">
+		<!-- BEGIN obligatory_static -->
 		<img src="{OBL_SRC}" title="{OBL_ALT}" alt="{OBL_ALT}" />
+		<!-- END obligatory_static -->
+		<!-- BEGIN obligatory_edit -->
+		<input type="checkbox" name="obl[]" value="{OBL_ID}"{OBL_STATUS} />
+		<!-- END obligatory_edit -->
 	</td>
 	<td class="std" valign="top" style="text-align: left">
 		<a class="il_ContainerItemCommand" href="{EDIT_LINK}">{TXT_EDIT}</a>
