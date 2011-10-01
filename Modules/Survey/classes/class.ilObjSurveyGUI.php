@@ -908,65 +908,47 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function removeQuestionsForm($checked_questionblocks, $checked_questions, $checked_headings)
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_remove_questions.html", "Modules/Survey");
-		$colors = array("tblrow1", "tblrow2");
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText($this->lng->txt("survey_sure_delete_questions"));
+
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "confirmRemoveQuestions"));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelRemoveQuestions");
+		$cgui->setConfirm($this->lng->txt("confirm"), "confirmRemoveQuestions");
+
+		
 		$counter = 0;
 		$surveyquestions =& $this->object->getSurveyQuestions();
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		foreach ($surveyquestions as $question_id => $data)
 		{
-			if (in_array($data["question_id"], $checked_questions) or (in_array($data["questionblock_id"], $checked_questionblocks)))
+			if (in_array($data["question_id"], $checked_questions))
 			{
-				$this->tpl->setCurrentBlock("row");
-				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-				$this->tpl->setVariable("TEXT_TITLE", $data["title"]);
-				$this->tpl->setVariable("TEXT_DESCRIPTION", $data["description"]);
-				$this->tpl->setVariable("TEXT_TYPE", SurveyQuestion::_getQuestionTypeName($data["type_tag"]));
-				$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $data["questionblock_title"]);
-				$this->tpl->parseCurrentBlock();
-				$counter++;
+				$type = SurveyQuestion::_getQuestionTypeName($data["type_tag"]);
+				
+				$cgui->addItem("id_".$data["question_id"], $data["question_id"], 
+					$type.": ".$data["title"]);
+			}
+			else if((in_array($data["questionblock_id"], $checked_questionblocks)))
+			{
+				$type = SurveyQuestion::_getQuestionTypeName($data["type_tag"]);
+				
+				$cgui->addItem("id_qb_".$data["questionblock_id"], $data["questionblock_id"], 
+					$data["questionblock_title"]." - ".$type.": ".$data["title"]);
+				
+				/*
+				$data["description"]
+				;
+				*/
 			}
 			else if (in_array($data["question_id"], $checked_headings))
 			{
-				$this->tpl->setCurrentBlock("row");
-				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-				$this->tpl->setVariable("TEXT_TITLE", $data["heading"]);
-				$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("heading"));
-				$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $data["questionblock_title"]);
-				$this->tpl->parseCurrentBlock();
-				$counter++;
+				$cgui->addItem("id_tb_".$data["question_id"], $data["question_id"], 
+					$data["heading"]);				
 			}
 		}
-		foreach ($checked_questions as $id)
-		{
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id_".$id);
-			$this->tpl->setVariable("HIDDEN_VALUE", $id);
-			$this->tpl->parseCurrentBlock();
-		}
-		foreach ($checked_questionblocks as $id)
-		{
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id_qb_".$id);
-			$this->tpl->setVariable("HIDDEN_VALUE", $id);
-			$this->tpl->parseCurrentBlock();
-		}
-		foreach ($checked_headings as $id)
-		{
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id_tb_".$id);
-			$this->tpl->setVariable("HIDDEN_VALUE", $id);
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
-		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
-		$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $this->lng->txt("questionblock"));
-		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "confirmRemoveQuestions"));
-		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setContent($cgui->getHTML());
 	}
 
 
@@ -983,48 +965,54 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$questionblock = $this->object->getQuestionblock($questionblock_id);
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_define_questionblock.html", "Modules/Survey");
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "saveDefineQuestionblock"));
+		$form->setTableWidth("100%");
+		$form->setId("survey_questionblock");
+		$form->setTitle($this->lng->txt("define_questionblock"));
+		
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setRequired(true);
+		if ($questionblock_id)
+		{
+			$title->setValue($questionblock["title"]);
+		}
+		$form->addItem($title);
+		
+		$toggle_blocktitle = new ilCheckboxInputGUI($this->lng->txt("survey_show_blocktitle"), "show_blocktitle");
+		$toggle_blocktitle->setInfo($this->lng->txt("survey_show_blocktitle_description"));
+		if (($questionblock["show_questiontext"]) || (strlen($questionblock_id) == 0))
+		{
+			$toggle_blocktitle->setChecked(true);
+		}	
+		$form->addItem($toggle_blocktitle);
+		
+		$toggle_questiontitle = new ilCheckboxInputGUI($this->lng->txt("show_questiontext"), "show_questiontext");
+		$toggle_questiontitle->setInfo($this->lng->txt("show_questiontext_description"));
+		$form->addItem($toggle_questiontitle);
+		
+		$form->addCommandButton("saveDefineQuestionblock", $this->lng->txt("save"));
+		$form->addCommandButton("cancelDefineQuestionblock", $this->lng->txt("cancel"));
+		
 		if ($question_ids)
 		{
 			foreach ($question_ids as $q_id)
 			{
-				$this->tpl->setCurrentBlock("hidden");
-				$this->tpl->setVariable("HIDDEN_NAME", "qids[]");
-				$this->tpl->setVariable("HIDDEN_VALUE", $q_id);
-				$this->tpl->parseCurrentBlock();
+				$hidden = new ilHiddenInputGUI("qids[]");
+				$hidden->setValue($q_id);
+				$form->addItem($hidden);
 			}
 		}
 		if ($questionblock_id)
 		{
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "questionblock_id");
-			$this->tpl->setVariable("HIDDEN_VALUE", $questionblock_id);
-			$this->tpl->parseCurrentBlock();
+			$hidden = new ilHiddenInputGUI("questionblock_id");
+			$hidden->setValue($questionblock_id);
+			$form->addItem($hidden);
 		}
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		if ($questionblock_id)
-		{
-			$this->tpl->setVariable("VALUE_TITLE", $questionblock["title"]);
-		}
-		$this->tpl->setVariable("TXT_QUESTIONTEXT_DESCRIPTION", $this->lng->txt("show_questiontext_description"));
-		$this->tpl->setVariable("TXT_QUESTIONTEXT", $this->lng->txt("show_questiontext"));
-		if (($questionblock["show_questiontext"]) || (strlen($questionblock_id) == 0))
-		{
-			$this->tpl->setVariable("CHECKED_QUESTIONTEXT", " checked=\"checked\"");
-		}		
-		$this->tpl->setVariable("TXT_BLOCKTITLE_DESCRIPTION", $this->lng->txt("survey_show_blocktitle_description"));
-		$this->tpl->setVariable("TXT_BLOCKTITLE", $this->lng->txt("survey_show_blocktitle"));
-		if (($questionblock["show_blocktitle"]) || (strlen($questionblock_id) == 0))
-		{
-			$this->tpl->setVariable("CHECKED_BLOCKTITLE", " checked=\"checked\"");
-		}
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("HEADING_QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
-		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "saveDefineQuestionblock"));
-		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setContent($form->getHTML());
 	}
 
 /**
@@ -1500,6 +1488,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function defineQuestionblockObject()
 	{
 		$items = $this->gatherSelectedTableItems(false, true, false, false);
+		if(sizeof($_POST["qids"]))
+		{
+			$items["questions"] = $_POST["qids"];
+		}
 		if (count($items["questions"]) < 2)
 		{
 			ilUtil::sendInfo($this->lng->txt("qpl_define_questionblock_select_missing"), true);

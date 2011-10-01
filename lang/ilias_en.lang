@@ -12268,3 +12268,4 @@ rbac#:#rbac_copy_role#:#Copy Role
 rbac#:#rbac_copy_finished#:#Finished copying.
 certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise
 survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")
+survey#:#survey_sure_delete_questions#:#Are you sure that you want to delete the following questions or headings?
