@@ -163,6 +163,8 @@ class ilObjectDefinition extends ilSaxParser
 					"group" => null,
 					"system" => "0",
 					"default_pos" => "2000",
+					'repository' => '1',
+					'workspace'	=> '0',
 					"sideblock" => "0");
 				$this->obj_data[$rec["id"]]["subobjects"] = array();
 
@@ -552,7 +554,6 @@ class ilObjectDefinition extends ilSaxParser
 				$recursivesubs[$a_obj_type]['pos'] = -1;
 			}
 		}
-		
 		return ilUtil::sortArray($recursivesubs, "pos", ASC, true, true);
 	}
 	
