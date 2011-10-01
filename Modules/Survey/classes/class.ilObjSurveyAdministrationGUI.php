@@ -350,7 +350,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		include_once("./Services/Administration/classes/class.ilSettingsTemplateConfig.php");
 		$config = new ilSettingsTemplateConfig("svy");
 
-		$config->addHidableTab("survey_question_editor", $lng->txt("survey_question_editor"));
+		$config->addHidableTab("survey_question_editor", $lng->txt("survey_question_editor_settings_template"));
 		$config->addHidableTab("constraints", $lng->txt("constraints"));
 		$config->addHidableTab("invitation", $lng->txt("invitation"));
 		$config->addHidableTab("meta_data", $lng->txt("meta_data"));
