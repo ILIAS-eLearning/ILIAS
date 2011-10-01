@@ -469,12 +469,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$pool_usage->setValue(1);
 		$pool_usage->setChecked($this->object->getPoolUsage());
 		$form->addItem($pool_usage);
-
 		
-		// access properties
-		$acc = new ilFormSectionHeaderGUI();
-		$acc->setTitle($this->lng->txt("access"));
-		$form->addItem($acc);
+		if(!$template_settings["anonymization_options"]["hide"] ||
+			!$template_settings["enabled_start_date"]["hide"] ||
+			!$template_settings["enabled_end_date"]["hide"])
+		{
+			// access properties
+			$acc = new ilFormSectionHeaderGUI();
+			$acc->setTitle($this->lng->txt("access"));
+			$form->addItem($acc);
+		}
 		
 		// anonymization
 		$anonymization_options = new ilRadioGroupInputGUI($this->lng->txt("survey_auth_mode"), "anonymization_options");
