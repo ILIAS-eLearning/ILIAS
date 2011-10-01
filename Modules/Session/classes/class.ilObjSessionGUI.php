@@ -817,8 +817,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			ilUtil::sendFailure('No course object found. Aborting');
 			return true;
 		}
+		
+		$materials = array();
 		$nodes = $tree->getSubTree($tree->getNodeData($this->course_ref_id));
-		$counter = 1;
 		foreach($nodes as $node)
 		{
 			// No side blocks here
@@ -831,10 +832,19 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			{
 				continue;
 			}
-			if($counter++ == 1)
-			{
-				continue;
-			}
+			
+			$node["sorthash"] = (int)(!in_array($node['ref_id'],$items)).$node["title"];
+			$materials[] = $node;
+		}
+		
+		
+		$materials = ilUtil::sortArray($materials, "sorthash", "ASC");
+		
+		$counter = 1;
+		foreach($materials as $node)
+		{
+			$counter++;
+			
 			$this->tpl->setCurrentBlock("material_row");
 			
 			$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$node['type'].'_s.gif'));
