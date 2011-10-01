@@ -9934,7 +9934,7 @@ survey#:#uploaded_material#:#Uploaded Material
 survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!
 survey#:#upper_limit#:#Upper Limit
 survey#:#use_anonymous_id_desc#:#If checked, the user name in anonymized surveys will be shown as the survey code, otherwise the text "Anonymous" will be shown.
-survey#:#use_anonymous_id#:#Show survey code
+survey#:#use_anonymous_id#:#Show Survey Code
 survey#:#use_browser_print_function#:#Please use the print function of your web browser.
 survey#:#use_google_chart_api_desc#:#If checked, the charts in the cumulated results details of the survey statistics are drawn using the <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>. Please note that a permanent internet connection is required for the Google Chart API to work.
 survey#:#use_google_chart_api#:#Use Google Chart API
@@ -11156,7 +11156,7 @@ survey#:#survey_template_reset#:#The template has been removed.
 survey#:#survey_introduction_info#:#This message appears at the beginning of the survey.
 survey#:#survey_auth_mode#:#Authentication Mode
 survey#:#survey_question_pool#:#Question Pool
-survey#:#survey_question_pool_usage#:#Choose Pool when creating questions
+survey#:#survey_question_pool_usage#:#Choose Pool When Creating Questions
 survey#:#survey_pool_selection#:#Pool Selection
 survey#:#survey_no_pool#:#Do not use question pool
 survey#:#survey_new_pool#:#Create new question pool
