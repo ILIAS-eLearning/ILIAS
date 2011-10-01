@@ -74,8 +74,11 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		$item_list_gui->setContainerObject($this->parent_obj);
 		$item_list_gui->setSearchFragment($this->presenter->lookupContent($obj_id,0));
 		$item_list_gui->setSeparateCommands(true);
+		
 		$this->presenter->appendAdditionalInformation($item_list_gui,$ref_id,$obj_id,$type);
 		
+		$this->tpl->setVariable("ACTION_HTML", $item_list_gui->getCommandsHTML());
+
 		if($html = $item_list_gui->getListItemHTML($ref_id,$obj_id,$title,$description))
 		{				
 			$item_html[$ref_id]['html'] = $html;
@@ -99,7 +102,6 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		}
 
 		$this->tpl->setVariable("ITEM_HTML", $html);
-		$this->tpl->setVariable("ACTION_HTML", $item_list_gui->getCommandsHTML());
 		$this->tpl->setVariable("TYPE_IMG", ilUtil::img(ilUtil::getImagePath("icon_$type.gif"),
 			$lng->txt("icon")." ".$lng->txt("obj_".$type)));
 	}
