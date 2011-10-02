@@ -74,11 +74,30 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
 		
 		$filter = array();
 		
+		include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
+		$all_types = ilObjQuestionPool::_getSelfAssessmentQuestionTypes();
+		$all_ids = array();
+		foreach ($all_types as $k => $v)
+		{
+			$all_ids[] = $v["question_type_id"];
+		}
+		
+		$questions = array();
 		if ($ilAccess->checkAccess("read", "", $this->pool_ref_id))
 		{
 			$data = $this->pool->getQuestionBrowserData($filter);
-			$this->setData($data);
+			$questions = array();
+			foreach ($data as $d)
+			{
+				// list only self assessment question types
+				if (in_array($d["question_type_fi"], $all_ids))
+				{
+					$questions[] = $d;
+				}
+			}
+
 		}
+		$this->setData($questions);
 	}
 	
 
@@ -88,34 +107,6 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
 	function initFilter()
 	{
 		global $lng, $rbacreview, $ilUser;
-/*
-		// title
-		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-		$ti = new ilTextInputGUI($lng->txt("title"), "title");
-		$ti->setMaxLength(64);
-		$ti->setValidationRegexp('/^[^%]+$/is');
-		$ti->setSize(20);
-		$this->addFilterItem($ti);
-		$ti->readFromSession();
-		$this->filter["title"] = $ti->getValue();
-		
-		// questiontype
-		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
-		$types = ilObjQuestionPool::_getQuestionTypes();
-		$options = array();
-		$options[""] = $lng->txt('filter_all_question_types');
-		foreach ($types as $translation => $row)
-		{
-			$options[$row['type_tag']] = $translation;
-		}
-
-		$si = new ilSelectInputGUI($this->lng->txt("question_type"), "type");
-		$si->setOptions($options);
-		$this->addFilterItem($si);
-		$si->readFromSession();
-		$this->filter["type"] = $si->getValue();
-*/
 	}
 	
 	/**
@@ -137,7 +128,7 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_CMD",
 			$lng->txt("cont_copy_question_into_page"));
 		$this->tpl->parseCurrentBlock();
-		$ilCtrl->setParameter($this->parent_obj, "subCmd", "");
+		$ilCtrl->setParameter($this->parent_obj, "subCmd", "listPoolQuestions");
 		
 		// properties
 		$this->tpl->setVariable("TITLE", $a_set["title"]);

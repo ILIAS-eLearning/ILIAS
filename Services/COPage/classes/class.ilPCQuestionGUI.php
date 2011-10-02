@@ -565,18 +565,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 		$ilCtrl->setParameter($this, "subCmd", "listPoolQuestions");
 		$table_gui = new ilCopySelfAssQuestionTableGUI($this, 'insert',
 			$_SESSION["cont_qst_pool"]);
-/*
-		$arrFilter = array();
-		foreach ($table_gui->getFilterItems() as $item)
-		{
-			if ($item->getValue() !== false)
-			{
-				$arrFilter[$item->getPostVar()] = $item->getValue();
-			}
-		}
-		$data = $this->object->getAvailableQuestions($arrFilter, 1);
-		$table_gui->setData($data);
-*/
+
 		$tpl->setContent($table_gui->getHTML());
 	}
 	
