@@ -185,6 +185,13 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked($lm_set->get("scormdebug_global_activate"));
 		$form->addItem($cb_prop);
 
+		// scormDebugger disableRTECaching
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("scormdebug_disable_cache"),
+			"scormdebug_disable_cache");
+		$cb_prop->setInfo($lng->txt("scormdebug_disable_cache_info"));
+		$cb_prop->setChecked($lm_set->get("scormdebug_disable_cache"));
+		$form->addItem($cb_prop);
+
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));
@@ -212,7 +219,8 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 			ilUtil::stripSlashes($_POST["cont_upload_dir"]));
 		$lm_set->setScormDebug("scormdebug_global_activate",
 			ilUtil::stripSlashes($_POST["scormdebug_global_activate"]));
-			
+		$lm_set->set("scormdebug_disable_cache",
+			ilUtil::stripSlashes($_POST["scormdebug_disable_cache"]));
 		$lic_set = new ilSetting("license");
 		$lic_set->set("license_counter",
 			ilUtil::stripSlashes($_POST["license_counter"]));

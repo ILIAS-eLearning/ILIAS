@@ -1,4 +1,4 @@
-// Build: 2011831112902 
+// Build: 20111004002226 
 
 function ADLAuxiliaryResource()
 {}
@@ -2733,7 +2733,10 @@ move(act,"objective","objectives","objectiveID");move(act,"hideLMSUI","hideLMSUI
 {dat=new Objective();dat.id=l;dat.cmi_node_id=globalAct.cmi_node_id;sharedObjectives[l]=dat;}}
 if(act.objectives[k].primary)
 {act.primaryObjective=act.objectives[k];}}}
-this.config=config;gConfig=config;setInfo('loading');setState('loading');setLocalStrings({'resource_undelivered':'Resource unloaded. Use navigation to load a new one.'});setLocalStrings(this.config.langstrings);setTimeout(onWindowLoad,0);var cam=this.config.cp_data||sendJSONRequest(this.config.cp_url);if(!cam)return alert('Fatal: Could not load content data.');var adlAct=this.config.adlact_data||sendJSONRequest(this.config.adlact_url);if(!adlAct){return alert('Fatal: Could not load ADLActivityTree.');}else{var tree;adlTree=buildADLtree(adlAct,tree);adlTree=setParents(adlTree);var actTree=new SeqActivityTree(this.config.course_id,this.config.learner_id,this.config.scope,adlTree);actTree.setDepths();actTree.setTreeCount();actTree.scanObjectives();actTree.buildActivityMap();msequencer.setActivityTree(actTree);}
+this.config=config;gConfig=config;setInfo('loading');setState('loading');setLocalStrings({'resource_undelivered':'Resource unloaded. Use navigation to load a new one.'});setLocalStrings(this.config.langstrings);setTimeout(onWindowLoad,0);var cam=this.config.cp_data||sendJSONRequest(this.config.cp_url);if(!cam)return alert('Fatal: Could not load content data.');function defaultAct(mActivityID,mTitle,mOrder,mActiveOrder,mChildren,mActiveChildren){return{"_SeqActivity":{"mPreConditionRules":null,"mPostConditionRules":null,"mExitActionRules":null,"mXML":null,"mDepth":0,"mCount":-1,"mLearnerID":"_NULL_","mScopeID":null,"mActivityID":mActivityID,"mResourceID":null,"mStateID":null,"mTitle":mTitle,"mIsVisible":true,"mOrder":mOrder,"mActiveOrder":mActiveOrder,"mSelected":true,"mParent":null,"mIsActive":false,"mIsSuspended":false,"mChildren":mChildren,"mActiveChildren":mChildren,"mDeliveryMode":"normal","mControl_choice":true,"mControl_choiceExit":true,"mControl_flow":false,"mControl_forwardOnly":false,"mConstrainChoice":false,"mPreventActivation":false,"mUseCurObj":true,"mUseCurPro":true,"mMaxAttemptControl":false,"mMaxAttempt":0,"mAttemptAbDurControl":false,"mAttemptAbDur":null,"mAttemptExDurControl":false,"mAttemptExDur":null,"mActivityAbDurControl":false,"mActivityAbDur":null,"mActivityExDurControl":false,"mActivityExDur":null,"mBeginTimeControl":false,"mBeginTime":null,"mEndTimeControl":false,"mEndTime":null,"mAuxResources":null,"mRollupRules":null,"mActiveMeasure":true,"mRequiredForSatisfied":"always","mRequiredForNotSatisfied":"always","mRequiredForCompleted":"always","mRequiredForIncomplete":"always","mObjectives":null,"mObjMaps":null,"mIsObjectiveRolledUp":true,"mObjMeasureWeight":1,"mIsProgressRolledUp":true,"mSelectTiming":"never","mSelectStatus":false,"mSelectCount":0,"mSelection":false,"mRandomTiming":"never","mReorder":false,"mRandomized":false,"mIsTracked":true,"mContentSetsCompletion":false,"mContentSetsObj":false,"mCurTracking":null,"mTracking":null,"mNumAttempt":0,"mNumSCOAttempt":0,"mActivityAbDur_track":null,"mActivityExDur_track":null}};}
+var adlAct={};if(this.config.sequencing_enabled){adlAct=this.config.adlact_data||sendJSONRequest(this.config.adlact_url);}
+else{adlAct=defaultAct(cam.item.id,cam.item.title,-1,-1,[],[]);for(var j=0;j<cam.item.item.length;j++){adlAct._SeqActivity.mChildren[j]=defaultAct(cam.item.item[j].id,cam.item.item[j].title,j,j,null,null);}}
+if(!adlAct){return alert('Fatal: Could not load ADLActivityTree.');}else{var tree;adlTree=buildADLtree(adlAct,tree);adlTree=setParents(adlTree);var actTree=new SeqActivityTree(this.config.course_id,this.config.learner_id,this.config.scope,adlTree);actTree.setDepths();actTree.setTreeCount();actTree.scanObjectives();actTree.buildActivityMap();msequencer.setActivityTree(actTree);}
 var seqs=cam.sequencing?cam.sequencing:[];for(var i=seqs.length;i--;)
 {seq=seqs.pop();seqs[seq.id]=seq;delete seq.foreignId;}
 for(var k in seqs)
@@ -2745,7 +2748,7 @@ delete seq.id;delete seq.sequencingId;}}
 for(k in cam)
 {if(typeof cam[k]!=="object")
 {globalAct[k]=cam[k];}}
-globalAct.cp_node_id=globalAct.foreignId;globalAct.index=activitiesByNo.length;activitiesByNo.push(globalAct);activitiesByCAM[globalAct.foreignId]=globalAct;activities[globalAct.id]=globalAct;globalAct.learner_id=this.config.learner_id;globalAct.learner_name=this.config.learner_name;globalAct.auto_review=this.config.auto_review;camWalk(cam.item,rootAct);load();loadGlobalObj();logActive=this.config.debug;suspendData=sendJSONRequest(this.config.get_suspend_url);var wasSuspended=false;var wasFirstSession;if(suspendData){if(suspendData!=null){wasSuspended=true;}}
+globalAct.cp_node_id=globalAct.foreignId;globalAct.index=activitiesByNo.length;activitiesByNo.push(globalAct);activitiesByCAM[globalAct.foreignId]=globalAct;activities[globalAct.id]=globalAct;globalAct.learner_id=this.config.learner_id;globalAct.learner_name=this.config.learner_name;globalAct.auto_review=this.config.auto_review;camWalk(cam.item,rootAct);load();if(this.config.sequencing_enabled)loadGlobalObj();logActive=this.config.debug;suspendData=null;if(this.config.sequencing_enabled)suspendData=sendJSONRequest(this.config.get_suspend_url);var wasSuspended=false;var wasFirstSession;if(suspendData){if(suspendData!=null){wasSuspended=true;}}
 if(wasSuspended==true){wasSuspended=true;wasFirstSession=false;for(var element in suspendData.mTracking){msequencer.mSeqTree.mActivityMap[element].mTracking=suspendData.mTracking[element];}
 var cur=suspendData.mCurActivity;msequencer.mSeqTree.mCurActivity=null;var first=suspendData.mFirstCandidate;msequencer.mSeqTree.mFirstCandidate=null;msequencer.mSeqTree.mLastLeaf=suspendData.mLastLeaf;var suspendAll=suspendData.mSuspendAll;msequencer.mSeqTree.mSuspendAll=msequencer.mSeqTree.mActivityMap[suspendAll];var valid=suspendData.mValidReq;msequencer.mSeqTree.mValidReq=valid;for(var element in suspendData.root){msequencer[element]=suspendData.root[element];}
 for(var element in suspendData.States){var source=suspendData.States[element];for(var subelement in source){msequencer.mSeqTree.mActivityMap[element][subelement]=source[subelement];}}
@@ -2762,9 +2765,9 @@ function initStatusArray(){for(element in msequencer.mSeqTree.mActivityMap){stat
 function statusHandler(scoID,type,status){statusArray[scoID][type]=status;}
 function pingSession()
 {var r=sendJSONRequest(this.config.ping_url);setTimeout("pingSession()",this.config.session_ping*1000);}
-function loadGlobalObj(){var globalObj=this.config.globalobj_data||sendJSONRequest(this.config.get_gobjective_url);if(globalObj){if(globalObj.satisfied){adl_seq_utilities.satisfied=globalObj.satisfied;}
-if(globalObj.measure){adl_seq_utilities.measure=globalObj.measure;}
-if(globalObj.status){adl_seq_utilities.status=globalObj.status;}}}
+function loadGlobalObj(){var globalObj=this.config.globalobj_data||sendJSONRequest(this.config.get_gobjective_url);if(globalObj){if(typeof globalObj.satisfied!="undefined"){adl_seq_utilities.satisfied=globalObj.satisfied;}
+if(typeof globalObj.measure!="undefined"){adl_seq_utilities.measure=globalObj.measure;}
+if(typeof globalObj.status!="undefined"){adl_seq_utilities.status=globalObj.status;}}}
 function loadSharedData(sco_node_id){var adlData=this.config.adldata_data||sendJSONRequest(this.config.get_adldata_url+"&node_id="+sco_node_id);if(adlData){sharedData=adlData;}}
 function saveSharedData(){var dataOut=new Object();for(i=0;i<pubAPI.adl.data.length;i++){var d=pubAPI.adl.data[i];dataOut[d.id]=d.store;}
 var success=sendJSONRequest(this.config.set_adldata_url+"&node_id="+pubAPI.cmi.cp_node_id,dataOut);if(success!="1"){}}
@@ -2801,7 +2804,7 @@ act=activitiesByCMI[row[remoteMapping.interaction.cmi_node_id]];act.interactions
 for(i=cmi.data.correct_response.length;i--;)
 {row=cmi.data.correct_response[i];dat=new CorrectResponse();for(j=remoteMapping.correct_response.length;j--;)
 {setItemValue(j,dat,row,remoteMapping.correct_response[j]);}
-act=interactions[row[remoteMapping.correct_response.cmi_interaction_id]];act.correct_response[dat.cmi_correct_response_id]=dat;}
+act=interactions[row[remoteMapping.correct_response.cmi_interaction_id]];act.correct_responses[dat.cmi_correct_response_id]=dat;}
 for(i=0;i<cmi.data.objective.length;i++)
 {row=cmi.data.objective[i];id=row[remoteMapping.objective.id];cmi_interaction_id=row[remoteMapping.objective.cmi_interaction_id];cmi_node_id=row[remoteMapping.objective.cmi_node_id];if(cmi_interaction_id===null||cmi_interaction_id==0)
 {act=activitiesByCMI[cmi_node_id];if(act&&act.objectives[id])
@@ -2811,12 +2814,12 @@ else if(act)
 else if(sharedObjectives[id])
 {dat=sharedObjectives[id];}
 for(j=remoteMapping.objective.length;j--;)
-{if(typeof dat!="undefined"){dat[remoteMapping.objective[j]]=row[j];}}}
-else
-{interactions[cmi_interaction_id].objectives[id]={id:id};}
+{if(typeof dat!="undefined"){dat[remoteMapping.objective[j]]=row[j];}}
 dat=new Objective();for(j=remoteMapping.objective.length;j--;)
 {setItemValue(j,dat,row,remoteMapping.objective[j]);}
-act=activitiesByCMI[row[remoteMapping.objective.cmi_node_id]];act.objectives[dat.id]=dat;}}
+act=activitiesByCMI[row[remoteMapping.objective.cmi_node_id]];act.objectives[dat.id]=dat;}
+else
+{interactions[cmi_interaction_id].objectives[id]={id:id};}}}
 function save()
 {function walk(collection,type)
 {var schem=remoteMapping[type];var res=result[type];for(var k in collection)
@@ -2827,10 +2830,11 @@ if(type=="objective"){if(item.id==null){continue;}}
 var data=[];for(var i=0,ni=schem.length;i<ni;i++)
 {data.push(item[schem[i]]);}
 res.push(data);for(z in collection[k])
-{if(z=='interactions'||z=='comments'||z=="objectives"||z=="correct_responses")
+{if((this.config.interactions_storable&&(z=='interactions'||z=="correct_responses"))||(this.config.comments_storable&&z=='comments')||(this.config.objectives_storable&&z=="objectives"))
 {for(y in collection[k][z])
 {var valid=true;if(z=="objectives"){if(collection[k][z][y]['id']==null){valid=false;}}
-if(valid){collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];}}
+if(valid){collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];if(collection[k]['cmi_interaction_id'])collection[k][z][y]['cmi_interaction_id']=collection[k]['cmi_interaction_id'];}
+if(z=="correct_responses")collection[k][z][y]['cmi_interaction_id']=collection[k]['cmi_interaction_id'];}
 walk(collection[k][z],z.substr(0,z.length-1));}}
 if(item.dirty!==2&&type=="node"){continue;}}}
 if(save.timeout)
@@ -2900,7 +2904,7 @@ function onWindowLoad()
 {attachUIEvent(window,'unload',onWindowUnload);attachUIEvent(document,'click',onDocumentClick);setInfo('');setState('playing');attachUIEvent(window,'resize',onWindowResize);onWindowResize();}
 function onWindowUnload()
 {summaryOnUnload=true;onItemUndeliver(true);save_global_objectives();save();}
-function loadData(item){var data=getAPI(item.foreignId);loadSharedData(item.cp_node_id);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var adlcpData=Array();for(ds in sharedData)
+function loadData(item){var data=getAPI(item.foreignId);if(this.config.sequencing_enabled)loadSharedData(item.cp_node_id);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var adlcpData=Array();for(ds in sharedData)
 {var dat=Array();dat["id"]=ds;dat["store"]=sharedData[ds].store;dat["readable"]=sharedData[ds].readSharedData;dat["writeable"]=sharedData[ds].writeSharedData;adlcpData.push(dat);}
 data.adl.data=adlcpData;var choice=validRequests['mChoice'];for(var k in choice){}
 data.cmi.learner_name=globalAct.learner_name;data.cmi.learner_id=globalAct.learner_id;data.cmi.cp_node_id=item.foreignId;data.scoid=item.id;data.cmi.session_time=undefined;data.cmi.completion_threshold=item.completionThreshold;data.cmi.launch_data=item.dataFromLMS;data.cmi.time_limit_action=item.timeLimitAction;data.cmi.max_time_allowed=item.attemptAbsoluteDurationLimit;data.cmi.learner_preference={audio_level:(item.audio_level)?item.audio_level:1,delivery_speed:(item.delivery_speed)?item.delivery_speed:1,language:item.language,audio_captioning:item.audio_captioning};if(item.objectives)
@@ -2999,7 +3003,7 @@ else
 objScoreMin=currentAPI.GetValueIntern("cmi.objectives."+i+".score.min");if(objScoreMin!=""&&objScoreMin!="unknown"&&objScoreMin!=null){msequencer.setAttemptObjMinScore(mlaunch.mActivityID,objID,objScoreMin)}else{msequencer.clearAttemptObjMinScore(mlaunch.mActivityID,objID);}
 objScoreMax=currentAPI.GetValueIntern("cmi.objectives."+i+".score.max");if(objScoreMax!=""&&objScoreMax!="unknown"&&objScoreMax!=null){msequencer.setAttemptObjMaxScore(mlaunch.mActivityID,objID,objScoreMax)}else{msequencer.clearAttemptObjMaxScore(mlaunch.mActivityID,objID);}}}}
 function onItemUndeliver(noControls)
-{if(pubAPI!=null){saveSharedData();}
+{if(pubAPI!=null){if(this.config.sequencing_enabled)saveSharedData();}
 if(noControls!=true){updateNav();updateControls();}
 removeResource(undeliverFinish);}
 function undeliverFinish(){if(currentAPI)
@@ -3008,7 +3012,7 @@ currentAPI=window[Runtime.apiname]=null;if(currentAct)
 {currentAct.accessed=currentTime()/1000;if(!currentAct.dirty)currentAct.dirty=1;}}
 function syncDynObjectives(){var objectives=pubAPI.cmi.objectives;var act=activities[mlaunch.mActivityID].objectives;for(var i=0;i<objectives.length;i++){if(objectives[i].id){var id=objectives[i].id;var obj=objectives[i];if(!act.id){act[id]=new Objective();act[id]['objectiveID']=id;act[id]['id']=id;for(var element in obj){if(element!="id"&&element!="cmi_objective_id"){if(element!="score"){act[id][element]=obj[element];}
 if(element=="score"){for(var subelement in obj[element]){act[id][subelement]=obj[element][subelement];}}}}}}}}
-function save_global_objectives(){if(adl_seq_utilities.measure!=null||adl_seq_utilities.satisfied!=null||adl_seq_utilities.status!=null){result=this.config.gobjective_url?sendJSONRequest(this.config.gobjective_url,this.adl_seq_utilities):{};}}
+function save_global_objectives(){if(this.config.sequencing_enabled){if(adl_seq_utilities.measure!=null||adl_seq_utilities.satisfied!=null||adl_seq_utilities.status!=null){result=this.config.gobjective_url?sendJSONRequest(this.config.gobjective_url,this.adl_seq_utilities):{};}}}
 function onNavigationEnd()
 {removeResource();}
 function onCommit(data)
@@ -3332,7 +3336,7 @@ pubAPI.cmi.completion_status=state;return state;}},completion_status_SetBySco:{t
 pubAPI.cmi.success_status=state;return state;}},suspend_data:{type:CharacterString,max:64000,permission:READWRITE},time_limit_action:{type:TimeLimitAction,permission:READONLY,"default":"continue,no message"},total_time:{type:Interval,permission:READONLY,'default':'PT0H0M0S'},success_status_SetBySco:{type:BooleanType,permission:READWRITE,'default':'false'}}};},'adl':new function(){var READONLY=1;var WRITEONLY=2;var READWRITE=3;var Uri={isValid:function(value,definition,extra){var re_uri=/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/;var re_char=/[\s]/;var re_urn=/^urn:[a-z0-9][-a-z-0-9]{1,31}:.+$/;var m=value.match(re_uri);return Boolean(m&&m[0]&&!re_char.test(m[0])&&m[0].length<=4000&&(m[2]!=="urn"||re_urn.test(m[0])));}};var CharacterString={isValid:function(value,definition,extra){var min=extra.min?extra.min:definition.min;var max=extra.max?extra.max:definition.max;var pattern=extra.pattern?extra.pattern:definition.pattern;if((min&&String(value).length<min)||(max&&String(value).length>max)){extra.error={code:407};return false;}else if(pattern&&!pattern.test(value)){return false;}else{return true;}}};var NavRequest={isValid:function(value,min,max,pattern){return(/^(\{target=[^\}]+\}(choice|jump)|continue|previous|exit|exitAll|abandon|abandonAll|suspendAll|_none_)$/).test(value);}};var NavState={isValid:function(value,min,max,pattern){return(/^(true|false|unknown)$/).test(value);}};var NavTarget={isValid:function(value,min,max,pattern){return(/^(true|false|unknown)$/).test(value);},getValue:function(param,def){var m=String(param).match(/^\{target=([^\}]+)\}$/);if(m&&m[1]){}
 return def['default'];}};this.adl={maxOccur:1,type:Object,permission:READWRITE,children:{nav:{maxOccur:1,type:Object,permission:READWRITE,children:{request:{type:NavRequest,permission:READWRITE,'default':'_none_'},request_valid:{type:Object,permission:READONLY,children:{'continue':{type:NavState,permission:READONLY,'default':'unknown'},'previous':{type:NavState,permission:READONLY,'default':'unknown'},'choice':{type:Function,permission:READONLY,children:{type:NavTarget,permission:READONLY,'default':'unknown'}},'jump':{type:Function,permission:READONLY,children:{type:NavTarget,permission:READONLY,'default':'unknown'}}}}}},data:{type:Array,permission:READWRITE,unique:'id',children:{id:{type:Uri,max:4000,permission:READONLY,writeOnce:true,minOccur:1},store:{type:CharacterString,max:64000,permission:READWRITE,dependsOn:'id',getValueOf:function(tdef,tdat){if(tdat==''||tdat==null||tdat==="undefined"){return{error:403};}
 return tdat;}}}}}};}};Runtime.onTerminate=function(data,msec)
-{var credit=data.cmi.credit==="credit";var normal=!data.cmi.mode||data.cmi.mode==="normal";var suspended=data.cmi.exit==="suspend";var not_attempted=data.cmi.completion_status==="not attempted";var success=(/^(completed|passed|failed)$/).test(data.cmi.success_status,true);var session_time;if(data.cmi.session_time==undefined){var interval=(currentTime()-msec)/1000;var dur=new ADLDuration({iFormat:FORMAT_SECONDS,iValue:interval});session_time=dur.format(FORMAT_SCHEMA);}else{session_time=data.cmi.session_time;}
+{var credit=data.cmi.credit==="credit";var normal=!data.cmi.mode||data.cmi.mode==="normal";var suspended=data.cmi.exit==="suspend";var not_attempted=data.cmi.completion_status==="not attempted";var success=(/^(completed|passed|failed)$/).test(data.cmi.success_status,true);var session_time;if(data.cmi.session_time==undefined||config.time_from_lms==true){var interval=(currentTime()-msec)/1000;var dur=new ADLDuration({iFormat:FORMAT_SECONDS,iValue:interval});session_time=dur.format(FORMAT_SCHEMA);}else{session_time=data.cmi.session_time;}
 if(normal||suspended)
 {data.cmi.session_time=session_time.toString();total_time=addTimes(data.cmi.total_time.toString(),data.cmi.session_time);data.cmi.total_time=total_time.toString();data.cmi.entry="";if(data.cmi.exit==="suspend"){data.cmi.entry="resume";}}
 if(not_attempted)

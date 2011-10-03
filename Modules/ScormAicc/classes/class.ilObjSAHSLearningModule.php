@@ -87,6 +87,11 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setSession(ilUtil::yn2tf($lm_rec["unlimited_session"]));
 			$this->setNoMenu(ilUtil::yn2tf($lm_rec["no_menu"]));
 			$this->setHideNavig(ilUtil::yn2tf($lm_rec["hide_navig"]));
+			$this->setSequencing(ilUtil::yn2tf($lm_rec["sequencing"]));
+			$this->setInteractions(ilUtil::yn2tf($lm_rec["interactions"]));
+			$this->setObjectives(ilUtil::yn2tf($lm_rec["objectives"]));
+			$this->setComments(ilUtil::yn2tf($lm_rec["comments"]));
+			$this->setTime_from_lms(ilUtil::yn2tf($lm_rec["time_from_lms"]));
 			$this->setDebug(ilUtil::yn2tf($lm_rec["debug"]));
 			$this->setDebugPw($lm_rec["debugpw"]);
 			$this->setSequencingExpertMode($lm_rec["seq_exp_mode"]);
@@ -444,7 +449,18 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		$this->hide_navig = $a_hide_navig;
 	}
-	
+
+	/**
+	* BrowserCacheDisabled for SCORM 2004 / ENABLE_JS_DEBUG
+	*/
+	function getCacheDeactivated()
+	{
+		global $ilSetting;
+		$lm_set = new ilSetting("lm");
+		if ($lm_set->get("scormdebug_disable_cache") == "1") return true;
+		return false;
+	}
+
 	/**
 	* debugActivated
 	*/
@@ -455,7 +471,73 @@ class ilObjSAHSLearningModule extends ilObject
 		if ($lm_set->get("scormdebug_global_activate") == "1") return true;
 		return false;
 	}
-	
+
+	/**
+	* sequencing
+	*/
+	function getSequencing()
+	{
+		return $this->sequencing;
+	}
+
+	function setSequencing($a_sequencing)
+	{
+		$this->sequencing = $a_sequencing;
+	}
+
+	/**
+	* interactions
+	*/
+	function getInteractions()
+	{
+		return $this->interactions;
+	}
+
+	function setInteractions($a_interactions)
+	{
+		$this->interactions = $a_interactions;
+	}
+
+	/**
+	* objectives
+	*/
+	function getObjectives()
+	{
+		return $this->objectives;
+	}
+
+	function setObjectives($a_objectives)
+	{
+		$this->objectives = $a_objectives;
+	}
+
+	/**
+	* comments
+	*/
+	function getComments()
+	{
+		return $this->comments;
+	}
+
+	function setComments($a_comments)
+	{
+		$this->comments = $a_comments;
+	}
+
+	/**
+	* time_from_lms
+	*/
+	function getTime_from_lms()
+	{
+		return $this->time_from_lms;
+	}
+
+	function setTime_from_lms($a_time_from_lms)
+	{
+		$this->time_from_lms = $a_time_from_lms;
+	}
+
+
 	/**
 	* debug
 	*/
@@ -625,6 +707,11 @@ class ilObjSAHSLearningModule extends ilObject
 				unlimited_session = %s,
 				no_menu = %s,
 				hide_navig = %s,
+				sequencing = %s,
+				interactions = %s,
+				objectives = %s,
+				comments = %s,
+				time_from_lms = %s,
 				debug = %s,
 				localization = %s,
 				seq_exp_mode = %s,
@@ -647,6 +734,11 @@ class ilObjSAHSLearningModule extends ilObject
 				'text',
 				'integer',
 				'integer',
+				'text',
+				'text',
+				'text',
+				'text',
+				'text',
 				'text',
 				'text',
 				'text',
@@ -676,6 +768,11 @@ class ilObjSAHSLearningModule extends ilObject
 				ilUtil::tf2yn($this->getSession()),
 				ilUtil::tf2yn($this->getNoMenu()),
 				ilUtil::tf2yn($this->getHideNavig()),
+				ilUtil::tf2yn($this->getSequencing()),
+				ilUtil::tf2yn($this->getInteractions()),
+				ilUtil::tf2yn($this->getObjectives()),
+				ilUtil::tf2yn($this->getComments()),
+				ilUtil::tf2yn($this->getTime_from_lms()),
 				ilUtil::tf2yn($this->getDebug()),
 				$this->getLocalization(),
 				$this->getSequencingExpertMode(),
