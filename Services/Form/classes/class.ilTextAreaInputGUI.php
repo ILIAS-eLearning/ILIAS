@@ -41,6 +41,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $removeplugins;
 	protected $buttons;	
 	protected $rtesupport;
+	protected $use_tags_for_rte_only = true;
 	
 	/** 
 	* Array of tinymce buttons which should be disabled
@@ -325,6 +326,26 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
+	 * Set use tags for RTE only (default is true)
+	 *
+	 * @param boolean $a_val use tags for RTE only	
+	 */
+	function setUseTagsForRteOnly($a_val)
+	{
+		$this->use_tags_for_rte_only = $a_val;
+	}
+	
+	/**
+	 * Get use tags for RTE only (default is true)
+	 *
+	 * @return boolean use tags for RTE only
+	 */
+	function getUseTagsForRteOnly()
+	{
+		return $this->use_tags_for_rte_only;
+	}
+	
+	/**
 	* Set value by array
 	*
 	* @param	array	$a_values	value array
@@ -356,7 +377,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 			{
 				$allowed.= "<span>";
 			}
-			$_POST[$this->getPostVar()] = ($this->getUseRte())
+			$_POST[$this->getPostVar()] = ($this->getUseRte() || !$this->getUseTagsForRteOnly())
 				? ilUtil::stripSlashes($_POST[$this->getPostVar()], true, $allowed)
 				: ilUtil::stripSlashes($_POST[$this->getPostVar()]);
 		}

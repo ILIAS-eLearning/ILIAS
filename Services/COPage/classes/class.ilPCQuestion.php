@@ -95,7 +95,7 @@ class ilPCQuestion extends ilPageContent
 	}
 	
 	/**
-	 * 
+	 * Copy question from pool into page
 	 *
 	 * @param
 	 * @return
@@ -103,10 +103,25 @@ class ilPCQuestion extends ilPageContent
 	function copyPoolQuestionIntoPage($a_q_id, $a_hier_id)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		$question = assQuestion::_instanciateQuestion($a_q_id);
 		$duplicate_id = $question->duplicate(false);
 		$duplicate = assQuestion::_instanciateQuestion($duplicate_id);
 		$duplicate->setObjId(0);
+		
+		// we remove everything not supported by the non-tiny self
+		// assessment question editor
+		$q = $duplicate->getQuestion();
+		$tags = assQuestionGUI::getSelfAssessmentTags();
+		$tstr = "";
+		foreach ($tags as $t)
+		{
+			$tstr.="<".$t.">";
+		}
+		$q = ilUtil::secureString($q, true, $tstr);
+		// self assessment uses nl2br, not p
+		$duplicate->setQuestion($q);
+		
 		$duplicate->saveQuestionDataToDb();
 		
 		$this->q_node->set_attribute("QRef", "il__qst_".$duplicate_id);

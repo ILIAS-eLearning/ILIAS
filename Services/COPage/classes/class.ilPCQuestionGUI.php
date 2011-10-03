@@ -552,6 +552,8 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	{
 		global $ilToolbar, $tpl, $ilCtrl, $lng;
 		
+		ilUtil::sendInfo($lng->txt("cont_cp_question_diff_formats_info"));
+		
 		$ilCtrl->setParameter($this, "subCmd", "poolSelection");
 		$ilToolbar->addButton(
 			$lng->txt("cont_select_other_qpool"),
