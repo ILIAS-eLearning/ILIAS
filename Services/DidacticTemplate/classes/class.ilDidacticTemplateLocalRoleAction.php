@@ -99,7 +99,9 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 	 */
 	public function revert()
 	{
-		;
+		// @todo: revert could delete the generated local role. But on the other hand all users 
+		// assigned to this local role would be deassigned. E.g. if course or group membership 
+		// is handled by didactic templates, all members would get lost.
 	}
 
 	/**
