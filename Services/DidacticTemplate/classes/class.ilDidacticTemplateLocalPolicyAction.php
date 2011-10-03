@@ -17,10 +17,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	const TPL_ACTION_SUBTRACT = 4;
 	const TPL_ACTION_UNION = 5;
 
-	const FILTER_SOURCE_TITLE = 1;
-	const FILTER_SOURCE_OBJ_ID = 2;
-
-	const PATTERN_PARENT_TYPE = 'action';
 
 	private $pattern = array();
 	private $filter_type = self::FILTER_SOURCE_TITLE;
@@ -340,34 +336,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		}
 	}
 
-	/**
-	 * Filter roles
-	 * @param ilObject $object
-	 */
-	protected function filterRoles(ilObject $source)
-	{
-		global $rbacreview;
-
-		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateFilterPatternFactory.php';
-		$patterns = ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId(
-			$this->getActionId(),
-			self::PATTERN_PARENT_TYPE
-		);
-
-		$filtered = array();
-		foreach($rbacreview->getParentRoleIds($source->getRefId()) as $role_id => $role)
-		{
-			foreach($patterns as $pattern)
-			{
-				if($pattern->valid(ilObject::_lookupTitle($role_id)))
-				{
-					$GLOBALS['ilLog']->write(__METHOD__.' Role is valid: '. ilObject::_lookupTitle($role_id));
-					$filtered[$role_id] = $role;
-				}
-			}
-		}
-		return $filtered;
-	}
 
 	/**
 	 * Create local policy

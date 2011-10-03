@@ -130,6 +130,47 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 	public function  apply()
 	{
 		$source = $this->initSourceObject();
+		$roles = $this->filterRoles($source);
+
+		// Create local policy for filtered roles
+		foreach($roles as $role_id => $role)
+		{
+			$this->blockRole($role_id, $source);
+		}
+		return true;
+	}
+
+	/**
+	 * Blo k role
+	 * @param int $a_role_id
+	 * @param ilObject $source
+	 */
+	protected function blockRole($a_role_id, $source)
+	{
+		global $rbacadmin, $rbacreview;
+		
+		// Create role folder if it does not exist
+		$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
+		if(!$rolf)
+		{
+			$rolf_obj = $source->createRoleFolder();
+			$rolf = $rolf_obj->getRefId();
+		}
+
+		// Set assign to 'y' only if it is a local role
+		$assign = $rbacreview->isAssignable($a_role_id, $rolf) ? 'y' : 'n';
+
+		// Delete permissions
+		$rbacadmin->revokeSubtreePermissions($source->getRefId(), $a_role_id);
+
+		// Delete template permissions
+		$rbacadmin->deleteSubtreeTemplates($source->getRefId(), $a_role_id);
+
+		$rbacadmin->assignRoleToFolder(
+			$a_role_id,
+			$rolf,
+			$assign
+		);
 		return true;
 	}
 
@@ -138,8 +179,54 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 	 */
 	public function  revert()
 	{
-		;
+		$source = $this->initSourceObject();
+		$roles = $this->filterRoles($source);
+
+		// Create local policy for filtered roles
+		foreach($roles as $role_id => $role)
+		{
+			$this->deleteLocalPolicy($role_id, $source);
+		}
+		return true;
 	}
+
+	/**
+	 * Delete local policy
+	 *
+	 * @param int $a_role_id
+	 * @param ilObject $source
+	 */
+	protected function deleteLocalPolicy($a_role_id, $source)
+	{
+		global $rbacreview, $rbacadmin;
+
+		// Create role folder if it does not exist
+		$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
+		if(!$rolf)
+		{
+			return false;
+		}
+
+		if($rbacreview->getRoleFolderOfRole($a_role_id) == $rolf)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Ignoring local role: '.ilObject::_lookupTitle($a_role_id));
+			return false;
+		}
+
+		$rbacadmin->deleteLocalRole($a_role_id, $rolf);
+
+		// Change existing object
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$role = new ilObjRole($a_role_id);
+		$role->changeExistingObjects(
+			$source->getRefId(),
+			ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
+			array('all')
+		);
+		
+		return true;
+	}
+
 
 	/**
 	 * Get action type

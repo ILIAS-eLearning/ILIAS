@@ -13,6 +13,10 @@ abstract class ilDidacticTemplateAction
 	const TYPE_LOCAL_ROLE = 2;
 	const TYPE_BLOCK_ROLE = 3;
 
+	const FILTER_SOURCE_TITLE = 1;
+	const FILTER_SOURCE_OBJ_ID = 2;
+
+	const PATTERN_PARENT_TYPE = 'action';
 
 	private $action_id = 0;
 	private $tpl_id = 0;
@@ -202,5 +206,33 @@ abstract class ilDidacticTemplateAction
 		return $s;
 	}
 
+	/**
+	 * Filter roles
+	 * @param ilObject $object
+	 */
+	protected function filterRoles(ilObject $source)
+	{
+		global $rbacreview;
+
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateFilterPatternFactory.php';
+		$patterns = ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId(
+			$this->getActionId(),
+			self::PATTERN_PARENT_TYPE
+		);
+
+		$filtered = array();
+		foreach($rbacreview->getParentRoleIds($source->getRefId()) as $role_id => $role)
+		{
+			foreach($patterns as $pattern)
+			{
+				if($pattern->valid(ilObject::_lookupTitle($role_id)))
+				{
+					$GLOBALS['ilLog']->write(__METHOD__.' Role is valid: '. ilObject::_lookupTitle($role_id));
+					$filtered[$role_id] = $role;
+				}
+			}
+		}
+		return $filtered;
+	}
 }
 ?>
