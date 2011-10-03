@@ -466,6 +466,15 @@ class ilSoapFunctions {
 
 		return $sou->sendMail($sid,$to,$cc,$bcc,$sender,$subject,$message,$attach);
 	}
+	
+	public static function distributeMails($sid,$mail_xml)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUtils.php';
+
+		$sou =& new ilSoapUtils();
+		return $sou->distributeMails($sid,$mail_xml);
+		
+	}
 
 	public static function  ilClone($sid,$copy_identifier)
 	{
@@ -799,6 +808,23 @@ class ilSoapFunctions {
 		
 	}
 	
+	/**
+	 * Remove test results of user
+	 *
+	 * @param string $sid
+	 * @param int $ref_id
+	 * @param array user ids
+	 *
+	 * @return bool
+	 */
+	public static function  removeTestResults ($sid, $ref_id, $a_user_ids) 
+	{
+		include_once './webservice/soap/classes/class.ilSoapTestAdministration.php';
+
+		$soa = new ilSoapTestAdministration();
+		return $soa->removeTestResults($sid, $ref_id,$a_user_ids);
+	}
+
 	/**
 	 * return courses for users depending on the status
 	 *

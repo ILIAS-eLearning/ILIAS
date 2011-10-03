@@ -765,6 +765,19 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS sendMail(): Send mime mails according to xml description. Only for internal usage '.
 								'Syntax, parameters may change in future releases');
+
+		$this->server->register('distributeMails',
+								array('sid' => 'xsd:string',
+									  'mail_xml' => 'xsd:string'),
+								array('status' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#sendMail',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS distributeMails(): Distribute ILIAS mails according according to the mail setting of the recipients as '.
+								'ILIAS internal mail or as e-mail.'
+								);
+
 		// Clone functions
 		$this->server->register('ilClone',
 								array('sid' => 'xsd:string','copy_identifier' => 'xsd:int'),
@@ -1130,7 +1143,18 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS getTestResults(): returns XMLResultSet with 
 									 sum only = true: user_id, login, firstname, lastname, matriculation, maximum points, received points
 	 								 sum only = false: user_id, login, firstname, lastname, matriculation, question id, question title, question points, received points');
-								
+
+		$this->server->register ('removeTestResults',
+								array(
+									'sid' => 'xsd:string', 
+									'ref_id' => 'xsd:int', 
+									'user_ids' => 'tns:intArray'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#removeTestResults',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS removeTestResults(): remove test results for the chosen users');
 
 		$this->server->register ('getCoursesForUser',
 								array('sid' => 'xsd:string', 'parameters' => 'xsd:string'),
@@ -1236,7 +1260,35 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS deleteExpiredDualOptInUserObjects(): Deletes expired user accounts caused by unconfirmed registration links in "dual opt in" registration method');
-								
+
+
+        $this->server->register('readWebLink',
+			array('sid' => 'xsd:string', "ref_id" => 'xsd:int'),
+			array('weblinkxml' => 'xsd:string'),
+			SERVICE_NAMESPACE,
+			SERVICE_NAMESPACE . '#readWebLink',
+			SERVICE_STYLE,
+			SERVICE_USE,
+			'ILIAS readWebLink(): returns xml description of a weblink container.');
+
+		$this->server->register('createWebLink',
+			array('sid' => 'xsd:string', "target_id" => 'xsd:int', "xml" => "xsd:string"),
+			array('refid' => 'xsd:int'),
+			SERVICE_NAMESPACE,
+			SERVICE_NAMESPACE . '#createWebLink',
+			SERVICE_STYLE,
+			SERVICE_USE,
+			'ILIAS createWebLink(): create web link container, put it into target (ref_id) and update weblink container from xml (see ilias_weblink_4_0.dtd for details). Obj_id must not be set!');
+
+		$this->server->register('updateWebLink',
+			array('sid' => 'xsd:string', 'ref_id' => 'xsd:int', 'xml' => 'xsd:string'),
+			array('success' => 'xsd:boolean'),
+			SERVICE_NAMESPACE,
+			SERVICE_NAMESPACE . '#updateWebLink',
+			SERVICE_STYLE,
+			SERVICE_USE,
+			'ILIAS updateWebLink():update existing weblink, update weblink properties from xml (see ilias_weblink_4_0.dtd for details).');
+
 		return true;
 
 	}

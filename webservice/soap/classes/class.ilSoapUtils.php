@@ -106,6 +106,101 @@ class ilSoapUtils extends ilSoapAdministration
 		return true;
 	}
 	
+	/**
+	 * mail via soap
+	 * @param object $sid
+	 * @param object $a_mail_xml
+	 * @return 
+	 */
+	public function distributeMails($sid, $a_mail_xml)
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
+		}
+		
+		include_once './webservice/soap/classes/class.ilSoapMailXmlParser.php';
+		$parser = new ilSoapMailXmlParser($a_mail_xml);
+		try
+		{
+			// Check if wellformed
+			libxml_use_internal_errors(true);
+			$ok = simplexml_load_string($a_mail_xml);
+			if(!$ok)
+			{
+				foreach(libxml_get_errors() as $err)
+				{
+					$error .= ($err->message.' ');
+				}
+				return $this->__raiseError($error, 'CLIENT');
+			}
+			$parser->start();		
+		}
+		catch(InvalidArgumentException $e)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.' '.$e->getMessage());
+			return $this->__raiseError($e->getMessage(),'CLIENT');
+		}
+		catch(ilSaxParserException $e)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.' '.$e->getMessage());
+			return $this->__raiseError($e->getMessage(), 'CLIENT');
+		}
+		
+		$mails = $parser->getMails();
+		
+		global $ilUser;
+		
+		foreach($mails as $mail)
+		{
+			// Prepare attachments
+			include_once './classes/class.ilFileDataMail.php';
+			$file = new ilFileDataMail($ilUser->getId());
+			foreach((array) $mail['attachments'] as $attachment)
+			{
+				// TODO: Error handling
+				$file->storeAsAttachment($attachment['name'], $attachment['content']);
+				$attachments[] = ilUtil::_sanitizeFilemame($attachment['name']);
+			}
+			
+			$mail_obj = new ilMail($ilUser->getId());
+			$mail_obj->setSaveInSentbox(true);
+			$mail_obj->saveAttachments((array) $attachments);
+			$mail_obj->sendMail(
+				implode(',',(array) $mail['to']),
+				implode(',',(array) $mail['cc']),
+				implode(',',(array) $mail['bcc']),
+				$mail['subject'],
+				implode("\n",$mail['body']),
+				(array) $attachments,
+				array($mail['type']),
+				(bool) $mail['usePlaceholders']
+			);
+			
+			// Finally unlink attachments
+			foreach((array) $attachments as $att)
+			{
+				$file->unlinkFile($att);
+			}
+			$mail_obj->savePostData(
+				$ilUser->getId(),
+				array(),
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				''
+			);
+		}
+		return true;
+	}
+	
 	function saveTempFileAsMediaObject($sid, $name, $tmp_name)
 	{
 		$this->initAuth($sid);

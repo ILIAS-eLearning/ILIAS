@@ -1,0 +1,130 @@
+<!-- ilias_mail_transport_4_0.dtd for the distribution of ilias mails -->
+
+<!-- 
+	Root element
+	Should contain minumum one mail
+-->
+<!ELEMENT Mails (Mail+)>
+
+<!--
+	Represents on mail
+-->
+<!ELEMENT Mail (Sender, To+ ,Cc*, Bcc*, Subject, Body?, Attachment*)>
+
+<!-- 
+	usePlaceholders
+	
+	The following placeholders may be used:
+	Placeholders are only resolved for recipients in the To field.
+	Recipients in the CC and BCC field will get unsolved placeholders.
+	[MAIL_SALUTATION]: Salutation
+	[FIRST_NAME]: First Name
+	[LAST_NAME]: Last Name
+	[LOGIN]: Login Account
+	[ILIAS_URL]: URL of ILIAS system
+	[CLIENT_NAME]: Client Name 
+	
+	type
+	
+	Normal | System
+	
+	System mails are shown in a special block on the personal desktop
+-->
+<!ATTLIST Mail
+	type (Normal | System) #REQUIRED
+	usePlaceholders (Yes | No) #IMPLIED
+>
+
+<!--
+	The sender of the mail
+-->
+	
+
+<!ELEMENT Sender EMPTY>
+
+<!--
+	Choose one of the following
+	
+	obj_id is the internal ILIAS id
+	il_{INST_ID}_usr_{ILIAS ID}
+
+
+	name is the ILIAS login name e.g "root" 
+	
+-->
+<!ATTLIST Sender
+	obj_id CDATA #IMPLIED
+	name CDATA #IMPLIED
+>
+
+<!ELEMENT To EMPTY>
+
+<!--
+	Choose one of the following
+	
+	obj_id is the internal ILIAS id
+	il_{INST_ID}_usr_{ILIAS ID}
+
+
+	name is either the ILIAS login name e.g "root" or 
+	a role name "#member@[Course ABC]" (if pear mail is enabled) or the identifier of an ILIAS role "#il_crs_member_123"
+	
+-->
+<!ATTLIST To
+	obj_id CDATA #IMPLIED
+	name CDATA #IMPLIED
+>
+
+
+
+<!-- 
+	Cc recipients
+-->
+<!ELEMENT Cc EMPTY>
+
+<!ATTLIST Cc
+	obj_id CDATA #IMPLIED
+	name CDATA #IMPLIED
+>
+
+<!-- 
+	Bcc recipients
+-->
+<!ELEMENT Bcc EMPTY>
+
+<!ATTLIST Bcc
+	obj_id CDATA #IMPLIED
+	name CDATA #IMPLIED
+>
+
+<!--
+	Mail subject
+-->
+<!ELEMENT Subject (#PCDATA) >
+
+<!--
+	Mail body
+	
+	Contains one or more paragraphs
+-->
+<!ELEMENT Message (P*)>
+
+
+<!--
+	P one paragraph for each message line
+-->
+<!ELEMENT P (#PCDATA)
+
+<!--
+	Attachments should be base64 encoded
+-->
+<!ELEMENT Attachment (#PCDATA)>
+
+
+<!--
+	name is the attachment name
+	mode default is Plain 
+-->
+<!ATTLIST Attachment
+	name CDATA #REQUIRED
+>

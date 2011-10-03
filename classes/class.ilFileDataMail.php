@@ -249,6 +249,38 @@ class ilFileDataMail extends ilFileData
 		closedir($dp);
 		return $files;
 	}
+	
+	/**
+	 * Store content as attachment
+	 * @param object $a_filename
+	 * @param object $a_content
+	 * @return 
+	 */
+	public function storeAsAttachment($a_filename,$a_content)
+	{
+		if(strlen($a_content) >= $this->mail_maxsize_attach)
+		{
+			return 1;
+		}
+		$name = ilUtil::_sanitizeFilemame($a_filename);
+		$this->rotateFiles($this->getMailPath().'/'.$this->user_id.'_'.$name);
+
+		$abs_path = $this->getMailPath().'/'.$this->user_id.'_'.$name;
+		
+		if(!$fp = @fopen($abs_path,'w+'))
+		{
+			return false;
+		}
+		if(@fwrite($fp,$a_content) === false)
+		{
+			@fclose($fp);
+			return false;
+		}
+		@fclose($fp);
+		return true;	 	
+	}
+	
+	
 	/**
 	* store uploaded file in filesystem
 	* @param array HTTP_POST_FILES
