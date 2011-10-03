@@ -7600,7 +7600,7 @@ $setting->set("enable_sahs_pd", 1);
 	$ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
 		"VALUES (%s, %s, %s, %s, %s, %s, %s)",
 		array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
-		array($id, "typ", "otpl", "Object Template administration", -1, $ilDB->now(), $ilDB->now()));
+		array($id, "typ", "otpl", "Object Template administration", -1, ilUtil::now(), ilUtil::now()));
 	$typ_id = $id;
 
 	// create object data entry
@@ -7608,7 +7608,7 @@ $setting->set("enable_sahs_pd", 1);
 	$ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) ".
 		"VALUES (%s, %s, %s, %s, %s, %s, %s)",
 		array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
-		array($id, "otpl", "__ObjectTemplateAdministration", "Object Template Administration", -1, $ilDB->now(), $ilDB->now()));
+		array($id, "otpl", "__ObjectTemplateAdministration", "Object Template Administration", -1, ilUtil::now(), ilUtil::now()));
 
 	// create object reference entry
 	$ref_id = $ilDB->nextId('object_reference');
