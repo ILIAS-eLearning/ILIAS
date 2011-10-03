@@ -2479,7 +2479,8 @@ class ilUtil
 		{
 			$a_str = stripslashes($a_str);
 		}
-
+//echo "<br><br>-".$a_strip_html."-".htmlentities($a_str);
+//echo "<br>-".htmlentities(ilUtil::secureString($a_str, $a_strip_html, $a_allow));
 		return ilUtil::secureString($a_str, $a_strip_html, $a_allow);
 	}
 	

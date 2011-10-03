@@ -236,7 +236,6 @@
 <Style Tag="div" Type="question" Class="TextSubset">
 </Style>
 <Style Tag="div" Type="qtitle" Class="Title">
-	<StyleParameter Name="font-weight" Value="bold"/>
 	<StyleParameter Name="margin-bottom" Value="10px"/>
 </Style>
 <Style Tag="div" Type="qanswer" Class="Answer">
