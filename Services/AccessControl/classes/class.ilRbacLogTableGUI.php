@@ -152,7 +152,8 @@ class ilRbacLogTableGUI extends ilTable2GUI
 			{
 				foreach($actions as $action => $ops)
 				{
-					foreach($ops as $op)
+
+					foreach((array) $ops as $op)
 					{
 						$result[] = array("action"=>sprintf($this->lng->txt("rbac_log_operation_".$action), ilObject::_lookupTitle($role_id)),
 							"operation"=>$this->lng->txt($type."_".$this->operations[$op]));
@@ -165,7 +166,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
 		{
 			foreach($raw["inht"] as $action => $role_ids)
 			{
-				foreach($role_ids as $role_id)
+				foreach((array) $role_ids as $role_id)
 				{
 					$result[] = array("action"=>sprintf($this->lng->txt("rbac_log_inheritance_".$action), ilObject::_lookupTitle($role_id)));
 				}
