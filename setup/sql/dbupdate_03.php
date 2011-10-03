@@ -8072,3 +8072,88 @@ if(!$ilDB->tableExists('note_settings'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3479>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','sequencing'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'sequencing',
+			array(
+				"type" => "text",
+				'length' => 1,
+				"notnull" => true,
+				"default" => 'y'
+			)
+		);
+	$ilDB->query("UPDATE sahs_lm SET sequencing = 'y'");
+}
+?>
+<#3480>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','interactions'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'interactions',
+			array(
+				"type" => "text",
+				'length' => 1,
+				"notnull" => true,
+				"default" => 'y'
+			)
+		);
+		$ilDB->query("UPDATE sahs_lm SET interactions = 'y'");
+	}
+?>
+<#3481>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','objectives'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'objectives',
+			array(
+				"type" => "text",
+				'length' => 1,
+				"notnull" => true,
+				"default" => 'y'
+			)
+		);
+		$ilDB->query("UPDATE sahs_lm SET objectives = 'y'");
+	}
+?>
+<#3482>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','time_from_lms'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'time_from_lms',
+			array(
+				"type" => "text",
+				'length' => 1,
+				"notnull" => true,
+				"default" => 'n'
+			)
+		);
+		$ilDB->query("UPDATE sahs_lm SET time_from_lms = 'n'");
+	}
+?>
+<#3483>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','comments'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'comments',
+			array(
+				"type" => "text",
+				'length' => 1,
+				"notnull" => true,
+				"default" => 'y'
+			)
+		);
+		$ilDB->query("UPDATE sahs_lm SET comments = 'y'");
+	}
+?>
