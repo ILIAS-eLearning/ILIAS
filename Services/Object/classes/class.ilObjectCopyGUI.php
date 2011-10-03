@@ -270,7 +270,7 @@ class ilObjectCopyGUI
 		$exp->setTargetGet('ref_id');
 		$exp->setPostVar('source');
 		$exp->setCheckedItems(array($this->getSource()));
-		$exp->setNotSelectableItems(array($this->getTarget()));
+		#$exp->setNotSelectableItems(array($this->getTarget()));
 		
 		// Filter to container
 		foreach(array('cat','root','grp','fold') as $container)
