@@ -511,6 +511,57 @@ class ilSoapTestAdministration extends ilSoapAdministration
 	}
 	
 	/**
+	 * Remove test results for the chosen test and users.
+	 * @param string $sid
+	 * @param int $test_ref_id
+	 * @param array $a_user_ids
+	 * @return bool
+	 */
+	public function removeTestResults($sid,$test_ref_id,$a_user_ids)
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
+
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
+		}
+		if(!strlen($test_ref_id))
+		{
+			return $this->__raiseError('No test id given. Aborting!',
+									   'Client');
+		}
+		global $rbacsystem, $tree, $ilLog;
+
+		if(ilObject::_isInTrash($test_ref_id))
+		{
+			return $this->__raiseError('Test is trashed. Aborting!',
+									   'Client');
+		}
+		
+		if(!$tst = ilObjectFactory::getInstanceByRefId($test_ref_id,false))
+		{
+			return $this->__raiseError('No test found for id: '.$test_ref_id,'Client');
+		}
+		if($tst->getType() != 'tst')
+		{
+			return $this->__raiseError('Object with ref_id '.$test_ref_id.' is not of type test. Aborting','Client');
+		}
+		
+		// Dirty hack
+		if(isset($a_user_ids['item']))
+		{
+			$a_user_ids = $a_user_ids['item'];
+		}
+		
+		foreach((array) $a_user_ids as $user_id)
+		{
+			$tst->removeTestResultsForUser($user_id);
+		}
+		return true;
+	}
+	
+	/**
 	 * get results of test
 	 *
 	 * @param string $sid
