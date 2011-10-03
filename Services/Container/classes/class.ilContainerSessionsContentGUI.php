@@ -137,14 +137,23 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 			$position = 1;
 			foreach($this->items["sess"] as $item_data)
 			{
+				if($position == 1 and $this->items['sess_link_previous'])
+				{
+					$item_html[] = $this->renderSessionLimitLink(true);
+				}
 				if ($this->rendered_items[$item_data["child"]] !== true)
 				{
 					$html = $this->renderItem($item_data,$position++,true);
+
 					if ($html != "")
 					{
 						$item_html[] = $html;
 					}
 				}
+			}
+			if($this->items['sess_link_next'])
+			{
+				$item_html[] = $this->renderSessionLimitLink(false);
 			}
 			
 			// if we have at least one item, output the block
@@ -162,7 +171,6 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 		// all other items
 		if ($done_sessions)
 		{
-			#$this->addFooterRow($tpl);
 			$this->addSeparatorRow($tpl);
 		}
 		if (is_array($this->items["_all"]))
@@ -200,6 +208,59 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 		$output_html .= $tpl->get();
 		
 		$a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
+	}
+
+	/**
+	 * Show link to show/hide all previous/next sessions
+	 * @return string
+	 */
+	protected function renderSessionLimitLink($a_previous = true)
+	{
+		global $lng, $ilUser, $ilCtrl;
+		
+		$lng->loadLanguageModule('crs');
+
+		$tpl = new ilTemplate('tpl.container_list_item.html',true,true);
+		$tpl->setVariable('DIV_CLASS','ilContainerListItemOuter');
+		$tpl->setCurrentBlock('item_title_linked');
+
+		if($a_previous)
+		{
+			$prefp = $ilUser->getPref('crs_sess_show_prev_'.$this->getContainerObject()->getId());
+			
+			if($prefp)
+			{
+				$tpl->setVariable('TXT_TITLE_LINKED',$lng->txt('crs_link_hide_prev_sessions'));
+				$ilCtrl->setParameterByClass(get_class($this->getContainerGUI()),'crs_prev_sess',!$prefp);
+				$tpl->setVariable('HREF_TITLE_LINKED',$ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
+			}
+			else
+			{
+				$tpl->setVariable('TXT_TITLE_LINKED',$lng->txt('crs_link_show_all_prev_sessions'));
+				$ilCtrl->setParameterByClass(get_class($this->getContainerGUI()),'crs_prev_sess',!$prefp);
+				$tpl->setVariable('HREF_TITLE_LINKED',$ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
+			}
+		}
+		else
+		{
+			$prefn = $ilUser->getPref('crs_sess_show_next_'.$this->getContainerObject()->getId());
+
+			if($prefn)
+			{
+				$tpl->setVariable('TXT_TITLE_LINKED',$lng->txt('crs_link_hide_next_sessions'));
+				$ilCtrl->setParameterByClass(get_class($this->getContainerGUI()),'crs_next_sess',!$prefn);
+				$tpl->setVariable('HREF_TITLE_LINKED',$ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
+			}
+			else
+			{
+				$tpl->setVariable('TXT_TITLE_LINKED',$lng->txt('crs_link_show_all_next_sessions'));
+				$ilCtrl->setParameterByClass(get_class($this->getContainerGUI()),'crs_next_sess',!$prefn);
+				$tpl->setVariable('HREF_TITLE_LINKED',$ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
+			}
+		}
+		$tpl->parseCurrentBlock();
+
+		return $tpl->get();
 	}
 	
 	
@@ -262,7 +323,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 				$_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_TITLE;
 			}
 		}
-		
+
 		include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
 		if($session = ilSessionAppointment::lookupNextSessionByCourse($this->getContainerObject()->getRefId()))
 		{

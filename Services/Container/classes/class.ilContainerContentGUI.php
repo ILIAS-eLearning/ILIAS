@@ -512,7 +512,7 @@ abstract class ilContainerContentGUI
 	* @access	private
 	* @return	object		block template
 	*/
-	function &newBlockTemplate()
+	function newBlockTemplate()
 	{
 		$tpl = new ilTemplate ("tpl.container_list_block.html", true, true,
 			"Services/Container");

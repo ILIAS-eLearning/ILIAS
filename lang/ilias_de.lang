@@ -6158,7 +6158,7 @@ crs#:#sess_gen_mark_title#:#Erzeuge Spalte für Noten
 crs#:#sess_gen_signature#:#Erzeuge Spalte für Unterschrift
 crs#:#sess_join_info#:#Bitte klicken Sie die Anmelden-Schaltfläche, wenn Sie an der Sitzung teilnehmen möchten.
 crs#:#sess_limit#:#Sitzungsanzahl begrenzen
-crs#:#sess_limit_info#:#Wählen Sie diese Einstellung, um die Anzahl der dargestellten Sitzungen zu begrenzen.
+crs#:#sess_limit_info#:#Wählen Sie diese Einstellung, um die Anzahl der dargestellten Sitzungen zu verbergen. 
 crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen
 crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen
 crs#:#sess_print_attendance_list#:#Teilnehmerliste drucken
@@ -12284,3 +12284,7 @@ rbac#:#rbac_precondition_save_obligatory#:#Verpflichtend speichern
 rbac#:#rbac_precondition_minimum_optional#:#Es müssen mindestens 2 Vorbedingungen optional verbleiben.
 common#:#precondition_required_itemlist#:#Benötigte Vorbedingung
 common#:#precondition_toggle#:#Vorbedingungen, die für einen Zugriff erfüllt werden müssen
+crs#:#crs_link_show_all_prev_sessions#:#Alle vergangenen Sitzungen anzeigen
+crs#:#crs_link_hide_prev_sessions#:#Vergangene Sitzungen ausblenden
+crs#:#crs_link_show_all_next_sessions#:#Alle zukünftigen Sitzungen anzeigen
+crs#:#crs_link_hide_next_sessions#:#Zukünftige Sitzungen ausblenden 

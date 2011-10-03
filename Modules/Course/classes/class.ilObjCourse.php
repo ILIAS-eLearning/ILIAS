@@ -415,6 +415,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 */
 	public function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false)
 	{
+		global $ilUser;
+
 		// Caching
 		if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]))
 		{
@@ -434,7 +436,23 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
 		}
-		
+
+		if($a_include_side_block)
+		{
+			return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
+		}
+
+		// @todo move to gui class
+		if((int) $_GET['crs_prev_sess'])
+		{
+			$ilUser->setPref('crs_sess_show_prev_'.$this->getId(), (int) $_GET['crs_prev_sess']);
+		}
+		if((int) $_GET['crs_next_sess'])
+		{
+			$ilUser->setPref('crs_sess_show_next_'.$this->getId(), (int) $_GET['crs_next_sess']);
+		}
+
+
 		// Search key of next appointment
 		$sessions = ilUtil::sortArray($this->items['sess'],'start','ASC',true,false);
 
@@ -455,7 +473,19 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		
 		// Cut previous sessions
 		$previous = array_slice($previous, 0, $num);
-		if($this->getNumberOfPreviousSessions() >= 0)
+		$hidden_previous =
+			array_slice(
+				$previous,
+				0,
+				count($previous) - $this->getNumberOfPreviousSessions()
+			);
+		if($hidden_previous)
+		{
+			$this->items['sess_link_previous'] = 1;
+		}
+
+		$show_prev = $ilUser->getPref('crs_sess_show_prev_'.$this->getId());
+		if($this->getNumberOfPreviousSessions() >= 0 and !$show_prev)
 		{
 			$to_remove = (count($previous) - $this->getNumberOfPreviousSessions() > 0) ?
 				count($previous) - $this->getNumberOfPreviousSessions() :
@@ -465,7 +495,18 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
 		// Cut next sessions
 		$next = array_slice($next, $num);
-		if($this->getNumberOfNextSessions() >= 0)
+		$hidden_next =
+			array_slice(
+				$next,
+				$this->getNumberOfNextSessions()
+		);
+		if($hidden_next)
+		{
+			$this->items['sess_link_next'] = 1;
+		}
+
+		$show_next = $ilUser->getPref('crs_sess_show_next_'.$this->getId());
+		if($this->getNumberOfNextSessions() >= 0 and !$show_next)
 		{
 			$next = array_splice($next, 0, $this->getNumberOfNextSessions());
 		}
