@@ -6,7 +6,7 @@ require_once("./Services/YUI/classes/class.ilYuiUtil.php");
 require_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 
 /**
-* @author  Hendrik Holtmann <holtmann@mac.com>, Alfred Kohnert <alfred.kohnert@bigfoot.com>
+* @author  Hendrik Holtmann <holtmann@mac.com>, Alfred Kohnert <alfred.kohnert@bigfoot.com>, Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
 * @version $Id$
 * @ilCtrl_Calls ilSCORM13Player:
 */
@@ -14,8 +14,6 @@ class ilSCORM13Player
 {
 
 	const ENABLE_GZIP = 0;
-	
-	const ENABLE_JS_DEBUG = 1;
 	
 	const NONE = 0;
 	const READONLY = 1;
@@ -253,19 +251,13 @@ class ilSCORM13Player
 	
 	function getRTEjs()
 	{
-		$filename = "rte-min.js";
-		if (self::ENABLE_JS_DEBUG==1) {
-			$filename = "rte.js";
-		}
-		$js_data = file_get_contents("./Modules/Scorm2004/scripts/buildrte/".$filename);
+		$js_data = file_get_contents("./Modules/Scorm2004/scripts/buildrte/rte.js");
 		if (self::ENABLE_GZIP==1) {
 			ob_start("ob_gzhandler");
 			header('Content-Type: text/javascript; charset=UTF-8');
 		} else {
 			header('Content-Type: text/javascript; charset=UTF-8');
 		}
-		
-
 		echo $js_data;
 	}
 	
@@ -319,7 +311,12 @@ class ilSCORM13Player
 			'post_log_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=postLogEntry&ref_id='.$_GET["ref_id"],
 			'livelog_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=liveLogContent&ref_id='.$_GET["ref_id"],
 			'debug_fields' => $this->getDebugValues(),
-			'debug_fields_test' => $this->getDebugValues(true)
+			'debug_fields_test' => $this->getDebugValues(true),
+			'sequencing_enabled' => $this->slm->getSequencing(),
+			'interactions_storable' => $this->slm->getInteractions(),
+			'objectives_storable' => $this->slm->getObjectives(),
+			'comments_storable' => $this->slm->getComments(),
+			'time_from_lms' => $this->slm->getTime_from_lms()
 		);
 				
 		
@@ -361,18 +358,29 @@ class ilSCORM13Player
 		$this->tpl->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float)$tsfrac));
 		$this->tpl->setVariable('BASE_DIR', './Modules/Scorm2004/');
 		$this->tpl->setVariable('TXT_COLLAPSE',$lng->txt('scplayer_collapsetree'));
-		$this->tpl->setVariable('TXT_DEBUGGER',$lng->txt('scplayer_debugger'));
-		$this->tpl->setVariable('DEBUG_URL','ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=debugGUI&ref_id='.$_GET["ref_id"]);
-		
+		if ($this->slm->getDebug()) {
+			$this->tpl->setVariable('TXT_DEBUGGER',$lng->txt('scplayer_debugger'));
+			$this->tpl->setVariable('DEBUG_URL',"PopupCenter('ilias.php?baseClass=ilSAHSPresentationGUI&cmd=debugGUI&ref_id=".$_GET["ref_id"]."','Debug',800,600);");
+		} else {
+			$this->tpl->setVariable('TXT_DEBUGGER','');
+			$this->tpl->setVariable('DEBUG_URL','');
+		}
+
 		//set icons path
 		$this->tpl->setVariable('INLINE_CSS', ilSCORM13Player::getInlineCss());
-		
+
 		//include scripts
-		$this->tpl->setVariable('JS_SCRIPTS', 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getRTEjs&ref_id='.$_GET["ref_id"]);	
-		
+		if ($this->slm->getCacheDeactivated()){
+			$this->tpl->setVariable('JS_SCRIPTS', 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getRTEjs&ref_id='.$_GET["ref_id"]);
+		} else {
+			$this->tpl->setVariable('JS_SCRIPTS', './Modules/Scorm2004/scripts/buildrte/rte-min.js');
+		}
+
 		//disable top menu
 		if ($this->slm->getNoMenu()=="y") {
-			$this->tpl->setVariable("VAL_DISPLAY", "style=\"display:none;\"");	
+			$this->tpl->setVariable("VAL_DISPLAY", "style=\"display:none;\"");
+		} else {
+			$this->tpl->setVariable("VAL_DISPLAY", "");
 		}
 
 
@@ -1121,6 +1129,7 @@ class ilSCORM13Player
 		{
 			$result['schema'][$k] = array_keys($v);
 
+			$q = '';
 			switch ($k)
 			{
 				case "node":
@@ -1133,7 +1142,7 @@ class ilSCORM13Player
 					break;
 
 				case "comment":
-					$q = 'SELECT cmi_comment.* 
+					if ($this->slm->getComments()) $q = 'SELECT cmi_comment.* 
 						FROM cmi_comment 
 						INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_comment.cmi_node_id 
 						INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
@@ -1143,7 +1152,7 @@ class ilSCORM13Player
 					break;
 
 				case "correct_response":
-					$q = 'SELECT cmi_correct_response.* 
+					if ($this->slm->getInteractions()) $q = 'SELECT cmi_correct_response.* 
 						FROM cmi_correct_response 
 						INNER JOIN cmi_interaction 
 						ON cmi_interaction.cmi_interaction_id = cmi_correct_response.cmi_interaction_id 
@@ -1155,7 +1164,17 @@ class ilSCORM13Player
 					break;
 
 				case "interaction":
-					$q = 'SELECT cmi_interaction.* 
+					if ($this->slm->getInteractions()) $q = 'SELECT 
+						cmi_interaction.cmi_interaction_id, 
+						cmi_interaction.cmi_node_id, 
+						cmi_interaction.description, 
+						cmi_interaction.id, 
+						cmi_interaction.latency, 
+						cmi_interaction.learner_response, 
+						cmi_interaction.result, 
+						cmi_interaction.c_timestamp, 
+						cmi_interaction.c_type, 
+						cmi_interaction.weighting
 						FROM cmi_interaction 
 						INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
 						INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
@@ -1165,13 +1184,27 @@ class ilSCORM13Player
 					break;
 
 				case "objective":
-					$q = 'SELECT cmi_objective.* 
+					if ($this->slm->getObjectives()) $q = 'SELECT 
+						cmi_objective.cmi_interaction_id, 
+						cmi_objective.cmi_node_id, 
+						cmi_objective.cmi_objective_id, 
+						cmi_objective.completion_status, 
+						cmi_objective.description, 
+						cmi_objective.id, 
+						cmi_objective.c_max, 
+						cmi_objective.c_min, 
+						cmi_objective.c_raw, 
+						cmi_objective.scaled, 
+						cmi_objective.progress_measure, 
+						cmi_objective.success_status, 
+						cmi_objective.scope 
 						FROM cmi_objective 
 						INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_objective.cmi_node_id 
 						INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
 						WHERE cmi_node.user_id = %s
-						AND cp_node.slm_id = %s';
-			
+						AND cp_node.slm_id = %s 
+						ORDER BY cmi_objective.cmi_objective_id';
+
 					break;
 
 				case "package":
@@ -1186,29 +1219,24 @@ class ilSCORM13Player
 					break;
 
 			}
-			
-			$types = array('integer', 'integer');
-			$values = array($userId, $packageId);			
-			$res = $ilDB->queryF($q, $types, $values);
-			
+
 			$result['data'][$k] = array();
+			if ($q != '') {
+				$types = array('integer', 'integer');
+				$values = array($userId, $packageId);
+				$res = $ilDB->queryF($q, $types, $values);
 
-			while($row = $ilDB->fetchAssoc($res))
-			{			
-				$tmp_result = array();
-				foreach($row as $key => $value)
+				while($row = $ilDB->fetchAssoc($res))
 				{
-					$tmp_result[] = $value;
+					$tmp_result = array();
+					foreach($row as $key => $value)
+					{
+						$tmp_result[] = $value;
+					}
+					$result['data'][$k][] = $tmp_result;
 				}
-				$result['data'][$k][] = $tmp_result;
-			}
-
-			if($k == 'node') {
-
 			}
 		}
-
-
 		return $result;	
 	}
 
@@ -1277,10 +1305,12 @@ class ilSCORM13Player
 			}
 			else
 			{
+				$q = '';
 				switch($k)
 				{
 					case "correct_response":
-						$q = 'DELETE FROM cmi_correct_response 
+						if ($this->slm->getInteractions()) 
+							$q = 'DELETE FROM cmi_correct_response 
 							WHERE cmi_interaction_id IN (
 							SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction 
 							INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
@@ -1289,7 +1319,8 @@ class ilSCORM13Player
 						break;
 						
 					case "interaction":
-						$q = 'DELETE FROM cmi_interaction 
+						if ($this->slm->getInteractions()) 
+							$q = 'DELETE FROM cmi_interaction 
 							WHERE cmi_node_id IN (
 							SELECT cmi_node.cmi_node_id FROM cmi_node 
 							WHERE cmi_node.cp_node_id = %s
@@ -1297,7 +1328,8 @@ class ilSCORM13Player
 						break;
 						
 					case "comment":
-					 	$q = 'DELETE FROM cmi_comment 
+					 	if ($this->slm->getComments()) 
+							$q = 'DELETE FROM cmi_comment 
 							WHERE cmi_node_id IN (
 							SELECT cmi_node.cmi_node_id FROM cmi_node 
 							WHERE cmi_node.cp_node_id = %s
@@ -1305,7 +1337,8 @@ class ilSCORM13Player
 						break;
 
 					case "objective":
-					 	$q = 'DELETE FROM cmi_objective 
+					 	if ($this->slm->getObjectives()) 
+							$q = 'DELETE FROM cmi_objective 
 							WHERE cmi_node_id IN (
 							SELECT cmi_node.cmi_node_id FROM cmi_node 
 							WHERE cmi_node.cp_node_id = %s
@@ -1317,10 +1350,11 @@ class ilSCORM13Player
 							AND cmi_node.user_id = %s';
 						break;
 				}
-				
-				$types = array('integer', 'integer');
-				$values = array($cp_node_id, $userId);			
-				$ilDB->manipulateF($q, $types, $values);
+				if ($q != '') {
+					$types = array('integer', 'integer');
+					$values = array($cp_node_id, $userId);			
+					$ilDB->manipulateF($q, $types, $values);
+				}
 			}
 		}
 		
@@ -1343,9 +1377,9 @@ class ilSCORM13Player
 		foreach($tables as $table)
 		{
 			$schem = & self::$schema[$table];
-			$ilLog->write("SCORM2004 setCMIData, table -".$table."-".$data->objective);
+			//$ilLog->write("SCORM2004 setCMIData, table -".$table."-".$data->objective);
 
-			if (!is_array($data->$table)) continue;			
+			if (!is_array($data->$table)) continue;
 				
 			$ilLog->write("SCORM2004 setCMIData, table -".$table."-");
 			
@@ -1359,8 +1393,8 @@ class ilSCORM13Player
 			foreach($data->$table as &$row)
 			{
 				// first fill some fields that could not be set from client side
-				// namely the database id's depending on which table is processed  				
-				switch ($table)				
+				// namely the database id's depending on which table is processed
+				switch ($table)
 				{
 					case 'correct_response':
 						$no = $schem['cmi_interaction_id']['no'];
@@ -1416,29 +1450,14 @@ class ilSCORM13Player
 				{
 					case 'correct_response':
 						$row[$cmi_no] = $ilDB->nextId('cmi_correct_response');
-						// Alex: 11 Nov 2010: During investigation of bug
-						// 6799 I realised that the $row variable contains
-						// sometimes only one value or up to four values
-						// this makes the manipulateF fail.
-						// I added the following if statement, but
-						// the cause of the problem needs further investigation
-						if (count($row) == 3)
-						{
-							$ilDB->manipulateF('
-								INSERT INTO cmi_correct_response
-								(cmi_correct_resp_id, cmi_interaction_id, pattern)
-								VALUES (%s, %s, %s)',
-								array('integer', 'integer', 'text'),
-								$row
-							);
-						}
-						else
-						{
-							$ilLog->write("SCORM2004 ERROR SCORM Player, setCMIData, incorrect number of values for cmi_correct_response.");
-							$ilLog->dump($row);
-						}
+
+						$ilDB->insert('cmi_correct_response', array(
+							'cmi_correct_resp_id'	=> array('integer', $row[$cmi_no]),
+							'cmi_interaction_id'	=> array('integer', $row[1]),
+							'pattern'				=> array('text', $row[2])
+						));
 						break;
-						
+
 					case 'comment':
 						$row[$cmi_no] = $ilDB->nextId('cmi_comment');
 	

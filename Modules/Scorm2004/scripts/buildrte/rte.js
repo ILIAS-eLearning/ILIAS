@@ -1,4 +1,4 @@
-// Build: 2011831112902 
+// Build: 20111004002226 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -10801,7 +10801,7 @@ SeqRuleset.prototype =
 */
 
 /**
- * @author  Hendrik Holtmann <holtmann@mac.com>, Alex Killing <alex.killing@gmx.de>, Alfred Kohnert <alfred.kohnert@bigfoot.com>
+ * @author  Hendrik Holtmann <holtmann@mac.com>, Alex Killing <alex.killing@gmx.de>, Alfred Kohnert <alfred.kohnert@bigfoot.com>, Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @version $Id$
 */
 
@@ -12844,7 +12844,95 @@ function init(config)
 	if (!cam) return alert('Fatal: Could not load content data.');
 
 	// Step 2: load adlActivityTree
-	var adlAct = this.config.adlact_data || sendJSONRequest(this.config.adlact_url);
+	function defaultAct(mActivityID,mTitle,mOrder,mActiveOrder,mChildren,mActiveChildren) {
+		return {
+			"_SeqActivity":{
+				"mPreConditionRules":null,
+				"mPostConditionRules":null,
+				"mExitActionRules":null,
+				"mXML":null,
+				"mDepth":0,
+				"mCount":-1,
+				"mLearnerID":"_NULL_",
+				"mScopeID":null,
+				"mActivityID":mActivityID,
+				"mResourceID":null,
+				"mStateID":null,
+				"mTitle":mTitle,
+				"mIsVisible":true,
+				"mOrder":mOrder,
+				"mActiveOrder":mActiveOrder,
+				"mSelected":true,
+				"mParent":null,
+				"mIsActive":false,
+				"mIsSuspended":false,
+				"mChildren":mChildren,
+				"mActiveChildren":mChildren,
+				"mDeliveryMode":"normal",
+				"mControl_choice":true,
+				"mControl_choiceExit":true,
+				"mControl_flow":false,
+				"mControl_forwardOnly":false,
+				"mConstrainChoice":false,
+				"mPreventActivation":false,
+				"mUseCurObj":true,
+				"mUseCurPro":true,
+				"mMaxAttemptControl":false,
+				"mMaxAttempt":0,
+				"mAttemptAbDurControl":false,
+				"mAttemptAbDur":null,
+				"mAttemptExDurControl":false,
+				"mAttemptExDur":null,
+				"mActivityAbDurControl":false,
+				"mActivityAbDur":null,
+				"mActivityExDurControl":false,
+				"mActivityExDur":null,
+				"mBeginTimeControl":false,
+				"mBeginTime":null,
+				"mEndTimeControl":false,
+				"mEndTime":null,
+				"mAuxResources":null,
+				"mRollupRules":null,
+				"mActiveMeasure":true,
+				"mRequiredForSatisfied":"always",
+				"mRequiredForNotSatisfied":"always",
+				"mRequiredForCompleted":"always",
+				"mRequiredForIncomplete":"always",
+				"mObjectives":null,
+				"mObjMaps":null,
+				"mIsObjectiveRolledUp":true,
+				"mObjMeasureWeight":1,
+				"mIsProgressRolledUp":true,
+				"mSelectTiming":"never",
+				"mSelectStatus":false,
+				"mSelectCount":0,
+				"mSelection":false,
+				"mRandomTiming":"never",
+				"mReorder":false,
+				"mRandomized":false,
+				"mIsTracked":true,
+				"mContentSetsCompletion":false,
+				"mContentSetsObj":false,
+				"mCurTracking":null,
+				"mTracking":null,
+				"mNumAttempt":0,
+				"mNumSCOAttempt":0,
+				"mActivityAbDur_track":null,
+				"mActivityExDur_track":null
+			}
+		};
+	}
+
+	var adlAct = {};
+	if (this.config.sequencing_enabled){
+		adlAct = this.config.adlact_data || sendJSONRequest(this.config.adlact_url);
+	}
+	else {
+		adlAct=defaultAct(cam.item.id,cam.item.title,-1,-1,[],[]);
+		for (var j=0; j<cam.item.item.length; j++){
+			adlAct._SeqActivity.mChildren[j]=defaultAct(cam.item.item[j].id,cam.item.item[j].title,j,j,null,null);
+		}
+	}
 	
 	if (!adlAct) {
 		
@@ -12930,13 +13018,14 @@ function init(config)
 	
 	
 	//load global objectives
-	loadGlobalObj();
+	if (this.config.sequencing_enabled) loadGlobalObj();
 
 	//debugger start with sco-start
 	logActive = this.config.debug;
 	
 	//get suspend data
-	suspendData =  sendJSONRequest(this.config.get_suspend_url);
+	suspendData=null;
+	if (this.config.sequencing_enabled) suspendData = sendJSONRequest(this.config.get_suspend_url);
 	var wasSuspended=false;
 	var wasFirstSession;
 	if (suspendData) {
@@ -13081,9 +13170,9 @@ function pingSession()
 function loadGlobalObj() {
 	var globalObj =  this.config.globalobj_data || sendJSONRequest(this.config.get_gobjective_url);
 	if (globalObj) {
-		if (globalObj.satisfied){adl_seq_utilities.satisfied=globalObj.satisfied;}
-		if (globalObj.measure) {adl_seq_utilities.measure=globalObj.measure;}
-		if (globalObj.status) {adl_seq_utilities.status=globalObj.status;}
+		if (typeof globalObj.satisfied != "undefined"){adl_seq_utilities.satisfied=globalObj.satisfied;}
+		if (typeof globalObj.measure != "undefined") {adl_seq_utilities.measure=globalObj.measure;}
+		if (typeof globalObj.status != "undefined") {adl_seq_utilities.status=globalObj.status;}
 	}
 }
 
@@ -13256,7 +13345,7 @@ function load()
 			setItemValue(j, dat, row, remoteMapping.correct_response[j]);
 		}
 		act = interactions[row[remoteMapping.correct_response.cmi_interaction_id]];
-		act.correct_response[dat.cmi_correct_response_id] = dat;
+		act.correct_responses[dat.cmi_correct_response_id] = dat;//s
 	}
 	for (i=0;i<cmi.data.objective.length; i++)
 	{
@@ -13287,19 +13376,19 @@ function load()
 					dat[remoteMapping.objective[j]] = row[j];
 				}	
 			}
+			dat = new Objective();
+			for (j=remoteMapping.objective.length; j--; )
+			{
+				//dat[remoteMapping.objective[j]] = row[j];
+				setItemValue(j, dat, row, remoteMapping.objective[j]);
+			}
+			act = activitiesByCMI[row[remoteMapping.objective.cmi_node_id]];
+			act.objectives[dat.id] = dat;
 		}
 		else // objective id to an interaction
 		{
 			interactions[cmi_interaction_id].objectives[id] = {id:id};
 		}
-		dat = new Objective();
-		for (j=remoteMapping.objective.length; j--; )
-		{
-			//dat[remoteMapping.objective[j]] = row[j];
-			setItemValue(j, dat, row, remoteMapping.objective[j]);
-		}
-		act = activitiesByCMI[row[remoteMapping.objective.cmi_node_id]];
-		act.objectives[dat.id] = dat;
 	}
 
 }
@@ -13335,7 +13424,11 @@ function save()
 			
 			for (z in collection[k])			
 			{
-				if (z == 'interactions' || z == 'comments' || z == "objectives" || z == "correct_responses")
+				if (
+					(this.config.interactions_storable && (z == 'interactions' || z == "correct_responses")) 
+					|| (this.config.comments_storable && z == 'comments') 
+					|| (this.config.objectives_storable && z == "objectives") 
+					)
 				{
 					
 					for (y in collection[k][z])
@@ -13348,7 +13441,11 @@ function save()
 						}
 						if (valid) {
 							collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];
-						}	
+							if(collection[k]['cmi_interaction_id']) collection[k][z][y]['cmi_interaction_id']=collection[k]['cmi_interaction_id'];
+						}
+						//
+						if (z=="correct_responses") collection[k][z][y]['cmi_interaction_id']=collection[k]['cmi_interaction_id'];
+						//
 					}
 					walk(collection[k][z],z.substr(0,z.length-1));
 				}
@@ -13667,7 +13764,7 @@ function onWindowUnload ()
 }
 function loadData(item){
 		var data = getAPI(item.foreignId);
-		loadSharedData(item.cp_node_id);
+		if (this.config.sequencing_enabled) loadSharedData(item.cp_node_id);
 		
 		// add ADL Request namespace data
 		data.adl = {nav : {request_valid: {}}};
@@ -14216,7 +14313,7 @@ function onItemUndeliver(noControls) // onUndeliver called from sequencing proce
 {
 		//Save the shared data if undelivering the SCO
 	if(pubAPI != null) {
-		saveSharedData();
+		if (this.config.sequencing_enabled) saveSharedData();
 	}
 	// customize GUI
 	if (noControls!=true) {
@@ -14292,11 +14389,33 @@ function syncDynObjectives(){
 
 
 function save_global_objectives() {
-	if (adl_seq_utilities.measure!=null || adl_seq_utilities.satisfied!=null || 
-	    adl_seq_utilities.status!=null  ) {
-		result = this.config.gobjective_url 
-			? sendJSONRequest(this.config.gobjective_url, this.adl_seq_utilities)
-			: {};
+
+	if (this.config.sequencing_enabled) {
+		if (adl_seq_utilities.measure!=null || adl_seq_utilities.satisfied!=null || 
+			adl_seq_utilities.status!=null  ) {
+			result = this.config.gobjective_url 
+				? sendJSONRequest(this.config.gobjective_url, this.adl_seq_utilities)
+				: {};
+		}
+/*
+	TODO integrate in save ..
+	var result="";
+	if (saved_global_objectives!=this.adl_seq_utilities) {
+		var iCounter=0,oObj;
+		saved_global_objectives=this.adl_seq_utilities;
+		for(oObj in this.adl_seq_utilities.measure) iCounter++;
+		for(oObj in this.adl_seq_utilities.satisfied) iCounter++;
+		for(oObj in this.adl_seq_utilities.status) iCounter++;
+		..score ...
+
+		if (iCounter>0) {
+			result = this.config.gobjective_url 
+				? sendJSONRequest(this.config.gobjective_url, this.adl_seq_utilities)
+				: {};
+		}
+	}
+	return result;
+*/
 	}
 }
 
@@ -16108,7 +16227,7 @@ Runtime.onTerminate = function (data, msec) /// or user walks away
 	var not_attempted = data.cmi.completion_status==="not attempted";
 	var success = (/^(completed|passed|failed)$/).test(data.cmi.success_status, true);
 	var session_time;
-	if (data.cmi.session_time==undefined) {
+	if (data.cmi.session_time==undefined || config.time_from_lms==true) {
 		var interval=(currentTime() - msec)/1000;
 		var dur= new ADLDuration({iFormat: FORMAT_SECONDS, iValue: interval});
 		session_time =dur.format(FORMAT_SCHEMA); 

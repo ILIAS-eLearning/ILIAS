@@ -1418,7 +1418,7 @@ Runtime.onTerminate = function (data, msec) /// or user walks away
 	var not_attempted = data.cmi.completion_status==="not attempted";
 	var success = (/^(completed|passed|failed)$/).test(data.cmi.success_status, true);
 	var session_time;
-	if (data.cmi.session_time==undefined) {
+	if (data.cmi.session_time==undefined || config.time_from_lms==true) {
 		var interval=(currentTime() - msec)/1000;
 		var dur= new ADLDuration({iFormat: FORMAT_SECONDS, iValue: interval});
 		session_time =dur.format(FORMAT_SCHEMA); 

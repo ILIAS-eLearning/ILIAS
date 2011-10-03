@@ -278,7 +278,52 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			// version
 			$this->tpl->setVariable("TXT_VERSION", $this->lng->txt("cont_sc_version").":");
 			$this->tpl->setVariable("VAL_VERSION", $this->object->getModuleVersion());
-			
+
+			//sequencing
+			$this->tpl->setVariable("TXT_SEQUENCING", $this->lng->txt("cont_sequencing"));
+			$this->tpl->setVariable("CBOX_SEQUENCING", "cobj_sequencing");
+			$this->tpl->setVariable("VAL_SEQUENCING", "y");
+			if ($this->object->getSequencing())
+			{
+				$this->tpl->setVariable("CHK_SEQUENCING", "checked");
+			}
+
+			//interactions
+			$this->tpl->setVariable("TXT_INTERACTIONS", $this->lng->txt("cont_interactions"));
+			$this->tpl->setVariable("CBOX_INTERACTIONS", "cobj_interactions");
+			$this->tpl->setVariable("VAL_INTERACTIONS", "y");
+			if ($this->object->getInteractions())
+			{
+				$this->tpl->setVariable("CHK_INTERACTIONS", "checked");
+			}
+
+			//objectives
+			$this->tpl->setVariable("TXT_OBJECTIVES", $this->lng->txt("cont_objectives"));
+			$this->tpl->setVariable("CBOX_OBJECTIVES", "cobj_objectives");
+			$this->tpl->setVariable("VAL_OBJECTIVES", "y");
+			if ($this->object->getObjectives())
+			{
+				$this->tpl->setVariable("CHK_OBJECTIVES", "checked");
+			}
+
+			//comments
+			$this->tpl->setVariable("TXT_COMMENTS", $this->lng->txt("cont_comments"));
+			$this->tpl->setVariable("CBOX_COMMENTS", "cobj_comments");
+			$this->tpl->setVariable("VAL_COMMENTS", "y");
+			if ($this->object->getComments())
+			{
+				$this->tpl->setVariable("CHK_COMMENTS", "checked");
+			}
+
+			//time_from_lms
+			$this->tpl->setVariable("TXT_TIME_FROM_LMS", $this->lng->txt("cont_time_from_lms"));
+			$this->tpl->setVariable("CBOX_TIME_FROM_LMS", "cobj_time_from_lms");
+			$this->tpl->setVariable("VAL_TIME_FROM_LMS", "y");
+			if ($this->object->getTime_from_lms())
+			{
+				$this->tpl->setVariable("CHK_TIME_FROM_LMS", "checked");
+			}
+
 			$this->tpl->setCurrentBlock("editable");
 			// online
 			$this->tpl->setVariable("TXT_ONLINE", $this->lng->txt("cont_online"));
@@ -524,6 +569,11 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$this->object->setSession(ilUtil::yn2tf($_POST["cobj_session"]));
 			$this->object->setNoMenu(ilUtil::yn2tf($_POST["cobj_nomenu"]));
 			$this->object->setHideNavig(ilUtil::yn2tf($_POST["cobj_hidenavig"]));
+			$this->object->setSequencing(ilUtil::yn2tf($_POST["cobj_sequencing"]));
+			$this->object->setInteractions(ilUtil::yn2tf($_POST["cobj_interactions"]));
+			$this->object->setObjectives(ilUtil::yn2tf($_POST["cobj_objectives"]));
+			$this->object->setComments(ilUtil::yn2tf($_POST["cobj_comments"]));
+			$this->object->setTime_from_lms(ilUtil::yn2tf($_POST["cobj_time_from_lms"]));
 			$this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
 			//$this->object->setDebugPw($_POST["debug_pw"]);
 
