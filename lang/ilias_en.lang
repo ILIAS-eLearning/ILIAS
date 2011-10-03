@@ -5645,7 +5645,7 @@ crs#:#crs_add_html_archive#:#Add HTML archive
 crs#:#crs_add_member#:#Add Member(s)
 crs#:#crs_add_objective#:#Add Objective
 crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to the personal desktop.
-crs#:#crs_add_remove_from_desktop#:#Add/Remove from Desktop
+crs#:#crs_add_remove_from_desktop#:#Add to Desktop
 crs#:#crs_add_starter#:#Add Start Object
 crs#:#crs_add_subscribers#:#Add subscriber
 crs#:#crs_added_member_body#:#we are pleased to announce your registration for the course "%s".
