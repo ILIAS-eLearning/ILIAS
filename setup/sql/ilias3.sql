@@ -5076,7 +5076,8 @@ CREATE TABLE `adm_settings_template` (
   `id` int(11) NOT NULL,
   `type` varchar(5) NOT NULL,
   `title` varchar(100) NOT NULL,
-  `description` longtext
+  `description` longtext,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM;
 
 --
@@ -10371,7 +10372,7 @@ CREATE TABLE `ecs_part_settings` (
 --
 
 CREATE TABLE `ecs_server` (
-  `server_id` int(11) DEFAULT '0',
+  `server_id` int(11) NOT NULL DEFAULT '0',
   `active` tinyint(4) DEFAULT '0',
   `protocol` tinyint(4) DEFAULT '1',
   `server` varchar(255) DEFAULT NULL,
@@ -10391,7 +10392,8 @@ CREATE TABLE `ecs_server` (
   `duration` int(11) DEFAULT '0',
   `title` varchar(128) DEFAULT NULL,
   `auth_user` varchar(32) DEFAULT NULL,
-  `auth_pass` varchar(32) DEFAULT NULL
+  `auth_pass` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`server_id`)
 ) ENGINE=MyISAM;
 
 --
@@ -32305,7 +32307,7 @@ CREATE TABLE `settings` (
 
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 INSERT INTO `settings` VALUES ('common','convert_path','');
-INSERT INTO `settings` VALUES ('common','db_version','3484');
+INSERT INTO `settings` VALUES ('common','db_version','3486');
 INSERT INTO `settings` VALUES ('common','ilias_version','3.2.3 2004-11-22');
 INSERT INTO `settings` VALUES ('common','inst_info','');
 INSERT INTO `settings` VALUES ('common','inst_name','');
@@ -35785,4 +35787,4 @@ CREATE TABLE `xmlvalue_seq` (
 /*!40000 ALTER TABLE `xmlvalue_seq` DISABLE KEYS */;
 /*!40000 ALTER TABLE `xmlvalue_seq` ENABLE KEYS */;
 
--- Dump completed on 2011-10-04 17:07:34
+-- Dump completed on 2011-10-04 17:22:37
