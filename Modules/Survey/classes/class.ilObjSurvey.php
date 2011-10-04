@@ -2035,11 +2035,7 @@ class ilObjSurvey extends ilObject
 			if (in_array($question_id, $remove_questions) or in_array($data["questionblock_id"], $remove_questionblocks))
 			{
 				unset($this->questions[array_search($question_id, $this->questions)]);
-				// $this->removeQuestion($question_id);
-				if($data["questionblock_id"] && !in_array($data["questionblock_id"], $remove_questionblocks))
-				{
-					// $this->removeQuestionFromBlock($question_id, $data["questionblock_id"]);
-				}
+			    $this->removeQuestion($question_id);
 			}
 			else if($data["questionblock_id"])
 			{
