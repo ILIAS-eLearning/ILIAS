@@ -12284,3 +12284,24 @@ rbac#:#rbac_precondition_save_obligatory#:#Save Obligatory###01 10 2011 new vari
 rbac#:#rbac_precondition_minimum_optional#:#At least 2 preconditions have to remain optional.###01 10 2011 new variable
 common#:#precondition_required_itemlist#:#Required Precondition###01 10 2011 new variable
 common#:#precondition_toggle#:#Preconditions that need to be fulfilled to access this object###01 10 2011 new variable
+content#:#cont_cp_question_diff_formats_info#:#Please note that some formattings are not supported in content modules.###04 10 2011 new variable
+crs#:#crs_link_show_all_prev_sessions#:#Show all previous sessions###04 10 2011 new variable
+crs#:#crs_link_hide_prev_sessions#:#Hide previous sessions###04 10 2011 new variable
+crs#:#crs_link_show_all_next_sessions#:#Show upcoming all upcoming sessions###04 10 2011 new variable
+crs#:#crs_link_hide_next_sessions#:#Hide upcoming sessions###04 10 2011 new variable
+scormdebug#:#scormdebug_disable_cache#:#disable SCORM 2004 Browser-Cache###04 10 2011 new variable
+scormdebug#:#scormdebug_disable_cache_info#:#This prevents the storage of the SCORM 2004 javascript files in the browser cache. Please use this function in time before a new release!###04 10 2011 new variable
+content#:#cont_sequencing#:#enable Sequencing & Navigation according to settings by learning module###04 10 2011 new variable
+content#:#cont_interactions#:#enable storage of results of interactions###04 10 2011 new variable
+content#:#cont_objectives#:#enable storage of data concerning learning objectives###04 10 2011 new variable
+content#:#cont_comments#:#enable storage of comments###04 10 2011 new variable
+content#:#cont_time_from_lms#:#determine processing times by ILIAS instead of SCO###04 10 2011 new variable
+scormdebug#:#completion_status_by_progress_measure#:#Because there is a value for cmi.completion_threshold, the value for cmi.completion_status is evaluated by the LMS! This is done by comparing the value for cmi.completion_threshold with the value for cmi.progress_measure. The value for cmi.completion_status is currently:###04 10 2011 new variable
+scormdebug#:#success_status_by_score_scaled#:#Because there is a value for cmi.scaled_passing_score, the value for cmi.success_status is evaluated by the LMS! This is done by comparing the value for cmi.scaled_passing_score with the value for cmi.score.scaled. The value for cmi.success_status is currently:###04 10 2011 new variable
+certificate#:#certificate_ph_no_sco#:#If items are selected to determine the overall learning progress status, titles and points for these items could be displayed in certificate.###04 10 2011 new variable
+certificate#:#certificate_ph_scos#:#The following items were selected to determine the overall learning progress status and are available for statements in the certificate:###04 10 2011 new variable
+certificate#:#certificate_ph_title_sco#:#title###04 10 2011 new variable
+certificate#:#certificate_ph_sco_title#:#placeholder<br/>for title###04 10 2011 new variable
+certificate#:#certificate_ph_sco_points_scaled#:#placeholder<br/>for points<br/>in percent###04 10 2011 new variable
+certificate#:#certificate_ph_sco_points_raw#:#placeholder<br/>for points###04 10 2011 new variable
+certificate#:#certificate_ph_sco_points_max#:#placeholder<br/>for points<br/>max###04 10 2011 new variable
