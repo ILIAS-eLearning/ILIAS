@@ -12309,3 +12309,5 @@ certificate#:#certificate_ph_sco_points_raw#:#placeholder<br/>for points###04 10
 certificate#:#certificate_ph_sco_points_max#:#placeholder<br/>for points<br/>max###04 10 2011 new variable
 exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of the blog right now? You can do it anytime from the blog editor later on.###04 10 2011 new variable
 exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version of the portfolio right now? You can do it anytime from the portfolio editor later on.###04 10 2011 new variable
+prtf#:#prtf_preview_banner_info#:#Default size is 880x100 pixels.###04 10 2011 new variable
+blog#:#blog_preview_banner_info#:#Default size is 880x100 pixels.###04 10 2011 new variable
