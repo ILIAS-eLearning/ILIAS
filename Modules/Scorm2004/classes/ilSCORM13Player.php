@@ -2423,8 +2423,7 @@ class ilSCORM13Player
 				break;
 			case 'INFO':
 				$logtpl->setCurrentBlock("INFO");
-				$logtpl->setVariable("generated", $lng->txt("generated"));
-				$logtpl->setVariable("TIMESTAMP",  $timestamp);
+				$logtpl->setVariable("hint", $lng->txt("hint"));
 				$logtpl->setVariable("KEY", $logdata->key);
 				$logtpl->setVariable("VALUE",  $logdata->value);
 				$logtpl->parseCurrentBlock();

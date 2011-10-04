@@ -336,8 +336,8 @@ textImportant();
 <!-- END GetDiagnostic -->
 
 <!-- BEGIN INFO -->
-<div class="header" style="border-color:yellow">
-<b>{KEY}</b> ({generated}: {TIMESTAMP})<br/>{VALUE}
+<div class="header" style="border-color:#FFA500">
+<b>{hint}</b>: {KEY} {VALUE}
 </div>
 <!-- END INFO -->
 
