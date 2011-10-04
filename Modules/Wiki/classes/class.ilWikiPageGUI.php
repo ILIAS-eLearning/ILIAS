@@ -189,6 +189,13 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	{			
 		global $ilUser, $ilAccess;
 		
+		// todo: should be fixed to at least show comments
+		// and rating
+		if ($ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			return;
+		}
+		
 		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
 		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, 
 			$ilAccess, "wiki", $_GET["ref_id"], $this->getPageObject()->getParentId());
@@ -202,7 +209,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$lg = $dispatcher->initHeaderAction();
 		$lg->enableNotes(true);
 		$lg->enableComments(true, false);
-		
+
 		// notification
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
