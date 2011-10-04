@@ -74,6 +74,22 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		{
 			$insert_tags["[".$id."]"] = $caption;
 		}		
+
+		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
+		$lp_collections = new ilLPCollections($this->object->getId());
+
+		$counter=0;
+		foreach(ilLPCollections::_getPossibleSAHSItems($this->object->getId()) as $item_id => $sahs_item)
+		{
+			if($lp_collections->isAssigned($item_id)) {
+				$insert_tags['[SCO_T_'.$counter.']'] = $sahs_item['title'];
+				$insert_tags['[SCO_P_'.$counter.']'] = number_format(30.3, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
+				$insert_tags['[SCO_PM_'.$counter.']'] = number_format(90.9, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
+				$insert_tags['[SCO_PP_'.$counter.']'] = number_format(33.3333, 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %";
+				$counter++;
+			}
+		}
+
 		return $insert_tags;
 	}
 
@@ -87,7 +103,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	*/
 	public function getCertificateVariablesForPresentation($params = array())
 	{
-		global $lng;
+		global $lng,$ilUser;
 		
 		$lng->loadLanguageModule('certificate');
 				
@@ -131,7 +147,27 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		foreach($vars as $id => $caption)
 		{
 			$insert_tags["[".$id."]"] = $caption;
-		}		
+		}
+		
+		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
+		$lp_collections = new ilLPCollections($this->object->getId());
+
+		$counter=0;
+		foreach(ilLPCollections::_getPossibleSAHSItems($this->object->getId()) as $item_id => $sahs_item)
+		{
+			if($lp_collections->isAssigned($item_id)) {
+				$insert_tags['[SCO_T_'.$counter.']'] = $sahs_item['title'];//." getId=".$this->object->getId()." item_id=".$item_id." user_id=".$ilUser->getId()
+				$a_scores = ilLPCollections::_getScoresForUserAndCP_Node_Id($this->object->getId(), $item_id, $ilUser->getId());
+				if ($a_scores["raw"] == null) $insert_tags['[SCO_P_'.$counter.']'] = $lng->txt("certificate_points_notavailable");
+				else $insert_tags['[SCO_P_'.$counter.']'] = number_format($a_scores["raw"], 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
+				if ($a_scores["max"] == null) $insert_tags['[SCO_PM_'.$counter.']'] = $lng->txt("certificate_points_notavailable");
+				else $insert_tags['[SCO_PM_'.$counter.']'] = number_format($a_scores["max"], 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand"));
+				if ($a_scores["scaled"] == null) $insert_tags['[SCO_PP_'.$counter.']'] = $lng->txt("certificate_points_notavailable");
+				else $insert_tags['[SCO_PP_'.$counter.']'] = number_format(($a_scores["scaled"]*100), 1, $lng->txt("lang_sep_decimal"), $lng->txt("lang_sep_thousand")) . " %";
+				$counter++;
+			}
+		}
+
 		return $insert_tags;
 	}
 	
@@ -160,6 +196,43 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		}
 
 		$template->setVariable("PH_INTRODUCTION", $lng->txt("certificate_ph_introduction"));
+
+		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
+		$lp_collections = new ilLPCollections($this->object->getId());
+
+		if(!$items = ilLPCollections::_getPossibleSAHSItems($this->object->getId())) {
+			$template->setCurrentBlock('NO_SCO');
+			$template->setVariable('PH_NO_SCO',$lng->txt('certificate_ph_no_sco'));
+			$template->parseCurrentBlock();
+		}
+		else {
+			$template->setCurrentBlock('SCOS');
+			$template->setVariable('PH_SCOS',$lng->txt('certificate_ph_scos'));
+			$template->parseCurrentBlock();
+			$template->setCurrentBlock('SCO_HEADER');
+			$template->setVariable('PH_TITLE_SCO',$lng->txt('certificate_ph_title_sco'));
+			//$template->setVariable('PH_PH',$lng->txt('certificate_ph_ph'));
+			$template->setVariable('PH_SCO_TITLE',$lng->txt('certificate_ph_sco_title'));
+			$template->setVariable('PH_SCO_POINTS_RAW',$lng->txt('certificate_ph_sco_points_raw'));
+			$template->setVariable('PH_SCO_POINTS_MAX',$lng->txt('certificate_ph_sco_points_max'));
+			$template->setVariable('PH_SCO_POINTS_SCALED',$lng->txt('certificate_ph_sco_points_scaled'));
+			$template->parseCurrentBlock();
+		}
+
+		$counter=0;
+		foreach(ilLPCollections::_getPossibleSAHSItems($this->object->getId()) as $item_id => $sahs_item)
+		{
+			if($lp_collections->isAssigned($item_id)) {
+				$template->setCurrentBlock("SCO");
+				$template->setVariable('SCO_TITLE',$sahs_item['title']);
+				$template->setVariable('PH_SCO_TITLE','[SCO_T_'.$counter.']');
+				$template->setVariable('PH_SCO_POINTS_RAW','[SCO_P_'.$counter.']');
+				$template->setVariable('PH_SCO_POINTS_MAX','[SCO_PM_'.$counter.']');
+				$template->setVariable('PH_SCO_POINTS_SCALED','[SCO_PP_'.$counter.']');
+				$template->parseCurrentBlock();
+				$counter++;
+			}
+		}
 
 		return $template->get();
 	}

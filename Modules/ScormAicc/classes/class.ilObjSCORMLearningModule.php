@@ -1216,6 +1216,28 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		);
 	}
 	
-	
+	function _getScoresForUser($a_item_id, $a_user_id)
+	{
+		global $ilDB;
+
+		$retAr = array("raw" => null, "max" => null, "scaled" => null);
+		$val_set = $ilDB->queryF("
+			SELECT lvalue, rvalue FROM scorm_tracking 
+			WHERE sco_id = %s 
+			AND user_id =  %s
+			AND (lvalue = 'cmi.core.score.raw' || lvalue = 'cmi.core.score.max')",
+			array('integer', 'integer'),
+			array($a_item_id, $a_user_id)
+		);
+		while ($val_rec = $ilDB->fetchAssoc($val_set))
+		{
+			if ($val_rec['lvalue'] == "cmi.core.score.raw") $retAr["raw"] = $val_rec["rvalue"];
+			if ($val_rec['lvalue'] == "cmi.core.score.max") $retAr["max"] = $val_rec["rvalue"];
+		}
+		if ($retAr["raw"] != null && $retAr["max"] != null) $retAr["scaled"] = ($retAr["raw"] / $retAr["max"]);
+
+		return $retAr;
+	}
+
 } // END class.ilObjSCORMLearningModule
 ?>
