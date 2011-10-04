@@ -143,6 +143,8 @@ class ilSCORMPresentationGUI
 				$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
 				$this->tpl = new ilTemplate($template, false, false, "Modules/ScormAicc");
 				$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
+				$pres_link = $this->ctrl->getLinkTarget($this, "contentSelect");
+				$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
 			} else {
 				$template .= "_one_page.html";
 				$this->tpl = new ilTemplate($template, false, false, "Modules/ScormAicc");
@@ -373,6 +375,13 @@ class ilSCORMPresentationGUI
 		$this->tpl->show(false);
 	}
 
+	function contentSelect() {
+		global $lng;
+		$this->tpl = new ilTemplate("tpl.scorm_content_select.html", true, true, "Modules/ScormAicc");
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable('TXT_SPECIALPAGE',$lng->txt("seq_toc"));
+		$this->tpl->show();
+	}
 	
 	/**
 	* SCORM Data for Javascript-API
