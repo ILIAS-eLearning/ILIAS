@@ -649,5 +649,29 @@ class ilLPCollections
 		}
 		
 	}
+
+	function _getScoresForUserAndCP_Node_Id ($target_id, $item_id, $user_id)
+	{
+		include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
+
+		switch(ilObjSAHSLearningModule::_lookupSubType($target_id))
+		{
+			case 'hacp':
+			case 'aicc':
+				include_once './Modules/ScormAicc/classes/class.ilObjAICCLearningModule.php';
+				return ilObjAICCLearningModule::_getScoresForUser($item_id, $user_id);
+
+			case 'scorm':
+				include_once './Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php';
+				//include_once './Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php';
+				return ilObjSCORMLearningModule::_getScoresForUser($item_id, $user_id);
+
+			case 'scorm2004':
+				include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php';
+				return ilObjSCORM2004LearningModule::_getScores2004ForUser($item_id, $user_id);
+		}
+		return array("raw" => null, "max" => null, "scaled" => null);
+	}
+
 }
 ?>

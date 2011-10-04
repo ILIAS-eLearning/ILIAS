@@ -1994,6 +1994,25 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		return $retVal;
 	}	
 
+	public static function _getScores2004ForUser($a_cp_node_id, $a_user) {
+		global $ilDB;
+		$retAr = array("raw" => null, "max" => null, "scaled" => null);
+		$val_set = $ilDB->queryF("SELECT c_raw, c_max, scaled FROM cmi_node WHERE (user_id = %s AND cp_node_id = %s)",
+			array('integer', 'integer'),
+			array($a_user, $a_cp_node_id)
+		);
+		if ($val_set->numRows()>0) 
+		{
+			$val_rec = $ilDB->fetchAssoc($val_set);
+			$retAr["raw"] = $val_rec['c_raw'];
+			$retAr["max"] = $val_rec['c_max'];
+			$retAr["scaled"] = $val_rec['scaled'];
+			if ($val_rec['scaled']==null && $val_rec['c_raw']!=null && $val_rec['c_max']!=null) {
+				$retAr["scaled"] = ($val_rec['c_raw'] / $val_rec['c_max']);
+			}
+		}
+		return $retAr;
+	}
 	
 }
 ?>
