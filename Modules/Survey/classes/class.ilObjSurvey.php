@@ -4302,12 +4302,12 @@ class ilObjSurvey extends ilObject
 		$newConstraints = array();
 		foreach ($constraints as $key => $constraint)
 		{
-			if (!array_key_exists($constraints['id'], $newConstraints))
+			if (!array_key_exists($constraint['id'], $newConstraints))
 			{
 				$constraint_id = $newObj->addConstraint($question_pointer[$constraint["question"]], $constraint["relation_id"], $constraint["value"], $constraint['conjunction']);
-				$newConstraints[$constraints['id']] = $constraint_id;
+				$newConstraints[$constraint['id']] = $constraint_id;
 			}
-			$newObj->addConstraintToQuestion($question_pointer[$constraint["for_question"]], $newConstraints[$constraints['id']]);
+			$newObj->addConstraintToQuestion($question_pointer[$constraint["for_question"]], $newConstraints[$constraint['id']]);
 		}
 		
 		// clone the obligatory states
