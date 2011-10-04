@@ -14,27 +14,31 @@
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software_req#:#Required Third-Party Tools
 3rd_party_software_opt#:#Optional Third-Party Tools
+3rd_party_software_req#:#Required Third-Party Tools
 3rd_party_software#:#Third-Party Tools
 3rdparty#:#Third-Party Tools
 absolute_path#:#Absolute Path
-access#:#Access
 access_status#:#Access Status
+access#:#Access
 admin_login#:#Login using Master Password
 antivir#:#AntiVir
+applied_hotfixes#:#Applied Hotfixes
+apply_hotfixes#:#Apply Hotfixes
 available_clients#:#Available Clients
+available_hotfixes#:#Available Hotfixes
 available_languages#:#Available Languages
 back#:#Back
+basic_settings#:#Basic Settings
 cannot_create_datadir_no_write_access#:#No write access. Cannot create data directory.
-change#:#Change
 change_basic_settings#:#Change Basic Settings
 change_password#:#Change Password
 change_sort_direction#:#Change Sort Direction
+change#:#Change
 check_db_versions#:#Please ensure that the database mode determined by ILIAS matches to your version of MySQL. This should be the case usually. If not, your database version is not supported.<br> Example 1: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.0.12' then this MySQL version is not supported. Please contact the ILIAS team.<br />Example 2: If the mode is 'MySQL 4.1.x or higher' and your database version is '4.1.14' then everything is ok.
 check_failed_convert#:#Convert command not found.
-check_failed_htmldoc#:#Testing FOP failed.
 check_failed_htmldoc#:#HTMLdoc command not found.
+check_failed_htmldoc#:#Testing FOP failed.
 check_failed_java#:#Java command not found.
 check_failed_latex#:#Testing LaTeX CGI script failed.
 check_failed_unzip#:#Unzip command not found.
@@ -45,33 +49,41 @@ choose_password#:#Please choose a password.
 city#:#City, State
 clamav#:#ClamAV
 clean_command#:#Clean Command
-client#:#Client
 client_access_mode_changed#:#Client's access mode changed.
 client_data#:#Client Information
+client_deleted#:#Client deleted.
 client_id#:#Client ID
 client_info#:#Description
 client_institution#:#Institution
 client_login#:#Login as Client Administrator
 client_name#:#Name
 client_setup_not_finished#:#Client setup is not finished yet.
+client#:#Client
+clients#:#Clients
 collation#:#Collation
-contact#:#Contact Information
 contact_data#:#Contact Information
-convert_path#:#ImageMagick Convert Path
-convert_path_comment#:#Required for displaying thumbnails of images, e.g. '/your_path/convert'.
+contact#:#Contact Information
 convert_path_comment_win#:#Required for displaying thumbnails of images, e.g. 'C:/tools/ImageMagick/convert.exe'.
+convert_path_comment#:#Required for displaying thumbnails of images, e.g. '/your_path/convert'.
+convert_path#:#ImageMagick Convert Path
 could_not_create_logfile#:#Could not create log file.
 country#:#Country
-create#:#Create
 create_datadir_failed#:#Creation of data directory failed.
+create_directory#:#Create Directory
 create_new_client#:#Create New Client
 create_webdir_failed#:#Creation of web directory failed.
+create#:#Create
 ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.
-ctrl_structure#:#Control Structure
 ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly stated in update or patch instructions. 
+ctrl_structure_reload#:#Reload Control Structure
 ctrl_structure_reloaded#:#Control Structure Reloaded.
+ctrl_structure#:#Control Structure
+data_directories#:#Data Directories
+data_directory_in_ws_info#:#This directory is cannot be changed.
+data_directory_in_ws#:#Data Directory in Webspace
+data_directory_info#:#Please enter a directory outside of the webspace that is writable for the web server.
+data_directory_outside_ws#:#Data Directory outside Webspace
 data_path#:#Data Path
-database#:#Database
 database_create#:#Create Database
 database_exists#:#Database Exists
 database_install#:#Install Database
@@ -82,37 +94,47 @@ database_not_exists_create_first#:#Database does not exist. Please create the da
 database_ready#:#Database is ready.
 database_update#:#Update Database
 database_version#:#Current Database Version
-datadir_path#:#Path to Data Directory
+database#:#Database
 datadir_path_comment1#:#Mandatory
 datadir_path_comment2#:#Cannot be changed in this setup version.
+datadir_path#:#Path to Data Directory
 datadir_webspacedir_match#:#The path to your data directory points to the same directory where your web space directory is located. Please choose another directory.
 date#:#Date
 db_conn#:#Database Connection
 db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')
+db_error_please_check#:#Please check database hostname, username and password.
 db_host#:#Database Host
+db_mysql#:#MySQL
 db_name#:#Database Name
 db_needs_update#:#Database needs update.
 db_not_installed#:#Database not installed.
+db_oracle#:#Oracle
 db_pass#:#Database Password
+db_port#:#Database Port
+db_selection#:#Database Selection
+db_service_name#:#Service Name
 db_type#:#Database Type
+db_update_interrupted_avoid#:#To avoid this problem, please check your max_execution_time and memory_limit settings in your php.ini. Also take fewer steps in each run, to reduce the resources needed by the system.
+db_update_interrupted#:#The database update script has been interrupted unexpectedly in a previous run. This can cause an <b>inconsistent</b> state of your system. We highly recommend to re-install your latest backup and to run the migration again.
 db_user#:#Database User
 db_version#:#Database Version
-default#:#Default
 default_client_changed#:#Changed default client.
 default_language#:#Default Language
-delete#:#Delete
+default#:#Default
 delete_confirm#:#Confirm Client Deletion
 delete_info#:#Are you sure?
+delete#:#Delete
 details#:#Details
+determine_tools_paths#:#Try to Determine Tools Paths
 dir_exists_create#:#Directory already exists. uncheck 'create' to select this directory as your data directory.
-disable#:#Disable
 disable_check#:#Disable Check
 disable_logging#:#Disable Logging
+disable#:#Disable
 disabled#:#Disabled
 display_clientlist#:#Client selection is accessible for users.
 duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.
-email#:#e-Mail
 email_not_valid#:#Invalid e-Mail Address
+email#:#e-Mail
 en_by_default#:#(English is installed by default and cannot be deleted).
 enable#:#Enable
 enabled#:#Enabled
@@ -132,39 +154,38 @@ file_version#:#File Version
 fill_both_fields#:#Please fill out both fields!
 fill_out_required_fields#:#Please fill out all fields marked as required.
 filled_out#:#filled out correctly.
-finish#:#Finish Setup
 finish_initial_setup_first#:#Please finish initial setup first.
 finish_setup#:#Finishing Setup
+finish#:#Finish Setup
 firstname#:#First Name
-fop_path#:#Path to FOP
 fop_path_comment#:#Required to generate PDF documents.
+fop_path#:#Path to FOP
+form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.
+form_retype_password#:#Retype Password
 hide_clientlist#:#Client Selection is hidden for users.
 host#:#Host
-htmldoc_path#:#Path to HTMLdoc
-htmldoc_path_comment#:#Optional to generate PDF documents, e.g. '/your_path/htmldoc'.
+hotfix_applied#:#Hotfix Applied
+hotfix_available#:#Hotfix Available
 htmldoc_path_comment_win#:#Optional to generate PDF documents, e.g. 'C:/tools/htmldoc/htmldoc.exe'.
-mkisofs_path#:#Path to mkisofs
-mkisofs_path_comment#:#Optional to create iso images.
+htmldoc_path_comment#:#Optional to generate PDF documents, e.g. '/your_path/htmldoc'.
+htmldoc_path#:#Path to HTMLdoc
 http_path#:#HTTP Path
 id#:#ID
 ilias_db_mode#:#ILIAS Database Mode
 ilias_homepage#:#ILIAS Homepage
-ilias_nic#:#Registration
 ilias_nic_id#:#NIC ID
+ilias_nic#:#Registration
 ilias_setup#:#ILIAS Setup
 ilias_version#:#ILIAS version
 include_local#:#Include Local
-user#:#User
-db_error_please_check#:#Please check database hostname, username and password.
-need_mysql_4_1_or_higher#:#Your MySQL version is not supported. Please install MysQL 4.1.x or higher to run ILIAS.
 info_text_3rdparty#:#Here you setup the third-party tools which are needed by ILIAS. Follow the setup information for every add-on to complete this step.
 info_text_contact#:#Here you indicate additional client information and the contact data of the system administrator of this client. All information is stored in your database. On the next screen you may optionally register your installation at the ILIAS open source project server.
-info_text_db#:#The database does not exist or is empty. If the database does not yet exist, please check the option 'Create Database' below. ILIAS will try to create your database automatically. If creation fails or your desired collation is not available, please create the database manually using the following command:
-info_text_db2#:#Please ensure that your database is created with the "CHARACTER SET utf8" option.
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.
 info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.
+info_text_db#:#The database does not exist or is empty. If the database does not yet exist, please check the option 'Create Database' below. ILIAS will try to create your database automatically. If creation fails or your desired collation is not available, please create the database manually using the following command:
+info_text_db2#:#Please ensure that your database is created with the "CHARACTER SET utf8" option.
 info_text_delete#:#You may delete this client by clicking on the delete button below. However, only your client.ini file is removed, keeping all files stored in clients data directories and the database. Files and database have to be removed manually by the system's administrator.
-info_text_finish1#:#Congratulations! Your client setup was successful. Click on 'Login' to enter your ILIAS installation.
+info_text_finish1#:#Congratulations! Your client setup was successful. Click on 'Login' to enter and configure your ILIAS installation.
 info_text_finish2#:#Some settings are still missing or incorrect. Please look at the process chart what has to be done!
 info_text_first_client#:#Your basic settings have been saved. Now we will setup your first client. Setup will guide you through the installation process. On the panel to the right you can always see the current status of the installation process.
 info_text_first_install#:#It seems that you install ILIAS for the very first time, because no ilias.ini.php file was found. In this file ILIAS stores a master password to protect ILIAS setup from unauthorized access.
@@ -186,7 +207,6 @@ ini_no_client_id#:#No Client ID given.
 ini_no_db_host#:#No hostname.
 ini_no_db_name#:#no database name.
 ini_no_db_user#:#No database username.
-inifile#:#ini-File
 inifile_can_write#:#ILIAS Setup can write your ini-File.
 inifile_cannot_write#:#ILIAS Setup cannot write your ini-File. Please check write permissions first.
 inifile_content#:#Your ini-File has this content:
@@ -194,19 +214,21 @@ inifile_exists#:#An ini-File exists. Note that this Installation process deletes
 inifile_fill_all#:#Please fill out all fields.
 inifile_firsttime#:#No ini-File present! It seems this is the first start of ILIAS.
 inifile_written#:#The ini-File has been successfully saved on your host.
+inifile#:#ini-File
 input_error#:#Input Error
 inst_identification#:#Installation Identification
 inst_name#:#Installation Name
 install#:#Install
 installation#:#Installation
-installed#:#Installed
 installed_local#:#Installed With Local
+installed#:#Installed
 institution#:#Institution
 intro_install#:#This is the main page of ILIAS Setup. From here you can step through the installation.
 ip_address#:#IP Address
-java_path#:#Path to Java
-java_path_comment#:#Optional for validating SCORM Learning Modules, e.g. '/your_path/java'.
 java_path_comment_win#:#Optional for validating SCORM Learning Modules, e.g. 'C:/Program Files/Java/bin/java.eve'.
+java_path_comment#:#Optional for validating SCORM Learning Modules, e.g. '/your_path/java'.
+java_path#:#Path to Java
+lang_ar#:#Arabic
 lang_bg#:#Bulgarian
 lang_cs#:#Czech
 lang_da#:#Danish
@@ -215,14 +237,17 @@ lang_el#:#Greek
 lang_en#:#English
 lang_error_occurred#:#Encountered an error. Action aborted.
 lang_es#:#Spanish
+lang_et#:#Estonian
 lang_fr#:#French
 lang_hu#:#Hungarian
 lang_id#:#Indonesian
 lang_it#:#Italian
+lang_ja#:#Japanisch
+lang_ka#:#Georgian
 lang_lt#:#Lithuanian
 lang_min_one_language#:#You must install at least one language!
 lang_nl#:#Dutch
-lang_no#:#Norwegisch
+lang_no#:#Norvegian
 lang_none_installed#:#No language installed.
 lang_not_installed_default#:#The language you selected as the default language is not installed!
 lang_pl#:#Polish
@@ -230,45 +255,53 @@ lang_pt#:#Portuguese
 lang_ro#:#Romanian
 lang_ru#:#Russian
 lang_se#:#Swedish
+lang_sk#:#Slovakian
 lang_sq#:#Albanian
 lang_sr#:#Serbian
+lang_tr#:#Turkish
 lang_uk#:#Ukrainian
-lang_xx#:#Custom
 lang_vi#:#Vietnamese
+lang_xx#:#Custom
 lang_zh#:#Chinese
-lang_et#:#Estonian
 langs_not_valid_not_installed#:#Following languages were not installed due to invalid language files
 language#:#language
-languages#:#languages
+language#:#Language
 languages_installed#:#Language(s) installed
+languages#:#languages
 lastname#:#Last name
 latex_url_comment#:#Optional LaTeX support in ILIAS.
-list#:#list
+list_clients#:#List of Clients
 list_disabled#:#Client Selection Disabled
 list_enabled#:#Client Selection Enabled
-log_path#:#Path to Log File
-log_path_comment#:#E.g. '/path_to_log_dir/ilias.log' (File will be created)
+list#:#list
 log_path_comment_win#:#E.g. 'C:/iliasdata/iliaslog.txt' (File will be created)
+log_path_comment#:#E.g. '/path_to_log_dir/ilias.log' (File will be created)
+log_path#:#Path to Log File
 logged_out#:#You logged out.
 logging#:#Logging
-login#:#Login
 login_invalid#:#Login invalid.
 login_to_ilias#:#Login to ILIAS
+login#:#Login
 logout#:#Logout
 main_datadir_outside_webspace#:#Main Data Directory outside Web Space
+master_password#:#Master Password
 missing_data#:#Missing Data
+mkisofs_path_comment#:#Optional to create iso images.
+mkisofs_path#:#Path to mkisofs
+msg_input_is_required#:#This input is required. Please enter a value.
 mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower
 mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher
 name#:#Name
-new#:#New
+need_mysql_4_1_or_higher#:#Your MySQL version is not supported. Please install MysQL 4.1.x or higher to run ILIAS.
 new_client#:#New Client
-list_clients#:#List of Clients
-basic_settings#:#Basic Settings
+new#:#New
+next_update_break_info#:#Depending on the size of your installation, it is usually advisable not to perform large updates in one run.
+next_update_break#:#Next Update Break
 next#:#Next
 nic_not_disabled#:#No NIC-ID & not disabled
-nic_reg_disable#:#Skip Registration
-nic_reg_disable_info#:#You may register later anytime.
 nic_reg_disable_comment#:#(Register Later)
+nic_reg_disable_info#:#You may register later anytime.
+nic_reg_disable#:#Skip Registration
 nic_reg_disabled#:#Disabled
 nic_reg_email#:#Register via e-Mail
 nic_reg_enabled#:#Enabled
@@ -285,6 +318,7 @@ no_clients_available#:#No Clients Available
 no_database#:#No Database
 no_db_connect_consult_admin#:#Could not connect to database. Please consult the system administrator
 no_db_update_file#:#dbupdate.php not found!
+no_items#:#No Entries
 no_latex_url#:#No LaTeX CGI script URL given.
 no_password#:#No password given.
 no_path_convert#:#No convert path given.
@@ -292,15 +326,16 @@ no_path_datadir#:#No data directory given.
 no_path_fop#:#No FOP path given.
 no_path_given#:#No path given.
 no_path_htmldoc#:#No HTMLdoc path given.
-no_path_mkisofs#:#No mkisofs path given.
 no_path_java#:#No Java path given.
 no_path_log#:#No log path given.
+no_path_mkisofs#:#No mkisofs path given.
 no_path_unzip#:#No unzip path given.
 no_path_zip#:#No zip path given.
 no_setup_pass_given#:#No setup password given.
 no_username#:#No username given.
 no_valid_client_id#:#No valid client ID.
 none#:#None
+not_configured#:#Not Configured
 not_connected_to_db#:#You are not connected to database.
 online#:#Online
 or#:#or
@@ -308,7 +343,7 @@ out_of_webspace#:#(out of web space)
 overall_status#:#Overall Status
 overview#:#Overview
 pass_does_not_match#:#Entered passwords does not match.
-password#:#Password
+passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
 password_changed#:#Password changed.
 password_empty#:#No password given!
 password_enter_old#:#You must enter your old password first!
@@ -319,48 +354,44 @@ password_old_wrong#:#Old password entered is wrong!
 password_retype#:#Retype new password
 password_same#:#Old and new password are the same!
 password_set#:#Password saved.
+password#:#Password
 path_not_set#:#Path not set.
-not_configured#:#Not Configured
 path_to_convert#:#Path to Convert
 path_to_fop#:#Path to FOP
 path_to_htmldoc#:#Path to HTMLdoc
-path_to_mkisofs#:#Path to mkisofs
 path_to_java#:#Path to Java
+path_to_mkisofs#:#Path to mkisofs
 path_to_unzip#:#Path to Unzip
 path_to_zip#:#Path to Zip
 pathes#:#Paths
 phone#:#Phone
+please_select#:#Please Select
 port#:#Port
 position#:#Position
-data_directories#:#Data Directories
-data_directory_outside_ws#:#Data Directory outside Webspace
-data_directory_in_ws#:#Data Directory in Webspace
-data_directory_in_ws_info#:#This directory is cannot be changed.
-data_directory_info#:#Please enter a directory outside of the webspace that is writable for the web server.
-pre_dom#:#DOM Support
-pre_dom_missing#:#Please enable DOM support in your PHP installation.
-pre_xsl#:#XSL Support
-pre_xsl_missing#:#Please enable XSL support in your PHP installation, see <a target="_blank" href="%s">PHP Documentation</a>.
-pre_gd#:#GD Support
-pre_gd_missing#:#Please enable GD support in your PHP installation, see <a target="_blank" href="%s">PHP Documentation</a>.
-pre_memory#:#PHP Memory Limit Setting (php.ini)
-pre_memory_limit_too_low#:#Please set the value for "memory_limit" at least to 40M in your php.ini. We recommend 80M or more.
-pre_memory_limit_recommend#:#We recommend a value of 80M or more.
 pre_cookies_disabled#:#Cookies are disabled. Cookies are required to use ILIAS.
 pre_cookies_enabled#:#Cookies Enabled
+pre_dom_missing#:#Please enable DOM support in your PHP installation.
+pre_dom#:#DOM Support
 pre_error#:#Some basic requirements are not met by your installation. You can get further information at the <a href="%s" target="_blank">ILIAS site</a>.
-pre_folder_create#:#Can Create Folders in Webspace Main Folder
 pre_folder_create_error#:#Cannot create subfolders. Please change the permissions accordingly.
-pre_root#:#Writable Webspace Main Folder
+pre_folder_create#:#Can Create Folders in Webspace Main Folder
 pre_folder_write_error#:#Webspace main folder is not writable. Please change the permissions accordingly.
+pre_gd_missing#:#Please enable GD support in your PHP installation, see <a target="_blank" href="%s">PHP Documentation</a>.
+pre_gd#:#GD Support
 pre_intro#:#Let us first see if your environment meets all requirements to install and run ILIAS on your system.
 pre_javascript_comment#:#You may run ILIAS without JavaScript, but some interface features will be missing.
 pre_javascript_enabled#:#JavaScript Enabled
-pre_php#:#PHP Version
-pre_php_version_too_low#:#Your PHP version is not supported. We recommend to use PHP 5.2.1 or higher. PHP 6 has not been tested yet.
-pre_mysql#:#MySQL Support
-pre_mysql_missing#:#Please enable MySQL support (version 4.1 or higher) in your PHP installation.
+pre_memory_limit_recommend#:#We recommend a value of 80M or more.
+pre_memory_limit_too_low#:#Please set the value for "memory_limit" at least to 40M in your php.ini. We recommend 80M or more.
+pre_memory#:#PHP Memory Limit Setting (php.ini)
 pre_mysql_4_1_or_higher#:#You need MySQL 4.1 or higher to run ILIAS.
+pre_mysql_missing#:#Please enable MySQL support (version 4.1 or higher) in your PHP installation.
+pre_mysql#:#MySQL Support
+pre_php_version_too_low#:#Your PHP version is not supported. We recommend to use PHP 5.2.1 or higher. PHP 6 has not been tested yet.
+pre_php#:#PHP Version
+pre_root#:#Writable Webspace Main Folder
+pre_xsl_missing#:#Please enable XSL support in your PHP installation, see <a target="_blank" href="%s">PHP Documentation</a>.
+pre_xsl#:#XSL Support
 preliminaries#:#Preliminaries
 prev#:#Previous
 reload#:#Reload
@@ -368,42 +399,68 @@ required_field#:#Required Fields
 reset#:#Reset
 root_access#:#Root Access
 safe_mode_enabled#:#Safe mode is enabled!
-save#:#Save
 save_error#:#Save Error!
+save#:#Save
 saved_successfully#:#Saved Successfully
 scan_command#:#Scan Command
 select_client#:#Select a Client
 server_info#:#Server Information
+server_settings#:#Server Settings
 server_software#:#Server Software
+sess_allow_client_maintenance_info#:#Defines wether the configuration of session parameters can be done in client administration or not.
+sess_allow_client_maintenance#:#Allow maintenance by client
+sess_max_session_count_info#:#Defines the maximum number of sessions that can be created simultaniously. Setting this to "0" disables the feature.
+sess_max_session_count#:#Max session count
+sess_max_session_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
+sess_max_session_idle_after_first_request#:#Max session idle after first request (in minutes)
+sess_max_session_idle_info#:#Defines the maximum period of idle time a user can idle before his session expires.
+sess_max_session_idle#:#Max session idle (in minutes)
+sess_min_session_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
+sess_min_session_idle#:#Min session idle (in minutes)
+sess_sessions#:#Settings
+session_management_configured#:#configured
+session_management_not_configured#:#not configured
+session_management#:#Session Management
 set_default_client#:#Set Default Client
 set_newpasswd#:#Please enter new password.
 set_oldpasswd#:#Please enter old password.
+settings_change_clob#:#Change to CLOB
+settings_change_text#:#Change to TEXT
 settings_changed#:#Settings changed.
+settings_info_clob#:#The type CLOB allows storing of values with more than 4000 characters. Changing this type to TEXT will increase the performance of ILIAS with an ORACLE database. Before you do this please check if you have settings with more than 4000 characters.
+settings_info_text#:#The type TEXT allows storing of values up to 4000 characters. Changing this type to CLOB will allow longer entries but slow down the performance of ILIAS with an ORACLE database.
+settings_key_info#:#Module:<br />%s<br />Keyword:<br />%s
+settings_longer_values#:#Longer Values
+settings_no_longer_values#:#No values with more than 4000 characters found. You may change the data type to TEXT.
 settings_saved#:#Settings saved.
-setup#:#Setup
+settings_show_longer#:#Show longer values
+settings_too_long#:#Some settings are too long to be converted. Please change them before you change the settings data type.
+settings_type_changed#:#Settings type changed.
+settings_type_current#:#Current Type
+settings_type#:#Settings Data Type
 setup_3rdparty_data#:#Third-Party Tools
 setup_basic_settings#:#Basic Settings
 setup_contact_data#:#Contact Information
-setup_database#:#Database
 setup_database_desc#:#Setup the Database
+setup_database#:#Database
 setup_db_first#:#Please setup your database first!
 setup_finished#:#Setup Finished
 setup_first_client#:#Set up your first Client
 setup_ini_first#:#Please create your ini-File first!
-setup_inifile#:#Create ini-File
 setup_inifile_desc#:#Create the ini-File for your installation.
-setup_languages#:#Languages
+setup_inifile#:#Create ini-File
 setup_languages_desc#:#Install Additional Languages
+setup_languages#:#Languages
 setup_login#:#Login to Setup
 setup_mainmenu#:#Setup Main Menu
 setup_menu#:#Setup Menu
 setup_nic_desc#:#Registration of your installation at ILIAS-NIC-Server
 setup_not_finished#:#Setup not Finished
+setup_pass_title#:#Set Master Password
 setup_pass#:#Password
 setup_pass2#:#Retype password
-setup_pass_title#:#Set Master Password
-setup_password#:#Create Password
 setup_password_desc#:#Create a password to access the setup-routine later on (i.e. to update your database)
+setup_password#:#Create Password
 setup_process_status#:#Setup Status
 setup_process_step_3rdparty#:#Third-Party Tools
 setup_process_step_contact#:#Contact Information
@@ -412,17 +469,29 @@ setup_process_step_finish#:#Finish Setup
 setup_process_step_ini#:#Basic Data
 setup_process_step_lang#:#Languages
 setup_process_step_nic#:#Registration
+setup_process_step_sess#:#Session Management
 setup_ready#:#Setup is ready. you may now proceed with the login and check further system settings.
+setup_sessions#:#Session Management
 setup_welcome#:#Welcome to ILIAS Setup. This setup-routine helps you to
+setup#:#Setup
 sophos#:#Sophos
 sort_by_this_column#:#Sort by this column
-status#:#Status
 status_3rdparty_false#:#Third-Party Tool Missing
 status_3rdparty_ok#:#Third-Party Tool Installed
 status_3rdparty_problems#:#Third-Party Tool Problems
+status#:#Status
+step_access#:#Access
+step_contact#:#Contact
+step_db#:#Database
+step_finish#:#Setup
+step_ini#:#ini-File
+step_lang#:#Languages
+step_nic#:#Registration
+step_sess#:#Session Management
 step#:#Step
 street#:#Street
 submit#:#Submit
+time_zone#:#Time Zone
 tiny_dir_does_not_exist#:#The directory containing the editor does not exist. You must extract the ZIP file containing the editor to the appropriate location.
 tiny_nothing_to_do#:#The editor is installed, there is nothing to do.
 tiny_zip_changed#:#The ZIP file containing the editor has changed during the last setup. Please extract the ZIP file to update the existing editor installation.
@@ -433,88 +502,22 @@ tools#:#Tools
 unknown_client_id#:#Unknown Client
 unknown_command#:#Unknown Command
 unknown_display_mode#:#Unknown Display Mode
-unzip#:#Extract
-unzip_path#:#Path to Unzip
-unzip_path_comment#:#Required for extracting import files, e.g. '/your_path/unzip'.
 unzip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/unzip/unzip.exe'.
+unzip_path_comment#:#Required for extracting import files, e.g. '/your_path/unzip'.
+unzip_path#:#Path to Unzip
+unzip#:#Extract
 update_applied#:#Update Applied
 update_error#:#Error while Updating
 update_not_found#:#Update not found!
 url_to_latex#:#URL to LaTeX CGI Script
+user#:#User
 username#:#Username
 version#:#Version
 virus_scanner#:#Virus Scanner
 webspace_dir#:#Web Space Data Path
 with#:#with
 wrong_password#:#Wrong Password!
-zip_path#:#Path to Zip
-zip_path_comment#:#Required for building export files, e.g. '/your_path/zip'.
 zip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/zip/zip.exe'.
+zip_path_comment#:#Required for building export files, e.g. '/your_path/zip'.
+zip_path#:#Path to Zip
 zipcode#:#Zip Code
-step_ini#:#ini-File
-step_db#:#Database
-step_lang#:#Languages
-language#:#Language
-step_contact#:#Contact
-step_nic#:#Registration
-step_finish#:#Setup
-step_access#:#Access
-determine_tools_paths#:#Try to Determine Tools Paths
-client_deleted#:#Client deleted.
-create_directory#:#Create Directory
-db_selection#:#Database Selection
-db_service_name#:#Service Name
-db_mysql#:#MySQL
-db_oracle#:#Oracle
-msg_input_is_required#:#This input is required. Please enter a value.
-form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.
-form_retype_password#:#Retype Password
-master_password#:#Master Password
-passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
-next_update_break#:#Next Update Break
-next_update_break_info#:#Depending on the size of your installation, it is usually advisable not to perform large updates in one run.
-clients#:#Clients
-no_items#:#No Entries
-server_settings#:#Server Settings
-time_zone#:#Time Zone
-please_select#:#Please Select
-db_port#:#Database Port
-db_update_interrupted#:#The database update script has been interrupted unexpectedly in a previous run. This can cause an <b>inconsistent</b> state of your system. We highly recommend to re-install your latest backup and to run the migration again.
-db_update_interrupted_avoid#:#To avoid this problem, please check your max_execution_time and memory_limit settings in your php.ini. Also take fewer steps in each run, to reduce the resources needed by the system.
-applied_hotfixes#:#Applied Hotfixes
-available_hotfixes#:#Available Hotfixes
-apply_hotfixes#:#Apply Hotfixes
-hotfix_available#:#Hotfix Available
-hotfix_applied#:#Hotfix Applied
-session_management#:#Session Management
-step_sess#:#Session Management
-session_management_not_configured#:#not configured
-session_management_configured#:#configured
-setup_sessions#:#Session Management
-setup_process_step_sess#:#Session Management
-sess_sessions#:#Settings
-sess_max_session_count#:#Max session count
-sess_max_session_count_info#:#Defines the maximum number of sessions that can be created simultaniously. Setting this to "0" disables the feature.
-sess_min_session_idle#:#Min session idle (in minutes)
-sess_min_session_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
-sess_max_session_idle#:#Max session idle (in minutes)
-sess_max_session_idle_info#:#Defines the maximum period of idle time a user can idle before his session expires.
-sess_max_session_idle_after_first_request#:#Max session idle after first request (in minutes)
-sess_max_session_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
-sess_allow_client_maintenance#:#Allow maintenance by client
-sess_allow_client_maintenance_info#:#Defines wether the configuration of session parameters can be done in client administration or not.
-lang_ar#:#Arabic
-lang_tr#:#Turkish
-ctrl_structure_reload#:#Reload Control Structure
-settings_type#:#Settings Data Type
-settings_type_current#:#Current Type
-settings_info_text#:#The type TEXT allows storing of values up to 4000 characters. Changing this type to CLOB will allow longer entries but slow down the performance of ILIAS with an ORACLE database.
-settings_info_clob#:#The type CLOB allows storing of values with more than 4000 characters. Changing this type to TEXT will increase the performance of ILIAS with an ORACLE database. Before you do this please check if you have settings with more than 4000 characters.
-settings_change_clob#:#Change to CLOB
-settings_change_text#:#Change to TEXT
-settings_type_changed#:#Settings type changed.
-settings_show_longer#:#Show longer values
-settings_longer_values#:#Longer Values
-settings_no_longer_values#:#No values with more than 4000 characters found. You may change the data type to TEXT.
-settings_key_info#:#Module:<br />%s<br />Keyword:<br />%s
-settings_too_long#:#Some settings are too long to be converted. Please change them before you change the settings data type.
