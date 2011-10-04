@@ -236,9 +236,9 @@ class ilInternalLinkGUI
 			: " target=\"".$this->link_target."\"";
 //echo "-".$this->link_type."-";
 		if(($this->link_type == "GlossaryItem") &&
-			empty($_SESSION["il_link_glossary"]) ||
+			(empty($_SESSION["il_link_glossary"]) ||
 			!in_array(ilObject::_lookupType($_SESSION["il_link_glossary"], true),
-				array("glo")))
+				array("glo"))))
 		{
 			$this->changeTargetObject("glo");
 		}
