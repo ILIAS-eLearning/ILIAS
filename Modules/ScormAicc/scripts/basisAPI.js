@@ -161,15 +161,16 @@ function IliasLaunch(i_l){
 		if (asset==1) status4tree(iv.launchId,'asset');
 		else status4tree(iv.launchId,getValueIntern(iv.launchId,'cmi.core.lesson_status'),getValueIntern(iv.launchId,'cmi.core.total_time'));
 		b_launched=true;
+		iv.launchId=i_l;
 		frames.sahs_content.document.location.replace(decodeURIComponent(iv.dataDirectory+href));
 	}
 	else {
 		status4tree(iv.launchId,getValueIntern(iv.launchId,'cmi.core.lesson_status'),getValueIntern(iv.launchId,'cmi.core.total_time'));
 		b_launched=false;
-		frames.sahs_content.document.location.replace('./Modules/ScormAicc/templates/default/dummy.html');
 		setTimeout("API.IliasAbortSco("+iv.launchId+")",5000);
+		iv.launchId=i_l;
+		frames.sahs_content.document.location.replace('./Modules/ScormAicc/templates/default/dummy.html');
 	}
-	iv.launchId=i_l;
 	status4tree(iv.launchId,'running');
 }
 
