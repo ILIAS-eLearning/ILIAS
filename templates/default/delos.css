@@ -2032,9 +2032,7 @@ div.ilMainHeader {
 div.ilMainMenuSection {
 	background-repeat: repeat-x;
 	background-image: url(images/mm_back.gif);
-
-	dborder-top: 1px solid #a4c9ff;
-	dborder-bottom: 1px solid #78a1ff;
+	min-height:31px;
 }
 
 div.ilMainMenuHeadSection {
