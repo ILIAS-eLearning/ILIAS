@@ -8263,3 +8263,11 @@ if(!$ilDB->tableExists('note_settings'))
 		}
 	}
 ?>
+<#3485>
+<?php
+	$ilDB->addPrimaryKey('adm_settings_template', array('id'));
+?>
+<#3486>
+<?php
+	$ilDB->addPrimaryKey('ecs_server', array('server_id'));
+?>
