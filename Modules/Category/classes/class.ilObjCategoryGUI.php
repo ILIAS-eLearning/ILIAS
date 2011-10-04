@@ -365,8 +365,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 	protected function editInfoObject()
 	{
 		$this->checkPermission("write");
-		$this->getSubTabs('edit');
-		$this->tabs_gui->setTabActive('edit_properties');
+		$this->setEditTabs();
+		$this->tabs_gui->activateTab('settings');
 		$this->tabs_gui->setSubTabActive('edit_cat_settings');
 		
 		$this->initExtendedSettings();
@@ -432,6 +432,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$this->tabs_gui->activateTab("settings");
 		$this->tabs_gui->activateSubTab($active_tab);
+		
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		if(in_array('cat',ilAdvancedMDRecord::_getActivatedObjTypes()))
+		{
+			$this->tabs_gui->addSubTabTarget("edit_cat_settings",
+				 $this->ctrl->getLinkTarget($this,'editInfo'),
+				 "editInfo", get_class($this));
+		}
 	}
 
 	function initEditForm()
@@ -1399,30 +1407,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 
-	}
-	
-	/**
-	 * Add sub tabs
-	 * @param string 
-	 * @access protected
-	 */
-	protected function getSubTabs($a_section)
-	{
-		switch($a_section)
-		{
-			case 'edit':
-				$this->tabs_gui->addSubTabTarget("edit_properties",
-												 $this->ctrl->getLinkTarget($this,'edit'),
-												 "edit", get_class($this));
-												 
-				include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-				if(in_array('cat',ilAdvancedMDRecord::_getActivatedObjTypes()))
-				{
-					$this->tabs_gui->addSubTabTarget("edit_cat_settings",
-													 $this->ctrl->getLinkTarget($this,'editInfo'),
-													 "editInfo", get_class($this));
-				}
-		}
 	}
 
 
