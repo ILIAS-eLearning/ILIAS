@@ -12304,3 +12304,4 @@ certificate#:#certificate_ph_sco_title#:#Platzhalter<br/>für Titel
 certificate#:#certificate_ph_sco_points_scaled#:#Platzhalter<br/>für Punkte<br/>in Prozent
 certificate#:#certificate_ph_sco_points_raw#:#Platzhalter<br/>für Punkte
 certificate#:#certificate_ph_sco_points_max#:#Platzhalter<br/>für Punkte<br/>maximal
+content#:#cont_cp_question_diff_formats_info#:#Please note that some formattings are not supported in content modules.###04 10 2011 new variable
