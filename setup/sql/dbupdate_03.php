@@ -7777,7 +7777,7 @@ $setting->set("enable_sahs_pd", 1);
 
 	    // Insert role_data
 	    $ilDB->manipulateF(
-		    'INSERT INTO role_data set role_id = %s',
+		    'INSERT INTO role_data (role_id) VALUES (%s)',
 		    array('integer'),
 		    array($role_obj_id)
 	    );
