@@ -525,4 +525,6 @@ settings_show_longer#:#Längere Werte anzeigen
 settings_longer_values#:#Längere Werte
 settings_no_longer_values#:#Es wurden keine Werte mit mehr als 4000 Zeichen gefunden. Sie können den Datentyp auf TEXT ändern.
 settings_key_info#:#Module:<br />%s<br />Keyword:<br />%s
-settings_too_long#:#Einige Systemeinstellungen sind zu lang, um konvertiert zu werden. Bitte ändern Sie diese, bevor Sie den Datentyp ändern.
+settings_too_long#:#Einige Systemeinstellungen sind zu lang, um konvertiert zu werden. Bitte ändern Sie diese, bevor Sie den Datentyp ändern.lang_ja#:#Japanisch###04 10 2011 new variable
+lang_ka#:#Georgian###04 10 2011 new variable
+lang_sk#:#Slovakian###04 10 2011 new variable
