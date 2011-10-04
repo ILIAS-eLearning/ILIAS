@@ -168,7 +168,8 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
 
 		$banner = new ilCheckboxInputGUI($lng->txt("blog_preview_banner"), "banner");
-		$form->addItem($banner);
+		$banner->setInfo($lng->txt("blog_preview_banner_info"));
+		$form->addItem($banner);				
 		
 		$width = new ilNumberInputGUI($lng->txt("blog_preview_banner_width"), "width");
 		$width->setRequired(true);
