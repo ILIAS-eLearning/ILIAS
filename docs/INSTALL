@@ -31,11 +31,6 @@ Appendix A: Note on using Apache 2
 
 1. I N T R O D U C T I O N
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-THIS IS A TESTING RELEASE. PLEASE DO NOT USE IT ON PRODUCTIVE SYSTEMS.
-DATA WILL BE CORRUPTED.
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 ILIAS is a web-based Learning Content Managament System (LCMS) developed with
 the server-side scripting language PHP and distributed as Open Source software
 under the GNU General Public License (GPL). It uses the MySQL database and the
@@ -51,8 +46,9 @@ distribution. Many of these tools are already installed in standard
 configurations of many distributions.
 
 The following third-party tools are necessary for running ILIAS. Release
-numbers refer to the version tested. Like ILIAS itself, all these programs are
-available as Open Source software.
+numbers refer to the versions tested, usually minimum versions. Newer versions
+should work, see also:
+http://www.ilias.de/docu/goto_docu_pg_6531_367.html (II. General Requirements)
 
     - Apache 1.3.44            http://www.apache.org
     - MySQL 5.1.32             http://www.mysql.com
@@ -60,7 +56,7 @@ available as Open Source software.
     - Zlib (libz) 1.1.4        http://www.gzip.org/zlib/
     - libpng 1.2.5             http://www.libpng.org
     - libjpeg 6b               ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
-    - ImageMagick 6.0.1        http://www.imagemagick.org
+    - ImageMagick 6.3.8-3      http://www.imagemagick.org
     - Info-ZIP (Zip/UnZip)     http://www.info-zip.org
     - libxml2 2.6.31           http://www.xmlsoft.org
     - libxslt 1.1.22           http://www.xmlsoft.org
@@ -146,7 +142,7 @@ source files into separate directories in /opt/ilias/src:
     tar -xzf tarballs/zlib-1.1.4.tar.gz
     tar -xzf tarballs/jpegsrc.v6b.tar.gz
     tar -xzf tarballs/libpng-1.2.5.tar.gz
-    tar -xzf tarballs/ImageMagick-6.0.1-2.tar.gz
+    tar -xzf tarballs/ImageMagick-6.3.8-3.tar.gz
     tar -xzf tarballs/zip23.tar.gz
     tar -xzf tarballs/unzip550.tar.gz
     tar -xzf tarballs/mysql-5.1.32.tar.gz
@@ -158,7 +154,7 @@ source files into separate directories in /opt/ilias/src:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-4.2.0.beta1.tar.gz
+    ilias-4.2.0.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -253,7 +249,7 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
 
 (e) ImageMagick
 
-        cd /opt/ilias/src/ImageMagick-6.0.1
+        cd /opt/ilias/src/ImageMagick-6.3.8
         ./configure \
         --prefix=/opt/ilias \
         --without-perl \
@@ -507,7 +503,7 @@ components:
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-4.1.2.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-4.2.0.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -679,7 +675,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-4.2.0.beta1.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-4.2.0.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
