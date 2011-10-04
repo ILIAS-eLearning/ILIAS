@@ -364,15 +364,17 @@ class ilMainMenuGUI
 		//	$title,
 		//	ilLink::_getStaticLink(1,'root',true),
 		//	$this->target);
-		$this->renderEntry($a_tpl, "repository",
-			$title, "#");
-		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
-		$ov = new ilOverlayGUI("mm_rep_ov");
-		$ov->setTrigger("mm_rep_tr");
-		$ov->setAnchor("mm_rep_tr");
-		$ov->setAutoHide(false);
-		$ov->add();
-		
+		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		{
+			$this->renderEntry($a_tpl, "repository",
+				$title, "#");
+			include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+			$ov = new ilOverlayGUI("mm_rep_ov");
+			$ov->setTrigger("mm_rep_tr");
+			$ov->setAnchor("mm_rep_tr");
+			$ov->setAutoHide(false);
+			$ov->add();
+		}
 
 		// search
 		include_once 'Services/Search/classes/class.ilSearchSettings.php';
