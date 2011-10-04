@@ -168,6 +168,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
 
 		$banner = new ilCheckboxInputGUI($lng->txt("prtf_preview_banner"), "banner");
+		$banner->setInfo($lng->txt("prtf_preview_banner_info"));
 		$form->addItem($banner);
 		
 		$width = new ilNumberInputGUI($lng->txt("prtf_preview_banner_width"), "width");
