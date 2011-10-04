@@ -404,6 +404,14 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 							sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"true",0);
 							removeByElement(scoDebugValues,sPath);
 							removeByElement(scoDebugValuesTest,sPath);
+							//check logik for 3rd edition
+							/*
+							if (sPath == "cmi.completion_status" && pubAPI.cmi.completion_threshold && pubAPI.cmi.completion_threshold>=0) {
+								sendLogEntry("","INFO","completion_status_by_progress_measure",GetValueIntern("cmi.completion_status"),"","");
+							}
+							if (sPath == "cmi.success_status" && pubAPI.cmi.scaled_passing_score && pubAPI.cmi.scaled_passing_score>=-1) {
+								sendLogEntry("","INFO","success_status_by_score_scaled",GetValueIntern("cmi.success_status"),"","");
+							}*/
 						}	
 						var lastToken = sPath.substring(sPath.lastIndexOf('.') + 1);
 						if(lastToken == "completion_status" || lastToken == "success_status") {
