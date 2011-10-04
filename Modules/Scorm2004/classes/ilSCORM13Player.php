@@ -1231,7 +1231,8 @@ class ilSCORM13Player
 					$tmp_result = array();
 					foreach($row as $key => $value)
 					{
-						$tmp_result[] = $value;
+						if ($k == "comment" && $key == "c_timestamp" && strpos($value,' ')==10) $tmp_result[] = str_replace(' ','T',$value);
+						else $tmp_result[] = $value;
 					}
 					$result['data'][$k][] = $tmp_result;
 				}
@@ -1460,7 +1461,7 @@ class ilSCORM13Player
 
 					case 'comment':
 						$row[$cmi_no] = $ilDB->nextId('cmi_comment');
-	
+
 						$ilDB->insert('cmi_comment', array(
 							'cmi_comment_id'	=> array('integer', $row[$cmi_no]),
 							'cmi_node_id'		=> array('integer', $row[1]),
