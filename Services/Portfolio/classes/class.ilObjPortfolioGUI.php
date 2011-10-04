@@ -198,13 +198,7 @@ class ilObjPortfolioGUI
 				
 		$ilToolbar->addButton($lng->txt("prtf_add_portfolio"),
 			$ilCtrl->getLinkTarget($this, "add"));
-			
-		if(DEVMODE)
-		{
-			$ilToolbar->addButton("TEST IMPORT PROFILE",
-				$ilCtrl->getLinkTarget($this, "importProfile"));
-		}				
-
+	
 		include_once "Services/Portfolio/classes/class.ilPortfolioTableGUI.php";
 		$table = new ilPortfolioTableGUI($this, "show", $this->user_id);
 
@@ -1150,64 +1144,6 @@ class ilObjPortfolioGUI
 		ilUtil::sendSuccess($lng->txt("prtf_portfolio_page_deleted"), true);
 		$ilCtrl->redirect($this, "pages");
 	}
-	
-	protected function importProfile()
-	{
-		global $ilUser, $lng;
-		
-		if(!DEV_MODE)
-		{
-			return;
-		}
-		
-		include_once "Services/User/classes/class.ilExtPublicProfilePage.php";
-		include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
-		
-		$users = array($ilUser->getId());
-		
-		foreach($users as $user_id)
-		{		
-			$port = new ilObjPortfolio();
-			$port->setOwner($user_id);
-			$port->setTitle($lng->txt("prtf_portfolio_default"));
-			$port->setOnline(true);
-			$port->create();
-			
-			ilObjPortfolio::setUserDefault($user_id, $port->getId());
-			
-			// first page has public profile as default
-			$xml = "<PageObject>".
-				"<PageContent PCID=\"".ilUtil::randomHash()."\">".
-					"<Profile Mode=\"inherit\" User=\"".$user_id."\"/>".
-				"</PageContent>".
-			"</PageObject>";
-			
-			// insert profile as first page
-			$first = new ilPortfolioPage($port->getId());		
-			$first->setTitle("###-");
-			$first->setXMLContent($xml);			
-			$first->create();			
-
-			// additional pages?
-			$pages = ilExtPublicProfilePage::getPagesOfUser($user_id);
-			if($pages)
-			{
-				foreach($pages as $p)
-				{
-					$source = new ilExtPublicProfilePage($p["id"]);
-
-					$target = new ilPortfolioPage($port->getId());
-					$target->setTitle($source->getTitle());
-					$target->setXMLContent($source->getXMLContent());
-					$target->create();
-
-					// $source->delete();
-				}			
-			}	
-		}
-		
-		$this->show();
-	}		
 	
 	/**
 	 * Show user page
