@@ -251,7 +251,7 @@ class ilExAssignmentGUI
 						if(sizeof($delivered_files))
 						{													
 							$delivered_files = array_pop($delivered_files);
-							$blog_id = (int)$delivered_files["filetitle"];							
+							$blog_id = (int)$delivered_files["filetitle"];																
 							
 							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";						
@@ -282,7 +282,7 @@ class ilExAssignmentGUI
 						{
 							$info->addProperty($lng->txt("exc_blog_returned"), $files_str);		
 						}
-						if($delivered_files && $delivered_files["filename"])
+						if($delivered_files && substr($delivered_files["filename"], -1) != "/")
 						{							
 							$ilCtrl->setParameterByClass("ilobjexercisegui", "delivered", $delivered_files["returned_id"]);
 							$dl_link = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "download");
@@ -328,7 +328,7 @@ class ilExAssignmentGUI
 						{
 							$info->addProperty($lng->txt("exc_portfolio_returned"), $files_str);	
 						}
-						if($delivered_files && $delivered_files["filename"])
+						if($delivered_files && substr($delivered_files["filename"], -1) != "/")
 						{							
 							$ilCtrl->setParameterByClass("ilobjexercisegui", "delivered", $delivered_files["returned_id"]);
 							$dl_link = $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "download");

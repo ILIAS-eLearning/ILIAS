@@ -1238,37 +1238,14 @@ class ilObjBlogGUI extends ilObject2GUI
 	 */
 	protected function finalize()
 	{
-		global $ilUser, $ilCtrl, $lng;
+		global $ilCtrl, $lng;
 		
-		$exc_id = (int)$_REQUEST["exc"];
-		$ass_id = (int)$_REQUEST["ass"];
+		// to make exercise gui load assignment
+		$_GET["ass_id"] = $_REQUEST["ass"];
 		
-		$file = $this->buildExportFile();
-		
-		$meta = array(
-			"name" => $this->node_id,
-			"tmp_name" => $file,
-			"size" => filesize($file),			
-			);		
-		
-		// remove existing files
-		include_once "Modules/Exercise/classes/class.ilExAssignment.php";
-		$ass = new ilExAssignment($ass_id);
-		$uploads = $ass->getDeliveredFiles($exc_id, $ass_id, $ilUser->getID());
-		if($uploads)
-		{
-			$ids = array();
-			foreach($uploads as $item)
-			{
-				$ids[] = $item["returned_id"];
-			}
-			$ass->deleteDeliveredFiles($exc_id, $ass_id, $ids, $ilUser->getID());
-		}
-			
-		// add export file as upload
-		include_once "Modules/Exercise/classes/class.ilObjExercise.php";		
-		$exc = new ilObjExercise($exc_id, false);
-		$exc->deliverFile($meta, $ass_id, $ilUser->getId(), true);		
+		include_once "Modules/Exercise/classes/class.ilObjExerciseGUI.php";
+		$exc_gui = new ilObjExerciseGUI(null, $_REQUEST["exc"], false);
+		$exc_gui->submitBlog($this->node_id);
 		
 		ilUtil::sendSuccess($lng->txt("blog_finalized"), true);
 		$ilCtrl->redirect($this, "render");
