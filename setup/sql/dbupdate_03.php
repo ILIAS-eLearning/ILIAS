@@ -8157,3 +8157,109 @@ if(!$ilDB->tableExists('note_settings'))
 		$ilDB->query("UPDATE sahs_lm SET comments = 'y'");
 	}
 ?>
+<#3484>
+<?php
+
+	// Get all users with extended profile pages
+	$set = $ilDB->query("SELECT DISTINCT(user_id) FROM usr_ext_profile_page");
+	$user_ids = array();
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$user_ids[] = $rec["user_id"];
+	}
+
+	if(sizeof($user_ids))
+	{
+		foreach($user_ids as $user_id)
+		{
+			$portfolio_id = $ilDB->nextId("object_data");
+			
+			// create portfolio object			
+			$ilDB->manipulate("INSERT INTO object_data".
+				 " (obj_id,type,title,description,owner,create_date,last_update,import_id)".
+				 " VALUES (".
+				 $ilDB->quote($portfolio_id, "integer").",".
+				 $ilDB->quote("prtf", "text").",".
+				 $ilDB->quote("Default", "text").",".
+				 $ilDB->quote("", "text").",".
+				 $ilDB->quote($user_id, "integer").",".
+				 $ilDB->now().",".
+				 $ilDB->now().",".
+				 $ilDB->quote("", "text").")");
+
+			// create portfolio data
+			$ilDB->manipulate("INSERT INTO usr_portfolio (id,is_online,is_default)".
+				" VALUES (".$ilDB->quote($portfolio_id, "integer").",".
+				$ilDB->quote(true, "integer").",".
+				$ilDB->quote(true, "integer").")");
+			
+			$page_id = $ilDB->nextId("usr_portfolio_page");
+
+			// create first page as profile			
+			$fields = array("portfolio_id" => array("integer", $portfolio_id),
+				"type" => array("integer", 1),
+				"title" => array("text", "###-"),
+				"order_nr" => array("integer", 10),
+				"id" => array("integer", $page_id));
+			$ilDB->insert("usr_portfolio_page", $fields);
+
+			// first page has public profile as default
+			$xml = "<PageObject>".
+				"<PageContent PCID=\"".ilUtil::randomHash()."\">".
+					"<Profile Mode=\"inherit\" User=\"".$user_id."\"/>".
+				"</PageContent>".
+			"</PageObject>";
+
+			// create first page core
+			$ilDB->insert("page_object", array(
+				"page_id" => array("integer", $page_id),
+				"parent_id" => array("integer", $portfolio_id),
+				"content" => array("clob", $xml),
+				"parent_type" => array("text", "prtf"),
+				"create_user" => array("integer", $user_id),
+				"last_change_user" => array("integer", $user_id),
+				"inactive_elements" => array("integer", 0),
+				"int_links" => array("integer", 0),
+				"created" => array("timestamp", ilUtil::now()),
+				"last_change" => array("timestamp", ilUtil::now())
+				));
+
+			// migrate extended profile pages
+			$set = $ilDB->query("SELECT ext.id, ext.title, pg.content FROM usr_ext_profile_page ext".
+				" JOIN page_object pg ON (pg.page_id = ext.id)".
+				" WHERE ext.user_id = ".$ilDB->quote($user_id, "integer").
+				" AND parent_type =".$ilDB->quote("user", "text").
+				" AND parent_id = ".$ilDB->quote($user_id, "integer").
+				" ORDER BY ext.order_nr");
+			$order = 10;
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				$order += 10;
+				
+				$page_id = $ilDB->nextId("usr_portfolio_page");
+				
+				// create portfolio page				
+				$fields = array("portfolio_id" => array("integer", $portfolio_id),
+					"type" => array("integer", 1),
+					"title" => array("text", $rec["title"]),
+					"order_nr" => array("integer", $order),
+					"id" => array("integer", $page_id));
+				$ilDB->insert("usr_portfolio_page", $fields);
+				
+				// create page core
+				$ilDB->insert("page_object", array(
+					"page_id" => array("integer", $page_id),
+					"parent_id" => array("integer", $portfolio_id),
+					"content" => array("clob", $rec["content"]),
+					"parent_type" => array("text", "prtf"),
+					"create_user" => array("integer", $user_id),
+					"last_change_user" => array("integer", $user_id),
+					"inactive_elements" => array("integer", 0),
+					"int_links" => array("integer", 0),
+					"created" => array("timestamp", ilUtil::now()),
+					"last_change" => array("timestamp", ilUtil::now())
+					));		
+			}
+		}
+	}
+?>
