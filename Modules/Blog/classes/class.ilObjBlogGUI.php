@@ -937,7 +937,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		$counter = 0;
 		foreach($items as $month => $postings)
 		{
-			$month_name = ilCalendarUtil::_numericMonthToString(substr($month, 6)).
+			$month_name = ilCalendarUtil::_numericMonthToString((int)substr($month, 5)).
 				" ".substr($month, 0, 4);
 
 			if(!$a_link_template)
