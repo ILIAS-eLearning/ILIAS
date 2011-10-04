@@ -12305,3 +12305,5 @@ certificate#:#certificate_ph_sco_points_scaled#:#Platzhalter<br/>für Punkte<br/
 certificate#:#certificate_ph_sco_points_raw#:#Platzhalter<br/>für Punkte
 certificate#:#certificate_ph_sco_points_max#:#Platzhalter<br/>für Punkte<br/>maximal
 content#:#cont_cp_question_diff_formats_info#:#Please note that some formattings are not supported in content modules.###04 10 2011 new variable
+exc#:#exc_direct_submit_blog#:#Möchten Sie die aktuelle Version Ihres Blogs jetzt abgeben? Sie können dies auch jederzeit im Blog-Editor tun.
+exc#:#exc_direct_submit_portfolio#:#Möchten Sie die aktuelle Version Ihres Portfolios jetzt abgeben? Sie können dies auch jederzeit im Portfolio-Editor tun.

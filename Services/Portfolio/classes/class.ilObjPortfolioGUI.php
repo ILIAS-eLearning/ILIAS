@@ -1313,37 +1313,12 @@ class ilObjPortfolioGUI
 	{
 		global $ilUser, $ilCtrl, $lng;
 		
-		$exc_id = (int)$_REQUEST["exc"];
-		$ass_id = (int)$_REQUEST["ass"];
+		// to make exercise gui load assignment
+		$_GET["ass_id"] = $_REQUEST["ass"];
 		
-		include_once "Services/Portfolio/classes/class.ilPortfolioHTMLExport.php";
-		$export = new ilPortfolioHTMLExport($this, $this->portfolio);
-		$file = $export->buildExportFile();
-		
-		$meta = array(
-			"name" => $this->portfolio->getId(),
-			"tmp_name" => $file,
-			"size" => filesize($file),			
-			);		
-				
-		// remove existing files
-		include_once "Modules/Exercise/classes/class.ilExAssignment.php";
-		$ass = new ilExAssignment($ass_id);
-		$uploads = $ass->getDeliveredFiles($exc_id, $ass_id, $ilUser->getID());
-		if($uploads)
-		{
-			$ids = array();
-			foreach($uploads as $item)
-			{
-				$ids[] = $item["returned_id"];
-			}
-			$ass->deleteDeliveredFiles($exc_id, $ass_id, $ids, $ilUser->getID());
-		}
-			
-		// add export file as upload
-		include_once "Modules/Exercise/classes/class.ilObjExercise.php";		
-		$exc = new ilObjExercise($exc_id, false);
-		$exc->deliverFile($meta, $ass_id, $ilUser->getID(), true);		
+		include_once "Modules/Exercise/classes/class.ilObjExerciseGUI.php";
+		$exc_gui = new ilObjExerciseGUI(null, $_REQUEST["exc"], false);
+		$exc_gui->submitPortfolio($this->portfolio->getId());
 		
 		ilUtil::sendSuccess($lng->txt("prtf_finalized"), true);
 		$ilCtrl->redirect($this, "pages");
