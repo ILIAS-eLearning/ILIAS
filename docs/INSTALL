@@ -254,6 +254,7 @@ as /usr/lib or /usr/local/lib for the libaries by changing the configure option
         --prefix=/opt/ilias \
         --without-perl \
         --enable-lzw \
+        --enable-delegate-build \
         --enable-shared
         make
         make install
