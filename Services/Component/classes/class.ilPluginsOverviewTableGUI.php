@@ -105,8 +105,6 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng;
 
-//var_dump($a_set);
-
 		$ilCtrl->setParameter($this->parent_obj, "ctype", $a_set["component_type"]);
 		$ilCtrl->setParameter($this->parent_obj, "cname", $a_set["component_name"]);
 		$ilCtrl->setParameter($this->parent_obj, "slot_id", $a_set["slot_id"]);
@@ -118,8 +116,11 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 
 		foreach ($a_set["plugins"] as $p)
 		{
+			$act_str = ($p["active"])
+				? " <b>(".$lng->txt("active").")</b>"
+				: "";
 			$this->tpl->setCurrentBlock("plugin");
-			$this->tpl->setVariable("TXT_PLUGIN_NAME", $p["name"]);
+			$this->tpl->setVariable("TXT_PLUGIN_NAME", $p["name"].$act_str);
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("TXT_SLOT_NAME",
