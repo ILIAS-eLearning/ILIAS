@@ -238,6 +238,7 @@ class SurveyQuestionGUI
 	
 	protected function addCommandButtons($a_form)
 	{
+		$a_form->addCommandButton("saveReturn", $this->lng->txt("save_return"));
 		$a_form->addCommandButton("save", $this->lng->txt("save"));
 		
 		// pool question?
@@ -256,6 +257,14 @@ class SurveyQuestionGUI
 	function saveSync()
 	{
 		$this->save($_REQUEST["rtrn"], true);
+	}
+	
+	/**
+	 * save question and return to calling survey
+	 */
+	function saveReturn()
+	{
+		$this->save(true);
 	}
 
 	/**
