@@ -464,7 +464,7 @@ class ilMainMenuGUI
 	 */
 	function renderEntry($a_tpl, $a_id, $a_txt, $a_script, $a_target = "_top")
 	{
-		global $lng, $ilNavigationHistory, $ilSetting;
+		global $lng, $ilNavigationHistory, $ilSetting, $rbacsystem;
 	
 		$id = strtolower($a_id);
 		$id_up = strtoupper($a_id);
