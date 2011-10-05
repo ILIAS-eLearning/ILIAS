@@ -127,6 +127,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	
 	var $rowImages;
 	
+	var $openRows;
+	
 	
 /**
 * Matrix question subtype
@@ -1633,14 +1635,21 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	* @access public
 	*/
 	function addUserSpecificResultsExportTitles(&$a_array, $export_type = 'title_only')
-	{
+	{		
 		parent::addUserSpecificResultsExportTitles($a_array);
+		
+		$this->openRows[$this->getId()] = array();		
 		for ($i = 0; $i < $this->getRowCount(); $i++)
 		{
-			array_push($a_array, $this->getRow($i)->title);
+			array_push($a_array, $this->getRow($i)->title);	
+			if($this->getRow($i)->other)
+			{
+				$this->openRows[$this->getId()][] = $i;
+				array_push($a_array, $this->getRow($i)->title." (".$this->lng->txt("use_other_answer").")");
+			}
 			switch ($this->getSubtype())
 			{
-				case 0:
+				case 0:	
 					break;
 				case 1:
 					for ($index = 0; $index < $this->getColumnCount(); $index++)
@@ -1674,9 +1683,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						foreach ($resultset["answers"][$this->getId()] as $result)
 						{
 							if ($result["rowvalue"] == $i)
-							{
+							{								
 								$checked = TRUE;
 								array_push($a_array, $result["value"] + 1);
+								
+								if(in_array($i, $this->openRows[$this->getId()]))
+								{									
+									array_push($a_array, $result["textanswer"]);
+								}								
 							}
 						}
 						if (!$checked)
@@ -1690,12 +1704,18 @@ class SurveyMatrixQuestion extends SurveyQuestion
 					{
 						$checked = FALSE;
 						$checked_values = array();
+						$open_answer = FALSE;
 						foreach ($resultset["answers"][$this->getId()] as $result)
 						{
 							if ($result["rowvalue"] == $i)
 							{
 								$checked = TRUE;
 								array_push($checked_values, $result["value"] + 1);
+								
+								if(in_array($i, $this->openRows[$this->getId()]))
+								{						
+									$open_answer = $result["textanswer"];									
+								}		
 							}
 						}
 						if (!$checked)
@@ -1705,6 +1725,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						else
 						{
 							array_push($a_array, "");
+						}
+						if($open_answer)
+						{
+							array_push($a_array, $open_answer);
 						}
 						for ($index = 0; $index < $this->getColumnCount(); $index++)
 						{

@@ -4892,6 +4892,10 @@ class ilObjSurvey extends ilObject
 		$resultarray = array();
 		foreach ($row as $rowindex => $entry)
 		{
+			if(is_array($entry))
+			{
+				$entry = implode("/", $entry);
+			}			
 			$surround = FALSE;
 			if ($quoteAll)
 			{
