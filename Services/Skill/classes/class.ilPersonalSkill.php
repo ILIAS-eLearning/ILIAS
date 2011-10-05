@@ -23,14 +23,20 @@ class ilPersonalSkill
 		
 		include_once "Services/Skill/classes/class.ilSkillTreeNode.php";
 		
+		include_once("./Services/Skill/classes/class.ilSkillTree.php");
+		$stree = new ilSkillTree();
+
 		$set = $ilDB->query("SELECT * FROM skl_personal_skill ".
 			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer")
 			);
 		$pskills = array();
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
-			$pskills[$rec["skill_node_id"]] = array("skill_node_id" => $rec["skill_node_id"],
-				"title" => ilSkillTreeNode::_lookupTitle($rec["skill_node_id"]));
+			if ($stree->isInTree($rec["skill_node_id"]))
+			{
+				$pskills[$rec["skill_node_id"]] = array("skill_node_id" => $rec["skill_node_id"],
+					"title" => ilSkillTreeNode::_lookupTitle($rec["skill_node_id"]));
+			}
 		}
 		return $pskills;
 	}

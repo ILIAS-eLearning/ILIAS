@@ -2057,7 +2057,7 @@ class ilUtil
 		{
 			return false;
 		}	
-		
+
 		if ($isInline) {
 			$disposition = "inline"; // "inline" to view file in browser
 		} else {
