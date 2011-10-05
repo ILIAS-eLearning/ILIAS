@@ -3676,8 +3676,8 @@ common#:#obj_chac#:#Chat-Server
 common#:#obj_chac_desc#:#Konfigurieren Sie hier Ihren Chat-Server. Aktivieren/Deaktivieren der Chats
 common#:#obj_chap#:#Kapitel
 common#:#obj_chat#:#Chat
-common#:#obj_cmps#:#Module, Services und Plugins
-common#:#obj_cmps_desc#:#Allgemeine Einstellungen für Module, Dienste und Plugins.
+common#:#obj_cmps#:#Plugins, Module und Dienste
+common#:#obj_cmps_desc#:#Allgemeine Einstellungen für Plugins, Module und Dienste.
 common#:#obj_crs#:#Kurs
 common#:#obj_crs_duplicate#:#Kurs kopieren
 common#:#obj_crs_select#:#-- Bitte wählen Sie einen Kurs aus --
