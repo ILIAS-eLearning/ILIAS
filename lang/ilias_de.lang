@@ -5075,7 +5075,7 @@ content#:#cont_external#:#extern
 content#:#cont_external_url#:#Externe URL
 content#:#cont_file#:#Datei
 content#:#cont_file_created#:#Datei wurde angelegt.
-content#:#cont_file_deleted#:#Die Datei wurde umbenannt.
+content#:#cont_file_deleted#:#Die Dateien wurden gelöscht.
 content#:#cont_file_from_repository#:#Datei aus Magazin
 content#:#cont_file_renamed#:#Die Datei wurde umbenannt.
 content#:#cont_file_unzipped#:#Die Datei wurde entpackt.
