@@ -209,13 +209,6 @@ class ilCommonActionDispatcherGUI
 	 */
 	function initHeaderAction()
 	{
-		global $ilUser;
-		
-		if ($ilUser->getId() == ANONYMOUS_USER_ID)
-		{
-			return;
-		}
-		
 		include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
 		$this->header_action = ilObjectListGUIFactory::_getListGUIByType($this->obj_type);
 		// $this->header_action->setContainerObject($a_gui);		
