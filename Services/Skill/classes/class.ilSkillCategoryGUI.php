@@ -178,6 +178,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 	 */
 	function saveItem()
 	{
+		include_once "Services/Skill/classes/class.ilSkillCategory.php";
 		$it = new ilSkillCategory();
 		$it->setTitle($this->form->getInput("title"));
 		$it->setOrderNr($this->form->getInput("order_nr"));
