@@ -199,14 +199,21 @@ class ilContainerSorting
 		{
 			return $a_items;
 		}
-		foreach($a_items as $type => $data)
+		foreach((array) $a_items as $type => $data)
 		{
 			// Add position
 			$items = array();
-			foreach($data as $key => $item)
+			foreach((array) $data as $key => $item)
 			{
 				$items[$key] = $item;
-				$items[$key]['position'] = isset($this->sorting['all'][$item['child']]) ? $this->sorting['all'][$item['child']] : 9999;
+				if(is_array($this->sorting['all']) and isset($this->sorting['all'][$item['child']]))
+				{
+					$items[$key]['position'] = $this->sorting['all'][$item['child']];
+				}
+				else
+				{
+					$items[$key]['position'] = 9999;
+				}
 			}
 
 			switch($type)
