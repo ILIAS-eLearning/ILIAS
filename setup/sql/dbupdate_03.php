@@ -8271,3 +8271,8 @@ if(!$ilDB->tableExists('note_settings'))
 <?php
 	$ilDB->addPrimaryKey('ecs_server', array('server_id'));
 ?>
+<#3487>
+<?php
+	$setting = new ilSetting();
+	$setting->set("obj_dis_creation_dbk", 1);
+?>

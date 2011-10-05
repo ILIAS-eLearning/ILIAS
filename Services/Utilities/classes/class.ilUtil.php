@@ -3554,6 +3554,7 @@ class ilUtil
 		{
 			$cmd .= " ".$args;
 		}
+//echo "<br>".$cmd;
 		exec($cmd, $arr);
 		return $arr;
 	}
