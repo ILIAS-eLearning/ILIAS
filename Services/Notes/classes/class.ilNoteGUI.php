@@ -287,7 +287,7 @@ if ($this->private_enabled && $this->public_enabled
 		
 		$comments_col = false;
 		if ($this->public_enabled && (!$this->delete_note || $this->public_deletion_enabled)
-			&& !$hide_comments && $ilUser->getId() != ANONYMOUS_USER_ID)
+			&& !$hide_comments /* && $ilUser->getId() != ANONYMOUS_USER_ID */)
 		{
 			$ntpl->setVariable("COMMENTS", $this->getNoteListHTML(IL_NOTE_PUBLIC, $a_init_form));
 			$comments_col = true;
@@ -295,7 +295,7 @@ if ($this->private_enabled && $this->public_enabled
 		
 		// Comments Settings
 		if ($this->comments_settings && !$hide_comments && !$this->delete_note
-			&& !$this->edit_note_form && !$this->add_note_form)
+			&& !$this->edit_note_form && !$this->add_note_form && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$notes_settings = new ilSetting("notes");
 			$id = $this->rep_obj_id."_".$this->obj_id."_".$this->obj_type;
@@ -510,8 +510,7 @@ if ($this->private_enabled && $this->public_enabled
 		
 		// show add new note button
 		if (!$this->add_note_form && !$this->edit_note_form && !$this->delete_note &&
-			!$this->export_html && !$this->print &&
-			($ilUser->getId() != ANONYMOUS_USER_ID))
+			!$this->export_html && !$this->print &&	$ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			if (!$this->inc_sub)	// we cannot offer add button if aggregated notes
 			{						// are displayed
@@ -584,9 +583,8 @@ if ($this->private_enabled && $this->public_enabled
 		}
 		
 		// show add new note text area
-		//if ($this->add_note_form && $a_type == $_GET["note_type"])
-		if (!$this->edit_note_form &&
-			$ilUser->getPref("notes_".$suffix) != "n" && !$this->delete_note)
+		if (!$this->edit_note_form && $ilUser->getPref("notes_".$suffix) != "n" && 
+			!$this->delete_note && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			if ($a_init_form)
 			{
