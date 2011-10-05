@@ -950,7 +950,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		else
 		{
-			ilUtil::sendInfo("exc_no_assignments_available");
+			ilUtil::sendInfo($lng->txt("exc_no_assignments_available"));
 		}
 		return;		
 	}
