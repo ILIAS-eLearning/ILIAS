@@ -12309,3 +12309,4 @@ exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of t
 exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version of the portfolio right now? You can do it anytime from the portfolio editor later on.
 prtf#:#prtf_preview_banner_info#:#Default size is 880x100 pixels.
 blog#:#blog_preview_banner_info#:#Default size is 880x100 pixels.
+exc#:#exc_no_assignments_available#:#No assignments created yet. Please open "Assigments" and "Edit" to create a first assignment.
