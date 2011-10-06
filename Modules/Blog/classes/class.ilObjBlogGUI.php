@@ -772,7 +772,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/Blog");
 		
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-		$title = ilCalendarUtil::_numericMonthToString(substr($a_month, 6)).
+		$title = ilCalendarUtil::_numericMonthToString((int)substr($a_month, 5)).
 				" ".substr($a_month, 0, 4);
 		$wtpl->setVariable("TXT_CURRENT_MONTH", $title);						
 		
