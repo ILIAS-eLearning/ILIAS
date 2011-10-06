@@ -12094,10 +12094,10 @@ style#:#style_page_layout_module_scorm#:#Scorm
 style#:#style_page_layout_module_portfolio#:#Portfolio
 prtf#:#prtf_use_page_layout#:#Seitenlayout benutzen
 common#:#shoppingcart#:#Warenkorb
-content#:#cont_ed_insert_skills#:#Skills einfügen
-content#:#cont_pc_skills#:#Skill
-content#:#cont_insert_skills#:#Skill einfügen
-content#:#cont_update_skills#:#Skill bearbeiten
+content#:#cont_ed_insert_skills#:#Kompetenzen einfügen
+content#:#cont_pc_skills#:#Kompetenz
+content#:#cont_insert_skills#:#Kompetenz einfügen
+content#:#cont_update_skills#:#Kompetenz bearbeiten
 trac#:#trac_determines_learning_progress#:#Bestimmt Lernfortschritt
 search#:#lucene_max_fs#:#Maximale Dateigröße (in MB)
 search#:#lucene_max_fs_info#:#Definiert das Dateigrößenlimit, bis zu dem Dateien indexiert werden. Der Inhalt größerer Dateien wird nicht in den Index aufgenommen.
