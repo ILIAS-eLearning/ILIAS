@@ -286,14 +286,14 @@ class ilSharedResourceGUI
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
-		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setFormAction($ilCtrl->getFormAction($this, "checkPassword"));
 		$form->setTitle($lng->txt("wsp_password_for").": ".$object_data["title"]);
 		
 		$password = new ilTextInputGUI($lng->txt("password"), "password");
 		$password->setRequired(true);
 		$form->addItem($password);
 		
-		$form->addCommandButton('checkPassword', $lng->txt("submit"));
+		$form->addCommandButton("checkPassword", $lng->txt("submit"));
 		
 		return $form;
 	}
@@ -301,6 +301,8 @@ class ilSharedResourceGUI
 	protected function checkPassword()
 	{
 		global $ilDB, $lng;
+		
+		$lng->loadLanguageModule("wsp");
 		 
 		$form = $this->initPasswordForm();
 		if($form->checkInput())
