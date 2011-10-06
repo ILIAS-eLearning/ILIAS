@@ -998,8 +998,8 @@ jQuery(document).ready(function() {
 			return 'rgba('+hex_to_decimal(color.substr(0,2))+','+hex_to_decimal(color.substr(2,2))+','+hex_to_decimal(color.substr(4,2))+','+opacity+')';
 		};
 		create_canvas_for = function(img, id) {
-			var width = jQuery(img).attr("width");
-			var height = jQuery(img).attr("height");
+			var width = jQuery(img).prop("width");
+			var height = jQuery(img).prop("height");
 			if(typeof(img.width) == "number")
 			{
 				width = img.width;
@@ -1082,8 +1082,8 @@ jQuery(document).ready(function() {
 		
 		create_canvas_for = function(img, id)
 		{
-			var width = jQuery(img).attr("width");
-			var height = jQuery(img).attr("height");
+			var width = jQuery(img).prop("width");
+			var height = jQuery(img).prop("height");
 			if(typeof(img.width) == "number")
 			{
 				width = img.width;
