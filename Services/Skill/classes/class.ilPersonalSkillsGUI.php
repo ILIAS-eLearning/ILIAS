@@ -571,7 +571,7 @@ class ilPersonalSkillsGUI
 		
 		// toolbars
 		$tb = new ilToolbarGUI();
-		$tb->addFormButton($lng->txt("assign"),
+		$tb->addFormButton($lng->txt("select"),
 			"selectMaterial");
 		$tb->setFormAction($ilCtrl->getFormAction($this));
 		$tb->setOpenFormTag(true);
