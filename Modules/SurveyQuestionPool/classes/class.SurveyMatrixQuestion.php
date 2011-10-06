@@ -1679,7 +1679,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				case 0:
 					for ($i = 0; $i < $this->getRowCount(); $i++)
 					{
+						$has_open_answer = in_array($i, $this->openRows[$this->getId()]);
+						
 						$checked = FALSE;
+						$open_answer = FALSE;
 						foreach ($resultset["answers"][$this->getId()] as $result)
 						{
 							if ($result["rowvalue"] == $i)
@@ -1687,9 +1690,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 								$checked = TRUE;
 								array_push($a_array, $result["value"] + 1);
 								
-								if(in_array($i, $this->openRows[$this->getId()]))
-								{									
-									array_push($a_array, $result["textanswer"]);
+								if($has_open_answer)
+								{						
+									$open_answer = $result["textanswer"];		
 								}								
 							}
 						}
@@ -1697,11 +1700,17 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						{
 							array_push($a_array, $this->lng->txt("skipped"));
 						}
+						if($has_open_answer)
+						{
+							array_push($a_array, $open_answer);
+						}
 					}
 					break;
 				case 1:
 					for ($i = 0; $i < $this->getRowCount(); $i++)
 					{
+						$has_open_answer = in_array($i, $this->openRows[$this->getId()]);
+						
 						$checked = FALSE;
 						$checked_values = array();
 						$open_answer = FALSE;
@@ -1712,7 +1721,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 								$checked = TRUE;
 								array_push($checked_values, $result["value"] + 1);
 								
-								if(in_array($i, $this->openRows[$this->getId()]))
+								if($has_open_answer)
 								{						
 									$open_answer = $result["textanswer"];									
 								}		
@@ -1726,7 +1735,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						{
 							array_push($a_array, "");
 						}
-						if($open_answer)
+						if($has_open_answer)
 						{
 							array_push($a_array, $open_answer);
 						}
