@@ -363,17 +363,17 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI
 		$ok = true;
 
 		// Start
-		$_POST[$this->getPostVar()]['start']["date"]["y"] = 
+		$_POST[$this->getPostVar()]['start']["date"]["y"] =
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["date"]["y"]);
-		$_POST[$this->getPostVar()]["date"]["m"] = 
+		$_POST[$this->getPostVar()]['start']["date"]["m"] =
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["date"]["m"]);
-		$_POST[$this->getPostVar()]["date"]["d"] = 
+		$_POST[$this->getPostVar()]['start']["date"]["d"] =
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["date"]["d"]);
-		$_POST[$this->getPostVar()]["time"]["h"] = 
+		$_POST[$this->getPostVar()]['start']["time"]["h"] =
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["time"]["h"]);
-		$_POST[$this->getPostVar()]["time"]["m"] = 
+		$_POST[$this->getPostVar()]['start']["time"]["m"] =
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["time"]["m"]);
-		$_POST[$this->getPostVar()]["time"]["s"] = 
+		$_POST[$this->getPostVar()]['start']["time"]["s"] = 
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]['start']["time"]["s"]);
 
 		// verify date
@@ -383,8 +383,16 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI
 		$dt['hours'] = (int) $_POST[$this->getPostVar()]['start']['time']['h'];
 		$dt['minutes'] = (int) $_POST[$this->getPostVar()]['start']['time']['m'];
 		$dt['seconds'] = (int) $_POST[$this->getPostVar()]['start']['time']['s'];
-		$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
-		$timestamp = $date->get(IL_CAL_UNIX);	
+
+
+		if($this->getShowTime())
+		{
+			$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
+		}
+		else
+		{
+			$date = new ilDate($dt,IL_CAL_FKT_GETDATE);
+		}
 		if ($_POST[$this->getPostVar()]['start']["date"]["d"] != $date->get(IL_CAL_FKT_DATE,'d',$ilUser->getTimeZone()) ||
 			$_POST[$this->getPostVar()]['start']["date"]["m"] != $date->get(IL_CAL_FKT_DATE,'m',$ilUser->getTimeZone()) ||
 			$_POST[$this->getPostVar()]['start']["date"]["y"] != $date->get(IL_CAL_FKT_DATE,'Y',$ilUser->getTimeZone()))
@@ -393,23 +401,23 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI
 			$ok = false;
 		}
 
-		$_POST[$this->getPostVar()]['start']['date'] = $date->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
-		$_POST[$this->getPostVar()]['start']['time'] = $date->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
+		#$_POST[$this->getPostVar()]['start']['date'] = $date->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
+		#$_POST[$this->getPostVar()]['start']['time'] = $date->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
 
 		$this->setStart($date);
 
 		// End
 		$_POST[$this->getPostVar()]['end']["date"]["y"] = 
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["date"]["y"]);
-		$_POST[$this->getPostVar()]["date"]["m"] = 
+		$_POST[$this->getPostVar()]['end']["date"]["m"] =
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["date"]["m"]);
-		$_POST[$this->getPostVar()]["date"]["d"] = 
+		$_POST[$this->getPostVar()]['end']["date"]["d"] =
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["date"]["d"]);
-		$_POST[$this->getPostVar()]["time"]["h"] = 
+		$_POST[$this->getPostVar()]['end']["time"]["h"] =
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["time"]["h"]);
-		$_POST[$this->getPostVar()]["time"]["m"] = 
+		$_POST[$this->getPostVar()]['end']["time"]["m"] =
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["time"]["m"]);
-		$_POST[$this->getPostVar()]["time"]["s"] = 
+		$_POST[$this->getPostVar()]['end']["time"]["s"] =
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]['end']["time"]["s"]);
 
 		// verify date
@@ -419,8 +427,15 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI
 		$dt['hours'] = (int) $_POST[$this->getPostVar()]['end']['time']['h'];
 		$dt['minutes'] = (int) $_POST[$this->getPostVar()]['end']['time']['m'];
 		$dt['seconds'] = (int) $_POST[$this->getPostVar()]['end']['time']['s'];
-		$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
-		$timestamp = $date->get(IL_CAL_UNIX);	
+
+		if($this->getShowTime())
+		{
+			$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
+		}
+		else
+		{
+			$date = new ilDate($dt,IL_CAL_FKT_GETDATE);
+		}
 		if ($_POST[$this->getPostVar()]['end']["date"]["d"] != $date->get(IL_CAL_FKT_DATE,'d',$ilUser->getTimeZone()) ||
 			$_POST[$this->getPostVar()]['end']["date"]["m"] != $date->get(IL_CAL_FKT_DATE,'m',$ilUser->getTimeZone()) ||
 			$_POST[$this->getPostVar()]['end']["date"]["y"] != $date->get(IL_CAL_FKT_DATE,'Y',$ilUser->getTimeZone()))
@@ -429,8 +444,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI
 			$ok = false;
 		}
 
-		$_POST[$this->getPostVar()]['end']['date'] = $date->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
-		$_POST[$this->getPostVar()]['end']['time'] = $date->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
+		#$_POST[$this->getPostVar()]['end']['date'] = $date->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
+		#$_POST[$this->getPostVar()]['end']['time'] = $date->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
 
 		$this->setEnd($date);
 
