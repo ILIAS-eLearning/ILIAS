@@ -935,7 +935,6 @@ abstract class ilPlugin
 	private final function autoLoad($a_classname)
 	{
 		$class_file = $this->getClassesDirectory().'/class.'.$a_classname.'.php';
-		$GLOBALS['ilLog']->write(__METHO__.': Trying to include '.$class_file);
 		@include_once($class_file);
 	}
 	
