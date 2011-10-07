@@ -2919,7 +2919,8 @@ class ilObjectListGUI
 				$this->ctrl->setParameter($this->container_obj,'expand',-1 * $this->obj_id);
 				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'','lg_div_'.$this->ref_id));
 				$this->ctrl->clearParameters($this->container_obj);			
-				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('browser/minus.gif'));				
+				#$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('browser/minus.gif'));
+				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_exp.png'));
 			$this->tpl->setVariable('EXP_ALT',$this->lng->txt('collapse'));
 			}
 			else
@@ -2927,7 +2928,8 @@ class ilObjectListGUI
 				$this->ctrl->setParameter($this->container_obj,'expand',$this->obj_id);
 				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'','lg_div_'.$this->ref_id));
 				$this->ctrl->clearParameters($this->container_obj);
-				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('browser/plus.gif'));
+				#$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('browser/plus.gif'));
+				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_col.png'));
 				$this->tpl->setVariable('EXP_ALT',$this->lng->txt('expand'));
 			}
 			
