@@ -125,8 +125,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 							}
 						}
 					}
-
-					$this->object->addAnswer($answertext, $_POST['choice']['points'][$index], $index, $picturefile);
+					$this->object->addAnswer($answertext, $_POST['choice']['points'][$index], $_POST['choice']['points_unchecked'][$index], $index, $picturefile);
 				}						
 			}
 			else
