@@ -35,6 +35,7 @@ class ilFileSystemGUI
 				"object" => $this,
 				"method" => "confirmDeleteFile",
 				"name" => $lng->txt("delete"),
+				"allow_dir" => true,
 				"int" => true
 			),
 			2 => array(
@@ -47,6 +48,7 @@ class ilFileSystemGUI
 				"object" => $this,
 				"method" => "renameFileForm",
 				"name" => $lng->txt("rename"),
+				"allow_dir" => true,
 				"int" => true
 			),
 		);
@@ -626,7 +628,7 @@ class ilFileSystemGUI
 	function confirmDeleteFile()
 	{
 		global $ilCtrl, $tpl, $lng;
-			
+
 		if (!is_array($_POST["file"]) || count($_POST["file"]) == 0)
 		{
 			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
@@ -656,7 +658,7 @@ class ilFileSystemGUI
 	function deleteFile()
 	{
 		global $lng;
-		
+
 		if (!isset($_POST["file"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
