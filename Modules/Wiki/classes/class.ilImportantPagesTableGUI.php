@@ -22,7 +22,9 @@ class ilImportantPagesTableGUI extends ilTable2GUI
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->setData(ilObjWiki::_lookupImportantPagesList($a_parent_obj->object->getId()));
+		$data = array("page_id" => 0) + 
+			ilObjWiki::_lookupImportantPagesList($a_parent_obj->object->getId());
+		$this->setData($data);
 		$this->setTitle($lng->txt(""));
 		$this->setLimit(9999);
 		
@@ -48,13 +50,28 @@ class ilImportantPagesTableGUI extends ilTable2GUI
 	{
 		global $lng;
 
-		$this->tpl->setVariable("PAGE_ID", $a_set["page_id"]);
-		$this->tpl->setVariable("VAL_ORD", $a_set["ord"]);
-		$this->tpl->setVariable("PAGE_TITLE",
-			ilWikiPage::lookupTitle($a_set["page_id"]));
-		$this->tpl->setVariable("SEL_INDENT",
-			ilUtil::formSelect($a_set["indent"], "indent[".$a_set["page_id"]."]",
-			array(0 => "0", 1 => "1", 2 => "2"), false, true));
+		if ($a_set["page_id"] > 0)
+		{
+			$this->tpl->setCurrentBlock("cb");
+			$this->tpl->setVariable("PAGE_ID", $a_set["page_id"]);
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setCurrentBlock("ord");
+			$this->tpl->setVariable("PAGE_ID_ORD", $a_set["page_id"]);
+			$this->tpl->setVariable("VAL_ORD", $a_set["ord"]);
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setVariable("PAGE_TITLE",
+				ilWikiPage::lookupTitle($a_set["page_id"]));
+			$this->tpl->setVariable("SEL_INDENT",
+				ilUtil::formSelect($a_set["indent"], "indent[".$a_set["page_id"]."]",
+				array(0 => "0", 1 => "1", 2 => "2"), false, true));
+		}
+		else
+		{
+			$this->tpl->setVariable("PAGE_TITLE",
+				$lng->txt("wiki_start_page"));
+		}
 	}
 	
 }

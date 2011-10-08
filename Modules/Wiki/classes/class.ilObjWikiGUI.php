@@ -486,7 +486,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
 			// important pages
 			$ilTabs->addSubTab("imp_pages",
-				$lng->txt("wiki_important_pages"),
+				$lng->txt("wiki_navigation"),
 				$ilCtrl->getLinkTarget($this, 'editImportantPages'));
 
 			$ilTabs->activateSubTab($a_active);
@@ -1350,6 +1350,8 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		$this->checkPermission("write");
 
+		ilUtil::sendInfo($lng->txt("wiki_navigation_info"));
+		
 		$ipages = ilObjWiki::_lookupImportantPagesList($this->object->getId());
 		$ipages_ids = array();
 		foreach ($ipages as $i)
