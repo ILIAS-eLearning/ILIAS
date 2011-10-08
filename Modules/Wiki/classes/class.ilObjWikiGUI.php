@@ -1360,12 +1360,12 @@ class ilObjWikiGUI extends ilObjectGUI
 		// list pages
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		$pages = ilWikiPage::getAllPages($this->object->getId());
-		$options = array();
+		$options = array("" => $lng->txt("please_select"));
 		foreach ($pages as $p)
 		{
 			if (!in_array($p["id"], $ipages_ids))
 			{
-				$options[$p["id"]] = $p["title"];
+				$options[$p["id"]] = ilUtil::shortenText($p["title"], 60, true);
 			}
 		}
 		if (count($options) > 0)
@@ -1401,8 +1401,11 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		$this->checkPermission("write");
 
-		$this->object->addImportantPage((int) $_POST["imp_page_id"]);
-		ilUtil::sendSuccess($lng->txt("wiki_imp_page_added"), true);
+		if ($_POST["imp_page_id"] > 0)
+		{
+			$this->object->addImportantPage((int) $_POST["imp_page_id"]);
+			ilUtil::sendSuccess($lng->txt("wiki_imp_page_added"), true);
+		}
 		$ilCtrl->redirect($this, "editImportantPages");
 	}
 
