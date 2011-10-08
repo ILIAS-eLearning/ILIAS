@@ -37,7 +37,6 @@ class ilPCParagraph extends ilPageContent
 		parent::setNode($a_node);		// this is the PageContent node
 		
 		$childs = $a_node->child_nodes();
-
 		for ($i=0; $i<count($childs); $i++)
 		{
 			if ($childs[$i]->node_name() == "Paragraph")

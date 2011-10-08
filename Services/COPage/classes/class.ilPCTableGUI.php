@@ -392,7 +392,9 @@ class ilPCTableGUI extends ilPageContentGUI
 	function renderTable($a_mode = "table_edit", $a_submode = "")
 	{
 		$tab_node = $this->content_obj->getNode();
+		$tab_node->set_attribute("Enabled", "True");
 		$content = $this->dom->dump_node($tab_node);
+
 		$trans = $this->pg_obj->getLanguageVariablesXML();
 		$mobs = $this->pg_obj->getMultimediaXML();
 		if ($this->getStyleId() > 0)
@@ -947,6 +949,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		$this->setTabs();
 		$this->setCellPropertiesSubTabs();
 		$ilTabs->setSubTabActive("cont_alignment");
+		$ilTabs->setTabActive("cont_table_cell_properties");
 
 		// edit form
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
