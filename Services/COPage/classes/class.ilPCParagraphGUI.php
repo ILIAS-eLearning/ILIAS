@@ -323,9 +323,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		global $ilUser, $ilias;
 
 		$s_text = $this->content_obj->getText();
+//echo "\n<br><br>".htmlentities($s_text);
 		$s_text = $this->content_obj->xml2output($s_text, true, false);
+//echo "\n<br><br>".htmlentities($s_text);
 		$char = $this->determineCharacteristic(false);
 		$s_text = ilPCParagraphGUI::xml2outputJS($s_text, $char, $this->content_obj->readPCId());
+//echo "\n<br><br>".htmlentities($s_text);
 		$ids = "###".$this->content_obj->readHierId().":".$this->content_obj->readPCId()."###".
 			$char."###";
 		echo $ids.$s_text;
@@ -358,6 +361,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			array("<ol class='ilc_list_o_NumberedList'>", "</ol>"), $s_text);
 		$s_text = str_replace(array("<SimpleListItem>", "</SimpleListItem>"),
 			array("<li class='ilc_list_item_StandardListItem'>", "</li>"), $s_text);
+		$s_text = str_replace(array("<SimpleListItem/>"),
+			array("<li class='ilc_list_item_StandardListItem'></li>"), $s_text);
 		//$s_text = str_replace("<SimpleBulletList><br />", "<SimpleBulletList>", $s_text);
 		//$s_text = str_replace("<SimpleNumberedList><br />", "<SimpleNumberedList>", $s_text);
 		//$s_text = str_replace("</SimpleListItem><br />", "</SimpleListItem>", $s_text);
