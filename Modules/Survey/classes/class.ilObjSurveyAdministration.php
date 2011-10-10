@@ -181,6 +181,7 @@ class ilObjSurveyAdministration extends ilObject
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 	
+	/* #7927: special users are deprecated
 	function addSpecialUsers($arr_user_id)
 	{
 		$surveySetting = new ilSetting("survey");
@@ -201,6 +202,8 @@ class ilObjSurveyAdministration extends ilObject
 	{
 		$surveySetting = new ilSetting("survey");
 		return strlen($surveySetting->get("multiple_survey_users")) ? explode(",",$surveySetting->get("multiple_survey_users")) : array();
-	}
+	}	 
+	*/
+	
 } // END class.ilObjSurveyAdministration.php
 ?>
