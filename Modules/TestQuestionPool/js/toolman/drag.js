@@ -119,7 +119,9 @@ _ToolManDragGroup.prototype = {
 			dragEvent.group.element.style.zIndex = zIndex
 		})
 		this.register('dragend', function(dragEvent) {
-			dragEvent.group.element.style.zIndex = originalZIndex
+			// dragEvent.group.element.style.zIndex = originalZIndex
+			// #6585: in IE8 originalZIndex might not be defined
+			dragEvent.group.element.style.zIndex = (originalZIndex ? originalZIndex : 10000);						
 		})
 	},
 
