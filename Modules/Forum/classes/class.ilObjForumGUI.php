@@ -2817,7 +2817,8 @@ class ilObjForumGUI extends ilObjectGUI
 		$tpl->setVariable('TXT_POST', $lng->txt('forums_thread').': '.$this->objCurrentTopic->getSubject());
 
 		$oThreadToolbar = clone $ilToolbar;
-		$oThreadToolbar->addButton($this->lng->txt('move_up'),'#move_up');
+		$oThreadToolbar->addSeparator();
+		$oThreadToolbar->addButton($this->lng->txt('top_of_page'),'#move_up');
 		$tpl->setVariable('THREAD_TOOLBAR', $oThreadToolbar->getHTML());
 		
 		$tpl->setVariable('TPLPATH', $tpl->vars['TPLPATH']);
