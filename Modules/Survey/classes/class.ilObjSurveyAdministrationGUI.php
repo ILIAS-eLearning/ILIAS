@@ -139,6 +139,10 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	*/
 	function addSpecialUserObject()
 	{
+		// #7927: special users are deprecated
+		exit();
+		
+		/*
 		if ((array_key_exists("user_id", $_POST)) && (count($_POST["user_id"])))
 		{
 			$this->object->addSpecialUsers($_POST["user_id"]);
@@ -148,11 +152,16 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		{
 			ilUtil::sendInfo($this->lng->txt("adm_search_select_user"), TRUE);
 		}
-		$this->ctrl->redirect($this, "specialusers");
+		$this->ctrl->redirect($this, "specialusers");		 
+		*/
 	}
 	
 	function removeSpecialUserObject()
 	{
+		// #7927: special users are deprecated
+		exit();
+		
+		/*
 		if ((array_key_exists("special_user_id", $_POST)) && (count($_POST["special_user_id"])))
 		{
 			$this->object->removeSpecialUsers($_POST["special_user_id"]);
@@ -162,7 +171,8 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		{
 			ilUtil::sendInfo($this->lng->txt("adm_remove_select_user"), TRUE);
 		}
-		$this->ctrl->redirect($this, "specialusers");
+		$this->ctrl->redirect($this, "specialusers");		 
+		*/
 	}
 	
 	/**
@@ -173,7 +183,11 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	function specialusersObject()
 	{
 		global $ilAccess, $ilTabs;
+		
+		// #7927: special users are deprecated
+		exit();
 
+		/*
 		$ilTabs->activateTab("specialusers");
 		
 		$a_write_access = ($ilAccess->checkAccess("write", "", $this->object->getRefId())) ? true : false;
@@ -232,7 +246,8 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("SPECIAL_USERS", $this->lng->txt("adm_no_special_users"));
 		}
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();		 
+		*/
 	}
 
 	/**
@@ -320,9 +335,12 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "settings"));
 
+			// #7927: special users are deprecated
+			/*
 			$tabs_gui->addTab("specialusers",
 				$lng->txt("specialusers"),
-				$this->ctrl->getLinkTarget($this, "specialusers"));
+				$this->ctrl->getLinkTarget($this, "specialusers"));			
+			*/
 
 			$tabs_gui->addTab("templates",
 				$lng->txt("adm_settings_templates"),

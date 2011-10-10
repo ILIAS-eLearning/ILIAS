@@ -3235,7 +3235,11 @@ class ilObjSurvey extends ilObject
 	* @access public
 	*/
 	function isAllowedToTakeMultipleSurveys($userid = "")
-	{
+	{		
+		// #7927: special users are deprecated
+		return false;
+		
+		/*
 		$result = FALSE;
 		if ($this->getAnonymize())
 		{
@@ -3255,7 +3259,8 @@ class ilObjSurvey extends ilObject
 				}
 			}
 		}
-		return $result;
+		return $result;		 
+		*/
 	}
 	
 /**
