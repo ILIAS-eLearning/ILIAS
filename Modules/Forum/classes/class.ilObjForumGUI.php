@@ -793,7 +793,6 @@ class ilObjForumGUI extends ilObjectGUI
 						'disableForumNotification',
 						'moveThreads',
 						'performMoveThreads',
-						'confirmMoveThreads',
 						'cancelMoveThreads',
 						'performThreadsAction',
 						'searchForums',
@@ -3110,27 +3109,6 @@ class ilObjForumGUI extends ilObjectGUI
 		return true;
 	}
 	
-	public function confirmMoveThreadsObject()
-	{
-		global $lng, $ilAccess;
-	
-		if (!$ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-		}
-		
-		if (! (is_numeric($_POST['frm_ref_id']) && $_POST['frm_ref_id'] > 0))
-		{ 
-			ilUtil::sendInfo($lng->txt('no_forum_selected'));		
-			$this->moveThreadsObject();
-			return true;
-		}
-				
-		$this->hideToolbar(true);
-		$this->moveThreadsObject(true);
-	
-		return true;	
-	}
 	
 	public function searchForumsObject()
 	{
@@ -3259,9 +3237,9 @@ class ilObjForumGUI extends ilObjectGUI
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
 		$this->tpl->setVariable('FRM_SELECTION_TREE', $output);		
-		$this->tpl->setVariable('CMD_SUBMIT', 'confirmMoveThreads');
+		$this->tpl->setVariable('CMD_SUBMIT', 'performMoveThreads');
 		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('paste'));
-		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'confirmMoveThreads'));
+		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'performMoveThreads'));
 
 
 		return true;
