@@ -8276,3 +8276,12 @@ if(!$ilDB->tableExists('note_settings'))
 	$setting = new ilSetting();
 	$setting->set("obj_dis_creation_dbk", 1);
 ?>
+<#3488>
+<?php
+
+	$ilDB->modifyTableColumn('frm_settings', 'preset_subject',
+	array('type' => 'integer',
+		'notnull' => true,
+		'length' => 1,
+		'default' => 1));	
+?>
