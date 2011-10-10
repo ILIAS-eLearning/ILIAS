@@ -1767,6 +1767,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			for ($i = 0; $i < $this->getRowCount(); $i++)
 			{
 				array_push($a_array, "");
+				
+				if(in_array($i, $this->openRows[$this->getId()]))
+				{
+					array_push($a_array, "");
+				}
+				
 				switch ($this->getSubtype())
 				{
 					case 0:
