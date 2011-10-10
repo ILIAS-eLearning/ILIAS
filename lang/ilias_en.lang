@@ -12312,3 +12312,15 @@ exc#:#exc_no_assignments_available#:#No assignments created yet. Please open "As
 wsp#:#wsp_invalid_password#:#The given password is invalid.
 wiki#:#wiki_navigation_info#:#Here you can add and remove links to existing wiki pages to the navigation block in the wiki.
 common#:#top_of_page#:#Top of page
+rbac#:#prfa_visible#:#Portfolio Administration is visible
+rbac#:#prfa_read#:#Read access to Portfolio Administration
+rbac#:#prfa_write#:#Edit Portfolio Administration
+rbac#:#prfa_edit_permission#:#Change permission settings
+rbac#:#skmg_visible#:#Skill Management is visible
+rbac#:#skmg_read#:#Read access to Skill Management
+rbac#:#skmg_write#:#Edit Skill Management
+rbac#:#skmg_edit_permission#:#Change permission settings
+rbac#:#blga_visible#:#Blog Administration is visible
+rbac#:#blga_read#:#Read access to Blog Administration
+rbac#:#blga_write#:#Edit Blog Administration
+rbac#:#blga_edit_permission#:#Change permission settings

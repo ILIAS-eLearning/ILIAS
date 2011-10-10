@@ -12313,3 +12313,15 @@ exc#:#exc_no_assignments_available#:#Keine Übungseinheiten vorhanden. Bitte wä
 wsp#:#wsp_invalid_password#:#Das Passwort ist ungültig.
 wiki#:#wiki_navigation_info#:#Hier können Sie bestehende Wikiseiten zm Navigationsblock hinzufügen und entfernen.
 common#:#top_of_page#:#Zum Seitenanfang
+rbac#:#prfa_visible#:#Portfolio-Administration ist sichtbar
+rbac#:#prfa_read#:#Lesezugriff auf Portfolio-Administration
+rbac#:#prfa_write#:#Portfolio-Administration bearbeiten
+rbac#:#prfa_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#skmg_visible#:#Kompetenzmanagement ist sichtbar
+rbac#:#skmg_read#:#Lesezugriff auf Kompetenzmanagement
+rbac#:#skmg_write#:#Kompetenzmanagement bearbeiten
+rbac#:#skmg_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#blga_visible#:#Blog-Administration ist sichtbar
+rbac#:#blga_read#:#Lesezugriff auf Blog-Administration
+rbac#:#blga_write#:#Blog-Administration bearbeiten
+rbac#:#blga_edit_permission#:#Rechteeinstellungen ändern
