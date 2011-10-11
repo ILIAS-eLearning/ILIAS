@@ -160,6 +160,36 @@ class ilColumnGUI
 	}
 
 	/**
+	 *
+	 * Adds location information of the custom block gui
+	 *
+	 * @access	public
+	 * @static
+	 * @param	string	The name of the custom block gui class
+	 * @param	string	The path of the custom block gui class
+	 *
+	 */
+	public static function addCustomBlockLocation($className, $path)
+	{
+		self::$locations[$className] = $path;
+	}
+
+	/**
+	 *
+	 * Adds the block type of the custom block gui
+	 *
+	 * @access	public
+	 * @static
+	 * @param	string	The name of the custom block gui class
+	 * @param	string	The identifier (block type) of the custom block gui
+	 *
+	 */
+	public static function addCustomBlockType($className, $identifier)
+	{
+		self::$block_types[$className] = $identifier;
+	}
+
+	/**
 	* Get Column Side of Current Command
 	*
 	* @return	string	Column Side
