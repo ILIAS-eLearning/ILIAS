@@ -2311,14 +2311,19 @@ class ilTemplate extends ilTemplateX
 	 * 
 	 * @param string $a_back_url 
 	 */
-	function setTopBar($a_back_url)
+	function setTopBar($a_back_url = null)
 	{
 		global $lng, $ilUser;
 		
-		$this->setCurrentBlock("fullscreen_topbar");
+		if($a_back_url)
+		{
+			$this->setCurrentBlock("topbar_backlink");
+			$this->setVariable("TOPBAR_BACK_URL", $a_back_url);
+			$this->setVariable("TOPBAR_BACK", "&laquo; ".$lng->txt("back"));
+			$this->parseCurrentBlock();
+		}
 		
-		$this->setVariable("TOPBAR_BACK_URL", $a_back_url);
-		$this->setVariable("TOPBAR_BACK", "&laquo; ".$lng->txt("back"));
+		$this->setCurrentBlock("fullscreen_topbar");
 		
 		if($ilUser->getId() != ANONYMOUS_USER_ID)
 		{

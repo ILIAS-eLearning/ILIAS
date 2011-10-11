@@ -807,9 +807,9 @@ class ilObjBlogGUI extends ilObject2GUI
 				$wtpl->setVariable("ACTION_SELECTOR", $alist->getHTML());
 				$wtpl->parseCurrentBlock();
 			}
-
+			
 			// comments
-			if($this->object->getNotesStatus() && !$a_link_template)
+			if($this->object->getNotesStatus() && !$a_link_template && !$this->disable_notes)
 			{
 				// count (public) notes
 				include_once("Services/Notes/classes/class.ilNote.php");
@@ -835,7 +835,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			}
 							
 			// permanent link
-			if($a_cmd != "preview")
+			if($a_cmd != "preview" && $a_cmd != "previewEmbedded")
 			{
 				$goto = $this->getAccessHandler()->getGotoLink($this->node_id, $this->obj_id, "_".$item["id"]);
 				$wtpl->setCurrentBlock("permalink");

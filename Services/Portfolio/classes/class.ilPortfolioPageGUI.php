@@ -18,6 +18,7 @@ include_once("./Services/Portfolio/classes/class.ilPortfolioPage.php");
 class ilPortfolioPageGUI extends ilPageObjectGUI
 {
 	protected $js_onload_code = array();
+	protected $additional = array();
 	
 	/**
 	 * Constructor
@@ -298,6 +299,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{
 			include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
 			$blog = new ilObjBlogGUI($a_blog_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
+			$blog->disableNotes(!$this->enable_comments);
 			
 			if($this->getOutputMode() != "offline")
 			{			
