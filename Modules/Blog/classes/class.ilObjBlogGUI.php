@@ -879,6 +879,12 @@ class ilObjBlogGUI extends ilObject2GUI
 		}		 
 		*/
 		
+		// permalink
+		if($a_cmd == "previewFullscreen")
+		{
+			$wtpl->setVariable("PERMALINK", $this->getPermanentLinkWidget(null, true));
+		}
+		
 		return $wtpl->get();
 	}
 	

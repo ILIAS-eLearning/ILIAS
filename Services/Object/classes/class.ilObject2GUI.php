@@ -733,7 +733,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 		parent::redrawHeaderActionObject();
 	}
 	
-	protected function getPermanentLinkWidget($a_append = null)
+	protected function getPermanentLinkWidget($a_append = null, $a_center = false)
 	{
 		if($this->id_type == self::WORKSPACE_NODE_ID)
 		{
@@ -743,7 +743,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 		include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
 		$plink = new ilPermanentLinkGUI($this->getType(), $this->node_id , $a_append);
 		$plink->setIncludePermanentLinkText(false);
-		$plink->setAlignCenter(false);
+		$plink->setAlignCenter($a_center);
 		return $plink->getHTML();
 	}
 }
