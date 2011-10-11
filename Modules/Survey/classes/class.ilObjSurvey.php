@@ -2836,19 +2836,30 @@ class ilObjSurvey extends ilObject
  	{
 		global $ilDB;
 		
+		// #7987
+		$custom_order = array("equal", "not_equal", "less", "less_or_equal", "more", "more_or_equal");
+		$custom_order = array_flip($custom_order);
+		
 		$result_array = array();
 		$result = $ilDB->query("SELECT * FROM svy_relation");
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			if ($short_as_key)
 			{
-				$result_array[$row["shortname"]] = array("short" => $row["shortname"], "long" => $row["longname"], "id" => $row["relation_id"]);
+				$result_array[$row["shortname"]] = array("short" => $row["shortname"], "long" => $row["longname"], "id" => $row["relation_id"], "order" => $custom_order[$row["longname"]]);
 			}
 			else
 			{
-				$result_array[$row["relation_id"]] = array("short" => $row["shortname"], "long" => $row["longname"]);
+				$result_array[$row["relation_id"]] = array("short" => $row["shortname"], "long" => $row["longname"], "order" => $custom_order[$row["longname"]]);
 			}
+		}		
+		
+		$result_array = ilUtil::sortArray($result_array, "order", "ASC", true, true);
+		foreach($result_array as $idx => $item)
+		{
+			unset($result_array[$idx]["order"]);
 		}
+		
 		return $result_array;
 	}
 
