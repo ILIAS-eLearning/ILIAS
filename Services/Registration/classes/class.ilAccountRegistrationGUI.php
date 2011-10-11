@@ -111,10 +111,12 @@ class ilAccountRegistrationGUI
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		
+		$display_code = ($this->registration_settings->registrationCodeRequired() ||
+			$this->registration_settings->getAllowCodes());
+		
 		// display code on separate page
-		if(($this->registration_settings->registrationCodeRequired() ||
-			$this->registration_settings->getAllowCodes()) &&
-			(!isset($_POST["usr_registration_code"]) || $a_force_code))
+		// force_code is used for validation in saveCodeForm()
+		if($display_code && (!isset($_POST["usr_registration_code"]) || $a_force_code))
 		{
 			/*
 			$sh = new ilFormSectionHeaderGUI();
@@ -157,8 +159,14 @@ class ilAccountRegistrationGUI
 								
 				include_once 'Services/Registration/classes/class.ilRegistrationCode.php';
 				$predefined_role = ilRegistrationCode::getCodeRole($this->registration_code);												
-			}										
-						
+			}			
+			// to make validation work properly (see isset() above)
+			else if($display_code)
+			{
+				$code = new ilHiddenInputGUI("usr_registration_code");
+				$code->setValue("");
+				$this->form->addItem($code);
+			}						
 			
 			// user defined fields
 
@@ -383,7 +391,7 @@ class ilAccountRegistrationGUI
 			{
 				$method = "set".substr($v["method"], 3);
 				if(method_exists($this->userObj, $method))
-				{
+				{					
 					if ($k != "username")
 					{
 						$k = "usr_".$k;
@@ -391,6 +399,7 @@ class ilAccountRegistrationGUI
 					$field_obj = $this->form->getItemByPostVar($k);
 					if($field_obj)
 					{
+					
 						$this->userObj->$method($this->form->getInput($k));
 					}
 				}
