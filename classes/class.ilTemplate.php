@@ -2315,22 +2315,37 @@ class ilTemplate extends ilTemplateX
 	{
 		global $lng, $ilUser;
 		
+		// fallback: desktop overview
+		if(!$a_back_url && $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			$a_back_url = "./ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems";
+		}
+		
 		if($a_back_url)
 		{
 			$this->setCurrentBlock("topbar_backlink");
 			$this->setVariable("TOPBAR_BACK_URL", $a_back_url);
 			$this->setVariable("TOPBAR_BACK", "&laquo; ".$lng->txt("back"));
 			$this->parseCurrentBlock();
-		}
+		}		
 		
-		$this->setCurrentBlock("fullscreen_topbar");
-		
+		// user name
 		if($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
+			$this->setCurrentBlock("topbar_usr_reg");
 			$this->setVariable("TOPBAR_USER", $ilUser->getFullname());
+			$this->parseCurrentBlock();
+		}
+		// not logged in
+		else
+		{
+			$this->setCurrentBlock("topbar_usr_ano");
+			$this->setVariable("TOPBAR_LOGIN_CAPTION", $lng->txt("login_to_ilias"));
+			$this->setVariable("TOPBAR_LOGIN_URL", "./login.php?client_id=".CLIENT_ID."&cmd=force_login");
+			$this->parseCurrentBlock();
 		}
 		
-		$this->parseCurrentBlock();
+		// $this->touchBlock("fullscreen_topbar");
 	}
 	
 	/**
