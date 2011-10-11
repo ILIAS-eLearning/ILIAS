@@ -12324,3 +12324,5 @@ rbac#:#blga_visible#:#Blog Administration is visible
 rbac#:#blga_read#:#Read access to Blog Administration
 rbac#:#blga_write#:#Edit Blog Administration
 rbac#:#blga_edit_permission#:#Change permission settings
+prtf#:#prtf_admin_inactive_info#:#You can activate the portfolio feature in the Personal Desktop Administration.
+blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Desktop Administration.

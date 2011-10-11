@@ -12325,3 +12325,5 @@ rbac#:#blga_visible#:#Blog-Administration ist sichtbar
 rbac#:#blga_read#:#Lesezugriff auf Blog-Administration
 rbac#:#blga_write#:#Blog-Administration bearbeiten
 rbac#:#blga_edit_permission#:#Rechteeinstellungen ändern
+prtf#:#prtf_admin_inactive_info#:#Das Portfolio-Feature kann in der Administration des Persönlichen Schreibtischs aktiviert werden.
+blog#:#blog_admin_inactive_info#:#Das Blog-Feature kann in der Administration des Persönlichen Schreibtischs aktiviert werden.
