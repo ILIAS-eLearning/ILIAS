@@ -139,7 +139,7 @@ class ilPortfolioTableGUI extends ilTable2GUI
 				if(!$a_set["is_default"])
 				{
 					$this->tpl->setVariable("URL_ACTION",
-						$ilCtrl->getLinkTarget($this->parent_obj, "setDefault"));
+						$ilCtrl->getLinkTarget($this->parent_obj, "setDefaultConfirmation"));
 					$this->tpl->setVariable("TXT_ACTION", $lng->txt("prtf_set_as_default"));
 					$this->tpl->parseCurrentBlock();
 				}

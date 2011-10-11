@@ -12078,7 +12078,7 @@ exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
 exc#:#exc_blog_selected#:#Der Blog wurde verknüpft.
 exc#:#exc_portfolio_selected#:#Das Portfolio wurde verknüpft.
 content#:#cont_sc_auto_continue#:#Automatische Fortsetzung
-user#:#user_profile_portfolio_selected#:#Sie benutzen momentan ein Portfolio als Ihr Profil.
+user#:#user_profile_portfolio_selected#:#Sie benutzen momentan ein Portfolio als Ihr Profil. Die Aktivierung erfolgt dort über den Reiter "Freigabe".
 prtf#:#prtf_admin_toggle_info#:#Das Portfolio-Feature kann in der Administration des Persönlichen Schreibtischs deaktiviert werden.
 blog#:#blog_admin_toggle_info#:#Das Blog-Feature kann in der Administration des Persönlichen Schreibtischs deaktiviert werden.
 prtf#:#prtf_public_comments#:#Öffentliche Kommentare
@@ -12327,3 +12327,5 @@ rbac#:#blga_write#:#Blog-Administration bearbeiten
 rbac#:#blga_edit_permission#:#Rechteeinstellungen ändern
 prtf#:#prtf_admin_inactive_info#:#Das Portfolio-Feature kann in der Administration des Persönlichen Schreibtischs aktiviert werden.
 blog#:#blog_admin_inactive_info#:#Das Blog-Feature kann in der Administration des Persönlichen Schreibtischs aktiviert werden.
+prtf#:#prtf_set_default_publish_confirmation#:#Das Portfolio muss mindestens für alle registrierten Benutzer freigegeben werden. Soll es auch für das ganze Internet ohne Registrierung sichtbar sein?
+prtf#:#prtf_unset_default_share_info#:#Die Änderungen wurden gespeichert. Bitte überprüfen Sie die aktuellen Freigaben für das Portfolio.

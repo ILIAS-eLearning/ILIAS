@@ -609,7 +609,7 @@ class ilPersonalProfileGUI
 			$this->lng->txt("public_profile"),
 			$this->ctrl->getLinkTarget($this, "showPublicProfile"));
 
-		if($ilUser->getPref("public_profile") != "n")
+		if($ilUser->getPref("public_profile") != "n" || $this->getProfilePortfolio())
 		{			
 			// profile preview
 			$ilTabs->addNonTabbedLink("profile_preview",
@@ -1016,6 +1016,22 @@ class ilPersonalProfileGUI
 		$this->tpl->setContent($ptpl->get());
 		$this->tpl->show();
 	}
+	
+	/**
+	 * has profile set to a portfolio?
+	 * 
+	 * @return int
+	 */
+	protected function getProfilePortfolio()
+	{
+		global $ilUser, $ilSetting;
+		
+		if ($ilSetting->get('user_portfolios'))
+		{
+			include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+			return ilObjPortfolio::getDefaultPortfolio($ilUser->getId());
+		}
+	}
 
 	/**
 	* Init public profile form.
@@ -1028,55 +1044,53 @@ class ilPersonalProfileGUI
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
-	
-		// Activate public profile
-		$radg = new ilRadioGroupInputGUI($lng->txt("user_activate_public_profile"), "public_profile");
-		$radg->setInfo($this->lng->txt("user_activate_public_profile_info"));
-		$pub_prof = in_array($ilUser->prefs["public_profile"], array("y", "n", "g"))
-			? $ilUser->prefs["public_profile"]
-			: "n";
-		if (!$ilSetting->get('enable_global_profiles') && $pub_prof == "g")
-		{
-			$pub_prof = "y";
-		}
-		$radg->setValue($pub_prof);
-			$op1 = new ilRadioOption($lng->txt("usr_public_profile_disabled"), "n",$lng->txt("usr_public_profile_disabled_info"));
-			$radg->addOption($op1);
-			$op2 = new ilRadioOption($lng->txt("usr_public_profile_logged_in"), "y");
-			$radg->addOption($op2);
-		if ($ilSetting->get('enable_global_profiles'))
-		{
-			$op3 = new ilRadioOption($lng->txt("usr_public_profile_global"), "g");
-			$radg->addOption($op3);
-		}
-		$this->form->addItem($radg);
 		
-		$this->showPublicProfileFields($this->form, $ilUser->prefs);
-		
-		// save and cancel commands
-		$this->form->addCommandButton("savePublicProfile", $lng->txt("save"));
-		
-		$prtf = null;
-		if ($ilSetting->get('user_portfolios') && $ilUser->getPref("public_profile") != "n")
-		{
-			include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
-			$prtf = ilObjPortfolio::getDefaultPortfolio($ilUser->getId());
-			if(!$prtf)
-			{
-				$prtf = "<br />".$lng->txt("user_profile_portfolio");
-			}
-			else
-			{
-				$prtf = "<br />".$lng->txt("user_profile_portfolio_selected");
-			}
-			$prtf .= " <a href=\"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio\">&raquo; ".
-				$lng->txt("portfolio")."</a>";
-		}
-		
-	                
 		$this->form->setTitle($lng->txt("public_profile"));
 		$this->form->setDescription($lng->txt("user_public_profile_info").$prtf);
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		
+		$portfolio_id = $this->getProfilePortfolio();
+	
+		if(!$portfolio_id)
+		{
+			// Activate public profile
+			$radg = new ilRadioGroupInputGUI($lng->txt("user_activate_public_profile"), "public_profile");
+			$radg->setInfo($this->lng->txt("user_activate_public_profile_info"));
+			$pub_prof = in_array($ilUser->prefs["public_profile"], array("y", "n", "g"))
+				? $ilUser->prefs["public_profile"]
+				: "n";
+			if (!$ilSetting->get('enable_global_profiles') && $pub_prof == "g")
+			{
+				$pub_prof = "y";
+			}
+			$radg->setValue($pub_prof);
+				$op1 = new ilRadioOption($lng->txt("usr_public_profile_disabled"), "n",$lng->txt("usr_public_profile_disabled_info"));
+				$radg->addOption($op1);
+				$op2 = new ilRadioOption($lng->txt("usr_public_profile_logged_in"), "y");
+				$radg->addOption($op2);
+			if ($ilSetting->get('enable_global_profiles'))
+			{
+				$op3 = new ilRadioOption($lng->txt("usr_public_profile_global"), "g");
+				$radg->addOption($op3);
+			}
+			$this->form->addItem($radg);
+			
+			$radg->setInfo($lng->txt("user_profile_portfolio"));
+		}
+		else
+		{
+			$prtf = $lng->txt("user_profile_portfolio_selected");
+			$prtf .= "<br /><a href=\"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio&prt_id=".$portfolio_id."\">&raquo; ".
+				$lng->txt("portfolio")."</a>";
+			
+			$info = new ilCustomInputGUI($lng->txt("user_activate_public_profile"));
+			$info->setHTML($prtf);			
+			$this->form->addItem($info);
+		}
+		
+		$this->showPublicProfileFields($this->form, $ilUser->prefs);
+		
+		$this->form->addCommandButton("savePublicProfile", $lng->txt("save"));
 	}
 
 	/**
@@ -1227,15 +1241,11 @@ class ilPersonalProfileGUI
 		$this->initPublicProfileForm();
 		if ($this->form->checkInput())
 		{
-			/*if (($_POST["public_profile"]))
+			// with active portfolio no options are presented
+			if(isset($_POST["public_profile"]))
 			{
-				$ilUser->setPref("public_profile","y");
+				$ilUser->setPref("public_profile", $_POST["public_profile"]);
 			}
-			else
-			{
-				$ilUser->setPref("public_profile","n");
-			}*/
-			$ilUser->setPref("public_profile", $_POST["public_profile"]);
 
 			// if check on Institute
 			$val_array = array("title", "birthday", "gender", "institution", "department", "upload", "street",

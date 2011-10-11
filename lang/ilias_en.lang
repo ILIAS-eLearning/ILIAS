@@ -12085,7 +12085,7 @@ exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
 common#:#my_courses_groups#:#My Courses & Groups
 content#:#cont_sc_auto_continue#:#Auto-Continue
-user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile.
+user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the "Share" tab.
 prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.
 blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.
 skmg#:#skmg_edit_skll#:#Edit Competence Settings
@@ -12326,3 +12326,5 @@ rbac#:#blga_write#:#Edit Blog Administration
 rbac#:#blga_edit_permission#:#Change permission settings
 prtf#:#prtf_admin_inactive_info#:#You can activate the portfolio feature in the Personal Desktop Administration.
 blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Desktop Administration.
+prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?
+prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.

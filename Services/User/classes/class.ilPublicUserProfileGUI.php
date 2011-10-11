@@ -180,7 +180,12 @@ class ilPublicUserProfileGUI
 			default:
 				$ret = $this->$cmd();
 				$tpl->setContent($ret);
-				$tpl->show();
+				
+				// only for direct links
+				if ($_GET["baseClass"] == "ilPublicUserProfileGUI")
+				{
+					$tpl->show();
+				}
 				break;
 		}
 	}
@@ -196,9 +201,9 @@ class ilPublicUserProfileGUI
 	/**
 	 * Show user page
 	 */
-	function getHTML()
+	function  getHTML()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilSetting;
 		
 		if($this->embedded)
 		{
@@ -212,6 +217,17 @@ class ilPublicUserProfileGUI
 		else
 		{
 			$this->renderTitle();
+			
+			// Check from Database if value
+			// of public_profile = "y" show user infomation
+			$user = new ilObjUser($this->getUserId());
+			if ($user->getPref("public_profile") != "y" &&
+				($user->getPref("public_profile") != "g" || !$ilSetting->get('enable_global_profiles')) &&
+				!$this->custom_prefs)
+			{
+				return;
+			}		
+			
 			return $this->getEmbeddable();	
 		}		
 	}
@@ -238,15 +254,6 @@ class ilPublicUserProfileGUI
 		$tpl->setVariable("ROWCOL1", "tblrow1");
 		$tpl->setVariable("ROWCOL2", "tblrow2");
 
-		// Check from Database if value
-		// of public_profile = "y" show user infomation
-		if ($user->getPref("public_profile") != "y" &&
-			($user->getPref("public_profile") != "g" || !$ilSetting->get('enable_global_profiles')) &&
-			!$this->custom_prefs)
-		{
-			return;
-		}
-		
 		if(!$this->offline && $this->getUserId() != ANONYMOUS_USER_ID)
 		{
 			$tpl->setCurrentBlock("mail");

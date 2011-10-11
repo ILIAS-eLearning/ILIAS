@@ -5,6 +5,7 @@
 include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
 include_once "Modules/Group/classes/class.ilGroupParticipants.php";
 include_once "Modules/Course/classes/class.ilCourseParticipants.php";
+include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
 
 /**
  * Access handler for portfolio
