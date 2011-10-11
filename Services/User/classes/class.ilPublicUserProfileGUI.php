@@ -1,16 +1,13 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
-include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
-
 /**
  * GUI class for public user profile presentation.
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPublicUserProfileGUI: ilPortfolioPageGUI
+ * @ilCtrl_Calls ilPublicUserProfileGUI: ilObjPortfolioGUI
  *
  * @ingroup ServicesUser
  */
@@ -32,7 +29,14 @@ class ilPublicUserProfileGUI
 	{
 		global $ilCtrl, $lng;
 		
-		$this->setUserId($a_user_id);
+		if($a_user_id)
+		{
+			$this->setUserId($a_user_id);
+		}
+		else
+		{
+			$this->setUserId((int)$_GET["user_id"]);	
+		}
 		
 		$ilCtrl->saveParameter($this, array("user_id","back_url", "user"));
 		if ($_GET["back_url"] != "")
@@ -106,33 +110,6 @@ class ilPublicUserProfileGUI
 	}
 
 	/**
-	* Execute Command
-	*/
-	function executeCommand()
-	{
-		global $ilCtrl, $tpl, $ilUser;
-		
-		if ($_GET["baseClass"] != "ilPublicUserProfileGUI")
-		{
-			$cmd = $ilCtrl->getCmd();
-			$ret = $this->$cmd();
-			return $ret;
-		}
-		else
-		{
-			$user_id = (int)$_GET["user_id"];
-			if(self::validateUser($user_id))
-			{
-				$cmd = $ilCtrl->getCmd();
-				$ret = $this->$cmd();
-				$tpl->getStandardTemplate();
-				$tpl->setContent($ret);
-				$tpl->show();
-			}
-		}
-	}
-
-	/**
 	 * Set custom preferences for public profile fields
 	 *
 	 * @param array $a_prefs 
@@ -168,6 +145,79 @@ class ilPublicUserProfileGUI
 		$this->embedded = (bool)$a_value;
 		$this->offline = (bool)$a_offline;
 	}
+	
+	/**
+	* Execute Command
+	*/
+	function executeCommand()
+	{
+		global $ilCtrl, $tpl, $ilUser;
+		
+		if(!self::validateUser($this->getUserId()))
+		{
+			return;
+		}
+		
+		$next_class = $ilCtrl->getNextClass($this);	
+		$cmd = $ilCtrl->getCmd();
+		
+		$tpl->getStandardTemplate();
+		
+		switch($next_class)
+		{	
+			case "ilobjportfoliogui":				
+				include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+				include_once "Services/Portfolio/classes/class.ilObjPortfolioGUI.php";
+				$portfolio_id = ilObjPortfolio::getDefaultPortfolio($this->getUserId());
+				if($portfolio_id)
+				{
+					$gui = new ilObjPortfolioGUI();					
+					$gui->initPortfolioObject($portfolio_id);		
+					$gui->setAdditional($this->getAdditional());
+					$ilCtrl->forwardCommand($gui);	
+					break;
+				}							
+			
+			default:
+				$ret = $this->$cmd();
+				$tpl->setContent($ret);
+				$tpl->show();
+				break;
+		}
+	}
+	
+	/**
+	 * View. This one is called e.g. through the goto script
+	 */
+	function view()
+	{
+		return $this->getHTML();			
+	}
+
+	/**
+	 * Show user page
+	 */
+	function getHTML()
+	{
+		global $ilCtrl;
+		
+		if($this->embedded)
+		{
+			return $this->getEmbeddable();
+		}
+		
+		include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+		$portfolio_id = ilObjPortfolio::getDefaultPortfolio($this->getUserId());
+		if($portfolio_id)
+		{			
+			$ilCtrl->redirectByClass("ilobjportfoliogui", "preview");
+		}
+		else
+		{
+			$this->renderTitle();
+			return $this->getEmbeddable();	
+		}		
+	}
 
 	/**
 	 * get public profile html code
@@ -200,7 +250,7 @@ class ilPublicUserProfileGUI
 			return;
 		}
 		
-		if(!$this->offline)
+		if(!$this->offline && $this->getUserId() != ANONYMOUS_USER_ID)
 		{
 			$tpl->setCurrentBlock("mail");
 			$tpl->setVariable("TXT_MAIL", $lng->txt("send_mail"));
@@ -575,79 +625,6 @@ class ilPublicUserProfileGUI
 		return true;
 	}
 	
-	/**
-	 * View. This one is called e.g. through the goto script
-	 */
-	function view()
-	{
-		global $tpl;
-		
-		$user_id = $this->getUserId();
-		if(!$user_id)
-		{		
-			$user_id = (int)$_GET["user_id"];				
-		}
-		if(self::validateUser($user_id))
-		{			
-			$this->setUserId($user_id);
-			$tpl->getStandardTemplate();
-			$tpl->setContent($this->getHTML());
-		}				
-	}
-
-	/**
-	 * Show user page
-	 */
-	function getHTML()
-	{
-		global $ilUser, $tpl, $ilCtrl;
-		
-		if($this->embedded)
-		{
-			return $this->getEmbeddable();
-		}
-		
-	    $user_id = $this->getUserId();
-		if(self::validateUser($user_id))
-		{		
-			$this->portfolioid = ilObjPortfolio::getDefaultPortfolio($user_id);
-			if($this->portfolioid)
-			{			
-				$current_page = $_GET["user_page"];
-
-				// jump to first page of portfolio
-				if(!$current_page)
-				{				
-					$pages = ilPortfolioPage::getAllPages($this->portfolioid);
-					if($pages)
-					{
-						$pages = array_shift($pages);
-						$current_page = $pages["id"];
-					}
-				}
-				
-				$this->setTabs("user_page_".$current_page);
-
-				include_once("./Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
-				$page_gui = new ilPortfolioPageGUI($this->portfolioid, $current_page);
-				$page_gui->setEmbedded(true);
-				$page_gui->setAdditional($this->getAdditional());
-
-				$tpl->setCurrentBlock("ContentStyle");
-				$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath(0));
-				$tpl->parseCurrentBlock();
-
-				return $ilCtrl->getHTML($page_gui);			
-			}
-			else
-			{
-				$this->renderTitle();
-				return $this->getEmbeddable();	
-			}
-		}
-	}
-	
 	function renderTitle()
 	{
 		global $tpl, $ilTabs, $lng;
@@ -665,35 +642,6 @@ class ilPublicUserProfileGUI
 			$ilTabs->clearTargets();
 			$ilTabs->setBackTarget($lng->txt("back"),
 				$back);
-		}
-	}
-
-	/**
-	 * Set tabs
-	 *
-	 * @param	bool	$a_active
-	 */
-	function setTabs($a_active)
-	{
-		global $ilTabs, $ilUser, $lng, $ilCtrl, $tpl;
-
-		$this->renderTitle();
-		
-		if($this->portfolioid)
-		{					
-			$pages = ilPortfolioPage::getAllPages($this->portfolioid);	
-			if(count($pages) > 1)
-			{
-				foreach ($pages as $p)
-				{
-					$ilCtrl->setParameter($this, "user_page", $p["id"]);
-					$ilTabs->addTab("user_page_".$p["id"],
-						$p["title"],
-						$ilCtrl->getLinkTarget($this, "getHTML"));
-				}
-
-				$ilTabs->activateTab($a_active);
-			}
 		}
 	}
 }

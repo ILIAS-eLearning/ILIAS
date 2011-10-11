@@ -20,6 +20,7 @@ class ilObjPortfolioGUI
 	protected $user_id; // [int]
 	protected $portfolio; // [ilObjPortfolio]
 	protected $access_handler; // [ilPortfolioAccessHandler]
+	protected $additional = array();
 	
 	/**
 	 * Constructor
@@ -134,6 +135,7 @@ class ilObjPortfolioGUI
 				include_once("Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
 				$page_gui = new ilPortfolioPageGUI($this->portfolio->getId(),
 					$page_id, 0, $this->portfolio->hasPublicComments());
+				$page_gui->setAdditional($this->getAdditional());
 				
 				$ret = $ilCtrl->forwardCommand($page_gui);
 				
@@ -1152,17 +1154,25 @@ class ilObjPortfolioGUI
 	{
 		global $ilUser, $tpl, $ilCtrl, $ilTabs, $lng;
 		
+		// public profile
+		if($_REQUEST["back_url"])
+		{
+			$back = $_REQUEST["back_url"];						
+		}		
 		// shared
-		if(!$this->checkAccess("write"))
+		else if($_GET["baseClass"] != "ilPublicUserProfileGUI")
 		{
-			$ilCtrl->setParameter($this, "user", $this->portfolio->getOwner());
-			$back = $ilCtrl->getLinkTarget($this, "showOther");
-			$ilCtrl->setParameter($this, "user", "");
-		}
-		// owner
-		else
-		{
-			$back = $ilCtrl->getLinkTarget($this, "pages");
+			if(!$this->checkAccess("write"))
+			{
+				$ilCtrl->setParameter($this, "user", $this->portfolio->getOwner());
+				$back = $ilCtrl->getLinkTarget($this, "showOther");
+				$ilCtrl->setParameter($this, "user", "");
+			}
+			// owner
+			else
+			{
+				$back = $ilCtrl->getLinkTarget($this, "pages");
+			}
 		}
 		$tpl->setTopBar($back);
 		
@@ -1214,8 +1224,10 @@ class ilObjPortfolioGUI
 		{
 			// get current page content
 			include_once("./Services/Portfolio/classes/class.ilPortfolioPageGUI.php");
-			$page_gui = new ilPortfolioPageGUI($portfolio_id, $current_page);
+			$page_gui = new ilPortfolioPageGUI($portfolio_id, $current_page, 0, 
+				$this->portfolio->hasPublicComments());
 			$page_gui->setEmbedded(true);
+			$page_gui->setAdditional($this->getAdditional());
 
 			$content = $ilCtrl->getHTML($page_gui);
 		}
@@ -1229,8 +1241,9 @@ class ilObjPortfolioGUI
 			return $content;
 		}
 		
+		// blog posting comments are handled within the blog
 		$notes = "";
-		if($a_show_notes && $this->portfolio->hasPublicComments())
+		if($a_show_notes && $this->portfolio->hasPublicComments() && !($current_blog && $_REQUEST["page"]))
 		{			
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
 						
@@ -1279,6 +1292,9 @@ class ilObjPortfolioGUI
 		{
 			$ppic = ilObjUser::_getPersonalPicturePath($user_id, "big");
 		}
+		
+		// wiki/forum will set locator items
+		$tpl->setVariable("LOCATOR", "");
 		
 		include_once("./Services/User/classes/class.ilUserUtil.php");
 		$tpl->setFullscreenHeader($this->portfolio->getTitle(), 
@@ -1510,6 +1526,27 @@ class ilObjPortfolioGUI
 			$tpl->setContent($table->getHTML());
 		}	
 	}
+	
+	/**
+	* Set Additonal Information.
+	*
+	* @param	array	$a_additional	Additonal Information
+	*/
+	function setAdditional($a_additional)
+	{
+		$this->additional = $a_additional;
+	}
+
+	/**
+	* Get Additonal Information.
+	*
+	* @return	array	Additonal Information
+	*/
+	function getAdditional()
+	{
+		return $this->additional;
+	}
+	
 	
 	function _goto($a_target)
 	{
