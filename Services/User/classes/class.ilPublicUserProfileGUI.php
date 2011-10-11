@@ -165,12 +165,11 @@ class ilPublicUserProfileGUI
 		
 		switch($next_class)
 		{	
-			case "ilobjportfoliogui":				
-				include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
-				include_once "Services/Portfolio/classes/class.ilObjPortfolioGUI.php";
-				$portfolio_id = ilObjPortfolio::getDefaultPortfolio($this->getUserId());
+			case "ilobjportfoliogui":								
+				$portfolio_id = $this->getProfilePortfolio();
 				if($portfolio_id)
 				{
+					include_once "Services/Portfolio/classes/class.ilObjPortfolioGUI.php";
 					$gui = new ilObjPortfolioGUI();					
 					$gui->initPortfolioObject($portfolio_id);		
 					$gui->setAdditional($this->getAdditional());
@@ -206,9 +205,7 @@ class ilPublicUserProfileGUI
 			return $this->getEmbeddable();
 		}
 		
-		include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
-		$portfolio_id = ilObjPortfolio::getDefaultPortfolio($this->getUserId());
-		if($portfolio_id)
+		if($this->getProfilePortfolio())
 		{			
 			$ilCtrl->redirectByClass("ilobjportfoliogui", "preview");
 		}
@@ -218,7 +215,7 @@ class ilPublicUserProfileGUI
 			return $this->getEmbeddable();	
 		}		
 	}
-
+	
 	/**
 	 * get public profile html code
 	 * 
@@ -643,6 +640,26 @@ class ilPublicUserProfileGUI
 			$ilTabs->setBackTarget($lng->txt("back"),
 				$back);
 		}
+	}
+	
+	/**
+	 * Check if current profile portfolio is accessible
+	 * 
+	 * @return int
+	 */
+	protected function getProfilePortfolio()
+	{
+		include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";				
+		$portfolio_id = ilObjPortfolio::getDefaultPortfolio($this->getUserId());
+		if($portfolio_id)
+		{
+			include_once('./Services/Portfolio/classes/class.ilPortfolioAccessHandler.php');
+			$access_handler = new ilPortfolioAccessHandler();
+			if($access_handler->checkAccess("read", "", $portfolio_id))
+			{
+				return $portfolio_id;
+			}
+		}			
 	}
 }
 
