@@ -510,6 +510,59 @@ class ilObjPortfolioGUI
 
 		return $form;		
 	}
+	
+	/**
+	 * Confirm sharing when setting default
+	 */
+	protected function setDefaultConfirmation()
+	{
+		global $ilCtrl, $lng, $tpl;
+
+		if($this->portfolio && $this->checkAccess("write"))
+		{			
+			// if already shared, no need to ask again
+			if($this->access_handler->hasRegisteredPermission($this->portfolio->getId()) ||
+				$this->access_handler->hasGlobalPermission($this->portfolio->getId()))
+			{
+				return $this->setDefault();
+			}			
+			
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("prtf_set_default_publish_confirmation"));
+			$cgui->setCancel($lng->txt("yes"), "setDefaultGlobal");
+			$cgui->setConfirm($lng->txt("no"), "setDefaultRegistered");
+
+			$tpl->setContent($cgui->getHTML());		
+			return;
+		}
+		$ilCtrl->redirect($this, "show");
+	}
+	
+	protected function setDefaultGlobal()
+	{
+		global $ilCtrl;
+		
+		if($this->portfolio && $this->checkAccess("write"))
+		{
+			$this->access_handler->addPermission($this->portfolio->getId(), ilWorkspaceAccessGUI::PERMISSION_ALL);			
+			$this->setDefault();
+		}
+		$ilCtrl->redirect($this, "show");
+	}
+	
+	protected function setDefaultRegistered()
+	{
+		global $ilCtrl;
+		
+		if($this->portfolio && $this->checkAccess("write"))
+		{
+			$this->access_handler->addPermission($this->portfolio->getId(), ilWorkspaceAccessGUI::PERMISSION_REGISTERED);			
+			$this->setDefault();
+		}
+		$ilCtrl->redirect($this, "show");
+	}
 
 	/**
 	 * Set default portfolio for user
@@ -536,7 +589,7 @@ class ilObjPortfolioGUI
 		if($this->portfolio && $this->checkAccess("write"))
 		{
 			ilObjPortfolio::setUserDefault($this->user_id);
-			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+			ilUtil::sendSuccess($lng->txt("prtf_unset_default_share_info"), true);
 		}
 		$ilCtrl->redirect($this, "show");
 	}

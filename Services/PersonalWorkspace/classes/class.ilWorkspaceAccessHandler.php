@@ -4,6 +4,7 @@
 
 include_once "Modules/Group/classes/class.ilGroupParticipants.php";
 include_once "Modules/Course/classes/class.ilCourseParticipants.php";
+include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
 
 /**
  * Access handler for personal workspace
@@ -95,9 +96,7 @@ class ilWorkspaceAccessHandler
 			// get all objects with explicit permission
 			$objects = $this->getPermissions($a_node_id);
 			if($objects)
-			{
-				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
-				
+			{								
 				// check if given user is member of object or has role
 				foreach($objects as $obj_id)
 				{
