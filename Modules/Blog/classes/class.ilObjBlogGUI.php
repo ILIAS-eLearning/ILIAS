@@ -356,6 +356,8 @@ class ilObjBlogGUI extends ilObject2GUI
 			$posting->setTitle($_POST["title"]);
 			$posting->setBlogId($this->object->getId());
 			$posting->create();
+			
+			ilUtil::sendInfo($lng->txt("blog_new_posting_info"), true);			
 
 			// switch month list to current month (will include new posting)
 			$ilCtrl->setParameter($this, "bmn", date("Y-m"));
