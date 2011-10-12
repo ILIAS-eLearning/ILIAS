@@ -12193,7 +12193,7 @@ chatroom#:#hint_display_past_msgs#:#Anzahl von vergangenen Nachrichten, die beim
 chatroom#:#speak_to#:#<b>#user#</b>&nbsp;ansprechen
 chatroom#:#whisper_to#:#<b>#user#</b> anflüstern
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen.
-administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists###14 09 2011 new variable
+administration#:#adm_show_comments_tagging_in_lists#:#Anzahl der Notizen, Kommentare und Tags in Objektlisten anzeigen
 content#:#cont_edit_mode#:#Bearbeitungsmodus
 wiki#:#wiki_block_page#:#Seite blockieren
 wiki#:#wiki_unblock_page#:#Blockierung aufheben
