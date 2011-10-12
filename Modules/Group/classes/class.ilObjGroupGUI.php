@@ -2982,6 +2982,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
 				
+		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 		if($ilSetting->get("crsgrp_ntf") &&
 			ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
 		{						
