@@ -12330,3 +12330,4 @@ blog#:#blog_admin_inactive_info#:#Das Blog-Feature kann in der Administration de
 prtf#:#prtf_set_default_publish_confirmation#:#Das Portfolio muss mindestens für alle registrierten Benutzer freigegeben werden. Soll es auch für das ganze Internet ohne Registrierung sichtbar sein?
 prtf#:#prtf_unset_default_share_info#:#Die Änderungen wurden gespeichert. Bitte überprüfen Sie die aktuellen Freigaben für das Portfolio.
 survey#:#svy_participation#:#Teilnahme
+blog#:#blog_new_posting_info#:#Der erste Textblock wird als Auszug in der Liste der Einträge verwendet.

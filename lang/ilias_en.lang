@@ -12329,3 +12329,4 @@ blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Perso
 prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?
 prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.
 survey#:#svy_participation#:#Participation
+blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list. 
