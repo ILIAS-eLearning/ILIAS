@@ -11155,7 +11155,7 @@ survey#:#survey_template_reset#:#The template has been removed.
 survey#:#survey_introduction_info#:#This message appears at the beginning of the survey.
 survey#:#survey_auth_mode#:#Authentication Mode
 survey#:#survey_question_pool#:#Question Pool
-survey#:#survey_question_pool_usage#:#Choose Pool When Creating Questions
+survey#:#survey_question_pool_usage#:#Choose Question Pool When Creating Questions
 survey#:#survey_pool_selection#:#Pool Selection
 survey#:#survey_no_pool#:#Do not use question pool
 survey#:#survey_new_pool#:#Create new question pool
@@ -12328,3 +12328,4 @@ prtf#:#prtf_admin_inactive_info#:#You can activate the portfolio feature in the 
 blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Desktop Administration.
 prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?
 prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.
+survey#:#svy_participation#:#Participation
