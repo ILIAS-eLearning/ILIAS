@@ -5173,7 +5173,7 @@ common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_edit_questions#:#Fragen bearbeiten
 common#:#tst_new#:#Neuen Test anlegen
 common#:#tst_no_content#:#Es sind keine Tests vorhanden.
-common#:#tst_random_test_description_warning#:#<br /><b>This test has questions that are not assigned to a question pool. If you switch to random test mode, this questions will be lost.</b>###11 03 2011 new variable
+common#:#tst_random_test_description_warning#:#<br /><b>Dieser Test beinhaltet Fragen, die zu keinem Fragenpool gehören. Wenn Sei zum Modus "Zufallstest" wechseln, gehen diese Fragen verloren.
 common#:#tst_read#:#Lesezugriff auf Test
 common#:#tst_run#:#Ausführen
 common#:#tst_statistical_evaluation#:#Statistik
@@ -5475,7 +5475,7 @@ content#:#cont_activate_media#:#Medien aktivieren
 content#:#cont_activate_page#:#Aktiviere Seite
 content#:#cont_activated#:#Aktiviert
 content#:#cont_activation#:#Aktivierung
-content#:#cont_active_areas#:#Triggers###12 06 2011 new variable
+content#:#cont_active_areas#:#Auslöser
 content#:#cont_active#:#Aktiviere Menü
 content#:#cont_add_area#:#Bereich hinzufügen
 content#:#cont_add_change_comment#:#Überarbeitungskommentar hinzufügen
@@ -5484,9 +5484,9 @@ content#:#cont_add_definition#:#Definition hinzufügen
 content#:#cont_add_elements#:#Klicken Sie auf einen Platzhalter, um ein neues Element hinzuzufügen.
 content#:#cont_add_file#:#Datei hinzufügen
 content#:#cont_add_fullscreen#:#Vollansicht hinzufügen
-content#:#cont_add_images#:#Add Images###12 06 2011 new variable
+content#:#cont_add_images#:#Bild hinzufügen
 content#:#cont_add_polygon#:#Polygon hinzufügen
-content#:#cont_add_popup#:#Add Popup###12 06 2011 new variable
+content#:#cont_add_popup#:#Popup hinzufügen
 content#:#cont_add_rectangle#:#Rechteck hinzufügen
 content#:#cont_add_tab#:#Register hinzufügen
 content#:#cont_added_comment#:#Kommentar wurde im Verlauf aufgenommen
@@ -5516,7 +5516,7 @@ content#:#cont_assignments_deleted#:#Die Zuordnung(en) wurden entfernt
 content#:#cont_autoindent#:#Automatische Einrückung
 content#:#cont_autostart#:#Autostart
 content#:#cont_back#:#Zurück
-content#:#cont_base_image#:#Base Image###12 06 2011 new variable
+content#:#cont_base_image#:#Zugrundeliegendes Bild
 content#:#cont_bb_tip#:#Das Menü erlaubt die schnelle Zuweisung von Textauszeichnungen.
 content#:#cont_behavior#:#Verhalten
 content#:#cont_blist#:#Aufzählungsliste
@@ -5573,8 +5573,8 @@ content#:#cont_comments#:#Speicherung von Kommentaren ermöglichen
 content#:#cont_confirm_delete#:#wirklich löschen ?
 content#:#cont_constrain_proportions#:#Proportionen erhalten
 content#:#cont_content_obj#:#Content-Objekt
-content#:#cont_content_popup#:#Content Popup###12 06 2011 new variable
-content#:#cont_content_popups#:#Content Popups###12 06 2011 new variable
+content#:#cont_content_popup#:#Content-Popup
+content#:#cont_content_popups#:#Content-Popups
 content#:#cont_content#:#Inhalt
 content#:#cont_contents#:#Inhalt
 content#:#cont_coords#:#Koordinaten
@@ -5650,7 +5650,7 @@ content#:#cont_downloads_desc#:#Ermöglicht Anwendern freigegebene Exportdateien
 content#:#cont_downloads_public_desc#:#Erlaubt das Herunterladen auch für nichtangemeldete Benutzer (Öffentlicher Bereich)
 content#:#cont_downloads#:#Downloads
 content#:#cont_drag_and_drop_elements#:#Um Content-Elemente zu bewegen, ziehen Sie diese mit der Maus auf die Platzhalter.
-content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit "Save".###12 06 2011 new variable
+content#:#cont_drag_element_click_save#:#Bewegen Sie das Element an die gewünschte Position und klicken dann auf "Speichern".
 content#:#cont_e_g_example#:#z.B.
 content#:#cont_ed_align_center#:#Mittig ausrichten
 content#:#cont_ed_align_left_float#:#Links ausr., Text umfl.
@@ -5682,7 +5682,7 @@ content#:#cont_ed_insert_blog#:#Blog-Eintrag hinzufügen
 content#:#cont_ed_insert_code#:#Programmcode einfügen
 content#:#cont_ed_insert_dtable#:#Datentabelle einfügen
 content#:#cont_ed_insert_filelist#:#Dateiliste einfügen
-content#:#cont_ed_insert_iim#:#Insert Interactive Image###12 06 2011 new variable
+content#:#cont_ed_insert_iim#:#Interaktives Bild einfügen
 content#:#cont_ed_insert_incl#:#Inhaltsbaustein einfügen
 content#:#cont_ed_insert_list#:#Erweiterte Liste einfügen
 content#:#cont_ed_insert_login_page_element#:#Loginseitenelement einfügen
@@ -5690,7 +5690,7 @@ content#:#cont_ed_insert_map#:#Karte einfügen
 content#:#cont_ed_insert_media#:#Bild/Audio/Video einfügen
 content#:#cont_ed_insert_par#:#Text einfügen
 content#:#cont_ed_insert_pcqst#:#Frage einfügen
-content#:#cont_ed_insert_plach#:#Platzhalter Einfügen
+content#:#cont_ed_insert_plach#:#Platzhalter einfügen
 content#:#cont_ed_insert_profile#:#Persönliche Daten einfügen
 content#:#cont_ed_insert_qover#:#Fragenübersicht einfügen
 content#:#cont_ed_insert_repobj#:#Materialienliste einfügen
@@ -5725,19 +5725,19 @@ content#:#cont_ed_split_page#:#Seite aufteilen
 content#:#cont_ed_textitem#:#Testelement
 content#:#cont_ed_width#:#Breite
 content#:#cont_edit_area#:#Bereich ändern
-content#:#cont_edit_base_image#:#Edit Base Image###12 06 2011 new variable
+content#:#cont_edit_base_image#:#Zugrundeliegendes Bild bearbeiten
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_lrs_settings#:#Einstellungen
-content#:#cont_edit_marker_position#:#Edit Marker Position###12 06 2011 new variable
+content#:#cont_edit_marker_position#:#Markierungspunkt bearbeiten
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Instanz des Medienobjekts bearbeiten
 content#:#cont_edit_mob_files#:#Objektdateien
 content#:#cont_edit_mob_properties#:#Eigenschaften des Medienobjekts bearbeiten
 content#:#cont_edit_mob#:#Medienobjekt editieren
 content#:#cont_edit_mode#:#Bearbeitungsmodus
-content#:#cont_edit_overlay_position#:#Edit Overlay Position###12 06 2011 new variable
+content#:#cont_edit_overlay_position#:#Position des Overlays bearbeiten
 content#:#cont_edit_par#:#Text bearbeiten
 content#:#cont_edit_personal_data#:#Persönliche Daten editieren
-content#:#cont_edit_popup_position#:#Edit Popup Position###12 06 2011 new variable
+content#:#cont_edit_popup_position#:#Position des Popups bearbeiten
 content#:#cont_edit_qover#:#Fragenübersicht bearbeiten
 content#:#cont_edit_shape_circle#:#Umriss (Kreis) bearbeiten
 content#:#cont_edit_shape_polygon#:#Umriss (Polygon) bearbeiten
@@ -5882,7 +5882,7 @@ content#:#cont_layout_per_page_info#:#Erlaubt es, je Seite ein anderes Layout zu
 content#:#cont_layout_per_page#:#Layout je Seite erlauben
 content#:#cont_layout_presentation_desc#:#Inhalte im Hauptframe. FAQ-, Glossar- und Medienlinks öffnen ein neues Fenster. Das ILIAS-Hauptmenü ist deaktiviert.
 content#:#cont_layout_presentation#:#Präsentation
-content#:#cont_layout_template#:#Layout Template###22 03 2011 new variable
+content#:#cont_layout_template#:#Layout-Template
 content#:#cont_layout_toc2win_desc#:#Übersicht links, Inhalte im rechten Frame. FAQ-, Glossar- und Medienlinks öffnen ein neues Fenster.
 content#:#cont_layout_toc2win#:#Übersicht links
 content#:#cont_layout_toc2windyn_desc#:#Übersicht links, Inhalte im rechten Frame. FAQ-, Glossar- und Medienlinks zeigen Inhalte in einem dynamische Frame unten rechts.
@@ -5942,7 +5942,7 @@ content#:#cont_maintenance#:#Wartung
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Verlinkte Bereiche
 content#:#cont_map_file_not_generated#:#Die Imagemap-Datei konnte leider nicht generiert werden.
-content#:#cont_marker#:#Marker###12 06 2011 new variable
+content#:#cont_marker#:#Markierungspunkt
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_placeh#:#Klicken und bearbeiten, um ein Medienobjekt einzufügen
@@ -5971,16 +5971,16 @@ content#:#cont_new_assignment#:#Neue Zuordnung
 content#:#cont_new_chap#:#Neues Kapitel
 content#:#cont_new_dir#:#Neues Verzeichnis
 content#:#cont_new_file#:#Neue Datei hochladen
-content#:#cont_new_marker#:#New Marker###12 06 2011 new variable
+content#:#cont_new_marker#:#Neuer Markierungspunkt
 content#:#cont_new_media_obj#:#Neues Medienobjekt
 content#:#cont_new_mob#:#Neues Media-Objekt
 content#:#cont_new_module_added#:#Neue Modulversion erfolgreich hochgeladen
 content#:#cont_new_page#:#Neue Seite
-content#:#cont_new_popup#:#New Popup###12 06 2011 new variable
+content#:#cont_new_popup#:#Neues Popup
 content#:#cont_new_question#:#Neue Frage
 content#:#cont_new_tab#:#Neues Register
 content#:#cont_new_term#:#Neuer Begriff
-content#:#cont_new_trigger_area#:#New Trigger Area###12 06 2011 new variable
+content#:#cont_new_trigger_area#:#Neuer Bereich für Auslöser
 content#:#cont_next_rev#:#Nachfolgende Änderung
 content#:#cont_nlist#:#Numerierte Liste
 content#:#cont_no_access#:#Kein Zugriff
@@ -6035,9 +6035,9 @@ content#:#cont_orig_size#:#Originalgröße
 content#:#cont_ov_all_correct#:#Sie haben alle Fragen richtig beantwortet.
 content#:#cont_ov_some_correct#:#Sie haben [x] von [y] Frage(n) richtig beantwortet.
 content#:#cont_ov_wrong_answered#:#Die folgenden Fragen wurden noch nicht oder falsch beantwortet
-content#:#cont_overlay_image#:#Overlay Image###12 06 2011 new variable
-content#:#cont_overlay_images#:#Overlay Images###12 06 2011 new variable
-content#:#cont_overlays_have_been_deleted#:#Overlays have been deleted.###12 06 2011 new variable
+content#:#cont_overlay_image#:#Bild für Overlay
+content#:#cont_overlay_images#:#Overlay-Bilder
+content#:#cont_overlays_have_been_deleted#:#Overlays wurden gelöscht
 content#:#cont_page_activation#:#Seitenaktivierung
 content#:#cont_page_compare#:#Vergleiche ausgewählte Änderungen
 content#:#cont_page_currently_deactivated#:#Diese Seite ist momentan deaktiviert.
@@ -6062,7 +6062,7 @@ content#:#cont_pc_deleted#:#Gelöschte Inhalte
 content#:#cont_pc_dtab#:#Datentabelle
 content#:#cont_pc_flist#:#Dateiliste
 content#:#cont_pc_hacc#:#Akkordeon (horizontal)
-content#:#cont_pc_iim#:#Interactive Image###12 06 2011 new variable
+content#:#cont_pc_iim#:#Interaktives Bild
 content#:#cont_pc_incl#:#Inhaltsbaustein
 content#:#cont_pc_list#:#Erweiterte Liste
 content#:#cont_pc_map#:#Karte
@@ -6086,7 +6086,7 @@ content#:#cont_please_enter_a_term#:#Bitte geben Sie einen Term ein.
 content#:#cont_please_select#:#Bitte auswählen
 content#:#cont_please_try_again#:#Versuchen Sie es nochmals!
 content#:#cont_Poly#:#Polygon
-content#:#cont_popups_have_been_deleted#:#Popups have been deleted.###12 06 2011 new variable
+content#:#cont_popups_have_been_deleted#:#Popups wurden gelöscht
 content#:#cont_position#:#Position
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
@@ -6118,12 +6118,12 @@ content#:#cont_question_placehl#:#Fragen-Platzhalter
 content#:#cont_question_pool#:#Fragenpool
 content#:#cont_question_type#:#Fragetyp
 content#:#cont_Reading#:#Lektüre
-content#:#cont_really_delete_overlays#:#Do you really want to delete the following overlays?###12 06 2011 new variable
-content#:#cont_really_delete_popups#:#Do you really want to delete the following popups?###12 06 2011 new variable
+content#:#cont_really_delete_overlays#:#Möchten Sie wirklich die folgenden Overlays löschen?
+content#:#cont_really_delete_popups#:#Möchten Sie wirklich die folgenden Popups löschen?
 content#:#cont_really_delete_special_pages#:#Do you really want to delete the following special pages?###22 03 2011 new variable
-content#:#cont_really_delete_triggers#:#Do you really want to delete the following triggers?###12 06 2011 new variable
+content#:#cont_really_delete_triggers#:#Möchten Sie wirklich die folgenden Auslöser löschen?
 content#:#cont_Rect#:#Rechteck
-content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
+content#:#cont_ref_helptext#:#(z.B.. http://www.ilias.de/logo.jpg)
 content#:#cont_ref_images#:#Referenzierte Bilder
 content#:#cont_reference#:#Referenz
 content#:#cont_Remark#:#Bemerkung
@@ -6157,10 +6157,10 @@ content#:#cont_save_all_titles#:#Titel abspeichern
 content#:#cont_save_positions_and_classes#:#Positionen und Styles speichern
 content#:#cont_save_positions#:#Reihenfolge Speichern
 content#:#cont_save_spans#:#Zellenverbünde speichern
-content#:#cont_save_types#:#Save Types###22 03 2011 new variable
+content#:#cont_save_types#:#Typen speichern
 content#:#cont_save_widths#:#Breiten speichern
 content#:#cont_saved_export_ids#:#HTML-Export-IDs gespeichert.
-content#:#cont_saved_interactive_image#:#Created Interactive Image###12 06 2011 new variable
+content#:#cont_saved_interactive_image#:#Interaktives Bild gespeichert
 content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
 content#:#cont_saving#:#Speichern...
@@ -6324,7 +6324,7 @@ content#:#cont_translations_assigned#:#Die Übersetzung(en) wurde(n) zugeordnet
 content#:#cont_translations#:#Übersetzung(en)
 content#:#cont_tree_fixed#:#Die Lernmodulstruktur wurde repariert.
 content#:#cont_tries_remaining#:#Verbleibende Versuche
-content#:#cont_trigger_area#:#Trigger Area###12 06 2011 new variable
+content#:#cont_trigger_area#:#Bereich für Auslöser
 content#:#cont_type#:#Typ
 content#:#cont_Unordered#:#Ungeordnet
 content#:#cont_update_blog#:#Blog-Eintrag bearbeiten
@@ -6338,7 +6338,7 @@ content#:#cont_update_resources#:#Materialienliste aktualisieren
 content#:#cont_update_section#:#Block aktualisieren
 content#:#cont_update_skills#:#Kompetenz bearbeiten
 content#:#cont_update_tabs#:#Register aktualisieren
-content#:#cont_update_titles_and_actions#:#Update Titles and Actions###12 06 2011 new variable
+content#:#cont_update_titles_and_actions#:#Titel und Aktionen aktualisieren
 content#:#cont_update_verification#:#Zertifikat bearbeiten
 content#:#cont_update#:#Aktualisieren
 content#:#cont_upload_dir_info#:#Server-Verzeichnis, von dem große SCORM- und HTML-Pakete kopiert werden können, statt sie direkt hochzuladen. Nur ILIAS Administratoren sehen eine Auswahl von Dateien aus diesem Verzeichnis. Bitte geben Sie einen vollständigen Serverpfad ohne Slash am Ende ein.
@@ -6358,7 +6358,7 @@ content#:#cont_versions#:#Versionen
 content#:#cont_view_last_export_log#:#Letzter Exporteintrag
 content#:#cont_where_published#:#Veröffentlichungsort
 content#:#cont_whole_glossary#:#Gesamtes Glossar
-content#:#cont_WholePicture#:#Whole Picture###12 06 2011 new variable
+content#:#cont_WholePicture#:#Ganzes Bild
 content#:#cont_width#:#Breite
 content#:#cont_wiki_page_link#:#Wiki-Seiten-Link
 content#:#cont_wrong_answers_single#:#Falsche Wahl.
@@ -10769,8 +10769,8 @@ skmg#:#skll#:#Basiskompetenz
 skmg#:#skmg_add_level#:#Ausprägung hinzufügen
 skmg#:#skmg_add_skill#:#Kompetenz hinzufügen
 skmg#:#skmg_assign_materials#:#Materialien zuordnen
-skmg#:#skmg_cert_achievement_date#:#Achievement Date###18 07 2011 new variable
-skmg#:#skmg_cert_achievement_datetime#:#Achievement Date and Time###18 07 2011 new variable
+skmg#:#skmg_cert_achievement_date#:#Datum der Leistungserbringung
+skmg#:#skmg_cert_achievement_datetime#:#Datum und Zeit der Leistungserbringung
 skmg#:#skmg_cert_skill_level_title#:#Titel Kompetenzausprägung
 skmg#:#skmg_cert_skill_title#:#Titel Kompetenz
 skmg#:#skmg_cert_skill_trigger_title#:#Titel Auslöser
@@ -10865,7 +10865,7 @@ skmg#:#skmg_your_self_evaluation#:#Ihre Selbsteinschätzung
 style#:#sty_acopy#:#Kopieren
 style#:#sty_add_characteristic#:#Neuen Style hinzufügen
 style#:#sty_add_color#:#Farbe hinzufügen
-style#:#sty_add_content_style#:#Add Content Style###22 03 2011 new variable
+style#:#sty_add_content_style#:#Content-Style hinzufügen
 style#:#sty_add_image#:#Bild hinzufügen
 style#:#sty_add_pgl#:#Seitenlayout hinzufügen
 style#:#sty_add_template#:#Template hinzufügen
@@ -10931,7 +10931,7 @@ style#:#sty_font_stretch#:#Schriftlaufweite
 style#:#sty_font_style#:#Schriftstil
 style#:#sty_font_variant#:#Schriftvariante
 style#:#sty_font_weight#:#Schriftgewicht
-style#:#sty_from#:#From###22 03 2011 new variable
+style#:#sty_from#:#Von
 style#:#sty_generate_template#:#Template erzeugen
 style#:#sty_glo_char#:#Glossar
 style#:#sty_ha_cntr_class#:#Hor. Akkordeon-Container
@@ -10966,8 +10966,8 @@ style#:#sty_list_char#:#Liste
 style#:#sty_list_style_image#:#Bild
 style#:#sty_list_style_position#:#Position
 style#:#sty_list_style_type#:#Listenstyle
-style#:#sty_make_global_default#:#Make Global Default###22 03 2011 new variable
-style#:#sty_make_global_fixed#:#Make Global Fixed###22 03 2011 new variable
+style#:#sty_make_global_default#:#Zu globalem Standard machen
+style#:#sty_make_global_fixed#:#Globalen Standard festsetzen
 style#:#sty_margin_and_padding#:#Außenrand und Innenabstand
 style#:#sty_margin#:#Außenrand
 style#:#sty_media_char#:#Medien
@@ -10995,12 +10995,12 @@ style#:#sty_position#:#Position
 style#:#sty_positioning#:#Positionierung
 style#:#sty_preview#:#Vorschau
 style#:#sty_question_char#:#Fragen
-style#:#sty_remove_global_default_state#:#Remove Global Default State###22 03 2011 new variable
-style#:#sty_remove_global_fixed_state#:#Remove Global Fixed State###22 03 2011 new variable
+style#:#sty_remove_global_default_state#:#Status als globaler Standard aufheben
+style#:#sty_remove_global_fixed_state#:#Festsetzung des Standards aufheben
 style#:#sty_right#:#Rechts
 style#:#sty_row_foot_class#:#Fuß (Zeilen)
 style#:#sty_row_head_class#:#Kopf (Zeilen)
-style#:#sty_rte_char#:#SCORM RTE###22 03 2011 new variable
+style#:#sty_rte_char#:#SCORM RTE#
 style#:#sty_save_active_styles#:#Aktive Stylesheets speichern
 style#:#sty_save_hide_status#:#Save Hide Status
 style#:#sty_save_standard_styles#:#Standard-Stylesheets speichern
@@ -11036,7 +11036,7 @@ style#:#sty_text_indent#:#Texteinrückung
 style#:#sty_text_inline_char#:#Text (Zeichen)
 style#:#sty_text_transform#:#Text-Transformation
 style#:#sty_text#:#Text
-style#:#sty_to#:#To###22 03 2011 new variable
+style#:#sty_to#:#Bis
 style#:#sty_top_bottom_padding#:#Innenabstand Oben/Unten
 style#:#sty_top#:#Oben
 style#:#sty_type_flist_a#:#Link Dateilisteneintrag
@@ -11056,12 +11056,12 @@ style#:#sty_type_ha_ihead#:#Hor. Akkordeonelement Überschrift
 style#:#sty_type_heading1#:#Überschrift 1
 style#:#sty_type_heading2#:#Überschrift 2
 style#:#sty_type_heading3#:#Überschrift 3
-style#:#sty_type_iim#:#Interactive Image Content Popup###12 06 2011 new variable
+style#:#sty_type_iim#:#Popup für Inhalte in Interaktivem Bild
 style#:#sty_type_link#:#Link
 style#:#sty_type_list_item#:#Listeneintrag
 style#:#sty_type_list_o#:#Nummerierte Liste
 style#:#sty_type_list_u#:#Bullet-Liste
-style#:#sty_type_marker#:#Interactive Image Marker###12 06 2011 new variable
+style#:#sty_type_marker#:#Markierungspunkt Interaktives Bild
 style#:#sty_type_media_caption#:#Beschriftung
 style#:#sty_type_media_cont#:#Mediencontainer
 style#:#sty_type_media#:#Medien
@@ -11080,30 +11080,30 @@ style#:#sty_type_page_title#:#Seitentitel
 style#:#sty_type_page_tnav#:#Navigation oben
 style#:#sty_type_page#:#Seite
 style#:#sty_type_qanswer#:#Antwort
-style#:#sty_type_qetcorr#:#Error Text Corrected###12 06 2011 new variable
-style#:#sty_type_qetitem#:#Error Text Item###12 06 2011 new variable
+style#:#sty_type_qetcorr#:#Korrigierter Fehlertext
+style#:#sty_type_qetitem#:#Fehlertext-Element
 style#:#sty_type_qfeedr#:#Feedback, richtig
 style#:#sty_type_qfeedw#:#Feedback, falsch
-style#:#sty_type_qimg#:#Question Image###12 06 2011 new variable
-style#:#sty_type_qimgd#:#Image Details Link###12 06 2011 new variable
+style#:#sty_type_qimg#:#Fragenbild
+style#:#sty_type_qimgd#:#Link für Bilddetails
 style#:#sty_type_qinput#:#Texteingabe
 style#:#sty_type_qlinput#:#Lange Texteingabe
-style#:#sty_type_qordli#:#Order List Item###12 06 2011 new variable
-style#:#sty_type_qordul#:#Order List###12 06 2011 new variable
+style#:#sty_type_qordli#:#Eintrag Aufzählungsliste
+style#:#sty_type_qordul#:#Aufzählungsliste
 style#:#sty_type_qover#:#Fragenübersicht
 style#:#sty_type_qsubmit#:#Schaltknopf
 style#:#sty_type_qtitle#:#Fragentitel
-style#:#sty_type_question#:#Frae
+style#:#sty_type_question#:#Frage
 style#:#sty_type_rte_drag#:#Balken verschieben
-style#:#sty_type_rte_menu#:#RTE Menu###22 03 2011 new variable
-style#:#sty_type_rte_mlink#:#RTE Menu Link###22 03 2011 new variable
-style#:#sty_type_rte_node#:#RTE Tree Node###22 03 2011 new variable
-style#:#sty_type_rte_status#:#RTE Status###22 03 2011 new variable
+style#:#sty_type_rte_menu#:#RTE-Menü
+style#:#sty_type_rte_mlink#:#RTE-Menülink
+style#:#sty_type_rte_node#:#RTE-Baumknoten
+style#:#sty_type_rte_status#:#RTE-Status
 style#:#sty_type_rte_tclink#:#Kontrolllink Baum
 style#:#sty_type_rte_texp#:#Icon Baum
 style#:#sty_type_rte_tli#:#Eintrag in Baumansicht
-style#:#sty_type_rte_tlink#:#RTE Tree Node Link###22 03 2011 new variable
-style#:#sty_type_rte_tree#:#RTE Tree Section###22 03 2011 new variable
+style#:#sty_type_rte_tlink#:#RTE-Baumknotenlink
+style#:#sty_type_rte_tree#:#RTE-Baumauswahl
 style#:#sty_type_rte_tul#:#Baumansicht
 style#:#sty_type_sco_desc#:#SCO Beschreibung
 style#:#sty_type_sco_desct#:#SCO Beschreibung Überschrift
