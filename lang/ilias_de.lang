@@ -11138,7 +11138,7 @@ survey#:#survey_template_reset#:#Die Vorlage wurde entfernt.
 survey#:#survey_introduction_info#:#Dieser Text erscheint zu Beginn der Umfrage.
 survey#:#survey_auth_mode#:#Zugriffsmodus
 survey#:#survey_question_pool#:#Fragenpool
-survey#:#survey_question_pool_usage#:#Poolauswahl beim Anlegen von Fragen
+survey#:#survey_question_pool_usage#:#Fragenpool-Auswahl beim Anlegen von Fragen
 survey#:#survey_pool_selection#:#Poolauswahl
 survey#:#survey_no_pool#:#Keinen Fragenpool verwenden
 survey#:#survey_new_pool#:#Neuen Fragenpool anlegen
@@ -12329,3 +12329,4 @@ prtf#:#prtf_admin_inactive_info#:#Das Portfolio-Feature kann in der Administrati
 blog#:#blog_admin_inactive_info#:#Das Blog-Feature kann in der Administration des Persönlichen Schreibtischs aktiviert werden.
 prtf#:#prtf_set_default_publish_confirmation#:#Das Portfolio muss mindestens für alle registrierten Benutzer freigegeben werden. Soll es auch für das ganze Internet ohne Registrierung sichtbar sein?
 prtf#:#prtf_unset_default_share_info#:#Die Änderungen wurden gespeichert. Bitte überprüfen Sie die aktuellen Freigaben für das Portfolio.
+survey#:#svy_participation#:#Teilnahme

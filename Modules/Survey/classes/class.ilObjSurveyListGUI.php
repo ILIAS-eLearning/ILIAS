@@ -140,7 +140,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 			{
 				// no completion
 				$props[] = array("alert" => true, 
-					"property" => $lng->txt("participation"),
+					"property" => $lng->txt("svy_participation"),
 					"value" => $lng->txt("svy_warning_survey_not_complete"),
 					'propertyNameVisible' => false);
 			}
