@@ -282,7 +282,7 @@ class ilCustomUserFieldsGUI
 		global $lng, $ilCtrl;
 		
 		$user_field_definitions = ilUserDefinedFields::_getInstance();
-		$user_field_definitions->setFieldType($form->getInput("field_type"));
+		$user_field_definitions->setFieldType($_POST["field_type"]);
 		
 		$access = array();
 		$form = $this->initForm();				
