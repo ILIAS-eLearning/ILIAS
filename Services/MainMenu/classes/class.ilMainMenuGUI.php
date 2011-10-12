@@ -98,7 +98,7 @@ class ilMainMenuGUI
 		return $this->login_target_par;
 	}
 	
-	static function getLanguageSelection()
+	static function getLanguageSelection($a_in_topbar = false)
 	{
 		global $lng;
 		
@@ -110,6 +110,12 @@ class ilMainMenuGUI
 		//$selection->setListTitle($lng->txt("choose_language"));
 		$selection->setListTitle($lng->txt("language"));
 		$selection->setItemLinkClass("small");
+		
+		if($a_in_topbar)
+		{
+			$selection->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_TOPBAR);
+		}
+		
 		$languages = $lng->getInstalledLanguages();
 		if(sizeof($languages) > 0)
 		{

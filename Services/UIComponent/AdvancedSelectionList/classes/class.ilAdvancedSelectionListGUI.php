@@ -16,6 +16,7 @@ class ilAdvancedSelectionListGUI
 	
 	const DOWN_ARROW_LIGHT = "mm_down_arrow.gif";
 	const DOWN_ARROW_DARK = "mm_down_arrow_dark.gif";
+	const DOWN_ARROW_TOPBAR = "mm_down_arrow_topbar.gif";
 	const NO_ICON = "";
 	
 	const MODE_LINKS = "links";
@@ -642,6 +643,10 @@ class ilAdvancedSelectionListGUI
 				case ilAdvancedSelectionListGUI::DOWN_ARROW_DARK:
 					$tpl->setVariable("IMG_DOWN",
 						ilUtil::getImagePath(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK));
+					break;
+				case ilAdvancedSelectionListGUI::DOWN_ARROW_TOPBAR:
+					$tpl->setVariable("IMG_DOWN",
+						ilUtil::getImagePath(ilAdvancedSelectionListGUI::DOWN_ARROW_TOPBAR));
 					break;
 				default:
 					$tpl->setVariable("IMG_DOWN", $this->getHeaderIcon());

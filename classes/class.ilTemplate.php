@@ -2340,7 +2340,7 @@ class ilTemplate extends ilTemplateX
 		else
 		{
 			include_once "Services/MainMenu/classes/class.ilMainMenuGUI.php";
-			$selection = ilMainMenuGUI::getLanguageSelection();
+			$selection = ilMainMenuGUI::getLanguageSelection(true);
 			
 			$this->setCurrentBlock("topbar_usr_ano");
 			$this->setVariable("TOPBAR_LANGUAGES", $selection); 
