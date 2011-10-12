@@ -2339,7 +2339,11 @@ class ilTemplate extends ilTemplateX
 		// not logged in
 		else
 		{
+			include_once "Services/MainMenu/classes/class.ilMainMenuGUI.php";
+			$selection = ilMainMenuGUI::getLanguageSelection();
+			
 			$this->setCurrentBlock("topbar_usr_ano");
+			$this->setVariable("TOPBAR_LANGUAGES", $selection); 
 			$this->setVariable("TOPBAR_LOGIN_CAPTION", $lng->txt("login_to_ilias"));
 			$this->setVariable("TOPBAR_LOGIN_URL", "./login.php?client_id=".CLIENT_ID."&cmd=force_login");
 			$this->parseCurrentBlock();

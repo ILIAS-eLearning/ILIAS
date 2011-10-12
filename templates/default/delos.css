@@ -3358,10 +3358,17 @@ div.ilTopBar a {
 
 div.ilTopBarLeft {
 	float: left;
-	
 }
 
 div.ilTopBarRight {
 	float: right;
+}
 
+div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
+	margin-right: 25px;
+	color: black;
+}
+
+div.ilTopBarRight td.il_adv_sel {
+	background-color: #444;
 }

@@ -97,6 +97,35 @@ class ilMainMenuGUI
 	{
 		return $this->login_target_par;
 	}
+	
+	static function getLanguageSelection()
+	{
+		global $lng;
+		
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$selection = new ilAdvancedSelectionListGUI();
+		$selection->setFormSelectMode("change_lang_to", "ilLanguageSelection", true,
+			"#", "ilNavHistory", "ilNavHistoryForm",
+			"_top", $lng->txt("ok"), "ilLogin");
+		//$selection->setListTitle($lng->txt("choose_language"));
+		$selection->setListTitle($lng->txt("language"));
+		$selection->setItemLinkClass("small");
+		$languages = $lng->getInstalledLanguages();
+		if(sizeof($languages) > 0)
+		{
+			foreach ($languages as $lang_key)
+			{
+				$base = substr($_SERVER["REQUEST_URI"], strrpos($_SERVER["REQUEST_URI"], "/") + 1);
+				$base = preg_replace("/&*lang=[a-z]{2}&*/", "", $base);
+				$link = ilUtil::appendUrlParameterString($base,
+					"lang=".$lang_key);
+				$link = str_replace("?&", "?", $link);
+				$selection->addItem($lng->_lookupEntry($lang_key, "meta", "meta_l_".$lang_key),
+					$lang_key, $link, "", "", "_top");
+			}
+			return $selection->getHTML();
+		}
+	}
 
 	/**
 	* set all template variables (images, scripts, target frames, ...)
@@ -169,28 +198,10 @@ class ilMainMenuGUI
 				}
 	
 				// language selection
-				include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-				$selection = new ilAdvancedSelectionListGUI();
-				$selection->setFormSelectMode("change_lang_to", "ilLanguageSelection", true,
-					"#", "ilNavHistory", "ilNavHistoryForm",
-					"_top", $lng->txt("ok"), "ilLogin");
-				//$selection->setListTitle($lng->txt("choose_language"));
-				$selection->setListTitle($lng->txt("language"));
-				$selection->setItemLinkClass("small");
-				$languages = $lng->getInstalledLanguages();
-		//var_dump($_SERVER);
-				foreach ($languages as $lang_key)
+				$selection = self::getLanguageSelection();
+				if($selection)
 				{
-					$base = substr($_SERVER["REQUEST_URI"], strrpos($_SERVER["REQUEST_URI"], "/") + 1);
-					$base = str_replace("lang=", "", $base);
-					$link = ilUtil::appendUrlParameterString($base,
-						"lang=".$lang_key);
-					$selection->addItem(ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key),
-						$lang_key, $link, "", "", "_top");
-				}
-				if (count($languages) > 0)
-				{
-					$this->tpl->setVariable("LANG_SELECT", $selection->getHTML());
+					$this->tpl->setVariable("LANG_SELECT", $selection);
 				}
 	
 				$this->tpl->setCurrentBlock("userisanonymous");
