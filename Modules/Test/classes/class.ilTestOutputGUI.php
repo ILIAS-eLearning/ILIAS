@@ -1001,6 +1001,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	function selectImagemapRegion()
 	{
 		$this->saveQuestionSolution();
+		$activecommand = "selectImagemapRegion";
 		if (array_key_exists('cmd', $_POST))
 		{
 			$activecommand = key($_POST["cmd"]);
