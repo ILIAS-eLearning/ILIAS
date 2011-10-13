@@ -35,14 +35,14 @@ require_once("./classes/class.ilSaxParser.php");
 class ilStyleDefinition extends ilSaxParser
 {
 	/**
-	 * fim: [mobile] currently selected skin of this definition
+	 * currently selected skin
 	 * @var string
 	 */
 	static $current_skin;
 	
 	
 	/**
-	 * fim: [mobile] currently selected style of this definition
+	 * currently selected style
 	 * @var string
 	 */
 	static $current_style;
@@ -61,14 +61,12 @@ class ilStyleDefinition extends ilSaxParser
 
 		if ($a_template_id == "")
 		{
-			// fim: [mobile] use function to get the current skin
+			// use function to get the current skin
 			$a_template_id = self::getCurrentSkin();
-			// fim.
 		}
 
-		// fim: [mobile] remember the template id
+		// remember the template id
 		$this->template_id = $a_template_id;
-		// fim.
 
 		if ($a_template_id == "default")
 		{
@@ -102,12 +100,11 @@ class ilStyleDefinition extends ilSaxParser
 		}
 	}
 
-	// fim: [mobile] new function getTemplateId()
 	function getTemplateId()
 	{
 		return $this->template_id;
 	}
-	// fim.
+
 	
 	function getTemplateName()
 	{
@@ -327,7 +324,10 @@ class ilStyleDefinition extends ilSaxParser
 		
 	
 	/**
-	 * fim: [mobile] get the current skin
+	 * get the current skin
+	 *
+	 * use always this function instead of getting the account's skin
+	 * the current skin may be changed on the fly by setCurrentSkin()
 	 * 
 	 * @return	string	skin id
 	 */
@@ -340,8 +340,11 @@ class ilStyleDefinition extends ilSaxParser
 	}
 	
 	/**
-	 * fim: [mobile] get the current style
+	 * get the current style
 	 *
+	 * use always this function instead of getting the account's style
+	 * the current style may be changed on the fly by setCurrentStyle()
+
 	 * @return	string	style id
 	 */
 	public static function getCurrentStyle()
@@ -353,7 +356,7 @@ class ilStyleDefinition extends ilSaxParser
 	}
 	
 	/**
-	 * fim: [mobile] set a new current skin
+	 * set a new current skin
 	 * 
 	 * @param	string		skin id
 	 */
@@ -373,7 +376,7 @@ class ilStyleDefinition extends ilSaxParser
 	
 	
 	/**
-	 * fim: [mobile] set a new current style
+	 * set a new current style
 	 * 
 	 * @param	string	style id
 	 */

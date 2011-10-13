@@ -3119,7 +3119,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$html = $item_list_gui->getListItemHTML($ref_id,
 			$obj_id, "", "", true, true);
 
-		// fim: [mobile] plugin slot for async item list
+		// include plugin slot for async item list
 		global $ilPluginAdmin;
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 		foreach ($pl_names as $pl)
@@ -3132,7 +3132,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$html = $gui_class->modifyHTML($html, $resp);
 			}
 		}
-		// fim.
 		
 		echo $html;
 		exit;

@@ -720,9 +720,10 @@ class ilAdvancedSelectionListGUI
 				$this->getSelectionHeaderSpanClass());
 		}
 
-		// fim: [mobile] set the async url to an extra template variable
+		// set the async url to an extra template variable
+		// (needed for a mobile skin)
 		$tpl->setVariable("ASYNC_URL", $this->getAsynchUrl());
-		// fim.
+
 		$tpl->parseCurrentBlock();
 		
 		// no js sections

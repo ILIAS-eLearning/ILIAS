@@ -83,9 +83,8 @@ class ilTemplate extends ilTemplateX
 
 		$this->tplName = basename($fname);
 		$this->tplPath = dirname($fname);
-		// fim: [mobile] set the template identifier
+		// template identifier e.g. "Services/Calendar/tpl.minical.html"
 		$this->tplIdentifier = $this->getTemplateIdentifier($file, $in_module);
-		// fim.
 		
 		// set default content-type to text/html
 		$this->contenttype = "text/html";
@@ -265,7 +264,6 @@ class ilTemplate extends ilTemplateX
 			$this->handleReferer();
 		}
 
-		// fim: [mobile] include the template output hook
 		if ($part == "DEFAULT")
 		{
 			$html = parent::get();
@@ -275,6 +273,7 @@ class ilTemplate extends ilTemplateX
 			$html = parent::get($part);
 		}
 
+		// include the template output hook
 		global $ilPluginAdmin;
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 		foreach ($pl_names as $pl)
@@ -292,7 +291,6 @@ class ilTemplate extends ilTemplateX
 		}
 
 		return $html;
-		// fim.
 	}
 
 	/**
@@ -501,7 +499,6 @@ class ilTemplate extends ilTemplateX
 			}
 		}
 		
-		// fim: [mobile] include the template output hook
 		if ($part == "DEFAULT" or is_bool($part))
 		{
 			$html = parent::get();
@@ -511,6 +508,7 @@ class ilTemplate extends ilTemplateX
 			$html = parent::get($part);
 		}
 		
+		// include the template output hook
 		global $ilPluginAdmin;
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 		foreach ($pl_names as $pl)
@@ -528,7 +526,6 @@ class ilTemplate extends ilTemplateX
 		}
 		
 		print $html;
-		// fim.
 		
 		$this->handleReferer();
 	}
@@ -1306,10 +1303,10 @@ class ilTemplate extends ilTemplateX
 			return false;
 		}
 
-		// fim: [mobile] include the template input hook
 		$id = $this->getTemplateIdentifier($tplname, $in_module);
 		$template = $this->getFile($tplfile);
 		
+		// include the template input hook
 		global $ilPluginAdmin;
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 		foreach ($pl_names as $pl)
@@ -1327,17 +1324,14 @@ class ilTemplate extends ilTemplateX
 		}
 		
 		return $this->addBlock($var, $block, $template);
-		// fim.
 	}
 
 	
 	/**
-	 * fim: [mobile] overwrite IT:loadTemplateFile to include the template input hook
-	 * 
-	 * include the template input hook 
-	 * 
      * Reads a template file from the disk.
      *
+	 * overwrites IT:loadTemplateFile to include the template input hook
+	 *
      * @param    string      name of the template file
      * @param    bool        how to handle unknown variables.
      * @param    bool        how to handle empty blocks.
@@ -1350,7 +1344,7 @@ class ilTemplate extends ilTemplateX
                                $removeUnknownVariables = true,
                                $removeEmptyBlocks = true )
     {
-    	// copied:
+    	// copied from IT:loadTemplateFile
         $template = '';
         if (!$this->flagCacheTemplatefile ||
             $this->lastTemplatefile != $filename
@@ -1360,7 +1354,7 @@ class ilTemplate extends ilTemplateX
         $this->lastTemplatefile = $filename;
 		// copied.	
         
-		// new:
+		// new code to include the template input hook:
 		global $ilPluginAdmin;
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 		foreach ($pl_names as $pl)
@@ -1378,7 +1372,7 @@ class ilTemplate extends ilTemplateX
 		}
 		// new.     
         
-        // copied:
+        // copied from IT:loadTemplateFile
         return $template != '' ?
                 $this->setTemplate(
                         $template,$removeUnknownVariables, $removeEmptyBlocks
@@ -1386,7 +1380,6 @@ class ilTemplate extends ilTemplateX
         // copied.
                     
     }
-	// fim.
 	
 
 	/**
@@ -1427,13 +1420,13 @@ class ilTemplate extends ilTemplateX
 				}
 			}
 
-			// fim: [mobile] use ilStyleDefinition to get the current skin
+			// use ilStyleDefinition instead of account to get the current skin
 			if (ilStyleDefinition::getCurrentSkin() != "default")
 			{
 				$fname = "./Customizing/global/skin/".
 					ilStyleDefinition::getCurrentSkin()."/".$module_path.basename($a_tplname);
 			}
-			// fim.
+
 			if($fname == "" || !file_exists($fname))
 			{
 				$fname = "./".$module_path."templates/default/".basename($a_tplname);
@@ -1448,7 +1441,12 @@ class ilTemplate extends ilTemplateX
 	}
 	
 	/**
-	 * fim: [mobile] new function to get a unique template identifier
+	 * get a unique template identifier
+	 *
+	 * The identifier is common for default or customized skins
+	 * but distincts templates of different services with the same name.
+	 *
+	 * This is used by the UI plugin hook for template input/output
 	 * 
 	 * @param	string				$a_tplname		template name
 	 * @param	string				$in_module		Component, e.g. "Modules/Forum"
@@ -1492,9 +1490,7 @@ class ilTemplate extends ilTemplateX
 			return $a_tplname;
 		}
 	}
-	// fim.
-	
-	
+
 	function setHeaderPageTitle($a_title)
 	{
 		$a_title = ilUtil::stripScriptHTML($a_title);	
