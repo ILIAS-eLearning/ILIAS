@@ -78,10 +78,10 @@ class ilPersonalDesktopGUI
 		// check whether password of user have to be changed
 		// due to first login or password of user is expired
 		if( ($ilUser->isPasswordChangeDemanded() || $ilUser->isPasswordExpired())
-				&& $next_class != "ilpersonalprofilegui"
+				&& $next_class != "ilpersonalsettingsgui"
 		)
 		{
-			$this->ctrl->redirectByClass("ilpersonalprofilegui");
+			$this->ctrl->redirectByClass("ilpersonalsettingsgui");
 		}
 
 		// read last active subsection
