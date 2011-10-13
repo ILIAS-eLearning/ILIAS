@@ -63,7 +63,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 		}
 		$this->addColumn($this->lng->txt("name"),'name', '');
 		$this->addColumn($this->lng->txt("login"),'login', '');
-		$this->addColumn($this->lng->txt("last_access"),'lastaccess', '');
+		$this->addColumn($this->lng->txt("last_access"),'last_access', '');
 	
 		$this->setRowTemplate("tpl.il_svy_svy_maintenance_row.html", "Modules/Survey");
 
