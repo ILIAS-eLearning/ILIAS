@@ -8277,7 +8277,7 @@ if(!$ilDB->tableExists('note_settings'))
 	$setting->set("obj_dis_creation_dbk", 1);
 ?>
 <#3488>
-<?php
+<?phpa
 
 	$ilDB->modifyTableColumn('frm_settings', 'preset_subject',
 	array('type' => 'integer',
@@ -8288,4 +8288,12 @@ if(!$ilDB->tableExists('note_settings'))
 <#3489>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+<#3490>
+<?php
+	$ilDB->addIndex("page_object", array("parent_id"), "i2");
+?>
+<#3491>
+<?php
+	$ilDB->addIndex("page_history", array("page_id"), "i1");
 ?>
