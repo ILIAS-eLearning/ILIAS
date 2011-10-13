@@ -4515,7 +4515,7 @@ common#:#tst_no_content#:#Nessun test disponibile
 common#:#tst_read#:#Accedere in lettura ad un test
 common#:#tst_run#:#Esegui
 common#:#tst_statistical_evaluation#:#Statistiche
-common#:#tst_tst_statistics#:#Accesso alle statistiche di test
+common#:#tst_statistics#:#Accesso alle statistiche di test
 common#:#tst_upload_file#:#Scegli il file
 common#:#tst_user_not_invited#:#Non sei iscritto a questo esame.
 common#:#tst_user_wrong_clientip#:#Non hai il giusto indirizzo IP per questo test.

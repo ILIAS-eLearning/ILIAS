@@ -4579,7 +4579,7 @@ common#:#tst_no_content#:#No tests available
 common#:#tst_read#:#Read access to Test
 common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistics
-common#:#tst_tst_statistics#:#Access to Test Statistics
+common#:#tst_statistics#:#Access to Test Statistics
 common#:#tst_upload_file#:#Upload file
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
 common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test

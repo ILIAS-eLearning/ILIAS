@@ -4789,7 +4789,7 @@ common#:#tst_no_content#:#No hay tests disponibles
 common#:#tst_read#:#Acceso de lectura al Test
 common#:#tst_run#:#Ejecutar
 common#:#tst_statistical_evaluation#:#Estadísticas
-common#:#tst_tst_statistics#:#Acceso a estadísticas del test
+common#:#tst_statistics#:#Acceso a estadísticas del test
 common#:#tst_upload_file#:#Cargar archivo
 common#:#tst_user_not_invited#:#Usted no debe realizar este examen.
 common#:#tst_user_wrong_clientip#:#No tiene la IP correcta para usar este test

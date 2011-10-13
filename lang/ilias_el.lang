@@ -3998,7 +3998,7 @@ common#:#tst_no_content#:#Δεν υπάρχουν διαθέσιμες εξετ�
 common#:#tst_read#:#Πρόσβαση ανάγνωσης στην εξέταση
 common#:#tst_run#:#Εκτέλεση
 common#:#tst_statistical_evaluation#:#Στατιστικά
-common#:#tst_tst_statistics#:#Access to Test Statistics
+common#:#tst_statistics#:#Access to Test Statistics
 common#:#tst_upload_file#:#Εκφόρτωση αρχείου
 common#:#tst_user_not_invited#:#Δεν πρέπει να συμμετέχετε σε αυτό το διαγώνισμα.
 common#:#tst_user_wrong_clientip#:#Δεν έχετε τη σωστή ip για χρήση αυτού του διαγωνίσματος

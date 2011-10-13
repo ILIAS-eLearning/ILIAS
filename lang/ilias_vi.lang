@@ -6168,7 +6168,7 @@ common#:#tree_frame#:#Tree Frame###25 02 2007 new variable
 common#:#tree_frame_info#:#Defines whether the tree frame (e.g. repository tree) should appear on the left or on the right.###25 02 2007 new variable
 common#:#tree_left#:#Left###25 02 2007 new variable
 common#:#tree_right#:#Right###25 02 2007 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###25 02 2007 new variable
+common#:#tst_statistics#:#Access to Test Statistics###25 02 2007 new variable
 common#:#udf_add_field#:#Add Field###25 02 2007 new variable
 common#:#udf_added_field#:#Added new field.###25 02 2007 new variable
 common#:#udf_delete_header#:#Delete Field###25 02 2007 new variable

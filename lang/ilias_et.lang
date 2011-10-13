@@ -6519,7 +6519,7 @@ common#:#rows#:#Rows###29 11 2006 new variable
 common#:#rte_editor_enabled#:#Rich Text Editor enabled###29 11 2006 new variable
 common#:#rte_editor_disabled#:#Rich Text Editor disabled###29 11 2006 new variable
 common#:#set_edit_mode#:#Set Edit Mode###29 11 2006 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###29 11 2006 new variable
+common#:#tst_statistics#:#Access to Test Statistics###29 11 2006 new variable
 common#:#no_start_file#:#No Start File.###29 11 2006 new variable
 ilinc#:#ilinc_member_administration#:#Edit Participants###29 11 2006 new variable
 survey#:#SurveyMatrixQuestion#:#Matrix Question###29 11 2006 new variable

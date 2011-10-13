@@ -2572,7 +2572,7 @@ common#:#tst_new#:#Ny test
 common#:#tst_no_content#:#Ingen tests tilgængelige
 common#:#tst_read#:#Læseadgang til test
 common#:#tst_run#:#Kør
-common#:#tst_tst_statistics#:#Adgang til teststatistiker
+common#:#tst_statistics#:#Adgang til teststatistiker
 common#:#tst_statistical_evaluation#:#Statistik
 common#:#tst_upload_file#:#Upload fil
 common#:#tst_user_not_invited#:#Du ikke en af de studerende der skal tage denne test

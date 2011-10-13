@@ -5177,7 +5177,7 @@ common#:#tst_random_test_description_warning#:#<br /><b>Dieser Test beinhaltet F
 common#:#tst_read#:#Lesezugriff auf Test
 common#:#tst_run#:#Ausführen
 common#:#tst_statistical_evaluation#:#Statistik
-common#:#tst_tst_statistics#:#Zugriff auf Teststatistiken
+common#:#tst_statistics#:#Zugriff auf Teststatistiken
 common#:#tst_upload_file#:#Datei hochladen
 common#:#tst_user_not_invited#:#Sie dürfen an dieser Online-Prüfung nicht teilnehmen.
 common#:#tst_user_wrong_clientip#:#Sie haben nicht die korrekte IP-Adresse, um an der Online-Prüfung teilzunehmen.
