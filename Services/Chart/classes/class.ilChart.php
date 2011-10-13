@@ -22,6 +22,7 @@ class ilChart
 	protected $shadow; // [int]
 	protected $colors; // [array]
 	protected $ticks; // [array]
+	protected $integer_axis; // [array]
 
 	/**
 	 * Constructor
@@ -35,6 +36,8 @@ class ilChart
 	{
 		$this->id = $a_id;
 		$this->data = array();
+		$this->setXAxisToInteger(false);
+		$this->setYAxisToInteger(false);
 		$this->setSize($a_width, $a_height);
 		$this->setRenderer($a_renderer);
 		$this->setShadow(2);
@@ -353,15 +356,15 @@ class ilChart
 		}
 
 		// axis/ticks
+		$tmp = array();
 		$ticks = $this->getTicks();
 		if($ticks)
-		{
-			$tmp = array();
+		{			
 			foreach($ticks as $axis => $def)
 			{
 				if(is_numeric($def))
 				{
-					$tmp[] = $axis."axis: { ticks: ".$def." }";
+					$tmp[$axis] = $axis."axis: { ticks: ".$def." }";
 				}
 				else if(is_array($def))
 				{
@@ -377,13 +380,37 @@ class ilChart
 							$ttmp[] = $value;
 						}
 					}
-					$tmp[] = $axis."axis: { ticks: [".implode(", ", $ttmp)."] }";
+					$tmp[$axis] = $axis."axis: { ticks: [".implode(", ", $ttmp)."] }";
 				}
 			}
+		}
+		
+		// optional: remove decimals
+	    if(!isset($tmp["x"]) && $this->integer_axis["x"])
+		{
+			$tmp["x"] = "xaxis: { tickDecimals: 0 }";
+		}
+		if(!isset($tmp["y"]) && $this->integer_axis["y"])
+		{
+			$tmp["y"] = "yaxis: { tickDecimals: 0 }";
+		}		
+		
+		if(sizeof($tmp))
+		{
 			$chart->setVariable("AXIS", ",".implode(", ", $tmp));
 		}
 		
 		return $chart->get();
+	}
+	
+	function setYAxisToInteger($a_status)
+	{
+		$this->integer_axis["y"] = (bool)$a_status;
+	}
+	
+	function setXAxisToInteger($a_status)
+	{
+		$this->integer_axis["x"] = (bool)$a_status;
 	}
 	
 	/*
