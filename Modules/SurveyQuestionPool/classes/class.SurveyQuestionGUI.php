@@ -775,7 +775,8 @@ class SurveyQuestionGUI
 
 		$legend = new ilChartLegend();
 		$chart->setLegend($legend);	
-
+		$chart->setYAxisToInteger(true);
+		
 		$data = new ilChartData("bars");
 		$data->setLabel($this->lng->txt("users_answered"));
 		$data->setBarOptions(0.5, "center");
