@@ -768,6 +768,26 @@ class SurveyQuestionGUI
 	    return in_array($this->ctrl->getCmd(), $a_cmds);
 	}
 	
+	/**
+	* Creates a preview of the question
+	*
+	* @access private
+	*/
+	function preview()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", "Modules/SurveyQuestionPool");
+		$question_output = $this->getWorkingForm();
+		
+		if ($this->object->getObligatory())
+		{
+			$this->tpl->setCurrentBlock("required");
+			$this->tpl->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
+	}
+	
 	protected function renderChart($a_id, $a_variables)
 	{
 		include_once "Services/Chart/classes/class.ilChart.php";
