@@ -286,20 +286,6 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		}
 		return $template->get();
 	}
-	
-/**
-* Creates a preview of the question
-*
-* Creates a preview of the question
-*
-* @access private
-*/
-	function preview()
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", "Modules/SurveyQuestionPool");
-		$question_output = $this->getWorkingForm();
-		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
-	}
 
 	function setQuestionTabs()
 	{
