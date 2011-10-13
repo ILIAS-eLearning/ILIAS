@@ -363,8 +363,9 @@ class ilSurveyEvaluationGUI
 		$questions =& $this->object->getSurveyQuestions();
 		$data = array();
 		$counter = 1;
+		$last_questionblock_id = null;
 		foreach ($questions as $qdata)
-		{
+		{			
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$question_gui = SurveyQuestion::_instanciateQuestionGUI($qdata["question_id"]);
 			$question = $question_gui->object;
@@ -382,10 +383,24 @@ class ilSurveyEvaluationGUI
 			}
 			$counter++;
 			if ($details)
-			{
+			{								
+				// questionblock title handling
+				if($qdata["questionblock_id"] && $qdata["questionblock_id"] != $last_questionblock_id)
+				{
+					$qblock = $this->object->getQuestionblock($qdata["questionblock_id"]);
+					if($qblock["show_blocktitle"])
+					{
+						$this->tpl->setCurrentBlock("detail_qblock");
+						$this->tpl->setVariable("BLOCKTITLE", $qdata["questionblock_title"]);		
+						$this->tpl->parseCurrentBlock();						
+					}
+					
+					$last_questionblock_id = $qdata["questionblock_id"];
+				}
+				
 				$detail = $question_gui->getCumulatedResultsDetails($this->object->getSurveyId(), $counter-1);
 				$this->tpl->setCurrentBlock("detail");
-				$this->tpl->setVariable("DETAIL", $detail);
+				$this->tpl->setVariable("DETAIL", $detail);				
 				$this->tpl->parseCurrentBlock();
 			}
 		}
