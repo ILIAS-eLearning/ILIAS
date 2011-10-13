@@ -4579,7 +4579,7 @@ common#:#tst_no_content#:#Nem érhetők el tesztek
 common#:#tst_read#:#Olvasási elérés teszthez
 common#:#tst_run#:#Indítás
 common#:#tst_statistical_evaluation#:#Statisztikák
-common#:#tst_tst_statistics#:#Tesztstatisztikákhoz hozzáférés
+common#:#tst_statistics#:#Tesztstatisztikákhoz hozzáférés
 common#:#tst_upload_file#:#Fájl feltöltése
 common#:#tst_user_not_invited#:#Nem vehet részt ebben a tesztben.
 common#:#tst_user_wrong_clientip#:#Nem rendelkezik megfelelő IP-címmel ehhez a teszthez.

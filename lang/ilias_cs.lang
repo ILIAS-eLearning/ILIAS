@@ -5064,7 +5064,7 @@ common#:#tst_random_test_description_warning#:#<br /><b>V tomto testu jsou otáz
 common#:#tst_read#:#Přístup číst na test
 common#:#tst_run#:#Spustit
 common#:#tst_statistical_evaluation#:#Statistiky
-common#:#tst_tst_statistics#:#Přístup ke statistikám testu
+common#:#tst_statistics#:#Přístup ke statistikám testu
 common#:#tst_upload_file#:#Odeslat soubor
 common#:#tst_user_not_invited#:#Nejste pozván(a) k této zkoušce.
 common#:#tst_user_wrong_clientip#:#Nemáte oprávněnou IP adresu ke vstupu do tohoto testu.

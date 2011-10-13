@@ -4788,7 +4788,7 @@ common#:#tst_no_content#:#Pas de test disponible
 common#:#tst_read#:#Accès en lecture au test
 common#:#tst_run#:#Démarrer
 common#:#tst_statistical_evaluation#:#Résultats
-common#:#tst_tst_statistics#:#Accès aux résultats du test
+common#:#tst_statistics#:#Accès aux résultats du test
 common#:#tst_upload_file#:#Téléverser fichier
 common#:#tst_user_not_invited#:#Vous n'êtes pas censé passer cet examen.
 common#:#tst_user_wrong_clientip#:#Vous n'avez pas la bonne adresse IP pour ce test

@@ -4579,7 +4579,7 @@ common#:#tst_no_content#:#Geen test beschikbaar
 common#:#tst_read#:#Leesrechten op test
 common#:#tst_run#:#Start
 common#:#tst_statistical_evaluation#:#Statistieken
-common#:#tst_tst_statistics#:#Toegang tot toetsstatistieken
+common#:#tst_statistics#:#Toegang tot toetsstatistieken
 common#:#tst_upload_file#:#Upload bestanden
 common#:#tst_user_not_invited#:#U wordt niet verondersteld dit examen af te leggen
 common#:#tst_user_wrong_clientip#:#U hebt niet het juiste IPadres om de test af te leggen

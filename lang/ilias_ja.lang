@@ -4574,7 +4574,7 @@ common#:#tst_no_content#:#新テストは利用できません
 common#:#tst_read#:#テストを読み込む
 common#:#tst_run#:#実行
 common#:#tst_statistical_evaluation#:#統計値
-common#:#tst_tst_statistics#:#テスト統計値へアクセス
+common#:#tst_statistics#:#テスト統計値へアクセス
 common#:#tst_upload_file#:#アップロードファイル
 common#:#tst_user_not_invited#:#このテストを受けるべきではありません。
 common#:#tst_user_wrong_clientip#:#このテストに使用しているIPは正しくありません

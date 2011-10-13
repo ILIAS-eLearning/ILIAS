@@ -4749,7 +4749,7 @@ common#:#tst_no_content#:#Uygun test yok
 common#:#tst_read#:#Teste okuma erişimi
 common#:#tst_run#:#Çalıştır
 common#:#tst_statistical_evaluation#:#İstatistikler
-common#:#tst_tst_statistics#:#Access to Test Statistics
+common#:#tst_statistics#:#Access to Test Statistics
 common#:#tst_upload_file#:#Dosya yükle
 common#:#tst_user_not_invited#:#Sizin bu sınavı almanız gerekmiyor.
 common#:#tst_user_wrong_clientip#:#Bu testi kullanmak için doğru IP adresinde sahip değilsiniz

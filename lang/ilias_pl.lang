@@ -4579,7 +4579,7 @@ common#:#tst_no_content#:#Brak dostępnych testów
 common#:#tst_read#:#Prawo czytania testu
 common#:#tst_run#:#Uruchom
 common#:#tst_statistical_evaluation#:#Statystyka
-common#:#tst_tst_statistics#:#Dostęp do statystyk testu
+common#:#tst_statistics#:#Dostęp do statystyk testu
 common#:#tst_upload_file#:#Załaduj plik
 common#:#tst_user_not_invited#:#Nie zostałeś dopuszczony do tego egzaminu.
 common#:#tst_user_wrong_clientip#:#Nie masz uprawnień do użycia tego testu.
