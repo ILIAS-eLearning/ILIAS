@@ -1397,7 +1397,7 @@ class ilSurveyPageGUI
 					foreach($questiontypes as $trans => $item)
 					{
 						$menu[] = array("cmd"=> "addQuestion_".$item["questiontype_id"],
-							"text"=> $trans." ".$lng->txt("add"));
+							"text"=> sprintf($lng->txt("svy_page_add_question"), $trans));
 					}
 				}
 				else 
@@ -1475,7 +1475,7 @@ class ilSurveyPageGUI
 				foreach($questiontypes as $trans => $item)
 				{
 					$menu[] = array("cmd"=> "addQuestion_".$item["questiontype_id"],
-						"text"=> $trans." ".$lng->txt("add"));
+						"text"=> sprintf($lng->txt("svy_page_add_question"), $trans));
 				}
 			}
 			else 
