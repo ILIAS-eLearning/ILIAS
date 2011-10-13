@@ -1549,9 +1549,9 @@ class ilObjUserGUI extends ilObjectGUI
 			$sk = new ilSelectInputGUI($lng->txt("skin_style"),
 				'skin_style');
 			$templates = $styleDefinition->getAllTemplates();
-			// fim: [mobile] avoid double include
+
 			include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
-			// fim.
+
 			$options = array();
 			if (count($templates) > 0 && is_array ($templates))
 			{
