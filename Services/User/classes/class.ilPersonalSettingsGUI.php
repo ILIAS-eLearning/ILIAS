@@ -50,8 +50,6 @@ class ilPersonalSettingsGUI
 		{
 			
 			default:
-				//$this->setTabs();
-				
 				$cmd = $this->ctrl->getCmd("showGeneralSettings");
 				
 				// check whether password of user have to be changed
