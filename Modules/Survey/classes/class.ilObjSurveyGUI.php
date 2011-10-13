@@ -983,7 +983,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		$toggle_blocktitle = new ilCheckboxInputGUI($this->lng->txt("survey_show_blocktitle"), "show_blocktitle");
 		$toggle_blocktitle->setInfo($this->lng->txt("survey_show_blocktitle_description"));
-		if (($questionblock["show_questiontext"]) || (strlen($questionblock_id) == 0))
+		if (($questionblock["show_blocktitle"]) || (strlen($questionblock_id) == 0))
 		{
 			$toggle_blocktitle->setChecked(true);
 		}	
@@ -991,6 +991,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		$toggle_questiontitle = new ilCheckboxInputGUI($this->lng->txt("show_questiontext"), "show_questiontext");
 		$toggle_questiontitle->setInfo($this->lng->txt("show_questiontext_description"));
+		if (($questionblock["show_questiontext"]) || (strlen($questionblock_id) == 0))
+		{
+			$toggle_questiontitle->setChecked(true);
+		}	
 		$form->addItem($toggle_questiontitle);
 		
 		$form->addCommandButton("saveDefineQuestionblock", $this->lng->txt("save"));
