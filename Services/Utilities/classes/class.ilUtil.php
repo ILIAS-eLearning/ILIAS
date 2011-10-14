@@ -4122,7 +4122,7 @@ class ilUtil
 
 		$query = "SELECT DISTINCT(obr.ref_id),obr.obj_id,type FROM object_reference obr ".
 			"JOIN object_data obd ON obd.obj_id = obr.obj_id ".
-			"JOIN rbac_pa  ON obr.ref_id = rbac_pa.ref_id ".
+			"LEFT JOIN rbac_pa  ON obr.ref_id = rbac_pa.ref_id ".
 			$where.
 			$and.
 			"AND (".$ilDB->like("ops_id", "text","%i:".$ops_id."%"). " ".
