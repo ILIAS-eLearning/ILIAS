@@ -205,21 +205,56 @@ class ilSurveyEvaluationGUI
 				// Creating a worksheet
 				include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
 				$mainworksheet =& $workbook->addWorksheet();
-				$mainworksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->lng->txt("question"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 2, ilExcelUtils::_convert_text($this->lng->txt("question_type"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 3, ilExcelUtils::_convert_text($this->lng->txt("users_answered"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 4, ilExcelUtils::_convert_text($this->lng->txt("users_skipped"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 5, ilExcelUtils::_convert_text($this->lng->txt("mode"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 6, ilExcelUtils::_convert_text($this->lng->txt("mode_text"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 7, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 8, ilExcelUtils::_convert_text($this->lng->txt("median"), $_POST["export_format"]), $format_bold);
-				$mainworksheet->writeString(0, 9, ilExcelUtils::_convert_text($this->lng->txt("arithmetic_mean"), $_POST["export_format"]), $format_bold);
+				$column = 0;
+				switch ($_POST['export_label'])
+				{
+					case 'label_only':
+						$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("label"), $_POST["export_format"]), $format_bold);
+						break;
+					case 'title_only':
+						$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_bold);
+						break;
+					default:
+						$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_bold);
+						$column++;
+						$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("label"), $_POST["export_format"]), $format_bold);
+						break;
+				}
+				$column++;
+				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("question"), $_POST["export_format"]), $format_bold);
+				$column++;
+				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("question_type"), $_POST["export_format"]), $format_bold);
+				$column++;
+				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("users_answered"), $_POST["export_format"]), $format_bold);
+				$column++;
+				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("users_skipped"), $_POST["export_format"]), $format_bold);
+				$column++;
+				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("mode"), $_POST["export_format"]), $format_bold);
+				$column++;
+				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("mode_text"), $_POST["export_format"]), $format_bold);
+				$column++;
+				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections"), $_POST["export_format"]), $format_bold);
+				$column++;
+				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("median"), $_POST["export_format"]), $format_bold);
+				$column++;
+				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("arithmetic_mean"), $_POST["export_format"]), $format_bold);
 				break;
 			case (TYPE_SPSS):
 				$csvfile = array();
 				$csvrow = array();
-				array_push($csvrow, $this->lng->txt("title"));
+				switch ($_POST['export_label'])
+				{
+					case 'label_only':
+						array_push($csvrow, $this->lng->txt("label"));
+						break;
+					case 'title_only':
+						array_push($csvrow, $this->lng->txt("title"));
+						break;
+					default:
+						array_push($csvrow, $this->lng->txt("title"));
+						array_push($csvrow, $this->lng->txt("label"));
+						break;
+				}
 				array_push($csvrow, $this->lng->txt("question"));
 				array_push($csvrow, $this->lng->txt("question_type"));
 				array_push($csvrow, $this->lng->txt("users_answered"));
@@ -246,10 +281,10 @@ class ilSurveyEvaluationGUI
 			switch ($_POST["export_format"])
 			{
 				case TYPE_XLS:
-					$counter = $question->setExportCumulatedXLS($mainworksheet, $format_title, $format_bold, $eval, $counter);
+					$counter = $question->setExportCumulatedXLS($mainworksheet, $format_title, $format_bold, $eval, $counter, $_POST['export_label']);
 					break;
 				case (TYPE_SPSS):
-					$csvrows =& $question->setExportCumulatedCVS($eval);
+					$csvrows =& $question->setExportCumulatedCVS($eval, $_POST['export_label']);
 					foreach ($csvrows as $csvrow)
 					{
 						array_push($csvfile, $csvrow);

@@ -1429,32 +1429,65 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	* @return integer The next row which should be used for the export
 	* @access public
 	*/
-	function setExportCumulatedXLS(&$worksheet, &$format_title, &$format_bold, &$eval_data, $row)
+	function setExportCumulatedXLS(&$worksheet, &$format_title, &$format_bold, &$eval_data, $row, $export_label)
 	{
 		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
-		$worksheet->writeString($row, 0, ilExcelUtils::_convert_text($this->getTitle()));
-		$worksheet->writeString($row, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
-		$worksheet->writeString($row, 2, ilExcelUtils::_convert_text($this->lng->txt($eval_data["TOTAL"]["QUESTION_TYPE"])));
-		$worksheet->write($row, 3, $eval_data["TOTAL"]["USERS_ANSWERED"]);
-		$worksheet->write($row, 4, $eval_data["TOTAL"]["USERS_SKIPPED"]);
-		$worksheet->write($row, 5, ilExcelUtils::_convert_text($eval_data["TOTAL"]["MODE_VALUE"]));
-		$worksheet->write($row, 6, ilExcelUtils::_convert_text($eval_data["TOTAL"]["MODE"]));
-		$worksheet->write($row, 7, $eval_data["TOTAL"]["MODE_NR_OF_SELECTIONS"]);
-		$worksheet->write($row, 8, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval_data["TOTAL"]["MEDIAN"])));
-		$worksheet->write($row, 9, $eval_data["TOTAL"]["ARITHMETIC_MEAN"]);
+		$column = 0;
+		switch ($export_label)
+		{
+			case 'label_only':
+				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->label));
+				break;
+			case 'title_only':
+				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->getTitle()));
+				break;
+			default:
+				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->getTitle()));
+				$column++;
+				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->label));
+				break;
+		}
+		$column++;
+		$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->getQuestiontext()));
+		$column++;
+		$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->lng->txt($eval_data["TOTAL"]["QUESTION_TYPE"])));
+		$column++;
+		$worksheet->write($row, $column, $eval_data["TOTAL"]["USERS_ANSWERED"]);
+		$column++;
+		$worksheet->write($row, $column, $eval_data["TOTAL"]["USERS_SKIPPED"]);
+		$column++;
+		$worksheet->write($row, $column, ilExcelUtils::_convert_text($eval_data["TOTAL"]["MODE_VALUE"]));
+		$column++;
+		$worksheet->write($row, $column, ilExcelUtils::_convert_text($eval_data["TOTAL"]["MODE"]));
+		$column++;
+		$worksheet->write($row, $column, $eval_data["TOTAL"]["MODE_NR_OF_SELECTIONS"]);
+		$column++;
+		$worksheet->write($row, $column, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval_data["TOTAL"]["MEDIAN"])));
+		$column++;
+		$worksheet->write($row, $column, $eval_data["TOTAL"]["ARITHMETIC_MEAN"]);
 		$row++;
+		$add = 0;
+		switch ($export_label)
+		{
+			case 'label_only':
+			case 'title_only':
+				break;
+			default:
+				$add = 1;
+				break;
+		}
 		foreach ($eval_data as $evalkey => $evalvalue)
 		{
 			if (is_numeric($evalkey))
 			{
-				$worksheet->writeString($row, 1, ilExcelUtils::_convert_text($evalvalue["ROW"]));
-				$worksheet->write($row, 3, $evalvalue["USERS_ANSWERED"]);
-				$worksheet->write($row, 4, $evalvalue["USERS_SKIPPED"]);
-				$worksheet->write($row, 5, ilExcelUtils::_convert_text($evalvalue["MODE_VALUE"]));
-				$worksheet->write($row, 6, ilExcelUtils::_convert_text($evalvalue["MODE"]));
-				$worksheet->write($row, 7, $evalvalue["MODE_NR_OF_SELECTIONS"]);
-				$worksheet->write($row, 8, ilExcelUtils::_convert_text(str_replace("<br />", " ", $evalvalue["MEDIAN"])));
-				$worksheet->write($row, 9, $evalvalue["ARITHMETIC_MEAN"]);
+				$worksheet->writeString($row, 1+$add, ilExcelUtils::_convert_text($evalvalue["ROW"]));
+				$worksheet->write($row, 3+$add, $evalvalue["USERS_ANSWERED"]);
+				$worksheet->write($row, 4+$add, $evalvalue["USERS_SKIPPED"]);
+				$worksheet->write($row, 5+$add, ilExcelUtils::_convert_text($evalvalue["MODE_VALUE"]));
+				$worksheet->write($row, 6+$add, ilExcelUtils::_convert_text($evalvalue["MODE"]));
+				$worksheet->write($row, 7+$add, $evalvalue["MODE_NR_OF_SELECTIONS"]);
+				$worksheet->write($row, 8+$add, ilExcelUtils::_convert_text(str_replace("<br />", " ", $evalvalue["MEDIAN"])));
+				$worksheet->write($row, 9+$add, $evalvalue["ARITHMETIC_MEAN"]);
 				$row++;
 			}
 		}
@@ -1472,7 +1505,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	* @return integer The next row which should be used for the export
 	* @access public
 	*/
-	function &setExportCumulatedCVS(&$eval_data)
+	function &setExportCumulatedCVS(&$eval_data, $export_label)
 	{
 		$result = array();
 		foreach ($eval_data as $evalkey => $evalvalue)
@@ -1486,7 +1519,19 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			}
 			else
 			{
-				array_push($csvrow, $this->getTitle());
+				switch ($export_label)
+				{
+					case 'label_only':
+						array_push($csvrow, $this->label);
+						break;
+					case 'title_only':
+						array_push($csvrow, $this->getTitle());
+						break;
+					default:
+						array_push($csvrow, $this->getTitle());
+						array_push($csvrow, $this->label);
+						break;
+				}
 				array_push($csvrow, $this->getQuestiontext());
 				array_push($csvrow, $this->lng->txt($evalvalue["QUESTION_TYPE"]));
 			}
@@ -1529,8 +1574,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
 				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
 				$rowcounter++;
-				$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
-				$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->getTitle()));
+				$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("label")), $format_bold);
+				$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->label));
 				break;
 		}
 		$rowcounter++;
@@ -1728,7 +1773,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						$row = $this->getRow($i);
 						$textanswer = "";						
 						$checked = FALSE;
-						$open_answer = FALSE;
 						foreach ($resultset["answers"][$this->getId()] as $result)
 						{
 							if ($result["rowvalue"] == $i)

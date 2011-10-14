@@ -2018,19 +2018,42 @@ class SurveyQuestion
 	* @return integer The next row which should be used for the export
 	* @access public
 	*/
-	function setExportCumulatedXLS(&$worksheet, &$format_title, &$format_bold, &$eval_data, $row)
+	function setExportCumulatedXLS(&$worksheet, &$format_title, &$format_bold, &$eval_data, $row, $export_label)
 	{
 		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
-		$worksheet->writeString($row, 0, ilExcelUtils::_convert_text($this->getTitle()));
-		$worksheet->writeString($row, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
-		$worksheet->writeString($row, 2, ilExcelUtils::_convert_text($this->lng->txt($eval_data["QUESTION_TYPE"])));
-		$worksheet->write($row, 3, $eval_data["USERS_ANSWERED"]);
-		$worksheet->write($row, 4, $eval_data["USERS_SKIPPED"]);
-		$worksheet->write($row, 5, ilExcelUtils::_convert_text($eval_data["MODE_VALUE"]));
-		$worksheet->write($row, 6, ilExcelUtils::_convert_text($eval_data["MODE"]));
-		$worksheet->write($row, 7, $eval_data["MODE_NR_OF_SELECTIONS"]);
-		$worksheet->write($row, 8, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval_data["MEDIAN"])));
-		$worksheet->write($row, 9, $eval_data["ARITHMETIC_MEAN"]);
+		$column = 0;
+		switch ($export_label)
+		{
+			case 'label_only':
+				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->label));
+				break;
+			case 'title_only':
+				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->getTitle()));
+				break;
+			default:
+				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->getTitle()));
+				$column++;
+				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->label));
+				break;
+		}
+		$column++;
+		$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->getQuestiontext()));
+		$column++;
+		$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->lng->txt($eval_data["QUESTION_TYPE"])));
+		$column++;
+		$worksheet->write($row, $column, $eval_data["USERS_ANSWERED"]);
+		$column++;
+		$worksheet->write($row, $column, $eval_data["USERS_SKIPPED"]);
+		$column++;
+		$worksheet->write($row, $column, ilExcelUtils::_convert_text($eval_data["MODE_VALUE"]));
+		$column++;
+		$worksheet->write($row, $column, ilExcelUtils::_convert_text($eval_data["MODE"]));
+		$column++;
+		$worksheet->write($row, $column, $eval_data["MODE_NR_OF_SELECTIONS"]);
+		$column++;
+		$worksheet->write($row, $column, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval_data["MEDIAN"])));
+		$column++;
+		$worksheet->write($row, $column, $eval_data["ARITHMETIC_MEAN"]);
 		return $row + 1;
 	}
 	
@@ -2045,10 +2068,22 @@ class SurveyQuestion
 	* @return integer The next row which should be used for the export
 	* @access public
 	*/
-	function &setExportCumulatedCVS(&$eval_data)
+	function &setExportCumulatedCVS(&$eval_data, $export_label)
 	{
 		$csvrow = array();
-		array_push($csvrow, $this->getTitle());
+		switch ($export_label)
+		{
+			case 'label_only':
+				array_push($csvrow, $this->label);
+				break;
+			case 'title_only':
+				array_push($csvrow, $this->getTitle());
+				break;
+			default:
+				array_push($csvrow, $this->getTitle());
+				array_push($csvrow, $this->label);
+				break;
+		}
 		array_push($csvrow, $this->getQuestiontext());
 		array_push($csvrow, $this->lng->txt($eval_data["QUESTION_TYPE"]));
 		array_push($csvrow, $eval_data["USERS_ANSWERED"]);
