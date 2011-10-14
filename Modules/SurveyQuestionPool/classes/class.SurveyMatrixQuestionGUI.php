@@ -1380,6 +1380,26 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				$columns = "<ol>".$columns."</ol>";
 				$template->setVariable("TEXT_OPTION_VALUE", $columns);
 				$template->parseCurrentBlock();
+				
+				// add text answers to detailed results
+				if (is_array($value["textanswers"]))
+				{
+					$template->setCurrentBlock("detail_row");
+					$template->setVariable("TEXT_OPTION", $this->lng->txt("freetext_answers"));	
+					$html = "";		
+					foreach ($value["textanswers"] as $key => $answers)
+					{
+						$html .= $value["variables"][$key]["title"] ."\n";
+						$html .= "<ul>\n";
+						foreach ($answers as $answer)
+						{
+							$html .= "<li>" . preg_replace("/\n/", "<br>\n", $answer) . "</li>\n";
+						}
+						$html .= "</ul>\n";
+					}
+					$template->setVariable("TEXT_OPTION_VALUE", $html);
+					$template->parseCurrentBlock();
+				}			
 			
 				// chart 
 				$template->setCurrentBlock("detail_row");				

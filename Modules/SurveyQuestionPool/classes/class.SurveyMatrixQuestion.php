@@ -1238,6 +1238,17 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				while ($row = $ilDB->fetchAssoc($result))
 				{
 					$cumulated[$row["value"]]++;
+					
+					// add text value to result array
+					if ($row["textanswer"])
+					{
+						$result_array["textanswers"][$row["value"]][] = $row["textanswer"];
+					}
+				}
+				// sort textanswers by value
+				if (is_array($result_array["textanswers"]))
+				{
+					ksort($result_array["textanswers"], SORT_NUMERIC);
 				}
 				asort($cumulated, SORT_NUMERIC);
 				end($cumulated);
@@ -1593,6 +1604,24 @@ class SurveyMatrixQuestion extends SurveyQuestion
 					$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($value["selected"]));
 					$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($value["percentage"]), $format_percent);
 				}
+				
+				// add text answers to detailed results
+				if (is_array($evalvalue["textanswers"]))
+				{
+					$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("freetext_answers")), $format_bold);
+					$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_title);
+					$worksheet->write($rowcounter++, 2, ilExcelUtils::_convert_text($this->lng->txt("answer")), $format_title);
+					
+					foreach ($evalvalue["textanswers"] as $key => $answers)
+					{
+						$title = $evalvalue["variables"][$key]["title"];
+						foreach ($answers as $answer)
+						{
+							$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($title));
+							$worksheet->write($rowcounter++, 2, ilExcelUtils::_convert_text($answer));
+						}
+					}
+				}			
 			}
 		}
 		// out compressed 2D-Matrix
@@ -1634,19 +1663,35 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	* @param array $a_array An array which is used to append the title row entries
 	* @access public
 	*/
-	function addUserSpecificResultsExportTitles(&$a_array, $export_type = 'title_only')
+	function addUserSpecificResultsExportTitles(&$a_array, $a_export_label = "")
 	{		
-		parent::addUserSpecificResultsExportTitles($a_array);
-		
-		$this->openRows[$this->getId()] = array();		
+		parent::addUserSpecificResultsExportTitles($a_array, $a_export_label);
+	
 		for ($i = 0; $i < $this->getRowCount(); $i++)
 		{
-			array_push($a_array, $this->getRow($i)->title);	
-			if($this->getRow($i)->other)
+			// create row title according label, add 'other column'
+			$row = $this->getRow($i);
+			switch ($a_export_label)
 			{
-				$this->openRows[$this->getId()][] = $i;
-				array_push($a_array, $this->getRow($i)->title." (".$this->lng->txt("use_other_answer").")");
+				case "label_only":
+					$title = $row->label ? $row->label : $row->title;
+					break;
+					
+				case "title_only":
+					$title = $row->title;
+					break;
+					
+				default:
+					$title = $row->label ? $row->title." - ".$row->label : $row->title;
+					break;
 			}
+			array_push($a_array, $title);
+
+			if ($row->other)
+			{
+				array_push($a_array, $title. ' - '. $this->lng->txt('other'));	
+			}
+			
 			switch ($this->getSubtype())
 			{
 				case 0:	
@@ -1679,8 +1724,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				case 0:
 					for ($i = 0; $i < $this->getRowCount(); $i++)
 					{
-						$has_open_answer = in_array($i, $this->openRows[$this->getId()]);
-						
+						// add textanswer column for single choice mode
+						$row = $this->getRow($i);
+						$textanswer = "";						
 						$checked = FALSE;
 						$open_answer = FALSE;
 						foreach ($resultset["answers"][$this->getId()] as $result)
@@ -1690,30 +1736,30 @@ class SurveyMatrixQuestion extends SurveyQuestion
 								$checked = TRUE;
 								array_push($a_array, $result["value"] + 1);
 								
-								if($has_open_answer)
-								{						
-									$open_answer = $result["textanswer"];		
-								}								
+								if ($result["textanswer"])
+								{
+									$textanswer = $result["textanswer"];
+								}						
 							}
 						}
 						if (!$checked)
 						{
 							array_push($a_array, $this->lng->txt("skipped"));
 						}
-						if($has_open_answer)
+						if ($row->other)
 						{
-							array_push($a_array, $open_answer);
+							array_push($a_array, $textanswer);	
 						}
 					}
 					break;
 				case 1:
 					for ($i = 0; $i < $this->getRowCount(); $i++)
 					{
-						$has_open_answer = in_array($i, $this->openRows[$this->getId()]);
-						
+						// add textanswer column for multiple choice mode
+						$row = $this->getRow($i);
+						$textanswer = "";						
 						$checked = FALSE;
 						$checked_values = array();
-						$open_answer = FALSE;
 						foreach ($resultset["answers"][$this->getId()] as $result)
 						{
 							if ($result["rowvalue"] == $i)
@@ -1721,10 +1767,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 								$checked = TRUE;
 								array_push($checked_values, $result["value"] + 1);
 								
-								if($has_open_answer)
-								{						
-									$open_answer = $result["textanswer"];									
-								}		
+								if ($result["textanswer"])
+								{
+									$textanswer = $result["textanswer"];
+								}	
 							}
 						}
 						if (!$checked)
@@ -1735,9 +1781,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						{
 							array_push($a_array, "");
 						}
-						if($has_open_answer)
+						if ($row->other)
 						{
-							array_push($a_array, $open_answer);
+							array_push($a_array, $textanswer);	
 						}
 						for ($index = 0; $index < $this->getColumnCount(); $index++)
 						{
@@ -1768,9 +1814,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			{
 				array_push($a_array, "");
 				
-				if(in_array($i, $this->openRows[$this->getId()]))
+				// add empty "other" column if not answered
+				$row = $this->getRow($i);
+				if ($row->other)
 				{
-					array_push($a_array, "");
+					array_push($a_array, "");	
 				}
 				
 				switch ($this->getSubtype())
