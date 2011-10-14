@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
   //**************************************************************************\
   //* Browser detect functions                                                 *
@@ -15,20 +15,58 @@
   //**************************************************************************/
 
 /**
-* Browser check
-*
-* @version $Id$
-*/
+ * 
+ * Browser check
+ *
+ * @version $Id$
+ * @author	Michael Jansen <mjansen@databay.de>
+ * @license	http://www.opensource.org/licenses/mit-license.php The MIT License
+ * 
+ * Includes parts of php-mobile-project: Copyright (c) 2011, vic.stanciu
+ * 
+ */
 class ilBrowser
 {
-	var $BROWSER_AGENT;
-	var $BROWSER_VER;
-	var $BROWSER_PLATFORM;
-	var $br;
-	var $p;
-	var $data;
+	protected $BROWSER_AGENT;
+	protected $BROWSER_VER;
+	protected $BROWSER_PLATFORM;
+	protected $br;
+	protected $p;
+	protected $data;
+	protected $accept;
+	protected $userAgent;
+	protected $isMobile = false;
+	protected $isAndroid = null;
+	protected $isAndroidtablet = null;
+	protected $isIphone = null;
+  	protected $isIpad = null;
+	protected $isBlackberry = null;
+	protected $isOpera = null;
+	protected $isPalm = null;
+	protected $isWindows = null;
+ 	protected $isWindowsphone = null;
+ 	protected $isGeneric = null;
+ 	protected $devices = array(
+		'android' => 'android.*mobile',
+		'androidtablet' => 'android(?!.*mobile)',
+		'blackberry' => 'blackberry',
+		'blackberrytablet' => 'rim tablet os',
+		'iphone' => '(iphone|ipod)',
+		'ipad' => '(ipad)',
+		'palm' => '(avantgo|blazer|elaine|hiptop|palm|plucker|xiino)',
+		'windows' => 'windows ce; (iemobile|ppc|smartphone)',
+		'windowsphone' => 'windows phone os',
+		'generic' => '(kindle|mobile|mmp|midp|o2|pda|pocket|psp|symbian|smartphone|treo|up.browser|up.link|vodafone|wap|opera mini)'
+	);	
 
-	function ilBrowser()
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @access	public
+	 * 
+	 */
+	public function __construct()
 	{
 		$HTTP_USER_AGENT = $_SERVER['HTTP_USER_AGENT'];
 		/*
@@ -115,6 +153,29 @@ class ilBrowser
 		{
 			$this->BROWSER_PLATFORM='Other';
 		}
+		
+		// Mobile detection
+		$this->userAgent = $_SERVER['HTTP_USER_AGENT'];
+		$this->accept = $_SERVER['HTTP_ACCEPT'];
+		
+		if(isset($_SERVER['HTTP_X_WAP_PROFILE']) || isset($_SERVER['HTTP_PROFILE']))
+		{
+			$this->isMobile = true;
+		}
+		else if(strpos($this->accept, 'text/vnd.wap.wml') > 0 || strpos($this->accept, 'application/vnd.wap.xhtml+xml') > 0)
+		{
+			$this->isMobile = true;
+		}
+		else
+		{
+			foreach($this->devices as $device => $regexp)
+			{
+				if($this->isDevice($device))
+				{
+					$this->isMobile = true;
+				}
+			}
+		}
 
 /*
 		echo "<br>Agent: $HTTP_USER_AGENT";
@@ -152,8 +213,38 @@ class ilBrowser
 			$this->p = '<p>';
 		}
 	}
+		
+	public function isMobile()
+	{
+		return $this->isMobile;
+	}
+	
+	public function __call($name, $arguments)
+	{
+		$device = substr($name, 2);
+		if($name == 'is' . ucfirst($device) && array_key_exists(strtolower($device), $this->devices))
+		{
+			return $this->isDevice($device);
+		}
+		else
+		{
+			trigger_error('Method '.$name.' not defined', E_USER_WARNING);
+		}
+	}
+	
+	protected function isDevice($device)
+	{
+		$var = 'is' . ucfirst($device);
+		$return = $this->$var === null ? (bool) preg_match('/' . $this->devices[strtolower($device)] . '/i', $this->userAgent) : $this->$var;
+		if($device != 'generic' && $return == true)
+		{
+			$this->isGeneric = false;
+		}
 
-	function returnArray()
+		return $return;
+	}
+
+	public function returnArray()
 	{
 		$this->data = array(
 			'agent'    => $this->getAgent(),
@@ -164,24 +255,24 @@ class ilBrowser
 		return $this->data;
 	}
 
-	function getAgent()
+	public function getAgent()
 	{
 		return $this->BROWSER_AGENT;
 	}
 
-	function getVersion($a_as_array = true)
+	public function getVersion($a_as_array = true)
 	{
-		return explode(".", $this->BROWSER_VER);
+		return explode('.', $this->BROWSER_VER);
 	}
 
-	function getPlatform()
+	public function getPlatform()
 	{
 		return $this->BROWSER_PLATFORM;
 	}
 
-	function isLinux()
+	public function isLinux()
 	{
-		if($this->getPlatform()=='Linux')
+		if($this->getPlatform() == 'Linux')
 		{
 			return true;
 		}
@@ -191,9 +282,9 @@ class ilBrowser
 		}
 	}
 
-	function isUnix()
+	public function isUnix()
 	{
-		if($this->getPlatform()=='Unix')
+		if($this->getPlatform() == 'Unix')
 		{
 			return true;
 		}
@@ -203,9 +294,9 @@ class ilBrowser
 		}
 	}
 
-	function isBeos()
+	public function isBeos()
 	{
-		if($this->getPlatform()=='Beos')
+		if($this->getPlatform() == 'Beos')
 		{
 			return true;
 		}
@@ -215,9 +306,9 @@ class ilBrowser
 		}
 	}
 
-	function isMac()
+	public function isMac()
 	{
-		if($this->getPlatform()=='Mac')
+		if($this->getPlatform() == 'Mac')
 		{
 			return true;
 		}
@@ -227,9 +318,9 @@ class ilBrowser
 		}
 	}
 
-	function isWindows()
+	public function isWindows()
 	{
-		if($this->getPlatform()=='Win')
+		if($this->getPlatform() == 'Win')
 		{
 			return true;
 		}
@@ -239,24 +330,9 @@ class ilBrowser
 		}
 	}
 
-	function isIE()
+	public function isIE()
 	{
-		if($this->getAgent()=='IE')
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	/**
-	* means: Netscape/Mozilla without Gecko engine
-	*/
-	function isNetscape()
-	{
-		if($this->getAgent()=='Netscape')
+		if($this->getAgent() == 'IE')
 		{
 			return true;
 		}
@@ -267,11 +343,13 @@ class ilBrowser
 	}
 
 	/**
-	* means: Netscape/Mozilla with Gecko engine
-	*/
-	function isMozilla()
+	 * 
+	 * means: Netscape/Mozilla without Gecko engine
+	 * 
+	 */
+	public function isNetscape()
 	{
-		if($this->getAgent()=='Mozilla')
+		if($this->getAgent() == 'Netscape')
 		{
 			return true;
 		}
@@ -281,9 +359,14 @@ class ilBrowser
 		}
 	}
 
-	function isOpera()
+	/**
+	 * 
+	 * means: Netscape/Mozilla with Gecko engine
+	 * 
+	 */
+	public function isMozilla()
 	{
-		if($this->getAgent()=='OPERA')
+		if($this->getAgent() == 'Mozilla')
 		{
 			return true;
 		}
@@ -293,9 +376,9 @@ class ilBrowser
 		}
 	}
 
-	function isSafari()
+	public function isOpera()
 	{
-		if($this->getAgent()=='Safari')
+		if($this->getAgent() == 'OPERA')
 		{
 			return true;
 		}
@@ -305,9 +388,9 @@ class ilBrowser
 		}
 	}
 
-	function isFirefox()
+	public function isSafari()
 	{
-		if($this->getAgent()=='Firefox')
+		if($this->getAgent() == 'Safari')
 		{
 			return true;
 		}
@@ -317,6 +400,16 @@ class ilBrowser
 		}
 	}
 
+	public function isFirefox()
+	{
+		if($this->getAgent() == 'Firefox')
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
-
 ?>

@@ -149,6 +149,8 @@ class ilTinyMCE extends ilRTE
 	*/
 	function addRTESupport($obj_id, $obj_type, $a_module = "", $allowFormElements = FALSE, $cfg_template = null, $hide_switch = false)
 	{
+		global $ilBrowser;
+		
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		/*
 		if (array_key_exists("show_rte", $_POST))
@@ -156,7 +158,15 @@ class ilTinyMCE extends ilRTE
 			ilObjAdvancedEditing::_setRichTextEditorUserState($_POST["show_rte"]);
 		}
 		*/
-		ilObjAdvancedEditing::_setRichTextEditorUserState(1);
+		
+		if($ilBrowser->isMobile())
+		{
+			ilObjAdvancedEditing::_setRichTextEditorUserState(0);
+		}
+		else
+		{
+			ilObjAdvancedEditing::_setRichTextEditorUserState(1);
+		}
 
 		include_once "./classes/class.ilTemplate.php";
 		if ((ilObjAdvancedEditing::_getRichTextEditorUserState() != 0) && (strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") != 0))
