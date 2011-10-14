@@ -681,7 +681,8 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
 		{
 			$category = $this->categories->getCategory($index);
-			array_push($a_array, ($index+1) . " - " . $category->title);
+			$title = ($index+1) . " - " . $category->title;
+			array_push($a_array, $title);
 			
 			// optionally add headers for text answers
 			if ($category->other)
