@@ -705,8 +705,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
 				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
 				$rowcounter++;
-				$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
-				$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->getTitle()));
+				$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("label")), $format_bold);
+				$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->label));
 				break;
 		}
 		$rowcounter++;
