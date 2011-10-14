@@ -522,6 +522,17 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$cumulated[$row["value"]]++;
+			
+			// add text value to result array
+			if ($row["textanswer"])
+			{
+				$result_array["textanswers"][$row["value"]][] = $row["textanswer"];
+			}
+		}
+		// sort textanswers by value
+		if (is_array($result_array["textanswers"]))
+		{
+			ksort($result_array["textanswers"], SORT_NUMERIC);
 		}
 		asort($cumulated, SORT_NUMERIC);
 		end($cumulated);
@@ -637,6 +648,24 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($value["selected"]));
 			$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($value["percentage"]), $format_percent);
 		}
+		
+		// add text answers to detailed results
+		if (is_array($eval_data["textanswers"]))
+		{
+			$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("freetext_answers")), $format_bold);
+			$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_title);
+			$worksheet->write($rowcounter++, 2, ilExcelUtils::_convert_text($this->lng->txt("answer")), $format_title);
+			
+			foreach ($eval_data["textanswers"] as $key => $answers)
+			{
+				$title = $eval_data["variables"][$key]["title"];
+				foreach ($answers as $answer)
+				{
+					$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($title));
+					$worksheet->write($rowcounter++, 2, ilExcelUtils::_convert_text($answer));
+				}
+			}
+		}			
 	}
 
 	/**
@@ -645,13 +674,20 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 	* @param array $a_array An array which is used to append the title row entries
 	* @access public
 	*/
-	function addUserSpecificResultsExportTitles(&$a_array)
+	function addUserSpecificResultsExportTitles(&$a_array, $a_export_label = "")
 	{
-		parent::addUserSpecificResultsExportTitles($a_array);
+		parent::addUserSpecificResultsExportTitles($a_array, $a_export_label);
+		
 		for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
 		{
 			$category = $this->categories->getCategory($index);
 			array_push($a_array, ($index+1) . " - " . $category->title);
+			
+			// optionally add headers for text answers
+			if ($category->other)
+			{
+				array_push($a_array, $title . " - ". $this->lng->txt("other"));
+			}
 		}
 	}
 	
@@ -671,11 +707,13 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			{
 				$category = $this->categories->getCategory($index);
 				$found = 0;
+				$textanswer = "";
 				foreach ($resultset["answers"][$this->getId()] as $answerdata)
 				{
 					if (strcmp($index, $answerdata["value"]) == 0)
 					{
 						$found = 1;
+						$textanswer = $answerdata["textanswer"];
 					}
 				}
 				if ($found)
@@ -685,6 +723,10 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 				else
 				{
 					array_push($a_array, "0");
+				}				
+				if ($category->other)
+				{
+					array_push($a_array, $textanswer);
 				}
 			}
 		}
@@ -694,6 +736,13 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
 			{
 				array_push($a_array, "");
+				
+				// add empty text answers for skipped question
+				$category = $this->categories->getCategory($index);
+				if ($category->other)
+				{
+					array_push($a_array, "");
+				}
 			}
 		}
 	}
