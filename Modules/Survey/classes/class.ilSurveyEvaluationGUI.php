@@ -327,12 +327,42 @@ class ilSurveyEvaluationGUI
 		global $ilUser;
 		global $rbacsystem;
 		global $ilias;
+		global $ilToolbar;
 
 		if (!$rbacsystem->checkAccess("read",$_GET["ref_id"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("permission_denied"));
 			return;
+		}		
+		
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$format = new ilSelectInputGUI("", "export_format");
+		$format->setOptions(array(
+			"excel" => $this->lng->txt('exp_type_excel'),
+			"csv" => $this->lng->txt('exp_type_csv')
+			));
+		$ilToolbar->addInputItem($format);
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$label = new ilSelectInputGUI("", "export_label");
+		$label->setOptions(array(
+			'label_only' => $this->lng->txt('export_label_only'), 
+			'title_only' => $this->lng->txt('export_title_only'), 
+			'title_label'=> $this->lng->txt('export_title_label')
+			));
+		$ilToolbar->addInputItem($label);
+		
+		if ($details)
+		{
+			$ilToolbar->addFormButton($this->lng->txt("export"), 'exportDetailData');			
 		}
+		else
+		{
+			$ilToolbar->addFormButton($this->lng->txt("export"), 'exportData');
+		}
+		
 		switch ($this->object->getEvaluationAccess())
 		{
 			case EVALUATION_ACCESS_OFF:
@@ -404,28 +434,7 @@ class ilSurveyEvaluationGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-
-		$exporttypes = array(
-			"excel" => $this->lng->txt('exp_type_excel'),
-			"csv" => $this->lng->txt('exp_type_csv')
-		);
-		foreach ($exporttypes as $key => $value)
-		{
-			$this->tpl->setCurrentBlock('exportoption');
-			$this->tpl->setVariable('OPTION_VALUE', $key);
-			$this->tpl->setVariable('OPTION_TITLE', ilUtil::prepareFormOutput($value));
-			$this->tpl->parseCurrentBlock();
-		}
-		if ($details)
-		{
-			$this->tpl->setVariable('SUBMIT_CMD', 'exportDetailData');
-		}
-		else
-		{
-			$this->tpl->setVariable('SUBMIT_CMD', 'exportData');
-		}
-		$this->tpl->setVariable('SUBMIT_VALUE', $this->lng->txt("export"));
-
+		
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php";
 		$table_gui = new ilSurveyResultsCumulatedTableGUI($this, 'evaluation', $detail);
 		$table_gui->setData($data);
@@ -441,7 +450,7 @@ class ilSurveyEvaluationGUI
 	*
 	* @access private
 	*/
-	function exportUserSpecificResults($export_format)
+	function exportUserSpecificResults($export_format, $export_label = "")
 	{
 		global $ilLog;
 		$surveyname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->object->getTitle()));
@@ -463,7 +472,7 @@ class ilSurveyEvaluationGUI
 		{
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$question = SurveyQuestion::_instanciateQuestion($question_data["question_id"]);
-			$question->addUserSpecificResultsExportTitles($csvrow, $_POST["export_format"]);
+			$question->addUserSpecificResultsExportTitles($csvrow, $export_label);
 			$questions[$question_data["question_id"]] = $question;
 		}
 		array_push($csvfile, $csvrow);
@@ -611,7 +620,7 @@ class ilSurveyEvaluationGUI
 	*/
 	function evaluationuser()
 	{
-		global $ilAccess, $ilLog;
+		global $ilAccess, $ilLog, $ilToolbar;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -624,13 +633,10 @@ class ilSurveyEvaluationGUI
 		}
 		if (array_key_exists("export_format", $_POST))
 		{
-			return $this->exportUserSpecificResults($_POST["export_format"]);
+			return $this->exportUserSpecificResults($_POST["export_format"], $_POST["export_label"]);
 		}
-
-		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
-		$userResults =& $this->object->getUserSpecificResults();
-		ilUtil::sendInfo();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", "Modules/Survey");
+		
+		$userResults =& $this->object->getUserSpecificResults();	
 		$questions =& $this->object->getSurveyQuestions(true);
 		$participants =& $this->object->getSurveyParticipants();
 		$tabledata = array();
@@ -677,36 +683,43 @@ class ilSurveyEvaluationGUI
 				}
 			}
 		}
+		
+		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
 		$this->tpl->setCurrentBlock("generic_css");
 		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Survey/templates/default/evaluation_print.css");
 		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
 		$this->tpl->parseCurrentBlock();
-		$labeldata = array(
-			array("title" => $this->lng->txt('export_label_only'), 'value' => 'label_only'),
-			array("title" => $this->lng->txt('export_title_only'), 'value' => 'title_only'),
-			array("title" => $this->lng->txt('export_title_label'), 'value' => 'title_label')
-		);
-		foreach ($labeldata as $label)
-		{
-			$this->tpl->setCurrentBlock("label_option");
-			$this->tpl->setVariable("LABEL_VALUE", $label['value']);
-			$this->tpl->setVariable("LABEL_TEXT", ilUtil::prepareFormOutput($label['title']));
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
-		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
-		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_csv"));
-		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
-		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "evaluationuser"));
-		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this, "evaluationuser"));
-		$this->tpl->setVariable("CMD_EXPORT", "evaluationuser");
+		
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "evaluationuser"));
+
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$format = new ilSelectInputGUI("", "export_format");
+		$format->setOptions(array(
+			"excel" => $this->lng->txt('exp_type_excel'),
+			"csv" => $this->lng->txt('exp_type_csv')
+			));
+		$ilToolbar->addInputItem($format);
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$label = new ilSelectInputGUI("", "export_label");
+		$label->setOptions(array(
+			'label_only' => $this->lng->txt('export_label_only'), 
+			'title_only' => $this->lng->txt('export_title_only'), 
+			'title_label'=> $this->lng->txt('export_title_label')
+			));
+		$ilToolbar->addInputItem($label);
+		
+		$ilToolbar->addFormButton($this->lng->txt("export"), 'evaluationuser');		
+		
+		$ilToolbar->addSeparator();
+		
+		$ilToolbar->addButton($this->lng->txt("print"), "#", "", "", "onclick=\"javascript:window.print()\"");
+		
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsUserTableGUI.php";
 		$table_gui = new ilSurveyResultsUserTableGUI($this, 'evaluationuser', $this->object->getAnonymize());
 		$table_gui->setData($tabledata);
-		$this->tpl->setVariable('TABLE', $table_gui->getHTML());	
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setContent($table_gui->getHTML());			
 	}
 }
+
 ?>

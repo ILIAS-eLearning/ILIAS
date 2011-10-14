@@ -903,13 +903,31 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		$template->setVariable("TEXT_OPTION_VALUE", $categories);
 		$template->parseCurrentBlock();
 		
-		
+		// add text answers to detailed results
+		if (is_array($this->cumulated["textanswers"]))
+		{
+			$template->setCurrentBlock("detail_row");
+			$template->setVariable("TEXT_OPTION", $this->lng->txt("freetext_answers"));	
+			$html = "";		
+			foreach ($this->cumulated["textanswers"] as $key => $answers)
+			{
+				$html .= $this->cumulated["variables"][$key]["title"] ."\n";
+				$html .= "<ul>\n";
+				foreach ($answers as $answer)
+				{
+					$html .= "<li>" . preg_replace("/\n/", "<br>\n", $answer) . "</li>\n";
+				}
+				$html .= "</ul>\n";
+			}
+			$template->setVariable("TEXT_OPTION_VALUE", $html);
+			$template->parseCurrentBlock();
+		}			
+				
 		// chart 
 		$template->setCurrentBlock("detail_row");				
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("chart"));
 		$template->setVariable("TEXT_OPTION_VALUE", $this->renderChart("svy_ch_".$this->object->getId(), $this->cumulated["variables"]));
 		$template->parseCurrentBlock();
-
 		
 		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
 		return $template->get();

@@ -597,6 +597,17 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$cumulated[$row["value"]]++;
+			
+			// add text value to result array
+			if ($row["textanswer"])
+			{
+				$result_array["textanswers"][$row["value"]][] = $row["textanswer"];
+			}
+		}
+		// sort textanswers by value
+		if (is_array($result_array["textanswers"]))
+		{
+			ksort($result_array["textanswers"], SORT_NUMERIC);
 		}
 		asort($cumulated, SORT_NUMERIC);
 		end($cumulated);
@@ -734,6 +745,63 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 			$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($value["selected"]));
 			$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($value["percentage"]), $format_percent);
 		}
+		
+		// add text answers to detailed results
+		if (is_array($eval_data["textanswers"]))
+		{
+			$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("freetext_answers")), $format_bold);
+			$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_title);
+			$worksheet->write($rowcounter++, 2, ilExcelUtils::_convert_text($this->lng->txt("answer")), $format_title);
+			
+			foreach ($eval_data["textanswers"] as $key => $answers)
+			{
+				$title = $eval_data["variables"][$key]["title"];
+				foreach ($answers as $answer)
+				{
+					$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($title));
+					$worksheet->write($rowcounter++, 2, ilExcelUtils::_convert_text($answer));
+				}
+			}
+		}			
+	}
+	
+	/**
+	* overwritten addUserSpecificResultsExportTitles
+	* 
+	* Adds the entries for the title row of the user specific results
+	*
+	* @param array $a_array An array which is used to append the title row entries
+	* @access public
+	*/
+	function addUserSpecificResultsExportTitles(&$a_array, $a_export_label = "")
+	{
+		// add label dependent title
+		switch($a_export_label)
+		{
+			case "label_only":
+				$title = $this->label ? $this->label : $this->title;		
+				break;
+				
+			case "title_only":
+				$title = $this->title;
+				break;
+				
+			default:
+				$title = $this->label  ? $this->title.' - '.$this->label : $this->title;		
+				break;		
+		}	
+		array_push($a_array, $title);			
+		
+		// optionally add header for text answer
+		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
+		{
+			$cat = $this->categories->getCategory($i);
+			if ($cat->other)
+			{
+				array_push($a_array, $title. ' - '. $this->lng->txt('other'));	
+				break;	
+			}
+		}
 	}
 
 	/**
@@ -745,16 +813,39 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	*/
 	function addUserSpecificResultsData(&$a_array, &$resultset)
 	{
+		// check if text answer column is needed
+		$other = false;
+		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
+		{
+			$cat = $this->categories->getCategory($i);
+			if ($cat->other)
+			{
+				$other = true;	
+				break;	
+			}
+		}
+		
 		if (count($resultset["answers"][$this->getId()]))
 		{
 			foreach ($resultset["answers"][$this->getId()] as $key => $answer)
 			{
 				array_push($a_array, $answer["value"]+1);
+				
+				// add the text answer from the selected option
+				if ($other)
+				{
+					array_push($a_array, $answer["textanswer"]);
+				}
 			}
 		}
 		else
 		{
 			array_push($a_array, $this->lng->txt("skipped"));
+			
+			if ($other)
+			{
+				array_push($a_array, "");
+			}
 		}
 	}
 

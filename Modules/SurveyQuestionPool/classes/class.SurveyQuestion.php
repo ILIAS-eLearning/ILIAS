@@ -1898,25 +1898,27 @@ class SurveyQuestion
 		return array();
 	}
 
-	
 	/**
 	* Adds the entries for the title row of the user specific results
 	*
 	* @param array $a_array An array which is used to append the title row entries
 	* @access public
 	*/
-	function addUserSpecificResultsExportTitles(&$a_array, $export_type = 'title_only')
+	function addUserSpecificResultsExportTitles(&$a_array, $a_export_label = "")
 	{
-		switch ($_POST['export_label'])
+		// get title by label option
+		switch($a_export_label)
 		{
-			case 'label_only':
-				array_push($a_array, array($this->label));
+			case "label_only":
+				array_push($a_array, $this->label ? $this->label : $this->title);		
 				break;
-			case 'title_only':
-				array_push($a_array, array($this->getTitle()));
+				
+			case "title_only":
+				array_push($a_array, $this->title);
 				break;
+				
 			default:
-				array_push($a_array, array($this->getTitle(), $this->label));
+				array_push($a_array, $this->label  ? $this->title.' - '.$this->label : $this->title);		
 				break;
 		}
 	}
