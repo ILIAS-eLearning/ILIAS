@@ -444,7 +444,7 @@ class ilLPStatusCollection extends ilLPStatus
 			$item_id = $ilObjDataCache->lookupObjId($item_id);
 			$gr_status = ilLPStatusWrapper::_determineStatus($item_id, $user_id);
 
-			if($gr_stat == LP_STATUS_FAILED_NUM)
+			if($gr_status == LP_STATUS_FAILED_NUM)
 			{
 				$status['in_progress'] = true;
 				if($is_grouping)
