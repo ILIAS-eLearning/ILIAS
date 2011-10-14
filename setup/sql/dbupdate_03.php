@@ -8297,3 +8297,7 @@ if(!$ilDB->tableExists('note_settings'))
 <?php
 	$ilDB->addIndex("page_history", array("page_id"), "i1");
 ?>
+<#3492>
+<?php
+	$ilDB->addIndex('cmi_interaction', array('cmi_node_id'), "i4");
+?>
