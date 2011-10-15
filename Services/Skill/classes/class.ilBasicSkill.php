@@ -149,7 +149,8 @@ class ilBasicSkill extends ilSkillTreeNode
 
 		$set = $ilDB->query("SELECT * FROM skl_level WHERE ".
 			" skill_id = ".$ilDB->quote($this->getId(), "integer").
-			$and
+			$and.
+			" ORDER BY nr"
 			);
 		$levels = array();
 		while ($rec = $ilDB->fetchAssoc($set))
