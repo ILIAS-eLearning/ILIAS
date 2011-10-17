@@ -1293,8 +1293,9 @@ class ilObjBlogGUI extends ilObject2GUI
 	 */
 	static function lookupSubObjectTitle($a_blog_id, $a_posting_id)
 	{
+		// page might be deleted, so setting halt on errors to false
 		include_once "Modules/Blog/classes/class.ilBlogPosting.php";
-		$post = new ilBlogPosting($a_posting_id);
+		$post = new ilBlogPosting($a_posting_id, 0, false);
 		if($post->getBlogId() == $a_blog_id)
 		{
 			return $post->getTitle();

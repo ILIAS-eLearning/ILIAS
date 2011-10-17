@@ -1132,7 +1132,19 @@ return;
 									include_once($location."/class.".$full_class.".php");
 									$this->item_list_gui[$type] = new $full_class();
 								}
-								$title = ilObject::_lookupTitle($a_rep_obj_id);
+								
+								// for references, get original title
+								// (link will lead to orignal, which basically is wrong though)
+								if($a_obj_type == "crsr" || $a_obj_type == "catr")
+								{
+									include_once "Services/ContainerReference/classes/class.ilContainerReference.php";
+									$tgt_obj_id = ilContainerReference::_lookupTargetId($a_rep_obj_id);
+									$title = ilObject::_lookupTitle($tgt_obj_id);
+								}
+								else
+								{
+									$title = ilObject::_lookupTitle($a_rep_obj_id);
+								}
 								$this->item_list_gui[$type]->initItem($vis_ref_id, $a_rep_obj_id, $title);
 								$link = $this->item_list_gui[$type]->getCommandLink("infoScreen");
 
