@@ -524,7 +524,7 @@ if (true)
 				),
 			3 => array(
 				"objects" =>
-					array("blga", "chta", "facs", "frma", "lrss", "mcts", "svyf", "assf", "---",
+					array("blga", "chta", "facs", "frma", "lrss", "mcts", "mobs", "svyf", "assf", "---",
 						'otpl', "root", "recf")
 				)
 			);
