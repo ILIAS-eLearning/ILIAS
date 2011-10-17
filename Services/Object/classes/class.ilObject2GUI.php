@@ -712,6 +712,13 @@ abstract class ilObject2GUI extends ilObjectGUI
 					$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
 				
 				$lg = $dispatcher->initHeaderAction();
+								
+				// to enable add to desktop / remove from desktop
+				if($this instanceof ilDesktopItemHandling)
+				{
+					$lg->setContainerObject($this);
+				}
+				
 				// $lg->enableComments(true);
 				$lg->enableNotes(true);
 				// $lg->enableTags(true);
