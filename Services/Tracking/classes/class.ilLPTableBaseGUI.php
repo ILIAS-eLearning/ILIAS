@@ -305,8 +305,13 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$options['crs'] = $lng->txt('objs_crs');
 		$options['grp'] = $lng->txt('objs_grp');
 		$options['exc'] = $lng->txt('objs_exc');
-		$options['tst'] = $lng->txt('objs_tst');
-				
+		$options['tst'] = $lng->txt('objs_tst');		
+		
+		$options["file"] = $lng->txt("objs_file");
+		$options["webr"] = $lng->txt("objs_webr");
+		$options["wiki"] = $lng->txt("objs_wiki");
+		
+		asort($options);
 		return $options;
 	}
 
