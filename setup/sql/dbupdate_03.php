@@ -8303,33 +8303,33 @@ if(!$ilDB->tableExists('note_settings'))
 ?>
 <#3493>
 <?php
-	$ilDB->addIndex('object_data', array('import_id'), "import_idx");
+	$ilDB->addIndex('object_data', array('import_id'), "i4");
 ?>
 <#3494>
 <?php
-	$ilDB->addIndex('usr_data', array('ext_account', 'auth_mode'), "ext_idx");
+	$ilDB->addIndex('usr_data', array('ext_account', 'auth_mode'), "i2");
 ?>
 <#3495>
 <?php
-	$ilDB->addIndex('event', array('obj_id'), "objid_idx");
+	$ilDB->addIndex('event', array('obj_id'), "i1");
 ?>
 <#3496>
 <?php
-	$ilDB->addIndex('conditions', array('target_obj_id'), "t_objid_idx");
+	$ilDB->addIndex('conditions', array('target_obj_id'), "i1");
 ?>
 <#3497>
 <?php
-	$ilDB->addIndex('mob_usage', array('usage_id'), "usgid_idx");
+	$ilDB->addIndex('mob_usage', array('usage_id'), "i1");
 ?>
 <#3498>
 <?php
-	$ilDB->addIndex('lo_access', array('usr_id'), "uid_idx");
+	$ilDB->addIndex('lo_access', array('usr_id'), "i1");
 ?>
 <#3499>
 <?php
-	$ilDB->addIndex('cal_categories', array('type'), "typeid_idx");
+	$ilDB->addIndex('cal_categories', array('type'), "i3");
 ?>
 <#3500>
 <?php
-	$ilDB->addIndex('tree', array('lft'), "lft_idx");
+	$ilDB->addIndex('tree', array('lft'), "i4");
 ?>
