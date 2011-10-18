@@ -47,6 +47,8 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		$this->setEnableTitle(true);
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
+		
+		$this->setLimit(9999);
 	
 		// $this->initFilter();
 		
@@ -73,11 +75,26 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 	{
 		include_once "Services/Tracking/classes/class.ilTrQuery.php";
 		$data = ilTrQuery::getObjectTypeStatistics();
+				
+		// get plugin titles
+		include_once("./Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php");
+		$plugins = array();
+		$plugins = ilRepositoryObjectPluginSlot::addCreatableSubObjects($plugins);
 		
 		// to enable sorting by title
 		foreach($data as $idx => $row)
 		{
-			$data[$idx]["title"] = $this->lng->txt("objs_".$row["type"]);
+			if(array_key_exists($row["type"], $plugins))
+			{
+				include_once("./Services/Component/classes/class.ilPlugin.php");
+				$data[$idx]["title"] = ilPlugin::lookupTxt("rep_robj", $row["type"], "obj_".$row["type"]);
+				$data[$idx]["icon"] = ilObject::_getIcon("", "tiny", $row["type"]);
+			}			
+			else
+			{
+				$data[$idx]["title"] = $this->lng->txt("objs_".$row["type"]);
+				$data[$idx]["icon"] = ilUtil::getTypeIconPath($row["type"], null, "tiny");
+			}
 		}
 		
 		$this->setData($data);
@@ -88,7 +105,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 	*/
 	protected function fillRow($a_set)
 	{
-		$this->tpl->setVariable("ICON_SRC", ilUtil::getTypeIconPath($a_set["type"], null, "tiny"));
+		$this->tpl->setVariable("ICON_SRC", $a_set["icon"]);
 		$this->tpl->setVariable("ICON_ALT", $this->lng->txt("objs_".$a_set["type"]));
 		$this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
 		$this->tpl->setVariable("COUNT", (int)$a_set["objects"]);
@@ -111,11 +128,13 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 
 		$legend = new ilChartLegend();
 		$chart->setLegend($legend);
-
-		$types = $this->getPossibleTypes(true);
-		$types["file"] = $lng->txt("objs_file");
-		$types["webr"] = $lng->txt("objs_webr");
 		
+		$types = array();
+		foreach($this->getData() as $id => $item)
+		{
+			$types[$id] = $item["title"];
+ 		}
+
 		$labels = array();
 		$cnt = 0;
 		foreach($types as $type => $caption)
