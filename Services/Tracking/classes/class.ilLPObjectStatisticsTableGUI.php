@@ -99,10 +99,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		// object type selection
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$si = new ilSelectInputGUI($lng->txt("obj_type"), "type");
-		$options = $this->getPossibleTypes(true);
-		$options["file"] = $lng->txt("objs_file");
-		$options["webr"] = $lng->txt("objs_webr");
-		$si->setOptions($options);
+		$si->setOptions($this->getPossibleTypes(true));
 		$this->addFilterItem($si);
 		$si->readFromSession();
 		if(!$si->getValue())

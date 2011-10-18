@@ -284,7 +284,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			ilUtil::sendInfo($lng->txt("wiki_page_status_blocked"));
 		}
 
-		$this->getWikiPage()->increaseViewCnt(); // todo: move to page object
+		$this->increaseViewCount();
 				
 		$this->addHeaderAction();
 			
@@ -399,10 +399,22 @@ if (false)	// currently moved to ilWikiFunctionsBlockGUI
 */
 		$this->setTemplateOutput(false);
 		$this->setPresentationTitle($this->getWikiPage()->getTitle());
-		$this->getWikiPage()->increaseViewCnt();
+		$this->increaseViewCount();			
 		$output = parent::showPage();
 		
 		return $output;
+	}
+	
+	protected function increaseViewCount()
+	{
+		global $ilUser;
+		
+		$this->getWikiPage()->increaseViewCnt();
+		
+		// enable object statistics
+		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+		ilChangeEvent::_recordReadEvent("wiki", $this->getWikiPage()->getWikiRefId(),
+			$this->getWikiPage()->getWikiId(), $ilUser->getId());			
 	}
 
 	/**
