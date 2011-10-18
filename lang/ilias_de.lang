@@ -245,12 +245,12 @@ administration#:#searching_invalid_refs#:#Sucht nach ungültigen Referenzen...
 administration#:#searching_invalid_rolfs#:#Sucht nach ungültigen Rollenordnern...
 administration#:#searching_missing_objs#:#Sucht nach verlorenen Objekten...
 administration#:#searching_unbound_objs#:#Sucht nach nicht zugeordneten Objekten...
-administration#:#show_topics_overview#:#Themen-Übersicht
+administration#:#show_topics_overview#:#Themenübersicht
 administration#:#skipped#:#ausgelassen
 administration#:#start_scan#:#Start!
 administration#:#stop_scan#:#Stopp!
 administration#:#systemcheck#:#Systemcheck
-administration#:#topics_overview_info#:#Bitte wählen Sie die Attribute aus, die in der Beitrags-Übersicht angezeigt werden sollen.
+administration#:#topics_overview_info#:#Bitte wählen Sie aus, welche Informationen in der Spalte "Beiträg" der Themenübersicht angezeigt werden.
 administration#:#tree_corrupt#:#Baum ist korrumpiert! Siehe Scan-Log für Details
 administration#:#user_criteria_desc#:#Eindeutiges Nutzermerkmal für den Import/Export von Testergebnissen. Das Merkmal wird benötigt, um einen identischen Nutzer auf unterschiedlichen ILIAS-Systemen zu identifizieren.
 administration#:#user_criteria#:#Eindeutiges Nutzermerkmal
@@ -2579,9 +2579,9 @@ common#:#confirm_delete_parameter#:#Wollen Sie den Parameter wirklich löschen?
 common#:#confirm#:#Bestätigen
 common#:#confirmation#:#Aktion bestätigen
 common#:#conflict_handling#:#Konfliktbehandlung
-common#:#cont_iim_content_popups_info#:#Content popups appear, when the user clicks on interactive parts of the base image. On this screen you only define the popups. Their content can be edited on the main page editing screen.###12 06 2011 new variable
-common#:#cont_iim_create_info#:#Please upload the main underlying picuture for the interactive image.###12 06 2011 new variable
-common#:#cont_iim_overlay_info#:#Overlay images are used to alter (e.g. highlight) parts of the base image when the mouse hovers over them. After uploading the images, you can select them in the "Triggers" tab.###12 06 2011 new variable
+common#:#cont_iim_content_popups_info#:#Content-Popups werden angezeigt, wenn Benutzer auf die interaktiven Teile des zugrundeliegenden Basis-Bilds klicken. Auf dieser Seite definieren Sie nur die Pop-ups. Ihr Inhalt wird auf der Hauptseite editiert.
+common#:#cont_iim_create_info#:#Bitte laden Sie die zugrundeliegende Bilddatei für das interaktive Bild hoch.
+common#:#cont_iim_overlay_info#:#Ein Overlay-Bild wird angezeigt, wenn Benutzer mit der Maus über den definierten Bereich des zugrundeliegenen Bildes fahren. Das jeweilige Overlay-Bild weisen Sie nach dem Hochladen im Register "Auslöser" dem zugehörigen Auslösebereich zu.
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktinformationen
 common#:#contact#:#Kontakt
@@ -2618,10 +2618,10 @@ common#:#create_in#:#Erstellen in
 common#:#create_stylesheet#:#Style erstellen
 common#:#create#:#Erstellen
 common#:#created#:#Erzeugt am
-common#:#cron_forum_notification_cron#:#regelmäßig per Cron-Job
-common#:#cron_forum_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Mails an die Benutzer versendet, die bei bestimmten Foren-Themen über neue Beiträge benachrichtigt werden wollen.
+common#:#cron_forum_notification_cron#:#Regelmäßig per Cron-Job
+common#:#cron_forum_notification_desc#:#Wenn aktiviert, sendet ILIAS Mails an die Benutzer, die bei ausgewählten Foren-Themen über neue Beiträge benachrichtigt werden wollen.
 common#:#cron_forum_notification_directly#:#Sofort bei Neueintrag
-common#:#cron_forum_notification_never#:#Nie
+common#:#cron_forum_notification_never#:#Nie (deaktiviert)
 common#:#cron_forum_notification#:#Foren-Benachrichtigungen versenden
 common#:#cron_jobs_desc#:#Ein Cron-Job ist ein automatisierter Prozess, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-Jobs in der Installationsanleitung.
 common#:#cron_jobs#:#Cron-Jobs
@@ -2845,7 +2845,7 @@ common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#email#:#E-Mail
 common#:#enable_admin_force#:#Benachrichtigung aktivieren
-common#:#enable_anonymous_fora_desc#:#Wenn deaktiviert, steht die Funktion "mit Pseudonym schreiben" in Foren nicht mehr zur Verfügung.
+common#:#enable_anonymous_fora_desc#:#Muss aktiviert sein, damit in Foren die Funktion "mit Pseudonym schreiben" zur Verfügung steht.
 common#:#enable_anonymous_fora#:#In Foren "mit Pseudonym schreiben"
 common#:#enable_calendar#:#Kalender aktivieren
 common#:#enable_course_group_notifications_desc#:#Bei Aktivierung können Teilnehmer eine Zusammenfassung der News abonnieren.
@@ -2860,7 +2860,7 @@ common#:#enable_disk_quota#:#Aktiviere Disk Quota
 common#:#enable_download_folder_info#:#Erlaubt das Herunterladen von Ordnern und ihrer Binnenstrukturen als ZIP-Datei.
 common#:#enable_download_folder#:#«Ordner herunterladen» aktivieren
 common#:#enable_ext_lang_maint#:#Aktiviere «Erweiterte Sprachenverwaltung»
-common#:#enable_fora_statistics_desc#:#Wenn diese deaktiviert ist, kann niemand auf die Forenstatistik zugreifen.
+common#:#enable_fora_statistics_desc#:#Nur wenn diese aktiviert ist, kann auf die Forenstatistik zugegriffen werden.
 common#:#enable_fora_statistics#:#Forenstatistik aktivieren
 common#:#enable_hide_user_toggle#:#Mitglied darf Benachrichtigung nicht deaktivieren
 common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.
@@ -5516,7 +5516,7 @@ content#:#cont_assignments_deleted#:#Die Zuordnung(en) wurden entfernt
 content#:#cont_autoindent#:#Automatische Einrückung
 content#:#cont_autostart#:#Autostart
 content#:#cont_back#:#Zurück
-content#:#cont_base_image#:#Zugrundeliegendes Bild
+content#:#cont_base_image#:#Ausgangsbild
 content#:#cont_bb_tip#:#Das Menü erlaubt die schnelle Zuweisung von Textauszeichnungen.
 content#:#cont_behavior#:#Verhalten
 content#:#cont_blist#:#Aufzählungsliste
@@ -5725,7 +5725,7 @@ content#:#cont_ed_split_page#:#Seite aufteilen
 content#:#cont_ed_textitem#:#Testelement
 content#:#cont_ed_width#:#Breite
 content#:#cont_edit_area#:#Bereich ändern
-content#:#cont_edit_base_image#:#Zugrundeliegendes Bild bearbeiten
+content#:#cont_edit_base_image#:#Ausgangsbild bearbeiten
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_lrs_settings#:#Einstellungen
 content#:#cont_edit_marker_position#:#Markierungspunkt bearbeiten
@@ -5980,7 +5980,7 @@ content#:#cont_new_popup#:#Neues Popup
 content#:#cont_new_question#:#Neue Frage
 content#:#cont_new_tab#:#Neues Register
 content#:#cont_new_term#:#Neuer Begriff
-content#:#cont_new_trigger_area#:#Neuer Bereich für Auslöser
+content#:#cont_new_trigger_area#:#Neuer Auslösebereich
 content#:#cont_next_rev#:#Nachfolgende Änderung
 content#:#cont_nlist#:#Numerierte Liste
 content#:#cont_no_access#:#Kein Zugriff
@@ -7940,7 +7940,7 @@ forum#:#frm_statistics_enabled_desc#:#Statistik für alle Forenteilnehmer anzeig
 forum#:#frm_statistics_enabled#:#Statistik anzeigen
 forum#:#frm_statistics_ranking#:#Anzahl der Beiträge
 forum#:#frm_statistics#:#Statistik
-forum#:#frm_subject_setting#:#Beitragstitel-Einstellung
+forum#:#frm_subject_setting#:#Vorgabe Beitragstitel
 forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass die folgenden Themen gelöscht werden sollen?
 forum#:#frm_title_required#:#Bitte geben Sie einen Titel ein.
 forum#:#frm_wizard_page#:#Forum kopieren (Schritt 2/2)
@@ -7949,7 +7949,7 @@ forum#:#make_topic_non_sticky#:#"Top-Thema"-Einstufung aufheben
 forum#:#make_topic_sticky#:#Thema zu "Top-Thema" machen
 forum#:#make_topics_non_sticky#:#"Top-Thema"-Einstufung aufheben
 forum#:#make_topics_sticky#:#Thema zu "Top-Thema" machen
-forum#:#mark_moderator_posts_desc#:#Wenn aktiviert, werden Moderatoren-Beiträge farblich hervorgehoben.
+forum#:#mark_moderator_posts_desc#:#Wenn aktiviert, werden Beiträge der Benutzer farblich hervorgehoben, die die Moderatorenrolle in diesem Forum inne haben.
 forum#:#mark_moderator_posts#:#Moderatoren-Beiträge markieren
 forum#:#move_chosen_topics#:#Verschiebe gewählte Themen
 forum#:#new_post#:#Neue Nachricht
