@@ -702,16 +702,18 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 	function addUserSpecificResultsData(&$a_array, &$resultset)
 	{
 		if (count($resultset["answers"][$this->getId()]))
-		{
+		{						
 			array_push($a_array, "");
 			for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
 			{
-				$category = $this->categories->getCategory($index);
+				$category = $this->categories->getCategory($index);		
+				$incoming_value = $category->scale ? $category->scale-1 : $index;		
+				
 				$found = 0;
-				$textanswer = "";
+				$textanswer = "";				
 				foreach ($resultset["answers"][$this->getId()] as $answerdata)
 				{
-					if (strcmp($index, $answerdata["value"]) == 0)
+					if (strcmp($incoming_value, $answerdata["value"]) == 0)
 					{
 						$found = 1;
 						$textanswer = $answerdata["textanswer"];
