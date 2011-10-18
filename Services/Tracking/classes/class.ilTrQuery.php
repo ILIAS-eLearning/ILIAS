@@ -1426,11 +1426,10 @@ class ilTrQuery
 
 	function getObjectTypeStatistics()
 	{
-		global $ilDB;
-
-		// we do not need all possible object types
-		$types = array("crs", "lm", "tst", "grp", "exc", "sahs", "htlm", 
-			"file", "webr");
+		global $ilDB, $objDefinition;
+		
+		// re-use add new item selection (folder is not that important)
+		$types = array_keys($objDefinition->getCreatableSubObjects("root", ilObjectDefinition::MODE_REPOSITORY));
 		
 		include_once "Services/Tree/classes/class.ilTree.php";
 		$tree = new ilTree(1);
