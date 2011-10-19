@@ -40,7 +40,8 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 				$this->addColumn($lng->txt("month_".str_pad($loop, 2, "0", STR_PAD_LEFT)."_short"), "month_".$loop);
 			}
 		}
-		$this->addColumn($lng->txt("total"), "total");
+		$format = ($this->filter["measure"] == "spent_seconds") ? " (hh:mm:ss)" : "";
+		$this->addColumn($lng->txt("total").$format, "total");
 
 		$this->setTitle($this->lng->txt("trac_object_stat_access"));
 
@@ -241,7 +242,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 				}						
 				else if($this->filter["measure"] == "spent_seconds")
 				{
-					$value = $this->formatSeconds($value);
+					$value = $this->formatSeconds($value, true);
 				}
 				$this->tpl->setVariable("MONTH_VALUE", $value);
 				$this->tpl->parseCurrentBlock();
@@ -250,7 +251,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 
 		if($this->filter["measure"] == "spent_seconds")
 		{
-			$sum = $this->formatSeconds((int)$a_set["total"]);
+			$sum = $this->formatSeconds((int)$a_set["total"], true);
 		}
 		else 
 		{
@@ -308,7 +309,8 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 			}
 		}
 		
-		$value_ticks = $this->buildValueScale($max_value, ($this->filter["measure"] == "read_count"));
+		$value_ticks = $this->buildValueScale($max_value, ($this->filter["measure"] == "read_count"),
+			($this->filter["measure"] == "spent_seconds"));
 		
 		$labels = array();
 		if(strpos($this->filter["yearmonth"], "-") === false)
@@ -351,7 +353,8 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 				}	
 				else if($this->filter["measure"] == "spent_seconds")
 				{
-					$value = $this->formatSeconds($value);
+					// keep seconds
+					// $value = $this->formatSeconds($value);
 				}
 				
 				$col++;
@@ -361,7 +364,9 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		
 		if($this->filter["measure"] == "spent_seconds")
 		{
-			$sum = $this->formatSeconds((int)$a_set["total"]);
+			// keep seconds
+			// $sum = $this->formatSeconds((int)$a_set["total"]);
+			$sum = (int)$a_set["total"];
 		}
 		else 
 		{
@@ -391,7 +396,8 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 				}	
 				else if($this->filter["measure"] == "spent_seconds")
 				{
-					$value = $this->formatSeconds($value);
+					// keep seconds
+					// $value = $this->formatSeconds($value);
 				}
 				
 				$a_csv->addColumn($value);
@@ -400,7 +406,9 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		
 		if($this->filter["measure"] == "spent_seconds")
 		{
-			$sum = $this->formatSeconds((int)$a_set["total"]);
+			// keep seconds
+			// $sum = $this->formatSeconds((int)$a_set["total"]);
+			$sum = (int)$a_set["total"];
 		}	
 		else 
 		{
