@@ -38,7 +38,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 			$this->addColumn(str_pad($loop, 2, "0", STR_PAD_LEFT).":00-<br />".
 				str_pad($loop+2, 2, "0", STR_PAD_LEFT).":00 ", "hour".$loop);
 		}
-		$this->addColumn($lng->txt("total"), "total");
+		$this->addColumn($lng->txt("total"), "sum");
 
 		$this->setTitle($this->lng->txt("trac_object_stat_daily"));
 
@@ -68,7 +68,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 	public function numericOrdering($a_field) 
 	{
 		$fields = array();
-		$fields[] = "total";
+		$fields[] = "sum";
 		for($loop = 0; $loop<24; $loop+=2)
 		{
 			$fields[] = "hour".$loop;
