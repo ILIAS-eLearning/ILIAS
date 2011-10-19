@@ -6082,7 +6082,7 @@ crs#:#crs_new_status#:#Votre nouveau statut est :
 crs#:#crs_new_subscription#:#Nouvel abonnement à cours "%s"
 crs#:#crs_new_subscription_body#:#Un nouvel utilisateur a été inscrit
 crs#:#crs_new_subscription_request#:#Demande d'inscription au cours "%s"
-crs#:#crs_new_subscription_request_body#:#Un utilisateur a demandé de rejoindre le cours "%s".
+crs#:#crs_new_subscription_request_body#:#L'utilisateur %s a demandé de rejoindre le cours "%s".
 crs#:#crs_new_subscription_request_body2#:#Vous devez prendre contact avec le gestionnaire des inscriptions à ce cours pour qu'il accepte ou refuse votre demande d'abonnement.
 crs#:#crs_news#:#Actualités du Cours
 crs#:#crs_no_archive_selected#:#Pas d'archive sélectionnée
