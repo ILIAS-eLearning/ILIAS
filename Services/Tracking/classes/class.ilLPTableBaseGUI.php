@@ -611,9 +611,13 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		}
 	}
 	
-	protected function formatSeconds($seconds)
+	protected function formatSeconds($seconds, $a_shorten_zero = false)
 	{
 		$seconds = $seconds ? $seconds : 0;
+		if($a_shorten_zero && !$seconds)
+		{
+			return "-";
+		}
 		
 		$days = floor($seconds / 86400);
 		$rest = $seconds % 86400;
@@ -658,7 +662,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		return $a_value;
 	}
 	
-	protected function buildValueScale($a_max_value, $a_anonymize = false)
+	protected function buildValueScale($a_max_value, $a_anonymize = false, $a_format_seconds = false)
 	{
 		$step = 0;
 		if($a_max_value)
@@ -682,6 +686,10 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			{
 				$value = $this->anonymizeValue($value, true);
 				$tvalue = $this->anonymizeValue($tvalue);
+			}
+			if($a_format_seconds)
+			{
+				$tvalue = $this->formatSeconds($value);
 			}
 			$value_ticks[$value] = $tvalue;				
 		}	
