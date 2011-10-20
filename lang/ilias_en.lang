@@ -12331,3 +12331,4 @@ prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the
 survey#:#svy_participation#:#Participation
 blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list. 
 survey#:#svy_page_add_question#:#Add new %s
+common#:#spl_import#:#Import Question Pool Survey

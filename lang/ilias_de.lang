@@ -12332,3 +12332,4 @@ wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
 survey#:#svy_page_add_question#:#Neue %s hinzufügen
+common#:#spl_import#:#Fragenpool für Umfrage importieren
