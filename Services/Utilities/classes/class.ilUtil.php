@@ -23,8 +23,10 @@ class ilUtil
 	*
 	* @param	string	object type
 	* @param	string	tpl path
+	* @static
+	* 
 	*/
-	function getImageTagByType($a_type, $a_path, $a_big = false)
+	public static function getImageTagByType($a_type, $a_path, $a_big = false)
 	{
 		global $lng;
 
@@ -47,9 +49,10 @@ class ilUtil
 	 * @param string obj_type
 	 * @param int obj_id
 	 * @param string size 'tiny','small' or 'big'
+	 * @static 
 	 *
 	 */
-	public function getTypeIconPath($a_type,$a_obj_id,$a_size = 'small')
+	public static function getTypeIconPath($a_type,$a_obj_id,$a_size = 'small')
 	{
 	 	global $ilSetting;
 
@@ -90,6 +93,8 @@ class ilUtil
 	* @param	string		full image filename (e.g. myimage.gif)
 	* @param	boolean		should be set to true, if the image is within a module
 	*						template directory (e.g. content/templates/default/images/test.gif)
+	* @static
+	*
 	*/
 	public static function getImagePath($img, $module_path = "", $mode = "output", $offline = false)
 	{
@@ -152,8 +157,10 @@ class ilUtil
     * @access   public
     * @param    $relative_path string     complete path to file, relative to web root
     *                                       (e.g.  /data/pfplms103/mobs/mm_732/athena_standing.jpg)
+    * @static  
+    *                                     
     */
-    function getHtmlPath($relative_path)
+   public static function getHtmlPath($relative_path)
     {
         if (substr($relative_path, 0, 2) == './')
         {
@@ -176,8 +183,10 @@ class ilUtil
 	* @param $a_css_location string The location of the style sheet e.g. a module path. This parameter only makes sense
 	* when $a_css_name is used
 	* @access	public
+	* @static
+	* 
 	*/
-	function getStyleSheetLocation($mode = "output", $a_css_name = "", $a_css_location = "")
+	public static function getStyleSheetLocation($mode = "output", $a_css_name = "", $a_css_location = "")
 	{
 		global $ilias;
 
@@ -214,8 +223,10 @@ class ilUtil
 	* @param $a_js_location string The location of the js file e.g. a module path
 	* @param $add_version boolean Add version information to the filename
 	* @access	public
+	* @static
+	* 
 	*/
-	function getJSLocation($a_js_name, $a_js_location = "", $add_version = FALSE)
+	public static function getJSLocation($a_js_name, $a_js_location = "", $add_version = FALSE)
 	{
 		global $ilias;
 
@@ -247,8 +258,10 @@ class ilUtil
 	* Get p3p file path. (Not in use yet, see class.ilTemplate.php->show())
 	*
 	* @access	public
+	* @static
+	* 
 	*/
-	function getP3PLocation()
+	public static function getP3PLocation()
 	{
 		global $ilias;
 
@@ -279,8 +292,10 @@ class ilUtil
 	* get full style sheet file name (path inclusive) of current user
 	*
 	* @access	public
+	* @static
+	* 
 	*/
-	function getNewContentStyleSheetLocation($mode = "output")
+	public static function getNewContentStyleSheetLocation($mode = "output")
 	{
 		global $ilias;
 
@@ -329,6 +344,8 @@ class ilUtil
 	* @param	string			style class
 	* @param	array			additional attributes (key = attribute name, value = attribute value)
 	* @param    boolean			disabled
+	* @static
+	* 
 	*/
 	public static function formSelect($selected,$varname,$options,$multiple = false,$direct_text = false, $size = "0",
 		$style_class = "", $attribs = "",$disabled = false)
@@ -422,8 +439,10 @@ class ilUtil
 	* @access	public
 	* @param string
 	* @param string
+	* @static
+	* 
 	*/
-	function getSelectName ($selected,$values)
+	public static function getSelectName ($selected,$values)
 	{
 		return($values[$selected]);
 	}
@@ -436,6 +455,8 @@ class ilUtil
 	* @param	string
 	* @param	boolean	disabled checked checkboxes (default: false)
 	* @return	string
+	* @static
+	* 
 	*/
 	public static function formCheckbox ($checked,$varname,$value,$disabled = false)
 	{
@@ -485,8 +506,10 @@ class ilUtil
 	 * @paramstring
 	 * @param        string
 	 * @returnstring
+	 * @static
+	 * 
 	 */
-	function formDisabledRadioButton($checked,$varname,$value,$disabled)
+	public static function formDisabledRadioButton($checked,$varname,$value,$disabled)
 	  {
 	    if ($disabled) {
 	      $str = "<input disabled type=\"radio\" name=\"".$varname."\"";
@@ -514,8 +537,10 @@ class ilUtil
 	* @param	string
 	* @param	string
 	* @return	string
+	* @static
+	* 
 	*/
-	function formRadioButton($checked,$varname,$value)
+	public static function formRadioButton($checked,$varname,$value)
 	{
 		$str = "<input type=\"radio\" name=\"".$varname."\"";
 		if ($checked == 1)
@@ -538,8 +563,9 @@ class ilUtil
 	 * @param string $value      value and id of input
 	 * @param boolean $disabled   if true, input appears disabled
 	 * @return string string
+	 * @static
 	 */
-	function formInput($varname,$value,$disabled = false)
+	public static function formInput($varname,$value,$disabled = false)
 	{
 
 	    $str = "<input type=\"input\" name=\"".$varname."\"";
@@ -559,8 +585,10 @@ class ilUtil
 	/**
 	* ???
 	* @param string
+	* @static
+	* 
 	*/
-	function checkInput ($vars)
+	public static function checkInput ($vars)
 	{
 		// TO DO:
 		// Diese Funktion soll Formfeldeingaben berprfen (empty und required)
@@ -570,8 +598,9 @@ class ilUtil
 	* ???
 	* @access	public
 	* @param	string
+	* @static
 	*/
-	function setPathStr ($a_path)
+	public static function setPathStr ($a_path)
 	{
 		if ("" != $a_path && "/" != substr($a_path, -1))
 		{
@@ -592,8 +621,10 @@ class ilUtil
 	* @param	string	$a_css1	name of stylesheet 1
 	* @param	string	$a_css2	name of stylesheet 2
 	* @return	string	$a_css1 or $a_css2
+	* @static
+	* 
 	*/
-	function switchColor ($a_num,$a_css1,$a_css2)
+	public static function switchColor ($a_num,$a_css1,$a_css2)
 	{
 		if (!($a_num % 2))
 		{
@@ -613,8 +644,10 @@ class ilUtil
 	* @access	public
 	* @param	integer	column to highlight
 	* @param	array	array with templatereplacements
+	* @static
+	* 
 	*/
-	function showTabs($a_hl, $a_o)
+	static function showTabs($a_hl, $a_o)
 	{
 		global $lng;
 
@@ -666,8 +699,10 @@ class ilUtil
 	* @access	public
 	* @param	array
 	* @return	string
+	* @static
+	* 
 	*/
-	function checkFormEmpty ($emptyFields)
+	public static function checkFormEmpty ($emptyFields)
 	{
 
 		$feedback = "";
@@ -704,8 +739,10 @@ class ilUtil
 	* 					prev	=> value for 'previous page' (default: '<<')
 	* 					next	=> value for 'next page' (default: '>>')
 	* @return	array	linkbar or false on error
+	* @static
+	* 
 	*/
-	function Linkbar ($AScript,$AHits,$ALimit,$AOffset,$AParams = array(),$ALayout = array(), $prefix = '')
+	public static function Linkbar ($AScript,$AHits,$ALimit,$AOffset,$AParams = array(),$ALayout = array(), $prefix = '')
 	{
 		$LinkBar = "";
 
@@ -812,6 +849,8 @@ class ilUtil
 	* @param	string	$text: Der Text
 	* @param	boolean	$detectGotoLinks	if true, internal goto-links will be retargeted to _self and text is replaced by title
 	* @return	string	clickable link
+	* @static
+	* 
 	*/
 	public static function makeClickable($a_text, $detectGotoLinks = false)
 	{
@@ -874,8 +913,10 @@ class ilUtil
 	 * 	$matches[1] contains href attribute
 	 * 	$matches[2] contains id of goto link
 	 * @return link containg a _self target, same href and new text content
+	 * @static
+	 * 
 	 */
-	function replaceLinkProperties ($matches)
+	public static function replaceLinkProperties ($matches)
 	{
 		$link = $matches[0];
 		$ref_id = $matches[2];
@@ -907,8 +948,10 @@ class ilUtil
 	* @access	public
 	* @param	float	starttime in microseconds
 	* @return	float	time in microseconds
+	* @static
+	* 
 	*/
-	function StopWatch($begin = -1)
+	public static function StopWatch($begin = -1)
 	{
 		$m = explode(" ",microtime());
 		$m = $m[0] + $m[1];
@@ -936,8 +979,10 @@ class ilUtil
 	* @return	string	HTML select boxes
 	* @author	Aresch Yavari <ay@databay.de>
 	* @author Helmut Schottmüller <hschottm@tzi.de>
+	* @static
+	* 
 	*/
-	function makeDateSelect($prefix, $year = "", $month = "", $day = "", $startyear = "",$a_long_month = true,$a_further_options = array(), $emptyoption = false)
+	public static function makeDateSelect($prefix, $year = "", $month = "", $day = "", $startyear = "",$a_long_month = true,$a_further_options = array(), $emptyoption = false)
 	{
 		global $lng;
 
@@ -1063,8 +1108,10 @@ class ilUtil
 	* @param	integer $second Default second value
 	* @return	string	HTML select boxes
 	* @author Helmut Schottmüller <hschottm@tzi.de>
+	* @static
+	* 
 	*/
-	function makeTimeSelect($prefix, $short = true, $hour = "", $minute = "", $second = "",$a_use_default = true,$a_further_options = array())
+	public static function makeTimeSelect($prefix, $short = true, $hour = "", $minute = "", $second = "",$a_use_default = true,$a_further_options = array())
 	{
 		global $lng, $ilUser;
 
@@ -1153,7 +1200,7 @@ class ilUtil
 		return $timeformat;
 	}
 
-	/*
+	/**
 	* This preg-based function checks whether an e-mail address is formally valid.
 	* It works with all top level domains including the new ones (.biz, .info, .museum etc.)
 	* and the special ones (.arpa, .int etc.)
@@ -1163,8 +1210,10 @@ class ilUtil
 	* @access	public
 	* @param	string	email address
 	* @return	boolean	true if valid
+	* @static
+	* 
 	*/
-	function is_email($a_email)
+	public static function is_email($a_email)
 	{
 		// BEGIN Mail: If possible, use PearMail to validate e-mail address
 		global $ilErr, $ilias;
@@ -1213,13 +1262,15 @@ class ilUtil
 		// END Mail: If possible, use PearMail to validate e-mail address
 	}
 
-	/*
+	/**
 	* validates a password
 	* @access	public
 	* @param	string	password
 	* @return	boolean	true if valid
+	* @static
+	* 
 	*/
-	function isPassword($a_passwd, &$customError = null)
+	public static function isPassword($a_passwd, &$customError = null)
 	{
 		global $lng;
 		
@@ -1340,8 +1391,10 @@ class ilUtil
 	 *
 	 * @global <type> $lng
 	 * @return <string>  info about allowed chars for password
+	 * @static
+	 * 
 	 */
-	public function getPasswordRequirementsInfo()
+	public static function getPasswordRequirementsInfo()
 	{
 		global $lng;
 
@@ -1399,6 +1452,8 @@ class ilUtil
 	* @param	boolean	adding 3 dots (true) or not (false, default)
 	* @param	truncate at first blank after $a_len characters
 	* @return	string 	shortended string
+	* @static
+	* 
 	*/
 	public static function shortenText ($a_str, $a_len, $a_dots = false, $a_next_blank = false,
 		$a_keep_extension = false)
@@ -1454,8 +1509,10 @@ class ilUtil
 	* @param	string		input string
 	* @param	integer		max. word length
 	* @param	boolean		append "..." to shortened words
+	* @static
+	* 
 	*/
-	function shortenWords($a_str, $a_len = 30, $a_dots = true)
+	public static function shortenWords($a_str, $a_len = 30, $a_dots = true)
 	{
 		include_once("./Services/Utilities/classes/class.ilStr.php");
 		$str_arr = explode(" ", $a_str);
@@ -1481,8 +1538,10 @@ class ilUtil
 	* @param	string		$a_str		string in format: var1 = "val1" var2 = "val2" ...
 	*
 	* @return	array		array of variable value pairs
+	* @static
+	* 
 	*/
-	function attribsToArray($a_str)
+	public static function attribsToArray($a_str)
 	{
 		$attribs = array();
 		while (is_int(strpos($a_str, "=")))
@@ -1513,8 +1572,10 @@ class ilUtil
 	*
 	* @return	boolean	TRUE for sucess, FALSE otherwise
 	* @access	public
+	* @static
+	* 
 	*/
-	function rCopy ($a_sdir, $a_tdir, $preserveTimeAttributes = false)
+	public static function rCopy ($a_sdir, $a_tdir, $preserveTimeAttributes = false)
 	{
 		// check if arguments are directories
 		if (!@is_dir($a_sdir) or
@@ -1568,9 +1629,10 @@ class ilUtil
 	*
 	* @param	string		$mode		use "filesystem" for filesystem operations
 	*									and "output" for output operations, e.g. images
+	* @static
 	*
 	*/
-	function getWebspaceDir($mode = "filesystem")
+	public static function getWebspaceDir($mode = "filesystem")
 	{
 		global $ilias;
 
@@ -1595,8 +1657,11 @@ class ilUtil
 
 	/**
 	* get data directory (outside webspace)
+	* 
+	* @static
+	* 
 	*/
-	function getDataDir()
+	public static function getDataDir()
 	{
 		return CLIENT_DATA_DIR;
 		//global $ilias;
@@ -1610,8 +1675,10 @@ class ilUtil
 	*
 	* @param	integer	user_id (optional)
 	* @return	array
+	* @static
+	* 
 	*/
-	function getUsersOnline($a_user_id = 0)
+	public static function getUsersOnline($a_user_id = 0)
 	{
 		include_once("./Services/User/classes/class.ilObjUser.php");
 		return ilObjUser::_getUsersOnline($a_user_id);
@@ -1624,8 +1691,10 @@ class ilUtil
 	*
 	* @param	integer	user_id User ID of the current user.
 	* @return	array
+	* @static
+	* 
 	*/
-	function getAssociatedUsersOnline($a_user_id)
+	public static function getAssociatedUsersOnline($a_user_id)
 	{
 		include_once("./Services/User/classes/class.ilObjUser.php");
 		return ilObjUser::_getAssociatedUsersOnline($a_user_id);
@@ -1635,8 +1704,10 @@ class ilUtil
 	* Create a temporary file in an ILIAS writable directory
 	*
 	* @return	string File name of the temporary file
+	* @static
+	* 
 	*/
-	function ilTempnam()
+	public static function ilTempnam()
 	{
 		$temp_path = ilUtil::getDataDir() . "/temp";
 		if (!is_dir($temp_path))
@@ -1659,8 +1730,11 @@ class ilUtil
 	* create directory
 	*
 	* deprecated use makeDir() instead!
+	* 
+	* @static
+	* 
 	*/
-	function createDirectory($a_dir, $a_mod = 0755)
+	public static function createDirectory($a_dir, $a_mod = 0755)
 	{
 		ilUtil::makeDir($a_dir);
 		//@mkdir($a_dir);
@@ -1673,6 +1747,8 @@ class ilUtil
 	*
 	* @param	string	$a_file		full path/filename
 	* @param	boolean	$overwrite	pass true to overwrite existing files
+	* @static
+	* 
 	*/
 	public static function unzip($a_file, $overwrite = false, $a_flat = false)
 	{
@@ -1767,6 +1843,9 @@ class ilUtil
 
 	/**
 	*	zips given directory/file into given zip.file
+	*
+	* @static
+	*
 	*/
 	public static function zip($a_dir, $a_file, $compress_content = false)
 	{
@@ -1824,7 +1903,7 @@ class ilUtil
 		return true;
 	}
 
-	function CreateIsoFromFolder($a_dir, $a_file)
+	public static function CreateIsoFromFolder($a_dir, $a_file)
 	{
 		$cdir = getcwd();
 
@@ -1856,8 +1935,10 @@ class ilUtil
 	*
 	* @deprecated
 	* @see ilUtil::execConvert()
+	* @static
+	* 
 	*/
-	function getConvertCmd()
+	public static function getConvertCmd()
 	{
 		return PATH_TO_CONVERT;
 	}
@@ -1866,6 +1947,8 @@ class ilUtil
 	 * execute convert command
 	 *
 	 * @param	string	$args
+	 * @static
+	 * 
 	 */
 	public static function execConvert($args)
 	{
@@ -1878,8 +1961,10 @@ class ilUtil
 	* @param	string		$a_from				source file
 	* @param	string		$a_to				target file
 	* @param	string		$a_target_format	target image file format
+	* @static
+	* 
 	*/
-	function convertImage($a_from, $a_to, $a_target_format = "", $a_geometry = "",
+	public static function convertImage($a_from, $a_to, $a_target_format = "", $a_geometry = "",
 		$a_background_color = "")
 	{
 		$format_str = ($a_target_format != "")
@@ -1903,8 +1988,10 @@ class ilUtil
 	* @param	string		$a_to				target file
 	* @param	string		$a_width			target width
 	* @param	string		$a_height			target height
+	* @static
+	* 
 	*/
-	function resizeImage($a_from, $a_to, $a_width, $a_height, $a_constrain_prop = false)
+	public static function resizeImage($a_from, $a_to, $a_width, $a_height, $a_constrain_prop = false)
 	{
 		if ($a_constrain_prop)
 		{
@@ -1921,8 +2008,11 @@ class ilUtil
 	
 	/**
 	* Build img tag
+	* 
+	* @static
+	* 
 	*/
-	function img($a_src, $a_alt = "", $a_width = "", $a_height = "", $a_border = 0)
+	public static function img($a_src, $a_alt = "", $a_width = "", $a_height = "", $a_border = 0)
 	{
 		$img = '<img src="'.$a_src.'"';
 		if ($a_alt != "")
@@ -1946,8 +2036,10 @@ class ilUtil
 	*	produce pdf out of html with htmldoc
 	*   @param  html    String  HTML-Data given to create pdf-file
 	*   @param  pdf_file    String  Filename to save pdf in
+	*   @static
+	*   
 	*/
-	function html2pdf($html, $pdf_file)
+	public static function html2pdf($html, $pdf_file)
 	{
 		$html_file = str_replace(".pdf",".html",$pdf_file);
 
@@ -1962,8 +2054,9 @@ class ilUtil
 	*	produce pdf out of html with htmldoc
 	*   @param  html    String  HTML-Data given to create pdf-file
 	*   @param  pdf_file    String  Filename to save pdf in
+	* @static
 	*/
-	function htmlfile2pdf($html_file, $pdf_file)
+	public static function htmlfile2pdf($html_file, $pdf_file)
 	{
 		$htmldoc_path = PATH_TO_HTMLDOC;
 
@@ -1987,6 +2080,9 @@ class ilUtil
 
 	/**
 	*   deliver data for download via browser.
+	*   
+	* @static
+	*   
 	*/
 	public static function deliverData($a_data, $a_filename, $mime = "application/octet-stream", $charset = "")
 	{
@@ -2043,8 +2139,10 @@ class ilUtil
 	*   deliver file for download via browser.
 	* @param $mime Mime of the file
 	* @param $isInline Set this to true, if the file shall be shown in browser
+	* @static
+	* 
 	*/
-	function deliverFile($a_file, $a_filename,$a_mime = '', $isInline = false, $removeAfterDelivery = false,
+	public static function deliverFile($a_file, $a_filename,$a_mime = '', $isInline = false, $removeAfterDelivery = false,
 		$a_exit_after = true)
 	{
 		// should we fail silently?
@@ -2120,8 +2218,11 @@ class ilUtil
 	* sometimes truncates delivered files regardless of php.ini setting
 	* (see http://de.php.net/manual/en/function.readfile.php) use this
 	* method to avoid these problems.
+	* 
+	* @static
+	* 
 	*/
-	function readFile($a_file)
+	public static function readFile($a_file)
 	{
 		$chunksize = 1*(1024*1024); // how many bytes per chunk
 		$buffer = '';
@@ -2142,8 +2243,10 @@ class ilUtil
 	* convert utf8 to ascii filename
 	*
 	* @param	string		$a_filename		utf8 filename
+	* @static
+	* 
 	*/
-	function getASCIIFilename($a_filename)
+	public static function getASCIIFilename($a_filename)
 	{
 		// The filename must be converted to ASCII, as of RFC 2183,
 		// section 2.3.
@@ -2173,10 +2276,13 @@ class ilUtil
 		return $ascii_filename;
 	}
 
-	/*
+	/**
 	* Encodes HTML entities outside of HTML tags
+	* 
+	* @static
+	* 
 	*/
-	function htmlentitiesOutsideHTMLTags($htmlText)
+	public static function htmlentitiesOutsideHTMLTags($htmlText)
 	{
 		$matches = Array();
 		$sep = '###HTMLTAG###';
@@ -2198,8 +2304,11 @@ class ilUtil
 
 	/**
 	* get full java path (dir + java command)
+	* 
+	* @static
+	* 
 	*/
-	function getJavaPath()
+	public static function getJavaPath()
 	{
 		return PATH_TO_JAVA;
 		//global $ilias;
@@ -2210,8 +2319,11 @@ class ilUtil
 	/**
 	* append URL parameter string ("par1=value1&par2=value2...")
 	* to given URL string
+	* 
+	* @static
+	* 
 	*/
-	function appendUrlParameterString($a_url, $a_par, $xml_style = false)
+	public static function appendUrlParameterString($a_url, $a_par, $xml_style = false)
 	{
 		$amp = $xml_style
 			? "&amp;"
@@ -2236,9 +2348,10 @@ class ilUtil
 	* @access	public
 	* @param	string	[path] + directory name
 	* @return	boolean
+	* @static
 	*
 	*/
-	function makeDir($a_dir)
+	public static function makeDir($a_dir)
 	{
 		$a_dir = trim($a_dir);
 
@@ -2271,6 +2384,8 @@ class ilUtil
 	* @author Helmut Schottmüller <hschottm@tzi.de>
 	* @param string $a_dir The directory name to be created
 	* @access public
+	* @static
+	* 
 	*/
 	public static function makeDirParents($a_dir)
 	{
@@ -2340,6 +2455,8 @@ class ilUtil
 	* @access	public
 	* @param	string	dir to delete
 	* @author	Unknown <flexer@cutephp.com> (source: http://www.php.net/rmdir)
+	* @static
+	* 
 	*/
 	public static function delDir($a_dir, $a_clean_only = false)
 	{
@@ -2384,8 +2501,11 @@ class ilUtil
 
 	/**
 	* get directory
+	* 
+	* @static
+	* 
 	*/
-	function getDir($a_dir, $a_rec = false, $a_sub_dir = "")
+	public static function getDir($a_dir, $a_rec = false, $a_sub_dir = "")
 	{
 		$current_dir = opendir($a_dir.$a_sub_dir);
 
@@ -2422,6 +2542,9 @@ class ilUtil
 
 	/**
 	* Strip slashes from array
+	* 
+	* @static
+	* 
 	*/
 	public static function stripSlashesArray($a_arr, $a_strip_html = true, $a_allow = "")
 	{
@@ -2438,6 +2561,9 @@ class ilUtil
 	
 	/**
 	* Strip slashes from array and sub-arrays
+	* 
+	* @static
+	* 
 	*/
 	public static function stripSlashesRecursive($a_data, $a_strip_html = true, $a_allow = "")
 	{
@@ -2467,6 +2593,8 @@ class ilUtil
 	* strip slashes if magic qoutes is enabled
 	*
 	* @param	boolean		strip also html tags
+	* @static
+	* 
 	*/
 	public static function stripSlashes($a_str, $a_strip_html = true, $a_allow = "")
 	{
@@ -2483,8 +2611,10 @@ class ilUtil
 	* strip slashes if magic qoutes is enabled
 	*
 	* @param	string		string
+	* @static
+	* 
 	*/
-	function stripOnlySlashes($a_str)
+	public static function stripOnlySlashes($a_str)
 	{
 		if (ini_get("magic_quotes_gpc"))
 		{
@@ -2496,8 +2626,11 @@ class ilUtil
 
 	/**
 	* Remove unsecure tags
+	* 
+	* @static
+	* 
 	*/
-	function secureString($a_str, $a_strip_html = true, $a_allow = "")
+	public static function secureString($a_str, $a_strip_html = true, $a_allow = "")
 	{
 		// check whether all allowed tags can be made secure
 		$only_secure = true;
@@ -2553,13 +2686,13 @@ class ilUtil
 		return $a_str;
 	}
 
-	function getSecureTags()
+	public static function getSecureTags()
 	{
 		return array("strong", "em", "u", "strike", "ol", "li", "ul", "p", "div",
 			"i", "b", "code", "sup", "sub", "pre", "gap", "a", "img");
 	}
 
-	function maskSecureTags($a_str, $allow_array)
+	public static function maskSecureTags($a_str, $allow_array)
 	{
 		foreach ($allow_array as $t)
 		{
@@ -2592,7 +2725,7 @@ class ilUtil
 		return $a_str;
 	}
 
-	function unmaskSecureTags($a_str, $allow_array)
+	public static function unmaskSecureTags($a_str, $allow_array)
 	{
 		foreach ($allow_array as $t)
 		{
@@ -2628,8 +2761,11 @@ class ilUtil
 	/**
 	* Remove unsecure characters from a plain text string.
 	* This function currently returns the string without doing any changes.
+	* 
+	* @static
+	* 
 	*/
-	function securePlainString($a_str)
+	public static function securePlainString($a_str)
 	{
 		if (ini_get("magic_quotes_gpc"))
 		{
@@ -2653,8 +2789,10 @@ class ilUtil
 	* @param boolean set this to true, to make links in the plain string
 	* clickable.
 	* @param boolean set this to true, to detect goto links
+	* @static
+	* 
 	*/
-	function htmlencodePlainString($a_str, $a_make_links_clickable, $a_detect_goto_links = false)
+	public static function htmlencodePlainString($a_str, $a_make_links_clickable, $a_detect_goto_links = false)
 	{
 		$encoded = "";
 
@@ -2710,7 +2848,7 @@ class ilUtil
 	}
 
 
-	function maskAttributeTag($a_str, $tag, $tag_att)
+	public static function maskAttributeTag($a_str, $tag, $tag_att)
 	{
 		global $ilLog;
 
@@ -2743,7 +2881,7 @@ class ilUtil
 		return $a_str;
 	}
 
-	function unmaskAttributeTag($a_str, $tag, $tag_att)
+	public static function unmaskAttributeTag($a_str, $tag, $tag_att)
 	{
 		global $ilLog;
 
@@ -2772,7 +2910,7 @@ class ilUtil
 		return $a_str;
 	}
 
-	function maskTag($a_str, $t, $fix_param = "")
+	public static function maskTag($a_str, $t, $fix_param = "")
 	{
 		$a_str = str_replace(array("<$t>", "<".strtoupper($t).">"),
 			"&lt;".$t."&gt;", $a_str);
@@ -2793,7 +2931,7 @@ class ilUtil
 		return $a_str;
 	}
 
-	function unmaskTag($a_str, $t, $fix_param = "")
+	public static function unmaskTag($a_str, $t, $fix_param = "")
 	{
 		$a_str = str_replace("&lt;".$t."&gt;", "<".$t.">", $a_str);
 		$a_str = str_replace("&lt;/".$t."&gt;", "</".$t.">", $a_str);
@@ -2811,7 +2949,7 @@ class ilUtil
 		return $a_str;
 	}
 
-	function secureLink($a_str)
+	public static function secureLink($a_str)
 	{
 		$a_str = str_ireplace("javascript", "jvscrpt", $a_str);
 		$a_str = str_ireplace(array("%00", "%0a", "%0d", "%1a", "&#00;", "&#x00;",
@@ -2829,8 +2967,10 @@ class ilUtil
 	* @param	string		$a_allow	allowed tags, if an empty string is passed a default
 	*									set of tags is allowed
 	* @param	boolean		$a_rm_js	remove javascript attributes (onclick...)
+	* @static
+	* 
 	*/
-	function stripScriptHTML($a_str, $a_allow = "", $a_rm_js = true)
+	public static function stripScriptHTML($a_str, $a_allow = "", $a_rm_js = true)
 	{
 		//$a_str = strip_tags($a_str, $a_allow);
 
@@ -2887,8 +3027,11 @@ class ilUtil
 	* add slashes if magic qoutes is disabled
 	* don't use that for db inserts/updates! use prepareDBString
 	* instead
+	* 
+	* @static
+	* 
 	*/
-	function addSlashes($a_str)
+	public static function addSlashes($a_str)
 	{
 		if (ini_get("magic_quotes_gpc"))
 		{
@@ -2908,8 +3051,10 @@ class ilUtil
 	*						use this if $a_str comes from $_GET or $_POST var,
 	*						use false, if $a_str comes from database
 	* @return	string
+	* @static
+	* 
 	*/
-	function prepareFormOutput($a_str, $a_strip = false)
+	public static function prepareFormOutput($a_str, $a_strip = false)
 	{
 		if($a_strip)
 		{
@@ -2934,8 +3079,10 @@ class ilUtil
 	* @param	string		$a_str		string
 	*
 	* @return	string		escaped string
+	* @static
+	* 
 	*/
-	function prepareDBString($a_str)
+	public static function prepareDBString($a_str)
 	{
 		return addslashes($a_str);
 	}
@@ -2946,8 +3093,10 @@ class ilUtil
 	* @access	public
 	* @param	integer	ref_id
 	* @return	array	user_ids of all affected users
+	* @static
+	* 
 	*/
-	function removeItemFromDesktops($a_id)
+	public static function removeItemFromDesktops($a_id)
 	{
 		return ilObjUser::_removeItemFromDesktops($a_id);
 	}
@@ -2959,8 +3108,10 @@ class ilUtil
 	* @param	string		$a_parstr		parameter string (format: par1="value1", par2="value2", ...)
 	*
 	* @return	array		array of parameter value pairs
+	* @static
+	* 
 	*/
-	function extractParameterString($a_parstr)
+	public static function extractParameterString($a_parstr)
 	{
 		// parse parameters in array
 		$par = array();
@@ -3007,7 +3158,7 @@ class ilUtil
 		if($ok) return $par; else return false;
 	}
 
-	function assembleParameterString($a_par_arr)
+	public static function assembleParameterString($a_par_arr)
 	{
 		if (is_array($a_par_arr))
 		{
@@ -3024,8 +3175,11 @@ class ilUtil
 
 	/**
 	* dumps ord values of every character of string $a_str
+	* 
+	* @static
+	* 
 	*/
-	function dumpString($a_str)
+	public static function dumpString($a_str)
 	{
 		$ret = $a_str.": ";
 		for($i=0; $i<strlen($a_str); $i++)
@@ -3038,8 +3192,11 @@ class ilUtil
 
 	/**
 	* convert "y"/"n" to true/false
+	* 
+	* @static
+	* 
 	*/
-	function yn2tf($a_yn)
+	public static function yn2tf($a_yn)
 	{
 		if(strtolower($a_yn) == "y")
 		{
@@ -3053,8 +3210,11 @@ class ilUtil
 
 	/**
 	* convert true/false to "y"/"n"
+	* 
+	* @static
+	* 
 	*/
-	function tf2yn($a_tf)
+	public static function tf2yn($a_tf)
 	{
 		if($a_tf)
 		{
@@ -3073,8 +3233,10 @@ class ilUtil
 	* @param	array	$b
 	*
 	* @return	boolean	true on success / false on error
+	* @static
+	* 
 	*/
-	function sort_func ($a, $b)
+	public static function sort_func ($a, $b)
 	{
 		global $array_sortby,$array_sortorder;
 
@@ -3099,8 +3261,10 @@ class ilUtil
 	* @param	array	$b
 	*
 	* @return	boolean	true on success / false on error
+	* @static
+	* 
 	*/
-	function sort_func_numeric ($a, $b)
+	public static function sort_func_numeric ($a, $b)
 	{
 		global $array_sortby,$array_sortorder;
 
@@ -3123,6 +3287,8 @@ class ilUtil
 	* @param	bool	sort numeric?
 	*
 	* @return	array	sorted array
+	* @static
+	* 
 	*/
 	public static function sortArray($array,$a_array_sortby,$a_array_sortorder = 0,$a_numeric = false,
 		$a_keep_keys = false)
@@ -3185,8 +3351,10 @@ class ilUtil
 	* @param	bool	sort numeric?
 	*
 	* @return	array	sorted array
+	* @static
+	* 
 	*/
-	function stableSortArray($array,$a_array_sortby,$a_array_sortorder = 0,$a_numeric = false)
+	public static function stableSortArray($array,$a_array_sortby,$a_array_sortorder = 0,$a_numeric = false)
 	{
 		global $array_sortby,$array_sortorder;
 
@@ -3215,7 +3383,7 @@ class ilUtil
 
 		return $sort_array;
 	}
-	function mergesort(&$array, $cmp_function = 'strcmp') {
+	public static function mergesort(&$array, $cmp_function = 'strcmp') {
 		 // Arrays of size < 2 require no action.
 		 if (count($array) < 2) return;
 
@@ -3262,8 +3430,10 @@ class ilUtil
 	* @param	string	'column' to filter
 	* @return	array	filtered array
 	* @author	Unknown <tru@ascribedata.com> (found in PHP annotated manual)
+	* @static
+	* 
 	*/
-	function unique_multi_array($array, $sub_key)
+	public static function unique_multi_array($array, $sub_key)
 	{
 		$target = array();
 		$existing_sub_key_values = array();
@@ -3287,8 +3457,10 @@ class ilUtil
 	* @param	string	$desired_type	desired image type ("jpg" | "gif" | "png")
 	*
 	* @return	string					supported image type ("jpg" | "gif" | "png" | "")
+	* @static
+	* 
 	*/
-	function getGDSupportedImageType($a_desired_type)
+	public static function getGDSupportedImageType($a_desired_type)
 	{
 		$a_desired_type = strtolower($a_desired_type);
 		// get supported Image Types
@@ -3323,9 +3495,11 @@ class ilUtil
 	*
 	* @param	string		$a_mime		mime format
 	*
-	* @return	boolean		returns true if size is deducible by getimagesize()
+	* @return	boolean		returns true if size is deducible by getimagesize()_DiffEngine
+	* @static
+	* 
 	*/
-	function deducibleSize($a_mime)
+	public static function deducibleSize($a_mime)
 	{
 		if (($a_mime == "image/gif") || ($a_mime == "image/jpeg") ||
 		($a_mime == "image/png") || ($a_mime == "application/x-shockwave-flash") ||
@@ -3345,8 +3519,10 @@ class ilUtil
 	* http redirect to other script
 	*
 	* @param	string		$a_script		target script
+	* @static
+	* 
 	*/
-	function redirect($a_script)
+	public static function redirect($a_script)
 	{
 		global $log, $PHP_SELF;
 		
@@ -3389,8 +3565,11 @@ class ilUtil
 	* inserts installation id into ILIAS id
 	*
 	* e.g. "il__pg_3" -> "il_43_pg_3"
+	* 
+	* @static
+	* 
 	*/
-	function insertInstIntoID($a_value)
+	public static function insertInstIntoID($a_value)
 	{
 		if (substr($a_value, 0, 4) == "il__")
 		{
@@ -3407,14 +3586,16 @@ class ilUtil
 	* @param	string	groupname
 	* @param	integer	obj_id of group to exclude from the check.
 	* @return	boolean	true if exists
+	* @static
+	* 
 	*/
-	function groupNameExists($a_group_name,$a_id = 0)
+	public static function groupNameExists($a_group_name,$a_id = 0)
 	{
 		global $ilDB,$ilErr;
 
 		if (empty($a_group_name))
 		{
-			$message = get_class($this)."::_NameExists(): No groupname given!";
+			$message = __METHOD__.": No groupname given!";
 			$ilErr->raiseError($message,$ilErr->WARNING);
 		}
 
@@ -3437,13 +3618,15 @@ class ilUtil
 		}
 	}
 
-	/*
+	/**
 	* get the user_ids which correspond a search string
 	* static function
 	* @param	string search string
 	* @access	public
+	* @static
+	* 
 	*/
-	function searchGroups($a_search_str)
+	public static function searchGroups($a_search_str)
 	{
 		global $ilDB;
 
@@ -3472,8 +3655,11 @@ class ilUtil
 
 	/**
 	* get current memory usage as string
+	* 
+	* @static
+	* 
 	*/
-	function getMemString()
+	public static function getMemString()
 	{
 		$my_pid = getmypid();
 		return ("MEMORY USAGE (% KB PID ): ".`ps -eo%mem,rss,pid | grep $my_pid`);
@@ -3481,8 +3667,11 @@ class ilUtil
 
 	/**
 	* check wether the current client system is a windows system
+	* 
+	* @static
+	* 
 	*/
-	function isWindows()
+	public static function isWindows()
 	{
 		if (strtolower(substr(php_uname(), 0, 3)) == "win")
 		{
@@ -3492,7 +3681,7 @@ class ilUtil
 	}
 
 
-	function escapeShellArg($a_arg)
+	public static function escapeShellArg($a_arg)
 	{
 		setlocale(LC_CTYPE, "UTF8", "en_US.UTF-8"); // fix for PHP escapeshellcmd bug. See: http://bugs.php.net/bug.php?id=45132
 										// see also ilias bug 5630
@@ -3505,8 +3694,10 @@ class ilUtil
 	 * @access public
 	 * @param
 	 * @return
+	 * @static
+	 * 
 	 */
-	public function escapeShellCmd($a_arg)
+	public static function escapeShellCmd($a_arg)
 	{
 		if(ini_get('safe_mode') == 1)
 		{
@@ -3522,6 +3713,8 @@ class ilUtil
 	 * @param	string $cmd
 	 * @param	string $args
 	 * @return array
+	 * @static
+	 * 
 	 */
 	public static function execQuoted($cmd, $args = NULL)
 	{
@@ -3554,7 +3747,7 @@ class ilUtil
 		return $arr;
 	}
 
-	/*
+	/**
 	* Calculates a Microsoft Excel date/time value
 	*
 	* Calculates a Microsoft Excel date/time value (nr of days after 1900/1/1 0:00) for
@@ -3573,8 +3766,10 @@ class ilUtil
 	* @param	integer $second Second
 	* @return float The Microsoft Excel date/time value
 	* @access	public
+	* @static
+	* 
 	*/
-	function excelTime($year = "", $month = "", $day = "", $hour = "", $minute = "", $second = "")
+	public static function excelTime($year = "", $month = "", $day = "", $hour = "", $minute = "", $second = "")
 	{
 		$starting_time = mktime(0, 0, 0, 1, 2, 1970);
 		if (strcmp("$year$month$day$hour$minute$second", "") == 0)
@@ -3597,8 +3792,11 @@ class ilUtil
 
 	/**
 	* Rename uploaded executables for security reasons.
+	* 
+	* @static
+	* 
 	*/
-	function renameExecutables($a_dir)
+	public static function renameExecutables($a_dir)
 	{
 		$def_arr = explode(",", SUFFIX_REPL_DEFAULT);
 		foreach ($def_arr as $def)
@@ -3622,8 +3820,10 @@ class ilUtil
 	* @param	string	$a_new_suffix	new suffix
 	*
 	* @access	public
+	* @static
+	* 
 	*/
-	function rRenameSuffix ($a_dir, $a_old_suffix, $a_new_suffix)
+	public static function rRenameSuffix ($a_dir, $a_old_suffix, $a_new_suffix)
 	{
 		if ($a_dir == "/" || $a_dir == "" || is_int(strpos($a_dir, ".."))
 			|| trim($a_old_suffix) == "")
@@ -3676,12 +3876,12 @@ class ilUtil
 		return true;
 	}
 
-	function isAPICall () {
+	public static function isAPICall () {
 		return  strpos($_SERVER["SCRIPT_FILENAME"],"api") !== false ||
 		strpos($_SERVER["SCRIPT_FILENAME"],"dummy") !== false;
 	}
 
-	function KT_replaceParam($qstring, $paramName, $paramValue) {
+	public static function KT_replaceParam($qstring, $paramName, $paramValue) {
 		if (preg_match("/&" . $paramName . "=/", $qstring)) {
 			return preg_replace("/&" . $paramName . "=[^&]+/", "&" . $paramName . "=" . urlencode($paramValue), $qstring);
 		} else {
@@ -3689,7 +3889,7 @@ class ilUtil
 		}
 	}
 
-	function replaceUrlParameterString ($url, $parametersArray) {
+	public static function replaceUrlParameterString ($url, $parametersArray) {
 
 		foreach ($parametersArray as $paramName => $paramValue ) {
 			$url = ilUtil::KT_replaceParam($url, $paramName, $paramValue);
@@ -3699,8 +3899,11 @@ class ilUtil
 
 	/**
 	* Generate a number of passwords
+	* 
+	* @static
+	* 
 	*/
-	function generatePasswords ($a_number)
+	public static function generatePasswords ($a_number)
 	{
 		$ret = array();
 		srand((double) microtime()*1000000);
@@ -3785,7 +3988,7 @@ class ilUtil
 		return $ret;
 	}
 
-	function removeTrailingPathSeparators($path)
+	public static function removeTrailingPathSeparators($path)
 	{
 		$path = preg_replace("/[\/\\\]+$/", "", $path);
 		return $path;
@@ -3798,8 +4001,10 @@ class ilUtil
 	 * @access	public
 	 * @param	array
 	 * @return	string
+	 * @static
+	 * 
 	 */
-	function array_php2js($data)
+	public static function array_php2js($data)
 	{
 		if (empty($data))
 		{
@@ -3818,9 +4023,11 @@ class ilUtil
 
 	/**
 	* scan file for viruses and clean files if possible
+	* 
+	* @static
 	*
 	*/
-	function virusHandling($a_file, $a_orig_name = "", $a_clean = true)
+	public static function virusHandling($a_file, $a_orig_name = "", $a_clean = true)
 	{
 		global $lng;
 
@@ -3866,8 +4073,11 @@ class ilUtil
 
 	/**
 	* move uploaded file
+	* 
+	* @static
+	* 
 	*/
-	public function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true,
+	public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true,
 		$a_mode = "move_uploaded")
 	{
 		global $lng, $ilias;
@@ -3930,8 +4140,11 @@ class ilUtil
 
 	/**
 	 *	 make time object from mysql_date_time
+	 *
+	 * @static
+	 *
 	 */
-	 function date_mysql2time($mysql_date_time) {
+	 public static function date_mysql2time($mysql_date_time) {
 	 	list($datum, $uhrzeit) = explode (" ",$mysql_date_time);
   		list($jahr, $monat, $tag) = explode("-", $datum);
   		list($std, $min, $sec) = explode(":", $uhrzeit);
@@ -3940,8 +4153,11 @@ class ilUtil
 	 
 	 /**
 	 * Return current timestamp in Y-m-d H:i:s format
+	 * 
+	 * @static
+	 * 
 	 */
-	 function now()
+	 public static function now()
 	 {
 		 return date("Y-m-d H:i:s");
 	 }
@@ -3958,8 +4174,10 @@ class ilUtil
 * @param string $separator The value separator in the CSV row (used for quoting) (; = default)
 * @return array The converted array ready for CSV use
 * @access public
+* @static
+* 
 */
-	function &processCSVRow(&$row, $quoteAll = FALSE, $separator = ";", $outUTF8 = FALSE, $compatibleWithMSExcel = TRUE)
+	public static function &processCSVRow(&$row, $quoteAll = FALSE, $separator = ";", $outUTF8 = FALSE, $compatibleWithMSExcel = TRUE)
 	{
 		$resultarray = array();
 		foreach ($row as $rowindex => $entry)
@@ -4010,13 +4228,13 @@ class ilUtil
 	}
 
 	// validates a domain name (example: www.ilias.de)
-	function isDN($a_str)
+	public static function isDN($a_str)
 	{
 		return(preg_match("/^[a-z]+([a-z0-9-]*[a-z0-9]+)?(\.([a-z]+([a-z0-9-]*[a-z0-9]+)?)+)*$/",$a_str));
 	}
 
 	// validates an IP address (example: 192.168.1.1)
-	function isIPv4($a_str)
+	public static function isIPv4($a_str)
 	{
 		return(preg_match("/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.".
 						  "(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/",$a_str));
@@ -4048,8 +4266,10 @@ class ilUtil
 	* @param	int id of user in question
 	* @param    int limit of results. if not given it defaults to search max hits.If limit is -1 limit is unlimited
 	* @return	array of ref_ids
+	* @static
+	* 
 	*/
-	function _getObjectsByOperations($a_obj_type,$a_operation,$a_usr_id = 0,$limit = 0)
+	public static function _getObjectsByOperations($a_obj_type,$a_operation,$a_usr_id = 0,$limit = 0)
 	{
 		global $ilDB,$rbacreview,$ilAccess,$ilUser,$ilias,$tree;
 
@@ -4159,8 +4379,11 @@ class ilUtil
 	*
 	* added additional parameters to make this method usable
 	* for other start and end tags as well
+	* 
+	* @static
+	* 
 	*/
-	function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
+	public static function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
 	{
 		global $tpl, $lng, $ilUser;
 
@@ -4254,8 +4477,11 @@ class ilUtil
     *
     * added additional parameters to make this method usable
     * for other start and end tags as well
+    * 
+    * @static
+    * 
     */
-    function __insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
+    public static function __insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
     {
         global $tpl, $lng, $ilUser;
 
@@ -4299,8 +4525,11 @@ class ilUtil
 	* ////////
 	* added additional parameters to make this method usable
 	* for other start and end tags as well
+	* 
+	* @static
+	* 
 	*/
-	function buildLatexImages($a_text, $a_dir ,$a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
+	public static function buildLatexImages($a_text, $a_dir ,$a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
 	{
 		$result_text = $a_text;
 
@@ -4352,11 +4581,13 @@ class ilUtil
 	*
 	* @param string $txt_output String which should be prepared for output
 	* @access public
+	* 
 	*/
-	function prepareTextareaOutput($txt_output, $prepare_for_latex_output = FALSE)
+	public function prepareTextareaOutput($txt_output, $prepare_for_latex_output = FALSE)
 	{
 		$result = $txt_output;
 		$is_html = $this->isHTML($result);
+
 		if ($prepare_for_latex_output)
 		{
 			$result = ilUtil::insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
@@ -4403,8 +4634,10 @@ class ilUtil
 	*
 	* @param	  int $seconds Number of seconds to be parsed
 	* @return	 mixed An array containing named segments
+	* @static
+	* 
 	*/
-	function int2array ($seconds, $periods = null)
+	public static function int2array ($seconds, $periods = null)
 	{
 		// Define time periods
 		if (!is_array($periods))
@@ -4447,8 +4680,10 @@ class ilUtil
 	*
 	* @param	  mixed $duration An array of named segments
 	* @return	 string
+	* @static
+	* 
 	*/
-	function timearray2string ($duration)
+	public static function timearray2string ($duration)
 	{
 		global $lng;
 
@@ -4487,7 +4722,7 @@ class ilUtil
 	 	return $str;
 	}
 
-	function getFileSizeInfo()
+	public static function getFileSizeInfo()
 	{
 		global $lng;
 
@@ -4507,9 +4742,11 @@ class ilUtil
     *  extract ref id from role title, e.g. 893 from 'il_crs_member_893'
 	*	@param role_title with format like il_crs_member_893
 	*	@return	ref id or false
+	* @static
+	*
 	*/
 
-	function __extractRefId($role_title)
+	public static function __extractRefId($role_title)
 	{
 
 		$test_str = explode('_',$role_title);
@@ -4527,11 +4764,12 @@ class ilUtil
 	*	@param ilias id with format like il_<instid>_<objTyp>_ID
 	*   @param int inst_id  Installation ID must match inst id in param ilias_id
 	*	@return	id or false
+	* @static
 	*
 	*
 	*/
 
-	function __extractId($ilias_id, $inst_id)
+	public static function __extractId($ilias_id, $inst_id)
 	{
 
 		$test_str = explode('_',$ilias_id);
@@ -4555,8 +4793,10 @@ class ilUtil
 	* @return array sorted ids
 	*
 	* @access protected
+	* @static
+	* 
 	*/
-	function _sortIds($a_ids,$a_table,$a_field,$a_id_name)
+	public static function _sortIds($a_ids,$a_table,$a_field,$a_id_name)
 	{
 		global $ilDB;
 
@@ -4588,8 +4828,10 @@ class ilUtil
 	*
 	* @param	string		MySQL timestamp string
 	* @return	string		MySQL 4.1.x timestamp string
+	* @static
+	* 
 	*/
-	function getMySQLTimestamp($a_ts)
+	public static function getMySQLTimestamp($a_ts)
 	{
 		global $ilDB;
 
@@ -4598,8 +4840,11 @@ class ilUtil
 
 	/**
 	* Quotes all members of an array for usage in DB query statement.
+	* 
+	* @static
+	* 
 	*/
-	function quoteArray($a_array)
+	public static function quoteArray($a_array)
 	{
 		global $ilDB;
 
@@ -4622,6 +4867,8 @@ class ilUtil
 	*
 	* @param	string	message
 	* @param	boolean	if true message is kept in session
+	* @static
+	* 
 	*/
 	public static function sendInfo($a_info = "",$a_keep = false)
 	{
@@ -4634,6 +4881,8 @@ class ilUtil
 	*
 	* @param	string	message
 	* @param	boolean	if true message is kept in session
+	* @static
+	* 
 	*/
 	public static function sendFailure($a_info = "",$a_keep = false)
 	{
@@ -4646,7 +4895,7 @@ class ilUtil
 	*
 	* @param	string	message
 	* @param	boolean	if true message is kept in session
-	*/
+	* @static	*/
 	public static function sendQuestion($a_info = "",$a_keep = false)
 	{
 		global $tpl;
@@ -4658,6 +4907,8 @@ class ilUtil
 	*
 	* @param	string	message
 	* @param	boolean	if true message is kept in session
+	* @static
+	* 
 	*/
 	public static function sendSuccess($a_info = "",$a_keep = false)
 	{
@@ -4665,7 +4916,7 @@ class ilUtil
 		$tpl->setMessage("success", $a_info, $a_keep);
 	}
 
-	function infoPanel($a_keep = true)
+	public static function infoPanel($a_keep = true)
 	{
 		global $tpl,$ilias,$lng;
 
@@ -4711,8 +4962,10 @@ class ilUtil
 	 *
 	 * @param string path to a directory or a file
 	 * @return integer. Returns -1, if the directory does not exist.
+	 * @static
+	 * 
 	 */
-	function dirsize($directory)
+	public static function dirsize($directory)
     {
 		$size = 0;
 		if (!is_dir($directory))
@@ -4746,7 +4999,7 @@ class ilUtil
 		return $size;
 	}
 
-	function randomhash()
+	public static function randomhash()
 	{
 		return md5(rand(1,9999999) + str_replace(" ", "", (string) microtime()));
 	}
@@ -4805,8 +5058,10 @@ class ilUtil
 	 *
 	 * @param
 	 * @return
+	 * @static
+	 * 
 	 */
-	function printBacktrace()
+	public static function printBacktrace()
 	{
 		$bt = debug_backtrace();
 		foreach ($bt as $t)
