@@ -412,7 +412,7 @@ server_info#:#Informationen zum ILIAS-Server
 server_settings#:#Servereinstellungen
 server_software#:#Server software
 sess_allow_client_maintenance_info#:#Definiert, ob die Verwaltung der Session-Einstellungen ebenfalls in der Administration des Mandanten erfolgen kann.
-sess_allow_client_maintenance#:#Verwaltung durch Client erlaubt
+sess_allow_client_maintenance#:#Verwaltung im Mandanten erlaubt
 sess_max_session_count_info#:#Definiert die maximale Anzahl an Sessions, die gleichzeit existieren können. Wenn dieser Wert auf "0" gesetzt wird, ist die Funktion deaktiviert.
 sess_max_session_count#:#Maximale Session-Anzahl
 sess_max_session_idle_after_first_request_info#:#Wenn ein Benutzer nach seiner ersten Anfrage für diesen Zeitraum inaktiv ist kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session-Limit erreicht wurde.
