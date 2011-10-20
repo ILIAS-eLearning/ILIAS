@@ -28,7 +28,7 @@ class ilSession
 	 * @var integer
 	 * 
 	 */
-	const SESSION_HANDLING_LOAD_DEPENDED = 1;
+	const SESSION_HANDLING_LOAD_DEPENDENT = 1;
 
 	/**
 	* Get session data from table
@@ -270,7 +270,7 @@ class ilSession
 			// fixed session
 			return time() + ini_get('session.gc_maxlifetime');
 		}
-		else if( $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_LOAD_DEPENDED )
+		else if( $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_LOAD_DEPENDENT )
 		{
 			// load dependent session settings
 			return time() + (int) ($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
@@ -296,7 +296,7 @@ class ilSession
 			// fixed session
 			return $ilClientIniFile->readVariable('session','expire');
 		}
-		else if( $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) ==  self::SESSION_HANDLING_LOAD_DEPENDED )
+		else if( $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) ==  self::SESSION_HANDLING_LOAD_DEPENDENT )
 		{
 			// load dependent session settings
 			return (int) ($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
