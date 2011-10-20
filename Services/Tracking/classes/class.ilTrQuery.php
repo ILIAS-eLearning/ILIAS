@@ -108,6 +108,41 @@ class ilTrQuery
 		
 		return $result;
 	}
+	
+	function getSCOsStatusForUser($a_user_id, $a_parent_obj_id, array $a_sco_ids)
+	{
+		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		$status_info = ilLPStatusWrapper::_getStatusInfo($a_parent_obj_id);
+		
+		$items = array();
+		foreach($a_sco_ids as $sco_id)
+		{							
+			if(in_array($a_user_id, $status_info["in_progress"][$sco_id]))
+			{
+				$status = LP_STATUS_IN_PROGRESS;
+			}
+			elseif(in_array($a_user_id, $status_info["completed"][$sco_id]))
+			{
+				$status = LP_STATUS_COMPLETED;
+			}
+			elseif(in_array($a_user_id, $status_info["failed"][$sco_id]))
+			{
+				$status = LP_STATUS_FAILED;
+			}
+			else
+			{
+				$status = LP_STATUS_NOT_ATTEMPTED;
+			}
+			
+			$items[$sco_id] = array(
+				"title" => $status_info["scos_title"][$sco_id],
+				"status" => $status,
+				"type" => "sahs"
+				);						
+		}
+		
+		return $items;
+	}
 
 	function getObjectsStatus(array $obj_refs)
 	{

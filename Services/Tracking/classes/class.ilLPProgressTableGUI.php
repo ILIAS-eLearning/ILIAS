@@ -17,14 +17,15 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_user = "", $obj_ids = NULL, $details = false, $objectives_mode = false, $personal_only = false)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_user = "", $obj_ids = NULL, $details = false, $mode = null, $personal_only = false, $a_parent_id = null)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $ilObjDataCache, $ilUser;
 
 		$this->tracked_user = $a_user;
 		$this->obj_ids = $obj_ids;
-		$this->objectives_mode = $objectives_mode;
 		$this->details = $details;
+		$this->mode = $mode;
+		$this->parent_obj_id = $a_parent_id;
 
 		$this->setId("lpprgtbl");
 		
@@ -70,12 +71,16 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 
 			$this->addColumn($this->lng->txt("trac_title"), "title", "31%");
 			$this->addColumn($this->lng->txt("status"), "status", "7%");
-			$this->addColumn($this->lng->txt('trac_status_changed'),'status_changed','10%');
-			$this->addColumn($this->lng->txt("trac_percentage"), "percentage", "7%");
-			$this->addColumn($this->lng->txt("trac_mark"), "", "5%");
-			$this->addColumn($this->lng->txt("comment"), "", "10%");
-			$this->addColumn($this->lng->txt("trac_mode"), "", "20%");
-			$this->addColumn($this->lng->txt("path"), "", "20%");
+			
+			if($this->mode != LP_MODE_SCORM)
+			{
+				$this->addColumn($this->lng->txt('trac_status_changed'),'status_changed','10%');
+				$this->addColumn($this->lng->txt("trac_percentage"), "percentage", "7%");
+				$this->addColumn($this->lng->txt("trac_mark"), "", "5%");
+				$this->addColumn($this->lng->txt("comment"), "", "10%");
+				$this->addColumn($this->lng->txt("trac_mode"), "", "20%");
+				$this->addColumn($this->lng->txt("path"), "", "20%");
+			}
 		}
 		
 		$this->setEnableHeader(true);
@@ -88,7 +93,10 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$this->setDefaultOrderDirection("asc");
 		$this->setShowTemplates(true);
 
-		$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
+		if($this->mode != LP_MODE_SCORM)
+		{
+			$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
+		}
 
 		// area selector gets in the way
 		if($this->tracked_user)
@@ -107,18 +115,24 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		if($obj_ids)
 		{
 			include_once("./Services/Tracking/classes/class.ilTrQuery.php");
-			if(!$this->objectives_mode)
+			switch($this->mode)
 			{
-				$data = ilTrQuery::getObjectsStatusForUser($this->tracked_user->getId(), $obj_ids);
-				foreach($data as $idx => $item)
-				{
-					$data[$idx]["offline"] = ilLearningProgressBaseGUI::isObjectOffline($item["obj_id"], $item["type"]);
-				}
-			}
-			else
-			{
-				$data = ilTrQuery::getObjectivesStatusForUser($this->tracked_user->getId(), $obj_ids);
-			}
+				case LP_MODE_SCORM:
+					$data = ilTrQuery::getSCOsStatusForUser($this->tracked_user->getId(), $this->parent_obj_id, $obj_ids);
+					break;
+				
+				case LP_MODE_OBJECTIVES:
+					$data = ilTrQuery::getObjectivesStatusForUser($this->tracked_user->getId(), $obj_ids);
+					break;
+				
+				default:
+					$data = ilTrQuery::getObjectsStatusForUser($this->tracked_user->getId(), $obj_ids);
+					foreach($data as $idx => $item)
+					{
+						$data[$idx]["offline"] = ilLearningProgressBaseGUI::isObjectOffline($item["obj_id"], $item["type"]);
+					}
+					break;
+			}			
 			$this->setData($data);
 		}
 	}
@@ -137,15 +151,6 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if(!$this->isPercentageAvailable($a_set["obj_id"]) || (int)$a_set["percentage"] === 0)
-		{
-			$this->tpl->setVariable("PERCENTAGE_VALUE", "");
-		}
-		else
-		{
-			$this->tpl->setVariable("PERCENTAGE_VALUE", sprintf("%d%%", $a_set["percentage"]));
-		}
-		
 		$this->tpl->setVariable("ICON_SRC", ilUtil::getTypeIconPath($a_set["type"], $a_set["obj_id"], "tiny"));
 		$this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
 		$this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
@@ -161,69 +166,89 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$this->tpl->setVariable("STATUS_ALT", ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
 		$this->tpl->setVariable("STATUS_IMG", ilLearningProgressBaseGUI::_getImagePathForStatus($a_set["status"]));
 
-		$this->tpl->setVariable('STATUS_CHANGED_VAL',  ilDatePresentation::formatDate(new ilDateTime($a_set['status_changed'],IL_CAL_DATETIME)));
-
-		$this->tpl->setVariable("MODE_TEXT", ilLPObjSettings::_mode2Text($a_set["u_mode"]));
-		$this->tpl->setVariable("MARK_VALUE", $a_set["mark"]);
-		$this->tpl->setVariable("COMMENT_TEXT", $a_set["comment"]);
-
-		// path
-		$path = $this->buildPath($a_set["ref_ids"]);
-		if($path)
+		if($this->mode != LP_MODE_SCORM)
 		{
-			$this->tpl->setCurrentBlock("item_path");
-			foreach($path as $path_item)
+			$this->tpl->setCurrentBlock("status_details");		
+			
+			$this->tpl->setVariable('STATUS_CHANGED_VAL',  ilDatePresentation::formatDate(new ilDateTime($a_set['status_changed'],IL_CAL_DATETIME)));
+
+			$this->tpl->setVariable("MODE_TEXT", ilLPObjSettings::_mode2Text($a_set["u_mode"]));
+			$this->tpl->setVariable("MARK_VALUE", $a_set["mark"]);
+			$this->tpl->setVariable("COMMENT_TEXT", $a_set["comment"]);
+						
+			if(!$this->isPercentageAvailable($a_set["obj_id"]) || (int)$a_set["percentage"] === 0)
 			{
-				$this->tpl->setVariable("PATH_ITEM", $path_item);
-				$this->tpl->parseCurrentBlock();
+				$this->tpl->setVariable("PERCENTAGE_VALUE", "");
 			}
-		}
-
-		// tlt warning
-		if($a_set["status"] != LP_STATUS_COMPLETED_NUM)
-		{
-			$ref_id = $a_set["ref_ids"];
-			$ref_id = array_shift($ref_id);
-			$timing = $this->showTimingsWarning($ref_id, $this->tracked_user->getId());
-			if($timing)
+			else
 			{
-				if($timing !== true)
-				{
-					$timing = ": ".ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
-				}
-				else
-				{
-					$timing = "";
-				}
-				$this->tpl->setCurrentBlock('warning_img');
-				$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.gif'));
-				$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed').$timing);
-				$this->tpl->parseCurrentBlock();
+				$this->tpl->setVariable("PERCENTAGE_VALUE", sprintf("%d%%", $a_set["percentage"]));
 			}
-		}
-
-		// hide / unhide?!
-		if(!$this->details)
-		{
-			$this->tpl->setCurrentBlock("item_command");
-			$ilCtrl->setParameterByClass(get_class($this),'hide', $a_set["obj_id"]);
-			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass(get_class($this),'hide'));
-			$this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('trac_hide'));
+		
+			// path
+			$path = $this->buildPath($a_set["ref_ids"]);
+			if($path)
+			{
+				$this->tpl->setCurrentBlock("item_path");
+				foreach($path as $path_item)
+				{
+					$this->tpl->setVariable("PATH_ITEM", $path_item);
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			
 			$this->tpl->parseCurrentBlock();
+		}
 
-			if(ilLPObjSettings::_isContainer($a_set["u_mode"]))
+		// not for objectives/scos
+		if(!$this->mode)
+		{
+			// tlt warning
+			if($a_set["status"] != LP_STATUS_COMPLETED_NUM)
 			{
 				$ref_id = $a_set["ref_ids"];
 				$ref_id = array_shift($ref_id);
-				$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', $ref_id);
-				$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass($ilCtrl->getCmdClass(), 'details'));
-				$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', '');
-				$this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('trac_subitems'));
-				$this->tpl->parseCurrentBlock();
+				$timing = $this->showTimingsWarning($ref_id, $this->tracked_user->getId());
+				if($timing)
+				{
+					if($timing !== true)
+					{
+						$timing = ": ".ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
+					}
+					else
+					{
+						$timing = "";
+					}
+					$this->tpl->setCurrentBlock('warning_img');
+					$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.gif'));
+					$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed').$timing);
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 
-			$this->tpl->setCurrentBlock("column_action");
-			$this->tpl->parseCurrentBlock();
+			// hide / unhide?!
+			if(!$this->details)
+			{
+				$this->tpl->setCurrentBlock("item_command");
+				$ilCtrl->setParameterByClass(get_class($this),'hide', $a_set["obj_id"]);
+				$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass(get_class($this),'hide'));
+				$this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('trac_hide'));
+				$this->tpl->parseCurrentBlock();
+
+				if(ilLPObjSettings::_isContainer($a_set["u_mode"]))
+				{
+					$ref_id = $a_set["ref_ids"];
+					$ref_id = array_shift($ref_id);
+					$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', $ref_id);
+					$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass($ilCtrl->getCmdClass(), 'details'));
+					$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', '');
+					$this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('trac_subitems'));
+					$this->tpl->parseCurrentBlock();
+				}
+
+				$this->tpl->setCurrentBlock("column_action");
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 	}
 

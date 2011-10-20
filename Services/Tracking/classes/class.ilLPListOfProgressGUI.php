@@ -135,14 +135,23 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		$obj_ids = array();
 		foreach(ilLPCollectionCache::_getItems($this->details_obj_id) as $ref_id)
 		{
-			$obj_ids[ilObject::_lookupObjectId($ref_id)] = array($ref_id);
+			switch($this->details_mode)			
+			{			
+				case LP_MODE_SCORM:					
+				case LP_MODE_OBJECTIVES:
+					$obj_ids[] = $ref_id;
+					break;
+				
+				default:
+					$obj_ids[ilObject::_lookupObjectId($ref_id)] = array($ref_id);
+					break;
+			}
 		}
 
 		$personal_only = !$rbacsystem->checkAccess('edit_learning_progress',$this->getRefId());
 	
 		include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
-		$mode = ilLPObjSettings::_lookupMode($this->details_obj_id);
-		$lp_table = new ilLPProgressTableGUI($this, "details", $this->tracked_user, $obj_ids, true, $mode == LP_MODE_OBJECTIVES, $personal_only);
+		$lp_table = new ilLPProgressTableGUI($this, "details", $this->tracked_user, $obj_ids, true, $this->details_mode, $personal_only, $this->details_obj_id);
 		$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
 		
 		$this->tpl->setVariable("LEGEND",$this->__getLegendHTML());
