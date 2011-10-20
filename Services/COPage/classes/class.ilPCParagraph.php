@@ -494,8 +494,11 @@ class ilPCParagraph extends ilPageContent
 	*/
 	static function _input2xml($a_text, $a_lang, $a_wysiwyg = 0, $a_handle_lists = true)
 	{
-		$a_text = ilUtil::stripSlashes($a_text, false);
-
+		if (!$a_wysiwyg)
+		{
+			$a_text = ilUtil::stripSlashes($a_text, false);
+		}
+		
 		if ($a_wysiwyg)
 		{
 			$a_text = str_replace("<br />", chr(10), $a_text);
