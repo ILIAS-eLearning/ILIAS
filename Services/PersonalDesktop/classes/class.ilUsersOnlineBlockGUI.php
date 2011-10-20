@@ -3,6 +3,7 @@
 
 include_once("Services/Block/classes/class.ilBlockGUI.php");
 require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 
 /**
 * BlockGUI class for Personal Desktop Users Online block
@@ -208,10 +209,8 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 
 		$data = array();
 		
-		$mail = new ilMail($ilUser->getId());
-		$this->mail_settings_id = $mail->getMailObjectReferenceId();
-		$this->mail_allowed = ($_SESSION["AccountId"] != ANONYMOUS_USER_ID
-			&& $rbacsystem->checkAccess('mail_visible',$this->mail_settings_id));
+		$this->mail_allowed = ($ilUser->getId() != ANONYMOUS_USER_ID &&
+			                   $rbacsystem->checkAccess('mail_visible', ilMailGlobalServices::getMailObjectRefId()));
 		
 		foreach ($this->users as $user_id => $user)
 		{
@@ -242,13 +241,8 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		// mail link
 		$a_set["mail_to"] = "";
 		if($this->mail_allowed &&
-		   $rbacsystem->checkAccessOfUser($a_set["id"],'mail_visible',$this->mail_settings_id))
+		   $rbacsystem->checkAccessOfUser($a_set['id'],'mail_visible', ilMailGlobalServices::getMailObjectRefId()))
 		{
-//			$a_set["mail_to"] = ilMail::_getUserInternalMailboxAddress(
-//				$a_set["id"], $a_set['login'], $a_set['firstname'], $a_set['lastname']
-//			);
-			
-			#$mail_to = urlencode($mail_to);            
 			$a_set['mail_url'] = ilMailFormCall::_getLinkTarget($this->topGuiObj, '', array(), array('type' => 'new', 'rcp_to' => urlencode($a_set['login'])));
 		}
 		

@@ -3,10 +3,10 @@ require_once 'Services/Notifications/classes/class.ilNotificationHandler.php';
 
 class ilNotificationMailHandler extends ilNotificationHandler {
     public function notify(ilNotificationObject $notification) {
-	$sender_id = (isset($notification->handlerParams['mail']['sender']) ? $notification->handlerParams['mail']['sender'] : ANONYMOUS_USER_ID);
-
+		$sender_id = (isset($notification->handlerParams['mail']['sender']) ? $notification->handlerParams['mail']['sender'] : ANONYMOUS_USER_ID);
+		include_once 'Services/Mail/classes/class.ilMail.php';
         $mail = new ilMail($sender_id);
-	$mail->appendInstallationSignature(true);
+		$mail->appendInstallationSignature(true);
         $mail->sendMail(
                 $notification->user->getLogin(),
                 '',

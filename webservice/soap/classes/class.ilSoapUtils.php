@@ -122,7 +122,9 @@ class ilSoapUtils extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 		
-		include_once './webservice/soap/classes/class.ilSoapMailXmlParser.php';
+		include_once 'Services/Mail/classes/class.ilMail.php';
+		include_once 'webservice/soap/classes/class.ilSoapMailXmlParser.php';
+		
 		$parser = new ilSoapMailXmlParser($a_mail_xml);
 		try
 		{
