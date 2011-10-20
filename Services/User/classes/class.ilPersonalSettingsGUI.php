@@ -983,10 +983,9 @@ class ilPersonalSettingsGUI
 			$cb->setValue(1);
 			$cb->setChecked((int)$ilUser->getPref('session_reminder_enabled'));
 			
-			global $ilClientIniFile;
-			
+			$expires = ilSession::getSessionExpireValue();			
 			$lead_time_gui = new ilTextInputGUI($this->lng->txt('session_reminder_lead_time'), 'session_reminder_lead_time');
-			$lead_time_gui->setInfo(sprintf($this->lng->txt('session_reminder_lead_time_info'), ilFormat::_secondsToString($ilClientIniFile->readVariable('session', 'expire'))));
+			$lead_time_gui->setInfo(sprintf($this->lng->txt('session_reminder_lead_time_info'), ilFormat::_secondsToString($expires, true)));
 			$lead_time_gui->setValue($ilUser->getPref('session_reminder_lead_time'));
 			$lead_time_gui->setMaxLength(10);
 			$lead_time_gui->setSize(10);
