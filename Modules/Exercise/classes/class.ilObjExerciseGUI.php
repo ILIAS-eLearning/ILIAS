@@ -2292,7 +2292,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
 		
-		$tpl = new ilTemplate("tpl.exc_select_resource.html", false, false, "Modules/Exercise");
+		$tpl = new ilTemplate("tpl.exc_select_resource.html", true, true, "Modules/Exercise");
 		$tpl->setVariable("TXT_TITLE", $this->lng->txt("exc_create_blog").": ".$this->ass->getTitle());
 		$tpl->setVariable("TREE", $this->renderWorkspaceExplorer("createBlog"));
 		$tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
