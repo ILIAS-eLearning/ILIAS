@@ -2165,7 +2165,7 @@ return $this->showServerInfoObject();
 		$ssettings->addOption($fixed);
 		
 		// second option, session control
-		$ldsh = new ilRadioOption($this->lng->txt('sess_load_dependent_session_handling'), ilSession::SESSION_HANDLING_LOAD_DEPENDED);
+		$ldsh = new ilRadioOption($this->lng->txt('sess_load_dependent_session_handling'), ilSession::SESSION_HANDLING_LOAD_DEPENDENT);
 
 		// add session control subform
 		require_once('Services/Authentication/classes/class.ilSessionControl.php');		
@@ -2353,7 +2353,7 @@ return $this->showServerInfoObject();
 				$ilSetting->set('session_reminder_enabled',
 					$this->form->getInput('session_reminder_enabled'));	
 			}
-			else if( $this->form->getInput('session_handling_type') == ilSession::SESSION_HANDLING_LOAD_DEPENDED )
+			else if( $this->form->getInput('session_handling_type') == ilSession::SESSION_HANDLING_LOAD_DEPENDENT )
 			{
 				require_once 'Services/Authentication/classes/class.ilSessionControl.php';
 				if(

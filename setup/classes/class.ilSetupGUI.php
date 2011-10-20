@@ -2424,7 +2424,7 @@ else
 		$ssettings->addOption($fixed);
 		
 		// second option, session control
-		$ldsh = new ilRadioOption($this->lng->txt('sess_load_dependent_session_handling'), ilSession::SESSION_HANDLING_LOAD_DEPENDED);		
+		$ldsh = new ilRadioOption($this->lng->txt('sess_load_dependent_session_handling'), ilSession::SESSION_HANDLING_LOAD_DEPENDENT);		
 
 		// this is the max count of active sessions
 		// that are getting started simlutanously
