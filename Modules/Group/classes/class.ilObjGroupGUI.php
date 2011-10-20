@@ -1764,6 +1764,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	function addUserObject($user_ids, $a_type)
 	{
+		include_once 'Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($_SESSION["AccountId"]);
 
 		if (empty($user_ids[0]))
@@ -1902,7 +1903,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			$this->ilErr->raiseError($this->lng->txt("no_checkbox"),$this->ilErr->MESSAGE);
 		}
-
+		include_once 'Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($_SESSION["AccountId"]);
 
 		foreach ($user_ids as $new_member)

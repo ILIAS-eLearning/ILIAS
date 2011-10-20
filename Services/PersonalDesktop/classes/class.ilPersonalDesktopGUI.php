@@ -4,6 +4,7 @@
 
 include_once './Services/User/classes/class.ilObjUser.php';
 include_once "Services/Mail/classes/class.ilMail.php";
+include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 
 /**
 * GUI class for personal desktop
@@ -93,13 +94,11 @@ class ilPersonalDesktopGUI
 
 
 		// check for permission to view contacts
-		include_once "Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail($_SESSION["AccountId"]);
 		if (
 			$next_class == 'ilmailaddressbookgui' && ($this->ilias->getSetting("disable_contacts") || 
 			(
 				!$this->ilias->getSetting("disable_contacts_require_mail") &&
-				!$rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId())
+				!$rbacsystem->checkAccess('mail_visible', ilMailGlobalServices::getMailObjectRefId())
 			))
 		) // if
 		{
@@ -226,10 +225,7 @@ class ilPersonalDesktopGUI
 				$this->getStandardTemplates();
 				$this->setTabs();
 				$this->tpl->setTitle($this->lng->txt("mail_addressbook"));
-				//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-				//	$this->lng->txt("personal_desktop"));
-//				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
-//					"");
+
 				include_once 'Services/Contact/classes/class.ilMailAddressbookGUI.php';
 				$mailgui = new ilMailAddressbookGUI();
 				$ret = $this->ctrl->forwardCommand($mailgui);

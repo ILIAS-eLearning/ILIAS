@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
 * Class Mail
 * this class handles base functions for mail handling.
@@ -226,10 +225,17 @@ class ilMail
 	var $mail_to_global_roles = 0;
 
 	private $use_pear = true;
-
-	protected $mlists = null;
-
 	protected $appendInstallationSignature = false;
+	
+	/**
+	 * 
+	 * Used to store properties which should be set/get at runtime
+	 *
+	 * @var	array
+	 * @access	protected
+	 *
+	 */
+	protected $properties = array();
 
 	/**
 	* Constructor
@@ -241,7 +247,6 @@ class ilMail
 	{
 		require_once "classes/class.ilFileDataMail.php";
 		require_once "Services/Mail/classes/class.ilMailOptions.php";
-		require_once "Services/Contact/classes/class.ilMailingLists.php";
 
 		global $ilias, $lng, $ilUser;
 
@@ -253,19 +258,42 @@ class ilMail
 		$this->table_mail = 'mail';
 		$this->table_mail_saved = 'mail_saved';
 		$this->user_id = $a_user_id;
-		$this->mfile =& new ilFileDataMail($this->user_id);
-		$this->mail_options =& new ilMailOptions($a_user_id);
-		if(is_object($ilUser))
-		{
-			$this->mlists = new ilMailingLists($ilUser);
-		}
+		$this->mfile = new ilFileDataMail($this->user_id);
+		$this->mail_options = new ilMailOptions($a_user_id);		
 
 		// DEFAULT: sent mail aren't stored insentbox of user.
 		$this->setSaveInSentbox(false);
 
 		// GET REFERENCE ID OF MAIL OBJECT
 		$this->readMailObjectReferenceId();
-
+	}
+	
+	/**
+	 * 
+	 * Magic interceptor method __get
+	 * Used to include files / instantiate objects at runtime
+	 * 
+	 * @param	string	The name of the class property
+	 */
+	public function __get($name)
+	{
+		global $ilUser;
+		
+		if(isset($this->properties[$name]))
+		{
+			return $this->properties[$name];
+		}
+		
+		// Used to include files / instantiate objects at runtime
+		if($name == 'mlists')
+		{
+			if(is_object($ilUser))
+			{mail("mjansen@databay.de", "used", "xxx");
+				require_once 'Services/Contact/classes/class.ilMailingLists.php';
+				$this->properties[$name] = new ilMailingLists($ilUser);
+				return $this->properties[$name];
+			}
+		}
 	}
 
 	public function doesRecipientStillExists($a_recipient, $a_existing_recipients)
@@ -424,29 +452,8 @@ class ilMail
 	*/
 	function readMailObjectReferenceId()
 	{
-		global $ilDB;
-
-		// mail settings id is set by a constant in ilias.ini. Keep the select for some time until everyone has updated his ilias.ini
-		if (!MAIL_SETTINGS_ID)
-		{
-			$res = $ilDB->queryf('
-				SELECT object_reference.ref_id FROM object_reference, tree, object_data
-				WHERE tree.parent = %s
-				AND object_data.type = %s
-				AND object_reference.ref_id = tree.child
-				AND object_reference.obj_id = object_data.obj_id',
-				array('integer', 'text'),
-				array(SYSTEM_FOLDER_ID, 'mail'));
-
-			while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				$this->mail_obj_ref_id = $row["ref_id"];
-			}
-		}
-		else
-		{
-			$this->mail_obj_ref_id = MAIL_SETTINGS_ID;
-		}
+		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
+		$this->mail_obj_ref_id = ilMailGlobalServices::getMailObjectRefId();
 	}
 
 	function getMailObjectReferenceId()

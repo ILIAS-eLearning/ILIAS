@@ -260,39 +260,8 @@ class ilMailbox
 	 */
 	function _countNewMails($a_user_id)
 	{
-		global $ilDB;
-		global $ilias;
-
-		if (!$a_user_id)
-		{
-			return 0;
-		}
-
-		// CHECK FOR SYSTEM MAIL
-		$res = $ilDB->queryf('
-			SELECT count(mail_id) cnt FROM mail 
-			WHERE folder_id = %s 
-			AND user_id = %s
-			AND m_status = %s',
-			array('integer', 'integer', 'text'),
-			array('0', $a_user_id, 'unread'));
-		
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-					
-		$res2 = $ilDB->queryf('
-			SELECT count(mail_id) cnt FROM mail m,mail_obj_data mo 
-		 	WHERE m.user_id = mo.user_id 
-		 	AND m.folder_id = mo.obj_id 
-		 	AND mo.m_type = %s
-			AND m.user_id = %s
-	 		AND m.m_status = %s',
-			array('text', 'integer', 'text'),
-			array('inbox', $a_user_id, 'unread'));
-			
-		
-		$row2 = $res2->fetchRow(DB_FETCHMODE_OBJECT);
-		
-		return $row->cnt + $row2->cnt;
+		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
+		return ilMailGlobalServices::getNumberOfNewMailsByUserId($a_user_id);
 	}
 
 	/**

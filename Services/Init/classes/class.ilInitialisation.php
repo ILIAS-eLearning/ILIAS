@@ -129,7 +129,6 @@ class ilInitialisation
 		require_once "./Services/Tree/classes/class.ilTree.php";
 		require_once "./Services/Language/classes/class.ilLanguage.php";
 		require_once "./Services/Logging/classes/class.ilLog.php";
-		require_once "Services/Mail/classes/class.ilMailbox.php";
 		require_once "classes/class.ilCtrl2.php";
 		require_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 		require_once "classes/class.ilBrowser.php";

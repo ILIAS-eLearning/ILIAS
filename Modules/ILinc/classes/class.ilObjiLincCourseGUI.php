@@ -1100,7 +1100,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	function addUserObject()
 	{
 		$user_ids = $_POST["user"];
-		
+		include_once 'Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($_SESSION["AccountId"]);
 
 		if (empty($user_ids[0]))
@@ -1251,7 +1251,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	function confirmedRemoveMemberObject()
 	{
 		$removed_self = false;
-		
+		include_once 'Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($_SESSION["AccountId"]);
 		
 		//User needs to have administrative rights to remove members...
@@ -1631,7 +1631,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		
 		$link_data = $this->object->_getLinkToObject( $this->object->getRefId() );
 		$link_to_seminar = ILIAS_HTTP_PATH.'/'.$link_data[0];
-
+		include_once 'Services/Mail/classes/class.ilMail.php';
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		$this->tpl->setVariable("MAILACTION", ilMailFormCall::_getLinkTarget($this, 'mailMembers', array(), array('type' => 'role')));
 		$this->tpl->setVariable('ADDITIONAL_MESSAGE_TEXT', $link_to_seminar);		
