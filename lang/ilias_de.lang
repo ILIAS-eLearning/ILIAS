@@ -262,7 +262,7 @@ adve#:#adve_grp_glo#:#Glossare
 adve#:#adve_grp_lm#:#ILIAS-Lernmodule
 adve#:#adve_grp_rep#:#Magazinseiten
 adve#:#adve_grp_scorm#:#SCORM bearbeiten
-adve#:#adve_grp_test#:#Test & Assessment
+adve#:#adve_grp_test#:#Test and Assessment
 adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#ILIAS-Seiteneditor
 adve#:#adve_pe_general#:#Allgemein
@@ -874,7 +874,7 @@ assessment#:#tst_anonymity_anonymous_test#:#Anonymer Test
 assessment#:#tst_anonymity_description#:#Wenn Anonymität aktiviert ist, werden die Namen der Testteilnehmer für die Testautoren unkenntlich gemacht.
 assessment#:#tst_anonymity_no_anonymization#:#Keine Anonymisierung
 assessment#:#tst_anonymity#:#Anonymität
-assessment#:#tst_answer_sheet#:#Test & Assessment - Antwortenübersicht
+assessment#:#tst_answer_sheet#:#Test und Assessment - Antwortenübersicht
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_beginning_ending_information#:#Informationen zu Beginn und Ende des Tests
@@ -1015,7 +1015,7 @@ assessment#:#tst_postpone_description#:#Wenn diese Option ausgewählt ist, könn
 assessment#:#tst_postpone#:#Fragen zurückstellen
 assessment#:#tst_presentation_properties#:#Darstellungseigenschaften
 assessment#:#tst_print_date#:#Datum des Ausdrucks
-assessment#:#tst_print#:#Test & Assessment Druckansicht
+assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_processing_time_desc#:#Die maximale Bearbeitungsdauer startet zu dem Zeitpunkt an dem Teilnehmer zum ersten Mal einen Test starten und endet nach Ablauf der hier angegebenen Stunden, Minuten und Sekunden.
 assessment#:#tst_processing_time#:#Maximale Bearbeitungsdauer
 assessment#:#tst_properties#:#Test-Eigenschaften
@@ -2072,7 +2072,7 @@ common#:#accs_write#:#Einstellungen Barrierefreiheit bearbeiten
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#action#:#Aktion
 common#:#actions#:#Aktionen
-common#:#activate_assessment_logging#:#Protokollieren von Test&Assessment aktivieren
+common#:#activate_assessment_logging#:#Protokollieren des Test und Assessments aktivieren
 common#:#activate_block#:#Aktivieren
 common#:#activate_https#:#HTTPS aktivieren (Payment, Anmeldung)
 common#:#activate_tracking#:#Tracking aktivieren
@@ -2114,7 +2114,7 @@ common#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
 common#:#adopt#:#Übernehmen
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML-Auszeichnungen in Textfeldern
 common#:#advanced_editing_allow_javascript_editor#:#Bearbeitung mit einem Rich-Text-Editor aktivieren
-common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test&Assessment-Werkzeug
+common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test und Assessment-Werkzeug
 common#:#advanced_editing_frm_post_settings#:#Einstellungen Forenbeiträge
 common#:#advanced_editing_lm_js_editing_desc#:#Aktiviert HTMLArea- und JavaScript-Unterstützung für den Seiteneditor in Lernmodulen und Glossaren.
 common#:#advanced_editing_lm_js_editing#:#Aktiviere HTMLArea-Textfelder bei der Inhaltebearbeitung
@@ -2126,7 +2126,7 @@ common#:#advanced_editing_required_tags#:#Die folgenden HTML-Auszeichnungen sind
 common#:#advanced_editing_settings#:#Editoreinstellungen
 common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für das Umfrage-Werkzeug
 common#:#advanced_editing_tinymce#:#TinyMCE-Editor
-common#:#adve_assessment_settings#:#Test&Assessment-Einstellungen
+common#:#adve_assessment_settings#:#Test und Assessment-Einstellungen
 common#:#adve_edit_permission#:#Rechteeinstellungen ändern
 common#:#adve_frm_post_settings#:#Forenbeiträge
 common#:#adve_general_settings#:#Allgemeine Einstellungen
@@ -2194,7 +2194,7 @@ common#:#ass_log_delete_no_selection#:#Bitte wählen Sie mindestens einen Test a
 common#:#ass_log_deleted#:#Die Protokolleinträge für die ausgewählten Tests wurden gelöscht!
 common#:#ass_log_output#:#Ausgabe der Testprotokollierung
 common#:#ass_log_path#:#Position des Tests
-common#:#assessment_defaults#:#Standardeinstellungen für Test & Assessment
+common#:#assessment_defaults#:#Standardeinstellungen für Test und Assessment
 common#:#assessment_imap_line_color#:#Imagemap Linienfarbe
 common#:#assessment_log_datetime#:#Datum/Uhrzeit
 common#:#assessment_log_deleted#:#Alle protokollierten Daten für den Test wurden über die Administrationsoberfläche gelöscht.
@@ -2212,18 +2212,18 @@ common#:#assessment_log_select_test#:#--- Bitte wählen Sie einen Test aus ---
 common#:#assessment_log_text#:#Protokolleintrag
 common#:#assessment_log_user_answer#:#Ein Nutzerin beantwortete eine Frage
 common#:#assessment_log_user_answers#:#Aktionen der NutzerInnen anzeigen
-common#:#assessment_log#:#Test&Assessment-Aktivitäten für eine bestimmte Zeitperiode protokollieren
+common#:#assessment_log#:#Test und Assessment-Aktivitäten für eine bestimmte Zeitperiode protokollieren
 common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
-common#:#assessment_settings#:#Test&Assessment-Administration
+common#:#assessment_settings#:#Test und Assessment-Administration
 common#:#assessment_use_javascript_desc#:#Selektiert die JavaScript-Unterstützung für Ziehen und Ablegen in Tests, wenn NutzerInnen diese zum ersten Mal aufrufen
 common#:#assessment_use_javascript#:#JavaScript für Ziehen und Ablegen
 common#:#assf_allowed_questiontypes_desc#:#Alle ausgewählten Fragetypen werden für diese ILIAS-Installation zur Verfügung stehen. Wenn Sie die Erzeugung von bestimmten Fragetypen verhindern wollen, müssen Sie die Auswahl bei diesen Fragetypen entfernen.
 common#:#assf_allowed_questiontypes#:#Verfügbare Fragetypen
 common#:#assf_edit_permission#:#Rechteeinstellungen ändern
 common#:#assf_questiontypes#:#Frageneinstellungen
-common#:#assf_read#:#Zugriff auf die Test&Assessment-Administration
-common#:#assf_visible#:#Test&Assessment-Administration ist sichtbar
-common#:#assf_write#:#Bearbeiten der Test&Assessment-Administration
+common#:#assf_read#:#Zugriff auf die Test und Assessment-Administration
+common#:#assf_visible#:#Test und Assessment-Administration ist sichtbar
+common#:#assf_write#:#Bearbeiten der Test und Assessment-Administration
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
 common#:#assign_local_role#:#Lokale Rolle zuweisen
@@ -2940,7 +2940,7 @@ common#:#exc_files#:#Dateien
 common#:#exc_groups#:#Gruppen
 common#:#exc_header_members#:#Übung (Mitglieder)
 common#:#exc_instruction#:#Arbeitsanweisung
-common#:#exc_last_submission#:#Letzte Übertragung
+common#:#exc_last_submission#:#Datum der letzten Abgabe
 common#:#exc_mail_users#:#Mail an Nutzer verschicken
 common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglieder dieser Übung
 common#:#exc_members_assigned#:#Die Benutzer wurden der Übung zugeordnet
@@ -2951,7 +2951,7 @@ common#:#exc_no_members_assigned#:#Dieser Übung sind keine Mitglieder zugeordne
 common#:#exc_notices#:#Bemerkungen
 common#:#exc_obj#:#Übung
 common#:#exc_read#:#An Übung teilnehmen
-common#:#exc_resubmitted_advice#:#Dieses Zeichen erscheint, wenn eine neue Übungsdatei abgegeben wird, nachdem für den Benutzer das Häkchen "Gelöst" gewählt wurde.
+common#:#exc_resubmitted_advice#:#Dieses Zeichen erscheint, wenn eine neue Lösungsdatei abgegeben wird, nachdem für den Benutzer das Häkchen "Gelöst" gewählt wurde.
 common#:#exc_roles#:#Rollen
 common#:#exc_save_changes#:#Änderungen speichern
 common#:#exc_schedule#:#Terminplan
@@ -2976,7 +2976,7 @@ common#:#exc_write#:#Übung bearbeiten
 common#:#exc#:#Übung
 common#:#excs#:#Übungen
 common#:#execute#:#Ausführen
-common#:#exercise_time_over#:#Sie haben das Enddatum für die Verfügbarkeit der Übung erreicht. Sie können keine Bearbeitungen mehr abgeben!
+common#:#exercise_time_over#:#Sie haben das Ende der Bearbeitungszeit dieser Übung erreicht. Sie können keine Lösung mehr abgeben!
 common#:#exp_html#:#HTML exportieren
 common#:#expand_all#:#Alle ausklappen
 common#:#expand#:#Ausklappen
@@ -4029,7 +4029,7 @@ common#:#msg_cut_clipboard#:#Wählen Sie nun den gewünschten Ort, an dem die au
 common#:#msg_cut_copied#:#Objekt(e) verschoben.
 common#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
 common#:#msg_deleted_role#:#Rolle gelöscht
-common#:#msg_deleted_roles_rolts#:#Rollen & Rollenvorlagen gelöscht
+common#:#msg_deleted_roles_rolts#:#Rollen und Rollenvorlagen gelöscht
 common#:#msg_deleted_roles#:#Rollen gelöscht
 common#:#msg_deleted_rolt#:#Rollenvorlage gelöscht
 common#:#msg_deleted_rolts#:#Rollenvorlagen gelöscht
@@ -4218,7 +4218,7 @@ common#:#obj_adve#:#Editor
 common#:#obj_alm#:#Lernmodul AICC
 common#:#obj_ass#:#Asset###22 03 2011 new variable
 common#:#obj_assf_desc#:#Protokollieren Sie Aktivitäten in Tests und werten Sie diese aus.
-common#:#obj_assf#:#Test & Assessment
+common#:#obj_assf#:#Test und Assessment
 common#:#obj_auth_desc#:#Konfigurieren Sie hier die Art der Benutzerauthentifizierung (Lokal, LDAP, CAS, ...) sowie die Neuanmeldungen.
 common#:#obj_auth#:#Authentifizierung/Neuanmeldung
 common#:#obj_blog#:#Blog
@@ -4253,7 +4253,7 @@ common#:#obj_exc#:#Übung
 common#:#obj_extt_desc#:#Konfigurieren Sie hier externe Software und Dienste, welche von ILIAS unterstützt werden
 common#:#obj_extt#:#Software von Drittanbietern
 common#:#obj_facs_desc#:#Konfigurieren Sie hier den Zugriff auf Dateien und Ordner.
-common#:#obj_facs#:#Dateien & Ordner
+common#:#obj_facs#:#Dateien und Ordner
 common#:#obj_feed#:#Webfeed
 common#:#obj_file_duplicate#:#Datei kopieren
 common#:#obj_file_inline#:#Lernmodul Datei
@@ -4540,7 +4540,7 @@ common#:#person_title#:#Titel
 common#:#personal_data#:#Persönliche Daten
 common#:#personal_desktop#:#Persönlicher Schreibtisch
 common#:#personal_picture#:#Persönliches Bild
-common#:#personal_profile#:#Persönliche Daten & Profil
+common#:#personal_profile#:#Persönliche Daten und Profil
 common#:#personal_settings#:#Einstellungen
 common#:#personal_workspace#:#Mein Arbeitsraum
 common#:#persons#:#Personen
@@ -4999,6 +4999,7 @@ common#:#spl_add#:#Fragenpool hinzufügen
 common#:#spl_copy#:#Fragenpool für Umfrage kopieren
 common#:#spl_delete#:#Fragenpool löschen
 common#:#spl_edit_permission#:#Rechteeinstellungen ändern
+common#:#spl_import#:#Fragenpool für Umfrage importieren
 common#:#spl_new#:#Neuer Fragenpool für Umfrage
 common#:#spl_read#:#Lesezugriff auf Fragenpool
 common#:#spl_upload_file#:#Datei hochladen
@@ -6210,7 +6211,7 @@ content#:#cont_selected_items_have_been_cut#:#Die ausgewählten Elemente wurden 
 content#:#cont_selected_pg_chap#:#Ausgewählte Seiten/Kapitel
 content#:#cont_selected_terms#:#Ausgewählte Begriffe
 content#:#cont_selection#:#Auswahl
-content#:#cont_sequencing#:#Sequencing & Navigation ermöglichen gemäß den Vorgaben des Lernmoduls
+content#:#cont_sequencing#:#'Sequencing and Navigation' ermöglichen gemäß den Vorgaben des Lernmoduls
 content#:#cont_series_editor#:#Autor der Serie
 content#:#cont_series_title#:#Serientitel
 content#:#cont_series_volume#:#Band
@@ -6961,7 +6962,7 @@ crs#:#event_btn_add#:#Sitzung anlegen
 crs#:#event_clone_btn#:#Sitzung kopieren
 crs#:#event_cloned#:#Die Sitzung wurde kopiert
 crs#:#event_csv_export#:#CSV-Export
-crs#:#event_date_time#:#Datum & Zeit
+crs#:#event_date_time#:#Datum und Zeit
 crs#:#event_date#:#Termin der Sitzung
 crs#:#event_delete_file#:#Datei löschen?
 crs#:#event_delete_sure#:#Sind Sie sicher, dass Sie die folgende Sitzung löschen möchten?
@@ -7675,9 +7676,9 @@ exc#:#exc_blog_selected#:#Der Blog wurde verknüpft.
 exc#:#exc_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösung zum Bestehen einer Übungseinheit. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 exc#:#exc_completion_by_submission#:#Bestehen durch Abgabe
 exc#:#exc_conf_del_assignments#:#Möchten Sie die folgenden Übungseinheiten wirklich löschen?
-exc#:#exc_create_blog_select_info#:#Bitte wählen Sie das Ressourcen-Verzeichnis, in dem der Blog erstellt werden soll.
+exc#:#exc_create_blog_select_info#:#Wählen Sie im Arbeitsraum Ihres Persönlichen Schreibtischs die Stelle aus, an der der Blog erstellt werden soll.
 exc#:#exc_create_blog#:#Blog erstellen
-exc#:#exc_create_portfolio_select_info#:#Bitte wählen Sie das Ressourcen-Verzeichnis, in dem das e-Portfolio erstellt werden soll.
+exc#:#exc_create_portfolio_select_info#:#Wählen Sie im Arbeitsraum Ihres Persönlichen Schreibtischs die Stelle aus, an der das e-Portfolio erstellt werden soll.
 exc#:#exc_create_portfolio#:#e-Portfolio erstellen
 exc#:#exc_deadline#:#Abgabetermin
 exc#:#exc_direct_submit_blog#:#Möchten Sie die aktuelle Version Ihres Blogs jetzt abgeben? Sie können dies auch jederzeit im Blog-Editor tun.
@@ -7703,21 +7704,21 @@ exc#:#exc_msg_failed_mandatory#:#Sie haben mindestens eine obgligatorische Übun
 exc#:#exc_msg_min_number_ass#:#Sie müssen mindestens %s Übungseinheiten bestehen um die Übung zu bestehen.
 exc#:#exc_msg_missed_minimum_number#:#Sie haben die Mindestanzahl an Übungseinheiten nicht bestanden.
 exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde einen neue Feedback-Datei zur Übungen "%s" hinzugefügt.
-exc#:#exc_msg_new_feedback_file_uploaded2#:#ein Dozent hat eine neue Feedback-Datei für Sie hochgeladen.
+exc#:#exc_msg_new_feedback_file_uploaded2#:#Ein Dozent hat eine neue Feedback-Datei für Sie hochgeladen.
 exc#:#exc_msg_participants_removed#:#Die Teilnehmer wurden aus der Übung entfernt.
 exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
 exc#:#exc_msg_saved_grades#:#Noten wurden gespeichert.
 exc#:#exc_msg_sure_to_deassign_participant#:#Wollen Sie wirklich die folgenden Teilnehmer aus der Übung entfernen? Alle Lösungsabgaben der Teilnehmer werden gelöscht.
 exc#:#exc_new_assignment#:#Neue Übungseinheit
-exc#:#exc_no_assignments_available#:#Keine Übungseinheiten vorhanden. Bitte wählen Sie "Übungseinheiten" und "Bearbeiten" um eine Übungseinheit zu erstellen.
+exc#:#exc_no_assignments_available#:#Keine Übungseinheiten vorhanden. Bitte wählen Sie "Übungseinheiten" und "Bearbeiten", um eine Übungseinheit zu erstellen.
 exc#:#exc_no_participants#:#Zur Zeit gibt es keine Teilnehmer.
 exc#:#exc_order_by_deadline#:#Nach Abgabetermin sortieren
 exc#:#exc_overview#:#Übersicht
 exc#:#exc_participant_view#:#Je Teilnehmer
 exc#:#exc_participant#:#Teilnehmer
-exc#:#exc_pass_all_info#:#Lerner müssen alle obligatorischen Übungseinheiten bestehen um die Übung zu bestehen.
+exc#:#exc_pass_all_info#:#Lerner müssen alle obligatorischen Übungseinheiten bestehen, um die Übung als ganze zu bestehen.
 exc#:#exc_pass_all#:#Alle obligatorischen Übungseinheiten
-exc#:#exc_pass_minimum_nr_info#:#Lerner müssen eine minimale Anzahl an Übungseinheiten bestehen um die Übung zu bestehen. Dieser Wert muß mindestens so hoch sein, wie die Anzahl obligatorischer Übungseinheiten.
+exc#:#exc_pass_minimum_nr_info#:#Lerner müssen eine minimale Anzahl an Übungseinheiten bestehen, um die Übung als ganze zu bestehen. Dieser Wert muß mindestens so hoch sein, wie die Anzahl der obligatorischen Übungseinheiten.
 exc#:#exc_pass_minimum_nr#:#Minimale Anzahl an Übungseinheiten
 exc#:#exc_pass_mode#:#Anforderung
 exc#:#exc_portfolio_created#:#e-Portfolio wurde erstellt.
@@ -7730,11 +7731,11 @@ exc#:#exc_saved_order#:#Reihenfolge gespeichert
 exc#:#exc_search_users#:#Benutzer suchen
 exc#:#exc_select_ass#:#Übungseinheit auswählen
 exc#:#exc_select_blog_change#:#Anderen Blog benutzen
-exc#:#exc_select_blog_info#:#Bitte wählen Sie einen Ihrer Blogs, um ihn mit dieser Übungseinheit zu benutzen.
+exc#:#exc_select_blog_info#:#Bitte wählen Sie einen Ihrer Blogs, um ihn in dieser Übungseinheit zu benutzen.
 exc#:#exc_select_blog#:#Vorhandenen Blog nutzen
 exc#:#exc_select_part#:#Teilnehmer auswählen
 exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
-exc#:#exc_select_portfolio_info#:#Bitte wählen Sie eines Ihrer Portfolios, um es mit dieser Übungseinheit zu benutzen.
+exc#:#exc_select_portfolio_info#:#Bitte wählen Sie eines Ihrer Portfolios, um es in dieser Übungseinheit zu benutzen.
 exc#:#exc_select_portfolio#:#Vorhandenes Portfolio nutzen
 exc#:#exc_send_assignment#:#Übungseinheit per Mail verschicken
 exc#:#exc_show_submissions_info#:#Die abgegebenen Lösungen aller Lerner können nach dem Abgabetermin von allen Lernern eingesehen werden.
@@ -7742,16 +7743,16 @@ exc#:#exc_show_submissions#:#Alle abgegebenen Lösungen nach Abgabetermin veröf
 exc#:#exc_start_time#:#Startzeit
 exc#:#exc_starting_on#:#Startet am
 exc#:#exc_submission_notification_body#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
-exc#:#exc_submission_notification_info#:#Sie werden benachrichtigt sobald neue Abgaben hochgeladen werden.
+exc#:#exc_submission_notification_info#:#Sie werden benachrichtigt, sobald neue Abgaben hochgeladen werden.
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
 exc#:#exc_submission_notification_subject#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
-exc#:#exc_submission_notification#:#Mail Benachrichtigung bei Abgaben
+exc#:#exc_submission_notification#:#Mail-Benachrichtigung bei Abgaben
 exc#:#exc_submissions_and_grades#:#Abgaben und Noten
 exc#:#exc_submitted_files_deleted#:#Die ausgewählten Dateien wurden gelöscht.
 exc#:#exc_total_exc#:#Gesamte Übung
-exc#:#exc_type_blog#:#Blog
-exc#:#exc_type_portfolio#:#e-Portfolio
-exc#:#exc_type_upload#:#Upload
+exc#:#exc_type_blog#:#Blog erstellen
+exc#:#exc_type_portfolio#:#e-Portfolio erstellen
+exc#:#exc_type_upload#:#Datei hochladen
 excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie ein Zertifikat benötigen
 excv#:#excv_create#:#Übungszertifikat erstellen
 exercise#:#exc_comment_for_learner#:#Kommentar für Lerner
@@ -10079,9 +10080,9 @@ rbac#:#edit_learning_progress#:#Lernfortschritt bearbeiten
 rbac#:#edit_permission#:#Rechteeinstellungen ändern
 rbac#:#export_member_data#:#Zugriff auf Benutzerdaten
 rbac#:#facs_edit_permission#:#Rechteeinstellung ändern
-rbac#:#facs_read#:#Lesezugriff auf Einstellungen Dateien & Ordner
-rbac#:#facs_visible#:#Einstellungen Dateien & Ordner sind sichtbar
-rbac#:#facs_write#:#Einstellungen Dateien & Ordner bearbeiten
+rbac#:#facs_read#:#Lesezugriff auf Einstellungen Dateien und Ordner
+rbac#:#facs_visible#:#Einstellungen Dateien und Ordner sind sichtbar
+rbac#:#facs_write#:#Einstellungen Dateien und Ordner bearbeiten
 rbac#:#filter_all_roles#:#Zeige alle Rollen im aktuellen Kontext
 rbac#:#filter_global_roles#:#Zeige nur globale Rollen
 rbac#:#filter_local_roles_object#:#Zeige nur lokale Rollen an dieser Position
@@ -11023,7 +11024,7 @@ style#:#sty_table_template_colored_zebra#:#Farbige Zebrastreifen
 style#:#sty_table_template_no_zebra#:#Keine Zebrastreifen
 style#:#sty_table_templates#:#Tabellen-Templates
 style#:#sty_table#:#Tabelle
-style#:#sty_tabs_char#:#Register & Akkordeons
+style#:#sty_tabs_char#:#Register und Akkordeons
 style#:#sty_tag_hover#:#:hover
 style#:#sty_tag_normal#:#Normal
 style#:#sty_template_layout#:#Template-Layout
@@ -11732,6 +11733,7 @@ survey#:#svy_maintenance_information_no_results#:#Es liegen keine Teilnehmerdate
 survey#:#svy_missing_author#:#Sie haben den Autor oder die Autorin nicht in den Umfrage-Eigenschaften eingetragen. Bitte fügen Sie einen Autor oder eine Autorin hinzu.
 survey#:#svy_missing_questions#:#Sie haben der Umfrage noch keine Fragen hinzugefügt! Bitte fügen Sie der Umfrage wenigstens eine Frage hinzu.
 survey#:#svy_missing_title#:#Sie haben keinen Umfragetitel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
+survey#:#svy_page_add_question#:#Neue %s hinzufügen
 survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!
 survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
 survey#:#svy_participation#:#Teilnahme
@@ -12331,5 +12333,3 @@ wsp#:#wsp_type_file#:#Datei
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
-survey#:#svy_page_add_question#:#Neue %s hinzufügen
-common#:#spl_import#:#Fragenpool für Umfrage importieren
