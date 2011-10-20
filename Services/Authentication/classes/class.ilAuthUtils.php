@@ -256,8 +256,9 @@ class ilAuthUtils
                 // Due to a bug in Pear Auth_HTTP, we can't use idle time 
                 // with WebDAV clients. If we used it, users could never log
                 // back into ILIAS once their session idled out. :(
-		if (!defined("WebDAV_Authentication") || WebDAV_Authentication != 'HTTP') {
-			$ilAuth->setIdle($ilClientIniFile->readVariable("session","expire"), false);
+		if (!defined("WebDAV_Authentication") || WebDAV_Authentication != 'HTTP')
+		{			
+			$ilAuth->setIdle(ilSession::getIdleValue(), false);			
 		}
 		$ilAuth->setExpire(0);
 

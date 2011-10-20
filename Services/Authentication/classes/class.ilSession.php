@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once('Services/Authentication/classes/class.ilSessionControl.php');
+
 /**   
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id:$
@@ -10,6 +12,24 @@
 */
 class ilSession
 {
+	/**
+	 * 
+	 * Constant for fixed dession handling
+	 * 
+	 * @var integer
+	 * 
+	 */
+	const SESSION_HANDLING_FIXED = 0;
+	
+	/**
+	 * 
+	 * Constant for load dependend session handling
+	 * 
+	 * @var integer
+	 * 
+	 */
+	const SESSION_HANDLING_LOAD_DEPENDED = 1;
+
 	/**
 	* Get session data from table
 	*
@@ -44,18 +64,9 @@ class ilSession
 			// when no cookie was sent (e.g. for pdf files linking others).
 			// This would result in new session records for each request.
 			return false;
-		}		
-
-		if( $ilSetting->get('session_handling_type', 0) ==  0)
-		{
-			// fixed session
-			$expires = time() + ini_get("session.gc_maxlifetime");	
 		}
-		else if( $ilSetting->get('session_handling_type', 0) ==  1)
-		{
-			// load dependent session settings
-			$expires = time() + (int)($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
-		}	
+
+		$expires = self::getExpireValue();
 
 		if (ilSession::_exists($a_session_id))
 		{
@@ -239,7 +250,73 @@ class ilSession
 		}
 		return false;
 	}
+	
+	/**
+	 * 
+	 * Returns the expiration timestamp in seconds
+	 * 
+	 * @param	boolean	If passed, the value for fixed session is returned
+	 * @return	integer	The expiration timestamp in seconds 
+	 * @access	public
+	 * @static
+	 * 
+	 */
+	public static function getExpireValue($fixedMode = false)
+	{
+		global $ilSetting;
+		
+		if( $fixedMode || $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_FIXED )
+		{
+			// fixed session
+			return time() + ini_get('session.gc_maxlifetime');
+		}
+		else if( $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_LOAD_DEPENDED )
+		{
+			// load dependent session settings
+			return time() + (int) ($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
+		}
+	}
 
+	/**
+	 * 
+	 * Returns the idle time in seconds
+	 * 
+	 * @param	boolean	If passed, the value for fixed session is returned
+	 * @return	integer	The idle time in seconds 
+	 * @access	public
+	 * @static
+	 * 
+	 */
+	public static function getIdleValue($fixedMode = false)
+	{
+		global $ilSetting, $ilClientIniFile;
+		
+		if( $fixedMode || $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) ==  self::SESSION_HANDLING_FIXED )
+		{
+			// fixed session
+			return $ilClientIniFile->readVariable('session','expire');
+		}
+		else if( $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) ==  self::SESSION_HANDLING_LOAD_DEPENDED )
+		{
+			// load dependent session settings
+			return (int) ($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
+		}
+	}
+	
+	/**
+	 * 
+	 * Returns the session expiration value
+	 * 
+	 * @return integer	The expiration value in seconds
+	 * @access	public
+	 * @static
+	 * 
+	 */
+	public static function getSessionExpireValue()
+	{
+		return self::getIdleValue(true);
+	}
+	
 	/**
 	 * Get the active users with a specific remote ip address
 	 * 

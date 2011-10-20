@@ -4880,8 +4880,8 @@ common#:#sess_fixed_duration#:#Fixe Session-Dauer
 common#:#sess_load_dependent_session_handling#:#Lastabhängige Session-Einstellungen
 common#:#sess_mode#:#Session-Modus
 common#:#sess#:#Sitzung
-common#:#session_config_maintenance_disabled#:#Änderungen durch den Client nicht zugelassen
-common#:#session_config_maintenance_enabled#:#Änderungen durch den Client zugelassen
+common#:#session_config_maintenance_disabled#:#Änderungen im Mandanten nicht zugelassen
+common#:#session_config_maintenance_enabled#:#Änderungen im Mandanten zugelassen
 common#:#session_config#:#Session-Einstellungen
 common#:#session_max_count_info#:#Definiert die maximale Anzahl an Sessions, die gleichzeitig existieren können. Wenn dieser Wert auf "0" gesetzt wird, ist die Funktion deaktiviert.
 common#:#session_max_count#:#Maximale Anzahl aktiver Sessions

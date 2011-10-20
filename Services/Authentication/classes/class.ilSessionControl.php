@@ -36,7 +36,8 @@ class ilSessionControl
 		'session_min_idle',
 		'session_max_idle',
 		'session_max_idle_after_first_request',
-		'session_allow_client_maintenance'
+		'session_allow_client_maintenance',
+		'session_handling_type'
 	);
 
 	/**

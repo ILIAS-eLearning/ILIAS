@@ -738,11 +738,10 @@ return $this->showServerInfoObject();
 
 		$this->tpl->setVariable('TXT_SESSION_REMINDER', $this->lng->txt('session_reminder'));
 		$this->tpl->setVariable('INFO_SESSION_REMINDER', $this->lng->txt('session_reminder_info'));
-		$expires = $ilClientIniFile->readVariable("session", "expire");
+		$expires = ilSession::getSessionExpireValue();
 		$time = ilFormat::_secondsToString($expires, true);
 		$this->tpl->setVariable('SESSION_REMINDER_SESSION_DURATION',
-			sprintf($this->lng->txt('session_reminder_session_duration'), $time));
-		
+			sprintf($this->lng->txt('session_reminder_session_duration'), $time));		
 		
 		// paths
 		$this->tpl->setVariable("TXT_SOFTWARE", $this->lng->txt("3rd_party_software"));
@@ -2145,14 +2144,14 @@ return $this->showServerInfoObject();
 		// BEGIN SESSION SETTINGS
 		// create session handling radio group
 		$ssettings = new ilRadioGroupInputGUI($this->lng->txt('sess_mode'), 'session_handling_type');
-		$ssettings->setValue($ilSetting->get('session_handling_type', 0));
+		$ssettings->setValue($ilSetting->get('session_handling_type', ilSession::SESSION_HANDLING_FIXED));
 		
 		// first option, fixed session duration
-		$fixed = new ilRadioOption($this->lng->txt('sess_fixed_duration'), 0);
+		$fixed = new ilRadioOption($this->lng->txt('sess_fixed_duration'), ilSession::SESSION_HANDLING_FIXED);
 		
 		// create session reminder subform
 		$cb = new ilCheckboxInputGUI($this->lng->txt("session_reminder"), "session_reminder_enabled");
-		$expires = $ilClientIniFile->readVariable("session", "expire");
+		$expires = ilSession::getSessionExpireValue();
 		$time = ilFormat::_secondsToString($expires, true);
 		$cb->setInfo($this->lng->txt("session_reminder_info")."<br />".
 			sprintf($this->lng->txt('session_reminder_session_duration'), $time));
@@ -2166,25 +2165,10 @@ return $this->showServerInfoObject();
 		$ssettings->addOption($fixed);
 		
 		// second option, session control
-		$ldsh = new ilRadioOption($this->lng->txt('sess_load_dependent_session_handling'), 1);
+		$ldsh = new ilRadioOption($this->lng->txt('sess_load_dependent_session_handling'), ilSession::SESSION_HANDLING_LOAD_DEPENDED);
 
 		// add session control subform
-		$ti = new ilNonEditableValueGUI($this->lng->txt('session_config'), "session_config");
-		
-		require_once('Services/Authentication/classes/class.ilSessionControl.php');
-		if( $ilSetting->get('session_allow_client_maintenance', ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) )
-        {
-			// just shows the status wether the session
-			//setting maintenance is allowed by setup			
-			$ti->setValue(sprintf($this->lng->txt('session_config_maintenance_enabled'), CLIENT_ID));
-        }
-        else
-        {
-        	// just shows the status wether the session
-			//setting maintenance is allowed by setup
-			$ti->setValue($this->lng->txt('session_config_maintenance_disabled'));
-        }
-        $ldsh->addSubItem($ti);
+		require_once('Services/Authentication/classes/class.ilSessionControl.php');		
         
         // this is the max count of active sessions
 		// that are getting started simlutanously
@@ -2248,7 +2232,22 @@ return $this->showServerInfoObject();
 		$ssettings->addOption($ldsh);
 		
 		// add radio group to form
-		$this->form->addItem($ssettings);
+		if( $ilSetting->get('session_allow_client_maintenance', ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) )
+        {
+			// just shows the status wether the session
+			//setting maintenance is allowed by setup			
+			$this->form->addItem($ssettings);
+        }
+        else
+        {
+        	// just shows the status wether the session
+			//setting maintenance is allowed by setup
+			$ti = new ilNonEditableValueGUI($this->lng->txt('session_config'), "session_config");
+			$ti->setValue($this->lng->txt('session_config_maintenance_disabled'));
+			$ssettings->setDisabled(true);
+			$ti->addSubItem($ssettings);
+			$this->form->addItem($ti);
+        }
 		// END SESSION SETTINGS
 
 		// password assistance
@@ -2349,12 +2348,12 @@ return $this->showServerInfoObject();
 			$ilSetting->set('session_handling_type',
 				(int)$this->form->getInput('session_handling_type'));			
 			
-			if( $this->form->getInput('session_handling_type') == 0 )
+			if( $this->form->getInput('session_handling_type') == ilSession::SESSION_HANDLING_FIXED )
 			{
 				$ilSetting->set('session_reminder_enabled',
 					$this->form->getInput('session_reminder_enabled'));	
 			}
-			else if( $this->form->getInput('session_handling_type') == 1 )
+			else if( $this->form->getInput('session_handling_type') == ilSession::SESSION_HANDLING_LOAD_DEPENDED )
 			{
 				require_once 'Services/Authentication/classes/class.ilSessionControl.php';
 				if(
