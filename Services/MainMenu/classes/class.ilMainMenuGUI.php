@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
+
 /**
 * Handles display of the main menu
 *
@@ -28,7 +30,7 @@ class ilMainMenuGUI
 	*/
 	function ilMainMenuGUI($a_target = "_top", $a_use_start_template = false)
 	{
-		global $ilias, $rbacsystem;
+		global $ilias, $rbacsystem, $ilUser;
 		
 		$this->tpl = new ilTemplate("tpl.main_menu.html", true, true,
 			"Services/MainMenu");
@@ -38,11 +40,9 @@ class ilMainMenuGUI
 		$this->small = false;
 		
 		$this->mail = false;
-		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		if($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
-			include_once "Services/Mail/classes/class.ilMail.php";
-			$mail = new ilMail($_SESSION["AccountId"]);
-			if ($rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId()))
+			if($rbacsystem->checkAccess('mail_visible', ilMailGlobalServices::getMailObjectRefId()))
 			{
 				$this->mail = true;
 			}
@@ -312,23 +312,23 @@ class ilMainMenuGUI
 	 */
 	function renderStatusBox($a_tpl)
 	{
-		global $rbacsysten;
+		global $ilUser;
 		
 		$box = false;
 		
 		// new mails?
-		if ($this->mail)
+		if($this->mail)
 		{
-			$new_mails = ilMailbox::_countNewMails($_SESSION["AccountId"]);
-			if ($new_mails > 0)
+			$new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId());
+			if($new_mails > 0)
 			{
-				$a_tpl->setCurrentBlock("status_text");
-				$a_tpl->setVariable("STATUS_TXT", $new_mails);
+				$a_tpl->setCurrentBlock('status_text');
+				$a_tpl->setVariable('STATUS_TXT', $new_mails);
 				$a_tpl->parseCurrentBlock();
 			}
-			$a_tpl->setCurrentBlock("status_item");
-			$a_tpl->setVariable("STATUS_IMG", ilUtil::getImagePath("icon_mail_s.gif"));
-			$a_tpl->setVariable("STATUS_HREF", "ilias.php?baseClass=ilMailGUI");
+			$a_tpl->setCurrentBlock('status_item');
+			$a_tpl->setVariable('STATUS_IMG', ilUtil::getImagePath('icon_mail_s.gif'));
+			$a_tpl->setVariable('STATUS_HREF', 'ilias.php?baseClass=ilMailGUI');
 			$a_tpl->parseCurrentBlock();
 			$box = true;
 		}
@@ -404,30 +404,6 @@ class ilMainMenuGUI
 				$this->getScriptTarget('ilias.php?baseClass=ilSearchController'),
 				$this->target); */
 		}
-
-		// mail
-/*		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
-		{
-			include_once "Services/Mail/classes/class.ilMail.php";
-
-			$mail = new ilMail($_SESSION["AccountId"]);
-			if($rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId()))
-			{
-				$add = '';
-
-				if( $new_mails = ilMailbox::_countNewMails($_SESSION["AccountId"]) )
-				{
-					$mail = new ilMail($_SESSION['AccountId']);
-					$add = " ".sprintf($lng->txt("cnt_new"), $new_mails);
-				}
-
-				$this->renderEntry($a_tpl, "mail",
-					$lng->txt("mail").$add,
-					$this->getScriptTarget("ilias.php?baseClass=ilMailGUI"),
-					$this->target);
-			}
-		}
-*/
 
 		// webshop
 		if(IS_PAYMENT_ENABLED)
@@ -619,22 +595,17 @@ class ilMainMenuGUI
 			}
 
 			// mail
-			if ($this->mail)
+			if($this->mail)
 			{
-				$gl->addEntry($lng->txt("mail"), "ilias.php?baseClass=ilMailGUI",
-					"_top");
+				$gl->addEntry($lng->txt('mail'), 'ilias.php?baseClass=ilMailGUI', '_top');
 			}
 
 			// contacts
-			include_once "Services/Mail/classes/class.ilMail.php";
-			$mail = new ilMail($_SESSION["AccountId"]);
-			if (!$this->ilias->getSetting("disable_contacts") &&
-				($this->ilias->getSetting("disable_contacts_require_mail") ||
-				$rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId())))
+			if(!$this->ilias->getSetting('disable_contacts') &&
+				($this->ilias->getSetting('disable_contacts_require_mail') ||
+				$rbacsystem->checkAccess('mail_visible', ilMailGlobalServices::getMailObjectRefId())))
 			{
-				$gl->addEntry($lng->txt("mail_addressbook"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts",
-					"_top");
-				//$ilTabs->addTarget("mail_addressbook", $this->ctrl->getLinkTargetByClass("ilmailaddressbookgui"));
+				$gl->addEntry($lng->txt('mail_addressbook'), 'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts', '_top');
 			}
 			
 			$gl->addSeparator();
@@ -857,22 +828,17 @@ class ilMainMenuGUI
 				}
 
 				// mail
-				if ($this->mail)
+				if($this->mail)
 				{
-					$selection->addItem($lng->txt("mail"), "", "ilias.php?baseClass=ilMailGUI",
-						"", "", "_top");
+					$selection->addItem($lng->txt('mail'), '', 'ilias.php?baseClass=ilMailGUI',	'', '', '_top');
 				}
 
 				// contacts
-				include_once "Services/Mail/classes/class.ilMail.php";
-				$mail = new ilMail($_SESSION["AccountId"]);
-				if (!$this->ilias->getSetting("disable_contacts") &&
-					($this->ilias->getSetting("disable_contacts_require_mail") ||
-					$rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId())))
+				if (!$this->ilias->getSetting('disable_contacts') &&
+					($this->ilias->getSetting('disable_contacts_require_mail') ||
+					$rbacsystem->checkAccess('mail_visible', ilMailGlobalServices::getMailObjectRefId())))
 				{
-					$selection->addItem($lng->txt("mail_addressbook"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts",
-						"", "", "_top");
-					//$ilTabs->addTarget("mail_addressbook", $this->ctrl->getLinkTargetByClass("ilmailaddressbookgui"));
+					$selection->addItem($lng->txt('mail_addressbook'), '', 'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts', '', '', '_top');
 				}
 
 				// private notes
