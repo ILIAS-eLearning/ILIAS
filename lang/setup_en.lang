@@ -521,3 +521,6 @@ zip_path_comment_win#:#Required for extracting import files, e.g. 'C:/tools/zip/
 zip_path_comment#:#Required for building export files, e.g. '/your_path/zip'.
 zip_path#:#Path to Zip
 zipcode#:#Zip Code
+sess_mode#:#Session Mode
+sess_fixed_duration#:#Fixed Session Duration
+sess_load_dependent_session_handling#:#Load Dependent Session Handling

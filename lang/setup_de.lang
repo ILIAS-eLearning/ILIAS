@@ -411,7 +411,7 @@ select_client#:#Mandant wählen
 server_info#:#Informationen zum ILIAS-Server
 server_settings#:#Servereinstellungen
 server_software#:#Server software
-sess_allow_client_maintenance_info#:#Definiert, ob die Verwaltung der Session-Einstellungen ebenfalls in der Administration des Clients erfolgen kann.
+sess_allow_client_maintenance_info#:#Definiert, ob die Verwaltung der Session-Einstellungen ebenfalls in der Administration des Mandanten erfolgen kann.
 sess_allow_client_maintenance#:#Verwaltung durch Client erlaubt
 sess_max_session_count_info#:#Definiert die maximale Anzahl an Sessions, die gleichzeit existieren können. Wenn dieser Wert auf "0" gesetzt wird, ist die Funktion deaktiviert.
 sess_max_session_count#:#Maximale Session-Anzahl
@@ -529,3 +529,6 @@ settings_too_long#:#Einige Systemeinstellungen sind zu lang, um konvertiert zu w
 lang_ka#:#Georgian###04 10 2011 new variable
 lang_sk#:#Slovakian###04 10 2011 new variable
 lang_ja#:#Japanisch###04 10 2011 new variable
+sess_mode#:#Session-Modus
+sess_fixed_duration#:#Fixe Session-Dauer
+sess_load_dependent_session_handling#:#Lastabhängige Session-Einstellungen

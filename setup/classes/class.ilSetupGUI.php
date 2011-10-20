@@ -2366,7 +2366,7 @@ else
 	 * display sessions form and process form input
 	 */
 	function displaySessions()
-	{
+	{		
 		require_once('Services/Authentication/classes/class.ilSessionControl.php');
 
 		$this->checkDisplayMode("setup_sessions");
@@ -2409,13 +2409,22 @@ else
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
-
-		// controls the ability t maintenance the following
-		// settings in client administration
-		$chkb = new ilCheckboxInputGUI($this->lng->txt('sess_allow_client_maintenance'), "session_allow_client_maintenance");
-		$chkb->setInfo($this->lng->txt('sess_allow_client_maintenance_info'));
-		$chkb->setChecked($settings['session_allow_client_maintenance'] ? true : false);
-		$form->addItem($chkb);
+		
+		include_once 'Services/Authentication/classes/class.ilSession.php';
+		
+		// BEGIN SESSION SETTINGS
+		// create session handling radio group
+		$ssettings = new ilRadioGroupInputGUI($this->lng->txt('sess_mode'), 'session_handling_type');
+		$ssettings->setValue($settings['session_handling_type'], ilSession::SESSION_HANDLING_FIXED);
+		
+		// first option, fixed session duration
+		$fixed = new ilRadioOption($this->lng->txt('sess_fixed_duration'), ilSession::SESSION_HANDLING_FIXED);		
+		
+		// add session handling to radio group
+		$ssettings->addOption($fixed);
+		
+		// second option, session control
+		$ldsh = new ilRadioOption($this->lng->txt('sess_load_dependent_session_handling'), ilSession::SESSION_HANDLING_LOAD_DEPENDED);		
 
 		// this is the max count of active sessions
 		// that are getting started simlutanously
@@ -2424,7 +2433,7 @@ else
 		$ti->setMaxLength(5);
 		$ti->setSize(5);
 		$ti->setValue($settings['session_max_count']);
-		$form->addItem($ti);
+		$ldsh->addSubItem($ti);
 
 		// after this (min) idle time the session can be deleted,
 		// if there are further requests for new sessions,
@@ -2434,7 +2443,7 @@ else
 		$ti->setMaxLength(5);
 		$ti->setSize(5);
 		$ti->setValue($settings['session_min_idle']);
-		$form->addItem($ti);
+		$ldsh->addSubItem($ti);
 
 		// after this (max) idle timeout the session expires
 		// and become invalid, so it is not considered anymore
@@ -2444,7 +2453,7 @@ else
 		$ti->setMaxLength(5);
 		$ti->setSize(5);
 		$ti->setValue($settings['session_max_idle']);
-		$form->addItem($ti);
+		$ldsh->addSubItem($ti);
 
 		// this is the max duration that can elapse between the first and the secnd
 		// request to the system before the session is immidietly deleted
@@ -2453,7 +2462,20 @@ else
 		$ti->setMaxLength(5);
 		$ti->setSize(5);
 		$ti->setValue($settings['session_max_idle_after_first_request']);
-		$form->addItem($ti);
+		$ldsh->addSubItem($ti);
+		
+		// add session control to radio group
+		$ssettings->addOption($ldsh);
+		
+		$form->addItem($ssettings);
+		
+		// controls the ability t maintenance the following
+		// settings in client administration
+		$chkb = new ilCheckboxInputGUI($this->lng->txt('sess_allow_client_maintenance'), "session_allow_client_maintenance");
+		$chkb->setInfo($this->lng->txt('sess_allow_client_maintenance_info'));
+		$chkb->setChecked($settings['session_allow_client_maintenance'] ? true : false);
+		$form->addItem($chkb);
+		// END SESSION SETTINGS
 
 		// save and cancel commands
 		$form->addCommandButton("sess", $this->lng->txt('save'));
