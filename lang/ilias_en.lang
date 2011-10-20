@@ -48,7 +48,7 @@ administration#:#auth_kind_determination#:#Kind of Determination
 administration#:#auth_mode_determination_info#:#Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods.
 administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#check_tree#:#Check tree structure
-administration#:#clean_desc#:#Remove invalid references & tree entries. Initialize gaps in tree structure.
+administration#:#clean_desc#:#Remove invalid references and tree entries. Initialize gaps in tree structure.
 administration#:#clean#:#Clean up
 administration#:#cleaning_final#:#Final cleaning...
 administration#:#cleaning#:#Cleaning...
@@ -149,7 +149,7 @@ administration#:#restore_trash_desc#:#Restore all objects in trash bin to Recove
 administration#:#restore_trash#:#Restore deleted objects
 administration#:#restoring_missing_objs#:#Restoring missing objects...
 administration#:#restoring_trash#:#Restoring trash...
-administration#:#restoring_unbound_objs#:#Restoring unbound objects & subobjects...
+administration#:#restoring_unbound_objs#:#Restoring unbound objects and subobjects...
 administration#:#restoring#:#Restoring...
 administration#:#reuse_of_loginnames_contained_in_history#:#No Reuse of Login Names
 administration#:#scan_completed#:#Scan completed
@@ -176,7 +176,7 @@ adve#:#adve_grp_glo#:#Glossaries
 adve#:#adve_grp_lm#:#ILIAS Learning Modules
 adve#:#adve_grp_rep#:#Repository Pages
 adve#:#adve_grp_scorm#:#SCORM Editing
-adve#:#adve_grp_test#:#Test & Assessment
+adve#:#adve_grp_test#:#Test and Assessment
 adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#ILIAS Content Editor
 adve#:#adve_rte_settings#:#TinyMCE Editor
@@ -877,7 +877,7 @@ assessment#:#tst_position#:#Question %s of %s
 assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test.
 assessment#:#tst_postpone#:#Postpone Questions
 assessment#:#tst_print_date#:#Date of Print
-assessment#:#tst_print#:#Test & Assessment Print View
+assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test for the first time and ends after the expiration of the entered hours, minutes and seconds.
 assessment#:#tst_processing_time#:#Max. Processing Time
 assessment#:#tst_properties#:#Test Properties
@@ -1614,7 +1614,7 @@ common#:#accs_write#:#Edit Accessibility Settings
 common#:#action_aborted#:#Action aborted
 common#:#action#:#Action
 common#:#actions#:#Actions
-common#:#activate_assessment_logging#:#Activate Test & Assessment logging
+common#:#activate_assessment_logging#:#Activate Test and Assessment logging
 common#:#activate_block#:#Activate
 common#:#activate_https#:#HTTPS handling by ILIAS<br>(Payment, Login)
 common#:#activate_tracking#:#Activation
@@ -1655,7 +1655,7 @@ common#:#adopt_perm_from_template#:#Copy Permission Settings
 common#:#adopt#:#Adopt
 common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing
 common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor
-common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test & Assessment tool
+common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test and Assessment tool
 common#:#advanced_editing_frm_post_settings#:#Forum Post Settings
 common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.
 common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing
@@ -1667,7 +1667,7 @@ common#:#advanced_editing_required_tags#:#The following HTML tags are required: 
 common#:#advanced_editing_settings#:#Editing Settings
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool
 common#:#advanced_editing_tinymce#:#TinyMCE Editor
-common#:#adve_assessment_settings#:#Test & Assessment Settings
+common#:#adve_assessment_settings#:#Test and Assessment Settings
 common#:#adve_edit_permission#:#Change Permission Settings
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#General Settings
@@ -1734,10 +1734,10 @@ common#:#ass_log_delete_no_selection#:#Please select at least one test to delete
 common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted
 common#:#ass_log_output#:#Log Data Output
 common#:#ass_log_path#:#Test Location
-common#:#assessment_defaults#:#Default settings for Test & Assessment
+common#:#assessment_defaults#:#Default settings for Test and Assessment
 common#:#assessment_imap_line_color#:#Imagemap Line Color
 common#:#assessment_log_datetime#:#Date/Time
-common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration
+common#:#assessment_log_deleted#:#The Test and Assessment log data has been deleted in the administration
 common#:#assessment_log_for_test#:#For test
 common#:#assessment_log_log_entries#:#log entries
 common#:#assessment_log_logging#:#Logging
@@ -1752,18 +1752,18 @@ common#:#assessment_log_select_test#:#--- Please select a test ---
 common#:#assessment_log_text#:#Log message
 common#:#assessment_log_user_answer#:#User answered a question
 common#:#assessment_log_user_answers#:#Show user actions
-common#:#assessment_log#:#Create a Test & Assessment log for a specific time period
+common#:#assessment_log#:#Create a Test and Assessment log for a specific time period
 common#:#assessment_settings_reporting_language#:#Reporting language
-common#:#assessment_settings#:#Global Test & Assessment settings
-common#:#assessment_use_javascript_desc#:#Activates JavaScript output for drag&drop actions by default for the first time
-common#:#assessment_use_javascript#:#JavaScript for Drag & Drop
+common#:#assessment_settings#:#Global Test and Assessment settings
+common#:#assessment_use_javascript_desc#:#Activates JavaScript output for drag and drop actions by default for the first time
+common#:#assessment_use_javascript#:#JavaScript for Drag and Drop
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.
 common#:#assf_allowed_questiontypes#:#Available Question Types
 common#:#assf_edit_permission#:#Change permission settings
 common#:#assf_questiontypes#:#Question Settings
-common#:#assf_read#:#Access Test & Assessment Administration
-common#:#assf_visible#:#Test & Assessment administration is visible
-common#:#assf_write#:#Edit Test & Assessment administration
+common#:#assf_read#:#Access Test and Assessment Administration
+common#:#assf_visible#:#Test and Assessment administration is visible
+common#:#assf_write#:#Edit Test and Assessment administration
 common#:#assign_global_role#:#Assign to Global Role
 common#:#assign_lo_forum#:#Assign LO Forum
 common#:#assign_local_role#:#Assign to Local Role
@@ -2496,7 +2496,7 @@ common#:#extt_ilinc_connection_data#:#Connection data
 common#:#extt_ilinc_customer_id#:#Customer ID
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com
 common#:#extt_ilinc_enable#:#Enable LearnLinc support
-common#:#extt_ilinc_protocol_port#:#Protocol & Port
+common#:#extt_ilinc_protocol_port#:#Protocol and Port
 common#:#extt_ilinc_registrar_login#:#Login ID
 common#:#extt_ilinc_registrar_passwd#:#Password
 common#:#extt_ilinc_server#:#Server
@@ -3287,7 +3287,7 @@ common#:#lngf_read#:#Read access to Language settings
 common#:#lngf_visible#:#Language settings are visible
 common#:#lngf_write#:#Write access, needed for extended language maintenance
 common#:#lngf#:#Languages
-common#:#lo_available#:#Overview Learning Modules & Courses
+common#:#lo_available#:#Overview Learning Modules and Courses
 common#:#lo_categories#:#LO Categories
 common#:#lo_edit#:#Edit Learning Object
 common#:#lo_new#:#New Learning Object
@@ -3502,7 +3502,7 @@ common#:#msg_cut_clipboard#:#Now, please select the desired location, where the 
 common#:#msg_cut_copied#:#Selected object(s) moved.
 common#:#msg_deleted_export_files#:#Export file(s) deleted
 common#:#msg_deleted_role#:#Role deleted
-common#:#msg_deleted_roles_rolts#:#Roles & Role Templates deleted
+common#:#msg_deleted_roles_rolts#:#Roles and Role Templates deleted
 common#:#msg_deleted_roles#:#Roles deleted
 common#:#msg_deleted_rolt#:#Role Template deleted
 common#:#msg_deleted_rolts#:#Role Template deleted
@@ -3583,7 +3583,7 @@ common#:#msg_roleassignment_active_changed_comment#:#This setting is not saved t
 common#:#msg_roleassignment_active_changed#:#Active role assignment changed
 common#:#msg_roleassignment_changed#:#Role assignment changed
 common#:#msg_sysrole_not_deletable#:#The system role cannot be deleted
-common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects & functions.
+common#:#msg_sysrole_not_editable#:#The permission settings of the system role may not be changed. The system role grants all assigned users unlimited access to all objects and functions.
 common#:#msg_trash_empty#:#There are no deleted objects
 common#:#msg_undeleted#:#Object(s) restored.
 common#:#msg_unit_is_required#:#This input requires a unit. Please enter a correct value.
@@ -3667,7 +3667,7 @@ common#:#not_logged_in#:#You are not logged in
 common#:#note_all_pub_notes#:#All notes
 common#:#note_my_pub_notes#:#My notes only
 common#:#note#:#Note
-common#:#notes_and_comments#:#Notes & Comments
+common#:#notes_and_comments#:#Notes and Comments
 common#:#notes#:#Notes
 common#:#notifications#:#Notifications
 common#:#num_users#:#Number of Users
@@ -3684,7 +3684,7 @@ common#:#obj_adm#:#Administration
 common#:#obj_adve_desc#:#Administration settings for ILIAS page editor and TinyMCE.
 common#:#obj_adve#:#Editing
 common#:#obj_alm#:#Learning Module AICC
-common#:#obj_assf_desc#:#Platform settings for the Test & Assessment tool
+common#:#obj_assf_desc#:#Platform settings for the Test and Assessment tool
 common#:#obj_assf#:#Test and Assessment
 common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...) and new account registration settings here.
 common#:#obj_auth#:#Authentication and Registration
@@ -3715,7 +3715,7 @@ common#:#obj_exc#:#Exercise
 common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS
 common#:#obj_extt#:#Third Party Software
 common#:#obj_facs_desc#:#Configure access to file and folder objects.
-common#:#obj_facs#:#Files & Folders
+common#:#obj_facs#:#Files and Folders
 common#:#obj_feed#:#Web Feed
 common#:#obj_file_duplicate#:#Copy File
 common#:#obj_file_inline#:#Learning Module File
@@ -3983,7 +3983,7 @@ common#:#person_title#:#Title
 common#:#personal_data#:#Personal Data
 common#:#personal_desktop#:#Personal Desktop
 common#:#personal_picture#:#Personal Picture
-common#:#personal_profile#:#Personal Data & Profile
+common#:#personal_profile#:#Personal Data and Profile
 common#:#persons#:#Persons
 common#:#pg_a#:#a page
 common#:#pg_add#:#Add page
@@ -6118,7 +6118,7 @@ crs#:#event_btn_add#:#Add Session
 crs#:#event_clone_btn#:#Duplicate Session
 crs#:#event_cloned#:#The Session has been duplicated.
 crs#:#event_csv_export#:#CSV Export
-crs#:#event_date_time#:#Date & Time
+crs#:#event_date_time#:#Date and Time
 crs#:#event_date#:#Date of Session
 crs#:#event_delete_file#:#Delete File?
 crs#:#event_delete_sure#:#Do really want to delete this session?
@@ -6744,7 +6744,7 @@ exc#:#exc_show_submissions_info#:#Publish all submissions to all learners after 
 exc#:#exc_show_submissions#:#Publish Submissions after Deadline
 exc#:#exc_start_time#:#Start Time
 exc#:#exc_starting_on#:#Starting On
-exc#:#exc_submissions_and_grades#:#Submissions & Grades
+exc#:#exc_submissions_and_grades#:#Submissions and Grades
 exc#:#exc_submitted_files_deleted#:#The selected files have been deleted.
 exc#:#exc_total_exc#:#Total Exercise
 exercise#:#exc_comment_for_learner#:#Comment for Learner
@@ -8840,9 +8840,9 @@ rbac#:#crsr_visible#:#Course Reference is visible
 rbac#:#crsr_write#:#Edit Course Reference
 rbac#:#edit_learning_progress#:#Edit Learning Progress
 rbac#:#facs_edit_permission#:#Change permission settings
-rbac#:#facs_read#:#Read access to files & foldes settings
-rbac#:#facs_visible#:#Files & foldes settings are visible
-rbac#:#facs_write#:#Edit files & foldes settings
+rbac#:#facs_read#:#Read access to files and foldes settings
+rbac#:#facs_visible#:#Files and foldes settings are visible
+rbac#:#facs_write#:#Edit files and foldes settings
 rbac#:#filter_all_roles#:#Show all roles of current context
 rbac#:#filter_global_roles#:#Show only global roles
 rbac#:#filter_local_roles_object#:#Show only local roles defined at this position
@@ -9355,7 +9355,7 @@ style#:#sty_row_head_class#:#Row Header
 style#:#sty_save_active_styles#:#Save Active Styles
 style#:#sty_save_hide_status#:#Save Hide Status
 style#:#sty_save_standard_styles#:#Save Standard Styles
-style#:#sty_sco_char#:#SCO & Objective
+style#:#sty_sco_char#:#SCO and Objective
 style#:#sty_scope#:#Scope
 style#:#sty_section_char#:#Section
 style#:#sty_set_scope#:#Set Scope
@@ -9372,7 +9372,7 @@ style#:#sty_table_template_colored_zebra#:#Colored Zebra
 style#:#sty_table_template_no_zebra#:#No Zebra
 style#:#sty_table_templates#:#Table Templates
 style#:#sty_table#:#Table
-style#:#sty_tabs_char#:#Tabs & Accordions
+style#:#sty_tabs_char#:#Tabs and Accordions
 style#:#sty_tag_hover#:#:hover
 style#:#sty_tag_normal#:#Normal
 style#:#sty_template_layout#:#Template Layout
@@ -12083,7 +12083,7 @@ exc#:#exc_select_blog_change#:#Use different Blog
 exc#:#exc_select_portfolio_change#:#Use different Portfolio
 exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
-common#:#my_courses_groups#:#My Courses & Groups
+common#:#my_courses_groups#:#My Courses and Groups
 content#:#cont_sc_auto_continue#:#Auto-Continue
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the "Share" tab.
 prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.
@@ -12290,7 +12290,7 @@ crs#:#crs_link_show_all_next_sessions#:#Show upcoming all upcoming sessions
 crs#:#crs_link_hide_next_sessions#:#Hide upcoming sessions
 scormdebug#:#scormdebug_disable_cache#:#disable SCORM 2004 Browser-Cache
 scormdebug#:#scormdebug_disable_cache_info#:#This prevents the storage of the SCORM 2004 javascript files in the browser cache. Please use this function in time before a new release!
-content#:#cont_sequencing#:#enable Sequencing & Navigation according to settings by learning module
+content#:#cont_sequencing#:#enable Sequencing and Navigation according to settings by learning module
 content#:#cont_interactions#:#enable storage of results of interactions
 content#:#cont_objectives#:#enable storage of data concerning learning objectives
 content#:#cont_comments#:#enable storage of comments
