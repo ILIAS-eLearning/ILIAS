@@ -3,8 +3,8 @@
 
 /**
  * 
- * Class for mail information in main menu. This class should only contain methods for fetching data which is necessary for the main menu.
- * We should keep this class as empty as possible. Maybe we duplicate some code which already exists in class ilMail, but we need an efficient class.
+ * Class for global mail information (e.g. in main menu). This class should only contain methods for fetching data which is necessary in global parts of ILIAS, e.g. the main menu.
+ * We should keep this class as small as possible. Maybe we duplicate some code which already exists in class ilMail, but we need an efficient class.
  * 
  * @author	Michael Jansen <mjansen@databay.de>
  *

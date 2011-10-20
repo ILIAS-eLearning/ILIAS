@@ -288,7 +288,7 @@ class ilMail
 		if($name == 'mlists')
 		{
 			if(is_object($ilUser))
-			{mail("mjansen@databay.de", "used", "xxx");
+			{
 				require_once 'Services/Contact/classes/class.ilMailingLists.php';
 				$this->properties[$name] = new ilMailingLists($ilUser);
 				return $this->properties[$name];
