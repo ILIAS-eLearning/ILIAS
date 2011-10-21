@@ -10558,7 +10558,7 @@ scormdebug#:#SCO-name#:#SCO-Name
 scormdebug#:#SCO-title#:#SCO-Titel
 scormdebug#:#scormdebug_disable_cache_info#:#Dies verhindert die Speicherung der SCORM 2004 Javascript-Dateien im Browser-Cache. Bitte nutzen Sie diese Funktion rechtzeitig vor einem Releasewechsel!
 scormdebug#:#scormdebug_disable_cache#:#SCORM 2004 Browser-Cache deaktivieren
-scormdebug#:#scormdebug_global_activate_info#:#Die Funktion ermöglicht SCORM-Lernmodule zu testen. Zusätzlich muss bei jedem gewünschten SCORM-Modul das Testwerkzeug aktiviert werden. Bei Deaktivierung des Testwerkzeugs an dieser Stelle wird bei allen Lernmodulen das Testwerzeug deaktiviert.
+scormdebug#:#scormdebug_global_activate_info#:#Die Funktion ermöglicht SCORM-Lernmodule zu testen. Zusätzlich muss bei jedem gewünschten SCORM-Modul das Testwerkzeug aktiviert werden. Bei Deaktivierung des Testwerkzeugs an dieser Stelle wird bei allen Lernmodulen das Testwerkzeug deaktiviert.
 scormdebug#:#scormdebug_global_activate#:#SCORM Testwerkzeug aktivieren
 scormdebug#:#SetValue#:#Daten senden
 scormdebug#:#show_all_API-calls#:#Alle API-Aufrufe anzeigen!
