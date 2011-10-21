@@ -38,10 +38,7 @@ class ilMailGlobalServices
 	 * @static
 	 * 
 	 */
-	protected static $global_mail_services_cache = array(
-		CACHE_TYPE_REF_ID => array(),
-		CACHE_TYPE_NEW_MAILS => array()
-	);
+	protected static $global_mail_services_cache = array();
 	
 	/**
 	 *
