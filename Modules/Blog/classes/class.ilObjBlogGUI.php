@@ -273,7 +273,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				break;
 
 			default:				
-				if($cmd != "preview")
+				if($cmd != "preview" && !$_GET["prvm"])
 				{
 					$this->addHeaderAction();
 				}
