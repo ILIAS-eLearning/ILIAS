@@ -169,10 +169,15 @@ class ilPublicUserProfileGUI
 				$portfolio_id = $this->getProfilePortfolio();
 				if($portfolio_id)
 				{
+					include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
+					$plink = new ilPermanentLinkGUI("usr", $ilUser->getId());
+					$plink = $plink->getHTML();		
+					
 					include_once "Services/Portfolio/classes/class.ilObjPortfolioGUI.php";
 					$gui = new ilObjPortfolioGUI();					
 					$gui->initPortfolioObject($portfolio_id);		
 					$gui->setAdditional($this->getAdditional());
+					$gui->setPermaLink($plink);
 					$ilCtrl->forwardCommand($gui);	
 					break;
 				}							
@@ -284,6 +289,7 @@ class ilPublicUserProfileGUI
 			$tpl->setVariable("HREF_VCARD", $ilCtrl->getLinkTarget($this, "deliverVCard"));
 			//$tpl->setVariable("IMG_VCARD", ilUtil::getImagePath("vcard.png"));
 
+			/*
 			// link to global profile
 			if ($user->prefs["public_profile"] == "g" && $ilSetting->get('enable_global_profiles'))
 			{
@@ -293,7 +299,8 @@ class ilPublicUserProfileGUI
 				$tpl->setVariable("HREF_LINK",
 					ilLink::_getStaticLink($user->getId(), "usr"));
 				$tpl->parseCurrentBlock();
-			}
+			}			 
+			*/
 		}
 		
 		$webspace_dir = ilUtil::getWebspaceDir("user");

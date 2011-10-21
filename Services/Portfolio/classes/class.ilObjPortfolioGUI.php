@@ -21,6 +21,7 @@ class ilObjPortfolioGUI
 	protected $portfolio; // [ilObjPortfolio]
 	protected $access_handler; // [ilPortfolioAccessHandler]
 	protected $additional = array();
+	protected $perma_link; // [string]
 	
 	/**
 	 * Constructor
@@ -1325,6 +1326,18 @@ class ilObjPortfolioGUI
 				$notes = $note_gui->getNotesHTML();
 			}
 		}
+			
+		if($this->perma_link === null)
+		{
+			include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
+			$plink = new ilPermanentLinkGUI("prtf", $this->portfolio->getId());
+			$plink = $plink->getHTML();		
+		}
+		else
+		{
+			$plink = $this->perma_link;
+		}
+		
 		
 		$name = ilObjUser::_lookupName($user_id);
 		$name = $name["lastname"].", ".($t = $name["title"] ? $t . " " : "").$name["firstname"];
@@ -1359,7 +1372,7 @@ class ilObjPortfolioGUI
 			$banner_width,
 			$banner_height);
 		
-		$tpl->setContent($content.$notes);			
+		$tpl->setContent($content.$notes.$plink);			
 		$tpl->setFrameFixedWidth(true);
 		
 		echo $tpl->show("DEFAULT", true, true);
@@ -1600,6 +1613,10 @@ class ilObjPortfolioGUI
 		return $this->additional;
 	}
 	
+	function setPermaLink($a_link)
+	{
+		$this->perma_link = $a_link;
+	}	
 	
 	function _goto($a_target)
 	{
