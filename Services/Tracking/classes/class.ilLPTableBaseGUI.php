@@ -619,23 +619,18 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			return "-";
 		}
 		
-		$days = floor($seconds / 86400);
-		$rest = $seconds % 86400;
-
-		$hours = floor($rest / 3600);
-		$rest = $rest % 3600;
-
+		$hours = floor($seconds / 3600);		
+		$rest = $seconds % 3600;
+		
 		$minutes = floor($rest / 60);
 		$rest = $rest % 60;
-
-		if(!$days)
+		
+		if($rest)
 		{
-			return sprintf("%02d:%02d:%02d",$hours,$minutes,$rest);
+			$minutes++;
 		}
-		else
-		{						
-			return sprintf("%02d:%02d:%02d:%02d",$days,$hours,$minutes,$rest);
-		}
+		
+		return sprintf("%dh%02dm",$hours,$minutes);
 	}
 	
 	protected function anonymizeValue($a_value, $a_force_number = false)
