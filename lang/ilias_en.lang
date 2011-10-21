@@ -4236,7 +4236,7 @@ common#:#salutation#:#Salutation
 common#:#save_and_back#:#Save And Back
 common#:#save_customer_address_info#:#If enabled, the customers billing address will be stored
 common#:#save_customer_address#:#Store billing address
-common#:#save_message#:#Save Message
+common#:#save_message#:#Save as Draft
 common#:#save_params_for_cron#:#Save Parameter for Cronjob
 common#:#save_refresh#:#Save and Refresh
 common#:#save_return#:#Save and Return
@@ -4296,7 +4296,7 @@ common#:#selected_items#:#Personal Items
 common#:#selected_languages_updated#:#The selected languages have been updated (if installed):
 common#:#selected#:#Selected
 common#:#send_mail_selected#:#Select mail recipients from list
-common#:#send_mail#:#Send mail
+common#:#send_mail#:#Send Message
 common#:#send#:#Send
 common#:#sender#:#Sender
 common#:#sent#:#Sent

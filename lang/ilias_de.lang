@@ -4804,7 +4804,7 @@ common#:#salutation#:#Anrede
 common#:#save_and_back#:#Speichern und zurück
 common#:#save_customer_address_info#:#Wenn aktiviert, wird die vom Kunden angegebene Rechnungsadresse gespeichert
 common#:#save_customer_address#:#Speichern der Rechnungsadresse
-common#:#save_message#:#Nachricht speichern
+common#:#save_message#:#Als Entwurf speichern
 common#:#save_params_for_cron#:#Speichere Parameter für Cronjob
 common#:#save_refresh#:#Speichern und aktualisieren
 common#:#save_return#:#Speichern und zurückkehren
@@ -4866,7 +4866,7 @@ common#:#selected_items#:#Ausgewählte Angebote
 common#:#selected_languages_updated#:#Die ausgewählten Sprachen wurden aktualisiert (sofern installiert):
 common#:#selected#:#Ausgewählte
 common#:#send_mail_selected#:#Mail-Empfänger aus Liste auswählen
-common#:#send_mail#:#Mail senden
+common#:#send_mail#:#Nachricht versenden
 common#:#send#:#Abschicken
 common#:#sender#:#Absender
 common#:#sent#:#Gesendet
