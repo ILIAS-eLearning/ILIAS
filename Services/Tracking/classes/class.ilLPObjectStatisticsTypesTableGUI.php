@@ -29,9 +29,9 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 
 		$this->addColumn("", "", "1", true);
 		$this->addColumn($lng->txt("type"), "title");
-		$this->addColumn($lng->txt("count"), "objects");
-		$this->addColumn($lng->txt("trac_reference"), "references");
-		$this->addColumn($lng->txt("trac_trash"), "deleted");
+		$this->addColumn($lng->txt("count"), "objects", "", false, "ilRight");
+		$this->addColumn($lng->txt("trac_reference"), "references", "", false, "ilRight");
+		$this->addColumn($lng->txt("trac_trash"), "deleted", "", false, "ilRight");
 	
 		$this->setTitle($this->lng->txt("trac_object_stat_types"));
 

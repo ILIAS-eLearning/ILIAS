@@ -37,10 +37,10 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		{
 			for($loop = 1; $loop<13; $loop++)
 			{
-				$this->addColumn($lng->txt("month_".str_pad($loop, 2, "0", STR_PAD_LEFT)."_short"), "month_".$loop);
+				$this->addColumn($lng->txt("month_".str_pad($loop, 2, "0", STR_PAD_LEFT)."_short"), "month_".$loop, "", false, "ilRight");
 			}
 		}
-		$this->addColumn($lng->txt("total"), "total");
+		$this->addColumn($lng->txt("total"), "total", "", false, "ilRight");
 
 		$this->setTitle($this->lng->txt("trac_object_stat_access"));
 

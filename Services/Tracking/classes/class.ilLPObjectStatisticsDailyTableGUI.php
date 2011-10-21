@@ -36,9 +36,9 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		for($loop = 0; $loop<24; $loop+=2)
 		{
 			$this->addColumn(str_pad($loop, 2, "0", STR_PAD_LEFT).":00-<br />".
-				str_pad($loop+2, 2, "0", STR_PAD_LEFT).":00 ", "hour".$loop);
+				str_pad($loop+2, 2, "0", STR_PAD_LEFT).":00 ", "hour".$loop, "", false, "ilRight");
 		}
-		$this->addColumn($lng->txt("total"), "sum");
+		$this->addColumn($lng->txt("total"), "sum", "", false, "ilRight");
 
 		$this->setTitle($this->lng->txt("trac_object_stat_daily"));
 

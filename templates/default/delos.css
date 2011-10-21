@@ -3372,3 +3372,7 @@ div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
 div.ilTopBarRight td.il_adv_sel {
 	background-color: #444;
 }
+
+td.ilRight, th.ilRight {
+	text-align:right;
+}
