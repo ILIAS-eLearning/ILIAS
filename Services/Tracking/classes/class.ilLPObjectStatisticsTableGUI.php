@@ -40,8 +40,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 				$this->addColumn($lng->txt("month_".str_pad($loop, 2, "0", STR_PAD_LEFT)."_short"), "month_".$loop);
 			}
 		}
-		$format = ($this->filter["measure"] == "spent_seconds") ? " (hh:mm:ss)" : "";
-		$this->addColumn($lng->txt("total").$format, "total");
+		$this->addColumn($lng->txt("total"), "total");
 
 		$this->setTitle($this->lng->txt("trac_object_stat_access"));
 

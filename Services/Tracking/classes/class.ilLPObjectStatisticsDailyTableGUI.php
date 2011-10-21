@@ -38,8 +38,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 			$this->addColumn(str_pad($loop, 2, "0", STR_PAD_LEFT).":00-<br />".
 				str_pad($loop+2, 2, "0", STR_PAD_LEFT).":00 ", "hour".$loop);
 		}
-		$format = ($this->filter["measure"] == "spent_seconds") ? " (hh:mm:ss)" : "";
-		$this->addColumn($lng->txt("total").$format, "sum");
+		$this->addColumn($lng->txt("total"), "sum");
 
 		$this->setTitle($this->lng->txt("trac_object_stat_daily"));
 
