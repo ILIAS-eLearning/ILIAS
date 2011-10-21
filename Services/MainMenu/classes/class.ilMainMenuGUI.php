@@ -235,41 +235,44 @@ class ilMainMenuGUI
 			else
 			{
 				/**
-                                 * notifications
-                                 */
-                                $notificationSettings = new ilSetting('notifications');
+				 * notifications
+				 */
+				$notificationSettings = new ilSetting('notifications');
 				$chatSettings = new ilSetting('chatroom');
 
-                                global $tpl;
-                                if ($chatSettings->get('chat_enabled') && $notificationSettings->get('enable_osd')) {
-                                    $this->tpl->touchBlock('osd_enabled');
-                                    $this->tpl->touchBlock('osd_container');
-                                    $tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
-                                    $tpl->addJavaScript('./Modules/Scorm2004/scripts/questions/jquery.js');
-				    $tpl->addCSS('Services/Notifications/templates/default/osd.css');
+				global $tpl;
+				if ($chatSettings->get('chat_enabled') && $notificationSettings->get('enable_osd')) {
+					$this->tpl->touchBlock('osd_enabled');
+					$this->tpl->touchBlock('osd_container');
+					$tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
+					$tpl->addCSS('Services/Notifications/templates/default/osd.css');
+					
+					include_once "Services/jQuery/classes/class.iljQueryUtil.php";
+					iljQueryUtil::initjQuery();
 
-                                    require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
-                                    $notifications = ilNotificationOSDHandler::getNotificationsForUser($ilUser->getId());
-                                    $this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
-                                    $this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '5');
-				    $this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') ? 'true' : 'false');
-                                    foreach($notifications as $notification) {
-                                        if ($notification['type'] == 'osd_maint') {
-                                            #var_dump($notification);
-                                            continue;
-                                        }
-                                        #var_dump($notification);
-                                        $this->tpl->setCurrentBlock('osd_notification_item');
+					require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
+					$notifications = ilNotificationOSDHandler::getNotificationsForUser($ilUser->getId());
+					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
+					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '5');
+					$this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') ? 'true' : 'false');
+					foreach($notifications as $notification) {
+						if ($notification['type'] == 'osd_maint') {
+							#var_dump($notification);
+							continue;
+						}
+						#var_dump($notification);
+						$this->tpl->setCurrentBlock('osd_notification_item');
 
-                                        $this->tpl->setVariable('NOTIFICATION_ICON_PATH', $notification['data']->iconPath);
-                                        $this->tpl->setVariable('NOTIFICATION_TITLE', $notification['data']->title);
-                                        $this->tpl->setVariable('NOTIFICATION_LINK', $notification['data']->link);
-                                        $this->tpl->setVariable('NOTIFICATION_LINKTARGET', $notification['data']->linktarget);
-                                        $this->tpl->setVariable('NOTIFICATION_ID', $notification['notification_osd_id']);
-                                        $this->tpl->setVariable('NOTIFICATION_SHORT_DESCRIPTION', $notification['data']->shortDescription);
-                                        $this->tpl->parseCurrentBlock();
-                                    }
-                                }
+						$this->tpl->setVariable('NOTIFICATION_ICON_PATH', $notification['data']->iconPath);
+						$this->tpl->setVariable('NOTIFICATION_TITLE', $notification['data']->title);
+						$this->tpl->setVariable('NOTIFICATION_LINK', $notification['data']->link);
+						$this->tpl->setVariable('NOTIFICATION_LINKTARGET', $notification['data']->linktarget);
+						$this->tpl->setVariable('NOTIFICATION_ID', $notification['notification_osd_id']);
+						$this->tpl->setVariable('NOTIFICATION_SHORT_DESCRIPTION', $notification['data']->shortDescription);
+						$this->tpl->parseCurrentBlock();
+					}
+				}
+				
 				$this->tpl->setCurrentBlock("userisloggedin");
 				$this->tpl->setVariable("TXT_LOGIN_AS",$lng->txt("login_as"));
 				$this->tpl->setVariable("TXT_LOGOUT2",$lng->txt("logout"));
