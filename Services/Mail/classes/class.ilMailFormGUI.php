@@ -866,7 +866,7 @@ class ilMailFormGUI
 		
 		$form_gui->addItem($chb);
 
-		$form_gui->addCommandButton('sendMessage', $this->lng->txt('send'));
+		$form_gui->addCommandButton('sendMessage', $this->lng->txt('send_mail'));
 		$form_gui->addCommandButton('saveDraft', $this->lng->txt('save_message'));       
         if(ilMailFormCall::_isRefererStored())
             $form_gui->addCommandButton('cancelMail', $this->lng->txt('cancel'));
