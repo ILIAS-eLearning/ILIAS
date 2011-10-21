@@ -27,7 +27,7 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
 
 		$this->addColumn("", "", "1", true);
 		$this->addColumn($lng->txt("month"), "month");
-		$this->addColumn($lng->txt("count"), "count");
+		$this->addColumn($lng->txt("count"), "count", "", false, "ilRight");
 
 		$this->setTitle($this->lng->txt("trac_object_stat_admin"));
 
