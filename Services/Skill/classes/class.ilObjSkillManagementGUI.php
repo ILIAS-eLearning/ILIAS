@@ -229,13 +229,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
 		$ilTabs->activateTab("skills");
 
-		$skmg_set = new ilSetting("skmg");
-		$enable_skmg = $skmg_set->get("enable_skmg");
-		if (!$enable_skmg)
-		{
-			ilUtil::sendInfo($lng->txt("skmg_skill_management_deactivated"));
-			return;
-		}
 $ilCtrl->setParameterByClass("ilobjskillmanagementgui", "obj_id", $this->skill_tree->getRootId());
 $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
 
@@ -891,14 +884,6 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
 		global $tpl, $ilTabs, $lng, $ilCtrl;
 
 		$ilTabs->activateTab("skill_templates");
-
-		$skmg_set = new ilSetting("skmg");
-		$enable_skmg = $skmg_set->get("enable_skmg");
-		if (!$enable_skmg)
-		{
-			ilUtil::sendInfo($lng->txt("skmg_skill_management_deactivated"));
-			return;
-		}
 
 $ilCtrl->setParameterByClass("ilobjskillmanagementgui", "obj_id", $this->skill_tree->getRootId());
 $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
