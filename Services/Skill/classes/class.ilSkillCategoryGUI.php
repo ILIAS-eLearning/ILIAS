@@ -82,7 +82,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 			$_GET["obj_id"]);
 
 			 
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_scat_b.gif"));
+		parent::setTitleIcon();
 		$tpl->setTitle(
 			$lng->txt("scat").": ".$this->node_object->getTitle());
 		$this->setSkillNodeDescription();
@@ -151,6 +151,11 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 		$ni->setRequired(true);
 		$this->form->addItem($ni);
 
+		// draft
+		$cb = new ilCheckboxInputGUI($lng->txt("skmg_draft"), "draft");
+		$cb->setInfo($lng->txt("skmg_draft_info"));
+		$this->form->addItem($cb);
+
 		// selectable
 		$cb = new ilCheckboxInputGUI($lng->txt("skmg_selectable"), "self_eval");
 		$cb->setInfo($lng->txt("skmg_selectable_info"));
@@ -183,6 +188,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 		$it->setTitle($this->form->getInput("title"));
 		$it->setOrderNr($this->form->getInput("order_nr"));
 		$it->setSelfEvaluation($_POST["self_eval"]);
+		$it->setDraft($_POST["draft"]);
 		$it->create();
 		ilSkillTreeNode::putInTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
 	}
@@ -196,6 +202,8 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 		$values["title"] = $this->node_object->getTitle();
 		$values["order_nr"] = $this->node_object->getOrderNr();
 		$values["self_eval"] = $this->node_object->getSelfEvaluation();
+		$values["draft"] = $this->node_object->getDraft();
+echo "-".$this->node_object->getDraft()."-";
 		$this->form->setValuesByArray($values);
 	}
 
@@ -207,6 +215,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 		$this->node_object->setTitle($this->form->getInput("title"));
 		$this->node_object->setOrderNr($this->form->getInput("order_nr"));
 		$this->node_object->setSelfEvaluation($_POST["self_eval"]);
+		$this->node_object->setDraft($_POST["draft"]);
 		$this->node_object->update();
 	}
 

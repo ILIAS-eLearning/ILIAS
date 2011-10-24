@@ -30,6 +30,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 		$this->setLimit(9999);
 		$this->setData($this->getSkillLevelData());
 		$this->setTitle($lng->txt("skmg_skill_levels"));
+		$this->setDescription($lng->txt("skmg_from_lower_to_higher_levels"));
 
 		$this->addColumn("", "", "1", true);
 		$this->addColumn($this->lng->txt("skmg_nr"));

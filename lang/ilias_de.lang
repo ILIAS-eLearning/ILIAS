@@ -4328,7 +4328,7 @@ common#:#obj_seas#:#Suche
 common#:#obj_sess_duplicate#:#Sitzung kopieren
 common#:#obj_sess_select#:#-- Bitte wählen Sie eine Sitzung aus --
 common#:#obj_sess#:#Sitzung
-common#:#obj_skmg_desc#:#Basiskompetenzen und Kompetenzkategorien verwalten
+common#:#obj_skmg_desc#:#Kompetenzen und Kategorien verwalten
 common#:#obj_skmg#:#Kompetenzmanagement
 common#:#obj_spl_duplicate#:#Fragenpool für Umfrage kopieren
 common#:#obj_spl_select#:#-- Bitte wählen Sie einen Fragenpool für Umfrage aus --
@@ -10765,7 +10765,7 @@ shib#:#shib_rules_tables#:#Aktive Regeln für die Rollenzuordnung
 shib#:#shib_settings#:#Shibboleth-Einstellungen
 shib#:#shib_update_role_ass_table#:#Regel zur Rollenzuordnung bearbeiten
 shib#:#shib_update_roles#:#Rollenzuordnungen
-skmg#:#scat#:#Kompetenzkategorie
+skmg#:#scat#:#Kategorie
 skmg#:#skll#:#Basiskompetenz
 skmg#:#skmg_add_level#:#Ausprägung hinzufügen
 skmg#:#skmg_add_skill#:#Kompetenz hinzufügen
@@ -10776,39 +10776,39 @@ skmg#:#skmg_cert_skill_level_title#:#Titel Kompetenzausprägung
 skmg#:#skmg_cert_skill_title#:#Titel Kompetenz
 skmg#:#skmg_cert_skill_trigger_title#:#Titel Auslöser
 skmg#:#skmg_certificate#:#Zertifikat
-skmg#:#skmg_choose_only_skill_categories_or_basic_skills#:#Bitte nur Basiskompetenzen oder nur Kompetenzkategorien auswählen.
+skmg#:#skmg_choose_only_skill_categories_or_basic_skills#:#Bitte nur Kompetenzen oder nur Kategorien auswählen.
 skmg#:#skmg_create_sctp#:#Vorlagenkategorie erstellen
-skmg#:#skmg_create_skill_category#:#Kompetenzkategorie erstellen
-skmg#:#skmg_create_skill_template_category#:#Kompetenzvorlagenkategorie erstellen
-skmg#:#skmg_create_skill_template_reference#:#Kompetenzvorlagenreferenz erstellen
-skmg#:#skmg_create_skill_template#:#Kompetenzvorlage erstellen
+skmg#:#skmg_create_skill_category#:#Kategorie erstellen
+skmg#:#skmg_create_skill_template_category#:#Vorlagenkategorie erstellen
+skmg#:#skmg_create_skill_template_reference#:#Vorlagenreferenz erstellen
+skmg#:#skmg_create_skill_template#:#Vorlage erstellen
 skmg#:#skmg_create_skll#:#Kompetenz erstellen
 skmg#:#skmg_edit_level#:#Ausprägung editieren
-skmg#:#skmg_edit_scat#:#Kompetenzkategorie ändern
-skmg#:#skmg_edit_sctp#:#Kompetenzvorlagenkategorie erstellen
+skmg#:#skmg_edit_scat#:#Kategorie ändern
+skmg#:#skmg_edit_sctp#:#Vorlagenkategorie erstellen
 skmg#:#skmg_edit_skll#:#Kompetenzeinstellungen bearbeiten
-skmg#:#skmg_edit_sktr#:#Kompetenzvorlagenreferenz bearbeiten
+skmg#:#skmg_edit_sktr#:#Vorlagenreferenz bearbeiten
 skmg#:#skmg_enable_skmg#:#Kompetenzmanagement aktivieren
 skmg#:#skmg_execute_self_evaluation#:#Start
 skmg#:#skmg_insert_as_subitem#:#Untergeordnet einfügen
 skmg#:#skmg_insert_basic_skill_child#:#Basiskompetenz hinzufügen (untergeordnet)
 skmg#:#skmg_insert_basic_skill_from_clip_child#:#Basiskompetenzen aus Zwischenablage einfügen (untergeordnet).
 skmg#:#skmg_insert_basic_skill_from_clip#:#Basiskompetenzen aus Zwischenablage einfügen.
-skmg#:#skmg_insert_basic_skill_template_child#:#Kompetenzvorlage als Unterobjekt anlegen
-skmg#:#skmg_insert_basic_skill_template#:#Kompetenzvorlage einfügen
+skmg#:#skmg_insert_basic_skill_template_child#:#Vorlage als Unterobjekt anlegen
+skmg#:#skmg_insert_basic_skill_template#:#Vorlage einfügen
 skmg#:#skmg_insert_basic_skill#:#Basiskompetenz hinzufügen
 skmg#:#skmg_insert_on_same_level#:#Auf gleicher Ebene einfügen
 skmg#:#skmg_insert_please_choose_one_type_only#:#Bitte wählen Sie nur einen Objekttyp aus.
-skmg#:#skmg_insert_skill_category_child#:#Kompetenzkategorie hinzufügen (untergeordnet)
-skmg#:#skmg_insert_skill_category_from_clip_child#:#Kompetenzkategorien aus Zwischenablage einfügen (untergeordnet).
-skmg#:#skmg_insert_skill_category_from_clip#:#Kompetenzkategorien aus Zwischenablage einfügen.
-skmg#:#skmg_insert_skill_category#:#Kompetenzkategorie hinzufügen
-skmg#:#skmg_insert_skill_template_category_child#:#Kompetenzvorlagenkategorie als Unterobjekt anlegen
-skmg#:#skmg_insert_skill_template_category#:#Kompetenzvorlagenkategorie einfügen
-skmg#:#skmg_insert_skill_template_from_clip#:#Kompetenzvorlage aus Zwischenablage einfügen
-skmg#:#skmg_insert_skill_template_reference_child#:#Kompetenzvorlagenreferenz als Unterobjekt einfügen
-skmg#:#skmg_insert_skill_template_reference_from_clip#:#Kompetenzvorlagenreferenz aus Zwischenablage einfügen
-skmg#:#skmg_insert_skill_template_reference#:#Kompetenzvorlagenreferenz einfügen
+skmg#:#skmg_insert_skill_category_child#:#Kategorie hinzufügen (untergeordnet)
+skmg#:#skmg_insert_skill_category_from_clip_child#:#Kategorien aus Zwischenablage einfügen (untergeordnet).
+skmg#:#skmg_insert_skill_category_from_clip#:#Kategorien aus Zwischenablage einfügen.
+skmg#:#skmg_insert_skill_category#:#Kategorie hinzufügen
+skmg#:#skmg_insert_skill_template_category_child#:#Vorlagenkategorie als Unterobjekt anlegen
+skmg#:#skmg_insert_skill_template_category#:#Vorlagenkategorie einfügen
+skmg#:#skmg_insert_skill_template_from_clip#:#Vorlage aus Zwischenablage einfügen
+skmg#:#skmg_insert_skill_template_reference_child#:#Vorlagenreferenz als Unterobjekt einfügen
+skmg#:#skmg_insert_skill_template_reference_from_clip#:#Vorlagenreferenz aus Zwischenablage einfügen
+skmg#:#skmg_insert_skill_template_reference#:#Vorlagenreferenz einfügen
 skmg#:#skmg_insert_template_category_from_clip#:#Vorlagenkategorie aus Zwischenablage einfügen
 skmg#:#skmg_items#:#Einträge
 skmg#:#skmg_level#:#Ausprägung
@@ -10817,10 +10817,10 @@ skmg#:#skmg_material#:#Material
 skmg#:#skmg_materials#:#Materialien
 skmg#:#skmg_new_level#:#Neue Ausprägung
 skmg#:#skmg_new_skill_category#:#Neue Kompetenzkatgorie
-skmg#:#skmg_new_skill_template_category#:#Neue Kompetenzvorlagenkategorie
-skmg#:#skmg_new_skill_template#:#Neue Kompetenzvorlage
+skmg#:#skmg_new_skill_template_category#:#Neue Vorlagenkategorie
+skmg#:#skmg_new_skill_template#:#Neue Vorlage
 skmg#:#skmg_new_skill#:#Neuer Basiskompetenz
-skmg#:#skmg_new_sktr#:#Neue Kompetenzvorlagenreferenz
+skmg#:#skmg_new_sktr#:#Neue Vorlagenreferenz
 skmg#:#skmg_next_step#:#Nächster Schritt
 skmg#:#skmg_no_skills#:#Keine Kompetenz
 skmg#:#skmg_no_trigger#:#Kein Auslöser
@@ -10838,7 +10838,7 @@ skmg#:#skmg_remove_trigger#:#Auslöser entfernen
 skmg#:#skmg_save_all_titles#:#Alle Titel speichern
 skmg#:#skmg_save_order#:#Reihenfolge speichern
 skmg#:#skmg_save_self_evaluation#:#Selbsteinschätzung abschliessen
-skmg#:#skmg_sctp#:#Kompetenzvorlagenkategorie
+skmg#:#skmg_sctp#:#Vorlagenkategorie
 skmg#:#skmg_select_trigger#:#Auslöser auswählen
 skmg#:#skmg_selectable_info#:#Erlaubt Benutzern die Kompetenz als persönliche Kompetenz hinzuzufügen.
 skmg#:#skmg_selectable#:#Auswählbar
@@ -10852,12 +10852,12 @@ skmg#:#skmg_skill_level_trigger#:#Auslöser
 skmg#:#skmg_skill_level#:#Kompetenzausprägung
 skmg#:#skmg_skill_levels#:#Kompetenzausprägungen
 skmg#:#skmg_skill_management_deactivated#:#Das Kompetenzmanagement ist momentan deaktiviert.
-skmg#:#skmg_skill_template_category#:#Kompetenzvorlagenkategorie
-skmg#:#skmg_skill_template#:#Kompetenzvorlage
-skmg#:#skmg_skill_templates#:#Kompetenzvorlage
+skmg#:#skmg_skill_template_category#:#Vorlagenkategorie
+skmg#:#skmg_skill_template#:#Vorlage
+skmg#:#skmg_skill_templates#:#Vorlagen
 skmg#:#skmg_skill#:#Kompetenz
 skmg#:#skmg_skills#:#Kompetenzen
-skmg#:#skmg_sktr#:#Kompetenzvorlagenreferenz
+skmg#:#skmg_sktr#:#Vorlagenreferenz
 skmg#:#skmg_sure_delete_self_evaluation#:#Möchten Sie die folgenden Selbsteinschätzungen wirklich löschen?
 skmg#:#skmg_trigger#:#Auslöser
 skmg#:#skmg_update_order#:#Reihenfolge speichern
@@ -12332,5 +12332,9 @@ wsp#:#wsp_type_excv#:#Zertifikat: Übung
 wsp#:#wsp_type_file#:#Datei
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
+skmg#:#skmg_from_lower_to_higher_levels#:#Bitte geben sie niedrigeren Kompetenzstufen auch niedrigere Ordnungsnummern. Je Zeile sollte die Kompetenz nach unten zunehmen.
 wsp#:#wsp_type_wfld#:#Ordner
+skmg#:#skmg_draft#:#In Vorbereitung (Offline)
+skmg#:#skmg_draft_info#:#Nicht sichbar für Lerner.
+skmg#:#skmg_select_skill#:#Klicken Sie auf eine Kompetenz um diese ihren persönlichen Kompetenzen hinzuzufügen.
 survey#:#svy_create_question#:#Frage erstellen

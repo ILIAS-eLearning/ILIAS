@@ -97,28 +97,30 @@ class ilPersonalSkillsGUI
 
 		$this->setTabs("list_skills");
 		
+		include_once("./Services/Skill/classes/class.ilSkillTree.php");
+		$stree = new ilSkillTree();
 		
 		// skill selection / add new personal skill
-		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-		$skills = ilSkillTreeNode::getSelectableSkills();
-		$options = array();
-		foreach ($skills as $s)
-		{
-			$options[$s["obj_id"]] = $s["title"];
-		}
-		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		$si = new ilSelectInputGUI($lng->txt("skmg_skill"), "skill_node_id");
-		$si->setOptions($options);
-		$ilToolbar->addInputItem($si);
-		
 		$ilToolbar->addFormButton($lng->txt("skmg_add_skill"),
-			"addPersonalSkill");
+			"listSkillsForAdd");
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 		
 		$skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());
 		$html = "";
 		foreach ($skills as $s)
 		{
+			$path = $stree->getSkillTreePath($s["skill_node_id"]);
+
+			// check draft
+			foreach ($path as $p)
+			{
+				if ($p["draft"])
+				{
+					continue(2);
+				}
+			}
+
+			
 			$html.= $this->getSkillHTML($s["skill_node_id"], 0, true);
 		}
 		
@@ -172,6 +174,18 @@ class ilPersonalSkillsGUI
 		$b_skills = ilSkillTreeNode::getSkillTreeNodes($a_top_skill_id, true);
 		foreach ($b_skills as $bs)
 		{
+			$path = $stree->getSkillTreePath($bs["id"], $bs["tref"]);
+
+			// check draft
+			foreach ($path as $p)
+			{
+				if ($p["draft"])
+				{
+					continue(2);
+				}
+			}
+			reset($path);
+			
 			$se_level = ilPersonalSkill::getSelfEvaluation($ilUser->getId(),
 				$a_top_skill_id, $bs["tref"], $bs["id"]);
 			
@@ -270,14 +284,18 @@ class ilPersonalSkillsGUI
 				}							
 			}
 			
-			$path = $stree->getPathFull($bs["id"]);
 			$title = $sep = "";
+			$found = false;
 			foreach ($path as $p)
 			{
-				if ($p["type"] != "skrt")
+				if ($found)
 				{
 					$title.= $sep.$p["title"];
 					$sep = " > ";
+				}
+				if ($a_top_skill_id == $p["child"])
+				{
+					$found = true;
 				}
 			}
 
@@ -384,15 +402,17 @@ class ilPersonalSkillsGUI
 	/**
 	 * Add personal skill
 	 */
-	function addPersonalSkill()
+	function addSkill()
 	{
 		global $ilUser, $ilCtrl, $lng;
 		
-		ilPersonalSkill::addPersonalSkill($ilUser->getId(), (int) $_POST["skill_node_id"]);
+		ilPersonalSkill::addPersonalSkill($ilUser->getId(), (int) $_GET["obj_id"]);
 		
 		ilUtil::sendSuccess($lng->txt("msg_object_modified"));
 		$ilCtrl->redirect($this, "listSkills");
 	}
+	
+	
 	
 	/**
 	 * Confirm skill remove
@@ -709,6 +729,65 @@ class ilPersonalSkillsGUI
 		$ilCtrl->redirect($this, "listSkills");
 
 	}
+	
+	/**
+	 * LIst skills for adding
+	 *
+	 * @param
+	 * @return
+	 */
+	function listSkillsForAdd()
+	{
+		global $ilUser, $tpl, $ilCtrl, $lng, $ilTabs;
+
+		ilUtil::sendInfo($lng->txt("skmg_select_skill"));
+		
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, ""));
+		
+		include_once("./Services/Skill/classes/class.ilSkillTree.php");
+		$skill_tree = new ilSkillTree();
+		
+		require_once ("./Services/Skill/classes/class.ilPersonalSkillExplorer.php");
+		$exp = new ilPersonalSkillExplorer($ilCtrl->getLinkTarget($this, "listSkillsForAdd"));
+		$exp->setTargetGet("obj_id");
+		
+		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, "listSkillsForAdd"));
+		
+		if ($_GET["skpexpand"] == "")
+		{
+			$expanded = $skill_tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["skpexpand"];
+		}
+
+		if ($_GET["obj_id"] > 0)
+		{
+			$path = $this->skill_tree->getPathId($_GET["obj_id"]);
+			$exp->setForceOpenPath($path);
+			$exp->highlightNode($_GET["obj_id"]);
+		}
+		else
+		{
+			$exp->highlightNode($this->skill_tree->readRootId());
+		}
+		$exp->setExpand($expanded);
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+
+		// asynchronous output
+		if ($ilCtrl->isAsynch())
+		{
+			echo $output; exit;
+		}
+		
+		$tpl->setContent($output);
+
+	}
+	
 	
 }
 ?>

@@ -559,6 +559,18 @@ class ilExplorer
 	}
 	
 	/**
+	 * Get childs of node
+	 *
+	 * @param int $a_parent_id parent id
+	 * @return array childs
+	 */
+	function getChildsOfNode($a_parent_id)
+	{
+		return $this->tree->getChilds($a_parent_id, $this->order_column);
+	}
+	
+	
+	/**
 	* Creates output for explorer view in admin menue
 	* recursive method
 	* @access	public
@@ -579,7 +591,7 @@ class ilExplorer
 
 		if ($this->showChilds($a_parent_id,$a_obj_id))
 		{
-			$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
+			$objects = $this->getChildsOfNode($a_parent_id);
 		}
 		else
 		{
@@ -735,6 +747,18 @@ class ilExplorer
 	}
 
 	/**
+	 * Get maximum tree depth
+	 *
+	 * @param
+	 * @return
+	 */
+	function getMaximumTreeDepth()
+	{
+		$this->tree->getMaximumDepth();
+	}
+	
+	
+	/**
 	* Creates output
 	* recursive method
 	* @access	public
@@ -748,7 +772,7 @@ class ilExplorer
 
 		$this->format_options[0]["tab"] = array();
 
-		$depth = $this->tree->getMaximumDepth();
+		$depth = $this->getMaximumTreeDepth();
 
 		for ($i=0;$i<$depth;++$i)
 		{

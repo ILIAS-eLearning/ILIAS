@@ -216,9 +216,9 @@ class ilSkillExplorer extends ilExplorer
 		}
 	}
 
-		/**
-	* standard implementation for title, may be overwritten by derived classes
-	*/
+	/**
+	 * standard implementation for title, may be overwritten by derived classes
+	 */
 	function buildTitle($a_title, $a_id, $a_type)
 	{
 		if ($a_type == "sktr")
@@ -226,6 +226,11 @@ class ilSkillExplorer extends ilExplorer
 			include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
 			$tid = ilSkillTemplateReference::_lookupTemplateId($a_id);
 			$a_title.= " (".ilSkillTreeNode::_lookupTitle($tid).")";
+		}
+		
+		if (ilSkillTreeNode::_lookupSelfEvaluation($a_id))
+		{
+			$a_title = "<u>".$a_title."</u>";
 		}
 		
 		return $a_title;
@@ -251,5 +256,42 @@ class ilSkillExplorer extends ilExplorer
 		return "";
 	}
 	
+	/**
+	 * get image path (may be overwritten by derived classes)
+	 */
+	function getImage($a_name, $a_type = "", $a_obj_id = "")
+	{
+		if (in_array($a_type, array("skll", "scat", "sctr", "sktr")))
+		{
+			return ilSkillTreeNode::getIconPath($a_obj_id, $a_type, "_s", $this->draft[$a_obj_id]);
+		}
+		return ilUtil::getImagePath($a_name);
+	}
+
+	/**
+	 * Get childs of node
+	 *
+	 * @param int $a_parent_id parent id
+	 * @return array childs
+	 */
+	function getChildsOfNode($a_parent_id)
+	{
+		$childs =  $this->tree->getChilds($a_parent_id, $this->order_column);
+		
+		foreach ($childs as $c)
+		{
+			$this->parent[$c["child"]] = $c["parent"];
+			if ($this->draft[$c["parent"]])
+			{
+				$this->draft[$c["child"]] = true;
+			}
+			else
+			{
+				$this->draft[$c["child"]] = ilSkillTreeNode::_lookupDraft($c["child"]);
+			}
+		}
+		return $childs;
+	}
+
 }
 ?>
