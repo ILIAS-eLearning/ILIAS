@@ -151,6 +151,7 @@ class ilSkillTreeNode
 		$this->setTitle($this->data_record["title"]);
 		$this->setOrderNr($this->data_record["order_nr"]);
 		$this->setSelfEvaluation($this->data_record["self_eval"]);
+		$this->setDraft($this->data_record["draft"]);
 	}
 
 	/**
@@ -193,6 +194,32 @@ class ilSkillTreeNode
 	}
 	
 	/**
+	 * Lookup self evaluation
+	 *
+	 * @param	int			node ID
+	 * @return	boolean		selectable? (self evaluation=
+	 */
+	static function _lookupSelfEvaluation($a_obj_id)
+	{
+		global $ilDB;
+
+		return self::_lookup($a_obj_id, "self_eval");
+	}
+	
+	/**
+	 * Lookup Draft
+	 *
+	 * @param	int			node ID
+	 * @return	boolean		draft
+	 */
+	static function _lookupDraft($a_obj_id)
+	{
+		global $ilDB;
+
+		return self::_lookup($a_obj_id, "draft");
+	}
+	
+	/**
 	* Lookup Type
 	*
 	* @param	int			Node ID
@@ -211,6 +238,26 @@ class ilSkillTreeNode
 	}
 
 	/**
+	 * Set draft
+	 *
+	 * @param boolean $a_val draft	
+	 */
+	function setDraft($a_val)
+	{
+		$this->draft = $a_val;
+	}
+	
+	/**
+	 * Get draft
+	 *
+	 * @return boolean draft
+	 */
+	function getDraft()
+	{
+		return $this->draft;
+	}
+	
+	/**
 	 * Write Title
 	 *
 	 * @param	int			Node ID
@@ -223,6 +270,7 @@ class ilSkillTreeNode
 		$query = "UPDATE skl_tree_node SET ".
 			" title = ".$ilDB->quote($a_title, "text").
 			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
+
 		$ilDB->manipulate($query);
 	}
 
@@ -253,14 +301,15 @@ class ilSkillTreeNode
 
 		// insert object data
 		$id = $ilDB->nextId("skl_tree_node");
-		$query = "INSERT INTO skl_tree_node (obj_id, title, type, create_date, self_eval, order_nr) ".
+		$query = "INSERT INTO skl_tree_node (obj_id, title, type, create_date, self_eval, order_nr, draft) ".
 			"VALUES (".
 			$ilDB->quote($id, "integer").",".
 			$ilDB->quote($this->getTitle(), "text").",".
 			$ilDB->quote($this->getType(), "text").", ".
 			$ilDB->now().", ".
 			$ilDB->quote((int) $this->getSelfEvaluation(), "integer").", ".
-			$ilDB->quote((int) $this->getOrderNr(), "integer").
+			$ilDB->quote((int) $this->getOrderNr(), "integer").", ".
+			$ilDB->quote((int) $this->getDraft(), "integer").
 			")";
 		$ilDB->manipulate($query);
 		$this->setId($id);
@@ -277,6 +326,7 @@ class ilSkillTreeNode
 			" title = ".$ilDB->quote($this->getTitle(), "text").
 			" ,self_eval = ".$ilDB->quote((int) $this->getSelfEvaluation(), "integer").
 			" ,order_nr = ".$ilDB->quote((int) $this->getOrderNr(), "integer").
+			" ,draft = ".$ilDB->quote((int) $this->getDraft(), "integer").
 			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
 
 		$ilDB->manipulate($query);
@@ -831,6 +881,33 @@ class ilSkillTreeNode
 			ilSkillTreeNode::_writeOrderNr($c["child"], $cnt);
 			$cnt += 10;
 		}
+	}
+	
+	/**
+	 * Get icon path
+	 *
+	 * @param
+	 * @return
+	 */
+	function getIconPath($a_obj_id, $a_type, $a_size = "", $a_draft = false)
+	{
+		$off = ($a_draft)
+			? "_off"
+			: "";
+			
+		$a_name = "icon_".$a_type.$a_size.$off.".gif";
+		if ($a_type == "sktr")
+		{
+			include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
+			$tid = ilSkillTemplateReference::_lookupTemplateId($a_obj_id);
+			$type = ilSkillTreeNode::_lookupType($tid);
+			if ($type == "sctp")
+			{
+				$a_name = "icon_sctr".$a_size.$off.".gif";
+			}
+		}
+		$vers = "vers=".str_replace(array(".", " "), "-", ILIAS_VERSION);
+		return ilUtil::getImagePath($a_name)."?".$vers;
 	}
 	
 }

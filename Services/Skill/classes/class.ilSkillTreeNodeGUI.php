@@ -299,6 +299,7 @@ class ilSkillTreeNodeGUI
 		$values["title"] = $this->node_object->getTitle();
 		$values["order_nr"] = $this->node_object->getOrderNr();
 		$values["self_eval"] = $this->node_object->getSelfEvaluation();
+		$values["draft"] = $this->node_object->getDraft();
 		
 		$this->form->setValuesByArray($values); 
     }
@@ -540,5 +541,22 @@ class ilSkillTreeNodeGUI
 		$nodes = ilSkillTreeNode::insertItemsFromClip("sctp", (int) $_GET["obj_id"]);
 		$this->redirectToParent();
 	}
+	
+	/**
+	 * Set title icon
+	 */
+	function setTitleIcon()
+	{
+		global $tpl;
+		
+		$obj_id = (is_object($this->node_object))
+			? $this->node_object->getId()
+			:0;
+		$tpl->setTitleIcon(
+			ilSkillTreeNode::getIconPath(
+			$obj_id, $this->getType(), "_b",
+			ilSkillTreeNode::_lookupDraft($obj_id)));
+	}
+	
 }
 ?>

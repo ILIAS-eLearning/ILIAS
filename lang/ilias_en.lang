@@ -12331,5 +12331,9 @@ prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the
 survey#:#svy_participation#:#Participation
 blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list. 
 survey#:#svy_page_add_question#:#Add new %s
+skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.
 common#:#spl_import#:#Import Question Pool Survey
+skmg#:#skmg_draft#:#Draft (Offline)
+skmg#:#skmg_draft_info#:#Item will be hidden for learners.
+skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 survey#:#svy_create_question#:#Create Question

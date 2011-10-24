@@ -49,7 +49,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 			 $ilCtrl->getLinkTarget($this,'showProperties'),
 			 "showProperties", get_class($this));
 			 
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_sktp_b.gif"));
+		parent::setTitleIcon();
 		$tpl->setTitle(
 			$lng->txt("skmg_basic_skill_template").": ".$this->node_object->getTitle());
 	}
@@ -182,7 +182,8 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 			
 			$ilTabs->activateTab($a_tab);
 
-			$tpl->setTitleIcon(ilUtil::getImagePath("icon_sktp_b.gif"), $lng->txt("skmg_skill_template"));
+			//$tpl->setTitleIcon(ilUtil::getImagePath("icon_sktp_b.gif"), $lng->txt("skmg_skill_template"));
+			parent::setTitleIcon();
 		
 			$this->setSkillNodeDescription();
 		}

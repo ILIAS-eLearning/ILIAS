@@ -81,7 +81,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 		$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
 			$_GET["obj_id"]);
  
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_sctp_b.gif"));
+		parent::setTitleIcon();
 		$tpl->setTitle(
 			$lng->txt("skmg_sctp").": ".$this->node_object->getTitle());
 		$this->setSkillNodeDescription();

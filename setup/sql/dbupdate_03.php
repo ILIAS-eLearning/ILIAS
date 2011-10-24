@@ -8333,3 +8333,11 @@ if(!$ilDB->tableExists('note_settings'))
 <?php
 	$ilDB->addIndex('tree', array('lft'), "i4");
 ?>
+<#3501>
+<?php
+	$ilDB->addTableColumn("skl_tree_node", "draft", array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 1,
+		"default" => 0));
+?>
