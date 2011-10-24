@@ -3809,8 +3809,8 @@ class ilObjSurvey extends ilObject
 */
 	function getQuestionblocksTable($arrFilter)
 	{
-		global $ilUser;
-		global $ilDB;
+		global $ilUser, $ilDB;
+		
 		$where = "";
 		if (is_array($arrFilter))
 		{
@@ -3827,11 +3827,12 @@ class ilObjSurvey extends ilObject
 		$rows = array();
 		if ($query_result->numRows())
 		{
-			$surveys = ilObject::_getObjectsDataForType('svy', true);
+			$survey_ref_ids = ilUtil::_getObjectsByOperations("svy", "write");
 			$surveytitles = array();
-			foreach ($surveys as $data)
+			foreach ($survey_ref_ids as $survey_ref_id)
 			{
-				$surveytitles[$data['id']] = $data['title'];
+				$survey_id = ilObject::_lookupObjId($survey_ref_id);
+				$surveytitles[$survey_id] = ilObject::_lookupTitle($survey_id);				
 			}
 			while ($row = $ilDB->fetchAssoc($query_result))
 			{
