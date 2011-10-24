@@ -119,7 +119,7 @@ class ilSurveyPageGUI
 	/**
 	 * determine current page
 	 */
-	protected function determineCurrentPage()
+	public function determineCurrentPage()
 	{
 		$current_page = (int)$_REQUEST["jump"];
 		if(!$current_page)
@@ -181,7 +181,7 @@ class ilSurveyPageGUI
 	 *
 	 * @param int $a_new_id
 	 */
-	protected function insertNewQuestion($a_new_id)
+	public function insertNewQuestion($a_new_id)
 	{
 		global $rbacsystem, $ilDB, $lng;
 
@@ -219,7 +219,7 @@ class ilSurveyPageGUI
 					$this->object->addQuestionToBlock($a_new_id, $block_id);
 				}
 			}
-			// c: as new page (from toolbar)
+			// c: as new page (from toolbar/pool)
 			else
 			{
 				// after given question
@@ -242,6 +242,79 @@ class ilSurveyPageGUI
 			// move to target position
 			$this->object->moveQuestions(array($a_new_id), (int)$pos,
 				((substr($pos, -1) == "a") ? 1 : 0));
+		}
+	}
+	
+	/**
+	 * Copy and insert questions from block 
+	 * 
+	 * @param int $a_block_id
+	 */
+	public function insertQuestionBlock($a_block_id)
+	{
+		$new_ids = array();
+		$question_ids = $this->object->getQuestionblockQuestionIds($a_block_id);
+		foreach($question_ids as $qid)
+		{
+			$new_ids[] = $this->appendNewQuestionToSurvey($qid);
+		}
+		
+		if(sizeof($new_ids))
+		{
+			$this->object->loadQuestionsFromDb();
+			
+			$pos = $_REQUEST["pgov_pos"];
+		
+			// a[fter]/b[efore] on same page
+			if(substr($pos, -1) != "c")
+			{
+				// block handling
+				$current = $this->object->getSurveyPages();
+				$current = $current[$this->current_page-1];
+				if(sizeof($current) == 1)
+				{										
+					// as questions are moved to first block question
+					// always use existing as first
+					// the new question is moved later on (see below)
+					$this->object->createQuestionblock($this->getAutoBlockTitle(), true, false,
+									array((int)$pos)+$new_ids);
+				}
+				else
+				{
+					$block_id = array_pop($current);
+					$block_id = $block_id["questionblock_id"];
+
+					foreach($new_ids as $qid)
+					{
+						$this->object->addQuestionToBlock($qid, $block_id);
+					}
+				}
+			}
+			// c: as new page (from toolbar/pool)
+			else
+			{
+				// re-create block
+				$this->object->createQuestionblock($this->getAutoBlockTitle(), true, false,
+								$new_ids);
+				
+				// after given question
+				if((int)$pos)
+				{
+					$pos = (int)$pos."a";
+				}
+				// at the beginning
+				else
+				{
+					$first = $this->object->getSurveyPages();
+					$first = $first[0];
+					$first = array_shift($first);
+					$pos = $first["question_id"]."b";
+				}
+			}
+
+			// move to target position
+			$this->object->moveQuestions($new_ids, (int)$pos,
+				((substr($pos, -1) == "a") ? 1 : 0));			
 		}
 	}
 
@@ -1102,11 +1175,31 @@ class ilSurveyPageGUI
 	 */
 	protected function renderToolbar($a_pages)
 	{
-		global $ilToolbar, $ilCtrl, $lng;
+		global $ilToolbar, $ilCtrl, $lng, $ilUser;
 
 		if(!$this->has_datasets)
 		{
 			$ilToolbar->addButton($lng->txt("survey_add_new_question"),	$ilCtrl->getLinkTarget($this, "addQuestionToolbarForm"));
+			
+			if($this->object->isPoolActive())
+			{
+				$ilToolbar->addSeparator();
+
+				$last_on_page = $a_pages[$this->current_page-1];
+				$last_on_page = array_pop($last_on_page);
+				$last_on_page = $last_on_page["question_id"];
+
+				$ilCtrl->setParameter($this->survey_gui, "pgov", $this->current_page);
+				$ilCtrl->setParameter($this->survey_gui, "pgov_pos", $last_on_page."c");
+
+				$cmd = ($ilUser->getPref('svy_insert_type') == 1 || strlen($ilUser->getPref('svy_insert_type')) == 0) ? 'browseForQuestions' : 'browseForQuestionblocks';
+				$ilToolbar->addButton($lng->txt("browse_for_questions"),
+					$ilCtrl->getLinkTarget($this->survey_gui, $cmd));		
+				
+				$ilCtrl->setParameter($this->survey_gui, "pgov", "");
+				$ilCtrl->setParameter($this->survey_gui, "pgov_pos", "");
+			}
+			
 			if($a_pages)
 			{
 				$ilToolbar->addSeparator();
@@ -1399,6 +1492,12 @@ class ilSurveyPageGUI
 						$menu[] = array("cmd"=> "addQuestion_".$item["questiontype_id"],
 							"text"=> sprintf($lng->txt("svy_page_add_question"), $trans));
 					}
+					
+					if($this->object->isPoolActive())
+					{
+						$menu[] = array("cmd"=> "addPoolQuestion",
+							"text"=> $lng->txt("browse_for_questions"));
+					}
 				}
 				else 
 				{
@@ -1476,6 +1575,12 @@ class ilSurveyPageGUI
 				{
 					$menu[] = array("cmd"=> "addQuestion_".$item["questiontype_id"],
 						"text"=> sprintf($lng->txt("svy_page_add_question"), $trans));
+				}
+				
+				if($this->object->isPoolActive())
+				{
+					$menu[] = array("cmd"=> "addPoolQuestion",
+						"text"=> $lng->txt("browse_for_questions"));
 				}
 			}
 			else 
@@ -1662,6 +1767,28 @@ class ilSurveyPageGUI
 		global $lng;
 
 		return $lng->txt("survey_auto_block_title");
+	}
+	
+	public function addPoolQuestion($pos, $node)
+	{	
+		global $ilCtrl, $ilUser;
+		
+		if($node == "page_end")
+		{
+			$pos = $this->object->getSurveyPages();
+			$pos = array_pop($pos[$this->current_page-1]);
+			$pos = $pos["question_id"]."a";
+		}
+		else
+		{
+			$pos = $pos."b";
+		}		
+		
+		$ilCtrl->setParameter($this->survey_gui, "pgov", $this->current_page);
+		$ilCtrl->setParameter($this->survey_gui, "pgov_pos", $pos);
+		
+		$cmd = ($ilUser->getPref('svy_insert_type') == 1 || strlen($ilUser->getPref('svy_insert_type')) == 0) ? 'browseForQuestions' : 'browseForQuestionblocks';
+		$ilCtrl->redirect($this->survey_gui, $cmd);
 	}
 }
 

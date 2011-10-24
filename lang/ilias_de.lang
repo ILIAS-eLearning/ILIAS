@@ -11176,7 +11176,7 @@ survey#:#ask_insert_questionblocks#:#Sind Sie sicher, dass Sie die folgenden Fra
 survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) der Umfrage hinzufügen wollen?
 survey#:#back#:#<< Zurück
 survey#:#before#:#vor
-survey#:#browse_for_questions#:#Fragen suchen/hinzufügen
+survey#:#browse_for_questions#:#Aus Pool hinzufügen
 survey#:#cancel_survey#:#Umfrage unterbrechen
 survey#:#cannot_create_survey_codes#:#Sie besitzen nicht die passenden Zugriffsrechte, um Zugangsschlüssel für die Umfrage zu erzeugen!
 survey#:#cannot_edit_survey#:#Sie besitzen nicht die passenden Zugriffsrechte, um die Umfrage zu bearbeiten!
@@ -12333,3 +12333,4 @@ wsp#:#wsp_type_file#:#Datei
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
+survey#:#svy_create_question#:#Frage erstellen
