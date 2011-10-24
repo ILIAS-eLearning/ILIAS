@@ -2458,57 +2458,61 @@ class ilObjectListGUI
 
 		$this->default_command = false;
 		
-		$commands = $this->getCommands($this->ref_id, $this->obj_id);
+		// we only allow the following commands inside the header actions
+		$valid_header_commands = array("mount_webfolder");
 
-		if(!$a_header_actions)
+		$commands = $this->getCommands($this->ref_id, $this->obj_id);		
+		foreach($commands as $command)
 		{
-			foreach($commands as $command)
+			if($a_header_actions && !in_array($command["cmd"], $valid_header_commands))
 			{
-				if ($command["granted"] == true )
+				continue;
+			}
+			
+			if ($command["granted"] == true )
+			{
+				if (!$command["default"] === true)
 				{
-					if (!$command["default"] === true)
+					if (!$this->std_cmd_only && !$only_default)
 					{
-						if (!$this->std_cmd_only && !$only_default)
+						// workaround for repository frameset
+						$command["link"] = 
+							$this->appendRepositoryFrameParameter($command["link"]);
+
+						// standard edit icon
+						if ($command["lang_var"] == "edit" && $command["img"] == "")
 						{
-							// workaround for repository frameset
-							$command["link"] = 
-								$this->appendRepositoryFrameParameter($command["link"]);
-
-							// standard edit icon
-							if ($command["lang_var"] == "edit" && $command["img"] == "")
-							{
-								$command["img"] = ilUtil::getImagePath("cmd_edit_s.gif");
-							}
-
-							$cmd_link = $command["link"];
-							$txt = ($command["lang_var"] == "")
-								? $command["txt"]
-								: $this->lng->txt($command["lang_var"]);
-							$this->insertCommand($cmd_link, $txt,
-								$command["frame"], $command["img"], $command["cmd"]);
+							$command["img"] = ilUtil::getImagePath("cmd_edit_s.gif");
 						}
-					}
-					else
-					{
-						$this->default_command = $this->createDefaultCommand($command);
-						//$this->default_command = $command;
+
+						$cmd_link = $command["link"];
+						$txt = ($command["lang_var"] == "")
+							? $command["txt"]
+							: $this->lng->txt($command["lang_var"]);
+						$this->insertCommand($cmd_link, $txt,
+							$command["frame"], $command["img"], $command["cmd"]);
 					}
 				}
-				elseif($command["default"] === true)
+				else
 				{
-					$items =& $command["access_info"];
-					foreach ($items as $item)
+					$this->default_command = $this->createDefaultCommand($command);
+					//$this->default_command = $command;
+				}
+			}
+			elseif($command["default"] === true)
+			{
+				$items =& $command["access_info"];
+				foreach ($items as $item)
+				{
+					if ($item["type"] == IL_NO_LICENSE)
 					{
-						if ($item["type"] == IL_NO_LICENSE)
-						{
-							$this->addCustomProperty($this->lng->txt("license"),$item["text"],true);
-							$this->enableProperties(true);
-							break;
-						}
+						$this->addCustomProperty($this->lng->txt("license"),$item["text"],true);
+						$this->enableProperties(true);
+						break;
 					}
 				}
 			}
-		}
+		}		
 
 		if (!$only_default)
 		{
