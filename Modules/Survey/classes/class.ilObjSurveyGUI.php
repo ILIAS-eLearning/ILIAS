@@ -706,28 +706,60 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 
 	/**
-	* Insert questions into the survey
+	* Insert questions into the survey (from question pool)
 	*/
 	public function insertQuestionsObject()
 	{
 		$inserted_objects = 0;
 		if (is_array($_POST['q_id']))
 		{
+			if($_REQUEST["pgov"])
+			{
+				include_once "Modules/Survey/classes/class.ilSurveyPageGUI.php";
+				$page_gui = new ilSurveyPageGUI($this);
+				$page_gui->determineCurrentPage();	
+				
+				// as target position is predefined, insert in reverse order
+				$_POST['q_id'] = array_reverse($_POST['q_id']);
+			}			
 			foreach ($_POST['q_id'] as $question_id)
 			{
-				$this->object->insertQuestion($question_id);
+				if(!$_REQUEST["pgov"])
+				{				
+					$this->object->insertQuestion($question_id);
+				}
+				else
+				{
+					// target position (pgov pos) is processed there
+					$page_gui->insertNewQuestion($question_id);
+				}
 				$inserted_objects++;
 			}
 		}
 		if ($inserted_objects)
 		{
 			$this->object->saveCompletionStatus();
-			ilUtil::sendSuccess($this->lng->txt("questions_inserted"), true);
-			$this->ctrl->redirect($this, "questions");
+			ilUtil::sendSuccess($this->lng->txt("questions_inserted"), true);			
+			if(!$_REQUEST["pgov"])
+			{
+				$this->ctrl->redirect($this, "questions");
+			}
+			else
+			{
+				$target_page = $_REQUEST["pgov"];
+				if(substr($_REQUEST["pgov_pos"], -1) == "c")
+				{
+					$target_page++;
+				}
+				$this->ctrl->setParameterByClass("ilsurveypagegui", "pgov", $target_page);
+				$this->ctrl->redirectByClass("ilsurveypagegui", "renderpage");			
+			}
 		}
 		else
-		{
+		{			
 			ilUtil::sendInfo($this->lng->txt("insert_missing_question"), true);
+			$this->ctrl->setParameter($this, "pgov", $_REQUEST["pgov"]);
+			$this->ctrl->setParameter($this, "pgov_pos", $_REQUEST["pgov_pos"]);
 			$this->ctrl->redirect($this, 'browseForQuestions');
 		}
 	}
@@ -740,21 +772,52 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$inserted_objects = 0;
 		if (is_array($_POST['cb']))
 		{
+			if($_REQUEST["pgov"])
+			{
+				include_once "Modules/Survey/classes/class.ilSurveyPageGUI.php";
+				$page_gui = new ilSurveyPageGUI($this);
+				$page_gui->determineCurrentPage();	
+				
+				// as target position is predefined, insert in reverse order
+				$_POST['cb'] = array_reverse($_POST['cb']);
+			}		
 			foreach ($_POST['cb'] as $questionblock_id)
 			{
-				$this->object->insertQuestionblock($questionblock_id);
+				if(!$_REQUEST["pgov"])
+				{	
+					$this->object->insertQuestionblock($questionblock_id);
+				}
+				else
+				{
+					$page_gui->insertQuestionblock($questionblock_id);
+				}
 				$inserted_objects++;
 			}
 		}
 		if ($inserted_objects)
 		{
 			$this->object->saveCompletionStatus();
-			ilUtil::sendSuccess(($inserted_objects == 1) ? $this->lng->txt("questionblock_inserted") : $this->lng->txt("questionblocks_inserted"), true);
-			$this->ctrl->redirect($this, "questions");
+			ilUtil::sendSuccess(($inserted_objects == 1) ? $this->lng->txt("questionblock_inserted") : $this->lng->txt("questionblocks_inserted"), true);			
+			if(!$_REQUEST["pgov"])
+			{
+				$this->ctrl->redirect($this, "questions");
+			}
+			else
+			{
+				$target_page = $_REQUEST["pgov"];
+				if(substr($_REQUEST["pgov_pos"], -1) == "c")
+				{
+					$target_page++;
+				}
+				$this->ctrl->setParameterByClass("ilsurveypagegui", "pgov", $target_page);
+				$this->ctrl->redirectByClass("ilsurveypagegui", "renderpage");			
+			}
 		}
 		else
 		{
 			ilUtil::sendInfo($this->lng->txt("insert_missing_questionblock"), true);
+			$this->ctrl->setParameter($this, "pgov", $_REQUEST["pgov"]);
+			$this->ctrl->setParameter($this, "pgov_pos", $_REQUEST["pgov_pos"]);
 			$this->ctrl->redirect($this, 'browseForQuestionblocks');
 		}
 	}
@@ -766,6 +829,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $ilUser;
 		$ilUser->writePref('svy_insert_type', $_POST['datatype']);
+		$this->ctrl->setParameter($this, "pgov", $_REQUEST["pgov"]);
+		$this->ctrl->setParameter($this, "pgov_pos", $_REQUEST["pgov_pos"]);
 		switch ($_POST["datatype"])
 		{
 			case 0:
@@ -786,6 +851,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyQuestionblockbrowserTableGUI.php";
 		$table_gui = new ilSurveyQuestionblockbrowserTableGUI($this, 'browseForQuestionblocks');
 		$table_gui->writeFilterToSession();
+		$this->ctrl->setParameter($this, "pgov", $_REQUEST["pgov"]);
+		$this->ctrl->setParameter($this, "pgov_pos", $_REQUEST["pgov_pos"]);
 		$this->ctrl->redirect($this, 'browseForQuestionblocks');
 	}
 	
@@ -797,6 +864,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyQuestionblockbrowserTableGUI.php";
 		$table_gui = new ilSurveyQuestionblockbrowserTableGUI($this, 'browseForQuestionblocks');
 		$table_gui->resetFilter();
+		$this->ctrl->setParameter($this, "pgov", $_REQUEST["pgov"]);
+		$this->ctrl->setParameter($this, "pgov_pos", $_REQUEST["pgov_pos"]);
 		$this->ctrl->redirect($this, 'browseForQuestionblocks');
 	}
 	
@@ -807,6 +876,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		global $ilUser;
+		
+		$this->ctrl->setParameter($this, "pgov", $_REQUEST["pgov"]);
+		$this->ctrl->setParameter($this, "pgov_pos", $_REQUEST["pgov_pos"]);
 
 		$this->setBrowseForQuestionsSubtabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_questionbrowser.html", "Modules/Survey");
@@ -841,6 +913,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyQuestionbrowserTableGUI.php";
 		$table_gui = new ilSurveyQuestionbrowserTableGUI($this, 'browseForQuestions');
 		$table_gui->writeFilterToSession();
+		$this->ctrl->setParameter($this, "pgov", $_REQUEST["pgov"]);
+		$this->ctrl->setParameter($this, "pgov_pos", $_REQUEST["pgov_pos"]);
 		$this->ctrl->redirect($this, 'browseForQuestions');
 	}
 	
@@ -852,6 +926,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyQuestionbrowserTableGUI.php";
 		$table_gui = new ilSurveyQuestionbrowserTableGUI($this, 'browseForQuestions');
 		$table_gui->resetFilter();
+		$this->ctrl->setParameter($this, "pgov", $_REQUEST["pgov"]);
+		$this->ctrl->setParameter($this, "pgov_pos", $_REQUEST["pgov_pos"]);
 		$this->ctrl->redirect($this, 'browseForQuestions');
 	}
 	
@@ -863,6 +939,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $rbacsystem;
 		global $ilUser;
 
+		$this->ctrl->setParameter($this, "pgov", $_REQUEST["pgov"]);
+		$this->ctrl->setParameter($this, "pgov_pos", $_REQUEST["pgov_pos"]);
+		
 		$this->setBrowseForQuestionsSubtabs();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_questionbrowser.html", "Modules/Survey");
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyQuestionbrowserTableGUI.php";
@@ -1814,13 +1893,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// toolbar
 
 		if (!$read_only)
-		{
-			$cmd = ($ilUser->getPref('svy_insert_type') == 1 || strlen($ilUser->getPref('svy_insert_type')) == 0) ? 'browseForQuestions' : 'browseForQuestionblocks';
-			$ilToolbar->addButton($this->lng->txt("browse_for_questions"),
-				$this->ctrl->getLinkTarget($this, $cmd));
-
-			$ilToolbar->addSeparator();
-
+		{			
 			$qtypes = array();
 			include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 			foreach (ilObjSurveyQuestionPool::_getQuestiontypes() as $translation => $data)
@@ -1832,8 +1905,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 			$types = new ilSelectInputGUI($this->lng->txt("create_new"), "sel_question_types");
 			$types->setOptions($qtypes);
-			$ilToolbar->addInputItem($types, $this->lng->txt("create_new"));
-			$ilToolbar->addFormButton($this->lng->txt("create"), "createQuestion");
+			$ilToolbar->addInputItem($types, "");
+			$ilToolbar->addFormButton($this->lng->txt("svy_create_question"), "createQuestion");
+			
+			if($this->object->isPoolActive())
+			{
+				$ilToolbar->addSeparator();
+
+				$cmd = ($ilUser->getPref('svy_insert_type') == 1 || strlen($ilUser->getPref('svy_insert_type')) == 0) ? 'browseForQuestions' : 'browseForQuestionblocks';
+				$ilToolbar->addButton($this->lng->txt("browse_for_questions"),
+					$this->ctrl->getLinkTarget($this, $cmd));
+			}
 
 			$ilToolbar->addSeparator();
 
@@ -3831,7 +3913,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), $this->ctrl->getLinkTarget($this, "questions"));
+			if(!isset($_REQUEST["pgov"]))
+			{
+				$link = $this->ctrl->getLinkTarget($this, "questions");
+			}
+			else
+			{
+				$link = $this->ctrl->getLinkTargetByClass("ilsurveypagegui", "renderpage");
+			}
+			$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), $link);
 			$ilTabs->addTarget("browse_for_questions",
 				$this->ctrl->getLinkTarget($this, "browseForQuestions"),
 				 array("browseForQuestions", "browseForQuestionblocks"),

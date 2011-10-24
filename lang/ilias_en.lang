@@ -9494,7 +9494,7 @@ survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the followi
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
 survey#:#back#:#<< Back
 survey#:#before#:#before
-survey#:#browse_for_questions#:#Search/Add Questions
+survey#:#browse_for_questions#:#Add from Pool
 survey#:#cancel_survey#:#Suspend the Survey
 survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!
 survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!
@@ -11113,8 +11113,8 @@ administration#:#adm_hide#:#Hide in Settings Form
 administration#:#adm_sure_delete_settings_template#:#Do you really want to delete the following templates?
 survey#:#survey_prev_question#:#Previous Page
 survey#:#survey_next_question#:#Next Page
-survey#:#survey_jump_to#:#Jump To
-survey#:#survey_add_new_question#:#Add new Page
+survey#:#survey_jump_to#:#Jump to
+survey#:#survey_add_new_question#:#Create Page
 survey#:#survey_use_pool#:#Use Pool
 content#:#cont_page_toc#:#Page Overview
 wiki#:#wiki_page_toc#:#Enable Page Overview Block
@@ -12332,3 +12332,4 @@ survey#:#svy_participation#:#Participation
 blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list. 
 survey#:#svy_page_add_question#:#Add new %s
 common#:#spl_import#:#Import Question Pool Survey
+survey#:#svy_create_question#:#Create Question
