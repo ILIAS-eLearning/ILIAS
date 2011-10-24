@@ -63,6 +63,13 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
 	{
 		global $tpl, $ilToolbar, $ilCtrl, $lng, $ilTabs;
 		
+		$skmg_set = new ilSetting("skmg");
+		$enable_skmg = $skmg_set->get("enable_skmg");
+		if (!$enable_skmg)
+		{
+			ilUtil::sendInfo($lng->txt("skmg_skill_management_deactivated"));
+		}
+
 		$this->getParentGUI()->showTree(true, $this, "listTemplates");
 		$ilTabs->activateTab("skill_templates");
 
@@ -82,6 +89,13 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
 	function listSkills()
 	{
 		global $tpl, $ilToolbar, $ilCtrl, $lng, $ilTabs;
+
+		$skmg_set = new ilSetting("skmg");
+		$enable_skmg = $skmg_set->get("enable_skmg");
+		if (!$enable_skmg)
+		{
+			ilUtil::sendInfo($lng->txt("skmg_skill_management_deactivated"));
+		}
 
 		$this->getParentGUI()->showTree(false, $this, "listSkills");
 		$ilTabs->activateTab("skills");

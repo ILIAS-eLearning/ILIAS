@@ -277,17 +277,17 @@ echo "-".$this->node_object->getDraft()."-";
 		$ilToolbar->addButton($lng->txt("skmg_create_skll"),
 			$ilCtrl->getLinkTargetByClass("ilbasicskillgui", "create"));
 
-		// skill template reference
-		$ilCtrl->setParameterByClass("ilskilltemplatereferencegui",
-			"obj_id", (int) $_GET["obj_id"]);
-		$ilToolbar->addButton($lng->txt("skmg_create_skill_template_reference"),
-			$ilCtrl->getLinkTargetByClass("ilskilltemplatereferencegui", "create"));
-		
 		// skill category
 		$ilCtrl->setParameterByClass("ilskillcategorygui",
 			"obj_id", (int) $_GET["obj_id"]);
 		$ilToolbar->addButton($lng->txt("skmg_create_skill_category"),
 			$ilCtrl->getLinkTargetByClass("ilskillcategorygui", "create"));
+		
+		// skill template reference
+		$ilCtrl->setParameterByClass("ilskilltemplatereferencegui",
+			"obj_id", (int) $_GET["obj_id"]);
+		$ilToolbar->addButton($lng->txt("skmg_create_skill_template_reference"),
+			$ilCtrl->getLinkTargetByClass("ilskilltemplatereferencegui", "create"));
 		
 		// skills from clipboard
 		$sep = false;
