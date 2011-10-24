@@ -428,16 +428,19 @@ class ilObjPortfolioGUI
 				$options = array();
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 				$tree = new ilWorkspaceTree($ilUser->getId());
-				$root = $tree->getNodeData($tree->readRootId());
-				foreach ($tree->getSubTree($root) as $node)
+				$root = $tree->readRootId();
+				if($root)
 				{
-					if ($node["type"] == "blog")
+					$root = $tree->getNodeData($root);
+					foreach ($tree->getSubTree($root) as $node)
 					{
-						$options[$node["obj_id"]] = $node["title"];
+						if ($node["type"] == "blog")
+						{
+							$options[$node["obj_id"]] = $node["title"];
+						}
 					}
+					asort($options);		
 				}
-				asort($options);		
-
 				if(sizeof($options))
 				{			
 					$type_blog = new ilRadioOption($lng->txt("obj_blog"), "blog");
@@ -1037,15 +1040,19 @@ class ilObjPortfolioGUI
 		$options = array();
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		$tree = new ilWorkspaceTree($ilUser->getId());
-		$root = $tree->getNodeData($tree->readRootId());
-		foreach ($tree->getSubTree($root) as $node)
+		$root = $tree->readRootId();
+		if($root)
 		{
-			if ($node["type"] == "blog")
+			$root = $tree->getNodeData($root);
+			foreach ($tree->getSubTree($root) as $node)
 			{
-				$options[$node["obj_id"]] = $node["title"];
+				if ($node["type"] == "blog")
+				{
+					$options[$node["obj_id"]] = $node["title"];
+				}
 			}
+			asort($options);	
 		}
-		asort($options);	
 		
 		// no blogs to add?
 		if(!sizeof($options))

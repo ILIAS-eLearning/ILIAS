@@ -59,14 +59,18 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 		$this->blogs = array();
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		$tree = new ilWorkspaceTree($ilUser->getId());
-		$root = $tree->getNodeData($tree->readRootId());
-		foreach ($tree->getSubTree($root) as $node)
+		$root = $tree->readRootId();
+		if($root)
 		{
-			if ($node["type"] == "blog")
+			$root = $tree->getNodeData($root);
+			foreach ($tree->getSubTree($root) as $node)
 			{
-				$this->blogs[$node["obj_id"]] = $node["wsp_id"];
-			}
-		}		
+				if ($node["type"] == "blog")
+				{
+					$this->blogs[$node["obj_id"]] = $node["wsp_id"];
+				}
+			}		
+		}
 		
 	    include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
 	}
