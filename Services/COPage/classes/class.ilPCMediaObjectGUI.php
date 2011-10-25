@@ -950,8 +950,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		}
 		else
 		{
-			$std_alias_item->setWidth($_POST["st_width_height"]["width"]);
-			$std_alias_item->setHeight($_POST["st_width_height"]["height"]);
+			$std_alias_item->setWidth(ilUtil::stripSlashes($_POST["st_width_height"]["width"]));
+			$std_alias_item->setHeight(ilUtil::stripSlashes($_POST["st_width_height"]["height"]));
 		}
 
 		// standard caption
@@ -971,7 +971,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		}
 		else
 		{
-			$std_alias_item->setTextRepresentation($_POST["st_text_representation"]);
+			$std_alias_item->setTextRepresentation(ilUtil::stripSlashes($_POST["st_text_representation"]));
 		}
 
 		// standard parameters
@@ -1015,8 +1015,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				}
 				else
 				{
-					$full_alias_item->setWidth($_POST["full_width_height"]["width"]);
-					$full_alias_item->setHeight($_POST["full_width_height"]["height"]);
+					$full_alias_item->setWidth(ilUtil::stripSlashes($_POST["full_width_height"]["width"]));
+					$full_alias_item->setHeight(ilUtil::stripSlashes($_POST["full_width_height"]["height"]));
 				}
 
 				// fullscreen caption
@@ -1036,7 +1036,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				}
 				else
 				{
-					$full_alias_item->setTextRepresentation($_POST["full_text_representation"]);
+					$full_alias_item->setTextRepresentation(ilUtil::stripSlashes($_POST["full_text_representation"]));
 				}
 
 				// fullscreen parameters
