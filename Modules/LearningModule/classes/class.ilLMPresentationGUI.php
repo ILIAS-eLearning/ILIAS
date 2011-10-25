@@ -3812,6 +3812,10 @@ class ilLMPresentationGUI
 		if (is_object($md_rights = $md->getRights()))
 		{
 			$copyright = $md_rights->getDescription();
+			
+			include_once('Services/MetaData/classes/class.ilMDUtils.php');
+			$copyright = ilMDUtils::_parseCopyright($copyright);
+
 			if ($copyright != "")
 			{
 				$this->lng->loadLanguageModule("meta");
