@@ -805,11 +805,14 @@ class ilTemplate extends ilTemplateX
 		global $ilAuth;
 		
 		if (!$this->getAddFooter()) return;
-		global $ilias, $ilClientIniFile, $ilCtrl, $ilDB, $ilSetting;
+		global $ilias, $ilClientIniFile, $ilCtrl, $ilDB, $ilSetting, $lng;
 		
 		$ftpl = new ilTemplate("tpl.footer.html", true, true);
 		
 		$ftpl->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version"));
+		
+		$ftpl->setVariable("TXT_CONTACT", $lng->txt("contact"));
+		$ftpl->setVariable("URL_CONTACT", "mailto:".$ilSetting->get("admin_email"));
 
 		// output translation link
 		if ($ilSetting->get("lang_ext_maintenance") == "1")
