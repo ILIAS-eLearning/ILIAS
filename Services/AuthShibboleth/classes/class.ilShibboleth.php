@@ -165,7 +165,7 @@ class ShibAuth extends Auth
 	*/
 	function login()
 	{
-		global $ilias, $rbacadmin;
+		global $ilias, $rbacadmin, $ilSetting;
 		if (!empty($_SERVER[$ilias->getSetting('shib_login')]))
 		{
 			
@@ -256,6 +256,10 @@ class ShibAuth extends Auth
 				
 				// store acceptance of user agreement
 				//$userObj->writeAccepted();
+
+				// Default prefs
+				$userObj->setPref('hits_per_page',$ilSetting->get('hits_per_page',30));
+				$userObj->setPref('show_users_online',$ilSetting->get('show_users_online','y'));
 				
 				// setup user preferences
 				$userObj->writePrefs();
