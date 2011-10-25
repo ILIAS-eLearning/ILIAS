@@ -595,7 +595,7 @@ class ilObjSurvey extends ilObject
 * @result integer The database id of the copied question
 * @access public
 */
-	function duplicateQuestionForSurvey($question_id)
+	function duplicateQuestionForSurvey($question_id, $a_force = false)
 	{
 		global $ilUser;
 		
@@ -603,7 +603,7 @@ class ilObjSurvey extends ilObject
 		$question_gui = $this->getQuestionGUI($questiontype, $question_id);
 
 		// check if question is a pool question at all, if not do nothing
-		if($this->getId() == $question_gui->object->getObjId())
+		if($this->getId() == $question_gui->object->getObjId() &&  !$a_force)
 		{
 			return $question_id;
 		}

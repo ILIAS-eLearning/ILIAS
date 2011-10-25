@@ -143,7 +143,7 @@ class ilSurveyPageGUI
 	 * @param int $a_new_id
 	 * @param bool $a_duplicate
 	 */
-	protected function appendNewQuestionToSurvey($a_new_id, $a_duplicate = true)
+	protected function appendNewQuestionToSurvey($a_new_id, $a_duplicate = true, $a_force_duplicate = false)
 	{
 		global $ilDB;
 
@@ -154,10 +154,10 @@ class ilSurveyPageGUI
 		);
 		$sequence = $result->numRows();
 
-		// create duplicate if pool question
+		// create duplicate if pool question (or forced for question blocks copy)
 		if($a_duplicate)
 		{
-			$survey_question_id = $this->object->duplicateQuestionForSurvey($a_new_id);
+			$survey_question_id = $this->object->duplicateQuestionForSurvey($a_new_id, $a_force_duplicate);
 		}
 		// used by copy & paste
 		else
@@ -256,7 +256,7 @@ class ilSurveyPageGUI
 		$question_ids = $this->object->getQuestionblockQuestionIds($a_block_id);
 		foreach($question_ids as $qid)
 		{
-			$new_ids[] = $this->appendNewQuestionToSurvey($qid);
+			$new_ids[] = $this->appendNewQuestionToSurvey($qid, true, true);
 		}
 		
 		if(sizeof($new_ids))
