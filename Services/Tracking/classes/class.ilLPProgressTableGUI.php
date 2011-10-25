@@ -72,7 +72,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->addColumn($this->lng->txt("trac_title"), "title", "31%");
 			$this->addColumn($this->lng->txt("status"), "status", "7%");
 			
-			if($this->mode != LP_MODE_SCORM)
+			if($this->mode != LP_MODE_SCORM && $this->mode != LP_MODE_OBJECTIVES)
 			{
 				$this->addColumn($this->lng->txt('trac_status_changed'),'status_changed','10%');
 				$this->addColumn($this->lng->txt("trac_percentage"), "percentage", "7%");
@@ -93,7 +93,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$this->setDefaultOrderDirection("asc");
 		$this->setShowTemplates(true);
 
-		if($this->mode != LP_MODE_SCORM)
+		if($this->mode != LP_MODE_SCORM && $this->mode != LP_MODE_OBJECTIVES)
 		{
 			$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 		}
@@ -166,7 +166,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$this->tpl->setVariable("STATUS_ALT", ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
 		$this->tpl->setVariable("STATUS_IMG", ilLearningProgressBaseGUI::_getImagePathForStatus($a_set["status"]));
 
-		if($this->mode != LP_MODE_SCORM)
+		if($this->mode != LP_MODE_SCORM && $this->mode != LP_MODE_OBJECTIVES)
 		{
 			$this->tpl->setCurrentBlock("status_details");		
 			

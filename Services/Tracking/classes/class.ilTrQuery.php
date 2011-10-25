@@ -1151,55 +1151,60 @@ class ilTrQuery
 		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
 		
 		$object_ids = array($a_parent_obj_id);
-		$ref_ids = array($a_parent_obj_id=>$a_parent_ref_id);
+		$ref_ids = array($a_parent_obj_id => $a_parent_ref_id);
 		$objectives_parent_id = $scorm = false;
 		
-		// lp collection
-		if($use_collection)
+		$mode = ilLPObjSettings::_lookupMode($a_parent_obj_id);
+		switch($mode)
 		{
-			$mode = ilLPObjSettings::_lookupMode($a_parent_obj_id);
-			if($mode == LP_MODE_SCORM)
-			{
+			// what about LP_MODE_SCORM_PACKAGE ?
+			case LP_MODE_SCORM:
 				include_once "Services/Tracking/classes/class.ilLPStatusSCORM.php";
 				$status_scorm = new ilLPStatusSCORM($a_parent_obj_id);
 				$scorm = $status_scorm->_getStatusInfo($a_parent_obj_id);
-			}
-			else if($mode != LP_MODE_OBJECTIVES)
-			{
-				include_once 'Services/Tracking/classes/class.ilLPCollectionCache.php';
-				foreach(ilLPCollectionCache::_getItems($a_parent_obj_id) as $child_ref_id)
+				break;
+			
+			case LP_MODE_OBJECTIVES:				
+				if(ilObject::_lookupType($a_parent_obj_id) == "crs")
 				{
-					$child_id = ilObject::_lookupObjId($child_ref_id);
-					$object_ids[] = $child_id;
-					$ref_ids[$child_id] = $child_ref_id;
+					$objectives_parent_id = $a_parent_obj_id;
 				}
-			}
-			// add objectives?
-			else if(ilObject::_lookupType($a_parent_obj_id) == "crs")
-			{
-				$objectives_parent_id = $a_parent_obj_id;
-			}
+				break;
+				
+			default:
+				// lp collection
+				if($use_collection)
+				{						
+					include_once 'Services/Tracking/classes/class.ilLPCollectionCache.php';
+					foreach(ilLPCollectionCache::_getItems($a_parent_obj_id) as $child_ref_id)
+					{
+						$child_id = ilObject::_lookupObjId($child_ref_id);
+						$object_ids[] = $child_id;
+						$ref_ids[$child_id] = $child_ref_id;
+					}
+				}
+				// all objects in branch
+				else
+				{
+				   self::getSubTree($a_parent_ref_id, $object_ids, $ref_ids);
+				   $object_ids = array_unique($object_ids);
+				}
+									
+				include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+				foreach($object_ids as $idx => $object_id)
+				{
+					if($object_id)
+					{
+						ilLPStatus::checkStatusForObject($object_id);
+					}
+					else
+					{
+						unset($object_ids[$idx]);
+					}
+				}
+				break;
 		}
-		// all objects in branch
-		else
-		{
-		   self::getSubTree($a_parent_ref_id, $object_ids, $ref_ids);
-		   $object_ids = array_unique($object_ids);
-		}
-
-		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
-		foreach($object_ids as $idx => $object_id)
-		{
-			if($object_id)
-			{
-				ilLPStatus::checkStatusForObject($object_id);
-			}
-			else
-			{
-				unset($object_ids[$idx]);
-			}
-		}
-
+		
 		return array("object_ids" => $object_ids,
 			"ref_ids" => $ref_ids,
 			"objectives_parent_id" => $objectives_parent_id,

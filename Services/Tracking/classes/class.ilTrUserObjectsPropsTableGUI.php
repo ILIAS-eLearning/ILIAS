@@ -237,6 +237,14 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 	function initFilter()
 	{
 		global $lng, $rbacreview, $ilUser;
+		
+		// for scorm and objectives this filter does not make sense / is not implemented
+		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
+		$mode = ilLPObjSettings::_lookupMode($this->obj_id);
+		if($mode == LP_MODE_SCORM || $mode == LP_MODE_OBJECTIVES)
+		{
+			return;
+		}
 
 		include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
 		include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
@@ -289,22 +297,25 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 						$text = ilLearningProgressBaseGUI::_getStatusText($data[$c]);
 						$val = ilUtil::img($path, $text);
 
-						$timing = $this->showTimingsWarning($data["ref_id"], $this->user_id);
-						if($timing)
+						if($data["type"] != "lobj" && $data["type"] != "sco")	
 						{
-							if($timing !== true)
+							$timing = $this->showTimingsWarning($data["ref_id"], $this->user_id);
+							if($timing)
 							{
-								$timing = ": ".ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
+								if($timing !== true)
+								{
+									$timing = ": ".ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
+								}
+								else
+								{
+									$timing = "";
+								}
+								$this->tpl->setCurrentBlock('warning_img');
+								$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.gif'));
+								$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed').$timing);
+								$this->tpl->parseCurrentBlock();
 							}
-							else
-							{
-								$timing = "";
-							}
-							$this->tpl->setCurrentBlock('warning_img');
-							$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.gif'));
-							$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed').$timing);
-							$this->tpl->parseCurrentBlock();
-						}
+				}
 						break;
 
 					case "spent_seconds":
