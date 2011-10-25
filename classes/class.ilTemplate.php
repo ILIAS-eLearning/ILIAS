@@ -811,7 +811,7 @@ class ilTemplate extends ilTemplateX
 		
 		$ftpl->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version"));
 		
-		$ftpl->setVariable("TXT_CONTACT", $lng->txt("contact"));
+		$ftpl->setVariable("TXT_CONTACT", $lng->txt("contact_sysadmin"));
 		$ftpl->setVariable("URL_CONTACT", "mailto:".$ilSetting->get("admin_email"));
 
 		// output translation link
