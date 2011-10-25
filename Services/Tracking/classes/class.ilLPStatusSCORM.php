@@ -84,6 +84,36 @@ class ilLPStatusSCORM extends ilLPStatus
 		$users = array();
 		foreach($status_info['scos'] as $sco_id)
 		{
+			// max attempts vs. failed
+			if(sizeof($status_info['in_progress'][$sco_id]))
+			{				
+				foreach($status_info['in_progress'][$sco_id] as $user_id)
+				{
+					if(!in_array($user_id, $status_info['failed'][$sco_id]))
+					{
+						switch($status_info["subtype"])
+						{
+							case 'hacp':
+							case 'aicc':
+							case 'scorm':
+								include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php';
+								$has_max_attempts = ilObjSCORMTracking::_hasMaxAttempts($a_obj_id, $user_id);								
+								break;
+
+							case 'scorm2004':	
+								include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
+								$has_max_attempts = ilSCORM2004Tracking::_hasMaxAttempts($a_obj_id, $user_id);
+								break;
+						}
+						
+						if($has_max_attempts)
+						{
+							$status_info['failed'][$sco_id][] = $user_id;
+						}						
+					}					
+				}
+			}		
+			
 			$users = array_merge($users,(array) $status_info['failed'][$sco_id]);
 		}
 		return array_unique($users);
