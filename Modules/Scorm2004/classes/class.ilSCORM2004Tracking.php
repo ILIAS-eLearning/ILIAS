@@ -323,8 +323,54 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 			if ($started == true) $status = "in_progress";
 			if ($failed == true) $status = "failed";
 			else if ($cntcompleted == count($a_scos)) $status = "completed";
+			
+			// check max attempts
+			if ($status == "in_progress" && self::_hasMaxAttempts($a_obj_id, $a_user_id))
+			{
+				$status = "failed";					
+			}			
 		}
 		return $status;
+	}
+	
+	public static function _hasMaxAttempts($a_obj_id, $a_user_id)
+	{
+		global $ilDB;
+		
+		// see ilSCORM13Player
+		$res = $ilDB->queryF(
+			'SELECT max_attempt FROM sahs_lm WHERE id = %s', 
+			array('integer'),
+			array($a_obj_id)
+		);
+		$row = $ilDB->fetchAssoc($res);
+		$max_attempts = $row['max_attempt']; 		
+
+		if ($max_attempts)
+		{		
+			$res = $ilDB->queryF('
+				SELECT rvalue FROM cmi_custom 
+				WHERE user_id = %s AND sco_id = %s
+				AND lvalue = %s	AND obj_id = %s',
+				array('integer', 'integer', 'text', 'integer'),
+				array($a_user_id, 0, 'package_attempts', $a_obj_id)
+			);
+			$row = $ilDB->fetchAssoc($res);		
+
+			$row['rvalue'] = str_replace("\r\n", "\n", $row['rvalue']);
+			if($row['rvalue'] == null)
+			{
+				$row['rvalue'] = 0;
+			}
+			$act_attempts = $row['rvalue'];
+			
+			if ($act_attempts >= $max_attempts)
+			{
+				return true;
+			}		
+		}
+		
+		return false;
 	}
 
 	public static function _countCompleted($a_scos, $a_obj_id, $a_user_id)
