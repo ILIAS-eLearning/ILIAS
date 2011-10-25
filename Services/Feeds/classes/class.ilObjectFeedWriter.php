@@ -161,10 +161,29 @@ class ilObjectFeedWriter extends ilFeedWriter
 				$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
 					"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]."_".$wptitle);
 			}
+			else if (in_array($item["context_obj_type"], array("frm")) && $item["context_sub_obj_type"] == "pos"
+				&& $item["context_sub_obj_id"] > 0)
+			{
+				// frm hack, not nice
+				include_once("./Modules/Forum/classes/class.ilObjForumAccess.php");
+				$thread_id = ilObjForumAccess::_getThreadForPosting($item["context_sub_obj_id"]);
+				if ($thread_id > 0)
+				{
+					$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
+						"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]."_".$thread_id."_".$item["context_sub_obj_id"]);
+				}
+				else
+				{
+					$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
+						"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]);
+				}
+			}
 			else
 			{
 				$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
 					"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]);
+//echo "<br>".ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
+//					"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"];
 			}
 	
 			$feed_item->setAbout($feed_item->getLink()."&amp;il_about_feed=".$item["id"]);
