@@ -12220,9 +12220,9 @@ wiki#:#wiki_article#:#Article
 wiki#:#wiki_block_page#:#Block Page###14 09 2011 new variable
 wiki#:#wiki_change_notification_body_new#:#Dans le Wiki "%s" la page "%s" a été ajoutée.
 wiki#:#wiki_change_notification_link#:#Lien vers le Wiki : %s
-wiki#:#wiki_change_notification_page_body_delete#:#Dans le Wiki "%s" la page "%s" a été supprimée.
-wiki#:#wiki_change_notification_page_body_update#:#Dans le Wiki "%s" la page "%s" a été modifiée.
-wiki#:#wiki_change_notification_page_link#:#Lien vers la page du Wiki : %s
+wiki#:#wiki_change_notification_page_body_delete#:#La page suivante a été supprimée
+wiki#:#wiki_change_notification_page_body_update#:#La page suivante a été modifiée
+wiki#:#wiki_change_notification_page_link#:#Lien vers la page du Wiki:
 wiki#:#wiki_change_notification_salutation#:#Hello %s,
 wiki#:#wiki_change_notification_subject#:#Le Wiki "%s" a été modifié
 wiki#:#wiki_changed_by#:#Changed by###12 06 2011 new variable
