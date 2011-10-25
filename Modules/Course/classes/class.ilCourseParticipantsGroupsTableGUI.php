@@ -41,7 +41,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 
 		$this->addColumn('','',0);
 		$this->addColumn($this->lng->txt("name"), "name",'70%');
-		$this->addColumn($this->lng->txt("crs_groups_nr"), "groups_nr");
+		$this->addColumn($this->lng->txt("crs_groups_nr"), "groups_number");
 		$this->addColumn($this->lng->txt("groups"));
 
 		// $this->setExternalSorting(true);
