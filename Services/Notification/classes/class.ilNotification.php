@@ -17,6 +17,7 @@ class ilNotification
 	const TYPE_EXERCISE_SUBMISSION = 1;
 	const TYPE_WIKI = 2;
 	const TYPE_WIKI_PAGE = 3;
+	const TYPE_BLOG = 4;
 	
 	const THRESHOLD = 180; // time between mails in minutes
 

@@ -12,9 +12,10 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
  * @ingroup ModulesBlog
  */
 class ilBlogPosting extends ilPageObject
-{
+{	
 	protected $title; // [string]
 	protected $created; // [ilDateTime]
+	protected $blog_wsp_id; // [int]
 
 	/**
 	 * Constructor
@@ -110,6 +111,9 @@ class ilBlogPosting extends ilPageObject
 
 		parent::create();
 		// $this->saveInternalLinks($this->getXMLContent());
+		
+		include_once "Modules/Blog/classes/class.ilObjBlog.php";
+		ilObjBlog::sendNotification("new", $this->blog_wsp_id, $this->getId());
 	}
 
 	/**
@@ -131,6 +135,9 @@ class ilBlogPosting extends ilPageObject
 		$ilDB->manipulate($query);
 		
 		parent::update($a_validate, $a_no_history);
+		
+		include_once "Modules/Blog/classes/class.ilObjBlog.php";
+		ilObjBlog::sendNotification("update", $this->blog_wsp_id, $this->getId());
 
 		return true;
 	}
@@ -284,6 +291,16 @@ class ilBlogPosting extends ilPageObject
 		{
 			return array_pop(array_keys($data));
 		}
+	}
+	
+	/**
+	 * Set blog wsp id (needed for notification)
+	 * 
+	 * @param int $a_id
+	 */
+	public function setBlogWspId($a_id)
+	{
+		$this->blog_wsp_id = (int)$a_id;
 	}
 }
 
