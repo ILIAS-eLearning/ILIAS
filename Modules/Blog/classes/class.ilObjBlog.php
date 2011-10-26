@@ -57,6 +57,10 @@ class ilObjBlog extends ilObject2
 
 		include_once "Modules/Blog/classes/class.ilBlogPosting.php";
 		ilBlogPosting::deleteAllBlogPostings($this->id);
+		
+		// remove all notifications
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		ilNotification::removeForObject(ilNotification::TYPE_BLOG, $this->id);
 
 		$ilDB->manipulate("DELETE FROM il_blog".
 			" WHERE id = ".$ilDB->quote($this->id, "integer"));
@@ -290,6 +294,79 @@ class ilObjBlog extends ilObject2
 			return true;
 		}
 		return false;
+	}
+	
+	static function sendNotification($a_action, $a_blog_wsp_id, $a_posting_id)
+	{
+		global $ilUser;
+		
+		// get blog object id
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		$tree = new ilWorkspaceTree($ilUser->getId()); // owner of tree is irrelevant
+		$blog_obj_id = $tree->lookupObjectId($a_blog_wsp_id);		
+		if(!$blog_obj_id)
+		{
+			return;
+		}
+		unset($tree);
+	
+
+		// recipients
+		include_once "./Services/Notification/classes/class.ilNotification.php";		
+		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_BLOG, $a_blog_wsp_id);
+		if(!sizeof($users))
+		{
+			return;
+		}
+		
+		ilNotification::updateNotificationTime(ilNotification::TYPE_BLOG, $a_blog_wsp_id, $users);
+		
+		
+		// prepare mail content
+		
+		include_once "./Modules/Blog/classes/class.ilBlogPosting.php";
+		$posting = new ilBlogPosting($a_posting_id);
+		$posting_title = $posting->getTitle();		
+		$blog_title = ilObject::_lookupTitle($blog_obj_id);
+				
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+		$link = ilWorkspaceAccessHandler::getGotoLink($a_blog_wsp_id, $blog_obj_id, "_".$a_posting_id);
+		
+		
+		// send mails
+		
+		include_once "./Services/Mail/classes/class.ilMail.php";
+		include_once "./Services/User/classes/class.ilObjUser.php";
+		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+
+		foreach(array_unique($users) as $idx => $user_id)
+		{
+			if($user_id != $ilUser->getId())
+			{
+				// use language of recipient to compose message
+				$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
+				$ulng->loadLanguageModule('blog');
+
+				$subject = sprintf($ulng->txt('blog_change_notification_subject'), $blog_title);
+				$message = sprintf($ulng->txt('blog_change_notification_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
+
+				$message .= $ulng->txt('blog_change_notification_body_'.$a_action).":\n\n";
+				$message .= $ulng->txt('obj_blog').": ".$blog_title."\n";
+				$message .= $ulng->txt('blog_posting').": ".$posting_title."\n";
+				$message .= $ulng->txt('blog_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
+				$message .= $ulng->txt('blog_change_notification_link').": ".$link;				
+
+				$mail_obj = new ilMail(ANONYMOUS_USER_ID);
+				$mail_obj->appendInstallationSignature(true);
+				$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
+					"", "", $subject, $message, array(), array("system"));
+			}
+			else
+			{
+				unset($users[$idx]);
+			}
+		}
 	}
 }
 

@@ -73,6 +73,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	function initPageObject($a_parent_type, $a_id, $a_old_nr)
 	{
 		$this->setPageObject(new ilBlogPosting($a_id, $a_old_nr));
+		
+		// needed for notification
+		$this->getBlogPosting()->setBlogWspId($this->node_id);
 	}
 
 	/**

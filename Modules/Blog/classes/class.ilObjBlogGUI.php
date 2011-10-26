@@ -248,7 +248,7 @@ class ilObjBlogGUI extends ilObject2GUI
 						
 						// ilias/editor
 						default:			
-							$this->addHeaderAction();	
+							$this->addHeaderAction($cmd);	
 							$tpl->setContent($ret);
 							$nav = $this->renderNavigation($this->items, "render", $cmd);	
 							$tpl->setRightContent($nav);	
@@ -273,10 +273,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				break;
 
 			default:				
-				if($cmd != "preview" && !$_GET["prvm"])
-				{
-					$this->addHeaderAction();
-				}
+				$this->addHeaderAction($cmd);
 				return parent::executeCommand();			
 		}
 		
@@ -1272,18 +1269,90 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		$this->disable_notes = (bool)$a_value;
 	}
+		
+	protected function addHeaderAction($a_cmd)
+	{	
+		global $ilUser;
 	
-	protected function initHeaderAction()
+		// preview?
+		if($a_cmd == "preview" || $_GET["prvm"])
+		{
+			// notification
+			if($ilUser->getId() != ANONYMOUS_USER_ID && $ilUser->getId() != $this->object->getOwner())			
+			{
+				return $this->insertHeaderAction($this->initHeaderAction(null, null, true));	
+			}
+		}
+		else
+		{
+			return parent::addHeaderAction();
+		}
+	}
+	
+	protected function initHeaderAction($sub_type = null, $sub_id = null, $a_is_preview = false)
 	{
+		global $ilUser, $ilCtrl;		
+
 		$sub_type = $sub_id = null;
 		if($_GET["page"])
 		{
 			$sub_type = "blp";
 			$sub_id = $_GET["page"];
 		}		
-		return parent::initHeaderAction($sub_type, $sub_id);
+				
+		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
+		
+		if($a_is_preview)
+		{
+			$lg->enableComments(false);
+			$lg->enableNotes(false);
+			$lg->enableTags(false);		
+			
+			include_once "./Services/Notification/classes/class.ilNotification.php";
+			if(ilNotification::hasNotification(ilNotification::TYPE_BLOG, $ilUser->getId(), $this->node_id))
+			{
+				$ilCtrl->setParameter($this, "ntf", 1);
+				$link = $ilCtrl->getLinkTarget($this, "setNotification");
+				$lg->addCustomCommand($link, "blog_notification_toggle_off");
+				
+				$lg->addHeaderIcon("not_icon",
+					ilUtil::getImagePath("notification_on.png"),
+					$this->lng->txt("blog_notification_activated"));
+			}
+			else
+			{
+				$ilCtrl->setParameter($this, "ntf", 2);
+				$link = $ilCtrl->getLinkTarget($this, "setNotification");
+				$lg->addCustomCommand($link, "blog_notification_toggle_on");
+				
+				$lg->addHeaderIcon("not_icon",
+					ilUtil::getImagePath("notification_off.png"),
+					$this->lng->txt("blog_notification_deactivated"));
+			}
+		}
+		
+		return $lg;
 	}
 	
+	protected function setNotification()
+	{
+		global $ilUser, $ilCtrl;
+		
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		switch($_GET["ntf"])
+		{
+			case 1:
+				ilNotification::setNotification(ilNotification::TYPE_BLOG, $ilUser->getId(), $this->node_id, false);
+				break;
+			
+			case 2:
+				ilNotification::setNotification(ilNotification::TYPE_BLOG, $ilUser->getId(), $this->node_id, true);
+				break;
+		}
+		
+		$ilCtrl->redirect($this, "preview");
+	}
+
 	/**
 	 * Get title for blog posting (used in ilNotesGUI)
 	 * 
@@ -1301,7 +1370,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			return $post->getTitle();
 		}
 	}
-
+	
 	/**
 	 * Deep link
 	 * 

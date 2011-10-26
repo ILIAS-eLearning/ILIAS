@@ -12338,3 +12338,15 @@ skmg#:#skmg_draft_info#:#Item will be hidden for learners.
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 survey#:#svy_create_question#:#Create Question
 common#:#contact_sysadmin#:#Contact System Administration
+blog#:#blog_posting#:#Blog Posting
+blog#:#blog_change_notification_subject#:#Blog "%s" has been changed
+blog#:#blog_change_notification_salutation#:#Hello %s,
+blog#:#blog_change_notification_body_new#:#the following blog posting was created
+blog#:#blog_change_notification_body_update#:#the following blog posting has been updated
+blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented
+blog#:#blog_changed_by#:#Last Changed By
+blog#:#blog_change_notification_link#:#URL
+blog#:#blog_notification_toggle_on#:#Activate Notification
+blog#:#blog_notification_toggle_off#:#Deactivate Notification
+blog#:#blog_notification_activated#:#Notification Activated
+blog#:#blog_notification_deactivated#:#Notification Deactivated
