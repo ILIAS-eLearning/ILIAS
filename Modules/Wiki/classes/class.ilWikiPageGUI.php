@@ -331,10 +331,12 @@ if (false)	// currently moved to ilWikiFunctionsBlockGUI
 		$wtpl = new ilTemplate("tpl.wiki_page_view_main_column.html",
 			true, true, "Modules/Wiki");
 		
+		$callback = array($this, "observeNoteAction");
+		
 		// notes
 		$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getPageObject(),
 			true, ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()),
-			$ilAccess->checkAccess("write", "", $_GET["ref_id"])));
+			$ilAccess->checkAccess("write", "", $_GET["ref_id"]), $callback));
 		
 		// permanent link
 		$append = ($_GET["page"] != "")
@@ -745,6 +747,12 @@ if (false)	// currently moved to ilWikiFunctionsBlockGUI
 
 		$this->form->setValuesByPost();
 		$tpl->setContent($this->form->getHtml());
+	}
+	
+	function observeNoteAction($a_wiki_id, $a_page_id, $a_type, $a_action)
+	{			
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		ilWikiUtil::sendNotification("comment", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $a_page_id);
 	}
 } 
 ?>
