@@ -107,9 +107,10 @@
 	function renderILQuestion{VAL_ID}()
 	{
 		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
-		if(typeof(pager) == 'undefined') {	
-			jQuery('.cmap{VAL_ID}').maphilight({fade:true});
-		}
+		
+		// the if does not seem to make sense and will lead to problems during execution (preview will work though)
+		// if(typeof(pager) == 'undefined') {	
+			jQuery('.cmap{VAL_ID}').maphilight({fade:true});		
 
 		ilias.questions.initAreas('{VAL_ID}');
 		if (ScormApi!=null) {
