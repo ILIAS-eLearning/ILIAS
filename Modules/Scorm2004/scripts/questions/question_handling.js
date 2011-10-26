@@ -467,13 +467,14 @@ ilias.questions.assErrorText =function(a_id) {
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
 	answers[a_id].choice = [];
-
+	
 	if(questions[a_id].selected === undefined)
 	{
 		answers[a_id].passed = false;
 	}
 	else
-	{
+	{				
+		var found = 0;
 		for(var i=0;i<questions[a_id].answers.length;i++)
 		{
 			if(jQuery.inArray(questions[a_id].answers[i]["order"], questions[a_id].selected) > -1)
@@ -490,9 +491,16 @@ ilias.questions.assErrorText =function(a_id) {
 				if(is_wrong === false)
 				{
 					answers[a_id].wrong++;
-					answers[a_id].passed = false;
+				}
+				else
+				{
+					found++;
 				}
 			}
+		}					
+		if(found < questions[a_id].correct_answers.length)
+		{
+			answers[a_id].passed = false;
 		}
 	}
 

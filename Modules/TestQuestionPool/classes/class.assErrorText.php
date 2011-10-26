@@ -798,6 +798,11 @@ class assErrorText extends assQuestion
 	*/
 	public function setTextSize($a_value)
 	{
+		// in self-assesment-mode value should always be set (and must not be null)
+		if($a_value === null)
+		{
+			$a_value = 100;
+		}
 		$this->textsize = $a_value;
 	}
 	
