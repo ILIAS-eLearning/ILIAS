@@ -3396,7 +3396,7 @@ class ilPageObjectGUI
 	 * @param bool $a_enable_notes_deletion
 	 * @return string
 	 */
-	function getNotesHTML($a_content_object = null, $a_enable_private_notes = true, $a_enable_public_notes = false, $a_enable_notes_deletion = false)
+	function getNotesHTML($a_content_object = null, $a_enable_private_notes = true, $a_enable_public_notes = false, $a_enable_notes_deletion = false, $a_callback = null)
 	{
 		global $ilCtrl;
 
@@ -3430,6 +3430,11 @@ class ilPageObjectGUI
 			{
 				$notes_gui->enablePublicNotesDeletion(true);
 			}
+		}
+		
+		if($a_callback)
+		{
+			$notes_gui->addObserver($a_callback);
 		}
 
 		$next_class = $this->ctrl->getNextClass($this);
