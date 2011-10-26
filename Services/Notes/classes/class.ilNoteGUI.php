@@ -1335,6 +1335,9 @@ return;
 //			$note->setSubject($_POST["sub_note"]);
 //			$note->setLabel($_POST["note_label"]);
 			$note->create();
+			
+			$this->notifyObserver("new", $note);
+			
 			$ilCtrl->setParameter($this, "note_mess", "mod");
 //			$ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 		}
@@ -1364,6 +1367,9 @@ return;
 			if ($this->checkEdit($note))
 			{
 				$note->update();
+				
+				$this->notifyObserver("update", $note);
+				
 				$ilCtrl->setParameter($this, "note_mess", "mod");
 			}
 			$ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
@@ -1632,6 +1638,36 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 		$a_tpl->setVariable("TXT_".$up_var, $a_txt);
 		$a_tpl->parseCurrentBlock();
 	}
+
+	/**
+	 * Add observer
+	 * 
+	 * @param string|array $a_callback 
+	 */
+	function addObserver($a_callback)
+	{
+		$this->observer[] = $a_callback;
+	}
 	
+	/**
+	 * Notify observers on update/create
+	 * 
+	 * @param string $a_action
+	 * @param ilNote $a_note 
+	 */
+	protected function notifyObserver($a_action, $a_note)
+	{
+		if(sizeof($this->observer))
+		{
+			foreach($this->observer as $item)
+			{
+				$param = $a_note->getObject();			
+				$param["action"] = $a_action;
+				
+				call_user_func_array($item, $param);				
+			}
+		}
+	}	
 }
+
 ?>

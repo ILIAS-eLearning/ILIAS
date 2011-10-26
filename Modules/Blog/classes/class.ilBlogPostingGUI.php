@@ -198,9 +198,11 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		}
 		else
 		{
+			$callback = array($this, "observeNoteAction");
+			
 			// notes
 			$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getBlogPosting(),
-				false, $this->enable_public_notes, $this->checkAccess("write")));
+				false, $this->enable_public_notes, $this->checkAccess("write"), $callback));
 		}
 
 		// permanent link
@@ -395,6 +397,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$form->addCommandButton('preview', $lng->txt('cancel'));
 
 		return $form;		
+	}
+	
+	function observeNoteAction($a_blog_id, $a_posting_id, $a_type, $a_action)
+	{
+		include_once "Modules/Blog/classes/class.ilObjBlog.php";
+		ilObjBlog::sendNotification("comment", $this->node_id, $a_posting_id);		
 	}
 }
 

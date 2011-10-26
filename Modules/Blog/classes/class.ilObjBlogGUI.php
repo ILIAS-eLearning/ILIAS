@@ -1278,7 +1278,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		if($a_cmd == "preview" || $_GET["prvm"])
 		{
 			// notification
-			if($ilUser->getId() != ANONYMOUS_USER_ID && $ilUser->getId() != $this->object->getOwner())			
+			if($ilUser->getId() != ANONYMOUS_USER_ID)			
 			{
 				return $this->insertHeaderAction($this->initHeaderAction(null, null, true));	
 			}
