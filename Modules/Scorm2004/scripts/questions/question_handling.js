@@ -477,25 +477,36 @@ ilias.questions.assErrorText =function(a_id) {
 		var found = 0;
 		for(var i=0;i<questions[a_id].answers.length;i++)
 		{
+			// is current word a correct answer == wrong word?
+			var text_select = questions[a_id].answers[i]["answertext"];
+			var is_wrong = false;
+			for(var j=0;j<questions[a_id].correct_answers.length;j++)
+			{
+				if(text_select == questions[a_id].correct_answers[j]["answertext_wrong"])
+				{
+					is_wrong = true;
+				}
+			}
+			
+			// word has been selected		
 			if(jQuery.inArray(questions[a_id].answers[i]["order"], questions[a_id].selected) > -1)
 			{
-				var text_select = questions[a_id].answers[i]["answertext"];
-				var is_wrong = false;
-				for(var j=0;j<questions[a_id].correct_answers.length;j++)
-				{
-					if(text_select == questions[a_id].correct_answers[j]["answertext_wrong"])
-					{
-						is_wrong = true;
-					}
-				}
+				// word is not a correct answer		
 				if(is_wrong === false)
 				{
 					answers[a_id].wrong++;
 				}
+				// found correct answer
 				else
 				{
 					found++;
 				}
+			}
+			// word has not been selected
+			else if(is_wrong === true)
+			{
+				// should have been selected
+				answers[a_id].wrong++;
 			}
 		}					
 		if(found < questions[a_id].correct_answers.length)
