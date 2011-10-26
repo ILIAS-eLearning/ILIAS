@@ -330,10 +330,24 @@ ilias.questions.assTextSubset = function(a_id) {
 			if(questions[a_id].matching_method == "ci")
 			{
 				correct_answer = correct_answer.toLowerCase();
-			}
+			}			
 			if(correct_answer == answer)
 			{
-				found = true;
+				found = true;				
+				
+				// check if answer was given multiple times
+				for (var j=0;j<i;j++) {
+					var old_answer = a_node.get(j).value;
+					if(questions[a_id].matching_method == "ci")
+					{
+						old_answer = old_answer.toLowerCase();
+					}
+					if(old_answer == answer)
+					{
+						found = false;
+						j = i;
+					}
+				}					
 			}
 		}
 		if(found === false)
