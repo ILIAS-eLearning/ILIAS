@@ -339,9 +339,18 @@ class ilObjBlog extends ilObject2
 		include_once "./Services/User/classes/class.ilObjUser.php";
 		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
 		include_once("./Services/User/classes/class.ilUserUtil.php");
-
+		
+		$owner = ilObject::_lookupOwner($blog_obj_id);
+		
 		foreach(array_unique($users) as $idx => $user_id)
 		{
+			// the blog owner should only get comments notifications
+			if($a_action != "comment" && $user_id == $owner)
+			{
+				continue;
+			}
+			
+			// the user responsible for the action should not be notified
 			if($user_id != $ilUser->getId())
 			{
 				// use language of recipient to compose message
