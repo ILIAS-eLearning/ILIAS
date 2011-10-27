@@ -2026,12 +2026,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 
 		// Subscriber table
-		if(count( $part = ilCourseParticipants::lookupSubscribers($this->object->getId())))
+		if($subscribers = ilCourseParticipants::lookupSubscribers($this->object->getId()))
 		{
 			include_once('./Services/Membership/classes/class.ilSubscriberTableGUI.php');
 			if($ilUser->getPref('crs_subscriber_hide'))
 			{
-				$table_gui = new ilSubscriberTableGUI($this,$part,false);
+				$table_gui = new ilSubscriberTableGUI($this,false);
 				$this->ctrl->setParameter($this,'subscriber_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'),
@@ -2041,7 +2041,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilSubscriberTableGUI($this,$part,true);
+				$table_gui = new ilSubscriberTableGUI($this,true);
 				$this->ctrl->setParameter($this,'subscriber_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'),
@@ -2049,7 +2049,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilUtil::getImagePath('edit_remove.png'));
 				$this->ctrl->clearParameters($this);
 			}
-			$table_gui->setSubscribers($subscribers);
+			$table_gui->readSubscriberData();
 			$table_gui->setTitle($this->lng->txt('group_new_registrations'),'icon_usr.gif',$this->lng->txt('group_new_registrations'));
 			$this->tpl->setVariable('TABLE_SUB',$table_gui->getHTML());
 		}
@@ -2407,34 +2407,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		} // END waiting list
 	}
 
-	function __showSubscribers()
-	{
-		if(count($this->object->getMembersObject()->getSubscribers()))
-		{
-			$counter = 0;
-			$f_result = array();
-			foreach($this->object->getMembersObject()->getSubscribers() as $member_id)
-			{
-				$member_data = $this->object->getMembersObject()->getSubscriberData($member_id);
-
-				// GET USER OBJ
-				if($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id,false))
-				{
-					$subscriber_ids[$counter] = $member_id;
-					
-					$f_result[$counter][]	= ilUtil::formCheckbox(0,"subscriber[]",$member_id);
-					$f_result[$counter][]	= $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();
-					$f_result[$counter][]	= $tmp_obj->getLogin();
-					$f_result[$counter][] = ilDatePresentation::formatDate(new ilDateTime($member_data['time'],IL_CAL_UNIX));
-
-					unset($tmp_obj);
-					++$counter;
-				}
-			}
-			$this->__showSubscribersTable($f_result,$subscriber_ids);
-
-		} // END SUBSCRIBERS
-	}
 	
 	/**
 	 * edit member 
@@ -3979,71 +3951,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 
 
-	function __showSubscribersTable($a_result_set,$a_subscriber_ids = NULL)
-	{
-		$actions = array("addSubscribers"		=> $this->lng->txt("crs_add_subscribers"),
-						 "deleteSubscribers"	=> $this->lng->txt("crs_delete_subscribers"));
-
-		$tbl =& $this->__initTableGUI();
-		$tpl =& $tbl->getTemplateObject();
-
-		// SET FOOTER BUTTONS
-		$tpl->setCurrentBlock("tbl_action_row");
-
-		// BUTTONS FOR ADD USER  
-		$tpl->setCurrentBlock("plain_button");
-		$tpl->setVariable("PBTN_NAME","autoFill");
-		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("crs_auto_fill"));
-		$tpl->parseCurrentBlock();
-		$tpl->setCurrentBlock("plain_buttons");
-		$tpl->parseCurrentBlock();
-
-		$tpl->setVariable("COLUMN_COUNTS",4);
-		
-		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-
-		$tpl->setCurrentBlock("tbl_action_select");
-		$tpl->setVariable("SELECT_ACTION",ilUtil::formSelect(1,"action",$actions,false,true));
-		$tpl->setVariable("BTN_NAME","gateway");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("execute"));
-		$tpl->parseCurrentBlock();
-
-		$tbl->enable('select_all');
-		$tbl->setFormName("subscriber_form");
-		$tbl->setSelectAllCheckbox("subscriber");
-
-		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-		$tpl->parseCurrentBlock();
-
-
-		$tbl->setTitle($this->lng->txt("crs_subscribers"),"icon_usr.gif",$this->lng->txt("crs_header_members"));
-		$tbl->setHeaderNames(array('',
-								   $this->lng->txt("name"),
-								   $this->lng->txt("login"),
-								   $this->lng->txt("crs_time")));
-		$tbl->setHeaderVars(array("",
-								  "name",
-								  "login",
-								  "sub_time"),
-							array("ref_id" => $this->object->getRefId(),
-								  "cmd" => "members",
-								  "update_subscribers" => 1,
-								  "cmdClass" => "ilobjcoursegui",
-								  "cmdNode" => $_GET["cmdNode"]));
-		$tbl->setColumnWidth(array('1%'));
-
-		$this->__setTableGUIBasicData($tbl,$a_result_set,"subscribers");
-		$tbl->render();
-
-		$this->tpl->setCurrentBlock('sub_wait_table');
-		$this->tpl->setVariable('SUB_WAIT_NAME','subscriber_form');
-		$this->tpl->setVariable('SUB_WAIT_FORMACTION',$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("SUB_WAIT_TABLE_CONTENT",$tbl->tpl->get());
-		$this->tpl->parseCurrentBlock();
-
-		return true;
-	}
 	function __showWaitingListTable($a_result_set,$a_waiting_list_ids = NULL)
 	{
 		$actions = array("addFromWaitingList"		=> $this->lng->txt("crs_add_subscribers"),

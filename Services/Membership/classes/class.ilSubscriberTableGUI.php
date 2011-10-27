@@ -34,7 +34,6 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 */
 class ilSubscriberTableGUI extends ilTable2GUI
 {
-	protected $participants = null;
 	protected $subscribers = array();
 	
 	/**
@@ -44,7 +43,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj,$participants,$show_content = true)
+	public function __construct($a_parent_obj,$show_content = true)
 	{
 	 	global $lng,$ilCtrl;
 	 	
@@ -89,21 +88,6 @@ class ilSubscriberTableGUI extends ilTable2GUI
 			$this->disable('numinfo');
 			$this->disable('select_all');
 		}	
-		
-		$this->participants = $participants;
-	}
-	
-	/**
-	 * set subscribers
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function setSubscribers($a_sub)
-	{
-		$this->subscribers = $a_sub;
-		$this->readSubscriberData();
 	}
 	
 	/**
@@ -157,11 +141,11 @@ class ilSubscriberTableGUI extends ilTable2GUI
 	 */
 	public function readSubscriberData()
 	{
-		foreach($this->subscribers as $usr_id)
+		include_once './Services/Membership/classes/class.ilParticipants.php';
+		
+		$sub_data = ilParticipants::lookupSubscribersData($this->getParentObject()->object->getId());
+		foreach($sub_data as $usr_id => $data)
 		{
-			
-			$data = $this->participants->getSubscriberData($usr_id);
-			
 			$tmp_arr['id'] = $usr_id;
 			$tmp_arr['sub_time'] = $data['time'];
 			$tmp_arr['subject'] = $data['subject'];

@@ -73,11 +73,11 @@ class ilCourseParticipant extends ilParticipant
 	 */
 	public static function _getInstanceByObjId($a_obj_id,$a_usr_id)
 	{
-		if(isset(self::$instances[$a_obj_id]) and self::$instances[$a_obj_id])
+		if(self::$instances[$a_obj_id][$a_usr_id])
 		{
-			return self::$instances[$a_obj_id];
+			return self::$instances[$a_obj_id][$a_usr_id];
 		}
-		return self::$instances[$a_obj_id] = new ilCourseParticipant($a_obj_id,$a_usr_id);
+		return self::$instances[$a_obj_id][$a_usr_id] = new ilCourseParticipant($a_obj_id,$a_usr_id);
 	}
 	
 }

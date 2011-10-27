@@ -952,7 +952,7 @@ class ilParticipants
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$subscribers = $row->usr_id;
+			$subscribers[] = $row->usr_id;
 		}
 		return $subscribers;
 	}
@@ -1272,6 +1272,24 @@ class ilParticipants
 			$data['subject'] = $row->subject;
 		}
 		return $data ? $data : array();
+	}
+
+	public static function lookupSubscribersData($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = 'SELECT * FROM il_subscribers '.
+			'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
+		$res = $ilDB->query($query);
+
+		$data = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$data[$row->usr_id]['time'] = $row->sub_time;
+			$data[$row->usr_id]['usr_id'] = $row->usr_id;
+			$data[$row->usr_id]['subject'] = $row->subject;
+		}
+		return $data;
 	}
 }
 ?>
