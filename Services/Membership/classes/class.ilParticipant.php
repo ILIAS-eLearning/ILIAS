@@ -430,5 +430,7 @@ abstract class ilParticipant
 					
 		return (int)$data['cnt'] > 0;	
 	}
+
+
 }
 ?>

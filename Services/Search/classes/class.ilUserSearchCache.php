@@ -58,6 +58,8 @@ class ilUserSearchCache
 	private $root = ROOT_FOLDER_ID;
 	
 	private $item_filter = array();
+
+	private $isAnonymous = false;
 	
 	
 	/**
@@ -69,6 +71,11 @@ class ilUserSearchCache
 	private function __construct($a_usr_id)
 	{
 		global $ilDB;
+
+		if($a_usr_id == ANONYMOUS_USER_ID)
+		{
+			$this->isAnonymous = true;
+		}
 		
 		$this->db = $ilDB;
 	 	$this->usr_id = $a_usr_id;
@@ -91,6 +98,15 @@ class ilUserSearchCache
 			return self::$instance;
 		}
 		return self::$instance = new ilUserSearchCache($a_usr_id);
+	}
+
+	/**
+	 * Check if current user is anonymous user
+	 * @return bool
+	 */
+	public function isAnonymous()
+	{
+		return $this->isAnonymous;
 	}
 	
 	/**
@@ -305,6 +321,12 @@ class ilUserSearchCache
 	public function deleteCachedEntries()
 	{
 		global $ilDB;
+
+		if($this->isAnonymous())
+		{
+			return $this->deleteCachedEntriesAnonymous();
+		}
+
 		
 		$query = "SELECT COUNT(*) num FROM usr_search ".
 			"WHERE usr_id = ".$ilDB->quote($this->usr_id,'integer')." ".
@@ -342,8 +364,23 @@ class ilUserSearchCache
 		$this->search_result = array();
 		$this->checked = array();
 		$this->failed = array();
-	}	
-	
+	}
+
+	/**
+	 * Delete cached entries for anonymous user
+	 * @return bool
+	 */
+	public function deleteCachedEntriesAnonymous()
+	{
+		$this->setResultPageNumber(1);
+		$this->search_result = array();
+		$this->checked = array();
+		$this->failed = array();
+
+		return true;
+	}
+
+
 	
 	/**
 	 * Delete user entries
@@ -374,14 +411,11 @@ class ilUserSearchCache
 	{
 		global $ilDB,$ilLog;
 		
-		if($this->usr_id == ANONYMOUS_USER_ID)
+		if($this->isAnonymous())
 		{
-			return false;
+			return $this->saveForAnonymous();
 		}
-		if(!$this->usr_id) $this->usr_id = 0;
-		if(!$this->page_number) $this->page_number = 0;
-		if(!$this->search_type) $this->search_type = 0;
-		
+
 		$query = "DELETE FROM usr_search ".
 			"WHERE usr_id = ".$ilDB->quote($this->usr_id ,'integer')." ".
 			"AND ( search_type = ".$ilDB->quote($this->search_type ,'integer').' '.
@@ -389,12 +423,12 @@ class ilUserSearchCache
 		$res = $ilDB->manipulate($query);
 		
 		$ilDB->insert('usr_search',array(
-			'usr_id'		=> array('integer',$this->usr_id),
+			'usr_id'		=> array('integer',(int) $this->usr_id),
 			'search_result'	=> array('clob',serialize($this->search_result)),
 			'checked'		=> array('clob',serialize($this->checked)),
 			'failed'		=> array('clob',serialize($this->failed)),
-			'page'			=> array('integer',$this->page_number),
-			'search_type'	=> array('integer',$this->search_type),
+			'page'			=> array('integer',(int) $this->page_number),
+			'search_type'	=> array('integer',(int) $this->search_type),
 			'query'			=> array('clob',serialize($this->getQuery())),
 			'root'			=> array('integer',$this->getRoot()),
 			'item_filter'	=> array('text',serialize($this->getItemFilter()))));
@@ -408,7 +442,24 @@ class ilUserSearchCache
 				'query'			=> array('text',serialize($this->getQuery()))
 			)
 		);
-		
+	}
+
+	public function saveForAnonymous()
+	{
+		unset($_SESSION['usr_search_cache']);
+
+		$_SESSION['usr_search_cache'][$this->search_type]['search_result'] = $this->search_result;
+		$_SESSION['usr_search_cache'][$this->search_type]['checked'] =  $this->checked;
+		$_SESSION['usr_search_cache'][$this->search_type]['failed'] =  $this->failed;
+		$_SESSION['usr_search_cache'][$this->search_type]['page'] =  $this->page_number;
+		$_SESSION['usr_search_cache'][$this->search_type]['query'] =  $this->getQuery();
+		$_SESSION['usr_search_cache'][$this->search_type]['root'] =  $this->getRoot();
+		$_SESSION['usr_search_cache'][$this->search_type]['item_filter'] =  $this->getItemFilter();
+
+		$_SESSION['usr_search_cache'][self::LAST_QUERY]['query'] =  $this->getQuery();
+
+		return true;
+
 	}
 	
 	
@@ -425,9 +476,9 @@ class ilUserSearchCache
 		$this->search_result = array();
 		$this->page_number = 0;
 
-		if($this->usr_id == ANONYMOUS_USER_ID)
+		if($this->isAnonymous())
 		{
-			return false;
+			return $this->readAnonymous();
 		}
 
 	 	$query = "SELECT * FROM usr_search ".
@@ -453,7 +504,22 @@ class ilUserSearchCache
 	 	}
 		return true;			
 	}
+
+	/**
+	 * Read from session for anonymous user
+	 */
+	private function readAnonymous()
+	{
+		$this->search_result = (array) $_SESSION['usr_search_cache'][$this->search_type]['search_result'];
+		$this->checked = (array) $_SESSION['usr_search_cache'][$this->search_type]['checked'];
+		$this->failed = (array) $_SESSION['usr_search_cache'][$this->search_type]['failed'];
+		$this->page_number = $_SESSION['usr_search_cache'][$this->search_type]['page_number'];
+
+		$this->setQuery((string) $_SESSION['usr_search_cache'][$this->search_type]['query']);
+		$this->setRoot((string) $_SESSION['usr_search_cache'][$this->search_type]['root']);
+		$this->setItemFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['item_filter']);
+
+		return true;
+	}
 }
-
-
 ?>

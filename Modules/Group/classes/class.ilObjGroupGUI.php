@@ -1093,12 +1093,12 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		
 		// Subscriber table
-		if(count($subscribers = $part->getSubscribers()))
+		if($part->getSubscribers())
 		{
 			include_once('./Services/Membership/classes/class.ilSubscriberTableGUI.php');
 			if($ilUser->getPref('grp_subscriber_hide'))
 			{
-				$table_gui = new ilSubscriberTableGUI($this,$part,false);
+				$table_gui = new ilSubscriberTableGUI($this,false);
 				$this->ctrl->setParameter($this,'subscriber_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'),
@@ -1108,7 +1108,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilSubscriberTableGUI($this,$part,true);
+				$table_gui = new ilSubscriberTableGUI($this,true);
 				$this->ctrl->setParameter($this,'subscriber_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'),
@@ -1116,7 +1116,7 @@ class ilObjGroupGUI extends ilContainerGUI
 					ilUtil::getImagePath('edit_remove.png'));
 				$this->ctrl->clearParameters($this);
 			}
-			$table_gui->setSubscribers($subscribers);
+			$table_gui->readSubscriberData();
 			$table_gui->setTitle($this->lng->txt('group_new_registrations'),'icon_usr.gif',$this->lng->txt('group_new_registrations'));
 			$this->tpl->setVariable('TABLE_SUB',$table_gui->getHTML());
 		}
