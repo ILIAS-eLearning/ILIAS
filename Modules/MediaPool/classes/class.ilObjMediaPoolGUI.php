@@ -412,14 +412,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	
 			$ilToolbar->addButton($lng->txt("mep_create_folder"),
 				$ilCtrl->getLinkTarget($this, "createFolderForm"));
+						
+			if (trim($mset->get("upload_dir")) != "" && ilMainMenuGUI::_checkAdministrationPermission())
+			{
+				$ilToolbar->addButton($lng->txt("mep_create_from_upload_dir"),
+					$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
+			}		
 		}
 
-		if (trim($mset->get("upload_dir")) != "" && ilMainMenuGUI::_checkAdministrationPermission())
-		{
-			$ilToolbar->addButton($lng->txt("mep_create_from_upload_dir"),
-				$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
-		}
-		
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
 		$mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->object, "mepitem_id");
 		$tpl->setContent($mep_table_gui->getHTML());
