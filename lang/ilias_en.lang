@@ -12351,3 +12351,7 @@ blog#:#blog_notification_toggle_off#:#Deactivate Notification
 blog#:#blog_notification_activated#:#Notification Activated
 blog#:#blog_notification_deactivated#:#Notification Deactivated
 wiki#:#wiki_change_notification_page_body_comment#:#the following wiki page has been commented
+chatroom_adm#:#chta_visible#:#Chatroom Administration is visible
+chatroom_adm#:#chta_read#:#Read access to Chatroom Administration
+chatroom_adm#:#chta_write#:#Edit Chatroom Administration
+chatroom_adm#:#chta_edit_permission#:#Change Permission Settings
