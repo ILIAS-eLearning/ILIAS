@@ -204,7 +204,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		if(!$this->mode)
 		{
 			// tlt warning
-			if($a_set["status"] != LP_STATUS_COMPLETED_NUM)
+			if($a_set["status"] != LP_STATUS_COMPLETED_NUM && $a_set["ref_ids"])
 			{
 				$ref_id = $a_set["ref_ids"];
 				$ref_id = array_shift($ref_id);
@@ -235,7 +235,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 				$this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('trac_hide'));
 				$this->tpl->parseCurrentBlock();
 
-				if(ilLPObjSettings::_isContainer($a_set["u_mode"]))
+				if(ilLPObjSettings::_isContainer($a_set["u_mode"]) && $a_set["ref_ids"])
 				{
 					$ref_id = $a_set["ref_ids"];
 					$ref_id = array_shift($ref_id);
