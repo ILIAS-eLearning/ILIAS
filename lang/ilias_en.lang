@@ -12355,3 +12355,6 @@ chatroom_adm#:#chta_visible#:#Chatroom Administration is visible
 chatroom_adm#:#chta_read#:#Read access to Chatroom Administration
 chatroom_adm#:#chta_write#:#Edit Chatroom Administration
 chatroom_adm#:#chta_edit_permission#:#Change Permission Settings
+rbac#:#moderate#:#Moderate
+common#:#apache_auth#:#Apache Authentication
+common#:#server_disabled#:#The Chat is Disabled
