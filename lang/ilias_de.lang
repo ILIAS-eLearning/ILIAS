@@ -12356,3 +12356,6 @@ chatroom_adm#:#chta_visible#:#Chat Administration sichtbar
 chatroom_adm#:#chta_write#:#Chat Administration bearbeiten
 chatroom_adm#:#chta_edit_permission#:#Rechteeinstellungen ändern
 chatroom_adm#:#chta_read#:#Lesezugriff auf Chat Administration
+rbac#:#moderate#:#Moderieren
+common#:#apache_auth#:#Über Apache-Authentifizierung anmelden
+common#:#server_disabled#:#Der Chat ist deaktiviert
