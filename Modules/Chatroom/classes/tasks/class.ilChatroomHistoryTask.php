@@ -315,7 +315,20 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 	    );
 	}
 
-
+        if ($from && $to) {
+                $psessions = $room->getPrivateRoomSessions(
+                        $from,
+                        $to,
+                        $chat_user->getUserId(),
+                        $scope
+                );
+        }
+        else {
+                $from = new ilDateTime();
+                $to = new ilDateTime();
+                $psessions =  array();
+        }
+	
 	$psessions = $room->getPrivateRoomSessions(
 		$from,
 		$to,
