@@ -320,7 +320,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 	    
 	    $form->setTitle( $lng->txt('chatserver_settings_title') );
 	    $form->addCommandButton( 'view-saveSettings', $lng->txt( 'save' ) );
-	    $form->addCommandButton( 'view-serversettings', $lng->txt( 'cancel' ) );
+	    //$form->addCommandButton( 'view-serversettings', $lng->txt( 'cancel' ) );
 	    $form->setFormAction( $ilCtrl->getFormAction( $this->gui, 'view-saveSettings' ) );
             $serverTpl = new ilTemplate('tpl.chatroom_serversettings.html', true, true, 'Modules/Chatroom');
             
@@ -401,7 +401,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler
 		
 		$form->setTitle( $lng->txt('general_settings_title') );
 		$form->addCommandButton( 'view-saveClientSettings', $lng->txt( 'save' ) );
-		$form->addCommandButton( 'view-clientsettings', $lng->txt( 'cancel' ) );
+		//$form->addCommandButton( 'view-clientsettings', $lng->txt( 'cancel' ) );
 		$form->setFormAction( $ilCtrl->getFormAction( $this->gui, 'view-saveClientSettings' ) );
                 
                 $settingsTpl = new ilTemplate('tpl.chatroom_serversettings.html', true, true, 'Modules/Chatroom');
