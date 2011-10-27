@@ -54,7 +54,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 			case self::TYPE_ADMISSION_MEMBER:
 
 				// automatic mails about status change disabled
-				if($ilSetting->get('mail_grp_member_notification',false))
+				if(!$ilSetting->get('mail_grp_member_notification',false))
 				{
 					return;
 				}
@@ -84,7 +84,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 			case self::TYPE_DISMISS_MEMBER:
 
 				// automatic mails about status change disabled
-				if($ilSetting->get('mail_grp_member_notification',false))
+				if(!$ilSetting->get('mail_grp_member_notification',false))
 				{
 					return;
 				}
