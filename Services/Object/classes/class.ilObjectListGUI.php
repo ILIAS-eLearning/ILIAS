@@ -1067,6 +1067,8 @@ class ilObjectListGUI
 	*/
 	public function getProperties($a_item = '')
 	{
+		global $objDefinition;
+
 		$props = array();
 		// please list alert properties first
 		// example (use $lng->txt instead of "Status"/"Offline" strings):
@@ -1168,21 +1170,21 @@ class ilObjectListGUI
 				// we only display 'changed inside' events, for
 				// leaf objects we only display 'object new/changed'
 				// events
-				$isContainer = in_array($this->type, array('cat','fold','crs','grp'));
-				if ($isContainer)
+				$isContainer = in_array($this->type, array('cat', 'fold', 'crs', 'grp'));
+				if($isContainer)
 				{
 					$state = ilChangeEvent::_lookupInsideChangeState($this->obj_id, $ilUser->getId());
-					if ($state > 0)
+					if($state > 0)
 					{
 						$props[] = array("alert" => true, "property" => $lng->txt("event"),
 							"value" => $lng->txt('state_changed_inside'),
 							'propertyNameVisible' => false);
 					}
-                                }
-                                else
-                                {
+				}
+				elseif(!$objDefinition->isAdministrationObject(ilObject::_lookupType($this->obj_id)))
+				{
 					$state = ilChangeEvent::_lookupChangeState($this->obj_id, $ilUser->getId());
-					if ($state > 0)
+					if($state > 0)
 					{
 						$props[] = array("alert" => true, "property" => $lng->txt("event"),
 							"value" => $lng->txt(($state == 1) ? 'state_unread' : 'state_changed'),
