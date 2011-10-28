@@ -4876,7 +4876,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$map->setEnableCentralMarker(true);
 
 		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-		$members = ilCourseParticipants::_getInstanceByObjId($this->object->getId())->getMembers();
+		$members = ilCourseParticipants::_getInstanceByObjId($this->object->getId())->getParticipants();
 		if(count($members))
 		{
 			foreach($members as $user_id)
