@@ -8341,3 +8341,15 @@ if(!$ilDB->tableExists('note_settings'))
 		"length" => 1,
 		"default" => 0));
 ?>
+<#3502>
+<?php
+	$next_id = $ilDB->nextId('rbac_operations');
+	
+	$ilDB->insert("rbac_operations", array(
+		"ops_id" => array("integer", $next_id),
+		"operation" => array("text", "create_chtr"),
+		"description" => array("text", "create chatroom"),
+		"class" => array("text", "create"),
+		"op_order" => array("integer", 9999)
+		));
+?>

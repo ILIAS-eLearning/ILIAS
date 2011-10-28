@@ -12359,3 +12359,8 @@ chatroom_adm#:#chta_read#:#Lesezugriff auf Chat Administration
 rbac#:#moderate#:#Moderieren
 common#:#apache_auth#:#Über Apache-Authentifizierung anmelden
 common#:#server_disabled#:#Der Chat ist deaktiviert
+rbac#:#cat_create_chtr#:#Neuen Chatraum anlegen
+rbac#:#crs_create_chtr#:#Neuen Chatraum anlegen
+rbac#:#fold_create_chtr#:#Neuen Chatraum anlegen
+rbac#:#grp_create_chtr#:#Neuen Chatraum anlegen
+rbac#:#root_create_chtr#:#Neuen Chatraum anlegen
