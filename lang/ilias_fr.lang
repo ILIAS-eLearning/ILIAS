@@ -1,16 +1,16 @@
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
-* ILIAS language file (All entries)
+* ILIAS language file
 *
-* @module			language file French
+* @module		language file French
 * @modulegroup		language
-* @author			Laurent Merle <laurent.merle@gmail.com>, Bernard Beron <drhat.tours.ead@gmail.com>
-* @version			$Id$
+* @author		Laurent Merle <laurent.merle@gmail.com>, Bernard Beron <drhat.tours.ead@gmail.com>
+* @version		$Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode! 
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
@@ -30,12 +30,12 @@ acc#:#acc_previous#:#Page précédente
 acc#:#acc_reply#:#Répondre
 acc#:#acc_tree_off#:#Arborescence désactivée
 acc#:#acc_tree_on#:#Arborescence activée
-adm#:#adm_update_skill_status#:#Update Skill Status###18 07 2011 new variable
-adm#:#adm_update_skill_tables#:#Update Skill Tables###18 07 2011 new variable
+adm#:#adm_update_skill_status#:#Mettre à jour les état de compétences
+adm#:#adm_update_skill_tables#:#Mettre à jour les Tables de compétences
 administration#:#adm_activate_db_benchmark#:#Activer le point de référence
 administration#:#adm_activate_db_benchmark_desc#:#L'étalonnage sera automatiquement désactivé après d'une demande.
-administration#:#adm_add_settings_template#:#Add Template###12 06 2011 new variable
-administration#:#adm_basic#:#Basic###02 09 2011 new variable
+administration#:#adm_add_settings_template#:#Ajouter un modèle
+administration#:#adm_basic#:#Basique
 administration#:#adm_db_bench_by_first_table#:#Regroupés par la première table dans SQL
 administration#:#adm_db_bench_chronological#:#Chronologique
 administration#:#adm_db_bench_slowest_first#:#Le plus lent d'abord
@@ -43,16 +43,16 @@ administration#:#adm_db_bench_sorted_by_sql#:#Tri par SQL
 administration#:#adm_db_benchmark#:#Indice de référence DB
 administration#:#adm_db_benchmark_user#:#Nom du compte Utilisateur
 administration#:#adm_db_benchmark_user_desc#:#Seules les mesures pour cet utilisateur seront effectuées.
-administration#:#adm_edit_settings_template#:#Edit Template###12 06 2011 new variable
-administration#:#adm_hide#:#Hide###12 06 2011 new variable
-administration#:#adm_hide_tabs#:#Hide Tabs###12 06 2011 new variable
+administration#:#adm_edit_settings_template#:#Modifier le Modèle
+administration#:#adm_hide#:#Cacher dans les paramètres du Formulaire
+administration#:#adm_hide_tabs#:#Masquer les onglets
 administration#:#adm_item_cmd_asynch#:#Charger les listes des action de ressource de manière asynchrone
 administration#:#adm_item_cmd_asynch_info#:#Les commandes d'action, par exemple dans « Activités », sont chargées de manière asynchrone. Cela augmente les performances en général, mais ralentit un peu le chargement des listes de commande d'action.
 administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Paramètres régionaux (peut par exemple influencer le tri dans les listes). Les exemples sont fr_FR ou de_DE. Les lieux multiples peuvent être séparés par des virgules. Le premier paramètre valide sera utilisé.
 administration#:#adm_nr_statements#:#Nombre de déclarations
-administration#:#adm_objects#:#Objects###02 09 2011 new variable
-administration#:#adm_predefined_settings#:#Predefined Settings###12 06 2011 new variable
+administration#:#adm_objects#:#Objets
+administration#:#adm_predefined_settings#:#Paramètres prédéfinis
 administration#:#adm_rep_tree_all_types#:#Tous types de ressources
 administration#:#adm_rep_tree_all_types_info#:#Tous les types de ressources sont listés dans l'arborescence.
 administration#:#adm_rep_tree_limit_grp_crs#:#Montrer les limites de l'arborescence dans les Cours et les Groupes.
@@ -62,29 +62,29 @@ administration#:#adm_rep_tree_only_cntr_info#:#Seuls les catégories, les cours 
 administration#:#adm_rep_tree_presentation#:#Présentation arborescence des « Activités »
 administration#:#adm_repository_cache_time#:#Cache des « Activités »
 administration#:#adm_repository_cache_time_info#:#Temps d'accès au cache des « Activités » . Mettre 0 pour désactiver le cache. Des valeurs supérieures peuvent améliorer les performances mais également d'afficher les actions qui mènent à un écran non autorisé.
-administration#:#adm_services#:#Services###02 09 2011 new variable
-administration#:#adm_settings_templates#:#Settings Templates###12 06 2011 new variable
-administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists###14 09 2011 new variable
+administration#:#adm_services#:#Services
+administration#:#adm_settings_templates#:#Paramètres des gabarits, des Modèles
+administration#:#adm_show_comments_tagging_in_lists#:#Affichez le nombre de notes, commentaires et balises dans les listes d'objets
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Do you really want to delete the following templates?###12 06 2011 new variable
-administration#:#adm_synchronize_rep_tree#:#Synchroniser la 'frame' contenant l'arborescence avec la page principale des « Activités »
+administration#:#adm_sure_delete_settings_template#:#Voulez-vous vraiment supprimer les modèles suivants?
+administration#:#adm_synchronize_rep_tree#:#Synchroniser le cadre contenant l'arborescence avec la page principale des « Activités »
 administration#:#adm_synchronize_rep_tree_info#:#Cela met en évidence la position actuelle dans l'arborescence, lorsque l'utilisateur navigue dans les « Activités ». Noter que ceci a une influence négative sur les performances du système, puisque les demandes de serveurs supplémentaires sont invoquées.
 administration#:#adm_table#:#Table
-administration#:#adm_time#:#temps
-administration#:#adm_users#:#Users###02 09 2011 new variable
-administration#:#adm_value#:#Value###12 06 2011 new variable
+administration#:#adm_time#:#Temps
+administration#:#adm_users#:#Utilisateurs
+administration#:#adm_value#:#Valeur prédéfinie
 administration#:#allow_change_loginname#:#Permet le changement de login dans le «Profil Personnel»
 administration#:#analysis_options#:#Options d'analyse
 administration#:#analyze_data#:#Analyse et réparation de l'intégrité des données
 administration#:#analyzing#:#Analyse en cours...
 administration#:#analyzing_tree_structure#:#Analyse de la structure de l'arborescence...
 administration#:#apache_auth_authenticate_on_login_page#:#Essayez l'authentification Apache en entrant dans la page de connexion
-administration#:#apache_auth_domains#:#Allowed Redirection Domains###18 07 2011 new variable
-administration#:#apache_auth_domains_description#:#Enter one domain per line to allow redirection to this target.<br/>If ILIAS is reachable by more than one domain please enter all target you want to allow.<br />Example: example.com allows the redirection to http://example.com and http://www.example.com and all pages located there.###18 07 2011 new variable
+administration#:#apache_auth_domains#:#Autoriser la redirection de Domaines
+administration#:#apache_auth_domains_description#:#Saisissez un domaine par ligne afin de permettre une redirection vers cet objectif <br/> Si ILIAS est accessible par plus d'un domaine, entrez tous les objectifs que vous souhaitez autoriser <br />Exemple :.. Example.com permet la redirection vers http:/ / example.com et http://www.example.com et toutes les pages qui s'y trouvent.
 administration#:#apache_auth_enable_override_login#:#Ignorer la page de connexion par défaut
 administration#:#apache_auth_indicator_name#:#Champ indicateur pour authentification réussie
 administration#:#apache_auth_indicator_value#:#Indicateur-Valeur pour authentification réussie
-administration#:#apache_auth_security#:#Paramètres de Securité###18 07 2011 new variable
+administration#:#apache_auth_security#:#Paramètres de Sécurité
 administration#:#apache_auth_settings#:#Apache
 administration#:#apache_auth_target_override_login#:#URL cible pour la page de connexion personnalisée
 administration#:#apache_auth_username_by_function#:#Attribuer des noms d'utilisateurs par fonction personnalisée
@@ -161,7 +161,7 @@ administration#:#language_mode_existing_delete#:#Supprimer les entrées existant
 administration#:#language_mode_existing_keepall#:#Conserver toutes les entrées existantes
 administration#:#language_mode_existing_keepnew#:#Conserver tous les changements locaux
 administration#:#language_mode_existing_replace#:#Remplacer les entrées existantes
-administration#:#language_note_save_local#:#Merci de sauver régulièrement vos changements dans le fichier de langue local. Si vous n'avez pas les droits d'écriture sur le fichier personnalisé de langue, vous pouvez exporter les changements locaux et les réimporter si nécessaire.
+administration#:#language_note_save_local#:#Sauver régulièrement vos changements dans le fichier de langue local. Si vous n'avez pas les droits d'écriture sur le fichier personnalisé de langue, vous pouvez exporter les changements locaux et les réimporter si nécessaire.
 administration#:#language_note_translation#:#La traduction des pages fonctionne pour chaque langue séparément. Il faut que les utilisateurs aient les permissions « Lire »  et « Visible » sur le dossier langues
 administration#:#language_process_maintenance#:#Procéder à la maintenance
 administration#:#language_remove_local_file#:#Supprimez le fichier langue locale
@@ -191,16 +191,16 @@ administration#:#loginname_history_info#:#Si activé, les changements de nom de 
 administration#:#nothing_to_purge#:#Rien à purger ...
 administration#:#nothing_to_remove#:#Rien à supprimer ...
 administration#:#nothing_to_restore#:#Rien à restaurer ...
-administration#:#obj_blga#:#Blog###06 08 2011 new variable
-administration#:#obj_blga_desc#:#Global Blog Settings###06 08 2011 new variable
+administration#:#obj_blga#:#Blog
+administration#:#obj_blga_desc#:#Paramètres du Blog global
 administration#:#obj_frma#:#Forum
 administration#:#obj_frma_desc#:#Paramètres du Forum Global
 administration#:#obj_mds#:#Métadonnées
 administration#:#obj_mds_desc#:#Configurer les paramètres des métadonnées et des métadonnées avancées
-administration#:#obj_otpl#:#Object Templates###14 09 2011 new variable
-administration#:#obj_otpl_desc#:#Template for the creation of new objects###14 09 2011 new variable
-administration#:#obj_prfa#:#Portfolio###06 08 2011 new variable
-administration#:#obj_prfa_desc#:#Global Portfolio Settings###06 08 2011 new variable
+administration#:#obj_otpl#:#Gabarits, modèles d'objet
+administration#:#obj_otpl_desc#:#Gabarit, Modèle pour la création de nouveaux objets
+administration#:#obj_prfa#:#Portfolio
+administration#:#obj_prfa_desc#:#Paramètres du Portfolio global
 administration#:#options#:#Options
 administration#:#output_options#:#Options de restitution
 administration#:#passwd_auto_generate#:#Envoi/génération de mot de passe
@@ -208,7 +208,7 @@ administration#:#path_to_mkisofs#:#Chemin d'accès vers 'mkisofs'
 administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#S'il est activé, il <u>n'est  pas </ u> permis de réutiliser un nom de connexion qui est déjà enregistrée dans l'historique (même si il appartient à un utilisateur supprimé).
 administration#:#purge_age_limit#:#Âge limite
 administration#:#purge_age_limit_desc#:#Si ce champ contient une valeur, seuls les objets qui ont été supprimés avant le nombre de jours spécifié seront purgés.
-administration#:#purge_count_limit#:#Décompte limite
+administration#:#purge_count_limit#:#Compte limite
 administration#:#purge_count_limit_desc#:#Si ce champ contient une valeur, seul le nombre spécifié d'objets sera purgé.
 administration#:#purge_missing#:#Purge des objets manquants
 administration#:#purge_missing_desc#:#Suppression des tous les objets manquants et orphelins trouvés sur le système.
@@ -252,25 +252,25 @@ administration#:#stop_scan#:#Arrêter
 administration#:#systemcheck#:#Vérification du système
 administration#:#topics_overview_info#:#Seuls les sujets contenant les informations décidées seront montrés
 administration#:#tree_corrupt#:#L'arborescence est corrompue.  Voyez le journal de l'analyse pour plus de détails.
-administration#:#user_criteria#:#Unique user criteria###18 07 2011 new variable
-administration#:#user_criteria_desc#:#Unique user criteria that is used for test results import/export. This is needed to identify identical users on different ILIAS systems.###18 07 2011 new variable
+administration#:#user_criteria#:#Critère unique d'utilisateur
+administration#:#user_criteria_desc#:#Critère unique d'utilisateur qui est utilisé pour les résultats des tests d'import / export. Ceci est nécessaire pour identifier les utilisateurs identiques sur des systèmes ILIAS différents.
 administration#:#usr_loginname_history_info#:#L'utilisateur a changé son login enfin à% s. L'ancien login était :% s.
 administration#:#view_last_log#:#Voir la dernière analyse du journal
-administration#:#view_log#:#Voir
-adve#:#adve_activation#:#Activation###01 10 2011 new variable
+administration#:#view_log#:#Voir les détails
+adve#:#adve_activation#:#Activation
 adve#:#adve_grp_glo#:#Glossaires
 adve#:#adve_grp_lm#:#Modules d'apprentissage d'ILIAS
 adve#:#adve_grp_rep#:#Pages « Activités »
 adve#:#adve_grp_scorm#:#Édition SCORM
-adve#:#adve_grp_test#:#Test & Évaluation
+adve#:#adve_grp_test#:#Test&Évaluation
 adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#Paramètres de l'éditeur de page d'ILIAS
-adve#:#adve_pe_general#:#General###12 06 2011 new variable
+adve#:#adve_pe_general#:#Général
 adve#:#adve_rte_settings#:#Paramètres de l'éditeur de texte formaté (RTE)
 adve#:#adve_text_content_features#:#Menu Contenu de texte
-adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp###12 06 2011 new variable
-adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.###12 06 2011 new variable
-adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing###01 10 2011 new variable
+adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
+adve#:#adve_use_physical_info#:#Ce paramètre remplace les boutons de style  de classe sémantique pour fort, emphatique et important avec des boutons d'attribut physique b (gras), i (italique) et u (souligner). Notez que cela peut entraîner des incohérences si l'éditeur de style est utilisé et que d'autres attributs physiques sont affectés à des styles de classes fort / emphatique / important.
+adve#:#adve_use_tiny_mce#:#Activez TinyMCE pour une édition WYSIWYG
 assessment#:#0_unlimited#:#(0 = illimité)
 assessment#:#action#:#Action
 assessment#:#add_answer#:#Ajouter réponse
@@ -516,7 +516,7 @@ assessment#:#exp_type_excel#:# Excel
 assessment#:#exp_type_spss#:#  SPSS
 assessment#:#export#:#Exporter
 assessment#:#externalscript_additional_parameters#:#Paramètres du script
-assessment#:#externalscript_additional_parameters_hint#:#Saisir les paramètres supplémentaires du script dans les valeurs clés du code et séparer les valeurs clés paires par un retour à la ligne, par ex. <p>clé1=Hello<br />clé2=World</p>
+assessment#:#externalscript_additional_parameters_hint#:#Saisir les paramètres supplémentaires du script dans les valeurs clés du code et séparer les valeurs clés paires par un retour à la ligne, par ex. <p>clé1=Bonjour<br />clé2=Monde</p>
 assessment#:#externalscript_use_kvc#:#Veuillez utiliser les  valeurs clés du code pour les paramètres du script !
 assessment#:#failed_official#:#échec
 assessment#:#failed_short#:#échec
@@ -607,9 +607,9 @@ assessment#:#log_user_not_entered_values#:#L'utilisateur n'a saisi aucune valeur
 assessment#:#mailnottype#:#Envoyer une alerte même lorsque l'utilisateur a terminé le test.
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring#:#Notation manuelle
-assessment#:#manscoring_done#:#Scored Participants
+assessment#:#manscoring_done#:#Participants scorés
 assessment#:#manscoring_hint#:#Vous avez ajouté au moins une question à notation manuelle. Pour garantir une présentation valide des résultats du test aux participants, il est fortement recommandé de restreindre l'accès aux résultats à une date et un horaire défini.
-assessment#:#manscoring_none#:#Unscored Participants
+assessment#:#manscoring_none#:#Participants non scorés
 assessment#:#manscoring_not_allowed#:#La notation manuelle n'étaient pas activée pour un type de question. Vous ne pouvez pas utiliser cet onglet.
 assessment#:#manscoring_pending#:#Partially Scored Participants
 assessment#:#manscoring_questions_not_found#:#Ce test ne contient pas de type de question pouvant être notée manuellement.
@@ -799,7 +799,7 @@ assessment#:#save_next#:#Question suivante
 assessment#:#save_previous#:#Question précédente
 assessment#:#save_text_answer_points#:#Enregistrer les points des questions texte
 assessment#:#saveOrder#:#Save Order###12 06 2011 new variable
-assessment#:#scored_pass#:#Scored pass
+assessment#:#scored_pass#:#Passage scoré
 assessment#:#scoring#:#Notation
 assessment#:#search_found_groups#:#Groupes trouvés
 assessment#:#search_found_users#:#Utilisateurs trouvés
@@ -910,7 +910,7 @@ assessment#:#tst_confirm_submit_answers#:#Confirmez votre réponse. Vous ne pour
 assessment#:#tst_count_correct_solutions#:#Compter uniquement les solutions complètes
 assessment#:#tst_count_partial_solutions#:#Compter les solutions partielles
 assessment#:#tst_count_system_description#:#Si des solutions partielles sont acceptées, les points sont attribués en fonction de la réponse du participant. Si seule la solution complète est attendue, le participant aura soit le maximum de points possibles, soit zéro.
-assessment#:#tst_default_settings#:#Personal Default Settings###01 10 2011 new variable
+assessment#:#tst_default_settings#:#Paramètres personnels par défaut
 assessment#:#tst_defaults_applied#:#Les paramètres du test sélectionnés par défaut ont été appliqués.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS ne peut pas appliquer cette configuration à ce test ! Sans doute, ce test contient-il déjà des données saisies par des utilisateurs.
 assessment#:#tst_defaults_apply_select_one#:#Veuillez sélectionner une configuration de test pour l'appliquer à ce test !
@@ -1034,7 +1034,7 @@ assessment#:#tst_position#:#Question %s sur %s
 assessment#:#tst_postpone#:#Reporter les questions
 assessment#:#tst_postpone_description#:#Les participants peuvent reporter les questions à la fin du test
 assessment#:#tst_presentation_properties#:#Presentation Settings###12 06 2011 new variable
-assessment#:#tst_print#:#Vue imprimable Test & Évaluation
+assessment#:#tst_print#:#Test&Évaluation - Vue imprimable 
 assessment#:#tst_print_date#:#Date d'impression
 assessment#:#tst_processing_time#:#Durée maximum
 assessment#:#tst_processing_time_desc#:#Le temps maximum de traitement démarre quand un utilisateur commence un test et prend fin après l'expiration des heures, minutes et secondes saisies.
@@ -1234,7 +1234,7 @@ auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Créer un nouveau Compte Utilisateur
 auth#:#auth_info_add#:#Choisissez cette option si vous n'avez jamais enregistré dans ILIAS. Un nouveau compte sera créé
-auth#:#auth_info_migrate#:#If you have already an ILIAS account enter username and password to migrate your personal data (Mail, Test results...).
+auth#:#auth_info_migrate#:#Si vous avez déjà un compte ILIAS, saisir l'identifiant et le mot de passe pour migrer vos données personnelles (Courriel,Résultats de test, ...).
 auth#:#auth_login_editor#:#Loginscreen Editor###14 09 2011 new variable
 auth#:#auth_openid#:#OpenId
 auth#:#auth_openid_configure#:#Configurer l'authentification OpenId
@@ -1266,7 +1266,7 @@ auth#:#auth_radius_sync_rad_info#:#Creates automatically ILIAS user accounts, fo
 auth#:#auth_sync#:#User Synchronisation###22 03 2011 new variable
 auth#:#auth_sync_cas#:#Automatic generation of user accounts###22 03 2011 new variable
 auth#:#auth_sync_cas_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against CAS, without having an ILIAS account yet.###22 03 2011 new variable
-auth#:#login_page_activate#:#Activate Editor for Selected Languages###12 06 2011 new variable
+auth#:#login_page_activate#:#Activer l'éditeur pour les langues sélectionnées
 auth#:#login_page_editor_switched#:#The active page editor has been changed###12 06 2011 new variable
 auth#:#login_page_switch_ipe#:#Use ILIAS Page Editor###12 06 2011 new variable
 auth#:#login_page_switch_rte#:#Use Rich-Text-Editor###12 06 2011 new variable
@@ -1387,7 +1387,7 @@ block_html#:#block_html_block_head#:#bloc HTML
 block_html#:#block_html_block_title#:#Titre
 blog#:#blog_add#:#Create Blog###22 03 2011 new variable
 blog#:#blog_add_posting#:#Add Posting###22 03 2011 new variable
-blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.###02 09 2011 new variable
+blog#:#blog_admin_toggle_info#:#Vous pouvez désactiver complètement la fonction de Blog dans l'administration du Bureau personnel.
 blog#:#blog_back_to_ilias#:#Back to ILIAS###06 08 2011 new variable
 blog#:#blog_background_color#:#Background Color###06 08 2011 new variable
 blog#:#blog_banner#:#Banner###06 08 2011 new variable
@@ -1597,7 +1597,7 @@ certificate#:#certificate_var_user_title#:#Dr.
 certificate#:#certificate_var_user_zipcode#:#12345
 certificate#:#certificate_visibility#:#Visibilité
 certificate#:#certificate_visibility_always#:#Toujours visible
-certificate#:#certificate_visibility_introduction#:#le bouton pour offrir le certificat aux utilisateurs est
+certificate#:#certificate_visibility_introduction#:#Le bouton pour offrir le certificat aux utilisateurs est
 certificate#:#certificate_visibility_never#:#Non visible
 certificate#:#certificate_visibility_passed#:#Visible  uniquement si un utilisateur a réussi le Test
 certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise###01 10 2011 new variable
@@ -2002,9 +2002,9 @@ cmps#:#cmps_id#:#ID
 cmps#:#cmps_ilias_max_version#:#Max. ILIAS Version
 cmps#:#cmps_ilias_min_version#:#Min. ILIAS Version
 cmps#:#cmps_inactive#:#Inactive
-cmps#:#cmps_lang_files#:#Language Files
-cmps#:#cmps_lang_prefix#:#Language Variables Prefix
-cmps#:#cmps_languages#:#Languages
+cmps#:#cmps_lang_files#:#Fichiers de langue
+cmps#:#cmps_lang_prefix#:#Variables Préfixe Langue
+cmps#:#cmps_languages#:#Langues
 cmps#:#cmps_main_dir#:#Répertoire principal
 cmps#:#cmps_missing#:#Missing
 cmps#:#cmps_module#:#Module
@@ -2015,14 +2015,14 @@ cmps#:#cmps_needs_newer_plugin_version#:#Cette version d'ILIAS a besoin d'une ve
 cmps#:#cmps_needs_update#:#Demande une mise à jour.
 cmps#:#cmps_needs_upgrade#:#La version du plugin actuellement installé est plus vielle que la version précédemment installée. Mettez le plugin à jour.
 cmps#:#cmps_no_db_update_file_available#:#Aucun script de mise à jour DB disponible.
-cmps#:#cmps_no_language_file_available#:#No language file available.
+cmps#:#cmps_no_language_file_available#:#Pas de fichier langue disponible.
 cmps#:#cmps_plugin#:#Plugin
 cmps#:#cmps_plugin_activated#:#Le plugin a été activé.
 cmps#:#cmps_plugin_db_prefixes#:#DB Table Prefixes
 cmps#:#cmps_plugin_deactivated#:#Le plugin a été désactivé.
 cmps#:#cmps_plugin_dirs#:#Plugin Répertoires
 cmps#:#cmps_plugin_file#:#Plugin Fichier
-cmps#:#cmps_plugin_lang_prefixes#:#Plugin Language Prefixes
+cmps#:#cmps_plugin_lang_prefixes#:#Plugin préfixes de langue
 cmps#:#cmps_plugin_slot#:#Emplacement du plugin
 cmps#:#cmps_plugins#:#Plugins
 cmps#:#cmps_refresh#:#Refresh
@@ -2216,11 +2216,11 @@ common#:#ass_log_delete_no_selection#:#Veuillez sélectionner au moins un test p
 common#:#ass_log_deleted#:#Les données de journal des tests sélectionnés ont été supprimées
 common#:#ass_log_output#:#restitution des données du journal
 common#:#ass_log_path#:#Emplacement du test
-common#:#assessment_defaults#:#Paramètres par défaut pour Test & Évaluation
+common#:#assessment_defaults#:#Paramètres par défaut pour Test&Évaluation
 common#:#assessment_imap_line_color#:#Imagemap Line Color
-common#:#assessment_log#:#Créer un journal de test & évaluation pour une période spécifique
+common#:#assessment_log#:#Créer un journal de log de Test&Évaluation pour une période spécifique
 common#:#assessment_log_datetime#:#Date/heure
-common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration
+common#:#assessment_log_deleted#:#Les données du journal de log Test&Évaluation ont été supprimées dans l'administration
 common#:#assessment_log_for_test#:#Pour test
 common#:#assessment_log_log_entries#:#entrées journal
 common#:#assessment_log_logging#:#Logging
@@ -2235,7 +2235,7 @@ common#:#assessment_log_select_test#:#--- Veuillez sélectionner un test ---
 common#:#assessment_log_text#:#Message du journal
 common#:#assessment_log_user_answer#:#L'utilisateur a répondu à une question
 common#:#assessment_log_user_answers#:#Montrer les actions de l'utilisateur
-common#:#assessment_settings#:#Administration des paramètres de test & évaluation
+common#:#assessment_settings#:#Administration des paramètres de Test&Évaluation
 common#:#assessment_settings_reporting_language#:#Langue de compte-rendu
 common#:#assessment_use_javascript#:#JavaScript pour glisser-déposer
 common#:#assessment_use_javascript_desc#:#Activer JavaScript pour le glisser-déposer par défaut pour la première fois
@@ -3019,8 +3019,8 @@ common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Options supplémentaires
 common#:#extt_ilinc_akclassvalues_active#:#Activer les centres de coûts
 common#:#extt_ilinc_akclassvalues_active_info#:#Vous pouvez utiliser les centres de coûts iLinc pour les séminaires LearnLinc et les salles de classe.
-common#:#extt_ilinc_akclassvalues_required#:#Cost center required
-common#:#extt_ilinc_akclassvalues_required_info#:#Specifying at least one Cost center for a LearnLinc Seminar is required
+common#:#extt_ilinc_akclassvalues_required#:#Centre de coûts demandé
+common#:#extt_ilinc_akclassvalues_required_info#:#Spécifier au moins un centre de coûts pour un séminaire LearnLinc
 common#:#extt_ilinc_configure#:#Configurer netucate LearnLinc
 common#:#extt_ilinc_connection_data#:#Connection data
 common#:#extt_ilinc_customer_id#:#ID Client
@@ -3505,8 +3505,8 @@ common#:#ilias_and_webfolder_username#:#ILIAS and Webfolder User Name
 common#:#ilias_username#:#ILIAS User Name
 common#:#ilias_version#:#Version ILIAS
 common#:#ilinc_add_user#:#Ajouter des utilisateur(s)
-common#:#ilinc_akclassvalue#:#Cost center
-common#:#ilinc_akclassvalues#:#Cost centers
+common#:#ilinc_akclassvalue#:#Centre de coûts
+common#:#ilinc_akclassvalues#:#Centres de coûts
 common#:#ilinc_classroom_always_open#:#Classroom is always open
 common#:#ilinc_classroom_closed#:#Classroom is closed
 common#:#ilinc_classroom_open#:#Classroom is open
@@ -3527,7 +3527,7 @@ common#:#ilinc_id#:#iLinc ID
 common#:#ilinc_involved_users#:#Utilisateurs concernés
 common#:#ilinc_login#:#Identifiant iLinc
 common#:#ilinc_mail_body_new_subscription#:#You have been subscribed to this LearnLinc Seminar.
-common#:#ilinc_mail_body_subscription_cancelled#:#Your membership has been cancelled.
+common#:#ilinc_mail_body_subscription_cancelled#:#Votre adhésion a été annulée.
 common#:#ilinc_mail_subj_new_subscription#:#New subscription
 common#:#ilinc_mail_subj_subscription_cancelled#:#Inscription annulée
 common#:#ilinc_manage_course_documents#:#Materials
@@ -3705,9 +3705,9 @@ common#:#lang_no#:#Norvégien
 common#:#lang_path#:#Chemin d'accès aux langues
 common#:#lang_pl#:#Polonais
 common#:#lang_pt#:#Portugais
-common#:#lang_refresh_confirm#:#Do you really want to refresh all languages?
+common#:#lang_refresh_confirm#:#Voulez-vous vraiment actualiser toutes les langues?
 common#:#lang_refresh_confirm_info#:#Le maintien de la langue étendue est actuellement activée. L'actualisation de la langue va lire les fichiers de langue " globale " d'ILIAS et probablement les fichiers de langues locales dans le répertoire Personnalisation de la base de données. Les fichiers de langue " globale " n'affecteront pas vos changements d'emploi. Un fichier de langage local va écraser toutes les modifications manuelles qui sont plus anciennes que la date de sauvegarde du fichier de langue locale.
-common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages
+common#:#lang_refresh_confirm_selected#:#Voulez-vous vraiment actualiser les langues sélectionnées?
 common#:#lang_ro#:#Romain
 common#:#lang_ru#:#Russe
 common#:#lang_sep_decimal#:#,
@@ -3738,7 +3738,7 @@ common#:#last_access#:#Dernier accès
 common#:#last_change#:#Dernière modification
 common#:#last_edited_on#:#Dernière édition le
 common#:#last_login#:#Dernière connexion
-common#:#last_refresh#:#Last Refresh
+common#:#last_refresh#:#Dernière actualisation
 common#:#last_reminder#:#Last reminder
 common#:#last_update#:#Dernière mise à jour
 common#:#last_visit#:#Dernière visite
@@ -3831,7 +3831,7 @@ common#:#lngf#:#Dossier de langues
 common#:#lngf_edit_permission#:#Modifier les paramètres de permission
 common#:#lngf_read#:#Accès en lecture aux paramètres de langues
 common#:#lngf_visible#:#Les paramètres de langues sont visibles
-common#:#lngf_write#:#Write access, needed for extended language maintenance
+common#:#lngf_write#:#Accès en écriture nécessaires pour la maintenance de langue étendue
 common#:#lo#:#Documents
 common#:#lo_available#:#Vue d'ensemble des modules d'apprentissage et des cours
 common#:#lo_categories#:#Catégories de cours
@@ -4146,7 +4146,7 @@ common#:#msg_wrong_format#:#The value you entered is not a valid format.
 common#:#multimedia#:#Multimédia
 common#:#my_bms#:#Mes liens internet
 common#:#my_courses#:#Mes cours
-common#:#my_courses_groups#:#My Courses & Groups###02 09 2011 new variable
+common#:#my_courses_groups#:#Mes Cours et Groupes
 common#:#my_frms#:#Mes forums
 common#:#my_grps#:#Mes groupes
 common#:#my_los#:#Mes cours
@@ -4242,11 +4242,11 @@ common#:#obj_adve#:#Edition avancée
 common#:#obj_adve_desc#:#Paramètres de configuration des éditeurs avancées tels que JavaScript based Rich Text Editors, LaTeX support etc..
 common#:#obj_alm#:# Document AICC
 common#:#obj_ass#:#Asset###22 03 2011 new variable
-common#:#obj_assf#:#Test&&Eacute;valuation
+common#:#obj_assf#:#Test&Évaluation
 common#:#obj_assf_desc#:#Configuration du journal des Tests & Évaluations.
 common#:#obj_auth#:#Authentification
 common#:#obj_auth_desc#:#Configurer votre mode d'authentification (local, LDAP, ...)
-common#:#obj_blog#:#Blog###22 03 2011 new variable
+common#:#obj_blog#:#Blog
 common#:#obj_book#:#Réservation de ressources
 common#:#obj_calendar#:#Agenda
 common#:#obj_cals#:#Agenda
@@ -4353,7 +4353,7 @@ common#:#obj_seas_desc#:#Définir les paramètres de recherche ici.
 common#:#obj_sess#:#Session
 common#:#obj_sess_duplicate#:#Copier une session
 common#:#obj_sess_select#:#-- Veuillez sélectionner une session --
-common#:#obj_skmg#:#Skill Management###18 07 2011 new variable
+common#:#obj_skmg#:#Gestion des compétences
 common#:#obj_skmg_desc#:#Manage skills and skill categories.###18 07 2011 new variable
 common#:#obj_spl#:#Jeu de questions (enquête)
 common#:#obj_spl_duplicate#:#Copier un jeu de questions d'enquête
@@ -4565,8 +4565,8 @@ common#:#personal_data#:#Informations personnelles
 common#:#personal_desktop#:#Bureau personnel
 common#:#personal_picture#:#Image personnelle
 common#:#personal_profile#:#Profil personnel
-common#:#personal_settings#:#Personal Settings###01 04 2011 new variable
-common#:#personal_workspace#:#Resources###22 03 2011 new variable
+common#:#personal_settings#:#Paramètres personnels
+common#:#personal_workspace#:#Mon espace de travail
 common#:#persons#:#Personnes
 common#:#pg_a#:#une page
 common#:#pg_add#:#Ajouter page
@@ -4707,7 +4707,7 @@ common#:#repeat_scan_succeded#:#Nouvelle recherche réussie
 common#:#replace_file#:#Remplacer fichier
 common#:#reply#:#Répondre
 common#:#repository#:#Activités
-common#:#repository_admin#:#Corbeille et Permissions de 'Activit&eacute;s'
+common#:#repository_admin#:#Corbeille et Permissions de 'Activités'
 common#:#repository_admin_desc#:#Définit les permissions des éléments du dépôt (Activités), restaure ou détruit les objets de la corbeille du système.
 common#:#repository_frame#:#Contenu du dépôt (activités)
 common#:#request_membership#:#Nécessite d'être membre
@@ -5059,8 +5059,8 @@ common#:#stys_edit_permission#:#Changer les paramètres de permission
 common#:#stys_read#:#Accès en lecture aux paramètres de style
 common#:#stys_visible#:#Les paramètres de style sont visibles
 common#:#stys_write#:#Modifier paramètres de style
-common#:#sub_request_deleted#:#Deleted membership request
-common#:#sub_request_saved#:#Saved membership request
+common#:#sub_request_deleted#:#Supprimer la demande d'adhésion
+common#:#sub_request_saved#:#Demande d'adhésion enregistrée
 common#:#subcat_name#:#Nom de sous-catégorie
 common#:#subchapter_new#:#Nouveau sous-chapitre
 common#:#subject#:#Sujet
@@ -5074,7 +5074,7 @@ common#:#summary#:#Résumé
 common#:#sure_delete_selected_users#:#Etes-vous sûr(e) de vouloir supprimer les utilisateurs sélectionnés ?
 common#:#survey_defaults#:#Paramètres par défaut des enquêtes
 common#:#survey_unlimited_invitation#:#Unlimited Invitation
-common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surveys. Unlimited invitation adds the survey to the personal desktop of every registered user.
+common#:#survey_unlimited_invitation_desc#:#Permet l'invitation illimitée dans les sondages. L'invitation illimitée ajoute l'enquête sur le Bureau personnel de chaque utilisateur enregistré.
 common#:#svy#:#Enquête
 common#:#svy_add#:#Ajouter Enquête
 common#:#svy_copy#:#Copier Enquête
@@ -5096,7 +5096,7 @@ common#:#svy_warning_survey_not_complete#:#L'enquête est incomplète !
 common#:#svy_write#:#Modifier enquête
 common#:#system#:#Système
 common#:#system_check#:#Vérification du système
-common#:#system_choose_language#:#Choix du language système
+common#:#system_choose_language#:#Choix de la langue système
 common#:#system_groups#:#Groupes système
 common#:#system_grp#:#Groupe système
 common#:#system_information#:#Informations système
@@ -5716,7 +5716,7 @@ content#:#cont_ed_insert_media#:#Ajouter des médias
 content#:#cont_ed_insert_par#:#Ajouter un texte
 content#:#cont_ed_insert_pcqst#:#Ajouter une question
 content#:#cont_ed_insert_plach#:#Ajouter un emplacement
-content#:#cont_ed_insert_profile#:#Insert Personal Data###12 06 2011 new variable
+content#:#cont_ed_insert_profile#:#Insérer des données personnelles
 content#:#cont_ed_insert_qover#:#Insert Question Overview###12 06 2011 new variable
 content#:#cont_ed_insert_repobj#:#Ajouter une liste de ressources
 content#:#cont_ed_insert_section#:#Ajouter une section
@@ -5762,7 +5762,7 @@ content#:#cont_edit_mob_properties#:#Modifier propriétés de l'objet média
 content#:#cont_edit_mode#:#Edit Mode###14 09 2011 new variable
 content#:#cont_edit_overlay_position#:#Edit Overlay Position###12 06 2011 new variable
 content#:#cont_edit_par#:#Modifier texte
-content#:#cont_edit_personal_data#:#Edit Personal Data###18 07 2011 new variable
+content#:#cont_edit_personal_data#:#Modifier les données personnelles
 content#:#cont_edit_popup_position#:#Edit Popup Position###12 06 2011 new variable
 content#:#cont_edit_qover#:#Edit Question Overview###12 06 2011 new variable
 content#:#cont_edit_shape_circle#:#Edit Shape (Circle)
@@ -5870,7 +5870,7 @@ content#:#cont_insert_new_footnote#:#insérer nouvelle note de bas de page
 content#:#cont_insert_page#:#Insert Page
 content#:#cont_insert_page_from_clip#:#Paste Pages from Clipboard
 content#:#cont_insert_par#:#Insérer texte
-content#:#cont_insert_profile#:#Add Personal Data###12 06 2011 new variable
+content#:#cont_insert_profile#:#Ajoutez des données personnelles
 content#:#cont_insert_resources#:#Insérer une liste de ressources
 content#:#cont_insert_search#:#Veuillez insérer un terme de recherche
 content#:#cont_insert_section#:#Insert Section
@@ -5922,7 +5922,7 @@ content#:#cont_link_ext#:#Lien (externe)
 content#:#cont_link_int#:#Lien (interne)
 content#:#cont_link_select#:#Lien interne
 content#:#cont_link_to_external#:#Link to External Website###12 06 2011 new variable
-content#:#cont_link_to_internal#:#Link to ILIAS Resource###12 06 2011 new variable
+content#:#cont_link_to_internal#:#Lien vers  la Ressource ILIAS 
 content#:#cont_link_to_wiki#:#Link to Wiki Page###12 06 2011 new variable
 content#:#cont_link_type#:#Type de lien
 content#:#cont_link_whole_picture#:#Link Whole Picture
@@ -5953,12 +5953,12 @@ content#:#cont_lm_properties#:#Propriété du document
 content#:#cont_LocalFile#:#Local File
 content#:#cont_localfile#:#Local File###22 03 2011 new variable
 content#:#cont_localization#:#Localization###12 06 2011 new variable
-content#:#cont_localization_info#:#Language used for predifined texts, e.g. "Previous" and "Next".###12 06 2011 new variable
+content#:#cont_localization_info#:#Langue utilisée pour les textes prédéfinie, par exemple "Précédent" et "Suivant".
 content#:#cont_location#:#Localisation
 content#:#cont_lpe_cas_login_form#:#CAS Login Form###12 06 2011 new variable
-content#:#cont_lpe_language_selection#:#Language Selection###12 06 2011 new variable
+content#:#cont_lpe_language_selection#:#Choix de la langue
 content#:#cont_lpe_login_form#:#Login Form###12 06 2011 new variable
-content#:#cont_lpe_openid_login_form#:#OpenId Login Form###12 06 2011 new variable
+content#:#cont_lpe_openid_login_form#:#OpenID Login Form###12 06 2011 new variable
 content#:#cont_lpe_registration_link#:#New Registration Link###12 06 2011 new variable
 content#:#cont_lpe_shib_login_form#:#Shibboleth Login Form###12 06 2011 new variable
 content#:#cont_lpe_user_agreement_link#:#User Agreement Link###12 06 2011 new variable
@@ -6096,7 +6096,7 @@ content#:#cont_pc_mob#:#Média
 content#:#cont_pc_modified#:#Modified Content
 content#:#cont_pc_new#:#New Content
 content#:#cont_pc_par#:#Texte
-content#:#cont_pc_prof#:#Personal Data###12 06 2011 new variable
+content#:#cont_pc_prof#:#Données personnelles
 content#:#cont_pc_qover#:#Question Overview###12 06 2011 new variable
 content#:#cont_pc_qst#:#Question
 content#:#cont_pc_res#:#Ressource
@@ -6359,7 +6359,7 @@ content#:#cont_update_login_page#:#Edit Login Page Element###12 06 2011 new vari
 content#:#cont_update_login_page_element#:#Update Login Page Element###22 03 2011 new variable
 content#:#cont_update_map#:#Edit Map
 content#:#cont_update_names#:#Mettre à jour les noms
-content#:#cont_update_profile#:#Edit Personal Data###12 06 2011 new variable
+content#:#cont_update_profile#:#Modifier les données publiées
 content#:#cont_update_qover#:#Update Question Overview###12 06 2011 new variable
 content#:#cont_update_resources#:#Mise à jour de la liste des ressources
 content#:#cont_update_section#:#Mise à jour de la Section
@@ -6435,7 +6435,6 @@ content#:#msg_entry_updated#:#Entrée de menu mise à jour
 content#:#msg_page_no_public_access#:#La page demandée n'est pas disponible dans la section publique. Seuls les utilisateurs inscrits préalablement peuvent accéder à cette page.
 content#:#msg_page_not_public#:#La page n'est pas publique
 content#:#page_does_not_exist#:#We are sorry, but this page does not exist.
-content#:#pages from#:#Pages depuis
 content#:#Pages#:#Pages
 content#:#pages_from#:#Pages depuis
 content#:#par#:#Paragraphe
@@ -6524,7 +6523,7 @@ crs#:#crs_archive_disabled#:#Inactif
 crs#:#crs_archive_download#:#Télécharger
 crs#:#crs_archive_info#:#Si cela est activé, tous les contenus de cours seront supprimés. Seuls, les archives HTML de ces cours resteront disponibles pour les membres inscrits au cours.
 crs#:#crs_archive_lang#:#Langue
-crs#:#crs_archive_language_selection#:#Language Selection
+crs#:#crs_archive_language_selection#:#Choix de la langue
 crs#:#crs_archive_read#:#Accès en lecture
 crs#:#crs_archive_select_type#:#Type d'accès à l'archive
 crs#:#crs_archive_type#:#Type d'archive
@@ -6537,7 +6536,7 @@ crs#:#crs_availability_unvisible_info#:#Choisissez ce mode pour préparer le cou
 crs#:#crs_blocked#:#Accès refusé
 crs#:#crs_blocked_member#:#Appartenance au cours
 crs#:#crs_blocked_member_body#:#Votre appartenance est terminée
-crs#:#crs_cancel_subscr_request#:#Delete Membership Request
+crs#:#crs_cancel_subscr_request#:#Supprimer la demande d'adhésion
 crs#:#crs_cancel_subscription#:#Désabonnement du cours
 crs#:#crs_cancel_subscription_body#:#Un utilisateur s'est désabonné du cours
 crs#:#crs_cancel_subscription_body2#:#Il pourrait y avoir d'autres membres sur une liste d'attente pour votre cours.\nVous devriez verifier cette liste maintenant.\Pour voir les membres de votre cours cliquer sur :
@@ -6558,8 +6557,8 @@ crs#:#crs_create_date#:#Date de création
 crs#:#crs_crs_structure#:#Structure de cours
 crs#:#crs_custom_user_fields#:#Course Relevant User Data
 crs#:#crs_dates#:#Dates
-crs#:#crs_deact_auto_noti#:#Suppress notification about new membership###12 06 2011 new variable
-crs#:#crs_deact_auto_noti_info#:#Supresses mail notificaton about course membership for members admitted to course by edit participants view.###12 06 2011 new variable
+crs#:#crs_deact_auto_noti#:#Supprimer la notification concernant l'adhésion de nouveaux membres
+crs#:#crs_deact_auto_noti_info#:#Les nouveaux membres ne reçoivent pas de courriel lorsque qu'ils sont ajoutés au Cours.
 crs#:#crs_deactivate_notification#:#Deactivate Notification###01 10 2011 new variable
 crs#:#crs_deassign_lm_sure#:#Etes-vous sûr(e) de vouloir supprimer cette assignation ?
 crs#:#crs_delete_file#:#Supprimer le fichier ?
@@ -6883,7 +6882,7 @@ crs#:#crs_status_changed#:#Statut de cours
 crs#:#crs_status_changed_body#:#Votre statut de cours a été changé
 crs#:#crs_structure#:#Structure du cours
 crs#:#crs_subscribe_member#:#Your registration for course "%s"
-crs#:#crs_subscribe_member_body#:#we are pleased to confirm your registration for the course "%s".
+crs#:#crs_subscribe_member_body#:#Nous confirmons votre inscription au Cours "%s".
 crs#:#crs_subscribe_wl#:#Your registration for course "%s".
 crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_subscriber#:#Souscripteur
@@ -6950,8 +6949,8 @@ crs#:#crs_unblocked#:#Entrée libre
 crs#:#crs_unblocked_member#:#Appartenance au cours
 crs#:#crs_unblocked_member_body#:#Votre appartenance a été restaurée
 crs#:#crs_unlimited#:#Illimité
-crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"
-crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.
+crs#:#crs_unsubscribe_member#:#Votre annulation de l'adhésion au Cours "%s"
+crs#:#crs_unsubscribe_member_body#:#Nous confirmer votre annulation de l'adhésion en cours "% s". Nous espérons que vous trouverez une possibilité de participer à un autre cours.
 crs#:#crs_unsubscribe_sure#:#Voulez-vous vous désabonner de ce cours ?
 crs#:#crs_unsubscribed_from_crs#:#Vous vous êtes désabonné à ce cours
 crs#:#crs_update_objective#:#Modifier objectifs pédagogiques
@@ -7292,7 +7291,7 @@ dateplaner#:#cal_table_categories#:#Liste des agendas
 dateplaner#:#cal_task_completion#:#Av
 dateplaner#:#cal_third#:#Troisième
 dateplaner#:#cal_time_format_info#:#Veuillez choisir le format d'affichage de l'heure
-dateplaner#:#cal_timezone_info#:#Veuillez indiquer la ville de votre fuseau horaire la plus proche.
+dateplaner#:#cal_timezone_info#:#Veuillez choisir le fuseau horaire de la ville la plus proche.
 dateplaner#:#cal_type_crs#:#Agenda de cours
 dateplaner#:#cal_type_grp#:#Agenda de groupe
 dateplaner#:#cal_type_info#:#Choisissez un type d'agenda. Les " Agendas public " sont visibles pour tous les utilisateurs ILIAS.
@@ -7590,7 +7589,7 @@ ecs#:#ecs_cat_mapping_type#:#Assignment Type
 ecs#:#ecs_cat_mapping_values#:#Attribute Value
 ecs#:#ecs_category_mapping#:#Assignment to Categories
 ecs#:#ecs_cc_mapping_overview#:#Mapping Overview###18 07 2011 new variable
-ecs#:#ecs_cert_key#:#Certificate Key
+ecs#:#ecs_cert_key#:#Clé certifiée
 ecs#:#ecs_cert_valid_until#:#Certificate valid until###18 07 2011 new variable
 ecs#:#ecs_check_import_id#:#The import id is not valid. Please check this setting.
 ecs#:#ecs_client_cert#:#Client Certificate
@@ -7711,9 +7710,9 @@ exc#:#exc_completion_by_submission#:#Completed by Submission###12 06 2011 new va
 exc#:#exc_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of an assignment. The score could be manually changed later. Switching this setting does not effect already submitted solutions.###12 06 2011 new variable
 exc#:#exc_conf_del_assignments#:#Voulez-vous vraiment supprimer les exercices suivants ?
 exc#:#exc_create_blog#:#Create Blog###12 06 2011 new variable
-exc#:#exc_create_blog_select_info#:#Please select the resource folder to add the blog to.###12 06 2011 new variable
+exc#:#exc_create_blog_select_info#:#Sélectionnez le dossier de ressources à ajouter au blog.
 exc#:#exc_create_portfolio#:#Create Portfolio###12 06 2011 new variable
-exc#:#exc_create_portfolio_select_info#:#Please select the resource folder to add the portfolio to.###12 06 2011 new variable
+exc#:#exc_create_portfolio_select_info#:#Sélectionnez le dossier de ressources à ajouter au portfolio
 exc#:#exc_deadline#:#Date limite
 exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of the blog right now? You can do it anytime from the blog editor later on.###04 10 2011 new variable
 exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version of the portfolio right now? You can do it anytime from the portfolio editor later on.###04 10 2011 new variable
@@ -8036,9 +8035,9 @@ grp#:#grp_admins#:#Administrateurs
 grp#:#grp_agree#:#Acceptance
 grp#:#grp_agreement_header#:#User Agreement
 grp#:#grp_agreement_required#:#You have to accept the user agreement, if you want to access the group content.
-grp#:#grp_already_assigned#:#You have already requested membership for this group.
+grp#:#grp_already_assigned#:#Vous avez déjà demandé l'adhésion à ce Groupe.
 grp#:#grp_btn_unsubscribe#:#Désinscrire du Groupe
-grp#:#grp_cancel_subscr_request#:#Delete Membership Request
+grp#:#grp_cancel_subscr_request#:#Supprimer la demande d'adhésion
 grp#:#grp_change_type#:#Changer le type de Groupe.
 grp#:#grp_closed#:#Groupe fermé
 grp#:#grp_closed_info#:#Le Groupe n'est pas visible pour les non-membres.
@@ -8067,7 +8066,7 @@ grp#:#grp_mail_admission_new_sub#:#Votre abonnement au groupe "%s"
 grp#:#grp_mail_dismiss_bod#:#Votre participation au groupe "%s" s'est achevée.
 grp#:#grp_mail_dismiss_sub#:#Fin de participation au groupe "%s"
 grp#:#grp_mail_notification_reg_bod#:#Le ou les utilisateurs suivants : %s se sont abonnés au groupe "%s".
-grp#:#grp_mail_notification_reg_req_bod#:#%s has requested membership for group "%s".
+grp#:#grp_mail_notification_reg_req_bod#:#%s a demandé l'adhésion au Groupe "%s".
 grp#:#grp_mail_notification_reg_req_bod2#:#To confirm this registration, go to:
 grp#:#grp_mail_notification_reg_req_sub#:#Request to join group "%s"
 grp#:#grp_mail_notification_reg_sub#:#Inscription d'utilisateur au groupe "%s"
@@ -8077,11 +8076,11 @@ grp#:#grp_mail_notification_unsub_sub#:#User left group "%s"
 grp#:#grp_mail_permanent_link#:#Cliquer sur le lien suivant pour trouver toutes les informations dont vous avez besoin concernant le groupe :
 grp#:#grp_mail_status_bod#:#Votre statut dans le groupe "%s" a été modifié
 grp#:#grp_mail_status_sub#:#Changer le statut dans le groupe "%s"
-grp#:#grp_mail_sub_acc_bod#:#we are pleased to confirm your registration for the group "%s".
+grp#:#grp_mail_sub_acc_bod#:#Nous confirmons votre inscription au Groupe "%s".
 grp#:#grp_mail_sub_acc_sub#:#Registration confirmed for "%s"
 grp#:#grp_mail_sub_dec_bod#:#we regret to say that your registration has been refused for group "%s".
 grp#:#grp_mail_sub_dec_sub#:#Registration refused for group "%s"
-grp#:#grp_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the group "%s".
+grp#:#grp_mail_subscribe_member_bod#:#Nous confirmons votre inscription au Groupe  "%s".
 grp#:#grp_mail_subscribe_member_sub#:#Votre abonnement au groupe "%s"
 grp#:#grp_mail_unsubscribe_member_bod#:#Nous confirmons votre annulation à l'abonnement au groupe %s.\n Nous espérons vous retrouver pour une prochaine participation dans un  autre groupe.
 grp#:#grp_mail_unsubscribe_member_sub#:#Votre annulation de l'abonnement au groupe "%s"
@@ -8155,7 +8154,7 @@ grp#:#grp_user_agreement_info#:#Les données personnelles sont visibles pour les
 grp#:#grp_users_added#:#Utilisateur ajouté au groupe.
 grp#:#grp_users_already_assigned#:#L'utilisateur est déjà membre de ce groupe.
 grp#:#grp_users_removed_from_list#:#Les utilisateurs sélectionnés ont été supprimés de la liste d'attente.
-grp#:#grp_view_info_by_type#:#This content presentation groups all items by resource type.###06 08 2011 new variable
+grp#:#grp_view_info_by_type#:#Présentation de tous les éléments du contenu des groupes par type de ressource.
 grp#:#grp_view_info_simple#:#This content presentation lists all items in one block.###06 08 2011 new variable
 grp#:#grp_view_inherit#:#Standard###06 08 2011 new variable
 grp#:#grp_view_inherit_info#:#The group presentation type is adapted from a parent course. ###06 08 2011 new variable
@@ -8168,13 +8167,13 @@ grp#:#grp_wrong_max_members#:#Veuillez vérifier le nombre maximum de membres.
 grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and end times.
 grp#:#reg_grp_max_members#:#Limiter le nombre de membres
 grp#:#reg_grp_max_members_short#:#Nombre de membres
-ilinc#:#akclassvalue1#:#Cost center 1
-ilinc#:#akclassvalue2#:#Cost center 2
-ilinc#:#akclassvalues#:#Cost centers
-ilinc#:#ilinc_akuservalue1#:#Cost center 1
-ilinc#:#ilinc_akuservalue2#:#Cost center 2
-ilinc#:#ilinc_akuservalues#:#Cost centers
-ilinc#:#ilinc_akuservalues_desc#:#Enter here the code of the cost center(s) for this user. These values will be stored at the iLinc server.
+ilinc#:#akclassvalue1#:#Centre de coûts 1
+ilinc#:#akclassvalue2#:#Centre de coûts 2
+ilinc#:#akclassvalues#:#Centres de coûts
+ilinc#:#ilinc_akuservalue1#:#Centre de coûts 1
+ilinc#:#ilinc_akuservalue2#:#Centre de coûts 2
+ilinc#:#ilinc_akuservalues#:#Centres de coûts
+ilinc#:#ilinc_akuservalues_desc#:#Entrez ici le code du centre de coûts pour cet utilisateur. Ces valeurs seront stockées sur le serveur iLinc.
 ilinc#:#ilinc_akuservalues_refreshed#:#Centres de coûts mis à jour
 ilinc#:#ilinc_connection_error#:#Error: No connection to iLinc Server!
 ilinc#:#ilinc_member_administration#:#Éditer les participants
@@ -8299,7 +8298,7 @@ ldap#:#ldap_info_text#:#Texte d'information
 ldap#:#ldap_info_text_info#:#If entered, this text will be shown in the repository and on the info screen for the object this role is assigned to.
 ldap#:#ldap_info_text_short#:#Info Text:
 ldap#:#ldap_local_role#:#Local Role
-ldap#:#ldap_mapping_info_type#:#Afficher les informatiions aussi dans le dépôt ('Activités') et dans le bureau personnel
+ldap#:#ldap_mapping_info_type#:#Afficher les informations aussi dans le dépôt ('Activités') et dans le bureau personnel
 ldap#:#ldap_mapping_table#:#Affectation des attributs LDAP au profil utilisateur ILIAS
 ldap#:#ldap_mapping_template#:#Template for objectClass:
 ldap#:#ldap_member_info#:#The attribute of the group object where the user dn may be found.
@@ -8324,7 +8323,7 @@ ldap#:#ldap_role_bind_pass_info#:#Password
 ldap#:#ldap_role_bind_user#:#Usern DN
 ldap#:#ldap_role_bind_user_info#:#Please enter a distinguished name of a LDAP user account. This user needs write access for the LDAP groups.
 ldap#:#ldap_role_by_attribute#:#LDAP Attribute
-ldap#:#ldap_role_by_group#:#Groupmembership
+ldap#:#ldap_role_by_group#:#Membres du Groupe
 ldap#:#ldap_role_by_plugin#:#Par Plugin
 ldap#:#ldap_role_group_assignments#:#Existing Role -> Group Assignments
 ldap#:#ldap_role_grp_at#:#Attribute
@@ -8427,9 +8426,9 @@ mail#:#mail_email_forbidden#:#Vous n'êtes pas autorisé(e) à envoyer des courr
 mail#:#mail_empty_trash#:#Corbeille vide
 mail#:#mail_empty_trash_confirmation#:#Êtes-vous certain de vouloir supprimer tous les messages ?
 mail#:#mail_enable_crs_member_notification#:#Course Notification###15 06 2011 new variable
-mail#:#mail_enable_crs_member_notification_info#:#If enabled, course participants will be notified automatically about membership changes.###15 06 2011 new variable
+mail#:#mail_enable_crs_member_notification_info#:#Si activé, les participants au Cours seront automatiquement informés sur les changements d'adhésion.
 mail#:#mail_enable_grp_member_notification#:#Group Notification###15 06 2011 new variable
-mail#:#mail_enable_grp_member_notification_info#:#If enabled, group participants will be notified automatically about membership changes.###15 06 2011 new variable
+mail#:#mail_enable_grp_member_notification_info#:#Si activé, les participants du Groupe seront automatiquement informés sur les changements d'adhésion.
 mail#:#mail_enter_login_or_email_addr#:#Saisissez un identifiant d'utilisateur ou une adresse électronique valide.
 mail#:#mail_enter_valid_email_addr#:#Saisissez une adresse électronique valide.
 mail#:#mail_enter_valid_login#:#Saisissez un nom d'utilisateur valide.
@@ -8661,7 +8660,7 @@ meta#:#md_adv_searchable#:#Interrogeable
 meta#:#md_adv_select_one_file#:#Veuillez sélectionner un fichier.
 meta#:#md_adv_show#:#Afficher
 meta#:#md_adv_substitution#:#Texte
-meta#:#md_adv_substitution_table#:#Substitutions (Presentation in the Repository/Personal Desktop)
+meta#:#md_adv_substitution_table#:#Remplacements (Présentation dans les Activtés / sur le Bureau personnel)
 meta#:#md_advanced#:#Méta données avancées
 meta#:#md_copyright#:#Droit d'auteur
 meta#:#md_copyright_add#:#Ajouter une pré configuration des droits d'auteur
@@ -9336,7 +9335,7 @@ news#:#priv_feed_no_auth_body#:#Veuillez vous assurer que vous avez bien activé
 news#:#priv_feed_no_auth_title#:#L'authentification a échoué.
 news#:#priv_feed_settings#:#Paramètres du flux d'actualité (RSS) personnel
 news#:#show_news_end_date#:#Date de fin
-notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not ativated for this resource.###01 10 2011 new variable
+notes#:#comments_feature_currently_not_activated_for_object#:#La fonction 'commentaires publics' n'est actuellement pas activée pour cette ressource.
 notes#:#note_add_comment#:#Add Comment###06 08 2011 new variable
 notes#:#note_add_note#:#Add Note###06 08 2011 new variable
 notes#:#note_update_comment#:#Update Comment###06 08 2011 new variable
@@ -9477,7 +9476,7 @@ payment#:#pay_hide_shop_info#:#Hide Shop-Information###12 06 2011 new variable
 payment#:#pay_hide_shop_info_info#:#Hides the tab shop-information###12 06 2011 new variable
 payment#:#pay_hint_epay#:#Tip to ePay
 payment#:#pay_hint_paypal#:#Hint for PayPal
-payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.
+payment#:#pay_info#:#L'accès aux pièces suivante n'est pas gratuite. Si vous souhaitez accéder à certains objets d'apprentissage, sélectionnez un prix. Vous pouvez acheter un ou plusieurs objets d'apprentissage en utilisant le "panier" sur votre Bureau personnel. Vous allez avoir un accès immédiat à un objet choisi et la période.
 payment#:#pay_info_epay#:#When press 'pay' the ePay payment window opens. After you have completed the payment you will return to ILIAS.
 payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.
 payment#:#pay_item_already_in_sc#:#Cet objet est déjà dans votre panier.
@@ -9511,7 +9510,7 @@ payment#:#pay_paypal_error_wrong_vendor#:#Checking this transaction resulted in 
 payment#:#pay_paypal_failed#:#Your puchase of ILIAS objects using PayPal failed!
 payment#:#pay_paypal_success#:#Thanks for your purchase of ILIAS objects using PayPal! You'll receive a written confirmation in PDF format by e-mail.
 payment#:#pay_paypal_unreachable#:#The connection to the payment server of PayPal failed.
-payment#:#pay_personal_settings#:#Personal Settings
+payment#:#pay_personal_settings#:#Paramètres personnels
 payment#:#pay_reset_filter#:#Réinitialiser filtre
 payment#:#pay_save_sorting#:#Save Sorting
 payment#:#pay_select_one_item#:#Veuillez sélectionner un objet
@@ -9729,7 +9728,7 @@ payment#:#pays_bmf_settings_not_valid#:#Your settings for BMF aren't valid. Plea
 payment#:#pays_bmf_timeout#:#Timeout
 payment#:#pays_bmf_waehrungskennzeichen#:#Währungskennzeichen
 payment#:#pays_cost_center#:#Centre de coût
-payment#:#pays_cost_center_not_valid#:#Veuillez saisir un cost center valide.
+payment#:#pays_cost_center_not_valid#:#Veuillez saisir un centre de coûts valide.
 payment#:#pays_currency_subunit#:#Unité monétaire (1/100) (par ex. Centime)
 payment#:#pays_currency_unit#:#Unité monétaire (par ex. EUR)
 payment#:#pays_delete_vendor#:#Supprimer l'assignation de l'utilisateur
@@ -9879,7 +9878,7 @@ pd#:#pd_enable_my_memberships_info#:#"Mes appartenances" contient tous les cours
 pd#:#pd_enable_my_offers#:#Activer "Items sélectionnés"
 pd#:#pd_enable_my_offers_info#:#La vue "Items sélectionnés"contient tous les objets qui sont placés sur le Bureau personnel de l'utilisateur.
 pd#:#pd_enable_notes#:#Activer les notes
-pd#:#pd_enable_personal_workspace#:#Enable Personal Workspace###06 08 2011 new variable
+pd#:#pd_enable_personal_workspace#:#Activer l'espace de travail personnel
 pd#:#pd_enable_prtf#:#Enable Portfolios###06 08 2011 new variable
 pd#:#pd_enable_wsp_blogs#:#Enable Blogs###06 08 2011 new variable
 pd#:#pd_enable_wsp_certificates#:#Enable Certificates###06 08 2011 new variable
@@ -9908,7 +9907,7 @@ pdesk#:#pdesk_intro4#:#Lorsque vous avez trouvé une ressource d'intérêt, ajou
 prtf#:#prtf_add_blog#:#Add Blog###06 08 2011 new variable
 prtf#:#prtf_add_page#:#Add Page###12 06 2011 new variable
 prtf#:#prtf_add_portfolio#:#Add Portfolio###12 06 2011 new variable
-prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.###02 09 2011 new variable
+prtf#:#prtf_admin_toggle_info#:#Vous pouvez désactiver complètement la fonction de portfolio dans l'administration du Bureau personnel.
 prtf#:#prtf_background_color#:#Background Color###06 08 2011 new variable
 prtf#:#prtf_banner#:#Banner###06 08 2011 new variable
 prtf#:#prtf_copy_page#:#Copy Page(s)###02 09 2011 new variable
@@ -10147,7 +10146,7 @@ rbac#:#otpl_write#:#Edit Object Template Settings###14 09 2011 new variable
 rbac#:#pdts_edit_permission#:#Modifier les paramètres de permission
 rbac#:#pdts_read#:#Accès Lecture aux Paramètres du Bureau personnel
 rbac#:#pdts_visible#:#Les paramètres du Bureau personnel sont visibles
-rbac#:#pdts_write#:#Edit personal desktop settings
+rbac#:#pdts_write#:#Modifier les paramètres du Bureau personnel
 rbac#:#perm_administrate#:#Administrer
 rbac#:#perm_class_create#:#Créer de nouveaux objets
 rbac#:#perm_class_create_desc#:#Détermine quels types d'objets peuvent être créés dans le contexte courant.
@@ -10173,7 +10172,7 @@ rbac#:#precondition_obligatory#:#Obligatory###22 03 2011 new variable
 rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled###22 03 2011 new variable
 rbac#:#precondition_obligatory_info#:#Obligatory preconditions must be fulfilled, for having access.###22 03 2011 new variable
 rbac#:#precondition_obligatory_settings#:#Precondition Settings###12 06 2011 new variable
-rbac#:#push_desktop_items#:#Push Items on the Personal Desktop
+rbac#:#push_desktop_items#:#Poussez les Éléments sur le Bureau personnel
 rbac#:#rbac_add_new_local_role#:#Ajouter un nouveau rôle local
 rbac#:#rbac_admin_permissions#:#Administration Permissions
 rbac#:#rbac_auto_global#:#Auto generated global role###06 08 2011 new variable
@@ -10223,7 +10222,7 @@ rbac#:#rbac_precondition_save_obligatory#:#Save Obligatory###01 10 2011 new vari
 rbac#:#rbac_precondition_source#:#Condition Trigger###01 10 2011 new variable
 rbac#:#rbac_precondition_target#:#Condition limits access to###01 10 2011 new variable
 rbac#:#rbac_repository_permissions#:#Permissions des "Activités"
-rbac#:#rbac_role_add_to_desktop#:#Add To Personal Desktop
+rbac#:#rbac_role_add_to_desktop#:#Ajouter au Bureau personnel
 rbac#:#rbac_role_add_to_desktop_info#:#Make object a selected desktop item for all role members
 rbac#:#rbac_role_delete_qst#:#Are you sure you want to delete the following role?<br />All permissions granted by this role will be deleted permanently.
 rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.
@@ -10440,12 +10439,18 @@ sahs#:#sahs_std_sequencing#:#Standard Sequencing###01 04 2011 new variable
 sahs#:#sahs_std_sequencing_info#:#Use ILIAS standard sequencing behaviour.###01 04 2011 new variable
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)###18 07 2011 new variable
+scormdebug#:#adl_nav_request_valid_choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.###06 08 2011 new variable
+scormdebug#:#adl_nav_request_valid_continue#:#Used by a SCO to determine if a Continue navigation request will succeed.###06 08 2011 new variable
+scormdebug#:#adl_nav_request_valid_previous#:#Used by a SCO to determine if a Previous navigation request will succeed.###06 08 2011 new variable
 scormdebug#:#adl.nav.request#:#Navigation request to be processed immediately following Terminate()###06 08 2011 new variable
 scormdebug#:#adl.nav.request_valid.choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.###06 08 2011 new variable
 scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Continue navigation request will succeed.###06 08 2011 new variable
 scormdebug#:#adl.nav.request_valid.previous#:#Used by a SCO to determine if a Previous navigation request will succeed.###06 08 2011 new variable
 scormdebug#:#all_API-calls_shown#:#All API-calls are currently shown.###06 08 2011 new variable
 scormdebug#:#API-call#:#API-call###06 08 2011 new variable
+scormdebug#:#cmi_completion_threshold#:#Used to determine whether the SCO should be considered complete###06 08 2011 new variable
+scormdebug#:#cmi_learner_preference_language#:#The learner's preferred language for SCOs with multilingual capability###06 08 2011 new variable
+scormdebug#:#cmi_location#:#The learner's current location in the SCO###06 08 2011 new variable
 scormdebug#:#cmi._version#:#Represents the version of the data model###06 08 2011 new variable
 scormdebug#:#cmi.comments_from_learner._children#:#Listing of supported data model elements###06 08 2011 new variable
 scormdebug#:#cmi.comments_from_learner._count#:#Current number of learner comments###06 08 2011 new variable
@@ -10578,12 +10583,12 @@ scormdebug#:#no_missing_API-calls#:#Missing API-calls had not been recognized.##
 scormdebug#:#nr_session#:#number of session###06 08 2011 new variable
 scormdebug#:#only_important_API-Calls_shown#:#Only important API-Calls are currently shown.###06 08 2011 new variable
 scormdebug#:#return_value#:#return value###06 08 2011 new variable
-scormdebug#:#SCO-name#:#SCO-name###06 08 2011 new variable
+scormdebug#:#SCO-name#:#SCO-nom
+scormdebug#:#SCO-title#:#SCO-titre
 scormdebug#:#scormdebug_disable_cache#:#disable SCORM 2004 Browser-Cache###04 10 2011 new variable
 scormdebug#:#scormdebug_disable_cache_info#:#This prevents the storage of the SCORM 2004 javascript files in the browser cache. Please use this function in time before a new release!###04 10 2011 new variable
 scormdebug#:#scormdebug_global_activate#:#Enable SCORM 2004 test tool###06 08 2011 new variable
 scormdebug#:#scormdebug_global_activate_info#:#If enabled, the SCORM 2004 test tool can be activated for desired learning modules. If disabled, the test tool is deactivated for all learning modules.###06 08 2011 new variable
-scormdebug#:#SCO-title#:#SCO-title###06 08 2011 new variable
 scormdebug#:#SetValue#:#send data###06 08 2011 new variable
 scormdebug#:#show_all_API-calls#:#Show all API-calls!###06 08 2011 new variable
 scormdebug#:#show_only_important_API-calls#:#Show only important API-calls!###06 08 2011 new variable
@@ -10799,7 +10804,7 @@ skmg#:#skmg_cert_achievement_datetime#:#Achievement Date and Time###18 07 2011 n
 skmg#:#skmg_cert_skill_level_title#:#Skill Level Title###18 07 2011 new variable
 skmg#:#skmg_cert_skill_title#:#Skill Title###18 07 2011 new variable
 skmg#:#skmg_cert_skill_trigger_title#:#Skill Trigger Title###18 07 2011 new variable
-skmg#:#skmg_certificate#:#Certificate###18 07 2011 new variable
+skmg#:#skmg_certificate#:#Certificat###18 07 2011 new variable
 skmg#:#skmg_choose_only_skill_categories_or_basic_skills#:#Please choose either only basic skills or only skill categories.###18 07 2011 new variable
 skmg#:#skmg_create_sctp#:#Create Template Category###02 09 2011 new variable
 skmg#:#skmg_create_skill_category#:#Create Skill Category###02 09 2011 new variable
@@ -10812,7 +10817,7 @@ skmg#:#skmg_edit_scat#:#Edit Skill Category###18 07 2011 new variable
 skmg#:#skmg_edit_sctp#:#Edit Skill Template Category###02 09 2011 new variable
 skmg#:#skmg_edit_skll#:#Edit Skill Settings###02 09 2011 new variable
 skmg#:#skmg_edit_sktr#:#Edit Skill Template Reference###18 07 2011 new variable
-skmg#:#skmg_enable_skmg#:#Activate Skill Management###18 07 2011 new variable
+skmg#:#skmg_enable_skmg#:#Activer la gestion des compétences###18 07 2011 new variable
 skmg#:#skmg_execute_self_evaluation#:#Start###18 07 2011 new variable
 skmg#:#skmg_insert_as_subitem#:#Insert as Subitem###18 07 2011 new variable
 skmg#:#skmg_insert_basic_skill#:#Insert Basic Skill###18 07 2011 new variable
@@ -10865,18 +10870,18 @@ skmg#:#skmg_save_self_evaluation#:#Finish Self-Evaluation###18 07 2011 new varia
 skmg#:#skmg_sctp#:#Skill Template Category###02 09 2011 new variable
 skmg#:#skmg_select_trigger#:#Select Trigger###18 07 2011 new variable
 skmg#:#skmg_selectable#:#Selectable###18 07 2011 new variable
-skmg#:#skmg_selectable_info#:#Allows user to select this category as a personal skill.###18 07 2011 new variable
+skmg#:#skmg_selectable_info#:#Permet à l'utilisateur de sélectionner cette catégorie comme une compétence personnelle.
 skmg#:#skmg_selected_items_have_been_copied#:#Selected items have been copied.###18 07 2011 new variable
 skmg#:#skmg_selected_items_have_been_cut#:#Selected items have been cut.###18 07 2011 new variable
 skmg#:#skmg_self_evaluation#:#Self-Evaluation###18 07 2011 new variable
 skmg#:#skmg_self_evaluations#:#Self-Evaluations###18 07 2011 new variable
-skmg#:#skmg_settings#:#Skill Management Settings###18 07 2011 new variable
+skmg#:#skmg_settings#:#Paramètres de la gestion des de compétences
 skmg#:#skmg_skill#:#Skill###18 07 2011 new variable
 skmg#:#skmg_skill_hierarchie#:#Skill Hierarchy###18 07 2011 new variable
 skmg#:#skmg_skill_level#:#Skill Level###18 07 2011 new variable
 skmg#:#skmg_skill_level_trigger#:#Skill Level Trigger###18 07 2011 new variable
 skmg#:#skmg_skill_levels#:#Skill Levels###18 07 2011 new variable
-skmg#:#skmg_skill_management_deactivated#:#Skill Management is currently deaktivated.###18 07 2011 new variable
+skmg#:#skmg_skill_management_deactivated#:#La gestion des compétences est actuellement désactivée.
 skmg#:#skmg_skill_template#:#Skill Template###18 07 2011 new variable
 skmg#:#skmg_skill_template_category#:#Skill Template Category###18 07 2011 new variable
 skmg#:#skmg_skill_templates#:#Skill Templates###18 07 2011 new variable
@@ -11138,7 +11143,7 @@ style#:#sty_type_sco_fmess#:#SCORM Final Message###22 03 2011 new variable
 style#:#sty_type_sco_keyw#:#SCO Keywords
 style#:#sty_type_sco_obj#:#SCO Objective
 style#:#sty_type_sco_objt#:#SCO Objectives Heading
-style#:#sty_type_sco_title#:#SCO Title
+style#:#sty_type_sco_title#:#SCO Titre
 style#:#sty_type_section#:#Section
 style#:#sty_type_table#:#Table
 style#:#sty_type_table_caption#:#Table Caption
@@ -11413,7 +11418,7 @@ survey#:#invited_users#:#Utilisateurs invités
 survey#:#label#:#Label
 survey#:#label_info#:#Alternative identifier for further data processing (e.g. in SPSS)
 survey#:#label_resume_survey#:#Saisissez votre code d'enquête à 32 chiffres
-survey#:#language_changed#:#Language changed
+survey#:#language_changed#:#Langue changée
 survey#:#last_update#:#Dernière mise à jour
 survey#:#layout#:#Mise en page
 survey#:#legend#:#Légende
@@ -11427,7 +11432,7 @@ survey#:#mailaddresses#:#Recipient addresses
 survey#:#mailaddresses_info#:#Enter a comma separated list of recipients who will receive a notification on finished surveys.
 survey#:#mailnotification#:#Email notification
 survey#:#mailparticipantdata#:#Additional participant data
-survey#:#mailparticipantdata_info#:#Add an introduction to the notification mail. You may use placeholders for participant related data like [matriculation], [email], [firstname]. The placeholders will be replaced with real user data in personalized surveys.
+survey#:#mailparticipantdata_info#:#Ajouter une introduction à l'e-mail de notification. Vous pouvez utiliser des espaces réservés pour les données des participants connexes comme [matricule], [email], [prénom]. Les espaces réservés seront remplacées par des données d'utilisateur réel dans les enquêtes personnalisées.
 survey#:#maintenance#:#Maintenance
 survey#:#manage_phrases#:#Gérer expressions
 survey#:#material#:#Matériaux
@@ -11819,7 +11824,7 @@ tagging#:#tagging_enable_tagging#:#Activer le balisage
 tagging#:#tagging_forbidden_tags#:#Forbidden Tags
 tagging#:#tagging_resources_for_tag#:#Ressources marqués à %s
 tagging#:#tagging_search_users#:#Recherche d'utilisateurs
-tagging#:#tagging_set_tag#:#Set Tags###12 06 2011 new variable
+tagging#:#tagging_set_tag#:#Définir les mots cléfs
 tagging#:#tagging_settings#:#Paramètres
 tagging#:#tagging_tag#:#Tag
 tagging#:#tagging_tag_info#:#Pour ajouter des mots clés à un objet, cliquez sur sa page <b>"info"</b> et saisissez vos mots clés.
@@ -12085,7 +12090,7 @@ trac#:#trac_report_date#:#Date of Report
 trac#:#trac_report_owner#:#Owner of Report
 trac#:#trac_repository_changes#:#Modifications dans le dépôt (Activités)
 trac#:#trac_required_visits#:#Nombre de visites requises
-trac#:#trac_sahs_relevant_items#:#SCO's
+trac#:#trac_sahs_relevant_items#:#Éléments de contenu
 trac#:#trac_select_area#:#Zone sélectionnée
 trac#:#trac_select_one#:#Vous n'avez rien sélectionné
 trac#:#trac_settings#:#Configuration
@@ -12211,98 +12216,98 @@ webr#:#webr_new_link#:#Ajouter un nouveau lien
 webr#:#webr_sort_manual#:#Sort Manually
 webr#:#webr_sort_title#:#Sort by Title
 webr#:#webr_sorting#:#Link Sorting
-wfld#:#wfld_add#:#Create Folder###22 03 2011 new variable
-wfld#:#wfld_new#:#Create New Folder###22 03 2011 new variable
+wfld#:#wfld_add#:#Créer un dossier
+wfld#:#wfld_new#:#Créer un nouveau dossier
 wiki#:#wiki_activate_rating#:#Activer la notation
 wiki#:#wiki_all_pages#:#Toutes les pages
 wiki#:#wiki_article#:#Article
-wiki#:#wiki_block_page#:#Block Page###14 09 2011 new variable
+wiki#:#wiki_block_page#:#Blocage de la page
 wiki#:#wiki_change_notification_body_new#:#Dans le Wiki "%s" la page "%s" a été ajoutée.
 wiki#:#wiki_change_notification_link#:#Lien vers le Wiki : %s
 wiki#:#wiki_change_notification_page_body_delete#:#La page suivante a été supprimée
 wiki#:#wiki_change_notification_page_body_update#:#La page suivante a été modifiée
-wiki#:#wiki_change_notification_page_link#:#Lien vers la page du Wiki:
-wiki#:#wiki_change_notification_salutation#:#Hello %s,
+wiki#:#wiki_change_notification_page_link#:#Lien vers la page du Wiki :
+wiki#:#wiki_change_notification_salutation#:#Bonjour %s,
 wiki#:#wiki_change_notification_subject#:#Le Wiki "%s" a été modifié
-wiki#:#wiki_changed_by#:#Changed by###12 06 2011 new variable
+wiki#:#wiki_changed_by#:#Modifié(e) par
 wiki#:#wiki_contributor#:#Contributeur
 wiki#:#wiki_contributors#:#Contributeurs
 wiki#:#wiki_created_by#:#Créé par
-wiki#:#wiki_delete_page#:#Delete Page###14 09 2011 new variable
+wiki#:#wiki_delete_page#:#Supprimer la page
 wiki#:#wiki_discussion#:#Discussion
 wiki#:#wiki_edit#:#Modifier
-wiki#:#wiki_edit_notification#:#Notification des modifications par Email
-wiki#:#wiki_edit_notification_info#:#Vous serez prévenu par Email lorsqu'une page sera modifiée.
+wiki#:#wiki_edit_notification#:#Notification des modifications par Courriel 
+wiki#:#wiki_edit_notification_info#:#Vous serez prévenu par Courriel lorsqu'une page sera modifiée.
 wiki#:#wiki_failed#:#Échec
 wiki#:#wiki_feedback_from_tutor#:#Remarques du tuteur
-wiki#:#wiki_functions#:#Wiki Functions###12 06 2011 new variable
+wiki#:#wiki_functions#:#Fonctions du Wiki
 wiki#:#wiki_general_settings#:#Général
 wiki#:#wiki_grading#:#Notation
 wiki#:#wiki_history#:#Historique
-wiki#:#wiki_imp_page_added#:#Page added.###12 06 2011 new variable
-wiki#:#wiki_import#:#Importer Wiki
-wiki#:#wiki_important_pages#:#Important Pages###12 06 2011 new variable
-wiki#:#wiki_indentation#:#Indentation###12 06 2011 new variable
+wiki#:#wiki_imp_page_added#:#Page ajoutée.
+wiki#:#wiki_import#:#Importer le Wiki
+wiki#:#wiki_important_pages#:#Pages importantes
+wiki#:#wiki_indentation#:#Indentation
 wiki#:#wiki_introduction#:#Introduction
 wiki#:#wiki_last_changed#:#Dernière(s) modification(s)
 wiki#:#wiki_last_changed_by#:#Modifié(s) par
-wiki#:#wiki_last_edited#:#Last edited###12 06 2011 new variable
+wiki#:#wiki_last_edited#:#Dernière édition
 wiki#:#wiki_last_visited_page#:#Dernière page visitée
-wiki#:#wiki_main_page#:#Page de départ
+wiki#:#wiki_main_page#:#Page d'accueil
 wiki#:#wiki_mark#:#Note
 wiki#:#wiki_media_list#:#Liste de médias
 wiki#:#wiki_msg_short_name_regexp#:#Un titre court ne doit pas commencer par un numéro et ne doit pas contenir l'un des caractères suivants :
-wiki#:#wiki_navigation#:#Wiki Navigation###12 06 2011 new variable
-wiki#:#wiki_new_page_name#:#New Title###12 06 2011 new variable
+wiki#:#wiki_navigation#:#Navigation Wiki
+wiki#:#wiki_new_page_name#:#Nouveau titre
 wiki#:#wiki_new_pages#:#Nouvelles pages
-wiki#:#wiki_news_page_changed#:#Wiki page has been updated.###12 06 2011 new variable
-wiki#:#wiki_news_page_created#:#New wiki page has been created.###12 06 2011 new variable
+wiki#:#wiki_news_page_changed#:#La page a été mise à jour.
+wiki#:#wiki_news_page_created#:#Un nouveau Wiki a été créé.
 wiki#:#wiki_no_start_page#:#Il manque une page de départ valide au Wiki.
 wiki#:#wiki_notgraded#:#Non évalué
-wiki#:#wiki_notification_activate_page#:#Activate Notification for Page###12 06 2011 new variable
-wiki#:#wiki_notification_activate_wiki#:#Activate Notification for Wiki###12 06 2011 new variable
-wiki#:#wiki_notification_activated#:#Notification Activated (Whole Wiki)###12 06 2011 new variable
-wiki#:#wiki_notification_deactivate_page#:#Deactivate Notification for Page###12 06 2011 new variable
-wiki#:#wiki_notification_deactivate_wiki#:#Deactivate Notification for Wiki###12 06 2011 new variable
-wiki#:#wiki_notification_deactivated#:#Notification Deactivated###01 10 2011 new variable
+wiki#:#wiki_notification_activate_page#:#Activer la notification pour la page
+wiki#:#wiki_notification_activate_wiki#:#Activer la notification pour le Wiki
+wiki#:#wiki_notification_activated#:#Notification Activée (pour tout le Wiki)
+wiki#:#wiki_notification_deactivate_page#:#Désactiver la notification pour la page
+wiki#:#wiki_notification_deactivate_wiki#:#Désactiver la notification pour le Wiki
+wiki#:#wiki_notification_deactivated#:#Notification Désactivée
 wiki#:#wiki_notification_toggle_info#:#Notification des modifications
 wiki#:#wiki_notification_toggle_page_activate#:#Activer pour la page
 wiki#:#wiki_notification_toggle_page_deactivate#:#Désactiver pour la page
 wiki#:#wiki_notification_toggle_wiki_activate#:#Activer pour le Wiki
 wiki#:#wiki_notification_toggle_wiki_deactivate#:#Désactiver pour le Wiki
 wiki#:#wiki_number_users_notes_or_comments#:#Nombre d'utilisateurs ayant ajouté des notes personnelles ou des commentaires à cette page.
-wiki#:#wiki_ordering#:#Ordering###12 06 2011 new variable
-wiki#:#wiki_ordering_and_indent_saved#:#Ordering and Indentation saved.###12 06 2011 new variable
+wiki#:#wiki_ordering#:#Commande ###12 06 2011 new variable
+wiki#:#wiki_ordering_and_indent_saved#:#Commande et Indentation sauvegardées.
 wiki#:#wiki_orphaned_pages#:#Pages orphelines
 wiki#:#wiki_other_pages_linking#:#Autres pages liées à cette page
 wiki#:#wiki_page#:#Page
-wiki#:#wiki_page_actions#:#Page Actions###01 10 2011 new variable
-wiki#:#wiki_page_already_exists#:#A page with this title already exists.###12 06 2011 new variable
-wiki#:#wiki_page_blocked#:#Wiki page blocked.###12 06 2011 new variable
+wiki#:#wiki_page_actions#:#Page des Actions
+wiki#:#wiki_page_already_exists#:#Une page avec le même titre existe déjà.
+wiki#:#wiki_page_blocked#:#Page Wiki bloquée.
 wiki#:#wiki_page_changes#:#Modifications de la page
 wiki#:#wiki_page_deleted#:#Page Wiki supprimée
 wiki#:#wiki_page_deletion_confirmation#:#Êtes-vous certain de vouloir supprimer cette page du Wiki ?
 wiki#:#wiki_page_hits#:#Visites
-wiki#:#wiki_page_lists#:#Page Lists###12 06 2011 new variable
-wiki#:#wiki_page_notification_activated#:#Notification Activated (Single Page)###12 06 2011 new variable
-wiki#:#wiki_page_status_blocked#:#Editing of this page is currently blocked for learners.###12 06 2011 new variable
-wiki#:#wiki_page_toc#:#Enable Page Overview Block###12 06 2011 new variable
-wiki#:#wiki_page_toc_info#:#This lists all headings linked to the content at the beginning of each page if that page uses at least two headings.###12 06 2011 new variable
-wiki#:#wiki_page_unblocked#:#Wiki page unblocked.###12 06 2011 new variable
+wiki#:#wiki_page_lists#:#Listes de pages###A voir
+wiki#:#wiki_page_notification_activated#:#Notification Activée (uniquement pour la page)
+wiki#:#wiki_page_status_blocked#:#La modification de cette page est actuellement bloquée pour les apprenants.
+wiki#:#wiki_page_toc#:#Activer le blocage de l'Aperçu
+wiki#:#wiki_page_toc_info#:#Ces listes de toutes les rubriques liées au contenu, au début de chaque page si cette page utilise au moins deux titres.
+wiki#:#wiki_page_unblocked#:#Page Wiki débloquée.
 wiki#:#wiki_pages#:#Pages
 wiki#:#wiki_passed#:#Effectué
 wiki#:#wiki_please_enter_search_term#:#Entrez un terme de recherche.
 wiki#:#wiki_popular_pages#:#Pages populaires
 wiki#:#wiki_print_view#:#Vue imprimable
-wiki#:#wiki_public_comments#:#Public Comments###22 03 2011 new variable
-wiki#:#wiki_quick_navigation#:#Wiki navigation rapide
+wiki#:#wiki_public_comments#:#Commentaires publics
+wiki#:#wiki_quick_navigation#:#Navigation rapide dans le Wiki 
 wiki#:#wiki_random_page#:#Page aléatoire
-wiki#:#wiki_rate_page#:#Rate this Page###14 09 2011 new variable
+wiki#:#wiki_rate_page#:#Notez, Évaluez cette page
 wiki#:#wiki_recent_changes#:#Modifications récentes
-wiki#:#wiki_removed_imp_pages#:#Important pages removed from list.###12 06 2011 new variable
-wiki#:#wiki_rename#:#Rename###12 06 2011 new variable
-wiki#:#wiki_rename_page#:#Rename Page###12 06 2011 new variable
-wiki#:#wiki_save_ordering_and_indent#:#Save Ordering and Indentation###12 06 2011 new variable
+wiki#:#wiki_removed_imp_pages#:#Pages importantes retirées de la liste.
+wiki#:#wiki_rename#:#Renommer
+wiki#:#wiki_rename_page#:#Renommer la page
+wiki#:#wiki_save_ordering_and_indent#:#Enregistrer la commande et l'indentation
 wiki#:#wiki_search#:#Rechercher
 wiki#:#wiki_search_results#:#Résultats de la recherche
 wiki#:#wiki_selected_pages#:#Pages sélectionnées
@@ -12313,47 +12318,47 @@ wiki#:#wiki_short_title_desc2#:#Ce titre sera utilisé dans les liens au Wiki. U
 wiki#:#wiki_start_page#:#Page de départ
 wiki#:#wiki_start_page_title#:#Titre de la page de départ
 wiki#:#wiki_style#:#Style
-wiki#:#wiki_sure_remove_imp_pages#:#Do you really want to remove the following pages from the list of important pages?###12 06 2011 new variable
-wiki#:#wiki_unblock_page#:#Unblock Page###14 09 2011 new variable
+wiki#:#wiki_sure_remove_imp_pages#:#Voulez-vous vraiment supprimer les pages suivantes de la liste des pages les plus importantes?
+wiki#:#wiki_unblock_page#:#Page débloquée
 wiki#:#wiki_what_links_here#:#Quels liens sur cette page ?
 wiki#:#wiki_what_links_to_page#:#Quels sont les liens qui pointent vers la page "%s" ?
 wiki#:#wiki_whole_wiki#:#Wiki complet
 wiki#:#wiki_wiki_page#:#Page Wiki
-wiki#:#wiki_wiki_search#:#Wiki recherche
-wsp#:#wsp_copy_to_repository#:#Copy to Repository###12 06 2011 new variable
-wsp#:#wsp_move_to_repository#:#Move to Repository###12 06 2011 new variable
-wsp#:#wsp_navigation_folders#:#View Folder###22 03 2011 new variable
-wsp#:#wsp_navigation_resource#:#Create New###22 03 2011 new variable
-wsp#:#wsp_password_for#:#Password for###02 09 2011 new variable
-wsp#:#wsp_password_protected_resource#:#Password-protected Resource###02 09 2011 new variable
-wsp#:#wsp_password_protected_resource_info#:#To access this resource you have to enter a password.###02 09 2011 new variable
-wsp#:#wsp_permission_add_users#:#Add Users###12 06 2011 new variable
-wsp#:#wsp_permission_all_info#:#This object has been published.###12 06 2011 new variable
-wsp#:#wsp_permission_registered_info#:#This object is shared with all registered users.###12 06 2011 new variable
-wsp#:#wsp_permission_removed#:#The item has been removed.###12 06 2011 new variable
-wsp#:#wsp_permissions#:#Share###12 06 2011 new variable
-wsp#:#wsp_personal_workspace#:#Resources###22 03 2011 new variable
-wsp#:#wsp_personal_workspace_description#:#Here you can manage your private files, blogs and artifacts.###22 03 2011 new variable
-wsp#:#wsp_remove_permission#:#Remove Permission###12 06 2011 new variable
-wsp#:#wsp_root_folder#:#Resources###22 03 2011 new variable
-wsp#:#wsp_set_permission_all#:#Publish ###12 06 2011 new variable
-wsp#:#wsp_set_permission_all_password#:#Publish (Password required)###12 06 2011 new variable
-wsp#:#wsp_set_permission_course#:#Course###12 06 2011 new variable
-wsp#:#wsp_set_permission_group#:#Group###12 06 2011 new variable
-wsp#:#wsp_set_permission_registered#:#All Registered Users###12 06 2011 new variable
-wsp#:#wsp_set_permission_single_user#:#Single User###12 06 2011 new variable
-wsp#:#wsp_share_search_users#:#Search Users###12 06 2011 new variable
-wsp#:#wsp_share_select_user#:#Please select a user.###12 06 2011 new variable
-wsp#:#wsp_share_success#:#A new entry has been added.###12 06 2011 new variable
-wsp#:#wsp_share_with_members#:#Share with members###12 06 2011 new variable
-wsp#:#wsp_shared_resources#:#Shared Resources###12 06 2011 new variable
-wsp#:#wsp_shared_with#:#Shared With###12 06 2011 new variable
-wsp#:#wsp_status_shared#:#Shared###12 06 2011 new variable
-wsp#:#wsp_tab_personal#:#My Resources###12 06 2011 new variable
-wsp#:#wsp_tab_shared#:#Shared By Other Users###12 06 2011 new variable
-wsp#:#wsp_type_blog#:#Blog###22 03 2011 new variable
-wsp#:#wsp_type_excv#:#Verification: Exercise###12 06 2011 new variable
-wsp#:#wsp_type_file#:#File###22 03 2011 new variable
-wsp#:#wsp_type_tstv#:#Verification: Test###12 06 2011 new variable
-wsp#:#wsp_type_webr#:#Weblink###18 07 2011 new variable
-wsp#:#wsp_type_wfld#:#Folder###22 03 2011 new variable
+wiki#:#wiki_wiki_search#:#Recherche dans le Wiki 
+wsp#:#wsp_copy_to_repository#:#Copier dans les Activités
+wsp#:#wsp_move_to_repository#:#Déplacer vers les Activités
+wsp#:#wsp_navigation_folders#:#Voir le dossier
+wsp#:#wsp_navigation_resource#:#Create New
+wsp#:#wsp_password_for#:#Mot de passe pour
+wsp#:#wsp_password_protected_resource#:#Mot de passe - protection des ressources
+wsp#:#wsp_password_protected_resource_info#:#Pour accéder à cette ressource, vous devez entrer un mot de passe.
+wsp#:#wsp_permission_add_users#:#Ajouter des Utilisateurs
+wsp#:#wsp_permission_all_info#:#Cet Objet a été publié.###12 06 2011 new variable
+wsp#:#wsp_permission_registered_info#:#Cet Objet est partagé avec tous les Utilisateurs enregistrés.
+wsp#:#wsp_permission_removed#:#L'élément a été supprimé.###12 06 2011 new variable
+wsp#:#wsp_permissions#:#Partager
+wsp#:#wsp_personal_workspace#:#Mon espace de travail
+wsp#:#wsp_personal_workspace_description#:#Ici vous pouvez gérer vos fichiers privés, blogs et artefacts.
+wsp#:#wsp_remove_permission#:#Supprimer la Permission
+wsp#:#wsp_root_folder#:#Mon espace de travail
+wsp#:#wsp_set_permission_all#:#Publier
+wsp#:#wsp_set_permission_all_password#:#Publier (mot de passe demandé)
+wsp#:#wsp_set_permission_course#:#Cours
+wsp#:#wsp_set_permission_group#:#Groupe
+wsp#:#wsp_set_permission_registered#:#Tous les Utilisateurs enregistrés
+wsp#:#wsp_set_permission_single_user#:#Utilisateur unique
+wsp#:#wsp_share_search_users#:#Recherche des Utilisateurs
+wsp#:#wsp_share_select_user#:#Sélectionnez un Utilisateur
+wsp#:#wsp_share_success#:#Une nouvelle entrée a été ajoutée.
+wsp#:#wsp_share_with_members#:#Partager avec les membres
+wsp#:#wsp_shared_resources#:#Ressources partagées
+wsp#:#wsp_shared_with#:#Partagé avec
+wsp#:#wsp_status_shared#:#Partagé
+wsp#:#wsp_tab_personal#:#Mes Ressources
+wsp#:#wsp_tab_shared#:#Partagé par d'autres utilisateurs
+wsp#:#wsp_type_blog#:#Blog
+wsp#:#wsp_type_excv#:#Vérification: Exercice
+wsp#:#wsp_type_file#:#File
+wsp#:#wsp_type_tstv#:#Vérification: Test
+wsp#:#wsp_type_webr#:#Lien Web
+wsp#:#wsp_type_wfld#:#Dossier
