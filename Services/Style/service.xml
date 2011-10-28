@@ -8,7 +8,7 @@
 			checkbox="1" inherit="0" translate="0" rbac="0">
 		</object>
 		<object id="stys" class_name="StyleSettings" dir="classes"
-			checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<subobj id="sty">sty</subobj>
 			<parent id="adm" max="1">adm</parent>

@@ -8353,3 +8353,22 @@ if(!$ilDB->tableExists('note_settings'))
 		"op_order" => array("integer", 9999)
 		));
 ?>
+<#3503>
+<?php
+	if(!$ilDB->tableColumnExists('il_object_def', 'administration'))
+	{
+		$ilDB->addTableColumn(
+			"il_object_def",
+			"administration",
+			array(
+				"type" => "integer",
+				"length" => 1,
+				"notnull" => true,
+				"default" => 0)
+		);
+	}
+?>
+<#3504>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

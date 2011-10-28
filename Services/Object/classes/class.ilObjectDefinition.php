@@ -106,11 +106,14 @@ class ilObjectDefinition extends ilSaxParser
 				"sideblock" => $rec["sideblock"],
 				'export' => $rec['export'],
 				'repository' => $rec['repository'],
-				'workspace'	=> $rec['workspace']);
+				'workspace'	=> $rec['workspace'],
+				'administration' => $rec['administration']
+			);
 			$this->obj_data[$rec["id"]]["subobjects"] = array();
 
             $defIds[] = $rec["id"];
         }
+
 		// get all subobject definitions in a single query
 		$set2 = $ilDB->query("SELECT * FROM il_object_subobj WHERE ".
 				$ilDB->in('parent', $defIds, false, 'text'));
@@ -165,6 +168,7 @@ class ilObjectDefinition extends ilSaxParser
 					"default_pos" => "2000",
 					'repository' => '1',
 					'workspace'	=> '0',
+					'administration' => '0',
 					"sideblock" => "0");
 				$this->obj_data[$rec["id"]]["subobjects"] = array();
 
@@ -913,6 +917,16 @@ class ilObjectDefinition extends ilSaxParser
 	function isAllowedInWorkspace($a_obj_name)
 	{
 		return (bool) $this->obj_data[$a_obj_name]["workspace"];
+	}
+
+	/**
+	 * Check if administration object
+	 * @param string $a_obj_name
+	 * @return bool
+	 */
+	public function isAdministrationObject($a_obj_name)
+	{
+		return (bool) $this->obj_data[$a_obj_name]['administration'];
 	}
 }
 ?>
