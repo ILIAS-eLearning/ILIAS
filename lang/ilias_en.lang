@@ -12358,3 +12358,8 @@ chatroom_adm#:#chta_edit_permission#:#Change Permission Settings
 rbac#:#moderate#:#Moderate
 common#:#apache_auth#:#Apache Authentication
 common#:#server_disabled#:#The Chat is Disabled
+rbac#:#cat_create_chtr#:#Create Chatroom
+rbac#:#crs_create_chtr#:#Create Chatroom
+rbac#:#fold_create_chtr#:#Create Chatroom
+rbac#:#grp_create_chtr#:#Create Chatroom
+rbac#:#root_create_chtr#:#Create Chatroom
