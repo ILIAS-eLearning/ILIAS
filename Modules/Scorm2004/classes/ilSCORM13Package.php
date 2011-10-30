@@ -343,6 +343,75 @@ class ilSCORM13Package
 		return "";
 	}
 
+	  /**
+	* Imports an extracted SCORM 2004 module from ilias-data dir into database
+	*
+	* @access       public
+	* @return       string title of package
+	*/
+	public function il_importAss($packageId, $sco_id, $packageFolder)
+	{
+		global $ilDB, $ilLog;
+		
+	  	$this->packageFolder=$packageFolder;
+	  	$this->packageId=$packageId;
+	  	$this->imsmanifestFile = $this->packageFolder . '/' . 'index.xml';
+	  	$this->imsmanifest = new DOMDocument;
+	  	$this->imsmanifest->async = false;
+	  	
+	  	if (!@$this->imsmanifest->load($this->imsmanifestFile))
+	  	{
+	  		$this->diagnostic[] = 'XML not wellformed';
+	  		return false;
+	  	}
+	  	
+	  	$slm = new ilObjSCORM2004LearningModule($packageId,false);
+	  	$sco = new ilSCORM2004Asset($slm,$sco_id);
+	  	$this->dbImportSco($slm,$sco, true);
+	  	
+	  	// import sco.xml
+/*
+	  	$sco_xml_file = $this->packageFolder . '/sco.xml';
+	  	if (is_file($sco_xml_file))
+	  	{
+	  		$scodoc = new DOMDocument;
+	  		$scodoc->async = false;
+			if (!@$scodoc->load($sco_xml_file))
+			{
+				$this->diagnostic[] = 'XML of sco.xml not wellformed';
+				return false;
+			}
+			//$doc = new SimpleXMLElement($scodoc->saveXml());
+			//$l = $doc->xpath("/sco/objective");
+			$xpath = new DOMXPath($scodoc);
+			$nodes = $xpath->query("/sco/objective");
+			foreach($nodes as $node)
+			{
+				$t_node = $node->firstChild;
+				if (is_object($t_node))
+				{
+					$objective_text = $t_node->textContent;
+					if (trim($objective_text) != "")
+					{
+						$objs = $sco->getObjectives();
+						foreach ($objs as $o)
+						{
+							$mappings = $o->getMappings();
+							if ($mappings == null)
+							{
+								$ob = new ilScorm2004Objective($sco->getId(), $o->getId());
+								$ob->setObjectiveID($objective_text);
+								$ob->updateObjective();
+							}
+						}
+					}
+				}
+			}
+		}
+*/
+		return "";
+	}
+
 	public function il_importLM($slm, $packageFolder, $a_import_sequencing = false)
 	{
 		global $ilDB, $ilLog;
@@ -508,6 +577,29 @@ class ilSCORM13Package
 					$newPack->il_importSco($this->slm->getId(),$sco->getId(),$this->packageFolder."/".$match[1]);
 					$parent_id = $sco->getId();
 				}
+				if(preg_match("/il_\d+_ass_(\d+)/",$a['identifier'], $match))
+				{
+					$ass = new ilSCORM2004Asset($this->slm);
+					$ass->setTitle($node->title);
+					$ass->setSLMId($this->slm->getId());
+					$ass->create(true);
+					
+					// save sequencing information
+					$r = $this->mani_xpath->query("//d:item[@identifier='".$a['identifier']."']/imsss:sequencing");
+					if ($r)
+					{
+						$seq_info = new ilSCORM2004Sequencing($ass->getId());
+						$this->setSequencingInfo($r->item(0), $seq_info, $a_import_sequencing,
+							"local_obj_".$ass->getID()."_0");
+						$seq_info->initDom();
+						$seq_info->insert();
+					}
+					
+					ilSCORM2004Node::putInTree($ass, $parent_id, "");
+					$newPack = new ilSCORM13Package();
+					$newPack->il_importAss($this->slm->getId(),$ass->getId(),$this->packageFolder."/".$match[1]);
+					$parent_id = $ass->getId();
+				}
 				
 				break;
 		}
@@ -575,7 +667,7 @@ class ilSCORM13Package
 		}
 	}
 
-	public function dbImportSco($slm,$sco)
+	public function dbImportSco($slm,$sco, $asset = false)
 	{
 		$qtis = array();
 		$d = ilUtil::getDir ( $this->packageFolder );
