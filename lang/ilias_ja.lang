@@ -80,13 +80,10 @@ administration#:#analyzing_tree_structure#:#ツリー構造を分析中…
 administration#:#analyzing#:#分析中…
 administration#:#apache_auth_authenticate_on_login_page#:#ログインページに入るにはApache認証します。
 administration#:#apache_auth_domains_description#:#このターゲットに対してリダイレクトを許可するドメインを1行ごとに入力します。<br/>ILIASが一つ以上のドメインにアクセス可能な場合は、許可する全てのターゲットを入力してください。<br />例： example.comはhttp://example.comやhttp://www.example.com並びにそのサイトのすべてのページへリダイレクトを許可されているような場合。
-administration#:#apache_auth_domains_description#:#このターゲットへのリダイレクト許可を行あたり1ドメイン入力します。<br/>ILIASが複数ドメインへ到達可能な場合は許可したい全てのターゲットを入力します。<br/>例：example.comをhttp://example.com 、http://www.example.com とそこにある全てのページへリダイレクト許可する。
 administration#:#apache_auth_domains#:#許可されたリダイレクトドメイン
-administration#:#apache_auth_domains#:#許可されているレダイレクトドメイン
 administration#:#apache_auth_enable_override_login#:#ログインページの初期設定を優先
 administration#:#apache_auth_indicator_name#:#認証成功用のインジケーターフィールド
 administration#:#apache_auth_indicator_value#:#認証成功用のインジケーター値
-administration#:#apache_auth_security#:#セキュリティ設定
 administration#:#apache_auth_security#:#セキュリティ設定
 administration#:#apache_auth_settings#:#Apache
 administration#:#apache_auth_target_override_login#:#カスタムログインページ用のターゲットURL
@@ -256,9 +253,7 @@ administration#:#systemcheck#:#システムチェック
 administration#:#topics_overview_info#:#ONにすると確定情報のトピックのみが表示されます。
 administration#:#tree_corrupt#:#ツリーが破損しています!　詳細はスキャンロクを参照
 administration#:#user_criteria_desc#:#テスト結果インポート/エクスポートに使用するユニークなユーザー判定です。異なるILIASシステム上の特定ユーザーの識別に必要です。
-administration#:#user_criteria_desc#:#一意のユーザー条件はテスト結果のインポートとエクスポートに使用されます。これは異なるILIASシステム上で同一のユーザーを識別するために必要です。
 administration#:#user_criteria#:#ユニークなユーザー判定
-administration#:#user_criteria#:#一意のユーザー条件
 administration#:#usr_loginname_history_info#:#ユーザーは前回%のログイン時に変更しました。 以前のログインは: %sです。
 administration#:#view_last_log#:#前回スキャンログを見る
 administration#:#view_log#:#詳細を見る
@@ -554,7 +549,6 @@ assessment#:#imagemap#:#イメージマップ
 assessment#:#import_errors_qti#:#QTI ファイルの分析エラーがありました。 インポートはキャンセルされました。
 assessment#:#import_question#:#問題をインポート
 assessment#:#imported#:#インポート完了
-assessment#:#imported#:#インポート済
 assessment#:#info_answer_type_change#:#問題にはイメージが既に含まれます。複数回答に対して回答タイプの変更はできません。
 assessment#:#insert_after#:#後に挿入
 assessment#:#insert_before#:#前に挿入
@@ -635,7 +629,6 @@ assessment#:#msg_poly_added#:#多角形の追加
 assessment#:#msg_question_count_too_low#:#0以上の問題数を入力してください
 assessment#:#msg_questions_moved#:#問題の移動
 assessment#:#msg_randompool_duplicate_qpl#:#ユニークな問題週のみを使用してください。
-assessment#:#msg_randompool_duplicate_qpl#:#ユニークな問題集のみをご利用願います。
 assessment#:#msg_rect_added#:#長方形の追加
 assessment#:#msg_selected_for_move#:#移動用に選択した問題
 assessment#:#msg_total_questions_too_high#:#問題数は選択した問題の中の利用可能な問題数よりも大きい事
@@ -1217,11 +1210,8 @@ auth#:#auth_account_code_title#:#アカウントコード
 auth#:#auth_account_code_used#:#アカウントが再設定されました。セキュリティー上の理由により再度ログイン願います。
 auth#:#auth_account_code#:#コード
 auth#:#auth_account_migration_keep#:#既存のユーザーアカウントを移行
-auth#:#auth_account_migration_keep#:#既存のユーザーアカウントを移行する
-auth#:#auth_account_migration_name#:#移行
 auth#:#auth_account_migration_name#:#移行
 auth#:#auth_account_migration_new#:#新規ユーザーアカウントを作成します。
-auth#:#auth_account_migration_new#:#新規ユーザーアカウントを作成する
 auth#:#auth_account_migration#:#新規ILIASのアカウント
 auth#:#auth_info_add#:#ILIASに一度も登録したことがなければオプションを選択。新規アカウントが作成されます。
 auth#:#auth_info_migrate#:#既にILIASのアカウントがあれば、パーソナルデータ(メール、テスト結果など）を移動するためのユーザー名とパスワードを入力します。
@@ -1231,7 +1221,6 @@ auth#:#auth_openid_deleted_provider#:#選択したOpenID providerを削除
 auth#:#auth_openid_enable#:#OpenIdサポートを有効
 auth#:#auth_openid_login_info_a#:#OpenIdユーザー名を入力してprividerを選択してください
 auth#:#auth_openid_login#:#OpenId
-auth#:#auth_openid_migration_info#:#有効にすると新規ユーザーに対して既存のILIASユーザーアカウントをOpenID認証へ移行する事が可能になります。
 auth#:#auth_openid_migration_info#:#有効にすると新規ユーザーに対して既存のILIASユーザーアカウントをOpenID認証へ移行する事が可能になります。
 auth#:#auth_openid_migration#:#アカウント移行
 auth#:#auth_openid_provider_add#:#プロバイダー追加
@@ -1261,7 +1250,6 @@ auth#:#login_page_activate#:#選択した言語用のエディタを起動する
 auth#:#login_page_editor_switched#:#アクティブのページエディタが変更されました
 auth#:#login_page_switch_ipe#:#ILIASページエディタを使用
 auth#:#login_page_switch_rte#:#Rich-Text-Editorを使用
-barometer#:#anonymous#:#匿名
 barometer#:#anonymous#:#匿名
 barometer#:#bar_create#:#新規フィードバックを作成
 barometer#:#barometer_add#:#新規フィードバックを追加
@@ -1476,7 +1464,6 @@ book#:#book_schedule_type#:#タイプ
 book#:#book_schedule_updated#:#予約スケジュールが更新されました。
 book#:#book_schedule_warning_edit#:#現在利用できるスケジュールはありません。ブッキングプールを使用するにはブッキング用のスケジュールを作成する必要があります。
 book#:#book_schedule_warning#:#現在予定されているスケジュールはありません。予約対象を追加する前に予約用のスケジュールを作成する必要があります。
-book#:#book_schedule_warning#:#現在利用できるスケジュールはありません。予約オブジェクトを追加する前に予約用のスケジュールを作成する必要があります。
 book#:#book_schedule#:#スケジュール
 book#:#book_schedules#:#スケジュール
 book#:#book_set_cancel#:#予約キャンセル
@@ -2034,7 +2021,6 @@ cmps#:#database_is_uptodate#:#データベースは最新です。
 cmps#:#no_changes#:#変更なし
 cntr#:#cntr_add_new_item#:#新規アイテムを追加
 cntr#:#cntr_adopt_content#:#コンテンツを採用
-cntr#:#cntr_adopt_content#:#コンテンツを適合
 cntr#:#cntr_back_to_old_editor#:#古いエディターへ戻す
 cntr#:#cntr_disable_multi_commands#:#マルチコマンドを無効
 cntr#:#cntr_enable_multi_commands#:#マルチコマンドを有効
@@ -2056,7 +2042,6 @@ cntr#:#cntr_view_info_simple#:#このコンテンツの説明は1ブロック中
 cntr#:#cntr_view_sessions#:#セッションビュー
 cntr#:#cntr_view_simple#:#シンプルビュー
 cntr#:#container_import_zip_file_invalid#:#アップロードされたファイルはILIASの有効なエクスポートファイルではありません。ディレクトリ構造をアップロードするにはファイルオブジェクトを使用してください。
-cntr#:#container_import_zip_file_invalid#:#アップロードされたファイルは有効なILIASのエクスポートファイルではありません。階層構造をアップロードするにはファイルオブジェクトを使用してください。
 cntr#:#edit_questions#:#問題を編集
 common#:#3rd_party_software#:#サードパーティ製ソフトウェア
 common#:#absolute_path#:#絶対Path
@@ -2164,7 +2149,6 @@ common#:#allow_assign_users#:#ローカル管理者へユーザー割当てを�
 common#:#allow_override_alert#:#.htaccessルールは完全に翻訳されていません。
 common#:#allow_register#:#新規ユーザーへ登録フォームを提供
 common#:#allow_user_toggle_noti#:#メンバーに通知解除を許可
-common#:#allow_user_toggle_noti#:#メンバーは通知を無効にする事を許可します
 common#:#alm_added#:#AICCラーニングモジュールの追加
 common#:#alm_create#:#AICラーニングモジュールを作成
 common#:#alm_delete#:#AICCラーニングモジュールを削除
@@ -2861,9 +2845,7 @@ common#:#email_not_valid#:#入力したemailアドレスは無効です!
 common#:#email#:#email
 common#:#enable_admin_force#:#通知を使用
 common#:#enable_anonymous_fora_desc#:#無効にすると掲示板における"ペンネームでの投稿"機能は以降機能しなくなります。
-common#:#enable_anonymous_fora_desc#:#無効にすると掲示板における"偽名での投稿"機能は以降機能しなくなります。
 common#:#enable_anonymous_fora#:#ペンネームでの投稿を許可
-common#:#enable_anonymous_fora#:#偽名での投稿を許可する
 common#:#enable_calendar#:#カレンダーを有効
 common#:#enable_course_group_notifications_desc#:#有効にすると受講者は毎日のニュースサマリーを購読できます。
 common#:#enable_course_group_notifications#:#グループとコースニュース用の毎日メール
@@ -4396,7 +4378,6 @@ common#:#object_duration#:#アクセス継続時間
 common#:#object_id#:#オブジェクトID
 common#:#object_imported#:#オブジェクトインポート
 common#:#object_not_found#:#オブジェクトが見つかりません
-common#:#object_not_found#:#オブジェクトが見つかりません
 common#:#object_purchased_date#:#購入日
 common#:#object#:#オブジェクト
 common#:#objects#:#オブジェクト
@@ -4469,7 +4450,6 @@ common#:#open_views_inside_frameset#:#内部フレームセットのビューを
 common#:#operation#:#操作
 common#:#optimize#:#最適化
 common#:#option#:#オプション
-common#:#option#:#オプション
 common#:#optional_filter_hint#:#オプションのフィルターのいずれかをアクティブにしてください。
 common#:#optional_filters#:#オプションのフィルター
 common#:#options_for_subobjects#:#サブオブジェクトのオプション
@@ -4500,16 +4480,13 @@ common#:#passwd_not_match#:#新しいパスワード入力が一致しません!
 common#:#passwd_wrong#:#入力されたパスワードは間違っています!
 common#:#passwd#:#パスワード
 common#:#password_allow_chars#:#使用可能文字数: %s
-common#:#password_allow_chars#:#使用可能文字数: %s
 common#:#password_assistance_disabled#:#パスワード支援は、ローカルILIAS データベース経由でユーザーが認証する時のみ利用できます。
 common#:#password_assistance_info#:#パスワード支援をオンにすると,ILIASのログインページに "パスワードを忘れた場合は?"のリンク文字が表示されます。ユーザーは、システム管理者のアシスタンスを必要とする事なく、ユーザーのアカウントでこのリンクに対して新しいパスワードを使う事ができます。
 common#:#password_change_on_first_login_demand#:#初期パスワードはILIASのサービス使用開始前に変更しなければなりません。。
 common#:#password_contains_invalid_chars#:#パスワードに無効な文字があります
-common#:#password_contains_invalid_chars#:#パスワード不正な文字が含まれています
 common#:#password_empty#:#パスワードは空 ではいけません。
 common#:#password_expired#:#最後の変更から%s 日過ぎてパスワードは失効したので変更しなければなりません。
 common#:#password_multiple_errors#:#数箇所に間違いがあります
-common#:#password_multiple_errors#:#複数の基準を満足できません:
 common#:#password_must_chars_and_numbers#:#パスワードには文字と数字を含まなければなりません。
 common#:#password_must_special_chars#:#パスワードには特殊文字を含まなければなりません。
 common#:#password_to_long#:#パスワードは最大 %s 文字でなければいけません。
@@ -4936,7 +4913,6 @@ common#:#setSystemLanguage#:#システム言語設定
 common#:#settings_for_all_members#:#全コース/グループメンバーのグローバル設定
 common#:#settings_for_new_members#:#新メンバー設定
 common#:#settings_per_members#:#ユーザーごとの設定
-common#:#settings_per_members#:#ユーザー当りの設定
 common#:#settings_per_users#:#コース/グループメンバーごとの設定
 common#:#settings_saved#:#設定を保存
 common#:#settings#:#設定
@@ -5312,7 +5288,6 @@ common#:#user_new_account_mail_desc#:#新規ユーザー用の通知メール
 common#:#user_new_account_mail#:#新規アカウントメール
 common#:#user_not_chosen#:#グループ-メンバーを選択していませんでした。
 common#:#user_not_found#:#ユーザーが見つかりません
-common#:#user_not_found#:#ユーザーが見つかりません
 common#:#user_not_known#:#有効なユーザー名を挿入してください。
 common#:#user_profile_instant_messengers#:#メッセンジャーを挿入
 common#:#user_profile_other#:#その他の情報
@@ -5341,7 +5316,6 @@ common#:#users#:#ユーザー
 common#:#usertracking#:#ユーザー追跡
 common#:#usr_a#:#ユーザー
 common#:#usr_account_inactive#:#使われていないアカウント
-common#:#usr_account_inactive#:#非アクティブアカウント
 common#:#usr_active_only#:#アクティブユーザーのみ
 common#:#usr_add#:#ユーザーを追加
 common#:#usr_added#:#ユーザー追加
@@ -5532,7 +5506,6 @@ content#:#cont_add_popup#:#ポップアップを追加
 content#:#cont_add_rectangle#:#長方形を追加
 content#:#cont_add_tab#:#タブを追加
 content#:#cont_added_comment#:#コメントが履歴に追加されました。
-content#:#cont_added_tab#:#タブを作成しました。
 content#:#cont_added_tab#:#タブを作成しました。
 content#:#cont_added_term#:#条件追加
 content#:#cont_Additional#:#追加情報
@@ -6213,7 +6186,6 @@ content#:#cont_saved_map_area#:#マップエリアを保存
 content#:#cont_saved_map_data#:#マップデータを保存
 content#:#cont_saving#:#保存中...
 content#:#cont_sc_auto_continue#:#自動継続
-content#:#cont_sc_auto_continue#:#自動継続
 content#:#cont_sc_auto_review#:#受講者がSCOを完了するとレッスンモードを'レビュー'に設定
 content#:#cont_sc_less_mode_browse#:#ブラウズ
 content#:#cont_sc_less_mode_normal#:#ノーマル
@@ -6457,7 +6429,6 @@ content#:#msg_entry_updated#:#メニューエントリー更新
 content#:#msg_page_no_public_access#:#コールしたページはパブリックエリアでは利用できません。登録済ユーザーのみがこのページを表示できます。最初にログインしてこのページへアクセスしてください。
 content#:#msg_page_not_public#:#ページはパブリックではありません
 content#:#page_does_not_exist#:#恐れ入りますがこのページは存在しません。
-content#:#page_does_not_exist#:#申し訳ありませんがこのページはありません。
 content#:#pages from#:#Pages From
 content#:#Pages#:#ページ
 content#:#par#:#パラグラフ
@@ -7223,9 +7194,7 @@ dateplaner#:#cal_day_week_view#:#日・週間表示設定
 dateplaner#:#cal_deadline#:#期限
 dateplaner#:#cal_declined#:#拒否
 dateplaner#:#cal_def_date_format_info#:#日付入力形式を選択してください。
-dateplaner#:#cal_def_date_format_info#:#日付入力形式を選択してください。
 dateplaner#:#cal_def_date_format#:#日付入力形式初期値
-dateplaner#:#cal_def_date_format#:#日付形式初期設定
 dateplaner#:#cal_def_time_format_info#:#時間入力形式を選択してださい。
 dateplaner#:#cal_def_time_format#:#時間形式初期設定
 dateplaner#:#cal_def_timezone_info#:#予定時間で使用するタイムゾーン初期設定値を選択してください。
@@ -8023,7 +7992,6 @@ forum#:#to_forum#:#フォーラムへ
 forum#:#topic_close#:#済み
 forum#:#topics_please_select_one_action#:#アクションを選択してください。
 forum#:#user_decides_notification#:#各ユーザーが通知を決定
-forum#:#user_decides_notification#:#各ユーザーは通知を決定
 frm#:#frm_import#:#フォーラムをインポート
 gmaps#:#gmaps_api_key_desc#:#Google Map拡張機能を利用するためにGoogle Map APIキーへ申込みする必要があります。
 gmaps#:#gmaps_api_key#:#APIキー
@@ -9381,7 +9349,6 @@ payment#:#billing_mail#:#請求Email
 payment#:#buy_extension#:#購入延長
 payment#:#check_shop_activation#:#アクティベーション用のショップ設定をチェック
 payment#:#coupon_type#:#クーポンタイプ
-payment#:#coupon_type#:#クーポンタイプ
 payment#:#credit#:#クレジット
 payment#:#currency_cent#:#セント
 payment#:#currency_euro#:#Euro
@@ -10142,7 +10109,6 @@ rbac#:#grp_create_wiki#:#Wikiを作成
 rbac#:#grp_edit_event#:#カレンダー行事を編集
 rbac#:#info_user_view_changed#:#ユーザー表示の変更
 rbac#:#invite#:#サーベイへ招待
-rbac#:#invite#:#サーベイへ招待
 rbac#:#leave#:#退室
 rbac#:#log#:#Log
 rbac#:#mail_to_global_roles#:#グローバル役割へメール
@@ -10654,8 +10620,6 @@ search#:#lucene_level#:#ログレベル
 search#:#lucene_log_info#:#ログメッセージの書かれたファイルの絶対pathを入力してください。ファイルがない場合は、自動的に作成されます。
 search#:#lucene_log#:#ログファイルのpath
 search#:#lucene_max_fs_info#:#ファイルサイズを定義します。大き目のファイルはindexには含まれません。
-search#:#lucene_max_fs_info#:#ファイルサイズ制限を定義します。大き目のファイルはindexに含まれなくなります。
-search#:#lucene_max_fs#:#最大ファイルサイズ(MB)
 search#:#lucene_max_fs#:#最大ファイルサイズ(MB)
 search#:#lucene_max_sub_info#:#初期設定で表示されるサブアイテム(スレッド、用語集、条件など)の最大値を入力してください。
 search#:#lucene_max_sub#:#サブアイテム数
@@ -11582,7 +11546,6 @@ survey#:#qpl_savephrase_empty#:#フレーズのタイトルを入力してくだ
 survey#:#qpl_savephrase_exists#:#フレースタイトルは既に存在します!別のタイトルを入力してください。
 survey#:#qpl_unfold_select_none#:#問題ブロックを展開したい場合は、問題ブロックを最低1つ選択してください!
 survey#:#question_changed_in_survey_only#:#サーベイ中の問題のみ変更されました。
-survey#:#question_changed_in_survey_only#:#問題はサーベイ中しか変更されませんでした。
 survey#:#question_contains_no_categories#:#この問題に定義された回答がありません
 survey#:#question_has_constraints#:#前提条件
 survey#:#question_icon#:#問題アイコン
@@ -12015,9 +11978,7 @@ trac#:#trac_last_access#:#最終アクセス日時
 trac#:#trac_learners_back#:#学習者へ戻る
 trac#:#trac_learners#:#学習者
 trac#:#trac_learning_progress_objects_description#:#このタブは全てのコースとオブジェクトの概略を表示します。
-trac#:#trac_learning_progress_objects_description#:#このテーブルはコースとオブジェクトの概要を示します。
 trac#:#trac_learning_progress_of#:#%sの学習進捗
-trac#:#trac_learning_progress_of#:#進行状況
 trac#:#trac_learning_progress_settings_info#:#学習進捗表の内に次の値を表示
 trac#:#trac_learning_progress_tbl_header#:#学習進捗
 trac#:#trac_learning_progress#:#学習進捗
