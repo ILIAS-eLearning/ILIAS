@@ -189,6 +189,14 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 		$this->node_object->update();
 	}
 
+	/**
+	 * After saving
+	 */
+	function afterSave()
+	{
+		$this->redirectToParent(true);
+	}
+
 }
 
 ?>
