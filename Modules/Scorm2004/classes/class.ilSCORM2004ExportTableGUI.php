@@ -58,7 +58,7 @@ class ilSCORM2004ExportTableGUI extends ilTable2GUI
 		$this->setStyle('table', 'fullwidth');
 		if (!$confirmdelete)
 		{
-			$this->addColumn('','f','1%');
+			$this->addColumn('','','1%');
 		}
 		$this->addColumn($this->lng->txt("type"),'type', '9%');
 		$this->addColumn($this->lng->txt("file"),'file', '40%');
@@ -80,7 +80,7 @@ class ilSCORM2004ExportTableGUI extends ilTable2GUI
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setDefaultOrderField("file");
-		$this->setDefaultOrderDirection("asc");
+		$this->setDefaultOrderDirection("desc");
 		
 		if ($confirmdelete)
 		{
