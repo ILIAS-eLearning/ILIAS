@@ -1,50 +1,34 @@
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
-* ILIAS language file
+* ILIAS language file (setup)
 *
 * @module       language file Japanese
 * @modulegroup  language
-* @author       Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @author       Shiro Tamoto <tech@oberon.nagaokaut.ac.jp>
 * @version      $Id: setup_ja.lang 23415 2010-09-15 16:08:17Z akill $
 */
-
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software_req#:#サードパーティｰ製ツールが必要
-3rd_party_software_opt#:#サードパーティｰ製ツールオプション
 3rd_party_software#:#サードパーティｰ製のツール
+3rd_party_software_opt#:#サードパーティｰ製ツールオプション
+3rd_party_software_req#:#サードパーティｰ製ツールが必要
 3rdparty#:#サードパーティｰ製のツール
 absolute_path#:#絶対Path
 access#:#アクセス
 access_status#:#アクセス状態
 admin_login#:#マスターパスワードでログイン
 antivir#:#ウイルス監視
+applied_hotfixes#:#適用済みHotfix
+apply_hotfixes#:#Hotfixを適用
 available_clients#:#利用可能なクライアント
+available_hotfixes#:#適用可能なHotfix
 available_languages#:#利用可能な言語
 back#:#戻る
+basic_settings#:#基本設定
 cannot_create_datadir_no_write_access#:#書込み禁止。データディレクトリを作成できません。
 change#:#変更
 change_basic_settings#:#基本設定の変更
@@ -67,13 +51,15 @@ clean_command#:#Cleanコマンド
 client#:#クライアント
 client_access_mode_changed#:#クライアントのアクセスモードが変更されました。
 client_data#:#クライアント情報
+client_deleted#:#クライアントの削除
 client_id#:#クライアントID
 client_info#:#説明
 client_institution#:#大学名
 client_login#:#クライアント管理者でログイン
 client_name#:#氏名
 client_setup_not_finished#:#クライアントの設定が完了していません
-collation#:#照合
+clients#:#クライアント
+collation#:#Collation
 contact#:#コンタクト情報
 contact_data#:#コンタクト情報
 convert_path#:#Image MagicのコンバートPath
@@ -83,12 +69,19 @@ could_not_create_logfile#:#ログファイルが作成できませんでした�
 country#:#国名
 create#:#作成
 create_datadir_failed#:#データディレクトリ作成に失敗しました。
+create_directory#:#ディレクトリの作成
 create_new_client#:#新規クライアントの作成
 create_webdir_failed#:#Webディレクトリの作成に失敗しました。
 ctrl_missing_desc#:#制御構造が未設定です。'リロード'を押してください。
 ctrl_structure#:#制御構造
 ctrl_structure_desc#:#アップデートやパッチの手順書に明確な説明がない限りこの機能は使用しないでください。
+ctrl_structure_reload#:#リロード制御構造
 ctrl_structure_reloaded#:#制御構造をリロードしました。
+data_directories#:#データディレクトリ
+data_directory_in_ws#:#Web内のデータディレクトリ
+data_directory_in_ws_info#:#このディレクトリは変更できません。
+data_directory_info#:#Webサーバに書き込み可能なWebスペースの外部のディレクトリを入力してください。
+data_directory_outside_ws#:#Webの外部データディレクトリ
 data_path#:#日付Path
 database#:#データベース
 database_create#:#データベースの作成
@@ -108,12 +101,20 @@ datadir_webspacedir_match#:#データディレクトリポイントのPathとWeb
 date#:#日付
 db_conn#:#データベース接続
 db_control_structure_missing#:#制御構造がありません(詳細 -> 'ツール'を参照)
+db_error_please_check#:#データベースのホスト名、ユーザー名、パスワードを確認してください。
 db_host#:#データベースホスト
+db_mysql#:#MySQL
 db_name#:#データベース名
 db_needs_update#:#データベースの更新が必要です。
 db_not_installed#:#データベースがインストールされていません。
+db_oracle#:#Oracle
 db_pass#:#データベースのパスワード
+db_port#:#データベースポート
+db_selection#:#データベースの選択
+db_service_name#:#サービス名
 db_type#:#データベースのタイプ
+db_update_interrupted#:#前回起動時に予期しないデータベース更新スクリプト中断がありました。システム状態に<b>矛盾</b>があります。最新バックアップを再インストールして再度移行される事を強くお勧めします。
+db_update_interrupted_avoid#:#この問題を回避するにはphp.iniファイル内にあるmemory_limit設定値とmax_execution_timeを確認してください。
 db_user#:#データベースのユーザー
 db_version#:#データベースのバージョン
 default#:#初期設定
@@ -123,11 +124,12 @@ delete#:#削除
 delete_confirm#:#クライアント削除の確認
 delete_info#:#本当に実行しますか?
 details#:#詳細
+determine_tools_paths#:#ツールのPathを決定
 dir_exists_create#:#すでにデイレクトリーが存在します。"作成"のチェックを外して、このディレクトリをデータディレクトリにします。
 disable#:#表示しない
 disable_check#:#確認
 disable_logging#:#ログを作成しない
-disabled#:#拒否
+disabled#:#不可
 display_clientlist#:#クライアントの選択をユーザーへ表示します。
 duplicate_ctrl#:#エラー　重複<br /><br />- %s<br />- %s<br /><br />公式にILIASが配布していないファイルを削除してください。<br />その後 'Tools' -> ILIASセットアップの'制御構造'を呼び出す。
 email#:#email
@@ -157,13 +159,16 @@ finish_setup#:#セットアップを終了中
 firstname#:#名
 fop_path#:#FOPのPath
 fop_path_comment#:#PDF文書作成に必要
+form_input_not_valid#:#データが不完全か間違っています。フォーラム入力を訂正してください。
+form_input_not_valid#:#データが不完全か間違っています。フォーラム入力を訂正してください。
+form_retype_password#:#パスワードを再入力してください。
 hide_clientlist#:#クライアントの選択をユーザーへ表示しません。
 host#:#ホスト
+hotfix_applied#:#Hotfix適用済
+hotfix_available#:#Hotfix適用可能
 htmldoc_path#:#HTMLdocのPath
 htmldoc_path_comment#:#PDF作成用　例 '/etc/htmldoc'
 htmldoc_path_comment_win#:#PDF作成用　例 'C
-mkisofs_path#:#mkisofsのPath
-mkisofs_path_comment#:#isoイメージ作成用
 http_path#:#HTTP Path
 id#:#ID
 ilias_db_mode#:#ILIASのデータベースモード
@@ -173,15 +178,12 @@ ilias_nic_id#:#NICのID
 ilias_setup#:#ILIASのセットアップ
 ilias_version#:#ILIASのバージョン
 include_local#:#大学固有を含める
-user#:#ユーザー
-db_error_please_check#:#データベースのホスト名、ユーザー名、パスワードを確認してください。
-need_mysql_4_1_or_higher#:#このMySQLのバージョンはサポート外です。MySQL4.1以降が必要です。
 info_text_3rdparty#:#ILIASに必要なサードパティーのツールのセットアップを行います。それぞれのadd-onのセットアップ情報に従ってステップを完了してください。
 info_text_contact#:#追加のクライアント情報並びにこのクライアントのシステム管理者のコンタクト情報を表示します。全ての情報はデータベースに保管されます。次の画面でILIASオープンソースプロジェクトサーバへインストール情報を登録するオプションがあります。
 info_text_db#:#データベースが存在しないか空です。データベースがない場合には、下にある"データベースの作成"をクリックしてください。ILIASは自動的にデータベースを作成します。作成に失敗したり指定したような結合ができなかった場合は次のコマンドを使って手動でデータベースを作成してください。
-info_text_db2#:#データベースは文字コードUTF-8で作成するように確認してください。
 info_text_db_collation1#:#指定した結合がUTF-8方式のリストにないような場合にも同じく手動にてデータベースを作成しなければなりません。どのような場合においてもデータベースの文字コードはUTF-8である事を確認してください。
 info_text_db_collation2#:#MySQLの結合に関する詳細情報は、MySQLのWebサイトを参照してください。
+info_text_db2#:#データベースは文字コードUTF-8で作成するように確認してください。
 info_text_delete#:#以下の削除ボタンをクリックするとこのクライアンアトは削除されます。ただし、client.iniファイルが削除されるのみで、クライアントデータディレクトリとデータベースにある全てのファイルは残ります。 ファイルとデータベースはシステム管理者が手動で削除しなければなりません。
 info_text_finish1#:#おめでとうございます。クライアントのセットアップが成功しました。ログインをクリックしてILIASのインストレーションへ入ってください。
 info_text_finish2#:#設定が不完全であるか間違っています。どんな設定を実行したか途中の過程を見直してください。
@@ -226,6 +228,7 @@ ip_address#:#IPアドレス
 java_path#:#JavaのPath
 java_path_comment#:#SCORMラーニングモジュール検証用　例 '/your_path/java'
 java_path_comment_win#:#SCORMラーニングモジュル検証用　例 'C
+lang_ar#:#Arabic
 lang_bg#:#Bulgarian
 lang_cs#:#Czech
 lang_da#:#Danish
@@ -234,10 +237,13 @@ lang_el#:#Greek
 lang_en#:#English
 lang_error_occurred#:#エラーが発生しました。作業を中止します。
 lang_es#:#Spanish
+lang_et#:#Estonian
 lang_fr#:#French
 lang_hu#:#Hungarian
 lang_id#:#Indonesian
 lang_it#:#Italian
+lang_ja#:#日本語
+lang_ka#:#グルジア語
 lang_lt#:#Lithuanian
 lang_min_one_language#:#少なくとも言語を一つインストールする必要があります!
 lang_nl#:#Dutch
@@ -249,20 +255,23 @@ lang_pt#:#Portuguese
 lang_ro#:#Romanian
 lang_ru#:#Russian
 lang_se#:#Swedish
+lang_sk#:#スロバキア語
 lang_sq#:#Albanian
 lang_sr#:#Serbian
+lang_tr#:#Turkis
 lang_uk#:#Ukrainian
-lang_xx#:#Custom
 lang_vi#:#Vietnamese
+lang_xx#:#Custom
 lang_zh#:#Chinese
-lang_et#:#Estonian
 langs_not_valid_not_installed#:#無効な言語ファイルなので次の言語はインストールできません
+language#:#言語
 language#:#言語
 languages#:#言語
 languages_installed#:#言語をインストールしました
 lastname#:#姓
 latex_url_comment#:#ILIASのLaTexサポート用
 list#:#リスト
+list_clients#:#クライアント一覧
 list_disabled#:#クライアント選択が無効
 list_enabled#:#クライアント選択が有効
 log_path#:#ログファイルのPath
@@ -275,35 +284,41 @@ login_invalid#:#不正なログインです。
 login_to_ilias#:#ILIASへログイン
 logout#:#ログアウト
 main_datadir_outside_webspace#:#外部のWeb上のメインデータディレクトリ
+master_password#:#マスターパスワードです。
 missing_data#:#データ未入力
+mkisofs_path#:#mkisofsのPath
+mkisofs_path_comment#:#isoイメージ作成用
+msg_input_is_required#:#入力必須です。値を入力してください。
 mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x以前
 mysql_4_1_x_or_higher_mode#:#MySQL 4.0.x以降
 name#:#名前
+need_mysql_4_1_or_higher#:#このMySQLのバージョンはサポート外です。MySQL4.1以降が必要です。
 new#:#新規
 new_client#:#新規クライアント
-list_clients#:#クライアント一覧
-basic_settings#:#基本設定
 next#:#次へ
+next_update_break#:#次の更新予定
+next_update_break_info#:#インストールのサイズに左右されますが、通常は一度に大量の更新をしない事をお勧めします。
 nic_not_disabled#:#NIC-IDなし& OFFしていません
 nic_reg_disable#:#登録をスキップ
-nic_reg_disable_info#:#後で登録できます。
 nic_reg_disable_comment#:#(後で登録)
+nic_reg_disable_info#:#後で登録できます。
 nic_reg_disabled#:#無効
 nic_reg_email#:#emailで登録
 nic_reg_enabled#:#有効
 nic_reg_enter_checksum#:#送信したチェックサムを入力
 nic_reg_enter_correct_id#:#正しいNIC IDを入力してください。
-nic_reg_enter_id#:#送信したNIC IDを入力します
+nic_reg_enter_id#:#送信したNIC IDを入力
 nic_reg_failed#:#登録に失敗しました。
 nic_reg_online#:#オンライン登録
 nic_registration#:#登録
 no_changes#:#変更しません。
-no_client_id#:#クライアントIDの未記入
-no_client_name#:#クライアント名の未記入
+no_client_id#:#クライアントIDの未作成
+no_client_name#:#クライアント名の未作成
 no_clients_available#:#利用可能なクライアントがありません
-no_database#:#データベースの未記入
+no_database#:#データベースの未作成
 no_db_connect_consult_admin#:#データベースに接続できません。システム管理者へ相談してください。
 no_db_update_file#:#dbupdate.phpが見つかりません!
+no_items#:#エントリがありません
 no_latex_url#:#LaTeX CGI script URLがありません。
 no_password#:#パスワードがありません。
 no_path_convert#:#変換pathがありません。
@@ -311,15 +326,16 @@ no_path_datadir#:#データディレクトリがありません。
 no_path_fop#:#FOP pathがありません。
 no_path_given#:#pathがありません。
 no_path_htmldoc#:#HTMLdoc pathがありません。
-no_path_mkisofs#:#mkisofs pathがありません。
 no_path_java#:#Java pathがありません。
 no_path_log#:#ログのpathがありません。
+no_path_mkisofs#:#mkisofs pathがありません。
 no_path_unzip#:#unzipのpathがありません。
 no_path_zip#:#zipのpathがありません。
 no_setup_pass_given#:#setupのパスワードがありません。
 no_username#:#ユーザー名がありません。
 no_valid_client_id#:#有効なクライアントIDがありません。
 none#:#なし
+not_configured#:#未構成です
 not_connected_to_db#:#データベースへ未接続です。
 online#:#許可
 or#:#または
@@ -327,6 +343,7 @@ out_of_webspace#:#(Webスペース外）
 overall_status#:#全体状況
 overview#:#概要
 pass_does_not_match#:#入力されたパスワードが一致しません。
+passwd_not_match#:#入力内容は新しいパスワードと一致しません。新しいパスワードを再入力してください。
 password#:#パスワード
 password_changed#:#パスワードは変更されました。
 password_empty#:#パスワードが設定されていません!
@@ -339,47 +356,42 @@ password_retype#:#新しいパスワードの再入力
 password_same#:#新旧パスワードが同じです!
 password_set#:#パスワードを保存しました。
 path_not_set#:#Pathが未設定です。
-not_configured#:#未構成です
 path_to_convert#:#変換用のPath
 path_to_fop#:#FOPのPath
 path_to_htmldoc#:#HTMLdocのPath
-path_to_mkisofs#:#mkisofsのPath
 path_to_java#:#JavaのPath
+path_to_mkisofs#:#mkisofsのPath
 path_to_unzip#:#UnzipのPath
 path_to_zip#:#Zipのpath
 pathes#:#Path
 phone#:#電話番号
+please_select#:#選択してください
 port#:#ポート
 position#:#役職名
-data_directories#:#データディレクトリ
-data_directory_outside_ws#:#Webの外部データディレクトリ
-data_directory_in_ws#:#Web内のデータディレクトリ
-data_directory_in_ws_info#:#このディレクトリは変更できません。
-data_directory_info#:#Webサーバに書き込み可能なWebスペースの外部のディレクトリを入力してください。
-pre_dom#:#DOMのサポート
-pre_dom_missing#:#PHPインストール中のDOMサポートを可能にしてください。
-pre_xsl#:#XSLのサポート
-pre_xsl_missing#:#PHPインストール中のXSLサポートを可能にしてください。参照先<a target="_blank" href="%s">PHP Documentation</a>.
-pre_gd#:#GDのサポート
-pre_gd_missing#:#PHPインストール中のGDサポートを可能にしてください。参照先<a target="_blank" href="%s">PHP Documentation</a>.
-pre_memory#:#PHPメモリー制限の設定(php.ini)
-pre_memory_limit_too_low#:#PHPのメモリー制限値は最低でも40Mに設定してください。80M以上を推奨します。
-pre_memory_limit_recommend#:#80M以上の設定を推奨します。
 pre_cookies_disabled#:#Cokieが有効になっていません。ILIASはcookieが必要です。
 pre_cookies_enabled#:#Cokieの有効化
+pre_dom#:#DOMのサポート
+pre_dom_missing#:#PHPインストール中のDOMサポートを可能にしてください。
 pre_error#:#基本設定の中にインストールされた内容と一致しないものがあります。参照先<a href="%s" target="_blank">ILIASサイト</a>.
 pre_folder_create#:#Web上のメインフォルダーにフォルダーを作成可能
 pre_folder_create_error#:#サブフォルダーは作成できません。アクセス権を適切に変更してください。
-pre_root#:#書き込み可能なWeb上のメインフォルダー
 pre_folder_write_error#:#Web上のメインフォルダーは書き込みできません。アクセス権を適切に変更してください。
+pre_gd#:#GDのサポート
+pre_gd_missing#:#PHPインストール中のGDサポートを可能にしてください。参照先<a target="_blank" href="%s">PHP Documentation</a>.
 pre_intro#:#この環境においてインストールの要件を満たしILIASが稼働するかどうかを最初に確認します。
 pre_javascript_comment#:#JavaScriptなしでILIASは動作しますが利用できないインターフェース機能があります。
 pre_javascript_enabled#:#JavaScriptを有効にしました
+pre_memory#:#PHPメモリー制限の設定(php.ini)
+pre_memory_limit_recommend#:#80M以上の設定を推奨します。
+pre_memory_limit_too_low#:#PHPのメモリー制限値は最低でも40Mに設定してください。80M以上を推奨します。
+pre_mysql#:#MySQLのサポート
+pre_mysql_4_1_or_higher#:#ILIASを稼働するにはMySQL 4.1以降が必要です。
+pre_mysql_missing#:#PHPインストールの際には、MySQLのサポート(バージョンは4.1以降)を有効にしてください。
 pre_php#:#PHPのバージョン
 pre_php_version_too_low#:#このPHPバージョンはサポートしていません。PHP 5.2.1以降のご利用を推奨します。PHP 6.0は未テストです。
-pre_mysql#:#MySQLのサポート
-pre_mysql_missing#:#PHPインストールの際には、MySQLのサポート(バージョンは4.1以降)を有効にしてください。
-pre_mysql_4_1_or_higher#:#ILIASを稼働するにはMySQL 4.1以降が必要です。
+pre_root#:#書き込み可能なWeb上のメインフォルダー
+pre_xsl#:#XSLのサポート
+pre_xsl_missing#:#PHPインストール中のXSLサポートを可能にしてください。参照先<a target="_blank" href="%s">PHP Documentation</a>.
 preliminaries#:#準備
 prev#:#前に戻る
 reload#:#更新
@@ -393,12 +405,39 @@ saved_successfully#:#正常に保存
 scan_command#:#スキャンコマンド
 select_client#:#クライアントの選択
 server_info#:#サーバ情報
+server_settings#:#サーバの設定値
 server_software#:#サーバソフトウェア
+sess_allow_client_maintenance#:#クライアントによるメンテナンスを許可
+sess_allow_client_maintenance_info#:#セッションパラメータの構成をクライアント管理の中でできるかどうかを定義します。
+sess_max_session_count#:#最大セッションカウント
+sess_max_session_count_info#:#同時確立可能な最大セッション数を定義します。"0”にすると機能しません。
+sess_max_session_idle#:#最大セッションアイドル
+sess_max_session_idle_after_first_request#:#初回リクエスト後の最大セッションアイドル(分単位)
+sess_max_session_idle_after_first_request_info#:#初回リクエスト後に少なくともこの間アイドルする全セッションは、別のセッションが他のユーザーと確立されていて既存のセッションが最大数を超えても破棄されます。
+sess_max_session_idle_info#:#セッションオーバー前にユーザーがアイドルする事のできる最大区間を定義します。
+sess_min_session_idle#:#最小セッションアイドル(分単位)
+sess_min_session_idle_info#:#ユーザーが少なくともこの区間アイドルする時は、別のセッションが別のユーザーと確立されて既存セッションが最大数に達していてもセッションを破棄する事ができます。
+sess_sessions#:#設定
+session_management#:#セッション管理
+session_management_configured#:#構成済み
+session_management_not_configured#:#未構成
 set_default_client#:#初期設定のクライアントに設定
 set_newpasswd#:#新しいパスワードを入力してください
 set_oldpasswd#:#古いパスワードを入力してください
+settings_change_clob#:#CLOBへ変更
+settings_change_text#:#TEXTへ変更
 settings_changed#:#設定を変更しました。
+settings_info_clob#:#CLOB入力は4000文字までの収納が可能です。これをTEXTへ変更するとさらに長文入力ができますがORACLEデータベースとILIASとのパフォーマンスが低下につながります。これを実行する前に4000文字以上の設定があるか確認願います。
+settings_info_text#:#TEXT入力は4000文字までの収納が可能です。これをCLOBへ変更するとさらに長文入力ができますがORACLEデータベースとILIASとのパフォーマンスが低下につながります。
+settings_key_info#:#モジュール
+settings_longer_values#:#長めの値
+settings_no_longer_values#:#4000以上の文字は見つかりませんでした。データタイプをTEXTへ変更可能です。
 settings_saved#:#設定を保存しました。
+settings_show_longer#:#長めの値を表示
+settings_too_long#	変換するには長すぎる設定があります。設定データタイプを変更する前にそれらを変更してください。
+settings_type#:#設定データタイプ
+settings_type_changed#:#設定タイプが変更されました
+settings_type_current#:#現在のタイプ
 setup#:#Setup
 setup_3rdparty_data#:#サードパーティ製のツール
 setup_basic_settings#:#基本設定
@@ -417,10 +456,10 @@ setup_login#:#セットアップ用にログインします
 setup_mainmenu#:#設定メインメニュー
 setup_menu#:#設定メニュー
 setup_nic_desc#:#ILIAS-NICサーバのインストール用の登録
-setup_not_finished#:#未完了の設定
+setup_not_finished#:#設定未完了
 setup_pass#:#パスワード
-setup_pass2#:#パスワードの再入力
 setup_pass_title#:#マスターパスワードの設定
+setup_pass2#:#パスワードの再入力
 setup_password#:#パスワードの作成
 setup_password_desc#:#セットアップルーチンにアクセスするパスワードを作成します。(例　データベースの更新など）
 setup_process_status#:#セットアップの状態
@@ -431,7 +470,9 @@ setup_process_step_finish#:#セットアップ終了
 setup_process_step_ini#:#基本データ
 setup_process_step_lang#:#言語
 setup_process_step_nic#:#登録
+setup_process_step_sess#:#セッション管理
 setup_ready#:#セットアップの準備ができました。ログインして進みシステム設定を確認します。
+setup_sessions#:#セッション管理
 setup_welcome#:#Welcome to ILIAS Setup。セットアップの流れをお手伝いします。
 sophos#:#Sophos
 sort_by_this_column#:#この列をソート
@@ -440,8 +481,17 @@ status_3rdparty_false#:#サードパーティ製ツールがありません
 status_3rdparty_ok#:#サードパーティ製ツールをインストール
 status_3rdparty_problems#:#サードパーティ製ツールの障害
 step#:#ステップ
+step_access#:#アクセス
+step_contact#:#コンタクト
+step_db#:#データベース
+step_finish#:#セットアップ
+step_ini#:#iniファイル
+step_lang#:#各国語
+step_nic#:#登録
+step_sess#:#セッション管理
 street#:#住所
 submit#:#提出
+time_zone#:#タイムゾーン
 tiny_dir_does_not_exist#:#エディターの含まれるディレクトリがありません。エディターの含まれるzipファイルを適切な場所に解凍しなければなりません。
 tiny_nothing_to_do#:#エディターはインストールされていますので他には必要ありません。
 tiny_zip_changed#:#エディターを含むzipファイルは、前回のセットアップ中に変更されました。zipファイルを解凍して現在のエディターを更新してください。
@@ -460,6 +510,7 @@ update_applied#:#更新を適用
 update_error#:#更新中にエラー発生
 update_not_found#:#更新が見つかりません
 url_to_latex#:#LaTeX CGI ScriptのURL
+user#:#ユーザー
 username#:#ユーザ名
 version#:#バージョン
 virus_scanner#:#ウイルス監視
@@ -470,75 +521,3 @@ zip_path#:#ZipのPath
 zip_path_comment#:#エクスポートファイルの作成用　例 '/your_path/zip'
 zip_path_comment_win#:#インポートファイルの解凍用　例 'C
 zipcode#:#郵便番号
-step_ini#:#iniファイル
-step_db#:#データベース
-step_lang#:#各国語
-language#:#言語
-step_contact#:#コンタクト
-step_nic#:#登録
-step_finish#:#セットアップ
-step_access#:#アクセス
-determine_tools_paths#:#ツールのPathを決定
-client_deleted#:#クライアントの削除
-create_directory#:#ディレクトリの作成
-db_selection#:#データベースの選択
-db_service_name#:#サービス名
-db_mysql#:#MySQL
-db_oracle#:#Oracle
-msg_input_is_required#:#入力必須です。値を入力してください。
-form_input_not_valid#:#データが不完全か間違っています。フォーラム入力を訂正してください。
-form_retype_password#:#パスワードを再入力してください。
-master_password#:#マスターパスワードです。
-passwd_not_match#:#入力内容は新しいパスワードと一致しません。新しいパスワードを再入力してください。
-next_update_break#:#次の更新予定
-next_update_break_info#:#インストールのサイズに左右されますが、通常は一度に大量の更新をしない事をお勧めします。
-clients#:#クライアント
-no_items#:#エントリがありません
-server_settings#:#サーバの設定値
-time_zone#:#タイムゾーン
-please_select#:#選択してください
-db_port#:#データベースポート
-db_update_interrupted#:#前回起動時に予期しないデータベース更新スクリプト中断がありました。システム状態に<b>矛盾</b>があります。最新バックアップを再インストールして再度移行される事を強くお勧めします。
-db_update_interrupted_avoid#:#この問題を回避するにはphp.iniファイル内にあるmemory_limit設定値とmax_execution_timeを確認してください。
-applied_hotfixes#:#適用済みHotfix
-available_hotfixes#:#適用可能なHotfix
-apply_hotfixes#:#適用するHotfix
-hotfix_available#:#Hotfix適用可能
-hotfix_applied#:#Hotfix適用済
-form_input_not_valid#:#データが不完全か間違っています。フォーラム入力を訂正してください。
-session_management#:#セッション管理
-step_sess#:#セッション管理
-session_management_not_configured#:#未構成です
-session_management_configured#	構成済みです
-setup_sessions#:#セッション管理
-setup_process_step_sess#:#セッション管理
-sess_sessions#:#設定
-sess_max_session_count#:#最大セッションカウント
-sess_max_session_count_info#:#同時確立可能な最大セッション数を定義します。"0”にすると機能しません。
-sess_min_session_idle#:#最小セッションアイドル(分単位)
-sess_min_session_idle_info#:#ユーザーが少なくともこの区間アイドルする時は、別のセッションが別のユーザーと確立されて既存セッションが最大数に達していてもセッションを破棄する事ができます。
-sess_max_session_idle#:#最大セッションアイドル
-sess_max_session_idle_info#:#セッションオーバー前にユーザーがアイドルする事のできる最大区間を定義します。
-sess_max_session_idle_after_first_request#:#初回リクエスト後の最大セッションアイドル(分単位)
-sess_max_session_idle_after_first_request_info#:#初回リクセスト後に少なくともこの間アイドルする全セッションは、別のセッションが他のユーザーと確立されていて既存のセッションが最大数を超えても破棄されます。
-sess_allow_client_maintenance#:#クライアントによるメンテナンスを許可
-sess_allow_client_maintenance_info#:#セッションパラメータの構成をクライアント管理の中でできるかどうかを定義します。
-lang_ar#:#Arabic
-lang_tr#:#Turkis
-session_management_configured#:#configured###06 08 2011 new variable
-ctrl_structure_reload#:#Reload Control Structure###06 08 2011 new variable
-settings_type#:#Settings Data Type###06 08 2011 new variable
-settings_type_current#:#Current Type###06 08 2011 new variable
-settings_info_text#:#The type TEXT allows storing of values up to 4000 characters. Changing this type to CLOB will allow longer entries but slow down the performance of ILIAS with an ORACLE database.###06 08 2011 new variable
-settings_info_clob#:#The type CLOB allows storing of values with more than 4000 characters. Changing this type to TEXT will increase the performance of ILIAS with an ORACLE database. Before you do this please check if you have settings with more than 4000 characters.###06 08 2011 new variable
-settings_change_clob#:#Change to CLOB###06 08 2011 new variable
-settings_change_text#:#Change to TEXT###06 08 2011 new variable
-settings_type_changed#:#Settings type changed.###06 08 2011 new variable
-settings_show_longer#:#Show longer values###06 08 2011 new variable
-settings_longer_values#:#Longer Values###06 08 2011 new variable
-settings_no_longer_values#:#No values with more than 4000 characters found. You may change the data type to TEXT.###06 08 2011 new variable
-settings_key_info#:#Module:<br />%s<br />Keyword:<br />%s###06 08 2011 new variable
-settings_too_long#:#Some settings are too long to be converted. Please change them before you change the settings data type###06 08 2011 new variable
-lang_ja#:#Japanisch###04 10 2011 new variable
-lang_ka#:#Georgian###04 10 2011 new variable
-lang_sk#:#Slovakian###04 10 2011 new variable
