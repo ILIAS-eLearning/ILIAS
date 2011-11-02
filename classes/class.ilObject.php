@@ -1844,12 +1844,41 @@ class ilObject
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
 	{
-	 	return true;
-		
-		//include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
-	 	//$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
-	 	//$mappings = $cwo->getMappings();
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
 
+		$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+		$mappings = $cwo->getMappings();
+
+		$conditions = ilConditionHandler::_getConditionsOfTarget($this->getRefId(), $this->getId());
+		foreach($conditions as $con)
+		{
+			if($mappings[$con['trigger_ref_id']])
+			{
+				$newCondition = new ilConditionHandler();
+
+				$target_obj = ilObject::_lookupObjId($a_target_id);
+				$target_typ = ilObject::_lookupType($target_obj);
+
+				$newCondition->setTargetRefId($a_target_id);
+				$newCondition->setTargetObjId($target_obj);
+				$newCondition->setTargetType($target_typ);
+
+				$trigger_ref = $mappings[$con['trigger_ref_id']];
+				$trigger_obj = ilObject::_lookupObjId($trigger_ref);
+				$trigger_typ = ilObject::_lookupType($trigger_obj);
+
+				$newCondition->setTriggerRefId($trigger_ref);
+				$newCondition->setTriggerObjId($trigger_obj);
+				$newCondition->setTriggerType($trigger_typ);
+				$newCondition->setOperator($con['operator']);
+				$newCondition->setValue($con['value']);
+				$newCondition->setReferenceHandlingType($con['ref_handling']);
+				$newCondition->setObligatory($con['obligatory']);
+				$newCondition->storeCondition();
+			}
+		}
+		return true;
 	}
 	
 	/**

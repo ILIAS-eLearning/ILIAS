@@ -600,7 +600,7 @@ class ilConditionHandler
 	*								is e.g. the case for chapters (type = "st"))
 	* @static
 	*/
-	function _getConditionsOfTarget($a_target_ref_id,$a_target_obj_id, $a_target_type = "")
+	public static function _getConditionsOfTarget($a_target_ref_id,$a_target_obj_id, $a_target_type = "")
 	{
 		global $ilDB, $ilBench;
 
