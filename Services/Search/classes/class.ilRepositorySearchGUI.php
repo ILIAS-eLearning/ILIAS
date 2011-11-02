@@ -294,7 +294,11 @@ class ilRepositorySearchGUI
 		$user_ids = array();
 		foreach($users as $user)
 		{
-			$user_ids[] = ilObjUser::_lookupId($user);
+			$user_id = ilObjUser::_lookupId($user);
+			if($user_id)
+			{
+				$user_ids[] = $user_id;
+			}
 		}
 
 		$user_type = isset($_POST['user_type']) ? $_POST['user_type'] : 0;

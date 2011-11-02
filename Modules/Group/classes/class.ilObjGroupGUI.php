@@ -1769,7 +1769,8 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if (empty($user_ids[0]))
 		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);
+			$GLOBALS['lng']->loadLanguageModule('search');
+			ilUtil::sendFailure($this->lng->txt('search_err_user_not_exist'),true);
 			return false;
 		}
 

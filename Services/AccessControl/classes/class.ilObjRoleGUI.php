@@ -1646,10 +1646,11 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		if(!$a_user_ids)
 		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);
+			$GLOBALS['lng']->loadLanguageModule('search');
+			ilUtil::sendFailure($this->lng->txt('search_err_user_not_exist'),true);
 			return false;
 		}
-		
+
 		$assigned_users_all = $rbacreview->assignedUsers($this->object->getId());
 				
 		// users to assign
