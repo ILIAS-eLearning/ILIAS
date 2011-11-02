@@ -415,6 +415,8 @@ class ilContainer extends ilObject
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
 	{
+		parent::cloneDependencies($a_target_id, $a_copy_id);
+
 		include_once('./Services/Container/classes/class.ilContainerSorting.php');
 		ilContainerSorting::_getInstance($this->getId())->cloneSorting($a_target_id,$a_copy_id);
 		return true;
