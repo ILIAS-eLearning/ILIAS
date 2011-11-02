@@ -931,6 +931,7 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "User":
+				$this->userObj->setFullname();
 				// Fetch the user_id from the database, if we didn't have it in xml file
 				// fetch as well, if we are trying to insert -> recognize duplicates!
 				if ($this->user_id == -1 || $this->action=="Insert")
@@ -1405,7 +1406,6 @@ class ilUserImportParser extends ilSaxParser
 
 			case "Lastname":
 				$this->userObj->setLastname($this->cdata);
-				$this->userObj->setFullname();
 				break;
 
 			case "Title":
@@ -1696,6 +1696,7 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "User":
+				$this->userObj->setFullname();
 				if ($this->user_id != -1 && $this->action == "Update")
 				    $user_exists = !is_null(ilObjUser::_lookupLogin($this->user_id));
 			    else
@@ -1813,7 +1814,6 @@ class ilUserImportParser extends ilSaxParser
 
 			case "Lastname":
 				$this->userObj->setLastname($this->cdata);
-				$this->userObj->setFullname();
 				break;
 
 			case "Title":
