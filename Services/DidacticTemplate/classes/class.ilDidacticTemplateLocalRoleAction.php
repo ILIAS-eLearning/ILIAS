@@ -149,13 +149,19 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 	{
 		$writer->xmlStartTag('localRoleAction');
 
-		$writer->xmlElement(
+		$writer->xmlStartTag(
 			'roleTemplate',
 			array(
 				'id'	=> 'il_rolt_'.IL_INST_ID.'_'.$this->getRoleTemplateId()
 			)
 		);
-		
+
+		include_once './Services/AccessControl/classes/class.ilRoleXmlExport.php';
+		$exp = new ilRoleXmlExport();
+		$exp->addRole($this->getRoleTemplateId(), ROLE_FOLDER_ID);
+		$exp->write();
+		$writer->appendXML($exp->xmlDumpMem(FALSE));
+		$writer->xmlEndTag('roleTemplate');
 		$writer->xmlEndTag('localRoleAction');
 	}
 
