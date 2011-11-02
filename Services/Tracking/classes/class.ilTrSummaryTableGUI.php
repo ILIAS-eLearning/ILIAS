@@ -49,8 +49,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 		if($this->ref_id == ROOT_FOLDER_ID)
 		{
-			$this->addColumn($this->lng->txt("path"), "path");
-			$this->addColumn($this->lng->txt("action"), "action");
+			$this->addColumn($this->lng->txt("path"));
+			$this->addColumn($this->lng->txt("action"));
 		}
 		$this->initFilter();
 
