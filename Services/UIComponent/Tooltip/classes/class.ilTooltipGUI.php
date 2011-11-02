@@ -47,8 +47,9 @@ class ilTooltipGUI
 		{
 			$addstr.= ", container: '".$a_container."'";
 		}
+
 		return 'ilTooltip.add("'.$a_el_id.'", { context:"'.$a_el_id.
-			'", text:"'.htmlspecialchars($a_text).'" '.$addstr.'} );';
+			'", text:"'.htmlspecialchars(str_replace(array("\n", "\r"), "", $a_text)).'" '.$addstr.'} );';
 	}
 	
 }

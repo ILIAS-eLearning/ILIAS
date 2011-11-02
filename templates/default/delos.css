@@ -3141,6 +3141,7 @@ h3.ilProfileSectionHead {
 	-moz-box-shadow: 2px 2px 2px #888;
 	-webkit-border-radius: 5px;
 	-webkit-box-shadow: 2px 2px 2px #888;
+	max-width: 300px;
 }
 
 .yui-skin-sam .yui-tt .yui-tt-shadow {
