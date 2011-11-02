@@ -2018,6 +2018,8 @@ class ilObjectListGUI
 				$this->tpl->setVariable("PRECONDITION_TOGGLE_INTRO", $this->lng->txt("precondition_toggle"));
 				$this->tpl->setVariable("PRECONDITION_TOGGLE_TRIGGER", $this->lng->txt("show"));
 				$this->tpl->setVariable("PRECONDITION_TOGGLE_ID", $div_id);
+				$this->tpl->setVariable("TXT_PRECONDITION_SHOW", $this->lng->txt("show"));
+				$this->tpl->setVariable("TXT_PRECONDITION_HIDE", $this->lng->txt("hide"));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
