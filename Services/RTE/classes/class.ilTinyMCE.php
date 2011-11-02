@@ -506,6 +506,9 @@ class ilTinyMCE extends ilRTE
 			
 			array_push($theme_advanced_buttons, "code");
 			array_push($theme_advanced_buttons, "fullscreen");
+			
+			// Changed in elba2 branch, adopted change for 4.2.x due to manits bug #8147
+			array_push($theme_advanced_buttons, "pasteword");
 		}
 		else if($a_buttons_section == 2)
 		{
@@ -513,7 +516,8 @@ class ilTinyMCE extends ilRTE
 			array_push($theme_advanced_buttons, "copy");
 			array_push($theme_advanced_buttons, "paste");
 			array_push($theme_advanced_buttons, "pastetext");
-			array_push($theme_advanced_buttons, "pasteword");
+			// Changed in elba2 branch, adopted change for 4.2.x due to manits bug #8147
+			//array_push($theme_advanced_buttons, "pasteword");
 		}
 		else if($a_buttons_section == 3)
 		{
