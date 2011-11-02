@@ -93,17 +93,19 @@ ilObject = {
 		}
 	},
 	
-	togglePreconditions: function(id) {
+	togglePreconditions: function(link, id, txt_show, txt_hide) {
 		var li = document.getElementById("il_list_item_precondition_obl_" + id);
 		if(li != null)
 		{
 			if(li.style.display == "none")
 			{
 				li.style.display = "";
+				$(link).html("&raquo; "+txt_hide);
 			}
 			else
 			{
 				li.style.display = "none";
+				$(link).html("&raquo; "+txt_show);
 			}
 		}
 		li = document.getElementById("il_list_item_precondition_opt_" + id);
@@ -112,10 +114,12 @@ ilObject = {
 			if(li.style.display == "none")
 			{
 				li.style.display = "";
+				$(link).html("&raquo; "+txt_hide);
 			}
 			else
 			{
 				li.style.display = "none";
+				$(link).html("&raquo; "+txt_show);
 			}
 		}
 	}
