@@ -65,30 +65,38 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		return $permission_ok;
 	}
 	
-	function isAllowedCall($sid, $active_id)
+	function isAllowedCall($sid, $active_id, $saveaction = true)
 	{
 		global $ilDB;
+		global $ilUser;
 
 		if ($this->hasWritePermissionForTest($active_id)) return TRUE;
 
-		$result = $ilDB->queryF("SELECT * FROM tst_times WHERE active_fi = %s ORDER BY started DESC",
-			array('integer'),
-			array($active_id)
-		);
-		if ($result->numRows())
+		if ($saveaction)
 		{
-			$row = $ilDB->fetchAssoc($result);
-			if (preg_match("/(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})/", $row["started"], $matches))
+			$result = $ilDB->queryF("SELECT * FROM tst_times WHERE active_fi = %s ORDER BY started DESC",
+				array('integer'),
+				array($active_id)
+			);
+			if ($result->numRows())
 			{
-				$time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-				$now = time();
-				$diff = $now - $time;
-				$client = explode("::", $sid);
-				global $ilClientIniFile;
-				$expires = $ilClientIniFile->readVariable('session','expire');
-				if ($diff <= $expires)
+				$row = $ilDB->fetchAssoc($result);
+				if (preg_match("/(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})/", $row["started"], $matches))
 				{
-					return TRUE;
+					$time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+					$now = time();
+					$diff = $now - $time;
+					$client = explode("::", $sid);
+					global $ilClientIniFile;
+					$expires = $ilClientIniFile->readVariable('session','expire');
+					if ($diff <= $expires)
+					{
+						return TRUE;
+					}
+					else
+					{
+						return FALSE;
+					}
 				}
 				else
 				{
@@ -102,7 +110,19 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		}
 		else
 		{
-			return FALSE;
+			$result = $ilDB->queryF("SELECT user_fi FROM tst_active WHERE active_id = %s",
+				array('integer'),
+				array($active_id)
+			);
+			$row = $ilDB->fetchAssoc($result);
+			if ($row['user_fi'] == $ilUser->getId())
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
 		}
 	}
 
@@ -264,7 +284,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-		if (!$this->isAllowedCall($sid, $active_id))
+		if (!$this->isAllowedCall($sid, $active_id, false))
 		{
 			return $this->__raiseError("The required user information is only available for active users.", "");
 		}
@@ -337,7 +357,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-		if (!$this->isAllowedCall($sid, $active_id))
+		if (!$this->isAllowedCall($sid, $active_id, false))
 		{
 			return $this->__raiseError("The required user information is only available for active users.", "");
 		}
@@ -415,7 +435,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-		if (!$this->isAllowedCall($sid, $active_id))
+		if (!$this->isAllowedCall($sid, $active_id, false))
 		{
 			return $this->__raiseError("The required user information is only available for active users.", "");
 		}
@@ -454,7 +474,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-		if (!$this->isAllowedCall($sid, $active_id))
+		if (!$this->isAllowedCall($sid, $active_id, false))
 		{
 			return $this->__raiseError("The required user information is only available for active users.", "");
 		}
@@ -518,7 +538,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-		if (!$this->isAllowedCall($sid, $active_id))
+		if (!$this->isAllowedCall($sid, $active_id, false))
 		{
 			return $this->__raiseError("The required user information is only available for active users.", "");
 		}

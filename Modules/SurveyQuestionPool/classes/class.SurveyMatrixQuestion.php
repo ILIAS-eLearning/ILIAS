@@ -244,6 +244,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	{
 		return $this->columns->getCategory($index);
 	}
+	
+	function getColumnForScale($scale)
+	{
+		return $this->columns->getCategoryForScale($scale);
+	}
 
 /**
 * Returns the index of a column with a given name.
@@ -1263,7 +1268,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			$prefix = (key($cumulated)+1) . " - ";
 		}
-		$cat = $this->getColumn(key($cumulated));
+		$cat = $this->getColumnForScale(key($cumulated)+1);
 		$result_array["MODE"] =  $prefix . $cat->title;
 		$result_array["MODE_VALUE"] =  key($cumulated)+1;
 		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
@@ -1295,8 +1300,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
 				if (round($median_value) != $median_value)
 				{
-					$cat = $this->getColumn((int)floor($median_value)-1);
-					$cat2 = $this->getColumn((int)ceil($median_value)-1);
+					$cat = $this->getColumnForScale((int)floor($median_value));
+					$cat2 = $this->getColumnForScale((int)ceil($median_value));
 					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $cat->title . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $cat2->title . ")";
 				}
 			}
@@ -1358,7 +1363,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			$prefix = (key($cumulated)+1) . " - ";
 		}
-		$cat = $this->getColumn(key($cumulated));
+		$cat = $this->getColumnForScale(key($cumulated)+1);
 		$result_array["MODE"] =  $prefix . $cat->title;
 		$result_array["MODE_VALUE"] =  key($cumulated)+1;
 		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
@@ -1390,8 +1395,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
 				if (round($median_value) != $median_value)
 				{
-					$cat = $this->getColumn((int)floor($median_value)-1);
-					$cat2 = $this->getColumn((int)ceil($median_value)-1);
+					$cat = $this->getColumnForScale((int)floor($median_value));
+					$cat2 = $this->getColumnForScale((int)ceil($median_value));
 					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $cat->title . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $cat2->title . ")";
 				}
 			}

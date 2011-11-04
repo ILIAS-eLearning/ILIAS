@@ -644,7 +644,8 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		foreach ($eval_data["variables"] as $key => $value)
 		{
 			$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($value["title"]));
-			$worksheet->write($rowcounter, 2, $key+1);
+			$category = $this->categories->getCategory($key);
+			$worksheet->write($rowcounter, 2, $category->scale);
 			$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($value["selected"]));
 			$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($value["percentage"]), $format_percent);
 		}
@@ -681,7 +682,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
 		{
 			$category = $this->categories->getCategory($index);
-			$title = ($index+1) . " - " . $category->title;
+			$title = $category->scale . " - " . $category->title;
 			array_push($a_array, $title);
 			
 			// optionally add headers for text answers

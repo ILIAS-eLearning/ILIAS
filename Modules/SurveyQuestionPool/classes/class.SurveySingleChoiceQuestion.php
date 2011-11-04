@@ -741,7 +741,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		foreach ($eval_data["variables"] as $key => $value)
 		{
 			$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($value["title"]));
-			$worksheet->write($rowcounter, 2, $key+1);
+			$category = $this->categories->getCategory($key);
+			$worksheet->write($rowcounter, 2, $category->scale);
 			$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($value["selected"]));
 			$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($value["percentage"]), $format_percent);
 		}
