@@ -148,9 +148,16 @@ class ilDidacticTemplateImport
 
 			foreach($ele->roleTemplate as $tpl)
 			{
-				$act->setRoleTemplateId((string) $tpl->attributes()->id);
+				// extract role
+				foreach($tpl->role as $roleDef)
+				{
+					include_once './Services/AccessControl/classes/class.ilRoleXmlImporter.php';
+					$rimporter = new ilRoleXmlImporter();
+					$role_id = $rimporter->importSimpleXml($roleDef);
+					$act->setRoleTemplateId($role_id);
+				}
+				$act->save();
 			}
-			$act->save();
 		}
 
 		////////////////////////////////////////////////
