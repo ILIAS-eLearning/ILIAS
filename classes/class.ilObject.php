@@ -455,7 +455,7 @@ class ilObject
 		$this->import_id = $a_import_id;
 	}
 
-	function _lookupObjIdByImportId($a_import_id)
+	public static function _lookupObjIdByImportId($a_import_id)
 	{
 		global $ilDB;
 
