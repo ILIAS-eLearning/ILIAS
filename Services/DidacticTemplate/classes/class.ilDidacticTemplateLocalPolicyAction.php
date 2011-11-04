@@ -255,40 +255,48 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		}
 		$writer->xmlEndTag('roleFilter');
 
+		$il_role_id = 'il_'.IL_INST_ID.'_'.ilObject::_lookupType($this->getRoleTemplateId()).'_'.$this->getRoleTemplateId();
+
 		switch($this->getRoleTemplateType())
 		{
 			case self::TPL_ACTION_OVERWRITE:
-				$writer->xmlElement(
+				$writer->xmlStartTag(
 					'localPolicyTemplate',
 					array(
 						'type'	=> 'overwrite',
-						'id'	=> $this->getRoleTemplateId()
+						'id'	=> $il_role_id
 					)
 				);
 				break;
 
 			case self::TPL_ACTION_INTERSECT:
-				$writer->xmlElement(
+				$writer->xmlStartTag(
 					'localPolicyTemplate',
 					array(
 						'type'	=> 'intersect',
-						'id'	=> $this->getRoleTemplateId()
+						'id'	=> $il_role_id
 					)
 				);
 				break;
 
 			case self::TPL_ACTION_UNION:
-				$writer->xmlElement(
+				$writer->xmlStartTag(
 					'localPolicyTemplate',
 					array(
 						'type'	=> 'union',
-						'id'	=> $this->getRoleTemplateId()
+						'id'	=> $il_role_id
 					)
 				);
 				break;
 		}
 
-
+		include_once './Services/AccessControl/classes/class.ilRoleXmlExport.php';
+		$exp = new ilRoleXmlExport();
+		$exp->setMode(ilRoleXmlExport::MODE_DTPL);
+		$exp->addRole($this->getRoleTemplateId(), ROLE_FOLDER_ID);
+		$exp->write();
+		$writer->appendXML($exp->xmlDumpMem(FALSE));
+		$writer->xmlEndTag('localPolicyTemplate');
 		$writer->xmlEndTag('localPolicyAction');
 		return void;
 	}

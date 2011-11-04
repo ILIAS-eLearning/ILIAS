@@ -11,8 +11,13 @@ include_once './Services/Xml/classes/class.ilXmlWriter.php';
  */
 class ilRoleXmlExport extends ilXmlWriter
 {
+	const MODE_DTPL = 1;
+
+
 	private $roles = array();
 	private $operations = array();
+
+	private $mode = 0;
 
 
 	/**
@@ -57,6 +62,16 @@ class ilRoleXmlExport extends ilXmlWriter
 		$this->roles[$a_role_id][] = $a_rolf_id;
 	}
 
+	public function setMode($a_mode)
+	{
+		$this->mode = $a_mode;
+	}
+
+	public function getMode()
+	{
+		return $this->mode;
+	}
+
 
 	/**
 	 * Write xml header
@@ -75,7 +90,11 @@ class ilRoleXmlExport extends ilXmlWriter
 	 */
 	public function write()
 	{
-		$this->xmlStartTag('roles');
+
+		if($this->getMode() != self::MODE_DTPL)
+		{
+			$this->xmlStartTag('roles');
+		}
 
 		foreach($this->getRoles() as $role_id => $role_folder_ids)
 		{
@@ -84,7 +103,11 @@ class ilRoleXmlExport extends ilXmlWriter
 				$this->writeRole($role_id, $rolf);
 			}
 		}
-		$this->xmlEndTag('roles');
+
+		if($this->getMode() != self::MODE_DTPL)
+		{
+			$this->xmlEndTag('roles');
+		}
 	}
 	
 	/**
@@ -111,7 +134,7 @@ class ilRoleXmlExport extends ilXmlWriter
 		{
 			foreach($operations as $ops_id)
 			{
-				$this->xmlElement('operation', array('group' => $obj_group), $this->operations[$ops_id]);
+				$this->xmlElement('operation', array('group' => $obj_group), trim($this->operations[$ops_id]));
 			}
 		}
 		$this->xmlEndTag('operations');

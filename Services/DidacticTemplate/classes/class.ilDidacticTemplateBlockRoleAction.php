@@ -256,8 +256,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 			case self::FILTER_SOURCE_TITLE:
 				$writer->xmlStartTag('roleFilter',array('source' => 'title'));
 				break;
-
-
 		}
 
 		foreach($this->getFilterPattern() as $pattern)
