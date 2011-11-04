@@ -39,10 +39,38 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		parent::ilSoapAdministration();
 	}
 	
+	private function hasWritePermissionForTest($active_id)
+	{
+		global $ilDB;
+		global $ilAccess;
+
+		$permission_ok = false;
+		$result = $ilDB->queryF("SELECT tst_tests.obj_fi FROM tst_active, tst_tests WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
+			array('integer'),
+			array($active_id)
+		);
+		$row = $ilDB->fetchAssoc($result);
+		if ($row['obj_fi'])
+		{
+			$obj_id = $row['obj_fi'];
+			foreach($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id)
+			{
+				if ($ilAccess->checkAccess("write", "", $ref_id)) 
+				{
+					$permission_ok = true;
+					break;
+				}
+			}
+		}
+		return $permission_ok;
+	}
+	
 	function isAllowedCall($sid, $active_id)
 	{
 		global $ilDB;
-		
+
+		if ($this->hasWritePermissionForTest($active_id)) return TRUE;
+
 		$result = $ilDB->queryF("SELECT * FROM tst_times WHERE active_fi = %s ORDER BY started DESC",
 			array('integer'),
 			array($active_id)
