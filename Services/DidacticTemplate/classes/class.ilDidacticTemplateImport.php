@@ -228,7 +228,6 @@ class ilDidacticTemplateImport
 			foreach($ele->localPolicyTemplate as $lpo)
 			{
 				$act->setFilterType(ilDidacticTemplateLocalPolicyAction::FILTER_SOURCE_TITLE);
-				$act->setRoleTemplateId((string) $lpo->attributes()->id);
 				switch((string) $lpo->attributes()->type)
 				{
 					case 'overwrite':
@@ -242,6 +241,15 @@ class ilDidacticTemplateImport
 					case 'intersect':
 						$act->setRoleTemplateType(ilDidacticTemplateLocalPolicyAction::TPL_ACTION_INTERSECT);
 						break;
+				}
+
+				// extract role
+				foreach($lpo->role as $roleDef)
+				{
+					include_once './Services/AccessControl/classes/class.ilRoleXmlImporter.php';
+					$rimporter = new ilRoleXmlImporter();
+					$role_id = $rimporter->importSimpleXml($roleDef);
+					$act->setRoleTemplateId($role_id);
 				}
 			}
 
@@ -265,5 +273,7 @@ class ilDidacticTemplateImport
 		}
 		return $errors;
 	}
+
+
 }
 ?>

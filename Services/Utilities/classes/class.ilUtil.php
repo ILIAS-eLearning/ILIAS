@@ -5069,6 +5069,42 @@ class ilUtil
 			echo "<br>".$t["file"].", ".$t["function"]." [".$t["line"]."]";
 		}
 	}
+
+	/**
+	 * Parse an ilias import id
+	 * Typically of type il_[IL_INST_ID]_[OBJ_TYPE]_[OBJ_ID]
+	 * returns array(
+	 * 'orig' => 'il_4800_rolt_123'
+	 * 'prefix' => 'il'
+	 * 'inst_id => '4800'
+	 * 'type' => 'rolt'
+	 * 'id' => '123'
+	 *
+	 *
+	 * @param string il_id
+	 *
+	 */
+	public static function parseImportId($a_import_id)
+	{
+		$exploded = explode('_'.$a_import_id);
+
+		$parsed['orig'] = $a_import_id;
+		if($exploded[0] == 'il')
+		{
+			$parsed['prefix'] = $exploded[0];
+		}
+		if(is_numeric($exploded[1]))
+		{
+			$parsed['inst_id'] = (int) $exploded[1];
+		}
+		$parsed['type'] = $exploded[2];
+
+		if(is_numeric($exploded[3]))
+		{
+			$parsed['id'] = (int) $exploded[3];
+		}
+		return $parsed;
+	}
 	
 } // END class.ilUtil
 
