@@ -274,7 +274,7 @@ class ilLPStatusSCORM extends ilLPStatus
 		else
 		{
 			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-			$compl = ilSCORM2004Tracking::_countCompleted($scos, $a_obj_id, $a_user_id);			
+			$compl = ilSCORM2004Tracking::_countCompleted($scos, $a_obj_id, $a_user_id, true);			
 		}
 
 		if ($reqscos > 0)
