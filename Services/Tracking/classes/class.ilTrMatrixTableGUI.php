@@ -127,7 +127,11 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				}
 			}
 
-			ksort($tmp_cols);
+			// alex, 5 Nov 2011: Do not sort SCORM items
+			if(!sizeof($this->sco_ids))
+			{
+				ksort($tmp_cols);
+			}
 			foreach($tmp_cols as $id => $def)
 			{
 				$id = explode('#~#', $id);
@@ -168,7 +172,6 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			$this->ref_ids = $collection["ref_ids"];
 
 			$data = ilTrQuery::getUserObjectMatrix($this->ref_id, $collection["object_ids"], $this->filter["name"]);
-
 			if($collection["objectives_parent_id"] && $data["users"])
 			{
 				$objectives = ilTrQuery::getUserObjectiveMatrix($collection["objectives_parent_id"], $data["users"]);
@@ -204,14 +207,18 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 							$this->sco_ids[$sco] = $collection["scorm"]["scos_title"][$sco];
 						}
 
+						// alex, 5 Nov 2011: we got users being in failed and in
+						// completed status, I changed the setting in: first check failed
+						// then check completed since failed should superseed completed
+						// (before completed has been checked before failed)
 						$status = LP_STATUS_NOT_ATTEMPTED_NUM;
-						if(in_array($user_id, $collection["scorm"]["completed"][$sco]))
-						{
-							$status = LP_STATUS_COMPLETED_NUM;
-						}
-						else if(in_array($user_id, $collection["scorm"]["failed"][$sco]))
+						if(in_array($user_id, $collection["scorm"]["failed"][$sco]))
 						{
 							$status = LP_STATUS_FAILED_NUM;
+						}
+						else if(in_array($user_id, $collection["scorm"]["completed"][$sco]))
+						{
+							$status = LP_STATUS_COMPLETED_NUM;
 						}
 						else if(in_array($user_id, $collection["scorm"]["in_progress"][$sco]))
 						{
@@ -226,7 +233,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 			$this->setMaxCount($data["cnt"]);
 			$this->setData($data["set"]);
-
+//var_dump($this->sco_ids);
 			return $collection["object_ids"];
 		}
 		return false;
@@ -235,7 +242,6 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 	function fillRow(array $a_set)
 	{
 		$this->tpl->setVariable("VAL_LOGIN", $a_set["login"]);
-
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			switch($c)

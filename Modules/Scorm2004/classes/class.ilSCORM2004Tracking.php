@@ -373,7 +373,8 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		return false;
 	}
 
-	public static function _countCompleted($a_scos, $a_obj_id, $a_user_id)
+	public static function _countCompleted($a_scos, $a_obj_id, $a_user_id,
+		$a_omit_failed = false)
 	{
 		global $ilDB;
 		
@@ -398,7 +399,11 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 			$cnt = 0;
 			while ($rec = $ilDB->fetchAssoc($res))
 			{
-				if ($rec["completion"] == "completed" || $rec["success"] == "passed")
+				// alex, added (!$a_omit_failed || $rec["success"] != "failed")
+				// since completed/failed combination should not be included in
+				// percentage calculation at ilLPStatusSCOM::determinePercentage
+				if (($rec["completion"] == "completed" || $rec["success"] == "passed")
+					&& (!$a_omit_failed || $rec["success"] != "failed"))
 				{
 					$cnt++;
 				}
