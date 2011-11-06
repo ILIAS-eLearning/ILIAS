@@ -57,7 +57,7 @@ abstract class ilObject2 extends ilObject
 	final function getLongDescription() { return parent::getLongDescription(); }
 	final function getImportId() { return parent::getImportId(); }
 	final function setImportId($a_import_id) { return parent::setImportId($a_import_id); }
-	final function _lookupObjIdByImportId($a_import_id) { return parent::_lookupObjIdByImportId($a_import_id); }
+	final static function _lookupObjIdByImportId($a_import_id) { return parent::_lookupObjIdByImportId($a_import_id); }
 	final function getOwner() { return parent::getOwner(); }
 	final function getOwnerName() { return parent::getOwnerName(); }
 	final function _lookupOwnerName($a_owner_id) { return parent::_lookupOwnerName($a_owner_id); }
