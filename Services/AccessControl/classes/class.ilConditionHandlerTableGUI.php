@@ -80,6 +80,11 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 	{
 		foreach((array) $a_conditions as $condition)
 		{
+			if($condition['trigger_type'] == 'crsg')
+			{
+				continue;
+			}
+
 			$row['id'] = $condition['condition_id'];
 			$row['ref_id'] = $condition['trigger_ref_id'];
 			$row['type'] = $condition['trigger_type'];
