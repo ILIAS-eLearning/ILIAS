@@ -720,7 +720,7 @@ class ilObjPortfolioGUI
 			$ilCtrl->getLinkTarget($this, "export"));				
 				
 		include_once "Services/Portfolio/classes/class.ilPortfolioPageTableGUI.php";
-		$table = new ilPortfolioPageTableGUI($this, "show", $this->portfolio);
+		$table = new ilPortfolioPageTableGUI($this, "pages", $this->portfolio);
 		
 		// exercise portfolio?			
 		include_once "Modules/Exercise/classes/class.ilObjExercise.php";			
