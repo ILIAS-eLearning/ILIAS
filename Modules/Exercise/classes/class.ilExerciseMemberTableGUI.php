@@ -213,9 +213,8 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				$blogs = ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id);
 				if($blogs)
 				{
-					$blogs = array_pop($blogs);
-					$blog_id = (int)$blogs["filetitle"];					
-					if($blogs["filename"])
+					$blogs = array_pop($blogs);					
+					if($blogs && substr($blogs["filename"], -1) != "/")
 					{
 						$has_submitted = true;
 						$this->tpl->setVariable("VAL_SUBMITTED_FILES", 1);
@@ -242,11 +241,9 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				$portfolios = ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id);
 				if($portfolios)
 				{
-					$portfolios = array_pop($portfolios);
-					$portfolio_id = (int)$portfolios["filetitle"];
-					
-					if($portfolios["filename"])
-					{
+					$portfolios = array_pop($portfolios);									
+					if($portfolios && substr($portfolios["filename"], -1) != "/")
+					{	
 						$has_submitted = true;
 						$this->tpl->setVariable("VAL_SUBMITTED_FILES", 1);
 						
