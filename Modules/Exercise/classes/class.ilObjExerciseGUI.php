@@ -2422,11 +2422,20 @@ class ilObjExerciseGUI extends ilObjectGUI
 		include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
 		$conf = new ilConfirmationGUI();
 		
-		$this->ctrl->setParameter($this, "blog_id", $_REQUEST["blog_id"]);
-		$this->ctrl->setParameter($this, "prtf_id", $_REQUEST["prtf_id"]);
+		
+		if($_REQUEST["blog_id"])
+		{
+			$this->ctrl->setParameter($this, "blog_id", $_REQUEST["blog_id"]);
+			$txt = $this->lng->txt("exc_direct_submit_blog"); 
+		}
+		else
+		{
+			$this->ctrl->setParameter($this, "prtf_id", $_REQUEST["prtf_id"]);
+			$txt = $this->lng->txt("exc_direct_submit_portfolio"); 
+		}
 		$conf->setFormAction($this->ctrl->getFormAction($this, "directSubmit"));
 		
-		$conf->setHeaderText($this->lng->txt("exc_direct_submit_blog"));
+		$conf->setHeaderText($txt);
 		$conf->setConfirm($this->lng->txt("submit"), "directSubmit");
 		$conf->setCancel($this->lng->txt("cancel"), "showOverview");
 		
