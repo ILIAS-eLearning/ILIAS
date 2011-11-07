@@ -12340,12 +12340,12 @@ skmg#:#skmg_select_skill#:#Klicken Sie auf eine Kompetenz um diese ihren persön
 survey#:#svy_create_question#:#Frage erstellen
 common#:#contact_sysadmin#:#Systemadministration kontaktieren
 blog#:#blog_posting#:#Blog-Eintrag
-blog#:#blog_change_notification_subject#:#Blog "%s" wurde editiert
+blog#:#blog_change_notification_subject#:#Blog "%s" wurde aktualisiert
 blog#:#blog_change_notification_salutation#:#Hallo %s,
 blog#:#blog_change_notification_body_new#:#der folgende Blog-Eintrag wurde neu angelegt
 blog#:#blog_change_notification_body_update#:#der folgende Blog-Eintrag wurde editiert
 blog#:#blog_change_notification_body_comment#:#der folgende Blog-Eintrag wurde kommentiert
-blog#:#blog_changed_by#:#Geändert von
+blog#:#blog_changed_by#:#Letzte Änderung durch
 blog#:#blog_change_notification_link#:#URL
 blog#:#blog_notification_toggle_on#:#Änderungs-Benachrichtigung aktivieren
 blog#:#blog_notification_toggle_off#:#Änderungs-Benachrichtigung deaktivieren

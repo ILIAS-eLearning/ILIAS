@@ -12339,7 +12339,7 @@ skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal comp
 survey#:#svy_create_question#:#Create Question
 common#:#contact_sysadmin#:#Contact System Administration
 blog#:#blog_posting#:#Blog Posting
-blog#:#blog_change_notification_subject#:#Blog "%s" has been changed
+blog#:#blog_change_notification_subject#:#Blog "%s" has been updated
 blog#:#blog_change_notification_salutation#:#Hello %s,
 blog#:#blog_change_notification_body_new#:#the following blog posting was created
 blog#:#blog_change_notification_body_update#:#the following blog posting has been updated
