@@ -1016,13 +1016,12 @@ class ilObjExercise extends ilObject
 	
 		$next_id = $ilDB->nextId("exc_returned");
 		$query = sprintf("INSERT INTO exc_returned ".
-						 "(returned_id, obj_id, user_id, filetitle, ts, ass_id) ".
-						 "VALUES (%s, %s, %s, %s, %s, %s)",
+						 "(returned_id, obj_id, user_id, filetitle, ass_id) ".
+						 "VALUES (%s, %s, %s, %s, %s)",
 			$ilDB->quote($next_id, "integer"),
 			$ilDB->quote($this->getId(), "integer"),
 			$ilDB->quote($user_id, "integer"),
 			$ilDB->quote($a_wsp_id, "text"),
-			$ilDB->quote(ilUtil::now(), "timestamp"),
 			$ilDB->quote($a_ass_id, "integer")
 		);
 		$ilDB->manipulate($query);
@@ -1030,8 +1029,9 @@ class ilObjExercise extends ilObject
 		{
 			$this->members_obj->assignMember($user_id);
 		}
-		ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, 1);
-		ilExerciseMembers::_writeReturned($this->getId(), $user_id, 1);
+		// no submission yet
+		ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, 0);
+		ilExerciseMembers::_writeReturned($this->getId(), $user_id, 0);
 	}
 	
 	/**
