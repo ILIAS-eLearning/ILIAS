@@ -3377,3 +3377,12 @@ div.ilTopBarRight td.il_adv_sel {
 td.ilRight, th.ilRight {
 	text-align:right;
 }
+
+.ilBlogListItemDraft {
+	border: 2px dotted red;
+	padding: 3px;
+}
+
+.ilBlogNavigationItemDraft {
+	color: red;
+}

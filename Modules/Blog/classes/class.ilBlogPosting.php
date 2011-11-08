@@ -111,9 +111,6 @@ class ilBlogPosting extends ilPageObject
 
 		parent::create();
 		// $this->saveInternalLinks($this->getXMLContent());
-		
-		include_once "Modules/Blog/classes/class.ilObjBlog.php";
-		ilObjBlog::sendNotification("new", $this->blog_wsp_id, $this->getId());
 	}
 
 	/**
@@ -121,9 +118,10 @@ class ilBlogPosting extends ilPageObject
 	 *
 	 * @param bool $a_validate
 	 * @param bool $a_no_history
+	 * @param bool $a_notify
 	 * @return boolean
 	 */
-	function update($a_validate = true, $a_no_history = false)
+	function update($a_validate = true, $a_no_history = false, $a_notify = true)
 	{
 		global $ilDB;
 
@@ -136,8 +134,11 @@ class ilBlogPosting extends ilPageObject
 		
 		parent::update($a_validate, $a_no_history);
 		
-		include_once "Modules/Blog/classes/class.ilObjBlog.php";
-		ilObjBlog::sendNotification("update", $this->blog_wsp_id, $this->getId());
+		if($a_notify && $this->getActive())
+		{
+			include_once "Modules/Blog/classes/class.ilObjBlog.php";
+			ilObjBlog::sendNotification("update", $this->blog_wsp_id, $this->getId());
+		}
 
 		return true;
 	}

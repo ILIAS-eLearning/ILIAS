@@ -1328,7 +1328,7 @@ class ilPageObjectGUI
 		$this->getPageObject()->setActivationEnd(null);
 		$this->getPageObject()->setActive(false);
 		$this->getPageObject()->update();
-		$this->ctrl->redirectByClass("ilpageobjectgui", "edit");
+		$this->ctrl->redirect($this, "edit");
 	}
 
 	function activatePage()
@@ -1337,7 +1337,7 @@ class ilPageObjectGUI
 		$this->getPageObject()->setActivationEnd(null);
 		$this->getPageObject()->setActive(true);
 		$this->getPageObject()->update();
-		$this->ctrl->redirectByClass("ilpageobjectgui", "edit");
+		$this->ctrl->redirect($this, "edit");
 	}
 
 	/*
@@ -2105,6 +2105,16 @@ class ilPageObjectGUI
 		return $output;
 	}
 	
+	/**
+	 * Get captions for activation action menu entries
+	 */
+	protected function getActivationCaptions()
+	{
+		global $lng;
+		
+		return array("deactivatePage" => $lng->txt("cont_deactivate_page"),
+				"activatePage" => $lng->txt("cont_activate_page"));
+	}	
 	
 	/**
 	 * Add actions menu
@@ -2123,14 +2133,15 @@ class ilPageObjectGUI
 			$list->setListTitle($lng->txt("actions"));
 			$list->setId("copage_act");
 			
+			$captions = $this->getActivationCaptions();			
 			if ($this->getPageObject()->getActive())
 			{
-				$list->addItem($lng->txt("cont_deactivate_page"), "",
+				$list->addItem($captions["deactivatePage"], "",
 					$ilCtrl->getLinkTarget($this, "deactivatePage"));
 			}
 			else
 			{
-				$list->addItem($lng->txt("cont_activate_page"), "",
+				$list->addItem($captions["activatePage"], "",
 					$ilCtrl->getLinkTarget($this, "activatePage"));
 			}
 			

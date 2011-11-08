@@ -2164,6 +2164,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			"parent_type" => array("text", $this->getParentType()),
 			"create_user" => array("integer", $ilUser->getId()),
 			"last_change_user" => array("integer", $ilUser->getId()),
+			"active" => array("integer", $this->getActive()),
 			"inactive_elements" => array("integer", $iel),
 			"int_links" => array("integer", $inl),
 			"created" => array("timestamp", ilUtil::now()),
