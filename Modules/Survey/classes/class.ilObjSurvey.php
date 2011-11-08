@@ -3872,7 +3872,7 @@ class ilObjSurvey extends ilObject
 		$a_xml_writer->xmlHeader();
 		$attrs = array(
 			"xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
-			"xsi:noNamespaceSchemaLocation" => "http://www.ilias.de/download/xsd/ilias_survey_3_8.xsd"
+			"xsi:noNamespaceSchemaLocation" => "http://www.ilias.de/download/xsd/ilias_survey_4_2.xsd"
 		);
 		$a_xml_writer->xmlStartTag("surveyobject", $attrs);
 		$attrs = array(
@@ -3950,12 +3950,13 @@ class ilObjSurvey extends ilObject
 					{
 						// found constraints
 						foreach ($question["constraints"] as $constraint)
-						{
+						{							
 							$attribs = array(
 								"sourceref" => $question["question_id"],
 								"destref" => $constraint["question"],
 								"relation" => $constraint["short"],
-								"value" => $constraint["value"]
+								"value" => $constraint["value"],
+								"conjunction" => $constraint["conjunction"]
 							);
 							$a_xml_writer->xmlElement("constraint", $attribs);
 						}

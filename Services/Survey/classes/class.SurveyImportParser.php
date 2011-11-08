@@ -280,7 +280,10 @@ class SurveyImportParser extends ilSaxParser
 						"sourceref" => $a_attribs["sourceref"],
 						"destref" => $a_attribs["destref"],
 						"relation" => $a_attribs["relation"],
-						"value" => $a_attribs["value"]
+						"value" => $a_attribs["value"],
+											
+						// might be missing in old export files
+						"conjunction" => (int)$a_attribs["conjuction"]
 					)
 				);
 				break;
@@ -454,8 +457,9 @@ class SurveyImportParser extends ilSaxParser
 					{
 						$relations = $this->survey->getAllRelations(TRUE);
 						foreach ($this->constraints as $constraint)
-						{
-							$this->survey->addConstraint($this->questions[$constraint["sourceref"]], $this->questions[$constraint["destref"]], $relations[$constraint["relation"]]["id"], $constraint["value"]);
+						{							
+							$constraint_id= $this->survey->addConstraint($this->questions[$constraint["destref"]], $relations[$constraint["relation"]]["id"], $constraint["value"], $constraint["conjunction"]);
+							$this->survey->addConstraintToQuestion($this->questions[$constraint["sourceref"]], $constraint_id);									
 						}
 					}
 					// write question blocks
