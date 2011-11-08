@@ -82,23 +82,22 @@ class ilBookingTypesTableGUI extends ilTable2GUI
 
 		$items = array();
 
-		if($a_set["schedule_id"] && $a_set["counter"] > 0)
+		if($a_set["counter"] > 0)
 		{
-			$items['book'] = array($lng->txt('book_book'), $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
-		}
-
-		if ($ilAccess->checkAccess('write', '', $this->ref_id) || !$a_set["schedule_id"])
-		{
-			if($a_set["counter"] > 0)
+			if($a_set["schedule_id"])
+			{
+				$items['book'] = array($lng->txt('book_book'), $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
+			}
+			else 
 			{
 				$items['list'] = array($lng->txt('book_list_items'), $ilCtrl->getLinkTargetByClass('ilBookingObjectGUI', 'render'));
 			}
-		
-			$items['add'] = array($lng->txt('book_add_object'), $ilCtrl->getLinkTargetByClass('ilBookingObjectGUI', 'create'));
 		}
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
+			$items['add'] = array($lng->txt('book_add_object'), $ilCtrl->getLinkTargetByClass('ilBookingObjectGUI', 'create'));
+			
 			if($a_set["counter"] == 0)
 			{
 				$items['delete'] = array($lng->txt('delete'), $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
