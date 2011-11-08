@@ -61,6 +61,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$this->setEnabledInternalLinks(false);
 		$this->setEnabledWikiLinks(false);
 		$this->setEnabledPCTabs(true);
+		
+		$this->setEnabledActivation(true);
 	}
 
 	/**
@@ -404,6 +406,25 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		include_once "Modules/Blog/classes/class.ilObjBlog.php";
 		ilObjBlog::sendNotification("comment", $this->node_id, $a_posting_id);		
 	}
+	
+	protected function getActivationCaptions()
+	{
+		global $lng;
+		
+		return array("deactivatePage" => $lng->txt("blog_toggle_draft"),
+				"activatePage" => $lng->txt("blog_toggle_final"));
+	}	
+	
+	function activatePage()
+	{
+		// send notifications
+		include_once "Modules/Blog/classes/class.ilObjBlog.php";
+		ilObjBlog::sendNotification("new", $this->node_id, $this->getBlogPosting()->getId());		 
+		
+		$this->getBlogPosting()->setActive(true);
+		$this->getBlogPosting()->update(true, false, false);
+		$this->ctrl->redirect($this, "edit");
+	}		
 }
 
 ?>

@@ -192,7 +192,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			case 'ilblogpostinggui':						
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, ""));
-								
+						
 				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$bpost_gui = new ilBlogPostingGUI($this->node_id, $this->getAccessHandler(),
 					$_GET["page"], $_GET["old_nr"], $this->object->getNotesStatus() && !$this->disable_notes);
@@ -233,10 +233,20 @@ class ilObjBlogGUI extends ilObject2GUI
 						$cmd = "preview".(($_REQUEST["prvm"] == "fsc") ? "Fullscreen" : "Embedded");						
 					}
 					
+					$is_owner = $this->object->getOwner() == $ilUser->getId();
+					$is_active = $bpost_gui->getBlogPosting()->getActive();
+					
+					// do not show inactive postings 
+					if(($cmd == "previewFullscreen" || $cmd == "previewEmbedded")
+						&& !$is_owner && !$is_active)
+					{
+						$this->ctrl->redirect($this, "preview");
+					}
+					
 					switch($cmd)
 					{
 						// blog preview
-						case "previewFullscreen":
+						case "previewFullscreen":							
 							$nav = $this->renderNavigation($this->items, "preview", $cmd);							
 							$this->renderFullScreen($ret, $nav);
 							break;
@@ -247,10 +257,24 @@ class ilObjBlogGUI extends ilObject2GUI
 							return $this->buildEmbedded($ret, $nav);
 						
 						// ilias/editor
-						default:			
+						default:	
+							// infos about draft status / snippet
+							$info = array();
+							if(!$is_active)
+							{
+								$info[] = $lng->txt("blog_draft_info");
+							}
+							if(!$bpost_gui->getBlogPosting()->getFirstParagraphText())
+							{
+								$info[] = $lng->txt("blog_new_posting_info");
+							}
+							if(sizeof($info))
+							{
+								ilUtil::sendInfo(implode("<br />", $info));	
+							}													
 							$this->addHeaderAction($cmd);	
 							$tpl->setContent($ret);
-							$nav = $this->renderNavigation($this->items, "render", $cmd);	
+							$nav = $this->renderNavigation($this->items, "render", $cmd, null, $is_owner);	
 							$tpl->setRightContent($nav);	
 							break;
 					}
@@ -352,10 +376,9 @@ class ilObjBlogGUI extends ilObject2GUI
 			$posting = new ilBlogPosting();
 			$posting->setTitle($_POST["title"]);
 			$posting->setBlogId($this->object->getId());
+			$posting->setActive(false);
 			$posting->create();
 			
-			ilUtil::sendInfo($lng->txt("blog_new_posting_info"), true);			
-
 			// switch month list to current month (will include new posting)
 			$ilCtrl->setParameter($this, "bmn", date("Y-m"));
 			
@@ -418,8 +441,9 @@ class ilObjBlogGUI extends ilObject2GUI
 		$list = $nav = "";		
 		if($this->items[$this->month])
 		{						
-			$list = $this->renderList($this->items[$this->month], $this->month);
-			$nav = $this->renderNavigation($this->items);		
+			$is_owner = ($this->object->getOwner() == $ilUser->getId());
+			$list = $this->renderList($this->items[$this->month], $this->month, "preview", null, $is_owner);
+			$nav = $this->renderNavigation($this->items, "render", "preview", null, $is_owner);		
 		}
 					
 		$tpl->setContent($list);
@@ -761,9 +785,10 @@ class ilObjBlogGUI extends ilObject2GUI
 	 * @param string $a_month
 	 * @param string $a_cmd
 	 * @param bool $a_link_template
+	 * @param bool $a_show_inactive
 	 * @return string 
 	 */
-	function renderList(array $items, $a_month, $a_cmd = "preview", $a_link_template = null)
+	function renderList(array $items, $a_month, $a_cmd = "preview", $a_link_template = null, $a_show_inactive = false)
 	{
 		global $lng, $ilCtrl;
 		
@@ -777,6 +802,12 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		foreach($items as $item)
 		{
+			$is_active = ilBlogPosting::_lookupActive($item["id"], "blp");
+			if(!$is_active && !$a_show_inactive)
+			{
+				continue;
+			}
+			
 			if(!$a_link_template)
 			{
 				$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", $this->month);
@@ -858,6 +889,11 @@ class ilObjBlogGUI extends ilObject2GUI
 
 			$wtpl->setCurrentBlock("posting");
 			
+			if(!$is_active)
+			{
+				$wtpl->setVariable("DRAFT_CLASS", " ilBlogListItemDraft");
+			}
+			
 			// title
 			$wtpl->setVariable("URL_TITLE", $preview);
 			$wtpl->setVariable("TITLE", $item["title"]);
@@ -923,9 +959,10 @@ class ilObjBlogGUI extends ilObject2GUI
 	 * @param string $a_list_cmd
 	 * @param string $a_posting_cmd
 	 * @param bool $a_link_template
+	 * @param bool $a_show_inactive
 	 * @return string
 	 */
-	function renderNavigation(array $items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null)
+	function renderNavigation(array $items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false)
 	{
 		global $ilCtrl;
 
@@ -941,7 +978,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$counter = 0;
 		foreach($items as $month => $postings)
-		{
+		{			
 			$month_name = ilCalendarUtil::_numericMonthToString((int)substr($month, 5)).
 				" ".substr($month, 0, 4);
 
@@ -958,9 +995,15 @@ class ilObjBlogGUI extends ilObject2GUI
 			// list postings for month
 			if($counter < $max_detail_postings)
 			{
-				$wtpl->setCurrentBlock("navigation_item");
+				
 				foreach($postings as $id => $posting)
 				{
+					$is_active = ilBlogPosting::_lookupActive($id, "blp");
+					if(!$is_active && !$a_show_inactive)
+					{
+						continue;
+					}
+					
 					$counter++;
 
 					$caption = /* ilDatePresentation::formatDate($posting["created"], IL_CAL_DATETIME).
@@ -975,11 +1018,19 @@ class ilObjBlogGUI extends ilObject2GUI
 					else
 					{
 						$url = $this->buildExportLink($a_link_template, "posting", $id);
-					}
+					}					
+																				
+					if(!$is_active)
+					{
+						$wtpl->setCurrentBlock("navigation_item_draft");
+						$wtpl->setVariable("NAV_ITEM_DRAFT", $this->lng->txt("blog_draft"));
+						$wtpl->parseCurrentBlock();
+					}													
 					
+					$wtpl->setCurrentBlock("navigation_item");
 					$wtpl->setVariable("NAV_ITEM_URL", $url);
 					$wtpl->setVariable("NAV_ITEM_CAPTION", $caption);
-					$wtpl->parseCurrentBlock();
+					$wtpl->parseCurrentBlock();							
 				}
 
 				$wtpl->setCurrentBlock("navigation_month_details");

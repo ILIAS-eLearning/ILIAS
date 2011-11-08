@@ -12364,3 +12364,7 @@ rbac#:#fold_create_chtr#:#Create Chatroom
 rbac#:#grp_create_chtr#:#Create Chatroom
 rbac#:#root_create_chtr#:#Create Chatroom
 search#:#search_err_user_not_exist#:#A user with that login name does not exist.
+blog#:#blog_draft#:#Draft
+blog#:#blog_draft_info#:#This posting draft is only visible for the author.
+blog#:#blog_toggle_draft#:#Save As Draft
+blog#:#blog_toggle_final#:#Publish Posting

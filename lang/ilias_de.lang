@@ -12365,3 +12365,7 @@ rbac#:#fold_create_chtr#:#Neuen Chatraum anlegen
 rbac#:#grp_create_chtr#:#Neuen Chatraum anlegen
 rbac#:#root_create_chtr#:#Neuen Chatraum anlegen
 search#:#search_err_user_not_exist#:#Es konnte kein entsprechender Benutzer gefunden werden.
+blog#:#blog_draft#:#Entwurf
+blog#:#blog_draft_info#:#Dieser Eintrag ist als Entwurf nur für den Autor sichtbar.
+blog#:#blog_toggle_draft#:#Als Entwurf speichern
+blog#:#blog_toggle_final#:#Eintrag veröffentlichen
