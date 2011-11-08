@@ -385,7 +385,7 @@ class ilBookingSchedule
 		{
 			$slots[$time] = array_unique($days);		
 		}
-		asort($slots);
+		ksort($slots);
 		return $slots;
 	}
 	
