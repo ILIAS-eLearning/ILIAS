@@ -118,17 +118,25 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 * Get progress of selected scos
 	 * @param object $a_scorm_item_ids
 	 * @param object $a_obj_id
+	 * @param bool $a_omit_failed do not include success==failed 
 	 * @return 
 	 */
-	function _getCountCompletedPerUser($a_scorm_item_ids, $a_obj_id)
+	function _getCountCompletedPerUser($a_scorm_item_ids, $a_obj_id, $a_omit_failed = false)
 	{
 		global $ilDB;
 		
 		$in = $ilDB->in('cp_node.cp_node_id', $a_scorm_item_ids, false, 'integer');
-
+		
+		// #8171: success_status vs. completion status
+		$omit_failed = '';
+		if($a_omit_failed)
+		{
+			$omit_failed = ' AND success_status <> '.$ilDB->quote('failed', 'text');
+		}
+		
 		$res = $ilDB->queryF('
 			SELECT cmi_node.user_id user_id, COUNT(user_id) completed FROM cp_node, cmi_node 
-			WHERE '.$in.'
+			WHERE '.$in.$omit_failed.'
 			AND cp_node.cp_node_id = cmi_node.cp_node_id
 			AND cp_node.slm_id = %s
 			AND completion_status = %s 
@@ -246,7 +254,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		return $users;
 	}
 	
-	function _getItemProgressInfo($a_scorm_item_ids, $a_obj_id)
+	function _getItemProgressInfo($a_scorm_item_ids, $a_obj_id, $a_omit_failed = false)
 	{
 		global $ilDB;
 		
@@ -275,7 +283,11 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 			$info['in_progress'][$row["id"]][] = $row["user_id"];
 			if ($row["completion"] == "completed" || $row["success"] == "passed")
 			{
-				$info['completed'][$row["id"]][] = $row["user_id"];
+				// #8171: success_status vs. completion status
+				if(!$a_omit_failed || $row["success"] != "failed")
+				{
+					$info['completed'][$row["id"]][] = $row["user_id"];
+				}
 			}
 			if ($row["success"] == "failed")
 			{
@@ -399,7 +411,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 			$cnt = 0;
 			while ($rec = $ilDB->fetchAssoc($res))
 			{
-				// alex, added (!$a_omit_failed || $rec["success"] != "failed")
+				// #8171: alex, added (!$a_omit_failed || $rec["success"] != "failed")
 				// since completed/failed combination should not be included in
 				// percentage calculation at ilLPStatusSCOM::determinePercentage
 				if (($rec["completion"] == "completed" || $rec["success"] == "passed")

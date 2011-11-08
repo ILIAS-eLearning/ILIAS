@@ -164,14 +164,14 @@ class ilLPStatusSCORM extends ilLPStatus
 				
 			case "scorm2004":
 				include_once './Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php';
-				$status_info['num_completed'] = ilSCORM2004Tracking::_getCountCompletedPerUser($status_info['scos'],$a_obj_id);
+				$status_info['num_completed'] = ilSCORM2004Tracking::_getCountCompletedPerUser($status_info['scos'],$a_obj_id,true);
 				include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php';
 				foreach($status_info['scos'] as $sco_id)
 				{
 					$status_info['scos_title'][$sco_id] = ilObjSCORM2004LearningModule::_lookupItemTitle($sco_id);
 				}
 
-				$info = ilSCORM2004Tracking::_getItemProgressInfo($status_info['scos'],$a_obj_id);
+				$info = ilSCORM2004Tracking::_getItemProgressInfo($status_info['scos'],$a_obj_id,true);
 				break;
 		}
 
