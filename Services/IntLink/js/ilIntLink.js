@@ -119,6 +119,12 @@ il.IntLink =
 			sUrl = this.getInternalLinkUrl() + "&cmd=changeTargetObject";
 			var request = YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
 		}
+		else if (cfg.mode == "set_mep_fold")
+		{
+			sUrl = this.getInternalLinkUrl() + "&cmd=setMedPoolFolder&mep_fold=" +
+				cfg.mep_fold;
+			var request = YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+		}
 		else
 		{
 			sUrl = this.getInternalLinkUrl() + "&cmd=showLinkHelp";
@@ -242,6 +248,8 @@ il.IntLink =
 	selectLinkTargetObject: function (type, ref_id)
 	{
 		il.IntLink.initAjax({mode: 'sel_target_obj', ref_id: ref_id, type: type});
+		
+		return false;
 	},
 
 	addInternalLink: function (b, e)
@@ -250,5 +258,15 @@ il.IntLink =
 
 		il.IntLink.panel.hide();
 		return false;
+	},
+	
+	setMepPoolFolder: function(mep_fold_id)
+	{
+		il.IntLink.initAjax({mode: 'set_mep_fold', mep_fold: mep_fold_id});
+		return false;
+//		YAHOO.util.Event.preventDefault(ev);
+//		YAHOO.util.Event.stopPropagation(ev);
 	}
+
+
 }
