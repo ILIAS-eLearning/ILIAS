@@ -3267,7 +3267,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-		if($is_participant || ilLearningProgressAccess::checkAccess($this->object->getRefId(), false))
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), $is_participant))
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','illearningprogressgui'),''),
