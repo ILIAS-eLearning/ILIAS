@@ -23,6 +23,7 @@
 
 include_once('./Services/Calendar/classes/class.ilDate.php');
 include_once './Services/Calendar/classes/class.ilCalendarRecurrenceExclusions.php';
+include_once './Services/Calendar/interfaces/interface.ilCalendarRecurrenceCalculation.php';
 
 /** 
 * Model of calendar entry recurrcences
@@ -34,12 +35,12 @@ include_once './Services/Calendar/classes/class.ilCalendarRecurrenceExclusions.p
 * @ingroup ServicesCalendar 
 */
 
-define('IL_CAL_FREQ_DAILY',ilCalendarRecurrence::FREQ_DAILY);
-define('IL_CAL_FREQ_WEEKLY',ilCalendarRecurrence::FREQ_WEEKLY);
-define('IL_CAL_FREQ_MONTHLY',ilCalendarRecurrence::FREQ_MONTHLY);
-define('IL_CAL_FREQ_YEARLY',ilCalendarRecurrence::FREQ_YEARLY);
+define('IL_CAL_FREQ_DAILY','DAILY');
+define('IL_CAL_FREQ_WEEKLY','WEEKLY');
+define('IL_CAL_FREQ_MONTHLY','MONTHLY');
+define('IL_CAL_FREQ_YEARLY','YEARLY');
 
-class ilCalendarRecurrence
+class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 {
 	const REC_RECURRENCE = 0;
 	const REC_EXCLUSION = 1;

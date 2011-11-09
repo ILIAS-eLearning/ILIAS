@@ -21,9 +21,11 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/Calendar/classes/class.ilCalendarRecurrence.php';
 include_once('./Services/Calendar/classes/class.ilDateList.php');
 include_once('./Services/Calendar/classes/class.ilTimeZone.php');
 include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
+include_once './Services/Calendar/interfaces/interface.ilCalendarRecurrenceCalculation.php';
 
 /** 
 * Calculates an <code>ilDateList</code> for a given calendar entry and recurrence rule.
@@ -59,7 +61,7 @@ class ilCalendarRecurrenceCalculator
 	 * @param ilDatePeriod interface ilDatePeriod
 	 * 
 	 */
-	public function __construct(ilDatePeriod $entry,ilCalendarRecurrence $rec)
+	public function __construct(ilDatePeriod $entry,  ilCalendarRecurrenceCalculation $rec)
 	{
 	 	global $ilLog;
 	 	
@@ -93,7 +95,13 @@ class ilCalendarRecurrenceCalculator
 	 */
 	public function calculateDateList(ilDateTime $a_start,ilDateTime $a_end,$a_limit = -1)
 	{
-	 	$this->valid_dates = $this->initDateList();
+#		echo $a_start;
+#		echo $a_end;
+#		echo $this->event->getStart();
+#		echo $this->event->getEnd();
+
+
+		$this->valid_dates = $this->initDateList();
 
 	 	// Check invalid settings: e.g no frequence given, invalid start/end dates ...
 	 	if(!$this->validateRecurrence())
@@ -126,7 +134,7 @@ class ilCalendarRecurrenceCalculator
 	 	$counter = 0;
 	 	do
 	 	{
-		 	++$counter;
+			++$counter;
 		 	// initialize context for applied rules
 		 	// E.g 
 		 	// RRULE:FREQ=YEARLY;BYMONTH=1;BYWEEKNO=1,50	=> context for BYWERKNO is monthly because it filters to the weeks in JAN
@@ -160,8 +168,10 @@ class ilCalendarRecurrenceCalculator
 			#echo "BYSETPOS: ".$freq_res;
 			
 			$freq_res = $this->applyLimits($freq_res);
+			#echo $freq_res;
 			
 			$start = $this->incrementByFrequency($start);
+
 			if(ilDateTime::_after($start,$this->period_end) or $this->limit_reached)
 			{
 				break;
@@ -775,16 +785,22 @@ class ilCalendarRecurrenceCalculator
 	{
  		$list->sort();
 
+		#echo "list: ";
+		#echo $list;
+		#echo '<br />';
+
 	 	// Check valid dates before starting time
 		foreach($list->get() as $check_date)
 		{
 			if(ilDateTime::_before($check_date,$this->event->getStart(),IL_CAL_DAY))
 			{
+				#echo 'Removed: '.$check_date.'<br/>';
 				$list->remove($check_date);
 			}
 		}	 	
 	 	
-	 	
+	 	#echo 'Until date '.$this->recurrence->getFrequenceUntilDate();
+
 	 	// Check count if given
 	 	if($this->recurrence->getFrequenceUntilCount())
 	 	{
@@ -805,18 +821,22 @@ class ilCalendarRecurrenceCalculator
 	 	}
 	 	elseif($this->recurrence->getFrequenceUntilDate())
 	 	{
+		 	#echo 'Until date '.$this->recurrence->getFrequenceUntilDate();
 	 		$date = $this->recurrence->getFrequenceUntilDate();
 	 		foreach($list->get() as $res)
 	 		{
-	 			if(ilDateTime::_after($res,$date))
+				#echo 'Check date '.$res;
+				if(ilDateTime::_after($res,$date))
 	 			{
-	 				$this->limit_reached = true;
+					#echo 'Limit reached';
+					$this->limit_reached = true;
 	 				return false;
 	 			}
 	 			$this->valid_dates->add($res);
 	 		}
 	 		return true;
 	 	}
+
 	 	$this->valid_dates->merge($list);
 	 	return true;
 	}
