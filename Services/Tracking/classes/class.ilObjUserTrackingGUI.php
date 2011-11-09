@@ -298,8 +298,8 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		}
 		
 		$this->object->updateSettings();
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
-		$this->settingsObject();
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "settings");
 		
 		return true;
 	}
