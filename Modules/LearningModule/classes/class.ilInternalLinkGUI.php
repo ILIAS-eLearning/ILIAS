@@ -563,8 +563,18 @@ class ilInternalLinkGUI
 						$tpl->setVariable("ROWCLASS", $css_row);
 						$tpl->setVariable("TXT_CHAPTER", "..");
 						$this->ctrl->setParameter($this, "mep_fold", $parent_id);
-						$tpl->setVariable("LINK",
-							$this->ctrl->getLinkTarget($this, "setMedPoolFolder"));
+						if ($ilCtrl->isAsynch())
+						{
+							$tpl->setVariable("LINK", "#");
+							$tpl->setVariable("LR_ONCLICK",
+								" onclick=\"return il.IntLink.setMepPoolFolder('".$parent_id."');\" ");
+							
+						}
+						else
+						{
+							$tpl->setVariable("LINK",
+								$this->ctrl->getLinkTarget($this, "setMedPoolFolder"));
+						}
 						$tpl->parseCurrentBlock();
 						$tpl->setCurrentBlock("row");
 						$tpl->parseCurrentBlock();
@@ -583,8 +593,18 @@ class ilInternalLinkGUI
 							$tpl->setVariable("ROWCLASS", $css_row);
 							$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
 							$this->ctrl->setParameter($this, "mep_fold", $obj["child"]);
-							$tpl->setVariable("LINK",
-								$this->ctrl->getLinkTarget($this, "setMedPoolFolder"));
+							if ($ilCtrl->isAsynch())
+							{
+								$tpl->setVariable("LINK", "#");
+								$tpl->setVariable("LR_ONCLICK",
+									" onclick=\"return il.IntLink.setMepPoolFolder('".$obj["child"]."');\" ");
+								
+							}
+							else
+							{
+								$tpl->setVariable("LINK",
+									$this->ctrl->getLinkTarget($this, "setMedPoolFolder"));
+							}
 							$tpl->parseCurrentBlock();
 						}
 						else
@@ -836,7 +856,6 @@ class ilInternalLinkGUI
 		global $ilCtrl;
 
 		$_SESSION["il_link_mep_obj"] = "";
-
 		if($_GET["do"] == "set")
 		{
 			switch ($_GET["target_type"])
@@ -859,7 +878,22 @@ class ilInternalLinkGUI
 
 		if(empty($a_type))
 		{
-			$a_type = $_GET["target_type"];
+			if (!empty($_GET["target_type"]))
+			{
+				$a_type = $_GET["target_type"];
+			}
+			else
+			{
+				$this->determineLinkType();
+				if ($this->link_type == "GlossaryItem")
+				{
+					$a_type = "glo";
+				}
+				if ($this->link_type == "Media")
+				{
+					$a_type = "mep";
+				}
+			}
 		}
 
 		$tpl =& new ilTemplate("tpl.link_help_explorer.html", true, true, "Modules/LearningModule");
@@ -887,7 +921,17 @@ class ilInternalLinkGUI
 		{
 			$tpl->setCurrentBlock("sel_clipboard");
 			$this->ctrl->setParameter($this, "do", "set");
-			$tpl->setVariable("LINK_CLIPBOARD", $this->ctrl->getLinkTarget($this, "changeTargetObject"));
+			if ($ilCtrl->isAsynch())
+			{
+				$tpl->setVariable("LINK_CLIPBOARD", "#");
+				$tpl->setVariable("CLIPBOARD_ONCLICK",
+					" onclick=\"return il.IntLink.selectLinkTargetObject('mep', 0);\" ");
+				
+			}
+			else
+			{
+				$tpl->setVariable("LINK_CLIPBOARD", $this->ctrl->getLinkTarget($this, "changeTargetObject"));
+			}
 			$tpl->setVariable("TXT_PERS_CLIPBOARD", $this->lng->txt("clipboard"));
 			$tpl->parseCurrentBlock();
 		}
