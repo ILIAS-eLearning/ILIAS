@@ -2051,18 +2051,18 @@ common#:#accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
 common#:#access_enddate#:#Zugriffsenddatum
 common#:#access_expired#:#abgelaufen
 common#:#access_free_granted#:#Unbeschränkten Zugriff für die ausgewählten Benutzer aktivieren.
-common#:#access_from#:#Zugriff (von)
+common#:#access_from#:#Zugriff von
 common#:#access_public#:#Öffentlich
 common#:#access_restrict_enter#:#Bitte setzen Sie den Zugriffszeitraum.
 common#:#access_restricted#:#Unbeschränkten Zugriff für die ausgewählten Benutzer deaktivieren.
 common#:#access_scope#:#Zugriff
 common#:#access_unlimited#:#unbefristet
-common#:#access_until#:#Zugang bis
+common#:#access_until#:#Zugriff bis
 common#:#access_users#:#Eingeloggte Benutzer
-common#:#access#:#Zugang
+common#:#access#:#Zugriff
 common#:#accesscount_registered_users#:#Gelesen von ILIAS-Benutzern (Anzahl)
-common#:#accessFree#:#Beschränkten Zugriff deaktivieren
-common#:#accessRestrict#:#Beschränkten Zugriff Aktivieren
+common#:#accessFree#:#Zeitliche Begrenzung aufheben
+common#:#accessRestrict#:#Zugriff zeitlich begrenzen
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
 common#:#account_expires_subject#:#[ILIAS] Benutzerzugang
 common#:#accs_edit_permission#:#Rechteeinstellungen ändern
@@ -12108,7 +12108,7 @@ user#:#enable_local_user_administration_info#:#Wenn aktiviert, können Benutzerz
 user#:#enable_local_user_administration#:#Lokale Benutzerverwaltung aktivieren
 user#:#restrict_user_access_info#:#Aktivieren Sie diese Option nur, wenn Sie den Zugriff auf Benutzerkonten beschränken möchten. Wenn aktiviert, benötigen Benutzer das Recht "Lesezugriff auf Benutzerkonten", um auf lokale Benutzerkonten in Kategorien und auf die globalen Benutzerkonten zugreifen zu können.
 user#:#restrict_user_access#:#Eingeschränkter Zugriff auf Benutzerkonten
-user#:#user_access_limited#:#Begrenzt
+user#:#user_access_limited#:#Zeitlich begrenzt
 user#:#user_access_unlimited#:#Unbegrenzt
 user#:#user_account_code_generated_all#:#Alle Daten
 user#:#user_account_code_generated#:#Erzeugt am
@@ -12141,7 +12141,7 @@ user#:#user_ext_profiles#:#Erweiterte Profile
 user#:#user_field#:#Feld
 user#:#user_global_role#:#Globale Rolle
 user#:#user_last_login_before#:#Letztes Login vor
-user#:#user_limited_access#:#Begrenzter Zugriff
+user#:#user_limited_access#:#Zeitlich begrenzt
 user#:#user_member_of_course_group#:#Mitglied in Kurs/Gruppe
 user#:#user_new_profile_page#:#Neue Profilseite
 user#:#user_no_courses#:#Keinem Kurs zugeordnet
