@@ -711,35 +711,25 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$pages = $tree->getSubTree($tree->getNodeData($this->getId()),true,'page');
 		foreach($pages as $page)
 		{
-			$ilBench->start("ContentObjectExport", "exportPageObject");
 			$expLog->write(date("[y-m-d H:i:s] ")."Page Object ".$page["obj_id"]);
 
 			// export xml to writer object
-			$ilBench->start("ContentObjectExport", "exportPageObject_getLMPageObject");
 			$page_obj = new ilSCORM2004Page($page["obj_id"]);
-			$ilBench->stop("ContentObjectExport", "exportPageObject_getLMPageObject");
-			$ilBench->start("ContentObjectExport", "exportPageObject_XML");
-			//$page_obj->exportXMLMetaData($a_xml_writer);
 			$page_obj->exportXML($a_xml_writer, "normal", $a_inst);
-			$ilBench->stop("ContentObjectExport", "exportPageObject_XML");
 
 			//collect media objects
-			$ilBench->start("ContentObjectExport", "exportPageObject_CollectMedia");
 			$mob_ids = $page_obj->getMediaObjectIds();
 			foreach($mob_ids as $mob_id)
 			{
 				$this->mob_ids[$mob_id] = $mob_id;
 			}
-			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectMedia");
 
 			// collect all file items
-			$ilBench->start("ContentObjectExport", "exportPageObject_CollectFileItems");
 			$file_ids = $page_obj->getFileItemIds();
 			foreach($file_ids as $file_id)
 			{
 				$this->file_ids[$file_id] = $file_id;
 			}
-			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectFileItems");
 
 			$q_ids = ilSCORM2004Page::_getQuestionIdsForPage("sahs", $page["obj_id"]);
 			if (count($q_ids) > 0)
@@ -756,7 +746,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 
 			unset($page_obj);
 
-			$ilBench->stop("ContentObjectExport", "exportPageObject");
 		}
 	}
 

@@ -768,6 +768,30 @@ class ilSCORM13Package
 						$media_item->setWidth ( $xMediaItem->Layout[Width]);
 						$media_item->setHeight ( $xMediaItem->Layout[Height]);
 						$media_item->setHAlign($xMediaItem->Layout[HorizontalAlign]);
+						$media_item->setCaption($xMediaItem->Caption);
+						$media_item->setTextRepresentation($xMediaItem->TextRepresentation);
+						$nr = 0;
+						
+						// add map areas (external links only)
+						foreach ($xMediaItem->MapArea as $n => $v)
+						{
+							
+							if ($v->ExtLink[Href] != "")
+							{
+								include_once("./Services/MediaObjects/classes/class.ilMapArea.php");
+								$ma = new ilMapArea();
+								
+								$map_area = new ilMapArea();
+								$map_area->setShape($v[Shape]);
+								$map_area->setCoords($v[Coords]);
+								$map_area->setLinkType(IL_EXT_LINK);
+								$map_area->setTitle($v->ExtLink);
+								$map_area->setHref($v->ExtLink[Href]);
+								
+								$media_item->addMapArea($map_area);
+							}
+						}
+						
 						if($media_item->getLocationType()=="LocalFile")
 						{
 //							$tmp_name = $this->packageFolder."/objects/".$OriginId."/".$xMediaItem->Location;
