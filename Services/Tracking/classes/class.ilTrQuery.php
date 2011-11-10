@@ -580,8 +580,6 @@ class ilTrQuery
 		$fields = array();
 		self::buildColumns($fields, $a_additional_fields, true);
 
-		$objects = self::getObjectIds($a_parent_obj_id, $a_parent_ref_id, false);
-
 		$objects = array();
 		if($a_preselected_obj_ids === NULL)
 		{
