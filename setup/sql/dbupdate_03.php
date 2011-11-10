@@ -8372,3 +8372,8 @@ if(!$ilDB->tableExists('note_settings'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3505>
+<?php
+	// activate pool usage
+	$ilDB->manipulate("UPDATE svy_svy SET pool_usage = ".$ilDB->quote(1, "integer"));	
+?>
