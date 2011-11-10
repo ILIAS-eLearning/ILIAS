@@ -1450,7 +1450,7 @@ class ilPageObjectGUI
 						$this->getPageObject()->getParentType(),
 						$this->getEnabledInternalLinks(),
 						$this->getPageObject()->getParentType() == "wpg",
-						"", $this->getStyleId(), true, true,
+						$this->getEnableKeywords(), $this->getStyleId(), true, true,
 						$this->getEnableAnchors()
 						));
 					
@@ -2356,11 +2356,15 @@ class ilPageObjectGUI
 			$btpl->parseCurrentBlock();
 		}
 
-//		if ($a_keywords)
-//		{
-//			$btpl->touchBlock("bb_kw_button");
-//			$btpl->setVariable("TXT_KW", $this->lng->txt("cont_text_keyword"));
-//		}
+		if ($a_keywords)
+		{
+			$btpl->setCurrentBlock("bb_kw_button");
+			$btpl->setVariable("CC_KW", "kw");
+			$btpl->parseCurrentBlock();
+			ilTooltipGUI::addTooltip("il_edm_kw", $lng->txt("cont_text_keyword"),
+				"iltinymenu_bd");
+
+		}
 
 		if ($a_wiki_links)
 		{
