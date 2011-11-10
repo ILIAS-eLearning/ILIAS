@@ -12050,7 +12050,8 @@ wsp#:#wsp_type_excv#:#Verification: Exercise###12 06 2011 new variable
 wsp#:#wsp_type_file#:#File###22 03 2011 new variable
 wsp#:#wsp_type_tstv#:#Verification: Test###12 06 2011 new variable
 wsp#:#wsp_type_webr#:#Weblink###18 07 2011 new variable
-wsp#:#wsp_type_wfld#:#Folder###22 03 2011 new variablecommon#:#dd_mm_yyyy#:#DD.MM.YYYY###10 11 2011 new variable
+wsp#:#wsp_type_wfld#:#Folder###22 03 2011 new variable
+common#:#dd_mm_yyyy#:#DD.MM.YYYY###10 11 2011 new variable
 common#:#tst_statistics#:#Access to Test Statistics###10 11 2011 new variable
 content#:#cont_localfile#:#Local File###10 11 2011 new variable
 survey#:#dont_use_questionpool#:#Don't insert the questions in a questionpool (only available in this survey)###10 11 2011 new variable
