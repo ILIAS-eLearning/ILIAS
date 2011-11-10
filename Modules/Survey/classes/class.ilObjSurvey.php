@@ -3436,15 +3436,15 @@ class ilObjSurvey extends ilObject
 				if ($all) return 1;
 				break;
 			case "=":
-				$all = true;
+				$found = false;
 				foreach ($working_data as $data)
 				{
-					if (!($data["value"] == $constraint_data["value"]))
+					if ($data["value"] == $constraint_data["value"])
 					{
-						$all = false;
+						$found = true;
 					}
 				}
-				if ($all) return 1;
+				if ($found) return 1;
 				break;
 			case "<>":
 				$all = true;
