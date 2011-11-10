@@ -968,7 +968,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	* Copy content of page; replace page components with copies
 	* where necessary (e.g. questions)
 	*/
-	function copyXmlContent($a_new_question_copies = true)
+	function copyXmlContent()
 	{
 		$xml = $this->getXmlContent();
 		$temp_dom = domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?>'.$xml,
@@ -976,10 +976,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 		if(empty($error))
 		{
-			if ($a_new_question_copies)
-			{
-				$this->newQuestionCopies($temp_dom);
-			}
+			$this->handleCopiedContent($temp_dom);
 		}
 		$xml = $temp_dom->dump_mem(0, $this->encoding);
 		$xml = eregi_replace("<\?xml[^>]*>","",$xml);
@@ -988,6 +985,66 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $xml;
 	}
 
+	/**
+	 * Handle copied content
+	 *
+	 * This function copies items, that must be copied, if page
+	 * content is duplicated.
+	 *
+	 * @param
+	 * @return
+	 */
+	function handleCopiedContent($a_dom, $a_self_ass = true)
+	{
+		if ($a_self_ass)
+		{
+			$this->newQuestionCopies($a_dom);
+		}
+		else
+		{
+			$this->removeQuestions($a_dom);
+		}
+		$this->newIIMCopies($a_dom);
+	}
+	
+	/**
+	 * Replaces media objects in interactive images
+	 * with copies of the interactive images
+	 */
+	function newIIMCopies($temp_dom)
+	{
+		// Get question IDs
+		$path = "//InteractiveImage/MediaAlias";
+		$xpc = xpath_new_context($temp_dom);
+		$res = & xpath_eval($xpc, $path);
+
+		$q_ids = array();
+		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		for ($i = 0; $i < count ($res->nodeset); $i++)
+		{
+			$or_id = $res->nodeset[$i]->get_attribute("OriginId");
+			
+			$inst_id = ilInternalLink::_extractInstOfTarget($or_id);
+			$mob_id = ilInternalLink::_extractObjIdOfTarget($or_id);
+
+			if (!($inst_id > 0))
+			{
+				if ($mob_id > 0)
+				{
+					include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+					$media_object = new ilObjMediaObject($mob_id);
+
+					// now copy this question and change reference to
+					// new question id
+					$new_mob = $media_object->duplicate();
+					
+					$res->nodeset[$i]->set_attribute("OriginId", "il__mob_".$new_mob->getId());
+				}
+			}
+		}
+	}
+	
+	
 	/**
 	 * Replaces existing question content elements with
 	 * new copies
@@ -3300,14 +3357,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				DOMXML_LOAD_PARSING, $error);
 			if(empty($error))
 			{
-				if ($a_self_ass)
-				{
-					$this->newQuestionCopies($temp_dom);
-				}
-				else
-				{
-					$this->removeQuestions($temp_dom);
-				}
+				$this->handleCopiedContent($temp_dom, $a_self_ass);
 				$xpc = xpath_new_context($temp_dom);
 				$path = "//PageContent";
 				$res = xpath_eval($xpc, $path);
