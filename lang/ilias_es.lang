@@ -11099,7 +11099,6 @@ common#:#bought_objects_expire_soon#:#For some of your bought objects the access
 common#:#access_enddate#:#Access Enddate###12 06 2011 new variable
 payment#:#buy_extension#:#Buy Extension###12 06 2011 new variable
 payment#:#extension_price#:#Extension Price###12 06 2011 new variable
-wiki#:#wiki_important_pages#:#Important Pages###12 06 2011 new variable
 wiki#:#wiki_ordering#:#Ordering###12 06 2011 new variable
 wiki#:#wiki_indentation#:#Indentation###12 06 2011 new variable
 wiki#:#wiki_save_ordering_and_indent#:#Save Ordering and Indentation###12 06 2011 new variable
@@ -12313,3 +12312,63 @@ exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of t
 exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version of the portfolio right now? You can do it anytime from the portfolio editor later on.###04 10 2011 new variable
 prtf#:#prtf_preview_banner_info#:#Default size is 880x100 pixels.###04 10 2011 new variable
 blog#:#blog_preview_banner_info#:#Default size is 880x100 pixels.###04 10 2011 new variable
+exc#:#exc_no_assignments_available#:#No assignments created yet. Please open "Assigments" and "Edit" to create a first assignment.###10 11 2011 new variable
+wsp#:#wsp_invalid_password#:#The given password is invalid.###10 11 2011 new variable
+wiki#:#wiki_navigation_info#:#Here you can add and remove links to existing wiki pages to the navigation block in the wiki.###10 11 2011 new variable
+common#:#top_of_page#:#Top of page###10 11 2011 new variable
+rbac#:#prfa_visible#:#Portfolio Administration is visible###10 11 2011 new variable
+rbac#:#prfa_read#:#Read access to Portfolio Administration###10 11 2011 new variable
+rbac#:#prfa_write#:#Edit Portfolio Administration###10 11 2011 new variable
+rbac#:#prfa_edit_permission#:#Change permission settings###10 11 2011 new variable
+rbac#:#skmg_visible#:#Skill Management is visible###10 11 2011 new variable
+rbac#:#skmg_read#:#Read access to Skill Management###10 11 2011 new variable
+rbac#:#skmg_write#:#Edit Skill Management###10 11 2011 new variable
+rbac#:#skmg_edit_permission#:#Change permission settings###10 11 2011 new variable
+rbac#:#blga_visible#:#Blog Administration is visible###10 11 2011 new variable
+rbac#:#blga_read#:#Read access to Blog Administration###10 11 2011 new variable
+rbac#:#blga_write#:#Edit Blog Administration###10 11 2011 new variable
+rbac#:#blga_edit_permission#:#Change permission settings###10 11 2011 new variable
+prtf#:#prtf_admin_inactive_info#:#You can activate the portfolio feature in the Personal Desktop Administration.###10 11 2011 new variable
+blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Desktop Administration.###10 11 2011 new variable
+prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?###10 11 2011 new variable
+prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.###10 11 2011 new variable
+survey#:#svy_participation#:#Participation###10 11 2011 new variable
+blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list. ###10 11 2011 new variable
+survey#:#svy_page_add_question#:#Add new %s###10 11 2011 new variable
+skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.###10 11 2011 new variable
+common#:#spl_import#:#Import Question Pool Survey###10 11 2011 new variable
+skmg#:#skmg_draft#:#Draft (Offline)###10 11 2011 new variable
+skmg#:#skmg_draft_info#:#Item will be hidden for learners.###10 11 2011 new variable
+skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.###10 11 2011 new variable
+survey#:#svy_create_question#:#Create Question###10 11 2011 new variable
+common#:#contact_sysadmin#:#Contact System Administration###10 11 2011 new variable
+blog#:#blog_posting#:#Blog Posting###10 11 2011 new variable
+blog#:#blog_change_notification_subject#:#Blog "%s" has been updated###10 11 2011 new variable
+blog#:#blog_change_notification_salutation#:#Hello %s,###10 11 2011 new variable
+blog#:#blog_change_notification_body_new#:#the following blog posting was created###10 11 2011 new variable
+blog#:#blog_change_notification_body_update#:#the following blog posting has been updated###10 11 2011 new variable
+blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented###10 11 2011 new variable
+blog#:#blog_changed_by#:#Last Changed By###10 11 2011 new variable
+blog#:#blog_change_notification_link#:#URL###10 11 2011 new variable
+blog#:#blog_notification_toggle_on#:#Activate Notification###10 11 2011 new variable
+blog#:#blog_notification_toggle_off#:#Deactivate Notification###10 11 2011 new variable
+blog#:#blog_notification_activated#:#Notification Activated###10 11 2011 new variable
+blog#:#blog_notification_deactivated#:#Notification Deactivated###10 11 2011 new variable
+wiki#:#wiki_change_notification_page_body_comment#:#the following wiki page has been commented###10 11 2011 new variable
+chatroom_adm#:#chta_visible#:#Chatroom Administration is visible###10 11 2011 new variable
+chatroom_adm#:#chta_read#:#Read access to Chatroom Administration###10 11 2011 new variable
+chatroom_adm#:#chta_write#:#Edit Chatroom Administration###10 11 2011 new variable
+chatroom_adm#:#chta_edit_permission#:#Change Permission Settings###10 11 2011 new variable
+rbac#:#moderate#:#Moderate###10 11 2011 new variable
+common#:#apache_auth#:#Apache Authentication###10 11 2011 new variable
+common#:#server_disabled#:#The Chat is Disabled###10 11 2011 new variable
+rbac#:#cat_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#crs_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#fold_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#grp_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#root_create_chtr#:#Create Chatroom###10 11 2011 new variable
+search#:#search_err_user_not_exist#:#A user with that login name does not exist.###10 11 2011 new variable
+blog#:#blog_draft#:#Draft###10 11 2011 new variable
+blog#:#blog_draft_info#:#This posting draft is only visible for the author.###10 11 2011 new variable
+blog#:#blog_toggle_draft#:#Save As Draft###10 11 2011 new variable
+blog#:#blog_toggle_final#:#Publish Posting###10 11 2011 new variable

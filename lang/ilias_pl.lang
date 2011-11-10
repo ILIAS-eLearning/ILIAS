@@ -5167,7 +5167,6 @@ common#:#tst_random_test_description_warning#:#<br /><b>This test has questions 
 common#:#tst_read#:#Prawo czytania testu
 common#:#tst_run#:#Uruchom
 common#:#tst_statistical_evaluation#:#Statystyka
-common#:#tst_tst_statistics#:#Dostęp do statystyk testu
 common#:#tst_upload_file#:#Załaduj plik
 common#:#tst_user_not_invited#:#Nie zostałeś dopuszczony do tego egzaminu.
 common#:#tst_user_wrong_clientip#:#Nie masz uprawnień do użycia tego testu.
@@ -12167,7 +12166,6 @@ wiki#:#wiki_grading#:#Klasyfikacja
 wiki#:#wiki_history#:#History
 wiki#:#wiki_imp_page_added#:#Page added.###12 06 2011 new variable
 wiki#:#wiki_import#:#Import Wiki###16 07 2010 new variable
-wiki#:#wiki_important_pages#:#Important Pages###12 06 2011 new variable
 wiki#:#wiki_indentation#:#Indentation###12 06 2011 new variable
 wiki#:#wiki_introduction#:#Wprowadzenie
 wiki#:#wiki_last_changed#:#Ostatnia Zmiana
@@ -12282,4 +12280,90 @@ wsp#:#wsp_type_excv#:#Verification: Exercise###12 06 2011 new variable
 wsp#:#wsp_type_file#:#Plik###22 03 2011 new variable
 wsp#:#wsp_type_tstv#:#Verification: Test###12 06 2011 new variable
 wsp#:#wsp_type_webr#:#Zasób web###18 07 2011 new variable
-wsp#:#wsp_type_wfld#:#Folder###22 03 2011 new variable
+wsp#:#wsp_type_wfld#:#Folder###22 03 2011 new variablecommon#:#tst_statistics#:#Access to Test Statistics###10 11 2011 new variable
+content#:#cont_localfile#:#Local File###10 11 2011 new variable
+content#:#cont_cp_question_diff_formats_info#:#Please note that some formattings are not supported in content modules.###10 11 2011 new variable
+crs#:#crs_link_show_all_prev_sessions#:#Show all previous sessions###10 11 2011 new variable
+crs#:#crs_link_hide_prev_sessions#:#Hide previous sessions###10 11 2011 new variable
+crs#:#crs_link_show_all_next_sessions#:#Show upcoming all upcoming sessions###10 11 2011 new variable
+crs#:#crs_link_hide_next_sessions#:#Hide upcoming sessions###10 11 2011 new variable
+scormdebug#:#scormdebug_disable_cache#:#disable SCORM 2004 Browser-Cache###10 11 2011 new variable
+scormdebug#:#scormdebug_disable_cache_info#:#This prevents the storage of the SCORM 2004 javascript files in the browser cache. Please use this function in time before a new release!###10 11 2011 new variable
+content#:#cont_sequencing#:#enable Sequencing and Navigation according to settings by learning module###10 11 2011 new variable
+content#:#cont_interactions#:#enable storage of results of interactions###10 11 2011 new variable
+content#:#cont_objectives#:#enable storage of data concerning learning objectives###10 11 2011 new variable
+content#:#cont_comments#:#enable storage of comments###10 11 2011 new variable
+content#:#cont_time_from_lms#:#determine processing times by ILIAS instead of SCO###10 11 2011 new variable
+scormdebug#:#completion_status_by_progress_measure#:#Because there is a value for cmi.completion_threshold, the value for cmi.completion_status is evaluated by the LMS! This is done by comparing the value for cmi.completion_threshold with the value for cmi.progress_measure. The value for cmi.completion_status is currently:###10 11 2011 new variable
+scormdebug#:#success_status_by_score_scaled#:#Because there is a value for cmi.scaled_passing_score, the value for cmi.success_status is evaluated by the LMS! This is done by comparing the value for cmi.scaled_passing_score with the value for cmi.score.scaled. The value for cmi.success_status is currently:###10 11 2011 new variable
+certificate#:#certificate_ph_no_sco#:#If items are selected to determine the overall learning progress status, titles and points for these items could be displayed in certificate.###10 11 2011 new variable
+certificate#:#certificate_ph_scos#:#The following items were selected to determine the overall learning progress status and are available for statements in the certificate:###10 11 2011 new variable
+certificate#:#certificate_ph_title_sco#:#title###10 11 2011 new variable
+certificate#:#certificate_ph_sco_title#:#placeholder<br/>for title###10 11 2011 new variable
+certificate#:#certificate_ph_sco_points_scaled#:#placeholder<br/>for points<br/>in percent###10 11 2011 new variable
+certificate#:#certificate_ph_sco_points_raw#:#placeholder<br/>for points###10 11 2011 new variable
+certificate#:#certificate_ph_sco_points_max#:#placeholder<br/>for points<br/>max###10 11 2011 new variable
+exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of the blog right now? You can do it anytime from the blog editor later on.###10 11 2011 new variable
+exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version of the portfolio right now? You can do it anytime from the portfolio editor later on.###10 11 2011 new variable
+prtf#:#prtf_preview_banner_info#:#Default size is 880x100 pixels.###10 11 2011 new variable
+blog#:#blog_preview_banner_info#:#Default size is 880x100 pixels.###10 11 2011 new variable
+exc#:#exc_no_assignments_available#:#No assignments created yet. Please open "Assigments" and "Edit" to create a first assignment.###10 11 2011 new variable
+wsp#:#wsp_invalid_password#:#The given password is invalid.###10 11 2011 new variable
+wiki#:#wiki_navigation_info#:#Here you can add and remove links to existing wiki pages to the navigation block in the wiki.###10 11 2011 new variable
+common#:#top_of_page#:#Top of page###10 11 2011 new variable
+rbac#:#prfa_visible#:#Portfolio Administration is visible###10 11 2011 new variable
+rbac#:#prfa_read#:#Read access to Portfolio Administration###10 11 2011 new variable
+rbac#:#prfa_write#:#Edit Portfolio Administration###10 11 2011 new variable
+rbac#:#prfa_edit_permission#:#Change permission settings###10 11 2011 new variable
+rbac#:#skmg_visible#:#Skill Management is visible###10 11 2011 new variable
+rbac#:#skmg_read#:#Read access to Skill Management###10 11 2011 new variable
+rbac#:#skmg_write#:#Edit Skill Management###10 11 2011 new variable
+rbac#:#skmg_edit_permission#:#Change permission settings###10 11 2011 new variable
+rbac#:#blga_visible#:#Blog Administration is visible###10 11 2011 new variable
+rbac#:#blga_read#:#Read access to Blog Administration###10 11 2011 new variable
+rbac#:#blga_write#:#Edit Blog Administration###10 11 2011 new variable
+rbac#:#blga_edit_permission#:#Change permission settings###10 11 2011 new variable
+prtf#:#prtf_admin_inactive_info#:#You can activate the portfolio feature in the Personal Desktop Administration.###10 11 2011 new variable
+blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Desktop Administration.###10 11 2011 new variable
+prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?###10 11 2011 new variable
+prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.###10 11 2011 new variable
+survey#:#svy_participation#:#Participation###10 11 2011 new variable
+blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list. ###10 11 2011 new variable
+survey#:#svy_page_add_question#:#Add new %s###10 11 2011 new variable
+skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.###10 11 2011 new variable
+common#:#spl_import#:#Import Question Pool Survey###10 11 2011 new variable
+skmg#:#skmg_draft#:#Draft (Offline)###10 11 2011 new variable
+skmg#:#skmg_draft_info#:#Item will be hidden for learners.###10 11 2011 new variable
+skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.###10 11 2011 new variable
+survey#:#svy_create_question#:#Create Question###10 11 2011 new variable
+common#:#contact_sysadmin#:#Contact System Administration###10 11 2011 new variable
+blog#:#blog_posting#:#Blog Posting###10 11 2011 new variable
+blog#:#blog_change_notification_subject#:#Blog "%s" has been updated###10 11 2011 new variable
+blog#:#blog_change_notification_salutation#:#Hello %s,###10 11 2011 new variable
+blog#:#blog_change_notification_body_new#:#the following blog posting was created###10 11 2011 new variable
+blog#:#blog_change_notification_body_update#:#the following blog posting has been updated###10 11 2011 new variable
+blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented###10 11 2011 new variable
+blog#:#blog_changed_by#:#Last Changed By###10 11 2011 new variable
+blog#:#blog_change_notification_link#:#URL###10 11 2011 new variable
+blog#:#blog_notification_toggle_on#:#Activate Notification###10 11 2011 new variable
+blog#:#blog_notification_toggle_off#:#Deactivate Notification###10 11 2011 new variable
+blog#:#blog_notification_activated#:#Notification Activated###10 11 2011 new variable
+blog#:#blog_notification_deactivated#:#Notification Deactivated###10 11 2011 new variable
+wiki#:#wiki_change_notification_page_body_comment#:#the following wiki page has been commented###10 11 2011 new variable
+chatroom_adm#:#chta_visible#:#Chatroom Administration is visible###10 11 2011 new variable
+chatroom_adm#:#chta_read#:#Read access to Chatroom Administration###10 11 2011 new variable
+chatroom_adm#:#chta_write#:#Edit Chatroom Administration###10 11 2011 new variable
+chatroom_adm#:#chta_edit_permission#:#Change Permission Settings###10 11 2011 new variable
+rbac#:#moderate#:#Moderate###10 11 2011 new variable
+common#:#apache_auth#:#Apache Authentication###10 11 2011 new variable
+common#:#server_disabled#:#The Chat is Disabled###10 11 2011 new variable
+rbac#:#cat_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#crs_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#fold_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#grp_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#root_create_chtr#:#Create Chatroom###10 11 2011 new variable
+search#:#search_err_user_not_exist#:#A user with that login name does not exist.###10 11 2011 new variable
+blog#:#blog_draft#:#Draft###10 11 2011 new variable
+blog#:#blog_draft_info#:#This posting draft is only visible for the author.###10 11 2011 new variable
+blog#:#blog_toggle_draft#:#Save As Draft###10 11 2011 new variable
+blog#:#blog_toggle_final#:#Publish Posting###10 11 2011 new variable

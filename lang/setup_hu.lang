@@ -526,3 +526,6 @@ settings_too_long#:#Some settings are too long to be converted. Please change th
 lang_ja#:#Japanisch###04 10 2011 new variable
 lang_ka#:#Georgian###04 10 2011 new variable
 lang_sk#:#Slovakian###04 10 2011 new variable
+sess_mode#:#Session Mode###10 11 2011 new variable
+sess_fixed_duration#:#Fixed Session Duration###10 11 2011 new variable
+sess_load_dependent_session_handling#:#Load Dependent Session Handlin###10 11 2011 new variable
