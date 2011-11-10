@@ -682,7 +682,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
 		{
 			$category = $this->categories->getCategory($index);
-			$title = $category->scale . " - " . $category->title;
+			$title = $category->title;
 			array_push($a_array, $title);
 			
 			// optionally add headers for text answers
@@ -703,7 +703,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 	function addUserSpecificResultsData(&$a_array, &$resultset)
 	{
 		if (count($resultset["answers"][$this->getId()]))
-		{						
+		{
 			array_push($a_array, "");
 			for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
 			{
@@ -716,13 +716,13 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 				{
 					if (strcmp($incoming_value, $answerdata["value"]) == 0)
 					{
-						$found = 1;
+						$found = $answerdata["value"]+1;
 						$textanswer = $answerdata["textanswer"];
 					}
 				}
 				if ($found)
 				{
-					array_push($a_array, "1");
+					array_push($a_array, $found);
 				}
 				else
 				{

@@ -791,8 +791,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 				$title = $this->label  ? $this->title.' - '.$this->label : $this->title;		
 				break;		
 		}	
-		array_push($a_array, $title);			
-		
+		array_push($a_array, $title);
+
 		// optionally add header for text answer
 		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
 		{
