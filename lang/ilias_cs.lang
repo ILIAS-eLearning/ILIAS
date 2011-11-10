@@ -4,13 +4,13 @@
 *
 * @module			language file Czech
 * @modulegroup		language
-* @author			Tomas Cerha <cerha@brailcom.org>
+* @author			Petr Vobecky <pvobecky@nbox.cz>, Tomas Cerha <cerha@brailcom.org>
 * @version			$Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode! 
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
@@ -31,7 +31,7 @@ acc#:#acc_reply#:#Odpovědět
 acc#:#acc_tree_off#:#Strom vypnutý
 acc#:#acc_tree_on#:#Strom zapnutý
 adm#:#adm_update_skill_status#:#Aktualizovat status dovednosti
-adm#:#adm_update_skill_tables#:#Aktualizovat tabulku dovednosti 
+adm#:#adm_update_skill_tables#:#Aktualizovat tabulku dovednosti
 administration#:#adm_activate_db_benchmark#:#Aktivovat Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking bude automaticky vypnut po prvním požadavku.
 administration#:#adm_add_settings_template#:#Přidat šablonu
@@ -51,6 +51,7 @@ administration#:#adm_locale#:#Lokální
 administration#:#adm_locale_info#:#Lokální nastavení ovlivňuje např. třídění seznamů. Příklady jsou nl_NL nebo de_DE. Vícenásobné lokality mohou být odděleny čárkou. Bude použita první platná.
 administration#:#adm_nr_statements#:#Počet výroků
 administration#:#adm_predefined_settings#:#Předdefinované nastavení
+administration#:#adm_quick_access_comments_tagging#:#Quick Access for Notes, Comments and Tagging###12 06 2011 new variable
 administration#:#adm_rep_tree_all_types#:#Všechny typy zdrojů
 administration#:#adm_rep_tree_all_types_info#:#Všechny typy zdrojů jsou vypsány v tomto stromu.
 administration#:#adm_rep_tree_limit_grp_crs#:#Zobrazit omezený kontextový strom v kurzech a skupinách.
@@ -75,24 +76,24 @@ administration#:#analyzing#:#Analyzuji...
 administration#:#analyzing_tree_structure#:#Analyzuji stromovou strukturu...
 administration#:#apache_auth_authenticate_on_login_page#:#Při vstupu na přihlašovací stránku zkuste použít autentizaci Apache
 administration#:#apache_auth_domains#:#Přesměrování domény povoleno
-administration#:#apache_auth_domains_description#:#Enter one domain per line to allow redirection to this target.<br/>If ILIAS is reachable by more than one domain please enter all target you want to allow.<br />Example: example.com allows the redirection to http://example.com and http://www.example.com and all pages located there.###18 07 2011 new variable
-administration#:#apache_auth_enable_override_login#:#Override default login page###28 10 2010 new variable
-administration#:#apache_auth_indicator_name#:#Indicator-field for successful authentication###28 10 2010 new variable
-administration#:#apache_auth_indicator_value#:#Indicator-value for successful authentication###28 10 2010 new variable
-administration#:#apache_auth_security#:#Security Settings###18 07 2011 new variable
-administration#:#apache_auth_settings#:#Apache###28 10 2010 new variable
-administration#:#apache_auth_target_override_login#:#Target url for custom login page###28 10 2010 new variable
+administration#:#apache_auth_domains_description#:#K povolení přesměrování k tomuto cíli vložte jednu doménu na řádek.<br/>Pokud ILIAS je dosažitelný více, než jednou doménou, vložte prosím všechny cíle, které chcete umožnit.<br />Příklad: priklad.com umožní přesměrování na http://priklad.com a http://www.priklad.com a všechny stránky zde umístěné.
+administration#:#apache_auth_enable_override_login#:#Přeskočit výchozí přihlašovací stránku
+administration#:#apache_auth_indicator_name#:#Pole indikátoru pro úspěšnou autentizaci
+administration#:#apache_auth_indicator_value#:#Hodnota indikátoru pro úspěšnou autentizaci
+administration#:#apache_auth_security#:#Bezpečnostní nastavení
+administration#:#apache_auth_settings#:#Apache
+administration#:#apache_auth_target_override_login#:#Cílová url pro uživatelskou přihlašovací stránku
 administration#:#apache_auth_username_by_function#:#Přiřadit uživatelská jména dle uživatelské funkce
-administration#:#apache_auth_username_config#:#Username configuration###28 10 2010 new variable
-administration#:#apache_auth_username_config_type#:#Type###28 10 2010 new variable
-administration#:#apache_auth_username_direct_mapping#:#Straight assignment###28 10 2010 new variable
-administration#:#apache_auth_username_direct_mapping_fieldname#:#Field for assignment###28 10 2010 new variable
-administration#:#apache_auth_username_extended_mapping#:#Extended assignment###28 10 2010 new variable
-administration#:#apache_autocreate#:#Enable account generation###28 10 2010 new variable
+administration#:#apache_auth_username_config#:#Konfigurace uživatelského jména
+administration#:#apache_auth_username_config_type#:#Typ
+administration#:#apache_auth_username_direct_mapping#:#Přímé přiřazení
+administration#:#apache_auth_username_direct_mapping_fieldname#:#Pole pro přiřazení
+administration#:#apache_auth_username_extended_mapping#:#Rozšířené přiřazení
+administration#:#apache_autocreate#:#Zapnout generování účtů
 administration#:#apache_default_role#:#Výchozí role uživatele
-administration#:#apache_enable_auth#:#Enable Apache Authentication support###28 10 2010 new variable
-administration#:#apache_enable_ldap#:#Enable LDAP user assignment###28 10 2010 new variable
-administration#:#apache_enable_local#:#Enable local user assignment###28 10 2010 new variable
+administration#:#apache_enable_auth#:#Zapnout podporu autentizace Apache
+administration#:#apache_enable_ldap#:#Zapnout LDAP přiřazení uživatele
+administration#:#apache_enable_local#:#Zapnout lokální přiřazení uživatele
 administration#:#apache_ldap_hint_ldap_must_be_configured#:#LDAP must be configured in administration###28 10 2010 new variable
 administration#:#apache_settings#:#Konfigurovat LDAP Autentizaci
 administration#:#apache_settings_changed_success#:#Konfigurace uložena
@@ -1196,7 +1197,7 @@ assessment#:#working_time_avg#:#Průměrná doba práce
 assessment#:#you_received_a_of_b_points#:#Obdržel(a) jste %d z %d možných bodů
 auth#:#auth_account_code#:#Code###06 08 2011 new variable
 auth#:#auth_account_code_info#:#To re-activate your account you can use a ILIAS account code.###06 08 2011 new variable
-auth#:#auth_account_code_title#:#Account Code###06 08 2011 new variable
+auth#:#auth_account_code_title#:#Kód účtu
 auth#:#auth_account_code_used#:#Your account has been re-activated. Please login once again for security reasons.###06 08 2011 new variable
 auth#:#auth_account_migration#:#Nový účet ILIAS
 auth#:#auth_account_migration_keep#:#Přenést existující uživatelské účty
@@ -1234,7 +1235,7 @@ auth#:#auth_radius_sync_rad_info#:#Creates automatically ILIAS user accounts, fo
 auth#:#auth_sync#:#User Synchronisation###22 03 2011 new variable
 auth#:#auth_sync_cas#:#Automatic generation of user accounts###22 03 2011 new variable
 auth#:#auth_sync_cas_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against CAS, without having an ILIAS account yet.###22 03 2011 new variable
-auth#:#login_page_activate#:#Activate Editor for Selected Languages###12 06 2011 new variable
+auth#:#login_page_activate#:#Aktivovat Editor pro vybrané jazyky
 auth#:#login_page_editor_switched#:#The active page editor has been changed###12 06 2011 new variable
 auth#:#login_page_switch_ipe#:#Use ILIAS Page Editor###12 06 2011 new variable
 auth#:#login_page_switch_rte#:#Use Rich-Text-Editor###12 06 2011 new variable
@@ -1376,7 +1377,7 @@ blog#:#blog_preview_banner#:#Custom Banner###06 08 2011 new variable
 blog#:#blog_preview_banner_height#:#Banner Height###06 08 2011 new variable
 blog#:#blog_preview_banner_width#:#Banner Width###06 08 2011 new variable
 blog#:#blog_settings#:#Blog Administration###06 08 2011 new variable
-book#:#book_add#:#Add Booking Pool###01 04 2011 new variable
+book#:#book_add#:#Přidat zásobník objednávek
 book#:#book_add_object#:#Přidat objekt
 book#:#book_add_schedule#:#Přidat harmonogram
 book#:#book_add_type#:#Přidat typ
@@ -1393,7 +1394,7 @@ book#:#book_current_user#:#Objednáno (kým)
 book#:#book_deadline#:#Uzávěrka
 book#:#book_deadline_info#:#Minimální čas mezi objednáním a objednaným obdobím
 book#:#book_earlier#:#Dříve
-book#:#book_edit#:#Edit Booking Pool###01 04 2011 new variable
+book#:#book_edit#:#Upravit zásobník objednávek
 book#:#book_edit_object#:#Upravit objekt
 book#:#book_edit_schedule#:#Upravit harmonogram
 book#:#book_edit_type#:#Upravit typ
@@ -1406,9 +1407,9 @@ book#:#book_later#:#Později
 book#:#book_list_items#:#Seznam objektů
 book#:#book_log#:#Rezervace
 book#:#book_minutes#:#Minuty
-book#:#book_new#:#New Booking Pool###01 04 2011 new variable
+book#:#book_new#:#Nový zásobník objednávek
 book#:#book_no_of_objects#:#Číslo objektu
-book#:#book_not#:#Ne
+book#:#book_not#:#Žádný
 book#:#book_object_added#:#Objednávka objektu byla přidána.
 book#:#book_object_deleted#:#Objednávka objektu byla smazána.
 book#:#book_object_updated#:#Objednávka objektu byla aktualizována.
@@ -1445,8 +1446,8 @@ book#:#book_schedule_type_fix_info#:#Může být objednáno jen v daných časov
 book#:#book_schedule_type_flexible#:#Flexibilní
 book#:#book_schedule_type_flexible_info#:#Může být objednáno volně v daných dnech a hodinách
 book#:#book_schedule_updated#:#Harmonogram objednávek byl aktualizován.
-book#:#book_schedule_warning#:#Currently, there is no schedule available. Before adding booking objects you need to create a schedule for booking.###22 03 2011 new variable
-book#:#book_schedule_warning_edit#:#Currently, there is no schedule available. To use the booking pool you need to create a schedule for booking.###12 06 2011 new variable
+book#:#book_schedule_warning#:#Žádný harmonogram není právě dostupný. Před přidáním objednávky objektů musíte vytvořit harmonogram pro objednávky.
+book#:#book_schedule_warning_edit#:#Žádný harmonogram není právě dostupný. K využití zásobníku objednávek musíte vytvořit harmonogram pro objednávky.
 book#:#book_schedules#:#Harmonogramy
 book#:#book_set_cancel#:#Zrušit rezervaci
 book#:#book_set_in_use#:#Je v používání
@@ -1457,7 +1458,7 @@ book#:#book_slots_no_info#:#Dostupný počet časových oken během dne v harmon
 book#:#book_type_added#:#Typ objednávky byl přidán.
 book#:#book_type_deleted#:#Typ objednávky byl smazán.
 book#:#book_type_updated#:#Typ objednávky byl aktualizován.
-book#:#book_type_warning#:#Currently, there are no booking objects available. To use the booking pool you need to create booking objects.###12 06 2011 new variable
+book#:#book_type_warning#:#Žádné objekty k objednání nejsou aktuálně dostupné. K použití zásobníku objednávek musíte vytvořit objekty pro objednání.
 certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
 certificate#:#certificate_a4_landscape#:#A4 horizontálně (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
@@ -1853,6 +1854,7 @@ chatroom_adm#:#chatroom_smiley_keywords#:#Keywords###06 08 2011 new variable
 chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#One keyword per line###06 08 2011 new variable
 chatroom_adm#:#chatroom_upload_smiley#:#Upload smiley###06 08 2011 new variable
 chatroom_adm#:#client_settings#:#Client settings###06 08 2011 new variable
+chatroom_adm#:#client_settings_title#:#Client settings###06 08 2011 new variable
 chatroom_adm#:#enable_osd#:#Enable On-Screen notifications###06 08 2011 new variable
 chatroom_adm#:#hash#:#Hash###06 08 2011 new variable
 chatroom_adm#:#https#:#HTTPS###06 08 2011 new variable
@@ -1864,6 +1866,7 @@ chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)###06 08 2011 new variab
 chatroom_adm#:#priv_hosts#:#Privileged hosts###06 08 2011 new variable
 chatroom_adm#:#protocol#:#Protocol###06 08 2011 new variable
 chatroom_adm#:#server_settings#:#Server settings###06 08 2011 new variable
+chatroom_adm#:#server_settings_title#:#Server settings###06 08 2011 new variable
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved###06 08 2011 new variable
 chatroom_adm#:#smiley#:#Smilies###06 08 2011 new variable
 chatroom_adm#:#storepass#:#Storepass###06 08 2011 new variable
@@ -1954,7 +1957,7 @@ common#:#3rd_party_software#:#Software třetích stran
 common#:#absolute_path#:#Absolutní cesta
 common#:#accept_usr_agreement#:#Akceptovat uživatelské ujednání?
 common#:#access#:#Přístup
-common#:#access_enddate#:#Access Enddate###12 06 2011 new variable
+common#:#access_enddate#:#Konečné datum přístupu
 common#:#access_expired#:#vypršel
 common#:#access_free_granted#:#Nastavit neomezený přístup vybraných uživatelů
 common#:#access_from#:#Přístup (z)
@@ -2482,6 +2485,7 @@ common#:#confirm#:#Potvrdit
 common#:#confirm_delete_parameter#:#Skutečně chcete smazat tento parametr?
 common#:#confirmation#:#Potvrzení
 common#:#conflict_handling#:#Obsluha konfliktu
+common#:#cont_iim_base_image_info#:#The base image is the main underlying image.###12 06 2011 new variable
 common#:#cont_iim_content_popups_info#:#Content popups appear, when the user clicks on interactive parts of the base image. On this screen you only define the popups. Their content can be edited on the main page editing screen.###12 06 2011 new variable
 common#:#cont_iim_create_info#:#Please upload the main underlying picuture for the interactive image.###12 06 2011 new variable
 common#:#cont_iim_overlay_info#:#Overlay images are used to alter (e.g. highlight) parts of the base image when the mouse hovers over them. After uploading the images, you can select them in the "Triggers" tab.###12 06 2011 new variable
@@ -2645,6 +2649,7 @@ common#:#dbk_new#:#Nová digitální kniha
 common#:#dbk_read#:#Právo číst na digitální knihu
 common#:#dbk_visible#:#Digitální kniha je viditelná
 common#:#dbk_write#:#Upravit digitální knihu
+common#:#DD_MM_YYYY#:#DD.MM.YYYY
 common#:#deactivate#:#Nastavit neaktivní
 common#:#decrease_attempts#:#Pokusy - 1
 common#:#def_repository_view#:#Zobrazit výchozí úložiště
@@ -3635,6 +3640,7 @@ common#:#ldap_version#:#Verze protokolu LDAP
 common#:#ldap_visible#:#Nastavení LDAP je viditelné
 common#:#ldap_write#:#Upravit nastavení LDAP
 common#:#learning module#:#Learning Module
+common#:#learning_module#:#Výukový modul
 common#:#learning_objects#:#Výukové objekty
 common#:#learning_progress#:#Postup výuky
 common#:#learning_resourc#:#Výukový materiál
@@ -4261,7 +4267,7 @@ common#:#object#:#Objekt
 common#:#object_added#:#Objekt přidán
 common#:#object_copy_in_progress#:#Kopírování spuštěno.
 common#:#object_duplicated#:#Objekt duplikován
-common#:#object_duration#:#Access-Duration###12 06 2011 new variable
+common#:#object_duration#:#Trvání přístupu
 common#:#object_id#:#Id Objektu
 common#:#object_imported#:#Objekt importován
 common#:#object_not_found#:#Objekt not found###12 06 2011 new variable
@@ -5064,7 +5070,7 @@ common#:#tst_random_test_description_warning#:#<br /><b>V tomto testu jsou otáz
 common#:#tst_read#:#Přístup číst na test
 common#:#tst_run#:#Spustit
 common#:#tst_statistical_evaluation#:#Statistiky
-common#:#tst_statistics#:#Přístup ke statistikám testu
+common#:#tst_tst_statistics#:#Přístup ke statistikám testu
 common#:#tst_upload_file#:#Odeslat soubor
 common#:#tst_user_not_invited#:#Nejste pozván(a) k této zkoušce.
 common#:#tst_user_wrong_clientip#:#Nemáte oprávněnou IP adresu ke vstupu do tohoto testu.
@@ -5355,9 +5361,9 @@ content#:#citate_from#:#Citát z ...
 content#:#citate_page#:#Citát této stránky
 content#:#citate_to#:#Citovat ...
 content#:#cont_act_number#:#Číslování kapitol
-content#:#cont_activate_html#:#Activate HTML Rendering###12 06 2011 new variable
-content#:#cont_activate_js#:#Activate Javascript Mode###12 06 2011 new variable
-content#:#cont_activate_media#:#Activate Media###12 06 2011 new variable
+content#:#cont_activate_html#:#Aktivovat renderování HTML
+content#:#cont_activate_js#:#Aktivovat mód Javascript
+content#:#cont_activate_media#:#Aktivovat Media
 content#:#cont_activate_page#:#Aktivovat stránku
 content#:#cont_activated#:#Aktivováno
 content#:#cont_activation#:#Aktivace
@@ -5429,7 +5435,7 @@ content#:#cont_chapters_after_pages#:#Povšimněte si prosím, že těmto strán
 content#:#cont_chapters_and_pages#:#Kapitoly a stránky
 content#:#cont_chapters_only#:#Pouze kapitoly
 content#:#cont_char_format#:#Character###12 06 2011 new variable
-content#:#cont_char_style_acc#:#Accentuated###12 06 2011 new variable
+content#:#cont_char_style_acc#:#Zvýrazněný
 content#:#cont_char_style_code#:#Code###12 06 2011 new variable
 content#:#cont_char_style_com#:#Comment###12 06 2011 new variable
 content#:#cont_char_style_quot#:#Quotation###12 06 2011 new variable
@@ -5499,7 +5505,7 @@ content#:#cont_custom_size#:#Volitelná šířka
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_de_activate#:#De-/Aktivovat
 content#:#cont_deactivate_html#:#Deactivate HTML Rendering###12 06 2011 new variable
-content#:#cont_deactivate_js#:#Activate Form Mode###12 06 2011 new variable
+content#:#cont_deactivate_js#:#Aktivovat formulářový mód
 content#:#cont_deactivate_media#:#Deactivate Media###12 06 2011 new variable
 content#:#cont_deactivate_page#:#Deaktivovat stránku
 content#:#cont_deactivated#:#Deaktivováno
@@ -5662,9 +5668,9 @@ content#:#cont_file_unzipped#:#Soubor byl rozbalen.
 content#:#cont_FileListItem#:#Položka seznamu souborů (Standardní)
 content#:#cont_files#:#Soubory
 content#:#cont_final_lm_page#:#Final Page for Learning Module###22 03 2011 new variable
-content#:#cont_final_lm_page_info#:#A status page will be displayed, if all questions of the learning module have been answered successfully.###22 03 2011 new variable
+content#:#cont_final_lm_page_info#:#Stránka statusu bude zobrazena, pokud všechny otázy výukového modulu budou zodpovězeny úspěšně.
 content#:#cont_final_sco_page#:#Final Page for SCOs###22 03 2011 new variable
-content#:#cont_final_sco_page_info#:#A status page will be displayed at the end of a SCO, if all questions have been answered successfully.###22 03 2011 new variable
+content#:#cont_final_sco_page_info#:#Stránka statusu bude zobrazena na konci SCO, pokud budou všechny otázky zodpovězeny úspěšně.
 content#:#cont_first_open#:#Nejprve otevřený
 content#:#cont_first_row_style#:#Styl prvního řádku
 content#:#cont_fix_tree#:#Pevná struktura
@@ -6259,6 +6265,7 @@ content#:#glo_usages#:#Glosář je použit ve ...
 content#:#glo_used_in_scorm#:#Daný glosář je používán SCORM modulem. Bude-li smazán, pak odkazy na tento glosář nebude možné dále vysvětlovat.
 content#:#htlm_import#:#Import výukového modulu HTML
 content#:#HTML export#:#HTML Export
+content#:#HTML_export#:#Export HTML
 content#:#import_sco_object#:#Import SCO
 content#:#lm_menu_edit_entry#:#Upravit položky menu
 content#:#lm_menu_entry_target#:#Cíl
@@ -6277,12 +6284,17 @@ content#:#msg_page_not_public#:#Stránka není veřejná
 content#:#page_does_not_exist#:#We are sorry, but this page does not exist.###22 03 2011 new variable
 content#:#Pages#:#Stránky
 content#:#pages from#:#Pages From
+content#:#pages_from#:#Pages From
 content#:#par#:#Odstavec
 content#:#PDF export#:#PDF Export
+content#:#PDF_export#:#Export PDF
 content#:#pg#:#Stránka
 content#:#public_section#:#Veřejná plocha
 content#:#read offline#:#Read Offline
+content#:#read_offline#:#Číst Offline
 content#:#saved_media_object#:#Uložené mediální objekty.
+content#:#scorm_editable#:#Import editovatelný
+content#:#scorm_editable_comments#:#Pracuje s balíčky s SCORM 1.2/2004
 content#:#scplayer_collapsetree#:#Sklapnout všechno
 content#:#scplayer_continue#:#Pokračovat
 content#:#scplayer_debugger#:#Zobrazit ladění
@@ -6314,6 +6326,7 @@ content#:#seq_toc#:#Z tabulky obsahu vlevo vyberte aktivitu k započetí kurzu.
 content#:#set_public_mode#:#Nastavit mód veřejného přístupu
 content#:#st#:#Kapitola
 content#:#start export#:#Start Export
+content#:#start_export#:#Start Export###Eror: No-changeable!!!
 content#:#text_repr#:#Reprezentace textu
 content#:#text_repr_info#:#Pro obrázek použit "alt" atribut.
 crs#:#activation_times_not_valid#:#Neplatné období dostupnosti.
@@ -7364,7 +7377,7 @@ delic#:#delic_add_to_delicious#:#Přidat do del.icio.us
 delic#:#delic_extt_delicious#:#del.icio.us
 delic#:#delic_settings#:#Nastavení del.icio.us
 delic#:#delic_user_profile#:#Zapnout nastavení účtu del.icio.us v uživatelském profilu
-didactic#:#didactic_activated_msg#:#Activated didactic templates###06 08 2011 new variable
+didactic#:#didactic_activated_msg#:#Didaktické šablony aktivovány
 didactic#:#didactic_adm_tab#:#Didactic###06 08 2011 new variable
 didactic#:#didactic_applicable_for#:#Applicalble for###06 08 2011 new variable
 didactic#:#didactic_available_templates#:#Available Didactic Templates###06 08 2011 new variable
@@ -7382,7 +7395,7 @@ ecs#:#cert_serial#:#Sériové číslo certifikátu
 ecs#:#ecs_abr#:#Zkratka
 ecs#:#ecs_account_duration#:#Aktivace rozšíření periody
 ecs#:#ecs_account_duration_info#:#Nový účet uživatele ECS je omezen na dobu lekce. Po zařazení uživatele do kurzu se období aktivace prodlouží o daný počet měsíců.
-ecs#:#ecs_activate#:#Activate###12 06 2011 new variable
+ecs#:#ecs_activate#:#Aktivovat
 ecs#:#ecs_active#:#Zapnout funkce ECS
 ecs#:#ecs_active_header#:#Export povolen
 ecs#:#ecs_add_new_ecs#:#Add New ECS###12 06 2011 new variable
@@ -7504,7 +7517,7 @@ ecs#:#ecs_server_url#:#URL Serveru
 ecs#:#ecs_settings#:#Nastavení
 ecs#:#ecs_tab_export#:#Export###18 07 2011 new variable
 ecs#:#ecs_tab_import#:#Import###18 07 2011 new variable
-ecs#:#ecs_tbl_active#:#Active###12 06 2011 new variable
+ecs#:#ecs_tbl_active#:#Aktivní###12 06 2011 new variable
 ecs#:#ecs_tbl_active_rules#:#Aktovní role pro přiřazení kategorie
 ecs#:#ecs_tbl_export#:#Export###12 06 2011 new variable
 ecs#:#ecs_tbl_import#:#Import###12 06 2011 new variable
@@ -9687,7 +9700,7 @@ pdesk#:#pdesk_intro#:#Vítejte na své pracovní ploše!
 pdesk#:#pdesk_intro2#:#Toto je Váš osobní prostor pro organizaci Vaší práce a učení. Zde můžete odkládat materiály z jiných ploch na svou osobní pracovní plochu. To provedete ve dvou krocích:
 pdesk#:#pdesk_intro3#:#Klepněte na '%s' a vyhledejte existující pracovní a výukové materiály.
 pdesk#:#pdesk_intro4#:#Pokud jste nalezl(a) něco zajímavého, přidejte to na Vaši pracovní plochu klepnutím na tlačítko <i>Přidat na pracovní plochu</i>.
-prtf#:#prtf_add_blog#:#Add Blog###06 08 2011 new variable
+prtf#:#prtf_add_blog#:#Přidat Blog###06 08 2011 new variable
 prtf#:#prtf_add_page#:#Add Page###12 06 2011 new variable
 prtf#:#prtf_add_portfolio#:#Add Portfolio###12 06 2011 new variable
 prtf#:#prtf_background_color#:#Background Color###06 08 2011 new variable
@@ -9879,7 +9892,7 @@ rbac#:#crsr_write#:#Upravit odkaz kurzu
 rbac#:#edit_event#:#Upravit kalendář
 rbac#:#edit_learning_progress#:#Upravit postup výuky
 rbac#:#edit_permission#:#Změnit oprávnění
-rbac#:#export_member_data#:#Access to User Data###28 10 2010 new variable
+rbac#:#export_member_data#:#Přístup k uživatelským datům
 rbac#:#facs_edit_permission#:#Změna nastavení oprávnění
 rbac#:#facs_read#:#Přístup číst na nastavení souborů & složek
 rbac#:#facs_visible#:#Nastavení souborů a složek je viditelné
@@ -10109,7 +10122,7 @@ registration#:#registration_code#:#Kód
 registration#:#registration_code_no_role#:#The registration code given does not specify a role and can not be used currently. Please contact your administrator.###18 07 2011 new variable
 registration#:#registration_code_not_valid#:#Daný registrační kód je neplatný, nebo již byl použit.
 registration#:#registration_code_optional_info#:#If you have an ILIAS registration code, you can enter it now.###06 08 2011 new variable
-registration#:#registration_code_required_info#:#A pre-defined code is mandatory for the registration process.###06 08 2011 new variable
+registration#:#registration_code_required_info#:#Pro proces registrace je předdefinovaný kód povinný.
 registration#:#registration_codes_add#:#Přidat kódy
 registration#:#registration_codes_edit_header#:#Přidat kódy
 registration#:#registration_codes_export#:#Exportovat kódy
@@ -10140,13 +10153,14 @@ rep#:#rep_intro6#:#Po této proceduře můžete přidávat jakékoliv výukové 
 rep#:#rep_object_to_delete#:#Ke smazání
 sahs#:#cont_insert_after_chap#:#Insert items after chapter###12 06 2011 new variable
 sahs#:#cont_insert_into_chap#:#Insert items inside chapter###12 06 2011 new variable
-sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode###01 04 2011 new variable
+sahs#:#sahs_activate_expert_mode#:#Aktivovat sekvencování v expertním módu
 sahs#:#sahs_activate_expert_mode_info#:#The sequencing expert mode allows you to directly edit the sequencing information of the package tree. If you are unsure what this means we recommend to use the default sequencing behaviour.###01 04 2011 new variable
 sahs#:#sahs_authoring_mode#:#Authoring Mode###01 04 2011 new variable
 sahs#:#sahs_authoring_mode_info#:#The package must have been created with the ILIAS SCORM editor and it must have been exported as SCORM 1.2/2004 package.###01 04 2011 new variable
 sahs#:#sahs_chapter#:#Kapitola
 sahs#:#sahs_choose_page_template#:#Choose Page Template###22 03 2011 new variable
 sahs#:#sahs_choose_pages_chap_scos_ass_only#:#Please select either pages, SCOs, assets or chapters only.###12 06 2011 new variable
+sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Vyberte prosím také stránky, SCO nebo jen kapitoly.
 sahs#:#sahs_choose_special_page#:#Choose Special Page###22 03 2011 new variable
 sahs#:#sahs_desc_objectives#:#Description/Objectives###12 06 2011 new variable
 sahs#:#sahs_hide_objectives_page#:#Hide Description/Objectives Page###22 03 2011 new variable
@@ -10261,7 +10275,7 @@ scormdebug#:#cmi.time_limit_action#:#Indicates what the SCO should do when cmi.m
 scormdebug#:#cmi.total_time#:#Sum of all of the learner's session times accumulated in the current learner attempt###06 08 2011 new variable
 scormdebug#:#comment#:#Comment###06 08 2011 new variable
 scormdebug#:#Commit#:#store data###06 08 2011 new variable
-scormdebug#:#debugwindow_action#:#Action###06 08 2011 new variable
+scormdebug#:#debugwindow_action#:#Akce
 scormdebug#:#debugwindow_cancel#:#Cancel###06 08 2011 new variable
 scormdebug#:#debugwindow_comment#:#comment###06 08 2011 new variable
 scormdebug#:#debugwindow_comment_enter#:#Please enter your comment###06 08 2011 new variable
@@ -10536,8 +10550,8 @@ skmg#:#skll#:#Basic Skill###18 07 2011 new variable
 skmg#:#skmg_add_level#:#Add Level###18 07 2011 new variable
 skmg#:#skmg_add_skill#:#Add Skill###18 07 2011 new variable
 skmg#:#skmg_assign_materials#:#Assign Materials###18 07 2011 new variable
-skmg#:#skmg_cert_achievement_date#:#Achievement Date###18 07 2011 new variable
-skmg#:#skmg_cert_achievement_datetime#:#Achievement Date and Time###18 07 2011 new variable
+skmg#:#skmg_cert_achievement_date#:#Datum dokončení
+skmg#:#skmg_cert_achievement_datetime#:#Datum a čas dokončení
 skmg#:#skmg_cert_skill_level_title#:#Skill Level Title###18 07 2011 new variable
 skmg#:#skmg_cert_skill_title#:#Skill Title###18 07 2011 new variable
 skmg#:#skmg_cert_skill_trigger_title#:#Skill Trigger Title###18 07 2011 new variable
@@ -10905,7 +10919,7 @@ survey#:#anonymize_registered_user#:#Anonymní přístup ankety
 survey#:#anonymize_resume_introduction#:#Vložte prosím Váš anketní přístupový kód ke vstupu do ankety.  Ten byl zaslán do Vaší poštovní schránky ILIAS při Vašem spuštění ankety.
 survey#:#anonymize_survey_description#:#Anonymizace odstraňuje všechny osobní údaje ze statistik ankety. Kód ankety je pětimístný kód, nutný k účasti v anonymní anketě. Pro registrované uživatele ILIAS, je přístupový kód ankety generován automaticky.
 survey#:#anonymize_with_code#:#Přístup s kódem ankety
-survey#:#anonymize_with_code_all#:#Access with survey codes for all users###22 03 2011 new variable
+survey#:#anonymize_with_code_all#:#Přístup ke kódům ankety pro všechny uživatele
 survey#:#anonymize_without_code#:#Volný přístup
 survey#:#anonymous_with_personalized_survey#:#Ke spuštění osobní ankety musíte být registrovaný uživatel!
 survey#:#answer#:#Odpověď
@@ -11707,7 +11721,7 @@ trac#:#trac_learners_back#:#Zpět ke studentům
 trac#:#trac_learning_progress#:#Postup výuky
 trac#:#trac_learning_progress_objects_description#:#This table shows an overview of all your courses and objects.###22 03 2011 new variable
 trac#:#trac_learning_progress_of#:#Lernfortschritt von %s###22 03 2011 new variable
-trac#:#trac_learning_progress_settings_info#:#Activate the display of the following values inside the Learning Progress tables:###28 10 2010 new variable
+trac#:#trac_learning_progress_settings_info#:#Aktivovat zobrazení následujících hodnot v tabulkách postupu výuky:
 trac#:#trac_learning_progress_tbl_header#:#Postup výuky:
 trac#:#trac_lm_statistics#:#Statistiky přístupu
 trac#:#trac_lp_determination#:#Určení stavu postupu výuky
@@ -11853,7 +11867,7 @@ user#:#user_account_code_valid_until#:#Valid Until###06 08 2011 new variable
 user#:#user_account_code_valid_until_dynamic#:#Number of Days###06 08 2011 new variable
 user#:#user_account_code_valid_until_static#:#End Date###06 08 2011 new variable
 user#:#user_account_code_valid_until_unlimited#:#Unlimited###06 08 2011 new variable
-user#:#user_account_codes#:#Account Codes###06 08 2011 new variable
+user#:#user_account_codes#:#Kódy účtu
 user#:#user_account_codes_add#:#Add Codes###06 08 2011 new variable
 user#:#user_account_codes_edit_header#:#Add Codes###06 08 2011 new variable
 user#:#user_account_codes_export#:#Export Codes###06 08 2011 new variable
@@ -11921,6 +11935,7 @@ wfld#:#wfld_new#:#Create New Folder###22 03 2011 new variable
 wiki#:#wiki_activate_rating#:#Aktivovat hodnocení
 wiki#:#wiki_all_pages#:#Všechny stránky
 wiki#:#wiki_article#:#Článek
+wiki#:#wiki_block#:#Block###12 06 2011 new variable
 wiki#:#wiki_change_notification_body_new#:#Ve wiki "%s" byla vytvořena stránka "%s".
 wiki#:#wiki_change_notification_link#:#Odkaz na wiki: %s
 wiki#:#wiki_change_notification_page_body_delete#:#Ve wiki "%s" stránka "%s" byla smazána.
@@ -11962,8 +11977,8 @@ wiki#:#wiki_news_page_changed#:#Wiki page has been updated.###12 06 2011 new var
 wiki#:#wiki_news_page_created#:#New wiki page has been created.###12 06 2011 new variable
 wiki#:#wiki_no_start_page#:#Wiki chybí platná startovací stránka
 wiki#:#wiki_notgraded#:#Nehodnoceno
-wiki#:#wiki_notification_activate_page#:#Activate Notification for Page###12 06 2011 new variable
-wiki#:#wiki_notification_activate_wiki#:#Activate Notification for Wiki###12 06 2011 new variable
+wiki#:#wiki_notification_activate_page#:#Aktivovat upozornění na stránku
+wiki#:#wiki_notification_activate_wiki#:#Aktivovat upozornění pro Wiki
 wiki#:#wiki_notification_activated#:#Notification Activated (Whole Wiki)###12 06 2011 new variable
 wiki#:#wiki_notification_deactivate_page#:#Deactivate Notification for Page###12 06 2011 new variable
 wiki#:#wiki_notification_deactivate_wiki#:#Deactivate Notification for Wiki###12 06 2011 new variable
@@ -12014,6 +12029,7 @@ wiki#:#wiki_start_page#:#Úvodní stránka
 wiki#:#wiki_start_page_title#:#Název úvodní stránky
 wiki#:#wiki_style#:#Styl
 wiki#:#wiki_sure_remove_imp_pages#:#Do you really want to remove the following pages from the list of important pages?###12 06 2011 new variable
+wiki#:#wiki_unblock#:#Unblock###12 06 2011 new variable
 wiki#:#wiki_what_links_here#:#Co je zde připojeno?
 wiki#:#wiki_what_links_to_page#:#Co je připojeno ke stránce "%s"?
 wiki#:#wiki_whole_wiki#:#Celá Wiki
@@ -12053,259 +12069,3 @@ wsp#:#wsp_type_file#:#File###22 03 2011 new variable
 wsp#:#wsp_type_tstv#:#Verification: Test###12 06 2011 new variable
 wsp#:#wsp_type_webr#:#Weblink###18 07 2011 new variable
 wsp#:#wsp_type_wfld#:#Folder###22 03 2011 new variable
-content#:#cont_localfile#:#Local File###04 10 2011 new variable
-survey#:#dont_use_questionpool#:#Don't insert the questions in a questionpool (only available in this survey)###04 10 2011 new variable
-common#:#fold_type#:#Folder Type###04 10 2011 new variable
-chatroom_adm#:#general_settings_title#:#General Chat Settings###04 10 2011 new variable
-chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings###04 10 2011 new variable
-content#:#cont_file_from_workspace#:#File From My Workspace###04 10 2011 new variable
-skmg#:#skmg_create_skill_template#:#Create Competence Template###04 10 2011 new variable
-skmg#:#skmg_create_skill_template_category#:#Create Competence Template Category###04 10 2011 new variable
-skmg#:#skmg_save_order#:#Save Order###04 10 2011 new variable
-skmg#:#skmg_order#:#Order###04 10 2011 new variable
-skmg#:#skmg_order_nr#:#Order Number###04 10 2011 new variable
-skmg#:#skmg_create_skll#:#Create Competence###04 10 2011 new variable
-skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Reference###04 10 2011 new variable
-skmg#:#skmg_create_skill_category#:#Create Competence Category###04 10 2011 new variable
-common#:#notice#:#Notice###04 10 2011 new variable
-common#:#public_room#:#Public room###04 10 2011 new variable
-chatroom#:#chtr_moderate#:#Moderate###04 10 2011 new variable
-chatroom#:#unkown_private_room#:#Unknown private room###04 10 2011 new variable
-chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.###04 10 2011 new variable
-chatroom#:#chtr_new#:#New Chatroom###04 10 2011 new variable
-chatroom#:#chtr_add#:#Add Chatroom###04 10 2011 new variable
-blog#:#blog_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.###04 10 2011 new variable
-prtf#:#prtf_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.###04 10 2011 new variable
-exc#:#exc_select_blog#:#Use Existing Blog###04 10 2011 new variable
-exc#:#exc_select_portfolio#:#Use Existing Portfolio###04 10 2011 new variable
-exc#:#exc_select_blog_info#:#Please select one of your blogs to use it with this assignment.###04 10 2011 new variable
-exc#:#exc_select_portfolio_info#:#Please select one of your portfolios to use it with this assignment.###04 10 2011 new variable
-exc#:#exc_select_blog_change#:#Use different Blog###04 10 2011 new variable
-exc#:#exc_select_portfolio_change#:#Use different Portfolio###04 10 2011 new variable
-exc#:#exc_blog_selected#:#The blog has been assigned.###04 10 2011 new variable
-exc#:#exc_portfolio_selected#:#The portfolio has been assigned.###04 10 2011 new variable
-common#:#my_courses_groups#:#My Courses & Groups###04 10 2011 new variable
-content#:#cont_sc_auto_continue#:#Auto-Continue###04 10 2011 new variable
-user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile.###04 10 2011 new variable
-prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.###04 10 2011 new variable
-blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.###04 10 2011 new variable
-skmg#:#skmg_edit_skll#:#Edit Competence Settings###04 10 2011 new variable
-skmg#:#skmg_sktr#:#Competence Template Reference###04 10 2011 new variable
-skmg#:#skmg_items#:#Items###04 10 2011 new variable
-skmg#:#skmg_create_sctp#:#Create Template Category###04 10 2011 new variable
-skmg#:#skmg_edit_sctp#:#Edit Competence Template Category###04 10 2011 new variable
-skmg#:#skmg_sctp#:#Competence Template Category###04 10 2011 new variable
-skmg#:#skmg_insert_skill_template_from_clip#:#Insert Competence Template from Clipboard###04 10 2011 new variable
-skmg#:#skmg_insert_template_category_from_clip#:#Insert Template Category from Clipboard###04 10 2011 new variable
-skmg#:#skmg_insert_please_choose_one_type_only#:#Please choose only one type of items.###04 10 2011 new variable
-prtf#:#prtf_public_comments#:#Public Comments###04 10 2011 new variable
-prtf#:#prtf_copy_page#:#Copy Page(s)###04 10 2011 new variable
-prtf#:#prtf_existing_portfolio#:#Existing Portfolio###04 10 2011 new variable
-prtf#:#prtf_new_portfolio#:#New Portfolio ###04 10 2011 new variable
-prtf#:#prtf_pages_copied#:#The pages have been copied.###04 10 2011 new variable
-skmg#:#skmg_level#:#Level###04 10 2011 new variable
-skmg#:#skmg_material#:#Material###04 10 2011 new variable
-blog#:#blog_profile_picture#:#Display Profile Picture###04 10 2011 new variable
-prtf#:#prtf_profile_picture#:#Display Profile Picture###04 10 2011 new variable
-skmg#:#skmg_remove_skill#:#Remove Competence###04 10 2011 new variable
-style#:#style_page_layout_module_scorm#:#Scorm###04 10 2011 new variable
-style#:#style_page_layout_module_portfolio#:#Portfolio###04 10 2011 new variable
-prtf#:#prtf_use_page_layout#:#Use Page Layout###04 10 2011 new variable
-common#:#shoppingcart#:#Shoppingcart###04 10 2011 new variable
-content#:#cont_ed_insert_skills#:#Insert Competences###04 10 2011 new variable
-content#:#cont_pc_skills#:#Competence###04 10 2011 new variable
-content#:#cont_insert_skills#:#Insert Competence###04 10 2011 new variable
-content#:#cont_update_skills#:#Edit Competence###04 10 2011 new variable
-administration#:#adm_basic#:#Basic###04 10 2011 new variable
-administration#:#adm_users#:#Users###04 10 2011 new variable
-administration#:#adm_services#:#Services###04 10 2011 new variable
-administration#:#adm_objects#:#Objects###04 10 2011 new variable
-common#:#enable_sahs_protocol_data#:#Activate Protocol Data###04 10 2011 new variable
-common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM/AICC)###04 10 2011 new variable
-search#:#lucene_max_fs#:#Maximum File Size (in MB)###04 10 2011 new variable
-search#:#lucene_max_fs_info#:#Defines the file size limit. Bigger files will not be included in the index.###04 10 2011 new variable
-trac#:#trac_determines_learning_progress#:#Determines Learning Progress###04 10 2011 new variable
-content#:#cont_scorm_ed_properties#:#Learning Module Properties / Glossary###04 10 2011 new variable
-content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.###04 10 2011 new variable
-style#:#sty_type_rte_drag#:#Drag Bar###04 10 2011 new variable
-style#:#sty_type_rte_tclink#:#Tree Control Link###04 10 2011 new variable
-style#:#sty_type_rte_texp#:#Tree Icon###04 10 2011 new variable
-style#:#sty_type_rte_tli#:#Tree List Item###04 10 2011 new variable
-style#:#sty_type_rte_tul#:#Tree List###04 10 2011 new variable
-chatroom_adm#:#port_info#:#Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked. ###04 10 2011 new variable
-payment#:#check_shop_activation#:#Check Shop Settings for activation###04 10 2011 new variable
-payment#:#please_enter_currency#:#Please enter a currency###04 10 2011 new variable
-payment#:#please_enter_address#:#Please enter an address###04 10 2011 new variable
-payment#:#please_enter_bank_data#:#Please enter the bank details###04 10 2011 new variable
-payment#:#please_enter_pdf_path#:#Please enter a path for generating bill as PDF file###04 10 2011 new variable
-payment#:#please_activate_one_paymethod#:#Please activate at least one pay method###04 10 2011 new variable
-payment#:#please_enter_bmf_data#:#Please enter your BMF data###04 10 2011 new variable
-payment#:#please_enter_paypal_data#:#Please enter your Paypal data###04 10 2011 new variable
-payment#:#please_enter_epay_data#:#Please enter your EPay data###04 10 2011 new variable
-payment#:#please_enter_vats#:#Please create at least one vat###04 10 2011 new variable
-payment#:#please_create_vendor#:#Please create at least one vendor###04 10 2011 new variable
-payment#:#shop_activation_ok#:#The payment settings are complete. You can now activate the webshop.###04 10 2011 new variable
-blog#:#blog_rename_posting#:#Rename Posting###04 10 2011 new variable
-prtf#:#prtf_tab_portfolios#:#My Portfolios###04 10 2011 new variable
-prtf#:#prtf_tab_other_users#:#Portfolios From Other Users###04 10 2011 new variable
-wsp#:#wsp_password_protected_resource#:#Password-protected Resource###04 10 2011 new variable
-wsp#:#wsp_password_protected_resource_info#:#To access this resource you have to enter a password.###04 10 2011 new variable
-wsp#:#wsp_password_for#:#Password for###04 10 2011 new variable
-administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists###04 10 2011 new variable
-content#:#cont_edit_mode#:#Edit Mode###04 10 2011 new variable
-wiki#:#wiki_block_page#:#Block Page###04 10 2011 new variable
-wiki#:#wiki_unblock_page#:#Unblock Page###04 10 2011 new variable
-wiki#:#wiki_delete_page#:#Delete Page###04 10 2011 new variable
-wiki#:#wiki_rate_page#:#Rate this Wiki Page###04 10 2011 new variable
-auth#:#auth_login_editor#:#Loginscreen Editor###04 10 2011 new variable
-didactic#:#didactic_edit_tpl#:#Edit Didactic Template###04 10 2011 new variable
-common#:#chtr_moderate#:#Moderate Chatroom###04 10 2011 new variable
-chatroom#:#welcome_to_chat#:#Welcome to the chatroom###04 10 2011 new variable
-chatroom#:#user_invited#:#The user has been invited.###04 10 2011 new variable
-chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.###04 10 2011 new variable
-chatroom#:#user_invited_self#:#<b>#user#</b> invited you to the chatroom <b>#room#</b>.###04 10 2011 new variable
-chatroom#:#private_room_closed#:#The chatroom <b>#title#</b> has been closed.###04 10 2011 new variable
-chatroom#:#private_room_entered#:#Welcome to the private room <b>#title#</b>.###04 10 2011 new variable
-chatroom#:#private_room_left#:#The user <b>#user#</b> has left the private room <b>#title#</b>.###04 10 2011 new variable
-chatroom#:#private_room_entered_user#:#The user <b>#user#</b> has entered the private room <b>#title#</b>.###04 10 2011 new variable
-chatroom#:#kicked_from_private_room#:#You have been kicked from the private room <b>#title#</b>.###04 10 2011 new variable
-assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.###04 10 2011 new variable
-administration#:#obj_otpl#:#Object Templates###04 10 2011 new variable
-administration#:#obj_otpl_desc#:#Template for the creation of new objects###04 10 2011 new variable
-rbac#:#otpl_visible#:#Object Template Settings are visible###04 10 2011 new variable
-rbac#:#otpl_read#:#Read Access to Object Template Settings###04 10 2011 new variable
-rbac#:#otpl_write#:#Edit Object Template Settings###04 10 2011 new variable
-rbac#:#otpl_edit_permission#:#Change Permission Settings###04 10 2011 new variable
-didactic#:#didactic_default_type_info#:#Uses default permissions for %s###04 10 2011 new variable
-didactic#:#didactic_install_info#:#General Information###04 10 2011 new variable
-didactic#:#didactic_not_changed#:#The didactic template setting is unchanged.###04 10 2011 new variable
-didactic#:#didactic_selected_tpl_option#:#Applied didactic template:###04 10 2011 new variable
-didactic#:#didactic_template_applied#:#Applied didactic template.###04 10 2011 new variable
-didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the chosen didactic template? All current permission settings will get lost!###04 10 2011 new variable
-chatroom#:#chatserver_address#:#IP-Adress of the Chatservers###04 10 2011 new variable
-chatroom#:#chatserver_port#:#Port of the Chatservers###04 10 2011 new variable
-chatroom#:#instance_name#:#Unique Identifier###04 10 2011 new variable
-chatroom#:#ilias_url#:#Base-URL of your ILIAS Installation###04 10 2011 new variable
-chatroom#:#soap_user#:#Name of the SOAP-User###04 10 2011 new variable
-chatroom#:#soap_user_password#:#Password of the SOAP-User###04 10 2011 new variable
-chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.###04 10 2011 new variable
-chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the webserver must handle.###04 10 2011 new variable
-chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chatserver to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.<br/>The name may contain letters (A-Z/a-z), numerics (0-9) and the characters "-" and "_".###04 10 2011 new variable
-chatroom#:#enable_smilies#:#Enable Smilies###04 10 2011 new variable
-chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smilies tab for configuration.###04 10 2011 new variable
-chatroom#:#display_past_msgs#:#Number of Past Messages###04 10 2011 new variable
-chatroom#:#hint_display_past_msgs#:#Number of past messages to show, when the room is entered. A value of "0" disables this feature.###04 10 2011 new variable
-chatroom#:#speak_to#:#Speak to <b>#user#</b>###04 10 2011 new variable
-chatroom#:#whisper_to#:#Whisper to <b>#user#</b>###04 10 2011 new variable
-chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chatserver.###04 10 2011 new variable
-chatroom#:#leave_private_room#:#Leave Private Room###04 10 2011 new variable
-chatroom#:#delete_private_room#:#Delete Private Room###04 10 2011 new variable
-chatroom#:#invite_to_private_room#:#Invite to Current Room###04 10 2011 new variable
-wiki#:#wiki_page_actions#:#Page Actions###04 10 2011 new variable
-wiki#:#wiki_notification_deactivated#:#Notification Deactivated###04 10 2011 new variable
-chatroom#:#scope#:#Room/Private Room###04 10 2011 new variable
-chatroom#:#user_in_room#:#Invite user from current chatroom###04 10 2011 new variable
-chatroom#:#user_in_ilias#:#Search and invite user from ILIAS###04 10 2011 new variable
-chatroom#:#kick_question#:#Do you really want to kick the user from current room?###04 10 2011 new variable
-chatroom#:#ban_question#:#Do you really want to ban the user from current room?###04 10 2011 new variable
-chatroom#:#history_cleared#:#The message history was deleted by a moderator.###04 10 2011 new variable
-chatroom#:#clear_room_history#:#Delete Message History###04 10 2011 new variable
-chatroom#:#clear_room_history_question#:#Do you really want to delete all messages of the current room?###04 10 2011 new variable
-chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the "Permissions" tab to allow anonymous user access to this repository item.###04 10 2011 new variable
-chatroom_adm#:#public_chat_settings#:#Public Chatroom Settings###04 10 2011 new variable
-chatroom_adm#:#public_chat_permissions#:#Public Chatroom Permissions###04 10 2011 new variable
-chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation###04 10 2011 new variable
-chatroom#:#create_private_room_text#:#Private room name###04 10 2011 new variable
-chatroom#:#invite_username#:#Username###04 10 2011 new variable
-notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not ativated for this resource.###04 10 2011 new variable
-chatroom#:#layout#:#Layout###04 10 2011 new variable
-chatroom#:#show_settings#:#Show Settings###04 10 2011 new variable
-chatroom#:#hide_settings#:#Hide Settings###04 10 2011 new variable
-chatroom_adm#:#soap_user_hint#:#This user is used to send information from the chatserver to the ilias installation. No special permissions are required.<br/>If you create a new accout, please make sure that you are able to login with this user (e.g. accept licence aggreement).###04 10 2011 new variable
-chatroom#:#private_rooms_enabled#:#Allow Private Rooms###04 10 2011 new variable
-chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.###04 10 2011 new variable
-chatroom#:#no_further_users#:#No other users present###04 10 2011 new variable
-chatroom#:#users#:#Users###04 10 2011 new variable
-chatroom#:#no_messages#:#There are no saved messages for the given period.###04 10 2011 new variable
-chatroom#:#history_title_general#:#Conversation in Chat Room "%s"###04 10 2011 new variable
-chatroom#:#history_title_private_room#:#Conversation in Private Room "%s"###04 10 2011 new variable
-common#:#chtr_copy#:#Copy Chatroom###04 10 2011 new variable
-common#:#obj_chtr_duplicate#:#Copy Chatroom###04 10 2011 new variable
-common#:#il_chat_moderator_visible#:#Chat Room is visible###04 10 2011 new variable
-common#:#il_chat_moderator_read#:#Read access to Chat Room###04 10 2011 new variable
-common#:#il_chat_moderator_write#:#Edit Chat Room settings###04 10 2011 new variable
-common#:#il_chat_moderator_moderate#:#Moderate Chat Room###04 10 2011 new variable
-common#:#obj_il_chat_moderator#:#Chat Room Moderator###04 10 2011 new variable
-crs#:#crs_activate_notification#:#Activate Notification###04 10 2011 new variable
-crs#:#crs_deactivate_notification#:#Deactivate Notification###04 10 2011 new variable
-crs#:#crs_notification_activated#:#Notification Activated###04 10 2011 new variable
-crs#:#crs_notification_deactivated#:#Notification Deactivated###04 10 2011 new variable
-grp#:#grp_activate_notification#:#Activate Notification###04 10 2011 new variable
-grp#:#grp_deactivate_notification#:#Deactivate Notification###04 10 2011 new variable
-grp#:#grp_notification_activated#:#Notification Activated###04 10 2011 new variable
-grp#:#grp_notification_deactivated#:#Notification Deactivated###04 10 2011 new variable
-chatroom#:#end_whisper#:#Cancel###04 10 2011 new variable
-exc#:#exc_search_users#:#Search Users###04 10 2011 new variable
-blog#:#blog_navigation#:#Postings###04 10 2011 new variable
-survey#:#survey_question_title#:#Question Title###04 10 2011 new variable
-assessment#:#tst_default_settings#:#Personal Default Settings###04 10 2011 new variable
-prtf#:#prtf_unset_as_default#:#Unset As My Profile###04 10 2011 new variable
-certificate#:#certificate_ph_date_completed#:#Date of completion###04 10 2011 new variable
-adve#:#adve_activation#:#Activation###04 10 2011 new variable
-adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing###04 10 2011 new variable
-certificate#:#certificate_ph_datetime_completed#:#Date and time of completion###04 10 2011 new variable
-certificate#:#certificate_ph_passed_exercise#:#"Passed" or "Failed"###04 10 2011 new variable
-certificate#:#certificate_ph_mark#:#Users mark###04 10 2011 new variable
-certificate#:#certificate_ph_exercisetitle#:#Exercise Title###04 10 2011 new variable
-rbac#:#rbac_back_to_overview#:#Back to Role List###04 10 2011 new variable
-rbac#:#rbac_choose_copy_targets#:#Please enter a quer for selecting the target roles.###04 10 2011 new variable
-rbac#:#rbac_select_copy_targets#:#Please select the target roles###04 10 2011 new variable
-rbac#:#rbac_role_title#:#Role Title###04 10 2011 new variable
-rbac#:#rbac_copy_behaviour#:#Role Copy Settings###04 10 2011 new variable
-rbac#:#rbac_not_change_existing_objects#:#Do NOT change existing objects###04 10 2011 new variable
-rbac#:#rbac_copy_role#:#Copy Role###04 10 2011 new variable
-rbac#:#rbac_copy_finished#:#Finished copying.###04 10 2011 new variable
-certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise###04 10 2011 new variable
-content#:#cont_ed_copy#:#Copy###04 10 2011 new variable
-content#:#cont_ed_cut#:#Cut###04 10 2011 new variable
-content#:#cont_sel_el_copied_use_paste#:#Selected elements have been copied. Please click the desired target placeholder and select "Paste".###04 10 2011 new variable
-content#:#cont_sel_el_cut_use_paste#:#Selected elements have been cut. Please click the desired target placeholder and select "Paste".###04 10 2011 new variable
-survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")###04 10 2011 new variable
-survey#:#survey_sure_delete_questions#:#Are you sure that you want to delete the following questions or headings?###04 10 2011 new variable
-rbac#:#rbac_precondition_source#:#Condition Trigger###04 10 2011 new variable
-rbac#:#rbac_precondition_target#:#Condition limits access to###04 10 2011 new variable
-rbac#:#rbac_precondition_mode#:#Mode###04 10 2011 new variable
-rbac#:#rbac_precondition_mode_all#:#All Preconditions###04 10 2011 new variable
-rbac#:#rbac_precondition_mode_all_info#:#All preconditions need to be fulfilled to give access.###04 10 2011 new variable
-rbac#:#rbac_precondition_mode_subset#:#Subset of Preconditions###04 10 2011 new variable
-rbac#:#rbac_precondition_mode_subset_info#:#A subset of preconditions need to be fulfilled to give access. Some preconditions may still be set as obligatory.###04 10 2011 new variable
-rbac#:#rbac_precondition_save_obligatory#:#Save Obligatory###04 10 2011 new variable
-rbac#:#rbac_precondition_minimum_optional#:#At least 2 preconditions have to remain optional.###04 10 2011 new variable
-common#:#precondition_required_itemlist#:#Required Precondition###04 10 2011 new variable
-common#:#precondition_toggle#:#Preconditions that need to be fulfilled to access this object###04 10 2011 new variable
-content#:#cont_cp_question_diff_formats_info#:#Please note that some formattings are not supported in content modules.###04 10 2011 new variable
-crs#:#crs_link_show_all_prev_sessions#:#Show all previous sessions###04 10 2011 new variable
-crs#:#crs_link_hide_prev_sessions#:#Hide previous sessions###04 10 2011 new variable
-crs#:#crs_link_show_all_next_sessions#:#Show upcoming all upcoming sessions###04 10 2011 new variable
-crs#:#crs_link_hide_next_sessions#:#Hide upcoming sessions###04 10 2011 new variable
-scormdebug#:#scormdebug_disable_cache#:#disable SCORM 2004 Browser-Cache###04 10 2011 new variable
-scormdebug#:#scormdebug_disable_cache_info#:#This prevents the storage of the SCORM 2004 javascript files in the browser cache. Please use this function in time before a new release!###04 10 2011 new variable
-content#:#cont_sequencing#:#enable Sequencing & Navigation according to settings by learning module###04 10 2011 new variable
-content#:#cont_interactions#:#enable storage of results of interactions###04 10 2011 new variable
-content#:#cont_objectives#:#enable storage of data concerning learning objectives###04 10 2011 new variable
-content#:#cont_comments#:#enable storage of comments###04 10 2011 new variable
-content#:#cont_time_from_lms#:#determine processing times by ILIAS instead of SCO###04 10 2011 new variable
-scormdebug#:#completion_status_by_progress_measure#:#Because there is a value for cmi.completion_threshold, the value for cmi.completion_status is evaluated by the LMS! This is done by comparing the value for cmi.completion_threshold with the value for cmi.progress_measure. The value for cmi.completion_status is currently:###04 10 2011 new variable
-scormdebug#:#success_status_by_score_scaled#:#Because there is a value for cmi.scaled_passing_score, the value for cmi.success_status is evaluated by the LMS! This is done by comparing the value for cmi.scaled_passing_score with the value for cmi.score.scaled. The value for cmi.success_status is currently:###04 10 2011 new variable
-certificate#:#certificate_ph_no_sco#:#If items are selected to determine the overall learning progress status, titles and points for these items could be displayed in certificate.###04 10 2011 new variable
-certificate#:#certificate_ph_scos#:#The following items were selected to determine the overall learning progress status and are available for statements in the certificate:###04 10 2011 new variable
-certificate#:#certificate_ph_title_sco#:#title###04 10 2011 new variable
-certificate#:#certificate_ph_sco_title#:#placeholder<br/>for title###04 10 2011 new variable
-certificate#:#certificate_ph_sco_points_scaled#:#placeholder<br/>for points<br/>in percent###04 10 2011 new variable
-certificate#:#certificate_ph_sco_points_raw#:#placeholder<br/>for points###04 10 2011 new variable
-certificate#:#certificate_ph_sco_points_max#:#placeholder<br/>for points<br/>max###04 10 2011 new variable
-common#:#dd_mm_yyyy#:#DD.MM.YYYY###04 10 2011 new variable
-exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of the blog right now? You can do it anytime from the blog editor later on.###04 10 2011 new variable
-exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version of the portfolio right now? You can do it anytime from the portfolio editor later on.###04 10 2011 new variable
-prtf#:#prtf_preview_banner_info#:#Default size is 880x100 pixels.###04 10 2011 new variable
-blog#:#blog_preview_banner_info#:#Default size is 880x100 pixels.###04 10 2011 new variable
