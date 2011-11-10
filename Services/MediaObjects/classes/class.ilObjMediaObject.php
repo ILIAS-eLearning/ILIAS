@@ -428,11 +428,11 @@ class ilObjMediaObject extends ilObject
 	/**
 	* create media object in db
 	*/
-	function create($a_upload = false, $a_save_media_items = true)
+	function create($a_create_meta_data = false, $a_save_media_items = true)
 	{
 		parent::create();
 
-		if (!$a_upload)
+		if (!$a_create_meta_data)
 		{
 			$this->createMetaData();
 		}
@@ -1734,6 +1734,40 @@ class ilObjMediaObject extends ilObject
 		}
 		return $suffixes;
 	}
+	
+	/**
+	 * Duplicate media object, return new media object
+	 */
+	function duplicate()
+	{
+		$new_obj = new ilObjMediaObject();
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setDescription($this->getDescription());
+		
+		// media items
+		foreach($this->getMediaItems() as $key => $val)
+		{
+			$new_obj->addMediaItem($val);
+		}
+
+		$new_obj->create(false, true);
+		
+		// files
+		$new_obj->createDirectory();
+		self::_createThumbnailDirectory($new_obj->getId());
+		ilUtil::rCopy(ilObjMediaObject::_getDirectory($this->getId()),
+			ilObjMediaObject::_getDirectory($new_obj->getId()));
+		ilUtil::rCopy(ilObjMediaObject::_getThumbnailDirectory($this->getId()),
+			ilObjMediaObject::_getThumbnailDirectory($new_obj->getId()));
+		
+		// meta data
+		include_once("Services/MetaData/classes/class.ilMD.php");
+		$md = new ilMD(0, $this->getId(), "mob");
+		$new_md = $md->cloneMD(0, $new_obj->getId(), "mob");
+
+		return $new_obj;
+	}
+	
 	
 }
 ?>

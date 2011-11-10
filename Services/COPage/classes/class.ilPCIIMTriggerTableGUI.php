@@ -58,7 +58,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
 	function initColumns()
 	{
 		$this->addColumn("", "", "1");	// checkbox
-		$this->addColumn($this->lng->txt("title"), "title", "");
+		$this->addColumn($this->lng->txt("title"), "Title", "");
 		$this->addColumn($this->lng->txt("type"), "", "");
 		$this->addColumn($this->lng->txt("cont_coords"), "", "");
 		$this->addColumn($this->lng->txt("cont_overlay_image"), "", "");
