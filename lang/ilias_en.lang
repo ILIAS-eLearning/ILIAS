@@ -814,7 +814,7 @@ assessment#:#tst_insert_questions_and_results#:#This test was already executed b
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_instant_feedback_answer_specific#:#Show Answer-Specific Feedback
 assessment#:#tst_instant_feedback_description#:#If one of the options is selected, the instant feedback information will be shown directly after a participant answered a question. If answer-specific feedback is selected, the predefined feedback will be shown, depending on the answers of the participant. If results (in points) are selected, the reached points will be shown. If solutions are selected, the correct solution will be shown too.
-assessment#:#tst_instant_feedback_results#:#Show Results (only points)
+assessment#:#tst_instant_feedback_results#:#Show Results (Only Points)
 assessment#:#tst_instant_feedback_solution#:#Show Solutions
 assessment#:#tst_instant_feedback#:#Instant Feedback
 assessment#:#tst_instant_verification#:#Instant Verification
@@ -960,15 +960,15 @@ assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a 
 assessment#:#tst_sequence_properties#:#Sequence Settings
 assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_session_settings#:#Session Settings
-assessment#:#tst_set_feedback_done#:#The Manual Feedback has been saved
-assessment#:#tst_set_feedback_not_done#:#An Error occured! The Manual Feedback has not been saved
+assessment#:#tst_set_feedback_done#:#Manual feedback has been saved
+assessment#:#tst_set_feedback_not_done#:#An Error occured! The manual feedback has not been saved
 assessment#:#tst_show_answer_sheet#:#Show Answers
 assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution.
 assessment#:#tst_show_cancel#:#Show Suspend Test Option
-assessment#:#tst_show_pass_details#:#Show Pass Details for running tests
+assessment#:#tst_show_pass_details#:#Show Pass Details for Running Tests
 assessment#:#tst_show_results#:#Show Test Results
 assessment#:#tst_show_side_list#:#Show question list aside
-assessment#:#tst_show_solution_answers_only#:#Results print view (answers only)
+assessment#:#tst_show_solution_answers_only#:#Print View of Results (Answers Only)
 assessment#:#tst_show_solution_details#:#Show Solutions in Test Results
 assessment#:#tst_show_solution_feedback#:#Show Answer-Specific Feedback in Test Results
 assessment#:#tst_show_solution_printview#:#Show List of Answers
