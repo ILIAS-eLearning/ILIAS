@@ -3230,7 +3230,7 @@ common#:#level#:#Level
 common#:#license#:#License
 common#:#licenses#:#Licenses
 common#:#link_all#:#Link all
-common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:
+common#:#link_check_body_top#:#You receive mail from ILIAS because you want to be informed about invalid links of the following learning modules:
 common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by mail.
 common#:#link_check_message_disabled#:#Messages diabled
 common#:#link_check_message_enabled#:#Messages enabled
@@ -5854,7 +5854,7 @@ crs#:#crs_no_users_added#:#No members added
 crs#:#crs_no_users_selected#:#You did not select any user
 crs#:#crs_no_valid_member_id_given#:#No valid member Id
 crs#:#crs_not_available#:#-Not available-
-crs#:#crs_notification_explanation_admin#:#You receive this mail because you are course administrator / tutor with notification enabled.
+crs#:#crs_notification_explanation_admin#:#You receive mail from ILIAS because you are course administrator / tutor with notification enabled.
 crs#:#crs_notification#:#Notification
 crs#:#crs_notify#:#Notify for new registrations
 crs#:#crs_nr#:#Nr.
@@ -7021,7 +7021,7 @@ grp#:#grp_missing_grp_type#:#Please choose a group type.
 grp#:#grp_missing_password#:#Please enter a group password.
 grp#:#grp_missing_title#:#Please enter a group title. 
 grp#:#grp_new_status#:#Your new status is:
-grp#:#grp_notification_explanation_admin#:#You receive this mail because you are group administrator with notification enabled.
+grp#:#grp_notification_explanation_admin#:#You receive mail from ILIAS because you are group administrator with notification enabled.
 grp#:#grp_notification#:#Notification
 grp#:#grp_notify_off#:#Notification about new registrations disabled
 grp#:#grp_notify_on#:#Notification about new registrations enabled
@@ -8980,7 +8980,7 @@ registration#:#reg_mail_body_confirmation#:#To confirm this registration enter t
 registration#:#reg_mail_body_profile_changed#:#your profile has changed !
 registration#:#reg_mail_body_profile#:#Profile data:
 registration#:#reg_mail_body_pwd_generation#:#Your account request will be reviewed by an administrator, and should be activated within 48 hours. You will be informed about the approvement by e-mail.
-registration#:#reg_mail_body_reason#:#You receive this mail because notifications about new registrations are enabled for your account in the ILIAS administration.
+registration#:#reg_mail_body_reason#:#You receive mail from ILIAS because notifications about new registrations are enabled for your account in the ILIAS administration.
 registration#:#reg_mail_new_user_body#:#a new user has been registered.
 registration#:#reg_mail_new_user#:#New user registration
 registration#:#reg_missing_domain#:#Please fill out all fields.
