@@ -4,13 +4,13 @@
 *
 * @module			language file Slovak
 * @modulegroup		language
-* @author			Petr Vobecky <pvobecky@nbox.cz> (for original Czech version), Martin Uzik <uzik@hs-fresenius.de>
+* @author			Peter Knuth <peter.knuth@tuke.sk>
 * @version			
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode! 
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
@@ -11094,6 +11094,7 @@ common#:#bought_objects_expire_soon#:#For some of your bought objects the access
 common#:#access_enddate#:#Access Enddate###12 06 2011 new variable
 payment#:#buy_extension#:#Buy Extension###12 06 2011 new variable
 payment#:#extension_price#:#Extension Price###12 06 2011 new variable
+wiki#:#wiki_important_pages#:#Important Pages###12 06 2011 new variable
 wiki#:#wiki_ordering#:#Ordering###12 06 2011 new variable
 wiki#:#wiki_indentation#:#Indentation###12 06 2011 new variable
 wiki#:#wiki_save_ordering_and_indent#:#Save Ordering and Indentation###12 06 2011 new variable
