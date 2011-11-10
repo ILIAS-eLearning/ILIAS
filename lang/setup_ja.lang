@@ -521,3 +521,7 @@ zip_path#:#ZipのPath
 zip_path_comment#:#エクスポートファイルの作成用　例 '/your_path/zip'
 zip_path_comment_win#:#インポートファイルの解凍用　例 'C
 zipcode#:#郵便番号
+settings_too_long#:#Some settings are too long to be converted. Please change them before you change the settings data type.###10 11 2011 new variable
+sess_mode#:#Session Mode###10 11 2011 new variable
+sess_fixed_duration#:#Fixed Session Duration###10 11 2011 new variable
+sess_load_dependent_session_handling#:#Load Dependent Session Handlin###10 11 2011 new variable

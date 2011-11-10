@@ -279,7 +279,6 @@ assessment#:#add_answer#:#Ajouter réponse
 assessment#:#add_applet_parameter#:#Ajouter paramètre de l'applet
 assessment#:#add_area#:#Ajouter zone
 assessment#:#add_circle#:#Ajouter un disque
-assessment#:#add_flash_parameter#:#Ajouter paramètre Flash
 assessment#:#add_gap#:#Ajouter une nouvelle valeur
 assessment#:#add_imagemap#:#Ajouter image réactive
 assessment#:#add_matching_pair#:#Ajouter appariement
@@ -326,7 +325,6 @@ assessment#:#assessment_new_pool#:#Create new question pool###12 06 2011 new var
 assessment#:#assessment_no_pool#:#Do not use question pool###12 06 2011 new variable
 assessment#:#assessment_pool_selection#:#Pool Selection###12 06 2011 new variable
 assessment#:#assFileUpload#:#Question avec remontée de fichier
-assessment#:#assFlashApp#:#Application « Flash »
 assessment#:#assFlashQuestion#:#Question « Flash »
 assessment#:#assImagemapQuestion#:#Question sur zone réactive d'image
 assessment#:#assJavaApplet#:#Question type « Java Applet »
@@ -356,19 +354,6 @@ assessment#:#cannot_maintain_test#:#Vous n'avez pas les permissions nécessaires
 assessment#:#cannot_read_questionpool#:#Vous n'avez pas les permissions nécessaires pour  lire les données du jeu de questions.
 assessment#:#cannot_save_metaobject#:#Vous n'avez pas les permissions nécessaires pour enregistrer les métadonnées
 assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#The status cannot be changed to &quot;online&quot; because there are no questions and/or no marks in the test!###18 07 2011 new variable
-assessment#:#certificate_margin_body#:#Marge du corps de texte
-assessment#:#certificate_padding_top#:#Contenu du haut de page
-assessment#:#certificate_ph_city#:#Ville de l'utilisateur
-assessment#:#certificate_ph_country#:#Pays de l'utilisateur
-assessment#:#certificate_ph_department#:#Département de l'utilisateur
-assessment#:#certificate_ph_institution#:#Organisme de l'utilisateur
-assessment#:#certificate_ph_street#:#Rue de l'adresse de l'utilisateur
-assessment#:#certificate_ph_title#:#Titre de l'utilisateur
-assessment#:#certificate_ph_zipcode#:#Code postal de l'adresse de l'utilisateur
-assessment#:#certificate_var_result_mark_long#:#Bon
-assessment#:#certificate_var_result_percent#:#83 %
-assessment#:#certificate_var_user_city#:#Ville de l'utilisateur
-assessment#:#certificate_var_user_department#:#Support client
 assessment#:#change_properties_from_random_to_standard#:#Le test de type « aléatoire » va être changé en test « non aléatoire ».Les jeux de question antérieurement associés au test ne le seront plus. Voulez-vous effectuer ces modifications dans les propriétés du test ?
 assessment#:#change_properties_from_standard_to_random#:#Le test de type « non aléatoire » va être changé en test « aléatoire ».Les questions antérieurement associés au test ne le seront plus. Voulez-vous effectuer ces modifications dans les propriétés du test ?
 assessment#:#change_solution#:#Modifier proposition de solution
@@ -435,8 +420,6 @@ assessment#:#disable_javascript#:#Cliquer pour désactiver le support JavaScript
 assessment#:#dont_use_questionpool#:#Don't insert the questions in a questionpool (only available in this test)
 assessment#:#duplicate_matching_values_selected#:#Vous avez sélectionné des couples de valeurs en double.
 assessment#:#duplicate_order_values_entered#:#Vous avez saisi des valeurs en double pour le tri.
-assessment#:#duplicate_question#:#Dupliquer
-assessment#:#duplicate_term_message#:#Vous avez saisi au moins une expression déjà utilisée. Veuillez utiliser des expressions uniques
 assessment#:#duplicate#:#Doubler
 assessment#:#ects_allow_ects_grades#:#Afficher  le niveau ECTS en plus de la note reçue
 assessment#:#ects_fill_out_all_values#:#Veuillez saisir une valeur pour chaque niveau ECTS.
@@ -544,8 +527,6 @@ assessment#:#final_statement_show_desc#:#Si cette case est cochée, le message f
 assessment#:#final_statement_show#:#Afficher le message de fin
 assessment#:#final_statement#:#Message final
 assessment#:#fixed_participants_hint#:#Ce test est seulement accessible pour les participants désignés listés plus bas. Vous pouvez modifier cette liste en désactivant les participants désignés dans l'onglet %s.
-assessment#:#flash_attributes#:#Attributs Flash
-assessment#:#flash_parameters#:#Paramètres Flash
 assessment#:#flashfile#:#Fichier Flash
 assessment#:#forcejs_desc#:#Si cette case est cochée, l'affichage en JavScript sera utilisée pour les questions du test si l'affichage en JavaScript  et un mode alternatif existent.
 assessment#:#forcejs_short#:#Forcer le JavaScript
@@ -727,7 +708,6 @@ assessment#:#qpl_delete_no_deleteable_questions#:#Toutes les questions que vous 
 assessment#:#qpl_delete_rbac_error#:#Vous n'avez pas le droit de supprimer cette question!
 assessment#:#qpl_delete_select_none#:#Veuillez saisir au moins une question à supprimer.
 assessment#:#qpl_display_fullsize_image#:#Cliquez ici pour afficher l'image originale
-assessment#:#qpl_duplicate_select_none#:#Veuillez sélectionner au moins une question pour la dupliquer
 assessment#:#qpl_edit_rbac_error#:#Vous n'avez pas le droit de modifier cette question
 assessment#:#qpl_edit_select_multiple#:#Veuillez ne sélectionner qu'une question à modifier
 assessment#:#qpl_edit_select_none#:#Veuillez sélectionner une question à modifier
@@ -2123,8 +2103,6 @@ common#:#adm_read#:#Accès en lecture aux paramètres de base du système
 common#:#adm_visible#:#Les paramètres du système sont visibles
 common#:#adm_write#:#Modifier les paramètres du système
 common#:#admin_force_noti#:#Notification active
-common#:#admin_panel_disable#:#Désactiver les boutons de commande
-common#:#admin_panel_enable#:#Activer les boutons de commande
 common#:#admin_panel#:#Panneau d'administration
 common#:#administrate_users#:#Administration des utilisateurs locaux
 common#:#administrate#:#Administrer
@@ -2135,8 +2113,6 @@ common#:#adopt#:#Choisir
 common#:#advanced_editing_allow_html_tags#:#Activer l'utilisation de balises HTML dans l'édition de texte
 common#:#advanced_editing_allow_javascript_editor#:#Activer un éditeur de texte enrichi
 common#:#advanced_editing_assessment_settings#:#Activer l'utilisation de balises HTML avec l'outil Test&Évaluation d'ILIAS
-common#:#advanced_editing_cat_page_editing_desc#:#Cela active l'édition de contenu des pages « Catégorie ». Lorsque l'édition est désactivée, les catégories sont présentées sous forme de liste d'items.
-common#:#advanced_editing_cat_page_editing#:#Activer l'édition de contenu dans les pages « Catégorie »
 common#:#advanced_editing_frm_post_settings#:#Forum Post Settings
 common#:#advanced_editing_lm_js_editing_desc#:#Activer HTMLArea et JavaScript pour l'édition de page dans les Documents et Glossaires ILIAS.
 common#:#advanced_editing_lm_js_editing#:#Activer HTMLArea pour l'édition de contenu
@@ -3391,7 +3367,6 @@ common#:#hide_details#:#cacher détails
 common#:#hide_filter#:#Masquer le filtre
 common#:#hide_own_online_status#:#Cacher mon statut 'en ligne'
 common#:#hide_private_notes#:#Cacher les notes personnelles
-common#:#hide_public_notes#:#Cacher les notes publiques
 common#:#hide_structure#:#Désactiver la vue structurée
 common#:#hide#:#masquer
 common#:#hint#:#Hint
@@ -3763,7 +3738,6 @@ common#:#ldap_visible#:#Les paramètres LDAP sont visibles
 common#:#ldap_write#:#Modifier paramètres LDAP
 common#:#ldap#:#LDAP
 common#:#learning module#:#document
-common#:#learning_module#:#document
 common#:#learning_objects#:#Documents
 common#:#learning_progress#:#Suivi
 common#:#learning_resourc#:#Document
@@ -4988,7 +4962,6 @@ common#:#show_members#:#Afficher membres
 common#:#show_owner#:#Afficher propriétaire
 common#:#show_private_notes#:#Afficher les notes personnelles
 common#:#show_profile#:#Voir le profil
-common#:#show_public_notes#:#Afficher les notes publiques
 common#:#show_structure#:#Activer la vue structurée
 common#:#show_system_messages#:#Messages Système
 common#:#show_users_online#:#Afficher les utilisateurs connectés
@@ -5202,7 +5175,6 @@ common#:#tst_read#:#Accès en lecture au test
 common#:#tst_run#:#Démarrer
 common#:#tst_statistical_evaluation#:#Résultats
 common#:#tst_statistics#:#Accès aux résultats du test
-common#:#tst_tst_statistics#:#Accès aux résultats du test
 common#:#tst_upload_file#:#Téléverser fichier
 common#:#tst_user_not_invited#:#Vous n'êtes pas censé passer cet examen.
 common#:#tst_user_wrong_clientip#:#Vous n'avez pas la bonne adresse IP pour ce test
@@ -5721,7 +5693,6 @@ content#:#cont_ed_insert_qover#:#Insert Question Overview###12 06 2011 new varia
 content#:#cont_ed_insert_repobj#:#Ajouter une liste de ressources
 content#:#cont_ed_insert_section#:#Ajouter une section
 content#:#cont_ed_insert_skills#:#Insert Skills###02 09 2011 new variable
-content#:#cont_ed_insert_table#:#insérer tableau
 content#:#cont_ed_insert_tabs#:#Ajouter des onglets
 content#:#cont_ed_insert_verification#:#Insert Verification###12 06 2011 new variable
 content#:#cont_ed_item_down#:#Déplacer objet vers le bas
@@ -6418,7 +6389,6 @@ content#:#glo_usages#:#Glossary is used in...
 content#:#glo_used_in_scorm#:#Le glossaire est utilisé par le module SCORM. S'il est supprimé, les références au glossaire ne peuvent plus être réglés.
 content#:#htlm_import#:#Importation d'un Module d'apprentissage HTML
 content#:#HTML export#:#Exportation HTML
-content#:#HTML_export#:#Exportation HTML
 content#:#import_sco_object#:#Import SCO
 content#:#lm_menu_edit_entry#:#Modifier entrée de menu
 content#:#lm_menu_entry_target#:#Cible
@@ -6435,15 +6405,12 @@ content#:#msg_entry_updated#:#Entrée de menu mise à jour
 content#:#msg_page_no_public_access#:#La page demandée n'est pas disponible dans la section publique. Seuls les utilisateurs inscrits préalablement peuvent accéder à cette page.
 content#:#msg_page_not_public#:#La page n'est pas publique
 content#:#page_does_not_exist#:#We are sorry, but this page does not exist.
-content#:#pages_from#:#Pages depuis
 content#:#Pages#:#Pages
 content#:#par#:#Paragraphe
 content#:#PDF export#:#Exportation PDF
-content#:#PDF_export#:#Exportation PDF
 content#:#pg#:#Page
 content#:#public_section#:#Section publique
 content#:#read offline#:#Lire hors ligne
-content#:#read_offline#:#Lire hors ligne
 content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.###02 09 2011 new variable
 content#:#saved_media_object#:#Saved media object.
 content#:#scplayer_collapsetree#:#Collapse All
@@ -6477,7 +6444,6 @@ content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity t
 content#:#set_public_mode#:#Définir le mode d'accès public
 content#:#st#:#Chapitre
 content#:#start export#:#Commencer l'exportation
-content#:#start_export#:#Commencer l'exportation
 content#:#text_repr_info#:#Attribut "alt" utilisé pour l'image
 content#:#text_repr#:#Texte de substitution
 crs#:#activation_times_not_valid#:#La période d'accès est terminée.
@@ -6964,11 +6930,9 @@ crs#:#crs_users_already_assigned#:#L'utilisateur est déjà assigné au cours.
 crs#:#crs_users_removed_from_list#:#Les utilisateurs sélectionnés ont été supprimés de la liste d'attente
 crs#:#crs_view_archive#:#Vue archive
 crs#:#crs_view_info_objective#:#Ce mode est utlisé pour la présentation des objectifs d'apprentissage.
-crs#:#crs_view_info_standard#:#Ce mode de présentation de contenu est similaire à celui du dépôt « Activités ».
 crs#:#crs_view_info_timing#:#Mode de présentation des présélections de minutage.
 crs#:#crs_view_mode#:#Présentation du cours
 crs#:#crs_view_objective#:#Vue orientée objectif
-crs#:#crs_view_standard#:#Vue standard
 crs#:#crs_view_timing#:#Vue minutage
 crs#:#crs_visibility_limitless#:#Visible (illimité)
 crs#:#crs_visibility_until#:#Visible (de ... à)
@@ -7334,7 +7298,6 @@ dateplaner#:#DateText#:#Message
 dateplaner#:#Day_long#:#Vue journalière
 dateplaner#:#del_all#:#Supprimer tous les événements
 dateplaner#:#del_one#:#Supprimer un événement
-dateplaner#:#delete#:#Supprimer
 dateplaner#:#deletedDates#:#Évènements supprimés
 dateplaner#:#discard#:#Écarter
 dateplaner#:#dv_button_cancel#:#Annuler
@@ -7520,7 +7483,6 @@ dateplaner#:#Th_long#:#Jeudi
 dateplaner#:#Th_short#:#Je
 dateplaner#:#timedate#:#Heure / Date
 dateplaner#:#timeslice#:#Horaire :
-dateplaner#:#title#:#Agenda ILIAS
 dateplaner#:#to#:#à
 dateplaner#:#today#:#Aujourd'hui
 dateplaner#:#Tu_long#:#Mardi
@@ -8036,7 +7998,6 @@ grp#:#grp_agree#:#Acceptance
 grp#:#grp_agreement_header#:#User Agreement
 grp#:#grp_agreement_required#:#You have to accept the user agreement, if you want to access the group content.
 grp#:#grp_already_assigned#:#Vous avez déjà demandé l'adhésion à ce Groupe.
-grp#:#grp_btn_unsubscribe#:#Désinscrire du Groupe
 grp#:#grp_cancel_subscr_request#:#Supprimer la demande d'adhésion
 grp#:#grp_change_type#:#Changer le type de Groupe.
 grp#:#grp_closed_info#:#Le Groupe n'est pas visible pour les non-membres.
@@ -8090,8 +8051,6 @@ grp#:#grp_map_location#:#Carte de localisation du Groupe
 grp#:#grp_map_settings#:#Propriétés Carte
 grp#:#grp_members_map#:#Carte des membres du groupe
 grp#:#grp_members#:#Membres
-grp#:#grp_membership_request_body#:#%1$s %2$s a demandé l'inscription au groupe "%5$s".\n\nVeuillez valider ou refuser cette demande sur la page "demande d'inscription " du groupe.\n\nGroupe : %5$s", %6$s\n\ndemandeur : %1$s %2$s, %3$s, écrire à :%4$s.\n\nSujet :\n%7$s
-grp#:#grp_membership_request_subject#:#%1$s %2$s Souhaite s'inscrire dans le groupe "%3$s".
 grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.
 grp#:#grp_missing_grp_type#:#SVP, choisissez un type de groupe.
 grp#:#grp_missing_password#:#Please enter a group password.
@@ -8135,7 +8094,6 @@ grp#:#grp_reg_request#:#Demande d'inscription
 grp#:#grp_reg_start#:#Début d'inscription :
 grp#:#grp_reg_subject#:#Message
 grp#:#grp_registration_unlimited#:#Période d'inscription illimitée
-grp#:#grp_reject_subscriber_body#:#Votre demande d'inscription au groupe "%s" a été refusée.
 grp#:#grp_role_status#:#Role/Status
 grp#:#grp_search_users#:#Chercher Utilisateur
 grp#:#grp_select_one_file#:#Veuillez sélectionner un fichier.
@@ -9248,8 +9206,6 @@ news#:#finish_publishing_date#:#Publication terminée
 news#:#news_1_file_created#:#1 fichier a été ajouté.
 news#:#news_1_file_updated#:#1 fichier a été mis à jour
 news#:#news_1_postings#:#1 message a été posté
-news#:#news_acc_cache_info#:#Vérification des permissions de lecture des informations toutes les x minutes (seulement sur le bureau personnel). '0' signifie "continuellement". Des valeurs plus élevées améliore les performances, mais il se peut que certaines informations comportent des liens obsolètes.
-news#:#news_acc_cache#:#Vérification de la permission (Minutes)
 news#:#news_add_news#:#Ajouter des Infos internes
 news#:#news_all_items#:#Tous les articles
 news#:#news_allow_longer_periods_info#:#Les utilisateurs peuvent choisir une période plus longue sur leur Bureau personnel.
@@ -9988,7 +9944,6 @@ ps#:#ps_error_message_invalid_password_min_length#:#Minimum password size may no
 ps#:#ps_error_message_password_max_less_min#:#Maximum password size may not be less than minimum password size.
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#La taille minimale du mot de passe ne peut être inférieure à 2 si celui-ci doit contenir des caractères et des chiffres.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#La taille minimale du mot de passe ne peut être inférieure à 3 si celui-ci doit contenir des caractères, des chiffres et des caractères spéciaux.
-ps#:#ps_error_message_password_min3_because_chars_numbers_special#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.
 ps#:#ps_export_admin#:#Administrateurs
 ps#:#ps_export_confirm_group#:#User Confirmation when Entering Groups
 ps#:#ps_export_confirm#:#Confirmation de l'utilisateur en entrant dans le cours
@@ -10439,18 +10394,12 @@ sahs#:#sahs_std_sequencing_info#:#Use ILIAS standard sequencing behaviour.###01 
 sahs#:#sahs_std_sequencing#:#Standard Sequencing###01 04 2011 new variable
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)###18 07 2011 new variable
-scormdebug#:#adl_nav_request_valid_choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.###06 08 2011 new variable
-scormdebug#:#adl_nav_request_valid_continue#:#Used by a SCO to determine if a Continue navigation request will succeed.###06 08 2011 new variable
-scormdebug#:#adl_nav_request_valid_previous#:#Used by a SCO to determine if a Previous navigation request will succeed.###06 08 2011 new variable
 scormdebug#:#adl.nav.request_valid.choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.###06 08 2011 new variable
 scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Continue navigation request will succeed.###06 08 2011 new variable
 scormdebug#:#adl.nav.request_valid.previous#:#Used by a SCO to determine if a Previous navigation request will succeed.###06 08 2011 new variable
 scormdebug#:#adl.nav.request#:#Navigation request to be processed immediately following Terminate()###06 08 2011 new variable
 scormdebug#:#all_API-calls_shown#:#All API-calls are currently shown.###06 08 2011 new variable
 scormdebug#:#API-call#:#API-call###06 08 2011 new variable
-scormdebug#:#cmi_completion_threshold#:#Used to determine whether the SCO should be considered complete###06 08 2011 new variable
-scormdebug#:#cmi_learner_preference_language#:#The learner's preferred language for SCOs with multilingual capability###06 08 2011 new variable
-scormdebug#:#cmi_location#:#The learner's current location in the SCO###06 08 2011 new variable
 scormdebug#:#cmi._version#:#Represents the version of the data model###06 08 2011 new variable
 scormdebug#:#cmi.comments_from_learner._children#:#Listing of supported data model elements###06 08 2011 new variable
 scormdebug#:#cmi.comments_from_learner._count#:#Current number of learner comments###06 08 2011 new variable
@@ -11317,7 +11266,6 @@ survey#:#dp_standard_beliefs_true_false#:#Croyances standard (vrai – faux)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Croyances standard (vrai – sans opinion – faux)
 survey#:#dp_standard_beliefs_true5#:#Croyances standard (définitivement vrai – vrai – sans opinion – faux – définitivement faux)
 survey#:#dp_standard_numbers#:#Nombres standards
-survey#:#duplicate_question#:#Dupliquer
 survey#:#duplicate_svy#:#Dupliquer enquête
 survey#:#duplicate#:#Dupliquer
 survey#:#edit_ask_continue#:#Voulez-vous continuer et modifier cette question ?
@@ -11520,8 +11468,6 @@ survey#:#no_questions_available#:#Pas de question disponible
 survey#:#no_search_results#:#Pas de résultats de recherche
 survey#:#no_target_selected_for_move#:#Vous devez sélectionner une position cible.
 survey#:#no_user_invited#:#All invited users did not possess sufficient permissions to run the survey. No user was invited.
-survey#:#no_user_of_group_invited#:#Aucun des utilisateurs du (des) groupe(s) sélectionné(s) ne possède les autorisations suffisantes pour renseigner l'enquête. Aucun utilisateur n'a été inscrit.
-survey#:#no_user_of_role_invited#:#Aucun des utilisateurs du (des) rôle(s) sélectionné(s) ne possède les autorisations suffisantes pour renseigner l'enquête. Aucun utilisateur n'a été inscrit.
 survey#:#no_user_or_group_selected#:#Veuillez cocher une option pour indiquer ce que vous cherchez (utilisateurs et/ou groupes)
 survey#:#no_user_phrases_defined#:#Pas d'expressions personnalisées disponibles.
 survey#:#nominal_question_not_checked#:#Veuillez cocher une des réponses proposées.
@@ -11562,7 +11508,6 @@ survey#:#qpl_define_questionblock_select_missing#:#Veuillez sélectionner au moi
 survey#:#qpl_delete_phrase_select_none#:#Veuillez cocher au moins une expression pour la supprimer.
 survey#:#qpl_delete_rbac_error#:#Vous n'avez pas le droit de supprimer la ou les questions.
 survey#:#qpl_delete_select_none#:#Veuillez cocher au moins une question pour la supprimer.
-survey#:#qpl_duplicate_select_none#:#Veuillez cocher au moins une question pour la dupliquer.
 survey#:#qpl_export_select_none#:#Cochez au moins une question pour l'exporter
 survey#:#qpl_past_questions_confirmation#:#Etes-vous sûr(e) de vouloir coller les questions suivantes dans le jeu de questions ?
 survey#:#qpl_phrases_deleted#:#Expression(s) détruite(s)
@@ -12246,7 +12191,6 @@ wiki#:#wiki_grading#:#Notation
 wiki#:#wiki_history#:#Historique
 wiki#:#wiki_imp_page_added#:#Page ajoutée.
 wiki#:#wiki_import#:#Importer le Wiki
-wiki#:#wiki_important_pages#:#Pages importantes
 wiki#:#wiki_indentation#:#Indentation
 wiki#:#wiki_introduction#:#Introduction
 wiki#:#wiki_last_changed_by#:#Modifié(s) par
@@ -12362,3 +12306,65 @@ wsp#:#wsp_type_file#:#File
 wsp#:#wsp_type_tstv#:#Vérification: Test
 wsp#:#wsp_type_webr#:#Lien Web
 wsp#:#wsp_type_wfld#:#Dossier
+content#:#pages from#:#Pages From###10 11 2011 new variable
+pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.\nIn case you are unable to assign a password to your user account using this form, contact your course administration or send an e-mail to %1$s.###10 11 2011 new variable
+exc#:#exc_no_assignments_available#:#No assignments created yet. Please open "Assigments" and "Edit" to create a first assignment.###10 11 2011 new variable
+wsp#:#wsp_invalid_password#:#The given password is invalid.###10 11 2011 new variable
+wiki#:#wiki_navigation_info#:#Here you can add and remove links to existing wiki pages to the navigation block in the wiki.###10 11 2011 new variable
+common#:#top_of_page#:#Top of page###10 11 2011 new variable
+rbac#:#prfa_visible#:#Portfolio Administration is visible###10 11 2011 new variable
+rbac#:#prfa_read#:#Read access to Portfolio Administration###10 11 2011 new variable
+rbac#:#prfa_write#:#Edit Portfolio Administration###10 11 2011 new variable
+rbac#:#prfa_edit_permission#:#Change permission settings###10 11 2011 new variable
+rbac#:#skmg_visible#:#Skill Management is visible###10 11 2011 new variable
+rbac#:#skmg_read#:#Read access to Skill Management###10 11 2011 new variable
+rbac#:#skmg_write#:#Edit Skill Management###10 11 2011 new variable
+rbac#:#skmg_edit_permission#:#Change permission settings###10 11 2011 new variable
+rbac#:#blga_visible#:#Blog Administration is visible###10 11 2011 new variable
+rbac#:#blga_read#:#Read access to Blog Administration###10 11 2011 new variable
+rbac#:#blga_write#:#Edit Blog Administration###10 11 2011 new variable
+rbac#:#blga_edit_permission#:#Change permission settings###10 11 2011 new variable
+prtf#:#prtf_admin_inactive_info#:#You can activate the portfolio feature in the Personal Desktop Administration.###10 11 2011 new variable
+blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Desktop Administration.###10 11 2011 new variable
+prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?###10 11 2011 new variable
+prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.###10 11 2011 new variable
+survey#:#svy_participation#:#Participation###10 11 2011 new variable
+blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list. ###10 11 2011 new variable
+survey#:#svy_page_add_question#:#Add new %s###10 11 2011 new variable
+skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.###10 11 2011 new variable
+common#:#spl_import#:#Import Question Pool Survey###10 11 2011 new variable
+skmg#:#skmg_draft#:#Draft (Offline)###10 11 2011 new variable
+skmg#:#skmg_draft_info#:#Item will be hidden for learners.###10 11 2011 new variable
+skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.###10 11 2011 new variable
+survey#:#svy_create_question#:#Create Question###10 11 2011 new variable
+common#:#contact_sysadmin#:#Contact System Administration###10 11 2011 new variable
+blog#:#blog_posting#:#Blog Posting###10 11 2011 new variable
+blog#:#blog_change_notification_subject#:#Blog "%s" has been updated###10 11 2011 new variable
+blog#:#blog_change_notification_salutation#:#Hello %s,###10 11 2011 new variable
+blog#:#blog_change_notification_body_new#:#the following blog posting was created###10 11 2011 new variable
+blog#:#blog_change_notification_body_update#:#the following blog posting has been updated###10 11 2011 new variable
+blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented###10 11 2011 new variable
+blog#:#blog_changed_by#:#Last Changed By###10 11 2011 new variable
+blog#:#blog_change_notification_link#:#URL###10 11 2011 new variable
+blog#:#blog_notification_toggle_on#:#Activate Notification###10 11 2011 new variable
+blog#:#blog_notification_toggle_off#:#Deactivate Notification###10 11 2011 new variable
+blog#:#blog_notification_activated#:#Notification Activated###10 11 2011 new variable
+blog#:#blog_notification_deactivated#:#Notification Deactivated###10 11 2011 new variable
+wiki#:#wiki_change_notification_page_body_comment#:#the following wiki page has been commented###10 11 2011 new variable
+chatroom_adm#:#chta_visible#:#Chatroom Administration is visible###10 11 2011 new variable
+chatroom_adm#:#chta_read#:#Read access to Chatroom Administration###10 11 2011 new variable
+chatroom_adm#:#chta_write#:#Edit Chatroom Administration###10 11 2011 new variable
+chatroom_adm#:#chta_edit_permission#:#Change Permission Settings###10 11 2011 new variable
+rbac#:#moderate#:#Moderate###10 11 2011 new variable
+common#:#apache_auth#:#Apache Authentication###10 11 2011 new variable
+common#:#server_disabled#:#The Chat is Disabled###10 11 2011 new variable
+rbac#:#cat_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#crs_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#fold_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#grp_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#root_create_chtr#:#Create Chatroom###10 11 2011 new variable
+search#:#search_err_user_not_exist#:#A user with that login name does not exist.###10 11 2011 new variable
+blog#:#blog_draft#:#Draft###10 11 2011 new variable
+blog#:#blog_draft_info#:#This posting draft is only visible for the author.###10 11 2011 new variable
+blog#:#blog_toggle_draft#:#Save As Draft###10 11 2011 new variable
+blog#:#blog_toggle_final#:#Publish Posting###10 11 2011 new variable

@@ -2741,7 +2741,6 @@ common#:#dbk_visible#:#Digilibブックを表示
 common#:#dbk_write#:#Digilibブックを編集
 common#:#dbk#:#Digilibブック
 common#:#dd_mm_yyyy#:#DD.MM.YYYY
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#deactivate#:#使用不可
 common#:#decrease_attempts#:#試行 - 1
 common#:#def_repository_view#:#リポジトリ表示初期設定
@@ -3477,9 +3476,6 @@ common#:#il_grp_status_closed#:#Group closed
 common#:#il_grp_status_open#:#Group open
 common#:#il_icrs_admin#:#LearnLinc Seminar administrator
 common#:#il_icrs_member#:#LearnLinc Seminar member
-common#:#il_xcvc_admin#:#Centra Administrator
-common#:#il_xcvc_mod#:#Centra Moderator
-common#:#il_xcvc_part#:#Centra Member
 common#:#ilias_and_webfolder_username#:#ILIASとWebフォルダユーザー名
 common#:#ilias_username#:#ILIASユーザー名
 common#:#ilias_version#:#ILIAS version
@@ -3910,7 +3906,6 @@ common#:#mails#:#メール
 common#:#main_menu_frame#:#トップレベルメニュー
 common#:#main_menu#:#メインメニュー
 common#:#manage_tracking_data#:#追跡データ管理
-common#:#manage#:#管理する
 common#:#mark_all_read#:#全てを既読としてマーク
 common#:#mark_all_unread#:#全てを未読としてマーク
 common#:#marked_entries#:#マークしたエントリー
@@ -3980,7 +3975,6 @@ common#:#mobs_read#:#メディア オブジェクト/プール設定を読み込
 common#:#mobs_visible#:#メディア オブジェクト/プール設定を表示
 common#:#mobs_write#:#メディア オブジェクト/プール設定を編集
 common#:#mod_rewrite_disabled#:#Apache-Module 'mod_rewrite' が利用できません
-common#:#moderate#:#Moderate
 common#:#moderators#:#モデレータ
 common#:#module#:#モジュール
 common#:#modules#:#モジュール
@@ -4369,7 +4363,6 @@ common#:#obj_webr_select#:#-- Webリンクリストを一つ選択 --
 common#:#obj_webr#:#Webリンク
 common#:#obj_wfld#:#フォルダー
 common#:#obj_wiki#:#Wiki
-common#:#obj_xcvc#:#CentraVC
 common#:#obj#:#オブジェクト
 common#:#object_added#:#オブジェクト追加
 common#:#object_copy_in_progress#:#コピーを開始しました。
@@ -4470,7 +4463,6 @@ common#:#page#:#ページ
 common#:#pages#:#ページ
 common#:#parameter#:#パラメーター
 common#:#parse#:#文関係説明
-common#:#participate#:#参加する
 common#:#passed#:#Passed(パス)
 common#:#passwd_generation_info#:#有効にするとパスワードは生成されたリストからのみ選択できます。
 common#:#passwd_generation#:#パスワード生成
@@ -4683,7 +4675,6 @@ common#:#removed_from_desktop#:#アイテムはデスクトップから削除さ
 common#:#rename_file#:#名前変更ファイル
 common#:#rename#:#名前変更
 common#:#rep_main_page#:#メインページ
-common#:#rep_robj_xcvc_objs_xcvc#:#Centra Programs
 common#:#repeat_scan_failed#:#リピートスキャンは失敗しました。
 common#:#repeat_scan_succeded#:#リピートスキャンは成功しました。
 common#:#repeat_scan#:#ウイルススキャンをリピート中です...
@@ -5183,7 +5174,6 @@ common#:#tst_random_test_description_warning#:#<br /><b>このテストは問題
 common#:#tst_read#:#テストを読み込む
 common#:#tst_run#:#実行
 common#:#tst_statistical_evaluation#:#統計値
-common#:#tst_tst_statistics#:#テスト統計値へアクセス
 common#:#tst_upload_file#:#アップロードファイル
 common#:#tst_user_not_invited#:#このテストを受けるべきではありません。
 common#:#tst_user_wrong_clientip#:#このテストに使用しているIPは正しくありません
@@ -5404,7 +5394,6 @@ common#:#webfolder_instructions_titletext#:#Webフォルダ %1$s として開く
 common#:#webfolder_instructions#:#Webフォルダ説明書
 common#:#webfolder_mount_dir_with#:#Webフォルダ<a href="%1$s">Internet Explorer 6でこのページを開く</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">other Browser</a>.
 common#:#webfolder#:#Webフォルダ
-common#:#webinterface#:#Webインターフェース
 common#:#webr_active#:#アクティブ
 common#:#webr_add_item#:#Webリンクを追加
 common#:#webr_add#:#Webリンクを追加
@@ -5454,15 +5443,6 @@ common#:#wizard_search_list#:#検索の結果次のヒットがありました�
 common#:#wizard_title_info#:#複製したいオブジェクトのタイトルを入力してください。
 common#:#write#:#書込み
 common#:#wrong_ip_detected#:#クライアントのIPが間違っているためアクセスが拒否されました。<br>システム管理者へ連絡してください。
-common#:#xcvc_delete#:#削除
-common#:#xcvc_edit_permission#:#編集アクセス権
-common#:#xcvc_manage#:#管理
-common#:#xcvc_moderate#:#Moderate
-common#:#xcvc_participate#:#参加
-common#:#xcvc_read#:#読込
-common#:#xcvc_visible#:#表示
-common#:#xcvc_webinterface#:#Webインターフェース
-common#:#xcvc_write#:#書込み
 common#:#year#:#年
 common#:#yearly#:#年間
 common#:#years#:#年間
@@ -5658,9 +5638,6 @@ content#:#cont_dir_created#:#ディレクトリが作成されました。
 content#:#cont_dir_deleted#:#ディレクトリが削除されました。
 content#:#cont_dir_file#:#ディレクトリ/ファイル
 content#:#cont_dir_renamed#:#ディレクトリは名前変更されました。
-content#:#cont_disable_html#:#HTMLを使用しない
-content#:#cont_disable_js#:#JavaScriptを使用しない
-content#:#cont_disable_media#:#メディアを使用しない
 content#:#cont_double_click_to_delete#:#アクティブ解除または削除を選択するにはコンテンツ要素をダブルクリックしてください。
 content#:#cont_download_no_download#:#ダウンロード機能がオンになっていないのでユーザーはダウンロードできません。
 content#:#cont_download_no_menu#:#学習モジュールメニューがオンになっていないので、ユーザーはダウンロードできません。
@@ -5770,9 +5747,6 @@ content#:#cont_edit_term#:#条件を編集
 content#:#cont_edition#:#版
 content#:#cont_empty_mep_folder#:#このフォルダにはメディアオブジェクトがありません。
 content#:#cont_empty_question#:#問題の編集が終了していません。クリックして編集するか問題を削除してください。
-content#:#cont_enable_html#:#HTML使用
-content#:#cont_enable_js#:#JavaScript使用
-content#:#cont_enable_media#:#メディア使用
 content#:#cont_enable_page_history_info#:#旧バージョンのページをストアして旧バージョンへロールバックを許可します。
 content#:#cont_enable_page_history#:#ページ履歴
 content#:#cont_enable_time_scheduled_page_activation_info#:#オンにすると使用期間(日/時)を各ページのラーニングモジュール・エディターの中で選択できます。
@@ -6438,8 +6412,6 @@ content#:#public_section#:#パブリックエリア
 content#:#read offline#:#オフラインを読み込む
 content#:#sahs_empty_objectives_are_not_allowed#:#学習目標を入力してください。
 content#:#saved_media_object#:#メディア オブジェクトが保存されました。
-content#:#scorm_editable_comments#:#SCORM 1.2/2004 でのみ動作するパッケージ
-content#:#scorm_editable#:#編集可をインポート
 content#:#scplayer_collapsetree#:#すべて畳む
 content#:#scplayer_continue#:#続ける
 content#:#scplayer_debugger#:#デバッガーを表示
@@ -10381,7 +10353,6 @@ sahs#:#sahs_authoring_mode#:#オーサリングモード
 sahs#:#sahs_chapter#:#章
 sahs#:#sahs_choose_page_template#:#ページテンプレートを選択
 sahs#:#sahs_choose_pages_chap_scos_ass_only#:#ページ、SCO、資産、章のどれか一つを選択してください。
-sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#ページ、 SCO、 章のどれかを選択してください。
 sahs#:#sahs_choose_special_page#:#スペシャルページを選択
 sahs#:#sahs_desc_objectives#:#説明とオブジェクト
 sahs#:#sahs_hide_objectives_page_info#:#チェックするとSCO解説とオブジェクトページがプレゼンテーションに含まれなくなります。
@@ -12220,7 +12191,6 @@ wiki#:#wiki_grading#:#評価
 wiki#:#wiki_history#:#履歴
 wiki#:#wiki_imp_page_added#:#ページが追加されました。
 wiki#:#wiki_import#:#Wikiをインポート
-wiki#:#wiki_important_pages#:#重要ページ
 wiki#:#wiki_indentation#:#字下げ
 wiki#:#wiki_introduction#:#Introduction
 wiki#:#wiki_last_changed_by#:#最終変更者
@@ -12336,3 +12306,65 @@ wsp#:#wsp_type_file#:#ファイル
 wsp#:#wsp_type_tstv#:#検証: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダー
+common#:#tst_statistics#:#Access to Test Statistics###10 11 2011 new variable
+content#:#cont_LocalFile#:#Local File###10 11 2011 new variable
+exc#:#exc_no_assignments_available#:#No assignments created yet. Please open "Assigments" and "Edit" to create a first assignment.###10 11 2011 new variable
+wsp#:#wsp_invalid_password#:#The given password is invalid.###10 11 2011 new variable
+wiki#:#wiki_navigation_info#:#Here you can add and remove links to existing wiki pages to the navigation block in the wiki.###10 11 2011 new variable
+common#:#top_of_page#:#Top of page###10 11 2011 new variable
+rbac#:#prfa_visible#:#Portfolio Administration is visible###10 11 2011 new variable
+rbac#:#prfa_read#:#Read access to Portfolio Administration###10 11 2011 new variable
+rbac#:#prfa_write#:#Edit Portfolio Administration###10 11 2011 new variable
+rbac#:#prfa_edit_permission#:#Change permission settings###10 11 2011 new variable
+rbac#:#skmg_visible#:#Skill Management is visible###10 11 2011 new variable
+rbac#:#skmg_read#:#Read access to Skill Management###10 11 2011 new variable
+rbac#:#skmg_write#:#Edit Skill Management###10 11 2011 new variable
+rbac#:#skmg_edit_permission#:#Change permission settings###10 11 2011 new variable
+rbac#:#blga_visible#:#Blog Administration is visible###10 11 2011 new variable
+rbac#:#blga_read#:#Read access to Blog Administration###10 11 2011 new variable
+rbac#:#blga_write#:#Edit Blog Administration###10 11 2011 new variable
+rbac#:#blga_edit_permission#:#Change permission settings###10 11 2011 new variable
+prtf#:#prtf_admin_inactive_info#:#You can activate the portfolio feature in the Personal Desktop Administration.###10 11 2011 new variable
+blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Desktop Administration.###10 11 2011 new variable
+prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?###10 11 2011 new variable
+prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.###10 11 2011 new variable
+survey#:#svy_participation#:#Participation###10 11 2011 new variable
+blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list. ###10 11 2011 new variable
+survey#:#svy_page_add_question#:#Add new %s###10 11 2011 new variable
+skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.###10 11 2011 new variable
+common#:#spl_import#:#Import Question Pool Survey###10 11 2011 new variable
+skmg#:#skmg_draft#:#Draft (Offline)###10 11 2011 new variable
+skmg#:#skmg_draft_info#:#Item will be hidden for learners.###10 11 2011 new variable
+skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.###10 11 2011 new variable
+survey#:#svy_create_question#:#Create Question###10 11 2011 new variable
+common#:#contact_sysadmin#:#Contact System Administration###10 11 2011 new variable
+blog#:#blog_posting#:#Blog Posting###10 11 2011 new variable
+blog#:#blog_change_notification_subject#:#Blog "%s" has been updated###10 11 2011 new variable
+blog#:#blog_change_notification_salutation#:#Hello %s,###10 11 2011 new variable
+blog#:#blog_change_notification_body_new#:#the following blog posting was created###10 11 2011 new variable
+blog#:#blog_change_notification_body_update#:#the following blog posting has been updated###10 11 2011 new variable
+blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented###10 11 2011 new variable
+blog#:#blog_changed_by#:#Last Changed By###10 11 2011 new variable
+blog#:#blog_change_notification_link#:#URL###10 11 2011 new variable
+blog#:#blog_notification_toggle_on#:#Activate Notification###10 11 2011 new variable
+blog#:#blog_notification_toggle_off#:#Deactivate Notification###10 11 2011 new variable
+blog#:#blog_notification_activated#:#Notification Activated###10 11 2011 new variable
+blog#:#blog_notification_deactivated#:#Notification Deactivated###10 11 2011 new variable
+wiki#:#wiki_change_notification_page_body_comment#:#the following wiki page has been commented###10 11 2011 new variable
+chatroom_adm#:#chta_visible#:#Chatroom Administration is visible###10 11 2011 new variable
+chatroom_adm#:#chta_read#:#Read access to Chatroom Administration###10 11 2011 new variable
+chatroom_adm#:#chta_write#:#Edit Chatroom Administration###10 11 2011 new variable
+chatroom_adm#:#chta_edit_permission#:#Change Permission Settings###10 11 2011 new variable
+rbac#:#moderate#:#Moderate###10 11 2011 new variable
+common#:#apache_auth#:#Apache Authentication###10 11 2011 new variable
+common#:#server_disabled#:#The Chat is Disabled###10 11 2011 new variable
+rbac#:#cat_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#crs_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#fold_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#grp_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#root_create_chtr#:#Create Chatroom###10 11 2011 new variable
+search#:#search_err_user_not_exist#:#A user with that login name does not exist.###10 11 2011 new variable
+blog#:#blog_draft#:#Draft###10 11 2011 new variable
+blog#:#blog_draft_info#:#This posting draft is only visible for the author.###10 11 2011 new variable
+blog#:#blog_toggle_draft#:#Save As Draft###10 11 2011 new variable
+blog#:#blog_toggle_final#:#Publish Posting###10 11 2011 new variable
