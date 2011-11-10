@@ -336,7 +336,7 @@ class ilSurveyExecutionGUI
 					}
 					else
 					{												
-						$working_data = $_SESSION["preview_data"][$this->object->getId()][$constraint["question"]];												
+						$working_data = $_SESSION["preview_data"][$this->object->getId()][$constraint["question"]];
 					}
 					if ($constraint['conjunction'] == 0)
 					{
