@@ -181,7 +181,7 @@ class ilObjSurvey extends ilObject
 		$this->display_question_titles = QUESTIONTITLES_VISIBLE;
 		$this->surveyCodeSecurity = TRUE;
 		$this->template_id = NULL;
-		$this->pool_usage = false;
+		$this->pool_usage = true;
 	}
 
 	/**
@@ -784,8 +784,8 @@ class ilObjSurvey extends ilObject
 				"mailaddresses" => array('text', strlen($this->getMailAddresses()) ? $this->getMailAddresses() : NULL),
 				"mailparticipantdata" => array('text', strlen($this->getMailParticipantData()) ? $this->getMailParticipantData() : NULL),
 				"tstamp" => array("integer", time()),
-				"template_id" => array("integer", $this->getTemplate(),
-				"pool_usage" => array("integer", $this->getPoolUsage()))
+				"template_id" => array("integer", $this->getTemplate()),
+				"pool_usage" => array("integer", $this->getPoolUsage())
 			));
 			$this->setSurveyId($next_id);
 		}
