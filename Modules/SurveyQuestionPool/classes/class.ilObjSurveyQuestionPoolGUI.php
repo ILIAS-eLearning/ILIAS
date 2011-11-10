@@ -613,10 +613,20 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "export");
 	}
 
+	protected function initImportForm($a_new_type)
+	{
+		$form = parent::initImportForm($a_new_type);
+		$form->getItemByPostVar('importfile')->setSuffixes(array("zip", "xml"));
+	
+		return $form;
+	}
+
 	protected function initCreationForms($a_new_type)
 	{
+		$form = $this->initImportForm($a_new_type);
+		
 		$forms = array(self::CFORM_NEW => $this->initCreateForm($a_new_type),
-			self::CFORM_IMPORT => $this->initImportForm($a_new_type));
+			self::CFORM_IMPORT => $form);
 
 		return $forms;
 	}

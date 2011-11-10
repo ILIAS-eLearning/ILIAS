@@ -4095,8 +4095,8 @@ class ilObjSurvey extends ilObject
 				$files[] = $entryname;
 			}
 			foreach($files as $file)
-			{ 
-				if(@is_file($importDirectory."/".$file) && ($file != "." && $file!="..") && ereg("^[0-9]{10}_{2}[0-9]+_{2}(svy_)*[0-9]+\.[a-z]{1,3}\$", $file))
+			{
+				if(@is_file($importDirectory."/".$file) && ($file != "." && $file!="..") && (ereg("^[0-9]{10}_{2}[0-9]+_{2}(svy_)*[0-9]+\.[a-z]{1,3}\$", $file) || ereg("^[0-9]{10}_{2}[0-9]+_{2}(survey__)*[0-9]+\.[a-z]{1,3}\$", $file)))
 				{
 					// found xml file
 					$xmlFile = $importDirectory."/".$file;
