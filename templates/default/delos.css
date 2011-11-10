@@ -746,7 +746,12 @@ ul.il_ExplorerNoIndent
 	list-style:none;
 }
 
-
+li.il_Explorer
+{
+	margin: 0px;
+	padding: 0px;
+	white-space: nowrap;
+}
 
 li.il_ExplorerInline
 {
