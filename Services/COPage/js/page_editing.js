@@ -389,6 +389,11 @@ tinymce.activeEditor.formatter.register('mycode', {
 		this.addBBCode('[fn]', '[/fn]');
 	},
 
+	cmdKeyword: function()
+	{
+		this.addBBCode('[kw]', '[/kw]');
+	},
+
 	cmdExtLink: function()
 	{
 		this.addBBCode('[xln url="http://"]', '[/xln]');
