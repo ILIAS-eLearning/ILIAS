@@ -151,7 +151,7 @@ class ilLMPageObject extends ilLMObject
 
 		// copy page content and activation
 		$page = $lm_page->getPageObject();
-		$page->setXMLContent($this->page_object->getXMLContent());
+		$page->setXMLContent($this->page_object->copyXMLContent());
 		$page->setActive($this->page_object->getActive());
 		$page->setActivationStart($this->page_object->getActivationStart());
 		$page->setActivationEnd($this->page_object->getActivationEnd());
