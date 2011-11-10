@@ -12280,7 +12280,8 @@ wsp#:#wsp_type_excv#:#Verification: Exercise###12 06 2011 new variable
 wsp#:#wsp_type_file#:#Plik###22 03 2011 new variable
 wsp#:#wsp_type_tstv#:#Verification: Test###12 06 2011 new variable
 wsp#:#wsp_type_webr#:#Zasób web###18 07 2011 new variable
-wsp#:#wsp_type_wfld#:#Folder###22 03 2011 new variablecommon#:#tst_statistics#:#Access to Test Statistics###10 11 2011 new variable
+wsp#:#wsp_type_wfld#:#Folder###22 03 2011 new variable
+common#:#tst_statistics#:#Access to Test Statistics###10 11 2011 new variable
 content#:#cont_localfile#:#Local File###10 11 2011 new variable
 content#:#cont_cp_question_diff_formats_info#:#Please note that some formattings are not supported in content modules.###10 11 2011 new variable
 crs#:#crs_link_show_all_prev_sessions#:#Show all previous sessions###10 11 2011 new variable
