@@ -966,7 +966,7 @@ class ilPropertyFormGUI extends ilFormGUI
 				$reload = array();
 				
 				$temp_files = glob($temp_path."/".$ilUser->getId()."~~".$_POST["ilfilehash"]."~~*");
-				if(!empty($temp_files))
+				if(is_array($temp_files))
 				{
 					foreach($temp_files as $full_file)
 					{
