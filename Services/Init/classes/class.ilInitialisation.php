@@ -1137,7 +1137,7 @@ class ilInitialisation
 //var_dump($ilAuth);
 		
 		// Do not accept external session ids
-		if (!ilSession::_exists(session_id()))
+		if (!ilSession::_exists(session_id()) && !defined('IL_PHPUNIT_TEST'))
 		{
 //			$_GET["PHPSESSID"] = "";
 			session_regenerate_id();
