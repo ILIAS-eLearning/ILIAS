@@ -21,8 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once 'PHPUnit/Framework.php';
-
 /**
 * Utilities for Unit Testing
 *
