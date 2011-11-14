@@ -53,7 +53,11 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			$first = $c;
-			$this->addColumn($labels[$c]["txt"], $c);
+			
+			// list cannot be sorted by udf fields (separate query)
+			$sort_id = (substr($c, 0, 4) == "udf_") ? "" : $c;
+			
+			$this->addColumn($labels[$c]["txt"], $sort_id);
 		}
 		
 		if(!$this->getPrintMode())
