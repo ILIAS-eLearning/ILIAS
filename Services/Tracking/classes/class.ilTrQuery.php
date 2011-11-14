@@ -1130,6 +1130,14 @@ class ilTrQuery
 					$udf[] = substr($field, 4);
 				}
 			}
+			
+			// clean-up
+			$a_fields = array_unique($a_fields);
+			if(is_array($udf))
+			{
+				$udf = array_unique($udf);
+			}
+			
 			return $udf;
 		}
 	}
