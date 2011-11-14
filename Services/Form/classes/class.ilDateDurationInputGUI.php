@@ -312,36 +312,42 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI
 	public function setValueByArray($a_values)
 	{
 		global $ilUser;
-		
-		if(isset($a_values[$this->getPostVar()]['start']["time"]))
-		{
-			$this->setStart(new ilDateTime($a_values[$this->getPostVar()]['start']["date"].' '.$a_values[$this->getPostVar()]['start']["time"],
-				IL_CAL_DATETIME,$ilUser->getTimeZone()));
-		}
-		else
-		{
-			if (isset($a_values[$this->getPostVar()]['start']["date"]))
+
+		try {
+			if(isset($a_values[$this->getPostVar()]['start']["time"]))
 			{
-				$this->setStart(new ilDate($a_values[$this->getPostVar()]['start']["date"],
-					IL_CAL_DATE));
+				$this->setStart(new ilDateTime($a_values[$this->getPostVar()]['start']["date"].' '.$a_values[$this->getPostVar()]['start']["time"],
+					IL_CAL_DATETIME,$ilUser->getTimeZone()));
+			}
+			else
+			{
+				if (isset($a_values[$this->getPostVar()]['start']["date"]))
+				{
+					$this->setStart(new ilDate($a_values[$this->getPostVar()]['start']["date"],
+						IL_CAL_DATE));
+				}
+			}
+			if(isset($a_values[$this->getPostVar()]['end']["time"]))
+			{
+				$this->setEnd(new ilDateTime($a_values[$this->getPostVar()]['end']["date"].' '.$a_values[$this->getPostVar()]['end']["time"],
+					IL_CAL_DATETIME,$ilUser->getTimeZone()));
+			}
+			else
+			{
+				if (isset($a_values[$this->getPostVar()]['end']["date"]))
+				{
+					$this->setEnd(new ilDate($a_values[$this->getPostVar()]['end']["date"],
+						IL_CAL_DATE));
+				}
+			}
+			foreach($this->getSubItems() as $item)
+			{
+				$item->setValueByArray($a_values);
 			}
 		}
-		if(isset($a_values[$this->getPostVar()]['end']["time"]))
+		catch(ilDateTimeException $e)
 		{
-			$this->setEnd(new ilDateTime($a_values[$this->getPostVar()]['end']["date"].' '.$a_values[$this->getPostVar()]['end']["time"],
-				IL_CAL_DATETIME,$ilUser->getTimeZone()));
-		}
-		else
-		{
-			if (isset($a_values[$this->getPostVar()]['end']["date"]))
-			{
-				$this->setEnd(new ilDate($a_values[$this->getPostVar()]['end']["date"],
-					IL_CAL_DATE));
-			}
-		}
-		foreach($this->getSubItems() as $item)
-		{
-			$item->setValueByArray($a_values);
+			// Nothing
 		}
 	}
 	
