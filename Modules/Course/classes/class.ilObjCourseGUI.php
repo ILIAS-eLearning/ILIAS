@@ -5276,7 +5276,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
 				
-		if($ilSetting->get("crsgrp_ntf") &&
+		if($lg && $ilSetting->get("crsgrp_ntf") &&
 			ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
 		{						
 			if(!$ilUser->getPref("grpcrs_ntf_".$this->ref_id))
