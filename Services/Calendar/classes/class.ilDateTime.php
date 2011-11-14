@@ -333,6 +333,7 @@ class ilDateTime
 				if(preg_match('/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(\.\d+)?(Z|[\+\-]\d{2}:?\d{2})?)$/i',$a_date,$d_parts) < 1)
 				{
 					$this->log->write(__METHOD__.': Cannot parse date: '.$a_date);
+					$this->log->logStack();
 					throw new ilDateTimeException('Cannot parse date.');
 				}
 				
