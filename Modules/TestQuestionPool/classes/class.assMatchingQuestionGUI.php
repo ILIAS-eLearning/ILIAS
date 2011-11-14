@@ -1136,6 +1136,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 
+		$i = 0;
 		foreach ($terms as $term)
 		{
 			if (strlen($term->picture))
@@ -1157,6 +1158,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$template->parseCurrentBlock();
 			}
 			$template->touchBlock('terms');
+			$i++;
 		}
 
 		$questiontext = $this->object->getQuestion();
