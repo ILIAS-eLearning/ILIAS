@@ -765,7 +765,7 @@ class ilPersonalProfileGUI
 			{
 				$this->input["udf_".$definition['field_id']]->setRequired(true);
 			}
-			else if(!$definition['changeable'] && (!$definition['required'] || $value))
+			if(!$definition['changeable'] && (!$definition['required'] || $value))
 			{
 				$this->input["udf_".$definition['field_id']]->setDisabled(true);
 			}
