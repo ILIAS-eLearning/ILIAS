@@ -76,7 +76,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
 		if($first)
 		{
-			$this->setDefaultOrderField($c);
+			$this->setDefaultOrderField($first);
 			$this->setDefaultOrderDirection("asc");
 		}
 		
