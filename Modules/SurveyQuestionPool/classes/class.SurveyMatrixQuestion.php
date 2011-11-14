@@ -2409,14 +2409,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	* @return array Data
 	*/
 	public function getCumulatedResultData($survey_id, $counter)
-	{
+	{				
 		$cumulated =& $this->calculateCumulatedResults($survey_id);
 		$questiontext = preg_replace("/\<[^>]+?>/ims", "", $this->getQuestiontext());
 		
+		include_once "./Services/Utilities/classes/class.ilStr.php";
 		$maxlen = 75;
 		if (strlen($questiontext) > $maxlen + 3)
-		{
-			include_once "./Services/Utilities/classes/class.ilStr.php";
+		{			
 			$questiontext = ilStr::substr($questiontext, 0, $maxlen) . "...";
 		}
 		
