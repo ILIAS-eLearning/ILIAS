@@ -212,18 +212,21 @@ class ilLPStatusManualByTutor extends ilLPStatus
 		{
 			case "crs":
 			case "grp":
-				include_once './Services/Tracking/classes/class.ilChangeEvent.php';
-				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
+				// completed?
+				$set = $ilDB->query($q = "SELECT usr_id FROM ut_lp_marks ".
+					"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+					"AND usr_id = ".$ilDB->quote($a_user_id ,'integer')." ".
+					"AND completed = '1' ");
+				if ($rec = $ilDB->fetchAssoc($set))
 				{
-					$status = LP_STATUS_IN_PROGRESS_NUM;
-					// completed?
-					$set = $ilDB->query($q = "SELECT usr_id FROM ut_lp_marks ".
-						"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
-						"AND usr_id = ".$ilDB->quote($a_user_id ,'integer')." ".
-						"AND completed = '1' ");
-					if ($rec = $ilDB->fetchAssoc($set))
+					$status = LP_STATUS_COMPLETED_NUM;
+				}
+				else
+				{				
+					include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+					if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
 					{
-						$status = LP_STATUS_COMPLETED_NUM;
+						$status = LP_STATUS_IN_PROGRESS_NUM;
 					}
 				}
 				break;
