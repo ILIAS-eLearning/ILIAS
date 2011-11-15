@@ -17,11 +17,12 @@ class ilTrQuery
 
 		if(sizeof($obj_refs))
 		{
-			$obj_ids = array_keys($obj_refs);
-
+			$obj_ids = array_keys($obj_refs);		
+			self::refreshObjectsStatus($obj_ids, array($a_user_id));
+			
 			include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
 			include_once "Services/Tracking/classes/class.ilLPStatus.php";
-
+		
 			// prepare object view modes
 			include_once 'Modules/Course/classes/class.ilObjCourse.php';
 			$view_modes = array();
@@ -89,6 +90,8 @@ class ilTrQuery
 	function getObjectivesStatusForUser($a_user_id, array $obj_ids)
 	{
 		global $ilDB;
+		
+		self::refreshObjectsStatus($obj_ids, array($a_user_id));	
 
 		$query =  "SELECT crs_id, crs_objectives.objective_id AS obj_id, title, status, ".$ilDB->quote("lobj", "text")." AS type".
 			" FROM crs_objectives".
@@ -111,6 +114,8 @@ class ilTrQuery
 	
 	function getSCOsStatusForUser($a_user_id, $a_parent_obj_id, array $a_sco_ids)
 	{
+		self::refreshObjectsStatus(array($a_parent_obj_id), array($a_user_id));	
+		
 		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_parent_obj_id);
 		
@@ -151,6 +156,7 @@ class ilTrQuery
 		if(sizeof($obj_refs))
 		{
 			$obj_ids = array_keys($obj_refs);
+			self::refreshObjectsStatus($obj_ids);
 
 			include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
 			include_once "Services/Tracking/classes/class.ilLPStatus.php";
@@ -237,10 +243,7 @@ class ilTrQuery
 		$a_users = self::getParticipantsForObject($a_ref_id);
 
 		$obj_id = ilObject::_lookupObjectId($a_ref_id);
-
-		// check whether status (for all relevant users) exists
-		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
-		ilLPStatus::checkStatusForObject($obj_id, $a_users);
+		self::refreshObjectsStatus(array($obj_id), $a_users);
 
 		if (is_array($a_users))
 		{
@@ -289,8 +292,6 @@ class ilTrQuery
 				// admins/tutors (write-access) will never have agreement ?!
 				include_once "Services/Membership/classes/class.ilMemberAgreement.php";
 				$agreements = ilMemberAgreement::lookupAcceptedAgreements($obj_id);
-
-
 				
 				// public information for users
 				$query = "SELECT usr_id FROM usr_pref WHERE keyword = ".$ilDB->quote("public_profile", "text").
@@ -583,15 +584,15 @@ class ilTrQuery
 		$objects = array();
 		if($a_preselected_obj_ids === NULL)
 		{
-			$objects = self::getObjectIds($a_parent_obj_id, $a_parent_ref_id, false);
+			$objects = self::getObjectIds($a_parent_obj_id, $a_parent_ref_id, false, false);
 		}
 		else
 		{
 			foreach($a_preselected_obj_ids as $obj_id => $ref_ids)
-			{
+			{							
 				$objects["object_ids"][] = $obj_id;
 				$objects["ref_ids"][$obj_id] = array_pop($ref_ids);
-			}
+			}						
 		}
 
 		$result = array();
@@ -656,6 +657,8 @@ class ilTrQuery
 		}
 
 		$obj_id = ilObject::_lookupObjectId($a_ref_id);
+		self::refreshObjectsStatus(array($obj_id), $a_users);
+		
 		$query = " FROM usr_data ".$left." JOIN read_event ON (read_event.usr_id = usr_data.usr_id".
 			" AND obj_id = ".$ilDB->quote($obj_id, "integer").")".
 			" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id ".
@@ -1148,17 +1151,18 @@ class ilTrQuery
 	 * @param	int		$a_parent_obj_id
 	 * @param	int		$a_parent_ref_id
 	 * @param	int		$use_collection
+	 * @param	bool	$a_refresh_status
 	 * @return	array	object_ids, objectives_parent_id
 	 */
-	static public function getObjectIds($a_parent_obj_id, $a_parent_ref_id = false,  $use_collection = true)
+	static public function getObjectIds($a_parent_obj_id, $a_parent_ref_id = false,  $use_collection = true, $a_refresh_status = true)
 	{
 		global $tree;
-
+		
 		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
 		
 		$object_ids = array($a_parent_obj_id);
 		$ref_ids = array($a_parent_obj_id => $a_parent_ref_id);
-		$objectives_parent_id = $scorm = false;
+		$objectives_parent_id = $scorm = false;		
 		
 		$mode = ilLPObjSettings::_lookupMode($a_parent_obj_id);
 		switch($mode)
@@ -1196,19 +1200,19 @@ class ilTrQuery
 				   $object_ids = array_unique($object_ids);
 				}
 									
-				include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 				foreach($object_ids as $idx => $object_id)
 				{
-					if($object_id)
-					{
-						ilLPStatus::checkStatusForObject($object_id);
-					}
-					else
-					{
+					if(!$object_id)
+					{						
 						unset($object_ids[$idx]);
 					}
-				}
+				}								
 				break;
+		}
+		
+		if($a_refresh_status)
+		{
+			self::refreshObjectsStatus($object_ids);
 		}
 		
 		return array("object_ids" => $object_ids,
@@ -1372,12 +1376,13 @@ class ilTrQuery
 			}
 
 			$parent_obj_id = ilObject::_lookupObjectId($a_parent_ref_id);
+			self::refreshObjectsStatus(array($parent_obj_id), $a_users);			
+			
+			self::refreshObjectsStatus($a_obj_ids, $a_users);
+			
 			$raw = array();
 			foreach($a_obj_ids as $obj_id)
-			{
-				// check status
-				ilLPStatus::checkStatusForObject($obj_id, $a_users);
-
+			{				
 				// one request for each object
 				$query = " FROM usr_data ".$left." JOIN read_event ON (read_event.usr_id = usr_data.usr_id".
 					" AND read_event.obj_id = ".$ilDB->quote($obj_id, "integer").")".
@@ -1611,6 +1616,21 @@ class ilTrQuery
 		}
 		return $res;
 	}
+	
+	/**
+	 * check whether status (for all relevant users) exists
+	 * 
+	 * @param array $a_obj_ids
+	 * @param array $a_users
+	 */
+	protected static function refreshObjectsStatus(array $a_obj_ids, $a_users = null)
+	{		
+		include_once("./Services/Tracking/classes/class.ilLPStatus.php");		
+		foreach($a_obj_ids as $obj_id)
+		{
+			ilLPStatus::checkStatusForObject($obj_id, $a_users);
+		}		
+	}		
 }
 
 ?>
