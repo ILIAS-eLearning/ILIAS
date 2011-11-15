@@ -199,7 +199,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	 */
 	public function  revert()
 	{
-		global $rbacreview,$rbacadmin;
+		global $rbacreview,$rbacadmin,$tree;
 
 		$source = $this->initSourceObject();
 		$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
@@ -216,6 +216,20 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 				$rbacadmin->deleteLocalRole($role_id,$rolf);
 			}
 		}
+
+		// Set permissions
+		$parentRoles = $rbacreview->getParentRoleIds($tree->getParentId($source->getRefId()));
+		foreach ($parentRoles as $parRol)
+		{
+			$ops = $rbacreview->getOperationsOfRole(
+				$parRol["obj_id"],
+				$source->getType(),
+				$parRol["parent"]
+			);
+			$rbacadmin->grantPermission($parRol["obj_id"], $ops, $this->getRefId());
+		}
+
+
 		return true;
 	}
 
