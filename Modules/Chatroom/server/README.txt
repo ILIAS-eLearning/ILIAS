@@ -97,6 +97,28 @@ After you made changes, the chatserver must be restarted.
 
    Path to your ILIAS installation.
 
+   If you are using HTTPS with a self-signed certificate for your ILIAS
+   installation you have to create a so called key storage to allow connections
+   to the webserver. Otherwise you might get the following exception.
+
+      javax.net.ssl.SSLHandshakeException:
+            sun.security.validator.ValidatorException:
+                  PKIX path building failed:
+                        sun.security.provider.certpath.SunCertPathBuilderException:
+                              unable to find valid certification path to requested target 
+
+   You can use the following tool to create a propper key storage.
+   http://code.google.com/p/java-use-examples/source/browse/trunk/src/com/aw/ad/util/InstallCert.java
+
+   To use that key storage, you have to start the chatserver with the additional
+   parameter
+        -Djavax.net.ssl.trustStore=/path/to/your_key_storage
+
+   For example:
+
+	java -Djavax.net.ssl.trustStore=/path/to/your_key_storage -jar Chatserver.jar server.properties client.properties
+   
+
 ==== User ====
    Example: soap_user
 
