@@ -1449,7 +1449,7 @@ class ilCtrl
 
 		foreach ($params as $par => $value)
 		{
-			if (strlen($value))
+			if (strlen((string) $value))
 			{
 				$a_str = ilUtil::appendUrlParameterString($a_str, $par."=".$value, $xml_style);
 			}
