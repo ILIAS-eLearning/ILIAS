@@ -1277,9 +1277,10 @@ class ilObjPortfolioGUI
 					$ilCtrl->getLinkTarget($this, "preview"));				
 			}
 			
-			$ilTabs->activateTab("user_page_".$current_page);
-			$ilCtrl->setParameter($this, "user_page", $current_page);
+			$ilTabs->activateTab("user_page_".$current_page);			
 		}
+		
+		$ilCtrl->setParameter($this, "user_page", $current_page);
 		
 		if(!$a_content)
 		{
