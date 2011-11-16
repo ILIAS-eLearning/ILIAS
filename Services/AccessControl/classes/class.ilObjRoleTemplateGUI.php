@@ -211,7 +211,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			{
 				continue;
 			}
-			if ($internal_tpl and !in_array($info['type'],$tpl_filter))
+			if ($internal_tpl and $tpl_filter and !in_array($info['type'],$tpl_filter))
 			{
 				continue;
 			}
@@ -233,7 +233,6 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 																"name"		=> $txt);		
 		}
 		
-
 		foreach ($rbac_objects as $key => $obj_data)
 		{
 			if ($objDefinition->isPlugin($obj_data["type"]))
