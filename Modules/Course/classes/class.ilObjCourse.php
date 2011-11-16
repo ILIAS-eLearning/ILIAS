@@ -963,6 +963,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$this->appendMessage($this->lng->txt("archive_times_not_valid"));
 		}
+		if(!$this->getTitle())
+		{
+			$this->appendMessage($this->lng->txt('err_check_input'));
+		}
+
+
 		return $this->getMessage() ? false : true;
 	}
 
