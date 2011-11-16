@@ -151,7 +151,7 @@ class ilPublicUserProfileGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl, $ilUser;
+		global $ilCtrl, $tpl;
 		
 		if(!self::validateUser($this->getUserId()))
 		{
@@ -170,7 +170,7 @@ class ilPublicUserProfileGUI
 				if($portfolio_id)
 				{
 					include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
-					$plink = new ilPermanentLinkGUI("usr", $ilUser->getId());
+					$plink = new ilPermanentLinkGUI("usr", $this->getUserId());
 					$plink = $plink->getHTML();		
 					
 					include_once "Services/Portfolio/classes/class.ilObjPortfolioGUI.php";
