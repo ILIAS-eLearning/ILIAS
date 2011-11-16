@@ -2110,6 +2110,8 @@ restore starts here
 		// The previous number is used for gap checking
 		$previousNumber = 0; 
 		
+		$this->initWorkspaceObjects();
+		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			// workspace objects are not to be processed
@@ -2517,22 +2519,27 @@ restore starts here
 		return in_array($a_type,$this->object_types_exclude);
 	}
 	
-	protected function filterWorkspaceObjects(array &$a_data, $a_index = "obj_id")
+	protected function initWorkspaceObjects()
 	{
 		global $ilDB;
 		
-		if(sizeof($a_data))
+		if($this->workspace_object_ids === null)
 		{
-			if($this->workspace_object_ids === null)
+			$this->workspace_object_ids = array();
+			$set = $ilDB->query("SELECT DISTINCT(obj_id) FROM object_reference_ws");
+			while($row = $ilDB->fetchAssoc($set))
 			{
-				$this->workspace_object_ids = array();
-				$set = $ilDB->query("SELECT DISTINCT(obj_id) FROM object_reference_ws");
-				while($row = $ilDB->fetchAssoc($set))
-				{
-					$this->workspace_object_ids[] = $row["obj_id"];
-				}
+				$this->workspace_object_ids[] = $row["obj_id"];
 			}
-
+		}
+	}
+	
+	protected function filterWorkspaceObjects(array &$a_data, $a_index = "obj_id")
+	{		
+		if(sizeof($a_data))
+		{			
+			$this->initWorkspaceObjects();
+			
 			// remove workspace objects from result objects
 			if(is_array($this->workspace_object_ids))
 			{
