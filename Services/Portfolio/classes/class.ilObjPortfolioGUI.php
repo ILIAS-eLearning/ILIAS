@@ -1129,14 +1129,17 @@ class ilObjPortfolioGUI
 
 		include_once("Services/Portfolio/classes/class.ilPortfolioPage.php");
 
-		if (is_array($_POST["title"]))
+		if (is_array($_POST["order"]))
 		{
-			foreach ($_POST["title"] as $k => $v)
+			foreach ($_POST["order"] as $k => $v)
 			{
 				$page = new ilPortfolioPage($this->portfolio->getId(),
 					ilUtil::stripSlashes($k));
-				$page->setTitle(ilUtil::stripSlashes($v));
-				$page->setOrderNr(ilUtil::stripSlashes($_POST["order"][$k]));
+				if($_POST["title"][$k])
+				{
+					$page->setTitle(ilUtil::stripSlashes($_POST["title"][$k]));
+				}
+				$page->setOrderNr(ilUtil::stripSlashes($v));
 				$page->update();
 			}
 			ilPortfolioPage::fixOrdering($this->portfolio->getId());
