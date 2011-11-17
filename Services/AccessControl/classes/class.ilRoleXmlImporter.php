@@ -80,6 +80,11 @@ class ilRoleXmlImporter
 				$GLOBALS['ilLog']->write(__METHOD__.': New operation '.trim((string) $sxml_op));
 				$GLOBALS['ilLog']->write(__METHOD__.': New operation '. $operations[trim((string) $sxml_op)]);
 
+				if(!strlen(trim((string) $sxml_op)))
+				{
+					continue;
+				}
+
 				$rbacadmin->setRolePermission(
 					$this->getRole()->getId(),
 					trim((string) $sxml_op['group']),
