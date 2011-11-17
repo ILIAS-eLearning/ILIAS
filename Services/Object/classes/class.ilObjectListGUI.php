@@ -2401,7 +2401,7 @@ class ilObjectListGUI
 				"", "", ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $js_updater));
 		}
 
-		if($this->notes_enabled)
+		if($this->notes_enabled && !$ilSetting->get("disable_notes"))
 		{
 			$this->insertCommand("#", $this->lng->txt("notes"), $cmd_frame,
 				"", "", ilNoteGUI::getListNotesJSCall($this->ajax_hash, $js_updater));
