@@ -2293,8 +2293,7 @@ class ilTemplate extends ilTemplateX
 		
 		if($a_img)
 		{
-			// :TODO:
-			$a_img = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["PHP_SELF"])."/".$a_img;
+			$a_img = ILIAS_HTTP_PATH."/".$a_img;
 			
 			$this->setCurrentBlock("fullscreen_bannerbl");
 			$this->setVariable("FULLSCREEN_BANNER_WIDTH", $a_width);
