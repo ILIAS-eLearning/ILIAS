@@ -388,7 +388,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		foreach($_POST['roles'] as $role_id)
 		{
 			$confirm->addItem(
-				'roles',
+				'roles[]',
 				$role_id,
 				ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id))
 			);
