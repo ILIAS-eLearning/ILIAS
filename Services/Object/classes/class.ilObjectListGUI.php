@@ -2401,7 +2401,7 @@ class ilObjectListGUI
 				"", "", ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $js_updater));
 		}
 
-		if($this->notes_enabled && !$ilSetting->get("disable_notes"))
+		if($this->notes_enabled)
 		{
 			$this->insertCommand("#", $this->lng->txt("notes"), $cmd_frame,
 				"", "", ilNoteGUI::getListNotesJSCall($this->ajax_hash, $js_updater));
@@ -2623,6 +2623,14 @@ class ilObjectListGUI
 	 */
 	function enableNotes($a_value)
 	{
+		global $ilSetting;
+		
+		// global switch
+		if($ilSetting->get("disable_notes"))
+		{
+			$a_value = false;
+		}
+		
 		$this->notes_enabled = (bool)$a_value;
 	}
 	
