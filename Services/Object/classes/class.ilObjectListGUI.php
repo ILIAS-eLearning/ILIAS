@@ -88,6 +88,7 @@ class ilObjectListGUI
 	static protected $cnt_notes = array();
 	static protected $cnt_tags = array();
 	static protected $comments_activation = array();
+	static protected $preload_done = false;
 	
 	/**
 	* constructor
@@ -2393,9 +2394,8 @@ class ilObjectListGUI
 			? "ilObject.redrawActionHeader();"
 			: "ilObject.redrawListItem(".$note_ref_id.")";
 		
-		$has_notes = false;
-		
-		if($this->comments_enabled)
+		$comments_enabled = $this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, false);
+		if($comments_enabled)
 		{			
 			$this->insertCommand("#", $this->lng->txt("notes_comments"), $cmd_frame,
 				"", "", ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $js_updater));
@@ -3283,6 +3283,8 @@ class ilObjectListGUI
 		include_once("./Services/Notes/classes/class.ilNote.php");
 		self::$cnt_notes = ilNote::_countNotesAndComments($a_obj_ids);
 		self::$comments_activation = ilNote::getRepObjActivation($a_obj_ids);	
+		
+		self::$preload_done = true;
 	}
 	
 	/**
@@ -3302,20 +3304,26 @@ class ilObjectListGUI
 			{
 				return true;
 			}
-			/*
 			if($this->checkCommandAccess('write','', $a_ref_id, $a_type))
 			{
 				return true;
-			}			 
-			*/
-			include_once("./Services/Notes/classes/class.ilNote.php");
-			if(!$a_header_actions && self::$comments_activation[$a_obj_id][$a_type])
+			}			 			
+			// fallback to single object check if no preloaded data
+			// only the repository does preloadCommonProperties() yet
+			if(!$a_header_actions && self::$preload_done)
 			{
-				return true;
-			}
-			else if($a_header_actions && ilNote::commentsActivated($a_obj_id, 0, $a_type))
+				if(self::$comments_activation[$a_obj_id][$a_type])
+				{
+					return true;
+				}
+			}			
+			else
 			{	
-				return true;
+				include_once("./Services/Notes/classes/class.ilNote.php");
+				if(ilNote::commentsActivated($a_obj_id, 0, $a_type))
+				{
+					return true;
+				}
 			}
 		}
 		return false;
