@@ -10367,9 +10367,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 	public function hasQuestionsWithoutQuestionpool() {
 	    global $ilDB;
 	    $questions = $this->getQuestionTitlesAndIndexes();
-	    $query = 'SELECT count(question_id) cnt FROM qpl_questions
-			    INNER JOIN object_data on obj_fi = obj_id
-			WHERE type <> "qpl" AND ' . $ilDB->in('question_id', array_keys($questions), false, 'integer');
+	    $query = 'SELECT count(question_id) cnt FROM qpl_questions'.
+			' INNER JOIN object_data on obj_fi = obj_id'.
+			' WHERE type <> '.$ilDB->quote('qpl', 'text').
+			' AND '.$ilDB->in('question_id', array_keys($questions), false, 'integer');
 
 	    $rset = $ilDB->query($query);
 	    
