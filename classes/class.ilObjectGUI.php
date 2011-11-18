@@ -367,7 +367,16 @@ class ilObjectGUI
 			
 			if (is_object($lg))
 			{
-				$lg->enableComments(true);
+				// comments settings are always on (for the repository)
+				// should only be shown if active or permission to toggle
+				include_once "Services/Notes/classes/class.ilNote.php";
+				if($ilAccess->checkAccess("write", "", $this->ref_id) ||
+					$ilAccess->checkAccess("edit_permissions", "", $this->ref_id) ||
+					ilNote::commentsActivated($this->object->getId(), 0, $this->object->getType()))
+				{
+					$lg->enableComments(true);
+				}
+				
 				$lg->enableNotes(true);
 				$lg->enableTags(true);
 			}

@@ -719,6 +719,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 					$lg->setContainerObject($this);
 				}
 				
+				// for activation checks see ilObjectGUI
 				// $lg->enableComments(true);
 				$lg->enableNotes(true);
 				// $lg->enableTags(true);

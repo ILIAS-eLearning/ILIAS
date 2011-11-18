@@ -1032,12 +1032,21 @@ class ilInfoScreenGUI
 		$ref_id = $this->gui_object->object->getRefId();
 		if ($ilAccess->checkAccess("write", "", $ref_id) ||
 			$ilAccess->checkAccess("edit_permissions", "", $ref_id))
-		{
+		{			
 			$notes_gui->enableCommentsSettings();
 		}
+		/* should probably be discussed further
+			for now this will only work properly with comments settings 
+			(see ilNoteGUI constructor) 
+		else
+		{		
+			$notes_gui->enablePublicNotes();
+		}		 
+		*/
 
-//		$notes_gui->enablePrivateNotes();
-		//$notes_gui->enablePublicNotes();
+		/* moved to action menu 
+	    $notes_gui->enablePrivateNotes(); 		
+		*/
 
 		if ($next_class == "ilnotegui")
 		{

@@ -153,16 +153,23 @@ class ilCommonActionDispatcherGUI
 				$note_gui = new ilNoteGUI($this->obj_id, $this->sub_id, $obj_type);
 				$note_gui->enablePrivateNotes(true);	
 				
-				if($this->enable_comments_settings && 
-					($this->access_handler->checkAccess("write", "", $this->node_id) ||
-					$this->access_handler->checkAccess("edit_permissions", "", $this->node_id)))
+				// comments cannot be turned off globally
+				if($this->enable_comments_settings)
 				{
-					$note_gui->enableCommentsSettings();
+					// should only be shown if active or permission to toggle
+					if($this->access_handler->checkAccess("write", "", $this->node_id) ||
+						$this->access_handler->checkAccess("edit_permissions", "", $this->node_id))
+					{
+						$note_gui->enableCommentsSettings();
+					}
 				}
+				/* this is the same behaviour as the info screen,
+					should probably be discussed further (see InfoscreenGUI)
 				else
 				{
 					$note_gui->enablePublicNotes(true);
-				}
+				}				 
+			    */				 			 
 
 				$ilCtrl->forwardCommand($note_gui);		
 				break;
