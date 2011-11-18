@@ -246,7 +246,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		else
 		{
 			ilUtil::sendFailure($this->lng->txt("please_select_a_delivered_file_to_download"), true);
-			$ilCtrl->redirect($this, "deliver");
+			$ilCtrl->redirect($this, "submissionScreen");
 		}
 	}
 
