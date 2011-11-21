@@ -264,7 +264,7 @@ class ilObjBlogGUI extends ilObject2GUI
 							{
 								$info[] = $lng->txt("blog_draft_info");
 							}
-							if(!$bpost_gui->getBlogPosting()->getFirstParagraphText())
+							if($cmd != "history" && !$bpost_gui->getBlogPosting()->getFirstParagraphText())
 							{
 								$info[] = $lng->txt("blog_new_posting_info");
 							}
