@@ -643,6 +643,7 @@ class ilPublicUserProfileGUI
 		include_once("./Services/User/classes/class.ilUserUtil.php");
 		$tpl->setTitle(ilUserUtil::getNamePresentation($this->getUserId()));
 		$tpl->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->getUserId(), "xxsmall"));
+		$tpl->setDescription(null);
 		
 		$back = ($this->getBackUrl() != "")
 			? $this->getBackUrl()
