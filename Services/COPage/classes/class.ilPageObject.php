@@ -1228,21 +1228,21 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 	function getFirstParagraphText()
 	{
-		require_once("./Services/COPage/classes/class.ilPCParagraph.php");
-		$xpc = xpath_new_context($this->dom);
-		$path = "//Paragraph[1]";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) > 0)
+		if($this->dom)
 		{
-			$cont_node =& $res->nodeset[0]->parent_node();
-			$par =& new ilPCParagraph($this->dom);
-			$par->setNode($cont_node);
-			return $par->getText();
+			require_once("./Services/COPage/classes/class.ilPCParagraph.php");
+			$xpc = xpath_new_context($this->dom);
+			$path = "//Paragraph[1]";
+			$res =& xpath_eval($xpc, $path);
+			if (count($res->nodeset) > 0)
+			{
+				$cont_node =& $res->nodeset[0]->parent_node();
+				$par =& new ilPCParagraph($this->dom);
+				$par->setNode($cont_node);
+				return $par->getText();
+			}
 		}
-		else
-		{
-			return "";
-		}
+		return "";
 	}
 
 	/**
