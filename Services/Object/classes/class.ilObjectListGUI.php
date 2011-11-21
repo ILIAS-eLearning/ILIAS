@@ -2612,6 +2612,14 @@ class ilObjectListGUI
 	 */
 	function enableComments($a_value, $a_enable_comments_settings = true)
 	{
+		global $ilSetting;
+		
+		// global switch
+		if($ilSetting->get("disable_comments"))
+		{
+			$a_value = false;
+		}
+		
 		$this->comments_enabled = (bool)$a_value;
 		$this->comments_settings_enabled = (bool)$a_enable_comments_settings;
 	}

@@ -1022,27 +1022,31 @@ class ilInfoScreenGUI
 	*/
 	function showNotesSection()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilSetting;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
 		$notes_gui = new ilNoteGUI($this->gui_object->object->getId(), 0,
 			$this->gui_object->object->getType());
-
-		$ref_id = $this->gui_object->object->getRefId();
-		if ($ilAccess->checkAccess("write", "", $ref_id) ||
-			$ilAccess->checkAccess("edit_permissions", "", $ref_id))
-		{			
-			$notes_gui->enableCommentsSettings();
+		
+		// global switch
+		if($ilSetting->get("disable_comments"))
+		{
+			$notes_gui->enablePublicNotes(false);
 		}
-		/* should probably be discussed further
+		else
+		{
+			/* should probably be discussed further
 			for now this will only work properly with comments settings 
 			(see ilNoteGUI constructor) 
-		else
-		{		
-			$notes_gui->enablePublicNotes();
+			*/
+			$ref_id = $this->gui_object->object->getRefId();
+			if ($ilAccess->checkAccess("write", "", $ref_id) ||
+				$ilAccess->checkAccess("edit_permissions", "", $ref_id))
+			{			
+				$notes_gui->enableCommentsSettings();
+			}
 		}		 
-		*/
 
 		/* moved to action menu 
 	    $notes_gui->enablePrivateNotes(); 		

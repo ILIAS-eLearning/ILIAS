@@ -147,6 +147,12 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked(($ilSetting->get("disable_notes") ? "0" : "1"));
 		$form->addItem($cb_prop);
 		
+		// Enable notes
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_comments"), "enable_comments");
+		$cb_prop->setValue("1");
+		$cb_prop->setChecked(($ilSetting->get("disable_comments") ? "0" : "1"));
+		$form->addItem($cb_prop);
+		
 		// Enable Chatviewer
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("pd_enable_chatviewer"), "block_activated_chatviewer");
 		$cb_prop->setValue("1");
@@ -279,6 +285,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ilSetting->set("disable_contacts_require_mail", (int) ($_POST["enable_contacts_require_mail"] ? 0 : 1));
 
 		$ilSetting->set("disable_notes", (int) ($_POST["enable_notes"] ? 0 : 1));
+		$ilSetting->set("disable_comments", (int) ($_POST["enable_comments"] ? 0 : 1));
 		$ilSetting->set("block_activated_chatviewer", (int) ($_POST["block_activated_chatviewer"]));		
 		
 		$ilSetting->set("block_activated_pdusers", $_POST["block_activated_pdusers"]);
