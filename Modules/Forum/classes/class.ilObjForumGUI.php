@@ -199,7 +199,7 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 		
 		// suppress for topic level
-		if($cmd != "viewThreadObject")
+		if($cmd != "viewThreadObject" && $cmd != "showUserObject")
 		{
 			$this->addHeaderAction();
 		}
