@@ -82,7 +82,11 @@ class ilLPStatusFactory
 			case LP_MODE_UNDEFINED:
 				$type = ilObject::_lookupType($a_obj_id);
 				$mode = ilLPObjSettings::__getDefaultMode($a_obj_id, $type);
-				return self::_getClassById($a_obj_id, $mode);
+				if($mode != LP_MODE_UNDEFINED)
+				{
+					return self::_getClassById($a_obj_id, $mode);
+				}
+				// fallthrough
 
 			default:
 				echo "ilLPStatusFactory: unknown type ".ilLPObjSettings::_lookupMode($a_obj_id);
