@@ -1,0 +1,52 @@
+<style>
+body { margin:20px; }
+</style>
+
+<h1><strong>{ATTENDANCE_LIST}</strong></h1>
+<h1><strong>{DATE} {EVENT_NAME}</strong></h1>
+
+<table class="std" border="2" width="100%">
+	<thead>
+		<tr class="tblheader" padding="1px">
+		  <th>{TXT_NAME}</th>
+		  <!-- BEGIN head_blank -->
+		  <th>&nbsp;</th>
+		  <!-- END head_blank -->
+		  <!-- BEGIN head_mark -->
+		  <th>{TXT_MARK}</th>
+		  <!-- END head_mark -->
+		  <!-- BEGIN head_comment -->
+		  <th>{TXT_COMMENT}</th>
+		  <!-- END head_comment -->
+		  <!-- BEGIN head_signature -->
+		  <th>{TXT_SIGNATURE}</th>
+		  <!-- END head_signature -->		
+		</tr>
+	</thead>
+	<tbody>
+		<!-- BEGIN member_row -->
+		<tr class="std">		
+		  <td class="option_value">
+			{LASTNAME}, {FIRSTNAME} [{LOGIN}]
+		  </td>
+		  <!-- BEGIN row_blank -->
+		  <td class="option_value">&nbsp;</td>
+		  <!-- END row_blank -->
+		  <!-- BEGIN row_mark -->
+		  <td class="option_value">
+			{MARK}
+		  </td>
+		  <!-- END row_mark -->
+		  <!-- BEGIN row_comment -->		  
+		  <td class="option_value">
+			{COMMENT}
+		  </td>
+		  <!-- END row_comment -->
+		  <!-- BEGIN row_signature -->
+		  <td class="option_value">
+		  </td>
+		  <!-- END row_signature -->		 
+		</tr>
+		<!-- END member_row -->
+	</tbody>
+</table>

@@ -1117,69 +1117,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$ilTabs->setTabActive('event_edit_members');
 		
-		$this->initAttendanceForm();
-		$tpl->setContent($this->form->getHTML());
-		
+		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
+		$list = new ilAttendanceList($this, null);
+		$form = $list->initForm('printAttendanceList');
+		$tpl->setContent($form->getHTML());		
 	}
-	
-	/**
-	 * show attendance list selection form
-	 *
-	 * @access protected
-	 * @return
-	 */
-	protected function initAttendanceForm()
-	{
-		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($this->ctrl->getFormAction($this));
-		$this->form->setTarget('_blank');
-		$this->form->setTitle($this->lng->txt('sess_gen_attendance_list'));
-		
-		$mark = new ilCheckboxInputGUI($this->lng->txt('trac_mark'),'show_mark');
-		$mark->setOptionTitle($this->lng->txt('sess_gen_mark_title'));
-		$mark->setValue(1);
-		$this->form->addItem($mark);
-		
-		$comment = new ilCheckboxInputGUI($this->lng->txt('trac_comment'),'show_comment');
-		$comment->setOptionTitle($this->lng->txt('sess_gen_comment'));
-		$comment->setValue(1);
-		$this->form->addItem($comment);
-		
-		$signature = new ilCheckboxInputGUI($this->lng->txt('sess_signature'),'show_signature');
-		$signature->setOptionTitle($this->lng->txt('sess_gen_signature'));
-		$signature->setValue(1);
-		$this->form->addItem($signature);
-		
-		$part = new ilFormSectionHeaderGUI();
-		$part->setTitle($this->lng->txt('event_participant_selection'));
-		$this->form->addItem($part);
-		
-		// Admins
-		$admin = new ilCheckboxInputGUI($this->lng->txt('event_tbl_admins'),'show_admins');
-		$admin->setOptionTitle($this->lng->txt('event_inc_admins'));
-		$admin->setValue(1);
-		$this->form->addItem($admin);
-		
-		// Tutors
-		$tutor = new ilCheckboxInputGUI($this->lng->txt('event_tbl_tutors'),'show_tutors');
-		$tutor->setOptionTitle($this->lng->txt('event_inc_tutors'));
-		$tutor->setValue(1);
-		$this->form->addItem($tutor);
-
-		// Members
-		$member = new ilCheckboxInputGUI($this->lng->txt('event_tbl_members'),'show_members');
-		$member->setOptionTitle($this->lng->txt('event_inc_members'));
-		$member->setValue(1);
-		$member->setChecked(true);
-		$this->form->addItem($member);
-		
-		$this->form->addCommandButton('printAttendanceList',$this->lng->txt('sess_print_attendance_list'));
-		#$this->form->addCommandButton('members', $this->lng->txt('cancel'));
-		
-	}
-	
 	/**
 	 * print attendance list
 	 *
@@ -1201,84 +1144,21 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			ilUtil::sendFailure('No course object found. Aborting');
 			return true;
 		}
-		
+													
+		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
 		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj_id);
-		$event_app = $this->object->getFirstAppointment();
+		$list = new ilAttendanceList($this, $members_obj);
+		$list->initFromForm();
+		
+		$event_app = $this->object->getFirstAppointment();		
+		$list->setEvent($event_app->getStart(),$event_app->getEnd(),$this->object->getTitle());
+		
 		$event_part = new ilEventParticipants($this->object->getId());
+		$list->setCallback(array($event_part, 'getUser'));
 		
-
-		$this->tpl = new ilTemplate('tpl.main.html',true,true);
-		// load style sheet depending on user's settings
-		$location_stylesheet = ilUtil::getStyleSheetLocation();
-		$this->tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
-
-		$tpl = new ilTemplate('tpl.sess_attendance_list_print.html',true,true,'Modules/Session');
-
-		$tpl->setVariable("ATTENDANCE_LIST",$this->lng->txt('sess_attendance_list'));
-		$tpl->setVariable("EVENT_NAME",$this->object->getTitle() ? ': '.$this->object->getTitle() : '');
-		ilDatePresentation::setUseRelativeDates(false);
-		$tpl->setVariable("DATE",ilDatePresentation::formatPeriod($event_app->getStart(),$event_app->getEnd()));
-		ilDatePresentation::setUseRelativeDates(true);
-		
-		$tpl->setVariable("TXT_NAME",$this->lng->txt('name'));
-		if($_POST['show_mark'])
-		{
-			$tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
-		}						  
-		if($_POST['show_comment'])
-		{
-			$tpl->setVariable("TXT_COMMENT",$this->lng->txt('trac_comment'));	
-		}
-		if($_POST['show_signature'])
-		{
-			$tpl->setVariable("TXT_SIGNATURE",$this->lng->txt('sess_signature'));	
-		}
-		
-		if($_POST['show_admins'])
-		{
-			$members = array_merge((array) $members,$members_obj->getAdmins());
-		}
-		if($_POST['show_tutors'])
-		{
-			$members = array_merge((array) $members,$members_obj->getTutors());
-		}
-		if($_POST['show_members'])
-		{
-			$members = array_merge((array) $members,$members_obj->getMembers());
-		}
-		$members = ilUtil::_sortIds((array) $members,'usr_data','lastname','usr_id');
-				
-		foreach($members as $user_id)
-		{
-			$user_data = $event_part->getUser($user_id);
-
-			if($_POST['show_mark'])
-			{
-				$tpl->setVariable("MARK",$user_data['mark'] ? $user_data['mark'] : ' ');
-			}
-			if($_POST['show_comment'])
-			{
-				$tpl->setVariable("COMMENT",$user_data['comment'] ? $user_data['comment'] : ' ');
-			}
-			if($_POST['show_signature'])
-			{
-					$tpl->touchBlock('row_signature');
-			}
-
-			$tpl->setCurrentBlock("member_row");
-			$name = ilObjUser::_lookupName($user_id);
-			$tpl->setVariable("LASTNAME",$name['lastname']);
-			$tpl->setVariable("FIRSTNAME",$name['firstname']);
-			$tpl->setVariable("LOGIN",ilObjUser::_lookupLogin($user_id));
-			$tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setVariable("CONTENT",$tpl->get());
-		$this->tpl->setVariable("BODY_ATTRIBUTES",'onload="window.print()"');
-		$this->tpl->show();
-		exit;
-	}
-	
+		echo $list->getFullscreenHTML();
+		exit();
+	}	
 	
 	/**
 	 * print view
