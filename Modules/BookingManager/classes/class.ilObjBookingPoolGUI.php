@@ -587,6 +587,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			else
 			{
 				include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+				include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 				$ids = array();
 				foreach(ilBookingObject::getList((int)$_GET['type_id']) as $item)
 				{
