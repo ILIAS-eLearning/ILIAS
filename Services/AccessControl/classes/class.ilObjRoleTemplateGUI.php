@@ -100,8 +100,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
 
-			$this->getTemplateFile("edit","role");
-
+			$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.role_edit.html');
+			
 			foreach ($data["fields"] as $key => $val)
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
@@ -521,7 +521,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->getTemplateFile("edit","role");
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.role_edit.html');
 
 		if ($_SESSION["error_post_vars"])
 		{

@@ -57,7 +57,15 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
 
 	    $tpl->addCSS( 'Modules/Chatroom/templates/default/style.css' );
 
-	    $roomTpl = new ilTemplate( 'tpl.history'.($export ? '_export' : '').'.html', true, true, 'Modules/Chatroom' );
+		// should be able to grep templates 
+		if($export)
+		{
+			$roomTpl = new ilTemplate( 'tpl.history_export.html', true, true, 'Modules/Chatroom' );
+		}
+		else
+		{
+			$roomTpl = new ilTemplate( 'tpl.history.html', true, true, 'Modules/Chatroom' );
+		}
 
 	    $scopes = array();
 

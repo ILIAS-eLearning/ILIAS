@@ -604,7 +604,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->getTemplateFile("edit");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_edit.html");
 
 		if ($_SESSION["error_post_vars"])
 		{

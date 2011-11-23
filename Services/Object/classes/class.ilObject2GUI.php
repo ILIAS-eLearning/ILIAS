@@ -527,7 +527,6 @@ abstract class ilObject2GUI extends ilObjectGUI
 	final protected  function getReturnLocation() { die("ilObject2GUI::getReturnLocation() is deprecated."); }
 	final protected  function setReturnLocation() { die("ilObject2GUI::setReturnLocation() is deprecated."); }
 	final protected function showActions() { die("ilObject2GUI::showActions() is deprecated."); }
-	final public function getTemplateFile() {mk(); die("ilObject2GUI::getTemplateFile() is deprecated."); }
 	final protected function getTitlesByRefId() { die("ilObject2GUI::getTitlesByRefId() is deprecated."); }
 	final protected function getTabs() {nj(); die("ilObject2GUI::getTabs() is deprecated."); }
 	final protected function __showButton() { die("ilObject2GUI::__showButton() is deprecated."); }

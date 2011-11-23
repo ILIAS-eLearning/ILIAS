@@ -79,8 +79,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		//$this->setTabs();
 
 		$this->lng =& $lng;
-		//$this->ctrl->setParameter($this,'new_type',$this->type);
-		$this->getTemplateFile("create", "sty");
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.sty_create.html');
 
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("sty_create_new_stylesheet"));
 
@@ -214,23 +213,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->initPropertiesForm();
 		$this->getPropertiesValues();
 		$this->tpl->setContent($this->form->getHTML());
-		
-/*
-		$this->getTemplateFile("edit", "sty");
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("edit_stylesheet"));
-
-		// title and description
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable(strtoupper("TITLE"), $this->object->getTitle());
-		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("description"));
-		$this->tpl->setVariable(strtoupper("DESCRIPTION"), $this->object->getDescription());
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("BTN_SAVE", "update");
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-*/
 	}
 	
 	/**

@@ -1184,7 +1184,7 @@ function showTrackingItem()
 		$this->data["buttons"] = array( "cancelDeleteTracking"  => $this->lng->txt("cancel"),
 								  "confirmedDeleteTracking"  => $this->lng->txt("confirm"));
 
-		$this->getTemplateFile("confirm");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_confirm.html");
 
 		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 
