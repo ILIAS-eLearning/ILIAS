@@ -797,7 +797,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		
 		$fhandle = fopen($a_file, "r");
 
-		// $obj_id = $ilDB->quote($this->getID());
 		$obj_id = $this->getID();
 
 		$fields = fgetcsv($fhandle, 4096, ';');
@@ -810,7 +809,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			
 			  if ($this->get_user_id($data["Login"])>0) {
 					
-				$user_id = $ilDB->quote($this->get_user_id($data["Login"]));
+				$user_id = $this->get_user_id($data["Login"]);
 				$users[] = $user_id;
 				$import = $data["Status"];
 				if ($import == "") {$import = 1;}
