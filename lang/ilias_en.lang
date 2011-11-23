@@ -12372,3 +12372,6 @@ dateplaner#:#cal_cal_deleted#:#The calendars have been deleted
 wfld#:#wfld_edit#:#Edit Folder
 pd#:#pd_enable_comments#:#Enable Comments
 crs#:#event_blank_columns#:#Additional Columns
+common#:#continue#:#continue
+payment#:#click_to_buy_info#:#You are successfully logged on. For continuing the purchasing process accept the general terms and conditions and click the buy button
+payment#:#click_to_continue_info#:#To continue the shopping process, click on "Continue" to log in or register.

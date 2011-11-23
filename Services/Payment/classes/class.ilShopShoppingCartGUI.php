@@ -658,7 +658,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 					$tpl->setVariable('COUPON_TABLE', $this->showCouponInput($pay_method['pm_title']));
 				}
 				$tpl->setCurrentBlock('buy_link');
-								$tpl->setCurrentBlock('terms_checkbox');
+				#				$tpl->setCurrentBlock('terms_checkbox');
 
 				$link_target = $this->ctrl->getLinkTargetByClass('iltermsconditionsgui','');
 				$terms_link =  '<a href="'.$link_target.'">'.$this->lng->txt('terms_conditions').'</a>';
@@ -677,11 +677,13 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							# Anonymous user has to login
 							if(ANONYMOUS_USER_ID == $ilUser->getId())
 							{
-								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+								ilUtil::sendInfo($this->lng->txt('click_to_continue_info'));
+								$tpl->setVariable('TXT_BUY', $this->lng->txt('continue'));
 								$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
 							}
 							else
 							{
+								ilUtil::sendInfo('click_to_buy_info');
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
 								$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTargetByClass('ilPurchaseBillGUI', ''));
 							}
@@ -700,7 +702,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							# Anonymous user has to login
 							if(ANONYMOUS_USER_ID == $ilUser->getId())
 							{
-								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+								ilUtil::sendInfo($this->lng->txt('click_to_continue_info'));
+								$tpl->setVariable('TXT_BUY', $this->lng->txt('continue'));
 								$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
 							}
 							else
@@ -753,14 +756,18 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						{
 							if(ANONYMOUS_USER_ID == $ilUser->getId())# && $force_user_login == true)
 							{
+								ilUtil::sendInfo($this->lng->txt('click_to_continue_info'));
 								$tpl->touchBlock('attach_submit_event');
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
 								$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
 							}
 							else
 							{
+								$tpl->setCurrentBlock('terms_checkbox');
+								ilUtil::sendInfo($this->lng->txt('click_to_buy_info'));
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
 								$tpl->setVariable('SCRIPT_LINK', 'https://'.$this->paypalConfig['server_host'].$this->paypalConfig['server_path']);
+								$tpl->parseCurrentBlock('terms_checkbox');
 							}
 						}
 

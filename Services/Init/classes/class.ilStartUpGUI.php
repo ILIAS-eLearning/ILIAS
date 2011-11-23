@@ -1497,11 +1497,13 @@ class ilStartUpGUI
 			{
 				die("ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!");
 			}
-
-			$newSid = session_id();
-			include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
-			ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
-
+			
+			if(IS_PAYMENT_ENABLED)
+			{
+ 				$newSid = session_id();
+				include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
+				ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
+			}
 			// get user id
 			$ilInit->initUserAccount();
 			$this->processStartingPage();
