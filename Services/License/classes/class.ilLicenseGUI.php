@@ -24,7 +24,6 @@ class ilLicenseGUI
 	{
 		global $ilCtrl, $tpl, $lng;
 
-		$this->module = "Services/License";
 		$this->ctrl =& $ilCtrl;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
@@ -64,7 +63,7 @@ class ilLicenseGUI
 		$remaining_licenses = $licenses == "0" ? $this->lng->txt("arbitrary") : strval($this->license->getRemainingLicenses());
 		$potential_accesses = strval($this->license->getPotentialAccesses());
 		
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.lic_edit_license.html',$this->module);
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.lic_edit_license.html',"Services/License");
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_EDIT_LICENSE", $this->lng->txt("edit_license"));
 		$this->tpl->setVariable("TXT_EXISTING_LICENSES", $this->lng->txt("existing_licenses"));

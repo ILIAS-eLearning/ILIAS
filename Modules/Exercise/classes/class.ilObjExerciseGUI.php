@@ -357,8 +357,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
 
-		$this->getTemplateFile("deliver_file", "exc");
-
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.exc_deliver_file.html');
+		
 		include_once("./Modules/Exercise/classes/class.ilExcDeliveredFilesTableGUI.php");
 		$tab = new ilExcDeliveredFilesTableGUI($this, "deliver", $this->object, $_GET["ass_id"]);
 		$this->tpl->setVariable("DELIVERED_FILES_TABLE", $tab->getHTML());

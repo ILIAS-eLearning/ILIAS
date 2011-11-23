@@ -316,8 +316,8 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 
 		$this->data["buttons"] = array( "confirmedDeleteClassroom"  => $this->lng->txt("confirm"),
 								  "cancelDeleteClassroom"  => $this->lng->txt("cancel"));
-
-		$this->getTemplateFile("confirm");
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_confirm.html");
 
 		if(!$a_error)
 		{

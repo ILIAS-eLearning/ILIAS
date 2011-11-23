@@ -1126,7 +1126,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->data["buttons"] = array( "cancelDeletePg"  => $this->lng->txt("cancel"),
 								  "confirmedDeletePg"  => $this->lng->txt("confirm"));
 
-		$this->getTemplateFile("confirm");
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.obj_confirm.html');
 
 		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 

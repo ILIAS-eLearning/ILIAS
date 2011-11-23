@@ -1859,7 +1859,7 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 		}
 
-		$this->getTemplateFile("edit","usr");
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_edit.html');
 
 		// FILL SAVED VALUES IN CASE OF ERROR
 		if (isset($_SESSION["error_post_vars"]["Fobject"]))

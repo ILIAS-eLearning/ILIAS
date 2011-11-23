@@ -730,7 +730,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			"cancelDelete"  => $this->lng->txt("cancel")
 		);
 
-		$this->getTemplateFile("confirm");
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.obj_confirm.html');
 
 		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 
@@ -2545,8 +2545,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// SAVE POST VALUES
 		$_SESSION["ilExportFiles"] = $_POST["file"];
 
-		$this->getTemplateFile("confirm_delete_export","usr");		
-
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_confirm_delete_export.html');
+		
 		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -2630,7 +2630,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			exit;
 		}
 		
-		$this->getTemplateFile("export","usr");
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_export.html');
 		
 		$export_types = array(
 			"userfolder_export_excel_x86",

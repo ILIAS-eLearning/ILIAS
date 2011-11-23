@@ -277,10 +277,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
     *   @return
     */
 	function offlineexportform() 
-	{
-		
-		//$tpl_offline =& new ilTemplate("tpl.");
-		//vd($this->tpl);
+	{		
 		$this->tpl->addBlockfile("CONTENT", "offline_content", "tpl.offline_export.html", "Modules/LearningModule");
 		$this->tpl->touchBlock("offline_content");
 		

@@ -215,7 +215,6 @@ class ilObjMailGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 		}
-		#$this->getTemplateFile("import");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_import.html", "Services/Mail");
 
 		// GET ALREADY CREATED UPLOADED XML FILE

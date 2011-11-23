@@ -27,7 +27,6 @@ class ilLicenseOverviewGUI
 	{
 		global $ilCtrl, $tpl, $lng;
 
-		$this->module = "Services/License";
 		$this->mode = $a_mode;
 		$this->ctrl =& $ilCtrl;
 		$this->tpl =& $tpl;
@@ -73,7 +72,7 @@ class ilLicenseOverviewGUI
     			$objects = ilLicense::_getLicensedChildObjects($this->parent_gui->object->getRefId());
    		}
 		
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.lic_show_licenses.html',$this->module);
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.lic_show_licenses.html',"Services/License");
 
 		foreach ($objects as $data)
 		{

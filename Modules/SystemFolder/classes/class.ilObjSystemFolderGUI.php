@@ -1142,8 +1142,8 @@ return $this->showServerInfoObject();
 			$validator = new ilValidator();
 			$hasScanLog = $validator->hasScanLog();
 
-			$this->getTemplateFile("check");
-
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_check.html");
+			
 			if ($hasScanLog)
 			{
 				$this->tpl->setVariable("TXT_VIEW_LOG", $this->lng->txt("view_last_log"));
@@ -1554,7 +1554,7 @@ return $this->showServerInfoObject();
 		$mode = $this->lng->txt("scan_modes").": ".implode(', ',$modes);
 
 		// output
-		$this->getTemplateFile("scan");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_scan.html");
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("scanning_system"));
@@ -1589,7 +1589,7 @@ return $this->showServerInfoObject();
 		}
 
 		// output
-		$this->getTemplateFile("scan");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_scan.html");
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("scan_details"));
 		$this->tpl->setVariable("COLSPAN", 3);
 		$this->tpl->setVariable("TXT_SCAN_LOG", $scan_log);

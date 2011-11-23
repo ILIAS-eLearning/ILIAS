@@ -737,7 +737,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			$this->data["buttons"] = array( "cancelDelete"  => $this->lng->txt("cancel"),
 									  "confirmedDelete"  => $this->lng->txt("confirm"));
 
-			$this->getTemplateFile("confirm");
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_confirm.html");
 
 			ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
 

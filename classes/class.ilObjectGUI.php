@@ -1624,21 +1624,9 @@ class ilObjectGUI
 	* @param	string	object type definition
 	* @access	public
  	*/
-	public function getTemplateFile($a_cmd,$a_type = "")
+	final protected function getTemplateFile($a_cmd,$a_type = "")
 	{
-		if (!$a_type)
-		{
-			$a_type = $this->type;
-		}
-
-		$template = "tpl.".$a_type."_".$a_cmd.".html";
-
-		if (!$this->tpl->fileExists($template) &&
-			!file_exists("./templates/default/".$template))
-		{
-			$template = "tpl.obj_".$a_cmd.".html";
-		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template,$a_in_module);
+		mk(); die("ilObjectGUI::getTemplateFile() is deprecated.");
 	}
 
 	/**

@@ -69,7 +69,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->setSubTabs('authSettings');		
 		$this->tabs_gui->setSubTabActive("auth_settings");		
 		
-		$this->getTemplateFile("general");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.auth_general.html");
 		
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_AUTH_TITLE", $this->lng->txt("auth_select"));
@@ -351,8 +351,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		// get template
 		$stpl = new ilTemplate("tpl.auth_soap.html", true, true, "");
 		
-		//$this->getTemplateFile("soap");
-		
 		// get all settings
 		$settings = $ilSetting->getAll();
 		
@@ -573,7 +571,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 		$this->tabs_gui->setTabActive('auth_script');
 
-		$this->getTemplateFile("script");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.auth_script.html");
 		
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("COLSPAN", 3);
