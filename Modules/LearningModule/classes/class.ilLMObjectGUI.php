@@ -88,32 +88,6 @@ class ilLMObjectGUI
 	}
 
 	/**
-	* get a template blockfile
-	* format: tpl.<objtype>_<command>.html
-	*
-	* @param	string	command
-	* @param	string	object type definition
-	* @access	public
- 	*/
-	function getTemplateFile($a_cmd,$a_type = "")
-	{
-		if (!$a_type)
-		{
-			$a_type = $_GET["type"];
-		}
-
-		$template = "tpl.".$a_type."_".$a_cmd.".html";
-
-		if (!$this->tpl->fileExists($template))
-		{
-			$template = "tpl.obj_".$a_cmd.".html";
-		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
-	}
-
-
-	/**
 	* structure / page object creation form
 	*/
 	function create()
@@ -127,9 +101,22 @@ class ilLMObjectGUI
 		$data["fields"] = array();
 		$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
 		$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
-
-		$this->getTemplateFile("edit",$new_type);
-
+						
+		
+		/* :TODO: only dbk, lm, pg, st as possible new types ?!
+			=> do not have custom edit templates...
+		
+		$template = "tpl.".$new_type."_edit.html";
+		if (!$this->tpl->fileExists($template))
+		{
+			$template = "tpl.obj_edit.html";
+		}
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);	
+		
+		*/				
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_edit.html");	
+		
+		
 		foreach ($data["fields"] as $key => $val)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
