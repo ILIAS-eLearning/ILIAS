@@ -265,7 +265,7 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 		global $lng;
 		
 		// custom icons
-		$path = ilObject::_getIcon($a_obj_id, "small", "root");
+		$path = ilObject::_getIcon($a_obj_id, "small", "wsrt");
 		
 		$tpl->setCurrentBlock("icon");
 		$title = $this->tree->getNodeData($this->root_id);
