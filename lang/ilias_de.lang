@@ -12372,3 +12372,6 @@ dateplaner#:#cal_cal_deleted#:#Die Kalender wurden gelöscht.
 wfld#:#wfld_edit#:#Ordner bearbeiten
 pd#:#pd_enable_comments#:#Kommentare aktivieren
 crs#:#event_blank_columns#:#Zusätzliche Spalten
+common#:#continue#:#Weiter
+payment#:#click_to_buy_info#:#Sie wurden nun erfolgreich angemeldet. Um den Bezahlvorgang Ihres Einkaufs fortzusetzen, akzeptieren Sie die AGB und klicken auf den "zur Kasse"-Button
+payment#:#click_to_continue_info#:#Um den Einkaufsprozess fortzusetzen klicken Sie nun auf "Weiter" um sich anzumelden oder zu registrieren.

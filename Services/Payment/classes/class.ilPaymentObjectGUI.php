@@ -599,6 +599,14 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 			return true;
 		}
+		else if(!count($standard_prices))
+		{
+			//set pobject status to "not buyable" if there is no standard_price defined
+			$this->pobject->setStatus(0);
+			$this->pobject->update();
+			ilUtil::sendInfo($this->lng->txt('paya_no_price_available'));
+		}
+
 		// Show confirm delete
 		if($a_show_delete)
 		{	

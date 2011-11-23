@@ -623,33 +623,35 @@ class ilMainMenuGUI
 			
 			$a_tpl->setVariable("DESK_CONT_OV", $gl->getHTML());
 		}
-		
-		// shop
-		if ($a_id == "shop")
+
+		if(IS_PAYMENT_ENABLED)
 		{
-			$gl = new ilGroupedListGUI();
-			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.gif"));
-
-			// shop_content
-			$gl->addEntry($lng->txt("content"),
-				"ilias.php?baseClass=ilShopController&amp;cmd=firstpage",
-				"_top");
-			
-			// shoppingcart
-			include_once 'Services/Payment/classes/class.ilPaymentShoppingCart.php';
-			global $ilUser;
-			$objShoppingCart = new ilPaymentShoppingCart($ilUser);
-			$items = $objShoppingCart->getEntries();
-
-			if(count($items) > 0 )
+			// shop
+			if ($a_id == "shop")
 			{
-				$gl->addEntry($lng->txt("shoppingcart").' ('.count($items).')',
-					"ilias.php?baseClass=ilShopController&amp;cmdClass=ilshopshoppingcartgui",
-					"_top");
-			}
-			$a_tpl->setVariable("SHOP_CONT_OV", $gl->getHTML());
-		}
+				$gl = new ilGroupedListGUI();
+				$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.gif"));
 
+				// shop_content
+				$gl->addEntry($lng->txt("content"),
+					"ilias.php?baseClass=ilShopController&amp;cmd=firstpage",
+					"_top");
+
+				// shoppingcart
+				include_once 'Services/Payment/classes/class.ilPaymentShoppingCart.php';
+				global $ilUser;
+				$objShoppingCart = new ilPaymentShoppingCart($ilUser);
+				$items = $objShoppingCart->getEntries();
+
+				if(count($items) > 0 )
+				{
+					$gl->addEntry($lng->txt("shoppingcart").' ('.count($items).')',
+						"ilias.php?baseClass=ilShopController&amp;cmdClass=ilshopshoppingcartgui",
+						"_top");
+				}
+				$a_tpl->setVariable("SHOP_CONT_OV", $gl->getHTML());
+			}
+		}
 		$a_tpl->setVariable("TXT_".$id_up, $a_txt);
 		$a_tpl->setVariable("SCRIPT_".$id_up, $a_script);
 		$a_tpl->setVariable("TARGET_".$id_up, $a_target);

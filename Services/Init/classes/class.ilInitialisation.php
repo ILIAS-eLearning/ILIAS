@@ -812,11 +812,12 @@ class ilInitialisation
 		$oldSid = session_id();
 		
 		$ilAuth->start();
-		
-		$newSid = session_id();
-		include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';	
-		ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
-
+		if(IS_PAYMENT_ENABLED)
+		{
+			$newSid = session_id();
+			include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
+			ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
+		}
 		if (ANONYMOUS_USER_ID == "")
 		{
 			die ("Public Section enabled, but no Anonymous user found.");
@@ -1201,11 +1202,12 @@ class ilInitialisation
 			$oldSid = session_id();
 			
 			$ilAuth->start();
-			
-			$newSid = session_id();
-			include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';	
-			ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
-			
+			if(IS_PAYMENT_ENABLED)
+			{
+				$newSid = session_id();
+				include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
+				ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
+			}
 		}
 
 //var_dump($_SESSION);

@@ -1751,18 +1751,17 @@ class ilObjectListGUI
 	{
 		global $ilAccess,$ilObjDataCache,$ilUser;
 
-		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-		include_once 'Services/Payment/classes/class.ilPaymentBookings.php';
-
 		if(IS_PAYMENT_ENABLED && $this->payment_enabled)
 		{
+			include_once './Services/Payment/classes/class.ilPaymentObject.php';
+			include_once './Services/Payment/classes/class.ilPaymentBookings.php';
+
 			if(ilPaymentobject::_requiresPurchaseToAccess($this->ref_id))
 			{
 				if(ilPaymentBookings::_hasAccess(ilPaymentObject::_lookupPobjectId($a_ref_id), $ilUser->getId()))
 				{
 					// get additional information about order_date and duration
 
-					include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 					$order_infos = array();
 					$order_infos = ilPaymentBookings::_lookupOrder(ilPaymentObject::_lookupPobjectId($this->ref_id));
 
@@ -2582,7 +2581,10 @@ class ilObjectListGUI
 				}
 				// END PATCH Lucene Search
 
-				$this->insertPayment();
+				if(IS_PAYMENT_ENABLED)
+				{
+					$this->insertPayment();
+				}
 			}
 		}
 		
