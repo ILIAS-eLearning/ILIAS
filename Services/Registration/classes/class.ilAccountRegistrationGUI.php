@@ -726,6 +726,10 @@ class ilAccountRegistrationGUI
 			$this->tpl->setCurrentBlock("activation");
 			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered"));
 			$this->tpl->setVariable("FORMACTION", "login.php?cmd=post&target=".$_GET["target"]);
+			if(isset($_SESSION['forceShoppingCartRedirect']))
+			{
+				$this->tpl->setVariable("FORMACTION", './login.php?forceShoppingCartRedirect=1');
+			}
 			$this->tpl->setVariable("TARGET","target=\"_parent\"");
 			$this->tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
 			$this->tpl->setVariable("USERNAME",$this->userObj->getLogin());
