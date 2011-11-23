@@ -349,7 +349,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive('auth_soap');
 		
 		// get template
-		$stpl = new ilTemplate("tpl.auth_soap.html", true, true, "");
+		$stpl = new ilTemplate("tpl.auth_soap.html", true, true);
 		
 		// get all settings
 		$settings = $ilSetting->getAll();
