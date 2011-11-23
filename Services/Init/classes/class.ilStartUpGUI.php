@@ -188,14 +188,15 @@ class ilStartUpGUI
 		//
 		//
 
-		// Instantiate login template
-		// Use Shibboleth-only authentication if auth_mode is set to Shibboleth
-		$tpl->addBlockFile("CONTENT", "content", "tpl.login.html","Services/Init");
+			// Instantiate login template
+			// Use Shibboleth-only authentication if auth_mode is set to Shibboleth
+			$tpl->addBlockFile("CONTENT", "content", "tpl.login.html","Services/Init");
 
 		#$this->ctrl->setTargetScript("login.php");
 		if(isset($_GET['forceShoppingCartRedirect']) && (int)$_GET['forceShoppingCartRedirect'] == 1)
 		{
   			$this->ctrl->setParameter($this, 'forceShoppingCartRedirect', 1);
+			$_SESSION['forceShoppingCartRedirect'] = 1;
 		}
 
 		$page_editor_html = $this->getLoginPageEditorHTML();
