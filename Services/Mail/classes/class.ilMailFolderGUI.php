@@ -309,7 +309,8 @@ class ilMailFolderGUI
 				  ->setSelectedItems($_POST['mail_id'])
 				  ->prepareHTML();
 
-		if(!isset($_SESSION['viewmode']) || $_SESSION['viewmode'] == 'flat')
+		#if(!isset($_SESSION['viewmode']) || $_SESSION['viewmode'] == 'flat')
+		if($_SESSION['viewmode'] != 'tree')
 		{
 			$folder_options = array();
 			foreach($folders as $folder)
