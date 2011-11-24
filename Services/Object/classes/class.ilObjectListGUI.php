@@ -1638,7 +1638,7 @@ class ilObjectListGUI
 			include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
 			
 			$nl = true;
-			if (self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0)
+			if ($this->comments_enabled && self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0)
 			{
 				$props[] = array("alert" => false,
 					"property" => $lng->txt("notes_comments"),
@@ -1649,7 +1649,7 @@ class ilObjectListGUI
 				$nl = false;
 			}
 
-			if (self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] > 0)
+			if ($this->notes_enabled && self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] > 0)
 			{
 				$props[] = array("alert" => false,
 					"property" => $lng->txt("notes"),
@@ -1659,7 +1659,7 @@ class ilObjectListGUI
 					"newline" => $nl);
 				$nl = false;
 			}
-			if (self::$cnt_tags[$note_obj_id] > 0)
+			if ($this->tags_enabled && self::$cnt_tags[$note_obj_id] > 0)
 			{
 				$tags_set = new ilSetting("tags");
 				if ($tags_set->get("enable"))
