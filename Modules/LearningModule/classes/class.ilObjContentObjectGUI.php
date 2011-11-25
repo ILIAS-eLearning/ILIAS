@@ -2219,6 +2219,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$buttonTarget = "";
 		}
 		
+		include_once("./Services/Payment/classes/class.ilPaymentObject.php");
 		$requires_purchase_to_access = ilPaymentObject::_requiresPurchaseToAccess((int)$_GET['ref_id']);
 
 		// content
