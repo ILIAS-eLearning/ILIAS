@@ -1716,7 +1716,7 @@ class ilLMPresentationGUI
 
 			// track user access to page
 			include_once "Services/Tracking/classes/class.ilTracking.php";
-			ilTracking::_trackAccess($this->lm->getId(), $this->lm->getType(),
+			ilTracking::_trackAccess($this->lm->getId(), $this->lm->getRefId(), $this->lm->getType(),
 				$page_id, "pg", "read");
 			
 			// update learning progress

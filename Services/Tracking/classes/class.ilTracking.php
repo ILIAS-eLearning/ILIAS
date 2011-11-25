@@ -63,7 +63,7 @@ die ("class ilTracking is deprecated");
 		$query = "SELECT COUNT(id) as num_entries FROM ut_access ".
 			"WHERE session_id = ".$ilDB->quote(session_id(), "text")." ".
 			"AND acc_obj_id = ".$ilDB->quote($a_obj_id, "integer")." ".
-			"AND acc_sub_id = ".$ilDB->quote($a_sub_id, "text")." ";
+			"AND acc_sub_id = ".$ilDB->quote($a_sub_id, "integer")." ";
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
