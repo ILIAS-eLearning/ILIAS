@@ -213,7 +213,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 		// this is e.g. the case, if the post_max_size has been exceeded
 		if (!is_array($_FILES[$this->getPostVar()]))
 		{
-			$this->setAlert($lng->txt("form_msg_upload_failed_prop_size"));
+			$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
 			return false;
 		}
 

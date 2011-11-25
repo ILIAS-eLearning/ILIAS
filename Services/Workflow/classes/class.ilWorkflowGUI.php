@@ -44,7 +44,7 @@ class ilWorkflowGUI
 	*/
 	function getHTML()
 	{
-		$wf_tpl = new ilTemplate("tpl.workflow.html", true, true, "Servives/Workflow");
+		$wf_tpl = new ilTemplate("tpl.workflow.html", true, true, "Services/Workflow");
 		$nr = 1;
 		foreach ($this->getWorkflow()->getSteps() as $ws_step)
 		{
