@@ -203,7 +203,7 @@ class ilObjFileGUI extends ilObject2GUI
 		
 		$this->ctrl->setParameter($this, "new_type", "file");
 	
-		$single_form_gui->setFormAction($this->ctrl->getFormAction($this));
+		$single_form_gui->setFormAction($this->ctrl->getFormAction($this, "save"));
 
 		return $single_form_gui;
 	}
@@ -333,7 +333,7 @@ class ilObjFileGUI extends ilObject2GUI
 		
 		$this->ctrl->setParameter($this, "new_type", "file");
 		
-		$zip_form_gui->setFormAction($this->ctrl->getFormAction($this));
+		$zip_form_gui->setFormAction($this->ctrl->getFormAction($this, "saveUnzip"));
 
 		return $zip_form_gui;
 	}
