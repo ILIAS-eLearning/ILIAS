@@ -180,7 +180,7 @@ class ilRoleTableGUI extends ilTable2GUI
 		$roles->readFromSession();
 		if(!$roles->getValue())
 		{
-			$roles->setValue(ilRbacReview::FILTER_ALL);
+			$roles->setValue(ilRbacReview::FILTER_ALL_GLOBAL);
 		}
 
 		// title filter
