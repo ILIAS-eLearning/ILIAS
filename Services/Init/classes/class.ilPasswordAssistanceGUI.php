@@ -1,35 +1,16 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 /**
-* Password assistance facility for users who have forgotten their password
-* or for users for whom no password has been assigned yet.
-*
-* @author Werner Randelshofer <wrandels@hsw.fhz.ch>
-* @version $Id$
-
-* @ingroup ServicesInit
-*/
+ * Password assistance facility for users who have forgotten their password
+ * or for users for whom no password has been assigned yet.
+ *
+ * @author Werner Randelshofer <wrandels@hsw.fhz.ch>
+ * @version $Id$
+ * @ingroup ServicesInit
+ */
 class ilPasswordAssistanceGUI
 {
 	/**
@@ -120,7 +101,9 @@ class ilPasswordAssistanceGUI
 		global $tpl, $ilias, $lng;
 
 		// Create the form
-		$tpl->addBlockFile("CONTENT", "content", "tpl.pwassist_assistance.html");
+		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
+		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content",
+			"tpl.pwassist_assistance.html", "Services/Init");
 		
 		if ($message != "")
 		{
@@ -183,7 +166,10 @@ class ilPasswordAssistanceGUI
 		global $tpl, $ilias, $lng;
 
 		// Create the form
-		$tpl->addBlockFile("CONTENT", "content", "tpl.pwassist_username_assistance.html");
+		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
+		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content",
+			"tpl.pwassist_username_assistance.html", "Services/Init");
+
 
 		if ($message != "")
 		{
@@ -593,7 +579,11 @@ class ilPasswordAssistanceGUI
 		}
 		else
 		{
-			$tpl->addBlockFile("CONTENT", "content", "tpl.pwassist_assignpassword.html");
+			$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
+			$tpl->addBlockFile("STARTUP_CONTENT", "startup_content",
+				"tpl.pwassist_assignpassword.html", "Services/Init");
+
+			
 			if ($message != "")
 			{
 				$tpl->setCurrentBlock("pw_message");
@@ -770,7 +760,10 @@ class ilPasswordAssistanceGUI
 			$tpl->parseCurrentBlock();
 		}
 
-		$tpl->addBlockFile("CONTENT", "content", "tpl.pwassist_message.html");
+		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
+		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content",
+			"tpl.pwassist_message.html", "Services/Init");
+
 		$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("password_assistance"));
 		$tpl->setVariable("IMG_AUTH",
 			ilUtil::getImagePath("icon_auth_b.gif"));

@@ -25,6 +25,15 @@ div.ilFrame{
 	padding:0px;
 }
 
+div.ilStartupFrame{
+	margin-top:10px;
+	margin-bottom:10px;
+	width: 750px;
+	margin-left:auto;
+	margin-right:auto;
+	box-shadow: 0px 0px 40px #808080;
+}
+
 .registration {
   margin-top:5px;
   width:700px;

@@ -1,0 +1,22 @@
+<div class="il_Header"><h1><img border="0" src="{IMG_AUTH}" style="vertical-align:middle" />&nbsp;{TXT_PAGEHEADLINE}</h1></div>
+<!-- BEGIN pw_message -->
+<div style="text-align:center;">
+	<p class="warning">&nbsp;{TXT_MESSAGE}&nbsp;</p>
+</div>
+<!-- END pw_message -->
+<p>{TXT_ENTER_USERNAME_AND_EMAIL}</p>
+<div align="center" style="padding-top: 25px">
+	<form action="{FORMACTION}" {TARGET} method="post" name="Fobject">
+	<input type="hidden" name="key" value="{KEY}"/>
+	<table class="std">
+	  <tr>
+		<td class="option" align="right">{TXT_EMAIL}</td>
+		<td class="option_value"><input type="text" size="50" name="email" value="{EMAIL}"/></td>
+	  </tr>
+	  <tr>
+		<td class="submit" colspan="2" align="center"><input class="submit" type="submit" name="cmd[submitUsernameAssistanceForm]" value="{TXT_SUBMIT}"/></td>
+	  </tr>
+	</table>
+	</form><br />
+	<a class="il_ContainerItemCommand" href="{LINK_BACK}">{BACK}</a>
+</div>
