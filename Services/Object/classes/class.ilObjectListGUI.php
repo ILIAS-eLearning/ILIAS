@@ -1076,90 +1076,95 @@ class ilObjectListGUI
 		// $props[] = array("alert" => true, "property" => "Status", "value" => "Offline");
 		// $props[] = array("alert" => false, "property" => ..., "value" => ...);
 		// ...
-
-		// BEGIN WebDAV Display locking information
-		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
-		if (ilDAVActivationChecker::_isActive())
+		
+		// #8280: WebDav is only supported in repository
+		if($this->context == self::CONTEXT_REPOSITORY)
 		{
-			require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-			global $ilias, $lng;
-			
-			// Show lock info
-			require_once('Services/WebDAV/classes/class.ilDAVLocks.php');
-			$davLocks = new ilDAVLocks();
-			if ($ilias->account->getId() != ANONYMOUS_USER_ID)
+			// BEGIN WebDAV Display locking information
+			require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+			if (ilDAVActivationChecker::_isActive())
 			{
-				$locks =& $davLocks->getLocksOnObjectObj($this->obj_id);
-				if (count($locks) > 0)
+				require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
+				global $ilias, $lng;
+
+				// Show lock info
+				require_once('Services/WebDAV/classes/class.ilDAVLocks.php');
+				$davLocks = new ilDAVLocks();
+				if ($ilias->account->getId() != ANONYMOUS_USER_ID)
 				{
-					$lockUser = new ilObjUser($locks[0]['ilias_owner']);
-					
-					$props[] = array(
-						"alert" => false, 
-						"property" => $lng->txt("in_use_by"),
-						"value" => $lockUser->getLogin(),
-						"link" => 	"./ilias.php?user=".$locks[0]['ilias_owner'].'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI',
-					);
+					$locks =& $davLocks->getLocksOnObjectObj($this->obj_id);
+					if (count($locks) > 0)
+					{
+						$lockUser = new ilObjUser($locks[0]['ilias_owner']);
+
+						$props[] = array(
+							"alert" => false, 
+							"property" => $lng->txt("in_use_by"),
+							"value" => $lockUser->getLogin(),
+							"link" => 	"./ilias.php?user=".$locks[0]['ilias_owner'].'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI',
+						);
+					}
+				}
+				// END WebDAV Display locking information
+
+				if($this->getDetailsLevel() == self::DETAILS_SEARCH)
+				{
+					return $props;
+				}
+
+				// BEGIN WebDAV Display warning for invisible Unix files and files with special characters
+				if (preg_match('/^(\\.|\\.\\.)$/', $this->title))
+				{
+					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
+						"value" => $lng->txt("filename_special_filename"),
+						'propertyNameVisible' => false);
+				} 
+				else if (preg_match('/^\\./', $this->title))
+				{
+					$props[] = array("alert" => false, "property" => $lng->txt("filename_visibility"),
+						"value" => $lng->txt("filename_hidden_unix_file"),
+						'propertyNameVisible' => false);
+				}
+				else if (preg_match('/~$/', $this->title))
+				{
+					$props[] = array("alert" => false, "property" => $lng->txt("filename_visibility"),
+						"value" => $lng->txt("filename_hidden_backup_file"),
+						'propertyNameVisible' => false);
+				}
+				else if (preg_match('/[\\/]/', $this->title))
+				{
+					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
+						"value" => $lng->txt("filename_special_characters"),
+						'propertyNameVisible' => false);
+				} 
+				else if (preg_match('/[\\\\\\/:*?"<>|]/', $this->title))
+				{
+					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
+						"value" => $lng->txt("filename_windows_special_characters"),
+						'propertyNameVisible' => false);
+				}
+				else if (preg_match('/\\.$/', $this->title))
+				{
+					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
+						"value" => $lng->txt("filename_windows_empty_extension"),
+						'propertyNameVisible' => false);
+				} 
+				else if (preg_match('/^(\\.|\\.\\.)$/', $this->title))
+				{
+					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
+						"value" => $lng->txt("filename_special_filename"),
+						'propertyNameVisible' => false);
+				} 
+				else if (preg_match('/#/', $this->title))
+				{
+					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
+						"value" => $lng->txt("filename_windows_webdav_issue"),
+						'propertyNameVisible' => false);
 				}
 			}
-			// END WebDAV Display locking information
-			
-			if($this->getDetailsLevel() == self::DETAILS_SEARCH)
-			{
-				return $props;
-			}
-			
-			// BEGIN WebDAV Display warning for invisible Unix files and files with special characters
-			if (preg_match('/^(\\.|\\.\\.)$/', $this->title))
-			{
-				$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-					"value" => $lng->txt("filename_special_filename"),
-					'propertyNameVisible' => false);
-			} 
-			else if (preg_match('/^\\./', $this->title))
-			{
-				$props[] = array("alert" => false, "property" => $lng->txt("filename_visibility"),
-					"value" => $lng->txt("filename_hidden_unix_file"),
-					'propertyNameVisible' => false);
-			}
-			else if (preg_match('/~$/', $this->title))
-			{
-				$props[] = array("alert" => false, "property" => $lng->txt("filename_visibility"),
-					"value" => $lng->txt("filename_hidden_backup_file"),
-					'propertyNameVisible' => false);
-			}
-			else if (preg_match('/[\\/]/', $this->title))
-			{
-				$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-					"value" => $lng->txt("filename_special_characters"),
-					'propertyNameVisible' => false);
-			} 
-			else if (preg_match('/[\\\\\\/:*?"<>|]/', $this->title))
-			{
-				$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-					"value" => $lng->txt("filename_windows_special_characters"),
-					'propertyNameVisible' => false);
-			}
-			else if (preg_match('/\\.$/', $this->title))
-			{
-				$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-					"value" => $lng->txt("filename_windows_empty_extension"),
-					'propertyNameVisible' => false);
-			} 
-			else if (preg_match('/^(\\.|\\.\\.)$/', $this->title))
-			{
-				$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-					"value" => $lng->txt("filename_special_filename"),
-					'propertyNameVisible' => false);
-			} 
-			else if (preg_match('/#/', $this->title))
-			{
-				$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-					"value" => $lng->txt("filename_windows_webdav_issue"),
-					'propertyNameVisible' => false);
-			}
+			// END WebDAV Display warning for invisible files and files with special characters
 		}
-		// END WebDAV Display warning for invisible files and files with special characters
+		
 		// BEGIN ChangeEvent: display changes.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 		if (ilChangeEvent::_isActive())
