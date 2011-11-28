@@ -699,6 +699,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				{
 					$GLOBALS["tpl"]->addAdminPanelCommand("saveSorting",
 						$this->lng->txt('sorting_save'));
+					
+					// button should appear at bottom, too
+					$GLOBALS["tpl"]->admin_panel_bottom = true;
 				}
 			}
 		}
