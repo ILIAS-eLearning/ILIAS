@@ -401,10 +401,10 @@ abstract class ilContainerContentGUI
 		{
 			$item_list_gui->enableCheckbox(true);
 		}
-		if ($this->getContainerGUI()->isActiveOrdering())
+		if ($this->getContainerGUI()->isActiveOrdering() && $a_item_data['type'] != 'sess')
 		{
 			$item_list_gui->setPositionInputField("[".$a_item_data["ref_id"]."]",
-				sprintf('%.1f', $a_position));
+				sprintf('%d', (int)$a_position*10));
 		}
 		if($a_item_data['type'] == 'sess' and get_class($this) != 'ilContainerObjectiveGUI')
 		{
@@ -470,7 +470,7 @@ abstract class ilContainerContentGUI
 					if ($this->getContainerObject()->getOrderType() == ilContainer::SORT_MANUAL)
 					{
 						$item_list_gui2->setPositionInputField("[sess][".$a_item_data['obj_id']."][".$item["ref_id"]."]",
-							sprintf('%.1f', $pos));
+							sprintf('%d', (int)$pos*10));
 						$pos++;
 					}
 					
