@@ -401,7 +401,7 @@ abstract class ilContainerContentGUI
 		{
 			$item_list_gui->enableCheckbox(true);
 		}
-		if ($this->getContainerGUI()->isActiveOrdering() && $a_item_data['type'] != 'sess')
+		if ($this->getContainerGUI()->isActiveOrdering() && ($a_item_data['type'] != 'sess' || get_class($this) != 'ilContainerSessionsContentGUI'))
 		{
 			$item_list_gui->setPositionInputField("[".$a_item_data["ref_id"]."]",
 				sprintf('%d', (int)$a_position*10));

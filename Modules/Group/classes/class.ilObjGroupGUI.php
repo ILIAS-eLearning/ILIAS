@@ -2650,16 +2650,16 @@ class ilObjGroupGUI extends ilContainerGUI
 				$view_type->addOption($opt);
 			}
 
+			$opt = new ilRadioOption($this->lng->txt('cntr_view_simple'),ilContainer::VIEW_SIMPLE);
+			$opt->setInfo($this->lng->txt('grp_view_info_simple'));
+			$view_type->addOption($opt);
+			
 			$opt = new ilRadioOption($this->lng->txt('cntr_view_by_type'),  ilContainer::VIEW_BY_TYPE);
 			$opt->setInfo($this->lng->txt('grp_view_info_by_type'));
 			$view_type->addOption($opt);
 			$this->form->addItem($view_type);
 
-			$opt = new ilRadioOption($this->lng->txt('cntr_view_simple'),ilContainer::VIEW_SIMPLE);
-			$opt->setInfo($this->lng->txt('grp_view_info_simple'));
-			$view_type->addOption($opt);
-
-
+			
 			$sog = new ilRadioGroupInputGUI($this->lng->txt('sorting_header'),'sor');
 			$sog->setRequired(true);
 			if($a_mode == 'edit')

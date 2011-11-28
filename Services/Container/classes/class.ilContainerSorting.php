@@ -302,9 +302,9 @@ class ilContainerSorting
 			else
 			{
 				$ilLog->write(__METHOD__.': Deprecated call');
-				foreach($position as $parent_id => $items)
+				foreach($position as $parent_id => $sub_items)
 				{
-					$this->saveSubItems($key,$parent_id,$items ? $items : array());
+					$this->saveSubItems($key,$parent_id,$sub_items ? $sub_items : array());
 				}
 			}
 	 	}
