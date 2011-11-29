@@ -751,7 +751,10 @@ class ilConditionHandlerInterface
 	 	$sel = new ilSelectInputGUI($this->lng->txt('condition'),'operator');
 		include_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 		$ch_obj = new ilConditionHandler();
-		$operators[0] = $this->lng->txt('select_one');
+		if($a_mode == 'add')
+		{
+			$operators[0] = $this->lng->txt('select_one');
+		}
 		foreach($ch_obj->getOperatorsByTargetType($trigger_type) as $operator)
 		{
 			$operators[$operator] = $this->lng->txt('condition_'.$operator);
@@ -805,7 +808,7 @@ class ilConditionHandlerInterface
 	 	{
 	 		case 'edit':
 	 			$this->form->setTitleIcon(ilUtil::getImagePath('icon_'.$this->getTargetType().'.gif'));
-	 			$this->form->setTitle($this->lng->txt('precondition'));
+	 			$this->form->setTitle($this->lng->txt('rbac_edit_condition'));
 	 			$this->form->addCommandButton('updateCondition',$this->lng->txt('save'));
 	 			$this->form->addCommandButton('listConditions',$this->lng->txt('cancel'));
 	 			break;

@@ -6562,7 +6562,7 @@ crs#:#crs_further_settings#:#Weitere Einstellungen
 crs#:#crs_general_info#:#Allgemeine Informationen
 crs#:#crs_general_informations#:#Allgemeine Informationen
 crs#:#crs_grouping_assign#:#Zuordnung ändern
-crs#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass Sie die folgenden Gruppierungen entfernen möchten?
+crs#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass Sie die folgenden Mitgliedschaftsbeschränkungen entfernen möchten?
 crs#:#crs_grouping_deleted#:#Die Gruppierung wurde gelöscht.
 crs#:#crs_grouping_modified_assignment#:#Die Zuordnung wurde geändert.
 crs#:#crs_grouping_select_one#:#Bitte wählen Sie eine Kursgruppierung aus.
@@ -12375,3 +12375,4 @@ crs#:#event_blank_columns#:#Zusätzliche Spalten
 common#:#continue#:#Weiter
 payment#:#click_to_buy_info#:#Sie wurden nun erfolgreich angemeldet. Um den Bezahlvorgang Ihres Einkaufs fortzusetzen, akzeptieren Sie die AGB und klicken auf den "zur Kasse"-Button
 payment#:#click_to_continue_info#:#Um den Einkaufsprozess fortzusetzen klicken Sie nun auf "Weiter" um sich anzumelden oder zu registrieren.
+rbac#:#rbac_edit_condition#:#Vorbedingung bearbeiten

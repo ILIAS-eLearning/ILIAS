@@ -25,9 +25,9 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
 		
 		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject(),$this->getParentCmd()));
 		
-		$this->setTitle($this->lng->txt('ps_cdf_data_fields'));
+		$this->setTitle($this->lng->txt('crs_custom_user_fields'));
 		
-		$this->addColumn('','f',1);
+		$this->addColumn('','',1);
 		$this->addColumn($this->lng->txt('ps_cdf_name'),'name','30%');
 		$this->addColumn($this->lng->txt('ps_cdf_type'),'type','30%');
 		$this->addColumn($this->lng->txt('ps_cdf_required'),'','20%');
@@ -90,6 +90,10 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
 			$rows[$def->getId()]['required'] = (bool) $def->isRequired();
 		}
 		$this->setData($rows);
+		if(!sizeof($rows))
+		{
+			$this->clearCommandButtons();
+		}
 	}
 }
 ?>
