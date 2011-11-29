@@ -581,7 +581,7 @@ td.ilFormHeader, td.ilFormFooter
 	background-color:#E3E3E3;
 	background-image: url(images/form_top_back.gif);
 	background-repeat: repeat-y;
-	padding: 4px 5px 1px 5px;
+	padding: 3px 5px 3px 5px;
 	font-size:90%;
 	color: #303030;
 }
@@ -1203,15 +1203,14 @@ input.submit, a.submit, a.submit:hover
 	font-size: 80%;
 	font-weight:normal;
 	line-height:17px; /* Safari */
-	background-color: #FFFFFF;
 	background-image: url(images/ButtonsBack.gif);
 	background-position: bottom;
 	background-repeat:repeat-x;
 	color:#335599;
 	border-width:1px;
-	border-color: #BABABA;
+	border-color: #D0D0D0;
 	border-style:solid;
-	padding: 0px 5px;
+	padding: 1px 5px;
 	margin: 0px;
 	text-decoration:none;
 	cursor:pointer;
@@ -1220,9 +1219,9 @@ input.submit, a.submit, a.submit:hover
 
 input.submit:hover, a.submit:hover
 {
-	background-color: #E3EBFF;
-	background-image: none;
-	color:#444444;
+	border-color: #B0B0B0;
+	color:#404040;
+	box-shadow: 0px 0px 1px #A0A0A0;
 }
 
 input.submit_disabled, a.submit_disabled, a.submit_disabled:hover {
@@ -2253,6 +2252,7 @@ table.ilTabContentOuter
 	margin: 0px;
 	clear:both;
 	width:100%;
+	box-shadow: 3px 3px 4px #D0D0D0;
 }
 
 div.ilTabContentInner
@@ -2692,7 +2692,7 @@ td.submit {
 div.ilToolbar
 {
 	background-color: #F4F4F4;
-	padding: 3px 3px 5px 3px;
+	padding: 5px 3px 5px 3px;
 	margin-bottom: 8px;
 	font-size: 90%;
 	white-space: nowrap;
