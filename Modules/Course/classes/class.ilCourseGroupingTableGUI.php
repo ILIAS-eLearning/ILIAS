@@ -29,11 +29,13 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('description'), 'description');
 		$this->addColumn($this->lng->txt('unambiguousness'), 'unique');
 		$this->addColumn($this->lng->txt('groupings_assigned_obj_'.$type), 'assigned');
+		$this->addColumn('','');
 		
 		
 		$this->setTitle($this->lng->txt('groupings'));		
 
 		$this->addMultiCommand('askDeleteGrouping', $this->lng->txt('delete'));		 			
+		$this->setSelectAllCheckbox('grouping[]');
 		
 		$this->setRowTemplate("tpl.groupings.html","Modules/Course");
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
@@ -100,6 +102,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
 		$this->ctrl->setParameter($this->parent_obj, 'obj_id', $a_set["id"]);
 		$this->tpl->setVariable("EDIT_LINK",
 			$this->ctrl->getLinkTarget($this->parent_obj, 'edit'));		
+		$this->tpl->setVariable('TXT_EDIT',$this->lng->txt('edit'));
 	}
 }
 

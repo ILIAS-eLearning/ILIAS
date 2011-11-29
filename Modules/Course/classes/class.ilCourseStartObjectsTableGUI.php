@@ -36,13 +36,14 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
 		// list 
 		else
 		{
-			$this->setTitle($this->lng->txt('crs_edit_start_objects'));		
+			$this->setTitle($this->lng->txt('crs_start_objects'));		
 			
 			$this->addMultiCommand('deleteStarter', $this->lng->txt('delete'));
 		}
 			 
 		$this->setRowTemplate("tpl.crs_add_starter.html","Modules/Course");
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
+		$this->setSelectAllCheckbox('starter[]');
 		
 		$this->setDefaultOrderField('title');
 		$this->setDefaultOrderDirection('asc');
@@ -92,10 +93,12 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
 	{
 		$starters = $crs_start->getStartObjects();
 		
+		/*
 		if(!count($starters))
 		{			
 			ilUtil::sendInfo($this->lng->txt('crs_no_starter_created'));
-		}
+		}		 
+	    */
 		
 		$data = array();
 		foreach($starters as $start_id => $item)

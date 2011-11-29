@@ -5733,7 +5733,7 @@ crs#:#crs_further_settings#:#Further Settings
 crs#:#crs_general_info#:#General Information
 crs#:#crs_general_informations#:#General Information
 crs#:#crs_grouping_assign#:#Change assignment
-crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?
+crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following membership limitations?
 crs#:#crs_grouping_deleted#:#Deleted course grouping.
 crs#:#crs_grouping_modified_assignment#:#Changed assignment.
 crs#:#crs_grouping_select_one#:#Please select a course grouping.
@@ -12375,3 +12375,4 @@ crs#:#event_blank_columns#:#Additional Columns
 common#:#continue#:#continue
 payment#:#click_to_buy_info#:#You are successfully logged on. For continuing the purchasing process accept the general terms and conditions and click the buy button
 payment#:#click_to_continue_info#:#To continue the shopping process, click on "Continue" to log in or register.
+rbac#:#rbac_edit_condition#:#Edit Precondition
