@@ -23,6 +23,7 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);				
 		
 		$this->addColumn('','', 1);
+		$this->addColumn($this->lng->txt('type'),'type', 1);
 		$this->addColumn($this->lng->txt('title'),'title');
 		$this->addColumn($this->lng->txt('description'),'description');
 		
@@ -38,7 +39,7 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
 		{
 			$this->setTitle($this->lng->txt('crs_start_objects'));		
 			
-			$this->addMultiCommand('deleteStarter', $this->lng->txt('delete'));
+			$this->addMultiCommand('askDeleteStarter', $this->lng->txt('delete'));
 		}
 			 
 		$this->setRowTemplate("tpl.crs_add_starter.html","Modules/Course");
@@ -79,6 +80,8 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
 
 			$data[$item_ref_id]['id'] = $item_ref_id;
 			$data[$item_ref_id]['title'] = $tmp_obj->getTitle();
+			$data[$item_ref_id]['type'] = $this->lng->txt('obj_'.$tmp_obj->getType());	
+			$data[$item_ref_id]['icon'] = ilObject::_getIcon($tmp_obj->getId(), 'tiny');	
 
 			if(strlen($tmp_obj->getDescription()))
 			{
@@ -107,6 +110,8 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
 
 			$data[$item['item_ref_id']]['id'] = $start_id;
 			$data[$item['item_ref_id']]['title'] = $tmp_obj->getTitle();				
+			$data[$item['item_ref_id']]['type'] = $this->lng->txt('obj_'.$tmp_obj->getType());		
+			$data[$item['item_ref_id']]['icon'] = ilObject::_getIcon($tmp_obj->getId(), 'tiny');		
 
 			if(strlen($tmp_obj->getDescription()))
 			{
@@ -122,6 +127,8 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("ID", $a_set["id"]);		
 		$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 		$this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);		
+		$this->tpl->setVariable("ICON_SRC", $a_set["icon"]);		
+		$this->tpl->setVariable("ICON_ALT", $a_set["type"]);		
 	}
 }
 

@@ -12376,3 +12376,5 @@ common#:#continue#:#continue
 payment#:#click_to_buy_info#:#You are successfully logged on. For continuing the purchasing process accept the general terms and conditions and click the buy button
 payment#:#click_to_continue_info#:#To continue the shopping process, click on "Continue" to log in or register.
 rbac#:#rbac_edit_condition#:#Edit Precondition
+rbac#:#rbac_condition_delete_sure#:#Are you sure you want to delete the following preconditions?
+crs#:#crs_starter_delete_sure#:#Are you sure you want to delete the following start objects?

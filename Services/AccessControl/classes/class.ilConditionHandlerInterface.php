@@ -487,8 +487,43 @@ class ilConditionHandlerInterface
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'));
 		$this->ctrl->redirect($this,'listConditions');
 	}
+	
+	function askDelete()
+	{
+		global $tpl;
 		
+		if(!count($_POST['conditions']))
+		{
+			ilUtil::sendFailure($this->lng->txt('no_condition_selected'));
+			$this->listConditions();
+			return true;
+		}
 
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "listConditions"));
+		$cgui->setHeaderText($this->lng->txt("rbac_condition_delete_sure"));
+		$cgui->setCancel($this->lng->txt("cancel"), "listConditions");
+		$cgui->setConfirm($this->lng->txt("delete"), "delete");
+
+		// list conditions that should be deleted
+		foreach($_POST['conditions'] as $condition_id)
+		{
+			$condition = ilConditionHandler::_getCondition($condition_id);
+			
+			$title = ilObject::_lookupTitle($condition['trigger_obj_id']).			
+				" (".$this->lng->txt("condition").": ".
+				$this->lng->txt('condition_'.$condition['operator']).")";			
+			$icon = ilUtil::getImagePath('icon_'.$condition['trigger_type'].'_s.gif');
+			$alt = $this->lng->txt('obj_'.$condition['trigger_type']);
+						
+			$cgui->addItem("conditions[]", $condition_id, $title, $icon, $alt);
+		}
+
+		$tpl->setContent($cgui->getHTML());
+	}
+		
 	function delete()
 	{
 		if(!count($_POST['conditions']))

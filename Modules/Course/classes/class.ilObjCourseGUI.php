@@ -557,6 +557,41 @@ class ilObjCourseGUI extends ilContainerGUI
 		$table = new ilCourseStartObjectsTableGUI($this, 'listStructure', $this->object);		
 		$tpl->setContent($table->getHTML());				
 	}
+	
+	function askDeleteStarterObject()
+	{
+		global $tpl;
+		
+		if(!count($_POST['starter']))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			$this->listStructureObject();
+			return true;
+		}
+
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "listStructure"));
+		$cgui->setHeaderText($this->lng->txt("crs_starter_delete_sure"));
+		$cgui->setCancel($this->lng->txt("cancel"), "listStructure");
+		$cgui->setConfirm($this->lng->txt("delete"), "deleteStarter");
+
+		// list objects that should be deleted
+		include_once './Modules/Course/classes/class.ilCourseStart.php';
+		$crs_start = new ilCourseStart($this->object->getRefId(),$this->object->getId());	
+		$all = $crs_start->getStartObjects();		
+		foreach($_POST['starter'] as $starter_id)
+		{			
+			$obj_id = ilObject::_lookupObjId($all[$starter_id]["item_ref_id"]);
+			$title = ilObject::_lookupTitle($obj_id);
+			$icon = ilObject::_getIcon($obj_id, "tiny");
+			$alt = $this->lng->txt('obj_'.ilObject::_lookupType($obj_id));
+			$cgui->addItem("starter[]", $starter_id, $title, $icon, $alt);
+		}
+
+		$tpl->setContent($cgui->getHTML());
+	}
 
 	function deleteStarterObject()
 	{		
@@ -569,7 +604,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		else
 		{
 			include_once './Modules/Course/classes/class.ilCourseStart.php';
-			$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());		
+			$crs_start = new ilCourseStart($this->object->getRefId(),$this->object->getId());		
 			foreach($_POST['starter'] as $starter_id)
 			{		
 				$crs_start->delete((int)$starter_id);
