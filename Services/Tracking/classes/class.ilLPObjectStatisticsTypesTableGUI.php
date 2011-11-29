@@ -190,7 +190,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 	
 	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
 	{
-		$a_worksheet->write($a_row, 0, $this->lng->txt($a_set["type"]));
+		$a_worksheet->write($a_row, 0, $a_set["title"]);
 		$a_worksheet->write($a_row, 1, (int)$a_set["objects"]);
 		$a_worksheet->write($a_row, 2, (int)$a_set["references"]);
 		$a_worksheet->write($a_row, 3, (int)$a_set["deleted"]);
@@ -203,7 +203,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 	
 	protected function fillRowCSV($a_csv, $a_set)
 	{
-		$a_csv->addColumn($this->lng->txt($a_set["type"]));
+		$a_csv->addColumn($a_set["title"]);
 		$a_csv->addColumn((int)$a_set["objects"]);
 		$a_csv->addColumn((int)$a_set["references"]);
 		$a_csv->addColumn((int)$a_set["deleted"]);
