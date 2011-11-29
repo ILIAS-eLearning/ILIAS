@@ -1991,10 +1991,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		$ilToolbar->addButton($this->lng->txt("crs_print_list"),
 			$this->ctrl->getLinkTarget($this, 'printMembers'), "_blank");
 		
-		// attendance list button
+		/* attendance list button
 		$ilToolbar->addButton($this->lng->txt("sess_gen_attendance_list"),
 			$this->ctrl->getLinkTarget($this, 'attendanceList'));
-
+		*/
 
 		$this->setShowHidePrefs();
 		
