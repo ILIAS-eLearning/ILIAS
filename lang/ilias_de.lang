@@ -1016,7 +1016,7 @@ assessment#:#tst_postpone#:#Fragen zurückstellen
 assessment#:#tst_presentation_properties#:#Darstellungseigenschaften
 assessment#:#tst_print_date#:#Datum des Ausdrucks
 assessment#:#tst_print#:#Test und Assessment – Druckansicht
-assessment#:#tst_processing_time_desc#:#Die maximale Bearbeitungsdauer startet zu dem Zeitpunkt an dem Teilnehmer zum ersten Mal einen Test starten und endet nach Ablauf der hier angegebenen Stunden, Minuten und Sekunden.
+assessment#:#tst_processing_time_desc#:#Die maximale Bearbeitungsdauer beginnt mit dem Zeitpunkt, an dem der jeweilige Teilnehmer zum ersten Mal diesen Test startet, und endet nach Ablauf der hier ausgewählten Zeitspanne. Wird diese Option genutzt, sollte die Möglichkeit, den Test zu unterbrechen (siehe Einstellungen Reihenfolge), nicht aktiviert sein. Durch das Unterbrechen des Tests wird das Herunterzählen der Bearbeitungsdauer nicht angehalten.
 assessment#:#tst_processing_time#:#Maximale Bearbeitungsdauer
 assessment#:#tst_properties#:#Test-Eigenschaften
 assessment#:#tst_qst_order#:#Reihenfolge
@@ -1056,7 +1056,7 @@ assessment#:#tst_report_after_first_question#:#Testergebnisse bereits direkt nac
 assessment#:#tst_report_after_question#:#Ergebnis nach jeder beantworteten Frage anzeigen
 assessment#:#tst_report_after_test#:#Testergebnisse erst nach Abschluss eines Testdurchlaufs anbieten
 assessment#:#tst_report_never#:#Die Testergebnisse sind nicht einsehbar
-assessment#:#tst_reset_processing_time_desc#:#Wenn diese Option ausgewählt ist, wird die bereits abgelaufene Bearbeitungsdauer nach jedem abgeschlossenen Testdurchlauf wieder zurückgesetzt, so dass wieder die maximale Bearbeitungsdauer zur Verfügung steht. Die Einstellung funktioniert nur, wenn eine maximale Bearbeitungsdauer festgelegt ist und mehrere Testdurchläufe erlaubt sind
+assessment#:#tst_reset_processing_time_desc#:#Ist diese Option ausgewählt, wird die maximale Bearbeitungsdauer nach jedem abgeschlossenen Testdurchlauf wieder zurückgesetzt. Damit steht die maximale Bearbeitungsdauer für jeden Testdurchlauf zur Verfügung. Die Einstellung funktioniert nur, wenn eine maximale Bearbeitungsdauer festgelegt ist und mehrere Testdurchläufe erlaubt sind.
 assessment#:#tst_reset_processing_time#:#Maximale Bearbeitungsdauer für jeden Testlauf zurücksetzen
 assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_result_user_name#:#Testergebnisse für %s
@@ -1106,7 +1106,7 @@ assessment#:#tst_set_feedback_not_done#:#Es ist ein Fehler aufgetreten! Die manu
 assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Der Test wurde auf Offline gesetzt, da alle bereits im Test enthaltenen Fragen entfernt wurden, weil die Einstellung für die zufällige Auswahl von Fragen verändert wurde.
 assessment#:#tst_settings_template#:#Vorlage
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
-assessment#:#tst_show_cancel_description#:#Zeigt während der Testdurchführung eine Schaltfläche zum Unterbrechen des Tests an.
+assessment#:#tst_show_cancel_description#:#Zeigt während der Testdurchführung eine Schaltfläche an, mit der der Test unterbrochen werden kann. Nutzen Sie diese Option nicht gemeinsam mit einer 'Maximalen Bearbeitungsdauer' des Tests.
 assessment#:#tst_show_cancel#:#"Test unterbrechen" Option anzeigen
 assessment#:#tst_show_pass_details#:#Ergebnisübersicht für laufende Tests anbieten
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
