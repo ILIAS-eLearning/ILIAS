@@ -928,5 +928,20 @@ class ilObjectDefinition extends ilSaxParser
 	{
 		return (bool) $this->obj_data[$a_obj_name]['administration'];
 	}
+	
+	/**
+	 * Check whether type belongs to inactive plugin
+	 *
+	 * @param
+	 * @return
+	 */
+	public function isInactivePlugin($a_type)
+	{
+		if (substr($a_type, 0, 1) == "x" && !$this->isPlugin($a_type))
+		{
+			return true;
+		}
+		return false;
+	}
 }
 ?>
