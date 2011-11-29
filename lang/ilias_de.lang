@@ -12376,3 +12376,5 @@ common#:#continue#:#Weiter
 payment#:#click_to_buy_info#:#Sie wurden nun erfolgreich angemeldet. Um den Bezahlvorgang Ihres Einkaufs fortzusetzen, akzeptieren Sie die AGB und klicken auf den "zur Kasse"-Button
 payment#:#click_to_continue_info#:#Um den Einkaufsprozess fortzusetzen klicken Sie nun auf "Weiter" um sich anzumelden oder zu registrieren.
 rbac#:#rbac_edit_condition#:#Vorbedingung bearbeiten
+rbac#:#rbac_condition_delete_sure#:#Wollen Sie wirklich die folgenden Vorbedingungen löschen?
+crs#:#crs_starter_delete_sure#:#Wollen Sie wirklich die folgenden Startobjekte löschen?
