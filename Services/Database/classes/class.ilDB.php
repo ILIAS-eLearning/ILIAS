@@ -697,13 +697,19 @@ abstract class ilDB extends PEAR
 		// oracle workaround: do not set null, if null already given
 		if ($this->getDbType() == "oracle")
 		{
-			if ($def["notnull"] == true && $a_attributes["notnull"] == true)
+			if ($def["notnull"] == true && ($a_attributes["notnull"] == true
+				|| !isset($a_attributes["notnull"])))
+			{
+				unset($def["notnull"]);
+				unset($a_attributes["notnull"]);
+			}
+			if ($def["notnull"] == false && ($a_attributes["notnull"] == false
+				|| !isset($a_attributes["notnull"])))
 			{
 				unset($def["notnull"]);
 				unset($a_attributes["notnull"]);
 			}
 		}
-		
 		foreach ($a_attributes as $a => $v)
 		{
 			$def[$a] = $v;
