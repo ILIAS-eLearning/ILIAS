@@ -878,7 +878,7 @@ assessment#:#tst_postpone_description#:#The participants may postpone questions 
 assessment#:#tst_postpone#:#Postpone Questions
 assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_print#:#Test and Assessment - Print View
-assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test for the first time and ends after the expiration of the entered hours, minutes and seconds.
+assessment#:#tst_processing_time_desc#:#The countdown of the maximum processing time begins at the moment when a user starts a test for the first time and ends after the expiration of the entered period of time. If this option is used, the possibility to suspend a test should be deactivated (see 'Sequence Settings') because suspending the test does not stop the countdown of the maximum processing time.
 assessment#:#tst_processing_time#:#Max. Processing Time
 assessment#:#tst_properties#:#Test Properties
 assessment#:#tst_qst_order#:#Order
