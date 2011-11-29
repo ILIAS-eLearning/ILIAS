@@ -37,11 +37,11 @@ class ilShopResultPresentationGUI
 
 		$this->type_ordering = array(
 			"cat", "crs", "grp", "chat", "frm", "wiki", "lres",
-			"glo", "webr", "file",'mcst', "exc",
+			"glo", "webr", "lm", "sahs", "htlm", "file",'mcst', "exc", 
 			"tst", "svy", "sess","mep", "qpl", "spl");
 
 		$this->ctrl = $ilCtrl;
-		
+
 		include_once('Services/Search/classes/class.ilUserSearchCache.php');
 		$this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
 
@@ -337,7 +337,7 @@ class ilShopResultPresentationGUI
 				}
 			}
 		}
-		
+
 		if($items_counter > 0)
 		{
 			$oContainerTpl->setCurrentBlock('loop');			
