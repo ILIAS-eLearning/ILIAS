@@ -560,7 +560,7 @@ class ilContainer extends ilObject
 		// get items attached to a session
 		include_once './Modules/Session/classes/class.ilEventItems.php';
 		$event_items = ilEventItems::_getItemsOfContainer($this->getRefId());
-		
+
 		foreach ($objects as $key => $object)
 		{
 			if ($a_get_single > 0 && $object["child"] != $a_get_single)
@@ -571,6 +571,12 @@ class ilContainer extends ilObject
 			// hide object types in devmode
 			if ($objDefinition->getDevMode($object["type"]) || $object["type"] == "adm"
 				|| $object["type"] == "rolf")
+			{
+				continue;
+			}
+			
+			// remove inactive plugins
+			if ($objDefinition->isInactivePlugin($object["type"]))
 			{
 				continue;
 			}
