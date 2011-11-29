@@ -963,7 +963,7 @@ assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_set_feedback_done#:#Manual feedback has been saved
 assessment#:#tst_set_feedback_not_done#:#An Error occured! The manual feedback has not been saved
 assessment#:#tst_show_answer_sheet#:#Show Answers
-assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test execution.
+assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test run. Do not use this option when running a test with maximum processing time. Suspending the test does not stop the maximum processing time's countdown.
 assessment#:#tst_show_cancel#:#Show Suspend Test Option
 assessment#:#tst_show_pass_details#:#Show Pass Details for Running Tests
 assessment#:#tst_show_results#:#Show Test Results
