@@ -49,7 +49,11 @@ MDB2/Driver/mysql.php, line 395
 Performance fix
 
 MDB2.php, line 927
-Suppressed warnings of "is_readable" caused by open_basedir restrictions (leeds to performance issues and large log files) 
+Suppressed warnings of "is_readable" caused by open_basedir restrictions (leeds to performance issues and large log files)
+
+MDB2/Driver/Datatype/Common.php, line 522:
+Explicitely add " NULL" to declarations, otherwise setting oracle fields via
+modifyTable from "NOT NULL" to "NULL" was not possible
 
 */
 ?>

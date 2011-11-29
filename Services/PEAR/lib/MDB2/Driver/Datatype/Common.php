@@ -519,7 +519,13 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
         }
 
         $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
-        
+		// alex patch 28 Nov 2011 start
+		if ($field['notnull'] === false)
+		{
+			$notnull = " NULL";
+		}
+		// alex patch 28 Nov 2011 end
+
         $collation = empty($field['collation']) ? '' :
             ' '.$this->_getCollationFieldDeclaration($field['collation']);
         return $charset.$default.$notnull.$collation;
