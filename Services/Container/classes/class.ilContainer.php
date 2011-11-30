@@ -669,7 +669,7 @@ class ilContainer extends ilObject
 			self::$data_preloaded = true;
 		}
 
-		return $this->items_cache[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
+		return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
 	}
 	
 	/**
