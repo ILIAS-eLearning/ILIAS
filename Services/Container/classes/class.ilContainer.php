@@ -540,10 +540,10 @@ class ilContainer extends ilObject
 			$ilSetting;
 
 		// Caching
-		if (is_array($this->items_cache[(int) $a_admin_panel_enabled][(int) $a_include_side_block]) &&
+		if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]) &&
 			!$a_get_single)
 		{
-			return $this->items_cache[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
+			return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
 		}
 		
 		$type_grps = $this->getGroupedObjTypes();
@@ -634,7 +634,7 @@ class ilContainer extends ilObject
 			}
 		}
 
-		$this->items_cache[(int) $a_admin_panel_enabled][(int) $a_include_side_block]
+		$this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]
 			= $sort->sortItems($this->items);
 
 		// data preloader
