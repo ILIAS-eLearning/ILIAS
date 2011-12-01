@@ -12383,3 +12383,4 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen
 common#:#attach_sr_invoice#:#An Email anhängen
 common#:#show_sr_shoppingcart_info#:#Wenn aktiviert, werden die gesetzlichen Bestimmungen innerhalb des Warenkorbs angezeigt
 common#:#attach_sr_invoice_info#:#Wenn aktiviert, werden die gesetzlichen Bestimmungen an die Kaufbestätigungs-Email als Dateianhang hinzugefügt
+common#:#tst_tst_statistics#:#Zugriff auf Teststatistiken
