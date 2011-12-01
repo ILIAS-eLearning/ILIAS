@@ -951,6 +951,8 @@ class ilChatroom
 	{
 	    global $lng;
 	    
+	    $lng->loadLanguageModule('mail');
+	    
 	    if ($gui && !$invitationLink)
 	    {
 		$invitationLink = $this->getChatURL($gui, $subScope);;
