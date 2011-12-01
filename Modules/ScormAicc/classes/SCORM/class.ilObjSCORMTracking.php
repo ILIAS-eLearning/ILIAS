@@ -334,9 +334,10 @@ class ilObjSCORMTracking
 	 * @deprecated
 	 * @param object $scorm_item_id
 	 * @param object $a_obj_id
+	 * @param array $a_blocked_user_ids
 	 * @return 
 	 */
-	public static function _getInProgress($scorm_item_id,$a_obj_id)
+	public static function _getInProgress($scorm_item_id,$a_obj_id,$a_blocked_user_ids = null)
 	{
 		global $ilDB;
 		
@@ -362,7 +363,11 @@ class ilObjSCORMTracking
 		
 		while($row = $ilDB->fetchObject($res))
 		{
-			$in_progress[$row->sco_id][] = $row->user_id;
+			// see _getProgressInfo()
+			if(!($a_blocked_user_ids && in_array($row->user_id, $a_blocked_user_ids)))
+			{
+				$in_progress[$row->sco_id][] = $row->user_id;
+			}
 		}
 		return is_array($in_progress) ? $in_progress : array();
 	}
@@ -667,6 +672,7 @@ class ilObjSCORMTracking
 		$info['completed'] = array();
 		$info['failed'] = array();
 		
+		$user_ids = array();
 		while($row = $ilDB->fetchObject($res))
 		{
 			switch($row->rvalue)
@@ -674,14 +680,16 @@ class ilObjSCORMTracking
 				case 'completed':
 				case 'passed':
 					$info['completed'][$row->sco_id][] = $row->user_id;
+					$user_ids[] = $row->user_id;
 					break;
 
 				case 'failed':
 					$info['failed'][$row->sco_id][] = $row->user_id;
+					$user_ids[] = $row->user_id;
 					break;
 			}
 		}
-		$info['in_progress'] = ilObjSCORMTracking::_getInProgress($sco_item_ids,$a_obj_id);
+		$info['in_progress'] = ilObjSCORMTracking::_getInProgress($sco_item_ids,$a_obj_id,$user_ids);
 
 		return $info;
 	}
