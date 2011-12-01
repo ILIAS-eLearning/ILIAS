@@ -17,6 +17,7 @@ include_once './Services/Payment/classes/class.ilShopVatsList.php';
 include_once './Services/Payment/classes/class.ilPayMethods.php';
 include_once './Services/Payment/classes/class.ilShopUtils.php';
 include_once './Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
+include_once './Services/Payment/classes/class.ilPaymentObject.php';
 
 class ilPurchaseBaseGUI
 {
@@ -679,6 +680,19 @@ class ilPurchaseBaseGUI
 
 			$m->Body( $message );	// set the body
 			$m->Attach( $genSet->get('pdf_path') . '/' . $file_name . '.pdf', 'application/pdf' ) ;	// attach a file of type image/gif
+			if($genSet->get('attach_sr_invoice') == 1)
+			{
+				require_once 'Services/RTE/classes/class.ilRTE.php';
+				$regulations = ilRTE::_replaceMediaObjectImageSrc($genSet->get('statutory_regulations'),1);
+				$reg_file_name = $this->lng->txt('statutory_regulations');
+				if (@file_exists($genSet->get('pdf_path')))
+				{		
+					ilUtil::html2pdf($regulations, $genSet->get('pdf_path') . '/' . $reg_file_name . '.pdf');
+				}
+
+				$m->Attach( $genSet->get('pdf_path') . '/' . $reg_file_name . '.pdf', 'application/pdf' ) ;	// attach a file of type image/gif
+			}			
+			
 			$m->Send();	// send the mail
 		}
 

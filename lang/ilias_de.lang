@@ -12378,3 +12378,8 @@ payment#:#click_to_continue_info#:#Um den Einkaufsprozess fortzusetzen klicken S
 rbac#:#rbac_edit_condition#:#Vorbedingung bearbeiten
 rbac#:#rbac_condition_delete_sure#:#Wollen Sie wirklich die folgenden Vorbedingungen löschen?
 crs#:#crs_starter_delete_sure#:#Wollen Sie wirklich die folgenden Startobjekte löschen?
+common#:#statutory_regulations#:#Gesetzliche Bestimmungen
+common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen
+common#:#attach_sr_invoice#:#An Email anhängen
+common#:#show_sr_shoppingcart_info#:#Wenn aktiviert, werden die gesetzlichen Bestimmungen innerhalb des Warenkorbs angezeigt
+common#:#attach_sr_invoice_info#:#Wenn aktiviert, werden die gesetzlichen Bestimmungen an die Kaufbestätigungs-Email als Dateianhang hinzugefügt

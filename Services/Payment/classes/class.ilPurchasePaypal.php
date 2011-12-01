@@ -28,12 +28,12 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 	/*
 	 * id of vendor, admin or trustee
 	 */
-	var $psc_obj = null;
-	var $user_obj = null;
-	var $pay_method = null;
-	var $currency = null;	
-	var $db = null;
-	var $paypalConfig;
+	public $psc_obj = null;
+	public $user_obj = null;
+	public $pay_method = null;
+	public $currency = null;	
+	public $db = null;
+	public $paypalConfig;
 	private $totalVat = 0;
 
 	public function ilPurchasePaypal($user_obj)
@@ -59,12 +59,11 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 	public function checkData($fp)
 	{
 		global $ilUser;
-
-		// read the post from PayPal system and add 'cmd'
-		$req = 'cmd=_notify-synch';
+		
+// read the post from PayPal system and add 'cmd'
+$req = 'cmd=_notify-synch';
 
 		$tx_token = $_REQUEST['tx'];
-		
 		$auth_token = $this->paypalConfig["auth_token"];
 
 		$req .= "&tx=$tx_token&at=$auth_token";
@@ -72,7 +71,7 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 		$header .= "Host:".$this->paypalConfig["server_host"]."\r\n"; 	
 		$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
 		$header .= "Content-Length: " . strlen($req) . "\r\n\r\n";   
-
+	
 		fputs ($fp, $header . $req);
 		// read the body data
 		$res = '';
@@ -185,7 +184,9 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 			return ERROR_FAIL;
 		}
 		else
+		{
 			return ERROR_FAIL;
+		}
 	}
 
 	private function __checkTransactionId($a_id)

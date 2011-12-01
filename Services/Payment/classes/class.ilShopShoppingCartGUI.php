@@ -363,10 +363,10 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		}
 		else
 		{
-			
+
 			$res = $this->paypal_obj->checkData($fp);
 
-			
+
 			if ($res == SUCCESS)
 			{
 				ilUtil::sendSuccess($this->lng->txt('pay_paypal_success'), true);		
@@ -492,7 +492,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			$this->tpl->touchBlock("close_js");
 			return;
 		}
-
+		
 		$this->initShoppingCartObject();
 
 		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
@@ -514,6 +514,14 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 	#	$force_user_login = false;
 
+		if($genSet->get('show_sr_shoppingcart') == 1)
+		{
+			require_once 'Services/RTE/classes/class.ilRTE.php';
+			$regulations = ilRTE::_replaceMediaObjectImageSrc($genSet->get('statutory_regulations'),1);
+			$this->tpl->setVariable('REGULATIONS_TITLE', $this->lng->txt('statutory_regulations'));
+			$this->tpl->setVariable('REGULATIONS', $regulations);
+		}
+		
 		$ilToolbar->addButton($this->lng->txt('payment_back_to_shop'),'ilias.php?baseClass=ilShopController');
 
 		foreach($pay_methods as $pay_method)
