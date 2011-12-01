@@ -123,9 +123,9 @@ class ilForumNotification
 			SELECT admin_force_noti FROM frm_notification
 			WHERE user_id = %s 
 			AND frm_id = %s
-			AND user_id_noti',
-		array('integer','integer'),
-		array($this->getUserId(), $this->getForumId()));
+			AND user_id_noti > %s ',
+		array('integer','integer', 'integer'),
+		array($this->getUserId(), $this->getForumId(), 0));
 			
 		while($row = $ilDB->fetchAssoc($res))
 		{
@@ -140,9 +140,9 @@ class ilForumNotification
 			SELECT user_toggle_noti FROM frm_notification
 			WHERE user_id = %s 
 			AND frm_id = %s
-			AND user_id_noti',
-		array('integer','integer'),
-		array($this->getUserId(), $this->getForumId()));
+			AND user_id_noti > %s',
+		array('integer', 'integer', 'integer'),
+		array($this->getUserId(), $this->getForumId(), 0 ));
 				
 		while($row = $ilDB->fetchAssoc($res))
 		{
@@ -173,9 +173,9 @@ class ilForumNotification
 			WHERE 	user_id = %s
 			AND		frm_id = %s 
 			AND		admin_force_noti = %s 
-			AND		user_id_noti' ,
-			array('integer', 'integer','integer'),
-			array($this->getUserId(),$this->getForumId(),1));
+			AND		user_id_noti > %s' ,
+			array('integer', 'integer','integer', 'integer'),
+			array($this->getUserId(), $this->getForumId(), 1, 0));
 	}
 
 	public function deleteUserToggle()
@@ -188,9 +188,9 @@ class ilForumNotification
 			AND		frm_id = %s 
 			AND		admin_force_noti = %s 
 			AND		user_toggle_noti = %s			
-			AND		user_id_noti' ,
-			array('integer', 'integer','integer','integer'),
-			array($this->getUserId(),$this->getForumId(),1,1)); 
+			AND		user_id_noti > %s' ,
+			array('integer', 'integer','integer','integer', 'integer'),
+			array($this->getUserId(),$this->getForumId(),1,1, 0 )); 
 		
 	}
 	
