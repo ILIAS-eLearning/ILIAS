@@ -12383,3 +12383,4 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen
 common#:#attach_sr_invoice#:#An Email anhängen
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email
+common#:#tst_tst_statistics#:#Access to Test Statistics
