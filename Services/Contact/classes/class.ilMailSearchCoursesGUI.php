@@ -293,7 +293,7 @@ class ilMailSearchCoursesGUI
 	 */
 	public function showMyCourses()
 	{
-		global $lng, $ilUser, $ilObjDataCache, $tree, $tpl;
+		global $lng, $ilUser, $ilObjDataCache, $tree, $tpl, $rbacsystem;
 
 		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 	
@@ -318,7 +318,15 @@ class ilMailSearchCoursesGUI
 			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 			foreach($crs_ids as $crs_id) 
 			{		
-				if(ilObject::_hasUntrashedReference($crs_id))
+				$oTmpCrs = ilObjectFactory::getInstanceByObjId($crs_id);
+
+				$isOffline = $oTmpCrs->getOfflineStatus();
+				$hasUntrashedReferences = ilObject::_hasUntrashedReference($crs_id);
+				$showMemberListEnabled = (boolean)$oTmpCrs->getShowMembers();
+				$ref_ids = array_keys(ilObject::_getAllReferences($crs_id));
+				$isPrivilegedUser = $rbacsystem->checkAccess('edit', $ref_ids[0]);
+
+				if($hasUntrashedReferences && ((!$isOffline && $showMemberListEnabled) || $isPrivilegedUser))
 				{				
 					$oCrsParticipants = ilCourseParticipants::_getInstanceByObjId($crs_id);
 					$crs_members = $oCrsParticipants->getParticipants();
@@ -333,7 +341,6 @@ class ilMailSearchCoursesGUI
 					}
 					unset($tmp_usr);
 					
-					$oTmpCrs = ilObjectFactory::getInstanceByObjId($crs_id);
 					$hiddenMembers = false;
 					if((int)$oTmpCrs->getShowMembers() == $oTmpCrs->SHOW_MEMBERS_DISABLED)
 					{
