@@ -278,6 +278,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 								$this->tabs_gui->setTabActive('currencies');						
 							break;    
 /**/
+					case 'StatutoryRegulations':
+					case 'saveStatutoryRegulations':
+						$this->active_sub_tab = 'statutory_regulations';
+								$this->tabs_gui->setTabActive('documents');
+								$this->getSubTabs('documents', 'statutory_regulations');
+								break;
 					case 'TermsConditions':
 					case 'documents':
 						$this->active_sub_tab = 'terms_conditions';
@@ -2134,7 +2140,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 			// Documents
 			$tabs_gui->addTarget('documents', $this->ctrl->getLinkTarget($this, 'documents'),
-				array('documents','TermsConditions','saveTermsConditions','BillingMail','saveBillingMail','InvoiceNumber','saveInvoiceNumber'), '', '');
+				array('documents','TermsConditions','saveTermsConditions','BillingMail',
+					'saveBillingMail','InvoiceNumber','saveInvoiceNumber','StatutoryRegulations', 'saveStatutoryRegulations'), '', '');
  		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -2196,6 +2203,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				$this->tabs_gui->addSubTabTarget('invoice_number',
 					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'InvoiceNumber'),
 					'','', '',$a_sub_tab == 'invoice_number' ? true : false);
+				$this->tabs_gui->addSubTabTarget('statutory_regulations',
+					$this->ctrl->getLinkTargetByClass('ilobjpaymentsettingsgui', 'StatutoryRegulations'),
+					'','', '',$a_sub_tab == 'statutory_regulations' ? true : false);
 				break;
 
 			default:
@@ -4945,6 +4955,141 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			ilUtil::sendSuccess($this->lng->txt('pays_updated_general_settings'));
 
 			return true;
+	}
+	
+	public function StatutoryRegulationsObject()
+	{ 
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, 'saveStatutoryRegulations'));
+		$form->setTitle($this->lng->txt('statutory_regulations'));
+		$form->setTableWidth('100%');	
+		// message
+		$post_gui = new ilTextAreaInputGUI($this->lng->txt('content'), 'statutory_regulations');
+		$post_gui->setCols(50);
+		$post_gui->setRows(15);
+		$post_gui->setUseRte(true);
+		$post_gui->addPlugin('latex');
+		$post_gui->addButton('latex');
+		$post_gui->addButton('pastelatex');
+		$post_gui->addPlugin('ilfrmquote');
+		$post_gui->addPlugin('code'); 
+		$post_gui->addPlugin('ilimgupload');
+		$post_gui->addButton('ilimgupload');
+		$post_gui->removePlugin('advlink');
+		$post_gui->removePlugin('ibrowser');
+		$post_gui->removePlugin('image');
+		$post_gui->usePurifier(true);	
+		$post_gui->setRTERootBlockElement('');
+		#$post_gui->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html');
+		$post_gui->setRTESupport(ilObject::_lookupObjId($this->ref_id), 'pays~', 'frm_post', 'tpl.tinymce_frm_post.html');
+		$post_gui->disableButtons(array(
+			'charmap',
+			'undo',
+			'redo',
+			'justifyleft',
+			'justifycenter',
+			'justifyright',
+			'justifyfull',
+			'anchor',
+			'fullscreen',
+			'cut',
+			'copy',
+			'paste',
+			'pastetext',
+			'formatselect',
+			'image',
+			'ibrowser'
+		));
+		// purifier
+		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
+		require_once 'Services/RTE/classes/class.ilRTE.php';
+		$post_gui->setPurifier(ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
+		$post_gui->setValue(ilRTE::_replaceMediaObjectImageSrc($this->genSetData->get('statutory_regulations'),1));
+		$form->addItem($post_gui);
+
+		// show staturaltyio regulations in shoppingcart
+		$cb_showShoppingCart = new ilCheckboxInputGUI($this->lng->txt('show_sr_shoppingcart'), 'show_sr_shoppingcart');
+		$cb_showShoppingCart->setInfo($this->lng->txt('show_sr_shoppingcart_info'));
+		$cb_showShoppingCart->setValue(1);
+		$cb_showShoppingCart->setChecked($this->genSetData->get('show_sr_shoppingcart'));
+		$form->addItem($cb_showShoppingCart);
+
+		// attach staturaltyio regulations at invoice
+		$cb_attachInvoice = new ilCheckboxInputGUI($this->lng->txt('attach_sr_invoice'), 'attach_sr_invoice');
+		$cb_attachInvoice->setInfo($this->lng->txt('attach_sr_invoice_info'));
+		$cb_attachInvoice->setValue(1);
+		$cb_attachInvoice->setChecked($this->genSetData->get('attach_sr_invoice'));
+		$form->addItem($cb_attachInvoice);
+
+		$form->addCommandButton('saveStatutoryRegulations', $this->lng->txt('save'));
+		$this->tpl->setVariable('FORM', $form->getHTML());
+
+	}
+
+	public function saveStatutoryRegulationsObject()
+	{
+		require_once 'Services/RTE/classes/class.ilRTE.php';
+		
+		if(isset($_POST['statutory_regulations']) && $_POST['statutory_regulations'] != NULL)
+		{
+			$this->genSetData->set('statutory_regulations', ilRTE::_replaceMediaObjectImageSrc($_POST['statutory_regulations'], 0), 'regulations');
+			
+			// copy temporary media objects (frm~)
+			include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
+			$mediaObjects = ilRTE::_getMediaObjects($_POST['statutory_regulations'], 0);				
+			$myMediaObjects = ilObjMediaObject::_getMobsOfObject('pays~:html', ilObject::_lookupObjId($this->ref_id));
+			foreach($mediaObjects as $mob)
+			{
+				foreach($myMediaObjects as $myMob)
+				{
+					if($mob == $myMob)
+					{
+						// change usage
+						ilObjMediaObject::_removeUsage($mob, 'pays~:html', ilObject::_lookupObjId($this->ref_id));
+						break;													
+					}
+				}
+				ilObjMediaObject::_saveUsage($mob, 'pays~:html',ilObject::_lookupObjId($this->ref_id));
+			}
+		}
+		else
+		{
+			$this->genSetData->set('statutory_regulations', NULL, 'regulations');
+		}
+		
+		// remove usage of deleted media objects
+		include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
+		$oldMediaObjects = ilObjMediaObject::_getMobsOfObject('pays~:html', ilObject::_lookupObjId($this->ref_id));
+		$curMediaObjects = ilRTE::_getMediaObjects($_POST['statutory_regulations'], 0);
+		foreach($oldMediaObjects as $oldMob)
+		{
+			$found = false;
+			foreach($curMediaObjects as $curMob)
+			{
+				if($oldMob == $curMob)
+				{
+					$found = true;
+					break;																					
+				}
+			}
+			if(!$found)
+			{						
+				if(ilObjMediaObject::_exists($oldMob))
+				{
+					ilObjMediaObject::_removeUsage($oldMob, 'pays~:html', ilObject::_lookupObjId($this->ref_id));
+					$mob_obj = new ilObjMediaObject($oldMob);
+					$mob_obj->delete();
+				}
+			}
+		}
+				
+		$this->genSetData->set('show_sr_shoppingcart', isset($_POST['show_sr_shoppingcart']) ? 1 : 0, 'regulations');
+		$this->genSetData->set('attach_sr_invoice', isset($_POST['attach_sr_invoice']) ? 1 : 0, 'regulations');
+
+		$this->StatutoryRegulationsObject();
+		ilUtil::sendSuccess($this->lng->txt('pays_updated_general_settings'));
+		return true;
 	}
 } // END class.ilObjPaymentSettingsGUI
 ?>

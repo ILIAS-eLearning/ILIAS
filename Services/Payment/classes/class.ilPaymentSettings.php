@@ -89,7 +89,6 @@ class ilPaymentSettings
 			
 		}
 
-
 		self::delete($a_key);
 
 		$ilDB->insert("payment_settings", array(
@@ -123,16 +122,7 @@ class ilPaymentSettings
 	}
 	public static function setMailUsePlaceholders($a_mail_use_placeholders)
 	{
-
 		self::set('mail_use_placeholders',$a_mail_use_placeholders);
-
-
-#		global $ilDB;
-#
-#		$res = $ilDB->manipulateF('UPDATE payment_settings
-#			SET mail_use_placeholders = %s',
-#			array('integer'), array($a_mail_use_placeholders));
-
 	}
 
 	public static function getMailUsePlaceholders()
@@ -148,12 +138,6 @@ class ilPaymentSettings
 	public static function setMailBillingText($a_mail_billing_text)
 	{
 		self::set('mail_billing_text',$a_mail_billing_text);
-
-	#	global $ilDB;
-
-	#	$ilDB->update('payment_settings',
-	#		array('mail_billing_text'  => array('clob', $a_mail_billing_text)),
-	#		array('settings_id'	  => array('integer',1)));
 	}
 
 	public static function getMailBillingText()
@@ -186,6 +170,5 @@ class ilPaymentSettings
 	{
 		// NO !
 	}
-
 }
 ?>
