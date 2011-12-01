@@ -97,8 +97,10 @@ class ilObjPortfolioGUI
 				if($this->checkAccess("write"))
 				{
 					$ilTabs->clearTargets();
+					$ilCtrl->setParameter($this, "prt_id", "");
 					$ilTabs->setBackTarget($lng->txt("back"),
-						$ilCtrl->getLinkTarget($this, "show"));			
+						$ilCtrl->getLinkTarget($this, "show"));		
+					$ilCtrl->setParameter($this, "prt_id", $this->portfolio->getId());
 
 					$this->setPagesTabs();
 					$ilTabs->activateTab("share");
@@ -306,8 +308,10 @@ class ilObjPortfolioGUI
 		global $tpl, $ilTabs, $ilCtrl, $lng;
 		
 		$ilTabs->clearTargets();
+		$ilCtrl->setParameter($this, "prt_id", "");
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "show"));
+		$ilCtrl->setParameter($this, "prt_id", $this->portfolio->getId());
 		
 		$this->setPagesTabs();
 		$ilTabs->activateTab("edit");
@@ -644,6 +648,7 @@ class ilObjPortfolioGUI
 					$portfolio = new ilObjPortfolio($id, false);
 					if ($portfolio->getOwner() == $this->user_id)
 					{
+						$this->access_handler->removePermission($id);
 						$portfolio->delete();
 					}
 				}
