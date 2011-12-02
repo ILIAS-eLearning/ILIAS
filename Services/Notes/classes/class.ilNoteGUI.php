@@ -498,7 +498,7 @@ if ($this->private_enabled && $this->public_enabled
 		{
 			$os = "onsubmit = \"ilNotes.cmdAjaxForm(event, '".
 				$ilCtrl->getFormActionByClass("ilnotegui", "", "", true).
-				"');\"";
+				"'); return false;\"";
 			$tpl->setVariable("ON_SUBMIT_FORM", $os);
 			$tpl->setVariable("FORM_ID", "Ajax");
 		}
