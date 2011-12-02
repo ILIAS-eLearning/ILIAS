@@ -479,7 +479,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 	public function showItems()
 	{
-		global $ilObjDataCache, $ilUser, $ilToolbar;
+		global $ilObjDataCache, $ilUser, $ilToolbar, $ilCtrl;
 
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
 		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
