@@ -82,8 +82,8 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 		$this->adm_commands_included = false;
 
 		// initialization
-		$this->tpl = new ilTemplate ("tpl.container_list_item.html", true, true);
-		$this->ctpl = new ilTemplate ("tpl.container_list_item_commands.html", true, true);
+		$this->tpl = new ilTemplate("tpl.container_list_item.html", true, true);
+		$this->ctpl = new ilTemplate("tpl.container_list_item_commands.html", true, true);
 		$this->initItem($a_icrs_ref_id, $a_icla_id, $a_title, $a_description);
 
 		// commands

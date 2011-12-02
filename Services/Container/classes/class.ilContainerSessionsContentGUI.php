@@ -89,7 +89,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 
 		include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
 
-		$tpl = new ilTemplate ("tpl.container_page.html", true, true,
+		$tpl = new ilTemplate("tpl.container_page.html", true, true,
 			"Services/Container");
 
 		// Feedback

@@ -84,7 +84,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 		// see bug #7452
 //		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
 
-		$tpl = new ilTemplate ("tpl.container_page.html", true, true,
+		$tpl = new ilTemplate("tpl.container_page.html", true, true,
 			"Services/Container");
 		
 		// get all sub items

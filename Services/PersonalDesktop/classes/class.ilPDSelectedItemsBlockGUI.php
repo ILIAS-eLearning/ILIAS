@@ -1032,7 +1032,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	*/
 	function &newBlockTemplate()
 	{
-		$tpl = new ilTemplate ("tpl.pd_list_block.html", true, true, "Services/PersonalDesktop");
+		$tpl = new ilTemplate("tpl.pd_list_block.html", true, true, "Services/PersonalDesktop");
 		$this->cur_row_type = "";
 		return $tpl;
 	}

@@ -1804,7 +1804,7 @@ class ilObjectListGUI
 				{
 					// only relevant and needed for the shop content page
 
-					$this->ctpl = new ilTemplate ("tpl.container_list_item_commands.html", true, true, false, "DEFAULT", false, true);
+					$this->ctpl = new ilTemplate("tpl.container_list_item_commands.html", true, true, false, "DEFAULT", false, true);
 					$this->ctpl->setCurrentBlock('payment');
 					$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays.gif'));
 					$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_buyable'));
@@ -3144,7 +3144,7 @@ class ilObjectListGUI
 		// END WEBDAV
 		
 		
-		$this->tpl = new ilTemplate ("tpl.container_list_item.html", true, true, false, "DEFAULT", false, true);
+		$this->tpl = new ilTemplate("tpl.container_list_item.html", true, true, false, "DEFAULT", false, true);
 
 		if ($this->getCommandsStatus() || 
 			($this->payment_enabled && IS_PAYMENT_ENABLED))
