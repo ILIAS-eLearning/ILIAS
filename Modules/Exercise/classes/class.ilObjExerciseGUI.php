@@ -1789,7 +1789,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	public function initAssignmentForm($a_mode = "create")
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilSetting;
 
 		// init form
 		$lng->loadLanguageModule("form");
@@ -1808,14 +1808,26 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		// type
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		$types = array(
-			ilExAssignment::TYPE_UPLOAD => $this->lng->txt("exc_type_upload"),
-			ilExAssignment::TYPE_BLOG => $this->lng->txt("exc_type_blog"),
-			ilExAssignment::TYPE_PORTFOLIO => $this->lng->txt("exc_type_portfolio")
-			);
-		$ty = new ilSelectInputGUI($this->lng->txt("type"), "type");
-		$ty->setOptions($types);
-		$ty->setRequired(true);
+		$types = array(ilExAssignment::TYPE_UPLOAD => $this->lng->txt("exc_type_upload"));
+		if(!$ilSetting->get('disable_wsp_blogs'))
+		{
+			$types[ilExAssignment::TYPE_BLOG] = $this->lng->txt("exc_type_blog");
+		}
+		if($ilSetting->get('user_portfolios'))
+		{
+			$types[ilExAssignment::TYPE_PORTFOLIO] = $this->lng->txt("exc_type_portfolio");
+		}
+		if(sizeof($types) > 1)
+		{
+			$ty = new ilSelectInputGUI($this->lng->txt("type"), "type");
+			$ty->setOptions($types);
+			$ty->setRequired(true);
+		}
+		else
+		{
+			$ty = new ilHiddenInputGUI("type");
+			$ty->setValue(ilExAssignment::TYPE_UPLOAD);			
+		}
 		$this->form->addItem($ty);
 		
 		// title
