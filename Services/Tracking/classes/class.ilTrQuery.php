@@ -1564,7 +1564,7 @@ class ilTrQuery
 	    return $ilDB->manipulate($sql);
 	}
 	
-	static public function searchObjects($a_type, $a_title = null, $a_root = null)
+	static public function searchObjects($a_type, $a_title = null, $a_root = null, $a_hidden = null)
 	{
 		global $ilDB, $tree;
 		
@@ -1592,6 +1592,11 @@ class ilTrQuery
 		{
 			$sql .= " AND (".$ilDB->like("o.title", "text", "%".$a_title."%").
 				" OR ".$ilDB->like("o.description", "text", "%".$a_title."%").")";
+		}
+		
+		if(is_array($a_hidden))
+		{
+			$sql .= " AND ".$ilDB->in("o.obj_id", $a_hidden, true, "integer");
 		}
 		
 		$set = $ilDB->query($sql);
