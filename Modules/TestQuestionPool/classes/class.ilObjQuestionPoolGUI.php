@@ -217,7 +217,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function propertiesObject()
 	{
 		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0)) ? true : false;
-//		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_properties.html", "Modules/TestQuestionPool");
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();

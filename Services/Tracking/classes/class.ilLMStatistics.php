@@ -1387,7 +1387,7 @@ class ilLMStatistics {
 
                 include_once "./Services/Table/classes/class.ilTableGUI.php";
                 //				$tbl = new ilTableGUI();
-                $tpl->addBlockfile("ADM_CONTENT", "adm_content", MODULE_PATH."/templates/default/tpl.lm_statistics_result.html");
+                $tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.lm_statistics_result.html", true);
                 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
                 $tpl->addBlockfile("TRACK_TABLE", "track_table", "tpl.table.html");
                 $tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
@@ -1573,7 +1573,7 @@ class ilLMStatistics {
         $tpl->setVariable("Kapitelname2", "<param name='Kapitelname2' value= '".$this->Kapitelname2."'>");
 
         include_once "./Services/Table/classes/class.ilTableGUI.php";
-        $tpl->addBlockFile("ADM_CONTENT", "adm_content", MODULE_PATH."/templates/default/tpl.lm_statistics_result_applet.html");
+        $tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_statistics_result_applet.html", true);
         $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
         $tpl->setVariable("TXT_TRACKED_OBJECTS2", "Beobachtungsmodell");
         $tpl->setVariable("CODEBASE", MODULE_URL."/lib");
