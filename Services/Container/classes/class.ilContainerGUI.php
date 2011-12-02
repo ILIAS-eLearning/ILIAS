@@ -1217,7 +1217,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function &newBlockTemplate()
 	{
-		$tpl = new ilTemplate ("tpl.container_list_block.html", true, true,
+		$tpl = new ilTemplate("tpl.container_list_block.html", true, true,
 			"Services/Container");
 		$this->cur_row_type = "row_type_1";
 		return $tpl;
