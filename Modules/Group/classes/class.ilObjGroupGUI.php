@@ -1823,7 +1823,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->lng->loadLanguageModule('mail');
 		ilUtil::sendInfo($this->lng->txt('mail_select_recipients'));
 
-		//$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html',"Services/Mail");
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','Services/Contact');
 		
 

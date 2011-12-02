@@ -3454,16 +3454,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->infoScreen();
 	}
 	
-	function setNewTemplate()
-	{
-		global $tpl;
-		$tpl = new ilTemplate("tpl.il_svy_svy_main.html", TRUE, TRUE, "Modules/Survey");
-		// load style sheet depending on user's settings
-		$location_stylesheet = ilUtil::getStyleSheetLocation();
-		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
-		$tpl->setVariable("LOCATION_JAVASCRIPT",dirname($location_stylesheet));
-	}
-	
 	/**
 	* show information screen
 	*/

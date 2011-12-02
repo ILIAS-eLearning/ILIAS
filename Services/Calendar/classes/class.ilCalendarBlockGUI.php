@@ -83,7 +83,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 				
 		$this->setTitle($title);
-		//$this->setRowTemplate("tpl.block_calendar.html", "Services/Calendar");
 		//$this->setData($data);
 		$this->allow_moving = false;
 		//$this->handleView();
