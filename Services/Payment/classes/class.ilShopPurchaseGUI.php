@@ -7,7 +7,7 @@ require_once "./classes/class.ilObjectGUI.php";
 * Class ilShopPurchaseGUI
 *
 * @author Michael Jansen <mjansen@databay.de>
-* @version $Id:$
+* @version $Id: $
 * @ilCtrl_Calls ilShopPurchaseGUI: ilPageObjectGUI
 *
 * @ingroup ServicesPayment
@@ -41,7 +41,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		$this->object = ilObjectFactory::getInstanceByRefId($this->ref_id, false);
 
 		$this->tpl->getStandardTemplate();
-				
+		
 		$ilTabs->clearTargets();
 		$ilTabs->addTarget('buy', $this->ctrl->getLinkTarget($this, 'showDetails').'&purchasetype=buy');
 		$ilTabs->addTarget('payment_demo', $this->ctrl->getLinkTarget($this, 'showDemoVersion').'&purchasetype=demo');
@@ -547,7 +547,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 			$this->sc_obj->setPriceId((int) $_POST['price_id']);
 			$this->sc_obj->setPobjectId($this->pobject->getPobjectId());
 			$this->sc_obj->add();
-
+			
 			ilUtil::redirect('ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilshopshoppingcartgui');
 
 			return true;

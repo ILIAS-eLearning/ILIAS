@@ -9754,7 +9754,7 @@ payment#:#pays_paypal_settings_not_valid#:#Ihre Einstellungen für PayPal sind n
 payment#:#pays_paypal_settings#:#Einstellungen für PayPal
 payment#:#pays_paypal#:#PayPal
 payment#:#pays_pdf_path#:#Pfad zur Rechnungsgenerierung als PDF-Datei
-payment#:#pays_server_host#:#Server Host (z.B. www.paypal.com)
+payment#:#pays_server_host#:#Server Host (z.B. https://www.paypal.com)
 payment#:#pays_server_path#:#Pfad zu den Skripten (z.B. /cgi-bin/webscr)
 payment#:#pays_sure_delete_selected_vendors#:#Sind sie sicher, dass die ausgewählten Verkäufer gelöscht werden sollen?
 payment#:#pays_too_many_vendors_selected#:#Für diese Aktion bitte nur einen Verkäufer auswählen.

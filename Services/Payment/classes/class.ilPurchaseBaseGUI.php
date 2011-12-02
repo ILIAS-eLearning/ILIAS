@@ -447,7 +447,9 @@ class ilPurchaseBaseGUI
 					'vat_unit' => $sc[$i]['vat_unit'],  
 					'price_string' => $sc[$i]['price_string'],	
 					'price' => $sc[$i]['price'],				
-					'discount'=> $discount
+					'discount'=> $discount,
+					'access_startdate' => $book_obj->getAccessStartdate(),
+					'access_enddate' => $book_obj->getAccessEnddate()
 				);
 #'bonus'=> $bonus
 				$total += $sc[$i]['price'];				
@@ -509,7 +511,7 @@ class ilPurchaseBaseGUI
 		include_once './Services/Payment/classes/class.ilPayMethods.php';
 		$str_paymethod = ilPayMethods::getStringByPaymethod($bookings['list'][$i]['b_pay_method']);
 		$tpl->setVariable('TXT_EXTERNAL_BILL_NO', str_replace('%s',$str_paymethod,utf8_decode($this->lng->txt('external_bill_no'))));
-		$tpl->setVariable('EXTERNAL_BILL_NO', $bookings['list'][$i]['transaction_extern']);
+		$tpl->setVariable('EXTERNAL_BILL_NO', $bookings['transaction_extern']);
 		$tpl->setVariable('TXT_POSITION',$this->lng->txt('position'));
 		$tpl->setVariable('TXT_AMOUNT',$this->lng->txt('amount'));
 		$tpl->setVariable('TXT_UNIT_PRICE', utf8_decode($this->lng->txt('unit_price')));
@@ -684,7 +686,7 @@ class ilPurchaseBaseGUI
 			{
 				require_once 'Services/RTE/classes/class.ilRTE.php';
 				$regulations = ilRTE::_replaceMediaObjectImageSrc($genSet->get('statutory_regulations'),1);
-				$reg_file_name = $this->lng->txt('statutory_regulations');
+				$reg_file_name = 'statutory_regulations';
 				if (@file_exists($genSet->get('pdf_path')))
 				{		
 					ilUtil::html2pdf($regulations, $genSet->get('pdf_path') . '/' . $reg_file_name . '.pdf');

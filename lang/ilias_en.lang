@@ -8624,7 +8624,7 @@ payment#:#pays_paypal_settings_not_valid#:#Your settings for PayPal aren't valid
 payment#:#pays_paypal_settings#:#Settings for PayPal
 payment#:#pays_paypal#:#PayPal
 payment#:#pays_pdf_path#:#Path for generating bill as PDF file
-payment#:#pays_server_host#:#Server Host (e.g. www.paypal.com)
+payment#:#pays_server_host#:#Server Host (e.g. https://www.paypal.com)
 payment#:#pays_server_path#:#Path to the Scripts (e.g. /cgi-bin/webscr)
 payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)
 payment#:#pays_too_many_vendors_selected#:#Please select only one customer to perform this action.
