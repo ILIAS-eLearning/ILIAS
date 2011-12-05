@@ -498,10 +498,12 @@ class ilSurveyEvaluationGUI
 		{
 			array_push($csvrow, $this->lng->txt("codes"));
 		}
+		/* #8211
 		if ($this->object->getAnonymize() == ANONYMIZE_OFF)
 		{
 			array_push($csvrow, $this->lng->txt("gender"));
-		}
+		}		 
+	    */
 		$cellcounter = 1;
 		foreach ($questions as $question_id => $question_data)
 		{
@@ -521,10 +523,12 @@ class ilSurveyEvaluationGUI
 			{
 				array_push($csvrow, $user_id);
 			}
+			/* #8211
 			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
 			{
 				array_push($csvrow, $resultset["gender"]);
-			}
+			}			
+		    */
 			foreach ($questions as $question_id => $question)
 			{
 				$question->addUserSpecificResultsData($csvrow, $resultset);
@@ -699,7 +703,7 @@ class ilSurveyEvaluationGUI
 				{
 					array_push($tabledata, array(
 							'username' => $data["sortname"],
-							'gender' => $data["gender"],
+							// 'gender' => $data["gender"],
 							'question' => $questioncounter++ . ". " . $question_data["title"],
 							'results' => $text,
 							'workingtime' => $wt
@@ -710,7 +714,7 @@ class ilSurveyEvaluationGUI
 				{
 					array_push($tabledata, array(
 							'username' => " ",
-							'gender' => " ",
+							// 'gender' => " ",
 							'question' => $questioncounter++ . ". " . $question_data["title"],
 							'results' => $text,
 							'workingtime' => null
