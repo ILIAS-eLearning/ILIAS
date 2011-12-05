@@ -428,11 +428,11 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 			{
 				foreach ($_POST['answers']['answer'] as $key => $value)
 				{
-					array_push($data, array('answer' => $value, 'other' => (($_POST['answers']['other'][$key]) ? true : false), 'scale' => $_POST['answers']['scale'][$key]));
+					array_push($data, array('answer' => $value, 'other' => (($_POST['answers']['other'][$key]) ? true : false), 'scale' => $_POST['answers']['scale'][$key], 'neutral' => false));
 				}
 				if (strlen($_POST['answers']['neutral']))
 				{
-					array_push($data, array('answer' => $_POST['answers']['neutral'], 'other' => false, 'scale' => $_POST['answers_neutral_scale']));
+					array_push($data, array('answer' => $_POST['answers']['neutral'], 'other' => false, 'scale' => $_POST['answers_neutral_scale'], 'neutral' => true));
 				}
 			}
 			else

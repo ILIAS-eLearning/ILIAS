@@ -159,9 +159,9 @@ class ilSurveyPhrases
 		{
 			$cat = $this->categories->getCategory($i);
 			$next_id = $ilDB->nextId('svy_category');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
-				array('integer','text','text','integer','integer'),
-				array($next_id, $cat->title, 1, $ilUser->getId(), time())
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp, neutral) VALUES (%s, %s, %s, %s, %s, %s)",
+				array('integer','text','text','integer','integer','text'),
+				array($next_id, $cat->title, 1, $ilUser->getId(), time(), $cat->neutral)
 			);
 			$category_id = $next_id;
 			$next_id = $ilDB->nextId('svy_phrase_cat');
@@ -193,9 +193,9 @@ class ilSurveyPhrases
 		{
 			$cat = $this->categories->getCategory($i);
 			$next_id = $ilDB->nextId('svy_category');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
-				array('integer','text','text','integer','integer'),
-				array($next_id, $cat->title, 1, $ilUser->getId(), time())
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp, neutral) VALUES (%s, %s, %s, %s, %s, %s)",
+				array('integer','text','text','integer','integer','text'),
+				array($next_id, $cat->title, 1, $ilUser->getId(), time(), $cat->neutral)
 			);
 			$category_id = $next_id;
 			$next_id = $ilDB->nextId('svy_phrase_cat');
