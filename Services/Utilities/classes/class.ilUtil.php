@@ -2089,7 +2089,11 @@ class ilUtil
 		$disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
 		//		$mime = "application/octet-stream"; // or whatever the mime type is
 
-		if (isset($_SERVER["HTTPS"])) {
+		include_once './classes/class.ilHTTPS.php';
+		
+		//if($_SERVER['HTTPS'])
+		if( ilHTTPS::getInstance()->isDetected() )
+		{
 
 			// Added different handling for IE and HTTPS => send pragma after content informations
 			/**
@@ -2123,7 +2127,8 @@ class ilUtil
 		header("Content-Description: ".$ascii_filename);
 		header("Content-Length: ".(string)(strlen($a_data)));
 
-		if($_SERVER['HTTPS'])
+		//if($_SERVER['HTTPS'])
+		if( ilHTTPS::getInstance()->isDetected() )
 		{
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
             header('Pragma: public');
