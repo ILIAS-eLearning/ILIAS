@@ -58,10 +58,12 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
 		$this->setStyle('table', 'fullwidth');
 
 		$this->addColumn($this->lng->txt("username"),'username', '');
+		/* #8211
 		if (!$is_anonymized)
 		{
 			$this->addColumn($this->lng->txt("gender"),'gender', '');
-		}
+		}		 
+		*/
 		$this->addColumn($this->lng->txt("question"),'question', '');
 		$this->addColumn($this->lng->txt("results"),'results', '');
 		$this->addColumn($this->lng->txt("workingtime"),'workingtime', '');
@@ -100,12 +102,14 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
+		/* #8211
 		if (!$this->is_anonymized)
 		{
 			$this->tpl->setCurrentBlock('gender');
 			$this->tpl->setVariable("GENDER", $data['gender']);
 			$this->tpl->parseCurrentBlock();
 		}
+		*/	
 		$this->tpl->setVariable("USERNAME", $data['username']);
 		$this->tpl->setVariable("QUESTION", $data['question']);
 		$this->tpl->setVariable("RESULTS", $data['results']);
