@@ -434,11 +434,11 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			{
 				foreach ($_POST['columns']['answer'] as $key => $value)
 				{
-					array_push($data, array('answer' => $value, 'other' => (($_POST['columns']['other'][$key]) ? true : false), 'scale' => $_POST['columns']['scale'][$key]));
+					array_push($data, array('answer' => $value, 'other' => (($_POST['columns']['other'][$key]) ? true : false), 'scale' => $_POST['columns']['scale'][$key], 'neutral' => false));
 				}
 				if (strlen($_POST['columns']['neutral']))
 				{
-					array_push($data, array('answer' => $_POST['columns']['neutral'], 'other' => false, 'scale' => $_POST['columns_neutral_scale']));
+					array_push($data, array('answer' => $_POST['columns']['neutral'], 'other' => false, 'scale' => $_POST['columns_neutral_scale'], 'neutral' => true));
 				}
 			}
 			else

@@ -116,13 +116,14 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		);
 		while ($row = $ilDB->fetchAssoc($result))
 		{
+			$neutral = $row["neutral"];			
 			if (($row["defaultvalue"] == 1) and ($row["owner_fi"] == 0))
 			{
-				$this->categories->addCategory($this->lng->txt($row["title"]));
+				$this->categories->addCategory($this->lng->txt($row["title"]), 0, $neutral);
 			}
 			else
 			{
-				$this->categories->addCategory($row["title"]);
+				$this->categories->addCategory($row["title"], 0, $neutral);
 			}
 		}
 	}
@@ -433,9 +434,9 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	  foreach ($_SESSION['save_phrase_data'] as $data) 
 		{
 			$next_id = $ilDB->nextId('svy_category');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
-				array('integer','text','text','integer','integer'),
-				array($next_id, $data['answer'], 1, $ilUser->getId(), time())
+			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp, neutral) VALUES (%s, %s, %s, %s, %s, %s)",
+				array('integer','text','text','integer','integer','text'),
+				array($next_id, $data['answer'], 1, $ilUser->getId(), time(), $data['neutral'])
 			);
 			$category_id = $next_id;
 			$next_id = $ilDB->nextId('svy_phrase_cat');
