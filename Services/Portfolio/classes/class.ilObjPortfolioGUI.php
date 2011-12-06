@@ -1313,7 +1313,7 @@ class ilObjPortfolioGUI
 		
 		// blog posting comments are handled within the blog
 		$notes = "";
-		if($a_show_notes && $this->portfolio->hasPublicComments() && !($current_blog && $_REQUEST["page"]))
+		if($a_show_notes && $this->portfolio->hasPublicComments() && !($current_blog && $_REQUEST["blpg"]))
 		{			
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
 						
