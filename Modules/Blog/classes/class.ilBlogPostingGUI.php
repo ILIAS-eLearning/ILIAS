@@ -91,7 +91,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$cmd = $ilCtrl->getCmd();
 
 		$posting = $this->getBlogPosting();
-		$ilCtrl->setParameter($this, "page", $posting->getId());
+		$ilCtrl->setParameter($this, "blpg", $posting->getId());
 		
 		switch($next_class)
 		{
@@ -208,8 +208,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		}
 
 		// permanent link
-		$append = ($_GET["page"] != "")
-			? "_".$_GET["page"]
+		$append = ($_GET["blpg"] != "")
+			? "_".$_GET["blpg"]
 			: "";
 		include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
 		$perma_link = new ilPermanentLinkGUI("blog", $this->node_id, $append."_wsp");
@@ -219,7 +219,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
 		$tpl->setLoginTargetPar("blog_".$this->node_id.$append);
 
-		$ilCtrl->setParameter($this, "page", $this->getBlogPosting()->getId());
+		$ilCtrl->setParameter($this, "blpg", $this->getBlogPosting()->getId());
 
 		return $wtpl->get();
 	}
@@ -281,7 +281,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		global $ilTabs, $ilCtrl;
 
 		// $ilCtrl->setParameterByClass("ilobjbloggui", "wsp_id", $this->getBlogPosting()->getParentId());
-		$ilCtrl->setParameterByClass("ilobjbloggui", "page", $this->getBlogPosting()->getId());
+		$ilCtrl->setParameterByClass("ilobjbloggui", "blpg", $this->getBlogPosting()->getId());
 
 		parent::getTabs($a_activate);
 	}

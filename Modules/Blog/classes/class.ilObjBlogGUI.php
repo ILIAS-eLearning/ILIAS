@@ -180,7 +180,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		if($_GET["gtp"])
 		{
 			$ilCtrl->setCmdClass("ilblogpostinggui");			
-			$_GET["page"] = $_GET["gtp"];
+			$_GET["blpg"] = $_GET["gtp"];
 			$ilCtrl->setCmd("previewFullscreen");			
 		}
 		
@@ -195,7 +195,7 @@ class ilObjBlogGUI extends ilObject2GUI
 						
 				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$bpost_gui = new ilBlogPostingGUI($this->node_id, $this->getAccessHandler(),
-					$_GET["page"], $_GET["old_nr"], $this->object->getNotesStatus() && !$this->disable_notes);
+					$_GET["blpg"], $_GET["old_nr"], $this->object->getNotesStatus() && !$this->disable_notes);
 				
 				if (!$this->checkPermissionBool("write"))
 				{
@@ -217,10 +217,10 @@ class ilObjBlogGUI extends ilObject2GUI
 					
 					// edit
 					default:						
-						$this->ctrl->setParameterByClass("ilblogpostinggui", "page", $_GET["page"]);
+						$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
 						$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"), 
 							$this->ctrl->getLinkTargetByClass("ilblogpostinggui", "previewFullscreen"));
-						$this->ctrl->setParameterByClass("ilblogpostinggui", "page", "");
+						$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", "");
 						break;
 				}
 				
@@ -297,7 +297,10 @@ class ilObjBlogGUI extends ilObject2GUI
 				break;
 
 			default:				
-				$this->addHeaderAction($cmd);
+				if($cmd != "gethtml")
+				{
+					$this->addHeaderAction($cmd);
+				}
 				return parent::executeCommand();			
 		}
 		
@@ -382,7 +385,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			// switch month list to current month (will include new posting)
 			$ilCtrl->setParameter($this, "bmn", date("Y-m"));
 			
-			$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $posting->getId());
+			$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $posting->getId());
 			$ilCtrl->redirectByClass("ilblogpostinggui", "edit");
 		}
 		else
@@ -697,14 +700,14 @@ class ilObjBlogGUI extends ilObject2GUI
 			{
 				$prvm = $_GET["prvm"];
 				$this->ctrl->setParameter($this, "prvm", "");
-				if(!$_GET["page"])
+				if(!$_GET["blpg"])
 				{								
 					$back = $this->ctrl->getLinkTarget($this, "");
 				}
 				else
 				{
 					$this->ctrl->setParameterByClass("ilblogpostinggui", "bmn", $this->month);
-					$this->ctrl->setParameterByClass("ilblogpostinggui", "page", $_GET["page"]);
+					$this->ctrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
 					$back = $this->ctrl->getLinkTargetByClass("ilblogpostinggui", "preview");
 				}
 				$this->ctrl->setParameter($this, "prvm", $prvm);
@@ -811,7 +814,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			if(!$a_link_template)
 			{
 				$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", $this->month);
-				$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $item["id"]);
+				$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $item["id"]);
 				$preview = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_cmd);
 			}
 			else
@@ -973,7 +976,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		$wtpl->setVariable("NAVIGATION_TITLE", $this->lng->txt("blog_navigation"));
 		
-		$ilCtrl->setParameter($this, "page", "");
+		$ilCtrl->setParameter($this, "blpg", "");
 
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$counter = 0;
@@ -1012,7 +1015,7 @@ class ilObjBlogGUI extends ilObject2GUI
 					if(!$a_link_template)
 					{
 						$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", $month);
-						$ilCtrl->setParameterByClass("ilblogpostinggui", "page", $id);
+						$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $id);
 						$url = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_posting_cmd);					
 					}
 					else
@@ -1309,9 +1312,9 @@ class ilObjBlogGUI extends ilObject2GUI
 	
 	function getNotesSubId()
 	{
-		if($_REQUEST["page"])
+		if($_REQUEST["blpg"])
 		{
-			return $_REQUEST["page"];
+			return $_REQUEST["blpg"];
 		}
 		return 0;
 	}
@@ -1345,10 +1348,10 @@ class ilObjBlogGUI extends ilObject2GUI
 		global $ilUser, $ilCtrl;		
 
 		$sub_type = $sub_id = null;
-		if($_GET["page"])
+		if($_GET["blpg"])
 		{
 			$sub_type = "blp";
-			$sub_id = $_GET["page"];
+			$sub_id = $_GET["blpg"];
 		}		
 				
 		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
