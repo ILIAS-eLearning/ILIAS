@@ -2437,21 +2437,18 @@ class ilObjectListGUI
 			return;
 		}
 
-		$id_ref = ($this->reference_ref_id > 0)
-			? $this->reference_ref_id
-			: $this->ref_id;
 		include_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$this->current_selection_list = new ilAdvancedSelectionListGUI();
 		$this->current_selection_list->setAsynch($a_use_asynch && !$a_get_asynch_commands);
 		$this->current_selection_list->setAsynchUrl($a_asynch_url);
 		$this->current_selection_list->setListTitle($lng->txt("actions"));
-		$this->current_selection_list->setId("act_".$id_ref.'_'.rand(1,10000));
+		$this->current_selection_list->setId("act_".$this->getUniqueItemId());
 		$this->current_selection_list->setSelectionHeaderClass("small");
 		$this->current_selection_list->setItemLinkClass("xsmall");
 		$this->current_selection_list->setLinksMode("il_ContainerItemCommand2");
 		$this->current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 		$this->current_selection_list->setUseImages(false);
-		$this->current_selection_list->setAdditionalToggleElement("lg_div_".$id_ref, "ilContainerListItemOuterHighlight");
+		$this->current_selection_list->setAdditionalToggleElement($this->getUniqueItemId(true), "ilContainerListItemOuterHighlight");
 
 		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 		
@@ -2950,7 +2947,7 @@ class ilObjectListGUI
 			if($this->isExpanded())
 			{
 				$this->ctrl->setParameter($this->container_obj,'expand',-1 * $this->obj_id);
-				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'','lg_div_'.$this->ref_id));
+				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'',$this->getUniqueItemId(true)));
 				$this->ctrl->clearParameters($this->container_obj);			
 				#$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('browser/minus.gif'));
 				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_exp.png'));
@@ -2959,7 +2956,7 @@ class ilObjectListGUI
 			else
 			{
 				$this->ctrl->setParameter($this->container_obj,'expand',$this->obj_id);
-				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'','lg_div_'.$this->ref_id));
+				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'',$this->getUniqueItemId(true)));
 				$this->ctrl->clearParameters($this->container_obj);
 				#$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('browser/plus.gif'));
 				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_col.png'));
@@ -3231,15 +3228,41 @@ class ilObjectListGUI
 		$this->sub_item_html = array();
 		$this->position_enabled = false;
 
-		$id_ref = ($this->reference_ref_id > 0)
-			? $this->reference_ref_id
-			: $this->ref_id;
-
 		$this->tpl->setVariable("DIV_CLASS",'ilContainerListItemOuter');
-		$this->tpl->setVariable("DIV_ID", 'id = "lg_div_'.$id_ref.'"');
+		$this->tpl->setVariable("DIV_ID", 'id = "'.$this->getUniqueItemId(true).'"');
 		$this->tpl->setVariable("ADDITIONAL", $this->getAdditionalInformation());
 		
 		return $this->tpl->get();
+	}
+	
+	/**
+	 * Get unique item identifier (for js-actions)
+	 * 
+	 * @param bool $a_as_div
+	 * @return string
+	 */
+	protected function getUniqueItemId($a_as_div = false)
+	{
+		// use correct id for references
+		$id_ref = ($this->reference_ref_id > 0)
+			? $this->reference_ref_id
+			: $this->ref_id;
+		
+		// add unique identifier for preconditions (objects can appear twice in same container)
+		if($this->condition_depth)
+		{
+			$id_ref .= "_pc".$this->condition_depth;
+		}
+	
+		if(!$a_as_div)
+		{
+			return $id_ref;
+		}
+		else
+		{
+			// action menu [yellow] toggle
+			return "lg_div_".$id_ref;
+		}
 	}
 	
 	/**
