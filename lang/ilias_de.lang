@@ -168,8 +168,9 @@ administration#:#language_remove_local_file#:#Lokale Sprachdatei löschen
 administration#:#language_save_local_changes#:#Alle Änderungen in der lokalen Sprachdatei speichern
 administration#:#language_saved_local#:#Alle Änderungen wurden in der lokalen Sprachdatei gespeichert.
 administration#:#language_scope_added#:#Nur lokale Ergänzungen
-administration#:#language_scope_commented#:#Mit Kommentaren des Language-Managers
+administration#:#language_scope_commented#:#Zeigt nur Einträge mit Kommentaren in der Language-Datei
 administration#:#language_scope_conflicts#:#Lokale und Update-Änderungen
+administration#:#language_scope_dbremarks#:#Zeigt nur Einträge mit Kommentaren in der Datenbank
 administration#:#language_scope_different#:#Verschieden zur Vergleichssprache
 administration#:#language_scope_equal#:#Identisch mit der Vergleichssprache
 administration#:#language_scope_global#:#Alle Einträge

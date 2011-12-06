@@ -96,8 +96,9 @@ administration#:#language_note_translation#:#Page translation mode is activated 
 administration#:#language_process_maintenance#:#Process Maintenance
 administration#:#language_save_local_changes#:#Save all changes to the local language file
 administration#:#language_saved_local#:#All changes were saved to the local language file.
-administration#:#language_scope_commented#:#With comments from language manager
+administration#:#language_scope_commented#:#Shows only entries with comments in language file
 administration#:#language_scope_conflicts#:#Local and update changes
+administration#:#language_scope_dbremarks#:#Shows only entries with comments in database
 administration#:#language_scope_different#:#Different from compare language
 administration#:#language_scope_equal#:#Equal to compare language
 administration#:#language_scope_global#:#All entries
