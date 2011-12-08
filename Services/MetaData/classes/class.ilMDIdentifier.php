@@ -204,7 +204,7 @@ class ilMDIdentifier extends ilMDBase
 		$query = "SELECT meta_identifier_id, catalog, entry FROM il_meta_identifier ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
 			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
-			"AND obj_type = ".$ilDB->quote($a_obj_type ,'integer');
+			"AND obj_type = ".$ilDB->quote($a_obj_type ,'text');
 
 		$res = $ilDB->query($query);
 		$entries = array();
@@ -233,7 +233,7 @@ class ilMDIdentifier extends ilMDBase
 		if ($a_obj_type != "")
 		{
 			$query.=
-				" AND obj_type = ".$ilDB->quote($a_obj_type ,'integer');
+				" AND obj_type = ".$ilDB->quote($a_obj_type ,'text');
 		}
 
 		$res = $ilDB->query($query);
