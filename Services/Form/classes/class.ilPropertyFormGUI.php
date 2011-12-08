@@ -435,10 +435,20 @@ class ilPropertyFormGUI extends ilFormGUI
 		return $ok;
 	}
 	
-	function getInput($a_post_var)
+	/**
+	 * 
+	 * Returns the value of a HTTP-POST variable, identified by the passed id 
+	 * 
+	 * @param	string	The key used for value determination
+	 * @param	boolean	A flag whether the form input has to be validated before calling this method
+	 * @return	string	The value of a HTTP-POST variable, identified by the passed id 
+	 * @access	public
+	 * 
+	 */
+	public function getInput($a_post_var, $ensureValidation = true)
 	{
 		// this check ensures, that checkInput has been called (incl. stripSlashes())
-		if (!$this->check_input_called)
+		if (!$this->check_input_called && $ensureValidation)
 		{
 			die ("Error: ilPropertyFormGUI->getInput() called without calling checkInput() first.");
 		}
