@@ -374,6 +374,13 @@ class ilObjUserGUI extends ilObjectGUI
 	
 		$this->initCreate();
 		$this->initForm("create");
+		
+		// Manipulate form so ignore required fields are no more required. This has to be done before ilPropertyFormGUI::checkInput() is called.
+		$profileMaybeIncomplete = false;
+		if($this->form_gui->getInput('ignore_rf', false))
+		{			
+			$profileMaybeIncomplete = $this->handleIgnoredRequiredFields();
+		}
 
 		if ($this->form_gui->checkInput())
 		{
@@ -469,6 +476,16 @@ class ilObjUserGUI extends ilObjectGUI
 			if($this->isSettingChangeable('upload'))
 			{
 				$this->uploadUserPictureObject();
+			}
+			
+			if( $profileMaybeIncomplete )
+			{
+				include_once 'Services/User/classes/class.ilUserProfile.php';
+				if( ilUserProfile::isProfileIncomplete($this->object) )
+				{
+					$this->object->setProfileIncomplete( true );
+					$this->object->update();
+				}
 			}
 
 			// send new account mail
@@ -770,6 +787,13 @@ class ilObjUserGUI extends ilObjectGUI
 		$_POST['agree_date'] = $this->object->getAgreeDate();
 		unset($_POST['last_login']);
 		
+		// Manipulate form so ignore required fields are no more required. This has to be done before ilPropertyFormGUI::checkInput() is called.		
+		$profileMaybeIncomplete = false;
+		if($this->form_gui->getInput('ignore_rf', false))
+		{			
+			$profileMaybeIncomplete = $this->handleIgnoredRequiredFields();
+		}
+		
 		if ($this->form_gui->checkInput())
 		{
 			// @todo: external account; time limit
@@ -890,6 +914,16 @@ class ilObjUserGUI extends ilObjectGUI
 			if($this->isSettingChangeable('upload'))
 			{
 				$this->uploadUserPictureObject();
+			}
+			
+			if( $profileMaybeIncomplete )
+			{
+				include_once 'Services/User/classes/class.ilUserProfile.php';
+				if( ilUserProfile::isProfileIncomplete($this->object) )
+				{
+					$this->object->setProfileIncomplete( true );
+					$this->object->update();
+				}
 			}
 
 			// feedback
@@ -1628,6 +1662,12 @@ class ilObjUserGUI extends ilObjectGUI
 			$cb->setValue(1);
 			$this->form_gui->addItem($cb);
 		}
+		
+		// ignore required fields
+		$irf = new ilCheckboxInputGUI($lng->txt('ignore_required_fields'), 'ignore_rf');
+		$irf->setInfo($lng->txt('ignore_required_fields_info'));
+		$irf->setValue(1);
+		$this->form_gui->addItem($irf);
 
 		// @todo: handle all required fields
 
@@ -3492,5 +3532,53 @@ class ilObjUserGUI extends ilObjectGUI
 		exit;
 	}
 
+	/**
+	 * 
+	 * Handles ignored required fields by changing the required flag of form elements
+	 * 
+	 * @access	protected
+	 * @return	boolean	A flag whether the user profile is maybe incomplete after saving the form data 
+	 * 
+	 */
+	protected function handleIgnoredRequiredFields()
+	{        
+		$profileMaybeIncomplete = false;
+		
+		require_once 'Services/User/classes/class.ilUserProfile.php';
+		
+		foreach( ilUserProfile::getIgnorableRequiredSettings() as $fieldName )
+		{
+			$elm = $this->form_gui->getItemByPostVar($fieldName);
+			
+			if( !$elm ) continue;            
+			
+			if( $elm->getRequired() )
+			{
+				$profileMaybeIncomplete = true;
+				
+				// Flag as optional
+				$elm->setRequired( false );
+			}
+		}
+		
+		include_once 'Services/User/classes/class.ilUserDefinedFields.php';
+		$user_defined_fields = ilUserDefinedFields::_getInstance();
+		foreach($user_defined_fields->getDefinitions() as $field_id => $definition)
+		{
+			$elm = $this->form_gui->getItemByPostVar('udf_'.$definition['field_id']);
+			
+			if( !$elm ) continue;            
+			
+			if( $elm->getRequired() && $definition['changeable'] && $definition['required'] )
+			{
+				$profileMaybeIncomplete = true;
+				
+				// Flag as optional
+				$elm->setRequired( false );
+			}
+		}
+		
+		return $profileMaybeIncomplete;
+	}
 } // END class.ilObjUserGUI
 ?>

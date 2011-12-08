@@ -12385,3 +12385,5 @@ common#:#attach_sr_invoice#:#An Email anhängen
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email
 common#:#tst_tst_statistics#:#Access to Test Statistics
+common#:#ignore_required_fields#:#Ignore required fields
+common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.

@@ -847,6 +847,80 @@ class ilUserProfile
 		}
 		
 		return false;
-	}	
+	}
+	
+	/**
+	 * 
+	 * Returns whether a profile setting is editable by an user in the profile gui
+	 * 
+	 * @param	string	A key of a profile setting
+	 * @return	boolean	Determines whether the passed setting can be edited by the user itself
+	 * @access	protected
+	 * @static
+	 * 
+	 */
+	protected static function isEditableByUser($setting)
+	{
+		/**
+		 * 
+		 * @global	ilSetting
+		 * 
+		 */
+		global $ilSetting;
+		
+		// Not visible in personal data or not changeable
+		if( $ilSetting->get('usr_settings_hide_'.$setting) == 1 ||
+			$ilSetting->get('usr_settings_disable_'.$setting) == 1 )
+		{
+			// User has no chance to edit this field
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * 
+	 * Returns an array of all ignorable profiel fields
+	 * 
+	 * @return	array
+	 * @access	public
+	 * @static
+	 * 
+	 */
+	public static function getIgnorableRequiredSettings()
+	{
+		/**
+		 * 
+		 * @global	ilSetting
+		 * 
+		 */
+		global $ilSetting;
+		
+		$ignorableSettings = array();
+	
+		foreach(self::$user_field as $field => $definition)
+		{
+			// !!!username and password must not be ignored!!!
+			if( 'username' == $field ||
+				'password' == $field )
+			{
+				continue;
+			}
+			
+			// Field is not required -> continue
+			if( !$ilSetting->get('require_'.$field) )
+			{
+				continue;
+			}
+			
+			if( self::isEditableByUser($field) )
+			{			
+				$ignorableSettings[] = $field;
+			}
+		}
+		
+		return $ignorableSettings;
+	}
 }
 ?>

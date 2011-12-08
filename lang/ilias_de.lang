@@ -12385,3 +12385,5 @@ common#:#attach_sr_invoice#:#An Email anhängen
 common#:#show_sr_shoppingcart_info#:#Wenn aktiviert, werden die gesetzlichen Bestimmungen innerhalb des Warenkorbs angezeigt
 common#:#attach_sr_invoice_info#:#Wenn aktiviert, werden die gesetzlichen Bestimmungen an die Kaufbestätigungs-Email als Dateianhang hinzugefügt
 common#:#tst_tst_statistics#:#Zugriff auf Teststatistiken
+common#:#ignore_required_fields#:#Benutzerpflichtfelder ignorieren
+common#:#ignore_required_fields_info#:#Falls aktiviert, werden Pflichtangaben beim Absenden dieses Formulars nicht mehr überprüft (sofern möglich). Auswirkung dessen ist, dass der Benutzer nach der nächsten Anmeldung sein Profil vervollständigen muss.
