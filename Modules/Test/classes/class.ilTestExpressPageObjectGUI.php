@@ -67,7 +67,7 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
     }
 
     function &executeCommand() {
-        global $ilCtrl, $ilTabs, $ilUser;
+        global $ilCtrl, $ilTabs, $ilUser, $lng;
 
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -135,7 +135,18 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
                     return $this->$cmd();
                 }
                 else if ($q_gui->object) {
-                    $this->setOutputMode($this->test_object->evalTotalPersons() == 0 ? IL_PAGE_EDIT : IL_PAGE_PREVIEW);
+			
+		    $total = $this->test_object->evalTotalPersons();
+		    
+                    $this->setOutputMode( $total == 0 ? IL_PAGE_EDIT : IL_PAGE_PREVIEW);
+		    
+		    if($total != 0)
+		    {
+			$link = $ilCtrl->getLinkTargetByClass('ilobjtestgui', "participants");
+			$link = "<a href=\"".$link."\">".$lng->txt("test_has_datasets_warning_page_view_link")."</a>";
+			ilUtil::sendInfo($lng->txt("test_has_datasets_warning_page_view")." ".$link);
+		    }
+		    
                     if (in_array($cmd, array('view', 'showPage')) || $cmd == 'edit' && $this->test_object->evalTotalPersons()) {
                         return $this->showPage();
                     }
