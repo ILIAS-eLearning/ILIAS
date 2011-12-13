@@ -2903,31 +2903,39 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questions.html", "Modules/Test");
 
 		$total = $this->object->evalTotalPersons();
-		if (($ilAccess->checkAccess("write", "", $this->ref_id) and ($total == 0)))
+		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
-			global $ilToolbar;
-
-			$qtypes = array();
-			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-			foreach (ilObjQuestionPool::_getQuestionTypes() as $trans => $data)
+			if($total != 0)
 			{
-				$qtypes[$data['type_tag']] = $trans;
+				$link = $this->ctrl->getLinkTarget($this, "participants");
+				$link = "<a href=\"".$link."\">".$this->lng->txt("test_has_datasets_warning_page_view_link")."</a>";
+				ilUtil::sendInfo($this->lng->txt("test_has_datasets_warning_page_view")." ".$link);
 			}
-			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-			$types = new ilSelectInputGUI($this->lng->txt("create_new"), "sel_question_types");
-			$types->setOptions($qtypes);
-			
-			$ilToolbar->addInputItem($types);
-			$ilToolbar->addFormButton($this->lng->txt("test_create_question"), "createQuestion");
+			else {
+				global $ilToolbar;
 
-			if ($this->object->getPoolUsage()) {
+				$qtypes = array();
+				include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+				foreach (ilObjQuestionPool::_getQuestionTypes() as $trans => $data)
+				{
+					$qtypes[$data['type_tag']] = $trans;
+				}
+				$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+				include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+				$types = new ilSelectInputGUI($this->lng->txt("create_new"), "sel_question_types");
+				$types->setOptions($qtypes);
+
+				$ilToolbar->addInputItem($types);
+				$ilToolbar->addFormButton($this->lng->txt("test_create_question"), "createQuestion");
+
+				if ($this->object->getPoolUsage()) {
+					$ilToolbar->addSeparator();
+					$ilToolbar->addButton($this->lng->txt("tst_browse_for_questions"), $this->ctrl->getLinkTarget($this, 'browseForQuestions'));
+				}
+
 				$ilToolbar->addSeparator();
-				$ilToolbar->addButton($this->lng->txt("tst_browse_for_questions"), $this->ctrl->getLinkTarget($this, 'browseForQuestions'));
+				$ilToolbar->addButton($this->lng->txt("random_selection"), $this->ctrl->getLinkTarget($this, "randomselect"));
 			}
-			
-			$ilToolbar->addSeparator();
-			$ilToolbar->addButton($this->lng->txt("random_selection"), $this->ctrl->getLinkTarget($this, "randomselect"));
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
@@ -4856,6 +4864,8 @@ class ilObjTestGUI extends ilObjectGUI
 		    if ($this->object->getPoolUsage()) {
 			    $ilToolbar->addSeparator();
 			    $ilToolbar->addFormButton($lng->txt("tst_browse_for_questions"), "browseForQuestions");
+			    
+			    $show_separator = true;
 		    }
                 }
 
@@ -4897,7 +4907,9 @@ class ilObjTestGUI extends ilObjectGUI
 //                    //}
 
 		if (count($questions)) {
-		    $ilToolbar->addSeparator();
+	            if (isset($show_separator) && $show_separator) {
+			$ilToolbar->addSeparator();
+		    }
 
 		    $ilToolbar->addLink($lng->txt("test_prev_question"), $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'prevQuestion'), !(count($options) > 1 && $optionKeys[0] != $qid));
 		    $ilToolbar->addLink($lng->txt("test_next_question"), $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'nextQuestion'), !(count($options) > 1 && $optionKeys[count($optionKeys)-1] != $qid));
