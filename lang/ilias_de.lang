@@ -827,7 +827,7 @@ assessment#:#term_image#:#Bild
 assessment#:#term_text#:#Text
 assessment#:#term#:#Term
 assessment#:#terms#:#Terme
-assessment#:#test_add_new_question#:#Frage hinzufügen
+assessment#:#test_create_question#:#Frage erstellen
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
 assessment#:#test_confirm_template_reset#:#Sind Sie sicher, dass Sie die Vorlage nicht mehr verwenden wollen?
 assessment#:#test_delete_page#:#Frage löschen
@@ -880,7 +880,7 @@ assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_beginning_ending_information#:#Informationen zu Beginn und Ende des Tests
 assessment#:#tst_best_solution_is#:#Die bestmögliche Lösung lautet
-assessment#:#tst_browse_for_questions#:#Fragen suchen/hinzufügen
+assessment#:#tst_browse_for_questions#:#Aus Pool hinzufügen
 assessment#:#tst_change_points_done#:#Die Punkte für eine Antwort wurden erfolgreich geändert!
 assessment#:#tst_change_points_for_question#:#Punkte für die Antwort ändern
 assessment#:#tst_change_points_not_done#:#Die Punkte der Antwort konnten nicht geändert werden! Bitte überprüfen Sie den verfügbaren Wertebereich der erreichbaren Punkte.

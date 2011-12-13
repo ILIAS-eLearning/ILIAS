@@ -750,7 +750,7 @@ assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_answered_questions#:#Answered Questions
 assessment#:#tst_best_solution_is#:#The best solution is
-assessment#:#tst_browse_for_questions#:#Search/Add questions
+assessment#:#tst_browse_for_questions#:#Add from Pool
 assessment#:#tst_change_points_done#:#The Points of an answer have been changed successfully!
 assessment#:#tst_change_points_for_question#:#Change the Points for the Answer
 assessment#:#tst_change_points_not_done#:#Could not change the Points of an answer! Please check the allowed range of available points.
@@ -11149,7 +11149,7 @@ assessment#:#questions_per_page_view#:#Page View
 assessment#:#test_next_question#:#Next Question
 assessment#:#test_prev_question#:#Previous Question
 assessment#:#test_jump_to#:#Jump to Question
-assessment#:#test_add_new_question#:#Add Question
+assessment#:#test_create_question#:#Create Question
 assessment#:#adm_settings_templates#:#Settings Templates
 survey#:#survey_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
 survey#:#survey_template_reset#:#The template has been removed.
