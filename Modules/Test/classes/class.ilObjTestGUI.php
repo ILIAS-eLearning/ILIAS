@@ -240,9 +240,11 @@ class ilObjTestGUI extends ilObjectGUI
 
 
                             $this->prepareOutput();
-			    if ($cmd != 'addQuestion')
-				$this->showQuestionsPerPageObject($qid);
-                            if (!$qid) {
+			    if (!in_array($cmd, array('addQuestion', 'browseForQuestions'))) {
+				$this->buildPageViewToolbar($qid);
+			    }
+			    
+                            if (!$qid || in_array($cmd, array('insertQuestions', 'browseForQuestions'))) {
                                 include_once("./Modules/Test/classes/class.ilTestExpressPageObjectGUI.php");
 				$pageObject = new ilTestExpressPageObjectGUI ("qpl", 0);
 				$pageObject->test_object = $this->object;
@@ -2483,7 +2485,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		    $form = new ilPropertyFormGUI();
 		    $form->setFormAction($ilCtrl->getFormAction($this, "executeCreateQuestion"));
-		    $form->setTitle($lng->txt("test_add_new_question"));
+		    $form->setTitle($lng->txt("test_create_question"));
 		    include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
 
 
@@ -2854,10 +2856,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 
-                #if (!in_array($this->object->getEnabledViewMode(), array('both', 'table'))) {
-                #    return $this->showQuestionsPerPageObject();
-                #}
-                
 		if ($_GET['browse'])
 		{
 			return $this->questionbrowser();
@@ -2909,10 +2907,6 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			global $ilToolbar;
 
-			$ilToolbar->addButton($this->lng->txt("tst_browse_for_questions"), $this->ctrl->getLinkTarget($this, 'browseForQuestions'));
-
-			$ilToolbar->addSeparator();
-
 			$qtypes = array();
 			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 			foreach (ilObjQuestionPool::_getQuestionTypes() as $trans => $data)
@@ -2923,11 +2917,16 @@ class ilObjTestGUI extends ilObjectGUI
 			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 			$types = new ilSelectInputGUI($this->lng->txt("create_new"), "sel_question_types");
 			$types->setOptions($qtypes);
-			$ilToolbar->addInputItem($types, $this->lng->txt("create_new"));
-			$ilToolbar->addFormButton($this->lng->txt("create"), "createQuestion");
+			
+			$ilToolbar->addInputItem($types);
+			$ilToolbar->addFormButton($this->lng->txt("test_create_question"), "createQuestion");
 
+			if ($this->object->getPoolUsage()) {
+				$ilToolbar->addSeparator();
+				$ilToolbar->addButton($this->lng->txt("tst_browse_for_questions"), $this->ctrl->getLinkTarget($this, 'browseForQuestions'));
+			}
+			
 			$ilToolbar->addSeparator();
-
 			$ilToolbar->addButton($this->lng->txt("random_selection"), $this->ctrl->getLinkTarget($this, "randomselect"));
 		}
 
@@ -4337,8 +4336,9 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilAccess;
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
+			$this->ctrl->saveParameterByClass($this->ctrl->getCmdClass(), 'q_id');
 			// edit page
-			$tabs_gui->setBackTarget($this->lng->txt("backtocallingtest"), $this->ctrl->getLinkTarget($this, "questions"));
+			$tabs_gui->setBackTarget($this->lng->txt("backtocallingtest"), $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), "questions"));
 			$tabs_gui->addTarget("tst_browse_for_questions",
 				$this->ctrl->getLinkTarget($this, "browseForQuestions"),
 				array("browseForQuestions", "filter", "resetFilter", "resetTextFilter", "insertQuestions"),
@@ -4813,7 +4813,7 @@ class ilObjTestGUI extends ilObjectGUI
 	 * @param
 	 * @return
 	 */
-	function showQuestionsPerPageObject($qid = 0)
+	function buildPageViewToolbar($qid = 0)
 	{
             if ($this->create_question_mode)
                     return;
@@ -4851,7 +4851,12 @@ class ilObjTestGUI extends ilObjectGUI
                         $ilToolbar->addInputItem($cb, true);
                     }
 		    */
-                    $ilToolbar->addFormButton($lng->txt("test_add_new_question"), "addQuestion");
+                    $ilToolbar->addFormButton($lng->txt("test_create_question"), "addQuestion");
+		    
+		    if ($this->object->getPoolUsage()) {
+			    $ilToolbar->addSeparator();
+			    $ilToolbar->addFormButton($lng->txt("tst_browse_for_questions"), "browseForQuestions");
+		    }
                 }
 
                 $questions = $this->object->getQuestionTitlesAndIndexes();

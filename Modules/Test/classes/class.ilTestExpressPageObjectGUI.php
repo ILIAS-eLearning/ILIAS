@@ -122,7 +122,16 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
                     $obj = ilObjectFactory::getInstanceByRefId($_REQUEST['ref_id']);
                     $q_gui->object->setObjId($obj->getId());
                 }
-                if (in_array($cmd, array('handleToolbarCommand', 'addQuestion'))) {
+		
+                if (in_array($cmd, array(
+			    'handleToolbarCommand',
+			    'addQuestion',
+			    'questions',
+			    'insertQuestions',
+			    'browseForQuestions',
+			    'filterAvailableQuestions',
+			    'resetfilterAvailableQuestions'
+		))) {
                     return $this->$cmd();
                 }
                 else if ($q_gui->object) {
@@ -142,10 +151,7 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
                     $q_gui = $this->addPageOfQuestions(preg_replace('/(.*?)gui/i', '$1', $_GET['sel_question_types']));
                     $q_gui->setQuestionTabs();
 
-                    #global $___test_express_mode;
-                    #$___test_express_mode = true;
                     $ret = $this->ctrl->forwardCommand($q_gui);
-                    #unset($___test_express_mode);
 
                     break;
                 } else {
@@ -247,7 +253,7 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
 	$ilCtrl->setParameter($this, 'test_express_mode', 1);
 
 	$form->setFormAction($ilCtrl->getFormAction($this, "handleToolbarCommand"));
-	$form->setTitle($lng->txt("test_add_new_question"));
+	$form->setTitle($lng->txt("test_create_question"));
 	include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
 
 	$pool = new ilObjQuestionPool();
@@ -260,7 +266,7 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
 	}
 
 	include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-	$si = new ilSelectInputGUI($lng->txt("test_add_new_question"), "qtype");
+	$si = new ilSelectInputGUI($lng->txt("question_type"), "qtype");
 	$si->setOptions($options);
 	$form->addItem($si, true);
 
@@ -317,6 +323,7 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
 
     public function questions() {
 	global $ilCtrl;
+	$ilCtrl->saveParameterByClass('ilobjtestgui', 'q_id');
 	$ilCtrl->redirectByClass('ilobjtestgui', 'showPage');
     }
 
@@ -365,6 +372,80 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
         ilUtil::redirect($redir);
     }
 
+	function browseForQuestions()
+	{
+		global $ilAccess, $tpl, $ilCtrl;
+
+		$ilCtrl->setParameterByClass(get_class($this), "browse", "1");
+
+		include_once "./Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php";
+		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions', (($ilAccess->checkAccess("write", "", $_REQUEST['ref_id']) ? true : false)));
+		$arrFilter = array();
+		foreach ($table_gui->getFilterItems() as $item)
+		{
+			if ($item->getValue() !== false)
+			{
+				$arrFilter[$item->getPostVar()] = $item->getValue();
+			}
+		}
+		$data = $this->test_object->getAvailableQuestions($arrFilter, 1);
+		
+		$table_gui->setData($data);
+		$tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
+	}
+
+	function insertQuestions()
+	{
+		$selected_array = (is_array($_POST['q_id'])) ? $_POST['q_id'] : array();
+		if (!count($selected_array))
+		{
+			ilUtil::sendInfo($this->lng->txt("tst_insert_missing_question"), true);
+			$this->ctrl->redirect($this, "browseForQuestions");
+		}
+		else
+		{
+			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+			$manscoring = FALSE;
+			foreach ($selected_array as $key => $value) 
+			{
+				$last_question_id = $this->test_object->insertQuestion($value);
+				if (!$manscoring)
+				{
+					$manscoring = $manscoring | assQuestion::_needsManualScoring($value);
+				}
+			}
+			$this->test_object->saveCompleteStatus();
+			if ($manscoring)
+			{
+				ilUtil::sendInfo($this->lng->txt("manscoring_hint"), TRUE);
+			}
+			else
+			{
+				ilUtil::sendSuccess($this->lng->txt("tst_questions_inserted"), TRUE);
+			}
+			
+			$this->ctrl->setParameter($this, 'q_id', $last_question_id);
+			$this->ctrl->redirect($this, "showPage");
+			return;
+		}
+	}
+	
+	public function filterAvailableQuestions()
+	{
+		include_once "./Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php";
+		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions');
+		$table_gui->writeFilterToSession();
+		$this->ctrl->redirect($this, "browseForQuestions");
+	}
+	
+	public function resetfilterAvailableQuestions()
+	{
+		include_once "./Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php";
+		$table_gui = new ilTestQuestionBrowserTableGUI($this, 'browseForQuestions');
+		$table_gui->resetFilter();
+		$this->ctrl->redirect($this, "browseForQuestions");
+	}
+	
 }
 
 ?>
