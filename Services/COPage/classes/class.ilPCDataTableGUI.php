@@ -316,7 +316,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 				
 		if ($_POST["cancel_update"])
 		{
-			$this->ctrl->redirect($this, "editData");
+//			$this->ctrl->redirect($this, "editData");
+			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 		}
 
 		// handle input data
@@ -380,12 +381,15 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			}
 		}
 		
-		
-		//if ($a_redirect)
-		//{
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		if ($_POST["save_return"])
+		{
+			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+		}
+		else
+		{
 			$this->ctrl->redirect($this, "editData");
-		//}
+		}
 	}
 
 
@@ -696,7 +700,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			$this->pg_obj->getParentType() == "wpg",
 			false,
 			$this->getStyleId(),
-			false, false));
+			false, true));
 
 
 	}

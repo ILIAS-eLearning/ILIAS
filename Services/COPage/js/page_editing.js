@@ -156,13 +156,23 @@ var ilCOPage =
 
 	cmdSave: function (switch_to)
 	{
-		if (ilCOPage.current_td != "")
-		{
-			return this.cmdSaveReturn();
-		}
-		
 		var el = document.getElementById('ilsaving');
 		el.style.display = '';
+
+		// table editing
+		if (ilCOPage.current_td != "")
+		{
+			var ed = tinyMCE.get('tinytarget');
+			this.autoResize(ed);
+			this.setEditStatus(false);
+			//ilFormSend("saveDataTable", ed_para, null, null);
+			var pars = ilCOPage.tds;
+			this.sendCmdRequest("saveDataTable", ed_para, null,
+				pars,
+				false, null, null);
+			return;
+		}
+		
 		if (this.getInsertStatus())
 		{
 //			ilFormSend("insertJS", ed_para, null, "saveonly");
@@ -220,6 +230,7 @@ var ilCOPage =
 		{
 			//ilFormSend("saveDataTable", ed_para, null, null);
 			var pars = ilCOPage.tds;
+			pars.save_return = 1;
 			this.sendCmdRequest("saveDataTable", ed_para, null,
 				pars,
 				false, null, null);
