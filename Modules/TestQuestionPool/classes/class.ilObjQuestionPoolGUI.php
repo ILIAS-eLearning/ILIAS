@@ -1158,6 +1158,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function setTitleAndDescription()
 	{
+		parent::setTitleAndDescription();
 		if ($_GET["q_id"] > 0)
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
