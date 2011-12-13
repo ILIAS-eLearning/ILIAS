@@ -298,5 +298,23 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("WORKING_TIME", $data['working_time']);
 		$this->tpl->setVariable("DETAILED", $data['details']);
 	}
+	
+	function getSelectedColumns()
+	{
+		$scol = parent::getSelectedColumns();
+
+		$cols = $this->getSelectableColumns();
+		if (!is_array($cols)) {
+			$cols = array();
+		}
+		
+		$fields_to_unset = array_diff(array_keys($scol), array_keys($cols));
+		
+		foreach($fields_to_unset as $key) {
+			unset($scol[$key]);
+		}
+
+		return $scol;
+	}
 }
 ?>
