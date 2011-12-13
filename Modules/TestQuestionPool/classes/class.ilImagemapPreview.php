@@ -140,7 +140,12 @@ class ilImagemapPreview
 		{
 			$arr = array_merge(array_keys($this->areas), array_keys($this->points));
 			sort($arr, SORT_NUMERIC);
-			return "preview_" . join("_", $arr) . "_";
+			
+			$inner = join("_", $arr);
+			if (strlen($inner) > 32) {
+				$inner = md5($inner);
+			}
+			return "preview_" . $inner . "_";
 		}
 		else
 		{
