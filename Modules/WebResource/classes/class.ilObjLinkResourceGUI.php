@@ -167,7 +167,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		// personal workspace
 		if($this->id_type == self::WORKSPACE_NODE_ID)
 		{
-			$this->ctrl->returnToParent($this);			
+			$this->ctrl->redirect($this, "editLinks");			
 		}
 		// repository
 		else
