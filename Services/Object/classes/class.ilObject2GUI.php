@@ -570,6 +570,27 @@ abstract class ilObject2GUI extends ilObjectGUI
 	public function cancel() { parent::cancelObject(); }
 
 	/**
+	 * Init creation froms
+	 *
+	 * this will create the default creation forms: new, import, clone
+	 *
+	 * @param	string	$a_new_type
+	 * @return	array
+	 */
+	protected function initCreationForms($a_new_type)
+	{
+		$forms = parent::initCreationForms($a_new_type);
+		
+		// cloning doesn't work in workspace yet
+		if($this->id_type == self::WORKSPACE_NODE_ID)
+		{
+			unset($forms[self::CFORM_CLONE]);
+		}
+
+		return $forms;
+	}
+	
+	/**
 	 * Import
 	 *
 	 * @access	public
