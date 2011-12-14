@@ -749,7 +749,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$target_page = $_REQUEST["pgov"];
 				if(substr($_REQUEST["pgov_pos"], -1) == "c")
 				{
-					$target_page++;
+					// see ilSurveyPageGUI::insertNewQuestion()
+					if((int)$_REQUEST["pgov_pos"])
+					{
+						$target_page++;
+					}
+					else
+					{
+						$target_page = 1;
+					}
 				}
 				$this->ctrl->setParameterByClass("ilsurveypagegui", "pgov", $target_page);
 				$this->ctrl->redirectByClass("ilsurveypagegui", "renderpage");			

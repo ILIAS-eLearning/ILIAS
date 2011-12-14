@@ -1185,9 +1185,13 @@ class ilSurveyPageGUI
 			{
 				$ilToolbar->addSeparator();
 
-				$last_on_page = $a_pages[$this->current_page-1];
-				$last_on_page = array_pop($last_on_page);
-				$last_on_page = $last_on_page["question_id"];
+				$last_on_page = 0;
+				if($a_pages)
+				{
+					$last_on_page = $a_pages[$this->current_page-1];
+					$last_on_page = array_pop($last_on_page);
+					$last_on_page = $last_on_page["question_id"];
+				}
 
 				$ilCtrl->setParameter($this->survey_gui, "pgov", $this->current_page);
 				$ilCtrl->setParameter($this->survey_gui, "pgov_pos", $last_on_page."c");
