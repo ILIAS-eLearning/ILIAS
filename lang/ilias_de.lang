@@ -12389,3 +12389,4 @@ common#:#ignore_required_fields#:#Benutzerpflichtfelder ignorieren
 common#:#ignore_required_fields_info#:#Falls aktiviert, werden Pflichtangaben beim Absenden dieses Formulars nicht mehr überprüft (sofern möglich). Auswirkung dessen ist, dass der Benutzer nach der nächsten Anmeldung sein Profil vervollständigen muss.
 assessment#:#test_has_datasets_warning_page_view#:#Der Test enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
 assessment#:#test_has_datasets_warning_page_view_link#:#Teilnehmerdatensätze bearbeiten
+wsp#:#wsp_share_with_users#:#Für Benutzer freigeben

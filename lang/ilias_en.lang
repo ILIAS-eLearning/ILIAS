@@ -12389,3 +12389,4 @@ common#:#ignore_required_fields#:#Ignore required fields
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.
 assessment#:#test_has_datasets_warning_page_view_link#:#Edit Participants
+wsp#:#wsp_share_with_users#:#Share with users
