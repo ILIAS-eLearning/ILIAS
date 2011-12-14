@@ -1136,7 +1136,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		$ilTabs->activateTab('id_link_check');
 
 		$this->__initLinkChecker();
-		$this->object->initLinkResourceItems();
+		$this->object->initLinkResourceItemsObject();
 		
 		require_once 'Services/LinkChecker/classes/class.ilLinkCheckerTableGUI.php';
 		
