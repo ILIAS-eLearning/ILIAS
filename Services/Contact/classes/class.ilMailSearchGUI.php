@@ -506,7 +506,7 @@ class ilMailSearchGUI
 			}
 			else
 			{
-				$this->tpl->setVariable('BUTTON_ADOPT', $this->lng->txt('wsp_share_with_members'));	
+				$this->tpl->setVariable('BUTTON_ADOPT', $this->lng->txt('wsp_share_with_users'));	
 			}
 		}
 		else if (strlen(trim($_SESSION["mail_search_search"])) >= 3)
