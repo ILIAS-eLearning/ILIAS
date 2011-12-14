@@ -767,8 +767,7 @@ class ilObjectGUI
 			// copy form validation error: do not show other creation forms
 			if($_GET["cpfl"] && isset($forms[self::CFORM_CLONE]))
 			{
-				unset($forms[self::CFORM_NEW]);
-				unset($forms[self::CFORM_IMPORT]);
+				$forms = array(self::CFORM_CLONE => $forms[self::CFORM_CLONE]);
 			}
 			
 			$tpl->setContent($this->getCreationFormsHTML($forms));

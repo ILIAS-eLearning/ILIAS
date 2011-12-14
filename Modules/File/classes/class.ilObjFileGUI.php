@@ -162,6 +162,13 @@ class ilObjFileGUI extends ilObject2GUI
 		$forms = array();
 		$forms[] = $this->initSingleUploadForm();
 		$forms[] = $this->initZipUploadForm();
+		
+		// repository only
+		if($this->id_type != self::WORKSPACE_NODE_ID)
+		{
+			$forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, "file");		
+		}
+		
 		return $forms;
 	}
 
