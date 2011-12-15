@@ -1205,7 +1205,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		}
 
 
-		$this->object->initLinkResourceItems();
+		$this->object->initLinkResourceItemsObject();
 
 		// Set all link to valid. After check invalid links will be set to invalid
 		$this->object->items_obj->updateValidByCheck();
