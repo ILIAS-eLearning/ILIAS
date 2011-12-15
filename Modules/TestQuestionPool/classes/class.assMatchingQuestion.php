@@ -434,6 +434,8 @@ class assMatchingQuestion extends assQuestion
 
 	public function copyImages($question_id, $source_questionpool)
 	{
+		global $ilLog;
+		
 		$imagepath = $this->getImagePath();
 		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
 		$imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
