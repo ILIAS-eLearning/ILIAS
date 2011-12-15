@@ -8377,3 +8377,13 @@ if(!$ilDB->tableExists('note_settings'))
 	// activate pool usage
 	$ilDB->manipulate("UPDATE svy_svy SET pool_usage = ".$ilDB->quote(1, "integer"));	
 ?>
+<#3506>
+<?php
+	$setting = new ilSetting();
+	$ilrqtix = $setting->get("ilrqtix");
+	if (!$ilrqtix)
+	{
+		$ilDB->addIndex("il_request_token", array("stamp"), "i4");
+		$setting->set("ilrqtix", 1);
+	}
+?>
