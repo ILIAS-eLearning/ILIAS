@@ -1188,7 +1188,10 @@ class ilObjContentObject extends ilObject
 
 		// delete subtrees that have no lm_data records
 		$nodes = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
-		foreach ($nodes as $node)
+		$trset = $ilDB->query("SELECT * FROM lm_tree ".
+			" WHERE lm_id = ".$ilDB->quote($this->getId(), "integer"));
+		
+		while ($node = $ilDB->fetchAssoc($trset))
 		{
 			$q = "SELECT * FROM lm_data WHERE obj_id = ".
 				$ilDB->quote($node["child"], "integer");
@@ -1196,8 +1199,15 @@ class ilObjContentObject extends ilObject
 			$obj_rec = $ilDB->fetchAssoc($obj_set);
 			if (!$obj_rec)
 			{
-				$node_data = $tree->getNodeData($node["child"]);
-				$tree->deleteTree($node_data);
+				//$node_data = $tree->getNodeData($node["child"]);
+				$set = $ilDB->query("SELECT * FROM lm_tree ".
+					" WHERE child = ".$ilDB->quote($node["child"], "integer").
+					" AND lm_id = ".$ilDB->quote($this->getId(), "integer")
+					);
+				if ($node_data  = $ilDB->fetchAssoc($set))
+				{
+					$tree->deleteTree($node_data);
+				}
 			}
 		}
 
