@@ -1093,7 +1093,7 @@ class ilCtrl
 				$this->rtoken = md5(uniqid(rand(), true));
 				
 				// delete entries older than two days
-				if (rand(1, 50) == 2)
+				if (rand(1, 200) == 2)
 				{
 					$dt = new ilDateTime(time(),IL_CAL_UNIX);
 					$dt->increment(IL_CAL_DAY, -2);
