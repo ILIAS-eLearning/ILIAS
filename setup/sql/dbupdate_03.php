@@ -247,7 +247,7 @@ if(!$ilDB->tableExists('payment_currencies'))
 	{
 		$ilDB->addTableColumn('payment_shopping_cart', 'session_id', array(
 			"type" => "text",
-			"notnull" => true,
+			"notnull" => false,
 		 	"length" => 80,
 		 	"fixed" => false));
 	}
@@ -5167,7 +5167,8 @@ if(!$ilDB->tableExists('usr_portf_acl'))
 		$ilDB->addTableColumn('payment_settings', 'inc_start_value', array(
 			'type'	=> 'integer',
 			'length'=> 4,
-			'notnull' => true));
+			'notnull' => true,
+			'default' => 0));
 	}
 ?>
 <#3324>
