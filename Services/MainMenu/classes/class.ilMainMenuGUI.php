@@ -695,7 +695,8 @@ class ilMainMenuGUI
 	{
 		global $rbacsystem;
 
-		if($rbacsystem->checkAccess("visible,read", SYSTEM_FOLDER_ID))
+		//if($rbacsystem->checkAccess("visible,read", SYSTEM_FOLDER_ID))
+		if($rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID))
 		{
 			return true;
 		}
