@@ -457,5 +457,21 @@ class ilDBOracle extends ilDB
 	{
 		$this->db->commit();
 	}
+	
+	/**
+	* Drop a primary key from a table
+	*
+	* @param	string		table name
+	*/
+	function dropPrimaryKey($a_table)
+	{
+		// oracle 10: dropping constraint may not drop attached index
+		// http://www.orafaq.com/forum/t/59807/0/
+		
+		$query = "ALTER TABLE ".$a_table." DROP PRIMARY KEY DROP INDEX";
+		$res = $this->db->query($query);		
+		
+		return $this->handleError($res, "dropPrimaryKey(".$a_table.")");
+	}
 }
 ?>
