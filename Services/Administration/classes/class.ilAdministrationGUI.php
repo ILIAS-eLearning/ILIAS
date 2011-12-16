@@ -470,6 +470,10 @@ class ilAdministrationGUI
 				continue;
 			}
 			$visible = $rbacsystem->checkAccess('visible', $c["ref_id"]);
+			if (!$visible)
+			{
+				continue;
+			}
 			if ($c["type"] == "rolf" && $c["ref_id"] != ROLE_FOLDER_ID)
 			{
 				continue;
@@ -477,32 +481,7 @@ class ilAdministrationGUI
 			$items[] = $c;
 		}
 
-/*		$two_columns = false;
-		if (count($items) > 10)
-		{
-			$two_columns = true;
-
-			// resort for two column layout
-			$n = array();
-			$half = ceil(count($items) / 2);
-			for ($i = 0; $i < $half; $i++)
-			{
-				$n[] = $items[$i];
-				if (isset($items[$i + $half]))
-				{
-					$n[] = $items[$i + $half];
-				}
-			}
-			$items = $n;
-		}
-*/
 		$cnt = 0;
-		
-////
-if (true)
-{
-//var_dump($items);
-
 		$titems = array();
 		foreach ($items as $i)
 		{
@@ -537,11 +516,21 @@ if (true)
 			foreach ($layout[$i] as $group => $entries)
 			{
 				$groups[$i][$group] = array();
+				$entries_since_last_sep = false;
 				foreach ($entries as $e)
 				{
 					if ($e == "---" || $titems[$e]["type"] != "")
 					{
-						$groups[$i][$group][] = $e;
+						if ($e == "---" && $entries_since_last_sep)
+						{
+							$groups[$i][$group][] = $e;
+							$entries_since_last_sep = false;
+						}
+						else if ($e != "---")
+						{
+							$groups[$i][$group][] = $e;
+							$entries_since_last_sep = true;
+						}
 					}
 				}
 			}
@@ -598,74 +587,6 @@ if (true)
 		//$gl->addSeparator();
 
 		echo $gl->getHTML();
-		exit;
-}
-
-		
-		
-		foreach ($items as $c)
-		{
-			$cnt++;
-			// get icon
-			$path = "";
-			if ($ilSetting->get("custom_icons") &&
-				in_array($c["type"], array("cat","grp","crs")))
-			{
-				require_once("./Services/Container/classes/class.ilContainer.php");
-				$path = ilContainer::_lookupIconPath($c["obj_id"], "small");
-			}
-			if ($path == "")
-			{
-				$path = ilUtil::getImagePath("icon_".$c["type"]."_s.gif");
-			}
-			//$alt = $lng->txt("icon")." ".$lng->txt("obj_".$c["type"]);
-			$alt = "";
-
-			// output item
-			if ($rbacsystem->checkAccess('read', $c["ref_id"]))
-			{
-				// build link
-				$link = "";
-				if ($_GET["admin_mode"] == "settings" && $c["ref_id"] == ROOT_FOLDER_ID)
-				{
-					//$this->ctrl->setParameterByClass("iladministrationgui", "ref_id", ROOT_FOLDER_ID);
-					//$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "repository");
-					//$link = $this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset");
-					//$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
-					$link = "ilias.php?baseClass=ilAdministrationGUI&amp;ref_id=".
-						$c["ref_id"]."&amp;admin_mode=repository";
-				}
-				else
-				{
-					$link = "ilias.php?baseClass=ilAdministrationGUI&amp;ref_id=".
-						$c["ref_id"]."&amp;cmd=jump";
-				}
-
-				$tpl->setCurrentBlock("linked");
-				$tpl->setVariable("ITEM_TITLE", $c["title"]);
-				$tpl->setVariable("ITEM_HREF", $link);
-				$tpl->setVariable("IMG", ilUtil::img($path, $alt), 16, 16);
-				$tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$tpl->setCurrentBlock("linked");
-				$tpl->setVariable("NL_ITEM_TITLE", $c["title"]);
-				$tpl->setVariable("NL_IMG", ilUtil::img($path, $alt), 16, 16);
-				$tpl->parseCurrentBlock();
-			}
-
-			$tpl->setCurrentBlock("td");
-			$tpl->parseCurrentBlock();
-
-			if (!$two_columns || $cnt % 2 == 0)
-			{
-				$tpl->setCurrentBlock("row");
-				$tpl->parseCurrentBlock();
-			}
-		}
-
-		echo $tpl->get();
 		exit;
 	}
 
