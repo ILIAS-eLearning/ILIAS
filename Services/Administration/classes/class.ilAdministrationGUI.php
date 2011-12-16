@@ -469,8 +469,8 @@ class ilAdministrationGUI
 			{
 				continue;
 			}
-			$visible = $rbacsystem->checkAccess('visible', $c["ref_id"]);
-			if (!$visible)
+			$accessible = $rbacsystem->checkAccess('visible,read', $c["ref_id"]);
+			if (!$accessible)
 			{
 				continue;
 			}
