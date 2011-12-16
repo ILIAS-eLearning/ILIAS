@@ -129,15 +129,19 @@ class ilPCVerificationGUI extends ilPageContentGUI
 		$options = array();
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		$tree = new ilWorkspaceTree($ilUser->getId());
-		$root = $tree->getNodeData($tree->getRootId());
-		foreach ($tree->getSubTree($root) as $node)
+		$root = $tree->getRootId();
+		if($root)
 		{
-			if (in_array($node["type"], array("excv", "tstv")))
+			$root = $tree->getNodeData($root);
+			foreach ($tree->getSubTree($root) as $node)
 			{
-				$options[$node["obj_id"]] = $node["title"]." (".$lng->txt("wsp_type_".$node["type"]).")";
+				if (in_array($node["type"], array("excv", "tstv")))
+				{
+					$options[$node["obj_id"]] = $node["title"]." (".$lng->txt("wsp_type_".$node["type"]).")";
+				}
 			}
-		}
-		asort($options);		
+			asort($options);		
+		}	
 		$obj = new ilSelectInputGUI($this->lng->txt("cont_verification_object"), "object");
 		$obj->setRequired(true);
 		$obj->setOptions($options);
