@@ -93,7 +93,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		// object type selection
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$si = new ilSelectInputGUI($lng->txt("obj_type"), "type");
-		$si->setOptions($this->getPossibleTypes(true));
+		$si->setOptions($this->getPossibleTypes(true, false, true));
 		$this->addFilterItem($si);
 		$si->readFromSession();
 		if(!$si->getValue())

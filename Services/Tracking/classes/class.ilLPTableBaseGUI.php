@@ -279,8 +279,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	 *
 	 * @param bool $a_split_learning_resources
 	 * @param bool $a_include_digilib
+	 * @param bool $a_allow_undefined_lp
 	 */
-	protected function getPossibleTypes($a_split_learning_resources = false, $a_include_digilib = false)
+	protected function getPossibleTypes($a_split_learning_resources = false, $a_include_digilib = false, $a_allow_undefined_lp = false)
 	{
 		global $lng;
 
@@ -307,9 +308,12 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$options['exc'] = $lng->txt('objs_exc');
 		$options['tst'] = $lng->txt('objs_tst');		
 		
-		$options["file"] = $lng->txt("objs_file");
-		$options["webr"] = $lng->txt("objs_webr");
-		$options["wiki"] = $lng->txt("objs_wiki");
+		if($a_allow_undefined_lp)
+		{
+			$options["file"] = $lng->txt("objs_file");
+			$options["webr"] = $lng->txt("objs_webr");
+			$options["wiki"] = $lng->txt("objs_wiki");
+		}
 		
 		asort($options);
 		return $options;
