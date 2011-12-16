@@ -128,15 +128,19 @@ class ilPCBlogGUI extends ilPageContentGUI
 		$options = array();
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		$tree = new ilWorkspaceTree($ilUser->getId());
-		$root = $tree->getNodeData($tree->getRootId());
-		foreach ($tree->getSubTree($root) as $node)
+		$root = $tree->getRootId();
+		if($root)
 		{
-			if ($node["type"] == "blog")
+			$root = $tree->getNodeData($root);
+			foreach ($tree->getSubTree($root) as $node)
 			{
-				$options[$node["obj_id"]] = $node["title"];
+				if ($node["type"] == "blog")
+				{
+					$options[$node["obj_id"]] = $node["title"];
+				}
 			}
+			asort($options);	
 		}
-		asort($options);		
 		$obj = new ilSelectInputGUI($this->lng->txt("cont_pc_blog"), "blog");
 		$obj->setRequired(true);
 		$obj->setOptions($options);
