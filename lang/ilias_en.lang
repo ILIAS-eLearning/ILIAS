@@ -12390,3 +12390,5 @@ common#:#ignore_required_fields_info#:#If activated, mandatory fields are not va
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.
 assessment#:#test_has_datasets_warning_page_view_link#:#Edit Participants
 wsp#:#wsp_share_with_users#:#Share with users
+acc#:#acc_last_rep_visited#:#Repository/Last Visited
+acc#:#acc_personal_desktop#:#Personal Desktop

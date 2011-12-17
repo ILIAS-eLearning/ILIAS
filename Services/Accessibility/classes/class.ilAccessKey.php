@@ -20,6 +20,7 @@ class ilAccessKey
 	const REPLY = 7;
 	const FORWARD_MAIL = 8;
 	const MARK_ALL_READ = 9;
+	const PERSONAL_DESKTOP = 10;
 	
 	public static $func_def = array(
 		ilAccessKey::NEXT => array(
@@ -33,7 +34,7 @@ class ilAccessKey
 			"lang" => "acc_delete"),
 		ilAccessKey::LAST_VISITED => array(
 			"component" => array("global"),
-			"lang" => "acc_last_visited"),
+			"lang" => "acc_last_rep_visited"),
 		ilAccessKey::TREE_ON => array(
 			"component" => array("global"),
 			"lang" => "acc_tree_on"),
@@ -48,7 +49,10 @@ class ilAccessKey
 			"lang" => "acc_forward_mail"),
 		ilAccessKey::MARK_ALL_READ => array(
 			"component" => array("frm"),
-			"lang" => "acc_mark_all_read")
+			"lang" => "acc_mark_all_read"),
+		ilAccessKey::PERSONAL_DESKTOP => array(
+			"component" => array("global"),
+			"lang" => "acc_personal_desktop")
 		);
 	
 	/**

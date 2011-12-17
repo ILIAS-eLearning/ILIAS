@@ -12390,3 +12390,5 @@ common#:#ignore_required_fields_info#:#Falls aktiviert, werden Pflichtangaben be
 assessment#:#test_has_datasets_warning_page_view#:#Der Test enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
 assessment#:#test_has_datasets_warning_page_view_link#:#Teilnehmerdatensätze bearbeiten
 wsp#:#wsp_share_with_users#:#Für Benutzer freigeben
+acc#:#acc_last_rep_visited#:#Magazin/Zuletzt besucht
+acc#:#acc_personal_desktop#:#Persönlicher Schreibtisch

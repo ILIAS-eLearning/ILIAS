@@ -664,6 +664,27 @@ class ilMainMenuGUI
 		{
 			$a_tpl->setVariable("MM_CLASS", "MMInactive");
 		}
+		
+		if($a_id == "repository")
+		{
+			include_once("./Services/Accessibility/classes/class.ilAccessKey.php");
+			if (ilAccessKey::getKey(ilAccessKey::LAST_VISITED) != "")
+			{
+				$a_tpl->setVariable("ACC_KEY_REPOSITORY", 'accesskey="'.
+					ilAccessKey::getKey(ilAccessKey::LAST_VISITED).'"');
+			}
+		}
+		if($a_id == "desktop")
+		{
+			include_once("./Services/Accessibility/classes/class.ilAccessKey.php");
+			if (ilAccessKey::getKey(ilAccessKey::PERSONAL_DESKTOP) != "")
+			{
+				$a_tpl->setVariable("ACC_KEY_DESKTOP", 'accesskey="'.
+					ilAccessKey::getKey(ilAccessKey::PERSONAL_DESKTOP).'"');
+			}
+		}
+
+		
 		$a_tpl->parseCurrentBlock();
 	}
 
@@ -765,6 +786,7 @@ class ilMainMenuGUI
 		{
 			$selection->setSelectionHeaderClass("MMInactive");
 		}
+		
 		$selection->setSelectionHeaderSpanClass("MMSpan");
 
 		$selection->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_LIGHT);
