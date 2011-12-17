@@ -41,7 +41,7 @@ class ilNavigationHistory
 		$a_goto_link = "")
 	{
 		global $ilUser, $ilDB;
-		
+
 		$a_sub_obj_id = $a_sub_obj_id."";
 		
 		if ($a_title == "" && $a_ref_id > 0)
@@ -56,7 +56,7 @@ class ilNavigationHistory
 		$id = $a_ref_id.":".$a_sub_obj_id;
 
 		$new_items[$id] = array("id" => $id,"ref_id" => $a_ref_id, "link" => $a_link, "title" => $a_title,
-			"type" => $a_type, "sub_obj_id" => $a_sub_obj_id);
+			"type" => $a_type, "sub_obj_id" => $a_sub_obj_id, "goto_link" => $a_goto_link);
 		
 		$cnt = 1;
 		foreach($this->items as $key => $item)
@@ -73,7 +73,7 @@ class ilNavigationHistory
 
 		$items  = serialize($this->items);
 		$_SESSION["il_nav_history"] = $items;
-//var_dump($new_items);
+//var_dump($this->getItems());
 		// update entries in db
 		$ilDB->update("usr_data",
 				array(
@@ -116,26 +116,29 @@ class ilNavigationHistory
 					
 					if ($cnt <= 10 && ! isset($items[$rec["ref_id"].":".$rec["sub_obj_id"]]))
 					{
-						$link = $rec["goto_link"] != ""
-							? $rec["goto_link"]
-							: ilLink::_getLink($rec["ref_id"]);
-						if ($rec["sub_obj_id"] != "")
+						if ($tree->isInTree($rec["ref_id"]))
 						{
-							$title = $rec["title"];
+							$link = ($rec["goto_link"] != "")
+								? $rec["goto_link"]
+								: ilLink::_getLink($rec["ref_id"]);
+							if ($rec["sub_obj_id"] != "")
+							{
+								$title = $rec["title"];
+							}
+							else
+							{
+								$title = ilObject::_lookupTitle(ilObject::_lookupObjId($rec["ref_id"]));
+							}
+							$items[$rec["ref_id"].":".$rec["sub_obj_id"]] = array("id" => $rec["ref_id"].":".$rec["sub_obj_id"],
+								"ref_id" => $rec["ref_id"], "link" => $link, "title" => $title,
+								"type" => $rec["type"], "sub_obj_id" => $rec["sub_obj_id"], "goto_link" => $rec["goto_link"]);
+							$cnt++;
 						}
-						else
-						{
-							$title = ilObject::_lookupTitle(ilObject::_lookupObjId($rec["ref_id"]));
-						}
-						$items[] = array("id" => $rec["ref_id"].":".$rec["sub_obj_id"],
-							"ref_id" => $rec["ref_id"], "link" => $link, "title" => $title,
-							"type" => $rec["type"], "sub_obj_id" => $rec["sub_obj_id"]);
-						$cnt++;
 					}
 				}
 			}
 		}
-
+//var_dump($items);
 		return $items;
 	}
 }
