@@ -47,12 +47,17 @@ class ilSAHSPresentationGUI
 		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 
 		$lng->loadLanguageModule("content");
-
+		$obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
+		
 		// add entry to navigation history
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			$ilNavigationHistory->addItem($_GET["ref_id"],
-				"ilias.php?cmd=infoScreen&baseClass=ilSAHSPresentationGUI&ref_id=".$_GET["ref_id"], "lm");
+			include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php");
+			if (!ilObjSAHSLearningModuleAccess::_lookupEditable($obj_id))
+			{
+				$ilNavigationHistory->addItem($_GET["ref_id"],
+					"ilias.php?cmd=infoScreen&baseClass=ilSAHSPresentationGUI&ref_id=".$_GET["ref_id"], "lm");
+			}
 		}
 
 		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
@@ -80,7 +85,6 @@ class ilSAHSPresentationGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		
-		$obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
 		$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
 		if ($cmd == "downloadCertificate")
