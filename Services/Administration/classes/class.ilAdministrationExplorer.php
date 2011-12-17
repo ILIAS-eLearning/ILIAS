@@ -135,7 +135,7 @@ class ilAdministrationExplorer extends ilExplorer
 				in_array($a_type, array("cat","grp","crs")))
 			{
 				require_once("./Services/Container/classes/class.ilContainer.php");
-				if (($path = ilContainer::_lookupIconPath($a_obj_id, "small")) != "")
+				if (($path = ilContainer::_lookupIconPath($a_obj_id, "tiny")) != "")
 				{
 					return $path;
 				}
