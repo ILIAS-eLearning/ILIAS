@@ -85,9 +85,17 @@ class ilWikiHandlerGUI
 				$ptitle = ilWikiPage::lookupTitle($page_id);
 				
 				$title.= ": ".$ptitle;
+				
+				$append = ($_GET["page"] != "")
+					? "_".ilWikiUtil::makeUrlTitle($page)
+					: "";
+				include_once('classes/class.ilLink.php');
+				$goto = ilLink::_getStaticLink($_GET["ref_id"], "wiki",
+					true, $append);
+//var_dump($goto);
 				$ilNavigationHistory->addItem($_GET["ref_id"],
 					"./goto.php?target=wiki_".$_GET["ref_id"].$add, "wiki",
-					$title, $page_id);
+					$title, $page_id, $goto);
 			}
 		}
 
