@@ -54,7 +54,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		global $lng, $objDefinition;
 
 		$obj_id = $a_set["obj_id"];
 		$ref_id = $a_set["ref_id"];
@@ -102,8 +102,26 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		}
 
 		$this->tpl->setVariable("ITEM_HTML", $html);
-		$this->tpl->setVariable("TYPE_IMG", ilUtil::img(ilUtil::getImagePath("icon_$type.gif"),
-			$lng->txt("icon")." ".$lng->txt("obj_".$type)));
+
+		if(!$objDefinition->isPlugin($type))
+		{
+			$type_txt = $lng->txt('icon').' '.$lng->txt('obj_'.$type);
+			$icon  = ilUtil::getImagePath('icon_'.$type.'.gif');
+		}
+		else
+		{
+			include_once("./Services/Component/classes/class.ilPlugin.php");
+			$type_txt = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+			$icon = ilObject::_getIcon($obj_id,'small',$type);
+		}
+
+		$this->tpl->setVariable(
+			"TYPE_IMG",
+			ilUtil::img(
+				$icon,
+				$type_txt
+			)
+		);
 	}
 	
 	/**
