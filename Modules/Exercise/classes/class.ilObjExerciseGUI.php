@@ -595,8 +595,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 	protected function  afterSave(ilObject $a_new_object)
 	{
 		$a_new_object->saveData();
-
-		parent::afterSave($a_new_object);
+		
+		ilUtil::sendSuccess($this->lng->txt("exc_added"), true);
+		ilUtil::redirect("ilias.php?baseClass=ilExerciseHandlerGUI&ref_id=".$a_new_object->getRefId()."&cmd=addAssignment");
 	}
 
 	/**
