@@ -2767,7 +2767,7 @@ class ilObjectListGUI
 		{
 			include_once("./Services/Notes/classes/class.ilNote.php");
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-			$cnt = ilNote::_countNotesAndComments(array($this->obj_id), $this->sub_obj_id);
+			$cnt = ilNote::_countNotesAndComments($this->obj_id, $this->sub_obj_id);
 
 			if($this->notes_enabled && $cnt[$this->obj_id][IL_NOTE_PRIVATE] > 0)
 			{
@@ -3319,7 +3319,7 @@ class ilObjectListGUI
 		self::$cnt_tags = ilTagging::_countTags($a_obj_ids);
 		
 		include_once("./Services/Notes/classes/class.ilNote.php");
-		self::$cnt_notes = ilNote::_countNotesAndComments($a_obj_ids);
+		self::$cnt_notes = ilNote::_countNotesAndCommentsMultiple($a_obj_ids, true);
 		self::$comments_activation = ilNote::getRepObjActivation($a_obj_ids);	
 		
 		self::$preload_done = true;

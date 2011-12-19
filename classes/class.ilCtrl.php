@@ -1087,16 +1087,18 @@ class ilCtrl
 				
 				if ($rec["token"] != "")
 				{
+					$this->rtoken = $rec["token"];
 					return $rec["token"];
 				}
 				
 				$this->rtoken = md5(uniqid(rand(), true));
 				
-				// delete entries older than two days
+				// delete entries older than one and a half days
 				if (rand(1, 200) == 2)
 				{
 					$dt = new ilDateTime(time(),IL_CAL_UNIX);
-					$dt->increment(IL_CAL_DAY, -2);
+					$dt->increment(IL_CAL_DAY, -1);
+					$dt->increment(IL_CAL_HOUR, -12);
 					$dq = "DELETE FROM il_request_token WHERE ".
 						" stamp < ".$ilDB->quote($dt->get(IL_CAL_DATETIME), "timestamp");
 					$ilDB->manipulate($dq);
