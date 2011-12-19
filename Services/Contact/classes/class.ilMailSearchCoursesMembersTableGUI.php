@@ -32,7 +32,8 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 	{
 	 	global $lng,$ilCtrl, $ilUser, $lng, $rbacsystem;
 
-		if($context == "mail")
+		$this->context = $context;
+		if($this->context == "mail")
 		{
 			// check if current user may send mails
 			include_once "Services/Mail/classes/class.ilMail.php";
@@ -85,7 +86,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt('mail_in_addressbook'), 'USR_IN_ADDRESSBOOK', '23%');
 		$this->addColumn($lng->txt('actions'), '', '10%');
 		
-		if($context == "mail")
+		if($this->context == "mail")
 		{
 			if ($this->mailing_allowed)
 				$this->addMultiCommand('mail', $lng->txt('mail_members'));
@@ -123,7 +124,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		);
 		$ilCtrl->setParameter($this->parentObject, 'view', $this->mode['view']);
 
-		if($context == "mail")
+		if($this->context == "mail")
 		{
 			if ($this->mailing_allowed)
 				$current_selection_list->addItem($this->lng->txt("mail_members"), '', $ilCtrl->getLinkTarget($this->parentObject, "mail"));
