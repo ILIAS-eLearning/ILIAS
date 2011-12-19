@@ -2360,5 +2360,17 @@ if ($a == "HEADER") mk();
 		parent::setVariable($a, $b);
 	}*/
 	
+	/**
+	 * Reset all header properties: title, icon, description, alerts, action menu
+	 */
+	function resetHeaderBlock()
+	{
+		$this->setTitle(null);
+		$this->setTitleIcon(null);
+		$this->setDescription(null);
+		$this->setAlertProperties(array());
+		$this->setHeaderActionMenu(null);
+	}	
 }
+
 ?>

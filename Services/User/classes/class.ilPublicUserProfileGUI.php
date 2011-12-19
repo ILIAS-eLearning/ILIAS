@@ -640,10 +640,11 @@ class ilPublicUserProfileGUI
 	{
 		global $tpl, $ilTabs, $lng;
 		
+		$tpl->resetHeaderBlock();
+		
 		include_once("./Services/User/classes/class.ilUserUtil.php");
 		$tpl->setTitle(ilUserUtil::getNamePresentation($this->getUserId()));
 		$tpl->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->getUserId(), "xxsmall"));
-		$tpl->setDescription(null);
 		
 		$back = ($this->getBackUrl() != "")
 			? $this->getBackUrl()
