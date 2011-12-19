@@ -558,12 +558,12 @@ class ilNote
 	}
 
 	/**
-	 * Get all notes related to a specific object
+	 * Get all notes related to multiple objcts
 	 * 
 	 * @param array $a_rep_obj_ids repository object IDs array
-	 * @param int $a_sub_obj_id 
+	 * @param boolean $a_no_sub_objs include subobjects true/false 
 	 */
-	static function _countNotesAndComments($a_rep_obj_ids, $a_sub_obj_id = null)
+	static function _countNotesAndCommentsMultiple($a_rep_obj_ids, $a_no_sub_objs = false)
 	{
 		global $ilDB, $ilUser;
 		
@@ -573,13 +573,46 @@ class ilNote
 			" type = ".$ilDB->quote(IL_NOTE_PUBLIC, "integer").") AND ".
 			$ilDB->in("rep_obj_id", $a_rep_obj_ids, false, "integer");
 		
-		if($a_sub_obj_id !== null)
+		if ($a_no_sub_objs)
+		{
+			$q .= " AND obj_id = ".$ilDB->quote(0, "integer");
+		}
+		
+		$q .= " GROUP BY rep_obj_id, type ";
+		
+		$cnt = array();
+		$set = $ilDB->query($q);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$cnt[$rec["rep_obj_id"]][$rec["type"]] = $rec["c"];
+		}
+		
+		return $cnt;
+	}
+
+	/**
+	 * Get all notes related to a specific object
+	 * 
+	 * @param array $a_rep_obj_ids repository object IDs array
+	 * @param int $a_sub_obj_id sub objects (if null, all comments are counted)
+	 */
+	static function _countNotesAndComments($a_rep_obj_id, $a_sub_obj_id = null)
+	{
+		global $ilDB, $ilUser;
+		
+		$q = "SELECT count(id) c, rep_obj_id, type FROM note WHERE ".
+			" ((type = ".$ilDB->quote(IL_NOTE_PRIVATE, "integer")." AND ".
+			"author = ".$ilDB->quote((int) $ilUser->getId(), "integer").") OR ".
+			" type = ".$ilDB->quote(IL_NOTE_PUBLIC, "integer").") AND ".
+			" rep_obj_id = ".$ilDB->quote($a_rep_obj_id, "integer");
+		
+		if ($a_sub_obj_id !== null)
 		{
 			$q .= " AND obj_id = ".$ilDB->quote($a_sub_obj_id, "integer");
 		}
 		
 		$q .= " GROUP BY rep_obj_id, type ";
-		
+
 		$cnt = array();
 		$set = $ilDB->query($q);
 		while ($rec = $ilDB->fetchAssoc($set))
