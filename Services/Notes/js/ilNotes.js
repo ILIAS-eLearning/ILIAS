@@ -145,6 +145,7 @@ ilNotes =
 	sendAjaxGetRequestToUrl: function(url, par, args)
 	{
 		args.reg_type = "get";
+		args.url = url;
 		var cb =
 		{
 			success: this.handleAjaxSuccess,
@@ -190,7 +191,11 @@ ilNotes =
 				if (typeof ilNotes.update_code != "undefined" &&
 					ilNotes.update_code != null && ilNotes.update_code != "")
 				{
-					if (o.argument.reg_type == "post")
+					if (o.argument.reg_type == "post" || 
+						(typeof o.argument.url == "string" &&
+							(o.argument.url.indexOf("cmd=activateComments") != -1 ||
+							o.argument.url.indexOf("cmd=deactivateComments") != -1
+							)))
 					{
 						eval(ilNotes.update_code);
 					}
