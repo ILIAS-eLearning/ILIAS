@@ -202,9 +202,8 @@ if(!$ilDB->tableExists('payment_currencies'))
 		$counter++;
 	}
 	
-	$ilDB->manipulateF('UPDATE payment_statistic SET
-		price = %s,	discount = %s',
-		array('text', 'text'), array(NULL, NULL));
+	$ilDB->manipulate('UPDATE payment_statistic SET
+		price = NULL, discount = NULL');
 
 			$ilDB->modifyTableColumn('payment_statistic', 'price', array(
 			"type" => "float",
