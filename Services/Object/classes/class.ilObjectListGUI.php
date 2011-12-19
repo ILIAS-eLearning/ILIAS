@@ -1643,7 +1643,8 @@ class ilObjectListGUI
 			include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
 			
 			$nl = true;
-			if ($this->comments_enabled && self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0)
+			if ($this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, false, false)
+				&& self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0)
 			{
 				$props[] = array("alert" => false,
 					"property" => $lng->txt("notes_comments"),
@@ -2398,7 +2399,7 @@ class ilObjectListGUI
 			? "ilObject.redrawActionHeader();"
 			: "ilObject.redrawListItem(".$note_ref_id.")";
 		
-		$comments_enabled = $this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, false);
+		$comments_enabled = $this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, $a_header_actions, true);
 		if($comments_enabled)
 		{			
 			$this->insertCommand("#", $this->lng->txt("notes_comments"), $cmd_frame,
@@ -2762,7 +2763,7 @@ class ilObjectListGUI
 		}
 				
 		// notes and comments
-		$comments_enabled = $this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, true);
+		$comments_enabled = $this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, true, false);
 		if($this->notes_enabled || $comments_enabled)
 		{
 			include_once("./Services/Notes/classes/class.ilNote.php");
@@ -3332,9 +3333,10 @@ class ilObjectListGUI
 	 * @param int $a_ref_id
 	 * @param int $a_obj_id
 	 * @param bool $a_header_actions
+	 * @param bool $a_check_write_access
 	 * @return bool 
 	 */
-	protected function isCommentsActivated($a_type, $a_ref_id, $a_obj_id, $a_header_actions)
+	protected function isCommentsActivated($a_type, $a_ref_id, $a_obj_id, $a_header_actions, $a_check_write_access = true)
 	{
 		if($this->comments_enabled)
 		{
@@ -3342,7 +3344,7 @@ class ilObjectListGUI
 			{
 				return true;
 			}
-			if($this->checkCommandAccess('write','', $a_ref_id, $a_type))
+			if($a_check_write_access && $this->checkCommandAccess('write','', $a_ref_id, $a_type))
 			{
 				return true;
 			}			 			
