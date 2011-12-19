@@ -46,7 +46,7 @@ class ilRTE
 	var $ctrl;
 	var $lng;	
 	
-	function ilRTE()
+	function ilRTE($a_version = "")
 	{
 		global $tpl, $ilCtrl, $lng;
 		$this->tpl =& $tpl;

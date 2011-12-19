@@ -256,9 +256,9 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	* @param string $obj_type Object Type
 	* @param string $module ILIAS module
 	*/
-	function setRTESupport($obj_id, $obj_type, $module, $cfg_template = null, $hide_switch = false)
+	function setRTESupport($obj_id, $obj_type, $module, $cfg_template = null, $hide_switch = false, $version = null)
 	{
-		$this->rteSupport = array("obj_id" => $obj_id, "obj_type" => $obj_type, "module" => $module, 'cfg_template' => $cfg_template, 'hide_switch' => $hide_switch);
+		$this->rteSupport = array("obj_id" => $obj_id, "obj_type" => $obj_type, "module" => $module, 'cfg_template' => $cfg_template, 'hide_switch' => $hide_switch, 'version' => $version);
 	}
 	
 	/**
@@ -414,7 +414,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 				include_once "./Services/RTE/classes/class.ilRTE.php";
 				$rtestring = ilRTE::_getRTEClassname();
 				include_once "./Services/RTE/classes/class.$rtestring.php";
-				$rte = new $rtestring();
+				$rte = new $rtestring($this->rteSupport['version']);
 				
 				// @todo: Check this.
 				$rte->addPlugin("emotions");

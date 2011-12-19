@@ -41,13 +41,18 @@ class ilTinyMCE extends ilRTE
 
 	function ilTinyMCE($a_version = "")
 	{
-		parent::ilRTE();
+		parent::ilRTE($a_version);
 
 		switch ($a_version)
 		{
 			case "3.3.9.2":
 				$this->version = $a_version;
 				$this->vd = "_3_3_9_2";
+				break;
+			
+			case "3.4.7":
+				$this->version = $a_version;
+				$this->vd = "_3_4_7";
 				break;
 		}
 		

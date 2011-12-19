@@ -4972,8 +4972,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$post_gui->addPlugin('latex');
 		$post_gui->addButton('latex');
 		$post_gui->addButton('pastelatex');
-		$post_gui->addPlugin('ilfrmquote');
-		$post_gui->addPlugin('code'); 
+		#$post_gui->addPlugin('ilfrmquote');
+		#$post_gui->addPlugin('code'); 
 		$post_gui->addPlugin('ilimgupload');
 		$post_gui->addButton('ilimgupload');
 		$post_gui->removePlugin('advlink');
@@ -4982,7 +4982,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$post_gui->usePurifier(true);	
 		$post_gui->setRTERootBlockElement('');
 		#$post_gui->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html');
-		$post_gui->setRTESupport(ilObject::_lookupObjId($this->ref_id), 'pays~', 'frm_post', 'tpl.tinymce_frm_post.html');
+		$post_gui->setRTESupport(ilObject::_lookupObjId($this->ref_id), 'pays~', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.4.7');
 		$post_gui->disableButtons(array(
 			'charmap',
 			'undo',

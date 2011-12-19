@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
+    <meta name="author" content="Michael Jansen" />
+    <meta name="generator" content="NetBeans IDE 6.9" />
+		<title>{#ilimgupload.title}</title>
+		<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+		<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
+		<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
+		<base target="_self" />
+		<script language="javascript" type="text/javascript">
+		var iliaspath = '{ILIAS_INST_PATH}';
+		
+		function selectClick() 
+		{
+			if (validateParams())
+			{
+				if (document.forms[0].src && document.forms[0].src.value != '') 
+				{
+					adoptImage(false);
+					return false;
+				}
+				
+				return true;
+			}
+			else
+			{
+				return false;
+			}			
+		}
+		
+		// validate input values
+		function validateParams() 
+		{
+			// check numeric values for attributes
+			if (isNaN(parseInt(document.libbrowser.width.value)) && document.libbrowser.width.value != '') { 
+				alert(tinyMCE.activeEditor.getLang('ilimgupload.error')+ ' : '+ tinyMCE.activeEditor.getLang('ilimgupload.error_width_nan'));     		
+				document.libbrowser.width.focus();
+					return false;}
+			
+			if (isNaN(parseInt(document.libbrowser.height.value)) && document.libbrowser.height.value != '') {
+				alert(tinyMCE.activeEditor.getLang('ilimgupload.error')+ ' : '+ tinyMCE.activeEditor.getLang('ilimgupload.error_height_nan'));  
+					document.libbrowser.height.focus();
+				return false;}
+			
+			return true;
+		}
+
+		function init()
+		{
+			// if existing image (image properties)
+			if (tinyMCEPopup.getWindowArg('src') != '') 
+			{				
+				var formObj = document.forms[0];
+
+				var imgsrc = tinyMCEPopup.getWindowArg('src');
+				if (imgsrc.indexOf('data') == 0) imgsrc = iliaspath + imgsrc;
+
+				formObj.src.value = imgsrc;	
+				imgpreview.location.href = imgsrc;			
+				formObj.alt.value = tinyMCEPopup.getWindowArg('alt');				
+				formObj.width.value = tinyMCEPopup.getWindowArg('width');
+				formObj.height.value = tinyMCEPopup.getWindowArg('height');
+			}
+		}
+		
+		function adoptImage(adoptOnLoad)
+		{
+			var ed = tinyMCEPopup.editor;
+			el = ed.selection.getNode();
+
+			if (adoptOnLoad) {
+				var width = eval('{WIDTH}');
+				var height = eval('{HEIGHT}');
+				var src = '{SRC}';
+				var alt = '{ALT}';
+			} else {
+				var width = document.forms[0].width.value;
+				var height = document.forms[0].height.value;
+				var src = document.forms[0].src.value;
+				var alt = document.forms[0].alt.value;				
+			}
+			 
+			args = {
+				src : src,
+				alt : alt,			
+				width : width,
+				height : height
+			};
+			if (el && el.nodeName == 'IMG') {
+				ed.dom.setAttribs(el, args);
+			} else {
+				ed.execCommand('mceInsertContent', false, '<img id="__mce_tmp" />', {skip_undo : 1});
+				ed.dom.setAttribs('__mce_tmp', args);
+				ed.dom.setAttrib('__mce_tmp', 'id', '');
+				ed.undoManager.add();
+			}
+			tinyMCEPopup.close();
+		}
+
+		<!-- BEGIN adoptimage -->
+		adoptImage(true);
+		<!-- END adoptimage -->		
+		</script>
+	</head>
+<body onload="init();" style="display: none">
+<script language="JavaScript" type="text/JavaScript">  
+    window.name = 'imglibrary'; 
+</script>
+<form name="libbrowser" method="post" action="imgupload.php?obj_id={OBJ_ID}&session_id={SESSION_ID}&client_id={CLIENT_ID}&obj_type={OBJ_TYPE}&update={VALUE_UPDATE}&amp;request_uri={REQUEST_URI}" enctype="multipart/form-data" target="imglibrary">
+<input type="hidden" name="request_uri" value="{VALUE_REQUEST_URI}" />
+<input type="hidden" name="lib_action" value="" />
+    <div class="tabs">
+		<ul>
+			<li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">{#ilimgupload.upload_image}</a></span></li>
+		</ul>
+	</div>
+
+    <div class="panel_wrapper">
+		<div id="general_panel" class="panel current">
+		<div style="float: left;">
+     	<table border="0" cellpadding="4" cellspacing="0">
+     	  <!-- BEGIN upload -->
+          <tr>
+            <td class="nowrap"><label for="src">{#ilimgupload.image_select}</label></td>
+            <td><table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td><input type="file" name="img_file" style="width: 100%;" /></td>
+                  <td id="srcbrowsercontainer">&nbsp;</td>
+                </tr>
+              </table></td>
+          </tr>
+          <!-- END upload -->
+          <!-- BEGIN src -->
+          <tr>
+            <td width="80">{#ilimgupload.src}:</td>
+            <td colspan="5"><input name="src" type="text" id="src" value="" style="width: 200px" readonly="readonly"></td>            
+          </tr>
+          <!-- END src -->		  
+          <tr>
+            <td class="nowrap"><label for="alt">{#ilimgupload.image_alt}</label></td>
+            <td><input id="alt" name="alt" type="text" value="" style="width: 200px" /></td>
+          </tr>
+          <tr>
+            <td class="nowrap"><label for="width">{#ilimgupload.image_dimensions}</label></td>
+            <td><input id="width" name="width" type="text" value="" size="3" maxlength="5" />
+              x
+              <input id="height" name="height" type="text" value="" size="3" maxlength="5" /></td>
+          </tr>
+        </table>
+        </div>
+        <!-- BEGIN preview -->
+        <div style="float: left; width: 210px;">
+        <iframe name="imgpreview" class="previewWindow" src="{URL_PREVIEW}" style="width: 100%; height: 100%;" scrolling="Auto" marginheight="0" marginwidth="0" frameborder="0"></iframe>
+        </div>
+        <!-- END preview -->
+		</div>
+	</div>
+
+	<div class="mceActionPanel">
+		<div style="float: left">
+			<input type="{INSERT_TYPE}" id="insert" name="insert" value="{INSERT_COMMAND}" onclick="selectClick();" />
+		</div>
+
+		<div style="float: right">
+			<input type="button" id="cancel" name="cancel" value="{#ilimgupload.cancel}" onclick="tinyMCEPopup.close();" />
+		</div>
+	</div>
+</form>
+</body>
+</html>
