@@ -1425,7 +1425,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$oPostGUI->addPlugin('ilfrmquote');
 		$oPostGUI->addPlugin('ilimgupload');
         $oPostGUI->addButton('ilimgupload');
-		$oPostGUI->addPlugin('code'); 
+		//$oPostGUI->addPlugin('code'); 
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
 		{
 			$oPostGUI->addButton('ilFrmQuoteAjaxCall');
@@ -1456,11 +1456,11 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
 		{
-			$oPostGUI->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html');
+			$oPostGUI->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.4.7');
 		}
 		else
 		{
-			$oPostGUI->setRTESupport($this->objCurrentPost->getId(), 'frm', 'frm_post', 'tpl.tinymce_frm_post.html');
+			$oPostGUI->setRTESupport($this->objCurrentPost->getId(), 'frm', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.4.7');
 		}
 		// purifier
 		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
@@ -3291,7 +3291,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$post_gui->addButton('latex');
 		$post_gui->addButton('pastelatex');
 		$post_gui->addPlugin('ilfrmquote');
-		$post_gui->addPlugin('code'); 
+		//$post_gui->addPlugin('code'); 
 		$post_gui->addPlugin('ilimgupload');
 		$post_gui->addButton('ilimgupload');
 		$post_gui->removePlugin('advlink');
@@ -3299,7 +3299,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$post_gui->removePlugin('image');
 		$post_gui->usePurifier(true);	
 		$post_gui->setRTERootBlockElement('');
-		$post_gui->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html');
+		$post_gui->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.4.7');
 		$post_gui->disableButtons(array(
 			'charmap',
 			'undo',
