@@ -533,33 +533,36 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 	}
 	
-	function setAccessRestrictionObject()
+	function setAccessRestrictionObject($a_form = null)
 	{
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.confirm.html");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_CONFIRM", $this->lng->txt("time_limit_add_time_limit_for_selected"));
-		include_once "./classes/class.ilTemplate.php";
-		$tsTemplate = new ilTemplate("tpl.time.limit.html", TRUE, TRUE);
-		$from = (array_key_exists("from", $_GET)) ? $_GET["from"] : time();
-		$until = (array_key_exists("until", $_GET)) ? $_GET["until"] : time();
-		$fromA = getdate($from);
-		$untilA = getdate($until);
-		$fromDate = ilUtil::makeDateSelect("fromDate", $fromA["year"], $fromA["mon"], $fromA["mday"]);
-		$fromTime = ilUtil::makeTimeSelect("fromTime", TRUE, $fromA["hours"], $fromA["minutes"]);
-		$untilDate = ilUtil::makeDateSelect("untilDate", $untilA["year"], $untilA["mon"], $untilA["mday"]);
-		$untilTime = ilUtil::makeTimeSelect("untilTime", TRUE, $untilA["hours"], $untilA["minutes"]);
-		$tsTemplate->setVariable("TEXT_FROM", $this->lng->txt("access_from") . ": ");
-		$tsTemplate->setVariable("TEXT_UNTIL", $this->lng->txt("access_until") . ": ");
-		$tsTemplate->setVariable("DATE_FROM", $fromDate);
-		$tsTemplate->setVariable("TIME_FROM", $fromTime);
-		$tsTemplate->setVariable("DATE_UNTIL", $untilDate);
-		$tsTemplate->setVariable("TIME_UNTIL", $untilTime);
-		$this->tpl->setVariable("TXT_CONTENT", $tsTemplate->get());
-		$this->tpl->setVariable("CMD_CANCEL", "cancelaccessRestrict");
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("CMD_OK", "confirmaccessRestrict");
-		$this->tpl->setVariable("TXT_OK", $this->lng->txt("confirm"));
-		$this->tpl->parseCurrentBlock();
+		if(!$a_form)
+		{
+			$a_form = $this->initAccessRestrictionForm();
+		}
+		$this->tpl->setContent($a_form->getHTML());
+	}
+	
+	protected function initAccessRestrictionForm()
+	{
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt("time_limit_add_time_limit_for_selected"));
+		$form->setFormAction($this->ctrl->getFormAction($this, "confirmaccessRestrict"));
+		
+		$from = new ilDateTimeInputGUI($this->lng->txt("access_from"), "from");
+		$from->setShowTime(true);
+		$from->setRequired(true);
+		$form->addItem($from);
+		
+		$to = new ilDateTimeInputGUI($this->lng->txt("access_until"), "to");
+		$to->setRequired(true);
+		$to->setShowTime(true);
+		$form->addItem($to);
+		
+		$form->addCommandButton("confirmaccessRestrict", $this->lng->txt("confirm"));
+		$form->addCommandButton("cancelaccessRestrict", $this->lng->txt("cancel"));
+		
+		return $form;
 	}
 
 	function cancelaccessRestrictObject()
@@ -569,14 +572,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	
 	function confirmaccessRestrictObject()
 	{
-		$timefrom = mktime($_POST["fromTime"]["h"], $_POST["fromTime"]["m"], 0, $_POST["fromDate"]["m"], $_POST["fromDate"]["d"], $_POST["fromDate"]["y"]);
-		$timeuntil = mktime($_POST["untilTime"]["h"], $_POST["untilTime"]["m"], 0, $_POST["untilDate"]["m"], $_POST["untilDate"]["d"], $_POST["untilDate"]["y"]);
+		$form = $this->initAccessRestrictionForm();
+		if(!$form->checkInput())
+		{
+			return $this->setAccessRestrictionObject($form);
+		}
+		
+		$timefrom = $form->getItemByPostVar("from")->getDate()->get(IL_CAL_UNIX);
+		$timeuntil = $form->getItemByPostVar("to")->getDate()->get(IL_CAL_UNIX);
 		if ($timeuntil <= $timefrom)
 		{
-			ilUtil::sendFailure($this->lng->txt("time_limit_not_valid"), TRUE);
-			$this->ctrl->setParameter($this, "from", $timefrom);
-			$this->ctrl->setParameter($this, "until", $timeuntil);
-			$this->ctrl->redirect($this, "setAccessRestriction");
+			ilUtil::sendFailure($this->lng->txt("time_limit_not_valid"));
+			return $this->setAccessRestrictionObject($form);
 		}
 
 		global $rbacsystem, $ilUser;
