@@ -7679,8 +7679,8 @@ exc#:#exc_completion_by_submission#:#Bestehen durch Abgabe
 exc#:#exc_conf_del_assignments#:#Möchten Sie die folgenden Übungseinheiten wirklich löschen?
 exc#:#exc_create_blog_select_info#:#Wählen Sie im Arbeitsraum Ihres Persönlichen Schreibtischs die Stelle aus, an der der Blog erstellt werden soll.
 exc#:#exc_create_blog#:#Blog erstellen
-exc#:#exc_create_portfolio_select_info#:#Wählen Sie im Arbeitsraum Ihres Persönlichen Schreibtischs die Stelle aus, an der das e-Portfolio erstellt werden soll.
-exc#:#exc_create_portfolio#:#e-Portfolio erstellen
+exc#:#exc_create_portfolio_select_info#:#Wählen Sie im Arbeitsraum Ihres Persönlichen Schreibtischs die Stelle aus, an der das Portfolio erstellt werden soll.
+exc#:#exc_create_portfolio#:#Portfolio erstellen
 exc#:#exc_deadline#:#Abgabetermin
 exc#:#exc_direct_submit_blog#:#Möchten Sie die aktuelle Version Ihres Blogs jetzt abgeben? Sie können dies auch jederzeit im Blog-Editor tun.
 exc#:#exc_direct_submit_portfolio#:#Möchten Sie die aktuelle Version Ihres Portfolios jetzt abgeben? Sie können dies auch jederzeit im Portfolio-Editor tun.
@@ -7722,7 +7722,7 @@ exc#:#exc_pass_all#:#Alle obligatorischen Übungseinheiten
 exc#:#exc_pass_minimum_nr_info#:#Lerner müssen eine minimale Anzahl an Übungseinheiten bestehen, um die Übung als ganze zu bestehen. Dieser Wert muß mindestens so hoch sein, wie die Anzahl der obligatorischen Übungseinheiten.
 exc#:#exc_pass_minimum_nr#:#Minimale Anzahl an Übungseinheiten
 exc#:#exc_pass_mode#:#Anforderung
-exc#:#exc_portfolio_created#:#e-Portfolio wurde erstellt.
+exc#:#exc_portfolio_created#:#Portfolio wurde erstellt.
 exc#:#exc_portfolio_returned#:#Abgegebenes Portfolio
 exc#:#exc_portfolio_selected#:#Das Portfolio wurde verknüpft.
 exc#:#exc_presentation_order#:#Reihenfolge
@@ -7751,9 +7751,9 @@ exc#:#exc_submission_notification#:#Mail-Benachrichtigung bei Abgaben
 exc#:#exc_submissions_and_grades#:#Abgaben und Noten
 exc#:#exc_submitted_files_deleted#:#Die ausgewählten Dateien wurden gelöscht.
 exc#:#exc_total_exc#:#Gesamte Übung
-exc#:#exc_type_blog#:#Blog erstellen
-exc#:#exc_type_portfolio#:#e-Portfolio erstellen
-exc#:#exc_type_upload#:#Datei hochladen
+exc#:#exc_type_blog#:#Blog 
+exc#:#exc_type_portfolio#:#Portfolio 
+exc#:#exc_type_upload#:#Datei 
 excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie ein Zertifikat benötigen
 excv#:#excv_create#:#Übungszertifikat erstellen
 exercise#:#exc_comment_for_learner#:#Kommentar für Lerner
