@@ -166,7 +166,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 				$this->tpl->setCurrentBlock("definition_row");
 				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->touchBlock("def_td");
+//			$this->tpl->touchBlock("def_td");
 
 			// display additional column 'glossary' for meta glossaries
 			if ($this->glossary->isVirtual())
