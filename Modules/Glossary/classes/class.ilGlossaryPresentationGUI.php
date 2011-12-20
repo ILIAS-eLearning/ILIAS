@@ -144,8 +144,7 @@ class ilGlossaryPresentationGUI
 
 	function prepareOutput()
 	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$this->tpl->getStandardTemplate();
 		$title = $this->glossary->getTitle();
 
 		$this->tpl->setTitle($title);
@@ -519,9 +518,7 @@ if (!false)
 			$tpl = $this->tpl;
 
 			require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-			$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-			//$this->setLocator();
+			$tpl->getStandardTemplate();
 			$this->setTabs();
 
 			if ($this->offlineMode())
