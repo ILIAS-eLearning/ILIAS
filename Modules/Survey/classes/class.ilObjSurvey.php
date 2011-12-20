@@ -4129,7 +4129,9 @@ class ilObjSurvey extends ilObject
 		{
 			$isXml = TRUE;
 		}
-		if (strpos($file_info["type"], "zip") !== FALSE)
+		// too many different mime-types, so we use the suffix
+		$suffix = pathinfo($file_info["name"]);
+		if (strcmp(strtolower($suffix["extension"]), "zip") == 0)
 		{
 			$isZip = TRUE;
 		}

@@ -474,7 +474,7 @@ class SurveyImportParser extends ilSaxParser
 							{
 								array_push($qblock, $this->questions[$question_id]);
 							}
-							$this->survey->createQuestionblock($title, $this->showQuestiontext, $qblock);
+							$this->survey->createQuestionblock($title, $this->showQuestiontext, false, $qblock);
 						}
 					}
 					$this->survey->setStatus($this->survey_status);
