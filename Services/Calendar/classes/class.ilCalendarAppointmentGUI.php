@@ -710,7 +710,8 @@ class ilCalendarAppointmentGUI
 		$confirm->addItem('appointments[]',$this->app->getEntryId(),$this->app->getTitle());
 
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrences.php');
-		if(sizeof(ilCalendarRecurrences::_getRecurrences($_GET['app_id'])))
+		if(sizeof(ilCalendarRecurrences::_getRecurrences($_GET['app_id']))
+			&& !$this->app->isMilestone())
 		{
 			$confirm->addButton($this->lng->txt('cal_delete_single'),'deleteexclude');
 		    $confirm->setConfirm($this->lng->txt('cal_delete_recurrences'),'delete');
