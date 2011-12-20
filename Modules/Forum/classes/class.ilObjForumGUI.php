@@ -542,7 +542,8 @@ class ilObjForumGUI extends ilObjectGUI
 						{						
 							$this->ctrl->setParameter($this, 'backurl', urlencode('repository.php?ref_id='.$_GET['ref_id'].'&offset='.$Start));
 							$this->ctrl->setParameter($this, 'user', $thread->getUserId());
-							if ($usr_data['public_profile'] == 'n')
+							if ($usr_data['public_profile'] == 'n' ||
+								($usr_data['public_profile'] == 'y' && $ilUser->getId() == ANONYMOUS_USER_ID))
 							{
 								$result[$counter]['author'] = $usr_data['login'];												
 							}
@@ -2615,8 +2616,9 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		
 						if($last_user_data['usr_id'])
-						{
-							if ($last_user_data['public_profile'] == 'n')
+						{							
+							if ($last_user_data['public_profile'] == 'n' ||
+								($usr_data['public_profile'] == 'y' && $ilUser->getId() == ANONYMOUS_USER_ID))
 							{
 								$edited_author = $last_user_data['login'];
 							}
@@ -2666,7 +2668,8 @@ class ilObjForumGUI extends ilObjectGUI
 							//$tpl->setCurrentBlock('posts_row');
 						}							
 
-						if ($usr_data['public_profile'] == 'n')
+						if ($usr_data['public_profile'] == 'n' ||
+							($usr_data['public_profile'] == 'y' && $ilUser->getId() == ANONYMOUS_USER_ID))
 						{
 							$tpl->setVariable('AUTHOR',	$usr_data['login']);
 						}
@@ -2693,7 +2696,9 @@ class ilObjForumGUI extends ilObjectGUI
 						$tpl->setVariable('TXT_NUM_POSTS', $lng->txt('forums_posts').':');
 						$tpl->setVariable('NUM_POSTS', $numPosts);
 
-						if($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']) || $usr_data['public_profile'] != 'n')
+						if($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']) || 
+							$usr_data['public_profile'] == 'g' ||
+							($usr_data['public_profile'] == 'y' && $ilUser->getId() != ANONYMOUS_USER_ID))
 						{
 							$tpl->setVariable('USR_NAME', $usr_data['firstname'].' '.$usr_data['lastname']);
 						}
