@@ -3309,7 +3309,7 @@
 			<xsl:call-template name="EditMenu">
 				<xsl:with-param name="hier_id" select="../@HierId" />
 				<xsl:with-param name="pc_id" select="../@PCID" />
-				<xsl:with-param name="edit">p</xsl:with-param>
+				<xsl:with-param name="edit">y</xsl:with-param>
 			</xsl:call-template>
 			<xsl:if test = "$javascript='disable'">
 				<br/>
