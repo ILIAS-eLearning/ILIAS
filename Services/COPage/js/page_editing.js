@@ -460,6 +460,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		if (snode)
 		{
 			snode.className = "ilc_text_block_" + i['hid_val'];
+			snode.style.position ='static';
 		}
 		this.autoResize(ed);
 	},
@@ -769,7 +770,7 @@ if (add_final_spacer)
 				var c = this.p2br(ed.getContent());
 				if (ilCOPage.current_td == "")
 				{
-					var c = "<div class='" + cl + "'>" + c + "</div>";
+					var c = "<div style='position:static;' class='" + cl + "'>" + c + "</div>";
 				}
 				else
 				{
