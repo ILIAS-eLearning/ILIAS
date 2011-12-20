@@ -7775,13 +7775,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 		if ($result->numRows())
 		{
 			$bestrow = null;
-			$bestpoints = -1;
+			$bestfactor = 0;
 			while ($row = $ilDB->fetchAssoc($result))
 			{
-				if ($row["points"] > $bestpoints) 
+				$factor = $row["points"] / $row["maxpoints"];
+				
+				if($factor > $bestfactor)
 				{
 					$bestrow = $row;
-					$bestpoints = $row["points"];
+					$bestfactor = $factor;
 				}
 			}
 			if (is_array($bestrow))
