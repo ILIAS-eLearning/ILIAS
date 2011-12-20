@@ -1214,13 +1214,13 @@ class ilExAssignment
 		chdir($tmpdir);
 		$zipcmd = $zip." ".ilUtil::escapeShellArg($tmpzipfile)." ".join($array_filenames, " ");
 //echo getcwd()."<br>";
-//echo $zipcmd; exit;
+//echo $zipcmd;
 		exec($zipcmd);
 		ilUtil::delDir($tmpdir);
 		
 		chdir($cdir);
-		ilUtil::deliverFile($tmpzipfile, $orgDeliverFilename.".zip");
-		unlink($tmpzipfile);
+		ilUtil::deliverFile($tmpzipfile, $orgDeliverFilename.".zip", "", false, true);
+		exit;
 	}
 
 	/**
@@ -1337,9 +1337,7 @@ class ilExAssignment
 		chdir($cdir);
 		ilUtil::deliverFile($tmpzipfile, (strlen($assTitle) == 0
 			? strtolower($lng->txt("exc_assignment"))
-			: $assTitle). ".zip");
-		unlink($tmpfile);
-		unlink($tmpzipfile);
+			: $assTitle). ".zip", "", false, true);
 	}
 
 	/**

@@ -43,7 +43,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->ass = new ilExAssignment((int) $_GET["ass_id"]);
 		}
 	}
-  
+
 	function getFiles()
 	{
 		return $this->files ? $this->files : array();
