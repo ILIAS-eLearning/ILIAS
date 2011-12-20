@@ -66,7 +66,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 	/**
 	* Edit tabs
 	*/
-	function edit()
+	function editProperties()
 	{
 		global $ilCtrl, $lng, $tpl;
 		
@@ -305,7 +305,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 		$this->content_obj->setHierId($this->content_obj->readHierId());
 		$this->setHierId($this->content_obj->readHierId());
 		$this->content_obj->setPCId($this->content_obj->readPCId());
-		$this->editTabs();
+		$this->edit();
 	}
 
 
@@ -342,7 +342,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 		else
 		{
 			$this->pg_obj->addHierIDs();
-			$this->edit();
+			$this->editProperties();
 		}
 	}
 	
@@ -354,7 +354,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 	/**
 	* List all tabs
 	*/
-	function editTabs()
+	function edit()
 	{
 		global $tpl, $ilTabs, $ilCtrl, $ilToolbar, $lng;
 
@@ -364,7 +364,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 		$this->setTabs();
 		$ilTabs->activateTab("cont_tabs");
 		include_once("./Services/COPage/classes/class.ilPCTabsTableGUI.php");
-		$table_gui = new ilPCTabsTableGUI($this, "editTabs", $this->content_obj);
+		$table_gui = new ilPCTabsTableGUI($this, "edit", $this->content_obj);
 		$tpl->setContent($table_gui->getHTML());
 	}
 	
@@ -387,7 +387,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 		}
 		$this->updated = $this->pg_obj->update();
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-		$ilCtrl->redirect($this, "editTabs");
+		$ilCtrl->redirect($this, "edit");
 	}
 
 	/**
@@ -401,7 +401,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 
 		ilUtil::sendSuccess($lng->txt("cont_added_tab"), true);
-		$ilCtrl->redirect($this, "editTabs");
+		$ilCtrl->redirect($this, "edit");
 	}
 	
 	/**
@@ -416,7 +416,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 		if (!is_array($_POST["tid"]) || count($_POST["tid"]) == 0)
 		{
 			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
-			$ilCtrl->redirect($this, "editTabs");
+			$ilCtrl->redirect($this, "edit");
 		}
 		else
 		{
@@ -444,7 +444,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 	function cancelTabDeletion()
 	{
 		global $ilCtrl;
-		$ilCtrl->redirect($this, "editTabs");
+		$ilCtrl->redirect($this, "edit");
 	}
 	
 	/**
@@ -464,7 +464,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 		}
 		$this->updated = $this->pg_obj->update();
 		
-		$ilCtrl->redirect($this, "editTabs");
+		$ilCtrl->redirect($this, "edit");
 	}
 	
 	
@@ -479,11 +479,11 @@ class ilPCTabsGUI extends ilPageContentGUI
 			$this->ctrl->getParentReturn($this));
 
 		$ilTabs->addTarget("cont_tabs",
-			$ilCtrl->getLinkTarget($this, "editTabs"), "editTabs",
+			$ilCtrl->getLinkTarget($this, "edit"), "edit",
 			get_class($this));
 
 		$ilTabs->addTarget("cont_edit_tabs",
-			$ilCtrl->getLinkTarget($this, "edit"), "edit",
+			$ilCtrl->getLinkTarget($this, "editProperties"), "editProperties",
 			get_class($this));
 
 	}
