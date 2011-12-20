@@ -2114,7 +2114,8 @@ return $this->showServerInfoObject();
 		$si = new ilSelectInputGUI($this->lng->txt("adm_repository_cache_time"), "rep_cache");
 		$si->setOptions($options);
 		$si->setValue($ilSetting->get("rep_cache"));
-		$si->setInfo($this->lng->txt("adm_repository_cache_time_info"));
+		$si->setInfo($this->lng->txt("adm_repository_cache_time_info")." ".
+			$this->lng->txt("adm_repository_cache_time_info2"));
 		$this->form->addItem($si);
 		
 		// load action commands asynchronously 

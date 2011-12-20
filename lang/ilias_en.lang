@@ -12392,3 +12392,4 @@ assessment#:#test_has_datasets_warning_page_view_link#:#Edit Participants
 wsp#:#wsp_share_with_users#:#Share with users
 acc#:#acc_last_rep_visited#:#Repository/Last Visited
 acc#:#acc_personal_desktop#:#Personal Desktop
+administration#:#adm_repository_cache_time_info2#:#It is also possible that repository objects become accessible for users with a certain time lack, e.g. after preconditions have been met or permissions have been changed.
