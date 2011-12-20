@@ -163,13 +163,12 @@ class ilCommonActionDispatcherGUI
 						$note_gui->enableCommentsSettings();
 					}
 				}
-				/* this is the same behaviour as the info screen,
-					should probably be discussed further (see InfoscreenGUI)
-				else
+				/* this is different to the info screen but we need this
+				   for sub-object action menus, e.g. wiki page */
+				else if($this->sub_id)
 				{
 					$note_gui->enablePublicNotes(true);
-				}				 
-			    */				 			 
+				}						 			 			 
 
 				$ilCtrl->forwardCommand($note_gui);		
 				break;
