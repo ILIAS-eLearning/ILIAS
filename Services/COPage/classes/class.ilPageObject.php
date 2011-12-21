@@ -240,10 +240,11 @@ class ilPageObject
 		{
 			if ($this->halt_on_error)
 			{
-				echo "Error: Page ".$this->id." is not in database".
-					" (parent type ".$this->getParentType().").";
-				ilUtil::printBacktrace();
-				exit;
+				include_once("./Services/COPage/exceptions/class.ilCOPageNotFoundException.php");
+				throw new ilCOPageNotFoundException("Error: Page ".$this->id." is not in database".
+					" (parent type ".$this->getParentType().").");
+				//ilUtil::printBacktrace();
+				return;
 			}
 			else
 			{
