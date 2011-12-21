@@ -1634,6 +1634,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function copyPage()
 	{
+		global $ilUser;
+		
 		if(!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
@@ -1643,7 +1645,14 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		ilLMObject::clipboardCopy($this->object->getId(), $items);
 		ilEditClipboard::setAction("copy");
 
-		ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"), true);
+		if ($ilUser->getPref("lm_js_chapter_editing") != "disable")
+		{
+			ilUtil::sendInfo($this->lng->txt("cont_selected_items_have_been_copied"), true);
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"), true);
+		}
 
 		$this->ctrl->redirect($this, "pages");
 	}
@@ -1997,9 +2006,20 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function movePage()
 	{
+		global $ilUser;
+		
 		if(!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if ($ilUser->getPref("lm_js_chapter_editing") != "disable")
+		{
+			ilUtil::sendInfo($this->lng->txt("cont_selected_items_have_been_cut"), true);
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt("msg_cut_clipboard"), true);
 		}
 
 		$items = ilUtil::stripSlashesArray($_POST["id"]);

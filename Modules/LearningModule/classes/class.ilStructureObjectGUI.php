@@ -664,28 +664,6 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	function copyPage()
 	{
 		$this->copyItems();
-	return;
-		
-		if(!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(count($_POST["id"]) > 1)
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if(count($_POST["id"]) == 1 && $_POST["id"][0] == IL_FIRST_NODE)
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_item"), $this->ilias->error_obj->MESSAGE);
-		}
-
-		// SAVE POST VALUES
-		ilEditClipboard::storeContentObject("pg",$_POST["id"][0],"copy");
-
-		ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"), true);
-
-		$this->ctrl->redirect($this, "view");
 	}
 
 	/**
