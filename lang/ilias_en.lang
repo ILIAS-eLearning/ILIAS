@@ -5432,8 +5432,8 @@ content#:#cont_select_par_or_section#:#Please select at least one paragraph or s
 content#:#cont_select_term#:#Please select a term.
 content#:#cont_select_translation#:#Please select the assignment from the list above
 content#:#cont_select#:#Select
-content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click appropriate placeholders to paste them into the learning module.
-content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click appropriate placeholders to paste them into the learning module.
+content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click target placeholders to paste them into the learning module.
+content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click target placeholders to paste them into the learning module.
 content#:#cont_selected_pg_chap#:#Selected Pages/Chapters
 content#:#cont_series_editor#:#Series editor
 content#:#cont_series_title#:#Series title
