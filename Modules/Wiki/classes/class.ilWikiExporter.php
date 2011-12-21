@@ -37,6 +37,7 @@ class ilWikiExporter extends ilXmlExporter
 	function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
 	{
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		$pg_ids = array();
 
 		foreach ($a_ids as $id)
@@ -45,7 +46,10 @@ class ilWikiExporter extends ilXmlExporter
 
 			foreach ($pages as $p)
 			{
-				$pg_ids[] = "wpg:".$p["id"];
+				if (ilPageObject::_exists("wpg", $p["id"]))
+				{
+					$pg_ids[] = "wpg:".$p["id"];
+				}
 			}
 		}
 
