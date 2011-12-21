@@ -141,6 +141,7 @@ class ilObjFile extends ilObject2
 		$title = $this->checkFileExtension($this->getFileName(), $md_gen->getTitle());
 		$md_gen->setTitle($title);
 		$md_gen->update();
+		return true;
 	}
 
 	protected function doMDUpdateListener($a_element)
