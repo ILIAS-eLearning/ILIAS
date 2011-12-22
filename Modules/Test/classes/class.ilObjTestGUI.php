@@ -4861,8 +4861,9 @@ class ilObjTestGUI extends ilObjectGUI
 		    */
                     $ilToolbar->addFormButton($lng->txt("test_create_question"), "addQuestion");
 		    
+		    $ilToolbar->addSeparator();		    
+		    
 		    if ($this->object->getPoolUsage()) {
-			    $ilToolbar->addSeparator();
 			    $ilToolbar->addFormButton($lng->txt("tst_browse_for_questions"), "browseForQuestions");
 			    
 			    $show_separator = true;
