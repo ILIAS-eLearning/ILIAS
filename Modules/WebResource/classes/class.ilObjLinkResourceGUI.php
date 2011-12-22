@@ -364,7 +364,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			{
 				// Save list data
 				$this->object->setTitle($this->form->getInput('lti'));
-				$this->object->setDescription($this->form->getInput('lde'));
+				$this->object->setDescription($this->form->getInput('tde'));
 				$this->object->update();
 			}
 			
