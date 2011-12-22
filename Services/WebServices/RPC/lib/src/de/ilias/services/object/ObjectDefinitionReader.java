@@ -44,6 +44,9 @@ public class ObjectDefinitionReader {
 	private static HashMap<File, ObjectDefinitionReader> instances = new HashMap<File, ObjectDefinitionReader>();
 	
 	public static final String objectPropertyName = "LuceneObjectDefinition.xml";
+	public static final String pluginPath = "Customizing/global/plugins";
+
+
 	private Vector<File> objectPropertyFiles = new Vector<File>();
 	
 
@@ -111,7 +114,11 @@ public class ObjectDefinitionReader {
 		File start = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + "Modules");
 		logger.debug("Start path is : " + start.getAbsoluteFile());
 		traverse(start);
-		
+
+		// Traverse through Plugins
+		File plugin = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + ObjectDefinitionReader.pluginPath);
+		logger.debug("Start path is : " + plugin.getAbsoluteFile());
+		traverse(plugin);
 	}
 	
 	/**
