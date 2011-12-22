@@ -242,22 +242,7 @@ class ilDateTime
 				break;				
 
 			case self::MONTH:
-				// strtotime fails in the following case:
-				// 2008-03-31 (+1 month) => 2008-05-01 
-				// In that case, we substract the new month day 
-				
-				$old_day_of_month = $this->get(IL_CAL_FKT_DATE,'j');
 				$this->unix = strtotime($count_str.'month',$this->unix);
-				
-				// TODO: Fix monthly calculations.
-				
-				/*
-				$new_day_of_month = $this->get(IL_CAL_FKT_DATE,'j');
-				if($new_day_of_month != $old_day_of_month)
-				{
-					$this->unix = $this->increment(IL_CAL_DAY,$new_day_of_month * -1);
-				}
-				*/
 				break;
 				
 			case self::WEEK:
@@ -281,7 +266,7 @@ class ilDateTime
 				break;
 				
 		}
-		$this->timezone->restoreTZ();	 	
+		$this->timezone->restoreTZ();
 		return $this->unix;
 	}
 	
@@ -488,7 +473,8 @@ class ilDateTime
 	}
 	
 	/**
-	 * to string
+	 * to string for date time objects
+	 * Output is user time zone
 	 *
 	 * @access public
 	 * @param
@@ -496,7 +482,7 @@ class ilDateTime
 	 */
 	public function __toString()
 	{
-		return $this->get(IL_CAL_DATETIME,'','UTC').'<br>';
+		return $this->get(IL_CAL_DATETIME).'<br>';
 	}
 }
 ?>

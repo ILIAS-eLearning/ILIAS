@@ -77,7 +77,7 @@ class ilCalendarHeaderNavigationGUI
 		
 	 	$this->tpl = new ilTemplate('tpl.navigation_header.html',true,true,'Services/Calendar');
 		
-	 	$this->seed->increment($this->increment,-2);
+		$this->incrementDate(-2);
 		$num = 0;
 		do
 		{
@@ -108,7 +108,9 @@ class ilCalendarHeaderNavigationGUI
 			$this->tpl->setVariable('NAV_LINK_'.$num,$this->ctrl->getLinkTarget($this->cmdClass,$this->cmd));
 			// $this->ctrl->clearParametersByClass(get_class($this->cmdClass));
 			$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed','');
-			$this->seed->increment($this->increment,1);
+
+			$this->incrementDate(1);
+
 		} while($num < 6);
 
 		// header
@@ -132,6 +134,23 @@ class ilCalendarHeaderNavigationGUI
 	 	$this->tpl->setVariable('TXT_SELECTED', $lng->txt("stat_selected"));
 		
 	 	return $this->tpl->get();
+	}
+
+	protected function incrementDate($a_count)
+	{
+		switch($this->increment)
+		{
+			case ilDateTime::MONTH:
+
+				$day = $this->seed->get(IL_CAL_FKT_DATE,'j');
+				if($day > 28)
+				{
+					$this->seed->increment(IL_CAL_DAY, (31 - $day) * -1);
+				}
+			default:
+				$this->seed->increment($this->increment,$a_count);
+				break;
+		}
 	}
 }
 
