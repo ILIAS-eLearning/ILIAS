@@ -527,6 +527,9 @@ class ilObjTest extends ilObject
 */
 	function createReference() {
 		$result = parent::createReference();
+		
+		$this->setPoolUsage(true);
+		
 		$this->saveToDb();
 		return $result;
 	}
