@@ -62,5 +62,13 @@ class ilDate extends ilDateTime
 	{
 		return parent::get($a_format,$a_format_str);
 	}
+
+	/**
+	 * To string for dates
+	 */
+	public function __toString()
+	{
+		return $this->get(IL_CAL_DATE).'<br />';
+	}
 }
 ?>
