@@ -71,7 +71,10 @@ class ilPermissionGUI extends ilPermission2GUI
 			$ilToolbar->addSeparator();
 		}
 		
-		if($objDefinition->hasLocalRoles($this->getCurrentObject()->getType()) and !$this->isAdminRoleFolder())
+		if($objDefinition->hasLocalRoles($this->getCurrentObject()->getType()) and
+			!$this->isAdminRoleFolder() and
+			!$this->isAdministrationObject()
+		)
 		{
 			// Show new role button
 			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
@@ -98,6 +101,11 @@ class ilPermissionGUI extends ilPermission2GUI
 	protected function isAdminRoleFolder()
 	{
 		return $this->getCurrentObject()->getRefId() == ROLE_FOLDER_ID;
+	}
+
+	protected function isAdministrationObject()
+	{
+		return $this->getCurrentObject()->getType() == 'adm';
 	}
 	
 	/**
