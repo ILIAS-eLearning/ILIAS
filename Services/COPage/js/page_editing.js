@@ -374,8 +374,18 @@ tinymce.activeEditor.formatter.register('mycode', {
 			ed.selection.setContent(nc);
 			ed.focus();
 			r =  ed.dom.createRng();
-			r.setEnd(rcopy.endContainer.nextSibling, stag.length);
-			r.setStart(rcopy.startContainer.nextSibling, stag.length);
+			if (rcopy.endContainer.nextSibling) // usual text node
+			{
+				r.setEnd(rcopy.endContainer.nextSibling, stag.length);
+				r.setStart(rcopy.startContainer.nextSibling, stag.length);
+				ed.selection.setRng(r);
+			}
+			else if (rcopy.endContainer.firstChild) // e.g. when being in an empty list node
+			{
+				r.setEnd(rcopy.endContainer.firstChild, stag.length);
+				r.setStart(rcopy.startContainer.firstChild, stag.length);
+				ed.selection.setRng(r);
+			}
 			ed.selection.setRng(r);
 		}
 		else
@@ -420,7 +430,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		var ed = tinyMCE.get('tinytarget');
 		ed.focus();
 		ed.execCommand('InsertUnorderedList', false);
-		this.fixListClasses();
+		this.fixListClasses(true);
 		this.autoResize(ed);
 	},
 
@@ -429,7 +439,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		var ed = tinyMCE.get('tinytarget');
 		ed.focus();
 		ed.execCommand('InsertOrderedList', false);
-		this.fixListClasses();
+		this.fixListClasses(true);
 		this.autoResize(ed);
 	},
 
@@ -438,7 +448,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		var ed = tinyMCE.get('tinytarget');
 		ed.focus();
 		ed.execCommand('Indent', false);
-		this.fixListClasses();
+		this.fixListClasses(false);
 		this.autoResize(ed);
 	},
 
@@ -447,7 +457,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		var ed = tinyMCE.get('tinytarget');
 		ed.focus();
 		ed.execCommand('Outdent', false);
-		this.fixListClasses();
+		this.fixListClasses(true);
 		this.autoResize(ed);
 	},
 	
@@ -514,7 +524,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 	 */
 	splitBR: function()
 	{
-		var snode;		
+		var snode;
 		var ed = tinyMCE.activeEditor;
 		var r = ed.dom.getRoot();
 
@@ -601,7 +611,6 @@ tinymce.activeEditor.formatter.register('mycode', {
 		}
 
 		// STEP 2: Handle all non-top level <br />
-		
 		// this is the standard tiny br splitting (which fails in top level Ps)
 		tinymce.each(ed.dom.select('br').reverse(), function(b) {
 			try {
@@ -611,7 +620,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 				// IE can sometimes fire an unknown runtime error so we just ignore it
 			}
 		});
-		
+
 		
 		// STEP 3: Clean up
 		
@@ -626,11 +635,172 @@ tinymce.activeEditor.formatter.register('mycode', {
 	 * This one ensures that the standard ILIAS list style classes
 	 * are assigned to list elements
 	 */
-	fixListClasses: function()
+	fixListClasses: function(handle_inner_br)
 	{
-		tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('ol'), 'ilc_list_o_NumberedList');
-		tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('ul'), 'ilc_list_u_BulletedList');
-		tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('li'), 'ilc_list_item_StandardListItem');
+		var ed = tinyMCE.activeEditor;
+		
+		ed.dom.addClass(tinyMCE.activeEditor.dom.select('ol'), 'ilc_list_o_NumberedList');
+		ed.dom.addClass(tinyMCE.activeEditor.dom.select('ul'), 'ilc_list_u_BulletedList');
+		ed.dom.addClass(tinyMCE.activeEditor.dom.select('li'), 'ilc_list_item_StandardListItem');
+		
+		if (handle_inner_br)
+		{
+			var rcopy = ed.selection.getRng(true);
+			var target_pos = false;
+			
+			// get selection start p or li tag
+			var st_cont = rcopy.startContainer.nodeName.toLowerCase();
+			if (st_cont != "p" && st_cont != "li")
+			{
+				var par = rcopy.startContainer.parentNode;
+				if (par.nodeName.toLowerCase() == "body")
+				{
+					// starting from something like a text node under body
+					// not really a parent anymore, but ok to get the previous sibling from
+					par = rcopy.startContainer;
+				}
+				else
+				{
+					// starting from a deeper node in text
+					while (par.parentNode &&
+						par.nodeName.toLowerCase() != "li" &&
+						par.nodeName.toLowerCase() != "p" &&
+						par.nodeName.toLowerCase() != "body")
+					{
+						par = par.parentNode;
+	//console.log(par);
+					}
+				}
+			}
+			else
+			{
+				var par = rcopy.startContainer;
+			}
+	//console.log(par);
+			
+			
+			// get previous sibling
+			var ps = par.previousSibling;
+			if (ps)
+			{
+				if (ps.nodeName.toLowerCase() == "p" ||
+					ps.nodeName.toLowerCase() == "li")
+				{
+					target_pos = ps;
+				}
+				if (ps.nodeName.toLowerCase() == "ul")
+				{
+					if (ps.lastChild)
+					{
+						target_pos = ps.lastChild;
+					}
+				}
+			}
+			else
+			{
+	//console.log("case d");
+				// set selection to beginning
+				var r = ed.dom.getRoot();
+				target_pos = r.childNodes[0];
+			}
+			if (this.splitTopBr())
+			{
+	//console.log("setting range");
+	
+				// set selection to start of first div
+				if (target_pos)
+				{
+					var r =  ed.dom.createRng();
+					r.setStart(target_pos, 0);
+					r.setEnd(target_pos, 0);
+					ed.selection.setRng(r);
+				}
+			}
+		}
+	},
+		
+	splitTopBr: function()
+	{
+		var changed = false;
+		
+		var ed = tinyMCE.activeEditor;
+		ed.getContent(); // this line is imporant and seems to fix some things
+		tinymce.each(ed.dom.select('br').reverse(), function(b) {
+			try {
+				var snode = ed.dom.getParent(b, 'p,li');
+				if (snode.nodeName != "LI")
+				{
+//				ed.dom.split(snode, b);
+				
+					function trim(node) {
+						var i, children = node.childNodes;
+		
+						if (node.nodeType == 1 && node.getAttribute('_mce_type') == 'bookmark')
+							return;
+		
+						for (i = children.length - 1; i >= 0; i--)
+							trim(children[i]);
+		
+						if (node.nodeType != 9) {
+							// Keep non whitespace text nodes
+							if (node.nodeType == 3 && node.nodeValue.length > 0) {
+								// If parent element isn't a block or there isn't any useful contents for example "<p>   </p>"
+								if (!t.isBlock(node.parentNode) || tinymce.trim(node.nodeValue).length > 0)
+									return;
+							}
+		
+							if (node.nodeType == 1) {
+								// If the only child is a bookmark then move it up
+								children = node.childNodes;
+								if (children.length == 1 && children[0] && children[0].nodeType == 1 && children[0].getAttribute('_mce_type') == 'bookmark')
+									node.parentNode.insertBefore(children[0], node);
+		
+								// Keep non empty elements or img, hr etc
+								if (children.length || /^(br|hr|input|img)$/i.test(node.nodeName))
+									return;
+							}
+		
+							t.remove(node);
+						}
+		
+						return node;
+					};
+
+
+					var pe = snode;
+					var e = b;
+					if (pe && e) {
+						var t = ed.dom, r = t.createRng(), bef, aft, pa;
+						
+						// Get before chunk
+						r.setStart(pe.parentNode, t.nodeIndex(pe));
+						r.setEnd(e.parentNode, t.nodeIndex(e));
+						bef = r.extractContents();
+		
+						// Get after chunk
+						r = t.createRng();
+						r.setStart(e.parentNode, t.nodeIndex(e) + 1);
+						r.setEnd(pe.parentNode, t.nodeIndex(pe) + 1);
+						aft = r.extractContents();
+		
+						// Insert before chunk
+						pa = pe.parentNode;
+						pa.insertBefore(trim(bef), pe);
+	
+						// Insert after chunk
+						pa.insertBefore(trim(aft), pe);
+						t.remove(pe);
+		
+	//					return re || e;
+						changed = true;
+					}
+				}
+				
+			} catch (ex) {
+				// IE can sometimes fire an unknown runtime error so we just ignore it
+			}
+		});
+		return changed;
 	},
 	
 	// remove all divs (used after pasting)
@@ -1921,19 +2091,49 @@ ilCOPage.copyInputToGhost(false);
 				});
 				ed.onKeyDown.add(function(ed, ev)
 				{
+//console.log(ev.keyCode);
+					
+					if(ev.keyCode == 35 || ev.keyCode == 36)
+					{
+						YAHOO.util.Event.preventDefault(ev);
+						YAHOO.util.Event.stopPropagation(ev);
+					}
+
 					if(ev.keyCode == 9 && !ev.shiftKey)
 					{
 //						console.log("tab");
 						YAHOO.util.Event.preventDefault(ev);
 						YAHOO.util.Event.stopPropagation(ev);
-						ilCOPage.editNextCell();
+						if (ilCOPage.current_td != "")
+						{
+							ilCOPage.editNextCell();
+						}
+						else
+						{
+							if (ed.queryCommandState('InsertUnorderedList') ||
+								ed.queryCommandState('InsertOrderedList'))
+							{
+								ilCOPage.cmdListIndent();
+							}
+						}
 					}
 					if(ev.keyCode == 9 && ev.shiftKey)
 					{
 //						console.log("backtab");
 						YAHOO.util.Event.preventDefault(ev);
 						YAHOO.util.Event.stopPropagation(ev);
-						ilCOPage.editPreviousCell();
+						if (ilCOPage.current_td != "")
+						{
+							ilCOPage.editPreviousCell();
+						}
+						else
+						{
+							if (ed.queryCommandState('InsertUnorderedList') ||
+								ed.queryCommandState('InsertOrderedList'))
+							{
+								ilCOPage.cmdListOutdent();
+							}
+						}
 					}
 					//console.log("onKeyDown");
 				});
@@ -1948,7 +2148,7 @@ ilCOPage.copyInputToGhost(false);
 					{
 						ilCOPage.pasting = false;
 						ilCOPage.splitDivs();
-						ilCOPage.fixListClasses();
+						ilCOPage.fixListClasses(false);
 					}
 
 					// update state of indent/outdent buttons

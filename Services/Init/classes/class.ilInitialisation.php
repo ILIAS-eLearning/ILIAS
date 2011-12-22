@@ -866,7 +866,7 @@ class ilInitialisation
 		// todo do it better, if JS disabled
 		//echo "<script language=\"Javascript\">\ntop.location.href = \"".$script."\";\n</script>\n";
 		echo "<script language=\"Javascript\">\ntop.location.href = \"".$script."\";\n</script>\n".
-			'Please click <a href="'.$script.'">here</a> if you are not redirected automatically.';
+			'Please click <a target="_top" href="'.$script.'">here</a> if you are not redirected automatically.';
 		exit;
 	}
 
@@ -904,7 +904,7 @@ class ilInitialisation
 		}
 
 		echo "<script language=\"Javascript\">\ntop.location.href = \"".$script."\";\n</script>\n".
-			'Please click <a href="'.$script.'">here</a> if you are not redirected automatically.';
+			'Please click <a target="_top" href="'.$script.'">here</a> if you are not redirected automatically.';
 
 		exit;
 
