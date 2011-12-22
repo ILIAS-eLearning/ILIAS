@@ -377,27 +377,31 @@ class ilObjFileGUI extends ilObject2GUI
 				{
 					$type = ilObject::_lookupType($this->tree->lookupObjectId($this->parent_id), false);
 				}			
+				
 				$tree = $access_handler = null;
 				switch($type)
 				{
+					// workspace structure
+					case 'wfld':
+					case 'wsrt':
+						$permission = $this->checkPermissionBool("create", "", "wfld");
+						$containerType = "WorkspaceFolder";	
+						$tree = $this->tree;
+						$access_handler = $this->getAccessHandler();						
+						break;
+					
+					// use categories as structure
 					case 'cat':
 					case 'root':
 						$permission = $this->checkPermissionBool("create", "", "cat");
 						$containerType = "Category";
 						break;
 					
-					case 'fold':
+					// use folders as structure (in courses)
+					default:
 						$permission = $this->checkPermissionBool("create", "", "fold");
 						$containerType = "Folder";	
-						break;
-					
-					case 'wfld':
-					case 'wsrt':
-						$permission = $this->checkPermissionBool("create", "", "wfld");
-						$containerType = "WorkspaceFolder";	
-						$tree = $this->tree;
-						$access_handler = $this->getAccessHandler();
-						break;						
+						break;					
 				}												
 				// 	processZipFile ( 
 				//		Dir to unzip, 
