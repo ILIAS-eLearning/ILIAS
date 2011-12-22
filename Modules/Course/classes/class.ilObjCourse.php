@@ -481,7 +481,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			);
 		if($hidden_previous)
 		{
-			$this->items['sess_link_previous'] = 1;
+			// @fixme
+			$this->items['sess_link']['prev']['value'] = 1;
 		}
 
 		$show_prev = $ilUser->getPref('crs_sess_show_prev_'.$this->getId());
@@ -502,7 +503,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		);
 		if($hidden_next)
 		{
-			$this->items['sess_link_next'] = 1;
+			// @fixme
+			$this->items['sess_link']['next']['value'] = 1;
 		}
 
 		$show_next = $ilUser->getPref('crs_sess_show_next_'.$this->getId());

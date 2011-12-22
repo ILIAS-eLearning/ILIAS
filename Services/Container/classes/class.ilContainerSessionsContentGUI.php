@@ -137,7 +137,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 			$position = 1;
 			foreach($this->items["sess"] as $item_data)
 			{
-				if($position == 1 and $this->items['sess_link_previous'])
+				if($position == 1 and $this->items['sess_link']['prev']['value'])
 				{
 					$item_html[] = $this->renderSessionLimitLink(true);
 				}
@@ -151,7 +151,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 					}
 				}
 			}
-			if($this->items['sess_link_next'])
+			if($this->items['sess_link']['next']['value'])
 			{
 				$item_html[] = $this->renderSessionLimitLink(false);
 			}
