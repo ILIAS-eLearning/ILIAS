@@ -612,14 +612,15 @@ tinymce.activeEditor.formatter.register('mycode', {
 
 		// STEP 2: Handle all non-top level <br />
 		// this is the standard tiny br splitting (which fails in top level Ps)
-		tinymce.each(ed.dom.select('br').reverse(), function(b) {
+/*		tinymce.each(ed.dom.select('br').reverse(), function(b) {
 			try {
 				var snode = ed.dom.getParent(b, 'p,li');
 				ed.dom.split(snode, b);
 			} catch (ex) {
 				// IE can sometimes fire an unknown runtime error so we just ignore it
 			}
-		});
+		});*/
+		ilCOPage.splitTopBr();
 
 		
 		// STEP 3: Clean up
