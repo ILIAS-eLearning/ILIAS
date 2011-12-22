@@ -12393,3 +12393,5 @@ wsp#:#wsp_share_with_users#:#Share with users
 acc#:#acc_last_rep_visited#:#Repository/Last Visited
 acc#:#acc_personal_desktop#:#Personal Desktop
 administration#:#adm_repository_cache_time_info2#:#It is also possible that repository objects become accessible for users with a certain time lack, e.g. after preconditions have been met or permissions have been changed.
+dateplaner#:#cal_reg_registered#:#You have been registered.
+dateplaner#:#cal_reg_unregistered#:#You have been unregistered.

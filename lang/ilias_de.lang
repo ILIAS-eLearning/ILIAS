@@ -12393,3 +12393,5 @@ wsp#:#wsp_share_with_users#:#Für Benutzer freigeben
 acc#:#acc_last_rep_visited#:#Magazin/Zuletzt besucht
 acc#:#acc_personal_desktop#:#Persönlicher Schreibtisch
 administration#:#adm_repository_cache_time_info2#:#Es kann auch vorkommen, daß Magazinobjekte erst nach einer Verzögerung für Benutzer aktiv werden, z.B. nachdem Rechteeinstellungen geändert oder Vorbedingungen erfüllt wurden.
+dateplaner#:#cal_reg_registered#:#Sie wurden für diesen Termin angemeldet.
+dateplaner#:#cal_reg_unregistered#:#Sie wurden abgemeldet.
