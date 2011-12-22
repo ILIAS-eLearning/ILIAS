@@ -8391,3 +8391,13 @@ if(!$ilDB->tableExists('note_settings'))
 		$setting->set("ilrqtix", 1);
 	}
 ?>
+<#3507>
+<?php
+	$setting = new ilSetting();
+	$ilmpathix = $setting->get("ilmpathix");
+	if (!$ilmpathix)
+	{
+		$ilDB->addIndex("mail_attachment", array("path"), "i1");
+		$setting->set("ilmpathix", 1);
+	}
+?>
