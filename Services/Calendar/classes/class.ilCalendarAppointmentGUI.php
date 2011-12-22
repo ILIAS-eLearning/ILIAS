@@ -397,7 +397,7 @@ class ilCalendarAppointmentGUI
 			include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
 			if(ilCalendarSettings::_getInstance()->isNotificationEnabled() and (bool) $_POST['not'])
 			{
-				$this->distributeNotifications($cat_id,$this->app->getEntryId(),false);
+				$this->distributeNotifications($cat_id,$this->app->getEntryId(),true);
 			}
 
 			include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
