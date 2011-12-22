@@ -656,15 +656,15 @@ class ilStartUpGUI
 				$tpl->setVariable("SHIB_IDP_LIST", $WAYF->generateSelection());
 				$tpl->setVariable("ILW_TARGET", $_GET["target"]);
 				$tpl->parseCurrentBlock();
-
-				return $this->substituteLoginPageElements(
-					$GLOBALS['tpl'],
-					$page_editor_html,
-					$tpl->get(),
-					'[list-shibboleth-login-form]',
-					'SHIB_LOGIN_FORM'
-				);
 			}
+
+			return $this->substituteLoginPageElements(
+				$GLOBALS['tpl'],
+				$page_editor_html,
+				$tpl->get(),
+				'[list-shibboleth-login-form]',
+				'SHIB_LOGIN_FORM'
+			);
 		}
 
 		return $page_editor_html;
