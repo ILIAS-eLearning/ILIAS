@@ -44,7 +44,7 @@ class ilMailForm
 	{
 		if(count($this->result->response->results) > $this->max_entries)
 		{
-			throw new ilException();
+			throw new ilException('exceeded_max_entries');
 		}
 
 		if (isset($this->setMap[$login]))
