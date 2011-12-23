@@ -36,6 +36,10 @@ class ilMailAddressbook
 			)';
 
 		$query_res = $ilDB->query($query);
+
+		$result = new stdClass();
+		$result->response = new stdClass();
+		$result->response->results = array();
 		
 		while ($row = $query_res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
