@@ -1079,10 +1079,10 @@ class ilMail
 			// REPLACE ALL LOGIN NAMES WITH '@' BY ANOTHER CHARACTER
 			$a_rcp_to = $this->__substituteRecipients($a_rcp_to, 'resubstitute');
 			$a_rcp_cc = $this->__substituteRecipients($a_rcp_cc, 'resubstitute');
-			$a_rcp_bc = $this->__substituteRecipients($a_rcp_bc, 'resubstitute');
+			$a_rcp_bcc = $this->__substituteRecipients($a_rcp_bcc, 'resubstitute');
 		}
 
-		$mbox =& new ilMailbox();
+		$mbox = new ilMailbox();
 
 		if (!$a_use_placeholders) # No Placeholders
 		{
@@ -1092,11 +1092,10 @@ class ilMail
 
 			foreach($rcp_ids as $id)
 			{
-				$tmp_mail_options =& new ilMailOptions($id);
+				$tmp_mail_options = new ilMailOptions($id);
 
 				// DETERMINE IF THE USER CAN READ INTERNAL MAILS
-				$tmp_user =& new ilObjUser($id);
-				$tmp_user->read();
+				$tmp_user = new ilObjUser($id);
 				$user_is_active = $tmp_user->getActive();
 				$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement() &&
 											    $tmp_user->checkTimeLimit();
@@ -1116,13 +1115,13 @@ class ilMail
 					if (!$user_can_read_internal_mails ||
 						$tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 					{
-						$as_email[] = $id;
+						$as_email[] = $tmp_user->getEmail();
 						continue;
 					}
 
 					if ($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
-						$as_email[] = $id;
+						$as_email[] = $tmp_user->getEmail();
 					}
 				}
 				$mbox->setUserId($id);
@@ -1142,15 +1141,15 @@ class ilMail
 			$to = array();
 			$bcc = array();
 
-			if (count($as_email) == 1)
+			if(count($as_email) == 1)
 			{
-				$to[] = ilObjUser::_lookupEmail($as_email[0]);
+				$to[] = $as_email[0];
 			}
 			else
 			{
-				foreach ($as_email as $id)
+				foreach ($as_email as $email)
 				{
-					$bcc[] = ilObjUser::_lookupEmail($id);
+					$bcc[] = $email;
 				}
 			}
 
@@ -1172,11 +1171,10 @@ class ilMail
 			// to
 			foreach($rcp_ids_replace as $id)
 			{
-				$tmp_mail_options =& new ilMailOptions($id);
+				$tmp_mail_options = new ilMailOptions($id);
 
 				// DETERMINE IF THE USER CAN READ INTERNAL MAILS
-				$tmp_user =& new ilObjUser($id);
-				$tmp_user->read();
+				$tmp_user = new ilObjUser($id);
 				$user_is_active = $tmp_user->getActive();
 				$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement() &&
 											    $tmp_user->checkTimeLimit();
@@ -1196,13 +1194,13 @@ class ilMail
 					if (!$user_can_read_internal_mails ||
 						$tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 					{
-						$as_email[] = $id;
+						$as_email[] = $tmp_user->getEmail();
 						continue;
 					}
 
 					if ($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
-						$as_email[] = $id;
+						$as_email[] = $tmp_user->getEmail();
 					}
 				}
 				$mbox->setUserId($id);
@@ -1220,9 +1218,9 @@ class ilMail
 
 			if (count($as_email))
 			{
-				foreach ($as_email as $id)
+				foreach ($as_email as $email)
 				{
-					$this->sendMimeMail(ilObjUser::_lookupEmail($id), '', '', $a_subject, $this->replacePlaceholders($a_message, $id), $a_attachments);
+					$this->sendMimeMail($email, '', '', $a_subject, $this->replacePlaceholders($a_message, $id), $a_attachments);
 				}
 			}
 
@@ -1231,11 +1229,10 @@ class ilMail
 			// cc / bcc
 			foreach($rcp_ids_no_replace as $id)
 			{
-				$tmp_mail_options =& new ilMailOptions($id);
+				$tmp_mail_options = new ilMailOptions($id);
 
 				// DETERMINE IF THE USER CAN READ INTERNAL MAILS
-				$tmp_user =& new ilObjUser($id);
-				$tmp_user->read();
+				$tmp_user = new ilObjUser($id);
 				$user_is_active = $tmp_user->getActive();
 				$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement()
 							&& $tmp_user->checkTimeLimit();
@@ -1254,13 +1251,13 @@ class ilMail
 					if (!$user_can_read_internal_mails ||
 						$tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 					{
-						$as_email[] = $id;
+						$as_email[] = $tmp_user->getEmail();
 						continue;
 					}
 
 					if ($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
-						$as_email[] = $id;
+						$as_email[] = $tmp_user->getEmail();
 					}
 				}
 				$mbox->setUserId($id);
@@ -1278,9 +1275,9 @@ class ilMail
 
 			if (count($as_email))
 			{
-				foreach ($as_email as $id)
+				foreach ($as_email as $email)
 				{
-					$this->sendMimeMail(ilObjUser::_lookupEmail($id), '', '', $a_subject, $a_message, $a_attachments);
+					$this->sendMimeMail($email, '', '', $a_subject, $a_message, $a_attachments);
 				}
 			}
 		}
@@ -1435,6 +1432,8 @@ class ilMail
 	*/
 	function getEmailsOfRecipients($a_rcp)
 	{
+		global $rbacreview;
+		
 		$addresses = array();
 
 		$this->validatePear($a_rcp);
@@ -1506,7 +1505,7 @@ class ilMail
 					include_once('./Modules/Group/classes/class.ilObjGroup.php');
 
 					// Fix
-					foreach(ilObjGroup::_getAllReferences(ilObjGroup::_lookupIdByTitle(addslashes(substr($tmp_names[$i],1)))) as $ref_id)
+					foreach(ilObjGroup::_getAllReferences(ilObjGroup::_lookupIdByTitle(addslashes(substr($rcp,1)))) as $ref_id)
 					{
 						$grp_object = ilObjectFactory::getInstanceByRefId($ref_id);
 						break;
@@ -2007,6 +2006,7 @@ class ilMail
 		$mbox = new ilMailbox($this->user_id);
 		$sent_id = $mbox->getSentFolder();
 
+		/** @todo: mjansen 23.12.2011 Why is $a_as_email undefined here?  */
 		return $this->sendInternalMail($sent_id,$this->user_id,$a_attachment,$a_rcp_to,$a_rcp_cc,
 										$a_rcp_bcc,'read',$a_type,$a_as_email,$a_m_subject,$a_m_message,$this->user_id, 0);
 	}
@@ -2674,12 +2674,13 @@ class ilMail
 	{
 		$this->use_pear = $bool;
 	}
+	
 	private function getUsePear()
 	{
 		return $this->use_pear;
 	}
 
-	// Force fallbackfor sending mails via ILIAS, if internal Pear-Validation returns PEAR_Error
+	// Force fallback for sending mails via ILIAS, if internal Pear-Validation returns PEAR_Error
 	/**
 	 *
 	 * @param <type> $a_recipients
@@ -2689,7 +2690,7 @@ class ilMail
 		if(ilMail::_usePearMail())
 		{
 			$this->setUsePear(true);
-			$tmp_names = $this->explodeRecipients($a_recipients, $this->getUsePear());
+			$tmp_names = $this->explodeRecipients($a_recipients, true);
 			if(is_a($tmp_names, 'PEAR_Error'))
 			{
 				$this->setUsePear(false);
