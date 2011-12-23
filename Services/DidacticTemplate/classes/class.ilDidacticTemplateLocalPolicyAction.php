@@ -178,15 +178,21 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		$roles = $this->filterRoles($source);
 
 		// Create role folder if there is any local role left
-
 		$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
+
 		if(count($roles) and !$rolf)
 		{
-			$source->createRoleFolder();
+			$rolf = $source->createRoleFolder();
+			$rolf = $rolf->getRefId();
 		}
 		// Create local policy for filtered roles
 		foreach($roles as $role_id => $role)
 		{
+			// No local policies for protected roles of higher context
+			if($role['protected'] and $role['parent'] != $rolf)
+			{
+				continue;
+			}
 			$this->createLocalPolicy($source,$role);
 		}
 		return true;
@@ -206,30 +212,21 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
 		$roles = $this->filterRoles($source);
 
-		$lroles = $rbacreview->getLocalRoles($source->getRefId());
-
 		// Delete local policy for filtered roles
 		foreach($roles as $role_id => $role)
 		{
-			if(!in_array($role_id,$lroles))
+			// Do not delete local roles of auto genrated roles
+			if($rbacreview->isLocalRole($role['obj_id'],$role['parent']) and
+				$rbacreview->isSystemGeneratedRole($role['obj_id']))
+			{
+				$this->revertLocalPolicy($source, $role);
+			}
+			else
 			{
 				$rbacadmin->deleteLocalRole($role_id,$rolf);
 			}
+			
 		}
-
-		// Set permissions
-		$parentRoles = $rbacreview->getParentRoleIds($tree->getParentId($source->getRefId()));
-		foreach ($parentRoles as $parRol)
-		{
-			$ops = $rbacreview->getOperationsOfRole(
-				$parRol["obj_id"],
-				$source->getType(),
-				$parRol["parent"]
-			);
-			$rbacadmin->grantPermission($parRol["obj_id"], $ops, $this->getRefId());
-		}
-
-
 		return true;
 	}
 
@@ -424,11 +421,75 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
 		}
 
-		// Adjust permissions
-		$ops = $rbacreview->getOperationsOfRole($role['obj_id'], $source->getType(), $role_folder_id);
-		$rbacadmin->grantPermission($role['obj_id'], $ops, $source->getRefId());
+		// Change existing object
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$role_obj = new ilObjRole($role['obj_id']);
+		$role_obj->changeExistingObjects(
+			$source->getRefId(),
+			$role['protected'] ? ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES : ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
+			array('all')
+		);
 
 		return true;
+	}
+
+	protected function revertLocalPolicy(ilObject $source, $role)
+	{
+		global $rbacadmin, $rbacreview, $ilDB;
+
+		$GLOBALS['ilLog']->write(__METHOD__.': Reverting policy for role: '.print_r($role,true));
+
+		// Local policies can only be reverted for auto generated roles. Otherwise the
+		// original role settings are unknown
+		if(substr($role['title'],0,3) != 'il_')
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Cannot revert local policy for role '. $role['title']);
+			return false;
+		}
+
+
+		$role_folder_id = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
+		// No role folder found
+		if(!$role_folder_id)
+		{
+			return false;
+		}
+
+		$exploded_title = explode('_',$role['title']);
+		$rolt_title = $exploded_title[0].'_'.$exploded_title[1].'_'.$exploded_title[2];
+
+		// Lookup role template
+		$query = 'SELECT obj_id FROM object_data '.
+			'WHERE title = '.$ilDB->quote($rolt_title,'text').' '.
+			'AND type = '.$ilDB->quote('rolt','text');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$rolt_id = $row->obj_id;
+		}
+
+		// No template found
+		if(!$rolt_id)
+		{
+			return false;
+		}
+
+		$rbacadmin->copyRoleTemplatePermissions(
+			$rolt_id,
+			ROLE_FOLDER_ID,
+			$role_folder_id,
+			$role['obj_id'],
+			true
+		);
+
+		// Change existing object
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$role_obj = new ilObjRole($role['obj_id']);
+		$role_obj->changeExistingObjects(
+			$source->getRefId(),
+			$role['protected'] ? ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES : ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
+			array('all')
+		);
 	}
 }
 ?>
