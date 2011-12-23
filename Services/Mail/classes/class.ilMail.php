@@ -124,8 +124,6 @@
 *
 */
 
-require_once "Services/User/classes/class.ilObjUser.php";
-
 class ilMail
 {
 	/**
@@ -236,6 +234,11 @@ class ilMail
 	 *
 	 */
 	protected $properties = array();
+	
+	/**
+	 * @var array<ilObjUser>
+	 */
+	protected static $userInstances = array();
 
 	/**
 	* Constructor
@@ -486,17 +489,15 @@ class ilMail
 					$recipient = trim($recipient);
 					if($uid = ilObjUser::_lookupId($recipient))
 					{
-						$tmp_obj = new ilObjUser($uid);
-
 						if (in_array(ilObjUser::_lookupPref($uid, 'public_profile'), array("y", "g")))
 						{
+							$tmp_obj = self::getCachedUserInstance($uid);
 							$rcp_to_array[] = $tmp_obj->getFullname().' ['.$recipient.']';
 						}
 						else
 						{
 							$rcp_to_array[] = $recipient;
 						}
-						unset($tmp_obj);
 					}
 					else
 					{
@@ -509,15 +510,14 @@ class ilMail
 			else
 			{
 				if($uid = ilObjUser::_lookupId($users))
-				{
-					$tmp_obj = new ilObjUser($uid);
+				{					
 					if (in_array(ilObjUser::_lookupPref($uid, 'public_profile'), array("y", "g")))
 					{
+						$tmp_obj = self::getCachedUserInstance($uid);
 						return $tmp_obj->getFullname().' ['.$users.']';
 					}
 					else
 					{
-						unset($tmp_obj);
 						return $users;
 					}
 				}
@@ -1031,7 +1031,7 @@ class ilMail
 	{
 		global $lng;
 
-		$user = new ilObjUser($a_user_id);
+		$user = self::getCachedUserInstance($a_user_id);
 
 		// determine salutation
 		switch ($user->getGender())
@@ -1048,8 +1048,6 @@ class ilMail
 		$a_message = str_replace('[LAST_NAME]', $user->getLastname(), $a_message);
 		$a_message = str_replace('[ILIAS_URL]', ILIAS_HTTP_PATH.'/login.php?client_id='.CLIENT_ID, $a_message);
 		$a_message = str_replace('[CLIENT_NAME]', CLIENT_NAME, $a_message);
-
-		unset($user);
 
 		return $a_message;
 	}
@@ -1095,7 +1093,7 @@ class ilMail
 				$tmp_mail_options = new ilMailOptions($id);
 
 				// DETERMINE IF THE USER CAN READ INTERNAL MAILS
-				$tmp_user = new ilObjUser($id);
+				$tmp_user = self::getCachedUserInstance($id);
 				$user_is_active = $tmp_user->getActive();
 				$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement() &&
 											    $tmp_user->checkTimeLimit();
@@ -1174,7 +1172,7 @@ class ilMail
 				$tmp_mail_options = new ilMailOptions($id);
 
 				// DETERMINE IF THE USER CAN READ INTERNAL MAILS
-				$tmp_user = new ilObjUser($id);
+				$tmp_user = self::getCachedUserInstance($id);
 				$user_is_active = $tmp_user->getActive();
 				$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement() &&
 											    $tmp_user->checkTimeLimit();
@@ -1232,7 +1230,7 @@ class ilMail
 				$tmp_mail_options = new ilMailOptions($id);
 
 				// DETERMINE IF THE USER CAN READ INTERNAL MAILS
-				$tmp_user = new ilObjUser($id);
+				$tmp_user = self::getCachedUserInstance($id);
 				$user_is_active = $tmp_user->getActive();
 				$user_can_read_internal_mails = $tmp_user->hasAcceptedUserAgreement()
 							&& $tmp_user->checkTimeLimit();
@@ -1452,7 +1450,7 @@ class ilMail
 
 						if ($id = ilObjUser::getUserIdByLogin(addslashes($rcp->mailbox)))
 						{
-							$tmp_user = new ilObjUser($id);
+							$tmp_user = self::getCachedUserInstance($id);
 							$addresses[] = $tmp_user->getEmail();
 							continue;
 						}
@@ -1465,7 +1463,7 @@ class ilMail
 						{
 							foreach($rbacreview->assignedUsers($role_id) as $usr_id)
 							{
-								$tmp_user = new ilObjUser($usr_id);
+								$tmp_user = self::getCachedUserInstance($usr_id);
 								$addresses[] = $tmp_user->getEmail();
 							}
 						}
@@ -1490,7 +1488,7 @@ class ilMail
 
 					if ($id = ilObjUser::getUserIdByLogin(addslashes($rcp)))
 					{
-						$tmp_user = new ilObjUser($id);
+						$tmp_user = self::getCachedUserInstance($id);
 						$addresses[] = $tmp_user->getEmail();
 						continue;
 					}
@@ -1510,7 +1508,7 @@ class ilMail
 					// GET EMAIL OF MEMBERS AND STORE THEM IN $addresses
 					foreach ($grp_object->getGroupMemberIds() as $id)
 					{
-						$tmp_user = new ilObjUser($id);
+						$tmp_user = self::getCachedUserInstance($id);
 						$addresses[] = $tmp_user->getEmail();
 					}
 				}
@@ -2184,7 +2182,7 @@ class ilMail
 	*/
 	function getEmailOfSender()
 	{
-		$umail = new ilObjUser($this->user_id);
+		$umail = self::getCachedUserInstance($this->user_id);
 		$sender = $umail->getEmail();
 
 		if (ilUtil::is_email($sender))
@@ -2491,8 +2489,7 @@ class ilMail
 			if ($login == null)
 			{
 				require_once './Services/User/classes/class.ilObjUser.php';
-				$usr_obj = new ilObjUser($usr_id);
-				$usr_obj->read();
+				$usr_obj = self::getCachedUserInstance($usr_id);
 				$login = $usr_obj->getLogin();
 				$firstname = $usr_obj->getFirstname();
 				$lastname = $usr_obj->getLastname();
@@ -2699,6 +2696,25 @@ class ilMail
 		}
 	}
 
+	/**
+	 * 
+	 * Returns a cached instance of ilObjUser
+	 * 
+	 * @static
+	 * @param integer $a_usr_id
+	 * @return ilObjUser
+	 */
+	protected static function getCachedUserInstance($a_usr_id)
+	{
+		if(isset(self::$userInstances[$a_usr_id]))
+		{
+			return self::$userInstances[$a_usr_id];
+		}
 
+		require_once 'Services/User/classes/class.ilObjUser.php';
+
+		self::$userInstances[$a_usr_id] = new ilObjUser($a_usr_id);
+		return self::$userInstances[$a_usr_id];
+	}
 } // END class.ilMail
 ?>
