@@ -1194,13 +1194,13 @@ class ilMail
 					if (!$user_can_read_internal_mails ||
 						$tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 					{
-						$as_email[] = $tmp_user->getEmail();
+						$as_email[$tmp_user->getId()] = $tmp_user->getEmail();
 						continue;
 					}
 
 					if ($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 					{
-						$as_email[] = $tmp_user->getEmail();
+						$as_email[$tmp_user->getId()] = $tmp_user->getEmail();
 					}
 				}
 				$mbox->setUserId($id);
@@ -1218,7 +1218,7 @@ class ilMail
 
 			if (count($as_email))
 			{
-				foreach ($as_email as $email)
+				foreach ($as_email as $id => $email)
 				{
 					$this->sendMimeMail($email, '', '', $a_subject, $this->replacePlaceholders($a_message, $id), $a_attachments);
 				}
@@ -1275,10 +1275,7 @@ class ilMail
 
 			if (count($as_email))
 			{
-				foreach ($as_email as $email)
-				{
-					$this->sendMimeMail($email, '', '', $a_subject, $a_message, $a_attachments);
-				}
+				$this->sendMimeMail('', '', implode(',', $as_email), $a_subject, $a_message, $a_attachments);
 			}
 		}
 
