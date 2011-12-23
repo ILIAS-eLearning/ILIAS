@@ -553,13 +553,18 @@ class ilMainMenuGUI
 					"_top");
 			}
 
+			// overview is always active
 			$gl->addSeparator();
+			
+			$separator = false;
 			
 			if(!$ilSetting->get("disable_personal_workspace"))
 			{
 				// workspace
 				$gl->addEntry($lng->txt("personal_workspace"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace",
 					"_top");
+				
+				$separator = true;
 			}
 			
 			// portfolio
@@ -567,6 +572,8 @@ class ilMainMenuGUI
 			{
 				$gl->addEntry($lng->txt("portfolio"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToPortfolio",
 					"_top");
+				
+				$separator = true;
 			}
 			
 			// skills
@@ -575,6 +582,8 @@ class ilMainMenuGUI
 			{
 				$gl->addEntry($lng->txt("skills"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSkills",
 					"_top");
+				
+				$separator = true;
 			}
 
 			// Learning Progress
@@ -584,9 +593,16 @@ class ilMainMenuGUI
 				//$ilTabs->addTarget("learning_progress", $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"));
 				$gl->addEntry($lng->txt("learning_progress"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToLP",
 					"_top");
+				
+				$separator = true;
 			}
 
-			$gl->addSeparator();
+			if($separator)
+			{
+				$gl->addSeparator();
+			}
+			
+			$separator = false;
 			
 			// calendar
 			include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
@@ -595,12 +611,16 @@ class ilMainMenuGUI
 			{
 				$gl->addEntry($lng->txt("calendar"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToCalendar",
 					"_top");
+				
+				$separator = true;
 			}
 
 			// mail
 			if($this->mail)
 			{
 				$gl->addEntry($lng->txt('mail'), 'ilias.php?baseClass=ilMailGUI', '_top');
+				
+				$separator = true;
 			}
 
 			// contacts
@@ -609,9 +629,14 @@ class ilMainMenuGUI
 				$rbacsystem->checkAccess('mail_visible', ilMailGlobalServices::getMailObjectRefId())))
 			{
 				$gl->addEntry($lng->txt('mail_addressbook'), 'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts', '_top');
+				
+				$separator = true;
 			}
 			
-			$gl->addSeparator();
+			if($separator)
+			{
+				$gl->addSeparator();
+			}
 			
 			// profile
 			$gl->addEntry($lng->txt("personal_profile"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
