@@ -867,7 +867,7 @@ class ilSCORM13Player
 		       . 'FROM cp_datamap ' 
 			   . 'WHERE slm_id = %s '
 			   . 'AND sco_node_id = %s ' 
-			   . 'GROUP BY target_id, read_shared_data';
+			   . 'GROUP BY target_id, read_shared_data, write_shared_data';
 			   
 		
 		$res = $ilDB->queryF(

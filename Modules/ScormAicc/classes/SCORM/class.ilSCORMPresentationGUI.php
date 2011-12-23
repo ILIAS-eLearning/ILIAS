@@ -502,8 +502,8 @@ class ilSCORMPresentationGUI
 		$s_out = 'IliasScormData=[';
 		$tquery = 'SELECT sco_id,lvalue,rvalue FROM scorm_tracking '
 				.'WHERE user_id = %s AND obj_id = %s '
-				."AND sco_id > 0 AND lvalue <> 'cmi.core.entry' AND lvalue <> 'cmi.core.session_time'";
-		if ($b_readInteractions == 'false') $tquery.=" AND LEFT(lvalue,16) <> 'cmi.interactions'";
+				."AND sco_id > 0 AND lvalue != 'cmi.core.entry' AND lvalue != 'cmi.core.session_time'";
+		if ($b_readInteractions == 'false') $tquery.=" AND SUBSTR(lvalue, 1, 16) != 'cmi.interactions'";
 		$val_set = $ilDB->queryF($tquery,
 			array('integer','integer'),
 			array($ilUser->getId(),$this->slm->getId())	
