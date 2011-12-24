@@ -591,7 +591,7 @@ class ilSkillTreeNode
 		&$a_copied_nodes, $a_as_copy = false, $a_add_suffix = false)
 	{
 		global $ilUser, $ilias, $ilLog, $lng;
-if ($a_target == 6) mk();
+
 		$item_type = ilSkillTreeNode::_lookupType($a_item_id);
 
 		if ($item_type == "scat")
