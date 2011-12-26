@@ -358,7 +358,7 @@ class ilTemplate extends ilTemplateX
 
 			if (isset($_SESSION[$m]) && $_SESSION[$m])
 			{
-				session_unregister($m);
+				unset($_SESSION[$m]);
 			}
 		}
 		
