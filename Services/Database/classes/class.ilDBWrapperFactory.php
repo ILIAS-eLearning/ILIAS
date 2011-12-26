@@ -34,6 +34,11 @@ class ilDBWrapperFactory
 				$ilDB = new ilDBMySQL();
 				break;
 
+			case "postgres":
+				include_once("./Services/Database/classes/class.ilDBPostgreSQL.php");
+				$ilDB = new ilDBPostgreSQL();
+				break;
+
 			case "oracle":
 				include_once("./Services/Database/classes/class.ilDBOracle.php");
 				$ilDB = new ilDBOracle();

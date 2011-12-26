@@ -183,10 +183,7 @@ class ilClient
 		$this->db->setDBPassword($this->getdbPass());
 		$this->db->setDBHost($this->getdbHost());
 		$this->db->setDBName($this->getdbName());
-//if ($this->getdbType() != "oracle")
-//{
 		$con = $this->db->connect(true);
-//}
 		
 		if (!$con)
 		{
@@ -250,6 +247,16 @@ class ilClient
 					'password' => $this->getdbPass(),
 					'service' => $this->getdbName()
 					);
+				break;
+
+			case "postgres":
+				$db_port_str = "";
+				if (trim($this->getdbPort()) != "")
+				{
+					$db_port_str = ":".$this->getdbPort();
+				}
+				$this->dsn_host = "pgsql://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost().$db_port_str;
+				$this->dsn = "pgsql://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost().$db_port_str."/".$this->getdbName();
 				break;
 				
 			case "mysql":
@@ -415,11 +422,10 @@ class ilClient
 		
 		//connect to databasehost
 		$db = $this->db_connections->connectHost($this->dsn_host);
-//var_dump($db); exit;
 		if (MDB2::isError($db))
 		{
 			//$this->error = $db->getMessage()."! Please check database hostname, username & password.";
-			$this->error = $db->getMessage()." - ".$lng->txt("db_error_please_check");
+			$this->error = $db->getMessage()." - ".$db->getUserInfo()." - ".$lng->txt("db_error_please_check");
 			return false;
 		}
 		

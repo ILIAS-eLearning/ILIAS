@@ -1520,6 +1520,7 @@ else
 		$options = array(
 			"mysql" => "MySQL 5.0.x or higher",
 			"oracle" => "Oracle 10g or higher",
+			"postgres" => "Postgres (experimental)"
 			);
 		$si = new ilSelectInputGUI($lng->txt("db_type"), "db_type");
 		$si->setOptions($options);
@@ -1615,7 +1616,7 @@ else
 		$this->form->addItem($ti);
 		
 		// db name
-		if ($_SESSION["db_type"] == "mysql")
+		if (in_array($_SESSION["db_type"], array("mysql", "postgres")))
 		{
 			$ti = new ilTextInputGUI($lng->txt("db_name"), "db_name");
 			$ti->setRequired(true);

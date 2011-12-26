@@ -342,7 +342,7 @@ class ilSetup extends PEAR
 		}
 		
 		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
-		if ($db->getDBType() == "oracle")
+		if (in_array($db->getDBType(), array("oracle", "postgres")))
 		{
 			if(@is_dir('./setup/sql/ilDBTemplate'))
 			{

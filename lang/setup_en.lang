@@ -524,3 +524,4 @@ zipcode#:#Zip Code
 sess_mode#:#Session Mode
 sess_fixed_duration#:#Fixed Session Duration
 sess_load_dependent_session_handling#:#Load Dependent Session Handling
+db_postgres#:#PostgreSQL

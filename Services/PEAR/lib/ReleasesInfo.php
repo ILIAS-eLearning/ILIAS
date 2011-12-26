@@ -23,6 +23,11 @@ MDB2_Driver_mysql	1.4.1
 MDB2_Driver_oci8	1.4.1
 	Depends:
 	MDB2			2.4.1
+
+MDB2_Driver_pgsql	1.4.1
+	Depends:
+	MDB2			2.4.1
+	
 HTML_Template_IT	1.2.1
 
 HTTP_Request		1.4.4
