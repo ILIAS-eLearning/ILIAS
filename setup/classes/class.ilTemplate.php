@@ -190,7 +190,7 @@ class ilTemplate extends ilTemplateX
 
 			if ($_SESSION[$m])
 			{
-				session_unregister($m);
+				unset($_SESSION[$m]);
 			}
 		}
 		
@@ -404,7 +404,7 @@ class ilTemplate extends ilTemplateX
 
 			if ($_SESSION[$m])
 			{
-				session_unregister($m);
+				unset($_SESSION[$m]);
 			}
 		}
 		
