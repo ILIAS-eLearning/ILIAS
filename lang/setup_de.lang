@@ -532,3 +532,4 @@ lang_ja#:#Japanisch###04 10 2011 new variable
 sess_mode#:#Session-Modus
 sess_fixed_duration#:#Fixe Session-Dauer
 sess_load_dependent_session_handling#:#Lastabhängige Session-Einstellungen
+db_postgres#:#PostgreSQL
