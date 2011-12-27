@@ -216,6 +216,13 @@ class ilDBOracle extends ilDB
 			$placeholders[] = "%s";
 			$placeholders2[] = ":$k";
 			$types[] = $col[0];
+			
+			// integer auto-typecast (this casts bool values to integer) 
+			if ($col[0] == 'integer' && !is_null($col[1]))
+			{
+				$col[1] = (int) $col[1];
+			}
+
 			$values[] = $col[1];
 			$field_values[$k] = $col[1];
 			if ($col[0] == "blob" || $col[0] == "clob")
@@ -238,7 +245,7 @@ class ilDBOracle extends ilDB
 		{
 			$aboc[] = "a.".$k." = b.".$k;
 		}
-		if ($lobs)	// lobs -> use prepare execute (autoexecute broken in PEAR 2.4.1)
+		if ($lobs)	// delete/insert
 		{
 			$this->manipulate("DELETE FROM ".$a_table." WHERE ".
 				implode ($delwhere, " AND ")

@@ -1481,6 +1481,13 @@ abstract class ilDB extends PEAR
 			$placeholders[] = "%s";
 			$placeholders2[] = ":$k";
 			$types[] = $col[0];
+			
+			// integer auto-typecast (this casts bool values to integer) 
+			if ($col[0] == 'integer' && !is_null($col[1]))
+			{
+				$col[1] = (int) $col[1];
+			}
+			
 			$values[] = $col[1];
 			$field_values[$k] = $col[1];
 			if ($col[0] == "blob" || $col[0] == "clob")
@@ -1535,6 +1542,13 @@ abstract class ilDB extends PEAR
 			$placeholders[] = "%s";
 			$placeholders2[] = ":$k";
 			$types[] = $col[0];
+			
+			// integer auto-typecast (this casts bool values to integer) 
+			if ($col[0] == 'integer' && !is_null($col[1]))
+			{
+				$col[1] = (int) $col[1];
+			}
+
 			$values[] = $col[1];
 			$field_values[$k] = $col[1];
 			if ($col[0] == "blob" || $col[0] == "clob")
@@ -1619,6 +1633,13 @@ abstract class ilDB extends PEAR
 			$placeholders[] = "%s";
 			$placeholders2[] = ":$k";
 			$types[] = $col[0];
+			
+			// integer auto-typecast (this casts bool values to integer) 
+			if ($col[0] == 'integer' && !is_null($col[1]))
+			{
+				$col[1] = (int) $col[1];
+			}
+			
 			$values[] = $col[1];
 			$field_values[$k] = $col[1];
 			if ($col[0] == "blob" || $col[0] == "clob")
@@ -2034,20 +2055,21 @@ abstract class ilDB extends PEAR
 	//
 	
 	/**
-	* Wrapper for quote method. Deprecated, use prepare/prepareManip instead.
-	*/
+	 * Wrapper for quote method.
+	 */
 	function quote($a_query, $a_type = null)
 	{
 		if ($a_query == "" && is_null($a_type))
 		{
 			$a_query = "";
 		}
+		
 		// Performance fix
-
 		if($a_type == 'integer' && !is_null($a_query))
 		{
 			return (int) $a_query;
 		}
+		
 		if ($a_type == "blob" || $a_type == "clob")
 		{
 			$this->raisePearError("ilDB::quote: Quoting not allowed on type '".$a_type."'. Please use ilDB->insert and ilDB->update to write clobs.", $this->error_class->FATAL);
@@ -2067,6 +2089,7 @@ abstract class ilDB extends PEAR
 	{
 		return $this->db->quoteIdentifier($a_identifier);
 	}
+	
 
 	//
 	// Transaction and Locking methods
