@@ -195,9 +195,6 @@ ilOverlayFunc.prototype =
 		var cl_reg = YAHOO.util.Dom.getClientRegion();
 		
 		// make it smaller, if window height is not sufficient
-// since tablets do not show the scrollbar, we keep the size and user must
-// use "whole page scrolling" instead"
-/*
 		if (cl_reg.height < el_reg.height + 20)
 		{
 			var newHeight = cl_reg.height - 20;
@@ -212,7 +209,7 @@ ilOverlayFunc.prototype =
 				this.widthFixed[id] = true;
 			}
 			el_reg = YAHOO.util.Region.getRegion(el);
-		}*/
+		}
 		
 		// to low -> show it higher
 		if (cl_reg.bottom < el_reg.bottom)
