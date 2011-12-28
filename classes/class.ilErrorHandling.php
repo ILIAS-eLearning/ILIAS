@@ -84,7 +84,7 @@ class ilErrorHandling extends PEAR
 				"Last Error:". $a_error_obj->getMessage();
 			//return;
 			$log->logError($a_error_obj->getCode(), $m);
-			session_unregister("failure");
+			unset($_SESSION["failure"]);
 			die ($m);
 		}
 

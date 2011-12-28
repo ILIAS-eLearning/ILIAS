@@ -877,9 +877,11 @@ class ilObjBlogGUI extends ilObject2GUI
 				$wtpl->parseCurrentBlock();
 			}
 			
-			$page = new ilBlogPosting($item["id"]);
-			$page->buildDom();
-			$snippet = $page->getFirstParagraphText();
+			include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
+			$bpgui = new ilBlogPostingGUI($this->node_id, $this->getAccessHandler(), $item["id"]);
+			$bpgui->setRawPageContent(true);
+			$bpgui->setAbstractOnly(true);
+			$snippet = $bpgui->showPage();
 			
 			if($snippet)
 			{
