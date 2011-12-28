@@ -71,7 +71,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
 		$new_type = $_POST["new_type"]
 			? $_POST["new_type"]
 			: $_GET["new_type"];
@@ -90,7 +89,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$_GET["mepitem_id"] = $tree->getRootId();
 			}
 		}
-
 		if ($cmd == "create")
 		{
 			switch($_POST["new_type"])
@@ -105,7 +103,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 					break;
 			}
 		}
-				
+
 		switch($next_class)
 		{
 			case 'ilmediapoolpagegui':
@@ -1495,6 +1493,12 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		if ($this->ctrl->getCmd() == "infoScreen")
+		{
+			$this->ctrl->setCmd("showSummary");
+			$this->ctrl->setCmdClass("ilinfoscreengui");
 		}
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
