@@ -441,6 +441,9 @@ class ilObjExercise extends ilObject
 	 */
 	function sendAssignment($a_exc_id, $a_ass_id, $a_members)
 	{
+		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+		$ass_title = ilExAssignment::lookupTitle($a_ass_id);
+
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($a_exc_id, $a_ass_id);
 		$files = $storage->getFiles();
@@ -462,7 +465,7 @@ class ilObjExercise extends ilObject
 		$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
 		$message = $tmp_mail_obj->sendMail(
 			$this->__formatRecipients($a_members),"","",
-			$this->__formatSubject(), $this->__formatBody($a_ass_id),
+			$this->__formatSubject($ass_title), $this->__formatBody($a_ass_id),
 			count($file_names) ? $file_names : array(),array("normal"));
 
 		unset($tmp_mail_obj);
@@ -524,9 +527,16 @@ class ilObjExercise extends ilObject
 		return $body;
 	}
 
-	function __formatSubject()
+	function __formatSubject($a_ass_title = "")
 	{
-		return $subject = $this->getTitle()." (".$this->getDescription().")";
+		$subject = $this->getTitle();
+		
+		if ($a_ass_title != "")
+		{
+			$subject.= ": ".$a_ass_title;
+		}
+
+		return $subject;
 	}
 
 	function __formatRecipients($a_members)
