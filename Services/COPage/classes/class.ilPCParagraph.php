@@ -714,6 +714,19 @@ echo htmlentities($a_text);*/
 				$a_text = str_replace("[".$found[1]."]", "[error: xln".$found[1]."]",$a_text);
 			}
 		}
+		
+		// ie/tinymce fix for links without "", see bug #8391
+		while (eregi("\[(xln$ws(url$ws=$ws(([^]])*)))$ws\]", $a_text, $found))
+		{
+			if ($found[3] != "")
+			{
+				$a_text = str_replace("[".$found[1]."]", "<ExtLink Href=\"".$found[3]."\">", $a_text);
+			}
+			else
+			{
+				$a_text = str_replace("[".$found[1]."]", "[error: xln".$found[1]."]",$a_text);
+			}
+		}
 		$a_text = eregi_replace("\[\/xln\]","</ExtLink>",$a_text);
 		
 		// anchor
