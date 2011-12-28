@@ -253,7 +253,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	{
 		$this->setTemplateOutput(false);
 
-		$this->setPresentationTitle($this->getBlogPosting()->getTitle());
+		if (!$this->getAbstractOnly())
+		{
+			$this->setPresentationTitle($this->getBlogPosting()->getTitle());
+		}
 		$this->getBlogPosting()->increaseViewCnt();
 		
 		return parent::showPage();

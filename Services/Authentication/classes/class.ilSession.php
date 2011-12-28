@@ -339,5 +339,39 @@ class ilSession
 		}
 		return $users;
 	}
+	
+	/**
+	 * Set a value
+	 *
+	 * @param
+	 * @return
+	 */
+	function set($a_var, $a_val)
+	{
+		$_SESSION[$a_var] = $a_val;
+	}
+	
+	/**
+	 * Get a value
+	 *
+	 * @param
+	 * @return
+	 */
+	function get($a_var)
+	{
+		return $_SESSION[$a_var];
+	}
+	
+	/**
+	 * Unset a value
+	 *
+	 * @param
+	 * @return
+	 */
+	function clear($a_var)
+	{
+		unset($_SESSION[$a_var]);
+	}
+	
 }
 ?>

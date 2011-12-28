@@ -697,11 +697,10 @@ class ilObjectGUI
 	public function confirmedDeleteObject()
 	{
 		global $ilSetting, $lng;
-
 		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
 		$ru = new ilRepUtilGUI($this);
-		$ru->deleteObjects($_GET["ref_id"], $_SESSION["saved_post"]);
-		session_unregister("saved_post");
+		$ru->deleteObjects($_GET["ref_id"], ilSession::get("saved_post"));
+		ilSession::clear("saved_post");
 		$this->ctrl->returnToParent($this);
 	}
 
@@ -712,7 +711,7 @@ class ilObjectGUI
 	*/
 	public function cancelDeleteObject()
 	{
-		session_unregister("saved_post");
+		ilSession::clear("saved_post");
 		$this->ctrl->returnToParent($this);
 	}
 
@@ -738,7 +737,7 @@ class ilObjectGUI
 	*/
 	public function cancelObject($in_rep = false)
 	{
-		session_unregister("saved_post");
+		ilSession::clear("saved_post");
 		$this->ctrl->returnToParent($this);
 	}
 
@@ -1535,7 +1534,7 @@ class ilObjectGUI
 		}
 
 		// SAVE POST VALUES (get rid of this
-		$_SESSION["saved_post"] = $_POST["id"];
+		ilSession::set("saved_post", $_POST["id"]);
 
 		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
 		$ru = new ilRepUtilGUI($this);
@@ -1672,7 +1671,7 @@ class ilObjectGUI
 
 	protected function hitsperpageObject()
 	{
-        $_SESSION["tbl_limit"] = $_POST["hitsperpage"];
+        ilSession::set("tbl_limit", $_POST["hitsperpage"]);
         $_GET["limit"] = $_POST["hitsperpage"];
 	}
 	
@@ -2007,7 +2006,7 @@ class ilObjectGUI
 					$type = $this->object->getType();
 				}
 
-				$_SESSION["il_rep_ref_id"] = "";
+				ilSession::clear("il_rep_ref_id");
 				ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 				ilUtil::redirect("goto.php?target=".$type."_".$a_ref_id);
 			}

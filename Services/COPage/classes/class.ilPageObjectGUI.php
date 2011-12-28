@@ -66,6 +66,7 @@ class ilPageObjectGUI
 	var $enable_keywords = false;
 	var $enable_anchors = false;
 	var $tabs_enabled = true;
+	private $abstract_only = false;
 	private $enabledloginpage = false;
 	
 	//var $pl_start = "&#123;&#123;&#123;&#123;&#123;";
@@ -1117,6 +1118,26 @@ class ilPageObjectGUI
 	}
 	
 	/**
+	 * Set abstract only
+	 *
+	 * @param boolean $a_val get only abstract (first text paragraph)	
+	 */
+	function setAbstractOnly($a_val)
+	{
+		$this->abstract_only = $a_val;
+	}
+	
+	/**
+	 * Get abstract only
+	 *
+	 * @return boolean get only abstract (first text paragraph)
+	 */
+	function getAbstractOnly()
+	{
+		return $this->abstract_only;
+	}
+	
+	/**
 	* Activate meda data editor
 	*
 	* @param	int		$a_rep_obj_id		object id as used in repository
@@ -1774,10 +1795,17 @@ class ilPageObjectGUI
 			}
 		}
 
-
-		$content = $this->obj->getXMLFromDom(false, true, true,
-			$link_xml.$this->getQuestionXML().$template_xml);
-
+		if ($this->getAbstractOnly())
+		{
+			$content = "<dummy><PageObject><PageContent><Paragraph>".
+				$this->obj->getFirstParagraphText().$link_xml.
+				"</Paragraph></PageContent></PageObject></dummy>";
+		}
+		else
+		{
+			$content = $this->obj->getXMLFromDom(false, true, true,
+				$link_xml.$this->getQuestionXML().$template_xml);
+		}
 
 		// check validation errors
 		if($builded !== true)
@@ -1944,6 +1972,7 @@ class ilPageObjectGUI
 		// check cache (same parameters, non-edit mode and rendered time
 		// > last change
 		if (($this->getOutputMode() == "preview" || $this->getOutputMode() == "presentation") &&
+			!$this->getAbstractOnly() &&
 			$md5 == $this->obj->getRenderMd5() &&
 			($this->obj->getLastChange() < $this->obj->getRenderedTime()) &&
 			$this->obj->getRenderedTime() != "" &&
@@ -1971,6 +2000,7 @@ class ilPageObjectGUI
 			$output = xslt_process($xh, "arg:/_xml","arg:/_xsl", NULL, $args, $params);
 			
 			if (($this->getOutputMode() == "presentation" || $this->getOutputMode() == "preview")
+				&& !$this->getAbstractOnly()
 				&& $this->obj->old_nr == 0)
 			{
 //echo "writerenderedcontent";

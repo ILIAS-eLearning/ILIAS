@@ -169,8 +169,8 @@ class ilTemplate extends ilTemplateX
 				$m = "mess_question";
 			}
 
-			$txt = ($_SESSION[$m] != "")
-				? $_SESSION[$m]
+			$txt = (ilSession::get($m) != "")
+				? ilSession::get($m)
 				: $this->message[$m];
 				
 			if ($m == "mess_question")
@@ -188,9 +188,9 @@ class ilTemplate extends ilTemplateX
 				$m = "mess_question";
 			}
 
-			if ($_SESSION[$m])
+			if (ilSession::get($m))
 			{
-				unset($_SESSION[$m]);
+				ilSession::clear($m);
 			}
 		}
 		
@@ -211,7 +211,7 @@ class ilTemplate extends ilTemplateX
 		if (((substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
 			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "adm_menu.php")))
 		{
-			$_SESSION["post_vars"] = $_POST;
+			ilSession::set("post_vars", $_POST);
 
 			// referer is modified if query string contains cmd=gateway and $_POST is not empty.
 			// this is a workaround to display formular again in case of error and if the referer points to another page
@@ -236,16 +236,19 @@ class ilTemplate extends ilTemplateX
 					$str .= "&".$key."=".$val;
 				}
 
-				$_SESSION["referer"] = preg_replace("/cmd=gateway/",substr($str,1),$_SERVER["REQUEST_URI"]);
-				$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
+				ilSession::set("referer",
+					preg_replace("/cmd=gateway/",substr($str,1),$_SERVER["REQUEST_URI"]));
+				ilSession::set("referer_ref_id",
+					(int) $_GET['ref_id']);
 			}
 			else
 			{
-				$_SESSION["referer"] = $_SERVER["REQUEST_URI"];
-				$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
+				ilSession::set("referer", $_SERVER["REQUEST_URI"]);
+				ilSession::set("referer_ref_id",
+					(int) $_GET['ref_id']);
 			}
 
-			unset($_SESSION["error_post_vars"]);
+			ilSession::clear("error_post_vars");
 		}
 	}
 
@@ -358,7 +361,7 @@ class ilTemplate extends ilTemplateX
 		}
 		else
 		{
-			$_SESSION[$a_type] = $a_txt;
+			ilSession::set($a_type, $a_txt);
 		}
 	}
 	
@@ -376,8 +379,8 @@ class ilTemplate extends ilTemplateX
 				$m = "mess_question";
 			}
 
-			$txt = ($_SESSION[$m] != "")
-				? $_SESSION[$m]
+			$txt = (ilSession::get($m) != "")
+				? ilSession::get($m)
 				: $this->message[$m];
 				
 			if ($m == "mess_question")
@@ -402,9 +405,9 @@ class ilTemplate extends ilTemplateX
 				$m = "mess_question";
 			}
 
-			if ($_SESSION[$m])
+			if (ilSession::get($m))
 			{
-				unset($_SESSION[$m]);
+				ilSession::clear($m);
 			}
 		}
 		
