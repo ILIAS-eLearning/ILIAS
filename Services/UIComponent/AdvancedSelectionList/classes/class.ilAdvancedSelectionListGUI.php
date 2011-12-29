@@ -536,18 +536,31 @@ class ilAdvancedSelectionListGUI
 					}
 				}
 				
-				if ($item["frame"])
+				if ($this->getOnClickMode() ==
+					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_HREF ||
+					$this->getItemLinkClass() != "")
 				{
-					$tpl->setCurrentBlock("frame");
-					$tpl->setVariable("TARGET_ITEM", $item["frame"]);
+					if ($item["frame"])
+					{
+						$tpl->setCurrentBlock("frame");
+						$tpl->setVariable("TARGET_ITEM", $item["frame"]);
+						$tpl->parseCurrentBlock();
+					}
+						
+					if ($this->getItemLinkClass() != "")
+					{
+						$tpl->setCurrentBlock("item_link_class");
+						$tpl->setVariable("ITEM_LINK_CLASS", $this->getItemLinkClass());
+						$tpl->parseCurrentBlock();
+					}
+
+					$tpl->setCurrentBlock("href_s");
+					$tpl->setVariable("HREF_ITEM",'href="'.$item["link"].'"');
+					$tpl->setVariable("ID_ITEM", $this->getId()."_".$item["value"]);
 					$tpl->parseCurrentBlock();
-				}
 					
-				if ($this->getItemLinkClass() != "")
-				{
-					$tpl->setCurrentBlock("item_link_class");
-					$tpl->setVariable("ITEM_LINK_CLASS", $this->getItemLinkClass());
-					$tpl->parseCurrentBlock();
+					$tpl->touchBlock("href_e");
+
 				}
 
 				$tpl->setCurrentBlock("item");
@@ -572,8 +585,6 @@ class ilAdvancedSelectionListGUI
 						}
 					}
 
-					$tpl->setVariable("HREF_ITEM",'href="'.$item["link"].'"');
-					$tpl->setVariable("ID_ITEM", $this->getId()."_".$item["value"]);
 				}
 				else if ($this->getOnClickMode() ==
 					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SUBMIT)
@@ -586,7 +597,6 @@ class ilAdvancedSelectionListGUI
 				else if ($this->getOnClickMode() ==
 					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SELECT)
 				{
-					$tpl->setVariable("HREF_ITEM",'href="#"');
 					$tpl->setVariable("ONCLICK_ITEM",
 						'onclick="return ilAdvancedSelectionList.selectForm(\''.$this->getId().'\''.
 							", '".$this->form_mode["select_name"]."','".$item["value"]."',".

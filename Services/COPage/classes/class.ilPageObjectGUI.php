@@ -2380,6 +2380,7 @@ class ilPageObjectGUI
 			include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
 			$btpl->setVariable("STYLE_SELECTOR", ilPCParagraphGUI::getStyleSelector($a_selected,
 				ilPCParagraphGUI::_getCharacteristics($a_style_id), true));
+			
 			ilTooltipGUI::addTooltip("ilAdvSelListAnchorText_style_selection",
 				$lng->txt("cont_paragraph_styles"), "iltinymenu_bd");
 
