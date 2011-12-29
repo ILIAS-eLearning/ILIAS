@@ -2665,9 +2665,14 @@ class ilObjectListGUI
 	/**
 	 * Insert js/ajax links into template	 
 	 */
-	static function prepareJsLinks($a_redraw_url, $a_notes_url, $a_tags_url)
+	static function prepareJsLinks($a_redraw_url, $a_notes_url, $a_tags_url, $a_tpl = null)
 	{
 		global $tpl;
+		
+		if (is_null($a_tpl))
+		{
+			$a_tpl = $tpl;
+		}
 		
 		if($a_notes_url)
 		{
@@ -2683,7 +2688,7 @@ class ilObjectListGUI
 		
 		if($a_redraw_url)
 		{
-			$tpl->addOnLoadCode("ilObject.setRedrawAHUrl('".
+			$a_tpl->addOnLoadCode("ilObject.setRedrawAHUrl('".
 						$a_redraw_url."');");	
 		}
 	}

@@ -12395,3 +12395,4 @@ acc#:#acc_personal_desktop#:#Personal Desktop
 administration#:#adm_repository_cache_time_info2#:#It is also possible that repository objects become accessible for users with a certain time lack, e.g. after preconditions have been met or permissions have been changed.
 dateplaner#:#cal_reg_registered#:#You have been registered.
 dateplaner#:#cal_reg_unregistered#:#You have been unregistered.
+content#:#cont_lm_comments_desc#:#Allow users to share comments on every page of the learning module.

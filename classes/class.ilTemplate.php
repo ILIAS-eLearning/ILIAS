@@ -1689,7 +1689,7 @@ class ilTemplate extends ilTemplateX
 	 * @param string $a_gui $a_header
 	 */
 	function setHeaderActionMenu($a_header)
-	{		
+	{
 		$this->header_action = $a_header;
 	}
 	
