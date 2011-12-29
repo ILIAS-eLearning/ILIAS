@@ -806,16 +806,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		else
 		{
-//			$fs_gui->setMainWidth("100%");
-//			$fs_gui->setSideWidth("0");
-			
-			// to do: check this
-			$fs_gui->setSideFrameSource("");
-
-			// page object stuff
-			$fs_gui->setMainFrameSource(
-				$this->ctrl->getLinkTargetByClass(
-					array("ilpageobjectgui"), "edit"));
+			$this->ctrl->redirectByClass(array("ilpageobjectgui"), "edit");
+			exit;
 		}
 				
 		$fs_gui->show();
