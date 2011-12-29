@@ -188,7 +188,7 @@ class ilObjSCORMTracking
 		$aa_data = array();
 		if (is_array($_POST["S"])) {
 			foreach($_POST["S"] as $key => $value) {
-				$aa_data[] = array("sco_id" => $value, "left" => $_POST["L"][$key], "right" => rawurldecode($_POST["R"][$key]));
+				$aa_data[] = array("sco_id" => $value, "left" => $_POST["L"][$key], "right" => $_POST["R"][$key]);
 			}
 		}
 
