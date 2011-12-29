@@ -376,9 +376,18 @@ tinymce.activeEditor.formatter.register('mycode', {
 			r =  ed.dom.createRng();
 			if (rcopy.endContainer.nextSibling) // usual text node
 			{
-				r.setEnd(rcopy.endContainer.nextSibling, stag.length);
-				r.setStart(rcopy.startContainer.nextSibling, stag.length);
-				ed.selection.setRng(r);
+				if (rcopy.endContainer.nextSibling.nodeName != "P")
+				{
+					r.setEnd(rcopy.endContainer.nextSibling, stag.length);
+					r.setStart(rcopy.startContainer.nextSibling, stag.length);
+					ed.selection.setRng(r);
+				}
+				else
+				{
+					r.setStart(rcopy.endContainer.firstChild, stag.length);
+					r.setEnd(rcopy.endContainer.firstChild, stag.length);
+					ed.selection.setRng(r);
+				}
 			}
 			else if (rcopy.endContainer.firstChild) // e.g. when being in an empty list node
 			{
@@ -643,7 +652,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		ed.dom.addClass(tinyMCE.activeEditor.dom.select('ol'), 'ilc_list_o_NumberedList');
 		ed.dom.addClass(tinyMCE.activeEditor.dom.select('ul'), 'ilc_list_u_BulletedList');
 		ed.dom.addClass(tinyMCE.activeEditor.dom.select('li'), 'ilc_list_item_StandardListItem');
-		
+
 		if (handle_inner_br)
 		{
 			var rcopy = ed.selection.getRng(true);
@@ -723,13 +732,18 @@ tinymce.activeEditor.formatter.register('mycode', {
 	splitTopBr: function()
 	{
 		var changed = false;
-		
+
 		var ed = tinyMCE.activeEditor;
 		ed.getContent(); // this line is imporant and seems to fix some things
 		tinymce.each(ed.dom.select('br').reverse(), function(b) {
+				
+//console.log(b);
+//return;
+				
 			try {
 				var snode = ed.dom.getParent(b, 'p,li');
-				if (snode.nodeName != "LI")
+				if (snode.nodeName != "LI" &&
+					snode.childNodes.length != 1)
 				{
 //				ed.dom.split(snode, b);
 				
@@ -787,9 +801,11 @@ tinymce.activeEditor.formatter.register('mycode', {
 						// Insert before chunk
 						pa = pe.parentNode;
 						pa.insertBefore(trim(bef), pe);
+						//pa.insertBefore(bef, pe);
 	
 						// Insert after chunk
 						pa.insertBefore(trim(aft), pe);
+						//pa.insertBefore(aft, pe);
 						t.remove(pe);
 		
 	//					return re || e;

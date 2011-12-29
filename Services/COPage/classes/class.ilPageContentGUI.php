@@ -249,7 +249,7 @@ class ilPageContentGUI
 	*/
 	function getBBMenu($a_ta_name = "par_content")
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 		
 		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
 		
@@ -265,6 +265,15 @@ class ilPageContentGUI
 			$btpl->setVariable("BB_LINK_ILINK",
 				$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
 			$btpl->parseCurrentBlock();
+			
+			// add int link parts
+			include_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
+			$btpl->setCurrentBlock("int_link_prep");
+			$btpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
+				$ilCtrl->getLinkTargetByClass(array("ilpageeditorgui", "ilinternallinkgui"),
+						"", false, true, false)));
+			$btpl->parseCurrentBlock();
+
 		}
 		
 		if ($this->getEnableKeywords())
