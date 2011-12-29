@@ -12395,3 +12395,4 @@ acc#:#acc_personal_desktop#:#Persönlicher Schreibtisch
 administration#:#adm_repository_cache_time_info2#:#Es kann auch vorkommen, daß Magazinobjekte erst nach einer Verzögerung für Benutzer aktiv werden, z.B. nachdem Rechteeinstellungen geändert oder Vorbedingungen erfüllt wurden.
 dateplaner#:#cal_reg_registered#:#Sie wurden für diesen Termin angemeldet.
 dateplaner#:#cal_reg_unregistered#:#Sie wurden abgemeldet.
+content#:#cont_lm_comments_desc#:#Erlaubt es Benutzern öffentliche Kommentare auf allen Lernmodulseiten hinzuzufügen.

@@ -360,10 +360,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->form->addItem($toc_mode);
 		
 		// public notes
-		if (!$this->ilias->getSetting('disable_notes'))
+		if (!$this->ilias->getSetting('disable_comments'))
 		{
-			$pub_nodes = new ilCheckboxInputGUI($lng->txt("cont_public_notes"), "cobj_pub_notes");
-			$pub_nodes->setInfo($this->lng->txt("cont_public_notes_desc"));
+			$this->lng->loadLanguageModule("notes");
+			$pub_nodes = new ilCheckboxInputGUI($lng->txt("notes_comments"), "cobj_pub_notes");
+			$pub_nodes->setInfo($this->lng->txt("cont_lm_comments_desc"));
 			$this->form->addItem($pub_nodes);
 		}
 
@@ -441,7 +442,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->object->setOnline($_POST["cobj_online"]);
 			$this->object->setActiveNumbering($_POST["cobj_act_number"]);
 			$this->object->setCleanFrames($_POST["cobj_clean_frames"]);
-			$this->object->setPublicNotes($_POST["cobj_pub_notes"]);
+			if (!$this->ilias->getSetting('disable_comments'))
+			{
+				$this->object->setPublicNotes($_POST["cobj_pub_notes"]);
+			}
 			$this->object->setHistoryUserComments($_POST["cobj_user_comments"]);
 			$this->object->setLayoutPerPage($_POST["layout_per_page"]);
 			$this->object->updateProperties();

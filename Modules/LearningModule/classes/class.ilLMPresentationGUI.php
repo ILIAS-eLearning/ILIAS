@@ -14,7 +14,7 @@ require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilShopPurchaseGUI
-* @ilCtrl_Calls ilLMPresentationGUI: ilPageObjectGUI
+* @ilCtrl_Calls ilLMPresentationGUI: ilPageObjectGUI, ilCommonActionDispatcherGUI
 *
 * @ingroup ModulesIliasLearningModule
 */
@@ -174,6 +174,13 @@ class ilLMPresentationGUI
 				
 			case "ilinfoscreengui":
 				$ret =& $this->outputInfoScreen();
+				break;
+				
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$gui->enableCommentsSettings(false);
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			case "ilpageobjectgui":
@@ -790,10 +797,10 @@ class ilLMPresentationGUI
 						break;
 						
 					case "ilLMNotes":
-						if (!$this->ilias->getSetting('disable_notes'))
-						{
+						//if (!$this->ilias->getSetting('disable_notes'))
+						//{
 							$this->ilLMNotes();
-						}
+						//}
 						break;
 				}
 			}
@@ -1189,11 +1196,52 @@ class ilLMPresentationGUI
 
 
 	/**
+	 * Redraw header action
+	 */
+	function redrawHeaderAction()
+	{		
+		echo $this->addHeaderAction(true);
+		exit;
+	}
+
+	/**
+	 * Add header action
+	 */
+	function addHeaderAction($a_redraw = false)
+	{			
+		global $ilUser, $ilAccess;
+		
+		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
+		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, 
+			$ilAccess, $this->lm->getType(), $_GET["ref_id"], $this->lm->getId());
+		$dispatcher->setSubObject("pg", $this->getCurrentPageId());
+
+		include_once "Services/Object/classes/class.ilObjectListGUI.php";
+		ilObjectListGUI::prepareJSLinks($this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true), 			
+			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false), 
+			$this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false));
+
+		$lg = $dispatcher->initHeaderAction();
+		$lg->enableNotes(true);
+		$lg->enableComments($this->lm->publicNotes(), false);
+
+		if(!$a_redraw)
+		{
+			$this->tpl->setVariable("HEAD_ACTION", $lg->getHeaderAction());
+		}
+		else
+		{
+			return $lg->getHeaderAction();
+		}
+	}
+
+	/**
 	* output notes of page
 	*/
 	function ilLMNotes()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilSetting;
+		
 		
 		// no notes for abstract of digilib book
 		if ($this->lm->getType() == "dbk" && $this->abstract)
@@ -1201,13 +1249,30 @@ class ilLMPresentationGUI
 			return;
 		}
 
-
 		// no notes in offline (export) mode
 		if ($this->offlineMode())
 		{
 			return;
 		}
 		
+		// output notes (on top)
+		
+		if (!$ilSetting->get("disable_notes"))
+		{
+			$this->addHeaderAction();
+		}
+		
+		// now output comments
+		
+		if ($ilSetting->get("disable_comments"))
+		{
+			return;
+		}
+
+		if (!$this->lm->publicNotes())
+		{
+			return;
+		}
 		
 		$next_class = $this->ctrl->getNextClass($this);
 
