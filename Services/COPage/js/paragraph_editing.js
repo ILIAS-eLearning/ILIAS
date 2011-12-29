@@ -7,8 +7,8 @@ function addInternalLink(Link,title)
 	} 
 	else 
 	{
-		var i = Link.indexOf(" [/iln]");
-		bbfontstyle(Link.substr(0,i), "[/iln]");
+		//var i = Link.indexOf(" [/iln]");
+		bbfontstyle(Link, "[/iln]");
 	}
 	// }}}
 }

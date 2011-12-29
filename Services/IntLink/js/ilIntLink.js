@@ -254,7 +254,14 @@ il.IntLink =
 
 	addInternalLink: function (b, e)
 	{
-		ilCOPage.cmdIntLink(b, e);
+		if (typeof ilCOPage != "undefined")
+		{
+			ilCOPage.cmdIntLink(b, e);
+		}
+		else
+		{
+			addInternalLink(b,e);
+		}
 
 		il.IntLink.panel.hide();
 		return false;

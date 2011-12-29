@@ -216,7 +216,7 @@ class ilInternalLinkGUI
 		global $ilUser;
 		
 		include_once("./Services/COPage/classes/class.ilPageEditorGUI.php");
-		if (ilPageEditorGUI::_doJSEditing())
+		if (self::_doJSEditing())
 		{
 			$str = htmlspecialchars($str, ENT_QUOTES);
 		}
@@ -1032,6 +1032,18 @@ class ilInternalLinkGUI
 		exit;
 	}
 
+	/**
+	 * 
+	 *
+	 * @param
+	 * @return
+	 */
+	static function _doJSEditing()
+	{
+		return true;
+		return ilPageEditorGUI::_doJSEditing();
+	}
+	
 
 	/**
 	* determine, wether js is used
@@ -1042,7 +1054,7 @@ class ilInternalLinkGUI
 		
 		include_once("./Services/COPage/classes/class.ilPageEditorGUI.php");
 
-		if (ilPageEditorGUI::_doJSEditing())
+		if (self::_doJSEditing())
 		{
 			return true;
 		}
