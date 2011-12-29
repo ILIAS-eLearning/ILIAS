@@ -230,7 +230,7 @@ function IliasCommit() {
 	var s_s="",a_tmp,s_v;
 	for (var i=0; i<a_toStore.length; i++){
 		a_tmp=a_toStore[i].split(';');
-		s_v=getValueIntern(a_tmp[0],a_tmp[1]);
+		s_v=getValueIntern(a_tmp[0],a_tmp[1],true); 
 		if (s_v != null){
 			s_s+="&S["+i+"]="+a_tmp[0]+"&L["+i+"]="+a_tmp[1]+"&R["+i+"]="+s_v;
 		}
@@ -246,7 +246,7 @@ function IliasCommit() {
 }
 
 // get data
-function getValueIntern(i_sco,s_el){
+function getValueIntern(i_sco,s_el,b_noDecode){
 	var s_sco=""+i_sco,
 		a_el=s_el.split('.');
 	if (typeof data[s_sco] == "undefined") return null;
@@ -255,7 +255,8 @@ function getValueIntern(i_sco,s_el){
 		o_el=o_el[""+a_el[i]];
 		if (typeof o_el == "undefined") return null;
 	}
-	return decodeURIComponent(""+o_el);
+	if(b_noDecode!=true) return decodeURIComponent(""+o_el);
+	return ""+o_el;
 }
 
 // set data
@@ -284,7 +285,7 @@ function setValueIntern(i_sco,s_el,s_value,b_store,b_noEncode){
 	var s2s=a_el[a_el.length-1];
 	//store
 	if (typeof o_el[s2s] == "undefined") o_el[s2s] = new String();
-	if (!b_noEncode) s_value=encodeURIComponent(s_value);
+	if (b_noEncode!=true) s_value=encodeURIComponent(s_value);
 	o_el[s2s]=s_value;
 	if (b_store){
 		for (var i=0;i<a_toStore.length;i++){
