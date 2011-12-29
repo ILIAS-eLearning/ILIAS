@@ -2011,14 +2011,14 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 							"prev"	=> $this->footer_previous,
 							"next"	=> $this->footer_next,
 							);
-			if (!$this->getDisplayAsBlock())
-			{
+			//if (!$this->getDisplayAsBlock())
+			//{
 				$linkbar = $this->getLinkbar("1");
 				$this->tpl->setCurrentBlock("tbl_footer_linkbar");
 				$this->tpl->setVariable("LINKBAR", $linkbar);
 				$this->tpl->parseCurrentBlock();
 				$linkbar = true;
-			}
+			//}
 			$footer = true;
 		}
 		
@@ -2181,7 +2181,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 					$this->tpl->setVariable("NUMINFO", $numinfo);
 					$this->tpl->parseCurrentBlock();
 				}
-				if ($linkbar != "")
+				if ($linkbar != "" && !$this->getDisplayAsBlock())
 				{
 					$linkbar = $this->getLinkbar("2");
 					$this->tpl->setCurrentBlock("top_linkbar");
