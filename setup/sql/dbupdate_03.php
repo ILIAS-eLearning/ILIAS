@@ -8401,3 +8401,7 @@ if(!$ilDB->tableExists('note_settings'))
 		$setting->set("ilmpathix", 1);
 	}
 ?>
+<#3508>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
