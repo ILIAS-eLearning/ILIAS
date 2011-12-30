@@ -8674,8 +8674,8 @@ pd#:#pd_enable_block_moving#:#Enable Block Moving
 pd#:#pd_enable_bookmarks#:#Enable Bookmarks
 pd#:#pd_enable_global_profiles_info#:#If enabled, users can make their profiles visible to the internet.
 pd#:#pd_enable_global_profiles#:#Enable Public Profiles
-pd#:#pd_enable_my_memberships_info#:#'My Memberships' contains all courses and groups the user is assigned to as a member.
-pd#:#pd_enable_my_memberships#:#Enable 'My Memberships'
+pd#:#pd_enable_my_memberships_info#:#'My Courses and Groups' contains all courses and groups the user is assigned to as a member.
+pd#:#pd_enable_my_memberships#:#Enable 'My Courses and Groups'
 pd#:#pd_enable_my_offers_info#:#The view 'Selected Items' contains all objects which are placed on the user's Personal Desktop.
 pd#:#pd_enable_my_offers#:#Enable 'Selected Items'
 pd#:#pd_enable_notes#:#Enable Notes
