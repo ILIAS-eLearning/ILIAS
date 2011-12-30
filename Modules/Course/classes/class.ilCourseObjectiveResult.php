@@ -356,14 +356,6 @@ class ilCourseObjectiveResult
 			return false;
 		}
 		// Read reachable points
-		/*
-		$types = $ilDB->addTypesToArray(array(), 'integer', count($objectives['all_questions']));
-		$placeholders = $ilDB->addTypesToArray(array(), '%s', count($objectives['all_questions']));
-		$res = $ilDB->queryF("SELECT question_id,points FROM qpl_questions WHERE question_id IN(". implode(",", $placeholders) .")",
-			$types,
-			$objectives['all_questions']
-		);
-		*/
 		$query = "SELECT question_id,points FROM qpl_questions ".
 			"WHERE ".$ilDB->in('question_id',(array) $objectives['all_questions'],false,'integer');
 		$res = $ilDB->query($query);
@@ -405,16 +397,35 @@ class ilCourseObjectiveResult
 		}
 		if(count($fullfilled))
 		{
-			$ilDB->executeMultiple($ilDB->prepare("REPLACE INTO crs_objective_status VALUES(?,?,?)"),
-								   $fullfilled);
+			foreach($fullfilled as $fullfilled_arr)
+			{
+				$ilDB->replace(
+					'crs_objective_status',
+					array(
+						'objective_id' => array('integer',$fullfilled_arr[0]),
+						'user_id' => array('integer',$fullfilled_arr[1])
+					),
+					array(
+						'status' => array('integer',$fullfilled_arr[2])
+					)
+				);
+			}
 			ilCourseObjectiveResult::__updatePassed($a_user_id,$objectives['all_objectives']);
 		}
 		if(count($pretest))
 		{
-			$ilDB->executeMultiple($ilDB->prepare("REPLACE INTO crs_objective_status_p VALUES(?,?)"),
-								   $pretest);
+			foreach($pretest as $pretest_arr)
+			{
+				$ilDB->replace(
+					'crs_objective_status_p',
+					array(
+						'objective_id' => array('integer',$pretest_arr[0]),
+						'user_id' => array('integer',$pretest_arr[1])
+					),
+					array()
+				);
+			}
 		}
-		
 		return true;
 	}
 
