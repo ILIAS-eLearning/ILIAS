@@ -201,7 +201,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 		$lg = $dispatcher->initHeaderAction();
 		$lg->enableNotes(true);
-		$lg->enableComments(true, false);
+		$lg->enableComments(ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()), false);
 
 		// notification
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
@@ -276,7 +276,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function preview()
 	{
-		global $ilCtrl, $ilAccess, $lng, $tpl, $ilUser;
+		global $ilCtrl, $ilAccess, $lng, $tpl, $ilUser, $ilSetting;
 
 		// block/unblock
 		if ($this->getPageObject()->getBlocked())
@@ -334,9 +334,13 @@ if (false)	// currently moved to ilWikiFunctionsBlockGUI
 		$callback = array($this, "observeNoteAction");
 		
 		// notes
-		$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getPageObject(),
-			true, ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()),
-			$ilAccess->checkAccess("write", "", $_GET["ref_id"]), $callback));
+		if (!$ilSetting->get("disable_comments") &&
+			ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()))
+		{
+			$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getPageObject(),
+				true, ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()),
+				$ilAccess->checkAccess("write", "", $_GET["ref_id"]), $callback));
+		}
 		
 		// permanent link
 		$append = ($_GET["page"] != "")

@@ -223,13 +223,18 @@ class ilObjWikiGUI extends ilObjectGUI
 	 */
 	function afterSave($newObj)
 	{
+		global $ilSetting;
+		
 		$newObj->setTitle($this->form_gui->getInput("title"));
 		$newObj->setDescription($this->form_gui->getInput("description"));
 		$newObj->setIntroduction($this->form_gui->getInput("intro"));
 		$newObj->setStartPage($this->form_gui->getInput("startpage"));
 		$newObj->setShortTitle($this->form_gui->getInput("shorttitle"));
 		$newObj->setRating($this->form_gui->getInput("rating"));
-		$newObj->setPublicNotes($this->form_gui->getInput("public_notes"));
+		if (!$ilSetting->get("disable_comments"))
+		{
+			$newObj->setPublicNotes($this->form_gui->getInput("public_notes"));
+		}
 		$newObj->setOnline($this->form_gui->getInput("online"));
 		$newObj->update();
 
@@ -516,7 +521,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function initSettingsForm($a_mode = "edit")
 	{
-		global $tpl, $lng, $ilCtrl, $ilTabs;
+		global $tpl, $lng, $ilCtrl, $ilTabs, $ilSetting;
 		
 		$lng->loadLanguageModule("wiki");
 		$ilTabs->activateTab("settings");
@@ -568,8 +573,11 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->form_gui->addItem($rating);
 
 		// public comments
-		$comments = new ilCheckboxInputGUI($lng->txt("wiki_public_comments"), "public_notes");
-		$this->form_gui->addItem($comments);
+		if (!$ilSetting->get("disable_comments"))
+		{
+			$comments = new ilCheckboxInputGUI($lng->txt("wiki_public_comments"), "public_notes");
+			$this->form_gui->addItem($comments);
+		}
 
 		// important pages
 //		$imp_pages = new ilCheckboxInputGUI($lng->txt("wiki_important_pages"), "imp_pages");
@@ -636,7 +644,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function saveSettingsObject()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		global $ilCtrl, $lng, $ilUser, $ilSetting;
 		
 		$this->checkPermission("write");
 		
@@ -658,7 +666,10 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->object->setStartPage($this->form_gui->getInput("startpage"));
 				$this->object->setShortTitle($this->form_gui->getInput("shorttitle"));
 				$this->object->setRating($this->form_gui->getInput("rating"));
-				$this->object->setPublicNotes($this->form_gui->getInput("public_notes"));
+				if (!$ilSetting->get("disable_comments"))
+				{
+					$this->object->setPublicNotes($this->form_gui->getInput("public_notes"));
+				}
 				$this->object->setIntroduction($this->form_gui->getInput("intro"));
 //				$this->object->setImportantPages($this->form_gui->getInput("imp_pages"));
 				$this->object->setPageToc($this->form_gui->getInput("page_toc"));
