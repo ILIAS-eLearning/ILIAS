@@ -1,4 +1,4 @@
-// Build: 20111230022217 
+// Build: 20111230031837 
 
 function ADLAuxiliaryResource()
 {}
@@ -3034,11 +3034,11 @@ var elm=all(ITEM_PREFIX+tree[i].mActivityID);if(disable)
 {toggleClass(elm,'ilc_rte_tlink_RTETreeLinkDisabled',1);}
 else
 {toggleClass(elm,'ilc_rte_tlink_RTETreeLink',1);}
-if(activities[tree[i].mActivityID].sco&&activities[tree[i].mActivityID].href){var node_stat_completion=activities[tree[i].mActivityID].completion_status;if(node_stat_completion==null||node_stat_completion=="not attempted"){toggleClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);}
-if(node_stat_completion=="unknown"||node_stat_completion=="incomplete"||statusArray[[tree[i].mActivityID]]['completion']=="unknown"||statusArray[[tree[i].mActivityID]]['completion']=="incomplete"){removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);toggleClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);}
-if(node_stat_completion=="browsed"){removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);toggleClass(elm.parentNode,"ilc_rte_status_RTEBrowsed",1);}
-if(node_stat_completion=="completed"||statusArray[[tree[i].mActivityID]]['completion']=="completed"){removeClass(elm.parentNode,"not_attempted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);removeClass(elm.parentNode,"ilc_rte_status_RTEBrowsed",1);toggleClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);}
-var node_stat_success=activities[tree[i].mActivityID].success_status;if(node_stat_success=="passed"||node_stat_success=="failed"||statusArray[[tree[i].mActivityID]]['success']=="failed"||statusArray[[tree[i].mActivityID]]['success']=="passed"){if(node_stat_success=="passed"||statusArray[[tree[i].mActivityID]]['success']=="passed"){removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);toggleClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);}else{removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);toggleClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);}}
+if(activities[tree[i].mActivityID].sco&&activities[tree[i].mActivityID].href){var node_stat_completion=activities[tree[i].mActivityID].completion_status;if(node_stat_completion==null||node_stat_completion=="not attempted"){if(elm)toggleClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);}
+if(node_stat_completion=="unknown"||node_stat_completion=="incomplete"||statusArray[[tree[i].mActivityID]]['completion']=="unknown"||statusArray[[tree[i].mActivityID]]['completion']=="incomplete"){if(elm){removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);toggleClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);}}
+if(node_stat_completion=="browsed"){if(elm){removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);toggleClass(elm.parentNode,"ilc_rte_status_RTEBrowsed",1);}}
+if(node_stat_completion=="completed"||statusArray[[tree[i].mActivityID]]['completion']=="completed"){if(elm){removeClass(elm.parentNode,"not_attempted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);removeClass(elm.parentNode,"ilc_rte_status_RTEBrowsed",1);toggleClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);}}
+var node_stat_success=activities[tree[i].mActivityID].success_status;if(node_stat_success=="passed"||node_stat_success=="failed"||statusArray[[tree[i].mActivityID]]['success']=="failed"||statusArray[[tree[i].mActivityID]]['success']=="passed"){if(node_stat_success=="passed"||statusArray[[tree[i].mActivityID]]['success']=="passed"){if(elm){removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);toggleClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);}}else{if(elm){removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);toggleClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);}}}
 if(elm!=null&&elm.parentNode)
 {toggleClass(elm.parentNode,"ilc_rte_node_RTESco"+disabled_str,1);}}else{if(elm&&activities[tree[i].mActivityID].href){toggleClass(elm.parentNode,"ilc_rte_status_RTEAsset",1);if(elm.parentNode)
 {toggleClass(elm.parentNode,"ilc_rte_node_RTEAsset"+disabled_str,1);}}
