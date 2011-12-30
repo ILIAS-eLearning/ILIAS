@@ -867,6 +867,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$inst_id = IL_INST_ID;
 
 		include_once("./Services/Export/classes/class.ilExport.php");
+		
+		ilExport::_createExportDirectory($this->object->getId(), "html",
+			$this->object->getType());
 		$export_dir = ilExport::_getExportDirectory($this->object->getId(), "html",
 			$this->object->getType());
 		
