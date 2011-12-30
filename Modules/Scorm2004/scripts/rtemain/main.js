@@ -1851,8 +1851,8 @@ function onWindowResize()
 	{
 		elm.style.height = h;
 	}
-	
 	var tbh = $('#toolbar').outerHeight();
+	if (document.getElementById("toolbar").style.display == "none") tbh=0;
 	$('#leftView').css('top', tbh + "px");
 	$('#dragbar').css('top', tbh + "px");
 	$('#tdResource').css('top', tbh + "px");
