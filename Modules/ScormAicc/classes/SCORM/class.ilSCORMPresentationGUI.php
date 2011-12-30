@@ -131,39 +131,23 @@ class ilSCORMPresentationGUI
 			}
 		} else {
 			$debug = $this->slm->getDebug();
+			$template = "tpl.sahs_pres_frameset_js";
+			if ($debug) $template .= "_debug";
 			if (count($items) > 1
 				|| strtolower(get_class($this->slm)) == "ilobjaicclearningmodule"
 				|| strtolower(get_class($this->slm)) == "ilobjhacplearningmodule")
 			{
+				$template .= ".html";
 				$this->ctrl->setParameter($this, "expand", "1");
 				$this->ctrl->setParameter($this, "jsApi", "1");
 				$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
-				
-				// should be able to grep templates
-				if($debug)
-				{
-					$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_debug.html", false, false, "Modules/ScormAicc");
-				}
-				else
-				{
-					$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js.html", false, false, "Modules/ScormAicc");
-				}
-								
+				$this->tpl = new ilTemplate($template, false, false, "Modules/ScormAicc");
 				$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
 				$pres_link = $this->ctrl->getLinkTarget($this, "contentSelect");
 				$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
 			} else {
-				
-				// should be able to grep templates
-				if($debug)
-				{
-					$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_debug_one_page.html", false, false, "Modules/ScormAicc");
-				}
-				else
-				{
-					$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_one_page.html", false, false, "Modules/ScormAicc");
-				}
-
+				$template .= "_one_page.html";
+				$this->tpl = new ilTemplate($template, false, false, "Modules/ScormAicc");
 				$this->ctrl->setParameter($this, "autolaunch", $items[0]);
 			}
 			$api_link = $this->ctrl->getLinkTarget($this, "apiInitData");
@@ -538,6 +522,20 @@ class ilSCORMPresentationGUI
 
 		//URLs
 		$s_out='IliasScormResources=[';
+		$s_resourceIds="";//necessary if resources exist having different href with same identifier
+		$val_set = $ilDB->queryF("
+			SELECT sc_resource.obj_id
+			FROM scorm_tree, sc_resource
+			WHERE scorm_tree.slm_id=%s 
+			AND sc_resource.obj_id=scorm_tree.child",
+			array('integer'),
+			array($this->slm->getId())	
+		);
+		while($val_rec = $ilDB->fetchAssoc($val_set)) {
+			$s_resourceIds .= ",".$val_rec["obj_id"];
+		}
+		$s_resourceIds = substr($s_resourceIds,1);
+
 		$val_set = $ilDB->queryF("
 			SELECT scorm_tree.lft, scorm_tree.child, 
 			CASE WHEN sc_resource.scormtype = 'asset' THEN 1 ELSE 0 END AS asset,
@@ -546,9 +544,10 @@ class ilSCORMPresentationGUI
 			WHERE scorm_tree.slm_id=%s 
 			AND sc_item.obj_id=scorm_tree.child 
 			AND sc_resource.import_id=sc_item.identifierref 
+			AND sc_resource.obj_id in (%s) 
 			ORDER BY scorm_tree.lft",
-			array('integer'),
-			array($this->slm->getId())	
+			array('integer','text'),
+			array($this->slm->getId(),$s_resourceIds)	
 		);
 		while($val_rec = $ilDB->fetchAssoc($val_set)) {
 			$s_out.='['.$val_rec["lft"].','.$val_rec["child"].','.$val_rec["asset"].',"'.encodeURIComponent($val_rec["href"]).'"],';
