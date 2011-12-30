@@ -2433,7 +2433,7 @@ class ilPageObjectGUI
 					$btpl->setVariable("CC_".strtoupper($c), $cc_code);
 					$btpl->parseCurrentBlock();
 					ilTooltipGUI::addTooltip("il_edm_cc_".$c,
-						$lng->txt("cont_cc_".$cc_code),
+						$lng->txt("cont_cc_".$c),
 						"iltinymenu_bd");
 
 //					$btpl->setVariable("TXT_".strtoupper($c), $this->lng->txt("cont_text_".$c));
