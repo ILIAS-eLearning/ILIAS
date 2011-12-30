@@ -131,23 +131,39 @@ class ilSCORMPresentationGUI
 			}
 		} else {
 			$debug = $this->slm->getDebug();
-			$template = "tpl.sahs_pres_frameset_js";
-			if ($debug) $template .= "_debug";
 			if (count($items) > 1
 				|| strtolower(get_class($this->slm)) == "ilobjaicclearningmodule"
 				|| strtolower(get_class($this->slm)) == "ilobjhacplearningmodule")
 			{
-				$template .= ".html";
 				$this->ctrl->setParameter($this, "expand", "1");
 				$this->ctrl->setParameter($this, "jsApi", "1");
 				$exp_link = $this->ctrl->getLinkTarget($this, "explorer");
-				$this->tpl = new ilTemplate($template, false, false, "Modules/ScormAicc");
+				
+				// should be able to grep templates
+				if($debug)
+				{
+					$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_debug.html", false, false, "Modules/ScormAicc");
+				}
+				else
+				{
+					$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js.html", false, false, "Modules/ScormAicc");
+				}
+								
 				$this->tpl->setVariable("EXPLORER_LINK", $exp_link);
 				$pres_link = $this->ctrl->getLinkTarget($this, "contentSelect");
 				$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
 			} else {
-				$template .= "_one_page.html";
-				$this->tpl = new ilTemplate($template, false, false, "Modules/ScormAicc");
+				
+				// should be able to grep templates
+				if($debug)
+				{
+					$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_debug_one_page.html", false, false, "Modules/ScormAicc");
+				}
+				else
+				{
+					$this->tpl = new ilTemplate("tpl.sahs_pres_frameset_js_one_page.html", false, false, "Modules/ScormAicc");
+				}
+
 				$this->ctrl->setParameter($this, "autolaunch", $items[0]);
 			}
 			$api_link = $this->ctrl->getLinkTarget($this, "apiInitData");
