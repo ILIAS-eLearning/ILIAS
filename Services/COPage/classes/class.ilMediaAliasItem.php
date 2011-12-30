@@ -603,6 +603,7 @@ class ilMediaAliasItem
 	{
 		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
 			$this->getPcId());
+
 		if (is_object($ma_nodes[$a_nr - 1]))
 		{
 			$ma_nodes[$a_nr - 1]->unlink_node($ma_nodes[$a_nr - 1]);

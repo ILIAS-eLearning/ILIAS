@@ -143,11 +143,10 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 		if (count($_POST["area"]) > 0)
 		{
 			$i = 0;
-
+			arsort($_POST["area"]);
 			foreach ($_POST["area"] as $area_nr)
 			{
-				$this->std_alias_item->deleteMapArea($area_nr - $i);
-				$i++;
+				$this->std_alias_item->deleteMapArea($area_nr);
 			}
 			$this->updated = $this->page->update();
 			ilUtil::sendSuccess($lng->txt("cont_areas_deleted"), true);
