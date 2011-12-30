@@ -215,7 +215,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			$sb_prop->setInfo($lng->txt('pd_personal_items_default_view_info'));
 			$option = array();
 			$option[0] = $lng->txt('pd_my_offers');
-			$option[1] = $lng->txt('pd_my_memberships');
+			$option[1] = $lng->txt('my_courses_groups');
 			$sb_prop->setOptions($option);
 			$sb_prop->setValue((int)$ilSetting->get('personal_items_default_view'));
 			$form->addItem($sb_prop);

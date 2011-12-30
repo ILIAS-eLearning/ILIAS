@@ -9836,10 +9836,10 @@ pd#:#pd_enable_block_moving#:#'Verschieben der Blöcke' aktivieren
 pd#:#pd_enable_bookmarks#:#Bookmarks aktivieren
 pd#:#pd_enable_global_profiles_info#:#Die Option ermöglicht Benutzern, ihr Profil global (im Internet) zugänglich zu machen.
 pd#:#pd_enable_global_profiles#:#Öffentliche Profile aktivieren
-pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
-pd#:#pd_enable_my_memberships#:#Aktiviere 'Meine Mitgliedschaften'
-pd#:#pd_enable_my_offers_info#:#Die Sicht 'Meine Angebote' enthält alle Objekte, die sich auf dem Persönlichen Schreibtisch des Benutzers befinden.
-pd#:#pd_enable_my_offers#:#'Meine Angebote' aktivieren
+pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Kurse und Gruppen' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
+pd#:#pd_enable_my_memberships#:#'Meine Kurse und Gruppen' aktivieren
+pd#:#pd_enable_my_offers_info#:#Die Sicht 'Ausgewählte Angebote' enthält alle Objekte, die sich auf der Übersichtsseite des Persönlichen Schreibtisches des Benutzers befinden.
+pd#:#pd_enable_my_offers#:#'Ausgewählte Angebote' aktivieren
 pd#:#pd_enable_notes#:#Notizen aktivieren
 pd#:#pd_enable_personal_workspace#:#Mein Arbeitsraum aktivieren
 pd#:#pd_enable_prtf#:#Portfolios aktivieren
@@ -9858,7 +9858,7 @@ pd#:#pd_personal_items_default_view#:#Standard-Sicht
 pd#:#pd_settings#:#Einstellungen Persönlicher Schreibtisch
 pd#:#pd_time_before_removal_info#:#Nach Ablauf dieses Zeitraums, werden Benutzer aus der Liste der "Aktiven Benutzer" entfernt.
 pd#:#pd_time_before_removal#:#Maximaler Zeitraum für Inaktivität (in Minuten)
-pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Meine Angebote' und/oder 'Meine Mitgliedschaften'.
+pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Meine Kurse und Gruppen'.
 pdesk#:#bm_num_bookmark_folders#:#Ordner
 pdesk#:#bm_num_bookmarks#:#Bookmark(s)
 pdesk#:#pdesk_feedback_request#:#Feedback-Anfrage
