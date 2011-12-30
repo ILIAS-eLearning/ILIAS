@@ -12396,3 +12396,4 @@ administration#:#adm_repository_cache_time_info2#:#Es kann auch vorkommen, daß 
 dateplaner#:#cal_reg_registered#:#Sie wurden für diesen Termin angemeldet.
 dateplaner#:#cal_reg_unregistered#:#Sie wurden abgemeldet.
 content#:#cont_lm_comments_desc#:#Erlaubt es Benutzern öffentliche Kommentare auf allen Lernmodulseiten hinzuzufügen.
+exercise#:#exc_start_date_should_be_before_end_date#:#Die Startzeit sollte vor dem Abgabetermin liegen.

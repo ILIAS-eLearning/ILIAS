@@ -1902,6 +1902,28 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 			
+			// additional checks
+			if ($_POST["start_time_cb"])
+			{
+				// check whether start date is before end date
+				$start_date =
+					$this->form->getItemByPostVar("start_time")->getDate();
+				$end_date =
+					$this->form->getItemByPostVar("deadline")->getDate();
+				if ($start_date->get(IL_CAL_UNIX) >=
+					$end_date->get(IL_CAL_UNIX))
+				{
+					ilUtil::sendFailure($lng->txt("form_input_not_valid"), true);
+					$this->form->getItemByPostVar("start_time")
+						->setAlert($lng->txt("exc_start_date_should_be_before_end_date"));
+					$this->form->getItemByPostVar("deadline")
+						->setAlert($lng->txt("exc_start_date_should_be_before_end_date"));
+					$this->form->setValuesByPost();
+					$tpl->setContent($this->form->getHtml());
+					return;
+				}
+			}
+			
 			$ass = new ilExAssignment();
 			$ass->setTitle($_POST["title"]);
 			$ass->setInstruction($_POST["instruction"]);
@@ -2014,6 +2036,29 @@ class ilObjExerciseGUI extends ilObjectGUI
 		if ($this->form->checkInput())
 		{
 			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
+			
+			// additional checks
+			if ($_POST["start_time_cb"])
+			{
+				// check whether start date is before end date
+				$start_date =
+					$this->form->getItemByPostVar("start_time")->getDate();
+				$end_date =
+					$this->form->getItemByPostVar("deadline")->getDate();
+				if ($start_date->get(IL_CAL_UNIX) >=
+					$end_date->get(IL_CAL_UNIX))
+				{
+					ilUtil::sendFailure($lng->txt("form_input_not_valid"), true);
+					$this->form->getItemByPostVar("start_time")
+						->setAlert($lng->txt("exc_start_date_should_be_before_end_date"));
+					$this->form->getItemByPostVar("deadline")
+						->setAlert($lng->txt("exc_start_date_should_be_before_end_date"));
+					$this->form->setValuesByPost();
+					$tpl->setContent($this->form->getHtml());
+					return;
+				}
+			}
+			
 			
 			$ass = new ilExAssignment($_GET["ass_id"]);
 			$ass->setTitle($_POST["title"]);

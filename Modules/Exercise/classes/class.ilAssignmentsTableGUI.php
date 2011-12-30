@@ -37,7 +37,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		$this->addColumn("", "", "1", true);
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("type"), "type");
-		$this->addColumn($this->lng->txt("exc_presentation_order"), "val_order");
+		$this->addColumn($this->lng->txt("exc_presentation_order"), "order_val");
 		$this->addColumn($this->lng->txt("exc_start_time"), "start_time");
 		$this->addColumn($this->lng->txt("exc_deadline"), "deadline");
 		$this->addColumn($this->lng->txt("exc_mandatory"), "mandatory");

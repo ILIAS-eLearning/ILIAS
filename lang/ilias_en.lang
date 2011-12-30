@@ -12396,3 +12396,4 @@ administration#:#adm_repository_cache_time_info2#:#It is also possible that repo
 dateplaner#:#cal_reg_registered#:#You have been registered.
 dateplaner#:#cal_reg_unregistered#:#You have been unregistered.
 content#:#cont_lm_comments_desc#:#Allow users to share comments on every page of the learning module.
+exercise#:#exc_start_date_should_be_before_end_date#:#Start time should be before deadline.
