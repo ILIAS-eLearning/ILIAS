@@ -3780,28 +3780,34 @@ function updateNav(ignore) {
 			var node_stat_completion=activities[tree[i].mActivityID].completion_status;
 			//not attempted
 			if (node_stat_completion==null || node_stat_completion=="not attempted") {
-				toggleClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);
+				if(elm) toggleClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);
 			}
 		
 			//incomplete
 			if (node_stat_completion=="unknown" || node_stat_completion=="incomplete" || statusArray[[tree[i].mActivityID]]['completion'] == "unknown" ||
 				statusArray[[tree[i].mActivityID]]['completion'] == "incomplete") {
-				removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);
-				toggleClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);
+				if(elm) {
+					removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);
+					toggleClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);
+				}
 			}
 			
 			//just in case-support not required due to spec
 			if (node_stat_completion=="browsed") {
+				if(elm) {
 					removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);
 					toggleClass(elm.parentNode,"ilc_rte_status_RTEBrowsed",1);
+				}
 			}
 			
 			//completed
 			if (node_stat_completion=="completed" || statusArray[[tree[i].mActivityID]]['completion'] == "completed") {
-				removeClass(elm.parentNode,"not_attempted",1);
-				removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);
-				removeClass(elm.parentNode,"ilc_rte_status_RTEBrowsed",1);
-				toggleClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);
+				if(elm) {
+					removeClass(elm.parentNode,"not_attempted",1);
+					removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);
+					removeClass(elm.parentNode,"ilc_rte_status_RTEBrowsed",1);
+					toggleClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);
+				}
 			}
 			
 			//overwrite if we have information on success (interaction sco) - ignore success=unknown
@@ -3812,12 +3818,16 @@ function updateNav(ignore) {
 				
 				//passed
 				if (node_stat_success=="passed" || statusArray[[tree[i].mActivityID]]['success'] == "passed") {
-					removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);
-					toggleClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);
+					if(elm) {
+						removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);
+						toggleClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);
+					}
 				//failed
 				} else {
-					removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);
-					toggleClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);
+					if(elm) {
+						removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);
+						toggleClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);
+					}
 				}
 			}
 
