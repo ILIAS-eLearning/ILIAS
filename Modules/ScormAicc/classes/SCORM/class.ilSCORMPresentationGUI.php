@@ -552,18 +552,18 @@ class ilSCORMPresentationGUI
 		}
 		$s_resourceIds = substr($s_resourceIds,1);
 
-		$val_set = $ilDB->queryF("
-			SELECT scorm_tree.lft, scorm_tree.child, 
+		$tquery="SELECT scorm_tree.lft, scorm_tree.child, 
 			CASE WHEN sc_resource.scormtype = 'asset' THEN 1 ELSE 0 END AS asset,
 			sc_resource.href
 			FROM scorm_tree, sc_resource, sc_item
 			WHERE scorm_tree.slm_id=%s 
 			AND sc_item.obj_id=scorm_tree.child 
 			AND sc_resource.import_id=sc_item.identifierref 
-			AND sc_resource.obj_id in (%s) 
-			ORDER BY scorm_tree.lft",
-			array('integer','text'),
-			array($this->slm->getId(),$s_resourceIds)	
+			AND sc_resource.obj_id in (".$s_resourceIds.") 
+			ORDER BY scorm_tree.lft";
+		$val_set = $ilDB->queryF($tquery,
+			array('integer'),
+			array($this->slm->getId())	
 		);
 		while($val_rec = $ilDB->fetchAssoc($val_set)) {
 			$s_out.='['.$val_rec["lft"].','.$val_rec["child"].','.$val_rec["asset"].',"'.encodeURIComponent($val_rec["href"]).'"],';
