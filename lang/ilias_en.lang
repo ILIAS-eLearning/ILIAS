@@ -2287,7 +2287,7 @@ common#:#deleted_user_account#:#Deleted user account
 common#:#deleted_user#:#The user has been deleted
 common#:#deleted_users#:#Deleted users
 common#:#deleted#:#Deleted
-common#:#delicious#:#del.icio.us Account
+common#:#delicious#:#Delicious Account
 common#:#deliver#:#Deliver
 common#:#department#:#Department
 common#:#desc#:#Description
@@ -6585,11 +6585,11 @@ dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#Year
 dateplaner#:#yui_cal_choose_month#:#Month:
 dateplaner#:#yui_cal_choose_year#:#Year:
-delic#:#delic_add_info_links#:#Add del.icio.us Links on Info Screens
-delic#:#delic_add_to_delicious#:#Add to del.icio.us
-delic#:#delic_extt_delicious#:#del.icio.us
-delic#:#delic_settings#:#del.icio.us Settings
-delic#:#delic_user_profile#:#Enable del.icio.us Account Setting in User Profile
+delic#:#delic_add_info_links#:#Add Delicious Links on Info Screens
+delic#:#delic_add_to_delicious#:#Add to Delicious
+delic#:#delic_extt_delicious#:#Delicious
+delic#:#delic_settings#:#Delicious Settings
+delic#:#delic_user_profile#:#Enable Delicious Account Setting in User Profile
 ecs#:#cert_serial#:#Certificate Serial Number
 ecs#:#ecs_abr#:#Abbreviation
 ecs#:#ecs_account_duration_info#:#New ECS-User accounts are limited to the session duration. After assigning an user to a course the activation period will be extended by the given number months.
