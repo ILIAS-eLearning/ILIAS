@@ -5146,7 +5146,7 @@ common#:#toggle_hidden_sections#:#Weitere Informationen anzeigen
 common#:#toggleGlobalDefault#:#Standard-Stylesheet umschalten
 common#:#toggleGlobalFixed#:#Einheits-Stylesheet umschalten
 common#:#tomorrow#:#Morgen
-common#:#top_of_page#:#Zum Seitenanfang
+common#:#top_of_page#:#Seitenanfang
 common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
 common#:#trac_delete#:#Tracking-Daten löschen
@@ -7870,10 +7870,10 @@ forum#:#forums_count_thr#:#Anzahl Themen
 forum#:#forums_count#:#Anzahl Foren
 forum#:#forums_created_by#:#Angelegt von
 forum#:#forums_delete_file#:#Dateianhang löschen
-forum#:#forums_disable_notification#:#Benachrichtigung für dieses Thema beenden
+forum#:#forums_disable_notification#:#Benachrichtigung für Thema beenden
 forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
-forum#:#forums_enable_notification#:#Benachrichtigung für dieses Thema starten
+forum#:#forums_enable_notification#:#Benachrichtigung für Thema starten
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll?
 forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller Antworten gelöscht werden soll?
@@ -7901,7 +7901,7 @@ forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
 forum#:#forums_post_was_activated#:#Der Beitrag wurde aktiviert.
 forum#:#forums_posts_not_available#:#Keine Beiträge verfügbar
 forum#:#forums_posts#:#Alle Beiträge
-forum#:#forums_print_thread#:#Thema ausdrucken
+forum#:#forums_print_thread#:#Thema drucken
 forum#:#forums_print_view#:#Druckansicht
 forum#:#forums_quote#:#Zitieren
 forum#:#forums_respond#:#Antworten
