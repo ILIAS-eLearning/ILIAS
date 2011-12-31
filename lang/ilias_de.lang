@@ -2780,7 +2780,7 @@ common#:#deleted_user_account#:#Gelöschtes Benutzerkonto
 common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
 common#:#deleted_users#:#Die BenutzerInnen wurden gelöscht.
 common#:#deleted#:#Gelöscht
-common#:#delicious#:#del.icio.us-Account
+common#:#delicious#:#Delicious-Account
 common#:#deliver#:#Übung abgeben
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
@@ -7503,11 +7503,11 @@ dateplaner#:#wk_short#:#KW
 dateplaner#:#year#:#Jahr
 dateplaner#:#yui_cal_choose_month#:#Monat:
 dateplaner#:#yui_cal_choose_year#:#Jahr:
-delic#:#delic_add_info_links#:#del.icio.us-Links auf Info-Seite anzeigen
-delic#:#delic_add_to_delicious#:#Zu del.icio.us hinzufügen
-delic#:#delic_extt_delicious#:#del.icio.us
-delic#:#delic_settings#:#del.icio.us-Einstellungen
-delic#:#delic_user_profile#:#Einstellungen für del.icio.us-Account im Persönlichen Profil aktivieren
+delic#:#delic_add_info_links#:#Delicious-Links auf Info-Seite anzeigen
+delic#:#delic_add_to_delicious#:#Zu Delicious hinzufügen
+delic#:#delic_extt_delicious#:#Delicious
+delic#:#delic_settings#:#Delicious-Einstellungen
+delic#:#delic_user_profile#:#Einstellungen für Delicious-Account im Persönlichen Profil aktivieren
 didactic#:#didactic_activated_msg#:#Die ausgewählten didaktischen Vorlagen wurden aktiviert.
 didactic#:#didactic_adm_tab#:#Didaktische Vorlagen
 didactic#:#didactic_applicable_for#:#Anwendbar auf
