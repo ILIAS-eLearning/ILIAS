@@ -994,8 +994,24 @@ if (add_final_spacer)
 		}
 
 		back_el.style.minHeight = ilCOPage.minheight + "px";
-		back_el.style.minWidth = ilCOPage.minwidth + "px";
-
+//		back_el.style.minWidth = ilCOPage.minwidth + "px";
+		
+		// alex, 30 Dec 2011, see bug :
+		// for reasons I do not understand, the above does not
+		// work for IE7, even if minWidth is implemented there.
+		// so we do this "padding" trick which works for all browsers
+		if ($(back_el).width() < ilCOPage.minwidth)
+		{
+			var new_pad = (ilCOPage.minwidth - $(back_el).width()) / 2;
+			back_el.style.paddingLeft = new_pad + "px";
+			back_el.style.paddingRight = new_pad + "px";
+		}
+		else
+		{
+			back_el.style.paddingLeft = "";
+			back_el.style.paddingRight = "";
+		}
+		
 		tinyifr = document.getElementById("tinytarget_parent");
 
 		// make sure, background element does not go beyond page bottom
@@ -1015,14 +1031,26 @@ if (add_final_spacer)
 		{
 			YAHOO.util.Dom.setX(tinyifr, back_reg.x -2);
 			YAHOO.util.Dom.setY(tinyifr, back_reg.y -2);
+			this.setEditFrameSize(back_reg.width-2,
+				back_reg.height);
 		}
 		else
 		{
-			YAHOO.util.Dom.setX(tinyifr, back_reg.x);
-			YAHOO.util.Dom.setY(tinyifr, back_reg.y+1);
+			if (ilCOPage.getInsertStatus())
+			{
+				YAHOO.util.Dom.setX(tinyifr, back_reg.x - 1);
+				YAHOO.util.Dom.setY(tinyifr, back_reg.y);
+				this.setEditFrameSize(back_reg.width + 1,
+					back_reg.height);
+			}
+			else
+			{
+				YAHOO.util.Dom.setX(tinyifr, back_reg.x);
+				YAHOO.util.Dom.setY(tinyifr, back_reg.y);
+				this.setEditFrameSize(back_reg.width,
+					back_reg.height);
+			}
 		}
-		this.setEditFrameSize(back_reg.width-2,
-			back_reg.height);
 	},
 
 	autoResize: function(ed)
