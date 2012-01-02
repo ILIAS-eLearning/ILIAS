@@ -10,6 +10,18 @@
 		room: 'templates/default/images/icon_chat_s.gif'
 	}
 
+
+	var inArray = function(ar, value) {
+		if (ar && (typeof ar == 'object' || typeof ar == 'array')) {
+			for(var i in ar) {
+				if (ar[i] == value) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	$.fn.ilChatDialog = function( method ) {
 		var applyStyle = function(dialog) {
 			dialog.css('position', 'absolute');
@@ -87,7 +99,9 @@
 				if (properties.buttons) {
 					var dialogButtons = $('<div class="ilChatDialogButtons">').appendTo(dialog);
 					$.each(properties.buttons, function() {
-						if (this.id && properties.disabled_buttons.indexOf(this.id) >= 0) {
+						// IE: properties.disabled_buttons is of type object instead of array
+						//if (this.id && properties.disabled_buttons.indexOf(this.id) >= 0) {
+						if (this.id && inArray(properties.disabled_buttons, this.id)) {
 						    return;
 						}
 						$('<input type="button" class="submit">')
@@ -301,8 +315,10 @@
 							menuContainer.find('table').append(getMenuLine(this.label, this.callback));
 						}
 						else if (
-							(personalUserInfo.moderator && this.permission.indexOf('moderator') >= 0)
-							|| (personalUserInfo.userid == data.owner && this.permission.indexOf('owner') >= 0)
+							//(personalUserInfo.moderator && this.permission.indexOf('moderator') >= 0)
+							//|| (personalUserInfo.userid == data.owner && this.permission.indexOf('owner') >= 0)
+							(personalUserInfo.moderator && inArray(this.permission, 'moderator') >= 0)
+							|| (personalUserInfo.userid == data.owner && inArray(this.permission, 'owner') >= 0)
 							) {
 							menuContainer.find('table').append(getMenuLine(this.label, this.callback));
 						}
