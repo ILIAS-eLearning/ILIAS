@@ -478,12 +478,6 @@ abstract class ilDB extends PEAR
 	function createTable($a_name, $a_definition_array, $a_drop_table = false,
 		$a_ignore_erros = false)
 	{
-		// (removed options; should only be activated restricted, if necessary
-		if ($a_options == "")
-		{
-			$a_options = array();
-		}
-		
 		// check table name
 		if (!$this->checkTableName($a_name) && !$a_ignore_erros)
 		{
@@ -503,10 +497,22 @@ abstract class ilDB extends PEAR
 			$this->dropTable($a_name, false);
 		}
 		
+		$options = $this->getCreateTableOptions();
+		
 		$manager = $this->db->loadModule('Manager');
-		$r = $manager->createTable($a_name, $a_definition_array, $a_options);
+		$r = $manager->createTable($a_name, $a_definition_array, $options);
 
 		return $this->handleError($r, "createTable(".$a_name.")");
+	}
+	
+	/**
+	 * Get options for the create table statement 
+	 * 
+	 * @return array
+	 */
+	protected function getCreateTableOptions()
+	{
+		return array();
 	}
 	
 	/**

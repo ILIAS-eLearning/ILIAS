@@ -345,5 +345,11 @@ class ilDBMySQL extends ilDB
 	{
 		$this->query('UNLOCK TABLES');
 	}
+	
+	protected function getCreateTableOptions()
+	{
+		// InnoDB is default engine for MySQL >= 5.5
+		return array('type' => 'MyISAM');
+	}
 }
 ?>
