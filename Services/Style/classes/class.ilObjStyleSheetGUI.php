@@ -157,7 +157,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				$expandable = true;
 			}
 		}
-		if ($expandable)
+		if ($expandable && $rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
 		{
 			$ilToolbar->addButton($lng->txt("sty_add_characteristic"),
 				$ilCtrl->getLinkTarget($this, "addCharacteristicForm"));
@@ -193,7 +193,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function propertiesObject()
 	{
-		global $rbacsystem, $lng;
+		global $rbacsystem, $lng, $ilToolbar;
 
 		// set style sheet
 		$this->tpl->setCurrentBlock("ContentStyle");
@@ -201,14 +201,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$this->object->getContentStylePath($this->object->getId()));
 		$this->tpl->parseCurrentBlock();
 
-		// add button button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
 		// export button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportStyle"));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("export"));
-		$this->tpl->parseCurrentBlock();
+		$ilToolbar->addButton($this->lng->txt("export"),
+			$this->ctrl->getLinkTarget($this, "exportStyle"));
 
 		$this->initPropertiesForm();
 		$this->getPropertiesValues();
@@ -237,7 +232,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	public function initPropertiesForm($a_mode = "edit")
 	{
-		global $lng;
+		global $lng, $rbacsystem;
+		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 	
@@ -259,8 +255,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$cb->setInfo($this->lng->txt("sty_disable_auto_margins_info"));
 		$this->form->addItem($cb);
 		
-	
 		// save and cancel commands
+		
 		if ($a_mode == "create")
 		{
 			$this->form->addCommandButton("save", $lng->txt("save"));
@@ -268,7 +264,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->form->addCommandButton("update", $lng->txt("save"));
+			if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+			{
+				$this->form->addCommandButton("update", $lng->txt("save"));
+			}
 		}
 	                
 		$this->form->setTitle($lng->txt("edit_stylesheet"));
@@ -1177,10 +1176,13 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function listImagesObject()
 	{
-		global $tpl, $ilToolbar, $ilCtrl, $lng;
+		global $tpl, $ilToolbar, $ilCtrl, $lng, $rbacsystem;
 		
-		$ilToolbar->addButton($lng->txt("sty_add_image"),
-			$ilCtrl->getLinkTarget($this, "addImage"));
+		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		{
+			$ilToolbar->addButton($lng->txt("sty_add_image"),
+				$ilCtrl->getLinkTarget($this, "addImage"));
+		}
 		
 		include_once("./Services/Style/classes/class.ilStyleImageTableGUI.php");
 		$table_gui = new ilStyleImageTableGUI($this, "listImages",
@@ -1624,7 +1626,13 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function listColorsObject()
 	{
-		global $tpl;
+		global $tpl, $rbacsystem, $ilToolbar, $ilCtrl;
+		
+		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		{
+			$ilToolbar->addButton($this->lng->txt("sty_add_color"),
+				$ilCtrl->getLinkTarget($this, "addColor"));
+		}
 		
 		include_once("./Services/Style/classes/class.ilStyleColorTableGUI.php");
 		$table_gui = new ilStyleColorTableGUI($this, "listColors",

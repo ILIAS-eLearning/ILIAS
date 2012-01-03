@@ -125,6 +125,13 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		//$this->tpl->setCurrentBlock("style_settings");
 
 		$settings = $this->ilias->getAllSettings();
+		
+		if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			$this->tpl->setCurrentBlock("save_but");
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$this->tpl->setVariable("FORMACTION_STYLESETTINGS", $this->ctrl->getFormAction($this));
 
@@ -145,7 +152,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_CUSTOM_ICON_SIZE_SMALL", $this->lng->txt("custom_icon_size_standard"));
 		$this->tpl->setVariable("TXT_CUSTOM_ICON_SIZE_TINY", $this->lng->txt("custom_icon_size_tiny"));
 		$this->tpl->setVariable("TXT_WIDTH_X_HEIGHT", $this->lng->txt("width_x_height"));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		
 		// set current values
 		if ($settings["tree_frame"] == "right")
@@ -209,50 +215,50 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if (true)
+		// this may not be cool, if styles are organised as (independent) Service
+		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+
+		$from_styles = $to_styles = $data = array();
+		$styles = $this->object->getStyles();
+
+		foreach($styles as $style)
 		{
-			// this may not be cool, if styles are organised as (independent) Service
-			include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-
-			$from_styles = $to_styles = $data = array();
-			$styles = $this->object->getStyles();
-
-			foreach($styles as $style)
+			$style["active"] = ilObjStyleSheet::_lookupActive($style["id"]);
+			$style["lm_nr"] = ilObjContentObject::_getNrOfAssignedLMs($style["id"]);
+			$data[$style["title"].":".$style["id"]]
+				= $style;
+			if ($style["lm_nr"] > 0)
 			{
-				$style["active"] = ilObjStyleSheet::_lookupActive($style["id"]);
-				$style["lm_nr"] = ilObjContentObject::_getNrOfAssignedLMs($style["id"]);
-				$data[$style["title"].":".$style["id"]]
-					= $style;
-				if ($style["lm_nr"] > 0)
-				{
-					$from_styles[$style["id"]] = $style["title"];
-				}
-				if ($style["active"] > 0)
-				{
-					$to_styles[$style["id"]] = $style["title"];
-				}
+				$from_styles[$style["id"]] = $style["title"];
 			}
-
-			// number of individual styles
-			if ($fixed_style <= 0)
+			if ($style["active"] > 0)
 			{
-				$data[-1] =
-					array("title" => $this->lng->txt("sty_individual_styles"),
-						"id" => 0, "lm_nr" => ilObjContentObject::_getNrLMsIndividualStyles());
-				$from_styles[-1] = $this->lng->txt("sty_individual_styles");
+				$to_styles[$style["id"]] = $style["title"];
 			}
+		}
 
-			// number of default style (fallback default style)
-			if ($default_style <= 0 && $fixed_style <= 0)
-			{
-				$data[0] =
-					array("title" => $this->lng->txt("sty_default_style"),
-						"id" => 0, "lm_nr" => ilObjContentObject::_getNrLMsNoStyle());
-				$from_styles[0] = $this->lng->txt("sty_default_style");
-				$to_styles[0] = $this->lng->txt("sty_default_style");
-			}
+		// number of individual styles
+		if ($fixed_style <= 0)
+		{
+			$data[-1] =
+				array("title" => $this->lng->txt("sty_individual_styles"),
+					"id" => 0, "lm_nr" => ilObjContentObject::_getNrLMsIndividualStyles());
+			$from_styles[-1] = $this->lng->txt("sty_individual_styles");
+		}
 
+		// number of default style (fallback default style)
+		if ($default_style <= 0 && $fixed_style <= 0)
+		{
+			$data[0] =
+				array("title" => $this->lng->txt("sty_default_style"),
+					"id" => 0, "lm_nr" => ilObjContentObject::_getNrLMsNoStyle());
+			$from_styles[0] = $this->lng->txt("sty_default_style");
+			$to_styles[0] = $this->lng->txt("sty_default_style");
+		}
+
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
 			$ilToolbar->addButton($lng->txt("sty_add_content_style"),
 				$ilCtrl->getLinkTarget($this, "createStyle"));
 			$ilToolbar->addSeparator();
@@ -262,242 +268,20 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$si = new ilSelectInputGUI($lng->txt("sty_move_lm_styles").": ".$lng->txt("sty_from"), "from_style");
 			$si->setOptions($from_styles);
 			$ilToolbar->addInputItem($si, true);
-
+	
 			// from styles selector
 			$si = new ilSelectInputGUI($lng->txt("sty_to"), "to_style");
 			$si->setOptions($to_styles);
 			$ilToolbar->addInputItem($si, true);
 			$ilToolbar->addFormButton($lng->txt("sty_move_style"), "moveLMStyles");
-
+	
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-
-			include_once("./Services/Style/classes/class.ilContentStylesTableGUI.php");
-			$table = new ilContentStylesTableGUI($this, "editContentStyles", $data, $this->object);
-			$tpl->setContent($table->getHTML());
-
-			return;
 		}
 
+		include_once("./Services/Style/classes/class.ilContentStylesTableGUI.php");
+		$table = new ilContentStylesTableGUI($this, "editContentStyles", $data, $this->object);
+		$tpl->setContent($table->getHTML());
 
-		
-		include_once "./Services/Table/classes/class.ilTableGUI.php";
-
-		// load template content style settings
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.styf_content_styles.html");
-
-		// load template for table
-		$this->tpl->addBlockfile("STYLE_TABLE", "style_table", "tpl.table.html");
-		
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.styf_row.html");
-
-		$num = 0;
-
-		$this->tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this));
-
-		// create table
-		$tbl = new ilTableGUI();
-
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("content_styles"),"icon_sty.gif",
-			$this->lng->txt("content_styles"));
-
-		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-
-		// title
-		$header_names = array("", $this->lng->txt("title"),
-			$this->lng->txt("sty_nr_learning_modules"),
-			$this->lng->txt("purpose"), $this->lng->txt("sty_scope"),
-			$this->lng->txt("active"));
-		$tbl->setHeaderNames($header_names);
-
-		$header_params = array("ref_id" => $this->ref_id);
-		$tbl->setHeaderVars(array("", "title", "nr_lms", "purpose", "scope", "active"), $header_params);
-		$tbl->setColumnWidth(array("1px", "", "", "", ""));
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->disable("sort");
-		
-		// get style ids
-		$style_entries = array();
-		$styles = $this->object->getStyles();
-		foreach($styles as $style)
-		{
-			$style_entries[$style["title"].":".$style["id"]]
-				= $style;
-		}
-		ksort($style_entries);
-		$from_styles = $to_styles = array();
-		// this may not be cool, if styles are organised as (independent) Service
-		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-
-		// number of individual styles
-		if ($fixed_style <= 0)
-		{
-			$style_entries[-1] = 
-				array("title" => $this->lng->txt("sty_individual_styles"),
-					"id" => 0, "nr" => ilObjContentObject::_getNrLMsIndividualStyles());
-			$from_styles[-1] = $this->lng->txt("sty_individual_styles");
-		}
-		
-		// number of default style (fallback default style)
-		if ($default_style <= 0 && $fixed_style <= 0)
-		{
-			$style_entries[0] = 
-				array("title" => $this->lng->txt("sty_default_style"),
-					"id" => 0, "nr" => ilObjContentObject::_getNrLMsNoStyle());
-			$from_styles[0] = $this->lng->txt("sty_default_style");
-			$to_styles[0] = $this->lng->txt("sty_default_style");
-		}
-		
-		// todo
-		$tbl->setMaxCount(count($style_entries));
-
-		$this->tpl->setVariable("COLUMN_COUNTS", 6);
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-
-		$this->showActions(true);
-		$table_empty = true;
-
-		include_once ("./Services/Style/classes/class.ilObjStyleSheet.php");
-		
-		$fixed_style = $ilias->getSetting("fixed_content_style_id");
-		$default_style = $ilias->getSetting("default_content_style_id");
-		
-		foreach ($style_entries as $style)
-		{
-			// color changing
-			$css_row = ($css_row == "tblrow2")
-				? "tblrow1"
-				: "tblrow2";
-
-			// command checkbox
-			if ($style["id"] > 0)
-			{
-				$this->tpl->setCurrentBlock("check_box");
-				$this->tpl->setVariable("CHECKBOX_ID", $style["id"]);
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			// activation checkbox
-			if ($fixed_style <= 0 && $style["id"] > 0)
-			{
-				$this->tpl->setCurrentBlock("active_box");
-				if (ilObjStyleSheet::_lookupActive($style["id"]))
-				{
-					$this->tpl->setVariable("CHECKED_STY", 'checked="checked"');
-				}
-				$this->tpl->setVariable("ACTIVE_ID", $style["id"]);
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			// link to style edit screen
-			if ($style["id"] > 0)
-			{
-				$this->ctrl->setParameterByClass("ilobjstylesheetgui", "obj_id", $style["id"]);
-				$this->tpl->setCurrentBlock("linka");
-				$this->tpl->setVariable("TXT_TITLE", $style["title"]);
-				$this->tpl->setVariable("LINK_STYLE",
-					$this->ctrl->getLinkTargetByClass("ilobjstylesheetgui"), "view");
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$this->tpl->setCurrentBlock("texta");
-				$this->tpl->setVariable("TXT_TEXT", $style["title"]);
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			$this->tpl->setCurrentBlock("style_row");
-
-			// number of assigned lms
-			if ($style["id"] > 0)
-			{
-				$nr_lm = ilObjContentObject::_getNrOfAssignedLMs($style["id"]);
-				
-				// fill from/to array
-				if ($nr_lm > 0)
-				{
-					$from_styles[$style["id"]] = $style["title"];
-				}
-				if (ilObjStyleSheet::_lookupActive($style["id"]))
-				{
-					$to_styles[$style["id"]] = $style["title"];
-				}
-				
-				$this->tpl->setVariable("TXT_NR_LEARNING_MODULES", $nr_lm);
-				$this->tpl->setVariable("TXT_DESC", ilObject::_lookupDescription($style["id"]));
-			}
-			else
-			{
-				$this->tpl->setVariable("TXT_NR_LEARNING_MODULES", $style["nr"]);
-			}
- 
-			$this->tpl->setVariable("ROWCOL", $css_row);
-			
-			// purpose and scope
-			if ($style["id"] > 0)
-			{
-				if ($style["id"] == $fixed_style)
-				{
-					$this->tpl->setVariable("TXT_PURPOSE", $this->lng->txt("global_fixed"));
-				}
-				if ($style["id"] == $default_style)
-				{
-					$this->tpl->setVariable("TXT_PURPOSE", $this->lng->txt("global_default"));
-				}
-				if ($style["category"] > 0)
-				{
-					$this->tpl->setVariable("TXT_SCOPE",
-						ilObject::_lookupTitle(
-						ilObject::_lookupObjId($style["category"])
-						));
-				}
-			}
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("tbl_content");
-			$this->tpl->parseCurrentBlock();
-
-		} //if is_array
-
-		if (count($style_entries) == 0)
-		{
-            $tbl->disable("header");
-			$tbl->disable("footer");
-			
-			$this->tpl->setCurrentBlock("text");
-			$this->tpl->setVariable("TXT_CONTENT", $this->lng->txt("obj_not_found"));
-			$this->tpl->parseCurrentBlock();
-			
-			$this->tpl->setCurrentBlock("tbl_content");
-			$this->tpl->parseCurrentBlock();
-		}
-
-		// render table
-		$tbl->render();
-		
-		
-		// move form
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_MOVE_LM_STYLE", $this->lng->txt("sty_move_lm_styles"));
-		$this->tpl->setVariable("TXT_FROM", $this->lng->txt("from"));
-		$this->tpl->setVariable("TXT_TO", $this->lng->txt("style_move_style_into"));
-		$this->tpl->setVariable("TXT_MOVE_LM_STYLE", $this->lng->txt("sty_move_lm_styles"));
-		$this->tpl->setVariable("TXT_MOVE_STYLE", $this->lng->txt("sty_move_style"));
-		$this->tpl->setVariable("SELECT_FROM",
-			ilUtil::formSelect("", "from_style", $from_styles, false, true));
-		$this->tpl->setVariable("SELECT_TO",
-			ilUtil::formSelect("", "to_style", $to_styles, false, true));
-		$this->tpl->setVariable("FORMACTION2", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
 	}
 	
 	/**
@@ -565,9 +349,14 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 		$settings = $this->ilias->getAllSettings();
 
+		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		{
+			$this->tpl->setCurrentBlock("save_but");
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setVariable("FORMACTION_STYLESETTINGS", $this->ctrl->getFormAction($this));		
 		$this->tpl->setVariable("TXT_STYLE_SETTINGS", $this->lng->txt("system_style_settings"));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_DEFAULT_SKIN_STYLE", $this->lng->txt("default_skin_style"));
 		$this->tpl->setVariable("TXT_SKIN_STYLE_ACTIVATION", $this->lng->txt("style_activation"));
 		$this->tpl->setVariable("TXT_NUMBER_OF_USERS", $this->lng->txt("num_users"));
@@ -1052,14 +841,18 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	*/
 	function viewPageLayoutsObject()
 	{
-		global $tpl, $lng, $ilCtrl, $ilTabs, $ilToolbar;
+		global $tpl, $lng, $ilCtrl, $ilTabs, $ilToolbar, $rbacsystem;
 		
 		$ilTabs->setTabActive('page_layouts');
 		
-		$ilToolbar->addButton($lng->txt("sty_add_pgl"),
-			$ilCtrl->getLinkTarget($this, "addPageLayout"));
-		$ilToolbar->addButton($lng->txt("sty_import_page_layout"),
-			$ilCtrl->getLinkTarget($this, "importPageLayoutForm"));
+		// show toolbar, if write permission is given
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$ilToolbar->addButton($lng->txt("sty_add_pgl"),
+				$ilCtrl->getLinkTarget($this, "addPageLayout"));
+			$ilToolbar->addButton($lng->txt("sty_import_page_layout"),
+				$ilCtrl->getLinkTarget($this, "importPageLayoutForm"));
+		}
 
 		$oa_tpl = new ilTemplate("tpl.stys_pglayout.html", true, true, "Services/Style");
    		
@@ -1356,8 +1149,13 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	
 	function editPgObject()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $rbacsystem;
 		
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		$ilCtrl->setCmdClass("ilpagelayoutgui");
 		$ilCtrl->setCmd("edit");
 		$this->executeCommand();

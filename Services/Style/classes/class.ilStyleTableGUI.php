@@ -20,7 +20,7 @@ class ilStyleTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_chars, $a_super_type, $a_style)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->media_object = $a_media_object;
@@ -65,19 +65,22 @@ class ilStyleTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.style_row.html", "Services/Style");
 		$this->disable("footer");
 
-		// action commands
-		if ($this->hideable)
+		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
 		{
-			$this->addCommandButton("saveHideStatus", $lng->txt("sty_save_hide_status"));
-		}
-
-		$this->addMultiCommand("copyCharacteristics", $lng->txt("copy"));
-		
-		// action commands
-		if ($this->expandable)
-		{
-			$this->addMultiCommand("deleteCharacteristicConfirmation", $lng->txt("delete"));
-			//$this->addCommandButton("addCharacteristicForm", $lng->txt("sty_add_characteristic"));
+			// action commands
+			if ($this->hideable)
+			{
+				$this->addCommandButton("saveHideStatus", $lng->txt("sty_save_hide_status"));
+			}
+	
+			$this->addMultiCommand("copyCharacteristics", $lng->txt("copy"));
+			
+			// action commands
+			if ($this->expandable)
+			{
+				$this->addMultiCommand("deleteCharacteristicConfirmation", $lng->txt("delete"));
+				//$this->addCommandButton("addCharacteristicForm", $lng->txt("sty_add_characteristic"));
+			}
 		}
 		
 		$this->setEnableTitle(true);
@@ -89,7 +92,7 @@ class ilStyleTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		global $lng, $ilCtrl, $ilAccess, $rbacsystem;
 
 		$stypes = ilObjStyleSheet::_getStyleSuperTypes();
 		$types = $stypes[$this->super_type];
@@ -147,12 +150,15 @@ class ilStyleTableGUI extends ilTable2GUI
 		$tag_str = ilObjStyleSheet::_determineTag($a_set["type"]).".".$a_set["class"];
 		$this->tpl->setVariable("TXT_TAG", $a_set["class"]);
 		$this->tpl->setVariable("TXT_TYPE", $lng->txt("sty_type_".$a_set["type"]));
-		$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-		$ilCtrl->setParameter($this->parent_obj, "tag", $tag_str);
-		$ilCtrl->setParameter($this->parent_obj, "style_type", $a_set["type"]);
-		$this->tpl->setVariable("LINK_EDIT_TAG_STYLE",
-			$ilCtrl->getLinkTarget($this->parent_obj, "editTagStyle"));
-
+		
+		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		{
+			$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+			$ilCtrl->setParameter($this->parent_obj, "tag", $tag_str);
+			$ilCtrl->setParameter($this->parent_obj, "style_type", $a_set["type"]);
+			$this->tpl->setVariable("LINK_EDIT_TAG_STYLE",
+				$ilCtrl->getLinkTarget($this->parent_obj, "editTagStyle"));
+		}
 	}
 
 }

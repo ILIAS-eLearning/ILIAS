@@ -38,7 +38,7 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_temp_type, $a_parent_obj, $a_parent_cmd, $a_style_obj)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -61,13 +61,16 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
 		$this->getItems();
 
 		// action commands
-		$this->addMultiCommand("deleteTemplateConfirmation", $lng->txt("delete"));
-		
-		if ($a_temp_type == "table")
+		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
 		{
-			$this->addCommandButton("generateTemplate", $this->lng->txt("sty_generate_template"));
+			$this->addMultiCommand("deleteTemplateConfirmation", $lng->txt("delete"));
+			
+			if ($a_temp_type == "table")
+			{
+				$this->addCommandButton("generateTemplate", $this->lng->txt("sty_generate_template"));
+			}
+			$this->addCommandButton("addTemplate", $this->lng->txt("sty_add_template"));
 		}
-		$this->addCommandButton("addTemplate", $this->lng->txt("sty_add_template"));
 		
 		$this->setEnableTitle(true);
 	}
@@ -85,16 +88,20 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		global $lng, $ilCtrl, $ilAccess, $rbacsystem;
 		
 		$this->tpl->setVariable("T_PREVIEW", 
 			$this->style_obj->lookupTemplatePreview($a_set["id"]));
 		$this->tpl->setVariable("TID", $a_set["id"]);
 		$this->tpl->setVariable("TEMPLATE_NAME", $a_set["name"]);
 		$ilCtrl->setParameter($this->parent_obj, "t_id", $a_set["id"]);
-		$this->tpl->setVariable("LINK_EDIT_TEMPLATE",
-			$ilCtrl->getLinkTarget($this->parent_obj, "editTemplate"));
-		$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+		
+		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		{
+			$this->tpl->setVariable("LINK_EDIT_TEMPLATE",
+				$ilCtrl->getLinkTarget($this->parent_obj, "editTemplate"));
+			$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+		}
 	}
 }
 ?>
