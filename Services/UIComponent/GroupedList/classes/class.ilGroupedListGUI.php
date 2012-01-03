@@ -102,6 +102,10 @@ class ilGroupedListGUI
 						{
 							$tpl->setVariable("TARGET", 'target="'.$i["target"].'"');
 						}
+						else
+						{
+							$tpl->setVariable("TARGET", 'target="_top"');
+						}
 						$tpl->parseCurrentBlock();
 						$tpl->touchBlock("item");
 					}
