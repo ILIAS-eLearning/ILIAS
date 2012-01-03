@@ -2526,10 +2526,19 @@ restore starts here
 		if($this->workspace_object_ids === null)
 		{
 			$this->workspace_object_ids = array();
+			
+			// workspace objects
 			$set = $ilDB->query("SELECT DISTINCT(obj_id) FROM object_reference_ws");
 			while($row = $ilDB->fetchAssoc($set))
 			{
 				$this->workspace_object_ids[] = $row["obj_id"];
+			}
+			
+			// portfolios
+			$set = $ilDB->query("SELECT id FROM usr_portfolio");
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$this->workspace_object_ids[] = $row["id"];
 			}
 		}
 	}
