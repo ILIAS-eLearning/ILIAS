@@ -15,7 +15,7 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $rbacsystem;
 
 		$lng->loadLanguageModule("content");
 		
@@ -31,10 +31,14 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("modules"));
 		$this->addColumn($lng->txt("actions"));
 		
-		$this->addMultiCommand("activate", $lng->txt("activate"));
-		$this->addMultiCommand("deactivate", $lng->txt("deactivate"));
-		$this->addMultiCommand("deletePgl", $lng->txt("delete"));
-		$this->addCommandButton("savePageLayoutTypes", $lng->txt("cont_save_types"));
+		// show command buttons, if write permission is given
+		if ($rbacsystem->checkAccess("write",$this->parent_obj->object->getRefId()))
+		{
+			$this->addMultiCommand("activate", $lng->txt("activate"));
+			$this->addMultiCommand("deactivate", $lng->txt("deactivate"));
+			$this->addMultiCommand("deletePgl", $lng->txt("delete"));
+			$this->addCommandButton("savePageLayoutTypes", $lng->txt("cont_save_types"));
+		}
 		
 		$this->getPageLayouts();
 		

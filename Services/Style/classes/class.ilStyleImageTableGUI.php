@@ -19,7 +19,7 @@ class ilStyleImageTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_style_obj)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -38,7 +38,10 @@ class ilStyleImageTableGUI extends ilTable2GUI
 		$this->getItems();
 
 		// action commands
-		$this->addMultiCommand("deleteImage", $lng->txt("delete"));
+		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		{
+			$this->addMultiCommand("deleteImage", $lng->txt("delete"));
+		}
 		
 		//$this->addMultiCommand("editLink", $lng->txt("cont_set_link"));
 		//$this->addCommandButton("addImage", $this->lng->txt("sty_add_image"));

@@ -38,7 +38,7 @@ class ilStyleColorTableGUI extends ilTable2GUI
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_style_obj)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -59,10 +59,10 @@ class ilStyleColorTableGUI extends ilTable2GUI
 		$this->getItems();
 
 		// action commands
-		$this->addMultiCommand("deleteColorConfirmation", $lng->txt("delete"));
-		
-		//$this->addMultiCommand("editLink", $lng->txt("cont_set_link"));
-		$this->addCommandButton("addColor", $this->lng->txt("sty_add_color"));
+		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		{
+			$this->addMultiCommand("deleteColorConfirmation", $lng->txt("delete"));
+		}
 		
 		$this->setEnableTitle(true);
 	}
@@ -80,7 +80,7 @@ class ilStyleColorTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		global $lng, $ilCtrl, $ilAccess, $rbacsystem;
 		
 		for ($i = -80; $i<=80; $i+=20)
 		{
@@ -94,10 +94,14 @@ class ilStyleColorTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("COLOR_NAME_ENC", ilUtil::prepareFormOutput($a_set["name"]));
 		$this->tpl->setVariable("COLOR_NAME", $a_set["name"]);
 		$this->tpl->setVariable("COLOR_CODE", $a_set["code"]);
-		$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
-		$ilCtrl->setParameter($this->parent_obj, "c_name", rawurlencode($a_set["name"]));
-		$this->tpl->setVariable("LINK_EDIT_COLOR",
-			$ilCtrl->getLinkTarget($this->parent_obj, "editColor"));
+		
+		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		{
+			$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+			$ilCtrl->setParameter($this->parent_obj, "c_name", rawurlencode($a_set["name"]));
+			$this->tpl->setVariable("LINK_EDIT_COLOR",
+				$ilCtrl->getLinkTarget($this->parent_obj, "editColor"));
+		}
 	}
 }
 ?>
