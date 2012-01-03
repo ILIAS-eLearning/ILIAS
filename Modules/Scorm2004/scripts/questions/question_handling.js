@@ -1212,7 +1212,7 @@ jQuery(document).ready(function() {
 				// alert('yes');
 			}
 
-			wrap = jQuery('<div>').css({display:'block',background:'url('+this.src+')',position:'relative',padding:0,width:this.width,height:this.height});
+			wrap = jQuery('<div>').css({display:'block',background:'url("'+this.src+'")',position:'relative',padding:0,width:this.width,height:this.height});
 			img.before(wrap).css('opacity', 0).css(canvas_style).remove();
 			
 			if(jQuery.browser.msie && !has_canvas) { img.css('filter', 'Alpha(opacity=0)'); }
