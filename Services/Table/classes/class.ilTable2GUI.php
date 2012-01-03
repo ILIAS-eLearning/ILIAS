@@ -523,7 +523,10 @@ class ilTable2GUI extends ilTableGUI
 	final public function setData($a_data)
 	{
 		// check column names against given data (to ensure proper sorting)
-		if(DEVMODE && $this->columns_determined && is_array($this->column) && is_array($a_data) && sizeof($a_data))
+		if(DEVMODE && 
+			$this->enabled["header"] && $this->enabled["sort"] && 
+			$this->columns_determined && is_array($this->column) && 
+			is_array($a_data) && sizeof($a_data))
 		{
 			$check = $a_data;
 			$check = array_keys(array_shift($check));			
