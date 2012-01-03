@@ -62,7 +62,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock('footer_export_e');
 			$this->tpl->setVariable('TXT_EXPORT_E_ALL',$this->lng->txt('select_all'));
 			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock('footer_link');
+			$this->tpl->setCurrentBlock('footer_export');
 			$this->tpl->setVariable('TXT_EXPORT_ALL',$this->lng->txt('select_all'));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock('footer_omit');
