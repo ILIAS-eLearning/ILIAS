@@ -1181,7 +1181,7 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("setup", "pass", md5($a_formdata["setup_pass"]));
 		$this->ini->setVariable("log", "path", $log_path);
 		$this->ini->setVariable("log", "file", $log_file);
-		$this->ini->setVariable("log", "enabled", (isset($a_formdata["chk_log_status"])) ? "0" : 1);
+		$this->ini->setVariable("log", "enabled", ($a_formdata["chk_log_status"]) ? "0" : 1);
 
 		if (!$this->ini->write())
 		{
