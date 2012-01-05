@@ -3576,12 +3576,12 @@ common#:#include_local#:#include local
 common#:#info_access_and_status_info#:#Zugriffs- und Statusinformationen
 common#:#info_access_permissions#:#Zugriffsrechte
 common#:#info_accessFree_sure#:#Sind Sie sicher, dass für die folgenden Benutzer die Begrenzung des zeitlichen Zugriffs aufheben wollen?
-common#:#info_activate_sure#:#Sind Sie sicher, dass Sie die folgenden Benutzer als aktive Benutzer bestätigen wollen?
+common#:#info_activate_sure#:#Sind Sie sicher, dass Sie die den Status folgender Benutzer in "Aktiv" ändern wollen?
 common#:#info_assign_sure#:# Sind Sie sicher, dass Sie den/die folgenden User aufnehmen möchten?
 common#:#info_assigned#:#zugewiesen
 common#:#info_available_roles#:#Verfügbare Rollen
 common#:#info_change_user_view#:#Benutzersicht wechseln
-common#:#info_deactivate_sure#:#Sind Sie sicher, dass Sie die folgenden Benutzer nicht als aktive Benutzer bestätigen wollen?
+common#:#info_deactivate_sure#:#Sind Sie sicher, dass Sie die den Status folgender Benutzer in "Inaktiv" ändern wollen?
 common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:
 common#:#info_delete_warning_no_trash#:#(WARNUNG: Die ausgewählten Objekte werden unwiderruflich aus dem System entfernt und können nicht wiederhergestellt werden!)
 common#:#info_deleted#:#Objekt(e) gelöscht
