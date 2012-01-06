@@ -1225,7 +1225,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			SELECT lvalue, rvalue FROM scorm_tracking 
 			WHERE sco_id = %s 
 			AND user_id =  %s
-			AND (lvalue = 'cmi.core.score.raw' || lvalue = 'cmi.core.score.max')",
+			AND (lvalue = 'cmi.core.score.raw' OR lvalue = 'cmi.core.score.max')",
 			array('integer', 'integer'),
 			array($a_item_id, $a_user_id)
 		);
