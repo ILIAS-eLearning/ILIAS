@@ -12397,3 +12397,5 @@ dateplaner#:#cal_reg_registered#:#You have been registered.
 dateplaner#:#cal_reg_unregistered#:#You have been unregistered.
 content#:#cont_lm_comments_desc#:#Allow users to share comments on every page of the learning module.
 exercise#:#exc_start_date_should_be_before_end_date#:#Start time should be before deadline.
+assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results
+assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.

@@ -408,6 +408,11 @@ class ilObjTest extends ilObject
 	private $online = null;
 
 	/**
+	 * @var bool
+	 */
+	protected $print_best_solution_with_result = true;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
@@ -1140,9 +1145,10 @@ class ilObjTest extends ilObject
 				"reset_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, " .
 				"ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
 				"shuffle_questions, results_presentation, show_summary, password, allowedusers, mailnottype, exportsettings, " .
-				"alloweduserstimegap, certificate_visibility, mailnotification, created, tstamp, enabled_view_mode, template_id, pool_usage, online_status) " .
+				"alloweduserstimegap, certificate_visibility, mailnotification, created, tstamp, enabled_view_mode, template_id, pool_usage, online_status, " .
+				"print_bs_with_res) " .
 				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
-				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				array(
 					'integer', 'integer', 'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
@@ -1151,7 +1157,8 @@ class ilObjTest extends ilObject
 					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
 					'text', 'integer', 'integer', 'text', 'integer', 'integer', 'integer',
-					'integer', 'text', 'integer', 'integer', 'integer', 'text', 'text', 'integer', 'integer'
+					'integer', 'text', 'integer', 'integer', 'integer', 'text', 'text', 'integer', 'integer',
+					'integer'
 				),
 				array(
 					$next_id, 
@@ -1211,7 +1218,8 @@ class ilObjTest extends ilObject
                     $this->getEnabledViewMode(),
                     $this->getTemplate(),
                     $this->getPoolUsage(),
-					(int)$this->isOnline()
+					(int)$this->isOnline(),
+					(int) $this->isBestSolutionPrintedWithResult()
 				)
 			);
 			$this->test_id = $next_id;
@@ -1243,7 +1251,8 @@ class ilObjTest extends ilObject
 				"fixed_participants = %s, nr_of_tries = %s, kiosk = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, " . 
 				"reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, complete = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, " .
 				"ects_e = %s, ects_fx = %s, random_test = %s, random_question_count = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, " . 
-				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedusers = %s, mailnottype = %s, exportsettings = %s, " . 
+				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedusers = %s, mailnottype = %s, exportsettings = %s, " .
+				"print_bs_with_res = %s,".
 				"alloweduserstimegap = %s, certificate_visibility = %s, mailnotification = %s, tstamp = %s, enabled_view_mode = %s, template_id = %s, pool_usage = %s, online_status = %s WHERE test_id = %s",
 				array(
 					'text', 'text', 
@@ -1253,6 +1262,7 @@ class ilObjTest extends ilObject
 					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
 					'text', 'integer', 'integer', 'text', 'integer','integer', 'integer',
+					'integer',
 					'integer', 'text', 'integer', 'integer', 'text', 'text', 'integer', 'integer', 'integer'
 				),
 				array(
@@ -1303,6 +1313,7 @@ class ilObjTest extends ilObject
 					$this->getAllowedUsers(),
 					$this->getMailNotificationType(),
 					$this->getExportSettings(),
+					(int) $this->isBestSolutionPrintedWithResult(),
 					$this->getAllowedUsersTimeGap(),
 					$this->getCertificateVisibility(), 
 					$this->getMailNotification(),
@@ -2069,6 +2080,7 @@ class ilObjTest extends ilObject
                         $this->setTemplate($data->template_id);
 			$this->setPoolUsage($data->pool_usage);
 			$this->setOnline($data->online_status);
+			$this->setPrintBestSolutionWithResult((bool) $data->print_bs_with_res);
 			$this->loadQuestions();
 		}
 	}
@@ -6785,7 +6797,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$newObj->setEnabledViewMode($this->getEnabledViewMode());
 		$newObj->setTemplate($this->getTemplate());
 		$newObj->setPoolUsage($this->getPoolUsage());
-
+		$newObj->setPrintBestSolutionWithResult($this->isBestSolutionPrintedWithResult());
 		$newObj->saveToDb();
 		
 		// clone certificate
@@ -10424,7 +10436,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		$this->online = (bool)$a_online;
 	}
+	
+	public function setPrintBestSolutionWithResult($status)
+	{
+		$this->print_best_solution_with_result = (bool) $status;
+	}
 
+	public function isBestSolutionPrintedWithResult()
+	{
+		return (bool) $this->print_best_solution_with_result;
+	}
 } // END class.ilObjTest
 
 ?>
