@@ -367,13 +367,13 @@ class ilTrQuery
 	 * @param	string	$a_order_dir
 	 * @param	int		$a_offset
 	 * @param	int		$a_limit
-	 * @param	array	$a_filter
+	 * @param	array	$a_filters
 	 * @param	array	$a_additional_fields
 	 * @param	bool	$use_collection
 	 * @return	array	cnt, set
 	 */
 	static function getObjectsDataForUser($a_user_id, $a_parent_obj_id, $a_parent_ref_id, $a_order_field = "", $a_order_dir = "", $a_offset = 0, $a_limit = 9999,
-		array $a_filter = NULL, array $a_additional_fields = NULL, $use_collection = true)
+		array $a_filters = NULL, array $a_additional_fields = NULL, $use_collection = true)
 	{
 		global $ilDB;
 		
@@ -1155,9 +1155,7 @@ class ilTrQuery
 	 * @return	array	object_ids, objectives_parent_id
 	 */
 	static public function getObjectIds($a_parent_obj_id, $a_parent_ref_id = false,  $use_collection = true, $a_refresh_status = true)
-	{
-		global $tree;
-		
+	{	
 		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
 		
 		$object_ids = array($a_parent_obj_id);
@@ -1370,11 +1368,6 @@ class ilTrQuery
 			$fields = array("usr_data.usr_id", "login", "status", 'status_changed', "percentage",
 				"last_access", "spent_seconds+childs_spent_seconds as spent_seconds");
 
-			if(!$a_order_field)
-			{
-				$a_order_field = "login";
-			}
-
 			$parent_obj_id = ilObject::_lookupObjectId($a_parent_ref_id);
 			self::refreshObjectsStatus(array($parent_obj_id), $a_users);			
 			
@@ -1388,13 +1381,13 @@ class ilTrQuery
 					" AND read_event.obj_id = ".$ilDB->quote($obj_id, "integer").")".
 					" LEFT JOIN ut_lp_marks ON (ut_lp_marks.usr_id = usr_data.usr_id ".
 					" AND ut_lp_marks.obj_id = ".$ilDB->quote($obj_id, "integer").")".
-					self::buildFilters($where, $a_filters);
+					self::buildFilters($where);
 
-				$raw = self::executeQueries(array(array("fields"=>$fields, "query"=>$query)), $a_order_field);
+				$raw = self::executeQueries(array(array("fields"=>$fields, "query"=>$query)), "login");
 				if($raw["cnt"])
 				{
 					// convert to final structure
-					foreach($raw["set"] as $idx => $row)
+					foreach($raw["set"] as $row)
 					{
 						$result["set"][$row["usr_id"]]["login"] = $row["login"];
 						$result["set"][$row["usr_id"]]["usr_id"] = $row["usr_id"];
@@ -1546,6 +1539,7 @@ class ilTrQuery
 			" FROM obj_stat".
 			" GROUP BY yyyy, mm".
 			" ORDER BY yyyy DESC, mm DESC");
+		$res = array();
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$res[] = array("month"=>$row["yyyy"]."-".$row["mm"],
