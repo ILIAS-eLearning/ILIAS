@@ -853,7 +853,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
   		$config->addSetting(
 			"pass_scoring",
 			ilSettingsTemplateConfig::SELECT,
-			$lng->txt("tst_score_cutting"),
+			$lng->txt("tst_pass_scoring"),
                         false,
                         0,
 			array(
@@ -887,6 +887,13 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
                             '3' => $lng->txt("tst_results_access_never"),
                             '4' => $lng->txt("tst_results_access_date"),
                         )
+			);
+
+			$config->addSetting(
+				"print_bs_with_res",
+				ilSettingsTemplateConfig::BOOL,
+				$lng->txt("tst_results_print_best_solution"),
+				true
 			);
 
                 $config->addSetting(

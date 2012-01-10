@@ -8405,3 +8405,16 @@ if(!$ilDB->tableExists('note_settings'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3509>
+<?php
+	if(!$ilDB->tableColumnExists('tst_tests', 'print_bs_with_res'))
+	{
+		$ilDB->addTableColumn('tst_tests', 'print_bs_with_res', array(
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => true,
+				'default' => 1
+			)
+		);
+	}
+?>

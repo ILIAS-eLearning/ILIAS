@@ -786,7 +786,7 @@ class ilTestServiceGUI
 		$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
 		$result_output = $question_gui->getSolutionOutput($active_id, $pass, TRUE, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
 		$best_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, $show_question_only, FALSE, TRUE);
-		if (strlen($best_output)) 
+		if ($this->object->isBestSolutionPrintedWithResult() && strlen($best_output))
 		{
 			$template->setCurrentBlock("best_solution");
 			$template->setVariable("TEXT_BEST_SOLUTION", $this->lng->txt("tst_best_solution_is"));

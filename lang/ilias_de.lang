@@ -12397,3 +12397,5 @@ dateplaner#:#cal_reg_registered#:#Sie wurden für diesen Termin angemeldet.
 dateplaner#:#cal_reg_unregistered#:#Sie wurden abgemeldet.
 content#:#cont_lm_comments_desc#:#Erlaubt es Benutzern öffentliche Kommentare auf allen Lernmodulseiten hinzuzufügen.
 exercise#:#exc_start_date_should_be_before_end_date#:#Die Startzeit sollte vor dem Abgabetermin liegen.
+assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung in Testergebnissen
+assessment#:#tst_results_print_best_solution_info#:#Falls aktiviert, und die Teilnehmer Zugang zu ihren Testergbnissen haben, wird den Lernenden die bestmögliche Lösung präsentiert.

@@ -1046,6 +1046,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 			$this->object->setExportSettingsSingleChoiceShort((is_array($_POST['export_settings']) && in_array('exp_sc_short', $_POST['export_settings'])) ? 1 : 0);
 
+			$this->object->setPrintBestSolutionWithResult((int) $_POST['print_bs_with_res'] ? true : false);
+
 			$this->object->saveToDb(true);
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), TRUE);
 			$this->ctrl->redirect($this, "scoring");
@@ -1160,10 +1162,11 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// access to test results
 		$results_access = new ilRadioGroupInputGUI($this->lng->txt("tst_results_access"), "results_access");
-		$results_access->addOption(new ilRadioOption($this->lng->txt("tst_results_access_finished"), 1, ''));
 		$results_access->addOption(new ilRadioOption($this->lng->txt("tst_results_access_always"), 2, ''));
+		$results_access->addOption(new ilRadioOption($this->lng->txt("tst_results_access_finished"), 1, ''));
+		$results_access_date_limitation = new ilRadioOption($this->lng->txt("tst_results_access_date"), 3, '');
+		$results_access->addOption($results_access_date_limitation);		
 		$results_access->addOption(new ilRadioOption($this->lng->txt("tst_results_access_never"), 4, ''));
-		$results_access->addOption(new ilRadioOption($this->lng->txt("tst_results_access_date"), 3, ''));
 		$results_access->setValue($this->object->getScoreReporting());
 		$results_access->setInfo($this->lng->txt("tst_results_access_description"));
 
@@ -1179,8 +1182,14 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$reporting_date->setDate(new ilDateTime(time(), IL_CAL_UNIX));
 		}
-		$results_access->addSubItem($reporting_date);
+		$results_access_date_limitation->addSubItem($reporting_date);
 		$form->addItem($results_access);
+
+		$results_print_best_solution = new ilCheckboxInputGUI($this->lng->txt("tst_results_print_best_solution"), "print_bs_with_res");
+		$results_print_best_solution->setInfo($this->lng->txt('tst_results_print_best_solution_info'));
+		$results_print_best_solution->setValue(1);
+		$results_print_best_solution->setChecked((bool) $this->object->isBestSolutionPrintedWithResult());
+		$form->addItem($results_print_best_solution);
 
 		// results presentation
 		$results_presentation = new ilCheckboxGroupInputGUI($this->lng->txt("tst_results_presentation"), "results_presentation");
@@ -5176,6 +5185,7 @@ class ilObjTestGUI extends ilObjectGUI
 
                 'results_presentation' => 'setResultsPresentationOptionsByArray',
                 'export_settings' => 'setExportSettings',
+                'print_bs_with_res' => 'setPrintBestSolutionWithResult',
             );
 
 	    if (!$templateData['results_presentation']['value']) {
