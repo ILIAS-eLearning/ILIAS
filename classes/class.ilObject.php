@@ -1419,6 +1419,15 @@ class ilObject
 				}
 			}
 		    */
+						
+			// BEGIN WebDAV: Delete WebDAV properties
+			$query = "DELETE FROM dav_property ".
+				"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer');
+			$res = $ilDB->manipulate($query);
+			// END WebDAV: Delete WebDAV properties
+
+			include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+			ilChangeEvent::_delete($this->getId());
 
 			$remove = true;
 		}
@@ -1467,15 +1476,6 @@ class ilObject
 			$ch->delete($this->getRefId());
 			unset($ch);
 		}
-
-		// BEGIN WebDAV: Delete WebDAV properties
-		$query = "DELETE FROM dav_property ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer');
-		$res = $ilDB->manipulate($query);
-		// END WebDAV: Delete WebDAV properties
-
-		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
-		ilChangeEvent::_delete($this->getId());
 
 		return $remove;
 	}
