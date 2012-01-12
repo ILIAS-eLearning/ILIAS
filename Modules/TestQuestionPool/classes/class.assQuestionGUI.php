@@ -446,7 +446,7 @@ class assQuestionGUI
 	{
 		global $ilUser;
 		
-		$originalexists = $this->object->_questionExists($this->object->original_id);
+		$originalexists = $this->object->_questionExistsInPool($this->object->original_id);
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 		{
@@ -1249,7 +1249,7 @@ class assQuestionGUI
 						if (is_array($solution_array["value"])) @unlink($this->object->getSuggestedSolutionPath() . $solution_array["value"]["name"]);
 						$file->setValue($_FILES["file"]["name"]);
 						$this->object->saveSuggestedSolution("file", "", 0, array("name" => $_FILES["file"]["name"], "type" => $_FILES["file"]["type"], "size" => $_FILES["file"]["size"], "filename" => $_POST["filename"]));
-						$originalexists = $this->object->_questionExists($this->object->original_id);
+						$originalexists = $this->object->_questionExistsInPool($this->object->original_id);
 						if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 						{
 							return $this->originalSyncForm("suggestedsolution");
@@ -1309,7 +1309,7 @@ class assQuestionGUI
 							$this->object->saveSuggestedSolution("text", "", 0, $solution_array["value"]);
 							break;
 					}
-					$originalexists = $this->object->_questionExists($this->object->original_id);
+					$originalexists = $this->object->_questionExistsInPool($this->object->original_id);
 					if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 					{
 						return $this->originalSyncForm("suggestedsolution");
