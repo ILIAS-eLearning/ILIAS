@@ -582,6 +582,10 @@ class ilObjTest extends ilObject
 	function deleteTest()
 	{
 		global $ilDB;
+		
+		// first of all remove all test editings, because the delete statements used for this
+		// contain a subquery for active ids, that are deleted in the next steps
+		$this->removeAllTestEditings();
 
 		$result = $ilDB->queryF("SELECT active_id FROM tst_active WHERE test_fi = %s",
 			array('integer'),
@@ -638,12 +642,15 @@ class ilObjTest extends ilObject
 			array($this->getTestId())
 		);
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_rnd_qst WHERE tst_test_rnd_qst.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
+		// this delete is allready done by call to removeAllTestEditings some lines above
+		/*$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_rnd_qst WHERE tst_test_rnd_qst.active_fi IN  (SELECT active_id FROM tst_active WHERE test_fi = %s)",
 			array('integer'),
 			array($this->getTestId())
-		);
+		);*/
 
-		$this->removeAllTestEditings();
+		// moved to top of this method because this method performs delete statements,
+		// that use a subquery for active ids, that are allready deleted some lines above
+		//$this->removeAllTestEditings();
 
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_question WHERE test_fi = %s",
 			array('integer'),
