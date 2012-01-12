@@ -8418,3 +8418,15 @@ if(!$ilDB->tableExists('note_settings'))
 		);
 	}
 ?>
+<#3510>
+<?php
+	$setting = new ilSetting();
+  	$allreadyApplied = $setting->get('ilGlobalTstPoolUsageSettingInitilisation', 0);
+	
+  	if( !$allreadyApplied )
+	{
+		$ilDB->queryF("UPDATE tst_tests SET pool_usage = %s", array('integer'), array(1));
+		
+		$setting->set("ilGlobalTstPoolUsageSettingInitilisation", 1);
+	}
+?>
