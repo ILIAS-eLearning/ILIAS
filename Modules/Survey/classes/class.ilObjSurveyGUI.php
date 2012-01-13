@@ -4114,7 +4114,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			if (strlen($a_access_code))
 			{
-				$_SESSION["anonymous_id"][$this->object->getId()] = $a_access_code;
+				$_SESSION["anonymous_id"][ilObject::_lookupObjId($a_target)] = $a_access_code;
 				$_GET["baseClass"] = "ilObjSurveyGUI";
 				$_GET["cmd"] = "infoScreen";
 				$_GET["ref_id"] = $a_target;
