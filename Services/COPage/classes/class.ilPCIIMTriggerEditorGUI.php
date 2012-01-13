@@ -21,6 +21,10 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 	*/
 	function __construct($a_content_obj, $a_page)
 	{
+		global $tpl;
+		
+		$tpl->addJavascript("./Services/COPage/js/ilCOPagePres.js");
+				
 		parent::__construct($a_content_obj, $a_page);
 	}
 	

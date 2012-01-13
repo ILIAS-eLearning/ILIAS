@@ -276,14 +276,16 @@
 			</area>
 		</xsl:if>
 		<xsl:if test="name(../..) = 'InteractiveImage'">
-			<script type="text/javascript">
-				ilAddOnLoad(function() {ilCOPagePres.addIIMArea(
-					{area_id: 'marea_<xsl:value-of select = "$pg_id"/>_<xsl:number count="MapArea" level="any" />',
-					iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
-					tr_nr: '<xsl:value-of select = "@Id" />',
-					title: '<xsl:value-of select = "ExtLink[1]"/>'
-				})});
-			</script>
+			<xsl:if test="$map_edit_mode != 'get_coords'">
+				<script type="text/javascript">
+					ilAddOnLoad(function() {ilCOPagePres.addIIMArea(
+						{area_id: 'marea_<xsl:value-of select = "$pg_id"/>_<xsl:number count="MapArea" level="any" />',
+						iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
+						tr_nr: '<xsl:value-of select = "@Id" />',
+						title: '<xsl:value-of select = "ExtLink[1]"/>'
+					})});
+				</script>
+			</xsl:if>
 		</xsl:if>
 	</xsl:for-each>
 </xsl:template>
@@ -2492,8 +2494,12 @@
 			<xsl:if test = "$map_edit_mode = 'get_coords'">
 				<input type="image" name="editImagemapForward" value="editImagemapForward">
 					<xsl:attribute name="src"><xsl:value-of select="$image_map_link"/>&amp;item_id=<xsl:value-of select="$map_item"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
-					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					<xsl:if test = "$width != ''">
+						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test = "$height != ''">
+						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					</xsl:if>
 				</input>
 			</xsl:if>
 		</xsl:when>
@@ -2999,17 +3005,19 @@
 			</map>
 		</xsl:if>
 	</xsl:if>
-	<script type="text/javascript">
-		ilAddOnLoad(function() {ilCOPagePres.addIIMTrigger({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
-			type: '<xsl:value-of select="@Type"/>', title: '<xsl:value-of select="@Title"/>',
-			ovx: '<xsl:value-of select="@OverlayX"/>', ovy: '<xsl:value-of select="@OverlayY"/>',
-			markx: '<xsl:value-of select="@MarkerX"/>', marky: '<xsl:value-of select="@MarkerY"/>',
-			popup_nr: '<xsl:value-of select="@PopupNr"/>', nr: '<xsl:value-of select="@Nr"/>',
-			popx: '<xsl:value-of select="@PopupX"/>', popy: '<xsl:value-of select="@PopupY"/>',
-			popwidth: '<xsl:value-of select="@PopupWidth"/>', popheight: '<xsl:value-of select="@PopupHeight"/>',
-			tr_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />'
-		})});
-	</script>
+	<xsl:if test="$map_edit_mode != 'get_coords'">
+		<script type="text/javascript">
+			ilAddOnLoad(function() {ilCOPagePres.addIIMTrigger({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
+				type: '<xsl:value-of select="@Type"/>', title: '<xsl:value-of select="@Title"/>',
+				ovx: '<xsl:value-of select="@OverlayX"/>', ovy: '<xsl:value-of select="@OverlayY"/>',
+				markx: '<xsl:value-of select="@MarkerX"/>', marky: '<xsl:value-of select="@MarkerY"/>',
+				popup_nr: '<xsl:value-of select="@PopupNr"/>', nr: '<xsl:value-of select="@Nr"/>',
+				popx: '<xsl:value-of select="@PopupX"/>', popy: '<xsl:value-of select="@PopupY"/>',
+				popwidth: '<xsl:value-of select="@PopupWidth"/>', popheight: '<xsl:value-of select="@PopupHeight"/>',
+				tr_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />'
+			})});
+		</script>
+	</xsl:if>
 </xsl:template>
 
 <!-- Marker -->
