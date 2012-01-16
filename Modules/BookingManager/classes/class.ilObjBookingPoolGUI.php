@@ -501,6 +501,18 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			foreach($hours as $hour => $period)
 			{
 				$dates[$hour][0] = $period;
+				
+				$period = explode("-", $period);
+				if(sizeof($period) == 1)
+				{
+					$period_from = (int)substr($period[0], 0, 2)."00";
+					$period_to = (int)substr($period[0], 0, 2)."59";
+				}
+				else
+				{
+					$period_from = (int)substr($period[0], 0, 2)."00";
+					$period_to = (int)substr($period[1], 0, 2)."59";
+				}		
 
 				$column = $date_info['isoday'];
 				if(!$week_start)
@@ -530,7 +542,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 						}
 
 						// is slot active in current hour?
-						if((int)$slot['from'] < (int)$hour."59" && (int)$slot['to'] > (int)$hour."00")
+						if((int)$slot['from'] < $period_to && (int)$slot['to'] > $period_from)
 						{
 							$from = ilDatePresentation::formatDate(new ilDateTime($slot_from, IL_CAL_UNIX));
 							$from = array_pop(explode(' ', $from));
