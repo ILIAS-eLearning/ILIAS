@@ -3739,7 +3739,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$printoutput = $printbody->get();
 			$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);
 			$fo = $this->object->processPrintoutput2FO($printoutput);
-			$this->object->deliverPDFfromFO($fo);
+			if($fo)
+			{
+				$this->object->deliverPDFfromFO($fo);
+			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt("msg_failed"), true);
+				$this->ctrl->redirect($this, "printView");
+			}
 		}
 		else
 		{
