@@ -68,7 +68,7 @@ class ilNoteGUI
 		{
 			$this->public_enabled = false;
 		}
-		$this->enable_hiding = true;
+		$this->enable_hiding = false;
 		$this->targets_enabled = false;
 		$this->multi_selection = false;
 		$this->export_html = false;
