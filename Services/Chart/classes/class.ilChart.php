@@ -227,7 +227,6 @@ class ilChart
 		include_once "Services/jQuery/classes/class.iljQueryUtil.php";
 		iljQueryUtil::initjQuery();
 		
-		// $tpl->addJavascript("Services/Chart/js/flot/jquery.min.js");
 		$tpl->addJavascript("Services/Chart/js/flot/excanvas.min.js");
 		$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.min.js");
 		$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.pie.js");
