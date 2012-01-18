@@ -156,12 +156,13 @@ class ilStartUpGUI
 			if(!$ilUser->checkTimeLimit())
 			{
 				$ilAuth->logout();
-				// session_destroy();
-
+			
 				if($ilSetting->get('user_reactivate_code'))
 				{				
 					return $this->showCodeForm();
 				}
+				
+				session_destroy();				
 				
 				// to do: get rid of this
 				ilUtil::redirect('login.php?time_limit=true');
