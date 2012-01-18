@@ -2418,7 +2418,6 @@ common#:#dbk_read#:#Leestoegang op Digiboek
 common#:#dbk_visible#:#Digiboek is zichtbaar
 common#:#dbk_write#:#Wijzig Digiboek
 common#:#dd_mm_yyyy#:#DD.MM.YYYY
-common#:#DD.MM.YYYY#:#DD.MM.JJJJ
 common#:#deactivate#:#Set Inactive
 common#:#decrease_attempts#:#Attempts - 1
 common#:#def_repository_view#:#Standaard bewaarruimte overzicht
@@ -5218,9 +5217,6 @@ content#:#cont_dir_created#:#Directory has been created.
 content#:#cont_dir_deleted#:#Directory has been deleted.
 content#:#cont_dir_file#:#
 content#:#cont_dir_renamed#:#Directory has been renamed.
-content#:#cont_disable_html#:#HTML inactief
-content#:#cont_disable_js#:#Schakel JavaScript uit
-content#:#cont_disable_media#:#Media onmogelijk maken
 content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.
 content#:#cont_download_no_download#:#Download is niet beschikbaar voor gebruikers omdat de download feature niet is geactiveerd.
 content#:#cont_download_no_menu#:#Download is niet beschikbaar voor gebruikers omdat het leermodule menu niet is geactiveerd.
@@ -5312,9 +5308,6 @@ content#:#cont_edit_term#:#Wijzig begrippen
 content#:#cont_edition#:#Editie
 content#:#cont_empty_mep_folder#:#Er zijn geen media-objecten in deze map
 content#:#cont_empty_question#:#Het bewerken van de vraag is nog niet klaar. Aub klikken en de vraag bewerken of verwijderen.
-content#:#cont_enable_html#:#HTML actief
-content#:#cont_enable_js#:#JavaScript inschakelen
-content#:#cont_enable_media#:#Media inschakelen
 content#:#cont_enable_time_scheduled_page_activation#:#Time Scheduled Page Activation
 content#:#cont_enable_time_scheduled_page_activation_info#:#If enabled, an activation period (date/time) can be selected in the learning module editor for each page.
 content#:#cont_end#:#End
@@ -5858,8 +5851,6 @@ content#:#pg#:#Pagina
 content#:#public_section#:#Publieke omgeving
 content#:#read offline#:#Lees offline
 content#:#saved_media_object#:#Saved media object.
-content#:#scorm_editable#:#Import editable
-content#:#scorm_editable_comments#:#Works only SCORM 1.2/2004 package
 content#:#scplayer_collapsetree#:#Collapse All
 content#:#scplayer_continue#:#Continue
 content#:#scplayer_debugger#:#Show Debugger
@@ -9512,7 +9503,6 @@ rep#:#rep_intro5#:#Door op de titel van de categorie te klikken zal je de catego
 rep#:#rep_intro6#:#Na die procedure kunt u om het even welk leer- of werkmiddel aan uw categorie toevoegen.
 rep#:#rep_object_to_delete#:#Te verwijderen
 sahs#:#sahs_chapter#:#Hoofdstuk
-sahs#:#sahs_choose_pages_or_chapters_or_scos_only#:#Selecteer pagina's, SCO's of hoofdstukken.
 sahs#:#sahs_insert_chapter#:#Hoofdstuk toevoegen
 sahs#:#sahs_insert_page#:#Pagina toevoegen
 sahs#:#sahs_insert_pagelayout#:#Template pagina invoegen
@@ -10973,24 +10963,6 @@ content#:#page_does_not_exist#:#We are sorry, but this page does not exist.###10
 assessment#:#msg_randompool_duplicate_qpl#:#Please use only unique question pools###16 05 2011 new variable
 trac#:#trac_learning_progress_of#:#Lernfortschritt von %s###16 05 2011 new variable
 trac#:#trac_learning_progress_objects_description#:#This table shows an overview of all your courses and objects.###16 05 2011 new variable
-common#:#il_xcvc_part#:#Centra Member###16 05 2011 new variable
-common#:#il_xcvc_mod#:#Centra Moderator###16 05 2011 new variable
-common#:#il_xcvc_admin#:#Centra Administrator###16 05 2011 new variable
-common#:#rep_robj_xcvc_objs_xcvc#:#Centra Programs###16 05 2011 new variable
-common#:#obj_xcvc#:#CentraVC###16 05 2011 new variable
-common#:#xcvc_webinterface#:#Webinterface###16 05 2011 new variable
-common#:#xcvc_participate#:#Participate###16 05 2011 new variable
-common#:#xcvc_manage#:#Manage###16 05 2011 new variable
-common#:#xcvc_visible#:#Visible###16 05 2011 new variable
-common#:#xcvc_read#:#Read###16 05 2011 new variable
-common#:#xcvc_moderate#:#Moderate###16 05 2011 new variable
-common#:#xcvc_write#:#Write###16 05 2011 new variable
-common#:#xcvc_delete#:#Delete###16 05 2011 new variable
-common#:#xcvc_edit_permission#:#Edit permission###16 05 2011 new variable
-common#:#webinterface#:#Webinterface###16 05 2011 new variable
-common#:#participate#:#Participate###16 05 2011 new variable
-common#:#manage#:#Manage###16 05 2011 new variable
-common#:#moderate#:#Moderate###16 05 2011 new variable
 rbac#:#invite#:#Inviting to survey###16 05 2011 new variable
 common#:#settings_per_members#:#Settings per user###16 05 2011 new variable
 common#:#object_not_found#:#Objekt not found###16 05 2011 new variable
@@ -11012,3 +10984,1422 @@ common#:#password_contains_invalid_chars#:#The password contains invalid charact
 search#:#lucene_max_fs#:#Maximum Filesize (in MB)###25 10 2011 new variable
 search#:#lucene_max_fs_info#:#Defines the file size limit. Bigger files will not be included in the index.###25 10 2011 new variable
 content#:#cont_sc_auto_continue#:#Auto-Continue###25 10 2011 new variable
+administration#:#language_scope_dbremarks#:#Shows only entries with comments in database###18 01 2012 new variable
+common#:#tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+content#:#cont_LocalFile#:#Local File###18 01 2012 new variable
+survey#:#anonymize_with_code_all#:#Access with survey codes for all users###18 01 2012 new variable
+survey#:#dont_use_questionpool#:#Don't insert the questions in a questionpool (only available in this survey)###18 01 2012 new variable
+content#:#cont_wrong_answers_single#:#Incorrect Choice.###18 01 2012 new variable
+trac#:#trac_read_count_spent_seconds#:#Time Spent / Access###18 01 2012 new variable
+trac#:#trac_object_stat_access#:#Usage Intensity###18 01 2012 new variable
+trac#:#trac_show_graph#:#Show Graph###18 01 2012 new variable
+trac#:#trac_figure#:#Key Figure###18 01 2012 new variable
+trac#:#trac_object_stat_types#:#Number of Objects###18 01 2012 new variable
+trac#:#trac_reference#:#References###18 01 2012 new variable
+trac#:#trac_trash#:#Moved to Trash###18 01 2012 new variable
+trac#:#trac_object_stat_daily#:#Daily Usage###18 01 2012 new variable
+trac#:#trac_object_stat_admin#:#Manage Data###18 01 2012 new variable
+trac#:#trac_delete_data#:#Delete Data###18 01 2012 new variable
+trac#:#trac_sure_delete_data#:#Are you sure you want to delete the complete data for the following months?###18 01 2012 new variable
+trac#:#trac_data_deleted#:#Data has been deleted.###18 01 2012 new variable
+trac#:#trac_sync_obj_stats#:#Update Data###18 01 2012 new variable
+trac#:#trac_sync_obj_stats_success#:#Data has been updated.###18 01 2012 new variable
+style#:#style_move_style_into#:#Into###18 01 2012 new variable
+sahs#:#sahs_new_asset#:#New Asset###18 01 2012 new variable
+sahs#:#sahs_insert_ass#:#Insert Asset###18 01 2012 new variable
+common#:#obj_ass#:#Asset###18 01 2012 new variable
+content#:#cont_ed_insert_login_page_element#:#Insert Login Page Element###18 01 2012 new variable
+content#:#cont_insert_login_page_element#:#Insert Login Page Element###18 01 2012 new variable
+content#:#cont_update_login_page_element#:#Update Login Page Element###18 01 2012 new variable
+sahs#:#sahs_hide_objectives_page#:#Hide Description/Objectives Page###18 01 2012 new variable
+sahs#:#sahs_hide_objectives_page_info#:#If checked, the SCO description and objectives page will not be included in the presentation.###18 01 2012 new variable
+sahs#:#sahs_list_info#:#Use leading * for bullet lists or leading # for numbered lists.###18 01 2012 new variable
+auth#:#auth_radius_sync_rad#:#Automatic generation of user accounts###18 01 2012 new variable
+auth#:#auth_radius_sync_rad_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against Radius, without having an ILIAS account yet.###18 01 2012 new variable
+auth#:#auth_radius_ldap#:#Synchronization using LDAP###18 01 2012 new variable
+auth#:#auth_radius_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.###18 01 2012 new variable
+ldap#:#ldap_as_ds#:#Use as Data Source###18 01 2012 new variable
+ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS or Radius).###18 01 2012 new variable
+auth#:#auth_sync#:#User Synchronisation###18 01 2012 new variable
+auth#:#auth_sync_cas#:#Automatic generation of user accounts###18 01 2012 new variable
+auth#:#auth_sync_cas_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against CAS, without having an ILIAS account yet.###18 01 2012 new variable
+content#:#cont_final_sco_page#:#Final Page for SCOs###18 01 2012 new variable
+content#:#cont_final_lm_page#:#Final Page for Learning Module###18 01 2012 new variable
+content#:#cont_really_delete_special_pages#:#Do you really want to delete the following special pages?###18 01 2012 new variable
+content#:#cont_create_final_sco_page#:#Create Final Page for SCOs###18 01 2012 new variable
+content#:#cont_create_final_lm_page#:#Create Final Page for Learning Module###18 01 2012 new variable
+style#:#sty_rte_char#:#SCORM RTE###18 01 2012 new variable
+style#:#sty_type_rte_menu#:#RTE Menu###18 01 2012 new variable
+style#:#sty_type_rte_mlink#:#RTE Menu Link###18 01 2012 new variable
+style#:#sty_type_rte_tree#:#RTE Tree Section###18 01 2012 new variable
+rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled###18 01 2012 new variable
+rbac#:#precondition_not_obligatory_alt#:#Precondition is optional###18 01 2012 new variable
+rbac#:#active_preconditions#:#Preconditions###18 01 2012 new variable
+rbac#:#precondition_obligatory#:#Obligatory###18 01 2012 new variable
+rbac#:#precondition_obligatory_info#:#Obligatory preconditions must be fulfilled, for having access.###18 01 2012 new variable
+trac#:#trac_status_changed#:#Last Status Change###18 01 2012 new variable
+style#:#sty_type_rte_node#:#RTE Tree Node###18 01 2012 new variable
+style#:#sty_type_rte_status#:#RTE Status###18 01 2012 new variable
+style#:#sty_type_rte_tlink#:#RTE Tree Node Link###18 01 2012 new variable
+style#:#sty_from#:#From###18 01 2012 new variable
+style#:#sty_to#:#To###18 01 2012 new variable
+style#:#sty_add_content_style#:#Add Content Style###18 01 2012 new variable
+style#:#sty_remove_global_default_state#:#Remove Global Default State###18 01 2012 new variable
+style#:#sty_remove_global_fixed_state#:#Remove Global Fixed State###18 01 2012 new variable
+style#:#sty_make_global_default#:#Make Global Default###18 01 2012 new variable
+style#:#sty_make_global_fixed#:#Make Global Fixed###18 01 2012 new variable
+content#:#cont_save_types#:#Save Types###18 01 2012 new variable
+content#:#cont_layout_template#:#Layout Template###18 01 2012 new variable
+content#:#cont_special_page#:#Special Content Page###18 01 2012 new variable
+wiki#:#wiki_public_comments#:#Public Comments###18 01 2012 new variable
+common#:#personal_workspace#:#My Workspace###18 01 2012 new variable
+wsp#:#wsp_personal_workspace#:#My Workspace###18 01 2012 new variable
+wsp#:#wsp_personal_workspace_description#:#Here you can manage your private files, blogs and artifacts.###18 01 2012 new variable
+wsp#:#wsp_navigation_folders#:#View Folder###18 01 2012 new variable
+wsp#:#wsp_root_folder#:#My Workspace###18 01 2012 new variable
+wsp#:#wsp_navigation_resource#:#Create New###18 01 2012 new variable
+wsp#:#wsp_type_file#:#File###18 01 2012 new variable
+wsp#:#wsp_type_wfld#:#Folder###18 01 2012 new variable
+wsp#:#wsp_type_blog#:#Blog###18 01 2012 new variable
+common#:#obj_wfld#:#Folder###18 01 2012 new variable
+common#:#obj_blog#:#Blog###18 01 2012 new variable
+wfld#:#wfld_new#:#Create New Folder###18 01 2012 new variable
+wfld#:#wfld_add#:#Create Folder###18 01 2012 new variable
+blog#:#blog_new#:#Create New Blog###18 01 2012 new variable
+blog#:#blog_add#:#Create Blog###18 01 2012 new variable
+blog#:#blog_add_posting#:#Add Posting###18 01 2012 new variable
+blog#:#blog_permanent_link#:#Permalink###18 01 2012 new variable
+blog#:#blog_comments#:#Comments###18 01 2012 new variable
+blog#:#blog_list_more#:#more###18 01 2012 new variable
+blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the following entry?###18 01 2012 new variable
+blog#:#blog_number_users_notes_or_comments#:#Number of users that attached notes or comments to this entry###18 01 2012 new variable
+blog#:#blog_posting_deleted#:#The entry has been deleted.###18 01 2012 new variable
+blog#:#blog_enable_notes#:#Public Comments###18 01 2012 new variable
+sahs#:#sahs_insert_ass_inside_chap#:#Insert Asset (inside chapter)###18 01 2012 new variable
+sahs#:#sahs_insert_sco_inside_chap#:#Insert SCO (inside chapter)###18 01 2012 new variable
+sahs#:#sahs_insert_sco_from_clip_inside_chap#:#Paste SCOs from Clipboard (inside chapter)###18 01 2012 new variable
+sahs#:#sahs_insert_ass_from_clip_inside_chap#:#Paste Assets from Clipboard (inside chapter)###18 01 2012 new variable
+sahs#:#sahs_insert_ass_from_clip#:#Paste Assets from Clipboard###18 01 2012 new variable
+sahs#:#sahs_insert_special_page#:#Insert Special Page###18 01 2012 new variable
+sahs#:#sahs_choose_page_template#:#Choose Page Template###18 01 2012 new variable
+sahs#:#sahs_choose_special_page#:#Choose Special Page###18 01 2012 new variable
+sahs#:#sahs_sco_final_message#:#You have successfully completed "%s".###18 01 2012 new variable
+content#:#cont_final_sco_page_info#:#A status page will be displayed at the end of a SCO, if all questions have been answered successfully.###18 01 2012 new variable
+content#:#cont_final_lm_page_info#:#A status page will be displayed, if all questions of the learning module have been answered successfully.###18 01 2012 new variable
+style#:#sty_type_sco_fmess#:#SCORM Final Message###18 01 2012 new variable
+trac#:#trac_group_materials#:#Create Grouping with Optional Materials###18 01 2012 new variable
+trac#:#trac_release_materials#:#Disintegrate Grouping with Optional Materials###18 01 2012 new variable
+common#:#preconditions_obligatory_hint#:#You have to fulfill all of the following preconditions###18 01 2012 new variable
+common#:#preconditions_optional_hint#:#You have to fulfill <b>%s</b> of the following preconditions###18 01 2012 new variable
+book#:#book_new#:#New Booking Pool###18 01 2012 new variable
+book#:#book_add#:#Add Booking Pool###18 01 2012 new variable
+book#:#book_edit#:#Edit Booking Pool###18 01 2012 new variable
+common#:#glo_import#:#Import Glossary###18 01 2012 new variable
+common#:#title_and_translations#:#Title and Translations###18 01 2012 new variable
+sahs#:#sahs_authoring_mode_info#:#The SCORM ZIP package must have been created with the ILIAS SCORM editor and it must have been exported as SCORM 1.2/2004 package.###18 01 2012 new variable
+sahs#:#sahs_authoring_mode#:#Authoring Mode###18 01 2012 new variable
+sahs#:#sahs_std_sequencing#:#Standard Sequencing###18 01 2012 new variable
+sahs#:#sahs_std_sequencing_info#:#Use ILIAS standard sequencing behaviour.###18 01 2012 new variable
+sahs#:#sahs_import_sequencing#:#Import Sequencing###18 01 2012 new variable
+sahs#:#sahs_import_sequencing_info#:#Import sequencing information from package (Sequencing Expert Mode).###18 01 2012 new variable
+sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode###18 01 2012 new variable
+sahs#:#sahs_activate_expert_mode_info#:#The sequencing expert mode allows you to directly edit the sequencing information of the package tree. If you are unsure what this means we recommend to use the default sequencing behaviour.###18 01 2012 new variable
+mep#:#mobs_restrict_file_types#:#Restrict File Types###18 01 2012 new variable
+mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.###18 01 2012 new variable
+common#:#rep_main_page#:#Home###18 01 2012 new variable
+common#:#personal_settings#:#Settings###18 01 2012 new variable
+certificate#:#certificate_ph_scormmaxpoints#:#Maximum value in the range for the raw score of the last relevant sco (most suitable for a final exam)###18 01 2012 new variable
+certificate#:#certificate_ph_login#:#Login###18 01 2012 new variable
+certificate#:#certificate_var_user_login#:#jdoe###18 01 2012 new variable
+trac#:#trac_group_materials_save#:#Save Number of Obligatory Materials###18 01 2012 new variable
+trac#:#trac_group_materials_num#:#Number of Obligatory Materials###18 01 2012 new variable
+trac#:#trac_grouped_material_obligatory_err#:#The number materials which must be passed has to be greater than 0 and smaller than the number of materials of the grouping.###18 01 2012 new variable
+rbac#:#precondition_obligatory_settings#:#Precondition Settings###18 01 2012 new variable
+rbac#:#precondition_num_obligatory#:#Number of Required Materials###18 01 2012 new variable
+common#:#payment_notification#:#Send Payment Notification###18 01 2012 new variable
+common#:#payment_notification_desc#:#If enabled, users get a reminder to extend the duration of bought objects###18 01 2012 new variable
+common#:#payment_reminder_notification_subject#:#The access duration af bought objects is ending soon.###18 01 2012 new variable
+common#:#bought_objects_expire_soon#:#For some of your bought objects the access duration is ending soon. You are able to extend the access duration, by buying an extension for these objects.###18 01 2012 new variable
+common#:#access_enddate#:#Access Enddate###18 01 2012 new variable
+payment#:#buy_extension#:#Buy Extension###18 01 2012 new variable
+payment#:#extension_price#:#Extension Price###18 01 2012 new variable
+wiki#:#wiki_ordering#:#Ordering###18 01 2012 new variable
+wiki#:#wiki_indentation#:#Indentation###18 01 2012 new variable
+wiki#:#wiki_save_ordering_and_indent#:#Save Ordering and Indentation###18 01 2012 new variable
+wiki#:#wiki_sure_remove_imp_pages#:#Do you really want to remove the following pages from the list of important pages?###18 01 2012 new variable
+wiki#:#wiki_removed_imp_pages#:#Important pages removed from list.###18 01 2012 new variable
+wiki#:#wiki_ordering_and_indent_saved#:#Ordering and Indentation saved.###18 01 2012 new variable
+wiki#:#wiki_imp_page_added#:#Page added.###18 01 2012 new variable
+administration#:#adm_settings_templates#:#Settings Templates###18 01 2012 new variable
+administration#:#adm_add_settings_template#:#Add Template###18 01 2012 new variable
+administration#:#adm_edit_settings_template#:#Edit Template###18 01 2012 new variable
+administration#:#adm_hide_tabs#:#Hide Tabs###18 01 2012 new variable
+administration#:#adm_predefined_settings#:#Predefined Settings###18 01 2012 new variable
+administration#:#adm_value#:#Predefined Value###18 01 2012 new variable
+administration#:#adm_hide#:#Hide in Settings Form###18 01 2012 new variable
+administration#:#adm_sure_delete_settings_template#:#Do you really want to delete the following templates?###18 01 2012 new variable
+survey#:#survey_prev_question#:#Previous Page###18 01 2012 new variable
+survey#:#survey_next_question#:#Next Page###18 01 2012 new variable
+survey#:#survey_jump_to#:#Jump to###18 01 2012 new variable
+survey#:#survey_add_new_question#:#Create Page###18 01 2012 new variable
+survey#:#survey_use_pool#:#Use Pool###18 01 2012 new variable
+content#:#cont_page_toc#:#Page Overview###18 01 2012 new variable
+wiki#:#wiki_page_toc#:#Enable Page Overview Block###18 01 2012 new variable
+wiki#:#wiki_page_toc_info#:#This lists all headings linked to the content at the beginning of each page if that page uses at least two headings.###18 01 2012 new variable
+wiki#:#wiki_page_unblocked#:#Wiki page unblocked.###18 01 2012 new variable
+wiki#:#wiki_page_blocked#:#Wiki page blocked.###18 01 2012 new variable
+wiki#:#wiki_last_edited#:#Last edited###18 01 2012 new variable
+wiki#:#wiki_page_already_exists#:#A page with this title already exists.###18 01 2012 new variable
+wiki#:#wiki_rename_page#:#Rename Page###18 01 2012 new variable
+wiki#:#wiki_new_page_name#:#New Title###18 01 2012 new variable
+survey#:#svy_settings_template#:#Template###18 01 2012 new variable
+survey#:#survey_per_page_view#:#Page View###18 01 2012 new variable
+survey#:#survey_dnd_move_next#:#Move to Next Page###18 01 2012 new variable
+survey#:#survey_dnd_move_previous#:#Move to Previous Page###18 01 2012 new variable
+survey#:#survey_dnd_split_page#:#Split Page###18 01 2012 new variable
+survey#:#survey_dnd_double_click_to_delete#:#Double click on a content element to select it for cutting and deleting.###18 01 2012 new variable
+survey#:#survey_dnd_clear_clipboard#:#Clear Clipboard###18 01 2012 new variable
+survey#:#survey_dnd_paste#:#Paste###18 01 2012 new variable
+survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.###18 01 2012 new variable
+survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants###18 01 2012 new variable
+survey#:#survey_using_template#:#This survey uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.###18 01 2012 new variable
+survey#:#survey_using_template_link#:#Do not use template anymore###18 01 2012 new variable
+common#:#toggle_hidden_sections#:#Show More Information###18 01 2012 new variable
+assessment#:#test_enable_views#:#Enabled views###18 01 2012 new variable
+assessment#:#test_enable_view_both#:#Table- and Page View###18 01 2012 new variable
+assessment#:#test_enable_view_express#:#Page View###18 01 2012 new variable
+assessment#:#test_enable_view_table#:#List View###18 01 2012 new variable
+assessment#:#tst_express_allow_question_pool#:#Allow Questionpool in Page View###18 01 2012 new variable
+assessment#:#tst_express_allow_question_pool_description#:#If checked, questions can be added to a question pool.###18 01 2012 new variable
+assessment#:#questions_per_page_view#:#Page View###18 01 2012 new variable
+assessment#:#test_next_question#:#Next Question###18 01 2012 new variable
+assessment#:#test_prev_question#:#Previous Question###18 01 2012 new variable
+assessment#:#test_jump_to#:#Jump to Question###18 01 2012 new variable
+assessment#:#test_create_question#:#Create Question###18 01 2012 new variable
+assessment#:#adm_settings_templates#:#Settings Templates###18 01 2012 new variable
+survey#:#survey_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?###18 01 2012 new variable
+survey#:#survey_template_reset#:#The template has been removed.###18 01 2012 new variable
+survey#:#survey_introduction_info#:#This message appears at the beginning of the survey.###18 01 2012 new variable
+survey#:#survey_auth_mode#:#Authentication Mode###18 01 2012 new variable
+survey#:#survey_question_pool#:#Question Pool###18 01 2012 new variable
+survey#:#survey_question_pool_usage#:#Choose Question Pool When Creating Questions###18 01 2012 new variable
+survey#:#survey_pool_selection#:#Pool Selection###18 01 2012 new variable
+survey#:#survey_no_pool#:#Do not use question pool###18 01 2012 new variable
+survey#:#survey_new_pool#:#Create new question pool###18 01 2012 new variable
+survey#:#survey_existing_pool#:#Use existing question pool###18 01 2012 new variable
+survey#:#survey_delete_page#:#Delete Page###18 01 2012 new variable
+survey#:#survey_at_beginning#:#At The Beginning###18 01 2012 new variable
+survey#:#survey_behind_page#:#Behind###18 01 2012 new variable
+survey#:#survey_show_blocktitle#:#Show Block Title###18 01 2012 new variable
+survey#:#survey_show_blocktitle_description#:#If activated the block title will be shown in the survey.###18 01 2012 new variable
+survey#:#survey_block_hidden#:#hidden###18 01 2012 new variable
+survey#:#survey_block_visible#:#visible###18 01 2012 new variable
+survey#:#survey_question_text_visible#:#Text visible###18 01 2012 new variable
+survey#:#survey_question_text_hidden#:#Text hidden###18 01 2012 new variable
+survey#:#survey_move_page#:#Move Page###18 01 2012 new variable
+survey#:#survey_page_moved#:#The page has been moved.###18 01 2012 new variable
+assessment#:#intro_desc#:#This message appears at the beginning of the test.###18 01 2012 new variable
+assessment#:#test_question_pool_usage#:#Choose Pool when creating questions###18 01 2012 new variable
+assessment#:#add_new_question#:#Add new Question###18 01 2012 new variable
+wiki#:#wiki_news_page_created#:#New wiki page has been created.###18 01 2012 new variable
+wiki#:#wiki_news_page_changed#:#Wiki page has been updated.###18 01 2012 new variable
+wiki#:#wiki_changed_by#:#Changed by###18 01 2012 new variable
+wiki#:#wiki_page_status_blocked#:#Editing of this page is currently blocked for learners.###18 01 2012 new variable
+survey#:#survey_copy_questions_to_pool#:#Add to question pool###18 01 2012 new variable
+survey#:#no_question_selected_for_copy_to_pool#:#Please select at least one question, which is not already linked to a question pool.###18 01 2012 new variable
+survey#:#survey_copy_select_questionpool#:#Question pool to put the copies###18 01 2012 new variable
+survey#:#survey_copy_to_questionpool_success#:#The questions were copied into the pool successfully.###18 01 2012 new variable
+assessment#:#test_using_template#:#This test uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.###18 01 2012 new variable
+assessment#:#tst_anonymity_no_anonymization#:#No Anonymization###18 01 2012 new variable
+assessment#:#tst_anonymity_anonymous_test#:#Anonymous Test###18 01 2012 new variable
+assessment#:#tst_beginning_ending_information#:#Information at beginning and end of test###18 01 2012 new variable
+assessment#:#tst_presentation_properties#:#Presentation Settings###18 01 2012 new variable
+assessment#:#tst_settings_template#:#Template###18 01 2012 new variable
+assessment#:#test_delete_page#:#Delete Question###18 01 2012 new variable
+assessment#:#test_move_page#:#Move Question###18 01 2012 new variable
+assessment#:#assessment_pool_selection#:#Pool Selection###18 01 2012 new variable
+assessment#:#assessment_no_pool#:#Do not use question pool###18 01 2012 new variable
+assessment#:#assessment_existing_pool#:#Use existing question pool###18 01 2012 new variable
+assessment#:#assessment_new_pool#:#Create new question pool###18 01 2012 new variable
+assessment#:#test_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?###18 01 2012 new variable
+assessment#:#test_template_reset#:#The template has been removed.###18 01 2012 new variable
+assessment#:#test_using_template_link#:#Do not use template anymore###18 01 2012 new variable
+common#:#tst_edit_questions#:#Edit Questions###18 01 2012 new variable
+assessment#:#tst_mail_notification#:#Mail Notifications###18 01 2012 new variable
+assessment#:#saveOrder#:#Save Order###18 01 2012 new variable
+assessment#:#copy_and_link_to_questionpool#:#Add to question pool###18 01 2012 new variable
+common#:#tst_random_test_description_warning#:#<br /><b>This test has questions that are not assigned to a question pool. If you switch to random test mode, this questions will be lost.</b>###18 01 2012 new variable
+assessment#:#tst_result#:#Test Result###18 01 2012 new variable
+common#:#first#:#First###18 01 2012 new variable
+rating#:#rat_one_rating#:#One Rating###18 01 2012 new variable
+rating#:#rat_not_rated_yet#:#Not Rated Yet###18 01 2012 new variable
+rating#:#rat_nr_ratings#:#%s Ratings###18 01 2012 new variable
+wiki#:#wiki_functions#:#Wiki Functions###18 01 2012 new variable
+wiki#:#wiki_navigation#:#Wiki Navigation###18 01 2012 new variable
+common#:#behind#:#Behind###18 01 2012 new variable
+survey#:#survey_auto_block_title#:#Page Header###18 01 2012 new variable
+survey#:#survey_edit_settings#:#Edit Settings###18 01 2012 new variable
+survey#:#survey_order#:#Sort Order###18 01 2012 new variable
+wiki#:#wiki_page_lists#:#Page Lists###18 01 2012 new variable
+wiki#:#wiki_notification_activated#:#Notification Activated (Whole Wiki)###18 01 2012 new variable
+wiki#:#wiki_page_notification_activated#:#Notification Activated (Single Page)###18 01 2012 new variable
+wiki#:#wiki_notification_deactivate_wiki#:#Deactivate Notification for Wiki###18 01 2012 new variable
+wiki#:#wiki_notification_deactivate_page#:#Deactivate Notification for Page###18 01 2012 new variable
+wiki#:#wiki_notification_activate_wiki#:#Activate Notification for Wiki###18 01 2012 new variable
+wiki#:#wiki_notification_activate_page#:#Activate Notification for Page###18 01 2012 new variable
+content#:#cont_presentation_view#:#Presentation View###18 01 2012 new variable
+content#:#cont_deactivate_html#:#Deactivate HTML Rendering###18 01 2012 new variable
+content#:#cont_deactivate_js#:#Activate Form Mode###18 01 2012 new variable
+content#:#cont_deactivate_media#:#Deactivate Media###18 01 2012 new variable
+content#:#cont_activate_html#:#Activate HTML Rendering###18 01 2012 new variable
+content#:#cont_activate_js#:#Activate Javascript Mode###18 01 2012 new variable
+content#:#cont_activate_media#:#Activate Media###18 01 2012 new variable
+assessment#:#tst_remove_question#:#Are you sure you want to remove the following question from the test?###18 01 2012 new variable
+survey#:#survey_cancel_preview#:#Cancel Preview###18 01 2012 new variable
+survey#:#survey_cannot_preview_survey#:#Preview not available###18 01 2012 new variable
+cntr#:#edit_questions#:#Edit Questions###18 01 2012 new variable
+forum#:#empty_subject#:#On reply the user has to enter a new title.###18 01 2012 new variable
+forum#:#frm_subject_setting#:#Subject setting###18 01 2012 new variable
+assessment#:#ass_completion_by_submission#:#Completed by Submission###18 01 2012 new variable
+assessment#:#ass_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of this question by granting the maximum score for this question. The score could be manually changed later. Switching this setting does not effect already submitted solutions.###18 01 2012 new variable
+exc#:#exc_completion_by_submission#:#Completed by Submission###18 01 2012 new variable
+exc#:#exc_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of an assignment. The score could be manually changed later. Switching this setting does not effect already submitted solutions.###18 01 2012 new variable
+rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials which is required for fullfilling this precondition.###18 01 2012 new variable
+trac#:#trac_min_passed#:#Minimum Number of Passed Materials:###18 01 2012 new variable
+crs#:#crs_deact_auto_noti#:#No Notification For New Member###18 01 2012 new variable
+crs#:#crs_deact_auto_noti_info#:#New members do not get a mail notification when added to course.###18 01 2012 new variable
+wsp#:#wsp_type_tstv#:#Certificate: Test###18 01 2012 new variable
+content#:#cont_par_format#:#Paragraph###18 01 2012 new variable
+content#:#cont_char_format#:#Character###18 01 2012 new variable
+content#:#cont_lists#:#Lists###18 01 2012 new variable
+content#:#cont_more_functions#:#More###18 01 2012 new variable
+content#:#cont_saving#:#Saving...###18 01 2012 new variable
+notes#:#notes_public_commenting#:#Public Comments###18 01 2012 new variable
+notes#:#notes_private_annotating#:#Private Annotation###18 01 2012 new variable
+tagging#:#tagging_set_tag#:#Set Tags###18 01 2012 new variable
+content#:#cont_link_to_internal#:#Link to ILIAS Resource###18 01 2012 new variable
+content#:#cont_link_to_external#:#Link to External Website###18 01 2012 new variable
+content#:#cont_link_to_wiki#:#Link to Wiki Page###18 01 2012 new variable
+content#:#cont_standard#:#Standard###18 01 2012 new variable
+content#:#cont_char_style_com#:#Comment###18 01 2012 new variable
+content#:#cont_char_style_quot#:#Quotation###18 01 2012 new variable
+content#:#cont_char_style_acc#:#Accentuated###18 01 2012 new variable
+content#:#cont_char_style_code#:#Code###18 01 2012 new variable
+adve#:#adve_pe_general#:#General###18 01 2012 new variable
+adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp###18 01 2012 new variable
+adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.###18 01 2012 new variable
+content#:#cont_tex#:#Latex Code###18 01 2012 new variable
+payment#:#terms_conditions#:#GTC###18 01 2012 new variable
+payment#:#accept_terms_conditions#:#Please accept the %s to continue the purchasing process.###18 01 2012 new variable
+payment#:#documents#:#Documents###18 01 2012 new variable
+payment#:#activate_placeholders#:#Aktivate Placeholders###18 01 2012 new variable
+payment#:#billing_mail#:#Billing-Email###18 01 2012 new variable
+payment#:#select_subtype#:#Suboption###18 01 2012 new variable
+payment#:#pay_hide_shop_info#:#Hide Shop-Information###18 01 2012 new variable
+payment#:#pay_hide_shop_info_info#:#Hides the tab shop-information###18 01 2012 new variable
+payment#:#use_shop_specials#:#Use Shop Specials###18 01 2012 new variable
+payment#:#use_shop_specials_info#:#If enabled, it is possible to mark payment objects as a "special"-offer. These objects will be shown on the entire shop site.###18 01 2012 new variable
+payment#:#special#:#Special-Offer###18 01 2012 new variable
+payment#:#special_info#:#If enabled, this object will be shown on the entire shop site.###18 01 2012 new variable
+common#:#object_purchased_date#:#Purchase-Date###18 01 2012 new variable
+common#:#object_duration#:#Access-Duration###18 01 2012 new variable
+common#:#new_customer#:#Are you a new customer?###18 01 2012 new variable
+common#:#new_customer_info#:#Please klick here if you do not have an user account.###18 01 2012 new variable
+payment#:#shop_url#:#Link to shop###18 01 2012 new variable
+payment#:#shop_bought_objects_url#:#Link to bought objects###18 01 2012 new variable
+tstv#:#tstv_create#:#Create Test Certificate###18 01 2012 new variable
+tstv#:#tstv_create_info#:#Select a completed test to generate a certificate for it###18 01 2012 new variable
+wsp#:#wsp_type_excv#:#Certificate: Exercise###18 01 2012 new variable
+excv#:#excv_create#:#Create Exercise Certificate###18 01 2012 new variable
+excv#:#excv_create_info#:#Select a completed exercise to generate a certificate for it###18 01 2012 new variable
+content#:#cont_fn#:#Footnote###18 01 2012 new variable
+common#:#enable_course_group_notifications#:#Daily Mail for Groups and Course News###18 01 2012 new variable
+common#:#enable_course_group_notifications_desc#:#If enabled, Participants can subscribe to a daily summary of news.###18 01 2012 new variable
+assessment#:#copy_no_questions_selected#:#Please select at least one question to copy.###18 01 2012 new variable
+assessment#:#copy_questions_success#:#The question(s) has been copied.###18 01 2012 new variable
+sahs#:#sahs_choose_pages_chap_scos_ass_only#:#Please select either pages, SCOs, assets or chapters only.###18 01 2012 new variable
+sahs#:#cont_insert_into_chap#:#Insert items inside chapter###18 01 2012 new variable
+sahs#:#cont_insert_after_chap#:#Insert items after chapter###18 01 2012 new variable
+common#:#saving#:#Saving...###18 01 2012 new variable
+content#:#cont_ed_insert_iim#:#Insert Interactive Image###18 01 2012 new variable
+content#:#cont_pc_iim#:#Interactive Image###18 01 2012 new variable
+style#:#sty_type_qimg#:#Question Image###18 01 2012 new variable
+style#:#sty_type_qimgd#:#Image Details Link###18 01 2012 new variable
+style#:#sty_type_qordli#:#Order List Item###18 01 2012 new variable
+style#:#sty_type_qordul#:#Order List###18 01 2012 new variable
+style#:#sty_type_qetitem#:#Error Text Item###18 01 2012 new variable
+style#:#sty_type_qetcorr#:#Error Text Corrected###18 01 2012 new variable
+prtf#:#prtf_portfolios#:#Portfolios###18 01 2012 new variable
+prtf#:#prtf_add_portfolio#:#Add Portfolio###18 01 2012 new variable
+prtf#:#prtf_edit_portfolio#:#Edit Portfolio###18 01 2012 new variable
+prtf#:#prtf_create_portfolio#:#Add Portfolio ###18 01 2012 new variable
+prtf#:#prtf_portfolio_created#:#Portfolio added###18 01 2012 new variable
+prtf#:#prtf_portfolio_updated#:#Portfolio updated###18 01 2012 new variable
+prtf#:#prtf_set_as_default#:#Set As My Profile###18 01 2012 new variable
+prtf#:#prtf_sure_delete_portfolios#:#Are you sure you want to delete the following portfolios?###18 01 2012 new variable
+prtf#:#prtf_portfolio_deleted#:#Portfolios deleted###18 01 2012 new variable
+prtf#:#prtf_add_page#:#Add Page###18 01 2012 new variable
+prtf#:#prtf_page_created#:#Page created###18 01 2012 new variable
+prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the following portfolio pages?###18 01 2012 new variable
+prtf#:#prtf_portfolio_page_deleted#:#Portfolio pages deleted###18 01 2012 new variable
+content#:#cont_ed_insert_profile#:#Insert Personal Data###18 01 2012 new variable
+content#:#cont_pc_prof#:#Personal Data###18 01 2012 new variable
+content#:#cont_insert_profile#:#Publish Personal Data###18 01 2012 new variable
+content#:#cont_update_profile#:#Edit Published Data ###18 01 2012 new variable
+content#:#cont_profile_mode#:#Mode###18 01 2012 new variable
+content#:#cont_profile_mode_inherit#:#Automatic###18 01 2012 new variable
+content#:#cont_profile_mode_inherit_info#:#Use your profile settings###18 01 2012 new variable
+content#:#cont_profile_mode_manual#:#Manual###18 01 2012 new variable
+content#:#cont_profile_mode_manual_info#:#Use the following data:###18 01 2012 new variable
+content#:#cont_ed_insert_verification#:#Insert Certificate###18 01 2012 new variable
+content#:#cont_pc_vrfc#:#Certificate###18 01 2012 new variable
+content#:#cont_insert_verification#:#Add Certificate###18 01 2012 new variable
+content#:#cont_update_verification#:#Edit Certificate###18 01 2012 new variable
+content#:#cont_verification_object#:#Certificate###18 01 2012 new variable
+content#:#cont_ed_insert_blog#:#Insert Blog###18 01 2012 new variable
+content#:#cont_pc_blog#:#Blog###18 01 2012 new variable
+content#:#cont_insert_blog#:#Add Blog Posting###18 01 2012 new variable
+content#:#cont_update_blog#:#Edit Blog Posting###18 01 2012 new variable
+content#:#cont_active_areas#:#Triggers###18 01 2012 new variable
+content#:#cont_content_popups#:#Content Popups###18 01 2012 new variable
+content#:#cont_overlay_images#:#Overlay Images###18 01 2012 new variable
+content#:#cont_add_images#:#Add Images###18 01 2012 new variable
+content#:#cont_add_popup#:#Add Popup###18 01 2012 new variable
+content#:#cont_WholePicture#:#Whole Picture###18 01 2012 new variable
+content#:#cont_overlay_image#:#Overlay Image###18 01 2012 new variable
+content#:#cont_content_popup#:#Content Popup###18 01 2012 new variable
+content#:#cont_update_titles_and_actions#:#Update Titles and Actions###18 01 2012 new variable
+user#:#user_profile_preview#:#Preview###18 01 2012 new variable
+prtf#:#prtf_portfolio_default#:#Default###18 01 2012 new variable
+content#:#cont_trigger_area#:#Trigger Area###18 01 2012 new variable
+content#:#cont_marker#:#Marker###18 01 2012 new variable
+content#:#cont_saved_interactive_image#:#Created Interactive Image###18 01 2012 new variable
+content#:#cont_base_image#:#Background Image###18 01 2012 new variable
+content#:#cont_edit_base_image#:#Edit Background Image###18 01 2012 new variable
+content#:#cont_really_delete_overlays#:#Do you really want to delete the following overlays?###18 01 2012 new variable
+content#:#cont_overlays_have_been_deleted#:#Overlays have been deleted.###18 01 2012 new variable
+content#:#cont_new_popup#:#New Popup###18 01 2012 new variable
+content#:#cont_really_delete_popups#:#Do you really want to delete the following popups?###18 01 2012 new variable
+content#:#cont_popups_have_been_deleted#:#Popups have been deleted.###18 01 2012 new variable
+content#:#cont_new_trigger_area#:#New Trigger Area###18 01 2012 new variable
+content#:#cont_really_delete_triggers#:#Do you really want to delete the following triggers?###18 01 2012 new variable
+content#:#cont_new_marker#:#New Marker###18 01 2012 new variable
+content#:#cont_edit_overlay_position#:#Edit Overlay Position###18 01 2012 new variable
+content#:#cont_edit_marker_position#:#Edit Marker Position###18 01 2012 new variable
+content#:#cont_edit_popup_position#:#Edit Popup Position###18 01 2012 new variable
+content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit "Save".###18 01 2012 new variable
+common#:#cont_iim_create_info#:#Please upload the background picture for the interactive image.###18 01 2012 new variable
+common#:#cont_iim_overlay_info#:#Overlay images are used to alter (e.g. highlight) parts of the background image when the mouse hovers over them. After uploading the images, you can select them in the "Triggers" tab.###18 01 2012 new variable
+common#:#cont_iim_content_popups_info#:#Content popups appear, when the user clicks on interactive parts of the background image. On this screen you only define the popups. Their content can be edited on the editing screen of the page.###18 01 2012 new variable
+content#:#cont_correct_answers_also#:#Also correct are:###18 01 2012 new variable
+content#:#cont_correct_answer_also#:#Also correct is:###18 01 2012 new variable
+common#:#file_upload_pending#:#Pending file###18 01 2012 new variable
+wsp#:#wsp_permission_add_users#:#Add Users###18 01 2012 new variable
+wsp#:#wsp_set_permission_registered#:#All Registered Users###18 01 2012 new variable
+wsp#:#wsp_set_permission_all#:#Publish ###18 01 2012 new variable
+wsp#:#wsp_remove_permission#:#Remove Permission###18 01 2012 new variable
+wsp#:#wsp_permission_registered_info#:#This object is shared with all registered users.###18 01 2012 new variable
+wsp#:#wsp_permission_all_info#:#This object has been published.###18 01 2012 new variable
+style#:#sty_type_iim#:#Interactive Image Content Popup###18 01 2012 new variable
+style#:#sty_type_marker#:#Interactive Image Marker###18 01 2012 new variable
+style#:#sty_import_page_layout#:#Import Page Layout###18 01 2012 new variable
+content#:#cont_remove_format#:#Remove Format###18 01 2012 new variable
+content#:#cont_ed_edit_multiple#:#Edit Paragraph Sequence###18 01 2012 new variable
+survey#:#survey_questions_to_clipboard_cut#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard. ###18 01 2012 new variable
+survey#:#survey_questions_to_clipboard_copy#:#Question(s) were copied to the clipboard. Please select a target or empty the clipboard. ###18 01 2012 new variable
+survey#:#survey_clipboard_notice#:#There are question(s) in the clipboard. Select the target position or empty the clipboard.###18 01 2012 new variable
+survey#:#survey_edit_heading#:#Edit Heading###18 01 2012 new variable
+survey#:#survey_delete_heading#:#Remove Heading###18 01 2012 new variable
+content#:#cont_pc_qover#:#Question Overview###18 01 2012 new variable
+content#:#cont_ed_insert_qover#:#Insert Question Overview###18 01 2012 new variable
+content#:#cont_update_qover#:#Update Question Overview###18 01 2012 new variable
+content#:#cont_qover_short_message#:#Status Message###18 01 2012 new variable
+content#:#cont_qover_short_message_info#:#A message "You have correctly answered C out of Y questions of this unit." will be displayed.###18 01 2012 new variable
+content#:#cont_qover_list_wrong_q#:#List of Wrong Answered Questions###18 01 2012 new variable
+content#:#cont_qover_list_wrong_q_info#:#A list of wrong or not answered questions will be displayed.###18 01 2012 new variable
+content#:#cont_edit_qover#:#Edit Question Overview###18 01 2012 new variable
+content#:#cont_ov_all_correct#:#You have correctly answered all questions.###18 01 2012 new variable
+content#:#cont_ov_some_correct#:#You have correctly answered [x] out of [y] questions.###18 01 2012 new variable
+content#:#cont_ov_wrong_answered#:#The following questions were not answered or answered wrong###18 01 2012 new variable
+common#:#invoice_number_reset_period#:#Reset incremental number###18 01 2012 new variable
+common#:#invoice_number_reset_period_desc#:#Choose the period for reseting the incremental number to the start value###18 01 2012 new variable
+common#:#payment_userdefined_invoice_number_not_activated#:#Userdefined invoice numbers are not enabled###18 01 2012 new variable
+common#:#invoice_number#:#Invoice number###18 01 2012 new variable
+common#:#invoice_number_setting#:#Invoice number settings###18 01 2012 new variable
+payment#:#ilias_invoice_number#:#ILIAS invoice number###18 01 2012 new variable
+payment#:#userdefined_invoice_number#:#Userdefined invoice number###18 01 2012 new variable
+payment#:#incremental_start_value#:#Incremental Number###18 01 2012 new variable
+payment#:#incremental_start_value_info#:#This start value will be used as first incremental number for the next period.###18 01 2012 new variable
+payment#:#incremental_current_value#:#current incremental number###18 01 2012 new variable
+payment#:#invoice_number_text#:#invoice number definition###18 01 2012 new variable
+common#:#yearly#:#yearly###18 01 2012 new variable
+common#:#payment_notification_days_desc#:#Please enter the number days, to define when users should be notified about the limited access time to bought objects###18 01 2012 new variable
+common#:#payment_notification_days#:#Number of days###18 01 2012 new variable
+payment#:#show_general_filter#:#Show general filter###18 01 2012 new variable
+payment#:#show_general_filter_info#:#Let users find buyable objects with this general search filter###18 01 2012 new variable
+payment#:#show_topics_filter#:#Show topics filter###18 01 2012 new variable
+payment#:#show_topics_filter_info#:#Let users find buyable objects with this topics filter###18 01 2012 new variable
+payment#:#show_shop_explorer#:#Show shop explorer###18 01 2012 new variable
+payment#:#show_shop_explorer_info#:#This shop explorer simplifies the navigation within shop###18 01 2012 new variable
+survey#:#survey_available_question_pools#:#Available Pools###18 01 2012 new variable
+survey#:#survey_question_pool_title#:#Pool Title###18 01 2012 new variable
+auth#:#login_page_switch_rte#:#Use Rich-Text-Editor###18 01 2012 new variable
+auth#:#login_page_switch_ipe#:#Use ILIAS Page Editor###18 01 2012 new variable
+auth#:#login_page_editor_switched#:#The active page editor has been changed###18 01 2012 new variable
+auth#:#login_page_activate#:#Activate Editor for Selected Languages###18 01 2012 new variable
+content#:#cont_update_login_page#:#Edit Login Page Element###18 01 2012 new variable
+content#:#cont_lpe_login_form#:#Login Form###18 01 2012 new variable
+content#:#cont_lpe_cas_login_form#:#CAS Login Form###18 01 2012 new variable
+content#:#cont_lpe_shib_login_form#:#Shibboleth Login Form###18 01 2012 new variable
+content#:#cont_lpe_openid_login_form#:#OpenId Login Form###18 01 2012 new variable
+content#:#cont_lpe_registration_link#:#New Registration Link###18 01 2012 new variable
+content#:#cont_lpe_language_selection#:#Language Selection###18 01 2012 new variable
+content#:#cont_lpe_user_agreement_link#:#User Agreement Link###18 01 2012 new variable
+content#:#cont_insert_login_page#:#Add Login Page Element###18 01 2012 new variable
+survey#:#survey_sync_question_copies#:#Sync Question Copies###18 01 2012 new variable
+survey#:#survey_sync_question_copies_info#:#The selected questions will be replaced with the current pool version.###18 01 2012 new variable
+survey#:#survey_sync_insufficient_permissions#:#Insufficient Permissions###18 01 2012 new variable
+survey#:#survey_sync_success#:#The selected questions were updated.###18 01 2012 new variable
+ecs#:#ecs_add_new_ecs#:#Add New ECS###18 01 2012 new variable
+ecs#:#ecs_available_ecs#:#Available ECS###18 01 2012 new variable
+ecs#:#ecs_tbl_active#:#Active###18 01 2012 new variable
+ecs#:#ecs_server_addr#:#Server Address###18 01 2012 new variable
+ecs#:#ecs_activate#:#Activate###18 01 2012 new variable
+ecs#:#ecs_deactivate#:#Deactivate###18 01 2012 new variable
+ecs#:#ecs_not_configured#:#Not configured###18 01 2012 new variable
+ecs#:#ecs_tbl_import#:#Import###18 01 2012 new variable
+ecs#:#ecs_tbl_export#:#Export###18 01 2012 new variable
+ecs#:#ecs_tbl_import_type#:#Import Type###18 01 2012 new variable
+payment#:#position#:#Pos.###18 01 2012 new variable
+payment#:#amount#:#Amount###18 01 2012 new variable
+payment#:#external_bill_no#:#%s Billing-No.###18 01 2012 new variable
+payment#:#day_of_service_provision#:#Day of service provision###18 01 2012 new variable
+payment#:#total_netprice#:#Total netprice (ohne USt)###18 01 2012 new variable
+payment#:#unit_price#:#Unit price###18 01 2012 new variable
+payment#:#plus_vat#:#Plus VAT###18 01 2012 new variable
+payment#:#credit#:#Credit###18 01 2012 new variable
+payment#:#period_of_service_provision#:#Period of service provision###18 01 2012 new variable
+wsp#:#wsp_permissions#:#Share###18 01 2012 new variable
+wsp#:#wsp_shared_with#:#Shared With###18 01 2012 new variable
+wsp#:#wsp_set_permission_single_user#:#Single User###18 01 2012 new variable
+wsp#:#wsp_set_permission_group#:#Group###18 01 2012 new variable
+wsp#:#wsp_set_permission_course#:#Course###18 01 2012 new variable
+wsp#:#wsp_set_permission_all_password#:#Publish (Password required)###18 01 2012 new variable
+wsp#:#wsp_permission_removed#:#The item has been removed.###18 01 2012 new variable
+wsp#:#wsp_share_with_members#:#Share with members###18 01 2012 new variable
+wsp#:#wsp_share_success#:#A new entry has been added.###18 01 2012 new variable
+wsp#:#wsp_share_search_users#:#Search Users###18 01 2012 new variable
+content#:#cont_html_export_ids#:#HTML Export IDs###18 01 2012 new variable
+content#:#cont_html_export_ids_info#:#Allows to maintain extra IDs for ILIAS learning modules, that are used for naming HTML files, when HTML export is done.###18 01 2012 new variable
+content#:#cont_export_id#:#Export ID###18 01 2012 new variable
+content#:#cont_exp_ids_not_resp_format1#:#Export IDs may only use the following characters###18 01 2012 new variable
+content#:#cont_exp_ids_not_resp_format2#:#Please check and correct your input.###18 01 2012 new variable
+content#:#cont_saved_export_ids#:#Saved HTML Export IDs.###18 01 2012 new variable
+content#:#content_some_export_ids_multiple_times#:#Some export IDs are used multiple times. This will lead to missing pages in the export.###18 01 2012 new variable
+content#:#cont_exp_id_used_multiple#:#Export ID used multiple times###18 01 2012 new variable
+content#:#mob_upload_dir#:#Upload Directory###18 01 2012 new variable
+content#:#mob_upload_dir_info#:#Server directory from which multiple files can be used to create media objects in media pools. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.###18 01 2012 new variable
+mep#:#mep_create_from_upload_dir#:#Create Media Objects from Upload Directory###18 01 2012 new variable
+mep#:#mep_sel_upload_dir_files#:#Select Files/Directories###18 01 2012 new variable
+mep#:#mep_upload_dir_files#:#Files from Upload Directory###18 01 2012 new variable
+mep#:#mep_file#:#File###18 01 2012 new variable
+mep#:#mep_create_media_files#:#Create Media Objects###18 01 2012 new variable
+mep#:#mep_up_dir_move#:#Move Files from Upload Directory (Faster)###18 01 2012 new variable
+mep#:#mep_up_dir_copy#:#Copy Files from Upload Directory (Keeps files in the upload directory)###18 01 2012 new variable
+content#:#cont_exp_ids_not_resp_format3#:#The ID must not start with a number.###18 01 2012 new variable
+content#:#cont_current_usages#:#Current Usages###18 01 2012 new variable
+content#:#cont_all_usages#:#Include History###18 01 2012 new variable
+content#:#cont_set_layout#:#Set Layout###18 01 2012 new variable
+mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page.###18 01 2012 new variable
+content#:#cont_missing_snippet#:#Missing Content Snippet. The snippet has been deleted.###18 01 2012 new variable
+content#:#cont_enable_page_history#:#Page History###18 01 2012 new variable
+content#:#cont_enable_page_history_info#:#Stores older versions of pages and allows to roll back to older versions.###18 01 2012 new variable
+style#:#sty_type_qover#:#Question Overview###18 01 2012 new variable
+ecs#:#ecs_tbl_settings_for_server#:#ECS Settings for %s###18 01 2012 new variable
+ecs#:#ecs_back_settings#:#ECS Settings###18 01 2012 new variable
+ecs#:#ecs_crs_alloc_set#:#Edit Course Allocation###18 01 2012 new variable
+ecs#:#ecs_dir_alloc_set#:#Edit Directory Allocation###18 01 2012 new variable
+ecs#:#ecs_crs_alloc#:#Course Allocation###18 01 2012 new variable
+ecs#:#ecs_dir_alloc#:#directory Allocation###18 01 2012 new variable
+wsp#:#wsp_tab_personal#:#My Resources###18 01 2012 new variable
+wsp#:#wsp_tab_shared#:#Resources of Other Users###18 01 2012 new variable
+wsp#:#wsp_shared_resources#:#Shared Resources###18 01 2012 new variable
+wsp#:#wsp_share_select_user#:#Please select a user.###18 01 2012 new variable
+wsp#:#wsp_copy_to_repository#:#Copy to Repository###18 01 2012 new variable
+wsp#:#wsp_move_to_repository#:#Move to Repository###18 01 2012 new variable
+wsp#:#wsp_status_shared#:#Shared###18 01 2012 new variable
+sahs#:#sahs_desc_objectives#:#Description/Objectives###18 01 2012 new variable
+content#:#cont_localization#:#Localization###18 01 2012 new variable
+content#:#cont_localization_info#:#Language used for predifined texts, e.g. "Previous" and "Next".###18 01 2012 new variable
+book#:#book_schedule_warning_edit#:#Currently, there is no schedule available. To use the booking pool you need to create a schedule for booking.###18 01 2012 new variable
+book#:#book_type_warning#:#Currently, there are no booking objects available. To use the booking pool you need to create booking objects.###18 01 2012 new variable
+prtf#:#prtf_first_page_title#:#Type of first page###18 01 2012 new variable
+prtf#:#prtf_save_status_and_titles#:#Save Status and Titles###18 01 2012 new variable
+exc#:#exc_type_upload#:#Upload###18 01 2012 new variable
+exc#:#exc_type_blog#:#Blog###18 01 2012 new variable
+exc#:#exc_type_portfolio#:#Portfolio###18 01 2012 new variable
+exc#:#exc_blog_returned#:#Assignment Blog###18 01 2012 new variable
+exc#:#exc_portfolio_returned#:#Assignment Portfolio###18 01 2012 new variable
+exc#:#exc_create_blog#:#Create Blog###18 01 2012 new variable
+exc#:#exc_create_portfolio#:#Create Portfolio###18 01 2012 new variable
+exc#:#exc_create_blog_select_info#:#Please select the resource folder to add the blog to.###18 01 2012 new variable
+exc#:#exc_create_portfolio_select_info#:#Please select the resource folder to add the portfolio to.###18 01 2012 new variable
+exc#:#exc_blog_created#:#Blog was created.###18 01 2012 new variable
+exc#:#exc_portfolio_created#:#Portfolio was created.###18 01 2012 new variable
+mail#:#mail_member_notification#:#Participant Notification###18 01 2012 new variable
+mail#:#mail_enable_crs_member_notification#:#Course Notification###18 01 2012 new variable
+mail#:#mail_enable_grp_member_notification#:#Group Notification###18 01 2012 new variable
+mail#:#mail_enable_crs_member_notification_info#:#If enabled, course participants will be notified automatically about membership changes.###18 01 2012 new variable
+mail#:#mail_enable_grp_member_notification_info#:#If enabled, group participants will be notified automatically about membership changes.###18 01 2012 new variable
+common#:#portfolio#:#Portfolio###18 01 2012 new variable
+prtf#:#prtf_default_portfolio#:#My Profile###18 01 2012 new variable
+user#:#user_portfolios#:#Portfolios###18 01 2012 new variable
+user#:#user_portfolios_desc#:#Users can create portfolios and use them as profile.###18 01 2012 new variable
+user#:#user_profile_portfolio#:#If you want to use a portfolio as your profile, go to the portfolio section and set "My Profile" for that portfolio.###18 01 2012 new variable
+wsp#:#wsp_type_webr#:#Weblink###18 01 2012 new variable
+content#:#cont_maintenance#:#Maintenance###18 01 2012 new variable
+content#:#cont_switch_to_media_pool#:#Switch to other Media Pool###18 01 2012 new variable
+mep#:#mep_choose_from_mep#:#Choose from Pool###18 01 2012 new variable
+ecs#:#ecs_cert_valid_until#:#Certificate valid until###18 01 2012 new variable
+mep#:#mep_choose_from_folder#:#Choose from Folder###18 01 2012 new variable
+trac#:#trac_object_statistics#:#Object Statistics###18 01 2012 new variable
+ecs#:#ecs_auth_type#:#Authentication Type###18 01 2012 new variable
+ecs#:#ecs_auth_type_cert#:#Certificate-Base###18 01 2012 new variable
+ecs#:#ecs_auth_type_apache#:#Username/Password###18 01 2012 new variable
+ecs#:#ecs_apache_user#:#Username###18 01 2012 new variable
+ecs#:#ecs_apache_pass#:#Password###18 01 2012 new variable
+common#:#obj_skmg#:#Competence Management###18 01 2012 new variable
+skmg#:#skmg_settings#:#Competence Management Settings###18 01 2012 new variable
+skmg#:#skmg_enable_skmg#:#Activate Competence Management###18 01 2012 new variable
+skmg#:#skmg_skills#:#Competences###18 01 2012 new variable
+skmg#:#skmg_skill_hierarchie#:#Competence Hierarchy###18 01 2012 new variable
+skmg#:#skmg_insert_basic_skill#:#Insert Basic Competence###18 01 2012 new variable
+skmg#:#skmg_insert_skill_category#:#Insert Competence Category###18 01 2012 new variable
+skmg#:#skmg_insert_basic_skill_child#:#Insert Basic Competence as Subitem###18 01 2012 new variable
+skmg#:#skmg_insert_skill_category_child#:#Insert Competence Category as Subitem###18 01 2012 new variable
+skmg#:#skmg_new_skill#:#New Competence###18 01 2012 new variable
+skmg#:#skmg_new_skill_category#:#New Competence Category###18 01 2012 new variable
+skmg#:#skmg_save_all_titles#:#Save All Titles###18 01 2012 new variable
+skmg#:#skmg_choose_only_skill_categories_or_basic_skills#:#Please choose either only basic competences or only competence categories.###18 01 2012 new variable
+skmg#:#skmg_insert_basic_skill_from_clip#:#Insert Basic Competences from Clipboard###18 01 2012 new variable
+skmg#:#skmg_insert_skill_category_from_clip#:#Insert Competence Categories from Clipboard###18 01 2012 new variable
+skmg#:#skmg_insert_basic_skill_from_clip_child#:#Insert Basic Competences from Clipboard as Subitems###18 01 2012 new variable
+skmg#:#skmg_insert_skill_category_from_clip_child#:#Insert Competence Categories from Clipboard as Subitems###18 01 2012 new variable
+skmg#:#skmg_selected_items_have_been_copied#:#Selected items have been copied.###18 01 2012 new variable
+skmg#:#skmg_selected_items_have_been_cut#:#Selected items have been cut.###18 01 2012 new variable
+common#:#obj_skmg_desc#:#Manage competences and competence categories.###18 01 2012 new variable
+skmg#:#skmg_insert_on_same_level#:#Insert on Same Level###18 01 2012 new variable
+skmg#:#skmg_insert_as_subitem#:#Insert as Subitem###18 01 2012 new variable
+skmg#:#skll#:#Basic Competence###18 01 2012 new variable
+skmg#:#scat#:#Competence Category###18 01 2012 new variable
+skmg#:#skmg_add_level#:#Add Level###18 01 2012 new variable
+skmg#:#skmg_skill_level#:#Competence Level###18 01 2012 new variable
+skmg#:#skmg_nr#:#Nr###18 01 2012 new variable
+skmg#:#skmg_trigger#:#Trigger###18 01 2012 new variable
+skmg#:#skmg_new_level#:#New Level###18 01 2012 new variable
+skmg#:#skmg_edit_level#:#Edit Level###18 01 2012 new variable
+skmg#:#skmg_update_order#:#Update Order###18 01 2012 new variable
+skmg#:#skmg_really_delete_levels#:#Do you really want to delete the following competence levels?###18 01 2012 new variable
+skmg#:#skmg_skill#:#Competence###18 01 2012 new variable
+skmg#:#skmg_skill_levels#:#Competence Levels###18 01 2012 new variable
+skmg#:#skmg_certificate#:#Certificate###18 01 2012 new variable
+skmg#:#skmg_skill_level_trigger#:#Competence Level Trigger###18 01 2012 new variable
+skmg#:#skmg_no_trigger#:#No Trigger###18 01 2012 new variable
+skmg#:#skmg_remove_trigger#:#Remove Trigger###18 01 2012 new variable
+skmg#:#skmg_select_trigger#:#Select Trigger###18 01 2012 new variable
+adm#:#adm_update_skill_tables#:#Update Competence Tables###18 01 2012 new variable
+adm#:#adm_update_skill_status#:#Update Competence Status###18 01 2012 new variable
+skmg#:#skmg_skill_management_deactivated#:#Competence Management is currently deaktivated.###18 01 2012 new variable
+skmg#:#skmg_cert_skill_title#:#Competence Title###18 01 2012 new variable
+skmg#:#skmg_cert_skill_level_title#:#Competence Level Title###18 01 2012 new variable
+skmg#:#skmg_cert_skill_trigger_title#:#Competence Trigger Title###18 01 2012 new variable
+skmg#:#skmg_cert_achievement_date#:#Achievement Date###18 01 2012 new variable
+skmg#:#skmg_cert_achievement_datetime#:#Achievement Date and Time###18 01 2012 new variable
+skmg#:#skmg_edit_scat#:#Edit Competence Category###18 01 2012 new variable
+skmg#:#skmg_please_select_self_skill#:#Start a new Self Evaluation. Competence:###18 01 2012 new variable
+skmg#:#skmg_execute_self_evaluation#:#Start###18 01 2012 new variable
+skmg#:#skmg_your_self_evaluation#:#Your Self-Evaluation###18 01 2012 new variable
+skmg#:#skmg_no_skills#:#No Competences###18 01 2012 new variable
+skmg#:#skmg_save_self_evaluation#:#Finish Self-Evaluation###18 01 2012 new variable
+skmg#:#skmg_self_evaluations#:#Self-Evaluations###18 01 2012 new variable
+skmg#:#skmg_update_self_evaluation#:#Update Self-Evaluation###18 01 2012 new variable
+skmg#:#skmg_sure_delete_self_evaluation#:#Do you really want to delete the following self-evaluations?###18 01 2012 new variable
+skmg#:#skmg_please_select_your_skill_levels#:#Please select your competence levels.###18 01 2012 new variable
+skmg#:#skmg_self_evaluation#:#Self-Evaluation###18 01 2012 new variable
+skmg#:#skmg_next_step#:#Next Step###18 01 2012 new variable
+skmg#:#skmg_previous_step#:#Previous Step###18 01 2012 new variable
+skmg#:#skmg_skill_templates#:#Competence Templates###18 01 2012 new variable
+skmg#:#skmg_new_skill_template#:#New Competence Template###18 01 2012 new variable
+skmg#:#skmg_insert_basic_skill_template#:#Insert Competence Template###18 01 2012 new variable
+skmg#:#skmg_insert_skill_template_category#:#Insert Competence Template Category###18 01 2012 new variable
+skmg#:#skmg_new_skill_template_category#:#New Competence Template Category###18 01 2012 new variable
+skmg#:#skmg_insert_basic_skill_template_child#:#Insert Competence Template as Subitem###18 01 2012 new variable
+skmg#:#skmg_insert_skill_template_category_child#:#Insert Competence Template Category as Subitem###18 01 2012 new variable
+skmg#:#skmg_skill_template#:#Competence Template###18 01 2012 new variable
+skmg#:#skmg_skill_template_category#:#Competence Template Category###18 01 2012 new variable
+skmg#:#skmg_insert_skill_template_reference#:#Insert Competence Template Reference###18 01 2012 new variable
+skmg#:#skmg_insert_skill_template_reference_child#:#Insert Competence Template Reference as Subitem###18 01 2012 new variable
+skmg#:#skmg_insert_skill_template_reference_from_clip#:#Insert Competence Template Reference from Clipboard###18 01 2012 new variable
+assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#The status cannot be changed to &quot;online&quot; because there are no questions and/or no marks in the test!###18 01 2012 new variable
+blog#:#blog_preview#:#Preview###18 01 2012 new variable
+ecs#:#ecs_field_community#:#Community###18 01 2012 new variable
+skmg#:#skmg_new_sktr#:#New Competence Template Reference###18 01 2012 new variable
+skmg#:#skmg_edit_sktr#:#Edit Competence Template Reference###18 01 2012 new variable
+common#:#skills#:#My Competences###18 01 2012 new variable
+skmg#:#skmg_list_skills#:#List Competences###18 01 2012 new variable
+skmg#:#skmg_assign_materials#:#Assign Materials###18 01 2012 new variable
+skmg#:#skmg_add_skill#:#Add Competence###18 01 2012 new variable
+skmg#:#skmg_selectable#:#Selectable###18 01 2012 new variable
+skmg#:#skmg_selectable_info#:#Allows user to select this category as a personal competence.###18 01 2012 new variable
+assessment#:#test_is_offline#:#You cannot start the test! The test is offline.###18 01 2012 new variable
+skmg#:#skmg_materials#:#Materials###18 01 2012 new variable
+skmg#:#skmg_remove_skills#:#Remove Competences###18 01 2012 new variable
+skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig competences from your list?###18 01 2012 new variable
+forum#:#mark_moderator_posts#:#Mark moderator posts###18 01 2012 new variable
+forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlighted###18 01 2012 new variable
+dateplaner#:#cal_cache_settings#:#Cache###18 01 2012 new variable
+dateplaner#:#cal_milestone_settings#:#Milestones###18 01 2012 new variable
+assessment#:#test_edit_settings#:#Edit Settings###18 01 2012 new variable
+assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Test has been set to offline, because toggling the setting for random question selection causes the allready existing questions to be removed.###18 01 2012 new variable
+ecs#:#ecs_tab_import#:#Import###18 01 2012 new variable
+ecs#:#ecs_tab_export#:#Export###18 01 2012 new variable
+ecs#:#ecs_mapping_crs#:#Mapping for Courses###18 01 2012 new variable
+ecs#:#ecs_mapping_rcrs#:#Mapping for Remote Courses###18 01 2012 new variable
+ecs#:#ecs_mapping_exp_tbl#:#Mapping ILIAS Advanced Meta Data to ECS-Data###18 01 2012 new variable
+content#:#cont_edit_personal_data#:#Edit Personal Data###18 01 2012 new variable
+sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)###18 01 2012 new variable
+ecs#:#ecs_import_cms#:#Campus Managment###18 01 2012 new variable
+ecs#:#ecs_node_mapping_activate#:#Enable Directory Mapping###18 01 2012 new variable
+ecs#:#ecs_node_mapping_create_empty#:#Create Categories only, which contain Courses###18 01 2012 new variable
+ecs#:#ecs_node_mapping_create_empty_info#:#Useable only in combination with course mapping, which will be activated automatically.###18 01 2012 new variable
+ecs#:#ecs_campus_connect_title#:#CampusConnect Mappings###18 01 2012 new variable
+ecs#:#ecs_invalid_import_type_cms#:#The import type "Campus Managment" can be chosen only once.###18 01 2012 new variable
+ecs#:#ecs_cc_mapping_overview#:#Mapping Overview###18 01 2012 new variable
+ecs#:#ecs_cms_dir_tree#:#CMS Directory Trees###18 01 2012 new variable
+registration#:#registration_code_no_role#:#The registration code given does not specify a role and can not be used currently. Please contact your administrator.###18 01 2012 new variable
+registration#:#registration_no_valid_role#:#There is currently no valid role for new accounts. Please contact your administrator.###18 01 2012 new variable
+rbac#:#rbac_global_rolt#:#Global Role Template###18 01 2012 new variable
+common#:#exc_next_deadline#:#Next Deadline###18 01 2012 new variable
+rbac#:#rbac_role_selection#:#Role Type###18 01 2012 new variable
+content#:#cont_paragraph_styles#:#Paragraph Styles###18 01 2012 new variable
+content#:#cont_cc_str#:#Strong###18 01 2012 new variable
+content#:#cont_cc_emp#:#Emphatic###18 01 2012 new variable
+content#:#cont_cc_imp#:#Important###18 01 2012 new variable
+content#:#cont_more_character_styles#:#...more character styles###18 01 2012 new variable
+content#:#cont_blist#:#Bullet List###18 01 2012 new variable
+content#:#cont_nlist#:#Numbered List###18 01 2012 new variable
+content#:#cont_list_outdent#:#Outdent List###18 01 2012 new variable
+content#:#cont_list_indent#:#Indent List###18 01 2012 new variable
+didactic#:#didactic_adm_tab#:#Didactic Templates###18 01 2012 new variable
+didactic#:#didactic_import_btn#:#Import Didactic Template###18 01 2012 new variable
+didactic#:#didactic_applicable_for#:#Applicable for###18 01 2012 new variable
+didactic#:#didactic_available_templates#:#Available Didactic Templates###18 01 2012 new variable
+didactic#:#didactic_copy_suc_message#:#Copied didactic template###18 01 2012 new variable
+didactic#:#didactic_confirm_delete_msg#:#Do you really want to delete the following didactic templates?###18 01 2012 new variable
+didactic#:#didactic_delete_msg#:#Deleted didactical templates.###18 01 2012 new variable
+common#:#fold_type#:#Folder Type###18 01 2012 new variable
+content#:#cont_pword#:#Paste from Word###18 01 2012 new variable
+blog#:#blog_edit#:#Edit Blog###18 01 2012 new variable
+blog#:#blog_banner#:#Banner###18 01 2012 new variable
+blog#:#blog_background_color#:#Background Color###18 01 2012 new variable
+blog#:#blog_font_color#:#Font Color###18 01 2012 new variable
+blog#:#blog_back_to_ilias#:#Back to ILIAS###18 01 2012 new variable
+content#:#cont_new_question#:#New Question###18 01 2012 new variable
+content#:#cont_copy_question_from_pool#:#Copy Question from Pool###18 01 2012 new variable
+didactic#:#didactic_activated_msg#:#Activated didactic templates###18 01 2012 new variable
+didactic#:#didactic_deactivated_msg#:#Deactivated didactic templates###18 01 2012 new variable
+didactic#:#didactic_do_export#:#Export###18 01 2012 new variable
+didactic#:#didactic_import_table_title#:#Import of a didactic template###18 01 2012 new variable
+didactic#:#didactic_back_to_overview#:#Back to Overview###18 01 2012 new variable
+didactic#:#didactic_import_success#:#Successfully imported didactical template###18 01 2012 new variable
+rbac#:#rbac_auto_global#:#Auto generated global role###18 01 2012 new variable
+rbac#:#rbac_ud_global#:#User defined global role###18 01 2012 new variable
+rbac#:#rbac_auto_local#:#Auto generated local role###18 01 2012 new variable
+rbac#:#rbac_ud_local#:#User defined local role###18 01 2012 new variable
+rbac#:#rbac_auto_rolt#:#Auto generated role template###18 01 2012 new variable
+rbac#:#rbac_ud_rolt#:#User defined role template###18 01 2012 new variable
+didactic#:#didactic_import_failed#:#Importing the didactical template failed with message: ###18 01 2012 new variable
+rbac#:#rbac_context_global#:#Global###18 01 2012 new variable
+content#:#cont_select_other_qpool#:#Select other Pool###18 01 2012 new variable
+content#:#cont_copy_question_into_page#:#Copy into Page###18 01 2012 new variable
+blog#:#blog_exercise_info#:#This blog is part of the assignment "%s" of the exercise "%s".###18 01 2012 new variable
+blog#:#blog_finalize_blog#:#Finalize and Submit Blog###18 01 2012 new variable
+blog#:#blog_finalized#:#The Blog has been submitted.###18 01 2012 new variable
+prtf#:#prtf_exercise_info#:#This portfolio is part of the assignment "%s" of the exercise "%s".###18 01 2012 new variable
+prtf#:#prtf_finalize_portfolio#:#Finalize and Submit Portfolio###18 01 2012 new variable
+prtf#:#prtf_finalized#:#The portfolio has been submitted.###18 01 2012 new variable
+administration#:#obj_blga#:#Blog###18 01 2012 new variable
+administration#:#obj_blga_desc#:#Global Blog Settings###18 01 2012 new variable
+administration#:#obj_prfa#:#Portfolio###18 01 2012 new variable
+administration#:#obj_prfa_desc#:#Global Portfolio Settings###18 01 2012 new variable
+blog#:#blog_settings#:#Blog Administration###18 01 2012 new variable
+blog#:#blog_preview_banner_width#:#Banner Width###18 01 2012 new variable
+blog#:#blog_preview_banner_height#:#Banner Height###18 01 2012 new variable
+blog#:#blog_preview_banner#:#Custom Banner###18 01 2012 new variable
+prtf#:#prtf_settings#:#Portfolio Administration###18 01 2012 new variable
+prtf#:#prtf_preview_banner_width#:#Banner Width###18 01 2012 new variable
+prtf#:#prtf_preview_banner_height#:#Banner Height###18 01 2012 new variable
+prtf#:#prtf_preview_banner#:#Custom Banner###18 01 2012 new variable
+prtf#:#prtf_banner#:#Banner###18 01 2012 new variable
+prtf#:#prtf_background_color#:#Background Color###18 01 2012 new variable
+prtf#:#prtf_font_color#:#Font Color###18 01 2012 new variable
+notes#:#note_add_note#:#Add Note###18 01 2012 new variable
+notes#:#note_add_comment#:#Add Comment###18 01 2012 new variable
+notes#:#note_update_comment#:#Update Comment###18 01 2012 new variable
+notes#:#note_update_note#:#Update Note###18 01 2012 new variable
+common#:#added_to_desktop#:#The item has been added to the desktop.###18 01 2012 new variable
+common#:#removed_from_desktop#:#The item has been removed from the desktop.###18 01 2012 new variable
+notes#:#notes_comments#:#Comments###18 01 2012 new variable
+common#:#chtr_visible#:#Chatroom is visible###18 01 2012 new variable
+common#:#chtr_read#:#Read access to Chatroom###18 01 2012 new variable
+common#:#chtr_write#:#Edit Chatroom###18 01 2012 new variable
+common#:#chtr_edit_permission#:#Change Permission Settings###18 01 2012 new variable
+common#:#objs_chtr#:#Chatrooms###18 01 2012 new variable
+common#:#obj_chta#:#Chat###18 01 2012 new variable
+chatroom#:#history_by_day#:#Daily History###18 01 2012 new variable
+chatroom#:#history_by_session#:#Session History###18 01 2012 new variable
+chatroom#:#connected#:#Connection Established###18 01 2012 new variable
+chatroom#:#period#:#Period###18 01 2012 new variable
+chatroom#:#disconnected#:#Connection Closed###18 01 2012 new variable
+chatroom#:#allow_anonymous#:#Allow Anonymous Login###18 01 2012 new variable
+chatroom#:#autogen_usernames#:#Auto Generated Usernames###18 01 2012 new variable
+chatroom#:#allow_custom_usernames#:#Allow Custom Usernames###18 01 2012 new variable
+chatroom#:#enable_history#:#Enable History###18 01 2012 new variable
+chatroom#:#restrict_history#:#Restrict History###18 01 2012 new variable
+chatroom#:#restrict_history_info#:#No entries generated during absence from chatroom.###18 01 2012 new variable
+chatroom#:#allow_private_rooms#:#Allow Private Rooms###18 01 2012 new variable
+chatroom#:#settings_general#:#General###18 01 2012 new variable
+chatroom#:#settings_privacy#:#Privacy###18 01 2012 new variable
+chatroom#:#autogen_usernames_info#:#Pattern for auto generated usernames that is assigned to anonymous user accounts. '#' will be automatically replaced by a number.###18 01 2012 new variable
+chatroom#:#bans#:#Bans###18 01 2012 new variable
+chatroom#:#permissions#:#Permissions###18 01 2012 new variable
+chatroom#:#remark#:#Remark###18 01 2012 new variable
+chatroom#:#session#:#Session###18 01 2012 new variable
+chatroom#:#fontcolor#:#Font Color###18 01 2012 new variable
+chatroom#:#fontstyle#:#Font Style###18 01 2012 new variable
+chatroom#:#fontsize#:#Font Size###18 01 2012 new variable
+chatroom#:#italic#:#Italic###18 01 2012 new variable
+chatroom#:#underlined#:#Underlined###18 01 2012 new variable
+chatroom#:#select_custom_username#:#Select Custom Username###18 01 2012 new variable
+chatroom#:#custom_username#:#Custom Username###18 01 2012 new variable
+chatroom#:#enter#:#Enter Chatroom###18 01 2012 new variable
+chatroom#:#fontfamily#:#Font Family###18 01 2012 new variable
+chatroom#:#small#:#Small###18 01 2012 new variable
+chatroom#:#large#:#Large###18 01 2012 new variable
+chatroom#:#duration_from#:#From###18 01 2012 new variable
+chatroom#:#duration_to#:#To###18 01 2012 new variable
+chatroom#:#obj_chtr#:#Chatroom###18 01 2012 new variable
+chatroom#:#chat_message#:#Message###18 01 2012 new variable
+chatroom#:#chat_message_to_all#:#To All###18 01 2012 new variable
+chatroom#:#chat_message_options#:#Display###18 01 2012 new variable
+chatroom#:#chat_message_display#:#Options###18 01 2012 new variable
+chatroom#:#chat_mainroom#:#Main Room###18 01 2012 new variable
+chatroom#:#chat_leave#:#Leave###18 01 2012 new variable
+chatroom#:#chat_join#:#Join###18 01 2012 new variable
+chatroom#:#chat_delete#:#Delete###18 01 2012 new variable
+chatroom#:#chat_invite#:#Invite###18 01 2012 new variable
+chatroom#:#chat_kick#:#Kick###18 01 2012 new variable
+chatroom#:#chat_ban#:#Ban###18 01 2012 new variable
+chatroom#:#chat_address#:#Address###18 01 2012 new variable
+chatroom#:#chat_whisper#:#Whisper###18 01 2012 new variable
+chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chatroom +++ ###18 01 2012 new variable
+chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chatroom ---###18 01 2012 new variable
+chatroom#:#chat_invite_users#:#Invite Users###18 01 2012 new variable
+chatroom#:#chat_right_box_user#:#User###18 01 2012 new variable
+chatroom#:#chat_create_new_private_room#:#Create new Private Room###18 01 2012 new variable
+chatroom#:#chat_private_room#:#Private Room###18 01 2012 new variable
+chatroom#:#chat_to_mainroom#:#To Main Room###18 01 2012 new variable
+chatroom#:#chat_create_private_room_button#:#Create Private Room###18 01 2012 new variable
+chatroom#:#moderate#:#Moderate###18 01 2012 new variable
+chatroom#:#chatroom_smiley_keyword#:#Keyword###18 01 2012 new variable
+chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to Chatroom ##room_name#####18 01 2012 new variable
+chatroom#:#chat_invitation_long#:###salutation##\n\nYou have been invited to a chatroom:\nChatroom Title: ##room_name##\nInvited by: ##inviter_name##\nURL: ##link##\n\nIf you want to join the chatroom please follow the given URL.###18 01 2012 new variable
+chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.###18 01 2012 new variable
+chatroom#:#settings_title#:#Settings###18 01 2012 new variable
+chatroom#:#history_byday_title#:#Show Conversation per Day###18 01 2012 new variable
+chatroom#:#history_bysession_title#:#Show Conversation per Session###18 01 2012 new variable
+chatroom#:#ban_table_title#:#Banned Users###18 01 2012 new variable
+chatroom#:#main#:#Main Room###18 01 2012 new variable
+chatroom_adm#:#chatroom_available_smilies#:#Available Smilies###18 01 2012 new variable
+chatroom_adm#:#chatroom_delete_selected#:#Delete Selected Smilies###18 01 2012 new variable
+chatroom_adm#:#chatroom_smiley_image#:#Smiley###18 01 2012 new variable
+chatroom_adm#:#chatroom_add_smiley#:#Add Smiley###18 01 2012 new variable
+chatroom_adm#:#chatroom_image_path#:#Path to Smiley###18 01 2012 new variable
+chatroom_adm#:#chatroom_smiley_keywords#:#Keywords###18 01 2012 new variable
+chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#One Keyword per Line###18 01 2012 new variable
+chatroom_adm#:#chatroom_upload_smiley#:#Upload Smiley###18 01 2012 new variable
+chatroom_adm#:#obj_chta_desc#:#Chat Administration###18 01 2012 new variable
+chatroom_adm#:#protocol#:#Protocol###18 01 2012 new variable
+chatroom_adm#:#instance#:#Instance###18 01 2012 new variable
+chatroom_adm#:#smiley#:#Smilies###18 01 2012 new variable
+chatroom_adm#:#chatroom_edit_smiley#:#Edit Smiley###18 01 2012 new variable
+chatroom_adm#:#chatroom_current_smiley_image_path#:#Current Smiley###18 01 2012 new variable
+chatroom_adm#:#chatroom_current_smiley_image#:#Current Smiley Icon###18 01 2012 new variable
+chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Choose a new smiley icon only if the current one is to be replaced.###18 01 2012 new variable
+chatroom_adm#:#server_settings#:#Chatserver Settings###18 01 2012 new variable
+chatroom_adm#:#client_settings#:#General Settings###18 01 2012 new variable
+chatroom_adm#:#priv_hosts#:#Privileged Hosts###18 01 2012 new variable
+chatroom_adm#:#https#:#HTTPS###18 01 2012 new variable
+chatroom_adm#:#chat_enabled#:#Enable Chat###18 01 2012 new variable
+chatroom_adm#:#enable_osd#:#Enable On-Screen Notifications###18 01 2012 new variable
+chatroom_adm#:#hash#:#Hash###18 01 2012 new variable
+chatroom_adm#:#general_settings_title#:#General Chat Settings###18 01 2012 new variable
+chatroom_adm#:#osd_intervall#:#Refreshinterval (seconds)###18 01 2012 new variable
+chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings###18 01 2012 new variable
+chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete the selected smiley?###18 01 2012 new variable
+chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.###18 01 2012 new variable
+chatroom_adm#:#chat_smilies_initialized#:#Chat smilies initialized###18 01 2012 new variable
+chatroom#:#soap_must_be_enabled#:#You must active SOAP support in the general settings to enable the chat.###18 01 2012 new variable
+chatroom#:#auto_scroll#:#Scroll to Bottom###18 01 2012 new variable
+chatroom#:#public_chat_created#:#The public chatroom has been added to the repository.###18 01 2012 new variable
+chatroom#:#lost_connection#:#The connection to the Chatserver was interrupted.###18 01 2012 new variable
+chatroom#:#banned#:#You have been banned from this Chatroom###18 01 2012 new variable
+chatroom#:#unban#:#Unban###18 01 2012 new variable
+chatroom_adm#:#keystore#:#Keystore###18 01 2012 new variable
+chatroom_adm#:#keypass#:#Keypass###18 01 2012 new variable
+chatroom_adm#:#storepass#:#Storepass###18 01 2012 new variable
+chatroom_adm#:#settings_has_been_saved#:#Settings has been saved###18 01 2012 new variable
+common#:#obj_chtr#:#Chatroom###18 01 2012 new variable
+chatroom#:#unable_to_connect#:#The connection to the chatserver could not be established.###18 01 2012 new variable
+user#:#user_account_codes#:#Account Codes###18 01 2012 new variable
+user#:#user_account_codes_add#:#Add Codes###18 01 2012 new variable
+user#:#user_account_codes_export#:#Export Codes###18 01 2012 new variable
+user#:#user_account_codes_edit_header#:#Add Codes###18 01 2012 new variable
+user#:#user_account_codes_number#:#Number Of Codes###18 01 2012 new variable
+user#:#user_account_code#:#Code###18 01 2012 new variable
+user#:#user_account_code_valid_until#:#Valid Until###18 01 2012 new variable
+user#:#user_account_code_valid_until_static#:#End Date###18 01 2012 new variable
+user#:#user_account_code_valid_until_dynamic#:#Number of Days###18 01 2012 new variable
+user#:#user_account_code_generated#:#Date Of Generation###18 01 2012 new variable
+user#:#user_account_code_used#:#Date Of Use###18 01 2012 new variable
+user#:#user_account_used#:#Date Of Usage###18 01 2012 new variable
+user#:#user_account_code_generated_all#:#All Dates###18 01 2012 new variable
+user#:#user_account_export_codes_no_data#:#No codes to export were selected.###18 01 2012 new variable
+user#:#user_account_code_not_valid#:#The given registration code is either invalid or already has been used.###18 01 2012 new variable
+user#:#user_account_code_valid_until_unlimited#:#Unlimited###18 01 2012 new variable
+user#:#user_account_code_setting#:#Enable Account Re-Activation By Code###18 01 2012 new variable
+user#:#user_account_code_setting_info#:#Inactive Accounts can be re-activated by users with pre-defined codes.###18 01 2012 new variable
+registration#:#registration_code_optional_info#:#If you have an ILIAS registration code, you can enter it now.###18 01 2012 new variable
+registration#:#registration_code_required_info#:#A pre-defined code is mandatory for the registration process.###18 01 2012 new variable
+auth#:#auth_account_code#:#Code###18 01 2012 new variable
+auth#:#auth_account_code_info#:#To re-activate your account you can use a ILIAS account code.###18 01 2012 new variable
+auth#:#auth_account_code_title#:#Account Code###18 01 2012 new variable
+auth#:#auth_account_code_used#:#Your account has been re-activated. Please login once again for security reasons.###18 01 2012 new variable
+prtf#:#prtf_no_blogs_info#:#Your workspace does not contain any blogs. Create blogs to use them as part of your portfolios.###18 01 2012 new variable
+prtf#:#prtf_add_blog#:#Add Blog###18 01 2012 new variable
+pd#:#pd_enable_personal_workspace#:#Enable Personal Workspace###18 01 2012 new variable
+pd#:#pd_enable_wsp_blogs#:#Enable Blogs###18 01 2012 new variable
+pd#:#pd_enable_wsp_files#:#Enable Files###18 01 2012 new variable
+pd#:#pd_enable_wsp_certificates#:#Enable Certificates###18 01 2012 new variable
+pd#:#pd_enable_wsp_links#:#Enable Links###18 01 2012 new variable
+pd#:#pd_enable_prtf#:#Enable Portfolios###18 01 2012 new variable
+survey#:#svy_presentation_properties#:#Presentation###18 01 2012 new variable
+survey#:#svy_save_sync#:#Save and Sync Question Copies###18 01 2012 new variable
+grp#:#grp_setting_header_presentation#:#Group Presentation###18 01 2012 new variable
+grp#:#grp_setting_header_registration#:#Group Registration###18 01 2012 new variable
+grp#:#grp_view_info_by_type#:#This content presentation groups all items by resource type.###18 01 2012 new variable
+grp#:#grp_view_info_simple#:#This content presentation lists all items in one block.###18 01 2012 new variable
+grp#:#grp_presentation_type#:#Presentation Type###18 01 2012 new variable
+grp#:#grp_view_inherit#:#Standard###18 01 2012 new variable
+grp#:#grp_view_inherit_info#:#The group presentation type is adapted from a parent course. ###18 01 2012 new variable
+content#:#cont_open#:#Display###18 01 2012 new variable
+content#:#cont_open_normal#:#in tab / new window with link###18 01 2012 new variable
+content#:#cont_open_iframe_max#:#in iframe with full size###18 01 2012 new variable
+content#:#cont_open_iframe_defined#:#in iframe with defined width and height###18 01 2012 new variable
+content#:#cont_open_window_undefined#:#in new window without defined width and height###18 01 2012 new variable
+content#:#cont_open_window_defined#:#in new window with defined width and height###18 01 2012 new variable
+content#:#cont_open_width#:#width###18 01 2012 new variable
+content#:#cont_open_heigth#:#height###18 01 2012 new variable
+scormdebug#:#scormdebug_global_activate#:#Enable SCORM test tool###18 01 2012 new variable
+scormdebug#:#scormdebug_global_activate_info#:#If enabled, the SCORM test tool can be activated for desired learning modules. If disabled, the test tool is deactivated for all learning modules.###18 01 2012 new variable
+content#:#cont_debug_deactivate#:#Hint: The test tool can be disabled for all learning modules.###18 01 2012 new variable
+content#:#cont_debug_deactivated#:#Hint: The test tool is disabled for all learning modules.###18 01 2012 new variable
+scormdebug#:#error0#:#No error###18 01 2012 new variable
+scormdebug#:#error101#:#General Exeption###18 01 2012 new variable
+scormdebug#:#error102#:#General Initialization Failure###18 01 2012 new variable
+scormdebug#:#error103#:#Already Initialized###18 01 2012 new variable
+scormdebug#:#error104#:#Content Instance Terminated###18 01 2012 new variable
+scormdebug#:#error111#:#General Termination Failure###18 01 2012 new variable
+scormdebug#:#error112#:#Termination Before Initialization###18 01 2012 new variable
+scormdebug#:#error113#:#Termination After Termination###18 01 2012 new variable
+scormdebug#:#error122#:#Retrieve Data Before Initialization###18 01 2012 new variable
+scormdebug#:#error123#:#Retrieve Data After Termination###18 01 2012 new variable
+scormdebug#:#error132#:#Store Data Before Initialization###18 01 2012 new variable
+scormdebug#:#error133#:#Store Data After Termination###18 01 2012 new variable
+scormdebug#:#error142#:#Commit Before Initialization###18 01 2012 new variable
+scormdebug#:#error143#:#Commit After Termination###18 01 2012 new variable
+scormdebug#:#error201#:#General Argument Error###18 01 2012 new variable
+scormdebug#:#error301#:#General Get Failure###18 01 2012 new variable
+scormdebug#:#error351#:#General Set Failure###18 01 2012 new variable
+scormdebug#:#error391#:#General Commit Failure###18 01 2012 new variable
+scormdebug#:#error401#:#Undefined Data Model Element###18 01 2012 new variable
+scormdebug#:#error402#:#Unimplemented Data Model Element###18 01 2012 new variable
+scormdebug#:#error403#:#Data Model Element Value Not Initialized###18 01 2012 new variable
+scormdebug#:#error404#:#Data Model Element Is Read Only###18 01 2012 new variable
+scormdebug#:#error405#:#Data Model Element Is Write Only###18 01 2012 new variable
+scormdebug#:#error406#:#Data Model Element Type Mismatch###18 01 2012 new variable
+scormdebug#:#error407#:#Data Model Element Value Out Of Range###18 01 2012 new variable
+scormdebug#:#error408#:#Data Model Dependency Not Established###18 01 2012 new variable
+scormdebug#:#SetValue#:#send data###18 01 2012 new variable
+scormdebug#:#GetValue#:#get data###18 01 2012 new variable
+scormdebug#:#Commit#:#store data###18 01 2012 new variable
+scormdebug#:#Initialize#:#initialize API-communication###18 01 2012 new variable
+scormdebug#:#Terminate#:#store data and terminate API-communication###18 01 2012 new variable
+scormdebug#:#GetErrorString#:#retrieve a textual description of the current error state###18 01 2012 new variable
+scormdebug#:#GetLastError#:#request the error code for the current error state###18 01 2012 new variable
+scormdebug#:#GetDiagnostic#:#allows the LMS (!) to define additional diagnostic information###18 01 2012 new variable
+scormdebug#:#cmi._version#:#Represents the version of the data model###18 01 2012 new variable
+scormdebug#:#cmi.comments_from_learner._children#:#Listing of supported data model elements###18 01 2012 new variable
+scormdebug#:#cmi.comments_from_learner._count#:#Current number of learner comments###18 01 2012 new variable
+scormdebug#:#cmi.comments_from_learner.n.comment#:#Textual input###18 01 2012 new variable
+scormdebug#:#cmi.comments_from_learner.n.location#:#Point in the SCO to which the comment applies###18 01 2012 new variable
+scormdebug#:#cmi.comments_from_learner.n.timestamp#:#Point in time at which the comment was created or most recently changed###18 01 2012 new variable
+scormdebug#:#cmi.comments_from_lms._children#:#Listing of supported data model elements###18 01 2012 new variable
+scormdebug#:#cmi.comments_from_lms._count#:#Current number of comments from the LMS###18 01 2012 new variable
+scormdebug#:#cmi.comments_from_lms.n.comment#:#Comments or annotations associated with a SCO###18 01 2012 new variable
+scormdebug#:#cmi.comments_from_lms.n.location#:#Point in the SCO to which the comment applies###18 01 2012 new variable
+scormdebug#:#cmi.comments_from_lms.n.timestamp#:#Point in time at which the comment was created or most recently changed###18 01 2012 new variable
+scormdebug#:#cmi.completion_status#:#Indicates whether the learner has completed the SCO###18 01 2012 new variable
+scormdebug#:#cmi.completion_threshold#:#Used to determine whether the SCO should be considered complete###18 01 2012 new variable
+scormdebug#:#cmi.credit#:#Indicates whether the learner will be credited for performance in the SCO###18 01 2012 new variable
+scormdebug#:#cmi.entry#:#Asserts whether the learner has previously accessed the SCO###18 01 2012 new variable
+scormdebug#:#cmi.exit#:#Indicates how or why the learner left the SCO###18 01 2012 new variable
+scormdebug#:#cmi.interactions._children#:#Listing of supported data model elements###18 01 2012 new variable
+scormdebug#:#cmi.interactions._count#:#Current number of interactions being stored by the LMS###18 01 2012 new variable
+scormdebug#:#cmi.interactions.n.id#:#Unique label for the interaction###18 01 2012 new variable
+scormdebug#:#cmi.interactions.n.type#:#Which type of interaction is recorded###18 01 2012 new variable
+scormdebug#:#cmi.interactions.n.objectives._count#:#Current number of objectives (i.e., objective identifiers) being stored by the LMS for this interaction###18 01 2012 new variable
+scormdebug#:#cmi.interactions.n.objectives.n.id#:#Label for objectives associated with the interaction###18 01 2012 new variable
+scormdebug#:#cmi.interactions.n.timestamp#:#Point in time at which the interaction was first made available to the learner for learner interaction and response###18 01 2012 new variable
+scormdebug#:#cmi.interactions.n.correct_responses._count#:#Current number of correct responses being stored by the LMS for this interaction###18 01 2012 new variable
+scormdebug#:#cmi.interactions.n.correct_responses.n.pattern#:#One correct response pattern for the interaction###18 01 2012 new variable
+scormdebug#:#cmi.interactions.n.weighting#:#Weight given to the interaction relative to other interactions###18 01 2012 new variable
+scormdebug#:#cmi.interactions.n.learner_response#:#Data generated when a learner responds to an interaction###18 01 2012 new variable
+scormdebug#:#cmi.interactions.n.result#:#Judgment of the correctness of the learner response###18 01 2012 new variable
+scormdebug#:#cmi.interactions.n.latency#:#Time elapsed between the time the interaction was made available to the learner for response and the time of the first response###18 01 2012 new variable
+scormdebug#:#cmi.interactions.n.description#:#Brief informative description of the interaction###18 01 2012 new variable
+scormdebug#:#cmi.launch_data#:#Data provided to a SCO after launch, initialized from the dataFromLMS manifest element###18 01 2012 new variable
+scormdebug#:#cmi.learner_id#:#Identifies the learner on behalf of whom the SCO was launched###18 01 2012 new variable
+scormdebug#:#cmi.learner_name#:#Name provided for the learner by the LMS###18 01 2012 new variable
+scormdebug#:#cmi.learner_preference._children#:#Listing of supported data model elements###18 01 2012 new variable
+scormdebug#:#cmi.learner_preference.audio_level#:#Specifies an intended change in perceived audio level###18 01 2012 new variable
+scormdebug#:#cmi.learner_preference.language#:#The learner's preferred language for SCOs with multilingual capability###18 01 2012 new variable
+scormdebug#:#cmi.learner_preference.delivery_speed#:#The learner's preferred relative speed of content delivery###18 01 2012 new variable
+scormdebug#:#cmi.learner_preference.audio_captioning#:#Specifies whether captioning text corresponding to audio is displayed###18 01 2012 new variable
+scormdebug#:#cmi.location#:#The learner's current location in the SCO###18 01 2012 new variable
+scormdebug#:#cmi.max_time_allowed#:#Amount of accumulated time the learner is allowed to use a SCO###18 01 2012 new variable
+scormdebug#:#cmi.mode#:#Identifies one of three possible modes in which the SCO may be presented to the learner###18 01 2012 new variable
+scormdebug#:#cmi.objectives._children#:#Listing of supported data model elements###18 01 2012 new variable
+scormdebug#:#cmi.objectives._count#:#Current number of objectives being stored by the LMS###18 01 2012 new variable
+scormdebug#:#cmi.objectives.n.id#:#Unique label for the objective###18 01 2012 new variable
+scormdebug#:#cmi.objectives.n.score._children#:#Listing of supported data model elements###18 01 2012 new variable
+scormdebug#:#cmi.objectives.n.score.scaled#:#Number that reflects the performance of the learner for the objective###18 01 2012 new variable
+scormdebug#:#cmi.objectives.n.score.raw#:#Number that reflects the performance of the learner, for the objective, relative to the range bounded by the values of min and max###18 01 2012 new variable
+scormdebug#:#cmi.objectives.n.score.min#:#Minimum value, for the objective, in the range for the raw score###18 01 2012 new variable
+scormdebug#:#cmi.objectives.n.score.max#:#Maximum value, for the objective, in the range for the raw score###18 01 2012 new variable
+scormdebug#:#cmi.objectives.n.success_status#:#Indicates whether the learner has mastered the objective###18 01 2012 new variable
+scormdebug#:#cmi.objectives.n.completion_status#:#Indicates whether the learner has completed the associated objective###18 01 2012 new variable
+scormdebug#:#cmi.objectives.n.progress_measure#:#Measure of the progress the learner has made toward completing the objective###18 01 2012 new variable
+scormdebug#:#cmi.objectives.n.description#:#Provides a brief informative description of the objective###18 01 2012 new variable
+scormdebug#:#cmi.progress_measure#:#Measure of the progress the learner has made toward completing the SCO###18 01 2012 new variable
+scormdebug#:#cmi.scaled_passing_score#:#Scaled passing score required to master the SCO###18 01 2012 new variable
+scormdebug#:#cmi.score._children#:#Listing of supported data model elements###18 01 2012 new variable
+scormdebug#:#cmi.score.scaled#:#Number that reflects the performance of the learner###18 01 2012 new variable
+scormdebug#:#cmi.score.raw#:#Number that reflects the performance of the learner relative to the range bounded by the values of min and max###18 01 2012 new variable
+scormdebug#:#cmi.score.min#:#Minimum value in the range for the raw score###18 01 2012 new variable
+scormdebug#:#cmi.score.max#:#Maximum value in the range for the raw score###18 01 2012 new variable
+scormdebug#:#cmi.session_time#:#Amount of time that the learner has spent in the current learner session for this SCO###18 01 2012 new variable
+scormdebug#:#cmi.success_status#:#Indicates whether the learner has mastered the SCO###18 01 2012 new variable
+scormdebug#:#cmi.suspend_data#:#Provides space to store and retrieve data between learner sessions###18 01 2012 new variable
+scormdebug#:#cmi.time_limit_action#:#Indicates what the SCO should do when cmi.max_time_allowed is exceeded###18 01 2012 new variable
+scormdebug#:#cmi.total_time#:#Sum of all of the learner's session times accumulated in the current learner attempt###18 01 2012 new variable
+scormdebug#:#adl.nav.request#:#Navigation request to be processed immediately following Terminate()###18 01 2012 new variable
+scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Continue navigation request will succeed.###18 01 2012 new variable
+scormdebug#:#adl.nav.request_valid.previous#:#Used by a SCO to determine if a Previous navigation request will succeed.###18 01 2012 new variable
+scormdebug#:#adl.nav.request_valid.choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.###18 01 2012 new variable
+scormdebug#:#i_green#:#green: okay###18 01 2012 new variable
+scormdebug#:#i_red#:#red: failure!###18 01 2012 new variable
+scormdebug#:#i_orange#:#orange: attention please!###18 01 2012 new variable
+scormdebug#:#i_fuchsia#:#fuchsia: likely a failure by ILIAS###18 01 2012 new variable
+scormdebug#:#error#:#error###18 01 2012 new variable
+scormdebug#:#strange_error#:#strange error###18 01 2012 new variable
+scormdebug#:#strange_API-Call#:#strange API-Call###18 01 2012 new variable
+scormdebug#:#unknown#:#unknown###18 01 2012 new variable
+scormdebug#:#undefined_color#:#undefined color###18 01 2012 new variable
+scormdebug#:#description_for#:#description for###18 01 2012 new variable
+scormdebug#:#hide#:#hide###18 01 2012 new variable
+scormdebug#:#all_API-calls_shown#:#All API-calls are currently shown.###18 01 2012 new variable
+scormdebug#:#show_only_important_API-calls#:#Show only important API-calls!###18 01 2012 new variable
+scormdebug#:#only_important_API-Calls_shown#:#Only important API-Calls are currently shown.###18 01 2012 new variable
+scormdebug#:#show_all_API-calls#:#Show all API-calls!###18 01 2012 new variable
+scormdebug#:#log_for#:#Log for the learning module###18 01 2012 new variable
+scormdebug#:#started#:#started###18 01 2012 new variable
+scormdebug#:#nr_session#:#number of session###18 01 2012 new variable
+scormdebug#:#id_learning_module#:#Id of the learning module###18 01 2012 new variable
+scormdebug#:#SCO-title#:#SCO-title###18 01 2012 new variable
+scormdebug#:#SCO-name#:#SCO-name###18 01 2012 new variable
+scormdebug#:#milliseconds#:#milliseconds###18 01 2012 new variable
+scormdebug#:#API-call#:#API-call###18 01 2012 new variable
+scormdebug#:#return_value#:#return value###18 01 2012 new variable
+scormdebug#:#generated#:#generated###18 01 2012 new variable
+scormdebug#:#comment#:#Comment###18 01 2012 new variable
+scormdebug#:#summary_for_SCO_without_test#:#Summary for a SCO without a test###18 01 2012 new variable
+scormdebug#:#summary_for_SCO_with_test#:#Summary for a SCO with a test###18 01 2012 new variable
+scormdebug#:#no_missing_API-calls#:#Missing API-calls had not been recognized.###18 01 2012 new variable
+scormdebug#:#missing_API-calls#:#These API-calls are missing:###18 01 2012 new variable
+scormdebug#:#summary_csv#:#Summary is generated as CSV-file to import for example in Excel###18 01 2012 new variable
+scormdebug#:#summary_download#:#You can klick to 'Logs' and download it when you start this tool again.###18 01 2012 new variable
+scormdebug#:#debugwindow_console#:#Console###18 01 2012 new variable
+scormdebug#:#debugwindow_logs#:#Logs###18 01 2012 new variable
+scormdebug#:#debugwindow_comment#:#comment###18 01 2012 new variable
+scormdebug#:#debugwindow_comment_enter#:#Please enter your comment###18 01 2012 new variable
+scormdebug#:#debugwindow_start_recording#:#Start Recording###18 01 2012 new variable
+scormdebug#:#debugwindow_stop_recording#:#Stop Recording###18 01 2012 new variable
+scormdebug#:#debugwindow_delete_logfile#:#Delete logfile###18 01 2012 new variable
+scormdebug#:#debugwindow_submission_failed#:#Submission failed###18 01 2012 new variable
+scormdebug#:#debugwindow_submit#:#Submit###18 01 2012 new variable
+scormdebug#:#debugwindow_cancel#:#Cancel###18 01 2012 new variable
+scormdebug#:#debugwindow_filename#:#File Name###18 01 2012 new variable
+scormdebug#:#debugwindow_date#:#Date###18 01 2012 new variable
+scormdebug#:#debugwindow_action#:#Action###18 01 2012 new variable
+scormdebug#:#debugwindow_delete#:#Delete###18 01 2012 new variable
+scormdebug#:#debugwindow_download#:#Download###18 01 2012 new variable
+scormdebug#:#debugwindow_open#:#Open###18 01 2012 new variable
+scormdebug#:#debugwindow_password_enter#:#Please enter your password###18 01 2012 new variable
+content#:#cont_file_from_workspace#:#File From My Workspace###18 01 2012 new variable
+skmg#:#skmg_create_skill_template#:#Create Competence Template###18 01 2012 new variable
+skmg#:#skmg_create_skill_template_category#:#Create Competence Template Category###18 01 2012 new variable
+skmg#:#skmg_save_order#:#Save Order###18 01 2012 new variable
+skmg#:#skmg_order#:#Order###18 01 2012 new variable
+skmg#:#skmg_order_nr#:#Order Number###18 01 2012 new variable
+skmg#:#skmg_create_skll#:#Create Competence###18 01 2012 new variable
+skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Reference###18 01 2012 new variable
+skmg#:#skmg_create_skill_category#:#Create Competence Category###18 01 2012 new variable
+common#:#notice#:#Notice###18 01 2012 new variable
+common#:#public_room#:#Public room###18 01 2012 new variable
+chatroom#:#chtr_moderate#:#Moderate###18 01 2012 new variable
+chatroom#:#unkown_private_room#:#Unknown private room###18 01 2012 new variable
+chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.###18 01 2012 new variable
+chatroom#:#chtr_new#:#New Chatroom###18 01 2012 new variable
+chatroom#:#chtr_add#:#Add Chatroom###18 01 2012 new variable
+blog#:#blog_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.###18 01 2012 new variable
+prtf#:#prtf_exercise_submitted_info#:#Your last submission was on %s, please check the export file: %s.###18 01 2012 new variable
+exc#:#exc_select_blog#:#Use Existing Blog###18 01 2012 new variable
+exc#:#exc_select_portfolio#:#Use Existing Portfolio###18 01 2012 new variable
+exc#:#exc_select_blog_info#:#Please select one of your blogs to use it with this assignment.###18 01 2012 new variable
+exc#:#exc_select_portfolio_info#:#Please select one of your portfolios to use it with this assignment.###18 01 2012 new variable
+exc#:#exc_select_blog_change#:#Use different Blog###18 01 2012 new variable
+exc#:#exc_select_portfolio_change#:#Use different Portfolio###18 01 2012 new variable
+exc#:#exc_blog_selected#:#The blog has been assigned.###18 01 2012 new variable
+exc#:#exc_portfolio_selected#:#The portfolio has been assigned.###18 01 2012 new variable
+common#:#my_courses_groups#:#My Courses and Groups###18 01 2012 new variable
+user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the "Share" tab.###18 01 2012 new variable
+prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.###18 01 2012 new variable
+blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.###18 01 2012 new variable
+skmg#:#skmg_edit_skll#:#Edit Competence Settings###18 01 2012 new variable
+skmg#:#skmg_sktr#:#Competence Template Reference###18 01 2012 new variable
+skmg#:#skmg_items#:#Items###18 01 2012 new variable
+skmg#:#skmg_create_sctp#:#Create Template Category###18 01 2012 new variable
+skmg#:#skmg_edit_sctp#:#Edit Competence Template Category###18 01 2012 new variable
+skmg#:#skmg_sctp#:#Competence Template Category###18 01 2012 new variable
+skmg#:#skmg_insert_skill_template_from_clip#:#Insert Competence Template from Clipboard###18 01 2012 new variable
+skmg#:#skmg_insert_template_category_from_clip#:#Insert Template Category from Clipboard###18 01 2012 new variable
+skmg#:#skmg_insert_please_choose_one_type_only#:#Please choose only one type of items.###18 01 2012 new variable
+prtf#:#prtf_public_comments#:#Public Comments###18 01 2012 new variable
+prtf#:#prtf_copy_page#:#Copy Page(s)###18 01 2012 new variable
+prtf#:#prtf_existing_portfolio#:#Existing Portfolio###18 01 2012 new variable
+prtf#:#prtf_new_portfolio#:#New Portfolio ###18 01 2012 new variable
+prtf#:#prtf_pages_copied#:#The pages have been copied.###18 01 2012 new variable
+skmg#:#skmg_level#:#Level###18 01 2012 new variable
+skmg#:#skmg_material#:#Material###18 01 2012 new variable
+blog#:#blog_profile_picture#:#Display Profile Picture###18 01 2012 new variable
+prtf#:#prtf_profile_picture#:#Display Profile Picture###18 01 2012 new variable
+skmg#:#skmg_remove_skill#:#Remove Competence###18 01 2012 new variable
+style#:#style_page_layout_module_scorm#:#Scorm###18 01 2012 new variable
+style#:#style_page_layout_module_portfolio#:#Portfolio###18 01 2012 new variable
+prtf#:#prtf_use_page_layout#:#Use Page Layout###18 01 2012 new variable
+common#:#shoppingcart#:#Shoppingcart###18 01 2012 new variable
+content#:#cont_ed_insert_skills#:#Insert Competences###18 01 2012 new variable
+content#:#cont_pc_skills#:#Competence###18 01 2012 new variable
+content#:#cont_insert_skills#:#Insert Competence###18 01 2012 new variable
+content#:#cont_update_skills#:#Edit Competence###18 01 2012 new variable
+administration#:#adm_basic#:#Basic###18 01 2012 new variable
+administration#:#adm_users#:#Users###18 01 2012 new variable
+administration#:#adm_services#:#Services###18 01 2012 new variable
+administration#:#adm_objects#:#Objects###18 01 2012 new variable
+common#:#enable_sahs_protocol_data#:#Activate Protocol Data###18 01 2012 new variable
+common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM/AICC)###18 01 2012 new variable
+trac#:#trac_determines_learning_progress#:#Determines Learning Progress###18 01 2012 new variable
+content#:#cont_scorm_ed_properties#:#Learning Module Properties / Glossary###18 01 2012 new variable
+content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.###18 01 2012 new variable
+style#:#sty_type_rte_drag#:#Drag Bar###18 01 2012 new variable
+style#:#sty_type_rte_tclink#:#Tree Control Link###18 01 2012 new variable
+style#:#sty_type_rte_texp#:#Tree Icon###18 01 2012 new variable
+style#:#sty_type_rte_tli#:#Tree List Item###18 01 2012 new variable
+style#:#sty_type_rte_tul#:#Tree List###18 01 2012 new variable
+chatroom_adm#:#port_info#:#Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked. ###18 01 2012 new variable
+payment#:#check_shop_activation#:#Check Shop Settings for activation###18 01 2012 new variable
+payment#:#please_enter_currency#:#Please enter a currency###18 01 2012 new variable
+payment#:#please_enter_address#:#Please enter an address###18 01 2012 new variable
+payment#:#please_enter_bank_data#:#Please enter the bank details###18 01 2012 new variable
+payment#:#please_enter_pdf_path#:#Please enter a path for generating bill as PDF file###18 01 2012 new variable
+payment#:#please_activate_one_paymethod#:#Please activate at least one pay method###18 01 2012 new variable
+payment#:#please_enter_bmf_data#:#Please enter your BMF data###18 01 2012 new variable
+payment#:#please_enter_paypal_data#:#Please enter your Paypal data###18 01 2012 new variable
+payment#:#please_enter_epay_data#:#Please enter your EPay data###18 01 2012 new variable
+payment#:#please_enter_vats#:#Please create at least one vat###18 01 2012 new variable
+payment#:#please_create_vendor#:#Please create at least one vendor###18 01 2012 new variable
+payment#:#shop_activation_ok#:#The payment settings are complete. You can now activate the webshop.###18 01 2012 new variable
+blog#:#blog_rename_posting#:#Rename Posting###18 01 2012 new variable
+prtf#:#prtf_tab_portfolios#:#My Portfolios###18 01 2012 new variable
+prtf#:#prtf_tab_other_users#:#Portfolios From Other Users###18 01 2012 new variable
+wsp#:#wsp_password_protected_resource#:#Password-protected Resource###18 01 2012 new variable
+wsp#:#wsp_password_protected_resource_info#:#To access this resource you have to enter a password.###18 01 2012 new variable
+wsp#:#wsp_password_for#:#Password for###18 01 2012 new variable
+administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists###18 01 2012 new variable
+content#:#cont_edit_mode#:#Edit Mode###18 01 2012 new variable
+wiki#:#wiki_block_page#:#Block Page###18 01 2012 new variable
+wiki#:#wiki_unblock_page#:#Unblock Page###18 01 2012 new variable
+wiki#:#wiki_delete_page#:#Delete Page###18 01 2012 new variable
+wiki#:#wiki_rename#:#Rename###18 01 2012 new variable
+wiki#:#wiki_rate_page#:#Rate this Wiki Page###18 01 2012 new variable
+auth#:#auth_login_editor#:#Loginscreen Editor###18 01 2012 new variable
+didactic#:#didactic_edit_tpl#:#Edit Didactic Template###18 01 2012 new variable
+common#:#chtr_moderate#:#Moderate Chatroom###18 01 2012 new variable
+chatroom#:#welcome_to_chat#:#Welcome to the chatroom###18 01 2012 new variable
+chatroom#:#user_invited#:#The user has been invited.###18 01 2012 new variable
+chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.###18 01 2012 new variable
+chatroom#:#user_invited_self#:#<b>#user#</b> invited you to the chatroom <b>#room#</b>.###18 01 2012 new variable
+chatroom#:#private_room_closed#:#The chatroom <b>#title#</b> has been closed.###18 01 2012 new variable
+chatroom#:#private_room_entered#:#Welcome to the private room <b>#title#</b>.###18 01 2012 new variable
+chatroom#:#private_room_left#:#The user <b>#user#</b> has left the private room <b>#title#</b>.###18 01 2012 new variable
+chatroom#:#private_room_entered_user#:#The user <b>#user#</b> has entered the private room <b>#title#</b>.###18 01 2012 new variable
+chatroom#:#kicked_from_private_room#:#You have been kicked from the private room <b>#title#</b>.###18 01 2012 new variable
+assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.###18 01 2012 new variable
+administration#:#obj_otpl#:#Object Templates###18 01 2012 new variable
+administration#:#obj_otpl_desc#:#Template for the creation of new objects###18 01 2012 new variable
+rbac#:#otpl_visible#:#Object Template Settings are visible###18 01 2012 new variable
+rbac#:#otpl_read#:#Read Access to Object Template Settings###18 01 2012 new variable
+rbac#:#otpl_write#:#Edit Object Template Settings###18 01 2012 new variable
+rbac#:#otpl_edit_permission#:#Change Permission Settings###18 01 2012 new variable
+didactic#:#didactic_default_type_info#:#Uses default permissions for %s###18 01 2012 new variable
+didactic#:#didactic_install_info#:#General Information###18 01 2012 new variable
+didactic#:#didactic_not_changed#:#The didactic template setting is unchanged.###18 01 2012 new variable
+didactic#:#didactic_selected_tpl_option#:#Applied didactic template:###18 01 2012 new variable
+didactic#:#didactic_template_applied#:#Applied didactic template.###18 01 2012 new variable
+didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the chosen didactic template? All current permission settings will get lost!###18 01 2012 new variable
+chatroom#:#chatserver_address#:#IP-Adress of the Chatservers###18 01 2012 new variable
+chatroom#:#chatserver_port#:#Port of the Chatservers###18 01 2012 new variable
+chatroom#:#instance_name#:#Unique Identifier###18 01 2012 new variable
+chatroom#:#ilias_url#:#Base-URL of your ILIAS Installation###18 01 2012 new variable
+chatroom#:#soap_user#:#Name of the SOAP-User###18 01 2012 new variable
+chatroom#:#soap_user_password#:#Password of the SOAP-User###18 01 2012 new variable
+chatroom#:#hint_osd#:#If enabled, users are notified by a popup about new invitations.###18 01 2012 new variable
+chatroom#:#hint_osd_interval#:#Polling interval for checking of new notifications. A lower number will notify the user more quickly but increases the number of requests the webserver must handle.###18 01 2012 new variable
+chatroom#:#hint_unique_name#:#A name that is used by ILIAS and the chatserver to identify your ILIAS. If using more than one client per chat server, this name must be unique per ILIAS instance.<br/>The name may contain letters (A-Z/a-z), numerics (0-9) and the characters "-" and "_".###18 01 2012 new variable
+chatroom#:#enable_smilies#:#Enable Smilies###18 01 2012 new variable
+chatroom#:#hint_enable_smilies#:#If activated, configured text sequences are replaced with an icon. See Smilies tab for configuration.###18 01 2012 new variable
+chatroom#:#display_past_msgs#:#Number of Past Messages###18 01 2012 new variable
+chatroom#:#hint_display_past_msgs#:#Number of past messages to show, when the room is entered. A value of "0" disables this feature.###18 01 2012 new variable
+chatroom#:#speak_to#:#Speak to <b>#user#</b>###18 01 2012 new variable
+chatroom#:#whisper_to#:#Whisper to <b>#user#</b>###18 01 2012 new variable
+chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chatserver.###18 01 2012 new variable
+chatroom#:#leave_private_room#:#Leave Private Room###18 01 2012 new variable
+chatroom#:#delete_private_room#:#Delete Private Room###18 01 2012 new variable
+chatroom#:#invite_to_private_room#:#Invite to Current Room###18 01 2012 new variable
+wiki#:#wiki_page_actions#:#Page Actions###18 01 2012 new variable
+wiki#:#wiki_notification_deactivated#:#Notification Deactivated###18 01 2012 new variable
+chatroom#:#scope#:#Room/Private Room###18 01 2012 new variable
+chatroom#:#user_in_room#:#Invite user from current chatroom###18 01 2012 new variable
+chatroom#:#user_in_ilias#:#Search and invite user from ILIAS###18 01 2012 new variable
+chatroom#:#kick_question#:#Do you really want to kick the user from current room?###18 01 2012 new variable
+chatroom#:#ban_question#:#Do you really want to ban the user from current room?###18 01 2012 new variable
+chatroom#:#history_cleared#:#The message history was deleted by a moderator.###18 01 2012 new variable
+chatroom#:#clear_room_history#:#Delete Message History###18 01 2012 new variable
+chatroom#:#clear_room_history_question#:#Do you really want to delete all messages of the current room?###18 01 2012 new variable
+chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the "Permissions" tab to allow anonymous user access to this repository item.###18 01 2012 new variable
+chatroom_adm#:#public_chat_settings#:#Public Chatroom Settings###18 01 2012 new variable
+chatroom_adm#:#public_chat_permissions#:#Public Chatroom Permissions###18 01 2012 new variable
+chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation###18 01 2012 new variable
+chatroom#:#create_private_room_text#:#Private room name###18 01 2012 new variable
+chatroom#:#invite_username#:#Username###18 01 2012 new variable
+notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not ativated for this resource.###18 01 2012 new variable
+chatroom#:#layout#:#Layout###18 01 2012 new variable
+chatroom#:#show_settings#:#Show Settings###18 01 2012 new variable
+chatroom#:#hide_settings#:#Hide Settings###18 01 2012 new variable
+chatroom_adm#:#soap_user_hint#:#This user is used to send information from the chatserver to the ilias installation. No special permissions are required.<br/>If you create a new accout, please make sure that you are able to login with this user (e.g. accept licence aggreement).###18 01 2012 new variable
+chatroom#:#private_rooms_enabled#:#Allow Private Rooms###18 01 2012 new variable
+chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.###18 01 2012 new variable
+chatroom#:#no_further_users#:#No other users present###18 01 2012 new variable
+chatroom#:#users#:#Users###18 01 2012 new variable
+chatroom#:#no_messages#:#There are no saved messages for the given period.###18 01 2012 new variable
+chatroom#:#history_title_general#:#Conversation in Chat Room "%s"###18 01 2012 new variable
+chatroom#:#history_title_private_room#:#Conversation in Private Room "%s"###18 01 2012 new variable
+common#:#chtr_copy#:#Copy Chatroom###18 01 2012 new variable
+common#:#obj_chtr_duplicate#:#Copy Chatroom###18 01 2012 new variable
+common#:#il_chat_moderator_visible#:#Chat Room is visible###18 01 2012 new variable
+common#:#il_chat_moderator_read#:#Read access to Chat Room###18 01 2012 new variable
+common#:#il_chat_moderator_write#:#Edit Chat Room settings###18 01 2012 new variable
+common#:#il_chat_moderator_moderate#:#Moderate Chat Room###18 01 2012 new variable
+common#:#obj_il_chat_moderator#:#Chat Room Moderator###18 01 2012 new variable
+crs#:#crs_activate_notification#:#Activate Notification###18 01 2012 new variable
+crs#:#crs_deactivate_notification#:#Deactivate Notification###18 01 2012 new variable
+crs#:#crs_notification_activated#:#Notification Activated###18 01 2012 new variable
+crs#:#crs_notification_deactivated#:#Notification Deactivated###18 01 2012 new variable
+grp#:#grp_activate_notification#:#Activate Notification###18 01 2012 new variable
+grp#:#grp_deactivate_notification#:#Deactivate Notification###18 01 2012 new variable
+grp#:#grp_notification_activated#:#Notification Activated###18 01 2012 new variable
+grp#:#grp_notification_deactivated#:#Notification Deactivated###18 01 2012 new variable
+chatroom#:#end_whisper#:#Cancel###18 01 2012 new variable
+exc#:#exc_search_users#:#Search Users###18 01 2012 new variable
+blog#:#blog_navigation#:#Postings###18 01 2012 new variable
+survey#:#survey_question_title#:#Question Title###18 01 2012 new variable
+assessment#:#tst_default_settings#:#Personal Default Settings###18 01 2012 new variable
+prtf#:#prtf_unset_as_default#:#Unset As My Profile###18 01 2012 new variable
+certificate#:#certificate_ph_date_completed#:#Date of completion###18 01 2012 new variable
+adve#:#adve_activation#:#Activation###18 01 2012 new variable
+adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing###18 01 2012 new variable
+certificate#:#certificate_ph_datetime_completed#:#Date and time of completion###18 01 2012 new variable
+certificate#:#certificate_ph_passed_exercise#:#"Passed" or "Failed"###18 01 2012 new variable
+certificate#:#certificate_ph_mark#:#Users mark###18 01 2012 new variable
+certificate#:#certificate_ph_exercisetitle#:#Exercise Title###18 01 2012 new variable
+rbac#:#rbac_back_to_overview#:#Back to Role List###18 01 2012 new variable
+rbac#:#rbac_choose_copy_targets#:#Please enter a quer for selecting the target roles.###18 01 2012 new variable
+rbac#:#rbac_select_copy_targets#:#Please select the target roles###18 01 2012 new variable
+rbac#:#rbac_role_title#:#Role Title###18 01 2012 new variable
+rbac#:#rbac_copy_behaviour#:#Role Copy Settings###18 01 2012 new variable
+rbac#:#rbac_not_change_existing_objects#:#Do NOT change existing objects###18 01 2012 new variable
+rbac#:#rbac_copy_role#:#Copy Role###18 01 2012 new variable
+rbac#:#rbac_copy_finished#:#Finished copying.###18 01 2012 new variable
+certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise###18 01 2012 new variable
+content#:#cont_ed_copy#:#Copy###18 01 2012 new variable
+content#:#cont_ed_cut#:#Cut###18 01 2012 new variable
+content#:#cont_sel_el_copied_use_paste#:#Selected elements have been copied. Please click the desired target placeholder and select "Paste".###18 01 2012 new variable
+content#:#cont_sel_el_cut_use_paste#:#Selected elements have been cut. Please click the desired target placeholder and select "Paste".###18 01 2012 new variable
+survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")###18 01 2012 new variable
+survey#:#survey_sure_delete_questions#:#Are you sure that you want to delete the following questions or headings?###18 01 2012 new variable
+rbac#:#rbac_precondition_source#:#Condition Trigger###18 01 2012 new variable
+rbac#:#rbac_precondition_target#:#Condition limits access to###18 01 2012 new variable
+rbac#:#rbac_precondition_mode#:#Mode###18 01 2012 new variable
+rbac#:#rbac_precondition_mode_all#:#All Preconditions###18 01 2012 new variable
+rbac#:#rbac_precondition_mode_all_info#:#All preconditions need to be fulfilled to give access.###18 01 2012 new variable
+rbac#:#rbac_precondition_mode_subset#:#Subset of Preconditions###18 01 2012 new variable
+rbac#:#rbac_precondition_mode_subset_info#:#A subset of preconditions need to be fulfilled to give access. Some preconditions may still be set as obligatory.###18 01 2012 new variable
+rbac#:#rbac_precondition_save_obligatory#:#Save Obligatory###18 01 2012 new variable
+rbac#:#rbac_precondition_minimum_optional#:#At least 2 preconditions have to remain optional.###18 01 2012 new variable
+common#:#precondition_required_itemlist#:#Required Precondition###18 01 2012 new variable
+common#:#precondition_toggle#:#Preconditions that need to be fulfilled to access this object###18 01 2012 new variable
+content#:#cont_cp_question_diff_formats_info#:#Please note that some formattings are not supported in content modules.###18 01 2012 new variable
+crs#:#crs_link_show_all_prev_sessions#:#Show all previous sessions###18 01 2012 new variable
+crs#:#crs_link_hide_prev_sessions#:#Hide previous sessions###18 01 2012 new variable
+crs#:#crs_link_show_all_next_sessions#:#Show all upcoming sessions###18 01 2012 new variable
+crs#:#crs_link_hide_next_sessions#:#Hide upcoming sessions###18 01 2012 new variable
+scormdebug#:#scormdebug_disable_cache#:#disable SCORM 2004 Browser-Cache###18 01 2012 new variable
+scormdebug#:#scormdebug_disable_cache_info#:#This prevents the storage of the SCORM 2004 javascript files in the browser cache. Please use this function in time before a new release!###18 01 2012 new variable
+content#:#cont_sequencing#:#enable Sequencing and Navigation according to settings by learning module###18 01 2012 new variable
+content#:#cont_interactions#:#enable storage of results of interactions###18 01 2012 new variable
+content#:#cont_objectives#:#enable storage of data concerning learning objectives###18 01 2012 new variable
+content#:#cont_comments#:#enable storage of comments###18 01 2012 new variable
+content#:#cont_time_from_lms#:#determine processing times by ILIAS instead of SCO###18 01 2012 new variable
+scormdebug#:#completion_status_by_progress_measure#:#Because there is a value for cmi.completion_threshold, the value for cmi.completion_status is evaluated by the LMS! This is done by comparing the value for cmi.completion_threshold with the value for cmi.progress_measure. The value for cmi.completion_status is currently:###18 01 2012 new variable
+scormdebug#:#success_status_by_score_scaled#:#Because there is a value for cmi.scaled_passing_score, the value for cmi.success_status is evaluated by the LMS! This is done by comparing the value for cmi.scaled_passing_score with the value for cmi.score.scaled. The value for cmi.success_status is currently:###18 01 2012 new variable
+certificate#:#certificate_ph_no_sco#:#If items are selected to determine the overall learning progress status, titles and points for these items could be displayed in certificate.###18 01 2012 new variable
+certificate#:#certificate_ph_scos#:#The following items were selected to determine the overall learning progress status and are available for statements in the certificate:###18 01 2012 new variable
+certificate#:#certificate_ph_title_sco#:#title###18 01 2012 new variable
+certificate#:#certificate_ph_sco_title#:#placeholder<br/>for title###18 01 2012 new variable
+certificate#:#certificate_ph_sco_points_scaled#:#placeholder<br/>for points<br/>in percent###18 01 2012 new variable
+certificate#:#certificate_ph_sco_points_raw#:#placeholder<br/>for points###18 01 2012 new variable
+certificate#:#certificate_ph_sco_points_max#:#placeholder<br/>for points<br/>max###18 01 2012 new variable
+exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of the blog right now? You can do it anytime from the blog editor later on.###18 01 2012 new variable
+exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version of the portfolio right now? You can do it anytime from the portfolio editor later on.###18 01 2012 new variable
+prtf#:#prtf_preview_banner_info#:#Default size is 880x100 pixels.###18 01 2012 new variable
+blog#:#blog_preview_banner_info#:#Default size is 880x100 pixels.###18 01 2012 new variable
+exc#:#exc_no_assignments_available#:#No assignments created yet. Please open "Assigments" and "Edit" to create a first assignment.###18 01 2012 new variable
+wsp#:#wsp_invalid_password#:#The given password is invalid.###18 01 2012 new variable
+wiki#:#wiki_navigation_info#:#Here you can add and remove links to existing wiki pages to the navigation block in the wiki.###18 01 2012 new variable
+common#:#top_of_page#:#Top of page###18 01 2012 new variable
+rbac#:#prfa_visible#:#Portfolio Administration is visible###18 01 2012 new variable
+rbac#:#prfa_read#:#Read access to Portfolio Administration###18 01 2012 new variable
+rbac#:#prfa_write#:#Edit Portfolio Administration###18 01 2012 new variable
+rbac#:#prfa_edit_permission#:#Change permission settings###18 01 2012 new variable
+rbac#:#skmg_visible#:#Skill Management is visible###18 01 2012 new variable
+rbac#:#skmg_read#:#Read access to Skill Management###18 01 2012 new variable
+rbac#:#skmg_write#:#Edit Skill Management###18 01 2012 new variable
+rbac#:#skmg_edit_permission#:#Change permission settings###18 01 2012 new variable
+rbac#:#blga_visible#:#Blog Administration is visible###18 01 2012 new variable
+rbac#:#blga_read#:#Read access to Blog Administration###18 01 2012 new variable
+rbac#:#blga_write#:#Edit Blog Administration###18 01 2012 new variable
+rbac#:#blga_edit_permission#:#Change permission settings###18 01 2012 new variable
+prtf#:#prtf_admin_inactive_info#:#You can activate the portfolio feature in the Personal Desktop Administration.###18 01 2012 new variable
+blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Desktop Administration.###18 01 2012 new variable
+prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?###18 01 2012 new variable
+prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.###18 01 2012 new variable
+survey#:#svy_participation#:#Participation###18 01 2012 new variable
+blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list. ###18 01 2012 new variable
+survey#:#svy_page_add_question#:#Add new %s###18 01 2012 new variable
+skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.###18 01 2012 new variable
+common#:#spl_import#:#Import Question Pool Survey###18 01 2012 new variable
+skmg#:#skmg_draft#:#Draft (Offline)###18 01 2012 new variable
+skmg#:#skmg_draft_info#:#Item will be hidden for learners.###18 01 2012 new variable
+skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.###18 01 2012 new variable
+survey#:#svy_create_question#:#Create Question###18 01 2012 new variable
+common#:#contact_sysadmin#:#Contact System Administration###18 01 2012 new variable
+blog#:#blog_posting#:#Blog Posting###18 01 2012 new variable
+blog#:#blog_change_notification_subject#:#Blog "%s" has been updated###18 01 2012 new variable
+blog#:#blog_change_notification_salutation#:#Hello %s,###18 01 2012 new variable
+blog#:#blog_change_notification_body_new#:#the following blog posting was created###18 01 2012 new variable
+blog#:#blog_change_notification_body_update#:#the following blog posting has been updated###18 01 2012 new variable
+blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented###18 01 2012 new variable
+blog#:#blog_changed_by#:#Last Changed By###18 01 2012 new variable
+blog#:#blog_change_notification_link#:#URL###18 01 2012 new variable
+blog#:#blog_notification_toggle_on#:#Activate Notification###18 01 2012 new variable
+blog#:#blog_notification_toggle_off#:#Deactivate Notification###18 01 2012 new variable
+blog#:#blog_notification_activated#:#Notification Activated###18 01 2012 new variable
+blog#:#blog_notification_deactivated#:#Notification Deactivated###18 01 2012 new variable
+wiki#:#wiki_change_notification_page_body_comment#:#the following wiki page has been commented###18 01 2012 new variable
+chatroom_adm#:#chta_visible#:#Chatroom Administration is visible###18 01 2012 new variable
+chatroom_adm#:#chta_read#:#Read access to Chatroom Administration###18 01 2012 new variable
+chatroom_adm#:#chta_write#:#Edit Chatroom Administration###18 01 2012 new variable
+chatroom_adm#:#chta_edit_permission#:#Change Permission Settings###18 01 2012 new variable
+rbac#:#moderate#:#Moderate###18 01 2012 new variable
+common#:#apache_auth#:#Apache Authentication###18 01 2012 new variable
+common#:#server_disabled#:#The Chat is Disabled###18 01 2012 new variable
+rbac#:#cat_create_chtr#:#Create Chatroom###18 01 2012 new variable
+rbac#:#crs_create_chtr#:#Create Chatroom###18 01 2012 new variable
+rbac#:#fold_create_chtr#:#Create Chatroom###18 01 2012 new variable
+rbac#:#grp_create_chtr#:#Create Chatroom###18 01 2012 new variable
+rbac#:#root_create_chtr#:#Create Chatroom###18 01 2012 new variable
+search#:#search_err_user_not_exist#:#A user with that login name does not exist.###18 01 2012 new variable
+blog#:#blog_draft#:#Draft###18 01 2012 new variable
+blog#:#blog_draft_info#:#This posting draft is only visible for the author.###18 01 2012 new variable
+blog#:#blog_toggle_draft#:#Save As Draft###18 01 2012 new variable
+blog#:#blog_toggle_final#:#Publish Posting###18 01 2012 new variable
+dateplaner#:#cal_cal_deleted#:#The calendars have been deleted###18 01 2012 new variable
+wfld#:#wfld_edit#:#Edit Folder###18 01 2012 new variable
+pd#:#pd_enable_comments#:#Enable Comments###18 01 2012 new variable
+crs#:#event_blank_columns#:#Additional Columns###18 01 2012 new variable
+common#:#continue#:#continue###18 01 2012 new variable
+payment#:#click_to_buy_info#:#You are successfully logged on. For continuing the purchasing process accept the general terms and conditions and click the buy button###18 01 2012 new variable
+payment#:#click_to_continue_info#:#To continue the shopping process, click on "Continue" to log in or register.###18 01 2012 new variable
+rbac#:#rbac_edit_condition#:#Edit Precondition###18 01 2012 new variable
+rbac#:#rbac_condition_delete_sure#:#Are you sure you want to delete the following preconditions?###18 01 2012 new variable
+crs#:#crs_starter_delete_sure#:#Are you sure you want to delete the following start objects?###18 01 2012 new variable
+common#:#statutory_regulations#:#Statutory Regulations###18 01 2012 new variable
+common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
+common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
+common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
+common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
+common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
+common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
+assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable
+assessment#:#test_has_datasets_warning_page_view_link#:#Edit Participants###18 01 2012 new variable
+wsp#:#wsp_share_with_users#:#Share with users###18 01 2012 new variable
+acc#:#acc_last_rep_visited#:#Repository/Last Visited###18 01 2012 new variable
+acc#:#acc_personal_desktop#:#Personal Desktop###18 01 2012 new variable
+administration#:#adm_repository_cache_time_info2#:#It is also possible that repository objects become accessible for users with a certain time lack, e.g. after preconditions have been met or permissions have been changed.###18 01 2012 new variable
+dateplaner#:#cal_reg_registered#:#You have been registered.###18 01 2012 new variable
+dateplaner#:#cal_reg_unregistered#:#You have been unregistered.###18 01 2012 new variable
+content#:#cont_lm_comments_desc#:#Allow users to share comments on every page of the learning module.###18 01 2012 new variable
+exercise#:#exc_start_date_should_be_before_end_date#:#Start time should be before deadline.###18 01 2012 new variable
+assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results###18 01 2012 new variable
+assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.###18 01 2012 new variable

@@ -11094,7 +11094,6 @@ common#:#bought_objects_expire_soon#:#For some of your bought objects the access
 common#:#access_enddate#:#Access Enddate###12 06 2011 new variable
 payment#:#buy_extension#:#Buy Extension###12 06 2011 new variable
 payment#:#extension_price#:#Extension Price###12 06 2011 new variable
-wiki#:#wiki_important_pages#:#Important Pages###12 06 2011 new variable
 wiki#:#wiki_ordering#:#Ordering###12 06 2011 new variable
 wiki#:#wiki_indentation#:#Indentation###12 06 2011 new variable
 wiki#:#wiki_save_ordering_and_indent#:#Save Ordering and Indentation###12 06 2011 new variable
@@ -11148,7 +11147,6 @@ assessment#:#questions_per_page_view#:#Page View###12 06 2011 new variable
 assessment#:#test_next_question#:#Next Question###12 06 2011 new variable
 assessment#:#test_prev_question#:#Previous Question###12 06 2011 new variable
 assessment#:#test_jump_to#:#Jump to Question###12 06 2011 new variable
-assessment#:#test_add_new_question#:#Add Question###12 06 2011 new variable
 assessment#:#adm_settings_templates#:#Settings Templates###12 06 2011 new variable
 survey#:#survey_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?###12 06 2011 new variable
 survey#:#survey_template_reset#:#The template has been removed.###12 06 2011 new variable
@@ -12369,3 +12367,35 @@ blog#:#blog_draft#:#Draft###10 11 2011 new variable
 blog#:#blog_draft_info#:#This posting draft is only visible for the author.###10 11 2011 new variable
 blog#:#blog_toggle_draft#:#Save As Draft###10 11 2011 new variable
 blog#:#blog_toggle_final#:#Publish Posting###10 11 2011 new variable
+administration#:#language_scope_dbremarks#:#Shows only entries with comments in database###18 01 2012 new variable
+assessment#:#test_create_question#:#Create Question###18 01 2012 new variable
+dateplaner#:#cal_cal_deleted#:#The calendars have been deleted###18 01 2012 new variable
+wfld#:#wfld_edit#:#Edit Folder###18 01 2012 new variable
+pd#:#pd_enable_comments#:#Enable Comments###18 01 2012 new variable
+crs#:#event_blank_columns#:#Additional Columns###18 01 2012 new variable
+common#:#continue#:#continue###18 01 2012 new variable
+payment#:#click_to_buy_info#:#You are successfully logged on. For continuing the purchasing process accept the general terms and conditions and click the buy button###18 01 2012 new variable
+payment#:#click_to_continue_info#:#To continue the shopping process, click on "Continue" to log in or register.###18 01 2012 new variable
+rbac#:#rbac_edit_condition#:#Edit Precondition###18 01 2012 new variable
+rbac#:#rbac_condition_delete_sure#:#Are you sure you want to delete the following preconditions?###18 01 2012 new variable
+crs#:#crs_starter_delete_sure#:#Are you sure you want to delete the following start objects?###18 01 2012 new variable
+common#:#statutory_regulations#:#Statutory Regulations###18 01 2012 new variable
+common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
+common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
+common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
+common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
+common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
+common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
+assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable
+assessment#:#test_has_datasets_warning_page_view_link#:#Edit Participants###18 01 2012 new variable
+wsp#:#wsp_share_with_users#:#Share with users###18 01 2012 new variable
+acc#:#acc_last_rep_visited#:#Repository/Last Visited###18 01 2012 new variable
+acc#:#acc_personal_desktop#:#Personal Desktop###18 01 2012 new variable
+administration#:#adm_repository_cache_time_info2#:#It is also possible that repository objects become accessible for users with a certain time lack, e.g. after preconditions have been met or permissions have been changed.###18 01 2012 new variable
+dateplaner#:#cal_reg_registered#:#You have been registered.###18 01 2012 new variable
+dateplaner#:#cal_reg_unregistered#:#You have been unregistered.###18 01 2012 new variable
+content#:#cont_lm_comments_desc#:#Allow users to share comments on every page of the learning module.###18 01 2012 new variable
+exercise#:#exc_start_date_should_be_before_end_date#:#Start time should be before deadline.###18 01 2012 new variable
+assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results###18 01 2012 new variable
+assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.###18 01 2012 new variable
