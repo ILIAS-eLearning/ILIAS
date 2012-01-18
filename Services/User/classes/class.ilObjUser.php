@@ -1368,6 +1368,15 @@ class ilObjUser extends ilObject
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		ilNotification::removeForUser($this->getId());
 		
+		// remove portfolios
+		include_once "./Services/Portfolio/classes/class.ilObjPortfolio.php";
+		ilObjPortfolio::deleteUserPortfolios($this->getId());
+		
+		// remove workspace
+		include_once "./Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		$tree = new ilWorkspaceTree($this->getId());
+		$tree->cascadingDelete();
+		
 		// Delete user defined field entries
 		$this->deleteUserDefinedFieldEntries();
 		

@@ -226,6 +226,15 @@ class ilObjPortfolio extends ilObject2
 	{
 		global $ilDB;
 		
+		// delete pages
+		include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
+		$pages = ilPortfolioPage::getAllPages($this->id);
+		foreach($pages as $page)
+		{
+			$page = new ilPortfolioPage($this->id, $page["id"]);
+			$page->delete();
+		}
+		
 		$this->deleteImage();
 
 		$ilDB->manipulate("DELETE FROM usr_portfolio".
@@ -415,6 +424,24 @@ class ilObjPortfolio extends ilObject2
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Delete all portfolio data for user
+	 * 
+	 * @param int $a_user_id 
+	 */
+	public static function deleteUserPortfolios($a_user_id)
+	{
+		$all = self::getPortfoliosOfUser($a_user_id);
+		if($all)
+		{
+			foreach($all as $item)
+			{
+				$portfolio = new self($item["id"], false);
+				$portfolio->delete();
+			}
+		}
 	}
 }
 

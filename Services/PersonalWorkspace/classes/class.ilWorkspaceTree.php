@@ -136,6 +136,38 @@ class ilWorkspaceTree extends ilTree
 			" WHERE ".$this->ref_pk." = ".$ilDB->quote($a_node_id, "integer");
 		return $ilDB->manipulate($query);
 	}
+		
+	/**
+	 * Remove all tree and node data 
+	 */
+	public function cascadingDelete()
+	{		
+		global $objDefinition, $ilCtrl;
+		
+		$root_id = $this->readRootId();		
+		if(!$root_id)
+		{
+			return;
+		}
+		
+		$root = $this->getNodeData($root_id);
+		
+		// delete node data
+		$nodes = $this->getSubTree($root);
+		foreach($nodes as $node)
+		{
+			// this will do for now
+			$class = "ilObj".$objDefinition->getClassName($node["type"])."GUI";
+			$class_path = $ilCtrl->lookupClassPath($class);
+			$class = substr($class, 0, -3);
+			$class_path = str_replace("GUI.php", ".php", $class_path);			
+			include_once($class_path);
+			$obj = new $class($node["obj_id"], false);
+		    $obj->delete();					
+		}
+		
+		$this->deleteTree($root);
+	}
 }
 
 ?>
