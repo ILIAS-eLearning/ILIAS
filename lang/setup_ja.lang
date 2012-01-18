@@ -525,3 +525,4 @@ settings_too_long#:#Some settings are too long to be converted. Please change th
 sess_mode#:#Session Mode###10 11 2011 new variable
 sess_fixed_duration#:#Fixed Session Duration###10 11 2011 new variable
 sess_load_dependent_session_handling#:#Load Dependent Session Handlin###10 11 2011 new variable
+db_postgres#:#PostgreSQ###18 01 2012 new variable
