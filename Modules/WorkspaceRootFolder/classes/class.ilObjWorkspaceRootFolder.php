@@ -19,11 +19,6 @@ class ilObjWorkspaceRootFolder extends ilObject2
 		$this->type = "wsrt";
 	}
 
-	function beforeDelete()
-	{
-		return false;
-	}
-
 	/**
 	* notifys an object about an event occured
 	* Based on the event happend, each object may decide how it reacts.
