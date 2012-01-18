@@ -226,11 +226,6 @@ class ilObjPortfolio extends ilObject2
 	{
 		global $ilDB;
 		
-		// permissions
-		include_once "Services/Portfolio/classes/class.ilPortfolioAccessHandler.php";
-		$access_handler = new ilPortfolioAccessHandler();
-		$access_handler->removePermission($this->id);
-		
 		// delete pages
 		include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
 		$pages = ilPortfolioPage::getAllPages($this->id);
@@ -441,10 +436,15 @@ class ilObjPortfolio extends ilObject2
 		$all = self::getPortfoliosOfUser($a_user_id);
 		if($all)
 		{
+			include_once "Services/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+			$access_handler = new ilPortfolioAccessHandler();			
+			
 			foreach($all as $item)
 			{
+				$access_handler->removePermission($item["id"]);		
+				
 				$portfolio = new self($item["id"], false);
-				$portfolio->delete();
+				$portfolio->delete();								
 			}
 		}
 	}
