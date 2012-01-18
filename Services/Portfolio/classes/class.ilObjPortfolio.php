@@ -226,6 +226,11 @@ class ilObjPortfolio extends ilObject2
 	{
 		global $ilDB;
 		
+		// permissions
+		include_once "Services/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+		$access_handler = new ilPortfolioAccessHandler();
+		$access_handler->removePermission($this->id);
+		
 		// delete pages
 		include_once "Services/Portfolio/classes/class.ilPortfolioPage.php";
 		$pages = ilPortfolioPage::getAllPages($this->id);
