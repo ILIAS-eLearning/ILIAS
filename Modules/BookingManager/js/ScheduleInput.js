@@ -7,13 +7,16 @@ function ilFormMultiInit()
 	{
 		if(/ilMultiAdd~/.test(obj[i].id))
 		{
-			function fnCallback(e) { ilFormMultiAddEvent(e) }
-			YAHOO.util.Event.addListener(obj[i], "click", fnCallback);
+			function fnCallbackAdd(e) { ilFormMultiAddEvent(e); }
+			YAHOO.util.Event.addListener(obj[i], "click", fnCallbackAdd);
 		}
 		if(/ilMultiRmv~/.test(obj[i].id))
 		{
-			function fnCallback(e) { ilFormMultiRemoveEvent(e) }
-			YAHOO.util.Event.addListener(obj[i], "click", fnCallback);
+			if(obj[i].style.display != "none")
+			{
+				function fnCallbackRmv(e) { ilFormMultiRemoveEvent(e); }
+				YAHOO.util.Event.addListener(obj[i], "click", fnCallbackRmv);
+			}
 		}
 	}
 }
@@ -98,7 +101,7 @@ function ilFormMultiRemoveEvent(e)
 {
 	var target = (e.currentTarget) ? e.currentTarget : e.srcElement;
 	var id = target.id.substr(11);
-	if(id.substr(-2) != "~0")
+	if(id.substr(id.length-2) != "~0")
 	{
 		var row = document.getElementById('ilFormField~'+id);
 		row.parentNode.removeChild(row);
