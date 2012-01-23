@@ -1275,13 +1275,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 		for ($key = 0; $key < $this->getColumnCount(); $key++)
 		{
+			$cat = $this->getColumn($key);
+			$scale = $cat->scale-1;
+			
 			$percentage = 0;
 			if ($numrows > 0)
 			{
-				$percentage = (float)((int)$cumulated[$key]/$numrows);
+				$percentage = (float)((int)$cumulated[$scale]/$numrows);
 			}
-			$cat = $this->getColumn($key);
-			$result_array["variables"][$key] = array("title" => $cat->title, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
+
+			$result_array["variables"][$key] = array("title" => $cat->title, "selected" => (int)$cumulated[$scale], "percentage" => $percentage);
 		}
 		ksort($cumulated, SORT_NUMERIC);
 		$median = array();
@@ -1370,13 +1373,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
 		for ($key = 0; $key < $this->getColumnCount(); $key++)
 		{
+			$cat = $this->getColumn($key);
+			$scale = $cat->scale-1;
+			
 			$percentage = 0;
 			if ($numrows > 0)
 			{
-				$percentage = (float)((int)$cumulated[$key]/$numrows);
+				$percentage = (float)((int)$cumulated[$scale]/$numrows);
 			}
-			$cat = $this->getColumn($key);
-			$result_array["variables"][$key] = array("title" => $cat->title, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
+
+			$result_array["variables"][$key] = array("title" => $cat->title, "selected" => (int)$cumulated[$scale], "percentage" => $percentage);
 		}
 		ksort($cumulated, SORT_NUMERIC);
 		$median = array();
