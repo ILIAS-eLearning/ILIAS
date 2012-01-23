@@ -3411,76 +3411,61 @@ class ilObjSurvey extends ilObject
 		{
 			return 0;
 		}
-		switch ($constraint_data["short"])
+		
+		$found = false;
+		foreach ($working_data as $data)
 		{
-			case "<":
-				$all = true;
-				foreach ($working_data as $data)
-				{
-					if (!($data["value"] < $constraint_data["value"]))
+			switch ($constraint_data["short"])
+			{
+				case "<":
+					if ($data["value"] < $constraint_data["value"])
 					{
-						$all = false;
+						$found = true;
 					}
-				}
-				if ($all) return 1;
-				break;
-			case "<=":
-				$all = true;
-				foreach ($working_data as $data)
-				{
-					if (!($data["value"] <= $constraint_data["value"]))
+					break;
+					
+				case "<=":
+					if ($data["value"] <= $constraint_data["value"])
 					{
-						$all = false;
+						$found = true;
 					}
-				}
-				if ($all) return 1;
-				break;
-			case "=":
-				$found = false;
-				foreach ($working_data as $data)
-				{
+					break;
+				
+				case "=":
 					if ($data["value"] == $constraint_data["value"])
 					{
 						$found = true;
 					}
-				}
-				if ($found) return 1;
-				break;
-			case "<>":
-				$all = true;
-				foreach ($working_data as $data)
-				{
-					if (!($data["value"] <> $constraint_data["value"]))
+					break;
+																			
+				case "<>":
+					if ($data["value"] <> $constraint_data["value"])
 					{
-						$all = false;
-					}
-				}
-				if ($all) return 1;
-				break;
-			case ">=":
-				$all = true;
-				foreach ($working_data as $data)
-				{
-					if (!($data["value"] >= $constraint_data["value"]))
+						$found = true;
+					}					
+					break;
+					
+				case ">=":					
+					if ($data["value"] >= $constraint_data["value"])
 					{
-						$all = false;
-					}
-				}
-				if ($all) return 1;
-				break;
-			case ">":
-				$all = true;
-				foreach ($working_data as $data)
-				{
-					if (!($data["value"] > $constraint_data["value"]))
+						$found = true;
+					}				
+					break;
+					
+				case ">":
+					if ($data["value"] > $constraint_data["value"])
 					{
-						$all = false;
+						$found = true;
 					}
-				}
-				if ($all) return 1;
+					break;
+			}					
+			if ($found)
+			{
 				break;
+			}
 		}
-		return 0;
+		
+		return (int)$found;
 	}
 	
 	function _hasDatasets($survey_id)
