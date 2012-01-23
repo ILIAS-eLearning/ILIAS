@@ -27,9 +27,6 @@ class ilShopCouponsTableGUI extends ilShopTableGUI
 	{
 		foreach($a_set as $field => $value)
 		{
-			if($field == 'pc_last_change_usr_id')
-				continue;
-
 			$content = self::formatField($field, $value);
 			$this->tpl->setVariable('VAL_' . strtoupper($field), $content);
 		}
