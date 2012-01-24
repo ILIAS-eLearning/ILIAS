@@ -399,9 +399,9 @@ class ilLPStatusCollection extends ilLPStatus
 				foreach(ilLPCollectionCache::getGroupedItems($a_obj_id) as $grouping_id => $grouping)
 				{
 					$isGrouping = $grouping_id ? true : false;
+
 					$status = self::determineGroupingStatus($status,$grouping,$a_user_id,$isGrouping);
 				}
-
 				if($status['completed'])
 				{
 					return LP_STATUS_COMPLETED_NUM;
@@ -488,6 +488,7 @@ class ilLPStatusCollection extends ilLPStatus
 				}
 				else
 				{
+					$status['failed'] = false;
 					$status['completed'] = false;
 				}
 			}
