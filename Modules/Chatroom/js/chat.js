@@ -57,7 +57,7 @@
 										$content.ilChatDialog('close');
 									}
 								}
-							},
+							}
 						];
 
 

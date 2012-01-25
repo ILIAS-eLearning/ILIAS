@@ -267,7 +267,7 @@ ilAddOnLoad(function() {
                                     )
                                 },
                                 permission: ['moderator', 'owner']
-                            },
+                            }
                             
                         ]);                      
                         
