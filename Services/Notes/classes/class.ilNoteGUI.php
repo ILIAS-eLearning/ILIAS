@@ -402,6 +402,13 @@ if ($this->private_enabled && $this->public_enabled
 			? "private"
 			: "public";
 		
+		/* user settings are deprecated
+		$user_setting_notes_public_all = $ilUser->getPref("notes_pub_all");
+		$user_setting_notes_by_type = $ilUser->getPref("notes_".$suffix);		 
+		*/
+		$user_setting_notes_public_all = "y";
+		$user_setting_notes_by_type = "y";
+		
 		if ($this->delete_note || $this->export_html || $this->print)
 		{
 			if ($_GET["note_id"] != "")
@@ -415,7 +422,7 @@ if ($this->private_enabled && $this->public_enabled
 		}
 		$notes = ilNote::_getNotesOfObject($this->rep_obj_id, $this->obj_id,
 			$this->obj_type, $a_type, $this->inc_sub, $filter,
-			$ilUser->getPref("notes_pub_all"), $this->repository_mode);
+			$user_setting_notes_public_all, $this->repository_mode);
 		$all_notes = ilNote::_getNotesOfObject($this->rep_obj_id, $this->obj_id,
 			$this->obj_type, $a_type, $this->inc_sub, $filter,
 			"", $this->repository_mode);
@@ -537,7 +544,7 @@ if ($this->private_enabled && $this->public_enabled
 			&& !$this->export_html && !$this->print && !$this->edit_note_form
 			&& !$this->add_note_form)
 		{
-			if ($ilUser->getPref("notes_".$suffix) == "n")
+			if ($user_setting_notes_by_type == "n")
 			{
 				if ($a_type == IL_NOTE_PUBLIC)
 				{
@@ -567,7 +574,7 @@ if ($this->private_enabled && $this->public_enabled
 					// show all public notes / my notes only switch
 					if ($a_type == IL_NOTE_PUBLIC)
 					{
-						if ($ilUser->getPref("notes_pub_all") == "n")
+						if ($user_setting_notes_public_all == "n")
 						{
 							$this->renderLink($tpl, "all_pub_notes", $lng->txt("notes_all_comments"),
 								"showAllPublicNotes", "notes_top");
@@ -583,7 +590,7 @@ if ($this->private_enabled && $this->public_enabled
 		}
 		
 		// show add new note text area
-		if (!$this->edit_note_form && $ilUser->getPref("notes_".$suffix) != "n" && 
+		if (!$this->edit_note_form && $user_setting_notes_by_type != "n" && 
 			!$this->delete_note && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			if ($a_init_form)
@@ -602,7 +609,7 @@ if ($this->private_enabled && $this->public_enabled
 		}
 
 		// list all notes
-		if ($ilUser->getPref("notes_".$suffix) != "n" || !$this->enable_hiding)
+		if ($user_setting_notes_by_type != "n" || !$this->enable_hiding)
 		{
 			foreach($notes as $note)
 			{
