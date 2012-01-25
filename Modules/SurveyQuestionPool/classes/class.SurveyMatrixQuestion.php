@@ -1849,7 +1849,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 							}
 							else
 							{
-								if (in_array($index+1, $checked_values))
+								$cat = $this->getColumn($index);
+								$scale = $cat->scale;								
+								if (in_array($scale, $checked_values))
 								{
 									array_push($a_array, 1);
 								}
@@ -1912,7 +1914,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$results = array();
 		while ($row = $ilDB->fetchAssoc($result))
 		{
-			$column = $this->getColumn($row["value"]);
+			$column = $this->getColumnForScale($row["value"]+1);
 			if (!is_array($answers[$row["active_fi"]])) $answers[$row["active_fi"]] = array();
 			$rowobj = $this->getRow($row["rowvalue"]);
 			array_push($answers[$row["active_fi"]], $rowobj->title . (($rowobj->other) ? (" " . $row["textanswer"]) : "") . ": " . ($row["value"] + 1) . " - " . $column->title);
