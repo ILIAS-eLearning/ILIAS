@@ -655,6 +655,20 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		}
 		return false;
 	}
+	
+	public function numericOrdering($a_field)
+	{
+		$pos = strrpos($a_field, "_");
+		if($pos !== false)
+		{
+			$function = strtoupper(substr($a_field, $pos+1));
+			if(in_array($function, array("MIN", "MAX", "SUM", "AVG", "COUNT")))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	protected function fillHeaderExcel($worksheet, &$a_row)
 	{
